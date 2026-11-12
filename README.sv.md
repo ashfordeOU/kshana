@@ -22,7 +22,7 @@
 <p align="center">
   <a href="https://github.com/ashfordeOU/kshana/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/ashfordeOU/kshana/ci.yml?branch=main&event=push&label=CI&style=flat-square&labelColor=0A1226" height="18" alt="Status för kontinuerlig integration på main"></a>
   <a href="docs/COVERAGE.md"><img src="https://img.shields.io/badge/coverage-~95%25-377D0C?style=flat-square&labelColor=0A1226" height="18" alt="Radtäckning nära 95 % av src/, mätt i docs/COVERAGE.md och med en spärr på 85 % i kontinuerlig integration"></a>
-  <a href="#evidence"><img src="https://img.shields.io/badge/validated-176%2F412-377D0C?style=flat-square&labelColor=0A1226" height="18" alt="176 av 412 förmågor VALIDATED mot en oberoende extern referens, från verifieringsmatrisen"></a>
+  <a href="#evidence"><img src="https://img.shields.io/badge/validated-176%2F412-377D0C?style=flat-square&labelColor=0A1226" height="18" alt="176 av 413 förmågor VALIDATED mot en oberoende extern referens, från verifieringsmatrisen"></a>
   <a href="https://sonarcloud.io/summary/overall?id=ashfordeOU_kshana"><img src="https://img.shields.io/sonar/quality_gate/ashfordeOU_kshana?server=https%3A%2F%2Fsonarcloud.io&label=quality&style=flat-square&labelColor=0A1226" height="18" alt="Status för kvalitetsspärren i SonarQube Cloud"></a>
   <a href="https://github.com/ashfordeOU/kshana/releases"><img src="https://img.shields.io/badge/release-v0.40.0-066A86?style=flat-square&labelColor=0A1226" height="18" alt="Version v0.40.0"></a>
   <a href="docs/i18n.md"><img src="https://img.shields.io/badge/languages-English%20%2B%2017-3F4B67?style=flat-square&labelColor=0A1226" height="18" alt="Engelska och 17 språk till, maskinöversatta"></a>
@@ -1029,7 +1029,7 @@ börja från.
 
 <p><a href="docs/SGP4-VALIDATION.md"><img src="https://img.shields.io/badge/SGP4-666%2F666%20AIAA%20vectors%20%C2%B7%20worst%204.12%20mm-377D0C?style=flat-square&labelColor=0A1226" alt="SGP4 kontrollerad mot alla 666 referensvektorer i AIAA 2006-6753, sämsta positionsfel 4.12 mm"></a></p>
 
-<strong>176 av 412</strong> förmågor validerade mot oberoende externa referenser; 232 ärligt märkta Modelled.
+<strong>176 av 413</strong> förmågor validerade mot oberoende externa referenser; 233 ärligt märkta Modelled.
 Varje rad i verifieringsmatrisen namnger en förmåga, den referens den kontrolleras mot,
 testet som kör kontrollen och den etikett som följer. Kontinuerlig integration (CI) gör det
 omöjligt att kalla en förmåga VALIDATED utan en oberoende extern referens.
@@ -1037,13 +1037,13 @@ omöjligt att kalla en förmåga VALIDATED utan en oberoende extern referens.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/flow-verification-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/flow-verification-light.svg">
-  <img src="docs/assets/readme/flow-verification-light.svg" alt="Hur en förmåga förtjänar sin etikett. Varje rad i verifieringsmatrisen namnger en förmåga, den referens den kontrolleras mot, testet som kör kontrollen i kontinuerlig integration och den etikett som följer. En rad får vara VALIDATED endast med en oberoende extern referens; annars är den MODELLED, eller PARTNER när en hårdvarupartner äger den. Exempel: SGP4/SDP4, Cowell 6-DOF + störningar, batch-/sekventiell OD, referens AIAA 2006-6753 SGP4-verifieringsvektorer, test tests/sgp4_verification.rs, etikett VALIDATED. Aktuella antal: 176 VALIDATED, 232 MODELLED, 4 PARTNER av 412 rader. Totalt 176 förmågor validerade mot oberoende externa referenser; 232 till är ärligt märkta MODELLED och 4 ägs av PARTNER." width="100%">
+  <img src="docs/assets/readme/flow-verification-light.svg" alt="Hur en förmåga förtjänar sin etikett. Varje rad i verifieringsmatrisen namnger en förmåga, den referens den kontrolleras mot, testet som kör kontrollen i kontinuerlig integration och den etikett som följer. En rad får vara VALIDATED endast med en oberoende extern referens; annars är den MODELLED, eller PARTNER när en hårdvarupartner äger den. Exempel: SGP4/SDP4, Cowell 6-DOF + störningar, batch-/sekventiell OD, referens AIAA 2006-6753 SGP4-verifieringsvektorer, test tests/sgp4_verification.rs, etikett VALIDATED. Aktuella antal: 176 VALIDATED, 233 MODELLED, 4 PARTNER av 413 rader. Totalt 176 förmågor validerade mot oberoende externa referenser; 233 till är ärligt märkta MODELLED och 4 ägs av PARTNER." width="100%">
 </picture>
 
 | Etikett | Rader | Betydelse |
 |---|---|---|
 | VALIDATED | 176 | en oberoende extern referens stämmer: verkliga data, en oberoende implementation eller publicerade referensvektorer |
-| MODELLED | 232 | kontrollerad mot analytisk sanning eller simuleringens självkonsistens, och uttalat öppet |
+| MODELLED | 233 | kontrollerad mot analytisk sanning eller simuleringens självkonsistens, och uttalat öppet |
 | PARTNER | 4 | ägd av en hårdvarupartner; Kshana har ingen referens för den |
 
 Några av kontrollerna: alla 666 SGP4-vektorer (Simplified General Perturbations 4) från AIAA (American Institute of Aeronautics and Astronautics)
@@ -1052,7 +1052,7 @@ modellen till 0.08 m mot Orekit 12.2; Galileo till 0.61 m och Swarm-A till 0.10 
 precisa efemerider från Europeiska rymdorganisationen (ESA). Testerna håller nära 95 % radtäckning av
 `src/`, med en spärr på 85 % i CI. Registret är
 [`docs/VERIFICATION-MATRIX.md`](docs/VERIFICATION-MATRIX.md), genererat från
-`src/verification.rs`: den [fullständiga matrisen med 412 rader](docs/VERIFICATION-MATRIX.md), och varför varje
+`src/verification.rs`: den [fullständiga matrisen med 413 rader](docs/VERIFICATION-MATRIX.md), och varför varje
 Modelled-rad saknar extern referens i [`docs/MODELLED-RATIONALE.md`](docs/MODELLED-RATIONALE.md).
 
 <details>
@@ -1085,7 +1085,7 @@ kan aldrig påstå mer än registret gör. Rader, statusar och id läses ur matr
 ### Validering i korthet
 
 Varje rad upprätthålls av ett namngivet test i CI. Denna tabell är ett **kurerat urval av höjdpunkter**;
-den fullständiga maskinkontrollerade matrisen har **412 rader — 176 VALIDATED, 232 MODELLED, 4 PARTNER**
+den fullständiga maskinkontrollerade matrisen har **413 rader — 176 VALIDATED, 233 MODELLED, 4 PARTNER**
 (`src/verification.rs`), med den fullständiga evidensen (och det som ärligt *inte* är validerat ännu)
 i [`docs/VALIDATION.md`](docs/VALIDATION.md) och artefakten
 [`kshana-validation-summary.html`](https://github.com/ashfordeOU/kshana/releases) för varje version
@@ -1137,7 +1137,7 @@ Kolumnen **Status** anger *typen* av evidens, i enlighet med valideringsstegen o
 | CI | Testtäckning | **~95 % rader** i `src/` exklusive `src/*_data.rs` och `src/main.rs`, spärr ≥ 85 % | cargo-tarpaulin (LLVM-motor) |
 
 <p align="center">
-  <img src="docs/assets/diagrams/validation-provenance.png" alt="Hur en förmåga förtjänar sin etikett: krav mappas till en modul i src, till ett test i tests, till en extern referens (verklig datamängd, oberoende referensimplementation eller publicerade vektorer), till en status — med en CI-upprätthållen kontroll att ingen förmåga kan vara Validated utan en extern referens. Aktuella antal: 176 Validated, 232 Modelled, 4 Partner, 412 totalt" width="900">
+  <img src="docs/assets/diagrams/validation-provenance.png" alt="Hur en förmåga förtjänar sin etikett: krav mappas till en modul i src, till ett test i tests, till en extern referens (verklig datamängd, oberoende referensimplementation eller publicerade vektorer), till en status — med en CI-upprätthållen kontroll att ingen förmåga kan vara Validated utan en extern referens. Aktuella antal: 176 Validated, 233 Modelled, 4 Partner, 413 totalt" width="900">
   <br><sub>Hur en förmåga förtjänar sin etikett — den CI-upprätthållna invarianten: ingen extern referens ⇒ kan inte vara Validated · <a href="docs/assets/diagrams/validation-provenance.svg">SVG</a></sub>
 </p>
 
@@ -1149,8 +1149,8 @@ Kolumnen **Status** anger *typen* av evidens, i enlighet med valideringsstegen o
 </p>
 
 <p align="center">
-  <img src="docs/assets/figures/validation-breakdown.png" alt="Verifieringsstatus över alla 412 förmågor: 176 Validated (kontrollerade mot extern referens), 232 Modelled, 4 ägda av Partner" width="780">
-  <br><sub>176 Validated · 232 Modelled · 4 Partner — <a href="docs/assets/figures/validation-breakdown.svg">SVG</a></sub>
+  <img src="docs/assets/figures/validation-breakdown.png" alt="Verifieringsstatus över alla 413 förmågor: 176 Validated (kontrollerade mot extern referens), 233 Modelled, 4 ägda av Partner" width="780">
+  <br><sub>176 Validated · 233 Modelled · 4 Partner — <a href="docs/assets/figures/validation-breakdown.svg">SVG</a></sub>
 </p>
 
 </details>
@@ -1259,7 +1259,7 @@ ovanpå som ett separat överlägg som beror på motorn och aldrig förgrenar de
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/architecture-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/architecture-light.svg">
-  <img src="docs/assets/readme/architecture-light.svg" alt="Kshanas arkitektur: en öppen motor i centrum, kshana 0.40.0 under AGPL-3.0, med api::run_toml, en typad fördelning över varje typ, och verifieringsregistret med 412 förmågor (176 VALIDATED, 232 MODELLED, 4 PARTNER). Runt den kör varje yta samma motor: Kommandorad (cargo install kshana); Rust-bibliotek (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); MCP-server (cargo install kshana-mcp); Docker-avbildning (ghcr.io/ashfordeou/kshana-mcp); JetBrains-plugin (Marketplace: &quot;Kshana&quot;). Under den Kshana Pro, ett proprietärt överlägg som beror på den öppna motorn som bibliotek och aldrig förgrenar den, och som inte lägger till någon fysikalisk modell." width="100%">
+  <img src="docs/assets/readme/architecture-light.svg" alt="Kshanas arkitektur: en öppen motor i centrum, kshana 0.40.0 under AGPL-3.0, med api::run_toml, en typad fördelning över varje typ, och verifieringsregistret med 413 förmågor (176 VALIDATED, 233 MODELLED, 4 PARTNER). Runt den kör varje yta samma motor: Kommandorad (cargo install kshana); Rust-bibliotek (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); MCP-server (cargo install kshana-mcp); Docker-avbildning (ghcr.io/ashfordeou/kshana-mcp); JetBrains-plugin (Marketplace: &quot;Kshana&quot;). Under den Kshana Pro, ett proprietärt överlägg som beror på den öppna motorn som bibliotek och aldrig förgrenar den, och som inte lägger till någon fysikalisk modell." width="100%">
 </picture>
 
 <details>
@@ -1268,7 +1268,7 @@ ovanpå som ett separat överlägg som beror på motorn och aldrig förgrenar de
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/flow-architecture-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/flow-architecture-light.svg">
-  <img src="docs/assets/readme/flow-architecture-light.svg" alt="Kshanas arkitektur i lager. Fem ingångar (kommandoraden, Python, JavaScript och WebAssembly, MCP-servern och JetBrains-pluginet) når en enda api::run_toml, en typad fördelning över 92 typer. Under den ligger åtta områdeslager: tid och referenssystem, klockor och tidssynkronisering, tröghet och fusion, GNSS och integritet, astrodynamik, LEO PNT, månen, Mars och djuprymden, samt uppdrag och studier, på en delad kärna, alla korsrefererade av verifieringsmodulen, den maskinkontrollerade matrisen med 412 förmågor som är den enda sanningskällan för varje etikett." width="100%">
+  <img src="docs/assets/readme/flow-architecture-light.svg" alt="Kshanas arkitektur i lager. Fem ingångar (kommandoraden, Python, JavaScript och WebAssembly, MCP-servern och JetBrains-pluginet) når en enda api::run_toml, en typad fördelning över 92 typer. Under den ligger åtta områdeslager: tid och referenssystem, klockor och tidssynkronisering, tröghet och fusion, GNSS och integritet, astrodynamik, LEO PNT, månen, Mars och djuprymden, samt uppdrag och studier, på en delad kärna, alla korsrefererade av verifieringsmodulen, den maskinkontrollerade matrisen med 413 förmågor som är den enda sanningskällan för varje etikett." width="100%">
 </picture>
 
 **En motor, många ingångar.** En enda Rust-kärna (`kshana`) kör varje scenario,

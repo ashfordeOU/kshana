@@ -22,7 +22,7 @@
 <p align="center">
   <a href="https://github.com/ashfordeOU/kshana/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/ashfordeOU/kshana/ci.yml?branch=main&event=push&label=CI&style=flat-square&labelColor=0A1226" height="18" alt="main ブランチの継続的インテグレーションの状態"></a>
   <a href="docs/COVERAGE.md"><img src="https://img.shields.io/badge/coverage-~95%25-377D0C?style=flat-square&labelColor=0A1226" height="18" alt="src/ の行カバレッジは約 95 %。docs/COVERAGE.md で測定し、継続的インテグレーションで 85 % をゲートとしています"></a>
-  <a href="#evidence"><img src="https://img.shields.io/badge/validated-176%2F412-377D0C?style=flat-square&labelColor=0A1226" height="18" alt="412 の機能のうち 176 が独立した外部のオラクルに対して VALIDATED（検証マトリクスより）"></a>
+  <a href="#evidence"><img src="https://img.shields.io/badge/validated-176%2F412-377D0C?style=flat-square&labelColor=0A1226" height="18" alt="413 の機能のうち 176 が独立した外部のオラクルに対して VALIDATED（検証マトリクスより）"></a>
   <a href="https://sonarcloud.io/summary/overall?id=ashfordeOU_kshana"><img src="https://img.shields.io/sonar/quality_gate/ashfordeOU_kshana?server=https%3A%2F%2Fsonarcloud.io&label=quality&style=flat-square&labelColor=0A1226" height="18" alt="SonarQube Cloud の品質ゲートの状態"></a>
   <a href="https://github.com/ashfordeOU/kshana/releases"><img src="https://img.shields.io/badge/release-v0.40.0-066A86?style=flat-square&labelColor=0A1226" height="18" alt="リリース v0.40.0"></a>
   <a href="docs/i18n.md"><img src="https://img.shields.io/badge/languages-English%20%2B%2017-3F4B67?style=flat-square&labelColor=0A1226" height="18" alt="英語とさらに 17 言語（機械翻訳）"></a>
@@ -1025,7 +1025,7 @@ wrote clock-holdover.result.json, clock-holdover.chart.svg, clock-holdover.repor
 
 <p><a href="docs/SGP4-VALIDATION.md"><img src="https://img.shields.io/badge/SGP4-666%2F666%20AIAA%20vectors%20%C2%B7%20worst%204.12%20mm-377D0C?style=flat-square&labelColor=0A1226" alt="SGP4 を AIAA 2006-6753 の全 666 の参照ベクトルに対して確認、最悪の位置誤差 4.12 mm"></a></p>
 
-<strong>412 のうち 176</strong> の機能が独立した外部のオラクルに対して検証済みです。232 は正直に Modelled とラベル付けしています。
+<strong>413 のうち 176</strong> の機能が独立した外部のオラクルに対して検証済みです。233 は正直に Modelled とラベル付けしています。
 検証マトリクスの各行は、機能、それを確認するオラクル、
 確認を実行するテスト、そして結果として付くラベルを示します。継続的インテグレーション（CI）により、
 独立した外部のオラクルなしに機能を VALIDATED と呼ぶことは不可能になっています。
@@ -1033,13 +1033,13 @@ wrote clock-holdover.result.json, clock-holdover.chart.svg, clock-holdover.repor
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/flow-verification-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/flow-verification-light.svg">
-  <img src="docs/assets/readme/flow-verification-light.svg" alt="機能がラベルを獲得する方法。検証マトリクスの各行は、機能、それを確認するオラクル、継続的インテグレーションで確認を実行するテスト、そして結果として付くラベルを示します。行が VALIDATED になれるのは独立した外部のオラクルがある場合だけです。それ以外は MODELLED、ハードウェアパートナーが担当する場合は PARTNER です。例：SGP4/SDP4、Cowell 6-DOF + 摂動、バッチ/逐次 OD、オラクルは AIAA 2006-6753 の SGP4 検証ベクトル、テストは tests/sgp4_verification.rs、ラベルは VALIDATED。現在の件数：412 行のうち VALIDATED 176、MODELLED 232、PARTNER 4。全体で、176 の機能が独立した外部のオラクルに対して検証済みであり、さらに 232 が正直に MODELLED とラベル付けされ、4 が PARTNER の担当です。" width="100%">
+  <img src="docs/assets/readme/flow-verification-light.svg" alt="機能がラベルを獲得する方法。検証マトリクスの各行は、機能、それを確認するオラクル、継続的インテグレーションで確認を実行するテスト、そして結果として付くラベルを示します。行が VALIDATED になれるのは独立した外部のオラクルがある場合だけです。それ以外は MODELLED、ハードウェアパートナーが担当する場合は PARTNER です。例：SGP4/SDP4、Cowell 6-DOF + 摂動、バッチ/逐次 OD、オラクルは AIAA 2006-6753 の SGP4 検証ベクトル、テストは tests/sgp4_verification.rs、ラベルは VALIDATED。現在の件数：413 行のうち VALIDATED 176、MODELLED 233、PARTNER 4。全体で、176 の機能が独立した外部のオラクルに対して検証済みであり、さらに 233 が正直に MODELLED とラベル付けされ、4 が PARTNER の担当です。" width="100%">
 </picture>
 
 | ラベル | 行数 | 意味 |
 |---|---|---|
 | VALIDATED | 176 | 独立した外部のオラクルと一致する：実データ、独立した実装、または公表された参照ベクトル |
-| MODELLED | 232 | 解析的な真値またはシミュレーションの自己整合性に対して確認しており、そのことを明言している |
+| MODELLED | 233 | 解析的な真値またはシミュレーションの自己整合性に対して確認しており、そのことを明言している |
 | PARTNER | 4 | ハードウェアパートナーが担当する。Kshana はそのオラクルを持たない |
 
 確認の例：AIAA（American Institute of Aeronautics and Astronautics）2006-6753 の
@@ -1048,7 +1048,7 @@ SGP4（Simplified General Perturbations 4）の全 666 ベクトルを 4.12 mm �
 Galileo を 0.61 m、Swarm-A を 0.10 m まで。テストは
 `src/` の行カバレッジを約 95 % に保ち、CI では 85 % をゲートとしています。台帳は
 `src/verification.rs` から生成される [`docs/VERIFICATION-MATRIX.md`](docs/VERIFICATION-MATRIX.md) です：
-[412 行の完全なマトリクス](docs/VERIFICATION-MATRIX.md)。各 Modelled の行に外部のオラクルがない理由は
+[413 行の完全なマトリクス](docs/VERIFICATION-MATRIX.md)。各 Modelled の行に外部のオラクルがない理由は
 [`docs/MODELLED-RATIONALE.md`](docs/MODELLED-RATIONALE.md) にあります。
 
 <details>
@@ -1081,7 +1081,7 @@ Galileo を 0.61 m、Swarm-A を 0.10 m まで。テストは
 ### 検証の概要
 
 各行は CI で名前付きのテストによって強制されています。この表は **厳選したハイライト** です。
-機械的に検査される完全なマトリクスは **412 行 — VALIDATED 176、MODELLED 232、PARTNER 4**
+機械的に検査される完全なマトリクスは **413 行 — VALIDATED 176、MODELLED 233、PARTNER 4**
 （`src/verification.rs`）であり、完全なエビデンス（そして正直に言って *まだ* 検証されていないもの）は
 [`docs/VALIDATION.md`](docs/VALIDATION.md) と、リリースごとの
 [`kshana-validation-summary.html`](https://github.com/ashfordeOU/kshana/releases)
@@ -1133,7 +1133,7 @@ Levels for Software Artifacts — による証明付き）にあります。
 | CI | テストカバレッジ | `src/*_data.rs` と `src/main.rs` を除く `src/` で **行カバレッジ約 95 %**、≥ 85 % をゲート | cargo-tarpaulin（LLVM エンジン） |
 
 <p align="center">
-  <img src="docs/assets/diagrams/validation-provenance.png" alt="機能がラベルを獲得する方法：要求は src 内のモジュールに、tests 内のテストに、外部のオラクル（実データセット、独立した参照実装、または公表されたベクトル）に、そしてステータスに対応付けられます — 外部のオラクルなしにはどの機能も Validated にできないという、CI で強制されるガード付き。現在の件数：Validated 176、Modelled 232、Partner 4、合計 412" width="900">
+  <img src="docs/assets/diagrams/validation-provenance.png" alt="機能がラベルを獲得する方法：要求は src 内のモジュールに、tests 内のテストに、外部のオラクル（実データセット、独立した参照実装、または公表されたベクトル）に、そしてステータスに対応付けられます — 外部のオラクルなしにはどの機能も Validated にできないという、CI で強制されるガード付き。現在の件数：Validated 176、Modelled 233、Partner 4、合計 413" width="900">
   <br><sub>機能がラベルを獲得する方法 — CI で強制される不変条件：外部のオラクルがなければ ⇒ Validated にできない · <a href="docs/assets/diagrams/validation-provenance.svg">SVG</a></sub>
 </p>
 
@@ -1145,8 +1145,8 @@ Levels for Software Artifacts — による証明付き）にあります。
 </p>
 
 <p align="center">
-  <img src="docs/assets/figures/validation-breakdown.png" alt="412 のすべての機能にわたる検証のステータス：Validated 176（外部のオラクルに対して確認済み）、Modelled 232、Partner の担当 4" width="780">
-  <br><sub>Validated 176 · Modelled 232 · Partner 4 — <a href="docs/assets/figures/validation-breakdown.svg">SVG</a></sub>
+  <img src="docs/assets/figures/validation-breakdown.png" alt="413 のすべての機能にわたる検証のステータス：Validated 176（外部のオラクルに対して確認済み）、Modelled 233、Partner の担当 4" width="780">
+  <br><sub>Validated 176 · Modelled 233 · Partner 4 — <a href="docs/assets/figures/validation-breakdown.svg">SVG</a></sub>
 </p>
 
 </details>
@@ -1256,7 +1256,7 @@ JetBrains プラグイン。同じシナリオファイルは、どのサーフ�
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/architecture-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/architecture-light.svg">
-  <img src="docs/assets/readme/architecture-light.svg" alt="Kshana のアーキテクチャ：中心に 1 つのオープンなエンジン、AGPL-3.0 の kshana 0.40.0 があり、api::run_toml、すべての種別にわたる型付きのディスパッチ、そして 412 の機能の検証台帳（VALIDATED 176、MODELLED 232、PARTNER 4）を備えます。その周りで、すべてのサーフェスが同じエンジンを実行します：コマンドライン（cargo install kshana）、Rust ライブラリ（cargo add kshana）、Python（pip install kshana）、WebAssembly + Kshana Studio（npm install kshana）、MCP サーバー（cargo install kshana-mcp）、Docker イメージ（ghcr.io/ashfordeou/kshana-mcp）、JetBrains プラグイン（Marketplace：&quot;Kshana&quot;）。その下に Kshana Pro があり、これはオープンなエンジンにライブラリとして依存し、決してフォークせず、物理モデルを追加しないプロプライエタリなオーバーレイです。" width="100%">
+  <img src="docs/assets/readme/architecture-light.svg" alt="Kshana のアーキテクチャ：中心に 1 つのオープンなエンジン、AGPL-3.0 の kshana 0.40.0 があり、api::run_toml、すべての種別にわたる型付きのディスパッチ、そして 413 の機能の検証台帳（VALIDATED 176、MODELLED 233、PARTNER 4）を備えます。その周りで、すべてのサーフェスが同じエンジンを実行します：コマンドライン（cargo install kshana）、Rust ライブラリ（cargo add kshana）、Python（pip install kshana）、WebAssembly + Kshana Studio（npm install kshana）、MCP サーバー（cargo install kshana-mcp）、Docker イメージ（ghcr.io/ashfordeou/kshana-mcp）、JetBrains プラグイン（Marketplace：&quot;Kshana&quot;）。その下に Kshana Pro があり、これはオープンなエンジンにライブラリとして依存し、決してフォークせず、物理モデルを追加しないプロプライエタリなオーバーレイです。" width="100%">
 </picture>
 
 <details>
@@ -1265,7 +1265,7 @@ JetBrains プラグイン。同じシナリオファイルは、どのサーフ�
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/flow-architecture-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/flow-architecture-light.svg">
-  <img src="docs/assets/readme/flow-architecture-light.svg" alt="層で見た Kshana のアーキテクチャ。5 つの入口（コマンドライン、Python、JavaScript と WebAssembly、MCP サーバー、JetBrains プラグイン）が、92 の種別にわたる型付きのディスパッチである 1 つの api::run_toml に到達します。その下に 8 つのドメインの層があります：時刻と座標系、時計とタイミング、慣性と融合、GNSS とインテグリティ、アストロダイナミクス、LEO PNT、月・火星・深宇宙、ミッションと検討。これらは共有のコアの上にあり、すべて検証モジュール — すべてのラベルの唯一の情報源である、412 の機能からなる機械的に検査されるマトリクス — によって相互参照されています。" width="100%">
+  <img src="docs/assets/readme/flow-architecture-light.svg" alt="層で見た Kshana のアーキテクチャ。5 つの入口（コマンドライン、Python、JavaScript と WebAssembly、MCP サーバー、JetBrains プラグイン）が、92 の種別にわたる型付きのディスパッチである 1 つの api::run_toml に到達します。その下に 8 つのドメインの層があります：時刻と座標系、時計とタイミング、慣性と融合、GNSS とインテグリティ、アストロダイナミクス、LEO PNT、月・火星・深宇宙、ミッションと検討。これらは共有のコアの上にあり、すべて検証モジュール — すべてのラベルの唯一の情報源である、413 の機能からなる機械的に検査されるマトリクス — によって相互参照されています。" width="100%">
 </picture>
 
 **1 つのエンジン、多くの入口。** 1 つの Rust のコア（`kshana`）がすべてのシナリオを実行し、

@@ -22,7 +22,7 @@
 <p align="center">
   <a href="https://github.com/ashfordeOU/kshana/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/ashfordeOU/kshana/ci.yml?branch=main&event=push&label=CI&style=flat-square&labelColor=0A1226" height="18" alt="Jatkuvan integraation tila main-haarassa"></a>
   <a href="docs/COVERAGE.md"><img src="https://img.shields.io/badge/coverage-~95%25-377D0C?style=flat-square&labelColor=0A1226" height="18" alt="Rivikattavuus lähes 95 % hakemistosta src/, mitattu tiedostossa docs/COVERAGE.md ja vaadittu vähintään 85 % jatkuvassa integraatiossa"></a>
-  <a href="#evidence"><img src="https://img.shields.io/badge/validated-176%2F412-377D0C?style=flat-square&labelColor=0A1226" height="18" alt="176 / 412 ominaisuutta VALIDATED riippumatonta ulkoista oraakkelia vasten, varmennusmatriisin mukaan"></a>
+  <a href="#evidence"><img src="https://img.shields.io/badge/validated-176%2F412-377D0C?style=flat-square&labelColor=0A1226" height="18" alt="176 / 413 ominaisuutta VALIDATED riippumatonta ulkoista oraakkelia vasten, varmennusmatriisin mukaan"></a>
   <a href="https://sonarcloud.io/summary/overall?id=ashfordeOU_kshana"><img src="https://img.shields.io/sonar/quality_gate/ashfordeOU_kshana?server=https%3A%2F%2Fsonarcloud.io&label=quality&style=flat-square&labelColor=0A1226" height="18" alt="SonarQube Cloudin laatuportin tila"></a>
   <a href="https://github.com/ashfordeOU/kshana/releases"><img src="https://img.shields.io/badge/release-v0.40.0-066A86?style=flat-square&labelColor=0A1226" height="18" alt="Julkaisu v0.40.0"></a>
   <a href="docs/i18n.md"><img src="https://img.shields.io/badge/languages-English%20%2B%2017-3F4B67?style=flat-square&labelColor=0A1226" height="18" alt="Englanti ja 17 muuta kieltä konekäännöksinä"></a>
@@ -1029,7 +1029,7 @@ lähtökohdaksi.
 
 <p><a href="docs/SGP4-VALIDATION.md"><img src="https://img.shields.io/badge/SGP4-666%2F666%20AIAA%20vectors%20%C2%B7%20worst%204.12%20mm-377D0C?style=flat-square&labelColor=0A1226" alt="SGP4 tarkistettu kaikkia 666 AIAA 2006-6753 -viitevektoria vasten, pahin paikkavirhe 4.12 mm"></a></p>
 
-<strong>176 / 412</strong> ominaisuutta validoitu riippumattomia ulkoisia oraakkeleita vasten; 232 rehellisesti merkitty Modelled.
+<strong>176 / 413</strong> ominaisuutta validoitu riippumattomia ulkoisia oraakkeleita vasten; 233 rehellisesti merkitty Modelled.
 Varmennusmatriisin kukin rivi nimeää ominaisuuden, oraakkelin, jota vasten se tarkistetaan,
 tarkistuksen ajavan testin ja siitä seuraavan merkinnän. Jatkuva integraatio (CI) tekee
 mahdottomaksi kutsua ominaisuutta VALIDATED ilman riippumatonta ulkoista oraakkelia.
@@ -1037,13 +1037,13 @@ mahdottomaksi kutsua ominaisuutta VALIDATED ilman riippumatonta ulkoista oraakke
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/flow-verification-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/flow-verification-light.svg">
-  <img src="docs/assets/readme/flow-verification-light.svg" alt="Miten ominaisuus ansaitsee merkintänsä. Varmennusmatriisin kukin rivi nimeää ominaisuuden, oraakkelin, jota vasten se tarkistetaan, tarkistuksen jatkuvassa integraatiossa ajavan testin ja siitä seuraavan merkinnän. Rivi voi olla VALIDATED vain riippumattoman ulkoisen oraakkelin kanssa; muuten se on MODELLED, tai PARTNER, kun laitteistokumppani vastaa siitä. Esimerkki: SGP4/SDP4, Cowell 6-DOF + häiriöt, erä-/sekventiaalinen OD, oraakkeli AIAA 2006-6753 SGP4 -varmennusvektorit, testi tests/sgp4_verification.rs, merkintä VALIDATED. Ajantasaiset määrät: 176 VALIDATED, 232 MODELLED, 4 PARTNER 412 rivistä. Kaikkiaan 176 ominaisuutta validoitu riippumattomia ulkoisia oraakkeleita vasten; 232 muuta on rehellisesti merkitty MODELLED ja 4 ovat PARTNER-vastuulla." width="100%">
+  <img src="docs/assets/readme/flow-verification-light.svg" alt="Miten ominaisuus ansaitsee merkintänsä. Varmennusmatriisin kukin rivi nimeää ominaisuuden, oraakkelin, jota vasten se tarkistetaan, tarkistuksen jatkuvassa integraatiossa ajavan testin ja siitä seuraavan merkinnän. Rivi voi olla VALIDATED vain riippumattoman ulkoisen oraakkelin kanssa; muuten se on MODELLED, tai PARTNER, kun laitteistokumppani vastaa siitä. Esimerkki: SGP4/SDP4, Cowell 6-DOF + häiriöt, erä-/sekventiaalinen OD, oraakkeli AIAA 2006-6753 SGP4 -varmennusvektorit, testi tests/sgp4_verification.rs, merkintä VALIDATED. Ajantasaiset määrät: 176 VALIDATED, 233 MODELLED, 4 PARTNER 413 rivistä. Kaikkiaan 176 ominaisuutta validoitu riippumattomia ulkoisia oraakkeleita vasten; 233 muuta on rehellisesti merkitty MODELLED ja 4 ovat PARTNER-vastuulla." width="100%">
 </picture>
 
 | Merkintä | Rivejä | Merkitys |
 |---|---|---|
 | VALIDATED | 176 | riippumaton ulkoinen oraakkeli on samaa mieltä: todellinen data, riippumaton toteutus tai julkaistut viitevektorit |
-| MODELLED | 232 | tarkistettu analyyttistä totuutta tai simulaation itsejohdonmukaisuutta vasten, ja tämä sanotaan ääneen |
+| MODELLED | 233 | tarkistettu analyyttistä totuutta tai simulaation itsejohdonmukaisuutta vasten, ja tämä sanotaan ääneen |
 | PARTNER | 4 | laitteistokumppanin vastuulla; Kshanalla ei ole sille oraakkelia |
 
 Muutama tarkistuksista: kaikki 666 AIAA:n (American Institute of Aeronautics and Astronautics)
@@ -1052,7 +1052,7 @@ malli 0.08 m:n tarkkuuteen Orekit 12.2:ta vasten; Galileo 0.61 m:n ja Swarm-A 0.
 todellisia tarkkoja efemeridejä vasten. Testit pitävät rivikattavuuden lähellä 95 %:a hakemistossa
 `src/`, ja CI vaatii vähintään 85 %. Kirjanpito on
 [`docs/VERIFICATION-MATRIX.md`](docs/VERIFICATION-MATRIX.md), joka tuotetaan tiedostosta
-`src/verification.rs`: [koko 412 rivin matriisi](docs/VERIFICATION-MATRIX.md), ja syy, miksi kullakin
+`src/verification.rs`: [koko 413 rivin matriisi](docs/VERIFICATION-MATRIX.md), ja syy, miksi kullakin
 Modelled-rivillä ei ole ulkoista oraakkelia, on tiedostossa [`docs/MODELLED-RATIONALE.md`](docs/MODELLED-RATIONALE.md).
 
 <details>
@@ -1085,7 +1085,7 @@ ei voi koskaan väittää enempää kuin kirjanpito. Rivit, tilat ja tunnukset l
 ### Validointi yhdellä silmäyksellä
 
 Jokaista riviä valvoo nimetty testi CI:ssä. Tämä taulukko on **valikoitu kohokohtakooste**;
-koko koneellisesti tarkistettu matriisi on **412 riviä — 176 VALIDATED, 232 MODELLED, 4 PARTNER**
+koko koneellisesti tarkistettu matriisi on **413 riviä — 176 VALIDATED, 233 MODELLED, 4 PARTNER**
 (`src/verification.rs`), ja täydelliset todisteet (sekä se, mitä rehellisesti *ei* ole vielä
 validoitu) ovat tiedostossa [`docs/VALIDATION.md`](docs/VALIDATION.md) ja julkaisukohtaisessa
 [`kshana-validation-summary.html`](https://github.com/ashfordeOU/kshana/releases)
@@ -1137,7 +1137,7 @@ Levels for Software Artifacts).
 | CI | Testikattavuus | **~95 % riveistä** hakemistossa `src/` pois lukien `src/*_data.rs` ja `src/main.rs`, vaatimus ≥ 85 % | cargo-tarpaulin (LLVM-moottori) |
 
 <p align="center">
-  <img src="docs/assets/diagrams/validation-provenance.png" alt="Miten ominaisuus ansaitsee merkintänsä: Vaatimus kuvautuu moduuliksi hakemistossa src, testiksi hakemistossa tests, ulkoiseksi oraakkeliksi (todellinen aineisto, riippumaton viitetoteutus tai julkaistut vektorit) ja tilaksi — CI:n valvomalla vartijalla, jonka mukaan mikään ominaisuus ei voi olla Validated ilman ulkoista oraakkelia. Ajantasaiset määrät: 176 Validated, 232 Modelled, 4 Partner, yhteensä 412" width="900">
+  <img src="docs/assets/diagrams/validation-provenance.png" alt="Miten ominaisuus ansaitsee merkintänsä: Vaatimus kuvautuu moduuliksi hakemistossa src, testiksi hakemistossa tests, ulkoiseksi oraakkeliksi (todellinen aineisto, riippumaton viitetoteutus tai julkaistut vektorit) ja tilaksi — CI:n valvomalla vartijalla, jonka mukaan mikään ominaisuus ei voi olla Validated ilman ulkoista oraakkelia. Ajantasaiset määrät: 176 Validated, 233 Modelled, 4 Partner, yhteensä 413" width="900">
   <br><sub>Miten ominaisuus ansaitsee merkintänsä — CI:n valvoma invariantti: ei ulkoista oraakkelia ⇒ ei voi olla Validated · <a href="docs/assets/diagrams/validation-provenance.svg">SVG</a></sub>
 </p>
 
@@ -1149,8 +1149,8 @@ Levels for Software Artifacts).
 </p>
 
 <p align="center">
-  <img src="docs/assets/figures/validation-breakdown.png" alt="Varmennuksen tila kaikissa 412 ominaisuudessa: 176 Validated (tarkistettu ulkoista oraakkelia vasten), 232 Modelled, 4 Partner-vastuulla" width="780">
-  <br><sub>176 Validated · 232 Modelled · 4 Partner — <a href="docs/assets/figures/validation-breakdown.svg">SVG</a></sub>
+  <img src="docs/assets/figures/validation-breakdown.png" alt="Varmennuksen tila kaikissa 413 ominaisuudessa: 176 Validated (tarkistettu ulkoista oraakkelia vasten), 233 Modelled, 4 Partner-vastuulla" width="780">
+  <br><sub>176 Validated · 233 Modelled · 4 Partner — <a href="docs/assets/figures/validation-breakdown.svg">SVG</a></sub>
 </p>
 
 </details>
@@ -1260,7 +1260,7 @@ päällä erillisenä kerroksena, joka riippuu moottorista eikä koskaan haaroit
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/architecture-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/architecture-light.svg">
-  <img src="docs/assets/readme/architecture-light.svg" alt="Kshanan arkkitehtuuri: keskellä yksi avoin moottori, kshana 0.40.0 AGPL-3.0-lisenssillä, jossa api::run_toml, tyypitetty välitys jokaisen lajin yli, sekä 412 ominaisuuden varmennuskirjanpito (176 VALIDATED, 232 MODELLED, 4 PARTNER). Sen ympärillä jokainen rajapinta ajaa samaa moottoria: Komentorivi (cargo install kshana); Rust-kirjasto (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); MCP-palvelin (cargo install kshana-mcp); Docker-levykuva (ghcr.io/ashfordeou/kshana-mcp); JetBrains-liitännäinen (Marketplace: &quot;Kshana&quot;). Sen alla Kshana Pro, suljettu kerros, joka riippuu avoimesta moottorista kirjastona eikä koskaan haaroita sitä, eikä lisää yhtään fysikaalista mallia." width="100%">
+  <img src="docs/assets/readme/architecture-light.svg" alt="Kshanan arkkitehtuuri: keskellä yksi avoin moottori, kshana 0.40.0 AGPL-3.0-lisenssillä, jossa api::run_toml, tyypitetty välitys jokaisen lajin yli, sekä 413 ominaisuuden varmennuskirjanpito (176 VALIDATED, 233 MODELLED, 4 PARTNER). Sen ympärillä jokainen rajapinta ajaa samaa moottoria: Komentorivi (cargo install kshana); Rust-kirjasto (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); MCP-palvelin (cargo install kshana-mcp); Docker-levykuva (ghcr.io/ashfordeou/kshana-mcp); JetBrains-liitännäinen (Marketplace: &quot;Kshana&quot;). Sen alla Kshana Pro, suljettu kerros, joka riippuu avoimesta moottorista kirjastona eikä koskaan haaroita sitä, eikä lisää yhtään fysikaalista mallia." width="100%">
 </picture>
 
 <details>
@@ -1269,7 +1269,7 @@ päällä erillisenä kerroksena, joka riippuu moottorista eikä koskaan haaroit
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/flow-architecture-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/flow-architecture-light.svg">
-  <img src="docs/assets/readme/flow-architecture-light.svg" alt="Kshanan arkkitehtuuri kerroksittain. Viisi sisäänkäyntiä (komentorivi, Python, JavaScript ja WebAssembly, MCP-palvelin ja JetBrains-liitännäinen) johtavat yhteen api::run_toml-funktioon, tyypitettyyn välitykseen 92 lajin yli. Sen alla on kahdeksan aluekerrosta: aika ja koordinaatistot, kellot ja ajoitus, inertia ja fuusio, GNSS ja eheys, astrodynamiikka, LEO PNT, Kuu, Mars ja syvä avaruus sekä tehtävät ja tutkimukset, yhteisen ytimen päällä, ja kaikki ristiviitattuina varmennusmoduulin kautta: koneellisesti tarkistettu 412 ominaisuuden matriisi, joka on jokaisen merkinnän ainoa totuuden lähde." width="100%">
+  <img src="docs/assets/readme/flow-architecture-light.svg" alt="Kshanan arkkitehtuuri kerroksittain. Viisi sisäänkäyntiä (komentorivi, Python, JavaScript ja WebAssembly, MCP-palvelin ja JetBrains-liitännäinen) johtavat yhteen api::run_toml-funktioon, tyypitettyyn välitykseen 92 lajin yli. Sen alla on kahdeksan aluekerrosta: aika ja koordinaatistot, kellot ja ajoitus, inertia ja fuusio, GNSS ja eheys, astrodynamiikka, LEO PNT, Kuu, Mars ja syvä avaruus sekä tehtävät ja tutkimukset, yhteisen ytimen päällä, ja kaikki ristiviitattuina varmennusmoduulin kautta: koneellisesti tarkistettu 413 ominaisuuden matriisi, joka on jokaisen merkinnän ainoa totuuden lähde." width="100%">
 </picture>
 
 **Yksi moottori, monta sisäänkäyntiä.** Yksi Rust-ydin (`kshana`) ajaa jokaisen skenaarion,
