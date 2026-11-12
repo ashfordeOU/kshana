@@ -6,9 +6,9 @@ Pre-registration: `PREREGISTRATION-v3.md` (signed off 10 November 2026). Reading
 
 | Step | Commit |
 |---|---|
-| Sign-off | `1c3401d3f` |
-| Readings 20 to 25 and the 48-candidate instance `place_48_v3.json`, before any v3 code | `633293dd7` |
-| Code (double exchange, 8 restarts, the method name) and `tests/planner_v3.rs`, merged | `fa896fec5` |
+| Sign-off | `1ae28f92a` |
+| Readings 20 to 25 and the 48-candidate instance `place_48_v3.json`, before any v3 code | `9dca1381f` |
+| Code (double exchange, 8 restarts, the method name) and `tests/planner_v3.rs`, merged | `5bfd1df42` |
 | The run (`xval/planner/run-v3.txt`, `xval/planner/run-v3-p4.txt`) and this record | this commit |
 
 The bars were not changed. v1's and v2's tests select their methods by name (reading 22), so their recorded results
@@ -16,7 +16,7 @@ reproduce; no committed v1 or v2 input changed.
 
 ## How the run went (disclosed in full)
 
-1. **22:0xZ, 10 November, on `fa896fec5`:** `tests/planner_v2.rs` and `tests/planner_v3.rs` were started together.
+1. **22:0xZ, 10 November, on `5bfd1df42`:** `tests/planner_v2.rs` and `tests/planner_v3.rs` were started together.
    The v2 re-run completed (`run-v3.txt`: P1 to P3 and P5 as recorded in RESULTS-v2, P4 v2 still 0.350982 against
    0.353361). The v3 test was stopped by the session's 30-minute command limit while still searching. It had
    printed nothing.

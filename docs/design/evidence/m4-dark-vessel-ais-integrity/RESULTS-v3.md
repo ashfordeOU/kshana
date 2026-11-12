@@ -7,13 +7,13 @@ readings 25 to 31. MODELLED: synthetic scenes only. Every output describes data 
 
 | Step | Commit |
 |---|---|
-| Sign-off | `1c3401d3f` |
-| Readings 25 to 31, before any v3 code or seed | `5a05b6807` |
-| Logic, development run on seeds 30 to 39 (`dev-v3.json.gz`), `M4Params::v3` with `m` = 3 and new-track cost 9.21 | `9f734e189` |
-| The scored seeds 3000 to 3009, generated and run once (`scored-v3.json`) | `05536ad29` |
+| Sign-off | `1ae28f92a` |
+| Readings 25 to 31, before any v3 code or seed | `7ed3d57a9` |
+| Logic, development run on seeds 30 to 39 (`dev-v3.json.gz`), `M4Params::v3` with `m` = 3 and new-track cost 9.21 | `1d23cff8f` |
+| The scored seeds 3000 to 3009, generated and run once (`scored-v3.json`) | `db06dc2ce` |
 
 No reading was changed after the development run. The bars are v1's and were not changed. The scored run used a
-release binary built from `9f734e189` (SHA-256 `50535376a7319698cf111e5c487ca92e5e03a01a6d558f506e9046b41e70db01`);
+release binary built from `1d23cff8f` (SHA-256 `50535376a7319698cf111e5c487ca92e5e03a01a6d558f506e9046b41e70db01`);
 it ran from 23:18:16 to 23:20:11 UTC on 10 November 2026 and exited 0.
 
 ## Summary (seeds 3000 to 3009, 20 000 vessels)

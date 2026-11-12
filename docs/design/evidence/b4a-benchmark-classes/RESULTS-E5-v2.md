@@ -2,9 +2,9 @@
 # B4a E5 v2: B-iq spoofing on TEXBAT: result
 
 Pre-registration: `PREREGISTRATION-E5-v2.md` (signed 9 November 2026). Readings: `xval/bench-e/README.md`, E5v2-1 to
-E5v2-9 and their two amendments. Scored once on 11 November 2026 at 22:16:13 UTC, on main `635a1887f`, with
+E5v2-9 and their two amendments. Scored once on 11 November 2026 at 22:16:13 UTC, on main `96ccde9f2`, with
 `kshana bench texbat-score xval/bench-e/texbat-v2 --out xval/bench-e/texbat-v2/E5-SCORE.json` (scorer merged in
-`92cec695f` before the score). v1's E5 stays published as NOT ASSESSABLE.
+`af29624d5` before the score). v1's E5 stays published as NOT ASSESSABLE.
 
 | Bar | Result |
 |---|---|
