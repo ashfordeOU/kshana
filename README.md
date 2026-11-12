@@ -150,12 +150,12 @@ VALIDATED, 233 MODELLED, 4 PARTNER. No row was promoted to VALIDATED, and every 
 
 0.40 adds a mission-level error budget, labels every figure and table with its evidence tier, reads measured clock logs,
 checks data-partner submissions, estimates where an interference emitter can be, and speaks seventeen languages beside English.
-The ledger is now 412 rows: 176 VALIDATED, 232 MODELLED, 4 PARTNER. No row was promoted to VALIDATED, and every miss below is
+No row was promoted to VALIDATED, and every miss below is
 pinned by a test.
 
 - **Mission thread.** The `mission-thread` kind chains phases from launch to entry (`launch-ascent`, `leo-rendezvous`,
   `tli-and-cruise`, `entry` and four lunar kinds) with stated handover rules, a margin against stated requirements and the weakest
-  link; an end-to-end Artemis-class example over 11 phases (Earth and lunar segments), 92 scenario kinds in all. Every number is MODELLED. The cislunar propagation against the public Artemis I trajectory
+  link; an end-to-end Artemis-class example over 11 phases (Earth and lunar segments). Every number is MODELLED. The cislunar propagation against the public Artemis I trajectory
   **misses** its pre-registered bar (45.3 km and 0.25 m/s against 5 km and 0.05 m/s; the cause is small manoeuvres the model does not include), and the lunar propagator against the CAPSTONE
   orbit **misses** (136.8 km against 25 km at the end of one revolution); the LRO comparison is met. The rows stay MODELLED
   ([Mission thread](docs/MISSION-THREAD.md), [lunar segment](docs/MISSION-THREAD-LUNAR.md)). In the Studio the thread is read at `/studio/mission-thread/`.

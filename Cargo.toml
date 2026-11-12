@@ -71,7 +71,7 @@ exclude = [
     "/deploy",
     "/skills",
     "/conformance",
-    # README.md is embedded only by unit tests (#[cfg(test)] in src/api.rs and src/verification.rs); crates.io shows
+    # README.md is embedded only by unit tests (the test modules of src/api.rs and src/verification.rs); crates.io shows
     # README.crates.md.
     "/README.md",
     "/.github",
