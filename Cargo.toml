@@ -66,6 +66,14 @@ exclude = [
     # The changelog and roadmap are read on GitHub and kshana.dev; the crate's page links them.
     "/CHANGELOG.md",
     "/ROADMAP.md",
+    # Deployment recipes, agent skills and the conformance kit are used from a checkout; the library embeds none of them
+    # (0.41: the .crate was 42 KB over crates.io's 10 MiB limit with them).
+    "/deploy",
+    "/skills",
+    "/conformance",
+    # README.md is embedded only by unit tests (#[cfg(test)] in src/api.rs and src/verification.rs); crates.io shows
+    # README.crates.md.
+    "/README.md",
     "/.github",
     # Surface READMEs for the other publish targets (PyPI, npm) — crates.io uses
     # README.crates.md (the `readme` field above); these would only be noise here.
