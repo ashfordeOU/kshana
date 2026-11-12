@@ -26,6 +26,7 @@ import { readFileSync, existsSync, statSync } from 'node:fs';
 import { join, extname, dirname } from 'node:path';
 import { createRequire } from 'node:module';
 import { pathToFileURL, fileURLToPath } from 'node:url';
+import { gunzipSync } from 'node:zlib';
 import { TIER_TOKENS } from './i18n-lang.mjs';
 
 const argv = process.argv.slice(2);
@@ -143,7 +144,9 @@ if (!opt.noEngine) {
   await eng.default({ module_or_path: readFileSync(join(opt.tree, 'pkg', 'kshana_bg.wasm')) });
   const toml = readFileSync(join(opt.tree, 'studio', 'scenarios', `${SCEN}.toml`), 'utf8');
   const nativeEn = JSON.parse(eng.run_all(toml));
-  const recorded = JSON.parse(readFileSync(join(opt.tree, 'studio', 'recorded', `${SCEN}.json`), 'utf8'));
+  // the Studio stores its recordings gzipped since 0.41 (`<scenario>.json.gz`); older trees hold plain `.json`
+  const recPath = join(opt.tree, 'studio', 'recorded', `${SCEN}.json`);
+  const recorded = JSON.parse(existsSync(recPath) ? readFileSync(recPath, 'utf8') : gunzipSync(readFileSync(`${recPath}.gz`)).toString('utf8'));
   const digits = (x) => x.match(/\d+/g) || [];
   const tokens = (x) => { const out = []; let rest = x; for (const tk of [...TIER_TOKENS].sort((a, b) => b.length - a.length)) { const re = new RegExp(`(?<![A-Z])${tk}(?![A-Z])`, 'g'); out.push(...(rest.match(re) || []).map(() => tk)); rest = rest.replace(re, ' '); } return out.sort(); };
   const svgText = (x) => [...x.matchAll(/>([^<>]+)</g)].map((m) => m[1]).join(' '); // the words and numbers a chart prints, not its coordinates
