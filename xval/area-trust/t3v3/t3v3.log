@@ -1,0 +1,22 @@
+commit 41a70b9830bd224723bb2d30bb9301ee144f4a63 start 2026-11-12T00:04:02Z
+test t3_end_to_end_latency_run has been running for over 60 seconds
+T3 run 0: 55 events, 56 alerts sent, webhook 56 received, MQTT 56 received
+test t3_end_to_end_latency_run ... ok
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 4 filtered out; finished in 4848.65s
+run 0 done 2026-11-12T01:24:51Z
+test t3_end_to_end_latency_run has been running for over 60 seconds
+T3 run 1: 55 events, 55 alerts sent, webhook 55 received, MQTT 55 received
+test t3_end_to_end_latency_run ... ok
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 4 filtered out; finished in 4409.99s
+run 1 done 2026-11-12T02:38:21Z
+test t3_end_to_end_latency_run has been running for over 60 seconds
+T3 run 2: 55 events, 56 alerts sent, webhook 56 received, MQTT 56 received
+test t3_end_to_end_latency_run ... ok
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 4 filtered out; finished in 4603.50s
+run 2 done 2026-11-12T03:55:05Z
+test t3_end_to_end_latency_run has been running for over 60 seconds
+T3 run 3: 55 events, 57 alerts sent, webhook 57 received, MQTT 57 received
+test t3_end_to_end_latency_run ... ok
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 4 filtered out; finished in 4693.56s
+run 3 done 2026-11-12T05:13:18Z
+ALLDONE
