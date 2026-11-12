@@ -1,0 +1,21 @@
+2026-11-12T00:06:50Z
+0810728447686599bc241dce8e7ebe72473f7588
+
+running 1 test
+area ["GODS00USA", "GODE00USA", "GODN00USA", "MRC100USA"]: 0 alerts to DEGRADED or worse, 0 to UNTRUSTED over 13 days; 10 scored epochs with a SATELLITE_FAULT flag ({"G13": 10}); lock-only epochs per station [0, 1, 0, 2]
+  GODS00USA: H_s 11.6 m, tracked median 9, 37440 scored epochs, no fix 0, alarms position 1 C/N0 0 lock 0
+  GODE00USA: H_s 11.3 m, tracked median 10, 37440 scored epochs, no fix 0, alarms position 2 C/N0 0 lock 1
+  GODN00USA: H_s 18.9 m, tracked median 8, 37440 scored epochs, no fix 0, alarms position 67 C/N0 0 lock 0
+  MRC100USA: H_s 11.9 m, tracked median 10, 37440 scored epochs, no fix 0, alarms position 27 C/N0 0 lock 2
+area ["WTZR00DEU", "WTZA00DEU", "WT2100DEU", "WTZZ00DEU"]: 1 alerts to DEGRADED or worse, 1 to UNTRUSTED over 13 days; 131 scored epochs with a SATELLITE_FAULT flag ({"G13": 131}); lock-only epochs per station [3, 5, 0, 0]
+  WTZR00DEU: H_s 14.7 m, tracked median 10, 37439 scored epochs, no fix 3, alarms position 0 C/N0 0 lock 3
+  WTZA00DEU: H_s 10.1 m, tracked median 10, 37434 scored epochs, no fix 14, alarms position 2 C/N0 9 lock 14
+  WT2100DEU: H_s 13.1 m, tracked median 10, 37440 scored epochs, no fix 0, alarms position 31 C/N0 0 lock 0
+  WTZZ00DEU: H_s 14.7 m, tracked median 11, 37435 scored epochs, no fix 0, alarms position 3 C/N0 0 lock 0
+T4 v3: 1 alerts to DEGRADED or worse (0.038 per area-day, bar 1), 1 to UNTRUSTED (0.038, bar 0.1) over 26 area-days: MET
+test t4v3_false_alerts_on_clean_igs_data ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 4 filtered out; finished in 371.29s
+
+RC=0 end 2026-11-12T00:13:01Z
+6345ed9321b2ba5fd8483f56652170bc0482bbf5b7e806eded325f701adedcbf

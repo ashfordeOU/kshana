@@ -141,7 +141,7 @@ Execution amendments, all made before scoring and none touching a fit, seed, rec
 - **Helper sessions.** Batches 08-18 ran in three other cloud sessions at `bd0845acd`. Each pushed only its batch's
   two files, unread, and they were merged after a check of file list, identity and SHA-256. Batches 01-07 ran on
   this container.
-- **Determinism check** (`4a9668c93`, `KSHANA_D8A_ROW6_V2_SEEDS`). Batch 17, first produced in a helper session, was
+- **Determinism check** (`3c1f02429`, `KSHANA_D8A_ROW6_V2_SEEDS`). Batch 17, first produced in a helper session, was
   rerun on this container as four seed-subset processes into one checkpoint folder and assembled. A whole-batch single
   process would have taken about 16 h against about 5 h. `batch-17.jsonl` and `truth-17.jsonl` came out
   byte-identical to the helper's (SHA-256 `046b7a14…` and `080529c7…`). That covers the cross-machine,

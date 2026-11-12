@@ -317,6 +317,7 @@ pub mod interference_map;
 pub mod live_health;
 /// The monitoring-network planner (0.41 row B1a): `kshana planner`.
 pub mod locate_pd;
+pub mod locate_tdoa;
 pub mod m4_dark_vessel;
 pub mod m4_logic;
 pub mod m5_hybrid;
