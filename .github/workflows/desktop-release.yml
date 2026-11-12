@@ -24,7 +24,7 @@ concurrency:
 jobs:
   macos:
     name: sign, notarise, attach
-    runs-on: macos-14
+    runs-on: macos-latest
     timeout-minutes: 120
     permissions:
       contents: write # gh release upload
