@@ -112,7 +112,7 @@ seg-3b6d727a2d38 = Developers wiring the engine into code, a CI (continuous inte
 seg-7515b1af1f0b = All { "93" } scenario kinds and { "183" } bundled scenarios: native, Python, JavaScript, in the browser and over MCP (Model Context Protocol)
 
 # text
-seg-43711d15e734 = The full verification matrix: { "176" } of { "412" } capabilities validated against independent oracles, the rest labelled Modelled
+seg-358de5b2bfb3 = The full verification matrix: { "176" } of { "413" } capabilities validated against independent oracles, the rest labelled Modelled
 
 # text
 seg-9b8eb955fecf = Every result stamped with scenario hash, seed and engine version, and written as JSON (JavaScript Object Notation), CSV (comma-separated values) tables and SVG (Scalable Vector Graphics) charts

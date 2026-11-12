@@ -54,6 +54,10 @@ seg-8fd21bd07bf2 = The chart the engine writes for scenarios/tip-and-cue-short.t
 seg-619127334cf3 = No matrix row names this kind by name; the label on its result is the engine's own, above.
 
 # text
+# c1: constellation-design
+seg-0c64f22330d2 = <b>VALIDATED</b> The <c1/> kind's generators: Walker delta and star patterns in the T/P/F convention (node spacing 360/P or 180/P, in-plane spacing { "360" }·P/T, int. Oracle (ExternalDataset): Published agency documents: Galileo Open Service Service Definition Document issue { "1.1" } (European GNSS Service Centre) Tables { "1" } and { "23" }, the reference constellation at 2016-11-21 { "00" }:{ "00" } UTC; GLONASS Interface Control Document edition { "5.1" } ({ "2008" }) section { "5.2" }, the slot formula for node longitude and argument of latitude; GPS Standard Positioning Service Performance Standard 5th edition (April { "2020" }) Tables 3.2-1, 3.2-2 and
+
+# text
 # c1: label
 seg-55a1161c2054 = MODELLED: revisit, full-area refresh and RF-to-optical reaction of a two-layer survey from stated Walker star layers on { "550" } km sun-synchronous orbits (secular J2), spherical Earth, stated fields of regard; geometry and timing only, no detection, weather or tasking latency; a cross-check of published simulation figures, never a validation (result <c1/>)
 

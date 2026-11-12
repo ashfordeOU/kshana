@@ -18,7 +18,7 @@ seg-fdd71491d5b0 = Continuous integration status on main
 seg-fa8a7ec005a9 = Line coverage near { "95" } % of src/, measured in docs/COVERAGE.md and gated at { "85" } % in continuous integration
 
 # text
-seg-0933cb091687 = { "176" } of { "412" } capabilities VALIDATED against an independent external oracle, from the verification matrix
+seg-bbc5b6ab0f98 = { "176" } of { "413" } capabilities VALIDATED against an independent external oracle, from the verification matrix
 
 # text
 seg-6499faeb5966 = SonarQube Cloud quality gate status
@@ -62,7 +62,7 @@ seg-d435b868c53d = Contents
 seg-d1153c5e9112 = Rehearse the minute GNSS goes dark
 
 # text
-seg-467bb88ec415 = <a1>What's new in { "0.40" }</a1>, <a2>What's new in { "0.39" }</a2>, <a3>What's new in { "0.38" }</a3>, and <a4>{ "0.38" } in depth</a4>: jammertest scoring, the receiver's own flags, machine inputs, timing and holdover, standards packs, LunaNet AFS, the lab round trip, kshana-bench, the observatory, exporters, optical, <a5>space-user navigation</a5> and <a6>lunar infrastructure</a6>
+seg-c2eaf05cc6ba = <a1>What's new in { "0.41" }</a1>, <a2>What's new in { "0.40" }</a2>, <a3>What's new in { "0.39" }</a3>, <a4>What's new in { "0.38" }</a4>, and <a5>{ "0.38" } in depth</a5>: jammertest scoring, the receiver's own flags, machine inputs, timing and holdover, standards packs, LunaNet AFS, the lab round trip, kshana-bench, the observatory, exporters, optical, <a6>space-user navigation</a6> and <a7>lunar infrastructure</a7>
 
 # text
 seg-b4569d43b652 = <a1>Kshana Studio</a1> and every Studio page
@@ -95,10 +95,47 @@ seg-fc81e99583fe = Every run is reproducible bit for bit from the scenario, the 
 seg-f2bf8028e0d4 = <b>Status: v{ $version }.</b> A validated, reproducible simulation substrate for PNT resilience. Timing and holdover come first, because that domain is the best validated. Kshana is a study and trade-off instrument: not radio-frequency (RF) signal-generator hardware (it drives no radio and transmits nothing; its signal-level output is baseband IQ sample files for software receivers), not a hardware or certified GNSS receiver (its software receiver is an analysis tool) and not a flight product. New to the field? Start with the <a1>plain-language primer</a1> and the <a2>glossary</a2>.
 
 # text
+seg-e3ca367dc345 = What's new in { "0.41" }
+
+# text
+seg-c25be195ef77 = { "0.41" } scores the evidence rows signed for it, each once against bars fixed before the data, and publishes each result as it came out (the C2 v2 rerun was not run). It adds an area trust state with a satellite-fault screen, a monitoring-network planner, a TDOA jammer locator, dark-vessel and AIS-integrity decisions, the TEXBAT spoofing benchmark, flight-dynamics exports and an RTCM SSR reader. The ledger is now { "413" } rows: { "176" } VALIDATED, { "233" } MODELLED, { "4" } PARTNER. No row was promoted to VALIDATED, and every miss below is pinned by a test.
+
+# attr:title
+seg-34bdcfd66ded = In the repository branch these docs come from; not yet on GitHub
+
+# text
+# c1: kshana area-trust
+seg-f964fda9114b = <b>Area trust (<c1/>, B5).</b> One trust state for an area from several reference stations. Version { "3" } flags a satellite whose removal clears the alarms at several stations at once and recomputes their fixes without it; loss of lock alone no longer degrades a station. On { "26" } area-days of IGS data (Goddard and Wettzell, May { "2026" }) it raised { "1" } alert (bar ≤ { "1" } per area-day) and <b>meets</b> T4; on synthetic faults it <b>misses</b> T2 ({ "123" } of { "127" } faults cleared; { "4" } where the remaining geometry is weak, and { "2" } of { "67" } two-satellite epochs explained by one). T3 (alert latency) is met. B5 v3 is <b>NOT MET</b> (<s1>results</s1>). The diagnosis also found the engine using broadcast records marked unhealthy; GPS and QZSS records so marked are now skipped.
+
+# text
+seg-9363b4189416 = <b>Spoofing benchmark (TEXBAT, E5).</b> Scored once on all ten TEXBAT recordings with rules fixed before any file was read: the power-and-distortion score <b>meets</b> E5-PD (AUC { "0.7410" }, bar { "0.70" }); the baseline IQ score <b>misses</b> E5 v2 (AUC { "0.6941" }). Only scores are published, never the recordings (<a1>results</a1>).
+
+# text
+# c1: kshana planner
+seg-bde6242aafe7 = <b>Monitoring-network planner (<c1/>, B1a).</b> Detection and TDOA accuracy maps and station placement. Version { "3" }'s placement search beats the best of { "1 000" } random subsets ({ "0.4408" } against { "0.4105" }) and <b>meets</b> P4; part { "1" } is met on Linux, with the macOS and Windows check pending (<a1>results</a1>).
+
+# text
+# c1: locate_tdoa
+seg-ca93de5aa4d2 = <b>Jammer location.</b> The power-difference locator (B3a) <b>misses</b> its synthetic gate in v1 and v2; the new TDOA locator (B3b, <c1/>) <b>misses</b> its gate too (coverage { "0.044" } against { "0.90" }: its peak refinement errs by up to half a sample against a { "28" } ns stated σ). Both rows stop; no real run is made with either method (<s1>B3b results</s1>).
+
+# text
+seg-7aa8be9c346a = <b>Dark vessels and AIS integrity (M4).</b> Version { "3" } <b>meets</b> dark-vessel recall ({ "0.994" }) and every other bar but position offsets, which it <b>misses</b> ({ "0.489" } at { "5" } km against { "0.85" }) (<a1>results</a1>). Every output describes data consistency, never intent.
+
+# text
+seg-29680907bca5 = <b>Also scored.</b> M1 and the C5a, C3 and B8 rows <b>meet</b> their bars; M2's cross-check of published revisit figures is <b>not consistent</b> with them; M5 v2 (hybrid location from orbit), D8b row { "8" } v2 and D8a row { "6" } v2 <b>miss</b> theirs (<a1>Changelog</a1>).
+
+# text
+seg-90f90c9314ee = Flight dynamics and corrections.
+
+# text
+# c1: kshana ephem-export
+seg-df18f9014509 = <c1/> writes a JPL Horizons table as a CCSDS OEM or OPM or an SPK kernel and reads it back; Orekit, Basilisk and ANISE read the files with the written bits. An RTCM SSR (IGS SSR) reader, a Bias-SINEX reader and the IERS { "2010" } solid Earth tide are added.
+
+# text
 seg-cafc1c9c4d58 = What's new in { "0.40" }
 
 # text
-seg-d9cccff82185 = { "0.40" } adds a mission-level error budget, labels every figure and table with its evidence tier, reads measured clock logs, checks data-partner submissions, estimates where an interference emitter can be, and speaks seventeen languages beside English. The ledger is now { "412" } rows: { "176" } VALIDATED, { "232" } MODELLED, { "4" } PARTNER. No row was promoted to VALIDATED, and every miss below is pinned by a test.
+seg-bf9f51e728f3 = { "0.40" } adds a mission-level error budget, labels every figure and table with its evidence tier, reads measured clock logs, checks data-partner submissions, estimates where an interference emitter can be, and speaks seventeen languages beside English. No row was promoted to VALIDATED, and every miss below is pinned by a test.
 
 # text
 # c1: mission-thread
@@ -107,7 +144,7 @@ seg-d9cccff82185 = { "0.40" } adds a mission-level error budget, labels every fi
 # c4: tli-and-cruise
 # c5: entry
 # c6: /studio/mission-thread/
-seg-8391e467adf7 = <b>Mission thread.</b> The <c1/> kind chains phases from launch to entry (<c2/>, <c3/>, <c4/>, <c5/> and four lunar kinds) with stated handover rules, a margin against stated requirements and the weakest link; an end-to-end Artemis-class example over { "11" } phases (Earth and lunar segments), { "93" } scenario kinds in all. Every number is MODELLED. The cislunar propagation against the public Artemis I trajectory <b>misses</b> its pre-registered bar ({ "45.3" } km and { "0.25" } m/s against { "5" } km and { "0.05" } m/s; the cause is small manoeuvres the model does not include), and the lunar propagator against the CAPSTONE orbit <b>misses</b> ({ "136.8" } km against { "25" } km at the end of one revolution); the LRO comparison is met. The rows stay MODELLED (<a1>Mission thread</a1>, <a2>lunar segment</a2>). In the Studio the thread is read at <c6/>.
+seg-dc481fc548eb = <b>Mission thread.</b> The <c1/> kind chains phases from launch to entry (<c2/>, <c3/>, <c4/>, <c5/> and four lunar kinds) with stated handover rules, a margin against stated requirements and the weakest link; an end-to-end Artemis-class example over { "11" } phases (Earth and lunar segments). Every number is MODELLED. The cislunar propagation against the public Artemis I trajectory <b>misses</b> its pre-registered bar ({ "45.3" } km and { "0.25" } m/s against { "5" } km and { "0.05" } m/s; the cause is small manoeuvres the model does not include), and the lunar propagator against the CAPSTONE orbit <b>misses</b> ({ "136.8" } km against { "25" } km at the end of one revolution); the LRO comparison is met. The rows stay MODELLED (<a1>Mission thread</a1>, <a2>lunar segment</a2>). In the Studio the thread is read at <c6/>.
 
 # text
 seg-5bd16655cace = <b>Evidence labels.</b> Every figure and table a run writes carries the tier and the ledger row ids it rests on, read from the matrix.
@@ -1439,10 +1476,10 @@ seg-36d838421b86 = Can I reproduce, extend and cite a PNT result, down to the se
 seg-e31cf348fc57 = SGP4 checked against all { "666" } AIAA 2006-6753 reference vectors, worst position error { "4.12" } mm
 
 # text
-seg-93dcede29907 = <b>{ "176" } of { "412" }</b> capabilities validated against independent external oracles; { "232" } honestly labelled Modelled. Each row of the verification matrix names a capability, the oracle it is checked against, the test that runs the check, and the label that follows. Continuous integration (CI) makes it impossible to call a capability VALIDATED without an independent external oracle.
+seg-5188b4e99536 = <b>{ "176" } of { "413" }</b> capabilities validated against independent external oracles; { "233" } honestly labelled Modelled. Each row of the verification matrix names a capability, the oracle it is checked against, the test that runs the check, and the label that follows. Continuous integration (CI) makes it impossible to call a capability VALIDATED without an independent external oracle.
 
 # attr:alt
-seg-99d2c21b1f60 = How a capability earns its label. Each row of the verification matrix names a capability, the oracle it is checked against, the test that runs the check in continuous integration, and the label that follows. A row may be VALIDATED only with an independent external oracle; otherwise it is MODELLED, or PARTNER when a hardware partner owns it. Example: SGP4/SDP4, Cowell 6-DOF + perturbations, batch/sequential OD, oracle AIAA 2006-6753 SGP4 verification vectors, test tests/sgp4_verification.rs, label VALIDATED. Live counts: { "176" } VALIDATED, { "232" } MODELLED, { "4" } PARTNER of { "412" } rows. In all, { "176" } capabilities validated against independent external oracles; { "232" } more are honestly labelled MODELLED and { "4" } are PARTNER-owned.
+seg-4f56271878f7 = How a capability earns its label. Each row of the verification matrix names a capability, the oracle it is checked against, the test that runs the check in continuous integration, and the label that follows. A row may be VALIDATED only with an independent external oracle; otherwise it is MODELLED, or PARTNER when a hardware partner owns it. Example: SGP4/SDP4, Cowell 6-DOF + perturbations, batch/sequential OD, oracle AIAA 2006-6753 SGP4 verification vectors, test tests/sgp4_verification.rs, label VALIDATED. Live counts: { "176" } VALIDATED, { "233" } MODELLED, { "4" } PARTNER of { "413" } rows. In all, { "176" } capabilities validated against independent external oracles; { "233" } more are honestly labelled MODELLED and { "4" } are PARTNER-owned.
 
 # text
 seg-c5ce76c91ff7 = Label
@@ -1473,7 +1510,7 @@ seg-9dd73106acfc = owned by a hardware partner; Kshana holds no oracle for it
 # c2: docs/VERIFICATION-MATRIX.md
 # c3: src/verification.rs
 # c4: docs/MODELLED-RATIONALE.md
-seg-7f933400c73d = A few of the checks: all { "666" } AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 SGP4 (Simplified General Perturbations { "4" }) vectors to { "4.12" } mm; the Cowell force model to { "0.08" } m against Orekit { "12.2" }; Galileo to { "0.61" } m and Swarm-A to { "0.10" } m against real precise ephemerides of the European Space Agency (ESA). Tests hold near { "95" } % line coverage of <c1/>, gated at { "85" } % in CI. The ledger is <a1><c2/></a1>, generated from <c3/>: the <a2>full 412-row matrix</a2>, and why each Modelled row has no external oracle in <a3><c4/></a3>.
+seg-b4025cee46c2 = A few of the checks: all { "666" } AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 SGP4 (Simplified General Perturbations { "4" }) vectors to { "4.12" } mm; the Cowell force model to { "0.08" } m against Orekit { "12.2" }; Galileo to { "0.61" } m and Swarm-A to { "0.10" } m against real precise ephemerides of the European Space Agency (ESA). Tests hold near { "95" } % line coverage of <c1/>, gated at { "85" } % in CI. The ledger is <a1><c2/></a1>, generated from <c3/>: the <a2>full 413-row matrix</a2>, and why each Modelled row has no external oracle in <a3><c4/></a3>.
 
 # text
 seg-6fd41f16334e = How validation works, the curated highlight table and the evidence figures
@@ -1523,7 +1560,7 @@ seg-ee66ab516e01 = Validation at a glance
 # c2: docs/VALIDATION.md
 # c3: kshana-validation-summary.html
 # c4: cargo run --bin validation_report
-seg-df9b60a7dfe8 = Every row is enforced by a named test in CI. This table is a <b>curated highlight</b>; the full machine-checked matrix is <b>{ "412" } rows — { "176" } VALIDATED, { "232" } MODELLED, { "4" } PARTNER</b> (<c1/>), with the complete evidence (and what is honestly <em>not</em> yet validated) in <a1><c2/></a1> and the per-release <a2><c3/></a2> artifact (generated by <c4/>, SLSA-attested — Supply-chain Levels for Software Artifacts).
+seg-3ba3b59f4d21 = Every row is enforced by a named test in CI. This table is a <b>curated highlight</b>; the full machine-checked matrix is <b>{ "413" } rows — { "176" } VALIDATED, { "233" } MODELLED, { "4" } PARTNER</b> (<c1/>), with the complete evidence (and what is honestly <em>not</em> yet validated) in <a1><c2/></a1> and the per-release <a2><c3/></a2> artifact (generated by <c4/>, SLSA-attested — Supply-chain Levels for Software Artifacts).
 
 # text
 # c1: CI
@@ -1941,7 +1978,7 @@ seg-e42bbd5c72f1 = <b>~{ "95" } % line</b> on <c1/> excluding <c2/> and <c3/>, g
 seg-b2789a3e7ebe = cargo-tarpaulin (LLVM engine)
 
 # attr:alt
-seg-d1700188b2cf = How a capability earns its label: Requirement maps to a module in src, to a test in tests, to an external oracle (real dataset, independent reference implementation, or published vectors), to a status — with a CI-enforced guard that no capability can be Validated without an external oracle. Live counts: { "176" } Validated, { "232" } Modelled, { "4" } Partner, { "412" } total
+seg-d3db187dc958 = How a capability earns its label: Requirement maps to a module in src, to a test in tests, to an external oracle (real dataset, independent reference implementation, or published vectors), to a status — with a CI-enforced guard that no capability can be Validated without an external oracle. Live counts: { "176" } Validated, { "233" } Modelled, { "4" } Partner, { "413" } total
 
 # text
 seg-5262ee45dd08 = How a capability earns its label — the CI-enforced invariant: no external oracle ⇒ cannot be Validated · <a1>SVG</a1>
@@ -1956,10 +1993,10 @@ seg-c550a4bde1ff = SGP4/SDP4 worst-case position error vs the AIAA 2006-6753 ref
 seg-2ad422aac6a1 = Top: every Validated row is backed by an external dataset, by construction. Bottom: SGP4 matches the official reference in every regime (worst { "4.12" } mm). <a1>SVG</a1> · <a2>SVG</a2>
 
 # attr:alt
-seg-903f40bceba8 = Verification status across all { "412" } capabilities: { "176" } Validated (checked vs external oracle), { "232" } Modelled, { "4" } Partner-owned
+seg-b822d3d73a3a = Verification status across all { "413" } capabilities: { "176" } Validated (checked vs external oracle), { "233" } Modelled, { "4" } Partner-owned
 
 # text
-seg-9bfd6ba56a18 = { "176" } Validated · { "232" } Modelled · { "4" } Partner — <a1>SVG</a1>
+seg-605bff4c014e = { "176" } Validated · { "233" } Modelled · { "4" } Partner — <a1>SVG</a1>
 
 # text
 # c1: tools/gen_readme_blocks.py
@@ -2032,8 +2069,8 @@ seg-a594acff8553 = A passage naming third-party AI clients is left out here; it 
 seg-13641146503d = Cursor (one click)
 
 # text
-# c1: npx -y kshana-mcp@0.40.0
-seg-20beca58d39e = <a1>Add to Cursor (npx)</a1> · <a2>Add to Cursor (Docker)</a2> · <c1/>
+# c1: npx -y kshana-mcp@0.41.0
+seg-6f9e01356a44 = <a1>Add to Cursor (npx)</a1> · <a2>Add to Cursor (Docker)</a2> · <c1/>
 
 # text
 seg-f8c77f4d7864 = Every MCP install snippet
@@ -2042,8 +2079,8 @@ seg-f8c77f4d7864 = Every MCP install snippet
 seg-3bd13fe295f4 = VS Code (one click)
 
 # text
-# c1: npx -y kshana-mcp@0.40.0
-seg-aa6b62f0b484 = <a1>Install in VS Code (npx)</a1> · <a2>Install in VS Code (Docker)</a2> · <c1/>
+# c1: npx -y kshana-mcp@0.41.0
+seg-a3db85030b1e = <a1>Install in VS Code (npx)</a1> · <a2>Install in VS Code (Docker)</a2> · <c1/>
 
 # text
 seg-fea7b394cdde = npx
@@ -2121,10 +2158,10 @@ seg-7849acc8e680 = Kshana on the JetBrains Marketplace
 seg-ac2d3dd91aa2 = Builds with Rust { "1.88" } or newer, the rust-version in Cargo.toml
 
 # text
-# c1: cargo install kshana --version 0.40.0
-# c2: pip install kshana==0.40.0
-# c3: npm install kshana@0.40.0
-seg-8e176aa32cd3 = MCP is the Model Context Protocol. Pin a release with <c1/>, <c2/> or <c3/>. To build from source, see <a1>Install and build</a1> under Reference.
+# c1: cargo install kshana --version 0.41.0
+# c2: pip install kshana==0.41.0
+# c3: npm install kshana@0.41.0
+seg-cf0e450bab30 = MCP is the Model Context Protocol. Pin a release with <c1/>, <c2/> or <c3/>. To build from source, see <a1>Install and build</a1> under Reference.
 
 # text
 seg-152cb43de2f3 = Run a scenario from Python and from WebAssembly
@@ -2150,13 +2187,13 @@ seg-f589eb87e902 = The npm package is the whole engine compiled to WebAssembly. 
 seg-7488a0b0a215 = One open engine sits at the centre, and every surface runs it: the command line, the Rust library, Python, WebAssembly and Kshana Studio, the MCP server, the Docker image and the JetBrains plugin. The same scenario file gives the same bytes on each. Kshana Pro sits on top as a separate overlay that depends on the engine and never forks it.
 
 # attr:alt
-seg-74c21b004d86 = Kshana's architecture: one open engine at the centre, kshana { $version } under the AGPL-3.0, with api::run_toml, a typed dispatch over every kind, and the verification ledger of { "412" } capabilities ({ "176" } VALIDATED, { "232" } MODELLED, { "4" } PARTNER). Around it, every surface runs the same engine: Command line (cargo install kshana); Rust library (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); MCP server (cargo install kshana-mcp); Docker image (ghcr.io/ashfordeou/kshana-mcp); JetBrains plugin (Marketplace: "Kshana"). Below it, Kshana Pro, a proprietary overlay that depends on the open engine as a library and never forks it, and adds no physical model.
+seg-8169d3fb210e = Kshana's architecture: one open engine at the centre, kshana { $version } under the AGPL-3.0, with api::run_toml, a typed dispatch over every kind, and the verification ledger of { "413" } capabilities ({ "176" } VALIDATED, { "233" } MODELLED, { "4" } PARTNER). Around it, every surface runs the same engine: Command line (cargo install kshana); Rust library (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); MCP server (cargo install kshana-mcp); Docker image (ghcr.io/ashfordeou/kshana-mcp); JetBrains plugin (Marketplace: "Kshana"). Below it, Kshana Pro, a proprietary overlay that depends on the open engine as a library and never forks it, and adds no physical model.
 
 # text
 seg-9ac1f9e2d1b1 = Inside the engine: the domain layers and the verification ledger
 
 # attr:alt
-seg-e6c6926110e6 = Kshana's architecture in layers. Five front doors (command line, Python, JavaScript and WebAssembly, the MCP server and the JetBrains plugin) reach one api::run_toml, a typed dispatch over { "93" } kinds. Beneath it sit eight domain layers: time and frames, clocks and timing, inertial and fusion, GNSS and integrity, astrodynamics, LEO PNT, Moon, Mars and deep space, and missions and studies, on a shared core, all cross-referenced by the verification module, the machine-checked matrix of { "412" } capabilities that is the single source of truth for every label.
+seg-e1aa02b60ca6 = Kshana's architecture in layers. Five front doors (command line, Python, JavaScript and WebAssembly, the MCP server and the JetBrains plugin) reach one api::run_toml, a typed dispatch over { "93" } kinds. Beneath it sit eight domain layers: time and frames, clocks and timing, inertial and fusion, GNSS and integrity, astrodynamics, LEO PNT, Moon, Mars and deep space, and missions and studies, on a shared core, all cross-referenced by the verification module, the machine-checked matrix of { "413" } capabilities that is the single source of truth for every label.
 
 # text
 # c1: kshana

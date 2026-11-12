@@ -910,28 +910,29 @@ seg-86709f7f67c0 = TRL ~{ "3" }; no agency citations/contracts yet (see strategy
 
 # text
 # c1: kshana kinds --json
-# c2: mission-thread
-# c3: lunar-orbit-rendezvous
-# c4: lunar-descent
-# c5: lunar-surface
-# c6: lunar-ascent
-# c7: holdover-test
-# c8: gnss-ssv
-# c9: lunar-infrastructure
-# c10: optical-atmosphere
-# c11: acm-link
-# c12: aocs
-# c13: ascent-losses
-# c14: contact-schedule
-# c15: entry-heating
-# c16: eo-radiometry
-# c17: lunar-station-coverage
-# c18: time-transfer-budget
-# c19: src/holdover.rs
-# c20: QuantumNavBudget
-# c21: CodeFamily
-# c22: src/verification.rs
-seg-f289c471e860 = Updated 2026-10-29 for engine { $version } ({ "93" } scenario kinds, from <c1/>; new in { $version }: <c2/>, <c3/>, <c4/>, <c5/> and <c6/>). 2026-10-22: engine { "0.39.0" }, { "87" } kinds, no new kind. 2026-10-19: engine { "0.38.0" }, { "87" } kinds (new in { "0.38.0" }: <c7/>, <c8/> and <c9/>). 2026-10-18: { "84" } kinds (new in { "0.37" }: <c10/>). 2026-10-16: { "83" } kinds (new in { "0.36" }: <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/> and <c18/>). 2026-10-10: engine { "0.35.0" }, { "75" } kinds, no new kind. 2026-10-09 and 2026-10-08: previous revisions. 2026-10-04: the Nav-signal row notes the { "0.31.0" } IQ layer. 2026-09-29: LEO-PNT, spectrum, solar-system / any-body PNT, campaign and output rows added. Earlier: aligned with the 2026-06-02 grand audit's 27-row capability matrix; deep-space / Mars PNT row added in { "v0.17.0" }. Quantum-PNT additions (GNSS-denied clock holdover <c19/>, composed quantum-inertial dead-reckoning budget <c20/>, ranging-code design-trade <c21/>, machine-checked verification matrix <c22/>) folded into the Timing, Quantum-PNT-sensor, Nav-signal and V&V rows — each labelled validated-or-modelled per its actual oracle.
+# c2: tip-and-cue
+# c3: mission-thread
+# c4: lunar-orbit-rendezvous
+# c5: lunar-descent
+# c6: lunar-surface
+# c7: lunar-ascent
+# c8: holdover-test
+# c9: gnss-ssv
+# c10: lunar-infrastructure
+# c11: optical-atmosphere
+# c12: acm-link
+# c13: aocs
+# c14: ascent-losses
+# c15: contact-schedule
+# c16: entry-heating
+# c17: eo-radiometry
+# c18: lunar-station-coverage
+# c19: time-transfer-budget
+# c20: src/holdover.rs
+# c21: QuantumNavBudget
+# c22: CodeFamily
+# c23: src/verification.rs
+seg-13481733fa07 = Updated 2026-11-12 for engine { $version } ({ "93" } scenario kinds, from <c1/>; new in { $version }: <c2/>). 2026-10-29: engine { "0.40.0" }, { "92" } kinds (new in { "0.40.0" }: <c3/>, <c4/>, <c5/>, <c6/> and <c7/>). 2026-10-22: engine { "0.39.0" }, { "87" } kinds, no new kind. 2026-10-19: engine { "0.38.0" }, { "87" } kinds (new in { "0.38.0" }: <c8/>, <c9/> and <c10/>). 2026-10-18: { "84" } kinds (new in { "0.37" }: <c11/>). 2026-10-16: { "83" } kinds (new in { "0.36" }: <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/> and <c19/>). 2026-10-10: engine { "0.35.0" }, { "75" } kinds, no new kind. 2026-10-09 and 2026-10-08: previous revisions. 2026-10-04: the Nav-signal row notes the { "0.31.0" } IQ layer. 2026-09-29: LEO-PNT, spectrum, solar-system / any-body PNT, campaign and output rows added. Earlier: aligned with the 2026-06-02 grand audit's 27-row capability matrix; deep-space / Mars PNT row added in { "v0.17.0" }. Quantum-PNT additions (GNSS-denied clock holdover <c20/>, composed quantum-inertial dead-reckoning budget <c21/>, ranging-code design-trade <c22/>, machine-checked verification matrix <c23/>) folded into the Timing, Quantum-PNT-sensor, Nav-signal and V&V rows — each labelled validated-or-modelled per its actual oracle.
 
 # text
 # c1: src/impairment_eval.rs

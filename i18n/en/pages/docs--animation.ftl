@@ -168,7 +168,7 @@ seg-608c4fed9e98 = Traces with a unit share a panel when their magnitudes are wi
 # text
 # c1: no time series to animate
 # c2: cargo test --test animation -- --nocapture
-seg-51cd8d5f527b = A kind whose result carries none of these shapes (a link budget, a single-epoch geometry, a statistics-only Monte Carlo summary, or the telecom holdover, whose result publishes the record's hash but not the record) is refused with <c1/>, and nothing is written. With kshana { $version }, { "94" } of the { "193" } runnable scenario files (every file except a study suite) animate and { "99" } are refused. <c2/> prints the census.
+seg-d70aa511633d = A kind whose result carries none of these shapes (a link budget, a single-epoch geometry, a statistics-only Monte Carlo summary, or the telecom holdover, whose result publishes the record's hash but not the record) is refused with <c1/>, and nothing is written. With kshana { $version }, { "94" } of the { "195" } runnable scenario files (every file except a study suite) animate and { "101" } are refused. <c2/> prints the census.
 
 # text
 # c1: leo-pass

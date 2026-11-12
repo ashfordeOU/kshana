@@ -5,7 +5,7 @@
 seg-8f101c803442 = Every capability wears <s1>its evidence.</s1>
 
 # text
-seg-0c637f4b6c88 = { "412" } capabilities, each graded. <b>{ "176" } validated</b> against independent external oracles. <b>{ "232" } honestly labelled Modelled.</b> { "4" } partner-owned. Nothing is rounded up.
+seg-840d4fd75336 = { "413" } capabilities, each graded. <b>{ "176" } validated</b> against independent external oracles. <b>{ "233" } honestly labelled Modelled.</b> { "4" } partner-owned. Nothing is rounded up.
 
 # text
 seg-4f6445e5dd61 = Verification matrix <b>v{ $version }</b>
@@ -26,7 +26,7 @@ seg-29e58493fdd4 = Modelled
 seg-ae9e2459836c = capabilities
 
 # attr:aria-label
-seg-c2c3179c1316 = Verification matrix, one cell per capability in ledger order: { "176" } validated (filled squares), { "232" } modelled (hollow squares), { "4" } partner-owned (diamonds). Arrow keys move between cells; the capability and its oracle are read out below.
+seg-820d4807c096 = Verification matrix, one cell per capability in ledger order: { "176" } validated (filled squares), { "233" } modelled (hollow squares), { "4" } partner-owned (diamonds). Arrow keys move between cells; the capability and its oracle are read out below.
 
 # text
 seg-f97cb6bf8202 = Hover or focus a cell to read its capability and the oracle that grades it.
@@ -37,7 +37,7 @@ seg-8a1cef0b9561 = Validated: an independent external oracle agrees
 # text
 # c1: web/data/verification-matrix.json
 # c2: src/verification.rs
-seg-a2cdd2df1b36 = Engine v{ $version } · <c1/>, generated from <c2/> · { "412" } rows · no scenario or seed: the engine's own ledger
+seg-b1e90bbdc599 = Engine v{ $version } · <c1/>, generated from <c2/> · { "413" } rows · no scenario or seed: the engine's own ledger
 
 # text
 seg-d5c32303297d = Read the ledger
@@ -113,9 +113,9 @@ seg-55fc928e19ae = oracle · AIAA 2006-6753 verification vectors
 seg-1d60624d525d = How it was checked
 
 # text
-# c1: 660db8d
+# c1: dd7509f
 # c2: tests/sgp4_verification.rs
-seg-b36352ff4d2a = Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
+seg-a89bb2eb8be7 = Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
 
 # text
 # c1: orbit-sgp4-gps.toml
@@ -150,9 +150,9 @@ seg-87734f6c52a2 = One square per SciPy case, grouped by kernel.
 seg-4957eddb39ed = oracle · SciPy
 
 # text
-# c1: 660db8d
+# c1: dd7509f
 # c2: tests/raim_reference.rs
-seg-edd1aba6a08c = Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
+seg-6e0ed08bf908 = Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
 
 # text
 # c1: integrity-raim.toml
@@ -178,9 +178,9 @@ seg-2b1ea60e99a7 = Position difference against time, per force tier.
 seg-75344d6c427a = oracle · Orekit { "12.2" }
 
 # text
-# c1: 660db8d
+# c1: dd7509f
 # c2: tests/numerical_cowell_propagator_reference.rs
-seg-90efc3759f07 = Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
+seg-daa33cc5bfd7 = Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
 
 # text
 seg-44988f3835ce = No Kshana Studio view: this comparison runs as an engine test.
@@ -208,8 +208,8 @@ seg-6670ead3fa91 = oracle · ESA precise ephemerides, the lunar orbiter's recons
 
 # text
 # c1: docs/AGENCY-ORBIT-VALIDATION.md
-# c2: 660db8d
-seg-094876c75564 = Engine v{ $version } · <c1/> residual tables, with the two propagator checks recomputed at build <c2/> · deterministic, no seed
+# c2: dd7509f
+seg-05e9999747b5 = Engine v{ $version } · <c1/> residual tables, with the two propagator checks recomputed at build <c2/> · deterministic, no seed
 
 # text
 seg-57c9f4e60efa = No Kshana Studio view: precise orbit determination runs as engine tests.
@@ -234,9 +234,9 @@ seg-5d3372dbff1f = Four deviations against averaging time, with the published va
 seg-9993e306ae64 = oracle · NIST SP { "1065" }
 
 # text
-# c1: 660db8d
+# c1: dd7509f
 # c2: tests/allan_nist_sp1065_1000point.rs
-seg-1c7e4b85e701 = Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
+seg-5cc1cf590d48 = Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
 
 # text
 # c1: clock-holdover.toml
@@ -266,9 +266,9 @@ seg-46c1dbe5c6bc = Measured and predicted time error against coast time, and the
 seg-449f52c56c67 = oracle · measured caesium record
 
 # text
-# c1: 660db8d
+# c1: dd7509f
 # c2: tests/slot_timing_cs5071a_holdout.rs
-seg-f42398e9711c = Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
+seg-b7fe80b6b360 = Engine v{ $version }, build <c1/> · <c2/> · deterministic, no seed
 
 # text
 # c1: slot-timing-ocxo-leo.toml
@@ -284,13 +284,13 @@ seg-b19592bc5242 = Validated means an independent external source agrees: publis
 seg-800e31fc8f7d = Capabilities graded
 
 # text
-seg-07e8ef5a102f = { "176" }<s1>of { "412" } validated</s1>
+seg-0247ca367b18 = { "176" }<s1>of { "413" } validated</s1>
 
 # text
 seg-e61158f71854 = Hover a cell
 
 # attr:aria-label
-seg-4873cd813b9a = Verification matrix: { "176" } validated, { "232" } modelled, { "4" } partner-owned, { "412" } in total
+seg-567a64b5c284 = Verification matrix: { "176" } validated, { "233" } modelled, { "4" } partner-owned, { "413" } in total
 
 # attr:title
 seg-d814d33d2b1e = allan::lag1_noise_id: the Riley and Greenhall ({ "2004" }) lag-1 autocorrelation noise… · Validated
@@ -1505,6 +1505,9 @@ seg-de36f6204409 = area_trust (kshana area-trust, Python and WebAssembly): each 
 seg-a533905bd2ad = locate_pd: each station's C/N0 drop (and AGC rise, where its dB-per-unit scale is… · Modelled
 
 # attr:title
+seg-496995f4aed9 = locate_tdoa: from { "10" } ms snapshots at { "4" } Msps time-tagged by each station's clock, the… · Modelled
+
+# attr:title
 seg-ce0e25e89af9 = bench::texbat (kshana bench texbat-windows and texbat-pd): streams one TEXBAT recording… · Modelled
 
 # attr:title
@@ -1568,7 +1571,7 @@ seg-5af3d58e83fa = <b>With Pro:</b> a <b>mission dossier</b> checks every requir
 seg-400016e22379 = Validation ledger
 
 # text
-seg-98b273ce8773 = All { "412" } rows, one line each.
+seg-fba8c874316d = All { "413" } rows, one line each.
 
 # text
 seg-20ec758fe328 = Every row names its requirement, its status and the module that implements it. Open a row for its oracle and tests, or pick a domain to narrow it.
@@ -1589,7 +1592,7 @@ seg-0272bc18f675 = of { "19" } validated
 seg-abd931555717 = Clocks and timing
 
 # text
-seg-43f852e4bee8 = of { "74" } validated
+seg-ad3293c5a670 = of { "75" } validated
 
 # text
 seg-501d3a72ea43 = Integrity
@@ -1625,13 +1628,13 @@ seg-2de2a4f9f3f7 = of { "57" } validated
 seg-85db75e49de8 = Filter by status
 
 # text
-seg-c321a2dafd3e = All { "412" }
+seg-d48563d002a3 = All { "413" }
 
 # text
 seg-7038fab8b00c = Validated { "176" }
 
 # text
-seg-bc4726a0baf1 = Modelled { "232" }
+seg-b6aa9142b5d3 = Modelled { "233" }
 
 # text
 seg-ba89c1119b21 = Partner-owned { "4" }
@@ -1643,7 +1646,7 @@ seg-cd12d85e2beb = Search the ledger
 seg-f014d784ebe3 = Search requirement, oracle, module or test
 
 # attr:aria-label
-seg-40e80b22723c = Validation ledger, { "412" } rows, scrollable
+seg-a5beb09eca0e = Validation ledger, { "413" } rows, scrollable
 
 # text
 seg-1603e76bcf66 = Power-law noise identification by lag-1 autocorrelation
@@ -3678,7 +3681,7 @@ seg-3a3cfa322f01 = Calibration of the open receiver's C/N0 and lock models to IQ
 seg-9affed6218d6 = iq::labfit (campaign, cn0, iqfit, iqreport) and <c1/> on <c2/>, Python <c3/> and the MCP labfit tool (campaign folders inside its work directory only): reads a <c4/> output folder by its DIGEST and groups the scored cells into fit units (signal x loop design x front-end chain x jammer type, never pooled). Per unit, it fits measured C/N0 against stated J/S with the spectral-separation form. Q_eff is not identifiable from C/N0 data without an independent measurement of the jammer and signal powers, so Q is stated, never fitted (the type table, the event's q, or for an unknown type the most damaging stated value, cw Q = { "1" }). The fitted parameter is the identifiable offset delta_eff = delta - { "10" } log10 Q, with the correlation guard reporting the degeneracy. C/N0 bins locked under { "90" } % are censored and listed. The threshold J/S is given directly and by the closed form; the tracking-loop and empirical lock models are coupled through the C/N0 model, with drop and re-lock dwells. A seeded cluster bootstrap over recordings ({ "1000" } replicates) gives percentile intervals; { "90" } % prediction intervals come from residual draws; leave-one-recording-out hold-outs are split into interpolation and extrapolation; a pre-registered [validation] table is hashed and each bar judged PASS/FAIL. Report kshana.labfit-iq/1 as JSON, CSV and generated Markdown, with a units block. Synthetic only (no third-party recording, no jammer waveform). The receiver-log labfit path is unchanged
 
 # text
-seg-3249a3d66423 = Synthetic parameter recovery on Kshana's own GPS L1 C/A scenes with a known C/N0 profile imposed from the section { "3.1" } formula, tracked and scored by kshana iq campaign, against bars pre-registered in docs/design/LABFIT-FROM-IQ.md (section { "5.1" }, amended 2026-10-12 in 4ca3ef3, section { "13" }). The campaigns' C/N0 estimator (M2M4) was fixed in fa388b82, pushed before the first bar evaluation (committed together with the fit code, not alone), after one disclosed diagnostic tracking run. FINDING on the 18-event bar campaign: (c) PASS; (a') NOT MET, delta_eff error -1.097 dB against { "0.5" } dB (still -0.89 dB on bins at { "38" } dB-Hz and above); (b') NOT MET, { "0" } of { "50" } campaigns cover the truth (error -1.189 +/- { "0.093" } dB, interval about { "0.3" } dB); (d) NOT MET, closed form { "2.20" } dB below the direct J/S at loss, about the fitted drop dwell times the ramp rate ({ "2.09" } dB); the original Q clauses of (a) and (b) are NOT MET because Q is not identifiable. FOLLOW-UP (bars pre-registered in 99e7c599, docs/design/evidence/labfit-followup/RESULTS.md): on a stepped-J/S campaign delta_eff is recovered within +{ "0.185" } dB (S1 MET: the ramp error is estimator lag); (d) as written on it is met by the tracking-loop model ({ "0.45" } dB) but not the empirical one ({ "6.42" } dB), so S2 is NOT MET; on a fresh ramp campaign (d) with the fitted drop dwell times each event's ramp rate added is within { "1" } dB for both models (R1 MET), and (a') and (d) as written miss again (-1.25 dB; { "2.32" } and { "9.47" } dB). RE-RUN { "0.41" } (D8a row { "6" }, 61b389998, docs/design/evidence/d8a-iq-tracking-cn0-rerun/): with the fit modelling each bin { "0.5" } s earlier along the profile ([campaign_fit] cn0_lag_s), still NOT MET: (a') +{ "0.5015" } dB seen (bar { "0.5" }) and +{ "0.399" } dB fresh; (b') { "0" } of { "50" } on seen and fresh seeds, now +{ "0.45" } to +{ "0.47" } dB with every interval above the truth (the { "0.5" } s lag overshoots); (c) met on seen seeds, missed on fresh (time-to-loss coverage { "1.000" } against a bar of at most { "0.98" }); (d) { "2.19" } dB seen, { "0.32" } dB fresh. The controls (lag { "0" }) reproduced before scoring (disclosed). A different lag would need a new pre-registration. The method is checked, not any receiver: it cannot be VALIDATED from synthetic data
+seg-e8dacb9a78d8 = Synthetic parameter recovery on Kshana's own GPS L1 C/A scenes with a known C/N0 profile imposed from the section { "3.1" } formula, tracked and scored by kshana iq campaign, against bars pre-registered in docs/design/LABFIT-FROM-IQ.md (section { "5.1" }, amended 2026-10-12 in 4ca3ef3, section { "13" }). The campaigns' C/N0 estimator (M2M4) was fixed in fa388b82, pushed before the first bar evaluation (committed together with the fit code, not alone), after one disclosed diagnostic tracking run. FINDING on the 18-event bar campaign: (c) PASS; (a') NOT MET, delta_eff error -1.097 dB against { "0.5" } dB (still -0.89 dB on bins at { "38" } dB-Hz and above); (b') NOT MET, { "0" } of { "50" } campaigns cover the truth (error -1.189 +/- { "0.093" } dB, interval about { "0.3" } dB); (d) NOT MET, closed form { "2.20" } dB below the direct J/S at loss, about the fitted drop dwell times the ramp rate ({ "2.09" } dB); the original Q clauses of (a) and (b) are NOT MET because Q is not identifiable. FOLLOW-UP (bars pre-registered in 99e7c599, docs/design/evidence/labfit-followup/RESULTS.md): on a stepped-J/S campaign delta_eff is recovered within +{ "0.185" } dB (S1 MET: the ramp error is estimator lag); (d) as written on it is met by the tracking-loop model ({ "0.45" } dB) but not the empirical one ({ "6.42" } dB), so S2 is NOT MET; on a fresh ramp campaign (d) with the fitted drop dwell times each event's ramp rate added is within { "1" } dB for both models (R1 MET), and (a') and (d) as written miss again (-1.25 dB; { "2.32" } and { "9.47" } dB). RE-RUN { "0.41" } (D8a row { "6" }, 61b389998, docs/design/evidence/d8a-iq-tracking-cn0-rerun/): with the fit modelling each bin { "0.5" } s earlier along the profile ([campaign_fit] cn0_lag_s), still NOT MET: (a') +{ "0.5015" } dB seen (bar { "0.5" }) and +{ "0.399" } dB fresh; (b') { "0" } of { "50" } on seen and fresh seeds, now +{ "0.45" } to +{ "0.47" } dB with every interval above the truth (the { "0.5" } s lag overshoots); (c) met on seen seeds, missed on fresh (time-to-loss coverage { "1.000" } against a bar of at most { "0.98" }); (d) { "2.19" } dB seen, { "0.32" } dB fresh. The controls (lag { "0" }) reproduced before scoring (disclosed). A different lag would need a new pre-registration. RE-RUN v2 (PREREGISTRATION-v2.md, scored once, 7892f3a24; determinism re-check of batch { "17" } on a second machine byte-identical before scoring): the fit models the estimator's own response, with no free parameter; still NOT MET: (a') met on all three sets (+{ "0.165" }, +{ "0.098" }, +{ "0.099" } dB); (b') { "36" }, { "32" } and { "27" } of { "50" } against a bar of { "45" } (errors +{ "0.083" } to +{ "0.099" } dB against intervals about { "0.23" } dB wide); (c) time-to-loss coverage { "1.000" } on the v1-fresh set (bar at most { "0.98" }), met on the other two; (d) { "2.195" } dB on the v1-registered set (bar { "1" } dB), { "0.324" } and { "0.193" } dB on the fresh sets. The method is checked, not any receiver: it cannot be VALIDATED from synthetic data
 
 # text
 seg-9537d301c95e = GPS LNAV encoding decoded by an independent receiver library
@@ -6134,7 +6137,7 @@ seg-1bfa4579f3ad = Dark-vessel and AIS-integrity decisions from RF fixes against
 seg-007a8110b560 = m4_logic::decide: from an AIS stream and an RF fix stream (no identities on fixes), one class per identity, NORMAL, DARK (fixes with no matching AIS), GAP, POSITION-OFFSET (AIS position inconsistent with the RF fixes) or IDENTITY-DUPLICATE, and a dark or associated flag per fix; v1 decides by single-fix gates and a vote, v2 (opt-in parameters) by fix sequences for dark tracks and a time-consistent test for offset onsets. m4_dark_vessel generates the synthetic Baltic scenes. Every output describes data consistency, never intent
 
 # text
-seg-454f99363156 = Synthetic scenes from the engine's own generator (about { "2 000" } vessels per seed in the Baltic), against bars pre-registered in docs/design/evidence/m4-dark-vessel-ais-integrity/. v1 (seeds 1000-1009, { "20 000" } vessels, ea8557adb): NOT MET on B2, dark recall { "0.848" } (bar { "0.95" }; precision { "0.999" } meets its { "0.80" } part), and B4, offset recall { "0.807" } at { "5" } km (bar { "0.85" }) and { "0.846" }, { "0.825" } and { "0.871" } at { "10" }, { "20" } and { "50" } km (bar { "0.98" } each); MET on B1 (false alarms { "0.0050" }, bar { "0.01" }), B3 gaps ({ "600" } of { "600" }), B5 identity duplicates ({ "600" } of { "600" }), B6 determinism on Linux and B7 additivity. v2 (seeds 2000-2009, 165db008b): NOT MET on B2, dark recall { "0.877" } (bar { "0.95" }; precision { "0.897" }), and B4, offset recall { "0.396" } at { "5" } km (bar { "0.85" }) and { "0.689" }, { "0.650" } and { "0.646" } at { "10" }, { "20" } and { "50" } km (bar { "0.98" } each), lower than v1; MET on B1 ({ "0.00006" }), B3 and B5 ({ "1.000" }), B6 on Linux and B7; { "141" } offset vessels are decided DARK under v2. A v3 is proposed, not signed. WHAT IS NOT CHECKED: real vessels, real RF fixes or real AIS reception; a flag says nothing about intent (gaps and offsets have ordinary causes)
+seg-c366e1a381f1 = Synthetic scenes from the engine's own generator (about { "2 000" } vessels per seed in the Baltic), against bars pre-registered in docs/design/evidence/m4-dark-vessel-ais-integrity/. v1 (seeds 1000-1009, { "20 000" } vessels, ea8557adb): NOT MET on B2, dark recall { "0.848" } (bar { "0.95" }; precision { "0.999" } meets its { "0.80" } part), and B4, offset recall { "0.807" } at { "5" } km (bar { "0.85" }) and { "0.846" }, { "0.825" } and { "0.871" } at { "10" }, { "20" } and { "50" } km (bar { "0.98" } each); MET on B1 (false alarms { "0.0050" }, bar { "0.01" }), B3 gaps ({ "600" } of { "600" }), B5 identity duplicates ({ "600" } of { "600" }), B6 determinism on Linux and B7 additivity. v2 (seeds 2000-2009, 165db008b): NOT MET on B2, dark recall { "0.877" } (bar { "0.95" }; precision { "0.897" }), and B4, offset recall { "0.396" } at { "5" } km (bar { "0.85" }) and { "0.689" }, { "0.650" } and { "0.646" } at { "10" }, { "20" } and { "50" } km (bar { "0.98" } each), lower than v1; MET on B1 ({ "0.00006" }), B3 and B5 ({ "1.000" }), B6 on Linux and B7; { "141" } offset vessels are decided DARK under v2. v3 (a turn model for dark tracks, a global assignment and collision-tolerant offset onsets, M4Params::v3; signed { "10" } November { "2026" }; seeds 3000-3009, db06dc2ce): MET on B1 (false alarms { "0.00075" }), B2 (dark recall { "0.994" }, { "1 392" } of { "1 400" }; precision { "0.867" }), B3 and B5 ({ "1.000" }), B6 on Linux and B7; NOT MET on B4, offset recall { "0.489" } at { "5" } km (bar { "0.85" }) and { "0.646" }, { "0.675" } and { "0.661" } at { "10" }, { "20" } and { "50" } km (bar { "0.98" } each); { "206" } offset vessels are decided DARK and { "501" } NORMAL. M4 stays NOT MET (B4). WHAT IS NOT CHECKED: real vessels, real RF fixes or real AIS reception; a flag says nothing about intent (gaps and offsets have ordinary causes)
 
 # text
 seg-38ee25cb6d6b = <s1>tests/m4_generator.rs (seed { "0" } byte-identical twice and equal to its pin); tests/m4_verdicts.rs (the recorded v1 and v2 verdicts, misses included; seeds { "1000" } and { "2000" } decided twice give the same decision and the…</s1>
@@ -6158,16 +6161,19 @@ seg-557733263a28 = Monitoring-network planner: detection and TDOA location-accur
 seg-67e72815e20e = planner (kshana planner map|place): for an interference source of a stated power at every cell of a site grid, each station's detection probability, the network's, the probability that enough stations detect to locate it, and the TDOA DRMS and { "95" } % ellipse the detecting stations bound (free space); planner::place chooses m stations from candidates, exhaustively up to { "10 000" } subsets, otherwise greedy followed by a single-exchange search (v1's greedy alone kept by name); v2 flags ill-conditioned cells
 
 # text
-seg-5179ff370c3f = An independent numpy and standard-library oracle (xval/planner/oracle.py), committed with its outputs before any planner code, under bars pre-registered in docs/design/evidence/b1a-planner/. v1: NOT MET on P1 (detection within { "1.9e-13" }; { "4" } of the line layout's { "619" } locatable cells, collinear with every station, miss the { "1e-9" } relative DRMS bar by { "1.3e-9" } to { "2.6e-9" }), P2 ({ "52" } of { "54" } barred cells within { "5" } %; the square's cell { "1293" } at { "1.097" } and the circle's at { "0.717" }) and P4's greedy part ({ "0.2754" } against the best of { "1 000" } random subsets, { "0.2790" }; the exhaustive part chose the oracle's optimum, objective { "0.1689" }); P3, P5 (the same bytes on the Linux CLI, Python, WebAssembly and on Linux, macOS and Windows) and P6 MET. v2 (new layouts, 98ff742b4): P1 MET ({ "1 662" } locatable cells within { "1e-9" } relative, none with a condition number above { "1e8" }), P2 MET ({ "46" } of { "60" } drawn cells in the regime, all within { "5" } %), P3 and P6 MET, P5 MET on Linux (the cross-platform half is met when the reproducibility matrix runs the test on macOS and Windows); P4 NOT MET: on { "40" } candidates with m = { "7" }, greedy and exchange give { "0.350982" } against the best of { "1 000" } random subsets, { "0.353361" } (greedy alone { "0.324212" }, no bar). B1b stays blocked. WHAT IS NOT CHECKED: any real site; the maps are free-space predictions and the DRMS is a lower bound
+seg-389ae61b5e5c = An independent numpy and standard-library oracle (xval/planner/oracle.py), committed with its outputs before any planner code, under bars pre-registered in docs/design/evidence/b1a-planner/. v1: NOT MET on P1 (detection within { "1.9e-13" }; { "4" } of the line layout's { "619" } locatable cells, collinear with every station, miss the { "1e-9" } relative DRMS bar by { "1.3e-9" } to { "2.6e-9" }), P2 ({ "52" } of { "54" } barred cells within { "5" } %; the square's cell { "1293" } at { "1.097" } and the circle's at { "0.717" }) and P4's greedy part ({ "0.2754" } against the best of { "1 000" } random subsets, { "0.2790" }; the exhaustive part chose the oracle's optimum, objective { "0.1689" }); P3, P5 (the same bytes on the Linux CLI, Python, WebAssembly and on Linux, macOS and Windows) and P6 MET. v2 (new layouts, 98ff742b4): P1 MET ({ "1 662" } locatable cells within { "1e-9" } relative, none with a condition number above { "1e8" }), P2 MET ({ "46" } of { "60" } drawn cells in the regime, all within { "5" } %), P3 and P6 MET, P5 MET on Linux (the cross-platform half is met when the reproducibility matrix runs the test on macOS and Windows); P4 NOT MET: on { "40" } candidates with m = { "7" }, greedy and exchange give { "0.350982" } against the best of { "1 000" } random subsets, { "0.353361" } (greedy alone { "0.324212" }, no bar). v3 (greedy, double exchange and { "8" } restarts, kept by name; signed { "10" } November { "2026" }; a new 48-candidate instance with m = { "8" }, 060ee2a07): P4 MET, objective { "0.440809" } (median DRMS { "19.23" } m) against the best of { "1 000" } random subsets, { "0.410470" }; P1 to P3 and P6 MET, re-run unchanged; P5 MET on Linux (the macOS and Windows half is pending, as for v2; the v3 placement's consistency check did not complete when the container restarted, and the printed values are pinned). B1a part { "1" } is MET on Linux; B1b starts when P5's cross-platform half is green. WHAT IS NOT CHECKED: any real site; the maps are free-space predictions and the DRMS is a lower bound
+
+# text
+seg-53b364b55716 = <s1>tests/planner.rs (v1 P1 to P5, misses included); tests/planner_v2.rs (v2 P1 to P5; the pentagon map's SHA-256 pinned); tests/planner_v3.rs (the v3 P4 values pinned, ignored by default, about { "1.5" } h)</s1>
 
 # text
 seg-c27d2cde0f22 = Area trust state from several reference stations
 
 # text
-seg-8e3a7f5e32d4 = area_trust (kshana area-trust, Python and WebAssembly): each station's epochs on a { "1" } s grid (Stale after { "5" } s with no epoch) combine into one area state with k = max({ "2" }, ceil(N/3)): UNKNOWN with fewer than { "2" } live stations, UNTRUSTED with at least k untrusted, DEGRADED with at least k degraded or worse or any untrusted (v2, selected by the stations document's area_rule field: at least m untrusted, m = { "2" } for up to { "6" } stations and { "1" } above), else TRUSTED; a worse state is published at once, a better one after { "10" } s. area_trust::synth builds seeded replays with injected events
+seg-2f4f675d9c42 = area_trust (kshana area-trust, Python and WebAssembly): each station's epochs on a { "1" } s grid (Stale after { "5" } s with no epoch) combine into one area state with k = max({ "2" }, ceil(N/3)): UNKNOWN with fewer than { "2" } live stations, UNTRUSTED with at least k untrusted, DEGRADED with at least k degraded or worse or any untrusted (v2, selected by the stations document's area_rule field: at least m untrusted, m = { "2" } for up to { "6" } stations and { "1" } above), else TRUSTED; a worse state is published at once, a better one after { "10" } s. v3 (a kshana.area-measurements/1 document with per-satellite inputs, area_trust::v3): per epoch, when at least k stations exceed H_s, the one satellite whose removal brings every alarmed station under its H_s is flagged SATELLITE_FAULT and every station's fix is recomputed without it; loss of lock alone no longer degrades a station; the aggregation is v2's. area_trust::synth and area_trust::v3::fault_replay build seeded replays with injected events
 
 # text
-seg-f5368b95d767 = Bars pre-registered in docs/design/evidence/b5-area-trust/. T1 against an independent Python standard-library recomputation of the rule (xval/area-trust/oracle.py and oracle_v2.py); T4 on real IGS observation files (SHA-256 values in xval/area-trust/MANIFEST.tsv and MANIFEST_v2.tsv). v1: T1 MET ({ "43 117" } grid seconds of seven seeded replays, { "4" } to { "50" } stations, { "520" } events; the oracle's bytes); T2 MET (all { "267" } events with at least k stations in alarm raised the expected alert; none of the { "253" } with fewer raised UNTRUSTED); T3 MET ({ "220" } injected events at { "100" } stations, { "1" } Hz, over MQTT: webhook and MQTT p95 { "1.004" } s, maximum { "1.015" } s; bars { "5" } s and { "10" } s); T5 MET for the files and surfaces built; T4 NOT MET: { "23" } alerts to DEGRADED over { "13" } area-days ({ "1.77" } per area-day; bar { "1" }), none to UNTRUSTED (bar { "0.1" }), Madrid (MADR, CEBR, YEBE, VILL), 2025-01-07 to 01-19. v2 (a two-station floor for areas of up to { "6" } stations, a068a3eb9): T1 MET ({ "43 165" } grid seconds, the v2 oracle's bytes), T2 MET, T3 MET (p95 { "1.004" } s, maximum { "1.013" } s), T5 MET; T4 NOT MET: { "16" } alerts to DEGRADED or worse over { "13" } area-days ({ "1.23" } per area-day; bar { "1" }), { "9" } of them to UNTRUSTED ({ "0.69" } per area-day; bar { "0.1" }), Goddard (GODS, GODE, GODN, USN7), 2025-07-25 to 08-06; no alert came from one station alone, and the cause of the same-epoch alarms at several stations is not established. WHAT IS NOT CHECKED: AGC, the jamming indicator, the clock monitor and OSNMA on the real-data days (not in the files); any real interference event
+seg-04be710743a6 = Bars pre-registered in docs/design/evidence/b5-area-trust/. T1 against an independent Python standard-library recomputation of the rule (xval/area-trust/oracle.py and oracle_v2.py); T4 on real IGS observation files (SHA-256 values in xval/area-trust/MANIFEST.tsv and MANIFEST_v2.tsv). v1: T1 MET ({ "43 117" } grid seconds of seven seeded replays, { "4" } to { "50" } stations, { "520" } events; the oracle's bytes); T2 MET (all { "267" } events with at least k stations in alarm raised the expected alert; none of the { "253" } with fewer raised UNTRUSTED); T3 MET ({ "220" } injected events at { "100" } stations, { "1" } Hz, over MQTT: webhook and MQTT p95 { "1.004" } s, maximum { "1.015" } s; bars { "5" } s and { "10" } s); T5 MET for the files and surfaces built; T4 NOT MET: { "23" } alerts to DEGRADED over { "13" } area-days ({ "1.77" } per area-day; bar { "1" }), none to UNTRUSTED (bar { "0.1" }), Madrid (MADR, CEBR, YEBE, VILL), 2025-01-07 to 01-19. v2 (a two-station floor for areas of up to { "6" } stations, a068a3eb9): T1 MET ({ "43 165" } grid seconds, the v2 oracle's bytes), T2 MET, T3 MET (p95 { "1.004" } s, maximum { "1.013" } s), T5 MET; T4 NOT MET: { "16" } alerts to DEGRADED or worse over { "13" } area-days ({ "1.23" } per area-day; bar { "1" }), { "9" } of them to UNTRUSTED ({ "0.69" } per area-day; bar { "0.1" }), Goddard (GODS, GODE, GODN, USN7), 2025-07-25 to 08-06; no alert came from one station alone. v3 (a common-mode satellite-fault screen across the area's fixes, loss of lock alone no longer degrading, signed { "10" } November { "2026" }; the diagnosis found unhealthy broadcast records in use and a stale-record satellite fault, and the engine now skips unhealthy GPS records): T1 MET ({ "520" } epochs and { "520" } grid seconds of four satellite-fault replays equal oracle_v3.py's bytes; errors within { "1e-6" } m), T2 NOT MET ({ "123" } of { "127" } injected common faults flagged and cleared, { "4" } not where the remaining geometry is weak; { "2" } of { "67" } two-satellite epochs explained by one), T3 MET ({ "220" } events at { "100" } stations over MQTT, webhook and MQTT p95 { "1.003" } s and { "1.004" } s, maximum { "1.006" } s; the screen is not in its path), T4 MET ({ "1" } alert to DEGRADED or worse and { "1" } to UNTRUSTED over { "26" } area-days, { "0.038" } each; Goddard and Wettzell, { "18" } to { "30" } May { "2026" }, the pre-registration's { "2025" } window having no quiet fortnight, disclosed before any fetch), T5 MET (command line, Python and WebAssembly); B5 v3 NOT MET (T2). WHAT IS NOT CHECKED: AGC, the jamming indicator, the clock monitor and OSNMA on the real-data days (not in the files); Galileo and BeiDou health; any real interference event
 
 # text
 seg-fda462bda5b3 = <s1>tests/area_trust.rs (the v1 and v2 timelines equal the oracles' bytes every second; T2 alerts; boundary rules; the live rule equals the timeline; the T4 misses and T3 v2 recorded); tests/area_trust_igs.rs (T4 and T3 on…</s1>
@@ -6185,13 +6191,25 @@ seg-d4e97e468eab = Synthetic networks drawn from a model that differs from the l
 seg-d75ec049a157 = <s1>tests/locator_power_difference_synthetic.rs (the v1 gate rows reproduce; the recorded v1 verdict); tests/locator_power_difference_v2.rs ({ "12" } v2 gate seeds reproduce bit for bit, debug against release; the recorded v2…</s1>
 
 # text
+seg-e2d0d0e477bb = Interference-source location by time difference of arrival across fixed monitoring stations
+
+# text
+seg-09cac8b22640 = locate_tdoa: from { "10" } ms snapshots at { "4" } Msps time-tagged by each station's clock, the station with the largest measured jammer-to-noise ratio is the reference; each other station's delay is the cross-correlation peak refined by a parabola, with a sigma from the Knapp-Carter bound for the measured SNRs and the reference's mean-square bandwidth plus both clocks (the pairs share the reference clock's covariance); the source is located on a spherical Earth at a known height by a grid search over the stations' hull buffered by { "10" } km and Gauss-Newton, with a { "95" } % ellipse and a chi-square test of the residuals at { "0.999" } that gives not located. locate_tdoa::session draws the synthetic sessions (CW, chirp and wideband noise jammers, two-ray ground reflection with { "6" } dB shadowing, { "20" } ns station clocks)
+
+# text
+seg-52b6b8714e12 = Synthetic sessions under bars pre-registered in docs/design/evidence/b3b-tdoa-locator/ (B3a's bars), with an independent numpy recomputation of the locator (xval/tdoa-locator/oracle.py). Gate (seeds 6001-7000, { "1 000" } sessions, eed00fd84): NOT MET on T1 (coverage { "0.044" }; bar { "0.90" }), T2 (median area share { "1.000" }; bar { "0.25" }) and T3 ({ "3.35" } x the median nearest-neighbour spacing; bar { "0.5" }); { "872" } sessions not located (CW { "334" } of { "334" }, chirp { "324" } of { "333" }, noise { "214" } of { "333" }). The parabolic refinement misplaces a one-sample-wide correlation peak by up to { "125" } ns against a stated sigma of about { "28" } ns, so the chi-square test rejects most fits; the sawtooth chirp's correlation repeats inside the lag window; a CW has no bandwidth. The numpy recomputation agrees on { "19" } of seeds 6001-6020 within the registered tolerances; on seed { "6002" } Gauss-Newton diverges in both and the scored outputs agree. By the pre-registration no real run is made with this method. WHAT IS NOT CHECKED: any real jammer, station or clock
+
+# text
+seg-33d5d257c6a0 = <s1>tests/locator_tdoa.rs (the recorded gate verdict, the misses included; seeds 6001-6020 against the numpy oracle; the whole gate reproduces its recorded bytes, ignored by default and run on Linux, macOS and Windows by…</s1>
+
+# text
 seg-a4ce0e8bdfa2 = TEXBAT spoofing-detection benchmark: per-window baseline IQ scores and power-and-distortion scores
 
 # text
 seg-bebe02e9ede8 = bench::texbat (kshana bench texbat-windows and texbat-pd): streams one TEXBAT recording (complex int16, { "25" } Msps), refuses a file whose SHA-256 or size differs from the pinned manifest and then writes nothing, acquires PRNs { "1" } to { "32" } once and tracks them through the recording, and writes per { "1" } s window the early-minus-late imbalance S, the prompt-power fluctuation P and the window score against synthetic thresholds (the 99th percentiles over the { "61" } of { "64" } synthetic windows that acquire); texbat-pd adds the in-band power rise over the recording's own windows { "0" } to { "59" } (tau { "1.0" } dB). Writes scores only, never IQ samples
 
 # text
-seg-aa850d3b220c = TEXBAT (Humphreys et al., ION GNSS { "2012" }): two clean and eight spoofing recordings, spoofing windows counted from { "110" } s, under bars pre-registered in docs/design/evidence/b4a-benchmark-classes/PREREGISTRATION-E5-v2.md (E5 v2: window AUC of spoofing at least { "0.70" } over all ten recordings) and PREREGISTRATION-E5-PD.md (E5-PD: the same bar on windows { "60" } and later). NOT YET SCORED: the score files of { "3" } of the { "10" } recordings (cleanStatic.bin, ds1.bin, ds2.bin; { "480" }, { "461" } and { "457" } windows) are committed unscored in xval/bench-e/texbat-v2/, and E5 is computed once when all ten are in. The { "0.41" } E5 bar stays NOT MET (not scored: no TEXBAT file had been fetched). The thresholds come from synthetic data only. WHAT IS NOT CHECKED: any detection result; real receivers in the field; attacks outside TEXBAT
+seg-401926b39fed = TEXBAT (Humphreys et al., ION GNSS { "2012" }): two clean and eight spoofing recordings, spoofing windows counted from { "110" } s, under bars pre-registered in docs/design/evidence/b4a-benchmark-classes/PREREGISTRATION-E5-v2.md (E5 v2: window AUC of spoofing at least { "0.70" } over all ten recordings) and PREREGISTRATION-E5-PD.md (E5-PD: the same bar on windows { "60" } and later). Scored once on { "11" } November { "2026" } (kshana bench texbat-score over the ten committed score files, xval/bench-e/texbat-v2/E5-SCORE.json, 571cb9d19); every scoring rule, the thresholds, the onset and the window rules were committed before the first TEXBAT score file ({ "9" } November). E5 v2 NOT MET: AUC { "0.6941" } ({ "2 729" } spoofing and { "922" } nominal windows; bar { "0.70" }). E5-PD MET: AUC { "0.7410" } (bar { "0.70" }). Reported without a bar: recording-level AUC { "0.8125" } (E5 v2); per spoofing recording, E5-PD: ds1 { "0.466" }, ds2 { "1.000" }, ds3 { "0.418" }, ds4 { "0.821" }, ds5 { "1.000" }, ds6 { "0.584" }, ds7 { "0.897" }, ds8 { "0.750" } (three of the eight below { "0.6" }). An independent Python standard-library recomputation (xval/bench-e/texbat-v2/oracle_e5.py, exact pairwise AUC) agrees to { "1e-12" }. The thresholds come from synthetic data only; the recordings are not redistributed (hashes and score files only). The detector stays MODELLED. WHAT IS NOT CHECKED: real receivers in the field; attacks outside TEXBAT
 
 # text
 seg-f3f0c238c1cc = <s1>tests/texbat_e5v2.rs (the score rules and classes; a file that does not match its pin writes nothing; a power-and-distortion run refuses a windows file of another recording; the synthetic thresholds, ignored by…</s1>
