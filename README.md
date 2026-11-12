@@ -20,7 +20,7 @@
 <p align="center">
   <a href="https://github.com/ashfordeOU/kshana/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/ashfordeOU/kshana/ci.yml?branch=main&event=push&label=CI&style=flat-square&labelColor=0A1226" height="18" alt="Continuous integration status on main"></a>
   <a href="docs/COVERAGE.md"><img src="https://img.shields.io/badge/coverage-~95%25-377D0C?style=flat-square&labelColor=0A1226" height="18" alt="Line coverage near 95 % of src/, measured in docs/COVERAGE.md and gated at 85 % in continuous integration"></a>
-  <a href="#evidence"><img src="https://img.shields.io/badge/validated-176%2F412-377D0C?style=flat-square&labelColor=0A1226" height="18" alt="176 of 412 capabilities VALIDATED against an independent external oracle, from the verification matrix"></a>
+  <a href="#evidence"><img src="https://img.shields.io/badge/validated-176%2F413-377D0C?style=flat-square&labelColor=0A1226" height="18" alt="176 of 413 capabilities VALIDATED against an independent external oracle, from the verification matrix"></a>
   <a href="https://sonarcloud.io/summary/overall?id=ashfordeOU_kshana"><img src="https://img.shields.io/sonar/quality_gate/ashfordeOU_kshana?server=https%3A%2F%2Fsonarcloud.io&label=quality&style=flat-square&labelColor=0A1226" height="18" alt="SonarQube Cloud quality gate status"></a>
   <a href="https://github.com/ashfordeOU/kshana/releases"><img src="https://img.shields.io/badge/release-v0.41.0-066A86?style=flat-square&labelColor=0A1226" height="18" alt="Release v0.41.0"></a>
   <a href="docs/i18n.md"><img src="https://img.shields.io/badge/languages-English%20%2B%2017-3F4B67?style=flat-square&labelColor=0A1226" height="18" alt="English and 17 more languages, machine translated"></a>
@@ -79,7 +79,7 @@
 <summary><strong>Contents</strong></summary>
 
 - [Rehearse the minute GNSS goes dark](#rehearse-the-minute-gnss-goes-dark)
-- [What's new in 0.40](#whats-new-in-040), [What's new in 0.39](#whats-new-in-039), [What's new in 0.38](#whats-new-in-038), and [0.38 in depth](#038-in-depth): jammertest scoring, the receiver's own flags, machine inputs, timing and holdover, standards packs, LunaNet AFS, the lab round trip, kshana-bench, the observatory, exporters, optical, [space-user navigation](#space-user-navigation-gnss-ssv) and [lunar infrastructure](#lunar-infrastructure-lunar-infrastructure)
+- [What's new in 0.41](#whats-new-in-041), [What's new in 0.40](#whats-new-in-040), [What's new in 0.39](#whats-new-in-039), [What's new in 0.38](#whats-new-in-038), and [0.38 in depth](#038-in-depth): jammertest scoring, the receiver's own flags, machine inputs, timing and holdover, standards packs, LunaNet AFS, the lab round trip, kshana-bench, the observatory, exporters, optical, [space-user navigation](#space-user-navigation-gnss-ssv) and [lunar infrastructure](#lunar-infrastructure-lunar-infrastructure)
 - [Kshana Studio](#kshana-studio) and every Studio page
 - [Capabilities](#capabilities): the table of areas, [every scenario kind by family](#every-scenario-kind-by-family), [every command](#every-command), [every surface](#every-surface)
 - [How a run works](#how-a-run-works), [Missions](#missions)
@@ -111,6 +111,41 @@ or **PARTNER** (a hardware partner owns it).
 > is an analysis tool) and not a flight product. New to the field? Start with the
 > [plain-language primer](docs/CONCEPTS.md) and the [glossary](docs/GLOSSARY.md).
 
+## What's new in 0.41
+
+0.41 scores the evidence rows signed for it, each once against bars fixed before the data, and publishes each result
+as it came out (the C2 v2 rerun was not run). It adds an area trust state with a
+satellite-fault screen, a monitoring-network planner, a TDOA jammer locator, dark-vessel and AIS-integrity decisions,
+the TEXBAT spoofing benchmark, flight-dynamics exports and an RTCM SSR reader. The ledger is now 413 rows: 176
+VALIDATED, 233 MODELLED, 4 PARTNER. No row was promoted to VALIDATED, and every miss below is pinned by a test.
+
+- **Area trust (`kshana area-trust`, B5).** One trust state for an area from several reference stations. Version 3
+  flags a satellite whose removal clears the alarms at several stations at once and recomputes their fixes without
+  it; loss of lock alone no longer degrades a station. On 26 area-days of IGS data (Goddard and Wettzell, May 2026)
+  it raised 1 alert (bar ≤ 1 per area-day) and **meets** T4; on synthetic faults it **misses** T2 (123 of 127
+  faults cleared; 4 where the remaining geometry is weak, and 2 of 67 two-satellite epochs explained by one). T3:
+  T3_LINE. B5 v3 is **NOT MET** ([results](docs/design/evidence/b5-area-trust/RESULTS-v3.md)). The diagnosis also
+  found the engine using broadcast records marked unhealthy; GPS and QZSS records so marked are now skipped.
+- **Spoofing benchmark (TEXBAT, E5).** Scored once on all ten TEXBAT recordings with rules fixed before any file was
+  read: the power-and-distortion score **meets** E5-PD (AUC 0.7410, bar 0.70); the baseline IQ score **misses** E5 v2
+  (AUC 0.6941). Only scores are published, never the recordings ([results](docs/design/evidence/b4a-benchmark-classes/RESULTS-E5-v2.md)).
+- **Monitoring-network planner (`kshana planner`, B1a).** Detection and TDOA accuracy maps and station placement.
+  Version 3's placement search beats the best of 1 000 random subsets (0.4408 against 0.4105) and **meets** P4;
+  part 1 is met on Linux, with the macOS and Windows check pending ([results](docs/design/evidence/b1a-planner/RESULTS-v3.md)).
+- **Jammer location.** The power-difference locator (B3a) **misses** its synthetic gate in v1 and v2; the new TDOA
+  locator (B3b, `locate_tdoa`) **misses** its gate too (coverage 0.044 against 0.90: its peak refinement errs by up
+  to half a sample against a 28 ns stated σ). Both rows stop; no real run is made with either method
+  ([B3b results](docs/design/evidence/b3b-tdoa-locator/RESULTS.md)).
+- **Dark vessels and AIS integrity (M4).** Version 3 **meets** dark-vessel recall (0.994) and every other bar but
+  position offsets, which it **misses** (0.489 at 5 km against 0.85) ([results](docs/design/evidence/m4-dark-vessel-ais-integrity/RESULTS-v3.md)).
+  Every output describes data consistency, never intent.
+- **Also scored.** M1 and the C5a, C3 and B8 rows **meet** their bars; M2's cross-check of published revisit figures is
+  **not consistent** with them; M5 v2 (hybrid location from orbit), D8b row
+  8 v2 and D8a row 6 v2 **miss** theirs ([Changelog](CHANGELOG.md)).
+- **Flight dynamics and corrections.** `kshana ephem-export` writes a JPL Horizons table as a CCSDS OEM or OPM or an
+  SPK kernel and reads it back; Orekit, Basilisk and ANISE read the files with the written bits. An RTCM SSR (IGS SSR)
+  reader, a Bias-SINEX reader and the IERS 2010 solid Earth tide are added.
+
 ## What's new in 0.40
 
 0.40 adds a mission-level error budget, labels every figure and table with its evidence tier, reads measured clock logs,
@@ -120,7 +155,7 @@ pinned by a test.
 
 - **Mission thread.** The `mission-thread` kind chains phases from launch to entry (`launch-ascent`, `leo-rendezvous`,
   `tli-and-cruise`, `entry` and four lunar kinds) with stated handover rules, a margin against stated requirements and the weakest
-  link; an end-to-end Artemis-class example over 11 phases (Earth and lunar segments), 93 scenario kinds in all. Every number is MODELLED. The cislunar propagation against the public Artemis I trajectory
+  link; an end-to-end Artemis-class example over 11 phases (Earth and lunar segments), 92 scenario kinds in all. Every number is MODELLED. The cislunar propagation against the public Artemis I trajectory
   **misses** its pre-registered bar (45.3 km and 0.25 m/s against 5 km and 0.05 m/s; the cause is small manoeuvres the model does not include), and the lunar propagator against the CAPSTONE
   orbit **misses** (136.8 km against 25 km at the end of one revolution); the LRO comparison is met. The rows stay MODELLED
   ([Mission thread](docs/MISSION-THREAD.md), [lunar segment](docs/MISSION-THREAD-LUNAR.md)). In the Studio the thread is read at `/studio/mission-thread/`.
@@ -1017,7 +1052,7 @@ start from.
 
 <p><a href="docs/SGP4-VALIDATION.md"><img src="https://img.shields.io/badge/SGP4-666%2F666%20AIAA%20vectors%20%C2%B7%20worst%204.12%20mm-377D0C?style=flat-square&labelColor=0A1226" alt="SGP4 checked against all 666 AIAA 2006-6753 reference vectors, worst position error 4.12 mm"></a></p>
 
-<strong>176 of 412</strong> capabilities validated against independent external oracles; 232 honestly labelled Modelled.
+<strong>176 of 413</strong> capabilities validated against independent external oracles; 233 honestly labelled Modelled.
 Each row of the verification matrix names a capability, the oracle it is checked against,
 the test that runs the check, and the label that follows. Continuous integration (CI) makes
 it impossible to call a capability VALIDATED without an independent external oracle.
@@ -1025,13 +1060,13 @@ it impossible to call a capability VALIDATED without an independent external ora
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/flow-verification-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/flow-verification-light.svg">
-  <img src="docs/assets/readme/flow-verification-light.svg" alt="How a capability earns its label. Each row of the verification matrix names a capability, the oracle it is checked against, the test that runs the check in continuous integration, and the label that follows. A row may be VALIDATED only with an independent external oracle; otherwise it is MODELLED, or PARTNER when a hardware partner owns it. Example: SGP4/SDP4, Cowell 6-DOF + perturbations, batch/sequential OD, oracle AIAA 2006-6753 SGP4 verification vectors, test tests/sgp4_verification.rs, label VALIDATED. Live counts: 176 VALIDATED, 232 MODELLED, 4 PARTNER of 412 rows. In all, 176 capabilities validated against independent external oracles; 232 more are honestly labelled MODELLED and 4 are PARTNER-owned." width="100%">
+  <img src="docs/assets/readme/flow-verification-light.svg" alt="How a capability earns its label. Each row of the verification matrix names a capability, the oracle it is checked against, the test that runs the check in continuous integration, and the label that follows. A row may be VALIDATED only with an independent external oracle; otherwise it is MODELLED, or PARTNER when a hardware partner owns it. Example: SGP4/SDP4, Cowell 6-DOF + perturbations, batch/sequential OD, oracle AIAA 2006-6753 SGP4 verification vectors, test tests/sgp4_verification.rs, label VALIDATED. Live counts: 176 VALIDATED, 233 MODELLED, 4 PARTNER of 413 rows. In all, 176 capabilities validated against independent external oracles; 233 more are honestly labelled MODELLED and 4 are PARTNER-owned." width="100%">
 </picture>
 
 | Label | Rows | Meaning |
 |---|---|---|
 | VALIDATED | 176 | an independent external oracle agrees: real data, an independent implementation or published reference vectors |
-| MODELLED | 232 | checked against analytic truth or simulation self-consistency, and said out loud |
+| MODELLED | 233 | checked against analytic truth or simulation self-consistency, and said out loud |
 | PARTNER | 4 | owned by a hardware partner; Kshana holds no oracle for it |
 
 A few of the checks: all 666 AIAA (American Institute of Aeronautics and Astronautics)
@@ -1040,7 +1075,7 @@ model to 0.08 m against Orekit 12.2; Galileo to 0.61 m and Swarm-A to 0.10 m aga
 precise ephemerides of the European Space Agency (ESA). Tests hold near 95 % line coverage of
 `src/`, gated at 85 % in CI. The ledger is
 [`docs/VERIFICATION-MATRIX.md`](docs/VERIFICATION-MATRIX.md), generated from
-`src/verification.rs`: the [full 412-row matrix](docs/VERIFICATION-MATRIX.md), and why each
+`src/verification.rs`: the [full 413-row matrix](docs/VERIFICATION-MATRIX.md), and why each
 Modelled row has no external oracle in [`docs/MODELLED-RATIONALE.md`](docs/MODELLED-RATIONALE.md).
 
 <details>
@@ -1073,7 +1108,7 @@ can never claim more than the ledger does. Rows, statuses and ids are read from 
 ### Validation at a glance
 
 Every row is enforced by a named test in CI. This table is a **curated highlight**;
-the full machine-checked matrix is **412 rows — 176 VALIDATED, 232 MODELLED, 4 PARTNER**
+the full machine-checked matrix is **413 rows — 176 VALIDATED, 233 MODELLED, 4 PARTNER**
 (`src/verification.rs`), with the complete evidence (and what is honestly *not* yet
 validated) in [`docs/VALIDATION.md`](docs/VALIDATION.md) and the per-release
 [`kshana-validation-summary.html`](https://github.com/ashfordeOU/kshana/releases)
@@ -1125,7 +1160,7 @@ The **Status** column states the *kind* of evidence, matching the validation lad
 | CI | Test coverage | **~95 % line** on `src/` excluding `src/*_data.rs` and `src/main.rs`, gated ≥ 85 % | cargo-tarpaulin (LLVM engine) |
 
 <p align="center">
-  <img src="docs/assets/diagrams/validation-provenance.png" alt="How a capability earns its label: Requirement maps to a module in src, to a test in tests, to an external oracle (real dataset, independent reference implementation, or published vectors), to a status — with a CI-enforced guard that no capability can be Validated without an external oracle. Live counts: 176 Validated, 232 Modelled, 4 Partner, 412 total" width="900">
+  <img src="docs/assets/diagrams/validation-provenance.png" alt="How a capability earns its label: Requirement maps to a module in src, to a test in tests, to an external oracle (real dataset, independent reference implementation, or published vectors), to a status — with a CI-enforced guard that no capability can be Validated without an external oracle. Live counts: 176 Validated, 233 Modelled, 4 Partner, 413 total" width="900">
   <br><sub>How a capability earns its label — the CI-enforced invariant: no external oracle ⇒ cannot be Validated · <a href="docs/assets/diagrams/validation-provenance.svg">SVG</a></sub>
 </p>
 
@@ -1137,8 +1172,8 @@ The **Status** column states the *kind* of evidence, matching the validation lad
 </p>
 
 <p align="center">
-  <img src="docs/assets/figures/validation-breakdown.png" alt="Verification status across all 412 capabilities: 176 Validated (checked vs external oracle), 232 Modelled, 4 Partner-owned" width="780">
-  <br><sub>176 Validated · 232 Modelled · 4 Partner — <a href="docs/assets/figures/validation-breakdown.svg">SVG</a></sub>
+  <img src="docs/assets/figures/validation-breakdown.png" alt="Verification status across all 413 capabilities: 176 Validated (checked vs external oracle), 233 Modelled, 4 Partner-owned" width="780">
+  <br><sub>176 Validated · 233 Modelled · 4 Partner — <a href="docs/assets/figures/validation-breakdown.svg">SVG</a></sub>
 </p>
 
 </details>
@@ -1245,7 +1280,7 @@ top as a separate overlay that depends on the engine and never forks it.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/architecture-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/architecture-light.svg">
-  <img src="docs/assets/readme/architecture-light.svg" alt="Kshana's architecture: one open engine at the centre, kshana 0.41.0 under the AGPL-3.0, with api::run_toml, a typed dispatch over every kind, and the verification ledger of 412 capabilities (176 VALIDATED, 232 MODELLED, 4 PARTNER). Around it, every surface runs the same engine: Command line (cargo install kshana); Rust library (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); MCP server (cargo install kshana-mcp); Docker image (ghcr.io/ashfordeou/kshana-mcp); JetBrains plugin (Marketplace: &quot;Kshana&quot;). Below it, Kshana Pro, a proprietary overlay that depends on the open engine as a library and never forks it, and adds no physical model." width="100%">
+  <img src="docs/assets/readme/architecture-light.svg" alt="Kshana's architecture: one open engine at the centre, kshana 0.41.0 under the AGPL-3.0, with api::run_toml, a typed dispatch over every kind, and the verification ledger of 413 capabilities (176 VALIDATED, 233 MODELLED, 4 PARTNER). Around it, every surface runs the same engine: Command line (cargo install kshana); Rust library (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); MCP server (cargo install kshana-mcp); Docker image (ghcr.io/ashfordeou/kshana-mcp); JetBrains plugin (Marketplace: &quot;Kshana&quot;). Below it, Kshana Pro, a proprietary overlay that depends on the open engine as a library and never forks it, and adds no physical model." width="100%">
 </picture>
 
 <details>
@@ -1254,7 +1289,7 @@ top as a separate overlay that depends on the engine and never forks it.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/flow-architecture-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/flow-architecture-light.svg">
-  <img src="docs/assets/readme/flow-architecture-light.svg" alt="Kshana's architecture in layers. Five front doors (command line, Python, JavaScript and WebAssembly, the MCP server and the JetBrains plugin) reach one api::run_toml, a typed dispatch over 93 kinds. Beneath it sit eight domain layers: time and frames, clocks and timing, inertial and fusion, GNSS and integrity, astrodynamics, LEO PNT, Moon, Mars and deep space, and missions and studies, on a shared core, all cross-referenced by the verification module, the machine-checked matrix of 412 capabilities that is the single source of truth for every label." width="100%">
+  <img src="docs/assets/readme/flow-architecture-light.svg" alt="Kshana's architecture in layers. Five front doors (command line, Python, JavaScript and WebAssembly, the MCP server and the JetBrains plugin) reach one api::run_toml, a typed dispatch over 93 kinds. Beneath it sit eight domain layers: time and frames, clocks and timing, inertial and fusion, GNSS and integrity, astrodynamics, LEO PNT, Moon, Mars and deep space, and missions and studies, on a shared core, all cross-referenced by the verification module, the machine-checked matrix of 413 capabilities that is the single source of truth for every label." width="100%">
 </picture>
 
 **One engine, many front doors.** A single Rust core (`kshana`) runs every scenario,
