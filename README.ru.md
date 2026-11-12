@@ -22,7 +22,7 @@
 <p align="center">
   <a href="https://github.com/ashfordeOU/kshana/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/ashfordeOU/kshana/ci.yml?branch=main&event=push&label=CI&style=flat-square&labelColor=0A1226" height="18" alt="Состояние непрерывной интеграции на main"></a>
   <a href="docs/COVERAGE.md"><img src="https://img.shields.io/badge/coverage-~95%25-377D0C?style=flat-square&labelColor=0A1226" height="18" alt="Покрытие строк около 95 % для src/, измерено в docs/COVERAGE.md, порог 85 % в непрерывной интеграции"></a>
-  <a href="#evidence"><img src="https://img.shields.io/badge/validated-176%2F412-377D0C?style=flat-square&labelColor=0A1226" height="18" alt="176 из 412 возможностей VALIDATED по независимому внешнему оракулу, по данным матрицы верификации"></a>
+  <a href="#evidence"><img src="https://img.shields.io/badge/validated-176%2F412-377D0C?style=flat-square&labelColor=0A1226" height="18" alt="176 из 413 возможностей VALIDATED по независимому внешнему оракулу, по данным матрицы верификации"></a>
   <a href="https://sonarcloud.io/summary/overall?id=ashfordeOU_kshana"><img src="https://img.shields.io/sonar/quality_gate/ashfordeOU_kshana?server=https%3A%2F%2Fsonarcloud.io&label=quality&style=flat-square&labelColor=0A1226" height="18" alt="Состояние порога качества SonarQube Cloud"></a>
   <a href="https://github.com/ashfordeOU/kshana/releases"><img src="https://img.shields.io/badge/release-v0.40.0-066A86?style=flat-square&labelColor=0A1226" height="18" alt="Выпуск v0.40.0"></a>
   <a href="docs/i18n.md"><img src="https://img.shields.io/badge/languages-English%20%2B%2017-3F4B67?style=flat-square&labelColor=0A1226" height="18" alt="Английский и ещё 17 языков, машинный перевод"></a>
@@ -1031,7 +1031,7 @@ wrote clock-holdover.result.json, clock-holdover.chart.svg, clock-holdover.repor
 
 <p><a href="docs/SGP4-VALIDATION.md"><img src="https://img.shields.io/badge/SGP4-666%2F666%20AIAA%20vectors%20%C2%B7%20worst%204.12%20mm-377D0C?style=flat-square&labelColor=0A1226" alt="SGP4 проверен по всем 666 эталонным векторам AIAA 2006-6753, наихудшая ошибка положения 4.12 mm"></a></p>
 
-<strong>176 из 412</strong> возможностей проверены по независимым внешним оракулам; 232 честно помечены как смоделированные.
+<strong>176 из 413</strong> возможностей проверены по независимым внешним оракулам; 233 честно помечены как смоделированные.
 Каждая строка матрицы верификации называет возможность, оракул, по которому она проверяется,
 тест, выполняющий проверку, и вытекающую из этого метку. Непрерывная интеграция (CI) делает
 невозможным назвать возможность VALIDATED без независимого внешнего оракула.
@@ -1039,13 +1039,13 @@ wrote clock-holdover.result.json, clock-holdover.chart.svg, clock-holdover.repor
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/flow-verification-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/flow-verification-light.svg">
-  <img src="docs/assets/readme/flow-verification-light.svg" alt="Как возможность заслуживает свою метку. Каждая строка матрицы верификации называет возможность, оракул, по которому она проверяется, тест, выполняющий проверку в непрерывной интеграции, и вытекающую метку. Строка может быть VALIDATED только при наличии независимого внешнего оракула; иначе она MODELLED или PARTNER, если ею владеет аппаратный партнёр. Пример: SGP4/SDP4, Cowell 6-DOF + возмущения, пакетное/последовательное определение орбиты, оракул — проверочные векторы SGP4 AIAA 2006-6753, тест tests/sgp4_verification.rs, метка VALIDATED. Текущие счётчики: 176 VALIDATED, 232 MODELLED, 4 PARTNER из 412 строк. Всего 176 возможностей проверены по независимым внешним оракулам; ещё 232 честно помечены MODELLED, и 4 принадлежат PARTNER." width="100%">
+  <img src="docs/assets/readme/flow-verification-light.svg" alt="Как возможность заслуживает свою метку. Каждая строка матрицы верификации называет возможность, оракул, по которому она проверяется, тест, выполняющий проверку в непрерывной интеграции, и вытекающую метку. Строка может быть VALIDATED только при наличии независимого внешнего оракула; иначе она MODELLED или PARTNER, если ею владеет аппаратный партнёр. Пример: SGP4/SDP4, Cowell 6-DOF + возмущения, пакетное/последовательное определение орбиты, оракул — проверочные векторы SGP4 AIAA 2006-6753, тест tests/sgp4_verification.rs, метка VALIDATED. Текущие счётчики: 176 VALIDATED, 233 MODELLED, 4 PARTNER из 413 строк. Всего 176 возможностей проверены по независимым внешним оракулам; ещё 233 честно помечены MODELLED, и 4 принадлежат PARTNER." width="100%">
 </picture>
 
 | Метка | Строк | Значение |
 |---|---|---|
 | VALIDATED | 176 | независимый внешний оракул согласен: реальные данные, независимая реализация или опубликованные эталонные векторы |
-| MODELLED | 232 | проверено по аналитической истине или самосогласованности моделирования, и это прямо сказано |
+| MODELLED | 233 | проверено по аналитической истине или самосогласованности моделирования, и это прямо сказано |
 | PARTNER | 4 | принадлежит аппаратному партнёру; у Kshana нет для этого оракула |
 
 Некоторые из проверок: все 666 векторов SGP4 (Simplified General Perturbations 4) AIAA (American Institute of Aeronautics and Astronautics)
@@ -1054,7 +1054,7 @@ wrote clock-holdover.result.json, clock-holdover.chart.svg, clock-holdover.repor
 точным эфемеридам Европейского космического агентства (ESA). Тесты дают покрытие строк около 95 % для
 `src/`, с порогом 85 % в CI. Реестр —
 [`docs/VERIFICATION-MATRIX.md`](docs/VERIFICATION-MATRIX.md), генерируемый из
-`src/verification.rs`: [полная матрица из 412 строк](docs/VERIFICATION-MATRIX.md), а почему у каждой
+`src/verification.rs`: [полная матрица из 413 строк](docs/VERIFICATION-MATRIX.md), а почему у каждой
 смоделированной строки нет внешнего оракула — в [`docs/MODELLED-RATIONALE.md`](docs/MODELLED-RATIONALE.md).
 
 <details>
@@ -1087,7 +1087,7 @@ wrote clock-holdover.result.json, clock-holdover.chart.svg, clock-holdover.repor
 ### Валидация вкратце
 
 Каждая строка обеспечивается именованным тестом в CI. Эта таблица — **подборка основных результатов**;
-полная машинно проверяемая матрица содержит **412 строк — 176 VALIDATED, 232 MODELLED, 4 PARTNER**
+полная машинно проверяемая матрица содержит **413 строк — 176 VALIDATED, 233 MODELLED, 4 PARTNER**
 (`src/verification.rs`), с полными доказательствами (и тем, что честно *ещё не*
 проверено) в [`docs/VALIDATION.md`](docs/VALIDATION.md) и в артефакте каждого выпуска
 [`kshana-validation-summary.html`](https://github.com/ashfordeOU/kshana/releases)
@@ -1139,7 +1139,7 @@ Levels for Software Artifacts).
 | CI | Покрытие тестами | **~95 % строк** в `src/` без учёта `src/*_data.rs` и `src/main.rs`, порог ≥ 85 % | cargo-tarpaulin (движок LLVM) |
 
 <p align="center">
-  <img src="docs/assets/diagrams/validation-provenance.png" alt="Как возможность заслуживает свою метку: требование отображается на модуль в src, на тест в tests, на внешний оракул (реальный набор данных, независимую эталонную реализацию или опубликованные векторы), на статус — с обеспечиваемой CI защитой: ни одна возможность не может быть проверенной без внешнего оракула. Текущие счётчики: 176 проверено, 232 смоделировано, 4 у партнёров, всего 412" width="900">
+  <img src="docs/assets/diagrams/validation-provenance.png" alt="Как возможность заслуживает свою метку: требование отображается на модуль в src, на тест в tests, на внешний оракул (реальный набор данных, независимую эталонную реализацию или опубликованные векторы), на статус — с обеспечиваемой CI защитой: ни одна возможность не может быть проверенной без внешнего оракула. Текущие счётчики: 176 проверено, 233 смоделировано, 4 у партнёров, всего 413" width="900">
   <br><sub>Как возможность заслуживает свою метку — обеспечиваемый CI инвариант: нет внешнего оракула ⇒ не может быть проверено · <a href="docs/assets/diagrams/validation-provenance.svg">SVG</a></sub>
 </p>
 
@@ -1151,8 +1151,8 @@ Levels for Software Artifacts).
 </p>
 
 <p align="center">
-  <img src="docs/assets/figures/validation-breakdown.png" alt="Статус верификации по всем 412 возможностям: 176 проверено (сверено с внешним оракулом), 232 смоделировано, 4 принадлежат партнёрам" width="780">
-  <br><sub>176 проверено · 232 смоделировано · 4 у партнёров — <a href="docs/assets/figures/validation-breakdown.svg">SVG</a></sub>
+  <img src="docs/assets/figures/validation-breakdown.png" alt="Статус верификации по всем 413 возможностям: 176 проверено (сверено с внешним оракулом), 233 смоделировано, 4 принадлежат партнёрам" width="780">
+  <br><sub>176 проверено · 233 смоделировано · 4 у партнёров — <a href="docs/assets/figures/validation-breakdown.svg">SVG</a></sub>
 </p>
 
 </details>
@@ -1262,7 +1262,7 @@ Python, WebAssembly и Kshana Studio, сервер MCP, образ Docker и
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/architecture-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/architecture-light.svg">
-  <img src="docs/assets/readme/architecture-light.svg" alt="Архитектура Kshana: в центре один открытый движок, kshana 0.40.0 под AGPL-3.0, с api::run_toml — типизированным диспетчером по всем видам — и реестром верификации из 412 возможностей (176 VALIDATED, 232 MODELLED, 4 PARTNER). Вокруг него каждый интерфейс запускает тот же движок: Командная строка (cargo install kshana); Библиотека на Rust (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); Сервер MCP (cargo install kshana-mcp); Образ Docker (ghcr.io/ashfordeou/kshana-mcp); Плагин JetBrains (Marketplace: &quot;Kshana&quot;). Под ним Kshana Pro — проприетарная надстройка, которая зависит от открытого движка как от библиотеки, никогда не создаёт его форк и не добавляет физических моделей." width="100%">
+  <img src="docs/assets/readme/architecture-light.svg" alt="Архитектура Kshana: в центре один открытый движок, kshana 0.40.0 под AGPL-3.0, с api::run_toml — типизированным диспетчером по всем видам — и реестром верификации из 413 возможностей (176 VALIDATED, 233 MODELLED, 4 PARTNER). Вокруг него каждый интерфейс запускает тот же движок: Командная строка (cargo install kshana); Библиотека на Rust (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); Сервер MCP (cargo install kshana-mcp); Образ Docker (ghcr.io/ashfordeou/kshana-mcp); Плагин JetBrains (Marketplace: &quot;Kshana&quot;). Под ним Kshana Pro — проприетарная надстройка, которая зависит от открытого движка как от библиотеки, никогда не создаёт его форк и не добавляет физических моделей." width="100%">
 </picture>
 
 <details>
@@ -1271,7 +1271,7 @@ Python, WebAssembly и Kshana Studio, сервер MCP, образ Docker и
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/flow-architecture-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/flow-architecture-light.svg">
-  <img src="docs/assets/readme/flow-architecture-light.svg" alt="Архитектура Kshana по слоям. Пять входов (командная строка, Python, JavaScript и WebAssembly, сервер MCP и плагин JetBrains) ведут к одному api::run_toml — типизированному диспетчеру по 92 видам. Под ним восемь доменных слоёв: время и системы отсчёта, часы и синхронизация времени, инерциальная навигация и слияние, GNSS и целостность, астродинамика, LEO PNT, Луна, Марс и дальний космос, а также миссии и исследования, на общем ядре, все связаны перекрёстными ссылками модулем верификации — машинно проверяемой матрицей из 412 возможностей, которая является единственным источником истины для каждой метки." width="100%">
+  <img src="docs/assets/readme/flow-architecture-light.svg" alt="Архитектура Kshana по слоям. Пять входов (командная строка, Python, JavaScript и WebAssembly, сервер MCP и плагин JetBrains) ведут к одному api::run_toml — типизированному диспетчеру по 92 видам. Под ним восемь доменных слоёв: время и системы отсчёта, часы и синхронизация времени, инерциальная навигация и слияние, GNSS и целостность, астродинамика, LEO PNT, Луна, Марс и дальний космос, а также миссии и исследования, на общем ядре, все связаны перекрёстными ссылками модулем верификации — машинно проверяемой матрицей из 413 возможностей, которая является единственным источником истины для каждой метки." width="100%">
 </picture>
 
 **Один движок, много входов.** Единое ядро на Rust (`kshana`) запускает каждый сценарий,
