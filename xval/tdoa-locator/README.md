@@ -84,3 +84,14 @@ T16. **Independent check.** `oracle.py` (numpy and the standard library only, no
      On gate seeds 6001 to 6020: the reference, every `k*`, the located flag and the coverage must be equal; every
      `τ̂` within 10⁻¹² s; every `σ_i` within 10⁻⁹ relative; the solution within 1 mm; the region area within 10⁻⁶
      relative. Disagreement is a fault to find, not a result.
+
+## Added after the development run (12 November 2026; nothing above changed)
+
+T17. **The development run** (seeds 5001 to 5200, engine `36a55b15c`, `dev.json.gz`): T1 0.050, T2 1.000, T3 2.75;
+     172 of 200 sessions not located (CW 67 of 67, chirp 65 of 67, noise 40 of 66). Probing four noise sessions
+     showed no implementation fault: the estimates lie 6 to 50 m from the truth, and each delay error is the clock
+     difference plus a refinement error. The parabola of T10 on the correlation of a full-band signal, whose peak is
+     about one sample wide, misplaces the peak by up to half a sample (125 ns), against a σ of about 28 ns from T11,
+     so the χ² test of T13 rejects most sessions. The sawtooth chirp's correlation repeats every period (32 to 120
+     samples) inside the lag window, and a CW has no bandwidth to time against. By T14 nothing is changed; the gate
+     is run once as written.
