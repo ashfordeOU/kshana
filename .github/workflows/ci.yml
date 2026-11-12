@@ -235,8 +235,14 @@ jobs:
     # 2026-10-09: opt-level 1 for the coverage step only; measured 62 min vs 3h09m on the same
     # code, line coverage 94.44% vs 94.50%. The 330 cap stays.
     #
+    # 2026-11-12, the 0.41.0 cut: 3h58m on 00d556fdb (8 November); since then the 0.41 rows
+    # brought the run to about 633 test binaries at about 27 s each under instrumentation,
+    # an estimated 5h20m on 699a06e3a, too close to 330. The cap is raised to 360, GitHub's
+    # limit for hosted runners. No test is skipped, reduced or ignored; the follow-up stays
+    # to bring the run back down.
+    #
     # The measurement and the --fail-under 85 floor below are unchanged.
-    timeout-minutes: 330
+    timeout-minutes: 360
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
       - name: Free runner disk space
