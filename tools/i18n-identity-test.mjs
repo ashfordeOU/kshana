@@ -28,7 +28,7 @@ let urls = opt.urls ? opt.urls.split(',') : null;
 if (!urls) {
   urls = ['', 'advanced/', 'geometry/', 'holdover/', 'interference/', 'lunar-infra/', 'lunar/', 'observatory/', 'optical/', 'replay/', 'ssv/', 'tools/', 'training/', 'trust/'].map((u) => `studio/${u}`);
   const rec = join(opt.a, 'studio', 'recorded');
-  const files = existsSync(rec) ? readdirSync(rec).filter((f) => f.endsWith('.json')).map((f) => f.replace(/\.json$/, '')).sort() : [];
+  const files = existsSync(rec) ? [...new Set(readdirSync(rec).filter((f) => /\.json(\.gz)?$/.test(f)).map((f) => f.replace(/\.json(\.gz)?$/, '')))].sort() : [];
   const n = +opt.scenarios, step = Math.max(1, Math.floor(files.length / n));
   for (let i = 0; i < files.length && urls.length < 14 + 2 * n; i += step) { urls.push(`studio/?scenario=${files[i]}.toml`); urls.push(`studio/advanced/?scenario=${files[i]}.toml`); }
 }
