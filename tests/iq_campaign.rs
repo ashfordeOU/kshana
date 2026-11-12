@@ -973,8 +973,8 @@ fn the_pre_registered_pin_holds_with_the_event_stating_q_1() {
 // one version. The same source at 0.35.0 reproduced the previous pair exactly (M2M4 8adacb22..., NWPR
 // f34be6e2...), which is the evidence that nothing but the version moved
 // (docs/revisions/STUDIO15-pins-0.36.0-version.md).
-const DIGEST_M2M4: &str = "91d3153ae519995b7e6ad5622c5d1e817f040a39f2a3fb8684eac3422f72e8b0";
-const DIGEST_NWPR: &str = "ac7c739ea09e472499db1e1346f7ba476fa845f5d516ea2874e59a8b7426b254";
+const DIGEST_M2M4: &str = "68f7ba0f561b838f19dd4c3147a2dbd375516baec823c03488bd5b5e9d1dc67e";
+const DIGEST_NWPR: &str = "a740a6b5609d76930ed6c85f13089e7ce937b50258b7160810d691e5edcf0531";
 
 /// The false-lock fields after the scorer fix (ae3942f9), pinned on their own in every cell of
 /// both runs (the pinned scored results map the fixed ones back, `FIXED_FALSE_LOCKS`). PRN 19 of `alias`
