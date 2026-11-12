@@ -29,7 +29,7 @@ Pre-registration: `PREREGISTRATION-v3.md` (signed off 10 November 2026). Reading
 | T2 detection | **NOT MET**. Of 127 injected single-satellite faults that alarmed at least `k` stations, 123 were flagged with the injected satellite and cleared; **4 were not flagged** (seed 5103 at 16, 46 and 83 s; seed 5104 at 40 s). Of 67 epochs with two faulty satellites that alarmed at least `k` stations, 65 were not flagged; **2 were flagged** with one satellite (seed 5101 at 30 s, G02; seed 5102 at 84 s, G07). Errors at one station only: none of 83 flagged. Loss of lock alone: the station stayed nominal, with the alarm in its record, in all 40 epochs. A flagged fault left no station in alarm. |
 | T3 end-to-end latency | T3_RESULT |
 | T4 false alerts | **MET**: 1 alert to `DEGRADED` or worse and 1 to `UNTRUSTED` over 26 area-days (0.038 per area-day each; bars ≤ 1 and ≤ 0.1). Goddard (GODS, GODE, GODN, MRC1): 0. Wettzell (WTZR, WTZA, WT21, WTZZ): 1, on 30 May 2026. Days 18 to 30 May 2026 scored, 17 May calibrating (X10a). |
-| T5 determinism | T5_RESULT |
+| T5 determinism | **MET**: the four satellite-fault replays give `oracle_v3.py`'s bytes on the command line (`tests/area_trust_v3.rs`), in Python (`tests/python/test_bindings.py`, CI run 43133497207 on `380ed2b0a`) and in WebAssembly (`web/smoke.mjs` on the package built from the release branch, 12 November 2026). |
 
 B5 v3 is MET only when T1 to T5 are all met. With T2 not met, **B5 v3 is NOT MET**.
 
@@ -49,9 +49,8 @@ B5 v3 is MET only when T1 to T5 are all met. With T2 not met, **B5 v3 is NOT MET
   (27.7 m with 680.8 m; 65.4 m with 129.4 m), and without the larger one no station is alarmed. Under X4's
   definition one satellite does explain these epochs; X8's statement that two faulty satellites are never explained
   by one does not hold for them.
-- **T5:** the command line gives the oracle's bytes on all four documents (`tests/area_trust_v3.rs`). Python
-  (`tests/python/test_bindings.py`) and WebAssembly (`web/smoke.mjs`) check the same four documents in continuous
-  integration.
+- **T5:** the command line, Python and WebAssembly give the oracle's bytes on all four documents; continuous
+  integration re-checks all three on every commit.
 
 ## T3
 
