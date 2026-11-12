@@ -19,7 +19,7 @@ Pre-registration: `PREREGISTRATION.md` (signed off 10 November 2026). Readings: 
 | T1 coverage | **NOT MET**: 0.044 (bar ≥ 0.90). |
 | T2 non-vacuity | **NOT MET**: median area share 1.000 (bar ≤ 0.25). |
 | T3 centroid | **NOT MET**: 3.35 × the median nearest-neighbour spacing (bar ≤ 0.5). |
-| T4 determinism | **MET on Linux**: a debug build and the release build give the same gate bytes (SHA-256 `8d657b26…`; the debug run 00:53 to 01:10 UTC). macOS and Windows: the `b3b-determinism` CI job (`tests/locator_tdoa.rs`, whole gate); recorded when it has run. |
+| T4 determinism | **MET**: a debug build and the release build give the same gate bytes on Linux (SHA-256 `8d657b26…`), and the `b3b-determinism` CI job reproduces the whole recorded gate on Linux, macOS and Windows (CI run 43172458188 on the 0.41.0 release commit `5d49ab5b6`, 12 November 2026). |
 
 872 of 1 000 sessions were not located (the χ² test of T13 failed); by T15 each counts as not covered, a full-domain
 area and an error to the domain's centroid.
