@@ -348,7 +348,7 @@ restarts) are in each results file. Everything here stays MODELLED.
   and T5 met. v2 **NOT MET** on T4: 16 alerts to `DEGRADED` or worse over 13 area-days at Goddard (1.23; bar 1), 9 of them to
   `UNTRUSTED` (0.69; bar 0.1); T1, T2, T3 (p95 1.004 s, maximum 1.013 s) and T5 met. v3 **NOT MET** on T2: T1 MET (520 epochs, 125
   flagged, equal to the independent oracle through the library and the command line); T2 NOT MET (4 of 127 single-satellite
-  faults not flagged; 2 of 67 two-satellite epochs flagged with one satellite); T3: <pending>; T4 MET (1 alert to `DEGRADED` or
+  faults not flagged; 2 of 67 two-satellite epochs flagged with one satellite); T3 MET (220 events, webhook and MQTT p95 1.003 s and 1.004 s, maximum 1.006 s); T4 MET (1 alert to `DEGRADED` or
   worse and 1 to `UNTRUSTED` over 26 area-days, 0.038 each; bars 1 and 0.1; Goddard 0, Wettzell 1, 17 to 30 May 2026); T5 met on
   the command line (all four documents; Python and WebAssembly check the same documents in CI).
 - **B8** (environmental baseline; `docs/design/evidence/b8-environmental-baseline/RESULTS.md`): **MET**. N1 1 295 disturbed
