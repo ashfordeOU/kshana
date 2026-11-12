@@ -30,12 +30,12 @@
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:type" content="image/png">
-<meta property="og:image:alt" content="Kshana, a PNT (positioning, navigation and timing) resilience simulator. 176 of 412 capabilities validated against external oracles.">
+<meta property="og:image:alt" content="Kshana, a PNT (positioning, navigation and timing) resilience simulator. 176 of 413 capabilities validated against external oracles.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Animation export · Kshana docs">
 <meta name="twitter:description" content="--animate turns a run&#x27;s time series into something that moves: an animated Scalable Vector Graphics (SVG) file, a single self-contained HyperText Markup…">
 <meta name="twitter:image" content="https://kshana.dev/og-card.png">
-<meta name="twitter:image:alt" content="Kshana, a PNT (positioning, navigation and timing) resilience simulator. 176 of 412 capabilities validated against external oracles.">
+<meta name="twitter:image:alt" content="Kshana, a PNT (positioning, navigation and timing) resilience simulator. 176 of 413 capabilities validated against external oracles.">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://kshana.dev/"}, {"@type": "ListItem", "position": 2, "name": "Docs", "item": "https://kshana.dev/docs/"}, {"@type": "ListItem", "position": 3, "name": "Animation export", "item": "https://kshana.dev/docs/animation"}]}</script>
 <!-- /seo:head -->
 </head>
@@ -56,7 +56,7 @@
 <div class="bg-field" aria-hidden="true"></div>
 <header class="nav" id="nav">
   <div class="nav-in">
-    <a class="brand" href="/" aria-label="Kshana home"><span class="brand-mark" aria-hidden="true"></span><span class="brand-t">kshana</span> <small>v0.40.0</small></a>
+    <a class="brand" href="/" aria-label="Kshana home"><span class="brand-mark" aria-hidden="true"></span><span class="brand-t">kshana</span> <small>v0.41.0</small></a>
     <nav class="nav-links" id="navLinks" aria-label="Primary">
       <a href="/missions">Missions</a>
       <a href="/capabilities">Capabilities</a>
@@ -193,8 +193,8 @@ power, for decibel cells, so a narrow jammer is not diluted).</p>
 <p>A kind whose result carries none of these shapes (a link budget, a single-epoch geometry,
 a statistics-only Monte Carlo summary, or the telecom holdover, whose result publishes the
 record&#39;s hash but not the record) is refused with <code>no time series to animate</code>, and nothing
-is written. With kshana 0.40.0, 94 of the 193 runnable scenario files (every file except a study suite)
-animate and 99 are refused. <code>cargo test --test animation -- --nocapture</code> prints the census.</p>
+is written. With kshana 0.41.0, 94 of the 195 runnable scenario files (every file except a study suite)
+animate and 101 are refused. <code>cargo test --test animation -- --nocapture</code> prints the census.</p>
 <p>Among the LEO kinds, every bundled <code>leo-pass</code>, <code>leo-pnt-chain</code> and <code>leo-ppp</code> scenario
 animates. <code>leo-pvt</code> animates in its Doppler, joint-positioning and timing modes (a timing
 run needs <code>trace = true</code>, which makes every row report its time error and predicted sigma
@@ -242,8 +242,8 @@ animates.</li>
       <div><h2>Company</h2><a href="/editions">Editions</a><a href="/editions#pro">Kshana Pro</a><a href="mailto:contact@ashforde.org">contact@ashforde.org</a><a href="https://ashforde.org">ashforde.org</a></div>
     </div>
     <div class="foot-bottom">
-      <span>Kshana v0.40.0 · by Ashforde® OÜ · AGPL-3.0, with a commercial licence option</span>
-      <span>Every chart is drawn from a recorded run of engine v0.40.0 and names its scenario, seed and route to reproduce it. Imagery: NASA Visible Earth (Blue Marble, Black Marble), NASA Scientific Visualization Studio (CGI Moon Kit), NASA/JPL (Mars), NASA, JPL and USGS mission mosaics (moons and Pluto); Sun, Mercury, Venus, Jupiter, Saturn, Uranus and Neptune maps: Solar System Scope, Creative Commons Attribution (CC BY) 4.0; Deimos map: Oleg-Pluton, Creative Commons Attribution-ShareAlike (CC BY-SA) 3.0; coastlines: Natural Earth.</span>
+      <span>Kshana v0.41.0 · by Ashforde® OÜ · AGPL-3.0, with a commercial licence option</span>
+      <span>Every chart is drawn from a recorded run of engine v0.41.0 and names its scenario, seed and route to reproduce it. Imagery: NASA Visible Earth (Blue Marble, Black Marble), NASA Scientific Visualization Studio (CGI Moon Kit), NASA/JPL (Mars), NASA, JPL and USGS mission mosaics (moons and Pluto); Sun, Mercury, Venus, Jupiter, Saturn, Uranus and Neptune maps: Solar System Scope, Creative Commons Attribution (CC BY) 4.0; Deimos map: Oleg-Pluton, Creative Commons Attribution-ShareAlike (CC BY-SA) 3.0; coastlines: Natural Earth.</span>
     </div>
   </div>
 </footer>
@@ -256,7 +256,7 @@ animates.</li>
   </div>
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
-<script>window.KSITE={root:"../",page:"docs",version:"0.40.0",studio:"Kshana Studio"};</script>
+<script>window.KSITE={root:"../",page:"docs",version:"0.41.0",studio:"Kshana Studio"};</script>
 <script src="../site.js" defer></script>
 <script src="docs.js" defer></script>
 </body>
