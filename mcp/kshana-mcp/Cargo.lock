@@ -955,7 +955,7 @@ dependencies = [
 
 [[package]]
 name = "kshana"
-version = "0.40.0"
+version = "0.41.0"
 dependencies = [
  "aes",
  "cmac",
@@ -988,7 +988,7 @@ dependencies = [
 
 [[package]]
 name = "kshana-mcp"
-version = "0.40.0"
+version = "0.41.0"
 dependencies = [
  "anyhow",
  "axum",
