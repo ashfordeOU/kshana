@@ -22,7 +22,7 @@
 <p align="center">
   <a href="https://github.com/ashfordeOU/kshana/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/ashfordeOU/kshana/ci.yml?branch=main&event=push&label=CI&style=flat-square&labelColor=0A1226" height="18" alt="Pideva integratsiooni olek harul main"></a>
   <a href="docs/COVERAGE.md"><img src="https://img.shields.io/badge/coverage-~95%25-377D0C?style=flat-square&labelColor=0A1226" height="18" alt="Ridade kaetus ligikaudu 95 % kataloogist src/, mõõdetud failis docs/COVERAGE.md ja pidevas integratsioonis nõutud vähemalt 85 %"></a>
-  <a href="#evidence"><img src="https://img.shields.io/badge/validated-176%2F412-377D0C?style=flat-square&labelColor=0A1226" height="18" alt="413 võimekusest 176 on VALIDATED sõltumatu välise oraakli vastu, kontrollimaatriksi järgi"></a>
+  <a href="#evidence"><img src="https://img.shields.io/badge/validated-176%2F413-377D0C?style=flat-square&labelColor=0A1226" height="18" alt="413 võimekusest 176 on VALIDATED sõltumatu välise oraakli vastu, kontrollimaatriksi järgi"></a>
   <a href="https://sonarcloud.io/summary/overall?id=ashfordeOU_kshana"><img src="https://img.shields.io/sonar/quality_gate/ashfordeOU_kshana?server=https%3A%2F%2Fsonarcloud.io&label=quality&style=flat-square&labelColor=0A1226" height="18" alt="SonarQube Cloudi kvaliteedivärava olek"></a>
   <a href="https://github.com/ashfordeOU/kshana/releases"><img src="https://img.shields.io/badge/release-v0.40.0-066A86?style=flat-square&labelColor=0A1226" height="18" alt="Väljalase v0.40.0"></a>
   <a href="docs/i18n.md"><img src="https://img.shields.io/badge/languages-English%20%2B%2017-3F4B67?style=flat-square&labelColor=0A1226" height="18" alt="Inglise keel ja veel 17 keelt, masintõlkena"></a>

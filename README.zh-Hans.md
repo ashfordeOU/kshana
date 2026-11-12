@@ -22,7 +22,7 @@
 <p align="center">
   <a href="https://github.com/ashfordeOU/kshana/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/ashfordeOU/kshana/ci.yml?branch=main&event=push&label=CI&style=flat-square&labelColor=0A1226" height="18" alt="main 分支上的持续集成状态"></a>
   <a href="docs/COVERAGE.md"><img src="https://img.shields.io/badge/coverage-~95%25-377D0C?style=flat-square&labelColor=0A1226" height="18" alt="src/ 的行覆盖率接近 95 %，测量见 docs/COVERAGE.md，持续集成中的门槛为 85 %"></a>
-  <a href="#evidence"><img src="https://img.shields.io/badge/validated-176%2F412-377D0C?style=flat-square&labelColor=0A1226" height="18" alt="413 项能力中有 176 项与独立的外部参考基准核对为 VALIDATED，数据来自验证矩阵"></a>
+  <a href="#evidence"><img src="https://img.shields.io/badge/validated-176%2F413-377D0C?style=flat-square&labelColor=0A1226" height="18" alt="413 项能力中有 176 项与独立的外部参考基准核对为 VALIDATED，数据来自验证矩阵"></a>
   <a href="https://sonarcloud.io/summary/overall?id=ashfordeOU_kshana"><img src="https://img.shields.io/sonar/quality_gate/ashfordeOU_kshana?server=https%3A%2F%2Fsonarcloud.io&label=quality&style=flat-square&labelColor=0A1226" height="18" alt="SonarQube Cloud 质量门状态"></a>
   <a href="https://github.com/ashfordeOU/kshana/releases"><img src="https://img.shields.io/badge/release-v0.40.0-066A86?style=flat-square&labelColor=0A1226" height="18" alt="发布版本 v0.40.0"></a>
   <a href="docs/i18n.md"><img src="https://img.shields.io/badge/languages-English%20%2B%2017-3F4B67?style=flat-square&labelColor=0A1226" height="18" alt="英语及另外 17 种语言，均为机器翻译"></a>
