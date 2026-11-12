@@ -1,0 +1,11 @@
+speed on linux-x86_64 (4 logical CPUs); calibration 0.0060 s
+  obs-decode-ubx                 217079 epochs/s  (x1.545 calibration)
+  obs-live-ubx                     7883 epochs/s  (x6.382 calibration)
+  receiver-trust-nmea             69837 epochs/s  (x2.401 calibration)
+  iq-monitor                   33003020 samples/s  (x2.033 calibration)
+  clock-live-ptp4l              3793438 lines/s  (x0.884 calibration)
+sizing, per core with half of it left free:
+          3942  receivers at 1 Hz, live decode (UBX)
+         34918  receivers at 1 Hz, trust assessment (NMEA)
+             4  SDR channels at 4 MS/s, power and spectral monitors
+       1896719  clock servo logs at 1 line/s
