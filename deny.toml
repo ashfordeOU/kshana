@@ -9,8 +9,12 @@ yanked = "deny"
 # and its tests the generic `client` feature only; neither client transport is compiled (reqwest is not in
 # its lockfile). Ignored for that reason on 11 November 2026; the move to rmcp 3.9+ is tracked as its own
 # change (a major version) and this entry goes with it.
+# RUSTSEC-2026-0457 (rmcp 2.0 to < 3.7): SSRF in the OAuth *client*'s address checks (AuthorizationManager, the
+# `auth` feature). kshana-mcp does not enable `auth`, and neither oauth2 nor reqwest is in its lockfile. Ignored for
+# that reason on 12 November 2026; it goes with the same rmcp 3.9+ move.
 ignore = [
   { id = "RUSTSEC-2026-0462", reason = "affects rmcp's Streamable HTTP client transports only; kshana-mcp compiles neither (server-only)" },
+  { id = "RUSTSEC-2026-0457", reason = "affects rmcp's OAuth client (feature auth) only; kshana-mcp does not enable it (no oauth2 or reqwest in its lockfile)" },
 ]
 
 [licenses]
