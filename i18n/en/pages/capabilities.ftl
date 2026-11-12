@@ -1562,79 +1562,43 @@ seg-58a8a796c8cb = reference checks
 seg-3cbba5a3ab3b = New in v{ $version }
 
 # text
-seg-d5c6110302e9 = An Artemis-class mission thread, an evidence label on every figure, and seventeen languages.
+seg-f941680cde20 = Live inputs, area trust, and every { "0.41" } result as it came out.
 
 # text
-seg-8597c65432ed = Chain the phases of a lunar mission into one navigation and timing error budget, estimate where a source of degraded position reports can be, read measured clock logs, see the evidence tier on every figure a run writes, and use the command line, reports and Studio in seventeen languages. Every capability carries the label the ledger holds for it, and a label names only what was checked. Advisory software, not type-approved navigation equipment: the operator remains responsible.
+seg-62c3154eeaa5 = Bring live feeds into one observation schema, run the receiver-trust monitors as a station service, combine stations into an area trust state, plan a monitoring network, export to flight-dynamics tools, and read every evidence row signed for this release scored once, misses included.
 
 # text
-seg-29e58493fdd4 = Modelled
+seg-40250a74636e = Every signed { "0.41" } evidence row, scored once and published as it came out
 
 # text
-seg-070972f642de = An Artemis-class mission thread: the navigation and timing error budget from launch to entry
-
-# text
-seg-982a4a7cf0db = The mission-thread kind chains phases (launch and ascent, rendezvous in low Earth orbit, trans-lunar injection and cruise, the lunar phases, entry) and carries the position and velocity covariance from each phase into the next, with the handover rules, the frame and timescale conversions, the margin against stated requirements and the weakest link each written as budget rows.
-
-# text
-seg-17c9cc6c2d40 = Checked: the Artemis I comparison missed its bar ({ "45.3" } km against { "5" } km); the row stays MODELLED
+seg-8ab99fa9536d = Area trust from several stations, a monitoring-network planner, dark-vessel and AIS-integrity decisions, two jammer locators and the rest were each scored once against bars fixed before the data.
 
 # text
 seg-a0b63210b807 = Read more
 
 # text
-seg-946487626f87 = Mission thread view in Kshana Studio
+seg-29e58493fdd4 = Modelled
 
 # text
-seg-4970f874d334 = The lunar segment: rendezvous, descent, surface and ascent
+seg-4ddcacc70557 = Kshana Connect: live inputs from mapping files
 
 # text
-seg-b6c35bf141e7 = Four scenario kinds, each also a phase of the mission thread: relative navigation to docking in lunar orbit, the landing-dispersion budget at a south-polar site, positioning and timing availability by site and season, and the ascent back to the rendezvous orbit.
+seg-da4a7a1bf359 = Map a CSV, JSON, MQTT, NATS or WebSocket feed onto one observation schema with a mapping file, watch a directory, or read an NTRIP caster, and record what arrives for replay.
 
 # text
-seg-ce097df855a9 = Checked: pre-registered bars; one met, one not met, none loosened
+seg-76a2c0682442 = Kshana Station: a headless receiver service
 
 # text
-seg-8ca6e2046901 = An estimated emitter region from ADS-B or AIS reports
+seg-4933f0420df7 = Run the receiver-trust monitors as a service on a reference station, with CAP { "1.2" } alerts and signed webhooks, and combine several stations into one area trust state.
 
 # text
-seg-ca6383e426f9 = Where a source of degraded position reports can be, as regions at { "50" }, { "90" } and { "95" } per cent with a centroid and its uncertainty ellipse, never a bare point, and sessions in time.
+seg-3120190d0c6d = Write a JPL Horizons state table as a CCSDS OEM or OPM or an SPK kernel and read it back; Orekit, Basilisk and ANISE read the files with the written values.
 
 # text
-seg-27af464d0674 = Checked: pre-registered; both sources not assessable, so nothing is claimed
+seg-c180a592f299 = Tip and cue: revisit and latency from RF and optical layers
 
 # text
-seg-003a3b9b63ea = Measured clock logs, and a holdover driven by a fitted series
-
-# text
-seg-f51fa2a40db8 = Read a measured clock log in eight formats (RINEX clock, TimeLab, TICC, linuxptp, chrony) into one phase series for the clock and telecom-timing kinds, and fit the noise of a measured series to drive a holdover.
-
-# text
-seg-6e9140563c53 = Checked: bars pre-registered; misses stated and pinned
-
-# text
-seg-448b11c86f48 = Data partners: which rows measured data could promote
-
-# text
-seg-56b0201d930c = Which modelled ledger rows measured data from a partner could promote, the formats accepted, and how a submission is checked, scored against a pre-registered bar and credited.
-
-# text
-seg-5858e5d1f7c5 = An evidence label on every figure and table a run writes
-
-# text
-seg-d1c4250b2a7e = Each result file, chart and table a run writes now says which tier it rests on (validated, modelled or partner, the weakest of its rows) and names the verification-matrix rows behind it, read from the matrix and not typed.
-
-# text
-seg-bd28ef5c376e = Seventeen languages beside English
-
-# text
-seg-1e4a6a5931d3 = The command line, the reports, the documentation pages and the Studio are available in seventeen languages beside English.
-
-# text
-seg-7fae5de5ebf1 = kshana-bench: the { "0.40" } re-campaign
-
-# text
-seg-1e0afa852323 = Four pre-registered comparisons were run once after sign-off and met their bars, and every score is modelled.
+seg-38a1319ee0c2 = A new scenario kind: a radio-frequency layer tips, an optical layer is cued, and the run gives the revisit and the latency over an area.
 
 # text
 seg-54dce6366d5a = Every bundled scenario, on one map.

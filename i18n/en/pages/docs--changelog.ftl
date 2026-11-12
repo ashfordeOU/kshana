@@ -15,6 +15,32 @@ seg-bbc8f38627f1 = The format is based on <a1>Keep a Changelog</a1>, and this pr
 seg-985f7b4c001a = Unreleased
 
 # text
+seg-309ac85ff498 = [{ $version }] - 2026-11-12
+
+# text
+# c1: kshana.obs/1
+# c2: tip-and-cue
+seg-395bc0bf58e1 = { "0.41" } adds live ingest (Kshana Connect mapping files, a directory watch, MQTT, NATS and WebSocket inputs, an NTRIP client, live receiver, clock, sensor, IQ and ADS-B/AIS recording), a headless receiver service (Kshana Station), Kshana Desktop, a C interface, CAP { "1.2" } alerts and signed webhooks, one observation schema (<c1/>), area trust from several reference stations, a monitoring-network planner, location metrics in the referee, an environmental baseline, a fourth benchmark task (e) with the TEXBAT spoofing scores, the flight-dynamics export and its adapters, and the <c2/> scenario kind. It records the scored pre-registered rows of the { "0.41" } programme below, every NOT MET beside every MET; no bar was loosened. The verification matrix grows from { "401" } to { "413" } rows: { "176" } VALIDATED (unchanged), { "233" } MODELLED (was { "221" }) and { "4" } PARTNER. The twelve new rows are all MODELLED, and no row was promoted to VALIDATED. The scenario kinds grow from { "92" } to { "93" } and the MCP server's tools from { "49" } to { "53" }. The advisory statement is unchanged: Kshana is advisory software, not type-approved navigation equipment; the operator remains responsible.
+
+# text
+seg-738f33f0ae8a = Known limits
+
+# text
+# c1: kshana::locate_pd
+# c2: kshana::locate_tdoa
+seg-f4f89d0ae700 = The B3a power-difference locator (<c1/>) and the B3b TDOA locator (<c2/>) are Rust library only, with no command line, Python or WebAssembly entry; both synthetic gates are NOT MET and neither is run on real data.
+
+# text
+seg-59d44df2d17b = The broadcast-health rule reads GPS and QZSS health only; Galileo and BeiDou health is not read yet (their health bits are per signal).
+
+# text
+# c1: xval/bench-e/run/
+seg-01e2e0e8c262 = The benchmark leaderboard page renders tasks (a) to (d) only; task (e) results stay in <c1/>.
+
+# text
+seg-209fcd0e0d4f = The Studio's IQ recording view works in Kshana Desktop only; on the site it says so.
+
+# text
 seg-033d52126d8a = Added
 
 # text
@@ -81,7 +107,399 @@ seg-74650a0d82a5 = <c1/>: a Bias-SINEX { "1.00" } reader (DSB, ISB and OSB; code
 # c1: kshana::tip_and_cue
 # c2: data/tip-and-cue/baltic_sea_points.csv
 # c3: tip-and-cue
-seg-4dc5d6f1c7a3 = <c1/> (row M2, library): Walker star RF and optical layers on { "550" } km sun-synchronous orbits over the { "996" } Baltic sea points (<c2/>, from Natural Earth), access intervals per point, and the revisit, full-area refresh and RF-to-optical reaction figures; public helpers for the area grid, the sea mask, the primary RF layer and one of its planes. Bar M2-B0 met: { "1 283" } access intervals equal the independent oracle's to the second. The <c3/> scenario kind follows with the site rebuild. MODELLED.
+# c4: scenarios/tip-and-cue-baltic-m2.toml
+# c5: scenarios/tip-and-cue-short.toml
+# c6: docs/TIP-AND-CUE.md
+seg-f823417b1667 = <c1/> (row M2, library): Walker star RF and optical layers on { "550" } km sun-synchronous orbits over the { "996" } Baltic sea points (<c2/>, from Natural Earth), access intervals per point, and the revisit, full-area refresh and RF-to-optical reaction figures; public helpers for the area grid, the sea mask, the primary RF layer and one of its planes. Bar M2-B0 met: { "1 283" } access intervals equal the independent oracle's to the second. The <c3/> scenario kind now runs it (<c4/>, <c5/>, <a1><c6/></a1>): { "93" } scenario kinds. MODELLED.
+
+# text
+# c1: kshana.obs/1
+# c2: kshana obs convert <log> --format <f> --station <station.toml>
+# c3: kshana obs check <file>
+# c4: docs/OBS-SCHEMA.md
+seg-b589dfcfe2b3 = <b><c1/>, one observation schema for stations and systems</b> (header, epochs with optional IQ references, alarms), with its JSON Schema, <c2/> and <c3/> (<a1><c4/></a1>). RINEX { "4.00" } observation files are read and give the same epochs as { "3.04" }.
+
+# text
+seg-4d85fd4b0cb4 = Kshana Connect mapping files.
+
+# text
+# c1: kshana connect map <input> --mapping <connect.toml> --station <station.toml>
+# c2: kshana.obs/1
+# c3: kshana.connect/1
+# c4: connect_map
+# c5: connect_map
+# c6: docs/CONNECT.md
+seg-485b94eac7ea = <c1/> turns any CSV, TSV, JSON or JSON Lines export into <c2/> through a <c3/> TOML file, with no code: time as RFC { "3339" }, Unix s or ms, GPS seconds, GPS week and time of week or a pattern, in UTC, GPS or TAI (leap seconds from the table); position with units; per-satellite C/N0 in long or wide layout; gain control, interference indicator, the receiver's own flags and DOP; row filters and JSON pointers. Every error names the line and the column. Python and WebAssembly <c4/> and the MCP tool <c5/> give the same bytes as the check vectors (<a1><c6/></a1>).
+
+# text
+# c1: kshana connect check <vector.toml|dir> [--bless]
+# c2: kshana.obs/1
+seg-8bfcdb787c38 = <c1/>: runs Connect check vectors (input, mapping file or built-in reader, station, expected <c2/> output) and fails on any byte difference, naming the first differing line. The three mapping examples (an Android raw-measurement CSV, a timing receiver's semicolon export, a monitoring service's nested JSON), the NMEA reader, a RINEX { "4.00" } vector and an IEC 61162-450 vector are in the corpus; CI runs it.
+
+# text
+# c1: connect map
+seg-415743769b92 = <b>Live ingest through a Connect mapping</b>, each giving the epochs <c1/> gives on the whole log: `kshana connect watch<dir>` (a directory of growing or rotating logs read as one continuous log; `--suffix`, `--interval`, `--once`), `kshana connect mqtt` (MQTT { "3.1.1" }, QoS { "0" } and { "1" }, credentials from the environment, keep-alive, reconnection, `--per-topic` for wildcard subscriptions), `kshana connect nats` (MSG and HMSG, PING/PONG, credentials or token from the environment, reconnection, `--per-topic`, station ids `<station>/<topic>`) and `kshana connect ws` (an RFC { "6455" } client: checked upgrade, fragments, ping/pong, close). Memory is bounded; feeds trim after every epoch.
+
+# text
+# c1: kshana connect check-live <vector.toml|dir> [--json]
+# c2: kshana connect load-test
+seg-b2e72acc6af1 = <c1/>: replays the Connect check vectors over MQTT (with a forced reconnection), WebSocket and the directory watch, and checks order, holding, reconnection and latency. <c2/> runs many synthetic stations through the live feeds (default { "1,000" } at { "1" } Hz for { "10" } s); the recorded run gave { "40,659" } messages/s in memory and a p99 of { "28.5" } ms over MQTT (release build, one core).
+
+# text
+# c1: adapters/
+# c2: kshana.adapter/1
+# c3: kshana connect adapters list|check
+# c4: docs/ADAPTERS.md
+seg-815e874c88f5 = <b>The adapter registry</b>: <c1/> with <c2/> manifests (three examples), <c3/> (manifest, mapping, the adapter's own check vector byte for byte, unique names), adapter-submission and integration-request issue templates (<a1><c4/></a1>).
+
+# text
+seg-83be77c7a389 = Live receivers.
+
+# text
+# c1: kshana ntrip <host:port>
+# c2: docs/NTRIP.md
+# c3: kshana obs live <file|-|tcp:host:port> --format <f> --station <station.toml>
+seg-3869ba94a79f = <c1/>: an NTRIP client (NTRIP { "1" } ICY and NTRIP { "2" } with chunked encoding, Basic authentication with the password from the environment, a GGA position, the source table; the RTCM { "3" } frame count does not depend on chunking) (<a1><c2/></a1>). <c3/> reads a receiver stream as it arrives, with the epochs a replay gives and bounded memory (checked for SBF, NovAtel and RTCM { "3" }).
+
+# text
+# c1: kshana iq record
+# c2: iq monitor --follow
+seg-80c1dfdf3cbd = <c1/>: writes a capture tool's samples into SigMF as they arrive, receive only; <c2/> on the growing file equals the replay.
+
+# text
+# c1: kshana interference-map record
+# c2: aircraft.json
+# c3: locate
+seg-fb7ba1919f5f = <c1/>: records live ADS-B (readsb <c2/>) and AIS (AIVDM) feeds into the CSV files the <c3/> replays read.
+
+# text
+# c1: kshana clock-live --format <f> --from <-|tcp:host:port|file>
+# c2: pps-assert
+seg-90790268f7c1 = <c1/>: follows linuxptp, chrony, Linux PPS (the new <c2/> clock-log format) and TICC logs and prints one JSON line per reading; the kept readings equal the replay series.
+
+# text
+# c1: kshana sensor-live
+# c2: csv
+# c3: euroc
+# c4: sensor_msgs/Imu
+# c5: ros2 topic echo --csv
+# c6: [log.imu]
+# c7: --kind n2k
+# c8: candump
+seg-bcb408cb02a4 = <c1/>: follows IMU logs (<c2/>, <c3/>, and ROS { "2" } <c4/> from <c5/>, also accepted in <c6/>) and prints each sample with its integrated gyro heading, equal to a replay bit for bit; <c7/> turns NMEA { "2000" } frames from SocketCAN <c8/> into NMEA { "0183" } (position, course, heading, time).
+
+# text
+seg-a5fe6e3ad9a3 = Live paths share one host time base with per-device latency, a watchdog per sensor (stale, frozen, out of range) and reconnection with the gap marked, never filled.
+
+# text
+# c1: kshana device check <device.toml>
+# c2: kshana device decode
+# c3: kshana.device/1
+# c4: device check
+# c5: docs/DEVICES.md
+seg-f8125220e6bc = <c1/> and <c2/>: the <c3/> sensor plug-in kit, a binary sensor described by framing, messages and test vectors, decoded to JSON Lines for a Connect mapping; <c4/> runs the file's own test vectors (<a1><c5/></a1>).
+
+# text
+# c1: kshana station run|check|service <station.toml>
+# c2: kshana.obs/1
+# c3: obs live
+# c4: GET /health
+# c5: GET /status
+# c6: service
+# c7: docs/STATION.md
+seg-3c07800f790e = <b>Kshana Station</b> (<c1/>): a headless receiver service. Every configured receiver stream (TCP, serial or USB device, file) is read as it arrives into rotated <c2/> files through the reader <c3/> uses, so a connection's epochs are a replay's bit for bit; a stream that ends is reopened every second, the gap counted and never filled. A local status port (<c4/>, <c5/>; another address needs a bearer token), an optional fleet report over HTTP, and <c6/> prints a systemd unit, a launchd property list or a Windows start-up task. Read only: nothing is written to a receiver. <a1><c7/></a1> is a field guide for one real receiver on a site.
+
+# text
+# c1: apps/desktop
+# c2: studio/iq/
+seg-55a23260dfed = <b>Kshana Desktop</b> (<c1/>, Tauri { "2" }): the Studio in a native window with runs, charts, tables, the localised text and the CCSDS and SP3 exports on the natively linked engine (the same calls as WebAssembly), files of any size read in blocks. The trust page can score a receiver live from a serial or USB port, a TCP stream or a growing file (NMEA { "0183" }, read only, every five seconds). An IQ recording view (<c2/>) shows power, a waterfall and the spectrum at a cursor for ci8, cu8, ci16 and cf32 recordings and SigMF metadata; it has no control that writes a file or transmits. The Desktop workflow builds the app on Linux, macOS and Windows.
+
+# text
+# c1: capi/kshana-capi
+# c2: forbid(unsafe_code)
+# c3: kshana.h
+# c4: SECURITY.md
+# c5: SAFETY.md
+seg-f50d62a52767 = <b>A C interface</b>: <c1/>, a separate crate so the library keeps <c2/>, with five entry points (version, run, validate, connect map, free) and <c3/>. C, C++, Python (ctypes) and Go (cgo) examples are built and run by the tests against the same expected output; the C example also runs under AddressSanitizer and UndefinedBehaviorSanitizer. <c4/> and <c5/> state the boundary.
+
+# text
+# c1: t.body
+# c2: Kshana-Signature
+# c3: kshana trust-telemetry --cap-config/--cap-dir/--webhook --webhook-secret-env
+seg-62eace9720c5 = <b>Alerts.</b> OASIS CAP { "1.2" } messages from the trust stream (Alert, Update and all-clear, linked by references, with operator-set status and scope; valid against the CAP { "1.2" } schema), and webhook payloads signed with HMAC-SHA256 over <c1/> (<c2/>, a replay window, key rotation; checked against the RFC { "4231" } vectors). On the command line: <c3/>.
+
+# text
+# c1: docs/guides/MONITORING-STATION.md
+# c2: tests/guide_monitoring_station.rs
+seg-de86a8fd95d5 = <b>Deployment kits</b>: a Compose stack (monitor, Prometheus, provisioned Grafana; an ingest profile with MQTT) and a Helm chart; the image runs as UID { "10001" }; an end-to-end workflow feeds both the bundled replay. <a1><c1/></a1> walks through a GNSS interference-monitoring station (observations, trust, CAP alerts, the live stack, a signed webhook); <c2/> runs its steps as written.
+
+# text
+# c1: kshana bench-speed [--repeats <n>] [--json <out>] [--baseline <old.json>]
+# c2: docs/SIZING.md
+seg-83af1e2e9c20 = <c1/>: times the live paths against a same-run calibration and prints the station sizing table; with a baseline it fails on a slowdown over { "10" } % (<a1><c2/></a1>). CI runs it on three platforms.
+
+# text
+# c1: iec61162-450
+# c2: kshana::c37118
+# c3: kshana::rts25
+# c4: kshana::asterix_cat021
+# c5: time,x,y,z
+# c6: time,lat,lon,h
+seg-b3dff1a8024b = <b>Readers and checks for other sectors</b>: IEC 61162-450 network datagrams unwrapped to NMEA with TAG-block checksums (reader <c1/>); IEEE C37.118.2 PMU time-sync health (<c2/>: STAT sync error, time quality, unlocked time, FRACSEC flags, CRC; checked against an independent encoder); business-clock divergence from UTC against the RTS { "25" } Annex limits (<c3/>: excursions, gaps, within, beyond or not assessable); ASTERIX CAT021 ADS-B reports (edition { "2.6" } UAP) to the interference map's ADS-B CSV (<c4/>; checked against an independent encoder); gps-sdr-sim motion files (<c5/> and <c6/>) imported into the test bench (round trip exact in ECEF, within { "0.2" } mm in LLH).
+
+# text
+# c1: loopstats
+# c2: peerstats
+# c3: cko
+# c4: lock:1
+# c5: kshana::cggtts
+# c6: docs/CLOCK-LOG-FORMATS.md
+seg-e99a72a05ea1 = <b>Clock-log formats</b>: ntpd <c1/> and <c2/>, White Rabbit PTP core stat lines (clock offset <c3/> in ps; the pull-in before the first <c4/> left out), and CGGTTS 2E track files (<c5/>: checksums, all-in-view series and common-view differences, read on a public BIPM file). The CGGTTS comparison against Circular T (R6.1) is pre-registered as proposed and not run (<a1><c6/></a1>).
+
+# text
+# c1: kshana::rtcm_ssr
+# c2: docs/design/evidence/r1-1-rtcm-ssr/RESULTS.md
+seg-91cf8104d9d0 = RTCM { "3" } SSR corrections ({ "1057" } to { "1068" }, { "1240" } to { "1263" }) for GPS, GLONASS, Galileo, QZSS, SBAS and BeiDou, and the { "1264" } ionosphere, in <c1/>, checked field by field against the values pyrtcm { "1.2.0" } records for its public sample streams. MODELLED; no pre-registration (<c2/>).
+
+# text
+# c1: kshana scenario migrate <scenario.toml> [--in-place]
+# c2: kshana scenario version
+# c3: schema_version
+# c4: docs/SCENARIO-VERSIONS.md
+seg-dd3befdaf3ef = <c1/> and <c2/>: an optional <c3/> line in a scenario file, checked and stripped before any kind reads the file (results byte-identical), and refused when newer than the engine (<a1><c4/></a1>).
+
+# text
+# c1: KSHANA_THREADS
+# c2: iq track
+# c3: kshana::par
+seg-ed1f4007323e = <c1/>: campaigns, sweeps, the N-D sweep ensembles, the LEO PPP ensemble, <c2/>, and the clock-holdover and inertial Monte Carlo use every core by default, with the same bytes on one core and many (<c3/>).
+
+# text
+# c1: KSHANA_MAX_MEMORY
+# c2: iq track
+# c3: --json
+# c4: --epochs
+# c5: docs/MEMORY.md
+seg-ec293f364564 = <c1/>: a cap on what one command plans to hold; <c2/> refuses an over-cap <c3/> before it starts and names <c4/>, which streams in a fixed amount of memory (<a1><c5/></a1>).
+
+# text
+# c1: kshana area-trust <stations.json>
+# c2: area_trust_timeline
+# c3: kshana::area_trust
+# c4: docs/AREA-TRUST.md
+# c5: "area_rule": "v2"
+# c6: "v3"
+# c7: kshana.area-measurements/1
+# c8: Degraded
+# c9: AreaLive
+# c10: VM-79c6dba3
+seg-f6b18ab4882d = <c1/> (Python and WebAssembly <c2/>; <c3/>): one trust state for an area from several reference stations, per second, with alerts, as JSON Lines (B5; <a1><c4/></a1>). <c5/> selects a two-station floor for areas of six stations or fewer; <c6/> and a <c7/> document add a common-mode satellite-fault screen on the stations' fixes, and a loss-of-lock alarm alone no longer makes a station <c8/> (it stays in the station's record). Without the field the rule is v1, with v1's bytes. <c9/> runs the rule on a live stream, closing each second as soon as every station has reported. MODELLED (<c10/>); B5 v1, v2 and v3 are NOT MET.
+
+# text
+# c1: kshana planner map|place <spec.json>
+# c2: planner
+# c3: kshana::planner
+# c4: place
+# c5: m
+# c6: greedy
+# c7: greedy+exchange
+# c8: greedy+exchange2+restarts
+# c9: ill_conditioned
+# c10: docs/PLANNER.md
+# c11: VM-14a961c9
+seg-63ed13be1d3c = <c1/> (Python and WebAssembly <c2/>; <c3/>): a monitoring-network planner. Per site cell, each station's detection probability, the network's, the probability that enough stations detect to locate, and the TDOA DRMS and { "95" } % ellipse; <c4/> chooses <c5/> stations from candidates (<c6/>, <c7/> and <c8/>, selected by name). Cells with a condition number above { "1e8" } carry an <c9/> flag (<a1><c10/></a1>). MODELLED (<c11/>), free space only.
+
+# text
+# c1: kshana jammertest locate-score
+# c2: referee_location_score
+# c3: referee_location_score
+# c4: kshana::geodesic
+seg-be94a08c0dc1 = <c1/> (Python and WebAssembly <c2/>, MCP <c3/>): location metrics in the referee, namely error, region coverage and size, time to first location, time to locate and false locations (B2). <c4/>: the WGS { "84" } inverse geodesic distance (Karney { "2013" }, a port of GeographicLib, MIT), within { "1e-8" } m of GeographicLib on { "3,616" } pairs.
+
+# text
+# c1: kshana env-baseline <site-hours.json>
+# c2: env_baseline
+# c3: kshana::env_baseline
+# c4: quiet
+# c5: elevated
+# c6: disturbed
+seg-2a5eeb72860e = <c1/> (Python and WebAssembly <c2/>; <c3/>): an environmental baseline per site and hour from Kp and F10.7, a score from { "0" } to { "1" } and <c4/>, <c5/> or <c6/> (B8). MODELLED.
+
+# text
+# c1: kshana data-pack <out-dir> [--seed <n>] [--logs <n>] [--iq <n>]
+# c2: docs/DATA-PACKS.md
+seg-3cf5f16c45f2 = <c1/>: synthetic labelled data packs, NMEA logs with exact drag-off spoofing labels and IQ scenes with natural impairments (obstruction, scintillation, multipath); the same seed gives the same bytes (<a1><c2/></a1>).
+
+# text
+# c1: kshana bench baseline --task e
+# c2: validate
+# c3: e
+# c4: docs/guides/BENCHMARK-CLASSES.md
+seg-1c8684cc2000 = <b>Benchmark task (e)</b>, four-class interference labelling on receiver logs (spec { "2.1.0" }; tasks (a) to (d) keep { "2.0.0" }): truth from the JammerTest { "2024" } folders (Zenodo record { "15911589" }, pinned by SHA-256), the scorer, and the B-log baseline (<c1/>); <c2/> accepts task <c3/>. <a1><c4/></a1> scores an interference classifier on it step by step.
+
+# text
+# c1: VM-bd8626f0
+# c2: kshana bench texbat-windows
+# c3: sdr::track_continue
+# c4: kshana bench texbat-pd
+# c5: kshana bench texbat-score
+# c6: kshana bench verify-manifest
+# c7: bench/manifests/b-iq.json
+seg-f35f76917dd0 = <b>TEXBAT spoofing scores</b> (<c1/>): <c2/> (the fixed B-iq baseline in { "1" } s windows, acquired once per recording then tracked continuously through <c3/>), <c4/> (power-and-distortion window scores) and <c5/> (the registered AUC from the committed window-score files). The recordings stay on the user's computer; only window scores are written. <c6/> checks an external source's files against pinned sizes and SHA-256 (hashed in { "1" } MiB blocks) and refuses a file that differs; all ten TEXBAT recordings are now pinned in <c7/>. MODELLED.
+
+# text
+# c1: kshana::interference_map::almanac_hdop
+seg-a61c2a800e53 = <c1/>: a YUMA almanac reader, the IS-GPS-200 almanac orbit, HDOP at a position with a stated mask, the NACp { "95" } % bound and an EPU-against-HDOP flag with the mask, UERE and multiple stated by the caller (D18 item { "1" }). Built from public sources as Kshana's own method, not a reproduction of the cited paper; no real data scored.
+
+# text
+# c1: kshana::space_geoloc
+# c2: VM-46168417
+seg-f760607042b9 = <c1/> (M1): space RF geolocation bounds for a surface emitter seen from low Earth orbit (a { "550" } km sun-synchronous orbit with secular J2, passes, single-satellite frequency of arrival, two- and three-satellite TDOA/FDOA formations, link-budget noise per emitter class, several passes fused). Library. MODELLED (<c2/>).
+
+# text
+# c1: kshana::m4_dark_vessel
+# c2: kshana::m4_logic
+# c3: NORMAL
+# c4: DARK
+# c5: GAP
+# c6: POSITION-OFFSET
+# c7: IDENTITY-DUPLICATE
+# c8: M4Params::v1
+# c9: v2
+# c10: v3
+# c11: VM-a66a88b7
+seg-6b3a5b24588f = <c1/> and <c2/> (M4): a synthetic Baltic truth-set generator and dark-vessel and AIS-integrity decisions from RF fixes against AIS reports (<c3/>, <c4/>, <c5/>, <c6/>, <c7/>; <c8/>, <c9/>, <c10/>). Every output describes data consistency, never intent. Library. MODELLED (<c11/>).
+
+# text
+# c1: kshana::m5_hybrid
+# c2: VM-473e1da1
+seg-f54e7f94e11f = <c1/> (M5): interference-source location from orbit, from a ground network and from both combined, with link budget and a Wilson-Hilferty energy detector. Library. MODELLED (<c2/>).
+
+# text
+# c1: kshana::locate_pd
+# c2: kshana-locate/power-difference/v1
+# c3: kshana::locate_tdoa
+# c4: VM-db8ed956
+# c5: VM-09cb4375
+seg-ee0b53b884ad = <c1/> (B3a, <c2/>, session-level shadowing in v2) and <c3/> (B3b): fixed-station interference-source locators from power differences and from time differences of arrival, each with its synthetic session generator and gate runner. Library only. MODELLED (<c4/>, <c5/>); both gates NOT MET.
+
+# text
+# c1: kshana::opnav
+# c2: projectPoints
+# c3: VM-3c8cdeb7
+seg-ba8d8c94db4b = <c1/> (C5a): the optical-navigation measurement model, the apparent direction of a body centre (converged Newtonian light time and stellar aberration) or a catalogue star, projected through a pinhole camera with Brown-Conrady distortion in the OpenCV <c2/> convention, with the partials of the pixel with respect to position and velocity. MODELLED (<c3/>); the camera values are illustrative.
+
+# text
+# c1: kshana::c3_force
+# c2: VM-a074a1db
+seg-8e6fc8f65181 = <c1/> (C3): the A2 lunar force model with the Sun and Earth from a DE440 kernel plus Venus and the Jupiter system barycentre (M1), and optionally cannonball radiation pressure with Earth and Moon conical shadows (M2); with no kernel and no radiation pressure it is the A2 model bit for bit. MODELLED (<c2/>).
+
+# text
+# c1: tli-and-cruise
+# c2: impulses
+# c3: t_s
+# c4: dv_mps
+# c5: mission_thread::impulses::detect
+# c6: VM-22f8a601
+seg-daa4274977c0 = The <c1/> phase's optional <c2/> list (<c3/> from the phase start, <c4/> in GCRF), and <c5/>, which flags hours whose one-hour velocity residual exceeds { "0.01" } m/s (C2). Without impulses every output is unchanged. MODELLED (<c6/>).
+
+# text
+# c1: BocTracking::exact_inverse
+# c2: boc11_dll_inverse
+seg-8437057c96e7 = <c1/> and <c2/>: the BOC({ "1,1" }) DLL read through the exact inverse of each discriminator's response on the ideal peak (closed forms inside and outside |ε| = d/2, clamped to the main peak). Opt-in; the linear scaling stays the default. Scored under D8a row { "5" } (met on re-run).
+
+# text
+# c1: [campaign_fit] cn0_lag_s
+# c2: [campaign_fit] cn0_model = "estimator-response"
+# c3: cn0_windows
+# c4: cn0_window_s
+# c5: coherent_s
+# c6: cn0::estimator_reading
+seg-9ae367f4dc10 = <c1/> (D8a row { "6" }) and <c2/> with <c3/>, <c4/> and <c5/> (D8a row { "6" } v2; <c6/>): the lab fit models each C/N0 bin at the stated J/S a lag earlier, or as the M2M4 estimator's own reading along the stated profile. Defaults unchanged. Both NOT MET.
+
+# text
+# c1: stats::m2m4_step_reading
+# c2: stats::cusum_delay_through_m2m4
+seg-43af6908e650 = <c1/> and <c2/> (D8b row { "8" } v2): the noise-free M2M4 estimate of a C/N0 step and the drop CUSUM's delay through it.
+
+# text
+# c1: examples/iono_h2h_klobuchar.rs
+# c2: iono_h2h/1
+seg-e2351dfe18c9 = <c1/>: the broadcast Klobuchar model as an entry for a pre-registered ionosphere comparison (<c2/>: VTEC at nodes, STEC along given lines of sight; no F2-peak model).
+
+# text
+# c1: integrations/flight-dynamics/gmat.ipynb
+# c2: continue-on-error
+# c3: SPK
+# c4: CCSDS-OEM
+seg-51e123380e34 = The GMAT R2026a adapter and notebook (<c1/>), its own workflow job with <c2/>: GMAT's <c3/> propagator runs Kshana's kernel end to end but does not carry it (within { "1.19" } mm of the written state, a GMAT time-representation finding); its <c4/> propagator refuses an OEM { "2.0" } outside GMAT's TESTING mode.
+
+# text
+# c1: interference_emitter_regions
+# c2: connect_map
+# c3: referee_location_score
+# c4: ephem_export
+seg-4d0d652440d0 = MCP: four tools, <c1/>, <c2/>, <c3/> and <c4/> ({ "53" } in all), each with a round-trip test; the translated READMEs list all { "53" }.
+
+# text
+# c1: docs/STABILITY.md
+seg-26d56e1dadf3 = <a1><c1/></a1>: the public surface, versions, deprecation, the conditions for { "1.0" }, and { "12" } months of long-term support from { "1.0" }.
+
+# text
+# c1: tip-and-cue
+# c2: clock-fitted-log
+# c3: clock-measured-log
+# c4: lunar-descent
+# c5: lunar-surface
+# c6: lunar-ascent
+# c7: lunar-orbit-rendezvous
+# c8: lunar-orbit-rendezvous-elfo
+seg-17cfd011644a = Studio: the two <c1/> scenarios and seven more join the library (<c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>), with a Kshana Connect card in the tools hub and the Connect, adapter, flight-dynamics and Station documentation pages.
+
+# text
+seg-0fb89eb36003 = Changed
+
+# text
+# c1: pvt::select_ephemeris
+# c2: MAX_EPH_AGE_S
+# c3: BRDC00WRD_R_20181330000_01D_GN.rnx
+# c4: docs/design/evidence/b5-area-trust/ENGINE-FINDING-HEALTH.md
+seg-aae3c86263f6 = <c1/> skips broadcast records marked unhealthy (GPS: health not { "0" }; QZSS: any bit but the L1C/A-only flag), and a satellite with no healthy record within <c2/> is left out of the epoch. On by default, with no option. One pinned expectation moved: a constellation built from <c3/> now has { "31" } satellites, not { "32" } (G04's only record has health { "63" }). Found by B5 v3 (<c4/>).
+
+# text
+# c1: kshana bench-speed
+seg-f6a6956f3129 = The live decoder window is { "256" } frames, not { "4096" }, which makes the live decoder about { "12" } times faster (measured by <c1/>).
+
+# text
+seg-8ae29bd561c3 = The planner and the environmental baseline use the engine's portable maths, so every target gives the same bytes. The first WebAssembly check of the planner had differed from the command line; the scored outcomes are unchanged (B1a P1 to P4 identical, B8 scores within { "2.4e-16" }, no level changed).
+
+# text
+# c1: labfit-iq
+# c2: settings.cn0_windows
+# c3: cn0_window_s
+# c4: coherent_s
+# c5: cn0_model
+seg-af053d575298 = The <c1/> report omits <c2/>, <c3/> and <c4/> at their defaults ({ "50" }, { "0.02" } s, { "0.001" } s), as it omits <c5/>, so stated-mode reports keep their bytes; the field-units schema gains four rows.
+
+# text
+# c1: apps/
+# c2: deploy/
+# c3: skills/
+# c4: README.md
+# c5: src/bench/texbat.rs
+seg-541e1b6c54cb = The published crate stays under crates.io's { "10" } MiB ({ "10 402 479" } bytes): <c1/>, <c2/>, <c3/>, the Connect check-vector folder and <c4/> are left out; the library embeds none of them, and the bench manifest that <c5/> embeds is packaged.
+
+# text
+# c1: deny.toml
+# c2: kshana-mcp
+seg-1ce9ad55c989 = <c1/> records RUSTSEC-2026-0457 and RUSTSEC-2026-0462, both in rmcp client code (OAuth and the Streamable HTTP client transports) that the server-only <c2/> does not compile.
+
+# text
+seg-fc60abe0ec2f = Release workflows: only the newest version tag may publish; the MCP registry step waits until npm and PyPI serve the version; every remaining tolerated failure states its reason; a winget pull request already open for the version counts as success; the OCI image builds get { "180" } minutes. A monthly Apple signing check fails when a Developer ID certificate has fewer than { "30" } days left.
+
+# text
+# c1: studio/recorded/<name>.json.gz
+seg-75ab4d2b704a = The Studio's { "184" } recorded runs are gzip-compressed (<c1/>): { "43" } MB of JSON becomes { "6.9" } MB, and the deployed site { "498.1" } MB becomes { "458.1" } MB.
 
 # text
 seg-c9a8a5898ced = Fixed
@@ -93,6 +511,16 @@ seg-c9a8a5898ced = Fixed
 seg-ba9e7cb4368f = An SBF log cut inside its last block, or with a stray <c1/> sync whose declared length runs past the end, no longer makes <c2/> and the receiver-trust SBF reader loop forever: the blocks are framed by Kshana and the unfinished one counts as one skipped record (<c3/>).
 
 # text
+seg-aa286837c7d0 = The RINEX navigation reader takes each record's length from the file, so RINEX { "3.05" } five-line GLONASS records no longer lose the records after them. The BKG merged daily files of 2025-01-08, { "14" } and { "15" } mix 4- and 5-line GLONASS records, and the fixed count had dropped most GPS ephemerides on those days. Found by B5 T4; the B5 T4 scored result stands, and the same run after the fix is recorded beside it (still NOT MET).
+
+# text
+# c1: fusion-pnt
+# c2: [coupled]
+# c3: fusion-pnt
+# c4: fusion-pnt-coupled
+seg-c9aeb005a651 = The <c1/> timing bound, in both the decoupled and the <c2/> suites, adds the flicker phase variance accumulated since the last anchor (defect D11c, under D17). Exactly zero without a flicker floor; <c3/> and <c4/> are byte for byte as before.
+
+# text
 seg-79fca70b80ab = Revisions
 
 # text
@@ -100,13 +528,125 @@ seg-79fca70b80ab = Revisions
 seg-a99ff2d32ba8 = Mars short-arc orbit determination, run { "2" }: since portable maths ({ "0.36" }), the fit takes { "11" } Jacobian evaluations, B3 is { "0.359" } km and B4 is { "0.523" } km (were { "12" }, { "0.362" } and { "0.527" }). Every verdict is unchanged; B2 stays NOT MET and the row stays MODELLED. The data-gated test was missed by the { "0.36" } re-baseline. See <c1/>.
 
 # text
-seg-0d4a740afedf = [{ $version }] - 2026-10-29
+# c1: iq_campaign
+# c2: docs/revisions/STUDIO15-pins-0.41.0-version.md
+seg-008f70ba6eb5 = Version-bearing pins re-blessed at { $version } ({ "21" } telemetry hashes, { "38" } skyline rows, two <c1/> digests, three README demo charts, the SBOM fixture hash): <c2/>. No claim changed.
+
+# text
+seg-eb1b5c040d80 = Each scored row below was pre-registered and signed off before its code or data, and scored once; no bar was changed after a result was seen. C7, D1 and D18 have no bar, and the R items are not scored. Disclosures (amendments, development runs, restarts) are in each results file. Everything here stays MODELLED.
+
+# text
+# c1: docs/design/evidence/m1-space-rf-geolocation/RESULTS.md
+seg-82775af39774 = <b>M1</b> (space RF geolocation bounds; <c1/>): <b>MET</b>. B1 against an independent recomputation over { "60" } cases, worst relative difference { "3.0e-10" } (bar { "1e-6" }); B2 reproduces Cao et al. { "2015" }, Fig. { "1" } ({ "25" } plot readings) within +{ "5.5" } % (bar { "20" } %); B3 RMS over DRMS { "0.979" } to { "1.019" } (bar { "0.9" } to { "1.25" }), { "1000" } of { "1000" } converged; B4 and B5 met. The bounds are optimistic: no clock or orbit-knowledge error, representative link budgets.
+
+# text
+# c1: docs/design/evidence/m2-revisit-tip-and-cue/RESULTS.md
+seg-ea3b862e013a = <b>M2</b> (revisit and tip-and-cue latency, a cross-check of published simulation figures; <c1/>): <b>not consistent with the published figures</b>. M2-B0 MET ({ "1 283" } access intervals, worst difference { "0" } s); M2-B1 one of six figures consistent (16-satellite revisit { "23.97" } min against { "20" } min, window { "15" } to { "25" }); M2-B2 none of the three 16-to-32 ratios consistent ({ "1.046" }, { "1.146" } and { "1.778" } against { "2.00" }, { "2.17" } and { "2.14" }).
+
+# text
+# c1: docs/design/evidence/m4-dark-vessel-ais-integrity/
+seg-e72a37464e3c = <b>M4</b> (dark vessels and AIS integrity, synthetic; <c1/>): v1 <b>NOT MET</b>: B2 dark recall { "0.848" } (bar { "0.95" }), B4 offset recall { "0.807" } at { "5" } km (bar { "0.85" }) and { "0.846" }, { "0.825" }, { "0.871" } at { "10" }, { "20" }, { "50" } km (bar { "0.98" }); B1 (FA { "0.0050" }), B3, B5, B6, B7 met. v2 <b>NOT MET</b>: B2 { "0.877" }, B4 { "0.396" } at { "5" } km and { "0.689" }, { "0.650" }, { "0.646" }; B1 (FA { "0.00006" }), B3, B5, B6, B7 met. v3 <b>NOT MET</b> on B4: { "0.489" } at { "5" } km ({ "137" } of { "280" }) and { "0.646" }, { "0.675" }, { "0.661" }; B2 <b>MET</b> at { "0.994" } ({ "1 392" } of { "1 400" }, precision { "0.867" }); B1 (FA { "0.00075" }), B3, B5, B6, B7 met.
+
+# text
+# c1: docs/design/evidence/m5-jammers-from-orbit-hybrid/
+seg-e8b2e4cadff5 = <b>M5</b> (interference sources from orbit and a space-plus-ground hybrid, synthetic; <c1/>): v1 <b>NOT MET</b> on B1 to B3 (success: space { "0.630" }, ground { "0.000" }, hybrid { "0.630" } against { "0.680" }; medians hybrid { "56.08" } m, space { "56.07" } m against { "44.86" } m; p95 hybrid { "359" } km against { "263" } km); B4, B5, B6 met. v2 <b>NOT MET</b> on B1 to B3 (success: space { "0.990" }, ground { "0.00025" }, hybrid { "0.990" } against { "1.040" }; medians { "7.352" } m and { "7.351" } m against { "5.881" } m; p95 { "71.300" } m against { "71.297" } m, missed by { "3.5" } mm); B4, B5, B6 met. The hybrid equals the space layer.
+
+# text
+# c1: docs/design/evidence/b1a-planner/
+# c2: m
+seg-e1ef71dc1fdc = <b>B1a</b> (monitoring-network planner, part { "1" }; <c1/>): v1 <b>NOT MET</b> on P1 ({ "4" } of { "619" } line-layout cells on the degenerate axis miss { "1e-9" } relative, by { "1.3e-9" } to { "2.6e-9" }), P2 ({ "52" } of { "54" } cells within ±{ "5" } %) and P4's greedy part ({ "0.2754" } against the best of { "1 000" } random subsets, { "0.2790" }); P3, P4 exhaustive, P5 (Linux, macOS, Windows, command line, Python, WebAssembly) and P6 met. v2 <b>NOT MET</b> on P4 (greedy+exchange { "0.350982" } against the best of { "1 000" } random subsets, { "0.353361" }); P1, P2 ({ "46" } of { "46" } in-regime cells), P3, P6 met, P5 met on Linux. v3 <b>MET on Linux</b>: P4 met (greedy+exchange2+restarts { "0.440809" } against the best of { "1 000" } random subsets, { "0.410470" } on { "48" } candidates, <c2/> = { "8" }); P1 to P3 and P6 met; P5 met on Linux, its macOS and Windows half pending, and the v3 placement's consistency check did not complete (the container restarted; the printed values are the scored ones).
+
+# text
+# c1: docs/design/evidence/b2-referee-metrics/RESULTS.md
+seg-c488f2b5fd65 = <b>B2</b> (location metrics in the referee; <c1/>): R1 to R5 <b>MET</b>. R1 { "0" } misses over { "10 054" } reports, worst distance difference { "2.5e-9" } m (bar { "1e-6" } m); R3 coverage { "0.9455" } at { "95" } %, { "0.8963" } at { "90" } %, { "0.4961" } at { "50" } % (n = { "10 000" }); R4 on the command line, Python, WebAssembly and MCP (MCP compared value for value). This checks the metric, not any locator.
+
+# text
+# c1: docs/design/evidence/b3a-power-difference-locator/
+seg-5ec81a1b1572 = <b>B3a</b> (power-difference locator, synthetic gate; <c1/>): v1 <b>NOT MET</b>: S1 coverage { "0.976" } met, S2 median { "95" } % region { "52.5" } % of the domain (bar { "25" } %), S3 centroid { "2.55" } × the station spacing (bar { "0.5" } ×); S4 not run. v2 (session-level shadowing) <b>NOT MET</b>: S1 { "0.890" } (bar { "0.90" }), S2 { "26.1" } %, S3 { "1.45" } ×; S4 platforms only, the command line, Python and WebAssembly half not assessable (no such surface). The row stops; no real run is made with this method.
+
+# text
+# c1: docs/design/evidence/b3b-tdoa-locator/RESULTS.md
+# c2: b3b-determinism
+# c3: VM-09cb4375
+seg-573149a33339 = <b>B3b</b> (TDOA locator, synthetic gate; <c1/>): <b>NOT MET</b>. T1 coverage { "0.044" } (bar { "0.90" }), T2 median area share { "1.000" } (bar { "0.25" }), T3 centroid { "3.35" } × the spacing (bar { "0.5" }); { "872" } of { "1 000" } sessions not located (the χ² consistency test failed). T4 met on Linux (debug equals release); macOS and Windows recorded when the <c2/> job has run. The independent oracle agrees on { "19" } of { "20" } sessions and on the scored outputs of the twentieth. New ledger row <c3/>. The row stops; no real run is made with this method.
+
+# text
+# c1: docs/design/evidence/b4a-benchmark-classes/
+# c2: test
+# c3: jamming
+# c4: VM-bd8626f0
+seg-e8fa2ce3b000 = <b>B4a</b> (benchmark task (e); <c1/>): E1 and E2 <b>MET</b>, so task (e) ships. The B-log baseline's bars are <b>NOT MET</b>: E3 not scoreable (one jamming folder in <c2/>), E4 every spoofing epoch labelled <c3/> (share { "1.00" } against { "0.50" }), E6 balanced accuracy { "0.259" } against { "0.80" }; v1's E5 not assessable (no TEXBAT file). On all ten TEXBAT recordings ({ "1" } s windows, scored once on { "11" } November { "2026" }, recomputed independently to { "1e-12" }): <b>E5 v2 NOT MET</b>, AUC { "0.6941" } against { "0.70" } ({ "2 729" } spoofing and { "922" } nominal windows); <b>E5-PD MET</b>, AUC { "0.7410" } ({ "2 729" } and { "802" } windows). Both miss the matched-power attacks (ds1, ds3, ds6). The detectors stay MODELLED (<c4/>).
+
+# text
+# c1: docs/design/evidence/b5-area-trust/
+# c2: DEGRADED
+# c3: UNTRUSTED
+# c4: DEGRADED
+# c5: UNTRUSTED
+# c6: DEGRADED
+# c7: UNTRUSTED
+seg-f147e5e772ef = <b>B5</b> (area trust; <c1/>): v1 <b>NOT MET</b> on T4: { "23" } alerts to <c2/> over { "13" } area-days in Madrid ({ "1.77" } per area-day; bar { "1" }), none to <c3/>; T1, T2, T3 (p95 { "1.004" } s, maximum { "1.015" } s, { "220" } events at { "100" } stations) and T5 met. v2 <b>NOT MET</b> on T4: { "16" } alerts to <c4/> or worse over { "13" } area-days at Goddard ({ "1.23" }; bar { "1" }), { "9" } of them to <c5/> ({ "0.69" }; bar { "0.1" }); T1, T2, T3 (p95 { "1.004" } s, maximum { "1.013" } s) and T5 met. v3 <b>NOT MET</b> on T2: T1 MET ({ "520" } epochs, { "125" } flagged, equal to the independent oracle through the library and the command line); T2 NOT MET ({ "4" } of { "127" } single-satellite faults not flagged; { "2" } of { "67" } two-satellite epochs flagged with one satellite); T3 MET ({ "220" } events, webhook and MQTT p95 { "1.003" } s and { "1.004" } s, maximum { "1.006" } s); T4 MET ({ "1" } alert to <c6/> or worse and { "1" } to <c7/> over { "26" } area-days, { "0.038" } each; bars { "1" } and { "0.1" }; Goddard { "0" }, Wettzell { "1" }, { "17" } to { "30" } May { "2026" }); T5 met on the command line (all four documents; Python and WebAssembly check the same documents in CI).
+
+# text
+# c1: docs/design/evidence/b8-environmental-baseline/RESULTS.md
+# c2: quiet
+# c3: elevated
+# c4: disturbed
+seg-7c6962848dda = <b>B8</b> (environmental baseline; <c1/>): <b>MET</b>. N1 { "1 295" } disturbed station-hours from all three bands; V1 AUC { "0.846" } (bar { "0.75" }); V2 { "100" } % of { "1 422" } quiet mid-latitude station-hours <c2/> (bar { "95" } %); V3 { "99.4" } % of { "621" } disturbed storm high-latitude station-hours <c3/> or <c4/> (bar { "80" } %); V4 AUC { "0.872" } at low latitude (bar { "0.70" }); V5 the same bytes on Linux, macOS, Windows, the command line, Python and WebAssembly.
+
+# text
+# c1: xval/mission-thread-c2/RESULTS.md
+seg-3c35bdb5d3da = <b>C2</b> (the Artemis I cruise with impulsive steps modelled; <c1/>): <b>NOT MET</b> on W1: { "17.3" } km against { "2" } km, and { "0.0177" } m/s against { "0.01" } m/s; W2 not run (the published burn times leave { "42.8" } h, not { "72" } h). Four of the five steps in the reconstruction carry position jumps no velocity step within an hour can produce. C2 v2 was not run: the fresh window its registered rule names does not exist (the longest gap after W1 is { "105.9" } h against { "120" } h). C1 stays NOT MET.
+
+# text
+# c1: docs/design/evidence/c3-capstone-nrho-force-model/RESULTS.md
+# c2: k
+# c3: k
+seg-6e605eabe856 = <b>C3</b> (the CAPSTONE NRHO with a corrected force model; <c1/>): C3-R <b>MET</b> on W0 ({ "21.66" } km, { "4.24" } km); C3-H <b>NOT MET</b> on E, H1 and H2 ({ "37.25" }, { "36.23" }, { "49.65" } km end position against { "25" } km); C3-S <b>NOT MET</b> (H1 { "12.92" } km met, H2 { "57.13" } km). A2 is therefore not recorded as met on re-run and stays NOT MET. C3-S v2 (a <c2/> per window, fresh span G) <b>MET</b>: end position { "0.21" }, { "0.60" }, { "0.73" } km and periapsis radius { "11" }, { "4" }, { "87" } m at +{ "156" } h; G1 is low-information by the registered sensitivity rule ({ "18.1" } km) and its verdict counts. M1 alone also meets both bars on G, so G is a less demanding span; H2 is still missed with its own <c3/> ({ "57.8" } km, no bar).
+
+# text
+# c1: docs/design/evidence/c5a-optical-navigation-model/RESULTS.md
+seg-c1187e2a41e7 = <b>C5a</b> (the optical-navigation measurement model; <c1/>): v1 <b>NOT MET</b> on O5 ({ "258" } of { "432" } partial-derivative elements fail against central differences at the registered steps); O1 ({ "0.0016" } mas), O2, O3, O4 and O6 met. v2 <b>MET</b>: the partials agree with an independent complex-step oracle to { "2.3e-11" } of each row's largest element on all { "72" } measurements; O1 to O4 met on { "36" } fresh measurements. v1's O5 stays NOT MET as recorded.
+
+# text
+# c1: docs/design/evidence/c7-flight-dynamics-adapters/RESULTS.md
+# c2: spkw13
+seg-af4048066211 = <b>C7</b> (flight-dynamics adapters; no bar; <c1/>): Orekit { "13.1.9" }, Basilisk { "2.12.2" } and ANISE { "0.10.6" } carry the files; GMAT R2026a does not carry the SPK ({ "1.19" } mm, a time-representation finding) and refuses the OEM. Kshana's type { "13" } SPK is byte for byte the kernel the SPICE Toolkit's <c2/> writes from the same states ({ "245,760" } bytes).
+
+# text
+# c1: docs/design/evidence/d1-artemis-capstone/RESULTS.md
+seg-69077d536d9d = <b>D1</b> (the Artemis I and CAPSTONE gaps; <c1/>): done (both registered re-runs made once and recorded). Neither original row (C1, A2) is met.
+
+# text
+# c1: docs/design/evidence/d8a-iq-tracking-cn0-rerun/RESULTS.md
+# c2: VM-f5e2ce4e
+# c3: VM-bdfec2e4
+# c4: VM-35b27a4f
+# c5: VM-c9318c63
+seg-ae6eff5bb6fa = <b>D8a</b> (IQ tracking and C/N0 re-runs; <c1/>): row { "3" } (<c2/>, the CFAR reference set over the whole row) <b>MET on re-run</b> (C4: { "0" }, { "3" }, { "4" }, { "0" }, { "0" } of { "2495" } off-peak cells above, bar { "1" } %; C2 and C3 { "0.969" } to { "1.033" } %). Row { "4" } (<c3/>, the seeded hand-over) <b>NOT MET</b>: at { "33" } dB-Hz { "20" } of { "20" } hold on seen and fresh seeds with σ ratios { "1.003" } and { "1.006" }, but at { "31" } dB-Hz { "15" } and { "6" } of { "20" } hold (D2) and σ ratios are { "1.815" } and { "2.815" } (D3). Row { "5" } (<c4/>, the exact BOC inverse) <b>MET on re-run</b> (sampled-signal slopes { "0.9947" } to { "1.0106" }). Row { "6" } (<c5/>, the lag correction) <b>NOT MET</b>: (a′) +{ "0.5015" } dB seen against { "0.5" } dB, (b′) { "0" } of { "50" } on both sets, (c) and (d) one set each. Row { "6" } v2 (the estimator's own response) <b>NOT MET</b>: (a′) met on all three sets (+{ "0.165" }, +{ "0.098" }, +{ "0.099" } dB), (b′) { "36" }, { "32" } and { "27" } of { "50" } (bar { "45" }), (c) missed on v1-fresh (time to loss { "1.000" }), (d) missed on v1-registered ({ "2.195" } dB).
+
+# text
+# c1: docs/design/evidence/d8b-iq-timing-campaign-rerun/RESULTS.md
+# c2: VM-e6a6348d
+# c3: VM-59bb0091
+# c4: VM-6254a75d
+# c5: cn0_drop
+seg-3f25f004e21e = <b>D8b</b> (IQ timing and campaign re-runs; <c1/>): row { "7" } (<c2/>, acquisition hysteresis on a fresh power ladder) <b>MET on re-run</b>. Row { "8" } (<c3/>, M3 at a one-window stride) <b>NOT MET</b> on M3's timing clause: { "18" } of { "18" } detected, median time to detect { "0.221" } s and { "0.201" } s against { "0.0068" } s and { "0.0064" } s (was { "1.001" } s against { "0.433" } s). Row { "8" } v2 (the bound with the estimator's delay) <b>NOT MET</b> on every seed set: { "0.2208" } s, { "0.2008" } s and { "0.2207" } s against median bounds of { "0.0868" } s, { "0.0864" } s and { "0.0660" } s; the detection clause and M4 hold. Row { "9" } (<c4/>, the window restart) R1 <b>MET on re-run</b>: <c5/> AUC { "1.0000" } on seen and fresh seeds.
+
+# text
+# c1: docs/design/evidence/d17-defect-fixes/RESULTS.md
+seg-1d049cb62d4b = <b>D17</b> (<c1/>): D11c criteria { "1" } (integrity mean { "0.99988" } / { "0.99989" } for the classical clock, was { "0.77101" } / { "0.75865" }), { "2" } and { "4" } <b>MET</b>; criterion { "3" } <b>NOT MET</b> (pooled RMS of error over the bound { "0.768" } / { "0.783" } classical and { "0.590" } / { "0.592" } quantum, band { "0.8" } to { "1.2" }): the bound is conservative, opened as a new defect. D12 closed (grid-free acquisition).
+
+# text
+# c1: docs/design/evidence/d18-bench-leftovers/RESULTS.md
+seg-199076c1c528 = <b>D18</b> (no bar; <c1/>): item { "1" }, the almanac-HDOP scorer, built and passing its acceptance tests (HDOP within { "1.6e-15" } of numpy at { "20" } points); item { "2" }, the bench checks external files against pinned hashes, and the ten TEXBAT recordings were pinned from the owner's fetches on { "9" } and { "11" } November { "2026" }.
+
+# text
+# c1: docs/design/evidence/r1-1-rtcm-ssr/RESULTS.md
+seg-3e4c6910e035 = <b>R items</b>: R1.1 (RTCM SSR) has no pre-registration and no bar; it is MODELLED (<c1/>). R1.4 (tides) has no scored comparison: its pre-registration is proposed and awaits sign-off. The R6.1 CGGTTS comparison is pre-registered as proposed and not run. The other R pre-registrations committed in this release (R1.2, R1.3, R3.2 to R3.5, R4.3, R5.1, R6.2, R7.4) are proposed and not run.
 
 # text
 seg-05d0c798a196 = { "0.40" } adds the Artemis-class mission thread and its lunar segment, an evidence label on every figure and table a run writes, measured-clock ingest and fitting, a data-partner submission check, an estimated emitter region from ADS-B or AIS reports, the { "0.40" } benchmark re-campaign, and the command line, reports and Studio in seventeen languages beside English (machine documents stay English). The verification matrix grows from { "388" } to { "401" } rows: { "176" } VALIDATED (unchanged), { "221" } MODELLED (was { "208" }) and { "4" } PARTNER. No row was promoted to VALIDATED. The scenario kinds grow from { "87" } to { "92" }. Every bar a pre-registered comparison missed is stated below and stays pinned; none was loosened. The advisory statement is unchanged: Kshana is advisory software, not type-approved navigation equipment and not a certification; the operator remains responsible.
-
-# text
-seg-738f33f0ae8a = Known limits
 
 # text
 seg-d4062fab7ae1 = Non-English runs take about twice as long, because the scenario runs twice (once in English for the machine files, once in the chosen language for the person).
@@ -1863,9 +2403,6 @@ seg-5d8a024cb743 = <b>Lunar reference station: comparison against published clai
 # c1: realdata::clk::rinex_clock_series
 # c2: TIME SYSTEM ID
 seg-2b01d2ccb666 = <b>Lunar reference station: clock-file data readiness</b>. <c1/> now states the time system of its epochs. It is the <c2/> value, or, when that is undeclared, the default of the header's satellite system. The result also says whether the system was declared. The function refuses an unknown time system (a lunar time scale, for example), an undeclared mixed-system file, and files that disagree, rather than reading them as GPS time. It ships a synthetic station clock fixture. No corrections-file format is defined, because no public one exists.
-
-# text
-seg-0fb89eb36003 = Changed
 
 # text
 # c1: fusion::ukf
