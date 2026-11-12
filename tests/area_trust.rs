@@ -575,3 +575,22 @@ fn t1_v3_stations_documents_give_v2_bytes() {
         );
     }
 }
+
+/// B5 v3 T3 was MET: the pooled result of the four v3 runs (`xval/area-trust/t3v3/`, reading X9).
+#[test]
+fn t3v3_is_recorded() {
+    let d = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("xval/area-trust/t3v3");
+    let r: serde_json::Value =
+        serde_json::from_str(&std::fs::read_to_string(d.join("t3_result.json")).unwrap()).unwrap();
+    assert_eq!(r["verdict"], "MET");
+    assert_eq!(r["events"], 220);
+    for run in r["runs"].as_array().unwrap() {
+        assert_eq!(run["area_rule"], "v3");
+        assert_eq!(run["stations"], 100);
+    }
+    for path in ["webhook", "mqtt"] {
+        assert_eq!(r[path]["missed"], 0, "{path}");
+        assert!(r[path]["p95_s"].as_f64().unwrap() <= 5.0, "{path}");
+        assert!(r[path]["max_s"].as_f64().unwrap() <= 10.0, "{path}");
+    }
+}

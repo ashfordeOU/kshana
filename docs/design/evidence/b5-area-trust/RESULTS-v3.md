@@ -19,7 +19,7 @@ Pre-registration: `PREREGISTRATION-v3.md` (signed off 10 November 2026). Reading
 | T3 harness (`KSHANA_B5_AREA_RULE=v3`) | `41a70b983` |
 | T4 files' SHA-256 and navigation choice, before the T4 run | `081072844` |
 | T4 scored | `001385997` |
-| T3 scored | T3_COMMIT |
+| T3 scored (four sequential runs, in a separate container) | `e0fe58eb3` |
 
 ## Summary
 
@@ -27,7 +27,7 @@ Pre-registration: `PREREGISTRATION-v3.md` (signed off 10 November 2026). Reading
 |---|---|
 | T1 rule exactness | **MET**: on the four satellite-fault replays (4, 5, 7 and 10 stations; 520 epochs, 125 with a flagged satellite) the engine's JSON Lines (the flagged satellite, the station states, the loss-of-lock flags and the 520 seconds of area timeline) are `oracle_v3.py`'s bytes, through the library and the command line. The horizontal errors before and after the screen agree within 1 × 10⁻⁶ m, and no fix is missing in one only (X12). The seven v2 replays and the two boundary documents with `"area_rule": "v3"` give v2's bytes (X6). |
 | T2 detection | **NOT MET**. Of 127 injected single-satellite faults that alarmed at least `k` stations, 123 were flagged with the injected satellite and cleared; **4 were not flagged** (seed 5103 at 16, 46 and 83 s; seed 5104 at 40 s). Of 67 epochs with two faulty satellites that alarmed at least `k` stations, 65 were not flagged; **2 were flagged** with one satellite (seed 5101 at 30 s, G02; seed 5102 at 84 s, G07). Errors at one station only: none of 83 flagged. Loss of lock alone: the station stayed nominal, with the alarm in its record, in all 40 epochs. A flagged fault left no station in alarm. |
-| T3 end-to-end latency | T3_RESULT |
+| T3 end-to-end latency | **MET**: 220 injected events at 100 stations, 1 Hz, over the MQTT ingest, under the v3 rule. Webhook: 0 missed, median 1.002 s, 95th percentile 1.003 s, maximum 1.006 s. MQTT: 0 missed, median 1.003 s, 95th percentile 1.004 s, maximum 1.006 s. Bar: 95th percentile ≤ 5 s and maximum ≤ 10 s. |
 | T4 false alerts | **MET**: 1 alert to `DEGRADED` or worse and 1 to `UNTRUSTED` over 26 area-days (0.038 per area-day each; bars ≤ 1 and ≤ 0.1). Goddard (GODS, GODE, GODN, MRC1): 0. Wettzell (WTZR, WTZA, WT21, WTZZ): 1, on 30 May 2026. Days 18 to 30 May 2026 scored, 17 May calibrating (X10a). |
 | T5 determinism | **MET**: the four satellite-fault replays give `oracle_v3.py`'s bytes on the command line (`tests/area_trust_v3.rs`), in Python (`tests/python/test_bindings.py`, CI run 43133497207 on `380ed2b0a`) and in WebAssembly (`web/smoke.mjs` on the package built from the release branch, 12 November 2026). |
 
@@ -54,7 +54,15 @@ B5 v3 is MET only when T1 to T5 are all met. With T2 not met, **B5 v3 is NOT MET
 
 ## T3
 
-T3_SECTION
+- **How it ran (X9):** v1's harness and readings 13 to 17, with `KSHANA_B5_AREA_RULE=v3`, at engine `41a70b983`,
+  on v1's Madrid background (all 70 files matched `MANIFEST.tsv`). Four sequential runs of 55 events, each scored
+  once, no re-run, 12 November 2026 from 00:04 to 05:13 UTC, on a 4-CPU cloud container; pooled by
+  `t3_pool.py` (`xval/area-trust/t3v3/`). Every run: 100 stations, 0 late epochs, 0 webhook or MQTT failures.
+- **What T3 does not cover:** the harness streams per-station evidence, so X5 (loss of lock) is in its path and the
+  satellite-fault screen (X4) is not, as X9 says.
+- **The log, disclosed:** the runner's filter missed each run's summary line, so `t3v3.log` was assembled from the
+  four raw test outputs (start, each run's test lines, end times, ALLDONE); its layout differs from `t3v2.log`, and no
+  number was changed.
 
 ## T4
 

@@ -123,8 +123,8 @@ VALIDATED, 233 MODELLED, 4 PARTNER. No row was promoted to VALIDATED, and every 
   flags a satellite whose removal clears the alarms at several stations at once and recomputes their fixes without
   it; loss of lock alone no longer degrades a station. On 26 area-days of IGS data (Goddard and Wettzell, May 2026)
   it raised 1 alert (bar ≤ 1 per area-day) and **meets** T4; on synthetic faults it **misses** T2 (123 of 127
-  faults cleared; 4 where the remaining geometry is weak, and 2 of 67 two-satellite epochs explained by one). T3:
-  T3_LINE. B5 v3 is **NOT MET** ([results](docs/design/evidence/b5-area-trust/RESULTS-v3.md)). The diagnosis also
+  faults cleared; 4 where the remaining geometry is weak, and 2 of 67 two-satellite epochs explained by one). T3
+  (alert latency) is met. B5 v3 is **NOT MET** ([results](docs/design/evidence/b5-area-trust/RESULTS-v3.md)). The diagnosis also
   found the engine using broadcast records marked unhealthy; GPS and QZSS records so marked are now skipped.
 - **Spoofing benchmark (TEXBAT, E5).** Scored once on all ten TEXBAT recordings with rules fixed before any file was
   read: the power-and-distortion score **meets** E5-PD (AUC 0.7410, bar 0.70); the baseline IQ score **misses** E5 v2
