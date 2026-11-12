@@ -87,3 +87,7 @@ above. The OSNMA and timestamp vector tests pass unchanged with the new curves.
 November dependency updates). It passes against the pinned fixture unchanged: the updates moved versions, not the component
 graph the verdict records. No re-bless was needed.
 
+## Re-generated at the 0.41.0 bump (12 November 2026)
+
+The procedure above was re-run against the `Cargo.lock` of the 0.41.0 bump. Only `sbom_sha256` moved
+(`bd7ba406…` to `0374f23e…`); every count and identifier list is unchanged. Values and reasons: `STUDIO15-pins-0.41.0-version.md`, section 5.

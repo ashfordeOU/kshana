@@ -3,7 +3,7 @@ name: kshana
 description: Kshana receiver-trust monitor with Prometheus metrics and a Grafana dashboard. Advisory software, not type-approved navigation or timing equipment.
 type: application
 version: 0.1.0
-appVersion: "0.40.0"
+appVersion: "0.41.0"
 license: AGPL-3.0-only
 home: https://github.com/ashfordeOU/kshana
 sources:

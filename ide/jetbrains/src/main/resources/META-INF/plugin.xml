@@ -31,6 +31,10 @@
     ]]></description>
 
     <change-notes><![CDATA[
+        <b>0.41.0</b> — the plugin itself is unchanged since 0.40.0; republished to track the engine.
+        Update the engine with <code>cargo install kshana</code> and see the release notes at
+        https://github.com/ashfordeOU/kshana/releases.
+        <br/>
         <b>0.40.0</b> — the plugin itself is unchanged; the engine adds the mission thread, an evidence
         label on every figure and table, measured clock logs, a data-partner submission check, an estimated
         emitter region from ADS-B or AIS reports, and seventeen languages beside English. Update the engine
