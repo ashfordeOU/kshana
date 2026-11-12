@@ -4,7 +4,7 @@
 # Bundles (.dmg, .msi, .deb, .AppImage) are made with the Tauri command line (apps/desktop/README.md).
 [package]
 name = "kshana-desktop"
-version = "0.40.0"
+version = "0.41.0"
 edition = "2021"
 rust-version = "1.88"
 license = "AGPL-3.0-only"

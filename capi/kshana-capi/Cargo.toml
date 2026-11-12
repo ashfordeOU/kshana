@@ -8,7 +8,7 @@
 # header kept in step with the exported symbols, and a fuzz pass over every entry point.
 [package]
 name = "kshana-capi"
-version = "0.40.0"
+version = "0.41.0"
 edition = "2021"
 rust-version = "1.88"
 description = "C ABI for the Kshana PNT-resilience engine: run scenarios and map receiver logs from C, C++, Go, Java, MATLAB or LabVIEW."
@@ -25,5 +25,5 @@ name = "kshana_capi"
 crate-type = ["staticlib", "cdylib", "rlib"]
 
 [dependencies]
-kshana = { path = "../..", version = "0.40.0" }
+kshana = { path = "../..", version = "0.41.0" }
 serde_json = "1"
