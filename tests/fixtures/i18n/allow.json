@@ -197,6 +197,10 @@
    "count": 17,
    "reason": "identifier: the method id and the JSON keys of the locator's parameter block and synthetic session documents (machine documents read by xval/locator-power-difference/oracle.py); v2 adds its method id, its parameter keys (sigma_meas_db, session_shadowing, report_share), the V9 domain statement and the V7 not-located reason (machine documents, 9 November 2026)"
   },
+  "src/locate_tdoa.rs": {
+   "count": 11,
+   "reason": "machine-document: the B3b gate summary's JSON keys and its MET / NOT MET labels; developer: one internal invariant message"
+  },
   "src/m4_dark_vessel.rs": {
    "count": 4,
    "reason": "identifier: the label names and schema names of the M4 synthetic truth, AIS and RF documents (machine documents)"

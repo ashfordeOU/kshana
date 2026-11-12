@@ -2,7 +2,7 @@
 # B4a E5-PD: power and distortion on TEXBAT: result
 
 Pre-registration: `PREREGISTRATION-E5-PD.md` (signed 9 November 2026). Scored once, in the same run as E5 v2
-(`RESULTS-E5-v2.md`: 11 November 2026, 22:16:13 UTC, main `635a1887f`, `xval/bench-e/texbat-v2/E5-SCORE.json`).
+(`RESULTS-E5-v2.md`: 11 November 2026, 22:16:13 UTC, main `96ccde9f2`, `xval/bench-e/texbat-v2/E5-SCORE.json`).
 
 | Bar | Result |
 |---|---|
