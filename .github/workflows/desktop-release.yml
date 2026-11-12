@@ -1,0 +1,131 @@
+# SPDX-License-Identifier: AGPL-3.0-only
+# Signed and notarised Kshana Desktop for macOS, attached to a published release.
+#
+# Run by hand (Actions -> Desktop release (macOS) -> Run workflow) with a release tag, e.g. v0.41.0.
+# It builds apps/desktop from THAT tag as one universal app (Apple silicon and Intel), signs it with the
+# Developer ID Application identity and the hardened runtime, notarises and staples it (Tauri 2 does both
+# when the APPLE_* variables below are set), checks the result with codesign, spctl and stapler, and
+# uploads the .dmg and its SHA-256 to the GitHub release of that tag. Nothing is published when any
+# check fails. The secrets are the seven the monthly "Apple signing check" verifies; values are never
+# printed, and the temporary keychain is deleted at the end.
+name: Desktop release (macOS)
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Published release tag to build and attach to, e.g. v0.41.0"
+        required: true
+        type: string
+permissions:
+  contents: read
+concurrency:
+  group: desktop-release-${{ inputs.tag }}
+  cancel-in-progress: false
+jobs:
+  macos:
+    name: sign, notarise, attach
+    runs-on: macos-14
+    timeout-minutes: 120
+    permissions:
+      contents: write # gh release upload
+    env:
+      TAG: ${{ inputs.tag }}
+    steps:
+      - name: The tag is a published release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          printf '%s' "$TAG" | grep -Eq '^v[0-9]+\.[0-9]+\.[0-9]+$' || { echo "::error::'$TAG' is not vX.Y.Z"; exit 1; }
+          gh release view "$TAG" --repo "$GITHUB_REPOSITORY" --json isDraft --jq '.isDraft' | grep -qx false \
+            || { echo "::error::$TAG is not a published release"; exit 1; }
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: refs/tags/${{ inputs.tag }}
+      - name: The app's version is the tag's
+        run: |
+          set -euo pipefail
+          v="$(python3 -c 'import json;print(json.load(open("apps/desktop/src-tauri/tauri.conf.json"))["version"])')"
+          [ "v$v" = "$TAG" ] || { echo "::error::tauri.conf.json says $v, the tag is $TAG"; exit 1; }
+          echo "VERSION=$v" >> "$GITHUB_ENV"
+      - uses: dtolnay/rust-toolchain@e2a55d2ffb04f378e9626c28d38b36d230d1e12f # master; the toolchain is the `toolchain` input below
+        with:
+          toolchain: 1.93.0
+          targets: aarch64-apple-darwin, x86_64-apple-darwin
+      - name: Import the Developer ID Application identity into a temporary keychain
+        env:
+          APPLE_CERTIFICATE: ${{ secrets.APPLE_CERTIFICATE }}
+          APPLE_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+        run: |
+          set -euo pipefail
+          for v in APPLE_CERTIFICATE APPLE_CERTIFICATE_PASSWORD APPLE_TEAM_ID; do
+            [ -n "${!v}" ] || { echo "::error::secret $v is missing"; exit 1; }
+          done
+          W="$RUNNER_TEMP/sign"; mkdir -p "$W"
+          KC="$W/release.keychain-db"; KCPW="$(uuidgen)"
+          echo "KC=$KC" >> "$GITHUB_ENV"; echo "W=$W" >> "$GITHUB_ENV"
+          security create-keychain -p "$KCPW" "$KC"
+          security set-keychain-settings -lut 7200 "$KC"
+          security unlock-keychain -p "$KCPW" "$KC"
+          printf '%s' "$APPLE_CERTIFICATE" | base64 --decode > "$W/app.p12"
+          security import "$W/app.p12" -k "$KC" -P "$APPLE_CERTIFICATE_PASSWORD" -T /usr/bin/codesign
+          rm -f "$W/app.p12"
+          security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k "$KCPW" "$KC" > /dev/null
+          security list-keychains -d user -s "$KC" $(security list-keychains -d user | tr -d '"')
+          ID="$(security find-identity -v -p codesigning "$KC" | awk -F'"' '/Developer ID Application/{print $2; exit}')"
+          [ -n "$ID" ] || { echo "::error::no Developer ID Application identity in APPLE_CERTIFICATE"; exit 1; }
+          printf '%s' "$ID" | grep -q "($APPLE_TEAM_ID)" || { echo "::error::the identity is not issued to APPLE_TEAM_ID"; exit 1; }
+          echo "APPLE_SIGNING_IDENTITY=$ID" >> "$GITHUB_ENV"
+          echo "ok  signing identity imported (Team ID matches)"
+      - name: Stage the frontend
+        run: apps/desktop/build-frontend.sh
+      - name: Build, sign and notarise (universal)
+        env:
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          APPLE_PASSWORD: ${{ secrets.APPLE_APP_PASSWORD }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+        run: |
+          set -euo pipefail
+          cargo install tauri-cli --version "^2" --locked
+          cd apps/desktop/src-tauri
+          cargo tauri build --target universal-apple-darwin --bundles app,dmg
+      - name: Check the app; sign, notarise and staple the disk image; check it
+        env:
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          APPLE_PASSWORD: ${{ secrets.APPLE_APP_PASSWORD }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+        run: |
+          set -euo pipefail
+          B=apps/desktop/src-tauri/target/universal-apple-darwin/release/bundle
+          APP="$(ls -d "$B"/macos/*.app | head -1)"
+          DMG="$(ls "$B"/dmg/*.dmg | head -1)"
+          codesign --verify --deep --strict --verbose=2 "$APP"
+          codesign -dv --verbose=4 "$APP" 2>&1 | grep -E "^(Authority=Developer ID Application|TeamIdentifier|Runtime Version|Timestamp)"
+          codesign -dv "$APP" 2>&1 | grep -q "flags=0x10000(runtime)" || { echo "::error::hardened runtime is not on"; exit 1; }
+          lipo -archs "$APP/Contents/MacOS/"* | tee /dev/stderr | grep -q "x86_64 arm64\|arm64 x86_64" || { echo "::error::not universal"; exit 1; }
+          spctl --assess --type execute --verbose=2 "$APP"
+          xcrun stapler validate "$APP"
+          # Tauri notarises the .app; the .dmg around it is signed, notarised and stapled here so the
+          # downloaded file itself passes Gatekeeper.
+          codesign --force --timestamp --sign "$APPLE_SIGNING_IDENTITY" "$DMG"
+          xcrun notarytool submit "$DMG" --apple-id "$APPLE_ID" --password "$APPLE_PASSWORD" --team-id "$APPLE_TEAM_ID" --wait --timeout 45m \
+            | tee "$W/notary.txt" | grep -E "status:|id:" | head -4
+          grep -q "status: Accepted" "$W/notary.txt" || { echo "::error::the notary service did not accept the disk image"; exit 1; }
+          xcrun stapler staple "$DMG"
+          xcrun stapler validate "$DMG"
+          spctl --assess --type open --context context:primary-signature --verbose=2 "$DMG"
+          OUT="$RUNNER_TEMP/out"; mkdir -p "$OUT"
+          NAME="Kshana-Desktop-${VERSION}-macos-universal.dmg"
+          cp "$DMG" "$OUT/$NAME"
+          (cd "$OUT" && shasum -a 256 "$NAME" > "$NAME.sha256" && cat "$NAME.sha256")
+          echo "OUT=$OUT" >> "$GITHUB_ENV"; echo "NAME=$NAME" >> "$GITHUB_ENV"
+      - name: Attach to the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release upload "$TAG" "$OUT/$NAME" "$OUT/$NAME.sha256" --repo "$GITHUB_REPOSITORY" --clobber
+      - name: Clean up
+        if: always()
+        run: |
+          [ -n "${KC:-}" ] && security delete-keychain "$KC" 2>/dev/null || true
+          [ -n "${W:-}" ] && rm -rf "$W" || true

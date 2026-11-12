@@ -126,6 +126,15 @@ of the newest tag; a fix to an older release is a new, newer release.
 The MCP registry step waits (up to 15 minutes) until npm and PyPI both serve the new
 `kshana-mcp` version, because the registry rejects an entry whose packages it cannot yet see.
 
+## Kshana Desktop for macOS (signed and notarised)
+
+After the release is published, run **Desktop release (macOS)** from the Actions tab with the tag
+(for example `v0.41.0`). It builds `apps/desktop` from that tag as one universal app, signs it with
+the Developer ID Application identity and the hardened runtime, notarises and staples the app and
+the disk image, checks both with `codesign`, `spctl` and `stapler`, and attaches
+`Kshana-Desktop-X.Y.Z-macos-universal.dmg` and its SHA-256 to the release. It uses the seven
+secrets the monthly **Apple signing check** verifies. Nothing is attached when a check fails.
+
 ## Retrying
 
 Every publish is idempotent: a version that is already on a registry counts as success,
