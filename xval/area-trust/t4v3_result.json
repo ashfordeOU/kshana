@@ -1,0 +1,676 @@
+{
+  "alerts_degraded_or_worse": 1,
+  "alerts_untrusted": 1,
+  "area_days": 26.0,
+  "area_rule": "v3",
+  "areas": [
+    {
+      "alerts": [],
+      "alerts_degraded_or_worse": 0,
+      "alerts_untrusted": 0,
+      "area": [
+        "GODS00USA",
+        "GODE00USA",
+        "GODN00USA",
+        "MRC100USA"
+      ],
+      "lock_only_epochs": [
+        {
+          "epochs": 0,
+          "name": "GODS00USA"
+        },
+        {
+          "epochs": 1,
+          "name": "GODE00USA"
+        },
+        {
+          "epochs": 0,
+          "name": "GODN00USA"
+        },
+        {
+          "epochs": 2,
+          "name": "MRC100USA"
+        }
+      ],
+      "per_day": [
+        {
+          "date_doy": 138,
+          "day": 1,
+          "degraded_or_worse": 0,
+          "untrusted": 0
+        },
+        {
+          "date_doy": 139,
+          "day": 2,
+          "degraded_or_worse": 0,
+          "untrusted": 0
+        },
+        {
+          "date_doy": 140,
+          "day": 3,
+          "degraded_or_worse": 0,
+          "untrusted": 0
+        },
+        {
+          "date_doy": 141,
+          "day": 4,
+          "degraded_or_worse": 0,
+          "untrusted": 0
+        },
+        {
+          "date_doy": 142,
+          "day": 5,
+          "degraded_or_worse": 0,
+          "untrusted": 0
+        },
+        {
+          "date_doy": 143,
+          "day": 6,
+          "degraded_or_worse": 0,
+          "untrusted": 0
+        },
+        {
+          "date_doy": 144,
+          "day": 7,
+          "degraded_or_worse": 0,
+          "untrusted": 0
+        },
+        {
+          "date_doy": 145,
+          "day": 8,
+          "degraded_or_worse": 0,
+          "untrusted": 0
+        },
+        {
+          "date_doy": 146,
+          "day": 9,
+          "degraded_or_worse": 0,
+          "untrusted": 0
+        },
+        {
+          "date_doy": 147,
+          "day": 10,
+          "degraded_or_worse": 0,
+          "untrusted": 0
+        },
+        {
+          "date_doy": 148,
+          "day": 11,
+          "degraded_or_worse": 0,
+          "untrusted": 0
+        },
+        {
+          "date_doy": 149,
+          "day": 12,
+          "degraded_or_worse": 0,
+          "untrusted": 0
+        },
+        {
+          "date_doy": 150,
+          "day": 13,
+          "degraded_or_worse": 0,
+          "untrusted": 0
+        }
+      ],
+      "satellite_fault_by_satellite": {
+        "G13": 10
+      },
+      "satellite_fault_epochs_scored": 10,
+      "stations": [
+        {
+          "alarms_cn0": 0,
+          "alarms_lock": 0,
+          "alarms_position": 1,
+          "degraded_epochs": 0,
+          "epochs": 40320,
+          "h_s_m": 11.61256701854888,
+          "name": "GODS00USA",
+          "no_fix": 0,
+          "no_fix_by_hour": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "p_s_ecef_m": [
+            1130752.1541,
+            -4831349.1034,
+            3994098.9626
+          ],
+          "scored_epochs": 37440,
+          "tracked_median": 9.0,
+          "untrusted_epochs": 1
+        },
+        {
+          "alarms_cn0": 0,
+          "alarms_lock": 1,
+          "alarms_position": 2,
+          "degraded_epochs": 0,
+          "epochs": 40320,
+          "h_s_m": 11.260444432029665,
+          "name": "GODE00USA",
+          "no_fix": 0,
+          "no_fix_by_hour": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "p_s_ecef_m": [
+            1130773.4883,
+            -4831253.5703,
+            3994200.4626
+          ],
+          "scored_epochs": 37440,
+          "tracked_median": 10.0,
+          "untrusted_epochs": 2
+        },
+        {
+          "alarms_cn0": 0,
+          "alarms_lock": 0,
+          "alarms_position": 67,
+          "degraded_epochs": 0,
+          "epochs": 40320,
+          "h_s_m": 18.940922846842618,
+          "name": "GODN00USA",
+          "no_fix": 0,
+          "no_fix_by_hour": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "p_s_ecef_m": [
+            1130760.7208,
+            -4831298.6778,
+            3994155.1999
+          ],
+          "scored_epochs": 37440,
+          "tracked_median": 8.0,
+          "untrusted_epochs": 67
+        },
+        {
+          "alarms_cn0": 0,
+          "alarms_lock": 2,
+          "alarms_position": 27,
+          "degraded_epochs": 0,
+          "epochs": 40320,
+          "h_s_m": 11.875216978137225,
+          "name": "MRC100USA",
+          "no_fix": 0,
+          "no_fix_by_hour": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "p_s_ecef_m": [
+            1092811.8197,
+            -4877221.9707,
+            3948968.109
+          ],
+          "scored_epochs": 37440,
+          "tracked_median": 10.0,
+          "untrusted_epochs": 27
+        }
+      ],
+      "unknown_seconds": 0
+    },
+    {
+      "alerts": [
+        {
+          "g": 1175400,
+          "n": 4,
+          "n_d": 2,
+          "n_u": 2,
+          "stale": 0,
+          "state": "UNTRUSTED"
+        }
+      ],
+      "alerts_degraded_or_worse": 1,
+      "alerts_untrusted": 1,
+      "area": [
+        "WTZR00DEU",
+        "WTZA00DEU",
+        "WT2100DEU",
+        "WTZZ00DEU"
+      ],
+      "lock_only_epochs": [
+        {
+          "epochs": 3,
+          "name": "WTZR00DEU"
+        },
+        {
+          "epochs": 5,
+          "name": "WTZA00DEU"
+        },
+        {
+          "epochs": 0,
+          "name": "WT2100DEU"
+        },
+        {
+          "epochs": 0,
+          "name": "WTZZ00DEU"
+        }
+      ],
+      "per_day": [
+        {
+          "date_doy": 138,
+          "day": 1,
+          "degraded_or_worse": 0,
+          "untrusted": 0
+        },
+        {
+          "date_doy": 139,
+          "day": 2,
+          "degraded_or_worse": 0,
+          "untrusted": 0
+        },
+        {
+          "date_doy": 140,
+          "day": 3,
+          "degraded_or_worse": 0,
+          "untrusted": 0
+        },
+        {
+          "date_doy": 141,
+          "day": 4,
+          "degraded_or_worse": 0,
+          "untrusted": 0
+        },
+        {
+          "date_doy": 142,
+          "day": 5,
+          "degraded_or_worse": 0,
+          "untrusted": 0
+        },
+        {
+          "date_doy": 143,
+          "day": 6,
+          "degraded_or_worse": 0,
+          "untrusted": 0
+        },
+        {
+          "date_doy": 144,
+          "day": 7,
+          "degraded_or_worse": 0,
+          "untrusted": 0
+        },
+        {
+          "date_doy": 145,
+          "day": 8,
+          "degraded_or_worse": 0,
+          "untrusted": 0
+        },
+        {
+          "date_doy": 146,
+          "day": 9,
+          "degraded_or_worse": 0,
+          "untrusted": 0
+        },
+        {
+          "date_doy": 147,
+          "day": 10,
+          "degraded_or_worse": 0,
+          "untrusted": 0
+        },
+        {
+          "date_doy": 148,
+          "day": 11,
+          "degraded_or_worse": 0,
+          "untrusted": 0
+        },
+        {
+          "date_doy": 149,
+          "day": 12,
+          "degraded_or_worse": 0,
+          "untrusted": 0
+        },
+        {
+          "date_doy": 150,
+          "day": 13,
+          "degraded_or_worse": 1,
+          "untrusted": 1
+        }
+      ],
+      "satellite_fault_by_satellite": {
+        "G13": 131
+      },
+      "satellite_fault_epochs_scored": 131,
+      "stations": [
+        {
+          "alarms_cn0": 0,
+          "alarms_lock": 3,
+          "alarms_position": 0,
+          "degraded_epochs": 0,
+          "epochs": 40319,
+          "h_s_m": 14.665793245468484,
+          "name": "WTZR00DEU",
+          "no_fix": 3,
+          "no_fix_by_hour": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "p_s_ecef_m": [
+            4075580.8863,
+            931853.5784,
+            4801567.9707
+          ],
+          "scored_epochs": 37439,
+          "tracked_median": 10.0,
+          "untrusted_epochs": 0
+        },
+        {
+          "alarms_cn0": 9,
+          "alarms_lock": 14,
+          "alarms_position": 2,
+          "degraded_epochs": 9,
+          "epochs": 40314,
+          "h_s_m": 10.134743215561963,
+          "name": "WTZA00DEU",
+          "no_fix": 14,
+          "no_fix_by_hour": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "p_s_ecef_m": [
+            4075578.1,
+            931853.1,
+            4801570.2
+          ],
+          "scored_epochs": 37434,
+          "tracked_median": 10.0,
+          "untrusted_epochs": 2
+        },
+        {
+          "alarms_cn0": 0,
+          "alarms_lock": 0,
+          "alarms_position": 31,
+          "degraded_epochs": 0,
+          "epochs": 40320,
+          "h_s_m": 13.065569015708471,
+          "name": "WT2100DEU",
+          "no_fix": 0,
+          "no_fix_by_hour": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "p_s_ecef_m": [
+            4075538.5,
+            931663.9,
+            4801628.8
+          ],
+          "scored_epochs": 37440,
+          "tracked_median": 10.0,
+          "untrusted_epochs": 31
+        },
+        {
+          "alarms_cn0": 0,
+          "alarms_lock": 0,
+          "alarms_position": 3,
+          "degraded_epochs": 0,
+          "epochs": 40315,
+          "h_s_m": 14.69376950352605,
+          "name": "WTZZ00DEU",
+          "no_fix": 0,
+          "no_fix_by_hour": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "p_s_ecef_m": [
+            4075578.4,
+            931852.8,
+            4801570.0
+          ],
+          "scored_epochs": 37435,
+          "tracked_median": 11.0,
+          "untrusted_epochs": 3
+        }
+      ],
+      "unknown_seconds": 0
+    }
+  ],
+  "days": [
+    {
+      "doy": 137,
+      "nav": "BRDC00WRD_R",
+      "year": 2026
+    },
+    {
+      "doy": 138,
+      "nav": "BRDC00WRD_R",
+      "year": 2026
+    },
+    {
+      "doy": 139,
+      "nav": "BRDC00WRD_R",
+      "year": 2026
+    },
+    {
+      "doy": 140,
+      "nav": "BRDC00WRD_R",
+      "year": 2026
+    },
+    {
+      "doy": 141,
+      "nav": "BRDC00WRD_R",
+      "year": 2026
+    },
+    {
+      "doy": 142,
+      "nav": "BRDC00WRD_R",
+      "year": 2026
+    },
+    {
+      "doy": 143,
+      "nav": "BRDC00WRD_R",
+      "year": 2026
+    },
+    {
+      "doy": 144,
+      "nav": "BRDC00WRD_R",
+      "year": 2026
+    },
+    {
+      "doy": 145,
+      "nav": "BRDC00WRD_R",
+      "year": 2026
+    },
+    {
+      "doy": 146,
+      "nav": "BRDC00WRD_R",
+      "year": 2026
+    },
+    {
+      "doy": 147,
+      "nav": "BRDC00WRD_R",
+      "year": 2026
+    },
+    {
+      "doy": 148,
+      "nav": "BRDC00WRD_R",
+      "year": 2026
+    },
+    {
+      "doy": 149,
+      "nav": "BRDC00WRD_R",
+      "year": 2026
+    },
+    {
+      "doy": 150,
+      "nav": "BRDC00WRD_R",
+      "year": 2026
+    }
+  ],
+  "per_area_day_degraded_or_worse": 0.038461538461538464,
+  "per_area_day_untrusted": 0.038461538461538464,
+  "verdict": "MET"
+}
