@@ -190,3 +190,8 @@ svg.i{width:16px;height:16px;flex:none;fill:none;stroke:currentColor;stroke-widt
 .toast.on{opacity:1}
 
 @media (max-width:1180px){.inspector{width:260px}.palette-btn{width:200px}}
+
+/* ---------- what an extension adds (lib/ext.mjs, window.KshanaShell) ---------- */
+.ext-tag{font:10.5px var(--f-mono);color:var(--pro);border:1px solid color-mix(in srgb,var(--pro) 50%,transparent);border-radius:6px;padding:1px 6px;letter-spacing:.04em;white-space:nowrap}
+.nav-badge{margin-left:auto;display:inline-flex;align-items:center;gap:6px;font:10px var(--f-mono);letter-spacing:.06em;color:var(--ink-3)}
+.nav-dot{width:8px;height:8px;border-radius:50%;background:var(--c,var(--ink-3))}

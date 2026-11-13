@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-only
-// Kshana Desktop shell: tests of the palette and runs models, and the wording and network
+// Kshana Desktop shell: tests of the palette, runs and extension models, and the wording and network
 // rules of the Desktop frontend (0.42 U4/U5). Run: node apps/desktop/shell/shell.test.mjs
 import assert from "node:assert/strict";
 import { readFileSync, readdirSync, statSync } from "node:fs";
@@ -7,6 +7,7 @@ import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { paletteRows, moveIndex, highlight, isPaletteKey, actionMatches } from "./lib/palette.mjs";
 import { createRunLog, compareRows, reproduceLines, scenarioName, elapsed, packFiles, tabKeyIndex } from "./lib/runs.mjs";
+import { createExtensions, EVENTS } from "./lib/ext.mjs";
 import { createHash } from "node:crypto";
 
 const here = dirname(fileURLToPath(import.meta.url));
@@ -107,6 +108,138 @@ await test("pack files carry a manifest with each file's SHA-256", async () => {
   assert.equal(m.files[0].sha256, createHash("sha256").update("a = 1\n").digest("hex"));
   assert.equal(m.files.length, files.length - 1);
   await assert.rejects(() => packFiles(run, {}));
+});
+
+// ---- extensions (lib/ext.mjs, window.KshanaShell)
+const BUILT = ["home", "runs", "library", "devices", "evidence", "files", "upgrade"];
+const reg = (opts = {}) => { const errors = []; let changes = 0; const r = createExtensions({ builtins: BUILT, onChange: () => changes++, report: (e) => errors.push(e), ...opts }); return { ...r, errors, changes: () => changes }; };
+await test("extensions: nothing registered leaves every part to the shell", () => {
+  const { shell } = reg();
+  for (const v of [...BUILT, "anything"]) assert.equal(shell.viewFor(v), null);
+  assert.deepEqual(shell.navSections(), []);
+  assert.deepEqual(shell.paletteGroups("", actionMatches), []);
+  assert.equal(shell.statusItems("left"), null);
+  assert.equal(shell.statusItems("right"), null);
+  assert.equal(shell.edition(), null);
+  assert.equal(shell.titleOf("home"), "");
+  assert.deepEqual(paletteRows("", { featured: [], actions: [{ id: "a", label: "A" }], more: shell.paletteGroups("", actionMatches) }).groups.map((g) => g.id), ["actions"], "the palette is the shell's alone");
+});
+await test("extensions: views, their own and in place of a built-in one", () => {
+  const { api, shell, changes } = reg();
+  const render = () => {};
+  const off = api.registerView("account", { title: "Account", render });
+  assert.equal(changes(), 1, "a registration asks the shell to render");
+  assert.equal(shell.viewFor("account").render, render);
+  assert.equal(shell.viewFor("account").replaces, null);
+  assert.equal(shell.titleOf("account"), "Account");
+  assert.equal(shell.viewFor("home"), null, "a registered view replaces nothing by itself");
+  api.replaceView("home", "account");
+  assert.equal(shell.viewFor("home").id, "account");
+  assert.equal(shell.viewFor("home").replaces, "home");
+  api.replaceView("upgrade", "missing");
+  assert.equal(shell.viewFor("upgrade"), null, "a replacement by a view not registered keeps the shell's own");
+  api.replaceView("home", null);
+  assert.equal(shell.viewFor("home"), null, "null gives the view back");
+  off();
+  assert.equal(shell.viewFor("account"), null);
+  assert.equal(shell.hasView("account"), false);
+  assert.throws(() => api.registerView("home", { render }), /shell's own views/);
+  assert.throws(() => api.registerView("tab", { render }));
+  assert.throws(() => api.registerView("Bad Id", { render }), TypeError);
+  assert.throws(() => api.registerView("x", {}), TypeError);
+  assert.throws(() => api.replaceView("settings", "x"), /not one of the shell's views/);
+});
+await test("extensions: sidebar sections, items normalised, live and removable", () => {
+  const { api, shell, errors } = reg();
+  let n = 1;
+  const off = api.registerNavSection({ heading: "EXTRA", items: () => [
+    { id: "a", label: "Alpha", icon: "home", badge: "NEW", view: "account" },
+    { id: "b", label: `Beta ${n}`, badge: { dot: "var(--itg)", title: "ok" }, onSelect: () => {} },
+    { id: "c" }, null, "text"] });
+  let [sec] = shell.navSections();
+  assert.equal(sec.heading, "EXTRA");
+  assert.deepEqual(sec.items.map((i) => i.label), ["Alpha", "Beta 1"], "items without a label are left out");
+  assert.deepEqual(sec.items[0].badge, { text: "NEW", dot: "", title: "" });
+  assert.equal(sec.items[0].view, "account");
+  assert.equal(sec.items[1].badge.dot, "var(--itg)");
+  assert.equal(typeof sec.items[1].onSelect, "function");
+  n = 2;
+  [sec] = shell.navSections();
+  assert.equal(sec.items[1].label, "Beta 2", "a function of items is read on every render");
+  api.registerNavSection({ heading: "BROKEN", items: () => { throw new Error("boom"); } });
+  assert.equal(shell.navSections()[1].items.length, 0, "an extension's error leaves its section empty");
+  assert.equal(errors.length, 1);
+  off();
+  assert.deepEqual(shell.navSections().map((s) => s.heading), ["BROKEN"]);
+  assert.throws(() => api.registerNavSection(null), TypeError);
+});
+await test("extensions: palette groups follow the shell's actions and number on", () => {
+  const { api, shell } = reg();
+  api.registerPaletteGroup({ heading: "More", items: () => [
+    { id: "one", label: "Open the account", keywords: "settings", tag: "EXT", onSelect: () => "one" },
+    { id: "two", label: "Something else", onSelect: () => "two", disabled: true },
+    { id: "bad", label: "No handler" }] });
+  const all = shell.paletteGroups("", actionMatches);
+  assert.equal(all.length, 1);
+  assert.deepEqual(all[0].items.map((i) => i.label), ["Open the account", "Something else"], "an item needs onSelect");
+  assert.equal(all[0].heading, "More");
+  assert.deepEqual(shell.paletteGroups("settings", actionMatches)[0].items.map((i) => i.label), ["Open the account"], "keywords match");
+  assert.deepEqual(shell.paletteGroups("zzz", actionMatches), [], "a group with no match is left out");
+  const rows = paletteRows("", { featured: [{ file: "a.toml", title: "A" }], actions: [{ id: "run", label: "Run" }], more: all });
+  assert.deepEqual(rows.groups.map((g) => g.id), ["scenarios", "actions", all[0].id]);
+  assert.deepEqual(rows.items.map((r) => r.index), [0, 1, 2, 3], "the arrow keys move through the extension's rows too");
+  assert.equal(rows.items[2].ext, true);
+  assert.equal(rows.items[2].tag, "EXT");
+  assert.equal(rows.items[2].action.go(), "one");
+  assert.equal(rows.items[3].disabled, true);
+  assert.equal(rows.groups[2].heading, "More");
+  assert.throws(() => api.registerPaletteGroup({ heading: "x" }), TypeError);
+});
+await test("extensions: status items and the edition", () => {
+  const { api, shell } = reg();
+  api.setStatusItems("right", ["One", { text: "Two", dot: "red", title: "t" }, { text: "" }, 5]);
+  assert.deepEqual(shell.statusItems("right"), [{ text: "One", title: "", dot: "" }, { text: "Two", title: "t", dot: "red" }]);
+  assert.equal(shell.statusItems("left"), null, "the other side stays the shell's");
+  let label = "a";
+  api.setStatusItems("left", () => [label]);
+  label = "b";
+  assert.deepEqual(shell.statusItems("left").map((x) => x.text), ["b"]);
+  api.setStatusItems("right", []);
+  assert.deepEqual(shell.statusItems("right"), [], "an empty list clears the side");
+  api.setStatusItems("right", null);
+  assert.equal(shell.statusItems("right"), null, "null gives it back");
+  assert.throws(() => api.setStatusItems("middle", []));
+  assert.throws(() => api.setStatusItems("left", "text"), TypeError);
+  api.setEdition({ appName: "Example App", tag: "EX", title: "Example edition", text: "Line", action: { label: "Manage", onSelect: () => 1 } });
+  assert.deepEqual({ ...shell.edition(), action: shell.edition().action.label }, { appName: "Example App", tag: "EX", title: "Example edition", text: "Line", action: "Manage" });
+  api.setEdition(() => ({ title: "T", action: { label: "no handler" } }));
+  assert.equal(shell.edition().action, null);
+  assert.equal(shell.edition().appName, "");
+  api.setEdition(null);
+  assert.equal(shell.edition(), null);
+});
+await test("extensions: events reach every listener, errors stay with the extension", () => {
+  const { api, shell, errors } = reg();
+  assert.deepEqual(EVENTS, ["render", "runs-changed", "view-changed"]);
+  const got = [];
+  const off = api.on("view-changed", (d) => got.push(d.view));
+  api.on("view-changed", () => { throw new Error("listener"); });
+  api.on("view-changed", (d) => got.push(`2:${d.view}`));
+  shell.emit("view-changed", { view: "runs" });
+  assert.deepEqual(got, ["runs", "2:runs"]);
+  assert.equal(errors.length, 1);
+  off();
+  shell.emit("view-changed", { view: "home" });
+  assert.deepEqual(got, ["runs", "2:runs", "2:home"]);
+  shell.emit("render", {});
+  assert.throws(() => api.on("click", () => {}));
+  assert.throws(() => api.on("render", null), TypeError);
+});
+await test("the shell exposes the extension API and announces it", () => {
+  const shell = readFileSync(join(here, "shell.js"), "utf8");
+  assert.match(shell, /window\.KshanaShell = KshanaShell/);
+  assert.match(shell, /new CustomEvent\("kshana-shell-ready"/);
+  for (const m of ["registerView", "registerNavSection", "registerPaletteGroup", "setStatusItems", "replaceView", "setEdition", "on"]) assert.ok(typeof createExtensions().api[m] === "function", m);
 });
 
 // ---- U4 and U5: the Desktop frontend's words and requests
