@@ -7,6 +7,7 @@
 package main
 
 /*
+#cgo CFLAGS: -I${SRCDIR}/../../include
 #include <stdlib.h>
 #include "kshana.h"
 */
