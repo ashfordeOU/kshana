@@ -5,6 +5,20 @@ limits, runs on every core the engine uses, files of any size read from disk pie
 piece. It is the free, open (AGPL-3.0-only) application; the Pro build is a separate
 download (it carries the Pro features, the free build carries none).
 
+## The window
+
+The app opens its own shell (`shell/`, staged by `build-frontend.sh` as `studio/desktop/` next
+to the Studio, whose modules it imports unchanged): a sidebar (Home, Runs, Scenario library,
+Devices, Evidence packs, Files, and the Pro items, which open a screen on what Pro adds), one
+document tab per open scenario, a centre view (the engine's chart, a map for ground tracks,
+the timeline, a table of key figures, the JSON), a result strip, an inspector (inputs, result,
+export and the command line that reproduces the run) and a status bar (engine version from
+the native bridge, the device being read, cores, edition). ⌘K / Ctrl+K opens a command
+palette over the scenario index and the actions; the Runs view compares two runs of the
+session. A run's evidence pack is an unsigned zip with a SHA-256 manifest; signed dossiers
+are Pro. The Studio's own pages are staged unchanged for the tool pages, and the website is
+not affected. Tests: `node apps/desktop/shell/shell.test.mjs`.
+
 What runs where:
 
 | Function | Engine |
