@@ -57,7 +57,7 @@ export function decoratePage(html, ctx) {
     if (!/<base\b/i.test(out)) out = out.replace(/<head\b[^>]*>/i, (h) => `${h}<base href="${dirOfPage}">`);
   } else if (langs.length) {
     const L = JSON.stringify(langs);
-    const head = asset('lang-head.js').replace('@LANGS@', L).replace('@RE@', langs.join('|'));
+    const head = asset('lang-head.js').replace('[/*@LANGS@*/]', L).replace('@RE@', langs.join('|'));
     out = out.replace(/(<script>try\{var t=localStorage\.getItem\('kshana-theme'\)[^<]*<\/script>)/, `$1<script>${head}</script>`);
     if (!out.includes('kshana-lang')) out = out.replace(/<head\b[^>]*>/i, (h) => `${h}<script>${head}</script>`);
   }
