@@ -1,5 +1,5 @@
 (function(){try{
-var L=@LANGS@,p=location.pathname;
+var L=[/*@LANGS@*/],p=location.pathname;
 if(/^\/(@RE@)(\/|$)/.test(p)||/^\/studio(\/|$)/.test(p))return;
 var s=null,m=location.search.match(/[?&]lang=([\w-]+)/),want=null,auto=false;
 try{s=localStorage.getItem('kshana-lang')}catch(e){}
