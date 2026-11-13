@@ -20,16 +20,22 @@ export function actionMatches(action, query) {
  *   search(query) -> scenario entries [{file, domain, title, question}] best first (empty query: none)
  *   featured      -> the entries shown for an empty query
  *   actions       -> [{id, label, keywords?, pro?, disabled?, hint?}]
+ *   more          -> further groups [{id, heading, items: [{id, label, tag?, disabled?, hint?, go}]}] (an extension's; already matched)
  * Returns { groups: [{id, items}], items } where items is the flat, numbered list of rows
  * (each { kind: "scenario"|"action", index, ... }) that the arrow keys move through.
  */
-export function paletteRows(query, { search = () => [], featured = [], actions = [], maxScenarios = 6, maxActions = 8 } = {}) {
+export function paletteRows(query, { search = () => [], featured = [], actions = [], more = [], maxScenarios = 6, maxActions = 8 } = {}) {
   const q = String(query || "").trim();
   const scen = (q ? search(q) : featured).slice(0, maxScenarios).map((e) => ({ kind: "scenario", id: `scenario:${e.file}`, entry: e, label: e.title }));
   const acts = actions.filter((a) => actionMatches(a, q)).slice(0, maxActions).map((a) => ({ kind: "action", id: `action:${a.id}`, action: a, label: a.label, pro: !!a.pro, disabled: !!a.disabled }));
   const groups = [];
   if (scen.length) groups.push({ id: "scenarios", items: scen });
   if (acts.length) groups.push({ id: "actions", items: acts });
+  // Groups an extension added (lib/ext.mjs paletteGroups, already matched): after the shell's actions.
+  for (const g of more) {
+    const items = (g.items || []).map((a) => ({ kind: "action", id: `ext:${a.id}`, action: a, label: a.label, pro: false, tag: a.tag || "", disabled: !!a.disabled, ext: true }));
+    if (items.length) groups.push({ id: g.id, heading: g.heading || "", items });
+  }
   const items = groups.flatMap((g) => g.items);
   items.forEach((it, i) => { it.index = i; });
   return { groups, items };

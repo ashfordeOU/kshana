@@ -29,6 +29,44 @@ What runs where:
 | The receiver-trust scorers (`receiver_trust_replay`, `assess_vessel_log`) | Native, so the trust page's live device panel scores without the WebAssembly package |
 | Live devices (`devices_list`, `device_start`, `device_status`, `device_excerpt`, `device_stop`) | Native (`src-tauri/src/devices.rs`), read only |
 
+## Extending the shell
+
+A module loaded into the shell's page (a `<script type="module">` added after `shell.js` in a
+staged copy of `shell/index.html`) can add to the window through `window.KshanaShell`. The API
+is the same for any extension; with none registered, the shell draws only its own parts. The
+registry is `shell/lib/ext.mjs` (pure, tested in `shell.test.mjs`).
+
+```js
+function attach(shell) {
+  shell.registerView("account", { title: "Account", render(el, ctx) { /* draw into el */ } });
+  shell.registerNavSection({ heading: "EXTRA", items: () => [{ id: "account", label: "Account", icon: "files", view: "account" }] });
+}
+if (window.KshanaShell) attach(window.KshanaShell);
+else addEventListener("kshana-shell-ready", (e) => attach(e.detail), { once: true });
+```
+
+| Call | What it does |
+|---|---|
+| `version` | `1`. An extension checks it before relying on the calls below. |
+| `registerView(id, { title, render(el, ctx) })` | A view in the centre. `id` is lower-case letters, digits and `-`, and not one of the shell's views. `render` is called on every render of the shell while the view is shown: on the first, `el` is empty and `ctx.fresh` is `true`; afterwards `el` still holds what the view drew, which it may keep or redraw. It may also return a node, which then fills `el`. A view that throws gives the place back to the shell's own view. `title` (a string or a function) names the window while the view is shown. |
+| `replaceView(builtinId, viewId)` | Shows the registered `viewId` wherever the shell would show its own `builtinId` (`home`, `runs`, `library`, `devices`, `evidence`, `files`, `upgrade`); `null` gives it back. Links and buttons that open the built-in view open the replacement. |
+| `registerNavSection({ heading, items })` | A sidebar section after the shell's own items. `items` is a list, or a function returning one (read on every render), of `{ id, label, icon, badge, view, onSelect }`: `icon` is the name of one of the shell's icons or a function returning a node; `badge` is a short text or `{ text, dot, title }` (`dot` a CSS colour); `view` opens that view and marks the item current while it is shown; `onSelect` is called on a click. |
+| `registerPaletteGroup({ heading, items })` | A group of the command palette (⌘K / Ctrl+K) after the shell's actions. `items` is a list or a function of `{ id, label, keywords, icon, tag, hint, disabled, onSelect }`; the query matches every word against the label and keywords, the arrow keys and Enter move through these rows as through the shell's, and `onSelect` runs after the palette closes. Not shown when the palette opens a scenario in a new tab. |
+| `setStatusItems(side, items)` | Status bar items: `"left"` items follow the shell's (engine, device, cores); `"right"` items take the place of the shell's edition items. A list or a function of strings or `{ text, title, dot }`; `null` gives the side back to the shell. |
+| `setEdition({ appName, tag, title, text, action: { label, onSelect } })` | The edition this window runs: the sidebar's edition box shows `title`, `text` and the action in place of the shell's own box and its section on other editions; `tag` follows the brand; `appName` names the window. `null` gives the shell's own back. |
+| `on(event, fn)` | `"render"` (after every render), `"runs-changed"` (`{ runs }`, after a run is added or the comparison selection changes) and `"view-changed"` (`{ view, tab }`). Returns the function that stops listening. |
+| `show(id)`, `view` | Opens a view (the shell's or a registered one); the view shown (`"tab"` for an open scenario). |
+| `runs()`, `run(id)` | The runs of this session, newest first, as copies: `{ id, file, title, domain, custom, edited, toml, result, svg, summary, csv, ms, at, engine, selected }`. |
+| `refresh()`, `icon(name)`, `toast(text)` | Draws the shell again (after something an extension shows has changed); one of the shell's icons as an SVG node; a short message. |
+
+Every `register…` call returns a function that removes what it added. `ctx` holds `view`,
+`route`, `replaces` (the built-in view it stands in for, or `null`), `fresh`, `runs`, `show`
+and `parts`: `parts.recentRuns()` (the home's table of the latest runs, or `null` with none)
+and `parts.scenarioGrid()` (the home's scenario cards), so a view that replaces the home can
+keep them. An extension's errors are logged and never stop the shell. The shell writes every
+text an extension gives it through `textContent`. `kshana-shell-ready` is dispatched on
+`window` once, with the API as `detail`, before the shell's first render.
+
 ## Live devices
 
 The trust page shows a "Score a receiver live" panel in the Desktop (and only there). It

@@ -23,8 +23,9 @@ import { numericFields, patchField } from "../lib/params.mjs";
 import { rankInputs, inputLabel } from "../lib/inputs.mjs";
 import { fileMeta, chartFilename, svgBlob, triggerDownload } from "../lib/chartdl.mjs";
 import { zip } from "../lib/zip.mjs";
-import { paletteRows, moveIndex, highlight, isPaletteKey } from "./lib/palette.mjs";
+import { paletteRows, moveIndex, highlight, isPaletteKey, actionMatches } from "./lib/palette.mjs";
 import { createRunLog, compareRows, reproduceLines, scenarioName, elapsed, packFiles, tabKeyIndex } from "./lib/runs.mjs";
+import { createExtensions } from "./lib/ext.mjs";
 
 const $ = (id) => document.getElementById(id);
 const h = (tag, props = {}, ...kids) => {
@@ -79,6 +80,21 @@ const S = {
   devices: { api: null, list: [], status: null, msg: "" },
 };
 const RUNS = createRunLog(200);
+// What extensions registered through window.KshanaShell (lib/ext.mjs; README "Extending the
+// shell"). Empty unless an extension registers: the shell then draws only its own parts.
+const BUILTIN_VIEWS = ["home", "runs", "library", "devices", "evidence", "files", "upgrade"];
+const reportExt = (e) => console.error("Kshana Desktop extension:", e);
+const EXT = createExtensions({ builtins: BUILTIN_VIEWS, onChange: () => renderSoon(), report: reportExt });
+let renderQueued = false;
+function renderSoon() {
+  if (renderQueued) return;
+  renderQueued = true;
+  queueMicrotask(() => { renderQueued = false; render(); });
+}
+const safely = (fn, ...args) => { try { return fn(...args); } catch (e) { reportExt(e); return undefined; } };
+/** The runs as an extension reads them: copies, newest first, with whether each is selected for comparison. */
+const publicRuns = () => RUNS.list().map((r) => Object.freeze({ ...r, selected: RUNS.isSelected(r.id) }));
+const runsKey = () => `${RUNS.list().map((r) => r.id).join(",")}|${RUNS.selected().map((r) => r.id).join(",")}`;
 const invoke = desktopInvoke();
 if (invoke) S.devices.api = deviceApi(invoke);
 
@@ -285,8 +301,18 @@ function render() {
   renderInspector();
   renderStatus();
   if (keep && keep !== "view") { const el = $(keep); if (el && el !== document.activeElement) el.focus({ preventScroll: true }); }
-  document.title = S.route === "tab" && activeTab() ? `${activeTab().title} · Kshana Desktop` : "Kshana Desktop";
+  const ed = EXT.shell.edition();
+  const app = (ed && ed.appName) || "Kshana Desktop";
+  const extTitle = S.route === "tab" ? "" : EXT.shell.titleOf(S.route);
+  document.title = S.route === "tab" && activeTab() ? `${activeTab().title} · ${app}` : extTitle ? `${extTitle} · ${app}` : app;
+  // The extension events: the view or the runs changed, and every render.
+  const vk = S.route === "tab" ? `tab:${S.active}` : S.route;
+  if (vk !== seen.view) { seen.view = vk; EXT.shell.emit("view-changed", { view: S.route, tab: S.route === "tab" ? S.active : null }); }
+  const rk = runsKey();
+  if (rk !== seen.runs) { seen.runs = rk; EXT.shell.emit("runs-changed", { runs: publicRuns() }); }
+  EXT.shell.emit("render", { view: S.route });
 }
+const seen = { view: null, runs: runsKey() };
 
 function renderTabs() {
   const list = $("doc-tabs");
@@ -312,44 +338,89 @@ function renderTabs() {
 function renderSidebar() {
   const nav = $("sidebar");
   nav.setAttribute("aria-label", t("js-desk-nav-main", "Main"));
+  const ed = EXT.shell.edition();
   const item = (n, onclick, extra) => h("button", { class: "nav-item", type: "button", "aria-current": S.route === n.id ? "page" : null, onclick }, ic(n.icon), h("span", { text: n.label }), extra);
   nav.replaceChildren(
-    h("div", { class: "brand" }, ic("mark", "i"), h("b", { text: "Kshana" }), h("span", { class: "chip", text: S.version || "…" })),
+    h("div", { class: "brand" }, ic("mark", "i"), h("b", { text: "Kshana" }), ed && ed.tag ? h("span", { class: "ext-tag", text: ed.tag }) : null, h("span", { class: "chip", text: S.version || "…" })),
     ...NAV().map((n) => item(n, () => go(n.id), n.count ? h("span", { class: "count", text: String(n.count()) }) : n.live && n.live() ? h("span", { class: "live", title: t("js-desk-device-reading", "A receiver is being read") }) : null)),
-    h("div", { class: "nav-head", id: "pro-head" }, h("span", { text: t("js-desk-nav-pro", "PRO") })),
-    ...PRO().map((p) => item({ id: `pro-${p.id}`, icon: p.icon, label: p.label }, () => go("upgrade"), h("span", { class: "pro-tag", "aria-label": t("js-desk-pro-only", "Pro only"), text: "PRO" }))),
-    h("div", { class: "edition" },
-      h("b", { text: t("js-desk-free-edition", "Free edition") }),
-      h("p", { text: t("js-desk-free-line", "Fleet, forensics and signed dossiers come with Pro.") }),
-      h("button", { class: "linkish", type: "button", onclick: () => go("upgrade") }, t("js-desk-see-pro", "See what Pro adds →"))),
+    ...EXT.shell.navSections().flatMap((sec) => [
+      sec.heading ? h("div", { class: "nav-head", "data-ext": sec.id }, h("span", { text: sec.heading })) : null,
+      ...sec.items.map((it) => h("button", { class: "nav-item", type: "button", "data-ext": it.id, "aria-current": it.view && S.route === it.view ? "page" : null,
+        onclick: () => { if (it.view) go(it.view); if (it.onSelect) safely(it.onSelect); } }, extIcon(it.icon), h("span", { text: it.label }), extBadge(it.badge)))]),
+    ...(ed ? [h("div", { class: "edition ext-edition", "data-ext": "edition" },
+      ed.title ? h("b", { text: ed.title }) : null,
+      ed.text ? h("p", { text: ed.text }) : null,
+      ed.action ? h("button", { class: "linkish", type: "button", onclick: () => safely(ed.action.onSelect) }, ed.action.label) : null)] : [
+      h("div", { class: "nav-head", id: "pro-head" }, h("span", { text: t("js-desk-nav-pro", "PRO") })),
+      ...PRO().map((p) => item({ id: `pro-${p.id}`, icon: p.icon, label: p.label }, () => go("upgrade"), h("span", { class: "pro-tag", "aria-label": t("js-desk-pro-only", "Pro only"), text: "PRO" }))),
+      h("div", { class: "edition" },
+        h("b", { text: t("js-desk-free-edition", "Free edition") }),
+        h("p", { text: t("js-desk-free-line", "Fleet, forensics and signed dossiers come with Pro.") }),
+        h("button", { class: "linkish", type: "button", onclick: () => go("upgrade") }, t("js-desk-see-pro", "See what Pro adds →")))]),
   );
 }
+// An extension's icon (one of the shell's by name, or a node its function returns) and badge.
+function extIcon(icon) {
+  if (typeof icon === "string") return ic(icon);
+  if (typeof icon === "function") { const n = safely(icon); return n && n.nodeType ? n : null; }
+  return null;
+}
+const extBadge = (b) => (b ? h("span", { class: "nav-badge", title: b.title || null }, b.dot ? h("span", { class: "nav-dot", style: `--c:${b.dot.replace(/[;{}]/g, "")}` }) : null, b.text || null) : null);
 
 function renderView() {
   const v = $("view");
   v.removeAttribute("role"); v.removeAttribute("aria-labelledby");
   const tab = activeTab();
-  if (S.route === "tab" && tab) { v.setAttribute("role", "tabpanel"); v.setAttribute("aria-labelledby", `tab-${tab.id}`); v.replaceChildren(...tabView(tab)); return; }
+  if (S.route === "tab" && tab) { drawn = null; v.setAttribute("role", "tabpanel"); v.setAttribute("aria-labelledby", `tab-${tab.id}`); v.replaceChildren(...tabView(tab)); return; }
+  const ext = EXT.shell.viewFor(S.route);
+  if (ext && extView(v, ext)) return;
+  drawn = null;
   const pages = { home: homeView, runs: runsView, library: libraryView, devices: devicesView, evidence: evidenceView, files: filesView, upgrade: upgradeView };
   v.replaceChildren((pages[S.route] || homeView)());
+}
+// A registered view. On the render that opens it, `el` is empty and ctx.fresh is true; on the
+// renders that follow, `el` holds what the view drew last, which it may keep or redraw. A view
+// that throws gives the place back to the shell's own view.
+let drawn = null;
+function extView(v, ext) {
+  const key = `${S.route}>${ext.id}`;
+  const fresh = drawn !== key;
+  if (fresh) v.replaceChildren();
+  const ctx = Object.freeze({ view: ext.id, route: S.route, replaces: ext.replaces, fresh, runs: publicRuns(), show: (id) => KshanaShell.show(id), parts: homeParts });
+  try {
+    const out = ext.render(v, ctx);
+    if (out && out.nodeType) v.replaceChildren(out);
+  } catch (e) {
+    reportExt(e);
+    drawn = null;
+    return false;
+  }
+  drawn = key;
+  return true;
 }
 
 // ---------- home
 const FEATURED = ["clock-holdover.toml", "jamming-demo.toml", "maritime-spoof-position-push.toml", "araim-gps-galileo.toml", "maritime-port-approach-coast.toml"];
 function homeView() {
-  const groups = groupedLibrary("");
+  const recent = recentRuns();
   return h("section", { class: "page", "aria-labelledby": "home-h" },
     h("p", { class: "kicker", text: t("js-desk-home-kicker", "Kshana Desktop · free edition") }),
     h("h1", { id: "home-h", text: t("js-desk-home-title", "What would you like to find out?") }),
     h("p", { class: "lede", text: t("js-desk-home-lede", "Every run uses the engine on this machine, natively, and works offline. Pick a question, open the scenario library, or press { $key } to search.", { key: KEY }) }),
-    RUNS.size ? [h("h2", { text: t("js-desk-home-recent", "Recent runs") }), runsTable(RUNS.list().slice(0, 3), { select: false })] : null,
+    recent ? [h("h2", { text: t("js-desk-home-recent", "Recent runs") }), recent] : null,
     h("h2", { text: t("js-desk-home-areas", "Start with a question") }),
-    h("div", { class: "grid" }, ...groups.map((g) => h("div", { class: "card" },
-      h("h3", {}, h("span", { class: "dot", style: `--c:${g.domain.color}` }), g.domain.label),
-      ...g.items.slice(0, 2).map((e) => h("button", { class: "q-btn", type: "button", onclick: () => openScenario(e.file, { inNewTab: true }) }, e.title, h("small", { text: e.question }))),
-      h("button", { class: "linkish", type: "button", onclick: () => { S.libQuery = g.domain.label; go("library"); } }, t("js-desk-home-all-in", "All { $n } in this area →", { n: g.items.length }))))),
+    scenarioGrid(),
   );
 }
+// The home's parts, which a view that replaces the home can place in its own page (ctx.parts).
+const recentRuns = () => (RUNS.size ? runsTable(RUNS.list().slice(0, 3), { select: false }) : null);
+function scenarioGrid() {
+  return h("div", { class: "grid" }, ...groupedLibrary("").map((g) => h("div", { class: "card" },
+    h("h3", {}, h("span", { class: "dot", style: `--c:${g.domain.color}` }), g.domain.label),
+    ...g.items.slice(0, 2).map((e) => h("button", { class: "q-btn", type: "button", onclick: () => openScenario(e.file, { inNewTab: true }) }, e.title, h("small", { text: e.question }))),
+    h("button", { class: "linkish", type: "button", onclick: () => { S.libQuery = g.domain.label; go("library"); } }, t("js-desk-home-all-in", "All { $n } in this area →", { n: g.items.length })))));
+}
+const homeParts = Object.freeze({ recentRuns, scenarioGrid });
 
 // ---------- a scenario tab
 function tabView(tab) {
@@ -687,13 +758,17 @@ function renderStatus() {
   const st = S.devices.status;
   const dev = !S.devices.api ? t("js-desk-dev-none-native", "No device access") : st && st.running ? t("js-desk-dev-one", "1 device · { $source }", { source: String(st.source || "") }) : t("js-desk-dev-zero", "No device connected");
   const cores = navigator.hardwareConcurrency || 0;
+  const extSt = (it) => h("span", { class: "st", "data-ext": "1", title: it.title || null }, it.dot ? h("span", { class: "dot", style: `--c:${it.dot.replace(/[;{}]/g, "")}` }) : null, it.text);
+  const left = EXT.shell.statusItems("left"), right = EXT.shell.statusItems("right");
   bar.replaceChildren(
     h("span", { class: "st", title: S.engineError && S.mode === "none" ? S.engineError : null }, h("span", { class: "dot", style: `--c:${eng.c}` }), eng.text),
     h("span", { class: "st", text: dev }),
     cores ? h("span", { class: "st", text: t("js-desk-cores", { one: "{ $n } core", other: "{ $n } cores" }, { n: cores }) }) : null,
+    ...(left || []).map(extSt),
     h("div", { class: "grow" }),
-    h("span", { class: "st", text: t("js-desk-free-edition", "Free edition") }),
-    h("span", { class: "st", text: t("js-desk-offline", "Works offline") }),
+    ...(right ? right.map(extSt) : [
+      h("span", { class: "st", text: t("js-desk-free-edition", "Free edition") }),
+      h("span", { class: "st", text: t("js-desk-offline", "Works offline") })]),
     h("button", { type: "button", id: "btn-theme", "aria-label": t("js-desk-theme", "Switch between light and dark"), title: t("js-desk-theme", "Switch between light and dark"), onclick: toggleTheme }, ic("theme")));
 }
 function toggleTheme() {
@@ -747,7 +822,7 @@ function openPalette({ inNewTab = false } = {}) {
   input.focus();
 }
 function fillPalette() {
-  P.rows = paletteRows(P.q, { search: searchScenarios, featured: featured(), actions: P.inNewTab ? [] : paletteActions(), maxScenarios: P.inNewTab ? 10 : 6 });
+  P.rows = paletteRows(P.q, { search: searchScenarios, featured: featured(), actions: P.inNewTab ? [] : paletteActions(), more: P.inNewTab ? [] : EXT.shell.paletteGroups(P.q, actionMatches), maxScenarios: P.inNewTab ? 10 : 6 });
   const list = $("pal-list");
   if (!list) return;
   const n = P.rows.items.length;
@@ -755,16 +830,16 @@ function fillPalette() {
   const names = { scenarios: t("js-desk-pal-scenarios", "Scenarios"), actions: t("js-desk-pal-actions", "Actions") };
   const kids = [];
   for (const g of P.rows.groups) {
-    kids.push(h("li", { class: "pal-group", role: "presentation", text: names[g.id] }));
+    kids.push(h("li", { class: "pal-group", role: "presentation", "data-ext": g.heading !== undefined ? g.id : null, text: names[g.id] || g.heading || "" }));
     for (const row of g.items) {
       const sel = row.index === P.i;
       const lbl = h("span", { class: "lbl" }, ...highlight(row.label, P.q).map((s) => (s.hit ? h("b", { text: s.text }) : s.text)));
       if (row.kind === "scenario") lbl.append(h("span", { class: "sub", text: domLabel(row.entry.domain) }));
       kids.push(h("li", { class: "pal-opt", role: "option", id: `pal-opt-${row.index}`, "aria-selected": sel ? "true" : "false", "aria-disabled": row.disabled ? "true" : null,
         onmousemove: () => { if (P.i !== row.index) { P.i = row.index; fillPalette(); } }, onclick: (e) => execRow(row, e.metaKey || e.ctrlKey) },
-        row.kind === "scenario" ? h("span", { class: "dot", style: `--c:${domColor(row.entry.domain)};width:8px;height:8px` }) : null,
+        row.kind === "scenario" ? h("span", { class: "dot", style: `--c:${domColor(row.entry.domain)};width:8px;height:8px` }) : row.ext ? extIcon(row.action.icon) : null,
         lbl,
-        row.pro ? h("span", { class: "pro-tag", text: "PRO" }) : row.action && row.action.hint ? h("span", { class: "hint", text: row.action.hint }) : sel ? h("span", { class: "hint", text: row.kind === "scenario" ? (P.inNewTab ? t("js-desk-pal-hint-open", "↵ open") : t("js-desk-pal-hint-run", "↵ run")) : "↵" }) : null));
+        row.pro ? h("span", { class: "pro-tag", text: "PRO" }) : row.tag ? h("span", { class: "ext-tag", text: row.tag }) : row.action && row.action.hint ? h("span", { class: "hint", text: row.action.hint }) : sel ? h("span", { class: "hint", text: row.kind === "scenario" ? (P.inNewTab ? t("js-desk-pal-hint-open", "↵ open") : t("js-desk-pal-hint-run", "↵ run")) : "↵" }) : null));
     }
   }
   if (!n) kids.push(h("li", { class: "pal-empty", role: "presentation", text: t("js-desk-pal-none", "Nothing matches. Try another word.") }));
@@ -777,6 +852,7 @@ function execRow(row, newTabMod) {
   const inNewTab = P.inNewTab || newTabMod;
   closePalette({ restore: false });
   if (row.kind === "scenario") openScenario(row.entry.file, { inNewTab: inNewTab || S.route !== "tab" });
+  else if (row.ext) safely(row.action.go);
   else row.action.go();
 }
 function closePalette({ restore = true } = {}) {
@@ -808,6 +884,33 @@ $("doc-tabs").addEventListener("keydown", (e) => {
 });
 $("tab-new").addEventListener("click", () => openPalette({ inNewTab: true }));
 $("palette-btn").addEventListener("click", () => openPalette());
+
+// ------------------------------------------------------------------ extensions
+// window.KshanaShell: the documented way for a module loaded into this page to add to the
+// shell (apps/desktop/README.md, "Extending the shell"). It is announced with the
+// "kshana-shell-ready" event, so a module that loads before the shell can wait for it.
+const KshanaShell = Object.freeze({
+  version: 1,
+  ...EXT.api,
+  /** Open a view: one of the shell's (home, runs, library, devices, evidence, files, upgrade) or a registered one. */
+  show(id) {
+    if (!BUILTIN_VIEWS.includes(id) && !EXT.shell.hasView(id)) throw new Error(`show: no view "${id}"`);
+    go(id);
+  },
+  /** Draw the shell again (after something an extension shows has changed). */
+  refresh: () => renderSoon(),
+  /** The view shown: a view id, or "tab" for an open scenario. */
+  get view() { return S.route; },
+  /** The runs of this session, newest first (copies). */
+  runs: () => publicRuns(),
+  run: (id) => publicRuns().find((r) => r.id === id) || null,
+  /** One of the shell's icons as an SVG node. */
+  icon: (name) => ic(String(name)),
+  /** A short message in the shell's toast. */
+  toast: (msg) => toast(String(msg)),
+});
+window.KshanaShell = KshanaShell;
+window.dispatchEvent(new CustomEvent("kshana-shell-ready", { detail: KshanaShell }));
 
 async function main() {
   render();
