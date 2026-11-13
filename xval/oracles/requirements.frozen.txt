@@ -140,7 +140,7 @@ sigmf==1.13.0
 six==1.17.0
 skyfield==1.54
 snowballstemmer==3.1.1
-soupsieve==2.10
+soupsieve==4.0.1
 spacepackets==0.32.0
 sphinx==9.1.0
 sphinxcontrib-applehelp==2.0.0
