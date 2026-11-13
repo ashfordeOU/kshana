@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kshana Desktop</title>
+<meta name="color-scheme" content="light dark">
+<script src="boot.js"></script>
+<link rel="stylesheet" href="../../fonts/bricolage-grotesque-geist-geist-mono.css">
+<link rel="stylesheet" href="../tokens.css">
+<link rel="stylesheet" href="shell.css">
+</head>
+<body>
+<!-- Kshana Desktop's own window (apps/desktop/shell): staged by apps/desktop/build-frontend.sh as
+     studio/desktop/ next to the Studio, whose modules it imports. Every text is written by
+     shell.js through t(), so it can be translated like the Studio's. -->
+<a class="skip" id="skip" href="#view"></a>
+<div class="app" id="app">
+  <header class="titlebar" id="titlebar">
+    <div class="doc-tabs" id="doc-tabs" role="tablist"></div>
+    <button class="tab-new" id="tab-new" type="button"></button>
+    <div class="grow"></div>
+    <button class="palette-btn" id="palette-btn" type="button" aria-haspopup="dialog"></button>
+  </header>
+  <div class="body">
+    <nav class="sidebar" id="sidebar"></nav>
+    <main class="view" id="view" tabindex="-1"></main>
+    <aside class="inspector" id="inspector" hidden></aside>
+  </div>
+  <footer class="statusbar" id="statusbar"></footer>
+</div>
+<div class="palette-layer" id="palette-layer" hidden></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script type="module" src="shell.js"></script>
+</body>
+</html>
