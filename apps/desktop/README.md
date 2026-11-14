@@ -23,7 +23,7 @@ What runs where:
 
 | Function | Engine |
 |---|---|
-| Scenario runs, charts, tables, the localised summary (`run`, `run_all`, `summary`, `chart_svg`, `table_csv`, `run_human`), the kind list, the bundled examples, the CCSDS and SP3 exports | Native (`src-tauri/src/bridge.rs`, the same engine calls as `src/wasm.rs`) |
+| Scenario runs, charts, tables, the localised summary (`run`, `run_all`, `summary`, `chart_svg`, `table_csv`, `run_human`), the kind list, the bundled examples, the CCSDS and SP3 exports, the scenario's geometry for the map (`export_scenario`, `export_formats`) | Native (`src-tauri/src/bridge.rs`, the same engine calls as `src/wasm.rs`) |
 | The tool pages (receiver trust, telemetry, evidence packs, the sky geometry and the rest) | The WebAssembly engine, in the same window, as on the web |
 | Large files (`file_info`, `read_range`, `iq_probe`) | Native: an IQ recording of any size is probed and read in blocks, never whole |
 | The receiver-trust scorers (`receiver_trust_replay`, `assess_vessel_log`) | Native, so the trust page's live device panel scores without the WebAssembly package |
@@ -46,6 +46,63 @@ The Studio pages are staged unchanged, then `build-frontend.sh` rewrites the sta
 view says the engine runs natively on this computer. The build fails if a banned phrase is
 left; `node apps/desktop/wording.test.mjs` checks the same. `build-frontend.sh [out-dir]`
 stages elsewhere than `apps/desktop/dist`.
+
+## The time cursor and the map
+
+A run whose result goes over time opens on one clock (`shell/lib/clock.mjs`): the
+**Timeline** view shows the timeline strip (the run's whole span, the cursor, the selected
+range and the markers), the time-series plot and the 2D map side by side; the **Map** view
+shows the strip and the map alone; the inspector shows the values at the cursor. Every one
+of them follows the clock.
+
+| Key | Does |
+|---|---|
+| Space | play or pause |
+| J / K / L | play backwards (again: faster), pause, play forwards (again: faster) |
+| ← / → | one epoch of the run back or forward (Shift: ten) |
+| M | a marker at the cursor (on a marker: removes it); `,` and `.` jump between markers |
+| [ / ] | the range starts or ends at the cursor; Escape clears it |
+
+Drag on the strip or click on the plot to move the cursor; Shift-drag on the strip or drag on
+the plot to select a range, which narrows the plot and the map's trail (double-click the
+plot to clear it). On the map: drag pans, the wheel or + and − zoom, 0 fits the run, hovering
+shows the latitude and longitude, and a click on a point of the track drops a timed marker
+there (a click anywhere else does nothing). The map keeps the time, the position, the trust
+or fix and the plotted values at the cursor in its corner.
+
+What the views draw is what the engine returns: the plot takes the series the Studio's chart
+model finds in the result (`web/studio/lib/views.mjs`), else the trust score or the station
+elevation; the map's track is a receiver-trust result's positions coloured by its trust
+score, or an ephemeris result's ground track coloured by whether the station sees the
+satellite; the receivers, ground stations, jammers, jammer areas and satellites come from
+the engine's GeoJSON export of the scenario (`export_scenario`, native in the bridge, the
+command line's `--export geojson`). A jammer area is drawn as the circle where every
+satellite is lost and the band out to where tracking starts to fail, labelled with its
+evidence class ("modelled": computed from the scenario's jammer by the engine's link
+equations; "estimated" when the export says so). Scale bar, projection name ("Web Mercator")
+and "coastlines Natural Earth" are always on the map. Night ops (dark) and Chart (light)
+follow the window's theme; the switch on the map overrides it for the session.
+
+**Why a Canvas 2D renderer and not MapLibre GL JS.** The shell and the Studio are plain ES
+modules with no build step and no npm dependencies; MapLibre would bring the repository's
+first JavaScript bundling and vendoring pipeline (about 800 KB minified, a pinned package,
+its licence record, and a worker the window's script policy would have to allow) to draw
+what is, for 0.42, one GeoJSON land layer, a track, a few points and circles. The renderer
+in `shell/lib/map/` (Web Mercator, pan and zoom, graticule, scale bar, two canvases so a
+cursor move redraws only the top layer) is under 800 lines with its projection maths tested
+in node. Vector tiles, imagery and the globe (0.43) are where MapLibre or CesiumJS earn
+their place; the map's model (`shell/lib/timemodel.mjs`) does not depend on the renderer.
+
+The base map is Natural Earth land (public domain) at 1:110m for the world and 1:50m from
+zoom 3.5, bundled in `shell/data/` (37 KB and 423 KB) so the map opens with no network; see
+`shell/data/NATURAL-EARTH.md`. The 1:10m layer is not bundled (about 1.9 MB even simplified).
+
+Performance: scrubbing 24 h of 1 Hz data (86 400 epochs) is measured by
+`tools/time-cursor-bench.mjs` (Playwright, Chromium, the engine's command line standing in
+for the native bridge): the work of a scrub frame was 1.1 ms at the median and 4.5 ms at the
+95th percentile, with frames every 16.7 ms. It needs a browser and the engine binary, so CI
+runs the pure part (`shell/lib/clock.test.mjs`, about 0.02 ms of model work per frame).
+Tests: `node apps/desktop/shell/lib/clock.test.mjs`.
 
 ## Extending the shell
 

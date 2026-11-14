@@ -31,6 +31,8 @@ import { domainColour } from "./lib/look.mjs";
 import { symbolNode, isSymbol } from "./lib/symbols.mjs";
 import { fmtDuration, fmtUtc, fmtCount } from "./lib/format.mjs";
 import { numNode, figureParts, domainMark, density, toggleDensity, restoreDensity } from "./lib/marks.mjs";
+import { createRunView } from "./lib/runview.mjs";
+import { geojsonOfExport } from "./lib/timemodel.mjs";
 
 const $ = (id) => document.getElementById(id);
 const h = (tag, props = {}, ...kids) => {
@@ -56,7 +58,7 @@ const ICONS = {
   dossiers: ["M5 4h14v16H5z", "M9 8h6M9 12h6M9 16h4"], timing: ["M12 3a9 9 0 1 0 0 18 9 9 0 1 0 0-18", "M12 7v5l3 2"],
   search: ["M11 4a7 7 0 1 0 0 14 7 7 0 1 0 0-14", "m20 20-3.5-3.5"], play: ["M6 4l14 8-14 8z"], down: ["M12 4v12", "m6 10 6 6 6-6", "M4 20h16"],
   copy: ["M8 8h12v12H8z", "M4 16V4h12"], theme: ["M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9z"], close: ["M6 6l12 12M18 6 6 18"], stop: ["M6 6h12v12H6z"],
-  mark: ["M12 3a9 9 0 1 0 0 18 9 9 0 1 0 0-18", "M12 3v18M3 12h18M6 6l12 12"],
+  mark: ["M12 3a9 9 0 1 0 0 18 9 9 0 1 0 0-18", "M12 3v18M3 12h18M6 6l12 12"], pause: ["M8 5v14M16 5v14"],
 };
 function ic(name, cls = "i") {
   if (!ICONS[name] && isSymbol(name)) return symbolNode(name, { cls: cls === "i" ? "sym" : `sym ${cls}` });
@@ -192,6 +194,7 @@ function showTab(id) { S.active = id; S.route = "tab"; render(); }
 function closeTab(id) {
   const i = S.tabs.findIndex((x) => x.id === id);
   if (i < 0) return;
+  dropLinked(S.tabs[i]);
   S.tabs.splice(i, 1);
   if (S.active === id) {
     const next = S.tabs[i] || S.tabs[i - 1];
@@ -229,6 +232,37 @@ async function runTab(tab) {
 }
 function cancelRuns() { if (S.engine && S.engine.canCancel) S.engine.cancel(); }
 const engineMissing = () => t("js-desk-engine-missing", "The engine could not start: { $reason }", { reason: S.engineError || "?" });
+
+// ------------------------------------------------------------------ the time cursor (U7, U15)
+// One set of linked views per tab (lib/runview.mjs): the clock, the timeline strip, the plot,
+// the map and the values at the cursor. Made when a run is first shown on the time cursor;
+// the scenario's geometry (receivers, stations, jammer areas, satellites) comes from the
+// engine's GeoJSON export of the scenario.
+const scenes = new WeakMap();
+function sceneOf(run) {
+  if (!scenes.has(run)) {
+    const p = S.engine ? S.engine.call("export_scenario", run.toml, "geojson").then(geojsonOfExport).catch(() => null) : Promise.resolve(null);
+    scenes.set(run, p);
+  }
+  return scenes.get(run);
+}
+const landFile = (scale) => fetch(`data/land-${scale === "50m" ? "50m" : "110m"}.json`).then((r) => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); });
+function linkedFor(tab) {
+  const run = tab.run;
+  if (!run) return null;
+  if (tab.lv && tab.lv.run === run) return tab.lv.view;
+  const at = tab.lv && tab.lv.view ? tab.lv.view.clock.t : undefined;
+  dropLinked(tab);
+  let view = null;
+  try {
+    view = createRunView({ t, icon: ic, run, seriesModel: V.seriesModel(run.result, run.toml), scene: sceneOf(run), at, loadLand: landFile, fmt: (v) => V.fmt(v) });
+  } catch (e) {
+    console.error("Kshana Desktop: time cursor", e);
+  }
+  tab.lv = { run, view };
+  return view;
+}
+function dropLinked(tab) { if (tab && tab.lv && tab.lv.view) tab.lv.view.destroy(); if (tab) tab.lv = null; }
 
 // The figures a run is summed up by: the plain-language cards (lib/meaning.mjs), else the key figures (lib/kpi.mjs).
 function stripCards(run, max = 3) {
@@ -433,7 +467,8 @@ function tabView(tab) {
   const run = tab.run;
   const r = run && run.result;
   const views = [["chart", t("js-desk-view-chart", "Chart")]];
-  if (r && V.groundTrack(r)) views.push(["map", t("js-desk-view-map", "Map")]);
+  const lv = linkedFor(tab);
+  if (r && (V.groundTrack(r) || (lv && lv.hasMap))) views.push(["map", t("js-desk-view-map", "Map")]);
   views.push(["timeline", t("js-desk-view-timeline", "Timeline")], ["table", t("js-desk-view-table", "Table")], ["json", t("js-desk-view-json", "JSON")]);
   if (!views.some((x) => x[0] === tab.view)) tab.view = "chart";
   const meta = [tab.custom ? tab.file : scenarioName(tab.file)];
@@ -470,6 +505,12 @@ function panel(tab) {
   const msg = (text) => { box.append(h("p", { class: "panel-msg", text })); return box; };
   if (!run) return msg(tab.running || !tab.toml ? t("js-desk-panel-wait", "The result appears here when the run finishes.") : t("js-desk-panel-none", "No run yet."));
   if (tab.view === "chart") { if (run.svg) box.append(svgNode(run.svg)); else msg(t("js-desk-no-chart", "The engine drew no chart for this scenario. See Table or JSON.")); return box; }
+  const lv = linkedFor(tab);
+  if (lv && (tab.view === "timeline" || (tab.view === "map" && lv.hasMap))) {
+    box.classList.add("linked");
+    box.append(lv.node(tab.view));
+    return box;
+  }
   if (tab.view === "map") {
     const gt = V.groundTrack(r);
     if (!S.land) { S.land = []; fetch("../data/land.json").then((x) => (x.ok ? x.json() : [])).then((l) => { S.land = l; render(); }).catch(() => {}); }
@@ -517,7 +558,8 @@ function renderInspector() {
       h("button", { class: "btn", type: "button", style: "height:24px;padding:0 8px", "aria-label": t("js-desk-copy-command", "Copy the command"), onclick: () => copyText(lines) }, ic("copy"))),
     h("code", { "aria-labelledby": "repro-h", text: lines }),
     h("span", { class: "hint", style: "color:var(--ink-3);font-size:11.5px", text: tab.toml !== tab.baseToml || tab.custom ? t("js-desk-reproduce-edited", "Save the scenario (Export) under this name first. The same file and engine version give the same result.") : t("js-desk-reproduce-note", "The same file and engine version give the same result.") }));
-  el.replaceChildren(list, body, repro);
+  const lv = tab.run ? linkedFor(tab) : null;
+  el.replaceChildren(...(lv ? [lv.readout()] : []), list, body, repro);
 }
 function inputsPane(tab) {
   if (!tab.toml) return [h("p", { class: "hint", text: t("js-desk-loading", "Loading…") })];
@@ -878,7 +920,11 @@ function closePalette({ restore = true } = {}) {
 // ------------------------------------------------------------------ keys and start
 document.addEventListener("keydown", (e) => {
   if (isPaletteKey(e)) { e.preventDefault(); if (P.open) closePalette(); else openPalette(); return; }
-  if (e.key === "Escape" && P.open) { e.preventDefault(); closePalette(); }
+  if (e.key === "Escape" && P.open) { e.preventDefault(); closePalette(); return; }
+  // The time cursor's keys (lib/clock.mjs clockKey): Space, J/K/L, ←/→, M, [ and ].
+  const tab = !P.open && S.route === "tab" ? activeTab() : null;
+  const lv = tab && tab.lv && tab.lv.run === tab.run ? tab.lv.view : null;
+  if (lv && !e.defaultPrevented && lv.key(e)) e.preventDefault();
 });
 $("doc-tabs").addEventListener("keydown", (e) => {
   const btn = e.target.closest && e.target.closest('[role="tab"]');

@@ -1,0 +1,53 @@
+/* SPDX-License-Identifier: AGPL-3.0-only
+   Kshana Desktop shell: a run on the time cursor (0.42 U7, U15): the timeline strip, the
+   time-series plot and the 2D map (lib/runview.mjs, lib/timeline.mjs, lib/plot.mjs,
+   lib/map/view.mjs). Colours come from the Studio's tokens: the Night ops style uses the
+   "space" surfaces, the Chart style the light ground, so the canvases (lib/map/style.mjs)
+   and these parts agree. */
+.panel.linked{display:block;padding:0;overflow:hidden;min-height:420px}
+.lv{--lv-bg:var(--space-2);--lv-bar:var(--space-3);--lv-ink:var(--space-ink);--lv-ink-2:var(--space-ink-2);--lv-ink-3:var(--space-ink-3);--lv-line:var(--space-line);
+  position:absolute;inset:0;display:flex;flex-direction:column;background:var(--lv-bg);color:var(--lv-ink)}
+.lv[data-style="chart"]{--lv-bg:var(--surface);--lv-bar:var(--bg-2);--lv-ink:var(--ink);--lv-ink-2:var(--ink-2);--lv-ink-3:var(--ink-3);--lv-line:var(--line-2)}
+.panel.linked:has(.lv[data-style="chart"]){background:var(--surface);border-color:var(--line-2)}
+.lv-timeline{flex:none;display:flex;align-items:center;gap:8px;padding:6px 10px;background:var(--lv-bar);border-bottom:1px solid var(--lv-line);font:11.5px var(--f-mono);color:var(--lv-ink-2);min-width:0}
+.lv-btn{height:26px;min-width:26px;padding:0 8px;border-radius:6px;border:1px solid var(--lv-line);background:transparent;color:var(--lv-ink);display:inline-flex;align-items:center;justify-content:center;gap:4px;font:12px var(--f-mono);flex:none}
+.lv-btn:hover{border-color:var(--lv-ink-3)}
+.lv-btn svg.i{width:13px;height:13px}
+.lv-btn[aria-pressed="true"]{background:color-mix(in srgb,var(--lv-ink) 14%,transparent)}
+.lv-now{color:var(--lv-ink);font:600 12.5px var(--f-mono);min-width:96px;font-variant-numeric:tabular-nums}
+.lv-strip{flex:1;min-width:220px;height:34px;position:relative;cursor:ew-resize;touch-action:none;border-radius:6px}
+.lv-strip canvas{position:absolute;inset:0;display:block}
+.lv-range{white-space:nowrap;color:var(--lv-ink-3);font-variant-numeric:tabular-nums}
+.lv-keys{white-space:nowrap;color:var(--lv-ink-3);font-size:10.5px}
+@media (max-width:1760px){.lv-keys{display:none}}
+.lv-views{flex:1;min-height:0;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:1px;background:var(--lv-line)}
+.lv-mode-map .lv-views,.lv-no-map .lv-views,.lv-no-plot .lv-views{grid-template-columns:minmax(0,1fr)}
+.lv-mode-map .lv-plot,.lv-no-plot .lv-plot,.lv-no-map .lv-map{display:none}
+.lv-plot,.lv-map{position:relative;min-height:0;min-width:0;overflow:hidden;background:var(--lv-bg)}
+.lv-plot-body{position:absolute;inset:0}
+.lv-plot canvas,.lv-map canvas{position:absolute;inset:0;display:block}
+.lv-plot .lv-over{cursor:crosshair;touch-action:none}
+.lv-map .lv-over{cursor:grab;touch-action:none}
+.lv-map .lv-over:focus-visible,.lv-strip:focus-visible{outline:2px solid var(--focus);outline-offset:-2px}
+.lv-legend{position:absolute;right:12px;top:8px;display:flex;gap:12px;font:11px var(--f-text);color:var(--lv-ink-2);pointer-events:none}
+.lv-legend span,.lv-map-legend span{display:inline-flex;align-items:center;gap:6px}
+.lv-legend i,.lv-map-legend i{width:12px;height:3px;border-radius:2px;display:inline-block}
+.lv-map-legend i{height:8px}
+.lv-map-legend i.dash{outline:1px dashed currentColor;outline-offset:-1px}
+.lv-map-tools{position:absolute;right:10px;top:10px;display:flex;gap:6px;align-items:center}
+.lv-map-tools .lv-btn{background:var(--lv-bar)}
+.lv-seg{display:flex;gap:2px;padding:2px;border-radius:8px;background:var(--lv-bar);border:1px solid var(--lv-line)}
+.lv-seg .lv-btn{border:0;height:22px;font:11px var(--f-text)}
+.lv-map-now{position:absolute;left:10px;top:44px;padding:6px 8px;border-radius:6px;background:var(--lv-bar);border:1px solid var(--lv-line);font:11px var(--f-mono);color:var(--lv-ink);pointer-events:none;display:grid;grid-template-columns:auto auto;gap:2px 10px;margin:0;font-variant-numeric:tabular-nums;max-width:calc(100% - 20px)}
+.lv-map-now dt{color:var(--lv-ink-3);font-family:var(--f-text)}
+.lv-map-now dd{margin:0}
+.lv-map-now dd.state-pass{color:var(--itg)} .lv-map-now dd.state-fail{color:var(--int)} .lv-map-now dd.state-warn{color:var(--nav)}
+.lv-map-hover{position:absolute;left:10px;top:10px;z-index:1;padding:4px 8px;border-radius:6px;background:var(--lv-bar);border:1px solid var(--lv-line);font:11px var(--f-mono);color:var(--lv-ink);pointer-events:none;font-variant-numeric:tabular-nums}
+.lv-map-legend{position:absolute;left:10px;bottom:34px;display:flex;flex-direction:column;gap:4px;padding:6px 8px;border-radius:6px;background:var(--lv-bar);border:1px solid var(--lv-line);font:11px var(--f-text);color:var(--lv-ink-2);pointer-events:none;max-width:60%}
+.lv-map-scale{position:absolute;left:10px;bottom:10px;display:flex;align-items:center;gap:6px;font:10.5px var(--f-mono);color:var(--lv-ink);pointer-events:none}
+.lv-map-scale i{display:block;height:6px;border:1.5px solid var(--lv-ink);border-top:0}
+.lv-map-attr{position:absolute;right:10px;bottom:8px;max-width:calc(100% - 190px);text-align:right;font:10.5px var(--f-mono);color:var(--lv-ink-2);pointer-events:none;background:color-mix(in srgb,var(--lv-bg) 70%,transparent);padding:2px 6px;border-radius:4px}
+.lv-readout{padding:12px 16px;border-bottom:1px solid var(--line);display:flex;flex-direction:column;gap:8px;flex:none}
+.lv-readout-head{display:flex;justify-content:space-between;gap:8px;font-size:12px;color:var(--ink-2)}
+.lv-readout-head .mono{color:var(--ink);font-variant-numeric:tabular-nums}
+.lv-readout .kv dd{font-variant-numeric:tabular-nums;word-break:normal;overflow-wrap:anywhere}
