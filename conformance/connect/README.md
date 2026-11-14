@@ -26,3 +26,11 @@ when its epochs equal the expected file in content and order, exactly one epoch 
 MQTT reconnected exactly once, and the 99th-percentile latency from send to records is at most 250 ms.
 Both ends run in one process, so the latency is the client's own cost. `tests/connect_live.rs` runs it
 in CI, together with a vector whose expected file is wrong, which must fail at the epoch that differs.
+
+## Track decoders (0.42)
+
+A vector may name a track decoder (`decode = "ais"`, `"asterix"`, `"beast"`, `"mavlink-tlog"`, ...) with
+an `[options]` table instead of a mapping or a reader; its expected file is then the decoder's output
+(`kshana.tracks/1` JSON Lines, or the form `options.to` names: `geojson`, `kml`, `czml`, `adsb-csv`,
+`ais-csv`). The inputs are in `examples/tracks/`, with the source of each in its `NOTICE.md`
+(docs/TRACKS.md).

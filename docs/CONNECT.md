@@ -220,3 +220,14 @@ quality. That needs a schema minor version. It is checked against a stream from 
 
 A binary sensor is first decoded by a device file (`kshana.device/1`, [DEVICES.md](DEVICES.md)) into JSON
 Lines, which a mapping file then reads like any other JSON Lines export.
+
+## Tracks: AIS, ADS-B, ASTERIX, MAVLink, ULog, NMEA 2000 (`kshana connect decode`, 0.42)
+
+`kshana connect decode <input> --format <f>` reads vessel, aircraft and drone position reports (AIS
+from NMEA 0183, canboat NMEA 2000 JSON, ASTERIX CAT010/021/048/062, Beast and AVR Mode S, OpenSky-style
+state vectors, MAVLink `.tlog`, PX4 ULog) with their accuracy and integrity fields, and writes JSON
+Lines, the interference map's CSV files, or GeoJSON, KML and CZML tracks. `kshana connect mavlink-udp`
+listens for MAVLink on a UDP port, read only. MAVLink `.tlog`, ULog and canboat logs are also built-in
+readers for observation files (`reader = "mavlink-tlog"`, `"ulog"`, `"canboat"`). A conformance vector
+can name a track decoder instead of a mapping or a reader: `decode = "<format>"`, with an `[options]`
+table (`day`, `start`, `radar`, and `to` for the output form). See [TRACKS.md](TRACKS.md).

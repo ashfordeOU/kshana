@@ -1,0 +1,5 @@
+name = "track decoder: mavlink-tlog"
+input = "../../../examples/tracks/flight.tlog"
+decode = "mavlink-tlog"
+station = "../../../examples/obs/station.toml"
+expected = "expected.tracks.jsonl"

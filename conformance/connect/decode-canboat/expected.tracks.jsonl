@@ -1,0 +1,5 @@
+{"bad_checksum":0,"fixes":4,"malformed":0,"other":0,"read":7,"records":0,"schema":"kshana.tracks/1","source_format":"canboat"}
+{"alt_m":31.2,"id":"src7","kind":"fix","lat_deg":59.4372,"lon_deg":24.7536,"quality":{"hdop":0.9,"integrity":"Safe","method":"GNSS fix","pdop":1.6,"satellites":9.0},"reported_quality":"good","source":"canboat","t_unix_s":1772359200.0}
+{"extra":{"cog_deg":87.0,"msg_type":1,"sog_kn":10.0},"id":"276000001","kind":"fix","lat_deg":59.45,"lon_deg":24.7,"quality":{"position_accuracy":0,"raim":1},"reported_quality":"unknown","source":"ais","t_unix_s":1772359200.3}
+{"id":"src7","kind":"fix","lat_deg":59.43721,"lon_deg":24.75361,"quality":{},"reported_quality":"unknown","source":"canboat","t_unix_s":1772359200.4}
+{"alt_m":31.0,"id":"src7","kind":"fix","lat_deg":59.4373,"lon_deg":24.7537,"quality":{"hdop":2.5,"integrity":"Caution","method":"GNSS fix","pdop":3.1,"satellites":7.0},"reported_quality":"degraded","source":"canboat","t_unix_s":1772359201.0}

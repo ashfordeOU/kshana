@@ -116,6 +116,10 @@
   "src/station.rs": {
    "count": 4,
    "reason": "machine-document: the HTTP/1.1 lines written to the status port and the fleet report, and the service templates; no human-facing sentence"
+  },
+  "src/interconnect/export.rs": {
+   "count": 1,
+   "reason": "machine-format: the KML element template of a track line (Placemark, styleUrl, LineString, coordinates); the only text in it is the track id"
   }
  }
 }

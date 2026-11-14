@@ -1,0 +1,8 @@
+name = "track decoder: opensky-csv to adsb-csv"
+input = "../../../examples/tracks/opensky-states.csv"
+decode = "opensky-csv"
+station = "../../../examples/obs/station.toml"
+expected = "expected.adsb.csv"
+
+[options]
+to = "adsb-csv"

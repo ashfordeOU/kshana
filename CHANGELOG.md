@@ -9,6 +9,17 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+### Added (0.42 I1, I6: maritime, aviation and drone data)
+
+- `kshana connect decode` (`kshana::interconnect`): AIS from NMEA 0183 `!AIVDM`/`!AIVDO` (types 1, 2, 3, 4, 5, 18, 19, 24;
+  fragments, checksums, TAG times, IEC 61162-450 headers), NMEA 2000 as canboat JSON, ASTERIX CAT010, CAT048 and CAT062 (with
+  CAT021), Mode S / ADS-B from Beast and AVR with NIC and NACp, OpenSky-style state vectors (JSON, CSV), MAVLink v1/v2
+  `GPS_RAW_INT`, `GPS_STATUS`, `GPS2_RAW` from `.tlog`, and PX4 ULog GNSS topics; output as `kshana.tracks/1` JSON Lines, the
+  interference map's ADS-B and AIS CSV, or GeoJSON, KML and CZML tracks with each report's trust attributes. `kshana connect
+  mavlink-udp` listens read only. MAVLink `.tlog`, ULog and canboat logs are observation readers too. MODELLED: checked on
+  synthetic inputs from independent encoders and decoders (`examples/tracks/NOTICE.md`) and on published worked examples; 15
+  new Connect conformance vectors. No verification-matrix row is added. See `docs/TRACKS.md`.
+
 ## [0.41.0] - 2026-11-12
 
 0.41 adds live ingest (Kshana Connect mapping files, a directory watch, MQTT, NATS and WebSocket inputs, an NTRIP client, live

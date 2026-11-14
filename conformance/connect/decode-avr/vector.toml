@@ -1,0 +1,8 @@
+name = "track decoder: avr"
+input = "../../../examples/tracks/adsb.avr"
+decode = "avr"
+station = "../../../examples/obs/station.toml"
+expected = "expected.tracks.jsonl"
+
+[options]
+start = "1700000000"
