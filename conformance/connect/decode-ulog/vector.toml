@@ -1,0 +1,5 @@
+name = "track decoder: ulog"
+input = "../../../examples/tracks/flight.ulg"
+decode = "ulog"
+station = "../../../examples/obs/station.toml"
+expected = "expected.tracks.jsonl"

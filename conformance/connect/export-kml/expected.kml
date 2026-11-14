@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+<Document>
+<name>kshana.tracks/1</name>
+<Style id="q-good"><IconStyle><color>ff00aa00</color><scale>0.6</scale></IconStyle><LineStyle><color>ff00aa00</color><width>2</width></LineStyle></Style>
+<Style id="q-intermediate"><IconStyle><color>ff00a0e6</color><scale>0.6</scale></IconStyle><LineStyle><color>ff00a0e6</color><width>2</width></LineStyle></Style>
+<Style id="q-degraded"><IconStyle><color>ff0000dc</color><scale>0.6</scale></IconStyle><LineStyle><color>ff0000dc</color><width>2</width></LineStyle></Style>
+<Style id="q-unknown"><IconStyle><color>ff808080</color><scale>0.6</scale></IconStyle><LineStyle><color>ff808080</color><width>2</width></LineStyle></Style>
+<Folder>
+<name>ais 244123456</name>
+<Placemark><name>244123456</name><styleUrl>#q-unknown</styleUrl><LineString><tessellate>1</tessellate><coordinates>4.4721,51.9071 4.476,51.906</coordinates></LineString></Placemark>
+<Placemark><styleUrl>#q-unknown</styleUrl><TimeStamp><when>2023-11-14T22:13:20Z</when></TimeStamp><ExtendedData><Data name="extra_cog_deg"><value>123.4</value></Data><Data name="extra_heading_deg"><value>121</value></Data><Data name="extra_msg_type"><value>1</value></Data><Data name="extra_nav_status"><value>0</value></Data><Data name="extra_second"><value>0</value></Data><Data name="extra_sog_kn"><value>12.3</value></Data><Data name="id"><value>244123456</value></Data><Data name="kind"><value>fix</value></Data><Data name="quality_position_accuracy"><value>1</value></Data><Data name="quality_raim"><value>1</value></Data><Data name="reported_quality"><value>unknown</value></Data><Data name="source"><value>ais</value></Data><Data name="t_unix_s"><value>1700000000.0</value></Data><Data name="time"><value>2023-11-14T22:13:20Z</value></Data></ExtendedData><Point><coordinates>4.4721,51.9071</coordinates></Point></Placemark>
+<Placemark><styleUrl>#q-unknown</styleUrl><TimeStamp><when>2023-11-14T22:13:30Z</when></TimeStamp><ExtendedData><Data name="extra_cog_deg"><value>123.0</value></Data><Data name="extra_heading_deg"><value>121</value></Data><Data name="extra_msg_type"><value>1</value></Data><Data name="extra_nav_status"><value>0</value></Data><Data name="extra_second"><value>10</value></Data><Data name="extra_sog_kn"><value>12.4</value></Data><Data name="id"><value>244123456</value></Data><Data name="kind"><value>fix</value></Data><Data name="quality_position_accuracy"><value>1</value></Data><Data name="quality_raim"><value>1</value></Data><Data name="reported_quality"><value>unknown</value></Data><Data name="source"><value>ais</value></Data><Data name="t_unix_s"><value>1700000010.0</value></Data><Data name="time"><value>2023-11-14T22:13:30Z</value></Data></ExtendedData><Point><coordinates>4.476,51.906</coordinates></Point></Placemark>
+</Folder>
+<Folder>
+<name>ais 211000001</name>
+<Placemark><styleUrl>#q-unknown</styleUrl><TimeStamp><when>2023-11-14T22:13:40Z</when></TimeStamp><ExtendedData><Data name="extra_cog_deg"><value>270.0</value></Data><Data name="extra_msg_type"><value>18</value></Data><Data name="extra_second"><value>20</value></Data><Data name="extra_sog_kn"><value>6.0</value></Data><Data name="id"><value>211000001</value></Data><Data name="kind"><value>fix</value></Data><Data name="quality_position_accuracy"><value>0</value></Data><Data name="quality_raim"><value>0</value></Data><Data name="reported_quality"><value>unknown</value></Data><Data name="source"><value>ais</value></Data><Data name="t_unix_s"><value>1700000020.0</value></Data><Data name="time"><value>2023-11-14T22:13:40Z</value></Data></ExtendedData><Point><coordinates>4.45,51.9</coordinates></Point></Placemark>
+</Folder>
+<Folder>
+<name>ais 211000002</name>
+<Placemark><styleUrl>#q-unknown</styleUrl><TimeStamp><when>2023-11-14T22:13:50Z</when></TimeStamp><ExtendedData><Data name="extra_cog_deg"><value>90.0</value></Data><Data name="extra_heading_deg"><value>88</value></Data><Data name="extra_msg_type"><value>19</value></Data><Data name="extra_second"><value>30</value></Data><Data name="extra_sog_kn"><value>3.1</value></Data><Data name="id"><value>211000002</value></Data><Data name="kind"><value>fix</value></Data><Data name="quality_epfd"><value>1</value></Data><Data name="quality_position_accuracy"><value>1</value></Data><Data name="quality_raim"><value>1</value></Data><Data name="reported_quality"><value>unknown</value></Data><Data name="source"><value>ais</value></Data><Data name="t_unix_s"><value>1700000030.0</value></Data><Data name="time"><value>2023-11-14T22:13:50Z</value></Data></ExtendedData><Point><coordinates>4.46,51.91</coordinates></Point></Placemark>
+</Folder>
+<Folder>
+<name>ais 244999999</name>
+<Placemark><styleUrl>#q-unknown</styleUrl><ExtendedData><Data name="extra_cog_deg"><value>123.4</value></Data><Data name="extra_heading_deg"><value>121</value></Data><Data name="extra_msg_type"><value>1</value></Data><Data name="extra_nav_status"><value>0</value></Data><Data name="extra_own_vessel"><value>true</value></Data><Data name="extra_second"><value>0</value></Data><Data name="extra_sog_kn"><value>12.3</value></Data><Data name="id"><value>244999999</value></Data><Data name="kind"><value>fix</value></Data><Data name="quality_position_accuracy"><value>1</value></Data><Data name="quality_raim"><value>1</value></Data><Data name="reported_quality"><value>unknown</value></Data><Data name="source"><value>ais</value></Data></ExtendedData><Point><coordinates>4.4721,51.9071</coordinates></Point></Placemark>
+</Folder>
+</Document>
+</kml>

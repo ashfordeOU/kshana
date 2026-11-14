@@ -1,0 +1,5 @@
+name = "built-in reader: canboat"
+input = "../../../examples/tracks/n2k-canboat.jsonl"
+reader = "canboat"
+station = "../../../examples/obs/station.toml"
+expected = "expected.obs.jsonl"

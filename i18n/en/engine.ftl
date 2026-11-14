@@ -11773,3 +11773,21 @@ engine-tip-and-cue-summary-head = tip-and-cue: { $n } cases over { $points } are
 engine-tip-and-cue-summary-case = { $name }: revisit { $r }, full-area refresh { $f }, RF-to-optical reaction { $q }
 
 engine-tip-and-cue-figure-title = Revisit (R), full-area refresh (F) and RF-to-optical reaction (Q), minutes
+
+engine-e-interconnect-option = { $key }={ $value }: not a valid option (day=YYYY-MM-DD, start=<Unix seconds>, radar=<lat>,<lon>,<height m>)
+
+engine-e-interconnect-format = unknown track format { $format }; known: { $known }
+
+engine-e-interconnect-output = unknown output { $to }; known: { $known }
+
+engine-e-interconnect-json = line { $line }: not valid JSON: { $e }
+
+engine-e-interconnect-columns = the CSV header needs the columns { $need }
+
+engine-e-interconnect-ulog-header = not a ULog file: it must start with ULog and the octets 01 12 35
+
+engine-e-interconnect-decode-usage = usage: kshana connect <decode <input> --format <ais|canboat|asterix|beast|avr|opensky-json|opensky-csv|mavlink|mavlink-tlog|ulog> [--to jsonl|geojson|kml|czml|adsb-csv|ais-csv] [--day YYYY-MM-DD] [--start <Unix s>] [--radar <lat>,<lon>,<height m>] [--out <file>] | mavlink-udp <host:port> [--seconds <s>] [--max-messages <n>] [--out <file.jsonl>]>
+
+engine-interconnect-listening = listening on { $addr } for MAVLink, read only: nothing is sent
+
+engine-interconnect-summary = { $read } messages read: { $fixes } fixes, { $records } other records; { $bad } failed a checksum, { $malformed } malformed, { $other } not decoded

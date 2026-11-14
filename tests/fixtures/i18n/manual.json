@@ -14763,5 +14763,126 @@
     "var": "pd"
    }
   ]
+ },
+ {
+  "id": "e-interconnect-option",
+  "error": true,
+  "parts": [
+   {
+    "var": "key"
+   },
+   "=",
+   {
+    "var": "value"
+   },
+   ": not a valid option (day=YYYY-MM-DD, start=<Unix seconds>, radar=<lat>,<lon>,<height m>)"
+  ]
+ },
+ {
+  "id": "e-interconnect-format",
+  "error": true,
+  "parts": [
+   "unknown track format ",
+   {
+    "var": "format"
+   },
+   "; known: ",
+   {
+    "var": "known"
+   }
+  ]
+ },
+ {
+  "id": "e-interconnect-output",
+  "error": true,
+  "parts": [
+   "unknown output ",
+   {
+    "var": "to"
+   },
+   "; known: ",
+   {
+    "var": "known"
+   }
+  ]
+ },
+ {
+  "id": "e-interconnect-json",
+  "error": true,
+  "parts": [
+   "line ",
+   {
+    "var": "line"
+   },
+   ": not valid JSON: ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-interconnect-columns",
+  "error": true,
+  "parts": [
+   "the CSV header needs the columns ",
+   {
+    "var": "need"
+   }
+  ]
+ },
+ {
+  "id": "e-interconnect-ulog-header",
+  "error": true,
+  "parts": [
+   "not a ULog file: it must start with ULog and the octets 01 12 35"
+  ]
+ },
+ {
+  "id": "e-interconnect-decode-usage",
+  "error": true,
+  "parts": [
+   "usage: kshana connect <decode <input> --format <ais|canboat|asterix|beast|avr|opensky-json|opensky-csv|mavlink|mavlink-tlog|ulog> [--to jsonl|geojson|kml|czml|adsb-csv|ais-csv] [--day YYYY-MM-DD] [--start <Unix s>] [--radar <lat>,<lon>,<height m>] [--out <file>] | mavlink-udp <host:port> [--seconds <s>] [--max-messages <n>] [--out <file.jsonl>]>"
+  ]
+ },
+ {
+  "id": "interconnect-listening",
+  "error": false,
+  "parts": [
+   "listening on ",
+   {
+    "var": "addr"
+   },
+   " for MAVLink, read only: nothing is sent"
+  ]
+ },
+ {
+  "id": "interconnect-summary",
+  "error": false,
+  "parts": [
+   {
+    "var": "read"
+   },
+   " messages read: ",
+   {
+    "var": "fixes"
+   },
+   " fixes, ",
+   {
+    "var": "records"
+   },
+   " other records; ",
+   {
+    "var": "bad"
+   },
+   " failed a checksum, ",
+   {
+    "var": "malformed"
+   },
+   " malformed, ",
+   {
+    "var": "other"
+   },
+   " not decoded"
+  ]
  }
 ]

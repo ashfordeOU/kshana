@@ -267,6 +267,13 @@ implementation named there:
 The CCSDS OEM importer and writer, and the OEM covariance block, are older and are described under
 the imports above and in the matrix.
 
+## Observed tracks (0.42)
+
+The exports above draw a scenario's geometry. The tracks of real vessels, aircraft and drones (AIS,
+ADS-B, ASTERIX, MAVLink, ULog, NMEA 2000) go to GeoJSON, KML and CZML through `kshana connect decode
+--to geojson|kml|czml`, every point with the trust attributes its report carried: see
+[TRACKS.md](TRACKS.md).
+
 ## Limitations
 
 - Only the kinds in the table below export geometry. Kinds whose geometry is centred on

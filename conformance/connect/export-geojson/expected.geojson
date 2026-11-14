@@ -1,0 +1,171 @@
+{
+  "features": [
+    {
+      "geometry": {
+        "coordinates": [
+          [
+            8.5455938,
+            47.3977419,
+            488.12
+          ],
+          [
+            8.5455941,
+            47.3977425,
+            488.1
+          ],
+          [
+            8.5455944,
+            47.3977431,
+            488.3
+          ],
+          [
+            8.546,
+            47.398,
+            492.0
+          ]
+        ],
+        "type": "LineString"
+      },
+      "properties": {
+        "classes": {
+          "degraded": 2,
+          "good": 2,
+          "intermediate": 0,
+          "unknown": 0
+        },
+        "first_time": "2023-11-14T22:15:00Z",
+        "id": "sensor_gps/0",
+        "kind": "track",
+        "last_time": "2023-11-14T22:15:00.600Z",
+        "points": 4,
+        "source": "ulog"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          8.5455938,
+          47.3977419,
+          488.12
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "alt_m": 488.12,
+        "extra_boot_s": 12.0,
+        "id": "sensor_gps/0",
+        "kind": "fix",
+        "quality_eph_m": 0.8,
+        "quality_epv_m": 1.2,
+        "quality_fix_type": 3,
+        "quality_hdop": 0.9,
+        "quality_jamming_indicator": 35,
+        "quality_jamming_state": 1,
+        "quality_noise_per_ms": 90,
+        "quality_satellites": 12,
+        "quality_spoofing_state": 1,
+        "quality_vdop": 1.4,
+        "reported_quality": "good",
+        "source": "ulog",
+        "t_unix_s": 1700000100.0,
+        "time": "2023-11-14T22:15:00Z"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          8.5455941,
+          47.3977425,
+          488.1
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "alt_m": 488.1,
+        "extra_boot_s": 12.2,
+        "id": "sensor_gps/0",
+        "kind": "fix",
+        "quality_eph_m": 0.8,
+        "quality_epv_m": 1.2,
+        "quality_fix_type": 3,
+        "quality_hdop": 0.9,
+        "quality_jamming_indicator": 41,
+        "quality_jamming_state": 1,
+        "quality_noise_per_ms": 95,
+        "quality_satellites": 12,
+        "quality_spoofing_state": 1,
+        "quality_vdop": 1.4,
+        "reported_quality": "good",
+        "source": "ulog",
+        "t_unix_s": 1700000100.2,
+        "time": "2023-11-14T22:15:00.200Z"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          8.5455944,
+          47.3977431,
+          488.3
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "alt_m": 488.3,
+        "extra_boot_s": 12.4,
+        "id": "sensor_gps/0",
+        "kind": "fix",
+        "quality_eph_m": 2.5,
+        "quality_epv_m": 4,
+        "quality_fix_type": 3,
+        "quality_hdop": 1.9,
+        "quality_jamming_indicator": 140,
+        "quality_jamming_state": 2,
+        "quality_noise_per_ms": 160,
+        "quality_satellites": 9,
+        "quality_spoofing_state": 1,
+        "quality_vdop": 2.8,
+        "reported_quality": "degraded",
+        "source": "ulog",
+        "t_unix_s": 1700000100.4,
+        "time": "2023-11-14T22:15:00.400Z"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          8.546,
+          47.398,
+          492.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "alt_m": 492.0,
+        "extra_boot_s": 12.6,
+        "id": "sensor_gps/0",
+        "kind": "fix",
+        "quality_eph_m": 6,
+        "quality_epv_m": 9,
+        "quality_fix_type": 2,
+        "quality_hdop": 3.5,
+        "quality_jamming_indicator": 220,
+        "quality_jamming_state": 3,
+        "quality_noise_per_ms": 210,
+        "quality_satellites": 6,
+        "quality_spoofing_state": 2,
+        "quality_vdop": 4.2,
+        "reported_quality": "degraded",
+        "source": "ulog",
+        "t_unix_s": 1700000100.6,
+        "time": "2023-11-14T22:15:00.600Z"
+      },
+      "type": "Feature"
+    }
+  ],
+  "type": "FeatureCollection"
+}
