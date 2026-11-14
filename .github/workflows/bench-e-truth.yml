@@ -27,17 +27,26 @@ jobs:
         shell: bash
         run: |
           mkdir -p "$RUNNER_TEMP/jt"
-          # The archive is 375,338,522 bytes and the transfer is sometimes cut short (a short file gave a
-          # different SHA-256 on 11 and 14 Nov 2026), so resume until the size is complete, then hash.
-          url=https://zenodo.org/api/records/15911589/files/GNSS_DATASET_JAMMING_SPOOFING.tar.gz/content
+          # The archive is 375,338,522 bytes. Zenodo sometimes refuses CI runners (HTTP 403); before
+          # 14 Nov 2026 the error page itself was hashed, which showed up as a wrong SHA-256. Resume until
+          # the size is complete, try the record's second download address, and stop with a clear message.
           want=375338522
+          f="$RUNNER_TEMP/jt/a.tar.gz"
           for attempt in 1 2 3 4 5 6; do
-            curl -sSL --fail --retry 4 --retry-delay 10 -C - -o "$RUNNER_TEMP/jt/a.tar.gz" "$url" || true
-            got=$(wc -c < "$RUNNER_TEMP/jt/a.tar.gz" | tr -d ' ')
+            for url in \
+              https://zenodo.org/api/records/15911589/files/GNSS_DATASET_JAMMING_SPOOFING.tar.gz/content \
+              "https://zenodo.org/records/15911589/files/GNSS_DATASET_JAMMING_SPOOFING.tar.gz?download=1"; do
+              curl -sSL --fail --retry 4 --retry-delay 10 -C - -o "$f" "$url" && break || true
+            done
+            got=$( [ -f "$f" ] && wc -c < "$f" | tr -d ' ' || echo 0 )
             echo "attempt $attempt: $got of $want bytes"
             [ "$got" = "$want" ] && break
-            sleep 30
+            sleep 60
           done
+          if [ "$got" != "$want" ]; then
+            echo "::error::the JammerTest 2024 archive could not be fetched from Zenodo (got $got of $want bytes); Zenodo refused or cut the transfer, so the truth files were not checked"
+            exit 1
+          fi
           PY=$(command -v python3 || command -v python)
           "$PY" - "$RUNNER_TEMP/jt" <<'EOF'
           import hashlib, sys, tarfile, os
