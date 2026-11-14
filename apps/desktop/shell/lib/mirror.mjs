@@ -108,6 +108,17 @@ export function sessionShell(entries) {
 }
 
 // ---------------------------------------------------------------- figures
+/**
+ * Python lines that set `name` to the sky requests: one base request and the epochs when the
+ * requests differ only in time_s (as the sky plot's do), else the list itself.
+ */
+export function skyRequestLines(reqs, name = "requests") {
+  const strip = (q) => { const { time_s: _t, ...rest } = q; return JSON.stringify(rest); };
+  if (reqs.length > 1 && reqs.every((q) => strip(q) === strip(reqs[0]))) {
+    return [`${name}_base = json.loads(${pyStr(strip(reqs[0]))})`, `${name}_times = ${JSON.stringify(reqs.map((q) => q.time_s))}`, `${name} = [dict(${name}_base, time_s=t) for t in ${name}_times]`];
+  }
+  return [`${name} = json.loads(${pyStr(JSON.stringify(reqs))})`];
+}
 const isNum = (x) => typeof x === "number" && Number.isFinite(x);
 const pyKey = (k) => (typeof k === "number" ? `[${k}]` : `[${pyStr(k)}]`);
 
@@ -164,7 +175,7 @@ export function figureScript(run, fig) {
   }
   if (fig.kind === "sky") {
     const reqs = (fig.sky && fig.sky.requests) || [];
-    out.push("# the sky at each sampled epoch, from the engine (kshana.sky_geometry)", `requests = json.loads(${pyStr(JSON.stringify(reqs))})`, "skies = [kshana.sky_geometry(q) for q in requests]",
+    out.push("# the sky at each sampled epoch, from the engine (kshana.sky_geometry)", ...skyRequestLines(reqs, "requests"), "skies = [kshana.sky_geometry(q) for q in requests]",
       "for q, s in zip(requests, skies):", "    for sat in s[\"satellites\"]:", "        print(q[\"time_s\"], sat[\"id\"], sat[\"az_deg\"], sat[\"el_deg\"], sat[\"visible\"], sat[\"masked\"])");
     return out.join("\n") + "\n";
   }
@@ -183,6 +194,7 @@ export function figureScript(run, fig) {
   });
   if (fig.kind === "map" && fig.track) out.push(`track = json.loads(${pyStr(JSON.stringify(fig.track))})  # latitude and longitude as drawn`);
   out.push("", "import matplotlib.pyplot as plt", "fig, ax = plt.subplots()");
+  if (fig.kind === "map" && fig.track) out.push('ax.plot(track["lon"], track["lat"], label="track")', 'ax.set_xlabel("longitude (deg)")', 'ax.set_ylabel("latitude (deg)")', 'ax.set_aspect("equal")');
   for (const [nm, label] of names) out.push(`ax.plot([p[0] for p in ${nm}], [p[1] for p in ${nm}], label=${pyStr(label)})`);
   if (fig.xLabel) out.push(`ax.set_xlabel(${pyStr(fig.xLabel)})`);
   if (fig.yLabel) out.push(`ax.set_ylabel(${pyStr(fig.yLabel)})`);

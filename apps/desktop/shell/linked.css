@@ -51,3 +51,44 @@
 .lv-readout-head{display:flex;justify-content:space-between;gap:8px;font-size:12px;color:var(--ink-2)}
 .lv-readout-head .mono{color:var(--ink);font-variant-numeric:tabular-nums}
 .lv-readout .kv dd{font-variant-numeric:tabular-nums;word-break:normal;overflow-wrap:anywhere}
+/* 0.42 U12/U30: the run view's plot is the interactive chart, filling its pane */
+.lv-plot>.kc.lv-chart{position:absolute;inset:0;border:0;border-radius:0}
+.lv-plot>.kc.lv-chart .kc-stage{height:auto;min-height:0}
+.lv-plot>.kc.lv-chart canvas{position:absolute;inset:0}
+.lv-markers dd{font-size:11.5px}
+/* 0.42 U10/U13: the tools every figure carries */
+.fig-tools{display:flex;flex-wrap:wrap;align-items:flex-start;gap:6px;padding:6px 0 0}
+.fig-btn{height:26px;padding:0 10px;font-size:12px}
+.fig-journal{position:relative}
+.fig-journal>summary{list-style:none;cursor:pointer}
+.fig-journal>summary::-webkit-details-marker{display:none}
+.fig-journal-box{position:absolute;z-index:5;top:30px;left:0;width:300px;padding:10px 12px;background:var(--surface);border:1px solid var(--line-2);border-radius:var(--r);box-shadow:0 10px 30px -12px rgba(0,0,0,.45);display:flex;flex-direction:column;gap:8px}
+.fig-field{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:12px;color:var(--ink-2)}
+.fig-field .input{width:150px}
+.fig-formats{display:flex;gap:6px}
+/* 0.42 U16: the sky plot */
+.sky-pane{display:flex;flex-direction:column;gap:8px;height:100%;min-height:0}
+.sky-pane>.kc{flex:1;min-height:320px}
+.sky-states{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:12px;color:var(--space-ink-2,var(--ink-2));padding:0 12px}
+.sky-states i{display:inline-block;width:12px;height:3px;border-radius:2px;margin-right:6px;vertical-align:middle}
+.sky-note{font-size:11.5px;color:var(--space-ink-2,var(--ink-3));margin:0;padding:0 12px 10px}
+/* 0.42 U9: drop anything in */
+.drop-layer{position:fixed;inset:0;z-index:40;display:flex;align-items:center;justify-content:center;background:color-mix(in srgb,var(--bg) 70%,transparent);pointer-events:none}
+.drop-layer[hidden]{display:none}
+.drop-card{padding:28px 36px;border:2px dashed var(--ink-3);border-radius:16px;background:var(--surface);font-size:15px;color:var(--ink)}
+.det-list{display:flex;flex-direction:column;gap:10px;margin:8px 0 18px}
+.det-item{border:1px solid var(--line-2);border-radius:var(--r);padding:10px 14px;background:var(--surface)}
+.det-item.bad{border-left:3px solid var(--k-trust-mid,var(--nav))}
+.det-item h3{margin:0 0 6px;font-size:13px;display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
+.det-item h3 small{color:var(--ink-3);font-weight:400;font-family:var(--f-mono)}
+.det-item .kv dd.warn{color:var(--k-trust-mid,var(--nav))}
+/* 0.42 U8 and U10: the runs' notes, tags and pins; the console */
+.run-tools{display:flex;gap:4px;align-items:center;flex-wrap:wrap}
+.run-tag{display:inline-block;padding:0 6px;border-radius:9px;border:1px solid var(--line-2);font:11px var(--f-mono);color:var(--ink-2);margin-right:4px}
+.pin-on{color:var(--k-trust-mid,var(--nav))}
+.console-list{display:flex;flex-direction:column;gap:10px}
+.console-entry{border:1px solid var(--line-2);border-radius:var(--r);background:var(--surface);overflow:hidden}
+.console-entry header{display:flex;justify-content:space-between;gap:8px;padding:6px 12px;font-size:12px;color:var(--ink-2);border-bottom:1px solid var(--line)}
+.console-entry pre{margin:0;padding:8px 12px;font:11.5px/1.5 var(--f-mono);white-space:pre-wrap;overflow-wrap:anywhere;max-height:260px;overflow:auto}
+.project-box{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px 12px;align-items:center;max-width:760px}
+.notes{width:100%;min-height:90px;font:12.5px/1.5 var(--f-mono)}

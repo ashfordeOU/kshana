@@ -2,7 +2,7 @@
 // Kshana Desktop shell: the code mirror (0.42 U10). Run: node --test apps/desktop/shell/lib/mirror.test.mjs
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { pyStr, shWord, runLines, editLines, exportLines, createMirror, sessionPython, sessionShell, findSeriesPath, figureScript, PY_HEADER } from "./mirror.mjs";
+import { pyStr, shWord, runLines, editLines, exportLines, createMirror, sessionPython, sessionShell, findSeriesPath, figureScript, skyRequestLines, PY_HEADER } from "./mirror.mjs";
 
 test("a Python string literal reads back as the same text", () => {
   const s = 'a = "b"\n[x]\ty = \'\'\'z\'\'\' \\ ünï ✓';
@@ -73,4 +73,9 @@ test("the script of a figure runs the scenario and takes the plotted data from t
   assert.match(chart, /svg = kshana\.run_full\(toml_1\)\[1\]/);
   const sky = figureScript(run, { kind: "sky", title: "Sky", sky: { requests: [{ time_s: 0, site: { lat_deg: 1, lon_deg: 2, height_m: 0 } }] } });
   assert.match(sky, /skies = \[kshana\.sky_geometry\(q\) for q in requests\]/);
+  const reqs = [0, 60, 120].map((time_s) => ({ site: { lat_deg: 1, lon_deg: 2, height_m: 0 }, time_s, systems: ["gps-baseline"], mask_deg: 5 }));
+  const lines = skyRequestLines(reqs, "q");
+  assert.deepEqual(lines.slice(1), ["q_times = [0,60,120]", "q = [dict(q_base, time_s=t) for t in q_times]"]);
+  assert.deepEqual(JSON.parse(JSON.parse(lines[0].slice("q_base = json.loads(".length, -1))), { site: { lat_deg: 1, lon_deg: 2, height_m: 0 }, systems: ["gps-baseline"], mask_deg: 5 });
+  assert.equal(skyRequestLines([reqs[0], { ...reqs[1], mask_deg: 9 }]).length, 1, "different requests are written as they are");
 });
