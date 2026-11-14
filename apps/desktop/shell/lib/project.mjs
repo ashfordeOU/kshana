@@ -64,7 +64,7 @@ export function runMeta(run) {
     custom: !!run.custom, edited: !!run.edited, at: new Date(+run.at).toISOString(), ms: Number.isFinite(run.ms) ? Math.round(run.ms) : null,
     engine: run.engine || "", engine_version: run.engineVersion || "", seed: Number.isFinite(run.result && run.result.seed) ? run.result.seed : null,
     scenario_sha256: run.scenarioSha || "", result_sha256: run.resultSha || "",
-    tags: cleanTags(run.tags), pinned: !!run.pinned, note: clean(run.note),
+    tags: cleanTags(run.tags), pinned: !!run.pinned, note: clean(run.note), console_run: Number.isFinite(run.console) ? run.console : null,
   };
 }
 
@@ -140,7 +140,7 @@ export function readProject(files) {
       uid: m[1], title: String(meta.title || ""), file: String(meta.file || ""), domain: meta.domain || null, custom: !!meta.custom, edited: !!meta.edited,
       at: new Date(meta.at), ms: Number(meta.ms) || 0, engine: String(meta.engine || ""), engineVersion: String(meta.engine_version || ""),
       scenarioSha: String(meta.scenario_sha256 || ""), resultSha: String(meta.result_sha256 || ""),
-      tags: cleanTags(meta.tags), pinned: !!meta.pinned, note: String(meta.note || ""),
+      tags: cleanTags(meta.tags), pinned: !!meta.pinned, note: String(meta.note || ""), console: Number.isFinite(meta.console_run) ? meta.console_run : null,
       toml: byPath.get(`${d}/scenario.toml`) || "", json, result,
       summary: byPath.get(`${d}/summary.txt`) || "", svg: byPath.get(`${d}/chart.svg`) || "", csv: byPath.get(`${d}/table.csv`) || "",
     });
