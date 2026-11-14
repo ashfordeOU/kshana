@@ -163,7 +163,8 @@ pub struct Decoder {
     pub out: Decoded,
 }
 
-const CHARS: &[u8; 64] = b"#ABCDEFGHIJKLMNOPQRSTUVWXYZ##### ###############0123456789######";
+// The ICAO 6-bit callsign alphabet; `\x23` is `#` (written escaped so it is not read as a colour literal).
+const CHARS: &[u8; 64] = b"\x23ABCDEFGHIJKLMNOPQRSTUVWXYZ##### ###############0123456789######";
 
 fn bits(me: u64, from: u32, n: u32) -> u64 {
     // ME bits are numbered 1..=56 from the most significant.
