@@ -189,6 +189,7 @@ pub mod integrator;
 pub mod integrity;
 pub mod integrity_impact;
 pub mod interchange;
+pub mod interconnect;
 pub mod interop;
 pub mod intersat_range;
 pub mod ionex;

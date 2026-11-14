@@ -1584,6 +1584,46 @@
   "src/bench/texbat.rs": {
    "count": 8,
    "reason": "machine-document and data: the kshana-bench-texbat-windows/1 and kshana-bench-texbat-pd/1 schema ids, the PRN list formatting inside a catalogue message's variable, and the E5-PD score document's keys (B4a E5 v2 and E5-PD, 9 November 2026); the E5 score's class and verdict values (spoofing, MET, NOT MET, NOT ASSESSABLE; machine values, 11 November 2026)"
+  },
+  "src/interconnect/ais.rs": {
+   "count": 15,
+   "reason": "machine-document: the snake_case keys of the kshana.tracks/1 records (position_accuracy, msg_type, ship_type, ...); not text a person reads"
+  },
+  "src/interconnect/asterix.rs": {
+   "count": 24,
+   "reason": "identifiers: the source names asterix-cat0NN, the detection-type ids of I010/020 and I048/020 (mode-s-roll-call, ...) and the snake_case keys of kshana.tracks/1 records"
+  },
+  "src/interconnect/canboat.rs": {
+   "count": 6,
+   "reason": "identifiers: canboat's own field names (Number of SVs, Position Accuracy) read from its JSON, and the snake_case keys of kshana.tracks/1 records"
+  },
+  "src/interconnect/cli.rs": {
+   "count": 4,
+   "reason": "identifiers: the output-form ids adsb-csv and ais-csv, the --max-messages flag and the usage error code"
+  },
+  "src/interconnect/export.rs": {
+   "count": 5,
+   "reason": "machine-document: the property names of the GeoJSON, KML and CZML exports (reported_quality, first_time, last_time)"
+  },
+  "src/interconnect/mavlink.rs": {
+   "count": 3,
+   "reason": "machine-document: the track id sys<n>/gps<n> and the snake_case keys of kshana.tracks/1 records"
+  },
+  "src/interconnect/mod.rs": {
+   "count": 8,
+   "reason": "identifiers: the schema id kshana.tracks/1, the format ids (opensky-json, mavlink-tlog, ...) and the header keys of the JSON Lines"
+  },
+  "src/interconnect/modes.rs": {
+   "count": 2,
+   "reason": "machine-document: the snake_case keys of kshana.tracks/1 records (type_code, alt_baro_ft)"
+  },
+  "src/interconnect/opensky.rs": {
+   "count": 3,
+   "reason": "identifiers: the states_ext key read from the input and the snake_case keys of kshana.tracks/1 records"
+  },
+  "src/interconnect/ulog.rs": {
+   "count": 26,
+   "reason": "identifiers: PX4 ULog topic and field names (vehicle_gps_position, sensor_gps, jamming_state, ...) read from the log"
   }
  }
 }

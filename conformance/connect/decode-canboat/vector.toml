@@ -1,0 +1,5 @@
+name = "track decoder: canboat"
+input = "../../../examples/tracks/n2k-canboat.jsonl"
+decode = "canboat"
+station = "../../../examples/obs/station.toml"
+expected = "expected.tracks.jsonl"

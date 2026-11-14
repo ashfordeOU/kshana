@@ -1,0 +1,9 @@
+name = "track decoder: avr to czml"
+input = "../../../examples/tracks/adsb.avr"
+decode = "avr"
+station = "../../../examples/obs/station.toml"
+expected = "expected.czml"
+
+[options]
+start = "1700000000"
+to = "czml"

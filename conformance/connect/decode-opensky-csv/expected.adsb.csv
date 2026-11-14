@@ -1,0 +1,3 @@
+timestamp,aircraft_id,lat,lon,alt_baro_ft,nic,nacp,source_type
+1700000009.500,4CA7B4,53.4200000,-6.2500000,35000,8,9,adsb
+1700000019.500,4CA7B4,53.4200000,-6.2100000,35000,5,6,adsb

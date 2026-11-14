@@ -1,0 +1,3 @@
+{"bad_checksum":0,"fixes":2,"malformed":0,"other":1,"read":3,"records":0,"schema":"kshana.tracks/1","source_format":"opensky-json"}
+{"alt_m":10900.0,"extra":{"alt_baro_ft":35000.0,"callsign":"RYR1AB"},"id":"4CA7B4","kind":"fix","lat_deg":53.42,"lon_deg":-6.25,"quality":{"position_source":0},"reported_quality":"unknown","source":"adsb","t_unix_s":1700000009.0}
+{"alt_m":10900.0,"extra":{"alt_baro_ft":35000.0,"callsign":"RYR1AB"},"id":"4CA7B4","kind":"fix","lat_deg":53.42,"lon_deg":-6.21,"quality":{"nacp":9,"nic":8,"position_source":0},"reported_quality":"good","source":"adsb","t_unix_s":1700000019.0}

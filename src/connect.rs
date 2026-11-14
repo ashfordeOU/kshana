@@ -937,6 +937,13 @@ pub struct Vector {
     pub station: String,
     /// The expected kshana.obs/1 output.
     pub expected: String,
+    /// Or a track decoder (`kshana connect decode --format`, [`crate::interconnect::FORMATS`]) whose
+    /// output (`kshana.tracks/1` JSON Lines unless `options.to` names another) is compared instead.
+    #[serde(default)]
+    pub decode: Option<String>,
+    /// Options of the track decoder: `day`, `start`, `radar`, and `to` (the output form).
+    #[serde(default)]
+    pub options: BTreeMap<String, String>,
 }
 
 /// Run a vector: its parsed form, where its expected output lives, and the output produced now.
@@ -955,6 +962,11 @@ pub fn run_vector(path: &std::path::Path) -> Result<(Vector, std::path::PathBuf,
     let station: Station =
         toml::from_str(&station_text).map_err(|e| format!("{}: {e}", at(&v.station).display()))?;
     let input = read(&at(&v.input))?;
+    if let (Some(fmt), None, None) = (&v.decode, &v.mapping, &v.reader) {
+        let produced = crate::interconnect::cli::vector_output(fmt, &input, &v.options)?;
+        let expected = at(&v.expected);
+        return Ok((v, expected, produced));
+    }
     let records = match (&v.mapping, &v.reader) {
         (Some(m), None) => {
             let mapping = parse_mapping(&String::from_utf8_lossy(&read(&at(m))?))?;
