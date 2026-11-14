@@ -1,0 +1,8 @@
+name = "track decoder: beast"
+input = "../../../examples/tracks/adsb.beast"
+decode = "beast"
+station = "../../../examples/obs/station.toml"
+expected = "expected.tracks.jsonl"
+
+[options]
+start = "1700000000"

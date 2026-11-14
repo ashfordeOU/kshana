@@ -1,0 +1,4 @@
+time,icao24,lat,lon,velocity,heading,vertrate,callsign,onground,alert,spi,squawk,baroaltitude,geoaltitude,lastposupdate,lastcontact,nic,nacp
+1700000010,4ca7b4,53.42,-6.25,230.1,90.0,0.0,RYR1AB,false,false,false,1000,10668.0,10900.0,1700000009.5,1700000010,8,9
+1700000020,4ca7b4,53.42,-6.21,230.1,90.0,0.0,RYR1AB,false,false,false,1000,10668.0,10900.0,1700000019.5,1700000020,5,6
+1700000020,3c6444,50.03,8.56,0.0,0.0,0.0,DLH2AA,true,false,false,,,,1700000019.0,1700000020,,

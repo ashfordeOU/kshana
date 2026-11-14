@@ -1,0 +1,5 @@
+name = "built-in reader: ulog"
+input = "../../../examples/tracks/flight.ulg"
+reader = "ulog"
+station = "../../../examples/obs/station.toml"
+expected = "expected.obs.jsonl"

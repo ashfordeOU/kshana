@@ -1,0 +1,9 @@
+name = "track decoder: asterix"
+input = "../../../examples/tracks/asterix.bin"
+decode = "asterix"
+station = "../../../examples/obs/station.toml"
+expected = "expected.tracks.jsonl"
+
+[options]
+day = "2026-01-02"
+radar = "53.0,-6.0,50"

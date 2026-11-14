@@ -1,0 +1,5 @@
+{"bad_checksum":1,"fixes":3,"malformed":0,"other":0,"read":7,"records":1,"schema":"kshana.tracks/1","source_format":"avr"}
+{"alt_m":11582.4,"extra":{"alt_baro_ft":38000.0},"id":"4CA7B4","kind":"fix","lat_deg":53.4210205,"lon_deg":-6.2479894,"quality":{"nacp":9,"nic":8,"type_code":11,"version":2},"reported_quality":"good","source":"adsb","t_unix_s":1700000001.0}
+{"alt_m":11582.4,"extra":{"alt_baro_ft":38000.0},"id":"4CA7B4","kind":"fix","lat_deg":53.4219818,"lon_deg":-6.245963,"quality":{"nacp":9,"nic":2,"type_code":16,"version":2},"reported_quality":"degraded","source":"adsb","t_unix_s":1700000001.5}
+{"alt_m":11582.4,"extra":{"alt_baro_ft":38000.0},"id":"4CA7B4","kind":"fix","lat_deg":53.4230223,"lon_deg":-6.2440311,"quality":{"nacp":9,"nic":2,"type_code":16,"version":2},"reported_quality":"degraded","source":"adsb","t_unix_s":1700000002.0}
+{"callsign":"KLM1023","id":"4840D6","kind":"identification","source":"adsb"}

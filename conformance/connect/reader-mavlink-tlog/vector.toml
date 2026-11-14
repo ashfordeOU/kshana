@@ -1,0 +1,5 @@
+name = "built-in reader: mavlink-tlog"
+input = "../../../examples/tracks/flight.tlog"
+reader = "mavlink-tlog"
+station = "../../../examples/obs/station.toml"
+expected = "expected.obs.jsonl"

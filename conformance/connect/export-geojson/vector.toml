@@ -1,0 +1,8 @@
+name = "track decoder: ulog to geojson"
+input = "../../../examples/tracks/flight.ulg"
+decode = "ulog"
+station = "../../../examples/obs/station.toml"
+expected = "expected.geojson"
+
+[options]
+to = "geojson"

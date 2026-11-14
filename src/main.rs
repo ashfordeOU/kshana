@@ -253,6 +253,12 @@ fn run_connect_cli(args: &[String]) -> ExitCode {
     if args.first().map(String::as_str) == Some("mqtt") && args.len() >= 8 {
         return run_connect_mqtt(&args[1], &flag, args.iter().any(|a| a == "--per-topic"));
     }
+    if matches!(
+        args.first().map(String::as_str),
+        Some("decode" | "mavlink-udp")
+    ) {
+        return run_connect_interconnect(args);
+    }
     if args.first().map(String::as_str) != Some("map") || args.len() < 6 {
         return usage();
     }
@@ -285,6 +291,50 @@ fn run_connect_cli(args: &[String]) -> ExitCode {
         None => {
             print!("{text}");
             ExitCode::SUCCESS
+        }
+    }
+}
+
+/// `kshana connect decode <input> --format <f> [--to <out>] ...` and `kshana connect mavlink-udp
+/// <host:port> ...`: maritime, aviation and drone readers (kshana::interconnect, docs/TRACKS.md).
+fn run_connect_interconnect(args: &[String]) -> ExitCode {
+    let flag = |name: &str| {
+        args.iter()
+            .position(|a| a == name)
+            .and_then(|i| args.get(i + 1))
+            .cloned()
+    };
+    let out_path = flag("--out");
+    let result = if args[0] == "decode" {
+        kshana::interconnect::cli::run_decode(&args[1..]).and_then(|(text, d)| {
+            match &out_path {
+                Some(p) => std::fs::write(p, text).map_err(|e| format!("{p}: {e}"))?,
+                None => print!("{text}"),
+            }
+            Ok(d)
+        })
+    } else {
+        let mut sink: Box<dyn std::io::Write> = match &out_path {
+            Some(p) => match std::fs::File::create(p) {
+                Ok(f) => Box::new(f),
+                Err(e) => {
+                    eprintln!("{p}: {e}");
+                    return ExitCode::from(1);
+                }
+            },
+            None => Box::new(std::io::stdout()),
+        };
+        kshana::interconnect::cli::run_mavlink_udp(&args[1..], &mut *sink)
+    };
+    match result {
+        Ok(d) => {
+            eprintln!("{}", kshana::interconnect::cli::summary(&d));
+            ExitCode::SUCCESS
+        }
+        Err(e) => {
+            eprintln!("{e}");
+            let usage = kshana::interconnect::cli::is_usage(&e);
+            ExitCode::from(if usage { 2 } else { 1 })
         }
     }
 }
