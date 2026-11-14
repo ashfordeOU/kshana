@@ -20,6 +20,22 @@ breaking changes are called out explicitly.
   synthetic inputs from independent encoders and decoders (`examples/tracks/NOTICE.md`) and on published worked examples; 15
   new Connect conformance vectors. No verification-matrix row is added. See `docs/TRACKS.md`.
 
+### Added (0.42 I4, I5, I7, I8: simulators, ops outputs, industrial control, mission control)
+
+- I7 `kshana connect modbus|dnp3|opcua` (`kshana::industrial`, `kshana::opcua`): read-only Modbus TCP (codes 1 to 4), DNP3
+  class 0 read with transport reassembly and the application confirm, OPC UA binary client (policy None, anonymous, Read of
+  the Value attribute). Tested against in-process fakes. See `docs/INDUSTRIAL.md`.
+- I5 `kshana connect alert|snmp-trap|taxii` (`kshana::telemetry::ops`): ServiceNow, PagerDuty, Opsgenie, Slack, Teams, Splunk
+  HEC and Elastic bulk payloads per band change; SNMPv2c traps; STIX 2.1 objects (checked against the OASIS schemas when
+  present) and a TAXII 2.1 client; OpenMetrics on the `/metrics` endpoint by content negotiation. Kafka remains open.
+- I8 `kshana connect tm|tm-stream` (`kshana::tm_bridge`): the trust stream as CCSDS Space Packets with XTCE 1.2 (checked
+  against the OMG schema when present), OpenC3 COSMOS and Open MCT definitions, and a UDP packet stream for Yamcs. The CCSDS
+  ODM, ADM, TDM, SP3 and Space Packet support was already present. See `docs/SPACE-OPS-BRIDGES.md`.
+- I4 `kshana connect sim-motion` writes gps-sdr-sim `-u`/`-x` motion at 10 Hz; `kshana connect sdr-capture` captures SigMF
+  through the user's own SoapySDR behind the optional `soapy` feature (no new dependency). Commercial simulator formats are
+  listed as documented to licensees, not built. See `docs/SDR-SIMULATORS.md`.
+- `tools/egm2008_to70.gfc` is left out of the published crate (two unit tests read it from a checkout).
+
 ## [0.41.0] - 2026-11-12
 
 0.41 adds live ingest (Kshana Connect mapping files, a directory watch, MQTT, NATS and WebSocket inputs, an NTRIP client, live
