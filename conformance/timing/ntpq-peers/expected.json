@@ -1,0 +1,57 @@
+{
+  "kind": "ntpq-peers",
+  "peers": [
+    {
+      "delay_ms": 0.512,
+      "jitter_ms": 0.021,
+      "kind": "u",
+      "offset_ms": -0.034,
+      "poll_s": 64.0,
+      "reach": 255,
+      "refid": ".GPS.",
+      "remote": "gps.example.org",
+      "stratum": 1,
+      "tally": "*",
+      "when_s": 33.0
+    },
+    {
+      "delay_ms": 1.204,
+      "jitter_ms": 0.04,
+      "kind": "u",
+      "offset_ms": 0.118,
+      "poll_s": 64.0,
+      "reach": 255,
+      "refid": "192.0.2.10",
+      "remote": "ntp2.example.or",
+      "stratum": 2,
+      "tally": "+",
+      "when_s": 12.0
+    },
+    {
+      "delay_ms": 9.87,
+      "jitter_ms": 0.31,
+      "kind": "u",
+      "offset_ms": -1.502,
+      "poll_s": 64.0,
+      "reach": 127,
+      "refid": "192.0.2.11",
+      "remote": "ntp3.example.org.and.a.long.name",
+      "stratum": 2,
+      "tally": "-",
+      "when_s": 5.0
+    },
+    {
+      "delay_ms": 0.0,
+      "jitter_ms": 0.0,
+      "kind": "u",
+      "offset_ms": 0.0,
+      "poll_s": 128.0,
+      "reach": 0,
+      "refid": ".INIT.",
+      "remote": "192.0.2.99",
+      "stratum": 16,
+      "tally": " ",
+      "when_s": null
+    }
+  ]
+}

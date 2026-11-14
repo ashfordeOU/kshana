@@ -34,3 +34,11 @@ an `[options]` table instead of a mapping or a reader; its expected file is then
 (`kshana.tracks/1` JSON Lines, or the form `options.to` names: `geojson`, `kml`, `czml`, `adsb-csv`,
 `ais-csv`). The inputs are in `examples/tracks/`, with the source of each in its `NOTICE.md`
 (docs/TRACKS.md).
+
+## Timing vectors (0.42 I2)
+
+`conformance/timing/` holds the vectors of the timing parsers (`kshana connect timing check
+conformance/timing`, `--bless` to rewrite after a reviewed change; `tests/connect_042_i2_i3.rs` runs
+them). Each folder has a `vector.toml` (`parser`, `input`, `expected`), and every vector folder added
+in 0.42 (here and there) has a `SOURCE.md` naming where its input came from. The binary inputs are
+written by `conformance/tools/gen_042_vectors.py` from the public specifications.

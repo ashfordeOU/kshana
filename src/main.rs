@@ -163,6 +163,16 @@ fn run_connect_cli(args: &[String]) -> ExitCode {
         eprintln!("{path}: {e}");
         ExitCode::from(1)
     };
+    // 0.42 I2/I3: `connect timing|snmp|ntp|decode` (kshana::connect_timing).
+    if let Some(r) = kshana::connect_timing::run(args) {
+        return match r {
+            Ok(()) => ExitCode::SUCCESS,
+            Err(e) => {
+                eprintln!("{e}");
+                ExitCode::from(1)
+            }
+        };
+    }
     if args.first().map(String::as_str) == Some("check") && (2..=3).contains(&args.len()) {
         let bless = args.len() == 3 && args[2] == "--bless";
         if args.len() == 3 && !bless {

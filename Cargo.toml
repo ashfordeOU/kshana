@@ -51,6 +51,8 @@ exclude = [
     # The integration tests (tests/*.rs and their helpers) run from a checkout, never from the published crate, which
     # builds only the library; about 6 MB.
     "/tests/**/*.rs",
+    # The Python binding tests run from a checkout against the built wheel, never from the crate.
+    "/tests/python",
     # Repository tooling, the marine and IDE integrations, the packaging of the other channels and the benchmark
     # harness are not part of the library; tools/ keeps only the four data files src/ embeds.
     "/tools/*",

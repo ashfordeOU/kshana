@@ -1,0 +1,37 @@
+{
+  "health": {
+    "daemon": "ntpd",
+    "leap": "00",
+    "offset_s": -0.000034123,
+    "reference": "192.0.2.1",
+    "root_delay_s": 0.000512,
+    "root_dispersion_s": 0.012345,
+    "selected": null,
+    "sources": null,
+    "stratum": 2,
+    "synchronised": true
+  },
+  "kind": "ntpq-rv",
+  "variables": {
+    "associd": "0",
+    "clk_jitter": "0.010",
+    "clk_wander": "0.002",
+    "frequency": "-12.345",
+    "leap": "00",
+    "mintc": "3",
+    "offset": "-0.034123",
+    "precision": "-23",
+    "processor": "x86_64",
+    "refid": "192.0.2.1",
+    "reftime": "e8f1a2b3.12345678 Sat, Nov 14 2026 12:00:03.071",
+    "rootdelay": "0.512",
+    "rootdisp": "12.345",
+    "status": "0615",
+    "status_text": "leap_none sync_ntp 1 event clock_sync",
+    "stratum": "2",
+    "sys_jitter": "0.021",
+    "system": "Linux/6.1.0",
+    "tc": "6",
+    "version": "ntpd 4.2.8p15@1.3728-o Wed Sep 23 11:46:38 UTC 2020 (1)"
+  }
+}

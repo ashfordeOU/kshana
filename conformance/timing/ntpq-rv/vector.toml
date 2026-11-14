@@ -1,0 +1,4 @@
+name = "timing: ntpq-rv"
+parser = "ntpq-rv"
+input = "input.txt"
+expected = "expected.json"

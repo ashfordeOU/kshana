@@ -1,0 +1,4 @@
+name = "timing: ntpq-peers"
+parser = "ntpq-peers"
+input = "input.txt"
+expected = "expected.json"
