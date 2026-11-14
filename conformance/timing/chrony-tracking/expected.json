@@ -1,0 +1,31 @@
+{
+  "health": {
+    "daemon": "chrony",
+    "leap": "Normal",
+    "offset_s": -6.523e-6,
+    "reference": "ntp1.example.net",
+    "root_delay_s": 0.013639022,
+    "root_dispersion_s": 0.001100737,
+    "selected": null,
+    "sources": null,
+    "stratum": 3,
+    "synchronised": true
+  },
+  "kind": "chrony-tracking",
+  "tracking": {
+    "frequency_ppm": -3.225,
+    "last_offset_s": -6.747e-6,
+    "leap_status": "Normal",
+    "ref_time_utc": "Fri Jan 27 09:49:17 2017",
+    "reference_id": "CB00710F",
+    "reference_name": "ntp1.example.net",
+    "residual_freq_ppm": -0.0,
+    "rms_offset_s": 0.000035822,
+    "root_delay_s": 0.013639022,
+    "root_dispersion_s": 0.001100737,
+    "skew_ppm": 0.129,
+    "stratum": 3,
+    "system_offset_s": -6.523e-6,
+    "update_interval_s": 64.2
+  }
+}

@@ -1,0 +1,4 @@
+name = "timing: ntp-mode6"
+parser = "ntp-mode6"
+input = "input.bin"
+expected = "expected.json"

@@ -1,0 +1,4 @@
+name = "timing: pmc"
+parser = "pmc"
+input = "input.txt"
+expected = "expected.json"

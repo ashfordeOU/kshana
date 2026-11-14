@@ -1,0 +1,28 @@
+{
+  "kind": "ptp-mgmt",
+  "message": {
+    "action": 2,
+    "boundary_hops": 0,
+    "data": {
+      "data_set": "PARENT_DATA_SET",
+      "gm_identity": "001122.fffe.334455",
+      "gm_priority1": 128,
+      "gm_priority2": 128,
+      "gm_quality": {
+        "clock_accuracy": 33,
+        "clock_class": 6,
+        "offset_scaled_log_variance": 20061
+      },
+      "observed_offset_scaled_log_variance": 65535,
+      "observed_phase_change_rate": 2147483647,
+      "parent_port": "001122.fffe.334455-1",
+      "parent_stats": 0
+    },
+    "domain": 0,
+    "management_id": 8194,
+    "sequence_id": 42,
+    "source": "a0b0c0.fffe.d0e0f0-1",
+    "starting_boundary_hops": 1,
+    "target": "000000.0000.000000-0"
+  }
+}

@@ -1,0 +1,49 @@
+sending: GET CURRENT_DATA_SET
+	a0b0c0.fffe.d0e0f0-1 seq 0 RESPONSE MANAGEMENT CURRENT_DATA_SET
+		stepsRemoved     1
+		offsetFromMaster -12.0
+		meanPathDelay    432.5
+sending: GET PARENT_DATA_SET
+	a0b0c0.fffe.d0e0f0-1 seq 1 RESPONSE MANAGEMENT PARENT_DATA_SET
+		parentPortIdentity                    001122.fffe.334455-1
+		parentStats                           0
+		observedParentOffsetScaledLogVariance 0xffff
+		observedParentClockPhaseChangeRate    0x7fffffff
+		grandmasterPriority1                  128
+		gm.ClockClass                         6
+		gm.ClockAccuracy                      0x21
+		gm.OffsetScaledLogVariance            0x4e5d
+		grandmasterPriority2                  128
+		grandmasterIdentity                   001122.fffe.334455
+sending: GET TIME_STATUS_NP
+	a0b0c0.fffe.d0e0f0-0 seq 2 RESPONSE MANAGEMENT TIME_STATUS_NP
+		master_offset              -12
+		ingress_time               1763121603071000000
+		cumulativeScaledRateOffset +0.000000000
+		scaledLastGmPhaseChange    0
+		gmTimeBaseIndicator        0
+		lastGmPhaseChange          0x0000'0000000000000000.0000
+		gmPresent                  true
+		gmIdentity                 001122.fffe.334455
+sending: GET PORT_DATA_SET
+	a0b0c0.fffe.d0e0f0-1 seq 3 RESPONSE MANAGEMENT PORT_DATA_SET
+		portIdentity            a0b0c0.fffe.d0e0f0-1
+		portState               SLAVE
+		logMinDelayReqInterval  0
+		peerMeanPathDelay       0
+		logAnnounceInterval     1
+		announceReceiptTimeout  3
+		logSyncInterval         0
+		delayMechanism          1
+		logMinPdelayReqInterval 0
+		versionNumber           2
+sending: GET TIME_PROPERTIES_DATA_SET
+	a0b0c0.fffe.d0e0f0-1 seq 4 RESPONSE MANAGEMENT TIME_PROPERTIES_DATA_SET
+		currentUtcOffset      37
+		leap61                0
+		leap59                0
+		currentUtcOffsetValid 1
+		ptpTimescale          1
+		timeTraceable         1
+		frequencyTraceable    1
+		timeSource            0x20

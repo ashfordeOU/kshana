@@ -1,0 +1,36 @@
+{
+  "health": {
+    "daemon": "ntpd",
+    "leap": "00",
+    "offset_s": -0.000034,
+    "reference": "192.0.2.1",
+    "root_delay_s": 0.000512,
+    "root_dispersion_s": 0.012345,
+    "selected": null,
+    "sources": null,
+    "stratum": 2,
+    "synchronised": true
+  },
+  "kind": "ntp-mode6",
+  "more": false,
+  "opcode": 2,
+  "response": true,
+  "sequence": 1,
+  "system_status": {
+    "event_code": 5,
+    "event_count": 1,
+    "leap": 0,
+    "source": 6
+  },
+  "variables": {
+    "leap": "00",
+    "offset": "-0.034",
+    "precision": "-23",
+    "refid": "192.0.2.1",
+    "rootdelay": "0.512",
+    "rootdisp": "12.345",
+    "stratum": "2",
+    "sys_jitter": "0.021",
+    "version": "ntpd 4.2.8p15"
+  }
+}

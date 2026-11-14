@@ -1,0 +1,4 @@
+name = "timing: chrony-tracking"
+parser = "chrony-tracking"
+input = "input.txt"
+expected = "expected.json"
