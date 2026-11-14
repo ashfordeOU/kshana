@@ -31,3 +31,6 @@ export function timelineChart(run, sm, { clock = null } = {}) {
   charts.set(run, { chart });
   return chart.el;
 }
+
+/** The chart made for a run by timelineChart (for the figure tools), or null. */
+export function chartOfRun(run) { const had = charts.get(run); return had ? had.chart : null; }
