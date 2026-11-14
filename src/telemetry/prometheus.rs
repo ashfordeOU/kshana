@@ -564,7 +564,16 @@ fn handle(mut s: TcpStream, reg: &SharedRegistry) -> std::io::Result<()> {
     let (status, ctype, body) = match (method, path) {
         ("GET", "/metrics") => {
             let text = reg.lock().map(|r| r.render()).unwrap_or_default();
-            ("200 OK", "text/plain; version=0.0.4; charset=utf-8", text)
+            // A scraper that asks for OpenMetrics (Accept: application/openmetrics-text) gets it.
+            if head
+                .to_ascii_lowercase()
+                .contains("application/openmetrics-text")
+            {
+                let ctype = "application/openmetrics-text; version=1.0.0; charset=utf-8";
+                ("200 OK", ctype, super::ops::to_openmetrics(&text))
+            } else {
+                ("200 OK", "text/plain; version=0.0.4; charset=utf-8", text)
+            }
         }
         ("GET", "/healthz") => ("200 OK", "text/plain; charset=utf-8", "ok\n".to_string()),
         ("GET", _) => (

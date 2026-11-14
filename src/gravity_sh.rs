@@ -1044,7 +1044,16 @@ mod tests {
     #[test]
     fn from_gfc_round_trips_the_committed_subset() {
         // Parsing the committed .gfc must recover the same coefficients as the generated table.
-        let text = include_str!("../tools/egm2008_to70.gfc");
+        // The .gfc is left out of the published crate (Cargo.toml `exclude`): read it from a
+        // checkout, and skip where it is absent.
+        let Ok(text) = std::fs::read_to_string(concat!(
+            env!("CARGO_MANIFEST_DIR"),
+            "/tools/egm2008_to70.gfc"
+        )) else {
+            eprintln!("skip: tools/egm2008_to70.gfc is not present");
+            return;
+        };
+        let text = text.as_str();
         let f = SphericalHarmonicField::from_gfc(text, 70).expect("parse gfc");
         assert_eq!(f.nmax, 70);
         let direct = SphericalHarmonicField::egm2008();
@@ -1315,7 +1324,16 @@ gfc    0     0  1.0000000000000000E+00  0.0000000000000000E+00
 
     #[test]
     fn from_gfc_reader_matches_from_gfc_and_checks_the_header() {
-        let text = include_str!("../tools/egm2008_to70.gfc");
+        // The .gfc is left out of the published crate (Cargo.toml `exclude`): read it from a
+        // checkout, and skip where it is absent.
+        let Ok(text) = std::fs::read_to_string(concat!(
+            env!("CARGO_MANIFEST_DIR"),
+            "/tools/egm2008_to70.gfc"
+        )) else {
+            eprintln!("skip: tools/egm2008_to70.gfc is not present");
+            return;
+        };
+        let text = text.as_str();
         let a = SphericalHarmonicField::from_gfc(text, 70).unwrap();
         let b = SphericalHarmonicField::from_gfc_reader(text.as_bytes(), 70).unwrap();
         assert_eq!(b.tide_system(), Some("tide_free"));
