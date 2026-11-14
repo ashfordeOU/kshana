@@ -245,6 +245,8 @@ fn ptp_binary_to_pmc_text_and_back() {
         },
         ptp_mgmt::DataSet::TimeStatusNp {
             master_offset_ns: -7,
+            // PIN-SCOPE:    the ingress timestamp field of this one TIME_STATUS_NP round-trip vector
+            // PIN-EXCLUDES: every other data set and field; it is an input value, not a hash
             ingress_time_ns: 1_763_121_603_071_000_000,
             cumulative_scaled_rate_offset: 0,
             scaled_last_gm_phase_change: 0,

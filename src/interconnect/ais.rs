@@ -532,6 +532,8 @@ pub(crate) mod tests {
         put(&mut b, 122, 8);
         text6(&mut b, "NEW YORK", 20);
         put(&mut b, 0, 2);
+        // PIN-SCOPE:    the bit length of this one hand-built type-5 static/voyage payload
+        // PIN-EXCLUDES: every other message type and the armoured sentence text
         assert_eq!(b.len(), 424);
         let (p, fill) = armour(&b);
         let (a, c) = p.split_at(60);
