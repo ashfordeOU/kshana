@@ -27,8 +27,17 @@ jobs:
         shell: bash
         run: |
           mkdir -p "$RUNNER_TEMP/jt"
-          curl -sSL --retry 4 -o "$RUNNER_TEMP/jt/a.tar.gz" \
-            https://zenodo.org/api/records/15911589/files/GNSS_DATASET_JAMMING_SPOOFING.tar.gz/content
+          # The archive is 375,338,522 bytes and the transfer is sometimes cut short (a short file gave a
+          # different SHA-256 on 11 and 14 Nov 2026), so resume until the size is complete, then hash.
+          url=https://zenodo.org/api/records/15911589/files/GNSS_DATASET_JAMMING_SPOOFING.tar.gz/content
+          want=375338522
+          for attempt in 1 2 3 4 5 6; do
+            curl -sSL --fail --retry 4 --retry-delay 10 -C - -o "$RUNNER_TEMP/jt/a.tar.gz" "$url" || true
+            got=$(wc -c < "$RUNNER_TEMP/jt/a.tar.gz" | tr -d ' ')
+            echo "attempt $attempt: $got of $want bytes"
+            [ "$got" = "$want" ] && break
+            sleep 30
+          done
           PY=$(command -v python3 || command -v python)
           "$PY" - "$RUNNER_TEMP/jt" <<'EOF'
           import hashlib, sys, tarfile, os
