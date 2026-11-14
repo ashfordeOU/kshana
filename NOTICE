@@ -26,6 +26,11 @@ Third-party data:
   (c) EU 2011-2026, reproduced with acknowledgement under the GSC copyright notice;
   accessed 2026-10-13. These values are not licensed under the AGPL.
 
+Natural Earth (Desktop map base layer):
+  apps/desktop/shell/data/land-110m.json and land-50m.json are packed from Natural Earth's
+  1:110m and 1:50m land polygons (naturalearthdata.com), which are in the public domain.
+  Made with Natural Earth. See apps/desktop/shell/data/NATURAL-EARTH.md.
+
 GeographicLib (geodesic distance):
   src/geodesic.rs is a port of the inverse geodesic solution of GeographicLib by Charles
   Karney (C. F. F. Karney, "Algorithms for geodesics", J. Geodesy 87, 43-55, 2013).
