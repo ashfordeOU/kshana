@@ -33,7 +33,10 @@ jobs:
           want=375338522
           f="$RUNNER_TEMP/jt/a.tar.gz"
           for attempt in 1 2 3 4 5 6; do
+            # First our unchanged copy (release data-jammertest-2024; GPL-3.0-or-later, attribution in its notes),
+            # then Zenodo itself; the SHA-256 below is the same either way.
             for url in \
+              https://github.com/ashfordeOU/kshana/releases/download/data-jammertest-2024/GNSS_DATASET_JAMMING_SPOOFING.tar.gz \
               https://zenodo.org/api/records/15911589/files/GNSS_DATASET_JAMMING_SPOOFING.tar.gz/content \
               "https://zenodo.org/records/15911589/files/GNSS_DATASET_JAMMING_SPOOFING.tar.gz?download=1"; do
               curl -sSL --fail --retry 4 --retry-delay 10 -C - -o "$f" "$url" && break || true
