@@ -1,0 +1,58 @@
+/* SPDX-License-Identifier: AGPL-3.0-only
+   Kshana Desktop charts (0.42 U30): the chart frame, tools, legend, readout and data table.
+   Charts sit on the "space" surfaces (dark in both themes, as the shell's panels); colours come
+   from the look's roles (--k-*, look.css) with the Studio's tokens as fallback. */
+.kc{margin:0;display:flex;flex-direction:column;min-width:0;min-height:0;background:var(--space-2,#0C0E18);color:var(--space-ink,#EEF0FA);border:1px solid var(--space-line,rgba(255,255,255,.08));border-radius:12px;overflow:hidden;font:12px/1.4 var(--f-text,system-ui)}
+.kc-head{display:flex;align-items:center;gap:10px;padding:7px 10px 5px 12px;min-height:34px;border-bottom:1px solid var(--space-line,rgba(255,255,255,.08))}
+.kc-title{font:500 11px var(--f-mono,ui-monospace);letter-spacing:.08em;text-transform:uppercase;color:var(--space-ink-2,#A3AAC2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.kc-sub{font:11px var(--f-mono,ui-monospace);letter-spacing:.06em;color:var(--space-ink-3,#8088A6);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1;min-width:0;text-align:right;text-transform:uppercase}
+.kc-tools{display:flex;gap:2px;flex:none}
+.kc-btn{height:22px;min-width:26px;padding:0 6px;border:1px solid transparent;border-radius:6px;background:none;color:var(--space-ink-3,#8088A6);font:10.5px var(--f-mono,ui-monospace);letter-spacing:.04em;cursor:pointer}
+.kc-btn:hover{color:var(--space-ink,#EEF0FA);border-color:var(--space-line,rgba(255,255,255,.14))}
+.kc-btn[aria-pressed="true"]{color:var(--space-ink,#EEF0FA);background:rgba(255,255,255,.08);border-color:var(--space-line,rgba(255,255,255,.14))}
+.kc-btn:focus-visible,.kc-key:focus-visible,.kc-over:focus-visible,.kc-table summary:focus-visible,.kc-seg button:focus-visible{outline:2px solid var(--k-tim,var(--tim,#5A8CFF));outline-offset:1px}
+.kc-legend{display:flex;flex-wrap:wrap;gap:2px 10px;padding:5px 12px 0}
+.kc-legend[hidden]{display:none}
+.kc-key{display:inline-flex;align-items:center;gap:6px;border:0;background:none;padding:2px 2px;color:var(--space-ink-2,#A3AAC2);font:11px var(--f-mono,ui-monospace);cursor:pointer}
+.kc-key i{width:10px;height:3px;border-radius:2px;flex:none}
+.kc-key[aria-pressed="false"]{opacity:.4;text-decoration:line-through}
+.kc-stage{position:relative;flex:1;min-height:180px;height:260px;touch-action:none}
+.kc-stage canvas{position:absolute;inset:0;display:block}
+.kc-over{cursor:crosshair;outline:none}
+.kc-tip{position:absolute;left:0;top:0;pointer-events:none;z-index:2;min-width:120px;max-width:340px;padding:6px 8px;border-radius:8px;background:rgba(18,20,31,.94);border:1px solid var(--space-line,rgba(255,255,255,.14));box-shadow:0 8px 24px -8px rgba(0,0,0,.6);font:11px/1.45 var(--f-mono,ui-monospace);color:var(--space-ink,#EEF0FA);font-variant-numeric:tabular-nums}
+.kc-tip-h{color:var(--space-ink-2,#A3AAC2);margin-bottom:2px}
+.kc-tip-r{display:grid;grid-template-columns:auto 1fr auto;gap:6px;align-items:center}
+.kc-tip-r i{width:8px;height:8px;border-radius:50%}
+.kc-tip-r span{color:var(--space-ink-2,#A3AAC2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.kc-tip-r b{font-weight:500;text-align:right;white-space:nowrap}
+.kc-tip-r:not(:has(i)){grid-template-columns:1fr auto}
+.kc-msg{position:absolute;inset:0;display:grid;place-items:center;padding:24px;text-align:center;color:var(--space-ink-2,#A3AAC2)}
+.kc-table{border-top:1px solid var(--space-line,rgba(255,255,255,.08));font-size:11px}
+.kc-table summary{padding:4px 12px;color:var(--space-ink-3,#8088A6);font:10.5px var(--f-mono,ui-monospace);letter-spacing:.06em;cursor:pointer}
+.kc-tablebox{max-height:220px;overflow:auto;padding:0 12px 8px}
+.kc-tablebox table{border-collapse:collapse;width:100%;font:11px var(--f-mono,ui-monospace);font-variant-numeric:tabular-nums}
+.kc-tablebox th{position:sticky;top:0;background:var(--space-2,#0C0E18);text-align:left;color:var(--space-ink-3,#8088A6);font-weight:400;padding:3px 6px;border-bottom:1px solid var(--space-line,rgba(255,255,255,.08))}
+.kc-tablebox td{padding:2px 6px;border-bottom:1px solid var(--space-line,rgba(255,255,255,.05));white-space:nowrap}
+.kc-note{margin:4px 0;color:var(--space-ink-3,#8088A6)}
+.kc-vh{position:absolute !important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;margin:0}
+/* 2D ↔ 3D switch */
+.kc-dual{display:flex;flex-direction:column;min-width:0;min-height:0;position:relative}
+.kc-dual>.kc{flex:1}
+.kc-seg{flex:none;display:flex;border:1px solid var(--space-line,rgba(255,255,255,.14));border-radius:6px;overflow:hidden}
+.kc-seg button{height:22px;padding:0 8px;border:0;background:none;color:var(--space-ink-3,#8088A6);font:10.5px var(--f-mono,ui-monospace);cursor:pointer}
+.kc-seg button[aria-pressed="true"]{background:rgba(255,255,255,.1);color:var(--space-ink,#EEF0FA)}
+/* in the shell's result panel the chart fills the panel */
+.panel>.kc{width:100%;height:100%;border:0;border-radius:0;background:transparent}
+.panel>.kc .kc-stage{height:auto}
+/* the Charts view */
+.kc-page{height:100%}
+.kc-gallery{padding:18px 22px 40px;display:flex;flex-direction:column;gap:14px;height:100%;overflow:auto}
+.kc-gallery h1{margin:0;font:600 18px var(--f-display,system-ui)}
+.kc-gallery .kc-lede{margin:0;color:var(--ink-2);max-width:90ch}
+.kc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(440px,1fr));gap:12px}
+.kc-grid .wide{grid-column:1/-1}
+.kc-clock{display:flex;align-items:center;gap:10px;font:11px var(--f-mono,ui-monospace);color:var(--ink-2);flex-wrap:wrap}
+.kc-clock input[type=range]{flex:1;min-width:160px;accent-color:var(--k-tim,var(--tim))}
+.kc-clock output{min-width:64px;font-variant-numeric:tabular-nums}
+.kc-help{margin:0;color:var(--ink-3);font-size:12px;max-width:110ch}
+@media (prefers-reduced-motion: reduce){.kc *{transition:none !important;animation:none !important}}

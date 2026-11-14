@@ -142,6 +142,58 @@ keep them. An extension's errors are logged and never stop the shell. The shell 
 text an extension gives it through `textContent`. `kshana-shell-ready` is dispatched on
 `window` once, with the API as `detail`, before the shell's first render.
 
+## Charts
+
+`shell/lib/chart/` is the Desktop's interactive chart library (0.42 U30): pure ES modules, no
+library from outside and no request, so it works offline. `index.mjs` exports it.
+
+| Module | What it does |
+|---|---|
+| `chart2d.mjs` | `createChart(host, spec)`: the 2D chart on Canvas 2D, drawn at the device pixel ratio. Types: `xy` (lines, p5–p95 bands, steps, areas, scatter, bars; linear or log axes; a second y axis), `heatmap` (cells with a colour scale), `waterfall` (an image buffer) and `polar` (a sky plot with trails). |
+| `chart3d.mjs` | `createChart3D(host, spec)`: the 3D chart on WebGL2. Layers: a trajectory coloured by value, a 3D scatter, covariance ellipsoids, a surface from a grid, a wireframe sphere (an Earth outline for ECEF or ECI tracks), any line segments; axes with ticks and labels. |
+| `dual.mjs` | A heatmap or waterfall with a 2D ↔ 3D switch to the same grid as a surface. |
+| `presets.mjs` | Specs for the usual plots: the Stanford plot (alert limit and regions), log–log stability plots (Allan deviation, MTIE, TDEV) with confidence bands and a mask, heatmaps of sweeps, waterfalls, sky plots. |
+| `link.mjs` | Link groups: linked x-axes and linked brushing. |
+| `decimate.mjs`, `scale.mjs`, `hit.mjs`, `export.mjs`, `data.mjs`, `mat3d.mjs`, `colour.mjs`, `paint.mjs` | The pure parts: min/max (M4) decimation per pixel column, scales and zoom and pan maths, hit-testing, CSV and SVG, the chart model, the 3D maths, the colour roles of the look (`--k-*` of `look.css`, with the Studio's tokens as fallback). |
+| `shell-view.mjs` | The scenario tab's Timeline view, drawn with the library (one chart per run, so a re-render keeps the zoom, pins and markers). |
+| `demo.mjs`, `demo-data.json` | The Charts view (an extension: a sidebar item, a palette entry): every chart type on real engine output. `scripts/chart-demo-data.mjs` makes the data by running the engine's command line on copies of bundled scenarios in a temporary directory. |
+
+Every chart has the same interaction: hover for a crosshair and the exact values of the
+nearest point of each series, with units; click to pin a readout; Alt-click (or the A/B tool,
+or M) for two markers with Δx, Δy and the slope; the wheel zooms about the cursor (over an
+axis, that axis only); drag pans; Shift-drag zooms to a box; dragging an axis zooms that axis;
+double-click or 0 returns to the full view; + − and the arrow keys zoom and pan; `,` and `.`
+step a keyboard cursor through the points, Enter pins, Esc clears; Ctrl- or ⌘-drag selects
+epochs, which every chart of the link group highlights (x for a time series, the points' own
+epochs for a scatter, rows for a waterfall, trails for a sky plot); the legend shows and hides
+series (Shift: only that one). Each chart saves its visible data as CSV (units in the header),
+itself as SVG (vectors: the same display list the canvas draws) and as PNG. The 3D chart
+rotates (drag), pans (Shift- or right-drag), zooms (wheel), resets (double-click, 0) and fits
+(F); hover picks the nearest point with the same matrix that draws it.
+
+The time cursor is injected, not owned: a chart given `clock` (`{ now, range, subscribe(fn),
+set(t), setRange(a, b) }`, the interface of the window's clock) draws the cursor at
+`clock.now`, sets it when the cursor line or the time axis is dragged, and passes a brush on
+the time axis to `clock.setRange`. Each chart has an accessible name, a keyboard-reachable
+data table (T, or the "Data table" disclosure) and announces readouts; animated view changes
+are skipped under `prefers-reduced-motion`.
+
+**Why a hand-written WebGL2 renderer and not three.js.** The 3D views need five kinds of
+layer, an orbit camera and exact picking, which come to about 700 lines here
+(`chart3d.mjs`, `mat3d.mjs`, tested in node). A vendored three.js build is over 600 kB of
+code the app would carry and review for every update, and its picking would still need the
+same projection code to give exact values; the Studio already draws its 3D orbit view without
+it (`web/studio/lib/orbit3d.mjs`). No third-party code is vendored for the charts, so there is
+no new licence to record. The globe item can add textures and a camera path to the same
+renderer.
+
+Performance (`node apps/desktop/scripts/chart-perf.mjs`, headless Chromium, device pixel
+ratio 2, the chart panned and zoomed on every frame): 1,000,000 points in two series about
+34 fps (draw 13 ms mean), 100,000 points about 60 fps (2 ms), a 100,000-point scatter 60 fps
+(4 ms); headless Chromium paces frames at about 60 Hz. It is a documented script, not a CI
+step (frame rates on shared runners vary too much to gate on). Tests:
+`node apps/desktop/shell/lib/chart/chart.test.mjs` (in CI).
+
 ## Live devices
 
 The trust page shows a "Score a receiver live" panel in the Desktop (and only there). It

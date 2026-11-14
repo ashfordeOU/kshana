@@ -545,6 +545,8 @@ jobs:
         run: node apps/desktop/wording.test.mjs
       - name: Test the Kshana Desktop time cursor and map (clock, keys, run model, Web Mercator, Natural Earth layers, scrub benchmark)
         run: node apps/desktop/shell/lib/clock.test.mjs
+      - name: Test the Kshana Desktop chart library (decimation, zoom and pan, hit-testing, CSV and SVG export, 3D maths)
+        run: node apps/desktop/shell/lib/chart/chart.test.mjs
       - name: Test the Kshana Desktop IQ recording view (decoding, SigMF, spectrum)
         run: node web/studio/lib/iqview.test.mjs
       - name: Test the A/B compare logic

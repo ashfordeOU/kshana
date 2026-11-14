@@ -33,6 +33,7 @@ import { fmtDuration, fmtUtc, fmtCount } from "./lib/format.mjs";
 import { numNode, figureParts, domainMark, density, toggleDensity, restoreDensity } from "./lib/marks.mjs";
 import { createRunView } from "./lib/runview.mjs";
 import { geojsonOfExport } from "./lib/timemodel.mjs";
+import { timelineChart } from "./lib/chart/shell-view.mjs";
 
 const $ = (id) => document.getElementById(id);
 const h = (tag, props = {}, ...kids) => {
@@ -386,7 +387,7 @@ function renderSidebar() {
     ...EXT.shell.navSections().flatMap((sec) => [
       sec.heading ? h("div", { class: "nav-head", "data-ext": sec.id }, h("span", { text: sec.heading })) : null,
       ...sec.items.map((it) => h("button", { class: "nav-item", type: "button", "data-ext": it.id, "aria-current": it.view && S.route === it.view ? "page" : null,
-        onclick: () => { if (it.view) go(it.view); if (it.onSelect) safely(it.onSelect); } }, extIcon(it.icon), h("span", { text: it.label }), extBadge(it.badge)))]),
+        onclick: () => { if (it.view) go(it.view); if (it.onSelect) safely(it.onSelect); } }, extIcon(it.icon), h("span", { text: it.label }), extBadge(it.badge)))]).filter(Boolean), // a section without a heading adds no node
     ...(ed ? [h("div", { class: "edition ext-edition", "data-ext": "edition" },
       ed.title ? h("b", { text: ed.title }) : null,
       ed.text ? h("p", { text: ed.text }) : null,
@@ -519,7 +520,7 @@ function panel(tab) {
   }
   if (tab.view === "timeline") {
     const sm = V.seriesModel(r, run.toml);
-    if (sm) box.append(svgNode(V.lineChartSvg(sm).svg)); else msg(t("js-desk-no-series", "This result has no time series to draw. The chart view shows the engine's own chart."));
+    if (sm) box.append(timelineChart(run, sm) || svgNode(V.lineChartSvg(sm).svg)); else msg(t("js-desk-no-series", "This result has no time series to draw. The chart view shows the engine's own chart."));
     return box;
   }
   box.classList.add("scroll");
