@@ -539,6 +539,8 @@ jobs:
         run: node web/studio/lib/devices.test.mjs
       - name: Test the Kshana Desktop shell (palette, runs, packs; no browser wording, no outside request, no price)
         run: node apps/desktop/shell/shell.test.mjs
+      - name: Test the Kshana Desktop chart library (decimation, zoom and pan, hit-testing, CSV and SVG export, 3D maths)
+        run: node apps/desktop/shell/lib/chart/chart.test.mjs
       - name: Test the Kshana Desktop IQ recording view (decoding, SigMF, spectrum)
         run: node web/studio/lib/iqview.test.mjs
       - name: Test the A/B compare logic
