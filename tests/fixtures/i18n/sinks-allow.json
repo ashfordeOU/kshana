@@ -120,6 +120,18 @@
   "src/interconnect/export.rs": {
    "count": 1,
    "reason": "machine-format: the KML element template of a track line (Placemark, styleUrl, LineString, coordinates); the only text in it is the track id"
+  },
+  "src/connect_ops.rs": {
+   "count": 1,
+   "reason": "print: the elastic output form id compared to choose the line ending of the bulk body; not text"
+  },
+  "src/opcua.rs": {
+   "count": 1,
+   "reason": "error: a protocol token (variant type and its number) inside the catalogue message e-connect-ops-failed"
+  },
+  "src/tm_bridge.rs": {
+   "count": 3,
+   "reason": "write: COSMOS cmd_tlm keywords (ITEM, UNITS, STATE) written into a machine definition file"
   }
  }
 }

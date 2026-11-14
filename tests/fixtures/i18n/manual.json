@@ -14994,5 +14994,59 @@
    },
    " timing vectors failed"
   ]
+ },
+ {
+  "id": "e-connect-ops-usage",
+  "error": true,
+  "parts": [
+   "usage: kshana connect <modbus <host:port> [--unit <id>] [--fc 1|2|3|4] [--start <a>] [--count <n>] [--timeout <s>] | dnp3 <host:port> [--master <a>] [--outstation <a>] | opcua <opc.tcp://host:port[/path]> --node <id> [--node <id> ...] | alert <trust.jsonl|-> --form <servicenow|pagerduty|opsgenie|slack|teams|splunk-hec|elastic|stix> [--host <name>] [--epoch-unix <s>] [--all] [--post <http-url>] [--auth-env <VAR>] [--routing-key-env <VAR>] | snmp-trap <host:port> <trust.jsonl|-> --trap-oid <oid> [--community-env <VAR>] [--all] | taxii <api-root-url> --collection <id> <trust.jsonl|-> [--auth-env <VAR>] | tm <xtce|cosmos|openmct> [--apid <n>] [--name <name>] | tm-stream <trust.jsonl|-> --to <packets|openmct> [--apid <n>] [--udp <host:port>] | sim-motion <scenario.toml> [--layout ecef|llh] [--epoch <UTC>] | sdr-capture --args <soapy args> --freq <Hz> --rate <Hz> --samples <n> --out <base> [--gain <dB>]>"
+  ]
+ },
+ {
+  "id": "e-connect-ops-failed",
+  "error": true,
+  "parts": [
+   {
+    "var": "proto"
+   },
+   " request failed (",
+   {
+    "var": "why"
+   },
+   ")"
+  ]
+ },
+ {
+  "id": "e-connect-ops-env",
+  "error": true,
+  "parts": [
+   "the environment variable ",
+   {
+    "var": "var"
+   },
+   " is not set"
+  ]
+ },
+ {
+  "id": "e-connect-ops-form",
+  "error": true,
+  "parts": [
+   "unknown output form `",
+   {
+    "var": "name"
+   },
+   "` (",
+   {
+    "var": "forms"
+   },
+   ")"
+  ]
+ },
+ {
+  "id": "connect-ops-sim-motion-cut",
+  "error": false,
+  "parts": [
+   "the trajectory is longer than 300 s; gps-sdr-sim reads at most 3000 samples at 10 Hz, so the file stops at 300 s"
+  ]
  }
 ]

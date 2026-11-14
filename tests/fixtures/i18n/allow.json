@@ -1082,7 +1082,7 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/main.rs": {
-   "count": 71,
+   "count": 72,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md); clock-live prints its error text as given; the sensor-live command name; the device and bench-speed command names; the data-pack, area-trust and env-baseline command names; the ephem-export command name"
   },
   "src/mars_pnt.rs": {
@@ -1518,7 +1518,7 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/telemetry/prometheus.rs": {
-   "count": 57,
+   "count": 59,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/telemetry/sample.rs": {
@@ -1640,6 +1640,26 @@
   "src/time_server.rs": {
    "count": 2,
    "reason": "machine data: the chrony leap-status token and the status_text key"
+  },
+  "src/connect_ops.rs": {
+   "count": 13,
+   "reason": "identifiers: subcommand names (snmp-trap, sim-motion, sdr-capture), command-line flags, HTTP media types and header names, and the http_status key of the TAXII answer document"
+  },
+  "src/opcua.rs": {
+   "count": 7,
+   "reason": "machine-document: OPC UA protocol identifiers (the security policy URI, the opc.tcp:// scheme, the client application URIs), the source_time/server_time keys of the read document, and a protocol token naming an unsupported variant type"
+  },
+  "src/soapy.rs": {
+   "count": 16,
+   "reason": "identifiers: SoapySDR C API symbol and library file names looked up at run time, the SigMF file suffixes and the recording description written into the SigMF metadata"
+  },
+  "src/telemetry/ops.rs": {
+   "count": 47,
+   "reason": "machine-document: the field names and fixed values of the ServiceNow, PagerDuty, Opsgenie, Slack, Teams, Splunk HEC, Elastic (ECS) and STIX 2.1 payload schemas, HTTP media types and header names; the summary line is a machine field each service shows as sent"
+  },
+  "src/tm_bridge.rs": {
+   "count": 18,
+   "reason": "machine-document: XTCE, COSMOS cmd_tlm and Open MCT dictionary keywords and the parameter names and short descriptions written into those mission-database files"
   }
  }
 }

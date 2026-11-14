@@ -239,3 +239,15 @@ are read by `kshana connect timing|snmp|ntp`: see [TIMING-SYSTEMS.md](TIMING-SYS
 Javad GREIS and Unicore N4 logs are built-in readers (`reader = "sbp"`, `"greis"`, `"unicore"`), and
 `kshana connect decode rtcm3` prints RTCM 3 observations and station messages: see
 [RECEIVER-PROTOCOLS.md](RECEIVER-PROTOCOLS.md).
+
+## Industrial control, ops outputs, mission control and simulators (0.42 wave 2)
+
+- `kshana connect modbus|dnp3|opcua` read Modbus TCP registers, DNP3 class 0 points and OPC UA
+  values, read only: see [INDUSTRIAL.md](INDUSTRIAL.md).
+- `kshana connect alert|snmp-trap|taxii` turn the trust stream into ServiceNow, PagerDuty, Opsgenie,
+  Slack, Teams, Splunk HEC and Elastic payloads, SNMPv2c traps and STIX 2.1 objects for a TAXII 2.1
+  collection: see [TRUST-TELEMETRY.md](TRUST-TELEMETRY.md).
+- `kshana connect tm|tm-stream` write the trust stream as CCSDS Space Packets with XTCE, OpenC3
+  COSMOS and Open MCT definitions: see [SPACE-OPS-BRIDGES.md](SPACE-OPS-BRIDGES.md).
+- `kshana connect sim-motion|sdr-capture` write gps-sdr-sim motion files and capture IQ through
+  SoapySDR (optional feature): see [SDR-SIMULATORS.md](SDR-SIMULATORS.md).

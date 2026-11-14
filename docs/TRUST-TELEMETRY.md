@@ -269,3 +269,57 @@ posts OTLP/HTTP JSON (`kshana.trust.score`, `kshana.trust.band`, `kshana.trust.e
 `kshana.geometry.label` (attribute `label`) and `kshana.geometry.vdop`; the cumulative sums carry `startTimeUnixNano`) every `--otlp-every` epochs (default 10) and at end of
 input. It adds no dependency and has no TLS: send to a collector on the same host or a
 trusted segment, which forwards onwards over TLS. `https://` endpoints are refused.
+
+## Incident, chat, log-index, SNMP and threat-sharing outputs (0.42 I5)
+
+`kshana connect alert <trust.jsonl|-> --form <form>` builds one payload per band change after
+calibration (`--all` for every epoch), from the same live-stream lines `trust-telemetry` reads. It
+prints the payloads, or POSTs each one with `--post http://host:port/path`.
+
+| Form | Matches the shape of | Clear (back to nominal) |
+|---|---|---|
+| `servicenow` | ServiceNow Event Management `em_event` records (`/api/global/em/jsonv2`): `source`, `node`, `type`, `resource`, `metric_name`, `message_key`, `severity` 1 critical to 5 info, `additional_info` | `severity` 0 |
+| `pagerduty` | PagerDuty Events API v2: `routing_key` (from `--routing-key-env`), `event_action`, `dedup_key`, `payload.summary/source/severity/timestamp/custom_details` | `event_action` `resolve` |
+| `opsgenie` | Opsgenie Alert API create: `message` (130 characters at most), `alias`, `priority` P1 to P5, `details`, `tags` | a Close Alert body; POST it to `/v2/alerts/<alias>/close?identifierType=alias` |
+| `slack` | Slack incoming webhook: `text` and a `section` block | same, with the nominal band |
+| `teams` | Microsoft Teams message with an Adaptive Card 1.4 (band, score, reasons) | same |
+| `splunk-hec` | Splunk HTTP Event Collector `/services/collector/event`: `time`, `host`, `source`, `sourcetype` `kshana:gnss_trust`, `event` | same |
+| `elastic` | Elasticsearch `_bulk` NDJSON: a `create` action for the data stream `logs-kshana.gnss_trust-default` and an ECS document (`@timestamp`, `event.*`, `observer.hostname`, `kshana.*`) | same |
+| `stix` | a STIX 2.1 bundle (below) | same |
+
+The band labels, score and reasons are those of the trust stream; the payload says what Kshana
+observed and nothing more. A credential goes in the place the service defines: the PagerDuty
+routing key in the body (`--routing-key-env <VAR>`), anything else as the whole `Authorization`
+header value (`--auth-env <VAR>`, for example `Splunk <token>`, `GenieKey <key>`, `ApiKey <key>`).
+Delivery is plain HTTP/1.1 and an `Authorization` header is sent only to a loopback address: for an
+HTTPS service, post to a local TLS relay (stunnel, nginx, a collector), which verifies the service's
+certificate.
+
+**SNMP traps.** `kshana connect snmp-trap <host:port> <trust.jsonl|-> --trap-oid <oid>
+[--community-env <VAR>]` sends an SNMPv2c trap (PDU 0xA7) per band change: `sysUpTime.0` (the
+stream time), `snmpTrapOID.0` = the given OID, then `<oid>.1` the band index (0 calibrating, 1
+nominal, 2 degraded, 3 untrusted, 4 unknown), `<oid>.2` the score times 100 (-1 when absent) and
+`<oid>.3` the reasons, comma separated. The trap OID is the operator's, under an enterprise arc they
+control: Kshana has no registered enterprise number and does not invent one.
+
+**STIX 2.1 and TAXII 2.1.** Each band change becomes STIX 2.1 objects: the producing `identity`,
+a `location` when the stream carries a position, and the observation as a new SDO
+`gnss-interference` (properties `first_observed`, `band`, `score`, `reasons`, `location_ref`)
+declared by an `extension-definition` (`extension_types: ["new-sdo"]`). Ids are UUID version 5 of
+the content, so the same input gives the same ids; no property is null or an empty list.
+`kshana connect taxii <api-root-url> --collection <id> <trust.jsonl|-> [--auth-env <VAR>]` adds them
+to a TAXII 2.1 collection (POST `<api-root>/collections/<id>/objects/` with media type
+`application/taxii+json;version=2.1`) and prints the status resource. The objects are checked
+against the OASIS STIX 2.1 JSON schemas when they are present (`scripts/fetch_042_w2_schemas.sh`).
+
+**OpenMetrics.** The `/metrics` endpoint answers a scraper that asks for
+`application/openmetrics-text` with the OpenMetrics 1.0 form (counter families named without their
+`_total` suffix in `# HELP` and `# TYPE`, closing `# EOF`); others get the Prometheus 0.0.4 text as
+before.
+
+**Not built.** Kafka in and out: the crate has no Kafka client and no optional path for one, so it
+remains open (A2 remainder); bridge the JSON outputs with a Kafka producer of your choice. A Grafana
+dashboard per segment is not part of this wave.
+
+`tests/connect_042_w2.rs` checks each payload for the fields its service requires, the trap by
+decoding it, the TAXII client against a local fake server, and the OpenMetrics form.

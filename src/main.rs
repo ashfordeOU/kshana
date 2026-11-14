@@ -5,6 +5,8 @@ use std::time::{SystemTime, UNIX_EPOCH};
 
 mod bundled_scenarios;
 mod live_io;
+#[cfg(all(feature = "soapy", unix))]
+mod soapy;
 
 /// The one usage text. Both the no-argument path and `--help` print this, so the two
 /// cannot drift apart (they were two separate copies before, one of them a comment).
@@ -165,6 +167,26 @@ fn run_connect_cli(args: &[String]) -> ExitCode {
     };
     // 0.42 I2/I3: `connect timing|snmp|ntp|decode` (kshana::connect_timing).
     if let Some(r) = kshana::connect_timing::run(args) {
+        return match r {
+            Ok(()) => ExitCode::SUCCESS,
+            Err(e) => {
+                eprintln!("{e}");
+                ExitCode::from(1)
+            }
+        };
+    }
+    #[cfg(all(feature = "soapy", unix))]
+    if args.first().map(String::as_str) == Some("sdr-capture") {
+        return match soapy::run(args) {
+            Ok(()) => ExitCode::SUCCESS,
+            Err(e) => {
+                eprintln!("{e}");
+                ExitCode::from(1)
+            }
+        };
+    }
+    // 0.42 wave 2: industrial reads, ops outputs, telemetry bridges (kshana::connect_ops).
+    if let Some(r) = kshana::connect_ops::run(args) {
         return match r {
             Ok(()) => ExitCode::SUCCESS,
             Err(e) => {

@@ -46,7 +46,7 @@ fn esc(s: &str) -> String {
         .replace('"', "&quot;")
 }
 
-fn iso(unix: f64) -> String {
+pub(crate) fn iso(unix: f64) -> String {
     let secs = unix.floor() as i64;
     let days = secs.div_euclid(86_400);
     let sod = secs.rem_euclid(86_400);
