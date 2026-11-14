@@ -1,7 +1,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 // Kshana Desktop: the application window (0.42 workstream U: U1 shell, U2 palette and runs,
 // U4 wording, U5 upgrade screen, U14 the look: colour roles, symbols, numbers and density from
-// lib/look.mjs, lib/symbols.mjs, lib/format.mjs and lib/marks.mjs, with look.css). It is staged as studio/desktop/ next to the Studio
+// lib/look.mjs, lib/symbols.mjs, lib/format.mjs and lib/marks.mjs, with look.css; U8 runs kept on
+// disk in a .kshana project folder (lib/project.mjs); U9 drop anything in, with the native format
+// detective (lib/detective.mjs); U10 the code mirror console (lib/mirror.mjs); U12 markers and
+// delta markers (lib/markers.mjs); U13 journal figures (lib/chart/journal.mjs, lib/figure.mjs);
+// U16 the sky plot (lib/sky.mjs)). It is staged as studio/desktop/ next to the Studio
 // (apps/desktop/build-frontend.sh) and reuses the Studio's modules unchanged: the
 // catalogue, the engine client and its Desktop bridge (lib/desktop.mjs), the views, key
 // figures, meaning and evidence modules. The website and the Studio pages are not touched.
@@ -33,7 +37,15 @@ import { fmtDuration, fmtUtc, fmtCount } from "./lib/format.mjs";
 import { numNode, figureParts, domainMark, density, toggleDensity, restoreDensity } from "./lib/marks.mjs";
 import { createRunView } from "./lib/runview.mjs";
 import { geojsonOfExport } from "./lib/timemodel.mjs";
-import { timelineChart } from "./lib/chart/shell-view.mjs";
+import { timelineChart, chartOfRun } from "./lib/chart/shell-view.mjs";
+import { createChart } from "./lib/chart/chart2d.mjs";
+import { buildRequest, parseGeometry } from "../lib/geometry-adapter.mjs";
+import { createMirror, runLines, editLines, exportLines, sessionPython, sessionShell, figureScript, skyRequestLines } from "./lib/mirror.mjs";
+import { projectFiles, readProject, runUid, projectFolderName, joinPath, searchRuns, parseTags, replayCheck, sha256Text, removedPaths } from "./lib/project.mjs";
+import { detectiveRows, scenarioFor, flattenAnswers, linkOf, familyLabel } from "./lib/detective.mjs";
+import { skyEpochs, skyTracks, skySpec, skySite, scenarioMask, SKY_STATES, stateCounts } from "./lib/sky.mjs";
+import { figureTools } from "./lib/figure.mjs";
+import { chartClock } from "./lib/plot.mjs";
 
 const $ = (id) => document.getElementById(id);
 const h = (tag, props = {}, ...kids) => {
@@ -87,11 +99,18 @@ const S = {
   route: "home", tabs: [], active: null, nextTab: 1,
   libQuery: "", compare: null, land: null, files: [],
   devices: { api: null, list: [], status: null, msg: "" },
+  // U8: the project the session is kept in; U9: what the last drop held; U8: the runs view's search and the run being edited.
+  project: { dir: "", name: "Session", created: new Date().toISOString(), links: [], notes: "", saved: [], status: "", home: "" },
+  detective: { answers: [], busy: false, msg: "" },
+  runQuery: "", editRun: null,
 };
-const RUNS = createRunLog(200);
+let RUNS = createRunLog(200);
+// U10: every action's Python and command line.
+const MIRROR = createMirror(2000);
+let uidSeq = 0;
 // What extensions registered through window.KshanaShell (lib/ext.mjs; README "Extending the
 // shell"). Empty unless an extension registers: the shell then draws only its own parts.
-const BUILTIN_VIEWS = ["home", "runs", "library", "devices", "evidence", "files", "upgrade"];
+const BUILTIN_VIEWS = ["home", "runs", "library", "devices", "evidence", "files", "console", "upgrade"];
 const reportExt = (e) => console.error("Kshana Desktop extension:", e);
 const EXT = createExtensions({ builtins: BUILTIN_VIEWS, onChange: () => renderSoon(), report: reportExt });
 let renderQueued = false;
@@ -180,14 +199,16 @@ async function openScenario(file, { inNewTab = false } = {}) {
     if (tab.file !== file) return;
     if (text === null) { tab.error = t("js-desk-load-failed", "Could not load { $file }.", { file }); render(); return; }
     tab.toml = tab.baseToml = text;
+    log({ kind: "open", title: t("js-desk-log-open", "Open { $title }", { title: entry.title }), py: [`# open ${scenarioName(file)} from the scenario library`], cli: [`kshana example ${scenarioName(file)} > ${scenarioName(file)}.toml`] });
     render();
     runTab(tab);
     return;
   }
   showTab(tab.id);
 }
-function openText(name, text) {
-  const tab = newTab({ file: name, entry: null, custom: true, title: name.replace(/\.toml$/, ""), domain: null, toml: text, baseToml: text });
+function openText(name, text, extra = {}) {
+  const tab = newTab({ file: name, entry: null, custom: true, title: name.replace(/\.toml$/, ""), domain: null, toml: text, baseToml: text, ...extra });
+  log({ kind: "open", title: t("js-desk-log-open", "Open { $title }", { title: tab.title }), py: [`# open the scenario file ${name}`], cli: [`# ${name}`] });
   showTab(tab.id);
   runTab(tab);
 }
@@ -224,11 +245,18 @@ async function runTab(tab) {
     return;
   }
   tab.running = false;
+  const at = new Date();
+  const digest = (b) => crypto.subtle.digest("SHA-256", b);
+  const [resultSha, scenarioSha] = await Promise.all([sha256Text(all.json, digest), sha256Text(tab.toml, digest)]).catch(() => ["", ""]);
   tab.run = RUNS.add({
     tabId: tab.id, file: tab.file, title: tab.title, domain: tab.domain, custom: !!tab.custom, edited: tab.toml !== tab.baseToml,
-    toml: tab.toml, result, svg: all.svg || "", summary: all.summary || "", csv: all.csv || "", ms: performance.now() - t0, at: new Date(),
-    engine: S.native ? "native" : "webassembly",
+    toml: tab.toml, result, json: all.json, svg: all.svg || "", summary: all.summary || "", csv: all.csv || "", ms: performance.now() - t0, at,
+    engine: S.native ? "native" : "webassembly", engineVersion: S.version, uid: runUid(at, ++uidSeq), resultSha, scenarioSha, tags: [], pinned: false, note: "",
   });
+  const n = MIRROR.nextRun();
+  tab.run.console = n;
+  log({ kind: "run", title: t("js-desk-log-run", "Run { $n }: { $title }", { n, title: tab.title }), ...runLines({ n, file: tab.file, bundled: !tab.custom, edited: tab.toml !== tab.baseToml, toml: tab.toml, resultSha }) });
+  saveSoon();
   render();
 }
 function cancelRuns() { if (S.engine && S.engine.canCancel) S.engine.cancel(); }
@@ -256,12 +284,38 @@ function linkedFor(tab) {
   dropLinked(tab);
   let view = null;
   try {
-    view = createRunView({ t, icon: ic, run, seriesModel: V.seriesModel(run.result, run.toml), scene: sceneOf(run), at, loadLand: landFile, fmt: (v) => V.fmt(v) });
+    view = createRunView({ t, icon: ic, run, seriesModel: V.seriesModel(run.result, run.toml), scene: sceneOf(run), at, loadLand: landFile, fmt: (v) => V.fmt(v),
+      onMarkers: (m) => {
+        tab.markers = m.map((x) => ({ t: x.t, series: x.series }));
+        if (tab.restoring) return;
+        if (m.length) log({ kind: "marker", title: t("js-desk-log-markers", "Markers on run { $n }", { n: run.console || run.id }), py: [`# markers: ${m.map((x) => `${x.name} at t = ${x.t} s (${x.series} = ${x.v}${x.unit ? ` ${x.unit}` : ""})`).join(", ")}${m.length === 2 ? `; Δt = ${m[1].t - m[0].t} s, Δ = ${m[1].v - m[0].v}${m[0].unit ? ` ${m[0].unit}` : ""}` : ""}`], cli: [] });
+        saveSoon();
+      } });
   } catch (e) {
     console.error("Kshana Desktop: time cursor", e);
   }
   tab.lv = { run, view };
+  if (view) {
+    restoreView(tab, view);
+    // the scene (map layers, the site of the sky plot) arrives after the run: the tab's views list follows it
+    sceneOf(run).then(() => { if (S.route === "tab" && activeTab() === tab) renderSoon(); });
+  }
   return view;
+}
+// A tab reopened from the project gets its clock (cursor, range, timed markers) and its plot's markers back (U8).
+function restoreView(tab, view) {
+  const c = tab.restoreClock, mk = tab.restoreMarkers;
+  tab.restoreClock = tab.restoreMarkers = null;
+  if (c) {
+    if (Number.isFinite(c.t)) view.clock.seek(c.t, "restore");
+    if (Array.isArray(c.range) && c.range.length === 2) view.clock.setRange(c.range[0], c.range[1]);
+    for (const m of c.marks || []) view.clock.addMark(m.t, m.label || "");
+  }
+  if (mk && mk.length) {
+    tab.restoring = true;
+    try { view.restoreMarkers(mk); } catch (e) { console.error("Kshana Desktop: markers", e); }
+    tab.restoring = false;
+  }
 }
 function dropLinked(tab) { if (tab && tab.lv && tab.lv.view) tab.lv.view.destroy(); if (tab) tab.lv = null; }
 
@@ -287,6 +341,7 @@ function save(blob, name) { triggerDownload(blob, name); toast(t("js-desk-saved"
 function exportRun(run, what) {
   const meta = fileMeta(run.result, S.version, run.toml);
   const base = scenarioName(run.file);
+  if (run.console) log({ kind: "export", title: t("js-desk-log-export", "Export { $what } of run { $n }", { what, n: run.console }), ...exportLines({ n: run.console, what, file: run.file }) });
   if (what === "svg" && run.svg) return save(svgBlob(run.svg), chartFilename(base, meta, "svg"));
   if (what === "json") return save(new Blob([JSON.stringify(run.result, null, 2)], { type: "application/json" }), chartFilename(base, meta, "json"));
   if (what === "toml") return save(new Blob([run.toml], { type: "application/toml" }), `${base}.toml`);
@@ -297,6 +352,7 @@ async function exportPack(run) {
   try {
     const readme = t("js-desk-pack-readme", "Kshana run pack (unsigned). It holds the scenario file, the engine's result, its summary, chart and table, and manifest.json with the SHA-256 of every file. Rerun the scenario file with the same engine version to reproduce the result. Signed dossiers come with Kshana Pro.") + "\n";
     const files = await packFiles(run, { version: S.version, digest: (b) => crypto.subtle.digest("SHA-256", b), readme });
+    if (run.console) log({ kind: "export", title: t("js-desk-log-pack", "Evidence pack of run { $n }", { n: run.console }), ...exportLines({ n: run.console, what: "pack", file: run.file }) });
     const meta = fileMeta(run.result, S.version, run.toml);
     save(new Blob([zip(files)], { type: "application/zip" }), chartFilename(`${scenarioName(run.file)}-pack`, meta, "zip"));
   } catch (e) {
@@ -310,6 +366,189 @@ async function copyText(text) {
 let toastTimer = 0;
 function toast(msg) { const el = $("toast"); el.textContent = msg; el.classList.add("on"); clearTimeout(toastTimer); toastTimer = setTimeout(() => el.classList.remove("on"), 2600); }
 
+// ------------------------------------------------------------------ the code mirror (U10)
+/** Write an action's Python and command lines to the console (and keep it with the project). */
+function log(entry) { MIRROR.push(entry); if (S.route === "console") renderSoon(); saveSoon(); }
+const runRef = (run) => ({ file: run.file, bundled: !run.custom, edited: !!run.edited, toml: run.toml, resultSha: run.resultSha || "", result: run.result });
+
+// ------------------------------------------------------------------ the project on disk (U8)
+// The session is kept in a .kshana folder (Documents/Kshana/Session.kshana unless another
+// project is opened), written by the app's native side; without it (a page outside the app),
+// in this window's storage. A save happens a moment after each change and every few seconds
+// while the layout (tabs, clocks, markers, selection) changes.
+const DIR_KEY = "kshana-desk-project-dir", LOCAL_KEY = "kshana-desk-project";
+function projectState() {
+  return {
+    name: S.project.name, created: S.project.created, runs: RUNS.list(), route: S.route, active: S.active,
+    selected: RUNS.selected().map((r) => r.uid),
+    tabs: S.tabs.map((tab) => {
+      const lv = tab.lv && tab.lv.view && tab.lv.run === tab.run ? tab.lv.view : null;
+      const snap = lv ? lv.clock.snapshot() : null;
+      return { key: tab.id, file: tab.file, title: tab.title, custom: !!tab.custom, domain: tab.domain, toml: tab.toml, baseToml: tab.baseToml, view: tab.view, ins: tab.ins,
+        runUid: tab.run ? tab.run.uid : null, clock: snap ? { t: snap.t, range: snap.range, marks: snap.marks } : tab.restoreClock || null, markers: tab.markers || tab.restoreMarkers || [] };
+    }),
+    links: S.project.links, notes: S.project.notes, console: MIRROR.list(), consoleRuns: MIRROR.runs,
+  };
+}
+let saveTimer = 0, saving = false, lastKey = "";
+function saveSoon(ms = 900) { clearTimeout(saveTimer); saveTimer = setTimeout(saveProject, ms); }
+function layoutKey() {
+  const st = projectState();
+  return JSON.stringify([st.route, st.active, st.selected, st.tabs.map((x) => [x.key, x.view, x.ins, x.runUid, x.clock, x.markers, x.toml && x.toml.length]), st.runs.map((r) => [r.uid, r.tags, r.pinned, r.note]), st.links.length, st.notes.length, st.console.length]);
+}
+async function saveProject() {
+  if (saving) { saveSoon(500); return; }
+  saving = true;
+  try {
+    lastKey = layoutKey();
+    const files = projectFiles(projectState());
+    if (invoke && S.project.dir) {
+      await invoke("project_save", { dir: S.project.dir, files, remove: removedPaths(S.project.saved, files) });
+      S.project.saved = files.map((f) => f.path);
+      S.project.status = t("js-desk-proj-saved", "Kept in { $dir }", { dir: S.project.dir });
+    } else {
+      try { localStorage.setItem(LOCAL_KEY, JSON.stringify(files)); S.project.status = t("js-desk-proj-saved-local", "Kept in this window's storage (the app's native side is not here)."); }
+      catch { S.project.status = t("js-desk-proj-not-saved", "This session could not be kept: the window's storage is full or blocked."); }
+    }
+  } catch (e) {
+    S.project.status = t("js-desk-proj-save-failed", "The project could not be written: { $reason }", { reason: errorMessage(e) });
+  } finally { saving = false; }
+}
+setInterval(() => { if (S.project.ready && layoutKey() !== lastKey) saveProject(); }, 4000);
+addEventListener("pagehide", () => { if (S.project.ready) saveProject(); });
+
+/** Show a project read from its files (lib/project.mjs readProject): its runs, tabs, selection and console. */
+function applyProject(p, dir) {
+  for (const tab of S.tabs) dropLinked(tab);
+  RUNS = createRunLog(200);
+  const byUid = new Map();
+  for (const r of p.runs) {
+    const run = RUNS.add({ ...r, tabId: null });
+    byUid.set(r.uid, run);
+  }
+  uidSeq = p.runs.length;
+  S.tabs = []; S.active = null; S.compare = null;
+  const keyToId = new Map();
+  for (const x of p.tabs) {
+    if (x.toml === null || x.toml === undefined) continue;
+    const run = x.runUid ? byUid.get(x.runUid) || null : null;
+    const tab = newTab({ file: x.file, entry: x.custom ? null : entryFor(x.file), custom: x.custom, title: x.title || x.file, domain: x.domain, toml: x.toml, baseToml: x.edited ? "" : x.toml,
+      view: x.view, ins: x.ins, run, restoreClock: x.clock, restoreMarkers: x.markers });
+    if (run) run.tabId = tab.id;
+    keyToId.set(x.key, tab.id);
+    // an edited bundled scenario: its bundled text, for Reset and "edited"
+    if (x.edited && !x.custom) scenarioText(x.file).then((text) => { if (text !== null) { tab.baseToml = text; render(); } });
+  }
+  for (const u of p.selected) { const r = byUid.get(u); if (r) RUNS.toggle(r.id, true); }
+  S.active = keyToId.get(p.active) ?? (S.tabs[0] ? S.tabs[0].id : null);
+  S.route = p.route === "tab" ? (S.active !== null ? "tab" : "home") : BUILTIN_VIEWS.includes(p.route) ? p.route : "home";
+  MIRROR.load(p.console, p.consoleRuns);
+  S.project.name = p.name || S.project.name;
+  S.project.created = p.created || S.project.created;
+  S.project.links = Array.isArray(p.links) ? p.links : [];
+  S.project.notes = p.notes || "";
+  if (dir !== undefined) S.project.dir = dir;
+  S.project.ready = true;
+  lastKey = layoutKey();
+  render();
+}
+async function loadProject(dir) {
+  if (invoke) {
+    const r = await invoke("project_load", { dir });
+    S.project.saved = (r.files || []).map((f) => f.path);
+    return r.exists ? readProject(r.files) : null;
+  }
+  try { const files = JSON.parse(localStorage.getItem(LOCAL_KEY) || "null"); return files ? readProject(files) : null; } catch { return null; }
+}
+async function openProject(dir) {
+  try {
+    await saveProject();
+    const p = await loadProject(dir);
+    if (!p) { S.project = { ...S.project, dir, name: dir.split(/[\\/]/).pop().replace(/\.kshana$/, ""), links: [], notes: "", saved: [], created: new Date().toISOString() }; await saveProject(); }
+    else applyProject(p, dir);
+    try { localStorage.setItem(DIR_KEY, dir); } catch { /* not remembered */ }
+    log({ kind: "project", title: t("js-desk-log-project", "Open project { $dir }", { dir }), py: [`# project folder: ${dir}`], cli: [`cd ${JSON.stringify(dir)}`] });
+    toast(t("js-desk-proj-opened", "Project { $name } open.", { name: S.project.name }));
+    render();
+  } catch (e) { toast(t("js-desk-proj-open-failed", "The project could not be opened: { $reason }", { reason: errorMessage(e) })); }
+}
+async function restoreSession() {
+  try {
+    let dir = "";
+    if (invoke) {
+      const home = await invoke("project_home");
+      S.project.home = home && home.dir ? home.dir : "";
+      try { dir = localStorage.getItem(DIR_KEY) || ""; } catch { dir = ""; }
+      if (!dir && S.project.home) dir = joinPath(S.project.home, "Session.kshana");
+      S.project.dir = dir;
+    }
+    const p = dir || !invoke ? await loadProject(dir) : null;
+    if (p) applyProject(p, dir || undefined);
+  } catch (e) {
+    S.project.status = t("js-desk-proj-restore-failed", "The last session could not be read back: { $reason }", { reason: errorMessage(e) });
+  }
+  S.project.ready = true;
+}
+
+// ------------------------------------------------------------------ drop anything in (U9)
+const tauriListen = (event, fn) => {
+  const i = globalThis.__TAURI_INTERNALS__;
+  if (!i || typeof i.transformCallback !== "function") return false;
+  Promise.resolve(i.invoke("plugin:event|listen", { event, target: { kind: "Any" }, handler: i.transformCallback(fn) })).catch(() => {});
+  return true;
+};
+function showDrop(on) { const el = $("drop-layer"); if (el) el.hidden = !on; }
+async function inspectPaths(paths) {
+  if (!invoke) { S.detective.msg = t("js-desk-det-no-native", "The format detective runs in the app's native side, which this window does not have."); go("files"); return; }
+  S.detective.busy = true; S.detective.msg = ""; go("files");
+  const out = [];
+  for (const path of paths) {
+    try { out.push(await invoke("inspect_path", { path })); }
+    catch (e) { out.push({ ok: false, name: String(path).split(/[\\/]/).pop(), path, reason: errorMessage(e) }); }
+  }
+  finishInspect(out);
+}
+const toBase64 = (bytes) => { let s = ""; for (let i = 0; i < bytes.length; i += 0x8000) s += String.fromCharCode.apply(null, bytes.subarray(i, i + 0x8000)); return btoa(s); };
+async function inspectFiles(list) {
+  if (!invoke) { S.detective.msg = t("js-desk-det-no-native", "The format detective runs in the app's native side, which this window does not have."); go("files"); return; }
+  S.detective.busy = true; S.detective.msg = ""; go("files");
+  const out = [];
+  for (const f of list) {
+    try {
+      const head = new Uint8Array(await f.slice(0, 4 * 1024 * 1024).arrayBuffer());
+      out.push(await invoke("inspect_bytes", { name: f.name, base64: toBase64(head), size: f.size }));
+    } catch (e) { out.push({ ok: false, name: f.name, reason: errorMessage(e) }); }
+  }
+  finishInspect(out);
+}
+function finishInspect(answers) {
+  S.detective.busy = false;
+  S.detective.answers = flattenAnswers(answers);
+  for (const a of S.detective.answers) log({ kind: "inspect", title: t("js-desk-log-inspect", "Inspect { $name }", { name: a.name || "?" }), py: [`# ${a.path || a.name}: ${a.ok ? `${a.label || a.format}${a.epochs ? `, ${a.epochs} epochs` : ""}${a.constellations && a.constellations.length ? `, ${a.constellations.join("/")}` : ""}` : `not read (${a.reason || ""})`}`], cli: [] });
+  render();
+}
+let clockTemplate = null;
+async function openDropped(a) {
+  if (clockTemplate === null) clockTemplate = (await scenarioText("clock-measured-log.toml")) || "";
+  const sc = scenarioFor(a, { clockTemplate });
+  if (!sc) { toast(t("js-desk-det-no-scenario", "This file is kept as a data link; no scenario opens it on its own.")); return; }
+  addLink(a, false);
+  openText(sc.file, sc.toml, { title: sc.title });
+}
+function addLink(a, say = true) {
+  if (!S.project.links.some((l) => l.path === (a.path || a.name))) S.project.links.push(linkOf(a));
+  saveSoon();
+  if (say) { toast(t("js-desk-det-linked", "{ $name } is now a data link of the project.", { name: a.name })); render(); }
+}
+if (!tauriListen("tauri://drag-drop", (ev) => { showDrop(false); const paths = ev && ev.payload && ev.payload.paths; if (paths && paths.length) inspectPaths(paths); })) {
+  // a page outside the app: the files themselves (no paths)
+  addEventListener("drop", (e) => { if (!e.dataTransfer || !e.dataTransfer.files.length) return; e.preventDefault(); showDrop(false); inspectFiles([...e.dataTransfer.files]); });
+}
+tauriListen("tauri://drag-enter", () => showDrop(true));
+tauriListen("tauri://drag-leave", () => showDrop(false));
+addEventListener("dragover", (e) => { if (e.dataTransfer && [...(e.dataTransfer.types || [])].includes("Files")) { e.preventDefault(); showDrop(true); } });
+addEventListener("dragleave", (e) => { if (!e.relatedTarget) showDrop(false); });
+
 // ------------------------------------------------------------------ navigation
 const NAV = () => [
   { id: "home", icon: "home", label: t("js-desk-nav-home", "Home") },
@@ -317,7 +556,8 @@ const NAV = () => [
   { id: "library", icon: "library", label: t("js-desk-nav-library", "Scenario library"), count: () => SCENARIOS.length },
   { id: "devices", icon: "receiver", label: t("js-desk-nav-devices", "Devices"), live: () => !!(S.devices.status && S.devices.status.running) },
   { id: "evidence", icon: "evidence", label: t("js-desk-nav-evidence", "Evidence packs") },
-  { id: "files", icon: "files", label: t("js-desk-nav-files", "Files") },
+  { id: "files", icon: "files", label: t("js-desk-nav-files", "Files and project") },
+  { id: "console", icon: "copy", label: t("js-desk-nav-console", "Console"), count: () => MIRROR.size },
 ];
 // What Pro adds (U5). Each opens the upgrade screen; the free edition carries none of them.
 const PRO = () => [
@@ -374,6 +614,8 @@ function renderTabs() {
   pb.replaceChildren(ic("search"), h("span", { text: t("js-desk-palette-button", "Run a scenario, open a file…") }), h("kbd", { text: KEY }));
   pb.setAttribute("aria-label", t("js-desk-palette-open", "Command palette ({ $key })", { key: KEY }));
   $("skip").textContent = t("js-desk-skip", "Skip to the content");
+  const dc = $("drop-card");
+  if (dc) dc.textContent = t("js-desk-drop-here", "Drop files or a folder: the engine's readers say what each one is before anything is loaded.");
 }
 
 function renderSidebar() {
@@ -416,7 +658,7 @@ function renderView() {
   const ext = EXT.shell.viewFor(S.route);
   if (ext && extView(v, ext)) return;
   drawn = null;
-  const pages = { home: homeView, runs: runsView, library: libraryView, devices: devicesView, evidence: evidenceView, files: filesView, upgrade: upgradeView };
+  const pages = { home: homeView, runs: runsView, library: libraryView, devices: devicesView, evidence: evidenceView, files: filesView, console: consoleView, upgrade: upgradeView };
   v.replaceChildren((pages[S.route] || homeView)());
 }
 // A registered view. On the render that opens it, `el` is empty and ctx.fresh is true; on the
@@ -470,7 +712,9 @@ function tabView(tab) {
   const views = [["chart", t("js-desk-view-chart", "Chart")]];
   const lv = linkedFor(tab);
   if (r && (V.groundTrack(r) || (lv && lv.hasMap))) views.push(["map", t("js-desk-view-map", "Map")]);
-  views.push(["timeline", t("js-desk-view-timeline", "Timeline")], ["table", t("js-desk-view-table", "Table")], ["json", t("js-desk-view-json", "JSON")]);
+  views.push(["timeline", t("js-desk-view-timeline", "Timeline")]);
+  if (lv && skySite(lv.model)) views.push(["sky", t("js-desk-view-sky", "Sky")]);
+  views.push(["table", t("js-desk-view-table", "Table")], ["json", t("js-desk-view-json", "JSON")]);
   if (!views.some((x) => x[0] === tab.view)) tab.view = "chart";
   const meta = [tab.custom ? tab.file : scenarioName(tab.file)];
   if (r && typeof r.seed === "number") meta.push(t("js-desk-meta-seed", "seed { $seed }", { seed: r.seed }));
@@ -489,6 +733,8 @@ function tabView(tab) {
   if (tab.running) body.append(h("p", { class: "busy", role: "status" }, h("span", { class: "spin", "aria-hidden": "true" }), S.native ? t("js-desk-running-native", "Running on this machine's native engine…") : t("js-desk-running", "Running…")));
   else if (run) body.append(h("p", { class: "answer", text: answerOf(run) }));
   body.append(panel(tab));
+  const tools = run ? figureFor(tab) : null;
+  if (tools) body.append(tools);
   if (run) {
     const cards = stripCards(run, 3);
     const tier = tierOf(run);
@@ -500,6 +746,55 @@ function tabView(tab) {
   }
   return [head, body];
 }
+// The tools under every figure (U10, U13): the script that makes it and, for an interactive chart, the journal export.
+function figureFor(tab) {
+  const run = tab.run;
+  const lv = tab.lv && tab.lv.run === run ? tab.lv.view : null;
+  const common = { t, save, copy: copyText, log };
+  if (tab.view === "chart" && run.svg) return figureTools({ ...common, title: `${tab.title} · chart`, script: () => figureScript(runRef(run), { kind: "chart", title: tab.title }) });
+  if (tab.view === "timeline" && lv && lv.chart) {
+    const m = lv.model;
+    return figureTools({ ...common, chart: lv.chart, title: m.title || tab.title, script: () => figureScript(runRef(run), { kind: "series", title: m.title || tab.title, xLabel: "time (s)", yLabel: m.yLabel, series: m.series.map((x) => ({ label: x.label, points: Array.from(x.t, (tt, i) => [tt, x.v[i]]) })) }) });
+  }
+  if (tab.view === "timeline" && !lv) {
+    const sm = V.seriesModel(run.result, run.toml);
+    if (sm) return figureTools({ ...common, title: sm.title || tab.title, script: () => figureScript(runRef(run), { kind: "series", title: sm.title, xLabel: sm.xLabel, yLabel: sm.yLabel, series: sm.series.map((x) => ({ label: x.label, points: x.points })) }), chart: chartOfRun(run) });
+  }
+  if (tab.view === "map" && lv && lv.model.track) {
+    const tr = lv.model.track;
+    return figureTools({ ...common, title: `${tab.title} · map`, script: () => figureScript(runRef(run), { kind: "map", title: `${tab.title} · track`, series: [], track: { t: Array.from(tr.t), lat: Array.from(tr.lat), lon: Array.from(tr.lon) } }) });
+  }
+  if (tab.view === "sky" && tab.sky && tab.sky.run === run && tab.sky.data) {
+    return figureTools({ ...common, chart: tab.sky.chart, title: `${tab.title} · sky`, script: () => figureScript(runRef(run), { kind: "sky", title: `${tab.title} · sky`, sky: { requests: tab.sky.data.requests } }) });
+  }
+  return null;
+}
+// The sky plot of a run (U16): the engine's sky geometry at sampled epochs of the run, on the run's clock.
+function skyPane(tab, lv) {
+  const run = tab.run;
+  if (tab.sky && tab.sky.run === run && tab.sky.el) return tab.sky.el;
+  const site = skySite(lv.model);
+  const el = h("div", { class: "sky-pane" }, h("p", { class: "panel-msg", text: t("js-desk-sky-working", "Asking the engine for the sky at the run's epochs…") }));
+  const sky = { run, el, data: null, chart: null };
+  tab.sky = sky;
+  if (!S.engine) { el.replaceChildren(h("p", { class: "panel-msg", text: engineMissing() })); return el; }
+  const mask = scenarioMask(run.toml) ?? 5;
+  const epochs = skyEpochs(lv.model.span[0], lv.model.span[1], 61);
+  skyTracks({ call: (fn, text) => S.engine.call(fn, text), buildRequest, parseGeometry, site, epochs, mask }).then((data) => {
+    sky.data = data;
+    const title = t("js-desk-sky-title", "Sky at { $site }", { site: site.name || `${site.lat.toFixed(3)}, ${site.lon.toFixed(3)}` });
+    el.replaceChildren();
+    sky.chart = createChart(el, { ...skySpec(data, title), clock: chartClock(lv.clock), height: 440 });
+    const k = Math.max(0, epochs.findIndex((x) => x >= lv.clock.t));
+    const counts = stateCounts(data.tracks, k);
+    el.append(h("div", { class: "sky-states", role: "list", "aria-label": t("js-desk-sky-states", "Satellite states") },
+      ...Object.entries(SKY_STATES).filter(([id]) => id !== "unhealthy").map(([id, st]) => h("span", { role: "listitem" }, h("i", { style: `background:var(${id === "used" ? "--k-trust-good" : id === "masked" ? "--k-trust-mid" : "--ink-3"})` }), `${t(`js-desk-sky-${id}`, st.en)} · ${counts[id]}`))),
+      h("p", { class: "sky-note", text: t("js-desk-sky-note", "{ $n } epochs sampled over the run; trails join the engine's positions at those epochs. Mask { $mask }°{ $own }. Constellations: the engine's GPS and Galileo presets, propagated to the run's seconds; the engine labels them representative, not the broadcast constellation of a date.", { n: epochs.length, mask, own: scenarioMask(run.toml) === null ? t("js-desk-sky-mask-default", " (the scenario states none)") : "" }) }));
+    log({ kind: "sky", title: t("js-desk-log-sky", "Sky plot of { $title }", { title: tab.title }), py: [...skyRequestLines(data.requests, "sky_requests"), "skies = [kshana.sky_geometry(q) for q in sky_requests]"], cli: [] });
+    if (S.route === "tab" && activeTab() === tab) render();
+  }).catch((e) => { el.replaceChildren(h("p", { class: "panel-msg", text: t("js-desk-sky-failed", "The engine gave no sky for this run: { $reason }", { reason: errorMessage(e) }) })); });
+  return el;
+}
 function panel(tab) {
   const run = tab.run, r = run && run.result;
   const box = h("div", { class: "panel", role: "region", "aria-label": t("js-desk-panel", "Result view") });
@@ -507,6 +802,7 @@ function panel(tab) {
   if (!run) return msg(tab.running || !tab.toml ? t("js-desk-panel-wait", "The result appears here when the run finishes.") : t("js-desk-panel-none", "No run yet."));
   if (tab.view === "chart") { if (run.svg) box.append(svgNode(run.svg)); else msg(t("js-desk-no-chart", "The engine drew no chart for this scenario. See Table or JSON.")); return box; }
   const lv = linkedFor(tab);
+  if (tab.view === "sky" && lv) { box.classList.add("scroll"); box.append(skyPane(tab, lv)); return box; }
   if (lv && (tab.view === "timeline" || (tab.view === "map" && lv.hasMap))) {
     box.classList.add("linked");
     box.append(lv.node(tab.view));
@@ -579,11 +875,12 @@ function inputsPane(tab) {
       const v = Number(input.value.trim());
       if (!input.value.trim() || !Number.isFinite(v)) { input.value = item.field.raw; toast(t("js-desk-not-number", "Write a number.")); return; }
       tab.toml = patchField(tab.toml, item.field, v);
+      log({ kind: "edit", title: t("js-desk-log-edit", "Change { $key }", { key: item.field.key || lab.text }), ...editLines({ section: item.field.section || "", key: item.field.key || lab.text, raw: item.field.raw, value: v, file: tab.file }) });
       runTab(tab);
     });
     out.push(h("div", { class: "field" }, h("label", { for: id }, lab.text, lab.term ? h("span", { class: "muted mono", style: "margin-left:6px;font-size:11px", text: lab.term }) : null), input, item.hint ? h("span", { class: "hint", id: `${id}-h`, text: item.hint }) : null));
   });
-  if (tab.toml !== tab.baseToml) out.push(h("div", { class: "row" }, h("span", { class: "hint", text: t("js-desk-edited-note", "Changed from the bundled file.") }), h("button", { class: "btn", type: "button", onclick: () => { tab.toml = tab.baseToml; runTab(tab); render(); } }, t("js-desk-reset", "Reset"))));
+  if (tab.toml !== tab.baseToml) out.push(h("div", { class: "row" }, h("span", { class: "hint", text: t("js-desk-edited-note", "Changed from the bundled file.") }), h("button", { class: "btn", type: "button", onclick: () => { tab.toml = tab.baseToml; log({ kind: "edit", title: t("js-desk-log-reset", "Reset { $title }", { title: tab.title }), py: [`# ${scenarioName(tab.file)}.toml back to the bundled text`], cli: [] }); runTab(tab); render(); } }, t("js-desk-reset", "Reset"))));
   out.push(h("p", { class: "hint", text: t("js-desk-inputs-note", "A change runs the scenario again. The whole file is under Export.") }));
   return out;
 }
@@ -628,7 +925,8 @@ function runsTable(list, { select = true } = {}) {
   return h("table", { class: "tbl runs" },
     h("caption", { class: "vh", text: t("js-desk-runs-caption", "Runs this session") }),
     h("thead", {}, h("tr", {}, select ? h("th", { scope: "col" }, h("span", { class: "vh", text: t("js-desk-col-select", "Select") })) : null,
-      ...[t("js-desk-col-scenario", "Scenario"), t("js-desk-col-domain", "Area"), t("js-desk-col-result", "Result"), t("js-desk-col-evidence", "Evidence"), t("js-desk-col-when", "When")].map((x) => h("th", { scope: "col", text: x })))),
+      ...[t("js-desk-col-scenario", "Scenario"), t("js-desk-col-domain", "Area"), t("js-desk-col-result", "Result"), t("js-desk-col-evidence", "Evidence"), t("js-desk-col-when", "When")].map((x) => h("th", { scope: "col", text: x })),
+      select ? h("th", { scope: "col", text: t("js-desk-col-keep", "Pin, tags, note") }) : null)),
     h("tbody", {}, ...list.map((run) => {
       const c = stripCards(run, 1)[0];
       const tier = tierOf(run);
@@ -641,8 +939,39 @@ function runsTable(list, { select = true } = {}) {
         h("td", { style: `color:${domColor(run.domain)}` }, h("span", { style: "display:inline-flex;align-items:center;gap:6px" }, domainMark(run.domain, domColor(run.domain)), domLabel(run.domain))),
         h("td", {}, c ? [numNode(c.v, c.unit), c.k ? h("span", { class: "muted", text: ` · ${c.k}` }) : null] : ""),
         h("td", {}, tier ? h("span", { class: `tier ${tier.cls}`, style: "margin:0", text: tierText(tier.tier) }) : "–"),
-        h("td", { class: "muted", text: agoText(run.at) }));
+        h("td", { class: "muted", text: agoText(run.at) }),
+        select ? h("td", {}, h("div", { class: "run-tools" },
+          h("button", { class: `btn fig-btn${run.pinned ? " pin-on" : ""}`, type: "button", "aria-pressed": run.pinned ? "true" : "false", "aria-label": t("js-desk-pin-run", "Pin run { $n }", { n: run.id }), title: t("js-desk-pin", "Pin"), onclick: () => { run.pinned = !run.pinned; saveSoon(); render(); } }, run.pinned ? "★" : "☆"),
+          ...(run.tags || []).map((g) => h("span", { class: "run-tag", text: g })),
+          run.note ? h("span", { class: "muted", title: run.note, text: run.note.length > 28 ? `${run.note.slice(0, 27)}…` : run.note }) : null,
+          h("button", { class: "btn fig-btn", type: "button", "aria-expanded": S.editRun === run.id ? "true" : "false", onclick: () => { S.editRun = S.editRun === run.id ? null : run.id; render(); } }, t("js-desk-run-edit", "Edit")),
+          h("button", { class: "btn fig-btn", type: "button", title: t("js-desk-replay-title", "Run the recipe again and compare the result bytes"), onclick: () => replayRun(run) }, run.replay ? (run.replay.identical ? t("js-desk-replay-same", "Replayed: identical") : t("js-desk-replay-diff", "Replayed: differs")) : t("js-desk-replay", "Replay")))) : null);
     })));
+}
+// Run a run's recipe (its scenario text) again and say whether the result bytes are the same (U8).
+async function replayRun(run) {
+  if (!S.engine) { toast(engineMissing()); return; }
+  try {
+    const all = JSON.parse(await S.engine.call("run_all", run.toml));
+    const r = await replayCheck(run.json || JSON.stringify(run.result), all.json, (b) => crypto.subtle.digest("SHA-256", b));
+    run.replay = { identical: r.identical, at: new Date().toISOString(), sha: r.after };
+    if (run.console) log({ kind: "replay", title: t("js-desk-log-replay", "Replay run { $n }", { n: run.console }), py: [`print("replay of run ${run.console} identical:", hashlib.sha256(kshana.run(toml_${run.console}).encode()).hexdigest() == ${JSON.stringify(run.resultSha || r.before)})`], cli: [] });
+    toast(r.identical ? t("js-desk-replay-ok", "Run #{ $n } replayed: the result is byte for byte the same (SHA-256 { $sha }).", { n: run.id, sha: r.after.slice(0, 12) }) : t("js-desk-replay-bad", "Run #{ $n } replayed: the result differs (engine { $then } then, { $now } now).", { n: run.id, then: run.engineVersion || "?", now: S.version }));
+    render();
+  } catch (e) { toast(t("js-desk-replay-failed", "The replay failed: { $reason }", { reason: errorMessage(e) })); }
+}
+function runEditor(run) {
+  const tags = h("input", { class: "input mono", id: "run-tags", type: "text", value: (run.tags || []).join(", "), spellcheck: "false" });
+  const note = h("textarea", { class: "input notes", id: "run-note", rows: "3" });
+  note.value = run.note || "";
+  return h("section", { class: "card", style: "margin-top:12px;max-width:640px", "aria-label": t("js-desk-run-edit-title", "Run #{ $n }", { n: run.id }) },
+    h("h3", { text: t("js-desk-run-edit-title", "Run #{ $n }", { n: run.id }) + ` · ${run.title}` }),
+    h("div", { class: "field" }, h("label", { for: "run-tags", text: t("js-desk-run-tags", "Tags (separated by commas or spaces)") }), tags),
+    h("div", { class: "field" }, h("label", { for: "run-note", text: t("js-desk-run-note", "Note") }), note),
+    h("div", { class: "row" },
+      h("button", { class: "btn primary", type: "button", onclick: () => { run.tags = parseTags(tags.value); run.note = note.value.slice(0, 4000); S.editRun = null; saveSoon(); render(); } }, t("js-desk-run-save", "Keep")),
+      h("button", { class: "btn", type: "button", onclick: () => { S.editRun = null; render(); } }, t("js-desk-cancel", "Cancel"))),
+    h("p", { class: "hint", text: t("js-desk-run-uid", "Kept on disk as runs/{ $uid } of the project: the scenario, the engine's result as written, and their SHA-256.", { uid: run.uid || "?" }) }));
 }
 function reopenRun(run) {
   let tab = S.tabs.find((x) => x.id === run.tabId) || S.tabs.find((x) => x.file === run.file && x.custom === run.custom);
@@ -654,13 +983,19 @@ function runsView() {
   const sel = RUNS.selected();
   const page = h("section", { class: "page", "aria-labelledby": "runs-h" },
     h("h1", { id: "runs-h", text: t("js-desk-runs-title", "Runs") }),
-    h("p", { class: "lede", text: t("js-desk-runs-lede", "Every run of this session, newest first. Select two to compare them figure by figure.") }));
+    h("p", { class: "lede", text: t("js-desk-runs-lede-kept", "Every run of the project, pinned first, then newest. Runs are kept on disk with the project and come back when the app opens again. Select two to compare them figure by figure.") }));
   if (!RUNS.size) { page.append(h("p", { class: "empty", text: t("js-desk-runs-empty", "No runs yet this session. Open a scenario from the library or press { $key }.", { key: KEY }) })); return page; }
+  const q = h("input", { class: "input", id: "runs-q", type: "search", value: S.runQuery, autocomplete: "off", placeholder: t("js-desk-runs-ph", "Search: words, tag:name, is:pinned, is:edited") });
+  q.addEventListener("change", () => { S.runQuery = q.value; render(); $("runs-q")?.focus(); });
+  page.append(h("div", { class: "field", style: "max-width:420px;margin-bottom:8px" }, h("label", { for: "runs-q", text: t("js-desk-runs-search", "Search the runs") }), q));
   page.append(h("div", { class: "row", style: "margin-bottom:12px" },
-    h("button", { class: "btn primary", type: "button", id: "btn-compare", disabled: sel.length !== 2 ? true : null, onclick: () => { S.compare = sel.map((r) => r.id); render(); $("cmp-h")?.focus(); } }, t("js-desk-compare", "Compare the 2 selected runs")),
+    h("button", { class: "btn primary", type: "button", id: "btn-compare", disabled: sel.length !== 2 ? true : null, onclick: () => { S.compare = sel.map((r) => r.id); log({ kind: "compare", title: t("js-desk-log-compare", "Compare runs #{ $a } and #{ $b }", { a: sel[0].id, b: sel[1].id }), py: sel.every((r) => r.console) ? [`# compare result_${sel[0].console} and result_${sel[1].console} figure by figure`] : [], cli: [] }); render(); $("cmp-h")?.focus(); } }, t("js-desk-compare", "Compare the 2 selected runs")),
     h("span", { class: "muted", role: "status", text: t("js-desk-selected", { one: "{ $n } run selected", other: "{ $n } runs selected" }, { n: sel.length }) }),
     sel.length ? h("button", { class: "btn", type: "button", onclick: () => { RUNS.clearSelection(); S.compare = null; render(); } }, t("js-desk-clear", "Clear the selection")) : null));
-  page.append(runsTable(RUNS.list()));
+  const shown = searchRuns(RUNS.list(), S.runQuery);
+  page.append(shown.length ? runsTable(shown) : h("p", { class: "empty", text: t("js-desk-runs-none-match", "No run matches.") }));
+  const er = S.editRun !== null ? RUNS.get(S.editRun) : null;
+  if (er) page.append(runEditor(er));
   const pair = S.compare && S.compare.map((id) => RUNS.get(id));
   if (pair && pair.every(Boolean)) page.append(compareView(pair[0], pair[1]));
   return page;
@@ -772,8 +1107,21 @@ function filesView() {
     S.files.unshift({ name: f.name, size: f.size, text });
     openText(f.name, text);
   });
+  const any = h("input", { type: "file", id: "data-in", multiple: true, class: "vh" });
+  any.addEventListener("change", () => { if (any.files && any.files.length) inspectFiles([...any.files]); });
+  const D = S.detective;
   return h("section", { class: "page", "aria-labelledby": "files-h" },
-    h("h1", { id: "files-h", text: t("js-desk-files-title", "Files") }),
+    h("h1", { id: "files-h", text: t("js-desk-files-title-project", "Files and project") }),
+    h("h2", { text: t("js-desk-drop-title", "Drop anything in") }),
+    h("p", { class: "lede", text: t("js-desk-drop-lede", "Drop receiver logs (RINEX, UBX, NMEA, SBF, NovAtel, RTCM 3 and the other formats the engine reads), SP3 and navigation files, clock logs, IQ recordings, track files or a whole folder on this window. The engine's own readers say what each one is, its span, constellations and gaps, before anything is loaded.") }),
+    h("div", { class: "row" }, any, h("label", { for: "data-in", class: "btn", tabindex: "0", role: "button", onkeydown: (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); any.click(); } } }, t("js-desk-drop-choose", "Choose files to inspect…"))),
+    D.msg ? h("p", { class: "notice", role: "status", text: D.msg }) : null,
+    D.busy ? h("p", { class: "busy", role: "status" }, h("span", { class: "spin", "aria-hidden": "true" }), t("js-desk-drop-busy", "Reading…")) : null,
+    D.answers.length ? h("div", { class: "det-list" }, ...D.answers.map(detItem)) : null,
+    S.project.links.length ? [h("h2", { text: t("js-desk-links-title", "Data links of the project") }), h("ul", {}, ...S.project.links.map((l, i) => h("li", {}, h("span", { class: "mono", text: l.path }), h("span", { class: "muted", text: ` · ${familyLabel(l.family) || l.format || ""}` }), " ",
+      h("button", { class: "linkish", type: "button", onclick: () => { S.project.links.splice(i, 1); saveSoon(); render(); } }, t("js-desk-links-remove", "remove")))))] : null,
+    projectBox(),
+    h("h2", { text: t("js-desk-files-scenario", "Scenario files") }),
     h("p", { class: "lede", text: t("js-desk-files-lede", "Open a scenario file from this machine. It opens in its own tab and runs with the engine here; the file is read, never changed.") }),
     h("div", { class: "row" }, input, h("label", { for: "file-in", class: "btn primary", tabindex: "0", role: "button", onkeydown: (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); input.click(); } } }, t("js-desk-files-open", "Open a scenario file (.toml)…"))),
     S.files.length ? [h("h2", { text: t("js-desk-files-recent", "Opened this session") }), h("ul", {}, ...S.files.map((f) => h("li", {}, h("button", { class: "linkish", type: "button", onclick: () => openText(f.name, f.text) }, f.name), h("span", { class: "muted", text: ` · ${Math.ceil(f.size / 1024)} KB` }))))] : null,
@@ -781,6 +1129,61 @@ function filesView() {
     h("p", { class: "muted", style: "margin:0 0 8px", text: t("js-desk-files-studio-note", "These pages open in this window, in place of the tabs here.") }),
     h("ul", {}, ...[["../tools/index.html", t("js-desk-files-tools", "Tools: evidence packs, telemetry, receiver checks")], ["../geometry/index.html", t("js-desk-files-geometry", "Sky geometry: skyplot, skyline and DOP")], ["../iq/index.html", t("js-desk-files-iq", "IQ recordings")], ["../index.html", t("js-desk-files-classic", "The Studio's question view")]].map(([href, label]) => h("li", {}, h("a", { href, text: label })))),
   );
+}
+
+// One answer of the format detective (U9).
+function detItem(a) {
+  const rows = detectiveRows(a, t);
+  const sc = a.ok && a.opens_as && a.path;
+  return h("article", { class: `det-item${a.ok ? "" : " bad"}` },
+    h("h3", {}, h("span", { text: a.name || "?" }), a.folder ? h("small", { text: a.folder }) : null, a.ok ? h("small", { text: familyLabel(a.family) }) : null),
+    h("dl", { class: "kv" }, ...rows.flatMap((r) => [h("dt", { text: r.k }), h("dd", { class: r.warn ? "warn" : null, text: r.v })])),
+    a.ok ? h("div", { class: "row", style: "margin-top:8px" },
+      sc ? h("button", { class: "btn primary", type: "button", onclick: () => openDropped(a) }, a.opens_as.kind === "clock-log" ? t("js-desk-det-open-clock", "Open beside the clock simulation") : t("js-desk-det-open-trust", "Open as a receiver-trust run")) : null,
+      h("button", { class: "btn", type: "button", onclick: () => addLink(a) }, t("js-desk-det-link", "Keep as a data link")),
+      !a.path ? h("span", { class: "hint", text: t("js-desk-det-no-path", "Dropped without its path: drop it on the app's window to open it as a run.") }) : null) : null);
+}
+// The project box (U8): which folder the session is kept in; open or start another.
+function projectBox() {
+  const P = S.project;
+  const nameIn = h("input", { class: "input", id: "proj-name", type: "text", placeholder: t("js-desk-proj-name-ph", "Baltic approach study") });
+  const pathIn = h("input", { class: "input mono", id: "proj-path", type: "text", spellcheck: "false", placeholder: P.home ? joinPath(P.home, "Study.kshana") : "/home/me/Kshana/Study.kshana" });
+  const notes = h("textarea", { class: "input notes", id: "proj-notes", rows: "5" });
+  notes.value = P.notes;
+  notes.addEventListener("change", () => { P.notes = notes.value; saveSoon(); });
+  return h("section", { class: "card", "aria-labelledby": "proj-h", style: "max-width:800px;margin-bottom:18px" },
+    h("h2", { id: "proj-h", style: "margin-top:0", text: t("js-desk-proj-title", "Project: { $name }", { name: P.name }) }),
+    h("p", { class: "muted", style: "margin:0 0 10px", text: P.dir ? t("js-desk-proj-where", "Folder { $dir }. Runs, open tabs, the clock and markers of each, notes, data links and the console are kept there as plain files and come back when the app opens again.", { dir: P.dir }) : t("js-desk-proj-where-local", "This window keeps the session in its own storage.") }),
+    P.status && !(P.dir && P.status.endsWith(P.dir)) ? h("p", { class: "hint", role: "status", text: P.status }) : null,
+    invoke ? h("div", { class: "project-box" },
+      h("div", { class: "field", style: "margin:0" }, h("label", { for: "proj-name", text: t("js-desk-proj-new", "Keep this session as a new project named") }), nameIn),
+      h("button", { class: "btn", type: "button", onclick: () => { const n = nameIn.value.trim(); if (!n || !P.home) { toast(t("js-desk-proj-need-name", "Write a name first.")); return; } P.name = n; P.created = new Date().toISOString(); P.dir = joinPath(P.home, projectFolderName(n)); P.saved = []; try { localStorage.setItem(DIR_KEY, P.dir); } catch { /* not remembered */ } saveProject().then(render); log({ kind: "project", title: t("js-desk-log-project-new", "New project { $name }", { name: n }), py: [`# project folder: ${P.dir}`], cli: [] }); } }, t("js-desk-proj-save-as", "Keep as project")),
+      h("div", { class: "field", style: "margin:0" }, h("label", { for: "proj-path", text: t("js-desk-proj-open-label", "Open the project folder (a folder ending in .kshana)") }), pathIn),
+      h("button", { class: "btn", type: "button", onclick: () => { const d = pathIn.value.trim(); if (!/\.kshana[\\/]?$/.test(d)) { toast(t("js-desk-proj-need-kshana", "A project folder's name ends in .kshana.")); return; } openProject(d.replace(/[\\/]+$/, "")); } }, t("js-desk-proj-open", "Open"))) : null,
+    h("div", { class: "field", style: "margin-top:12px" }, h("label", { for: "proj-notes", text: t("js-desk-proj-notes", "Notes (kept as notebooks/notes.md)") }), notes));
+}
+
+// ---------- the console (U10): every action's Python and command line
+let consoleLang = "py";
+function consoleView() {
+  const list = MIRROR.list();
+  const page = h("section", { class: "page", "aria-labelledby": "con-h" },
+    h("h1", { id: "con-h", text: t("js-desk-con-title", "Console") }),
+    h("p", { class: "lede", text: t("js-desk-con-lede", "What each action in this window does, as Python (the kshana package) and as the command line. Pasted into Python, the session's script runs every scenario again and prints whether each result has the same SHA-256 as here.") }),
+    h("div", { class: "row", style: "margin-bottom:12px" },
+      h("div", { class: "seg", role: "group", "aria-label": t("js-desk-con-lang", "Language") },
+        h("button", { type: "button", "aria-pressed": consoleLang === "py" ? "true" : "false", onclick: () => { consoleLang = "py"; render(); } }, "Python"),
+        h("button", { type: "button", "aria-pressed": consoleLang === "cli" ? "true" : "false", onclick: () => { consoleLang = "cli"; render(); } }, t("js-desk-con-cli", "Command line"))),
+      h("button", { class: "btn primary", type: "button", disabled: list.length ? null : true, onclick: () => copyText(consoleLang === "py" ? sessionPython(list) : sessionShell(list)) }, ic("copy"), consoleLang === "py" ? t("js-desk-con-copy-py", "Copy the session as Python") : t("js-desk-con-copy-sh", "Copy the session as a shell script")),
+      h("button", { class: "btn", type: "button", disabled: list.length ? null : true, onclick: () => save(new Blob([consoleLang === "py" ? sessionPython(list) : sessionShell(list)], { type: "text/plain" }), consoleLang === "py" ? "kshana-session.py" : "kshana-session.sh") }, ic("down"), t("js-desk-con-save", "Save as a file")),
+      h("button", { class: "btn", type: "button", disabled: list.length ? null : true, onclick: () => { MIRROR.clear(); saveSoon(); render(); } }, t("js-desk-con-clear", "Clear"))));
+  if (!list.length) { page.append(h("p", { class: "empty", text: t("js-desk-con-empty", "Nothing yet: open a scenario, change a setting, run, export or drop a file in.") })); return page; }
+  page.append(h("div", { class: "console-list" }, ...list.slice().reverse().slice(0, 300).map((e) => {
+    const lines = consoleLang === "py" ? e.py : e.cli;
+    return h("article", { class: "console-entry" }, h("header", {}, h("span", { text: e.title || e.kind }), h("span", { class: "mono", text: String(e.at).slice(11, 19) })),
+      lines.length ? h("pre", { text: lines.join("\n") }) : h("pre", { class: "muted", text: consoleLang === "py" ? "# (no Python line)" : "# (no command line)" }));
+  })));
+  return page;
 }
 
 // ---------- upgrade (U5): what Pro adds; no prices, no checkout, no request
@@ -842,7 +1245,11 @@ function paletteActions() {
     { id: "connect", icon: "receiver", label: t("js-desk-act-connect", "Connect a receiver (serial, TCP, file)"), keywords: "device receiver nmea serial connect", go: async () => { if (S.devices.api) S.devices.list = await S.devices.api.list().catch(() => []); go("devices"); } },
     { id: "file", label: t("js-desk-act-file", "Open a scenario file…"), keywords: "open file toml", go: () => { go("files"); $("file-in")?.click(); } },
     { id: "library", label: t("js-desk-act-library", "Browse the scenario library"), keywords: "library scenarios browse", go: () => go("library") },
-    { id: "runs", label: t("js-desk-act-runs", "Show the runs of this session"), keywords: "runs history", go: () => go("runs") },
+    { id: "runs", label: t("js-desk-act-runs", "Show the runs of this session"), keywords: "runs history search tags pins", go: () => go("runs") },
+    { id: "console", label: t("js-desk-act-console", "Show the console (Python and command lines)"), keywords: "console python script code mirror cli", go: () => go("console") },
+    { id: "copy-py", label: t("js-desk-act-copy-py", "Copy the session as Python"), keywords: "python script copy session reproduce", disabled: !MIRROR.size, go: () => copyText(sessionPython(MIRROR.list())) },
+    { id: "project", label: t("js-desk-act-project", "Project, data links and dropped files"), keywords: "project folder kshana save open drop inspect detective files", go: () => go("files") },
+    { id: "save", label: t("js-desk-act-save", "Keep the project now"), keywords: "save keep project disk", go: () => saveProject().then(() => toast(S.project.status)) },
     { id: "theme", label: t("js-desk-act-theme", "Switch between light and dark"), keywords: "theme dark light", go: toggleTheme },
     { id: "density", label: density() === "compact" ? t("js-desk-act-density-comfortable", "View: comfortable density") : t("js-desk-act-density-compact", "View: compact density"), keywords: "view density compact comfortable rows", go: switchDensity },
     ...PRO().map((p) => ({ id: `pro-${p.id}`, label: p.label, keywords: "pro", pro: true, go: () => go("upgrade") })),
@@ -973,6 +1380,7 @@ async function main() {
   restoreDensity();
   render();
   await readGroups();
+  await restoreSession();
   render();
   if (S.devices.api) {
     S.devices.list = await S.devices.api.list().catch(() => []);
@@ -982,6 +1390,8 @@ async function main() {
   await bootEngine();
   render();
   for (const tab of S.tabs) if (tab.pending && !tab.run) { tab.pending = false; runTab(tab); }
+  // a tab restored without a run (its run was not kept) runs again
+  for (const tab of S.tabs) if (!tab.run && !tab.running && tab.toml && !tab.pending) runTab(tab);
   // A link may name a scenario to open (?scenario=<file>), the way the Studio's links do.
   const want = new URLSearchParams(location.search).get("scenario");
   const file = want ? (/\.toml$/.test(want) ? want : `${want}.toml`) : null;

@@ -9,6 +9,7 @@ import { mapStyle, STYLE_VARS, styleForTheme } from "./map/style.mjs";
 import { createMapView } from "./map/view.mjs";
 import { mountPlot } from "./plot.mjs";
 import { createTimeline } from "./timeline.mjs";
+import { markersOf, markerRows, markerPlaces, markerRefs } from "./markers.mjs";
 
 // ---------- the map style: follows the shell's theme unless the user picks one
 const live = new Set();
@@ -27,23 +28,11 @@ function watchTheme() {
   new MutationObserver(() => { pick = null; restyleAll(); }).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
   if (globalThis.matchMedia) matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => restyleAll());
 }
-const cssVar = (name) => getComputedStyle(document.documentElement).getPropertyValue(name);
 function currentStyle() {
   const cs = getComputedStyle(document.documentElement);
   const vals = new Map(STYLE_VARS.map((k) => [k, cs.getPropertyValue(k)]));
   return mapStyle(styleName(), (k) => vals.get(k) || cs.getPropertyValue(k));
 }
-/**
- * A series colour written as var(--name) resolved for the canvas. The series colours are the
- * bright ones made for dark grounds (--s-tim, --s-nav, ...); the Chart style takes the domain
- * colour of the same name (--tim, --nav, ...), which the tokens keep readable on light ground.
- */
-const resolve = (c) => {
-  const m = /^var\((--[\w-]+)\)$/.exec(String(c || ""));
-  if (!m) return c;
-  const name = styleName() === "chart" && /^--s-/.test(m[1]) ? `--${m[1].slice(4)}` : m[1];
-  return cssVar(name).trim() || cssVar(m[1]).trim();
-};
 
 /**
  * The linked views of one run. `seriesModel` is the Studio's line-chart model of the result
@@ -52,7 +41,7 @@ const resolve = (c) => {
  * again). `loadLand(scale)` gives the packed Natural Earth layer. Returns null when nothing in
  * the run runs over time.
  */
-export function createRunView({ t, icon, run, seriesModel = null, scene = null, at, loadLand, readoutLabel = (k) => k, fmt = (v) => String(v) }) {
+export function createRunView({ t, icon, run, seriesModel = null, scene = null, at, loadLand, readoutLabel = (k) => k, fmt = (v) => String(v), onMarkers = null }) {
   let model = timeModel(run.result, seriesModel, scene && typeof scene.then !== "function" ? scene : null);
   if (!model) return null;
   watchTheme();
@@ -70,8 +59,10 @@ export function createRunView({ t, icon, run, seriesModel = null, scene = null, 
     readout: (x) => readoutAt(model, x).map((r) => ({ ...r, k: readoutLabel(r.k) })), valueText: fmt });
   let timeline = createTimeline({ t, clock, style: currentStyle, epochMs: model.epochMs, icon });
   views.append(plotEl, map.el);
-  // The plot sits behind one function (lib/plot.mjs mountPlot), so another chart module can take its place.
-  const plot = mountPlot(plotEl, model, clock, { t, colors: resolve, style: currentStyle });
+  // The plot sits behind one function (lib/plot.mjs mountPlot): the interactive chart (U30),
+  // whose markers A and B (U12) are read out below and placed on the map at their instants.
+  let marks = [];
+  const plot = mountPlot(plotEl, model, clock, { t, onMarkers: (items) => setMarks(markersOf(items)) });
   root.append(timeline.el, views);
 
   map.onMark = (x) => { clock.pause(); clock.seek(x, "map"); clock.addMark(x, t("js-desk-map-mark", "map")); };
@@ -88,7 +79,25 @@ export function createRunView({ t, icon, run, seriesModel = null, scene = null, 
   rHead.append(rTitle, rTime);
   const dl = document.createElement("dl");
   dl.className = "kv";
-  readout.append(rHead, dl);
+  const mkHead = document.createElement("div");
+  mkHead.className = "lv-readout-head";
+  mkHead.textContent = t("js-desk-markers", "Markers");
+  const mkDl = document.createElement("dl");
+  mkDl.className = "kv lv-markers";
+  const mkHint = document.createElement("p");
+  mkHint.className = "hint";
+  mkHint.textContent = t("js-desk-markers-hint", "On the plot: Alt-click or M places marker A, then B; Escape clears them. They show on the map at the same instants.");
+  readout.append(rHead, dl, mkHead, mkDl, mkHint);
+  function setMarks(m) {
+    marks = m;
+    drawMarks();
+    if (onMarkers) onMarkers(marks);
+  }
+  function drawMarks() {
+    map.setMarkers(markerPlaces(model, marks));
+    mkDl.replaceChildren(...markerRows(marks, { epochMs: model.epochMs, t }).flatMap((r) => { const dt = document.createElement("dt"); dt.textContent = r.k; const dd = document.createElement("dd"); dd.className = "mono"; dd.textContent = r.v; return [dt, dd]; }));
+    mkHint.hidden = marks.length > 0;
+  }
   let rowsKey = "";
   function drawReadout(s) {
     rTime.textContent = clockText(s.t, { epochMs: model.epochMs, ms: model.step > 0 && model.step < 1 });
@@ -115,6 +124,7 @@ export function createRunView({ t, icon, run, seriesModel = null, scene = null, 
     root.classList.toggle("lv-no-plot", !m.series.length);
     plot.setModel(m);
     map.setModel(m);
+    drawMarks();
     const s = clock.snapshot();
     for (const v of views3) v.setClock(s);
     drawReadout(s);
@@ -131,6 +141,12 @@ export function createRunView({ t, icon, run, seriesModel = null, scene = null, 
       return root;
     },
     readout: () => readout,
+    /** The plot's markers A and B: [{ name, t, v, unit, series }]. */
+    get markers() { return marks.slice(); },
+    /** Place saved markers ([{ t, series }]) on the plot again. */
+    restoreMarkers(saved) { if (saved && saved.length) plot.chart.setMarkers(markerRefs(plot.chart.spec.series, saved)); },
+    /** The interactive chart of the plot (for the figure tools). */
+    get chart() { return plot.chart; },
     /** Handle a key for the clock; true when it was used. */
     key(e) {
       const tg = e.target || {};
