@@ -12,9 +12,9 @@
 // four columns per output point (M4): the drawn extremes are the data's own.
 //
 // The presets set the figure width, the type face and sizes, the line weights and a
-// grey-scale-safe set of line styles. Their sizes follow the column widths the societies'
-// author guides give (IEEE 3.5 in single and 7.16 in double column; ION and AIAA 3.25 in and
-// 6.75 in); a figure meant for submission should be checked against the current guide.
+// grey-scale-safe set of line styles: IEEE's column widths (3.5 in single, 7.16 in double);
+// for ION and AIAA 3.25 in and 6.75 in, a common two-column layout rather than a figure taken
+// from their guides. A figure meant for submission should be checked against the current guide.
 import { scale, niceTicks, logTicks, fmtTick, fmtClock } from "./scale.mjs";
 import { m4, visibleRange } from "./decimate.mjs";
 import { visibleRows } from "./data.mjs";

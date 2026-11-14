@@ -71,7 +71,7 @@ export function figureTools({ t, chart = null, title = "figure", script, save, c
       });
       row.append(fb);
     }
-    box.append(row, el("p", "hint", t("js-desk-fig-journal-note", "The visible window of the chart, with its data embedded in the file. Sizes follow the society's column widths; check the current author guide before submitting.")));
+    box.append(row, el("p", "hint", t("js-desk-fig-journal-note", "The visible window of the chart, with its data embedded in the file. Check the figure against the journal's current author guide before submitting.")));
     det.append(box);
     bar.append(det);
   }
