@@ -1141,6 +1141,48 @@ pub fn read_sim_motion(text: &str, layout: SimMotionLayout) -> Result<Vec<Motion
         .collect())
 }
 
+/// Write a motion file in a gps-sdr-sim layout, ready for its `-u` (`Ecef`) or `-x` (`Llh`)
+/// option: the trajectory resampled to gps-sdr-sim's fixed 10 Hz by linear interpolation of the
+/// Earth-fixed position (the geodetic columns are recomputed from it), at most its 3000 samples
+/// (300 s), no header line, time in seconds from the trajectory's first sample. Read back with
+/// [`read_sim_motion`]. Returns the text and whether the trajectory was cut at 300 s.
+pub fn write_sim_motion(t: &Trajectory, layout: SimMotionLayout) -> (String, bool) {
+    let s = &t.samples;
+    let mut o = String::new();
+    let Some((first, last)) = s.first().zip(s.last()) else {
+        return (o, false);
+    };
+    let span = last.t_s - first.t_s;
+    let rows = ((span * 10.0 + 1e-6).floor() as usize + 1).min(3000);
+    let mut j = 0;
+    for k in 0..rows {
+        let tk = first.t_s + k as f64 * 0.1;
+        while j + 2 < s.len() && s[j + 1].t_s <= tk {
+            j += 1;
+        }
+        let (a, b) = (&s[j], &s[(j + 1).min(s.len() - 1)]);
+        let w = if b.t_s > a.t_s {
+            ((tk - a.t_s) / (b.t_s - a.t_s)).clamp(0.0, 1.0)
+        } else {
+            0.0
+        };
+        let r: Vec3 = [0, 1, 2].map(|i| a.ecef_m[i] + w * (b.ecef_m[i] - a.ecef_m[i]));
+        let line = match layout {
+            SimMotionLayout::Ecef => {
+                format!("{:.1},{:.4},{:.4},{:.4}", k as f64 * 0.1, r[0], r[1], r[2])
+            }
+            SimMotionLayout::Llh => {
+                let g = ecef_to_geodetic(r);
+                let (la, lo) = (g.lat_rad.to_degrees(), g.lon_rad.to_degrees());
+                format!("{:.1},{la:.9},{lo:.9},{:.4}", k as f64 * 0.1, g.alt_m)
+            }
+        };
+        o.push_str(&line);
+        o.push('\n');
+    }
+    (o, span > 299.9 + 1e-9)
+}
+
 /// Geodetic position of a sample recomputed from its Earth-fixed position, for checks.
 pub fn geodetic_of_ecef(m: &MotionSample) -> Geodetic {
     ecef_to_geodetic(m.ecef_m)

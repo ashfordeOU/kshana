@@ -280,6 +280,9 @@ bundled-scenarios = []
 # OpenTelemetry OTLP/HTTP export of the GNSS-trust metrics (`kshana trust-telemetry --otlp`).
 # Off by default. Adds no crate: the exporter is plain `std::net` HTTP with a JSON body.
 otlp = []
+# IQ capture through SoapySDR (`kshana connect sdr-capture`), Unix only. Off by default. Adds no
+# crate and no link dependency: the user's own libSoapySDR (0.8 ABI) is opened at run time.
+soapy = []
 
 [dev-dependencies]
 # Independent SGP4 implementation for the head-to-head accuracy cross-check
