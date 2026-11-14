@@ -54,6 +54,9 @@ package (`receiver_trust(toml)`, with the log inline) and from the Model Context
 | `rtklib-pos` | RTKLIB solution file (`.pos`) | time, position (latitude/longitude or ECEF, converted) and satellites used per epoch; degrees-minutes-seconds files are refused with a message |
 | `novatel` | NovAtel OEM7 ASCII or binary logs | `BESTPOS` position (solution computed only), `RANGE` C/No per satellite and signal; `RXSTATUS` jammer flags become the epoch's `self_report` (jamming state 2 when the receiver flags a jammer, 1 when not; no spoofing flag exists in RXSTATUS), set against Kshana's alarms by the `receiver-self-report` comparison |
 | `gnss-sdr` | GNSS-SDR Monitor and PVT-monitor streams as JSON lines | per-channel C/N0, fix, satellites used, HDOP, azimuth and elevation; made by `integrations/gnss-sdr/relay.py` |
+| `sbp` | Swift Navigation SBP binary (0.42, read only) | `MSG_POS_LLH` position, `MSG_DOPS`, `MSG_OBS` and `MSG_MEASUREMENT_STATE` C/N0 per signal, `MSG_GPS_TIME` week; see [RECEIVER-PROTOCOLS.md](RECEIVER-PROTOCOLS.md) |
+| `greis` | Javad GREIS binary messages (0.42, read only) | `[PG]` position, `[DP]` DOP, `[SX]`/`[SI]` satellite index with `[NN]` GLONASS slots, `[E*]`/`[*E]` C/N0 per signal slot, `[~~]`/`[RD]` time |
+| `unicore` | Unicore N4 binary logs (0.42, read only) | `BESTNAV` position, `OBSVM` C/N0 per satellite and signal |
 
 Details, sources and limits of these three: [`MACHINE-INPUTS.md`](MACHINE-INPUTS.md).
 

@@ -857,6 +857,9 @@ fn format_name(f: LogFormat) -> &'static str {
         LogFormat::Novatel => "novatel",
         LogFormat::Rtcm3 => "rtcm3",
         LogFormat::GnssSdr => "gnss-sdr",
+        LogFormat::Sbp => "sbp",
+        LogFormat::Greis => "greis",
+        LogFormat::Unicore => "unicore",
     }
 }
 

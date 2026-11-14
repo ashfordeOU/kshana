@@ -1,0 +1,7 @@
+associd=0 status=0615 leap_none, sync_ntp, 1 event, clock_sync,
+version="ntpd 4.2.8p15@1.3728-o Wed Sep 23 11:46:38 UTC 2020 (1)",
+processor="x86_64", system="Linux/6.1.0", leap=00, stratum=2,
+precision=-23, rootdelay=0.512, rootdisp=12.345, refid=192.0.2.1,
+reftime=e8f1a2b3.12345678  Sat, Nov 14 2026 12:00:03.071, tc=6, mintc=3,
+offset=-0.034123, frequency=-12.345, sys_jitter=0.021, clk_jitter=0.010,
+clk_wander=0.002

@@ -306,6 +306,8 @@ pub mod connect_live;
 pub mod connect_load;
 pub mod connect_mqtt;
 pub mod connect_nats;
+/// `kshana connect timing|snmp|ntp|decode` (0.42 I2/I3): timing-system and receiver-stream entries.
+pub mod connect_timing;
 pub mod connect_watch;
 pub mod connect_ws;
 /// Synthetic labelled data packs (0.41 row B7): `kshana data-pack`.
@@ -339,6 +341,8 @@ pub mod precession;
 pub mod precise_od;
 pub mod precise_products;
 pub mod propagator;
+/// IEEE 1588 PTP management: linuxptp `pmc` text and the binary management TLVs (0.42 I2).
+pub mod ptp_mgmt;
 pub mod pvt;
 #[cfg(feature = "python")]
 pub mod python;
@@ -373,6 +377,8 @@ pub mod sgp4;
 pub mod sigmf;
 pub mod skyline;
 pub mod slot_timing;
+/// A read-only SNMPv2c client and OID maps for grandmasters and time servers (0.42 I2).
+pub mod snmp;
 pub mod solar_system;
 pub mod solid_tide;
 pub mod sp3;
@@ -398,6 +404,8 @@ pub mod suite;
 pub mod surface;
 pub mod sweep;
 pub mod telecom_timing;
+/// chrony and ntpd health: `chronyc`, `ntpq` text and NTP mode 6 read variables (0.42 I2).
+pub mod time_server;
 // Comparison helpers shared by the byte-identity guards. Test-only: it exists so those
 // guards can assert the exact pin where it is true and a portable one everywhere else.
 pub mod evidence;

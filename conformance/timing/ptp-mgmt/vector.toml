@@ -1,0 +1,4 @@
+name = "timing: ptp-mgmt"
+parser = "ptp-mgmt"
+input = "input.bin"
+expected = "expected.json"

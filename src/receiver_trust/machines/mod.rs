@@ -15,6 +15,11 @@ pub mod imu_fit;
 pub mod novatel;
 pub mod rtcm3;
 pub mod rtklib;
+// 0.42 I3 receivers (ws/042-i3-i2)
+pub mod greis;
+pub mod rtcm3_obs;
+pub mod sbp;
+pub mod unicore;
 
 use super::ingest::timeline_from;
 use super::{LogEpoch, Timeline};

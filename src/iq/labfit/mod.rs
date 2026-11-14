@@ -92,6 +92,9 @@ fn format_name(f: LogFormat) -> &'static str {
         LogFormat::Rtcm3 => "rtcm3 log",
         LogFormat::GnssSdr => "gnss-sdr monitor log",
         LogFormat::Sbf => "sbf log",
+        LogFormat::Sbp => "sbp log",
+        LogFormat::Greis => "greis log",
+        LogFormat::Unicore => "unicore log",
     }
 }
 

@@ -61,3 +61,38 @@ output NMEA with the maker's own tool, then read it. The feed is NMEA, as for ev
 and SBF are read from files). A device that goes away ends the command as a fault (exit 1), for a
 supervisor to restart; the layer does not reconnect. Tested on a pseudo-terminal loopback
 (`tests/receiver_trust_live_serial.rs`), including that the master side receives no byte from the command.
+
+## Readers added in 0.42 (I3): SBP, GREIS, Unicore, and RTCM 3 observations
+
+Read only, as above: none of these readers writes to a receiver. Each is a built-in reader of
+`kshana obs convert --format <f>` and of `receiver-trust` (`[log] format = "<f>"`), with a test
+vector in `conformance/connect/reader-<f>/` (input, expected `kshana.obs/1`, and `SOURCE.md` naming
+where the layout came from) and a round-trip test in `tests/connect_042_i2_i3.rs` (the crate's encoder
+writes frames, the reader reads them back). Every vector input is written by
+`conformance/tools/gen_042_vectors.py`, an encoder written separately from the Rust one, from the same
+public documents; no recorded receiver log is included. The values in them are invented.
+
+| `format` | Source of the layout | Read | Not read |
+|---|---|---|---|
+| `sbp` | Swift Navigation `libsbp` specification (MIT; `spec/yaml/swiftnav/sbp/*.yaml`, `c/src/edc.c`) | frame `0x55`, CRC-16-CCITT; `MSG_GPS_TIME`(`_GNSS`) week; `MSG_POS_LLH`(`_GNSS`) latitude, longitude, ellipsoidal height, satellites used (fix mode 0 gives no fix); `MSG_DOPS` PDOP, HDOP, VDOP; `MSG_OBS` and `MSG_MEASUREMENT_STATE` C/N0 (0.25 dB-Hz) per signal, with the `GnssSignal` code table | pseudorange, phase and Doppler of `MSG_OBS`; GLONASS signals named only by frequency channel; auxiliary-antenna codes |
+| `greis` | Javad *GREIS* 4.3.00 (javad.com) | `IIHHH` framing and the 8-bit checksum (appendix A.1.1); `[~~]`, `[::]`, `[RD]` (the label says `GPST` for GPS time, `Z` for UTC, `GLONASST` for GLONASS time); `[SX]`, `[SI]`, `[NN]`; `[EC] [E1] [E2] [E3] [E5] [El]` and the ×4 forms; `[PG]` (solution type 0 gives no fix); `[DP]` (PDOP formed as √(HDOP² + VDOP²)) | the measurements (`[R*]`, `[P*]`, `[D*]`), navigation data, text messages; a GLONASS satellite with no `[NN]` slot |
+| `unicore` | Unicore *Reference Commands Manual for N4 High Precision Products* V2 R1.13 (en.unicore.com) | header `AA 44 B5` (24 bytes), the 32-bit CRC NovAtel also uses; `BESTNAV` (2118: status 0 only, height = MSL + undulation, satellites used); `OBSVM` (12: C/N0 × 100 per signal, system and signal type from the tracking status word) | ASCII logs, other messages; Unicore receivers that use NovAtel headers (`AA 44 12`) are read with `novatel` |
+
+**RTCM 3 observations and stations (library and `kshana connect decode rtcm3`).** The `rtcm3` reader
+of 0.38 reads the C/N0 of MSM4 and MSM7. `receiver_trust::machines::rtcm3_obs` decodes the rest of
+those messages and the station messages, and `kshana connect decode rtcm3 <file|->` prints them as
+JSON: per cell the full pseudorange and phase range (metres), the phase-range rate (MSM7, m/s), the
+lock-time indicator, the half-cycle flag, the CNR and the RINEX code of the signal; per MSM7
+satellite the extended information (GLONASS frequency channel + 7); and 1005/1006 (station id, ITRF
+year field, service indicators, ECEF of the antenna reference point at 0.1 mm, antenna height).
+Invalid-value markers become `null`. The phase is left in metres: turning it into cycles needs the
+carrier frequency, which is not assumed here. Field widths and tables follow the open decoders
+RTKLIB (`rtcm3.c`, BSD 2-Clause) and pyrtcm (BSD 3-Clause); the RTCM standard itself was not
+consulted, so check against RTCM 10403.3 before relying on this beyond monitoring. Vector:
+`conformance/timing/rtcm3-decode/` (a 1006 and an MSM7 with invalid markers); round trip:
+`rtcm_station_and_msm_round_trip` (MSM4 and MSM7 encoded and decoded within their resolutions).
+
+**What exists from earlier releases.** u-blox UBX (NAV-PVT, NAV-SAT, MON-RF, NAV-TIMEGPS, NAV-STATUS,
+SEC-SIG), Septentrio SBF (PVTGeodetic, MeasEpoch, RFStatus), NovAtel OEM7 (BESTPOS, RANGE,
+RXSTATUS, ASCII and binary) and RTCM 3 MSM4/MSM7 C/N0 are read as before; 0.42 adds no second
+implementation of any of them.

@@ -1,0 +1,41 @@
+{
+  "kind": "chrony-sources",
+  "sources": [
+    {
+      "error_s": 1.34e-7,
+      "last_rx_s": 11.0,
+      "measured_offset_s": -6.21e-7,
+      "mode": "#",
+      "name": "GPS0",
+      "offset_s": -4.79e-7,
+      "poll": 4,
+      "reach": 255,
+      "state": "*",
+      "stratum": 0
+    },
+    {
+      "error_s": 0.043,
+      "last_rx_s": 23.0,
+      "measured_offset_s": -0.000924,
+      "mode": "^",
+      "name": "ntp1.example.net",
+      "offset_s": -0.000923,
+      "poll": 6,
+      "reach": 255,
+      "state": "?",
+      "stratum": 2
+    },
+    {
+      "error_s": 0.086,
+      "last_rx_s": 21.0,
+      "measured_offset_s": -0.002619,
+      "mode": "^",
+      "name": "ntp2.example.net",
+      "offset_s": -0.002629,
+      "poll": 6,
+      "reach": 255,
+      "state": "+",
+      "stratum": 1
+    }
+  ]
+}

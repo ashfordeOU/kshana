@@ -1,0 +1,4 @@
+name = "timing: snmp-message"
+parser = "snmp-message"
+input = "input.bin"
+expected = "expected.json"

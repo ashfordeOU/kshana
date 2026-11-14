@@ -66,6 +66,9 @@ pub fn read_log(format: LogFormat, bytes: &[u8]) -> Result<Timeline, String> {
             super::machines::rtklib::read_rtklib_pos(&String::from_utf8_lossy(bytes))?,
         ),
         LogFormat::Sbf => ("SBF", read_sbf(bytes)),
+        LogFormat::Sbp => ("SBP", super::machines::sbp::read_sbp(bytes)?),
+        LogFormat::Greis => ("GREIS", super::machines::greis::read_greis(bytes)?),
+        LogFormat::Unicore => ("Unicore", super::machines::unicore::read_unicore(bytes)?),
     };
     if tl.epochs.is_empty() {
         return Err(crate::terr!(

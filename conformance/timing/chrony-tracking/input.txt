@@ -1,0 +1,13 @@
+Reference ID    : CB00710F (ntp1.example.net)
+Stratum         : 3
+Ref time (UTC)  : Fri Jan 27 09:49:17 2017
+System time     : 0.000006523 seconds slow of NTP time
+Last offset     : -0.000006747 seconds
+RMS offset      : 0.000035822 seconds
+Frequency       : 3.225 ppm slow
+Residual freq   : -0.000 ppm
+Skew            : 0.129 ppm
+Root delay      : 0.013639022 seconds
+Root dispersion : 0.001100737 seconds
+Update interval : 64.2 seconds
+Leap status     : Normal

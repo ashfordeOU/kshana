@@ -654,7 +654,7 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/iq/labfit/mod.rs": {
-   "count": 9,
+   "count": 12,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/iq/labfit/model.rs": {
@@ -1624,6 +1624,22 @@
   "src/interconnect/ulog.rs": {
    "count": 26,
    "reason": "identifiers: PX4 ULog topic and field names (vehicle_gps_position, sensor_gps, jamming_state, ...) read from the log"
+  },
+  "src/connect_timing.rs": {
+   "count": 6,
+   "reason": "machine data: JSON keys of the timing and decode documents (pdu_type, error_status, system_status) and command-line flags"
+  },
+  "src/ptp_mgmt.rs": {
+   "count": 12,
+   "reason": "machine data: IEEE 1588 / linuxptp identifiers (data-set names, port states, pmc field names and the pmc response-line layout)"
+  },
+  "src/snmp.rs": {
+   "count": 1,
+   "reason": "machine data: the map schema id kshana.snmp-map/1"
+  },
+  "src/time_server.rs": {
+   "count": 2,
+   "reason": "machine data: the chrony leap-status token and the status_text key"
   }
  }
 }

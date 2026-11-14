@@ -58,6 +58,12 @@ pub enum LogFormat {
     Rtcm3,
     /// GNSS-SDR `Monitor` and PVT-monitor messages as JSON lines (see `machines::gnss_sdr`).
     GnssSdr,
+    /// Swift Navigation SBP binary: position, DOP, observation C/N0, measurement state.
+    Sbp,
+    /// Javad GREIS binary messages: receiver time and date, satellite index, C/N0, position, DOP.
+    Greis,
+    /// Unicore N4 binary logs: BESTNAV (position) and OBSVM (C/N0).
+    Unicore,
 }
 
 /// One satellite's signal strength at one epoch.

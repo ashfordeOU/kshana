@@ -231,3 +231,11 @@ listens for MAVLink on a UDP port, read only. MAVLink `.tlog`, ULog and canboat 
 readers for observation files (`reader = "mavlink-tlog"`, `"ulog"`, `"canboat"`). A conformance vector
 can name a track decoder instead of a mapping or a reader: `decode = "<format>"`, with an `[options]`
 table (`day`, `start`, `radar`, and `to` for the output form). See [TRACKS.md](TRACKS.md).
+
+## Timing systems and receiver streams (0.42)
+
+PTP management (linuxptp `pmc`), SNMP polling of grandmasters, chrony and ntpd status, and NTP mode 6
+are read by `kshana connect timing|snmp|ntp`: see [TIMING-SYSTEMS.md](TIMING-SYSTEMS.md). Swift SBP,
+Javad GREIS and Unicore N4 logs are built-in readers (`reader = "sbp"`, `"greis"`, `"unicore"`), and
+`kshana connect decode rtcm3` prints RTCM 3 observations and station messages: see
+[RECEIVER-PROTOCOLS.md](RECEIVER-PROTOCOLS.md).

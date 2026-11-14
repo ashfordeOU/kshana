@@ -11386,7 +11386,7 @@ engine-scenario-cli-migrated = { $path }: now states schema_version = { $to }
 engine-scenario-cli-unchanged = { $path }: already states schema_version = { $to }; unchanged
 
 
-engine-e-obs-unknown-format = unknown observation source format `{ $format }` (ubx, rinex, android, sbf, nmea, rtklib-pos, novatel, rtcm3, gnss-sdr, iec61162-450; convert also reads rtcm-ssr)
+engine-e-obs-unknown-format = unknown observation source format `{ $format }` (ubx, rinex, android, sbf, nmea, rtklib-pos, novatel, rtcm3, gnss-sdr, sbp, greis, unicore, iec61162-450; convert also reads rtcm-ssr)
 
 engine-e-obs-bad-line = line { $line } is not a kshana.obs/1 record: { $e }
 
@@ -11791,3 +11791,26 @@ engine-e-interconnect-decode-usage = usage: kshana connect <decode <input> --for
 engine-interconnect-listening = listening on { $addr } for MAVLink, read only: nothing is sent
 
 engine-interconnect-summary = { $read } messages read: { $fixes } fixes, { $records } other records; { $bad } failed a checksum, { $malformed } malformed, { $other } not decoded
+## src/receiver_trust/machines/greis.rs (0.42 I3)
+
+engine-receiver-trust-machines-greis-tod = receiver time of day { $tod } s
+
+## src/ptp_mgmt.rs, src/snmp.rs, src/time_server.rs, src/connect_timing.rs (0.42 I2)
+
+engine-e-ptp-mgmt-bad = not a PTP management message ({ $why })
+
+engine-e-snmp-failed = SNMP request failed ({ $why })
+
+engine-e-snmp-error-status = the SNMP agent answered with error status { $status } at index { $index }
+
+engine-e-snmp-map = not a valid kshana.snmp-map/1 file: { $e }
+
+engine-e-snmp-community-env = the environment variable { $var } (the SNMP community) is not set
+
+engine-e-time-server-parse = cannot read the { $what } output at line { $line }
+
+engine-e-ntp-mode6 = NTP mode 6 query failed ({ $why })
+
+engine-e-connect-timing-usage = usage: kshana connect <timing <pmc|ptp-mgmt|chrony-tracking|chrony-sources|ntpq-peers|ntpq-rv|snmp-message|ntp-mode6|rtcm3-decode> <file|-> | timing check <dir> [--bless] | snmp <host:port> [--map generic|meinberg-ltng|<map.toml>] [--community-env <VAR>] [--timeout <s>] [--retries <n>] [--max-rows <n>] | ntp <host:port> [--assoc <id>] [--timeout <s>] | decode rtcm3 <file|->>
+
+engine-e-connect-timing-failed = { $n } timing vectors failed
