@@ -26,6 +26,8 @@ pub const NATIVE_FNS: &[&str] = &[
     "export_sp3",
     "export_omm",
     "export_oem",
+    "export_formats",
+    "export_scenario",
     "list_examples",
     "get_example",
     "receiver_trust_replay",
@@ -75,6 +77,18 @@ pub fn call(name: &str, args: &[Value]) -> Result<Value, String> {
         "export_sp3" => api::export_sp3(s(args, 0)?).map(|x| json!(x)),
         "export_omm" => api::export_omm(s(args, 0)?).map(|x| json!(x)),
         "export_oem" => api::export_oem(s(args, 0)?).map(|x| json!(x)),
+        // The scenario's geometry (receivers, stations, jammer footprints, routes, movers)
+        // as the `--export` writers give it: the run view's map reads the GeoJSON.
+        "export_formats" => {
+            kshana::surface::export_formats(s(args, 0)?, kshana::surface::MAX_INPUT_BYTES)
+                .map(|v| json!(v.to_string()))
+        }
+        "export_scenario" => kshana::surface::export_scenario(
+            s(args, 0)?,
+            s(args, 1)?,
+            kshana::surface::MAX_INPUT_BYTES,
+        )
+        .map(|e| json!(e.to_json().to_string())),
         "list_examples" => {
             let k = args
                 .first()
@@ -228,6 +242,16 @@ mod tests {
         ] {
             assert!(call(f, &[]).is_ok(), "{f}");
         }
+        let geo: Value = serde_json::from_str(
+            call("export_scenario", &[json!(toml), json!("geojson")])
+                .unwrap()
+                .as_str()
+                .unwrap(),
+        )
+        .unwrap();
+        assert_eq!(geo["format"], "geojson");
+        assert!(call("export_formats", &[json!(toml)]).is_ok());
+        assert!(call("export_scenario", &[json!(toml)]).is_err());
         assert!(call("receiver_trust", &[]).is_err());
         assert!(call("receiver_trust_replay", &[json!("")]).is_err());
         assert!(call("run", &[json!("kind = \"no-such-kind\"")]).is_err());
