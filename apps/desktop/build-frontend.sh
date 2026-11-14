@@ -8,9 +8,19 @@
 # tool pages is taken from web/studio/pkg when it has been built (web/build.sh or
 # wasm-pack); without it every run still works natively and the tool pages say which
 # engine function they lack.
+#
+# The staged copy is then rewritten for the Desktop (apps/desktop/wording.mjs, 0.42 U4): the
+# Studio's pages say the engine runs in the reader's browser, which is right on the website and
+# wrong in the app. The build fails if such a phrase is left. web/ itself is never changed.
+#
+#   apps/desktop/build-frontend.sh [out-dir]     (default apps/desktop/dist)
 set -euo pipefail
+if [ -n "${1:-}" ]; then
+  case "$1" in /|.|..) echo "build-frontend.sh: refusing to stage into '$1'" >&2; exit 2 ;; esac
+  mkdir -p "$1"; out="$(cd "$1" && pwd)"
+fi
 cd "$(dirname "$0")/../.."
-out=apps/desktop/dist
+out="${out:-apps/desktop/dist}"
 rm -rf "$out"
 mkdir -p "$out"
 # Everything the Studio serves, except its tests.
@@ -23,6 +33,8 @@ mkdir -p "$out/studio/desktop"
 cat > "$out/index.html" <<'HTML'
 <!doctype html><meta charset="utf-8"><meta http-equiv="refresh" content="0; url=studio/desktop/index.html"><title>Kshana Desktop</title>
 HTML
+# The Desktop's own wording in the staged copy (never in web/).
+node apps/desktop/wording.mjs "$out/studio"
 if [ -f web/studio/pkg/kshana_bg.wasm ]; then
   echo "frontend staged with the WebAssembly package for the tool pages"
 else

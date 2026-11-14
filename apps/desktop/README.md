@@ -29,6 +29,24 @@ What runs where:
 | The receiver-trust scorers (`receiver_trust_replay`, `assess_vessel_log`) | Native, so the trust page's live device panel scores without the WebAssembly package |
 | Live devices (`devices_list`, `device_start`, `device_status`, `device_excerpt`, `device_stop`) | Native (`src-tauri/src/devices.rs`), read only |
 
+## The look and the wording
+
+The shell's look (0.42 U14) is in `shell/look.css` and `shell/lib/`: colour roles as `--k-*`
+tokens for both themes (five domain colours, the Pro accent, the evidence badges, the
+constellations, a green-to-amber-to-red trust scale with `trustColour(x)` in `lib/look.mjs`;
+red only means "bad now"), a symbol set of twelve (`lib/symbols.mjs`, drawn in `currentColor`,
+also reachable by name through `KshanaShell.icon`), numbers with units and uncertainty in Geist
+Mono (`lib/format.mjs`: `14.2 ± 0.4 m`, `14:21:07.250 UTC`, `3 h 12 m`) and a Comfortable or
+Compact density (`data-density` on `<html>`, switched from the status bar or the palette and
+remembered in this window). `node apps/desktop/shell/look.test.mjs` checks WCAG AA contrast of
+the text colours and the colour-blind separation of the domain colours and trust endpoints.
+
+The Studio pages are staged unchanged, then `build-frontend.sh` rewrites the staged copy with
+`wording.mjs` (never `web/`): inside the app nothing says it runs in a browser; the question
+view says the engine runs natively on this computer. The build fails if a banned phrase is
+left; `node apps/desktop/wording.test.mjs` checks the same. `build-frontend.sh [out-dir]`
+stages elsewhere than `apps/desktop/dist`.
+
 ## Extending the shell
 
 A module loaded into the shell's page (a `<script type="module">` added after `shell.js` in a

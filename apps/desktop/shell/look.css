@@ -1,0 +1,98 @@
+/* SPDX-License-Identifier: AGPL-3.0-only
+   Kshana Desktop shell: the look (0.42 U14). Loaded after shell.css, in the Desktop window only
+   (the website and the Studio pages do not load it).
+   - Colour roles as tokens (--k-*): five domain colours, the Pro accent, the evidence badges,
+     the constellations, the trust scale and "bad now". The values are lib/look.mjs THEMES;
+     look.test.mjs keeps the two equal, checks WCAG AA for the text colours on the shell's
+     surfaces and the colour-blind separation of the domain colours and trust endpoints.
+   - Numbers in Geist Mono with tabular digits; units and uncertainty in a lighter tone.
+   - Density: html[data-density="compact"] (12 px text, 24 px rows) or the default
+     Comfortable (13 px, 32 px rows).
+   Theme selection repeats ../tokens.css: bare :root is light, the system's dark scheme applies
+   unless data-theme="light", and data-theme on <html> forces one. */
+:root{
+  --k-int:#BE1E3A; --k-tim:#2A4FD0; --k-itg:#08703E; --k-orb:#00668C; --k-nav:#704000;
+  --k-pro:#5B3BC4;
+  --k-ev-validated:#08703E; --k-ev-modelled:#704000; --k-ev-partner:#5B3BC4;
+  --k-sat-gps:#2A4FD0; --k-sat-gal:#00668C; --k-sat-bds:#704000; --k-sat-glo:#3A455E; --k-sat-leo:#6A3FC0; --k-sat-qzss:#A31F63; --k-sat-navic:#4A6400; --k-sat-sbas:#4E5971;
+  --k-trust-good:#08703E; --k-trust-mid:#A86400; --k-trust-bad:#BE1E3A;
+  --k-bad:#BE1E3A;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --k-int:#FF5B54; --k-tim:#5A8CFF; --k-itg:#33CC78; --k-orb:#22C7D6; --k-nav:#FFB224;
+    --k-pro:#9C7DFF;
+    --k-ev-validated:#33CC78; --k-ev-modelled:#FFB224; --k-ev-partner:#9C7DFF;
+    --k-sat-gps:#5A8CFF; --k-sat-gal:#22C7D6; --k-sat-bds:#FFB224; --k-sat-glo:#A6ADC4; --k-sat-leo:#C9A2FF; --k-sat-qzss:#FF7AB6; --k-sat-navic:#B9D85A; --k-sat-sbas:#858CA6;
+    --k-trust-good:#33CC78; --k-trust-mid:#FFB224; --k-trust-bad:#FF5B54;
+    --k-bad:#FF5B54;
+  }
+}
+:root[data-theme="dark"]{
+  --k-int:#FF5B54; --k-tim:#5A8CFF; --k-itg:#33CC78; --k-orb:#22C7D6; --k-nav:#FFB224;
+  --k-pro:#9C7DFF;
+  --k-ev-validated:#33CC78; --k-ev-modelled:#FFB224; --k-ev-partner:#9C7DFF;
+  --k-sat-gps:#5A8CFF; --k-sat-gal:#22C7D6; --k-sat-bds:#FFB224; --k-sat-glo:#A6ADC4; --k-sat-leo:#C9A2FF; --k-sat-qzss:#FF7AB6; --k-sat-navic:#B9D85A; --k-sat-sbas:#858CA6;
+  --k-trust-good:#33CC78; --k-trust-mid:#FFB224; --k-trust-bad:#FF5B54;
+  --k-bad:#FF5B54;
+}
+:root{
+  /* the shell's own names, now on the roles */
+  --pro:var(--k-pro);
+  --k-trust-scale:linear-gradient(90deg,var(--k-trust-good),var(--k-trust-mid) 55%,var(--k-trust-bad)); /* trusted on the left, as in the brief */
+  /* density: Comfortable */
+  --d-text:13px; --d-row:32px; --d-pad-y:6px; --d-pad-x:12px; --d-nav-y:8px; --d-gap:12px; --d-page:28px;
+}
+:root[data-density="compact"]{--d-text:12px; --d-row:24px; --d-pad-y:2px; --d-pad-x:10px; --d-nav-y:4px; --d-gap:8px; --d-page:18px}
+
+/* ---------- density ---------- */
+body{font-size:var(--d-text)}
+.tbl{font-size:calc(var(--d-text) - .5px)}
+.tbl td{height:var(--d-row);padding:var(--d-pad-y) var(--d-pad-x);vertical-align:middle}
+.tbl th{padding:var(--d-pad-y) var(--d-pad-x)}
+.nav-item{padding:var(--d-nav-y) 10px}
+.pal-opt{padding:calc(var(--d-nav-y) + 2px) 12px}
+.page{padding:var(--d-page) 32px 40px}
+.grid,.strip{gap:var(--d-gap)}
+.doc-body{gap:var(--d-gap)}
+.ins-body{gap:var(--d-gap)}
+.figlist{gap:calc(var(--d-gap) - 4px)}
+.figlist li,.kv{font-size:calc(var(--d-text) - 1px)}
+:root[data-density="compact"] .fig{padding:8px 12px}
+:root[data-density="compact"] .fig .v{font-size:18px}
+:root[data-density="compact"] .card{padding:10px 12px}
+:root[data-density="compact"] .doc-head{height:44px}
+
+/* ---------- numbers: Geist Mono, tabular digits, unit and uncertainty quieter ---------- */
+.num,.kv dd,.fig .v,.figlist li span:last-child,.statusbar,.count,.chip{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.fig .v{font-weight:500;font-size:21px;letter-spacing:-.01em}
+.n{font-family:var(--f-mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+.n .n-u,.fig .v small{color:var(--ink-3);font-family:var(--f-mono);font-weight:400}
+.fig .v small{font-size:13px}
+.n .n-pm{color:var(--ink-3)}
+
+/* ---------- colour roles in the shell's parts ---------- */
+.tier{font-weight:500;letter-spacing:.04em;background:none}
+.tier.validated{color:var(--k-ev-validated)} .tier.modelled{color:var(--k-ev-modelled)} .tier.partner{color:var(--k-ev-partner)}
+.state-pass{color:var(--k-itg)} .state-warn{color:var(--k-nav)} .state-fail{color:var(--k-bad)}
+.notice{border-left-color:var(--k-nav)}
+.error{border-left-color:var(--k-bad)}
+/* a change between two runs is not good or bad by itself: no red, no green */
+.up,.down{color:var(--ink)}
+.nav-item .live{background:var(--k-itg)}
+.dom-sym{color:var(--c,var(--ink-3))}
+
+/* ---------- symbols (lib/symbols.mjs): currentColor, readable at 16 px ---------- */
+svg.sym{width:16px;height:16px;flex:none;overflow:visible}
+svg.sym.lg{width:24px;height:24px}
+svg.sym .s2{stroke:var(--sym-2,currentColor)}
+svg.sym .f2{fill:var(--sym-2,currentColor)}
+.card h3 svg.sym,.lib-h svg.sym{width:18px;height:18px}
+.pal-opt svg.sym{width:16px;height:16px}
+/* the two-tone symbols' second tone, unless the caller sets --sym-2 */
+svg.sym[data-sym="track"]{--sym-2:var(--k-trust-bad)}
+svg.sym[data-sym="reported"]{--sym-2:var(--k-trust-bad)}
+
+/* ---------- the trust scale, where a view shows one ---------- */
+.trust-scale{height:8px;border-radius:4px;background:var(--k-trust-scale)}
+.statusbar svg.sym{width:13px;height:13px}
