@@ -547,6 +547,8 @@ jobs:
         run: node apps/desktop/shell/lib/clock.test.mjs
       - name: Test the Kshana Desktop chart library (decimation, zoom and pan, hit-testing, CSV and SVG export, 3D maths)
         run: node apps/desktop/shell/lib/chart/chart.test.mjs
+      - name: Test the Kshana Desktop projects, drop-in detective, console, markers, journal figures and sky plot (0.42 U8-U16)
+        run: node --test apps/desktop/shell/lib/project.test.mjs apps/desktop/shell/lib/detective.test.mjs apps/desktop/shell/lib/mirror.test.mjs apps/desktop/shell/lib/markers.test.mjs apps/desktop/shell/lib/plot.test.mjs apps/desktop/shell/lib/sky.test.mjs apps/desktop/shell/lib/chart/journal.test.mjs
       - name: Test the Kshana Desktop IQ recording view (decoding, SigMF, spectrum)
         run: node web/studio/lib/iqview.test.mjs
       - name: Test the A/B compare logic
