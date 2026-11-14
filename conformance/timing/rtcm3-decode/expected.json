@@ -1,0 +1,79 @@
+{
+  "decoded": {
+    "msm": [
+      {
+        "cells": [
+          {
+            "cnr_dbhz": 45.25,
+            "half_cycle": false,
+            "lock_indicator": 700,
+            "phaserange_m": 21135075.523904946,
+            "phaserange_rate_m_s": -499.8766,
+            "pseudorange_m": 21135368.847406965,
+            "rinex_code": "1C",
+            "sat": "G05",
+            "signal_id": 2
+          },
+          {
+            "cnr_dbhz": 38.0,
+            "half_cycle": true,
+            "lock_indicator": 650,
+            "phaserange_m": 21135368.847406965,
+            "phaserange_rate_m_s": null,
+            "pseudorange_m": 21135367.17218606,
+            "rinex_code": "2S",
+            "sat": "G05",
+            "signal_id": 15
+          },
+          {
+            "cnr_dbhz": 40.0,
+            "half_cycle": false,
+            "lock_indicator": 0,
+            "phaserange_m": null,
+            "phaserange_rate_m_s": 299.95,
+            "pseudorange_m": 22559382.4645,
+            "rinex_code": "1C",
+            "sat": "G12",
+            "signal_id": 2
+          }
+        ],
+        "epoch_ms": 100000,
+        "extended_info": [
+          [
+            "G05",
+            0
+          ],
+          [
+            "G12",
+            0
+          ]
+        ],
+        "glonass_day": null,
+        "iods": 0,
+        "message": 1077,
+        "multiple": false,
+        "station_id": 2003
+      }
+    ],
+    "other": {},
+    "skipped": 0,
+    "stations": [
+      {
+        "antenna_height_m": 1.5,
+        "ecef_m": [
+          3098765.4321,
+          1345678.9012,
+          -5555555.5555
+        ],
+        "galileo": true,
+        "glonass": true,
+        "gps": true,
+        "itrf_year": 0,
+        "message": 1006,
+        "non_physical": false,
+        "station_id": 2003
+      }
+    ]
+  },
+  "kind": "rtcm3-decode"
+}

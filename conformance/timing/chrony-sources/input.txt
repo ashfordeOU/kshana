@@ -1,0 +1,5 @@
+MS Name/IP address         Stratum Poll Reach LastRx Last sample
+===============================================================================
+#* GPS0                          0   4   377    11   -479ns[ -621ns] +/-  134ns
+^? ntp1.example.net              2   6   377    23   -923us[ -924us] +/-   43ms
+^+ ntp2.example.net              1   6   377    21  -2629us[-2619us] +/-   86ms

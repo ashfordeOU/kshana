@@ -11579,7 +11579,7 @@
    {
     "var": "format"
    },
-   "` (ubx, rinex, android, sbf, nmea, rtklib-pos, novatel, rtcm3, gnss-sdr, iec61162-450; convert also reads rtcm-ssr)"
+   "` (ubx, rinex, android, sbf, nmea, rtklib-pos, novatel, rtcm3, gnss-sdr, sbp, greis, unicore, iec61162-450; convert also reads rtcm-ssr)"
   ]
  },
  {
@@ -14762,6 +14762,116 @@
    {
     "var": "pd"
    }
+  ]
+ },
+ {
+  "id": "receiver-trust-machines-greis-tod",
+  "error": false,
+  "parts": [
+   "receiver time of day ",
+   {
+    "var": "tod"
+   },
+   " s"
+  ]
+ },
+ {
+  "id": "e-ptp-mgmt-bad",
+  "error": true,
+  "parts": [
+   "not a PTP management message (",
+   {
+    "var": "why"
+   },
+   ")"
+  ]
+ },
+ {
+  "id": "e-snmp-failed",
+  "error": true,
+  "parts": [
+   "SNMP request failed (",
+   {
+    "var": "why"
+   },
+   ")"
+  ]
+ },
+ {
+  "id": "e-snmp-error-status",
+  "error": true,
+  "parts": [
+   "the SNMP agent answered with error status ",
+   {
+    "var": "status"
+   },
+   " at index ",
+   {
+    "var": "index"
+   }
+  ]
+ },
+ {
+  "id": "e-snmp-map",
+  "error": true,
+  "parts": [
+   "not a valid kshana.snmp-map/1 file: ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-snmp-community-env",
+  "error": true,
+  "parts": [
+   "the environment variable ",
+   {
+    "var": "var"
+   },
+   " (the SNMP community) is not set"
+  ]
+ },
+ {
+  "id": "e-time-server-parse",
+  "error": true,
+  "parts": [
+   "cannot read the ",
+   {
+    "var": "what"
+   },
+   " output at line ",
+   {
+    "var": "line"
+   }
+  ]
+ },
+ {
+  "id": "e-ntp-mode6",
+  "error": true,
+  "parts": [
+   "NTP mode 6 query failed (",
+   {
+    "var": "why"
+   },
+   ")"
+  ]
+ },
+ {
+  "id": "e-connect-timing-usage",
+  "error": true,
+  "parts": [
+   "usage: kshana connect <timing <pmc|ptp-mgmt|chrony-tracking|chrony-sources|ntpq-peers|ntpq-rv|snmp-message|ntp-mode6|rtcm3-decode> <file|-> | timing check <dir> [--bless] | snmp <host:port> [--map generic|meinberg-ltng|<map.toml>] [--community-env <VAR>] [--timeout <s>] [--retries <n>] [--max-rows <n>] | ntp <host:port> [--assoc <id>] [--timeout <s>] | decode rtcm3 <file|->>"
+  ]
+ },
+ {
+  "id": "e-connect-timing-failed",
+  "error": true,
+  "parts": [
+   {
+    "var": "n"
+   },
+   " timing vectors failed"
   ]
  }
 ]

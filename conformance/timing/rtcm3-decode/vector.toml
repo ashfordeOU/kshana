@@ -1,0 +1,4 @@
+name = "timing: rtcm3-decode"
+parser = "rtcm3-decode"
+input = "input.rtcm3"
+expected = "expected.json"

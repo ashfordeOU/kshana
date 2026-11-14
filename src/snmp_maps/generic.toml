@@ -1,0 +1,126 @@
+# kshana.snmp-map/1: the generic map for a grandmaster or time server, from IETF MIBs only.
+# SNMPv2-MIB system group (RFC 3418), NTPv4-MIB (RFC 5907, mib-2 197) and PTPBASE-MIB
+# (RFC 8173, mib-2 241). An agent that implements none of the PTP or NTP MIBs still answers the
+# system group; what it lacks is listed under `missing`.
+schema = "kshana.snmp-map/1"
+name = "generic"
+sources = [
+  "RFC 3418 SNMPv2-MIB system group (1.3.6.1.2.1.1)",
+  "RFC 5907 NTPv4-MIB ntpEntInfo and ntpEntStatus (1.3.6.1.2.1.197.1.1 and .1.2)",
+  "RFC 8173 PTPBASE-MIB clock data sets (1.3.6.1.2.1.241.1.2), indexed by domain, clock type and instance",
+]
+
+[[object]]
+name = "sysDescr"
+oid = "1.3.6.1.2.1.1.1.0"
+
+[[object]]
+name = "sysUpTime"
+oid = "1.3.6.1.2.1.1.3.0"
+
+[[object]]
+name = "sysName"
+oid = "1.3.6.1.2.1.1.5.0"
+
+[[object]]
+name = "ntpEntSoftwareName"
+oid = "1.3.6.1.2.1.197.1.1.1.0"
+
+[[object]]
+name = "ntpEntStatusCurrentMode"
+oid = "1.3.6.1.2.1.197.1.2.1.0"
+labels = { "1" = "notRunning", "2" = "notSynchronized", "3" = "noneConfigured", "4" = "syncToLocal", "5" = "syncToRefclock", "6" = "syncToRemoteServer", "99" = "unknown" }
+
+[[object]]
+name = "ntpEntStatusStratum"
+oid = "1.3.6.1.2.1.197.1.2.2.0"
+
+[[object]]
+name = "ntpEntStatusActiveRefSourceName"
+oid = "1.3.6.1.2.1.197.1.2.4.0"
+
+[[object]]
+name = "ntpEntStatusActiveOffset"
+oid = "1.3.6.1.2.1.197.1.2.5.0"
+
+[[object]]
+name = "ntpEntStatusDispersion"
+oid = "1.3.6.1.2.1.197.1.2.7.0"
+
+[[object]]
+name = "ntpEntStatusLeapSecDirection"
+oid = "1.3.6.1.2.1.197.1.2.11.0"
+
+[[object]]
+name = "ptpbaseClockCurrentDSStepsRemoved"
+oid = "1.3.6.1.2.1.241.1.2.1.1.4"
+walk = true
+
+[[object]]
+name = "ptpbaseClockCurrentDSOffsetFromMaster"
+oid = "1.3.6.1.2.1.241.1.2.1.1.5"
+walk = true
+
+[[object]]
+name = "ptpbaseClockCurrentDSMeanPathDelay"
+oid = "1.3.6.1.2.1.241.1.2.1.1.6"
+walk = true
+
+[[object]]
+name = "ptpbaseClockParentDSGMClockIdentity"
+oid = "1.3.6.1.2.1.241.1.2.2.1.8"
+walk = true
+
+[[object]]
+name = "ptpbaseClockParentDSGMClockQualityClass"
+oid = "1.3.6.1.2.1.241.1.2.2.1.11"
+walk = true
+
+[[object]]
+name = "ptpbaseClockParentDSGMClockQualityAccuracy"
+oid = "1.3.6.1.2.1.241.1.2.2.1.12"
+walk = true
+
+[[object]]
+name = "ptpbaseClockParentDSGMClockQualityOffset"
+oid = "1.3.6.1.2.1.241.1.2.2.1.13"
+walk = true
+
+[[object]]
+name = "ptpbaseClockDefaultDSQualityClass"
+oid = "1.3.6.1.2.1.241.1.2.3.1.9"
+walk = true
+
+[[object]]
+name = "ptpbaseClockRunningState"
+oid = "1.3.6.1.2.1.241.1.2.4.1.4"
+walk = true
+labels = { "1" = "freerunning", "2" = "holdover", "3" = "acquiring", "4" = "frequencyLocked", "5" = "phaseAligned" }
+
+[[object]]
+name = "ptpbaseClockTimePropertiesDSCurrentUTCOffsetValid"
+oid = "1.3.6.1.2.1.241.1.2.5.1.4"
+walk = true
+labels = { "1" = "true", "2" = "false" }
+
+[[object]]
+name = "ptpbaseClockTimePropertiesDSCurrentUTCOffset"
+oid = "1.3.6.1.2.1.241.1.2.5.1.5"
+walk = true
+
+[[object]]
+name = "ptpbaseClockTimePropertiesDSTimeTraceable"
+oid = "1.3.6.1.2.1.241.1.2.5.1.8"
+walk = true
+labels = { "1" = "true", "2" = "false" }
+
+[[object]]
+name = "ptpbaseClockTimePropertiesDSFreqTraceable"
+oid = "1.3.6.1.2.1.241.1.2.5.1.9"
+walk = true
+labels = { "1" = "true", "2" = "false" }
+
+[[object]]
+name = "ptpbaseClockTimePropertiesDSSource"
+oid = "1.3.6.1.2.1.241.1.2.5.1.11"
+walk = true

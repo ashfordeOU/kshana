@@ -1,0 +1,5 @@
+name = "built-in reader: greis"
+input = "input.jps"
+reader = "greis"
+station = "../../../examples/obs/station.toml"
+expected = "expected.obs.jsonl"

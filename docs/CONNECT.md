@@ -220,3 +220,11 @@ quality. That needs a schema minor version. It is checked against a stream from 
 
 A binary sensor is first decoded by a device file (`kshana.device/1`, [DEVICES.md](DEVICES.md)) into JSON
 Lines, which a mapping file then reads like any other JSON Lines export.
+
+## Timing systems and receiver streams (0.42)
+
+PTP management (linuxptp `pmc`), SNMP polling of grandmasters, chrony and ntpd status, and NTP mode 6
+are read by `kshana connect timing|snmp|ntp`: see [TIMING-SYSTEMS.md](TIMING-SYSTEMS.md). Swift SBP,
+Javad GREIS and Unicore N4 logs are built-in readers (`reader = "sbp"`, `"greis"`, `"unicore"`), and
+`kshana connect decode rtcm3` prints RTCM 3 observations and station messages: see
+[RECEIVER-PROTOCOLS.md](RECEIVER-PROTOCOLS.md).

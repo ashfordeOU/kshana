@@ -1,0 +1,71 @@
+# kshana.snmp-map/1: Meinberg LANTIME (firmware 7 and later), from Meinberg's published
+# MBG-SNMP-LTNG-MIB (revision 2022-12-08; enterprises 5597, mbgLantimeNG = 30, status = 0).
+# The MIB ships with LANTIME devices (/usr/share/snmp, downloadable from the web interface) and is
+# mirrored by LibreNMS (mibs/meinberg). The system group is read as well.
+schema = "kshana.snmp-map/1"
+name = "meinberg-ltng"
+sources = [
+  "RFC 3418 SNMPv2-MIB system group (1.3.6.1.2.1.1)",
+  "Meinberg MBG-SNMP-LTNG-MIB mbgLtNgRefclock (1.3.6.1.4.1.5597.30.0.1) and mbgLtNgNtp (1.3.6.1.4.1.5597.30.0.2)",
+]
+
+[[object]]
+name = "sysDescr"
+oid = "1.3.6.1.2.1.1.1.0"
+
+[[object]]
+name = "sysName"
+oid = "1.3.6.1.2.1.1.5.0"
+
+[[object]]
+name = "mbgLtNgNtpCurrentState"
+oid = "1.3.6.1.4.1.5597.30.0.2.1.0"
+labels = { "0" = "notAvailable", "1" = "notSynchronized", "2" = "synchronized" }
+
+[[object]]
+name = "mbgLtNgNtpStratum"
+oid = "1.3.6.1.4.1.5597.30.0.2.2.0"
+
+[[object]]
+name = "mbgLtNgNtpRefclockName"
+oid = "1.3.6.1.4.1.5597.30.0.2.3.0"
+
+[[object]]
+name = "mbgLtNgNtpRefclockOffset"
+oid = "1.3.6.1.4.1.5597.30.0.2.4.0"
+
+[[object]]
+name = "mbgLtNgNumberOfRefclocks"
+oid = "1.3.6.1.4.1.5597.30.0.1.1.0"
+
+[[object]]
+name = "mbgLtNgRefclockType"
+oid = "1.3.6.1.4.1.5597.30.0.1.2.1.2"
+walk = true
+
+[[object]]
+name = "mbgLtNgRefclockUsage"
+oid = "1.3.6.1.4.1.5597.30.0.1.2.1.3"
+walk = true
+
+[[object]]
+name = "mbgLtNgRefclockState"
+oid = "1.3.6.1.4.1.5597.30.0.1.2.1.4"
+walk = true
+labels = { "0" = "notAvailable", "1" = "synchronized", "2" = "notSynchronized" }
+
+[[object]]
+name = "mbgLtNgRefclockSubstate"
+oid = "1.3.6.1.4.1.5597.30.0.1.2.1.5"
+walk = true
+labels = { "-1" = "mrsRefNone", "0" = "notAvailable", "1" = "gpsSync", "2" = "gpsTracking", "3" = "gpsAntennaDisconnected", "4" = "gpsWarmBoot", "5" = "gpsColdBoot", "6" = "gpsAntennaShortCircuit", "50" = "lwNeverSync", "51" = "lwNotSync", "52" = "lwSync", "100" = "tcrNotSync", "101" = "tcrSync" }
+
+[[object]]
+name = "mbgLtNgRefclockStatusA"
+oid = "1.3.6.1.4.1.5597.30.0.1.2.1.6"
+walk = true
+
+[[object]]
+name = "mbgLtNgRefclockStatusB"
+oid = "1.3.6.1.4.1.5597.30.0.1.2.1.8"
+walk = true
