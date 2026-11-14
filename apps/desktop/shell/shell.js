@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 // Kshana Desktop: the application window (0.42 workstream U: U1 shell, U2 palette and runs,
-// U4 wording, U5 upgrade screen). It is staged as studio/desktop/ next to the Studio
+// U4 wording, U5 upgrade screen, U14 the look: colour roles, symbols, numbers and density from
+// lib/look.mjs, lib/symbols.mjs, lib/format.mjs and lib/marks.mjs, with look.css). It is staged as studio/desktop/ next to the Studio
 // (apps/desktop/build-frontend.sh) and reuses the Studio's modules unchanged: the
 // catalogue, the engine client and its Desktop bridge (lib/desktop.mjs), the views, key
 // figures, meaning and evidence modules. The website and the Studio pages are not touched.
@@ -26,6 +27,10 @@ import { zip } from "../lib/zip.mjs";
 import { paletteRows, moveIndex, highlight, isPaletteKey, actionMatches } from "./lib/palette.mjs";
 import { createRunLog, compareRows, reproduceLines, scenarioName, elapsed, packFiles, tabKeyIndex } from "./lib/runs.mjs";
 import { createExtensions } from "./lib/ext.mjs";
+import { domainColour } from "./lib/look.mjs";
+import { symbolNode, isSymbol } from "./lib/symbols.mjs";
+import { fmtDuration, fmtUtc, fmtCount } from "./lib/format.mjs";
+import { numNode, figureParts, domainMark, density, toggleDensity, restoreDensity } from "./lib/marks.mjs";
 
 const $ = (id) => document.getElementById(id);
 const h = (tag, props = {}, ...kids) => {
@@ -54,6 +59,7 @@ const ICONS = {
   mark: ["M12 3a9 9 0 1 0 0 18 9 9 0 1 0 0-18", "M12 3v18M3 12h18M6 6l12 12"],
 };
 function ic(name, cls = "i") {
+  if (!ICONS[name] && isSymbol(name)) return symbolNode(name, { cls: cls === "i" ? "sym" : `sym ${cls}` });
   const s = document.createElementNS(SVGNS, "svg");
   s.setAttribute("viewBox", "0 0 24 24");
   s.setAttribute("class", cls);
@@ -69,7 +75,7 @@ function svgNode(markup) {
 }
 const isMac = /Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent || "");
 const KEY = isMac ? "⌘K" : "Ctrl+K";
-const domColor = (id) => (domainOf(id) || {}).color || "var(--ink-3)";
+const domColor = (id) => domainColour(id, (domainOf(id) || {}).color || "var(--ink-3)");
 const domLabel = (id) => (domainOf(id) || {}).label || t("js-desk-domain-own-file", "Your file");
 
 // ------------------------------------------------------------------ state
@@ -228,7 +234,7 @@ const engineMissing = () => t("js-desk-engine-missing", "The engine could not st
 function stripCards(run, max = 3) {
   const m = plainMeaning(run.result, run.toml);
   if (m && m.cards && m.cards.length) return m.cards.slice(0, max).map((c) => ({ k: c.label, v: String(c.value), unit: c.unit || "", sub: c.sub || "" }));
-  return kpis(run.result, run.toml, max).map((c) => ({ k: c.k, v: c.text || (typeof c.v === "number" ? V.fmt(c.v) : String(c.v ?? "")), unit: c.text ? "" : c.unit || "", sub: c.sub || "" }));
+  return kpis(run.result, run.toml, max).map((c) => { const p = c.text ? { value: c.text, unit: "" } : figureParts(typeof c.v === "number" ? c.v : String(c.v ?? ""), c.unit || ""); return { k: c.k, v: p.value, unit: p.unit, sub: c.sub || "" }; });
 }
 function answerOf(run) { const m = plainMeaning(run.result, run.toml); return (m && m.big) || run.summary || ""; }
 function tierOf(run) { const b = badgeModel(run.result); if (b) return { tier: b.tier, cls: b.cls, rows: b.count }; const hn = honesty(run.result); return hn ? { tier: hn.tier, cls: hn.tier.toLowerCase(), rows: 0, text: hn.text } : null; }
@@ -274,17 +280,17 @@ const NAV = () => [
   { id: "home", icon: "home", label: t("js-desk-nav-home", "Home") },
   { id: "runs", icon: "runs", label: t("js-desk-nav-runs", "Runs"), count: () => RUNS.size },
   { id: "library", icon: "library", label: t("js-desk-nav-library", "Scenario library"), count: () => SCENARIOS.length },
-  { id: "devices", icon: "devices", label: t("js-desk-nav-devices", "Devices"), live: () => !!(S.devices.status && S.devices.status.running) },
+  { id: "devices", icon: "receiver", label: t("js-desk-nav-devices", "Devices"), live: () => !!(S.devices.status && S.devices.status.running) },
   { id: "evidence", icon: "evidence", label: t("js-desk-nav-evidence", "Evidence packs") },
   { id: "files", icon: "files", label: t("js-desk-nav-files", "Files") },
 ];
 // What Pro adds (U5). Each opens the upgrade screen; the free edition carries none of them.
 const PRO = () => [
-  { id: "fleet", icon: "fleet", label: t("js-desk-pro-fleet", "Station fleet"), text: t("js-desk-pro-fleet-text", "Watch many receivers and timing stations at once, with their trust scores and alarms side by side.") },
+  { id: "fleet", icon: "station", label: t("js-desk-pro-fleet", "Station fleet"), text: t("js-desk-pro-fleet-text", "Watch many receivers and timing stations at once, with their trust scores and alarms side by side.") },
   { id: "forensics", icon: "forensics", label: t("js-desk-pro-forensics", "Incident forensics"), text: t("js-desk-pro-forensics-text", "Replay an interference or spoofing incident from recorded logs and pin down when, where and what changed.") },
   { id: "scorecards", icon: "scorecards", label: t("js-desk-pro-scorecards", "Scorecards"), text: t("js-desk-pro-scorecards-text", "Score receivers and sites against the same scenarios over time, and track how each one holds up.") },
   { id: "dossiers", icon: "dossiers", label: t("js-desk-pro-dossiers", "Studies and signed dossiers"), text: t("js-desk-pro-dossiers-text", "Run studies across many scenarios and hand over signed dossiers that a reviewer can check byte for byte.") },
-  { id: "timing", icon: "timing", label: t("js-desk-pro-timing", "Timing fleet assurance"), text: t("js-desk-pro-timing-text", "Follow holdover and time error across a fleet of clocks and grandmasters, with evidence for each.") },
+  { id: "timing", icon: "clock", label: t("js-desk-pro-timing", "Timing fleet assurance"), text: t("js-desk-pro-timing-text", "Follow holdover and time error across a fleet of clocks and grandmasters, with evidence for each.") },
 ];
 function go(route) {
   S.route = route;
@@ -416,7 +422,7 @@ function homeView() {
 const recentRuns = () => (RUNS.size ? runsTable(RUNS.list().slice(0, 3), { select: false }) : null);
 function scenarioGrid() {
   return h("div", { class: "grid" }, ...groupedLibrary("").map((g) => h("div", { class: "card" },
-    h("h3", {}, h("span", { class: "dot", style: `--c:${g.domain.color}` }), g.domain.label),
+    h("h3", {}, domainMark(g.domain.id, domColor(g.domain.id)), g.domain.label),
     ...g.items.slice(0, 2).map((e) => h("button", { class: "q-btn", type: "button", onclick: () => openScenario(e.file, { inNewTab: true }) }, e.title, h("small", { text: e.question }))),
     h("button", { class: "linkish", type: "button", onclick: () => { S.libQuery = g.domain.label; go("library"); } }, t("js-desk-home-all-in", "All { $n } in this area →", { n: g.items.length })))));
 }
@@ -435,7 +441,7 @@ function tabView(tab) {
   if (run) meta.push(t("js-desk-meta-ran", "ran { $ago } in { $s } s", { ago: agoText(run.at), s: (run.ms / 1000).toFixed(1) }));
   if (tab.toml !== tab.baseToml) meta.push(t("js-desk-meta-edited", "edited"));
   const head = h("div", { class: "doc-head" },
-    h("span", { class: "dom-chip", style: `--c:${domColor(tab.domain)}`, text: domLabel(tab.domain) }),
+    h("span", { class: "dom-chip", style: `--c:${domColor(tab.domain)};display:inline-flex;align-items:center;gap:6px` }, domainMark(tab.domain, domColor(tab.domain)), domLabel(tab.domain)),
     h("h1", { text: tab.title }),
     h("span", { class: "doc-meta", text: meta.join(" · ") }),
     h("div", { class: "seg", role: "group", "aria-label": t("js-desk-view-group", "View") }, ...views.map(([id, label]) => h("button", { type: "button", "aria-pressed": tab.view === id ? "true" : "false", onclick: () => { tab.view = id; render(); } }, label))),
@@ -481,7 +487,7 @@ function panel(tab) {
     if (!figs.length) return msg(t("js-desk-no-figures", "This result has no key figures to tabulate. See JSON."));
     box.append(h("table", { class: "tbl" },
       h("thead", {}, h("tr", {}, h("th", { scope: "col", text: t("js-desk-col-figure", "Figure") }), h("th", { scope: "col", class: "num", text: t("js-desk-col-value", "Value") }), h("th", { scope: "col", text: t("js-desk-col-unit", "Unit") }), h("th", { scope: "col", text: t("js-desk-col-path", "Path") }))),
-      h("tbody", {}, ...figs.map((f) => h("tr", {}, h("td", { text: f.label, title: f.note || null }), h("td", { class: "num", text: V.fmt(f.value) }), h("td", { text: f.unit || "" }), h("td", { class: "mono", text: f.path || "" }))))));
+      h("tbody", {}, ...figs.map((f) => { const p = figureParts(f.value, f.unit || ""); return h("tr", {}, h("td", { text: f.label, title: f.note || null }), h("td", { class: "num", text: p.value }), h("td", { class: "n-u", text: p.unit }), h("td", { class: "mono", text: f.path || "" })); }))));
     return box;
   }
   const text = JSON.stringify(r, null, 2);
@@ -543,7 +549,7 @@ function resultPane(tab) {
   if (!run) return [h("p", { class: "hint", text: t("js-desk-panel-none", "No run yet.") })];
   const out = [h("p", { style: "margin:0", text: answerOf(run) })];
   const cards = kpis(run.result, run.toml, 8);
-  if (cards.length) out.push(h("ul", { class: "figlist", "aria-label": t("js-desk-key-figures", "Key figures") }, ...cards.map((c) => h("li", { class: c.state ? `state-${c.state}` : null, title: c.why || null }, h("span", { text: c.sub ? `${c.k} · ${c.sub}` : c.k }), h("span", { text: c.text || `${typeof c.v === "number" ? V.fmt(c.v) : c.v ?? ""}${c.unit ? ` ${c.unit}` : ""}` })))));
+  if (cards.length) out.push(h("ul", { class: "figlist", "aria-label": t("js-desk-key-figures", "Key figures") }, ...cards.map((c) => h("li", { class: c.state ? `state-${c.state}` : null, title: c.why || null }, h("span", { text: c.sub ? `${c.k} · ${c.sub}` : c.k }), c.text ? h("span", { text: c.text }) : numNode(typeof c.v === "number" ? c.v : String(c.v ?? ""), c.unit || "")))));
   out.push(h("div", { class: "ins-sep" }));
   const tier = tierOf(run);
   out.push(h("div", { class: "field" }, h("span", { class: "lab", text: t("js-desk-evidence", "Evidence") }),
@@ -555,7 +561,8 @@ function resultPane(tab) {
   add(t("js-desk-meta-engine", "engine"), `${meta.ver} (${run.engine === "native" ? t("js-desk-native", "native") : t("js-desk-webassembly", "WebAssembly")})`);
   if (meta.hash) add(t("js-desk-meta-scenario", "scenario"), String(meta.hash).slice(0, 12));
   if (typeof run.result.seed === "number") add(t("js-desk-meta-seed-k", "seed"), String(run.result.seed));
-  add(t("js-desk-meta-time", "time"), `${Math.max(1, Math.round(run.ms))} ms`);
+  add(t("js-desk-meta-time", "time"), fmtDuration(Math.max(1, Math.round(run.ms)) / 1000));
+  add(t("js-desk-meta-at", "ran at"), fmtUtc(run.at));
   if (run.summary) add(t("js-desk-meta-summary", "summary"), run.summary);
   out.push(dl);
   return out;
@@ -588,8 +595,8 @@ function runsTable(list, { select = true } = {}) {
       return h("tr", { class: RUNS.isSelected(run.id) ? "sel" : null },
         select ? h("td", {}, cb) : null,
         h("td", {}, h("button", { class: "q-btn", type: "button", style: "margin:0;padding:2px 6px", onclick: () => reopenRun(run) }, `${run.title}${run.edited ? ` · ${t("js-desk-meta-edited", "edited")}` : ""}`), h("span", { class: "muted mono", style: "font-size:11px;margin-left:6px", text: `#${run.id}` })),
-        h("td", { style: `color:${domColor(run.domain)}`, text: domLabel(run.domain) }),
-        h("td", { text: c ? `${c.v}${c.unit ? ` ${c.unit}` : ""}${c.k ? ` · ${c.k}` : ""}` : "" }),
+        h("td", { style: `color:${domColor(run.domain)}` }, h("span", { style: "display:inline-flex;align-items:center;gap:6px" }, domainMark(run.domain, domColor(run.domain)), domLabel(run.domain))),
+        h("td", {}, c ? [numNode(c.v, c.unit), c.k ? h("span", { class: "muted", text: ` · ${c.k}` }) : null] : ""),
         h("td", {}, tier ? h("span", { class: `tier ${tier.cls}`, style: "margin:0", text: tierText(tier.tier) }) : "–"),
         h("td", { class: "muted", text: agoText(run.at) }));
     })));
@@ -617,7 +624,7 @@ function runsView() {
 }
 function compareView(a, b) {
   const rows = compareRows(kpis(a.result, a.toml, 8), kpis(b.result, b.toml, 8));
-  const val = (x, unit) => (x === null ? "–" : typeof x === "number" ? `${V.fmt(x)}${unit ? ` ${unit}` : ""}` : String(x));
+  const val = (x, unit) => (x === null ? "–" : typeof x === "number" ? figureParts(x, unit).text : String(x));
   return h("section", { class: "cmp", "aria-labelledby": "cmp-h" },
     h("h2", { id: "cmp-h", tabindex: "-1", text: t("js-desk-compare-title", "Run #{ $a } against run #{ $b }", { a: a.id, b: b.id }) }),
     h("p", { class: "muted", style: "margin:0 0 10px", text: `A: ${a.title} · B: ${b.title}` }),
@@ -638,7 +645,7 @@ function libraryView() {
     const n = groups.reduce((m, g) => m + g.items.length, 0);
     results.replaceChildren(h("p", { class: "muted", role: "status", text: t("js-desk-lib-count", { one: "{ $n } scenario", other: "{ $n } scenarios" }, { n }) }),
       ...groups.map((g) => h("section", { "aria-label": g.domain.label },
-        h("h2", {}, h("span", { class: "dot", style: `--c:${g.domain.color};display:inline-block;margin-right:8px` }), g.domain.label),
+        h("h2", { class: "lib-h", style: "display:flex;align-items:center;gap:8px" }, domainMark(g.domain.id, domColor(g.domain.id)), g.domain.label),
         h("div", { class: "grid" }, ...g.items.map((e) => h("button", { class: "card q-btn", type: "button", style: "margin:0", onclick: () => openScenario(e.file, { inNewTab: true }) }, h("b", { text: e.title }), h("small", { text: e.question })))))));
   };
   input.addEventListener("input", () => { S.libQuery = input.value; fill(); });
@@ -679,7 +686,7 @@ function devicesView() {
   const add = (k, v) => dl.append(h("dt", { text: k }), h("dd", { text: v }));
   add(t("js-desk-dev-state", "state"), st.running ? t("js-desk-dev-reading", "reading") : t("js-desk-dev-idle", "not reading"));
   if (st.source) add(t("js-desk-dev-src-k", "source"), String(st.source));
-  if (typeof st.sentences === "number") add(t("js-desk-dev-sentences", "sentences"), String(st.sentences));
+  if (typeof st.sentences === "number") add(t("js-desk-dev-sentences", "sentences"), fmtCount(st.sentences));
   if (st.error) add(t("js-desk-dev-error", "error"), String(st.error));
   page.append(h("h2", { text: t("js-desk-dev-status", "Status") }), dl,
     h("p", { class: "muted", style: "margin-top:16px", text: t("js-desk-dev-score", "The Studio's receiver-trust page scores the latest sentences every five seconds:") }),
@@ -743,8 +750,8 @@ function upgradeView() {
       h("p", { class: "lede", style: "margin:0", text: t("js-desk-up-lede", "This free edition keeps everything it has: every scenario, the native engine, the runs, the comparisons and the unsigned evidence packs, open source under AGPL-3.0-only. Pro is a separate build for teams that run fleets and hand evidence to others.") })),
     h("div", { class: "grid" }, ...PRO().map((p) => h("div", { class: "card pro-card" }, h("h3", {}, ic(p.icon), p.label), h("p", { text: p.text })))),
     h("h2", { text: t("js-desk-up-editions", "Compare the editions") }),
-    h("p", { class: "muted", style: "margin:0 0 8px", text: t("js-desk-up-editions-note", "The editions page on kshana.dev lists what each edition holds. This app has no checkout and asks no server.") }),
-    h("div", { class: "copyline" }, h("code", { text: EDITIONS_URL }), h("a", { class: "btn", href: EDITIONS_URL, target: "_blank", rel: "noopener noreferrer" }, t("js-desk-up-open", "Open in the browser")), h("button", { class: "btn", type: "button", onclick: () => copyText(EDITIONS_URL) }, ic("copy"), t("js-desk-up-copy", "Copy the link"))));
+    h("p", { class: "muted", style: "margin:0 0 8px", text: t("js-desk-up-editions-note", "The editions page on kshana.dev lists what each edition holds. This app has no checkout and sends no request for it.") }),
+    h("div", { class: "copyline" }, h("code", { text: EDITIONS_URL }), h("a", { class: "btn", href: EDITIONS_URL, target: "_blank", rel: "noopener noreferrer" }, t("js-desk-up-open", "Open the editions page")), h("button", { class: "btn", type: "button", onclick: () => copyText(EDITIONS_URL) }, ic("copy"), t("js-desk-up-copy", "Copy the link"))));
 }
 
 // ---------- status bar
@@ -762,15 +769,17 @@ function renderStatus() {
   const left = EXT.shell.statusItems("left"), right = EXT.shell.statusItems("right");
   bar.replaceChildren(
     h("span", { class: "st", title: S.engineError && S.mode === "none" ? S.engineError : null }, h("span", { class: "dot", style: `--c:${eng.c}` }), eng.text),
-    h("span", { class: "st", text: dev }),
-    cores ? h("span", { class: "st", text: t("js-desk-cores", { one: "{ $n } core", other: "{ $n } cores" }, { n: cores }) }) : null,
+    h("span", { class: "st" }, ic("receiver"), dev),
+    cores ? h("span", { class: "st", text: t("js-desk-cores", { one: "{ $n } core", other: "{ $n } cores" }, { n: fmtCount(cores) }) }) : null,
     ...(left || []).map(extSt),
     h("div", { class: "grow" }),
     ...(right ? right.map(extSt) : [
       h("span", { class: "st", text: t("js-desk-free-edition", "Free edition") }),
       h("span", { class: "st", text: t("js-desk-offline", "Works offline") })]),
+    h("button", { type: "button", id: "btn-density", "aria-label": t("js-desk-density", "Switch between comfortable and compact"), title: t("js-desk-density", "Switch between comfortable and compact"), onclick: switchDensity }, density() === "compact" ? t("js-desk-density-compact", "Compact") : t("js-desk-density-comfortable", "Comfortable")),
     h("button", { type: "button", id: "btn-theme", "aria-label": t("js-desk-theme", "Switch between light and dark"), title: t("js-desk-theme", "Switch between light and dark"), onclick: toggleTheme }, ic("theme")));
 }
+function switchDensity() { const d = toggleDensity(); renderStatus(); toast(d === "compact" ? t("js-desk-density-now-compact", "Compact: smaller text, 24 px rows.") : t("js-desk-density-now-comfortable", "Comfortable: 13 px text, 32 px rows.")); }
 function toggleTheme() {
   const root = document.documentElement;
   const dark = root.dataset.theme ? root.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
@@ -787,11 +796,12 @@ function paletteActions() {
     { id: "run", label: t("js-desk-act-run", "Run this scenario again"), keywords: "run rerun again", disabled: !tab || !tab.toml, go: () => runTab(tab) },
     { id: "compare", label: t("js-desk-act-compare", "Compare the 2 selected runs"), keywords: "compare diff runs", hint: sel.length === 2 ? "" : t("js-desk-act-compare-hint", "select two in Runs"), go: () => { if (sel.length === 2) S.compare = sel.map((r) => r.id); go("runs"); } },
     { id: "export", label: t("js-desk-act-export", "Export an evidence pack of this run"), keywords: "export evidence pack zip", disabled: !(tab && tab.run), go: () => exportPack(tab && tab.run) },
-    { id: "connect", label: t("js-desk-act-connect", "Connect a receiver (serial, TCP, file)"), keywords: "device receiver nmea serial connect", go: async () => { if (S.devices.api) S.devices.list = await S.devices.api.list().catch(() => []); go("devices"); } },
+    { id: "connect", icon: "receiver", label: t("js-desk-act-connect", "Connect a receiver (serial, TCP, file)"), keywords: "device receiver nmea serial connect", go: async () => { if (S.devices.api) S.devices.list = await S.devices.api.list().catch(() => []); go("devices"); } },
     { id: "file", label: t("js-desk-act-file", "Open a scenario file…"), keywords: "open file toml", go: () => { go("files"); $("file-in")?.click(); } },
     { id: "library", label: t("js-desk-act-library", "Browse the scenario library"), keywords: "library scenarios browse", go: () => go("library") },
     { id: "runs", label: t("js-desk-act-runs", "Show the runs of this session"), keywords: "runs history", go: () => go("runs") },
     { id: "theme", label: t("js-desk-act-theme", "Switch between light and dark"), keywords: "theme dark light", go: toggleTheme },
+    { id: "density", label: density() === "compact" ? t("js-desk-act-density-comfortable", "View: comfortable density") : t("js-desk-act-density-compact", "View: compact density"), keywords: "view density compact comfortable rows", go: switchDensity },
     ...PRO().map((p) => ({ id: `pro-${p.id}`, label: p.label, keywords: "pro", pro: true, go: () => go("upgrade") })),
   ];
   return A;
@@ -837,7 +847,7 @@ function fillPalette() {
       if (row.kind === "scenario") lbl.append(h("span", { class: "sub", text: domLabel(row.entry.domain) }));
       kids.push(h("li", { class: "pal-opt", role: "option", id: `pal-opt-${row.index}`, "aria-selected": sel ? "true" : "false", "aria-disabled": row.disabled ? "true" : null,
         onmousemove: () => { if (P.i !== row.index) { P.i = row.index; fillPalette(); } }, onclick: (e) => execRow(row, e.metaKey || e.ctrlKey) },
-        row.kind === "scenario" ? h("span", { class: "dot", style: `--c:${domColor(row.entry.domain)};width:8px;height:8px` }) : row.ext ? extIcon(row.action.icon) : null,
+        row.kind === "scenario" ? domainMark(row.entry.domain, domColor(row.entry.domain)) : row.ext ? extIcon(row.action.icon) : row.action.icon ? ic(row.action.icon) : null,
         lbl,
         row.pro ? h("span", { class: "pro-tag", text: "PRO" }) : row.tag ? h("span", { class: "ext-tag", text: row.tag }) : row.action && row.action.hint ? h("span", { class: "hint", text: row.action.hint }) : sel ? h("span", { class: "hint", text: row.kind === "scenario" ? (P.inNewTab ? t("js-desk-pal-hint-open", "↵ open") : t("js-desk-pal-hint-run", "↵ run")) : "↵" }) : null));
     }
@@ -913,6 +923,7 @@ window.KshanaShell = KshanaShell;
 window.dispatchEvent(new CustomEvent("kshana-shell-ready", { detail: KshanaShell }));
 
 async function main() {
+  restoreDensity();
   render();
   await readGroups();
   render();
