@@ -385,12 +385,17 @@ export function createChart(host, spec0 = {}) {
         if (brush && brushHas(brush, tr.t[i]) && tr.px[i] === tr.px[i]) hot.push(sx.map(tr.px[i]), sy.map(tr.py[i]));
         last = i;
       }
-      L.push({ k: "path", pts, stroke: c, width: 1.4, alpha: 0.55 });
+      // A track with a state per point (a sky plot's satellite states, 0.42 U16) is drawn in the
+      // colour of each state, segment by segment; otherwise in the track's colour.
+      const sc = tr.state && S.stateColors ? (i) => col(S.stateColors[tr.state[i]] || tr.color) : null;
+      if (sc && last > 0) {
+        for (let i = 1; i <= last; i++) L.push({ k: "path", pts: [pts[2 * i - 2], pts[2 * i - 1], pts[2 * i], pts[2 * i + 1]], stroke: sc(i), width: 1.6, alpha: 0.7 });
+      } else L.push({ k: "path", pts, stroke: c, width: 1.4, alpha: 0.55 });
       if (hot.length) L.push({ k: "points", pts: hot, color: c, size: 5 });
       if (last >= 0 && tr.px[last] === tr.px[last]) {
         const X = sx.map(tr.px[last]), Y = sy.map(tr.py[last]);
         const off = tr.visible && tr.visible[last] === 0;
-        L.push({ k: "points", pts: [X, Y], color: c, size: 9, stroke: off });
+        L.push({ k: "points", pts: [X, Y], color: sc ? sc(last) : c, size: 9, stroke: off });
         const lab = tr.short || tr.label;
         if (free(X + 7, Y - 6, lab.length * 6)) L.push({ k: "text", x: X + 7, y: Y - 6, text: lab, color: T.ink2, size: 9.5, base: "bottom", font: T.mono });
       }
@@ -855,7 +860,7 @@ export function createChart(host, spec0 = {}) {
     else if (k === "Enter" && hover && hover.items[0]) togglePin(hover.items[0]);
     else if ((k === "m" || k === "M") && hover && hover.items[0]) addMarker(hover.items[0]);
     else if (k === "t" || k === "T") { details.open = !details.open; if (details.open) details.querySelector("summary").focus(); }
-    else if (k === "Escape") { pins.length = 0; markers.length = 0; if (brush) publishBrush(null); live.textContent = "Pins, markers and selection cleared"; schedule(true); }
+    else if (k === "Escape") { const had = markers.length; pins.length = 0; markers.length = 0; if (brush) publishBrush(null); live.textContent = "Pins, markers and selection cleared"; if (had) emit("markers", { markers: [], text: "" }); schedule(true); }
     else used = false;
     if (used) e.preventDefault();
   });
@@ -951,7 +956,15 @@ export function createChart(host, spec0 = {}) {
     markAt(px, py) { layout(); const it = pick(px, py)[0]; if (it) addMarker(it); return it || null; },
     brushRange(a, b) { publishBrush(a === null ? null : { range: [Math.min(a, b), Math.max(a, b)], epochs: null }); },
     brushBox(x0, y0, x1, y1) { layout(); publishBrush(epochsInBox(x0, y0, x1, y1)); },
-    clear() { pins.length = 0; markers.length = 0; brush = null; schedule(true); },
+    clear() { const had = markers.length; pins.length = 0; markers.length = 0; brush = null; if (had) emit("markers", { markers: [], text: "" }); schedule(true); },
+    /** Place markers A and B at points { sid, i } (a restored session); emits "markers". */
+    setMarkers(refs) {
+      layout();
+      markers.length = 0;
+      for (const r of (refs || []).slice(-2)) { const it = itemAt(r); if (it) markers.push({ sid: r.sid, i: r.i }); }
+      emit("markers", { markers: markers.map(itemAt), text: deltaText() });
+      schedule(true);
+    },
     toggle(id, on) { if (on === undefined ? !hidden.has(id) : !on) hidden.add(id); else hidden.delete(id); drawLegend(); schedule(true); },
     link: (g) => joinGroup(g),
     setClock(c) { S.clock = c; spec0 = { ...spec0, clock: c }; attachClock(c); schedule(true); },
