@@ -142,6 +142,91 @@ keep them. An extension's errors are logged and never stop the shell. The shell 
 text an extension gives it through `textContent`. `kshana-shell-ready` is dispatched on
 `window` once, with the API as `detail`, before the shell's first render.
 
+## Projects, files and the console
+
+**Runs kept on disk (0.42 U8).** The session is kept in a project folder whose name ends in
+`.kshana` (`Documents/Kshana/Session.kshana` until the person keeps it under a name or opens
+another one, on Files and project). It is plain text, written by the app's native side
+(`src-tauri/src/project.rs`: relative paths inside the folder only, the project's file kinds
+only, each file written to a temporary name and renamed) a moment after each change and
+every few seconds while the layout changes:
+
+| Path | Holds |
+|---|---|
+| `project.json` | format `kshana-project/1`, the name, when it was made |
+| `runs/<time>-<n>/` | `run.json` (title, scenario file, engine and version, the SHA-256 of the scenario text and of the result, seed, tags, pin, note), `scenario.toml` (the recipe), `result.json` (the engine's result as it wrote it, byte for byte), and `summary.txt`, `chart.svg`, `table.csv` when the engine made them |
+| `scenarios/` | the open tabs' scenarios that were edited or opened from a file |
+| `layouts/session.json` | the open tabs, the view of each, its clock (cursor, range, timed markers) and its plot's markers A and B, the selected runs, the page shown |
+| `data/links.json` | the data files the project uses, by path, with format and size |
+| `notebooks/notes.md`, `notebooks/console.json` | the project's notes and the console |
+
+Closing and opening the app brings back the tabs, their views, cursors and markers, the runs
+and the selection. The Runs page searches (words, `tag:name`, `is:pinned`, `is:edited`),
+pins, tags and annotates runs, and **replays** a run: its `scenario.toml` runs again and the
+result's SHA-256 is compared with the one kept; the same engine version gives the same bytes.
+A page opened outside the app keeps the same files in the window's storage.
+
+**Drop anything in (U9).** Files or a folder dropped on the window (or chosen on Files and
+project) go to the native format detective (`src-tauri/src/detective.rs`), which uses the
+engine's own readers: RINEX observation, navigation and clock files, SP3, the twelve
+receiver-log formats of the receiver-trust kind (UBX, NMEA 0183, SBF, NovAtel, RTCM 3 MSM,
+RTKLIB .pos, Android GnssLogger, GNSS-SDR, SBP, GREIS, Unicore, RINEX), the clock logs of
+`[clock_log]`, SigMF and raw IQ recordings (described by their size and metadata, never
+read), and AIS, ADS-B, MAVLink and ULog track files. Before anything is loaded it shows the
+format, the span, the epochs and interval, the constellations and satellites, and the gaps
+(spans longer than one and a half intervals); a file larger than 8 MiB is described from its
+first 8 MiB, and the page says so. A file the engine does not read is named with the reason.
+A receiver log then opens as a receiver-trust run of its own path; a clock log opens beside
+the bundled clock simulation (`clock-measured-log.toml` with its `[clock_log]` replaced);
+navigation, orbit, IQ and track files are kept as data links of the project (no scenario
+opens them on their own yet).
+
+**The code mirror (U10).** The Console page lists, for every open, setting change, reset,
+run, export, evidence pack, comparison, replay, drop, marker pair, sky plot and figure
+export, the Python line (the `kshana` package) and the command line that do the same. A run is
+written so it reproduces: `kshana.get_example(name)` for an unedited bundled scenario, the
+whole scenario text otherwise, then `kshana.run()` and a line that prints whether the
+result's SHA-256 is the one the window got. The session copies (or saves) as one Python
+script or one shell script. Every figure carries **Copy the script that makes this**: the run,
+the figure's data taken from the result by path where the series is found there (else its
+values as drawn), and a matplotlib plot; the engine's chart as `kshana.run_full()`; the sky
+plot as the `kshana.sky_geometry` requests.
+
+## Markers, journal figures and the sky plot
+
+**Markers (U12).** The Timeline's plot is the interactive chart (`lib/plot.mjs` `mountPlot`
+renders through `lib/chart`; the U15 linked view keeps its place in the Timeline, with the
+chart as its plot). Alt-click or M on the plot places marker A, then B; the inspector reads
+out the time and value of each, Δt, Δ value and the slope, and the map draws A and B where
+the run was at those instants (the track, a single moving object, or the fixed receiver).
+Escape clears them. They are kept with the project.
+
+**Journal figures (U13).** A chart's **Export for a journal** draws its visible window
+again in the IEEE, ION or AIAA manner (`lib/chart/journal.mjs`): one or two column widths
+(IEEE's 3.5 and 7.16 in; for ION and AIAA 3.25 and 6.75 in, a common two-column layout, not
+taken from their guides), a Times face, black and grey lines
+told apart by dash and weight so the figure prints in black and white, as SVG, PDF (vectors,
+written by the module) or PNG at 300 dpi. The figure is drawn from the chart's own data and
+window: every point in the window is drawn (a series of more than 20,000 points there by the
+first, lowest, highest and last point of each of four columns per output point), and the
+visible data ride along (CSV in the SVG's metadata, an embedded file in the PDF), the same
+rows as the chart's CSV export. Check the figure against the current author guide before
+submitting.
+
+**The sky plot (U16).** A run whose scene has a receiver or station gets a Sky view: the
+engine's `sky_geometry` (the function of the Studio's sky geometry page and of the Python
+package) at 61 epochs over the run, from that site, with the scenario's elevation mask (5°
+when it states none). The azimuths and elevations are drawn as the engine gives them (the
+tests check each sample against the engine's reply); trails follow the run's clock, the mask
+is the dashed ring, and each satellite is coloured by its state at each sample: in view and
+used, above the horizon but under the mask or skyline, or below the horizon (a state for
+satellites a source flags unhealthy is drawn when one is given; no source gives it yet). The
+constellations are the engine's GPS and Galileo presets propagated to the run's seconds; the
+engine labels them representative, not the broadcast constellation of the run's date.
+
+Tests: `node --test apps/desktop/shell/lib/*.test.mjs apps/desktop/shell/lib/chart/journal.test.mjs`;
+the detective and project folders: `cargo test --manifest-path apps/desktop/src-tauri/Cargo.toml`.
+
 ## Charts
 
 `shell/lib/chart/` is the Desktop's interactive chart library (0.42 U30): pure ES modules, no
