@@ -207,10 +207,13 @@ fn encode_value(v: &Value) -> Vec<u8> {
     }
 }
 
-/// Encode a message. Only GetRequest, GetNextRequest and Response PDUs are encoded; any other PDU
-/// type (a SetRequest in particular) gives `None`.
+/// Encode a message. Only GetRequest, GetNextRequest, Response and SNMPv2-Trap PDUs are encoded;
+/// any other PDU type (a SetRequest in particular) gives `None`.
 pub fn encode_message(m: &Message) -> Option<Vec<u8>> {
-    if !matches!(m.pdu_type, pdu::GET | pdu::GET_NEXT | pdu::RESPONSE) {
+    if !matches!(
+        m.pdu_type,
+        pdu::GET | pdu::GET_NEXT | pdu::RESPONSE | pdu::TRAP_V2
+    ) {
         return None;
     }
     let mut vbs = Vec::new();
