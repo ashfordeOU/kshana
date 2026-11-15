@@ -9,6 +9,35 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+### Added (0.42 I9 to I12: SDKs, deployment, APIs, conformance kit v2)
+
+- I9 SDK conformance: every SDK runs the same three scenarios and one Connect mapping and must give the same bytes
+  (`capi/kshana-capi/sdk/conformance/`, digests pinned in `expected.sha256`). Wrappers and drivers over the C interface for C,
+  C++, Python (ctypes), Go, Java (Foreign Function and Memory API, no JNI code), .NET (P/Invoke) and Julia, run by the
+  `capi-check` job (Julia when installed); MATLAB (`loadlibrary`) and LabVIEW (Call Library Function Node guide) are not run in
+  CI. The native Python package and the WebAssembly package are held to the same digests. Guide: `docs/SDK.md`.
+- I10 Station deployment: a Helm chart (`deploy/helm/kshana-station`), a Terraform module with the same objects
+  (`deploy/terraform/kshana-station`) and a cross-compiled `linux/arm64` and `linux/amd64` edge image (`deploy/edge`). CI lints
+  the chart and validates the module, installs the chart on kind against a replayed UBX receiver until `/status` reports
+  epochs, and runs the edge image (arm64 under QEMU). Not published to a registry yet; no Kubernetes operator.
+- I11 `docs/api/openapi.json`: an OpenAPI 3.1 description of the open HTTP endpoints (Station status port, trust-telemetry
+  metrics, `kshana-mcp --http`), held to the routes and the Station status document by `tests/openapi_doc_sync.rs` and linted
+  in CI. The MCP `assess_receiver_log` tool now names every receiver reader it takes, kept in step with the reader list.
+- I12 Connect conformance kit v2: `conformance/kit.toml` lists every connector, and a test holds it to the code (every reader,
+  track decoder, export form, mapping source format and timing parser has a vector). 13 new vectors (UBX, SBF, NovAtel,
+  RTCM 3, GNSS-SDR, Android, RTKLIB, RTCM SSR, MAVLink stream, ADS-B and AIS CSV, TSV and JSON-lines mappings).
+  `kshana connect check-live` replays each live receiver reader over a new stream path (bytes in uneven pieces);
+  `conformance/run-kit.sh` runs the kit offline. Open finding: the IEC 61162-450 reader's live read differs from its replay
+  from epoch 69 of the kit's capture, so it is left off the stream path.
+- Windows desktop signing (owner decision K5): an Azure Trusted Signing step in the Desktop workflow, off until the repository
+  variable `WINDOWS_SIGNING` is `azure` and the six signing secrets are set; until then the Windows build says it is unsigned.
+  See `docs/WINDOWS-SIGNING.md`.
+
+### Fixed
+
+- `kshana obs live` (and the Station) no longer stops on an Android GnssLogger stream whose first piece holds rows before the
+  first fix: that piece is not taken as the anchor, and the live read gives the replay's epochs.
+
 ### Added (0.42 I1, I6: maritime, aviation and drone data)
 
 - `kshana connect decode` (`kshana::interconnect`): AIS from NMEA 0183 `!AIVDM`/`!AIVDO` (types 1, 2, 3, 4, 5, 18, 19, 24;

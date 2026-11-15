@@ -1,0 +1,100 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "kshana-station.fullname" . }}
+  labels:
+    {{- include "kshana-station.labels" . | nindent 4 }}
+spec:
+  # One Station per set of receivers: two replicas would read the same streams twice into the same files.
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      {{- include "kshana-station.selector" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "kshana-station.selector" . | nindent 8 }}
+      annotations:
+        checksum/station: {{ default (.Files.Get "files/station.toml") .Values.station | sha256sum }}
+    spec:
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      initContainers:
+        # Refuse to start on a configuration the Station would refuse (`kshana station check`).
+        - name: check
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: ["kshana", "station", "check", "/etc/kshana-station/config/station.toml"]
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          volumeMounts:
+            - name: config
+              mountPath: /etc/kshana-station/config
+              readOnly: true
+            - name: token
+              mountPath: /etc/kshana-station/token
+              readOnly: true
+      containers:
+        - name: station
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: ["kshana", "station", "run", "/etc/kshana-station/config/station.toml"]
+          ports:
+            - name: status
+              containerPort: 8470
+          # /health never needs the token; /status does.
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: status
+            periodSeconds: 15
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: status
+            periodSeconds: 30
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            - name: config
+              mountPath: /etc/kshana-station/config
+              readOnly: true
+            - name: token
+              mountPath: /etc/kshana-station/token
+              readOnly: true
+            - name: data
+              mountPath: /var/lib/kshana-station
+            - name: tmp
+              mountPath: /tmp
+      volumes:
+        - name: config
+          configMap:
+            name: {{ .Values.existingStationConfigMap | default (printf "%s-config" (include "kshana-station.fullname" .)) }}
+        - name: token
+          secret:
+            secretName: {{ include "kshana-station.tokenSecret" . }}
+        - name: data
+          {{- if .Values.persistence.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ .Values.persistence.existingClaim | default (printf "%s-data" (include "kshana-station.fullname" .)) }}
+          {{- else }}
+          emptyDir: {}
+          {{- end }}
+        - name: tmp
+          emptyDir: {}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

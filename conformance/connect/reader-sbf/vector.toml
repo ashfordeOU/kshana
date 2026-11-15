@@ -1,0 +1,5 @@
+name = "built-in reader: sbf"
+input = "input.sbf"
+reader = "sbf"
+station = "../../../examples/obs/station.toml"
+expected = "expected.obs.jsonl"

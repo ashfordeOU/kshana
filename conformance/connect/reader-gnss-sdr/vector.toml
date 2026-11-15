@@ -1,0 +1,5 @@
+name = "built-in reader: gnss-sdr"
+input = "input.jsonl"
+reader = "gnss-sdr"
+station = "../../../examples/obs/station.toml"
+expected = "expected.obs.jsonl"

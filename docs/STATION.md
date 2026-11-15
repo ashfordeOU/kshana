@@ -65,6 +65,16 @@ engine version, uptime, and per source whether it is connected, its connections 
 bytes and epochs read, when the last epoch arrived, the last error and the current file; and
 the last fleet report's outcome.
 
+## On Kubernetes, with Terraform, or on a Raspberry Pi
+
+- Helm chart: [`deploy/helm/kshana-station`](../deploy/helm/kshana-station/README.md).
+- Terraform module (the same objects): [`deploy/terraform/kshana-station`](../deploy/terraform/kshana-station/README.md).
+- Edge image for a Raspberry Pi (64-bit, `linux/arm64`) or a small `linux/amd64` box:
+  [`deploy/edge`](../deploy/edge/README.md).
+
+All three run the Station on `0.0.0.0:8470` with a bearer token, read-only root file system, as user
+10001; CI installs the chart on kind and runs the edge image against a replayed receiver.
+
 ## As a service
 
 `kshana station service <system> <station.toml>` prints, for the configuration's absolute path

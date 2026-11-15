@@ -61,7 +61,7 @@ for (const rel of ported) {
 const OWNED = new Set(["CNAME", "README.md", "build.sh", "smoke.mjs", "capabilities.json", "favicon.svg",
   "og-card.png", "og-card.svg", "og-card.rendered-from.json", ".well-known/security.txt", "data/card-matrix-map.json",
   "data/oracle-references.json", "data/standards-matrix-map.json", "data/verification-matrix.json", "PORT-MANIFEST.json",
-  "site.test.mjs", "legacy-urls.test.mjs"]);
+  "site.test.mjs", "legacy-urls.test.mjs", "sdk-conformance.test.mjs"]);
 const BUILT = ["pkg/", "scenarios/", "studio/pkg/"];
 const walk = (dir, base = "") => readdirSync(join(WEB, dir), { withFileTypes: true }).flatMap((e) => {
   const rel = base ? `${base}/${e.name}` : e.name;

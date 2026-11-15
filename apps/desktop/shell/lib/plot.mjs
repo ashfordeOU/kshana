@@ -264,7 +264,7 @@ export function plotSpec(model, { t = (id, en) => en, clockText: ct = clockText 
     type: "xy", title: model.title || "", subtitle: "",
     x: { label: t("js-desk-plot-time", "time"), unit: "s", time: true, format: utc !== null ? (v) => ct(v, { epochMs: utc }) : null },
     y: { label: String(model.yLabel || "").replace(/\s*\([^)]*\)\s*$/, ""), unit: (model.series[0] && model.series[0].unit) || "" },
-    series: model.series.map((s) => ({ id: s.id, label: s.label, color: s.color || undefined, unit: s.unit || "", x: s.t, y: s.v })),
+    series: model.series.map((s) => ({ id: s.id, label: s.label, color: s.color || undefined, unit: s.unit || "", x: s.t, y: s.v, dash: s.dash ? [6, 4] : undefined })),
     overlays: Number.isFinite(model.threshold) ? [{ kind: "hline", y: model.threshold, label: model.thresholdLabel || "", color: "bad" }] : [],
   };
 }

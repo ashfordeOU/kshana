@@ -1,0 +1,9 @@
+Kshana Station {{ .Chart.AppVersion }} is starting. Advisory software, not type-approved navigation or timing equipment.
+
+Health (no token):
+  kubectl port-forward svc/{{ include "kshana-station.fullname" . }} {{ .Values.http.port }}:{{ .Values.http.port }} &
+  curl -s 127.0.0.1:{{ .Values.http.port }}/health
+
+Status (needs the bearer token from Secret {{ include "kshana-station.tokenSecret" . }}):
+  TOKEN=$(kubectl get secret {{ include "kshana-station.tokenSecret" . }} -o jsonpath='{.data.token}' | base64 -d)
+  curl -s -H "Authorization: Bearer $TOKEN" 127.0.0.1:{{ .Values.http.port }}/status

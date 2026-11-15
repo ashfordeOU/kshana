@@ -1,0 +1,5 @@
+name = "built-in reader: rtcm3"
+input = "input.rtcm3"
+reader = "rtcm3"
+station = "../../../examples/obs/station.toml"
+expected = "expected.obs.jsonl"
