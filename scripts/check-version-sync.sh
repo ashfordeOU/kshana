@@ -320,6 +320,9 @@ if ! grep -qE "^appVersion: \"${ver//./\\.}\"$" "$chart"; then
   fail=1
 fi
 
+# The OpenAPI description of the open HTTP endpoints names the engine version (docs/api/openapi.json).
+check_json_version docs/api/openapi.json 'd["info"]["version"]' "info.version (OpenAPI)"
+
 # The Studio's recorded runs carry the engine version that wrote them (the wasm's own
 # version() when the recordings are made), the best runtime marker of which engine the
 # Studio shows. web/studio/channels.json (install strings) is checked in section 5 above.
