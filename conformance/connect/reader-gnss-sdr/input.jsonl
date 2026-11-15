@@ -1,0 +1,9 @@
+{"msg":"synchro","System":"G","Signal":"1C","PRN":5,"CN0_dB_hz":44.5,"RX_time":100.02,"Flag_valid_pseudorange":true}
+{"msg":"synchro","System":"G","Signal":"1C","PRN":12,"CN0_dB_hz":42.0,"RX_time":100.02,"Flag_valid_pseudorange":true}
+{"msg":"synchro","System":"E","Signal":"1B","PRN":11,"CN0_dB_hz":40.0,"RX_time":100.06,"Flag_valid_pseudorange":true}
+{"msg":"pvt","rx_time":100.0,"week":2300,"latitude":59.44,"longitude":24.75,"height":30.0,"valid_sats":7,"hdop":1.2,"utc_time":"2024-03-01T12:00:00.000Z","tracked_satellites":[{"prn":5,"system":"G","signal":"1C","azimuth_deg":120.0,"elevation_deg":35.0,"used":true},{"prn":12,"system":"G","signal":"1C","azimuth_deg":200.0,"elevation_deg":50.0,"used":true}]}
+{"msg":"synchro","System":"G","Signal":"1C","PRN":5,"CN0_dB_hz":31.0,"RX_time":101.02,"Flag_valid_pseudorange":true}
+{"msg":"synchro","System":"G","Signal":"1C","PRN":12,"CN0_dB_hz":29.5,"RX_time":101.02,"Flag_valid_pseudorange":true}
+{"msg":"synchro","System":"E","Signal":"1B","PRN":11,"CN0_dB_hz":28.0,"RX_time":101.06,"Flag_valid_pseudorange":false}
+{"msg":"pvt","rx_time":101.0,"week":2300,"latitude":59.44001,"longitude":24.75001,"height":30.5,"valid_sats":6,"hdop":1.6,"utc_time":"2024-03-01T12:00:01.000Z","tracked_satellites":[{"prn":5,"system":"G","signal":"1C","azimuth_deg":120.0,"elevation_deg":35.1,"used":true}]}
+{"msg":"other"}

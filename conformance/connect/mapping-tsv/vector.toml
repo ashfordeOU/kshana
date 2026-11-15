@@ -1,0 +1,5 @@
+name = "mapping file: tsv source"
+input = "input.tsv"
+mapping = "mapping.connect.toml"
+station = "../../../examples/obs/station.toml"
+expected = "expected.obs.jsonl"

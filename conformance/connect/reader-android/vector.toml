@@ -1,0 +1,5 @@
+name = "built-in reader: android"
+input = "input.txt"
+reader = "android"
+station = "../../../examples/obs/station.toml"
+expected = "expected.obs.jsonl"

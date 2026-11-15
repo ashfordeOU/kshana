@@ -1,0 +1,5 @@
+name = "built-in reader: ubx"
+input = "input.ubx"
+reader = "ubx"
+station = "../../../examples/obs/station.toml"
+expected = "expected.obs.jsonl"
