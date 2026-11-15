@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: AGPL-3.0-only
-# Tag a release once main is green on the version bump.
+# Tag a release once main is green on the version bump: CI and the i18n workflow both.
 #
 # docs/RELEASING.md step 4 used to be a hand step: push `vX.Y.Z` on a commit that is already
 # green on main. This workflow does that step and nothing else. When CI finishes green on a
@@ -7,6 +7,15 @@
 # the version surfaces agree (scripts/check-version-sync.sh, as release.yml's verify does) and
 # pushes an annotated tag on exactly the commit CI verified. release.yml then runs on that tag
 # push, unchanged: verify -> release -> publish -> parity -> site.
+#
+# CI alone is not enough. At 0.41.0 the tag went out on a commit that was green in CI while
+# the site check was red, so the release shipped and kshana.dev could not be redeployed from
+# it. The site checks live in i18n.yml (its deploy-tree job builds the tree the way pages.yml
+# does and opens it in a real browser), so this workflow runs when EITHER workflow completes
+# and tags only when BOTH have a successful push run on exactly the same commit. The first of
+# the two to finish finds the other still running and stops; the second one tags. A red run
+# of either workflow on the commit fails this job with the reason, and nothing is tagged.
+# i18n.yml runs on every push to main for this reason (no path filter on main pushes).
 #
 # It never moves or replaces a tag. A commit that is not main's head any more (main moved
 # while CI ran) is skipped, so the tag always lands on the newest green commit that carries
@@ -20,17 +29,19 @@
 name: Auto-tag
 on:
   workflow_run:
-    workflows: [CI]
+    workflows: [CI, i18n]
     types: [completed]
     branches: [main]
 permissions:
   contents: read
+  actions: read
 concurrency:
   group: auto-tag
   cancel-in-progress: false
 jobs:
   tag:
     # Only a green push run of this repository's own main; never a pull request's run.
+    # (Either workflow; the step below requires the other one too.)
     if: >-
       github.event.workflow_run.conclusion == 'success' &&
       github.event.workflow_run.event == 'push' &&
@@ -55,21 +66,71 @@ jobs:
           ref: main
           fetch-depth: 0
           token: ${{ secrets.RELEASE_TAG_TOKEN }}
-      - name: Tag the version if it is new
+      - name: Is there a new version to tag on this commit
+        id: v
         env:
           SHA: ${{ github.event.workflow_run.head_sha }}
         run: |
           set -euo pipefail
           version="$(awk -F'"' '/^\[package\]/{p=1} p && /^version *=/{print $2; exit}' Cargo.toml)"
           tag="v$version"
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "tag=$tag" >> "$GITHUB_OUTPUT"
           echo "Cargo.toml version: $version (commit $SHA)"
           if git ls-remote --exit-code --tags origin "refs/tags/$tag" >/dev/null; then
             echo "$tag already exists; nothing to do."
+            echo "new=false" >> "$GITHUB_OUTPUT"
             exit 0
           fi
           head="$(git rev-parse HEAD)"
           if [ "$head" != "$SHA" ]; then
             echo "main moved on to $head while CI ran on $SHA; the run on the newer head tags it."
+            echo "new=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          echo "new=true" >> "$GITHUB_OUTPUT"
+      # Asked only when there is something to tag, so a red i18n run on an ordinary commit
+      # does not turn this workflow red as well.
+      - name: CI and i18n are both green on this commit
+        id: gate
+        if: steps.v.outputs.new == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          SHA: ${{ github.event.workflow_run.head_sha }}
+        run: |
+          set -euo pipefail
+          ready=true
+          for wf in ci.yml i18n.yml; do
+            # The newest push run of that workflow on main for exactly this commit.
+            run="$(gh api "repos/$REPO/actions/workflows/$wf/runs?head_sha=$SHA&event=push&branch=main&per_page=1" \
+                     --jq '.workflow_runs[0] | if . == null then "none" else "\(.status) \(.conclusion // "")" end')"
+            echo "$wf on $SHA: $run"
+            case "$run" in
+              "completed success") ;;
+              completed*)
+                echo "::error::$wf is not green on $SHA ($run); not tagging. Fix it on main; the next commit green in both tags."
+                exit 1 ;;
+              none)
+                echo "::error::$wf has no push run on $SHA (it runs on every push to main); not tagging."
+                exit 1 ;;
+              *)
+                echo "$wf is still running on $SHA; its completion runs this workflow again and tags then."
+                ready=false ;;
+            esac
+          done
+          echo "ready=$ready" >> "$GITHUB_OUTPUT"
+      - name: Tag the version
+        if: steps.v.outputs.new == 'true' && steps.gate.outputs.ready == 'true'
+        env:
+          SHA: ${{ github.event.workflow_run.head_sha }}
+          version: ${{ steps.v.outputs.version }}
+          tag: ${{ steps.v.outputs.tag }}
+        run: |
+          set -euo pipefail
+          # A run that finished just before this one may have tagged it already.
+          if git ls-remote --exit-code --tags origin "refs/tags/$tag" >/dev/null; then
+            echo "$tag already exists; nothing to do."
             exit 0
           fi
           GITHUB_REF_TYPE=tag GITHUB_REF_NAME="$tag" ./scripts/check-version-sync.sh

@@ -1,0 +1,108 @@
+# SPDX-License-Identifier: AGPL-3.0-only
+# Kshana Desktop Linux packages, installed and started on Ubuntu, Fedora and Raspberry Pi OS (0.42 Q2).
+#
+# build:   the .deb and .rpm bundles for x86_64 (ubuntu-22.04) and arm64 (ubuntu-22.04-arm, a native
+#          arm64 runner: building the engine under QEMU emulation would take hours). Ubuntu 22.04 is
+#          the oldest base the packages support, so they link against the oldest glibc and WebKitGTK.
+# install: each package in a fresh container of the distribution under test, with the distribution's
+#          own package manager resolving every dependency, then the application started on a virtual
+#          display until its window is mapped (scripts/linux-package-install-test.sh), then removed.
+#            Ubuntu 22.04 and 24.04 (amd64 .deb), Fedora (x86_64 .rpm), and Raspberry Pi OS (64-bit):
+#            Debian trixie arm64 with the Raspberry Pi archive added as Raspberry Pi OS has it, on the
+#            arm64 runner. The Raspberry Pi kernel, firmware and GPU driver are not part of the test.
+# The packages are unsigned build artefacts; the published ones come from the release workflow.
+name: Linux packages
+on:
+  push:
+    branches: [main]
+    paths: ["apps/desktop/**", "web/studio/**", "src/**", "Cargo.toml", "Cargo.lock",
+            "scripts/linux-package-install-test.sh", ".github/workflows/linux-packages.yml"]
+  pull_request:
+    paths: ["apps/desktop/**", "scripts/linux-package-install-test.sh", ".github/workflows/linux-packages.yml"]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: linux-packages-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { arch: amd64, runner: ubuntu-22.04 }
+          - { arch: arm64, runner: ubuntu-22.04-arm }
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: dtolnay/rust-toolchain@e2a55d2ffb04f378e9626c28d38b36d230d1e12f # master; the toolchain is the `toolchain` input below
+        with:
+          toolchain: 1.93.0
+      - uses: Swatinem/rust-cache@d1527c8f67ef9af357290475d4af4b0fab8f12e0 # v2
+        with:
+          workspaces: apps/desktop/src-tauri
+          key: linux-packages-${{ matrix.arch }}
+      - name: Build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libwebkit2gtk-4.1-dev libsoup-3.0-dev librsvg2-dev libayatana-appindicator3-dev rpm
+      - name: Stage the frontend
+        run: apps/desktop/build-frontend.sh
+      - name: Bundle (.deb and .rpm)
+        run: |
+          cargo install tauri-cli --version "^2" --locked
+          cd apps/desktop/src-tauri && cargo tauri build --bundles deb,rpm
+      - name: Collect the packages under plain names
+        run: |
+          set -euo pipefail
+          B=apps/desktop/src-tauri/target/release/bundle
+          mkdir -p out
+          debs=("$B"/deb/*.deb); rpms=("$B"/rpm/*.rpm)
+          [ "${#debs[@]}" = 1 ] && [ -f "${debs[0]}" ] || { echo "::error::expected one .deb, got: ${debs[*]}"; exit 1; }
+          [ "${#rpms[@]}" = 1 ] && [ -f "${rpms[0]}" ] || { echo "::error::expected one .rpm, got: ${rpms[*]}"; exit 1; }
+          cp "${debs[0]}" "out/kshana-desktop_${{ matrix.arch }}.deb"
+          cp "${rpms[0]}" "out/kshana-desktop_${{ matrix.arch }}.rpm"
+          dpkg-deb -f "out/kshana-desktop_${{ matrix.arch }}.deb" Package Version Architecture Depends
+          (cd out && sha256sum ./* | tee SHA256SUMS)
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: linux-packages-${{ matrix.arch }}
+          path: out/
+          if-no-files-found: error
+          retention-days: 14
+
+  install:
+    needs: build
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { name: "Ubuntu 22.04", runner: ubuntu-22.04, image: "ubuntu:22.04", arch: amd64, pkg: deb, flags: "" }
+          - { name: "Ubuntu 24.04", runner: ubuntu-22.04, image: "ubuntu:24.04", arch: amd64, pkg: deb, flags: "" }
+          - { name: "Fedora", runner: ubuntu-22.04, image: "quay.io/fedora/fedora:latest", arch: amd64, pkg: rpm, flags: "" }
+          - { name: "Raspberry Pi OS (64-bit)", runner: ubuntu-22.04-arm, image: "debian:trixie", arch: arm64, pkg: deb, flags: "--raspberry-pi-archive" }
+    name: install on ${{ matrix.name }}
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          sparse-checkout: scripts/linux-package-install-test.sh
+          sparse-checkout-cone-mode: false
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: linux-packages-${{ matrix.arch }}
+          path: pkg
+      - name: Install, start and remove on ${{ matrix.name }}
+        env:
+          IMAGE: ${{ matrix.image }}
+          PKG: kshana-desktop_${{ matrix.arch }}.${{ matrix.pkg }}
+          FLAGS: ${{ matrix.flags }}
+        run: |
+          set -euo pipefail
+          (cd pkg && sha256sum -c SHA256SUMS --ignore-missing)
+          # shellcheck disable=SC2086 # FLAGS is empty or one option
+          docker run --rm -v "$PWD/pkg:/pkg:ro" -v "$PWD/scripts:/s:ro" "$IMAGE" \
+            sh /s/linux-package-install-test.sh $FLAGS "/pkg/$PKG"

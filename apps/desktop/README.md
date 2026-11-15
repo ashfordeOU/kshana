@@ -474,6 +474,22 @@ cargo install tauri-cli --version "^2" --locked     # once, for the bundles
 (cd apps/desktop/src-tauri && cargo tauri build)    # .dmg/.app, .msi, .deb, .rpm, AppImage
 ```
 
+### Linux packages, installed and started
+
+`.github/workflows/linux-packages.yml` builds the `.deb` and `.rpm` for x86_64 and arm64 on Ubuntu
+22.04 and installs each one in a fresh container with the distribution's own package manager:
+Ubuntu 22.04 and 24.04 (`.deb`), Fedora (`.rpm`) and Raspberry Pi OS 64-bit (Debian trixie arm64
+with the Raspberry Pi archive, on an arm64 runner). `scripts/linux-package-install-test.sh` then
+checks the installed files and shared libraries, starts the app on a virtual display until its
+window is mapped, and removes the package. To run it on your own package:
+
+```bash
+docker run --rm -v "$PWD:/w:ro" ubuntu:24.04 sh /w/scripts/linux-package-install-test.sh "/w/<package>.deb"
+docker run --rm -v "$PWD:/w:ro" debian:trixie sh /w/scripts/linux-package-install-test.sh --raspberry-pi-archive "/w/<package>.deb"
+```
+
+The test does not cover a real Raspberry Pi's kernel, firmware or GPU driver.
+
 ## Not done yet
 
 - **Signing and notarisation.** The bundles are unsigned: macOS Gatekeeper and Windows
@@ -481,6 +497,12 @@ cargo install tauri-cli --version "^2" --locked     # once, for the bundles
   publisher's accounts; the release plan ships the engine first and the signed apps as a
   following patch release.
 - **Signed automatic updates.** Not configured: the update key is the publisher's to make.
+- **The `glib` advisory (RUSTSEC-2024-0429, GHSA-wrw7-89jp-8q8g) stays open on Linux.** It is fixed in
+  `glib` 0.20, but every Tauri release up to 3.0.0-alpha.6 (15 November 2026) reaches GTK through
+  `webkit2gtk` 2.0.x, which requires `glib` 0.18, and the 0.18 line has no fixed release. The unsound
+  function, `glib::VariantStrIter` (reached through `Variant::array_iter_str`), is not called by this app
+  or by any of the other 479 crates in its lock file (their sources searched on 15 November 2026). The alert closes when Tauri moves its Linux webview to a `glib` 0.20 or later
+  stack; it is not dismissed.
 - **SDRs and binary receiver protocols** in the devices panel (it reads NMEA 0183 text). An IQ
   recording's spectrum and waterfall (U25) read one block of up to 16 MiB at a time; a
   recording-wide overview is on the Studio's IQ page.
