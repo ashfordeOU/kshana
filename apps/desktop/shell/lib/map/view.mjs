@@ -80,6 +80,7 @@ export function createMapView({ t = (id, en) => en, loadLand, style, styleName =
   let M = null, C = null, W = 0, H = 0, dpr = 1, st = style();
   let V = { cx: 0.5, cy: 0.5, zoom: 1 };
   let fitted = false;
+  let deltaMarks = []; // the plot's markers A and B on the map (0.42 U12)
   // Screen positions of the track, made with the base layer (for the trail, hits and hover).
   let TX = new Float32Array(0), TY = new Float32Array(0), TC = [], halfWorld = Infinity;
 
@@ -361,6 +362,14 @@ export function createMapView({ t = (id, en) => en, loadLand, style, styleName =
         g.strokeStyle = st.halo; g.lineWidth = 1; g.beginPath(); g.arc(x, y, 8.5, 0, Math.PI * 2); g.stroke();
       }
     }
+    // The plot's markers A and B (0.42 U12), where the run was at their instants.
+    for (const m of deltaMarks) {
+      const [x, y] = project(V, W, H, m.lon, m.lat);
+      if (x < -20 || x > W + 20 || y < -20 || y > H + 20) continue;
+      g.fillStyle = m.name === "B" ? st.markB || st.mark : st.markA || st.mark; g.strokeStyle = st.halo; g.lineWidth = 1.5;
+      g.beginPath(); g.moveTo(x, y - 7); g.lineTo(x + 7, y); g.lineTo(x, y + 7); g.lineTo(x - 7, y); g.closePath(); g.fill(); g.stroke();
+      label(g, m.name, x + 9, y - 6, g.fillStyle);
+    }
     // A fixed receiver of a run with epochs shows whether a fix is held at the cursor.
     if (!tr && M.epochs && typeof M.epochs[0].tracking === "number") {
       const e = M.epochs[indexAtOrBefore(M.epochTimes, C.t)];
@@ -462,6 +471,9 @@ export function createMapView({ t = (id, en) => en, loadLand, style, styleName =
     drawOver();
   };
   function syncStyle() { for (const b of styleBtns) b.setAttribute("aria-pressed", b.dataset.style === styleName() ? "true" : "false"); }
+  /** The plot's markers on the map: [{ name, lat, lon }] (lib/markers.mjs markerPlaces). */
+  ctl.setMarkers = (list) => { deltaMarks = Array.isArray(list) ? list : []; drawOver(); };
+  Object.defineProperty(ctl, "markers", { get: () => deltaMarks.slice() });
   ctl.restyle = () => { st = style(); syncStyle(); drawAll(); drawLegend(); };
   ctl.resize = () => { size(); drawAll(); };
   ctl.destroy = () => { if (ro) ro.disconnect(); };

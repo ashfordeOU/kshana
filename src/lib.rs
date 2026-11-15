@@ -306,6 +306,8 @@ pub mod connect_live;
 pub mod connect_load;
 pub mod connect_mqtt;
 pub mod connect_nats;
+/// `kshana connect` wave-2 entries (0.42 I4, I5, I7, I8): industrial reads, ops outputs, telemetry bridges.
+pub mod connect_ops;
 /// `kshana connect timing|snmp|ntp|decode` (0.42 I2/I3): timing-system and receiver-stream entries.
 pub mod connect_timing;
 pub mod connect_watch;
@@ -316,6 +318,8 @@ pub mod data_pack;
 pub mod device;
 pub mod geodesic;
 pub mod governor;
+/// Read-only Modbus TCP and DNP3 clients (0.42 I7).
+pub mod industrial;
 pub mod interference_map;
 pub mod live_health;
 /// The monitoring-network planner (0.41 row B1a): `kshana planner`.
@@ -329,6 +333,8 @@ pub mod nmea_synth;
 pub mod ntrip;
 pub mod obs;
 pub mod obs_live;
+/// Read-only OPC UA client, security policy None (0.42 I7).
+pub mod opcua;
 pub mod par;
 pub mod planner;
 mod portable_distr;
@@ -406,6 +412,8 @@ pub mod sweep;
 pub mod telecom_timing;
 /// chrony and ntpd health: `chronyc`, `ntpq` text and NTP mode 6 read variables (0.42 I2).
 pub mod time_server;
+/// The trust stream as CCSDS packets with XTCE, COSMOS and Open MCT definitions (0.42 I8).
+pub mod tm_bridge;
 // Comparison helpers shared by the byte-identity guards. Test-only: it exists so those
 // guards can assert the exact pin where it is true and a portable one everywhere else.
 pub mod evidence;

@@ -11814,3 +11814,15 @@ engine-e-ntp-mode6 = NTP mode 6 query failed ({ $why })
 engine-e-connect-timing-usage = usage: kshana connect <timing <pmc|ptp-mgmt|chrony-tracking|chrony-sources|ntpq-peers|ntpq-rv|snmp-message|ntp-mode6|rtcm3-decode> <file|-> | timing check <dir> [--bless] | snmp <host:port> [--map generic|meinberg-ltng|<map.toml>] [--community-env <VAR>] [--timeout <s>] [--retries <n>] [--max-rows <n>] | ntp <host:port> [--assoc <id>] [--timeout <s>] | decode rtcm3 <file|->>
 
 engine-e-connect-timing-failed = { $n } timing vectors failed
+
+## src/connect_ops.rs, src/industrial.rs, src/opcua.rs, src/soapy.rs, src/tm_bridge.rs, src/telemetry/ops.rs (0.42 I4, I5, I7, I8)
+
+engine-e-connect-ops-usage = usage: kshana connect <modbus <host:port> [--unit <id>] [--fc 1|2|3|4] [--start <a>] [--count <n>] [--timeout <s>] | dnp3 <host:port> [--master <a>] [--outstation <a>] | opcua <opc.tcp://host:port[/path]> --node <id> [--node <id> ...] | alert <trust.jsonl|-> --form <servicenow|pagerduty|opsgenie|slack|teams|splunk-hec|elastic|stix> [--host <name>] [--epoch-unix <s>] [--all] [--post <http-url>] [--auth-env <VAR>] [--routing-key-env <VAR>] | snmp-trap <host:port> <trust.jsonl|-> --trap-oid <oid> [--community-env <VAR>] [--all] | taxii <api-root-url> --collection <id> <trust.jsonl|-> [--auth-env <VAR>] | tm <xtce|cosmos|openmct> [--apid <n>] [--name <name>] | tm-stream <trust.jsonl|-> --to <packets|openmct> [--apid <n>] [--udp <host:port>] | sim-motion <scenario.toml> [--layout ecef|llh] [--epoch <UTC>] | sdr-capture --args <soapy args> --freq <Hz> --rate <Hz> --samples <n> --out <base> [--gain <dB>]>
+
+engine-e-connect-ops-failed = { $proto } request failed ({ $why })
+
+engine-e-connect-ops-env = the environment variable { $var } is not set
+
+engine-e-connect-ops-form = unknown output form `{ $name }` ({ $forms })
+
+engine-connect-ops-sim-motion-cut = the trajectory is longer than 300 s; gps-sdr-sim reads at most 3000 samples at 10 Hz, so the file stops at 300 s

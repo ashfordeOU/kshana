@@ -3,7 +3,9 @@
 //! engine's runs executed natively ([`bridge`]) off the window's thread.
 
 pub mod bridge;
+pub mod detective;
 pub mod devices;
+pub mod project;
 
 use serde_json::Value;
 
@@ -38,6 +40,59 @@ async fn iq_probe(path: String, format: String, probe: u64) -> Result<Value, Str
     tauri::async_runtime::spawn_blocking(move || bridge::iq_probe(&path, &format, probe))
         .await
         .map_err(|e| e.to_string())?
+}
+
+/// What a dropped file or folder is, by the engine's own readers (0.42 U9, the format
+/// detective): format, span, constellations and gaps, before anything is loaded.
+#[tauri::command]
+async fn inspect_path(path: String) -> Result<Value, String> {
+    tauri::async_runtime::spawn_blocking(move || detective::inspect(&path))
+        .await
+        .map_err(|e| e.to_string())?
+}
+
+/// The same for bytes the page already holds (a file dropped without a path): the head of
+/// the file as base64 and the file's whole size.
+#[tauri::command]
+async fn inspect_bytes(name: String, base64: String, size: u64) -> Result<Value, String> {
+    use base64::Engine as _;
+    let bytes = base64::engine::general_purpose::STANDARD
+        .decode(base64.as_bytes())
+        .map_err(|e| e.to_string())?;
+    tauri::async_runtime::spawn_blocking(move || {
+        detective::inspect_bytes(&name, &bytes, size, &|_| None)
+    })
+    .await
+    .map_err(|e| e.to_string())
+}
+
+/// Write files into a `.kshana` project folder (0.42 U8).
+#[tauri::command]
+async fn project_save(
+    dir: String,
+    files: Vec<project::ProjectFile>,
+    remove: Option<Vec<String>>,
+) -> Result<Value, String> {
+    tauri::async_runtime::spawn_blocking(move || {
+        project::save(&dir, &files, &remove.unwrap_or_default())
+    })
+    .await
+    .map_err(|e| e.to_string())?
+}
+
+/// Every file of a `.kshana` project folder.
+#[tauri::command]
+async fn project_load(dir: String) -> Result<Value, String> {
+    tauri::async_runtime::spawn_blocking(move || project::load(&dir))
+        .await
+        .map_err(|e| e.to_string())?
+}
+
+/// Where projects go by default, and the projects there.
+#[tauri::command]
+fn project_home(app: tauri::AppHandle) -> Value {
+    use tauri::Manager as _;
+    project::home(app.path().document_dir().ok(), app.path().home_dir().ok())
 }
 
 /// The serial ports this computer shows (live devices, read only).
@@ -78,6 +133,11 @@ pub fn run() {
             file_info,
             read_range,
             iq_probe,
+            inspect_path,
+            inspect_bytes,
+            project_save,
+            project_load,
+            project_home,
             devices_list,
             device_start,
             device_status,
