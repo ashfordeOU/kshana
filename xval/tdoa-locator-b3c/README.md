@@ -62,3 +62,15 @@ U12. **Independent check.** `oracle.py` (numpy and the standard library only, no
      the solution within 5 cm; the region area within 10⁻⁴ relative. Disagreement is a fault to find, not a result.
 U13. **Runs.** Development once (seeds 8001 to 8200), to find faults, not to tune; then the gate once (9001 to
      10000). No number above is changed after the development run.
+
+## Added after the development run (15 November 2026; nothing above changed)
+
+U14. **The development run** (seeds 8001 to 8200, engine `f8c16b883`, release build, 10:19:41 to 10:20:11 UTC,
+     `dev.json.gz`). Before it, the engine and `oracle.py` were compared on development seeds 8001 to 8020: all 20
+     agree within U12's tolerances. Results: G-wb (133 sessions) T1 0.955, T2 2.4 × 10⁻⁶, T3 0.0036; G-all (200)
+     T1 0.635, T2 6.4 × 10⁻⁶, T3 0.010. Classes: 67 narrowband (every CW session, and no other), 67 periodic (every
+     chirp, and no other), 66 aperiodic (every noise session). Not located: the 67 CW sessions and 2 noise sessions
+     (8063, 8120), both with jammers 9.3 and 10.0 km outside the stations' hull, where the solution fell 10.3 and
+     10.4 km outside it and U9 calls it not located; this is the rule as written, not a fault. One fault was found
+     and fixed in the summary only: a population with no session of a waveform reported that waveform's metrics as
+     null (0/0); such an entry is now left out. No reading, bar or locator number is changed.
