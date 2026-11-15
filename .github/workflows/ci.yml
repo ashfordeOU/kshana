@@ -713,6 +713,29 @@ jobs:
           grep -q 'kind: ServiceMonitor' /tmp/options.yaml
           ! grep -q 'kshana-gnss-trust.json' /tmp/options.yaml
           if helm template t deploy/helm/kshana >/dev/null 2>&1; then echo "input must be required"; exit 1; fi
+      - name: Station chart lints and renders (0.42 I10)
+        run: |
+          helm lint deploy/helm/kshana-station
+          helm template s deploy/helm/kshana-station > /tmp/station-default.yaml
+          helm template s deploy/helm/kshana-station --set persistence.enabled=false \
+            --set token.existingSecret=mine --set existingStationConfigMap=cfg > /tmp/station-options.yaml
+          for k in Deployment Service ConfigMap Secret PersistentVolumeClaim; do
+            grep -q "kind: $k" /tmp/station-default.yaml || { echo "default render has no $k"; exit 1; }
+          done
+          ! grep -q 'kind: PersistentVolumeClaim' /tmp/station-options.yaml
+          ! grep -q 'kind: Secret' /tmp/station-options.yaml
+          ! grep -q 'kind: ConfigMap' /tmp/station-options.yaml
+      # Terraform is not on the runner image; setup-terraform installs it so the module is validated here.
+      - uses: hashicorp/setup-terraform@dfe3c3f87815947d99a8997f908cb6525fc44e9e # v4.0.1
+        with:
+          terraform_wrapper: false
+      - name: Terraform module formats and validates (0.42 I10)
+        working-directory: deploy/terraform/kshana-station
+        run: |
+          if ! command -v terraform >/dev/null; then echo "::notice::terraform not available; skipped"; exit 0; fi
+          terraform fmt -check -recursive -diff
+          terraform init -backend=false -input=false
+          terraform validate
   # ---------------------------------------------------------------------------
   # OpenAPI description of the open HTTP endpoints (roadmap 0.42 I11): docs/api/openapi.json is linted
   # against the OpenAPI 3.1 specification by Redocly's linter at an exact version. The routes and the

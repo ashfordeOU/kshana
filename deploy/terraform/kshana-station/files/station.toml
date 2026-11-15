@@ -1,0 +1,24 @@
+# The Station configuration the kshana-station Helm chart and Terraform module use by default
+# (docs/STATION.md). Replace [station] and [[source]] with your own; keep [output] and [http] as they
+# are: they point at the chart's data volume and token, and make the status port reachable by the
+# cluster's probes and Service.
+[station]
+id = "example-station-1"
+lat_deg = 59.4400
+lon_deg = 24.7500
+height_m = 30.0
+
+# A receiver streaming u-blox UBX on a TCP port (a serial-to-network bridge, or the receiver itself).
+[[source]]
+name = "gnss-1"
+input = "tcp:gnss-receiver:9000"
+format = "ubx"
+
+[output]
+dir = "/var/lib/kshana-station/data"
+rotate_mb = 64
+keep = 48
+
+[http]
+listen = "0.0.0.0:8470"
+token_file = "/etc/kshana-station/token/token"
