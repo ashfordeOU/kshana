@@ -59,7 +59,7 @@ pub const DEV_SEEDS: (u64, u64) = (5001, 5200);
 
 const NOISE_LEN: usize = 65_536;
 const NOISE_OFFSET: usize = 12_768;
-const XCORR_LEN: usize = 2 * N_SAMPLES;
+pub(crate) const XCORR_LEN: usize = 2 * N_SAMPLES;
 const K_BOLTZMANN: f64 = 1.380_649e-23;
 const T0_K: f64 = 290.0;
 const LN10: f64 = std::f64::consts::LN_10;
@@ -112,12 +112,12 @@ pub fn ecef(e: f64, n: f64, h: f64) -> [f64; 3] {
     [r * cl * co, r * cl * so, r * sl]
 }
 
-fn dist3(a: &[f64; 3], b: &[f64; 3]) -> f64 {
+pub(crate) fn dist3(a: &[f64; 3], b: &[f64; 3]) -> f64 {
     let d = [a[0] - b[0], a[1] - b[1], a[2] - b[2]];
     sqrt(d[0] * d[0] + d[1] * d[1] + d[2] * d[2])
 }
 
-fn dist2(a: &[f64; 2], b: &[f64; 2]) -> f64 {
+pub(crate) fn dist2(a: &[f64; 2], b: &[f64; 2]) -> f64 {
     let (x, y) = (a[0] - b[0], a[1] - b[1]);
     sqrt(x * x + y * y)
 }
@@ -239,15 +239,15 @@ fn cis(phase: f64) -> Cf64 {
     Cf64::new(c, s)
 }
 
-fn cmul(a: Cf64, b: Cf64) -> Cf64 {
+pub(crate) fn cmul(a: Cf64, b: Cf64) -> Cf64 {
     Cf64::new(a.re * b.re - a.im * b.im, a.re * b.im + a.im * b.re)
 }
 
-fn conj(a: Cf64) -> Cf64 {
+pub(crate) fn conj(a: Cf64) -> Cf64 {
     Cf64::new(a.re, -a.im)
 }
 
-fn norm2(a: Cf64) -> f64 {
+pub(crate) fn norm2(a: Cf64) -> f64 {
     a.re * a.re + a.im * a.im
 }
 
@@ -424,7 +424,7 @@ pub struct SessionResult {
     pub nn_median_m: f64,
 }
 
-fn median(mut v: Vec<f64>) -> f64 {
+pub(crate) fn median(mut v: Vec<f64>) -> f64 {
     v.sort_by(f64::total_cmp);
     let n = v.len();
     if n == 0 {
@@ -438,7 +438,7 @@ fn median(mut v: Vec<f64>) -> f64 {
 }
 
 /// The inverse of a small symmetric positive matrix by Gauss–Jordan with partial pivoting.
-fn invert(a: &[Vec<f64>]) -> Option<Vec<Vec<f64>>> {
+pub(crate) fn invert(a: &[Vec<f64>]) -> Option<Vec<Vec<f64>>> {
     let n = a.len();
     let mut m: Vec<Vec<f64>> = a
         .iter()
@@ -472,7 +472,7 @@ fn invert(a: &[Vec<f64>]) -> Option<Vec<Vec<f64>>> {
     Some(m.into_iter().map(|r| r[n..].to_vec()).collect())
 }
 
-fn quad(r: &[f64], ci: &[Vec<f64>]) -> f64 {
+pub(crate) fn quad(r: &[f64], ci: &[Vec<f64>]) -> f64 {
     let mut s = 0.0;
     for (i, ri) in r.iter().enumerate() {
         for (j, rj) in r.iter().enumerate() {
