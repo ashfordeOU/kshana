@@ -97,7 +97,7 @@ fn json_keys_after(s: &str, marker: &str) -> BTreeSet<String> {
     let open = body.find("json!({").unwrap() + "json!({".len();
     let mut depth = 0i32;
     let mut keys = BTreeSet::new();
-    let b = body[open..].as_bytes();
+    let b = &body.as_bytes()[open..];
     let mut i = 0;
     while i < b.len() {
         match b[i] {
