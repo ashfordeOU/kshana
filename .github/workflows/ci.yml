@@ -513,6 +513,8 @@ jobs:
           cp web/pkg/kshana.js web/pkg/kshana_bg.wasm web/pkg/package.json web/studio/pkg/
       - name: Run wasm smoke test
         run: node web/smoke.mjs
+      - name: Test the SDK conformance cases (the C interface's bytes from the WebAssembly package)
+        run: node web/sdk-conformance.test.mjs
       - name: Test the ported site against the ledger, the READMEs and its own manifest
         run: node web/site.test.mjs
       - name: Test that every old kshana.dev address still resolves
@@ -850,13 +852,21 @@ jobs:
         run: cargo fmt --all -- --check
       - name: Clippy
         run: cargo clippy --all-targets -- -D warnings
+      # Java 21 for the SDK conformance driver (Foreign Function and Memory API; the image's default is 17).
+      # .NET 8 comes with the runner image.
+      - uses: actions/setup-java@cf277c60eb25467037889841efdb72551f06f6c3 # v4
+        with:
+          distribution: temurin
+          java-version: "21"
       - name: Build the static and shared libraries
         run: cargo build --locked
-      - name: Test (entry points, header, C example, fuzz)
+      - name: Test (entry points, header, C example, SDK conformance, fuzz)
         env:
           KSHANA_REQUIRE_CC: "1"
           # The C++, Python and Go examples run too; the runner image has g++, python3 and Go.
           KSHANA_REQUIRE_LANGS: "1"
+          # The SDK conformance drivers (sdk/conformance/README.md): Java and .NET must run here.
+          KSHANA_REQUIRE_SDKS: "java,dotnet"
           KSHANA_CAPI_FUZZ_ITERATIONS: "5000"
         run: cargo test --locked
   mcp-check:
