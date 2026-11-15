@@ -29,12 +29,18 @@ mkdir -p "$out"
 mkdir -p "$out/studio/desktop"
 (cd apps/desktop/shell && tar --exclude='*.test.mjs' -cf - .) | (cd "$out/studio/desktop" && tar -xf -)
 (cd web && tar -cf - fonts) | (cd "$out" && tar -xf -)
+# The public sample track files of the engine's ship and aircraft readers (examples/tracks: synthetic
+# or published worked examples, provenance in their NOTICE.md), for the shell's traffic view (0.42 U17).
+mkdir -p "$out/studio/desktop/data/tracks"
+for f in NOTICE.md ais.nmea adsb.avr adsb.beast opensky-states.json opensky-states.csv; do cp "examples/tracks/$f" "$out/studio/desktop/data/tracks/$f"; done
 # The Desktop opens its shell as its first page.
 cat > "$out/index.html" <<'HTML'
 <!doctype html><meta charset="utf-8"><meta http-equiv="refresh" content="0; url=studio/desktop/index.html"><title>Kshana Desktop</title>
 HTML
 # The Desktop's own wording in the staged copy (never in web/).
 node apps/desktop/wording.mjs "$out/studio"
+# The shell's catalogues in the Studio's languages (0.42 U18), where the Studio's l10n-boot finds them.
+node apps/desktop/stage-i18n.mjs "$out"
 if [ -f web/studio/pkg/kshana_bg.wasm ]; then
   echo "frontend staged with the WebAssembly package for the tool pages"
 else
