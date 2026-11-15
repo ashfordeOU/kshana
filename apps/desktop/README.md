@@ -497,6 +497,12 @@ The test does not cover a real Raspberry Pi's kernel, firmware or GPU driver.
   publisher's accounts; the release plan ships the engine first and the signed apps as a
   following patch release.
 - **Signed automatic updates.** Not configured: the update key is the publisher's to make.
+- **The `glib` advisory (RUSTSEC-2024-0429, GHSA-wrw7-89jp-8q8g) stays open on Linux.** It is fixed in
+  `glib` 0.20, but every Tauri release up to 3.0.0-alpha.6 (15 November 2026) reaches GTK through
+  `webkit2gtk` 2.0.x, which requires `glib` 0.18, and the 0.18 line has no fixed release. The unsound
+  function, `glib::VariantStrIter` (reached through `Variant::array_iter_str`), is not called by this app
+  or by any of the other 479 crates in its lock file (their sources searched on 15 November 2026). The alert closes when Tauri moves its Linux webview to a `glib` 0.20 or later
+  stack; it is not dismissed.
 - **SDRs and binary receiver protocols** in the devices panel (it reads NMEA 0183 text). An IQ
   recording's spectrum and waterfall (U25) read one block of up to 16 MiB at a time; a
   recording-wide overview is on the Studio's IQ page.
