@@ -474,6 +474,22 @@ cargo install tauri-cli --version "^2" --locked     # once, for the bundles
 (cd apps/desktop/src-tauri && cargo tauri build)    # .dmg/.app, .msi, .deb, .rpm, AppImage
 ```
 
+### Linux packages, installed and started
+
+`.github/workflows/linux-packages.yml` builds the `.deb` and `.rpm` for x86_64 and arm64 on Ubuntu
+22.04 and installs each one in a fresh container with the distribution's own package manager:
+Ubuntu 22.04 and 24.04 (`.deb`), Fedora (`.rpm`) and Raspberry Pi OS 64-bit (Debian trixie arm64
+with the Raspberry Pi archive, on an arm64 runner). `scripts/linux-package-install-test.sh` then
+checks the installed files and shared libraries, starts the app on a virtual display until its
+window is mapped, and removes the package. To run it on your own package:
+
+```bash
+docker run --rm -v "$PWD:/w:ro" ubuntu:24.04 sh /w/scripts/linux-package-install-test.sh "/w/<package>.deb"
+docker run --rm -v "$PWD:/w:ro" debian:trixie sh /w/scripts/linux-package-install-test.sh --raspberry-pi-archive "/w/<package>.deb"
+```
+
+The test does not cover a real Raspberry Pi's kernel, firmware or GPU driver.
+
 ## Not done yet
 
 - **Signing and notarisation.** The bundles are unsigned: macOS Gatekeeper and Windows
