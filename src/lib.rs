@@ -440,4 +440,6 @@ pub mod wahba;
 pub mod walker;
 #[cfg(feature = "wasm")]
 pub mod wasm;
+#[cfg(all(feature = "wasm-slim", not(feature = "wasm")))]
+pub mod wasm_slim;
 mod worldmap;
