@@ -2106,12 +2106,19 @@ pub(crate) fn run_slim_kind(kind: ScenarioKind, src: &str) -> Result<RunOutput, 
         ScenarioKind::GnssSim => builtins::run_builtin::<crate::gnss_sim::GnssSimScenario>(src),
         ScenarioKind::Orbit => builtins::run_builtin::<crate::orbit::OrbitClockScenario>(src),
         ScenarioKind::Pvt => builtins::run_builtin::<crate::pvt::PvtScenario>(src),
-        k => Err(crate::terr!("e-registry-unknown-scenario-id", id = k.to_id())),
+        k => Err(crate::terr!(
+            "e-registry-unknown-scenario-id",
+            id = k.to_id()
+        )),
     }
 }
 
 /// [`run_toml_inner`] through `dispatch` ([`KindDispatch`]).
-fn run_toml_inner_with(src: &str, tiers: bool, dispatch: KindDispatch) -> Result<RunOutput, String> {
+fn run_toml_inner_with(
+    src: &str,
+    tiers: bool,
+    dispatch: KindDispatch,
+) -> Result<RunOutput, String> {
     let src = crate::scenario_version::strip(src)?;
     let src = src.as_ref();
     let kind = ScenarioKind::classify(src).map_err(|e| e.to_string())?;
@@ -2423,7 +2430,9 @@ mod tests {
             "orbit-multignss.toml",
             "pvt-abmf.toml",
         ] {
-            let path = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("scenarios").join(file);
+            let path = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
+                .join("scenarios")
+                .join(file);
             let src = std::fs::read_to_string(&path).unwrap();
             let kind = ScenarioKind::classify(&src).unwrap();
             assert!(WASM_SLIM_KINDS.contains(&kind), "{file}");
