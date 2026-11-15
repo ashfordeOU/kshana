@@ -131,7 +131,7 @@ pub const MAX_TRACK_BYTES: usize = 64 * 1024 * 1024;
 /// them) and `records`.
 pub fn decode_tracks(format: &str, base64: &str) -> Result<Value, String> {
     use base64::Engine as _;
-    use kshana::interconnect::{decode, Options, SCHEMA};
+    use kshana::interconnect::{decode, Options};
     let bytes = base64::engine::general_purpose::STANDARD
         .decode(base64.trim())
         .map_err(|e| format!("the file's bytes are not base64: {e}"))?;
@@ -156,16 +156,7 @@ pub fn decode_tracks(format: &str, base64: &str) -> Result<Value, String> {
     for f in tries {
         match decode(f, &bytes, &Options::default()) {
             Ok(d) if !d.fixes.is_empty() && d.bad_checksum + d.malformed <= d.read / 2 => {
-                return Ok(json!({
-                    "schema": SCHEMA,
-                    "source_format": f,
-                    "read": d.read,
-                    "bad_checksum": d.bad_checksum,
-                    "malformed": d.malformed,
-                    "other": d.other,
-                    "fixes": d.fixes,
-                    "records": d.records,
-                }));
+                return Ok(tracks_json(f, &d));
             }
             Ok(d) => {
                 last = format!(
@@ -180,6 +171,22 @@ pub fn decode_tracks(format: &str, base64: &str) -> Result<Value, String> {
         }
     }
     Err(last)
+}
+
+/// A decode as the `kshana.tracks/1` JSON Lines say it, in one object: `schema`,
+/// `source_format`, the counts, `fixes` and `records` (shared by [`decode_tracks`] and the live
+/// sources of [`crate::live`]).
+pub fn tracks_json(format: &str, d: &kshana::interconnect::Decoded) -> Value {
+    json!({
+        "schema": kshana::interconnect::SCHEMA,
+        "source_format": format,
+        "read": d.read,
+        "bad_checksum": d.bad_checksum,
+        "malformed": d.malformed,
+        "other": d.other,
+        "fixes": d.fixes,
+        "records": d.records,
+    })
 }
 
 /// What the Desktop knows about a file without reading it all.
