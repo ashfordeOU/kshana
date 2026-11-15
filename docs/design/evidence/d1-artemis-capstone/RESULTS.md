@@ -20,3 +20,6 @@ registered re-runs have been made once and recorded, whatever their verdicts.
     hour can produce. An impulse model cannot follow them. This was visible in C1's diagnostic, and C2's bar derivation
     overlooked it.
 - Further attempts on either gap are new pre-registrations.
+
+**0.42 V7 (15 November 2026):** C2 is closed (not met) and C3 is re-scoped to what it showed, with A2's question closed
+(not met); the reasons are written in [`V7-DISPOSITION.md`](V7-DISPOSITION.md). No verdict or bar above changes.

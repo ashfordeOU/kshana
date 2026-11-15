@@ -61,6 +61,43 @@ this list says what comes first.
    recorded runs and the scenario bundle served with the page, not from user-supplied files.
    The Python wheel and the WebAssembly package do not carry the bundled table, by design.)*
 
+## 0.42 (in progress)
+
+This section lists the open-edition work planned for 0.42. As everywhere in this file, nothing here
+is a commitment or a date, and an item counts as done only when its test or its recorded evidence
+is on `main`. Commercial editions are planned separately and are not described here.
+
+- **Connect to the systems people already run.** Readers, writers and protocol clients, each with
+  test vectors and a round-trip test, in the open crate: maritime and aviation data (NMEA
+  0183 and 2000, ASTERIX, ADS-B), timing systems (PTP management, SNMP, NTP), receiver logs, SDR and
+  IQ formats (SigMF) and simulator scenario export where the format is public, operations and
+  security systems (Prometheus, OpenTelemetry, syslog and CEF, Kafka), drones and GIS (MAVLink,
+  GeoJSON, KML, CZML), industrial read-only clients (OPC UA, Modbus), space operations formats
+  (CCSDS, SP3 write), more language SDKs over the C interface, deployment recipes (Helm, Terraform,
+  Raspberry Pi and ARM), and a second version of the connector test kit. Readers never
+  configure hardware unless the user opts in.
+- **Kshana Desktop as an application, not a web page.** App shell with tabs and a command palette,
+  runs and projects kept on disk, drop-in file detection, one time cursor across map, sky plot and
+  plots, markers, figure export in journal styles, a code mirror that writes the script behind
+  each action, "explain this number", dockable panes, sweep studio, run diff, a Python notebook,
+  a globe with offline region packs, stability and spectrum plots, live AIS and ADS-B sources and
+  course mode. The shell is translated with the same checks as the website.
+- **Quality and platform.** Linux packages installed and started in CI on Ubuntu, Fedora and
+  Raspberry Pi OS (64-bit); Galileo and BeiDou broadcast health read in the single-point solve;
+  a release is tagged only when the CI and the site checks are both green on the same commit;
+  Windows signing prepared and switched off until the signing account exists; package-manager
+  parity (Homebrew, Scoop, winget) at the new version; the coverage job split so it finishes in
+  under four hours without dropping a test.
+- **Evidence rows.** Each is pre-registered before any data, scored once, and published whether
+  it is met or missed; bars are never loosened. A successor to the time-difference interference
+  locator met its pre-registered synthetic gate for wideband jammers and, as stated before the run,
+  not for the whole population, since a continuous-wave jammer has no bandwidth to time against
+  ([`RESULTS.md`](docs/design/evidence/b3c-tdoa-locator-successor/RESULTS.md)); geolocation stays off
+  in every product until a blind real-data run is met too. Planned: detection bars on labelled
+  interference sets, and holdover prediction on recorded clocks. The Artemis I cruise row (C2) is closed and the CAPSTONE force-model row (C3) is
+  narrowed to what it showed, each with its written reason in
+  [`docs/design/evidence/d1-artemis-capstone/V7-DISPOSITION.md`](docs/design/evidence/d1-artemis-capstone/V7-DISPOSITION.md).
+
 ## Shipped (on `main`)
 
 A validated, fully reproducible engine spanning the PNT (positioning, navigation and timing) stack:

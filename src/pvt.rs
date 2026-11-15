@@ -318,21 +318,43 @@ pub fn klobuchar_from_nav_header(text: &str) -> Option<KlobucharCoeffs> {
 }
 
 /// Whether a broadcast record's health field marks the satellite unhealthy for the
-/// single-point solve (B5 v3 reading X2):
+/// single-point solve (B5 v3 reading X2; Galileo and BeiDou added in 0.42 Q4):
 /// - GPS: any non-zero value of the six-bit health (IS-GPS-200, 20.3.3.3.1.4: 0 means
 ///   all signals OK).
 /// - QZSS: any bit but the least significant. That bit is the L1C/A-only flag, as
 ///   RTKLIB's `rinex.c` reads it (it masks QZSS health with `0xFE`).
-/// - Galileo and BeiDou: never, for now. Their health bits are per signal (Galileo
-///   E1-B, E5a and E5b health and data-validity bits; BeiDou `SatH1` with its own
-///   signal flags), so the right mask depends on the signals a solve combines; that
-///   rule is left to a separate change.
+/// - Galileo: any of the nine signal health and data-validity bits of the RINEX field
+///   (bit 0 E1-B DVS, bits 1-2 E1-B HS, bit 3 E5a DVS, bits 4-5 E5a HS, bit 6 E5b DVS,
+///   bits 7-8 E5b HS; Galileo OS SIS ICD 5.1.9.3 and RINEX 3.04 table A8). The solve
+///   always uses E1 and adds E5a or E5b for the ionosphere-free pair, and a record's
+///   clock is referenced to the pair of its own message (F/NAV E1-E5a, I/NAV E1-E5b),
+///   so a flag on any signal the record describes drops the record. An I/NAV record
+///   carries the E1-B and E5b bits and an F/NAV record the E5a bits; the other bits of
+///   each are zero. Bits above 8 are not defined and are ignored.
+/// - BeiDou: `SatH1` (the RINEX health field of a D1 or D2 record), where 0 means the
+///   satellite is healthy (BDS-SIS-ICD-B1I 5.2.4.6); any other value drops the record.
+///
+/// For Galileo and BeiDou this is the rule RTKLIB applies (it drops a record whose
+/// health is non-zero), expressed per signal for Galileo.
 pub(crate) fn record_unhealthy(e: &RinexEphemeris) -> bool {
     match e.system {
         'G' => e.sv_health != 0.0,
         'J' => (e.sv_health as i64) & 0xFE != 0,
+        'E' => galileo_health_flags(e.sv_health) != 0,
+        'C' => e.sv_health != 0.0,
         _ => false,
     }
+}
+
+/// The Galileo signal health and data-validity bits (0-8) of a RINEX health field
+/// (bit 0 E1-B DVS, bits 1-2 E1-B HS, bit 3 E5a DVS, bits 4-5 E5a HS, bit 6 E5b DVS,
+/// bits 7-8 E5b HS). A negative or non-finite field reads as all bits set, so a record
+/// whose health cannot be read is never taken as healthy.
+fn galileo_health_flags(sv_health: f64) -> u32 {
+    if !sv_health.is_finite() || sv_health < 0.0 {
+        return 0x1FF;
+    }
+    (sv_health as u32) & 0x1FF
 }
 
 /// Select the broadcast ephemeris record for satellite `system`/`prn` whose
@@ -1500,7 +1522,7 @@ G01 2023 01 01 00 00 00 4.567890123456D-04 1.136868377216D-12 0.000000000000D+00
     #[test]
     fn qzss_health_lsb_alone_is_not_unhealthy() {
         // X2: QZSS health 1 (only the L1C/A flag) keeps the record; 2 (another bit) drops it.
-        // GPS health 1 drops it. Galileo and BeiDou health is not read here yet.
+        // GPS health 1 drops it.
         let base = parse_nav(NAV_SAMPLE).unwrap()[0];
         let mut j = base;
         j.system = 'J';
@@ -1514,12 +1536,33 @@ G01 2023 01 01 00 00 00 4.567890123456D-04 1.136868377216D-12 0.000000000000D+00
         let mut g = base;
         g.sv_health = 1.0;
         assert!(record_unhealthy(&g));
-        for sys in ['E', 'C'] {
-            let mut x = base;
-            x.system = sys;
-            x.sv_health = 7.0;
-            assert!(!record_unhealthy(&x));
+    }
+
+    #[test]
+    fn galileo_and_beidou_health_bits_are_read() {
+        // 0.42 Q4: each Galileo signal flag alone drops the record; bits above 8 do not;
+        // an unreadable field is not taken as healthy. BeiDou SatH1 non-zero drops it.
+        let base = parse_nav(NAV_SAMPLE).unwrap()[0];
+        let mut e = base;
+        e.system = 'E';
+        e.sv_health = 0.0;
+        assert!(!record_unhealthy(&e));
+        for bit in 0..9 {
+            e.sv_health = f64::from(1u32 << bit);
+            assert!(record_unhealthy(&e), "Galileo bit {bit}");
         }
+        e.sv_health = 512.0;
+        assert!(!record_unhealthy(&e));
+        e.sv_health = -1.0;
+        assert!(record_unhealthy(&e));
+        e.sv_health = f64::NAN;
+        assert!(record_unhealthy(&e));
+        let mut c = base;
+        c.system = 'C';
+        c.sv_health = 0.0;
+        assert!(!record_unhealthy(&c));
+        c.sv_health = 1.0;
+        assert!(record_unhealthy(&c));
     }
 
     #[test]

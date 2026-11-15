@@ -33,11 +33,15 @@ the new version.
    `mcp/kshana-mcp/server.json`; bump them in the same commit.
 3. Merge to `main` and wait for continuous integration (CI, `ci.yml`) to pass on that
    commit. Tag only a commit that is already green on `main`.
-4. The tag is pushed for you. When CI finishes green on a push to `main`, the Auto-tag
-   workflow (`.github/workflows/auto-tag.yml`) reads the version from `Cargo.toml` and, if
+4. The tag is pushed for you. When CI (`ci.yml`) and the i18n workflow (`i18n.yml`, which
+   holds the site checks: catalogues, the pseudo-locale and the deploy-style tree in a real
+   browser) are both green on a push to `main`, the Auto-tag workflow
+   (`.github/workflows/auto-tag.yml`) reads the version from `Cargo.toml` and, if
    `vX.Y.Z` does not exist yet, reruns `scripts/check-version-sync.sh` against that tag and
    pushes an annotated `vX.Y.Z` on exactly the commit CI verified. It skips a commit that
-   is no longer the head of `main`, and it never moves or replaces a tag. To tag by hand
+   is no longer the head of `main`, and it never moves or replaces a tag. If either workflow
+   is red on the commit, Auto-tag fails with the reason and tags nothing, so a release can
+   no longer ship with a red site check (as 0.41.0 did). To tag by hand
    instead (for example when the secret below is not set):
    `git tag -a vX.Y.Z <commit> -m vX.Y.Z && git push origin vX.Y.Z`.
 
