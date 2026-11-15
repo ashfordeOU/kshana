@@ -1,0 +1,5 @@
+name = "built-in reader: rtcm-ssr"
+input = "../../../tests/fixtures/rtcm_ssr/pygpsdata-NTRIP-4076.log"
+reader = "rtcm-ssr"
+station = "../../../examples/obs/station.toml"
+expected = "expected.obs.jsonl"

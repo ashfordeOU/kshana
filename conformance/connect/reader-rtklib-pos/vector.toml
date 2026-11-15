@@ -1,0 +1,5 @@
+name = "built-in reader: rtklib-pos"
+input = "input.pos"
+reader = "rtklib-pos"
+station = "../../../examples/obs/station.toml"
+expected = "expected.obs.jsonl"

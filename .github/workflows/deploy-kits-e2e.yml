@@ -3,6 +3,9 @@
 # Compose stack up, each fed the bundled NMEA replay, following only deploy/helm/README.md and
 # deploy/stack/README.md; pass when epochs reach the metrics (and, for Compose, Prometheus scrapes the
 # monitor and Grafana answers). kind, Helm and Docker Compose come with the runner image.
+# Roadmap 0.42 I10: the Station chart is installed on kind and must report epochs on /status, and the
+# Station edge image is built for amd64 and arm64 (cross-compiled), checked in both (arm64 under QEMU),
+# and run against a replayed receiver stream until /status reports epochs.
 name: deploy-kits-e2e
 
 on:
@@ -102,4 +105,102 @@ jobs:
             sleep 5
           done
           docker compose -f deploy/stack/compose.yml logs --no-color | tail -50
+          exit 1
+
+  station-on-kind:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Build the reference image
+        run: docker build -f deploy/reference-build/Dockerfile -t kshana-reference-build:e2e .
+      - name: Clean cluster
+        run: |
+          kind create cluster --name kshana --wait 120s
+          kind load docker-image kshana-reference-build:e2e --name kshana
+      - name: A UBX receiver in the cluster (the kit's UBX stream, served over TCP)
+        run: |
+          kubectl create configmap ubx --from-file=stream.ubx=conformance/connect/reader-ubx/input.ubx
+          kubectl apply -f - <<'EOF'
+          apiVersion: v1
+          kind: Pod
+          metadata: {name: ubx, labels: {app: ubx}}
+          spec:
+            containers:
+              - name: nc
+                image: busybox:1.36
+                command: ["sh", "-c", "while true; do nc -l -p 9000 < /data/stream.ubx; done"]
+                volumeMounts: [{name: d, mountPath: /data}]
+            volumes: [{name: d, configMap: {name: ubx}}]
+          ---
+          apiVersion: v1
+          kind: Service
+          metadata: {name: gnss-receiver}
+          spec: {selector: {app: ubx}, ports: [{port: 9000}]}
+          EOF
+          kubectl wait --for=condition=Ready pod/ubx --timeout=120s
+      - name: Install the Station chart as its README says
+        run: |
+          helm install site-a deploy/helm/kshana-station \
+            --set image.repository=kshana-reference-build --set image.tag=e2e --set image.pullPolicy=Never \
+            --wait --timeout 180s
+          kubectl get pods
+      - name: The Station reports epochs on /status
+        run: |
+          kubectl port-forward svc/site-a-kshana-station 8470:8470 >/dev/null 2>&1 &
+          sleep 3
+          curl -fsS 127.0.0.1:8470/health | grep -qx ok
+          code=$(curl -s -o /dev/null -w '%{http_code}' 127.0.0.1:8470/status)
+          [ "$code" = 401 ] || { echo "/status without the token answered $code"; exit 1; }
+          TOKEN=$(kubectl get secret site-a-kshana-station-token -o jsonpath='{.data.token}' | base64 -d)
+          for i in $(seq 1 60); do
+            n=$(curl -fsS -H "Authorization: Bearer $TOKEN" 127.0.0.1:8470/status \
+              | python3 -c 'import json,sys; d=json.load(sys.stdin); assert d["schema"]=="kshana.station-status/1"; print(sum(s["epochs"] for s in d["sources"]))')
+            echo "epochs: $n"
+            [ "${n:-0}" -gt 0 ] && exit 0
+            sleep 5
+          done
+          kubectl logs deploy/site-a-kshana-station || true
+          exit 1
+
+  station-edge-image:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: docker/setup-qemu-action@c7c53464625b32c7a7e944ae62b3e17d2b600130 # v3
+      - uses: docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f # v3
+      - name: Build the edge image for arm64 and amd64 (cross-compiled)
+        run: |
+          docker buildx build -f deploy/edge/Dockerfile --platform linux/arm64 -t kshana-station-edge:arm64 --load .
+          docker buildx build -f deploy/edge/Dockerfile --platform linux/amd64 -t kshana-station-edge:amd64 --load .
+          docker image ls kshana-station-edge
+      - name: A configuration and a token for the device
+        run: |
+          mkdir -p "$RUNNER_TEMP/station"
+          sed -e 's|tcp:gnss-receiver:9000|tcp:host.docker.internal:9000|' \
+              -e 's|token_file = .*|token_file = "/etc/kshana-station/token"|' \
+              deploy/helm/kshana-station/files/station.toml > "$RUNNER_TEMP/station/station.toml"
+          head -c 24 /dev/urandom | base64 > "$RUNNER_TEMP/station/token"
+          chmod a+r "$RUNNER_TEMP/station/"*
+      - name: kshana station check runs in both images (arm64 under QEMU)
+        run: |
+          for a in arm64 amd64; do
+            docker run --rm --platform "linux/$a" -v "$RUNNER_TEMP/station:/etc/kshana-station:ro" \
+              kshana-station-edge:$a station check /etc/kshana-station/station.toml
+          done
+      - name: The amd64 image reads a replayed receiver and reports epochs on /status
+        run: |
+          (while true; do nc -l -N 0.0.0.0 9000 < conformance/connect/reader-ubx/input.ubx || nc -l 9000 < conformance/connect/reader-ubx/input.ubx; done) &
+          docker run -d --name edge --add-host host.docker.internal:host-gateway \
+            -v "$RUNNER_TEMP/station:/etc/kshana-station:ro" -p 127.0.0.1:8470:8470 kshana-station-edge:amd64
+          TOKEN=$(cat "$RUNNER_TEMP/station/token")
+          for i in $(seq 1 60); do
+            n=$(curl -fsS -H "Authorization: Bearer $TOKEN" 127.0.0.1:8470/status 2>/dev/null \
+              | python3 -c 'import json,sys; d=json.load(sys.stdin); print(sum(s["epochs"] for s in d["sources"]))' 2>/dev/null)
+            echo "epochs: ${n:-none}"
+            [ "${n:-0}" -gt 0 ] && exit 0
+            sleep 5
+          done
+          docker logs edge || true
           exit 1

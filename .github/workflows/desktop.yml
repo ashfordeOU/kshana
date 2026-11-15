@@ -1,6 +1,9 @@
 name: Desktop
 # Kshana Desktop (apps/desktop): build and test the application on the three platforms
-# and keep the unsigned bundles as artefacts. Signing is not part of this workflow.
+# and keep the bundles as artefacts. macOS signing is desktop-release.yml. Windows signing (Azure Trusted
+# Signing, owner decision K5) is built in here and switched off: it runs only when the repository variable
+# WINDOWS_SIGNING is `azure` and all six signing secrets are set (docs/WINDOWS-SIGNING.md). Otherwise the
+# Windows build is unsigned and the job says so.
 on:
   push:
     branches: [main]
@@ -41,13 +44,72 @@ jobs:
         run: cargo clippy --manifest-path apps/desktop/src-tauri/Cargo.toml --all-targets -- -D warnings
       - name: Test the native bridge
         run: cargo test --manifest-path apps/desktop/src-tauri/Cargo.toml
-      - name: Bundle (unsigned)
+      - name: Bundle
         shell: bash
         run: |
           cargo install tauri-cli --version "^2" --locked
           cd apps/desktop/src-tauri && cargo tauri build
+      # Windows signing switch (K5). The secrets are only tested for presence here; their values never reach
+      # a shell. Pull requests from forks get no secrets, so they always take the unsigned path.
+      - name: Windows signing switch
+        id: winsign
+        if: runner.os == 'Windows'
+        shell: bash
+        env:
+          WINDOWS_SIGNING: ${{ vars.WINDOWS_SIGNING }}
+          HAVE_TENANT: ${{ secrets.AZURE_TENANT_ID != '' }}
+          HAVE_CLIENT: ${{ secrets.AZURE_CLIENT_ID != '' }}
+          HAVE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET != '' }}
+          HAVE_ENDPOINT: ${{ secrets.AZURE_SIGNING_ENDPOINT != '' }}
+          HAVE_ACCOUNT: ${{ secrets.AZURE_SIGNING_ACCOUNT != '' }}
+          HAVE_PROFILE: ${{ secrets.AZURE_SIGNING_PROFILE != '' }}
+        run: |
+          set -euo pipefail
+          if [ "${WINDOWS_SIGNING:-}" != "azure" ]; then
+            echo "on=false" >> "$GITHUB_OUTPUT"
+            echo "::notice title=Windows build is UNSIGNED::Windows signing is switched off (repository variable WINDOWS_SIGNING is not 'azure'); the installers in the artefact are unsigned. See docs/WINDOWS-SIGNING.md."
+            exit 0
+          fi
+          missing=""
+          for v in HAVE_TENANT HAVE_CLIENT HAVE_CLIENT_SECRET HAVE_ENDPOINT HAVE_ACCOUNT HAVE_PROFILE; do
+            [ "${!v}" = "true" ] || missing="$missing ${v#HAVE_}"
+          done
+          if [ -n "$missing" ]; then
+            echo "on=false" >> "$GITHUB_OUTPUT"
+            echo "::warning title=Windows build is UNSIGNED::WINDOWS_SIGNING is 'azure' but these signing secrets are not set:$missing. The installers in the artefact are unsigned. See docs/WINDOWS-SIGNING.md."
+            exit 0
+          fi
+          echo "on=true" >> "$GITHUB_OUTPUT"
+          echo "Windows signing is on: the installers are signed with Azure Trusted Signing."
+      - name: Sign the Windows installers (Azure Trusted Signing)
+        if: runner.os == 'Windows' && steps.winsign.outputs.on == 'true'
+        uses: azure/trusted-signing-action@c7ab2a863ab5f9a846ddb8265964877ef296ee82 # v2.0.0
+        with:
+          azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          azure-client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          azure-client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
+          endpoint: ${{ secrets.AZURE_SIGNING_ENDPOINT }}
+          signing-account-name: ${{ secrets.AZURE_SIGNING_ACCOUNT }}
+          certificate-profile-name: ${{ secrets.AZURE_SIGNING_PROFILE }}
+          files-folder: ${{ github.workspace }}\apps\desktop\src-tauri\target\release\bundle
+          files-folder-filter: exe,msi
+          files-folder-recurse: true
+          file-digest: SHA256
+          timestamp-rfc3161: http://timestamp.acs.microsoft.com
+          timestamp-digest: SHA256
+      - name: Check the Windows signatures
+        if: runner.os == 'Windows' && steps.winsign.outputs.on == 'true'
+        shell: pwsh
+        run: |
+          $files = Get-ChildItem -Path apps/desktop/src-tauri/target/release/bundle -Recurse -Include *.exe,*.msi
+          if ($files.Count -eq 0) { throw "no installers to check" }
+          foreach ($f in $files) {
+            $sig = Get-AuthenticodeSignature -FilePath $f.FullName
+            if ($sig.Status -ne 'Valid') { throw "$($f.Name): signature status $($sig.Status)" }
+            Write-Output "ok  $($f.Name) signed by $($sig.SignerCertificate.Subject)"
+          }
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
-          name: kshana-desktop-unsigned-${{ matrix.os }}
+          name: kshana-desktop-${{ steps.winsign.outputs.on == 'true' && 'signed' || 'unsigned' }}-${{ matrix.os }}
           path: apps/desktop/src-tauri/target/release/bundle/
           if-no-files-found: error

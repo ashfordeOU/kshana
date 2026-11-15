@@ -1,5 +1,10 @@
 # Helm chart: `kshana`
 
+For Kshana Station (receivers into observation files, with a status port) use the
+[`kshana-station`](kshana-station/README.md) chart instead; the Terraform module and the edge image
+for the Station are in [`../terraform/kshana-station`](../terraform/kshana-station/README.md) and
+[`../edge`](../edge/README.md).
+
 A Kubernetes deployment of the receiver-trust monitor: one pod per receiver, Prometheus metrics on a
 ClusterIP service, an optional ServiceMonitor, and the Grafana dashboard as a ConfigMap for the Grafana
 chart's dashboard sidecar.

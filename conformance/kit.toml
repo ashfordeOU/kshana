@@ -1,0 +1,493 @@
+# SPDX-License-Identifier: AGPL-3.0-only
+# Kshana Connect conformance kit v2 (roadmap 0.42 I12): every connector of the open engine, the vector folders
+# that check it byte for byte, whether a live path replays it, and, for connectors with no file vector, the
+# test that checks them. Held to the code by tests/conformance_kit_v2.rs. Read README.md first.
+schema = "kshana.connect-kit/2"
+
+[[connector]]
+id = "reader:ubx"
+kind = "reader"
+roadmap = "I3"
+vectors = ["connect/reader-ubx"]
+live = "stream"
+
+[[connector]]
+id = "reader:rinex"
+kind = "reader"
+roadmap = "I3"
+vectors = ["connect/reader-rinex4"]
+live = "stream"
+
+[[connector]]
+id = "reader:android"
+kind = "reader"
+roadmap = "I3"
+vectors = ["connect/reader-android"]
+live = "stream"
+
+[[connector]]
+id = "reader:sbf"
+kind = "reader"
+roadmap = "I3"
+vectors = ["connect/reader-sbf"]
+live = "stream"
+
+[[connector]]
+id = "reader:nmea"
+kind = "reader"
+roadmap = "I1"
+vectors = ["connect/reader-nmea"]
+live = "stream"
+
+[[connector]]
+id = "reader:rtklib-pos"
+kind = "reader"
+roadmap = "I3"
+vectors = ["connect/reader-rtklib-pos"]
+live = "stream"
+
+[[connector]]
+id = "reader:novatel"
+kind = "reader"
+roadmap = "I3"
+vectors = ["connect/reader-novatel"]
+live = "stream"
+
+[[connector]]
+id = "reader:rtcm3"
+kind = "reader"
+roadmap = "I3"
+vectors = ["connect/reader-rtcm3"]
+live = "stream"
+
+[[connector]]
+id = "reader:gnss-sdr"
+kind = "reader"
+roadmap = "I3"
+vectors = ["connect/reader-gnss-sdr"]
+live = "stream"
+
+[[connector]]
+id = "reader:sbp"
+kind = "reader"
+roadmap = "I3"
+vectors = ["connect/reader-sbp"]
+live = "stream"
+
+[[connector]]
+id = "reader:greis"
+kind = "reader"
+roadmap = "I3"
+vectors = ["connect/reader-greis"]
+live = "stream"
+
+[[connector]]
+id = "reader:unicore"
+kind = "reader"
+roadmap = "I3"
+vectors = ["connect/reader-unicore"]
+live = "stream"
+
+[[connector]]
+id = "reader:rtcm-ssr"
+kind = "reader"
+roadmap = "I3"
+vectors = ["connect/reader-rtcm-ssr"]
+live = "none"
+
+[[connector]]
+id = "reader:iec61162-450"
+kind = "reader"
+roadmap = "I1"
+vectors = ["connect/reader-iec61162-450"]
+live = "none"
+note = "open finding: over the stream path (check-live) the live read differs from the replay from epoch 69 of this capture, so it is left off that path (connect_live::STREAM_FINDINGS)"
+
+[[connector]]
+id = "reader:mavlink-tlog"
+kind = "reader"
+roadmap = "I6"
+vectors = ["connect/reader-mavlink-tlog"]
+live = "none"
+
+[[connector]]
+id = "reader:ulog"
+kind = "reader"
+roadmap = "I6"
+vectors = ["connect/reader-ulog"]
+live = "none"
+
+[[connector]]
+id = "reader:canboat"
+kind = "reader"
+roadmap = "I1"
+vectors = ["connect/reader-canboat"]
+live = "none"
+
+[[connector]]
+id = "decoder:ais"
+kind = "decoder"
+roadmap = "I1"
+vectors = ["connect/decode-ais"]
+live = "none"
+
+[[connector]]
+id = "decoder:canboat"
+kind = "decoder"
+roadmap = "I1"
+vectors = ["connect/decode-canboat"]
+live = "none"
+
+[[connector]]
+id = "decoder:asterix"
+kind = "decoder"
+roadmap = "I1"
+vectors = ["connect/decode-asterix"]
+live = "none"
+
+[[connector]]
+id = "decoder:beast"
+kind = "decoder"
+roadmap = "I1"
+vectors = ["connect/decode-beast"]
+live = "none"
+
+[[connector]]
+id = "decoder:avr"
+kind = "decoder"
+roadmap = "I1"
+vectors = ["connect/decode-avr"]
+live = "none"
+
+[[connector]]
+id = "decoder:opensky-json"
+kind = "decoder"
+roadmap = "I1"
+vectors = ["connect/decode-opensky-json"]
+live = "none"
+
+[[connector]]
+id = "decoder:opensky-csv"
+kind = "decoder"
+roadmap = "I1"
+vectors = ["connect/decode-opensky-csv"]
+live = "none"
+
+[[connector]]
+id = "decoder:mavlink"
+kind = "decoder"
+roadmap = "I6"
+vectors = ["connect/decode-mavlink"]
+live = "none"
+
+[[connector]]
+id = "decoder:mavlink-tlog"
+kind = "decoder"
+roadmap = "I6"
+vectors = ["connect/decode-mavlink-tlog"]
+live = "none"
+
+[[connector]]
+id = "decoder:ulog"
+kind = "decoder"
+roadmap = "I6"
+vectors = ["connect/decode-ulog"]
+live = "none"
+
+[[connector]]
+id = "export:geojson"
+kind = "export"
+roadmap = "I6"
+vectors = ["connect/export-geojson"]
+live = "none"
+
+[[connector]]
+id = "export:kml"
+kind = "export"
+roadmap = "I6"
+vectors = ["connect/export-kml"]
+live = "none"
+
+[[connector]]
+id = "export:czml"
+kind = "export"
+roadmap = "I6"
+vectors = ["connect/export-czml"]
+live = "none"
+
+[[connector]]
+id = "export:adsb-csv"
+kind = "export"
+roadmap = "I1"
+vectors = ["connect/export-adsb-csv"]
+live = "none"
+
+[[connector]]
+id = "export:ais-csv"
+kind = "export"
+roadmap = "I1"
+vectors = ["connect/export-ais-csv"]
+live = "none"
+
+[[connector]]
+id = "mapping:csv"
+kind = "mapping"
+roadmap = "A7"
+vectors = ["connect/timing-monitor", "connect/android-raw"]
+live = "check-live"
+
+[[connector]]
+id = "mapping:tsv"
+kind = "mapping"
+roadmap = "A7"
+vectors = ["connect/mapping-tsv"]
+live = "check-live"
+
+[[connector]]
+id = "mapping:json"
+kind = "mapping"
+roadmap = "A7"
+vectors = ["connect/monitor-api"]
+live = "none"
+note = "a JSON document is not streamed row by row, so check-live skips it"
+
+[[connector]]
+id = "mapping:jsonl"
+kind = "mapping"
+roadmap = "A7"
+vectors = ["connect/mapping-jsonl"]
+live = "check-live"
+
+[[connector]]
+id = "timing:pmc"
+kind = "timing"
+roadmap = "I2"
+vectors = ["timing/pmc"]
+live = "none"
+
+[[connector]]
+id = "timing:ptp-mgmt"
+kind = "timing"
+roadmap = "I2"
+vectors = ["timing/ptp-mgmt"]
+live = "none"
+
+[[connector]]
+id = "timing:chrony-tracking"
+kind = "timing"
+roadmap = "I2"
+vectors = ["timing/chrony-tracking"]
+live = "none"
+
+[[connector]]
+id = "timing:chrony-sources"
+kind = "timing"
+roadmap = "I2"
+vectors = ["timing/chrony-sources"]
+live = "none"
+
+[[connector]]
+id = "timing:ntpq-peers"
+kind = "timing"
+roadmap = "I2"
+vectors = ["timing/ntpq-peers"]
+live = "none"
+
+[[connector]]
+id = "timing:ntpq-rv"
+kind = "timing"
+roadmap = "I2"
+vectors = ["timing/ntpq-rv"]
+live = "none"
+
+[[connector]]
+id = "timing:snmp-message"
+kind = "timing"
+roadmap = "I2"
+vectors = ["timing/snmp-message"]
+live = "none"
+
+[[connector]]
+id = "timing:ntp-mode6"
+kind = "timing"
+roadmap = "I2"
+vectors = ["timing/ntp-mode6"]
+live = "none"
+
+[[connector]]
+id = "timing:rtcm3-decode"
+kind = "timing"
+roadmap = "I3"
+vectors = ["timing/rtcm3-decode"]
+live = "none"
+
+[[connector]]
+id = "live:mqtt"
+kind = "live"
+roadmap = "A7"
+vectors = []
+live = "check-live"
+checked_by = "tests/connect_mqtt.rs"
+note = "check-live replays every streamable mapping vector over MQTT"
+
+[[connector]]
+id = "live:websocket"
+kind = "live"
+roadmap = "A7"
+vectors = []
+live = "check-live"
+checked_by = "tests/connect_ws.rs"
+note = "check-live replays every streamable mapping vector over WebSocket"
+
+[[connector]]
+id = "live:watch"
+kind = "live"
+roadmap = "A7"
+vectors = []
+live = "check-live"
+checked_by = "tests/connect_watch.rs"
+note = "check-live replays every streamable mapping vector through the directory watch"
+
+[[connector]]
+id = "live:nats"
+kind = "live"
+roadmap = "A7"
+vectors = []
+live = "none"
+checked_by = "tests/connect_nats.rs"
+note = "a loopback NATS server in the test; not part of check-live"
+
+[[connector]]
+id = "sdr:sigmf"
+kind = "sdr"
+roadmap = "I4"
+vectors = []
+live = "none"
+checked_by = "tests/connect_042_w2.rs"
+note = "read and write, against the SigMF schema when present"
+
+[[connector]]
+id = "sdr:gps-sdr-sim-motion"
+kind = "sdr"
+roadmap = "I4"
+vectors = []
+live = "none"
+checked_by = "tests/connect_042_w2.rs"
+note = "motion file writer"
+
+[[connector]]
+id = "ops:prometheus-openmetrics"
+kind = "output"
+roadmap = "I5"
+vectors = []
+live = "none"
+checked_by = "tests/telemetry_formats_reference.rs"
+note = "exposition text against reference parsers"
+
+[[connector]]
+id = "ops:otlp"
+kind = "output"
+roadmap = "I5"
+vectors = []
+live = "none"
+checked_by = "tests/telemetry_formats_reference.rs"
+note = "OTLP JSON against independently decoded reference output"
+
+[[connector]]
+id = "ops:syslog-rfc5424"
+kind = "output"
+roadmap = "I5"
+vectors = []
+live = "none"
+checked_by = "tests/telemetry_cli.rs"
+note = "RFC 5424 severities and UDP delivery to a local collector"
+
+[[connector]]
+id = "ops:cef-leef"
+kind = "output"
+roadmap = "I5"
+vectors = []
+live = "none"
+checked_by = "tests/cef_reference.rs"
+note = "CEF and LEEF against reference parsers"
+
+[[connector]]
+id = "ops:webhooks"
+kind = "output"
+roadmap = "I5"
+vectors = []
+live = "none"
+checked_by = "tests/telemetry_webhook.rs"
+note = "generic webhooks and the incident and chat templates"
+
+[[connector]]
+id = "ops:cap"
+kind = "output"
+roadmap = "I5"
+vectors = []
+live = "none"
+checked_by = "tests/telemetry_cap.rs"
+note = "CAP 1.2"
+
+[[connector]]
+id = "ops:incident-chat-logindex-snmptrap-stix-taxii"
+kind = "output"
+roadmap = "I5"
+vectors = []
+live = "none"
+checked_by = "tests/connect_042_w2.rs"
+note = "incident, chat, log index, SNMP trap, STIX 2.1 and TAXII 2.1, against in-process fakes and schemas when present"
+
+[[connector]]
+id = "industrial:modbus-dnp3-opcua"
+kind = "client"
+roadmap = "I7"
+vectors = []
+live = "none"
+checked_by = "tests/connect_042_w2.rs"
+note = "read-only clients against in-process fakes written from the public specifications"
+
+[[connector]]
+id = "space:packets-xtce-cosmos-openmct"
+kind = "output"
+roadmap = "I8"
+vectors = []
+live = "none"
+checked_by = "tests/connect_042_w2.rs"
+note = "CCSDS packets with XTCE, COSMOS and Open MCT definitions"
+
+[[connector]]
+id = "space:space-packet"
+kind = "reader"
+roadmap = "I8"
+vectors = []
+live = "none"
+checked_by = "tests/ccsds_space_packet_reference.rs"
+note = "CCSDS Space Packet against a reference decoder"
+
+[[connector]]
+id = "space:adm"
+kind = "output"
+roadmap = "I8"
+vectors = []
+live = "none"
+checked_by = "tests/adm_orekit_oracle.rs"
+note = "CCSDS ADM against Orekit"
+
+[[connector]]
+id = "space:sp3-write"
+kind = "output"
+roadmap = "I8"
+vectors = []
+live = "none"
+checked_by = "tests/sp3_export_roundtrip.rs"
+note = "SP3 write and read back"
+
+[[connector]]
+id = "timing:c37118"
+kind = "reader"
+roadmap = "I2"
+vectors = []
+live = "none"
+checked_by = "tests/c37118.rs"
+note = "IEEE C37.118 synchrophasor frames"

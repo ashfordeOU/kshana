@@ -374,3 +374,29 @@ fn rtcm3_stream() -> Vec<u8> {
 fn rtcm3_live_equals_replay() {
     check("rtcm3", &rtcm3_stream());
 }
+
+/// The connect conformance kit (roadmap 0.42 I12) carries the four synthetic receiver streams above as
+/// vector inputs (`conformance/connect/reader-{ubx,sbf,novatel,rtcm3}/`), so a third party can check
+/// the readers offline with `kshana connect check`. The committed inputs are exactly these builders'
+/// bytes; `KSHANA_KIT_WRITE=1` rewrites them after a reviewed change to a builder.
+#[test]
+fn the_kit_reader_inputs_are_these_streams() {
+    for (dir, file, bytes) in [
+        ("reader-ubx", "input.ubx", ubx_stream()),
+        ("reader-sbf", "input.sbf", sbf_stream()),
+        ("reader-novatel", "input.gps", novatel_stream()),
+        ("reader-rtcm3", "input.rtcm3", rtcm3_stream()),
+    ] {
+        let p = root().join("conformance/connect").join(dir).join(file);
+        if std::env::var("KSHANA_KIT_WRITE").as_deref() == Ok("1") {
+            std::fs::create_dir_all(p.parent().unwrap()).unwrap();
+            std::fs::write(&p, &bytes).unwrap();
+        }
+        assert_eq!(
+            std::fs::read(&p).unwrap_or_default(),
+            bytes,
+            "{} is not the builder's stream; rewrite with KSHANA_KIT_WRITE=1",
+            p.display()
+        );
+    }
+}
