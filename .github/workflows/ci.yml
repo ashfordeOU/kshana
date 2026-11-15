@@ -436,6 +436,9 @@ jobs:
       - uses: Swatinem/rust-cache@d1527c8f67ef9af357290475d4af4b0fab8f12e0 # v2
       - name: B3b gate, bit for bit
         run: cargo test --locked --test locator_tdoa -- --include-ignored
+      # B3c (0.42 V1), T4 as read in U11 (xval/tdoa-locator-b3c/README.md): the same for the successor's gate.
+      - name: B3c gate, bit for bit
+        run: cargo test --locked --test locator_tdoa_b3c -- --include-ignored
 
   bench-speed:
     # Speed benchmarks per platform (roadmap L10c; docs/SIZING.md). The run is uploaded as an
