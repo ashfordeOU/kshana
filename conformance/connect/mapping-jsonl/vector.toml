@@ -1,0 +1,5 @@
+name = "mapping file: jsonl source"
+input = "input.jsonl"
+mapping = "mapping.connect.toml"
+station = "../../../examples/obs/station.toml"
+expected = "expected.obs.jsonl"

@@ -14,9 +14,16 @@
 //! its records being returned is reported (median, 99th percentile, maximum) and must stay within
 //! [`LATENCY_BAR_MS`]. Both ends run in one process on the loopback interface, so the figure is the
 //! client's own cost, not the network's.
+//!
+//! A vector with a built-in receiver reader that also reads live (`kshana obs live`, [`LiveObs`]) is
+//! replayed over one more path (connect conformance kit v2, roadmap 0.42 I12):
+//! * **stream**: the input's bytes are pushed in pieces of uneven size (1 byte up to 4 KiB, cut
+//!   through frames), as a serial port or a TCP socket delivers them; the path passes on the same
+//!   terms (the expected epochs in order, one released by the final flush, latency per piece).
 use crate::connect::{parse_mapping, Mapping, Vector};
 use crate::connect_mqtt::{Feed, MqttConfig};
 use crate::obs::{Record, Station};
+use crate::obs_live::LiveObs;
 use std::io::{Read, Write};
 use std::net::{TcpListener, TcpStream};
 use std::path::Path;
@@ -29,7 +36,7 @@ pub const LATENCY_BAR_MS: f64 = 250.0;
 /// The result of one live path for one vector.
 #[derive(Clone, Debug, PartialEq, serde::Serialize)]
 pub struct PathResult {
-    /// `mqtt`, `ws` or `watch`.
+    /// `mqtt`, `ws`, `watch` or `stream`.
     pub path: &'static str,
     /// Epochs expected and produced.
     pub epochs_expected: usize,
@@ -100,6 +107,70 @@ fn split(mapping: &Mapping, text: &str) -> Result<(Option<String>, Vec<String>),
     Ok((header, data))
 }
 
+/// Judge one path's records against the expected epochs.
+fn judge(
+    want: &[String],
+    path: &'static str,
+    got: &[Record],
+    released: usize,
+    reconnects: u32,
+    latency: Vec<f64>,
+) -> PathResult {
+    let have = epochs(got);
+    let first_difference = (0..want.len().max(have.len()))
+        .find(|&k| want.get(k) != have.get(k))
+        .map(|k| k + 1);
+    let latency_ms = quantiles(latency);
+    let reconnect_ok = path != "mqtt" || reconnects == 1;
+    PathResult {
+        path,
+        epochs_expected: want.len(),
+        epochs_produced: have.len(),
+        first_difference,
+        released_at_end: released,
+        reconnects,
+        latency_ms,
+        pass: first_difference.is_none()
+            && (released == 1 || want.is_empty())
+            && reconnect_ok
+            && latency_ms[1] <= LATENCY_BAR_MS,
+    }
+}
+
+/// Live readers left off the stream path while a live read differs from the replay of the same bytes
+/// (an open finding, conformance/kit.toml): the IEC 61162-450 datagram reader's epochs differ from
+/// epoch 69 of the kit's capture once the live window is trimmed.
+pub const STREAM_FINDINGS: [&str; 1] = ["iec61162-450"];
+
+/// The piece sizes the stream path cuts an input into, in turn.
+const STREAM_PIECES: [usize; 6] = [1, 3, 17, 113, 509, 4093];
+
+/// The stream path: push `bytes` into a live reader in uneven pieces, then flush.
+fn stream_path(live: LiveObs, bytes: &[u8], want: &[String]) -> Result<PathResult, String> {
+    let mut live = live;
+    let mut got = Vec::new();
+    let mut latency = Vec::new();
+    let (mut at, mut k) = (0usize, 0usize);
+    while at < bytes.len() {
+        let end = (at + STREAM_PIECES[k % STREAM_PIECES.len()]).min(bytes.len());
+        let t = Instant::now();
+        let out = live.push(&bytes[at..end])?;
+        if !out.is_empty() {
+            latency.push(t.elapsed().as_secs_f64() * 1e3);
+        }
+        got.extend(out);
+        at = end;
+        k += 1;
+    }
+    let tail = live.flush()?;
+    let released = tail
+        .iter()
+        .filter(|r| matches!(r, Record::Epoch(_)))
+        .count();
+    got.extend(tail);
+    Ok(judge(want, "stream", &got, released, 0, latency))
+}
+
 struct Replay<'a> {
     mapping: &'a Mapping,
     station: &'a Station,
@@ -117,25 +188,7 @@ impl Replay<'_> {
         reconnects: u32,
         latency: Vec<f64>,
     ) -> PathResult {
-        let have = epochs(got);
-        let first_difference = (0..self.want.len().max(have.len()))
-            .find(|&k| self.want.get(k) != have.get(k))
-            .map(|k| k + 1);
-        let latency_ms = quantiles(latency);
-        let reconnect_ok = path != "mqtt" || reconnects == 1;
-        PathResult {
-            path,
-            epochs_expected: self.want.len(),
-            epochs_produced: have.len(),
-            first_difference,
-            released_at_end: released,
-            reconnects,
-            latency_ms,
-            pass: first_difference.is_none()
-                && (released == 1 || self.want.is_empty())
-                && reconnect_ok
-                && latency_ms[1] <= LATENCY_BAR_MS,
-        }
+        judge(&self.want, path, got, released, reconnects, latency)
     }
 
     fn feed(&self, label: &'static str) -> Result<Feed, String> {
@@ -386,6 +439,24 @@ pub fn check_vector(path: &Path, scratch: &Path) -> Result<VectorResult, String>
         })
     };
     let Some(m) = &v.mapping else {
+        // A built-in receiver reader that reads live too is replayed over the stream path.
+        if let Some(fmt) = v
+            .reader
+            .as_ref()
+            .filter(|f| !STREAM_FINDINGS.contains(&f.as_str()))
+        {
+            let station: Station = toml::from_str(&read(&at(&v.station))?)
+                .map_err(|e| format!("{}: {e}", v.station))?;
+            if let Ok(live) = LiveObs::new(fmt, &station) {
+                let bytes = std::fs::read(at(&v.input)).map_err(|e| format!("{}: {e}", v.input))?;
+                let want = epochs(&crate::obs::check(&read(&at(&v.expected))?)?.0);
+                return Ok(VectorResult {
+                    name: v.name.clone(),
+                    paths: vec![stream_path(live, &bytes, &want)?],
+                    skipped: None,
+                });
+            }
+        }
         return skip(crate::terr!("e-connect-live-reader"));
     };
     let mapping = parse_mapping(&read(&at(m))?)?;

@@ -1,0 +1,9 @@
+name = "export: adsb-csv"
+input = "../../../examples/tracks/adsb.avr"
+decode = "avr"
+station = "../../../examples/obs/station.toml"
+expected = "expected.csv"
+
+[options]
+start = "1700000000"
+to = "adsb-csv"

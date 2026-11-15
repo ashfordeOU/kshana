@@ -22,14 +22,24 @@ fn scratch() -> std::path::PathBuf {
 fn every_streamable_vector_passes_on_every_live_path() {
     let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("conformance/connect");
     let mut replayed = 0;
+    let mut streamed = 0;
     for v in find_vectors(&root) {
         let r = check_vector(&v, &scratch()).unwrap();
         if r.skipped.is_some() {
             assert!(r.paths.is_empty());
             continue;
         }
-        replayed += 1;
         let names: Vec<_> = r.paths.iter().map(|p| p.path).collect();
+        if names == ["stream"] {
+            // A built-in receiver reader (kit v2): its bytes pushed in uneven pieces.
+            let p = &r.paths[0];
+            assert!(p.pass, "{}: {p:?}", r.name);
+            assert_eq!(p.epochs_produced, p.epochs_expected);
+            assert!(p.epochs_expected >= 2, "{}: the sample has epochs", r.name);
+            streamed += 1;
+            continue;
+        }
+        replayed += 1;
         assert_eq!(names, ["mqtt", "ws", "watch"]);
         for p in &r.paths {
             assert!(p.pass, "{}: {p:?}", r.name);
@@ -43,6 +53,12 @@ fn every_streamable_vector_passes_on_every_live_path() {
         );
     }
     assert!(replayed >= 2, "android-raw and timing-monitor are replayed");
+    // ubx, rinex, android, sbf, nmea, rtklib-pos, novatel, rtcm3, gnss-sdr, sbp, greis and unicore:
+    // every receiver reader that also reads live, but those in connect_live::STREAM_FINDINGS.
+    assert!(
+        streamed >= 12,
+        "only {streamed} reader vectors went over the stream path"
+    );
 }
 
 #[test]
