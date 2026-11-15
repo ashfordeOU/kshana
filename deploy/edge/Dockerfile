@@ -22,7 +22,10 @@ ENV CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER=aarch64-linux-gnu-gcc \
     CARGO_PROFILE_RELEASE_STRIP=symbols \
     CARGO_PROFILE_RELEASE_DEBUG=0
 COPY . .
-RUN cargo build --release --locked --bin kshana --target "$(cat /target)" \
+# rust-toolchain.toml pins the compiler, so the target goes on that toolchain (the one rustup picks in /src),
+# not only on the base image's default one added above.
+RUN rustup target add "$(cat /target)" \
+ && cargo build --release --locked --bin kshana --target "$(cat /target)" \
  && cp "target/$(cat /target)/release/kshana" /kshana
 
 FROM debian:bookworm-slim@sha256:7c7b2c966bc9ee8cedfeef67e0e279108992c77681fa595db4a9d65c06ccc587
