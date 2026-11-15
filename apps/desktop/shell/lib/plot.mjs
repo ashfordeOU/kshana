@@ -5,7 +5,10 @@
 // so scrubbing redraws only the thin top layer. A long series is cut to one minimum and one
 // maximum per pixel column. Click moves the cursor, drag selects a range, double-click clears
 // it. The pure parts (ticks, decimation) are exported and tested in ./clock.test.mjs.
+// The run view now draws its plot with the interactive chart (mountPlot below, lib/chart);
+// createPlot stays for pages that want the light two-canvas plot.
 import { indexAtOrBefore, indexWindow, clockText } from "./clock.mjs";
+import { createChart } from "./chart/chart2d.mjs";
 
 /** About `n` round tick values covering [lo, hi]. */
 export function ticks(lo, hi, n = 5) {
@@ -243,25 +246,53 @@ export function createPlot({ t = (id, en) => en, colors = (c) => c, style }) {
   return ctl;
 }
 
+/** The clock of lib/clock.mjs as the interactive chart takes one ({ now, range, subscribe, set, setRange }). */
+export function chartClock(clock) {
+  return {
+    get now() { return clock.t; },
+    get range() { return clock.range; },
+    subscribe: (fn) => clock.subscribe(fn),
+    set: (t) => { clock.pause(); clock.seek(t, "scrub"); },
+    setRange: (a, b) => clock.setRange(a, b),
+  };
+}
+
+/** The run's time model as an interactive chart spec (lib/chart, 0.42 U30). */
+export function plotSpec(model, { t = (id, en) => en, clockText: ct = clockText } = {}) {
+  const utc = Number.isFinite(model.epochMs) ? model.epochMs : null;
+  return {
+    type: "xy", title: model.title || "", subtitle: "",
+    x: { label: t("js-desk-plot-time", "time"), unit: "s", time: true, format: utc !== null ? (v) => ct(v, { epochMs: utc }) : null },
+    y: { label: String(model.yLabel || "").replace(/\s*\([^)]*\)\s*$/, ""), unit: (model.series[0] && model.series[0].unit) || "" },
+    series: model.series.map((s) => ({ id: s.id, label: s.label, color: s.color || undefined, unit: s.unit || "", x: s.t, y: s.v })),
+    overlays: Number.isFinite(model.threshold) ? [{ kind: "hline", y: model.threshold, label: model.thresholdLabel || "", color: "bad" }] : [],
+  };
+}
+
 /**
- * The plot's one entry point for the run view: mount a time-series plot of `model` (the run's
- * time model: series, span, threshold, epochMs) into `el`, following `clock` (click seeks,
- * drag selects a range, double-click clears it). Kept this thin so the plot can be swapped
- * for another chart module without touching the run view. Returns { setModel, restyle,
- * resize, destroy }.
+ * The plot's one entry point for the run view: the run's series drawn by the interactive chart
+ * (lib/chart, 0.42 U30), following `clock`: a click or drag along the time axis moves the
+ * cursor, a brush (Ctrl/⌘-drag) on it selects the range, a selected range narrows the plot.
+ * The chart's own markers A and B (Alt-click, M) are passed to `onMarkers` (0.42 U12).
+ * Returns { chart, setModel, restyle, resize, destroy }.
  */
 export function mountPlot(el, model, clock, opts = {}) {
-  const p = createPlot(opts);
-  el.append(p.el);
-  p.onSeek = (x) => { clock.pause(); clock.seek(x, "scrub"); };
-  p.onRange = (a, b) => { if (a === null) clock.clearRange(); else clock.setRange(a, b); };
-  const off = clock.subscribe((s) => p.setClock(s));
-  p.setModel(model);
-  p.setClock(clock.snapshot());
+  const cc = chartClock(clock);
+  const chart = createChart(el, { ...plotSpec(model, opts), clock: cc, legend: model.series.length > 1 });
+  chart.el.classList.add("lv-chart");
+  let rangeKey = "";
+  const off = clock.subscribe((s) => {
+    const k = s.range ? `${s.range[0]},${s.range[1]}` : "";
+    if (k === rangeKey) return;
+    rangeKey = k;
+    if (s.range) chart.setView({ x: s.range }); else chart.reset();
+  });
+  const offMarks = chart.on("markers", (d) => { if (opts.onMarkers) opts.onMarkers(d.markers || []); });
   return {
-    setModel(m) { p.setModel(m); p.setClock(clock.snapshot()); },
-    restyle: () => p.restyle(),
-    resize: () => p.resize(),
-    destroy() { off(); p.destroy(); p.el.remove(); },
+    chart,
+    setModel(m) { chart.update({ ...plotSpec(m, opts), clock: cc, legend: m.series.length > 1 }, { keepView: false }); },
+    restyle: () => chart.update({}),
+    resize: () => chart.update({}),
+    destroy() { off(); offMarks(); chart.destroy(); },
   };
 }

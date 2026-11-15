@@ -5,7 +5,8 @@
 //! * Prometheus text exposition on an HTTP `/metrics` endpoint ([`prometheus`]);
 //! * syslog lines in CEF or LEEF for SIEM ingestion ([`syslog`]);
 //! * a JSON state document and Home Assistant MQTT discovery, published over MQTT ([`mqtt`]);
-//! * OpenTelemetry OTLP/HTTP export, behind the off-by-default `otlp` feature (`otlp`).
+//! * OpenTelemetry OTLP/HTTP export, behind the off-by-default `otlp` feature (`otlp`);
+//! * incident, chat, log-index, SNMP trap, STIX/TAXII and OpenMetrics outputs ([`ops`]).
 //!
 //! The sinks read [`sample::TrustSample`] only; [`sample`] is the single adapter between
 //! the engine's trust records and everything here. See `docs/TRUST-TELEMETRY.md`.
@@ -14,6 +15,7 @@ pub mod alerts;
 pub mod cap;
 pub mod cli;
 pub mod mqtt;
+pub mod ops;
 #[cfg(feature = "otlp")]
 pub mod otlp;
 pub mod prometheus;
