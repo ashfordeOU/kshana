@@ -10,7 +10,7 @@
 //!
 //! It exports [`version`], [`run`] and [`export_sp3`], with the same names and signatures as the
 //! full module (`src/wasm.rs`), and runs four kinds: `constellation-design`, `gnss-sim`, `orbit` and
-//! `pvt` (`crate::api::WASM_SLIM_KINDS`). Any other kind is refused with the error the registry
+//! `pvt` (`crate::api::run_slim_kind`). Any other kind is refused with the error the registry
 //! gives an unregistered id. A carried kind returns the same bytes as the full module: the run
 //! goes through the same code (schema-version strip, `figure_tiers`, evidence label) and only the
 //! kind dispatch is a shorter table (`crate::api::run_slim_kind`). `ci.yml` (job `wasm-slim`)

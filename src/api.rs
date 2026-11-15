@@ -2084,8 +2084,9 @@ fn registry_dispatch(kind: ScenarioKind, src: &str) -> Result<RunOutput, String>
 }
 
 /// The scenario kinds the feature-limited WebAssembly module (`--features wasm-slim`) carries: the
-/// four the embedder calls (`constellation-design`, `gnss-sim`, `orbit` for `export_sp3`, `pvt`).
-#[cfg(any(test, all(feature = "wasm-slim", not(feature = "wasm"))))]
+/// four the embedder calls (`constellation-design`, `gnss-sim`, `orbit` for `export_sp3`, `pvt`). The
+/// list [`run_slim_kind`] matches on, kept for the test that holds the two together.
+#[cfg(test)]
 pub(crate) const WASM_SLIM_KINDS: [ScenarioKind; 4] = [
     ScenarioKind::ConstellationDesign,
     ScenarioKind::GnssSim,
