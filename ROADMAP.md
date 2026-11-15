@@ -89,10 +89,12 @@ is on `main`. Commercial editions are planned separately and are not described h
   parity (Homebrew, Scoop, winget) at the new version; the coverage job split so it finishes in
   under four hours without dropping a test.
 - **Evidence rows.** Each is pre-registered before any data, scored once, and published whether
-  it is met or missed; bars are never loosened. Planned: a successor to the interference locator
-  evaluated first on synthetic data (geolocation stays off in every product unless it meets its
-  pre-registered gate), detection bars on labelled interference sets, and holdover prediction on
-  recorded clocks. The Artemis I cruise row (C2) is closed and the CAPSTONE force-model row (C3) is
+  it is met or missed; bars are never loosened. A successor to the time-difference interference
+  locator met its pre-registered synthetic gate for wideband jammers and, as stated before the run,
+  not for the whole population, since a continuous-wave jammer has no bandwidth to time against
+  ([`RESULTS.md`](docs/design/evidence/b3c-tdoa-locator-successor/RESULTS.md)); geolocation stays off
+  in every product until a blind real-data run is met too. Planned: detection bars on labelled
+  interference sets, and holdover prediction on recorded clocks. The Artemis I cruise row (C2) is closed and the CAPSTONE force-model row (C3) is
   narrowed to what it showed, each with its written reason in
   [`docs/design/evidence/d1-artemis-capstone/V7-DISPOSITION.md`](docs/design/evidence/d1-artemis-capstone/V7-DISPOSITION.md).
 

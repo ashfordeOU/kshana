@@ -9,6 +9,34 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+### Changed (0.42 Q2, Q4, Q6, Q9, V1, V7: quality, platform and evidence rows)
+
+- Q4 Galileo and BeiDou broadcast health is read in the single-point solve: a Galileo record with any of its nine signal
+  health or data-validity bits set (E1-B, E5a, E5b) and a BeiDou record with `SatH1` non-zero are no longer selected
+  (`pvt::record_unhealthy`). Tested on the IGS broadcast files in the repository: E14 and E18 (2018 I/NAV, health 448
+  and 455) and E14, E18 and E32 (2026 merged file) drop out; healthy F/NAV records are chosen over flagged ones; all
+  64 BeiDou records decoded from the 2026 slice stay (`tests/broadcast_health_gal_bds_real.rs`).
+- Q9 Auto-tag tags a version only when CI and the i18n workflow (which holds the site checks: catalogues,
+  pseudo-locale and the deploy-style tree in a browser) are both green on the same commit; i18n now runs on every push
+  to `main`. A release can no longer ship with a red site check, as 0.41.0 did.
+- Q2 Kshana Desktop's `.deb` and `.rpm` (x86_64 and arm64) are installed in CI on Ubuntu 22.04 and 24.04, Fedora and
+  Raspberry Pi OS 64-bit (Debian trixie arm64 with the Raspberry Pi archive), started on a virtual display until the
+  window is mapped, and removed (`.github/workflows/linux-packages.yml`, `scripts/linux-package-install-test.sh`).
+- Q6 the public `ROADMAP.md` has a 0.42 section.
+- V1 B3c, the successor to the TDOA interference locator, pre-registered and run once on B3b's synthetic world with
+  fresh seeds: G-wb (chirp and noise jammers, 666 sessions) **MET** (T1 0.937, T2 3.0 × 10⁻⁶, T3 0.0049); G-all (1 000
+  sessions) **NOT MET** on T1 (0.624), because CW jammers are reported "not located: no usable bandwidth", as stated
+  before the run. The independent numpy oracle agrees on 20 of 20 sessions. Geolocation (F2) stays off until a blind
+  real-data run is met too (`docs/design/evidence/b3c-tdoa-locator-successor/`, `src/locate_tdoa_b3c.rs`). MODELLED.
+- V7 the Artemis I cruise row (C2) is closed (not met) and the CAPSTONE force-model row (C3) is narrowed to what it
+  showed, with A2 staying not met; reasons in `docs/design/evidence/d1-artemis-capstone/V7-DISPOSITION.md`.
+
+### Known limits (0.42 glib advisory)
+
+- The `glib` advisory (RUSTSEC-2024-0429) on the desktop crate cannot be closed by an upgrade yet: every Tauri release
+  up to 3.0.0-alpha.6 reaches GTK through `webkit2gtk` 2.0.x, which needs `glib` 0.18, and the fix is only in 0.20.
+  The affected function is not called anywhere in the desktop crate's dependency tree (apps/desktop/README.md).
+
 ### Added (0.42 U23, U24, U25, U26, U29: Desktop notebook, globe, stability plots, live traffic, course mode)
 
 - U23 Python notebook and console in Kshana Desktop: Markdown and Python cells kept in the project folder as
