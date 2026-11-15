@@ -9,14 +9,20 @@
 // lib/explainview.mjs), U17 ships and aircraft from track files on the map (lib/traffic.mjs), U18 the
 // shell's own catalogue in the Studio's languages (i18n/<lang>/desktop-js.ftl, loaded by the Studio's
 // lib/l10n-boot.mjs), U20 dockable panes and saved layouts (lib/dock.mjs, lib/dockview.mjs), U21 the
-// sweep studio (lib/sweepgrid.mjs, lib/sweepview.mjs), U22 run diff (lib/rundiff.mjs)). It is staged as studio/desktop/ next to the Studio
+// sweep studio (lib/sweepgrid.mjs, lib/sweepview.mjs), U22 run diff (lib/rundiff.mjs); wave 4: U23 the Python
+// console and notebook (lib/notebook.mjs, lib/notebookview.mjs), U24 the globe, region packs, optional imagery
+// and Bridge mode (lib/globe.mjs, lib/globeview.mjs), U25 the stability, Stanford and spectrum plots of a run
+// and of an IQ recording (lib/plots.mjs, lib/iq.mjs, lib/plotsview.mjs), U26 live AIS and ADS-B (lib/live.mjs),
+// U29 course mode (lib/course.mjs, lib/courseview.mjs)). It is staged as studio/desktop/ next to the Studio
 // (apps/desktop/build-frontend.sh) and reuses the Studio's modules unchanged: the
 // catalogue, the engine client and its Desktop bridge (lib/desktop.mjs), the views, key
 // figures, meaning and evidence modules. The website and the Studio pages are not touched.
 //
 // Every scenario- or engine-derived string reaches the page through textContent, or as SVG
 // parsed as XML and reduced to drawing (lib/svgsafe.mjs), never as HTML. No request leaves
-// the app: the engine, the scenarios and every file are local.
+// the app: the engine, the scenarios and every file are local. Two things the person turns on
+// reach out: a live AIS or ADS-B source they name (read only, U26), and globe imagery from a source
+// whose terms allow keeping it offline (off by default, U24).
 import { t } from "../lib/t.mjs";
 import { SCENARIOS, DEFAULT_SCENARIO, entryFor, domainOf, groupedLibrary, searchScenarios, scenarioPath, registerGroup, isGroupDir, groupFileUrl } from "../lib/catalog.mjs";
 import { createEngineClient, isCancelled, errorMessage } from "../lib/engine.mjs";
@@ -59,6 +65,20 @@ import { panes as dockPanes, seedIds } from "./lib/dock.mjs";
 import { sweepView } from "./lib/sweepview.mjs";
 import { metricOf } from "./lib/sweepgrid.mjs";
 import { inputsDiff, lineDiff, hunks, resultDiff, overlaySeries, ghostOf, diffLines } from "./lib/rundiff.mjs";
+import { createChart3D } from "./lib/chart/chart3d.mjs";
+import { createDual } from "./lib/chart/dual.mjs";
+import * as PRESETS from "./lib/chart/presets.mjs";
+import { findPlots, plotLines } from "./lib/plots.mjs";
+import { plotsPane, iqPane, iqSource } from "./lib/plotsview.mjs";
+import { mountGlobe } from "./lib/globeview.mjs";
+import { checkPack } from "./lib/globe.mjs";
+import { setRegionPacks } from "./lib/map/view.mjs";
+import { LIVE_PRESETS, checkSource, listensOnNetwork, cursorAfter } from "./lib/live.mjs";
+import { notebookView } from "./lib/notebookview.mjs";
+import { fromIpynb, toIpynb } from "./lib/notebook.mjs";
+import { PY_HEADER } from "./lib/mirror.mjs";
+import { courseView, lessonPanel } from "./lib/courseview.mjs";
+import { checkLessons, readProgress, fieldOf } from "./lib/course.mjs";
 
 const $ = (id) => document.getElementById(id);
 const h = (tag, props = {}, ...kids) => {
@@ -113,9 +133,12 @@ const S = {
   libQuery: "", compare: null, land: null, files: [],
   devices: { api: null, list: [], status: null, msg: "" },
   // U8: the project the session is kept in; U9: what the last drop held; U8: the runs view's search and the run being edited.
-  project: { dir: "", name: "Session", created: new Date().toISOString(), links: [], notes: "", saved: [], status: "", home: "", savedLayouts: {} },
+  project: { dir: "", name: "Session", created: new Date().toISOString(), links: [], notes: "", saved: [], status: "", home: "", savedLayouts: {}, notebooks: [], packs: [] },
   detective: { answers: [], busy: false, msg: "" },
   runQuery: "", editRun: null,
+  // U26: the live AIS or ADS-B source; U29: the lessons and the lesson in progress.
+  live: { status: null, msg: "", tabId: null, follow: true, paused: false, seq: -1 },
+  course: { lessons: null, active: null, progress: {} },
 };
 let RUNS = createRunLog(200);
 // U10: every action's Python and command line.
@@ -124,7 +147,7 @@ let uidSeq = 0;
 let sweepSeq = 0;
 // What extensions registered through window.KshanaShell (lib/ext.mjs; README "Extending the
 // shell"). Empty unless an extension registers: the shell then draws only its own parts.
-const BUILTIN_VIEWS = ["home", "runs", "library", "devices", "evidence", "files", "console", "upgrade"];
+const BUILTIN_VIEWS = ["home", "runs", "library", "devices", "evidence", "files", "console", "notebook", "course", "upgrade"];
 const reportExt = (e) => console.error("Kshana Desktop extension:", e);
 const EXT = createExtensions({ builtins: BUILTIN_VIEWS, onChange: () => renderSoon(), report: reportExt });
 let renderQueued = false;
@@ -231,6 +254,9 @@ function closeTab(id) {
   const i = S.tabs.findIndex((x) => x.id === id);
   if (i < 0) return;
   dropLinked(S.tabs[i]);
+  if (S.tabs[i].globe) { S.tabs[i].globe.view.destroy(); S.tabs[i].globe = null; }
+  if (S.tabs[i].live && S.live.tabId === id) { S.live.tabId = null; liveStop(); }
+  if (S.course.active && S.course.active.tabId === id) S.course.active = null;
   S.tabs.splice(i, 1);
   if (S.active === id) {
     const next = S.tabs[i] || S.tabs[i - 1];
@@ -431,20 +457,22 @@ function projectState() {
   return {
     name: S.project.name, created: S.project.created, runs: RUNS.list(), route: S.route, active: S.active,
     selected: RUNS.selected().map((r) => r.uid),
-    tabs: S.tabs.filter((tab) => !tab.traffic).map((tab) => {
+    tabs: S.tabs.filter((tab) => !tab.traffic && !tab.iq).map((tab) => {
       const lv = tab.lv && tab.lv.view && tab.lv.run === tab.run ? tab.lv.view : null;
       const snap = lv ? lv.clock.snapshot() : null;
       return { key: tab.id, file: tab.file, title: tab.title, custom: !!tab.custom, domain: tab.domain, toml: tab.toml, baseToml: tab.baseToml, view: tab.view, ins: tab.ins,
         runUid: tab.run ? tab.run.uid : null, clock: snap ? { t: snap.t, range: snap.range, marks: snap.marks } : tab.restoreClock || null, markers: tab.markers || tab.restoreMarkers || [], dock: tab.dock || null };
     }),
     links: S.project.links, notes: S.project.notes, console: MIRROR.list(), consoleRuns: MIRROR.runs, savedLayouts: S.project.savedLayouts || {},
+    notebookFiles: S.project.notebooks.map((x) => ({ file: x.file, text: x.text || (x.text = toIpynb(x.nb)) })),
+    packFiles: S.project.packs.map((x) => ({ file: x.file, text: x.text })),
   };
 }
 let saveTimer = 0, saving = false, lastKey = "";
 function saveSoon(ms = 900) { clearTimeout(saveTimer); saveTimer = setTimeout(saveProject, ms); }
 function layoutKey() {
   const st = projectState();
-  return JSON.stringify([st.route, st.active, st.selected, st.tabs.map((x) => [x.key, x.view, x.ins, x.runUid, x.clock, x.markers, x.toml && x.toml.length, x.dock]), Object.keys(st.savedLayouts), st.runs.map((r) => [r.uid, r.tags, r.pinned, r.note]), st.links.length, st.notes.length, st.console.length]);
+  return JSON.stringify([st.route, st.active, st.selected, st.tabs.map((x) => [x.key, x.view, x.ins, x.runUid, x.clock, x.markers, x.toml && x.toml.length, x.dock]), Object.keys(st.savedLayouts), st.runs.map((r) => [r.uid, r.tags, r.pinned, r.note]), st.links.length, st.notes.length, st.console.length, st.notebookFiles.map((x) => x.text.length), st.packFiles.map((x) => x.file)]);
 }
 async function saveProject() {
   if (saving) { saveSoon(500); return; }
@@ -500,6 +528,9 @@ function applyProject(p, dir) {
   S.project.notes = p.notes || "";
   S.project.savedLayouts = p.savedLayouts || {};
   for (const l of Object.values(S.project.savedLayouts)) seedIds(l);
+  S.project.notebooks = (p.notebookFiles || []).flatMap((x) => { try { return [{ file: x.file, nb: fromIpynb(x.text, x.file.replace(/\.ipynb$/, "")), text: x.text }]; } catch { return []; } });
+  S.project.packs = (p.packFiles || []).flatMap((x) => { try { const d = JSON.parse(x.text); return checkPack(d).ok ? [{ file: x.file, text: x.text, pack: d }] : []; } catch { return []; } });
+  applyPacks();
   if (dir !== undefined) S.project.dir = dir;
   S.project.ready = true;
   lastKey = layoutKey();
@@ -517,7 +548,7 @@ async function openProject(dir) {
   try {
     await saveProject();
     const p = await loadProject(dir);
-    if (!p) { S.project = { ...S.project, dir, name: dir.split(/[\\/]/).pop().replace(/\.kshana$/, ""), links: [], notes: "", saved: [], created: new Date().toISOString() }; await saveProject(); }
+    if (!p) { S.project = { ...S.project, dir, name: dir.split(/[\\/]/).pop().replace(/\.kshana$/, ""), links: [], notes: "", saved: [], created: new Date().toISOString(), notebooks: [], packs: [] }; applyPacks(); await saveProject(); }
     else applyProject(p, dir);
     try { localStorage.setItem(DIR_KEY, dir); } catch { /* not remembered */ }
     log({ kind: "project", title: t("js-desk-log-project", "Open project { $dir }", { dir }), py: [`# project folder: ${dir}`], cli: [`cd ${JSON.stringify(dir)}`] });
@@ -666,6 +697,8 @@ const NAV = () => [
   { id: "evidence", icon: "evidence", label: t("js-desk-nav-evidence", "Evidence packs") },
   { id: "files", icon: "files", label: t("js-desk-nav-files", "Files and project") },
   { id: "console", icon: "copy", label: t("js-desk-nav-console", "Console"), count: () => MIRROR.size },
+  { id: "notebook", icon: "dossiers", label: t("js-desk-nav-notebook", "Python notebook"), count: () => S.project.notebooks.length },
+  { id: "course", icon: "library", label: t("js-desk-nav-course", "Course") },
 ];
 // What Pro adds (U5). Each opens the upgrade screen; the free edition carries none of them.
 const PRO = () => [
@@ -766,7 +799,7 @@ function renderView() {
   const ext = EXT.shell.viewFor(S.route);
   if (ext && extView(v, ext)) return;
   drawn = null;
-  const pages = { home: homeView, runs: runsView, library: libraryView, devices: devicesView, evidence: evidenceView, files: filesView, console: consoleView, upgrade: upgradeView };
+  const pages = { home: homeView, runs: runsView, library: libraryView, devices: devicesView, evidence: evidenceView, files: filesView, console: consoleView, notebook: notebookPage, course: coursePage, upgrade: upgradeView };
   v.replaceChildren((pages[S.route] || homeView)());
 }
 // A registered view. On the render that opens it, `el` is empty and ctx.fresh is true; on the
@@ -816,6 +849,7 @@ const homeParts = Object.freeze({ recentRuns, scenarioGrid });
 // ---------- a scenario tab
 function tabView(tab) {
   if (tab.traffic) return trafficView(tab);
+  if (tab.iq) return iqTabView(tab);
   const run = tab.run;
   const r = run && run.result;
   const views = [["chart", t("js-desk-view-chart", "Chart")]];
@@ -823,6 +857,8 @@ function tabView(tab) {
   if (r && (V.groundTrack(r) || (lv && lv.hasMap))) views.push(["map", t("js-desk-view-map", "Map")]);
   views.push(["timeline", t("js-desk-view-timeline", "Timeline")]);
   if (lv && skySite(lv.model)) views.push(["sky", t("js-desk-view-sky", "Sky")]);
+  if (lv && lv.hasMap) views.push(["globe", t("js-desk-view-globe", "Globe")]);
+  if (r && plotsOf(run).length) views.push(["plots", t("js-desk-view-plots", "Plots")]);
   views.push(["table", t("js-desk-view-table", "Table")], ["json", t("js-desk-view-json", "JSON")]);
   if (run) views.push(["panes", t("js-desk-view-panes", "Panes")]);
   if (tab.toml) views.push(["sweep", t("js-desk-view-sweep", "Sweep")]);
@@ -840,6 +876,7 @@ function tabView(tab) {
       ? h("button", { class: "btn", type: "button", id: "btn-cancel", onclick: cancelRuns }, ic("stop"), t("js-desk-cancel", "Cancel"))
       : h("button", { class: "btn primary", type: "button", id: "btn-run", disabled: !tab.toml || S.mode === "none" ? true : null, onclick: () => runTab(tab) }, ic("play"), run ? t("js-desk-run-again", "Run again") : t("js-desk-run", "Run")));
   const body = h("div", { class: "doc-body" });
+  if (S.course.active && S.course.active.tabId === tab.id) body.append(lessonFor(tab));
   if (tab.error) body.append(h("p", { class: "notice error", role: "alert", text: tab.error }));
   if (tab.running) body.append(h("p", { class: "busy", role: "status" }, h("span", { class: "spin", "aria-hidden": "true" }), S.native ? t("js-desk-running-native", "Running on this machine's native engine…") : t("js-desk-running", "Running…")));
   else if (run) body.append(h("p", { class: "answer", text: answerOf(run) }));
@@ -876,6 +913,11 @@ function figureFor(tab) {
   if (tab.view === "map" && lv && lv.model.track) {
     const tr = lv.model.track;
     return figureTools({ ...common, title: `${tab.title} · map`, script: () => figureScript(runRef(run), { kind: "map", title: `${tab.title} · track`, series: [], track: { t: Array.from(tr.t), lat: Array.from(tr.lat), lon: Array.from(tr.lon) } }) });
+  }
+  if (tab.view === "plots" && plotsOf(run).length) {
+    const found = plotsOf(run);
+    const pane = tab.plots && tab.plots.run === run ? tab.plots.pane : null;
+    return figureTools({ ...common, chart: pane && pane.charts[0] && pane.charts[0].toCSV ? pane.charts[0] : null, title: `${tab.title} · plots`, script: () => figureScript(runRef(run), { kind: "plots", title: `${tab.title} · plots`, lines: (res) => plotLines(found, res) }) });
   }
   if (tab.view === "sky" && tab.sky && tab.sky.run === run && tab.sky.data) {
     return figureTools({ ...common, chart: tab.sky.chart, title: `${tab.title} · sky`, script: () => figureScript(runRef(run), { kind: "sky", title: `${tab.title} · sky`, sky: { requests: tab.sky.data.requests } }) });
@@ -918,6 +960,8 @@ function panel(tab) {
   const lv = linkedFor(tab);
   if (tab.view === "panes") { box.classList.add("plain", "docked"); box.append(dockView(dockCtx, tab)); return box; }
   if (tab.view === "sky" && lv) { box.classList.add("scroll"); box.append(skyPane(tab, lv)); return box; }
+  if (tab.view === "plots") { box.classList.add("scroll"); box.append(plotsFor(tab)); return box; }
+  if (tab.view === "globe" && lv) { box.classList.add("scroll"); box.append(globeFor(tab, lv)); return box; }
   if (lv && (tab.view === "timeline" || (tab.view === "map" && lv.hasMap))) {
     box.classList.add("linked");
     box.append(lv.node(tab.view));
@@ -952,9 +996,13 @@ function panel(tab) {
 
 // ---------- a traffic tab (U17): ships and aircraft from a track file
 function trafficView(tab) {
+  if (!tab.run) {
+    return [h("div", { class: "doc-head" }, h("span", { class: "dom-chip", style: "--c:var(--nav)" }, t("js-desk-tr-chip", "Tracks")), h("h1", { text: tab.title })),
+      h("div", { class: "doc-body" }, tab.live ? liveBar(tab) : null, h("p", { class: "panel-msg", text: t("js-desk-lv-waiting", "Waiting for the first positions…") }))];
+  }
   const run = tab.run, tr = run.result.traffic;
   const lv = linkedFor(tab);
-  const views = [["map", t("js-desk-view-map", "Map")], ["timeline", t("js-desk-view-timeline", "Timeline")], ["panes", t("js-desk-view-panes", "Panes")]];
+  const views = [["map", t("js-desk-view-map", "Map")], ["globe", t("js-desk-view-globe", "Globe")], ["timeline", t("js-desk-view-timeline", "Timeline")], ["panes", t("js-desk-view-panes", "Panes")]];
   if (!views.some((x) => x[0] === tab.view)) tab.view = "map";
   const kinds = { vessel: 0, aircraft: 0, vehicle: 0, object: 0 };
   for (const o of tr.objects) kinds[o.kind]++;
@@ -965,10 +1013,12 @@ function trafficView(tab) {
     h("span", { class: "doc-meta", text: meta.join(" · ") }),
     h("div", { class: "seg", role: "group", "aria-label": t("js-desk-view-group", "View") }, ...views.map(([id, label]) => h("button", { type: "button", "aria-pressed": tab.view === id ? "true" : "false", onclick: () => { tab.view = id; render(); } }, label))));
   const body = h("div", { class: "doc-body" });
-  body.append(h("p", { class: "answer", text: tr.timed ? t("js-desk-tr-answer", "Reported positions from { $name }, on the file's own clock. Colour: the quality class each reader draws from the message's own fields.", { name: tab.title }) : t("js-desk-tr-answer-untimed", "Reported positions from { $name }. The file carries no calendar time: the cursor steps through the messages in their order.", { name: tab.title }) }));
+  if (tab.live) body.append(liveBar(tab));
+  else body.append(h("p", { class: "answer", text: tr.timed ? t("js-desk-tr-answer", "Reported positions from { $name }, on the file's own clock. Colour: the quality class each reader draws from the message's own fields.", { name: tab.title }) : t("js-desk-tr-answer-untimed", "Reported positions from { $name }. The file carries no calendar time: the cursor steps through the messages in their order.", { name: tab.title }) }));
   if (tr.dropped.objects || tr.dropped.points) body.append(h("p", { class: "notice", text: t("js-desk-tr-dropped", "Drawn: the first { $n } objects; { $o } objects and { $p } positions are left out.", { n: tr.objects.length, o: tr.dropped.objects, p: tr.dropped.points }) }));
   const box = h("div", { class: "panel", role: "region", "aria-label": t("js-desk-panel", "Result view") });
   if (tab.view === "panes") { box.classList.add("plain", "docked"); box.append(dockView(dockCtx, tab)); }
+  else if (tab.view === "globe" && lv) { box.classList.add("scroll"); box.append(globeFor(tab, lv)); }
   else if (lv) { box.classList.add("linked"); box.append(lv.node(tab.view)); }
   else box.append(h("p", { class: "panel-msg", text: t("js-desk-tr-no-view", "These positions could not be placed on the time cursor.") }));
   body.append(box);
@@ -990,6 +1040,227 @@ function trafficPane(tab) {
   out.push(h("p", { class: "hint", text: t("js-desk-tr-quality-order", "Quality: positions that are good / intermediate / degraded / unknown, by the reader's own rule.") }));
   out.push(h("p", { class: "hint", text: t("js-desk-tr-note", "Read only: nothing is sent to a receiver or a network. The readers are checked on vectors built from each format's public description and on published examples; none is validated against a decoder approved for operational use.") }));
   return out;
+}
+
+// ---------- the Plots view (U25): stability, Stanford and spectrum outputs of a run
+const plotsCache = new WeakMap();
+function plotsOf(run) {
+  if (!run || !run.result) return [];
+  if (!plotsCache.has(run)) plotsCache.set(run, findPlots(run.result));
+  return plotsCache.get(run);
+}
+function plotsFor(tab) {
+  const run = tab.run;
+  if (tab.plots && tab.plots.run === run) return tab.plots.pane.el;
+  const pane = plotsPane({ t, createChart, createDual, presets: PRESETS, title: tab.title }, run.result);
+  tab.plots = { run, pane };
+  if (pane.found.length) log({ kind: "plots", title: t("js-desk-log-plots", "Plots of { $title }", { title: tab.title }), py: [`# stability, Stanford and spectrum outputs of run ${run.console || run.id}`, ...plotLines(pane.found, "result")], cli: [] });
+  return pane.el;
+}
+
+// ---------- the globe (U24)
+const IMAGERY_KEY = "kshana-desk-imagery", BRIDGE_KEY = "kshana-desk-bridge";
+const imagery = {
+  get() { try { return localStorage.getItem(IMAGERY_KEY) || ""; } catch { return ""; } },
+  set(id) { try { if (id) localStorage.setItem(IMAGERY_KEY, id); else localStorage.removeItem(IMAGERY_KEY); } catch { /* not remembered */ } },
+};
+// Bridge (red) mode: the dark theme drawn in reds only, for a ship's bridge or a night watch.
+const bridge = {
+  on: () => document.documentElement.dataset.bridge === "on",
+  toggle() {
+    const on = !bridge.on();
+    if (on) { document.documentElement.dataset.bridge = "on"; document.documentElement.dataset.theme = "dark"; } else delete document.documentElement.dataset.bridge;
+    try { localStorage.setItem(BRIDGE_KEY, on ? "on" : "off"); } catch { /* not remembered */ }
+    toast(on ? t("js-desk-bridge-on", "Bridge mode: the window in reds on black.") : t("js-desk-bridge-off", "Bridge mode off."));
+    renderStatus();
+  },
+};
+try { if (localStorage.getItem(BRIDGE_KEY) === "on") { document.documentElement.dataset.bridge = "on"; document.documentElement.dataset.theme = "dark"; } } catch { /* not remembered */ }
+function globeFor(tab, lv) {
+  const run = tab.run;
+  if (tab.globe && tab.globe.run === run) return tab.globe.view.el;
+  if (tab.globe) tab.globe.view.destroy();
+  const view = mountGlobe({
+    t, createChart3D, clock: chartClock(lv.clock), model: lv.model, scene: run.traffic ? Promise.resolve(null) : sceneOf(run), loadLand: landFile,
+    packs: () => S.project.packs.map((x) => x.pack), mask: scenarioMask(run.toml) ?? 0, imagery, bridge,
+    cacheGet: invoke ? (key) => invoke("tile_cache_get", { key }) : null, cachePut: invoke ? (key, base64) => invoke("tile_cache_put", { key, base64 }) : null,
+  });
+  tab.globe = { run, view };
+  return view.el;
+}
+
+// ---------- region packs (U24): finer Natural Earth land for the map and the globe, kept in the project
+function applyPacks() {
+  try { setRegionPacks(S.project.packs.map((x) => x.pack)); } catch (e) { console.error("Kshana Desktop: region packs", e); }
+}
+async function addPack(name, text) {
+  let d;
+  try { d = JSON.parse(text); } catch { toast(t("js-desk-pk-bad", "{ $name } is not a region pack (kshana-mappack/1).", { name })); return; }
+  const c = checkPack(d);
+  if (!c.ok) { toast(t("js-desk-pk-bad", "{ $name } is not a region pack (kshana-mappack/1).", { name })); return; }
+  const file = `${String(d.name).normalize("NFKD").replace(/[^\w-]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 80) || "pack"}.json`;
+  S.project.packs = [...S.project.packs.filter((x) => x.file !== file), { file, text, pack: d }];
+  applyPacks();
+  for (const tab of S.tabs) if (tab.globe) { tab.globe.view.destroy(); tab.globe = null; }
+  dropAllLinked();
+  saveSoon();
+  toast(t("js-desk-pk-added", "Region pack { $name } added to the project.", { name: d.name }));
+  render();
+}
+function dropAllLinked() { for (const tab of S.tabs) dropLinked(tab); }
+function packsBox() {
+  const pick = h("input", { type: "file", id: "pack-in", accept: ".json", class: "vh" });
+  pick.addEventListener("change", async () => { const f = pick.files && pick.files[0]; if (f) await addPack(f.name, await f.text()); });
+  return h("section", { class: "card", "aria-labelledby": "pk-h", style: "max-width:800px;margin-bottom:18px" },
+    h("h2", { id: "pk-h", style: "margin-top:0", text: t("js-desk-pk-title", "Offline region packs") }),
+    h("p", { class: "muted", style: "margin:0", text: t("js-desk-pk-lede", "Finer coastlines for a region, from Natural Earth (public domain), kept in the project's packs/ folder. The map draws a pack in place of the 1:50m land when the pack holds the whole view (from zoom 5); the globe draws its coastlines too. apps/desktop/tools/pack_natural_earth.py --region makes one from Natural Earth's 1:10m land.") }),
+    S.project.packs.length ? h("ul", {}, ...S.project.packs.map((x, i) => h("li", {}, h("span", { text: `${x.pack.name} · ${x.pack.land.scale || ""} · ${x.pack.bbox.join(", ")}` }), " ",
+      h("button", { class: "linkish", type: "button", onclick: () => { S.project.packs.splice(i, 1); applyPacks(); dropAllLinked(); saveSoon(); render(); } }, t("js-desk-links-remove", "remove"))))) : null,
+    h("div", { class: "row" }, pick, h("label", { for: "pack-in", class: "btn", tabindex: "0", role: "button", onkeydown: (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); pick.click(); } } }, t("js-desk-pk-open", "Add a region pack…")),
+      h("button", { class: "btn", type: "button", onclick: async () => { try { const r = await fetch("data/packs/baltic-10m.mappack.json"); if (!r.ok) throw new Error(`HTTP ${r.status}`); await addPack("baltic-10m.mappack.json", await r.text()); } catch (e) { toast(errorMessage(e)); } } }, t("js-desk-pk-sample", "Add the bundled Baltic Sea pack (1:10m)"))));
+}
+
+// ---------- an IQ recording (U25): its spectrum and waterfall, read natively in blocks
+function openIq(a) {
+  const src = iqSource(a);
+  if (!src || !invoke) { toast(t("js-desk-iq-cannot", "This recording can be read only by the app's native side, from its path.")); return; }
+  const existing = S.tabs.find((x) => x.iq && x.iq.path === src.path);
+  if (existing) { showTab(existing.id); return; }
+  const tab = newTab({ file: src.name, entry: null, custom: true, title: src.name, domain: null, toml: "", baseToml: "", iq: src, iqState: {}, view: "spectrum" });
+  log({ kind: "iq", title: t("js-desk-log-iq", "Spectrum of { $name }", { name: src.name }), py: ["import numpy as np", `iq = np.fromfile(${JSON.stringify(src.path)}, dtype=${src.format.startsWith("cf32") ? "np.complex64" : src.format.startsWith("ci16") ? "np.int16" : src.format === "cu8" ? "np.uint8" : "np.int8"})  # ${src.format}`], cli: [] });
+  showTab(tab.id);
+}
+function iqTabView(tab) {
+  const head = h("div", { class: "doc-head" },
+    h("span", { class: "dom-chip", style: "--c:var(--int)" }, "IQ"),
+    h("h1", { text: tab.title }),
+    h("span", { class: "doc-meta", text: tab.iq.format }));
+  const box = h("div", { class: "panel scroll", role: "region", "aria-label": t("js-desk-panel", "Result view") });
+  box.append(iqPane({ t, invoke, createChart, createDual, presets: PRESETS, src: tab.iq, state: tab.iqState, render }));
+  return [head, h("div", { class: "doc-body" }, box)];
+}
+
+// ---------- live ships and aircraft (U26), through the app's native side
+let liveTimer = 0;
+async function liveStart(source, format) {
+  const c = checkSource(source, format);
+  if (!c.ok) { S.live.msg = t("js-desk-lv-bad", "Write a source as tcp:<host>:<port>, or udp:<address>:<port> for AIS."); render(); return; }
+  try {
+    S.live.status = await invoke("live_start", { source, format, windowS: 1800 });
+    S.live.msg = ""; S.live.seq = -1;
+    log({ kind: "live", title: t("js-desk-log-live", "Live { $format } from { $source }", { format, source }), py: [`# live ${format} from ${source}: read by the app; the kept messages decode with the engine's ${format === "ais" ? "ais" : "avr"} reader`], cli: [] });
+    const run = { id: 0, traffic: true, file: source, title: source, toml: "", result: null, at: new Date(), ms: 0, path: "" };
+    let tab = S.tabs.find((x) => x.id === S.live.tabId);
+    if (!tab) { tab = newTab({ file: source, entry: null, custom: true, title: t("js-desk-lv-tab", "Live: { $source }", { source }), domain: null, toml: "", baseToml: "", traffic: true, live: true, view: "map", ins: "inputs", run: null }); S.live.tabId = tab.id; }
+    tab.liveRun = run;
+    clearInterval(liveTimer);
+    liveTimer = setInterval(liveRefresh, 3000);
+    await liveRefresh();
+    showTab(tab.id);
+  } catch (e) { S.live.msg = errorMessage(e); render(); }
+}
+async function liveStop() {
+  clearInterval(liveTimer); liveTimer = 0;
+  if (invoke) { await invoke("live_stop", {}).catch(() => {}); S.live.status = await invoke("live_status", {}).catch(() => null); }
+  render();
+}
+async function liveRefresh() {
+  const tab = S.tabs.find((x) => x.id === S.live.tabId);
+  if (!tab || !invoke) { clearInterval(liveTimer); liveTimer = 0; return; }
+  try {
+    const text = await invoke("live_snapshot", {});
+    const d = JSON.parse(text);
+    S.live.status = d.live;
+    if (!d.live.running) { clearInterval(liveTimer); liveTimer = 0; }
+    if (S.live.paused || d.seq === S.live.seq) { if (S.route === "tab" && S.active === tab.id) render(); return; }
+    S.live.seq = d.seq;
+    const traffic = d.fixes.length ? trafficOf(d) : null;
+    if (traffic && traffic.objects.length) {
+      const prev = tab.lv && tab.lv.view ? tab.lv.view.clock.t : undefined;
+      tab.run = { ...tab.liveRun, result: trafficResult(traffic, { name: tab.title }), at: new Date() };
+      const lv = linkedFor(tab);
+      const to = lv ? cursorAfter(lv.model.span, prev, S.live.follow) : undefined;
+      if (lv && Number.isFinite(to)) lv.clock.seek(to, "restore");
+    }
+  } catch (e) { S.live.msg = errorMessage(e); }
+  if (S.route === "tab" && S.active === tab.id) render();
+}
+function liveBar(tab) {
+  const st = S.live.status || {};
+  return h("div", { class: "row live-bar", role: "status" },
+    h("span", { class: "dot", style: `--c:${st.running ? "var(--itg)" : "var(--ink-3)"}` }),
+    h("span", { text: st.running ? t("js-desk-lv-reading", "Reading { $source } ({ $format }): { $n } messages, { $kept } kept (the last { $min } min).", { source: String(st.source || ""), format: String(st.format || ""), n: fmtCount(st.messages || 0), kept: fmtCount(st.kept || 0), min: Math.round((st.window_s || 1800) / 60) }) : st.error ? t("js-desk-lv-stopped-err", "Stopped: { $reason }", { reason: String(st.error) }) : t("js-desk-lv-stopped", "Not reading.") }),
+    h("label", { class: "row", style: "gap:4px" }, h("input", { type: "checkbox", checked: S.live.follow ? true : null, onchange: (e) => { S.live.follow = e.target.checked; } }), t("js-desk-lv-follow", "Follow the newest")),
+    h("button", { class: "btn", type: "button", "aria-pressed": S.live.paused ? "true" : "false", onclick: () => { S.live.paused = !S.live.paused; render(); } }, S.live.paused ? t("js-desk-lv-resume", "Resume updates") : t("js-desk-lv-pause", "Pause updates")),
+    st.running ? h("button", { class: "btn", type: "button", onclick: liveStop }, t("js-desk-dev-stop", "Stop")) : null,
+    h("span", { class: "hint", text: t("js-desk-lv-note", "Times are when each message reached this computer. Read only.") }));
+}
+function liveCard() {
+  const src = h("input", { class: "input mono", id: "lv-src", type: "text", spellcheck: "false", placeholder: "tcp:127.0.0.1:30005" });
+  const fmt = h("select", { class: "input", id: "lv-fmt" }, h("option", { value: "beast", text: t("js-desk-lv-beast", "ADS-B, Beast (dump1090 / readsb port 30005)") }), h("option", { value: "avr", text: t("js-desk-lv-avr", "ADS-B, AVR hex lines (port 30002)") }), h("option", { value: "ais", text: t("js-desk-lv-ais", "AIS, NMEA 0183 sentences (TCP or UDP)") }));
+  const st = S.live.status || {};
+  return h("section", { class: "card", "aria-labelledby": "lv-h", style: "max-width:640px;margin-top:18px" },
+    h("h2", { id: "lv-h", style: "margin-top:0", text: t("js-desk-lv-title", "Live ships and aircraft") }),
+    h("p", { class: "muted", style: "margin:0 0 8px", text: t("js-desk-lv-lede", "Read AIS from a receiver's TCP or UDP output, or ADS-B from a dump1090 or readsb on this computer or your network, and watch the traffic on the map. The app only reads; the engine's own readers decode the messages.") }),
+    h("div", { class: "field" }, h("label", { for: "lv-fmt", text: t("js-desk-lv-format", "Format") }), fmt),
+    h("div", { class: "field" }, h("label", { for: "lv-src", text: t("js-desk-lv-source", "Source: tcp:<host>:<port>, or udp:<address>:<port> for AIS") }), src),
+    h("div", { class: "row" }, ...LIVE_PRESETS.map(([id, f, s0, what]) => h("button", { class: "btn", type: "button", title: what, onclick: () => { fmt.value = f; src.value = s0; } }, id))),
+    h("div", { class: "row", style: "margin-top:8px" },
+      h("button", { class: "btn primary", type: "button", onclick: () => { const s0 = src.value.trim(); if (listensOnNetwork(s0)) toast(t("js-desk-lv-network", "This UDP source takes datagrams from the network, not only this computer.")); liveStart(s0, fmt.value); } }, t("js-desk-lv-start", "Start")),
+      h("button", { class: "btn", type: "button", disabled: st.running ? null : true, onclick: liveStop }, t("js-desk-dev-stop", "Stop")),
+      st.running && S.live.tabId ? h("button", { class: "btn", type: "button", onclick: () => showTab(S.live.tabId) }, t("js-desk-lv-show", "Show the map")) : null),
+    S.live.msg ? h("p", { class: "notice error", role: "alert", text: S.live.msg }) : null,
+    st.running ? h("p", { class: "hint", text: t("js-desk-lv-reading", "Reading { $source } ({ $format }): { $n } messages, { $kept } kept (the last { $min } min).", { source: String(st.source || ""), format: String(st.format || ""), n: fmtCount(st.messages || 0), kept: fmtCount(st.kept || 0), min: Math.round((st.window_s || 1800) / 60) }) }) : null,
+    h("p", { class: "hint", text: t("js-desk-lv-honest", "Positions as broadcast, coloured by the quality class each reader draws from the message's own fields; not a verdict on whether a position is true. Not for navigation.") }));
+}
+
+// ---------- course mode (U29)
+const COURSE_KEY = "kshana-desk-course";
+try { S.course.progress = readProgress(localStorage.getItem(COURSE_KEY)); } catch { S.course.progress = {}; }
+function keepProgress() { try { localStorage.setItem(COURSE_KEY, JSON.stringify(S.course.progress)); } catch { /* not remembered */ } }
+function loadLessons() {
+  if (S.course.lessons) return;
+  S.course.lessons = null;
+  fetch("data/course/lessons.json").then((r) => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); }).then((d) => {
+    const c = checkLessons(d, { scenarios: SCENARIOS.map((x) => x[0]) });
+    S.course.lessons = c.ok ? d : { error: c.errors.join("; ") };
+  }).catch((e) => { S.course.lessons = { error: errorMessage(e) }; }).finally(render);
+}
+async function startLesson(l) {
+  await openScenario(l.scenario, { inNewTab: true });
+  const tab = activeTab();
+  if (!tab) return;
+  const pr = S.course.progress[l.id];
+  S.course.active = { id: l.id, lesson: l, tabId: tab.id, at: pr && !pr.done ? Math.min(pr.step, l.steps.length - 1) : 0, base: null };
+  S.course.progress[l.id] = { step: S.course.active.at, done: false };
+  keepProgress();
+  log({ kind: "course", title: t("js-desk-log-course", "Lesson { $title }", { title: l.title }), py: [`# lesson: ${l.title} (${l.scenario})`], cli: [] });
+  render();
+}
+const fieldsCache = new Map();
+function fieldsOfToml(toml) {
+  if (!fieldsCache.has(toml)) { if (fieldsCache.size > 50) fieldsCache.clear(); fieldsCache.set(toml, numericFields(toml)); }
+  return fieldsCache.get(toml);
+}
+function lessonFor(tab) {
+  const A = S.course.active, l = A.lesson;
+  if (!A.base && tab.run) A.base = tab.run;
+  const go2 = (i) => { A.at = Math.max(0, Math.min(l.steps.length - 1, i)); S.course.progress[l.id] = { step: A.at, done: false }; keepProgress(); render(); };
+  return lessonPanel({
+    t, lesson: l, at: A.at, tab, base: A.base ? { result: A.base.result, toml: A.base.toml } : null,
+    field: (toml, key) => fieldOf(fieldsOfToml(toml || ""), key),
+    fieldRaw: (toml, key) => { const f = fieldsOfToml(toml || "").find((x) => x.id === key); return f ? f.raw : undefined; },
+    go: go2,
+    finish: () => { S.course.progress[l.id] = { step: l.steps.length - 1, done: true }; keepProgress(); S.course.active = null; toast(t("js-desk-co-finished", "Lesson finished.")); render(); },
+    leave: () => { S.course.active = null; render(); },
+    setField: (key, v) => {
+      const f = fieldsOfToml(tab.toml).find((x) => x.id === key);
+      if (!f) { toast(t("js-desk-co-no-field", "This scenario has no setting { $key }.", { key })); return; }
+      tab.toml = patchField(tab.toml, f, v);
+      log({ kind: "edit", title: t("js-desk-log-edit", "Change { $key }", { key: f.key }), ...editLines({ section: f.section || "", key: f.key, raw: f.raw, value: v, file: tab.file }) });
+      runTab(tab);
+    },
+  });
 }
 
 // ---------- the sweep studio (U21)
@@ -1077,6 +1348,15 @@ function renderInspector() {
     if (j === null) return;
     e.preventDefault(); tab.ins = tabs[j][0]; render(); $(`ins-${tab.ins}`).focus();
   } }, ...tabs.map(([id, label]) => h("button", { type: "button", role: "tab", id: `ins-${id}`, "aria-selected": tab.ins === id ? "true" : "false", "aria-controls": "ins-body", tabindex: tab.ins === id ? "0" : "-1", onclick: () => { tab.ins = id; render(); } }, label)));
+  if (tab.iq) {
+    const q = tab.iq;
+    el.replaceChildren(h("div", { class: "ins-body" }, h("h2", { class: "ins-h", text: t("js-desk-iq-ins", "The recording") }),
+      h("dl", { class: "kv" }, h("dt", { text: t("js-desk-tr-file", "file") }), h("dd", { class: "mono", text: q.path }), h("dt", { text: t("js-desk-tr-format", "format") }), h("dd", { text: q.format }),
+        h("dt", { text: t("js-desk-iq-rate", "Sample rate (Hz)") }), h("dd", { text: q.rate ? String(q.rate) : "–" }), h("dt", { text: t("js-desk-iq-centre", "centre frequency") }), h("dd", { text: q.centre ? `${(q.centre / 1e6).toFixed(6)} MHz` : "–" })),
+      h("p", { class: "hint", text: t("js-desk-iq-read-only", "Read only, in blocks: the recording is never loaded whole.") })));
+    return;
+  }
+  if (tab.traffic && !tab.run) { el.replaceChildren(); return; }
   if (tab.traffic) {
     const lvT = linkedFor(tab);
     el.replaceChildren(...(lvT && !dockHas(tab, "inspector") ? [lvT.readout()] : []), h("div", { class: "ins-body" }, h("h2", { class: "ins-h", text: t("js-desk-tr-ins", "The file") }), ...trafficPane(tab)));
@@ -1352,6 +1632,7 @@ function devicesView() {
   page.append(h("h2", { text: t("js-desk-dev-status", "Status") }), dl,
     h("p", { class: "muted", style: "margin-top:16px", text: t("js-desk-dev-score", "The Studio's receiver-trust page scores the latest sentences every five seconds:") }),
     h("a", { href: "../trust/index.html", text: t("js-desk-dev-trust-link", "Open the receiver-trust page (leaves this window's tabs)") }));
+  page.append(liveCard());
   return page;
 }
 async function pollDevices() {
@@ -1402,8 +1683,10 @@ function filesView() {
     D.busy ? h("p", { class: "busy", role: "status" }, h("span", { class: "spin", "aria-hidden": "true" }), t("js-desk-drop-busy", "Reading…")) : null,
     D.answers.length ? h("div", { class: "det-list" }, ...D.answers.map(detItem)) : null,
     S.project.links.length ? [h("h2", { text: t("js-desk-links-title", "Data links of the project") }), h("ul", {}, ...S.project.links.map((l, i) => h("li", {}, h("span", { class: "mono", text: l.path }), h("span", { class: "muted", text: ` · ${familyLabel(l.family) || l.format || ""}` }), " ",
+      l.family === "iq" && iqSource(l) ? h("button", { class: "linkish", type: "button", onclick: () => openIq(l) }, t("js-desk-links-spectrum", "spectrum")) : null, " ",
       h("button", { class: "linkish", type: "button", onclick: () => { S.project.links.splice(i, 1); saveSoon(); render(); } }, t("js-desk-links-remove", "remove")))))] : null,
     trafficBox(),
+    packsBox(),
     projectBox(),
     h("h2", { text: t("js-desk-files-scenario", "Scenario files") }),
     h("p", { class: "lede", text: t("js-desk-files-lede", "Open a scenario file from this machine. It opens in its own tab and runs with the engine here; the file is read, never changed.") }),
@@ -1425,6 +1708,7 @@ function detItem(a) {
     a.ok ? h("div", { class: "row", style: "margin-top:8px" },
       sc ? h("button", { class: "btn primary", type: "button", onclick: () => openDropped(a) }, a.opens_as.kind === "clock-log" ? t("js-desk-det-open-clock", "Open beside the clock simulation") : t("js-desk-det-open-trust", "Open as a receiver-trust run")) : null,
       a.family === "tracks" ? h("button", { class: "btn primary", type: "button", onclick: () => openTrafficPath(a) }, t("js-desk-det-open-tracks", "Show the ships and aircraft on the map")) : null,
+      a.family === "iq" && a.path ? h("button", { class: "btn primary", type: "button", onclick: () => openIq(a) }, t("js-desk-det-open-iq", "Spectrum and waterfall")) : null,
       h("button", { class: "btn", type: "button", onclick: () => addLink(a) }, t("js-desk-det-link", "Keep as a data link")),
       !a.path ? h("span", { class: "hint", text: t("js-desk-det-no-path", "Dropped without its path: drop it on the app's window to open it as a run.") }) : null) : null);
 }
@@ -1482,6 +1766,20 @@ function consoleView() {
   return page;
 }
 
+// ---------- the Python notebook (U23) and the course (U29)
+function notebookPage() {
+  return notebookView({
+    t, invoke, notebooks: () => S.project.notebooks,
+    setNotebooks: (list) => { S.project.notebooks = list.map((x) => ({ file: x.file, nb: x.nb })); saveSoon(); },
+    projectDir: () => S.project.dir, engineVersion: () => S.version, mirror: () => MIRROR.list(), pyHeader: PY_HEADER,
+    save, copy: copyText, toast, log, render,
+  });
+}
+function coursePage() {
+  loadLessons();
+  return courseView({ t, lessons: S.course.lessons, progress: S.course.progress, start: startLesson, active: S.course.active });
+}
+
 // ---------- upgrade (U5): what Pro adds; no prices, no checkout, no request
 const EDITIONS_URL = "https://kshana.dev/editions.html";
 function upgradeView() {
@@ -1519,6 +1817,7 @@ function renderStatus() {
       h("span", { class: "st", text: t("js-desk-free-edition", "Free edition") }),
       h("span", { class: "st", text: t("js-desk-offline", "Works offline") })]),
     h("button", { type: "button", id: "btn-density", "aria-label": t("js-desk-density", "Switch between comfortable and compact"), title: t("js-desk-density", "Switch between comfortable and compact"), onclick: switchDensity }, density() === "compact" ? t("js-desk-density-compact", "Compact") : t("js-desk-density-comfortable", "Comfortable")),
+    ...(bridge.on() ? [h("button", { type: "button", id: "btn-bridge", "aria-pressed": "true", title: t("js-desk-act-bridge", "Bridge (red) mode on or off"), onclick: () => bridge.toggle() }, t("js-desk-bridge", "Bridge"))] : []),
     h("button", { type: "button", id: "btn-theme", "aria-label": t("js-desk-theme", "Switch between light and dark"), title: t("js-desk-theme", "Switch between light and dark"), onclick: toggleTheme }, ic("theme")));
 }
 function switchDensity() { const d = toggleDensity(); renderStatus(); toast(d === "compact" ? t("js-desk-density-now-compact", "Compact: smaller text, 24 px rows.") : t("js-desk-density-now-comfortable", "Comfortable: 13 px text, 32 px rows.")); }
@@ -1550,6 +1849,12 @@ function paletteActions() {
     { id: "project", label: t("js-desk-act-project", "Project, data links and dropped files"), keywords: "project folder kshana save open drop inspect detective files", go: () => go("files") },
     { id: "save", label: t("js-desk-act-save", "Keep the project now"), keywords: "save keep project disk", go: () => saveProject().then(() => toast(S.project.status)) },
     { id: "theme", label: t("js-desk-act-theme", "Switch between light and dark"), keywords: "theme dark light", go: toggleTheme },
+    { id: "bridge", label: t("js-desk-act-bridge", "Bridge (red) mode on or off"), keywords: "bridge red night watch dark", go: () => bridge.toggle() },
+    { id: "notebook", label: t("js-desk-act-notebook", "Python notebook and console"), keywords: "python notebook jupyter console cell cite", go: () => go("notebook") },
+    { id: "course", label: t("js-desk-act-course", "Course: guided lessons"), keywords: "course lesson learn tutorial guide", go: () => go("course") },
+    { id: "live", label: t("js-desk-act-live", "Live AIS or ADS-B from a receiver"), keywords: "live ais adsb ads-b dump1090 readsb beast avr udp tcp", go: () => { go("devices"); $("lv-h")?.scrollIntoView({ block: "start" }); } },
+    { id: "plots", label: t("js-desk-act-plots", "Plots: Allan deviation, MTIE, TDEV, Stanford, spectrum"), keywords: "allan adev mtie tdev stanford spectrum waterfall plots", disabled: !(tab && tab.run && plotsOf(tab.run).length), go: () => { tab.view = "plots"; render(); } },
+    { id: "globe", label: t("js-desk-act-globe", "Globe of this run"), keywords: "globe 3d earth orbit coverage follow", disabled: !(tab && tab.run && tab.lv && tab.lv.view && tab.lv.view.hasMap), go: () => { tab.view = "globe"; render(); } },
     { id: "density", label: density() === "compact" ? t("js-desk-act-density-comfortable", "View: comfortable density") : t("js-desk-act-density-compact", "View: compact density"), keywords: "view density compact comfortable rows", go: switchDensity },
     ...PRO().map((p) => ({ id: `pro-${p.id}`, label: p.label, keywords: "pro", pro: true, go: () => go("upgrade") })),
   ];

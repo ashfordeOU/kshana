@@ -8,7 +8,9 @@
 //   { kind: "surface", xs, ys, z (rows over ys), map, domain, label, unit }                        a surface from a grid, picked per node
 //   { kind: "sphere", r, centre?, color, alpha }                                                   a wireframe sphere (an Earth outline)
 //   { kind: "segments", pts (pairs), color, alpha }                                                any line segments
+//   { kind: "globe", r, f?, color, texture? (an equirectangular canvas or image), alpha? }         a solid, lit globe (0.42 U24)
 //
+// `axes: false` leaves out the box's edges, ticks and labels (the globe draws its own graticule).
 // Data coordinates are mapped into the display box ("cube": each axis to ±1; "equal": one
 // scale for all three, for positions in space). The axes are the box's edges with ticks and
 // labels in data units. Interaction: drag rotates, Shift- or right-drag pans, the wheel zooms,
@@ -50,6 +52,13 @@ const VS_LIT = `#version 300 es
 in vec3 aPos; in vec4 aCol; in vec3 aNor; uniform mat4 uMVP;
 out vec4 vCol; out vec3 vNor;
 void main(){ gl_Position = uMVP * vec4(aPos,1.0); vCol = aCol; vNor = aNor; }`;
+const VS_TEX = `#version 300 es
+in vec3 aPos; in vec2 aUv; in vec3 aNor; uniform mat4 uMVP;
+out vec2 vUv; out vec3 vNor;
+void main(){ gl_Position = uMVP * vec4(aPos,1.0); vUv = aUv; vNor = aNor; }`;
+const FS_TEX = `#version 300 es
+precision mediump float; in vec2 vUv; in vec3 vNor; uniform sampler2D uTex; uniform vec3 uLight; out vec4 o;
+void main(){ float k = 0.55 + 0.45*abs(dot(normalize(vNor), uLight)); o = vec4(texture(uTex, vUv).rgb*k, 1.0); }`;
 const FS_LIT = `#version 300 es
 precision mediump float; in vec4 vCol; in vec3 vNor; uniform vec3 uLight; uniform float uAlpha; out vec4 o;
 void main(){ float k = 0.42 + 0.58*abs(dot(normalize(vNor), uLight)); o = vec4(vCol.rgb*k, vCol.a*uAlpha); }`;
@@ -58,7 +67,7 @@ function program(gl, vs, fs) {
   const mk = (type, src) => { const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(s)); return s; };
   const p = gl.createProgram();
   gl.attachShader(p, mk(gl.VERTEX_SHADER, vs)); gl.attachShader(p, mk(gl.FRAGMENT_SHADER, fs));
-  gl.bindAttribLocation(p, 0, "aPos"); gl.bindAttribLocation(p, 1, "aCol"); gl.bindAttribLocation(p, 2, "aNor");
+  gl.bindAttribLocation(p, 0, "aPos"); gl.bindAttribLocation(p, 1, vs.includes("aUv") ? "aUv" : "aCol"); gl.bindAttribLocation(p, 2, "aNor");
   gl.linkProgram(p);
   if (!gl.getProgramParameter(p, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(p));
   return p;
@@ -99,7 +108,7 @@ export function createChart3D(host, spec0 = {}) {
   try {
     gl = glc.getContext("webgl2", { antialias: true, preserveDrawingBuffer: true, premultipliedAlpha: false });
     if (!gl) throw new Error("WebGL2 is not available on this machine's graphics driver.");
-    progs = { flat: program(gl, VS_FLAT, FS_FLAT), lit: program(gl, VS_LIT, FS_LIT) };
+    progs = { flat: program(gl, VS_FLAT, FS_FLAT), lit: program(gl, VS_LIT, FS_LIT), tex: program(gl, VS_TEX, FS_TEX) };
   } catch (e) {
     err = e.message || String(e); gl = null;
     msg.textContent = `The 3D view needs WebGL2: ${err} The data table below has the values.`; msg.hidden = false;
@@ -109,13 +118,13 @@ export function createChart3D(host, spec0 = {}) {
   function colourOf(c, a = 1) { const p = parseColour(resolveColour(c, T, fig)) || [200, 200, 200, 1]; return [p[0] / 255, p[1] / 255, p[2] / 255, (p[3] ?? 1) * a]; }
   function build() {
     T = themeOf(fig);
-    for (const it of items) for (const b of it.bufs || []) gl && gl.deleteBuffer(b);
+    for (const it of items) { for (const b of it.bufs || []) gl && gl.deleteBuffer(b); if (it.tex && gl) gl.deleteTexture(it.tex); }
     // the box: data bounds of every layer except spheres drawn for context (which count when equal)
     const all = [];
     for (const L of S.layers || []) {
       if (L.kind === "surface") { for (let j = 0; j < L.ys.length; j++) for (let i = 0; i < L.xs.length; i++) { const v = zAt(L, i, j); if (v === v) all.push(L.xs[i], L.ys[j], v); } }
       else if (L.kind === "ellipsoid") { const m = M.ellipsoidMesh(L.centre, L.cov, L.k ?? 1, 12, 8); all.push(...m.positions); }
-      else if (L.kind === "sphere") { const r = L.r, c = L.centre || [0, 0, 0]; all.push(c[0] - r, c[1] - r, c[2] - r, c[0] + r, c[1] + r, c[2] + r); }
+      else if (L.kind === "sphere" || L.kind === "globe") { const r = L.r, c = L.centre || [0, 0, 0]; all.push(c[0] - r, c[1] - r, c[2] - r, c[0] + r, c[1] + r, c[2] + r); }
       else if (L.pts) for (let k = 0; k < L.pts.length; k++) all.push(L.pts[k]);
     }
     const bb = S.bounds || M.bounds(all);
@@ -151,6 +160,12 @@ export function createChart3D(host, spec0 = {}) {
         // the ellipsoid's centre and the ends of its axes are pickable
         const ends = [L.centre]; m.axes.forEach((a) => ends.push([L.centre[0] + a[0], L.centre[1] + a[1], L.centre[2] + a[2]]));
         it.pick = flat(ends.flat()); it.pickData = ends;
+      } else if (L.kind === "globe") {
+        const m = M.globeMesh(L.r, L.f || 0, 96, 48, L.centre || [0, 0, 0]);
+        const c = colourOf(L.color || "panel", 1);
+        it.world = flat(m.positions); it.nor = new Float32Array(m.normals); it.idx = Uint32Array.from(m.indices);
+        it.cols = new Float32Array((m.positions.length / 3) * 4); for (let i = 0; i < it.cols.length; i += 4) it.cols.set(c, i);
+        it.uv = new Float32Array(m.uvs); it.alpha = L.alpha ?? 1;
       } else if (L.kind === "surface") {
         const m = M.surfaceMesh(L.xs, L.ys, L.z);
         const zs = []; for (let k = 2; k < m.positions.length; k += 3) zs.push(m.positions[k]);
@@ -164,6 +179,17 @@ export function createChart3D(host, spec0 = {}) {
         it.bPos = buf(it.world); it.bCol = buf(it.cols);
         if (it.nor) it.bNor = buf(it.nor);
         if (it.idx) it.bIdx = buf(it.idx, gl.ELEMENT_ARRAY_BUFFER);
+        if (it.uv) it.bUv = buf(it.uv);
+        if (it.kind === "globe" && L.texture) {
+          const tx = gl.createTexture();
+          gl.bindTexture(gl.TEXTURE_2D, tx);
+          gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, L.texture);
+          gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+          gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+          gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+          gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+          it.tex = tx;
+        }
         if (it.kind === "line" && brush && it.L.t) { /* brushed epochs are drawn as points, below */ }
       }
       return it;
@@ -176,6 +202,7 @@ export function createChart3D(host, spec0 = {}) {
   // the box edges and ticks, in world coordinates (labels are drawn on the 2D layer)
   let axes = null;
   function axisSegments() {
+    if (S.axes === false) { if (axes && gl) for (const b of axes.bufs) gl.deleteBuffer(b); axes = { world: new Float32Array(0), cols: new Float32Array(0), labels: [], bufs: [] }; return; }
     const [mn, mx] = box.bounds, to = box.map.to;
     const seg = [];
     const E = (a, b) => seg.push(...to(a), ...to(b));
@@ -220,6 +247,36 @@ export function createChart3D(host, spec0 = {}) {
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     gl.enable(gl.DEPTH_TEST); gl.enable(gl.BLEND); gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
     const dpr = glc.width / W;
+    const e = M.eyeOf(cam), l = [e[0] - cam.target[0], e[1] - cam.target[1], e[2] - cam.target[2] + cam.dist * 0.6], ll = Math.hypot(...l) || 1;
+    // meshes: opaque ones first (so lines behind them are hidden), translucent ones last without depth writes
+    const meshes = (pass) => {
+      const lit = progs.lit;
+      gl.useProgram(lit);
+      gl.uniformMatrix4fv(gl.getUniformLocation(lit, "uMVP"), false, new Float32Array(mvp));
+      gl.uniform3f(gl.getUniformLocation(lit, "uLight"), l[0] / ll, l[1] / ll, l[2] / ll);
+      const uA = gl.getUniformLocation(lit, "uAlpha");
+      for (const it of items) {
+        if (hidden.has(it.id) || !it.idx || (it.alpha < 1) !== !!pass) continue;
+        if (it.tex) {
+          const tp = progs.tex;
+          gl.useProgram(tp);
+          gl.uniformMatrix4fv(gl.getUniformLocation(tp, "uMVP"), false, new Float32Array(mvp));
+          gl.uniform3f(gl.getUniformLocation(tp, "uLight"), l[0] / ll, l[1] / ll, l[2] / ll);
+          gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D, it.tex); gl.uniform1i(gl.getUniformLocation(tp, "uTex"), 0);
+          bindAttr(0, it.bPos, 3); bindAttr(1, it.bUv, 2); bindAttr(2, it.bNor, 3);
+        } else {
+          gl.useProgram(lit);
+          bindAttr(0, it.bPos, 3); bindAttr(1, it.bCol, 4); bindAttr(2, it.bNor, 3);
+          gl.uniform1f(uA, it.alpha);
+        }
+        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, it.bIdx);
+        gl.depthMask(!pass);
+        gl.drawElements(gl.TRIANGLES, it.idx.length, gl.UNSIGNED_INT, 0);
+      }
+      gl.depthMask(true);
+      gl.disableVertexAttribArray(2);
+    };
+    meshes(0);
     const flat = progs.flat;
     gl.useProgram(flat);
     gl.uniformMatrix4fv(gl.getUniformLocation(flat, "uMVP"), false, new Float32Array(mvp));
@@ -235,23 +292,7 @@ export function createChart3D(host, spec0 = {}) {
         gl.uniform1f(uSize, 2.5 * dpr); gl.uniform1f(uRound, 1); gl.drawArrays(gl.POINTS, 0, it.n);
       } else { gl.uniform1f(uRound, 0); gl.drawArrays(gl.LINES, 0, it.world.length / 3); }
     }
-    // meshes: opaque first, then translucent without depth writes
-    const lit = progs.lit;
-    gl.useProgram(lit);
-    gl.uniformMatrix4fv(gl.getUniformLocation(lit, "uMVP"), false, new Float32Array(mvp));
-    const e = M.eyeOf(cam), l = [e[0] - cam.target[0], e[1] - cam.target[1], e[2] - cam.target[2] + cam.dist * 0.6], ll = Math.hypot(...l) || 1;
-    gl.uniform3f(gl.getUniformLocation(lit, "uLight"), l[0] / ll, l[1] / ll, l[2] / ll);
-    const uA = gl.getUniformLocation(lit, "uAlpha");
-    for (const pass of [0, 1]) {
-      for (const it of items) {
-        if (hidden.has(it.id) || !it.idx || (it.alpha < 1) !== !!pass) continue;
-        bindAttr(0, it.bPos, 3); bindAttr(1, it.bCol, 4); bindAttr(2, it.bNor, 3);
-        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, it.bIdx);
-        gl.uniform1f(uA, it.alpha);
-        gl.depthMask(!pass);
-        gl.drawElements(gl.TRIANGLES, it.idx.length, gl.UNSIGNED_INT, 0);
-      }
-    }
+    meshes(1);
     gl.depthMask(true);
     gl.disableVertexAttribArray(2);
   }
@@ -443,7 +484,7 @@ export function createChart3D(host, spec0 = {}) {
   function drawLegend() {
     const keys = items.filter((it) => it.kind !== "segments" || it.L.label);
     legend.replaceChildren(...keys.map((it) => h("button", { type: "button", class: "kc-key", "aria-pressed": String(!hidden.has(it.id)), onclick: () => { if (hidden.has(it.id)) hidden.delete(it.id); else hidden.add(it.id); drawLegend(); schedule(); } },
-      h("i", { style: `background:${it.domain ? rgbCss(rampRGB(it.L.map || "viridis", 0.7)) : resolveColour(it.L.color || (it.kind === "sphere" ? "ink3" : "tim"), T, fig)}` }), h("span", { text: it.label }))));
+      h("i", { style: `background:${it.domain ? rgbCss(rampRGB(it.L.map || "viridis", 0.7)) : resolveColour(it.L.color || (it.kind === "sphere" ? "ink3" : it.kind === "globe" ? "panel" : "tim"), T, fig)}` }), h("span", { text: it.label }))));
   }
   function rows() {
     const out = [];
@@ -489,7 +530,9 @@ export function createChart3D(host, spec0 = {}) {
     get pins() { return pins.map(info); },
     get spec() { return S; },
     update(next) { S = { ...S, ...next }; titleEl.textContent = S.title || ""; subEl.textContent = S.subtitle || ""; build(); if (next.clock !== undefined) attachClock(next.clock); schedule(); },
-    setCamera(c) { setCam({ ...cam, ...c }); },
+    setCamera(c, animate = false) { setCam({ ...cam, ...c }, animate); },
+    /** A data position in the display box (the camera's target space). */
+    toBox(p) { return box ? box.map.to(p) : p; },
     reset: () => reset(false), fit: () => fitAll(false),
     /** The readout at a pixel (as hover shows it), or null. */
     pick(px, py) { layout(); const r = pick(px, py); return r ? info(r) : null; },
