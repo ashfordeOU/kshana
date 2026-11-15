@@ -1,0 +1,8 @@
+name = "export: ais-csv"
+input = "../../../examples/tracks/ais.nmea"
+decode = "ais"
+station = "../../../examples/obs/station.toml"
+expected = "expected.csv"
+
+[options]
+to = "ais-csv"

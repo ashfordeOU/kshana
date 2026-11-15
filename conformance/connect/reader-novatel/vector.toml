@@ -1,0 +1,5 @@
+name = "built-in reader: novatel"
+input = "input.gps"
+reader = "novatel"
+station = "../../../examples/obs/station.toml"
+expected = "expected.obs.jsonl"

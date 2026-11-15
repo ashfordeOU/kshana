@@ -232,8 +232,10 @@ impl LiveObs {
                 bytes.extend_from_slice(f);
             }
             let first_full = first_label(&all);
-            let alone = crate::obs::from_log(&self.format, &bytes, &self.station)?;
-            if first_full.is_some() && first_label(&alone) == first_full {
+            // A text reader may refuse a piece that holds no complete epoch yet (an Android log's
+            // rows before its first fix): that piece is simply not the anchor.
+            let alone = crate::obs::from_log(&self.format, &bytes, &self.station).ok();
+            if first_full.is_some() && alone.as_deref().and_then(first_label) == first_full {
                 self.anchor = candidate;
                 self.window.drain(..before);
                 self.held_start = self.held_start.saturating_sub(before);

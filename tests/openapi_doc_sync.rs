@@ -49,7 +49,11 @@ fn served_routes() -> BTreeSet<(String, String)> {
     // MCP: one stateless POST endpoint on MCP_PATH.
     let http = read("mcp/kshana-mcp/src/http.rs");
     let mcp = quoted_after(&http, "pub const MCP_PATH: &str = \"");
-    assert_eq!(mcp.len(), 1, "MCP_PATH not found in mcp/kshana-mcp/src/http.rs");
+    assert_eq!(
+        mcp.len(),
+        1,
+        "MCP_PATH not found in mcp/kshana-mcp/src/http.rs"
+    );
     assert!(http.contains("nest_service(MCP_PATH"));
     out.insert(("post".to_string(), mcp[0].clone()));
     out
@@ -85,7 +89,10 @@ fn the_paths_are_exactly_the_routes_the_servers_match() {
 
 /// The keys of the first `json!({ ... })` after `marker` in `s`, at its top level.
 fn json_keys_after(s: &str, marker: &str) -> BTreeSet<String> {
-    let start = s.find(marker).unwrap_or_else(|| panic!("{marker} not found")) + marker.len();
+    let start = s
+        .find(marker)
+        .unwrap_or_else(|| panic!("{marker} not found"))
+        + marker.len();
     let body = &s[start..];
     let open = body.find("json!({").unwrap() + "json!({".len();
     let mut depth = 0i32;
@@ -139,21 +146,35 @@ fn the_station_status_schema_matches_status_doc() {
     let d = doc();
     for (schema, marker) in [
         ("StationSource", "fn status_doc("),
-        ("FleetLast", "*fl.lock().unwrap_or_else(|p| p.into_inner()) = Some("),
+        (
+            "FleetLast",
+            "*fl.lock().unwrap_or_else(|p| p.into_inner()) = Some(",
+        ),
     ] {
         let code = json_keys_after(&src, marker);
         let (props, req) = schema_props(&d, schema);
         assert!(!code.is_empty(), "no keys found after {marker}");
-        assert_eq!(props, code, "{schema} properties differ from src/station.rs");
-        assert_eq!(req, code, "{schema} must require every key the code always writes");
+        assert_eq!(
+            props, code,
+            "{schema} properties differ from src/station.rs"
+        );
+        assert_eq!(
+            req, code,
+            "{schema} must require every key the code always writes"
+        );
     }
     // The top-level document: the second json! in status_doc.
     let at = src.find("fn status_doc(").unwrap();
     let rest = &src[at..];
-    let second = rest.find("\"schema\": \"kshana.station-status/1\"").unwrap();
+    let second = rest
+        .find("\"schema\": \"kshana.station-status/1\"")
+        .unwrap();
     let top = json_keys_after(&rest[second - 40..], "");
     let (props, req) = schema_props(&d, "StationStatus");
-    assert_eq!(props, top, "StationStatus properties differ from status_doc");
+    assert_eq!(
+        props, top,
+        "StationStatus properties differ from status_doc"
+    );
     assert_eq!(req, top);
     assert_eq!(
         d["components"]["schemas"]["StationStatus"]["properties"]["schema"]["const"],
