@@ -41,8 +41,11 @@ function currentStyle() {
  * again). `loadLand(scale)` gives the packed Natural Earth layer. Returns null when nothing in
  * the run runs over time.
  */
-export function createRunView({ t, icon, run, seriesModel = null, scene = null, at, loadLand, readoutLabel = (k) => k, fmt = (v) => String(v), onMarkers = null }) {
-  let model = timeModel(run.result, seriesModel, scene && typeof scene.then !== "function" ? scene : null);
+export function createRunView({ t, icon, run, seriesModel = null, scene = null, at, loadLand, readoutLabel = (k) => k, fmt = (v) => String(v), onMarkers = null, overlay = null, onExplain = null }) {
+  // A run diff (0.42 U22) lays a second run over this one: its series (relabelled) on the plot,
+  // its track as a ghost on the map.
+  const withOverlay = (m) => (m && overlay ? { ...m, series: [...m.series, ...(overlay.series || [])], ghosts: overlay.ghosts || [] } : m);
+  let model = withOverlay(timeModel(run.result, seriesModel, scene && typeof scene.then !== "function" ? scene : null));
   if (!model) return null;
   watchTheme();
   const clock = createClock({ start: model.span[0], end: model.span[1], times: model.times, step: model.step, t: at });
@@ -98,10 +101,17 @@ export function createRunView({ t, icon, run, seriesModel = null, scene = null, 
     mkDl.replaceChildren(...markerRows(marks, { epochMs: model.epochMs, t }).flatMap((r) => { const dt = document.createElement("dt"); dt.textContent = r.k; const dd = document.createElement("dd"); dd.className = "mono"; dd.textContent = r.v; return [dt, dd]; }));
     mkHint.hidden = marks.length > 0;
   }
-  let rowsKey = "";
+  let rowsKey = "", lastRows = [];
+  // A number at the cursor opens its explanation (0.42 U11): click or Enter on it.
+  if (onExplain) {
+    const pick = (e) => { const dd = e.target.closest && e.target.closest("dd"); if (!dd) return; const i = [...dl.querySelectorAll("dd")].indexOf(dd); const r = lastRows[i]; if (r && typeof r.v === "number") onExplain(r, dd); };
+    dl.addEventListener("click", pick);
+    dl.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); pick(e); } });
+  }
   function drawReadout(s) {
     rTime.textContent = clockText(s.t, { epochMs: model.epochMs, ms: model.step > 0 && model.step < 1 });
     const rows = readoutAt(model, s.t);
+    lastRows = rows;
     const key = rows.map((r) => r.k).join("|");
     if (key !== rowsKey) {
       rowsKey = key;
@@ -111,8 +121,8 @@ export function createRunView({ t, icon, run, seriesModel = null, scene = null, 
     rows.forEach((r, i) => {
       const v = typeof r.v === "number" ? `${fmt(r.v)}${r.unit ? ` ${r.unit}` : ""}` : String(r.v);
       if (dds[i].textContent !== v) dds[i].textContent = v;
-      const cls = r.state ? `state-${r.state}` : "";
-      if (dds[i].className !== cls) dds[i].className = cls;
+      const cls = `${r.state ? `state-${r.state}` : ""}${onExplain && typeof r.v === "number" ? " num-x-dd" : ""}`.trim();
+      if (dds[i].className !== cls) { dds[i].className = cls; if (onExplain && typeof r.v === "number") { dds[i].tabIndex = 0; dds[i].setAttribute("role", "button"); } else { dds[i].removeAttribute("tabindex"); dds[i].removeAttribute("role"); } }
     });
   }
 
@@ -136,11 +146,24 @@ export function createRunView({ t, icon, run, seriesModel = null, scene = null, 
     get el() { return root; },
     /** The element for a view: "timeline" (plot and map) or "map" (the map alone). */
     node(mode) {
+      // parts lent to the dock come home
+      if (timeline.el.parentNode !== root) root.prepend(timeline.el);
+      if (plotEl.parentNode !== views) views.prepend(plotEl);
+      if (map.el.parentNode !== views) views.append(map.el);
       root.classList.toggle("lv-mode-map", mode === "map");
       requestAnimationFrame(() => { plot.resize(); map.resize(); timeline.resize(); });
       return root;
     },
     readout: () => readout,
+    /**
+     * One part on its own, for a pane of the dock (0.42 U20): "timeline" (the clock strip),
+     * "plot" or "map". The part leaves the run view's own layout until node() is asked again.
+     */
+    part(name) {
+      const el = name === "timeline" ? timeline.el : name === "plot" ? plotEl : name === "map" ? map.el : null;
+      if (el) requestAnimationFrame(() => { if (name === "plot") plot.resize(); else if (name === "map") map.resize(); else timeline.resize(); });
+      return el;
+    },
     /** The plot's markers A and B: [{ name, t, v, unit, series }]. */
     get markers() { return marks.slice(); },
     /** Place saved markers ([{ t, series }]) on the plot again. */
@@ -167,7 +190,7 @@ export function createRunView({ t, icon, run, seriesModel = null, scene = null, 
   if (scene && typeof scene.then === "function") {
     scene.then((fc) => {
       if (!fc || !live.has(ctl)) return;
-      const m = timeModel(run.result, seriesModel, fc);
+      const m = withOverlay(timeModel(run.result, seriesModel, fc));
       if (!m) return;
       if (Number.isFinite(m.epochMs) && !Number.isFinite(model.epochMs)) {
         // The clock now reads in UTC: the strip is rebuilt with the scene's epoch.

@@ -1,0 +1,5 @@
+name = "track decoder: mavlink (stream)"
+input = "input.mavlink"
+decode = "mavlink"
+station = "../../../examples/obs/station.toml"
+expected = "expected.tracks.jsonl"

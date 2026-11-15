@@ -1,0 +1,545 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Kshana open HTTP endpoints",
+    "version": "0.41.0",
+    "summary": "The HTTP surfaces of the open Kshana engine: the Station status port, the trust-telemetry metrics endpoint and the MCP server over streamable HTTP.",
+    "description": "Every endpoint here is served by a process the operator runs on their own machine; Kshana hosts none of them. Each process serves only its own paths (see the servers of each path). Advisory software: Kshana is not type-approved navigation or timing equipment. Kept in step with the source by tests/openapi_doc_sync.rs.",
+    "license": {
+      "name": "AGPL-3.0-only",
+      "identifier": "AGPL-3.0-only"
+    },
+    "contact": {
+      "name": "Ashforde OÜ",
+      "url": "https://kshana.dev"
+    }
+  },
+  "jsonSchemaDialect": "https://spec.openapis.org/oas/3.1/dialect/base",
+  "tags": [
+    {
+      "name": "station",
+      "description": "`kshana station run <station.toml>`: the status port (docs/STATION.md). Loopback by default; another listen address needs `http.token_file`, and then every request but `/health` needs the bearer token."
+    },
+    {
+      "name": "telemetry",
+      "description": "`kshana trust-telemetry --listen <addr>`: Prometheus text exposition, or OpenMetrics when the scraper asks for it (docs/TRUST-TELEMETRY.md)."
+    },
+    {
+      "name": "mcp",
+      "description": "`kshana-mcp --http <addr>`: the MCP server over streamable HTTP, stateless (docs/deploy/mcp-http.md)."
+    }
+  ],
+  "servers": [
+    {
+      "url": "http://127.0.0.1:8470",
+      "description": "a Station status port at its default address"
+    }
+  ],
+  "paths": {
+    "/health": {
+      "servers": [
+        {
+          "url": "http://127.0.0.1:8470",
+          "description": "Station status port (default listen address)"
+        }
+      ],
+      "get": {
+        "tags": [
+          "station"
+        ],
+        "operationId": "stationHealth",
+        "summary": "Liveness of the Station",
+        "description": "Never needs a token.",
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "`ok` and a newline.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/status": {
+      "servers": [
+        {
+          "url": "http://127.0.0.1:8470",
+          "description": "Station status port (default listen address)"
+        }
+      ],
+      "get": {
+        "tags": [
+          "station"
+        ],
+        "operationId": "stationStatus",
+        "summary": "The Station's status document",
+        "description": "Needs `Authorization: Bearer <token>` when the Station was started with `http.token_file`.",
+        "security": [
+          {},
+          {
+            "bearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The status document.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StationStatus"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "A token is configured and the request did not carry it.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Any other path.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/metrics": {
+      "servers": [
+        {
+          "url": "http://127.0.0.1:9464",
+          "description": "trust-telemetry metrics endpoint (the port of --listen)"
+        }
+      ],
+      "get": {
+        "tags": [
+          "telemetry"
+        ],
+        "operationId": "telemetryMetrics",
+        "summary": "Trust metrics for a Prometheus scraper",
+        "security": [],
+        "parameters": [
+          {
+            "name": "Accept",
+            "in": "header",
+            "required": false,
+            "description": "`application/openmetrics-text` selects the OpenMetrics form.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The metrics.",
+            "content": {
+              "text/plain; version=0.0.4; charset=utf-8": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/openmetrics-text; version=1.0.0; charset=utf-8": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Any other path.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Any method but GET.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/healthz": {
+      "servers": [
+        {
+          "url": "http://127.0.0.1:9464",
+          "description": "trust-telemetry metrics endpoint (the port of --listen)"
+        }
+      ],
+      "get": {
+        "tags": [
+          "telemetry"
+        ],
+        "operationId": "telemetryHealth",
+        "summary": "Liveness of the metrics endpoint",
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "`ok` and a newline.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Any method but GET.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/mcp": {
+      "servers": [
+        {
+          "url": "http://127.0.0.1:8080",
+          "description": "kshana-mcp --http (loopback by default)"
+        }
+      ],
+      "post": {
+        "tags": [
+          "mcp"
+        ],
+        "operationId": "mcpCall",
+        "summary": "One MCP JSON-RPC message (initialize, tools/list, tools/call, ...)",
+        "description": "Stateless streamable HTTP: every POST is answered with a JSON body. The tools are listed by `tools/list` and in mcp/kshana-mcp/README.md. A bearer token (environment variable KSHANA_MCP_HTTP_TOKEN) is required off the loopback address. Requests with an `Origin` header are refused unless the origin was allowed with --allow-origin; the `Host` header is checked.",
+        "security": [
+          {},
+          {
+            "bearer": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/JsonRpcMessage"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The JSON-RPC response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JsonRpcMessage"
+                }
+              }
+            }
+          },
+          "202": {
+            "description": "Accepted (a notification or response with no reply)."
+          },
+          "401": {
+            "description": "A token is configured and the request did not carry it.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Origin or Host not allowed.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "408": {
+            "description": "The reply did not come within the request time limit.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "The request body is over the cap.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Every work slot is busy; retry later.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "webhooks": {
+    "stationFleetReport": {
+      "post": {
+        "tags": [
+          "station"
+        ],
+        "operationId": "stationFleetReport",
+        "summary": "The Station's status, posted to a fleet manager",
+        "description": "Sent every `fleet.interval_s` seconds (default 30) to `fleet.url` (http:// only) when the Station's configuration has a `[fleet]` table, with `Authorization: Bearer <token>` when `fleet.token_file` is set. The receiver's status code is recorded in the next status document's `fleet` block.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StationStatus"
+              }
+            }
+          }
+        },
+        "responses": {
+          "2XX": {
+            "description": "Received."
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearer": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "A token the operator chose, read from a file or an environment variable at start-up."
+      }
+    },
+    "schemas": {
+      "Error": {
+        "type": "object",
+        "required": [
+          "error"
+        ],
+        "properties": {
+          "error": {
+            "type": "string"
+          }
+        }
+      },
+      "JsonRpcMessage": {
+        "type": "object",
+        "description": "A JSON-RPC 2.0 message as the Model Context Protocol defines it.",
+        "required": [
+          "jsonrpc"
+        ],
+        "properties": {
+          "jsonrpc": {
+            "const": "2.0"
+          },
+          "id": {
+            "type": [
+              "string",
+              "integer"
+            ]
+          },
+          "method": {
+            "type": "string"
+          },
+          "params": {
+            "type": "object"
+          },
+          "result": {},
+          "error": {
+            "type": "object"
+          }
+        }
+      },
+      "StationStatus": {
+        "type": "object",
+        "description": "kshana.station-status/1.",
+        "required": [
+          "schema",
+          "station",
+          "engine_version",
+          "uptime_s",
+          "time_unix",
+          "sources",
+          "fleet"
+        ],
+        "properties": {
+          "schema": {
+            "const": "kshana.station-status/1"
+          },
+          "station": {
+            "type": "string",
+            "description": "The station id."
+          },
+          "engine_version": {
+            "type": "string"
+          },
+          "uptime_s": {
+            "type": "number"
+          },
+          "time_unix": {
+            "type": "number"
+          },
+          "sources": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/StationSource"
+            }
+          },
+          "fleet": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/FleetLast"
+              }
+            ],
+            "description": "The last report to the fleet manager, or null."
+          }
+        }
+      },
+      "StationSource": {
+        "type": "object",
+        "required": [
+          "name",
+          "input",
+          "format",
+          "connected",
+          "connections",
+          "gaps",
+          "bytes",
+          "epochs",
+          "last_epoch_unix",
+          "last_error",
+          "file",
+          "files_written"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "input": {
+            "type": "string"
+          },
+          "format": {
+            "type": "string"
+          },
+          "connected": {
+            "type": "boolean"
+          },
+          "connections": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "gaps": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "bytes": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "epochs": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "last_epoch_unix": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "last_error": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "file": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "files_written": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      },
+      "FleetLast": {
+        "type": "object",
+        "required": [
+          "url",
+          "time_unix",
+          "status",
+          "error"
+        ],
+        "properties": {
+          "url": {
+            "type": "string"
+          },
+          "time_unix": {
+            "type": "number"
+          },
+          "status": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "error": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

@@ -552,6 +552,8 @@ jobs:
           cp web/pkg/kshana.js web/pkg/kshana_bg.wasm web/pkg/package.json web/studio/pkg/
       - name: Run wasm smoke test
         run: node web/smoke.mjs
+      - name: Test the SDK conformance cases (the C interface's bytes from the WebAssembly package)
+        run: node web/sdk-conformance.test.mjs
       - name: Test the ported site against the ledger, the READMEs and its own manifest
         run: node web/site.test.mjs
       - name: Test that every old kshana.dev address still resolves
@@ -588,6 +590,10 @@ jobs:
         run: node apps/desktop/shell/lib/chart/chart.test.mjs
       - name: Test the Kshana Desktop projects, drop-in detective, console, markers, journal figures and sky plot (0.42 U8-U16)
         run: node --test apps/desktop/shell/lib/project.test.mjs apps/desktop/shell/lib/detective.test.mjs apps/desktop/shell/lib/mirror.test.mjs apps/desktop/shell/lib/markers.test.mjs apps/desktop/shell/lib/plot.test.mjs apps/desktop/shell/lib/sky.test.mjs apps/desktop/shell/lib/chart/journal.test.mjs
+      - name: Test the Kshana Desktop explain this number, ships and aircraft, panes, sweep studio and run diff (0.42 U11, U17, U20, U21, U22)
+        run: node --test apps/desktop/shell/lib/explain.test.mjs apps/desktop/shell/lib/traffic.test.mjs apps/desktop/shell/lib/dock.test.mjs apps/desktop/shell/lib/sweepgrid.test.mjs apps/desktop/shell/lib/rundiff.test.mjs
+      - name: Test the Kshana Desktop shell in the Studio's languages (0.42 U18; the Studio's i18n checks over apps/desktop/shell)
+        run: node --test apps/desktop/shell/i18n.test.mjs
       - name: Test the Kshana Desktop IQ recording view (decoding, SigMF, spectrum)
         run: node web/studio/lib/iqview.test.mjs
       - name: Test the A/B compare logic
@@ -750,6 +756,44 @@ jobs:
           grep -q 'kind: ServiceMonitor' /tmp/options.yaml
           ! grep -q 'kshana-gnss-trust.json' /tmp/options.yaml
           if helm template t deploy/helm/kshana >/dev/null 2>&1; then echo "input must be required"; exit 1; fi
+      - name: Station chart lints and renders (0.42 I10)
+        run: |
+          helm lint deploy/helm/kshana-station
+          helm template s deploy/helm/kshana-station > /tmp/station-default.yaml
+          helm template s deploy/helm/kshana-station --set persistence.enabled=false \
+            --set token.existingSecret=mine --set existingStationConfigMap=cfg > /tmp/station-options.yaml
+          for k in Deployment Service ConfigMap Secret PersistentVolumeClaim; do
+            grep -q "kind: $k" /tmp/station-default.yaml || { echo "default render has no $k"; exit 1; }
+          done
+          ! grep -q 'kind: PersistentVolumeClaim' /tmp/station-options.yaml
+          ! grep -q 'kind: Secret' /tmp/station-options.yaml
+          ! grep -q 'kind: ConfigMap' /tmp/station-options.yaml
+      # Terraform is not on the runner image; setup-terraform installs it so the module is validated here.
+      - uses: hashicorp/setup-terraform@dfe3c3f87815947d99a8997f908cb6525fc44e9e # v4.0.1
+        with:
+          terraform_wrapper: false
+      - name: Terraform module formats and validates (0.42 I10)
+        working-directory: deploy/terraform/kshana-station
+        run: |
+          if ! command -v terraform >/dev/null; then echo "::notice::terraform not available; skipped"; exit 0; fi
+          terraform fmt -check -recursive -diff
+          terraform init -backend=false -input=false
+          terraform validate
+  # ---------------------------------------------------------------------------
+  # OpenAPI description of the open HTTP endpoints (roadmap 0.42 I11): docs/api/openapi.json is linted
+  # against the OpenAPI 3.1 specification by Redocly's linter at an exact version. The routes and the
+  # Station status schema are held to the code by tests/openapi_doc_sync.rs (the `check` job).
+  # ---------------------------------------------------------------------------
+  api-description:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: "20"
+      - name: Lint the OpenAPI 3.1 description
+        run: npx --yes @redocly/cli@2.71.2 lint --extends=minimal docs/api/openapi.json
   iq-campaign-monitors:
     runs-on: ubuntu-latest
     timeout-minutes: 60
@@ -889,13 +933,21 @@ jobs:
         run: cargo fmt --all -- --check
       - name: Clippy
         run: cargo clippy --all-targets -- -D warnings
+      # Java 21 for the SDK conformance driver (Foreign Function and Memory API; the image's default is 17).
+      # .NET 8 comes with the runner image.
+      - uses: actions/setup-java@cf277c60eb25467037889841efdb72551f06f6c3 # v4
+        with:
+          distribution: temurin
+          java-version: "21"
       - name: Build the static and shared libraries
         run: cargo build --locked
-      - name: Test (entry points, header, C example, fuzz)
+      - name: Test (entry points, header, C example, SDK conformance, fuzz)
         env:
           KSHANA_REQUIRE_CC: "1"
           # The C++, Python and Go examples run too; the runner image has g++, python3 and Go.
           KSHANA_REQUIRE_LANGS: "1"
+          # The SDK conformance drivers (sdk/conformance/README.md): Java and .NET must run here.
+          KSHANA_REQUIRE_SDKS: "java,dotnet"
           KSHANA_CAPI_FUZZ_ITERATIONS: "5000"
         run: cargo test --locked
   mcp-check:

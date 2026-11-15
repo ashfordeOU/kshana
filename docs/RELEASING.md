@@ -135,6 +135,13 @@ the disk image, checks both with `codesign`, `spctl` and `stapler`, and attaches
 `Kshana-Desktop-X.Y.Z-macos-universal.dmg` and its SHA-256 to the release. It uses the seven
 secrets the monthly **Apple signing check** verifies. Nothing is attached when a check fails.
 
+## Kshana Desktop for Windows (unsigned for now)
+
+Windows builds ship unsigned (owner decision K5). The Desktop workflow carries an Azure Trusted Signing
+step that stays off until the owner sets the repository variable `WINDOWS_SIGNING` to `azure` and adds
+the six signing secrets; until then the Windows leg says the build is unsigned. Activation steps:
+[WINDOWS-SIGNING.md](WINDOWS-SIGNING.md).
+
 ## Retrying
 
 Every publish is idempotent: a version that is already on a registry counts as success,

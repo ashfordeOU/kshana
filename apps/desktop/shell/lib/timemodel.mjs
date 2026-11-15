@@ -7,6 +7,7 @@
 // moving satellites. Only what the engine returned is drawn; nothing is invented. Pure, no
 // DOM; tested in ./clock.test.mjs.
 import { indexAtOrBefore } from "./clock.mjs";
+import { trafficSeries, trafficAt, QUALITY } from "./traffic.mjs";
 
 const num = (x) => typeof x === "number" && Number.isFinite(x);
 const f64 = (a) => Float64Array.from(a);
@@ -160,19 +161,24 @@ export function geojsonOfExport(text) {
 export function timeModel(result, model = null, fc = null) {
   if (!result || typeof result !== "object") return null;
   const track = trackOf(result);
+  // A traffic tab (lib/traffic.mjs): ships and aircraft decoded from a track file (0.42 U17).
+  const traffic = result.kind === "traffic" && result.traffic && Array.isArray(result.traffic.objects) ? result.traffic : null;
   let series = plotSeries(model, result);
   if (!series.length) series = ownSeries(result, track);
+  if (!series.length && traffic) series = trafficSeries(traffic);
   const geo = sceneLayers(fc);
+  if (traffic && Number.isFinite(traffic.epochMs) && !num(geo.epochMs)) geo.epochMs = traffic.epochMs;
   const ep = Array.isArray(result.epochs) && result.epochs.length > 1 && result.epochs.every((e) => e && num(e.t ?? e.t_s)) ? result.epochs : null;
-  const all = [track && track.t, ...series.map((s) => s.t), ...geo.movers.map((m) => m.t)].filter((a) => a && a.length);
+  const all = [track && track.t, ...series.map((s) => s.t), ...geo.movers.map((m) => m.t), ...(traffic ? traffic.objects.map((o) => o.t) : [])].filter((a) => a && a.length);
   if (!all.length && !(ep && ep.length)) return null;
   let t0 = Infinity, t1 = -Infinity;
   for (const a of all) { t0 = Math.min(t0, a[0]); t1 = Math.max(t1, a[a.length - 1]); }
   if (ep) { t0 = Math.min(t0, ep[0].t ?? ep[0].t_s); t1 = Math.max(t1, ep[ep.length - 1].t ?? ep[ep.length - 1].t_s); }
+  if (traffic && !(t1 > t0) && Number.isFinite(t0)) t1 = t0 + 1; // one report: a span of a second
   if (!(t1 > t0)) return null;
   // The epochs the cursor steps through: the track's, else the densest series'.
   const epochTimes = ep ? f64(ep.map((e) => e.t ?? e.t_s)) : null;
-  const times = track ? track.t : epochTimes || all.reduce((a, b) => (b.length > a.length ? b : a));
+  const times = track ? track.t : epochTimes || (traffic ? unionTimes(traffic.objects.map((o) => o.t)) : null) || all.reduce((a, b) => (b.length > a.length ? b : a));
   const step = times.length > 1 ? (times[times.length - 1] - times[0]) / (times.length - 1) : 0;
   // The scene's clock: the receiver-trust and ephemeris results start at the scene's t = 0.
   const epochMs = num(geo.epochMs) ? geo.epochMs : NaN;
@@ -182,12 +188,22 @@ export function timeModel(result, model = null, fc = null) {
     thresholdLabel: (model && model.thresholdLabel) || "",
     title: (model && plotSeries(model, result).length && model.title) || (series[0] ? series[0].label : ""),
     yLabel: (model && plotSeries(model, result).length && model.yLabel) || (series[0] ? `${series[0].label}${series[0].unit ? ` (${series[0].unit})` : ""}` : ""),
-    track, sites: geo.sites, areas: geo.areas, movers: geo.movers, routes: geo.routes, epochMs, epochs: ep, epochTimes,
+    track, sites: geo.sites, areas: geo.areas, movers: geo.movers, routes: geo.routes, epochMs, epochs: ep, epochTimes, traffic,
   };
 }
 
+/** The sorted distinct times of several sorted arrays (the epochs a traffic cursor steps through), at most 200000. */
+function unionTimes(arrays) {
+  const all = [];
+  for (const a of arrays) for (const x of a) all.push(x);
+  all.sort((a, b) => a - b);
+  const out = [];
+  for (const x of all) if (!out.length || x !== out[out.length - 1]) out.push(x);
+  return out.length ? f64(out.slice(0, 200000)) : null;
+}
+
 /** Whether the model has anything to place on the map. */
-export const hasGeo = (m) => !!(m && (m.track || m.sites.length || m.areas.length || m.movers.length || m.routes.length));
+export const hasGeo = (m) => !!(m && (m.track || m.sites.length || m.areas.length || m.movers.length || m.routes.length || (m.traffic && m.traffic.objects.length)));
 
 /** Linear interpolation of a mover or track at `t` (null outside its times): { lat, lon, i }. */
 export function positionAt(obj, t) {
@@ -219,6 +235,13 @@ export function readoutAt(m, t) {
       if (m.track.kind === "trust") out.push({ k: "trust", v: Number.isNaN(q) ? (m.track.state && m.track.state[i]) || "–" : `${(q * 100).toFixed(1)} · ${m.track.state[i] || ""}`, unit: "", state: Number.isNaN(q) ? "" : q >= 0.9 ? "pass" : q >= 0.55 ? "warn" : "fail" });
       if (m.track.kind === "visible") out.push({ k: "station", v: q === 1 ? "in view" : "not in view", unit: "", state: q === 1 ? "pass" : "" });
     }
+  }
+  if (m.traffic) {
+    const at = trafficAt(m.traffic, t);
+    const by = { good: 0, intermediate: 0, degraded: 0, unknown: 0 };
+    for (const x of at) by[QUALITY[x.q]]++;
+    out.push({ k: "reporting", v: `${at.length} / ${m.traffic.objects.length}`, unit: "" });
+    if (at.length) out.push({ k: "quality (reported)", v: `${by.good} good · ${by.intermediate} intermediate · ${by.degraded} degraded · ${by.unknown} unknown`, unit: "", state: by.degraded ? "warn" : "" });
   }
   for (const s of m.series) {
     const i = indexAtOrBefore(s.t, t);

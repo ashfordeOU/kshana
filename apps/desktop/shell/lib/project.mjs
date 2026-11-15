@@ -15,12 +15,15 @@
 //   notebooks/notes.md           the project's notes
 //   notebooks/console.json       the code mirror's entries (lib/mirror.mjs)
 //   layouts/session.json         the open tabs, their views, the clock and markers of each,
-//                                the selected runs and the page shown
+//                                the panes of each (lib/dock.mjs), the selected runs and the page shown
+//   layouts/saved.json           the project's named pane layouts (0.42 U20)
 //
 // Replay: running a run's scenario.toml again with the same engine version must give the
 // same result bytes; replayCheck() compares the SHA-256 of the two. Pure, no DOM; tested in
 // project.test.mjs. The files are written by the app's native side (project_save) into the
 // folder and nowhere else.
+
+import { validate as validLayout, savedFile, readSaved } from "./dock.mjs";
 
 export const PROJECT_FORMAT = "kshana-project/1";
 export const RUN_FORMAT = "kshana-run/1";
@@ -72,7 +75,8 @@ export function runMeta(run) {
  * The files of a project: [{ path, text }]. state: { name, created, runs (each with uid,
  * toml, json (the engine's result text), summary, svg, csv and the meta fields), tabs (each
  * { key, file, title, custom, domain, toml, baseToml, view, ins, runUid, clock: { t, range,
- * marks } }), active (a tab key), route, selected (run uids), links, notes, console }.
+ * marks }, dock (a pane layout) }), active (a tab key), route, selected (run uids), links, notes,
+ * console, savedLayouts ({ name: layout }) }.
  */
 export function projectFiles(state) {
   const files = [];
@@ -105,9 +109,11 @@ export function projectFiles(state) {
       scenario: path, view: t.view || "chart", ins: t.ins || "inputs", run: isRunUid(t.runUid) ? t.runUid : null,
       clock: t.clock ? { t: Number.isFinite(t.clock.t) ? t.clock.t : null, range: Array.isArray(t.clock.range) ? t.clock.range.slice(0, 2) : null, marks: (t.clock.marks || []).filter((m) => Number.isFinite(m.t)).map((m) => ({ t: m.t, label: clean(m.label, 80) })) } : null,
       markers: Array.isArray(t.markers) ? t.markers.filter((m) => Number.isFinite(m.t)).slice(0, 2).map((m) => ({ t: m.t, series: clean(m.series, 80) })) : [],
+      dock: t.dock ? validLayout(t.dock) : null,
     });
   }
   add("layouts/session.json", JSON.stringify({ format: LAYOUT_FORMAT, route: state.route || "home", active: state.active === null || state.active === undefined ? null : String(state.active), tabs, selected: (state.selected || []).filter(isRunUid) }, null, 2) + "\n");
+  add("layouts/saved.json", savedFile(state.savedLayouts || {}));
   add("data/links.json", JSON.stringify((state.links || []).map((l) => ({ path: clean(l.path, 1000), name: clean(l.name, 200), format: l.format || null, family: l.family || null, bytes: Number.isFinite(l.bytes) ? l.bytes : null, added: l.added || null })), null, 2) + "\n");
   add("notebooks/notes.md", state.notes || "");
   add("notebooks/console.json", JSON.stringify({ runs: state.consoleRuns || 0, entries: state.console || [] }) + "\n");
@@ -152,7 +158,8 @@ export function readProject(files) {
     const run = t.run ? runByUid.get(t.run) || null : null;
     const own = t.scenario ? byPath.get(t.scenario) : undefined;
     return { key: String(t.key), file: String(t.file || ""), title: String(t.title || ""), custom: !!t.custom, domain: t.domain || null, view: t.view || "chart", ins: t.ins || "inputs",
-      runUid: run ? run.uid : null, toml: own !== undefined ? own : run ? run.toml : null, edited: own !== undefined && !t.custom, clock: t.clock || null, markers: Array.isArray(t.markers) ? t.markers : [] };
+      runUid: run ? run.uid : null, toml: own !== undefined ? own : run ? run.toml : null, edited: own !== undefined && !t.custom, clock: t.clock || null, markers: Array.isArray(t.markers) ? t.markers : [],
+      dock: t.dock ? validLayout(t.dock) : null };
   });
   const con = parseJSON(byPath.get("notebooks/console.json") || "", null) || {};
   return {
@@ -161,6 +168,7 @@ export function readProject(files) {
     selected: (Array.isArray(lay.selected) ? lay.selected : []).filter((u) => runByUid.has(u)),
     links: parseJSON(byPath.get("data/links.json") || "[]", []), notes: byPath.get("notebooks/notes.md") || "",
     console: Array.isArray(con.entries) ? con.entries : [], consoleRuns: Number(con.runs) || 0, problems,
+    savedLayouts: byPath.has("layouts/saved.json") ? readSaved(byPath.get("layouts/saved.json")) : {},
   };
 }
 
