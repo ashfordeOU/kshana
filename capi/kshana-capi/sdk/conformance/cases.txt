@@ -1,0 +1,7 @@
+# SDK conformance cases (roadmap 0.42 I9). One case per line: <output file> <entry point> <inputs...>,
+# paths relative to the repository root. Every SDK driver writes these outputs, and every output must be
+# byte-identical to the Rust reference and to the SHA-256 in expected.sha256 (README.md).
+run-1.json run scenarios/link-budget.toml
+run-2.json run scenarios/attitude-budget.toml
+run-3.json run scenarios/launch-window.toml
+map.jsonl map examples/connect/timing-monitor.connect.toml examples/obs/station.toml examples/connect/timing-monitor.csv
