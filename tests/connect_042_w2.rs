@@ -443,7 +443,7 @@ fn stix_objects_follow_the_stix_2_1_common_rules_and_the_oasis_schemas() {
         );
         assert!(
             u[2].starts_with('5') && "89ab".contains(&u[3][..1]),
-            "UUID v5 {uuid}"
+            "{ty}: the id is not a UUID v5"
         );
         assert_eq!(o["spec_version"], "2.1");
         assert!(ts(&o["created"]) && ts(&o["modified"]), "{ty} timestamps");
