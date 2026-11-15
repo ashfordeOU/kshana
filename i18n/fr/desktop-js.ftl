@@ -1,6 +1,8 @@
 # Kshana Desktop shell (apps/desktop/shell): the messages of i18n/en/desktop-js.ftl in this language.
 # Machine translation, not reviewed by a native speaker. English is the reference.
 
+js-desk-act-bridge = Mode passerelle (rouge) activé ou désactivé
+
 js-desk-act-compare = Comparer les 2 exécutions sélectionnées
 
 js-desk-act-compare-hint = en sélectionner deux dans Exécutions
@@ -11,6 +13,8 @@ js-desk-act-console = Afficher la console (Python et lignes de commande)
 
 js-desk-act-copy-py = Copier la session en Python
 
+js-desk-act-course = Cours : leçons guidées
+
 js-desk-act-density-comfortable = Affichage : densité confortable
 
 js-desk-act-density-compact = Affichage : densité compacte
@@ -19,9 +23,17 @@ js-desk-act-export = Exporter un paquet de preuves de cette exécution
 
 js-desk-act-file = Ouvrir un fichier de scénario…
 
+js-desk-act-globe = Globe de cette exécution
+
 js-desk-act-library = Parcourir la bibliothèque de scénarios
 
+js-desk-act-live = AIS ou ADS-B en direct depuis un récepteur
+
+js-desk-act-notebook = Carnet Python et console
+
 js-desk-act-panes = Volets : tracé, carte, ciel, inspecteur et console côte à côte
+
+js-desk-act-plots = Graphiques : écart d’Allan, MTIE, TDEV, Stanford, spectre
 
 js-desk-act-project = Projet, liens de données et fichiers déposés
 
@@ -49,6 +61,12 @@ js-desk-ago-s = il y a { $n } s
 
 js-desk-at-cursor = Au curseur
 
+js-desk-bridge = Passerelle
+
+js-desk-bridge-off = Mode passerelle désactivé.
+
+js-desk-bridge-on = Mode passerelle : la fenêtre en rouges sur fond noir.
+
 js-desk-cancel = Annuler
 
 js-desk-chart-not-drawn = Ce graphique n’a pas pu être dessiné.
@@ -56,6 +74,62 @@ js-desk-chart-not-drawn = Ce graphique n’a pas pu être dessiné.
 js-desk-clear = Effacer la sélection
 
 js-desk-close-tab = Fermer { $title }
+
+js-desk-co-assistant = Un assistant qui répond aux questions sur une leçon est prévu ; il n’est pas dans cette version.
+
+js-desk-co-at = étape { $n } sur { $total }
+
+js-desk-co-back = Retour
+
+js-desk-co-compare = première exécution { $a } → cette exécution { $b }
+
+js-desk-co-continue = Continuer
+
+js-desk-co-done = terminée
+
+js-desk-co-english = Les leçons sont rédigées en anglais.
+
+js-desk-co-failed = Les leçons n’ont pas pu être lues : { $reason }
+
+js-desk-co-finish = Terminer la leçon
+
+js-desk-co-finished = Leçon terminée.
+
+js-desk-co-kits = Kits de reproduction de l’article : les scénarios et figures de l’article (paper/ et paper-artifacts/ dans le dépôt) se lancent en ligne de commande ; aucun kit guidé n’existe encore dans cette fenêtre.
+
+js-desk-co-leave = Quitter la leçon
+
+js-desk-co-lede = Leçons guidées sur les scénarios fournis : chaque étape dit quoi lancer, où regarder et quoi changer, et le vérifie dans vos propres exécutions. Les leçons expliquent les modèles du moteur ; ce sont des supports pédagogiques, pas une évaluation ni une qualification.
+
+js-desk-co-lesson = Leçon : { $title }
+
+js-desk-co-loading = Chargement des leçons…
+
+js-desk-co-met = ✓ Fait
+
+js-desk-co-more = Aussi dans le cours
+
+js-desk-co-new = { $n } étapes, environ { $min } min
+
+js-desk-co-next = Suivant
+
+js-desk-co-no-field = Ce scénario n’a pas de réglage { $key }.
+
+js-desk-co-skip = Passer cette étape
+
+js-desk-co-start = Commencer
+
+js-desk-co-step = Leçon · étape { $n } sur { $total }
+
+js-desk-co-title = Cours
+
+js-desk-co-try = Essayez de changer
+
+js-desk-co-try-set = Le mettre à { $v } et lancer
+
+js-desk-co-value = valeur { $v }
+
+js-desk-co-wait = En attente de cette étape
 
 js-desk-col-change = B − A
 
@@ -167,6 +241,8 @@ js-desk-det-no-scenario = Ce fichier est gardé comme lien de données ; aucun s
 js-desk-det-objects = objets
 
 js-desk-det-open-clock = Ouvrir à côté de la simulation d’horloge
+
+js-desk-det-open-iq = Spectre et cascade
 
 js-desk-det-open-tracks = Afficher les navires et aéronefs sur la carte
 
@@ -417,6 +493,44 @@ js-desk-free-edition = Édition gratuite
 
 js-desk-free-line = La flotte, la criminalistique et les dossiers signés sont inclus dans Pro.
 
+js-desk-gl-bridge = Passerelle (rouge)
+
+js-desk-gl-coast = côtes (Natural Earth)
+
+js-desk-gl-cover = couverture au-dessus de { $mask }° au curseur
+
+js-desk-gl-earth = Terre (WGS-84)
+
+js-desk-gl-follow = Suivre
+
+js-desk-gl-follow-none = Suivre : rien
+
+js-desk-gl-follow-x = Suivre : { $name }
+
+js-desk-gl-grat = graticule 30°
+
+js-desk-gl-imagery = Imagerie
+
+js-desk-gl-imagery-off = Imagerie : désactivée
+
+js-desk-gl-imagery-wait = Imagerie : les tuiles sont téléchargées une fois, puis gardées sur cet ordinateur.
+
+js-desk-gl-note = Positions telles que le moteur les exporte (liées à la Terre, hauteurs au-dessus de WGS-84). Couverture : la zone qui voit chaque satellite au-dessus du masque d’élévation, sur une Terre sphérique. Côtes Natural Earth (domaine public).
+
+js-desk-gl-pack = pack régional : { $name }
+
+js-desk-gl-sites = sites
+
+js-desk-gl-sub = lié à la Terre, WGS-84
+
+js-desk-gl-title = Globe
+
+js-desk-gl-tools = Globe
+
+js-desk-gl-track = la trace de l’exécution
+
+js-desk-gl-traffic = navires et aéronefs au curseur
+
 js-desk-home-all-in = Les { $n } de ce domaine →
 
 js-desk-home-areas = Commencer par une question
@@ -439,6 +553,38 @@ js-desk-ins-result = Résultat
 
 js-desk-inspector = Inspecteur
 
+js-desk-iq-cannot = Cet enregistrement ne peut être lu que par la partie native de l’application, depuis son chemin.
+
+js-desk-iq-centre = fréquence centrale
+
+js-desk-iq-draw = Tracer
+
+js-desk-iq-failed = L’enregistrement n’a pas pu être lu : { $reason }
+
+js-desk-iq-ins = L’enregistrement
+
+js-desk-iq-need-rate = Indiquez la fréquence d’échantillonnage (échantillons par seconde) : un enregistrement brut ne la contient pas.
+
+js-desk-iq-nfft = Taille de la FFT
+
+js-desk-iq-note = { $s } s de l’enregistrement à partir de { $from } s ({ $n } échantillons, { $fmt }). Puissance relative à un échantillon pleine échelle (dBFS/Hz) : un enregistrement ne porte pas d’étalonnage.
+
+js-desk-iq-offset = À partir de (s)
+
+js-desk-iq-rate = Fréquence d’échantillonnage (Hz)
+
+js-desk-iq-read-only = Lecture seule, par blocs : l’enregistrement n’est jamais chargé en entier.
+
+js-desk-iq-reading = Lecture de l’enregistrement par blocs…
+
+js-desk-iq-short = Trop peu d’échantillons à cet endroit pour un spectre.
+
+js-desk-iq-spectrum = Spectre (Welch)
+
+js-desk-iq-sub = { $n } segments de { $nfft } échantillons, fenêtre de Hann, RBW { $rbw } Hz
+
+js-desk-iq-waterfall = Cascade
+
 js-desk-json-cut = Le résultat est long : le document complet est dans Exporter, Résultat JSON.
 
 js-desk-key-figures = Grandeurs clés
@@ -460,6 +606,8 @@ js-desk-lib-title = Bibliothèque de scénarios
 
 js-desk-links-remove = retirer
 
+js-desk-links-spectrum = spectre
+
 js-desk-links-title = Liens de données du projet
 
 js-desk-load-failed = Impossible de charger { $file }.
@@ -469,6 +617,8 @@ js-desk-loading = Chargement…
 js-desk-log-cell = Exécution { $n } : cellule du balayage { $where }
 
 js-desk-log-compare = Comparer les exécutions #{ $a } et #{ $b }
+
+js-desk-log-course = Leçon { $title }
 
 js-desk-log-diff = Différence des exécutions #{ $a } et #{ $b }
 
@@ -480,15 +630,21 @@ js-desk-log-export = Exporter { $what } de l’exécution { $n }
 
 js-desk-log-inspect = Inspecter { $name }
 
+js-desk-log-iq = Spectre de { $name }
+
 js-desk-log-layout = Volets de { $title } : { $what }
 
 js-desk-log-layout-saved = Disposition { $name } enregistrée
+
+js-desk-log-live = { $format } en direct depuis { $source }
 
 js-desk-log-markers = Marqueurs sur l’exécution { $n }
 
 js-desk-log-open = Ouvrir { $title }
 
 js-desk-log-pack = Paquet de preuves de l’exécution { $n }
+
+js-desk-log-plots = Graphiques de { $title }
 
 js-desk-log-project = Ouvrir le projet { $dir }
 
@@ -507,6 +663,48 @@ js-desk-log-sky = Tracé du ciel de { $title }
 js-desk-log-sweep = Balayage { $n } : { $title }, { $cells } exécutions
 
 js-desk-log-tracks = Navires et aéronefs de { $name }
+
+js-desk-lv-ais = AIS, phrases NMEA 0183 (TCP ou UDP)
+
+js-desk-lv-avr = ADS-B, lignes hexadécimales AVR (port 30002)
+
+js-desk-lv-bad = Indiquez une source sous la forme tcp:<host>:<port>, ou udp:<address>:<port> pour l’AIS.
+
+js-desk-lv-beast = ADS-B, Beast (dump1090 / readsb port 30005)
+
+js-desk-lv-follow = Suivre le plus récent
+
+js-desk-lv-format = Format
+
+js-desk-lv-honest = Positions telles que diffusées, colorées selon la classe de qualité que chaque lecteur tire des propres champs du message ; ce n’est pas un verdict sur la véracité d’une position. Pas pour la navigation.
+
+js-desk-lv-lede = Lisez l’AIS depuis la sortie TCP ou UDP d’un récepteur, ou l’ADS-B depuis un dump1090 ou un readsb sur cet ordinateur ou votre réseau, et suivez le trafic sur la carte. L’application ne fait que lire ; les lecteurs du moteur décodent les messages.
+
+js-desk-lv-network = Cette source UDP accepte les datagrammes du réseau, pas seulement de cet ordinateur.
+
+js-desk-lv-note = Les heures sont celles où chaque message a atteint cet ordinateur. Lecture seule.
+
+js-desk-lv-pause = Suspendre les mises à jour
+
+js-desk-lv-reading = Lecture de { $source } ({ $format }) : { $n } messages, { $kept } gardés (les { $min } dernières min).
+
+js-desk-lv-resume = Reprendre les mises à jour
+
+js-desk-lv-show = Afficher la carte
+
+js-desk-lv-source = Source : tcp:<host>:<port>, ou udp:<address>:<port> pour l’AIS
+
+js-desk-lv-start = Démarrer
+
+js-desk-lv-stopped = Pas de lecture.
+
+js-desk-lv-stopped-err = Arrêté : { $reason }
+
+js-desk-lv-tab = Direct : { $source }
+
+js-desk-lv-title = Navires et aéronefs en direct
+
+js-desk-lv-waiting = En attente des premières positions…
 
 js-desk-map-area = zone de brouillage ({ $ev })
 
@@ -614,6 +812,8 @@ js-desk-native = natif
 
 js-desk-nav-console = Console
 
+js-desk-nav-course = Cours
+
 js-desk-nav-devices = Appareils
 
 js-desk-nav-evidence = Paquets de preuves
@@ -626,9 +826,79 @@ js-desk-nav-library = Bibliothèque de scénarios
 
 js-desk-nav-main = Principal
 
+js-desk-nav-notebook = Carnet Python
+
 js-desk-nav-pro = PRO
 
 js-desk-nav-runs = Exécutions
+
+js-desk-nb-add-code = Ajouter du code
+
+js-desk-nb-add-text = Ajouter du texte
+
+js-desk-nb-check = Vérifier à nouveau
+
+js-desk-nb-cite = Citer
+
+js-desk-nb-code = Cellule Python { $n }
+
+js-desk-nb-console = Console
+
+js-desk-nb-console-note = Entrée exécute ; Maj+Entrée commence une nouvelle ligne. La console partage la session du carnet ; son historique n’est pas gardé dans le projet.
+
+js-desk-nb-delete = supprimer
+
+js-desk-nb-down = Descendre
+
+js-desk-nb-export-ipynb = Jupyter
+
+js-desk-nb-found = Python { $py } ({ $exe }) avec le paquet kshana { $ver }.
+
+js-desk-nb-from-console = Ajouter le Python de la console
+
+js-desk-nb-interp = Python à utiliser (vide : python3, puis python)
+
+js-desk-nb-kept = Gardé sous notebooks/{ $file } dans le projet ; il s’ouvre tel quel dans Jupyter. Le PDF contient le texte des cellules et leur sortie ; les figures sont dans les fichiers HTML et Jupyter.
+
+js-desk-nb-lede = Des cellules Python et des notes gardées avec le projet, exécutées par le Python de cet ordinateur avec le paquet kshana (pip install kshana). Les cellules partagent une session, lancée dans le dossier du projet.
+
+js-desk-nb-mirror-empty = La console n’a pas encore de lignes Python.
+
+js-desk-nb-new = Nouveau carnet
+
+js-desk-nb-new-ph = Étude de holdover
+
+js-desk-nb-no-kshana = Python { $py } ({ $exe }) fonctionne, mais le paquet kshana ne s’y importe pas : pip install kshana. Les cellules qui ne l’utilisent pas fonctionnent quand même.
+
+js-desk-nb-no-native = Python passe par la partie native de l’application, que cette fenêtre n’a pas.
+
+js-desk-nb-no-python = Aucun Python n’a été trouvé sur cet ordinateur (essayé : { $tried }). Installez Python 3 (python.org ou les paquets de votre système), puis pip install kshana, et vérifiez à nouveau.
+
+js-desk-nb-none = Pas encore de carnet dans ce projet.
+
+js-desk-nb-pick = Carnet
+
+js-desk-nb-probing = Recherche de Python…
+
+js-desk-nb-run = Exécuter
+
+js-desk-nb-run-all = Tout exécuter
+
+js-desk-nb-running = Exécution…
+
+js-desk-nb-stop = Arrêter la session
+
+js-desk-nb-stopped = La session Python a été arrêtée ; la prochaine cellule en lance une nouvelle.
+
+js-desk-nb-text = Cellule de texte { $n }
+
+js-desk-nb-title = Carnet Python
+
+js-desk-nb-tools = Outils du carnet
+
+js-desk-nb-untitled = Carnet { $n }
+
+js-desk-nb-up = Monter
 
 js-desk-new-tab = Ouvrir un scénario dans un nouvel onglet
 
@@ -715,6 +985,22 @@ js-desk-panel-wait = Le résultat apparaît ici quand l’exécution se termine.
 js-desk-pin = Épingler
 
 js-desk-pin-run = Épingler l’exécution { $n }
+
+js-desk-pk-added = Pack régional { $name } ajouté au projet.
+
+js-desk-pk-bad = { $name } n’est pas un pack régional (kshana-mappack/1).
+
+js-desk-pk-lede = Des côtes plus fines pour une région, issues de Natural Earth (domaine public), gardées dans le dossier packs/ du projet. La carte dessine un pack à la place des terres au 1:50m lorsque le pack couvre toute la vue (à partir du zoom 5) ; le globe dessine aussi ses côtes. apps/desktop/tools/pack_natural_earth.py --region en crée un à partir des terres au 1:10m de Natural Earth.
+
+js-desk-pk-open = Ajouter un pack régional…
+
+js-desk-pk-sample = Ajouter le pack fourni de la mer Baltique (1:10m)
+
+js-desk-pk-title = Packs régionaux hors ligne
+
+js-desk-pl-from = De { $paths } du résultat, tel que le moteur l’a écrit.
+
+js-desk-pl-none = Ce résultat n’a ni écart d’Allan, ni MTIE, ni TDEV, ni Stanford, ni spectre.
 
 js-desk-plot-none = Aucune série dans le temps dans ce résultat.
 
@@ -1039,6 +1325,8 @@ js-desk-up-title = Ce qu’apporte Pro
 
 js-desk-view-chart = Graphique
 
+js-desk-view-globe = Globe
+
 js-desk-view-group = Vue
 
 js-desk-view-json = JSON
@@ -1046,6 +1334,8 @@ js-desk-view-json = JSON
 js-desk-view-map = Carte
 
 js-desk-view-panes = Volets
+
+js-desk-view-plots = Graphiques
 
 js-desk-view-sky = Ciel
 

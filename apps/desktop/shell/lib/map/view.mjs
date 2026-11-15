@@ -38,6 +38,15 @@ function land(scale, load, onReady) {
   return null;
 }
 
+// Offline region packs (0.42 U24, lib/globe.mjs checkPack): finer Natural Earth land for a region.
+// Where one pack's box holds the whole view from zoom 5, its land is drawn in place of 50m.
+let REGION = [];
+const LAND_ZOOM_PACK = 5;
+/** Use these region packs (kshana-mappack/1, checked) on every map of the window. */
+export function setRegionPacks(packs) {
+  REGION = (packs || []).map((p) => ({ name: String(p.name), bbox: p.bbox, scale: String(p.land.scale || ""), rings: decodeLand(p.land) }));
+}
+
 const el = (tag, cls, text) => { const n = document.createElement(tag); if (cls) n.className = cls; if (text !== undefined) n.textContent = text; return n; };
 
 /**
@@ -132,6 +141,12 @@ export function createMapView({ t = (id, en) => en, loadLand, style, styleName =
     const want50 = V.zoom >= LAND_ZOOM_50M;
     const redraw = () => drawAll();
     let rings = want50 ? land("50m", loadLand, redraw) : null;
+    let pack = null;
+    if (V.zoom >= LAND_ZOOM_PACK && REGION.length) {
+      const [w, n] = unproject(V, W, H, 0, 0), [e, s] = unproject(V, W, H, W, H);
+      pack = REGION.find((p) => w >= p.bbox[0] && e <= p.bbox[2] && s >= p.bbox[1] && n <= p.bbox[3]) || null;
+      if (pack) rings = pack.rings;
+    }
     if (!rings) rings = land("110m", loadLand, redraw);
     if (!rings) return "";
     const k0 = scaleOf(V.zoom), ox = W / 2 - V.cx * k0, oy = H / 2 - V.cy * k0;
@@ -158,6 +173,7 @@ export function createMapView({ t = (id, en) => en, loadLand, style, styleName =
     }
     g.fillStyle = st.land; g.fill(fill, "evenodd");
     g.strokeStyle = st.coast; g.lineWidth = 0.8; g.lineJoin = "round"; g.stroke(edge);
+    if (pack) return `${pack.scale || "pack"} (${pack.name})`;
     return want50 && LAND["50m"] && LAND["50m"].rings ? "50m" : "110m";
   }
   function drawGraticule(g) {

@@ -14,6 +14,8 @@
 //   data/links.json              data files the project uses, by path, with size and format
 //   notebooks/notes.md           the project's notes
 //   notebooks/console.json       the code mirror's entries (lib/mirror.mjs)
+//   notebooks/<name>.ipynb       the lab notebooks (lib/notebook.mjs, Jupyter's nbformat 4; 0.42 U23)
+//   packs/<name>.json            offline region packs for the map and the globe (kshana-mappack/1; 0.42 U24)
 //   layouts/session.json         the open tabs, their views, the clock and markers of each,
 //                                the panes of each (lib/dock.mjs), the selected runs and the page shown
 //   layouts/saved.json           the project's named pane layouts (0.42 U20)
@@ -117,6 +119,8 @@ export function projectFiles(state) {
   add("data/links.json", JSON.stringify((state.links || []).map((l) => ({ path: clean(l.path, 1000), name: clean(l.name, 200), format: l.format || null, family: l.family || null, bytes: Number.isFinite(l.bytes) ? l.bytes : null, added: l.added || null })), null, 2) + "\n");
   add("notebooks/notes.md", state.notes || "");
   add("notebooks/console.json", JSON.stringify({ runs: state.consoleRuns || 0, entries: state.console || [] }) + "\n");
+  for (const nb of state.notebookFiles || []) if (/^[\w-]{1,100}\.ipynb$/.test(nb.file || "")) add(`notebooks/${nb.file}`, nb.text);
+  for (const pk of state.packFiles || []) if (/^[\w-]{1,100}\.json$/.test(pk.file || "")) add(`packs/${pk.file}`, pk.text);
   return files;
 }
 
@@ -169,13 +173,15 @@ export function readProject(files) {
     links: parseJSON(byPath.get("data/links.json") || "[]", []), notes: byPath.get("notebooks/notes.md") || "",
     console: Array.isArray(con.entries) ? con.entries : [], consoleRuns: Number(con.runs) || 0, problems,
     savedLayouts: byPath.has("layouts/saved.json") ? readSaved(byPath.get("layouts/saved.json")) : {},
+    notebookFiles: [...byPath].filter(([p]) => /^notebooks\/[\w-]{1,100}\.ipynb$/.test(p)).map(([p, text]) => ({ file: p.slice("notebooks/".length), text })).sort((a, b) => (a.file < b.file ? -1 : 1)),
+    packFiles: [...byPath].filter(([p]) => /^packs\/[\w-]{1,100}\.json$/.test(p)).map(([p, text]) => ({ file: p.slice("packs/".length), text })).sort((a, b) => (a.file < b.file ? -1 : 1)),
   };
 }
 
 /** The paths of `before` that `after` no longer has (runs removed), for project_save's remove list. */
 export function removedPaths(before, after) {
   const keep = new Set(after.map((f) => f.path));
-  return [...new Set(before)].filter((p) => !keep.has(p) && /^runs\//.test(p));
+  return [...new Set(before)].filter((p) => !keep.has(p) && /^(runs\/|notebooks\/[\w-]+\.ipynb$|packs\/)/.test(p));
 }
 
 /**

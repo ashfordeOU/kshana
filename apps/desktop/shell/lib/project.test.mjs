@@ -94,3 +94,19 @@ test("replay is judged by the SHA-256 of the result bytes", async () => {
   assert.equal(other.identical, false);
   assert.equal((await sha256Text("", digest)).length, 64);
 });
+
+test("notebooks and region packs are kept in the project and read back (0.42 U23, U24)", () => {
+  const files = projectFiles({ name: "N", created: "2026-11-15T00:00:00Z", runs: [], tabs: [], links: [], notes: "", console: [],
+    notebookFiles: [{ file: "holdover.ipynb", text: '{"nbformat":4,"cells":[]}' }, { file: "../evil.ipynb", text: "x" }],
+    packFiles: [{ file: "baltic.json", text: '{"format":"kshana-mappack/1"}' }, { file: "x.exe", text: "x" }] });
+  const paths = files.map((f) => f.path);
+  assert.ok(paths.includes("notebooks/holdover.ipynb"));
+  assert.ok(paths.includes("packs/baltic.json"));
+  assert.ok(!paths.some((p) => p.includes("evil") || p.endsWith(".exe")), "only safe names");
+  const back = readProject(files);
+  assert.deepEqual(back.notebookFiles, [{ file: "holdover.ipynb", text: '{"nbformat":4,"cells":[]}' }]);
+  assert.deepEqual(back.packFiles, [{ file: "baltic.json", text: '{"format":"kshana-mappack/1"}' }]);
+  // a notebook or pack the person removed is removed from the folder too
+  assert.deepEqual(removedPaths(paths, files.filter((f) => !/^(notebooks\/holdover|packs\/)/.test(f.path))), ["notebooks/holdover.ipynb", "packs/baltic.json"]);
+  assert.ok(!removedPaths(["notebooks/notes.md"], []).length, "the notes are never removed");
+});

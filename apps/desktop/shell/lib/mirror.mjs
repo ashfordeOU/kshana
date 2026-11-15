@@ -179,6 +179,14 @@ export function figureScript(run, fig) {
       "for q, s in zip(requests, skies):", "    for sat in s[\"satellites\"]:", "        print(q[\"time_s\"], sat[\"id\"], sat[\"az_deg\"], sat[\"el_deg\"], sat[\"visible\"], sat[\"masked\"])");
     return out.join("\n") + "\n";
   }
+  if (fig.kind === "plots") {
+    // the stability, Stanford and spectrum outputs (lib/plots.mjs plotLines), read from the result by path
+    const lines = typeof fig.lines === "function" ? fig.lines(res) : [];
+    const curves = lines.map((l) => /^(\w+) = \[\(p\["tau_s"\]/.exec(l)).filter(Boolean).map((m) => m[1]);
+    out.push("# the plotted data, read from the result", ...lines);
+    if (curves.length) out.push("", "import matplotlib.pyplot as plt", "fig, ax = plt.subplots()", ...curves.map((c) => `ax.loglog([p[0] for p in ${c}], [p[1] for p in ${c}], "o-", label=${pyStr(c)})`), 'ax.set_xlabel("tau (s)")', "ax.legend()", "plt.show()");
+    return out.join("\n") + "\n";
+  }
   out.push("# the figure's data, taken from the result");
   const names = [];
   (fig.series || []).forEach((s, i) => {

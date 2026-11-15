@@ -266,7 +266,15 @@ await test("the shell makes no outside request, has no checkout and shows no pri
     assert.ok(!/\b(compliant|conform|certified)\b/i.test(text), `${f}: claim words`);
   }
   const urls = files.flatMap((f) => [...readFileSync(f, "utf8").matchAll(/https?:\/\/[^\s"'`)]+/g)].map((m) => m[0])).filter((u) => u !== "http://www.w3.org/2000/svg"); // the SVG namespace names, it does not fetch
-  assert.deepEqual([...new Set(urls)], ["https://kshana.dev/editions.html"], "the one outside address is the editions page, shown as a link");
+  // The outside addresses: the editions page (a link); the citation's DOI and repository (text in a
+  // notebook's reference, 0.42 U23); the one optional imagery source and its terms page (0.42 U24),
+  // fetched only once the person turns imagery on (off by default, below).
+  const allowed = ["https://kshana.dev/editions.html", "https://doi.org/${CITE.doi}", "https://github.com/ashfordeOU/kshana", "https://gibs.earthdata.nasa.gov/wmts/epsg4326/best/BlueMarble_NextGeneration/default/500m/{level}/{row}/{col}.jpeg", "https://www.earthdata.nasa.gov/engage/open-data-services-software-policies/data-use-guidance"];
+  for (const u of new Set(urls)) assert.ok(allowed.includes(u), `an outside address the shell may not name: ${u}`);
+  const gv = readFileSync(join(here, "lib/globeview.mjs"), "utf8");
+  assert.ok(/const id = ctx\.imagery && ctx\.imagery\.get\(\);[\s\S]*if \(!src\) \{ state\.texture = null;/.test(gv), "imagery is fetched only for a source the person chose");
+  const sh = readFileSync(join(here, "shell.js"), "utf8");
+  assert.match(sh, /get\(\) \{ try \{ return localStorage\.getItem\(IMAGERY_KEY\) \|\| ""; \} catch \{ return ""; \} \}/, "imagery is off unless chosen");
 });
 await test("the Desktop opens the shell and stages it beside the Studio", () => {
   assert.match(build, /url=studio\/desktop\/index\.html/);

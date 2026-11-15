@@ -1,0 +1,63 @@
+{
+  "format": "kshana-course/1",
+  "note": "Lessons written for Kshana Desktop over the bundled scenarios. They say where to look and what to change; every number is the person's own run. Teaching material, not an assessment or a qualification. In English.",
+  "lessons": [
+    {
+      "id": "holdover",
+      "title": "Holdover: how long a clock keeps time",
+      "summary": "Two clocks lose GNSS after ten minutes. See how far each drifts, read the holdover figure, and change the classical clock's noise.",
+      "scenario": "clock-holdover.toml",
+      "minutes": 10,
+      "steps": [
+        { "title": "Run the scenario", "text": "The scenario runs two hours: ten minutes with GNSS, then GNSS denied. An optical clock and a chip-scale atomic clock (CSAC) hold time on their own. Press Run.", "check": { "kind": "ran" } },
+        { "title": "Watch the time error grow", "text": "Open the Timeline view. Drag the cursor past 600 s, where GNSS is lost: from there the time error of each clock grows from its own noise.", "check": { "kind": "view", "view": "timeline" } },
+        { "title": "Read the holdover figure", "text": "The holdover figure is how long a clock stays within the scenario's threshold (threshold_ns, 20 ns here) after GNSS is lost. Find classical.fom.holdover_s in the Table view and press it to see how the engine computes it.", "check": { "kind": "result", "path": "classical.fom.holdover_s", "op": "present" } },
+        { "title": "Try a quieter clock", "text": "The classical clock's white frequency noise is q_wf in [clock_classical]. Make it ten times smaller and run again.", "try": { "key": "clock_classical::q_wf", "value": 9e-21, "why": "q_wf is the square of the Allan deviation at 1 s, so a tenfold smaller q_wf is a clock about three times more stable at 1 s." }, "check": { "kind": "setting", "key": "clock_classical::q_wf", "op": "<", "value": 9e-20 } },
+        { "title": "Compare", "text": "With less noise the classical clock should stay within the threshold for longer. The lesson checks that the holdover figure of your new run is larger than in your first run.", "check": { "kind": "result", "path": "classical.fom.holdover_s", "op": "increased" } },
+        { "title": "The Allan deviation", "text": "Open the Plots view: the Allan deviation of both clocks, with the 95 % confidence band the engine gives for each point. Hover a point for its value; Alt-click two points for their ratio.", "check": { "kind": "view", "view": "plots" } }
+      ]
+    },
+    {
+      "id": "jamming",
+      "title": "Jamming: power, range and lost satellites",
+      "summary": "A 10 W broadband jammer 1 km from a receiver. Read the jammer-to-signal ratio, then cut the jammer's power and see tracking come back.",
+      "scenario": "jamming-demo.toml",
+      "minutes": 8,
+      "steps": [
+        { "title": "Run the scenario", "text": "The receiver sits in the Netherlands with a GPS-like constellation overhead and a 10 W jammer 1 km away. Press Run.", "check": { "kind": "ran" } },
+        { "title": "See where it happens", "text": "Open the Map view: the receiver, the jammer and the area where it denies tracking, with the evidence class of that area.", "check": { "kind": "view", "view": "map" } },
+        { "title": "Read J/S", "text": "fom.mean_js_db is the mean jammer-to-signal ratio at the receiver. Above about 35 dB a C/A code loop loses lock, so fom.availability_under_jamming falls to zero.", "check": { "kind": "result", "path": "fom.mean_js_db", "op": "present" } },
+        { "title": "Try a weaker jammer", "text": "Lower power_dbw in [jammer] by 50 dB (from 10 to -40 dBW) and run again.", "try": { "key": "jammer::power_dbw", "value": -40, "why": "J/S falls one decibel for each decibel of transmit power: 50 dB less brings J/S near 22 dB." }, "check": { "kind": "setting", "key": "jammer::power_dbw", "op": "<=", "value": -30 } },
+        { "title": "Tracking comes back", "text": "The lesson checks that availability under jamming rose from your first run.", "check": { "kind": "result", "path": "fom.availability_under_jamming", "op": "increased" } }
+      ]
+    },
+    {
+      "id": "integrity",
+      "title": "Integrity: protection levels and the Stanford plot",
+      "summary": "RAIM over twelve hours: protection levels against the alert limits, and the Stanford plot of error against protection level.",
+      "scenario": "integrity-raim.toml",
+      "minutes": 8,
+      "steps": [
+        { "title": "Run the scenario", "text": "A receiver checks its own geometry and range errors (RAIM) every two minutes for twelve hours. Press Run.", "check": { "kind": "ran" } },
+        { "title": "The Stanford plot", "text": "Open the Plots view. Each point is one epoch: the position error across, the protection level up. Points under the diagonal would be misleading information; points above the alert limit are epochs where the system is unavailable.", "check": { "kind": "view", "view": "plots" } },
+        { "title": "Count the available epochs", "text": "samples_available counts the epochs whose protection level is within the alert limit, out of samples_total.", "check": { "kind": "result", "path": "samples_available", "op": "present" } },
+        { "title": "Try noisier ranges", "text": "Double sigma_uere_m (the one-sigma range error) and run again.", "try": { "key": "::sigma_uere_m", "value": 2.0, "why": "The protection level scales with the range error, so more epochs pass the alert limit." }, "check": { "kind": "setting", "key": "::sigma_uere_m", "op": ">=", "value": 1.5 } },
+        { "title": "Fewer available epochs", "text": "The lesson checks that samples_available fell from your first run. Compare the two Stanford plots with Runs, select two.", "check": { "kind": "result", "path": "samples_available", "op": "decreased" } }
+      ]
+    },
+    {
+      "id": "telecom-holdover",
+      "title": "Telecom timing: MTIE, TDEV and holdover budgets",
+      "summary": "A rubidium oscillator holds over for 24 hours. Read its MTIE and TDEV, the time to exceed each budget, and change the temperature swing.",
+      "scenario": "telecom-prtc-holdover-24h.toml",
+      "minutes": 10,
+      "steps": [
+        { "title": "Run the scenario", "text": "Five days locked, then GNSS is lost and a rubidium oscillator holds time for 24 hours with a daily temperature swing. Press Run (it computes MTIE and TDEV over 90 000 samples).", "check": { "kind": "ran" } },
+        { "title": "MTIE and TDEV", "text": "Open the Plots view: MTIE and TDEV against the observation interval, on log axes. The masks they are checked against are in the engine's chart and in masks[] of the result.", "check": { "kind": "view", "view": "plots" } },
+        { "title": "Time to exceed", "text": "budgets[].time_to_exceed_s is when the time error first passes each budget after GNSS is lost. Find budgets.0.time_to_exceed_s in the Table view.", "check": { "kind": "result", "path": "budgets.0.time_to_exceed_s", "op": "present" } },
+        { "title": "Try a steadier room", "text": "Lower temperature_amplitude_k in [holdover] from 2 K to 0.5 K and run again.", "try": { "key": "holdover::temperature_amplitude_k", "value": 0.5, "why": "The oscillator's frequency follows temperature, so a smaller swing means less wander." }, "check": { "kind": "setting", "key": "holdover::temperature_amplitude_k", "op": "<=", "value": 1 } },
+        { "title": "Longer within budget", "text": "The lesson checks that the time to exceed the first budget grew from your first run.", "check": { "kind": "result", "path": "budgets.0.time_to_exceed_s", "op": "increased" } }
+      ]
+    }
+  ]
+}
