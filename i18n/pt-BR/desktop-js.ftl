@@ -190,7 +190,7 @@ js-desk-det-unknown = não lido
 
 js-desk-dev-baud = Velocidade (baud)
 
-js-desk-dev-baud-keep = conforme a configuração da porta
+js-desk-dev-baud-keep = segundo a configuração da porta
 
 js-desk-dev-error = erro
 
