@@ -5,9 +5,10 @@
 name: i18n
 
 on:
+  # Every push to main runs it, with no path filter: Auto-tag (auto-tag.yml) tags a version
+  # only when this workflow AND CI are green on the same commit, so it must have a run there.
   push:
     branches: [main, 'feat/i18n-*', 'i18n/**']
-    paths: ['i18n/**', 'tools/i18n*', 'tools/vendor/**', 'web/**', '.github/workflows/i18n.yml']
   pull_request:
     paths: ['i18n/**', 'tools/i18n*', 'tools/vendor/**', 'web/**', '.github/workflows/i18n.yml']
   workflow_dispatch:
