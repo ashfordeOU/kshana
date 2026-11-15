@@ -290,11 +290,11 @@ fn try_receiver_log(b: &[u8]) -> Option<Result<Value, String>> {
     }
 }
 
-/// Ship, aircraft and drone track files the engine's connectors read (`kshana::interconnect`).
-fn try_tracks(b: &[u8]) -> Option<Value> {
-    use kshana::interconnect::{decode, Options};
+/// The track formats of the engine's connectors (`kshana::interconnect::FORMATS`) whose
+/// signature the start of `b` carries, most specific first: the readers worth trying on it.
+pub fn track_candidates(b: &[u8]) -> Vec<&'static str> {
     let head = String::from_utf8_lossy(&b[..b.len().min(8192)]);
-    let mut cands: Vec<&str> = Vec::new();
+    let mut cands: Vec<&'static str> = Vec::new();
     if head.contains("!AIVDM") || head.contains("!AIVDO") {
         cands.push("ais");
     }
@@ -318,6 +318,16 @@ fn try_tracks(b: &[u8]) -> Option<Value> {
     if head.trim_start().starts_with('{') && head.contains("\"states\"") {
         cands.push("opensky-json");
     }
+    if head.starts_with("time,icao24") {
+        cands.push("opensky-csv");
+    }
+    cands
+}
+
+/// Ship, aircraft and drone track files the engine's connectors read (`kshana::interconnect`).
+fn try_tracks(b: &[u8]) -> Option<Value> {
+    use kshana::interconnect::{decode, Options};
+    let cands = track_candidates(b);
     for f in cands {
         let Ok(d) = decode(f, b, &Options::default()) else {
             continue;

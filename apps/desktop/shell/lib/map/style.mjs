@@ -93,3 +93,12 @@ export function trackColor(st, kind, q) {
   if (kind === "trust") return q >= 0.9 ? st.trusted : q >= 0.55 ? st.degraded : st.untrusted;
   return st.track;
 }
+
+/**
+ * The colour of a reported ship or aircraft position by the quality class its reader draws
+ * from the message's own accuracy and integrity fields (lib/traffic.mjs QUALITY: 0 good,
+ * 1 intermediate, 2 degraded, 3 unknown). A class, not a verdict on whether the position is true.
+ */
+export function qualityColor(st, q) {
+  return q === 0 ? st.trusted : q === 1 ? st.degraded : q === 2 ? st.untrusted : st.text2;
+}

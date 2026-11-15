@@ -10,3 +10,6 @@ try {
 try {
   document.documentElement.dataset.density = localStorage.getItem("kshana-desk-density") === "compact" ? "compact" : "comfortable";
 } catch (e) { document.documentElement.dataset.density = "comfortable"; }
+// The catalogues of the shell (0.42 U18; staged by apps/desktop/stage-i18n.mjs): its own messages,
+// the Studio messages of the modules it imports, and the terms. Read by the Studio's lib/l10n-boot.mjs.
+window.kshanaL10nFiles = ["glossary.ftl", "desktop-studio-js.ftl", "desktop-js.ftl"];

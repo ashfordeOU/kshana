@@ -32,6 +32,7 @@ pub const NATIVE_FNS: &[&str] = &[
     "get_example",
     "receiver_trust_replay",
     "assess_vessel_log",
+    "decode_tracks",
     "version",
 ];
 
@@ -110,11 +111,75 @@ pub fn call(name: &str, args: &[Value]) -> Result<Value, String> {
             kshana::surface::MAX_INPUT_BYTES,
         )
         .map(|j| json!(j)),
+        "decode_tracks" => decode_tracks(s(args, 0)?, s(args, 1)?).map(|v| json!(v.to_string())),
         "version" => Ok(json!(env!("CARGO_PKG_VERSION"))),
         other => Err(format!(
             "{other} is not a native engine function of this build"
         )),
     }
+}
+
+/// The largest track file the shell hands to [`decode_tracks`] in one piece.
+pub const MAX_TRACK_BYTES: usize = 64 * 1024 * 1024;
+
+/// Decode a ship, aircraft or drone track file (`base64` of its bytes) with the engine's
+/// connectors (`kshana::interconnect`). `format` is one of `kshana::interconnect::FORMATS`, or
+/// `auto` to try the formats whose signature the bytes carry ([`crate::detective::track_candidates`])
+/// and keep the first that reads more good messages than bad ones. The answer is the decode as
+/// the `kshana.tracks/1` JSON Lines say it, in one object: `schema`, `source_format`, the
+/// counts, `fixes` (each with its trust attributes and quality class, as the reader states
+/// them) and `records`.
+pub fn decode_tracks(format: &str, base64: &str) -> Result<Value, String> {
+    use base64::Engine as _;
+    use kshana::interconnect::{decode, Options, SCHEMA};
+    let bytes = base64::engine::general_purpose::STANDARD
+        .decode(base64.trim())
+        .map_err(|e| format!("the file's bytes are not base64: {e}"))?;
+    if bytes.len() > MAX_TRACK_BYTES {
+        return Err(format!(
+            "the track file is {} bytes; the shell reads at most {MAX_TRACK_BYTES}",
+            bytes.len()
+        ));
+    }
+    let tries: Vec<&str> = if format == "auto" {
+        crate::detective::track_candidates(&bytes)
+    } else {
+        vec![format]
+    };
+    let mut last = format!(
+        "no track reader recognises this file (tried: {})",
+        tries.join(", ")
+    );
+    if tries.is_empty() {
+        last = "no track reader recognises this file".to_string();
+    }
+    for f in tries {
+        match decode(f, &bytes, &Options::default()) {
+            Ok(d) if !d.fixes.is_empty() && d.bad_checksum + d.malformed <= d.read / 2 => {
+                return Ok(json!({
+                    "schema": SCHEMA,
+                    "source_format": f,
+                    "read": d.read,
+                    "bad_checksum": d.bad_checksum,
+                    "malformed": d.malformed,
+                    "other": d.other,
+                    "fixes": d.fixes,
+                    "records": d.records,
+                }));
+            }
+            Ok(d) => {
+                last = format!(
+                    "{f}: {} fixes from {} messages ({} bad checksums, {} malformed)",
+                    d.fixes.len(),
+                    d.read,
+                    d.bad_checksum,
+                    d.malformed
+                )
+            }
+            Err(e) => last = format!("{f}: {e}"),
+        }
+    }
+    Err(last)
 }
 
 /// What the Desktop knows about a file without reading it all.
@@ -273,6 +338,59 @@ mod tests {
         assert_eq!(rep, serde_json::to_value(&direct).unwrap());
         assert!(rep["epochs"].as_array().unwrap().len() > 300);
         assert!(NATIVE_FNS.contains(&"receiver_trust_replay"));
+    }
+
+    #[test]
+    fn the_public_ais_and_adsb_samples_decode_to_tracks_with_their_quality_class() {
+        use base64::Engine as _;
+        let b64 = |b: &[u8]| base64::engine::general_purpose::STANDARD.encode(b);
+        let ais = include_bytes!("../../../../examples/tracks/ais.nmea");
+        let v: Value = serde_json::from_str(
+            call("decode_tracks", &[json!("auto"), json!(b64(ais))])
+                .unwrap()
+                .as_str()
+                .unwrap(),
+        )
+        .unwrap();
+        assert_eq!(v["schema"], "kshana.tracks/1");
+        assert_eq!(v["source_format"], "ais");
+        assert!(v["bad_checksum"].as_u64().unwrap() >= 1, "{v}");
+        let fixes = v["fixes"].as_array().unwrap();
+        assert!(!fixes.is_empty());
+        assert!(fixes
+            .iter()
+            .all(|f| f["reported_quality"].is_string() && f["id"].is_string()));
+        for (file, fmt) in [
+            (
+                &include_bytes!("../../../../examples/tracks/adsb.avr")[..],
+                "avr",
+            ),
+            (
+                &include_bytes!("../../../../examples/tracks/adsb.beast")[..],
+                "beast",
+            ),
+            (
+                &include_bytes!("../../../../examples/tracks/opensky-states.json")[..],
+                "opensky-json",
+            ),
+            (
+                &include_bytes!("../../../../examples/tracks/opensky-states.csv")[..],
+                "opensky-csv",
+            ),
+        ] {
+            let v: Value = serde_json::from_str(
+                call("decode_tracks", &[json!("auto"), json!(b64(file))])
+                    .unwrap()
+                    .as_str()
+                    .unwrap(),
+            )
+            .unwrap();
+            assert_eq!(v["source_format"], fmt, "{v}");
+            assert!(!v["fixes"].as_array().unwrap().is_empty(), "{fmt}");
+        }
+        assert!(call("decode_tracks", &[json!("auto"), json!(b64(b"hello"))]).is_err());
+        assert!(call("decode_tracks", &[json!("ais"), json!("not base64!")]).is_err());
+        assert!(NATIVE_FNS.contains(&"decode_tracks"));
     }
 
     #[test]
