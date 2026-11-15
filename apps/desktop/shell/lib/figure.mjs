@@ -5,6 +5,7 @@
 // module is the buttons. Every text goes in through textContent.
 import { journalFigure, journalSVG, journalPDF, pngSize, journalFilename, JOURNAL_STYLES, JOURNAL_FORMATS } from "./chart/journal.mjs";
 import { paint } from "./chart/paint.mjs";
+let journalBoxes = 0;
 
 const el = (tag, cls, text) => { const n = document.createElement(tag); if (cls) n.className = cls; if (text !== undefined) n.textContent = text; return n; };
 
@@ -55,7 +56,7 @@ export function figureTools({ t, chart = null, title = "figure", script, save, c
       box.append(wrap);
       return s;
     };
-    const uid = Math.random().toString(36).slice(2, 8);
+    const uid = String(++journalBoxes); // unique element ids for this window's labels; no randomness needed
     const style = sel(`fj-style-${uid}`, t("js-desk-fig-style", "Style"), Object.values(JOURNAL_STYLES).map((s) => [s.id, s.label]));
     const cols = sel(`fj-cols-${uid}`, t("js-desk-fig-width", "Width"), [["single", t("js-desk-fig-single", "one column")], ["double", t("js-desk-fig-double", "two columns")]]);
     const row = el("div", "fig-formats");
