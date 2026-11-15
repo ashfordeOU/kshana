@@ -38,10 +38,12 @@ const SUBS: [&str; 10] = [
     "sdr-capture",
 ];
 
+/// The usage text of the `kshana connect` operations subcommands, in the reader's language.
 pub fn usage() -> String {
     crate::terr!("e-connect-ops-usage")
 }
 
+/// The value after the command-line flag `name` (for example `--host`), or `None` when the flag is absent.
 pub fn flag<'a>(args: &'a [String], name: &str) -> Option<&'a str> {
     args.iter()
         .position(|a| a == name)
@@ -49,6 +51,7 @@ pub fn flag<'a>(args: &'a [String], name: &str) -> Option<&'a str> {
         .map(String::as_str)
 }
 
+/// The flag `name` parsed as a number, or `d` when the flag is absent; a value that does not parse gives the usage text as the error.
 pub fn num<T: std::str::FromStr>(args: &[String], name: &str, d: T) -> Result<T, String> {
     flag(args, name).map_or(Ok(d), |v| v.parse().map_err(|_| usage()))
 }
