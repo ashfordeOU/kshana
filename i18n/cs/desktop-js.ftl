@@ -1,6 +1,8 @@
 # Kshana Desktop shell (apps/desktop/shell): the messages of i18n/en/desktop-js.ftl in this language.
 # Machine translation, not reviewed by a native speaker. English is the reference.
 
+js-desk-act-bridge = Režim můstku (červený) zapnout či vypnout
+
 js-desk-act-compare = Porovnat 2 vybrané běhy
 
 js-desk-act-compare-hint = vyberte dva v Bězích
@@ -11,6 +13,8 @@ js-desk-act-console = Zobrazit konzoli (Python a příkazové řádky)
 
 js-desk-act-copy-py = Kopírovat relaci jako Python
 
+js-desk-act-course = Kurz: lekce s průvodcem
+
 js-desk-act-density-comfortable = Zobrazení: volná hustota
 
 js-desk-act-density-compact = Zobrazení: kompaktní hustota
@@ -19,9 +23,17 @@ js-desk-act-export = Exportovat balíček důkazů tohoto běhu
 
 js-desk-act-file = Otevřít soubor scénáře…
 
+js-desk-act-globe = Glóbus tohoto běhu
+
 js-desk-act-library = Procházet knihovnu scénářů
 
+js-desk-act-live = Živě AIS nebo ADS-B z přijímače
+
+js-desk-act-notebook = Pythonový zápisník a konzole
+
 js-desk-act-panes = Panely: graf, mapa, obloha, inspektor a konzole vedle sebe
+
+js-desk-act-plots = Grafy: Allanova odchylka, MTIE, TDEV, Stanford, spektrum
 
 js-desk-act-project = Projekt, datové odkazy a přetažené soubory
 
@@ -49,6 +61,12 @@ js-desk-ago-s = před { $n } s
 
 js-desk-at-cursor = U kurzoru
 
+js-desk-bridge = Můstek
+
+js-desk-bridge-off = Režim můstku vypnut.
+
+js-desk-bridge-on = Režim můstku: okno v červených tónech na černé.
+
 js-desk-cancel = Zrušit
 
 js-desk-chart-not-drawn = Tento graf nebylo možné vykreslit.
@@ -56,6 +74,62 @@ js-desk-chart-not-drawn = Tento graf nebylo možné vykreslit.
 js-desk-clear = Zrušit výběr
 
 js-desk-close-tab = Zavřít { $title }
+
+js-desk-co-assistant = Asistent, který odpovídá na otázky k lekci, je plánován; v tomto sestavení není.
+
+js-desk-co-at = krok { $n } z { $total }
+
+js-desk-co-back = Zpět
+
+js-desk-co-compare = první běh { $a } → tento běh { $b }
+
+js-desk-co-continue = Pokračovat
+
+js-desk-co-done = hotovo
+
+js-desk-co-english = Lekce jsou napsány v angličtině.
+
+js-desk-co-failed = Lekce se nepodařilo načíst: { $reason }
+
+js-desk-co-finish = Dokončit lekci
+
+js-desk-co-finished = Lekce dokončena.
+
+js-desk-co-kits = Sady k reprodukci článku: scénáře a obrázky článku (paper/ a paper-artifacts/ v repozitáři) se spouštějí z příkazové řádky; průvodce v tomto okně zatím není.
+
+js-desk-co-leave = Opustit lekci
+
+js-desk-co-lede = Lekce s průvodcem nad přibalenými scénáři: každý krok říká, co spustit, kam se dívat a co změnit, a ověří to ve vašich vlastních bězích. Lekce vysvětlují modely enginu; jsou to výukové materiály, ne hodnocení ani kvalifikace.
+
+js-desk-co-lesson = Lekce: { $title }
+
+js-desk-co-loading = Načítání lekcí…
+
+js-desk-co-met = ✓ Hotovo
+
+js-desk-co-more = Také v kurzu
+
+js-desk-co-new = { $n } kroků, asi { $min } min
+
+js-desk-co-next = Další
+
+js-desk-co-no-field = Tento scénář nemá nastavení { $key }.
+
+js-desk-co-skip = Přeskočit tento krok
+
+js-desk-co-start = Začít
+
+js-desk-co-step = Lekce · krok { $n } z { $total }
+
+js-desk-co-title = Kurz
+
+js-desk-co-try = Zkuste změnit
+
+js-desk-co-try-set = Nastavit na { $v } a spustit
+
+js-desk-co-value = hodnota { $v }
+
+js-desk-co-wait = Čeká se na tento krok
 
 js-desk-col-change = B − A
 
@@ -168,6 +242,8 @@ js-desk-det-no-scenario = Tento soubor zůstává datovým odkazem; žádný sc�
 js-desk-det-objects = objekty
 
 js-desk-det-open-clock = Otevřít vedle simulace hodin
+
+js-desk-det-open-iq = Spektrum a vodopád
 
 js-desk-det-open-tracks = Zobrazit lodě a letadla na mapě
 
@@ -419,6 +495,44 @@ js-desk-free-edition = Bezplatná edice
 
 js-desk-free-line = Flotila, forenzní analýza a podepsaná dokumentace jsou součástí Pro.
 
+js-desk-gl-bridge = Můstek (červeně)
+
+js-desk-gl-coast = pobřeží (Natural Earth)
+
+js-desk-gl-cover = pokrytí nad { $mask }° v místě kurzoru
+
+js-desk-gl-earth = Země (WGS-84)
+
+js-desk-gl-follow = Sledovat
+
+js-desk-gl-follow-none = Sledovat: nic
+
+js-desk-gl-follow-x = Sledovat: { $name }
+
+js-desk-gl-grat = síť 30°
+
+js-desk-gl-imagery = Snímky
+
+js-desk-gl-imagery-off = Snímky: vypnuto
+
+js-desk-gl-imagery-wait = Snímky: dlaždice se stahují jednou; pak zůstanou v tomto počítači.
+
+js-desk-gl-note = Polohy tak, jak je engine exportuje (pevné vůči Zemi, výšky nad WGS-84). Pokrytí: území, které vidí každou družici nad maskou elevace, na kulové Zemi. Pobřeží Natural Earth (volné dílo).
+
+js-desk-gl-pack = regionální balíček: { $name }
+
+js-desk-gl-sites = místa
+
+js-desk-gl-sub = pevné vůči Zemi, WGS-84
+
+js-desk-gl-title = Glóbus
+
+js-desk-gl-tools = Glóbus
+
+js-desk-gl-track = trasa běhu
+
+js-desk-gl-traffic = lodě a letadla v místě kurzoru
+
 js-desk-home-all-in = Vše v této oblasti ({ $n }) →
 
 js-desk-home-areas = Začněte otázkou
@@ -440,6 +554,38 @@ js-desk-ins-inputs = Vstupy
 js-desk-ins-result = Výsledek
 
 js-desk-inspector = Inspektor
+
+js-desk-iq-cannot = Tento záznam může číst jen nativní část aplikace, z jeho cesty.
+
+js-desk-iq-centre = středová frekvence
+
+js-desk-iq-draw = Vykreslit
+
+js-desk-iq-failed = Záznam se nepodařilo přečíst: { $reason }
+
+js-desk-iq-ins = Záznam
+
+js-desk-iq-need-rate = Zadejte vzorkovací frekvenci (vzorků za sekundu): surový záznam ji neobsahuje.
+
+js-desk-iq-nfft = Velikost FFT
+
+js-desk-iq-note = { $s } s záznamu od { $from } s ({ $n } vzorků, { $fmt }). Výkon vztažený k vzorku plného rozsahu (dBFS/Hz): záznam nenese kalibraci.
+
+js-desk-iq-offset = Od (s)
+
+js-desk-iq-rate = Vzorkovací frekvence (Hz)
+
+js-desk-iq-read-only = Pouze čtení, po blocích: záznam se nikdy nenačítá celý.
+
+js-desk-iq-reading = Čtení záznamu po blocích…
+
+js-desk-iq-short = Na tomto místě je na spektrum příliš málo vzorků.
+
+js-desk-iq-spectrum = Spektrum (Welch)
+
+js-desk-iq-sub = { $n } segmentů po { $nfft } vzorcích, Hannovo okno, RBW { $rbw } Hz
+
+js-desk-iq-waterfall = Vodopád
 
 js-desk-json-cut = Výsledek je dlouhý: celý dokument je v Exportovat, JSON výsledku.
 
@@ -463,6 +609,8 @@ js-desk-lib-title = Knihovna scénářů
 
 js-desk-links-remove = odebrat
 
+js-desk-links-spectrum = spektrum
+
 js-desk-links-title = Datové odkazy projektu
 
 js-desk-load-failed = Nelze načíst { $file }.
@@ -472,6 +620,8 @@ js-desk-loading = Načítání…
 js-desk-log-cell = Běh { $n }: buňka proměření { $where }
 
 js-desk-log-compare = Porovnat běhy #{ $a } a #{ $b }
+
+js-desk-log-course = Lekce { $title }
 
 js-desk-log-diff = Rozdíly běhů #{ $a } a #{ $b }
 
@@ -483,15 +633,21 @@ js-desk-log-export = Exportovat { $what } z běhu { $n }
 
 js-desk-log-inspect = Zkontrolovat { $name }
 
+js-desk-log-iq = Spektrum záznamu { $name }
+
 js-desk-log-layout = Panely: { $title }: { $what }
 
 js-desk-log-layout-saved = Rozložení { $name } uloženo
+
+js-desk-log-live = Živě { $format } z { $source }
 
 js-desk-log-markers = Značky v běhu { $n }
 
 js-desk-log-open = Otevřít { $title }
 
 js-desk-log-pack = Balíček důkazů běhu { $n }
+
+js-desk-log-plots = Grafy běhu { $title }
 
 js-desk-log-project = Otevřít projekt { $dir }
 
@@ -510,6 +666,48 @@ js-desk-log-sky = Graf oblohy: { $title }
 js-desk-log-sweep = Proměření { $n }: { $title }, běhy: { $cells }
 
 js-desk-log-tracks = Lodě a letadla z { $name }
+
+js-desk-lv-ais = AIS, věty NMEA 0183 (TCP nebo UDP)
+
+js-desk-lv-avr = ADS-B, hexadecimální řádky AVR (port 30002)
+
+js-desk-lv-bad = Zadejte zdroj jako tcp:<host>:<port>, pro AIS také udp:<address>:<port>.
+
+js-desk-lv-beast = ADS-B, Beast (dump1090 / readsb port 30005)
+
+js-desk-lv-follow = Sledovat nejnovější
+
+js-desk-lv-format = Formát
+
+js-desk-lv-honest = Polohy tak, jak byly vysílány, obarvené podle třídy kvality, kterou každá čtečka odvozuje z vlastních polí zprávy; nejde o verdikt, zda je poloha pravdivá. Ne pro navigaci.
+
+js-desk-lv-lede = Čtěte AIS z výstupu TCP nebo UDP přijímače, nebo ADS-B z dump1090 či readsb v tomto počítači nebo ve vaší síti, a sledujte provoz na mapě. Aplikace jen čte; zprávy dekódují vlastní čtečky enginu.
+
+js-desk-lv-network = Tento zdroj UDP přijímá datagramy ze sítě, nejen z tohoto počítače.
+
+js-desk-lv-note = Časy jsou okamžiky, kdy každá zpráva dorazila do tohoto počítače. Pouze čtení.
+
+js-desk-lv-pause = Pozastavit aktualizace
+
+js-desk-lv-reading = Čte se { $source } ({ $format }): { $n } zpráv, { $kept } uchováno (posledních { $min } min).
+
+js-desk-lv-resume = Obnovit aktualizace
+
+js-desk-lv-show = Zobrazit mapu
+
+js-desk-lv-source = Zdroj: tcp:<host>:<port>, pro AIS také udp:<address>:<port>
+
+js-desk-lv-start = Spustit
+
+js-desk-lv-stopped = Nečte se.
+
+js-desk-lv-stopped-err = Zastaveno: { $reason }
+
+js-desk-lv-tab = Živě: { $source }
+
+js-desk-lv-title = Lodě a letadla živě
+
+js-desk-lv-waiting = Čeká se na první polohy…
 
 js-desk-map-area = oblast rušení ({ $ev })
 
@@ -617,6 +815,8 @@ js-desk-native = nativní
 
 js-desk-nav-console = Konzole
 
+js-desk-nav-course = Kurz
+
 js-desk-nav-devices = Zařízení
 
 js-desk-nav-evidence = Balíčky důkazů
@@ -629,9 +829,79 @@ js-desk-nav-library = Knihovna scénářů
 
 js-desk-nav-main = Hlavní
 
+js-desk-nav-notebook = Pythonový zápisník
+
 js-desk-nav-pro = PRO
 
 js-desk-nav-runs = Běhy
+
+js-desk-nb-add-code = Přidat kód
+
+js-desk-nb-add-text = Přidat text
+
+js-desk-nb-check = Zkontrolovat znovu
+
+js-desk-nb-cite = Citovat
+
+js-desk-nb-code = Buňka Pythonu { $n }
+
+js-desk-nb-console = Konzole
+
+js-desk-nb-console-note = Enter spustí; Shift+Enter začne nový řádek. Konzole sdílí relaci zápisníku; její historie se v projektu neuchovává.
+
+js-desk-nb-delete = smazat
+
+js-desk-nb-down = Posunout dolů
+
+js-desk-nb-export-ipynb = Jupyter
+
+js-desk-nb-found = Python { $py } ({ $exe }) s balíčkem kshana { $ver }.
+
+js-desk-nb-from-console = Přidat Python z konzole
+
+js-desk-nb-interp = Python k použití (prázdné: python3, pak python)
+
+js-desk-nb-kept = Uloženo jako notebooks/{ $file } v projektu; otevře se v Jupyteru tak, jak je. PDF obsahuje text buněk a jejich výstup; obrázky jsou v souborech HTML a Jupyter.
+
+js-desk-nb-lede = Buňky Pythonu a poznámky uložené s projektem, spouštěné Pythonem v tomto počítači s balíčkem kshana (pip install kshana). Buňky sdílejí jednu relaci spuštěnou ve složce projektu.
+
+js-desk-nb-mirror-empty = Konzole zatím nemá žádné řádky Pythonu.
+
+js-desk-nb-new = Nový zápisník
+
+js-desk-nb-new-ph = Studie výdrže
+
+js-desk-nb-no-kshana = Python { $py } ({ $exe }) běží, ale balíček kshana se v něm nenaimportuje: pip install kshana. Buňky, které jej nepoužívají, fungují dál.
+
+js-desk-nb-no-native = Python běží přes nativní část aplikace, kterou toto okno nemá.
+
+js-desk-nb-no-python = V tomto počítači nebyl nalezen žádný Python (zkoušeno: { $tried }). Nainstalujte Python 3 (python.org nebo balíčky vašeho systému), pak pip install kshana, a zkontrolujte znovu.
+
+js-desk-nb-none = V tomto projektu zatím není žádný zápisník.
+
+js-desk-nb-pick = Zápisník
+
+js-desk-nb-probing = Hledání Pythonu…
+
+js-desk-nb-run = Spustit
+
+js-desk-nb-run-all = Spustit vše
+
+js-desk-nb-running = Běží…
+
+js-desk-nb-stop = Ukončit relaci
+
+js-desk-nb-stopped = Relace Pythonu byla ukončena; další buňka spustí novou.
+
+js-desk-nb-text = Textová buňka { $n }
+
+js-desk-nb-title = Pythonový zápisník
+
+js-desk-nb-tools = Nástroje zápisníku
+
+js-desk-nb-untitled = Zápisník { $n }
+
+js-desk-nb-up = Posunout nahoru
 
 js-desk-new-tab = Otevřít scénář v nové kartě
 
@@ -718,6 +988,22 @@ js-desk-panel-wait = Výsledek se zde objeví po dokončení běhu.
 js-desk-pin = Připnout
 
 js-desk-pin-run = Připnout běh { $n }
+
+js-desk-pk-added = Regionální balíček { $name } přidán do projektu.
+
+js-desk-pk-bad = { $name } není regionální balíček (kshana-mappack/1).
+
+js-desk-pk-lede = Jemnější pobřeží pro region, z Natural Earth (volné dílo), uložené ve složce projektu packs/. Mapa kreslí balíček místo pevniny 1:50m, když balíček pokrývá celý pohled (od přiblížení 5); glóbus kreslí jeho pobřeží také. apps/desktop/tools/pack_natural_earth.py --region jej vytvoří z pevniny 1:10m z Natural Earth.
+
+js-desk-pk-open = Přidat regionální balíček…
+
+js-desk-pk-sample = Přidat přibalený balíček Baltského moře (1:10m)
+
+js-desk-pk-title = Offline regionální balíčky
+
+js-desk-pl-from = Z { $paths } výsledku, tak jak je engine zapsal.
+
+js-desk-pl-none = Tento výsledek nemá výstup Allanovy odchylky, MTIE, TDEV, Stanfordova grafu ani spektra.
 
 js-desk-plot-none = V tomto výsledku není řada v čase.
 
@@ -1043,6 +1329,8 @@ js-desk-up-title = Co přidává Pro
 
 js-desk-view-chart = Graf
 
+js-desk-view-globe = Glóbus
+
 js-desk-view-group = Zobrazení
 
 js-desk-view-json = JSON
@@ -1050,6 +1338,8 @@ js-desk-view-json = JSON
 js-desk-view-map = Mapa
 
 js-desk-view-panes = Panely
+
+js-desk-view-plots = Grafy
 
 js-desk-view-sky = Obloha
 

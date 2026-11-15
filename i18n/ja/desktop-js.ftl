@@ -1,6 +1,8 @@
 # Kshana Desktop shell (apps/desktop/shell): the messages of i18n/en/desktop-js.ftl in this language.
 # Machine translation, not reviewed by a native speaker. English is the reference.
 
+js-desk-act-bridge = ブリッジ（赤）モードのオン／オフ
+
 js-desk-act-compare = 選択した 2 件の実行を比較
 
 js-desk-act-compare-hint = 「実行」で 2 件を選択
@@ -11,6 +13,8 @@ js-desk-act-console = コンソールを表示（Python とコマンドライン
 
 js-desk-act-copy-py = セッションを Python としてコピー
 
+js-desk-act-course = コース：ガイド付きレッスン
+
 js-desk-act-density-comfortable = 表示：ゆったりした密度
 
 js-desk-act-density-compact = 表示：コンパクトな密度
@@ -19,9 +23,17 @@ js-desk-act-export = この実行のエビデンスパックをエクスポー�
 
 js-desk-act-file = シナリオファイルを開く…
 
+js-desk-act-globe = この実行の地球儀
+
 js-desk-act-library = シナリオライブラリを参照
 
+js-desk-act-live = 受信機からのライブ AIS または ADS-B
+
+js-desk-act-notebook = Python ノートブックとコンソール
+
 js-desk-act-panes = ペイン：プロット、地図、天空、インスペクター、コンソールを並べて表示
+
+js-desk-act-plots = プロット：アラン偏差、MTIE、TDEV、スタンフォード、スペクトル
 
 js-desk-act-project = プロジェクト、データリンク、ドロップしたファイル
 
@@ -49,6 +61,12 @@ js-desk-ago-s = { $n } 秒前
 
 js-desk-at-cursor = カーソル位置
 
+js-desk-bridge = ブリッジ
+
+js-desk-bridge-off = ブリッジモードをオフにしました。
+
+js-desk-bridge-on = ブリッジモード：ウィンドウを黒地に赤で表示します。
+
 js-desk-cancel = キャンセル
 
 js-desk-chart-not-drawn = このグラフを描画できませんでした。
@@ -56,6 +74,62 @@ js-desk-chart-not-drawn = このグラフを描画できませんでした。
 js-desk-clear = 選択を解除
 
 js-desk-close-tab = { $title } を閉じる
+
+js-desk-co-assistant = レッスンについての質問に答えるアシスタントは計画中です。このビルドにはありません。
+
+js-desk-co-at = ステップ { $n }/{ $total }
+
+js-desk-co-back = 戻る
+
+js-desk-co-compare = 最初の実行 { $a } → この実行 { $b }
+
+js-desk-co-continue = 続ける
+
+js-desk-co-done = 完了
+
+js-desk-co-english = レッスンは英語で書かれています。
+
+js-desk-co-failed = レッスンを読み込めませんでした：{ $reason }
+
+js-desk-co-finish = レッスンを終える
+
+js-desk-co-finished = レッスンを終えました。
+
+js-desk-co-kits = 論文再現キット：論文のシナリオと図（リポジトリの paper/ と paper-artifacts/）はコマンドラインから実行します。このウィンドウでのガイド付きキットはまだありません。
+
+js-desk-co-leave = レッスンを離れる
+
+js-desk-co-lede = 付属シナリオを使ったガイド付きレッスン：各ステップで何を実行し、どこを見て、何を変えるかを示し、あなた自身の実行で確認します。レッスンはエンジンのモデルを説明する教材であり、評価や資格ではありません。
+
+js-desk-co-lesson = レッスン：{ $title }
+
+js-desk-co-loading = レッスンを読み込んでいます…
+
+js-desk-co-met = ✓ 完了
+
+js-desk-co-more = コースのその他の内容
+
+js-desk-co-new = { $n } ステップ、約 { $min } 分
+
+js-desk-co-next = 次へ
+
+js-desk-co-no-field = このシナリオには設定 { $key } がありません。
+
+js-desk-co-skip = このステップを飛ばす
+
+js-desk-co-start = 開始
+
+js-desk-co-step = レッスン · ステップ { $n }/{ $total }
+
+js-desk-co-title = コース
+
+js-desk-co-try = 変えてみる
+
+js-desk-co-try-set = { $v } に設定して実行
+
+js-desk-co-value = 値 { $v }
+
+js-desk-co-wait = このステップを待っています
 
 js-desk-col-change = B − A
 
@@ -165,6 +239,8 @@ js-desk-det-no-scenario = このファイルはデータリンクとして保持
 js-desk-det-objects = オブジェクト
 
 js-desk-det-open-clock = 時計シミュレーションの横に開く
+
+js-desk-det-open-iq = スペクトルとウォーターフォール
 
 js-desk-det-open-tracks = 船舶と航空機を地図に表示
 
@@ -413,6 +489,44 @@ js-desk-free-edition = 無償版
 
 js-desk-free-line = フリート、フォレンジック、署名付きドシエは Pro に含まれます。
 
+js-desk-gl-bridge = ブリッジ（赤）
+
+js-desk-gl-coast = 海岸線（Natural Earth）
+
+js-desk-gl-cover = カーソル時点の { $mask }° 以上のカバレッジ
+
+js-desk-gl-earth = 地球（WGS-84）
+
+js-desk-gl-follow = 追従
+
+js-desk-gl-follow-none = 追従：なし
+
+js-desk-gl-follow-x = 追従：{ $name }
+
+js-desk-gl-grat = 経緯線 30°
+
+js-desk-gl-imagery = 画像
+
+js-desk-gl-imagery-off = 画像：オフ
+
+js-desk-gl-imagery-wait = 画像：タイルを一度だけ取得し、以後はこのコンピューターに保存します。
+
+js-desk-gl-note = 位置はエンジンがエクスポートしたとおり（地球固定、高さは WGS-84 基準）。カバレッジ：球体の地球上で、各衛星が仰角マスク以上に見える地域。海岸線は Natural Earth（パブリックドメイン）。
+
+js-desk-gl-pack = 地域パック：{ $name }
+
+js-desk-gl-sites = 地点
+
+js-desk-gl-sub = 地球固定、WGS-84
+
+js-desk-gl-title = 地球儀
+
+js-desk-gl-tools = 地球儀
+
+js-desk-gl-track = 実行の軌跡
+
+js-desk-gl-traffic = カーソル時点の船舶と航空機
+
 js-desk-home-all-in = この分野の { $n } 件すべて →
 
 js-desk-home-areas = 質問から始める
@@ -435,6 +549,38 @@ js-desk-ins-result = 結果
 
 js-desk-inspector = インスペクター
 
+js-desk-iq-cannot = この記録は、アプリのネイティブ側だけがパスから読み取れます。
+
+js-desk-iq-centre = 中心周波数
+
+js-desk-iq-draw = 描画
+
+js-desk-iq-failed = 記録を読み取れませんでした：{ $reason }
+
+js-desk-iq-ins = 記録
+
+js-desk-iq-need-rate = サンプルレート（毎秒サンプル数）を入力してください。生の記録には含まれていません。
+
+js-desk-iq-nfft = FFT サイズ
+
+js-desk-iq-note = { $from } s からの記録 { $s } s（{ $n } サンプル、{ $fmt }）。電力はフルスケールのサンプル基準（dBFS/Hz）：記録には校正情報がありません。
+
+js-desk-iq-offset = 開始（s）
+
+js-desk-iq-rate = サンプルレート（Hz）
+
+js-desk-iq-read-only = 読み取り専用、ブロック単位：記録全体を読み込むことはありません。
+
+js-desk-iq-reading = 記録をブロック単位で読み取っています…
+
+js-desk-iq-short = そこにはスペクトルに必要なサンプルが足りません。
+
+js-desk-iq-spectrum = スペクトル（Welch 法）
+
+js-desk-iq-sub = { $nfft } サンプルの区間 { $n } 個、ハン窓、RBW { $rbw } Hz
+
+js-desk-iq-waterfall = ウォーターフォール
+
 js-desk-json-cut = 結果が長いため、ドキュメント全体は「エクスポート」の「結果 JSON」にあります。
 
 js-desk-key-figures = 主要指標
@@ -454,6 +600,8 @@ js-desk-lib-title = シナリオライブラリ
 
 js-desk-links-remove = 削除
 
+js-desk-links-spectrum = スペクトル
+
 js-desk-links-title = プロジェクトのデータリンク
 
 js-desk-load-failed = { $file } を読み込めませんでした。
@@ -463,6 +611,8 @@ js-desk-loading = 読み込み中…
 js-desk-log-cell = 実行 { $n }：スイープのセル { $where }
 
 js-desk-log-compare = 実行 #{ $a } と #{ $b } を比較
+
+js-desk-log-course = レッスン { $title }
 
 js-desk-log-diff = 実行 #{ $a } と #{ $b } の差分
 
@@ -474,15 +624,21 @@ js-desk-log-export = 実行 { $n } の { $what } をエクスポート
 
 js-desk-log-inspect = { $name } を確認
 
+js-desk-log-iq = { $name } のスペクトル
+
 js-desk-log-layout = { $title } のペイン：{ $what }
 
 js-desk-log-layout-saved = レイアウト { $name } を保存しました
+
+js-desk-log-live = { $source } からのライブ { $format }
 
 js-desk-log-markers = 実行 { $n } のマーカー
 
 js-desk-log-open = { $title } を開く
 
 js-desk-log-pack = 実行 { $n } のエビデンスパック
+
+js-desk-log-plots = { $title } のプロット
 
 js-desk-log-project = プロジェクト { $dir } を開く
 
@@ -501,6 +657,48 @@ js-desk-log-sky = { $title } のスカイプロット
 js-desk-log-sweep = スイープ { $n }：{ $title }、{ $cells } 件の実行
 
 js-desk-log-tracks = { $name } の船舶と航空機
+
+js-desk-lv-ais = AIS、NMEA 0183 センテンス（TCP または UDP）
+
+js-desk-lv-avr = ADS-B、AVR 16 進行（ポート 30002）
+
+js-desk-lv-bad = ソースは tcp:<host>:<port>、AIS の場合は udp:<address>:<port> の形で入力してください。
+
+js-desk-lv-beast = ADS-B、Beast（dump1090 / readsb ポート 30005）
+
+js-desk-lv-follow = 最新に追従
+
+js-desk-lv-format = 形式
+
+js-desk-lv-honest = 放送されたままの位置。各リーダーがメッセージ自身のフィールドから導く品質クラスで色分けしています。位置が正しいかの判定ではありません。航行用ではありません。
+
+js-desk-lv-lede = 受信機の TCP または UDP 出力から AIS を、またはこのコンピューターかネットワーク上の dump1090 や readsb から ADS-B を読み、地図上で交通を見ます。アプリは読み取るだけで、メッセージはエンジン自身のリーダーが復号します。
+
+js-desk-lv-network = この UDP ソースは、このコンピューターだけでなくネットワークからのデータグラムも受け取ります。
+
+js-desk-lv-note = 時刻は各メッセージがこのコンピューターに届いた時刻です。読み取り専用。
+
+js-desk-lv-pause = 更新を一時停止
+
+js-desk-lv-reading = { $source }（{ $format }）を読み取り中：メッセージ { $n } 件、保持 { $kept } 件（直近 { $min } 分）。
+
+js-desk-lv-resume = 更新を再開
+
+js-desk-lv-show = 地図を表示
+
+js-desk-lv-source = ソース：tcp:<host>:<port>、AIS の場合は udp:<address>:<port>
+
+js-desk-lv-start = 開始
+
+js-desk-lv-stopped = 読み取っていません。
+
+js-desk-lv-stopped-err = 停止しました：{ $reason }
+
+js-desk-lv-tab = ライブ：{ $source }
+
+js-desk-lv-title = 船舶と航空機のライブ表示
+
+js-desk-lv-waiting = 最初の位置を待っています…
 
 js-desk-map-area = 干渉区域（{ $ev }）
 
@@ -608,6 +806,8 @@ js-desk-native = ネイティブ
 
 js-desk-nav-console = コンソール
 
+js-desk-nav-course = コース
+
 js-desk-nav-devices = デバイス
 
 js-desk-nav-evidence = エビデンスパック
@@ -620,9 +820,79 @@ js-desk-nav-library = シナリオライブラリ
 
 js-desk-nav-main = メイン
 
+js-desk-nav-notebook = Python ノートブック
+
 js-desk-nav-pro = PRO
 
 js-desk-nav-runs = 実行
+
+js-desk-nb-add-code = コードを追加
+
+js-desk-nb-add-text = テキストを追加
+
+js-desk-nb-check = 再確認
+
+js-desk-nb-cite = 引用
+
+js-desk-nb-code = Python セル { $n }
+
+js-desk-nb-console = コンソール
+
+js-desk-nb-console-note = Enter で実行、Shift+Enter で改行します。コンソールはノートブックとセッションを共有します。履歴はプロジェクトに保存されません。
+
+js-desk-nb-delete = 削除
+
+js-desk-nb-down = 下へ移動
+
+js-desk-nb-export-ipynb = Jupyter
+
+js-desk-nb-found = Python { $py }（{ $exe }）、kshana パッケージ { $ver }。
+
+js-desk-nb-from-console = コンソールの Python を追加
+
+js-desk-nb-interp = 使用する Python（空欄：python3、次に python）
+
+js-desk-nb-kept = プロジェクトに notebooks/{ $file } として保存されます。そのまま Jupyter で開けます。PDF にはセルのテキストと出力が入り、図は HTML と Jupyter のファイルにあります。
+
+js-desk-nb-lede = プロジェクトと一緒に保存される Python セルとメモ。このコンピューターの Python と kshana パッケージ（pip install kshana）で実行します。セルはプロジェクトフォルダーで開始した 1 つのセッションを共有します。
+
+js-desk-nb-mirror-empty = コンソールにはまだ Python の行がありません。
+
+js-desk-nb-new = 新しいノートブック
+
+js-desk-nb-new-ph = ホールドオーバーの検討
+
+js-desk-nb-no-kshana = Python { $py }（{ $exe }）は動きますが、kshana パッケージをインポートできません：pip install kshana。使わないセルは実行できます。
+
+js-desk-nb-no-native = Python はアプリのネイティブ側で動きますが、このウィンドウにはそれがありません。
+
+js-desk-nb-no-python = このコンピューターで Python が見つかりませんでした（試行：{ $tried }）。Python 3（python.org かシステムのパッケージ）をインストールし、pip install kshana を実行してから再確認してください。
+
+js-desk-nb-none = このプロジェクトにはまだノートブックがありません。
+
+js-desk-nb-pick = ノートブック
+
+js-desk-nb-probing = Python を探しています…
+
+js-desk-nb-run = 実行
+
+js-desk-nb-run-all = すべて実行
+
+js-desk-nb-running = 実行中…
+
+js-desk-nb-stop = セッションを終了
+
+js-desk-nb-stopped = Python セッションを終了しました。次のセルで新しいセッションが始まります。
+
+js-desk-nb-text = テキストセル { $n }
+
+js-desk-nb-title = Python ノートブック
+
+js-desk-nb-tools = ノートブックのツール
+
+js-desk-nb-untitled = ノートブック { $n }
+
+js-desk-nb-up = 上へ移動
 
 js-desk-new-tab = 新しいタブでシナリオを開く
 
@@ -709,6 +979,22 @@ js-desk-panel-wait = 実行が終わると結果がここに表示されます�
 js-desk-pin = ピン留め
 
 js-desk-pin-run = 実行 { $n } をピン留め
+
+js-desk-pk-added = 地域パック { $name } をプロジェクトに追加しました。
+
+js-desk-pk-bad = { $name } は地域パック（kshana-mappack/1）ではありません。
+
+js-desk-pk-lede = 地域の詳細な海岸線。Natural Earth（パブリックドメイン）から作り、プロジェクトの packs/ フォルダーに保存します。パックが表示範囲全体を含むとき（ズーム 5 以上）、地図は 1:50m の陸地の代わりにパックを描き、地球儀もその海岸線を描きます。apps/desktop/tools/pack_natural_earth.py --region で Natural Earth の 1:10m 陸地から作成できます。
+
+js-desk-pk-open = 地域パックを追加…
+
+js-desk-pk-sample = 付属のバルト海パックを追加（1:10m）
+
+js-desk-pk-title = オフライン地域パック
+
+js-desk-pl-from = 結果の { $paths } から、エンジンが書いたとおりに。
+
+js-desk-pl-none = この結果にはアラン偏差、MTIE、TDEV、スタンフォード、スペクトルの出力がありません。
 
 js-desk-plot-none = この結果には時間に沿った系列がありません。
 
@@ -1031,6 +1317,8 @@ js-desk-up-title = Pro で追加されるもの
 
 js-desk-view-chart = グラフ
 
+js-desk-view-globe = 地球儀
+
 js-desk-view-group = 表示
 
 js-desk-view-json = JSON
@@ -1038,6 +1326,8 @@ js-desk-view-json = JSON
 js-desk-view-map = 地図
 
 js-desk-view-panes = ペイン
+
+js-desk-view-plots = プロット
 
 js-desk-view-sky = 天空
 

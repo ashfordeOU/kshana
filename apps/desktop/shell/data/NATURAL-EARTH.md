@@ -25,3 +25,18 @@ To rebuild (download into a fresh, empty directory first and treat the files as 
 python3 -I apps/desktop/tools/pack_natural_earth.py --scale 110m --quantum 0.01  --version 5.2.0-pre ne_110m_land.geojson apps/desktop/shell/data/land-110m.json
 python3 -I apps/desktop/tools/pack_natural_earth.py --scale 50m  --quantum 0.002 --version 5.2.0-pre ne_50m_land.geojson  apps/desktop/shell/data/land-50m.json
 ```
+
+## Offline region packs (0.42 U24)
+
+`packs/baltic-10m.mappack.json` is the 1:10m land of the Baltic Sea (box 9° E to 31° E, 53° N
+to 66° N; 572 rings, 14,403 vertices, 92 KB), from `ne_10m_land.geojson` of the
+`nvkelso/natural-earth-vector` repository at tag `v5.1.2` (downloaded 15 Nov 2026), clipped to
+the box and simplified at 0.002° by the same script:
+
+```bash
+python3 -I apps/desktop/tools/pack_natural_earth.py --scale 10m --quantum 0.001 --tolerance 0.002 --version 5.1.2 \
+    --region 9,53,31,66 --name "Baltic Sea" ne_10m_land.geojson apps/desktop/shell/data/packs/baltic-10m.mappack.json
+```
+
+A pack is `{format: "kshana-mappack/1", name, bbox: [west, south, east, north], source, licence,
+land: <a kshana-land/1 layer>}`. Public domain, like the layers above.

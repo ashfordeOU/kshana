@@ -154,6 +154,29 @@ export function sphereWire(r, centre = [0, 0, 0], nLat = 9, nLon = 12, seg = 72)
   return out;
 }
 
+/**
+ * A solid globe: an ellipsoid of equatorial radius `r` and flattening `f` (z to the pole), as
+ * positions, normals, texture coordinates (u east from -180°, v south from 90°: an
+ * equirectangular image) and triangle indices.
+ */
+export function globeMesh(r, f = 0, nu = 96, nv = 48, centre = [0, 0, 0]) {
+  const pos = [], nor = [], uv = [], idx = [];
+  const b = r * (1 - f);
+  for (let j = 0; j <= nv; j++) {
+    const lat = Math.PI / 2 - (j / nv) * Math.PI, cl = Math.cos(lat), sl = Math.sin(lat);
+    for (let i = 0; i <= nu; i++) {
+      const lon = -Math.PI + (i / nu) * 2 * Math.PI;
+      const x = cl * Math.cos(lon), y = cl * Math.sin(lon), z = sl;
+      pos.push(centre[0] + r * x, centre[1] + r * y, centre[2] + b * z);
+      const n = unit([x / r, y / r, z / b]);
+      nor.push(n[0], n[1], n[2]);
+      uv.push(i / nu, j / nv);
+    }
+  }
+  for (let j = 0; j < nv; j++) for (let i = 0; i < nu; i++) { const a = j * (nu + 1) + i, c = a + nu + 1; idx.push(a, c, a + 1, a + 1, c, c + 1); }
+  return { positions: pos, normals: nor, uvs: uv, indices: idx };
+}
+
 /** A surface from a grid z[j][i] over xs (i) and ys (j): node positions, normals and triangles; NaN nodes leave holes. */
 export function surfaceMesh(xs, ys, z) {
   const nx = xs.length, ny = ys.length, pos = new Float32Array(nx * ny * 3), nor = new Float32Array(nx * ny * 3), idx = [];

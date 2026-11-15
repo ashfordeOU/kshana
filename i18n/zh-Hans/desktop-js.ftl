@@ -1,6 +1,8 @@
 # Kshana Desktop shell (apps/desktop/shell): the messages of i18n/en/desktop-js.ftl in this language.
 # Machine translation, not reviewed by a native speaker. English is the reference.
 
+js-desk-act-bridge = 舰桥（红色）模式开或关
+
 js-desk-act-compare = 比较所选的 2 次运行
 
 js-desk-act-compare-hint = 在“运行”中选择两次
@@ -11,6 +13,8 @@ js-desk-act-console = 显示控制台（Python 和命令行）
 
 js-desk-act-copy-py = 将会话复制为 Python
 
+js-desk-act-course = 课程：引导式课程
+
 js-desk-act-density-comfortable = 视图：宽松密度
 
 js-desk-act-density-compact = 视图：紧凑密度
@@ -19,9 +23,17 @@ js-desk-act-export = 导出此次运行的证据包
 
 js-desk-act-file = 打开场景文件…
 
+js-desk-act-globe = 本次运行的地球仪
+
 js-desk-act-library = 浏览场景库
 
+js-desk-act-live = 来自接收机的实时 AIS 或 ADS-B
+
+js-desk-act-notebook = Python 笔记本和控制台
+
 js-desk-act-panes = 窗格：曲线、地图、天空、检查器和控制台并排显示
+
+js-desk-act-plots = 图表：阿伦偏差、MTIE、TDEV、斯坦福图、频谱
 
 js-desk-act-project = 项目、数据链接和拖入的文件
 
@@ -49,6 +61,12 @@ js-desk-ago-s = { $n } 秒前
 
 js-desk-at-cursor = 光标处
 
+js-desk-bridge = 舰桥
+
+js-desk-bridge-off = 舰桥模式已关闭。
+
+js-desk-bridge-on = 舰桥模式：窗口以黑底红色显示。
+
 js-desk-cancel = 取消
 
 js-desk-chart-not-drawn = 无法绘制此图表。
@@ -56,6 +74,62 @@ js-desk-chart-not-drawn = 无法绘制此图表。
 js-desk-clear = 清除选择
 
 js-desk-close-tab = 关闭 { $title }
+
+js-desk-co-assistant = 计划提供一个回答课程问题的助手；本版本中尚未包含。
+
+js-desk-co-at = 第 { $n } 步，共 { $total } 步
+
+js-desk-co-back = 上一步
+
+js-desk-co-compare = 第一次运行 { $a } → 本次运行 { $b }
+
+js-desk-co-continue = 继续
+
+js-desk-co-done = 已完成
+
+js-desk-co-english = 课程以英文编写。
+
+js-desk-co-failed = 无法读取课程：{ $reason }
+
+js-desk-co-finish = 完成本课
+
+js-desk-co-finished = 本课已完成。
+
+js-desk-co-kits = 论文复现套件：论文的场景和图（仓库中的 paper/ 和 paper-artifacts/）从命令行运行；本窗口中的引导式套件尚未制作。
+
+js-desk-co-leave = 退出本课
+
+js-desk-co-lede = 基于内置场景的引导式课程：每一步说明运行什么、看哪里、改什么，并在您自己的运行中检查。课程讲解引擎的模型；它们是教学材料，不是考核或资质。
+
+js-desk-co-lesson = 课程：{ $title }
+
+js-desk-co-loading = 正在加载课程…
+
+js-desk-co-met = ✓ 完成
+
+js-desk-co-more = 课程的其他内容
+
+js-desk-co-new = { $n } 步，约 { $min } 分钟
+
+js-desk-co-next = 下一步
+
+js-desk-co-no-field = 此场景没有设置 { $key }。
+
+js-desk-co-skip = 跳过此步
+
+js-desk-co-start = 开始
+
+js-desk-co-step = 课程 · 第 { $n } 步，共 { $total } 步
+
+js-desk-co-title = 课程
+
+js-desk-co-try = 试着修改
+
+js-desk-co-try-set = 设为 { $v } 并运行
+
+js-desk-co-value = 值 { $v }
+
+js-desk-co-wait = 等待完成此步
 
 js-desk-col-change = B − A
 
@@ -165,6 +239,8 @@ js-desk-det-no-scenario = 此文件保留为数据链接；没有场景会单独
 js-desk-det-objects = 对象
 
 js-desk-det-open-clock = 在时钟仿真旁打开
+
+js-desk-det-open-iq = 频谱和瀑布图
 
 js-desk-det-open-tracks = 在地图上显示船舶与航空器
 
@@ -413,6 +489,44 @@ js-desk-free-edition = 免费版
 
 js-desk-free-line = 机队、取证和签名档案属于 Pro。
 
+js-desk-gl-bridge = 舰桥（红色）
+
+js-desk-gl-coast = 海岸线（Natural Earth）
+
+js-desk-gl-cover = 光标时刻 { $mask }° 以上的覆盖范围
+
+js-desk-gl-earth = 地球（WGS-84）
+
+js-desk-gl-follow = 跟随
+
+js-desk-gl-follow-none = 跟随：无
+
+js-desk-gl-follow-x = 跟随：{ $name }
+
+js-desk-gl-grat = 经纬网 30°
+
+js-desk-gl-imagery = 影像
+
+js-desk-gl-imagery-off = 影像：关
+
+js-desk-gl-imagery-wait = 影像：瓦片只获取一次，之后保存在本机上。
+
+js-desk-gl-note = 位置按引擎导出的数据（地固坐标，高度相对 WGS-84）。覆盖范围：在球形地球上，每颗卫星高于仰角掩码时可见的地面区域。海岸线来自 Natural Earth（公有领域）。
+
+js-desk-gl-pack = 区域包：{ $name }
+
+js-desk-gl-sites = 站点
+
+js-desk-gl-sub = 地固坐标，WGS-84
+
+js-desk-gl-title = 地球仪
+
+js-desk-gl-tools = 地球仪
+
+js-desk-gl-track = 运行的轨迹
+
+js-desk-gl-traffic = 光标时刻的船舶和飞机
+
 js-desk-home-all-in = 此领域全部 { $n } 个 →
 
 js-desk-home-areas = 从一个问题开始
@@ -435,6 +549,38 @@ js-desk-ins-result = 结果
 
 js-desk-inspector = 检查器
 
+js-desk-iq-cannot = 此记录只能由应用的本机部分通过其路径读取。
+
+js-desk-iq-centre = 中心频率
+
+js-desk-iq-draw = 绘制
+
+js-desk-iq-failed = 无法读取记录：{ $reason }
+
+js-desk-iq-ins = 记录
+
+js-desk-iq-need-rate = 请输入采样率（每秒采样数）：原始记录不包含此信息。
+
+js-desk-iq-nfft = FFT 长度
+
+js-desk-iq-note = 记录自 { $from } s 起的 { $s } s（{ $n } 个采样，{ $fmt }）。功率相对于满量程采样（dBFS/Hz）：记录不含校准信息。
+
+js-desk-iq-offset = 起点（s）
+
+js-desk-iq-rate = 采样率（Hz）
+
+js-desk-iq-read-only = 只读，按块读取：从不整体载入记录。
+
+js-desk-iq-reading = 正在按块读取记录…
+
+js-desk-iq-short = 该处采样太少，无法计算频谱。
+
+js-desk-iq-spectrum = 频谱（Welch 法）
+
+js-desk-iq-sub = { $n } 段，每段 { $nfft } 个采样，汉宁窗，RBW { $rbw } Hz
+
+js-desk-iq-waterfall = 瀑布图
+
 js-desk-json-cut = 结果较长：完整文档位于“导出”中的“结果 JSON”。
 
 js-desk-key-figures = 关键指标
@@ -454,6 +600,8 @@ js-desk-lib-title = 场景库
 
 js-desk-links-remove = 移除
 
+js-desk-links-spectrum = 频谱
+
 js-desk-links-title = 项目的数据链接
 
 js-desk-load-failed = 无法加载 { $file }。
@@ -463,6 +611,8 @@ js-desk-loading = 正在加载…
 js-desk-log-cell = 运行 { $n }：扫描单元 { $where }
 
 js-desk-log-compare = 比较运行 #{ $a } 和 #{ $b }
+
+js-desk-log-course = 课程 { $title }
 
 js-desk-log-diff = 运行 #{ $a } 和 #{ $b } 的差异
 
@@ -474,15 +624,21 @@ js-desk-log-export = 导出运行 { $n } 的 { $what }
 
 js-desk-log-inspect = 检查 { $name }
 
+js-desk-log-iq = { $name } 的频谱
+
 js-desk-log-layout = { $title } 的窗格：{ $what }
 
 js-desk-log-layout-saved = 已保存布局 { $name }
+
+js-desk-log-live = 来自 { $source } 的实时 { $format }
 
 js-desk-log-markers = 运行 { $n } 上的标记
 
 js-desk-log-open = 打开 { $title }
 
 js-desk-log-pack = 运行 { $n } 的证据包
+
+js-desk-log-plots = { $title } 的图表
 
 js-desk-log-project = 打开项目 { $dir }
 
@@ -501,6 +657,48 @@ js-desk-log-sky = { $title } 的天空图
 js-desk-log-sweep = 扫描 { $n }：{ $title }，{ $cells } 次运行
 
 js-desk-log-tracks = 来自 { $name } 的船舶与航空器
+
+js-desk-lv-ais = AIS，NMEA 0183 语句（TCP 或 UDP）
+
+js-desk-lv-avr = ADS-B，AVR 十六进制行（端口 30002）
+
+js-desk-lv-bad = 请将来源写成 tcp:<host>:<port>，AIS 也可用 udp:<address>:<port>。
+
+js-desk-lv-beast = ADS-B，Beast（dump1090 / readsb 端口 30005）
+
+js-desk-lv-follow = 跟随最新
+
+js-desk-lv-format = 格式
+
+js-desk-lv-honest = 按广播的位置显示，颜色表示每个读取器根据消息自身字段得出的质量等级；并非判定位置是否真实。不可用于导航。
+
+js-desk-lv-lede = 从接收机的 TCP 或 UDP 输出读取 AIS，或从本机或您网络上的 dump1090、readsb 读取 ADS-B，并在地图上查看交通。应用只读取；消息由引擎自带的读取器解码。
+
+js-desk-lv-network = 此 UDP 来源接收来自网络的数据报，而不仅限于本机。
+
+js-desk-lv-note = 时间为每条消息到达本机的时刻。只读。
+
+js-desk-lv-pause = 暂停更新
+
+js-desk-lv-reading = 正在读取 { $source }（{ $format }）：{ $n } 条消息，保留 { $kept } 条（最近 { $min } 分钟）。
+
+js-desk-lv-resume = 恢复更新
+
+js-desk-lv-show = 显示地图
+
+js-desk-lv-source = 来源：tcp:<host>:<port>，AIS 也可用 udp:<address>:<port>
+
+js-desk-lv-start = 开始
+
+js-desk-lv-stopped = 未在读取。
+
+js-desk-lv-stopped-err = 已停止：{ $reason }
+
+js-desk-lv-tab = 实时：{ $source }
+
+js-desk-lv-title = 实时船舶和飞机
+
+js-desk-lv-waiting = 正在等待首批位置…
 
 js-desk-map-area = 干扰区域（{ $ev }）
 
@@ -608,6 +806,8 @@ js-desk-native = 原生
 
 js-desk-nav-console = 控制台
 
+js-desk-nav-course = 课程
+
 js-desk-nav-devices = 设备
 
 js-desk-nav-evidence = 证据包
@@ -620,9 +820,79 @@ js-desk-nav-library = 场景库
 
 js-desk-nav-main = 主菜单
 
+js-desk-nav-notebook = Python 笔记本
+
 js-desk-nav-pro = PRO
 
 js-desk-nav-runs = 运行
+
+js-desk-nb-add-code = 添加代码
+
+js-desk-nb-add-text = 添加文本
+
+js-desk-nb-check = 重新检查
+
+js-desk-nb-cite = 引用
+
+js-desk-nb-code = Python 单元 { $n }
+
+js-desk-nb-console = 控制台
+
+js-desk-nb-console-note = Enter 运行；Shift+Enter 换行。控制台与笔记本共用一个会话；其历史不保存在项目中。
+
+js-desk-nb-delete = 删除
+
+js-desk-nb-down = 下移
+
+js-desk-nb-export-ipynb = Jupyter
+
+js-desk-nb-found = Python { $py }（{ $exe }），kshana 包 { $ver }。
+
+js-desk-nb-from-console = 添加控制台中的 Python
+
+js-desk-nb-interp = 要使用的 Python（留空：先 python3，再 python）
+
+js-desk-nb-kept = 在项目中保存为 notebooks/{ $file }；可直接在 Jupyter 中打开。PDF 包含单元的文本及其输出；图在 HTML 和 Jupyter 文件中。
+
+js-desk-nb-lede = 随项目保存的 Python 单元和笔记，由本机的 Python 和 kshana 包（pip install kshana）运行。各单元共用一个在项目文件夹中启动的会话。
+
+js-desk-nb-mirror-empty = 控制台中还没有 Python 行。
+
+js-desk-nb-new = 新建笔记本
+
+js-desk-nb-new-ph = 保持时间研究
+
+js-desk-nb-no-kshana = Python { $py }（{ $exe }）可运行，但无法在其中导入 kshana 包：pip install kshana。不使用它的单元仍可运行。
+
+js-desk-nb-no-native = Python 通过应用的本机部分运行，而此窗口没有该部分。
+
+js-desk-nb-no-python = 本机未找到 Python（已尝试：{ $tried }）。请安装 Python 3（python.org 或系统软件包），然后运行 pip install kshana，再重新检查。
+
+js-desk-nb-none = 此项目中还没有笔记本。
+
+js-desk-nb-pick = 笔记本
+
+js-desk-nb-probing = 正在查找 Python…
+
+js-desk-nb-run = 运行
+
+js-desk-nb-run-all = 全部运行
+
+js-desk-nb-running = 正在运行…
+
+js-desk-nb-stop = 结束会话
+
+js-desk-nb-stopped = Python 会话已结束；下一个单元将启动新会话。
+
+js-desk-nb-text = 文本单元 { $n }
+
+js-desk-nb-title = Python 笔记本
+
+js-desk-nb-tools = 笔记本工具
+
+js-desk-nb-untitled = 笔记本 { $n }
+
+js-desk-nb-up = 上移
 
 js-desk-new-tab = 在新标签页中打开场景
 
@@ -709,6 +979,22 @@ js-desk-panel-wait = 运行完成后结果会显示在这里。
 js-desk-pin = 置顶
 
 js-desk-pin-run = 置顶运行 { $n }
+
+js-desk-pk-added = 已将区域包 { $name } 添加到项目。
+
+js-desk-pk-bad = { $name } 不是区域包（kshana-mappack/1）。
+
+js-desk-pk-lede = 某一区域更精细的海岸线，来自 Natural Earth（公有领域），保存在项目的 packs/ 文件夹中。当区域包覆盖整个视图（缩放 5 级起）时，地图用它代替 1:50m 陆地绘制；地球仪也会绘制其海岸线。apps/desktop/tools/pack_natural_earth.py --region 可由 Natural Earth 的 1:10m 陆地生成区域包。
+
+js-desk-pk-open = 添加区域包…
+
+js-desk-pk-sample = 添加内置的波罗的海区域包（1:10m）
+
+js-desk-pk-title = 离线区域包
+
+js-desk-pl-from = 取自结果的 { $paths }，与引擎写入的一致。
+
+js-desk-pl-none = 该结果没有阿伦偏差、MTIE、TDEV、斯坦福图或频谱输出。
 
 js-desk-plot-none = 此结果中没有随时间变化的序列。
 
@@ -1031,6 +1317,8 @@ js-desk-up-title = Pro 增加的功能
 
 js-desk-view-chart = 图表
 
+js-desk-view-globe = 地球仪
+
 js-desk-view-group = 视图
 
 js-desk-view-json = JSON
@@ -1038,6 +1326,8 @@ js-desk-view-json = JSON
 js-desk-view-map = 地图
 
 js-desk-view-panes = 窗格
+
+js-desk-view-plots = 图表
 
 js-desk-view-sky = 天空
 

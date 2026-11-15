@@ -1,6 +1,8 @@
 # Kshana Desktop shell (apps/desktop/shell): the messages of i18n/en/desktop-js.ftl in this language.
 # Machine translation, not reviewed by a native speaker. English is the reference.
 
+js-desk-act-bridge = Komentosiltatila (punainen) päälle tai pois
+
 js-desk-act-compare = Vertaa kahta valittua ajoa
 
 js-desk-act-compare-hint = valitse kaksi kohdassa Ajot
@@ -11,6 +13,8 @@ js-desk-act-console = Näytä konsoli (Python ja komentorivit)
 
 js-desk-act-copy-py = Kopioi istunto Pythonina
 
+js-desk-act-course = Kurssi: ohjatut oppitunnit
+
 js-desk-act-density-comfortable = Näkymä: väljä tiheys
 
 js-desk-act-density-compact = Näkymä: tiivis tiheys
@@ -19,9 +23,17 @@ js-desk-act-export = Vie tämän ajon todistepaketti
 
 js-desk-act-file = Avaa skenaariotiedosto…
 
+js-desk-act-globe = Tämän ajon maapallo
+
 js-desk-act-library = Selaa skenaariokirjastoa
 
+js-desk-act-live = AIS tai ADS-B suorana vastaanottimelta
+
+js-desk-act-notebook = Python-muistikirja ja konsoli
+
 js-desk-act-panes = Ruudut: kuvaaja, kartta, taivas, tarkastin ja konsoli rinnakkain
+
+js-desk-act-plots = Kuvaajat: Allan-hajonta, MTIE, TDEV, Stanford, spektri
 
 js-desk-act-project = Projekti, datalinkit ja pudotetut tiedostot
 
@@ -49,6 +61,12 @@ js-desk-ago-s = { $n } s sitten
 
 js-desk-at-cursor = Kohdistimessa
 
+js-desk-bridge = Komentosilta
+
+js-desk-bridge-off = Komentosiltatila pois.
+
+js-desk-bridge-on = Komentosiltatila: ikkuna punaisin sävyin mustalla.
+
 js-desk-cancel = Peruuta
 
 js-desk-chart-not-drawn = Tätä kuvaajaa ei voitu piirtää.
@@ -56,6 +74,62 @@ js-desk-chart-not-drawn = Tätä kuvaajaa ei voitu piirtää.
 js-desk-clear = Tyhjennä valinta
 
 js-desk-close-tab = Sulje { $title }
+
+js-desk-co-assistant = Oppitunnin kysymyksiin vastaava avustaja on suunnitteilla; se ei ole tässä versiossa.
+
+js-desk-co-at = vaihe { $n }/{ $total }
+
+js-desk-co-back = Takaisin
+
+js-desk-co-compare = ensimmäinen ajo { $a } → tämä ajo { $b }
+
+js-desk-co-continue = Jatka
+
+js-desk-co-done = valmis
+
+js-desk-co-english = Oppitunnit on kirjoitettu englanniksi.
+
+js-desk-co-failed = Oppitunteja ei voitu lukea: { $reason }
+
+js-desk-co-finish = Päätä oppitunti
+
+js-desk-co-finished = Oppitunti päättyi.
+
+js-desk-co-kits = Artikkelin toistopaketit: artikkelin skenaariot ja kuvat (paper/ ja paper-artifacts/ arkistossa) ajetaan komentoriviltä; ohjattua pakettia tässä ikkunassa ei ole vielä tehty.
+
+js-desk-co-leave = Poistu oppitunnilta
+
+js-desk-co-lede = Ohjattuja oppitunteja mukana tulevista skenaarioista: jokainen vaihe kertoo, mitä ajaa, mihin katsoa ja mitä muuttaa, ja tarkistaa sen omista ajoistasi. Oppitunnit selittävät moottorin malleja; ne ovat opetusmateriaalia, eivät arviointi tai pätevyys.
+
+js-desk-co-lesson = Oppitunti: { $title }
+
+js-desk-co-loading = Ladataan oppitunteja…
+
+js-desk-co-met = ✓ Valmis
+
+js-desk-co-more = Kurssilla myös
+
+js-desk-co-new = { $n } vaihetta, noin { $min } min
+
+js-desk-co-next = Seuraava
+
+js-desk-co-no-field = Tässä skenaariossa ei ole asetusta { $key }.
+
+js-desk-co-skip = Ohita tämä vaihe
+
+js-desk-co-start = Aloita
+
+js-desk-co-step = Oppitunti · vaihe { $n }/{ $total }
+
+js-desk-co-title = Kurssi
+
+js-desk-co-try = Kokeile muuttaa
+
+js-desk-co-try-set = Aseta arvoon { $v } ja aja
+
+js-desk-co-value = arvo { $v }
+
+js-desk-co-wait = Odottaa tätä vaihetta
 
 js-desk-col-change = B − A
 
@@ -166,6 +240,8 @@ js-desk-det-no-scenario = Tämä tiedosto säilytetään datalinkkinä; mikään
 js-desk-det-objects = kohteet
 
 js-desk-det-open-clock = Avaa kellosimulaation viereen
+
+js-desk-det-open-iq = Spektri ja vesiputous
 
 js-desk-det-open-tracks = Näytä laivat ja lentokoneet kartalla
 
@@ -415,6 +491,44 @@ js-desk-free-edition = Ilmainen versio
 
 js-desk-free-line = Laivasto, forensiikka ja allekirjoitetut asiakirjakokonaisuudet kuuluvat Prohon.
 
+js-desk-gl-bridge = Komentosilta (punainen)
+
+js-desk-gl-coast = rantaviivat (Natural Earth)
+
+js-desk-gl-cover = peitto yli { $mask }° kohdistimen kohdalla
+
+js-desk-gl-earth = Maa (WGS-84)
+
+js-desk-gl-follow = Seuraa
+
+js-desk-gl-follow-none = Seuraa: ei mitään
+
+js-desk-gl-follow-x = Seuraa: { $name }
+
+js-desk-gl-grat = asteverkko 30°
+
+js-desk-gl-imagery = Kuvat
+
+js-desk-gl-imagery-off = Kuvat: pois
+
+js-desk-gl-imagery-wait = Kuvat: ruudut haetaan kerran; sen jälkeen ne säilytetään tällä tietokoneella.
+
+js-desk-gl-note = Sijainnit kuten moottori ne vie (maakiinteät, korkeudet WGS-84:n yläpuolella). Peitto: alue, josta kukin satelliitti näkyy korkeusmaskin yläpuolella, pallomaisella Maalla. Rantaviivat Natural Earth (vapaasti käytettävä).
+
+js-desk-gl-pack = aluepaketti: { $name }
+
+js-desk-gl-sites = paikat
+
+js-desk-gl-sub = maakiinteä, WGS-84
+
+js-desk-gl-title = Maapallo
+
+js-desk-gl-tools = Maapallo
+
+js-desk-gl-track = ajon jälki
+
+js-desk-gl-traffic = alukset ja ilma-alukset kohdistimen kohdalla
+
 js-desk-home-all-in = Kaikki { $n } tällä alueella →
 
 js-desk-home-areas = Aloita kysymyksellä
@@ -437,6 +551,38 @@ js-desk-ins-result = Tulos
 
 js-desk-inspector = Tarkastin
 
+js-desk-iq-cannot = Tämän tallenteen voi lukea vain sovelluksen natiivi osa sen polun kautta.
+
+js-desk-iq-centre = keskitaajuus
+
+js-desk-iq-draw = Piirrä
+
+js-desk-iq-failed = Tallennetta ei voitu lukea: { $reason }
+
+js-desk-iq-ins = Tallenne
+
+js-desk-iq-need-rate = Kirjoita näytteenottotaajuus (näytettä sekunnissa): raakatallenne ei sisällä sitä.
+
+js-desk-iq-nfft = FFT-koko
+
+js-desk-iq-note = { $s } s tallennetta alkaen { $from } s ({ $n } näytettä, { $fmt }). Teho suhteessa täyden asteikon näytteeseen (dBFS/Hz): tallenteessa ei ole kalibrointia.
+
+js-desk-iq-offset = Alkaen (s)
+
+js-desk-iq-rate = Näytteenottotaajuus (Hz)
+
+js-desk-iq-read-only = Vain luku, lohkoittain: tallennetta ei koskaan ladata kokonaan.
+
+js-desk-iq-reading = Luetaan tallennetta lohkoittain…
+
+js-desk-iq-short = Siinä on liian vähän näytteitä spektriä varten.
+
+js-desk-iq-spectrum = Spektri (Welch)
+
+js-desk-iq-sub = { $n } segmenttiä, { $nfft } näytettä kussakin, Hann-ikkuna, RBW { $rbw } Hz
+
+js-desk-iq-waterfall = Vesiputous
+
 js-desk-json-cut = Tulos on pitkä: koko asiakirja on kohdassa Vie, Tulos-JSON.
 
 js-desk-key-figures = Tunnusluvut
@@ -457,6 +603,8 @@ js-desk-lib-title = Skenaariokirjasto
 
 js-desk-links-remove = poista
 
+js-desk-links-spectrum = spektri
+
 js-desk-links-title = Projektin datalinkit
 
 js-desk-load-failed = Kohdetta { $file } ei voitu ladata.
@@ -466,6 +614,8 @@ js-desk-loading = Ladataan…
 js-desk-log-cell = Ajo { $n }: pyyhkäisyn solu { $where }
 
 js-desk-log-compare = Vertaa ajoja #{ $a } ja #{ $b }
+
+js-desk-log-course = Oppitunti { $title }
 
 js-desk-log-diff = Ajojen #{ $a } ja #{ $b } erot
 
@@ -477,15 +627,21 @@ js-desk-log-export = Vie { $what } ajosta { $n }
 
 js-desk-log-inspect = Tarkasta { $name }
 
+js-desk-log-iq = Tallenteen { $name } spektri
+
 js-desk-log-layout = Ruudut kohteelle { $title }: { $what }
 
 js-desk-log-layout-saved = Asettelu { $name } tallennettu
+
+js-desk-log-live = { $format } suorana lähteestä { $source }
 
 js-desk-log-markers = Merkit ajossa { $n }
 
 js-desk-log-open = Avaa { $title }
 
 js-desk-log-pack = Ajon { $n } todistepaketti
+
+js-desk-log-plots = Kohteen { $title } kuvaajat
 
 js-desk-log-project = Avaa projekti { $dir }
 
@@ -504,6 +660,48 @@ js-desk-log-sky = Taivaskuva: { $title }
 js-desk-log-sweep = Pyyhkäisy { $n }: { $title }, { $cells } ajoa
 
 js-desk-log-tracks = Laivat ja lentokoneet tiedostosta { $name }
+
+js-desk-lv-ais = AIS, NMEA 0183 -lauseet (TCP tai UDP)
+
+js-desk-lv-avr = ADS-B, AVR-heksarivit (portti 30002)
+
+js-desk-lv-bad = Kirjoita lähde muodossa tcp:<host>:<port>, tai AIS:lle udp:<address>:<port>.
+
+js-desk-lv-beast = ADS-B, Beast (dump1090 / readsb portti 30005)
+
+js-desk-lv-follow = Seuraa uusinta
+
+js-desk-lv-format = Muoto
+
+js-desk-lv-honest = Sijainnit lähetetyn mukaisina, väritettyinä laatuluokan mukaan, jonka kukin lukija johtaa viestin omista kentistä; ei arvio siitä, onko sijainti tosi. Ei navigointiin.
+
+js-desk-lv-lede = Lue AIS vastaanottimen TCP- tai UDP-lähdöstä tai ADS-B tällä tietokoneella tai verkossasi toimivasta dump1090:stä tai readsb:stä, ja seuraa liikennettä kartalla. Sovellus vain lukee; viestit purkavat moottorin omat lukijat.
+
+js-desk-lv-network = Tämä UDP-lähde ottaa vastaan datagrammeja verkosta, ei vain tältä tietokoneelta.
+
+js-desk-lv-note = Ajat ovat hetkiä, jolloin kukin viesti saapui tälle tietokoneelle. Vain luku.
+
+js-desk-lv-pause = Keskeytä päivitykset
+
+js-desk-lv-reading = Luetaan lähdettä { $source } ({ $format }): { $n } viestiä, { $kept } säilytetty (viimeiset { $min } min).
+
+js-desk-lv-resume = Jatka päivityksiä
+
+js-desk-lv-show = Näytä kartta
+
+js-desk-lv-source = Lähde: tcp:<host>:<port>, tai AIS:lle udp:<address>:<port>
+
+js-desk-lv-start = Käynnistä
+
+js-desk-lv-stopped = Ei lue.
+
+js-desk-lv-stopped-err = Pysäytetty: { $reason }
+
+js-desk-lv-tab = Suora: { $source }
+
+js-desk-lv-title = Alukset ja ilma-alukset suorana
+
+js-desk-lv-waiting = Odotetaan ensimmäisiä sijainteja…
 
 js-desk-map-area = häirintäalue ({ $ev })
 
@@ -611,6 +809,8 @@ js-desk-native = natiivi
 
 js-desk-nav-console = Konsoli
 
+js-desk-nav-course = Kurssi
+
 js-desk-nav-devices = Laitteet
 
 js-desk-nav-evidence = Todistepaketit
@@ -623,9 +823,79 @@ js-desk-nav-library = Skenaariokirjasto
 
 js-desk-nav-main = Päävalikko
 
+js-desk-nav-notebook = Python-muistikirja
+
 js-desk-nav-pro = PRO
 
 js-desk-nav-runs = Ajot
+
+js-desk-nb-add-code = Lisää koodi
+
+js-desk-nb-add-text = Lisää teksti
+
+js-desk-nb-check = Tarkista uudelleen
+
+js-desk-nb-cite = Viittaa
+
+js-desk-nb-code = Python-solu { $n }
+
+js-desk-nb-console = Konsoli
+
+js-desk-nb-console-note = Enter suorittaa; Vaihto+Enter aloittaa uuden rivin. Konsoli jakaa muistikirjan istunnon; sen historiaa ei tallenneta projektiin.
+
+js-desk-nb-delete = poista
+
+js-desk-nb-down = Siirrä alas
+
+js-desk-nb-export-ipynb = Jupyter
+
+js-desk-nb-found = Python { $py } ({ $exe }) ja kshana-paketti { $ver }.
+
+js-desk-nb-from-console = Lisää konsolin Python
+
+js-desk-nb-interp = Käytettävä Python (tyhjä: python3, sitten python)
+
+js-desk-nb-kept = Tallennettu projektiin nimellä notebooks/{ $file }; se avautuu Jupyterissa sellaisenaan. PDF sisältää solujen tekstin ja tulosteen; kuvat ovat HTML- ja Jupyter-tiedostoissa.
+
+js-desk-nb-lede = Python-soluja ja muistiinpanoja projektin mukana, ajettuina tämän tietokoneen Pythonilla ja kshana-paketilla (pip install kshana). Solut jakavat yhden istunnon, joka käynnistetään projektikansiossa.
+
+js-desk-nb-mirror-empty = Konsolissa ei ole vielä Python-rivejä.
+
+js-desk-nb-new = Uusi muistikirja
+
+js-desk-nb-new-ph = Holdover-tutkimus
+
+js-desk-nb-no-kshana = Python { $py } ({ $exe }) toimii, mutta kshana-paketti ei tuoudu siinä: pip install kshana. Solut, jotka eivät käytä sitä, toimivat silti.
+
+js-desk-nb-no-native = Python toimii sovelluksen natiivin osan kautta, jota tällä ikkunalla ei ole.
+
+js-desk-nb-no-python = Tältä tietokoneelta ei löytynyt Pythonia (kokeiltu: { $tried }). Asenna Python 3 (python.org tai järjestelmäsi paketit), sitten pip install kshana, ja tarkista uudelleen.
+
+js-desk-nb-none = Tässä projektissa ei ole vielä muistikirjaa.
+
+js-desk-nb-pick = Muistikirja
+
+js-desk-nb-probing = Etsitään Pythonia…
+
+js-desk-nb-run = Aja
+
+js-desk-nb-run-all = Aja kaikki
+
+js-desk-nb-running = Suoritetaan…
+
+js-desk-nb-stop = Lopeta istunto
+
+js-desk-nb-stopped = Python-istunto lopetettiin; seuraava solu käynnistää uuden.
+
+js-desk-nb-text = Tekstisolu { $n }
+
+js-desk-nb-title = Python-muistikirja
+
+js-desk-nb-tools = Muistikirjan työkalut
+
+js-desk-nb-untitled = Muistikirja { $n }
+
+js-desk-nb-up = Siirrä ylös
 
 js-desk-new-tab = Avaa skenaario uuteen välilehteen
 
@@ -712,6 +982,22 @@ js-desk-panel-wait = Tulos näkyy tässä, kun ajo valmistuu.
 js-desk-pin = Kiinnitä
 
 js-desk-pin-run = Kiinnitä ajo { $n }
+
+js-desk-pk-added = Aluepaketti { $name } lisättiin projektiin.
+
+js-desk-pk-bad = { $name } ei ole aluepaketti (kshana-mappack/1).
+
+js-desk-pk-lede = Tarkemmat rantaviivat alueelle Natural Earthista (vapaasti käytettävä), säilytetään projektin kansiossa packs/. Kartta piirtää paketin 1:50m-maan sijaan, kun paketti kattaa koko näkymän (zoomista 5); maapallo piirtää myös sen rantaviivat. apps/desktop/tools/pack_natural_earth.py --region tekee sellaisen Natural Earthin 1:10m-maasta.
+
+js-desk-pk-open = Lisää aluepaketti…
+
+js-desk-pk-sample = Lisää mukana tuleva Itämeren paketti (1:10m)
+
+js-desk-pk-title = Offline-aluepaketit
+
+js-desk-pl-from = Tuloksen kohdasta { $paths }, kuten moottori sen kirjoitti.
+
+js-desk-pl-none = Tässä tuloksessa ei ole Allan-hajontaa, MTIE:tä, TDEV:tä, Stanford-kuvaajaa eikä spektriä.
 
 js-desk-plot-none = Tässä tuloksessa ei ole sarjaa ajan yli.
 
@@ -1035,6 +1321,8 @@ js-desk-up-title = Mitä Pro lisää
 
 js-desk-view-chart = Kuvaaja
 
+js-desk-view-globe = Maapallo
+
 js-desk-view-group = Näkymä
 
 js-desk-view-json = JSON
@@ -1042,6 +1330,8 @@ js-desk-view-json = JSON
 js-desk-view-map = Kartta
 
 js-desk-view-panes = Ruudut
+
+js-desk-view-plots = Kuvaajat
 
 js-desk-view-sky = Taivas
 
