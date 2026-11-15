@@ -44,6 +44,7 @@ svg.i{width:16px;height:16px;flex:none;fill:none;stroke:currentColor;stroke-widt
 .tab-new{height:34px;width:34px;border:0;background:transparent;color:var(--ink-3);border-radius:8px 8px 0 0;font-size:16px}
 .tab-new:hover{color:var(--ink)}
 .palette-btn{align-self:center;height:28px;width:280px;padding:0 12px;border:1px solid var(--line-2);border-radius:var(--r);background:var(--surface);color:var(--ink-2);display:flex;align-items:center;gap:10px;font-size:12px}
+.palette-btn>span{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:left}
 .palette-btn kbd{margin-left:auto;font:11px var(--f-mono);color:var(--ink-3)}
 
 /* ---------- sidebar ---------- */

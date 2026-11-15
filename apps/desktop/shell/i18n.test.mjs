@@ -70,7 +70,7 @@ test("the staging writes each language's catalogues where the Studio's l10n-boot
     const staged = ftlEntries(readFileSync(join(out, "i18n/en/desktop-studio-js.ftl"), "utf8"));
     assert.ok(staged.length > 100);
     for (const id of r.left) assert.ok(!staged.some((e) => e.id === id), `${id} is left out`);
-    assert.ok(!staged.some((e) => /^js-(adv|app|trust|tools)-/.test(e.id)), "only the messages of the modules the shell imports");
+    assert.ok(!staged.some((e) => /^js-(adv|trust|tools|interf|training)-/.test(e.id)), "only the messages of the modules the shell imports");
     assert.ok(!readdirSync(join(out, "i18n", "de")).includes("studio-js.ftl"), "the Studio's tool pages keep their English in the app");
   } finally { rmSync(out, { recursive: true, force: true }); }
   assert.ok(studioModules().includes("kpi.mjs"));
