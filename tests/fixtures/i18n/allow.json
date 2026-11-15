@@ -201,6 +201,10 @@
    "count": 11,
    "reason": "machine-document: the B3b gate summary's JSON keys and its MET / NOT MET labels; developer: one internal invariant message"
   },
+  "src/locate_tdoa_b3c.rs": {
+   "count": 8,
+   "reason": "machine-document: the B3c gate summary's JSON keys (per waveform, g_all, g_wb and the signal classes) and its MET / NOT MET labels, as in src/locate_tdoa.rs"
+  },
   "src/m4_dark_vessel.rs": {
    "count": 4,
    "reason": "identifier: the label names and schema names of the M4 synthetic truth, AIS and RF documents (machine documents)"
