@@ -441,6 +441,7 @@ fn scored(rows: &[B3cResult]) -> serde_json::Value {
     let met = t1 >= 0.90 && t2 <= 0.25 && t3 <= 0.5;
     let per: Vec<serde_json::Value> = [Waveform::Cw, Waveform::Chirp, Waveform::Noise]
         .iter()
+        .filter(|w| rows.iter().any(|r| r.waveform == **w))
         .map(|w| {
             let sub: Vec<B3cResult> = rows.iter().filter(|r| r.waveform == *w).cloned().collect();
             let (a, b, c, d) = metrics(&sub);
