@@ -5,7 +5,11 @@
 // disk in a .kshana project folder (lib/project.mjs); U9 drop anything in, with the native format
 // detective (lib/detective.mjs); U10 the code mirror console (lib/mirror.mjs); U12 markers and
 // delta markers (lib/markers.mjs); U13 journal figures (lib/chart/journal.mjs, lib/figure.mjs);
-// U16 the sky plot (lib/sky.mjs)). It is staged as studio/desktop/ next to the Studio
+// U16 the sky plot (lib/sky.mjs); wave 3: U11 explain this number (lib/explain.mjs,
+// lib/explainview.mjs), U17 ships and aircraft from track files on the map (lib/traffic.mjs), U18 the
+// shell's own catalogue in the Studio's languages (i18n/<lang>/desktop-js.ftl, loaded by the Studio's
+// lib/l10n-boot.mjs), U20 dockable panes and saved layouts (lib/dock.mjs, lib/dockview.mjs), U21 the
+// sweep studio (lib/sweepgrid.mjs, lib/sweepview.mjs), U22 run diff (lib/rundiff.mjs)). It is staged as studio/desktop/ next to the Studio
 // (apps/desktop/build-frontend.sh) and reuses the Studio's modules unchanged: the
 // catalogue, the engine client and its Desktop bridge (lib/desktop.mjs), the views, key
 // figures, meaning and evidence modules. The website and the Studio pages are not touched.
@@ -36,7 +40,7 @@ import { symbolNode, isSymbol } from "./lib/symbols.mjs";
 import { fmtDuration, fmtUtc, fmtCount } from "./lib/format.mjs";
 import { numNode, figureParts, domainMark, density, toggleDensity, restoreDensity } from "./lib/marks.mjs";
 import { createRunView } from "./lib/runview.mjs";
-import { geojsonOfExport } from "./lib/timemodel.mjs";
+import { geojsonOfExport, timeModel } from "./lib/timemodel.mjs";
 import { timelineChart, chartOfRun } from "./lib/chart/shell-view.mjs";
 import { createChart } from "./lib/chart/chart2d.mjs";
 import { buildRequest, parseGeometry } from "../lib/geometry-adapter.mjs";
@@ -46,6 +50,15 @@ import { detectiveRows, scenarioFor, flattenAnswers, linkOf, familyLabel } from 
 import { skyEpochs, skyTracks, skySpec, skySite, scenarioMask, SKY_STATES, stateCounts } from "./lib/sky.mjs";
 import { figureTools } from "./lib/figure.mjs";
 import { chartClock } from "./lib/plot.mjs";
+import l10n from "../lib/l10n-boot.mjs";
+import { createExplainer, explainable } from "./lib/explainview.mjs";
+import { resolvePath } from "./lib/explain.mjs";
+import { trafficOf, trafficResult, decodeLines, objectLabel, QUALITY } from "./lib/traffic.mjs";
+import { dockView, dockLine } from "./lib/dockview.mjs";
+import { panes as dockPanes, seedIds } from "./lib/dock.mjs";
+import { sweepView } from "./lib/sweepview.mjs";
+import { metricOf } from "./lib/sweepgrid.mjs";
+import { inputsDiff, lineDiff, hunks, resultDiff, overlaySeries, ghostOf, diffLines } from "./lib/rundiff.mjs";
 
 const $ = (id) => document.getElementById(id);
 const h = (tag, props = {}, ...kids) => {
@@ -100,7 +113,7 @@ const S = {
   libQuery: "", compare: null, land: null, files: [],
   devices: { api: null, list: [], status: null, msg: "" },
   // U8: the project the session is kept in; U9: what the last drop held; U8: the runs view's search and the run being edited.
-  project: { dir: "", name: "Session", created: new Date().toISOString(), links: [], notes: "", saved: [], status: "", home: "" },
+  project: { dir: "", name: "Session", created: new Date().toISOString(), links: [], notes: "", saved: [], status: "", home: "", savedLayouts: {} },
   detective: { answers: [], busy: false, msg: "" },
   runQuery: "", editRun: null,
 };
@@ -108,6 +121,7 @@ let RUNS = createRunLog(200);
 // U10: every action's Python and command line.
 const MIRROR = createMirror(2000);
 let uidSeq = 0;
+let sweepSeq = 0;
 // What extensions registered through window.KshanaShell (lib/ext.mjs; README "Extending the
 // shell"). Empty unless an extension registers: the shell then draws only its own parts.
 const BUILTIN_VIEWS = ["home", "runs", "library", "devices", "evidence", "files", "console", "upgrade"];
@@ -270,7 +284,7 @@ const engineMissing = () => t("js-desk-engine-missing", "The engine could not st
 const scenes = new WeakMap();
 function sceneOf(run) {
   if (!scenes.has(run)) {
-    const p = S.engine ? S.engine.call("export_scenario", run.toml, "geojson").then(geojsonOfExport).catch(() => null) : Promise.resolve(null);
+    const p = S.engine && run.toml && !run.traffic ? S.engine.call("export_scenario", run.toml, "geojson").then(geojsonOfExport).catch(() => null) : Promise.resolve(null);
     scenes.set(run, p);
   }
   return scenes.get(run);
@@ -284,7 +298,8 @@ function linkedFor(tab) {
   dropLinked(tab);
   let view = null;
   try {
-    view = createRunView({ t, icon: ic, run, seriesModel: V.seriesModel(run.result, run.toml), scene: sceneOf(run), at, loadLand: landFile, fmt: (v) => V.fmt(v),
+    view = createRunView({ t, icon: ic, run, seriesModel: run.traffic ? null : V.seriesModel(run.result, run.toml), scene: sceneOf(run), at, loadLand: landFile, fmt: (v) => V.fmt(v), readoutLabel,
+      onExplain: run.traffic ? null : (r, el) => explain(tab, { value: r.v, unit: r.unit, label: readoutLabel(r.k) }, el),
       onMarkers: (m) => {
         tab.markers = m.map((x) => ({ t: x.t, series: x.series }));
         if (tab.restoring) return;
@@ -301,6 +316,11 @@ function linkedFor(tab) {
     sceneOf(run).then(() => { if (S.route === "tab" && activeTab() === tab) renderSoon(); });
   }
   return view;
+}
+// The values-at-the-cursor names the time model writes (lib/timemodel.mjs readoutAt), in the window's language.
+function readoutLabel(k) {
+  return ({ position: t("js-desk-ro-position", "position"), trust: t("js-desk-ro-trust", "trust"), station: t("js-desk-ro-station", "station"), fix: t("js-desk-ro-fix", "fix"),
+    reporting: t("js-desk-ro-reporting", "reporting"), "quality (reported)": t("js-desk-ro-quality", "quality (reported)"), "J/S (mean)": t("js-desk-ro-js", "J/S (mean)") })[k] || k;
 }
 // A tab reopened from the project gets its clock (cursor, range, timed markers) and its plot's markers back (U8).
 function restoreView(tab, view) {
@@ -322,8 +342,8 @@ function dropLinked(tab) { if (tab && tab.lv && tab.lv.view) tab.lv.view.destroy
 // The figures a run is summed up by: the plain-language cards (lib/meaning.mjs), else the key figures (lib/kpi.mjs).
 function stripCards(run, max = 3) {
   const m = plainMeaning(run.result, run.toml);
-  if (m && m.cards && m.cards.length) return m.cards.slice(0, max).map((c) => ({ k: c.label, v: String(c.value), unit: c.unit || "", sub: c.sub || "" }));
-  return kpis(run.result, run.toml, max).map((c) => { const p = c.text ? { value: c.text, unit: "" } : figureParts(typeof c.v === "number" ? c.v : String(c.v ?? ""), c.unit || ""); return { k: c.k, v: p.value, unit: p.unit, sub: c.sub || "" }; });
+  if (m && m.cards && m.cards.length) return m.cards.slice(0, max).map((c) => ({ k: c.label, v: String(c.value), unit: c.unit || "", sub: c.sub || "", path: c.path || "", raw: c.path ? resolvePath(run.result, c.path) : undefined }));
+  return kpis(run.result, run.toml, max).map((c) => { const p = c.text ? { value: c.text, unit: "" } : figureParts(typeof c.v === "number" ? c.v : String(c.v ?? ""), c.unit || ""); return { k: c.k, v: p.value, unit: p.unit, sub: c.sub || "", path: c.path || "", raw: c.v, state: c.state ? { state: c.state, why: c.why } : null }; });
 }
 function answerOf(run) { const m = plainMeaning(run.result, run.toml); return (m && m.big) || run.summary || ""; }
 function tierOf(run) { const b = badgeModel(run.result); if (b) return { tier: b.tier, cls: b.cls, rows: b.count }; const hn = honesty(run.result); return hn ? { tier: hn.tier, cls: hn.tier.toLowerCase(), rows: 0, text: hn.text } : null; }
@@ -371,6 +391,36 @@ function toast(msg) { const el = $("toast"); el.textContent = msg; el.classList.
 function log(entry) { MIRROR.push(entry); if (S.route === "console") renderSoon(); saveSoon(); }
 const runRef = (run) => ({ file: run.file, bundled: !run.custom, edited: !!run.edited, toml: run.toml, resultSha: run.resultSha || "", result: run.result });
 
+// ------------------------------------------------------------------ explain this number (U11)
+// What the engine says about its own kinds: the modules of each kind and the settings it ranks
+// first (native functions kind_modules and field_importance), and the kinds with a method page.
+let engineMeta = null;
+function loadMeta() {
+  if (!engineMeta) {
+    const call = (fn) => (S.engine ? S.engine.call(fn).then((x) => (typeof x === "string" ? JSON.parse(x) : x)).catch(() => null) : Promise.resolve(null));
+    engineMeta = Promise.all([call("kind_modules"), call("field_importance"), fetch("data/method-pages.json").then((r) => (r.ok ? r.json() : null)).catch(() => null)])
+      .then(([modules, importance, pages]) => ({ modules, importance, pages: (pages && pages.kinds) || [] }));
+    engineMeta.then((m) => { if (!m.modules && !S.engine) engineMeta = null; });
+  }
+  return engineMeta;
+}
+const kindOf = (run) => (run.result && typeof run.result.kind === "string" ? run.result.kind : ((/^\s*kind\s*=\s*"([^"]+)"/m.exec(run.toml || "") || [])[1] || ""));
+const cores = () => (S.native ? Math.max(1, Math.min(8, (navigator.hardwareConcurrency || 4) - 1)) : 1);
+async function runAllOf(toml) { return JSON.parse(await S.engine.call("run_all", toml)); }
+const EXPLAIN = createExplainer({
+  t, fmt: (v) => V.fmt(v), log, copy: copyText, toast, patch: patchField, metric: metricOf, concurrency: cores,
+  meta: (run) => loadMeta().then((m) => ({ ...m, kind: kindOf(run) })),
+  fields: (toml) => numericFields(toml),
+  runJson: async (toml) => JSON.parse((await runAllOf(toml)).json),
+});
+/** Open the explanation of a figure of a tab's run. fig: { path, value, unit, label, text }. */
+function explain(tab, fig, anchor, extra = {}) {
+  const run = tab && tab.run;
+  if (!run || tab.traffic) return;
+  EXPLAIN.open({ run, fig, ...extra }, anchor);
+}
+const xLabel = () => t("js-desk-x-open", "Where does this number come from?");
+
 // ------------------------------------------------------------------ the project on disk (U8)
 // The session is kept in a .kshana folder (Documents/Kshana/Session.kshana unless another
 // project is opened), written by the app's native side; without it (a page outside the app),
@@ -381,20 +431,20 @@ function projectState() {
   return {
     name: S.project.name, created: S.project.created, runs: RUNS.list(), route: S.route, active: S.active,
     selected: RUNS.selected().map((r) => r.uid),
-    tabs: S.tabs.map((tab) => {
+    tabs: S.tabs.filter((tab) => !tab.traffic).map((tab) => {
       const lv = tab.lv && tab.lv.view && tab.lv.run === tab.run ? tab.lv.view : null;
       const snap = lv ? lv.clock.snapshot() : null;
       return { key: tab.id, file: tab.file, title: tab.title, custom: !!tab.custom, domain: tab.domain, toml: tab.toml, baseToml: tab.baseToml, view: tab.view, ins: tab.ins,
-        runUid: tab.run ? tab.run.uid : null, clock: snap ? { t: snap.t, range: snap.range, marks: snap.marks } : tab.restoreClock || null, markers: tab.markers || tab.restoreMarkers || [] };
+        runUid: tab.run ? tab.run.uid : null, clock: snap ? { t: snap.t, range: snap.range, marks: snap.marks } : tab.restoreClock || null, markers: tab.markers || tab.restoreMarkers || [], dock: tab.dock || null };
     }),
-    links: S.project.links, notes: S.project.notes, console: MIRROR.list(), consoleRuns: MIRROR.runs,
+    links: S.project.links, notes: S.project.notes, console: MIRROR.list(), consoleRuns: MIRROR.runs, savedLayouts: S.project.savedLayouts || {},
   };
 }
 let saveTimer = 0, saving = false, lastKey = "";
 function saveSoon(ms = 900) { clearTimeout(saveTimer); saveTimer = setTimeout(saveProject, ms); }
 function layoutKey() {
   const st = projectState();
-  return JSON.stringify([st.route, st.active, st.selected, st.tabs.map((x) => [x.key, x.view, x.ins, x.runUid, x.clock, x.markers, x.toml && x.toml.length]), st.runs.map((r) => [r.uid, r.tags, r.pinned, r.note]), st.links.length, st.notes.length, st.console.length]);
+  return JSON.stringify([st.route, st.active, st.selected, st.tabs.map((x) => [x.key, x.view, x.ins, x.runUid, x.clock, x.markers, x.toml && x.toml.length, x.dock]), Object.keys(st.savedLayouts), st.runs.map((r) => [r.uid, r.tags, r.pinned, r.note]), st.links.length, st.notes.length, st.console.length]);
 }
 async function saveProject() {
   if (saving) { saveSoon(500); return; }
@@ -433,7 +483,8 @@ function applyProject(p, dir) {
     if (x.toml === null || x.toml === undefined) continue;
     const run = x.runUid ? byUid.get(x.runUid) || null : null;
     const tab = newTab({ file: x.file, entry: x.custom ? null : entryFor(x.file), custom: x.custom, title: x.title || x.file, domain: x.domain, toml: x.toml, baseToml: x.edited ? "" : x.toml,
-      view: x.view, ins: x.ins, run, restoreClock: x.clock, restoreMarkers: x.markers });
+      view: x.view, ins: x.ins, run, restoreClock: x.clock, restoreMarkers: x.markers, dock: x.dock || null });
+    if (x.dock) seedIds(x.dock);
     if (run) run.tabId = tab.id;
     keyToId.set(x.key, tab.id);
     // an edited bundled scenario: its bundled text, for Reset and "edited"
@@ -447,6 +498,8 @@ function applyProject(p, dir) {
   S.project.created = p.created || S.project.created;
   S.project.links = Array.isArray(p.links) ? p.links : [];
   S.project.notes = p.notes || "";
+  S.project.savedLayouts = p.savedLayouts || {};
+  for (const l of Object.values(S.project.savedLayouts)) seedIds(l);
   if (dir !== undefined) S.project.dir = dir;
   S.project.ready = true;
   lastKey = layoutKey();
@@ -514,6 +567,7 @@ async function inspectFiles(list) {
   S.detective.busy = true; S.detective.msg = ""; go("files");
   const out = [];
   for (const f of list) {
+    droppedFiles.set(f.name, f);
     try {
       const head = new Uint8Array(await f.slice(0, 4 * 1024 * 1024).arrayBuffer());
       out.push(await invoke("inspect_bytes", { name: f.name, base64: toBase64(head), size: f.size }));
@@ -540,6 +594,60 @@ function addLink(a, say = true) {
   saveSoon();
   if (say) { toast(t("js-desk-det-linked", "{ $name } is now a data link of the project.", { name: a.name })); render(); }
 }
+// ------------------------------------------------------------------ ships and aircraft (U17)
+// A track file (AIS, Mode S / ADS-B, OpenSky, ASTERIX, NMEA 2000, MAVLink, ULog) decoded by the
+// engine's connectors (the native decode_tracks), shown in its own tab on the time cursor and the
+// map. Dropped with its path, the app reads it natively; picked from the files dialog, the
+// window reads it; the bundled samples are the engine's public synthetic samples.
+const droppedFiles = new Map();
+const MAX_TRACK_BYTES = 64 * 1024 * 1024;
+const TRACK_SAMPLES = [["ais.nmea", "AIS (NMEA 0183)"], ["adsb.avr", "ADS-B (AVR)"], ["adsb.beast", "ADS-B (Beast)"], ["opensky-states.json", "OpenSky state vectors (JSON)"], ["opensky-states.csv", "OpenSky state vectors (CSV)"]];
+async function bytesOfPath(path) {
+  const parts = [];
+  let offset = 0, total = 0;
+  for (;;) {
+    const r = await invoke("read_range", { path, offset, len: 16 * 1024 * 1024 });
+    const bin = atob(r.base64 || "");
+    const b = new Uint8Array(bin.length);
+    for (let i = 0; i < bin.length; i++) b[i] = bin.charCodeAt(i);
+    parts.push(b); total += b.length; offset += b.length;
+    if (r.eof || !b.length) break;
+    if (total > MAX_TRACK_BYTES) throw new Error(t("js-desk-tr-too-big", "The file is larger than { $mb } MB.", { mb: MAX_TRACK_BYTES / 1048576 }));
+  }
+  const out = new Uint8Array(total);
+  let at = 0;
+  for (const b of parts) { out.set(b, at); at += b.length; }
+  return out;
+}
+/** Open a track file's bytes as a traffic tab. */
+async function openTraffic(name, bytes, { path = "", sample = false } = {}) {
+  if (!S.engine || !(S.engine.native && S.engine.native.has("decode_tracks"))) { toast(t("js-desk-tr-no-native", "The ship and aircraft readers run in the app's native engine, which this window does not have.")); return; }
+  if (bytes.length > MAX_TRACK_BYTES) { toast(t("js-desk-tr-too-big", "The file is larger than { $mb } MB.", { mb: MAX_TRACK_BYTES / 1048576 })); return; }
+  let traffic;
+  try { traffic = trafficOf(await S.engine.call("decode_tracks", "auto", toBase64(bytes))); }
+  catch (e) { toast(t("js-desk-tr-failed", "{ $name } could not be read as a track file: { $reason }", { name, reason: errorMessage(e) })); return; }
+  if (!traffic || !traffic.objects.length) { toast(t("js-desk-tr-empty", "{ $name } holds no position.", { name })); return; }
+  const result = trafficResult(traffic, { name });
+  const run = { id: 0, traffic: true, file: name, title: name, toml: "", result, at: new Date(), ms: 0, path, sample };
+  const tab = newTab({ file: name, entry: null, custom: true, title: name, domain: null, toml: "", baseToml: "", traffic: true, view: "map", ins: "inputs", run });
+  log({ kind: "tracks", title: t("js-desk-log-tracks", "Ships and aircraft from { $name }", { name }), ...decodeLines({ name: path || name, format: traffic.format }) });
+  showTab(tab.id);
+}
+async function openTrafficPath(a) {
+  try {
+    if (a.path && invoke) await openTraffic(a.name, await bytesOfPath(a.path), { path: a.path });
+    else if (droppedFiles.has(a.name)) await openTraffic(a.name, new Uint8Array(await droppedFiles.get(a.name).arrayBuffer()));
+    else toast(t("js-desk-tr-gone", "Drop the file again to open it."));
+  } catch (e) { toast(t("js-desk-tr-failed", "{ $name } could not be read as a track file: { $reason }", { name: a.name, reason: errorMessage(e) })); }
+}
+async function openTrafficSample(file) {
+  try {
+    const r = await fetch(`data/tracks/${file}`);
+    if (!r.ok) throw new Error(`HTTP ${r.status}`);
+    await openTraffic(file, new Uint8Array(await r.arrayBuffer()), { sample: true });
+  } catch (e) { toast(t("js-desk-tr-failed", "{ $name } could not be read as a track file: { $reason }", { name: file, reason: errorMessage(e) })); }
+}
+
 if (!tauriListen("tauri://drag-drop", (ev) => { showDrop(false); const paths = ev && ev.payload && ev.payload.paths; if (paths && paths.length) inspectPaths(paths); })) {
   // a page outside the app: the files themselves (no paths)
   addEventListener("drop", (e) => { if (!e.dataTransfer || !e.dataTransfer.files.length) return; e.preventDefault(); showDrop(false); inspectFiles([...e.dataTransfer.files]); });
@@ -707,6 +815,7 @@ const homeParts = Object.freeze({ recentRuns, scenarioGrid });
 
 // ---------- a scenario tab
 function tabView(tab) {
+  if (tab.traffic) return trafficView(tab);
   const run = tab.run;
   const r = run && run.result;
   const views = [["chart", t("js-desk-view-chart", "Chart")]];
@@ -715,6 +824,8 @@ function tabView(tab) {
   views.push(["timeline", t("js-desk-view-timeline", "Timeline")]);
   if (lv && skySite(lv.model)) views.push(["sky", t("js-desk-view-sky", "Sky")]);
   views.push(["table", t("js-desk-view-table", "Table")], ["json", t("js-desk-view-json", "JSON")]);
+  if (run) views.push(["panes", t("js-desk-view-panes", "Panes")]);
+  if (tab.toml) views.push(["sweep", t("js-desk-view-sweep", "Sweep")]);
   if (!views.some((x) => x[0] === tab.view)) tab.view = "chart";
   const meta = [tab.custom ? tab.file : scenarioName(tab.file)];
   if (r && typeof r.seed === "number") meta.push(t("js-desk-meta-seed", "seed { $seed }", { seed: r.seed }));
@@ -739,7 +850,9 @@ function tabView(tab) {
     const cards = stripCards(run, 3);
     const tier = tierOf(run);
     body.append(h("div", { class: "strip", role: "group", "aria-label": t("js-desk-result-strip", "Result") },
-      ...cards.map((c) => h("div", { class: "fig" }, h("span", { class: "k", text: c.k, title: c.k }), h("span", { class: "v" }, c.v, c.unit ? h("small", { text: c.unit }) : null), c.sub ? h("span", { class: "s", text: c.sub, title: c.sub }) : null)),
+      ...cards.map((c) => h("div", { class: "fig" }, h("span", { class: "k", text: c.k, title: c.k }),
+        explainable(h("span", { class: "v" }, c.v, c.unit ? h("small", { text: c.unit }) : null), (b) => explain(tab, { path: c.path, value: typeof c.raw === "number" ? c.raw : Number.isFinite(Number(c.v)) ? Number(c.v) : undefined, unit: c.unit, label: c.k, text: c.v }, b, { state: c.state }), xLabel()),
+        c.sub ? h("span", { class: "s", text: c.sub, title: c.sub }) : null)),
       h("div", { class: "fig" }, h("span", { class: "k", text: t("js-desk-evidence", "Evidence") }),
         tier ? h("span", { class: `tier ${tier.cls}`, text: tierText(tier.tier) }) : h("span", { class: "s", text: t("js-desk-evidence-none", "The result states no tier.") }),
         h("button", { class: "linkish", type: "button", style: "margin-top:4px;font-weight:400;color:var(--ink-2)", onclick: () => { tab.ins = "result"; render(); } }, t("js-desk-evidence-why", "Why")))));
@@ -789,7 +902,7 @@ function skyPane(tab, lv) {
     const counts = stateCounts(data.tracks, k);
     el.append(h("div", { class: "sky-states", role: "list", "aria-label": t("js-desk-sky-states", "Satellite states") },
       ...Object.entries(SKY_STATES).filter(([id]) => id !== "unhealthy").map(([id, st]) => h("span", { role: "listitem" }, h("i", { style: `background:var(${id === "used" ? "--k-trust-good" : id === "masked" ? "--k-trust-mid" : "--ink-3"})` }), `${t(`js-desk-sky-${id}`, st.en)} · ${counts[id]}`))),
-      h("p", { class: "sky-note", text: t("js-desk-sky-note", "{ $n } epochs sampled over the run; trails join the engine's positions at those epochs. Mask { $mask }°{ $own }. Constellations: the engine's GPS and Galileo presets, propagated to the run's seconds; the engine labels them representative, not the broadcast constellation of a date.", { n: epochs.length, mask, own: scenarioMask(run.toml) === null ? t("js-desk-sky-mask-default", " (the scenario states none)") : "" }) }));
+      h("p", { class: "sky-note", text: t("js-desk-sky-note", "{ $n } epochs sampled over the run; trails join the engine's positions at those epochs. Mask { $mask }°{ $own }. Constellations: the engine's GPS and Galileo presets, propagated to the run's seconds; the engine labels them representative, not the broadcast constellation of a date.", { n: epochs.length, mask, own: scenarioMask(run.toml) === null ? ` ${t("js-desk-sky-mask-default", "(the scenario states none)")}` : "" }) }));
     log({ kind: "sky", title: t("js-desk-log-sky", "Sky plot of { $title }", { title: tab.title }), py: [...skyRequestLines(data.requests, "sky_requests"), "skies = [kshana.sky_geometry(q) for q in sky_requests]"], cli: [] });
     if (S.route === "tab" && activeTab() === tab) render();
   }).catch((e) => { el.replaceChildren(h("p", { class: "panel-msg", text: t("js-desk-sky-failed", "The engine gave no sky for this run: { $reason }", { reason: errorMessage(e) }) })); });
@@ -799,9 +912,11 @@ function panel(tab) {
   const run = tab.run, r = run && run.result;
   const box = h("div", { class: "panel", role: "region", "aria-label": t("js-desk-panel", "Result view") });
   const msg = (text) => { box.append(h("p", { class: "panel-msg", text })); return box; };
+  if (tab.view === "sweep") { box.classList.add("scroll", "plain"); box.append(sweepView(sweepCtx, tab)); return box; }
   if (!run) return msg(tab.running || !tab.toml ? t("js-desk-panel-wait", "The result appears here when the run finishes.") : t("js-desk-panel-none", "No run yet."));
   if (tab.view === "chart") { if (run.svg) box.append(svgNode(run.svg)); else msg(t("js-desk-no-chart", "The engine drew no chart for this scenario. See Table or JSON.")); return box; }
   const lv = linkedFor(tab);
+  if (tab.view === "panes") { box.classList.add("plain", "docked"); box.append(dockView(dockCtx, tab)); return box; }
   if (tab.view === "sky" && lv) { box.classList.add("scroll"); box.append(skyPane(tab, lv)); return box; }
   if (lv && (tab.view === "timeline" || (tab.view === "map" && lv.hasMap))) {
     box.classList.add("linked");
@@ -825,7 +940,7 @@ function panel(tab) {
     if (!figs.length) return msg(t("js-desk-no-figures", "This result has no key figures to tabulate. See JSON."));
     box.append(h("table", { class: "tbl" },
       h("thead", {}, h("tr", {}, h("th", { scope: "col", text: t("js-desk-col-figure", "Figure") }), h("th", { scope: "col", class: "num", text: t("js-desk-col-value", "Value") }), h("th", { scope: "col", text: t("js-desk-col-unit", "Unit") }), h("th", { scope: "col", text: t("js-desk-col-path", "Path") }))),
-      h("tbody", {}, ...figs.map((f) => { const p = figureParts(f.value, f.unit || ""); return h("tr", {}, h("td", { text: f.label, title: f.note || null }), h("td", { class: "num", text: p.value }), h("td", { class: "n-u", text: p.unit }), h("td", { class: "mono", text: f.path || "" })); }))));
+      h("tbody", {}, ...figs.map((f) => { const p = figureParts(f.value, f.unit || ""); return h("tr", {}, h("td", { text: f.label, title: f.note || null }), h("td", { class: "num" }, explainable(h("span", { text: p.value }), (b) => explain(tab, { path: f.path, value: f.value, unit: f.unit, label: f.label }, b), xLabel())), h("td", { class: "n-u", text: p.unit }), h("td", { class: "mono", text: f.path || "" })); }))));
     return box;
   }
   const text = JSON.stringify(r, null, 2);
@@ -833,6 +948,120 @@ function panel(tab) {
   box.append(h("pre", { text: text.length > cap ? `${text.slice(0, cap)}\n…` : text }));
   if (text.length > cap) box.append(h("p", { class: "panel-msg", text: t("js-desk-json-cut", "The result is long: the whole document is in Export, Result JSON.") }));
   return box;
+}
+
+// ---------- a traffic tab (U17): ships and aircraft from a track file
+function trafficView(tab) {
+  const run = tab.run, tr = run.result.traffic;
+  const lv = linkedFor(tab);
+  const views = [["map", t("js-desk-view-map", "Map")], ["timeline", t("js-desk-view-timeline", "Timeline")], ["panes", t("js-desk-view-panes", "Panes")]];
+  if (!views.some((x) => x[0] === tab.view)) tab.view = "map";
+  const kinds = { vessel: 0, aircraft: 0, vehicle: 0, object: 0 };
+  for (const o of tr.objects) kinds[o.kind]++;
+  const meta = [tr.format, t("js-desk-tr-meta", "{ $v } vessels · { $a } aircraft · { $o } other · { $n } positions", { v: kinds.vessel, a: kinds.aircraft, o: kinds.vehicle + kinds.object, n: tr.counts.fixes })];
+  const head = h("div", { class: "doc-head" },
+    h("span", { class: "dom-chip", style: "--c:var(--nav)" }, t("js-desk-tr-chip", "Tracks")),
+    h("h1", { text: tab.title }),
+    h("span", { class: "doc-meta", text: meta.join(" · ") }),
+    h("div", { class: "seg", role: "group", "aria-label": t("js-desk-view-group", "View") }, ...views.map(([id, label]) => h("button", { type: "button", "aria-pressed": tab.view === id ? "true" : "false", onclick: () => { tab.view = id; render(); } }, label))));
+  const body = h("div", { class: "doc-body" });
+  body.append(h("p", { class: "answer", text: tr.timed ? t("js-desk-tr-answer", "Reported positions from { $name }, on the file's own clock. Colour: the quality class each reader draws from the message's own fields.", { name: tab.title }) : t("js-desk-tr-answer-untimed", "Reported positions from { $name }. The file carries no calendar time: the cursor steps through the messages in their order.", { name: tab.title }) }));
+  if (tr.dropped.objects || tr.dropped.points) body.append(h("p", { class: "notice", text: t("js-desk-tr-dropped", "Drawn: the first { $n } objects; { $o } objects and { $p } positions are left out.", { n: tr.objects.length, o: tr.dropped.objects, p: tr.dropped.points }) }));
+  const box = h("div", { class: "panel", role: "region", "aria-label": t("js-desk-panel", "Result view") });
+  if (tab.view === "panes") { box.classList.add("plain", "docked"); box.append(dockView(dockCtx, tab)); }
+  else if (lv) { box.classList.add("linked"); box.append(lv.node(tab.view)); }
+  else box.append(h("p", { class: "panel-msg", text: t("js-desk-tr-no-view", "These positions could not be placed on the time cursor.") }));
+  body.append(box);
+  return [head, body];
+}
+function trafficPane(tab) {
+  const tr = tab.run.result.traffic;
+  const c = tr.counts;
+  const out = [h("dl", { class: "kv" },
+    h("dt", { text: t("js-desk-tr-format", "format") }), h("dd", { text: tr.format }),
+    h("dt", { text: t("js-desk-tr-read", "messages read") }), h("dd", { text: String(c.read) }),
+    h("dt", { text: t("js-desk-tr-bad", "bad checksums") }), h("dd", { class: c.badChecksum ? "warn" : null, text: String(c.badChecksum) }),
+    h("dt", { text: t("js-desk-tr-malformed", "malformed") }), h("dd", { text: String(c.malformed) }),
+    h("dt", { text: t("js-desk-tr-other", "other message types") }), h("dd", { text: String(c.other) }),
+    tab.run.path ? [h("dt", { text: t("js-desk-tr-file", "file") }), h("dd", { text: tab.run.path })] : null)];
+  out.push(h("table", { class: "tbl tr-list" },
+    h("thead", {}, h("tr", {}, h("th", { scope: "col", text: t("js-desk-tr-col-object", "Object") }), h("th", { scope: "col", text: t("js-desk-tr-col-source", "Source") }), h("th", { scope: "col", class: "num", text: t("js-desk-tr-col-points", "Points") }), h("th", { scope: "col", text: t("js-desk-tr-col-quality", "Quality") }))),
+    h("tbody", {}, ...tr.objects.slice(0, 200).map((o) => h("tr", {}, h("td", { text: o.name ? `${objectLabel(o)} (${o.id})` : o.id }), h("td", { class: "mono", text: o.source }), h("td", { class: "num", text: String(o.t.length) }), h("td", { class: "mono", text: QUALITY.map((q) => o.quality[q]).join("/") }))))));
+  out.push(h("p", { class: "hint", text: t("js-desk-tr-quality-order", "Quality: positions that are good / intermediate / degraded / unknown, by the reader's own rule.") }));
+  out.push(h("p", { class: "hint", text: t("js-desk-tr-note", "Read only: nothing is sent to a receiver or a network. The readers are checked on vectors built from each format's public description and on published examples; none is validated against a decoder approved for operational use.") }));
+  return out;
+}
+
+// ---------- the sweep studio (U21)
+const sweepCtx = {
+  t, fields: (toml) => numericFields(toml), patch: patchField, fmt: (v) => V.fmt(v), createChart, concurrency: cores,
+  figures: (result) => V.keyFigures(result, 80).map((f) => ({ path: f.path, label: f.label, unit: f.unit })),
+  runAll: (toml) => runAllOf(toml), cancel: cancelRuns, log, save, render, renderSoon, nextSweep: () => ++sweepSeq,
+  openCell: (tab, toml, all, where) => openCellRun(tab, toml, all, where),
+};
+// A cell of a sweep opened as an ordinary run, in a tab of its own (the cell's settings in its title).
+async function openCellRun(src, toml, all, where) {
+  const at = new Date();
+  const digest = (b) => crypto.subtle.digest("SHA-256", b);
+  const [resultSha, scenarioSha] = await Promise.all([sha256Text(all.json, digest), sha256Text(toml, digest)]).catch(() => ["", ""]);
+  const title = `${src.title} · ${where}`;
+  const tab = newTab({ file: src.file, entry: src.entry, custom: true, title, domain: src.domain, toml, baseToml: toml });
+  tab.run = RUNS.add({ tabId: tab.id, file: src.file, title, domain: src.domain, custom: true, edited: true, toml, result: JSON.parse(all.json), json: all.json, svg: all.svg || "", summary: all.summary || "", csv: all.csv || "", ms: 0, at,
+    engine: S.native ? "native" : "webassembly", engineVersion: S.version, uid: runUid(at, ++uidSeq), resultSha, scenarioSha, tags: ["sweep"], pinned: false, note: where });
+  const n = MIRROR.nextRun();
+  tab.run.console = n;
+  log({ kind: "run", title: t("js-desk-log-cell", "Run { $n }: sweep cell { $where }", { n, where }), ...runLines({ n, file: src.file, bundled: false, edited: true, toml, resultSha }) });
+  saveSoon();
+  showTab(tab.id);
+}
+
+// ---------- panes (U20)
+const PANE_NAMES = () => ({ plot: t("js-desk-pane-plot", "Plot"), map: t("js-desk-pane-map", "Map"), sky: t("js-desk-pane-sky", "Sky"), chart: t("js-desk-pane-chart", "Engine chart"), table: t("js-desk-pane-table", "Key figures"), inspector: t("js-desk-pane-inspector", "Inspector"), console: t("js-desk-pane-console", "Console") });
+const PRESET_NAMES = () => ({ "plot-map": t("js-desk-preset-plot-map", "Plot and map, inspector"), "map-focus": t("js-desk-preset-map-focus", "Map first"), four: t("js-desk-preset-four", "Four panes"), analysis: t("js-desk-preset-analysis", "Analysis: plot, figures, inspector, console") });
+const dockCtx = {
+  t,
+  viewName: (v) => PANE_NAMES()[v] || v,
+  presetName: (p) => PRESET_NAMES()[p] || p,
+  saved: () => S.project.savedLayouts || {},
+  saveAs: (name, layout) => { S.project.savedLayouts = { ...(S.project.savedLayouts || {}), [name]: layout }; log({ kind: "layout", title: t("js-desk-log-layout-saved", "Layout { $name } saved", { name }), py: [dockLine(layout, name)], cli: [] }); toast(t("js-desk-dock-saved-toast", "Layout { $name } is kept with the project.", { name })); saveSoon(); render(); },
+  removeSaved: (name) => { const o = { ...(S.project.savedLayouts || {}) }; delete o[name]; S.project.savedLayouts = o; saveSoon(); render(); },
+  change: (tab, layout, what, { quiet = false, focus = null } = {}) => {
+    tab.dock = layout;
+    if (!quiet) log({ kind: "layout", title: t("js-desk-log-layout", "Panes of { $title }: { $what }", { title: tab.title, what }), py: [dockLine(layout, what)], cli: [] });
+    saveSoon();
+    render();
+    if (focus) { const bars = document.querySelectorAll(".dock-gutter"); const i = [...bars].findIndex((b) => b.getAttribute("aria-valuenow") !== null && b === focus); (bars[i] || bars[0])?.focus(); }
+  },
+  timeline: (tab) => { const lv = linkedFor(tab); return lv ? lv.part("timeline") : null; },
+  part: (tab, view) => paneContent(tab, view),
+};
+function paneContent(tab, view) {
+  const run = tab.run;
+  const msg = (text) => h("p", { class: "panel-msg", text });
+  if (!run) return msg(t("js-desk-panel-none", "No run yet."));
+  const lv = linkedFor(tab);
+  if (view === "plot") return lv && lv.model.series.length ? lv.part("plot") : msg(t("js-desk-pane-no-plot", "No series over time in this result."));
+  if (view === "map") return lv && lv.hasMap ? lv.part("map") : msg(t("js-desk-pane-no-map", "Nothing in this result has a place on the map."));
+  if (view === "sky") return lv && skySite(lv.model) ? skyPane(tab, lv) : msg(t("js-desk-pane-no-sky", "This run has no receiver site for a sky plot."));
+  if (view === "chart") return run.svg ? svgNode(run.svg) : msg(t("js-desk-no-chart", "The engine drew no chart for this scenario. See Table or JSON."));
+  if (view === "table") {
+    if (tab.traffic) return h("div", { class: "pane-scroll" }, ...trafficPane(tab));
+    const figs = V.keyFigures(run.result, 80);
+    if (!figs.length) return msg(t("js-desk-no-figures", "This result has no key figures to tabulate. See JSON."));
+    return h("div", { class: "pane-scroll" }, h("table", { class: "tbl" }, h("tbody", {}, ...figs.map((f) => { const p = figureParts(f.value, f.unit || ""); return h("tr", {}, h("td", { text: f.label, title: f.path }), h("td", { class: "num" }, explainable(h("span", { text: p.value }), (b) => explain(tab, { path: f.path, value: f.value, unit: f.unit, label: f.label }, b), xLabel())), h("td", { class: "n-u", text: p.unit })); }))));
+  }
+  if (view === "inspector") return h("div", { class: "pane-scroll" }, ...(lv ? [lv.readout()] : []), ...(tab.traffic ? trafficPane(tab) : resultPane(tab)));
+  if (view === "console") {
+    const list = MIRROR.list().slice(-20).reverse();
+    return h("div", { class: "pane-scroll console-list" }, ...list.map((e) => h("article", { class: "console-entry" }, h("header", {}, h("span", { text: e.title || e.kind })), h("pre", { text: (e.py.length ? e.py : e.cli).join("\n") || "#" }))));
+  }
+  return msg(view);
+}
+function dockHas(tab, view) {
+  if (tab.view !== "panes" || !tab.dock) return false;
+  const ps = dockPanes(tab.dock);
+  const f = tab.focusPane && ps.find((p) => p.id === tab.focusPane);
+  return f ? f.pane === view : ps.some((p) => p.pane === view);
 }
 
 // ---------- inspector
@@ -848,6 +1077,11 @@ function renderInspector() {
     if (j === null) return;
     e.preventDefault(); tab.ins = tabs[j][0]; render(); $(`ins-${tab.ins}`).focus();
   } }, ...tabs.map(([id, label]) => h("button", { type: "button", role: "tab", id: `ins-${id}`, "aria-selected": tab.ins === id ? "true" : "false", "aria-controls": "ins-body", tabindex: tab.ins === id ? "0" : "-1", onclick: () => { tab.ins = id; render(); } }, label)));
+  if (tab.traffic) {
+    const lvT = linkedFor(tab);
+    el.replaceChildren(...(lvT && !dockHas(tab, "inspector") ? [lvT.readout()] : []), h("div", { class: "ins-body" }, h("h2", { class: "ins-h", text: t("js-desk-tr-ins", "The file") }), ...trafficPane(tab)));
+    return;
+  }
   const body = h("div", { class: "ins-body", id: "ins-body", role: "tabpanel", "aria-labelledby": `ins-${tab.ins}` }, ...({ inputs: inputsPane, result: resultPane, export: exportPane }[tab.ins])(tab));
   const lines = reproduceLines({ file: tab.file, bundled: !tab.custom, edited: tab.toml !== tab.baseToml }).join("\n");
   const repro = h("div", { class: "repro" },
@@ -856,7 +1090,7 @@ function renderInspector() {
     h("code", { "aria-labelledby": "repro-h", text: lines }),
     h("span", { class: "hint", style: "color:var(--ink-3);font-size:11.5px", text: tab.toml !== tab.baseToml || tab.custom ? t("js-desk-reproduce-edited", "Save the scenario (Export) under this name first. The same file and engine version give the same result.") : t("js-desk-reproduce-note", "The same file and engine version give the same result.") }));
   const lv = tab.run ? linkedFor(tab) : null;
-  el.replaceChildren(...(lv ? [lv.readout()] : []), list, body, repro);
+  el.replaceChildren(...(lv && !dockHas(tab, "inspector") ? [lv.readout()] : []), list, body, repro);
 }
 function inputsPane(tab) {
   if (!tab.toml) return [h("p", { class: "hint", text: t("js-desk-loading", "Loading…") })];
@@ -889,7 +1123,8 @@ function resultPane(tab) {
   if (!run) return [h("p", { class: "hint", text: t("js-desk-panel-none", "No run yet.") })];
   const out = [h("p", { style: "margin:0", text: answerOf(run) })];
   const cards = kpis(run.result, run.toml, 8);
-  if (cards.length) out.push(h("ul", { class: "figlist", "aria-label": t("js-desk-key-figures", "Key figures") }, ...cards.map((c) => h("li", { class: c.state ? `state-${c.state}` : null, title: c.why || null }, h("span", { text: c.sub ? `${c.k} · ${c.sub}` : c.k }), c.text ? h("span", { text: c.text }) : numNode(typeof c.v === "number" ? c.v : String(c.v ?? ""), c.unit || "")))));
+  if (cards.length) out.push(h("ul", { class: "figlist", "aria-label": t("js-desk-key-figures", "Key figures") }, ...cards.map((c) => h("li", { class: c.state ? `state-${c.state}` : null, title: c.why || null }, h("span", { text: c.sub ? `${c.k} · ${c.sub}` : c.k }),
+    explainable(c.text ? h("span", { text: c.text }) : numNode(typeof c.v === "number" ? c.v : String(c.v ?? ""), c.unit || ""), (b) => explain(tab, { path: c.path || "", value: typeof c.v === "number" ? c.v : undefined, unit: c.unit, label: c.k, text: c.text }, b, { state: c.state ? { state: c.state, why: c.why } : null }), xLabel())))));
   out.push(h("div", { class: "ins-sep" }));
   const tier = tierOf(run);
   out.push(h("div", { class: "field" }, h("span", { class: "lab", text: t("js-desk-evidence", "Evidence") }),
@@ -1003,14 +1238,62 @@ function runsView() {
 function compareView(a, b) {
   const rows = compareRows(kpis(a.result, a.toml, 8), kpis(b.result, b.toml, 8));
   const val = (x, unit) => (x === null ? "–" : typeof x === "number" ? figureParts(x, unit).text : String(x));
-  return h("section", { class: "cmp", "aria-labelledby": "cmp-h" },
+  const sec = h("section", { class: "cmp", "aria-labelledby": "cmp-h" },
     h("h2", { id: "cmp-h", tabindex: "-1", text: t("js-desk-compare-title", "Run #{ $a } against run #{ $b }", { a: a.id, b: b.id }) }),
-    h("p", { class: "muted", style: "margin:0 0 10px", text: `A: ${a.title} · B: ${b.title}` }),
-    rows.length ? h("table", { class: "tbl" },
+    h("p", { class: "muted", style: "margin:0 0 10px", text: `A: ${a.title} · B: ${b.title}` }));
+  const parts = [["figures", t("js-desk-diff-figures", "Key figures")], ["inputs", t("js-desk-diff-inputs", "Inputs")], ["numbers", t("js-desk-diff-numbers", "Every number")], ["time", t("js-desk-diff-time", "On one time axis")], ["charts", t("js-desk-diff-charts", "Engine charts")]];
+  if (!parts.some((x) => x[0] === diffPart)) diffPart = "figures";
+  sec.append(h("div", { class: "seg", role: "group", "aria-label": t("js-desk-diff-part", "Compare by") }, ...parts.map(([id, label]) => h("button", { type: "button", "aria-pressed": diffPart === id ? "true" : "false", onclick: () => { diffPart = id; render(); } }, label))));
+  const box = h("div", { class: "diff-body" });
+  sec.append(box);
+  if (diffPart === "figures") {
+    box.append(rows.length ? h("table", { class: "tbl" },
       h("thead", {}, h("tr", {}, h("th", { scope: "col", text: t("js-desk-col-figure", "Figure") }), h("th", { scope: "col", class: "num", text: "A" }), h("th", { scope: "col", class: "num", text: "B" }), h("th", { scope: "col", class: "num", text: t("js-desk-col-change", "B − A") }))),
       h("tbody", {}, ...rows.map((r) => h("tr", {}, h("td", { text: r.sub ? `${r.label} · ${r.sub}` : r.label }), h("td", { class: "num", text: val(r.a, r.unit) }), h("td", { class: "num", text: val(r.b, r.unit) }),
-        h("td", { class: `num ${r.delta > 0 ? "up" : r.delta < 0 ? "down" : ""}`, text: r.delta === null ? "–" : `${r.delta > 0 ? "+" : r.delta < 0 ? "−" : ""}${V.fmt(Math.abs(r.delta))}${r.pct !== null && r.delta ? ` (${r.pct > 0 ? "+" : "−"}${Math.abs(r.pct).toFixed(1)} %)` : ""}` }))))) : h("p", { class: "empty", text: t("js-desk-compare-none", "These two runs share no key figures.") }),
-    h("div", { class: "cmp-charts" }, ...[a, b].map((r, i) => h("figure", { style: "margin:0" }, h("figcaption", { class: "muted", style: "margin-bottom:6px", text: `${i ? "B" : "A"} · ${r.title}` }), h("div", { class: "panel" }, r.svg ? svgNode(r.svg) : h("p", { class: "panel-msg", text: t("js-desk-no-chart-short", "No chart.") }))))));
+        h("td", { class: `num ${r.delta > 0 ? "up" : r.delta < 0 ? "down" : ""}`, text: deltaText(r.delta, r.pct) }))))) : h("p", { class: "empty", text: t("js-desk-compare-none", "These two runs share no key figures.") }));
+  } else if (diffPart === "inputs") {
+    const d = inputsDiff(a.toml, b.toml);
+    const ch = { changed: t("js-desk-diff-changed", "changed"), added: t("js-desk-diff-added", "only in B"), removed: t("js-desk-diff-removed", "only in A") };
+    box.append(d.length ? h("table", { class: "tbl" },
+      h("thead", {}, h("tr", {}, h("th", { scope: "col", text: t("js-desk-diff-setting", "Setting") }), h("th", { scope: "col", class: "num", text: "A" }), h("th", { scope: "col", class: "num", text: "B" }), h("th", { scope: "col", class: "num", text: t("js-desk-col-change", "B − A") }), h("th", { scope: "col", text: "" }))),
+      h("tbody", {}, ...d.map((r) => h("tr", {}, h("td", { class: "mono", text: `${r.section ? `[${r.section}] ` : ""}${r.key}` }), h("td", { class: "num mono", text: r.a ?? "–" }), h("td", { class: "num mono", text: r.b ?? "–" }), h("td", { class: "num", text: deltaText(r.delta, r.pct) }), h("td", { class: "muted", text: ch[r.change] }))))) : h("p", { class: "empty", text: t("js-desk-diff-same-inputs", "The two scenarios have the same settings.") }));
+    const hk = hunks(lineDiff(a.toml, b.toml), 2);
+    if (hk.length) box.append(h("h3", { text: t("js-desk-diff-text", "The scenario text, line by line") }), h("pre", { class: "diff-text" }, ...hk.map((x) => h("span", { class: x.op === "-" ? "del" : x.op === "+" ? "ins" : x.op === "…" ? "gap" : null, text: x.op === "…" ? `… ${t("js-desk-diff-skipped", { one: "{ $n } line the same", other: "{ $n } lines the same" }, { n: x.skipped })}\n` : `${x.op} ${x.text}\n` }))));
+  } else if (diffPart === "numbers") {
+    const d = resultDiff(a.result, b.result);
+    box.append(h("p", { class: "hint", text: t("js-desk-diff-numbers-note", "{ $n } numbers differ, { $same } are the same (of { $total } in the two results); the largest relative change first.", { n: d.rows.length + d.cut, same: d.same, total: d.total }) }));
+    if (d.rows.length) box.append(h("div", { class: "diff-scroll" }, h("table", { class: "tbl" },
+      h("thead", {}, h("tr", {}, h("th", { scope: "col", text: t("js-desk-col-path", "Path") }), h("th", { scope: "col", class: "num", text: "A" }), h("th", { scope: "col", class: "num", text: "B" }), h("th", { scope: "col", class: "num", text: t("js-desk-col-change", "B − A") }), h("th", { scope: "col", text: t("js-desk-col-unit", "Unit") }))),
+      h("tbody", {}, ...d.rows.slice(0, 200).map((r) => h("tr", {}, h("td", { class: "mono", text: r.path }), h("td", { class: "num", text: r.a === null ? "–" : V.fmt(r.a) }), h("td", { class: "num", text: r.b === null ? "–" : V.fmt(r.b) }), h("td", { class: `num ${r.delta > 0 ? "up" : r.delta < 0 ? "down" : ""}`, text: deltaText(r.delta, r.pct) }), h("td", { class: "n-u", text: r.unit })))))));
+  } else if (diffPart === "time") {
+    const v = diffViewOf(a, b);
+    box.append(v ? h("div", { class: "diff-time" }, h("div", { class: "panel linked diff-linked" }, v.node("timeline")), h("aside", { class: "diff-readout" }, v.readout())) : h("p", { class: "empty", text: t("js-desk-diff-no-time", "Run A has nothing over time to lay run B on.") }));
+    if (v) box.append(h("p", { class: "hint", text: t("js-desk-diff-time-note", "Run B's series are dashed and named B; its track is the dashed line on the map. One clock for both: the values at the cursor read A and B at the same instant.") }));
+  } else {
+    box.append(h("div", { class: "cmp-charts" }, ...[a, b].map((r, i) => h("figure", { style: "margin:0" }, h("figcaption", { class: "muted", style: "margin-bottom:6px", text: `${i ? "B" : "A"} · ${r.title}` }), h("div", { class: "panel" }, r.svg ? svgNode(r.svg) : h("p", { class: "panel-msg", text: t("js-desk-no-chart-short", "No chart.") }))))));
+  }
+  return sec;
+}
+let diffPart = "figures";
+const deltaText = (delta, pct) => (delta === null || delta === undefined ? "–" : `${delta > 0 ? "+" : delta < 0 ? "−" : ""}${V.fmt(Math.abs(delta))}${pct !== null && pct !== undefined && delta ? ` (${pct > 0 ? "+" : "−"}${Math.abs(pct).toFixed(1)} %)` : ""}`);
+// Run B laid over run A on A's clock (U22): A's linked views with B's series and track as overlays.
+let diffView = null;
+function diffViewOf(a, b) {
+  const key = `${a.uid || a.id}|${b.uid || b.id}`;
+  if (diffView && diffView.key === key) return diffView.view;
+  if (diffView && diffView.view) diffView.view.destroy();
+  diffView = { key, view: null };
+  try {
+    const mb = timeModel(b.result, V.seriesModel(b.result, b.toml), null);
+    const smA = V.seriesModel(a.result, a.toml);
+    const sm = smA ? { ...smA, series: (smA.series || []).map((x) => ({ ...x, label: `A · ${x.label}` })) } : null;
+    const view = createRunView({ t, icon: ic, run: a, seriesModel: sm, scene: null, loadLand: landFile, fmt: (x) => V.fmt(x), readoutLabel,
+      overlay: { series: overlaySeries(mb ? mb.series : []), ghosts: [ghostOf(mb)].filter(Boolean) } });
+    if (view) view.clock.seek(view.model.span[0], "diff");
+    diffView.view = view;
+    if (a.console && b.console) log({ kind: "compare", title: t("js-desk-log-diff", "Run diff #{ $a } and #{ $b }", { a: a.id, b: b.id }), ...diffLines(a.console, b.console) });
+  } catch (e) { console.error("Kshana Desktop: run diff", e); }
+  return diffView.view;
 }
 
 // ---------- library
@@ -1120,6 +1403,7 @@ function filesView() {
     D.answers.length ? h("div", { class: "det-list" }, ...D.answers.map(detItem)) : null,
     S.project.links.length ? [h("h2", { text: t("js-desk-links-title", "Data links of the project") }), h("ul", {}, ...S.project.links.map((l, i) => h("li", {}, h("span", { class: "mono", text: l.path }), h("span", { class: "muted", text: ` · ${familyLabel(l.family) || l.format || ""}` }), " ",
       h("button", { class: "linkish", type: "button", onclick: () => { S.project.links.splice(i, 1); saveSoon(); render(); } }, t("js-desk-links-remove", "remove")))))] : null,
+    trafficBox(),
     projectBox(),
     h("h2", { text: t("js-desk-files-scenario", "Scenario files") }),
     h("p", { class: "lede", text: t("js-desk-files-lede", "Open a scenario file from this machine. It opens in its own tab and runs with the engine here; the file is read, never changed.") }),
@@ -1140,8 +1424,20 @@ function detItem(a) {
     h("dl", { class: "kv" }, ...rows.flatMap((r) => [h("dt", { text: r.k }), h("dd", { class: r.warn ? "warn" : null, text: r.v })])),
     a.ok ? h("div", { class: "row", style: "margin-top:8px" },
       sc ? h("button", { class: "btn primary", type: "button", onclick: () => openDropped(a) }, a.opens_as.kind === "clock-log" ? t("js-desk-det-open-clock", "Open beside the clock simulation") : t("js-desk-det-open-trust", "Open as a receiver-trust run")) : null,
+      a.family === "tracks" ? h("button", { class: "btn primary", type: "button", onclick: () => openTrafficPath(a) }, t("js-desk-det-open-tracks", "Show the ships and aircraft on the map")) : null,
       h("button", { class: "btn", type: "button", onclick: () => addLink(a) }, t("js-desk-det-link", "Keep as a data link")),
       !a.path ? h("span", { class: "hint", text: t("js-desk-det-no-path", "Dropped without its path: drop it on the app's window to open it as a run.") }) : null) : null);
+}
+// Ships and aircraft (U17): a track file from this machine, or one of the engine's public samples.
+function trafficBox() {
+  const pick = h("input", { type: "file", id: "track-in", class: "vh" });
+  pick.addEventListener("change", async () => { const f = pick.files && pick.files[0]; if (f) await openTraffic(f.name, new Uint8Array(await f.arrayBuffer())); });
+  return h("section", { class: "card", "aria-labelledby": "tr-h", style: "max-width:800px;margin-bottom:18px" },
+    h("h2", { id: "tr-h", style: "margin-top:0", text: t("js-desk-tr-title", "Ships and aircraft") }),
+    h("p", { class: "muted", style: "margin:0", text: t("js-desk-tr-lede", "AIS, ADS-B (AVR, Beast), OpenSky, ASTERIX, NMEA 2000, MAVLink and ULog files, read by the engine's own connectors. The tracks are the positions as reported; their colour is the quality class each reader draws from the message's own accuracy and integrity fields, not a verdict on whether a position is true.") }),
+    h("div", { class: "row" }, pick, h("label", { for: "track-in", class: "btn primary", tabindex: "0", role: "button", onkeydown: (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); pick.click(); } } }, t("js-desk-tr-open", "Open a track file…"))),
+    h("p", { class: "hint", style: "margin:0", text: t("js-desk-tr-samples", "Public samples (synthetic or published worked examples; provenance in their NOTICE.md):") }),
+    h("div", { class: "row" }, ...TRACK_SAMPLES.map(([f, label]) => h("button", { class: "btn", type: "button", onclick: () => openTrafficSample(f) }, label))));
 }
 // The project box (U8): which folder the session is kept in; open or start another.
 function projectBox() {
@@ -1244,6 +1540,9 @@ function paletteActions() {
     { id: "export", label: t("js-desk-act-export", "Export an evidence pack of this run"), keywords: "export evidence pack zip", disabled: !(tab && tab.run), go: () => exportPack(tab && tab.run) },
     { id: "connect", icon: "receiver", label: t("js-desk-act-connect", "Connect a receiver (serial, TCP, file)"), keywords: "device receiver nmea serial connect", go: async () => { if (S.devices.api) S.devices.list = await S.devices.api.list().catch(() => []); go("devices"); } },
     { id: "file", label: t("js-desk-act-file", "Open a scenario file…"), keywords: "open file toml", go: () => { go("files"); $("file-in")?.click(); } },
+    { id: "tracks", label: t("js-desk-act-tracks", "Ships and aircraft: open a track file or a sample"), keywords: "ais adsb ads-b aircraft ship vessel tracks map traffic", go: () => { go("files"); $("tr-h")?.scrollIntoView({ block: "start" }); } },
+    { id: "sweep", label: t("js-desk-act-sweep", "Sweep this scenario over its settings"), keywords: "sweep grid parameter study heat map trade", disabled: !tab || !tab.toml || tab.traffic, go: () => { tab.view = "sweep"; render(); } },
+    { id: "panes", label: t("js-desk-act-panes", "Panes: plot, map, sky, inspector and console side by side"), keywords: "panes dock layout split window", disabled: !tab || !tab.run, go: () => { tab.view = "panes"; render(); } },
     { id: "library", label: t("js-desk-act-library", "Browse the scenario library"), keywords: "library scenarios browse", go: () => go("library") },
     { id: "runs", label: t("js-desk-act-runs", "Show the runs of this session"), keywords: "runs history search tags pins", go: () => go("runs") },
     { id: "console", label: t("js-desk-act-console", "Show the console (Python and command lines)"), keywords: "console python script code mirror cli", go: () => go("console") },
@@ -1378,6 +1677,8 @@ window.dispatchEvent(new CustomEvent("kshana-shell-ready", { detail: KshanaShell
 
 async function main() {
   restoreDensity();
+  // A language chosen in the title bar's control redraws the shell in it, without a reload (U18).
+  if (l10n && typeof l10n.setRerender === "function") l10n.setRerender(() => { renderTabs(); render(); });
   render();
   await readGroups();
   await restoreSession();

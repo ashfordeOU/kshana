@@ -227,6 +227,71 @@ engine labels them representative, not the broadcast constellation of the run's 
 Tests: `node --test apps/desktop/shell/lib/*.test.mjs apps/desktop/shell/lib/chart/journal.test.mjs`;
 the detective and project folders: `cargo test --manifest-path apps/desktop/src-tauri/Cargo.toml`.
 
+## Explain, ships and aircraft, panes, sweeps, run diff and languages
+
+**Explain this number (U11).** Any number of a result (the result strip, the key figures in the
+inspector, the Table view, the values at the cursor) is a button. It opens a card drawn from
+`lib/explain.mjs`: the figure's path in the result and its value as the engine wrote it; the
+provenance class of the result's `units` entry, in plain words; the scenario kind, the engine
+modules that compute it (`kind_modules`) and the kind's method page
+(`docs/kinds/by-kind/<kind>.md`); the engine's own words (the units definition, the pass or
+fail reason, the figure's tier note, the result's label); the scenario's numeric settings, the
+ones the engine ranks first (`field_importance`) at the top, and the one the figure echoes
+marked; the assumptions and limitations the result lists; the evidence tier (the figure's own
+from `figure_tiers`, else the result's) and the ledger rows it names; the SHA-256 of the
+scenario and of the result. **Sensitivity** runs the scenario again with each of the top four
+settings moved by ±10 % and gives the elasticity by the central difference: every value is a
+fresh run, none is estimated. A number the window shows without a path is looked up by its
+value and said to be so; a part the result does not state is said to be absent.
+
+**Ships and aircraft (U17).** A track file (AIS NMEA 0183, Mode S / ADS-B as AVR or Beast,
+OpenSky state vectors, ASTERIX, canboat NMEA 2000, MAVLink, ULog) dropped on the window,
+picked in Files and project, or one of the engine's public samples (`examples/tracks`, staged
+as `data/tracks/`; synthetic or published worked examples, provenance in their `NOTICE.md`) is
+decoded by the engine's own connectors (`src/interconnect`, through the native
+`decode_tracks`) and opens in a tab of its own on the time cursor and the map
+(`lib/traffic.mjs`): each object's reported track coloured by the quality class its reader
+draws from the message's own accuracy and integrity fields, and at the cursor a symbol along
+its course with its name, callsign or id; altitudes and speeds on the plot. The colour is a
+class, not a verdict on whether a position is true; there is no estimated track in the free
+edition.
+
+**Panes and layouts (U20).** A scenario tab's **Panes** view (`lib/dock.mjs`,
+`lib/dockview.mjs`) lays out the plot, the map, the sky plot, the engine's chart, the key
+figures, the inspector and the console side by side under one clock strip: drag the bars to
+resize (or arrow keys on a focused bar), drag a pane's title onto another pane to dock it at
+that side or swap the two, split, close, or show one pane alone. Four layouts are built in;
+named layouts are kept with the project in `layouts/saved.json`, each tab's in
+`layouts/session.json`.
+
+**Sweep studio (U21).** A scenario tab's **Sweep** view runs the scenario across one or two of
+its numeric settings (range, steps, linear or logarithmic, whole numbers or not) and reads one
+figure of the result from every run (`lib/sweepgrid.mjs`, `lib/sweepview.mjs`). The runs go to
+the native engine several at once (one fewer than the cores, at most eight); **Cancel** stops
+after the runs in progress. One setting draws a curve, two a heat map; a failed run is a
+crossed cell; any cell opens as an ordinary run (tagged `sweep`). The console writes the same
+grid as the engine's own `sweep-nd` scenario, so the sweep reproduces in one engine call.
+
+**Run diff (U22).** Comparing two runs (Runs, select two) gives five views: the key figures;
+the inputs (the settings that differ, with the change, and the scenario text line by line);
+every number of the two results that differs, the largest relative change first, with the
+engine's units; both runs on one time axis (run B's series dashed and named B, its track the
+dashed line on the map, one clock for both); and the engine's two charts.
+
+**Languages (U18).** The shell's messages are `i18n/en/desktop-js.ftl`, generated from its
+`t()` call sites (`node tools/i18n.mjs jsx --src apps/desktop/shell --out i18n/en/desktop-js.ftl`),
+translated in every language the Studio offers (`i18n/<lang>/desktop-js.ftl`, machine
+translation, not reviewed by a native speaker; English is the reference). The build stages
+them (`apps/desktop/stage-i18n.mjs`) with the Studio messages of the modules the shell imports
+and the glossary; the title bar's language control switches without a reload. Tests:
+`node --test apps/desktop/shell/i18n.test.mjs` (the catalogue is current, complete in every
+language and passes the Studio's checker).
+
+Tests: `node --test apps/desktop/shell/lib/explain.test.mjs apps/desktop/shell/lib/traffic.test.mjs
+apps/desktop/shell/lib/dock.test.mjs apps/desktop/shell/lib/sweepgrid.test.mjs
+apps/desktop/shell/lib/rundiff.test.mjs`; the native decode: `cargo test --manifest-path
+apps/desktop/src-tauri/Cargo.toml`.
+
 ## Charts
 
 `shell/lib/chart/` is the Desktop's interactive chart library (0.42 U30): pure ES modules, no
@@ -325,3 +390,7 @@ cargo install tauri-cli --version "^2" --locked     # once, for the bundles
   and the IQ view of a large recording in the page: the native commands for files exist;
   the page for them does not yet.
 - **Serial speed on Windows** is not set by the app.
+- **Pop-out windows, presentation and focus modes** of the panes (U20): one pane can be shown
+  alone inside the tab; separate windows are not made yet.
+- **Monte Carlo in the sweep studio** (U21): the grid runs one seed per cell; seeded ensembles
+  per cell are the engine's `campaign` kind, not offered in the window yet.
