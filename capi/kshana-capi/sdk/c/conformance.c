@@ -5,10 +5,18 @@
  *   cc -std=c99 -I include sdk/c/conformance.c target/release/libkshana_capi.a -lpthread -ldl -lm -o conformance
  *   ./conformance <outdir> <s1.toml> <s2.toml> <s3.toml> <mapping.toml> <station.toml> <log>
  */
+#ifndef _WIN32
+#define _POSIX_C_SOURCE 200809L /* open() and fdopen() under -std=c99 */
+#endif
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "kshana.h"
+#ifndef _WIN32
+#include <fcntl.h>
+#include <sys/stat.h>
+#include <unistd.h>
+#endif
 
 static char *slurp(const char *path) {
     FILE *f = fopen(path, "rb");
@@ -27,7 +35,15 @@ static char *slurp(const char *path) {
 static int put(const char *dir, const char *name, const char *text) {
     char path[4096];
     snprintf(path, sizeof path, "%s/%s", dir, name);
+#ifdef _WIN32
     FILE *f = fopen(path, "wb");
+#else
+    /* Owner read-write, everyone else read-only (0644), whatever the caller's umask allows. */
+    int fd = open(path, O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+    if (fd < 0) return 1;
+    FILE *f = fdopen(fd, "wb");
+    if (!f) { close(fd); return 1; }
+#endif
     if (!f) return 1;
     size_t n = strlen(text);
     int bad = fwrite(text, 1, n, f) != n;
