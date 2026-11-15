@@ -1,0 +1,57 @@
+# Kshana Station (roadmap 0.42 I10). Read deploy/helm/kshana-station/README.md first.
+
+image:
+  # The signed reference image carries the kshana command for amd64 and arm64. The smaller edge image
+  # (deploy/edge/Dockerfile) can be used instead once you have built and pushed it.
+  repository: ghcr.io/ashfordeou/kshana-reference-build
+  # Defaults to the chart's appVersion.
+  tag: ""
+  pullPolicy: IfNotPresent
+
+# The Station configuration (TOML). Leave empty to use the bundled example (files/station.toml), or
+# name an existing ConfigMap with key station.toml. Keep [output] dir under /var/lib/kshana-station and
+# [http] as in the example: listen on 0.0.0.0:8470 with token_file /etc/kshana-station/token/token.
+station: ""
+existingStationConfigMap: ""
+
+token:
+  # The bearer token every request but /health needs. Name an existing Secret with key `token`, or leave
+  # empty and the chart creates one with a random 32-character value (kept across upgrades).
+  existingSecret: ""
+
+http:
+  # The Service's port. The container's port is the Station's listen port, 8470 (files/station.toml).
+  port: 8470
+
+persistence:
+  # Keep the observation files on a PersistentVolumeClaim; when false they live in an emptyDir and are
+  # lost with the pod.
+  enabled: true
+  size: 8Gi
+  storageClass: ""
+  accessModes: ["ReadWriteOnce"]
+  existingClaim: ""
+
+resources:
+  requests:
+    cpu: 50m
+    memory: 32Mi
+  limits:
+    memory: 256Mi
+
+podSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 10001
+  runAsGroup: 10001
+  fsGroup: 10001
+  seccompProfile:
+    type: RuntimeDefault
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: true
+  capabilities:
+    drop: ["ALL"]
+
+nodeSelector: {}
+tolerations: []
+affinity: {}

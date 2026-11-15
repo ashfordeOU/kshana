@@ -323,6 +323,22 @@ fi
 # The OpenAPI description of the open HTTP endpoints names the engine version (docs/api/openapi.json).
 check_json_version docs/api/openapi.json 'd["info"]["version"]' "info.version (OpenAPI)"
 
+# The Station chart deploys the same image tag (deploy/helm/kshana-station), the Terraform module names
+# it in its default image, and the edge image states it in its OCI label.
+station_chart="deploy/helm/kshana-station/Chart.yaml"
+if ! grep -qE "^appVersion: \"${ver//./\\.}\"$" "$station_chart"; then
+  echo "FAIL: $station_chart appVersion is not \"${ver}\"." >&2
+  fail=1
+fi
+if ! grep -qE "kshana-reference-build:${ver//./\\.}\"" deploy/terraform/kshana-station/variables.tf; then
+  echo "FAIL: deploy/terraform/kshana-station/variables.tf default image is not kshana-reference-build:${ver}." >&2
+  fail=1
+fi
+if ! grep -qE "^LABEL +org\.opencontainers\.image\.version=\"?${ver//./\\.}\"?( |\$)" deploy/edge/Dockerfile; then
+  echo "FAIL: deploy/edge/Dockerfile has no 'LABEL org.opencontainers.image.version=\"${ver}\"'." >&2
+  fail=1
+fi
+
 # The Studio's recorded runs carry the engine version that wrote them (the wasm's own
 # version() when the recordings are made), the best runtime marker of which engine the
 # Studio shows. web/studio/channels.json (install strings) is checked in section 5 above.

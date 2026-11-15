@@ -1,0 +1,11 @@
+{{- if not .Values.existingStationConfigMap }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "kshana-station.fullname" . }}-config
+  labels:
+    {{- include "kshana-station.labels" . | nindent 4 }}
+data:
+  station.toml: |
+    {{- default (.Files.Get "files/station.toml") .Values.station | nindent 4 }}
+{{- end }}
