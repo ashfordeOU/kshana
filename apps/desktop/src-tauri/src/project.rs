@@ -14,7 +14,9 @@ pub const MAX_FILE_BYTES: usize = 64 * 1024 * 1024;
 /// The most files read from a project.
 pub const MAX_FILES: usize = 20_000;
 /// The extensions a project file may have.
-const KINDS: &[&str] = &["json", "toml", "md", "txt", "csv", "svg", "py", "sh"];
+const KINDS: &[&str] = &[
+    "json", "toml", "md", "txt", "csv", "svg", "py", "sh", "ipynb", "html",
+];
 
 /// One file to write: its path inside the project and its text.
 #[derive(Deserialize)]
@@ -196,6 +198,8 @@ mod tests {
     #[test]
     fn paths_stay_inside_the_project() {
         assert!(safe_rel("runs/1/run.json").is_ok());
+        assert!(safe_rel("notebooks/lab.ipynb").is_ok());
+        assert!(safe_rel("notebooks/x.exe").is_err());
         assert!(safe_rel("../evil.json").is_err());
         assert!(safe_rel("/etc/passwd.json").is_err());
         assert!(safe_rel("runs/.hidden.json").is_err());
