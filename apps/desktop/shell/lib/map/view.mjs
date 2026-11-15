@@ -8,13 +8,16 @@
 // Two canvases: the base (land, areas, the whole track) is drawn when the view, data, range
 // or style change; the top layer (trail to the cursor, position, markers, satellites) on
 // every clock change. Drag pans, the wheel zooms, a click on a track point drops a timed
-// marker there, hovering shows the latitude and longitude.
+// marker there, hovering shows the latitude and longitude. Ships and aircraft from a track
+// file (0.42 U17, lib/traffic.mjs): each one's reported track coloured by its reader's quality
+// class, and at the cursor a symbol pointing along its course with its name or id.
 import {
   toWorld, project, unproject, zoomAbout, panBy, fitBounds, boundsOf, metresPerPixel, scaleBar, graticuleStep,
   decodeLand, boxInView, worldCopies, worldToScreen, scaleOf, circleRing, nearestPoint, latLonText, PROJECTION_NAME, MAX_LAT,
 } from "./proj.mjs";
-import { trackColor } from "./style.mjs";
+import { trackColor, qualityColor } from "./style.mjs";
 import { positionAt } from "../timemodel.mjs";
+import { trafficAt, headingAt, objectLabel, QUALITY } from "../traffic.mjs";
 import { indexAtOrBefore, clockText } from "../clock.mjs";
 
 // The land layers, loaded once per window: 110m for the world, 50m from zoom 3.5.
@@ -81,6 +84,7 @@ export function createMapView({ t = (id, en) => en, loadLand, style, styleName =
   let V = { cx: 0.5, cy: 0.5, zoom: 1 };
   let fitted = false;
   let deltaMarks = []; // the plot's markers A and B on the map (0.42 U12)
+  let trafficHits = []; // where the ships and aircraft were drawn at the cursor, for the hover
   // Screen positions of the track, made with the base layer (for the trail, hits and hover).
   let TX = new Float32Array(0), TY = new Float32Array(0), TC = [], halfWorld = Infinity;
 
@@ -100,6 +104,8 @@ export function createMapView({ t = (id, en) => en, loadLand, style, styleName =
     for (const s of M.sites) add(s.lon, s.lat);
     for (const a of M.areas) for (const p of a.outerRing || a.innerRing || []) add(p[0], p[1]);
     for (const r of M.routes) for (let i = 0; i < r.lon.length; i++) add(r.lon[i], r.lat[i]);
+    for (const gh of M.ghosts || []) for (let i = 0; i < gh.t.length; i++) add(gh.lon[i], gh.lat[i]);
+    if (M.traffic) for (const o of M.traffic.objects) for (let i = 0; i < o.t.length; i += Math.max(1, Math.floor(o.t.length / 400))) add(o.lon[i], o.lat[i]);
     return lons.length ? boundsOf(lons, lats) : null;
   }
   ctl.fit = () => {
@@ -280,6 +286,55 @@ export function createMapView({ t = (id, en) => en, loadLand, style, styleName =
       label(g, siteName(s), x + 9, y - 7, s.role === "jammer" ? st.jammer : st.text);
     }
   }
+  // Each object's reported track: dim in full, coloured by quality class inside the clock's range.
+  function drawTrafficTracks(g) {
+    if (!M.traffic) return;
+    const r = C && C.range;
+    const a = r ? r[0] : -Infinity, b = r ? r[1] : Infinity;
+    g.lineJoin = "round"; g.lineCap = "round";
+    for (const o of M.traffic.objects) {
+      if (o.t.length < 2) continue;
+      const pts = [];
+      for (let i = 0; i < o.t.length; i++) pts.push(project(V, W, H, o.lon[i], o.lat[i]));
+      g.globalAlpha = 0.35; g.lineWidth = 1; g.strokeStyle = st.text2;
+      g.beginPath();
+      for (let i = 0; i < pts.length; i++) { const [x, y] = pts[i]; if (i && Math.abs(x - pts[i - 1][0]) < W) g.lineTo(x, y); else g.moveTo(x, y); }
+      g.stroke();
+      g.globalAlpha = 0.8; g.lineWidth = 1.8;
+      for (let i = 1; i < pts.length; i++) {
+        if (o.t[i] < a || o.t[i - 1] > b || Math.abs(pts[i][0] - pts[i - 1][0]) >= W) continue;
+        g.strokeStyle = qualityColor(st, o.q[i]);
+        g.beginPath(); g.moveTo(pts[i - 1][0], pts[i - 1][1]); g.lineTo(pts[i][0], pts[i][1]); g.stroke();
+      }
+      g.globalAlpha = 1;
+    }
+  }
+  // A second run's track laid over this one (0.42 U22 run diff): dashed, labelled with its tag.
+  function drawGhosts(g) {
+    for (const gh of M.ghosts || []) {
+      g.save(); g.setLineDash([6, 4]); g.strokeStyle = st.text; g.lineWidth = 1.6; g.globalAlpha = 0.8;
+      g.beginPath();
+      let px = null;
+      for (let i = 0; i < gh.t.length; i++) { const [x, y] = project(V, W, H, gh.lon[i], gh.lat[i]); if (px !== null && Math.abs(x - px) < W) g.lineTo(x, y); else g.moveTo(x, y); px = x; }
+      g.stroke(); g.restore();
+      const [x, y] = project(V, W, H, gh.lon[gh.t.length - 1], gh.lat[gh.t.length - 1]);
+      label(g, gh.label, x + 8, y + 14, st.text);
+    }
+  }
+  // A ship (a hull pointing along its course), an aircraft (a chevron) or another vehicle (a disc) at x, y.
+  function trafficSymbol(g, kind, x, y, heading, color, faded) {
+    g.save();
+    g.translate(x, y);
+    if (Number.isFinite(heading)) g.rotate(heading * Math.PI / 180);
+    g.globalAlpha = faded ? 0.45 : 1;
+    g.beginPath();
+    if (kind === "vessel") { g.moveTo(0, -8); g.lineTo(4.5, -2); g.lineTo(4.5, 7); g.lineTo(-4.5, 7); g.lineTo(-4.5, -2); g.closePath(); }
+    else if (kind === "aircraft") { g.moveTo(0, -8); g.lineTo(6.5, 6); g.lineTo(0, 2.5); g.lineTo(-6.5, 6); g.closePath(); }
+    else { g.arc(0, 0, 5, 0, Math.PI * 2); }
+    g.fillStyle = color; g.fill();
+    g.lineWidth = 1.4; g.strokeStyle = st.halo; g.stroke();
+    g.restore();
+  }
   const siteName = (s) => ({ receiver: t("js-desk-map-receiver", "receiver"), station: t("js-desk-map-station", "ground station"), jammer: t("js-desk-map-jammer", "jammer (modelled)"), origin: t("js-desk-map-origin", "frame origin") })[s.role] || s.id;
   function symbol(g, role, x, y, color) {
     g.lineWidth = 1.6; g.strokeStyle = st.halo;
@@ -305,6 +360,8 @@ export function createMapView({ t = (id, en) => en, loadLand, style, styleName =
     if (!M) return;
     drawAreas(g);
     drawRoutes(g);
+    drawTrafficTracks(g);
+    drawGhosts(g);
     projectTrack();
     drawTrack(g);
     drawSites(g);
@@ -381,6 +438,28 @@ export function createMapView({ t = (id, en) => en, loadLand, style, styleName =
         label(g, ok ? t("js-desk-map-fix", "fix held · { $n } tracking", { n: e.tracking }) : t("js-desk-map-nofix", "fix lost · { $n } tracking", { n: e.tracking }), x + 12, y + 16, ok ? st.trusted : st.untrusted);
       }
     }
+    // The second run of a diff at the cursor: a hollow ring with its tag.
+    for (const gh of M.ghosts || []) {
+      const p = positionAt(gh, C.t);
+      if (!p) continue;
+      const [x, y] = project(V, W, H, p.lon, p.lat);
+      g.strokeStyle = st.cursor; g.lineWidth = 2; g.beginPath(); g.arc(x, y, 6.5, 0, Math.PI * 2); g.stroke();
+      label(g, gh.label, x + 9, y - 8, st.text);
+    }
+    // Ships and aircraft at the cursor (0.42 U17).
+    if (M.traffic) {
+      const at = trafficAt(M.traffic, C.t);
+      const showLabels = at.length <= 60;
+      trafficHits = [];
+      for (const x of at) {
+        const [px, py] = project(V, W, H, x.lon, x.lat);
+        if (px < -12 || px > W + 12 || py < -12 || py > H + 12) continue;
+        const c = qualityColor(st, x.q);
+        trafficSymbol(g, x.o.kind, px, py, headingAt(x.o, x.i), c, x.stale);
+        trafficHits.push({ x: px, y: py, a: x });
+        if (showLabels) label(g, objectLabel(x.o), px + 9, py - 7, x.stale ? st.text2 : st.text);
+      }
+    }
     // Satellites (sub-satellite points) at the cursor.
     const sats = M.movers.filter((m) => m.role === "satellite" && !(tr && m.id === "satellite" && M.movers.length === 1));
     for (const m of sats) {
@@ -405,6 +484,13 @@ export function createMapView({ t = (id, en) => en, loadLand, style, styleName =
     if (M && M.areas.length) {
       row(st.areaFill, t("js-desk-map-area-inner", "every satellite lost"));
       row(st.areaBand, t("js-desk-map-area-outer", "tracking starts to fail (uncertainty band)"), true);
+    }
+    for (const gh of (M && M.ghosts) || []) row(st.text, t("js-desk-map-ghost", "run { $tag } (dashed)", { tag: gh.label }), true);
+    if (M && M.traffic && M.traffic.objects.length) {
+      row(qualityColor(st, 0), t("js-desk-map-q-good", "good (reported quality)"));
+      row(qualityColor(st, 1), t("js-desk-map-q-intermediate", "intermediate"));
+      row(qualityColor(st, 2), t("js-desk-map-q-degraded", "degraded or flagged"));
+      row(qualityColor(st, 3), t("js-desk-map-q-unknown", "no quality fields"));
     }
     if (M && M.movers.some((m) => m.role === "satellite") && !(M.track && M.movers.length === 1)) row(st.satellite, t("js-desk-map-sats", "satellites (sub-satellite points)"));
     legend.replaceChildren(...items);
@@ -455,6 +541,14 @@ export function createMapView({ t = (id, en) => en, loadLand, style, styleName =
     let s = latLonText(lat, lon);
     const i = M && M.track ? nearestPoint(TX, TY, x, y, 8) : -1;
     if (i >= 0) s += ` · ${clockText(M.track.t[i], { epochMs: M.epochMs })} · ${t("js-desk-map-click-mark", "click to mark")}`;
+    let best = null, bd = 10;
+    for (const h of trafficHits) { const d = Math.hypot(h.x - x, h.y - y); if (d < bd) { bd = d; best = h.a; } }
+    if (best) {
+      const o = best.o;
+      const alt = Number.isFinite(o.alt[best.i]) ? ` · ${Math.round(o.alt[best.i])} m` : "";
+      const sog = Number.isFinite(o.sog[best.i]) ? ` · ${o.sog[best.i]} kn` : "";
+      s = `${objectLabel(o)}${o.name ? ` (${o.id})` : ""} · ${o.source} · ${t("js-desk-map-q-reported", "reported quality { $q }", { q: QUALITY[best.q] })}${alt}${sog} · ${M.traffic.timed ? clockText(o.t[best.i], { epochMs: M.epochMs }) : t("js-desk-map-msg-n", "message { $n }", { n: o.t[best.i] + 1 })}`;
+    }
     hover.textContent = s;
     hover.hidden = false;
     over.style.cursor = i >= 0 ? "pointer" : drag && drag.moved ? "grabbing" : "grab";
