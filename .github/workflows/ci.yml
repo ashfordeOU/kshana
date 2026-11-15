@@ -200,8 +200,23 @@ jobs:
         # tree: 57 crates inspected without it, 65 with; both verdicts clean today, so
         # the change adds coverage without turning the gate red.
         run: cargo deny --all-features check advisories licenses bans sources
-  coverage:
+  coverage-shard:
     runs-on: ubuntu-latest
+    # 2026-11-15, 0.42 wave 2 (PR #103): the single coverage run passed five and a half hours, against
+    # GitHub's 360-minute limit for hosted runners, which cannot be raised. The run is now split into
+    # five shards that run side by side: the library and binary unit tests, and the integration tests
+    # (tests/*.rs) dealt round-robin into four groups by scripts/coverage-shard.py. Every test runs in
+    # exactly one shard (tests/coverage_shards.rs); none is skipped, reduced or ignored. The
+    # `coverage` job below merges the shards' lcov and enforces the same 85 % floor.
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { id: lib, args: "lib" }
+          - { id: it0, args: "0 4" }
+          - { id: it1, args: "1 4" }
+          - { id: it2, args: "2 4" }
+          - { id: it3, args: "3 4" }
     # Source-based LLVM instrumentation runs the same full suite as `check` under
     # coverage counters. Healthy steady-state is ~91-94 min.
     #
@@ -314,12 +329,36 @@ jobs:
           --exclude-files 'src/main.rs'
           --exclude-files 'tests/*'
           --exclude-files 'web/*'
-          --timeout 3600 --fail-under 85
+          --timeout 3600
+          $(python3 scripts/coverage-shard.py ${{ matrix.args }})
       - name: Disk headroom after the coverage build
         # Diagnostic only: records how close the instrumented build came to the runner's limit,
         # so the next growth in test targets is visible before it becomes a SIGBUS.
         if: always()
         run: df -h / && du -sh target 2>/dev/null || true
+      - name: Upload this shard's lcov
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: coverage-shard-${{ matrix.id }}
+          path: coverage/lcov.info
+          if-no-files-found: error
+  coverage:
+    # Merges the five shards' lcov into one report and enforces the 85 % line floor (the measure
+    # `cargo tarpaulin --fail-under 85` applied to the single run). The merged report keeps the
+    # artifact name `coverage-lcov` that sonarcloud.yml downloads.
+    needs: coverage-shard
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          pattern: coverage-shard-*
+          path: shards
+      - name: Merge the shards and enforce the line floor
+        run: |
+          mkdir -p coverage
+          python3 scripts/coverage-merge.py --fail-under 85 --out coverage/lcov.info shards/*/lcov.info
       - name: Upload lcov report
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
