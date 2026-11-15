@@ -1,6 +1,8 @@
 # Kshana Desktop shell (apps/desktop/shell): the messages of i18n/en/desktop-js.ftl in this language.
 # Machine translation, not reviewed by a native speaker. English is the reference.
 
+js-desk-act-bridge = Brugmodus (rood) aan of uit
+
 js-desk-act-compare = De 2 geselecteerde runs vergelijken
 
 js-desk-act-compare-hint = kies er twee in Runs
@@ -11,6 +13,8 @@ js-desk-act-console = De console tonen (Python en opdrachtregels)
 
 js-desk-act-copy-py = De sessie als Python kopiëren
 
+js-desk-act-course = Cursus: begeleide lessen
+
 js-desk-act-density-comfortable = Weergave: ruime dichtheid
 
 js-desk-act-density-compact = Weergave: compacte dichtheid
@@ -19,9 +23,17 @@ js-desk-act-export = Een bewijspakket van deze run exporteren
 
 js-desk-act-file = Een scenariobestand openen…
 
+js-desk-act-globe = Wereldbol van deze run
+
 js-desk-act-library = De scenariobibliotheek doorbladeren
 
+js-desk-act-live = Live AIS of ADS-B van een ontvanger
+
+js-desk-act-notebook = Python-notitieboek en console
+
 js-desk-act-panes = Panelen: grafiek, kaart, hemel, inspector en console naast elkaar
+
+js-desk-act-plots = Grafieken: Allan-deviatie, MTIE, TDEV, Stanford, spectrum
 
 js-desk-act-project = Project, datakoppelingen en neergezette bestanden
 
@@ -49,6 +61,12 @@ js-desk-ago-s = { $n } s geleden
 
 js-desk-at-cursor = Bij de cursor
 
+js-desk-bridge = Brug
+
+js-desk-bridge-off = Brugmodus uit.
+
+js-desk-bridge-on = Brugmodus: het venster in roodtinten op zwart.
+
 js-desk-cancel = Annuleren
 
 js-desk-chart-not-drawn = Deze grafiek kon niet worden getekend.
@@ -56,6 +74,62 @@ js-desk-chart-not-drawn = Deze grafiek kon niet worden getekend.
 js-desk-clear = De selectie wissen
 
 js-desk-close-tab = { $title } sluiten
+
+js-desk-co-assistant = Een assistent die vragen over een les beantwoordt, is gepland; hij zit niet in deze versie.
+
+js-desk-co-at = stap { $n } van { $total }
+
+js-desk-co-back = Terug
+
+js-desk-co-compare = eerste run { $a } → deze run { $b }
+
+js-desk-co-continue = Doorgaan
+
+js-desk-co-done = klaar
+
+js-desk-co-english = De lessen zijn in het Engels geschreven.
+
+js-desk-co-failed = De lessen konden niet worden gelezen: { $reason }
+
+js-desk-co-finish = Les afronden
+
+js-desk-co-finished = Les afgerond.
+
+js-desk-co-kits = Reproductiekits voor het artikel: de scenario’s en figuren van het artikel (paper/ en paper-artifacts/ in de repository) draaien vanaf de opdrachtregel; een begeleide kit in dit venster is er nog niet.
+
+js-desk-co-leave = Les verlaten
+
+js-desk-co-lede = Begeleide lessen over de meegeleverde scenario’s: elke stap zegt wat je uitvoert, waar je kijkt en wat je verandert, en controleert dat in je eigen runs. De lessen leggen de modellen van de engine uit; het is lesmateriaal, geen beoordeling of kwalificatie.
+
+js-desk-co-lesson = Les: { $title }
+
+js-desk-co-loading = De lessen worden geladen…
+
+js-desk-co-met = ✓ Klaar
+
+js-desk-co-more = Ook in de cursus
+
+js-desk-co-new = { $n } stappen, ongeveer { $min } min
+
+js-desk-co-next = Volgende
+
+js-desk-co-no-field = Dit scenario heeft geen instelling { $key }.
+
+js-desk-co-skip = Deze stap overslaan
+
+js-desk-co-start = Beginnen
+
+js-desk-co-step = Les · stap { $n } van { $total }
+
+js-desk-co-title = Cursus
+
+js-desk-co-try = Probeer te veranderen
+
+js-desk-co-try-set = Zet op { $v } en voer uit
+
+js-desk-co-value = waarde { $v }
+
+js-desk-co-wait = Wacht op deze stap
 
 js-desk-col-change = B − A
 
@@ -166,6 +240,8 @@ js-desk-det-no-scenario = Dit bestand blijft een datakoppeling; geen scenario op
 js-desk-det-objects = objecten
 
 js-desk-det-open-clock = Naast de kloksimulatie openen
+
+js-desk-det-open-iq = Spectrum en waterval
 
 js-desk-det-open-tracks = De schepen en vliegtuigen op de kaart tonen
 
@@ -415,6 +491,44 @@ js-desk-free-edition = Gratis editie
 
 js-desk-free-line = Vloot, forensisch onderzoek en ondertekende dossiers horen bij Pro.
 
+js-desk-gl-bridge = Brug (rood)
+
+js-desk-gl-coast = kustlijnen (Natural Earth)
+
+js-desk-gl-cover = dekking boven { $mask }° bij de cursor
+
+js-desk-gl-earth = Aarde (WGS-84)
+
+js-desk-gl-follow = Volgen
+
+js-desk-gl-follow-none = Volgen: niets
+
+js-desk-gl-follow-x = Volgen: { $name }
+
+js-desk-gl-grat = gradennet 30°
+
+js-desk-gl-imagery = Beelden
+
+js-desk-gl-imagery-off = Beelden: uit
+
+js-desk-gl-imagery-wait = Beelden: de tegels worden één keer opgehaald en daarna op deze computer bewaard.
+
+js-desk-gl-note = Posities zoals de engine ze exporteert (aardvast, hoogten boven WGS-84). Dekking: het gebied dat elke satelliet boven het elevatiemasker ziet, op een bolvormige aarde. Kustlijnen Natural Earth (publiek domein).
+
+js-desk-gl-pack = regiopakket: { $name }
+
+js-desk-gl-sites = locaties
+
+js-desk-gl-sub = aardvast, WGS-84
+
+js-desk-gl-title = Wereldbol
+
+js-desk-gl-tools = Wereldbol
+
+js-desk-gl-track = het spoor van de run
+
+js-desk-gl-traffic = schepen en vliegtuigen bij de cursor
+
 js-desk-home-all-in = Alle { $n } in dit gebied →
 
 js-desk-home-areas = Begin met een vraag
@@ -437,6 +551,38 @@ js-desk-ins-result = Resultaat
 
 js-desk-inspector = Inspector
 
+js-desk-iq-cannot = Deze opname kan alleen het native deel van de app lezen, via het pad.
+
+js-desk-iq-centre = middenfrequentie
+
+js-desk-iq-draw = Tekenen
+
+js-desk-iq-failed = De opname kon niet worden gelezen: { $reason }
+
+js-desk-iq-ins = De opname
+
+js-desk-iq-need-rate = Vul de bemonsteringsfrequentie in (samples per seconde): een ruwe opname bevat die niet.
+
+js-desk-iq-nfft = FFT-grootte
+
+js-desk-iq-note = { $s } s van de opname vanaf { $from } s ({ $n } samples, { $fmt }). Vermogen ten opzichte van een sample op volle schaal (dBFS/Hz): een opname bevat geen kalibratie.
+
+js-desk-iq-offset = Vanaf (s)
+
+js-desk-iq-rate = Bemonsteringsfrequentie (Hz)
+
+js-desk-iq-read-only = Alleen lezen, in blokken: de opname wordt nooit in zijn geheel geladen.
+
+js-desk-iq-reading = De opname wordt in blokken gelezen…
+
+js-desk-iq-short = Te weinig samples daar voor een spectrum.
+
+js-desk-iq-spectrum = Spectrum (Welch)
+
+js-desk-iq-sub = { $n } segmenten van { $nfft } samples, Hann-venster, RBW { $rbw } Hz
+
+js-desk-iq-waterfall = Waterval
+
 js-desk-json-cut = Het resultaat is lang: het hele document staat onder Exporteren, Resultaat-JSON.
 
 js-desk-key-figures = Kengetallen
@@ -457,6 +603,8 @@ js-desk-lib-title = Scenariobibliotheek
 
 js-desk-links-remove = verwijderen
 
+js-desk-links-spectrum = spectrum
+
 js-desk-links-title = Datakoppelingen van het project
 
 js-desk-load-failed = { $file } kon niet worden geladen.
@@ -466,6 +614,8 @@ js-desk-loading = Bezig met laden…
 js-desk-log-cell = Run { $n }: cel van de variatie { $where }
 
 js-desk-log-compare = Runs #{ $a } en #{ $b } vergelijken
+
+js-desk-log-course = Les { $title }
 
 js-desk-log-diff = Verschil van runs #{ $a } en #{ $b }
 
@@ -477,15 +627,21 @@ js-desk-log-export = { $what } van run { $n } exporteren
 
 js-desk-log-inspect = { $name } inspecteren
 
+js-desk-log-iq = Spectrum van { $name }
+
 js-desk-log-layout = Panelen van { $title }: { $what }
 
 js-desk-log-layout-saved = Indeling { $name } opgeslagen
+
+js-desk-log-live = Live { $format } van { $source }
 
 js-desk-log-markers = Markeringen op run { $n }
 
 js-desk-log-open = { $title } openen
 
 js-desk-log-pack = Bewijspakket van run { $n }
+
+js-desk-log-plots = Grafieken van { $title }
 
 js-desk-log-project = Project { $dir } openen
 
@@ -504,6 +660,48 @@ js-desk-log-sky = Hemelgrafiek van { $title }
 js-desk-log-sweep = Variatie { $n }: { $title }, { $cells } runs
 
 js-desk-log-tracks = Schepen en vliegtuigen uit { $name }
+
+js-desk-lv-ais = AIS, NMEA 0183-zinnen (TCP of UDP)
+
+js-desk-lv-avr = ADS-B, AVR-hexregels (poort 30002)
+
+js-desk-lv-bad = Schrijf een bron als tcp:<host>:<port>, of udp:<address>:<port> voor AIS.
+
+js-desk-lv-beast = ADS-B, Beast (dump1090 / readsb poort 30005)
+
+js-desk-lv-follow = Het nieuwste volgen
+
+js-desk-lv-format = Formaat
+
+js-desk-lv-honest = Posities zoals uitgezonden, gekleurd naar de kwaliteitsklasse die elke lezer afleidt uit de eigen velden van het bericht; geen oordeel over of een positie waar is. Niet voor navigatie.
+
+js-desk-lv-lede = Lees AIS uit de TCP- of UDP-uitvoer van een ontvanger, of ADS-B uit een dump1090 of readsb op deze computer of je netwerk, en volg het verkeer op de kaart. De app leest alleen; de eigen lezers van de engine decoderen de berichten.
+
+js-desk-lv-network = Deze UDP-bron neemt datagrammen uit het netwerk aan, niet alleen van deze computer.
+
+js-desk-lv-note = De tijden zijn wanneer elk bericht deze computer bereikte. Alleen lezen.
+
+js-desk-lv-pause = Updates pauzeren
+
+js-desk-lv-reading = Lezen van { $source } ({ $format }): { $n } berichten, { $kept } bewaard (de laatste { $min } min).
+
+js-desk-lv-resume = Updates hervatten
+
+js-desk-lv-show = Kaart tonen
+
+js-desk-lv-source = Bron: tcp:<host>:<port>, of udp:<address>:<port> voor AIS
+
+js-desk-lv-start = Starten
+
+js-desk-lv-stopped = Leest niet.
+
+js-desk-lv-stopped-err = Gestopt: { $reason }
+
+js-desk-lv-tab = Live: { $source }
+
+js-desk-lv-title = Schepen en vliegtuigen live
+
+js-desk-lv-waiting = Wachten op de eerste posities…
 
 js-desk-map-area = storingsgebied ({ $ev })
 
@@ -611,6 +809,8 @@ js-desk-native = native
 
 js-desk-nav-console = Console
 
+js-desk-nav-course = Cursus
+
 js-desk-nav-devices = Apparaten
 
 js-desk-nav-evidence = Bewijspakketten
@@ -623,9 +823,79 @@ js-desk-nav-library = Scenariobibliotheek
 
 js-desk-nav-main = Hoofd
 
+js-desk-nav-notebook = Python-notitieboek
+
 js-desk-nav-pro = PRO
 
 js-desk-nav-runs = Runs
+
+js-desk-nb-add-code = Code toevoegen
+
+js-desk-nb-add-text = Tekst toevoegen
+
+js-desk-nb-check = Opnieuw controleren
+
+js-desk-nb-cite = Citeren
+
+js-desk-nb-code = Python-cel { $n }
+
+js-desk-nb-console = Console
+
+js-desk-nb-console-note = Enter voert uit; Shift+Enter begint een nieuwe regel. De console deelt de sessie van het notitieboek; de geschiedenis wordt niet in het project bewaard.
+
+js-desk-nb-delete = verwijderen
+
+js-desk-nb-down = Omlaag
+
+js-desk-nb-export-ipynb = Jupyter
+
+js-desk-nb-found = Python { $py } ({ $exe }) met het pakket kshana { $ver }.
+
+js-desk-nb-from-console = Python van de console toevoegen
+
+js-desk-nb-interp = Te gebruiken Python (leeg: python3, dan python)
+
+js-desk-nb-kept = Bewaard als notebooks/{ $file } in het project; het opent zo in Jupyter. De pdf bevat de tekst van de cellen en hun uitvoer; de figuren staan in de HTML- en Jupyter-bestanden.
+
+js-desk-nb-lede = Python-cellen en notities bij het project, uitgevoerd door de Python op deze computer met het pakket kshana (pip install kshana). De cellen delen één sessie, gestart in de projectmap.
+
+js-desk-nb-mirror-empty = De console heeft nog geen Python-regels.
+
+js-desk-nb-new = Nieuw notitieboek
+
+js-desk-nb-new-ph = Holdover-studie
+
+js-desk-nb-no-kshana = Python { $py } ({ $exe }) draait, maar het pakket kshana is daar niet te importeren: pip install kshana. Cellen die het niet gebruiken, werken nog wel.
+
+js-desk-nb-no-native = Python draait via het native deel van de app, dat dit venster niet heeft.
+
+js-desk-nb-no-python = Er is geen Python gevonden op deze computer (geprobeerd: { $tried }). Installeer Python 3 (python.org of de pakketten van je systeem), daarna pip install kshana, en controleer opnieuw.
+
+js-desk-nb-none = Nog geen notitieboek in dit project.
+
+js-desk-nb-pick = Notitieboek
+
+js-desk-nb-probing = Python zoeken…
+
+js-desk-nb-run = Uitvoeren
+
+js-desk-nb-run-all = Alles uitvoeren
+
+js-desk-nb-running = Bezig…
+
+js-desk-nb-stop = Sessie beëindigen
+
+js-desk-nb-stopped = De Python-sessie is beëindigd; de volgende cel start een nieuwe.
+
+js-desk-nb-text = Tekstcel { $n }
+
+js-desk-nb-title = Python-notitieboek
+
+js-desk-nb-tools = Notitieboekgereedschap
+
+js-desk-nb-untitled = Notitieboek { $n }
+
+js-desk-nb-up = Omhoog
 
 js-desk-new-tab = Een scenario in een nieuw tabblad openen
 
@@ -712,6 +982,22 @@ js-desk-panel-wait = Het resultaat verschijnt hier als de run klaar is.
 js-desk-pin = Vastzetten
 
 js-desk-pin-run = Run { $n } vastzetten
+
+js-desk-pk-added = Regiopakket { $name } aan het project toegevoegd.
+
+js-desk-pk-bad = { $name } is geen regiopakket (kshana-mappack/1).
+
+js-desk-pk-lede = Fijnere kustlijnen voor een regio, uit Natural Earth (publiek domein), bewaard in de map packs/ van het project. De kaart tekent een pakket in plaats van het 1:50m-land wanneer het pakket het hele beeld omvat (vanaf zoom 5); de wereldbol tekent ook de kustlijnen. apps/desktop/tools/pack_natural_earth.py --region maakt er een uit het 1:10m-land van Natural Earth.
+
+js-desk-pk-open = Regiopakket toevoegen…
+
+js-desk-pk-sample = Het meegeleverde Oostzeepakket toevoegen (1:10m)
+
+js-desk-pk-title = Offline regiopakketten
+
+js-desk-pl-from = Uit { $paths } van het resultaat, zoals de engine het schreef.
+
+js-desk-pl-none = Dit resultaat heeft geen Allan-deviatie, MTIE, TDEV, Stanford of spectrum.
 
 js-desk-plot-none = Geen reeks in de tijd in dit resultaat.
 
@@ -1035,6 +1321,8 @@ js-desk-up-title = Wat Pro toevoegt
 
 js-desk-view-chart = Grafiek
 
+js-desk-view-globe = Wereldbol
+
 js-desk-view-group = Weergave
 
 js-desk-view-json = JSON
@@ -1042,6 +1330,8 @@ js-desk-view-json = JSON
 js-desk-view-map = Kaart
 
 js-desk-view-panes = Panelen
+
+js-desk-view-plots = Grafieken
 
 js-desk-view-sky = Hemel
 

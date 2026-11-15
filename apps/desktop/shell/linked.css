@@ -92,3 +92,51 @@
 .console-entry pre{margin:0;padding:8px 12px;font:11.5px/1.5 var(--f-mono);white-space:pre-wrap;overflow-wrap:anywhere;max-height:260px;overflow:auto}
 .project-box{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px 12px;align-items:center;max-width:760px}
 .notes{width:100%;min-height:90px;font:12.5px/1.5 var(--f-mono)}
+/* 0.42 U24: the globe; Bridge (red) mode draws the whole window, canvases included, in reds on black */
+.globe-pane{flex:1;align-self:stretch;width:100%;display:flex;flex-direction:column;gap:8px;min-height:0}
+.globe-bar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;padding:8px 12px 0}
+.globe-bar .input{max-width:320px}
+.globe-bar .btn{color:var(--ink);background:var(--surface)}
+.globe-stage>.kc{min-height:520px}
+html[data-bridge="on"] body{filter:grayscale(1) sepia(1) saturate(5) hue-rotate(-45deg) brightness(.72)}
+/* 0.42 U25: the Plots view and the IQ spectrum */
+.plots-pane{flex:1;align-self:stretch;width:100%;box-sizing:border-box;padding:10px;display:grid;grid-template-columns:repeat(auto-fit,minmax(460px,1fr));gap:14px;padding:4px}
+.plots-cell{min-width:0}
+.plots-out{grid-column:1/-1;display:grid;grid-template-columns:repeat(auto-fit,minmax(460px,1fr));gap:14px}
+.iq-controls{grid-column:1/-1;align-items:center;gap:8px;flex-wrap:wrap}
+.iq-controls .input{max-width:160px}
+/* 0.42 U26: the live bar of a live traffic tab */
+.live-bar{align-items:center;gap:10px;flex-wrap:wrap;margin:0 0 10px;font-size:12.5px}
+.live-bar .dot{width:8px;height:8px;border-radius:50%;background:var(--c)}
+/* 0.42 U23: the notebook */
+.nb-py{max-width:860px;margin-bottom:12px}
+.nb-py .row .input{max-width:320px}
+.nb-pickrow{margin:8px 0;gap:8px;flex-wrap:wrap}
+.nb-pickrow .input{max-width:260px}
+.nb-tools{flex-wrap:wrap;gap:6px;margin:8px 0}
+.nb-cells{display:flex;flex-direction:column;gap:10px;max-width:980px}
+.nb-cell{border:1px solid var(--line-2);border-radius:var(--r);background:var(--surface);padding:8px 10px}
+.nb-cell.markdown{border-style:dashed}
+.nb-cellhead{display:flex;gap:8px;align-items:center;margin-bottom:6px;font-size:12px}
+.nb-src{width:100%;font-size:12.5px;line-height:1.5;resize:vertical}
+.nb-src.mono{font-family:var(--f-mono)}
+.nb-out,.nb-in{margin:6px 0 0;padding:6px 10px;font:11.5px/1.5 var(--f-mono);white-space:pre-wrap;overflow-wrap:anywhere;max-height:360px;overflow:auto;border-left:3px solid var(--line-2)}
+.nb-out.err{color:var(--k-bad,var(--int));border-left-color:var(--k-bad,var(--int))}
+.nb-out.warn{color:var(--ink-3)}
+.nb-in{color:var(--ink-2);border-left-color:var(--k-tim,var(--tim))}
+.nb-img{display:block;max-width:100%;margin:6px 0;background:var(--surface);border-radius:6px}
+.nb-md{font-size:13px;margin-top:6px}
+.nb-history{max-width:980px;max-height:360px;overflow:auto;margin-bottom:6px}
+.nb-console-in{width:100%;max-width:980px;font:12.5px var(--f-mono)}
+/* 0.42 U29: course mode */
+.co-card h3{margin-top:0}
+.lesson{border:1px solid var(--k-tim,var(--tim));border-radius:var(--r);background:color-mix(in srgb,var(--k-tim,var(--tim)) 7%,var(--surface));padding:10px 14px;margin:0 0 12px}
+.lesson header{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+.lesson header .linkish{margin-left:auto}
+.lesson p{margin:6px 0}
+.lesson-try{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:6px 0}
+.lesson-try .input{max-width:160px}
+.lesson-try .hint{flex-basis:100%;margin:0}
+.lesson-foot{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.lesson-check{font-size:12.5px;color:var(--ink-2)}
+.lesson-check.ok{color:var(--k-trust-good,var(--itg));font-weight:600}

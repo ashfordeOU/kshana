@@ -1,6 +1,8 @@
 # Kshana Desktop shell (apps/desktop/shell): the messages of i18n/en/desktop-js.ftl in this language.
 # Machine translation, not reviewed by a native speaker. English is the reference.
 
+js-desk-act-bridge = Sillarežiim (punane) sisse või välja
+
 js-desk-act-compare = Võrdle 2 valitud käitust
 
 js-desk-act-compare-hint = vali kaks jaotises Käitused
@@ -11,6 +13,8 @@ js-desk-act-console = Näita konsooli (Python ja käsuread)
 
 js-desk-act-copy-py = Kopeeri seanss Pythonina
 
+js-desk-act-course = Kursus: juhendatud õppetunnid
+
 js-desk-act-density-comfortable = Vaade: avar tihedus
 
 js-desk-act-density-compact = Vaade: kompaktne tihedus
@@ -19,9 +23,17 @@ js-desk-act-export = Ekspordi selle käituse tõendipakett
 
 js-desk-act-file = Ava stsenaariumifail…
 
+js-desk-act-globe = Selle käivituse gloobus
+
 js-desk-act-library = Sirvi stsenaariumiteeki
 
+js-desk-act-live = Otse AIS või ADS-B vastuvõtjast
+
+js-desk-act-notebook = Pythoni märkmik ja konsool
+
 js-desk-act-panes = Paanid: graafik, kaart, taevas, inspektor ja konsool kõrvuti
+
+js-desk-act-plots = Graafikud: Allani hälve, MTIE, TDEV, Stanford, spekter
 
 js-desk-act-project = Projekt, andmelingid ja lohistatud failid
 
@@ -49,6 +61,12 @@ js-desk-ago-s = { $n } s tagasi
 
 js-desk-at-cursor = Kursori kohal
 
+js-desk-bridge = Sild
+
+js-desk-bridge-off = Sillarežiim väljas.
+
+js-desk-bridge-on = Sillarežiim: aken punastes toonides mustal.
+
 js-desk-cancel = Tühista
 
 js-desk-chart-not-drawn = Seda graafikut ei saanud joonistada.
@@ -56,6 +74,62 @@ js-desk-chart-not-drawn = Seda graafikut ei saanud joonistada.
 js-desk-clear = Tühjenda valik
 
 js-desk-close-tab = Sulge { $title }
+
+js-desk-co-assistant = Õppetunni küsimustele vastav assistent on plaanis; selles versioonis seda pole.
+
+js-desk-co-at = samm { $n }/{ $total }
+
+js-desk-co-back = Tagasi
+
+js-desk-co-compare = esimene käivitus { $a } → see käivitus { $b }
+
+js-desk-co-continue = Jätka
+
+js-desk-co-done = tehtud
+
+js-desk-co-english = Õppetunnid on kirjutatud inglise keeles.
+
+js-desk-co-failed = Õppetunde ei õnnestunud lugeda: { $reason }
+
+js-desk-co-finish = Lõpeta õppetund
+
+js-desk-co-finished = Õppetund lõpetatud.
+
+js-desk-co-kits = Artikli taasesituse komplektid: artikli stsenaariume ja jooniseid (hoidla kaustad paper/ ja paper-artifacts/) käivitatakse käsurealt; juhendatud komplekti selles aknas veel pole.
+
+js-desk-co-leave = Lahku õppetunnist
+
+js-desk-co-lede = Juhendatud õppetunnid kaasasolevate stsenaariumide põhjal: iga samm ütleb, mida käivitada, kuhu vaadata ja mida muuta, ning kontrollib seda teie enda käivitustes. Õppetunnid selgitavad mootori mudeleid; need on õppematerjal, mitte hindamine ega kvalifikatsioon.
+
+js-desk-co-lesson = Õppetund: { $title }
+
+js-desk-co-loading = Õppetundide laadimine…
+
+js-desk-co-met = ✓ Tehtud
+
+js-desk-co-more = Kursusel veel
+
+js-desk-co-new = { $n } sammu, umbes { $min } min
+
+js-desk-co-next = Edasi
+
+js-desk-co-no-field = Sellel stsenaariumil pole sätet { $key }.
+
+js-desk-co-skip = Jäta see samm vahele
+
+js-desk-co-start = Alusta
+
+js-desk-co-step = Õppetund · samm { $n }/{ $total }
+
+js-desk-co-title = Kursus
+
+js-desk-co-try = Proovige muuta
+
+js-desk-co-try-set = Pane väärtuseks { $v } ja käivita
+
+js-desk-co-value = väärtus { $v }
+
+js-desk-co-wait = Ootab seda sammu
 
 js-desk-col-change = B − A
 
@@ -166,6 +240,8 @@ js-desk-det-no-scenario = See fail jääb andmelingiks; ükski stsenaarium ei av
 js-desk-det-objects = objektid
 
 js-desk-det-open-clock = Ava kellasimulatsiooni kõrval
+
+js-desk-det-open-iq = Spekter ja kosk
 
 js-desk-det-open-tracks = Näita laevu ja õhusõidukeid kaardil
 
@@ -415,6 +491,44 @@ js-desk-free-edition = Tasuta väljaanne
 
 js-desk-free-line = Laevastik, ekspertiis ja allkirjastatud toimikud kuuluvad Pro juurde.
 
+js-desk-gl-bridge = Sild (punane)
+
+js-desk-gl-coast = rannajooned (Natural Earth)
+
+js-desk-gl-cover = katvus üle { $mask }° kursori kohal
+
+js-desk-gl-earth = Maa (WGS-84)
+
+js-desk-gl-follow = Jälgi
+
+js-desk-gl-follow-none = Jälgi: mitte midagi
+
+js-desk-gl-follow-x = Jälgi: { $name }
+
+js-desk-gl-grat = kraadivõrk 30°
+
+js-desk-gl-imagery = Pildid
+
+js-desk-gl-imagery-off = Pildid: väljas
+
+js-desk-gl-imagery-wait = Pildid: paanid laaditakse alla üks kord; seejärel hoitakse neid selles arvutis.
+
+js-desk-gl-note = Asukohad nii, nagu mootor need ekspordib (Maaga seotud, kõrgused üle WGS-84). Katvus: ala, kust iga satelliit paistab üle kõrgusmaski, sfäärilisel Maal. Rannajooned Natural Earth (avalik omand).
+
+js-desk-gl-pack = piirkonnapakett: { $name }
+
+js-desk-gl-sites = asukohad
+
+js-desk-gl-sub = Maaga seotud, WGS-84
+
+js-desk-gl-title = Gloobus
+
+js-desk-gl-tools = Gloobus
+
+js-desk-gl-track = käivituse rada
+
+js-desk-gl-traffic = laevad ja õhusõidukid kursori ajal
+
 js-desk-home-all-in = Kõik { $n } selles valdkonnas →
 
 js-desk-home-areas = Alusta küsimusest
@@ -437,6 +551,38 @@ js-desk-ins-result = Tulemus
 
 js-desk-inspector = Inspektor
 
+js-desk-iq-cannot = Seda salvestist saab lugeda ainult rakenduse natiivne osa, selle tee kaudu.
+
+js-desk-iq-centre = kesksagedus
+
+js-desk-iq-draw = Joonista
+
+js-desk-iq-failed = Salvestist ei õnnestunud lugeda: { $reason }
+
+js-desk-iq-ins = Salvestis
+
+js-desk-iq-need-rate = Kirjutage diskreetimissagedus (proovi sekundis): toorsalvestis seda ei sisalda.
+
+js-desk-iq-nfft = FFT suurus
+
+js-desk-iq-note = { $s } s salvestist alates { $from } s ({ $n } proovi, { $fmt }). Võimsus täisskaala proovi suhtes (dBFS/Hz): salvestis ei sisalda kalibreerimist.
+
+js-desk-iq-offset = Alates (s)
+
+js-desk-iq-rate = Diskreetimissagedus (Hz)
+
+js-desk-iq-read-only = Ainult lugemine, plokkidena: salvestist ei laadita kunagi tervikuna.
+
+js-desk-iq-reading = Salvestise lugemine plokkidena…
+
+js-desk-iq-short = Seal on spektri jaoks liiga vähe proove.
+
+js-desk-iq-spectrum = Spekter (Welch)
+
+js-desk-iq-sub = { $n } segmenti { $nfft } prooviga, Hanni aken, RBW { $rbw } Hz
+
+js-desk-iq-waterfall = Kosk
+
 js-desk-json-cut = Tulemus on pikk: kogu dokument on jaotises Ekspordi, Tulemuse JSON.
 
 js-desk-key-figures = Võtmenäitajad
@@ -457,6 +603,8 @@ js-desk-lib-title = Stsenaariumiteek
 
 js-desk-links-remove = eemalda
 
+js-desk-links-spectrum = spekter
+
 js-desk-links-title = Projekti andmelingid
 
 js-desk-load-failed = Faili { $file } ei saanud laadida.
@@ -466,6 +614,8 @@ js-desk-loading = Laaditakse…
 js-desk-log-cell = Käitus { $n }: skannimise lahter { $where }
 
 js-desk-log-compare = Võrdle käitusi #{ $a } ja #{ $b }
+
+js-desk-log-course = Õppetund { $title }
 
 js-desk-log-diff = Käituste #{ $a } ja #{ $b } erinevused
 
@@ -477,15 +627,21 @@ js-desk-log-export = Ekspordi { $what } käitusest { $n }
 
 js-desk-log-inspect = Kontrolli { $name }
 
+js-desk-log-iq = { $name } spekter
+
 js-desk-log-layout = Paanid: { $title }: { $what }
 
 js-desk-log-layout-saved = Paigutus { $name } salvestatud
+
+js-desk-log-live = Otse { $format } allikast { $source }
 
 js-desk-log-markers = Markerid käitusel { $n }
 
 js-desk-log-open = Ava { $title }
 
 js-desk-log-pack = Käituse { $n } tõendipakett
+
+js-desk-log-plots = { $title } graafikud
 
 js-desk-log-project = Ava projekt { $dir }
 
@@ -504,6 +660,48 @@ js-desk-log-sky = Taevagraafik: { $title }
 js-desk-log-sweep = Skannimine { $n }: { $title }, { $cells } käitust
 
 js-desk-log-tracks = Laevad ja õhusõidukid failist { $name }
+
+js-desk-lv-ais = AIS, NMEA 0183 laused (TCP või UDP)
+
+js-desk-lv-avr = ADS-B, AVR kuueteistkümnendread (port 30002)
+
+js-desk-lv-bad = Kirjutage allikas kujul tcp:<host>:<port> või AIS-i puhul udp:<address>:<port>.
+
+js-desk-lv-beast = ADS-B, Beast (dump1090 / readsb port 30005)
+
+js-desk-lv-follow = Jälgi uusimat
+
+js-desk-lv-format = Vorming
+
+js-desk-lv-honest = Asukohad nii, nagu need edastati, värvitud kvaliteediklassi järgi, mille iga lugeja tuletab sõnumi enda väljadest; see ei ole otsus selle kohta, kas asukoht on tõene. Mitte navigeerimiseks.
+
+js-desk-lv-lede = Lugege AIS-i vastuvõtja TCP- või UDP-väljundist või ADS-B-d selles arvutis või teie võrgus töötavast dump1090-st või readsb-st ja jälgige liiklust kaardil. Rakendus ainult loeb; sõnumid dekodeerivad mootori enda lugejad.
+
+js-desk-lv-network = See UDP-allikas võtab datagramme vastu võrgust, mitte ainult sellest arvutist.
+
+js-desk-lv-note = Ajad näitavad, millal iga sõnum selle arvutini jõudis. Ainult lugemine.
+
+js-desk-lv-pause = Peata uuendused
+
+js-desk-lv-reading = Loen allikat { $source } ({ $format }): { $n } sõnumit, { $kept } alles (viimased { $min } min).
+
+js-desk-lv-resume = Jätka uuendusi
+
+js-desk-lv-show = Näita kaarti
+
+js-desk-lv-source = Allikas: tcp:<host>:<port> või AIS-i puhul udp:<address>:<port>
+
+js-desk-lv-start = Käivita
+
+js-desk-lv-stopped = Ei loe.
+
+js-desk-lv-stopped-err = Peatatud: { $reason }
+
+js-desk-lv-tab = Otse: { $source }
+
+js-desk-lv-title = Laevad ja õhusõidukid otse
+
+js-desk-lv-waiting = Ootan esimesi asukohti…
 
 js-desk-map-area = segamisala ({ $ev })
 
@@ -611,6 +809,8 @@ js-desk-native = natiivne
 
 js-desk-nav-console = Konsool
 
+js-desk-nav-course = Kursus
+
 js-desk-nav-devices = Seadmed
 
 js-desk-nav-evidence = Tõendipaketid
@@ -623,9 +823,79 @@ js-desk-nav-library = Stsenaariumiteek
 
 js-desk-nav-main = Põhimenüü
 
+js-desk-nav-notebook = Pythoni märkmik
+
 js-desk-nav-pro = PRO
 
 js-desk-nav-runs = Käitused
+
+js-desk-nb-add-code = Lisa kood
+
+js-desk-nb-add-text = Lisa tekst
+
+js-desk-nb-check = Kontrolli uuesti
+
+js-desk-nb-cite = Viita
+
+js-desk-nb-code = Pythoni lahter { $n }
+
+js-desk-nb-console = Konsool
+
+js-desk-nb-console-note = Enter käivitab; Shift+Enter alustab uut rida. Konsool jagab märkmiku seanssi; selle ajalugu projekti ei salvestata.
+
+js-desk-nb-delete = kustuta
+
+js-desk-nb-down = Liiguta alla
+
+js-desk-nb-export-ipynb = Jupyter
+
+js-desk-nb-found = Python { $py } ({ $exe }) paketiga kshana { $ver }.
+
+js-desk-nb-from-console = Lisa konsooli Python
+
+js-desk-nb-interp = Kasutatav Python (tühi: python3, siis python)
+
+js-desk-nb-kept = Salvestatud projekti kui notebooks/{ $file }; see avaneb Jupyteris sellisena. PDF sisaldab lahtrite teksti ja väljundit; joonised on HTML- ja Jupyteri failides.
+
+js-desk-nb-lede = Pythoni lahtrid ja märkmed koos projektiga, mida käivitab selle arvuti Python koos paketiga kshana (pip install kshana). Lahtrid jagavad üht seanssi, mis käivitatakse projekti kaustas.
+
+js-desk-nb-mirror-empty = Konsoolis pole veel Pythoni ridu.
+
+js-desk-nb-new = Uus märkmik
+
+js-desk-nb-new-ph = Holdoveri uuring
+
+js-desk-nb-no-kshana = Python { $py } ({ $exe }) töötab, kuid paketti kshana seal importida ei saa: pip install kshana. Lahtrid, mis seda ei kasuta, töötavad edasi.
+
+js-desk-nb-no-native = Python töötab rakenduse natiivse osa kaudu, mida sellel aknal pole.
+
+js-desk-nb-no-python = Selles arvutis Pythonit ei leitud (prooviti: { $tried }). Paigaldage Python 3 (python.org või teie süsteemi paketid), seejärel pip install kshana, ja kontrollige uuesti.
+
+js-desk-nb-none = Selles projektis pole veel märkmikku.
+
+js-desk-nb-pick = Märkmik
+
+js-desk-nb-probing = Otsin Pythonit…
+
+js-desk-nb-run = Käivita
+
+js-desk-nb-run-all = Käivita kõik
+
+js-desk-nb-running = Töötab…
+
+js-desk-nb-stop = Lõpeta seanss
+
+js-desk-nb-stopped = Pythoni seanss lõpetati; järgmine lahter alustab uue.
+
+js-desk-nb-text = Tekstilahter { $n }
+
+js-desk-nb-title = Pythoni märkmik
+
+js-desk-nb-tools = Märkmiku tööriistad
+
+js-desk-nb-untitled = Märkmik { $n }
+
+js-desk-nb-up = Liiguta üles
 
 js-desk-new-tab = Ava stsenaarium uuel vahekaardil
 
@@ -712,6 +982,22 @@ js-desk-panel-wait = Tulemus ilmub siia, kui käitus lõpeb.
 js-desk-pin = Kinnita
 
 js-desk-pin-run = Kinnita käitus { $n }
+
+js-desk-pk-added = Piirkonnapakett { $name } lisati projekti.
+
+js-desk-pk-bad = { $name } ei ole piirkonnapakett (kshana-mappack/1).
+
+js-desk-pk-lede = Täpsemad rannajooned piirkonna jaoks, Natural Earthist (avalik omand), hoitakse projekti kaustas packs/. Kaart joonistab paketi 1:50m maismaa asemel, kui pakett hõlmab kogu vaadet (alates suumist 5); gloobus joonistab ka selle rannajooned. apps/desktop/tools/pack_natural_earth.py --region teeb selle Natural Earthi 1:10m maismaast.
+
+js-desk-pk-open = Lisa piirkonnapakett…
+
+js-desk-pk-sample = Lisa kaasasolev Läänemere pakett (1:10m)
+
+js-desk-pk-title = Võrguühenduseta piirkonnapaketid
+
+js-desk-pl-from = Tulemuse väljast { $paths }, nii nagu mootor selle kirjutas.
+
+js-desk-pl-none = Selles tulemuses pole Allani hälvet, MTIE-d, TDEV-i, Stanfordi graafikut ega spektrit.
 
 js-desk-plot-none = Selles tulemuses pole aja jooksul ridu.
 
@@ -1035,6 +1321,8 @@ js-desk-up-title = Mida Pro lisab
 
 js-desk-view-chart = Graafik
 
+js-desk-view-globe = Gloobus
+
 js-desk-view-group = Vaade
 
 js-desk-view-json = JSON
@@ -1042,6 +1330,8 @@ js-desk-view-json = JSON
 js-desk-view-map = Kaart
 
 js-desk-view-panes = Paanid
+
+js-desk-view-plots = Graafikud
 
 js-desk-view-sky = Taevas
 

@@ -9,6 +9,28 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+### Added (0.42 U23, U24, U25, U26, U29: Desktop notebook, globe, stability plots, live traffic, course mode)
+
+- U23 Python notebook and console in Kshana Desktop: Markdown and Python cells kept in the project folder as
+  `notebooks/<name>.ipynb` (Jupyter's nbformat 4), run by the Python on the computer (the app carries none; the page says
+  which interpreter it found and whether `import kshana` works, or plainly that there is none) in one session started in
+  the project folder; outputs, the value of a last expression, tracebacks and matplotlib figures; HTML, PDF (text) and
+  Jupyter export; a cite button with the reference of CITATION.cff at the engine version; the code mirror's Python as cells.
+- U24 globe of a run (the chart library's WebGL2 renderer, no globe library): WGS-84 Earth with Natural Earth coastlines,
+  the scenario's sites and moving objects with their heights, the run's track, ships and aircraft, coverage circles at the
+  time cursor and follow mode; offline region packs (`kshana-mappack/1`, Natural Earth, made by
+  `apps/desktop/tools/pack_natural_earth.py --region`; a 1:10m Baltic Sea pack is bundled) drawn on the 2D map from zoom 5
+  and on the globe; optional NASA GIBS Blue Marble imagery, off by default, kept on the computer once fetched (its terms
+  are stated in the app and the README); Bridge (red) mode.
+- U25 Plots view: Allan deviation, MTIE and TDEV (log–log, with the engine's confidence bands), Stanford plots, spectra and
+  waterfalls found in any run's result and drawn with the interactive chart library; the Welch spectrum and waterfall of an
+  IQ recording, read natively in blocks.
+- U26 live AIS (TCP or UDP NMEA) and ADS-B (Beast or AVR over TCP from a local dump1090 or readsb) into the traffic view,
+  read only by the app's native side, each message stamped with its arrival time and decoded by the engine's readers.
+- U29 course mode: four guided lessons over bundled scenarios (holdover, jamming, RAIM integrity, telecom holdover), with
+  step text, a setting to try and checkpoints checked against the person's own runs; labelled as teaching material in
+  English. Paper reproduction kits in the window and the lesson assistant are not built (the assistant is marked planned).
+
 ### Added (0.42 I9 to I12: SDKs, deployment, APIs, conformance kit v2)
 
 - I9 SDK conformance: every SDK runs the same three scenarios and one Connect mapping and must give the same bytes

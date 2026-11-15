@@ -15,6 +15,16 @@ is a flat list of integers [x0, y0, dx1, dy1, ...]: the first vertex in units of
 Rings are simplified with the Ramer-Douglas-Peucker rule at `tolerance` degrees (0
 keeps every vertex), then rings smaller than two quanta across are dropped. The same
 input and options give the same bytes.
+
+Offline region packs (0.42 U24): with --region WEST,SOUTH,EAST,NORTH and --name, the rings
+are clipped to that box (Sutherland-Hodgman) and the output is a "kshana-mappack/1" file,
+{format, name, bbox, source, licence, land: <the kshana-land/1 layer>}, which the Desktop
+imports into a project's packs/ folder and draws in place of the 1:50m land where the pack's
+box holds the whole map view (and as extra coastlines on the globe). For example, the 1:10m
+land of the Baltic Sea (download ne_10m_land.geojson from Natural Earth first):
+
+    python3 -I apps/desktop/tools/pack_natural_earth.py --scale 10m --quantum 0.001 \
+        --region 9,53,31,66 --name "Baltic Sea" ne_10m_land.geojson baltic-10m.mappack.json
 """
 import argparse
 import json
@@ -52,6 +62,33 @@ def rdp(pts, eps):
     return [p for p, k in zip(pts, keep) if k]
 
 
+def clip_ring(pts, box):
+    """Clip a closed ring to the box (west, south, east, north), Sutherland-Hodgman."""
+    w, so, e, n = box
+    edges = [
+        (lambda p: p[0] >= w, lambda a, b: (w, a[1] + (b[1] - a[1]) * (w - a[0]) / (b[0] - a[0]))),
+        (lambda p: p[0] <= e, lambda a, b: (e, a[1] + (b[1] - a[1]) * (e - a[0]) / (b[0] - a[0]))),
+        (lambda p: p[1] >= so, lambda a, b: (a[0] + (b[0] - a[0]) * (so - a[1]) / (b[1] - a[1]), so)),
+        (lambda p: p[1] <= n, lambda a, b: (a[0] + (b[0] - a[0]) * (n - a[1]) / (b[1] - a[1]), n)),
+    ]
+    out = list(pts[:-1] if len(pts) > 1 and pts[0] == pts[-1] else pts)
+    for inside, cross in edges:
+        if not out:
+            break
+        src, out = out, []
+        for i, cur in enumerate(src):
+            prev = src[i - 1]
+            if inside(cur):
+                if not inside(prev):
+                    out.append(cross(prev, cur))
+                out.append(cur)
+            elif inside(prev):
+                out.append(cross(prev, cur))
+    if out:
+        out.append(out[0])
+    return out
+
+
 def rings_of(geom):
     t = geom["type"]
     if t == "Polygon":
@@ -67,16 +104,27 @@ def main():
     ap.add_argument("--quantum", type=float, required=True)
     ap.add_argument("--tolerance", type=float, default=0.0)
     ap.add_argument("--version", default="")
+    ap.add_argument("--region", default="", help="WEST,SOUTH,EAST,NORTH: write a region pack clipped to this box")
+    ap.add_argument("--name", default="", help="the region pack's name")
     ap.add_argument("src")
     ap.add_argument("out")
     a = ap.parse_args()
     with open(a.src, encoding="utf-8") as f:
         fc = json.load(f)
     q = a.quantum
+    box = None
+    if a.region:
+        box = [float(v) for v in a.region.split(",")]
+        if len(box) != 4 or box[0] >= box[2] or box[1] >= box[3]:
+            ap.error("--region is WEST,SOUTH,EAST,NORTH")
+        if not a.name:
+            ap.error("a region pack needs --name")
     rings = []
     for feat in fc["features"]:
         for ring in rings_of(feat["geometry"]):
             pts = [(float(p[0]), float(p[1])) for p in ring]
+            if box is not None:
+                pts = clip_ring(pts, box)
             if len(pts) > 3 and pts[0] == pts[-1]:
                 # Simplify the closed ring as two halves so the closing vertex stays.
                 mid = len(pts) // 2
@@ -106,6 +154,15 @@ def main():
         "tolerance": a.tolerance,
         "rings": rings,
     }
+    if box is not None:
+        out = {
+            "format": "kshana-mappack/1",
+            "name": a.name,
+            "bbox": box,
+            "source": out["source"],
+            "licence": "Natural Earth is in the public domain (naturalearthdata.com, terms of use)",
+            "land": out,
+        }
     with open(a.out, "w", encoding="utf-8") as f:
         json.dump(out, f, separators=(",", ":"))
         f.write("\n")

@@ -1,6 +1,8 @@
 # Kshana Desktop shell (apps/desktop/shell): the messages of i18n/en/desktop-js.ftl in this language.
 # Machine translation, not reviewed by a native speaker. English is the reference.
 
+js-desk-act-bridge = Bryggläge (rött) på eller av
+
 js-desk-act-compare = Jämför de 2 valda körningarna
 
 js-desk-act-compare-hint = välj två under Körningar
@@ -11,6 +13,8 @@ js-desk-act-console = Visa konsolen (Python och kommandorader)
 
 js-desk-act-copy-py = Kopiera sessionen som Python
 
+js-desk-act-course = Kurs: guidade lektioner
+
 js-desk-act-density-comfortable = Vy: luftig täthet
 
 js-desk-act-density-compact = Vy: kompakt täthet
@@ -19,9 +23,17 @@ js-desk-act-export = Exportera ett bevispaket för den här körningen
 
 js-desk-act-file = Öppna en scenariofil…
 
+js-desk-act-globe = Jordglob för denna körning
+
 js-desk-act-library = Bläddra i scenariobiblioteket
 
+js-desk-act-live = Live-AIS eller ADS-B från en mottagare
+
+js-desk-act-notebook = Python-anteckningsbok och konsol
+
 js-desk-act-panes = Paneler: diagram, karta, himmel, inspektör och konsol sida vid sida
+
+js-desk-act-plots = Diagram: Allan-avvikelse, MTIE, TDEV, Stanford, spektrum
 
 js-desk-act-project = Projekt, datalänkar och släppta filer
 
@@ -49,6 +61,12 @@ js-desk-ago-s = för { $n } s sedan
 
 js-desk-at-cursor = Vid markören
 
+js-desk-bridge = Brygga
+
+js-desk-bridge-off = Bryggläge av.
+
+js-desk-bridge-on = Bryggläge: fönstret i röda toner på svart.
+
 js-desk-cancel = Avbryt
 
 js-desk-chart-not-drawn = Det här diagrammet kunde inte ritas.
@@ -56,6 +74,62 @@ js-desk-chart-not-drawn = Det här diagrammet kunde inte ritas.
 js-desk-clear = Rensa markeringen
 
 js-desk-close-tab = Stäng { $title }
+
+js-desk-co-assistant = En assistent som svarar på frågor om en lektion är planerad; den finns inte i den här versionen.
+
+js-desk-co-at = steg { $n } av { $total }
+
+js-desk-co-back = Tillbaka
+
+js-desk-co-compare = första körningen { $a } → denna körning { $b }
+
+js-desk-co-continue = Fortsätt
+
+js-desk-co-done = klar
+
+js-desk-co-english = Lektionerna är skrivna på engelska.
+
+js-desk-co-failed = Lektionerna kunde inte läsas: { $reason }
+
+js-desk-co-finish = Avsluta lektionen
+
+js-desk-co-finished = Lektionen är avslutad.
+
+js-desk-co-kits = Kit för att återskapa artikeln: artikelns scenarier och figurer (paper/ och paper-artifacts/ i arkivet) körs från kommandoraden; något guidat kit i det här fönstret finns ännu inte.
+
+js-desk-co-leave = Lämna lektionen
+
+js-desk-co-lede = Guidade lektioner över de medföljande scenarierna: varje steg säger vad som ska köras, var man ska titta och vad man ska ändra, och kontrollerar det i dina egna körningar. Lektionerna förklarar motorns modeller; de är undervisningsmaterial, inte en bedömning eller en behörighet.
+
+js-desk-co-lesson = Lektion: { $title }
+
+js-desk-co-loading = Lektionerna läses in…
+
+js-desk-co-met = ✓ Klart
+
+js-desk-co-more = Också i kursen
+
+js-desk-co-new = { $n } steg, cirka { $min } min
+
+js-desk-co-next = Nästa
+
+js-desk-co-no-field = Det här scenariot har ingen inställning { $key }.
+
+js-desk-co-skip = Hoppa över det här steget
+
+js-desk-co-start = Starta
+
+js-desk-co-step = Lektion · steg { $n } av { $total }
+
+js-desk-co-title = Kurs
+
+js-desk-co-try = Prova att ändra
+
+js-desk-co-try-set = Sätt till { $v } och kör
+
+js-desk-co-value = värde { $v }
+
+js-desk-co-wait = Väntar på det här steget
 
 js-desk-col-change = B − A
 
@@ -166,6 +240,8 @@ js-desk-det-no-scenario = Den här filen behålls som datalänk; inget scenario 
 js-desk-det-objects = objekt
 
 js-desk-det-open-clock = Öppna bredvid klocksimuleringen
+
+js-desk-det-open-iq = Spektrum och vattenfall
 
 js-desk-det-open-tracks = Visa fartygen och flygplanen på kartan
 
@@ -415,6 +491,44 @@ js-desk-free-edition = Gratisutgåva
 
 js-desk-free-line = Flotta, forensik och signerade dossierer ingår i Pro.
 
+js-desk-gl-bridge = Brygga (rött)
+
+js-desk-gl-coast = kustlinjer (Natural Earth)
+
+js-desk-gl-cover = täckning över { $mask }° vid markören
+
+js-desk-gl-earth = Jorden (WGS-84)
+
+js-desk-gl-follow = Följ
+
+js-desk-gl-follow-none = Följ: inget
+
+js-desk-gl-follow-x = Följ: { $name }
+
+js-desk-gl-grat = gradnät 30°
+
+js-desk-gl-imagery = Bilder
+
+js-desk-gl-imagery-off = Bilder: av
+
+js-desk-gl-imagery-wait = Bilder: rutorna hämtas en gång; sedan sparas de på den här datorn.
+
+js-desk-gl-note = Positioner som motorn exporterar dem (jordfasta, höjder över WGS-84). Täckning: det område som ser varje satellit över elevationsmasken, på en sfärisk jord. Kustlinjer Natural Earth (allmän egendom).
+
+js-desk-gl-pack = regionpaket: { $name }
+
+js-desk-gl-sites = platser
+
+js-desk-gl-sub = jordfast, WGS-84
+
+js-desk-gl-title = Jordglob
+
+js-desk-gl-tools = Jordglob
+
+js-desk-gl-track = körningens spår
+
+js-desk-gl-traffic = fartyg och flygplan vid markören
+
 js-desk-home-all-in = Alla { $n } i det här området →
 
 js-desk-home-areas = Börja med en fråga
@@ -437,6 +551,38 @@ js-desk-ins-result = Resultat
 
 js-desk-inspector = Inspektör
 
+js-desk-iq-cannot = Den här inspelningen kan bara läsas av appens inbyggda del, från sökvägen.
+
+js-desk-iq-centre = mittfrekvens
+
+js-desk-iq-draw = Rita
+
+js-desk-iq-failed = Inspelningen kunde inte läsas: { $reason }
+
+js-desk-iq-ins = Inspelningen
+
+js-desk-iq-need-rate = Skriv samplingsfrekvensen (sampel per sekund): en rå inspelning innehåller den inte.
+
+js-desk-iq-nfft = FFT-storlek
+
+js-desk-iq-note = { $s } s av inspelningen från { $from } s ({ $n } sampel, { $fmt }). Effekt relativt ett fullskalesampel (dBFS/Hz): en inspelning har ingen kalibrering.
+
+js-desk-iq-offset = Från (s)
+
+js-desk-iq-rate = Samplingsfrekvens (Hz)
+
+js-desk-iq-read-only = Endast läsning, i block: inspelningen läses aldrig in i sin helhet.
+
+js-desk-iq-reading = Läser inspelningen i block…
+
+js-desk-iq-short = För få sampel där för ett spektrum.
+
+js-desk-iq-spectrum = Spektrum (Welch)
+
+js-desk-iq-sub = { $n } segment om { $nfft } sampel, Hann-fönster, RBW { $rbw } Hz
+
+js-desk-iq-waterfall = Vattenfall
+
 js-desk-json-cut = Resultatet är långt: hela dokumentet finns under Exportera, Resultat-JSON.
 
 js-desk-key-figures = Nyckeltal
@@ -457,6 +603,8 @@ js-desk-lib-title = Scenariobibliotek
 
 js-desk-links-remove = ta bort
 
+js-desk-links-spectrum = spektrum
+
 js-desk-links-title = Projektets datalänkar
 
 js-desk-load-failed = Kunde inte läsa in { $file }.
@@ -466,6 +614,8 @@ js-desk-loading = Läser in…
 js-desk-log-cell = Körning { $n }: svepcell { $where }
 
 js-desk-log-compare = Jämför körningarna #{ $a } och #{ $b }
+
+js-desk-log-course = Lektion { $title }
 
 js-desk-log-diff = Skillnad mellan körningarna #{ $a } och #{ $b }
 
@@ -477,15 +627,21 @@ js-desk-log-export = Exportera { $what } från körning { $n }
 
 js-desk-log-inspect = Granska { $name }
 
+js-desk-log-iq = Spektrum för { $name }
+
 js-desk-log-layout = Paneler för { $title }: { $what }
 
 js-desk-log-layout-saved = Layouten { $name } sparad
+
+js-desk-log-live = Live-{ $format } från { $source }
 
 js-desk-log-markers = Markörer på körning { $n }
 
 js-desk-log-open = Öppna { $title }
 
 js-desk-log-pack = Bevispaket för körning { $n }
+
+js-desk-log-plots = Diagram för { $title }
 
 js-desk-log-project = Öppna projektet { $dir }
 
@@ -504,6 +660,48 @@ js-desk-log-sky = Himmelsdiagram för { $title }
 js-desk-log-sweep = Svep { $n }: { $title }, { $cells } körningar
 
 js-desk-log-tracks = Fartyg och flygplan från { $name }
+
+js-desk-lv-ais = AIS, NMEA 0183-meningar (TCP eller UDP)
+
+js-desk-lv-avr = ADS-B, AVR-hexrader (port 30002)
+
+js-desk-lv-bad = Skriv en källa som tcp:<host>:<port>, eller udp:<address>:<port> för AIS.
+
+js-desk-lv-beast = ADS-B, Beast (dump1090 / readsb port 30005)
+
+js-desk-lv-follow = Följ det senaste
+
+js-desk-lv-format = Format
+
+js-desk-lv-honest = Positioner som sända, färgade efter den kvalitetsklass varje läsare härleder ur meddelandets egna fält; inget omdöme om huruvida en position är sann. Inte för navigering.
+
+js-desk-lv-lede = Läs AIS från en mottagares TCP- eller UDP-utgång, eller ADS-B från en dump1090 eller readsb på den här datorn eller ditt nätverk, och följ trafiken på kartan. Appen läser bara; motorns egna läsare avkodar meddelandena.
+
+js-desk-lv-network = Den här UDP-källan tar emot datagram från nätverket, inte bara från den här datorn.
+
+js-desk-lv-note = Tiderna är när varje meddelande nådde den här datorn. Endast läsning.
+
+js-desk-lv-pause = Pausa uppdateringar
+
+js-desk-lv-reading = Läser { $source } ({ $format }): { $n } meddelanden, { $kept } sparade (de senaste { $min } min).
+
+js-desk-lv-resume = Återuppta uppdateringar
+
+js-desk-lv-show = Visa kartan
+
+js-desk-lv-source = Källa: tcp:<host>:<port>, eller udp:<address>:<port> för AIS
+
+js-desk-lv-start = Starta
+
+js-desk-lv-stopped = Läser inte.
+
+js-desk-lv-stopped-err = Stoppad: { $reason }
+
+js-desk-lv-tab = Live: { $source }
+
+js-desk-lv-title = Fartyg och flygplan live
+
+js-desk-lv-waiting = Väntar på de första positionerna…
 
 js-desk-map-area = störningsområde ({ $ev })
 
@@ -611,6 +809,8 @@ js-desk-native = inbyggd
 
 js-desk-nav-console = Konsol
 
+js-desk-nav-course = Kurs
+
 js-desk-nav-devices = Enheter
 
 js-desk-nav-evidence = Bevispaket
@@ -623,9 +823,79 @@ js-desk-nav-library = Scenariobibliotek
 
 js-desk-nav-main = Huvud
 
+js-desk-nav-notebook = Python-anteckningsbok
+
 js-desk-nav-pro = PRO
 
 js-desk-nav-runs = Körningar
+
+js-desk-nb-add-code = Lägg till kod
+
+js-desk-nb-add-text = Lägg till text
+
+js-desk-nb-check = Kontrollera igen
+
+js-desk-nb-cite = Citera
+
+js-desk-nb-code = Python-cell { $n }
+
+js-desk-nb-console = Konsol
+
+js-desk-nb-console-note = Enter kör; Skift+Enter börjar en ny rad. Konsolen delar anteckningsbokens session; historiken sparas inte i projektet.
+
+js-desk-nb-delete = ta bort
+
+js-desk-nb-down = Flytta ned
+
+js-desk-nb-export-ipynb = Jupyter
+
+js-desk-nb-found = Python { $py } ({ $exe }) med paketet kshana { $ver }.
+
+js-desk-nb-from-console = Lägg till konsolens Python
+
+js-desk-nb-interp = Python som ska användas (tomt: python3, sedan python)
+
+js-desk-nb-kept = Sparad som notebooks/{ $file } i projektet; den öppnas i Jupyter som den är. PDF:en innehåller cellernas text och utdata; figurerna finns i HTML- och Jupyter-filerna.
+
+js-desk-nb-lede = Python-celler och anteckningar som sparas med projektet, körda av Python på den här datorn med paketet kshana (pip install kshana). Cellerna delar en session, startad i projektmappen.
+
+js-desk-nb-mirror-empty = Konsolen har inga Python-rader ännu.
+
+js-desk-nb-new = Ny anteckningsbok
+
+js-desk-nb-new-ph = Holdover-studie
+
+js-desk-nb-no-kshana = Python { $py } ({ $exe }) körs, men paketet kshana kan inte importeras där: pip install kshana. Celler som inte använder det fungerar ändå.
+
+js-desk-nb-no-native = Python körs genom appens inbyggda del, som det här fönstret saknar.
+
+js-desk-nb-no-python = Ingen Python hittades på den här datorn (försökt: { $tried }). Installera Python 3 (python.org eller systemets paket), sedan pip install kshana, och kontrollera igen.
+
+js-desk-nb-none = Ingen anteckningsbok i det här projektet ännu.
+
+js-desk-nb-pick = Anteckningsbok
+
+js-desk-nb-probing = Letar efter Python…
+
+js-desk-nb-run = Kör
+
+js-desk-nb-run-all = Kör alla
+
+js-desk-nb-running = Kör…
+
+js-desk-nb-stop = Avsluta sessionen
+
+js-desk-nb-stopped = Python-sessionen avslutades; nästa cell startar en ny.
+
+js-desk-nb-text = Textcell { $n }
+
+js-desk-nb-title = Python-anteckningsbok
+
+js-desk-nb-tools = Anteckningsbokens verktyg
+
+js-desk-nb-untitled = Anteckningsbok { $n }
+
+js-desk-nb-up = Flytta upp
 
 js-desk-new-tab = Öppna ett scenario i en ny flik
 
@@ -712,6 +982,22 @@ js-desk-panel-wait = Resultatet visas här när körningen är klar.
 js-desk-pin = Fäst
 
 js-desk-pin-run = Fäst körning { $n }
+
+js-desk-pk-added = Regionpaketet { $name } har lagts till i projektet.
+
+js-desk-pk-bad = { $name } är inget regionpaket (kshana-mappack/1).
+
+js-desk-pk-lede = Finare kustlinjer för en region, från Natural Earth (allmän egendom), sparade i projektets mapp packs/. Kartan ritar ett paket i stället för 1:50m-landet när paketet täcker hela vyn (från zoom 5); jordgloben ritar också dess kustlinjer. apps/desktop/tools/pack_natural_earth.py --region skapar ett från Natural Earths 1:10m-land.
+
+js-desk-pk-open = Lägg till ett regionpaket…
+
+js-desk-pk-sample = Lägg till det medföljande Östersjöpaketet (1:10m)
+
+js-desk-pk-title = Offline-regionpaket
+
+js-desk-pl-from = Från { $paths } i resultatet, som motorn skrev det.
+
+js-desk-pl-none = Det här resultatet har ingen Allan-avvikelse, MTIE, TDEV, Stanford eller spektrum.
 
 js-desk-plot-none = Ingen serie över tid i det här resultatet.
 
@@ -1035,6 +1321,8 @@ js-desk-up-title = Vad Pro lägger till
 
 js-desk-view-chart = Diagram
 
+js-desk-view-globe = Jordglob
+
 js-desk-view-group = Vy
 
 js-desk-view-json = JSON
@@ -1042,6 +1330,8 @@ js-desk-view-json = JSON
 js-desk-view-map = Karta
 
 js-desk-view-panes = Paneler
+
+js-desk-view-plots = Diagram
 
 js-desk-view-sky = Himmel
 
