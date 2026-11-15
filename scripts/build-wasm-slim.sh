@@ -54,7 +54,10 @@ wasm-pack build --target web --out-dir "$out" --out-name kshana --release --no-o
 rm -f "$out/.gitignore"
 
 echo "Optimising for size (wasm-opt -Oz)…"
-"$wasm_opt" -Oz \
+# --strip-producers: the `producers` section names the wasm-bindgen build that ran (a prebuilt
+# binary says "0.2.122 (ddd322514)", one built with cargo install "0.2.122"), which is not part of
+# the module and would make two otherwise identical builds differ.
+"$wasm_opt" -Oz --strip-producers \
   --enable-bulk-memory --enable-nontrapping-float-to-int --enable-sign-ext --enable-mutable-globals \
   --enable-multivalue --enable-reference-types \
   "$out/kshana_bg.wasm" -o "$out/kshana_bg.opt.wasm"

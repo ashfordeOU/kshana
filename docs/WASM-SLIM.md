@@ -32,7 +32,7 @@ kB of 1024 bytes, as the embedder's `bundle-report.mjs` measures):
 |---|---:|---:|
 | Full, npm `kshana@0.41.0` (wasm-opt -O) | 18,694,193 | 6,073.6 kB (the embedder's build report: 6,115.1 kB) |
 | Slim, before wasm-opt | 3,195,828 | 1,065.9 kB |
-| Slim, wasm-opt -Oz (`scripts/build-wasm-slim.sh`) | 2,956,361 | 1,031.6 kB |
+| Slim, wasm-opt -Oz (`scripts/build-wasm-slim.sh`) | 2,958,116 | 1,032.2 kB |
 
 ## Build
 
@@ -43,7 +43,8 @@ kB of 1024 bytes, as the embedder's `bundle-report.mjs` measures):
 It needs the pinned toolchain with the `wasm32-unknown-unknown` target, wasm-pack 0.13.1 and
 wasm-opt from binaryen version_117, and checks both versions. It builds with `--locked`, remaps
 every embedded path to a fixed prefix (so the checkout's location does not reach the bytes), runs
-`wasm-opt -Oz`, writes `SHA256SUMS`, prints the size, SHA-256, SHA-512 and the `sha512-…` integrity
+`wasm-opt -Oz --strip-producers` (the `producers` section names how the local wasm-bindgen was
+installed, nothing in the module), writes `SHA256SUMS`, prints the size, SHA-256, SHA-512 and the `sha512-…` integrity
 string, and fails over `KSHANA_SLIM_GZIP_LIMIT_KB` (default 2800). It publishes nothing.
 
 ## Checks
