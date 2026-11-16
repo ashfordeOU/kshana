@@ -1991,11 +1991,26 @@ pub fn error_info_json(src: &str, lang: &str) -> String {
 }
 
 fn run_toml_in_current_language(src: &str) -> Result<RunOutput, String> {
+    run_toml_in_current_language_with(src, registry_dispatch)
+}
+
+/// How a run reaches its kind once the kind is resolved: [`registry_dispatch`] (every built-in
+/// kind, through the registry) for every surface but the feature-limited WebAssembly module
+/// (`--features wasm-slim`, `crate::wasm_slim`), which passes a table of the kinds it carries so
+/// the linker can drop the rest. Everything around the dispatch (the `schema_version` strip,
+/// the `figure_tiers` block, the provenance stamp, the evidence label) is the same code either way.
+pub(crate) type KindDispatch = fn(ScenarioKind, &str) -> Result<RunOutput, String>;
+
+/// [`run_toml_in_current_language`] through `dispatch`.
+pub(crate) fn run_toml_in_current_language_with(
+    src: &str,
+    dispatch: KindDispatch,
+) -> Result<RunOutput, String> {
     // The optional `schema_version` line is checked and removed first, so a file runs, hashes and
     // labels exactly as it would without it (crate::scenario_version).
     let src = crate::scenario_version::strip(src)?;
     let src = src.as_ref();
-    let mut out = run_toml_inner(src, true)?;
+    let mut out = run_toml_inner_with(src, true, dispatch)?;
     let hash = extract_scenario_hash(&out.json).unwrap_or_else(|| src_fingerprint(src));
     out.svg = with_provenance(out.svg, &hash);
     label_evidence(&mut out, src)?;
@@ -2056,13 +2071,59 @@ pub fn run_toml_untiered(src: &str) -> Result<RunOutput, String> {
 /// already carries one. Frozen-prediction kinds
 /// ([`crate::fom_label::FROZEN_PREDICTION_KINDS`]) get none.
 fn run_toml_inner(src: &str, tiers: bool) -> Result<RunOutput, String> {
+    run_toml_inner_with(src, tiers, registry_dispatch)
+}
+
+/// The dispatch of every surface but the feature-limited WebAssembly module: the
+/// [`crate::registry::PackRegistry`] of all built-ins.
+fn registry_dispatch(kind: ScenarioKind, src: &str) -> Result<RunOutput, String> {
+    crate::registry::PackRegistry::with_builtins()
+        .build(&kind.to_id(), src)?
+        .run()
+        .map_err(|e| e.to_string())
+}
+
+/// The scenario kinds the feature-limited WebAssembly module (`--features wasm-slim`) carries: the
+/// four the embedder calls (`constellation-design`, `gnss-sim`, `orbit` for `export_sp3`, `pvt`). The
+/// list [`run_slim_kind`] matches on, kept for the test that holds the two together.
+#[cfg(test)]
+pub(crate) const WASM_SLIM_KINDS: [ScenarioKind; 4] = [
+    ScenarioKind::ConstellationDesign,
+    ScenarioKind::GnssSim,
+    ScenarioKind::Orbit,
+    ScenarioKind::Pvt,
+];
+
+/// The [`KindDispatch`] of the feature-limited WebAssembly module: the arms of
+/// [`run_builtin_kind`] for [`WASM_SLIM_KINDS`], and for any other kind the error an unregistered
+/// id gets from the registry. Each arm is the same call the full dispatch makes, so a carried
+/// kind's output is the same bytes (tested in `slim_dispatch_matches_the_registry`).
+#[cfg(any(test, all(feature = "wasm-slim", not(feature = "wasm"))))]
+pub(crate) fn run_slim_kind(kind: ScenarioKind, src: &str) -> Result<RunOutput, String> {
+    match kind {
+        ScenarioKind::ConstellationDesign => {
+            builtins::run_builtin::<crate::constellation::ConstellationDesignScenario>(src)
+        }
+        ScenarioKind::GnssSim => builtins::run_builtin::<crate::gnss_sim::GnssSimScenario>(src),
+        ScenarioKind::Orbit => builtins::run_builtin::<crate::orbit::OrbitClockScenario>(src),
+        ScenarioKind::Pvt => builtins::run_builtin::<crate::pvt::PvtScenario>(src),
+        k => Err(crate::terr!(
+            "e-registry-unknown-scenario-id",
+            id = k.to_id()
+        )),
+    }
+}
+
+/// [`run_toml_inner`] through `dispatch` ([`KindDispatch`]).
+fn run_toml_inner_with(
+    src: &str,
+    tiers: bool,
+    dispatch: KindDispatch,
+) -> Result<RunOutput, String> {
     let src = crate::scenario_version::strip(src)?;
     let src = src.as_ref();
     let kind = ScenarioKind::classify(src).map_err(|e| e.to_string())?;
-    let mut out = crate::registry::PackRegistry::with_builtins()
-        .build(&kind.to_id(), src)?
-        .run()
-        .map_err(|e| e.to_string())?;
+    let mut out = dispatch(kind, src)?;
     if tiers
         && crate::fom_label::kind_figures(kind.as_str()).is_some()
         && without_figure_tiers(&out.json).is_none()
@@ -2359,6 +2420,34 @@ pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutpu
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    // PIN-SCOPE:    the feature-limited WebAssembly dispatch gives each carried kind the same document as the registry
+    // PIN-EXCLUDES: nothing: the whole run output (json, svg, summary, csv), compared to the registry run
+    #[test]
+    fn slim_dispatch_matches_the_registry() {
+        for file in [
+            "constellation-multi-gnss-coverage.toml",
+            "gnss-sim-raim.toml",
+            "orbit-multignss.toml",
+            "pvt-abmf.toml",
+        ] {
+            let path = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
+                .join("scenarios")
+                .join(file);
+            let src = std::fs::read_to_string(&path).unwrap();
+            let kind = ScenarioKind::classify(&src).unwrap();
+            assert!(WASM_SLIM_KINDS.contains(&kind), "{file}");
+            let full = run_toml_in_current_language(&src).unwrap();
+            let slim = run_toml_in_current_language_with(&src, run_slim_kind).unwrap();
+            assert_eq!(full.json, slim.json, "{file}");
+            assert_eq!(full.svg, slim.svg, "{file}");
+            assert_eq!(full.summary, slim.summary, "{file}");
+            assert_eq!(full.csv, slim.csv, "{file}");
+        }
+        let other = "kind = \"jamming\"\n";
+        let err = run_toml_in_current_language_with(other, run_slim_kind).unwrap_err();
+        assert!(err.contains("jamming"), "{err}");
+    }
 
     #[test]
     fn scenario_kind_classifies_and_round_trips() {

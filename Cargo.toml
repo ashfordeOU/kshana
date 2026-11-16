@@ -272,6 +272,11 @@ getrandom = { version = "0.2", features = ["js"] }
 python = ["dep:pyo3", "bundled-scenarios", "otlp"]
 # WebAssembly module, built with wasm-pack (`wasm-pack build -- --features wasm`).
 wasm = ["dep:wasm-bindgen", "bundled-scenarios", "otlp"]
+# The feature-limited WebAssembly module (`src/wasm_slim.rs`): `version`, `run` and `export_sp3`
+# over four kinds only (constellation-design, gnss-sim, orbit, pvt), for an embedder with a download
+# budget (the embedder). Built with scripts/build-wasm-slim.sh. No bundled scenarios, no OTLP. With `wasm`
+# also on, only the full module is compiled.
+wasm-slim = ["dep:wasm-bindgen"]
 # The bundled reference scenarios (`kshana example`) as a library module,
 # `kshana::bundled_scenarios`. Off by default, so the Python wheel and the WebAssembly
 # module do not carry the scenario text unless they ask for it; the `python` and `wasm`
