@@ -1,0 +1,69 @@
+# The feature-limited WebAssembly module (`--features wasm-slim`, src/wasm_slim.rs): build it on
+# every push, check it is under the size limit, that it is reproducible (two builds in two
+# directories give the same bytes), and that it answers Arksa's recorded engine calls with the same
+# bytes as the full module (scripts/wasm-slim-parity.mjs). The built module is kept as a workflow
+# artifact with its SHA256SUMS; nothing is published.
+name: wasm-slim
+on:
+  push:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}-${{ github.sha }}
+  cancel-in-progress: true
+env:
+  # binaryen version_117 is the wasm-opt release wasm-pack 0.13.1 uses; the tarball's SHA-256 is
+  # the one binaryen publishes beside it (binaryen-version_117-x86_64-linux.tar.gz.sha256).
+  BINARYEN_URL: https://github.com/WebAssembly/binaryen/releases/download/version_117/binaryen-version_117-x86_64-linux.tar.gz
+  BINARYEN_SHA256: 3dc677006555b355ea2da5e82602065a161d5e83eaefd3f759afa00b96e83212
+  # Arksa's WebAssembly budget, gzip level 9, kB of 1024 bytes (Arksa .github/scripts/bundle-report.mjs).
+  KSHANA_SLIM_GZIP_LIMIT_KB: "2800"
+jobs:
+  wasm-slim:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: dtolnay/rust-toolchain@e2a55d2ffb04f378e9626c28d38b36d230d1e12f # master; the toolchain is the `toolchain` input below
+        with:
+          toolchain: 1.93.0
+          targets: wasm32-unknown-unknown
+      - name: Install wasm-pack (pinned)
+        uses: taiki-e/install-action@86f7a0ffb25f40114606501a311ebcfaf882ea32 # v2
+        with:
+          tool: wasm-pack@0.13.1
+      - name: Install wasm-opt (binaryen version_117, SHA-256 checked)
+        run: |
+          set -euo pipefail
+          cd "$RUNNER_TEMP"
+          curl -fsSL --retry 5 --retry-all-errors -o binaryen.tar.gz "$BINARYEN_URL"
+          echo "$BINARYEN_SHA256  binaryen.tar.gz" | sha256sum -c -
+          tar xzf binaryen.tar.gz
+          echo "WASM_OPT=$RUNNER_TEMP/binaryen-version_117/bin/wasm-opt" >> "$GITHUB_ENV"
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: "20"
+      - name: Build the slim module and check its size
+        run: ./scripts/build-wasm-slim.sh target/wasm-slim/pkg
+      - name: Build it again in a second directory and compare the bytes
+        run: |
+          set -euo pipefail
+          second="$RUNNER_TEMP/kshana-second"
+          git worktree add --detach "$second" HEAD
+          (cd "$second" && CARGO_TARGET_DIR="$RUNNER_TEMP/target-second" ./scripts/build-wasm-slim.sh "$RUNNER_TEMP/pkg-second")
+          diff target/wasm-slim/pkg/SHA256SUMS "$RUNNER_TEMP/pkg-second/SHA256SUMS"
+          echo "OK: two builds in two directories give the same bytes"
+      - name: Build the full module for the parity check
+        # --no-opt as in ci.yml's test-wasm-bindings job; the optimiser does not change results.
+        run: wasm-pack build --target web --out-dir target/wasm-full/pkg --release --no-opt -- --locked --features wasm
+      - name: Parity with the full module on Arksa's recorded engine calls
+        run: node scripts/wasm-slim-parity.mjs target/wasm-full/pkg target/wasm-slim/pkg
+      - name: Keep the built module
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: kshana-wasm-slim-${{ github.sha }}
+          path: target/wasm-slim/pkg
+          if-no-files-found: error
