@@ -1528,9 +1528,11 @@ What Pro is, in the words of [`docs/PRO.md`](docs/PRO.md):
 > never forks it. Every open scenario kind runs in Pro unchanged, and an open scenario runs
 > in Pro with no licence at all.
 >
-> **No new physics.** Pro adds no physical model and changes none. Every Pro number comes
-> from runs of the open engine, so a Pro figure is as trustworthy as the open scenario kind
-> it came from, and never more.
+> **Open physics stays open; Pro physics is labelled.** Pro never changes a physical model of
+> the open engine. Pro also carries physical models of its own that the open engine does not
+> have (for example signal-level simulators). Each carries its own evidence label (VALIDATED
+> only where an independent external reference backs it, MODELLED otherwise), and a Pro figure
+> computed from an open scenario kind is as trustworthy as that kind, and never more.
 
 Pro answers a programme's next questions: which design to fly (a design optimiser and its
 Pareto front), how sure the answer is (uncertainty and sensitivity), and whether the mission
