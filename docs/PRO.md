@@ -47,9 +47,11 @@ Abbreviations used on this page, in full:
   never forks it. Every open scenario kind runs in Pro unchanged, and an open scenario runs
   in Pro with no licence at all. A Pro test runs a scenario file of every open kind through
   Pro and requires the open engine's result, byte for byte.
-- **No new physics.** Pro adds no physical model and changes none. Every Pro number comes
-  from runs of the open engine, so a Pro figure is as trustworthy as the open scenario kind
-  it came from, and never more.
+- **Open physics stays open; Pro physics is labelled.** Pro never changes a physical model of
+  the open engine. Pro also carries physical models of its own that the open engine does not
+  have (for example signal-level simulators). Each carries its own evidence label (VALIDATED
+  only where an independent external reference backs it, MODELLED otherwise), and a Pro figure
+  computed from an open scenario kind is as trustworthy as that kind, and never more.
 - **Reproducible in the free engine.** The design optimiser, the mission dossier and the
   study dossier write out the scenario files they ran, with their hashes. Anyone with open
   Kshana can re-run one and get the same figure.
