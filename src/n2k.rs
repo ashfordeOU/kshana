@@ -37,7 +37,7 @@ pub fn candump_line(line: &str) -> Option<(f64, u32, Vec<u8>)> {
         return None; // an 11-bit frame: not NMEA 2000
     }
     let id = u32::from_str_radix(id, 16).ok()?;
-    if data.len() % 2 != 0 || data.len() > 16 {
+    if !data.is_ascii() || data.len() % 2 != 0 || data.len() > 16 {
         return None;
     }
     let bytes = (0..data.len())

@@ -9,6 +9,19 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+### Added (parser hardening)
+
+- `tests/parser_robustness.rs`: a deterministic mutation fuzzer (no new dependency) with a counting allocator drives
+  every byte and text parser (RINEX, SP3, RINEX clock, ANTEX, IONEX, Bias-SINEX, EOP, CGGTTS, Circular T, all clock
+  logs, NMEA, UBX, SBF, RTCM 3, NovAtel, SBP, GREIS, Unicore, TLE, CCSDS OEM/OPM/OMM/OCM/AEM/APM/TDM, NDM/XML, C37.118,
+  ASTERIX, Space Packet, PTP management, SigMF and more) with truncated and mutated real files and valid-checksum
+  random frames, failing on any panic or any input-sized allocation over 64 MiB (`docs/ROBUSTNESS.md`). Defects it
+  found are fixed: unbounded allocations from TDM `PARTICIPANT_n`, clock-record gridding, IONEX grid steps, RINEX
+  observation satellite counts and LOLA DEM dimensions; integer overflow in IONEX; a `sbf_tools` panic on short
+  `MeasEpoch` sub-blocks (guarded); UTF-8 boundary panics in CGGTTS, SP3, RINEX clock/ANTEX and candump readers; an
+  out-of-range index in the CRD reader.
+
+
 ### Changed (0.42 Q2, Q4, Q6, Q9, V1, V7: quality, platform and evidence rows)
 
 - Q4 Galileo and BeiDou broadcast health is read in the single-point solve: a Galileo record with any of its nine signal

@@ -79,6 +79,11 @@ pub fn read_tracks(text: &str) -> TrackFile {
         if toks.len() < 11 || !looks_like_data(toks[0]) {
             continue;
         }
+        // The checksum is the last two characters; a non-ASCII line is not a CGGTTS line.
+        if !line.is_ascii() {
+            out.malformed += 1;
+            continue;
+        }
         let (body, ck) = line.split_at(line.len() - 2);
         let Ok(ck) = u8::from_str_radix(ck, 16) else {
             out.malformed += 1;
@@ -107,7 +112,7 @@ pub fn read_tracks(text: &str) -> TrackFile {
             let elv: i64 = toks[5].parse().ok()?;
             let refsv_s = tenths_ns(toks[7])?;
             let refsys_s = tenths_ns(toks[9])?;
-            let t = (mjd - 44_244) as f64 * 86_400.0 + start_s as f64 + trkl_s as f64 / 2.0;
+            let t = (mjd as f64 - 44_244.0) * 86_400.0 + start_s as f64 + trkl_s as f64 / 2.0;
             Some(Track {
                 sat: toks[0].to_string(),
                 mjd,
