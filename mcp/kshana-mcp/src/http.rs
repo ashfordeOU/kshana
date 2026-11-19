@@ -272,7 +272,7 @@ pub fn app(cfg: &HttpConfig) -> Router {
     let mut mcp = StreamableHttpServerConfig::default()
         .with_allowed_hosts(cfg.hosts())
         .with_allowed_origins(Vec::<String>::new());
-    mcp.stateful_mode = false;
+    mcp.legacy_session_mode = false;
     mcp.json_response = true;
     mcp.sse_keep_alive = None;
     let service = StreamableHttpService::new(
