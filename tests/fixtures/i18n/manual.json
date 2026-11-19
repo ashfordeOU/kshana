@@ -15048,5 +15048,31 @@
   "parts": [
    "the trajectory is longer than 300 s; gps-sdr-sim reads at most 3000 samples at 10 Hz, so the file stops at 300 s"
   ]
+ },
+ {
+  "id": "e-clock-grid-too-long",
+  "error": true,
+  "parts": [
+   "the clock record would need ",
+   {
+    "var": "n"
+   },
+   " grid epochs for ",
+   {
+    "var": "samples"
+   },
+   " samples, more than the bound (1024 per sample, at most 2^26): check the time stamps and the sample interval"
+  ]
+ },
+ {
+  "id": "e-ionex-grid-too-large",
+  "error": true,
+  "parts": [
+   "the IONEX grid has more than ",
+   {
+    "var": "max"
+   },
+   " nodes (check LAT1 / LAT2 / DLAT and LON1 / LON2 / DLON)"
+  ]
  }
 ]

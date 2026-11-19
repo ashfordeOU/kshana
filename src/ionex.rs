@@ -129,6 +129,33 @@ fn nums_before_label(line: &str) -> Vec<f64> {
         .collect()
 }
 
+/// Most grid nodes one IONEX map may have (2^20: a 0.25° global grid is 721 × 1441 ≈ 1.04 M).
+/// The header's `LAT1 / LAT2 / DLAT` and `LON1 / LON2 / DLON` size every map's allocation, so a
+/// corrupt step (say `DLAT = 1e-9`) must not be allowed to ask for an unbounded grid.
+pub const MAX_GRID_NODES: usize = 1 << 20;
+
+/// The latitude and longitude node counts of a header grid: at least 2 each, at most
+/// [`MAX_GRID_NODES`] in all, from finite values.
+fn grid_dims(
+    lat1: f64,
+    lat2: f64,
+    dlat: f64,
+    lon1: f64,
+    lon2: f64,
+    dlon: f64,
+) -> Result<(usize, usize), String> {
+    let n_lat = ((lat2 - lat1) / dlat).round() + 1.0;
+    let n_lon = ((lon2 - lon1) / dlon).round() + 1.0;
+    if !(n_lat >= 2.0 && n_lon >= 2.0) {
+        return Err(crate::terr!("e-ionex-grid-needs-at-least-nodes"));
+    }
+    // Both counts are at least 2 here (NaN failed above); an infinite count fails this test.
+    if n_lat * n_lon > MAX_GRID_NODES as f64 {
+        return Err(crate::terr!("e-ionex-grid-too-large", max = MAX_GRID_NODES));
+    }
+    Ok((n_lat as usize, n_lon as usize))
+}
+
 /// Parse an IONEX (IONosphere map EXchange) text into its sequence of TEC maps. Reads the
 /// header grid definition (`LAT1 / LAT2 / DLAT`, `LON1 / LON2 / DLON`, `EXPONENT`) and each
 /// `START OF TEC MAP … END OF TEC MAP` block, normalising the latitude rows to increasing
@@ -168,12 +195,7 @@ pub fn parse_ionex(text: &str) -> Option<Vec<IonexMap>> {
     if dlat == 0.0 || dlon == 0.0 {
         return None;
     }
-    let n_lat = ((lat2 - lat1) / dlat).round() as i64 + 1;
-    let n_lon = ((lon2 - lon1) / dlon).round() as i64 + 1;
-    if n_lat < 2 || n_lon < 2 {
-        return None;
-    }
-    let (n_lat, n_lon) = (n_lat as usize, n_lon as usize);
+    let (n_lat, n_lon) = grid_dims(lat1, lat2, dlat, lon1, lon2, dlon).ok()?;
     let scale = 10f64.ppowi(exponent);
 
     let mut maps = Vec::new();
@@ -539,12 +561,7 @@ pub fn parse_ionex_file(text: &str) -> Result<IonexFile, String> {
     if dlat == 0.0 || dlon == 0.0 {
         return Err(crate::terr!("e-ionex-zero-grid-step"));
     }
-    let n_lat = ((lat2 - lat1) / dlat).round() as i64 + 1;
-    let n_lon = ((lon2 - lon1) / dlon).round() as i64 + 1;
-    if n_lat < 2 || n_lon < 2 {
-        return Err(crate::terr!("e-ionex-grid-needs-at-least-nodes"));
-    }
-    let (n_lat, n_lon) = (n_lat as usize, n_lon as usize);
+    let (n_lat, n_lon) = grid_dims(lat1, lat2, dlat, lon1, lon2, dlon)?;
     let n_rec = n_lon.div_ceil(16);
 
     let mut tec_maps = Vec::new();
