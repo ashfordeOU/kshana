@@ -1269,6 +1269,18 @@ fn main_in_language(args: Vec<String>) -> ExitCode {
     if args.get(1).map(String::as_str) == Some("ntrip") {
         return run_ntrip_cli(&args[2..]);
     }
+    // `kshana time-vectors [--json] [<file|dir>...]`: the time-scale conformance vectors
+    // (src/time_vectors.rs, docs/TIME-VECTORS.md). Exit 1 when any vector fails.
+    if args.get(1).map(String::as_str) == Some("time-vectors") {
+        return match kshana::time_vectors::run_cli(&args[2..]) {
+            Ok(true) => ExitCode::SUCCESS,
+            Ok(false) => ExitCode::from(1),
+            Err(e) => {
+                eprintln!("{e}");
+                ExitCode::from(2)
+            }
+        };
+    }
     // `kshana clock-live --format <f> --from <...>` follows a servo, chrony or PPS log and prints
     // one JSON line per reading (kshana::clock_live; docs/CLOCK-LOG-FORMATS.md). Read only.
     // `kshana sensor-live --kind imu ...` follows a sensor log (kshana::sensor_live). Read only.

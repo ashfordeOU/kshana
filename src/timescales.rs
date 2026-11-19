@@ -172,6 +172,14 @@ const LEAP_TABLE: &[(i32, u32, u32, f64)] = &[
     (2017, 1, 1, 37.0),
 ];
 
+/// The leap-second history as `(year, month, day, TAI−UTC)`: each row is the whole number of
+/// seconds TAI−UTC takes at 00:00:00 UTC on that date (the first row, 1972-01-01, starts the
+/// integer regime; every later row follows a positive leap second inserted as 23:59:60 UTC on
+/// the day before). Source: IERS Bulletin C. [`crate::gnss_time`] builds on it.
+pub fn leap_second_table() -> impl Iterator<Item = (i32, u32, u32, i32)> {
+    LEAP_TABLE.iter().map(|&(y, m, d, s)| (y, m, d, s as i32))
+}
+
 /// The first day of each TAI − UTC expression of the drifting-rate UTC era, 1960-01-01 to
 /// 1968-02-01, as `(year, month, ΔAT at the reference MJD, reference MJD, drift rate s/day)`:
 /// `TAI − UTC = ΔAT + (MJD − MJD_ref)·rate`. Transcribed from SOFA `iauDat` (ERFA 2.0.1
