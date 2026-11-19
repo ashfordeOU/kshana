@@ -9,6 +9,19 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+### Added (open OSNMA vector set)
+
+- `kshana osnma vectors run [<set-dir>] [--json]` and `kshana osnma vectors generate --out <dir>`: an open, versioned
+  OSNMA vector set made from Kshana's own synthetic data (`conformance/osnma/v1`, set `kshana-osnma-synthetic` 1.0.0,
+  27 vectors: valid streams, key-chain checks, wrong, unknown and stale keys, MACK/tag and MACSEQ faults, chain renewal
+  and revocation, public-key renewal (key ID 2) and revocation, the alert message, don't-use, replay, CRC-failed and
+  truncated sub-frames, CMAC-AES/SHA3-256/P-521, and time violations). One fixed bar per vector, written before any
+  run and pinned by SHA-256; a pass/fail table or a JSON result. Synthetic, from our own reading of the ICD: a pass
+  shows consistency, not conformance or certification (`docs/OSNMA-VECTORS.md`). The official test vectors stay
+  download-on-demand: `tools/fetch_osnma_official_vectors.sh` checks the archive against its pinned SHA-256, and
+  `tests/osnma_official_vectors.rs` checks it again with `KSHANA_OSNMA_VECTORS_ZIP`. `tests/osnma_live_pkid2.rs` is an
+  opt-in path for a recording from the public key ID 2 era (not yet run on a real recording).
+
 ### Changed (0.42 Q2, Q4, Q6, Q9, V1, V7: quality, platform and evidence rows)
 
 - Q4 Galileo and BeiDou broadcast health is read in the single-point solve: a Galileo record with any of its nine signal

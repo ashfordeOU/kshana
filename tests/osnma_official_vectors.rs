@@ -3,9 +3,11 @@
 //! European GNSS Service Centre as an annex to the Receiver Guidelines.
 //!
 //! The vectors are not part of this repository and no network access is used. To run:
-//! download the archive yourself, unpack it, and point `KSHANA_OSNMA_VECTORS` at the
-//! directory that contains `osnma_test_vectors/` and `cryptographic_material/`. Without
-//! the variable the test does nothing and says so.
+//! download the archive yourself (`tools/fetch_osnma_official_vectors.sh <dir>` fetches it and
+//! checks it against the pinned SHA-256), unpack it, and point `KSHANA_OSNMA_VECTORS` at the
+//! directory that contains `osnma_test_vectors/` and `cryptographic_material/`, and
+//! `KSHANA_OSNMA_VECTORS_ZIP` at the archive to have its hash checked. Without the variables
+//! the tests do nothing and say so.
 //!
 //! The verifier is given only what a receiver would be given: a Merkle root and the
 //! public keys of one tree. Chains are established from the signed DSM-KROOT in the
@@ -404,6 +406,26 @@ const fn e(
         revoked_cids,
         revoked_pkids,
     }
+}
+
+/// SHA-256 of the official archive (`Test_vectors.zip`, readme dated 2024-01-25) this test was
+/// written and run against. `tools/fetch_osnma_official_vectors.sh` refuses any other.
+const OFFICIAL_ARCHIVE_SHA256: &str =
+    "ef9b9afc6ef9e1c57393415cf2a1dc80c4035e7c06123907ea0bb97dd3ccf370";
+
+#[test]
+fn official_archive_matches_the_pinned_hash() {
+    let Ok(zip) = std::env::var("KSHANA_OSNMA_VECTORS_ZIP") else {
+        eprintln!("KSHANA_OSNMA_VECTORS_ZIP is not set: archive hash not checked");
+        return;
+    };
+    use sha2::{Digest, Sha256};
+    let bytes = std::fs::read(&zip).unwrap();
+    assert_eq!(
+        hex::encode(Sha256::digest(&bytes)),
+        OFFICIAL_ARCHIVE_SHA256,
+        "{zip} is not the archive this test is pinned to"
+    );
 }
 
 #[test]

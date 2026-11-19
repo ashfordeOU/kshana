@@ -21,6 +21,7 @@ pub mod subframe;
 pub mod tables;
 pub mod tesla;
 pub mod ubx;
+pub mod vectors;
 pub mod verifier;
 
 pub use page::{InavPage, PageError, PAGE_BITS};

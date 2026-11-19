@@ -89,6 +89,14 @@
    "count": 1,
    "reason": "developer: the text of an expect() on an infallible serialisation, not shown to a user"
   },
+  "src/osnma/vectors/gen.rs": {
+   "count": 1,
+   "reason": "machine-input: the header comment of a generated synthetic page file"
+  },
+  "src/osnma/vectors/mod.rs": {
+   "count": 4,
+   "reason": "format strings that join catalogue messages with the advisory; the text itself comes from the catalogue"
+  },
   "src/realtime_frame_eop.rs": {
    "count": 1,
    "reason": "machine-format: the `#` comment header of <scenario>.table.csv (part of the reproducibility table, golden-pinned)"
