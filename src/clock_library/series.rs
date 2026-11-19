@@ -332,6 +332,8 @@ mod tests {
         assert!(p.is_empty());
         assert!(log.grid_refused > 0);
         // A sparse but plausible record is still gridded.
+        // PIN-SCOPE:    the grid length for samples 4000 s apart at a 1 s step (0..=4000).
+        // PIN-EXCLUDES: the phase values themselves and any other gridding path.
         let (p, log) = PhaseSeries::from_samples(&[(0.0, 1.0), (4000.0, 2.0)], 1.0);
         assert_eq!(p.len(), 4001);
         assert_eq!(log.grid_refused, 0);
