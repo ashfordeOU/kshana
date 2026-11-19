@@ -3,6 +3,15 @@ version = 2
 # Fail (not just warn) if a dependency resolves to a yanked release, so a yanked
 # crate cannot silently enter the build.
 yanked = "deny"
+# RUSTSEC-2026-0543 (chrono, all versions): an "unmaintained" notice, not a vulnerability; there is no
+# patched release. No Kshana crate depends on chrono directly. In the root lockfile it comes only through
+# the `sgp4` dev-dependency (tests/sgp4_crate_comparison.rs), which is never built into the library, CLI or
+# bindings. In kshana-mcp's lockfile it is a required dependency of rmcp (still so in rmcp 3.11) and of
+# schemars through rmcp's chrono04 feature, so it cannot be removed without dropping the MCP SDK.
+# Ignored for those reasons on 19 November 2026; remove this entry when rmcp and sgp4 move off chrono.
+ignore = [
+  { id = "RUSTSEC-2026-0543", reason = "chrono unmaintained (informational, no patch); not a direct dependency: test-only via sgp4, and required by rmcp/schemars in kshana-mcp" },
+]
 
 [licenses]
 version = 2
