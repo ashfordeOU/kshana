@@ -9,7 +9,7 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
-### Added (parser hardening)
+### Added (parser hardening and time-scale conformance vectors)
 
 - `tests/parser_robustness.rs`: a deterministic mutation fuzzer (no new dependency) with a counting allocator drives
   every byte and text parser (RINEX, SP3, RINEX clock, ANTEX, IONEX, Bias-SINEX, EOP, CGGTTS, Circular T, all clock
@@ -20,6 +20,13 @@ breaking changes are called out explicitly.
   observation satellite counts and LOLA DEM dimensions; integer overflow in IONEX; a `sbf_tools` panic on short
   `MeasEpoch` sub-blocks (guarded); UTF-8 boundary panics in CGGTTS, SP3, RINEX clock/ANTEX and candump readers; an
   out-of-range index in the CRD reader.
+- `kshana time-vectors`: 515 open, versioned time-scale conformance vectors (`data/conformance/time/*.json`, format
+  `kshana.time-vectors/1`, `docs/TIME-VECTORS.md`) for every leap second since 1972 and 23:59:60, GPS 10/13-bit and
+  Galileo/BeiDou week rollovers (including 2038), GLONASS N4/NT, UTC/TAI/TT/GPST/GST/BDT/GLONASST offsets, the NTP 2036
+  era, 32-bit Unix 2038/2106, two-digit years (RINEX 2, TLE, NMEA) and NORAD catalogue numbers above 99,999. Expected
+  values come from an independent standard-library Python generator. New `gnss_time` (exact-integer time-scale
+  arithmetic) and `norad` (Alpha-5 encode/decode, OMM catalogue number and SGP4 elements) modules; TLE identities read
+  Alpha-5 catalogue fields.
 
 
 ### Changed (0.42 Q2, Q4, Q6, Q9, V1, V7: quality, platform and evidence rows)
