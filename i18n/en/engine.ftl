@@ -11826,3 +11826,9 @@ engine-e-connect-ops-env = the environment variable { $var } is not set
 engine-e-connect-ops-form = unknown output form `{ $name }` ({ $forms })
 
 engine-connect-ops-sim-motion-cut = the trajectory is longer than 300 s; gps-sdr-sim reads at most 3000 samples at 10 Hz, so the file stops at 300 s
+
+## Clock record gridding bound (src/clock_library/series.rs)
+engine-e-clock-grid-too-long = the clock record would need { $n } grid epochs for { $samples } samples, more than the bound (1024 per sample, at most 2^26): check the time stamps and the sample interval
+
+## IONEX grid bound (src/ionex.rs)
+engine-e-ionex-grid-too-large = the IONEX grid has more than { $max } nodes (check LAT1 / LAT2 / DLAT and LON1 / LON2 / DLON)

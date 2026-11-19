@@ -578,16 +578,13 @@ pub fn parse_sp3(text: &str) -> Result<Sp3File, String> {
             // of the full line → offset 8 after stripping the leading '+'.
             let ids = rest.get(8..).unwrap_or("");
             let bytes = ids.as_bytes();
-            let mut i = 0;
-            while i + 3 <= bytes.len() {
-                let chunk = &ids[i..i + 3];
-                let c0 = chunk.as_bytes()[0];
+            // Byte chunks, so a non-ASCII character cannot split a slice inside a char.
+            for chunk in bytes.chunks_exact(3) {
                 // A real id is a system letter followed by two digits; "  0"/"000"
                 // padding entries are skipped.
-                if c0.is_ascii_uppercase() && chunk[1..].bytes().all(|b| b.is_ascii_digit()) {
-                    sat_ids.push(chunk.to_string());
+                if chunk[0].is_ascii_uppercase() && chunk[1..].iter().all(u8::is_ascii_digit) {
+                    sat_ids.push(String::from_utf8_lossy(chunk).into_owned());
                 }
-                i += 3;
             }
             continue;
         }

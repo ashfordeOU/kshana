@@ -442,6 +442,9 @@ impl TdmFile {
     }
 }
 
+/// Highest `PARTICIPANT_n` index the standard defines.
+const MAX_PARTICIPANTS: usize = 5;
+
 /// Route one metadata `key = value` pair into the [`TdmMeta`] structure. The
 /// named keys land in their fields; `PARTICIPANT_n` is index-ordered; everything
 /// else is appended to [`TdmMeta::other`] for round-trip.
@@ -472,13 +475,19 @@ fn apply_meta_key(meta: &mut TdmMeta, key: &str, value: &str) -> Result<(), Stri
         _ if key.starts_with("PARTICIPANT_") => {
             // Index-ordered; pad with empties if a higher index appears first so
             // PARTICIPANT_n lands at slot n-1.
-            if let Ok(n) = key["PARTICIPANT_".len()..].parse::<usize>() {
-                if n >= 1 {
+            // CCSDS 503.0-B-2 defines PARTICIPANT_1 to PARTICIPANT_5; a larger index is kept
+            // as an unrecognised key, so the index in the input cannot size an allocation.
+            match key["PARTICIPANT_".len()..].parse::<usize>() {
+                Ok(n) if n > MAX_PARTICIPANTS => {
+                    meta.other.push((key.to_string(), value.to_string()));
+                }
+                Ok(n) if n >= 1 => {
                     if meta.participants.len() < n {
                         meta.participants.resize(n, String::new());
                     }
                     meta.participants[n - 1] = value.to_string();
                 }
+                _ => {}
             }
         }
         _ => meta.other.push((key.to_string(), value.to_string())),

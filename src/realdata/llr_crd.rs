@@ -220,12 +220,14 @@ pub fn parse_crd(label: &str, text: &str) -> Result<Vec<LlrNormalPoint>, String>
                         "e-realdata-llr-crd-normal-point-record-appeared-before"
                     )));
                 }
+                // `get`: the bin RMS (field 7) is optional, so a 7-field record has no f[7].
                 let num = |i: usize| -> Result<f64, String> {
-                    f[i].parse::<f64>().map_err(|_| {
+                    let fi = f.get(i).copied().unwrap_or("");
+                    fi.parse::<f64>().map_err(|_| {
                         at(&crate::t!(
                             "realdata-llr-crd-unreadable-field",
                             i = i,
-                            f = format!("{:?}", f[i])
+                            f = format!("{:?}", fi)
                         ))
                     })
                 };

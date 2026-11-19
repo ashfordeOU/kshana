@@ -29,7 +29,18 @@ pub struct GriddingLog {
     pub duplicates: usize,
     /// Non-finite samples.
     pub non_finite: usize,
+    /// Grid epochs a record would have needed when that was more than
+    /// [`PhaseSeries::max_grid_epochs`] allows for its sample count; the record is then left
+    /// empty instead of allocated (0 when the record was gridded).
+    pub grid_refused: usize,
 }
+
+/// Most grid epochs per present sample (a record may be up to this sparse).
+pub const MAX_GRID_EPOCHS_PER_SAMPLE: usize = 1024;
+/// Grid epochs always allowed, whatever the sample count.
+pub const MIN_GRID_EPOCHS_ALLOWED: usize = 4096;
+/// Absolute ceiling on grid epochs (2^26, 512 MiB of `f64`).
+pub const MAX_GRID_EPOCHS: usize = 1 << 26;
 
 impl PhaseSeries {
     /// Grid `(t, x)` samples (seconds, seconds) at spacing `tau0`, starting at the earliest
@@ -59,7 +70,26 @@ impl PhaseSeries {
             );
         };
         let t1 = finite.iter().map(|s| s.0).fold(t0, f64::max);
-        let n = ((t1 - t0) / tau0).round() as usize + 1;
+        // The grid length comes from the input's time span and spacing; bound it so a corrupt
+        // time stamp or spacing cannot ask for an arbitrarily large allocation.
+        let span = ((t1 - t0) / tau0).round();
+        let cap = Self::max_grid_epochs(finite.len());
+        if !(span.is_finite() && span >= 0.0 && span < cap as f64) {
+            log.grid_refused = if span.is_finite() && span >= 0.0 {
+                (span as usize).saturating_add(1)
+            } else {
+                usize::MAX
+            };
+            return (
+                PhaseSeries {
+                    t0,
+                    tau0,
+                    x: Vec::new(),
+                },
+                log,
+            );
+        }
+        let n = span as usize + 1;
         let mut x = vec![f64::NAN; n];
         for (t, v) in finite {
             let k = (t - t0) / tau0;
@@ -76,6 +106,15 @@ impl PhaseSeries {
             }
         }
         (PhaseSeries { t0, tau0, x }, log)
+    }
+
+    /// The most grid epochs [`PhaseSeries::from_samples`] builds for `samples` present
+    /// samples: [`MAX_GRID_EPOCHS_PER_SAMPLE`] per sample, at least
+    /// [`MIN_GRID_EPOCHS_ALLOWED`], at most [`MAX_GRID_EPOCHS`].
+    pub fn max_grid_epochs(samples: usize) -> usize {
+        samples
+            .saturating_mul(MAX_GRID_EPOCHS_PER_SAMPLE)
+            .clamp(MIN_GRID_EPOCHS_ALLOWED, MAX_GRID_EPOCHS)
     }
 
     /// Number of grid epochs (present or missing).
@@ -276,10 +315,26 @@ mod tests {
             GriddingLog {
                 off_grid: 1,
                 duplicates: 1,
-                non_finite: 1
+                non_finite: 1,
+                grid_refused: 0
             }
         );
         assert_eq!(p.valid(), 3);
+    }
+
+    #[test]
+    fn a_grid_longer_than_the_samples_justify_is_refused_not_allocated() {
+        // Two samples 1e12 grid steps apart: the record is left empty and the refusal counted.
+        let (p, log) = PhaseSeries::from_samples(&[(0.0, 1.0), (1e12, 2.0)], 1.0);
+        assert!(p.is_empty());
+        assert_eq!(log.grid_refused, 1_000_000_000_001);
+        let (p, log) = PhaseSeries::from_samples(&[(0.0, 1.0), (1.0, 2.0)], 1e-300);
+        assert!(p.is_empty());
+        assert!(log.grid_refused > 0);
+        // A sparse but plausible record is still gridded.
+        let (p, log) = PhaseSeries::from_samples(&[(0.0, 1.0), (4000.0, 2.0)], 1.0);
+        assert_eq!(p.len(), 4001);
+        assert_eq!(log.grid_refused, 0);
     }
 
     #[test]
