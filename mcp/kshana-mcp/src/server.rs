@@ -36,7 +36,8 @@ use crate::iq::IqConfig;
 use rmcp::handler::server::router::tool::ToolRouter;
 use rmcp::handler::server::wrapper::Parameters;
 use rmcp::model::{
-    CallToolResult, ContentBlock, Implementation, ProtocolVersion, ServerCapabilities, ServerInfo,
+    CallToolResponse, CallToolResult, ContentBlock, Implementation, ProtocolVersion,
+    ServerCapabilities, ServerConfig,
 };
 use rmcp::{ErrorData as McpError, ServerHandler, schemars, tool, tool_handler, tool_router};
 use std::sync::Arc;
@@ -812,7 +813,7 @@ impl ServerHandler for KshanaServer {
         &self,
         request: rmcp::model::CallToolRequestParams,
         context: rmcp::service::RequestContext<rmcp::RoleServer>,
-    ) -> Result<CallToolResult, McpError> {
+    ) -> Result<CallToolResponse, McpError> {
         let permits = self.pool.permits.clone();
         let permit = if self.pool.shed {
             permits.try_acquire_owned().map_err(|_| {
@@ -845,7 +846,7 @@ impl ServerHandler for KshanaServer {
         })?
     }
 
-    fn get_info(&self) -> ServerInfo {
+    fn get_info(&self) -> ServerConfig {
         // Set the identity explicitly: rmcp's `Implementation::from_build_env()` reports
         // `env!("CARGO_CRATE_NAME")` from *within rmcp* (i.e. "rmcp"), not this crate.
         // `Implementation` is #[non_exhaustive], so mutate a default instance.
@@ -858,7 +859,7 @@ impl ServerHandler for KshanaServer {
                 .to_string(),
         );
         info.website_url = Some("https://kshana.dev".to_string());
-        ServerInfo::new(ServerCapabilities::builder().enable_tools().build())
+        ServerConfig::new(ServerCapabilities::builder().enable_tools().build())
             .with_server_info(info)
             // Advertise the newest protocol revision the linked `rmcp` supports, so this
             // tracks forward automatically on every SDK bump; rmcp negotiates down to an

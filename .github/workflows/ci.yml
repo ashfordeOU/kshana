@@ -964,7 +964,7 @@ jobs:
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
       # Pinned to the repo toolchain like every other job. The crate is edition 2024
-      # (the rmcp SDK); rmcp 2.x needs >= 1.88 (darling 0.23); 1.93.0 satisfies both.
+      # (the rmcp SDK); rmcp 3.x needs >= 1.88; 1.93.0 satisfies both.
       - uses: dtolnay/rust-toolchain@e2a55d2ffb04f378e9626c28d38b36d230d1e12f # master; the toolchain is the `toolchain` input below
         with:
           toolchain: 1.93.0
