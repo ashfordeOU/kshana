@@ -10115,7 +10115,7 @@
   "id": "main-usage",
   "error": false,
   "parts": [
-   "usage: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]\n   or: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]\n   or: kshana --study <suite.toml>\n   or: kshana --validate <scenario.toml>\n   or: kshana receiver-trust <scenario.toml>\n   or: kshana receiver-trust live <session.toml> [--stdin | --file <path> [--follow] | --tcp <host:port> | --udp <port>] [--gate] (kshana receiver-trust live --help)\n   or: kshana receiver-trust evidence <scenario.toml> --from <t0> --to <t1> --key <keyfile> --out <dir> (kshana evidence --help)\n   or: kshana evidence <keygen|verify|attach-timestamp> ... (kshana evidence --help)\n   or: kshana jammertest <import|score> ... (kshana jammertest --help)\n   or: kshana evidence round-trip <scenario.toml> --scenario <bench-scenario> --conditions <file> --from <t0> --to <t1> --key <keyfile> --out <dir> (kshana evidence --help)\n   or: kshana trust-telemetry [options] (kshana trust-telemetry --help)\n   or: kshana imu-fit <imu.csv> [--format csv|euroc] [--axis x|y|z] [--expected-mean <m/s2>] [--id <name>] [--json]\n   or: kshana ephem-export <horizons.txt> [--format oem|opm|spk] [--out <file>] [--index <n>] [--spk-type 13|9] [--degree <n>] [--creation-date <YYYY-MM-DDTHH:MM:SS>] [--object-id <id>]\n   or: kshana nmea-scenario <scenario.toml> [--out <file.nmea>] [--tcp <addr>|--udp <addr>] (kshana nmea-scenario --help)\n   or: kshana interference-map <adsb|ais|fetch-land> ... (kshana interference-map --help)\n   or: kshana route-exposure --route <route> --map <map.geojson|dir> [--from <date>] [--to <date>]\n   or: kshana bench <spec|truth|cases|score|baseline|seal|reveal-check|manifest|verify-manifest|validate|leaderboard> ... (kshana bench --help)\n   or: kshana bench-export <scenario.toml> [--out <base>] [--epoch <YYYY-MM-DDTHH:MM:SS>]\n   or: kshana compliance-report [--out <base>] <result.json>... | --mapping | --sources\n   or: kshana lunanet-afs-check <spec [--json] [--strict]|symbols <file> [--max-sp-errors <n>] [--json]|generate --frames <n> [--toi0 <t>] --out <file>>\n   or: kshana standards-pack <list|run <id> [--json] [--out <base>]|rows <id>|tests <id>>\n   or: kshana partner check <submission.toml> [--json]\n   or: kshana scenario <migrate <scenario.toml> [--in-place] | version>\n   or: kshana obs <convert <log> --format <format> --station <station.toml> [--out <file>] | check <file.obs.jsonl> [--json]>\n   or: kshana connect <map <input> --mapping <connect.toml> --station <station.toml> [--out <file.obs.jsonl>] | check <vector.toml|dir> [--bless] | watch <dir> --mapping <connect.toml> --station <station.toml> [--suffix <.csv>] [--interval <s>] [--once] | mqtt <host:port> --topic <filter> --mapping <connect.toml> --station <station.toml> [--header <row>] [--qos 0|1] [--user <name> --password-env <VAR>] [--client-id <id>] [--max-messages <n>] [--per-topic] | nats <host:port> --subject <s> --mapping <connect.toml> --station <station.toml> [--header <row>] [--per-topic] [--user <name> --password-env <VAR> | --token-env <VAR>] [--max-messages <n>] | ws <ws://host:port/path> --mapping <connect.toml> --station <station.toml> [--header <row>] [--max-messages <n>] | check-live <vector.toml|dir> [--json] | load-test [--stations <n>] [--rate <Hz>] [--seconds <s>] [--via memory|mqtt] [--json] | adapters <list|check> [<dir>] [--json]>\n   or: kshana osnma verify <pages|vectors.csv|stream.ubx> [--merkle-root <hex>] [--public-key <id:type:hex>] [--reference-time <gst-s>] [--json] (kshana osnma --help)\n   or: kshana iq <scene|acquire|track|sweep|labfit|campaign|conditions|frontend|monitor|inventory|info|extract|convert|decimate> ... (kshana iq --help)\n   or: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)\n   or: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>\n   or: kshana kinds [--json]\n   or: kshana example [<name>]\n   or: kshana --help | --version"
+   "usage: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]\n   or: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]\n   or: kshana --study <suite.toml>\n   or: kshana --validate <scenario.toml>\n   or: kshana receiver-trust <scenario.toml>\n   or: kshana receiver-trust live <session.toml> [--stdin | --file <path> [--follow] | --tcp <host:port> | --udp <port>] [--gate] (kshana receiver-trust live --help)\n   or: kshana receiver-trust evidence <scenario.toml> --from <t0> --to <t1> --key <keyfile> --out <dir> (kshana evidence --help)\n   or: kshana evidence <keygen|verify|attach-timestamp> ... (kshana evidence --help)\n   or: kshana jammertest <import|score> ... (kshana jammertest --help)\n   or: kshana evidence round-trip <scenario.toml> --scenario <bench-scenario> --conditions <file> --from <t0> --to <t1> --key <keyfile> --out <dir> (kshana evidence --help)\n   or: kshana trust-telemetry [options] (kshana trust-telemetry --help)\n   or: kshana imu-fit <imu.csv> [--format csv|euroc] [--axis x|y|z] [--expected-mean <m/s2>] [--id <name>] [--json]\n   or: kshana ephem-export <horizons.txt> [--format oem|opm|spk] [--out <file>] [--index <n>] [--spk-type 13|9] [--degree <n>] [--creation-date <YYYY-MM-DDTHH:MM:SS>] [--object-id <id>]\n   or: kshana nmea-scenario <scenario.toml> [--out <file.nmea>] [--tcp <addr>|--udp <addr>] (kshana nmea-scenario --help)\n   or: kshana interference-map <adsb|ais|fetch-land> ... (kshana interference-map --help)\n   or: kshana route-exposure --route <route> --map <map.geojson|dir> [--from <date>] [--to <date>]\n   or: kshana bench <spec|truth|cases|score|baseline|seal|reveal-check|manifest|verify-manifest|validate|leaderboard> ... (kshana bench --help)\n   or: kshana bench-export <scenario.toml> [--out <base>] [--epoch <YYYY-MM-DDTHH:MM:SS>]\n   or: kshana compliance-report [--out <base>] <result.json>... | --mapping | --sources\n   or: kshana lunanet-afs-check <spec [--json] [--strict]|symbols <file> [--max-sp-errors <n>] [--json]|generate --frames <n> [--toi0 <t>] --out <file>>\n   or: kshana standards-pack <list|run <id> [--json] [--out <base>]|rows <id>|tests <id>>\n   or: kshana partner check <submission.toml> [--json]\n   or: kshana scenario <migrate <scenario.toml> [--in-place] | version>\n   or: kshana obs <convert <log> --format <format> --station <station.toml> [--out <file>] | check <file.obs.jsonl> [--json]>\n   or: kshana connect <map <input> --mapping <connect.toml> --station <station.toml> [--out <file.obs.jsonl>] | check <vector.toml|dir> [--bless] | watch <dir> --mapping <connect.toml> --station <station.toml> [--suffix <.csv>] [--interval <s>] [--once] | mqtt <host:port> --topic <filter> --mapping <connect.toml> --station <station.toml> [--header <row>] [--qos 0|1] [--user <name> --password-env <VAR>] [--client-id <id>] [--max-messages <n>] [--per-topic] | nats <host:port> --subject <s> --mapping <connect.toml> --station <station.toml> [--header <row>] [--per-topic] [--user <name> --password-env <VAR> | --token-env <VAR>] [--max-messages <n>] | ws <ws://host:port/path> --mapping <connect.toml> --station <station.toml> [--header <row>] [--max-messages <n>] | check-live <vector.toml|dir> [--json] | load-test [--stations <n>] [--rate <Hz>] [--seconds <s>] [--via memory|mqtt] [--json] | adapters <list|check> [<dir>] [--json]>\n   or: kshana osnma verify <pages|vectors.csv|stream.ubx> [--merkle-root <hex>] [--public-key <id:type:hex>] [--reference-time <gst-s>] [--json] (kshana osnma --help)\n   or: kshana osnma vectors run [<set-dir>] [--json] (open synthetic OSNMA vector set; kshana osnma vectors --help)\n   or: kshana iq <scene|acquire|track|sweep|labfit|campaign|conditions|frontend|monitor|inventory|info|extract|convert|decimate> ... (kshana iq --help)\n   or: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)\n   or: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>\n   or: kshana kinds [--json]\n   or: kshana example [<name>]\n   or: kshana --help | --version"
   ]
  },
  {
@@ -10416,7 +10416,7 @@
   "id": "osnma-cli-usage",
   "error": false,
   "parts": [
-   "usage: kshana osnma verify <input> [options]\n\n  <input>                    I/NAV pages: the plain format (see docs/OSNMA.md) or the\n                             CSV layout of the published test vectors\n  --format pages|vector-csv|ubx\n                             input layout (default: by file content). ubx is a u-blox\n                             byte stream with UBX-RXM-SFRBX messages (Galileo E1-B)\n  --start-gst SECONDS        start time of a vector CSV in GST seconds\n                             (default: read from a file name like 16_AUG_2023_GST_05_00_01.csv)\n  --merkle-root HEX          trusted Merkle root (64 hex digits) for DSM-PKR checks\n  --public-key ID:TYPE:HEX   trusted public key, TYPE p256 or p521, compressed point\n  --reference-time SECONDS   present time in GST seconds from an independent source. A single\n                             instant: sub-frames further from it than the tolerance are set\n                             aside, so use it for live or just-recorded data\n  --max-time-error SECONDS   largest distance of a sub-frame from the reference time, below\n                             30 (default 29); needs --reference-time\n  --epochs                   also print every tag result\n  --json                     print JSON instead of text\n\nExit status: 0 done, 2 usage or input error, 3 a check on some satellite's data failed."
+   "usage: kshana osnma verify <input> [options]\n   or: kshana osnma vectors <generate|run> ... (kshana osnma vectors --help)\n\n  <input>                    I/NAV pages: the plain format (see docs/OSNMA.md) or the\n                             CSV layout of the published test vectors\n  --format pages|vector-csv|ubx\n                             input layout (default: by file content). ubx is a u-blox\n                             byte stream with UBX-RXM-SFRBX messages (Galileo E1-B)\n  --start-gst SECONDS        start time of a vector CSV in GST seconds\n                             (default: read from a file name like 16_AUG_2023_GST_05_00_01.csv)\n  --merkle-root HEX          trusted Merkle root (64 hex digits) for DSM-PKR checks\n  --public-key ID:TYPE:HEX   trusted public key, TYPE p256 or p521, compressed point\n  --reference-time SECONDS   present time in GST seconds from an independent source. A single\n                             instant: sub-frames further from it than the tolerance are set\n                             aside, so use it for live or just-recorded data\n  --max-time-error SECONDS   largest distance of a sub-frame from the reference time, below\n                             30 (default 29); needs --reference-time\n  --epochs                   also print every tag result\n  --json                     print JSON instead of text\n\nExit status: 0 done, 2 usage or input error, 3 a check on some satellite's data failed."
   ]
  },
  {
@@ -15047,6 +15047,164 @@
   "error": false,
   "parts": [
    "the trajectory is longer than 300 s; gps-sdr-sim reads at most 3000 samples at 10 Hz, so the file stops at 300 s"
+  ]
+ },
+ {
+  "id": "osnma-vectors-usage",
+  "error": false,
+  "parts": [
+   "usage: kshana osnma vectors run [<set-dir>] [--only <id>]... [--json]\n   or: kshana osnma vectors generate --out <dir>\n\n  run        run every vector of a set through the verifier and check each against its fixed,\n             pre-hashed bar. Without <set-dir> the built-in synthetic set is generated in memory;\n             with it, a set directory (manifest.json, bars.json, inputs/) such as conformance/osnma/v1\n  generate   write the built-in synthetic set to <dir>\n  --only     run only the vector with this id (repeatable)\n  --json     print the result document (kshana-osnma-vectors-result/1) instead of the table\n\nThe vectors are synthetic, generated by Kshana from its own reading of the OSNMA SIS ICD and Receiver\nGuidelines; a pass shows consistency with that reading, not conformance or certification (docs/OSNMA-VECTORS.md).\nExit status: 0 every vector met its bar, 1 at least one did not, 2 usage, input or set-integrity error."
+  ]
+ },
+ {
+  "id": "osnma-vectors-written",
+  "error": false,
+  "parts": [
+   "wrote ",
+   {
+    "var": "n"
+   },
+   " vectors, manifest.json and bars.json to ",
+   {
+    "var": "dir"
+   }
+  ]
+ },
+ {
+  "id": "osnma-vectors-header",
+  "error": false,
+  "parts": [
+   "set ",
+   {
+    "var": "set"
+   },
+   " ",
+   {
+    "var": "version"
+   },
+   "; bars sha256 ",
+   {
+    "var": "bars"
+   }
+  ]
+ },
+ {
+  "id": "osnma-vectors-scope",
+  "error": false,
+  "parts": [
+   "Synthetic vectors from Kshana's own reading of the ICD: a pass shows consistency, not conformance or certification."
+  ]
+ },
+ {
+  "id": "osnma-vectors-table-head",
+  "error": false,
+  "parts": [
+   "ID                           CATEGORY             RESULT BARS MISSED"
+  ]
+ },
+ {
+  "id": "osnma-vectors-missed",
+  "error": false,
+  "parts": [
+   {
+    "var": "bar"
+   },
+   " (expected ",
+   {
+    "var": "expected"
+   },
+   ", observed ",
+   {
+    "var": "observed"
+   },
+   ")"
+  ]
+ },
+ {
+  "id": "osnma-vectors-summary",
+  "error": false,
+  "parts": [
+   {
+    "var": "passed"
+   },
+   " of ",
+   {
+    "var": "total"
+   },
+   " vectors met their bars"
+  ]
+ },
+ {
+  "id": "e-osnma-vectors-cannot-read",
+  "error": true,
+  "parts": [
+   "cannot read ",
+   {
+    "var": "path"
+   },
+   ": ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-osnma-vectors-bad-json",
+  "error": true,
+  "parts": [
+   {
+    "var": "path"
+   },
+   " is not valid JSON: ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-osnma-vectors-bad-path",
+  "error": true,
+  "parts": [
+   "a set may only name files inside its own directory: ",
+   {
+    "var": "path"
+   }
+  ]
+ },
+ {
+  "id": "e-osnma-vectors-wrong-format",
+  "error": true,
+  "parts": [
+   "expected format ",
+   {
+    "var": "want"
+   },
+   ", found ",
+   {
+    "var": "got"
+   }
+  ]
+ },
+ {
+  "id": "e-osnma-vectors-bars-hash",
+  "error": true,
+  "parts": [
+   "the bar file's SHA-256 is ",
+   {
+    "var": "got"
+   },
+   ", but ",
+   {
+    "var": "want"
+   },
+   " is pre-registered: bars may not change without a new set version"
+  ]
+ },
+ {
+  "id": "e-osnma-vectors-set-mismatch",
+  "error": true,
+  "parts": [
+   "the bar file belongs to another set or version than the manifest"
   ]
  }
 ]

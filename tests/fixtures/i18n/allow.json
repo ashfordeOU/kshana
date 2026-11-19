@@ -217,6 +217,18 @@
    "count": 5,
    "reason": "identifier: the class names and JSON keys of the M5 result and B4 documents (machine documents)"
   },
+  "src/osnma/vectors/gen.rs": {
+   "count": 1,
+   "reason": "machine-input: the header comment of a generated synthetic page file"
+  },
+  "src/osnma/vectors/mod.rs": {
+   "count": 52,
+   "reason": "machine-document: the manifest, bar file and result document of the open OSNMA vector set (English by design, like `kshana osnma verify --json`), and the set scope statement"
+  },
+  "src/osnma/vectors/set_v1.rs": {
+   "count": 174,
+   "reason": "data: vector ids, titles, ICD/Receiver Guidelines citations and bar keys of the published machine-readable vector set"
+  },
   "src/rtcm_ssr.rs": {
    "count": 3,
    "reason": "identifiers: the source names `rtcm-ssr` and `igs-ssr` written into kshana.obs/1 correction records"

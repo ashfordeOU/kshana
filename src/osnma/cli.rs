@@ -381,6 +381,9 @@ pub fn run(args: &[String]) -> i32 {
         println!("{advisory}\n\n{}", usage());
         return 0;
     }
+    if args.first().map(String::as_str) == Some("vectors") {
+        return super::vectors::run_cli(&args[1..]);
+    }
     if args.first().map(String::as_str) != Some("verify") {
         eprintln!("{advisory}\n\n{}", usage());
         return 2;

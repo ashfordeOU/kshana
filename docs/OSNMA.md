@@ -230,6 +230,9 @@ kshana osnma verify <input> [--format pages|vector-csv|ubx] [--start-gst SECONDS
     [--reference-time SECONDS [--max-time-error SECONDS]] [--epochs] [--json]
 ```
 
+`kshana osnma vectors run [<set-dir>] [--json]` runs the open synthetic vector set through
+this verifier with a pass/fail table (`docs/OSNMA-VECTORS.md`).
+
 Text output gives the status per satellite and, with `--epochs`, per tag and epoch;
 `--json` gives the same with the tag list. Exit status 3 means a check on some
 satellite's data failed, 2 means a usage or input error. The advisory above is printed
@@ -261,6 +264,10 @@ with CMAC-AES, a SHA3-256 chain and a P-521 signature carried through the verifi
 Because that data comes from our own
 reading of the ICD, it shows self-consistency, not conformance.
 
+The same kind of data is published as a versioned vector set with fixed, pre-hashed bars
+(`conformance/osnma/v1`, `kshana osnma vectors`, `docs/OSNMA-VECTORS.md`), so other verifiers
+can be run against it too.
+
 The primitives are checked against published known-answer tests, none taken from the
 ICD: RFC 4231 (HMAC-SHA-256), RFC 4493 (CMAC-AES-128), FIPS 197 (AES), FIPS 202
 (SHA3-256) and RFC 6979 (ECDSA P-256). P-521 signatures are checked for encoding and
@@ -270,7 +277,9 @@ library's.
 Conformance is checked by `tests/osnma_official_vectors.rs`, which is opt-in: it reads a
 copy of the official test-vector archive that you download yourself, from the
 directory named by `KSHANA_OSNMA_VECTORS`, and does nothing when the variable is unset.
-It stores and redistributes nothing, and default test runs use no network. It gives the
+It stores and redistributes nothing, and default test runs use no network.
+`tools/fetch_osnma_official_vectors.sh` downloads the archive on demand and checks it against
+the pinned SHA-256 (`ef9b9afc…f370`); `KSHANA_OSNMA_VECTORS_ZIP` has the test check it again. It gives the
 verifier only a Merkle root and the public keys of one tree, as a receiver would have,
 so chains are established from the signed DSM-KROOT in the stream and the whole path
 runs: Merkle, signature, key chain, MACSEQ and tags. It asserts, per vector set, a
