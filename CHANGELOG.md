@@ -31,6 +31,13 @@ breaking changes are called out explicitly.
 - V7 the Artemis I cruise row (C2) is closed (not met) and the CAPSTONE force-model row (C3) is narrowed to what it
   showed, with A2 staying not met; reasons in `docs/design/evidence/d1-artemis-capstone/V7-DISPOSITION.md`.
 
+### Security (0.42 rmcp 3)
+
+- `kshana-mcp` moves from `rmcp` 2.2 to 3.11, which fixes RUSTSEC-2026-0462 (unbounded response buffering in the
+  Streamable HTTP client transports) and RUSTSEC-2026-0457 (SSRF in the OAuth client). Neither was reachable: the
+  server compiles no client transport and not the `auth` feature. Their `deny.toml` ignores are removed. The tool set,
+  names and schemas are unchanged; the minimum Rust version stays 1.88.
+
 ### Known limits (0.42 glib advisory)
 
 - The `glib` advisory (RUSTSEC-2024-0429) on the desktop crate cannot be closed by an upgrade yet: every Tauri release
