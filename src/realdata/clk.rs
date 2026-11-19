@@ -132,6 +132,13 @@ pub fn rinex_clock_series(texts: &[&str], id: &str, tau0: f64) -> Result<RinexCl
     samples.sort_by(|a, b| a.0.total_cmp(&b.0));
     samples.dedup_by(|a, b| a.0 == b.0);
     let (series, log) = PhaseSeries::from_samples(&samples, tau0);
+    if log.grid_refused > 0 {
+        return Err(crate::terr!(
+            "e-clock-grid-too-long",
+            n = log.grid_refused,
+            samples = samples.len()
+        ));
+    }
     Ok(RinexClockSeries {
         series,
         log,

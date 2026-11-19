@@ -163,7 +163,14 @@ fn parse_epoch_header(line: &str) -> Result<(EpochUtc, u8, usize), String> {
         second: parse_d(col(line, 18, 29))?,
     };
     let flag = parse_i(col(line, 31, 32), "epoch flag").unwrap_or(0) as u8;
-    let nsat = parse_i(col(line, 32, 35), "satellite count")? as usize;
+    let nsat_field = col(line, 32, 35);
+    let nsat = usize::try_from(parse_i(nsat_field, "satellite count")?).map_err(|_| {
+        crate::terr!(
+            "e-rinex-obs-bad",
+            what = "satellite count",
+            s = format!("{:?}", nsat_field)
+        )
+    })?;
     Ok((time, flag, nsat))
 }
 
@@ -300,7 +307,8 @@ pub fn parse_obs(text: &str) -> Result<RinexObs, String> {
         }
         let (time, flag, nsat) = parse_epoch_header(line)?;
         i += 1;
-        let mut sats = Vec::with_capacity(nsat);
+        // The count comes from the file: never reserve more records than lines remain.
+        let mut sats = Vec::with_capacity(nsat.min(lines.len() - i));
         for _ in 0..nsat {
             if i >= lines.len() {
                 break;
