@@ -79,7 +79,7 @@ Nothing is released yet; a release needs the founder's go. Two routes:
    (`kshana.js`, `kshana_bg.wasm`) under a path of its own, pins `KSHANA.wasmSha256` and
    `KSHANA.wasmBytes` to the slim binary, and records the tarball's SHA-512 and the attestation in
    its migration note. Anyone can rebuild the tag with the script and compare the SHA-256. No new
-   registry dependency; the pin is in the embedder's tree.
+   registry dependency; the pin is kept in the the embedder repository.
 2. **An npm package `kshana-slim`.** The release workflow publishes the same files as `kshana-slim`
    with npm provenance (SLSA v1), as `kshana` is published today. the embedder depends on
    `kshana-slim@<exact version>`; the lockfile carries the tarball's SHA-512 integrity, the loader
