@@ -17,6 +17,10 @@
 //! the peak growth of live heap during each call. A call on an input of at most 64 KiB that
 //! asks for more than `MAX_SINGLE_ALLOC` bytes at once, or grows the heap by more than
 //! `MAX_LIVE_GROWTH`, fails the test with the input that caused it.
+//!
+//! PIN-SCOPE:    the large integer literals here are extreme field values fed to the parsers
+//!               (u64::MAX, 20-digit and 1.3e18 overflow probes), not expected outputs.
+//! PIN-EXCLUDES: any parser's decoded result; no test here pins a byte-for-byte or hashed output.
 
 use std::alloc::{GlobalAlloc, Layout, System};
 use std::cell::{Cell, RefCell};
