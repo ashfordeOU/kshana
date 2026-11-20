@@ -10572,6 +10572,16 @@ engine-e-realdata-llr-crd-short-h4-record = kort h4-record (sessie)
 
 engine-e-mcp-main-needs-value = { $a } heeft een waarde nodig
 
+## AIS position-integrity flags (src/ais_integrity.rs)
+engine-ais-integrity-usage = gebruik: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]  (docs/AIS-INTEGRITY.md)
+engine-ais-integrity-summary = { $n_tracks } tracks, { $n_flagged } met markeringen: { $n_flags } markeringen in { $n_events } gebeurtenissen (MODELLED)
+engine-e-ais-integrity-missing-value = { $option } heeft een waarde nodig
+engine-e-ais-integrity-unknown-option = onbekende optie { $option } (kshana ais-integrity --help toont de opties)
+engine-e-ais-integrity-bad-format = onbekend invoerformaat { $value } (csv of nmea)
+engine-e-ais-integrity-cannot-read = kan { $path } niet lezen: { $e }
+engine-e-ais-integrity-cannot-write = kan { $path } niet schrijven: { $e }
+engine-e-ais-integrity-bad-place = een rij van de plaatsenlijst is geen name,lat,lon,radius_m met een geldige positie en een positieve straal: { $row }
+
 engine-main-usage =
     gebruik: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }of: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10602,6 +10612,7 @@ engine-main-usage =
     { "   " }of: kshana iq <scene|acquire|track|sweep|labfit|campaign|conditions|frontend|monitor|inventory|info|extract|convert|decimate> ... (kshana iq --help)
     { "   " }of: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }of: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
+    { "   " }of: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
     { "   " }of: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }of: kshana kinds [--json]
     { "   " }of: kshana example [<name>]
