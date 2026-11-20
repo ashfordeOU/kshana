@@ -10696,6 +10696,23 @@ engine-e-ais-integrity-cannot-read = не вдалося прочитати { $p
 engine-e-ais-integrity-cannot-write = не вдалося записати { $path }: { $e }
 engine-e-ais-integrity-bad-place = рядок списку місць не має вигляду name,lat,lon,radius_m з допустимою позицією та додатним радіусом: { $row }
 
+## Receiver-antenna characterisation (src/antenna_cal.rs)
+engine-antenna-cal-usage = використання: kshana antenna-cal lint <file.atx> | spread <file.atx>... --type <type-radome> | compare <a.atx> [<b.atx>] --type <type-radome> [--serial-a <s>] [--serial-b <s>] [--max-zenith <deg>] | group-delay <spec.toml> | js-margin <spec.toml>  [--out <file.json>]  (docs/ANTENNA-CAL.md)
+engine-e-antenna-cal-missing-value = { $option } потребує значення
+engine-e-antenna-cal-unknown-option = невідомий параметр { $option } (параметри перелічує kshana antenna-cal --help)
+engine-e-antenna-cal-bad-number = { $option } потребує скінченного числа не менше нуля, а не { $value }
+engine-e-antenna-cal-cannot-read = не вдалося прочитати { $path }: { $e }
+engine-e-antenna-cal-cannot-write = не вдалося записати { $path }: { $e }
+engine-e-antenna-cal-bad-spec = { $path } не є допустимою специфікацією: { $e }
+engine-e-antenna-cal-no-antenna = у { $path } немає антени { $name }
+engine-e-antenna-cal-too-few-units = менше двох калібрувань { $name } для порівняння
+engine-e-antenna-cal-unknown-signal = пара називає невідомий сигнал { $value }
+engine-e-antenna-cal-bad-group-delay = специфікації групової затримки потрібні щонайменше один сигнал, упорядкований скінченний діапазон температур, додатні частоти та скінченні затримки
+engine-e-antenna-cal-same-pair = вільній від іоносфери парі потрібні дві різні частоти
+engine-e-antenna-cal-bad-pattern = невідома діаграма антени (patch, choke-ring або table)
+engine-e-antenna-cal-bad-gain-table = таблиці підсилення потрібні щонайменше дві скінченні точки кута місця й підсилення
+engine-e-antenna-cal-bad-link = специфікації J/S потрібні додатна частота, скінченна ЕІВП і додатні відстані
+
 engine-main-usage =
     використання: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }або: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10733,6 +10750,7 @@ engine-main-usage =
     { "   " }або: kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
     { "   " }або: kshana orbit-data <check|convert|gp-compare|gp-audit|cov> ... (kshana orbit-data --help)
     { "   " }або: kshana drone <prearm|prearm-calibrate|estimator-cases|dr-budget|quad-loss|failover|zonotope-pl> ... (kshana drone --help)
+    { "   " }або: kshana antenna-cal <lint|spread|compare|group-delay|js-margin> ... (kshana antenna-cal --help)
     { "   " }або: kshana kinds [--json]
     { "   " }або: kshana example [<name>]
     { "   " }або: kshana --help | --version

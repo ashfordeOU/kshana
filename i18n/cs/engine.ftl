@@ -10549,6 +10549,23 @@ engine-e-ais-integrity-cannot-read = nelze číst { $path }: { $e }
 engine-e-ais-integrity-cannot-write = nelze zapsat { $path }: { $e }
 engine-e-ais-integrity-bad-place = řádek seznamu míst není name,lat,lon,radius_m s platnou polohou a kladným poloměrem: { $row }
 
+## Receiver-antenna characterisation (src/antenna_cal.rs)
+engine-antenna-cal-usage = použití: kshana antenna-cal lint <file.atx> | spread <file.atx>... --type <type-radome> | compare <a.atx> [<b.atx>] --type <type-radome> [--serial-a <s>] [--serial-b <s>] [--max-zenith <deg>] | group-delay <spec.toml> | js-margin <spec.toml>  [--out <file.json>]  (docs/ANTENNA-CAL.md)
+engine-e-antenna-cal-missing-value = { $option } vyžaduje hodnotu
+engine-e-antenna-cal-unknown-option = neznámá volba { $option } (volby vypíše kshana antenna-cal --help)
+engine-e-antenna-cal-bad-number = { $option } vyžaduje konečné číslo nula nebo větší, ne { $value }
+engine-e-antenna-cal-cannot-read = nelze číst { $path }: { $e }
+engine-e-antenna-cal-cannot-write = nelze zapsat { $path }: { $e }
+engine-e-antenna-cal-bad-spec = { $path } není platná specifikace: { $e }
+engine-e-antenna-cal-no-antenna = v { $path } není anténa { $name }
+engine-e-antenna-cal-too-few-units = méně než dvě kalibrace antény { $name } k porovnání
+engine-e-antenna-cal-unknown-signal = dvojice uvádí neznámý signál { $value }
+engine-e-antenna-cal-bad-group-delay = specifikace skupinového zpoždění potřebuje alespoň jeden signál, uspořádaný konečný rozsah teplot, kladné kmitočty a konečná zpoždění
+engine-e-antenna-cal-same-pair = dvojice pro kombinaci bez ionosféry potřebuje dva různé kmitočty
+engine-e-antenna-cal-bad-pattern = neznámý diagram antény (patch, choke-ring nebo table)
+engine-e-antenna-cal-bad-gain-table = tabulka zisku potřebuje alespoň dva konečné body elevace a zisku
+engine-e-antenna-cal-bad-link = specifikace J/S potřebuje kladný kmitočet, konečný EIRP a kladné vzdálenosti
+
 engine-main-usage =
     použití: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }nebo: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10586,6 +10603,7 @@ engine-main-usage =
     { "   " }nebo: kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
     { "   " }nebo: kshana orbit-data <check|convert|gp-compare|gp-audit|cov> ... (kshana orbit-data --help)
     { "   " }nebo: kshana drone <prearm|prearm-calibrate|estimator-cases|dr-budget|quad-loss|failover|zonotope-pl> ... (kshana drone --help)
+    { "   " }nebo: kshana antenna-cal <lint|spread|compare|group-delay|js-margin> ... (kshana antenna-cal --help)
     { "   " }nebo: kshana kinds [--json]
     { "   " }nebo: kshana example [<name>]
     { "   " }nebo: kshana --help | --version

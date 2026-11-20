@@ -1033,6 +1033,47 @@ fn orbit_data_checks_and_monitors() {
 }
 
 #[test]
+fn antex_files() {
+    let seeds = vec![
+        head(
+            "tests/fixtures/gnss_wettzell_2025055/igs20_2025055_G_LEIAR25.atx",
+            1250,
+        ),
+        head(
+            "tests/fixtures/joint_pvt_precise_itrf_rtklib_oracle/igs14_2018133_GE_sat.atx",
+            520,
+        ),
+    ];
+    fuzz("antex", &seeds, None, |b| {
+        if let Ok(t) = std::str::from_utf8(b) {
+            let (ants, _) = kshana::antenna_cal::parse(t);
+            if let Some(a) = ants.first() {
+                let _ = kshana::antenna_cal::compare(a, a, 80.0);
+                let _ = kshana::antenna_cal::spread(&ants, &a.type_radome);
+            }
+        }
+    });
+    fuzz(
+        "antenna-cal specs",
+        &[
+            head("examples/antenna-cal/group-delay.toml", 40),
+            head("examples/antenna-cal/js-margin.toml", 40),
+        ],
+        None,
+        |b| {
+            if let Ok(t) = std::str::from_utf8(b) {
+                if let Ok(s) = toml::from_str::<kshana::antenna_cal::GroupDelaySpec>(t) {
+                    let _ = kshana::antenna_cal::group_delay(&s);
+                }
+                if let Ok(s) = toml::from_str::<kshana::antenna_cal::JsSpec>(t) {
+                    let _ = kshana::antenna_cal::js_margin(&s);
+                }
+            }
+        },
+    );
+}
+
+#[test]
 fn ccsds_messages() {
     let oem = vec![
         head("tests/fixtures/ccsds/oem_502_b3_figG11.oem", 80),

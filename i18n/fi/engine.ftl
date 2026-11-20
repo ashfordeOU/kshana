@@ -10285,6 +10285,23 @@ engine-e-ais-integrity-cannot-read = tiedostoa { $path } ei voi lukea: { $e }
 engine-e-ais-integrity-cannot-write = tiedostoon { $path } ei voi kirjoittaa: { $e }
 engine-e-ais-integrity-bad-place = paikkaluettelon rivi ei ole name,lat,lon,radius_m, jossa on kelvollinen sijainti ja positiivinen säde: { $row }
 
+## Receiver-antenna characterisation (src/antenna_cal.rs)
+engine-antenna-cal-usage = käyttö: kshana antenna-cal lint <file.atx> | spread <file.atx>... --type <type-radome> | compare <a.atx> [<b.atx>] --type <type-radome> [--serial-a <s>] [--serial-b <s>] [--max-zenith <deg>] | group-delay <spec.toml> | js-margin <spec.toml>  [--out <file.json>]  (docs/ANTENNA-CAL.md)
+engine-e-antenna-cal-missing-value = { $option } tarvitsee arvon
+engine-e-antenna-cal-unknown-option = tuntematon valitsin { $option } (kshana antenna-cal --help luettelee valitsimet)
+engine-e-antenna-cal-bad-number = { $option } tarvitsee äärellisen luvun, joka on nolla tai enemmän, ei { $value }
+engine-e-antenna-cal-cannot-read = tiedostoa { $path } ei voi lukea: { $e }
+engine-e-antenna-cal-cannot-write = tiedostoon { $path } ei voi kirjoittaa: { $e }
+engine-e-antenna-cal-bad-spec = { $path } ei ole kelvollinen määrittely: { $e }
+engine-e-antenna-cal-no-antenna = tiedostossa { $path } ei ole antennia { $name }
+engine-e-antenna-cal-too-few-units = vähemmän kuin kaksi kalibrointia antennista { $name } vertailtavaksi
+engine-e-antenna-cal-unknown-signal = pari nimeää tuntemattoman signaalin { $value }
+engine-e-antenna-cal-bad-group-delay = ryhmäviivemäärittely tarvitsee vähintään yhden signaalin, järjestetyn äärellisen lämpötilavälin, positiiviset taajuudet ja äärelliset viiveet
+engine-e-antenna-cal-same-pair = ionosfäärivapaa pari tarvitsee kaksi eri taajuutta
+engine-e-antenna-cal-bad-pattern = tuntematon antennin säteilykuvio (patch, choke-ring tai table)
+engine-e-antenna-cal-bad-gain-table = vahvistustaulukko tarvitsee vähintään kaksi äärellistä korkeuskulman ja vahvistuksen pistettä
+engine-e-antenna-cal-bad-link = J/S-määrittely tarvitsee positiivisen taajuuden, äärellisen EIRP:n ja positiiviset etäisyydet
+
 engine-main-usage =
     käyttö: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }tai: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10322,6 +10339,7 @@ engine-main-usage =
     { "   " }tai: kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
     { "   " }tai: kshana orbit-data <check|convert|gp-compare|gp-audit|cov> ... (kshana orbit-data --help)
     { "   " }tai: kshana drone <prearm|prearm-calibrate|estimator-cases|dr-budget|quad-loss|failover|zonotope-pl> ... (kshana drone --help)
+    { "   " }tai: kshana antenna-cal <lint|spread|compare|group-delay|js-margin> ... (kshana antenna-cal --help)
     { "   " }tai: kshana kinds [--json]
     { "   " }tai: kshana example [<name>]
     { "   " }tai: kshana --help | --version

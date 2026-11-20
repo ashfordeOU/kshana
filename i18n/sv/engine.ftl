@@ -10428,6 +10428,23 @@ engine-e-ais-integrity-cannot-read = kan inte läsa { $path }: { $e }
 engine-e-ais-integrity-cannot-write = kan inte skriva { $path }: { $e }
 engine-e-ais-integrity-bad-place = en rad i platslistan är inte name,lat,lon,radius_m med giltig position och positiv radie: { $row }
 
+## Receiver-antenna characterisation (src/antenna_cal.rs)
+engine-antenna-cal-usage = användning: kshana antenna-cal lint <file.atx> | spread <file.atx>... --type <type-radome> | compare <a.atx> [<b.atx>] --type <type-radome> [--serial-a <s>] [--serial-b <s>] [--max-zenith <deg>] | group-delay <spec.toml> | js-margin <spec.toml>  [--out <file.json>]  (docs/ANTENNA-CAL.md)
+engine-e-antenna-cal-missing-value = { $option } behöver ett värde
+engine-e-antenna-cal-unknown-option = okänt alternativ { $option } (kshana antenna-cal --help listar alternativen)
+engine-e-antenna-cal-bad-number = { $option } behöver ett ändligt tal på noll eller mer, inte { $value }
+engine-e-antenna-cal-cannot-read = kan inte läsa { $path }: { $e }
+engine-e-antenna-cal-cannot-write = kan inte skriva { $path }: { $e }
+engine-e-antenna-cal-bad-spec = { $path } är inte en giltig specifikation: { $e }
+engine-e-antenna-cal-no-antenna = ingen antenn { $name } i { $path }
+engine-e-antenna-cal-too-few-units = färre än två kalibreringar av { $name } att jämföra
+engine-e-antenna-cal-unknown-signal = ett par anger den okända signalen { $value }
+engine-e-antenna-cal-bad-group-delay = gruppfördröjningsspecifikationen behöver minst en signal, ett ordnat ändligt temperaturintervall, positiva frekvenser och ändliga fördröjningar
+engine-e-antenna-cal-same-pair = ett jonosfärsfritt par behöver två olika frekvenser
+engine-e-antenna-cal-bad-pattern = okänt antenndiagram (patch, choke-ring eller table)
+engine-e-antenna-cal-bad-gain-table = en förstärkningstabell behöver minst två ändliga punkter med elevation och förstärkning
+engine-e-antenna-cal-bad-link = J/S-specifikationen behöver en positiv frekvens, en ändlig EIRP och positiva avstånd
+
 engine-main-usage =
     användning: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }eller: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10465,6 +10482,7 @@ engine-main-usage =
     { "   " }eller: kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
     { "   " }eller: kshana orbit-data <check|convert|gp-compare|gp-audit|cov> ... (kshana orbit-data --help)
     { "   " }eller: kshana drone <prearm|prearm-calibrate|estimator-cases|dr-budget|quad-loss|failover|zonotope-pl> ... (kshana drone --help)
+    { "   " }eller: kshana antenna-cal <lint|spread|compare|group-delay|js-margin> ... (kshana antenna-cal --help)
     { "   " }eller: kshana kinds [--json]
     { "   " }eller: kshana example [<name>]
     { "   " }eller: kshana --help | --version
