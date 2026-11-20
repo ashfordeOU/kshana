@@ -1090,8 +1090,8 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/main.rs": {
-   "count": 76,
-   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md); clock-live prints its error text as given; the sensor-live command name; the device and bench-speed command names; the data-pack, area-trust and env-baseline command names; the ephem-export command name; the time-vectors command name; the ais-integrity command name; the space-weather command name; the orbit-data command name."
+   "count": 77,
+   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md); clock-live prints its error text as given; the sensor-live command name; the device and bench-speed command names; the data-pack, area-trust and env-baseline command names; the ephem-export command name; the time-vectors command name; the ais-integrity command name; the space-weather command name; the orbit-data command name; the leo-verify command name."
   },
   "src/mars_pnt.rs": {
    "count": 31,
@@ -1840,6 +1840,42 @@
   "src/interference_map/incident.rs": {
    "count": 183,
    "reason": "machine-document and identifier: the kshana-interference-incidents/1 vocabulary, field names and schema tags, the validator's problem messages (written to the machine-readable report, English by design), CSV column names and the Zenodo metadata keys (docs/INTERFERENCE-INCIDENTS.md)"
+  },
+  "src/leo_verify/burst.rs": {
+   "count": 11,
+   "reason": "machine identifiers: the JSON input field names (`snake_case`, dotted paths) named verbatim in the catalogued e-leo-verify-field error, and the part names and enum values written into the JSON report; not prose"
+  },
+  "src/leo_verify/cost.rs": {
+   "count": 9,
+   "reason": "machine identifiers: the JSON input field names (`snake_case`, dotted paths) named verbatim in the catalogued e-leo-verify-field error, and the part names and enum values written into the JSON report; not prose"
+  },
+  "src/leo_verify/doppler_integrity.rs": {
+   "count": 14,
+   "reason": "machine identifiers: the JSON input field names (`snake_case`, dotted paths) named verbatim in the catalogued e-leo-verify-field error, and the part names and enum values written into the JSON report; not prose"
+  },
+  "src/leo_verify/indoor.rs": {
+   "count": 6,
+   "reason": "machine identifiers: the JSON input field names (`snake_case`, dotted paths) named verbatim in the catalogued e-leo-verify-field error, and the part names and enum values written into the JSON report; not prose"
+  },
+  "src/leo_verify/jam_claim.rs": {
+   "count": 10,
+   "reason": "machine identifiers: the JSON input field names (`snake_case`, dotted paths) named verbatim in the catalogued e-leo-verify-field error, and the part names and enum values written into the JSON report; not prose"
+  },
+  "src/leo_verify/mod.rs": {
+   "count": 10,
+   "reason": "machine identifiers: the JSON input field names (`snake_case`, dotted paths) named verbatim in the catalogued e-leo-verify-field error, and the part names and enum values written into the JSON report; not prose"
+  },
+  "src/leo_verify/rain.rs": {
+   "count": 8,
+   "reason": "machine identifiers: the JSON input field names (`snake_case`, dotted paths) named verbatim in the catalogued e-leo-verify-field error, and the part names and enum values written into the JSON report; not prose"
+  },
+  "src/leo_verify/rtk_ar.rs": {
+   "count": 8,
+   "reason": "machine identifiers: the JSON input field names (`snake_case`, dotted paths) named verbatim in the catalogued e-leo-verify-field error, and the part names and enum values written into the JSON report; not prose"
+  },
+  "src/leo_verify/tdev.rs": {
+   "count": 3,
+   "reason": "machine identifiers: the JSON input field names (`snake_case`, dotted paths) named verbatim in the catalogued e-leo-verify-field error, and the part names and enum values written into the JSON report; not prose"
   }
  }
 }

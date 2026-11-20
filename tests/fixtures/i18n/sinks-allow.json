@@ -148,6 +148,18 @@
   "src/oscillator/vibration.rs": {
    "count": 3,
    "reason": "machine identifiers: the JSON input field names (dotted paths) passed as the `field` variable of the catalogued e-oscillator-field message; not prose"
+  },
+  "src/leo_verify/doppler_integrity.rs": {
+   "count": 2,
+   "reason": "machine identifiers: the JSON input field names (dotted paths) passed as the `field` variable of the catalogued e-leo-verify-field message; not prose"
+  },
+  "src/leo_verify/rtk_ar.rs": {
+   "count": 2,
+   "reason": "machine identifiers: the JSON input field names (dotted paths) passed as the `field` variable of the catalogued e-leo-verify-field message; not prose"
+  },
+  "src/leo_verify/tdev.rs": {
+   "count": 1,
+   "reason": "machine identifiers: the JSON input field names (dotted paths) passed as the `field` variable of the catalogued e-leo-verify-field message; not prose"
   }
  }
 }
