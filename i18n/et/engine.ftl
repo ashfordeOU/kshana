@@ -10574,6 +10574,7 @@ engine-main-usage =
     { "   " }või: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }või: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }või: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
+    { "   " }või: kshana register <check|crl-check|view|sign> ... (kshana register --help)
     { "   " }või: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }või: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }või: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
@@ -11698,3 +11699,25 @@ engine-e-oscillator-input = { $part } sisend ei ole kehtiv: { $e }
 engine-e-oscillator-unknown-clock = tundmatu kella eelseadistus { $id } (üks järgmistest: { $known })
 
 engine-e-oscillator-field = { $field } on väljaspool vahemikku: { $value }
+
+## Product register (src/product_register.rs, docs/PRODUCT-REGISTER.md)
+engine-register-usage = kasutus: kshana register check <register.json> [--key <hex>] | crl-check <crl.json> --key <hex> | view <register.json> [--key <hex>] [--crl <crl.json> --crl-key <hex>] [--date <YYYY-MM-DD>] [--json] | sign <register.json|crl.json> --key <keyfile> [--out <file>]  (docs/PRODUCT-REGISTER.md)
+engine-register-check-ok = { $path }: väljaandja { $publisher } register, kirjeid { $n }, allkiri kehtib (allkirjastaja { $key })
+engine-register-crl-check-ok = { $path }: väljastaja { $issuer } tühistusnimekiri, tühistatud kirjeid { $n }, allkiri kehtib; järgmine nimekiri { $next }
+engine-register-view-summary = seisuga { $date }: kehtivaid { $current }, uuesti hindamisele kuuluvaid { $due }, tühistatud { $revoked }
+engine-register-view-no-crl = tühistusnimekirja ei antud: tühistamine on teadmata (--crl <crl.json> --crl-key <hex>)
+engine-register-view-crl-stale = tühistusnimekiri on aegunud: selle järgmine uuendus oli oodata { $next }
+engine-e-register-key-mismatch = allkirjastanud { $found }, mitte oodatud võti { $expected }
+engine-e-register-bad-signature = allkiri ei kehti
+engine-e-register-bad-date = { $field } ei ole kujul YYYY-MM-DD kuupäev: { $value }
+engine-e-register-not-register = ei ole kshana.register/1-register: { $e }
+engine-e-register-not-crl = ei ole kshana.register-crl/1-tühistusnimekiri: { $e }
+engine-e-register-bad-id = kirje tunnus { $id }: kasutage 1 kuni 128 tähte, numbrit, punkti, sidekriipsu või alakriipsu
+engine-e-register-duplicate-id = kirje tunnus { $id } esineb rohkem kui üks kord
+engine-e-register-revalidate-before-scored = kirje { $id } tuleks uuesti hinnata enne selle hindamise kuupäeva
+engine-e-register-bad-digest = kirje { $id }: evidence_sha256 peab olema 64 kuueteistkümnendnumbrit
+engine-e-register-missing-value = { $option } vajab väärtust
+engine-e-register-cannot-read = faili { $path } ei saa lugeda: { $e }
+engine-e-register-cannot-write = faili { $path } ei saa kirjutada: { $e }
+engine-e-register-unknown-option = tundmatu valik { $option } (kshana register --help loetleb valikud)
+engine-e-register-crl-needs-key = --crl ja --crl-key käivad koos: tühistusnimekirja kontrollitakse väljastaja võtmega

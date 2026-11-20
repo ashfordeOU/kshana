@@ -297,6 +297,7 @@ const UNLABELLED_WRITERS: &[(&str, &str)] = &[
     ("src/connect_timing.rs", "writes only the expected output of a timing conformance vector under `connect timing check --bless`; a test fixture, no result file"),
     ("src/soapy.rs", "writes only an IQ capture as SigMF (`connect sdr-capture`, `soapy` feature): the samples as received from the radio, data rather than a result of the engine"),
     ("src/connect_live.rs", "writes only the live check's own scratch log, which the directory-watch replay reads back and removes; no result file"),
+    ("src/product_register.rs", "writes only a signed register or revocation list (`register sign`), the input document with its signature added; no result figure or table"),
     ("src/station.rs", "writes the receiver's observations as kshana.obs/1 files, the stream recorded as received; data, not a result of the engine"),
     ("src/data_pack.rs", "writes synthetic training data and its labels: the manifest states it is synthetic; data, not a result of the engine"),
     ("src/interference_map/live.rs", "writes a receiver's reports as rows of the documented input CSV: an input file, read back by locate"),

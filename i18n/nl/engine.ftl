@@ -10613,6 +10613,7 @@ engine-main-usage =
     { "   " }of: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }of: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }of: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
+    { "   " }of: kshana register <check|crl-check|view|sign> ... (kshana register --help)
     { "   " }of: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }of: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }of: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
@@ -11765,3 +11766,25 @@ engine-e-oscillator-input = de invoer voor { $part } is niet geldig: { $e }
 engine-e-oscillator-unknown-clock = onbekende klokvoorinstelling { $id } (een van { $known })
 
 engine-e-oscillator-field = { $field } valt buiten het bereik: { $value }
+
+## Product register (src/product_register.rs, docs/PRODUCT-REGISTER.md)
+engine-register-usage = gebruik: kshana register check <register.json> [--key <hex>] | crl-check <crl.json> --key <hex> | view <register.json> [--key <hex>] [--crl <crl.json> --crl-key <hex>] [--date <YYYY-MM-DD>] [--json] | sign <register.json|crl.json> --key <keyfile> [--out <file>]  (docs/PRODUCT-REGISTER.md)
+engine-register-check-ok = { $path }: register van { $publisher }, { $n } vermeldingen, de handtekening klopt (ondertekenaar { $key })
+engine-register-crl-check-ok = { $path }: intrekkingslijst van { $issuer }, { $n } ingetrokken vermeldingen, de handtekening klopt; volgende lijst verwacht op { $next }
+engine-register-view-summary = op { $date }: { $current } actueel, { $due } toe aan een nieuwe score, { $revoked } ingetrokken
+engine-register-view-no-crl = geen intrekkingslijst opgegeven: intrekking is onbekend (--crl <crl.json> --crl-key <hex>)
+engine-register-view-crl-stale = de intrekkingslijst is verouderd: de volgende update werd verwacht op { $next }
+engine-e-register-key-mismatch = ondertekend door { $found }, niet door de verwachte sleutel { $expected }
+engine-e-register-bad-signature = de handtekening klopt niet
+engine-e-register-bad-date = { $field } is geen datum in de vorm YYYY-MM-DD: { $value }
+engine-e-register-not-register = geen kshana.register/1-register: { $e }
+engine-e-register-not-crl = geen kshana.register-crl/1-intrekkingslijst: { $e }
+engine-e-register-bad-id = vermeldings-id { $id }: gebruik 1 tot 128 letters, cijfers, punten, koppeltekens of liggende streepjes
+engine-e-register-duplicate-id = vermeldings-id { $id } komt meer dan eens voor
+engine-e-register-revalidate-before-scored = vermelding { $id } moet opnieuw gescoord worden vóór de datum waarop ze gescoord werd
+engine-e-register-bad-digest = vermelding { $id }: evidence_sha256 moet 64 hexadecimale cijfers zijn
+engine-e-register-missing-value = { $option } heeft een waarde nodig
+engine-e-register-cannot-read = kan { $path } niet lezen: { $e }
+engine-e-register-cannot-write = kan { $path } niet schrijven: { $e }
+engine-e-register-unknown-option = onbekende optie { $option } (kshana register --help toont de opties)
+engine-e-register-crl-needs-key = --crl en --crl-key horen bij elkaar: een intrekkingslijst wordt gecontroleerd met de sleutel van de uitgever
