@@ -10717,6 +10717,7 @@ engine-main-usage =
     { "   " }або: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }або: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }або: kshana time-vectors [--json] [<vectors.json|dir> ...]
+    { "   " }або: kshana orbit-data <check|convert|gp-compare|gp-audit|cov> ... (kshana orbit-data --help)
     { "   " }або: kshana kinds [--json]
     { "   " }або: kshana example [<name>]
     { "   " }або: kshana --help | --version
@@ -11629,3 +11630,95 @@ engine-e-interference-map-locate-bad-tdoa = { $path } не є придатним
 engine-e-interference-map-locate-source-required = потрібен --source adsb або --source ais
 
 engine-e-interference-map-locate-no-evidence-rows = для виводів locate не перелічено жодного рядка доказів
+
+## Orbit-data validators, converters and monitors (src/orbit_data)
+engine-orbit-data-valid = чинне за { $standard }
+engine-orbit-data-valid-with-warnings = чинне за { $standard }, попереджень: { $warnings }
+engine-orbit-data-invalid = нечинне за { $standard }: помилок: { $errors }, попереджень: { $warnings }
+engine-orbit-data-error = помилка
+engine-orbit-data-warning = попередження
+engine-orbit-data-not-checked = не перевірено: { $what }
+engine-orbit-data-header = заголовок
+engine-orbit-data-cdm-relative = відносні метадані/дані
+engine-orbit-data-cdm-object = метадані/дані об'єкта
+engine-orbit-data-covariance = коваріація
+engine-orbit-data-oem-metadata = метадані сегмента { $n }
+engine-orbit-data-line-too-long = у рядку символів: { $n }, більше ніж { $max }
+engine-orbit-data-non-printable = у рядку є символ, що не є друкованим ASCII
+engine-orbit-data-not-key-value = це не рядок КЛЮЧОВЕ_СЛОВО = значення: { $text }
+engine-orbit-data-keyword-blank = ключове слово { $key } містить пробіл
+engine-orbit-data-keyword-case = ключове слово { $key } записане не великими літерами
+engine-orbit-data-units-format = одиниці { $key } мають стояти після значення через пробіл, у квадратних дужках
+engine-orbit-data-first-line = першим рядком має бути { $key }
+engine-orbit-data-parse-failed = повідомлення не читається: { $err }
+engine-orbit-data-xml-root = кореневий елемент { $name }, а не { $want }
+engine-orbit-data-xml-attr = кореневий атрибут { $attr } має бути { $want }
+engine-orbit-data-xml-missing = у повідомленні немає { $tag }
+engine-orbit-data-empty-value = у { $key } порожнє значення
+engine-orbit-data-bad-time = { $key } = { $value } не є міткою часу (yyyy-mm-ddThh:mm:ss[.d] / yyyy-dddThh:mm:ss[.d])
+engine-orbit-data-bad-number = { $key } = { $value } не є числом у записі стандарту
+engine-orbit-data-bad-integer = { $key } = { $value } не є цілим числом
+engine-orbit-data-bad-value = { $key } = { $value } не входить до: { $allowed }
+engine-orbit-data-out-of-range = { $key } = { $value } поза { $range }
+engine-orbit-data-version = версія { $value }: ця перевірка дотримується версії { $want }
+engine-orbit-data-bad-chars = { $key } = { $value } містить символи, крім літер, цифр, підкреслення і дефіса
+engine-orbit-data-identifier-blank = { $key } = { $value } містить пробіл (стандарт допускає літери, цифри, підкреслення і дефіс)
+engine-orbit-data-lower-case = { $key } = { $value } містить малі літери
+engine-orbit-data-bad-units = у { $key } одиниці [{ $given }]; стандарт дає [{ $want }]
+engine-orbit-data-missing-units = { $key } не показує свої одиниці [{ $want }]
+engine-orbit-data-unknown-keyword = { $key } не є ключовим словом розділу «{ $section }»
+engine-orbit-data-duplicate-keyword = { $key } трапляється в розділі «{ $section }» більше одного разу
+engine-orbit-data-keyword-order = { $key } порушує порядок, заданий стандартом (стоїть після { $prev })
+engine-orbit-data-missing-keyword = у розділі «{ $section }» немає обов'язкового { $key }
+engine-orbit-data-cdm-object-count = розділів об'єктів у повідомленні: { $n }; у CDM їх два, OBJECT1, потім OBJECT2
+engine-orbit-data-cov-row = рядок коваріації { $row } неповний або йде за відсутнім рядком
+engine-orbit-data-cov-zero-diagonal = у коваріації { $at } нульова дисперсія; її рядок і стовпець не слід використовувати
+engine-orbit-data-not-pd = коваріація в { $at } не додатно визначена (найменше власне значення кореляції { $min })
+engine-orbit-data-frame-mismatch = REF_FRAME різниться в об'єктів ({ $a }, { $b })
+engine-orbit-data-inconsistent = { $key } = { $given } { $unit }, але дані дають { $computed } { $unit }
+engine-orbit-data-time-order = { $first } ({ $a }) пізніше, ніж { $second } ({ $b })
+engine-orbit-data-count-order = { $used } = { $a } більше, ніж { $avail } = { $b }
+engine-orbit-data-unterminated = повідомлення закінчується всередині блоку
+engine-orbit-data-no-segment = у повідомленні немає жодного сегмента
+engine-orbit-data-time-system-changed = TIME_SYSTEM змінюється всередині повідомлення ({ $a }, потім { $b })
+engine-orbit-data-outside-span = час { $t } лежить поза інтервалом, заданим метаданими
+engine-orbit-data-useable-overlap = придатні інтервали сегментів { $a } і { $b } перекриваються
+engine-orbit-data-data-width = у рядку даних значень: { $n }; очікувалося: { $want }
+engine-orbit-data-duplicate-time = мітка часу { $t } повторюється
+engine-orbit-data-time-not-increasing = мітка часу { $t } не зростає (попередня { $prev })
+engine-orbit-data-too-few-points = рядків даних: { $n }; замало для інтерполяції степеня { $deg } (потрібно: { $need })
+engine-orbit-data-mixed-time = блок { $block } змішує відносні й абсолютні мітки часу
+engine-orbit-data-span-short = придатний інтервал, діб: { $days }, коротший за запитані доби: { $min }
+engine-orbit-data-gap = розрив { $s } с, довший за запитані { $max } с
+engine-orbit-data-gp-checksum = рядок { $line }: контрольна сума у стовпці 69 хибна (має бути { $want })
+engine-orbit-data-gp-catalogue = рядок 1 і рядок 2 називають різні каталожні номери
+engine-orbit-data-gp-perigee = перигей на висоті { $km } км, нижче поверхні Землі
+engine-orbit-data-gp-sgp4 = SGP4 відмовляє через { $days } діб після епохи (код помилки { $code })
+engine-orbit-data-gp-stale = епоха раніша за опорний час на { $days } діб (більше ніж { $max })
+engine-orbit-data-gp-future = епоха пізніша за опорний час на { $days } діб
+engine-orbit-data-gp-repeated-epoch = інший набір цього об'єкта має ту саму епоху й інші елементи
+engine-orbit-data-gp-elset-number = номер набору елементів зменшується з { $a } до { $b } за пізнішої епохи
+engine-orbit-data-gp-jump = цей набір і попередній розходяться на { $km } км у його епоху, через { $hours } год (більше { $max } км): маневр або хибний набір
+engine-orbit-data-gp-compare-summary = об'єктів в обох джерелах: { $n }, позначено понад { $threshold } км: { $flagged }; лише в першому: { $only_a }, лише в другому: { $only_b } (MODELLED: різниці SGP4, не точність)
+engine-orbit-data-gp-audit-summary = наборів елементів: { $sets }, об'єктів: { $objects }, знахідок: { $findings }
+engine-orbit-data-usage =
+    використання: kshana orbit-data check <cdm|oem|ocm file> [--json] [--aliases <map.json>] [--min-span-days <d>] [--max-gap-s <s>]
+    { "   " }або: kshana orbit-data convert <file> --to <ocm|oem|cdm> [--aliases <map.json>]
+    { "   " }або: kshana orbit-data gp-compare <a.tle> <b.tle> [--hours <h>] [--step-min <min>] [--threshold-km <km>] [--json]
+    { "   " }або: kshana orbit-data gp-audit <sets.tle> ... [--at <epoch>] [--stale-days <d>] [--jump-km <km>] [--json]
+    { "   " }або: kshana orbit-data cov <check|propagate|monte-carlo|synthetic|realism> <input.json> [--dt-s <s>] [--step-s <s>] [--samples <n>] [--seed <n>] [--sigma-rtn <r,t,n,rdot,tdot,ndot>] [--full]
+    { "   " }(docs/ORBIT-DATA.md)
+engine-e-orbit-data-unknown-message = { $path } не є ні CDM, ні OEM (KVN), ні OCM: немає рядка CCSDS_CDM_VERS, CCSDS_OEM_VERS або CCSDS_OCM_VERS і кореня <cdm> або <ocm>
+engine-e-orbit-data-bad-flag = { $flag } { $value }: непридатне значення
+engine-e-orbit-data-aliases-not-object = таблиця псевдонімів має бути об'єктом JSON виду "name": "KEYWORD"
+engine-e-orbit-data-alias-target = псевдонім { $key } не вказує на ключове слово CDM
+engine-e-orbit-data-convert-pair = { $path }: немає перетворення в { $to } (OEM в ocm, OCM в oem, CDM в cdm)
+engine-e-orbit-data-convert-empty = в OEM немає сегмента для перетворення
+engine-e-orbit-data-convert-one-object = OEM містить об'єктів: { $n }; OCM містить один
+engine-e-orbit-data-convert-missing = у джерелі немає { $key }, потрібного цілі
+engine-e-orbit-data-convert-width = у рядку даних або коваріації хибна для перетворення кількість значень
+engine-e-orbit-data-convert-time = мітку часу { $t } не можна зробити абсолютною (немає EPOCH_TZERO або це не число)
+engine-e-orbit-data-convert-traj = тип траєкторії { $kind } не має форми OEM (CARTPV і CARTPVA мають)
+engine-e-orbit-data-convert-cov = коваріація { $kind } { $ordering } не має форми OEM (CARTPV у LTM, UTM або FULL має)
+engine-e-orbit-data-cov-input = у вхідних даних немає чинного { $key }
+engine-e-orbit-data-cov-not-pd = початкова коваріація не додатно визначена, або запитано замало вибірок

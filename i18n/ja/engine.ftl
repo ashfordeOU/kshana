@@ -9780,6 +9780,7 @@ engine-main-usage =
     { "   " }または：kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }または：kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }または：kshana time-vectors [--json] [<vectors.json|dir> ...]
+    { "   " }または：kshana orbit-data <check|convert|gp-compare|gp-audit|cov> ... (kshana orbit-data --help)
     { "   " }または：kshana kinds [--json]
     { "   " }または：kshana example [<name>]
     { "   " }または：kshana --help | --version
@@ -10693,3 +10694,95 @@ engine-e-interference-map-locate-source-required = --source adsb または --sou
 engine-e-interference-map-locate-no-evidence-rows = locate の出力に対する証拠行が一覧にありません
 
 engine-interference-map-locate-note-not-preregistered = 注意：いずれかのオプションが事前登録されたパラメータと異なるため、これは事前登録された手法ではありません
+
+## Orbit-data validators, converters and monitors (src/orbit_data)
+engine-orbit-data-valid = { $standard } に対して有効
+engine-orbit-data-valid-with-warnings = { $standard } に対して有効、警告：{ $warnings }
+engine-orbit-data-invalid = { $standard } に対して無効：エラー：{ $errors }、警告：{ $warnings }
+engine-orbit-data-error = エラー
+engine-orbit-data-warning = 警告
+engine-orbit-data-not-checked = 未確認：{ $what }
+engine-orbit-data-header = ヘッダー
+engine-orbit-data-cdm-relative = 相対メタデータ／データ
+engine-orbit-data-cdm-object = オブジェクトのメタデータ／データ
+engine-orbit-data-covariance = 共分散
+engine-orbit-data-oem-metadata = セグメント { $n } のメタデータ
+engine-orbit-data-line-too-long = 行の文字数が { $n } で、{ $max } を超えています
+engine-orbit-data-non-printable = 行に印字可能な ASCII ではない文字があります
+engine-orbit-data-not-key-value = KEYWORD = value の形式の行ではありません：{ $text }
+engine-orbit-data-keyword-blank = キーワード { $key } に空白が含まれています
+engine-orbit-data-keyword-case = キーワード { $key } が大文字ではありません
+engine-orbit-data-units-format = { $key } の単位は値の後に空白を置き、角括弧で囲む必要があります
+engine-orbit-data-first-line = 最初の行は { $key } でなければなりません
+engine-orbit-data-parse-failed = メッセージを読み取れません：{ $err }
+engine-orbit-data-xml-root = ルート要素が { $want } ではなく { $name } です
+engine-orbit-data-xml-attr = ルート属性 { $attr } は { $want } でなければなりません
+engine-orbit-data-xml-missing = メッセージに { $tag } がありません
+engine-orbit-data-empty-value = { $key } の値が空です
+engine-orbit-data-bad-time = { $key } = { $value } は時刻タグではありません (yyyy-mm-ddThh:mm:ss[.d] / yyyy-dddThh:mm:ss[.d])
+engine-orbit-data-bad-number = { $key } = { $value } は規格の表記による数値ではありません
+engine-orbit-data-bad-integer = { $key } = { $value } は整数ではありません
+engine-orbit-data-bad-value = { $key } = { $value } は次のいずれでもありません：{ $allowed }
+engine-orbit-data-out-of-range = { $key } = { $value } は { $range } の範囲外です
+engine-orbit-data-version = バージョン { $value }：このチェックはバージョン { $want } に従います
+engine-orbit-data-bad-chars = { $key } = { $value } に英字、数字、下線、ハイフン以外の文字があります
+engine-orbit-data-identifier-blank = { $key } = { $value } に空白があります（規格が認めるのは英字、数字、下線、ハイフン）
+engine-orbit-data-lower-case = { $key } = { $value } に小文字があります
+engine-orbit-data-bad-units = { $key } の単位は [{ $given }] です。規格の単位は [{ $want }] です
+engine-orbit-data-missing-units = { $key } に単位 [{ $want }] が示されていません
+engine-orbit-data-unknown-keyword = { $key } は { $section } のキーワードではありません
+engine-orbit-data-duplicate-keyword = { $key } が { $section } に複数回現れます
+engine-orbit-data-keyword-order = { $key } は規格が定める順序から外れています（{ $prev } の後にあります）
+engine-orbit-data-missing-keyword = { $section } に必須の { $key } がありません
+engine-orbit-data-cdm-object-count = メッセージのオブジェクトセクション数：{ $n }。CDM には OBJECT1、OBJECT2 の順に 2 つあります
+engine-orbit-data-cov-row = 共分散の行 { $row } が不完全か、欠けた行の後にあります
+engine-orbit-data-cov-zero-diagonal = { $at } の共分散に分散ゼロがあります。その行と列は使わないでください
+engine-orbit-data-not-pd = { $at } の共分散は正定値ではありません（相関行列の最小固有値 { $min }）
+engine-orbit-data-frame-mismatch = オブジェクト間で REF_FRAME が異なります（{ $a }、{ $b }）
+engine-orbit-data-inconsistent = { $key } = { $given } { $unit } ですが、データからは { $computed } { $unit } になります
+engine-orbit-data-time-order = { $first }（{ $a }）が { $second }（{ $b }）より後です
+engine-orbit-data-count-order = { $used } = { $a } が { $avail } = { $b } より大きいです
+engine-orbit-data-unterminated = メッセージがブロックの途中で終わっています
+engine-orbit-data-no-segment = メッセージにセグメントがありません
+engine-orbit-data-time-system-changed = メッセージ内で TIME_SYSTEM が変わります（{ $a }、次に { $b }）
+engine-orbit-data-outside-span = 時刻 { $t } がメタデータの示す範囲の外にあります
+engine-orbit-data-useable-overlap = セグメント { $a } と { $b } の使用可能区間が重なっています
+engine-orbit-data-data-width = データ行の値の数が { $n } です。期待値：{ $want }
+engine-orbit-data-duplicate-time = 時刻タグ { $t } が重複しています
+engine-orbit-data-time-not-increasing = 時刻タグ { $t } が増加していません（直前は { $prev }）
+engine-orbit-data-too-few-points = データ行数：{ $n }。次数 { $deg } の補間には足りません（必要数：{ $need }）
+engine-orbit-data-mixed-time = ブロック { $block } に相対時刻タグと絶対時刻タグが混在しています
+engine-orbit-data-span-short = 使用可能区間は { $days } 日で、指定の { $min } 日より短いです
+engine-orbit-data-gap = { $s } 秒の欠落があり、指定の { $max } 秒より長いです
+engine-orbit-data-gp-checksum = { $line } 行目：69 桁目のチェックサムが誤りです（正しくは { $want }）
+engine-orbit-data-gp-catalogue = 1 行目と 2 行目のカタログ番号が一致しません
+engine-orbit-data-gp-perigee = 近地点高度は { $km } km で、地表より下です
+engine-orbit-data-gp-sgp4 = 元期から { $days } 日後に SGP4 が失敗します（エラーコード { $code }）
+engine-orbit-data-gp-stale = 元期が基準時刻より { $days } 日前です（{ $max } を超えています）
+engine-orbit-data-gp-future = 元期が基準時刻より { $days } 日後です
+engine-orbit-data-gp-repeated-epoch = このオブジェクトの別の要素セットが同じ元期で異なる要素を持っています
+engine-orbit-data-gp-elset-number = 後の元期で要素セット番号が { $a } から { $b } に戻っています
+engine-orbit-data-gp-jump = このセットと直前のセットは、その元期（{ $hours } 時間後）で { $km } km 異なります（{ $max } km 超）：マヌーバか誤ったセットです
+engine-orbit-data-gp-compare-summary = 両方のソースにあるオブジェクト：{ $n }、{ $threshold } km 超でフラグ：{ $flagged }。1 つ目のみ：{ $only_a }、2 つ目のみ：{ $only_b }（MODELLED：SGP4 の差であり、精度ではありません）
+engine-orbit-data-gp-audit-summary = 要素セット：{ $sets }、オブジェクト：{ $objects }、所見：{ $findings }
+engine-orbit-data-usage =
+    使い方：kshana orbit-data check <cdm|oem|ocm file> [--json] [--aliases <map.json>] [--min-span-days <d>] [--max-gap-s <s>]
+    { "   " }または：kshana orbit-data convert <file> --to <ocm|oem|cdm> [--aliases <map.json>]
+    { "   " }または：kshana orbit-data gp-compare <a.tle> <b.tle> [--hours <h>] [--step-min <min>] [--threshold-km <km>] [--json]
+    { "   " }または：kshana orbit-data gp-audit <sets.tle> ... [--at <epoch>] [--stale-days <d>] [--jump-km <km>] [--json]
+    { "   " }または：kshana orbit-data cov <check|propagate|monte-carlo|synthetic|realism> <input.json> [--dt-s <s>] [--step-s <s>] [--samples <n>] [--seed <n>] [--sigma-rtn <r,t,n,rdot,tdot,ndot>] [--full]
+    { "   " }(docs/ORBIT-DATA.md)
+engine-e-orbit-data-unknown-message = { $path } は CDM、OEM（KVN）、OCM のいずれでもありません。CCSDS_CDM_VERS、CCSDS_OEM_VERS、CCSDS_OCM_VERS の行も、<cdm> や <ocm> のルートもありません
+engine-e-orbit-data-bad-flag = { $flag } { $value }：使用できない値です
+engine-e-orbit-data-aliases-not-object = エイリアス表は "name": "KEYWORD" の JSON オブジェクトでなければなりません
+engine-e-orbit-data-alias-target = エイリアス { $key } は CDM のキーワードを指していません
+engine-e-orbit-data-convert-pair = { $path }：{ $to } への変換はありません（OEM から ocm、OCM から oem、CDM から cdm）
+engine-e-orbit-data-convert-empty = OEM に変換するセグメントがありません
+engine-e-orbit-data-convert-one-object = OEM のオブジェクト数：{ $n }。OCM は 1 つです
+engine-e-orbit-data-convert-missing = 変換元に、変換先が必要とする { $key } がありません
+engine-e-orbit-data-convert-width = データ行または共分散行の値の数が変換に合いません
+engine-e-orbit-data-convert-time = 時刻タグ { $t } を絶対時刻にできません（EPOCH_TZERO がないか、数値ではありません）
+engine-e-orbit-data-convert-traj = 軌道タイプ { $kind } には OEM の形式がありません（CARTPV と CARTPVA にはあります）
+engine-e-orbit-data-convert-cov = 共分散 { $kind } { $ordering } には OEM の形式がありません（LTM、UTM、FULL の CARTPV にはあります）
+engine-e-orbit-data-cov-input = 入力に有効な { $key } がありません
+engine-e-orbit-data-cov-not-pd = 初期共分散が正定値でないか、要求したサンプル数が少なすぎます

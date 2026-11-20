@@ -1086,8 +1086,8 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/main.rs": {
-   "count": 73,
-   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md); clock-live prints its error text as given; the sensor-live command name; the device and bench-speed command names; the data-pack, area-trust and env-baseline command names; the ephem-export command name; the time-vectors command name."
+   "count": 74,
+   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md); clock-live prints its error text as given; the sensor-live command name; the device and bench-speed command names; the data-pack, area-trust and env-baseline command names; the ephem-export command name; the time-vectors command name; the orbit-data command name."
   },
   "src/mars_pnt.rs": {
    "count": 31,
@@ -1672,6 +1672,26 @@
   "src/time_vectors.rs": {
    "count": 13,
    "reason": "identifier: the kshana.time-vectors/1 format tag, the embedded vector file names and the JSON field names of the vector format (docs/TIME-VECTORS.md)"
+  },
+  "src/orbit_data/cdm.rs": {
+   "count": 145,
+   "reason": "identifier: CCSDS 508.0-B-1 CDM keywords, normative values and units (Tables 3-1 to 3-4), the standard's document name and section references, and the stable machine codes of the findings"
+  },
+  "src/orbit_data/ephem.rs": {
+   "count": 95,
+   "reason": "identifier: CCSDS 502.0-B-3 OEM and OCM keywords and block markers, the standard's document name and section references, and the stable machine codes of the findings"
+  },
+  "src/orbit_data/convert.rs": {
+   "count": 60,
+   "reason": "machine-document: the CCSDS OEM and OCM keywords and block markers written into converted messages, and the PROVENANCE comment line format (docs/ORBIT-DATA.md)"
+  },
+  "src/orbit_data/cli.rs": {
+   "count": 17,
+   "reason": "identifier: command-line flag names, the JSON field names of the cov input and output, a finding code, and the dynamics-model field of the JSON output"
+  },
+  "src/orbit_data/gp_quality.rs": {
+   "count": 4,
+   "reason": "identifier: the stable machine codes of the audit findings"
   }
  }
 }
