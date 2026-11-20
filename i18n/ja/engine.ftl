@@ -9791,6 +9791,7 @@ engine-main-usage =
     { "   " }または：kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }または：kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
     { "   " }または：kshana time-vectors [--json] [<vectors.json|dir> ...]
+    { "   " }または：kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }または：kshana kinds [--json]
     { "   " }または：kshana example [<name>]
     { "   " }または：kshana --help | --version
@@ -10711,3 +10712,11 @@ engine-interference-incidents-valid = { $file }：{ $n } 件のレコード、�
 engine-e-interference-incidents-invalid = インシデントライブラリに { $n } 件の問題があります。一覧は kshana interference-map incidents validate <file> で表示します
 engine-e-interference-incidents-not-a-document = { $file } は { $schema } 文書ではありません
 engine-e-interference-incidents-source-url-required = --source-url は必須です：各レコードは成果物が公開されている https:// アドレスを引用します
+
+## Correction decoders (src/corrections/)
+engine-e-corrections-bad-hex = 16 進数のフレームではありません：{ $line }
+engine-e-corrections-unknown-decoder = 不明なデコーダー { $decoder }（has、b2b、l6）
+engine-e-corrections-bad-vector = ベクトル { $id } に 16 進数のフレームまたは expect オブジェクトがありません
+engine-e-corrections-bad-file = { $file } は { $format } 文書ではありません（形式タグと vectors 配列）
+engine-corrections-summary = { $n } 件のベクトル：合格 { $passed } 件、不合格 { $failed } 件
+engine-corrections-usage = 使い方：kshana corrections decode --format <has|b2b|l6> <frames.txt | -> | kshana corrections vectors [--json] [<vectors.json | dir> ...]  (1 行に 1 フレーム、16 進数; docs/CORRECTION-DECODERS.md)

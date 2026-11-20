@@ -10575,6 +10575,7 @@ engine-main-usage =
     { "   " }või: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }või: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
     { "   " }või: kshana time-vectors [--json] [<vectors.json|dir> ...]
+    { "   " }või: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }või: kshana kinds [--json]
     { "   " }või: kshana example [<name>]
     { "   " }või: kshana --help | --version
@@ -11486,3 +11487,11 @@ engine-interference-incidents-valid = { $file }: { $n } kirjet, kehtiv
 engine-e-interference-incidents-invalid = Intsidentide teegis on { $n } probleemi; loendi näitab kshana interference-map incidents validate <file>
 engine-e-interference-incidents-not-a-document = { $file } ei ole { $schema } dokument
 engine-e-interference-incidents-source-url-required = --source-url on kohustuslik: iga kirje viitab https:// aadressile, kus toode on avaldatud
+
+## Correction decoders (src/corrections/)
+engine-e-corrections-bad-hex = pole kuueteistkümnendkaader: { $line }
+engine-e-corrections-unknown-decoder = tundmatu dekooder { $decoder } (has, b2b, l6)
+engine-e-corrections-bad-vector = vektoril { $id } puuduvad kuueteistkümnendkaadrid või expect-objekt
+engine-e-corrections-bad-file = { $file } ei ole { $format } dokument (vormingumärgis ja vectors-massiiv)
+engine-corrections-summary = { $n } vektorit: { $passed } läbis, { $failed } kukkus läbi
+engine-corrections-usage = kasutus: kshana corrections decode --format <has|b2b|l6> <frames.txt | -> | kshana corrections vectors [--json] [<vectors.json | dir> ...]  (üks kaader rea kohta kuueteistkümnendsüsteemis; docs/CORRECTION-DECODERS.md)

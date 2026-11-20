@@ -26,6 +26,21 @@ breaking changes are called out explicitly.
   affected share when published, NACp/NIC report shares) and every file a `data_window`; the observatory product
   states its latency (`last_report_utc`, `min_latency_hours`). Additive fields; format versions unchanged.
 
+### Added (correction decoders)
+
+- `kshana corrections decode --format <has|b2b|l6>` and `kshana corrections vectors`: open decoders for broadcast
+  precise corrections (`src/corrections/`, `docs/CORRECTION-DECODERS.md`). Galileo HAS (HAS SIS ICD Issue 1.0): C/NAV
+  page CRC, HAS page header and dummy pages, the RS(255,32) outer code with its generator matrix computed from the
+  generator polynomial (any `MS` distinct pages recover a message; later pages are checked against the re-encoding),
+  and message type 1 (mask, orbit, clock full-set and subset, code and phase biases, masks kept by Mask ID). BeiDou
+  PPP-B2b (BDS-SIS-ICD-PPP-B2b-1.0): message types 1 to 7 and 63 with masks kept by IODP. QZSS L6 (IS-QZSS-L6-008,
+  IS-QZSS-MDC-005): header, subframe assembly, Compact SSR sub types 1 to 12 for CLAS and MADOCA-PPP (including
+  MADOCA-PPP GNSS ID 7 for BDS-3), the MADOCA-PPP ionospheric coverage and correction messages, and a list of GNSS IDs
+  a mask uses that the tables do not define. 24 test vectors (`data/conformance/corrections/*.json`, format
+  `kshana.correction-vectors/1`) written by an independent Python encoder; they are self-derived round-trip vectors,
+  not an external reference. An opt-in test (`tests/correction_icd_examples.rs`) checks the HAS decoder against the
+  ICD's own Annex B matrix and Annex C/D worked examples from a copy the user downloads; no ICD content is stored.
+
 ### Added (radio time-signal migration guide)
 
 - `docs/RADIO-TIME-MIGRATION.md`: the status of the CHU, MSF, DCF77 and WWVB time signals from public sources (CHU

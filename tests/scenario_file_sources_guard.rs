@@ -17,6 +17,11 @@ use std::path::{Path, PathBuf};
 /// on a surface, with the reason.
 const NOT_A_SCENARIO_FILE_SOURCE: &[(&str, &str, &str)] = &[
     (
+        "src/corrections/vectors.rs",
+        "file",
+        "an output field: the name of the vector file a result came from; the engine never reads it",
+    ),
+    (
         "src/time_vectors.rs",
         "file",
         "an output field: the name of the vector file a result came from; the engine never reads it",

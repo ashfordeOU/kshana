@@ -10723,6 +10723,7 @@ engine-main-usage =
     { "   " }ou : kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }ou : kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
     { "   " }ou : kshana time-vectors [--json] [<vectors.json|dir> ...]
+    { "   " }ou : kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }ou : kshana kinds [--json]
     { "   " }ou : kshana example [<name>]
     { "   " }ou : kshana --help | --version
@@ -11637,3 +11638,11 @@ engine-interference-incidents-valid = { $file } : { $n } enregistrements, valide
 engine-e-interference-incidents-invalid = { $n } problème(s) dans la bibliothèque d'incidents ; lancez kshana interference-map incidents validate <file> pour la liste
 engine-e-interference-incidents-not-a-document = { $file } n'est pas un document { $schema }
 engine-e-interference-incidents-source-url-required = --source-url est obligatoire : chaque enregistrement cite l'adresse https:// où le produit est publié
+
+## Correction decoders (src/corrections/)
+engine-e-corrections-bad-hex = pas une trame hexadécimale : { $line }
+engine-e-corrections-unknown-decoder = décodeur inconnu { $decoder } (has, b2b, l6)
+engine-e-corrections-bad-vector = il manque au vecteur { $id } des trames hexadécimales ou un objet expect
+engine-e-corrections-bad-file = { $file } n'est pas un document { $format } (balise de format et tableau vectors)
+engine-corrections-summary = { $n } vecteurs : { $passed } réussis, { $failed } échoués
+engine-corrections-usage = utilisation : kshana corrections decode --format <has|b2b|l6> <frames.txt | -> | kshana corrections vectors [--json] [<vectors.json | dir> ...]  (une trame par ligne en hexadécimal; docs/CORRECTION-DECODERS.md)

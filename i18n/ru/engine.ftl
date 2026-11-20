@@ -10798,6 +10798,7 @@ engine-main-usage =
     { "   " }или: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }или: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
     { "   " }или: kshana time-vectors [--json] [<vectors.json|dir> ...]
+    { "   " }или: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }или: kshana kinds [--json]
     { "   " }или: kshana example [<name>]
     { "   " }или: kshana --help | --version
@@ -11716,3 +11717,11 @@ engine-interference-incidents-valid = { $file }: записей { $n }, корр
 engine-e-interference-incidents-invalid = В библиотеке инцидентов проблем: { $n }; список выводит kshana interference-map incidents validate <file>
 engine-e-interference-incidents-not-a-document = { $file } не является документом { $schema }
 engine-e-interference-incidents-source-url-required = --source-url обязателен: каждая запись ссылается на адрес https://, где опубликован продукт
+
+## Correction decoders (src/corrections/)
+engine-e-corrections-bad-hex = не шестнадцатеричный кадр: { $line }
+engine-e-corrections-unknown-decoder = неизвестный декодер { $decoder } (has, b2b, l6)
+engine-e-corrections-bad-vector = у вектора { $id } нет шестнадцатеричных кадров или объекта expect
+engine-e-corrections-bad-file = { $file } не является документом { $format } (метка формата и массив vectors)
+engine-corrections-summary = векторов: { $n }; пройдено: { $passed }, не пройдено: { $failed }
+engine-corrections-usage = использование: kshana corrections decode --format <has|b2b|l6> <frames.txt | -> | kshana corrections vectors [--json] [<vectors.json | dir> ...]  (один кадр на строку в шестнадцатеричном виде; docs/CORRECTION-DECODERS.md)
