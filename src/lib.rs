@@ -211,6 +211,8 @@ pub mod legal;
 pub mod leo_fusion;
 pub mod leo_link;
 pub mod leo_navmsg;
+/// BeiDou–LEO interoperability planning and a LEO-aided orbit determination covariance study (`kshana leo-od-plan`).
+pub mod leo_od_plan;
 pub mod leo_pass;
 pub mod leo_pnt_chain;
 pub mod leo_signal;

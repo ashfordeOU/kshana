@@ -9857,6 +9857,7 @@ engine-main-usage =
     { "   " }或：kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }或：kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }或：kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
+    { "   " }或：kshana leo-od-plan <plan.toml>
     { "   " }或：kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }或：kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }或：kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
@@ -10978,3 +10979,9 @@ engine-e-oscillator-input = { $part } 输入无效：{ $e }
 engine-e-oscillator-unknown-clock = 未知的时钟预设 { $id }（可选：{ $known }）
 
 engine-e-oscillator-field = { $field } 超出范围：{ $value }
+
+## BeiDou-LEO planning (src/leo_od_plan.rs, docs/LEO-OD-PLAN.md)
+engine-leo-od-plan-usage = 用法：kshana leo-od-plan <plan.toml>  (docs/LEO-OD-PLAN.md; MODELLED, a planning tool)
+engine-e-leo-od-plan-bad-plan = 计划数值超出范围：弧段、步长、噪声和掩码须为正的有限值，步数最多 100000，掩码在 ±90 度以内，半波束宽度在 0 到 90 度之间，LEO 沃克星座的轨道面数须整除卫星数
+engine-e-leo-od-plan-cannot-read = 无法读取 { $path }：{ $e }
+engine-e-leo-od-plan-bad-file = { $path } 不是计划文件：{ $e }
