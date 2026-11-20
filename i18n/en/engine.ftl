@@ -10384,7 +10384,7 @@ engine-main-usage =
     { "   " }or: kshana obs <convert <log> --format <format> --station <station.toml> [--out <file>] | check <file.obs.jsonl> [--json]>
     { "   " }or: kshana connect <map <input> --mapping <connect.toml> --station <station.toml> [--out <file.obs.jsonl>] | check <vector.toml|dir> [--bless] | watch <dir> --mapping <connect.toml> --station <station.toml> [--suffix <.csv>] [--interval <s>] [--once] | mqtt <host:port> --topic <filter> --mapping <connect.toml> --station <station.toml> [--header <row>] [--qos 0|1] [--user <name> --password-env <VAR>] [--client-id <id>] [--max-messages <n>] [--per-topic] | nats <host:port> --subject <s> --mapping <connect.toml> --station <station.toml> [--header <row>] [--per-topic] [--user <name> --password-env <VAR> | --token-env <VAR>] [--max-messages <n>] | ws <ws://host:port/path> --mapping <connect.toml> --station <station.toml> [--header <row>] [--max-messages <n>] | check-live <vector.toml|dir> [--json] | load-test [--stations <n>] [--rate <Hz>] [--seconds <s>] [--via memory|mqtt] [--json] | adapters <list|check> [<dir>] [--json]>
     { "   " }or: kshana osnma verify <pages|vectors.csv|stream.ubx> [--merkle-root <hex>] [--public-key <id:type:hex>] [--reference-time <gst-s>] [--json] (kshana osnma --help)
-    { "   " }or: kshana iq <scene|acquire|track|sweep|labfit|campaign|conditions|frontend|monitor|inventory|info|extract|convert|decimate> ... (kshana iq --help)
+    { "   " }or: kshana iq <scene|acquire|track|sweep|labfit|campaign|conditions|frontend|monitor|diagnose|gnss-sdr-conf|inventory|info|extract|convert|decimate> ... (kshana iq --help)
     { "   " }or: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }or: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }or: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
@@ -10592,6 +10592,8 @@ engine-iq-cli-usage =
     { "   " }or: kshana iq conditions <test-conditions.toml|json>
     { "   " }or: kshana iq frontend <in> <out> [--bandpass lo,hi] [--notch] [--blank <thr>] [--excise] [--agc] [--bits <n>] [--out-format <fmt>]
     { "   " }or: kshana iq monitor <recording> [--power] [--spectral] [--settings <toml|json>] [--baseline <s>] [--signal <name> --prn <list> [--spacing <chips>] [--pll-bw <hz>] [--fll-bw <hz>] [--dll-bw <hz>] [--coherent <N>] [--cn0-windows <M>] [--doppler-max <hz>]] [--max-seconds <s>] [--follow [--idle-timeout <s>]] [--json <out>] [--csv <prefix>]
+    { "   " }or: kshana iq diagnose <recording> [--max-seconds <s>] [--block <s>] [--gain-step-db <db>] [--signal <name> --prn <list> [--coherent <N>] [--noncoherent <M>] [--doppler-max <hz>] [--doppler-step <hz>] [--pfa <p>] [--step <s>] [--steps <n>] [--max-sat-doppler <hz>]]
+    { "   " }or: kshana iq gnss-sdr-conf <recording> [--signal <name[:channels]>,...] [--profile default|narrowband] [--doppler-max <hz>] [--rate-ms <ms>] [--monitor-ports <ch,pvt> | --no-monitor] [--out <file.conf>]
     { " " }labfit scenarios: [[runs]] of receiver logs, or [input] campaign = "<out-dir>" naming a kshana iq campaign output folder (relative to the scenario file)
     { " " }loop designs: a kshana.loop-design/1 TOML file (docs/design/LOOP-DESIGN-TOML.md); explicit loop/acquisition flags override the selected design
     { " " }acquire/track/sweep also take the front-end flags [--bandpass lo,hi] [--notch] [--blank <thr>] [--excise] [--agc] [--bits <n>], applied before processing (to the acquisition and the tracking pass alike)
@@ -11959,3 +11961,16 @@ engine-e-space-weather-pnt-ionex-span = the IONEX maps do not cover { $t }
 engine-e-space-weather-pnt-ionex-flag = an IONEX map is used when, and only when, the request's vtec is "ionex" and --ionex <file> is given
 engine-e-space-weather-pnt-no-epochs = the request needs at least one epoch in epochs_utc
 engine-e-space-weather-pnt-window-row = line { $line }: not a density window row (campaign,phase,start_utc,mean_alt_km,n_valid,measured_mean,points)
+
+## SDR front-end diagnostics and the GNSS-SDR configuration (src/iq/frontdiag.rs, src/iq/gnss_sdr_conf.rs)
+engine-e-iq-frontdiag-no-samples = the recording holds no samples
+engine-e-iq-frontdiag-positive = --block, --step and --gain-step-db must be positive
+engine-e-iq-gnss-sdr-conf-format = GNSS-SDR's file source reads ci16_le, ci8 and cf32_le, not { $format }: convert the recording first (kshana iq convert <in> <out> --to ci16_le)
+engine-e-iq-gnss-sdr-conf-layout = GNSS-SDR's file source reads one stream from one data file with no header: extract the stream first (kshana iq convert)
+engine-e-iq-gnss-sdr-conf-if = the recording has a non-zero IF: bring it to zero IF first (kshana iq decimate --if-hz)
+engine-e-iq-gnss-sdr-conf-no-signal = name at least one signal with --signal
+engine-e-iq-gnss-sdr-conf-rate = the PVT output rate must be a multiple of 20 ms, not { $rate }
+engine-e-iq-gnss-sdr-conf-signal = no GNSS-SDR configuration is written for { $signal } (written for: { $known })
+engine-e-iq-gnss-sdr-conf-centre = { $signal } is { $offset_hz } Hz from the recording's centre frequency; the default GNSS-SDR chain needs it at zero frequency
+engine-e-iq-gnss-sdr-conf-profile = unknown profile { $profile } (default, narrowband)
+engine-iq-gnss-sdr-conf-written = wrote the GNSS-SDR configuration to { $path }

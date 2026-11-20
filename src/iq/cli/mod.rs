@@ -20,7 +20,12 @@
 //! * `frontend` — apply receiver front-end and interference-mitigation DSP to a recording
 //!   ([`frontend`]);
 //! * `monitor` — run the interference and spoofing detection monitors over a recording
-//!   and write their time series and events ([`monitor`]).
+//!   and write their time series and events ([`monitor`]);
+//! * `diagnose` — measure the front end's faults in a recording: DC, I/Q imbalance, clipping,
+//!   dropouts, repeated samples, gain steps, oscillator offset and clock consistency
+//!   ([`crate::iq::frontdiag`]);
+//! * `gnss-sdr-conf` — write a GNSS-SDR configuration for a recording
+//!   ([`crate::iq::gnss_sdr_conf`]).
 //!
 //! The parsing style, the exit codes and the `--format`/`--rate`/`--center` raw-input flags
 //! mirror [`super::io::cli`] exactly.
@@ -28,7 +33,9 @@
 mod acquire;
 mod campaign;
 mod channel;
+mod diagnose;
 mod frontend;
+mod gnss_sdr;
 mod labfit;
 mod monitor;
 mod scene;
@@ -185,7 +192,7 @@ impl std::fmt::Display for CommandError {
 impl std::error::Error for CommandError {}
 
 /// Run one processing command (`scene`, `acquire`, `track`, `sweep`, `labfit`, `frontend`,
-/// `campaign` or `conditions`, then its arguments exactly as the CLI takes them) in-process, and return
+/// `campaign`, `conditions`, `diagnose` or `gnss-sdr-conf`, then its arguments exactly as the CLI takes them) in-process, and return
 /// the message the CLI would print instead of printing it. Files are written exactly as
 /// the CLI writes them. This is the seam an embedding surface (the MCP server) drives, so
 /// it runs the same code path as `kshana iq` with nothing on stdout or stderr.
@@ -205,6 +212,8 @@ pub fn execute(args: &[String]) -> Result<String, CommandError> {
         Some("monitor") => monitor::run(rest),
         Some("campaign") => campaign::run(rest),
         Some("conditions") => campaign::conditions(rest),
+        Some("diagnose") => diagnose::run(rest),
+        Some("gnss-sdr-conf") => gnss_sdr::run(rest),
         Some(other) => Err(Fail::Usage(crate::t!(
             "iq-cli-unknown-iq-processing-command-expected",
             other = format!("{:?}", other)
@@ -233,7 +242,7 @@ pub fn run(args: &[String]) -> i32 {
         }
         Some(
             "scene" | "acquire" | "track" | "sweep" | "labfit" | "frontend" | "monitor"
-            | "campaign" | "conditions",
+            | "campaign" | "conditions" | "diagnose" | "gnss-sdr-conf",
         ) => finish(execute(args)),
         // Every data-handling command belongs to the io half of the group.
         Some(_) => super::io::cli::run(args),

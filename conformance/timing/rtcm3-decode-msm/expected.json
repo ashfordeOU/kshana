@@ -1,0 +1,200 @@
+{
+  "decoded": {
+    "msm": [
+      {
+        "cells": [
+          {
+            "cnr_dbhz": null,
+            "half_cycle": false,
+            "lock_indicator": 0,
+            "modulo_1ms": true,
+            "phaserange_m": null,
+            "phaserange_rate_m_s": null,
+            "pseudorange_m": 149914.09802296542,
+            "rinex_code": "1C",
+            "sat": "G05",
+            "signal_id": 2
+          },
+          {
+            "cnr_dbhz": null,
+            "half_cycle": false,
+            "lock_indicator": 0,
+            "modulo_1ms": true,
+            "phaserange_m": null,
+            "phaserange_rate_m_s": null,
+            "pseudorange_m": 149860.49095406913,
+            "rinex_code": "2S",
+            "sat": "G05",
+            "signal_id": 15
+          },
+          {
+            "cnr_dbhz": null,
+            "half_cycle": false,
+            "lock_indicator": 0,
+            "modulo_1ms": true,
+            "phaserange_m": null,
+            "phaserange_rate_m_s": null,
+            "pseudorange_m": null,
+            "rinex_code": "1C",
+            "sat": "G12",
+            "signal_id": 2
+          }
+        ],
+        "epoch_ms": 100000,
+        "extended_info": [],
+        "glonass_day": null,
+        "iods": 0,
+        "message": 1071,
+        "multiple": false,
+        "station_id": 4001
+      },
+      {
+        "cells": [
+          {
+            "cnr_dbhz": null,
+            "half_cycle": false,
+            "lock_indicator": 7,
+            "modulo_1ms": true,
+            "phaserange_m": 149897.904220903,
+            "phaserange_rate_m_s": null,
+            "pseudorange_m": null,
+            "rinex_code": "1C",
+            "sat": "G05",
+            "signal_id": 2
+          },
+          {
+            "cnr_dbhz": null,
+            "half_cycle": true,
+            "lock_indicator": 8,
+            "modulo_1ms": true,
+            "phaserange_m": 149893.9953721293,
+            "phaserange_rate_m_s": null,
+            "pseudorange_m": null,
+            "rinex_code": "2S",
+            "sat": "G05",
+            "signal_id": 15
+          },
+          {
+            "cnr_dbhz": null,
+            "half_cycle": false,
+            "lock_indicator": 9,
+            "modulo_1ms": true,
+            "phaserange_m": 74948.11729203483,
+            "phaserange_rate_m_s": null,
+            "pseudorange_m": null,
+            "rinex_code": "1C",
+            "sat": "G12",
+            "signal_id": 2
+          }
+        ],
+        "epoch_ms": 100000,
+        "extended_info": [],
+        "glonass_day": null,
+        "iods": 0,
+        "message": 1072,
+        "multiple": false,
+        "station_id": 4001
+      },
+      {
+        "cells": [
+          {
+            "cnr_dbhz": null,
+            "half_cycle": false,
+            "lock_indicator": 7,
+            "modulo_1ms": true,
+            "phaserange_m": 149897.904220903,
+            "phaserange_rate_m_s": null,
+            "pseudorange_m": 149914.09802296542,
+            "rinex_code": "1C",
+            "sat": "G05",
+            "signal_id": 2
+          },
+          {
+            "cnr_dbhz": null,
+            "half_cycle": true,
+            "lock_indicator": 8,
+            "modulo_1ms": true,
+            "phaserange_m": 149893.9953721293,
+            "phaserange_rate_m_s": null,
+            "pseudorange_m": 149860.49095406913,
+            "rinex_code": "2S",
+            "sat": "G05",
+            "signal_id": 15
+          },
+          {
+            "cnr_dbhz": null,
+            "half_cycle": false,
+            "lock_indicator": 9,
+            "modulo_1ms": true,
+            "phaserange_m": null,
+            "phaserange_rate_m_s": null,
+            "pseudorange_m": 74948.1145,
+            "rinex_code": "1C",
+            "sat": "G12",
+            "signal_id": 2
+          }
+        ],
+        "epoch_ms": 100000,
+        "extended_info": [],
+        "glonass_day": null,
+        "iods": 0,
+        "message": 1073,
+        "multiple": false,
+        "station_id": 4001
+      },
+      {
+        "cells": [
+          {
+            "cnr_dbhz": 41.0,
+            "half_cycle": false,
+            "lock_indicator": 10,
+            "phaserange_m": 24012672.91218238,
+            "phaserange_rate_m_s": -249.8766,
+            "pseudorange_m": 24012682.181738045,
+            "rinex_code": "2I",
+            "sat": "C11",
+            "signal_id": 2
+          }
+        ],
+        "epoch_ms": 200000,
+        "extended_info": [
+          [
+            "C11",
+            0
+          ]
+        ],
+        "glonass_day": null,
+        "iods": 0,
+        "message": 1125,
+        "multiple": false,
+        "station_id": 4001
+      },
+      {
+        "cells": [
+          {
+            "cnr_dbhz": 42.75,
+            "half_cycle": true,
+            "lock_indicator": 600,
+            "phaserange_m": 25570177.58354033,
+            "phaserange_rate_m_s": null,
+            "pseudorange_m": 25570227.84016742,
+            "rinex_code": "1C",
+            "sat": "E04",
+            "signal_id": 2
+          }
+        ],
+        "epoch_ms": 200000,
+        "extended_info": [],
+        "glonass_day": null,
+        "iods": 0,
+        "message": 1096,
+        "multiple": false,
+        "station_id": 4001
+      }
+    ],
+    "other": {},
+    "skipped": 0,
+    "stations": []
+  },
+  "kind": "rtcm3-decode"
+}
