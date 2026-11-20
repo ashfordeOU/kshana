@@ -1279,6 +1279,17 @@ fn main_in_language(args: Vec<String>) -> ExitCode {
     if args.get(1).map(String::as_str) == Some("rtk-qa") {
         return ExitCode::from(kshana::rtk_qa::run_cli(&args[2..]) as u8);
     }
+    // `kshana adsb-indicators <adsb.csv> [...]`: update-rate collapse, track consistency and
+    // exposed-flight denominators per cell (src/adsb_indicators.rs, docs/ADSB-INDICATORS.md).
+    if args.get(1).map(String::as_str) == Some("adsb-indicators") {
+        return ExitCode::from(kshana::adsb_indicators::run_cli(&args[2..]) as u8);
+    }
+    // `kshana interference-atlas <build|verify|cors> ...`: persistent interference-area atlas,
+    // station C/N0 layer and ground-against-airborne comparison (src/interference_atlas.rs,
+    // docs/INTERFERENCE-ATLAS.md). Exit 1 when `verify` finds a changed atlas.
+    if args.get(1).map(String::as_str) == Some("interference-atlas") {
+        return ExitCode::from(kshana::interference_atlas::run_cli(&args[2..]) as u8);
+    }
     // `kshana time-vectors [--json] [<file|dir>...]`: the time-scale conformance vectors
     // (src/time_vectors.rs, docs/TIME-VECTORS.md). Exit 1 when any vector fails.
     if args.get(1).map(String::as_str) == Some("time-vectors") {

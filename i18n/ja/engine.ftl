@@ -9759,6 +9759,32 @@ engine-e-ais-integrity-cannot-read = { $path } を読み込めません：{ $e }
 engine-e-ais-integrity-cannot-write = { $path } に書き込めません：{ $e }
 engine-e-ais-integrity-bad-place = 地点リストの行が、有効な位置と正の半径を持つ name,lat,lon,radius_m ではありません：{ $row }
 
+## ADS-B interference indicators (src/adsb_indicators.rs)
+engine-adsb-indicators-usage = 使い方：kshana adsb-indicators <adsb.csv> [--cell-deg <d>] [--out <indicators.json>]  (docs/ADSB-INDICATORS.md)
+engine-adsb-indicators-summary = 公開セル { $n } 件にフラグ (MODELLED、原因は示しません)
+engine-e-adsb-indicators-missing-value = { $option } には値が必要です
+engine-e-adsb-indicators-unknown-option = 不明なオプション { $option }（kshana adsb-indicators --help でオプションを一覧表示）
+engine-e-adsb-indicators-bad-cell = セルの大きさは 0.01 から 10 度でなければなりません ({ $value } ではありません)
+engine-e-adsb-indicators-cannot-read = { $path } を読み込めません：{ $e }
+engine-e-adsb-indicators-cannot-write = { $path } に書き込めません：{ $e }
+engine-e-adsb-indicators-missing-column = ADS-B の CSV に { $name } 列がありません
+
+## Interference atlas and station C/N0 layer (src/interference_atlas.rs)
+engine-interference-atlas-usage = 使い方：kshana interference-atlas build <day.geojson>... [--previous <atlas.json>] [--out <atlas.json>] | verify <atlas.json> | cors <today.obs> --baseline <earlier.obs> [--adsb-day <day.geojson>] [--station <lat,lon>] [--out <layer.json>]  (docs/INTERFERENCE-ATLAS.md)
+engine-interference-atlas-built = セル { $n_cells } 件、ゾーン { $n_zones } 件。バージョン { $version } (MODELLED)
+engine-interference-atlas-verified = { $path }: バージョンは内容と一致します
+engine-e-interference-atlas-missing-value = { $option } には値が必要です
+engine-e-interference-atlas-unknown-option = 不明なオプション { $option }（kshana interference-atlas --help でオプションを一覧表示）
+engine-e-interference-atlas-cannot-read = { $path } を読み込めません：{ $e }
+engine-e-interference-atlas-cannot-write = { $path } に書き込めません：{ $e }
+engine-e-interference-atlas-not-a-product = { $path } は干渉マップの日次プロダクトでもアトラスでもありません
+engine-e-interference-atlas-mixed = 日次プロダクトのグリッドまたはソースが混在しています
+engine-e-interference-atlas-empty = 日次プロダクトが指定されていません
+engine-e-interference-atlas-changed = { $path }: バージョンが内容と一致しません (アトラスが変更されています)
+engine-e-interference-atlas-bad-obs = { $path } は RINEX 観測ファイルではありません: { $e }
+engine-e-interference-atlas-no-cn0 = 2 つの観測ファイルには、地上軌跡の 1 回の繰り返しを隔てて C/N0 を持つ共通の GPS 衛星がありません
+engine-e-interference-atlas-bad-station = 局には度単位の lat,lon (または観測ヘッダーの概略位置) が必要です ({ $value } ではありません)
+
 engine-main-usage =
     使い方：kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }または：kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -9796,6 +9822,8 @@ engine-main-usage =
     { "   " }または：kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
     { "   " }または：kshana orbit-data <check|convert|gp-compare|gp-audit|cov> ... (kshana orbit-data --help)
     { "   " }または：kshana drone <prearm|prearm-calibrate|estimator-cases|dr-budget|quad-loss|failover|zonotope-pl> ... (kshana drone --help)
+    { "   " }または：kshana adsb-indicators <adsb.csv> [--cell-deg <d>] [--out <indicators.json>]
+    { "   " }または：kshana interference-atlas <build|verify|cors> ... (kshana interference-atlas --help)
     { "   " }または：kshana kinds [--json]
     { "   " }または：kshana example [<name>]
     { "   " }または：kshana --help | --version

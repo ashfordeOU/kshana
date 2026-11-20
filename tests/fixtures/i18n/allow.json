@@ -5,6 +5,10 @@
    "count": 176,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
+  "src/adsb_indicators.rs": {
+   "count": 39,
+   "reason": "machine-document and identifier: the kshana.adsb-indicators/1 document (schema and method ids, field and flag names, the note written into that machine document) and the ADS-B CSV column names (docs/ADSB-INDICATORS.md)"
+  },
   "src/advanced_report.rs": {
    "count": 497,
    "reason": "identifier: the crosswalk of kind names to verification-matrix requirement text, matched by equality against the matrix rows (the new lunar, mission-thread and tip-and-cue kinds add rows), and report JSON keys"
@@ -184,6 +188,10 @@
   "src/device.rs": {
    "count": 2,
    "reason": "machine-document: the test <n>: prefix before a catalogued error, and the <path>: <error> prefix of an operating-system or parse error"
+  },
+  "src/interference_atlas.rs": {
+   "count": 34,
+   "reason": "machine-document and identifier: the kshana.interference-atlas/1 and kshana.cors-cn0-layer/1 documents (schema and method ids, field names, status values and notes written into those machine documents) and the map product's status names (docs/INTERFERENCE-ATLAS.md)"
   },
   "src/interference_map/live.rs": {
    "count": 6,
@@ -1090,8 +1098,8 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/main.rs": {
-   "count": 76,
-   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md); clock-live prints its error text as given; the sensor-live command name; the device and bench-speed command names; the data-pack, area-trust and env-baseline command names; the ephem-export command name; the time-vectors command name; the ais-integrity command name; the space-weather command name; the orbit-data command name."
+   "count": 78,
+   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md); clock-live prints its error text as given; the sensor-live command name; the device and bench-speed command names; the data-pack, area-trust and env-baseline command names; the ephem-export command name; the time-vectors command name; the ais-integrity command name; the space-weather command name; the orbit-data command name; the adsb-indicators and interference-atlas command names."
   },
   "src/mars_pnt.rs": {
    "count": 31,

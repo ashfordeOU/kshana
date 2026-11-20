@@ -1033,6 +1033,39 @@ fn orbit_data_checks_and_monitors() {
 }
 
 #[test]
+fn adsb_indicators_and_atlas_inputs() {
+    let grid = kshana::interference_map::grid::Grid::new(0.5).unwrap();
+    fuzz(
+        "adsb-indicators csv",
+        &[b"timestamp,aircraft_id,lat,lon,alt_baro_ft,gs_kt,nic,nacp\n1772323200,A1,42,22,35000,450,8,9\n1772323204,A1,42.01,22.01,35000,450,0,0\n".to_vec()],
+        None,
+        |b| {
+            if let Ok(t) = std::str::from_utf8(b) {
+                let _ = kshana::adsb_indicators::indicators(t, &grid, &kshana::adsb_indicators::Params::PREREGISTERED_V1);
+            }
+        },
+    );
+    fuzz(
+        "interference-atlas day product",
+        &[head(
+            "examples/interference-map/output/adsb-custom-2026-03-01.geojson",
+            400,
+        )],
+        None,
+        |b| {
+            let t = String::from_utf8_lossy(b).to_string();
+            if let Ok(a) = kshana::interference_atlas::build(
+                &[("x".into(), t)],
+                &kshana::interference_atlas::AtlasParams::PREREGISTERED_V1,
+                None,
+            ) {
+                assert!(kshana::interference_atlas::verify(&a));
+            }
+        },
+    );
+}
+
+#[test]
 fn ccsds_messages() {
     let oem = vec![
         head("tests/fixtures/ccsds/oem_502_b3_figG11.oem", 80),
