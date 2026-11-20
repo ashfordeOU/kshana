@@ -9820,6 +9820,17 @@ engine-e-antenna-cal-bad-pattern = 不明なアンテナパターン (patch、ch
 engine-e-antenna-cal-bad-gain-table = 利得テーブルには仰角と利得の有限な点が少なくとも 2 つ必要です
 engine-e-antenna-cal-bad-link = J/S の仕様には正の周波数、有限の EIRP、正の距離が必要です
 
+## Arctic GNSS availability planner (src/arctic_plan.rs)
+engine-arctic-plan-usage = 使い方：kshana arctic-plan --site <lat,lon[,h]> | --place <name> | --places  [--systems <a,b,...>] [--compare] [--hours <h>] [--step-min <m>] [--start-s <s>] [--mask <deg>] [--skyline-preset <name>] [--clock common|per-system] [--min-sats <n>] [--max-pdop <x>] [--task-min <m>] [--kp <n>] [--year <y>] [--iono-mask <deg>] [--tle <file> --epoch <YYYY-MM-DDTHH:MM:SS>] [--epochs] [--out <file.json>]  (docs/ARCTIC-PLAN.md)
+engine-e-arctic-plan-missing-value = { $option } には値が必要です
+engine-e-arctic-plan-unknown-option = 不明なオプション { $option }（kshana arctic-plan --help でオプションを一覧表示）
+engine-e-arctic-plan-cannot-read = { $path } を読み込めません：{ $e }
+engine-e-arctic-plan-cannot-write = { $path } に書き込めません：{ $e }
+engine-e-arctic-plan-bad-number = { $option }：{ $value } は有効な数値ではありません
+engine-e-arctic-plan-unknown-name = 不明な名前 { $name }（既知：{ $known }）
+engine-e-arctic-plan-needs-site = --site <lat,lon[,h]> または --place <name> で地点を指定してください（--places で名前を一覧表示）
+engine-e-arctic-plan-bad-horizon = 期間とステップは正の値で、エポック数は 20,000 以下である必要があります
+
 engine-main-usage =
     使い方：kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }または：kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -9855,6 +9866,7 @@ engine-main-usage =
     { "   " }または：kshana feed <pack|verify|send|spectrum|leaderboard> ... (kshana feed --help)
     { "   " }または：kshana register <check|crl-check|view|sign> ... (kshana register --help)
     { "   " }または：kshana interference-env <evaluate|thresholds|degradation> ... (kshana interference-env --help)
+    { "   " }または：kshana arctic-plan --site <lat,lon[,h]> | --place <name> [--systems <a,b,...>] [--compare] [--hours <h>] [--kp <n>] ... (kshana arctic-plan --help)
     { "   " }または：kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }または：kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }または：kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>

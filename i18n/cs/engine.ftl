@@ -10610,6 +10610,17 @@ engine-e-antenna-cal-bad-pattern = neznámý diagram antény (patch, choke-ring 
 engine-e-antenna-cal-bad-gain-table = tabulka zisku potřebuje alespoň dva konečné body elevace a zisku
 engine-e-antenna-cal-bad-link = specifikace J/S potřebuje kladný kmitočet, konečný EIRP a kladné vzdálenosti
 
+## Arctic GNSS availability planner (src/arctic_plan.rs)
+engine-arctic-plan-usage = použití: kshana arctic-plan --site <lat,lon[,h]> | --place <name> | --places  [--systems <a,b,...>] [--compare] [--hours <h>] [--step-min <m>] [--start-s <s>] [--mask <deg>] [--skyline-preset <name>] [--clock common|per-system] [--min-sats <n>] [--max-pdop <x>] [--task-min <m>] [--kp <n>] [--year <y>] [--iono-mask <deg>] [--tle <file> --epoch <YYYY-MM-DDTHH:MM:SS>] [--epochs] [--out <file.json>]  (docs/ARCTIC-PLAN.md)
+engine-e-arctic-plan-missing-value = { $option } vyžaduje hodnotu
+engine-e-arctic-plan-unknown-option = neznámá volba { $option } (volby vypíše kshana arctic-plan --help)
+engine-e-arctic-plan-cannot-read = nelze číst { $path }: { $e }
+engine-e-arctic-plan-cannot-write = nelze zapsat { $path }: { $e }
+engine-e-arctic-plan-bad-number = { $option }: { $value } není platné číslo
+engine-e-arctic-plan-unknown-name = neznámý název { $name } (známé: { $known })
+engine-e-arctic-plan-needs-site = zadejte místo pomocí --site <lat,lon[,h]> nebo --place <name> (názvy vypíše --places)
+engine-e-arctic-plan-bad-horizon = horizont a krok musí být kladné a dávat nejvýše 20 000 epoch
+
 engine-main-usage =
     použití: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }nebo: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10645,6 +10656,7 @@ engine-main-usage =
     { "   " }nebo: kshana feed <pack|verify|send|spectrum|leaderboard> ... (kshana feed --help)
     { "   " }nebo: kshana register <check|crl-check|view|sign> ... (kshana register --help)
     { "   " }nebo: kshana interference-env <evaluate|thresholds|degradation> ... (kshana interference-env --help)
+    { "   " }nebo: kshana arctic-plan --site <lat,lon[,h]> | --place <name> [--systems <a,b,...>] [--compare] [--hours <h>] [--kp <n>] ... (kshana arctic-plan --help)
     { "   " }nebo: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }nebo: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }nebo: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>

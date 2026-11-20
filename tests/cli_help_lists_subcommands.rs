@@ -42,6 +42,7 @@ fn the_top_level_usage_names_every_subcommand() {
         "sil-obs",
         "interference-lib",
         "antenna-cal",
+        "arctic-plan",
         "corrections",
         "space-weather",
         "rtk-qa",

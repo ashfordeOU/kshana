@@ -17,6 +17,10 @@
    "count": 92,
    "reason": "machine-document and identifier: the ANTEX record labels the lint matches (format text), the finding codes and their details in the kshana.antex-lint/1 document, the schema ids, field names and notes of the kshana.antenna-spread/1, -compare/1, -group-delay/1 and -js-margin/1 documents (docs/ANTENNA-CAL.md)"
   },
+  "src/arctic_plan.rs": {
+   "count": 10,
+   "reason": "machine-document and identifier: the preset and place names, the schema id, the --places document keys, option names and the English label written into the kshana.arctic-plan/1 document"
+  },
   "src/area_trust/v3.rs": {
    "count": 1,
    "reason": "developer: an internal invariant message of the B5 v3 replay generator (expect), never shown for user input"
@@ -1126,8 +1130,8 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/main.rs": {
-   "count": 82,
-   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md); clock-live prints its error text as given; the sensor-live command name; the device and bench-speed command names; the data-pack, area-trust and env-baseline command names; the ephem-export command name; the time-vectors command name; the ais-integrity command name; the space-weather command name; the orbit-data command name; the leo-verify command name; the space-receiver command name; the sil-obs and interference-lib command names; the interference-env command name; the antenna-cal command name."
+   "count": 83,
+   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md); clock-live prints its error text as given; the sensor-live command name; the device and bench-speed command names; the data-pack, area-trust and env-baseline command names; the ephem-export command name; the time-vectors command name; the ais-integrity command name; the space-weather command name; the orbit-data command name; the leo-verify command name; the space-receiver command name; the sil-obs and interference-lib command names; the interference-env command name; the antenna-cal command name; the arctic-plan command name."
   },
   "src/mars_pnt.rs": {
    "count": 31,
