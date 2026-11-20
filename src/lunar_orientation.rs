@@ -65,7 +65,7 @@ struct Row {
 fn parse_rows() -> Vec<Row> {
     let n = DE440_MOON_PA_BIN.len() / 8;
     assert!(
-        n * 8 == DE440_MOON_PA_BIN.len() && n % DE440_MOON_PA_COLS == 0,
+        n * 8 == DE440_MOON_PA_BIN.len() && n.is_multiple_of(DE440_MOON_PA_COLS),
         "embedded orientation series: bad length"
     );
     let rows = n / DE440_MOON_PA_COLS;
