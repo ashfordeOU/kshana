@@ -10577,6 +10577,7 @@ engine-main-usage =
     { "   " }või: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }või: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }või: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
+    { "   " }või: kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
     { "   " }või: kshana kinds [--json]
     { "   " }või: kshana example [<name>]
     { "   " }või: kshana --help | --version
@@ -11518,3 +11519,48 @@ engine-e-space-weather-pnt-ionex-span = IONEX-kaardid ei kata aega { $t }
 engine-e-space-weather-pnt-ionex-flag = IONEX-kaarti kasutatakse siis ja ainult siis, kui päringu vtec on "ionex" ja on antud --ionex <file>
 engine-e-space-weather-pnt-no-epochs = päringus peab epochs_utc all olema vähemalt üks epohh
 engine-e-space-weather-pnt-window-row = rida { $line }: pole tiheduseakna rida (campaign,phase,start_utc,mean_alt_km,n_valid,measured_mean,points)
+engine-e-rtkqa-usage = kasutus: kshana rtk-qa monitor <host:port> --mount <name> [--user <name> --password-env <VAR>] [--gga <lat,lon[,h]>] [--seconds <s>] [--stale-after <s>] [--link-bps <n>]
+    kshana rtk-qa sources <table.txt|host:port> [--near <lat,lon>]
+    kshana rtk-qa base <stream.rtcm3> --reference <reference.toml|json> [--epoch <decimal year>]
+    kshana rtk-qa fix <solution.pos|nmea> [--control <name,lat,lon,h>]... [--radius <m>] [--h-tol <m>] [--v-tol <m>]
+    kshana rtk-qa ppk <rover.obs> [--base <base.obs>]
+    kshana rtk-qa probe <host:port> --mount <name> [--user <name> --password-env <VAR>] [--gga <lat,lon[,h]>] [--seconds <s>]
+    kshana rtk-qa caster --listen <host:port> --stream <file.rtcm3> --mount <name> [--user <name> --password-env <VAR>] [--chunk-ext] [--clients <n>] [--max-clients <n>] [--pace-ms <n>]
+    kshana rtk-qa log-check <client.log> --user <name> --password-env <VAR>
+    kshana rtk-qa failover <spec.json|toml>
+
+engine-e-rtkqa-frame = tundmatu taustsüsteem { $frame } (ITRF2014, ITRF2020, ETRF2014 või ETRF2020)
+
+engine-e-rtkqa-tide = tundmatu loodesüsteem { $tide } (tide-free, zero-tide või mean-tide)
+
+engine-e-rtkqa-pos-columns = lahendifail annab asukohad kraadides, minutites ja sekundites või baasjoonena; kirjuta see kümnendkraadides või ECEF-is
+
+engine-e-rtkqa-pos-line = rida { $line } ei ole lahendi epohh
+
+engine-e-rtkqa-no-solutions = lahendi epohhe ei leitud (RTKLIB-stiilis .pos-fail või NMEA GGA laused)
+
+engine-e-rtkqa-no-station = voos pole ühtegi jaamateadet 1005 ega 1006
+
+engine-e-rtkqa-failover-spec = ümberlülitustest vajab positiivset kestust ja sammu ning vähemalt ühte allikat
+
+engine-e-rtkqa-failover-source = poliitika nimetab allikat, mida pole määratletud: { $name }
+
+engine-rtkqa-monitor-summary = rtk-qa monitor: hinne { $score }/100 (MODELLED); saadaval { $availability } %, mediaanlatentsus { $latency } ms, täielikkus { $completeness } %, häired { $alarms }
+
+engine-rtkqa-sources-summary = rtk-qa sources: ühenduspunktid { $n }
+
+engine-rtkqa-base-summary = rtk-qa base: jaamad { $n }; korras { $ok }, hoiatused { $warn }, vead { $fail } (MODELLED)
+
+engine-rtkqa-fix-summary = rtk-qa fix: mõõtmiskohad { $n }; läbitud { $pass }, hoiatused { $warn }, vead { $fail }, fiksita { $nofix } (MODELLED)
+
+engine-rtkqa-ppk-summary = rtk-qa ppk: tõenäolised põhjused { $n }: { $causes }
+
+engine-rtkqa-probe-summary = rtk-qa probe: { $met } kontrolli { $total }-st täidetud; täitmata: { $failed }
+
+engine-rtkqa-caster-listening = rtk-qa caster: kuulab aadressil { $addr }, ühenduspunkt { $mount }
+
+engine-rtkqa-caster-client = rtk-qa caster: klient { $peer } sai vastuse { $answer }; { $met } kontrolli { $total }-st täidetud
+
+engine-rtkqa-log-summary = rtk-qa log-check: kasutajaandmeid leiti { $n } korda failist { $file }
+
+engine-rtkqa-failover-summary = rtk-qa failover: ümberlülitusi { $switches }; paranduste vanus üle piiri { $over } s; suurim vanus { $max_age } s (MODELLED)

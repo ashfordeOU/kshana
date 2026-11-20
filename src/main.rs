@@ -1274,6 +1274,11 @@ fn main_in_language(args: Vec<String>) -> ExitCode {
     if args.get(1).map(String::as_str) == Some("ais-integrity") {
         return ExitCode::from(kshana::ais_integrity::run_cli(&args[2..]) as u8);
     }
+    // `kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ...`: RTK,
+    // NTRIP and correction-service quality checks (kshana::rtk_qa; docs/RTK-QA.md).
+    if args.get(1).map(String::as_str) == Some("rtk-qa") {
+        return ExitCode::from(kshana::rtk_qa::run_cli(&args[2..]) as u8);
+    }
     // `kshana time-vectors [--json] [<file|dir>...]`: the time-scale conformance vectors
     // (src/time_vectors.rs, docs/TIME-VECTORS.md). Exit 1 when any vector fails.
     if args.get(1).map(String::as_str) == Some("time-vectors") {

@@ -10544,6 +10544,7 @@ engine-main-usage =
     { "   " }eller: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }eller: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }eller: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
+    { "   " }eller: kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
     { "   " }eller: kshana kinds [--json]
     { "   " }eller: kshana example [<name>]
     { "   " }eller: kshana --help | --version
@@ -11526,3 +11527,48 @@ engine-e-space-weather-pnt-ionex-span = IONEX-kartene dekker ikke { $t }
 engine-e-space-weather-pnt-ionex-flag = et IONEX-kart brukes når, og bare når, forespørselens vtec er "ionex" og --ionex <file> er oppgitt
 engine-e-space-weather-pnt-no-epochs = forespørselen trenger minst én epoke i epochs_utc
 engine-e-space-weather-pnt-window-row = linje { $line }: ikke en rad med et tetthetsvindu (campaign,phase,start_utc,mean_alt_km,n_valid,measured_mean,points)
+engine-e-rtkqa-usage = bruk: kshana rtk-qa monitor <host:port> --mount <name> [--user <name> --password-env <VAR>] [--gga <lat,lon[,h]>] [--seconds <s>] [--stale-after <s>] [--link-bps <n>]
+    kshana rtk-qa sources <table.txt|host:port> [--near <lat,lon>]
+    kshana rtk-qa base <stream.rtcm3> --reference <reference.toml|json> [--epoch <decimal year>]
+    kshana rtk-qa fix <solution.pos|nmea> [--control <name,lat,lon,h>]... [--radius <m>] [--h-tol <m>] [--v-tol <m>]
+    kshana rtk-qa ppk <rover.obs> [--base <base.obs>]
+    kshana rtk-qa probe <host:port> --mount <name> [--user <name> --password-env <VAR>] [--gga <lat,lon[,h]>] [--seconds <s>]
+    kshana rtk-qa caster --listen <host:port> --stream <file.rtcm3> --mount <name> [--user <name> --password-env <VAR>] [--chunk-ext] [--clients <n>] [--max-clients <n>] [--pace-ms <n>]
+    kshana rtk-qa log-check <client.log> --user <name> --password-env <VAR>
+    kshana rtk-qa failover <spec.json|toml>
+
+engine-e-rtkqa-frame = ukjent referanseramme { $frame } (ITRF2014, ITRF2020, ETRF2014 eller ETRF2020)
+
+engine-e-rtkqa-tide = ukjent tidevannssystem { $tide } (tide-free, zero-tide eller mean-tide)
+
+engine-e-rtkqa-pos-columns = løsningsfilen oppgir posisjoner i grader, minutter og sekunder eller som grunnlinje; skriv den i desimalgrader eller ECEF
+
+engine-e-rtkqa-pos-line = linje { $line } er ikke en løsningsepoke
+
+engine-e-rtkqa-no-solutions = fant ingen løsningsepoker (en .pos-fil i RTKLIB-stil eller NMEA GGA-setninger)
+
+engine-e-rtkqa-no-station = strømmen inneholder ingen stasjonsmelding 1005 eller 1006
+
+engine-e-rtkqa-failover-spec = failover-testen trenger en positiv varighet og et positivt steg og minst én kilde
+
+engine-e-rtkqa-failover-source = policyen nevner en kilde som ikke er definert: { $name }
+
+engine-rtkqa-monitor-summary = rtk-qa monitor: poengsum { $score }/100 (MODELLED); tilgjengelig { $availability } %, median forsinkelse { $latency } ms, fullstendighet { $completeness } %, alarmer { $alarms }
+
+engine-rtkqa-sources-summary = rtk-qa sources: monteringspunkter { $n }
+
+engine-rtkqa-base-summary = rtk-qa base: stasjoner { $n }; i orden { $ok }, advarsler { $warn }, feil { $fail } (MODELLED)
+
+engine-rtkqa-fix-summary = rtk-qa fix: oppstillinger { $n }; bestått { $pass }, advarsler { $warn }, feil { $fail }, uten fiks { $nofix } (MODELLED)
+
+engine-rtkqa-ppk-summary = rtk-qa ppk: sannsynlige årsaker { $n }: { $causes }
+
+engine-rtkqa-probe-summary = rtk-qa probe: { $met } av { $total } kontroller oppfylt; ikke oppfylt: { $failed }
+
+engine-rtkqa-caster-listening = rtk-qa caster: lytter på { $addr }, monteringspunkt { $mount }
+
+engine-rtkqa-caster-client = rtk-qa caster: klient { $peer } fikk { $answer }; { $met } av { $total } kontroller oppfylt
+
+engine-rtkqa-log-summary = rtk-qa log-check: påloggingsopplysninger funnet { $n } ganger i { $file }
+
+engine-rtkqa-failover-summary = rtk-qa failover: bytter { $switches }; korreksjonsalder over grensen i { $over } s; største alder { $max_age } s (MODELLED)

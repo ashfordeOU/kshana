@@ -10616,6 +10616,7 @@ engine-main-usage =
     { "   " }of: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }of: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }of: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
+    { "   " }of: kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
     { "   " }of: kshana kinds [--json]
     { "   " }of: kshana example [<name>]
     { "   " }of: kshana --help | --version
@@ -11585,3 +11586,48 @@ engine-e-space-weather-pnt-ionex-span = de IONEX-kaarten dekken { $t } niet
 engine-e-space-weather-pnt-ionex-flag = een IONEX-kaart wordt gebruikt dan en slechts dan als vtec in het verzoek "ionex" is en --ionex <file> is opgegeven
 engine-e-space-weather-pnt-no-epochs = het verzoek heeft ten minste één epoche in epochs_utc nodig
 engine-e-space-weather-pnt-window-row = regel { $line }: geen rij van een dichtheidsvenster (campaign,phase,start_utc,mean_alt_km,n_valid,measured_mean,points)
+engine-e-rtkqa-usage = gebruik: kshana rtk-qa monitor <host:port> --mount <name> [--user <name> --password-env <VAR>] [--gga <lat,lon[,h]>] [--seconds <s>] [--stale-after <s>] [--link-bps <n>]
+    kshana rtk-qa sources <table.txt|host:port> [--near <lat,lon>]
+    kshana rtk-qa base <stream.rtcm3> --reference <reference.toml|json> [--epoch <decimal year>]
+    kshana rtk-qa fix <solution.pos|nmea> [--control <name,lat,lon,h>]... [--radius <m>] [--h-tol <m>] [--v-tol <m>]
+    kshana rtk-qa ppk <rover.obs> [--base <base.obs>]
+    kshana rtk-qa probe <host:port> --mount <name> [--user <name> --password-env <VAR>] [--gga <lat,lon[,h]>] [--seconds <s>]
+    kshana rtk-qa caster --listen <host:port> --stream <file.rtcm3> --mount <name> [--user <name> --password-env <VAR>] [--chunk-ext] [--clients <n>] [--max-clients <n>] [--pace-ms <n>]
+    kshana rtk-qa log-check <client.log> --user <name> --password-env <VAR>
+    kshana rtk-qa failover <spec.json|toml>
+
+engine-e-rtkqa-frame = onbekend referentiestelsel { $frame } (ITRF2014, ITRF2020, ETRF2014 of ETRF2020)
+
+engine-e-rtkqa-tide = onbekend getijdesysteem { $tide } (tide-free, zero-tide of mean-tide)
+
+engine-e-rtkqa-pos-columns = het oplossingsbestand geeft posities in graden, minuten en seconden of als basislijn; schrijf het in decimale graden of ECEF
+
+engine-e-rtkqa-pos-line = regel { $line } is geen oplossingsepoche
+
+engine-e-rtkqa-no-solutions = geen oplossingsepochen gevonden (een .pos-bestand in RTKLIB-stijl of NMEA GGA-zinnen)
+
+engine-e-rtkqa-no-station = de stroom bevat geen stationbericht 1005 of 1006
+
+engine-e-rtkqa-failover-spec = de failovertest heeft een positieve duur en stap en ten minste één bron nodig
+
+engine-e-rtkqa-failover-source = het beleid noemt een bron die niet is gedefinieerd: { $name }
+
+engine-rtkqa-monitor-summary = rtk-qa monitor: score { $score }/100 (MODELLED); beschikbaar { $availability } %, mediane latentie { $latency } ms, volledigheid { $completeness } %, alarmen { $alarms }
+
+engine-rtkqa-sources-summary = rtk-qa sources: mountpoints { $n }
+
+engine-rtkqa-base-summary = rtk-qa base: stations { $n }; in orde { $ok }, waarschuwingen { $warn }, fouten { $fail } (MODELLED)
+
+engine-rtkqa-fix-summary = rtk-qa fix: opstellingen { $n }; geslaagd { $pass }, waarschuwingen { $warn }, fouten { $fail }, zonder fix { $nofix } (MODELLED)
+
+engine-rtkqa-ppk-summary = rtk-qa ppk: waarschijnlijke oorzaken { $n }: { $causes }
+
+engine-rtkqa-probe-summary = rtk-qa probe: { $met } van { $total } controles voldaan; niet voldaan: { $failed }
+
+engine-rtkqa-caster-listening = rtk-qa caster: luistert op { $addr }, mountpoint { $mount }
+
+engine-rtkqa-caster-client = rtk-qa caster: client { $peer } kreeg { $answer }; { $met } van { $total } controles voldaan
+
+engine-rtkqa-log-summary = rtk-qa log-check: inloggegevens { $n } keer gevonden in { $file }
+
+engine-rtkqa-failover-summary = rtk-qa failover: omschakelingen { $switches }; correctieleeftijd boven de grens gedurende { $over } s; grootste leeftijd { $max_age } s (MODELLED)

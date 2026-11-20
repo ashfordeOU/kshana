@@ -1677,6 +1677,34 @@
    "count": 13,
    "reason": "identifier: the kshana.time-vectors/1 format tag, the embedded vector file names and the JSON field names of the vector format (docs/TIME-VECTORS.md)"
   },
+  "src/rtk_qa/base_check.rs": {
+   "count": 15,
+   "reason": "identifier: the finding and match codes of the kshana rtk-qa base report (JSON field values, docs/RTK-QA.md) and the default tide-system name"
+  },
+  "src/rtk_qa/fix_check.rs": {
+   "count": 10,
+   "reason": "identifier: the finding codes of the kshana rtk-qa fix report (JSON field values, docs/RTK-QA.md), a wavelength name and the RTKLIB .pos column-header keywords it looks for"
+  },
+  "src/rtk_qa/liveness.rs": {
+   "count": 3,
+   "reason": "identifier: the alarm kinds of the kshana rtk-qa monitor (JSON field values, docs/RTK-QA.md)"
+  },
+  "src/rtk_qa/mod.rs": {
+   "count": 6,
+   "reason": "identifier: command-line flag and subcommand names of kshana rtk-qa"
+  },
+  "src/rtk_qa/ppk_diag.rs": {
+   "count": 14,
+   "reason": "identifier: the cause codes of the kshana rtk-qa ppk report (JSON field values, docs/RTK-QA.md)"
+  },
+  "src/rtk_qa/protocol.rs": {
+   "count": 44,
+   "reason": "machine-document: NTRIP/HTTP request and answer lines, header names and a source-table record written to or read from the network; identifier: the check ids and leak kinds of the rtk-qa probe, caster and log-check reports"
+  },
+  "src/rtk_real.rs": {
+   "count": 1,
+   "reason": "machine-document: the RTKLIB-style .pos column-header line written by to_pos"
+  },
   "src/space_weather_pnt/density.rs": {
    "count": 18,
    "reason": "machine-document: the JSON field names, format tags (kshana.space-weather.*/1) and MODELLED/MEASURED evidence labels of the space-weather documents (docs/SPACE-WEATHER-PNT.md), and the request field names quoted in range errors"
