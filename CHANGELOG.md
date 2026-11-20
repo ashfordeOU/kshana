@@ -23,6 +23,13 @@ breaking changes are called out explicitly.
   `kshana.correction-vectors/1`) written by an independent Python encoder; they are self-derived round-trip vectors,
   not an external reference. An opt-in test (`tests/correction_icd_examples.rs`) checks the HAS decoder against the
   ICD's own Annex B matrix and Annex C/D worked examples from a copy the user downloads; no ICD content is stored.
+### Added (radio time-signal migration guide)
+
+- `docs/RADIO-TIME-MIGRATION.md`: the status of the CHU, MSF, DCF77 and WWVB time signals from public sources (CHU
+  reported ended 22 June 2026; the UK call for evidence on MSF closes 22 December 2026), an advisor table of which
+  source suits which timing need, migration notes per service, and a checklist for swapping a legacy GPS-disciplined
+  oscillator (week-number pivot, outputs, cable delay, holdover, leap seconds, parallel run). Linked from
+  `docs/TIMING-SYSTEMS.md`. Documentation only.
 
 ### Added (parser hardening and time-scale conformance vectors)
 

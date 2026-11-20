@@ -99,3 +99,8 @@ print; binary PTP, SNMP, NTP mode 6 and RTCM inputs written by `conformance/tool
 from the public documents. `tests/connect_042_i2_i3.rs` runs them byte for byte. No capture from a
 real device is included yet: the vectors show that the parsers read the documented layouts, not
 that every firmware prints them the same way.
+
+## See also
+
+[RADIO-TIME-MIGRATION.md](RADIO-TIME-MIGRATION.md): the status of the CHU, MSF, DCF77 and WWVB
+time signals, which source suits which timing need, and a checklist for swapping a legacy GPSDO.
