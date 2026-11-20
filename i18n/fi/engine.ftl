@@ -10363,6 +10363,7 @@ engine-main-usage =
     { "   " }tai: kshana space-receiver <clock|timestamps|dynamics|bench|mms|od-vs-tle> ... [--out <file.json>] (kshana space-receiver --help)
     { "   " }tai: kshana feed <pack|verify|send|spectrum|leaderboard> ... (kshana feed --help)
     { "   " }tai: kshana register <check|crl-check|view|sign> ... (kshana register --help)
+    { "   " }tai: kshana interference-env <evaluate|thresholds|degradation> ... (kshana interference-env --help)
     { "   " }tai: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }tai: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }tai: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
@@ -11605,3 +11606,16 @@ engine-e-register-cannot-read = tiedostoa { $path } ei voi lukea: { $e }
 engine-e-register-cannot-write = tiedostoa { $path } ei voi kirjoittaa: { $e }
 engine-e-register-unknown-option = tuntematon valitsin { $option } (kshana register --help luettelee valitsimet)
 engine-e-register-crl-needs-key = --crl ja --crl-key kuuluvat yhteen: peruutuslista tarkistetaan myöntäjän avainta vasten
+
+## Interference environments (src/interference_env.rs, docs/INTERFERENCE-ENV.md)
+engine-interference-env-usage = käyttö: kshana interference-env evaluate <environment.toml> | thresholds [--receiver <id>] | degradation --baseline <id> --pulse-width <s> --prf <Hz> [--below-ratio <R>] [--recovery <s>]  (docs/INTERFERENCE-ENV.md; MODELLED)
+engine-e-interference-env-unknown-receiver = tuntematon vastaanotin { $id } (kshana interference-env thresholds luettelee ne)
+engine-e-interference-env-unknown-baseline = tuntematon perustaso { $id } (katso docs/INTERFERENCE-ENV.md)
+engine-e-interference-env-bad-source = lähde { $name }: teho, kaistanleveys, pulssinleveys tai toistotaajuus ei ole kelvollinen positiivinen äärellinen arvo
+engine-e-interference-env-pulsed-needs-receiver = pulssilähteet tarvitsevat vastaanottimen noise_temperature_k- ja precorrelation_bw_hz-arvot sekä pulssinpoisto- tai kyllästystason
+engine-e-interference-env-saturated = pulssit eivät jätä poistamatonta aikaa: pulssisuhde saavuttaa arvon 1
+engine-e-interference-env-missing-value = { $option } tarvitsee arvon
+engine-e-interference-env-bad-number = { $option } tarvitsee luvun, ei { $value }
+engine-e-interference-env-unknown-option = tuntematon valitsin { $option } (kshana interference-env --help luettelee valitsimet)
+engine-e-interference-env-cannot-read = tiedostoa { $path } ei voi lukea: { $e }
+engine-e-interference-env-bad-file = { $path } ei ole häiriöympäristö: { $e }

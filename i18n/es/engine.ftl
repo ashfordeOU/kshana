@@ -10839,6 +10839,7 @@ engine-main-usage =
     { "   " }o: kshana space-receiver <clock|timestamps|dynamics|bench|mms|od-vs-tle> ... [--out <file.json>] (kshana space-receiver --help)
     { "   " }o: kshana feed <pack|verify|send|spectrum|leaderboard> ... (kshana feed --help)
     { "   " }o: kshana register <check|crl-check|view|sign> ... (kshana register --help)
+    { "   " }o: kshana interference-env <evaluate|thresholds|degradation> ... (kshana interference-env --help)
     { "   " }o: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }o: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }o: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
@@ -12084,3 +12085,16 @@ engine-e-register-cannot-read = no se puede leer { $path }: { $e }
 engine-e-register-cannot-write = no se puede escribir { $path }: { $e }
 engine-e-register-unknown-option = opción desconocida { $option } (kshana register --help enumera las opciones)
 engine-e-register-crl-needs-key = --crl y --crl-key van juntas: una lista de revocación se comprueba con la clave del emisor
+
+## Interference environments (src/interference_env.rs, docs/INTERFERENCE-ENV.md)
+engine-interference-env-usage = uso: kshana interference-env evaluate <environment.toml> | thresholds [--receiver <id>] | degradation --baseline <id> --pulse-width <s> --prf <Hz> [--below-ratio <R>] [--recovery <s>]  (docs/INTERFERENCE-ENV.md; MODELLED)
+engine-e-interference-env-unknown-receiver = receptor desconocido { $id } (kshana interference-env thresholds los enumera)
+engine-e-interference-env-unknown-baseline = línea base desconocida { $id } (véase docs/INTERFERENCE-ENV.md)
+engine-e-interference-env-bad-source = fuente { $name }: su potencia, ancho de banda, ancho de pulso o tasa no es un valor positivo finito válido
+engine-e-interference-env-pulsed-needs-receiver = las fuentes pulsadas necesitan noise_temperature_k, precorrelation_bw_hz del receptor y un nivel de supresión o de saturación
+engine-e-interference-env-saturated = los pulsos no dejan tiempo sin suprimir: el ciclo de trabajo llega a 1
+engine-e-interference-env-missing-value = { $option } necesita un valor
+engine-e-interference-env-bad-number = { $option } necesita un número, no { $value }
+engine-e-interference-env-unknown-option = opción desconocida { $option } (kshana interference-env --help enumera las opciones)
+engine-e-interference-env-cannot-read = no se puede leer { $path }: { $e }
+engine-e-interference-env-bad-file = { $path } no es un entorno de interferencia: { $e }

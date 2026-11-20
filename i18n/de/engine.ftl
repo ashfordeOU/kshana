@@ -10639,6 +10639,7 @@ engine-main-usage =
     { "   " }oder: kshana space-receiver <clock|timestamps|dynamics|bench|mms|od-vs-tle> ... [--out <file.json>] (kshana space-receiver --help)
     { "   " }oder: kshana feed <pack|verify|send|spectrum|leaderboard> ... (kshana feed --help)
     { "   " }oder: kshana register <check|crl-check|view|sign> ... (kshana register --help)
+    { "   " }oder: kshana interference-env <evaluate|thresholds|degradation> ... (kshana interference-env --help)
     { "   " }oder: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }oder: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }oder: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
@@ -11883,3 +11884,16 @@ engine-e-register-cannot-read = { $path } kann nicht gelesen werden: { $e }
 engine-e-register-cannot-write = { $path } kann nicht geschrieben werden: { $e }
 engine-e-register-unknown-option = unbekannte Option { $option } (kshana register --help listet die Optionen)
 engine-e-register-crl-needs-key = --crl und --crl-key gehören zusammen: eine Sperrliste wird gegen den Schlüssel des Ausstellers geprüft
+
+## Interference environments (src/interference_env.rs, docs/INTERFERENCE-ENV.md)
+engine-interference-env-usage = Aufruf: kshana interference-env evaluate <environment.toml> | thresholds [--receiver <id>] | degradation --baseline <id> --pulse-width <s> --prf <Hz> [--below-ratio <R>] [--recovery <s>]  (docs/INTERFERENCE-ENV.md; MODELLED)
+engine-e-interference-env-unknown-receiver = unbekannter Empfänger { $id } (kshana interference-env thresholds listet sie)
+engine-e-interference-env-unknown-baseline = unbekannte Basislinie { $id } (siehe docs/INTERFERENCE-ENV.md)
+engine-e-interference-env-bad-source = Quelle { $name }: Leistung, Bandbreite, Pulsbreite oder Rate ist kein gültiger positiver endlicher Wert
+engine-e-interference-env-pulsed-needs-receiver = gepulste Quellen brauchen noise_temperature_k, precorrelation_bw_hz des Empfängers und einen Blanker- oder Sättigungspegel
+engine-e-interference-env-saturated = die Pulse lassen keine Zeit unausgetastet: das Tastverhältnis erreicht 1
+engine-e-interference-env-missing-value = { $option } braucht einen Wert
+engine-e-interference-env-bad-number = { $option } braucht eine Zahl, nicht { $value }
+engine-e-interference-env-unknown-option = unbekannte Option { $option } (kshana interference-env --help listet die Optionen)
+engine-e-interference-env-cannot-read = { $path } kann nicht gelesen werden: { $e }
+engine-e-interference-env-bad-file = { $path } ist keine Störumgebung: { $e }
