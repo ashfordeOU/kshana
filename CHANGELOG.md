@@ -11,6 +11,27 @@ breaking changes are called out explicitly.
 
 - **Smaller published crate: the DE440 Moon PA orientation series is embedded as binary.** `src/lunar_orientation.rs` now embeds `data/lunar/de440_moon_pa.bin` instead of the 1.6 MB CSV: the same 6 209 x 10 doubles, bit for bit (`tests/lunar_orientation_binary.rs`), column-major and byte-planed, about 352 KB of the `.crate` against 650 KB. Results are unchanged. The CSV stays in the repository as the source of record and is no longer packaged. Regenerate with `scripts/gen_de440_moon_pa_bin.py`.
 
+### Added (orbit-data checks, conversion, TLE monitors and covariance toolkit)
+
+- `kshana orbit-data check`: the CCSDS Conjunction Data Message (CCSDS 508.0-B-1 with Corrigendum 2, KVN and XML)
+  checked keyword by keyword (Tables 3-1 to 3-4, order, notation, time tags, units, normative values, the 9x9 row rule,
+  identifier characters), with consistency warnings between the relative data and the two states (annex E RTN) and a
+  positive-definiteness check of each covariance; keyword aliases for a provider's own field names. The OEM and OCM of
+  CCSDS 502.0-B-3 checked beyond syntax: time order and repeats, spans, useable-span overlap, interpolation support,
+  covariance layout and positive definiteness, and an optional usable-span and gap profile. Findings cite the
+  standard's section and say valid or invalid against it. On the standard's own examples: CDM 3.6.3 is invalid (a
+  keyword with a blank, `hh:mm:ss:fff` times), Object1's covariance in 3.6.2/3.6.3/4.4 is not positive definite, and
+  two of 3.6.3's RTN components disagree with its states.
+- `kshana orbit-data convert`: OEM to OCM and OCM to OEM with numbers carried as written and a `PROVENANCE` comment per
+  step (originator, message id, creation date kept); a CDM rewritten in standard keyword order with standard units.
+- `kshana orbit-data gp-compare` and `gp-audit`: two TLE sources compared through SGP4 over a window with RTN
+  differences and a flag threshold; one source audited for checksums, catalogue-number agreement, perigee, SGP4
+  health, staleness, element-set-number regress and consecutive-set jumps (MODELLED).
+- `kshana orbit-data cov`: covariance checks through RTN rotation, propagation to any epoch through the two-body + J2
+  state-transition matrix, a Monte Carlo cross-check, synthetic covariance from stated RTN sigmas, and
+  covariance-realism statistics (MODELLED). `docs/ORBIT-DATA.md`; fixtures in `tests/fixtures/orbit_data/` (CCSDS
+  examples transcribed, element sets self-made); the parsers are in `tests/parser_robustness.rs`.
+
 ### Added (radio time-signal migration guide)
 
 - `docs/RADIO-TIME-MIGRATION.md`: the status of the CHU, MSF, DCF77 and WWVB time signals from public sources (CHU

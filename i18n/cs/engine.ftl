@@ -10570,6 +10570,7 @@ engine-main-usage =
     { "   " }nebo: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }nebo: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }nebo: kshana time-vectors [--json] [<vectors.json|dir> ...]
+    { "   " }nebo: kshana orbit-data <check|convert|gp-compare|gp-audit|cov> ... (kshana orbit-data --help)
     { "   " }nebo: kshana kinds [--json]
     { "   " }nebo: kshana example [<name>]
     { "   " }nebo: kshana --help | --version
@@ -11546,3 +11547,95 @@ engine-e-interference-map-locate-bad-tdoa = { $path } není použitelný soubor 
 engine-e-interference-map-locate-source-required = je vyžadováno --source adsb nebo --source ais
 
 engine-e-interference-map-locate-no-evidence-rows = pro výstupy locate nejsou uvedeny žádné řádky důkazů
+
+## Orbit-data validators, converters and monitors (src/orbit_data)
+engine-orbit-data-valid = platná podle { $standard }
+engine-orbit-data-valid-with-warnings = platná podle { $standard }, varování: { $warnings }
+engine-orbit-data-invalid = neplatná podle { $standard }: chyby: { $errors }, varování: { $warnings }
+engine-orbit-data-error = chyba
+engine-orbit-data-warning = varování
+engine-orbit-data-not-checked = nekontrolováno: { $what }
+engine-orbit-data-header = hlavička
+engine-orbit-data-cdm-relative = relativní metadata/data
+engine-orbit-data-cdm-object = metadata/data objektu
+engine-orbit-data-covariance = kovariance
+engine-orbit-data-oem-metadata = metadata segmentu { $n }
+engine-orbit-data-line-too-long = řádek má znaků: { $n }, víc než { $max }
+engine-orbit-data-non-printable = řádek obsahuje znak, který není tisknutelné ASCII
+engine-orbit-data-not-key-value = nejde o řádek KLÍČOVÉ_SLOVO = hodnota: { $text }
+engine-orbit-data-keyword-blank = klíčové slovo { $key } obsahuje mezeru
+engine-orbit-data-keyword-case = klíčové slovo { $key } není velkými písmeny
+engine-orbit-data-units-format = jednotky { $key } musí následovat za hodnotou po mezeře, v hranatých závorkách
+engine-orbit-data-first-line = první řádek musí být { $key }
+engine-orbit-data-parse-failed = zprávu nelze přečíst: { $err }
+engine-orbit-data-xml-root = kořenový prvek je { $name }, ne { $want }
+engine-orbit-data-xml-attr = kořenový atribut { $attr } musí být { $want }
+engine-orbit-data-xml-missing = zpráva nemá { $tag }
+engine-orbit-data-empty-value = { $key } má prázdnou hodnotu
+engine-orbit-data-bad-time = { $key } = { $value } není časová značka (yyyy-mm-ddThh:mm:ss[.d] / yyyy-dddThh:mm:ss[.d])
+engine-orbit-data-bad-number = { $key } = { $value } není číslo v zápisu normy
+engine-orbit-data-bad-integer = { $key } = { $value } není celé číslo
+engine-orbit-data-bad-value = { $key } = { $value } není žádná z hodnot: { $allowed }
+engine-orbit-data-out-of-range = { $key } = { $value } leží mimo { $range }
+engine-orbit-data-version = verze { $value }: tato kontrola sleduje verzi { $want }
+engine-orbit-data-bad-chars = { $key } = { $value } obsahuje jiné znaky než písmena, číslice, podtržítko a pomlčku
+engine-orbit-data-identifier-blank = { $key } = { $value } obsahuje mezeru (norma připouští písmena, číslice, podtržítko a pomlčku)
+engine-orbit-data-lower-case = { $key } = { $value } obsahuje malá písmena
+engine-orbit-data-bad-units = { $key } má jednotky [{ $given }]; norma uvádí [{ $want }]
+engine-orbit-data-missing-units = { $key } neuvádí své jednotky [{ $want }]
+engine-orbit-data-unknown-keyword = { $key } není klíčové slovo oddílu { $section }
+engine-orbit-data-duplicate-keyword = { $key } se v oddílu { $section } vyskytuje víckrát
+engine-orbit-data-keyword-order = { $key } je mimo pořadí, které norma stanoví (následuje po { $prev })
+engine-orbit-data-missing-keyword = v oddílu { $section } chybí povinné { $key }
+engine-orbit-data-cdm-object-count = oddíly objektů ve zprávě: { $n }; CDM má dva, OBJECT1 a pak OBJECT2
+engine-orbit-data-cov-row = řádek kovariance { $row } je neúplný nebo následuje po chybějícím řádku
+engine-orbit-data-cov-zero-diagonal = kovariance { $at } má nulový rozptyl; její řádek a sloupec se nemají používat
+engine-orbit-data-not-pd = kovariance v { $at } není pozitivně definitní (nejmenší vlastní číslo korelace { $min })
+engine-orbit-data-frame-mismatch = REF_FRAME se mezi objekty liší ({ $a }, { $b })
+engine-orbit-data-inconsistent = { $key } = { $given } { $unit }, ale z dat vychází { $computed } { $unit }
+engine-orbit-data-time-order = { $first } ({ $a }) je pozdější než { $second } ({ $b })
+engine-orbit-data-count-order = { $used } = { $a } je větší než { $avail } = { $b }
+engine-orbit-data-unterminated = zpráva končí uvnitř bloku
+engine-orbit-data-no-segment = zpráva nemá žádný segment
+engine-orbit-data-time-system-changed = TIME_SYSTEM se ve zprávě mění ({ $a }, pak { $b })
+engine-orbit-data-outside-span = čas { $t } leží mimo rozpětí udané metadaty
+engine-orbit-data-useable-overlap = použitelná rozpětí segmentů { $a } a { $b } se překrývají
+engine-orbit-data-data-width = datový řádek má hodnot: { $n }; očekáváno: { $want }
+engine-orbit-data-duplicate-time = časová značka { $t } se opakuje
+engine-orbit-data-time-not-increasing = časová značka { $t } neroste (předchozí je { $prev })
+engine-orbit-data-too-few-points = datové řádky: { $n }; na interpolaci stupně { $deg } jich je málo (potřeba: { $need })
+engine-orbit-data-mixed-time = blok { $block } míchá relativní a absolutní časové značky
+engine-orbit-data-span-short = použitelné rozpětí má dnů: { $days }, méně než požadovaných dnů: { $min }
+engine-orbit-data-gap = mezera { $s } s, delší než požadovaných { $max } s
+engine-orbit-data-gp-checksum = řádek { $line }: kontrolní součet ve sloupci 69 je chybný (měl by být { $want })
+engine-orbit-data-gp-catalogue = řádek 1 a řádek 2 neuvádějí stejné katalogové číslo
+engine-orbit-data-gp-perigee = perigeum leží ve výšce { $km } km, pod povrchem Země
+engine-orbit-data-gp-sgp4 = SGP4 selhává po epoše, dnů: { $days } (kód chyby { $code })
+engine-orbit-data-gp-stale = epocha je před referenčním časem, dnů: { $days } (víc než { $max })
+engine-orbit-data-gp-future = epocha je po referenčním čase, dnů: { $days }
+engine-orbit-data-gp-repeated-epoch = jiná sada tohoto objektu má stejnou epochu a jiné elementy
+engine-orbit-data-gp-elset-number = číslo sady elementů se při pozdější epoše vrací z { $a } na { $b }
+engine-orbit-data-gp-jump = tato sada a předchozí se v její epoše, o { $hours } h později, liší o { $km } km (víc než { $max } km): manévr nebo chybná sada
+engine-orbit-data-gp-compare-summary = objekty v obou zdrojích: { $n }, označené nad { $threshold } km: { $flagged }; jen v prvním: { $only_a }, jen ve druhém: { $only_b } (MODELLED: rozdíly SGP4, ne přesnost)
+engine-orbit-data-gp-audit-summary = sady elementů: { $sets }, objekty: { $objects }, nálezy: { $findings }
+engine-orbit-data-usage =
+    použití: kshana orbit-data check <cdm|oem|ocm file> [--json] [--aliases <map.json>] [--min-span-days <d>] [--max-gap-s <s>]
+    { "   " }nebo: kshana orbit-data convert <file> --to <ocm|oem|cdm> [--aliases <map.json>]
+    { "   " }nebo: kshana orbit-data gp-compare <a.tle> <b.tle> [--hours <h>] [--step-min <min>] [--threshold-km <km>] [--json]
+    { "   " }nebo: kshana orbit-data gp-audit <sets.tle> ... [--at <epoch>] [--stale-days <d>] [--jump-km <km>] [--json]
+    { "   " }nebo: kshana orbit-data cov <check|propagate|monte-carlo|synthetic|realism> <input.json> [--dt-s <s>] [--step-s <s>] [--samples <n>] [--seed <n>] [--sigma-rtn <r,t,n,rdot,tdot,ndot>] [--full]
+    { "   " }(docs/ORBIT-DATA.md)
+engine-e-orbit-data-unknown-message = { $path } není CDM, OEM (KVN) ani OCM: chybí řádek CCSDS_CDM_VERS, CCSDS_OEM_VERS nebo CCSDS_OCM_VERS i kořen <cdm> nebo <ocm>
+engine-e-orbit-data-bad-flag = { $flag } { $value }: nepoužitelná hodnota
+engine-e-orbit-data-aliases-not-object = tabulka aliasů musí být objekt JSON tvaru "name": "KEYWORD"
+engine-e-orbit-data-alias-target = alias { $key } neodkazuje na žádné klíčové slovo CDM
+engine-e-orbit-data-convert-pair = { $path }: převod na { $to } neexistuje (OEM na ocm, OCM na oem, CDM na cdm)
+engine-e-orbit-data-convert-empty = OEM nemá žádný segment k převodu
+engine-e-orbit-data-convert-one-object = OEM obsahuje objekty: { $n }; OCM obsahuje jeden
+engine-e-orbit-data-convert-missing = ve zdroji chybí { $key }, který cíl potřebuje
+engine-e-orbit-data-convert-width = datový nebo kovarianční řádek má pro převod špatný počet hodnot
+engine-e-orbit-data-convert-time = časovou značku { $t } nelze převést na absolutní (chybí EPOCH_TZERO, nebo nejde o číslo)
+engine-e-orbit-data-convert-traj = typ trajektorie { $kind } nemá podobu OEM (CARTPV a CARTPVA ji mají)
+engine-e-orbit-data-convert-cov = kovariance { $kind } { $ordering } nemá podobu OEM (CARTPV v LTM, UTM nebo FULL ji má)
+engine-e-orbit-data-cov-input = vstupu chybí platné { $key }
+engine-e-orbit-data-cov-not-pd = počáteční kovariance není pozitivně definitní, nebo bylo požadováno příliš málo vzorků

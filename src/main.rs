@@ -1281,6 +1281,18 @@ fn main_in_language(args: Vec<String>) -> ExitCode {
             }
         };
     }
+    // `kshana orbit-data <check|convert|gp-compare|gp-audit|cov> ...`: CCSDS CDM/OEM/OCM checks,
+    // conversion, TLE quality monitors and the covariance toolkit (src/orbit_data, docs/ORBIT-DATA.md).
+    // Exit 1 when a result is not clean.
+    if args.get(1).map(String::as_str) == Some("orbit-data") {
+        return match kshana::orbit_data::cli::run(&args[2..]) {
+            Ok(code) => ExitCode::from(code),
+            Err(e) => {
+                eprintln!("{e}");
+                ExitCode::from(2)
+            }
+        };
+    }
     // `kshana clock-live --format <f> --from <...>` follows a servo, chrony or PPS log and prints
     // one JSON line per reading (kshana::clock_live; docs/CLOCK-LOG-FORMATS.md). Read only.
     // `kshana sensor-live --kind imu ...` follows a sensor log (kshana::sensor_live). Read only.

@@ -10115,7 +10115,7 @@
   "id": "main-usage",
   "error": false,
   "parts": [
-   "usage: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]\n   or: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]\n   or: kshana --study <suite.toml>\n   or: kshana --validate <scenario.toml>\n   or: kshana receiver-trust <scenario.toml>\n   or: kshana receiver-trust live <session.toml> [--stdin | --file <path> [--follow] | --tcp <host:port> | --udp <port>] [--gate] (kshana receiver-trust live --help)\n   or: kshana receiver-trust evidence <scenario.toml> --from <t0> --to <t1> --key <keyfile> --out <dir> (kshana evidence --help)\n   or: kshana evidence <keygen|verify|attach-timestamp> ... (kshana evidence --help)\n   or: kshana jammertest <import|score> ... (kshana jammertest --help)\n   or: kshana evidence round-trip <scenario.toml> --scenario <bench-scenario> --conditions <file> --from <t0> --to <t1> --key <keyfile> --out <dir> (kshana evidence --help)\n   or: kshana trust-telemetry [options] (kshana trust-telemetry --help)\n   or: kshana imu-fit <imu.csv> [--format csv|euroc] [--axis x|y|z] [--expected-mean <m/s2>] [--id <name>] [--json]\n   or: kshana ephem-export <horizons.txt> [--format oem|opm|spk] [--out <file>] [--index <n>] [--spk-type 13|9] [--degree <n>] [--creation-date <YYYY-MM-DDTHH:MM:SS>] [--object-id <id>]\n   or: kshana nmea-scenario <scenario.toml> [--out <file.nmea>] [--tcp <addr>|--udp <addr>] (kshana nmea-scenario --help)\n   or: kshana interference-map <adsb|ais|fetch-land> ... (kshana interference-map --help)\n   or: kshana route-exposure --route <route> --map <map.geojson|dir> [--from <date>] [--to <date>]\n   or: kshana bench <spec|truth|cases|score|baseline|seal|reveal-check|manifest|verify-manifest|validate|leaderboard> ... (kshana bench --help)\n   or: kshana bench-export <scenario.toml> [--out <base>] [--epoch <YYYY-MM-DDTHH:MM:SS>]\n   or: kshana compliance-report [--out <base>] <result.json>... | --mapping | --sources\n   or: kshana lunanet-afs-check <spec [--json] [--strict]|symbols <file> [--max-sp-errors <n>] [--json]|generate --frames <n> [--toi0 <t>] --out <file>>\n   or: kshana standards-pack <list|run <id> [--json] [--out <base>]|rows <id>|tests <id>>\n   or: kshana partner check <submission.toml> [--json]\n   or: kshana scenario <migrate <scenario.toml> [--in-place] | version>\n   or: kshana obs <convert <log> --format <format> --station <station.toml> [--out <file>] | check <file.obs.jsonl> [--json]>\n   or: kshana connect <map <input> --mapping <connect.toml> --station <station.toml> [--out <file.obs.jsonl>] | check <vector.toml|dir> [--bless] | watch <dir> --mapping <connect.toml> --station <station.toml> [--suffix <.csv>] [--interval <s>] [--once] | mqtt <host:port> --topic <filter> --mapping <connect.toml> --station <station.toml> [--header <row>] [--qos 0|1] [--user <name> --password-env <VAR>] [--client-id <id>] [--max-messages <n>] [--per-topic] | nats <host:port> --subject <s> --mapping <connect.toml> --station <station.toml> [--header <row>] [--per-topic] [--user <name> --password-env <VAR> | --token-env <VAR>] [--max-messages <n>] | ws <ws://host:port/path> --mapping <connect.toml> --station <station.toml> [--header <row>] [--max-messages <n>] | check-live <vector.toml|dir> [--json] | load-test [--stations <n>] [--rate <Hz>] [--seconds <s>] [--via memory|mqtt] [--json] | adapters <list|check> [<dir>] [--json]>\n   or: kshana osnma verify <pages|vectors.csv|stream.ubx> [--merkle-root <hex>] [--public-key <id:type:hex>] [--reference-time <gst-s>] [--json] (kshana osnma --help)\n   or: kshana iq <scene|acquire|track|sweep|labfit|campaign|conditions|frontend|monitor|inventory|info|extract|convert|decimate> ... (kshana iq --help)\n   or: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)\n   or: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>\n   or: kshana time-vectors [--json] [<vectors.json|dir> ...]\n   or: kshana kinds [--json]\n   or: kshana example [<name>]\n   or: kshana --help | --version"
+   "usage: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]\n   or: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]\n   or: kshana --study <suite.toml>\n   or: kshana --validate <scenario.toml>\n   or: kshana receiver-trust <scenario.toml>\n   or: kshana receiver-trust live <session.toml> [--stdin | --file <path> [--follow] | --tcp <host:port> | --udp <port>] [--gate] (kshana receiver-trust live --help)\n   or: kshana receiver-trust evidence <scenario.toml> --from <t0> --to <t1> --key <keyfile> --out <dir> (kshana evidence --help)\n   or: kshana evidence <keygen|verify|attach-timestamp> ... (kshana evidence --help)\n   or: kshana jammertest <import|score> ... (kshana jammertest --help)\n   or: kshana evidence round-trip <scenario.toml> --scenario <bench-scenario> --conditions <file> --from <t0> --to <t1> --key <keyfile> --out <dir> (kshana evidence --help)\n   or: kshana trust-telemetry [options] (kshana trust-telemetry --help)\n   or: kshana imu-fit <imu.csv> [--format csv|euroc] [--axis x|y|z] [--expected-mean <m/s2>] [--id <name>] [--json]\n   or: kshana ephem-export <horizons.txt> [--format oem|opm|spk] [--out <file>] [--index <n>] [--spk-type 13|9] [--degree <n>] [--creation-date <YYYY-MM-DDTHH:MM:SS>] [--object-id <id>]\n   or: kshana nmea-scenario <scenario.toml> [--out <file.nmea>] [--tcp <addr>|--udp <addr>] (kshana nmea-scenario --help)\n   or: kshana interference-map <adsb|ais|fetch-land> ... (kshana interference-map --help)\n   or: kshana route-exposure --route <route> --map <map.geojson|dir> [--from <date>] [--to <date>]\n   or: kshana bench <spec|truth|cases|score|baseline|seal|reveal-check|manifest|verify-manifest|validate|leaderboard> ... (kshana bench --help)\n   or: kshana bench-export <scenario.toml> [--out <base>] [--epoch <YYYY-MM-DDTHH:MM:SS>]\n   or: kshana compliance-report [--out <base>] <result.json>... | --mapping | --sources\n   or: kshana lunanet-afs-check <spec [--json] [--strict]|symbols <file> [--max-sp-errors <n>] [--json]|generate --frames <n> [--toi0 <t>] --out <file>>\n   or: kshana standards-pack <list|run <id> [--json] [--out <base>]|rows <id>|tests <id>>\n   or: kshana partner check <submission.toml> [--json]\n   or: kshana scenario <migrate <scenario.toml> [--in-place] | version>\n   or: kshana obs <convert <log> --format <format> --station <station.toml> [--out <file>] | check <file.obs.jsonl> [--json]>\n   or: kshana connect <map <input> --mapping <connect.toml> --station <station.toml> [--out <file.obs.jsonl>] | check <vector.toml|dir> [--bless] | watch <dir> --mapping <connect.toml> --station <station.toml> [--suffix <.csv>] [--interval <s>] [--once] | mqtt <host:port> --topic <filter> --mapping <connect.toml> --station <station.toml> [--header <row>] [--qos 0|1] [--user <name> --password-env <VAR>] [--client-id <id>] [--max-messages <n>] [--per-topic] | nats <host:port> --subject <s> --mapping <connect.toml> --station <station.toml> [--header <row>] [--per-topic] [--user <name> --password-env <VAR> | --token-env <VAR>] [--max-messages <n>] | ws <ws://host:port/path> --mapping <connect.toml> --station <station.toml> [--header <row>] [--max-messages <n>] | check-live <vector.toml|dir> [--json] | load-test [--stations <n>] [--rate <Hz>] [--seconds <s>] [--via memory|mqtt] [--json] | adapters <list|check> [<dir>] [--json]>\n   or: kshana osnma verify <pages|vectors.csv|stream.ubx> [--merkle-root <hex>] [--public-key <id:type:hex>] [--reference-time <gst-s>] [--json] (kshana osnma --help)\n   or: kshana iq <scene|acquire|track|sweep|labfit|campaign|conditions|frontend|monitor|inventory|info|extract|convert|decimate> ... (kshana iq --help)\n   or: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)\n   or: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>\n   or: kshana time-vectors [--json] [<vectors.json|dir> ...]\n   or: kshana orbit-data <check|convert|gp-compare|gp-audit|cov> ... (kshana orbit-data --help)\n   or: kshana kinds [--json]\n   or: kshana example [<name>]\n   or: kshana --help | --version"
   ]
  },
  {
@@ -15309,6 +15309,1066 @@
   "error": false,
   "parts": [
    "usage: kshana time-vectors [--json] [<vectors.json | dir> ...]  (no path: the built-in set, data/conformance/time; docs/TIME-VECTORS.md)"
+  ]
+ },
+ {
+  "id": "e-odf-no-orbit-data-group",
+  "error": true,
+  "parts": [
+   "no orbit data group"
+  ]
+ },
+ {
+  "id": "orbit-data-valid",
+  "error": false,
+  "parts": [
+   "valid against ",
+   {
+    "var": "standard"
+   }
+  ]
+ },
+ {
+  "id": "orbit-data-valid-with-warnings",
+  "error": false,
+  "parts": [
+   "valid against ",
+   {
+    "var": "standard"
+   },
+   ", with ",
+   {
+    "var": "warnings"
+   },
+   " warnings"
+  ]
+ },
+ {
+  "id": "orbit-data-invalid",
+  "error": false,
+  "parts": [
+   "invalid against ",
+   {
+    "var": "standard"
+   },
+   ": ",
+   {
+    "var": "errors"
+   },
+   " errors, ",
+   {
+    "var": "warnings"
+   },
+   " warnings"
+  ]
+ },
+ {
+  "id": "orbit-data-error",
+  "error": false,
+  "parts": [
+   "error"
+  ]
+ },
+ {
+  "id": "orbit-data-warning",
+  "error": false,
+  "parts": [
+   "warning"
+  ]
+ },
+ {
+  "id": "orbit-data-not-checked",
+  "error": false,
+  "parts": [
+   "not checked: ",
+   {
+    "var": "what"
+   }
+  ]
+ },
+ {
+  "id": "orbit-data-header",
+  "error": false,
+  "parts": [
+   "header"
+  ]
+ },
+ {
+  "id": "orbit-data-cdm-relative",
+  "error": false,
+  "parts": [
+   "relative metadata/data"
+  ]
+ },
+ {
+  "id": "orbit-data-cdm-object",
+  "error": false,
+  "parts": [
+   "object metadata/data"
+  ]
+ },
+ {
+  "id": "orbit-data-covariance",
+  "error": false,
+  "parts": [
+   "covariance"
+  ]
+ },
+ {
+  "id": "orbit-data-oem-metadata",
+  "error": false,
+  "parts": [
+   "metadata of segment ",
+   {
+    "var": "n"
+   }
+  ]
+ },
+ {
+  "id": "orbit-data-line-too-long",
+  "error": false,
+  "parts": [
+   "the line has ",
+   {
+    "var": "n"
+   },
+   " characters, more than ",
+   {
+    "var": "max"
+   }
+  ]
+ },
+ {
+  "id": "orbit-data-non-printable",
+  "error": false,
+  "parts": [
+   "the line has a character that is not printable ASCII"
+  ]
+ },
+ {
+  "id": "orbit-data-not-key-value",
+  "error": false,
+  "parts": [
+   "not a KEYWORD = value line: ",
+   {
+    "var": "text"
+   }
+  ]
+ },
+ {
+  "id": "orbit-data-keyword-blank",
+  "error": false,
+  "parts": [
+   "the keyword ",
+   {
+    "var": "key"
+   },
+   " contains a blank"
+  ]
+ },
+ {
+  "id": "orbit-data-keyword-case",
+  "error": false,
+  "parts": [
+   "the keyword ",
+   {
+    "var": "key"
+   },
+   " is not in upper case"
+  ]
+ },
+ {
+  "id": "orbit-data-units-format",
+  "error": false,
+  "parts": [
+   "the units of ",
+   {
+    "var": "key"
+   },
+   " must follow the value after a blank, in square brackets"
+  ]
+ },
+ {
+  "id": "orbit-data-first-line",
+  "error": false,
+  "parts": [
+   "the first line must be ",
+   {
+    "var": "key"
+   }
+  ]
+ },
+ {
+  "id": "orbit-data-parse-failed",
+  "error": false,
+  "parts": [
+   "the message does not read: ",
+   {
+    "var": "err"
+   }
+  ]
+ },
+ {
+  "id": "orbit-data-xml-root",
+  "error": false,
+  "parts": [
+   "the root element is ",
+   {
+    "var": "name"
+   },
+   ", not ",
+   {
+    "var": "want"
+   }
+  ]
+ },
+ {
+  "id": "orbit-data-xml-attr",
+  "error": false,
+  "parts": [
+   "the root attribute ",
+   {
+    "var": "attr"
+   },
+   " must be ",
+   {
+    "var": "want"
+   }
+  ]
+ },
+ {
+  "id": "orbit-data-xml-missing",
+  "error": false,
+  "parts": [
+   "the message has no ",
+   {
+    "var": "tag"
+   }
+  ]
+ },
+ {
+  "id": "orbit-data-empty-value",
+  "error": false,
+  "parts": [
+   {
+    "var": "key"
+   },
+   " has an empty value"
+  ]
+ },
+ {
+  "id": "orbit-data-bad-time",
+  "error": false,
+  "parts": [
+   {
+    "var": "key"
+   },
+   " = ",
+   {
+    "var": "value"
+   },
+   " is not a time tag (yyyy-mm-ddThh:mm:ss[.d] or yyyy-dddThh:mm:ss[.d])"
+  ]
+ },
+ {
+  "id": "orbit-data-bad-number",
+  "error": false,
+  "parts": [
+   {
+    "var": "key"
+   },
+   " = ",
+   {
+    "var": "value"
+   },
+   " is not a number in the standard's notation"
+  ]
+ },
+ {
+  "id": "orbit-data-bad-integer",
+  "error": false,
+  "parts": [
+   {
+    "var": "key"
+   },
+   " = ",
+   {
+    "var": "value"
+   },
+   " is not an integer"
+  ]
+ },
+ {
+  "id": "orbit-data-bad-value",
+  "error": false,
+  "parts": [
+   {
+    "var": "key"
+   },
+   " = ",
+   {
+    "var": "value"
+   },
+   " is not one of: ",
+   {
+    "var": "allowed"
+   }
+  ]
+ },
+ {
+  "id": "orbit-data-out-of-range",
+  "error": false,
+  "parts": [
+   {
+    "var": "key"
+   },
+   " = ",
+   {
+    "var": "value"
+   },
+   " is outside ",
+   {
+    "var": "range"
+   }
+  ]
+ },
+ {
+  "id": "orbit-data-version",
+  "error": false,
+  "parts": [
+   "version ",
+   {
+    "var": "value"
+   },
+   ": this checker follows version ",
+   {
+    "var": "want"
+   }
+  ]
+ },
+ {
+  "id": "orbit-data-bad-chars",
+  "error": false,
+  "parts": [
+   {
+    "var": "key"
+   },
+   " = ",
+   {
+    "var": "value"
+   },
+   " has characters other than letters, digits, underscore and dash"
+  ]
+ },
+ {
+  "id": "orbit-data-identifier-blank",
+  "error": false,
+  "parts": [
+   {
+    "var": "key"
+   },
+   " = ",
+   {
+    "var": "value"
+   },
+   " has a blank (the standard allows letters, digits, underscore and dash)"
+  ]
+ },
+ {
+  "id": "orbit-data-lower-case",
+  "error": false,
+  "parts": [
+   {
+    "var": "key"
+   },
+   " = ",
+   {
+    "var": "value"
+   },
+   " has lower-case text"
+  ]
+ },
+ {
+  "id": "orbit-data-bad-units",
+  "error": false,
+  "parts": [
+   {
+    "var": "key"
+   },
+   " has units [",
+   {
+    "var": "given"
+   },
+   "]; the standard gives [",
+   {
+    "var": "want"
+   },
+   "]"
+  ]
+ },
+ {
+  "id": "orbit-data-missing-units",
+  "error": false,
+  "parts": [
+   {
+    "var": "key"
+   },
+   " does not show its units [",
+   {
+    "var": "want"
+   },
+   "]"
+  ]
+ },
+ {
+  "id": "orbit-data-unknown-keyword",
+  "error": false,
+  "parts": [
+   {
+    "var": "key"
+   },
+   " is not a keyword of the ",
+   {
+    "var": "section"
+   }
+  ]
+ },
+ {
+  "id": "orbit-data-duplicate-keyword",
+  "error": false,
+  "parts": [
+   {
+    "var": "key"
+   },
+   " appears more than once in the ",
+   {
+    "var": "section"
+   }
+  ]
+ },
+ {
+  "id": "orbit-data-keyword-order",
+  "error": false,
+  "parts": [
+   {
+    "var": "key"
+   },
+   " is out of the order the standard fixes (it follows ",
+   {
+    "var": "prev"
+   },
+   ")"
+  ]
+ },
+ {
+  "id": "orbit-data-missing-keyword",
+  "error": false,
+  "parts": [
+   "the ",
+   {
+    "var": "section"
+   },
+   " lacks the obligatory ",
+   {
+    "var": "key"
+   }
+  ]
+ },
+ {
+  "id": "orbit-data-cdm-object-count",
+  "error": false,
+  "parts": [
+   "the message has ",
+   {
+    "var": "n"
+   },
+   " object sections; a CDM has two, OBJECT1 then OBJECT2"
+  ]
+ },
+ {
+  "id": "orbit-data-cov-row",
+  "error": false,
+  "parts": [
+   "covariance row ",
+   {
+    "var": "row"
+   },
+   " is incomplete, or follows a row that is missing"
+  ]
+ },
+ {
+  "id": "orbit-data-cov-zero-diagonal",
+  "error": false,
+  "parts": [
+   "the covariance of ",
+   {
+    "var": "at"
+   },
+   " has a zero variance; its row and column should be discounted"
+  ]
+ },
+ {
+  "id": "orbit-data-not-pd",
+  "error": false,
+  "parts": [
+   "the covariance at ",
+   {
+    "var": "at"
+   },
+   " is not positive definite (smallest correlation eigenvalue ",
+   {
+    "var": "min"
+   },
+   ")"
+  ]
+ },
+ {
+  "id": "orbit-data-frame-mismatch",
+  "error": false,
+  "parts": [
+   "REF_FRAME differs between the objects (",
+   {
+    "var": "a"
+   },
+   ", ",
+   {
+    "var": "b"
+   },
+   ")"
+  ]
+ },
+ {
+  "id": "orbit-data-inconsistent",
+  "error": false,
+  "parts": [
+   {
+    "var": "key"
+   },
+   " = ",
+   {
+    "var": "given"
+   },
+   " ",
+   {
+    "var": "unit"
+   },
+   ", but the data give ",
+   {
+    "var": "computed"
+   },
+   " ",
+   {
+    "var": "unit"
+   }
+  ]
+ },
+ {
+  "id": "orbit-data-time-order",
+  "error": false,
+  "parts": [
+   {
+    "var": "first"
+   },
+   " (",
+   {
+    "var": "a"
+   },
+   ") is later than ",
+   {
+    "var": "second"
+   },
+   " (",
+   {
+    "var": "b"
+   },
+   ")"
+  ]
+ },
+ {
+  "id": "orbit-data-count-order",
+  "error": false,
+  "parts": [
+   {
+    "var": "used"
+   },
+   " = ",
+   {
+    "var": "a"
+   },
+   " is larger than ",
+   {
+    "var": "avail"
+   },
+   " = ",
+   {
+    "var": "b"
+   }
+  ]
+ },
+ {
+  "id": "orbit-data-unterminated",
+  "error": false,
+  "parts": [
+   "the message ends inside a block"
+  ]
+ },
+ {
+  "id": "orbit-data-no-segment",
+  "error": false,
+  "parts": [
+   "the message has no segment"
+  ]
+ },
+ {
+  "id": "orbit-data-time-system-changed",
+  "error": false,
+  "parts": [
+   "TIME_SYSTEM changes within the message (",
+   {
+    "var": "a"
+   },
+   ", then ",
+   {
+    "var": "b"
+   },
+   ")"
+  ]
+ },
+ {
+  "id": "orbit-data-outside-span",
+  "error": false,
+  "parts": [
+   "time ",
+   {
+    "var": "t"
+   },
+   " lies outside the span the metadata give"
+  ]
+ },
+ {
+  "id": "orbit-data-useable-overlap",
+  "error": false,
+  "parts": [
+   "the useable spans of segments ",
+   {
+    "var": "a"
+   },
+   " and ",
+   {
+    "var": "b"
+   },
+   " overlap"
+  ]
+ },
+ {
+  "id": "orbit-data-data-width",
+  "error": false,
+  "parts": [
+   "a data line has ",
+   {
+    "var": "n"
+   },
+   " values; expected ",
+   {
+    "var": "want"
+   }
+  ]
+ },
+ {
+  "id": "orbit-data-duplicate-time",
+  "error": false,
+  "parts": [
+   "the time tag ",
+   {
+    "var": "t"
+   },
+   " repeats"
+  ]
+ },
+ {
+  "id": "orbit-data-time-not-increasing",
+  "error": false,
+  "parts": [
+   "the time tag ",
+   {
+    "var": "t"
+   },
+   " does not increase (the one before is ",
+   {
+    "var": "prev"
+   },
+   ")"
+  ]
+ },
+ {
+  "id": "orbit-data-too-few-points",
+  "error": false,
+  "parts": [
+   {
+    "var": "n"
+   },
+   " data lines cannot carry interpolation of degree ",
+   {
+    "var": "deg"
+   },
+   " (it needs ",
+   {
+    "var": "need"
+   },
+   ")"
+  ]
+ },
+ {
+  "id": "orbit-data-mixed-time",
+  "error": false,
+  "parts": [
+   "the ",
+   {
+    "var": "block"
+   },
+   " block mixes relative and absolute time tags"
+  ]
+ },
+ {
+  "id": "orbit-data-span-short",
+  "error": false,
+  "parts": [
+   "the useable span is ",
+   {
+    "var": "days"
+   },
+   " days, shorter than the ",
+   {
+    "var": "min"
+   },
+   " days asked for"
+  ]
+ },
+ {
+  "id": "orbit-data-gap",
+  "error": false,
+  "parts": [
+   "a gap of ",
+   {
+    "var": "s"
+   },
+   " s, longer than the ",
+   {
+    "var": "max"
+   },
+   " s asked for"
+  ]
+ },
+ {
+  "id": "orbit-data-gp-checksum",
+  "error": false,
+  "parts": [
+   "line ",
+   {
+    "var": "line"
+   },
+   ": the checksum in column 69 is wrong (it should be ",
+   {
+    "var": "want"
+   },
+   ")"
+  ]
+ },
+ {
+  "id": "orbit-data-gp-catalogue",
+  "error": false,
+  "parts": [
+   "line 1 and line 2 do not name the same catalogue number"
+  ]
+ },
+ {
+  "id": "orbit-data-gp-perigee",
+  "error": false,
+  "parts": [
+   "the perigee is ",
+   {
+    "var": "km"
+   },
+   " km, below the Earth's surface"
+  ]
+ },
+ {
+  "id": "orbit-data-gp-sgp4",
+  "error": false,
+  "parts": [
+   "SGP4 fails ",
+   {
+    "var": "days"
+   },
+   " days after the epoch (error code ",
+   {
+    "var": "code"
+   },
+   ")"
+  ]
+ },
+ {
+  "id": "orbit-data-gp-stale",
+  "error": false,
+  "parts": [
+   "the epoch is ",
+   {
+    "var": "days"
+   },
+   " days before the reference time (more than ",
+   {
+    "var": "max"
+   },
+   ")"
+  ]
+ },
+ {
+  "id": "orbit-data-gp-future",
+  "error": false,
+  "parts": [
+   "the epoch is ",
+   {
+    "var": "days"
+   },
+   " days after the reference time"
+  ]
+ },
+ {
+  "id": "orbit-data-gp-repeated-epoch",
+  "error": false,
+  "parts": [
+   "another set of this object has the same epoch and different elements"
+  ]
+ },
+ {
+  "id": "orbit-data-gp-elset-number",
+  "error": false,
+  "parts": [
+   "the element set number goes back from ",
+   {
+    "var": "a"
+   },
+   " to ",
+   {
+    "var": "b"
+   },
+   " at a later epoch"
+  ]
+ },
+ {
+  "id": "orbit-data-gp-jump",
+  "error": false,
+  "parts": [
+   "this set and the one before it differ by ",
+   {
+    "var": "km"
+   },
+   " km at its epoch, ",
+   {
+    "var": "hours"
+   },
+   " h later (more than ",
+   {
+    "var": "max"
+   },
+   " km): a manoeuvre or a bad set"
+  ]
+ },
+ {
+  "id": "orbit-data-gp-compare-summary",
+  "error": false,
+  "parts": [
+   {
+    "var": "n"
+   },
+   " objects in both sources, ",
+   {
+    "var": "flagged"
+   },
+   " flagged above ",
+   {
+    "var": "threshold"
+   },
+   " km; ",
+   {
+    "var": "only_a"
+   },
+   " only in the first, ",
+   {
+    "var": "only_b"
+   },
+   " only in the second (MODELLED: SGP4 differences, not accuracy)"
+  ]
+ },
+ {
+  "id": "orbit-data-gp-audit-summary",
+  "error": false,
+  "parts": [
+   {
+    "var": "sets"
+   },
+   " element sets, ",
+   {
+    "var": "objects"
+   },
+   " objects, ",
+   {
+    "var": "findings"
+   },
+   " findings"
+  ]
+ },
+ {
+  "id": "orbit-data-usage",
+  "error": false,
+  "parts": [
+   "usage: kshana orbit-data check <cdm|oem|ocm file> [--json] [--aliases <map.json>] [--min-span-days <d>] [--max-gap-s <s>]\n   or: kshana orbit-data convert <file> --to <ocm|oem|cdm> [--aliases <map.json>]\n   or: kshana orbit-data gp-compare <a.tle> <b.tle> [--hours <h>] [--step-min <min>] [--threshold-km <km>] [--json]\n   or: kshana orbit-data gp-audit <sets.tle> ... [--at <epoch>] [--stale-days <d>] [--jump-km <km>] [--json]\n   or: kshana orbit-data cov <check|propagate|monte-carlo|synthetic|realism> <input.json> [--dt-s <s>] [--step-s <s>] [--samples <n>] [--seed <n>] [--sigma-rtn <r,t,n,rdot,tdot,ndot>] [--full]\n   (docs/ORBIT-DATA.md)"
+  ]
+ },
+ {
+  "id": "e-orbit-data-unknown-message",
+  "error": true,
+  "parts": [
+   {
+    "var": "path"
+   },
+   " is not a CDM, OEM (KVN) or OCM: no CCSDS_CDM_VERS, CCSDS_OEM_VERS or CCSDS_OCM_VERS line and no <cdm> or <ocm> root"
+  ]
+ },
+ {
+  "id": "e-orbit-data-bad-flag",
+  "error": true,
+  "parts": [
+   {
+    "var": "flag"
+   },
+   " ",
+   {
+    "var": "value"
+   },
+   ": not a usable value"
+  ]
+ },
+ {
+  "id": "e-orbit-data-aliases-not-object",
+  "error": true,
+  "parts": [
+   "the alias table must be a JSON object of \"name\": \"KEYWORD\""
+  ]
+ },
+ {
+  "id": "e-orbit-data-alias-target",
+  "error": true,
+  "parts": [
+   "the alias ",
+   {
+    "var": "key"
+   },
+   " does not map to a CDM keyword"
+  ]
+ },
+ {
+  "id": "e-orbit-data-convert-pair",
+  "error": true,
+  "parts": [
+   {
+    "var": "path"
+   },
+   ": no conversion to ",
+   {
+    "var": "to"
+   },
+   " (OEM to ocm, OCM to oem, CDM to cdm)"
+  ]
+ },
+ {
+  "id": "e-orbit-data-convert-empty",
+  "error": true,
+  "parts": [
+   "the OEM has no segment to convert"
+  ]
+ },
+ {
+  "id": "e-orbit-data-convert-one-object",
+  "error": true,
+  "parts": [
+   "the OEM holds ",
+   {
+    "var": "n"
+   },
+   " objects; an OCM holds one"
+  ]
+ },
+ {
+  "id": "e-orbit-data-convert-missing",
+  "error": true,
+  "parts": [
+   "the source lacks ",
+   {
+    "var": "key"
+   },
+   ", which the target needs"
+  ]
+ },
+ {
+  "id": "e-orbit-data-convert-width",
+  "error": true,
+  "parts": [
+   "a data or covariance line has the wrong number of values for the conversion"
+  ]
+ },
+ {
+  "id": "e-orbit-data-convert-time",
+  "error": true,
+  "parts": [
+   "the time tag ",
+   {
+    "var": "t"
+   },
+   " cannot be made absolute (no EPOCH_TZERO, or not a number)"
+  ]
+ },
+ {
+  "id": "e-orbit-data-convert-traj",
+  "error": true,
+  "parts": [
+   "trajectory type ",
+   {
+    "var": "kind"
+   },
+   " has no OEM form (CARTPV and CARTPVA do)"
+  ]
+ },
+ {
+  "id": "e-orbit-data-convert-cov",
+  "error": true,
+  "parts": [
+   "covariance ",
+   {
+    "var": "kind"
+   },
+   " ",
+   {
+    "var": "ordering"
+   },
+   " has no OEM form (CARTPV in LTM, UTM or FULL does)"
+  ]
+ },
+ {
+  "id": "e-orbit-data-cov-input",
+  "error": true,
+  "parts": [
+   "the input lacks a valid ",
+   {
+    "var": "key"
+   }
+  ]
+ },
+ {
+  "id": "e-orbit-data-cov-not-pd",
+  "error": true,
+  "parts": [
+   "the initial covariance is not positive definite, or too few samples were asked for"
   ]
  }
 ]
