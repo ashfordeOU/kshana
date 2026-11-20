@@ -1046,6 +1046,47 @@ fn orbit_data_checks_and_monitors() {
 }
 
 #[test]
+fn sil_obs_and_interference_lib_inputs() {
+    fuzz(
+        "sil-obs compare statistics",
+        &[head(
+            "tests/fixtures/igs/ABMF00GLP_R_20181330000_01D_30S_MO.rnx",
+            60,
+        )],
+        None,
+        |b| {
+            if let Ok(t) = std::str::from_utf8(b) {
+                if let Ok(o) = kshana::rinex_obs::parse_obs(t) {
+                    let st = kshana::sil_obs::obs_stats(&o);
+                    let _ = kshana::sil_obs::compare_doc("a", &st, "b", &st);
+                }
+            }
+        },
+    );
+    fuzz(
+        "sil-obs scenario",
+        &[head("examples/sil-obs/urban-canyon.toml", 40)],
+        None,
+        |b| {
+            if let Ok(t) = std::str::from_utf8(b) {
+                let _ = toml::from_str::<kshana::sil_obs::SilScenario>(t);
+                let _ = kshana::sil_obs::parse_epoch(t);
+            }
+        },
+    );
+    fuzz(
+        "interference-lib predictions",
+        &[b"id,class\nid-cw-000,cw\nid-none-001,none\n".to_vec()],
+        None,
+        |b| {
+            if let Ok(t) = std::str::from_utf8(b) {
+                let _ = kshana::interference_lib::read_predictions(t);
+            }
+        },
+    );
+}
+
+#[test]
 fn ccsds_messages() {
     let oem = vec![
         head("tests/fixtures/ccsds/oem_502_b3_figG11.oem", 80),

@@ -9775,6 +9775,34 @@ engine-e-space-receiver-too-few-rows = タイムスタンプの行が少なく�
 engine-e-space-receiver-no-tle = 2 行軌道要素が見つかりません（"1 " で始まる 1 行目と、それに続く 2 行目）
 engine-e-space-receiver-oem-frame = OEM 基準座標系 { $frame } はこの比較では読み込めません（EME2000、GCRF、ICRF、TEME のいずれか）
 
+## SIL observation generator (src/sil_obs.rs)
+engine-sil-obs-usage = 使い方：kshana sil-obs generate <scenario.toml> --nav <nav.rnx> --out <sim.obs> [--truth <truth.jsonl>] | compare <a.obs> <b.obs> [--json] [--out <file.json>]  (docs/SIL-OBS.md)
+engine-sil-obs-summary = { $n_epochs } エポック、{ $n_obs } 件の信号サンプルを書き込みました。NLOS の衛星エポック { $n_nlos } 件、遮蔽 { $n_blocked } 件 (MODELLED)
+engine-e-sil-obs-missing-value = { $option } には値が必要です
+engine-e-sil-obs-unknown-option = 不明なオプション { $option }（kshana sil-obs --help でオプションを一覧表示）
+engine-e-sil-obs-cannot-read = { $path } を読み込めません：{ $e }
+engine-e-sil-obs-cannot-write = { $path } に書き込めません：{ $e }
+engine-e-sil-obs-bad-scenario = { $path } は sil-obs のシナリオではありません: { $e }
+engine-e-sil-obs-bad-nav = { $path } は RINEX 航法ファイルではありません: { $e }
+engine-e-sil-obs-bad-obs = { $path } は RINEX 観測ファイルではありません: { $e }
+engine-e-sil-obs-bad-start = 開始 { $value } は YYYY-MM-DDTHH:MM:SS 形式の GPS 時刻ではありません
+engine-e-sil-obs-bad-timing = 継続時間は 0 以上、刻みは正で、エポック数は 100 万以下でなければなりません
+engine-e-sil-obs-no-satellites = { $path } には要求したシステムの放送暦レコードがありません
+engine-e-sil-obs-unknown-system = 不明なシステム { $value } (G または E)
+engine-e-sil-obs-bad-canyon = キャニオンには正の幅、通りの内側のアンテナ位置、1 dB 以上の反射損失、有限の値が必要です
+
+## Interference model library (src/interference_lib.rs)
+engine-interference-lib-usage = 使い方：kshana interference-lib models | generate --class <none|cw|narrowband|wideband|chirp|pulsed> [--centre-hz <f>] [--bandwidth-hz <b>] [--period-s <t>] [--pulse-width-s <w>] [--jnr-db <j>] [--drift-hz-per-s <r>] [--triangle] [--fs <hz>] [--samples <n>] [--seed <s>] --out <base> | fit <recording.sigmf-meta> [--out <fit.json>] | bench [--per-class <n>] [--seed <s>] [--predictions <ids.csv>] [--out <bench.json>] | cases [--per-class <n>] [--seed <s>] [--out <cases.csv>]  (docs/INTERFERENCE-LIB.md)
+engine-interference-lib-written = { $path } を書き込みました ({ $n } サンプル、MODELLED 合成干渉)
+engine-e-interference-lib-missing-value = { $option } には値が必要です
+engine-e-interference-lib-unknown-option = 不明なオプション { $option }（kshana interference-lib --help でオプションを一覧表示）
+engine-e-interference-lib-bad-number = { $option } には有限の数値が必要です ({ $value } ではありません)
+engine-e-interference-lib-unknown-class = 不明な干渉クラス { $value } (none、cw、narrowband、wideband、chirp、pulsed のいずれか)
+engine-e-interference-lib-bad-size = サンプルレートは正、記録長は 1024 から 16777216 サンプルの 2 のべき乗でなければなりません (bench: クラスあたり 1 から 1000 ケース)
+engine-e-interference-lib-cannot-read = { $path } を読み込めません：{ $e }
+engine-e-interference-lib-cannot-write = { $path } に書き込めません：{ $e }
+engine-e-interference-lib-bad-predictions = 予測の行が既知のクラスを持つ id,class ではありません: { $row }
+
 engine-main-usage =
     使い方：kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }または：kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -9815,6 +9843,8 @@ engine-main-usage =
     { "   " }または：kshana orbit-data <check|convert|gp-compare|gp-audit|cov> ... (kshana orbit-data --help)
     { "   " }または：kshana drone <prearm|prearm-calibrate|estimator-cases|dr-budget|quad-loss|failover|zonotope-pl> ... (kshana drone --help)
     { "   " }または：kshana leo-verify <burst-timing|holdover-tdev|cost|indoor|rain-fade|rtk-ar|jam-claim|doppler-integrity> <input.json>
+    { "   " }または：kshana sil-obs <generate|compare> ... (kshana sil-obs --help)
+    { "   " }または：kshana interference-lib <models|generate|fit|bench|cases> ... (kshana interference-lib --help)
     { "   " }または：kshana kinds [--json]
     { "   " }または：kshana example [<name>]
     { "   " }または：kshana --help | --version
