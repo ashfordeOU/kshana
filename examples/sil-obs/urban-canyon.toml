@@ -1,0 +1,36 @@
+# kshana sil-obs generate examples/sil-obs/urban-canyon.toml \
+#   --nav tests/fixtures/igs/BRDC00WRD_R_20181330000_01D_GN.rnx --out sim.obs --truth truth.jsonl
+# A receiver walking along a street canyon near the IGS station ABMF (Guadeloupe), 2018-05-13,
+# with the GPS broadcast ephemeris of that day. MODELLED (docs/SIL-OBS.md).
+[sil]
+start = "2018-05-13T01:00:00"
+duration_s = 600
+step_s = 1
+seed = 1
+systems = ["G"]
+dual_frequency = true
+mask_deg = 5.0
+marker = "CANYON"
+
+[receiver]
+lat_deg = 16.2623
+lon_deg = -61.5275
+height_m = -25.8
+clock_bias_m = 1500.0
+clock_drift_m_per_s = 0.2
+speed_mps = 1.4
+
+[canyon]
+axis_az_deg = 20.0
+width_m = 18.0
+height_left_m = 35.0
+height_right_m = 25.0
+offset_m = 2.0
+antenna_height_m = 1.5
+reflection_loss_db = 6.0
+
+[signal]
+cn0_zenith_dbhz = 48.0
+cn0_slope_db = 10.0
+track_threshold_dbhz = 25.0
+correlator_spacing_chips = 0.2

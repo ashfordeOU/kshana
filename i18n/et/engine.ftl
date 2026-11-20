@@ -10543,6 +10543,34 @@ engine-e-ais-integrity-cannot-read = faili { $path } ei saa lugeda: { $e }
 engine-e-ais-integrity-cannot-write = faili { $path } ei saa kirjutada: { $e }
 engine-e-ais-integrity-bad-place = kohtade loendi rida ei ole name,lat,lon,radius_m kehtiva asukoha ja positiivse raadiusega: { $row }
 
+## SIL observation generator (src/sil_obs.rs)
+engine-sil-obs-usage = kasutus: kshana sil-obs generate <scenario.toml> --nav <nav.rnx> --out <sim.obs> [--truth <truth.jsonl>] | compare <a.obs> <b.obs> [--json] [--out <file.json>]  (docs/SIL-OBS.md)
+engine-sil-obs-summary = { $n_epochs } epohhi, kirjutatud { $n_obs } signaaliproovi; { $n_nlos } NLOS- ja { $n_blocked } blokeeritud satelliidiepohhi (MODELLED)
+engine-e-sil-obs-missing-value = { $option } vajab väärtust
+engine-e-sil-obs-unknown-option = tundmatu valik { $option } (valikud loetleb kshana sil-obs --help)
+engine-e-sil-obs-cannot-read = faili { $path } ei saa lugeda: { $e }
+engine-e-sil-obs-cannot-write = faili { $path } ei saa kirjutada: { $e }
+engine-e-sil-obs-bad-scenario = { $path } ei ole sil-obs stsenaarium: { $e }
+engine-e-sil-obs-bad-nav = { $path } ei ole RINEX-navigatsioonifail: { $e }
+engine-e-sil-obs-bad-obs = { $path } ei ole RINEX-vaatlusfail: { $e }
+engine-e-sil-obs-bad-start = algus { $value } ei ole GPS-aeg kujul YYYY-MM-DDTHH:MM:SS
+engine-e-sil-obs-bad-timing = kestus peab olema null või rohkem ja samm positiivne, kõige rohkem miljon epohhi
+engine-e-sil-obs-no-satellites = { $path } ei sisalda soovitud süsteemide leviedastuse kirjeid
+engine-e-sil-obs-unknown-system = tundmatu süsteem { $value } (G või E)
+engine-e-sil-obs-bad-canyon = kanjon vajab positiivset laiust, antenni nihet tänava sees, vähemalt 1 dB peegelduskadu ja lõplikke väärtusi
+
+## Interference model library (src/interference_lib.rs)
+engine-interference-lib-usage = kasutus: kshana interference-lib models | generate --class <none|cw|narrowband|wideband|chirp|pulsed> [--centre-hz <f>] [--bandwidth-hz <b>] [--period-s <t>] [--pulse-width-s <w>] [--jnr-db <j>] [--drift-hz-per-s <r>] [--triangle] [--fs <hz>] [--samples <n>] [--seed <s>] --out <base> | fit <recording.sigmf-meta> [--out <fit.json>] | bench [--per-class <n>] [--seed <s>] [--predictions <ids.csv>] [--out <bench.json>] | cases [--per-class <n>] [--seed <s>] [--out <cases.csv>]  (docs/INTERFERENCE-LIB.md)
+engine-interference-lib-written = kirjutatud { $path } ({ $n } proovi, MODELLED sünteetiline häire)
+engine-e-interference-lib-missing-value = { $option } vajab väärtust
+engine-e-interference-lib-unknown-option = tundmatu valik { $option } (valikud loetleb kshana interference-lib --help)
+engine-e-interference-lib-bad-number = { $option } vajab lõplikku arvu, mitte { $value }
+engine-e-interference-lib-unknown-class = tundmatu häireklass { $value } (none, cw, narrowband, wideband, chirp või pulsed)
+engine-e-interference-lib-bad-size = diskreetimissagedus peab olema positiivne ja salvestis kahe aste 1024 kuni 16777216 proovi (bench: 1 kuni 1000 juhtumit klassi kohta)
+engine-e-interference-lib-cannot-read = faili { $path } ei saa lugeda: { $e }
+engine-e-interference-lib-cannot-write = faili { $path } ei saa kirjutada: { $e }
+engine-e-interference-lib-bad-predictions = ennustuste rida ei ole id,class teadaoleva klassiga: { $row }
+
 engine-main-usage =
     kasutus: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }või: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10580,6 +10608,8 @@ engine-main-usage =
     { "   " }või: kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
     { "   " }või: kshana orbit-data <check|convert|gp-compare|gp-audit|cov> ... (kshana orbit-data --help)
     { "   " }või: kshana drone <prearm|prearm-calibrate|estimator-cases|dr-budget|quad-loss|failover|zonotope-pl> ... (kshana drone --help)
+    { "   " }või: kshana sil-obs <generate|compare> ... (kshana sil-obs --help)
+    { "   " }või: kshana interference-lib <models|generate|fit|bench|cases> ... (kshana interference-lib --help)
     { "   " }või: kshana kinds [--json]
     { "   " }või: kshana example [<name>]
     { "   " }või: kshana --help | --version

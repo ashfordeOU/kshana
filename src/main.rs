@@ -1279,6 +1279,18 @@ fn main_in_language(args: Vec<String>) -> ExitCode {
     if args.get(1).map(String::as_str) == Some("rtk-qa") {
         return ExitCode::from(kshana::rtk_qa::run_cli(&args[2..]) as u8);
     }
+    // `kshana interference-lib <models|generate|fit|bench|cases> ...`: the synthetic
+    // interference library, reference fit and classifier benchmark (src/interference_lib.rs,
+    // docs/INTERFERENCE-LIB.md). Exit 2 on a usage or input error.
+    if args.get(1).map(String::as_str) == Some("interference-lib") {
+        return ExitCode::from(kshana::interference_lib::run_cli(&args[2..]) as u8);
+    }
+    // `kshana sil-obs <generate|compare> ...`: SIL RINEX observations with a street-canyon
+    // multipath/NLOS model, and observation-statistics comparison (src/sil_obs.rs,
+    // docs/SIL-OBS.md). Exit 2 on a usage or input error.
+    if args.get(1).map(String::as_str) == Some("sil-obs") {
+        return ExitCode::from(kshana::sil_obs::run_cli(&args[2..]) as u8);
+    }
     // `kshana time-vectors [--json] [<file|dir>...]`: the time-scale conformance vectors
     // (src/time_vectors.rs, docs/TIME-VECTORS.md). Exit 1 when any vector fails.
     if args.get(1).map(String::as_str) == Some("time-vectors") {
