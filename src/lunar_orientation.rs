@@ -31,17 +31,26 @@
 //! - JPL DE440 binary PCK `moon_pa_de440_200625.bpc` (NAIF/JPL).
 //! - Park, R. S. et al. (2021) "The JPL Planetary and Lunar Ephemerides DE440 and DE441",
 //!   *AJ* 161:105.  doi:10.3847/1538-3881/abd414
-//! - Generation script: `scripts/gen_de440_moon_pa.py` (committed for reproducibility).
+//! - Generation script: `scripts/gen_de440_moon_pa.py` (committed for reproducibility); the
+//!   embedded binary form is written from its CSV by `scripts/gen_de440_moon_pa_bin.py`.
 //! - Fixture SHA-256: c289f9742220f5a49a9e7f57aec3f61a6836f31c7b4f586b54b3a8fda480736b
 
 use crate::lunar_llr_geometry::Vec3;
 use crate::portable_math::PortableFloat;
 
-/// Compile-time embedded DE440 MOON_PA orientation fixture.
+/// Compile-time embedded DE440 MOON_PA orientation series.
 ///
-/// 6 209 rows; 1-day cadence; window 2014-01-01 to 2030-12-31 TDB.
-/// Columns: `t_tt_jc, r00..r22` (see module docs).
-const DE440_MOON_PA_CSV: &str = include_str!("../tests/fixtures/llr_geometry/de440_moon_pa.csv");
+/// 6 209 rows; 1-day cadence; window 2014-01-01 to 2030-12-31 TDB; columns `t_tt_jc, r00..r22`
+/// (see module docs). The values are exactly the doubles of
+/// `tests/fixtures/llr_geometry/de440_moon_pa.csv` (the source of record), stored as binary to
+/// keep the published crate under its size limit: column-major (all `t`, then all `r00`, ...),
+/// each double little-endian, then byte-planed (byte `k` of value `j` at offset `k * N + j`).
+/// `scripts/gen_de440_moon_pa_bin.py` writes it from the CSV, and
+/// `tests/lunar_orientation_binary.rs` checks the two agree bit for bit.
+const DE440_MOON_PA_BIN: &[u8] = include_bytes!("../data/lunar/de440_moon_pa.bin");
+
+/// Columns per row of the embedded series: the epoch and the nine matrix elements.
+const DE440_MOON_PA_COLS: usize = 10;
 
 /// One parsed row of the fixture: epoch + 3×3 rotation matrix.
 struct Row {
@@ -49,50 +58,43 @@ struct Row {
     r: [[f64; 3]; 3],
 }
 
-/// Parse all rows from the embedded CSV (header skipped).
+/// Decode all rows from the embedded binary series.
 ///
-/// Raw parsing implementation — called exactly once (via [`fixture_rows`]).
-/// WASM-safe: `include_str!` bakes the data at compile time; no filesystem I/O.
+/// Raw decoding implementation — called exactly once (via [`fixture_rows`]).
+/// WASM-safe: `include_bytes!` bakes the data at compile time; no filesystem I/O.
 fn parse_rows() -> Vec<Row> {
-    let mut rows = Vec::with_capacity(6210);
-    for (i, line) in DE440_MOON_PA_CSV.lines().enumerate() {
-        if i == 0 {
-            continue; // skip header
+    let n = DE440_MOON_PA_BIN.len() / 8;
+    assert!(
+        n * 8 == DE440_MOON_PA_BIN.len() && n % DE440_MOON_PA_COLS == 0,
+        "embedded orientation series: bad length"
+    );
+    let rows = n / DE440_MOON_PA_COLS;
+    let value = |j: usize| -> f64 {
+        let mut b = [0u8; 8];
+        for (k, byte) in b.iter_mut().enumerate() {
+            *byte = DE440_MOON_PA_BIN[k * n + j];
         }
-        let line = line.trim();
-        if line.is_empty() {
-            continue;
-        }
-        let mut it = line.splitn(10, ',');
-        let t: f64 = it
-            .next()
-            .expect("fixture row: t column")
-            .trim()
-            .parse()
-            .expect("fixture row: t parse");
-        let mut v = [0.0_f64; 9];
-        for (k, cell) in it.enumerate() {
-            v[k] = cell
-                .trim()
-                .parse()
-                .expect("fixture row: matrix element parse");
-        }
-        #[rustfmt::skip]
-        let r = [
-            [v[0], v[1], v[2]],
-            [v[3], v[4], v[5]],
-            [v[6], v[7], v[8]],
-        ];
-        rows.push(Row { t, r });
-    }
-    rows
+        f64::from_le_bytes(b)
+    };
+    (0..rows)
+        .map(|i| {
+            let v = |c: usize| value(c * rows + i);
+            #[rustfmt::skip]
+            let r = [
+                [v(1), v(2), v(3)],
+                [v(4), v(5), v(6)],
+                [v(7), v(8), v(9)],
+            ];
+            Row { t: v(0), r }
+        })
+        .collect()
 }
 
 /// Process-wide cache for the parsed fixture rows.
 ///
 /// `OnceLock` is part of `std` (stabilised Rust 1.70) and is `Send + Sync`, making
 /// this safe to use on all targets including WASM (single-threaded or multi-threaded).
-/// The CSV is parsed exactly once per process; subsequent calls return the cached slice.
+/// The series is decoded exactly once per process; subsequent calls return the cached slice.
 static FIXTURE_ROWS: std::sync::OnceLock<Vec<Row>> = std::sync::OnceLock::new();
 
 /// Return a reference to the (lazily-parsed, then cached) fixture rows.
