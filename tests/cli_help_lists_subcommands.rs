@@ -39,6 +39,8 @@ fn the_top_level_usage_names_every_subcommand() {
         "time-vectors",
         "ais-integrity",
         "space-receiver",
+        "sil-obs",
+        "interference-lib",
         "corrections",
         "space-weather",
         "rtk-qa",

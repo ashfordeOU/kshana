@@ -10373,6 +10373,34 @@ engine-e-space-receiver-too-few-rows = at least three timestamp rows are needed
 engine-e-space-receiver-no-tle = no two-line element set found (line 1 starting "1 " followed by line 2)
 engine-e-space-receiver-oem-frame = OEM reference frame { $frame } is not one this comparison reads (EME2000, GCRF, ICRF or TEME)
 
+## Interference model library (src/interference_lib.rs)
+engine-interference-lib-usage = usage: kshana interference-lib models | generate --class <none|cw|narrowband|wideband|chirp|pulsed> [--centre-hz <f>] [--bandwidth-hz <b>] [--period-s <t>] [--pulse-width-s <w>] [--jnr-db <j>] [--drift-hz-per-s <r>] [--triangle] [--fs <hz>] [--samples <n>] [--seed <s>] --out <base> | fit <recording.sigmf-meta> [--out <fit.json>] | bench [--per-class <n>] [--seed <s>] [--predictions <ids.csv>] [--out <bench.json>] | cases [--per-class <n>] [--seed <s>] [--out <cases.csv>]  (docs/INTERFERENCE-LIB.md)
+engine-interference-lib-written = wrote { $path } ({ $n } samples, MODELLED synthetic interference)
+engine-e-interference-lib-missing-value = { $option } needs a value
+engine-e-interference-lib-unknown-option = unknown option { $option } (kshana interference-lib --help lists the options)
+engine-e-interference-lib-bad-number = { $option } needs a finite number, not { $value }
+engine-e-interference-lib-unknown-class = unknown interference class { $value } (none, cw, narrowband, wideband, chirp or pulsed)
+engine-e-interference-lib-bad-size = the sample rate must be positive and the recording a power of two from 1024 to 16777216 samples (bench: 1 to 1000 cases per class)
+engine-e-interference-lib-cannot-read = cannot read { $path }: { $e }
+engine-e-interference-lib-cannot-write = cannot write { $path }: { $e }
+engine-e-interference-lib-bad-predictions = a predictions row is not id,class with a known class: { $row }
+
+## SIL observation generator (src/sil_obs.rs)
+engine-sil-obs-usage = usage: kshana sil-obs generate <scenario.toml> --nav <nav.rnx> --out <sim.obs> [--truth <truth.jsonl>] | compare <a.obs> <b.obs> [--json] [--out <file.json>]  (docs/SIL-OBS.md)
+engine-sil-obs-summary = { $n_epochs } epochs, { $n_obs } signal samples written; { $n_nlos } NLOS and { $n_blocked } blocked satellite-epochs (MODELLED)
+engine-e-sil-obs-missing-value = { $option } needs a value
+engine-e-sil-obs-unknown-option = unknown option { $option } (kshana sil-obs --help lists the options)
+engine-e-sil-obs-cannot-read = cannot read { $path }: { $e }
+engine-e-sil-obs-cannot-write = cannot write { $path }: { $e }
+engine-e-sil-obs-bad-scenario = { $path } is not a sil-obs scenario: { $e }
+engine-e-sil-obs-bad-nav = { $path } is not a RINEX navigation file: { $e }
+engine-e-sil-obs-bad-obs = { $path } is not a RINEX observation file: { $e }
+engine-e-sil-obs-bad-start = the start { $value } is not a GPS-time YYYY-MM-DDTHH:MM:SS
+engine-e-sil-obs-bad-timing = the duration must be zero or more and the step positive, with at most a million epochs
+engine-e-sil-obs-no-satellites = { $path } has no broadcast record of the requested systems
+engine-e-sil-obs-unknown-system = unknown system { $value } (G or E)
+engine-e-sil-obs-bad-canyon = the canyon needs a positive width, an antenna offset inside the street, a reflection loss of at least 1 dB and finite values
+
 engine-main-usage =
     usage: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }or: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10413,6 +10441,8 @@ engine-main-usage =
     { "   " }or: kshana orbit-data <check|convert|gp-compare|gp-audit|cov> ... (kshana orbit-data --help)
     { "   " }or: kshana drone <prearm|prearm-calibrate|estimator-cases|dr-budget|quad-loss|failover|zonotope-pl> ... (kshana drone --help)
     { "   " }or: kshana leo-verify <burst-timing|holdover-tdev|cost|indoor|rain-fade|rtk-ar|jam-claim|doppler-integrity> <input.json>
+    { "   " }or: kshana sil-obs <generate|compare> ... (kshana sil-obs --help)
+    { "   " }or: kshana interference-lib <models|generate|fit|bench|cases> ... (kshana interference-lib --help)
     { "   " }or: kshana kinds [--json]
     { "   " }or: kshana example [<name>]
     { "   " }or: kshana --help | --version

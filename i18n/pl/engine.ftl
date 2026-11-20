@@ -10737,6 +10737,34 @@ engine-e-space-receiver-too-few-rows = potrzebne są co najmniej trzy wiersze zn
 engine-e-space-receiver-no-tle = nie znaleziono dwuwierszowego zestawu elementów (wiersz 1 zaczynający się od "1 ", a po nim wiersz 2)
 engine-e-space-receiver-oem-frame = układ odniesienia OEM { $frame } nie jest obsługiwany przez to porównanie (EME2000, GCRF, ICRF lub TEME)
 
+## SIL observation generator (src/sil_obs.rs)
+engine-sil-obs-usage = użycie: kshana sil-obs generate <scenario.toml> --nav <nav.rnx> --out <sim.obs> [--truth <truth.jsonl>] | compare <a.obs> <b.obs> [--json] [--out <file.json>]  (docs/SIL-OBS.md)
+engine-sil-obs-summary = { $n_epochs } epok, zapisano { $n_obs } próbek sygnału; { $n_nlos } epok-satelitów NLOS i { $n_blocked } zablokowanych (MODELLED)
+engine-e-sil-obs-missing-value = { $option } wymaga wartości
+engine-e-sil-obs-unknown-option = nieznana opcja { $option } (opcje wypisuje kshana sil-obs --help)
+engine-e-sil-obs-cannot-read = nie można odczytać { $path }: { $e }
+engine-e-sil-obs-cannot-write = nie można zapisać { $path }: { $e }
+engine-e-sil-obs-bad-scenario = { $path } nie jest scenariuszem sil-obs: { $e }
+engine-e-sil-obs-bad-nav = { $path } nie jest plikiem nawigacyjnym RINEX: { $e }
+engine-e-sil-obs-bad-obs = { $path } nie jest plikiem obserwacyjnym RINEX: { $e }
+engine-e-sil-obs-bad-start = początek { $value } nie jest czasem GPS w postaci YYYY-MM-DDTHH:MM:SS
+engine-e-sil-obs-bad-timing = czas trwania musi być zerowy lub większy, a krok dodatni, najwyżej milion epok
+engine-e-sil-obs-no-satellites = { $path } nie zawiera żadnego rekordu rozgłoszeniowego żądanych systemów
+engine-e-sil-obs-unknown-system = nieznany system { $value } (G lub E)
+engine-e-sil-obs-bad-canyon = kanion wymaga dodatniej szerokości, przesunięcia anteny wewnątrz ulicy, straty odbicia co najmniej 1 dB i skończonych wartości
+
+## Interference model library (src/interference_lib.rs)
+engine-interference-lib-usage = użycie: kshana interference-lib models | generate --class <none|cw|narrowband|wideband|chirp|pulsed> [--centre-hz <f>] [--bandwidth-hz <b>] [--period-s <t>] [--pulse-width-s <w>] [--jnr-db <j>] [--drift-hz-per-s <r>] [--triangle] [--fs <hz>] [--samples <n>] [--seed <s>] --out <base> | fit <recording.sigmf-meta> [--out <fit.json>] | bench [--per-class <n>] [--seed <s>] [--predictions <ids.csv>] [--out <bench.json>] | cases [--per-class <n>] [--seed <s>] [--out <cases.csv>]  (docs/INTERFERENCE-LIB.md)
+engine-interference-lib-written = zapisano { $path } ({ $n } próbek, MODELLED syntetyczne zakłócenie)
+engine-e-interference-lib-missing-value = { $option } wymaga wartości
+engine-e-interference-lib-unknown-option = nieznana opcja { $option } (opcje wypisuje kshana interference-lib --help)
+engine-e-interference-lib-bad-number = { $option } wymaga skończonej liczby, nie { $value }
+engine-e-interference-lib-unknown-class = nieznana klasa zakłócenia { $value } (none, cw, narrowband, wideband, chirp lub pulsed)
+engine-e-interference-lib-bad-size = częstotliwość próbkowania musi być dodatnia, a nagranie potęgą dwójki od 1024 do 16777216 próbek (bench: od 1 do 1000 przypadków na klasę)
+engine-e-interference-lib-cannot-read = nie można odczytać { $path }: { $e }
+engine-e-interference-lib-cannot-write = nie można zapisać { $path }: { $e }
+engine-e-interference-lib-bad-predictions = wiersz predykcji nie jest id,class ze znaną klasą: { $row }
+
 engine-main-usage =
     użycie: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }lub: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10777,6 +10805,8 @@ engine-main-usage =
     { "   " }lub: kshana orbit-data <check|convert|gp-compare|gp-audit|cov> ... (kshana orbit-data --help)
     { "   " }lub: kshana drone <prearm|prearm-calibrate|estimator-cases|dr-budget|quad-loss|failover|zonotope-pl> ... (kshana drone --help)
     { "   " }lub: kshana leo-verify <burst-timing|holdover-tdev|cost|indoor|rain-fade|rtk-ar|jam-claim|doppler-integrity> <input.json>
+    { "   " }lub: kshana sil-obs <generate|compare> ... (kshana sil-obs --help)
+    { "   " }lub: kshana interference-lib <models|generate|fit|bench|cases> ... (kshana interference-lib --help)
     { "   " }lub: kshana kinds [--json]
     { "   " }lub: kshana example [<name>]
     { "   " }lub: kshana --help | --version

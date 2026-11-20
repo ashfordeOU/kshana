@@ -196,6 +196,7 @@ pub mod integrity;
 pub mod integrity_impact;
 pub mod interchange;
 pub mod interconnect;
+pub mod interference_lib;
 pub mod interop;
 pub mod intersat_range;
 pub mod ionex;
@@ -398,6 +399,7 @@ pub mod security;
 pub mod sensor_live;
 pub mod sgp4;
 pub mod sigmf;
+pub mod sil_obs;
 pub mod skyline;
 pub mod slot_timing;
 /// A read-only SNMPv2c client and OID maps for grandmasters and time servers (0.42 I2).

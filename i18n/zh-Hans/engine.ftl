@@ -9842,6 +9842,34 @@ engine-e-space-receiver-too-few-rows = 至少需要三行时间戳
 engine-e-space-receiver-no-tle = 未找到两行轨道根数（以 "1 " 开头的第 1 行及其后的第 2 行）
 engine-e-space-receiver-oem-frame = 此比较不读取 OEM 参考系 { $frame }（EME2000、GCRF、ICRF 或 TEME）
 
+## SIL observation generator (src/sil_obs.rs)
+engine-sil-obs-usage = 用法：kshana sil-obs generate <scenario.toml> --nav <nav.rnx> --out <sim.obs> [--truth <truth.jsonl>] | compare <a.obs> <b.obs> [--json] [--out <file.json>]  (docs/SIL-OBS.md)
+engine-sil-obs-summary = { $n_epochs } 个历元，已写入 { $n_obs } 个信号样本；NLOS 卫星历元 { $n_nlos } 个，遮挡 { $n_blocked } 个 (MODELLED)
+engine-e-sil-obs-missing-value = { $option } 需要一个值
+engine-e-sil-obs-unknown-option = 未知选项 { $option }（kshana sil-obs --help 列出所有选项）
+engine-e-sil-obs-cannot-read = 无法读取 { $path }：{ $e }
+engine-e-sil-obs-cannot-write = 无法写入 { $path }：{ $e }
+engine-e-sil-obs-bad-scenario = { $path } 不是 sil-obs 场景：{ $e }
+engine-e-sil-obs-bad-nav = { $path } 不是 RINEX 导航文件：{ $e }
+engine-e-sil-obs-bad-obs = { $path } 不是 RINEX 观测文件：{ $e }
+engine-e-sil-obs-bad-start = 起始时间 { $value } 不是 YYYY-MM-DDTHH:MM:SS 格式的 GPS 时间
+engine-e-sil-obs-bad-timing = 持续时间须为零或以上，步长须为正，历元数不超过一百万
+engine-e-sil-obs-no-satellites = { $path } 中没有所请求系统的广播星历记录
+engine-e-sil-obs-unknown-system = 未知系统 { $value }（G 或 E）
+engine-e-sil-obs-bad-canyon = 峡谷需要正的宽度、位于街道内的天线偏移、至少 1 dB 的反射损耗以及有限值
+
+## Interference model library (src/interference_lib.rs)
+engine-interference-lib-usage = 用法：kshana interference-lib models | generate --class <none|cw|narrowband|wideband|chirp|pulsed> [--centre-hz <f>] [--bandwidth-hz <b>] [--period-s <t>] [--pulse-width-s <w>] [--jnr-db <j>] [--drift-hz-per-s <r>] [--triangle] [--fs <hz>] [--samples <n>] [--seed <s>] --out <base> | fit <recording.sigmf-meta> [--out <fit.json>] | bench [--per-class <n>] [--seed <s>] [--predictions <ids.csv>] [--out <bench.json>] | cases [--per-class <n>] [--seed <s>] [--out <cases.csv>]  (docs/INTERFERENCE-LIB.md)
+engine-interference-lib-written = 已写入 { $path }（{ $n } 个样本，MODELLED 合成干扰）
+engine-e-interference-lib-missing-value = { $option } 需要一个值
+engine-e-interference-lib-unknown-option = 未知选项 { $option }（kshana interference-lib --help 列出所有选项）
+engine-e-interference-lib-bad-number = { $option } 需要一个有限数值，而不是 { $value }
+engine-e-interference-lib-unknown-class = 未知干扰类别 { $value }（none、cw、narrowband、wideband、chirp 或 pulsed）
+engine-e-interference-lib-bad-size = 采样率须为正，记录长度须为 1024 至 16777216 之间的 2 的幂（bench：每类 1 至 1000 个案例）
+engine-e-interference-lib-cannot-read = 无法读取 { $path }：{ $e }
+engine-e-interference-lib-cannot-write = 无法写入 { $path }：{ $e }
+engine-e-interference-lib-bad-predictions = 预测行不是带有已知类别的 id,class：{ $row }
+
 engine-main-usage =
     用法：kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }或：kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -9882,6 +9910,8 @@ engine-main-usage =
     { "   " }或：kshana orbit-data <check|convert|gp-compare|gp-audit|cov> ... (kshana orbit-data --help)
     { "   " }或：kshana drone <prearm|prearm-calibrate|estimator-cases|dr-budget|quad-loss|failover|zonotope-pl> ... (kshana drone --help)
     { "   " }或：kshana leo-verify <burst-timing|holdover-tdev|cost|indoor|rain-fade|rtk-ar|jam-claim|doppler-integrity> <input.json>
+    { "   " }或：kshana sil-obs <generate|compare> ... (kshana sil-obs --help)
+    { "   " }或：kshana interference-lib <models|generate|fit|bench|cases> ... (kshana interference-lib --help)
     { "   " }或：kshana kinds [--json]
     { "   " }或：kshana example [<name>]
     { "   " }或：kshana --help | --version
