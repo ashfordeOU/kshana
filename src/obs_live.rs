@@ -78,6 +78,21 @@ fn split(format: &str, buf: &mut Vec<u8>) -> Vec<Vec<u8>> {
                     Some(i + 1)
                 }
             }
+            // Unicore N4: a binary log (sync AA 44 B5, data length at 6, 24-byte header, 4-byte
+            // CRC) is one frame; ASCII logs and anything else are lines.
+            "unicore" if b[i] == 0xAA => {
+                if b.len() < i + 3 {
+                    None
+                } else if b[i + 1] == 0x44 && b[i + 2] == 0xB5 {
+                    if b.len() >= i + 8 {
+                        Some(i + 24 + usize::from(u16::from_le_bytes([b[i + 6], b[i + 7]])) + 4)
+                    } else {
+                        None
+                    }
+                } else {
+                    Some(i + 1)
+                }
+            }
             _ => line(b, i),
         };
         match end {

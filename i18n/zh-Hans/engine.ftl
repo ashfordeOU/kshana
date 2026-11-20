@@ -9853,7 +9853,7 @@ engine-main-usage =
     { "   " }或：kshana obs <convert <log> --format <format> --station <station.toml> [--out <file>] | check <file.obs.jsonl> [--json]>
     { "   " }或：kshana connect <map <input> --mapping <connect.toml> --station <station.toml> [--out <file.obs.jsonl>] | check <vector.toml|dir> [--bless] | watch <dir> --mapping <connect.toml> --station <station.toml> [--suffix <.csv>] [--interval <s>] [--once] | mqtt <host:port> --topic <filter> --mapping <connect.toml> --station <station.toml> [--header <row>] [--qos 0|1] [--user <name> --password-env <VAR>] [--client-id <id>] [--max-messages <n>] [--per-topic] | nats <host:port> --subject <s> --mapping <connect.toml> --station <station.toml> [--header <row>] [--per-topic] [--user <name> --password-env <VAR> | --token-env <VAR>] [--max-messages <n>] | ws <ws://host:port/path> --mapping <connect.toml> --station <station.toml> [--header <row>] [--max-messages <n>] | check-live <vector.toml|dir> [--json] | load-test [--stations <n>] [--rate <Hz>] [--seconds <s>] [--via memory|mqtt] [--json] | adapters <list|check> [<dir>] [--json]>
     { "   " }或：kshana osnma verify <pages|vectors.csv|stream.ubx> [--merkle-root <hex>] [--public-key <id:type:hex>] [--reference-time <gst-s>] [--json] (kshana osnma --help)
-    { "   " }或：kshana iq <scene|acquire|track|sweep|labfit|campaign|conditions|frontend|monitor|inventory|info|extract|convert|decimate> ... (kshana iq --help)
+    { "   " }或：kshana iq <scene|acquire|track|sweep|labfit|campaign|conditions|frontend|monitor|diagnose|gnss-sdr-conf|inventory|info|extract|convert|decimate> ... (kshana iq --help)
     { "   " }或：kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }或：kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }或：kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
@@ -10046,6 +10046,8 @@ engine-iq-cli-usage =
     { "   " }或：kshana iq conditions <test-conditions.toml|json>
     { "   " }或：kshana iq frontend <in> <out> [--bandpass lo,hi] [--notch] [--blank <thr>] [--excise] [--agc] [--bits <n>] [--out-format <fmt>]
     { "   " }或：kshana iq monitor <recording> [--power] [--spectral] [--settings <toml|json>] [--baseline <s>] [--signal <name> --prn <list> [--spacing <chips>] [--pll-bw <hz>] [--fll-bw <hz>] [--dll-bw <hz>] [--coherent <N>] [--cn0-windows <M>] [--doppler-max <hz>]] [--max-seconds <s>] [--follow [--idle-timeout <s>]] [--json <out>] [--csv <prefix>]
+    { "   " }或：kshana iq diagnose <recording> [--max-seconds <s>] [--block <s>] [--gain-step-db <db>] [--signal <name> --prn <list> [--coherent <N>] [--noncoherent <M>] [--doppler-max <hz>] [--doppler-step <hz>] [--pfa <p>] [--step <s>] [--steps <n>] [--max-sat-doppler <hz>]]
+    { "   " }或：kshana iq gnss-sdr-conf <recording> [--signal <name[:channels]>,...] [--profile default|narrowband] [--doppler-max <hz>] [--rate-ms <ms>] [--monitor-ports <ch,pvt> | --no-monitor] [--out <file.conf>]
     { " " }labfit 场景：由接收机日志组成的 [[runs]]，或 [input] campaign = "<out-dir>"，指向 kshana iq campaign 的输出文件夹（相对于场景文件）
     { " " }环路设计：kshana.loop-design/1 TOML 文件（docs/design/LOOP-DESIGN-TOML.md）；显式给出的环路/捕获标志会覆盖所选设计
     { " " }acquire/track/sweep 也接受前端标志 [--bandpass lo,hi] [--notch] [--blank <thr>] [--excise] [--agc] [--bits <n>]，在处理之前应用（对捕获和跟踪两遍同样适用）
@@ -10844,3 +10846,16 @@ engine-rtkqa-caster-client = rtk-qa caster：客户端 { $peer } 收到 { $answe
 engine-rtkqa-log-summary = rtk-qa log-check：在 { $file } 中发现凭据 { $n } 次
 
 engine-rtkqa-failover-summary = rtk-qa failover：切换 { $switches } 次；改正数龄期超过上限的时间 { $over } s；最大龄期 { $max_age } s（MODELLED）
+
+## SDR front-end diagnostics and the GNSS-SDR configuration (src/iq/frontdiag.rs, src/iq/gnss_sdr_conf.rs)
+engine-e-iq-frontdiag-no-samples = 录制文件中没有样本
+engine-e-iq-frontdiag-positive = --block、--step 和 --gain-step-db 必须为正数
+engine-e-iq-gnss-sdr-conf-format = GNSS-SDR 的文件信号源读取 ci16_le、ci8 和 cf32_le，不读取 { $format }：请先转换录制文件（kshana iq convert <in> <out> --to ci16_le）
+engine-e-iq-gnss-sdr-conf-layout = GNSS-SDR 的文件信号源从一个无文件头的数据文件中读取一路数据流：请先提取该数据流（kshana iq convert）
+engine-e-iq-gnss-sdr-conf-if = 录制文件的中频不为零：请先将其变换到零中频（kshana iq decimate --if-hz）
+engine-e-iq-gnss-sdr-conf-no-signal = 请用 --signal 至少指定一个信号
+engine-e-iq-gnss-sdr-conf-rate = PVT 输出间隔必须是 20 ms 的整数倍，而不是 { $rate }
+engine-e-iq-gnss-sdr-conf-signal = 不为 { $signal } 生成 GNSS-SDR 配置（可生成：{ $known }）
+engine-e-iq-gnss-sdr-conf-centre = { $signal } 距录制文件的中心频率 { $offset_hz } Hz；GNSS-SDR 的默认处理链要求它位于零频
+engine-e-iq-gnss-sdr-conf-profile = 未知的配置档 { $profile }（default、narrowband）
+engine-iq-gnss-sdr-conf-written = 已将 GNSS-SDR 配置写入 { $path }

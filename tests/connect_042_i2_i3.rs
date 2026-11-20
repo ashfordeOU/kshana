@@ -154,6 +154,7 @@ fn rtcm_station_and_msm_round_trip() {
         lock_indicator: 600,
         half_cycle: false,
         cnr_dbhz: Some(cnr),
+        modulo_1ms: false,
     };
     for (msg, is7) in [(1077u16, true), (1074, false)] {
         let mut m = rtcm3_obs::MsmMessage {

@@ -9786,7 +9786,7 @@ engine-main-usage =
     { "   " }または：kshana obs <convert <log> --format <format> --station <station.toml> [--out <file>] | check <file.obs.jsonl> [--json]>
     { "   " }または：kshana connect <map <input> --mapping <connect.toml> --station <station.toml> [--out <file.obs.jsonl>] | check <vector.toml|dir> [--bless] | watch <dir> --mapping <connect.toml> --station <station.toml> [--suffix <.csv>] [--interval <s>] [--once] | mqtt <host:port> --topic <filter> --mapping <connect.toml> --station <station.toml> [--header <row>] [--qos 0|1] [--user <name> --password-env <VAR>] [--client-id <id>] [--max-messages <n>] [--per-topic] | nats <host:port> --subject <s> --mapping <connect.toml> --station <station.toml> [--header <row>] [--per-topic] [--user <name> --password-env <VAR> | --token-env <VAR>] [--max-messages <n>] | ws <ws://host:port/path> --mapping <connect.toml> --station <station.toml> [--header <row>] [--max-messages <n>] | check-live <vector.toml|dir> [--json] | load-test [--stations <n>] [--rate <Hz>] [--seconds <s>] [--via memory|mqtt] [--json] | adapters <list|check> [<dir>] [--json]>
     { "   " }または：kshana osnma verify <pages|vectors.csv|stream.ubx> [--merkle-root <hex>] [--public-key <id:type:hex>] [--reference-time <gst-s>] [--json] (kshana osnma --help)
-    { "   " }または：kshana iq <scene|acquire|track|sweep|labfit|campaign|conditions|frontend|monitor|inventory|info|extract|convert|decimate> ... (kshana iq --help)
+    { "   " }または：kshana iq <scene|acquire|track|sweep|labfit|campaign|conditions|frontend|monitor|diagnose|gnss-sdr-conf|inventory|info|extract|convert|decimate> ... (kshana iq --help)
     { "   " }または：kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }または：kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }または：kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
@@ -9943,6 +9943,8 @@ engine-iq-cli-usage =
     { "   " }または：kshana iq conditions <test-conditions.toml|json>
     { "   " }または：kshana iq frontend <in> <out> [--bandpass lo,hi] [--notch] [--blank <thr>] [--excise] [--agc] [--bits <n>] [--out-format <fmt>]
     { "   " }または：kshana iq monitor <recording> [--power] [--spectral] [--settings <toml|json>] [--baseline <s>] [--signal <name> --prn <list> [--spacing <chips>] [--pll-bw <hz>] [--fll-bw <hz>] [--dll-bw <hz>] [--coherent <N>] [--cn0-windows <M>] [--doppler-max <hz>]] [--max-seconds <s>] [--follow [--idle-timeout <s>]] [--json <out>] [--csv <prefix>]
+    { "   " }または：kshana iq diagnose <recording> [--max-seconds <s>] [--block <s>] [--gain-step-db <db>] [--signal <name> --prn <list> [--coherent <N>] [--noncoherent <M>] [--doppler-max <hz>] [--doppler-step <hz>] [--pfa <p>] [--step <s>] [--steps <n>] [--max-sat-doppler <hz>]]
+    { "   " }または：kshana iq gnss-sdr-conf <recording> [--signal <name[:channels]>,...] [--profile default|narrowband] [--doppler-max <hz>] [--rate-ms <ms>] [--monitor-ports <ch,pvt> | --no-monitor] [--out <file.conf>]
     { " " }labfit シナリオ：受信機ログの [[runs]]、または kshana iq campaign の出力フォルダ（シナリオファイルからの相対パス）を指す [input] campaign = "<out-dir>"
     { " " }ループ設計：kshana.loop-design/1 の TOML ファイル（docs/design/LOOP-DESIGN-TOML.md）。明示したループ/捕捉のフラグは、選択した設計より優先されます
     { " " }acquire/track/sweep はフロントエンドのフラグ [--bandpass lo,hi] [--notch] [--blank <thr>] [--excise] [--agc] [--bits <n>] も受け付け、処理の前（捕捉と追尾のパスの両方）に適用されます
@@ -10789,3 +10791,16 @@ engine-rtkqa-caster-client = rtk-qa caster：クライアント { $peer } への
 engine-rtkqa-log-summary = rtk-qa log-check：{ $file } で認証情報が { $n } 回見つかりました
 
 engine-rtkqa-failover-summary = rtk-qa failover：切り替え { $switches }；補正の経過時間が上限を超えた時間 { $over } s；最大経過時間 { $max_age } s（MODELLED）
+
+## SDR front-end diagnostics and the GNSS-SDR configuration (src/iq/frontdiag.rs, src/iq/gnss_sdr_conf.rs)
+engine-e-iq-frontdiag-no-samples = 録音にサンプルがありません
+engine-e-iq-frontdiag-positive = --block、--step、--gain-step-db は正の値でなければなりません
+engine-e-iq-gnss-sdr-conf-format = GNSS-SDR のファイル入力が読むのは ci16_le、ci8、cf32_le で、{ $format } は読めません。先に録音を変換してください（kshana iq convert <in> <out> --to ci16_le）
+engine-e-iq-gnss-sdr-conf-layout = GNSS-SDR のファイル入力はヘッダのない 1 つのデータファイルから 1 本のストリームを読みます。先にストリームを取り出してください（kshana iq convert）
+engine-e-iq-gnss-sdr-conf-if = 録音の中間周波数が 0 ではありません。先にゼロ IF にしてください（kshana iq decimate --if-hz）
+engine-e-iq-gnss-sdr-conf-no-signal = --signal で少なくとも 1 つの信号を指定してください
+engine-e-iq-gnss-sdr-conf-rate = PVT の出力間隔は 20 ms の倍数でなければなりません（{ $rate } ではなく）
+engine-e-iq-gnss-sdr-conf-signal = { $signal } の GNSS-SDR 設定は書き出されません（対象：{ $known }）
+engine-e-iq-gnss-sdr-conf-centre = { $signal } は録音の中心周波数から { $offset_hz } Hz 離れています。GNSS-SDR の既定のチェーンでは周波数 0 にある必要があります
+engine-e-iq-gnss-sdr-conf-profile = 不明なプロファイル { $profile }（default、narrowband）
+engine-iq-gnss-sdr-conf-written = GNSS-SDR 設定を { $path } に書き出しました

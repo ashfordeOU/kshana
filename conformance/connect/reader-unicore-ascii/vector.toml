@@ -1,0 +1,5 @@
+name = "built-in reader: unicore (the N4 manual's ASCII example lines)"
+input = "input.unc"
+reader = "unicore"
+station = "../../../examples/obs/station.toml"
+expected = "expected.obs.jsonl"
