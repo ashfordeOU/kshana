@@ -32,8 +32,8 @@ pub fn unpack(archive: &[u8]) -> Result<Vec<(String, String)>, String> {
     let mut raw: Vec<u8> = Vec::new();
     lzma_rs::xz_decompress(&mut &archive[..], &mut raw)
         .map_err(|e| format!("the packed catalogues do not decompress: {e:?}"))?;
-    let text = String::from_utf8(raw)
-        .map_err(|e| format!("the packed catalogues are not UTF-8: {e}"))?;
+    let text =
+        String::from_utf8(raw).map_err(|e| format!("the packed catalogues are not UTF-8: {e}"))?;
     let (head, body) = text
         .split_once("\n\n")
         .ok_or("the packed catalogues have no index")?;
