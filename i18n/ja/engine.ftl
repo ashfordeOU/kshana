@@ -10913,3 +10913,13 @@ engine-e-drone-failover-bad-spec = フェイルオーバー実行には、少な
 engine-e-drone-failover-bad-kind = 不明なソース種別 { $kind }（absolute、relative、inertial）
 engine-e-drone-failover-bad-event = イベントが不明なソースまたは状態を指しています：{ $source }（状態は fail または recover）
 engine-e-drone-zonotope-bad-geometry = 保護レベルには、有限の方位角・仰角と正の上限を持つ衛星が少なくとも四機と、解ける幾何配置が必要です
+
+## src/oscillator/mod.rs
+
+engine-oscillator-usage = 使い方: kshana oscillator <vibration|holdover|select|raim-aid|datasheet> <input.json>、または kshana oscillator refs（docs/OSCILLATOR.md）
+
+engine-e-oscillator-input = { $part } の入力が無効です: { $e }
+
+engine-e-oscillator-unknown-clock = 不明なクロックプリセット { $id }（{ $known } のいずれか）
+
+engine-e-oscillator-field = { $field } が範囲外です: { $value }

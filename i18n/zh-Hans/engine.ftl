@@ -10968,3 +10968,13 @@ engine-e-drone-failover-bad-spec = 故障切换运行需要至少一个源、正
 engine-e-drone-failover-bad-kind = 未知的源类型 { $kind }（absolute、relative、inertial）
 engine-e-drone-failover-bad-event = 事件指向未知的源或状态：{ $source }（状态为 fail 或 recover）
 engine-e-drone-zonotope-bad-geometry = 保护级需要至少四颗具有有限方位角、仰角和正误差界的卫星，以及可解的几何构型
+
+## src/oscillator/mod.rs
+
+engine-oscillator-usage = 用法：kshana oscillator <vibration|holdover|select|raim-aid|datasheet> <input.json>，或 kshana oscillator refs（docs/OSCILLATOR.md）
+
+engine-e-oscillator-input = { $part } 输入无效：{ $e }
+
+engine-e-oscillator-unknown-clock = 未知的时钟预设 { $id }（可选：{ $known }）
+
+engine-e-oscillator-field = { $field } 超出范围：{ $value }

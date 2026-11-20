@@ -11688,3 +11688,13 @@ engine-e-drone-failover-bad-spec = ümberlülituse käivitus vajab vähemalt üh
 engine-e-drone-failover-bad-kind = tundmatu allika liik { $kind } (absolute, relative, inertial)
 engine-e-drone-failover-bad-event = sündmus nimetab tundmatu allika või oleku: { $source } (olek fail või recover)
 engine-e-drone-zonotope-bad-geometry = kaitsetase vajab vähemalt nelja satelliiti lõpliku asimuudi ja kõrgusnurga ning positiivse piiriga ja lahenduvat geomeetriat
+
+## src/oscillator/mod.rs
+
+engine-oscillator-usage = kasutus: kshana oscillator <vibration|holdover|select|raim-aid|datasheet> <input.json> või kshana oscillator refs (docs/OSCILLATOR.md)
+
+engine-e-oscillator-input = { $part } sisend ei ole kehtiv: { $e }
+
+engine-e-oscillator-unknown-clock = tundmatu kella eelseadistus { $id } (üks järgmistest: { $known })
+
+engine-e-oscillator-field = { $field } on väljaspool vahemikku: { $value }

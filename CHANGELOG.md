@@ -9,6 +9,8 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+- **`kshana oscillator`: oscillator models from datasheet figures** (`src/oscillator/`, [docs/OSCILLATOR.md](docs/OSCILLATOR.md)). `vibration`: acceleration sensitivity to carrier phase jitter (sinusoidal lines and random-vibration profiles, whole band and loop-filtered) and the PLL tracking threshold; the sideband levels reproduce seven of the eight rows of Filler (1988) Tables I and II. `holdover`: time error through temperature profiles (with a thermal lag) and shocks (frequency and phase steps, outages), on the telecom-timing datasheet presets or a stated clock. `select`: one pass, fail or unknown check per stated requirement for each candidate, unranked, also usable as readiness tests for target specifications. `raim-aid`: slope RAIM protection levels with the clock as an extra measurement against the time since calibration. `datasheet`: the power-law fit of a datasheet's Allan deviation points and the TDEV it implies. `refs`: cited acceleration sensitivities. MODELLED apart from the sideband check; every message is in the 18 engine catalogues. Tests: `tests/oscillator.rs`.
+
 ### Added (space weather for PNT and drag)
 
 - `kshana space-weather` (src/space_weather_pnt/, docs/SPACE-WEATHER-PNT.md): a storm library of eight recorded

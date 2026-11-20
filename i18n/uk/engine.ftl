@@ -11849,3 +11849,13 @@ engine-e-drone-failover-bad-spec = прогону перемикання пот�
 engine-e-drone-failover-bad-kind = невідомий вид джерела { $kind } (absolute, relative, inertial)
 engine-e-drone-failover-bad-event = подія називає невідоме джерело або стан: { $source } (стан fail або recover)
 engine-e-drone-zonotope-bad-geometry = для рівня захисту потрібні щонайменше чотири супутники зі скінченними азимутом і кутом місця та додатною межею, а також розв'язна геометрія
+
+## src/oscillator/mod.rs
+
+engine-oscillator-usage = використання: kshana oscillator <vibration|holdover|select|raim-aid|datasheet> <input.json> або kshana oscillator refs (docs/OSCILLATOR.md)
+
+engine-e-oscillator-input = вхідні дані { $part } недійсні: { $e }
+
+engine-e-oscillator-unknown-clock = невідома передустановка годинника { $id } (одна з: { $known })
+
+engine-e-oscillator-field = { $field } поза допустимим діапазоном: { $value }
