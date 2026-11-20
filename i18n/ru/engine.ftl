@@ -10797,6 +10797,7 @@ engine-main-usage =
     { "   " }или: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }или: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }или: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
+    { "   " }или: kshana feed <pack|verify|send|spectrum|leaderboard> ... (kshana feed --help)
     { "   " }или: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }или: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }или: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
@@ -11928,3 +11929,31 @@ engine-e-oscillator-input = входные данные { $part } недопус
 engine-e-oscillator-unknown-clock = неизвестная предустановка часов { $id } (одна из: { $known })
 
 engine-e-oscillator-field = { $field } вне допустимого диапазона: { $value }
+
+## Feeder clients (src/feeder.rs, docs/FEEDER.md)
+engine-feed-usage = использование: kshana feed pack <file.obs.jsonl|dir>... --key <keyfile> [--privacy public|exact] [--grid-deg <deg>] [--created <time>] [--include-open] [--out <bundle.json>] | verify <bundle.json> [--pubkey <hex>] [--json] | send <bundle.json> --url <http://host:port/path> [--token-file <file>] | spectrum <capture> --format cu8|ci8|ci16_le --rate <Hz> --centre <Hz> --station <station.toml> [--front-end <name>] [--nfft <n>] [--bins <n>] [--max-samples <n>] [--time <label>] [--out <file.obs.jsonl>] | leaderboard <bundle.json>... [--json]  (docs/FEEDER.md)
+engine-feed-packed = { $out }: пакет станции { $station }, файлов: { $files }, эпох: { $epochs }, приватность { $mode }
+engine-feed-verified = { $path }: подпись верна (подписант { $key }); станция { $station }, файлов: { $files }, эпох: { $epochs }, каждый файл — корректный kshana.obs/1
+engine-feed-sent = отправлено на { $url }: HTTP { $code }
+engine-feed-spectrum-written = { $out }: снимок спектра, полос: { $bins } (MODELLED: уровни относительно полной шкалы, не калиброванная мощность)
+engine-e-feed-missing-value = { $option } требует значения
+engine-e-feed-unknown-option = неизвестный параметр { $option } (kshana feed --help перечисляет параметры)
+engine-e-feed-cannot-read = не удаётся прочитать { $path }: { $e }
+engine-e-feed-cannot-write = не удаётся записать { $path }: { $e }
+engine-e-feed-not-obs = { $path } не является корректным файлом kshana.obs/1: { $e }
+engine-e-feed-mixed-stations = файлы получены более чем с одной станции ({ $a } и { $b }); упаковывайте одну станцию в пакет
+engine-e-feed-no-files = нет файлов наблюдений для упаковки
+engine-e-feed-bad-privacy = неизвестный режим приватности { $value } (public или exact)
+engine-e-feed-bad-grid = сетка положения должна быть от 0.01 до 10 градусов, а не { $value }
+engine-e-feed-not-bundle = не пакет kshana.feed/1: { $e }
+engine-e-feed-bad-signature = подпись пакета неверна
+engine-e-feed-key-mismatch = пакет подписан ключом { $found }, а не ожидаемым ключом { $expected }
+engine-e-feed-hash-mismatch = содержимое { $name } не совпадает с записанным SHA-256
+engine-e-feed-payload-mismatch = содержимое { $name } не соответствует станции или числу записей, указанным в пакете
+engine-e-feed-not-coarsened = содержимое { $name } публичного пакета всё ещё содержит { $what }
+engine-e-feed-bad-format = неподдерживаемый формат отсчётов { $value } (cu8, ci8 или ci16_le)
+engine-e-feed-bad-number = { $option }: { $value } здесь недопустимое значение
+engine-e-feed-short-capture = запись содержит { $n } отсчётов, меньше длины преобразования { $nfft }
+engine-e-feed-send-failed = не удалось отправить на { $url }: { $e }
+engine-e-feed-send-refused = { $url } отклонил пакет: HTTP { $code }
+engine-e-obs-bad-spectrum = строка { $line }: спектру нужны конечные время и центральная частота, положительные частота дискретизации и ширина полосы и конечные уровни

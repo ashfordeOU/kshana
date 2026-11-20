@@ -213,3 +213,7 @@ orbit-data-too-few-points: n deg need
 orbit-data-gp-compare-summary: n flagged only_a only_b
 orbit-data-gp-audit-summary: sets objects findings
 e-orbit-data-convert-one-object: n
+feed-packed: files epochs
+feed-verified: files epochs
+feed-spectrum-written: bins
+e-feed-short-capture: n nfft
