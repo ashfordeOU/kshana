@@ -87,6 +87,7 @@ fn msm_frame(epoch_ms: u32) -> Vec<u8> {
             lock_indicator: 9,
             half_cycle: false,
             cnr_dbhz: Some(45.0),
+            modulo_1ms: false,
         }],
     };
     frame(&rtcm3_obs::encode_msm(&m).unwrap()).unwrap()
