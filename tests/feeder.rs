@@ -53,16 +53,7 @@ fn payload_records(b: &Bundle) -> Vec<Record> {
         .collect()
 }
 
-fn scratch() -> PathBuf {
-    static N: AtomicUsize = AtomicUsize::new(0);
-    let d = std::env::temp_dir().join(format!(
-        "kshana-feed-{}-{}",
-        std::process::id(),
-        N.fetch_add(1, Ordering::SeqCst)
-    ));
-    std::fs::create_dir_all(&d).unwrap();
-    d
-}
+static SEQ: AtomicUsize = AtomicUsize::new(0);
 
 #[test]
 fn the_input_carries_what_the_public_mode_must_remove() {
@@ -396,18 +387,20 @@ fn the_leaderboard_counts_verified_distinct_payloads_only() {
 
 #[test]
 fn a_station_directory_leaves_out_the_file_being_written() {
-    let d = scratch();
-    let src = d.join("ubx-1");
+    let seq = SEQ.fetch_add(1, Ordering::SeqCst);
+    let dir = std::env::temp_dir().join(format!("kshana-feed-{}-{seq}", std::process::id()));
+    std::fs::create_dir_all(&dir).unwrap();
+    let src = dir.join("ubx-1");
     std::fs::create_dir_all(&src).unwrap();
     let (_, text) = nmea_file();
     for n in ["000001", "000002", "000003"] {
         std::fs::write(src.join(format!("{n}.obs.jsonl")), &text).unwrap();
     }
-    let got = feeder::collect_inputs(&d, false).unwrap();
+    let got = feeder::collect_inputs(&dir, false).unwrap();
     assert_eq!(got.len(), 2);
     assert!(got.iter().all(|p| !p.ends_with("000003.obs.jsonl")));
-    assert_eq!(feeder::collect_inputs(&d, true).unwrap().len(), 3);
-    std::fs::remove_dir_all(&d).ok();
+    assert_eq!(feeder::collect_inputs(&dir, true).unwrap().len(), 3);
+    std::fs::remove_dir_all(&dir).ok();
 }
 
 fn kshana(args: &[&str], dir: &Path) -> std::process::Output {
@@ -420,8 +413,10 @@ fn kshana(args: &[&str], dir: &Path) -> std::process::Output {
 
 #[test]
 fn the_command_line_packs_verifies_and_ranks() {
-    let d = scratch();
-    let key = d.join("feeder.key");
+    let seq = SEQ.fetch_add(1, Ordering::SeqCst);
+    let dir = std::env::temp_dir().join(format!("kshana-feed-{}-{seq}", std::process::id()));
+    std::fs::create_dir_all(&dir).unwrap();
+    let key = dir.join("feeder.key");
     std::fs::write(&key, hex::encode(SEED_A)).unwrap();
     #[cfg(unix)]
     {
@@ -429,7 +424,7 @@ fn the_command_line_packs_verifies_and_ranks() {
         std::fs::set_permissions(&key, std::fs::Permissions::from_mode(0o600)).unwrap();
     }
     let (_, text) = nmea_file();
-    std::fs::write(d.join("a.obs.jsonl"), text).unwrap();
+    std::fs::write(dir.join("a.obs.jsonl"), text).unwrap();
     let out = kshana(
         &[
             "feed",
@@ -442,14 +437,14 @@ fn the_command_line_packs_verifies_and_ranks() {
             "--out",
             "b.json",
         ],
-        &d,
+        &dir,
     );
     assert!(
         out.status.success(),
         "{}",
         String::from_utf8_lossy(&out.stderr)
     );
-    let out = kshana(&["feed", "verify", "b.json", "--json"], &d);
+    let out = kshana(&["feed", "verify", "b.json", "--json"], &dir);
     assert!(
         out.status.success(),
         "{}",
@@ -457,14 +452,14 @@ fn the_command_line_packs_verifies_and_ranks() {
     );
     let v: serde_json::Value = serde_json::from_slice(&out.stdout).unwrap();
     assert_eq!(v["privacy"], "public");
-    let out = kshana(&["feed", "leaderboard", "b.json", "--json"], &d);
+    let out = kshana(&["feed", "leaderboard", "b.json", "--json"], &dir);
     assert!(out.status.success());
     let v: serde_json::Value = serde_json::from_slice(&out.stdout).unwrap();
     assert_eq!(v["rows"][0]["rank"], 1);
     // The spectrum command writes a valid observation file.
-    std::fs::write(d.join("cap.cu8"), cu8_tone(8192, 2.048e6, 2e5)).unwrap();
+    std::fs::write(dir.join("cap.cu8"), cu8_tone(8192, 2.048e6, 2e5)).unwrap();
     std::fs::write(
-        d.join("station.toml"),
+        dir.join("station.toml"),
         "id = \"sdr-1\"\nlat_deg = 59.43\nlon_deg = 24.75\n",
     )
     .unwrap();
@@ -484,21 +479,21 @@ fn the_command_line_packs_verifies_and_ranks() {
             "--out",
             "s.obs.jsonl",
         ],
-        &d,
+        &dir,
     );
     assert!(
         out.status.success(),
         "{}",
         String::from_utf8_lossy(&out.stderr)
     );
-    let s = std::fs::read_to_string(d.join("s.obs.jsonl")).unwrap();
+    let s = std::fs::read_to_string(dir.join("s.obs.jsonl")).unwrap();
     assert_eq!(obs::check(&s).unwrap().1.spectra, 1);
     // Usage errors exit 2 and name the command.
-    let out = kshana(&["feed", "pack", "a.obs.jsonl", "--bogus"], &d);
+    let out = kshana(&["feed", "pack", "a.obs.jsonl", "--bogus"], &dir);
     assert_eq!(out.status.code(), Some(2));
-    let out = kshana(&["feed"], &d);
+    let out = kshana(&["feed"], &dir);
     assert!(String::from_utf8_lossy(&out.stderr).contains("kshana feed"));
-    std::fs::remove_dir_all(&d).ok();
+    std::fs::remove_dir_all(&dir).ok();
 }
 
 #[test]
