@@ -10803,6 +10803,7 @@ engine-main-usage =
     { "   " }или: kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
     { "   " }или: kshana orbit-data <check|convert|gp-compare|gp-audit|cov> ... (kshana orbit-data --help)
     { "   " }или: kshana drone <prearm|prearm-calibrate|estimator-cases|dr-budget|quad-loss|failover|zonotope-pl> ... (kshana drone --help)
+    { "   " }или: kshana leo-verify <burst-timing|holdover-tdev|cost|indoor|rain-fade|rtk-ar|jam-claim|doppler-integrity> <input.json>
     { "   " }или: kshana kinds [--json]
     { "   " }или: kshana example [<name>]
     { "   " }или: kshana --help | --version
@@ -11928,3 +11929,15 @@ engine-e-oscillator-input = входные данные { $part } недопус
 engine-e-oscillator-unknown-clock = неизвестная предустановка часов { $id } (одна из: { $known })
 
 engine-e-oscillator-field = { $field } вне допустимого диапазона: { $value }
+
+## src/leo_verify/mod.rs
+
+engine-leo-verify-usage = использование: kshana leo-verify <burst-timing|holdover-tdev|cost|indoor|rain-fade|rtk-ar|jam-claim|doppler-integrity> <input.json> (docs/LEO-VERIFY.md)
+
+engine-e-leo-verify-input = входные данные { $part } недопустимы: { $e }
+
+engine-e-leo-verify-field = { $field } вне допустимого диапазона: { $value }
+
+engine-e-leo-verify-too-large = расчёт слишком велик: { $n } шагов (не более { $max })
+
+engine-e-leo-verify-unknown-id = { $field } указывает неизвестный идентификатор: { $id }

@@ -10394,6 +10394,7 @@ engine-main-usage =
     { "   " }or: kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
     { "   " }or: kshana orbit-data <check|convert|gp-compare|gp-audit|cov> ... (kshana orbit-data --help)
     { "   " }or: kshana drone <prearm|prearm-calibrate|estimator-cases|dr-budget|quad-loss|failover|zonotope-pl> ... (kshana drone --help)
+    { "   " }or: kshana leo-verify <burst-timing|holdover-tdev|cost|indoor|rain-fade|rtk-ar|jam-claim|doppler-integrity> <input.json>
     { "   " }or: kshana kinds [--json]
     { "   " }or: kshana example [<name>]
     { "   " }or: kshana --help | --version
@@ -12093,3 +12094,15 @@ engine-e-oscillator-input = the { $part } input is not valid: { $e }
 engine-e-oscillator-unknown-clock = unknown clock preset { $id } (one of { $known })
 
 engine-e-oscillator-field = { $field } is out of range: { $value }
+
+## src/leo_verify/mod.rs
+
+engine-leo-verify-usage = usage: kshana leo-verify <burst-timing|holdover-tdev|cost|indoor|rain-fade|rtk-ar|jam-claim|doppler-integrity> <input.json> (docs/LEO-VERIFY.md)
+
+engine-e-leo-verify-input = the { $part } input is not valid: { $e }
+
+engine-e-leo-verify-field = { $field } is out of range: { $value }
+
+engine-e-leo-verify-too-large = the run is too large: { $n } steps (at most { $max })
+
+engine-e-leo-verify-unknown-id = { $field } names an unknown id: { $id }
