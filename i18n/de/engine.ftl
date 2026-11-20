@@ -10592,6 +10592,7 @@ engine-main-usage =
     { "   " }oder: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }oder: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }oder: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
+    { "   " }oder: kshana signal-readiness <profile.toml> [<obs.rnx>...]
     { "   " }oder: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }oder: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }oder: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
@@ -11720,3 +11721,10 @@ engine-e-oscillator-input = die Eingabe für { $part } ist ungültig: { $e }
 engine-e-oscillator-unknown-clock = unbekannte Uhren-Voreinstellung { $id } (eine von { $known })
 
 engine-e-oscillator-field = { $field } liegt außerhalb des Bereichs: { $value }
+
+## Future-signal readiness (src/signal_readiness.rs, docs/SIGNAL-READINESS.md)
+engine-signal-readiness-usage = Aufruf: kshana signal-readiness <profile.toml> [<obs.rnx>...]  (docs/SIGNAL-READINESS.md)
+engine-e-signal-readiness-bad-rinex = { $path } ist keine RINEX-3- oder RINEX-4-Beobachtungsdatei: { $e }
+engine-e-signal-readiness-unknown-option = unbekannte Option { $option } (kshana signal-readiness --help)
+engine-e-signal-readiness-cannot-read = { $path } kann nicht gelesen werden: { $e }
+engine-e-signal-readiness-bad-profile = { $path } ist kein Empfängerprofil: { $e }

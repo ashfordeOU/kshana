@@ -10580,6 +10580,7 @@ engine-main-usage =
     { "   " }nebo: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }nebo: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }nebo: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
+    { "   " }nebo: kshana signal-readiness <profile.toml> [<obs.rnx>...]
     { "   " }nebo: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }nebo: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }nebo: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
@@ -11776,3 +11777,10 @@ engine-e-oscillator-input = vstup { $part } není platný: { $e }
 engine-e-oscillator-unknown-clock = neznámá předvolba hodin { $id } (jedna z { $known })
 
 engine-e-oscillator-field = { $field } je mimo rozsah: { $value }
+
+## Future-signal readiness (src/signal_readiness.rs, docs/SIGNAL-READINESS.md)
+engine-signal-readiness-usage = použití: kshana signal-readiness <profile.toml> [<obs.rnx>...]  (docs/SIGNAL-READINESS.md)
+engine-e-signal-readiness-bad-rinex = { $path } není pozorovací soubor RINEX 3 ani 4: { $e }
+engine-e-signal-readiness-unknown-option = neznámá volba { $option } (kshana signal-readiness --help)
+engine-e-signal-readiness-cannot-read = nelze číst { $path }: { $e }
+engine-e-signal-readiness-bad-profile = { $path } není profil přijímače: { $e }

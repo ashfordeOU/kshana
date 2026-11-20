@@ -9857,6 +9857,7 @@ engine-main-usage =
     { "   " }或：kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }或：kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }或：kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
+    { "   " }或：kshana signal-readiness <profile.toml> [<obs.rnx>...]
     { "   " }或：kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }或：kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }或：kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
@@ -10978,3 +10979,10 @@ engine-e-oscillator-input = { $part } 输入无效：{ $e }
 engine-e-oscillator-unknown-clock = 未知的时钟预设 { $id }（可选：{ $known }）
 
 engine-e-oscillator-field = { $field } 超出范围：{ $value }
+
+## Future-signal readiness (src/signal_readiness.rs, docs/SIGNAL-READINESS.md)
+engine-signal-readiness-usage = 用法：kshana signal-readiness <profile.toml> [<obs.rnx>...]  (docs/SIGNAL-READINESS.md)
+engine-e-signal-readiness-bad-rinex = { $path } 不是 RINEX 3 或 4 观测文件：{ $e }
+engine-e-signal-readiness-unknown-option = 未知选项 { $option }（kshana signal-readiness --help）
+engine-e-signal-readiness-cannot-read = 无法读取 { $path }：{ $e }
+engine-e-signal-readiness-bad-profile = { $path } 不是接收机配置文件：{ $e }
