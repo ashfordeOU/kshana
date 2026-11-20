@@ -13,6 +13,15 @@ breaking changes are called out explicitly.
 - **Smaller published crate: the DE440 Moon PA orientation series is embedded as binary.** `src/lunar_orientation.rs` now embeds `data/lunar/de440_moon_pa.bin` instead of the 1.6 MB CSV: the same 6 209 x 10 doubles, bit for bit (`tests/lunar_orientation_binary.rs`), column-major and byte-planed, about 352 KB of the `.crate` against 650 KB. Results are unchanged. The CSV stays in the repository as the source of record and is no longer packaged. Regenerate with `scripts/gen_de440_moon_pa_bin.py`.
 - **Smaller published crate: the seventeen translated engine catalogues ship as one xz stream.** The `.crate` carries `data/i18n/catalogues.xz` (about 1.9 MB) in place of `i18n/<lang>/engine.ftl` (13.4 MB of text, about 3.8 MB as separate gzip members): 10 192 071 bytes before, about 8 254 190 after: 1.94 MB more headroom under crates.io's 10 MiB limit. The `.ftl` files stay the source in the repository and are what a build from a checkout embeds, exactly as before. In a build of the published crate, `build.rs` decodes the archive (pure-Rust `lzma-rs`, MIT, a build dependency only) and the library embeds the decoded text, so no decoding happens at run time and the messages are byte for byte the same (`tests/i18n_packed.rs`). The archive is generated, never committed: `python3 scripts/pack_catalogues.py` (CI's `package` job, the crates.io release and the sdist build run it; contributors never need to).
 
+### Added (Arctic GNSS availability planner)
+
+- `kshana arctic-plan` (src/arctic_plan.rs, docs/ARCTIC-PLAN.md): the `kshana sky` geometry stepped over a planning
+  horizon at a high-latitude site or a named Arctic place, with satellites in view, PDOP/HDOP/VDOP, the elevation
+  ceiling of each GNSS preset (closed form, about 45 degrees for GPS at the pole), the share of the poleward sky, the
+  windows where a stated requirement holds and those long enough for a task, a per-system comparison, element sets at
+  a date, and an auroral-oval check with a raised-mask availability inside the oval. Each epoch equals a direct
+  `kshana sky` request at the test sites. MODELLED.
+
 ### Added (space weather for PNT and drag)
 
 - `kshana space-weather` (src/space_weather_pnt/, docs/SPACE-WEATHER-PNT.md): a storm library of eight recorded
