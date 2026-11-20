@@ -10296,7 +10296,7 @@
    {
     "var": "lit_0_5"
    },
-   " or coarser>] [--bbox <south,west,north,east>] [--delay-hours <24 or more>]\n   or: kshana interference-map sensitivity <input.csv|trace.json[.gz]|dir> --dataset <adsb-lol|custom> --day <YYYY-MM-DD> --out <report.json> [--bbox <south,west,north,east>]\n   or: kshana interference-map fetch-land --out <land.geojson> --allow-network\n   (--dataset custom also needs --licence <text> --licence-url <url> --attribution <text>)"
+   " or coarser>] [--bbox <south,west,north,east>] [--delay-hours <24 or more>]\n   or: kshana interference-map sensitivity <input.csv|trace.json[.gz]|dir> --dataset <adsb-lol|custom> --day <YYYY-MM-DD> --out <report.json> [--bbox <south,west,north,east>]\n   or: kshana interference-map fetch-land --out <land.geojson> --allow-network\n   or: kshana interference-map incidents <validate <library.json> [--releases <RELEASES.json>] [--json] | release <library.json> --out <dir> | from-observatory <day.incidents.json> --source-url <https://...> --out <file.json>>\n   (--dataset custom also needs --licence <text> --licence-url <url> --attribution <text>)"
   ]
  },
  {
@@ -15309,6 +15309,51 @@
   "error": false,
   "parts": [
    "usage: kshana time-vectors [--json] [<vectors.json | dir> ...]  (no path: the built-in set, data/conformance/time; docs/TIME-VECTORS.md)"
+  ]
+ },
+ {
+  "id": "interference-incidents-valid",
+  "error": false,
+  "parts": [
+   {
+    "var": "file"
+   },
+   ": ",
+   {
+    "var": "n"
+   },
+   " records, valid"
+  ]
+ },
+ {
+  "id": "e-interference-incidents-invalid",
+  "error": true,
+  "parts": [
+   {
+    "var": "n"
+   },
+   " problem(s) in the incident library; run kshana interference-map incidents validate <file> for the list"
+  ]
+ },
+ {
+  "id": "e-interference-incidents-not-a-document",
+  "error": true,
+  "parts": [
+   {
+    "var": "file"
+   },
+   " is not a ",
+   {
+    "var": "schema"
+   },
+   " document"
+  ]
+ },
+ {
+  "id": "e-interference-incidents-source-url-required",
+  "error": true,
+  "parts": [
+   "--source-url is required: every record cites the https:// address where the product is published"
   ]
  }
 ]

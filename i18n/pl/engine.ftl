@@ -10850,6 +10850,7 @@ engine-interference-map-cli-usage-map =
     { "   " }lub: kshana interference-map daily <input.csv|trace.json[.gz]|dir> --dataset <adsb-lol|custom> --day <YYYY-MM-DD> --out <dir> [--cell-deg <deg, { $lit_0_5 } or coarser>] [--bbox <south,west,north,east>] [--delay-hours <24 or more>]
     { "   " }lub: kshana interference-map sensitivity <input.csv|trace.json[.gz]|dir> --dataset <adsb-lol|custom> --day <YYYY-MM-DD> --out <report.json> [--bbox <south,west,north,east>]
     { "   " }lub: kshana interference-map fetch-land --out <land.geojson> --allow-network
+    { "   " }lub: kshana interference-map incidents <validate <library.json> [--releases <RELEASES.json>] [--json] | release <library.json> --out <dir> | from-observatory <day.incidents.json> --source-url <https://...> --out <file.json>>
     { "   " }(--dataset custom wymaga także --licence <text> --licence-url <url> --attribution <text>)
 
 engine-interference-map-cli-usage-route = użycie: kshana route-exposure --route <route.geojson|route.csv> --map <map.geojson|dir> [--map ...] [--from <YYYY-MM-DD>] [--to <YYYY-MM-DD>] [--out <report.json>] [--json]
@@ -11711,3 +11712,9 @@ engine-e-interference-map-locate-bad-tdoa = { $path } nie jest użytecznym pliki
 engine-e-interference-map-locate-source-required = wymagane jest --source adsb albo --source ais
 
 engine-e-interference-map-locate-no-evidence-rows = brak wierszy dowodowych dla wyników locate
+
+## Interference-incident format and case library (src/interference_map/incident.rs)
+engine-interference-incidents-valid = { $file }: { $n } rekordów, poprawny
+engine-e-interference-incidents-invalid = { $n } problem(y) w bibliotece incydentów; listę pokazuje kshana interference-map incidents validate <file>
+engine-e-interference-incidents-not-a-document = { $file } nie jest dokumentem { $schema }
+engine-e-interference-incidents-source-url-required = --source-url jest wymagany: każdy rekord podaje adres https://, pod którym opublikowano produkt

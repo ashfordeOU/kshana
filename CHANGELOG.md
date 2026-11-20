@@ -9,6 +9,20 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+### Added (interference observatory: incident format, case library, confidence statement)
+
+- Open interference-incident format `kshana-interference-incidents/1` with a causation vocabulary
+  (`kshana-interference-vocabulary/1`: jamming, spoofing, meaconing, AIS manipulation, unspecified, unattributed
+  degradation; confidence confirmed/probable/suspected/undetermined, each tied to the evidence it needs; technical
+  origin categories only, no actor field), a JSON Schema and `kshana interference-map incidents validate | release |
+  from-observatory` (`docs/INTERFERENCE-INCIDENTS.md`).
+- Public case library `data/interference-incidents/library.json` 1.0.0: 19 REPORTED records, each citing https
+  sources, with an immutable-release register (`RELEASES.json`) checked by `tests/interference_incidents.rs` and a
+  Zenodo-ready release bundle (JSON, CSV, schema, `.zenodo.json`, SHA-256 manifest).
+- Interference map: every published cell carries a `confidence` statement (level, Wilson 95% interval of the
+  affected share when published, NACp/NIC report shares) and every file a `data_window`; the observatory product
+  states its latency (`last_report_utc`, `min_latency_hours`). Additive fields; format versions unchanged.
+
 ### Added (parser hardening and time-scale conformance vectors)
 
 - `tests/parser_robustness.rs`: a deterministic mutation fuzzer (no new dependency) with a counting allocator drives

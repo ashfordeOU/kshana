@@ -10895,6 +10895,7 @@ engine-interference-map-cli-usage-map =
     { "   " }или: kshana interference-map daily <input.csv|trace.json[.gz]|dir> --dataset <adsb-lol|custom> --day <YYYY-MM-DD> --out <dir> [--cell-deg <deg, { $lit_0_5 } или крупнее>] [--bbox <south,west,north,east>] [--delay-hours <24 или больше>]
     { "   " }или: kshana interference-map sensitivity <input.csv|trace.json[.gz]|dir> --dataset <adsb-lol|custom> --day <YYYY-MM-DD> --out <report.json> [--bbox <south,west,north,east>]
     { "   " }или: kshana interference-map fetch-land --out <land.geojson> --allow-network
+    { "   " }или: kshana interference-map incidents <validate <library.json> [--releases <RELEASES.json>] [--json] | release <library.json> --out <dir> | from-observatory <day.incidents.json> --source-url <https://...> --out <file.json>>
     { "   " }(для --dataset custom также нужны --licence <text> --licence-url <url> --attribution <text>)
 
 engine-interference-map-cli-usage-route = использование: kshana route-exposure --route <route.geojson|route.csv> --map <map.geojson|dir> [--map ...] [--from <YYYY-MM-DD>] [--to <YYYY-MM-DD>] [--out <report.json>] [--json]
@@ -11698,3 +11699,9 @@ engine-e-interference-map-locate-bad-tdoa = { $path } не является пр
 engine-e-interference-map-locate-source-required = нужен --source adsb или --source ais
 
 engine-e-interference-map-locate-no-evidence-rows = для выходных данных locate не перечислено строк подтверждающих данных
+
+## Interference-incident format and case library (src/interference_map/incident.rs)
+engine-interference-incidents-valid = { $file }: записей { $n }, корректно
+engine-e-interference-incidents-invalid = В библиотеке инцидентов проблем: { $n }; список выводит kshana interference-map incidents validate <file>
+engine-e-interference-incidents-not-a-document = { $file } не является документом { $schema }
+engine-e-interference-incidents-source-url-required = --source-url обязателен: каждая запись ссылается на адрес https://, где опубликован продукт

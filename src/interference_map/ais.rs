@@ -416,6 +416,13 @@ impl AisAggregator {
             }
             let mut props = Map::new();
             props.insert("vessels_observed".into(), json!(n_obs));
+            props.insert(
+                "confidence".into(),
+                json!({
+                    "statement": super::adsb::CONFIDENCE_ID,
+                    "level": if n_obs >= 20 { "high" } else if n_obs >= 10 { "medium" } else { "low" },
+                }),
+            );
             let mut qualifying = Vec::new();
             let mut counts = Map::new();
             for d in Detector::ALL {
@@ -463,6 +470,13 @@ impl AisAggregator {
                 "disabled: no land polygons supplied"
             }),
         );
+        let window = vessels
+            .values()
+            .flatten()
+            .fold(None, |w: Option<(f64, f64)>, r| {
+                Some(w.map_or((r.t, r.t), |(a, b)| (a.min(r.t), b.max(r.t))))
+            });
+        meta.insert("data_window".into(), super::adsb::data_window_json(window));
         meta.insert("cells_published".into(), json!(out.len()));
         meta.insert(
             "cells_suppressed_below_min_distinct".into(),
