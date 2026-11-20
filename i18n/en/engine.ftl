@@ -10434,6 +10434,7 @@ engine-main-usage =
     { "   " }or: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
     { "   " }or: kshana space-receiver <clock|timestamps|dynamics|bench|mms|od-vs-tle> ... [--out <file.json>] (kshana space-receiver --help)
     { "   " }or: kshana feed <pack|verify|send|spectrum|leaderboard> ... (kshana feed --help)
+    { "   " }or: kshana register <check|crl-check|view|sign> ... (kshana register --help)
     { "   " }or: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }or: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }or: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
@@ -12231,3 +12232,25 @@ engine-e-feed-short-capture = the capture holds { $n } samples, fewer than the t
 engine-e-feed-send-failed = sending to { $url } failed: { $e }
 engine-e-feed-send-refused = { $url } refused the bundle: HTTP { $code }
 engine-e-obs-bad-spectrum = line { $line }: a spectrum needs a finite time and centre, a positive sample rate and bin width, and finite levels
+
+## Product register (src/product_register.rs, docs/PRODUCT-REGISTER.md)
+engine-register-usage = usage: kshana register check <register.json> [--key <hex>] | crl-check <crl.json> --key <hex> | view <register.json> [--key <hex>] [--crl <crl.json> --crl-key <hex>] [--date <YYYY-MM-DD>] [--json] | sign <register.json|crl.json> --key <keyfile> [--out <file>]  (docs/PRODUCT-REGISTER.md)
+engine-register-check-ok = { $path }: register of { $publisher }, { $n } entries, the signature verifies (signer { $key })
+engine-register-crl-check-ok = { $path }: revocation list of { $issuer }, { $n } revoked entries, the signature verifies; next list due { $next }
+engine-register-view-summary = at { $date }: { $current } current, { $due } due to be scored again, { $revoked } revoked
+engine-register-view-no-crl = no revocation list given: revocation is unknown (--crl <crl.json> --crl-key <hex>)
+engine-register-view-crl-stale = the revocation list is stale: its next update was due { $next }
+engine-e-register-key-mismatch = signed by { $found }, not by the expected key { $expected }
+engine-e-register-bad-signature = the signature does not verify
+engine-e-register-bad-date = { $field } is not a date written YYYY-MM-DD: { $value }
+engine-e-register-not-register = not a kshana.register/1 register: { $e }
+engine-e-register-not-crl = not a kshana.register-crl/1 revocation list: { $e }
+engine-e-register-bad-id = entry id { $id }: use 1 to 128 letters, digits, dots, hyphens or underscores
+engine-e-register-duplicate-id = entry id { $id } appears more than once
+engine-e-register-revalidate-before-scored = entry { $id } is to be scored again before the date it was scored
+engine-e-register-bad-digest = entry { $id }: evidence_sha256 must be 64 hex digits
+engine-e-register-missing-value = { $option } needs a value
+engine-e-register-cannot-read = cannot read { $path }: { $e }
+engine-e-register-cannot-write = cannot write { $path }: { $e }
+engine-e-register-unknown-option = unknown option { $option } (kshana register --help lists the options)
+engine-e-register-crl-needs-key = --crl and --crl-key go together: a revocation list is checked against the issuer's key

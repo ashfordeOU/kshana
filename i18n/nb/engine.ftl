@@ -10587,6 +10587,7 @@ engine-main-usage =
     { "   " }eller: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
     { "   " }eller: kshana space-receiver <clock|timestamps|dynamics|bench|mms|od-vs-tle> ... [--out <file.json>] (kshana space-receiver --help)
     { "   " }eller: kshana feed <pack|verify|send|spectrum|leaderboard> ... (kshana feed --help)
+    { "   " }eller: kshana register <check|crl-check|view|sign> ... (kshana register --help)
     { "   " }eller: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }eller: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }eller: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
@@ -11846,3 +11847,25 @@ engine-e-feed-short-capture = opptaket har { $n } samples, færre enn transforma
 engine-e-feed-send-failed = sending til { $url } mislyktes: { $e }
 engine-e-feed-send-refused = { $url } avviste bunten: HTTP { $code }
 engine-e-obs-bad-spectrum = linje { $line }: et spektrum trenger endelig tid og senterfrekvens, positiv samplingsrate og binbredde og endelige nivåer
+
+## Product register (src/product_register.rs, docs/PRODUCT-REGISTER.md)
+engine-register-usage = bruk: kshana register check <register.json> [--key <hex>] | crl-check <crl.json> --key <hex> | view <register.json> [--key <hex>] [--crl <crl.json> --crl-key <hex>] [--date <YYYY-MM-DD>] [--json] | sign <register.json|crl.json> --key <keyfile> [--out <file>]  (docs/PRODUCT-REGISTER.md)
+engine-register-check-ok = { $path }: register fra { $publisher }, { $n } oppføringer, signaturen er gyldig (underskriver { $key })
+engine-register-crl-check-ok = { $path }: tilbakekallingsliste fra { $issuer }, { $n } tilbakekalte oppføringer, signaturen er gyldig; neste liste ventes { $next }
+engine-register-view-summary = per { $date }: { $current } gjeldende, { $due } skal scores på nytt, { $revoked } tilbakekalt
+engine-register-view-no-crl = ingen tilbakekallingsliste oppgitt: tilbakekalling er ukjent (--crl <crl.json> --crl-key <hex>)
+engine-register-view-crl-stale = tilbakekallingslisten er utdatert: neste oppdatering skulle komme { $next }
+engine-e-register-key-mismatch = signert av { $found }, ikke av den forventede nøkkelen { $expected }
+engine-e-register-bad-signature = signaturen er ikke gyldig
+engine-e-register-bad-date = { $field } er ikke en dato på formen YYYY-MM-DD: { $value }
+engine-e-register-not-register = ikke et kshana.register/1-register: { $e }
+engine-e-register-not-crl = ikke en kshana.register-crl/1-tilbakekallingsliste: { $e }
+engine-e-register-bad-id = oppførings-id { $id }: bruk 1 til 128 bokstaver, sifre, punktum, bindestreker eller understreker
+engine-e-register-duplicate-id = oppførings-id { $id } forekommer mer enn én gang
+engine-e-register-revalidate-before-scored = oppføringen { $id } skal scores på nytt før datoen den ble scoret
+engine-e-register-bad-digest = oppføringen { $id }: evidence_sha256 må være 64 heksadesimale sifre
+engine-e-register-missing-value = { $option } trenger en verdi
+engine-e-register-cannot-read = kan ikke lese { $path }: { $e }
+engine-e-register-cannot-write = kan ikke skrive { $path }: { $e }
+engine-e-register-unknown-option = ukjent valg { $option } (kshana register --help viser valgene)
+engine-e-register-crl-needs-key = --crl og --crl-key hører sammen: en tilbakekallingsliste kontrolleres mot utstederens nøkkel

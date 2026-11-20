@@ -10843,6 +10843,7 @@ engine-main-usage =
     { "   " }или: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
     { "   " }или: kshana space-receiver <clock|timestamps|dynamics|bench|mms|od-vs-tle> ... [--out <file.json>] (kshana space-receiver --help)
     { "   " }или: kshana feed <pack|verify|send|spectrum|leaderboard> ... (kshana feed --help)
+    { "   " }или: kshana register <check|crl-check|view|sign> ... (kshana register --help)
     { "   " }или: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }или: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }или: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
@@ -12068,3 +12069,25 @@ engine-e-feed-short-capture = запись содержит { $n } отсчёт�
 engine-e-feed-send-failed = не удалось отправить на { $url }: { $e }
 engine-e-feed-send-refused = { $url } отклонил пакет: HTTP { $code }
 engine-e-obs-bad-spectrum = строка { $line }: спектру нужны конечные время и центральная частота, положительные частота дискретизации и ширина полосы и конечные уровни
+
+## Product register (src/product_register.rs, docs/PRODUCT-REGISTER.md)
+engine-register-usage = использование: kshana register check <register.json> [--key <hex>] | crl-check <crl.json> --key <hex> | view <register.json> [--key <hex>] [--crl <crl.json> --crl-key <hex>] [--date <YYYY-MM-DD>] [--json] | sign <register.json|crl.json> --key <keyfile> [--out <file>]  (docs/PRODUCT-REGISTER.md)
+engine-register-check-ok = { $path }: реестр { $publisher }, записей: { $n }, подпись верна (подписант { $key })
+engine-register-crl-check-ok = { $path }: список отзыва { $issuer }, отозванных записей: { $n }, подпись верна; следующий список ожидается { $next }
+engine-register-view-summary = на { $date }: действующих: { $current }, к повторной оценке: { $due }, отозванных: { $revoked }
+engine-register-view-no-crl = список отзыва не указан: статус отзыва неизвестен (--crl <crl.json> --crl-key <hex>)
+engine-register-view-crl-stale = список отзыва устарел: его следующее обновление ожидалось { $next }
+engine-e-register-key-mismatch = подписано ключом { $found }, а не ожидаемым ключом { $expected }
+engine-e-register-bad-signature = подпись неверна
+engine-e-register-bad-date = { $field } не является датой в формате YYYY-MM-DD: { $value }
+engine-e-register-not-register = не реестр kshana.register/1: { $e }
+engine-e-register-not-crl = не список отзыва kshana.register-crl/1: { $e }
+engine-e-register-bad-id = идентификатор записи { $id }: используйте от 1 до 128 букв, цифр, точек, дефисов или подчёркиваний
+engine-e-register-duplicate-id = идентификатор записи { $id } встречается более одного раза
+engine-e-register-revalidate-before-scored = запись { $id } должна быть оценена повторно раньше даты своей оценки
+engine-e-register-bad-digest = запись { $id }: evidence_sha256 должен состоять из 64 шестнадцатеричных цифр
+engine-e-register-missing-value = { $option } требует значения
+engine-e-register-cannot-read = не удаётся прочитать { $path }: { $e }
+engine-e-register-cannot-write = не удаётся записать { $path }: { $e }
+engine-e-register-unknown-option = неизвестный параметр { $option } (kshana register --help перечисляет параметры)
+engine-e-register-crl-needs-key = --crl и --crl-key задаются вместе: список отзыва проверяется ключом издателя

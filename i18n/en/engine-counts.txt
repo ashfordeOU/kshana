@@ -219,3 +219,6 @@ feed-packed: files epochs
 feed-verified: files epochs
 feed-spectrum-written: bins
 e-feed-short-capture: n nfft
+register-check-ok: n
+register-crl-check-ok: n
+register-view-summary: current due revoked

@@ -10626,6 +10626,7 @@ engine-main-usage =
     { "   " }nebo: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
     { "   " }nebo: kshana space-receiver <clock|timestamps|dynamics|bench|mms|od-vs-tle> ... [--out <file.json>] (kshana space-receiver --help)
     { "   " }nebo: kshana feed <pack|verify|send|spectrum|leaderboard> ... (kshana feed --help)
+    { "   " }nebo: kshana register <check|crl-check|view|sign> ... (kshana register --help)
     { "   " }nebo: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }nebo: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }nebo: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
@@ -11916,3 +11917,25 @@ engine-e-feed-short-capture = záznam obsahuje { $n } vzorků, méně než délk
 engine-e-feed-send-failed = odeslání na { $url } selhalo: { $e }
 engine-e-feed-send-refused = { $url } odmítl balík: HTTP { $code }
 engine-e-obs-bad-spectrum = řádek { $line }: spektrum vyžaduje konečný čas a střední frekvenci, kladnou vzorkovací frekvenci a šířku pásma a konečné úrovně
+
+## Product register (src/product_register.rs, docs/PRODUCT-REGISTER.md)
+engine-register-usage = použití: kshana register check <register.json> [--key <hex>] | crl-check <crl.json> --key <hex> | view <register.json> [--key <hex>] [--crl <crl.json> --crl-key <hex>] [--date <YYYY-MM-DD>] [--json] | sign <register.json|crl.json> --key <keyfile> [--out <file>]  (docs/PRODUCT-REGISTER.md)
+engine-register-check-ok = { $path }: rejstřík vydavatele { $publisher }, záznamů: { $n }, podpis je platný (podepsal { $key })
+engine-register-crl-check-ok = { $path }: seznam odvolání vydavatele { $issuer }, odvolaných záznamů: { $n }, podpis je platný; další seznam { $next }
+engine-register-view-summary = k { $date }: platných { $current }, k novému hodnocení { $due }, odvolaných { $revoked }
+engine-register-view-no-crl = seznam odvolání nebyl zadán: stav odvolání je neznámý (--crl <crl.json> --crl-key <hex>)
+engine-register-view-crl-stale = seznam odvolání je zastaralý: jeho další aktualizace měla přijít { $next }
+engine-e-register-key-mismatch = podepsáno klíčem { $found }, ne očekávaným klíčem { $expected }
+engine-e-register-bad-signature = podpis není platný
+engine-e-register-bad-date = { $field } není datum ve tvaru YYYY-MM-DD: { $value }
+engine-e-register-not-register = není rejstřík kshana.register/1: { $e }
+engine-e-register-not-crl = není seznam odvolání kshana.register-crl/1: { $e }
+engine-e-register-bad-id = id záznamu { $id }: použijte 1 až 128 písmen, číslic, teček, pomlček nebo podtržítek
+engine-e-register-duplicate-id = id záznamu { $id } se vyskytuje vícekrát
+engine-e-register-revalidate-before-scored = záznam { $id } má být znovu hodnocen před datem svého hodnocení
+engine-e-register-bad-digest = záznam { $id }: evidence_sha256 musí mít 64 šestnáctkových číslic
+engine-e-register-missing-value = { $option } vyžaduje hodnotu
+engine-e-register-cannot-read = nelze číst { $path }: { $e }
+engine-e-register-cannot-write = nelze zapsat { $path }: { $e }
+engine-e-register-unknown-option = neznámá volba { $option } (kshana register --help vypíše volby)
+engine-e-register-crl-needs-key = --crl a --crl-key patří k sobě: seznam odvolání se ověřuje klíčem vydavatele

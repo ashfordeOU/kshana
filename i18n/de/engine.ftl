@@ -10638,6 +10638,7 @@ engine-main-usage =
     { "   " }oder: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
     { "   " }oder: kshana space-receiver <clock|timestamps|dynamics|bench|mms|od-vs-tle> ... [--out <file.json>] (kshana space-receiver --help)
     { "   " }oder: kshana feed <pack|verify|send|spectrum|leaderboard> ... (kshana feed --help)
+    { "   " }oder: kshana register <check|crl-check|view|sign> ... (kshana register --help)
     { "   " }oder: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }oder: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }oder: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
@@ -11860,3 +11861,25 @@ engine-e-feed-short-capture = die Aufnahme enthält { $n } Abtastwerte, weniger 
 engine-e-feed-send-failed = Senden an { $url } fehlgeschlagen: { $e }
 engine-e-feed-send-refused = { $url } hat das Bündel abgelehnt: HTTP { $code }
 engine-e-obs-bad-spectrum = Zeile { $line }: ein Spektrum braucht endliche Zeit und Mittenfrequenz, positive Abtastrate und Bin-Breite sowie endliche Pegel
+
+## Product register (src/product_register.rs, docs/PRODUCT-REGISTER.md)
+engine-register-usage = Aufruf: kshana register check <register.json> [--key <hex>] | crl-check <crl.json> --key <hex> | view <register.json> [--key <hex>] [--crl <crl.json> --crl-key <hex>] [--date <YYYY-MM-DD>] [--json] | sign <register.json|crl.json> --key <keyfile> [--out <file>]  (docs/PRODUCT-REGISTER.md)
+engine-register-check-ok = { $path }: Register von { $publisher }, { $n } Einträge, die Signatur ist gültig (Unterzeichner { $key })
+engine-register-crl-check-ok = { $path }: Sperrliste von { $issuer }, { $n } gesperrte Einträge, die Signatur ist gültig; nächste Liste fällig am { $next }
+engine-register-view-summary = am { $date }: { $current } aktuell, { $due } zur erneuten Bewertung fällig, { $revoked } gesperrt
+engine-register-view-no-crl = keine Sperrliste angegeben: der Sperrstatus ist unbekannt (--crl <crl.json> --crl-key <hex>)
+engine-register-view-crl-stale = die Sperrliste ist veraltet: ihre nächste Aktualisierung war am { $next } fällig
+engine-e-register-key-mismatch = signiert von { $found }, nicht vom erwarteten Schlüssel { $expected }
+engine-e-register-bad-signature = die Signatur ist ungültig
+engine-e-register-bad-date = { $field } ist kein Datum der Form YYYY-MM-DD: { $value }
+engine-e-register-not-register = kein kshana.register/1-Register: { $e }
+engine-e-register-not-crl = keine kshana.register-crl/1-Sperrliste: { $e }
+engine-e-register-bad-id = Eintrags-ID { $id }: 1 bis 128 Buchstaben, Ziffern, Punkte, Bindestriche oder Unterstriche verwenden
+engine-e-register-duplicate-id = Eintrags-ID { $id } kommt mehr als einmal vor
+engine-e-register-revalidate-before-scored = Eintrag { $id } soll vor dem Datum seiner Bewertung erneut bewertet werden
+engine-e-register-bad-digest = Eintrag { $id }: evidence_sha256 muss aus 64 Hexadezimalziffern bestehen
+engine-e-register-missing-value = { $option } braucht einen Wert
+engine-e-register-cannot-read = { $path } kann nicht gelesen werden: { $e }
+engine-e-register-cannot-write = { $path } kann nicht geschrieben werden: { $e }
+engine-e-register-unknown-option = unbekannte Option { $option } (kshana register --help listet die Optionen)
+engine-e-register-crl-needs-key = --crl und --crl-key gehören zusammen: eine Sperrliste wird gegen den Schlüssel des Ausstellers geprüft
