@@ -144,7 +144,7 @@ pub fn read_unicore(bytes: &[u8]) -> Result<Timeline, String> {
                             ms,
                             fields,
                         } => {
-                            if apply(&mut map, id, week, ms, Body::Ascii(&fields)).is_none() {
+                            if apply(&mut map, id, week, ms, Payload::Ascii(&fields)).is_none() {
                                 skipped += 1;
                             }
                         }
@@ -183,7 +183,7 @@ pub fn read_unicore(bytes: &[u8]) -> Result<Timeline, String> {
         ) {
             continue;
         }
-        if apply(&mut map, id, week, ms, Body::Binary(data)).is_none() {
+        if apply(&mut map, id, week, ms, Payload::Binary(data)).is_none() {
             skipped += 1;
         }
     }
@@ -199,7 +199,7 @@ pub fn read_unicore(bytes: &[u8]) -> Result<Timeline, String> {
 }
 
 /// A message body, binary or the ASCII fields after the `;`.
-enum Body<'a> {
+enum Payload<'a> {
     Binary(&'a [u8]),
     Ascii(&'a [String]),
 }
@@ -266,7 +266,7 @@ fn ascii_record(b: &[u8], start: usize) -> Option<(usize, Ascii)> {
 }
 
 /// Put one decoded message into its epoch; `None` when it is malformed.
-fn apply(map: &mut EpochMap, id: u16, week: u16, ms: u32, body: Body) -> Option<()> {
+fn apply(map: &mut EpochMap, id: u16, week: u16, ms: u32, body: Payload) -> Option<()> {
     if week == 0 || ms >= 604_800_000 {
         return None;
     }
@@ -296,8 +296,8 @@ fn apply(map: &mut EpochMap, id: u16, week: u16, ms: u32, body: Body) -> Option<
             Some(())
         }
         (Some(Parsed::Jam(f)), _) => jam(&f, e),
-        (None, Body::Binary(d)) if id == ID_BESTNAV => bestnav(d, e),
-        (None, Body::Binary(d)) if id == ID_OBSVM => obsvm(d, e),
+        (None, Payload::Binary(d)) if id == ID_BESTNAV => bestnav(d, e),
+        (None, Payload::Binary(d)) if id == ID_OBSVM => obsvm(d, e),
         _ => None,
     }
 }
@@ -309,15 +309,15 @@ enum Parsed {
 }
 
 /// The ten `AGC` values (binary shorts or ASCII integers).
-fn agc_values(b: &Body) -> Option<[i16; 10]> {
+fn agc_values(b: &Payload) -> Option<[i16; 10]> {
     let mut v = [0i16; 10];
     match b {
-        Body::Binary(d) => {
+        Payload::Binary(d) => {
             for (k, x) in v.iter_mut().enumerate() {
                 *x = le16(d, 2 * k)? as i16;
             }
         }
-        Body::Ascii(f) => {
+        Payload::Ascii(f) => {
             if f.len() < 10 {
                 return None;
             }
@@ -342,15 +342,15 @@ fn agc(v: &[i16; 10], e: &mut LogEpoch) {
 }
 
 /// The `CWFlag` values of a `JAMSTATUS` (one) or `FREQJAMSTATUS` (L1, L2, L5) message.
-fn cw_flags(id: u16, b: &Body) -> Option<Vec<u8>> {
+fn cw_flags(id: u16, b: &Payload) -> Option<Vec<u8>> {
     let bands = if id == ID_JAMSTATUS { 1 } else { 3 };
     let mut out = Vec::with_capacity(bands);
     for k in 0..bands {
         let f = match b {
             // position type u32, then (ratio, flag) pairs
-            Body::Binary(d) => *d.get(4 + 2 * k + 1)?,
+            Payload::Binary(d) => *d.get(4 + 2 * k + 1)?,
             // the position type is a name (`SINGLE`), then the pairs
-            Body::Ascii(f) => f.get(1 + 2 * k + 1)?.parse().ok()?,
+            Payload::Ascii(f) => f.get(1 + 2 * k + 1)?.parse().ok()?,
         };
         out.push(f);
     }
