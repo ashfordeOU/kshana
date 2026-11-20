@@ -641,7 +641,7 @@ pub fn degradation(
     let rec = recovery_s.unwrap_or(b.recovery_s);
     let ok = pulse_width_s > 0.0 && prf_hz > 0.0 && r_y >= 0.0 && rec >= 0.0 && r_y.is_finite();
     let pdc_y = pdc_above(pulse_width_s, rec, prf_hz);
-    if !ok || !(pdc_y < 1.0) {
+    if !ok || pdc_y.is_nan() || pdc_y >= 1.0 {
         return Err(crate::terr!("e-interference-env-saturated"));
     }
     let ratio = degradation_ratio(b, pdc_y, r_y);
