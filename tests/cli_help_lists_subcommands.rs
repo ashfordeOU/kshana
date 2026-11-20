@@ -55,6 +55,7 @@ fn the_top_level_usage_names_every_subcommand() {
         "feed <pack|verify|send|spectrum|leaderboard>",
         "register <check|crl-check|view|sign>",
         "interference-env <evaluate|thresholds|degradation>",
+        "signal-readiness <profile.toml>",
     ] {
         assert!(
             text.contains(want),

@@ -1463,3 +1463,13 @@ fn interference_environment_files() {
         }
     });
 }
+
+#[test]
+fn signal_readiness_profiles() {
+    let seed = head("examples/signal-readiness/legacy-receiver.toml", 40);
+    fuzz("signal-readiness profile", &[seed], None, |b| {
+        if let Ok(p) = toml::from_str::<kshana::signal_readiness::Profile>(&text(b)) {
+            let _ = kshana::signal_readiness::check_profile(&p);
+        }
+    });
+}
