@@ -9749,6 +9749,16 @@ engine-e-realdata-llr-crd-short-h4-record = h4（セッション）レコード�
 
 engine-e-mcp-main-needs-value = { $a } には値が必要です
 
+## AIS position-integrity flags (src/ais_integrity.rs)
+engine-ais-integrity-usage = 使い方：kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]  (docs/AIS-INTEGRITY.md)
+engine-ais-integrity-summary = 航跡 { $n_tracks } 件、フラグあり { $n_flagged } 件：フラグ { $n_flags } 件、イベント { $n_events } 件 (MODELLED)
+engine-e-ais-integrity-missing-value = { $option } には値が必要です
+engine-e-ais-integrity-unknown-option = 不明なオプション { $option }（kshana ais-integrity --help でオプションを一覧表示）
+engine-e-ais-integrity-bad-format = 不明な入力形式 { $value }（csv または nmea）
+engine-e-ais-integrity-cannot-read = { $path } を読み込めません：{ $e }
+engine-e-ais-integrity-cannot-write = { $path } に書き込めません：{ $e }
+engine-e-ais-integrity-bad-place = 地点リストの行が、有効な位置と正の半径を持つ name,lat,lon,radius_m ではありません：{ $row }
+
 engine-main-usage =
     使い方：kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }または：kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -9779,6 +9789,7 @@ engine-main-usage =
     { "   " }または：kshana iq <scene|acquire|track|sweep|labfit|campaign|conditions|frontend|monitor|inventory|info|extract|convert|decimate> ... (kshana iq --help)
     { "   " }または：kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }または：kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
+    { "   " }または：kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
     { "   " }または：kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }または：kshana kinds [--json]
     { "   " }または：kshana example [<name>]

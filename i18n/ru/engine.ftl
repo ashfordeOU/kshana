@@ -10756,6 +10756,16 @@ engine-e-realdata-llr-crd-short-h4-record = короткая запись h4 (с
 
 engine-e-mcp-main-needs-value = { $a } требует значение
 
+## AIS position-integrity flags (src/ais_integrity.rs)
+engine-ais-integrity-usage = использование: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]  (docs/AIS-INTEGRITY.md)
+engine-ais-integrity-summary = треков: { $n_tracks }, с отметками: { $n_flagged }; отметок: { $n_flags } в событиях: { $n_events } (MODELLED)
+engine-e-ais-integrity-missing-value = { $option } требует значения
+engine-e-ais-integrity-unknown-option = неизвестный параметр { $option } (параметры перечисляет kshana ais-integrity --help)
+engine-e-ais-integrity-bad-format = неизвестный формат входных данных { $value } (csv или nmea)
+engine-e-ais-integrity-cannot-read = не удаётся прочитать { $path }: { $e }
+engine-e-ais-integrity-cannot-write = не удаётся записать { $path }: { $e }
+engine-e-ais-integrity-bad-place = строка списка мест не имеет вида name,lat,lon,radius_m с допустимой позицией и положительным радиусом: { $row }
+
 engine-main-usage =
     использование: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }или: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10786,6 +10796,7 @@ engine-main-usage =
     { "   " }или: kshana iq <scene|acquire|track|sweep|labfit|campaign|conditions|frontend|monitor|inventory|info|extract|convert|decimate> ... (kshana iq --help)
     { "   " }или: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }или: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
+    { "   " }или: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
     { "   " }или: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }или: kshana kinds [--json]
     { "   " }или: kshana example [<name>]

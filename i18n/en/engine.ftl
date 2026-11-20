@@ -10347,6 +10347,16 @@ engine-e-mcp-main-needs-value = { $a } needs a value
 
 ## src/main.rs
 
+## AIS position-integrity flags (src/ais_integrity.rs)
+engine-ais-integrity-usage = usage: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]  (docs/AIS-INTEGRITY.md)
+engine-ais-integrity-summary = { $n_tracks } tracks, { $n_flagged } with flags: { $n_flags } flags in { $n_events } events (MODELLED)
+engine-e-ais-integrity-missing-value = { $option } needs a value
+engine-e-ais-integrity-unknown-option = unknown option { $option } (kshana ais-integrity --help lists the options)
+engine-e-ais-integrity-bad-format = unknown input format { $value } (csv or nmea)
+engine-e-ais-integrity-cannot-read = cannot read { $path }: { $e }
+engine-e-ais-integrity-cannot-write = cannot write { $path }: { $e }
+engine-e-ais-integrity-bad-place = a places row is not name,lat,lon,radius_m with a valid position and a positive radius: { $row }
+
 engine-main-usage =
     usage: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }or: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10377,6 +10387,7 @@ engine-main-usage =
     { "   " }or: kshana iq <scene|acquire|track|sweep|labfit|campaign|conditions|frontend|monitor|inventory|info|extract|convert|decimate> ... (kshana iq --help)
     { "   " }or: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }or: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
+    { "   " }or: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
     { "   " }or: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }or: kshana kinds [--json]
     { "   " }or: kshana example [<name>]

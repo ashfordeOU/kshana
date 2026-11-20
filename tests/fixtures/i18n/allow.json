@@ -9,6 +9,10 @@
    "count": 497,
    "reason": "identifier: the crosswalk of kind names to verification-matrix requirement text, matched by equality against the matrix rows (the new lunar, mission-thread and tip-and-cue kinds add rows), and report JSON keys"
   },
+  "src/ais_integrity.rs": {
+   "count": 96,
+   "reason": "machine-document and identifier: the kshana.ais-integrity/1 JSON Lines (field names, detector and reason names, parameter names, the method id and the English caveats written into that machine document; docs/AIS-INTEGRITY.md)"
+  },
   "src/area_trust/v3.rs": {
    "count": 1,
    "reason": "developer: an internal invariant message of the B5 v3 replay generator (expect), never shown for user input"
@@ -1086,8 +1090,8 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/main.rs": {
-   "count": 73,
-   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md); clock-live prints its error text as given; the sensor-live command name; the device and bench-speed command names; the data-pack, area-trust and env-baseline command names; the ephem-export command name; the time-vectors command name."
+   "count": 74,
+   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md); clock-live prints its error text as given; the sensor-live command name; the device and bench-speed command names; the data-pack, area-trust and env-baseline command names; the ephem-export command name; the time-vectors command name; the ais-integrity command name."
   },
   "src/mars_pnt.rs": {
    "count": 31,

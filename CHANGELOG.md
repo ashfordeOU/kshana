@@ -29,6 +29,18 @@ breaking changes are called out explicitly.
   Alpha-5 catalogue fields.
 
 
+### Added (AIS position-integrity flags)
+
+- `kshana ais-integrity`: per-track AIS position-integrity flags from CSV or NMEA 0183 `!AIVDM` (TAG-block times),
+  as JSON Lines (`kshana.ais-integrity/1`, `docs/AIS-INTEGRITY.md`). Twelve pre-registered detectors: position jumps,
+  implausible reported speed, speed inconsistency (speed over ground against the track, impossible steps, against
+  speed through the water), circles, drift while reporting no speed, on land (supplied coastline), at listed places
+  (for example airports), many vessels at one position, one identifier reported from two alternating places,
+  identifier changes and shared IMO numbers, and MMSI/IMO number checks. Flags close in time and space are joined
+  into events, which separates simultaneous episodes in different areas. MODELLED: labelled synthetic fixtures
+  (`tests/fixtures/ais_integrity/`, generator included) and false-alarm and detection rates on the M4 synthetic
+  scene; no emitter position is estimated and identities are written as the input states them.
+
 ### Changed (0.42 Q2, Q4, Q6, Q9, V1, V7: quality, platform and evidence rows)
 
 - Q4 Galileo and BeiDou broadcast health is read in the single-point solve: a Galileo record with any of its nine signal
