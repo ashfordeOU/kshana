@@ -10465,6 +10465,7 @@ engine-main-usage =
     { "   " }eller: kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
     { "   " }eller: kshana orbit-data <check|convert|gp-compare|gp-audit|cov> ... (kshana orbit-data --help)
     { "   " }eller: kshana drone <prearm|prearm-calibrate|estimator-cases|dr-budget|quad-loss|failover|zonotope-pl> ... (kshana drone --help)
+    { "   " }eller: kshana leo-verify <burst-timing|holdover-tdev|cost|indoor|rain-fade|rtk-ar|jam-claim|doppler-integrity> <input.json>
     { "   " }eller: kshana kinds [--json]
     { "   " }eller: kshana example [<name>]
     { "   " }eller: kshana --help | --version
@@ -11583,3 +11584,15 @@ engine-e-oscillator-input = indata för { $part } är inte giltiga: { $e }
 engine-e-oscillator-unknown-clock = okänd förinställning för klocka { $id } (en av { $known })
 
 engine-e-oscillator-field = { $field } ligger utanför intervallet: { $value }
+
+## src/leo_verify/mod.rs
+
+engine-leo-verify-usage = användning: kshana leo-verify <burst-timing|holdover-tdev|cost|indoor|rain-fade|rtk-ar|jam-claim|doppler-integrity> <input.json> (docs/LEO-VERIFY.md)
+
+engine-e-leo-verify-input = indata för { $part } är inte giltiga: { $e }
+
+engine-e-leo-verify-field = { $field } ligger utanför intervallet: { $value }
+
+engine-e-leo-verify-too-large = körningen är för stor: { $n } steg (högst { $max })
+
+engine-e-leo-verify-unknown-id = { $field } anger ett okänt id: { $id }
