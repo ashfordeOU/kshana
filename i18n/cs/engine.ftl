@@ -10549,6 +10549,34 @@ engine-e-ais-integrity-cannot-read = nelze číst { $path }: { $e }
 engine-e-ais-integrity-cannot-write = nelze zapsat { $path }: { $e }
 engine-e-ais-integrity-bad-place = řádek seznamu míst není name,lat,lon,radius_m s platnou polohou a kladným poloměrem: { $row }
 
+## SIL observation generator (src/sil_obs.rs)
+engine-sil-obs-usage = použití: kshana sil-obs generate <scenario.toml> --nav <nav.rnx> --out <sim.obs> [--truth <truth.jsonl>] | compare <a.obs> <b.obs> [--json] [--out <file.json>]  (docs/SIL-OBS.md)
+engine-sil-obs-summary = { $n_epochs } epoch, zapsáno { $n_obs } vzorků signálu; { $n_nlos } satelit-epoch NLOS a { $n_blocked } zablokovaných (MODELLED)
+engine-e-sil-obs-missing-value = { $option } vyžaduje hodnotu
+engine-e-sil-obs-unknown-option = neznámá volba { $option } (volby vypíše kshana sil-obs --help)
+engine-e-sil-obs-cannot-read = nelze číst { $path }: { $e }
+engine-e-sil-obs-cannot-write = nelze zapsat { $path }: { $e }
+engine-e-sil-obs-bad-scenario = { $path } není scénář sil-obs: { $e }
+engine-e-sil-obs-bad-nav = { $path } není navigační soubor RINEX: { $e }
+engine-e-sil-obs-bad-obs = { $path } není observační soubor RINEX: { $e }
+engine-e-sil-obs-bad-start = začátek { $value } není čas GPS ve tvaru YYYY-MM-DDTHH:MM:SS
+engine-e-sil-obs-bad-timing = doba trvání musí být nula nebo více a krok kladný, nejvýše milion epoch
+engine-e-sil-obs-no-satellites = { $path } neobsahuje žádný vysílaný záznam požadovaných systémů
+engine-e-sil-obs-unknown-system = neznámý systém { $value } (G nebo E)
+engine-e-sil-obs-bad-canyon = kaňon potřebuje kladnou šířku, posun antény uvnitř ulice, ztrátu odrazem nejméně 1 dB a konečné hodnoty
+
+## Interference model library (src/interference_lib.rs)
+engine-interference-lib-usage = použití: kshana interference-lib models | generate --class <none|cw|narrowband|wideband|chirp|pulsed> [--centre-hz <f>] [--bandwidth-hz <b>] [--period-s <t>] [--pulse-width-s <w>] [--jnr-db <j>] [--drift-hz-per-s <r>] [--triangle] [--fs <hz>] [--samples <n>] [--seed <s>] --out <base> | fit <recording.sigmf-meta> [--out <fit.json>] | bench [--per-class <n>] [--seed <s>] [--predictions <ids.csv>] [--out <bench.json>] | cases [--per-class <n>] [--seed <s>] [--out <cases.csv>]  (docs/INTERFERENCE-LIB.md)
+engine-interference-lib-written = zapsáno { $path } ({ $n } vzorků, MODELLED syntetické rušení)
+engine-e-interference-lib-missing-value = { $option } vyžaduje hodnotu
+engine-e-interference-lib-unknown-option = neznámá volba { $option } (volby vypíše kshana interference-lib --help)
+engine-e-interference-lib-bad-number = { $option } vyžaduje konečné číslo, ne { $value }
+engine-e-interference-lib-unknown-class = neznámá třída rušení { $value } (none, cw, narrowband, wideband, chirp nebo pulsed)
+engine-e-interference-lib-bad-size = vzorkovací kmitočet musí být kladný a záznam mocnina dvou od 1024 do 16777216 vzorků (bench: 1 až 1000 případů na třídu)
+engine-e-interference-lib-cannot-read = nelze číst { $path }: { $e }
+engine-e-interference-lib-cannot-write = nelze zapsat { $path }: { $e }
+engine-e-interference-lib-bad-predictions = řádek predikcí není id,class se známou třídou: { $row }
+
 engine-main-usage =
     použití: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }nebo: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10586,6 +10614,8 @@ engine-main-usage =
     { "   " }nebo: kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
     { "   " }nebo: kshana orbit-data <check|convert|gp-compare|gp-audit|cov> ... (kshana orbit-data --help)
     { "   " }nebo: kshana drone <prearm|prearm-calibrate|estimator-cases|dr-budget|quad-loss|failover|zonotope-pl> ... (kshana drone --help)
+    { "   " }nebo: kshana sil-obs <generate|compare> ... (kshana sil-obs --help)
+    { "   " }nebo: kshana interference-lib <models|generate|fit|bench|cases> ... (kshana interference-lib --help)
     { "   " }nebo: kshana kinds [--json]
     { "   " }nebo: kshana example [<name>]
     { "   " }nebo: kshana --help | --version
