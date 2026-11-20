@@ -9816,6 +9816,16 @@ engine-e-realdata-llr-crd-short-h4-record = 过短的 h4（会话）记录
 
 engine-e-mcp-main-needs-value = { $a } 需要一个值
 
+## AIS position-integrity flags (src/ais_integrity.rs)
+engine-ais-integrity-usage = 用法：kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]  (docs/AIS-INTEGRITY.md)
+engine-ais-integrity-summary = { $n_tracks } 条航迹，{ $n_flagged } 条有标记：{ $n_flags } 个标记，{ $n_events } 个事件 (MODELLED)
+engine-e-ais-integrity-missing-value = { $option } 需要一个值
+engine-e-ais-integrity-unknown-option = 未知选项 { $option }（kshana ais-integrity --help 列出所有选项）
+engine-e-ais-integrity-bad-format = 未知输入格式 { $value }（csv 或 nmea）
+engine-e-ais-integrity-cannot-read = 无法读取 { $path }：{ $e }
+engine-e-ais-integrity-cannot-write = 无法写入 { $path }：{ $e }
+engine-e-ais-integrity-bad-place = 地点列表的一行不是带有效位置和正半径的 name,lat,lon,radius_m：{ $row }
+
 engine-main-usage =
     用法：kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }或：kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -9846,6 +9856,7 @@ engine-main-usage =
     { "   " }或：kshana iq <scene|acquire|track|sweep|labfit|campaign|conditions|frontend|monitor|inventory|info|extract|convert|decimate> ... (kshana iq --help)
     { "   " }或：kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }或：kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
+    { "   " }或：kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
     { "   " }或：kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }或：kshana kinds [--json]
     { "   " }或：kshana example [<name>]

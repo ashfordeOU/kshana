@@ -10539,6 +10539,16 @@ engine-e-realdata-llr-crd-short-h4-record = krátký záznam h4 (relace)
 
 engine-e-mcp-main-needs-value = { $a } vyžaduje hodnotu
 
+## AIS position-integrity flags (src/ais_integrity.rs)
+engine-ais-integrity-usage = použití: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]  (docs/AIS-INTEGRITY.md)
+engine-ais-integrity-summary = stop: { $n_tracks }, s příznaky: { $n_flagged }; příznaků: { $n_flags } v událostech: { $n_events } (MODELLED)
+engine-e-ais-integrity-missing-value = { $option } vyžaduje hodnotu
+engine-e-ais-integrity-unknown-option = neznámá volba { $option } (volby vypíše kshana ais-integrity --help)
+engine-e-ais-integrity-bad-format = neznámý formát vstupu { $value } (csv nebo nmea)
+engine-e-ais-integrity-cannot-read = nelze číst { $path }: { $e }
+engine-e-ais-integrity-cannot-write = nelze zapsat { $path }: { $e }
+engine-e-ais-integrity-bad-place = řádek seznamu míst není name,lat,lon,radius_m s platnou polohou a kladným poloměrem: { $row }
+
 engine-main-usage =
     použití: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }nebo: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10569,6 +10579,7 @@ engine-main-usage =
     { "   " }nebo: kshana iq <scene|acquire|track|sweep|labfit|campaign|conditions|frontend|monitor|inventory|info|extract|convert|decimate> ... (kshana iq --help)
     { "   " }nebo: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }nebo: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
+    { "   " }nebo: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
     { "   " }nebo: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }nebo: kshana kinds [--json]
     { "   " }nebo: kshana example [<name>]
