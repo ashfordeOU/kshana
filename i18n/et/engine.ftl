@@ -10543,6 +10543,23 @@ engine-e-ais-integrity-cannot-read = faili { $path } ei saa lugeda: { $e }
 engine-e-ais-integrity-cannot-write = faili { $path } ei saa kirjutada: { $e }
 engine-e-ais-integrity-bad-place = kohtade loendi rida ei ole name,lat,lon,radius_m kehtiva asukoha ja positiivse raadiusega: { $row }
 
+## Receiver-antenna characterisation (src/antenna_cal.rs)
+engine-antenna-cal-usage = kasutus: kshana antenna-cal lint <file.atx> | spread <file.atx>... --type <type-radome> | compare <a.atx> [<b.atx>] --type <type-radome> [--serial-a <s>] [--serial-b <s>] [--max-zenith <deg>] | group-delay <spec.toml> | js-margin <spec.toml>  [--out <file.json>]  (docs/ANTENNA-CAL.md)
+engine-e-antenna-cal-missing-value = { $option } vajab väärtust
+engine-e-antenna-cal-unknown-option = tundmatu valik { $option } (valikud loetleb kshana antenna-cal --help)
+engine-e-antenna-cal-bad-number = { $option } vajab lõplikku arvu, mis on null või suurem, mitte { $value }
+engine-e-antenna-cal-cannot-read = faili { $path } ei saa lugeda: { $e }
+engine-e-antenna-cal-cannot-write = faili { $path } ei saa kirjutada: { $e }
+engine-e-antenna-cal-bad-spec = { $path } ei ole kehtiv spetsifikatsioon: { $e }
+engine-e-antenna-cal-no-antenna = failis { $path } ei ole antenni { $name }
+engine-e-antenna-cal-too-few-units = võrdlemiseks on vähem kui kaks { $name } kalibreeringut
+engine-e-antenna-cal-unknown-signal = paar nimetab tundmatut signaali { $value }
+engine-e-antenna-cal-bad-group-delay = rühmaviivituse spetsifikatsioon vajab vähemalt ühte signaali, järjestatud lõplikku temperatuurivahemikku, positiivseid sagedusi ja lõplikke viivitusi
+engine-e-antenna-cal-same-pair = ionosfäärivaba paar vajab kahte erinevat sagedust
+engine-e-antenna-cal-bad-pattern = tundmatu antenni suunadiagramm (patch, choke-ring või table)
+engine-e-antenna-cal-bad-gain-table = võimendustabel vajab vähemalt kahte lõplikku kõrgusnurga ja võimenduse punkti
+engine-e-antenna-cal-bad-link = J/S-spetsifikatsioon vajab positiivset sagedust, lõplikku EIRP-d ja positiivseid kaugusi
+
 engine-main-usage =
     kasutus: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }või: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10580,6 +10597,7 @@ engine-main-usage =
     { "   " }või: kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
     { "   " }või: kshana orbit-data <check|convert|gp-compare|gp-audit|cov> ... (kshana orbit-data --help)
     { "   " }või: kshana drone <prearm|prearm-calibrate|estimator-cases|dr-budget|quad-loss|failover|zonotope-pl> ... (kshana drone --help)
+    { "   " }või: kshana antenna-cal <lint|spread|compare|group-delay|js-margin> ... (kshana antenna-cal --help)
     { "   " }või: kshana kinds [--json]
     { "   " }või: kshana example [<name>]
     { "   " }või: kshana --help | --version

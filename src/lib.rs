@@ -69,6 +69,7 @@ pub mod allan;
 pub mod altpnt;
 pub mod animation;
 pub mod antenna;
+pub mod antenna_cal;
 pub mod aocs;
 pub mod aocs_kind;
 pub mod aocs_mekf;
