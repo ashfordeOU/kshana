@@ -10624,6 +10624,33 @@ engine-e-lunar-ref-bad-number = { $option }: { $value } ei ole kehtiv arv
 engine-e-lunar-ref-unknown-name = tundmatu nimi { $name } (tuntud: { $known })
 engine-e-lunar-ref-out-of-span = epohh on kasutatud efemeriidide vahemikust väljas (Standishi elemendid 1800–2050; DE440 Kuu orientatsioon 2014–2030)
 
+## Quantum inertial-sensor benchmark (src/quantum_bench.rs)
+engine-quantum-bench-usage = kasutus: kshana quantum-bench protocol [--out <protocol.json>] | simulate <spec.toml> --out <series.csv> | score <series.csv> [--fringe-m-s2 <a>] [--out <score.json>]  (docs/QUANTUM-BENCH.md)
+engine-quantum-bench-simulated = kirjutatud { $n } proovi ({ $n_wrapped } mähitud triibuga) faili { $path } (MODELLED)
+engine-e-quantum-bench-missing-value = { $option } vajab väärtust
+engine-e-quantum-bench-unknown-option = tundmatu valik { $option } (valikud loetleb kshana quantum-bench --help)
+engine-e-quantum-bench-bad-number = { $option } vajab lõplikku positiivset arvu, mitte { $value }
+engine-e-quantum-bench-cannot-read = faili { $path } ei saa lugeda: { $e }
+engine-e-quantum-bench-cannot-write = faili { $path } ei saa kirjutada: { $e }
+engine-e-quantum-bench-bad-spec = { $path } ei ole kehtiv spetsifikatsioon: { $e }
+engine-e-quantum-bench-bad-sensor = andur vajab positiivset impulsside vahet, vähemalt ühte aatomit, kontrasti vahemikus (0, 1] ja tsükliaega vähemalt kaks korda impulsside vahest
+engine-e-quantum-bench-bad-run = käivitus vajab kestust vähemalt üks ja kõige rohkem kümme miljonit tsüklit
+engine-e-quantum-bench-too-short = seeria vajab vähemalt 16 proovi kasvavate aegadega
+engine-e-quantum-bench-bad-csv = seeria vajab veerge t_s ja measured_m_s2 lõplike arvudega: { $row }
+
+## Terrestrial signals of opportunity, clock offset (src/soop_clock.rs)
+engine-soop-clock-usage = kasutus: kshana soop-clock lte <capture.sigmf-meta> --start-gps-s <t> --rx <lat,lon,h> --tx <lat,lon,h> [--tx-offset-ns <ns>] [--prior-offset-s <s>] [--carrier-hz <f>] [--min-metric <m>] [--out <file.json>] | cp <capture.sigmf-meta> --nfft <n> --ncp <n> [--carrier-hz <f>] [--out <file.json>] | synth-lte --out <base> [--fs <hz>] [--duration-s <s>] [--nid2 <0|1|2>] [--delay-s <s>] [--cfo-hz <f>] [--snr-db <d>] [--seed <s>]  (docs/SOOP-CLOCK.md)
+engine-soop-clock-summary = { $n } PSS-tuvastust; vastuvõtja kella nihe { $offset_us } µs salvestuse alguses (MODELLED)
+engine-e-soop-clock-missing-value = { $option } vajab väärtust
+engine-e-soop-clock-unknown-option = tundmatu valik { $option } (valikud loetleb kshana soop-clock --help)
+engine-e-soop-clock-bad-number = { $option } vajab lõplikku arvu, mitte { $value }
+engine-e-soop-clock-bad-position = { $option } vajab lat,lon[,h] kraadides ja meetrites, mitte { $value }
+engine-e-soop-clock-cannot-read = faili { $path } ei saa lugeda: { $e }
+engine-e-soop-clock-cannot-write = faili { $path } ei saa kirjutada: { $e }
+engine-e-soop-clock-too-few-detections = { $n } PSS-tuvastust; nihke ja kiiruse jaoks on vaja vähemalt kolme
+engine-e-soop-clock-too-short = salvestis on lühem kui kaks OFDM-sümbolit
+engine-e-soop-clock-bad-synth = testsignaal vajab diskreetimissagedust 100 kHz kuni 61,44 MHz ja positiivset kestust kõige rohkem 20 miljonit proovi
+
 engine-main-usage =
     kasutus: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }või: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10672,6 +10699,8 @@ engine-main-usage =
     { "   " }või: kshana sil-obs <generate|compare> ... (kshana sil-obs --help)
     { "   " }või: kshana interference-lib <models|generate|fit|bench|cases> ... (kshana interference-lib --help)
     { "   " }või: kshana antenna-cal <lint|spread|compare|group-delay|js-margin> ... (kshana antenna-cal --help)
+    { "   " }või: kshana quantum-bench <protocol|simulate|score> ... (kshana quantum-bench --help)
+    { "   " }või: kshana soop-clock <lte|cp|synth-lte> ... (kshana soop-clock --help)
     { "   " }või: kshana kinds [--json]
     { "   " }või: kshana example [<name>]
     { "   " }või: kshana --help | --version

@@ -44,6 +44,8 @@ fn the_top_level_usage_names_every_subcommand() {
         "antenna-cal",
         "arctic-plan",
         "lunar-ref",
+        "quantum-bench",
+        "soop-clock",
         "corrections",
         "space-weather",
         "rtk-qa",

@@ -3,6 +3,9 @@
 ais-integrity-summary: n_tracks n_flagged n_flags n_events
 sil-obs-summary: n_epochs n_obs n_nlos n_blocked
 interference-lib-written: n
+quantum-bench-simulated: n n_wrapped
+soop-clock-summary: n
+e-soop-clock-too-few-detections: n
 e-clock-log-the-log-has-missing-epoch: n_gaps n_missing
 advanced-report-rows-of-non-numeric-column: n
 e-altpnt-maps-emag2-rows-do-not-fill: n_lat n_lon

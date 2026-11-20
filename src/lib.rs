@@ -379,6 +379,7 @@ pub mod pvt;
 #[cfg(feature = "python")]
 pub mod python;
 pub mod qtrade;
+pub mod quantum_bench;
 pub mod quantum_devices;
 pub mod quantum_faults;
 pub mod quantum_nav_od;
@@ -417,6 +418,7 @@ pub mod slot_timing;
 pub mod snmp;
 pub mod solar_system;
 pub mod solid_tide;
+pub mod soop_clock;
 pub mod sp3;
 pub mod space_geoloc;
 pub mod space_packet;
