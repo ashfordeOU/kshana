@@ -10388,6 +10388,7 @@ engine-main-usage =
     { "   " }or: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }or: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }or: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
+    { "   " }or: kshana feed <pack|verify|send|spectrum|leaderboard> ... (kshana feed --help)
     { "   " }or: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }or: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }or: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
@@ -12093,3 +12094,31 @@ engine-e-oscillator-input = the { $part } input is not valid: { $e }
 engine-e-oscillator-unknown-clock = unknown clock preset { $id } (one of { $known })
 
 engine-e-oscillator-field = { $field } is out of range: { $value }
+
+## Feeder clients (src/feeder.rs, docs/FEEDER.md)
+engine-feed-usage = usage: kshana feed pack <file.obs.jsonl|dir>... --key <keyfile> [--privacy public|exact] [--grid-deg <deg>] [--created <time>] [--include-open] [--out <bundle.json>] | verify <bundle.json> [--pubkey <hex>] [--json] | send <bundle.json> --url <http://host:port/path> [--token-file <file>] | spectrum <capture> --format cu8|ci8|ci16_le --rate <Hz> --centre <Hz> --station <station.toml> [--front-end <name>] [--nfft <n>] [--bins <n>] [--max-samples <n>] [--time <label>] [--out <file.obs.jsonl>] | leaderboard <bundle.json>... [--json]  (docs/FEEDER.md)
+engine-feed-packed = { $out }: bundle for station { $station }, { $files } files, { $epochs } epochs, privacy { $mode }
+engine-feed-verified = { $path }: the signature verifies (signer { $key }); station { $station }, { $files } files, { $epochs } epochs, every file valid kshana.obs/1
+engine-feed-sent = sent to { $url }: HTTP { $code }
+engine-feed-spectrum-written = { $out }: spectrum snapshot in { $bins } bins (MODELLED: levels relative to full scale, not calibrated power)
+engine-e-feed-missing-value = { $option } needs a value
+engine-e-feed-unknown-option = unknown option { $option } (kshana feed --help lists the options)
+engine-e-feed-cannot-read = cannot read { $path }: { $e }
+engine-e-feed-cannot-write = cannot write { $path }: { $e }
+engine-e-feed-not-obs = { $path } is not a valid kshana.obs/1 file: { $e }
+engine-e-feed-mixed-stations = the files come from more than one station ({ $a } and { $b }); pack one station per bundle
+engine-e-feed-no-files = no observation files to pack
+engine-e-feed-bad-privacy = unknown privacy mode { $value } (public or exact)
+engine-e-feed-bad-grid = the location grid must be from 0.01 to 10 degrees, not { $value }
+engine-e-feed-not-bundle = not a kshana.feed/1 bundle: { $e }
+engine-e-feed-bad-signature = the bundle's signature does not verify
+engine-e-feed-key-mismatch = the bundle is signed by { $found }, not by the expected key { $expected }
+engine-e-feed-hash-mismatch = payload { $name } does not match its recorded SHA-256
+engine-e-feed-payload-mismatch = payload { $name } does not match the station or the record counts the bundle states
+engine-e-feed-not-coarsened = payload { $name } of a public bundle still carries { $what }
+engine-e-feed-bad-format = unsupported sample format { $value } (cu8, ci8 or ci16_le)
+engine-e-feed-bad-number = { $option }: { $value } is not a valid value here
+engine-e-feed-short-capture = the capture holds { $n } samples, fewer than the transform length { $nfft }
+engine-e-feed-send-failed = sending to { $url } failed: { $e }
+engine-e-feed-send-refused = { $url } refused the bundle: HTTP { $code }
+engine-e-obs-bad-spectrum = line { $line }: a spectrum needs a finite time and centre, a positive sample rate and bin width, and finite levels

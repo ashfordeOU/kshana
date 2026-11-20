@@ -10722,6 +10722,7 @@ engine-main-usage =
     { "   " }ou : kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }ou : kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }ou : kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
+    { "   " }ou : kshana feed <pack|verify|send|spectrum|leaderboard> ... (kshana feed --help)
     { "   " }ou : kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }ou : kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }ou : kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
@@ -11849,3 +11850,31 @@ engine-e-oscillator-input = l'entrée { $part } n'est pas valide : { $e }
 engine-e-oscillator-unknown-clock = préréglage d'horloge inconnu { $id } (l'un de { $known })
 
 engine-e-oscillator-field = { $field } est hors limites : { $value }
+
+## Feeder clients (src/feeder.rs, docs/FEEDER.md)
+engine-feed-usage = utilisation : kshana feed pack <file.obs.jsonl|dir>... --key <keyfile> [--privacy public|exact] [--grid-deg <deg>] [--created <time>] [--include-open] [--out <bundle.json>] | verify <bundle.json> [--pubkey <hex>] [--json] | send <bundle.json> --url <http://host:port/path> [--token-file <file>] | spectrum <capture> --format cu8|ci8|ci16_le --rate <Hz> --centre <Hz> --station <station.toml> [--front-end <name>] [--nfft <n>] [--bins <n>] [--max-samples <n>] [--time <label>] [--out <file.obs.jsonl>] | leaderboard <bundle.json>... [--json]  (docs/FEEDER.md)
+engine-feed-packed = { $out } : lot pour la station { $station }, { $files } fichiers, { $epochs } époques, confidentialité { $mode }
+engine-feed-verified = { $path } : la signature est valide (signataire { $key }) ; station { $station }, { $files } fichiers, { $epochs } époques, chaque fichier est un kshana.obs/1 valide
+engine-feed-sent = envoyé à { $url } : HTTP { $code }
+engine-feed-spectrum-written = { $out } : instantané de spectre en { $bins } cases (MODELLED : niveaux relatifs à la pleine échelle, pas une puissance étalonnée)
+engine-e-feed-missing-value = { $option } attend une valeur
+engine-e-feed-unknown-option = option inconnue { $option } (kshana feed --help liste les options)
+engine-e-feed-cannot-read = impossible de lire { $path } : { $e }
+engine-e-feed-cannot-write = impossible d'écrire { $path } : { $e }
+engine-e-feed-not-obs = { $path } n'est pas un fichier kshana.obs/1 valide : { $e }
+engine-e-feed-mixed-stations = les fichiers proviennent de plus d'une station ({ $a } et { $b }) ; emballez une station par lot
+engine-e-feed-no-files = aucun fichier d'observation à emballer
+engine-e-feed-bad-privacy = mode de confidentialité inconnu { $value } (public ou exact)
+engine-e-feed-bad-grid = la grille de position doit être comprise entre 0.01 et 10 degrés, pas { $value }
+engine-e-feed-not-bundle = pas un lot kshana.feed/1 : { $e }
+engine-e-feed-bad-signature = la signature du lot n'est pas valide
+engine-e-feed-key-mismatch = le lot est signé par { $found }, pas par la clé attendue { $expected }
+engine-e-feed-hash-mismatch = le contenu { $name } ne correspond pas à son SHA-256 enregistré
+engine-e-feed-payload-mismatch = le contenu { $name } ne correspond pas à la station ou aux nombres d'enregistrements indiqués par le lot
+engine-e-feed-not-coarsened = le contenu { $name } d'un lot public contient encore { $what }
+engine-e-feed-bad-format = format d'échantillons non pris en charge { $value } (cu8, ci8 ou ci16_le)
+engine-e-feed-bad-number = { $option } : { $value } n'est pas une valeur valide ici
+engine-e-feed-short-capture = la capture contient { $n } échantillons, moins que la longueur de transformée { $nfft }
+engine-e-feed-send-failed = l'envoi à { $url } a échoué : { $e }
+engine-e-feed-send-refused = { $url } a refusé le lot : HTTP { $code }
+engine-e-obs-bad-spectrum = ligne { $line } : un spectre exige un temps et une fréquence centrale finis, une fréquence d'échantillonnage et une largeur de case positives, et des niveaux finis

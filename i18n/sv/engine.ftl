@@ -10459,6 +10459,7 @@ engine-main-usage =
     { "   " }eller: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }eller: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }eller: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
+    { "   " }eller: kshana feed <pack|verify|send|spectrum|leaderboard> ... (kshana feed --help)
     { "   " }eller: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }eller: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }eller: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
@@ -11583,3 +11584,31 @@ engine-e-oscillator-input = indata för { $part } är inte giltiga: { $e }
 engine-e-oscillator-unknown-clock = okänd förinställning för klocka { $id } (en av { $known })
 
 engine-e-oscillator-field = { $field } ligger utanför intervallet: { $value }
+
+## Feeder clients (src/feeder.rs, docs/FEEDER.md)
+engine-feed-usage = användning: kshana feed pack <file.obs.jsonl|dir>... --key <keyfile> [--privacy public|exact] [--grid-deg <deg>] [--created <time>] [--include-open] [--out <bundle.json>] | verify <bundle.json> [--pubkey <hex>] [--json] | send <bundle.json> --url <http://host:port/path> [--token-file <file>] | spectrum <capture> --format cu8|ci8|ci16_le --rate <Hz> --centre <Hz> --station <station.toml> [--front-end <name>] [--nfft <n>] [--bins <n>] [--max-samples <n>] [--time <label>] [--out <file.obs.jsonl>] | leaderboard <bundle.json>... [--json]  (docs/FEEDER.md)
+engine-feed-packed = { $out }: paket för station { $station }, { $files } filer, { $epochs } epoker, integritet { $mode }
+engine-feed-verified = { $path }: signaturen är giltig (undertecknare { $key }); station { $station }, { $files } filer, { $epochs } epoker, varje fil giltig kshana.obs/1
+engine-feed-sent = skickat till { $url }: HTTP { $code }
+engine-feed-spectrum-written = { $out }: spektrumögonblicksbild i { $bins } fack (MODELLED: nivåer relativt full skala, inte kalibrerad effekt)
+engine-e-feed-missing-value = { $option } behöver ett värde
+engine-e-feed-unknown-option = okänt alternativ { $option } (kshana feed --help listar alternativen)
+engine-e-feed-cannot-read = kan inte läsa { $path }: { $e }
+engine-e-feed-cannot-write = kan inte skriva { $path }: { $e }
+engine-e-feed-not-obs = { $path } är inte en giltig kshana.obs/1-fil: { $e }
+engine-e-feed-mixed-stations = filerna kommer från mer än en station ({ $a } och { $b }); packa en station per paket
+engine-e-feed-no-files = inga observationsfiler att packa
+engine-e-feed-bad-privacy = okänt integritetsläge { $value } (public eller exact)
+engine-e-feed-bad-grid = positionsrutnätet måste vara från 0.01 till 10 grader, inte { $value }
+engine-e-feed-not-bundle = inte ett kshana.feed/1-paket: { $e }
+engine-e-feed-bad-signature = paketets signatur är inte giltig
+engine-e-feed-key-mismatch = paketet är signerat av { $found }, inte av den förväntade nyckeln { $expected }
+engine-e-feed-hash-mismatch = innehållet { $name } stämmer inte med dess registrerade SHA-256
+engine-e-feed-payload-mismatch = innehållet { $name } stämmer inte med stationen eller de postantal paketet anger
+engine-e-feed-not-coarsened = innehållet { $name } i ett offentligt paket innehåller fortfarande { $what }
+engine-e-feed-bad-format = samplingsformatet stöds inte: { $value } (cu8, ci8 eller ci16_le)
+engine-e-feed-bad-number = { $option }: { $value } är inte ett giltigt värde här
+engine-e-feed-short-capture = inspelningen har { $n } sampel, färre än transformlängden { $nfft }
+engine-e-feed-send-failed = det gick inte att skicka till { $url }: { $e }
+engine-e-feed-send-refused = { $url } avvisade paketet: HTTP { $code }
+engine-e-obs-bad-spectrum = rad { $line }: ett spektrum behöver ändlig tid och mittfrekvens, positiv samplingsfrekvens och fackbredd samt ändliga nivåer

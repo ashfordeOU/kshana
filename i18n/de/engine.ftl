@@ -10592,6 +10592,7 @@ engine-main-usage =
     { "   " }oder: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }oder: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }oder: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
+    { "   " }oder: kshana feed <pack|verify|send|spectrum|leaderboard> ... (kshana feed --help)
     { "   " }oder: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }oder: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }oder: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
@@ -11720,3 +11721,31 @@ engine-e-oscillator-input = die Eingabe für { $part } ist ungültig: { $e }
 engine-e-oscillator-unknown-clock = unbekannte Uhren-Voreinstellung { $id } (eine von { $known })
 
 engine-e-oscillator-field = { $field } liegt außerhalb des Bereichs: { $value }
+
+## Feeder clients (src/feeder.rs, docs/FEEDER.md)
+engine-feed-usage = Aufruf: kshana feed pack <file.obs.jsonl|dir>... --key <keyfile> [--privacy public|exact] [--grid-deg <deg>] [--created <time>] [--include-open] [--out <bundle.json>] | verify <bundle.json> [--pubkey <hex>] [--json] | send <bundle.json> --url <http://host:port/path> [--token-file <file>] | spectrum <capture> --format cu8|ci8|ci16_le --rate <Hz> --centre <Hz> --station <station.toml> [--front-end <name>] [--nfft <n>] [--bins <n>] [--max-samples <n>] [--time <label>] [--out <file.obs.jsonl>] | leaderboard <bundle.json>... [--json]  (docs/FEEDER.md)
+engine-feed-packed = { $out }: Bündel für Station { $station }, { $files } Dateien, { $epochs } Epochen, Datenschutz { $mode }
+engine-feed-verified = { $path }: die Signatur ist gültig (Unterzeichner { $key }); Station { $station }, { $files } Dateien, { $epochs } Epochen, jede Datei gültiges kshana.obs/1
+engine-feed-sent = gesendet an { $url }: HTTP { $code }
+engine-feed-spectrum-written = { $out }: Spektrum-Momentaufnahme in { $bins } Bins (MODELLED: Pegel relativ zum Vollausschlag, keine kalibrierte Leistung)
+engine-e-feed-missing-value = { $option } braucht einen Wert
+engine-e-feed-unknown-option = unbekannte Option { $option } (kshana feed --help listet die Optionen)
+engine-e-feed-cannot-read = { $path } kann nicht gelesen werden: { $e }
+engine-e-feed-cannot-write = { $path } kann nicht geschrieben werden: { $e }
+engine-e-feed-not-obs = { $path } ist keine gültige kshana.obs/1-Datei: { $e }
+engine-e-feed-mixed-stations = die Dateien stammen von mehr als einer Station ({ $a } und { $b }); eine Station pro Bündel packen
+engine-e-feed-no-files = keine Beobachtungsdateien zum Packen
+engine-e-feed-bad-privacy = unbekannter Datenschutzmodus { $value } (public oder exact)
+engine-e-feed-bad-grid = das Ortsraster muss zwischen 0.01 und 10 Grad liegen, nicht { $value }
+engine-e-feed-not-bundle = kein kshana.feed/1-Bündel: { $e }
+engine-e-feed-bad-signature = die Signatur des Bündels ist ungültig
+engine-e-feed-key-mismatch = das Bündel ist von { $found } signiert, nicht vom erwarteten Schlüssel { $expected }
+engine-e-feed-hash-mismatch = Nutzdaten { $name } stimmen nicht mit ihrem gespeicherten SHA-256 überein
+engine-e-feed-payload-mismatch = Nutzdaten { $name } passen nicht zur Station oder zu den Satzzahlen, die das Bündel angibt
+engine-e-feed-not-coarsened = Nutzdaten { $name } eines öffentlichen Bündels enthalten noch { $what }
+engine-e-feed-bad-format = nicht unterstütztes Abtastformat { $value } (cu8, ci8 oder ci16_le)
+engine-e-feed-bad-number = { $option }: { $value } ist hier kein gültiger Wert
+engine-e-feed-short-capture = die Aufnahme enthält { $n } Abtastwerte, weniger als die Transformationslänge { $nfft }
+engine-e-feed-send-failed = Senden an { $url } fehlgeschlagen: { $e }
+engine-e-feed-send-refused = { $url } hat das Bündel abgelehnt: HTTP { $code }
+engine-e-obs-bad-spectrum = Zeile { $line }: ein Spektrum braucht endliche Zeit und Mittenfrequenz, positive Abtastrate und Bin-Breite sowie endliche Pegel
