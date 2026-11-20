@@ -10503,6 +10503,7 @@ engine-interference-map-cli-usage-map =
     { "   " }or: kshana interference-map daily <input.csv|trace.json[.gz]|dir> --dataset <adsb-lol|custom> --day <YYYY-MM-DD> --out <dir> [--cell-deg <deg, { $lit_0_5 } or coarser>] [--bbox <south,west,north,east>] [--delay-hours <24 or more>]
     { "   " }or: kshana interference-map sensitivity <input.csv|trace.json[.gz]|dir> --dataset <adsb-lol|custom> --day <YYYY-MM-DD> --out <report.json> [--bbox <south,west,north,east>]
     { "   " }or: kshana interference-map fetch-land --out <land.geojson> --allow-network
+    { "   " }or: kshana interference-map incidents <validate <library.json> [--releases <RELEASES.json>] [--json] | release <library.json> --out <dir> | from-observatory <day.incidents.json> --source-url <https://...> --out <file.json>>
     { "   " }(--dataset custom also needs --licence <text> --licence-url <url> --attribution <text>)
 
 engine-interference-map-cli-usage-route = usage: kshana route-exposure --route <route.geojson|route.csv> --map <map.geojson|dir> [--map ...] [--from <YYYY-MM-DD>] [--to <YYYY-MM-DD>] [--out <report.json>] [--json]
@@ -11873,3 +11874,9 @@ engine-e-time-vectors-expected-error = the vector expects an error, and the oper
 engine-e-time-vectors-bad-format = { $file } is not a { $format } document (format tag and a vectors array)
 engine-time-vectors-summary = { $n } vectors: { $passed } passed, { $failed } failed
 engine-time-vectors-usage = usage: kshana time-vectors [--json] [<vectors.json | dir> ...]  (no path: the built-in set, data/conformance/time; docs/TIME-VECTORS.md)
+
+## Interference-incident format and case library (src/interference_map/incident.rs)
+engine-interference-incidents-valid = { $file }: { $n } records, valid
+engine-e-interference-incidents-invalid = { $n } problem(s) in the incident library; run kshana interference-map incidents validate <file> for the list
+engine-e-interference-incidents-not-a-document = { $file } is not a { $schema } document
+engine-e-interference-incidents-source-url-required = --source-url is required: every record cites the https:// address where the product is published

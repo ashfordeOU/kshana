@@ -10568,6 +10568,7 @@ engine-interference-map-cli-usage-map =
     { "   " }eller: kshana interference-map daily <input.csv|trace.json[.gz]|dir> --dataset <adsb-lol|custom> --day <YYYY-MM-DD> --out <dir> [--cell-deg <deg, { $lit_0_5 } or coarser>] [--bbox <south,west,north,east>] [--delay-hours <24 or more>]
     { "   " }eller: kshana interference-map sensitivity <input.csv|trace.json[.gz]|dir> --dataset <adsb-lol|custom> --day <YYYY-MM-DD> --out <report.json> [--bbox <south,west,north,east>]
     { "   " }eller: kshana interference-map fetch-land --out <land.geojson> --allow-network
+    { "   " }eller: kshana interference-map incidents <validate <library.json> [--releases <RELEASES.json>] [--json] | release <library.json> --out <dir> | from-observatory <day.incidents.json> --source-url <https://...> --out <file.json>>
     { "   " }(--dataset custom kräver också --licence <text> --licence-url <url> --attribution <text>)
 
 engine-interference-map-cli-usage-route = användning: kshana route-exposure --route <route.geojson|route.csv> --map <map.geojson|dir> [--map ...] [--from <YYYY-MM-DD>] [--to <YYYY-MM-DD>] [--out <report.json>] [--json]
@@ -11364,3 +11365,9 @@ engine-e-interference-map-locate-bad-tdoa = { $path } är inte en användbar TDO
 engine-e-interference-map-locate-source-required = --source adsb eller --source ais krävs
 
 engine-e-interference-map-locate-no-evidence-rows = inga belägg-rader är listade för locate-utdata
+
+## Interference-incident format and case library (src/interference_map/incident.rs)
+engine-interference-incidents-valid = { $file }: { $n } poster, giltig
+engine-e-interference-incidents-invalid = { $n } problem i incidentbiblioteket; kör kshana interference-map incidents validate <file> för listan
+engine-e-interference-incidents-not-a-document = { $file } är inte ett { $schema }-dokument
+engine-e-interference-incidents-source-url-required = --source-url krävs: varje post hänvisar till den https://-adress där produkten är publicerad

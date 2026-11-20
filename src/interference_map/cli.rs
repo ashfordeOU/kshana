@@ -228,6 +228,10 @@ fn write_days(
 
 /// `kshana interference-map ...`; returns the process exit code.
 pub fn run_map(args: &[String]) -> i32 {
+    // The incident library has its own exit codes: 1 is an invalid library, not a usage error.
+    if args.first().map(String::as_str) == Some("incidents") {
+        return super::incident::run_cli(&args[1..]);
+    }
     match run_map_inner(args) {
         Ok(()) => 0,
         Err(e) => {

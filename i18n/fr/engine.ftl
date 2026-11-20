@@ -10831,6 +10831,7 @@ engine-interference-map-cli-usage-map =
     { "   " }ou : kshana interference-map daily <input.csv|trace.json[.gz]|dir> --dataset <adsb-lol|custom> --day <YYYY-MM-DD> --out <dir> [--cell-deg <deg, { $lit_0_5 } ou plus grossier>] [--bbox <south,west,north,east>] [--delay-hours <24 ou plus>]
     { "   " }ou : kshana interference-map sensitivity <input.csv|trace.json[.gz]|dir> --dataset <adsb-lol|custom> --day <YYYY-MM-DD> --out <report.json> [--bbox <south,west,north,east>]
     { "   " }ou : kshana interference-map fetch-land --out <land.geojson> --allow-network
+    { "   " }ou : kshana interference-map incidents <validate <library.json> [--releases <RELEASES.json>] [--json] | release <library.json> --out <dir> | from-observatory <day.incidents.json> --source-url <https://...> --out <file.json>>
     { "   " }(--dataset custom nécessite aussi --licence <text> --licence-url <url> --attribution <text>)
 
 engine-interference-map-cli-usage-route = utilisation : kshana route-exposure --route <route.geojson|route.csv> --map <map.geojson|dir> [--map ...] [--from <YYYY-MM-DD>] [--to <YYYY-MM-DD>] [--out <report.json>] [--json]
@@ -11630,3 +11631,9 @@ engine-e-interference-map-locate-bad-tdoa = { $path } n'est pas un fichier de so
 engine-e-interference-map-locate-source-required = --source adsb ou --source ais est requis
 
 engine-e-interference-map-locate-no-evidence-rows = aucune ligne de preuve n'est listée pour les sorties de locate
+
+## Interference-incident format and case library (src/interference_map/incident.rs)
+engine-interference-incidents-valid = { $file } : { $n } enregistrements, valide
+engine-e-interference-incidents-invalid = { $n } problème(s) dans la bibliothèque d'incidents ; lancez kshana interference-map incidents validate <file> pour la liste
+engine-e-interference-incidents-not-a-document = { $file } n'est pas un document { $schema }
+engine-e-interference-incidents-source-url-required = --source-url est obligatoire : chaque enregistrement cite l'adresse https:// où le produit est publié

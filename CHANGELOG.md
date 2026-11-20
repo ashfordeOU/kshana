@@ -12,6 +12,20 @@ breaking changes are called out explicitly.
 - **Smaller published crate: the DE440 Moon PA orientation series is embedded as binary.** `src/lunar_orientation.rs` now embeds `data/lunar/de440_moon_pa.bin` instead of the 1.6 MB CSV: the same 6 209 x 10 doubles, bit for bit (`tests/lunar_orientation_binary.rs`), column-major and byte-planed, about 352 KB of the `.crate` against 650 KB. Results are unchanged. The CSV stays in the repository as the source of record and is no longer packaged. Regenerate with `scripts/gen_de440_moon_pa_bin.py`.
 - **Smaller published crate: the seventeen translated engine catalogues ship as one xz stream.** The `.crate` carries `data/i18n/catalogues.xz` (about 1.9 MB) in place of `i18n/<lang>/engine.ftl` (13.4 MB of text, about 3.8 MB as separate gzip members): 10 192 071 bytes before, about 8 254 190 after: 1.94 MB more headroom under crates.io's 10 MiB limit. The `.ftl` files stay the source in the repository and are what a build from a checkout embeds, exactly as before. In a build of the published crate, `build.rs` decodes the archive (pure-Rust `lzma-rs`, MIT, a build dependency only) and the library embeds the decoded text, so no decoding happens at run time and the messages are byte for byte the same (`tests/i18n_packed.rs`). The archive is generated, never committed: `python3 scripts/pack_catalogues.py` (CI's `package` job, the crates.io release and the sdist build run it; contributors never need to).
 
+### Added (interference observatory: incident format, case library, confidence statement)
+
+- Open interference-incident format `kshana-interference-incidents/1` with a causation vocabulary
+  (`kshana-interference-vocabulary/1`: jamming, spoofing, meaconing, AIS manipulation, unspecified, unattributed
+  degradation; confidence confirmed/probable/suspected/undetermined, each tied to the evidence it needs; technical
+  origin categories only, no actor field), a JSON Schema and `kshana interference-map incidents validate | release |
+  from-observatory` (`docs/INTERFERENCE-INCIDENTS.md`).
+- Public case library `data/interference-incidents/library.json` 1.0.0: 19 REPORTED records, each citing https
+  sources, with an immutable-release register (`RELEASES.json`) checked by `tests/interference_incidents.rs` and a
+  Zenodo-ready release bundle (JSON, CSV, schema, `.zenodo.json`, SHA-256 manifest).
+- Interference map: every published cell carries a `confidence` statement (level, Wilson 95% interval of the
+  affected share when published, NACp/NIC report shares) and every file a `data_window`; the observatory product
+  states its latency (`last_report_utc`, `min_latency_hours`). Additive fields; format versions unchanged.
+
 ### Added (radio time-signal migration guide)
 
 - `docs/RADIO-TIME-MIGRATION.md`: the status of the CHU, MSF, DCF77 and WWVB time signals from public sources (CHU
