@@ -15310,5 +15310,54 @@
   "parts": [
    "usage: kshana time-vectors [--json] [<vectors.json | dir> ...]  (no path: the built-in set, data/conformance/time; docs/TIME-VECTORS.md)"
   ]
+ },
+ {
+  "id": "oscillator-usage",
+  "error": false,
+  "parts": [
+   "usage: kshana oscillator <vibration|holdover|select|raim-aid|datasheet> <input.json>, or kshana oscillator refs (docs/OSCILLATOR.md)"
+  ]
+ },
+ {
+  "id": "e-oscillator-input",
+  "error": true,
+  "parts": [
+   "the ",
+   {
+    "var": "part"
+   },
+   " input is not valid: ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-oscillator-unknown-clock",
+  "error": true,
+  "parts": [
+   "unknown clock preset ",
+   {
+    "var": "id"
+   },
+   " (one of ",
+   {
+    "var": "known"
+   },
+   ")"
+  ]
+ },
+ {
+  "id": "e-oscillator-field",
+  "error": true,
+  "parts": [
+   {
+    "var": "field"
+   },
+   " is out of range: ",
+   {
+    "var": "value"
+   }
+  ]
  }
 ]

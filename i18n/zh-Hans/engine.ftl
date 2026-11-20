@@ -10748,3 +10748,13 @@ engine-e-interference-map-locate-bad-tdoa = { $path } 不是可用的 TDOA 定�
 engine-e-interference-map-locate-source-required = 需要 --source adsb 或 --source ais
 
 engine-e-interference-map-locate-no-evidence-rows = 未列出定位输出的任何证据行
+
+## src/oscillator/mod.rs
+
+engine-oscillator-usage = 用法：kshana oscillator <vibration|holdover|select|raim-aid|datasheet> <input.json>，或 kshana oscillator refs（docs/OSCILLATOR.md）
+
+engine-e-oscillator-input = { $part } 输入无效：{ $e }
+
+engine-e-oscillator-unknown-clock = 未知的时钟预设 { $id }（可选：{ $known }）
+
+engine-e-oscillator-field = { $field } 超出范围：{ $value }

@@ -293,6 +293,9 @@ pub mod optical_weather;
 pub mod orbit;
 pub mod orbit_determination;
 pub mod orbital_timing;
+/// Oscillator models: g-sensitivity, temperature and shock holdover, selection, clock-aided RAIM
+/// and datasheet TDEV (`kshana oscillator`, docs/OSCILLATOR.md).
+pub mod oscillator;
 pub mod osnma;
 pub mod palette;
 pub mod particle_filter;

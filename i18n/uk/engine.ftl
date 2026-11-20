@@ -11629,3 +11629,13 @@ engine-e-interference-map-locate-bad-tdoa = { $path } не є придатним
 engine-e-interference-map-locate-source-required = потрібен --source adsb або --source ais
 
 engine-e-interference-map-locate-no-evidence-rows = для виводів locate не перелічено жодного рядка доказів
+
+## src/oscillator/mod.rs
+
+engine-oscillator-usage = використання: kshana oscillator <vibration|holdover|select|raim-aid|datasheet> <input.json> або kshana oscillator refs (docs/OSCILLATOR.md)
+
+engine-e-oscillator-input = вхідні дані { $part } недійсні: { $e }
+
+engine-e-oscillator-unknown-clock = невідома передустановка годинника { $id } (одна з: { $known })
+
+engine-e-oscillator-field = { $field } поза допустимим діапазоном: { $value }

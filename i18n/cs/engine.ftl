@@ -11546,3 +11546,13 @@ engine-e-interference-map-locate-bad-tdoa = { $path } není použitelný soubor 
 engine-e-interference-map-locate-source-required = je vyžadováno --source adsb nebo --source ais
 
 engine-e-interference-map-locate-no-evidence-rows = pro výstupy locate nejsou uvedeny žádné řádky důkazů
+
+## src/oscillator/mod.rs
+
+engine-oscillator-usage = použití: kshana oscillator <vibration|holdover|select|raim-aid|datasheet> <input.json>, nebo kshana oscillator refs (docs/OSCILLATOR.md)
+
+engine-e-oscillator-input = vstup { $part } není platný: { $e }
+
+engine-e-oscillator-unknown-clock = neznámá předvolba hodin { $id } (jedna z { $known })
+
+engine-e-oscillator-field = { $field } je mimo rozsah: { $value }

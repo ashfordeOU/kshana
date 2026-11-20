@@ -11468,3 +11468,13 @@ engine-e-interference-map-locate-bad-tdoa = { $path } ei ole kasutatav TDOA fiks
 engine-e-interference-map-locate-source-required = --source adsb või --source ais on nõutav
 
 engine-e-interference-map-locate-no-evidence-rows = locate väljundite jaoks pole tõendusridu loetletud
+
+## src/oscillator/mod.rs
+
+engine-oscillator-usage = kasutus: kshana oscillator <vibration|holdover|select|raim-aid|datasheet> <input.json> või kshana oscillator refs (docs/OSCILLATOR.md)
+
+engine-e-oscillator-input = { $part } sisend ei ole kehtiv: { $e }
+
+engine-e-oscillator-unknown-clock = tundmatu kella eelseadistus { $id } (üks järgmistest: { $known })
+
+engine-e-oscillator-field = { $field } on väljaspool vahemikku: { $value }

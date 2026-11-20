@@ -10693,3 +10693,13 @@ engine-e-interference-map-locate-source-required = --source adsb または --sou
 engine-e-interference-map-locate-no-evidence-rows = locate の出力に対する証拠行が一覧にありません
 
 engine-interference-map-locate-note-not-preregistered = 注意：いずれかのオプションが事前登録されたパラメータと異なるため、これは事前登録された手法ではありません
+
+## src/oscillator/mod.rs
+
+engine-oscillator-usage = 使い方: kshana oscillator <vibration|holdover|select|raim-aid|datasheet> <input.json>、または kshana oscillator refs（docs/OSCILLATOR.md）
+
+engine-e-oscillator-input = { $part } の入力が無効です: { $e }
+
+engine-e-oscillator-unknown-clock = 不明なクロックプリセット { $id }（{ $known } のいずれか）
+
+engine-e-oscillator-field = { $field } が範囲外です: { $value }
