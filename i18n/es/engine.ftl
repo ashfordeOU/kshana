@@ -10879,6 +10879,7 @@ engine-main-usage =
     { "   " }o: kshana interference-env <evaluate|thresholds|degradation> ... (kshana interference-env --help)
     { "   " }o: kshana arctic-plan --site <lat,lon[,h]> | --place <name> [--systems <a,b,...>] [--compare] [--hours <h>] [--kp <n>] ... (kshana arctic-plan --help)
     { "   " }o: kshana lunar-ref <tcb-tcl|approx|convert|transform|terms|models> ... (kshana lunar-ref --help)
+    { "   " }o: kshana signal-readiness <profile.toml> [<obs.rnx>...]
     { "   " }o: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }o: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }o: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
@@ -12138,3 +12139,10 @@ engine-e-interference-env-bad-number = { $option } necesita un número, no { $va
 engine-e-interference-env-unknown-option = opción desconocida { $option } (kshana interference-env --help enumera las opciones)
 engine-e-interference-env-cannot-read = no se puede leer { $path }: { $e }
 engine-e-interference-env-bad-file = { $path } no es un entorno de interferencia: { $e }
+
+## Future-signal readiness (src/signal_readiness.rs, docs/SIGNAL-READINESS.md)
+engine-signal-readiness-usage = uso: kshana signal-readiness <profile.toml> [<obs.rnx>...]  (docs/SIGNAL-READINESS.md)
+engine-e-signal-readiness-bad-rinex = { $path } no es un archivo de observación RINEX 3 o 4: { $e }
+engine-e-signal-readiness-unknown-option = opción desconocida { $option } (kshana signal-readiness --help)
+engine-e-signal-readiness-cannot-read = no se puede leer { $path }: { $e }
+engine-e-signal-readiness-bad-profile = { $path } no es un perfil de receptor: { $e }

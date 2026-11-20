@@ -10814,6 +10814,7 @@ engine-main-usage =
     { "   " }або: kshana interference-env <evaluate|thresholds|degradation> ... (kshana interference-env --help)
     { "   " }або: kshana arctic-plan --site <lat,lon[,h]> | --place <name> [--systems <a,b,...>] [--compare] [--hours <h>] [--kp <n>] ... (kshana arctic-plan --help)
     { "   " }або: kshana lunar-ref <tcb-tcl|approx|convert|transform|terms|models> ... (kshana lunar-ref --help)
+    { "   " }або: kshana signal-readiness <profile.toml> [<obs.rnx>...]
     { "   " }або: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }або: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }або: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
@@ -12076,3 +12077,10 @@ engine-e-interference-env-bad-number = { $option } потребує числа, 
 engine-e-interference-env-unknown-option = невідомий параметр { $option } (kshana interference-env --help перелічує параметри)
 engine-e-interference-env-cannot-read = не вдалося прочитати { $path }: { $e }
 engine-e-interference-env-bad-file = { $path } не є завадовою обстановкою: { $e }
+
+## Future-signal readiness (src/signal_readiness.rs, docs/SIGNAL-READINESS.md)
+engine-signal-readiness-usage = використання: kshana signal-readiness <profile.toml> [<obs.rnx>...]  (docs/SIGNAL-READINESS.md)
+engine-e-signal-readiness-bad-rinex = { $path } не є файлом спостережень RINEX 3 або 4: { $e }
+engine-e-signal-readiness-unknown-option = невідомий параметр { $option } (kshana signal-readiness --help)
+engine-e-signal-readiness-cannot-read = не вдалося прочитати { $path }: { $e }
+engine-e-signal-readiness-bad-profile = { $path } не є профілем приймача: { $e }

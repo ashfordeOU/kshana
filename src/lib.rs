@@ -409,6 +409,8 @@ pub mod sensor_live;
 pub mod sgp4;
 pub mod sigmf;
 pub mod sil_obs;
+/// Future-signal readiness of a receiver profile and observation files (`kshana signal-readiness`).
+pub mod signal_readiness;
 pub mod skyline;
 pub mod slot_timing;
 /// A read-only SNMPv2c client and OID maps for grandmasters and time servers (0.42 I2).

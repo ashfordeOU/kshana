@@ -9877,6 +9877,7 @@ engine-main-usage =
     { "   " }または：kshana interference-env <evaluate|thresholds|degradation> ... (kshana interference-env --help)
     { "   " }または：kshana arctic-plan --site <lat,lon[,h]> | --place <name> [--systems <a,b,...>] [--compare] [--hours <h>] [--kp <n>] ... (kshana arctic-plan --help)
     { "   " }または：kshana lunar-ref <tcb-tcl|approx|convert|transform|terms|models> ... (kshana lunar-ref --help)
+    { "   " }または：kshana signal-readiness <profile.toml> [<obs.rnx>...]
     { "   " }または：kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }または：kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }または：kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
@@ -11140,3 +11141,10 @@ engine-e-interference-env-bad-number = { $option } には数値が必要です�
 engine-e-interference-env-unknown-option = 不明なオプション { $option }（kshana interference-env --help でオプションを一覧表示）
 engine-e-interference-env-cannot-read = { $path } を読み込めません：{ $e }
 engine-e-interference-env-bad-file = { $path } は干渉環境ではありません：{ $e }
+
+## Future-signal readiness (src/signal_readiness.rs, docs/SIGNAL-READINESS.md)
+engine-signal-readiness-usage = 使い方：kshana signal-readiness <profile.toml> [<obs.rnx>...]  (docs/SIGNAL-READINESS.md)
+engine-e-signal-readiness-bad-rinex = { $path } は RINEX 3 または 4 の観測ファイルではありません：{ $e }
+engine-e-signal-readiness-unknown-option = 不明なオプション { $option }（kshana signal-readiness --help）
+engine-e-signal-readiness-cannot-read = { $path } を読み込めません：{ $e }
+engine-e-signal-readiness-bad-profile = { $path } は受信機プロファイルではありません：{ $e }

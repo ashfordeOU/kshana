@@ -9944,6 +9944,7 @@ engine-main-usage =
     { "   " }或：kshana interference-env <evaluate|thresholds|degradation> ... (kshana interference-env --help)
     { "   " }或：kshana arctic-plan --site <lat,lon[,h]> | --place <name> [--systems <a,b,...>] [--compare] [--hours <h>] [--kp <n>] ... (kshana arctic-plan --help)
     { "   " }或：kshana lunar-ref <tcb-tcl|approx|convert|transform|terms|models> ... (kshana lunar-ref --help)
+    { "   " }或：kshana signal-readiness <profile.toml> [<obs.rnx>...]
     { "   " }或：kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }或：kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }或：kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
@@ -11195,3 +11196,10 @@ engine-e-interference-env-bad-number = { $option } 需要数字，而不是 { $v
 engine-e-interference-env-unknown-option = 未知选项 { $option }（kshana interference-env --help 列出所有选项）
 engine-e-interference-env-cannot-read = 无法读取 { $path }：{ $e }
 engine-e-interference-env-bad-file = { $path } 不是干扰环境：{ $e }
+
+## Future-signal readiness (src/signal_readiness.rs, docs/SIGNAL-READINESS.md)
+engine-signal-readiness-usage = 用法：kshana signal-readiness <profile.toml> [<obs.rnx>...]  (docs/SIGNAL-READINESS.md)
+engine-e-signal-readiness-bad-rinex = { $path } 不是 RINEX 3 或 4 观测文件：{ $e }
+engine-e-signal-readiness-unknown-option = 未知选项 { $option }（kshana signal-readiness --help）
+engine-e-signal-readiness-cannot-read = 无法读取 { $path }：{ $e }
+engine-e-signal-readiness-bad-profile = { $path } 不是接收机配置文件：{ $e }
