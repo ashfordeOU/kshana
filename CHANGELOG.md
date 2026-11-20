@@ -49,6 +49,17 @@ breaking changes are called out explicitly.
   a date, and an auroral-oval check with a raised-mask availability inside the oval. Each epoch equals a direct
   `kshana sky` request at the test sites. MODELLED.
 
+### Added (lunar time scales and frames)
+
+- `kshana lunar-ref` (src/lunar_timescale.rs, src/lunar_frames.rs, src/lunar_ref.rs, docs/LUNAR-REF.md): TCB − TCL
+  integrated from the first post-Newtonian rate at the Moon's centre (Standish elements and the analytic Moon), with
+  the same computation at the geocentre giving the IERS L_C within the stated 2e-12 bound; an analytical approximation
+  whose error (about 13 us over 2014-2030) is shown on a denser grid; a swappable time scale (TT, TDB, TCB, TCG, TCL,
+  LTC) with round-trip regression tests; named lunar frames (ICRF, DE440 PA, analytic PA, ME) and ILuRF as a datum
+  realisation (placeholder parameters, to confirm); a lunar terminology registry and a geodetic-model provenance
+  manifest with file checksums. The TCL origin convention is to confirm; no LUNEX parser (no published format).
+  MODELLED.
+
 ### Added (space weather for PNT and drag)
 
 - `kshana space-weather` (src/space_weather_pnt/, docs/SPACE-WEATHER-PNT.md): a storm library of eight recorded

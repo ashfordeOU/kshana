@@ -9831,6 +9831,15 @@ engine-e-arctic-plan-unknown-name = 不明な名前 { $name }（既知：{ $know
 engine-e-arctic-plan-needs-site = --site <lat,lon[,h]> または --place <name> で地点を指定してください（--places で名前を一覧表示）
 engine-e-arctic-plan-bad-horizon = 期間とステップは正の値で、エポック数は 20,000 以下である必要があります
 
+## Lunar time scales, frames, terminology and model provenance (src/lunar_ref.rs)
+engine-lunar-ref-usage = 使い方：kshana lunar-ref tcb-tcl [--jd <JD TCB>] [--window <jd0,jd1>] | approx [--window <jd0,jd1>] [--grid-days <d>] | convert --from <tt|tdb|tcb|tcg|tcl|ltc> --to <scale> --jd <JD> | transform --from <ICRF|MOON_PA_DE440|MOON_PA|MOON_ME|ILURF> --to <frame> --xyz <x,y,z> [--jd <JD TDB>] | terms | models [--check] [--root <dir>]   [--out <file.json>]  (docs/LUNAR-REF.md)
+engine-e-lunar-ref-missing-value = { $option } には値が必要です
+engine-e-lunar-ref-unknown-option = 不明なオプション { $option }（kshana lunar-ref --help でオプションを一覧表示）
+engine-e-lunar-ref-cannot-write = { $path } に書き込めません：{ $e }
+engine-e-lunar-ref-bad-number = { $option }：{ $value } は有効な数値ではありません
+engine-e-lunar-ref-unknown-name = 不明な名前 { $name }（既知：{ $known }）
+engine-e-lunar-ref-out-of-span = エポックが使用している暦の範囲外です（Standish 要素 1800～2050 年、DE440 月姿勢 2014～2030 年）
+
 engine-main-usage =
     使い方：kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }または：kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -9867,6 +9876,7 @@ engine-main-usage =
     { "   " }または：kshana register <check|crl-check|view|sign> ... (kshana register --help)
     { "   " }または：kshana interference-env <evaluate|thresholds|degradation> ... (kshana interference-env --help)
     { "   " }または：kshana arctic-plan --site <lat,lon[,h]> | --place <name> [--systems <a,b,...>] [--compare] [--hours <h>] [--kp <n>] ... (kshana arctic-plan --help)
+    { "   " }または：kshana lunar-ref <tcb-tcl|approx|convert|transform|terms|models> ... (kshana lunar-ref --help)
     { "   " }または：kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }または：kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }または：kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>

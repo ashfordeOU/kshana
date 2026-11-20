@@ -9898,6 +9898,15 @@ engine-e-arctic-plan-unknown-name = 未知名称 { $name }（已知：{ $known }
 engine-e-arctic-plan-needs-site = 请用 --site <lat,lon[,h]> 或 --place <name> 指定地点（--places 列出名称）
 engine-e-arctic-plan-bad-horizon = 规划时长和步长必须为正，且历元数不超过 20,000
 
+## Lunar time scales, frames, terminology and model provenance (src/lunar_ref.rs)
+engine-lunar-ref-usage = 用法：kshana lunar-ref tcb-tcl [--jd <JD TCB>] [--window <jd0,jd1>] | approx [--window <jd0,jd1>] [--grid-days <d>] | convert --from <tt|tdb|tcb|tcg|tcl|ltc> --to <scale> --jd <JD> | transform --from <ICRF|MOON_PA_DE440|MOON_PA|MOON_ME|ILURF> --to <frame> --xyz <x,y,z> [--jd <JD TDB>] | terms | models [--check] [--root <dir>]   [--out <file.json>]  (docs/LUNAR-REF.md)
+engine-e-lunar-ref-missing-value = { $option } 需要一个值
+engine-e-lunar-ref-unknown-option = 未知选项 { $option }（kshana lunar-ref --help 列出所有选项）
+engine-e-lunar-ref-cannot-write = 无法写入 { $path }：{ $e }
+engine-e-lunar-ref-bad-number = { $option }：{ $value } 不是有效的数字
+engine-e-lunar-ref-unknown-name = 未知名称 { $name }（已知：{ $known }）
+engine-e-lunar-ref-out-of-span = 历元超出所用星历的范围（Standish 根数 1800–2050 年；DE440 月球姿态 2014–2030 年）
+
 engine-main-usage =
     用法：kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }或：kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -9934,6 +9943,7 @@ engine-main-usage =
     { "   " }或：kshana register <check|crl-check|view|sign> ... (kshana register --help)
     { "   " }或：kshana interference-env <evaluate|thresholds|degradation> ... (kshana interference-env --help)
     { "   " }或：kshana arctic-plan --site <lat,lon[,h]> | --place <name> [--systems <a,b,...>] [--compare] [--hours <h>] [--kp <n>] ... (kshana arctic-plan --help)
+    { "   " }或：kshana lunar-ref <tcb-tcl|approx|convert|transform|terms|models> ... (kshana lunar-ref --help)
     { "   " }或：kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }或：kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }或：kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
