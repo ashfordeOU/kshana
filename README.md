@@ -658,6 +658,7 @@ them and [`docs/SCENARIOS.md`](docs/SCENARIOS.md) documents every field.
 | [Constellations around any body](docs/CONSTELLATION-DESIGN.md) | coverage, dilution of precision and availability around the Earth, the Moon or Mars |
 | [Solar system](docs/SOLAR-SYSTEM.md) | where every planet is, and the light time of any link |
 | [Low-Earth-orbit navigation](docs/LEO-PNT.md) | a pass, a link, a navigation message and a fused fix, stage by stage |
+| [LEO-PNT verification](docs/LEO-VERIFY.md) | what a LEO timing or positioning service would deliver: burst timing, holdover TDEV, cost against outages, indoor and rain loss, ambiguity resolution, jamming claims and Doppler-only integrity |
 | [Campaigns](docs/CAMPAIGNS.md) | a chained mission, a sweep or a Monte Carlo ensemble in one scenario |
 | [Animation](docs/ANIMATION.md) | a run's time series as an animated drawing, a player or frames |
 | [Reports](docs/REPORTS.md) | every figure with its unit and its label, in HTML (HyperText Markup Language) and JSON (JavaScript Object Notation) |

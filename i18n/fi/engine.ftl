@@ -10322,6 +10322,7 @@ engine-main-usage =
     { "   " }tai: kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
     { "   " }tai: kshana orbit-data <check|convert|gp-compare|gp-audit|cov> ... (kshana orbit-data --help)
     { "   " }tai: kshana drone <prearm|prearm-calibrate|estimator-cases|dr-budget|quad-loss|failover|zonotope-pl> ... (kshana drone --help)
+    { "   " }tai: kshana leo-verify <burst-timing|holdover-tdev|cost|indoor|rain-fade|rtk-ar|jam-claim|doppler-integrity> <input.json>
     { "   " }tai: kshana kinds [--json]
     { "   " }tai: kshana example [<name>]
     { "   " }tai: kshana --help | --version
@@ -11442,3 +11443,15 @@ engine-e-oscillator-input = { $part }-syöte ei kelpaa: { $e }
 engine-e-oscillator-unknown-clock = tuntematon kelloesiasetus { $id } (jokin näistä: { $known })
 
 engine-e-oscillator-field = { $field } on alueen ulkopuolella: { $value }
+
+## src/leo_verify/mod.rs
+
+engine-leo-verify-usage = käyttö: kshana leo-verify <burst-timing|holdover-tdev|cost|indoor|rain-fade|rtk-ar|jam-claim|doppler-integrity> <input.json> (docs/LEO-VERIFY.md)
+
+engine-e-leo-verify-input = { $part }-syöte ei kelpaa: { $e }
+
+engine-e-leo-verify-field = { $field } on alueen ulkopuolella: { $value }
+
+engine-e-leo-verify-too-large = ajo on liian suuri: { $n } askelta (enintään { $max })
+
+engine-e-leo-verify-unknown-id = { $field } nimeää tuntemattoman tunnisteen: { $id }
