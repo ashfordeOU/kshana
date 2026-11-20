@@ -10543,6 +10543,32 @@ engine-e-ais-integrity-cannot-read = kan ikke læse { $path }: { $e }
 engine-e-ais-integrity-cannot-write = kan ikke skrive { $path }: { $e }
 engine-e-ais-integrity-bad-place = en række i stedlisten er ikke name,lat,lon,radius_m med en gyldig position og en positiv radius: { $row }
 
+## ADS-B interference indicators (src/adsb_indicators.rs)
+engine-adsb-indicators-usage = brug: kshana adsb-indicators <adsb.csv> [--cell-deg <d>] [--out <indicators.json>]  (docs/ADSB-INDICATORS.md)
+engine-adsb-indicators-summary = { $n } offentliggjorte celler markeret (MODELLED; ingen årsag nævnes)
+engine-e-adsb-indicators-missing-value = { $option } kræver en værdi
+engine-e-adsb-indicators-unknown-option = ukendt tilvalg { $option } (kshana adsb-indicators --help viser tilvalgene)
+engine-e-adsb-indicators-bad-cell = cellestørrelsen skal være 0,01 til 10 grader, ikke { $value }
+engine-e-adsb-indicators-cannot-read = kan ikke læse { $path }: { $e }
+engine-e-adsb-indicators-cannot-write = kan ikke skrive { $path }: { $e }
+engine-e-adsb-indicators-missing-column = ADS-B-CSV-filen har ingen kolonne { $name }
+
+## Interference atlas and station C/N0 layer (src/interference_atlas.rs)
+engine-interference-atlas-usage = brug: kshana interference-atlas build <day.geojson>... [--previous <atlas.json>] [--out <atlas.json>] | verify <atlas.json> | cors <today.obs> --baseline <earlier.obs> [--adsb-day <day.geojson>] [--station <lat,lon>] [--out <layer.json>]  (docs/INTERFERENCE-ATLAS.md)
+engine-interference-atlas-built = { $n_cells } celler, { $n_zones } zoner; version { $version } (MODELLED)
+engine-interference-atlas-verified = { $path }: versionen svarer til indholdet
+engine-e-interference-atlas-missing-value = { $option } kræver en værdi
+engine-e-interference-atlas-unknown-option = ukendt tilvalg { $option } (kshana interference-atlas --help viser tilvalgene)
+engine-e-interference-atlas-cannot-read = kan ikke læse { $path }: { $e }
+engine-e-interference-atlas-cannot-write = kan ikke skrive { $path }: { $e }
+engine-e-interference-atlas-not-a-product = { $path } er hverken et dagligt interferenskortprodukt eller et atlas
+engine-e-interference-atlas-mixed = de daglige produkter blander gitre eller kilder
+engine-e-interference-atlas-empty = intet dagligt produkt blev angivet
+engine-e-interference-atlas-changed = { $path }: versionen svarer ikke til indholdet (atlasset er ændret)
+engine-e-interference-atlas-bad-obs = { $path } er ikke en RINEX-observationsfil: { $e }
+engine-e-interference-atlas-no-cn0 = de to observationsfiler deler ingen GPS-satellit med C/N0 én sporgentagelse fra hinanden
+engine-e-interference-atlas-bad-station = stationen kræver lat,lon i grader (eller en omtrentlig position i observationshovedet), ikke { $value }
+
 engine-main-usage =
     brug: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }eller: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10580,6 +10606,8 @@ engine-main-usage =
     { "   " }eller: kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
     { "   " }eller: kshana orbit-data <check|convert|gp-compare|gp-audit|cov> ... (kshana orbit-data --help)
     { "   " }eller: kshana drone <prearm|prearm-calibrate|estimator-cases|dr-budget|quad-loss|failover|zonotope-pl> ... (kshana drone --help)
+    { "   " }eller: kshana adsb-indicators <adsb.csv> [--cell-deg <d>] [--out <indicators.json>]
+    { "   " }eller: kshana interference-atlas <build|verify|cors> ... (kshana interference-atlas --help)
     { "   " }eller: kshana kinds [--json]
     { "   " }eller: kshana example [<name>]
     { "   " }eller: kshana --help | --version
