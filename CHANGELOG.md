@@ -9,6 +9,18 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+### Added (space weather for PNT and drag)
+
+- `kshana space-weather` (src/space_weather_pnt/, docs/SPACE-WEATHER-PNT.md): a storm library of eight recorded
+  storms (Halloween 2003 to the November 2025 superstorm, three-hourly Kp/ap and F10.7 from GFZ, CC BY 4.0) and one
+  synthetic stress case, each as a timeline with the NOAA G level, the auroral-oval edge and the density response at
+  chosen altitudes (Jacchia 1971 and NRLMSISE-00); a DGNSS/RTK outage forecaster for work windows, driven by a
+  storm, given intervals or a NOAA SWPC 3-day forecast (MODELLED; the November 2025 storm is reproduced
+  qualitatively for US farm RTK); a 4D ionosphere that serves GNSS slant TEC (Chapman F layer on Klobuchar, a
+  constant or an IONEX map) and LF skywave (Wait D region) from one electron-density field (MODELLED); a
+  density-model scorecard of the static, Jacchia 1971 and NRLMSISE-00 models against the TOLEOS accelerometer
+  densities (NRLMSISE-00 best, rms log10 ratio 0.176; all models too dense in the 2008 minimum, the sign Emmert et
+  al. 2010 reported); and an orbit lifetime with the model and index-forecast density uncertainty.
 - **Smaller published crate: the DE440 Moon PA orientation series is embedded as binary.** `src/lunar_orientation.rs` now embeds `data/lunar/de440_moon_pa.bin` instead of the 1.6 MB CSV: the same 6 209 x 10 doubles, bit for bit (`tests/lunar_orientation_binary.rs`), column-major and byte-planed, about 352 KB of the `.crate` against 650 KB. Results are unchanged. The CSV stays in the repository as the source of record and is no longer packaged. Regenerate with `scripts/gen_de440_moon_pa_bin.py`.
 - **Smaller published crate: the seventeen translated engine catalogues ship as one xz stream.** The `.crate` carries `data/i18n/catalogues.xz` (about 1.9 MB) in place of `i18n/<lang>/engine.ftl` (13.4 MB of text, about 3.8 MB as separate gzip members): 10 192 071 bytes before, about 8 254 190 after: 1.94 MB more headroom under crates.io's 10 MiB limit. The `.ftl` files stay the source in the repository and are what a build from a checkout embeds, exactly as before. In a build of the published crate, `build.rs` decodes the archive (pure-Rust `lzma-rs`, MIT, a build dependency only) and the library embeds the decoded text, so no decoding happens at run time and the messages are byte for byte the same (`tests/i18n_packed.rs`). The archive is generated, never committed: `python3 scripts/pack_catalogues.py` (CI's `package` job, the crates.io release and the sdist build run it; contributors never need to).
 

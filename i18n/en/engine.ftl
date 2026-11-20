@@ -10390,6 +10390,7 @@ engine-main-usage =
     { "   " }or: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
     { "   " }or: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }or: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
+    { "   " }or: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
     { "   " }or: kshana kinds [--json]
     { "   " }or: kshana example [<name>]
     { "   " }or: kshana --help | --version
@@ -11889,3 +11890,25 @@ engine-e-corrections-bad-vector = vector { $id } lacks hexadecimal frames or an 
 engine-e-corrections-bad-file = { $file } is not a { $format } document (format tag and a vectors array)
 engine-corrections-summary = { $n } vectors: { $passed } passed, { $failed } failed
 engine-corrections-usage = usage: kshana corrections decode --format <has|b2b|l6> <frames.txt | -> | kshana corrections vectors [--json] [<vectors.json | dir> ...]  (one frame per line in hexadecimal; docs/CORRECTION-DECODERS.md)
+
+## src/space_weather_pnt/
+
+engine-space-weather-pnt-usage =
+    usage: kshana space-weather storms
+    { "   " }or: kshana space-weather storm <id> [--altitudes <km,km,...>]
+    { "   " }or: kshana space-weather dgnss <request.json> [--forecast <3-day-forecast.txt>]
+    { "   " }or: kshana space-weather iono <request.json> [--ionex <file>]
+    { "   " }or: kshana space-weather density-scorecard <windows.csv>
+    { "   " }or: kshana space-weather lifetime <request.json>
+    { "   " }(docs/SPACE-WEATHER-PNT.md)
+
+engine-e-space-weather-pnt-out-of-range = `{ $field }` must be a finite number from { $lo } to { $hi }
+engine-e-space-weather-pnt-unknown-storm = no storm `{ $id }` in the library (kshana space-weather storms lists them)
+engine-e-space-weather-pnt-request = not a valid request: { $e }
+engine-e-space-weather-pnt-bad-time = not a UTC time (YYYY-MM-DDTHH:MM[:SS]Z): { $value }
+engine-e-space-weather-pnt-not-a-forecast = not a NOAA SWPC 3-day forecast: no complete Kp breakdown table
+engine-e-space-weather-pnt-one-source = give exactly one source of Kp intervals: storm, intervals, or a forecast (swpc_forecast or --forecast)
+engine-e-space-weather-pnt-ionex-span = the IONEX maps do not cover { $t }
+engine-e-space-weather-pnt-ionex-flag = an IONEX map is used when, and only when, the request's vtec is "ionex" and --ionex <file> is given
+engine-e-space-weather-pnt-no-epochs = the request needs at least one epoch in epochs_utc
+engine-e-space-weather-pnt-window-row = line { $line }: not a density window row (campaign,phase,start_utc,mean_alt_km,n_valid,measured_mean,points)

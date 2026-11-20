@@ -10724,6 +10724,7 @@ engine-main-usage =
     { "   " }ou : kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
     { "   " }ou : kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }ou : kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
+    { "   " }ou : kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
     { "   " }ou : kshana kinds [--json]
     { "   " }ou : kshana example [<name>]
     { "   " }ou : kshana --help | --version
@@ -11646,3 +11647,25 @@ engine-e-corrections-bad-vector = il manque au vecteur { $id } des trames hexad�
 engine-e-corrections-bad-file = { $file } n'est pas un document { $format } (balise de format et tableau vectors)
 engine-corrections-summary = { $n } vecteurs : { $passed } réussis, { $failed } échoués
 engine-corrections-usage = utilisation : kshana corrections decode --format <has|b2b|l6> <frames.txt | -> | kshana corrections vectors [--json] [<vectors.json | dir> ...]  (une trame par ligne en hexadécimal; docs/CORRECTION-DECODERS.md)
+
+## src/space_weather_pnt/
+
+engine-space-weather-pnt-usage =
+    utilisation : kshana space-weather storms
+    { "   " }ou : kshana space-weather storm <id> [--altitudes <km,km,...>]
+    { "   " }ou : kshana space-weather dgnss <request.json> [--forecast <3-day-forecast.txt>]
+    { "   " }ou : kshana space-weather iono <request.json> [--ionex <file>]
+    { "   " }ou : kshana space-weather density-scorecard <windows.csv>
+    { "   " }ou : kshana space-weather lifetime <request.json>
+    { "   " }(docs/SPACE-WEATHER-PNT.md)
+
+engine-e-space-weather-pnt-out-of-range = `{ $field }` doit être un nombre fini compris entre { $lo } et { $hi }
+engine-e-space-weather-pnt-unknown-storm = aucune tempête `{ $id }` dans la bibliothèque (kshana space-weather storms les liste)
+engine-e-space-weather-pnt-request = requête non valide : { $e }
+engine-e-space-weather-pnt-bad-time = pas une heure UTC (YYYY-MM-DDTHH:MM[:SS]Z) : { $value }
+engine-e-space-weather-pnt-not-a-forecast = pas une prévision à 3 jours du NOAA SWPC : aucun tableau complet de détail du Kp
+engine-e-space-weather-pnt-one-source = indiquez exactement une source d’intervalles Kp : storm, intervals ou une prévision (swpc_forecast ou --forecast)
+engine-e-space-weather-pnt-ionex-span = les cartes IONEX ne couvrent pas { $t }
+engine-e-space-weather-pnt-ionex-flag = une carte IONEX est utilisée si, et seulement si, le vtec de la requête vaut "ionex" et --ionex <file> est donné
+engine-e-space-weather-pnt-no-epochs = la requête doit contenir au moins une époque dans epochs_utc
+engine-e-space-weather-pnt-window-row = ligne { $line } : pas une ligne de fenêtre de densité (campaign,phase,start_utc,mean_alt_km,n_valid,measured_mean,points)

@@ -9792,6 +9792,7 @@ engine-main-usage =
     { "   " }または：kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
     { "   " }または：kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }または：kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
+    { "   " }または：kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
     { "   " }または：kshana kinds [--json]
     { "   " }または：kshana example [<name>]
     { "   " }または：kshana --help | --version
@@ -10720,3 +10721,25 @@ engine-e-corrections-bad-vector = ベクトル { $id } に 16 進数のフレー
 engine-e-corrections-bad-file = { $file } は { $format } 文書ではありません（形式タグと vectors 配列）
 engine-corrections-summary = { $n } 件のベクトル：合格 { $passed } 件、不合格 { $failed } 件
 engine-corrections-usage = 使い方：kshana corrections decode --format <has|b2b|l6> <frames.txt | -> | kshana corrections vectors [--json] [<vectors.json | dir> ...]  (1 行に 1 フレーム、16 進数; docs/CORRECTION-DECODERS.md)
+
+## src/space_weather_pnt/
+
+engine-space-weather-pnt-usage =
+    使い方：kshana space-weather storms
+    { "   " }または：kshana space-weather storm <id> [--altitudes <km,km,...>]
+    { "   " }または：kshana space-weather dgnss <request.json> [--forecast <3-day-forecast.txt>]
+    { "   " }または：kshana space-weather iono <request.json> [--ionex <file>]
+    { "   " }または：kshana space-weather density-scorecard <windows.csv>
+    { "   " }または：kshana space-weather lifetime <request.json>
+    { "   " }(docs/SPACE-WEATHER-PNT.md)
+
+engine-e-space-weather-pnt-out-of-range = `{ $field }` は { $lo } から { $hi } までの有限の数値でなければなりません
+engine-e-space-weather-pnt-unknown-storm = ライブラリに嵐 `{ $id }` はありません（kshana space-weather storms で一覧を表示）
+engine-e-space-weather-pnt-request = 有効なリクエストではありません：{ $e }
+engine-e-space-weather-pnt-bad-time = UTC 時刻（YYYY-MM-DDTHH:MM[:SS]Z）ではありません：{ $value }
+engine-e-space-weather-pnt-not-a-forecast = NOAA SWPC の 3 日予報ではありません：Kp 内訳表が揃っていません
+engine-e-space-weather-pnt-one-source = Kp 区間のソースを 1 つだけ指定してください：storm、intervals、または予報（swpc_forecast か --forecast）
+engine-e-space-weather-pnt-ionex-span = IONEX マップは { $t } をカバーしていません
+engine-e-space-weather-pnt-ionex-flag = IONEX マップを使うのは、リクエストの vtec が "ionex" で、かつ --ionex <file> が指定された場合に限ります
+engine-e-space-weather-pnt-no-epochs = リクエストの epochs_utc にエポックが少なくとも 1 つ必要です
+engine-e-space-weather-pnt-window-row = { $line } 行目：密度ウィンドウの行ではありません (campaign,phase,start_utc,mean_alt_km,n_valid,measured_mean,points)

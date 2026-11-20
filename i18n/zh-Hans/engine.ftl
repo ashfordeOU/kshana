@@ -9859,6 +9859,7 @@ engine-main-usage =
     { "   " }或：kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
     { "   " }或：kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }或：kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
+    { "   " }或：kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
     { "   " }或：kshana kinds [--json]
     { "   " }或：kshana example [<name>]
     { "   " }或：kshana --help | --version
@@ -10775,3 +10776,25 @@ engine-e-corrections-bad-vector = 向量 { $id } 缺少十六进制帧或 expect
 engine-e-corrections-bad-file = { $file } 不是 { $format } 文档（格式标签和 vectors 数组）
 engine-corrections-summary = { $n } 个向量：通过 { $passed } 个，失败 { $failed } 个
 engine-corrections-usage = 用法：kshana corrections decode --format <has|b2b|l6> <frames.txt | -> | kshana corrections vectors [--json] [<vectors.json | dir> ...]  (每行一个十六进制帧; docs/CORRECTION-DECODERS.md)
+
+## src/space_weather_pnt/
+
+engine-space-weather-pnt-usage =
+    用法：kshana space-weather storms
+    { "   " }或：kshana space-weather storm <id> [--altitudes <km,km,...>]
+    { "   " }或：kshana space-weather dgnss <request.json> [--forecast <3-day-forecast.txt>]
+    { "   " }或：kshana space-weather iono <request.json> [--ionex <file>]
+    { "   " }或：kshana space-weather density-scorecard <windows.csv>
+    { "   " }或：kshana space-weather lifetime <request.json>
+    { "   " }(docs/SPACE-WEATHER-PNT.md)
+
+engine-e-space-weather-pnt-out-of-range = `{ $field }` 必须是 { $lo } 到 { $hi } 之间的有限数
+engine-e-space-weather-pnt-unknown-storm = 库中没有风暴 `{ $id }`（用 kshana space-weather storms 列出）
+engine-e-space-weather-pnt-request = 无效的请求：{ $e }
+engine-e-space-weather-pnt-bad-time = 不是 UTC 时间（YYYY-MM-DDTHH:MM[:SS]Z）：{ $value }
+engine-e-space-weather-pnt-not-a-forecast = 不是 NOAA SWPC 3 天预报：缺少完整的 Kp 分时表
+engine-e-space-weather-pnt-one-source = 请只给出一个 Kp 时段来源：storm、intervals 或预报（swpc_forecast 或 --forecast）
+engine-e-space-weather-pnt-ionex-span = IONEX 地图不覆盖 { $t }
+engine-e-space-weather-pnt-ionex-flag = 当且仅当请求的 vtec 为 "ionex" 并给出 --ionex <file> 时才使用 IONEX 地图
+engine-e-space-weather-pnt-no-epochs = 请求的 epochs_utc 中至少需要一个历元
+engine-e-space-weather-pnt-window-row = 第 { $line } 行：不是密度窗口行 (campaign,phase,start_utc,mean_alt_km,n_valid,measured_mean,points)

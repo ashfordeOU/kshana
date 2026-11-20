@@ -39,6 +39,7 @@ fn the_top_level_usage_names_every_subcommand() {
         "time-vectors",
         "ais-integrity",
         "corrections",
+        "space-weather",
     ] {
         assert!(
             text.contains(want),
