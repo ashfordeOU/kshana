@@ -10778,7 +10778,7 @@ engine-main-usage =
     { "   " }o: kshana nmea-scenario <scenario.toml> [--out <file.nmea>] [--tcp <addr>|--udp <addr>] (kshana nmea-scenario --help)
     { "   " }o: kshana interference-map <adsb|ais|fetch-land> ... (kshana interference-map --help)
     { "   " }o: kshana route-exposure --route <route> --map <map.geojson|dir> [--from <date>] [--to <date>]
-    { "   " }o: kshana bench <spec|truth|cases|score|baseline|seal|reveal-check|manifest|verify-manifest|validate|leaderboard> ... (kshana bench --help)
+    { "   " }o: kshana bench <spec|truth|cases|score|baseline|seal|reveal-check|manifest|verify-manifest|validate|leaderboard|positions|datasets|cite|golden> ... (kshana bench --help)
     { "   " }o: kshana bench-export <scenario.toml> [--out <base>] [--epoch <YYYY-MM-DDTHH:MM:SS>]
     { "   " }o: kshana compliance-report [--out <base>] <result.json>... | --mapping | --sources
     { "   " }o: kshana lunanet-afs-check <spec [--json] [--strict]|symbols <file> [--max-sp-errors <n>] [--json]|generate --frames <n> [--toi0 <t>] --out <file>>
@@ -10926,13 +10926,18 @@ engine-interference-map-cli-col-not-observed = no observado
 engine-bench-cli-usage =
     uso:  kshana bench spec
     { "   " }o: kshana bench truth --task a --data <extracted JammerTest 2024 dir> --split <dev|test|holdout|all> --out <truth.json>
-    { "   " }o: kshana bench cases --task <c|d> --split <dev|test|holdout> --out <dir> [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
+    { "   " }o: kshana bench truth --task g --data <GSDC-layout train dir> --split <dev|test|holdout> --out <truth.json>
+    { "   " }o: kshana bench cases --task <c|d|f> --split <dev|test|holdout> --out <dir> [--data <dataset.csv>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
     { "   " }o: kshana bench score --truth <truth.json> --predictions <predictions.json> [--threshold <x>] [--out <result.json>]
-    { "   " }o: kshana bench baseline --task <a|b|c|d> --split <dev|test|holdout> --out <dir> [--data <dir>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
+    { "   " }o: kshana bench baseline --task <a|b|c|d|e|f|g> --split <dev|test|holdout> --out <dir> [--data <dir>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
     { "   " }o: kshana bench seal --task <a|b|c|d> --seed-file <file> [--new]
     { "   " }o: kshana bench reveal-check --task <a|b|c|d> --seed-file <file> --commitment <hex>
     { "   " }o: kshana bench manifest --task a --data <extracted dir> [--archive <tar.gz>] --out <manifest.json>
     { "   " }o: kshana bench verify-manifest <manifest.json> --root <dir>
+    { "   " }o: kshana bench positions --task g --split <dev|test|holdout> --csv <submission.csv> --name <system> [--version <v>] --out <predictions.json>
+    { "   " }o: kshana bench datasets [--json | --check [--root <repo>]]
+    { "   " }o: kshana bench cite <result.json>...
+    { "   " }o: kshana bench golden [--root <repo>] (--out <GOLDEN.json> | --check <GOLDEN.json>)
     { "   " }o: kshana bench validate <result.json>...
     { "   " }o: kshana bench leaderboard [<results dir|result.json>...] --out <page.html> [--fragment]   (sin entradas: el estado vacío; --fragment: una sección incrustable)
     { "   " }(un archivo de semilla contiene el secreto de un conjunto reservado sellado; manténgalo fuera del control de versiones)
@@ -11921,3 +11926,49 @@ engine-e-oscillator-input = la entrada de { $part } no es válida: { $e }
 engine-e-oscillator-unknown-clock = preajuste de reloj desconocido { $id } (uno de { $known })
 
 engine-e-oscillator-field = { $field } está fuera de rango: { $value }
+
+## src/bench: tasks (f) and (g), the dataset registry and the golden index (E34)
+
+engine-bench-data-no-header = { $file }: sin fila de encabezado
+
+engine-bench-data-no-column = { $file }: no hay columna `{ $column }`
+
+engine-bench-data-bad-value = { $file } línea { $line }: `{ $column }` falta o no es válido
+
+engine-bench-data-no-rows = { $file }: sin filas de datos
+
+engine-bench-task-has-no-holdout = la tarea ({ $task }) no tiene partición de reserva: sus datos y su partición son públicos
+
+engine-bench-unknown-baseline = línea base desconocida `{ $name }`
+
+engine-bench-g-no-traces = no hay <drive>/<phone>/ground_truth.csv bajo { $root }
+
+engine-bench-g-no-object = no hay objeto `{ $key }` de trazas
+
+engine-bench-g-bad-epoch = traza `{ $id }`: cada época debe ser [UnixTimeMillis, latitud, longitud]
+
+engine-bench-f-dataset-mismatch = { $path }: el SHA-256 { $got } no es el dataset.csv fijado de la tarea (f); descárguelo con scripts/fetch_opssat_ad.sh
+
+engine-bench-cli-unknown-task-g = tarea desconocida `{ $t }` (de a a g)
+
+engine-bench-cli-wrote-predictions = escrito { $path } ({ $traces } trazas)
+
+engine-bench-datasets-summary = { $n } conjuntos de datos: { $in_bench } en el banco, { $candidate } candidatos, { $wanted } buscados
+
+engine-bench-datasets-ok = registro: { $n } conjuntos de datos, se cumplen todas las reglas
+
+engine-bench-golden-ok = { $n } archivos congelados sin cambios; identificadores de cita estables
+
+engine-bench-golden-written = escrito { $path } ({ $n } archivos congelados)
+
+engine-bench-site-title-f = Tarea (f): detección de anomalías en telemetría de naves espaciales
+
+engine-bench-site-title-g = Tarea (g): precisión de posicionamiento en teléfonos inteligentes
+
+engine-bench-site-col-ap = Precisión media
+
+engine-bench-site-col-gsdc-score = Puntuación, media de P50 y P95 (m)
+
+engine-bench-site-col-p50 = P50 conjunto (m)
+
+engine-bench-site-col-p95 = P95 conjunto (m)
