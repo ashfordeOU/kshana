@@ -51,6 +51,7 @@ fn the_top_level_usage_names_every_subcommand() {
         "datasets|cite|golden",
         "feed <pack|verify|send|spectrum|leaderboard>",
         "register <check|crl-check|view|sign>",
+        "interference-env <evaluate|thresholds|degradation>",
     ] {
         assert!(
             text.contains(want),

@@ -10621,6 +10621,7 @@ engine-main-usage =
     { "   " }või: kshana space-receiver <clock|timestamps|dynamics|bench|mms|od-vs-tle> ... [--out <file.json>] (kshana space-receiver --help)
     { "   " }või: kshana feed <pack|verify|send|spectrum|leaderboard> ... (kshana feed --help)
     { "   " }või: kshana register <check|crl-check|view|sign> ... (kshana register --help)
+    { "   " }või: kshana interference-env <evaluate|thresholds|degradation> ... (kshana interference-env --help)
     { "   " }või: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }või: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }või: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
@@ -11861,3 +11862,16 @@ engine-e-register-cannot-read = faili { $path } ei saa lugeda: { $e }
 engine-e-register-cannot-write = faili { $path } ei saa kirjutada: { $e }
 engine-e-register-unknown-option = tundmatu valik { $option } (kshana register --help loetleb valikud)
 engine-e-register-crl-needs-key = --crl ja --crl-key käivad koos: tühistusnimekirja kontrollitakse väljastaja võtmega
+
+## Interference environments (src/interference_env.rs, docs/INTERFERENCE-ENV.md)
+engine-interference-env-usage = kasutus: kshana interference-env evaluate <environment.toml> | thresholds [--receiver <id>] | degradation --baseline <id> --pulse-width <s> --prf <Hz> [--below-ratio <R>] [--recovery <s>]  (docs/INTERFERENCE-ENV.md; MODELLED)
+engine-e-interference-env-unknown-receiver = tundmatu vastuvõtja { $id } (kshana interference-env thresholds loetleb need)
+engine-e-interference-env-unknown-baseline = tundmatu baastase { $id } (vt docs/INTERFERENCE-ENV.md)
+engine-e-interference-env-bad-source = allikas { $name }: võimsus, ribalaius, impulsi laius või sagedus ei ole kehtiv positiivne lõplik väärtus
+engine-e-interference-env-pulsed-needs-receiver = impulssallikad vajavad vastuvõtja väärtusi noise_temperature_k, precorrelation_bw_hz ning summutus- või küllastustaset
+engine-e-interference-env-saturated = impulsid ei jäta summutamata aega: täitetegur jõuab väärtuseni 1
+engine-e-interference-env-missing-value = { $option } vajab väärtust
+engine-e-interference-env-bad-number = { $option } vajab arvu, mitte { $value }
+engine-e-interference-env-unknown-option = tundmatu valik { $option } (kshana interference-env --help loetleb valikud)
+engine-e-interference-env-cannot-read = faili { $path } ei saa lugeda: { $e }
+engine-e-interference-env-bad-file = { $path } ei ole häirekeskkond: { $e }

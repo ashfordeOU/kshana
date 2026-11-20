@@ -10435,6 +10435,7 @@ engine-main-usage =
     { "   " }or: kshana space-receiver <clock|timestamps|dynamics|bench|mms|od-vs-tle> ... [--out <file.json>] (kshana space-receiver --help)
     { "   " }or: kshana feed <pack|verify|send|spectrum|leaderboard> ... (kshana feed --help)
     { "   " }or: kshana register <check|crl-check|view|sign> ... (kshana register --help)
+    { "   " }or: kshana interference-env <evaluate|thresholds|degradation> ... (kshana interference-env --help)
     { "   " }or: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }or: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }or: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
@@ -12254,3 +12255,16 @@ engine-e-register-cannot-read = cannot read { $path }: { $e }
 engine-e-register-cannot-write = cannot write { $path }: { $e }
 engine-e-register-unknown-option = unknown option { $option } (kshana register --help lists the options)
 engine-e-register-crl-needs-key = --crl and --crl-key go together: a revocation list is checked against the issuer's key
+
+## Interference environments (src/interference_env.rs, docs/INTERFERENCE-ENV.md)
+engine-interference-env-usage = usage: kshana interference-env evaluate <environment.toml> | thresholds [--receiver <id>] | degradation --baseline <id> --pulse-width <s> --prf <Hz> [--below-ratio <R>] [--recovery <s>]  (docs/INTERFERENCE-ENV.md; MODELLED)
+engine-e-interference-env-unknown-receiver = unknown receiver { $id } (kshana interference-env thresholds lists them)
+engine-e-interference-env-unknown-baseline = unknown baseline { $id } (see docs/INTERFERENCE-ENV.md)
+engine-e-interference-env-bad-source = source { $name }: its power, bandwidth, pulse width or rate is not a valid positive finite value
+engine-e-interference-env-pulsed-needs-receiver = pulsed sources need the receiver's noise_temperature_k, precorrelation_bw_hz and a blanker or saturation level
+engine-e-interference-env-saturated = the pulses leave no time unblanked: the duty cycle reaches 1
+engine-e-interference-env-missing-value = { $option } needs a value
+engine-e-interference-env-bad-number = { $option } needs a number, not { $value }
+engine-e-interference-env-unknown-option = unknown option { $option } (kshana interference-env --help lists the options)
+engine-e-interference-env-cannot-read = cannot read { $path }: { $e }
+engine-e-interference-env-bad-file = { $path } is not an interference environment: { $e }

@@ -10844,6 +10844,7 @@ engine-main-usage =
     { "   " }или: kshana space-receiver <clock|timestamps|dynamics|bench|mms|od-vs-tle> ... [--out <file.json>] (kshana space-receiver --help)
     { "   " }или: kshana feed <pack|verify|send|spectrum|leaderboard> ... (kshana feed --help)
     { "   " }или: kshana register <check|crl-check|view|sign> ... (kshana register --help)
+    { "   " }или: kshana interference-env <evaluate|thresholds|degradation> ... (kshana interference-env --help)
     { "   " }или: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }или: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }или: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
@@ -12091,3 +12092,16 @@ engine-e-register-cannot-read = не удаётся прочитать { $path }
 engine-e-register-cannot-write = не удаётся записать { $path }: { $e }
 engine-e-register-unknown-option = неизвестный параметр { $option } (kshana register --help перечисляет параметры)
 engine-e-register-crl-needs-key = --crl и --crl-key задаются вместе: список отзыва проверяется ключом издателя
+
+## Interference environments (src/interference_env.rs, docs/INTERFERENCE-ENV.md)
+engine-interference-env-usage = использование: kshana interference-env evaluate <environment.toml> | thresholds [--receiver <id>] | degradation --baseline <id> --pulse-width <s> --prf <Hz> [--below-ratio <R>] [--recovery <s>]  (docs/INTERFERENCE-ENV.md; MODELLED)
+engine-e-interference-env-unknown-receiver = неизвестный приёмник { $id } (kshana interference-env thresholds перечисляет их)
+engine-e-interference-env-unknown-baseline = неизвестная базовая линия { $id } (см. docs/INTERFERENCE-ENV.md)
+engine-e-interference-env-bad-source = источник { $name }: мощность, ширина полосы, длительность импульса или частота не является допустимым положительным конечным значением
+engine-e-interference-env-pulsed-needs-receiver = импульсным источникам нужны noise_temperature_k, precorrelation_bw_hz приёмника и уровень бланкирования или насыщения
+engine-e-interference-env-saturated = импульсы не оставляют времени без бланкирования: скважность достигает 1
+engine-e-interference-env-missing-value = { $option } требует значения
+engine-e-interference-env-bad-number = { $option } требует числа, а не { $value }
+engine-e-interference-env-unknown-option = неизвестный параметр { $option } (kshana interference-env --help перечисляет параметры)
+engine-e-interference-env-cannot-read = не удаётся прочитать { $path }: { $e }
+engine-e-interference-env-bad-file = { $path } не является помеховой обстановкой: { $e }
