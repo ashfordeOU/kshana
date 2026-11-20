@@ -10765,6 +10765,23 @@ engine-e-interference-lib-cannot-read = nie można odczytać { $path }: { $e }
 engine-e-interference-lib-cannot-write = nie można zapisać { $path }: { $e }
 engine-e-interference-lib-bad-predictions = wiersz predykcji nie jest id,class ze znaną klasą: { $row }
 
+## Receiver-antenna characterisation (src/antenna_cal.rs)
+engine-antenna-cal-usage = użycie: kshana antenna-cal lint <file.atx> | spread <file.atx>... --type <type-radome> | compare <a.atx> [<b.atx>] --type <type-radome> [--serial-a <s>] [--serial-b <s>] [--max-zenith <deg>] | group-delay <spec.toml> | js-margin <spec.toml>  [--out <file.json>]  (docs/ANTENNA-CAL.md)
+engine-e-antenna-cal-missing-value = { $option } wymaga wartości
+engine-e-antenna-cal-unknown-option = nieznana opcja { $option } (opcje wypisuje kshana antenna-cal --help)
+engine-e-antenna-cal-bad-number = { $option } wymaga skończonej liczby zero lub większej, nie { $value }
+engine-e-antenna-cal-cannot-read = nie można odczytać { $path }: { $e }
+engine-e-antenna-cal-cannot-write = nie można zapisać { $path }: { $e }
+engine-e-antenna-cal-bad-spec = { $path } nie jest poprawną specyfikacją: { $e }
+engine-e-antenna-cal-no-antenna = brak anteny { $name } w { $path }
+engine-e-antenna-cal-too-few-units = mniej niż dwie kalibracje { $name } do porównania
+engine-e-antenna-cal-unknown-signal = para wskazuje nieznany sygnał { $value }
+engine-e-antenna-cal-bad-group-delay = specyfikacja opóźnienia grupowego wymaga co najmniej jednego sygnału, uporządkowanego skończonego zakresu temperatur, dodatnich częstotliwości i skończonych opóźnień
+engine-e-antenna-cal-same-pair = para wolna od jonosfery wymaga dwóch różnych częstotliwości
+engine-e-antenna-cal-bad-pattern = nieznana charakterystyka anteny (patch, choke-ring lub table)
+engine-e-antenna-cal-bad-gain-table = tabela zysku wymaga co najmniej dwóch skończonych punktów elewacji i zysku
+engine-e-antenna-cal-bad-link = specyfikacja J/S wymaga dodatniej częstotliwości, skończonej EIRP i dodatnich odległości
+
 engine-main-usage =
     użycie: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }lub: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10809,6 +10826,7 @@ engine-main-usage =
     { "   " }lub: kshana leo-verify <burst-timing|holdover-tdev|cost|indoor|rain-fade|rtk-ar|jam-claim|doppler-integrity> <input.json>
     { "   " }lub: kshana sil-obs <generate|compare> ... (kshana sil-obs --help)
     { "   " }lub: kshana interference-lib <models|generate|fit|bench|cases> ... (kshana interference-lib --help)
+    { "   " }lub: kshana antenna-cal <lint|spread|compare|group-delay|js-margin> ... (kshana antenna-cal --help)
     { "   " }lub: kshana kinds [--json]
     { "   " }lub: kshana example [<name>]
     { "   " }lub: kshana --help | --version

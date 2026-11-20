@@ -10587,6 +10587,23 @@ engine-e-interference-lib-cannot-read = faili { $path } ei saa lugeda: { $e }
 engine-e-interference-lib-cannot-write = faili { $path } ei saa kirjutada: { $e }
 engine-e-interference-lib-bad-predictions = ennustuste rida ei ole id,class teadaoleva klassiga: { $row }
 
+## Receiver-antenna characterisation (src/antenna_cal.rs)
+engine-antenna-cal-usage = kasutus: kshana antenna-cal lint <file.atx> | spread <file.atx>... --type <type-radome> | compare <a.atx> [<b.atx>] --type <type-radome> [--serial-a <s>] [--serial-b <s>] [--max-zenith <deg>] | group-delay <spec.toml> | js-margin <spec.toml>  [--out <file.json>]  (docs/ANTENNA-CAL.md)
+engine-e-antenna-cal-missing-value = { $option } vajab väärtust
+engine-e-antenna-cal-unknown-option = tundmatu valik { $option } (valikud loetleb kshana antenna-cal --help)
+engine-e-antenna-cal-bad-number = { $option } vajab lõplikku arvu, mis on null või suurem, mitte { $value }
+engine-e-antenna-cal-cannot-read = faili { $path } ei saa lugeda: { $e }
+engine-e-antenna-cal-cannot-write = faili { $path } ei saa kirjutada: { $e }
+engine-e-antenna-cal-bad-spec = { $path } ei ole kehtiv spetsifikatsioon: { $e }
+engine-e-antenna-cal-no-antenna = failis { $path } ei ole antenni { $name }
+engine-e-antenna-cal-too-few-units = võrdlemiseks on vähem kui kaks { $name } kalibreeringut
+engine-e-antenna-cal-unknown-signal = paar nimetab tundmatut signaali { $value }
+engine-e-antenna-cal-bad-group-delay = rühmaviivituse spetsifikatsioon vajab vähemalt ühte signaali, järjestatud lõplikku temperatuurivahemikku, positiivseid sagedusi ja lõplikke viivitusi
+engine-e-antenna-cal-same-pair = ionosfäärivaba paar vajab kahte erinevat sagedust
+engine-e-antenna-cal-bad-pattern = tundmatu antenni suunadiagramm (patch, choke-ring või table)
+engine-e-antenna-cal-bad-gain-table = võimendustabel vajab vähemalt kahte lõplikku kõrgusnurga ja võimenduse punkti
+engine-e-antenna-cal-bad-link = J/S-spetsifikatsioon vajab positiivset sagedust, lõplikku EIRP-d ja positiivseid kaugusi
+
 engine-main-usage =
     kasutus: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }või: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10631,6 +10648,7 @@ engine-main-usage =
     { "   " }või: kshana leo-verify <burst-timing|holdover-tdev|cost|indoor|rain-fade|rtk-ar|jam-claim|doppler-integrity> <input.json>
     { "   " }või: kshana sil-obs <generate|compare> ... (kshana sil-obs --help)
     { "   " }või: kshana interference-lib <models|generate|fit|bench|cases> ... (kshana interference-lib --help)
+    { "   " }või: kshana antenna-cal <lint|spread|compare|group-delay|js-margin> ... (kshana antenna-cal --help)
     { "   " }või: kshana kinds [--json]
     { "   " }või: kshana example [<name>]
     { "   " }või: kshana --help | --version

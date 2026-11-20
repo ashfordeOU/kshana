@@ -9803,6 +9803,23 @@ engine-e-interference-lib-cannot-read = { $path } を読み込めません：{ $
 engine-e-interference-lib-cannot-write = { $path } に書き込めません：{ $e }
 engine-e-interference-lib-bad-predictions = 予測の行が既知のクラスを持つ id,class ではありません: { $row }
 
+## Receiver-antenna characterisation (src/antenna_cal.rs)
+engine-antenna-cal-usage = 使い方：kshana antenna-cal lint <file.atx> | spread <file.atx>... --type <type-radome> | compare <a.atx> [<b.atx>] --type <type-radome> [--serial-a <s>] [--serial-b <s>] [--max-zenith <deg>] | group-delay <spec.toml> | js-margin <spec.toml>  [--out <file.json>]  (docs/ANTENNA-CAL.md)
+engine-e-antenna-cal-missing-value = { $option } には値が必要です
+engine-e-antenna-cal-unknown-option = 不明なオプション { $option }（kshana antenna-cal --help でオプションを一覧表示）
+engine-e-antenna-cal-bad-number = { $option } には 0 以上の有限の数値が必要です ({ $value } ではありません)
+engine-e-antenna-cal-cannot-read = { $path } を読み込めません：{ $e }
+engine-e-antenna-cal-cannot-write = { $path } に書き込めません：{ $e }
+engine-e-antenna-cal-bad-spec = { $path } は有効な仕様ではありません: { $e }
+engine-e-antenna-cal-no-antenna = { $path } にアンテナ { $name } がありません
+engine-e-antenna-cal-too-few-units = 比較できる { $name } の較正が 2 件未満です
+engine-e-antenna-cal-unknown-signal = ペアが不明な信号 { $value } を指定しています
+engine-e-antenna-cal-bad-group-delay = 群遅延の仕様には、少なくとも 1 つの信号、順序付けられた有限の温度範囲、正の周波数、有限の遅延が必要です
+engine-e-antenna-cal-same-pair = 電離層フリーのペアには異なる 2 つの周波数が必要です
+engine-e-antenna-cal-bad-pattern = 不明なアンテナパターン (patch、choke-ring、table のいずれか)
+engine-e-antenna-cal-bad-gain-table = 利得テーブルには仰角と利得の有限な点が少なくとも 2 つ必要です
+engine-e-antenna-cal-bad-link = J/S の仕様には正の周波数、有限の EIRP、正の距離が必要です
+
 engine-main-usage =
     使い方：kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }または：kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -9847,6 +9864,7 @@ engine-main-usage =
     { "   " }または：kshana leo-verify <burst-timing|holdover-tdev|cost|indoor|rain-fade|rtk-ar|jam-claim|doppler-integrity> <input.json>
     { "   " }または：kshana sil-obs <generate|compare> ... (kshana sil-obs --help)
     { "   " }または：kshana interference-lib <models|generate|fit|bench|cases> ... (kshana interference-lib --help)
+    { "   " }または：kshana antenna-cal <lint|spread|compare|group-delay|js-margin> ... (kshana antenna-cal --help)
     { "   " }または：kshana kinds [--json]
     { "   " }または：kshana example [<name>]
     { "   " }または：kshana --help | --version
