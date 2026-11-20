@@ -22,6 +22,13 @@ breaking changes are called out explicitly.
 - Interference map: every published cell carries a `confidence` statement (level, Wilson 95% interval of the
   affected share when published, NACp/NIC report shares) and every file a `data_window`; the observatory product
   states its latency (`last_report_utc`, `min_latency_hours`). Additive fields; format versions unchanged.
+### Added (radio time-signal migration guide)
+
+- `docs/RADIO-TIME-MIGRATION.md`: the status of the CHU, MSF, DCF77 and WWVB time signals from public sources (CHU
+  reported ended 22 June 2026; the UK call for evidence on MSF closes 22 December 2026), an advisor table of which
+  source suits which timing need, migration notes per service, and a checklist for swapping a legacy GPS-disciplined
+  oscillator (week-number pivot, outputs, cable delay, holdover, leap seconds, parallel run). Linked from
+  `docs/TIMING-SYSTEMS.md`. Documentation only.
 
 ### Added (parser hardening and time-scale conformance vectors)
 
