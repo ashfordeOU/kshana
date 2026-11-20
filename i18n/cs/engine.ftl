@@ -11766,3 +11766,13 @@ engine-e-drone-failover-bad-spec = běh přepnutí potřebuje alespoň jeden zdr
 engine-e-drone-failover-bad-kind = neznámý druh zdroje { $kind } (absolute, relative, inertial)
 engine-e-drone-failover-bad-event = událost uvádí neznámý zdroj nebo stav: { $source } (stav fail nebo recover)
 engine-e-drone-zonotope-bad-geometry = úroveň ochrany vyžaduje alespoň čtyři družice s konečným azimutem a elevací a kladnou mezí a řešitelnou geometrii
+
+## src/oscillator/mod.rs
+
+engine-oscillator-usage = použití: kshana oscillator <vibration|holdover|select|raim-aid|datasheet> <input.json>, nebo kshana oscillator refs (docs/OSCILLATOR.md)
+
+engine-e-oscillator-input = vstup { $part } není platný: { $e }
+
+engine-e-oscillator-unknown-clock = neznámá předvolba hodin { $id } (jedna z { $known })
+
+engine-e-oscillator-field = { $field } je mimo rozsah: { $value }

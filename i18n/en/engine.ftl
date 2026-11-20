@@ -12083,3 +12083,13 @@ engine-e-drone-failover-bad-spec = the failover run needs at least one source, a
 engine-e-drone-failover-bad-kind = unknown source kind { $kind } (absolute, relative, inertial)
 engine-e-drone-failover-bad-event = an event names an unknown source or state: { $source } (state fail or recover)
 engine-e-drone-zonotope-bad-geometry = the protection level needs at least four satellites with finite azimuth, elevation and a positive bound, and a solvable geometry
+
+## src/oscillator/mod.rs
+
+engine-oscillator-usage = usage: kshana oscillator <vibration|holdover|select|raim-aid|datasheet> <input.json>, or kshana oscillator refs (docs/OSCILLATOR.md)
+
+engine-e-oscillator-input = the { $part } input is not valid: { $e }
+
+engine-e-oscillator-unknown-clock = unknown clock preset { $id } (one of { $known })
+
+engine-e-oscillator-field = { $field } is out of range: { $value }

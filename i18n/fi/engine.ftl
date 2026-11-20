@@ -11432,3 +11432,13 @@ engine-e-drone-failover-bad-spec = vaihtoajo tarvitsee vähintään yhden lähte
 engine-e-drone-failover-bad-kind = tuntematon lähdetyyppi { $kind } (absolute, relative, inertial)
 engine-e-drone-failover-bad-event = tapahtuma nimeää tuntemattoman lähteen tai tilan: { $source } (tila fail tai recover)
 engine-e-drone-zonotope-bad-geometry = suojaustaso vaatii vähintään neljä satelliittia, joilla on äärellinen atsimuutti ja korotus sekä positiivinen raja, ja ratkeavan geometrian
+
+## src/oscillator/mod.rs
+
+engine-oscillator-usage = käyttö: kshana oscillator <vibration|holdover|select|raim-aid|datasheet> <input.json> tai kshana oscillator refs (docs/OSCILLATOR.md)
+
+engine-e-oscillator-input = { $part }-syöte ei kelpaa: { $e }
+
+engine-e-oscillator-unknown-clock = tuntematon kelloesiasetus { $id } (jokin näistä: { $known })
+
+engine-e-oscillator-field = { $field } on alueen ulkopuolella: { $value }
