@@ -10833,6 +10833,15 @@ engine-e-arctic-plan-unknown-name = nombre desconocido { $name } (conocidos: { $
 engine-e-arctic-plan-needs-site = indique el sitio con --site <lat,lon[,h]> o --place <name> (--places enumera los nombres)
 engine-e-arctic-plan-bad-horizon = el horizonte y el paso deben ser positivos y dar como máximo 20.000 épocas
 
+## Lunar time scales, frames, terminology and model provenance (src/lunar_ref.rs)
+engine-lunar-ref-usage = uso: kshana lunar-ref tcb-tcl [--jd <JD TCB>] [--window <jd0,jd1>] | approx [--window <jd0,jd1>] [--grid-days <d>] | convert --from <tt|tdb|tcb|tcg|tcl|ltc> --to <scale> --jd <JD> | transform --from <ICRF|MOON_PA_DE440|MOON_PA|MOON_ME|ILURF> --to <frame> --xyz <x,y,z> [--jd <JD TDB>] | terms | models [--check] [--root <dir>]   [--out <file.json>]  (docs/LUNAR-REF.md)
+engine-e-lunar-ref-missing-value = { $option } necesita un valor
+engine-e-lunar-ref-unknown-option = opción desconocida { $option } (kshana lunar-ref --help enumera las opciones)
+engine-e-lunar-ref-cannot-write = no se puede escribir { $path }: { $e }
+engine-e-lunar-ref-bad-number = { $option }: { $value } no es un número válido
+engine-e-lunar-ref-unknown-name = nombre desconocido { $name } (conocidos: { $known })
+engine-e-lunar-ref-out-of-span = la época está fuera del intervalo de las efemérides usadas (elementos de Standish 1800-2050; orientación lunar DE440 2014-2030)
+
 engine-main-usage =
     uso:  kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }o: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10869,6 +10878,7 @@ engine-main-usage =
     { "   " }o: kshana register <check|crl-check|view|sign> ... (kshana register --help)
     { "   " }o: kshana interference-env <evaluate|thresholds|degradation> ... (kshana interference-env --help)
     { "   " }o: kshana arctic-plan --site <lat,lon[,h]> | --place <name> [--systems <a,b,...>] [--compare] [--hours <h>] [--kp <n>] ... (kshana arctic-plan --help)
+    { "   " }o: kshana lunar-ref <tcb-tcl|approx|convert|transform|terms|models> ... (kshana lunar-ref --help)
     { "   " }o: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }o: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }o: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>

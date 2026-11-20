@@ -340,6 +340,7 @@ const UNLABELLED_WRITERS: &[(&str, &str)] = &[
     ("src/realtime_frame_eop.rs", "writes the run's CSV, already labelled when it came from api::run_toml (RunOutput::write_csv)"),
     ("src/space_receiver/cli.rs", "writes the space-receiver JSON reports (--out), each self-labelled MODELLED in its own label field"),
     ("src/arctic_plan.rs", "writes the arctic-plan JSON (--out), self-labelled MODELLED in its own label field"),
+    ("src/lunar_ref.rs", "writes the lunar-ref JSON documents (--out); the time-scale and transform documents carry their MODELLED label, the registries are data"),
 ];
 
 fn source_files(dir: &Path, out: &mut Vec<String>) {
