@@ -10792,6 +10792,7 @@ engine-main-usage =
     { "   " }o: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }o: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }o: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
+    { "   " }o: kshana register <check|crl-check|view|sign> ... (kshana register --help)
     { "   " }o: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }o: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }o: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
@@ -11921,3 +11922,25 @@ engine-e-oscillator-input = la entrada de { $part } no es válida: { $e }
 engine-e-oscillator-unknown-clock = preajuste de reloj desconocido { $id } (uno de { $known })
 
 engine-e-oscillator-field = { $field } está fuera de rango: { $value }
+
+## Product register (src/product_register.rs, docs/PRODUCT-REGISTER.md)
+engine-register-usage = uso: kshana register check <register.json> [--key <hex>] | crl-check <crl.json> --key <hex> | view <register.json> [--key <hex>] [--crl <crl.json> --crl-key <hex>] [--date <YYYY-MM-DD>] [--json] | sign <register.json|crl.json> --key <keyfile> [--out <file>]  (docs/PRODUCT-REGISTER.md)
+engine-register-check-ok = { $path }: registro de { $publisher }, { $n } entradas, la firma es válida (firmante { $key })
+engine-register-crl-check-ok = { $path }: lista de revocación de { $issuer }, { $n } entradas revocadas, la firma es válida; próxima lista prevista el { $next }
+engine-register-view-summary = a { $date }: { $current } vigentes, { $due } pendientes de nueva puntuación, { $revoked } revocadas
+engine-register-view-no-crl = no se dio lista de revocación: la revocación es desconocida (--crl <crl.json> --crl-key <hex>)
+engine-register-view-crl-stale = la lista de revocación está caducada: su próxima actualización estaba prevista el { $next }
+engine-e-register-key-mismatch = firmado por { $found }, no por la clave esperada { $expected }
+engine-e-register-bad-signature = la firma no es válida
+engine-e-register-bad-date = { $field } no es una fecha con formato YYYY-MM-DD: { $value }
+engine-e-register-not-register = no es un registro kshana.register/1: { $e }
+engine-e-register-not-crl = no es una lista de revocación kshana.register-crl/1: { $e }
+engine-e-register-bad-id = id de entrada { $id }: use de 1 a 128 letras, dígitos, puntos, guiones o guiones bajos
+engine-e-register-duplicate-id = el id de entrada { $id } aparece más de una vez
+engine-e-register-revalidate-before-scored = la entrada { $id } debe puntuarse de nuevo antes de la fecha en que se puntuó
+engine-e-register-bad-digest = entrada { $id }: evidence_sha256 debe tener 64 dígitos hexadecimales
+engine-e-register-missing-value = { $option } necesita un valor
+engine-e-register-cannot-read = no se puede leer { $path }: { $e }
+engine-e-register-cannot-write = no se puede escribir { $path }: { $e }
+engine-e-register-unknown-option = opción desconocida { $option } (kshana register --help enumera las opciones)
+engine-e-register-crl-needs-key = --crl y --crl-key van juntas: una lista de revocación se comprueba con la clave del emisor

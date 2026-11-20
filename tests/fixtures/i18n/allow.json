@@ -221,6 +221,10 @@
    "count": 5,
    "reason": "identifier: the class names and JSON keys of the M5 result and B4 documents (machine documents)"
   },
+  "src/product_register.rs": {
+   "count": 7,
+   "reason": "identifier: the register option names (--crl-key, ...), the field names a date check reports (revalidate_by, next_update, ...), and the tab-separated column header of the text view"
+  },
   "src/rtcm_ssr.rs": {
    "count": 3,
    "reason": "identifiers: the source names `rtcm-ssr` and `igs-ssr` written into kshana.obs/1 correction records"

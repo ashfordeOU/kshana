@@ -44,6 +44,7 @@ fn the_top_level_usage_names_every_subcommand() {
         "diagnose",
         "gnss-sdr-conf",
         "orbit-data",
+        "register <check|crl-check|view|sign>",
     ] {
         assert!(
             text.contains(want),
