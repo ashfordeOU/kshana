@@ -10742,6 +10742,7 @@ engine-main-usage =
     { "   " }lub: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }lub: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }lub: kshana time-vectors [--json] [<vectors.json|dir> ...]
+    { "   " }lub: kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
     { "   " }lub: kshana kinds [--json]
     { "   " }lub: kshana example [<name>]
     { "   " }lub: kshana --help | --version
@@ -11711,3 +11712,49 @@ engine-e-interference-map-locate-bad-tdoa = { $path } nie jest użytecznym pliki
 engine-e-interference-map-locate-source-required = wymagane jest --source adsb albo --source ais
 
 engine-e-interference-map-locate-no-evidence-rows = brak wierszy dowodowych dla wyników locate
+
+engine-e-rtkqa-usage = użycie: kshana rtk-qa monitor <host:port> --mount <name> [--user <name> --password-env <VAR>] [--gga <lat,lon[,h]>] [--seconds <s>] [--stale-after <s>] [--link-bps <n>]
+    kshana rtk-qa sources <table.txt|host:port> [--near <lat,lon>]
+    kshana rtk-qa base <stream.rtcm3> --reference <reference.toml|json> [--epoch <decimal year>]
+    kshana rtk-qa fix <solution.pos|nmea> [--control <name,lat,lon,h>]... [--radius <m>] [--h-tol <m>] [--v-tol <m>]
+    kshana rtk-qa ppk <rover.obs> [--base <base.obs>]
+    kshana rtk-qa probe <host:port> --mount <name> [--user <name> --password-env <VAR>] [--gga <lat,lon[,h]>] [--seconds <s>]
+    kshana rtk-qa caster --listen <host:port> --stream <file.rtcm3> --mount <name> [--user <name> --password-env <VAR>] [--chunk-ext] [--clients <n>] [--max-clients <n>] [--pace-ms <n>]
+    kshana rtk-qa log-check <client.log> --user <name> --password-env <VAR>
+    kshana rtk-qa failover <spec.json|toml>
+
+engine-e-rtkqa-frame = nieznany układ odniesienia { $frame } (ITRF2014, ITRF2020, ETRF2014 lub ETRF2020)
+
+engine-e-rtkqa-tide = nieznany system pływowy { $tide } (tide-free, zero-tide lub mean-tide)
+
+engine-e-rtkqa-pos-columns = plik rozwiązań podaje pozycje w stopniach, minutach i sekundach albo jako linię bazową; zapisz go w stopniach dziesiętnych lub ECEF
+
+engine-e-rtkqa-pos-line = wiersz { $line } nie jest epoką rozwiązania
+
+engine-e-rtkqa-no-solutions = nie znaleziono epok rozwiązania (plik .pos w stylu RTKLIB lub zdania NMEA GGA)
+
+engine-e-rtkqa-no-station = strumień nie zawiera komunikatu stacji 1005 ani 1006
+
+engine-e-rtkqa-failover-spec = test przełączania wymaga dodatniego czasu trwania i kroku oraz co najmniej jednego źródła
+
+engine-e-rtkqa-failover-source = polityka wymienia źródło, które nie jest zdefiniowane: { $name }
+
+engine-rtkqa-monitor-summary = rtk-qa monitor: ocena { $score }/100 (MODELLED); dostępność { $availability } %, mediana opóźnienia { $latency } ms, kompletność { $completeness } %, alarmy { $alarms }
+
+engine-rtkqa-sources-summary = rtk-qa sources: punkty montowania { $n }
+
+engine-rtkqa-base-summary = rtk-qa base: stacje { $n }; poprawne { $ok }, ostrzeżenia { $warn }, błędy { $fail } (MODELLED)
+
+engine-rtkqa-fix-summary = rtk-qa fix: stanowiska { $n }; zaliczone { $pass }, ostrzeżenia { $warn }, błędy { $fail }, bez fiksa { $nofix } (MODELLED)
+
+engine-rtkqa-ppk-summary = rtk-qa ppk: prawdopodobne przyczyny { $n }: { $causes }
+
+engine-rtkqa-probe-summary = rtk-qa probe: spełnione kontrole { $met } z { $total }; niespełnione: { $failed }
+
+engine-rtkqa-caster-listening = rtk-qa caster: nasłuchuje na { $addr }, punkt montowania { $mount }
+
+engine-rtkqa-caster-client = rtk-qa caster: klient { $peer } otrzymał { $answer }; spełnione kontrole { $met } z { $total }
+
+engine-rtkqa-log-summary = rtk-qa log-check: dane logowania znalezione { $n } razy w { $file }
+
+engine-rtkqa-failover-summary = rtk-qa failover: przełączenia { $switches }; wiek poprawek powyżej limitu przez { $over } s; największy wiek { $max_age } s (MODELLED)
