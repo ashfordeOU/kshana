@@ -10519,6 +10519,18 @@ engine-e-lunar-ref-bad-number = { $option }: { $value } er ikke et gyldig tall
 engine-e-lunar-ref-unknown-name = ukjent navn { $name } (kjente: { $known })
 engine-e-lunar-ref-out-of-span = epoken ligger utenfor spennet til efemeridene som brukes (Standish-elementer 1800–2050; DE440-månens orientering 2014–2030)
 
+## LunaNet AFS receiver verification kit and lunar output message profile (src/lunar_afs/kit.rs, src/lunar_output.rs)
+engine-lunar-afs-kit-usage = bruk: kshana lunar-afs-kit vectors [<vectors.json>] | registry [<registry.toml|json>] [--limit-db <dB>] [--no-correlation] | output-check <messages.jsonl> | output-example [--n <count>] [--jd <JD TCL>] | output-reexpress <messages.jsonl> --scale <tt|tdb|tcb|tcg|tcl|ltc> --frame <ICRF|MOON_PA_DE440|MOON_PA|MOON_ME|ILURF>   [--out <file>]  (docs/LUNAR-AFS-KIT.md)
+engine-e-lunar-afs-kit-missing-value = { $option } trenger en verdi
+engine-e-lunar-afs-kit-unknown-option = ukjent valg { $option } (kshana lunar-afs-kit --help viser valgene)
+engine-e-lunar-afs-kit-cannot-read = kan ikke lese { $path }: { $e }
+engine-e-lunar-afs-kit-cannot-write = kan ikke skrive { $path }: { $e }
+engine-e-lunar-afs-kit-bad-number = { $option }: { $value } er ikke et gyldig tall
+engine-e-lunar-afs-kit-unknown-name = ukjent navn { $name } (kjente: { $known })
+engine-e-lunar-afs-kit-bad-registry = registeret er ikke en liste over [[node]]-tildelinger: { $e }
+engine-e-lunar-afs-kit-bad-vectors = ikke en kshana.afs-vectors/1-fil: { $e }
+engine-e-lunar-afs-kit-bad-message = en linje er ikke en kshana.lunar-pnt-output/1-melding med epoke, referanseramme og posisjon
+
 engine-main-usage =
     bruk: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }eller: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10550,6 +10562,7 @@ engine-main-usage =
     { "   " }eller: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }eller: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }eller: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
+    { "   " }eller: kshana lunar-afs-kit <vectors|registry|output-check|output-example|output-reexpress> ... (kshana lunar-afs-kit --help)
     { "   " }eller: kshana lunar-ref <tcb-tcl|approx|convert|transform|terms|models> ... (kshana lunar-ref --help)
     { "   " }eller: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }eller: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
