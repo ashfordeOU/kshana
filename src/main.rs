@@ -1279,6 +1279,17 @@ fn main_in_language(args: Vec<String>) -> ExitCode {
     if args.get(1).map(String::as_str) == Some("rtk-qa") {
         return ExitCode::from(kshana::rtk_qa::run_cli(&args[2..]) as u8);
     }
+    // `kshana quantum-bench <protocol|simulate|score> ...`: quantum inertial-sensor benchmark
+    // protocol, cold-atom output model and scorer; evaluation only (src/quantum_bench.rs,
+    // docs/QUANTUM-BENCH.md). Exit 2 on a usage or input error.
+    if args.get(1).map(String::as_str) == Some("quantum-bench") {
+        return ExitCode::from(kshana::quantum_bench::run_cli(&args[2..]) as u8);
+    }
+    // `kshana soop-clock <lte|cp|synth-lte> ...`: receiver clock and frequency offset from
+    // terrestrial OFDM signals of opportunity (src/soop_clock.rs, docs/SOOP-CLOCK.md).
+    if args.get(1).map(String::as_str) == Some("soop-clock") {
+        return ExitCode::from(kshana::soop_clock::run_cli(&args[2..]) as u8);
+    }
     // `kshana time-vectors [--json] [<file|dir>...]`: the time-scale conformance vectors
     // (src/time_vectors.rs, docs/TIME-VECTORS.md). Exit 1 when any vector fails.
     if args.get(1).map(String::as_str) == Some("time-vectors") {

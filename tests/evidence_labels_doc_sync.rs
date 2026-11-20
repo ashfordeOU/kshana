@@ -304,6 +304,8 @@ const UNLABELLED_WRITERS: &[(&str, &str)] = &[
     ("src/speed_bench.rs", "writes the bench-speed JSON: timings of this machine, not a result of the engine"),
     ("src/time_transfer_budget.rs", "writes only in a unit test (a temporary clock CSV)"),
     ("src/iq/signals/galileo.rs", "writes only in a unit test (a temporary code table)"),
+    ("src/quantum_bench.rs", "writes the protocol document, the simulated series (its first line states MODELLED and the predictions) and the score document of a supplied series; the files label themselves or are statistics of the user's data"),
+    ("src/soop_clock.rs", "writes the clock-offset documents (label field MODELLED) and a synthetic SigMF test capture whose core:description states MODELLED and that it is not a conformant LTE downlink"),
     ("src/ais_integrity.rs", "writes the per-track flag report as JSON Lines (`ais-integrity --out`); its header line carries the MODELLED label and the method, so the file labels itself"),
     ("src/interference_map/incident.rs", "writes the incident library release bundle (`interference-map incidents release`): the REPORTED and MODELLED records each carry their own label field, as given; data, not a result of the engine"),
     ("src/python.rs", "writes the CSV a labelled `run` already carries (RunOutput::csv)"),
