@@ -68,26 +68,12 @@ const ENGLISH: &str = include_str!("../../i18n/en/engine.ftl");
 /// The other catalogues, embedded in the native library, the command line and the Python wheel. The
 /// WebAssembly build embeds English only (the other sixteen would add about 150 kB gzip each); there the
 /// page fetches `i18n/<lang>/engine.ftl` and hands it to [`register_catalogue`].
+///
+/// `build.rs` writes the list: `include_str!` of `i18n/<lang>/engine.ftl` in a checkout, and of the same
+/// texts decoded from `data/i18n/catalogues.xz` in the published crate, which carries that one packed
+/// file in place of the seventeen (`packed.rs`). The embedded bytes are the same either way.
 #[cfg(not(target_arch = "wasm32"))]
-const OTHERS: &[(&str, &str)] = &[
-    ("nl", include_str!("../../i18n/nl/engine.ftl")),
-    ("pl", include_str!("../../i18n/pl/engine.ftl")),
-    ("pt-BR", include_str!("../../i18n/pt-BR/engine.ftl")),
-    ("pt-PT", include_str!("../../i18n/pt-PT/engine.ftl")),
-    ("fi", include_str!("../../i18n/fi/engine.ftl")),
-    ("sv", include_str!("../../i18n/sv/engine.ftl")),
-    ("da", include_str!("../../i18n/da/engine.ftl")),
-    ("nb", include_str!("../../i18n/nb/engine.ftl")),
-    ("cs", include_str!("../../i18n/cs/engine.ftl")),
-    ("uk", include_str!("../../i18n/uk/engine.ftl")),
-    ("ru", include_str!("../../i18n/ru/engine.ftl")),
-    ("de", include_str!("../../i18n/de/engine.ftl")),
-    ("fr", include_str!("../../i18n/fr/engine.ftl")),
-    ("es", include_str!("../../i18n/es/engine.ftl")),
-    ("et", include_str!("../../i18n/et/engine.ftl")),
-    ("ja", include_str!("../../i18n/ja/engine.ftl")),
-    ("zh-Hans", include_str!("../../i18n/zh-Hans/engine.ftl")),
-];
+const OTHERS: &[(&str, &str)] = include!(concat!(env!("OUT_DIR"), "/engine_catalogues.rs"));
 #[cfg(target_arch = "wasm32")]
 const OTHERS: &[(&str, &str)] = &[];
 
