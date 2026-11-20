@@ -10543,6 +10543,7 @@ engine-main-usage =
     { "   " }eller: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
     { "   " }eller: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }eller: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
+    { "   " }eller: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
     { "   " }eller: kshana kinds [--json]
     { "   " }eller: kshana example [<name>]
     { "   " }eller: kshana --help | --version
@@ -11503,3 +11504,25 @@ engine-e-corrections-bad-vector = vektor { $id } mangler heksadesimale rammer el
 engine-e-corrections-bad-file = { $file } er ikke et { $format }-dokument (formatmerke og en vectors-tabell)
 engine-corrections-summary = { $n } vektorer: { $passed } bestått, { $failed } feilet
 engine-corrections-usage = bruk: kshana corrections decode --format <has|b2b|l6> <frames.txt | -> | kshana corrections vectors [--json] [<vectors.json | dir> ...]  (én ramme per linje i heksadesimal; docs/CORRECTION-DECODERS.md)
+
+## src/space_weather_pnt/
+
+engine-space-weather-pnt-usage =
+    bruk: kshana space-weather storms
+    { "   " }eller: kshana space-weather storm <id> [--altitudes <km,km,...>]
+    { "   " }eller: kshana space-weather dgnss <request.json> [--forecast <3-day-forecast.txt>]
+    { "   " }eller: kshana space-weather iono <request.json> [--ionex <file>]
+    { "   " }eller: kshana space-weather density-scorecard <windows.csv>
+    { "   " }eller: kshana space-weather lifetime <request.json>
+    { "   " }(docs/SPACE-WEATHER-PNT.md)
+
+engine-e-space-weather-pnt-out-of-range = `{ $field }` må være et endelig tall fra { $lo } til { $hi }
+engine-e-space-weather-pnt-unknown-storm = ingen storm `{ $id }` i biblioteket (kshana space-weather storms viser dem)
+engine-e-space-weather-pnt-request = ikke en gyldig forespørsel: { $e }
+engine-e-space-weather-pnt-bad-time = ikke et UTC-tidspunkt (YYYY-MM-DDTHH:MM[:SS]Z): { $value }
+engine-e-space-weather-pnt-not-a-forecast = ikke en NOAA SWPC 3-døgnsprognose: ingen fullstendig Kp-tabell
+engine-e-space-weather-pnt-one-source = oppgi nøyaktig én kilde til Kp-intervaller: storm, intervals eller en prognose (swpc_forecast eller --forecast)
+engine-e-space-weather-pnt-ionex-span = IONEX-kartene dekker ikke { $t }
+engine-e-space-weather-pnt-ionex-flag = et IONEX-kart brukes når, og bare når, forespørselens vtec er "ionex" og --ionex <file> er oppgitt
+engine-e-space-weather-pnt-no-epochs = forespørselen trenger minst én epoke i epochs_utc
+engine-e-space-weather-pnt-window-row = linje { $line }: ikke en rad med et tetthetsvindu (campaign,phase,start_utc,mean_alt_km,n_valid,measured_mean,points)

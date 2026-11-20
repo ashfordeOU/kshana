@@ -1,0 +1,11 @@
+{
+  "epochs_utc": ["2025-11-12T03:00:00Z", "2025-11-12T12:00:00Z"],
+  "gnss_rays": [
+    { "name": "zenith", "lat_deg": 52.0, "lon_deg": 1.0, "az_deg": 0, "el_deg": 90 },
+    { "name": "low south", "lat_deg": 52.0, "lon_deg": 1.0, "az_deg": 180, "el_deg": 15 }
+  ],
+  "lf_paths": [
+    { "name": "illustrative 100 kHz path, 600 km", "tx_lat_deg": 53.0, "tx_lon_deg": 8.0, "rx_lat_deg": 52.0, "rx_lon_deg": -0.7 }
+  ],
+  "profiles": [ { "lat_deg": 52.0, "lon_deg": 1.0 } ]
+}

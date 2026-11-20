@@ -10582,6 +10582,7 @@ engine-main-usage =
     { "   " }nebo: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
     { "   " }nebo: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }nebo: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
+    { "   " }nebo: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
     { "   " }nebo: kshana kinds [--json]
     { "   " }nebo: kshana example [<name>]
     { "   " }nebo: kshana --help | --version
@@ -11573,3 +11574,25 @@ engine-e-corrections-bad-vector = vektoru { $id } chybí šestnáctkové rámce 
 engine-e-corrections-bad-file = { $file } není dokument { $format } (značka formátu a pole vectors)
 engine-corrections-summary = { $n } vektorů: { $passed } prošlo, { $failed } selhalo
 engine-corrections-usage = použití: kshana corrections decode --format <has|b2b|l6> <frames.txt | -> | kshana corrections vectors [--json] [<vectors.json | dir> ...]  (jeden rámec na řádek, šestnáctkově; docs/CORRECTION-DECODERS.md)
+
+## src/space_weather_pnt/
+
+engine-space-weather-pnt-usage =
+    použití: kshana space-weather storms
+    { "   " }nebo: kshana space-weather storm <id> [--altitudes <km,km,...>]
+    { "   " }nebo: kshana space-weather dgnss <request.json> [--forecast <3-day-forecast.txt>]
+    { "   " }nebo: kshana space-weather iono <request.json> [--ionex <file>]
+    { "   " }nebo: kshana space-weather density-scorecard <windows.csv>
+    { "   " }nebo: kshana space-weather lifetime <request.json>
+    { "   " }(docs/SPACE-WEATHER-PNT.md)
+
+engine-e-space-weather-pnt-out-of-range = `{ $field }` musí být konečné číslo od { $lo } do { $hi }
+engine-e-space-weather-pnt-unknown-storm = bouře `{ $id }` v knihovně není (vypíše je kshana space-weather storms)
+engine-e-space-weather-pnt-request = neplatný požadavek: { $e }
+engine-e-space-weather-pnt-bad-time = není čas UTC (YYYY-MM-DDTHH:MM[:SS]Z): { $value }
+engine-e-space-weather-pnt-not-a-forecast = není to třídenní předpověď NOAA SWPC: chybí úplná tabulka rozpisu Kp
+engine-e-space-weather-pnt-one-source = zadejte právě jeden zdroj intervalů Kp: storm, intervals nebo předpověď (swpc_forecast nebo --forecast)
+engine-e-space-weather-pnt-ionex-span = mapy IONEX nepokrývají { $t }
+engine-e-space-weather-pnt-ionex-flag = mapa IONEX se použije tehdy a jen tehdy, když je vtec v požadavku "ionex" a je zadáno --ionex <file>
+engine-e-space-weather-pnt-no-epochs = požadavek potřebuje v epochs_utc alespoň jednu epochu
+engine-e-space-weather-pnt-window-row = řádek { $line }: není to řádek okna hustoty (campaign,phase,start_utc,mean_alt_km,n_valid,measured_mean,points)

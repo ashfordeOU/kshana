@@ -10318,6 +10318,7 @@ engine-main-usage =
     { "   " }tai: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
     { "   " }tai: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }tai: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
+    { "   " }tai: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
     { "   " }tai: kshana kinds [--json]
     { "   " }tai: kshana example [<name>]
     { "   " }tai: kshana --help | --version
@@ -11239,3 +11240,25 @@ engine-e-corrections-bad-vector = vektorista { $id } puuttuvat heksadesimaaliset
 engine-e-corrections-bad-file = { $file } ei ole { $format }-dokumentti (muototunniste ja vectors-taulukko)
 engine-corrections-summary = { $n } vektoria: { $passed } läpäisi, { $failed } epäonnistui
 engine-corrections-usage = käyttö: kshana corrections decode --format <has|b2b|l6> <frames.txt | -> | kshana corrections vectors [--json] [<vectors.json | dir> ...]  (yksi kehys riviä kohden heksadesimaalina; docs/CORRECTION-DECODERS.md)
+
+## src/space_weather_pnt/
+
+engine-space-weather-pnt-usage =
+    käyttö: kshana space-weather storms
+    { "   " }tai: kshana space-weather storm <id> [--altitudes <km,km,...>]
+    { "   " }tai: kshana space-weather dgnss <request.json> [--forecast <3-day-forecast.txt>]
+    { "   " }tai: kshana space-weather iono <request.json> [--ionex <file>]
+    { "   " }tai: kshana space-weather density-scorecard <windows.csv>
+    { "   " }tai: kshana space-weather lifetime <request.json>
+    { "   " }(docs/SPACE-WEATHER-PNT.md)
+
+engine-e-space-weather-pnt-out-of-range = `{ $field }` on oltava äärellinen luku väliltä { $lo }–{ $hi }
+engine-e-space-weather-pnt-unknown-storm = kirjastossa ei ole myrskyä `{ $id }` (kshana space-weather storms luettelee ne)
+engine-e-space-weather-pnt-request = virheellinen pyyntö: { $e }
+engine-e-space-weather-pnt-bad-time = ei UTC-aika (YYYY-MM-DDTHH:MM[:SS]Z): { $value }
+engine-e-space-weather-pnt-not-a-forecast = ei NOAA SWPC:n kolmen päivän ennuste: täydellinen Kp-erittelytaulukko puuttuu
+engine-e-space-weather-pnt-one-source = anna tasan yksi Kp-jaksojen lähde: storm, intervals tai ennuste (swpc_forecast tai --forecast)
+engine-e-space-weather-pnt-ionex-span = IONEX-kartat eivät kata hetkeä { $t }
+engine-e-space-weather-pnt-ionex-flag = IONEX-karttaa käytetään silloin ja vain silloin, kun pyynnön vtec on "ionex" ja --ionex <file> on annettu
+engine-e-space-weather-pnt-no-epochs = pyynnössä on oltava epochs_utc-kentässä vähintään yksi epookki
+engine-e-space-weather-pnt-window-row = rivi { $line }: ei tiheysikkunan rivi (campaign,phase,start_utc,mean_alt_km,n_valid,measured_mean,points)

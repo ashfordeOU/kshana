@@ -1318,6 +1318,10 @@ fn main_in_language(args: Vec<String>) -> ExitCode {
         Some("planner") => Some(kshana::planner::run),
         // `kshana env-baseline <site-hours.json>`: the environmental baseline (src/env_baseline.rs).
         Some("env-baseline") => Some(kshana::env_baseline::run),
+        // `kshana space-weather <storms|storm|dgnss|iono|density-scorecard|lifetime>`: storm
+        // library, DGNSS outage forecaster, 4D ionosphere, density scorecard and lifetime
+        // (src/space_weather_pnt/, docs/SPACE-WEATHER-PNT.md).
+        Some("space-weather") => Some(kshana::space_weather_pnt::run),
         // `kshana station run|check|service <station.toml>`: the headless receiver service (src/station.rs).
         Some("station") => Some(kshana::station::run),
         _ => None,
