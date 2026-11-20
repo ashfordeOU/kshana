@@ -10630,6 +10630,7 @@ engine-main-usage =
     { "   " }of: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }of: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
     { "   " }of: kshana space-receiver <clock|timestamps|dynamics|bench|mms|od-vs-tle> ... [--out <file.json>] (kshana space-receiver --help)
+    { "   " }of: kshana feed <pack|verify|send|spectrum|leaderboard> ... (kshana feed --help)
     { "   " }of: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }of: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }of: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
@@ -11846,3 +11847,31 @@ engine-bench-site-col-gsdc-score = Score, gemiddelde van P50 en P95 (m)
 engine-bench-site-col-p50 = P50 samengevoegd (m)
 
 engine-bench-site-col-p95 = P95 samengevoegd (m)
+
+## Feeder clients (src/feeder.rs, docs/FEEDER.md)
+engine-feed-usage = gebruik: kshana feed pack <file.obs.jsonl|dir>... --key <keyfile> [--privacy public|exact] [--grid-deg <deg>] [--created <time>] [--include-open] [--out <bundle.json>] | verify <bundle.json> [--pubkey <hex>] [--json] | send <bundle.json> --url <http://host:port/path> [--token-file <file>] | spectrum <capture> --format cu8|ci8|ci16_le --rate <Hz> --centre <Hz> --station <station.toml> [--front-end <name>] [--nfft <n>] [--bins <n>] [--max-samples <n>] [--time <label>] [--out <file.obs.jsonl>] | leaderboard <bundle.json>... [--json]  (docs/FEEDER.md)
+engine-feed-packed = { $out }: bundel voor station { $station }, { $files } bestanden, { $epochs } epochs, privacy { $mode }
+engine-feed-verified = { $path }: de handtekening klopt (ondertekenaar { $key }); station { $station }, { $files } bestanden, { $epochs } epochs, elk bestand geldig kshana.obs/1
+engine-feed-sent = verzonden naar { $url }: HTTP { $code }
+engine-feed-spectrum-written = { $out }: spectrummomentopname in { $bins } bins (MODELLED: niveaus ten opzichte van volle schaal, geen gekalibreerd vermogen)
+engine-e-feed-missing-value = { $option } heeft een waarde nodig
+engine-e-feed-unknown-option = onbekende optie { $option } (kshana feed --help toont de opties)
+engine-e-feed-cannot-read = kan { $path } niet lezen: { $e }
+engine-e-feed-cannot-write = kan { $path } niet schrijven: { $e }
+engine-e-feed-not-obs = { $path } is geen geldig kshana.obs/1-bestand: { $e }
+engine-e-feed-mixed-stations = de bestanden komen van meer dan één station ({ $a } en { $b }); verpak één station per bundel
+engine-e-feed-no-files = geen waarnemingsbestanden om te verpakken
+engine-e-feed-bad-privacy = onbekende privacymodus { $value } (public of exact)
+engine-e-feed-bad-grid = het locatieraster moet tussen 0.01 en 10 graden liggen, niet { $value }
+engine-e-feed-not-bundle = geen kshana.feed/1-bundel: { $e }
+engine-e-feed-bad-signature = de handtekening van de bundel klopt niet
+engine-e-feed-key-mismatch = de bundel is ondertekend door { $found }, niet door de verwachte sleutel { $expected }
+engine-e-feed-hash-mismatch = inhoud { $name } komt niet overeen met de vastgelegde SHA-256
+engine-e-feed-payload-mismatch = inhoud { $name } past niet bij het station of de recordaantallen die de bundel opgeeft
+engine-e-feed-not-coarsened = inhoud { $name } van een openbare bundel bevat nog { $what }
+engine-e-feed-bad-format = niet-ondersteund sampleformaat { $value } (cu8, ci8 of ci16_le)
+engine-e-feed-bad-number = { $option }: { $value } is hier geen geldige waarde
+engine-e-feed-short-capture = de opname bevat { $n } samples, minder dan de transformatielengte { $nfft }
+engine-e-feed-send-failed = verzenden naar { $url } mislukt: { $e }
+engine-e-feed-send-refused = { $url } weigerde de bundel: HTTP { $code }
+engine-e-obs-bad-spectrum = regel { $line }: een spectrum heeft een eindige tijd en middenfrequentie, een positieve samplefrequentie en binbreedte en eindige niveaus nodig

@@ -9807,6 +9807,7 @@ engine-main-usage =
     { "   " }または：kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }または：kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
     { "   " }または：kshana space-receiver <clock|timestamps|dynamics|bench|mms|od-vs-tle> ... [--out <file.json>] (kshana space-receiver --help)
+    { "   " }または：kshana feed <pack|verify|send|spectrum|leaderboard> ... (kshana feed --help)
     { "   " }または：kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }または：kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }または：kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
@@ -11004,3 +11005,31 @@ engine-bench-site-col-gsdc-score = スコア、P50 と P95 の平均 (m)
 engine-bench-site-col-p50 = P50 全体 (m)
 
 engine-bench-site-col-p95 = P95 全体 (m)
+
+## Feeder clients (src/feeder.rs, docs/FEEDER.md)
+engine-feed-usage = 使い方：kshana feed pack <file.obs.jsonl|dir>... --key <keyfile> [--privacy public|exact] [--grid-deg <deg>] [--created <time>] [--include-open] [--out <bundle.json>] | verify <bundle.json> [--pubkey <hex>] [--json] | send <bundle.json> --url <http://host:port/path> [--token-file <file>] | spectrum <capture> --format cu8|ci8|ci16_le --rate <Hz> --centre <Hz> --station <station.toml> [--front-end <name>] [--nfft <n>] [--bins <n>] [--max-samples <n>] [--time <label>] [--out <file.obs.jsonl>] | leaderboard <bundle.json>... [--json]  (docs/FEEDER.md)
+engine-feed-packed = { $out }：局 { $station } のバンドル、ファイル { $files } 個、エポック { $epochs } 個、プライバシー { $mode }
+engine-feed-verified = { $path }：署名は有効です（署名者 { $key }）。局 { $station }、ファイル { $files } 個、エポック { $epochs } 個、すべて有効な kshana.obs/1
+engine-feed-sent = { $url } に送信しました：HTTP { $code }
+engine-feed-spectrum-written = { $out }：{ $bins } ビンのスペクトルスナップショット（MODELLED：レベルはフルスケール基準で、校正された電力ではありません）
+engine-e-feed-missing-value = { $option } には値が必要です
+engine-e-feed-unknown-option = 不明なオプション { $option }（kshana feed --help でオプションを一覧表示）
+engine-e-feed-cannot-read = { $path } を読み込めません：{ $e }
+engine-e-feed-cannot-write = { $path } に書き込めません：{ $e }
+engine-e-feed-not-obs = { $path } は有効な kshana.obs/1 ファイルではありません：{ $e }
+engine-e-feed-mixed-stations = ファイルが複数の局（{ $a } と { $b }）のものです。1 つのバンドルには 1 局だけを入れてください
+engine-e-feed-no-files = パックする観測ファイルがありません
+engine-e-feed-bad-privacy = 不明なプライバシーモード { $value }（public または exact）
+engine-e-feed-bad-grid = 位置グリッドは 0.01 から 10 度の範囲でなければなりません（指定値 { $value }）
+engine-e-feed-not-bundle = kshana.feed/1 バンドルではありません：{ $e }
+engine-e-feed-bad-signature = バンドルの署名が有効ではありません
+engine-e-feed-key-mismatch = バンドルの署名者は { $found } で、期待される鍵 { $expected } ではありません
+engine-e-feed-hash-mismatch = ペイロード { $name } が記録された SHA-256 と一致しません
+engine-e-feed-payload-mismatch = ペイロード { $name } がバンドルの示す局またはレコード数と一致しません
+engine-e-feed-not-coarsened = 公開バンドルのペイロード { $name } にまだ { $what } が含まれています
+engine-e-feed-bad-format = 未対応のサンプル形式 { $value }（cu8、ci8、ci16_le のいずれか）
+engine-e-feed-bad-number = { $option }：{ $value } はここでは有効な値ではありません
+engine-e-feed-short-capture = キャプチャのサンプル数 { $n } が変換長 { $nfft } より少ないです
+engine-e-feed-send-failed = { $url } への送信に失敗しました：{ $e }
+engine-e-feed-send-refused = { $url } がバンドルを拒否しました：HTTP { $code }
+engine-e-obs-bad-spectrum = { $line } 行目：スペクトルには有限の時刻と中心周波数、正のサンプルレートとビン幅、有限のレベルが必要です

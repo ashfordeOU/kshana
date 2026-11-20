@@ -10851,6 +10851,7 @@ engine-main-usage =
     { "   " }ou: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }ou: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
     { "   " }ou: kshana space-receiver <clock|timestamps|dynamics|bench|mms|od-vs-tle> ... [--out <file.json>] (kshana space-receiver --help)
+    { "   " }ou: kshana feed <pack|verify|send|spectrum|leaderboard> ... (kshana feed --help)
     { "   " }ou: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }ou: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }ou: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
@@ -12089,3 +12090,31 @@ engine-bench-site-col-gsdc-score = Pontuação, média de P50 e P95 (m)
 engine-bench-site-col-p50 = P50 agregado (m)
 
 engine-bench-site-col-p95 = P95 agregado (m)
+
+## Feeder clients (src/feeder.rs, docs/FEEDER.md)
+engine-feed-usage = utilização: kshana feed pack <file.obs.jsonl|dir>... --key <keyfile> [--privacy public|exact] [--grid-deg <deg>] [--created <time>] [--include-open] [--out <bundle.json>] | verify <bundle.json> [--pubkey <hex>] [--json] | send <bundle.json> --url <http://host:port/path> [--token-file <file>] | spectrum <capture> --format cu8|ci8|ci16_le --rate <Hz> --centre <Hz> --station <station.toml> [--front-end <name>] [--nfft <n>] [--bins <n>] [--max-samples <n>] [--time <label>] [--out <file.obs.jsonl>] | leaderboard <bundle.json>... [--json]  (docs/FEEDER.md)
+engine-feed-packed = { $out }: pacote da estação { $station }, { $files } ficheiros, { $epochs } épocas, privacidade { $mode }
+engine-feed-verified = { $path }: a assinatura é válida (signatário { $key }); estação { $station }, { $files } ficheiros, { $epochs } épocas, cada ficheiro é kshana.obs/1 válido
+engine-feed-sent = enviado para { $url }: HTTP { $code }
+engine-feed-spectrum-written = { $out }: instantâneo de espetro em { $bins } faixas (MODELLED: níveis relativos ao fundo de escala, não potência calibrada)
+engine-e-feed-missing-value = { $option } precisa de um valor
+engine-e-feed-unknown-option = opção desconhecida { $option } (kshana feed --help lista as opções)
+engine-e-feed-cannot-read = não foi possível ler { $path }: { $e }
+engine-e-feed-cannot-write = não foi possível escrever { $path }: { $e }
+engine-e-feed-not-obs = { $path } não é um ficheiro kshana.obs/1 válido: { $e }
+engine-e-feed-mixed-stations = os ficheiros vêm de mais de uma estação ({ $a } e { $b }); empacote uma estação por pacote
+engine-e-feed-no-files = nenhum ficheiro de observação para empacotar
+engine-e-feed-bad-privacy = modo de privacidade desconhecido { $value } (public ou exact)
+engine-e-feed-bad-grid = a grelha de posição deve estar entre 0.01 e 10 graus, não { $value }
+engine-e-feed-not-bundle = não é um pacote kshana.feed/1: { $e }
+engine-e-feed-bad-signature = a assinatura do pacote não é válida
+engine-e-feed-key-mismatch = o pacote está assinado por { $found }, não pela chave esperada { $expected }
+engine-e-feed-hash-mismatch = o conteúdo { $name } não corresponde ao seu SHA-256 registado
+engine-e-feed-payload-mismatch = o conteúdo { $name } não corresponde à estação ou às contagens de registos que o pacote declara
+engine-e-feed-not-coarsened = o conteúdo { $name } de um pacote público ainda contém { $what }
+engine-e-feed-bad-format = formato de amostras não suportado { $value } (cu8, ci8 ou ci16_le)
+engine-e-feed-bad-number = { $option }: { $value } não é um valor válido aqui
+engine-e-feed-short-capture = a captura contém { $n } amostras, menos do que o comprimento da transformada { $nfft }
+engine-e-feed-send-failed = falha ao enviar para { $url }: { $e }
+engine-e-feed-send-refused = { $url } recusou o pacote: HTTP { $code }
+engine-e-obs-bad-spectrum = linha { $line }: um espetro precisa de tempo e frequência central finitos, taxa de amostragem e largura de faixa positivas e níveis finitos

@@ -9874,6 +9874,7 @@ engine-main-usage =
     { "   " }或：kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }或：kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
     { "   " }或：kshana space-receiver <clock|timestamps|dynamics|bench|mms|od-vs-tle> ... [--out <file.json>] (kshana space-receiver --help)
+    { "   " }或：kshana feed <pack|verify|send|spectrum|leaderboard> ... (kshana feed --help)
     { "   " }或：kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }或：kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }或：kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
@@ -11059,3 +11060,31 @@ engine-bench-site-col-gsdc-score = 得分，P50 与 P95 的平均值 (m)
 engine-bench-site-col-p50 = P50 总体 (m)
 
 engine-bench-site-col-p95 = P95 总体 (m)
+
+## Feeder clients (src/feeder.rs, docs/FEEDER.md)
+engine-feed-usage = 用法：kshana feed pack <file.obs.jsonl|dir>... --key <keyfile> [--privacy public|exact] [--grid-deg <deg>] [--created <time>] [--include-open] [--out <bundle.json>] | verify <bundle.json> [--pubkey <hex>] [--json] | send <bundle.json> --url <http://host:port/path> [--token-file <file>] | spectrum <capture> --format cu8|ci8|ci16_le --rate <Hz> --centre <Hz> --station <station.toml> [--front-end <name>] [--nfft <n>] [--bins <n>] [--max-samples <n>] [--time <label>] [--out <file.obs.jsonl>] | leaderboard <bundle.json>... [--json]  (docs/FEEDER.md)
+engine-feed-packed = { $out }：站 { $station } 的数据包，{ $files } 个文件，{ $epochs } 个历元，隐私模式 { $mode }
+engine-feed-verified = { $path }：签名有效（签名者 { $key }）；站 { $station }，{ $files } 个文件，{ $epochs } 个历元，每个文件均为有效的 kshana.obs/1
+engine-feed-sent = 已发送到 { $url }：HTTP { $code }
+engine-feed-spectrum-written = { $out }：频谱快照，{ $bins } 个频格（MODELLED：电平相对于满量程，并非校准功率）
+engine-e-feed-missing-value = { $option } 需要一个值
+engine-e-feed-unknown-option = 未知选项 { $option }（kshana feed --help 列出所有选项）
+engine-e-feed-cannot-read = 无法读取 { $path }：{ $e }
+engine-e-feed-cannot-write = 无法写入 { $path }：{ $e }
+engine-e-feed-not-obs = { $path } 不是有效的 kshana.obs/1 文件：{ $e }
+engine-e-feed-mixed-stations = 这些文件来自多个站（{ $a } 和 { $b }）；每个数据包只打包一个站
+engine-e-feed-no-files = 没有可打包的观测文件
+engine-e-feed-bad-privacy = 未知的隐私模式 { $value }（public 或 exact）
+engine-e-feed-bad-grid = 位置网格必须在 0.01 到 10 度之间，而不是 { $value }
+engine-e-feed-not-bundle = 不是 kshana.feed/1 数据包：{ $e }
+engine-e-feed-bad-signature = 数据包的签名无效
+engine-e-feed-key-mismatch = 数据包由 { $found } 签名，而不是预期的密钥 { $expected }
+engine-e-feed-hash-mismatch = 载荷 { $name } 与其记录的 SHA-256 不符
+engine-e-feed-payload-mismatch = 载荷 { $name } 与数据包声明的站或记录数不符
+engine-e-feed-not-coarsened = 公开数据包的载荷 { $name } 仍包含 { $what }
+engine-e-feed-bad-format = 不支持的采样格式 { $value }（cu8、ci8 或 ci16_le）
+engine-e-feed-bad-number = { $option }：{ $value } 在此处不是有效值
+engine-e-feed-short-capture = 采集包含 { $n } 个样本，少于变换长度 { $nfft }
+engine-e-feed-send-failed = 发送到 { $url } 失败：{ $e }
+engine-e-feed-send-refused = { $url } 拒绝了数据包：HTTP { $code }
+engine-e-obs-bad-spectrum = 第 { $line } 行：频谱需要有限的时间和中心频率、正的采样率和频格宽度，以及有限的电平

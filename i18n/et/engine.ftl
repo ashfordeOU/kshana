@@ -10591,6 +10591,7 @@ engine-main-usage =
     { "   " }või: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }või: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
     { "   " }või: kshana space-receiver <clock|timestamps|dynamics|bench|mms|od-vs-tle> ... [--out <file.json>] (kshana space-receiver --help)
+    { "   " }või: kshana feed <pack|verify|send|spectrum|leaderboard> ... (kshana feed --help)
     { "   " }või: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }või: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }või: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
@@ -11779,3 +11780,31 @@ engine-bench-site-col-gsdc-score = Skoor, P50 ja P95 keskmine (m)
 engine-bench-site-col-p50 = P50 koondatud (m)
 
 engine-bench-site-col-p95 = P95 koondatud (m)
+
+## Feeder clients (src/feeder.rs, docs/FEEDER.md)
+engine-feed-usage = kasutus: kshana feed pack <file.obs.jsonl|dir>... --key <keyfile> [--privacy public|exact] [--grid-deg <deg>] [--created <time>] [--include-open] [--out <bundle.json>] | verify <bundle.json> [--pubkey <hex>] [--json] | send <bundle.json> --url <http://host:port/path> [--token-file <file>] | spectrum <capture> --format cu8|ci8|ci16_le --rate <Hz> --centre <Hz> --station <station.toml> [--front-end <name>] [--nfft <n>] [--bins <n>] [--max-samples <n>] [--time <label>] [--out <file.obs.jsonl>] | leaderboard <bundle.json>... [--json]  (docs/FEEDER.md)
+engine-feed-packed = { $out }: jaama { $station } kimp, faile { $files }, epohhe { $epochs }, privaatsus { $mode }
+engine-feed-verified = { $path }: allkiri kehtib (allkirjastaja { $key }); jaam { $station }, faile { $files }, epohhe { $epochs }, iga fail on kehtiv kshana.obs/1
+engine-feed-sent = saadetud aadressile { $url }: HTTP { $code }
+engine-feed-spectrum-written = { $out }: spektri hetktõmmis, vahemikke { $bins } (MODELLED: tasemed täisskaala suhtes, mitte kalibreeritud võimsus)
+engine-e-feed-missing-value = { $option } vajab väärtust
+engine-e-feed-unknown-option = tundmatu valik { $option } (kshana feed --help loetleb valikud)
+engine-e-feed-cannot-read = faili { $path } ei saa lugeda: { $e }
+engine-e-feed-cannot-write = faili { $path } ei saa kirjutada: { $e }
+engine-e-feed-not-obs = { $path } ei ole kehtiv kshana.obs/1-fail: { $e }
+engine-e-feed-mixed-stations = failid pärinevad rohkem kui ühest jaamast ({ $a } ja { $b }); pakkige üks jaam kimbu kohta
+engine-e-feed-no-files = pole vaatlusfaile, mida pakkida
+engine-e-feed-bad-privacy = tundmatu privaatsusrežiim { $value } (public või exact)
+engine-e-feed-bad-grid = asukohavõrk peab olema 0.01 kuni 10 kraadi, mitte { $value }
+engine-e-feed-not-bundle = ei ole kshana.feed/1-kimp: { $e }
+engine-e-feed-bad-signature = kimbu allkiri ei kehti
+engine-e-feed-key-mismatch = kimbu on allkirjastanud { $found }, mitte oodatud võti { $expected }
+engine-e-feed-hash-mismatch = sisu { $name } ei vasta salvestatud SHA-256-le
+engine-e-feed-payload-mismatch = sisu { $name } ei vasta jaamale ega kimbus märgitud kirjete arvudele
+engine-e-feed-not-coarsened = avaliku kimbu sisu { $name } sisaldab endiselt välja { $what }
+engine-e-feed-bad-format = toetamata valimivorming { $value } (cu8, ci8 või ci16_le)
+engine-e-feed-bad-number = { $option }: { $value } ei ole siin kehtiv väärtus
+engine-e-feed-short-capture = salvestis sisaldab { $n } valimit, vähem kui teisenduse pikkus { $nfft }
+engine-e-feed-send-failed = saatmine aadressile { $url } ebaõnnestus: { $e }
+engine-e-feed-send-refused = { $url } lükkas kimbu tagasi: HTTP { $code }
+engine-e-obs-bad-spectrum = rida { $line }: spekter vajab lõplikku aega ja kesksagedust, positiivset diskreetimissagedust ja vahemiku laiust ning lõplikke tasemeid
