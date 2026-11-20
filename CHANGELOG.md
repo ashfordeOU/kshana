@@ -53,6 +53,35 @@ breaking changes are called out explicitly.
   not an external reference. An opt-in test (`tests/correction_icd_examples.rs`) checks the HAS decoder against the
   ICD's own Annex B matrix and Annex C/D worked examples from a copy the user downloads; no ICD content is stored.
 
+### Added (RTK, NTRIP and correction-service quality: `kshana rtk-qa`)
+
+- `kshana rtk-qa` (`kshana::rtk_qa`, `docs/RTK-QA.md`), every result labelled MODELLED:
+  - `monitor`: a correction-stream liveness monitor on a live mountpoint. A stream that stops on a still-open
+    connection raises a `stale` alarm after `--stale-after` seconds (default 3) without a valid RTCM 3 frame, then
+    `recovered`; per-message `message-gap`/`message-resumed`; `closed`; `link-over-budget` against `--link-bps`. The
+    scorecard gives availability, MSM latency against the receiving clock, MSM epoch completeness, CRC failures, the
+    station message, bit rate and a 0-100 score (weights documented as a convention). `sources` reads a source table
+    and sorts mountpoints by distance.
+  - `base`: 1005/1006 base coordinates against a published coordinate (ITRF2014/2020, ETRF2014/2020, with velocity):
+    ok, `frame-epoch-mismatch` (naming the frame and epoch the broadcast matches), `marker-arp-confusion`,
+    `unexplained-offset`; plus project frame/epoch mismatch, coordinate changes during the stream, antenna height,
+    virtual stations, orthometric height against a geoid undulation, and permanent-tide system mismatch.
+  - `fix`: RTK fix verification on RTKLIB-style `.pos` or NMEA GGA: inconsistent fixes within an occupation (naming
+    a carrier wavelength when the offset is one), fix jumps, control-point mismatch, fix against float, optimistic
+    sigma, float precision that misleads, low ratio, stale corrections. `ppk`: likely no-fix causes from RINEX logs.
+  - `probe`, `caster`, `log-check`: NTRIP v2 behaviour checks of a caster (source table in both versions, 401 with
+    `WWW-Authenticate`, unknown mountpoint, chunked stream with intact frames, NTRIP 1); a reference caster with
+    chunk extensions, Basic authentication and client/head-size/head-deadline limits that reports what each client
+    sent; a scan of client logs for credentials. Behaviour checks only, not a conformance statement.
+  - `failover`: a correction-source failover policy (order, switch-after, switch-back hold) run on an outage timeline.
+- `rtk_real`: each epoch now carries the float baseline covariance and, when fixed, the covariance conditioned on the
+  integers (`float_cov_m2`, `fixed_cov_m2`); `rtk_real::cov_enu` rotates them into east/north/up and
+  `rtk_real::to_pos` writes a run as an RTKLIB-style `.pos` (standard deviations and signed-root covariances), which
+  `kshana rtk-qa fix` reads. `tests/rtk_qa_wettzell.rs`: on the real WTZR/WTZZ session the fix check passes with the
+  published WTZZ coordinate as control point, and one L1 wavelength added to a later run of fixes is found.
+- `tests/rtk_qa.rs`: loopback casters and self-made RTCM, solution and RINEX fixtures (no real caster is contacted);
+  Kshana's NTRIP client and curl as a third-party client against the reference caster.
+
 ### Added (radio time-signal migration guide)
 
 - `docs/RADIO-TIME-MIGRATION.md`: the status of the CHU, MSF, DCF77 and WWVB time signals from public sources (CHU

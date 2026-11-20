@@ -82,6 +82,11 @@ pub struct RtkEpoch {
     pub ratio: Option<f64>,
     /// Number of satellites in the double differences (including the reference).
     pub n_sats: usize,
+    /// Covariance of the float baseline (ECEF, m²): the filter's baseline block.
+    pub float_cov_m2: [[f64; 3]; 3],
+    /// Covariance of the fixed baseline (ECEF, m²), conditioned on the integers:
+    /// `P_bb − P_bN Dᵀ (D P_NN Dᵀ)⁻¹ D P_Nb`.
+    pub fixed_cov_m2: Option<[[f64; 3]; 3]>,
 }
 
 /// The outcome of an RTK run.
@@ -337,7 +342,8 @@ pub fn run_rtk(
             }
         }
         let float_b = [x[0], x[1], x[2]];
-        let (mut fixed, mut ratio) = (None, None);
+        let float_cov = [0, 1, 2].map(|i| [p[i][0], p[i][1], p[i][2]]);
+        let (mut fixed, mut ratio, mut fixed_cov) = (None, None, None);
         if let Some(fix) = resolve(&qa, &a_hat) {
             ratio = Some(fix.ratio);
             if fix.ratio >= cfg.ratio {
@@ -355,6 +361,17 @@ pub fn run_rtk(
                         *bk -= (0..na).map(|j| qba[k][j] * tmp[j]).sum::<f64>();
                     }
                     fixed = Some(b);
+                    let mut c = float_cov;
+                    for (i, row) in c.iter_mut().enumerate() {
+                        for (k, ck) in row.iter_mut().enumerate() {
+                            *ck -= (0..na)
+                                .map(|a| {
+                                    qba[i][a] * (0..na).map(|j| qinv[a][j] * qba[k][j]).sum::<f64>()
+                                })
+                                .sum::<f64>();
+                        }
+                    }
+                    fixed_cov = Some(c);
                 }
             }
         }
@@ -364,12 +381,74 @@ pub fn run_rtk(
             fixed_baseline_m: fixed,
             ratio,
             n_sats: sds.len(),
+            float_cov_m2: float_cov,
+            fixed_cov_m2: fixed_cov,
         });
     }
     RtkResult {
         epochs: out,
         n_slips,
     }
+}
+
+/// A covariance (ECEF, m²) rotated into east, north, up at `at` (ECEF, m).
+pub fn cov_enu(at: Vec3, c: &[[f64; 3]; 3]) -> [[f64; 3]; 3] {
+    let g = ecef_to_geodetic(at);
+    let (sl, cl) = (g.lat_rad.sin(), g.lat_rad.cos());
+    let (so, co) = (g.lon_rad.sin(), g.lon_rad.cos());
+    let r = [
+        [-so, co, 0.0],
+        [-sl * co, -sl * so, cl],
+        [cl * co, cl * so, sl],
+    ];
+    let mut out = [[0.0; 3]; 3];
+    for i in 0..3 {
+        for j in 0..3 {
+            out[i][j] = (0..3)
+                .map(|a| (0..3).map(|b| r[i][a] * c[a][b] * r[j][b]).sum::<f64>())
+                .sum();
+        }
+    }
+    out
+}
+
+/// The run as an RTKLIB-style `.pos` solution file (GPS week and seconds, latitude, longitude,
+/// ellipsoidal height, Q 1 fixed / 2 float, satellites, the standard deviations north, east and
+/// up, and the covariances north-east, east-up and up-north written as `sign · √|c|`, age 0 and
+/// the ratio), the rover position being `base_arp` plus the fixed baseline where there is one and
+/// the float baseline otherwise. `kshana rtk-qa fix` reads it.
+pub fn to_pos(r: &RtkResult, base_arp: Vec3) -> String {
+    let mut s = String::from(
+        "%  GPST          latitude(deg) longitude(deg)  height(m)   Q  ns   sdn(m)   sde(m)   sdu(m)  sdne(m)  sdeu(m)  sdun(m) age(s)  ratio\n",
+    );
+    let ss = |c: f64| c.signum() * c.abs().sqrt();
+    for e in &r.epochs {
+        let (b, c, q) = match (e.fixed_baseline_m, e.fixed_cov_m2) {
+            (Some(b), Some(c)) => (b, c, 1),
+            _ => (e.float_baseline_m, e.float_cov_m2, 2),
+        };
+        let x = [base_arp[0] + b[0], base_arp[1] + b[1], base_arp[2] + b[2]];
+        let g = ecef_to_geodetic(x);
+        let n = cov_enu(x, &c);
+        let week = (e.t_gps_s / 604_800.0).floor();
+        let tow = e.t_gps_s - week * 604_800.0;
+        s.push_str(&format!(
+            "{week:4} {tow:10.3} {:14.9} {:14.9} {:10.4} {q:3} {:3} {:8.4} {:8.4} {:8.4} {:8.4} {:8.4} {:8.4} {:6.2} {:6.1}\n",
+            g.lat_rad.to_degrees(),
+            g.lon_rad.to_degrees(),
+            g.alt_m,
+            e.n_sats,
+            n[1][1].max(0.0).sqrt(),
+            n[0][0].max(0.0).sqrt(),
+            n[2][2].max(0.0).sqrt(),
+            ss(n[1][0]),
+            ss(n[0][2]),
+            ss(n[2][1]),
+            0.0,
+            e.ratio.unwrap_or(0.0),
+        ));
+    }
+    s
 }
 
 fn add_state(x: &mut Vec<f64>, p: &mut Vec<Vec<f64>>, value: f64, var: f64) -> usize {

@@ -10595,6 +10595,7 @@ engine-main-usage =
     { "   " }oder: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }oder: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }oder: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
+    { "   " }oder: kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
     { "   " }oder: kshana kinds [--json]
     { "   " }oder: kshana example [<name>]
     { "   " }oder: kshana --help | --version
@@ -11540,3 +11541,48 @@ engine-e-space-weather-pnt-ionex-span = die IONEX-Karten decken { $t } nicht ab
 engine-e-space-weather-pnt-ionex-flag = eine IONEX-Karte wird genau dann verwendet, wenn vtec in der Anfrage "ionex" ist und --ionex <file> angegeben wird
 engine-e-space-weather-pnt-no-epochs = die Anfrage braucht mindestens eine Epoche in epochs_utc
 engine-e-space-weather-pnt-window-row = Zeile { $line }: keine Zeile eines Dichtefensters (campaign,phase,start_utc,mean_alt_km,n_valid,measured_mean,points)
+engine-e-rtkqa-usage = Aufruf: kshana rtk-qa monitor <host:port> --mount <name> [--user <name> --password-env <VAR>] [--gga <lat,lon[,h]>] [--seconds <s>] [--stale-after <s>] [--link-bps <n>]
+    kshana rtk-qa sources <table.txt|host:port> [--near <lat,lon>]
+    kshana rtk-qa base <stream.rtcm3> --reference <reference.toml|json> [--epoch <decimal year>]
+    kshana rtk-qa fix <solution.pos|nmea> [--control <name,lat,lon,h>]... [--radius <m>] [--h-tol <m>] [--v-tol <m>]
+    kshana rtk-qa ppk <rover.obs> [--base <base.obs>]
+    kshana rtk-qa probe <host:port> --mount <name> [--user <name> --password-env <VAR>] [--gga <lat,lon[,h]>] [--seconds <s>]
+    kshana rtk-qa caster --listen <host:port> --stream <file.rtcm3> --mount <name> [--user <name> --password-env <VAR>] [--chunk-ext] [--clients <n>] [--max-clients <n>] [--pace-ms <n>]
+    kshana rtk-qa log-check <client.log> --user <name> --password-env <VAR>
+    kshana rtk-qa failover <spec.json|toml>
+
+engine-e-rtkqa-frame = unbekannter Bezugsrahmen { $frame } (ITRF2014, ITRF2020, ETRF2014 oder ETRF2020)
+
+engine-e-rtkqa-tide = unbekanntes Gezeitensystem { $tide } (tide-free, zero-tide oder mean-tide)
+
+engine-e-rtkqa-pos-columns = die Lösungsdatei gibt Positionen in Grad, Minuten und Sekunden oder als Basislinie an; schreiben Sie sie in Dezimalgrad oder ECEF
+
+engine-e-rtkqa-pos-line = Zeile { $line } ist keine Lösungsepoche
+
+engine-e-rtkqa-no-solutions = keine Lösungsepochen gefunden (eine .pos-Datei im RTKLIB-Stil oder NMEA-GGA-Sätze)
+
+engine-e-rtkqa-no-station = der Datenstrom enthält keine Stationsnachricht 1005 oder 1006
+
+engine-e-rtkqa-failover-spec = der Failover-Test braucht eine positive Dauer und Schrittweite und mindestens eine Quelle
+
+engine-e-rtkqa-failover-source = die Strategie nennt eine nicht definierte Quelle: { $name }
+
+engine-rtkqa-monitor-summary = rtk-qa monitor: Bewertung { $score }/100 (MODELLED); verfügbar { $availability } %, Median-Latenz { $latency } ms, Vollständigkeit { $completeness } %, Alarme { $alarms }
+
+engine-rtkqa-sources-summary = rtk-qa sources: Mountpoints { $n }
+
+engine-rtkqa-base-summary = rtk-qa base: Stationen { $n }; in Ordnung { $ok }, Warnungen { $warn }, Fehler { $fail } (MODELLED)
+
+engine-rtkqa-fix-summary = rtk-qa fix: Aufstellungen { $n }; bestanden { $pass }, Warnungen { $warn }, Fehler { $fail }, ohne Fix { $nofix } (MODELLED)
+
+engine-rtkqa-ppk-summary = rtk-qa ppk: wahrscheinliche Ursachen { $n }: { $causes }
+
+engine-rtkqa-probe-summary = rtk-qa probe: { $met } von { $total } Prüfungen erfüllt; nicht erfüllt: { $failed }
+
+engine-rtkqa-caster-listening = rtk-qa caster: lauscht auf { $addr }, Mountpoint { $mount }
+
+engine-rtkqa-caster-client = rtk-qa caster: Client { $peer } erhielt { $answer }; { $met } von { $total } Prüfungen erfüllt
+
+engine-rtkqa-log-summary = rtk-qa log-check: Zugangsdaten { $n }-mal in { $file } gefunden
+
+engine-rtkqa-failover-summary = rtk-qa failover: Umschaltungen { $switches }; Korrekturalter über dem Grenzwert während { $over } s; größtes Alter { $max_age } s (MODELLED)

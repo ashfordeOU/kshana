@@ -10800,6 +10800,7 @@ engine-main-usage =
     { "   " }или: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }или: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }или: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
+    { "   " }или: kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
     { "   " }или: kshana kinds [--json]
     { "   " }или: kshana example [<name>]
     { "   " }или: kshana --help | --version
@@ -11748,3 +11749,48 @@ engine-e-space-weather-pnt-ionex-span = карты IONEX не охватываю
 engine-e-space-weather-pnt-ionex-flag = карта IONEX используется тогда и только тогда, когда vtec в запросе равен "ionex" и задан --ionex <file>
 engine-e-space-weather-pnt-no-epochs = в запросе нужна хотя бы одна эпоха в epochs_utc
 engine-e-space-weather-pnt-window-row = строка { $line }: это не строка окна плотности (campaign,phase,start_utc,mean_alt_km,n_valid,measured_mean,points)
+engine-e-rtkqa-usage = использование: kshana rtk-qa monitor <host:port> --mount <name> [--user <name> --password-env <VAR>] [--gga <lat,lon[,h]>] [--seconds <s>] [--stale-after <s>] [--link-bps <n>]
+    kshana rtk-qa sources <table.txt|host:port> [--near <lat,lon>]
+    kshana rtk-qa base <stream.rtcm3> --reference <reference.toml|json> [--epoch <decimal year>]
+    kshana rtk-qa fix <solution.pos|nmea> [--control <name,lat,lon,h>]... [--radius <m>] [--h-tol <m>] [--v-tol <m>]
+    kshana rtk-qa ppk <rover.obs> [--base <base.obs>]
+    kshana rtk-qa probe <host:port> --mount <name> [--user <name> --password-env <VAR>] [--gga <lat,lon[,h]>] [--seconds <s>]
+    kshana rtk-qa caster --listen <host:port> --stream <file.rtcm3> --mount <name> [--user <name> --password-env <VAR>] [--chunk-ext] [--clients <n>] [--max-clients <n>] [--pace-ms <n>]
+    kshana rtk-qa log-check <client.log> --user <name> --password-env <VAR>
+    kshana rtk-qa failover <spec.json|toml>
+
+engine-e-rtkqa-frame = неизвестная система отсчёта { $frame } (ITRF2014, ITRF2020, ETRF2014 или ETRF2020)
+
+engine-e-rtkqa-tide = неизвестная приливная система { $tide } (tide-free, zero-tide или mean-tide)
+
+engine-e-rtkqa-pos-columns = файл решений задаёт положения в градусах, минутах и секундах или как базовую линию; запишите его в десятичных градусах или ECEF
+
+engine-e-rtkqa-pos-line = строка { $line } не является эпохой решения
+
+engine-e-rtkqa-no-solutions = эпохи решения не найдены (файл .pos в стиле RTKLIB или предложения NMEA GGA)
+
+engine-e-rtkqa-no-station = поток не содержит сообщения станции 1005 или 1006
+
+engine-e-rtkqa-failover-spec = для теста переключения нужны положительные длительность и шаг и хотя бы один источник
+
+engine-e-rtkqa-failover-source = политика называет неопределённый источник: { $name }
+
+engine-rtkqa-monitor-summary = rtk-qa monitor: оценка { $score }/100 (MODELLED); доступность { $availability } %, медианная задержка { $latency } мс, полнота { $completeness } %, тревоги { $alarms }
+
+engine-rtkqa-sources-summary = rtk-qa sources: точки подключения { $n }
+
+engine-rtkqa-base-summary = rtk-qa base: станции { $n }; в норме { $ok }, предупреждения { $warn }, отказы { $fail } (MODELLED)
+
+engine-rtkqa-fix-summary = rtk-qa fix: стоянки { $n }; пройдено { $pass }, предупреждения { $warn }, отказы { $fail }, без фиксации { $nofix } (MODELLED)
+
+engine-rtkqa-ppk-summary = rtk-qa ppk: вероятные причины { $n }: { $causes }
+
+engine-rtkqa-probe-summary = rtk-qa probe: выполнено проверок { $met } из { $total }; не выполнено: { $failed }
+
+engine-rtkqa-caster-listening = rtk-qa caster: слушает на { $addr }, точка подключения { $mount }
+
+engine-rtkqa-caster-client = rtk-qa caster: клиент { $peer } получил { $answer }; выполнено проверок { $met } из { $total }
+
+engine-rtkqa-log-summary = rtk-qa log-check: учётные данные найдены { $n } раз в { $file }
+
+engine-rtkqa-failover-summary = rtk-qa failover: переключения { $switches }; возраст поправок выше предела в течение { $over } с; наибольший возраст { $max_age } с (MODELLED)

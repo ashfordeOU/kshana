@@ -10319,6 +10319,7 @@ engine-main-usage =
     { "   " }tai: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }tai: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }tai: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
+    { "   " }tai: kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
     { "   " }tai: kshana kinds [--json]
     { "   " }tai: kshana example [<name>]
     { "   " }tai: kshana --help | --version
@@ -11262,3 +11263,48 @@ engine-e-space-weather-pnt-ionex-span = IONEX-kartat eivät kata hetkeä { $t }
 engine-e-space-weather-pnt-ionex-flag = IONEX-karttaa käytetään silloin ja vain silloin, kun pyynnön vtec on "ionex" ja --ionex <file> on annettu
 engine-e-space-weather-pnt-no-epochs = pyynnössä on oltava epochs_utc-kentässä vähintään yksi epookki
 engine-e-space-weather-pnt-window-row = rivi { $line }: ei tiheysikkunan rivi (campaign,phase,start_utc,mean_alt_km,n_valid,measured_mean,points)
+engine-e-rtkqa-usage = käyttö: kshana rtk-qa monitor <host:port> --mount <name> [--user <name> --password-env <VAR>] [--gga <lat,lon[,h]>] [--seconds <s>] [--stale-after <s>] [--link-bps <n>]
+    kshana rtk-qa sources <table.txt|host:port> [--near <lat,lon>]
+    kshana rtk-qa base <stream.rtcm3> --reference <reference.toml|json> [--epoch <decimal year>]
+    kshana rtk-qa fix <solution.pos|nmea> [--control <name,lat,lon,h>]... [--radius <m>] [--h-tol <m>] [--v-tol <m>]
+    kshana rtk-qa ppk <rover.obs> [--base <base.obs>]
+    kshana rtk-qa probe <host:port> --mount <name> [--user <name> --password-env <VAR>] [--gga <lat,lon[,h]>] [--seconds <s>]
+    kshana rtk-qa caster --listen <host:port> --stream <file.rtcm3> --mount <name> [--user <name> --password-env <VAR>] [--chunk-ext] [--clients <n>] [--max-clients <n>] [--pace-ms <n>]
+    kshana rtk-qa log-check <client.log> --user <name> --password-env <VAR>
+    kshana rtk-qa failover <spec.json|toml>
+
+engine-e-rtkqa-frame = tuntematon vertauskehys { $frame } (ITRF2014, ITRF2020, ETRF2014 tai ETRF2020)
+
+engine-e-rtkqa-tide = tuntematon vuorovesijärjestelmä { $tide } (tide-free, zero-tide tai mean-tide)
+
+engine-e-rtkqa-pos-columns = ratkaisutiedosto antaa sijainnit asteina, minuutteina ja sekunteina tai perusviivana; kirjoita se desimaaliasteina tai ECEF-muodossa
+
+engine-e-rtkqa-pos-line = rivi { $line } ei ole ratkaisuepookki
+
+engine-e-rtkqa-no-solutions = ratkaisuepookkeja ei löytynyt (RTKLIB-tyylinen .pos-tiedosto tai NMEA GGA -lauseita)
+
+engine-e-rtkqa-no-station = virrassa ei ole asemaviestiä 1005 tai 1006
+
+engine-e-rtkqa-failover-spec = varmistustesti tarvitsee positiivisen keston ja askeleen sekä vähintään yhden lähteen
+
+engine-e-rtkqa-failover-source = käytäntö nimeää lähteen, jota ei ole määritelty: { $name }
+
+engine-rtkqa-monitor-summary = rtk-qa monitor: pisteet { $score }/100 (MODELLED); saatavilla { $availability } %, mediaaniviive { $latency } ms, kattavuus { $completeness } %, hälytykset { $alarms }
+
+engine-rtkqa-sources-summary = rtk-qa sources: liityntäpisteet { $n }
+
+engine-rtkqa-base-summary = rtk-qa base: asemat { $n }; kunnossa { $ok }, varoitukset { $warn }, virheet { $fail } (MODELLED)
+
+engine-rtkqa-fix-summary = rtk-qa fix: pystytykset { $n }; hyväksytyt { $pass }, varoitukset { $warn }, virheet { $fail }, ilman fiksiä { $nofix } (MODELLED)
+
+engine-rtkqa-ppk-summary = rtk-qa ppk: todennäköiset syyt { $n }: { $causes }
+
+engine-rtkqa-probe-summary = rtk-qa probe: { $met }/{ $total } tarkistusta täyttyi; täyttymättä: { $failed }
+
+engine-rtkqa-caster-listening = rtk-qa caster: kuuntelee osoitteessa { $addr }, liityntäpiste { $mount }
+
+engine-rtkqa-caster-client = rtk-qa caster: asiakas { $peer } sai vastauksen { $answer }; { $met }/{ $total } tarkistusta täyttyi
+
+engine-rtkqa-log-summary = rtk-qa log-check: tunnistetiedot löytyivät { $n } kertaa tiedostosta { $file }
+
+engine-rtkqa-failover-summary = rtk-qa failover: vaihdot { $switches }; korjausten ikä yli rajan { $over } s; suurin ikä { $max_age } s (MODELLED)
