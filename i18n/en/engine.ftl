@@ -10418,6 +10418,17 @@ engine-e-antenna-cal-bad-pattern = unknown antenna pattern (patch, choke-ring or
 engine-e-antenna-cal-bad-gain-table = a gain table needs at least two finite points of elevation and gain
 engine-e-antenna-cal-bad-link = the J/S specification needs a positive frequency, a finite EIRP and positive ranges
 
+## Arctic GNSS availability planner (src/arctic_plan.rs)
+engine-arctic-plan-usage = usage: kshana arctic-plan --site <lat,lon[,h]> | --place <name> | --places  [--systems <a,b,...>] [--compare] [--hours <h>] [--step-min <m>] [--start-s <s>] [--mask <deg>] [--skyline-preset <name>] [--clock common|per-system] [--min-sats <n>] [--max-pdop <x>] [--task-min <m>] [--kp <n>] [--year <y>] [--iono-mask <deg>] [--tle <file> --epoch <YYYY-MM-DDTHH:MM:SS>] [--epochs] [--out <file.json>]  (docs/ARCTIC-PLAN.md)
+engine-e-arctic-plan-missing-value = { $option } needs a value
+engine-e-arctic-plan-unknown-option = unknown option { $option } (kshana arctic-plan --help lists the options)
+engine-e-arctic-plan-cannot-read = cannot read { $path }: { $e }
+engine-e-arctic-plan-cannot-write = cannot write { $path }: { $e }
+engine-e-arctic-plan-bad-number = { $option }: { $value } is not a valid number
+engine-e-arctic-plan-unknown-name = unknown name { $name } (known: { $known })
+engine-e-arctic-plan-needs-site = give the site with --site <lat,lon[,h]> or --place <name> (--places lists the names)
+engine-e-arctic-plan-bad-horizon = the horizon and step must be positive and give at most 20,000 epochs
+
 engine-main-usage =
     usage: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }or: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10453,6 +10464,7 @@ engine-main-usage =
     { "   " }or: kshana feed <pack|verify|send|spectrum|leaderboard> ... (kshana feed --help)
     { "   " }or: kshana register <check|crl-check|view|sign> ... (kshana register --help)
     { "   " }or: kshana interference-env <evaluate|thresholds|degradation> ... (kshana interference-env --help)
+    { "   " }or: kshana arctic-plan --site <lat,lon[,h]> | --place <name> [--systems <a,b,...>] [--compare] [--hours <h>] [--kp <n>] ... (kshana arctic-plan --help)
     { "   " }or: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }or: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }or: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>

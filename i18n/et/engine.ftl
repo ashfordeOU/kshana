@@ -10604,6 +10604,17 @@ engine-e-antenna-cal-bad-pattern = tundmatu antenni suunadiagramm (patch, choke-
 engine-e-antenna-cal-bad-gain-table = võimendustabel vajab vähemalt kahte lõplikku kõrgusnurga ja võimenduse punkti
 engine-e-antenna-cal-bad-link = J/S-spetsifikatsioon vajab positiivset sagedust, lõplikku EIRP-d ja positiivseid kaugusi
 
+## Arctic GNSS availability planner (src/arctic_plan.rs)
+engine-arctic-plan-usage = kasutus: kshana arctic-plan --site <lat,lon[,h]> | --place <name> | --places  [--systems <a,b,...>] [--compare] [--hours <h>] [--step-min <m>] [--start-s <s>] [--mask <deg>] [--skyline-preset <name>] [--clock common|per-system] [--min-sats <n>] [--max-pdop <x>] [--task-min <m>] [--kp <n>] [--year <y>] [--iono-mask <deg>] [--tle <file> --epoch <YYYY-MM-DDTHH:MM:SS>] [--epochs] [--out <file.json>]  (docs/ARCTIC-PLAN.md)
+engine-e-arctic-plan-missing-value = { $option } vajab väärtust
+engine-e-arctic-plan-unknown-option = tundmatu valik { $option } (valikud loetleb kshana arctic-plan --help)
+engine-e-arctic-plan-cannot-read = faili { $path } ei saa lugeda: { $e }
+engine-e-arctic-plan-cannot-write = faili { $path } ei saa kirjutada: { $e }
+engine-e-arctic-plan-bad-number = { $option }: { $value } ei ole kehtiv arv
+engine-e-arctic-plan-unknown-name = tundmatu nimi { $name } (tuntud: { $known })
+engine-e-arctic-plan-needs-site = andke koht valikuga --site <lat,lon[,h]> või --place <name> (nimed loetleb --places)
+engine-e-arctic-plan-bad-horizon = horisont ja samm peavad olema positiivsed ning andma kuni 20 000 epohhi
+
 engine-main-usage =
     kasutus: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }või: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10639,6 +10650,7 @@ engine-main-usage =
     { "   " }või: kshana feed <pack|verify|send|spectrum|leaderboard> ... (kshana feed --help)
     { "   " }või: kshana register <check|crl-check|view|sign> ... (kshana register --help)
     { "   " }või: kshana interference-env <evaluate|thresholds|degradation> ... (kshana interference-env --help)
+    { "   " }või: kshana arctic-plan --site <lat,lon[,h]> | --place <name> [--systems <a,b,...>] [--compare] [--hours <h>] [--kp <n>] ... (kshana arctic-plan --help)
     { "   " }või: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }või: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }või: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>

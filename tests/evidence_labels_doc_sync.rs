@@ -339,6 +339,7 @@ const UNLABELLED_WRITERS: &[(&str, &str)] = &[
     ("src/nmea_synth/cli.rs", "writes the NMEA training stream and its truth log, which simulators and receivers read as plain NMEA"),
     ("src/realtime_frame_eop.rs", "writes the run's CSV, already labelled when it came from api::run_toml (RunOutput::write_csv)"),
     ("src/space_receiver/cli.rs", "writes the space-receiver JSON reports (--out), each self-labelled MODELLED in its own label field"),
+    ("src/arctic_plan.rs", "writes the arctic-plan JSON (--out), self-labelled MODELLED in its own label field"),
 ];
 
 fn source_files(dir: &Path, out: &mut Vec<String>) {

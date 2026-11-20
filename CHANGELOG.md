@@ -40,6 +40,15 @@ breaking changes are called out explicitly.
   a margin and sidelobe sensitivity grid. `od-vs-tle`: an onboard OEM against an SGP4-propagated element set in RTN.
   MODELLED throughout.
 
+### Added (Arctic GNSS availability planner)
+
+- `kshana arctic-plan` (src/arctic_plan.rs, docs/ARCTIC-PLAN.md): the `kshana sky` geometry stepped over a planning
+  horizon at a high-latitude site or a named Arctic place, with satellites in view, PDOP/HDOP/VDOP, the elevation
+  ceiling of each GNSS preset (closed form, about 45 degrees for GPS at the pole), the share of the poleward sky, the
+  windows where a stated requirement holds and those long enough for a task, a per-system comparison, element sets at
+  a date, and an auroral-oval check with a raised-mask availability inside the oval. Each epoch equals a direct
+  `kshana sky` request at the test sites. MODELLED.
+
 ### Added (space weather for PNT and drag)
 
 - `kshana space-weather` (src/space_weather_pnt/, docs/SPACE-WEATHER-PNT.md): a storm library of eight recorded
