@@ -10711,6 +10711,7 @@ engine-interference-map-cli-usage-map =
     { "   " }of: kshana interference-map daily <input.csv|trace.json[.gz]|dir> --dataset <adsb-lol|custom> --day <YYYY-MM-DD> --out <dir> [--cell-deg <deg, { $lit_0_5 } or coarser>] [--bbox <south,west,north,east>] [--delay-hours <24 or more>]
     { "   " }of: kshana interference-map sensitivity <input.csv|trace.json[.gz]|dir> --dataset <adsb-lol|custom> --day <YYYY-MM-DD> --out <report.json> [--bbox <south,west,north,east>]
     { "   " }of: kshana interference-map fetch-land --out <land.geojson> --allow-network
+    { "   " }of: kshana interference-map incidents <validate <library.json> [--releases <RELEASES.json>] [--json] | release <library.json> --out <dir> | from-observatory <day.incidents.json> --source-url <https://...> --out <file.json>>
     { "   " }(--dataset custom heeft ook --licence <text> --licence-url <url> --attribution <text> nodig)
 
 engine-interference-map-cli-usage-route = gebruik: kshana route-exposure --route <route.geojson|route.csv> --map <map.geojson|dir> [--map ...] [--from <YYYY-MM-DD>] [--to <YYYY-MM-DD>] [--out <report.json>] [--json]
@@ -11535,3 +11536,9 @@ engine-e-interference-map-locate-bad-tdoa = { $path } is geen bruikbaar TDOA-fix
 engine-e-interference-map-locate-source-required = --source adsb of --source ais is vereist
 
 engine-e-interference-map-locate-no-evidence-rows = er zijn geen bewijsrijen vermeld voor de locate-uitvoer
+
+## Interference-incident format and case library (src/interference_map/incident.rs)
+engine-interference-incidents-valid = { $file }: { $n } records, geldig
+engine-e-interference-incidents-invalid = { $n } probleem/problemen in de incidentbibliotheek; voer kshana interference-map incidents validate <file> uit voor de lijst
+engine-e-interference-incidents-not-a-document = { $file } is geen { $schema }-document
+engine-e-interference-incidents-source-url-required = --source-url is verplicht: elk record verwijst naar het https://-adres waar het product is gepubliceerd

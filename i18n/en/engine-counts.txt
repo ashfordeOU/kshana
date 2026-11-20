@@ -201,3 +201,5 @@ evidence-label-line-rows: n
 evidence-label-line-rows-more: n n_more
 interference-map-locate-summary: n_sessions n_withheld
 interference-map-locate-fig-subtitle: n
+interference-incidents-valid: n
+e-interference-incidents-invalid: n
