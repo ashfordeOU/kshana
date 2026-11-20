@@ -1,0 +1,19 @@
+{
+  "requirements": {
+    "holdover": {
+      "duration_s": 86400,
+      "max_time_error_s": 1.5e-6,
+      "temperature": {"points": [[0, 25], [3600, 25], [3660, 35]], "lag_s": 600}
+    },
+    "cold_start": {
+      "carrier_hz": 1575420000,
+      "doppler_hz": 5000,
+      "coherent_s": 0.001,
+      "days_since_calibration": 30,
+      "temperature_delta_k": 20,
+      "max_search_factor": 1.5
+    },
+    "adev_max": [[1, 1e-10], [1000, 1e-11]],
+    "power_max_w": 0.5
+  }
+}

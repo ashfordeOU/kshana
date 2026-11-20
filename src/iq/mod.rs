@@ -36,7 +36,9 @@ pub mod channel;
 // build; the CLI is meaningless in the browser, so gate it the same way.
 #[cfg(not(target_arch = "wasm32"))]
 pub mod cli;
+pub mod frontdiag;
 pub mod frontend;
+pub mod gnss_sdr_conf;
 pub mod io;
 pub mod labfit;
 pub mod lunanet_afs;

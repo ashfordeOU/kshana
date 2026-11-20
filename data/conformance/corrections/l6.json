@@ -1,0 +1,2036 @@
+{
+ "format": "kshana.correction-vectors/1",
+ "set": "l6",
+ "version": "1.0.0",
+ "source": "IS-QZSS-L6-008 (CLAS) section 4.1; IS-QZSS-MDC-005 (MADOCA-PPP) sections 4.2 and 6.3",
+ "provenance": "self-derived: frames encoded by this generator from field values it chose, following its own reading of the interface document; a second implementation of the same reading, not an independent reference",
+ "generator": "data/conformance/corrections/gen_correction_vectors.py",
+ "vectors": [
+  {
+   "id": "l6-clas-subframe-all-subtypes",
+   "decoder": "l6",
+   "frames": [
+    "1acffc1dc7a97f48aa300298c120000008020443eb2100000008090002500000000042803fa49c208c1401900000000b0191fce00386012cfce00392f0321f6a80026007d3e7001c0f04b1f060118802bcf6a00abfa4dc348d0001e0bb82f688ec17d63ba88ffe947082363ec9395331e6ed11a4f56eb8da5b777bf02e1bc7393f32fe957082345681cafae09a8000c814a69952fe7a22fcfde2a7e14f0db1c2d7a8ab37f731ab71bda543fa5dc208c013fa4dc80ff4b38911bb290000000ffffffeffefffc806ffec805ffea80fffce80effcc80dffcaff4db80000000000000000000000000000000000000000000000000000000000000000",
+    "1acffc1dc7a8488dc49723fff8004005fff7e8fff80040047ff4c8fff40060067feefe987172365924c181002fff003fc0990f64023ffc00ff027c63100efff003fc0ff4cb8b9199cc22132190fa008ca271007cff0001fd38e3846f2068d383d8a07e0001fd13eff3806ff937bf08cf833fdfe07f4d2b4a02040609fe0020406000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+   ],
+   "expect": {
+    "frames": 2,
+    "subframes": 1,
+    "orphan": 0,
+    "stopped": [],
+    "messages": [
+     {
+      "subtype": 1,
+      "epoch_s": 345600,
+      "update_interval": 5,
+      "multiple": false,
+      "iod_ssr": 6,
+      "mask": [
+       {
+        "gnss_id": 0,
+        "satellites": [
+         "G02",
+         "G05",
+         "G31"
+        ],
+        "signals": [
+         0,
+         7,
+         11
+        ],
+        "signal_names": [
+         "L1 C/A",
+         "L2C(L)",
+         "L5 I"
+        ],
+        "cell_mask": [
+         [
+          1,
+          1,
+          1
+         ],
+         [
+          1,
+          0,
+          1
+         ],
+         [
+          0,
+          1,
+          1
+         ]
+        ]
+       },
+       {
+        "gnss_id": 2,
+        "satellites": [
+         "E04",
+         "E33"
+        ],
+        "signals": [
+         0,
+         3
+        ],
+        "signal_names": [
+         "E1 B",
+         "E5a I"
+        ],
+        "cell_mask": null
+       },
+       {
+        "gnss_id": 4,
+        "satellites": [
+         "J01",
+         "J03"
+        ],
+        "signals": [
+         0,
+         5,
+         7
+        ],
+        "signal_names": [
+         "L1 C/A",
+         "L2C(L)",
+         "L5 I"
+        ],
+        "cell_mask": null
+       }
+      ],
+      "prn": 199,
+      "service": "clas",
+      "facility": 1
+     },
+     {
+      "subtype": 2,
+      "epoch_s": 1800,
+      "update_interval": 2,
+      "multiple": false,
+      "iod_ssr": 6,
+      "orbits": [
+       {
+        "sat": "G02",
+        "iode": 10,
+        "radial_m": 0.16,
+        "along_m": 0.0,
+        "cross_m": 0.0
+       },
+       {
+        "sat": "G05",
+        "iode": 11,
+        "radial_m": 0.32,
+        "along_m": -0.32,
+        "cross_m": 0.0448
+       },
+       {
+        "sat": "G31",
+        "iode": 12,
+        "radial_m": 0.48000000000000004,
+        "along_m": -0.64,
+        "cross_m": 0.0896
+       },
+       {
+        "sat": "E04",
+        "iode": 303,
+        "radial_m": 0.64,
+        "along_m": -0.9600000000000001,
+        "cross_m": null
+       },
+       {
+        "sat": "E33",
+        "iode": 304,
+        "radial_m": 0.8,
+        "along_m": -1.28,
+        "cross_m": 0.1792
+       },
+       {
+        "sat": "J01",
+        "iode": 15,
+        "radial_m": 0.9600000000000001,
+        "along_m": -1.6,
+        "cross_m": 0.224
+       },
+       {
+        "sat": "J03",
+        "iode": 16,
+        "radial_m": 1.12,
+        "along_m": -1.9200000000000002,
+        "cross_m": 0.26880000000000004
+       }
+      ],
+      "prn": 199,
+      "service": "clas",
+      "facility": 1
+     },
+     {
+      "subtype": 3,
+      "epoch_s": 1805,
+      "update_interval": 2,
+      "multiple": false,
+      "iod_ssr": 6,
+      "clocks": [
+       {
+        "sat": "G02",
+        "c0_m": null
+       },
+       {
+        "sat": "G05",
+        "c0_m": 24.6128
+       },
+       {
+        "sat": "G31",
+        "c0_m": 23.012800000000002
+       },
+       {
+        "sat": "E04",
+        "c0_m": 21.4128
+       },
+       {
+        "sat": "E33",
+        "c0_m": 19.8128
+       },
+       {
+        "sat": "J01",
+        "c0_m": 18.2128
+       },
+       {
+        "sat": "J03",
+        "c0_m": 16.6128
+       }
+      ],
+      "prn": 199,
+      "service": "clas",
+      "facility": 1
+     },
+     {
+      "subtype": 4,
+      "epoch_s": 1800,
+      "update_interval": 2,
+      "multiple": false,
+      "iod_ssr": 6,
+      "biases": [
+       {
+        "sat": "G02",
+        "biases": [
+         {
+          "signal": 0,
+          "code_bias_m": -9.0
+         },
+         {
+          "signal": 7,
+          "code_bias_m": -8.78
+         },
+         {
+          "signal": 11,
+          "code_bias_m": -8.56
+         }
+        ]
+       },
+       {
+        "sat": "G05",
+        "biases": [
+         {
+          "signal": 0,
+          "code_bias_m": -8.26
+         },
+         {
+          "signal": 11,
+          "code_bias_m": -8.040000000000001
+         }
+        ]
+       },
+       {
+        "sat": "G31",
+        "biases": [
+         {
+          "signal": 7,
+          "code_bias_m": -7.5200000000000005
+         },
+         {
+          "signal": 11,
+          "code_bias_m": -7.3
+         }
+        ]
+       },
+       {
+        "sat": "E04",
+        "biases": [
+         {
+          "signal": 0,
+          "code_bias_m": -6.78
+         },
+         {
+          "signal": 3,
+          "code_bias_m": -6.5600000000000005
+         }
+        ]
+       },
+       {
+        "sat": "E33",
+        "biases": [
+         {
+          "signal": 0,
+          "code_bias_m": -6.04
+         },
+         {
+          "signal": 3,
+          "code_bias_m": -5.82
+         }
+        ]
+       },
+       {
+        "sat": "J01",
+        "biases": [
+         {
+          "signal": 0,
+          "code_bias_m": -5.3
+         },
+         {
+          "signal": 5,
+          "code_bias_m": -5.08
+         },
+         {
+          "signal": 7,
+          "code_bias_m": -4.86
+         }
+        ]
+       },
+       {
+        "sat": "J03",
+        "biases": [
+         {
+          "signal": 0,
+          "code_bias_m": -4.5600000000000005
+         },
+         {
+          "signal": 5,
+          "code_bias_m": -4.34
+         },
+         {
+          "signal": 7,
+          "code_bias_m": -4.12
+         }
+        ]
+       }
+      ],
+      "prn": 199,
+      "service": "clas",
+      "facility": 1
+     },
+     {
+      "subtype": 5,
+      "epoch_s": 1800,
+      "update_interval": 2,
+      "multiple": false,
+      "iod_ssr": 6,
+      "biases": [
+       {
+        "sat": "G02",
+        "biases": [
+         {
+          "signal": 0,
+          "phase_bias_m": -15.0,
+          "discontinuity": 0
+         },
+         {
+          "signal": 7,
+          "phase_bias_m": 14.687000000000001,
+          "discontinuity": 1
+         },
+         {
+          "signal": 11,
+          "phase_bias_m": 14.374,
+          "discontinuity": 2
+         }
+        ]
+       },
+       {
+        "sat": "G05",
+        "biases": [
+         {
+          "signal": 0,
+          "phase_bias_m": null,
+          "discontinuity": 1
+         },
+         {
+          "signal": 11,
+          "phase_bias_m": -14.316,
+          "discontinuity": 2
+         }
+        ]
+       },
+       {
+        "sat": "G31",
+        "biases": [
+         {
+          "signal": 7,
+          "phase_bias_m": -13.006,
+          "discontinuity": 2
+         },
+         {
+          "signal": 11,
+          "phase_bias_m": -13.319,
+          "discontinuity": 3
+         }
+        ]
+       },
+       {
+        "sat": "E04",
+        "biases": [
+         {
+          "signal": 0,
+          "phase_bias_m": -12.009,
+          "discontinuity": 3
+         },
+         {
+          "signal": 3,
+          "phase_bias_m": -12.322000000000001,
+          "discontinuity": 0
+         }
+        ]
+       },
+       {
+        "sat": "E33",
+        "biases": [
+         {
+          "signal": 0,
+          "phase_bias_m": -11.012,
+          "discontinuity": 0
+         },
+         {
+          "signal": 3,
+          "phase_bias_m": -11.325000000000001,
+          "discontinuity": 1
+         }
+        ]
+       },
+       {
+        "sat": "J01",
+        "biases": [
+         {
+          "signal": 0,
+          "phase_bias_m": -10.015,
+          "discontinuity": 1
+         },
+         {
+          "signal": 5,
+          "phase_bias_m": -10.328,
+          "discontinuity": 2
+         },
+         {
+          "signal": 7,
+          "phase_bias_m": -10.641,
+          "discontinuity": 3
+         }
+        ]
+       },
+       {
+        "sat": "J03",
+        "biases": [
+         {
+          "signal": 0,
+          "phase_bias_m": -9.018,
+          "discontinuity": 2
+         },
+         {
+          "signal": 5,
+          "phase_bias_m": -9.331,
+          "discontinuity": 3
+         },
+         {
+          "signal": 7,
+          "phase_bias_m": -9.644,
+          "discontinuity": 0
+         }
+        ]
+       }
+      ],
+      "prn": 199,
+      "service": "clas",
+      "facility": 1
+     },
+     {
+      "subtype": 7,
+      "epoch_s": 1800,
+      "update_interval": 2,
+      "multiple": false,
+      "iod_ssr": 6,
+      "uras": [
+       {
+        "sat": "G02",
+        "ura": 0,
+        "ura_mm": null
+       },
+       {
+        "sat": "G05",
+        "ura": 9,
+        "ura_mm": 2.75
+       },
+       {
+        "sat": "G31",
+        "ura": 63,
+        "ura_mm": null
+       },
+       {
+        "sat": "E04",
+        "ura": 18,
+        "ura_mm": 12.5
+       },
+       {
+        "sat": "E33",
+        "ura": 27,
+        "ura_mm": 46.25
+       },
+       {
+        "sat": "J01",
+        "ura": 36,
+        "ura_mm": 161.0
+       },
+       {
+        "sat": "J03",
+        "ura": 1,
+        "ura_mm": 0.25
+       }
+      ],
+      "prn": 199,
+      "service": "clas",
+      "facility": 1
+     },
+     {
+      "subtype": 6,
+      "epoch_s": 1810,
+      "update_interval": 2,
+      "multiple": false,
+      "iod_ssr": 6,
+      "network_id": 12,
+      "network_sats": [
+       "G02",
+       "G31",
+       "J01"
+      ],
+      "biases": [
+       {
+        "sat": "G02",
+        "biases": [
+         {
+          "signal": 0,
+          "code_bias_m": 0.0,
+          "phase_bias_m": 0.0,
+          "discontinuity": 1
+         },
+         {
+          "signal": 7,
+          "code_bias_m": -0.02,
+          "phase_bias_m": -0.001,
+          "discontinuity": 1
+         },
+         {
+          "signal": 11,
+          "code_bias_m": -0.04,
+          "phase_bias_m": -0.002,
+          "discontinuity": 1
+         }
+        ]
+       },
+       {
+        "sat": "G31",
+        "biases": [
+         {
+          "signal": 7,
+          "code_bias_m": 0.12,
+          "phase_bias_m": -0.01,
+          "discontinuity": 1
+         },
+         {
+          "signal": 11,
+          "code_bias_m": 0.1,
+          "phase_bias_m": -0.011,
+          "discontinuity": 1
+         }
+        ]
+       },
+       {
+        "sat": "J01",
+        "biases": [
+         {
+          "signal": 0,
+          "code_bias_m": 0.3,
+          "phase_bias_m": -0.025,
+          "discontinuity": 1
+         },
+         {
+          "signal": 5,
+          "code_bias_m": 0.28,
+          "phase_bias_m": -0.026000000000000002,
+          "discontinuity": 1
+         },
+         {
+          "signal": 7,
+          "code_bias_m": 0.26,
+          "phase_bias_m": -0.027,
+          "discontinuity": 1
+         }
+        ]
+       }
+      ],
+      "prn": 199,
+      "service": "clas",
+      "facility": 1
+     },
+     {
+      "subtype": 11,
+      "epoch_s": 1810,
+      "update_interval": 2,
+      "multiple": false,
+      "iod_ssr": 6,
+      "network_id": 2,
+      "network_sats": [
+       "G05",
+       "E33",
+       "J03"
+      ],
+      "orbits": [
+       {
+        "sat": "G05",
+        "iode": 200,
+        "radial_m": -0.0016,
+        "along_m": 0.0064,
+        "cross_m": 0.0128
+       },
+       {
+        "sat": "E33",
+        "iode": 1000,
+        "radial_m": -0.0064,
+        "along_m": 0.0256,
+        "cross_m": 0.0512
+       },
+       {
+        "sat": "J03",
+        "iode": 200,
+        "radial_m": -0.009600000000000001,
+        "along_m": 0.038400000000000004,
+        "cross_m": 0.07680000000000001
+       }
+      ],
+      "clocks": [
+       {
+        "sat": "G05",
+        "c0_m": -0.0048000000000000004
+       },
+       {
+        "sat": "E33",
+        "c0_m": -0.019200000000000002
+       },
+       {
+        "sat": "J03",
+        "c0_m": -0.028800000000000003
+       }
+      ],
+      "prn": 199,
+      "service": "clas",
+      "facility": 1
+     },
+     {
+      "subtype": 8,
+      "epoch_s": 1815,
+      "update_interval": 2,
+      "multiple": false,
+      "iod_ssr": 6,
+      "network_id": 5,
+      "network_sats": [
+       "G02",
+       "E04",
+       "J03"
+      ],
+      "stec": [
+       {
+        "sat": "G02",
+        "quality": 9,
+        "correction_type": 3,
+        "coefficients": [
+         -400.0,
+         -40.94,
+         40.94,
+         null,
+         0.635,
+         -0.635
+        ]
+       },
+       {
+        "sat": "E04",
+        "quality": 12,
+        "correction_type": 3,
+        "coefficients": [
+         -385.0,
+         -40.88,
+         40.94,
+         null,
+         0.635,
+         -0.635
+        ]
+       },
+       {
+        "sat": "J03",
+        "quality": 15,
+        "correction_type": 3,
+        "coefficients": [
+         -370.0,
+         -40.82,
+         40.94,
+         null,
+         0.635,
+         -0.635
+        ]
+       }
+      ],
+      "prn": 199,
+      "service": "clas",
+      "facility": 1
+     },
+     {
+      "subtype": 9,
+      "epoch_s": 1815,
+      "update_interval": 2,
+      "multiple": false,
+      "iod_ssr": 6,
+      "network_id": 7,
+      "network_sats": [
+       "G31",
+       "E04"
+      ],
+      "grid_header": [
+       1,
+       1,
+       17
+      ],
+      "grids": [
+       {
+        "hydrostatic_m": 0.8,
+        "wet_m": 0.4,
+        "stec_residuals_tecu": [
+         640.0,
+         360.0
+        ]
+       },
+       {
+        "hydrostatic_m": -0.8,
+        "wet_m": null,
+        "stec_residuals_tecu": [
+         639.96,
+         null
+        ]
+       }
+      ],
+      "prn": 199,
+      "service": "clas",
+      "facility": 1
+     },
+     {
+      "subtype": 12,
+      "epoch_s": 1820,
+      "update_interval": 2,
+      "multiple": false,
+      "iod_ssr": 6,
+      "network_id": 4,
+      "network_sats": [
+       "G05",
+       "J01"
+      ],
+      "troposphere": {
+       "quality": 17,
+       "correction_type": 2,
+       "coefficients": [
+        -0.8,
+        0.06,
+        -0.06,
+        null
+       ],
+       "residual_size": 1,
+       "residual_offset_m": 0.3,
+       "residuals_m": [
+        null,
+        0.0,
+        0.508
+       ]
+      },
+      "stec": [
+       {
+        "sat": "G05",
+        "quality": 31,
+        "correction_type": 1,
+        "coefficients": [
+         -5.0,
+         1.1,
+         -1.1
+        ],
+        "residual_size": 2,
+        "residuals_tecu": [
+         -0.32,
+         -0.16,
+         null
+        ]
+       },
+       {
+        "sat": "J01",
+        "quality": 35,
+        "correction_type": 0,
+        "coefficients": [
+         -25.0
+        ],
+        "residual_size": 3,
+        "residuals_tecu": [
+         -0.48,
+         -0.24,
+         null
+        ]
+       }
+      ],
+      "prn": 199,
+      "service": "clas",
+      "facility": 1
+     },
+     {
+      "subtype": 10,
+      "multiple": false,
+      "service_info": [
+       5,
+       1,
+       "a501020304ff00102030"
+      ],
+      "prn": 199,
+      "service": "clas",
+      "facility": 1
+     }
+    ],
+    "unknown_gnss_ids": []
+   },
+   "note": "sub types 1 to 12 in one subframe of 2 data parts; messages cross data-part boundaries"
+  },
+  {
+   "id": "l6-clas-mask-carried-to-next-subframe",
+   "decoder": "l6",
+   "frames": [
+    "1acffc1dc7a97f48aa300298c120000008020443eb2100000008090002500000000042803fa49c208c1401900000000b0191fce00386012cfce00392f0321f6a80026007d3e7001c0f04b1f060118802bcf6a00abfa4dc348d0001e0bb82f688ec17d63ba88ffe947082363ec9395331e6ed11a4f56eb8da5b777bf02e1bc7393f32fe957082345681cafae09a8000c814a69952fe7a22fcfde2a7e14f0db1c2d7a8ab37f731ab71bda543fa5dc208c013fa4dc80ff4b38911bb290000000ffffffeffefffc806ffec805ffea80fffce80effcc80dffcaff4db80000000000000000000000000000000000000000000000000000000000000000",
+    "1acffc1dc7a8488dc49723fff8004005fff7e8fff80040047ff4c8fff40060067feefe987172365924c181002fff003fc0990f64023ffc00ff027c63100efff003fc0ff4cb8b9199cc22132190fa008ca271007cff0001fd38e3846f2068d383d8a07e0001fd13eff3806ff937bf08cf833fdfe07f4d2b4a02040609fe0020406000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+    "1acffc1dc7a9ff49b9311800000010004000c0020005000c00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+   ],
+   "expect": {
+    "subframes": 2,
+    "alert": 1,
+    "messages": [
+     {
+      "subtype": 1,
+      "epoch_s": 345600,
+      "update_interval": 5,
+      "multiple": false,
+      "iod_ssr": 6,
+      "mask": [
+       {
+        "gnss_id": 0,
+        "satellites": [
+         "G02",
+         "G05",
+         "G31"
+        ],
+        "signals": [
+         0,
+         7,
+         11
+        ],
+        "signal_names": [
+         "L1 C/A",
+         "L2C(L)",
+         "L5 I"
+        ],
+        "cell_mask": [
+         [
+          1,
+          1,
+          1
+         ],
+         [
+          1,
+          0,
+          1
+         ],
+         [
+          0,
+          1,
+          1
+         ]
+        ]
+       },
+       {
+        "gnss_id": 2,
+        "satellites": [
+         "E04",
+         "E33"
+        ],
+        "signals": [
+         0,
+         3
+        ],
+        "signal_names": [
+         "E1 B",
+         "E5a I"
+        ],
+        "cell_mask": null
+       },
+       {
+        "gnss_id": 4,
+        "satellites": [
+         "J01",
+         "J03"
+        ],
+        "signals": [
+         0,
+         5,
+         7
+        ],
+        "signal_names": [
+         "L1 C/A",
+         "L2C(L)",
+         "L5 I"
+        ],
+        "cell_mask": null
+       }
+      ],
+      "prn": 199,
+      "service": "clas",
+      "facility": 1
+     },
+     {
+      "subtype": 2,
+      "epoch_s": 1800,
+      "update_interval": 2,
+      "multiple": false,
+      "iod_ssr": 6,
+      "orbits": [
+       {
+        "sat": "G02",
+        "iode": 10,
+        "radial_m": 0.16,
+        "along_m": 0.0,
+        "cross_m": 0.0
+       },
+       {
+        "sat": "G05",
+        "iode": 11,
+        "radial_m": 0.32,
+        "along_m": -0.32,
+        "cross_m": 0.0448
+       },
+       {
+        "sat": "G31",
+        "iode": 12,
+        "radial_m": 0.48000000000000004,
+        "along_m": -0.64,
+        "cross_m": 0.0896
+       },
+       {
+        "sat": "E04",
+        "iode": 303,
+        "radial_m": 0.64,
+        "along_m": -0.9600000000000001,
+        "cross_m": null
+       },
+       {
+        "sat": "E33",
+        "iode": 304,
+        "radial_m": 0.8,
+        "along_m": -1.28,
+        "cross_m": 0.1792
+       },
+       {
+        "sat": "J01",
+        "iode": 15,
+        "radial_m": 0.9600000000000001,
+        "along_m": -1.6,
+        "cross_m": 0.224
+       },
+       {
+        "sat": "J03",
+        "iode": 16,
+        "radial_m": 1.12,
+        "along_m": -1.9200000000000002,
+        "cross_m": 0.26880000000000004
+       }
+      ],
+      "prn": 199,
+      "service": "clas",
+      "facility": 1
+     },
+     {
+      "subtype": 3,
+      "epoch_s": 1805,
+      "update_interval": 2,
+      "multiple": false,
+      "iod_ssr": 6,
+      "clocks": [
+       {
+        "sat": "G02",
+        "c0_m": null
+       },
+       {
+        "sat": "G05",
+        "c0_m": 24.6128
+       },
+       {
+        "sat": "G31",
+        "c0_m": 23.012800000000002
+       },
+       {
+        "sat": "E04",
+        "c0_m": 21.4128
+       },
+       {
+        "sat": "E33",
+        "c0_m": 19.8128
+       },
+       {
+        "sat": "J01",
+        "c0_m": 18.2128
+       },
+       {
+        "sat": "J03",
+        "c0_m": 16.6128
+       }
+      ],
+      "prn": 199,
+      "service": "clas",
+      "facility": 1
+     },
+     {
+      "subtype": 4,
+      "epoch_s": 1800,
+      "update_interval": 2,
+      "multiple": false,
+      "iod_ssr": 6,
+      "biases": [
+       {
+        "sat": "G02",
+        "biases": [
+         {
+          "signal": 0,
+          "code_bias_m": -9.0
+         },
+         {
+          "signal": 7,
+          "code_bias_m": -8.78
+         },
+         {
+          "signal": 11,
+          "code_bias_m": -8.56
+         }
+        ]
+       },
+       {
+        "sat": "G05",
+        "biases": [
+         {
+          "signal": 0,
+          "code_bias_m": -8.26
+         },
+         {
+          "signal": 11,
+          "code_bias_m": -8.040000000000001
+         }
+        ]
+       },
+       {
+        "sat": "G31",
+        "biases": [
+         {
+          "signal": 7,
+          "code_bias_m": -7.5200000000000005
+         },
+         {
+          "signal": 11,
+          "code_bias_m": -7.3
+         }
+        ]
+       },
+       {
+        "sat": "E04",
+        "biases": [
+         {
+          "signal": 0,
+          "code_bias_m": -6.78
+         },
+         {
+          "signal": 3,
+          "code_bias_m": -6.5600000000000005
+         }
+        ]
+       },
+       {
+        "sat": "E33",
+        "biases": [
+         {
+          "signal": 0,
+          "code_bias_m": -6.04
+         },
+         {
+          "signal": 3,
+          "code_bias_m": -5.82
+         }
+        ]
+       },
+       {
+        "sat": "J01",
+        "biases": [
+         {
+          "signal": 0,
+          "code_bias_m": -5.3
+         },
+         {
+          "signal": 5,
+          "code_bias_m": -5.08
+         },
+         {
+          "signal": 7,
+          "code_bias_m": -4.86
+         }
+        ]
+       },
+       {
+        "sat": "J03",
+        "biases": [
+         {
+          "signal": 0,
+          "code_bias_m": -4.5600000000000005
+         },
+         {
+          "signal": 5,
+          "code_bias_m": -4.34
+         },
+         {
+          "signal": 7,
+          "code_bias_m": -4.12
+         }
+        ]
+       }
+      ],
+      "prn": 199,
+      "service": "clas",
+      "facility": 1
+     },
+     {
+      "subtype": 5,
+      "epoch_s": 1800,
+      "update_interval": 2,
+      "multiple": false,
+      "iod_ssr": 6,
+      "biases": [
+       {
+        "sat": "G02",
+        "biases": [
+         {
+          "signal": 0,
+          "phase_bias_m": -15.0,
+          "discontinuity": 0
+         },
+         {
+          "signal": 7,
+          "phase_bias_m": 14.687000000000001,
+          "discontinuity": 1
+         },
+         {
+          "signal": 11,
+          "phase_bias_m": 14.374,
+          "discontinuity": 2
+         }
+        ]
+       },
+       {
+        "sat": "G05",
+        "biases": [
+         {
+          "signal": 0,
+          "phase_bias_m": null,
+          "discontinuity": 1
+         },
+         {
+          "signal": 11,
+          "phase_bias_m": -14.316,
+          "discontinuity": 2
+         }
+        ]
+       },
+       {
+        "sat": "G31",
+        "biases": [
+         {
+          "signal": 7,
+          "phase_bias_m": -13.006,
+          "discontinuity": 2
+         },
+         {
+          "signal": 11,
+          "phase_bias_m": -13.319,
+          "discontinuity": 3
+         }
+        ]
+       },
+       {
+        "sat": "E04",
+        "biases": [
+         {
+          "signal": 0,
+          "phase_bias_m": -12.009,
+          "discontinuity": 3
+         },
+         {
+          "signal": 3,
+          "phase_bias_m": -12.322000000000001,
+          "discontinuity": 0
+         }
+        ]
+       },
+       {
+        "sat": "E33",
+        "biases": [
+         {
+          "signal": 0,
+          "phase_bias_m": -11.012,
+          "discontinuity": 0
+         },
+         {
+          "signal": 3,
+          "phase_bias_m": -11.325000000000001,
+          "discontinuity": 1
+         }
+        ]
+       },
+       {
+        "sat": "J01",
+        "biases": [
+         {
+          "signal": 0,
+          "phase_bias_m": -10.015,
+          "discontinuity": 1
+         },
+         {
+          "signal": 5,
+          "phase_bias_m": -10.328,
+          "discontinuity": 2
+         },
+         {
+          "signal": 7,
+          "phase_bias_m": -10.641,
+          "discontinuity": 3
+         }
+        ]
+       },
+       {
+        "sat": "J03",
+        "biases": [
+         {
+          "signal": 0,
+          "phase_bias_m": -9.018,
+          "discontinuity": 2
+         },
+         {
+          "signal": 5,
+          "phase_bias_m": -9.331,
+          "discontinuity": 3
+         },
+         {
+          "signal": 7,
+          "phase_bias_m": -9.644,
+          "discontinuity": 0
+         }
+        ]
+       }
+      ],
+      "prn": 199,
+      "service": "clas",
+      "facility": 1
+     },
+     {
+      "subtype": 7,
+      "epoch_s": 1800,
+      "update_interval": 2,
+      "multiple": false,
+      "iod_ssr": 6,
+      "uras": [
+       {
+        "sat": "G02",
+        "ura": 0,
+        "ura_mm": null
+       },
+       {
+        "sat": "G05",
+        "ura": 9,
+        "ura_mm": 2.75
+       },
+       {
+        "sat": "G31",
+        "ura": 63,
+        "ura_mm": null
+       },
+       {
+        "sat": "E04",
+        "ura": 18,
+        "ura_mm": 12.5
+       },
+       {
+        "sat": "E33",
+        "ura": 27,
+        "ura_mm": 46.25
+       },
+       {
+        "sat": "J01",
+        "ura": 36,
+        "ura_mm": 161.0
+       },
+       {
+        "sat": "J03",
+        "ura": 1,
+        "ura_mm": 0.25
+       }
+      ],
+      "prn": 199,
+      "service": "clas",
+      "facility": 1
+     },
+     {
+      "subtype": 6,
+      "epoch_s": 1810,
+      "update_interval": 2,
+      "multiple": false,
+      "iod_ssr": 6,
+      "network_id": 12,
+      "network_sats": [
+       "G02",
+       "G31",
+       "J01"
+      ],
+      "biases": [
+       {
+        "sat": "G02",
+        "biases": [
+         {
+          "signal": 0,
+          "code_bias_m": 0.0,
+          "phase_bias_m": 0.0,
+          "discontinuity": 1
+         },
+         {
+          "signal": 7,
+          "code_bias_m": -0.02,
+          "phase_bias_m": -0.001,
+          "discontinuity": 1
+         },
+         {
+          "signal": 11,
+          "code_bias_m": -0.04,
+          "phase_bias_m": -0.002,
+          "discontinuity": 1
+         }
+        ]
+       },
+       {
+        "sat": "G31",
+        "biases": [
+         {
+          "signal": 7,
+          "code_bias_m": 0.12,
+          "phase_bias_m": -0.01,
+          "discontinuity": 1
+         },
+         {
+          "signal": 11,
+          "code_bias_m": 0.1,
+          "phase_bias_m": -0.011,
+          "discontinuity": 1
+         }
+        ]
+       },
+       {
+        "sat": "J01",
+        "biases": [
+         {
+          "signal": 0,
+          "code_bias_m": 0.3,
+          "phase_bias_m": -0.025,
+          "discontinuity": 1
+         },
+         {
+          "signal": 5,
+          "code_bias_m": 0.28,
+          "phase_bias_m": -0.026000000000000002,
+          "discontinuity": 1
+         },
+         {
+          "signal": 7,
+          "code_bias_m": 0.26,
+          "phase_bias_m": -0.027,
+          "discontinuity": 1
+         }
+        ]
+       }
+      ],
+      "prn": 199,
+      "service": "clas",
+      "facility": 1
+     },
+     {
+      "subtype": 11,
+      "epoch_s": 1810,
+      "update_interval": 2,
+      "multiple": false,
+      "iod_ssr": 6,
+      "network_id": 2,
+      "network_sats": [
+       "G05",
+       "E33",
+       "J03"
+      ],
+      "orbits": [
+       {
+        "sat": "G05",
+        "iode": 200,
+        "radial_m": -0.0016,
+        "along_m": 0.0064,
+        "cross_m": 0.0128
+       },
+       {
+        "sat": "E33",
+        "iode": 1000,
+        "radial_m": -0.0064,
+        "along_m": 0.0256,
+        "cross_m": 0.0512
+       },
+       {
+        "sat": "J03",
+        "iode": 200,
+        "radial_m": -0.009600000000000001,
+        "along_m": 0.038400000000000004,
+        "cross_m": 0.07680000000000001
+       }
+      ],
+      "clocks": [
+       {
+        "sat": "G05",
+        "c0_m": -0.0048000000000000004
+       },
+       {
+        "sat": "E33",
+        "c0_m": -0.019200000000000002
+       },
+       {
+        "sat": "J03",
+        "c0_m": -0.028800000000000003
+       }
+      ],
+      "prn": 199,
+      "service": "clas",
+      "facility": 1
+     },
+     {
+      "subtype": 8,
+      "epoch_s": 1815,
+      "update_interval": 2,
+      "multiple": false,
+      "iod_ssr": 6,
+      "network_id": 5,
+      "network_sats": [
+       "G02",
+       "E04",
+       "J03"
+      ],
+      "stec": [
+       {
+        "sat": "G02",
+        "quality": 9,
+        "correction_type": 3,
+        "coefficients": [
+         -400.0,
+         -40.94,
+         40.94,
+         null,
+         0.635,
+         -0.635
+        ]
+       },
+       {
+        "sat": "E04",
+        "quality": 12,
+        "correction_type": 3,
+        "coefficients": [
+         -385.0,
+         -40.88,
+         40.94,
+         null,
+         0.635,
+         -0.635
+        ]
+       },
+       {
+        "sat": "J03",
+        "quality": 15,
+        "correction_type": 3,
+        "coefficients": [
+         -370.0,
+         -40.82,
+         40.94,
+         null,
+         0.635,
+         -0.635
+        ]
+       }
+      ],
+      "prn": 199,
+      "service": "clas",
+      "facility": 1
+     },
+     {
+      "subtype": 9,
+      "epoch_s": 1815,
+      "update_interval": 2,
+      "multiple": false,
+      "iod_ssr": 6,
+      "network_id": 7,
+      "network_sats": [
+       "G31",
+       "E04"
+      ],
+      "grid_header": [
+       1,
+       1,
+       17
+      ],
+      "grids": [
+       {
+        "hydrostatic_m": 0.8,
+        "wet_m": 0.4,
+        "stec_residuals_tecu": [
+         640.0,
+         360.0
+        ]
+       },
+       {
+        "hydrostatic_m": -0.8,
+        "wet_m": null,
+        "stec_residuals_tecu": [
+         639.96,
+         null
+        ]
+       }
+      ],
+      "prn": 199,
+      "service": "clas",
+      "facility": 1
+     },
+     {
+      "subtype": 12,
+      "epoch_s": 1820,
+      "update_interval": 2,
+      "multiple": false,
+      "iod_ssr": 6,
+      "network_id": 4,
+      "network_sats": [
+       "G05",
+       "J01"
+      ],
+      "troposphere": {
+       "quality": 17,
+       "correction_type": 2,
+       "coefficients": [
+        -0.8,
+        0.06,
+        -0.06,
+        null
+       ],
+       "residual_size": 1,
+       "residual_offset_m": 0.3,
+       "residuals_m": [
+        null,
+        0.0,
+        0.508
+       ]
+      },
+      "stec": [
+       {
+        "sat": "G05",
+        "quality": 31,
+        "correction_type": 1,
+        "coefficients": [
+         -5.0,
+         1.1,
+         -1.1
+        ],
+        "residual_size": 2,
+        "residuals_tecu": [
+         -0.32,
+         -0.16,
+         null
+        ]
+       },
+       {
+        "sat": "J01",
+        "quality": 35,
+        "correction_type": 0,
+        "coefficients": [
+         -25.0
+        ],
+        "residual_size": 3,
+        "residuals_tecu": [
+         -0.48,
+         -0.24,
+         null
+        ]
+       }
+      ],
+      "prn": 199,
+      "service": "clas",
+      "facility": 1
+     },
+     {
+      "subtype": 10,
+      "multiple": false,
+      "service_info": [
+       5,
+       1,
+       "a501020304ff00102030"
+      ],
+      "prn": 199,
+      "service": "clas",
+      "facility": 1
+     },
+     {
+      "subtype": 3,
+      "epoch_s": 1830,
+      "update_interval": 2,
+      "multiple": false,
+      "iod_ssr": 6,
+      "clocks": [
+       {
+        "sat": "G02",
+        "c0_m": 0.0
+       },
+       {
+        "sat": "G05",
+        "c0_m": 0.0016
+       },
+       {
+        "sat": "G31",
+        "c0_m": 0.0032
+       },
+       {
+        "sat": "E04",
+        "c0_m": 0.0048000000000000004
+       },
+       {
+        "sat": "E33",
+        "c0_m": 0.0064
+       },
+       {
+        "sat": "J01",
+        "c0_m": 0.008
+       },
+       {
+        "sat": "J03",
+        "c0_m": 0.009600000000000001
+       }
+      ],
+      "prn": 199,
+      "service": "clas",
+      "facility": 1
+     }
+    ]
+   },
+   "note": "a clock-only subframe uses the mask of the previous subframe"
+  },
+  {
+   "id": "l6-clas-no-mask",
+   "decoder": "l6",
+   "frames": [
+    "1acffc1dc2a37f498009180000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+   ],
+   "expect": {
+    "messages": [],
+    "stopped": [
+     {
+      "prn": 194,
+      "service": "clas",
+      "reason": "no_mask"
+     }
+    ]
+   }
+  },
+  {
+   "id": "l6-clas-iod-ssr-mismatch",
+   "decoder": "l6",
+   "frames": [
+    "1acffc1dc7a97f48aa300298c120000008020443eb2100000008090002500000000042803fa49c208c1401900000000b0191fce00386012cfce00392f0321f6a80026007d3e7001c0f04b1f060118802bcf6a00abfa4dc348d0001e0bb82f688ec17d63ba88ffe947082363ec9395331e6ed11a4f56eb8da5b777bf02e1bc7393f32fe957082345681cafae09a8000c814a69952fe7a22fcfde2a7e14f0db1c2d7a8ab37f731ab71bda543fa5dc208c013fa4dc80ff4b38911bb290000000ffffffeffefffc806ffec805ffea80fffce80effcc80dffcaff4db80000000000000000000000000000000000000000000000000000000000000000",
+    "1acffc1dc7a97f4980091c0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+   ],
+   "expect": {
+    "stopped": [
+     {
+      "prn": 199,
+      "service": "clas",
+      "reason": "truncated"
+     },
+     {
+      "prn": 199,
+      "service": "clas",
+      "reason": "iod_ssr_mismatch"
+     }
+    ]
+   },
+   "note": "the first subframe is cut after one data part (truncated), the next has IOD SSR 7 against the mask's 6"
+  },
+  {
+   "id": "l6-madoca-bds3-gnss-id-7-and-e6",
+   "decoder": "l6",
+   "frames": [
+    "1acffc1dc3517f48801f428cc2000000040200404800000000000187800000200002087f491c210ffffff0008001fdfffc002001ffc0000000005f80007ffe003fb0005ffe0027f499c494c0007f9cfe71fb53f387f4a1c210c007ff0020000100100600802003000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+   ],
+   "expect": {
+    "messages": [
+     {
+      "subtype": 1,
+      "epoch_s": 1000,
+      "update_interval": 5,
+      "multiple": false,
+      "iod_ssr": 3,
+      "mask": [
+       {
+        "gnss_id": 0,
+        "satellites": [
+         "G01",
+         "G32"
+        ],
+        "signals": [
+         0,
+         11
+        ],
+        "signal_names": [
+         "L1 C/A",
+         "L5 I"
+        ],
+        "cell_mask": null
+       },
+       {
+        "gnss_id": 2,
+        "satellites": [
+         "E02"
+        ],
+        "signals": [
+         12,
+         13
+        ],
+        "signal_names": [
+         "E6 B",
+         "E6 C"
+        ],
+        "cell_mask": null
+       },
+       {
+        "gnss_id": 7,
+        "satellites": [
+         "C19",
+         "C45"
+        ],
+        "signals": [
+         6,
+         12
+        ],
+        "signal_names": [
+         "B2/B2b I",
+         "B2a(D)"
+        ],
+        "cell_mask": null
+       }
+      ],
+      "prn": 195,
+      "service": "madoca",
+      "facility": 2
+     },
+     {
+      "subtype": 2,
+      "epoch_s": 900,
+      "update_interval": 2,
+      "multiple": false,
+      "iod_ssr": 3,
+      "orbits": [
+       {
+        "sat": "G01",
+        "iode": 255,
+        "radial_m": -0.0032,
+        "along_m": 0.0128,
+        "cross_m": 0.0
+       },
+       {
+        "sat": "G32",
+        "iode": 254,
+        "radial_m": -0.0016,
+        "along_m": 0.0064,
+        "cross_m": 0.0064
+       },
+       {
+        "sat": "E02",
+        "iode": 1023,
+        "radial_m": 0.0,
+        "along_m": 0.0,
+        "cross_m": 0.0128
+       },
+       {
+        "sat": "C19",
+        "iode": 252,
+        "radial_m": 0.0016,
+        "along_m": -0.0064,
+        "cross_m": 0.019200000000000002
+       },
+       {
+        "sat": "C45",
+        "iode": 251,
+        "radial_m": 0.0032,
+        "along_m": -0.0128,
+        "cross_m": 0.0256
+       }
+      ],
+      "prn": 195,
+      "service": "madoca",
+      "facility": 2
+     },
+     {
+      "subtype": 3,
+      "epoch_s": 905,
+      "update_interval": 2,
+      "multiple": true,
+      "iod_ssr": 3,
+      "clocks": [
+       {
+        "sat": "G01",
+        "c0_m": 0.0
+       },
+       {
+        "sat": "G32",
+        "c0_m": -0.16
+       },
+       {
+        "sat": "E02",
+        "c0_m": -0.32
+       },
+       {
+        "sat": "C19",
+        "c0_m": -0.48000000000000004
+       },
+       {
+        "sat": "C45",
+        "c0_m": -0.64
+       }
+      ],
+      "prn": 195,
+      "service": "madoca",
+      "facility": 2
+     },
+     {
+      "subtype": 4,
+      "epoch_s": 900,
+      "update_interval": 2,
+      "multiple": false,
+      "iod_ssr": 3,
+      "biases": [
+       {
+        "sat": "G01",
+        "biases": [
+         {
+          "signal": 0,
+          "code_bias_m": 0.0
+         },
+         {
+          "signal": 11,
+          "code_bias_m": -0.02
+         }
+        ]
+       },
+       {
+        "sat": "G32",
+        "biases": [
+         {
+          "signal": 0,
+          "code_bias_m": 0.02
+         },
+         {
+          "signal": 11,
+          "code_bias_m": 0.0
+         }
+        ]
+       },
+       {
+        "sat": "E02",
+        "biases": [
+         {
+          "signal": 12,
+          "code_bias_m": 0.04
+         },
+         {
+          "signal": 13,
+          "code_bias_m": 0.02
+         }
+        ]
+       },
+       {
+        "sat": "C19",
+        "biases": [
+         {
+          "signal": 6,
+          "code_bias_m": 0.06
+         },
+         {
+          "signal": 12,
+          "code_bias_m": 0.04
+         }
+        ]
+       },
+       {
+        "sat": "C45",
+        "biases": [
+         {
+          "signal": 6,
+          "code_bias_m": 0.08
+         },
+         {
+          "signal": 12,
+          "code_bias_m": 0.06
+         }
+        ]
+       }
+      ],
+      "prn": 195,
+      "service": "madoca",
+      "facility": 2
+     }
+    ],
+    "unknown_gnss_ids": []
+   },
+   "note": "IS-QZSS-MDC-005 GNSS ID 7 (BDS-3, mask position 1 = C19) and Galileo E6 B/C signal names"
+  },
+  {
+   "id": "l6-madoca-ionospheric-coverage-and-correction",
+   "decoder": "l6",
+   "frames": [
+    "1acffc1dc44500082a3003082809a4208b1ab999230bec78daf07800800f18414184008022940197fd802c00f9409b7f080fc005940377fa805c0011400a7ff0014000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+   ],
+   "expect": {
+    "messages": [
+     {
+      "message": 1,
+      "epoch_s": 345600,
+      "update_interval": 6,
+      "multiple": false,
+      "iod_ssr": 2,
+      "region_id": 10,
+      "region_alert": false,
+      "correction_bits": 1234,
+      "areas": [
+       {
+        "number": 1,
+        "shape": 0,
+        "lat_deg": 35.5,
+        "lon_deg": 139.5,
+        "span_deg": [
+         5.0,
+         7.0
+        ]
+       },
+       {
+        "number": 2,
+        "shape": 1,
+        "lat_deg": -12.5,
+        "lon_deg": 140.12,
+        "range_km": 300.0
+       }
+      ],
+      "prn": 196,
+      "service": "madoca-iono",
+      "facility": 0
+     },
+     {
+      "message": 2,
+      "epoch_s": 60,
+      "update_interval": 6,
+      "iod_ssr": 2,
+      "region_id": 10,
+      "area": 1,
+      "stec": [
+       {
+        "sat": "G05",
+        "quality": 10,
+        "correction_type": 2,
+        "coefficients": [
+         2.5,
+         -0.1,
+         0.1,
+         null
+        ]
+       },
+       {
+        "sat": "G31",
+        "quality": 10,
+        "correction_type": 2,
+        "coefficients": [
+         15.5,
+         -0.62,
+         0.62,
+         null
+        ]
+       },
+       {
+        "sat": "E11",
+        "quality": 10,
+        "correction_type": 2,
+        "coefficients": [
+         5.5,
+         -0.22,
+         0.22,
+         null
+        ]
+       },
+       {
+        "sat": "J02",
+        "quality": 10,
+        "correction_type": 2,
+        "coefficients": [
+         1.0,
+         -0.04,
+         0.04,
+         null
+        ]
+       }
+      ],
+      "prn": 196,
+      "service": "madoca-iono",
+      "facility": 0
+     }
+    ]
+   },
+   "note": "IS-QZSS-MDC-005 section 6.3.2, messages 1 and 2"
+  },
+  {
+   "id": "l6-vendors-orphans-and-preamble",
+   "decoder": "l6",
+   "frames": [
+    "1acffc1dc26100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+    "1acffc1dc2b800000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+    "9acffc1dc2a100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+    "00000000000000000000",
+    "1acffc1dc2a100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+   ],
+   "expect": {
+    "frames": 5,
+    "other_vendor": 1,
+    "orphan": 1,
+    "bad_preamble": 1,
+    "bad_length": 1,
+    "subframes": 1,
+    "messages": []
+   },
+   "note": "QZNMA skipped, a data part before any subframe start, a wrong preamble, a short frame; an all-zero subframe holds no message"
+  }
+ ]
+}

@@ -10312,11 +10312,17 @@ engine-main-usage =
     { "   " }tai: kshana obs <convert <log> --format <format> --station <station.toml> [--out <file>] | check <file.obs.jsonl> [--json]>
     { "   " }tai: kshana connect <map <input> --mapping <connect.toml> --station <station.toml> [--out <file.obs.jsonl>] | check <vector.toml|dir> [--bless] | watch <dir> --mapping <connect.toml> --station <station.toml> [--suffix <.csv>] [--interval <s>] [--once] | mqtt <host:port> --topic <filter> --mapping <connect.toml> --station <station.toml> [--header <row>] [--qos 0|1] [--user <name> --password-env <VAR>] [--client-id <id>] [--max-messages <n>] [--per-topic] | nats <host:port> --subject <s> --mapping <connect.toml> --station <station.toml> [--header <row>] [--per-topic] [--user <name> --password-env <VAR> | --token-env <VAR>] [--max-messages <n>] | ws <ws://host:port/path> --mapping <connect.toml> --station <station.toml> [--header <row>] [--max-messages <n>] | check-live <vector.toml|dir> [--json] | load-test [--stations <n>] [--rate <Hz>] [--seconds <s>] [--via memory|mqtt] [--json] | adapters <list|check> [<dir>] [--json]>
     { "   " }tai: kshana osnma verify <pages|vectors.csv|stream.ubx> [--merkle-root <hex>] [--public-key <id:type:hex>] [--reference-time <gst-s>] [--json] (kshana osnma --help)
-    { "   " }tai: kshana iq <scene|acquire|track|sweep|labfit|campaign|conditions|frontend|monitor|inventory|info|extract|convert|decimate> ... (kshana iq --help)
+    { "   " }tai: kshana iq <scene|acquire|track|sweep|labfit|campaign|conditions|frontend|monitor|diagnose|gnss-sdr-conf|inventory|info|extract|convert|decimate> ... (kshana iq --help)
     { "   " }tai: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }tai: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }tai: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
+    { "   " }tai: kshana leo-od-plan <plan.toml>
     { "   " }tai: kshana time-vectors [--json] [<vectors.json|dir> ...]
+    { "   " }tai: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
+    { "   " }tai: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
+    { "   " }tai: kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
+    { "   " }tai: kshana orbit-data <check|convert|gp-compare|gp-audit|cov> ... (kshana orbit-data --help)
+    { "   " }tai: kshana drone <prearm|prearm-calibrate|estimator-cases|dr-budget|quad-loss|failover|zonotope-pl> ... (kshana drone --help)
     { "   " }tai: kshana kinds [--json]
     { "   " }tai: kshana example [<name>]
     { "   " }tai: kshana --help | --version
@@ -10427,6 +10433,7 @@ engine-interference-map-cli-usage-map =
     { "   " }tai: kshana interference-map daily <input.csv|trace.json[.gz]|dir> --dataset <adsb-lol|custom> --day <YYYY-MM-DD> --out <dir> [--cell-deg <deg, { $lit_0_5 } tai karkeampi>] [--bbox <south,west,north,east>] [--delay-hours <24 tai enemmän>]
     { "   " }tai: kshana interference-map sensitivity <input.csv|trace.json[.gz]|dir> --dataset <adsb-lol|custom> --day <YYYY-MM-DD> --out <report.json> [--bbox <south,west,north,east>]
     { "   " }tai: kshana interference-map fetch-land --out <land.geojson> --allow-network
+    { "   " }tai: kshana interference-map incidents <validate <library.json> [--releases <RELEASES.json>] [--json] | release <library.json> --out <dir> | from-observatory <day.incidents.json> --source-url <https://...> --out <file.json>>
     { "   " }(--dataset custom tarvitsee myös --licence <text> --licence-url <url> --attribution <text>)
 
 engine-interference-map-cli-usage-route = käyttö: kshana route-exposure --route <route.geojson|route.csv> --map <map.geojson|dir> [--map ...] [--from <YYYY-MM-DD>] [--to <YYYY-MM-DD>] [--out <report.json>] [--json]
@@ -10503,6 +10510,8 @@ engine-iq-cli-usage =
     { "   " }tai: kshana iq conditions <test-conditions.toml|json>
     { "   " }tai: kshana iq frontend <in> <out> [--bandpass lo,hi] [--notch] [--blank <thr>] [--excise] [--agc] [--bits <n>] [--out-format <fmt>]
     { "   " }tai: kshana iq monitor <recording> [--power] [--spectral] [--settings <toml|json>] [--baseline <s>] [--signal <name> --prn <list> [--spacing <chips>] [--pll-bw <hz>] [--fll-bw <hz>] [--dll-bw <hz>] [--coherent <N>] [--cn0-windows <M>] [--doppler-max <hz>]] [--max-seconds <s>] [--follow [--idle-timeout <s>]] [--json <out>] [--csv <prefix>]
+    { "   " }tai: kshana iq diagnose <recording> [--max-seconds <s>] [--block <s>] [--gain-step-db <db>] [--signal <name> --prn <list> [--coherent <N>] [--noncoherent <M>] [--doppler-max <hz>] [--doppler-step <hz>] [--pfa <p>] [--step <s>] [--steps <n>] [--max-sat-doppler <hz>]]
+    { "   " }tai: kshana iq gnss-sdr-conf <recording> [--signal <name[:channels]>,...] [--profile default|narrowband] [--doppler-max <hz>] [--rate-ms <ms>] [--monitor-ports <ch,pvt> | --no-monitor] [--out <file.conf>]
     { " " }labfit-skenaariot: vastaanottimen lokien [[runs]] tai [input] campaign = "<out-dir>", joka nimeää kshana iq campaign -tulostekansion (suhteessa skenaariotiedostoon)
     { " " }silmukkasuunnitelmat: kshana.loop-design/1 TOML -tiedosto (docs/design/LOOP-DESIGN-TOML.md); eksplisiittiset silmukka- ja hankintavalitsimet ohittavat valitun suunnitelman
     { " " }acquire/track/sweep ottavat myös etuasteen valitsimet [--bandpass lo,hi] [--notch] [--blank <thr>] [--excise] [--agc] [--bits <n>], jotka sovelletaan ennen käsittelyä (sekä hankinnassa että seurannassa)
@@ -11223,3 +11232,220 @@ engine-e-interference-map-locate-bad-tdoa = { $path } ei ole käyttökelpoinen T
 engine-e-interference-map-locate-source-required = --source adsb tai --source ais vaaditaan
 
 engine-e-interference-map-locate-no-evidence-rows = paikannustulosteille ei ole lueteltu todisterivejä
+
+## Interference-incident format and case library (src/interference_map/incident.rs)
+engine-interference-incidents-valid = { $file }: { $n } tietuetta, kelvollinen
+engine-e-interference-incidents-invalid = Häiriötapauskirjastossa on { $n } ongelma(a); luettelon näyttää kshana interference-map incidents validate <file>
+engine-e-interference-incidents-not-a-document = { $file } ei ole { $schema }-asiakirja
+engine-e-interference-incidents-source-url-required = --source-url on pakollinen: jokainen tietue viittaa https://-osoitteeseen, jossa tuote on julkaistu
+
+## Correction decoders (src/corrections/)
+engine-e-corrections-bad-hex = ei heksadesimaalinen kehys: { $line }
+engine-e-corrections-unknown-decoder = tuntematon dekooderi { $decoder } (has, b2b, l6)
+engine-e-corrections-bad-vector = vektorista { $id } puuttuvat heksadesimaaliset kehykset tai expect-objekti
+engine-e-corrections-bad-file = { $file } ei ole { $format }-dokumentti (muototunniste ja vectors-taulukko)
+engine-corrections-summary = { $n } vektoria: { $passed } läpäisi, { $failed } epäonnistui
+engine-corrections-usage = käyttö: kshana corrections decode --format <has|b2b|l6> <frames.txt | -> | kshana corrections vectors [--json] [<vectors.json | dir> ...]  (yksi kehys riviä kohden heksadesimaalina; docs/CORRECTION-DECODERS.md)
+
+## src/space_weather_pnt/
+
+engine-space-weather-pnt-usage =
+    käyttö: kshana space-weather storms
+    { "   " }tai: kshana space-weather storm <id> [--altitudes <km,km,...>]
+    { "   " }tai: kshana space-weather dgnss <request.json> [--forecast <3-day-forecast.txt>]
+    { "   " }tai: kshana space-weather iono <request.json> [--ionex <file>]
+    { "   " }tai: kshana space-weather density-scorecard <windows.csv>
+    { "   " }tai: kshana space-weather lifetime <request.json>
+    { "   " }(docs/SPACE-WEATHER-PNT.md)
+
+engine-e-space-weather-pnt-out-of-range = `{ $field }` on oltava äärellinen luku väliltä { $lo }–{ $hi }
+engine-e-space-weather-pnt-unknown-storm = kirjastossa ei ole myrskyä `{ $id }` (kshana space-weather storms luettelee ne)
+engine-e-space-weather-pnt-request = virheellinen pyyntö: { $e }
+engine-e-space-weather-pnt-bad-time = ei UTC-aika (YYYY-MM-DDTHH:MM[:SS]Z): { $value }
+engine-e-space-weather-pnt-not-a-forecast = ei NOAA SWPC:n kolmen päivän ennuste: täydellinen Kp-erittelytaulukko puuttuu
+engine-e-space-weather-pnt-one-source = anna tasan yksi Kp-jaksojen lähde: storm, intervals tai ennuste (swpc_forecast tai --forecast)
+engine-e-space-weather-pnt-ionex-span = IONEX-kartat eivät kata hetkeä { $t }
+engine-e-space-weather-pnt-ionex-flag = IONEX-karttaa käytetään silloin ja vain silloin, kun pyynnön vtec on "ionex" ja --ionex <file> on annettu
+engine-e-space-weather-pnt-no-epochs = pyynnössä on oltava epochs_utc-kentässä vähintään yksi epookki
+engine-e-space-weather-pnt-window-row = rivi { $line }: ei tiheysikkunan rivi (campaign,phase,start_utc,mean_alt_km,n_valid,measured_mean,points)
+engine-e-rtkqa-usage = käyttö: kshana rtk-qa monitor <host:port> --mount <name> [--user <name> --password-env <VAR>] [--gga <lat,lon[,h]>] [--seconds <s>] [--stale-after <s>] [--link-bps <n>]
+    kshana rtk-qa sources <table.txt|host:port> [--near <lat,lon>]
+    kshana rtk-qa base <stream.rtcm3> --reference <reference.toml|json> [--epoch <decimal year>]
+    kshana rtk-qa fix <solution.pos|nmea> [--control <name,lat,lon,h>]... [--radius <m>] [--h-tol <m>] [--v-tol <m>]
+    kshana rtk-qa ppk <rover.obs> [--base <base.obs>]
+    kshana rtk-qa probe <host:port> --mount <name> [--user <name> --password-env <VAR>] [--gga <lat,lon[,h]>] [--seconds <s>]
+    kshana rtk-qa caster --listen <host:port> --stream <file.rtcm3> --mount <name> [--user <name> --password-env <VAR>] [--chunk-ext] [--clients <n>] [--max-clients <n>] [--pace-ms <n>]
+    kshana rtk-qa log-check <client.log> --user <name> --password-env <VAR>
+    kshana rtk-qa failover <spec.json|toml>
+
+engine-e-rtkqa-frame = tuntematon vertauskehys { $frame } (ITRF2014, ITRF2020, ETRF2014 tai ETRF2020)
+
+engine-e-rtkqa-tide = tuntematon vuorovesijärjestelmä { $tide } (tide-free, zero-tide tai mean-tide)
+
+engine-e-rtkqa-pos-columns = ratkaisutiedosto antaa sijainnit asteina, minuutteina ja sekunteina tai perusviivana; kirjoita se desimaaliasteina tai ECEF-muodossa
+
+engine-e-rtkqa-pos-line = rivi { $line } ei ole ratkaisuepookki
+
+engine-e-rtkqa-no-solutions = ratkaisuepookkeja ei löytynyt (RTKLIB-tyylinen .pos-tiedosto tai NMEA GGA -lauseita)
+
+engine-e-rtkqa-no-station = virrassa ei ole asemaviestiä 1005 tai 1006
+
+engine-e-rtkqa-failover-spec = varmistustesti tarvitsee positiivisen keston ja askeleen sekä vähintään yhden lähteen
+
+engine-e-rtkqa-failover-source = käytäntö nimeää lähteen, jota ei ole määritelty: { $name }
+
+engine-rtkqa-monitor-summary = rtk-qa monitor: pisteet { $score }/100 (MODELLED); saatavilla { $availability } %, mediaaniviive { $latency } ms, kattavuus { $completeness } %, hälytykset { $alarms }
+
+engine-rtkqa-sources-summary = rtk-qa sources: liityntäpisteet { $n }
+
+engine-rtkqa-base-summary = rtk-qa base: asemat { $n }; kunnossa { $ok }, varoitukset { $warn }, virheet { $fail } (MODELLED)
+
+engine-rtkqa-fix-summary = rtk-qa fix: pystytykset { $n }; hyväksytyt { $pass }, varoitukset { $warn }, virheet { $fail }, ilman fiksiä { $nofix } (MODELLED)
+
+engine-rtkqa-ppk-summary = rtk-qa ppk: todennäköiset syyt { $n }: { $causes }
+
+engine-rtkqa-probe-summary = rtk-qa probe: { $met }/{ $total } tarkistusta täyttyi; täyttymättä: { $failed }
+
+engine-rtkqa-caster-listening = rtk-qa caster: kuuntelee osoitteessa { $addr }, liityntäpiste { $mount }
+
+engine-rtkqa-caster-client = rtk-qa caster: asiakas { $peer } sai vastauksen { $answer }; { $met }/{ $total } tarkistusta täyttyi
+
+engine-rtkqa-log-summary = rtk-qa log-check: tunnistetiedot löytyivät { $n } kertaa tiedostosta { $file }
+
+engine-rtkqa-failover-summary = rtk-qa failover: vaihdot { $switches }; korjausten ikä yli rajan { $over } s; suurin ikä { $max_age } s (MODELLED)
+
+## SDR front-end diagnostics and the GNSS-SDR configuration (src/iq/frontdiag.rs, src/iq/gnss_sdr_conf.rs)
+engine-e-iq-frontdiag-no-samples = tallenteessa ei ole näytteitä
+engine-e-iq-frontdiag-positive = --block, --step ja --gain-step-db on annettava positiivisina
+engine-e-iq-gnss-sdr-conf-format = GNSS-SDR:n tiedostolähde lukee muotoja ci16_le, ci8 ja cf32_le, ei muotoa { $format }: muunna tallenne ensin (kshana iq convert <in> <out> --to ci16_le)
+engine-e-iq-gnss-sdr-conf-layout = GNSS-SDR:n tiedostolähde lukee yhden virran yhdestä datatiedostosta ilman otsaketta: erota virta ensin (kshana iq convert)
+engine-e-iq-gnss-sdr-conf-if = tallenteen välitaajuus ei ole nolla: siirrä se ensin nollavälitaajuudelle (kshana iq decimate --if-hz)
+engine-e-iq-gnss-sdr-conf-no-signal = anna vähintään yksi signaali valitsimella --signal
+engine-e-iq-gnss-sdr-conf-rate = PVT-tulostusvälin on oltava 20 ms:n monikerta, ei { $rate }
+engine-e-iq-gnss-sdr-conf-signal = signaalille { $signal } ei kirjoiteta GNSS-SDR-asetuksia (kirjoitetaan signaaleille: { $known })
+engine-e-iq-gnss-sdr-conf-centre = { $signal } on { $offset_hz } Hz:n päässä tallenteen keskitaajuudesta; GNSS-SDR:n oletusketju tarvitsee sen nollataajuudelle
+engine-e-iq-gnss-sdr-conf-profile = tuntematon profiili { $profile } (default, narrowband)
+engine-iq-gnss-sdr-conf-written = GNSS-SDR-asetukset kirjoitettu tiedostoon { $path }
+
+## Orbit-data validators, converters and monitors (src/orbit_data)
+engine-orbit-data-valid = kelvollinen standardin { $standard } mukaan
+engine-orbit-data-valid-with-warnings = kelvollinen standardin { $standard } mukaan, varoituksia: { $warnings }
+engine-orbit-data-invalid = ei kelvollinen standardin { $standard } mukaan: virheitä: { $errors }, varoituksia: { $warnings }
+engine-orbit-data-error = virhe
+engine-orbit-data-warning = varoitus
+engine-orbit-data-not-checked = ei tarkistettu: { $what }
+engine-orbit-data-header = otsake
+engine-orbit-data-cdm-relative = suhteelliset metatiedot/tiedot
+engine-orbit-data-cdm-object = kohteen metatiedot/tiedot
+engine-orbit-data-covariance = kovarianssi
+engine-orbit-data-oem-metadata = segmentin { $n } metatiedot
+engine-orbit-data-line-too-long = rivillä on { $n } merkkiä, enemmän kuin { $max }
+engine-orbit-data-non-printable = rivillä on merkki, joka ei ole tulostettavaa ASCII:ta
+engine-orbit-data-not-key-value = ei AVAINSANA = arvo -rivi: { $text }
+engine-orbit-data-keyword-blank = avainsana { $key } sisältää välilyönnin
+engine-orbit-data-keyword-case = avainsana { $key } ei ole isoin kirjaimin
+engine-orbit-data-units-format = kohteen { $key } yksiköiden on oltava arvon perässä välilyönnin jälkeen hakasulkeissa
+engine-orbit-data-first-line = ensimmäisen rivin on oltava { $key }
+engine-orbit-data-parse-failed = viestiä ei voi lukea: { $err }
+engine-orbit-data-xml-root = juurielementti on { $name }, ei { $want }
+engine-orbit-data-xml-attr = juuren attribuutin { $attr } on oltava { $want }
+engine-orbit-data-xml-missing = viestissä ei ole kohtaa { $tag }
+engine-orbit-data-empty-value = kohteen { $key } arvo on tyhjä
+engine-orbit-data-bad-time = { $key } = { $value } ei ole aikaleima (yyyy-mm-ddThh:mm:ss[.d] / yyyy-dddThh:mm:ss[.d])
+engine-orbit-data-bad-number = { $key } = { $value } ei ole luku standardin merkintätavalla
+engine-orbit-data-bad-integer = { $key } = { $value } ei ole kokonaisluku
+engine-orbit-data-bad-value = { $key } = { $value } ei ole mikään näistä: { $allowed }
+engine-orbit-data-out-of-range = { $key } = { $value } on välin { $range } ulkopuolella
+engine-orbit-data-version = versio { $value }: tämä tarkistus noudattaa versiota { $want }
+engine-orbit-data-bad-chars = { $key } = { $value } sisältää muita merkkejä kuin kirjaimia, numeroita, alaviivaa ja yhdysmerkkiä
+engine-orbit-data-identifier-blank = { $key } = { $value } sisältää välilyönnin (standardi sallii kirjaimet, numerot, alaviivan ja yhdysmerkin)
+engine-orbit-data-lower-case = { $key } = { $value } sisältää pieniä kirjaimia
+engine-orbit-data-bad-units = kohteen { $key } yksiköt ovat [{ $given }]; standardi antaa [{ $want }]
+engine-orbit-data-missing-units = { $key } ei näytä yksiköitään [{ $want }]
+engine-orbit-data-unknown-keyword = { $key } ei ole osan { $section } avainsana
+engine-orbit-data-duplicate-keyword = { $key } esiintyy osassa { $section } useammin kuin kerran
+engine-orbit-data-keyword-order = { $key } poikkeaa standardin määräämästä järjestyksestä (se tulee kohdan { $prev } jälkeen)
+engine-orbit-data-missing-keyword = osasta { $section } puuttuu pakollinen { $key }
+engine-orbit-data-cdm-object-count = kohdeosia viestissä: { $n }; CDM:ssä on kaksi, OBJECT1 ja sitten OBJECT2
+engine-orbit-data-cov-row = kovarianssirivi { $row } on vaillinainen tai seuraa puuttuvaa riviä
+engine-orbit-data-cov-zero-diagonal = kohteen { $at } kovarianssissa on nollavarianssi; sen riviä ja saraketta ei pidä käyttää
+engine-orbit-data-not-pd = kovarianssi hetkellä { $at } ei ole positiivisesti definiitti (korrelaation pienin ominaisarvo { $min })
+engine-orbit-data-frame-mismatch = REF_FRAME eroaa kohteiden välillä ({ $a }, { $b })
+engine-orbit-data-inconsistent = { $key } = { $given } { $unit }, mutta tiedoista saadaan { $computed } { $unit }
+engine-orbit-data-time-order = { $first } ({ $a }) on myöhempi kuin { $second } ({ $b })
+engine-orbit-data-count-order = { $used } = { $a } on suurempi kuin { $avail } = { $b }
+engine-orbit-data-unterminated = viesti päättyy lohkon sisään
+engine-orbit-data-no-segment = viestissä ei ole segmenttiä
+engine-orbit-data-time-system-changed = TIME_SYSTEM vaihtuu viestin sisällä ({ $a }, sitten { $b })
+engine-orbit-data-outside-span = aika { $t } on metatietojen antaman jakson ulkopuolella
+engine-orbit-data-useable-overlap = segmenttien { $a } ja { $b } käyttökelpoiset jaksot menevät päällekkäin
+engine-orbit-data-data-width = datarivillä on { $n } arvoa; odotettiin: { $want }
+engine-orbit-data-duplicate-time = aikaleima { $t } toistuu
+engine-orbit-data-time-not-increasing = aikaleima { $t } ei kasva (edellinen on { $prev })
+engine-orbit-data-too-few-points = datarivejä: { $n }; liian vähän asteen { $deg } interpolointiin (tarvitaan: { $need })
+engine-orbit-data-mixed-time = lohko { $block } sekoittaa suhteellisia ja absoluuttisia aikaleimoja
+engine-orbit-data-span-short = käyttökelpoinen jakso on { $days } päivää, lyhyempi kuin pyydetyt { $min } päivää
+engine-orbit-data-gap = { $s } s:n aukko, pidempi kuin pyydetyt { $max } s
+engine-orbit-data-gp-checksum = rivi { $line }: sarakkeen 69 tarkistussumma on väärä (sen pitäisi olla { $want })
+engine-orbit-data-gp-catalogue = rivi 1 ja rivi 2 eivät nimeä samaa luettelonumeroa
+engine-orbit-data-gp-perigee = perigeum on { $km } km:ssä, maan pinnan alapuolella
+engine-orbit-data-gp-sgp4 = SGP4 epäonnistuu { $days } päivää epookin jälkeen (virhekoodi { $code })
+engine-orbit-data-gp-stale = epookki on { $days } päivää ennen viiteaikaa (yli { $max })
+engine-orbit-data-gp-future = epookki on { $days } päivää viiteajan jälkeen
+engine-orbit-data-gp-repeated-epoch = toisella tämän kohteen joukolla on sama epookki ja eri elementit
+engine-orbit-data-gp-elset-number = elementtijoukon numero palaa luvusta { $a } lukuun { $b } myöhemmässä epookissa
+engine-orbit-data-gp-jump = tämä joukko ja edellinen eroavat { $km } km sen epookissa, { $hours } h myöhemmin (yli { $max } km): liikehdintä tai virheellinen joukko
+engine-orbit-data-gp-compare-summary = kohteita molemmissa lähteissä: { $n }, merkitty yli { $threshold } km: { $flagged }; vain ensimmäisessä: { $only_a }, vain toisessa: { $only_b } (MODELLED: SGP4-erot, ei tarkkuus)
+engine-orbit-data-gp-audit-summary = elementtijoukkoja: { $sets }, kohteita: { $objects }, havaintoja: { $findings }
+engine-orbit-data-usage =
+    käyttö: kshana orbit-data check <cdm|oem|ocm file> [--json] [--aliases <map.json>] [--min-span-days <d>] [--max-gap-s <s>]
+    { "   " }tai: kshana orbit-data convert <file> --to <ocm|oem|cdm> [--aliases <map.json>]
+    { "   " }tai: kshana orbit-data gp-compare <a.tle> <b.tle> [--hours <h>] [--step-min <min>] [--threshold-km <km>] [--json]
+    { "   " }tai: kshana orbit-data gp-audit <sets.tle> ... [--at <epoch>] [--stale-days <d>] [--jump-km <km>] [--json]
+    { "   " }tai: kshana orbit-data cov <check|propagate|monte-carlo|synthetic|realism> <input.json> [--dt-s <s>] [--step-s <s>] [--samples <n>] [--seed <n>] [--sigma-rtn <r,t,n,rdot,tdot,ndot>] [--full]
+    { "   " }(docs/ORBIT-DATA.md)
+engine-e-orbit-data-unknown-message = { $path } ei ole CDM, OEM (KVN) eikä OCM: ei riviä CCSDS_CDM_VERS, CCSDS_OEM_VERS tai CCSDS_OCM_VERS eikä juurta <cdm> tai <ocm>
+engine-e-orbit-data-bad-flag = { $flag } { $value }: ei käyttökelpoinen arvo
+engine-e-orbit-data-aliases-not-object = aliastaulukon on oltava JSON-objekti muotoa "name": "KEYWORD"
+engine-e-orbit-data-alias-target = alias { $key } ei viittaa CDM-avainsanaan
+engine-e-orbit-data-convert-pair = { $path }: ei muunnosta muotoon { $to } (OEM muotoon ocm, OCM muotoon oem, CDM muotoon cdm)
+engine-e-orbit-data-convert-empty = OEM:ssä ei ole muunnettavaa segmenttiä
+engine-e-orbit-data-convert-one-object = OEM sisältää kohteita: { $n }; OCM sisältää yhden
+engine-e-orbit-data-convert-missing = lähteestä puuttuu { $key }, jota kohde tarvitsee
+engine-e-orbit-data-convert-width = data- tai kovarianssirivillä on muunnokselle väärä määrä arvoja
+engine-e-orbit-data-convert-time = aikaleimaa { $t } ei voi muuttaa absoluuttiseksi (ei EPOCH_TZERO-arvoa, tai ei luku)
+engine-e-orbit-data-convert-traj = ratatyypillä { $kind } ei ole OEM-muotoa (CARTPV:llä ja CARTPVA:lla on)
+engine-e-orbit-data-convert-cov = kovarianssilla { $kind } { $ordering } ei ole OEM-muotoa (CARTPV muodossa LTM, UTM tai FULL on)
+engine-e-orbit-data-cov-input = syötteestä puuttuu kelvollinen { $key }
+engine-e-orbit-data-cov-not-pd = alkukovarianssi ei ole positiivisesti definiitti, tai otoksia pyydettiin liian vähän
+
+## Drone, UTM and robotics PNT tools (src/drone_pnt)
+engine-drone-usage = käyttö: kshana drone prearm <log.ulg|log.bin|epochs.jsonl> [--window <s>] [--config <thresholds.json>] [--gate] | prearm-calibrate [--runs <n>] [--seed <n>] | estimator-cases [--case <id> --trace <trace.jsonl> [--params <json>]] | dr-budget [<spec.json> | --airframe multirotor|fixed-wing|vtol|ground-robot] | quad-loss [<spec.json>] | failover [<spec.json>] | zonotope-pl <spec.json>  (docs/DRONE-PNT.md)
+engine-e-drone-dataflash-header = ei ArduPilot DataFlash -loki (sen on alettava oktetein A3 95)
+engine-e-drone-bad-number = { $flag } on oltava äärellinen luku, ei { $value }
+engine-e-drone-prearm-gate-failed = virityksen esitarkastus FAIL: älä viritä (katso raportin playbook-vaiheet)
+engine-e-drone-no-epochs = lokissa ei ole vastaanottimen epookkeja (odotettiin PX4 ULog-, ArduPilot DataFlash- tai JSON Lines -epookkeja)
+engine-e-drone-trace-bad-line = jäljen rivi ei ole JSON-objekti, jossa on numeerinen t: { $line }
+engine-e-drone-trace-missing-channel = jäljessä ei ole kanavaa { $channel } (nimeä kanavat uudelleen --params-valitsimen channels-objektilla)
+engine-e-drone-unknown-case = tuntematon estimaattoritapaus { $case } (kshana drone estimator-cases luettelee tapaukset)
+engine-e-drone-unknown-airframe = tuntematon ilma-alusluokka { $name } (multirotor, fixed-wing, vtol, ground-robot)
+engine-e-drone-failover-bad-spec = vaihtoajo tarvitsee vähintään yhden lähteen, positiivisen askeleen ja ei-negatiivisen keston, joka on enintään kymmenen miljoonaa askelta
+engine-e-drone-failover-bad-kind = tuntematon lähdetyyppi { $kind } (absolute, relative, inertial)
+engine-e-drone-failover-bad-event = tapahtuma nimeää tuntemattoman lähteen tai tilan: { $source } (tila fail tai recover)
+engine-e-drone-zonotope-bad-geometry = suojaustaso vaatii vähintään neljä satelliittia, joilla on äärellinen atsimuutti ja korotus sekä positiivinen raja, ja ratkeavan geometrian
+
+## src/oscillator/mod.rs
+
+engine-oscillator-usage = käyttö: kshana oscillator <vibration|holdover|select|raim-aid|datasheet> <input.json> tai kshana oscillator refs (docs/OSCILLATOR.md)
+
+engine-e-oscillator-input = { $part }-syöte ei kelpaa: { $e }
+
+engine-e-oscillator-unknown-clock = tuntematon kelloesiasetus { $id } (jokin näistä: { $known })
+
+engine-e-oscillator-field = { $field } on alueen ulkopuolella: { $value }
+
+## BeiDou-LEO planning (src/leo_od_plan.rs, docs/LEO-OD-PLAN.md)
+engine-leo-od-plan-usage = käyttö: kshana leo-od-plan <plan.toml>  (docs/LEO-OD-PLAN.md; MODELLED, a planning tool)
+engine-e-leo-od-plan-bad-plan = suunnitelman arvot ovat sallitun alueen ulkopuolella: kaari, askel, kohinat ja maskit positiivisia ja äärellisiä, enintään 100000 askelta, maskit ±90 asteen sisällä, puolikeilanleveys 0–90 astetta ja LEO-Walker-kuvio, jonka tasot jakavat satelliittien määrän
+engine-e-leo-od-plan-cannot-read = tiedostoa { $path } ei voi lukea: { $e }
+engine-e-leo-od-plan-bad-file = { $path } ei ole suunnitelma: { $e }

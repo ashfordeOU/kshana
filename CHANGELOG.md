@@ -9,7 +9,140 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+- **`kshana leo-od-plan`: BeiDou–LEO interoperability planning and a LEO-aided orbit determination covariance study** (`src/leo_od_plan.rs`, [docs/LEO-OD-PLAN.md](docs/LEO-OD-PLAN.md)). For a stated LEO Walker constellation and ground network, per nominal BeiDou satellite (BDS-OS-PS-3.0 slots): the fraction of an arc tracked by ground stations and by LEO receivers (line of sight clearing the Earth by a grazing height, within a stated BeiDou half-beamwidth, above the receiver's mask) and the formal epoch position covariance from range observations, ground only and ground plus LEO (two-body RK4 with central-difference sensitivities; clocks not estimated). A planning tool; MODELLED. Every message is in the 18 engine catalogues. Tests: `tests/leo_od_plan.rs`, a `parser_robustness` block.
+- **`kshana oscillator`: oscillator models from datasheet figures** (`src/oscillator/`, [docs/OSCILLATOR.md](docs/OSCILLATOR.md)). `vibration`: acceleration sensitivity to carrier phase jitter (sinusoidal lines and random-vibration profiles, whole band and loop-filtered) and the PLL tracking threshold; the sideband levels reproduce seven of the eight rows of Filler (1988) Tables I and II. `holdover`: time error through temperature profiles (with a thermal lag) and shocks (frequency and phase steps, outages), on the telecom-timing datasheet presets or a stated clock. `select`: one pass, fail or unknown check per stated requirement for each candidate, unranked, also usable as readiness tests for target specifications. `raim-aid`: slope RAIM protection levels with the clock as an extra measurement against the time since calibration. `datasheet`: the power-law fit of a datasheet's Allan deviation points and the TDEV it implies. `refs`: cited acceleration sensitivities. MODELLED apart from the sideband check; every message is in the 18 engine catalogues. Tests: `tests/oscillator.rs`.
 - **Smaller published crate: the DE440 Moon PA orientation series is embedded as binary.** `src/lunar_orientation.rs` now embeds `data/lunar/de440_moon_pa.bin` instead of the 1.6 MB CSV: the same 6 209 x 10 doubles, bit for bit (`tests/lunar_orientation_binary.rs`), column-major and byte-planed, about 352 KB of the `.crate` against 650 KB. Results are unchanged. The CSV stays in the repository as the source of record and is no longer packaged. Regenerate with `scripts/gen_de440_moon_pa_bin.py`.
+- **Smaller published crate: the seventeen translated engine catalogues ship as one xz stream.** The `.crate` carries `data/i18n/catalogues.xz` (about 1.9 MB) in place of `i18n/<lang>/engine.ftl` (13.4 MB of text, about 3.8 MB as separate gzip members): 10 192 071 bytes before, about 8 254 190 after: 1.94 MB more headroom under crates.io's 10 MiB limit. The `.ftl` files stay the source in the repository and are what a build from a checkout embeds, exactly as before. In a build of the published crate, `build.rs` decodes the archive (pure-Rust `lzma-rs`, MIT, a build dependency only) and the library embeds the decoded text, so no decoding happens at run time and the messages are byte for byte the same (`tests/i18n_packed.rs`). The archive is generated, never committed: `python3 scripts/pack_catalogues.py` (CI's `package` job, the crates.io release and the sdist build run it; contributors never need to).
+
+### Added (space weather for PNT and drag)
+
+- `kshana space-weather` (src/space_weather_pnt/, docs/SPACE-WEATHER-PNT.md): a storm library of eight recorded
+  storms (Halloween 2003 to the November 2025 superstorm, three-hourly Kp/ap and F10.7 from GFZ, CC BY 4.0) and one
+  synthetic stress case, each as a timeline with the NOAA G level, the auroral-oval edge and the density response at
+  chosen altitudes (Jacchia 1971 and NRLMSISE-00); a DGNSS/RTK outage forecaster for work windows, driven by a
+  storm, given intervals or a NOAA SWPC 3-day forecast (MODELLED; the November 2025 storm is reproduced
+  qualitatively for US farm RTK); a 4D ionosphere that serves GNSS slant TEC (Chapman F layer on Klobuchar, a
+  constant or an IONEX map) and LF skywave (Wait D region) from one electron-density field (MODELLED); a
+  density-model scorecard of the static, Jacchia 1971 and NRLMSISE-00 models against the TOLEOS accelerometer
+  densities (NRLMSISE-00 best, rms log10 ratio 0.176; all models too dense in the 2008 minimum, the sign Emmert et
+  al. 2010 reported); and an orbit lifetime with the model and index-forecast density uncertainty.
+
+### Added (interference observatory: incident format, case library, confidence statement)
+
+- Open interference-incident format `kshana-interference-incidents/1` with a causation vocabulary
+  (`kshana-interference-vocabulary/1`: jamming, spoofing, meaconing, AIS manipulation, unspecified, unattributed
+  degradation; confidence confirmed/probable/suspected/undetermined, each tied to the evidence it needs; technical
+  origin categories only, no actor field), a JSON Schema and `kshana interference-map incidents validate | release |
+  from-observatory` (`docs/INTERFERENCE-INCIDENTS.md`).
+- Public case library `data/interference-incidents/library.json` 1.0.0: 19 REPORTED records, each citing https
+  sources, with an immutable-release register (`RELEASES.json`) checked by `tests/interference_incidents.rs` and a
+  Zenodo-ready release bundle (JSON, CSV, schema, `.zenodo.json`, SHA-256 manifest).
+- Interference map: every published cell carries a `confidence` statement (level, Wilson 95% interval of the
+  affected share when published, NACp/NIC report shares) and every file a `data_window`; the observatory product
+  states its latency (`last_report_utc`, `min_latency_hours`). Additive fields; format versions unchanged.
+
+### Added (correction decoders)
+
+- `kshana corrections decode --format <has|b2b|l6>` and `kshana corrections vectors`: open decoders for broadcast
+  precise corrections (`src/corrections/`, `docs/CORRECTION-DECODERS.md`). Galileo HAS (HAS SIS ICD Issue 1.0): C/NAV
+  page CRC, HAS page header and dummy pages, the RS(255,32) outer code with its generator matrix computed from the
+  generator polynomial (any `MS` distinct pages recover a message; later pages are checked against the re-encoding),
+  and message type 1 (mask, orbit, clock full-set and subset, code and phase biases, masks kept by Mask ID). BeiDou
+  PPP-B2b (BDS-SIS-ICD-PPP-B2b-1.0): message types 1 to 7 and 63 with masks kept by IODP. QZSS L6 (IS-QZSS-L6-008,
+  IS-QZSS-MDC-005): header, subframe assembly, Compact SSR sub types 1 to 12 for CLAS and MADOCA-PPP (including
+  MADOCA-PPP GNSS ID 7 for BDS-3), the MADOCA-PPP ionospheric coverage and correction messages, and a list of GNSS IDs
+  a mask uses that the tables do not define. 24 test vectors (`data/conformance/corrections/*.json`, format
+  `kshana.correction-vectors/1`) written by an independent Python encoder; they are self-derived round-trip vectors,
+  not an external reference. An opt-in test (`tests/correction_icd_examples.rs`) checks the HAS decoder against the
+  ICD's own Annex B matrix and Annex C/D worked examples from a copy the user downloads; no ICD content is stored.
+
+### Added (RTK, NTRIP and correction-service quality: `kshana rtk-qa`)
+
+- `kshana rtk-qa` (`kshana::rtk_qa`, `docs/RTK-QA.md`), every result labelled MODELLED:
+  - `monitor`: a correction-stream liveness monitor on a live mountpoint. A stream that stops on a still-open
+    connection raises a `stale` alarm after `--stale-after` seconds (default 3) without a valid RTCM 3 frame, then
+    `recovered`; per-message `message-gap`/`message-resumed`; `closed`; `link-over-budget` against `--link-bps`. The
+    scorecard gives availability, MSM latency against the receiving clock, MSM epoch completeness, CRC failures, the
+    station message, bit rate and a 0-100 score (weights documented as a convention). `sources` reads a source table
+    and sorts mountpoints by distance.
+  - `base`: 1005/1006 base coordinates against a published coordinate (ITRF2014/2020, ETRF2014/2020, with velocity):
+    ok, `frame-epoch-mismatch` (naming the frame and epoch the broadcast matches), `marker-arp-confusion`,
+    `unexplained-offset`; plus project frame/epoch mismatch, coordinate changes during the stream, antenna height,
+    virtual stations, orthometric height against a geoid undulation, and permanent-tide system mismatch.
+  - `fix`: RTK fix verification on RTKLIB-style `.pos` or NMEA GGA: inconsistent fixes within an occupation (naming
+    a carrier wavelength when the offset is one), fix jumps, control-point mismatch, fix against float, optimistic
+    sigma, float precision that misleads, low ratio, stale corrections. `ppk`: likely no-fix causes from RINEX logs.
+  - `probe`, `caster`, `log-check`: NTRIP v2 behaviour checks of a caster (source table in both versions, 401 with
+    `WWW-Authenticate`, unknown mountpoint, chunked stream with intact frames, NTRIP 1); a reference caster with
+    chunk extensions, Basic authentication and client/head-size/head-deadline limits that reports what each client
+    sent; a scan of client logs for credentials. Behaviour checks only, not a conformance statement.
+  - `failover`: a correction-source failover policy (order, switch-after, switch-back hold) run on an outage timeline.
+- `rtk_real`: each epoch now carries the float baseline covariance and, when fixed, the covariance conditioned on the
+  integers (`float_cov_m2`, `fixed_cov_m2`); `rtk_real::cov_enu` rotates them into east/north/up and
+  `rtk_real::to_pos` writes a run as an RTKLIB-style `.pos` (standard deviations and signed-root covariances), which
+  `kshana rtk-qa fix` reads. `tests/rtk_qa_wettzell.rs`: on the real WTZR/WTZZ session the fix check passes with the
+  published WTZZ coordinate as control point, and one L1 wavelength added to a later run of fixes is found.
+- `tests/rtk_qa.rs`: loopback casters and self-made RTCM, solution and RINEX fixtures (no real caster is contacted);
+  Kshana's NTRIP client and curl as a third-party client against the reference caster.
+
+### Added (receiver formats and SDR front-end tooling)
+
+- Unicore interference logs: the `unicore` reader also reads `AGC` (220), `JAMSTATUS` (511) and `FREQJAMSTATUS`
+  (519), binary or ASCII, from the N4 reference manual R1.13. The master antenna's AGC becomes the epoch's `agc`
+  and the `CWFlag` the receiver's own jamming state, so Unicore flags enter the `receiver-self-report` comparison.
+  ASCII lines are checked against their CRC. Vectors: `conformance/connect/reader-unicore-ascii/` (the manual's own
+  example lines, a document vector) and `reader-unicore-interference/` (binary, self-derived).
+- RTCM 3 MSM1, MSM2, MSM3, MSM5 and MSM6: `rtcm3_obs` and `kshana connect decode rtcm3` decode every MSM type
+  (MSM1-3 ranges marked `modulo_1ms`), and the `rtcm3` C/N0 reader reads MSM4 to MSM7. Vector:
+  `conformance/timing/rtcm3-decode-msm/` (self-derived, from the RTKLIB and pyrtcm field tables).
+- `kshana iq diagnose`: SDR front-end diagnostics of a recording (DC, I/Q gain and phase imbalance, clipping and
+  levels used, zero runs, repeated samples with their period, gain steps, and with `--signal`/`--prn` the
+  oscillator-offset interval and the code-against-carrier sample-clock mismatch), each against a stated threshold.
+  MODELLED: checked on self-made fixtures with each fault injected (`tests/iq_frontdiag.rs`).
+- `kshana iq gnss-sdr-conf`: a GNSS-SDR configuration file for a recording (GPS L1 C/A, Galileo E1B, BeiDou B1I;
+  a `narrowband` 20 ms tracking profile), with the monitor streams `integrations/gnss-sdr/relay.py` reads, so a
+  GNSS-SDR run can be scored with `receiver-trust`. `docs/IQ-FRONTEND-DIAGNOSTICS.md`.
+- Not built: ComNav, Hi-Target, CHC and Allystar raw decoders, for want of a public protocol document
+  (`docs/RECEIVER-PROTOCOLS.md`).
+
+### Added (orbit-data checks, conversion, TLE monitors and covariance toolkit)
+
+- `kshana orbit-data check`: the CCSDS Conjunction Data Message (CCSDS 508.0-B-1 with Corrigendum 2, KVN and XML)
+  checked keyword by keyword (Tables 3-1 to 3-4, order, notation, time tags, units, normative values, the 9x9 row rule,
+  identifier characters), with consistency warnings between the relative data and the two states (annex E RTN) and a
+  positive-definiteness check of each covariance; keyword aliases for a provider's own field names. The OEM and OCM of
+  CCSDS 502.0-B-3 checked beyond syntax: time order and repeats, spans, useable-span overlap, interpolation support,
+  covariance layout and positive definiteness, and an optional usable-span and gap profile. Findings cite the
+  standard's section and say valid or invalid against it. On the standard's own examples: CDM 3.6.3 is invalid (a
+  keyword with a blank, `hh:mm:ss:fff` times), Object1's covariance in 3.6.2/3.6.3/4.4 is not positive definite, and
+  two of 3.6.3's RTN components disagree with its states.
+- `kshana orbit-data convert`: OEM to OCM and OCM to OEM with numbers carried as written and a `PROVENANCE` comment per
+  step (originator, message id, creation date kept); a CDM rewritten in standard keyword order with standard units.
+- `kshana orbit-data gp-compare` and `gp-audit`: two TLE sources compared through SGP4 over a window with RTN
+  differences and a flag threshold; one source audited for checksums, catalogue-number agreement, perigee, SGP4
+  health, staleness, element-set-number regress and consecutive-set jumps (MODELLED).
+- `kshana orbit-data cov`: covariance checks through RTN rotation, propagation to any epoch through the two-body + J2
+  state-transition matrix, a Monte Carlo cross-check, synthetic covariance from stated RTN sigmas, and
+  covariance-realism statistics (MODELLED). `docs/ORBIT-DATA.md`; fixtures in `tests/fixtures/orbit_data/` (CCSDS
+  examples transcribed, element sets self-made); the parsers are in `tests/parser_robustness.rs`.
+
+### Added (drone, UTM and robotics PNT: `kshana drone`)
+
+- `kshana drone prearm <log>`: a pre-arm GNSS spoofing and jamming check over a PX4 ULog, an ArduPilot DataFlash
+  log or JSON Lines epochs. The receiver's own flags (spoofing and jamming states, jamming indicator, AGC,
+  authentication state) are fused with the kinematics of a vehicle standing still before arming (drift, reported
+  speed, jumps, receiver disagreement, receiver-clock steps) into `PASS`, `WARN` or `FAIL`, with response playbook
+  step ids; `--gate` exits 2 on `FAIL`. `kshana drone prearm-calibrate` states the false-alarm and detection rates
+  of the published thresholds on seeded synthetic windows (MODELLED; table in `docs/DRONE-PNT.md`).
+- A read-only ArduPilot DataFlash (`.bin`) reader (`kshana::drone_pnt::dataflash`) and `interconnect::ulog::read_topics`
+  (the existing ULog reader for any topic).
+- `kshana drone estimator-cases`: eight behavioural cases for autopilot and ROS estimators (driver output, receiver
+  selection, GNSS heading, estimator initialisation, source switching, UTM zones, replay determinism, NaN guard), each
+  citing the public issue it reproduces, run on a user trace or on built-in reference traces. No estimator is shipped.
+- `kshana drone dr-budget`: dead-reckoning coast budget per airframe class (free-inertial coast model plus
+  velocity-aided dead reckoning, with the closed-form crossing beside the bisected one); `kshana drone quad-loss`: a
+  consumer-quadcopter behaviour model under GNSS loss; `kshana drone failover`: a cascade failover harness (three-source
+  example); `kshana drone zonotope-pl`: a set-based protection level for bounded range errors. All MODELLED.
 
 ### Added (radio time-signal migration guide)
 

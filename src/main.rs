@@ -1274,12 +1274,42 @@ fn main_in_language(args: Vec<String>) -> ExitCode {
     if args.get(1).map(String::as_str) == Some("ais-integrity") {
         return ExitCode::from(kshana::ais_integrity::run_cli(&args[2..]) as u8);
     }
+    // `kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ...`: RTK,
+    // NTRIP and correction-service quality checks (kshana::rtk_qa; docs/RTK-QA.md).
+    if args.get(1).map(String::as_str) == Some("rtk-qa") {
+        return ExitCode::from(kshana::rtk_qa::run_cli(&args[2..]) as u8);
+    }
     // `kshana time-vectors [--json] [<file|dir>...]`: the time-scale conformance vectors
     // (src/time_vectors.rs, docs/TIME-VECTORS.md). Exit 1 when any vector fails.
     if args.get(1).map(String::as_str) == Some("time-vectors") {
         return match kshana::time_vectors::run_cli(&args[2..]) {
             Ok(true) => ExitCode::SUCCESS,
             Ok(false) => ExitCode::from(1),
+            Err(e) => {
+                eprintln!("{e}");
+                ExitCode::from(2)
+            }
+        };
+    }
+    // `kshana corrections <decode|vectors>`: open decoders for Galileo HAS, BeiDou PPP-B2b and
+    // QZSS L6 (CLAS, MADOCA-PPP) correction messages and their test vectors
+    // (src/corrections/, docs/CORRECTION-DECODERS.md). Exit 1 when any vector fails.
+    if args.get(1).map(String::as_str) == Some("corrections") {
+        return match kshana::corrections::run_cli(&args[2..]) {
+            Ok(true) => ExitCode::SUCCESS,
+            Ok(false) => ExitCode::from(1),
+            Err(e) => {
+                eprintln!("{e}");
+                ExitCode::from(2)
+            }
+        };
+    }
+    // `kshana orbit-data <check|convert|gp-compare|gp-audit|cov> ...`: CCSDS CDM/OEM/OCM checks,
+    // conversion, TLE quality monitors and the covariance toolkit (src/orbit_data, docs/ORBIT-DATA.md).
+    // Exit 1 when a result is not clean.
+    if args.get(1).map(String::as_str) == Some("orbit-data") {
+        return match kshana::orbit_data::cli::run(&args[2..]) {
+            Ok(code) => ExitCode::from(code),
             Err(e) => {
                 eprintln!("{e}");
                 ExitCode::from(2)
@@ -1305,8 +1335,19 @@ fn main_in_language(args: Vec<String>) -> ExitCode {
         Some("planner") => Some(kshana::planner::run),
         // `kshana env-baseline <site-hours.json>`: the environmental baseline (src/env_baseline.rs).
         Some("env-baseline") => Some(kshana::env_baseline::run),
+        // `kshana space-weather <storms|storm|dgnss|iono|density-scorecard|lifetime>`: storm
+        // library, DGNSS outage forecaster, 4D ionosphere, density scorecard and lifetime
+        // (src/space_weather_pnt/, docs/SPACE-WEATHER-PNT.md).
+        Some("space-weather") => Some(kshana::space_weather_pnt::run),
+        // `kshana drone <prearm|conform|dr-budget|...>`: drone and robotics PNT tools (src/drone_pnt).
+        Some("drone") => Some(kshana::drone_pnt::run),
         // `kshana station run|check|service <station.toml>`: the headless receiver service (src/station.rs).
         Some("station") => Some(kshana::station::run),
+        // `kshana leo-od-plan <plan.toml>`: BeiDou-LEO interoperability planning and a LEO-aided
+        // orbit determination covariance study (src/leo_od_plan.rs).
+        Some("leo-od-plan") => Some(kshana::leo_od_plan::run),
+        // `kshana oscillator <part> <input.json>`: oscillator models (src/oscillator/).
+        Some("oscillator") => Some(kshana::oscillator::run),
         _ => None,
     };
     if let Some(run) = live_cmd {

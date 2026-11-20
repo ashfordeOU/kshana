@@ -119,6 +119,7 @@ pub mod conflict_resilience;
 pub mod conflict_threat_params;
 pub mod constellation;
 pub mod contact_schedule;
+pub mod corrections;
 pub mod cr3bp;
 /// Not validated (finding, 0.36): see the module's Status section. Hidden from the documented API.
 #[doc(hidden)]
@@ -133,6 +134,7 @@ pub mod detection;
 pub mod dop_error_ci;
 pub mod dop_error_mc;
 pub mod dro;
+pub mod drone_pnt;
 pub mod earth_gnss_lunar;
 pub mod egm2008_data;
 pub mod ensemble;
@@ -209,6 +211,8 @@ pub mod legal;
 pub mod leo_fusion;
 pub mod leo_link;
 pub mod leo_navmsg;
+/// BeiDou–LEO interoperability planning and a LEO-aided orbit determination covariance study (`kshana leo-od-plan`).
+pub mod leo_od_plan;
 pub mod leo_pass;
 pub mod leo_pnt_chain;
 pub mod leo_signal;
@@ -292,8 +296,12 @@ pub mod optical_techniques;
 pub mod optical_timeseries;
 pub mod optical_weather;
 pub mod orbit;
+pub mod orbit_data;
 pub mod orbit_determination;
 pub mod orbital_timing;
+/// Oscillator models: g-sensitivity, temperature and shock holdover, selection, clock-aided RAIM
+/// and datasheet TDEV (`kshana oscillator`, docs/OSCILLATOR.md).
+pub mod oscillator;
 pub mod osnma;
 pub mod palette;
 pub mod particle_filter;
@@ -374,6 +382,7 @@ pub mod resilience;
 pub mod rinex;
 pub mod rinex_obs;
 pub mod rtcm_ssr;
+pub mod rtk_qa;
 pub mod rtk_real;
 pub mod rts25;
 pub mod run;
@@ -395,6 +404,7 @@ pub mod sp3;
 pub mod space_geoloc;
 pub mod space_packet;
 pub mod space_weather;
+pub mod space_weather_pnt;
 pub mod spectrum;
 pub mod speed_bench;
 pub mod spk_writer;

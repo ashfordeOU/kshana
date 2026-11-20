@@ -121,7 +121,20 @@ jobs:
         with:
           toolchain: 1.93.0
       - uses: Swatinem/rust-cache@d1527c8f67ef9af357290475d4af4b0fab8f12e0 # v2
-      - run: cargo package --locked
+      - name: Pack the translated catalogues (generated, never committed)
+        # The package carries data/i18n/catalogues.xz in place of the seventeen i18n/<lang>/engine.ftl (Cargo.toml
+        # `exclude`; build.rs decodes it). The archive is generated here, not committed, so the many branches that add
+        # messages never conflict over a binary. cargo counts the one new untracked file as a dirty tree, hence
+        # `--allow-dirty` below; these checks keep that flag from hiding anything else: the tree is clean before, and the
+        # archive is the only change after.
+        run: |
+          set -euo pipefail
+          dirty="$(git status --porcelain --untracked-files=all)"
+          if [ -n "$dirty" ]; then printf '%s\n' "$dirty"; echo "::error::the tree is not clean before packaging"; exit 1; fi
+          python3 -I scripts/pack_catalogues.py
+          dirty="$(git status --porcelain --untracked-files=all)"
+          if [ "$dirty" != "?? data/i18n/catalogues.xz" ]; then printf '%s\n' "$dirty"; echo "::error::packing changed more than data/i18n/catalogues.xz"; exit 1; fi
+      - run: cargo package --locked --allow-dirty
       - name: The tarball fits crates.io's upload limit
         # crates.io refuses a .crate over 10 MiB (413 Payload Too Large). The v0.40.0 publish was the first to learn that:
         # the site's translation catalogues under i18n/ were in the package. Fail on a push, with a margin, not at a tag.

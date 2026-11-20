@@ -54,7 +54,7 @@ pub enum LogFormat {
     RtklibPos,
     /// NovAtel OEM7 ASCII or binary logs: BESTPOS, RANGE (C/No) and RXSTATUS.
     Novatel,
-    /// RTCM 3 MSM4 and MSM7 observation messages (carrier-to-noise ratio per signal).
+    /// RTCM 3 MSM4 to MSM7 observation messages (carrier-to-noise ratio per signal).
     Rtcm3,
     /// GNSS-SDR `Monitor` and PVT-monitor messages as JSON lines (see `machines::gnss_sdr`).
     GnssSdr,
@@ -62,7 +62,8 @@ pub enum LogFormat {
     Sbp,
     /// Javad GREIS binary messages: receiver time and date, satellite index, C/N0, position, DOP.
     Greis,
-    /// Unicore N4 binary logs: BESTNAV (position) and OBSVM (C/N0).
+    /// Unicore N4 logs: BESTNAV (position) and OBSVM (C/N0), binary; AGC, JAMSTATUS and
+    /// FREQJAMSTATUS (AGC and the receiver's jamming flag), binary or ASCII.
     Unicore,
 }
 
@@ -121,7 +122,8 @@ pub struct ReportedFix {
 }
 
 /// What the receiver itself says about spoofing and interference at one epoch: u-blox
-/// UBX-NAV-STATUS `spoofDetState` and UBX-SEC-SIG `spoofingState` / `jammingState`.
+/// UBX-NAV-STATUS `spoofDetState` and UBX-SEC-SIG `spoofingState` / `jammingState`, NovAtel
+/// RXSTATUS, Unicore JAMSTATUS / FREQJAMSTATUS `CWFlag` (0, 1, 2 read as states 1, 2, 3).
 /// The codes are the receiver's, not Kshana's (and a receiver's own detector is not validated
 /// here): 0 unknown or not enabled, 1 none indicated, 2 indicated (warning for jamming),
 /// 3 multiple indications or affirmed (critical for jamming).
@@ -129,7 +131,8 @@ pub struct ReportedFix {
 pub struct ReceiverSelfReport {
     /// Spoofing state, 0 to 3, where the log carries one.
     pub spoofing: Option<u8>,
-    /// Jamming state, 0 to 3, where the log carries one (UBX-SEC-SIG only).
+    /// Jamming state, 0 to 3, where the log carries one (UBX-SEC-SIG, NovAtel RXSTATUS, Unicore
+    /// JAMSTATUS and FREQJAMSTATUS).
     pub jamming: Option<u8>,
     /// Septentrio RFStatus: the number of RF bands whose `Info` byte is non-zero. Carried as the
     /// receiver reports it and not interpreted: the meaning of the bits is the manufacturer's, and

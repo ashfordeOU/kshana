@@ -214,7 +214,22 @@ pub fn build_product(
     region: Option<(f64, f64, f64, f64)>,
     delay_hours: f64,
 ) -> Result<Product, MapError> {
-    let release_not_before = fmt_utc(earliest_release(&day.date, delay_hours)?);
+    let not_before = earliest_release(&day.date, delay_hours)?;
+    let release_not_before = fmt_utc(not_before);
+    // The latency statement: the newest report behind the product and the shortest time from it to
+    // the product's release. The release rule makes this at least the delay; nothing is faster.
+    let last_report = day
+        .day_meta
+        .get("data_window")
+        .and_then(|w| w.get("last_report_utc"))
+        .and_then(Value::as_str)
+        .and_then(super::time::parse_timestamp);
+    let release = json!({
+        "min_delay_hours": delay_hours,
+        "not_before_utc": release_not_before,
+        "last_report_utc": last_report.map(|t| fmt_utc(t as i64)),
+        "min_latency_hours": last_report.map(|t| ((not_before as f64 - t) / 36.0).round() / 100.0),
+    });
     let confounded = day.day_meta.get("day_confounded") == Some(&json!(true));
     let mut feats = Vec::new();
     let mut counts: BTreeMap<&str, usize> = BTreeMap::new();
@@ -258,7 +273,7 @@ pub fn build_product(
             "states": ["degraded", "not_degraded", "not_observed"],
             "grid": {"type": "fixed_lat_lon", "cell_deg": grid.cell_deg},
             "region": region_json(region),
-            "release": {"min_delay_hours": delay_hours, "not_before_utc": release_not_before},
+            "release": release,
             "summary": summary,
             "method": method,
             "day": day.day_meta,
@@ -308,7 +323,7 @@ pub fn build_product(
         "source_kind": day.source_kind,
         "region": region_json(region),
         "grid_cell_deg": grid.cell_deg,
-        "release": {"min_delay_hours": delay_hours, "not_before_utc": release_not_before},
+        "release": release,
         "summary": summary,
         "incidents": incidents_list,
         "cause": "not attributed",

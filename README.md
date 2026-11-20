@@ -145,6 +145,11 @@ VALIDATED, 233 MODELLED, 4 PARTNER. No row was promoted to VALIDATED, and every 
 - **Flight dynamics and corrections.** `kshana ephem-export` writes a JPL Horizons table as a CCSDS OEM or OPM or an
   SPK kernel and reads it back; Orekit, Basilisk and ANISE read the files with the written bits. An RTCM SSR (IGS SSR)
   reader, a Bias-SINEX reader and the IERS 2010 solid Earth tide are added.
+- **Orbit-data checks.** `kshana orbit-data` checks CCSDS conjunction data messages (508.0-B-1) and OEM and OCM
+  ephemerides (502.0-B-3) and says valid or invalid against the section it cites, converts OEM to OCM and back with
+  provenance kept, compares and audits two-line element sets, and checks and propagates covariances (MODELLED). On the
+  standard's own CDM examples it finds a covariance that is not positive definite and two syntax slips
+  ([Orbit data](docs/ORBIT-DATA.md)).
 
 ## What's new in 0.40
 
@@ -649,6 +654,7 @@ them and [`docs/SCENARIOS.md`](docs/SCENARIOS.md) documents every field.
 |---|---|
 | [Spectrum](docs/SPECTRUM.md) | how a jammer takes the GNSS L band, band by band, second by second |
 | [Clocks and timing](docs/TELECOM-TIMING.md) | how long each clock holds time after GNSS is lost |
+| [Oscillators](docs/OSCILLATOR.md) | what an oscillator's datasheet figures mean for tracking under vibration, holdover through temperature changes and shocks, and RAIM |
 | [Constellations around any body](docs/CONSTELLATION-DESIGN.md) | coverage, dilution of precision and availability around the Earth, the Moon or Mars |
 | [Solar system](docs/SOLAR-SYSTEM.md) | where every planet is, and the light time of any link |
 | [Low-Earth-orbit navigation](docs/LEO-PNT.md) | a pass, a link, a navigation message and a fused fix, stage by stage |
