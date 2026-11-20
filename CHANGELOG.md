@@ -13,6 +13,20 @@ breaking changes are called out explicitly.
 - **Smaller published crate: the DE440 Moon PA orientation series is embedded as binary.** `src/lunar_orientation.rs` now embeds `data/lunar/de440_moon_pa.bin` instead of the 1.6 MB CSV: the same 6 209 x 10 doubles, bit for bit (`tests/lunar_orientation_binary.rs`), column-major and byte-planed, about 352 KB of the `.crate` against 650 KB. Results are unchanged. The CSV stays in the repository as the source of record and is no longer packaged. Regenerate with `scripts/gen_de440_moon_pa_bin.py`.
 - **Smaller published crate: the seventeen translated engine catalogues ship as one xz stream.** The `.crate` carries `data/i18n/catalogues.xz` (about 1.9 MB) in place of `i18n/<lang>/engine.ftl` (13.4 MB of text, about 3.8 MB as separate gzip members): 10 192 071 bytes before, about 8 254 190 after: 1.94 MB more headroom under crates.io's 10 MiB limit. The `.ftl` files stay the source in the repository and are what a build from a checkout embeds, exactly as before. In a build of the published crate, `build.rs` decodes the archive (pure-Rust `lzma-rs`, MIT, a build dependency only) and the library embeds the decoded text, so no decoding happens at run time and the messages are byte for byte the same (`tests/i18n_packed.rs`). The archive is generated, never committed: `python3 scripts/pack_catalogues.py` (CI's `package` job, the crates.io release and the sdist build run it; contributors never need to).
 
+### Added (a GNSS receiver in space: clock, timestamps, dynamics, upper-SSV benchmark)
+
+- `kshana space-receiver` (src/space_receiver/, docs/SPACE-RECEIVER.md). `clock`: the onboard clock on a Keplerian
+  orbit, its secular relativistic rate against TT and periodic eccentricity term (the constant F and the GPS
+  satellite-clock design offset checked against IS-GPS-200), and the free-run time error of an oscillator class over an
+  outage as noise, ageing and orbit-periodic thermal parts (TCXO, OCXO, CSAC and USO classes representative, RAFS and
+  miniRAFS from the cited clock_specs coefficients). `timestamps`: a detector of time-tag faults against an onboard
+  reference count (reversals, duplicates, gaps, millisecond, leap-second, time-scale-offset and week-rollover steps,
+  outliers, frequency steps, clock-bias jumps), shown on synthetic series with injected faults. `dynamics`: Doppler,
+  Doppler rate and its derivative of every GNSS signal in view along GEO, GTO, HEO, HEO-perigee and transfer orbits,
+  against stated tracking limits. `bench`: the versioned upper-SSV benchmark `upper-ssv-bench/1` (five cases from the
+  8,000 km SSV edge to a lunar transfer) with availability, outages, dynamics and holdover checks for a receiver profile.
+  MODELLED throughout.
+
 ### Added (space weather for PNT and drag)
 
 - `kshana space-weather` (src/space_weather_pnt/, docs/SPACE-WEATHER-PNT.md): a storm library of eight recorded

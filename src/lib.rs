@@ -401,6 +401,7 @@ pub mod solid_tide;
 pub mod sp3;
 pub mod space_geoloc;
 pub mod space_packet;
+pub mod space_receiver;
 pub mod space_weather;
 pub mod space_weather_pnt;
 pub mod spectrum;
