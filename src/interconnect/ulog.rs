@@ -160,6 +160,13 @@ impl GpsMsg {
 
 /// Every GNSS message of a ULog file, in file order.
 pub fn read(bytes: &[u8]) -> Result<(Vec<GpsMsg>, usize), String> {
+    read_topics(bytes, &TOPICS)
+}
+
+/// Every message of the named topics of a ULog file, in file order, with the count of malformed
+/// messages. The same reader as [`read`] for any topic (for example `vehicle_status` or
+/// `vehicle_local_position`); only scalar fields and a `timestamp` field are required.
+pub fn read_topics(bytes: &[u8], topics: &[&str]) -> Result<(Vec<GpsMsg>, usize), String> {
     if bytes.len() < 16 || &bytes[..7] != MAGIC {
         return Err(crate::terr!("e-interconnect-ulog-header"));
     }
@@ -186,7 +193,7 @@ pub fn read(bytes: &[u8]) -> Result<(Vec<GpsMsg>, usize), String> {
             b'A' if body.len() >= 3 => {
                 let id = u16::from_le_bytes([body[1], body[2]]);
                 let name = String::from_utf8_lossy(&body[3..]).into_owned();
-                if TOPICS.contains(&name.as_str()) {
+                if topics.contains(&name.as_str()) {
                     match layout(&name, &formats) {
                         Some(l) => {
                             subs.insert(id, (body[0], name, l));

@@ -123,6 +123,24 @@ breaking changes are called out explicitly.
   covariance-realism statistics (MODELLED). `docs/ORBIT-DATA.md`; fixtures in `tests/fixtures/orbit_data/` (CCSDS
   examples transcribed, element sets self-made); the parsers are in `tests/parser_robustness.rs`.
 
+### Added (drone, UTM and robotics PNT: `kshana drone`)
+
+- `kshana drone prearm <log>`: a pre-arm GNSS spoofing and jamming check over a PX4 ULog, an ArduPilot DataFlash
+  log or JSON Lines epochs. The receiver's own flags (spoofing and jamming states, jamming indicator, AGC,
+  authentication state) are fused with the kinematics of a vehicle standing still before arming (drift, reported
+  speed, jumps, receiver disagreement, receiver-clock steps) into `PASS`, `WARN` or `FAIL`, with response playbook
+  step ids; `--gate` exits 2 on `FAIL`. `kshana drone prearm-calibrate` states the false-alarm and detection rates
+  of the published thresholds on seeded synthetic windows (MODELLED; table in `docs/DRONE-PNT.md`).
+- A read-only ArduPilot DataFlash (`.bin`) reader (`kshana::drone_pnt::dataflash`) and `interconnect::ulog::read_topics`
+  (the existing ULog reader for any topic).
+- `kshana drone estimator-cases`: eight behavioural cases for autopilot and ROS estimators (driver output, receiver
+  selection, GNSS heading, estimator initialisation, source switching, UTM zones, replay determinism, NaN guard), each
+  citing the public issue it reproduces, run on a user trace or on built-in reference traces. No estimator is shipped.
+- `kshana drone dr-budget`: dead-reckoning coast budget per airframe class (free-inertial coast model plus
+  velocity-aided dead reckoning, with the closed-form crossing beside the bisected one); `kshana drone quad-loss`: a
+  consumer-quadcopter behaviour model under GNSS loss; `kshana drone failover`: a cascade failover harness (three-source
+  example); `kshana drone zonotope-pl`: a set-based protection level for bounded range errors. All MODELLED.
+
 ### Added (radio time-signal migration guide)
 
 - `docs/RADIO-TIME-MIGRATION.md`: the status of the CHU, MSF, DCF77 and WWVB time signals from public sources (CHU
