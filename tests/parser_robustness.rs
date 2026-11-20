@@ -958,6 +958,19 @@ fn norad_alpha5_and_omm() {
 }
 
 #[test]
+fn space_receiver_timestamp_csv() {
+    let seeds = vec![head("tests/fixtures/space_receiver/tags.csv", 80)];
+    fuzz("space-receiver timestamps csv", &seeds, None, |b| {
+        let text = String::from_utf8_lossy(b);
+        if let Ok(rows) = kshana::space_receiver::timestamps::parse_csv(&text) {
+            let osc = kshana::space_receiver::clock::oscillator("ocxo").unwrap();
+            let p = kshana::space_receiver::timestamps::Params::default();
+            let _ = kshana::space_receiver::timestamps::detect(&rows, &osc, &p);
+        }
+    });
+}
+
+#[test]
 fn ais_integrity_inputs() {
     let csv = vec![
         head("tests/fixtures/ais_integrity/patterns.csv", 60),
