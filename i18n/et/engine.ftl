@@ -10564,6 +10564,7 @@ engine-main-usage =
     { "   " }või: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }või: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }või: kshana time-vectors [--json] [<vectors.json|dir> ...]
+    { "   " }või: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
     { "   " }või: kshana kinds [--json]
     { "   " }või: kshana example [<name>]
     { "   " }või: kshana --help | --version
@@ -11468,3 +11469,25 @@ engine-e-interference-map-locate-bad-tdoa = { $path } ei ole kasutatav TDOA fiks
 engine-e-interference-map-locate-source-required = --source adsb või --source ais on nõutav
 
 engine-e-interference-map-locate-no-evidence-rows = locate väljundite jaoks pole tõendusridu loetletud
+
+## src/space_weather_pnt/
+
+engine-space-weather-pnt-usage =
+    kasutus: kshana space-weather storms
+    { "   " }või: kshana space-weather storm <id> [--altitudes <km,km,...>]
+    { "   " }või: kshana space-weather dgnss <request.json> [--forecast <3-day-forecast.txt>]
+    { "   " }või: kshana space-weather iono <request.json> [--ionex <file>]
+    { "   " }või: kshana space-weather density-scorecard <windows.csv>
+    { "   " }või: kshana space-weather lifetime <request.json>
+    { "   " }(docs/SPACE-WEATHER-PNT.md)
+
+engine-e-space-weather-pnt-out-of-range = `{ $field }` peab olema lõplik arv vahemikus { $lo } kuni { $hi }
+engine-e-space-weather-pnt-unknown-storm = tormi `{ $id }` teegis ei ole (kshana space-weather storms loetleb need)
+engine-e-space-weather-pnt-request = kehtetu päring: { $e }
+engine-e-space-weather-pnt-bad-time = pole UTC-aeg (YYYY-MM-DDTHH:MM[:SS]Z): { $value }
+engine-e-space-weather-pnt-not-a-forecast = pole NOAA SWPC kolme päeva prognoos: täielik Kp jaotustabel puudub
+engine-e-space-weather-pnt-one-source = andke täpselt üks Kp-intervallide allikas: storm, intervals või prognoos (swpc_forecast või --forecast)
+engine-e-space-weather-pnt-ionex-span = IONEX-kaardid ei kata aega { $t }
+engine-e-space-weather-pnt-ionex-flag = IONEX-kaarti kasutatakse siis ja ainult siis, kui päringu vtec on "ionex" ja on antud --ionex <file>
+engine-e-space-weather-pnt-no-epochs = päringus peab epochs_utc all olema vähemalt üks epohh
+engine-e-space-weather-pnt-window-row = rida { $line }: pole tiheduseakna rida (campaign,phase,start_utc,mean_alt_km,n_valid,measured_mean,points)

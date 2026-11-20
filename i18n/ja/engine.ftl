@@ -9780,6 +9780,7 @@ engine-main-usage =
     { "   " }または：kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }または：kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }または：kshana time-vectors [--json] [<vectors.json|dir> ...]
+    { "   " }または：kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
     { "   " }または：kshana kinds [--json]
     { "   " }または：kshana example [<name>]
     { "   " }または：kshana --help | --version
@@ -10693,3 +10694,25 @@ engine-e-interference-map-locate-source-required = --source adsb または --sou
 engine-e-interference-map-locate-no-evidence-rows = locate の出力に対する証拠行が一覧にありません
 
 engine-interference-map-locate-note-not-preregistered = 注意：いずれかのオプションが事前登録されたパラメータと異なるため、これは事前登録された手法ではありません
+
+## src/space_weather_pnt/
+
+engine-space-weather-pnt-usage =
+    使い方：kshana space-weather storms
+    { "   " }または：kshana space-weather storm <id> [--altitudes <km,km,...>]
+    { "   " }または：kshana space-weather dgnss <request.json> [--forecast <3-day-forecast.txt>]
+    { "   " }または：kshana space-weather iono <request.json> [--ionex <file>]
+    { "   " }または：kshana space-weather density-scorecard <windows.csv>
+    { "   " }または：kshana space-weather lifetime <request.json>
+    { "   " }(docs/SPACE-WEATHER-PNT.md)
+
+engine-e-space-weather-pnt-out-of-range = `{ $field }` は { $lo } から { $hi } までの有限の数値でなければなりません
+engine-e-space-weather-pnt-unknown-storm = ライブラリに嵐 `{ $id }` はありません（kshana space-weather storms で一覧を表示）
+engine-e-space-weather-pnt-request = 有効なリクエストではありません：{ $e }
+engine-e-space-weather-pnt-bad-time = UTC 時刻（YYYY-MM-DDTHH:MM[:SS]Z）ではありません：{ $value }
+engine-e-space-weather-pnt-not-a-forecast = NOAA SWPC の 3 日予報ではありません：Kp 内訳表が揃っていません
+engine-e-space-weather-pnt-one-source = Kp 区間のソースを 1 つだけ指定してください：storm、intervals、または予報（swpc_forecast か --forecast）
+engine-e-space-weather-pnt-ionex-span = IONEX マップは { $t } をカバーしていません
+engine-e-space-weather-pnt-ionex-flag = IONEX マップを使うのは、リクエストの vtec が "ionex" で、かつ --ionex <file> が指定された場合に限ります
+engine-e-space-weather-pnt-no-epochs = リクエストの epochs_utc にエポックが少なくとも 1 つ必要です
+engine-e-space-weather-pnt-window-row = { $line } 行目：密度ウィンドウの行ではありません (campaign,phase,start_utc,mean_alt_km,n_valid,measured_mean,points)

@@ -1086,8 +1086,8 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/main.rs": {
-   "count": 73,
-   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md); clock-live prints its error text as given; the sensor-live command name; the device and bench-speed command names; the data-pack, area-trust and env-baseline command names; the ephem-export command name; the time-vectors command name."
+   "count": 74,
+   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md); clock-live prints its error text as given; the sensor-live command name; the device and bench-speed command names; the data-pack, area-trust and env-baseline command names; the ephem-export command name; the time-vectors command name; the space-weather command name."
   },
   "src/mars_pnt.rs": {
    "count": 31,
@@ -1672,6 +1672,26 @@
   "src/time_vectors.rs": {
    "count": 13,
    "reason": "identifier: the kshana.time-vectors/1 format tag, the embedded vector file names and the JSON field names of the vector format (docs/TIME-VECTORS.md)"
+  },
+  "src/space_weather_pnt/density.rs": {
+   "count": 18,
+   "reason": "machine-document: the JSON field names, format tags (kshana.space-weather.*/1) and MODELLED/MEASURED evidence labels of the space-weather documents (docs/SPACE-WEATHER-PNT.md), and the request field names quoted in range errors"
+  },
+  "src/space_weather_pnt/dgnss.rs": {
+   "count": 14,
+   "reason": "machine-document: the JSON field names, format tags (kshana.space-weather.*/1) and MODELLED/MEASURED evidence labels of the space-weather documents (docs/SPACE-WEATHER-PNT.md), and the request field names quoted in range errors; the NOAA SWPC table heading the forecast parser looks for"
+  },
+  "src/space_weather_pnt/iono4d.rs": {
+   "count": 18,
+   "reason": "machine-document: the JSON field names, format tags (kshana.space-weather.*/1) and MODELLED/MEASURED evidence labels of the space-weather documents (docs/SPACE-WEATHER-PNT.md), and the request field names quoted in range errors"
+  },
+  "src/space_weather_pnt/mod.rs": {
+   "count": 2,
+   "reason": "identifier: the density-scorecard subcommand name and the usage message id"
+  },
+  "src/space_weather_pnt/storms.rs": {
+   "count": 15,
+   "reason": "machine-document: the JSON field names, format tags (kshana.space-weather.*/1) and MODELLED/MEASURED evidence labels of the space-weather documents (docs/SPACE-WEATHER-PNT.md), and the request field names quoted in range errors"
   }
  }
 }

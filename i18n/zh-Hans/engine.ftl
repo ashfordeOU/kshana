@@ -9847,6 +9847,7 @@ engine-main-usage =
     { "   " }或：kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }或：kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }或：kshana time-vectors [--json] [<vectors.json|dir> ...]
+    { "   " }或：kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
     { "   " }或：kshana kinds [--json]
     { "   " }或：kshana example [<name>]
     { "   " }或：kshana --help | --version
@@ -10748,3 +10749,25 @@ engine-e-interference-map-locate-bad-tdoa = { $path } 不是可用的 TDOA 定�
 engine-e-interference-map-locate-source-required = 需要 --source adsb 或 --source ais
 
 engine-e-interference-map-locate-no-evidence-rows = 未列出定位输出的任何证据行
+
+## src/space_weather_pnt/
+
+engine-space-weather-pnt-usage =
+    用法：kshana space-weather storms
+    { "   " }或：kshana space-weather storm <id> [--altitudes <km,km,...>]
+    { "   " }或：kshana space-weather dgnss <request.json> [--forecast <3-day-forecast.txt>]
+    { "   " }或：kshana space-weather iono <request.json> [--ionex <file>]
+    { "   " }或：kshana space-weather density-scorecard <windows.csv>
+    { "   " }或：kshana space-weather lifetime <request.json>
+    { "   " }(docs/SPACE-WEATHER-PNT.md)
+
+engine-e-space-weather-pnt-out-of-range = `{ $field }` 必须是 { $lo } 到 { $hi } 之间的有限数
+engine-e-space-weather-pnt-unknown-storm = 库中没有风暴 `{ $id }`（用 kshana space-weather storms 列出）
+engine-e-space-weather-pnt-request = 无效的请求：{ $e }
+engine-e-space-weather-pnt-bad-time = 不是 UTC 时间（YYYY-MM-DDTHH:MM[:SS]Z）：{ $value }
+engine-e-space-weather-pnt-not-a-forecast = 不是 NOAA SWPC 3 天预报：缺少完整的 Kp 分时表
+engine-e-space-weather-pnt-one-source = 请只给出一个 Kp 时段来源：storm、intervals 或预报（swpc_forecast 或 --forecast）
+engine-e-space-weather-pnt-ionex-span = IONEX 地图不覆盖 { $t }
+engine-e-space-weather-pnt-ionex-flag = 当且仅当请求的 vtec 为 "ionex" 并给出 --ionex <file> 时才使用 IONEX 地图
+engine-e-space-weather-pnt-no-epochs = 请求的 epochs_utc 中至少需要一个历元
+engine-e-space-weather-pnt-window-row = 第 { $line } 行：不是密度窗口行 (campaign,phase,start_utc,mean_alt_km,n_valid,measured_mean,points)

@@ -37,6 +37,7 @@ fn the_top_level_usage_names_every_subcommand() {
         "inventory",
         "decimate",
         "time-vectors",
+        "space-weather",
     ] {
         assert!(
             text.contains(want),

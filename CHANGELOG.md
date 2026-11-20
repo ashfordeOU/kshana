@@ -9,6 +9,19 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+### Added (space weather for PNT and drag)
+
+- `kshana space-weather` (src/space_weather_pnt/, docs/SPACE-WEATHER-PNT.md): a storm library of eight recorded
+  storms (Halloween 2003 to the November 2025 superstorm, three-hourly Kp/ap and F10.7 from GFZ, CC BY 4.0) and one
+  synthetic stress case, each as a timeline with the NOAA G level, the auroral-oval edge and the density response at
+  chosen altitudes (Jacchia 1971 and NRLMSISE-00); a DGNSS/RTK outage forecaster for work windows, driven by a
+  storm, given intervals or a NOAA SWPC 3-day forecast (MODELLED; the November 2025 storm is reproduced
+  qualitatively for US farm RTK); a 4D ionosphere that serves GNSS slant TEC (Chapman F layer on Klobuchar, a
+  constant or an IONEX map) and LF skywave (Wait D region) from one electron-density field (MODELLED); a
+  density-model scorecard of the static, Jacchia 1971 and NRLMSISE-00 models against the TOLEOS accelerometer
+  densities (NRLMSISE-00 best, rms log10 ratio 0.176; all models too dense in the 2008 minimum, the sign Emmert et
+  al. 2010 reported); and an orbit lifetime with the model and index-forecast density uncertainty.
+
 ### Added (radio time-signal migration guide)
 
 - `docs/RADIO-TIME-MIGRATION.md`: the status of the CHU, MSF, DCF77 and WWVB time signals from public sources (CHU

@@ -10742,6 +10742,7 @@ engine-main-usage =
     { "   " }lub: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }lub: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }lub: kshana time-vectors [--json] [<vectors.json|dir> ...]
+    { "   " }lub: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
     { "   " }lub: kshana kinds [--json]
     { "   " }lub: kshana example [<name>]
     { "   " }lub: kshana --help | --version
@@ -11711,3 +11712,25 @@ engine-e-interference-map-locate-bad-tdoa = { $path } nie jest użytecznym pliki
 engine-e-interference-map-locate-source-required = wymagane jest --source adsb albo --source ais
 
 engine-e-interference-map-locate-no-evidence-rows = brak wierszy dowodowych dla wyników locate
+
+## src/space_weather_pnt/
+
+engine-space-weather-pnt-usage =
+    użycie: kshana space-weather storms
+    { "   " }lub: kshana space-weather storm <id> [--altitudes <km,km,...>]
+    { "   " }lub: kshana space-weather dgnss <request.json> [--forecast <3-day-forecast.txt>]
+    { "   " }lub: kshana space-weather iono <request.json> [--ionex <file>]
+    { "   " }lub: kshana space-weather density-scorecard <windows.csv>
+    { "   " }lub: kshana space-weather lifetime <request.json>
+    { "   " }(docs/SPACE-WEATHER-PNT.md)
+
+engine-e-space-weather-pnt-out-of-range = `{ $field }` musi być skończoną liczbą od { $lo } do { $hi }
+engine-e-space-weather-pnt-unknown-storm = w bibliotece nie ma burzy `{ $id }` (wypisuje je kshana space-weather storms)
+engine-e-space-weather-pnt-request = nieprawidłowe żądanie: { $e }
+engine-e-space-weather-pnt-bad-time = to nie jest czas UTC (YYYY-MM-DDTHH:MM[:SS]Z): { $value }
+engine-e-space-weather-pnt-not-a-forecast = to nie jest 3-dniowa prognoza NOAA SWPC: brak pełnej tabeli rozkładu Kp
+engine-e-space-weather-pnt-one-source = podaj dokładnie jedno źródło przedziałów Kp: storm, intervals lub prognozę (swpc_forecast albo --forecast)
+engine-e-space-weather-pnt-ionex-span = mapy IONEX nie obejmują { $t }
+engine-e-space-weather-pnt-ionex-flag = mapa IONEX jest używana wtedy i tylko wtedy, gdy vtec w żądaniu to "ionex" i podano --ionex <file>
+engine-e-space-weather-pnt-no-epochs = żądanie wymaga co najmniej jednej epoki w epochs_utc
+engine-e-space-weather-pnt-window-row = wiersz { $line }: to nie jest wiersz okna gęstości (campaign,phase,start_utc,mean_alt_km,n_valid,measured_mean,points)

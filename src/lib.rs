@@ -394,6 +394,7 @@ pub mod sp3;
 pub mod space_geoloc;
 pub mod space_packet;
 pub mod space_weather;
+pub mod space_weather_pnt;
 pub mod spectrum;
 pub mod speed_bench;
 pub mod spk_writer;
