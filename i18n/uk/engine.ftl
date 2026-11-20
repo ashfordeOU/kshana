@@ -10717,6 +10717,7 @@ engine-main-usage =
     { "   " }або: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }або: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }або: kshana time-vectors [--json] [<vectors.json|dir> ...]
+    { "   " }або: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }або: kshana kinds [--json]
     { "   " }або: kshana example [<name>]
     { "   " }або: kshana --help | --version
@@ -11629,3 +11630,11 @@ engine-e-interference-map-locate-bad-tdoa = { $path } не є придатним
 engine-e-interference-map-locate-source-required = потрібен --source adsb або --source ais
 
 engine-e-interference-map-locate-no-evidence-rows = для виводів locate не перелічено жодного рядка доказів
+
+## Correction decoders (src/corrections/)
+engine-e-corrections-bad-hex = не шістнадцятковий кадр: { $line }
+engine-e-corrections-unknown-decoder = невідомий декодер { $decoder } (has, b2b, l6)
+engine-e-corrections-bad-vector = у вектора { $id } немає шістнадцяткових кадрів або об'єкта expect
+engine-e-corrections-bad-file = { $file } не є документом { $format } (мітка формату та масив vectors)
+engine-corrections-summary = векторів: { $n }; пройдено: { $passed }, не пройдено: { $failed }
+engine-corrections-usage = використання: kshana corrections decode --format <has|b2b|l6> <frames.txt | -> | kshana corrections vectors [--json] [<vectors.json | dir> ...]  (один кадр на рядок у шістнадцятковому вигляді; docs/CORRECTION-DECODERS.md)

@@ -10378,6 +10378,7 @@ engine-main-usage =
     { "   " }or: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }or: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }or: kshana time-vectors [--json] [<vectors.json|dir> ...]
+    { "   " }or: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }or: kshana kinds [--json]
     { "   " }or: kshana example [<name>]
     { "   " }or: kshana --help | --version
@@ -11862,3 +11863,11 @@ engine-e-time-vectors-expected-error = the vector expects an error, and the oper
 engine-e-time-vectors-bad-format = { $file } is not a { $format } document (format tag and a vectors array)
 engine-time-vectors-summary = { $n } vectors: { $passed } passed, { $failed } failed
 engine-time-vectors-usage = usage: kshana time-vectors [--json] [<vectors.json | dir> ...]  (no path: the built-in set, data/conformance/time; docs/TIME-VECTORS.md)
+
+## Correction decoders (src/corrections/)
+engine-e-corrections-bad-hex = not a hexadecimal frame: { $line }
+engine-e-corrections-unknown-decoder = unknown decoder { $decoder } (has, b2b, l6)
+engine-e-corrections-bad-vector = vector { $id } lacks hexadecimal frames or an expect object
+engine-e-corrections-bad-file = { $file } is not a { $format } document (format tag and a vectors array)
+engine-corrections-summary = { $n } vectors: { $passed } passed, { $failed } failed
+engine-corrections-usage = usage: kshana corrections decode --format <has|b2b|l6> <frames.txt | -> | kshana corrections vectors [--json] [<vectors.json | dir> ...]  (one frame per line in hexadecimal; docs/CORRECTION-DECODERS.md)

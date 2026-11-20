@@ -10306,6 +10306,7 @@ engine-main-usage =
     { "   " }tai: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }tai: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }tai: kshana time-vectors [--json] [<vectors.json|dir> ...]
+    { "   " }tai: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }tai: kshana kinds [--json]
     { "   " }tai: kshana example [<name>]
     { "   " }tai: kshana --help | --version
@@ -11212,3 +11213,11 @@ engine-e-interference-map-locate-bad-tdoa = { $path } ei ole käyttökelpoinen T
 engine-e-interference-map-locate-source-required = --source adsb tai --source ais vaaditaan
 
 engine-e-interference-map-locate-no-evidence-rows = paikannustulosteille ei ole lueteltu todisterivejä
+
+## Correction decoders (src/corrections/)
+engine-e-corrections-bad-hex = ei heksadesimaalinen kehys: { $line }
+engine-e-corrections-unknown-decoder = tuntematon dekooderi { $decoder } (has, b2b, l6)
+engine-e-corrections-bad-vector = vektorista { $id } puuttuvat heksadesimaaliset kehykset tai expect-objekti
+engine-e-corrections-bad-file = { $file } ei ole { $format }-dokumentti (muototunniste ja vectors-taulukko)
+engine-corrections-summary = { $n } vektoria: { $passed } läpäisi, { $failed } epäonnistui
+engine-corrections-usage = käyttö: kshana corrections decode --format <has|b2b|l6> <frames.txt | -> | kshana corrections vectors [--json] [<vectors.json | dir> ...]  (yksi kehys riviä kohden heksadesimaalina; docs/CORRECTION-DECODERS.md)

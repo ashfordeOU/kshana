@@ -10603,6 +10603,7 @@ engine-main-usage =
     { "   " }of: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }of: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }of: kshana time-vectors [--json] [<vectors.json|dir> ...]
+    { "   " }of: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }of: kshana kinds [--json]
     { "   " }of: kshana example [<name>]
     { "   " }of: kshana --help | --version
@@ -11535,3 +11536,11 @@ engine-e-interference-map-locate-bad-tdoa = { $path } is geen bruikbaar TDOA-fix
 engine-e-interference-map-locate-source-required = --source adsb of --source ais is vereist
 
 engine-e-interference-map-locate-no-evidence-rows = er zijn geen bewijsrijen vermeld voor de locate-uitvoer
+
+## Correction decoders (src/corrections/)
+engine-e-corrections-bad-hex = geen hexadecimaal frame: { $line }
+engine-e-corrections-unknown-decoder = onbekende decoder { $decoder } (has, b2b, l6)
+engine-e-corrections-bad-vector = vector { $id } mist hexadecimale frames of een expect-object
+engine-e-corrections-bad-file = { $file } is geen { $format }-document (formaatlabel en een vectors-array)
+engine-corrections-summary = { $n } vectoren: { $passed } geslaagd, { $failed } mislukt
+engine-corrections-usage = gebruik: kshana corrections decode --format <has|b2b|l6> <frames.txt | -> | kshana corrections vectors [--json] [<vectors.json | dir> ...]  (één frame per regel in hexadecimaal; docs/CORRECTION-DECODERS.md)

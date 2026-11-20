@@ -10564,6 +10564,7 @@ engine-main-usage =
     { "   " }või: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }või: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }või: kshana time-vectors [--json] [<vectors.json|dir> ...]
+    { "   " }või: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }või: kshana kinds [--json]
     { "   " }või: kshana example [<name>]
     { "   " }või: kshana --help | --version
@@ -11468,3 +11469,11 @@ engine-e-interference-map-locate-bad-tdoa = { $path } ei ole kasutatav TDOA fiks
 engine-e-interference-map-locate-source-required = --source adsb või --source ais on nõutav
 
 engine-e-interference-map-locate-no-evidence-rows = locate väljundite jaoks pole tõendusridu loetletud
+
+## Correction decoders (src/corrections/)
+engine-e-corrections-bad-hex = pole kuueteistkümnendkaader: { $line }
+engine-e-corrections-unknown-decoder = tundmatu dekooder { $decoder } (has, b2b, l6)
+engine-e-corrections-bad-vector = vektoril { $id } puuduvad kuueteistkümnendkaadrid või expect-objekt
+engine-e-corrections-bad-file = { $file } ei ole { $format } dokument (vormingumärgis ja vectors-massiiv)
+engine-corrections-summary = { $n } vektorit: { $passed } läbis, { $failed } kukkus läbi
+engine-corrections-usage = kasutus: kshana corrections decode --format <has|b2b|l6> <frames.txt | -> | kshana corrections vectors [--json] [<vectors.json | dir> ...]  (üks kaader rea kohta kuueteistkümnendsüsteemis; docs/CORRECTION-DECODERS.md)

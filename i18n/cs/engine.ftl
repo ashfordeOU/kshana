@@ -10570,6 +10570,7 @@ engine-main-usage =
     { "   " }nebo: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }nebo: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }nebo: kshana time-vectors [--json] [<vectors.json|dir> ...]
+    { "   " }nebo: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }nebo: kshana kinds [--json]
     { "   " }nebo: kshana example [<name>]
     { "   " }nebo: kshana --help | --version
@@ -11546,3 +11547,11 @@ engine-e-interference-map-locate-bad-tdoa = { $path } není použitelný soubor 
 engine-e-interference-map-locate-source-required = je vyžadováno --source adsb nebo --source ais
 
 engine-e-interference-map-locate-no-evidence-rows = pro výstupy locate nejsou uvedeny žádné řádky důkazů
+
+## Correction decoders (src/corrections/)
+engine-e-corrections-bad-hex = není šestnáctkový rámec: { $line }
+engine-e-corrections-unknown-decoder = neznámý dekodér { $decoder } (has, b2b, l6)
+engine-e-corrections-bad-vector = vektoru { $id } chybí šestnáctkové rámce nebo objekt expect
+engine-e-corrections-bad-file = { $file } není dokument { $format } (značka formátu a pole vectors)
+engine-corrections-summary = { $n } vektorů: { $passed } prošlo, { $failed } selhalo
+engine-corrections-usage = použití: kshana corrections decode --format <has|b2b|l6> <frames.txt | -> | kshana corrections vectors [--json] [<vectors.json | dir> ...]  (jeden rámec na řádek, šestnáctkově; docs/CORRECTION-DECODERS.md)
