@@ -1,0 +1,548 @@
+{
+ "format": "kshana.correction-vectors/1",
+ "set": "b2b",
+ "version": "1.0.0",
+ "source": "BDS-SIS-ICD-PPP-B2b-1.0 (July 2020), section 6",
+ "provenance": "self-derived: frames encoded by this generator from field values it chose, following its own reading of the interface document; a second implementation of the same reading, not an independent reference",
+ "generator": "data/conformance/corrections/gen_correction_vectors.py",
+ "vectors": [
+  {
+   "id": "b2b-mt1-mask",
+   "decoder": "b2b",
+   "frames": [
+    "050e0e12c000100000020000820000000400800000080000000000000000000000000000000000000000000000000000000000000000000000036d0ff0"
+   ],
+   "expect": {
+    "frames": 1,
+    "bad_crc": 0,
+    "messages": [
+     {
+      "type": 1,
+      "epoch_s": 34567,
+      "iod_ssr": 2,
+      "iodp": 5,
+      "mask": [
+       "C01",
+       "C19",
+       "C46",
+       "G01",
+       "G07",
+       "E01",
+       "E12",
+       "R03"
+      ],
+      "note": null
+     }
+    ]
+   }
+  },
+  {
+   "id": "b2b-mt2-orbit-and-urai",
+   "decoder": "b2b",
+   "frames": [
+    "090e14104e5860fa3e7004d4c802688000fff8008070fffc0018000007f000000000000000000000000000000000000000000000000000000001810774"
+   ],
+   "expect": {
+    "messages": [
+     {
+      "type": 2,
+      "epoch_s": 34570,
+      "iod_ssr": 2,
+      "orbits": [
+       {
+        "sat": "C19",
+        "slot": 19,
+        "iodn": 600,
+        "iod_corr": 3,
+        "radial_m": 1.6,
+        "along_m": -1.28,
+        "cross_m": 0.4928,
+        "urai": 19,
+        "ura_mm": 14.75
+       },
+       {
+        "sat": "G01",
+        "slot": 64,
+        "iodn": 77,
+        "iod_corr": 0,
+        "radial_m": null,
+        "along_m": 26.208000000000002,
+        "cross_m": -26.208000000000002,
+        "urai": 0,
+        "ura_mm": null
+       },
+       {
+        "sat": "E12",
+        "slot": 112,
+        "iodn": 1023,
+        "iod_corr": 7,
+        "radial_m": -26.2128,
+        "along_m": null,
+        "cross_m": 0.0064,
+        "urai": 63,
+        "ura_mm": null
+       }
+      ],
+      "note": null
+     }
+    ]
+   },
+   "note": "three of six entries used; empty entries (slot 0) are dropped; not-available sentinels and URAI 0 and 63"
+  },
+  {
+   "id": "b2b-mt3-code-biases",
+   "decoder": "b2b",
+   "frames": [
+    "0d0d8810826400c910026531005bfff47ff000000000000000000000000000000000000000000000000000000000000000000000000000000002de79f0"
+   ],
+   "expect": {
+    "messages": [
+     {
+      "type": 3,
+      "code_biases": [
+       {
+        "sat": "C19",
+        "slot": 19,
+        "biases": [
+         {
+          "mode": 0,
+          "name": "B1I",
+          "bias_m": 1.7000000000000002
+         },
+         {
+          "mode": 8,
+          "name": "B2b-Q",
+          "bias_m": -34.799
+         }
+        ]
+       },
+       {
+        "sat": "E01",
+        "slot": 101,
+        "biases": [
+         {
+          "mode": 1,
+          "name": "E1 B",
+          "bias_m": 0.085
+         },
+         {
+          "mode": 11,
+          "name": "E6 C",
+          "bias_m": -0.017
+         },
+         {
+          "mode": 4,
+          "name": "E5a Q",
+          "bias_m": 34.799
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "id": "b2b-mt4-clock-with-mask",
+   "decoder": "b2b",
+   "frames": [
+    "050e0e12c000100000020000820000000400800000080000000000000000000000000000000000000000000000000000000000000000000000036d0ff0",
+    "110e161280800a5ffd9c0008fffe8000c0007ffff000080000000000000000000000000000000000000000000000000000000000000000000003dedc80"
+   ],
+   "expect": {
+    "messages": [
+     {
+      "type": 1,
+      "epoch_s": 34567,
+      "iod_ssr": 2,
+      "iodp": 5,
+      "mask": [
+       "C01",
+       "C19",
+       "C46",
+       "G01",
+       "G07",
+       "E01",
+       "E12",
+       "R03"
+      ],
+      "note": null
+     },
+     {
+      "type": 4,
+      "iodp": 5,
+      "subtype": 0,
+      "clocks": [
+       {
+        "sat": "C01",
+        "index": 1,
+        "iod_corr": 1,
+        "c0_m": 0.016
+       },
+       {
+        "sat": "C19",
+        "index": 2,
+        "iod_corr": 2,
+        "c0_m": -0.016
+       },
+       {
+        "sat": "C46",
+        "index": 3,
+        "iod_corr": 3,
+        "c0_m": null
+       },
+       {
+        "sat": "G01",
+        "index": 4,
+        "iod_corr": 4,
+        "c0_m": 26.2128
+       },
+       {
+        "sat": "G07",
+        "index": 5,
+        "iod_corr": 5,
+        "c0_m": 0.0
+       },
+       {
+        "sat": "E01",
+        "index": 6,
+        "iod_corr": 6,
+        "c0_m": 0.0016
+       },
+       {
+        "sat": "E12",
+        "index": 7,
+        "iod_corr": 7,
+        "c0_m": -0.0016
+       },
+       {
+        "sat": "R03",
+        "index": 8,
+        "iod_corr": 0,
+        "c0_m": 0.0032
+       }
+      ],
+      "note": null
+     }
+    ]
+   },
+   "note": "entries past the eight masked satellites are dropped"
+  },
+  {
+   "id": "b2b-mt4-clock-without-mask",
+   "decoder": "b2b",
+   "frames": [
+    "110e161480800a5ffd9c0008fffe8000c0007ffff0000800000000000000000000000000000000000000000000000000000000000000000000014b1e94"
+   ],
+   "expect": {
+    "messages": [
+     {
+      "type": 4,
+      "iodp": 9,
+      "clocks": [
+       {
+        "sat": null,
+        "index": 1
+       },
+       {
+        "sat": null,
+        "index": 2
+       },
+       {
+        "sat": null,
+        "index": 3
+       },
+       {
+        "sat": null,
+        "index": 4
+       },
+       {
+        "sat": null,
+        "index": 5
+       },
+       {
+        "sat": null,
+        "index": 6
+       },
+       {
+        "sat": null,
+        "index": 7
+       },
+       {
+        "sat": null,
+        "index": 8
+       },
+       {
+        "sat": null,
+        "index": 9
+       },
+       {
+        "sat": null,
+        "index": 10
+       },
+       {
+        "sat": null,
+        "index": 11
+       },
+       {
+        "sat": null,
+        "index": 12
+       },
+       {
+        "sat": null,
+        "index": 13
+       },
+       {
+        "sat": null,
+        "index": 14
+       },
+       {
+        "sat": null,
+        "index": 15
+       },
+       {
+        "sat": null,
+        "index": 16
+       },
+       {
+        "sat": null,
+        "index": 17
+       },
+       {
+        "sat": null,
+        "index": 18
+       },
+       {
+        "sat": null,
+        "index": 19
+       },
+       {
+        "sat": null,
+        "index": 20
+       },
+       {
+        "sat": null,
+        "index": 21
+       },
+       {
+        "sat": null,
+        "index": 22
+       },
+       {
+        "sat": null,
+        "index": 23
+       }
+      ],
+      "note": "no_mask"
+     }
+    ]
+   },
+   "note": "no type 1 with IODP 9: the 23 entries keep their mask positions"
+  },
+  {
+   "id": "b2b-mt5-urai",
+   "decoder": "b2b",
+   "frames": [
+    "050e0e12c000100000020000820000000400800000080000000000000000000000000000000000000000000000000000000000000000000000036d0ff0",
+    "150e18128240fc1083105000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000035971b4"
+   ],
+   "expect": {
+    "messages": [
+     {
+      "type": 1,
+      "epoch_s": 34567,
+      "iod_ssr": 2,
+      "iodp": 5,
+      "mask": [
+       "C01",
+       "C19",
+       "C46",
+       "G01",
+       "G07",
+       "E01",
+       "E12",
+       "R03"
+      ],
+      "note": null
+     },
+     {
+      "type": 5,
+      "subtype": 0,
+      "uras": [
+       {
+        "sat": "C01",
+        "index": 1,
+        "urai": 9,
+        "ura_mm": 2.75
+       },
+       {
+        "sat": "C19",
+        "index": 2,
+        "urai": 0,
+        "ura_mm": null
+       },
+       {
+        "sat": "C46",
+        "index": 3,
+        "urai": 63,
+        "ura_mm": null
+       },
+       {
+        "sat": "G01",
+        "index": 4,
+        "urai": 1,
+        "ura_mm": 0.25
+       },
+       {
+        "sat": "G07",
+        "index": 5,
+        "urai": 2,
+        "ura_mm": 0.5
+       },
+       {
+        "sat": "E01",
+        "index": 6,
+        "urai": 3,
+        "ura_mm": 0.75
+       },
+       {
+        "sat": "E12",
+        "index": 7,
+        "urai": 4,
+        "ura_mm": 1.0
+       },
+       {
+        "sat": "R03",
+        "index": 8,
+        "urai": 5,
+        "ura_mm": 1.25
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "id": "b2b-mt6-clock-and-orbit",
+   "decoder": "b2b",
+   "frames": [
+    "050e0e12c000100000020000820000000400800000080000000000000000000000000000000000000000000000000000000000000000000000036d0ff0",
+    "18450e1e1281dfe0c807d50e0012280c6001400c0075000000000000000000000000000000000000000000000000000000000000000000000001d9f38c"
+   ],
+   "expect": {
+    "messages": [
+     {
+      "type": 1,
+      "epoch_s": 34567,
+      "iod_ssr": 2,
+      "iodp": 5,
+      "mask": [
+       "C01",
+       "C19",
+       "C46",
+       "G01",
+       "G07",
+       "E01",
+       "E12",
+       "R03"
+      ],
+      "note": null
+     },
+     {
+      "type": 6,
+      "epoch_s": 34575,
+      "orbit_epoch_s": 34560,
+      "iodp": 5,
+      "clocks": [
+       {
+        "sat": "E12",
+        "index": 7,
+        "iod_corr": 3,
+        "c0_m": -0.8
+       },
+       {
+        "sat": "R03",
+        "index": 8,
+        "iod_corr": 4,
+        "c0_m": 0.8016000000000001
+       }
+      ],
+      "orbits": [
+       {
+        "sat": "R01",
+        "slot": 138,
+        "iodn": 12,
+        "iod_corr": 3,
+        "radial_m": 0.008,
+        "along_m": 0.038400000000000004,
+        "cross_m": 0.0448,
+        "urai": 20,
+        "ura_mm": 17.0
+       }
+      ]
+     }
+    ]
+   },
+   "note": "Slot_S 7: the seventh and eighth masked satellites"
+  },
+  {
+   "id": "b2b-mt7-clock-by-slot",
+   "decoder": "b2b",
+   "frames": [
+    "1c250e2008b97ffd438082460357ffbffd7fe49000000000000000000000000000000000000000000000000000000000000000000000000000037bd350"
+   ],
+   "expect": {
+    "messages": [
+     {
+      "type": 7,
+      "iod_ssr": 1,
+      "iodp": null,
+      "clocks": [
+       {
+        "sat": "C46",
+        "index": 46,
+        "iod_corr": 2,
+        "c0_m": -0.0048000000000000004
+       }
+      ],
+      "orbits": [
+       {
+        "sat": "G07",
+        "slot": 70,
+        "iodn": 13,
+        "iod_corr": 2,
+        "radial_m": -0.008,
+        "along_m": -0.038400000000000004,
+        "cross_m": -0.0448,
+        "urai": 9,
+        "ura_mm": 2.75
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "id": "b2b-null-bad-crc-and-reserved",
+   "decoder": "b2b",
+   "frames": [
+    "fc0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000029f5064",
+    "050e0e12c000100000020100820000000400800000080000000000000000000000000000000000000000000000000000000000000000000000036d0ff0",
+    "50000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000002548e90",
+    "abcd"
+   ],
+   "expect": {
+    "frames": 4,
+    "null": 1,
+    "bad_crc": 1,
+    "bad_length": 1,
+    "messages": [
+     {
+      "type": 20,
+      "note": "reserved_type"
+     }
+    ]
+   }
+  }
+ ]
+}

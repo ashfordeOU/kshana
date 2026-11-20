@@ -165,10 +165,21 @@ struct PairAcc {
     good: u32,
 }
 
+/// Reports per cell and which accuracy fields they carried, for the confidence statement.
+#[derive(Default, Clone, Copy)]
+struct CellReports {
+    n: u32,
+    with_nacp: u32,
+    with_nic: u32,
+}
+
 #[derive(Default)]
 struct DayAcc {
     pairs: HashMap<(u64, CellId), PairAcc>,
     good_total: HashMap<u64, u32>,
+    reports: HashMap<CellId, CellReports>,
+    /// Earliest and latest report time used (Unix s).
+    window: Option<(f64, f64)>,
 }
 
 /// Counters for rows that were read but not used, written into the output metadata.
@@ -491,6 +502,14 @@ impl AdsbAggregator {
         let (low, good) = self.params.classify(nic, nacp);
         let cell = self.grid.cell_of(lat, lon);
         let day = self.days.entry(day_of(ts)).or_default();
+        let r = day.reports.entry(cell).or_default();
+        r.n += 1;
+        r.with_nacp += u32::from(nacp.is_some());
+        r.with_nic += u32::from(nic.is_some());
+        day.window = Some(match day.window {
+            Some((a, b)) => (a.min(ts), b.max(ts)),
+            None => (ts, ts),
+        });
         let e = day.pairs.entry((aid, cell)).or_default();
         e.n += 1;
         e.low += u32::from(low);
@@ -602,6 +621,11 @@ fn evaluate_day(p: &AdsbParams, date: String, acc: DayAcc) -> DayOut {
                 Value::Null
             };
         props.insert("affected_share".into(), share_out);
+        let reports = acc.reports.get(id).copied().unwrap_or_default();
+        props.insert(
+            "confidence".into(),
+            cell_confidence(p, s.sampled, s.affected, reports),
+        );
         out.push(CellOut {
             id: *id,
             status: status.into(),
@@ -620,6 +644,7 @@ fn evaluate_day(p: &AdsbParams, date: String, acc: DayAcc) -> DayOut {
         },
     );
     meta.insert("day_confounded".into(), json!(day_confounded));
+    meta.insert("data_window".into(), data_window_json(acc.window));
     meta.insert("cells_published".into(), json!(out.len()));
     meta.insert(
         "cells_suppressed_below_min_distinct".into(),
@@ -630,6 +655,76 @@ fn evaluate_day(p: &AdsbParams, date: String, acc: DayAcc) -> DayOut {
         date,
         cells: out,
         day_meta: meta,
+    }
+}
+
+/// Identifier of the per-cell confidence statement, written into every cell's `confidence`.
+pub const CONFIDENCE_ID: &str = "kshana-interference-map/confidence/v1";
+
+/// The Wilson score interval of a proportion `k / n` at 95 % (z the 0.975 normal quantile), as
+/// `(low, high)`.
+pub fn wilson95(k: usize, n: usize) -> Option<(f64, f64)> {
+    if n == 0 || k > n {
+        return None;
+    }
+    let z = 1.959_963_984_540_054_f64;
+    let (k, n) = (k as f64, n as f64);
+    let p = k / n;
+    let d = 1.0 + z * z / n;
+    let c = (p + z * z / (2.0 * n)) / d;
+    let h = z * (p * (1.0 - p) / n + z * z / (4.0 * n * n)).sqrt() / d;
+    Some(((c - h).max(0.0), (c + h).min(1.0)))
+}
+
+/// The confidence statement of one published ADS-B cell (`docs/INTERFERENCE-MAP.md`): how much the
+/// call rests on, and how good the accuracy fields behind it were. It describes the call and changes
+/// nothing about it. The interval is given only when the share itself is published, so it reveals no
+/// withheld count.
+fn cell_confidence(p: &AdsbParams, sampled: usize, affected: usize, r: CellReports) -> Value {
+    let share = |a: u32| {
+        if r.n == 0 {
+            Value::Null
+        } else {
+            json!(round4(f64::from(a) / f64::from(r.n)))
+        }
+    };
+    let nacp_share = if r.n == 0 {
+        0.0
+    } else {
+        f64::from(r.with_nacp) / f64::from(r.n)
+    };
+    let ci = if sampled >= PUBLICATION_MIN_DISTINCT && affected >= PUBLICATION_MIN_DISTINCT {
+        wilson95(affected, sampled).map_or(Value::Null, |(lo, hi)| json!([round4(lo), round4(hi)]))
+    } else {
+        Value::Null
+    };
+    let level = if sampled >= 2 * p.min_aircraft && nacp_share >= 0.9 {
+        "high"
+    } else if sampled >= p.min_aircraft && nacp_share >= 0.5 {
+        "medium"
+    } else {
+        "low"
+    };
+    json!({
+        "statement": CONFIDENCE_ID,
+        "level": level,
+        "affected_share_ci95": ci,
+        "reports": if r.n >= PUBLICATION_MIN_DISTINCT as u32 { json!(r.n) } else { Value::Null },
+        "nacp_report_share": share(r.with_nacp),
+        "nic_report_share": share(r.with_nic),
+    })
+}
+
+/// The span of report times behind one day's file, `{first_report_utc, last_report_utc}`, each
+/// truncated to the minute.
+pub(crate) fn data_window_json(w: Option<(f64, f64)>) -> Value {
+    let minute = |t: f64| super::observatory::fmt_utc((t / 60.0).floor() as i64 * 60);
+    match w {
+        Some((a, b)) => json!({
+            "first_report_utc": minute(a),
+            "last_report_utc": minute(b),
+        }),
+        None => json!({"first_report_utc": null, "last_report_utc": null}),
     }
 }
 
@@ -1109,5 +1204,48 @@ mod tests {
         assert_eq!(p.min_alt_ft, 5000.0);
         assert_eq!(p.min_affected_aircraft, 5);
         assert_eq!(METHOD_ID, "kshana-interference-map/adsb/v2");
+    }
+
+    #[test]
+    fn the_wilson_interval_matches_an_independent_quadratic_solution() {
+        // Independent oracle: the roots of (p̂ - p)² = z² p (1 - p) / n by the quadratic formula,
+        // z = NormalDist().inv_cdf(0.975), computed in Python 3 (statistics module).
+        for (k, n, lo, hi) in [
+            (6, 10, 0.312_673_769_733_658_3, 0.831_819_670_293_763_9),
+            (0, 20, 0.0, 0.161_125_158_052_819_3),
+            (7, 12, 0.319_511_312_549_549_9, 0.806_739_686_341_243_3),
+        ] {
+            let (a, b) = wilson95(k, n).unwrap();
+            assert!(
+                (a - lo).abs() < 1e-12 && (b - hi).abs() < 1e-12,
+                "{k}/{n}: {a} {b}"
+            );
+        }
+        assert!(wilson95(1, 0).is_none() && wilson95(3, 2).is_none());
+    }
+
+    #[test]
+    fn every_published_cell_carries_a_confidence_that_withholds_what_the_counts_withhold() {
+        let p = AdsbParams::PREREGISTERED_V1;
+        let r = CellReports {
+            n: 40,
+            with_nacp: 40,
+            with_nic: 30,
+        };
+        let c = cell_confidence(&p, 20, 6, r);
+        assert_eq!(c["level"], "high");
+        assert_eq!(c["nic_report_share"], 0.75);
+        assert!(c["affected_share_ci95"].is_array());
+        // Fewer than five affected: the share is withheld, so is its interval.
+        assert!(cell_confidence(&p, 20, 4, r)["affected_share_ci95"].is_null());
+        assert_eq!(cell_confidence(&p, 10, 6, r)["level"], "medium");
+        let weak = CellReports {
+            n: 4,
+            with_nacp: 1,
+            with_nic: 4,
+        };
+        let c = cell_confidence(&p, 20, 6, weak);
+        assert_eq!(c["level"], "low");
+        assert!(c["reports"].is_null());
     }
 }

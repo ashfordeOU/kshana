@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
-//! RTCM 3 observation and station decoding beyond C/N0 (roadmap 0.42 I3): MSM4 and MSM7 full
-//! pseudorange, phase range, phase-range rate, lock-time indicator and half-cycle flag per cell, and
+//! RTCM 3 observation and station decoding beyond C/N0 (roadmap 0.42 I3; MSM1-3, 5 and 6 added in
+//! E17): MSM1 to MSM7 pseudorange, phase range, phase-range rate, lock-time indicator, half-cycle flag
+//! and CNR per cell, as far as each message carries them, and
 //! the stationary reference station messages 1005 and 1006 (antenna reference point, and in 1006
 //! the antenna height). Read-only, with an encoder for the round-trip tests and the vectors.
 //!
@@ -19,6 +20,15 @@
 //!   pseudorange (20 bits, 2^-29 ms), fine phase range (24 bits, 2^-31 ms), lock-time indicator
 //!   (10 bits), half-cycle flag, CNR (10 bits, 2^-4 dB-Hz) and fine phase-range rate (15 bits
 //!   signed, 0.0001 m/s).
+//! * MSM1 to MSM3 (the compact messages): per satellite only the rough range modulo 1 ms (10 bits,
+//!   2^-10 ms); per cell MSM1 the fine pseudorange (15 bits), MSM2 the fine phase range (22 bits),
+//!   lock-time indicator (4) and half-cycle flag, MSM3 all of these. No CNR. With no whole
+//!   milliseconds sent, their ranges are known only modulo one light-millisecond (299 792.458 m):
+//!   [`MsmCell::modulo_1ms`] says so, and the receiver needs its own approximate range to restore
+//!   them (RTKLIB's decoder does the same).
+//! * MSM5: as MSM4 per satellite plus the extended information and the rough phase-range rate (as in
+//!   MSM7), and per cell as MSM4 plus the fine phase-range rate (15 bits signed, 0.0001 m/s).
+//! * MSM6: as MSM4 per satellite, and per cell the MSM7 widths without the phase-range rate.
 //! * Ranges are given in metres (milliseconds × c / 1000 with c = 299 792 458 m/s); turning a phase
 //!   range into cycles needs the carrier frequency, which this decoder does not assume.
 //! * 1005/1006: station id, ITRF realisation year, the GPS, GLONASS and Galileo indicators, the
@@ -141,11 +151,14 @@ pub struct MsmCell {
     pub lock_indicator: u16,
     /// Half-cycle ambiguity indicator.
     pub half_cycle: bool,
-    /// Carrier-to-noise ratio, dB-Hz (`None` when transmitted as 0).
+    /// Carrier-to-noise ratio, dB-Hz (`None` when transmitted as 0, and in MSM1-3, which send none).
     pub cnr_dbhz: Option<f64>,
+    /// True for MSM1-3: the ranges are modulo one light-millisecond (no whole milliseconds sent).
+    #[serde(default, skip_serializing_if = "std::ops::Not::not")]
+    pub modulo_1ms: bool,
 }
 
-/// One MSM4 or MSM7 message.
+/// One MSM message (MSM1 to MSM7).
 #[derive(Clone, Debug, PartialEq, Serialize)]
 pub struct MsmMessage {
     /// Message number (1074, 1077, 1084, ...).
@@ -172,7 +185,7 @@ pub struct MsmMessage {
 pub struct Rtcm3Decoded {
     /// 1005/1006 station messages.
     pub stations: Vec<StationArp>,
-    /// MSM4 and MSM7 observation messages.
+    /// MSM1 to MSM7 observation messages.
     pub msm: Vec<MsmMessage>,
     /// Frames with a valid CRC of message types this decoder does not read, by type.
     pub other: std::collections::BTreeMap<u16, usize>,
@@ -191,7 +204,54 @@ enum Sys {
     I,
 }
 
-fn system(msg: u16) -> Option<(Sys, bool)> {
+/// The field widths of one MSM type (1 to 7), from the open decoders' tables.
+#[derive(Clone, Copy)]
+struct Layout(u16);
+
+impl Layout {
+    /// Whole milliseconds of the rough range are sent (MSM4-7).
+    fn int_ms(self) -> bool {
+        self.0 >= 4
+    }
+    /// Extended satellite information and rough phase-range rate are sent (MSM5, MSM7).
+    fn sat_rate(self) -> bool {
+        self.0 == 5 || self.0 == 7
+    }
+    /// Fine pseudorange (bits, scale in ms), when sent.
+    fn pr(self) -> Option<(usize, f64)> {
+        match self.0 {
+            1 | 3 | 4 | 5 => Some((15, 2f64.powi(-24))),
+            6 | 7 => Some((20, 2f64.powi(-29))),
+            _ => None,
+        }
+    }
+    /// Fine phase range (bits, scale in ms), when sent.
+    fn ph(self) -> Option<(usize, f64)> {
+        match self.0 {
+            2..=5 => Some((22, 2f64.powi(-29))),
+            6 | 7 => Some((24, 2f64.powi(-31))),
+            _ => None,
+        }
+    }
+    /// Lock-time indicator bits (with the half-cycle flag after it), when sent.
+    fn lock(self) -> Option<usize> {
+        match self.0 {
+            2..=5 => Some(4),
+            6 | 7 => Some(10),
+            _ => None,
+        }
+    }
+    /// CNR (bits, dB-Hz per unit), when sent.
+    fn cnr(self) -> Option<(usize, f64)> {
+        match self.0 {
+            4 | 5 => Some((6, 1.0)),
+            6 | 7 => Some((10, 1.0 / 16.0)),
+            _ => None,
+        }
+    }
+}
+
+fn system(msg: u16) -> Option<(Sys, Layout)> {
     let s = match msg / 10 {
         107 => Sys::G,
         108 => Sys::R,
@@ -203,8 +263,7 @@ fn system(msg: u16) -> Option<(Sys, bool)> {
         _ => return None,
     };
     match msg % 10 {
-        4 => Some((s, false)),
-        7 => Some((s, true)),
+        k @ 1..=7 => Some((s, Layout(k))),
         _ => None,
     }
 }
@@ -274,7 +333,7 @@ pub fn rinex_code(sys_msg: u16, sig: u8) -> Option<&'static str> {
     })
 }
 
-/// Decode every 1005, 1006, MSM4 and MSM7 frame of a stream.
+/// Decode every 1005, 1006 and MSM1-7 frame of a stream.
 pub fn decode(bytes: &[u8]) -> Rtcm3Decoded {
     let mut out = Rtcm3Decoded::default();
     let n = bytes.len();
@@ -385,7 +444,7 @@ fn mask_ids(mask: u64, width: u32) -> Vec<u32> {
 fn msm(p: &[u8]) -> Option<MsmMessage> {
     let mut b = Bits { b: p, pos: 0 };
     let message = b.u(12)? as u16;
-    let (sys, is7) = system(message)?;
+    let (sys, lay) = system(message)?;
     let station_id = b.u(12)? as u16;
     let (glonass_day, epoch_ms) = if sys == Sys::R {
         (Some(b.u(3)? as u8), b.u(27)? as u32)
@@ -409,13 +468,16 @@ fn msm(p: &[u8]) -> Option<MsmMessage> {
         }
     }
     let ns = sats.len();
-    let mut rough: Vec<Option<f64>> = Vec::with_capacity(ns);
-    for _ in 0..ns {
-        let v = b.u(8)?;
-        rough.push((v != 255).then_some(v as f64));
+    // Without whole milliseconds (MSM1-3) the rough range starts at 0 and is modulo 1 ms.
+    let mut rough: Vec<Option<f64>> = vec![Some(0.0); ns];
+    if lay.int_ms() {
+        for r in rough.iter_mut() {
+            let v = b.u(8)?;
+            *r = (v != 255).then_some(v as f64);
+        }
     }
     let mut ext = vec![0u8; ns];
-    if is7 {
+    if lay.sat_rate() {
         for e in ext.iter_mut() {
             *e = b.u(4)? as u8;
         }
@@ -427,18 +489,13 @@ fn msm(p: &[u8]) -> Option<MsmMessage> {
         }
     }
     let mut rate: Vec<Option<f64>> = vec![None; ns];
-    if is7 {
+    if lay.sat_rate() {
         for r in rate.iter_mut() {
             let v = b.s(14)?;
             *r = (v != -8192).then_some(v as f64);
         }
     }
     let nc = cells.len();
-    let (prb, prs, phb, phs, lockb, cnrb, cnrs) = if is7 {
-        (20, 2f64.powi(-29), 24, 2f64.powi(-31), 10, 10, 1.0 / 16.0)
-    } else {
-        (15, 2f64.powi(-24), 22, 2f64.powi(-29), 4, 6, 1.0)
-    };
     let mut col = |bits: usize, signed: bool| -> Option<Vec<i64>> {
         (0..nc)
             .map(|_| {
@@ -450,38 +507,56 @@ fn msm(p: &[u8]) -> Option<MsmMessage> {
             })
             .collect()
     };
-    let pr = col(prb, true)?;
-    let ph = col(phb, true)?;
-    let lock = col(lockb, false)?;
-    let half = col(1, false)?;
-    let cnr = col(cnrb, false)?;
-    let frate = if is7 { Some(col(15, true)?) } else { None };
+    let pr = match lay.pr() {
+        Some((bits, _)) => Some(col(bits, true)?),
+        None => None,
+    };
+    let ph = match lay.ph() {
+        Some((bits, _)) => Some(col(bits, true)?),
+        None => None,
+    };
+    let (lock, half) = match lay.lock() {
+        Some(bits) => (Some(col(bits, false)?), Some(col(1, false)?)),
+        None => (None, None),
+    };
+    let cnr = match lay.cnr() {
+        Some((bits, _)) => Some(col(bits, false)?),
+        None => None,
+    };
+    let frate = if lay.sat_rate() {
+        Some(col(15, true)?)
+    } else {
+        None
+    };
     let mut out_cells = Vec::with_capacity(nc);
     for (k, &(s, g)) in cells.iter().enumerate() {
         let sat = sat_id(sys, sats[s])?;
         let r = rough[s];
-        let invalid_pr = -(1i64 << (prb - 1));
-        let invalid_ph = -(1i64 << (phb - 1));
+        let fine = |v: &Option<Vec<i64>>, spec: Option<(usize, f64)>| -> Option<f64> {
+            let (bits, scale) = spec?;
+            let x = v.as_ref()?[k];
+            (x != -(1i64 << (bits - 1))).then_some(r? + x as f64 * scale)
+        };
         out_cells.push(MsmCell {
             sat,
             signal_id: sigs[g] as u8,
             rinex_code: rinex_code(message, sigs[g] as u8),
-            pseudorange_m: r
-                .filter(|_| pr[k] != invalid_pr)
-                .map(|r| (r + pr[k] as f64 * prs) * RANGE_MS),
-            phaserange_m: r
-                .filter(|_| ph[k] != invalid_ph)
-                .map(|r| (r + ph[k] as f64 * phs) * RANGE_MS),
+            pseudorange_m: fine(&pr, lay.pr()).map(|v| v * RANGE_MS),
+            phaserange_m: fine(&ph, lay.ph()).map(|v| v * RANGE_MS),
             phaserange_rate_m_s: match (&frate, rate[s]) {
                 (Some(f), Some(rr)) if f[k] != -16384 => Some(rr + f[k] as f64 * 1e-4),
                 _ => None,
             },
-            lock_indicator: lock[k] as u16,
-            half_cycle: half[k] == 1,
-            cnr_dbhz: (cnr[k] != 0).then(|| cnr[k] as f64 * cnrs),
+            lock_indicator: lock.as_ref().map_or(0, |l| l[k] as u16),
+            half_cycle: half.as_ref().is_some_and(|h| h[k] == 1),
+            cnr_dbhz: match (&cnr, lay.cnr()) {
+                (Some(c), Some((_, unit))) if c[k] != 0 => Some(c[k] as f64 * unit),
+                _ => None,
+            },
+            modulo_1ms: !lay.int_ms(),
         });
     }
-    let extended_info = if is7 {
+    let extended_info = if lay.sat_rate() {
         sats.iter()
             .zip(&ext)
             .filter_map(|(&id, &x)| Some((sat_id(sys, id)?, x)))
@@ -501,12 +576,13 @@ fn msm(p: &[u8]) -> Option<MsmMessage> {
     })
 }
 
-/// Encode an MSM4 or MSM7 payload (unframed; see [`frame`]) from a decoded message: the inverse of
-/// the decoder up to the transmitted resolution. Satellites and signals are taken from the cells;
-/// `None` values are sent as the invalid markers. Returns `None` for an unknown message number or a
-/// satellite id the system cannot carry.
+/// Encode an MSM1-7 payload (unframed; see [`frame`]) from a decoded message: the inverse of the
+/// decoder up to the transmitted resolution. Satellites and signals are taken from the cells;
+/// `None` values, and fields the message type does not carry, are sent as the invalid markers or
+/// left out. For MSM1-3 only the part of each range below one light-millisecond is sent. Returns
+/// `None` for an unknown message number or a satellite id the system cannot carry.
 pub fn encode_msm(m: &MsmMessage) -> Option<Vec<u8>> {
-    let (sys, is7) = system(m.message)?;
+    let (sys, lay) = system(m.message)?;
     let sat_num = |s: &str| -> Option<u32> {
         let n: u32 = s.get(1..)?.parse().ok()?;
         Some(if sys == Sys::S { n.checked_sub(19)? } else { n })
@@ -562,19 +638,26 @@ pub fn encode_msm(m: &MsmMessage) -> Option<Vec<u8>> {
             }
         }
     }
-    // The rough range of a satellite: the first valid range of its cells, to the nearest 2^-10 ms.
+    // The rough range of a satellite: the first valid range of its cells, to the nearest 2^-10 ms
+    // (MSM1-3: its part below 1 ms).
     let rough_of = |s: u32| -> Option<f64> {
         order
             .iter()
             .filter(|(x, _)| *x == s)
             .find_map(|(_, c)| c.pseudorange_m.or(c.phaserange_m))
-            .map(|r| ((r / RANGE_MS) * 1024.0).round() / 1024.0)
+            .map(|r| {
+                let ms = r / RANGE_MS;
+                let ms = if lay.int_ms() { ms } else { ms.rem_euclid(1.0) };
+                (ms * 1024.0).round() / 1024.0
+            })
     };
     let rough: Vec<Option<f64>> = sats.iter().map(|&s| rough_of(s)).collect();
-    for r in &rough {
-        w.put(r.map_or(255, |v| v.floor() as i64), 8);
+    if lay.int_ms() {
+        for r in &rough {
+            w.put(r.map_or(255, |v| v.floor() as i64), 8);
+        }
     }
-    if is7 {
+    if lay.sat_rate() {
         for &s in &sats {
             let id = sat_id(sys, s)?;
             let x = m
@@ -587,7 +670,7 @@ pub fn encode_msm(m: &MsmMessage) -> Option<Vec<u8>> {
     }
     for r in &rough {
         w.put(
-            r.map_or(0, |v| ((v - v.floor()) * 1024.0).round() as i64),
+            r.map_or(0, |v| (((v - v.floor()) * 1024.0).round() as i64).min(1023)),
             10,
         );
     }
@@ -601,41 +684,55 @@ pub fn encode_msm(m: &MsmMessage) -> Option<Vec<u8>> {
                 .map(f64::round)
         })
         .collect();
-    if is7 {
+    if lay.sat_rate() {
         for r in &rough_rate {
             w.put(r.map_or(-8192, |v| v as i64), 14);
         }
     }
-    let (prb, prs, phb, phs, lockb, cnrb, cnrs) = if is7 {
-        (20, 2f64.powi(-29), 24, 2f64.powi(-31), 10, 10, 1.0 / 16.0)
-    } else {
-        (15, 2f64.powi(-24), 22, 2f64.powi(-29), 4, 6, 1.0)
-    };
     let idx = |s: u32| sats.iter().position(|&x| x == s).unwrap_or(0);
-    for (s, c) in &order {
-        let v = match (c.pseudorange_m, rough[idx(*s)]) {
-            (Some(p), Some(r)) => ((p / RANGE_MS - r) / prs).round() as i64,
-            _ => -(1i64 << (prb - 1)),
-        };
-        w.put(v, prb);
+    // The rough range as the decoder will rebuild it (MSM1-3 send no whole milliseconds).
+    let base = |s: u32| rough[idx(s)];
+    let fine_ms = |range_m: f64, s: u32| -> Option<f64> {
+        let r = base(s)?;
+        let ms = range_m / RANGE_MS;
+        Some(if lay.int_ms() {
+            ms - r
+        } else {
+            ms.rem_euclid(1.0) - r
+        })
+    };
+    if let Some((bits, scale)) = lay.pr() {
+        for (s, c) in &order {
+            let v = c
+                .pseudorange_m
+                .and_then(|p| fine_ms(p, *s))
+                .map_or(-(1i64 << (bits - 1)), |f| (f / scale).round() as i64);
+            w.put(v, bits);
+        }
     }
-    for (s, c) in &order {
-        let v = match (c.phaserange_m, rough[idx(*s)]) {
-            (Some(p), Some(r)) => ((p / RANGE_MS - r) / phs).round() as i64,
-            _ => -(1i64 << (phb - 1)),
-        };
-        w.put(v, phb);
+    if let Some((bits, scale)) = lay.ph() {
+        for (s, c) in &order {
+            let v = c
+                .phaserange_m
+                .and_then(|p| fine_ms(p, *s))
+                .map_or(-(1i64 << (bits - 1)), |f| (f / scale).round() as i64);
+            w.put(v, bits);
+        }
     }
-    for (_, c) in &order {
-        w.put(i64::from(c.lock_indicator), lockb);
+    if let Some(bits) = lay.lock() {
+        for (_, c) in &order {
+            w.put(i64::from(c.lock_indicator), bits);
+        }
+        for (_, c) in &order {
+            w.put(i64::from(c.half_cycle), 1);
+        }
     }
-    for (_, c) in &order {
-        w.put(i64::from(c.half_cycle), 1);
+    if let Some((bits, unit)) = lay.cnr() {
+        for (_, c) in &order {
+            w.put(c.cnr_dbhz.map_or(0, |v| (v / unit).round() as i64), bits);
+        }
     }
-    for (_, c) in &order {
-        w.put(c.cnr_dbhz.map_or(0, |v| (v / cnrs).round() as i64), cnrb);
-    }
-    if is7 {
+    if lay.sat_rate() {
         for (s, c) in &order {
             let v = match (c.phaserange_rate_m_s, rough_rate[idx(*s)]) {
                 (Some(f), Some(r)) => ((f - r) / 1e-4).round() as i64,
@@ -660,6 +757,92 @@ mod tests {
         let mut b = Bits { b: &v, pos: 0 };
         assert_eq!(b.s(38), Some(-5));
         assert_eq!(b.u(12), Some(1234));
+    }
+
+    fn cell(sat: &str, sig: u8, pr: f64, ph: f64, cnr: Option<f64>) -> MsmCell {
+        MsmCell {
+            sat: sat.into(),
+            signal_id: sig,
+            rinex_code: None,
+            pseudorange_m: Some(pr),
+            phaserange_m: Some(ph),
+            phaserange_rate_m_s: None,
+            lock_indicator: 9,
+            half_cycle: true,
+            cnr_dbhz: cnr,
+            modulo_1ms: false,
+        }
+    }
+
+    /// Self-derived round trips through every MSM type: what each type carries comes back to its
+    /// resolution, and what it does not carry comes back empty.
+    #[test]
+    fn every_msm_type_round_trips_what_it_carries() {
+        for kind in 1..=7u16 {
+            let message = 1120 + kind; // BeiDou
+            let m = MsmMessage {
+                message,
+                station_id: 77,
+                epoch_ms: 345_678_900,
+                glonass_day: None,
+                multiple: false,
+                iods: 2,
+                extended_info: Vec::new(),
+                cells: vec![
+                    // ranges below 1 ms, so MSM1-3 can carry them whole
+                    cell("C11", 2, 250_000.123, 250_000.456, Some(41.0)),
+                    cell("C11", 22, 250_000.789, 250_000.321, Some(39.0)),
+                    cell("C30", 2, 120_000.5, 120_000.25, Some(44.0)),
+                ],
+            };
+            let f = frame(&encode_msm(&m).unwrap()).unwrap();
+            let d = decode(&f);
+            assert_eq!(d.skipped, 0, "MSM{kind}");
+            let got = &d.msm[0];
+            assert_eq!(
+                (got.message, got.station_id, got.epoch_ms),
+                (message, 77, 345_678_900)
+            );
+            assert_eq!(got.cells.len(), 3);
+            for (a, b) in got.cells.iter().zip(&m.cells) {
+                assert_eq!(a.sat, b.sat);
+                assert_eq!(a.modulo_1ms, kind <= 3, "MSM{kind}");
+                let has_pr = matches!(kind, 1 | 3..=7);
+                let has_ph = kind >= 2;
+                assert_eq!(a.pseudorange_m.is_some(), has_pr, "MSM{kind} pr");
+                assert_eq!(a.phaserange_m.is_some(), has_ph, "MSM{kind} ph");
+                if has_pr {
+                    assert!((a.pseudorange_m.unwrap() - b.pseudorange_m.unwrap()).abs() < 0.02);
+                }
+                if has_ph {
+                    assert!((a.phaserange_m.unwrap() - b.phaserange_m.unwrap()).abs() < 0.001);
+                }
+                assert_eq!(a.cnr_dbhz.is_some(), kind >= 4, "MSM{kind} cnr");
+                if kind >= 4 {
+                    assert_eq!(a.cnr_dbhz, b.cnr_dbhz);
+                }
+                assert_eq!(a.half_cycle, kind >= 2);
+                assert_eq!(a.lock_indicator, if kind >= 2 { 9 } else { 0 });
+            }
+        }
+    }
+
+    #[test]
+    fn msm1_to_3_ranges_are_modulo_one_light_millisecond() {
+        let m = MsmMessage {
+            message: 1073,
+            station_id: 1,
+            epoch_ms: 1000,
+            glonass_day: None,
+            multiple: false,
+            iods: 0,
+            extended_info: Vec::new(),
+            cells: vec![cell("G05", 2, 21_000_000.0, 21_000_000.5, None)],
+        };
+        let d = decode(&frame(&encode_msm(&m).unwrap()).unwrap());
+        let got = d.msm[0].cells[0].pseudorange_m.unwrap();
+        let want = 21_000_000.0f64.rem_euclid(RANGE_MS);
+        assert!((got - want).abs() < 0.02, "{got} vs {want}");
     }
 
     #[test]

@@ -9786,11 +9786,17 @@ engine-main-usage =
     { "   " }または：kshana obs <convert <log> --format <format> --station <station.toml> [--out <file>] | check <file.obs.jsonl> [--json]>
     { "   " }または：kshana connect <map <input> --mapping <connect.toml> --station <station.toml> [--out <file.obs.jsonl>] | check <vector.toml|dir> [--bless] | watch <dir> --mapping <connect.toml> --station <station.toml> [--suffix <.csv>] [--interval <s>] [--once] | mqtt <host:port> --topic <filter> --mapping <connect.toml> --station <station.toml> [--header <row>] [--qos 0|1] [--user <name> --password-env <VAR>] [--client-id <id>] [--max-messages <n>] [--per-topic] | nats <host:port> --subject <s> --mapping <connect.toml> --station <station.toml> [--header <row>] [--per-topic] [--user <name> --password-env <VAR> | --token-env <VAR>] [--max-messages <n>] | ws <ws://host:port/path> --mapping <connect.toml> --station <station.toml> [--header <row>] [--max-messages <n>] | check-live <vector.toml|dir> [--json] | load-test [--stations <n>] [--rate <Hz>] [--seconds <s>] [--via memory|mqtt] [--json] | adapters <list|check> [<dir>] [--json]>
     { "   " }または：kshana osnma verify <pages|vectors.csv|stream.ubx> [--merkle-root <hex>] [--public-key <id:type:hex>] [--reference-time <gst-s>] [--json] (kshana osnma --help)
-    { "   " }または：kshana iq <scene|acquire|track|sweep|labfit|campaign|conditions|frontend|monitor|inventory|info|extract|convert|decimate> ... (kshana iq --help)
+    { "   " }または：kshana iq <scene|acquire|track|sweep|labfit|campaign|conditions|frontend|monitor|diagnose|gnss-sdr-conf|inventory|info|extract|convert|decimate> ... (kshana iq --help)
     { "   " }または：kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }または：kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }または：kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
+    { "   " }または：kshana signal-readiness <profile.toml> [<obs.rnx>...]
     { "   " }または：kshana time-vectors [--json] [<vectors.json|dir> ...]
+    { "   " }または：kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
+    { "   " }または：kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
+    { "   " }または：kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
+    { "   " }または：kshana orbit-data <check|convert|gp-compare|gp-audit|cov> ... (kshana orbit-data --help)
+    { "   " }または：kshana drone <prearm|prearm-calibrate|estimator-cases|dr-budget|quad-loss|failover|zonotope-pl> ... (kshana drone --help)
     { "   " }または：kshana kinds [--json]
     { "   " }または：kshana example [<name>]
     { "   " }または：kshana --help | --version
@@ -9885,6 +9891,7 @@ engine-interference-map-cli-usage-map =
     { "   " }または：kshana interference-map daily <input.csv|trace.json[.gz]|dir> --dataset <adsb-lol|custom> --day <YYYY-MM-DD> --out <dir> [--cell-deg <deg, { $lit_0_5 } or coarser>] [--bbox <south,west,north,east>] [--delay-hours <24 or more>]
     { "   " }または：kshana interference-map sensitivity <input.csv|trace.json[.gz]|dir> --dataset <adsb-lol|custom> --day <YYYY-MM-DD> --out <report.json> [--bbox <south,west,north,east>]
     { "   " }または：kshana interference-map fetch-land --out <land.geojson> --allow-network
+    { "   " }または：kshana interference-map incidents <validate <library.json> [--releases <RELEASES.json>] [--json] | release <library.json> --out <dir> | from-observatory <day.incidents.json> --source-url <https://...> --out <file.json>>
     { "   " }（--dataset custom には --licence <text> --licence-url <url> --attribution <text> も必要です）
 
 engine-interference-map-cli-usage-route = 使い方：kshana route-exposure --route <route.geojson|route.csv> --map <map.geojson|dir> [--map ...] [--from <YYYY-MM-DD>] [--to <YYYY-MM-DD>] [--out <report.json>] [--json]
@@ -9939,6 +9946,8 @@ engine-iq-cli-usage =
     { "   " }または：kshana iq conditions <test-conditions.toml|json>
     { "   " }または：kshana iq frontend <in> <out> [--bandpass lo,hi] [--notch] [--blank <thr>] [--excise] [--agc] [--bits <n>] [--out-format <fmt>]
     { "   " }または：kshana iq monitor <recording> [--power] [--spectral] [--settings <toml|json>] [--baseline <s>] [--signal <name> --prn <list> [--spacing <chips>] [--pll-bw <hz>] [--fll-bw <hz>] [--dll-bw <hz>] [--coherent <N>] [--cn0-windows <M>] [--doppler-max <hz>]] [--max-seconds <s>] [--follow [--idle-timeout <s>]] [--json <out>] [--csv <prefix>]
+    { "   " }または：kshana iq diagnose <recording> [--max-seconds <s>] [--block <s>] [--gain-step-db <db>] [--signal <name> --prn <list> [--coherent <N>] [--noncoherent <M>] [--doppler-max <hz>] [--doppler-step <hz>] [--pfa <p>] [--step <s>] [--steps <n>] [--max-sat-doppler <hz>]]
+    { "   " }または：kshana iq gnss-sdr-conf <recording> [--signal <name[:channels]>,...] [--profile default|narrowband] [--doppler-max <hz>] [--rate-ms <ms>] [--monitor-ports <ch,pvt> | --no-monitor] [--out <file.conf>]
     { " " }labfit シナリオ：受信機ログの [[runs]]、または kshana iq campaign の出力フォルダ（シナリオファイルからの相対パス）を指す [input] campaign = "<out-dir>"
     { " " }ループ設計：kshana.loop-design/1 の TOML ファイル（docs/design/LOOP-DESIGN-TOML.md）。明示したループ/捕捉のフラグは、選択した設計より優先されます
     { " " }acquire/track/sweep はフロントエンドのフラグ [--bandpass lo,hi] [--notch] [--blank <thr>] [--excise] [--agc] [--bits <n>] も受け付け、処理の前（捕捉と追尾のパスの両方）に適用されます
@@ -10704,3 +10713,221 @@ engine-e-interference-map-locate-source-required = --source adsb または --sou
 engine-e-interference-map-locate-no-evidence-rows = locate の出力に対する証拠行が一覧にありません
 
 engine-interference-map-locate-note-not-preregistered = 注意：いずれかのオプションが事前登録されたパラメータと異なるため、これは事前登録された手法ではありません
+
+## Interference-incident format and case library (src/interference_map/incident.rs)
+engine-interference-incidents-valid = { $file }：{ $n } 件のレコード、有効
+engine-e-interference-incidents-invalid = インシデントライブラリに { $n } 件の問題があります。一覧は kshana interference-map incidents validate <file> で表示します
+engine-e-interference-incidents-not-a-document = { $file } は { $schema } 文書ではありません
+engine-e-interference-incidents-source-url-required = --source-url は必須です：各レコードは成果物が公開されている https:// アドレスを引用します
+
+## Correction decoders (src/corrections/)
+engine-e-corrections-bad-hex = 16 進数のフレームではありません：{ $line }
+engine-e-corrections-unknown-decoder = 不明なデコーダー { $decoder }（has、b2b、l6）
+engine-e-corrections-bad-vector = ベクトル { $id } に 16 進数のフレームまたは expect オブジェクトがありません
+engine-e-corrections-bad-file = { $file } は { $format } 文書ではありません（形式タグと vectors 配列）
+engine-corrections-summary = { $n } 件のベクトル：合格 { $passed } 件、不合格 { $failed } 件
+engine-corrections-usage = 使い方：kshana corrections decode --format <has|b2b|l6> <frames.txt | -> | kshana corrections vectors [--json] [<vectors.json | dir> ...]  (1 行に 1 フレーム、16 進数; docs/CORRECTION-DECODERS.md)
+
+## src/space_weather_pnt/
+
+engine-space-weather-pnt-usage =
+    使い方：kshana space-weather storms
+    { "   " }または：kshana space-weather storm <id> [--altitudes <km,km,...>]
+    { "   " }または：kshana space-weather dgnss <request.json> [--forecast <3-day-forecast.txt>]
+    { "   " }または：kshana space-weather iono <request.json> [--ionex <file>]
+    { "   " }または：kshana space-weather density-scorecard <windows.csv>
+    { "   " }または：kshana space-weather lifetime <request.json>
+    { "   " }(docs/SPACE-WEATHER-PNT.md)
+
+engine-e-space-weather-pnt-out-of-range = `{ $field }` は { $lo } から { $hi } までの有限の数値でなければなりません
+engine-e-space-weather-pnt-unknown-storm = ライブラリに嵐 `{ $id }` はありません（kshana space-weather storms で一覧を表示）
+engine-e-space-weather-pnt-request = 有効なリクエストではありません：{ $e }
+engine-e-space-weather-pnt-bad-time = UTC 時刻（YYYY-MM-DDTHH:MM[:SS]Z）ではありません：{ $value }
+engine-e-space-weather-pnt-not-a-forecast = NOAA SWPC の 3 日予報ではありません：Kp 内訳表が揃っていません
+engine-e-space-weather-pnt-one-source = Kp 区間のソースを 1 つだけ指定してください：storm、intervals、または予報（swpc_forecast か --forecast）
+engine-e-space-weather-pnt-ionex-span = IONEX マップは { $t } をカバーしていません
+engine-e-space-weather-pnt-ionex-flag = IONEX マップを使うのは、リクエストの vtec が "ionex" で、かつ --ionex <file> が指定された場合に限ります
+engine-e-space-weather-pnt-no-epochs = リクエストの epochs_utc にエポックが少なくとも 1 つ必要です
+engine-e-space-weather-pnt-window-row = { $line } 行目：密度ウィンドウの行ではありません (campaign,phase,start_utc,mean_alt_km,n_valid,measured_mean,points)
+engine-e-rtkqa-usage = 使い方：kshana rtk-qa monitor <host:port> --mount <name> [--user <name> --password-env <VAR>] [--gga <lat,lon[,h]>] [--seconds <s>] [--stale-after <s>] [--link-bps <n>]
+    kshana rtk-qa sources <table.txt|host:port> [--near <lat,lon>]
+    kshana rtk-qa base <stream.rtcm3> --reference <reference.toml|json> [--epoch <decimal year>]
+    kshana rtk-qa fix <solution.pos|nmea> [--control <name,lat,lon,h>]... [--radius <m>] [--h-tol <m>] [--v-tol <m>]
+    kshana rtk-qa ppk <rover.obs> [--base <base.obs>]
+    kshana rtk-qa probe <host:port> --mount <name> [--user <name> --password-env <VAR>] [--gga <lat,lon[,h]>] [--seconds <s>]
+    kshana rtk-qa caster --listen <host:port> --stream <file.rtcm3> --mount <name> [--user <name> --password-env <VAR>] [--chunk-ext] [--clients <n>] [--max-clients <n>] [--pace-ms <n>]
+    kshana rtk-qa log-check <client.log> --user <name> --password-env <VAR>
+    kshana rtk-qa failover <spec.json|toml>
+
+engine-e-rtkqa-frame = 不明な基準座標系 { $frame }（ITRF2014、ITRF2020、ETRF2014、ETRF2020 のいずれか）
+
+engine-e-rtkqa-tide = 不明な潮汐系 { $tide }（tide-free、zero-tide、mean-tide のいずれか）
+
+engine-e-rtkqa-pos-columns = 解ファイルの位置が度分秒または基線で書かれています。10 進度または ECEF で書いてください
+
+engine-e-rtkqa-pos-line = { $line } 行目は解のエポックではありません
+
+engine-e-rtkqa-no-solutions = 解のエポックが見つかりません（RTKLIB 形式の .pos ファイルまたは NMEA GGA センテンス）
+
+engine-e-rtkqa-no-station = ストリームに局メッセージ 1005 または 1006 がありません
+
+engine-e-rtkqa-failover-spec = フェイルオーバー試験には正の期間とステップ、および 1 つ以上のソースが必要です
+
+engine-e-rtkqa-failover-source = ポリシーが未定義のソースを指定しています：{ $name }
+
+engine-rtkqa-monitor-summary = rtk-qa monitor：スコア { $score }/100（MODELLED）；可用 { $availability } %、遅延の中央値 { $latency } ms、完全性 { $completeness } %、アラーム { $alarms }
+
+engine-rtkqa-sources-summary = rtk-qa sources：マウントポイント { $n }
+
+engine-rtkqa-base-summary = rtk-qa base：局 { $n }；正常 { $ok }、警告 { $warn }、失敗 { $fail }（MODELLED）
+
+engine-rtkqa-fix-summary = rtk-qa fix：観測点 { $n }；合格 { $pass }、警告 { $warn }、失敗 { $fail }、FIX なし { $nofix }（MODELLED）
+
+engine-rtkqa-ppk-summary = rtk-qa ppk：考えられる原因 { $n }：{ $causes }
+
+engine-rtkqa-probe-summary = rtk-qa probe：{ $total } 件中 { $met } 件のチェックを満たしました；未達：{ $failed }
+
+engine-rtkqa-caster-listening = rtk-qa caster：{ $addr } で待ち受け中、マウントポイント { $mount }
+
+engine-rtkqa-caster-client = rtk-qa caster：クライアント { $peer } への応答 { $answer }；{ $total } 件中 { $met } 件のチェックを満たしました
+
+engine-rtkqa-log-summary = rtk-qa log-check：{ $file } で認証情報が { $n } 回見つかりました
+
+engine-rtkqa-failover-summary = rtk-qa failover：切り替え { $switches }；補正の経過時間が上限を超えた時間 { $over } s；最大経過時間 { $max_age } s（MODELLED）
+
+## SDR front-end diagnostics and the GNSS-SDR configuration (src/iq/frontdiag.rs, src/iq/gnss_sdr_conf.rs)
+engine-e-iq-frontdiag-no-samples = 録音にサンプルがありません
+engine-e-iq-frontdiag-positive = --block、--step、--gain-step-db は正の値でなければなりません
+engine-e-iq-gnss-sdr-conf-format = GNSS-SDR のファイル入力が読むのは ci16_le、ci8、cf32_le で、{ $format } は読めません。先に録音を変換してください（kshana iq convert <in> <out> --to ci16_le）
+engine-e-iq-gnss-sdr-conf-layout = GNSS-SDR のファイル入力はヘッダのない 1 つのデータファイルから 1 本のストリームを読みます。先にストリームを取り出してください（kshana iq convert）
+engine-e-iq-gnss-sdr-conf-if = 録音の中間周波数が 0 ではありません。先にゼロ IF にしてください（kshana iq decimate --if-hz）
+engine-e-iq-gnss-sdr-conf-no-signal = --signal で少なくとも 1 つの信号を指定してください
+engine-e-iq-gnss-sdr-conf-rate = PVT の出力間隔は 20 ms の倍数でなければなりません（{ $rate } ではなく）
+engine-e-iq-gnss-sdr-conf-signal = { $signal } の GNSS-SDR 設定は書き出されません（対象：{ $known }）
+engine-e-iq-gnss-sdr-conf-centre = { $signal } は録音の中心周波数から { $offset_hz } Hz 離れています。GNSS-SDR の既定のチェーンでは周波数 0 にある必要があります
+engine-e-iq-gnss-sdr-conf-profile = 不明なプロファイル { $profile }（default、narrowband）
+engine-iq-gnss-sdr-conf-written = GNSS-SDR 設定を { $path } に書き出しました
+
+## Orbit-data validators, converters and monitors (src/orbit_data)
+engine-orbit-data-valid = { $standard } に対して有効
+engine-orbit-data-valid-with-warnings = { $standard } に対して有効、警告：{ $warnings }
+engine-orbit-data-invalid = { $standard } に対して無効：エラー：{ $errors }、警告：{ $warnings }
+engine-orbit-data-error = エラー
+engine-orbit-data-warning = 警告
+engine-orbit-data-not-checked = 未確認：{ $what }
+engine-orbit-data-header = ヘッダー
+engine-orbit-data-cdm-relative = 相対メタデータ／データ
+engine-orbit-data-cdm-object = オブジェクトのメタデータ／データ
+engine-orbit-data-covariance = 共分散
+engine-orbit-data-oem-metadata = セグメント { $n } のメタデータ
+engine-orbit-data-line-too-long = 行の文字数が { $n } で、{ $max } を超えています
+engine-orbit-data-non-printable = 行に印字可能な ASCII ではない文字があります
+engine-orbit-data-not-key-value = KEYWORD = value の形式の行ではありません：{ $text }
+engine-orbit-data-keyword-blank = キーワード { $key } に空白が含まれています
+engine-orbit-data-keyword-case = キーワード { $key } が大文字ではありません
+engine-orbit-data-units-format = { $key } の単位は値の後に空白を置き、角括弧で囲む必要があります
+engine-orbit-data-first-line = 最初の行は { $key } でなければなりません
+engine-orbit-data-parse-failed = メッセージを読み取れません：{ $err }
+engine-orbit-data-xml-root = ルート要素が { $want } ではなく { $name } です
+engine-orbit-data-xml-attr = ルート属性 { $attr } は { $want } でなければなりません
+engine-orbit-data-xml-missing = メッセージに { $tag } がありません
+engine-orbit-data-empty-value = { $key } の値が空です
+engine-orbit-data-bad-time = { $key } = { $value } は時刻タグではありません (yyyy-mm-ddThh:mm:ss[.d] / yyyy-dddThh:mm:ss[.d])
+engine-orbit-data-bad-number = { $key } = { $value } は規格の表記による数値ではありません
+engine-orbit-data-bad-integer = { $key } = { $value } は整数ではありません
+engine-orbit-data-bad-value = { $key } = { $value } は次のいずれでもありません：{ $allowed }
+engine-orbit-data-out-of-range = { $key } = { $value } は { $range } の範囲外です
+engine-orbit-data-version = バージョン { $value }：このチェックはバージョン { $want } に従います
+engine-orbit-data-bad-chars = { $key } = { $value } に英字、数字、下線、ハイフン以外の文字があります
+engine-orbit-data-identifier-blank = { $key } = { $value } に空白があります（規格が認めるのは英字、数字、下線、ハイフン）
+engine-orbit-data-lower-case = { $key } = { $value } に小文字があります
+engine-orbit-data-bad-units = { $key } の単位は [{ $given }] です。規格の単位は [{ $want }] です
+engine-orbit-data-missing-units = { $key } に単位 [{ $want }] が示されていません
+engine-orbit-data-unknown-keyword = { $key } は { $section } のキーワードではありません
+engine-orbit-data-duplicate-keyword = { $key } が { $section } に複数回現れます
+engine-orbit-data-keyword-order = { $key } は規格が定める順序から外れています（{ $prev } の後にあります）
+engine-orbit-data-missing-keyword = { $section } に必須の { $key } がありません
+engine-orbit-data-cdm-object-count = メッセージのオブジェクトセクション数：{ $n }。CDM には OBJECT1、OBJECT2 の順に 2 つあります
+engine-orbit-data-cov-row = 共分散の行 { $row } が不完全か、欠けた行の後にあります
+engine-orbit-data-cov-zero-diagonal = { $at } の共分散に分散ゼロがあります。その行と列は使わないでください
+engine-orbit-data-not-pd = { $at } の共分散は正定値ではありません（相関行列の最小固有値 { $min }）
+engine-orbit-data-frame-mismatch = オブジェクト間で REF_FRAME が異なります（{ $a }、{ $b }）
+engine-orbit-data-inconsistent = { $key } = { $given } { $unit } ですが、データからは { $computed } { $unit } になります
+engine-orbit-data-time-order = { $first }（{ $a }）が { $second }（{ $b }）より後です
+engine-orbit-data-count-order = { $used } = { $a } が { $avail } = { $b } より大きいです
+engine-orbit-data-unterminated = メッセージがブロックの途中で終わっています
+engine-orbit-data-no-segment = メッセージにセグメントがありません
+engine-orbit-data-time-system-changed = メッセージ内で TIME_SYSTEM が変わります（{ $a }、次に { $b }）
+engine-orbit-data-outside-span = 時刻 { $t } がメタデータの示す範囲の外にあります
+engine-orbit-data-useable-overlap = セグメント { $a } と { $b } の使用可能区間が重なっています
+engine-orbit-data-data-width = データ行の値の数が { $n } です。期待値：{ $want }
+engine-orbit-data-duplicate-time = 時刻タグ { $t } が重複しています
+engine-orbit-data-time-not-increasing = 時刻タグ { $t } が増加していません（直前は { $prev }）
+engine-orbit-data-too-few-points = データ行数：{ $n }。次数 { $deg } の補間には足りません（必要数：{ $need }）
+engine-orbit-data-mixed-time = ブロック { $block } に相対時刻タグと絶対時刻タグが混在しています
+engine-orbit-data-span-short = 使用可能区間は { $days } 日で、指定の { $min } 日より短いです
+engine-orbit-data-gap = { $s } 秒の欠落があり、指定の { $max } 秒より長いです
+engine-orbit-data-gp-checksum = { $line } 行目：69 桁目のチェックサムが誤りです（正しくは { $want }）
+engine-orbit-data-gp-catalogue = 1 行目と 2 行目のカタログ番号が一致しません
+engine-orbit-data-gp-perigee = 近地点高度は { $km } km で、地表より下です
+engine-orbit-data-gp-sgp4 = 元期から { $days } 日後に SGP4 が失敗します（エラーコード { $code }）
+engine-orbit-data-gp-stale = 元期が基準時刻より { $days } 日前です（{ $max } を超えています）
+engine-orbit-data-gp-future = 元期が基準時刻より { $days } 日後です
+engine-orbit-data-gp-repeated-epoch = このオブジェクトの別の要素セットが同じ元期で異なる要素を持っています
+engine-orbit-data-gp-elset-number = 後の元期で要素セット番号が { $a } から { $b } に戻っています
+engine-orbit-data-gp-jump = このセットと直前のセットは、その元期（{ $hours } 時間後）で { $km } km 異なります（{ $max } km 超）：マヌーバか誤ったセットです
+engine-orbit-data-gp-compare-summary = 両方のソースにあるオブジェクト：{ $n }、{ $threshold } km 超でフラグ：{ $flagged }。1 つ目のみ：{ $only_a }、2 つ目のみ：{ $only_b }（MODELLED：SGP4 の差であり、精度ではありません）
+engine-orbit-data-gp-audit-summary = 要素セット：{ $sets }、オブジェクト：{ $objects }、所見：{ $findings }
+engine-orbit-data-usage =
+    使い方：kshana orbit-data check <cdm|oem|ocm file> [--json] [--aliases <map.json>] [--min-span-days <d>] [--max-gap-s <s>]
+    { "   " }または：kshana orbit-data convert <file> --to <ocm|oem|cdm> [--aliases <map.json>]
+    { "   " }または：kshana orbit-data gp-compare <a.tle> <b.tle> [--hours <h>] [--step-min <min>] [--threshold-km <km>] [--json]
+    { "   " }または：kshana orbit-data gp-audit <sets.tle> ... [--at <epoch>] [--stale-days <d>] [--jump-km <km>] [--json]
+    { "   " }または：kshana orbit-data cov <check|propagate|monte-carlo|synthetic|realism> <input.json> [--dt-s <s>] [--step-s <s>] [--samples <n>] [--seed <n>] [--sigma-rtn <r,t,n,rdot,tdot,ndot>] [--full]
+    { "   " }(docs/ORBIT-DATA.md)
+engine-e-orbit-data-unknown-message = { $path } は CDM、OEM（KVN）、OCM のいずれでもありません。CCSDS_CDM_VERS、CCSDS_OEM_VERS、CCSDS_OCM_VERS の行も、<cdm> や <ocm> のルートもありません
+engine-e-orbit-data-bad-flag = { $flag } { $value }：使用できない値です
+engine-e-orbit-data-aliases-not-object = エイリアス表は "name": "KEYWORD" の JSON オブジェクトでなければなりません
+engine-e-orbit-data-alias-target = エイリアス { $key } は CDM のキーワードを指していません
+engine-e-orbit-data-convert-pair = { $path }：{ $to } への変換はありません（OEM から ocm、OCM から oem、CDM から cdm）
+engine-e-orbit-data-convert-empty = OEM に変換するセグメントがありません
+engine-e-orbit-data-convert-one-object = OEM のオブジェクト数：{ $n }。OCM は 1 つです
+engine-e-orbit-data-convert-missing = 変換元に、変換先が必要とする { $key } がありません
+engine-e-orbit-data-convert-width = データ行または共分散行の値の数が変換に合いません
+engine-e-orbit-data-convert-time = 時刻タグ { $t } を絶対時刻にできません（EPOCH_TZERO がないか、数値ではありません）
+engine-e-orbit-data-convert-traj = 軌道タイプ { $kind } には OEM の形式がありません（CARTPV と CARTPVA にはあります）
+engine-e-orbit-data-convert-cov = 共分散 { $kind } { $ordering } には OEM の形式がありません（LTM、UTM、FULL の CARTPV にはあります）
+engine-e-orbit-data-cov-input = 入力に有効な { $key } がありません
+engine-e-orbit-data-cov-not-pd = 初期共分散が正定値でないか、要求したサンプル数が少なすぎます
+
+## Drone, UTM and robotics PNT tools (src/drone_pnt)
+engine-drone-usage = 使い方：kshana drone prearm <log.ulg|log.bin|epochs.jsonl> [--window <s>] [--config <thresholds.json>] [--gate] | prearm-calibrate [--runs <n>] [--seed <n>] | estimator-cases [--case <id> --trace <trace.jsonl> [--params <json>]] | dr-budget [<spec.json> | --airframe multirotor|fixed-wing|vtol|ground-robot] | quad-loss [<spec.json>] | failover [<spec.json>] | zonotope-pl <spec.json>  (docs/DRONE-PNT.md)
+engine-e-drone-dataflash-header = ArduPilot DataFlash ログではありません（オクテット A3 95 で始まる必要があります）
+engine-e-drone-bad-number = { $flag } は有限の数値でなければなりません（{ $value } ではなく）
+engine-e-drone-prearm-gate-failed = アーム前チェック FAIL：アームしないでください（レポートの playbook 手順を参照）
+engine-e-drone-no-epochs = ログに受信機エポックがありません（PX4 ULog、ArduPilot DataFlash ログ、または JSON Lines エポックが必要です）
+engine-e-drone-trace-bad-line = トレースの行が数値 t を持つ JSON オブジェクトではありません：{ $line }
+engine-e-drone-trace-missing-channel = トレースにチャネル { $channel } がありません（--params の channels オブジェクトでチャネル名を変更できます）
+engine-e-drone-unknown-case = 不明な推定器ケース { $case }（kshana drone estimator-cases でケースを一覧表示）
+engine-e-drone-unknown-airframe = 不明な機体クラス { $name }（multirotor、fixed-wing、vtol、ground-robot）
+engine-e-drone-failover-bad-spec = フェイルオーバー実行には、少なくとも一つのソース、正のステップ、一千万ステップ以下の非負の長さが必要です
+engine-e-drone-failover-bad-kind = 不明なソース種別 { $kind }（absolute、relative、inertial）
+engine-e-drone-failover-bad-event = イベントが不明なソースまたは状態を指しています：{ $source }（状態は fail または recover）
+engine-e-drone-zonotope-bad-geometry = 保護レベルには、有限の方位角・仰角と正の上限を持つ衛星が少なくとも四機と、解ける幾何配置が必要です
+
+## src/oscillator/mod.rs
+
+engine-oscillator-usage = 使い方: kshana oscillator <vibration|holdover|select|raim-aid|datasheet> <input.json>、または kshana oscillator refs（docs/OSCILLATOR.md）
+
+engine-e-oscillator-input = { $part } の入力が無効です: { $e }
+
+engine-e-oscillator-unknown-clock = 不明なクロックプリセット { $id }（{ $known } のいずれか）
+
+engine-e-oscillator-field = { $field } が範囲外です: { $value }
+
+## Future-signal readiness (src/signal_readiness.rs, docs/SIGNAL-READINESS.md)
+engine-signal-readiness-usage = 使い方：kshana signal-readiness <profile.toml> [<obs.rnx>...]  (docs/SIGNAL-READINESS.md)
+engine-e-signal-readiness-bad-rinex = { $path } は RINEX 3 または 4 の観測ファイルではありません：{ $e }
+engine-e-signal-readiness-unknown-option = 不明なオプション { $option }（kshana signal-readiness --help）
+engine-e-signal-readiness-cannot-read = { $path } を読み込めません：{ $e }
+engine-e-signal-readiness-bad-profile = { $path } は受信機プロファイルではありません：{ $e }

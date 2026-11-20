@@ -85,6 +85,11 @@ jobs:
           manylinux: 2_28
           # Forward the deterministic-timestamp knob into the manylinux container.
           docker-options: -e SOURCE_DATE_EPOCH
+      - name: Pack the translated catalogues for the sdist
+        # maturin builds the sdist from cargo's package file list, which leaves out i18n/<lang>/engine.ftl and carries
+        # data/i18n/catalogues.xz instead (Cargo.toml `exclude`; build.rs decodes it). Generated, never committed.
+        if: matrix.os == 'ubuntu-latest' && matrix.target == 'x86_64'
+        run: python3 -I scripts/pack_catalogues.py
       - name: Build source distribution
         if: matrix.os == 'ubuntu-latest' && matrix.target == 'x86_64'
         uses: PyO3/maturin-action@e83996d129638aa358a18fbd1dfb82f0b0fb5d3b # v1

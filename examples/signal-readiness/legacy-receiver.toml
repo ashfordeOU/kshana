@@ -1,0 +1,22 @@
+# An illustrative profile of a receiver built for the constellations of an earlier decade
+# (kshana signal-readiness; docs/SIGNAL-READINESS.md). Invented for the example.
+name = "example legacy dual-system receiver"
+
+[gps]
+max_number = 32
+codes = ["C1C", "C2W"]
+in_solution = true
+
+[sbas]
+max_number = 138
+codes = ["C1C"]
+
+[galileo]
+max_number = 36
+codes = ["C1C", "C5Q"]
+in_solution = true
+
+[beidou]
+max_number = 37
+codes = ["C2I", "C7I"]
+in_solution = false
