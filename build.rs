@@ -62,8 +62,8 @@ fn catalogues() {
             )
         });
         println!("cargo::rerun-if-changed={}", archive.display());
-        let decoded = packed::unpack(&bytes)
-            .unwrap_or_else(|e| panic!("{}: {e}", archive.display()));
+        let decoded =
+            packed::unpack(&bytes).unwrap_or_else(|e| panic!("{}: {e}", archive.display()));
         let dir = out_dir.join("engine-catalogues");
         std::fs::create_dir_all(&dir).expect("create OUT_DIR/engine-catalogues");
         decoded

@@ -25,8 +25,7 @@ fn root() -> &'static Path {
 /// A fresh scratch directory for one call.
 fn scratch(what: &str) -> PathBuf {
     let seq = SEQ.fetch_add(1, Ordering::Relaxed);
-    let dir =
-        std::env::temp_dir().join(format!("kshana-{what}-{}-{seq}", std::process::id()));
+    let dir = std::env::temp_dir().join(format!("kshana-{what}-{}-{seq}", std::process::id()));
     std::fs::create_dir_all(&dir).expect("create a scratch directory");
     dir
 }
@@ -118,7 +117,9 @@ fn a_damaged_or_mismatched_archive_is_refused() {
 
     let body: String = packed::TAGS.iter().map(|t| format!("# {t}\n")).collect();
     let index = |tags: &[&str]| -> String {
-        tags.iter().map(|t| format!("{t} {}\n", t.len() + 3)).collect()
+        tags.iter()
+            .map(|t| format!("{t} {}\n", t.len() + 3))
+            .collect()
     };
     let good = format!("{}\n{}\n{body}", packed::MAGIC, index(&packed::TAGS));
     let ok = packed::unpack(&xz(good.as_bytes())).expect("a well-formed archive decodes");
@@ -128,11 +129,17 @@ fn a_damaged_or_mismatched_archive_is_refused() {
     swapped.swap(0, 1);
     for wrong in [
         format!("{}\n{}\n{body}", packed::MAGIC, index(&swapped)),
-        format!("kshana-engine-catalogues 2\n{}\n{body}", index(&packed::TAGS)),
+        format!(
+            "kshana-engine-catalogues 2\n{}\n{body}",
+            index(&packed::TAGS)
+        ),
         format!("{}\n{}\n{body}extra", packed::MAGIC, index(&packed::TAGS)),
         format!("{}\nnl 999999\n\n{body}", packed::MAGIC),
     ] {
-        assert!(packed::unpack(&xz(wrong.as_bytes())).is_err(), "{wrong:.60}");
+        assert!(
+            packed::unpack(&xz(wrong.as_bytes())).is_err(),
+            "{wrong:.60}"
+        );
     }
 }
 
@@ -155,4 +162,21 @@ fn the_packed_catalogues_are_generated_never_committed() {
             String::from_utf8_lossy(&out.stdout)
         );
     }
+}
+
+#[test]
+fn the_package_leaves_out_every_packed_source() {
+    // A language added to TAGS but not to Cargo.toml's `exclude` would ship twice: as text and packed.
+    let manifest = std::fs::read_to_string(root().join("Cargo.toml")).expect("Cargo.toml");
+    for tag in packed::TAGS {
+        let line = format!("\"/i18n/{tag}/engine.ftl\",");
+        assert!(
+            manifest.contains(&line),
+            "Cargo.toml does not exclude {line}"
+        );
+    }
+    assert!(
+        !manifest.contains("\"/i18n/en/engine.ftl\""),
+        "English is embedded as-is"
+    );
 }
