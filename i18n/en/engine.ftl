@@ -10378,6 +10378,7 @@ engine-main-usage =
     { "   " }or: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }or: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }or: kshana time-vectors [--json] [<vectors.json|dir> ...]
+    { "   " }or: kshana drone <prearm|prearm-calibrate|estimator-cases|dr-budget|quad-loss|failover|zonotope-pl> ... (kshana drone --help)
     { "   " }or: kshana kinds [--json]
     { "   " }or: kshana example [<name>]
     { "   " }or: kshana --help | --version
@@ -11862,3 +11863,18 @@ engine-e-time-vectors-expected-error = the vector expects an error, and the oper
 engine-e-time-vectors-bad-format = { $file } is not a { $format } document (format tag and a vectors array)
 engine-time-vectors-summary = { $n } vectors: { $passed } passed, { $failed } failed
 engine-time-vectors-usage = usage: kshana time-vectors [--json] [<vectors.json | dir> ...]  (no path: the built-in set, data/conformance/time; docs/TIME-VECTORS.md)
+
+## Drone, UTM and robotics PNT tools (src/drone_pnt)
+engine-drone-usage = usage: kshana drone prearm <log.ulg|log.bin|epochs.jsonl> [--window <s>] [--config <thresholds.json>] [--gate] | prearm-calibrate [--runs <n>] [--seed <n>] | estimator-cases [--case <id> --trace <trace.jsonl> [--params <json>]] | dr-budget [<spec.json> | --airframe multirotor|fixed-wing|vtol|ground-robot] | quad-loss [<spec.json>] | failover [<spec.json>] | zonotope-pl <spec.json>  (docs/DRONE-PNT.md)
+engine-e-drone-dataflash-header = not an ArduPilot DataFlash log (it must start with the octets A3 95)
+engine-e-drone-bad-number = { $flag } must be a finite number, not { $value }
+engine-e-drone-prearm-gate-failed = pre-arm check FAIL: do not arm (see the playbook steps in the report)
+engine-e-drone-no-epochs = the log has no receiver epochs (expected a PX4 ULog, an ArduPilot DataFlash log or JSON Lines epochs)
+engine-e-drone-trace-bad-line = a trace line is not a JSON object with a numeric t: { $line }
+engine-e-drone-trace-missing-channel = the trace has no channel { $channel } (rename channels with the channels object of --params)
+engine-e-drone-unknown-case = unknown estimator case { $case } (kshana drone estimator-cases lists the cases)
+engine-e-drone-unknown-airframe = unknown airframe class { $name } (multirotor, fixed-wing, vtol, ground-robot)
+engine-e-drone-failover-bad-spec = the failover run needs at least one source, a positive step and a non-negative duration of at most ten million steps
+engine-e-drone-failover-bad-kind = unknown source kind { $kind } (absolute, relative, inertial)
+engine-e-drone-failover-bad-event = an event names an unknown source or state: { $source } (state fail or recover)
+engine-e-drone-zonotope-bad-geometry = the protection level needs at least four satellites with finite azimuth, elevation and a positive bound, and a solvable geometry

@@ -10603,6 +10603,7 @@ engine-main-usage =
     { "   " }of: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }of: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }of: kshana time-vectors [--json] [<vectors.json|dir> ...]
+    { "   " }of: kshana drone <prearm|prearm-calibrate|estimator-cases|dr-budget|quad-loss|failover|zonotope-pl> ... (kshana drone --help)
     { "   " }of: kshana kinds [--json]
     { "   " }of: kshana example [<name>]
     { "   " }of: kshana --help | --version
@@ -11535,3 +11536,18 @@ engine-e-interference-map-locate-bad-tdoa = { $path } is geen bruikbaar TDOA-fix
 engine-e-interference-map-locate-source-required = --source adsb of --source ais is vereist
 
 engine-e-interference-map-locate-no-evidence-rows = er zijn geen bewijsrijen vermeld voor de locate-uitvoer
+
+## Drone, UTM and robotics PNT tools (src/drone_pnt)
+engine-drone-usage = gebruik: kshana drone prearm <log.ulg|log.bin|epochs.jsonl> [--window <s>] [--config <thresholds.json>] [--gate] | prearm-calibrate [--runs <n>] [--seed <n>] | estimator-cases [--case <id> --trace <trace.jsonl> [--params <json>]] | dr-budget [<spec.json> | --airframe multirotor|fixed-wing|vtol|ground-robot] | quad-loss [<spec.json>] | failover [<spec.json>] | zonotope-pl <spec.json>  (docs/DRONE-PNT.md)
+engine-e-drone-dataflash-header = geen ArduPilot DataFlash-log (het moet beginnen met de octetten A3 95)
+engine-e-drone-bad-number = { $flag } moet een eindig getal zijn, niet { $value }
+engine-e-drone-prearm-gate-failed = pre-arm-controle FAIL: niet armen (zie de playbookstappen in het rapport)
+engine-e-drone-no-epochs = het log bevat geen ontvangerepochs (verwacht: een PX4 ULog, een ArduPilot DataFlash-log of JSON Lines-epochs)
+engine-e-drone-trace-bad-line = een traceregel is geen JSON-object met een numerieke t: { $line }
+engine-e-drone-trace-missing-channel = de trace heeft geen kanaal { $channel } (hernoem kanalen met het channels-object van --params)
+engine-e-drone-unknown-case = onbekend schattergeval { $case } (kshana drone estimator-cases toont de gevallen)
+engine-e-drone-unknown-airframe = onbekende luchtvaartuigklasse { $name } (multirotor, fixed-wing, vtol, ground-robot)
+engine-e-drone-failover-bad-spec = de failover-run heeft minstens één bron, een positieve stap en een niet-negatieve duur van hoogstens tien miljoen stappen nodig
+engine-e-drone-failover-bad-kind = onbekend brontype { $kind } (absolute, relative, inertial)
+engine-e-drone-failover-bad-event = een gebeurtenis noemt een onbekende bron of toestand: { $source } (toestand fail of recover)
+engine-e-drone-zonotope-bad-geometry = het beschermingsniveau vereist minstens vier satellieten met eindige azimut en elevatie en een positieve grens, en een oplosbare geometrie

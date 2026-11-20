@@ -10570,6 +10570,7 @@ engine-main-usage =
     { "   " }nebo: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }nebo: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }nebo: kshana time-vectors [--json] [<vectors.json|dir> ...]
+    { "   " }nebo: kshana drone <prearm|prearm-calibrate|estimator-cases|dr-budget|quad-loss|failover|zonotope-pl> ... (kshana drone --help)
     { "   " }nebo: kshana kinds [--json]
     { "   " }nebo: kshana example [<name>]
     { "   " }nebo: kshana --help | --version
@@ -11546,3 +11547,18 @@ engine-e-interference-map-locate-bad-tdoa = { $path } není použitelný soubor 
 engine-e-interference-map-locate-source-required = je vyžadováno --source adsb nebo --source ais
 
 engine-e-interference-map-locate-no-evidence-rows = pro výstupy locate nejsou uvedeny žádné řádky důkazů
+
+## Drone, UTM and robotics PNT tools (src/drone_pnt)
+engine-drone-usage = použití: kshana drone prearm <log.ulg|log.bin|epochs.jsonl> [--window <s>] [--config <thresholds.json>] [--gate] | prearm-calibrate [--runs <n>] [--seed <n>] | estimator-cases [--case <id> --trace <trace.jsonl> [--params <json>]] | dr-budget [<spec.json> | --airframe multirotor|fixed-wing|vtol|ground-robot] | quad-loss [<spec.json>] | failover [<spec.json>] | zonotope-pl <spec.json>  (docs/DRONE-PNT.md)
+engine-e-drone-dataflash-header = nejde o protokol ArduPilot DataFlash (musí začínat oktety A3 95)
+engine-e-drone-bad-number = { $flag } musí být konečné číslo, ne { $value }
+engine-e-drone-prearm-gate-failed = kontrola před odjištěním FAIL: neodjišťujte (viz kroky playbooku ve zprávě)
+engine-e-drone-no-epochs = protokol neobsahuje epochy přijímače (očekáván PX4 ULog, protokol ArduPilot DataFlash nebo epochy JSON Lines)
+engine-e-drone-trace-bad-line = řádek stopy není objekt JSON s číselným t: { $line }
+engine-e-drone-trace-missing-channel = stopa nemá kanál { $channel } (přejmenujte kanály objektem channels v --params)
+engine-e-drone-unknown-case = neznámý případ odhadovače { $case } (kshana drone estimator-cases vypíše případy)
+engine-e-drone-unknown-airframe = neznámá třída letadla { $name } (multirotor, fixed-wing, vtol, ground-robot)
+engine-e-drone-failover-bad-spec = běh přepnutí potřebuje alespoň jeden zdroj, kladný krok a nezápornou dobu nejvýše deset milionů kroků
+engine-e-drone-failover-bad-kind = neznámý druh zdroje { $kind } (absolute, relative, inertial)
+engine-e-drone-failover-bad-event = událost uvádí neznámý zdroj nebo stav: { $source } (stav fail nebo recover)
+engine-e-drone-zonotope-bad-geometry = úroveň ochrany vyžaduje alespoň čtyři družice s konečným azimutem a elevací a kladnou mezí a řešitelnou geometrii

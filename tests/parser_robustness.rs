@@ -842,6 +842,52 @@ EPHEMERIS_TYPE = 0\nCLASSIFICATION_TYPE = U\nNORAD_CAT_ID = 270001\nELEMENT_SET_
 BSTAR = 0.0001\nMEAN_MOTION_DOT = 0.0\nMEAN_MOTION_DDOT = 0.0\n";
 
 #[test]
+fn drone_logs() {
+    use kshana::drone_pnt::epochs::{encode_dataflash, encode_ulog, load, GnssEpoch};
+    let rows: Vec<GnssEpoch> = (0..6)
+        .map(|k| GnssEpoch {
+            t_s: 1.0 + k as f64 * 0.2,
+            instance: (k % 2) as u8,
+            fix_type: 3,
+            lat_deg: Some(47.4),
+            lon_deg: Some(8.5),
+            eph_m: Some(1.5),
+            jam_ind: Some(40.0),
+            spoofing_state: Some(1),
+            rx_time_s: Some(1.7e9 + k as f64),
+            ..GnssEpoch::default()
+        })
+        .collect();
+    let cfg = kshana::drone_pnt::prearm::PrearmConfig::default();
+    let seeds = vec![
+        encode_dataflash(&rows, Some(1.5)),
+        encode_ulog(&rows, Some(1.5)),
+    ];
+    fuzz("dataflash and ulog pre-arm", &seeds, None, |b| {
+        let _ = kshana::drone_pnt::dataflash::read(b, &["GPS", "GPA", "UBX1", "ARM"]);
+        if let Ok(log) = load(b) {
+            let _ = kshana::drone_pnt::prearm::check(&log, &cfg);
+        }
+    });
+    let jsonl = b"{\"t_s\":1,\"fix_type\":3,\"lat_deg\":47.4,\"lon_deg\":8.5}\n{\"t_s\":2,\"armed\":true}\n".to_vec();
+    let trace = b"{\"t\":0,\"est_x\":1}\n{\"t\":0.1,\"est_x\":null,\"est_x_replay\":2}\n".to_vec();
+    fuzz("drone jsonl and traces", &[jsonl, trace], None, |b| {
+        if let Ok(log) = load(b) {
+            let _ = kshana::drone_pnt::prearm::check(&log, &cfg);
+        }
+        if let Ok(tr) = kshana::drone_pnt::estimator_cases::Trace::from_jsonl(&text(b)) {
+            for (case, _) in kshana::drone_pnt::estimator_cases::CASES {
+                let _ = kshana::drone_pnt::estimator_cases::run_case(
+                    case,
+                    &tr,
+                    &serde_json::Value::Null,
+                );
+            }
+        }
+    });
+}
+
+#[test]
 fn norad_alpha5_and_omm() {
     let tle = b"1 A0001U 26001A   26318.50000000  .00000000  00000-0  00000-0 0  9990\n2 A0001  51.6400 100.0000 0001000  90.0000 270.0000 15.50000000    05\n".to_vec();
     fuzz("alpha-5", &[tle], None, |b| {
