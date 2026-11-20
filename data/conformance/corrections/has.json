@@ -1,0 +1,2054 @@
+{
+ "format": "kshana.correction-vectors/1",
+ "set": "has",
+ "version": "1.0.0",
+ "source": "Galileo HAS SIS ICD Issue 1.0 (May 2022), sections 2 to 7",
+ "provenance": "self-derived: frames encoded by this generator from field values it chose, following its own reading of the interface document; a second implementation of the same reading, not an independent reference",
+ "generator": "data/conformance/corrections/gen_correction_vectors.py",
+ "vectors": [
+  {
+   "id": "has-mt1-all-blocks-from-two-cnav-pages",
+   "decoder": "has",
+   "frames": [
+    "fffd14872389e01ee5652ce77f4de4ee04664108024a29de0bc228ba3edff950a87d7b3c56b40189fade4617335cb6e002b9a147e241de87c82d84c8a000",
+    "fffd14840bf80647ff8002001c2ef9280a80200401003ff601803c007ffffd2008017000bff80080080067ff7ff5ff78000074044aaaaaaaaaa856e9e400"
+   ],
+   "expect": {
+    "frames": 2,
+    "bad_crc": 0,
+    "messages": [
+     {
+      "header": {
+       "toh": 1234,
+       "mask": true,
+       "orbit": true,
+       "clock_full": true,
+       "clock_subset": false,
+       "code_bias": true,
+       "phase_bias": true,
+       "mask_id": 3,
+       "iod_set_id": 17
+      },
+      "error": null,
+      "mask": [
+       {
+        "gnss_id": 0,
+        "satellites": [
+         "G03",
+         "G07",
+         "G30"
+        ],
+        "signals": [
+         0,
+         7,
+         11
+        ],
+        "signal_names": [
+         "L1 C/A",
+         "L2 CL",
+         "L5 I"
+        ],
+        "cell_mask": [
+         [
+          1,
+          1,
+          0
+         ],
+         [
+          1,
+          0,
+          1
+         ],
+         [
+          1,
+          1,
+          1
+         ]
+        ],
+        "nav_message": 0
+       },
+       {
+        "gnss_id": 2,
+        "satellites": [
+         "E01",
+         "E36"
+        ],
+        "signals": [
+         1,
+         7,
+         12
+        ],
+        "signal_names": [
+         "E1-C",
+         "E5b-Q",
+         "E6-B"
+        ],
+        "cell_mask": null,
+        "nav_message": 0
+       }
+      ],
+      "orbit": {
+       "validity_index": 10,
+       "validity_s": 300,
+       "sats": [
+        {
+         "sat": "G03",
+         "iod_ref": 45,
+         "radial_m": 0.3,
+         "in_track_m": -2.4,
+         "cross_track_m": 0.2
+        },
+        {
+         "sat": "G07",
+         "iod_ref": 201,
+         "radial_m": -0.0175,
+         "in_track_m": 0.032,
+         "cross_track_m": -16.376
+        },
+        {
+         "sat": "G30",
+         "iod_ref": 9,
+         "radial_m": 10.2375,
+         "in_track_m": 16.376,
+         "cross_track_m": -0.008
+        },
+        {
+         "sat": "E01",
+         "iod_ref": 1023,
+         "radial_m": -10.2375,
+         "in_track_m": -16.376,
+         "cross_track_m": 0.264
+        },
+        {
+         "sat": "E36",
+         "iod_ref": 512,
+         "radial_m": null,
+         "in_track_m": null,
+         "cross_track_m": null
+        }
+       ]
+      },
+      "clock_full": {
+       "validity_index": 5,
+       "validity_s": 60,
+       "multipliers": [
+        2,
+        1
+       ],
+       "sats": [
+        {
+         "sat": "G03",
+         "dcc_m": -6.41,
+         "correction_m": -12.82,
+         "status": "ok"
+        },
+        {
+         "sat": "G07",
+         "dcc_m": 0.25,
+         "correction_m": 0.5,
+         "status": "ok"
+        },
+        {
+         "sat": "G30",
+         "dcc_m": null,
+         "correction_m": null,
+         "status": "do_not_use"
+        },
+        {
+         "sat": "E01",
+         "dcc_m": 0.0,
+         "correction_m": 0.0,
+         "status": "ok"
+        },
+        {
+         "sat": "E36",
+         "dcc_m": null,
+         "correction_m": null,
+         "status": "not_available"
+        }
+       ]
+      },
+      "code_bias": {
+       "validity_index": 14,
+       "validity_s": 3600,
+       "sats": [
+        {
+         "sat": "G03",
+         "biases": [
+          {
+           "signal": 0,
+           "bias": 3.74
+          },
+          {
+           "signal": 7,
+           "bias": -4.38
+          }
+         ]
+        },
+        {
+         "sat": "G07",
+         "biases": [
+          {
+           "signal": 0,
+           "bias": 0.2
+          },
+          {
+           "signal": 11,
+           "bias": -20.46
+          }
+         ]
+        },
+        {
+         "sat": "G30",
+         "biases": [
+          {
+           "signal": 0,
+           "bias": 0.02
+          },
+          {
+           "signal": 7,
+           "bias": 0.04
+          },
+          {
+           "signal": 11,
+           "bias": 0.06
+          }
+         ]
+        },
+        {
+         "sat": "E01",
+         "biases": [
+          {
+           "signal": 1,
+           "bias": -0.1
+          },
+          {
+           "signal": 7,
+           "bias": 0.12
+          },
+          {
+           "signal": 12,
+           "bias": 0.14
+          }
+         ]
+        },
+        {
+         "sat": "E36",
+         "biases": [
+          {
+           "signal": 1,
+           "bias": null
+          },
+          {
+           "signal": 7,
+           "bias": 20.46
+          },
+          {
+           "signal": 12,
+           "bias": -0.02
+          }
+         ]
+        }
+       ]
+      },
+      "phase_bias": {
+       "validity_index": 4,
+       "validity_s": 30,
+       "sats": [
+        {
+         "sat": "G03",
+         "biases": [
+          {
+           "signal": 0,
+           "bias": -10.23,
+           "pdi": 0
+          },
+          {
+           "signal": 7,
+           "bias": 0.05,
+           "pdi": 3
+          }
+         ]
+        },
+        {
+         "sat": "G07",
+         "biases": [
+          {
+           "signal": 0,
+           "bias": 0.0,
+           "pdi": 1
+          },
+          {
+           "signal": 11,
+           "bias": 10.23,
+           "pdi": 2
+          }
+         ]
+        },
+        {
+         "sat": "G30",
+         "biases": [
+          {
+           "signal": 0,
+           "bias": 0.01,
+           "pdi": 0
+          },
+          {
+           "signal": 7,
+           "bias": 0.02,
+           "pdi": 0
+          },
+          {
+           "signal": 11,
+           "bias": 0.03,
+           "pdi": 0
+          }
+         ]
+        },
+        {
+         "sat": "E01",
+         "biases": [
+          {
+           "signal": 1,
+           "bias": -0.01,
+           "pdi": 1
+          },
+          {
+           "signal": 7,
+           "bias": -0.02,
+           "pdi": 2
+          },
+          {
+           "signal": 12,
+           "bias": -0.03,
+           "pdi": 3
+          }
+         ]
+        },
+        {
+         "sat": "E36",
+         "biases": [
+          {
+           "signal": 1,
+           "bias": null,
+           "pdi": 0
+          },
+          {
+           "signal": 7,
+           "bias": 0.07,
+           "pdi": 1
+          },
+          {
+           "signal": 12,
+           "bias": 0.08,
+           "pdi": 2
+          }
+         ]
+        }
+       ]
+      },
+      "clock_subset": null,
+      "mid": 9,
+      "ms": 2,
+      "mt": 1,
+      "hass": 1,
+      "pids": [
+       200,
+       2
+      ],
+      "trailing_bits": 43,
+      "trailing_is_padding": true
+     }
+    ],
+    "incomplete": []
+   },
+   "note": "mask with a cell mask, orbit, clock full-set, code and phase biases; pages from the parity part and the systematic part"
+  },
+  {
+   "id": "has-mt1-from-448-bit-has-pages",
+   "decoder": "has",
+   "frames": [
+    "4521ff03c4673c84ce87dd37bc9b93869a0c00cde736a170e7dea3600bfdf4c1c3ab979a00bdfbdf3906ee862ed300ec5934f452d54d6cf6",
+    "452121f22796deca7cc08acce1092ec6de3b006086959a698661b97789cc108ccb62c3970009e071cc59695abb650066499c1b67ff8aa0f5"
+   ],
+   "expect": {
+    "messages": [
+     {
+      "header": {
+       "toh": 1234,
+       "mask": true,
+       "orbit": true,
+       "clock_full": true,
+       "clock_subset": false,
+       "code_bias": true,
+       "phase_bias": true,
+       "mask_id": 3,
+       "iod_set_id": 17
+      },
+      "error": null,
+      "mask": [
+       {
+        "gnss_id": 0,
+        "satellites": [
+         "G03",
+         "G07",
+         "G30"
+        ],
+        "signals": [
+         0,
+         7,
+         11
+        ],
+        "signal_names": [
+         "L1 C/A",
+         "L2 CL",
+         "L5 I"
+        ],
+        "cell_mask": [
+         [
+          1,
+          1,
+          0
+         ],
+         [
+          1,
+          0,
+          1
+         ],
+         [
+          1,
+          1,
+          1
+         ]
+        ],
+        "nav_message": 0
+       },
+       {
+        "gnss_id": 2,
+        "satellites": [
+         "E01",
+         "E36"
+        ],
+        "signals": [
+         1,
+         7,
+         12
+        ],
+        "signal_names": [
+         "E1-C",
+         "E5b-Q",
+         "E6-B"
+        ],
+        "cell_mask": null,
+        "nav_message": 0
+       }
+      ],
+      "orbit": {
+       "validity_index": 10,
+       "validity_s": 300,
+       "sats": [
+        {
+         "sat": "G03",
+         "iod_ref": 45,
+         "radial_m": 0.3,
+         "in_track_m": -2.4,
+         "cross_track_m": 0.2
+        },
+        {
+         "sat": "G07",
+         "iod_ref": 201,
+         "radial_m": -0.0175,
+         "in_track_m": 0.032,
+         "cross_track_m": -16.376
+        },
+        {
+         "sat": "G30",
+         "iod_ref": 9,
+         "radial_m": 10.2375,
+         "in_track_m": 16.376,
+         "cross_track_m": -0.008
+        },
+        {
+         "sat": "E01",
+         "iod_ref": 1023,
+         "radial_m": -10.2375,
+         "in_track_m": -16.376,
+         "cross_track_m": 0.264
+        },
+        {
+         "sat": "E36",
+         "iod_ref": 512,
+         "radial_m": null,
+         "in_track_m": null,
+         "cross_track_m": null
+        }
+       ]
+      },
+      "clock_full": {
+       "validity_index": 5,
+       "validity_s": 60,
+       "multipliers": [
+        2,
+        1
+       ],
+       "sats": [
+        {
+         "sat": "G03",
+         "dcc_m": -6.41,
+         "correction_m": -12.82,
+         "status": "ok"
+        },
+        {
+         "sat": "G07",
+         "dcc_m": 0.25,
+         "correction_m": 0.5,
+         "status": "ok"
+        },
+        {
+         "sat": "G30",
+         "dcc_m": null,
+         "correction_m": null,
+         "status": "do_not_use"
+        },
+        {
+         "sat": "E01",
+         "dcc_m": 0.0,
+         "correction_m": 0.0,
+         "status": "ok"
+        },
+        {
+         "sat": "E36",
+         "dcc_m": null,
+         "correction_m": null,
+         "status": "not_available"
+        }
+       ]
+      },
+      "code_bias": {
+       "validity_index": 14,
+       "validity_s": 3600,
+       "sats": [
+        {
+         "sat": "G03",
+         "biases": [
+          {
+           "signal": 0,
+           "bias": 3.74
+          },
+          {
+           "signal": 7,
+           "bias": -4.38
+          }
+         ]
+        },
+        {
+         "sat": "G07",
+         "biases": [
+          {
+           "signal": 0,
+           "bias": 0.2
+          },
+          {
+           "signal": 11,
+           "bias": -20.46
+          }
+         ]
+        },
+        {
+         "sat": "G30",
+         "biases": [
+          {
+           "signal": 0,
+           "bias": 0.02
+          },
+          {
+           "signal": 7,
+           "bias": 0.04
+          },
+          {
+           "signal": 11,
+           "bias": 0.06
+          }
+         ]
+        },
+        {
+         "sat": "E01",
+         "biases": [
+          {
+           "signal": 1,
+           "bias": -0.1
+          },
+          {
+           "signal": 7,
+           "bias": 0.12
+          },
+          {
+           "signal": 12,
+           "bias": 0.14
+          }
+         ]
+        },
+        {
+         "sat": "E36",
+         "biases": [
+          {
+           "signal": 1,
+           "bias": null
+          },
+          {
+           "signal": 7,
+           "bias": 20.46
+          },
+          {
+           "signal": 12,
+           "bias": -0.02
+          }
+         ]
+        }
+       ]
+      },
+      "phase_bias": {
+       "validity_index": 4,
+       "validity_s": 30,
+       "sats": [
+        {
+         "sat": "G03",
+         "biases": [
+          {
+           "signal": 0,
+           "bias": -10.23,
+           "pdi": 0
+          },
+          {
+           "signal": 7,
+           "bias": 0.05,
+           "pdi": 3
+          }
+         ]
+        },
+        {
+         "sat": "G07",
+         "biases": [
+          {
+           "signal": 0,
+           "bias": 0.0,
+           "pdi": 1
+          },
+          {
+           "signal": 11,
+           "bias": 10.23,
+           "pdi": 2
+          }
+         ]
+        },
+        {
+         "sat": "G30",
+         "biases": [
+          {
+           "signal": 0,
+           "bias": 0.01,
+           "pdi": 0
+          },
+          {
+           "signal": 7,
+           "bias": 0.02,
+           "pdi": 0
+          },
+          {
+           "signal": 11,
+           "bias": 0.03,
+           "pdi": 0
+          }
+         ]
+        },
+        {
+         "sat": "E01",
+         "biases": [
+          {
+           "signal": 1,
+           "bias": -0.01,
+           "pdi": 1
+          },
+          {
+           "signal": 7,
+           "bias": -0.02,
+           "pdi": 2
+          },
+          {
+           "signal": 12,
+           "bias": -0.03,
+           "pdi": 3
+          }
+         ]
+        },
+        {
+         "sat": "E36",
+         "biases": [
+          {
+           "signal": 1,
+           "bias": null,
+           "pdi": 0
+          },
+          {
+           "signal": 7,
+           "bias": 0.07,
+           "pdi": 1
+          },
+          {
+           "signal": 12,
+           "bias": 0.08,
+           "pdi": 2
+          }
+         ]
+        }
+       ]
+      },
+      "clock_subset": null,
+      "mid": 9,
+      "ms": 2,
+      "mt": 1,
+      "hass": 1,
+      "pids": [
+       255,
+       33
+      ],
+      "trailing_bits": 43,
+      "trailing_is_padding": true
+     }
+    ]
+   },
+   "note": "the same message read from bare HAS pages, highest PIDs"
+  },
+  {
+   "id": "has-redundant-dummy-and-bad-crc",
+   "decoder": "has",
+   "frames": [
+    "fffd14865b0539e5df986f916c73e5fbfc472cd801c848beb758483affc2d679f1886ae4499802901642f7b752e3c90c004092371e5307e13153a4aea000",
+    "fffd14842c000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000096f4e000",
+    "fffd148414000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000000000000000380d24400",
+    "fffebcef0c000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000390e53000",
+    "fffd1484a1299d8d4124ec25cdec186d4b082700022894fa1af096f0775189970543977199d800daaa182df4e399015801723664ddae061ebb7251c64000",
+    "fffd14840534bb01c48088000010020443af05000000002082100051681e3b5006727ff200900212fff7fffffffe00300204300400200200152b42ba4400"
+   ],
+   "expect": {
+    "frames": 6,
+    "bad_crc": 1,
+    "dummy": 1,
+    "zero_pid": 1,
+    "redundant": 1,
+    "messages": [
+     {
+      "header": {
+       "toh": 1234,
+       "mask": true,
+       "orbit": true,
+       "clock_full": true,
+       "clock_subset": false,
+       "code_bias": true,
+       "phase_bias": true,
+       "mask_id": 3,
+       "iod_set_id": 17
+      },
+      "error": null,
+      "mask": [
+       {
+        "gnss_id": 0,
+        "satellites": [
+         "G03",
+         "G07",
+         "G30"
+        ],
+        "signals": [
+         0,
+         7,
+         11
+        ],
+        "signal_names": [
+         "L1 C/A",
+         "L2 CL",
+         "L5 I"
+        ],
+        "cell_mask": [
+         [
+          1,
+          1,
+          0
+         ],
+         [
+          1,
+          0,
+          1
+         ],
+         [
+          1,
+          1,
+          1
+         ]
+        ],
+        "nav_message": 0
+       },
+       {
+        "gnss_id": 2,
+        "satellites": [
+         "E01",
+         "E36"
+        ],
+        "signals": [
+         1,
+         7,
+         12
+        ],
+        "signal_names": [
+         "E1-C",
+         "E5b-Q",
+         "E6-B"
+        ],
+        "cell_mask": null,
+        "nav_message": 0
+       }
+      ],
+      "orbit": {
+       "validity_index": 10,
+       "validity_s": 300,
+       "sats": [
+        {
+         "sat": "G03",
+         "iod_ref": 45,
+         "radial_m": 0.3,
+         "in_track_m": -2.4,
+         "cross_track_m": 0.2
+        },
+        {
+         "sat": "G07",
+         "iod_ref": 201,
+         "radial_m": -0.0175,
+         "in_track_m": 0.032,
+         "cross_track_m": -16.376
+        },
+        {
+         "sat": "G30",
+         "iod_ref": 9,
+         "radial_m": 10.2375,
+         "in_track_m": 16.376,
+         "cross_track_m": -0.008
+        },
+        {
+         "sat": "E01",
+         "iod_ref": 1023,
+         "radial_m": -10.2375,
+         "in_track_m": -16.376,
+         "cross_track_m": 0.264
+        },
+        {
+         "sat": "E36",
+         "iod_ref": 512,
+         "radial_m": null,
+         "in_track_m": null,
+         "cross_track_m": null
+        }
+       ]
+      },
+      "clock_full": {
+       "validity_index": 5,
+       "validity_s": 60,
+       "multipliers": [
+        2,
+        1
+       ],
+       "sats": [
+        {
+         "sat": "G03",
+         "dcc_m": -6.41,
+         "correction_m": -12.82,
+         "status": "ok"
+        },
+        {
+         "sat": "G07",
+         "dcc_m": 0.25,
+         "correction_m": 0.5,
+         "status": "ok"
+        },
+        {
+         "sat": "G30",
+         "dcc_m": null,
+         "correction_m": null,
+         "status": "do_not_use"
+        },
+        {
+         "sat": "E01",
+         "dcc_m": 0.0,
+         "correction_m": 0.0,
+         "status": "ok"
+        },
+        {
+         "sat": "E36",
+         "dcc_m": null,
+         "correction_m": null,
+         "status": "not_available"
+        }
+       ]
+      },
+      "code_bias": {
+       "validity_index": 14,
+       "validity_s": 3600,
+       "sats": [
+        {
+         "sat": "G03",
+         "biases": [
+          {
+           "signal": 0,
+           "bias": 3.74
+          },
+          {
+           "signal": 7,
+           "bias": -4.38
+          }
+         ]
+        },
+        {
+         "sat": "G07",
+         "biases": [
+          {
+           "signal": 0,
+           "bias": 0.2
+          },
+          {
+           "signal": 11,
+           "bias": -20.46
+          }
+         ]
+        },
+        {
+         "sat": "G30",
+         "biases": [
+          {
+           "signal": 0,
+           "bias": 0.02
+          },
+          {
+           "signal": 7,
+           "bias": 0.04
+          },
+          {
+           "signal": 11,
+           "bias": 0.06
+          }
+         ]
+        },
+        {
+         "sat": "E01",
+         "biases": [
+          {
+           "signal": 1,
+           "bias": -0.1
+          },
+          {
+           "signal": 7,
+           "bias": 0.12
+          },
+          {
+           "signal": 12,
+           "bias": 0.14
+          }
+         ]
+        },
+        {
+         "sat": "E36",
+         "biases": [
+          {
+           "signal": 1,
+           "bias": null
+          },
+          {
+           "signal": 7,
+           "bias": 20.46
+          },
+          {
+           "signal": 12,
+           "bias": -0.02
+          }
+         ]
+        }
+       ]
+      },
+      "phase_bias": {
+       "validity_index": 4,
+       "validity_s": 30,
+       "sats": [
+        {
+         "sat": "G03",
+         "biases": [
+          {
+           "signal": 0,
+           "bias": -10.23,
+           "pdi": 0
+          },
+          {
+           "signal": 7,
+           "bias": 0.05,
+           "pdi": 3
+          }
+         ]
+        },
+        {
+         "sat": "G07",
+         "biases": [
+          {
+           "signal": 0,
+           "bias": 0.0,
+           "pdi": 1
+          },
+          {
+           "signal": 11,
+           "bias": 10.23,
+           "pdi": 2
+          }
+         ]
+        },
+        {
+         "sat": "G30",
+         "biases": [
+          {
+           "signal": 0,
+           "bias": 0.01,
+           "pdi": 0
+          },
+          {
+           "signal": 7,
+           "bias": 0.02,
+           "pdi": 0
+          },
+          {
+           "signal": 11,
+           "bias": 0.03,
+           "pdi": 0
+          }
+         ]
+        },
+        {
+         "sat": "E01",
+         "biases": [
+          {
+           "signal": 1,
+           "bias": -0.01,
+           "pdi": 1
+          },
+          {
+           "signal": 7,
+           "bias": -0.02,
+           "pdi": 2
+          },
+          {
+           "signal": 12,
+           "bias": -0.03,
+           "pdi": 3
+          }
+         ]
+        },
+        {
+         "sat": "E36",
+         "biases": [
+          {
+           "signal": 1,
+           "bias": null,
+           "pdi": 0
+          },
+          {
+           "signal": 7,
+           "bias": 0.07,
+           "pdi": 1
+          },
+          {
+           "signal": 12,
+           "bias": 0.08,
+           "pdi": 2
+          }
+         ]
+        }
+       ]
+      },
+      "clock_subset": null,
+      "mid": 9,
+      "ms": 2,
+      "mt": 1,
+      "hass": 1,
+      "pids": [
+       150,
+       40
+      ],
+      "trailing_bits": 43,
+      "trailing_is_padding": true
+     }
+    ]
+   },
+   "note": "PID 11 of a two-page message carries only zeros and is skipped; the page after the message is complete re-encodes to it and is redundant"
+  },
+  {
+   "id": "has-clock-and-subset-use-the-earlier-mask",
+   "decoder": "has",
+   "frames": [
+    "fffd14872389e01ee5652ce77f4de4ee04664108024a29de0bc228ba3edff950a87d7b3c56b40189fade4617335cb6e002b9a147e241de87c82d84c8a000",
+    "fffd14840bf80647ff8002001c2ef9280a80200401003ff601803c007ffffd2008017000bff80080080067ff7ff5ff78000074044aaaaaaaaaa856e9e400",
+    "fffc1500f237e8026a14033242ed1241b640cb838383838383838383838383838383838383838383838383838383838383838383838383838382b8d58000",
+    "fffc1580f2366c0268a3fab00435e0d001c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c3c089f800"
+   ],
+   "expect": {
+    "messages": [
+     {
+      "header": {
+       "toh": 1234,
+       "mask": true,
+       "orbit": true,
+       "clock_full": true,
+       "clock_subset": false,
+       "code_bias": true,
+       "phase_bias": true,
+       "mask_id": 3,
+       "iod_set_id": 17
+      },
+      "error": null,
+      "mask": [
+       {
+        "gnss_id": 0,
+        "satellites": [
+         "G03",
+         "G07",
+         "G30"
+        ],
+        "signals": [
+         0,
+         7,
+         11
+        ],
+        "signal_names": [
+         "L1 C/A",
+         "L2 CL",
+         "L5 I"
+        ],
+        "cell_mask": [
+         [
+          1,
+          1,
+          0
+         ],
+         [
+          1,
+          0,
+          1
+         ],
+         [
+          1,
+          1,
+          1
+         ]
+        ],
+        "nav_message": 0
+       },
+       {
+        "gnss_id": 2,
+        "satellites": [
+         "E01",
+         "E36"
+        ],
+        "signals": [
+         1,
+         7,
+         12
+        ],
+        "signal_names": [
+         "E1-C",
+         "E5b-Q",
+         "E6-B"
+        ],
+        "cell_mask": null,
+        "nav_message": 0
+       }
+      ],
+      "orbit": {
+       "validity_index": 10,
+       "validity_s": 300,
+       "sats": [
+        {
+         "sat": "G03",
+         "iod_ref": 45,
+         "radial_m": 0.3,
+         "in_track_m": -2.4,
+         "cross_track_m": 0.2
+        },
+        {
+         "sat": "G07",
+         "iod_ref": 201,
+         "radial_m": -0.0175,
+         "in_track_m": 0.032,
+         "cross_track_m": -16.376
+        },
+        {
+         "sat": "G30",
+         "iod_ref": 9,
+         "radial_m": 10.2375,
+         "in_track_m": 16.376,
+         "cross_track_m": -0.008
+        },
+        {
+         "sat": "E01",
+         "iod_ref": 1023,
+         "radial_m": -10.2375,
+         "in_track_m": -16.376,
+         "cross_track_m": 0.264
+        },
+        {
+         "sat": "E36",
+         "iod_ref": 512,
+         "radial_m": null,
+         "in_track_m": null,
+         "cross_track_m": null
+        }
+       ]
+      },
+      "clock_full": {
+       "validity_index": 5,
+       "validity_s": 60,
+       "multipliers": [
+        2,
+        1
+       ],
+       "sats": [
+        {
+         "sat": "G03",
+         "dcc_m": -6.41,
+         "correction_m": -12.82,
+         "status": "ok"
+        },
+        {
+         "sat": "G07",
+         "dcc_m": 0.25,
+         "correction_m": 0.5,
+         "status": "ok"
+        },
+        {
+         "sat": "G30",
+         "dcc_m": null,
+         "correction_m": null,
+         "status": "do_not_use"
+        },
+        {
+         "sat": "E01",
+         "dcc_m": 0.0,
+         "correction_m": 0.0,
+         "status": "ok"
+        },
+        {
+         "sat": "E36",
+         "dcc_m": null,
+         "correction_m": null,
+         "status": "not_available"
+        }
+       ]
+      },
+      "code_bias": {
+       "validity_index": 14,
+       "validity_s": 3600,
+       "sats": [
+        {
+         "sat": "G03",
+         "biases": [
+          {
+           "signal": 0,
+           "bias": 3.74
+          },
+          {
+           "signal": 7,
+           "bias": -4.38
+          }
+         ]
+        },
+        {
+         "sat": "G07",
+         "biases": [
+          {
+           "signal": 0,
+           "bias": 0.2
+          },
+          {
+           "signal": 11,
+           "bias": -20.46
+          }
+         ]
+        },
+        {
+         "sat": "G30",
+         "biases": [
+          {
+           "signal": 0,
+           "bias": 0.02
+          },
+          {
+           "signal": 7,
+           "bias": 0.04
+          },
+          {
+           "signal": 11,
+           "bias": 0.06
+          }
+         ]
+        },
+        {
+         "sat": "E01",
+         "biases": [
+          {
+           "signal": 1,
+           "bias": -0.1
+          },
+          {
+           "signal": 7,
+           "bias": 0.12
+          },
+          {
+           "signal": 12,
+           "bias": 0.14
+          }
+         ]
+        },
+        {
+         "sat": "E36",
+         "biases": [
+          {
+           "signal": 1,
+           "bias": null
+          },
+          {
+           "signal": 7,
+           "bias": 20.46
+          },
+          {
+           "signal": 12,
+           "bias": -0.02
+          }
+         ]
+        }
+       ]
+      },
+      "phase_bias": {
+       "validity_index": 4,
+       "validity_s": 30,
+       "sats": [
+        {
+         "sat": "G03",
+         "biases": [
+          {
+           "signal": 0,
+           "bias": -10.23,
+           "pdi": 0
+          },
+          {
+           "signal": 7,
+           "bias": 0.05,
+           "pdi": 3
+          }
+         ]
+        },
+        {
+         "sat": "G07",
+         "biases": [
+          {
+           "signal": 0,
+           "bias": 0.0,
+           "pdi": 1
+          },
+          {
+           "signal": 11,
+           "bias": 10.23,
+           "pdi": 2
+          }
+         ]
+        },
+        {
+         "sat": "G30",
+         "biases": [
+          {
+           "signal": 0,
+           "bias": 0.01,
+           "pdi": 0
+          },
+          {
+           "signal": 7,
+           "bias": 0.02,
+           "pdi": 0
+          },
+          {
+           "signal": 11,
+           "bias": 0.03,
+           "pdi": 0
+          }
+         ]
+        },
+        {
+         "sat": "E01",
+         "biases": [
+          {
+           "signal": 1,
+           "bias": -0.01,
+           "pdi": 1
+          },
+          {
+           "signal": 7,
+           "bias": -0.02,
+           "pdi": 2
+          },
+          {
+           "signal": 12,
+           "bias": -0.03,
+           "pdi": 3
+          }
+         ]
+        },
+        {
+         "sat": "E36",
+         "biases": [
+          {
+           "signal": 1,
+           "bias": null,
+           "pdi": 0
+          },
+          {
+           "signal": 7,
+           "bias": 0.07,
+           "pdi": 1
+          },
+          {
+           "signal": 12,
+           "bias": 0.08,
+           "pdi": 2
+          }
+         ]
+        }
+       ]
+      },
+      "clock_subset": null,
+      "mid": 9,
+      "ms": 2,
+      "mt": 1,
+      "hass": 1,
+      "pids": [
+       200,
+       2
+      ],
+      "trailing_bits": 43,
+      "trailing_is_padding": true
+     },
+     {
+      "header": {
+       "toh": 1240,
+       "mask": false,
+       "orbit": false,
+       "clock_full": true,
+       "clock_subset": false,
+       "code_bias": false,
+       "phase_bias": false,
+       "mask_id": 3,
+       "iod_set_id": 17
+      },
+      "error": null,
+      "mask": null,
+      "clock_full": {
+       "validity_index": 1,
+       "validity_s": 10,
+       "multipliers": [
+        4,
+        3
+       ],
+       "sats": [
+        {
+         "sat": "G03",
+         "dcc_m": 0.0025,
+         "correction_m": 0.01,
+         "status": "ok"
+        },
+        {
+         "sat": "G07",
+         "dcc_m": -0.0025,
+         "correction_m": -0.01,
+         "status": "ok"
+        },
+        {
+         "sat": "G30",
+         "dcc_m": 0.005,
+         "correction_m": 0.02,
+         "status": "ok"
+        },
+        {
+         "sat": "E01",
+         "dcc_m": -0.005,
+         "correction_m": -0.015,
+         "status": "ok"
+        },
+        {
+         "sat": "E36",
+         "dcc_m": 10.235,
+         "correction_m": 30.705,
+         "status": "ok"
+        }
+       ]
+      },
+      "code_bias": null,
+      "phase_bias": null,
+      "orbit": null,
+      "clock_subset": null,
+      "mid": 10,
+      "ms": 1,
+      "hass": 0,
+      "pids": [
+       60
+      ],
+      "trailing_bits": 319,
+      "trailing_is_padding": true
+     },
+     {
+      "header": {
+       "toh": 1241,
+       "mask": false,
+       "orbit": false,
+       "clock_full": false,
+       "clock_subset": true,
+       "code_bias": false,
+       "phase_bias": false,
+       "mask_id": 3,
+       "iod_set_id": 17
+      },
+      "error": null,
+      "mask": null,
+      "clock_subset": {
+       "validity_index": 0,
+       "validity_s": 5,
+       "systems": [
+        {
+         "gnss_id": 2,
+         "multiplier": 2,
+         "sats": [
+          {
+           "sat": "E36",
+           "dcc_m": -0.25,
+           "correction_m": -0.5,
+           "status": "ok"
+          }
+         ]
+        },
+        {
+         "gnss_id": 0,
+         "multiplier": 1,
+         "sats": [
+          {
+           "sat": "G03",
+           "dcc_m": 0.125,
+           "correction_m": 0.125,
+           "status": "ok"
+          },
+          {
+           "sat": "G30",
+           "dcc_m": null,
+           "correction_m": null,
+           "status": "not_available"
+          }
+         ]
+        }
+       ]
+      },
+      "code_bias": null,
+      "phase_bias": null,
+      "orbit": null,
+      "clock_full": null,
+      "mid": 11,
+      "ms": 1,
+      "hass": 0,
+      "pids": [
+       60
+      ],
+      "trailing_bits": 328,
+      "trailing_is_padding": true
+     }
+    ]
+   },
+   "note": "Mask ID 3 defined by the first message; multipliers 4 and 3, 2 and 1"
+  },
+  {
+   "id": "has-clock-without-mask",
+   "decoder": "has",
+   "frames": [
+    "fffd120005360801c478003fff0017ff9ffcaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa9a7c46000"
+   ],
+   "expect": {
+    "messages": [
+     {
+      "mid": 4,
+      "error": "no_mask",
+      "clock_full": null,
+      "header": {
+       "toh": 1240,
+       "mask": false,
+       "orbit": false,
+       "clock_full": true,
+       "clock_subset": false,
+       "code_bias": false,
+       "phase_bias": false,
+       "mask_id": 3,
+       "iod_set_id": 17
+      }
+     }
+    ]
+   },
+   "note": "a message whose Mask ID was never defined is not read further"
+  },
+  {
+   "id": "has-incomplete-message",
+   "decoder": "has",
+   "frames": [
+    "fffd14872389e01ee5652ce77f4de4ee04664108024a29de0bc228ba3edff950a87d7b3c56b40189fade4617335cb6e002b9a147e241de87c82d84c8a000"
+   ],
+   "expect": {
+    "messages": [],
+    "incomplete": [
+     [
+      9,
+      2,
+      1
+     ]
+    ]
+   },
+   "note": "one page of a two-page message"
+  },
+  {
+   "id": "has-mid-reused-with-new-content",
+   "decoder": "has",
+   "frames": [
+    "fffd14872389e01ee5652ce77f4de4ee04664108024a29de0bc228ba3edff950a87d7b3c56b40189fade4617335cb6e002b9a147e241de87c82d84c8a000",
+    "fffd14840bf80647ff8002001c2ef9280a80200401003ff601803c007ffffd2008017000bff80080080067ff7ff5ff78000074044aaaaaaaaaa856e9e400",
+    "fffd148004016000884088000010020443af002aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaab860f1400"
+   ],
+   "expect": {
+    "messages": [
+     {
+      "header": {
+       "toh": 1234,
+       "mask": true,
+       "orbit": true,
+       "clock_full": true,
+       "clock_subset": false,
+       "code_bias": true,
+       "phase_bias": true,
+       "mask_id": 3,
+       "iod_set_id": 17
+      },
+      "error": null,
+      "mask": [
+       {
+        "gnss_id": 0,
+        "satellites": [
+         "G03",
+         "G07",
+         "G30"
+        ],
+        "signals": [
+         0,
+         7,
+         11
+        ],
+        "signal_names": [
+         "L1 C/A",
+         "L2 CL",
+         "L5 I"
+        ],
+        "cell_mask": [
+         [
+          1,
+          1,
+          0
+         ],
+         [
+          1,
+          0,
+          1
+         ],
+         [
+          1,
+          1,
+          1
+         ]
+        ],
+        "nav_message": 0
+       },
+       {
+        "gnss_id": 2,
+        "satellites": [
+         "E01",
+         "E36"
+        ],
+        "signals": [
+         1,
+         7,
+         12
+        ],
+        "signal_names": [
+         "E1-C",
+         "E5b-Q",
+         "E6-B"
+        ],
+        "cell_mask": null,
+        "nav_message": 0
+       }
+      ],
+      "orbit": {
+       "validity_index": 10,
+       "validity_s": 300,
+       "sats": [
+        {
+         "sat": "G03",
+         "iod_ref": 45,
+         "radial_m": 0.3,
+         "in_track_m": -2.4,
+         "cross_track_m": 0.2
+        },
+        {
+         "sat": "G07",
+         "iod_ref": 201,
+         "radial_m": -0.0175,
+         "in_track_m": 0.032,
+         "cross_track_m": -16.376
+        },
+        {
+         "sat": "G30",
+         "iod_ref": 9,
+         "radial_m": 10.2375,
+         "in_track_m": 16.376,
+         "cross_track_m": -0.008
+        },
+        {
+         "sat": "E01",
+         "iod_ref": 1023,
+         "radial_m": -10.2375,
+         "in_track_m": -16.376,
+         "cross_track_m": 0.264
+        },
+        {
+         "sat": "E36",
+         "iod_ref": 512,
+         "radial_m": null,
+         "in_track_m": null,
+         "cross_track_m": null
+        }
+       ]
+      },
+      "clock_full": {
+       "validity_index": 5,
+       "validity_s": 60,
+       "multipliers": [
+        2,
+        1
+       ],
+       "sats": [
+        {
+         "sat": "G03",
+         "dcc_m": -6.41,
+         "correction_m": -12.82,
+         "status": "ok"
+        },
+        {
+         "sat": "G07",
+         "dcc_m": 0.25,
+         "correction_m": 0.5,
+         "status": "ok"
+        },
+        {
+         "sat": "G30",
+         "dcc_m": null,
+         "correction_m": null,
+         "status": "do_not_use"
+        },
+        {
+         "sat": "E01",
+         "dcc_m": 0.0,
+         "correction_m": 0.0,
+         "status": "ok"
+        },
+        {
+         "sat": "E36",
+         "dcc_m": null,
+         "correction_m": null,
+         "status": "not_available"
+        }
+       ]
+      },
+      "code_bias": {
+       "validity_index": 14,
+       "validity_s": 3600,
+       "sats": [
+        {
+         "sat": "G03",
+         "biases": [
+          {
+           "signal": 0,
+           "bias": 3.74
+          },
+          {
+           "signal": 7,
+           "bias": -4.38
+          }
+         ]
+        },
+        {
+         "sat": "G07",
+         "biases": [
+          {
+           "signal": 0,
+           "bias": 0.2
+          },
+          {
+           "signal": 11,
+           "bias": -20.46
+          }
+         ]
+        },
+        {
+         "sat": "G30",
+         "biases": [
+          {
+           "signal": 0,
+           "bias": 0.02
+          },
+          {
+           "signal": 7,
+           "bias": 0.04
+          },
+          {
+           "signal": 11,
+           "bias": 0.06
+          }
+         ]
+        },
+        {
+         "sat": "E01",
+         "biases": [
+          {
+           "signal": 1,
+           "bias": -0.1
+          },
+          {
+           "signal": 7,
+           "bias": 0.12
+          },
+          {
+           "signal": 12,
+           "bias": 0.14
+          }
+         ]
+        },
+        {
+         "sat": "E36",
+         "biases": [
+          {
+           "signal": 1,
+           "bias": null
+          },
+          {
+           "signal": 7,
+           "bias": 20.46
+          },
+          {
+           "signal": 12,
+           "bias": -0.02
+          }
+         ]
+        }
+       ]
+      },
+      "phase_bias": {
+       "validity_index": 4,
+       "validity_s": 30,
+       "sats": [
+        {
+         "sat": "G03",
+         "biases": [
+          {
+           "signal": 0,
+           "bias": -10.23,
+           "pdi": 0
+          },
+          {
+           "signal": 7,
+           "bias": 0.05,
+           "pdi": 3
+          }
+         ]
+        },
+        {
+         "sat": "G07",
+         "biases": [
+          {
+           "signal": 0,
+           "bias": 0.0,
+           "pdi": 1
+          },
+          {
+           "signal": 11,
+           "bias": 10.23,
+           "pdi": 2
+          }
+         ]
+        },
+        {
+         "sat": "G30",
+         "biases": [
+          {
+           "signal": 0,
+           "bias": 0.01,
+           "pdi": 0
+          },
+          {
+           "signal": 7,
+           "bias": 0.02,
+           "pdi": 0
+          },
+          {
+           "signal": 11,
+           "bias": 0.03,
+           "pdi": 0
+          }
+         ]
+        },
+        {
+         "sat": "E01",
+         "biases": [
+          {
+           "signal": 1,
+           "bias": -0.01,
+           "pdi": 1
+          },
+          {
+           "signal": 7,
+           "bias": -0.02,
+           "pdi": 2
+          },
+          {
+           "signal": 12,
+           "bias": -0.03,
+           "pdi": 3
+          }
+         ]
+        },
+        {
+         "sat": "E36",
+         "biases": [
+          {
+           "signal": 1,
+           "bias": null,
+           "pdi": 0
+          },
+          {
+           "signal": 7,
+           "bias": 0.07,
+           "pdi": 1
+          },
+          {
+           "signal": 12,
+           "bias": 0.08,
+           "pdi": 2
+          }
+         ]
+        }
+       ]
+      },
+      "clock_subset": null,
+      "mid": 9,
+      "ms": 2,
+      "mt": 1,
+      "hass": 1,
+      "pids": [
+       200,
+       2
+      ],
+      "trailing_bits": 43,
+      "trailing_is_padding": true
+     },
+     {
+      "header": {
+       "toh": 5,
+       "mask": true,
+       "orbit": false,
+       "clock_full": false,
+       "clock_subset": false,
+       "code_bias": false,
+       "phase_bias": false,
+       "mask_id": 1,
+       "iod_set_id": 2
+      },
+      "error": null,
+      "mask": [
+       {
+        "gnss_id": 0,
+        "satellites": [
+         "G03",
+         "G07",
+         "G30"
+        ],
+        "signals": [
+         0,
+         7,
+         11
+        ],
+        "signal_names": [
+         "L1 C/A",
+         "L2 CL",
+         "L5 I"
+        ],
+        "cell_mask": [
+         [
+          1,
+          1,
+          0
+         ],
+         [
+          1,
+          0,
+          1
+         ],
+         [
+          1,
+          1,
+          1
+         ]
+        ],
+        "nav_message": 0
+       }
+      ],
+      "code_bias": null,
+      "phase_bias": null,
+      "orbit": null,
+      "clock_full": null,
+      "clock_subset": null,
+      "mid": 9,
+      "ms": 1,
+      "hass": 1,
+      "pids": [
+       1
+      ],
+      "trailing_bits": 309,
+      "trailing_is_padding": true
+     }
+    ]
+   },
+   "note": "a page of MID 9 that does not re-encode to the decoded message starts a new one"
+  },
+  {
+   "id": "has-reserved-pid-and-short-frame",
+   "decoder": "has",
+   "frames": [
+    "fffd14840134bb01c48088000010020443af05000000002082100051681e3b5006727ff200900212fff7fffffffe00300204300400200200152bae39c800",
+    "00ff"
+   ],
+   "expect": {
+    "reserved_pid": 1,
+    "bad_length": 1,
+    "messages": []
+   }
+  }
+ ]
+}

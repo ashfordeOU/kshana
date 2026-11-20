@@ -1,0 +1,12 @@
+{
+  "altitude_km": 400,
+  "mass_kg": 150,
+  "area_m2": 1.2,
+  "cd": 2.2,
+  "f107": 150,
+  "ap": 12,
+  "model": "nrlmsise00",
+  "density_sigma_ln": 0.41,
+  "f107_sigma": 25,
+  "ap_sigma": 6
+}

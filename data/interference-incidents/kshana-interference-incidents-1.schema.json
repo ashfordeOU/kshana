@@ -1,0 +1,439 @@
+{
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "$id": "https://github.com/ashfordeOU/kshana/blob/main/data/interference-incidents/kshana-interference-incidents-1.schema.json",
+ "title": "kshana-interference-incidents/1",
+ "description": "A library of GNSS interference incident records (docs/INTERFERENCE-INCIDENTS.md). The validator (kshana interference-map incidents validate) also applies the cross-field rules of that document, which a JSON Schema cannot express: confidence needs its evidence, a class that differs from the source's wording needs a note, a bounding box is never smaller than 0.5 degrees, free text names no actor or intent.",
+ "type": "object",
+ "additionalProperties": false,
+ "required": [
+  "schema",
+  "library_version",
+  "vocabulary",
+  "title",
+  "label",
+  "licence",
+  "licence_url",
+  "records"
+ ],
+ "properties": {
+  "schema": {
+   "const": "kshana-interference-incidents/1"
+  },
+  "library_version": {
+   "type": "string",
+   "pattern": "^\\d+\\.\\d+\\.\\d+$"
+  },
+  "vocabulary": {
+   "const": "kshana-interference-vocabulary/1"
+  },
+  "title": {
+   "type": "string",
+   "minLength": 1
+  },
+  "description": {
+   "type": "string",
+   "minLength": 1
+  },
+  "label": {
+   "enum": [
+    "REPORTED",
+    "MODELLED"
+   ]
+  },
+  "licence": {
+   "type": "string",
+   "minLength": 1
+  },
+  "licence_url": {
+   "type": "string",
+   "pattern": "^https://"
+  },
+  "attribution": {
+   "type": "string",
+   "minLength": 1
+  },
+  "creators": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "name"
+    ],
+    "properties": {
+     "name": {
+      "type": "string",
+      "minLength": 1
+     },
+     "affiliation": {
+      "type": "string",
+      "minLength": 1
+     }
+    }
+   }
+  },
+  "records": {
+   "type": "array",
+   "items": {
+    "$ref": "#/$defs/record"
+   }
+  }
+ },
+ "$defs": {
+  "record": {
+   "type": "object",
+   "additionalProperties": false,
+   "required": [
+    "id",
+    "record_kind",
+    "title",
+    "time",
+    "area",
+    "domains",
+    "effect",
+    "observed_effects",
+    "evidence_basis",
+    "origin",
+    "figures",
+    "sources"
+   ],
+   "properties": {
+    "id": {
+     "type": "string",
+     "pattern": "^(KIC-\\d{4}|KOBS-\\d{4}-\\d{2}-\\d{2}-\\d{3})$"
+    },
+    "record_kind": {
+     "enum": [
+      "event",
+      "period",
+      "statistic",
+      "study",
+      "observatory_detection"
+     ]
+    },
+    "title": {
+     "type": "string",
+     "minLength": 1
+    },
+    "time": {
+     "type": "object",
+     "additionalProperties": false,
+     "required": [
+      "start",
+      "end",
+      "precision"
+     ],
+     "properties": {
+      "start": {
+       "type": [
+        "string",
+        "null"
+       ],
+       "pattern": "^\\d{4}(-\\d{2}(-\\d{2}(T\\d{2}:\\d{2}Z)?)?)?$"
+      },
+      "end": {
+       "type": [
+        "string",
+        "null"
+       ],
+       "pattern": "^\\d{4}(-\\d{2}(-\\d{2}(T\\d{2}:\\d{2}Z)?)?)?$"
+      },
+      "precision": {
+       "enum": [
+        "minute",
+        "hour",
+        "day",
+        "month",
+        "year",
+        "unknown"
+       ]
+      },
+      "basis": {
+       "type": "string",
+       "minLength": 1
+      }
+     }
+    },
+    "area": {
+     "type": "object",
+     "additionalProperties": false,
+     "required": [
+      "description",
+      "bbox"
+     ],
+     "properties": {
+      "description": {
+       "type": "string",
+       "minLength": 1
+      },
+      "bbox": {
+       "oneOf": [
+        {
+         "type": "null"
+        },
+        {
+         "type": "object",
+         "additionalProperties": false,
+         "required": [
+          "south",
+          "west",
+          "north",
+          "east"
+         ],
+         "properties": {
+          "south": {
+           "type": "number",
+           "minimum": -90,
+           "maximum": 90
+          },
+          "west": {
+           "type": "number",
+           "minimum": -180,
+           "maximum": 180
+          },
+          "north": {
+           "type": "number",
+           "minimum": -90,
+           "maximum": 90
+          },
+          "east": {
+           "type": "number",
+           "minimum": -180,
+           "maximum": 180
+          }
+         }
+        }
+       ]
+      },
+      "bbox_basis": {
+       "enum": [
+        "editor_envelope",
+        "source",
+        "observatory_cells"
+       ]
+      }
+     }
+    },
+    "domains": {
+     "type": "array",
+     "minItems": 1,
+     "uniqueItems": true,
+     "items": {
+      "enum": [
+       "aviation",
+       "maritime",
+       "land",
+       "timing",
+       "drone",
+       "space",
+       "satellite_terminal",
+       "reference_station"
+      ]
+     }
+    },
+    "effect": {
+     "type": "object",
+     "additionalProperties": false,
+     "required": [
+      "class",
+      "confidence",
+      "terms_in_source"
+     ],
+     "properties": {
+      "class": {
+       "enum": [
+        "jamming",
+        "spoofing",
+        "meaconing",
+        "ais_manipulation",
+        "interference_unspecified",
+        "degradation_unattributed"
+       ]
+      },
+      "confidence": {
+       "enum": [
+        "confirmed",
+        "probable",
+        "suspected",
+        "undetermined"
+       ]
+      },
+      "terms_in_source": {
+       "type": "array",
+       "items": {
+        "type": "string",
+        "minLength": 1
+       }
+      },
+      "class_note": {
+       "type": "string",
+       "minLength": 1
+      }
+     }
+    },
+    "observed_effects": {
+     "type": "array",
+     "uniqueItems": true,
+     "items": {
+      "enum": [
+       "position_jump",
+       "loss_of_fix",
+       "accuracy_degraded",
+       "signal_to_noise_drop",
+       "implausible_motion",
+       "false_alert",
+       "station_detections",
+       "service_degraded",
+       "grounding",
+       "diversion",
+       "traffic_reduction"
+      ]
+     }
+    },
+    "evidence_basis": {
+     "type": "array",
+     "minItems": 1,
+     "uniqueItems": true,
+     "items": {
+      "enum": [
+       "rf_measurement",
+       "position_report_analysis",
+       "authority_statement",
+       "operator_statement",
+       "crew_report",
+       "secondary_report"
+      ]
+     }
+    },
+    "origin": {
+     "type": "object",
+     "additionalProperties": false,
+     "required": [
+      "category",
+      "platform",
+      "confidence"
+     ],
+     "properties": {
+      "category": {
+       "enum": [
+        "unknown",
+        "authorised_test",
+        "equipment_fault",
+        "natural",
+        "system_anomaly"
+       ]
+      },
+      "platform": {
+       "enum": [
+        "ground",
+        "airborne",
+        "maritime",
+        "space",
+        "unknown"
+       ]
+      },
+      "confidence": {
+       "enum": [
+        "confirmed",
+        "probable",
+        "suspected",
+        "undetermined"
+       ]
+      },
+      "note": {
+       "type": "string",
+       "minLength": 1
+      }
+     }
+    },
+    "figures": {
+     "type": "array",
+     "items": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+       "quantity",
+       "value",
+       "qualifier",
+       "source"
+      ],
+      "properties": {
+       "quantity": {
+        "type": "string",
+        "minLength": 1
+       },
+       "value": {
+        "type": "number",
+        "minimum": 0
+       },
+       "qualifier": {
+        "enum": [
+         "exact",
+         "about",
+         "at_least",
+         "at_most"
+        ]
+       },
+       "source": {
+        "type": "integer",
+        "minimum": 0
+       }
+      }
+     }
+    },
+    "sources": {
+     "type": "array",
+     "minItems": 1,
+     "items": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+       "url",
+       "publisher",
+       "published",
+       "kind"
+      ],
+      "properties": {
+       "url": {
+        "type": "string",
+        "pattern": "^https://[^\\s/]+\\.[^\\s/]+(/\\S*)?$"
+       },
+       "publisher": {
+        "type": "string",
+        "minLength": 1
+       },
+       "published": {
+        "type": "string",
+        "pattern": "^\\d{4}(-\\d{2}(-\\d{2})?)?$"
+       },
+       "kind": {
+        "enum": [
+         "official",
+         "primary_report",
+         "study",
+         "news",
+         "secondary",
+         "dataset"
+        ]
+       },
+       "retrieved": {
+        "type": "string",
+        "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+       }
+      }
+     }
+    },
+    "label": {
+     "enum": [
+      "REPORTED",
+      "MODELLED"
+     ]
+    },
+    "notes": {
+     "type": "string",
+     "minLength": 1
+    }
+   }
+  }
+ }
+}

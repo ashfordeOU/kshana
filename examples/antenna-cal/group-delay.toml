@@ -1,0 +1,32 @@
+# kshana antenna-cal group-delay examples/antenna-cal/group-delay.toml
+# Illustrative values (not a product's datasheet): the timing bias an antenna's group delay puts
+# on each signal and on the ionosphere-free pairs, and its variation. MODELLED (docs/ANTENNA-CAL.md).
+temperature_c = [-30.0, 60.0]
+reference_temperature_c = 25.0
+pairs = [["L1", "L2"], ["E1", "E5a"]]
+
+[[signal]]
+name = "L1"
+freq_hz = 1575.42e6
+group_delay_ns = 32.0
+ns_per_degc = 0.010
+elevation_ns = [[5.0, 0.6], [30.0, 0.2], [90.0, 0.0]]
+
+[[signal]]
+name = "L2"
+freq_hz = 1227.60e6
+group_delay_ns = 38.0
+ns_per_degc = 0.015
+elevation_ns = [[5.0, 0.9], [30.0, 0.3], [90.0, 0.0]]
+
+[[signal]]
+name = "E1"
+freq_hz = 1575.42e6
+group_delay_ns = 32.0
+ns_per_degc = 0.010
+
+[[signal]]
+name = "E5a"
+freq_hz = 1176.45e6
+group_delay_ns = 40.0
+ns_per_degc = 0.016

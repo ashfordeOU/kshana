@@ -85,7 +85,7 @@ live = "stream"
 id = "reader:unicore"
 kind = "reader"
 roadmap = "I3"
-vectors = ["connect/reader-unicore"]
+vectors = ["connect/reader-unicore", "connect/reader-unicore-ascii", "connect/reader-unicore-interference"]
 live = "stream"
 
 [[connector]]
@@ -318,7 +318,7 @@ live = "none"
 id = "timing:rtcm3-decode"
 kind = "timing"
 roadmap = "I3"
-vectors = ["timing/rtcm3-decode"]
+vectors = ["timing/rtcm3-decode", "timing/rtcm3-decode-msm"]
 live = "none"
 
 [[connector]]

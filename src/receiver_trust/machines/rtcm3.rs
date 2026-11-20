@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-only
-//! RTCM 3 Multiple Signal Message (MSM4 and MSM7) observation reader, read-only.
+//! RTCM 3 Multiple Signal Message (MSM4 to MSM7) observation reader, read-only.
 //!
 //! The frame layout (preamble `0xD3`, 10-bit length, CRC-24Q) and the MSM field widths and signal
 //! tables are taken from the BSD-licensed open decoder pyrtcm 1.2.0 (`rtcmtypes_core.py`,
@@ -9,11 +9,12 @@
 //! no copy of the standard was consulted. pyrtcm itself states that its tables follow the
 //! standard; this module relies on the open decoder's published tables under its licence.
 //!
-//! What is read: the frame, the message number (MSM4 = x074, MSM7 = x077 for GPS 1074, GLONASS
+//! What is read: the frame, the message number (MSM4 = x074 to MSM7 = x077 for GPS 1074, GLONASS
 //! 1084, Galileo 1094, SBAS 1104, QZSS 1114, BeiDou 1124, NavIC 1134), the epoch time, the
 //! satellite, signal and cell masks and, per cell, the signal carrier-to-noise ratio (6 bits, dB-Hz,
-//! in MSM4; 10 bits in units of 1/16 dB-Hz in MSM7). Pseudorange and phase fields are stepped over,
-//! not used. Other message types, and MSM1-3, 5 and 6, are ignored. A frame whose CRC does not
+//! in MSM4 and MSM5; 10 bits in units of 1/16 dB-Hz in MSM6 and MSM7). Pseudorange and phase fields
+//! are stepped over, not used (`rtcm3_obs` decodes them). Other message types are ignored, and so
+//! are MSM1-3, which carry no carrier-to-noise ratio. A frame whose CRC does not
 //! match, or whose body is shorter than its masks say, is skipped and counted.
 //!
 //! Time: RTCM MSM carries no week, so labels are `GPS TOW <s>` (BeiDou's is BDT's). GLONASS epochs
@@ -78,18 +79,20 @@ enum Sys {
     Navic,
 }
 
-fn system(msg: u64) -> Option<(Sys, bool)> {
-    let (sys, base) = match msg {
-        1074 | 1077 => (Sys::Gps, 1070),
-        1084 | 1087 => (Sys::Glonass, 1080),
-        1094 | 1097 => (Sys::Galileo, 1090),
-        1104 | 1107 => (Sys::Sbas, 1100),
-        1114 | 1117 => (Sys::Qzss, 1110),
-        1124 | 1127 => (Sys::Beidou, 1120),
-        1134 | 1137 => (Sys::Navic, 1130),
+/// The system and MSM type (4 to 7) of a message number.
+fn system(msg: u64) -> Option<(Sys, u64)> {
+    let sys = match msg / 10 {
+        107 => Sys::Gps,
+        108 => Sys::Glonass,
+        109 => Sys::Galileo,
+        110 => Sys::Sbas,
+        111 => Sys::Qzss,
+        112 => Sys::Beidou,
+        113 => Sys::Navic,
         _ => return None,
     };
-    Some((sys, msg - base == 7))
+    let kind = msg % 10;
+    (4..=7).contains(&kind).then_some((sys, kind))
 }
 
 fn sat_id(sys: Sys, id: u32) -> Option<String> {
@@ -133,7 +136,7 @@ fn band(sys: Sys, sig: u32) -> Option<&'static str> {
     })
 }
 
-/// Read RTCM 3 MSM4 and MSM7 observation messages from a byte stream.
+/// Read RTCM 3 MSM4 to MSM7 observation messages from a byte stream.
 pub fn read_rtcm3(bytes: &[u8]) -> Result<Timeline, String> {
     let mut map = EpochMap::default();
     let mut skipped = 0usize;
@@ -180,13 +183,16 @@ pub fn read_rtcm3(bytes: &[u8]) -> Result<Timeline, String> {
     Ok(tl)
 }
 
-/// Decode one frame's payload; `Some(())` when it was not an MSM4/7 or was decoded, `None` when
+/// Decode one frame's payload; `Some(())` when it was not an MSM4-7 or was decoded, `None` when
 /// it claimed to be one and was malformed.
 fn msm(p: &[u8], map: &mut EpochMap) -> Option<()> {
     let mut b = Bits { b: p, pos: 0 };
-    let Some((sys, is7)) = system(b.get(12)?) else {
+    let Some((sys, kind)) = system(b.get(12)?) else {
         return Some(());
     };
+    // MSM5 and MSM7 add the extended information and the rough phase-range rate per satellite and
+    // the fine phase-range rate per cell; MSM6 and MSM7 use the high-resolution cell fields.
+    let (sat_rate, high) = (kind == 5 || kind == 7, kind >= 6);
     b.skip(12)?; // reference station id
     let key = if sys == Sys::Glonass {
         let dow = b.get(3)? as i64;
@@ -221,11 +227,11 @@ fn msm(p: &[u8], map: &mut EpochMap) -> Option<()> {
         }
     }
     // satellite data: int ms 8, [extended info 4], rough range 10, [rough phase range rate 14]
-    b.skip(nsat * if is7 { 8 + 4 + 10 + 14 } else { 8 + 10 })?;
+    b.skip(nsat * if sat_rate { 8 + 4 + 10 + 14 } else { 8 + 10 })?;
     let nc = cells.len();
     // signal data, field by field over the cells: pseudorange, phase range, lock time,
     // half-cycle indicator, then the carrier-to-noise ratio
-    let (pr, ph, lock, cnr_bits) = if is7 {
+    let (pr, ph, lock, cnr_bits) = if high {
         (20, 24, 10, 10)
     } else {
         (15, 22, 4, 6)
@@ -251,7 +257,7 @@ fn msm(p: &[u8], map: &mut EpochMap) -> Option<()> {
         )
     });
     for ((s, g), raw) in cells.into_iter().zip(cnr) {
-        let dbhz = if is7 { raw as f64 / 16.0 } else { raw as f64 };
+        let dbhz = if high { raw as f64 / 16.0 } else { raw as f64 };
         let (Some(id), Some(bd)) = (sat_id(sys, sats[s]), band(sys, sigs[g])) else {
             continue;
         };
@@ -286,7 +292,8 @@ mod tests {
 
     /// A self-written MSM frame: `sats` are (id, cnr raw) with one signal each.
     fn frame(msg: u64, epoch: &[(usize, u64)], sig_id: u32, sats: &[(u32, u64)]) -> Vec<u8> {
-        let is7 = msg % 10 == 7;
+        let kind = msg % 10;
+        let (sat_rate, high) = (kind == 5 || kind == 7, kind >= 6);
         let mut w = W(Vec::new(), 0);
         w.put(msg, 12);
         w.put(7, 12);
@@ -305,15 +312,15 @@ mod tests {
         }
         for _ in sats {
             w.put(70, 8);
-            if is7 {
+            if sat_rate {
                 w.put(0, 4);
             }
             w.put(512, 10);
-            if is7 {
+            if sat_rate {
                 w.put(0, 14);
             }
         }
-        let (pr, ph, lock, cb) = if is7 {
+        let (pr, ph, lock, cb) = if high {
             (20, 24, 10, 10)
         } else {
             (15, 22, 4, 6)
@@ -326,9 +333,9 @@ mod tests {
         for (_, c) in sats {
             w.put(*c, cb);
         }
-        if is7 {
+        if sat_rate {
             for _ in sats {
-                w.put(0, 15); // fine phase-range rate, after the CNR in MSM7
+                w.put(0, 15); // fine phase-range rate, after the CNR in MSM5 and MSM7
             }
         }
         let payload = w.0;
@@ -367,6 +374,18 @@ mod tests {
             tl.epochs[0].time_label.as_deref(),
             Some("GPS TOW 100.000 s")
         );
+    }
+
+    #[test]
+    fn reads_msm5_and_msm6_cn0_at_their_resolutions() {
+        let mut s = frame(1125, &[(30, 7_000)], 2, &[(11, 41)]); // BeiDou MSM5, dB-Hz
+        s.extend(frame(1096, &[(30, 7_000)], 2, &[(4, 42 * 16 + 12)])); // Galileo MSM6, 1/16
+        let tl = read_rtcm3(&s).unwrap();
+        let c = &tl.epochs[0].cn0;
+        assert!(c.iter().any(|x| x.sat == "C11" && x.cn0_dbhz == 41.0));
+        assert!(c.iter().any(|x| x.sat == "E04" && x.cn0_dbhz == 42.75));
+        // MSM1-3 carry no C/N0: a stream of them alone holds no epoch
+        assert!(read_rtcm3(&frame(1074 - 1, &[(30, 7_000)], 2, &[])).is_err());
     }
 
     #[test]
