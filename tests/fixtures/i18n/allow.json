@@ -185,6 +185,10 @@
    "count": 2,
    "reason": "machine-document: the test <n>: prefix before a catalogued error, and the <path>: <error> prefix of an operating-system or parse error"
   },
+  "src/interference_env.rs": {
+   "count": 18,
+   "reason": "machine-document and identifier: the JSON output (the cited Recommendation names and editions written into it, the JSON keys), the option names, and the receiver and baseline ids"
+  },
   "src/interference_map/live.rs": {
    "count": 6,
    "reason": "machine-document: the two CSV headers of the documented input formats, the CSV row layouts of the ADS-B and AIS reports, the loopback address a bare UDP port binds, and the <source>: <error> prefix of an operating-system error"

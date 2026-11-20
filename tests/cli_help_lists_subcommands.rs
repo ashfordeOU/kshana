@@ -44,6 +44,7 @@ fn the_top_level_usage_names_every_subcommand() {
         "diagnose",
         "gnss-sdr-conf",
         "orbit-data",
+        "interference-env <evaluate|thresholds|degradation>",
     ] {
         assert!(
             text.contains(want),

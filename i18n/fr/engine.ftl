@@ -10722,6 +10722,7 @@ engine-main-usage =
     { "   " }ou : kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }ou : kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }ou : kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
+    { "   " }ou : kshana interference-env <evaluate|thresholds|degradation> ... (kshana interference-env --help)
     { "   " }ou : kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }ou : kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }ou : kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
@@ -11849,3 +11850,16 @@ engine-e-oscillator-input = l'entrée { $part } n'est pas valide : { $e }
 engine-e-oscillator-unknown-clock = préréglage d'horloge inconnu { $id } (l'un de { $known })
 
 engine-e-oscillator-field = { $field } est hors limites : { $value }
+
+## Interference environments (src/interference_env.rs, docs/INTERFERENCE-ENV.md)
+engine-interference-env-usage = utilisation : kshana interference-env evaluate <environment.toml> | thresholds [--receiver <id>] | degradation --baseline <id> --pulse-width <s> --prf <Hz> [--below-ratio <R>] [--recovery <s>]  (docs/INTERFERENCE-ENV.md; MODELLED)
+engine-e-interference-env-unknown-receiver = récepteur inconnu { $id } (kshana interference-env thresholds les liste)
+engine-e-interference-env-unknown-baseline = référence inconnue { $id } (voir docs/INTERFERENCE-ENV.md)
+engine-e-interference-env-bad-source = source { $name } : sa puissance, sa bande, sa largeur d'impulsion ou sa cadence n'est pas une valeur positive finie valide
+engine-e-interference-env-pulsed-needs-receiver = les sources pulsées exigent noise_temperature_k, precorrelation_bw_hz du récepteur et un niveau de suppression ou de saturation
+engine-e-interference-env-saturated = les impulsions ne laissent aucun temps non supprimé : le rapport cyclique atteint 1
+engine-e-interference-env-missing-value = { $option } attend une valeur
+engine-e-interference-env-bad-number = { $option } attend un nombre, pas { $value }
+engine-e-interference-env-unknown-option = option inconnue { $option } (kshana interference-env --help liste les options)
+engine-e-interference-env-cannot-read = impossible de lire { $path } : { $e }
+engine-e-interference-env-bad-file = { $path } n'est pas un environnement de brouillage : { $e }
