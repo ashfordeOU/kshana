@@ -1224,7 +1224,7 @@ fn feed_bundles_and_sdr_captures() {
     )
     .unwrap();
     let bundle = serde_json::to_vec(&b).unwrap();
-    fuzz("feed bundle", &[bundle.clone()], None, |x| {
+    fuzz("feed bundle", &[bundle], None, |x| {
         let _ = kshana::feeder::verify(&text(x), None);
         let _ = kshana::feeder::leaderboard(&[("x".into(), text(x).into_owned())]);
     });
