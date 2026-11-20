@@ -10551,6 +10551,16 @@ engine-e-realdata-llr-crd-short-h4-record = zu kurzer h4-Satz (Sitzung)
 
 engine-e-mcp-main-needs-value = { $a } benötigt einen Wert
 
+## AIS position-integrity flags (src/ais_integrity.rs)
+engine-ais-integrity-usage = Aufruf: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]  (docs/AIS-INTEGRITY.md)
+engine-ais-integrity-summary = { $n_tracks } Tracks, { $n_flagged } mit Markierungen: { $n_flags } Markierungen in { $n_events } Ereignissen (MODELLED)
+engine-e-ais-integrity-missing-value = { $option } braucht einen Wert
+engine-e-ais-integrity-unknown-option = unbekannte Option { $option } (kshana ais-integrity --help listet die Optionen)
+engine-e-ais-integrity-bad-format = unbekanntes Eingabeformat { $value } (csv oder nmea)
+engine-e-ais-integrity-cannot-read = { $path } kann nicht gelesen werden: { $e }
+engine-e-ais-integrity-cannot-write = { $path } kann nicht geschrieben werden: { $e }
+engine-e-ais-integrity-bad-place = eine Zeile der Ortsliste ist nicht name,lat,lon,radius_m mit gültiger Position und positivem Radius: { $row }
+
 engine-main-usage =
     Aufruf: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }oder: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10581,6 +10591,7 @@ engine-main-usage =
     { "   " }oder: kshana iq <scene|acquire|track|sweep|labfit|campaign|conditions|frontend|monitor|inventory|info|extract|convert|decimate> ... (kshana iq --help)
     { "   " }oder: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }oder: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
+    { "   " }oder: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
     { "   " }oder: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }oder: kshana kinds [--json]
     { "   " }oder: kshana example [<name>]

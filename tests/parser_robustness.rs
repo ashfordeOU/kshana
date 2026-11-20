@@ -862,6 +862,30 @@ fn norad_alpha5_and_omm() {
 }
 
 #[test]
+fn ais_integrity_inputs() {
+    let csv = vec![
+        head("tests/fixtures/ais_integrity/patterns.csv", 60),
+        head("tests/fixtures/ais_integrity/berth_drift.csv", 40),
+    ];
+    fuzz("ais-integrity csv", &csv, None, |b| {
+        let mut inp = kshana::ais_integrity::Input::new();
+        if inp.read_csv(b).is_ok() {
+            let p = kshana::ais_integrity::Params::PREREGISTERED_V1;
+            let an = kshana::ais_integrity::analyse(&inp, &p, None, &[]);
+            let _ = an.to_jsonl(&p, &inp.stats);
+        }
+    });
+    fuzz(
+        "ais-integrity places",
+        &[head("tests/fixtures/ais_integrity/places.csv", 4)],
+        None,
+        |b| {
+            let _ = kshana::ais_integrity::read_places(b);
+        },
+    );
+}
+
+#[test]
 fn ccsds_messages() {
     let oem = vec![
         head("tests/fixtures/ccsds/oem_502_b3_figG11.oem", 80),
