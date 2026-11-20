@@ -9780,6 +9780,7 @@ engine-main-usage =
     { "   " }または：kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }または：kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }または：kshana time-vectors [--json] [<vectors.json|dir> ...]
+    { "   " }または：kshana drone <prearm|prearm-calibrate|estimator-cases|dr-budget|quad-loss|failover|zonotope-pl> ... (kshana drone --help)
     { "   " }または：kshana kinds [--json]
     { "   " }または：kshana example [<name>]
     { "   " }または：kshana --help | --version
@@ -10693,3 +10694,18 @@ engine-e-interference-map-locate-source-required = --source adsb または --sou
 engine-e-interference-map-locate-no-evidence-rows = locate の出力に対する証拠行が一覧にありません
 
 engine-interference-map-locate-note-not-preregistered = 注意：いずれかのオプションが事前登録されたパラメータと異なるため、これは事前登録された手法ではありません
+
+## Drone, UTM and robotics PNT tools (src/drone_pnt)
+engine-drone-usage = 使い方：kshana drone prearm <log.ulg|log.bin|epochs.jsonl> [--window <s>] [--config <thresholds.json>] [--gate] | prearm-calibrate [--runs <n>] [--seed <n>] | estimator-cases [--case <id> --trace <trace.jsonl> [--params <json>]] | dr-budget [<spec.json> | --airframe multirotor|fixed-wing|vtol|ground-robot] | quad-loss [<spec.json>] | failover [<spec.json>] | zonotope-pl <spec.json>  (docs/DRONE-PNT.md)
+engine-e-drone-dataflash-header = ArduPilot DataFlash ログではありません（オクテット A3 95 で始まる必要があります）
+engine-e-drone-bad-number = { $flag } は有限の数値でなければなりません（{ $value } ではなく）
+engine-e-drone-prearm-gate-failed = アーム前チェック FAIL：アームしないでください（レポートの playbook 手順を参照）
+engine-e-drone-no-epochs = ログに受信機エポックがありません（PX4 ULog、ArduPilot DataFlash ログ、または JSON Lines エポックが必要です）
+engine-e-drone-trace-bad-line = トレースの行が数値 t を持つ JSON オブジェクトではありません：{ $line }
+engine-e-drone-trace-missing-channel = トレースにチャネル { $channel } がありません（--params の channels オブジェクトでチャネル名を変更できます）
+engine-e-drone-unknown-case = 不明な推定器ケース { $case }（kshana drone estimator-cases でケースを一覧表示）
+engine-e-drone-unknown-airframe = 不明な機体クラス { $name }（multirotor、fixed-wing、vtol、ground-robot）
+engine-e-drone-failover-bad-spec = フェイルオーバー実行には、少なくとも一つのソース、正のステップ、一千万ステップ以下の非負の長さが必要です
+engine-e-drone-failover-bad-kind = 不明なソース種別 { $kind }（absolute、relative、inertial）
+engine-e-drone-failover-bad-event = イベントが不明なソースまたは状態を指しています：{ $source }（状態は fail または recover）
+engine-e-drone-zonotope-bad-geometry = 保護レベルには、有限の方位角・仰角と正の上限を持つ衛星が少なくとも四機と、解ける幾何配置が必要です

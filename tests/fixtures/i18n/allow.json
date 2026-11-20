@@ -1672,6 +1672,34 @@
   "src/time_vectors.rs": {
    "count": 13,
    "reason": "identifier: the kshana.time-vectors/1 format tag, the embedded vector file names and the JSON field names of the vector format (docs/TIME-VECTORS.md)"
+  },
+  "src/drone_pnt/budget.rs": {
+   "count": 19,
+   "reason": "identifier: aiding kinds, the quad-loss mode names, the kshana.drone-dr-budget/1 and kshana.drone-quad-loss/1 format tags and the JSON field names of those documents (docs/DRONE-PNT.md)"
+  },
+  "src/drone_pnt/estimator_cases.rs": {
+   "count": 67,
+   "reason": "identifier: the estimator case ids, the URLs of the public issues each case cites, the trace channel and parameter names and the JSON field names of the kshana.drone-estimator-cases/1 document (docs/DRONE-PNT.md)"
+  },
+  "src/drone_pnt/epochs.rs": {
+   "count": 19,
+   "reason": "identifier: PX4 ULog topic and field names and ArduPilot DataFlash column labels read from (or written into test fixtures of) the logs"
+  },
+  "src/drone_pnt/failover.rs": {
+   "count": 1,
+   "reason": "identifier: the kshana.drone-failover/1 format tag"
+  },
+  "src/drone_pnt/mod.rs": {
+   "count": 3,
+   "reason": "identifier: the prearm-calibrate, estimator-cases and quad-loss subcommand names"
+  },
+  "src/drone_pnt/prearm.rs": {
+   "count": 13,
+   "reason": "identifier: the pre-arm check ids and the kshana.drone-prearm/1 and kshana.drone-prearm-calibration/1 format tags (docs/DRONE-PNT.md)"
+  },
+  "src/drone_pnt/zonotope.rs": {
+   "count": 1,
+   "reason": "identifier: the kshana.drone-zonotope-pl/1 format tag"
   }
  }
 }

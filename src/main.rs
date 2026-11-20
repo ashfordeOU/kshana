@@ -1300,6 +1300,8 @@ fn main_in_language(args: Vec<String>) -> ExitCode {
         Some("planner") => Some(kshana::planner::run),
         // `kshana env-baseline <site-hours.json>`: the environmental baseline (src/env_baseline.rs).
         Some("env-baseline") => Some(kshana::env_baseline::run),
+        // `kshana drone <prearm|conform|dr-budget|...>`: drone and robotics PNT tools (src/drone_pnt).
+        Some("drone") => Some(kshana::drone_pnt::run),
         // `kshana station run|check|service <station.toml>`: the headless receiver service (src/station.rs).
         Some("station") => Some(kshana::station::run),
         _ => None,
