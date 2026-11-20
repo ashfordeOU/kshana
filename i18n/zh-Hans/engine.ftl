@@ -9835,6 +9835,18 @@ engine-e-lunar-ref-bad-number = { $option }：{ $value } 不是有效的数字
 engine-e-lunar-ref-unknown-name = 未知名称 { $name }（已知：{ $known }）
 engine-e-lunar-ref-out-of-span = 历元超出所用星历的范围（Standish 根数 1800–2050 年；DE440 月球姿态 2014–2030 年）
 
+## LunaNet AFS receiver verification kit and lunar output message profile (src/lunar_afs/kit.rs, src/lunar_output.rs)
+engine-lunar-afs-kit-usage = 用法：kshana lunar-afs-kit vectors [<vectors.json>] | registry [<registry.toml|json>] [--limit-db <dB>] [--no-correlation] | output-check <messages.jsonl> | output-example [--n <count>] [--jd <JD TCL>] | output-reexpress <messages.jsonl> --scale <tt|tdb|tcb|tcg|tcl|ltc> --frame <ICRF|MOON_PA_DE440|MOON_PA|MOON_ME|ILURF>   [--out <file>]  (docs/LUNAR-AFS-KIT.md)
+engine-e-lunar-afs-kit-missing-value = { $option } 需要一个值
+engine-e-lunar-afs-kit-unknown-option = 未知选项 { $option }（kshana lunar-afs-kit --help 列出所有选项）
+engine-e-lunar-afs-kit-cannot-read = 无法读取 { $path }：{ $e }
+engine-e-lunar-afs-kit-cannot-write = 无法写入 { $path }：{ $e }
+engine-e-lunar-afs-kit-bad-number = { $option }：{ $value } 不是有效的数字
+engine-e-lunar-afs-kit-unknown-name = 未知名称 { $name }（已知：{ $known }）
+engine-e-lunar-afs-kit-bad-registry = 注册表不是 [[node]] 分配列表：{ $e }
+engine-e-lunar-afs-kit-bad-vectors = 不是 kshana.afs-vectors/1 文件：{ $e }
+engine-e-lunar-afs-kit-bad-message = 有一行不是包含历元、参考系和位置的 kshana.lunar-pnt-output/1 消息
+
 engine-main-usage =
     用法：kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }或：kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -9866,6 +9878,7 @@ engine-main-usage =
     { "   " }或：kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }或：kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }或：kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
+    { "   " }或：kshana lunar-afs-kit <vectors|registry|output-check|output-example|output-reexpress> ... (kshana lunar-afs-kit --help)
     { "   " }或：kshana lunar-ref <tcb-tcl|approx|convert|transform|terms|models> ... (kshana lunar-ref --help)
     { "   " }或：kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }或：kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>

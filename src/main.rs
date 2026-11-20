@@ -1275,6 +1275,11 @@ fn main_in_language(args: Vec<String>) -> ExitCode {
     if args.get(1).map(String::as_str) == Some("lunar-ref") {
         return ExitCode::from(kshana::lunar_ref::run_cli(&args[2..]) as u8);
     }
+    // `kshana lunar-afs-kit <vectors|registry|output-check|output-example|output-reexpress>`: the
+    // AFS receiver verification kit (src/lunar_afs/kit.rs, docs/LUNAR-AFS-KIT.md).
+    if args.get(1).map(String::as_str) == Some("lunar-afs-kit") {
+        return ExitCode::from(kshana::lunar_afs::kit::run_cli(&args[2..]) as u8);
+    }
     // `kshana ais-integrity <input> [...]`: per-track AIS position-integrity flags as JSON Lines
     // (src/ais_integrity.rs, docs/AIS-INTEGRITY.md). Exit 2 on a usage or input error.
     if args.get(1).map(String::as_str) == Some("ais-integrity") {

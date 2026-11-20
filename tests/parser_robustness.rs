@@ -958,6 +958,24 @@ fn norad_alpha5_and_omm() {
 }
 
 #[test]
+fn lunar_afs_kit_inputs() {
+    let reg = b"[[node]]\nprovider = \"A\"\nnode_id = 3\ni_prn = 3\nq_prn = 3\nsecondary = 2\ntertiary_prn = 3\ntertiary_phase = 0\n".to_vec();
+    fuzz("lunar-afs-kit registry", &[reg], None, |b| {
+        if let Ok(r) = kshana::lunar_afs::registry::Registry::parse(&String::from_utf8_lossy(b)) {
+            let _ = kshana::lunar_afs::registry::check(&r, -20.0, false);
+        }
+    });
+    let stream = kshana::lunar_output::example(3, 2_460_676.5).into_bytes();
+    fuzz("lunar-afs-kit output messages", &[stream], None, |b| {
+        let _ = kshana::lunar_output::check(&String::from_utf8_lossy(b));
+    });
+    let vec = head("data/conformance/lunar-afs/afs-q-vectors.json", 40);
+    fuzz("lunar-afs-kit vectors", &[vec], None, |b| {
+        let _ = kshana::lunar_afs::vectors::run(&String::from_utf8_lossy(b));
+    });
+}
+
+#[test]
 fn ais_integrity_inputs() {
     let csv = vec![
         head("tests/fixtures/ais_integrity/patterns.csv", 60),

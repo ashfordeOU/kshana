@@ -10552,6 +10552,18 @@ engine-e-lunar-ref-bad-number = { $option }: { $value } ei ole kehtiv arv
 engine-e-lunar-ref-unknown-name = tundmatu nimi { $name } (tuntud: { $known })
 engine-e-lunar-ref-out-of-span = epohh on kasutatud efemeriidide vahemikust väljas (Standishi elemendid 1800–2050; DE440 Kuu orientatsioon 2014–2030)
 
+## LunaNet AFS receiver verification kit and lunar output message profile (src/lunar_afs/kit.rs, src/lunar_output.rs)
+engine-lunar-afs-kit-usage = kasutus: kshana lunar-afs-kit vectors [<vectors.json>] | registry [<registry.toml|json>] [--limit-db <dB>] [--no-correlation] | output-check <messages.jsonl> | output-example [--n <count>] [--jd <JD TCL>] | output-reexpress <messages.jsonl> --scale <tt|tdb|tcb|tcg|tcl|ltc> --frame <ICRF|MOON_PA_DE440|MOON_PA|MOON_ME|ILURF>   [--out <file>]  (docs/LUNAR-AFS-KIT.md)
+engine-e-lunar-afs-kit-missing-value = { $option } vajab väärtust
+engine-e-lunar-afs-kit-unknown-option = tundmatu valik { $option } (valikud loetleb kshana lunar-afs-kit --help)
+engine-e-lunar-afs-kit-cannot-read = faili { $path } ei saa lugeda: { $e }
+engine-e-lunar-afs-kit-cannot-write = faili { $path } ei saa kirjutada: { $e }
+engine-e-lunar-afs-kit-bad-number = { $option }: { $value } ei ole kehtiv arv
+engine-e-lunar-afs-kit-unknown-name = tundmatu nimi { $name } (tuntud: { $known })
+engine-e-lunar-afs-kit-bad-registry = register ei ole [[node]] eraldiste loend: { $e }
+engine-e-lunar-afs-kit-bad-vectors = ei ole kshana.afs-vectors/1 fail: { $e }
+engine-e-lunar-afs-kit-bad-message = rida ei ole kshana.lunar-pnt-output/1 sõnum epohhi, tugisüsteemi ja asukohaga
+
 engine-main-usage =
     kasutus: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }või: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10583,6 +10595,7 @@ engine-main-usage =
     { "   " }või: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }või: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }või: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
+    { "   " }või: kshana lunar-afs-kit <vectors|registry|output-check|output-example|output-reexpress> ... (kshana lunar-afs-kit --help)
     { "   " }või: kshana lunar-ref <tcb-tcl|approx|convert|transform|terms|models> ... (kshana lunar-ref --help)
     { "   " }või: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }või: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>

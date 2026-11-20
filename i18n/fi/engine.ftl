@@ -10294,6 +10294,18 @@ engine-e-lunar-ref-bad-number = { $option }: { $value } ei ole kelvollinen luku
 engine-e-lunar-ref-unknown-name = tuntematon nimi { $name } (tunnetut: { $known })
 engine-e-lunar-ref-out-of-span = epookki on käytettyjen efemeridien jakson ulkopuolella (Standishin ratatiedot 1800–2050; DE440-kuun asento 2014–2030)
 
+## LunaNet AFS receiver verification kit and lunar output message profile (src/lunar_afs/kit.rs, src/lunar_output.rs)
+engine-lunar-afs-kit-usage = käyttö: kshana lunar-afs-kit vectors [<vectors.json>] | registry [<registry.toml|json>] [--limit-db <dB>] [--no-correlation] | output-check <messages.jsonl> | output-example [--n <count>] [--jd <JD TCL>] | output-reexpress <messages.jsonl> --scale <tt|tdb|tcb|tcg|tcl|ltc> --frame <ICRF|MOON_PA_DE440|MOON_PA|MOON_ME|ILURF>   [--out <file>]  (docs/LUNAR-AFS-KIT.md)
+engine-e-lunar-afs-kit-missing-value = { $option } tarvitsee arvon
+engine-e-lunar-afs-kit-unknown-option = tuntematon valitsin { $option } (kshana lunar-afs-kit --help luettelee valitsimet)
+engine-e-lunar-afs-kit-cannot-read = tiedostoa { $path } ei voi lukea: { $e }
+engine-e-lunar-afs-kit-cannot-write = tiedostoon { $path } ei voi kirjoittaa: { $e }
+engine-e-lunar-afs-kit-bad-number = { $option }: { $value } ei ole kelvollinen luku
+engine-e-lunar-afs-kit-unknown-name = tuntematon nimi { $name } (tunnetut: { $known })
+engine-e-lunar-afs-kit-bad-registry = rekisteri ei ole luettelo [[node]]-varauksista: { $e }
+engine-e-lunar-afs-kit-bad-vectors = ei ole kshana.afs-vectors/1-tiedosto: { $e }
+engine-e-lunar-afs-kit-bad-message = rivi ei ole kshana.lunar-pnt-output/1-viesti, jossa on epookki, viitekehys ja sijainti
+
 engine-main-usage =
     käyttö: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }tai: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10325,6 +10337,7 @@ engine-main-usage =
     { "   " }tai: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }tai: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }tai: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
+    { "   " }tai: kshana lunar-afs-kit <vectors|registry|output-check|output-example|output-reexpress> ... (kshana lunar-afs-kit --help)
     { "   " }tai: kshana lunar-ref <tcb-tcl|approx|convert|transform|terms|models> ... (kshana lunar-ref --help)
     { "   " }tai: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }tai: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
