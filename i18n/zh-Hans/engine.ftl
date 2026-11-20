@@ -9870,6 +9870,23 @@ engine-e-interference-lib-cannot-read = 无法读取 { $path }：{ $e }
 engine-e-interference-lib-cannot-write = 无法写入 { $path }：{ $e }
 engine-e-interference-lib-bad-predictions = 预测行不是带有已知类别的 id,class：{ $row }
 
+## Receiver-antenna characterisation (src/antenna_cal.rs)
+engine-antenna-cal-usage = 用法：kshana antenna-cal lint <file.atx> | spread <file.atx>... --type <type-radome> | compare <a.atx> [<b.atx>] --type <type-radome> [--serial-a <s>] [--serial-b <s>] [--max-zenith <deg>] | group-delay <spec.toml> | js-margin <spec.toml>  [--out <file.json>]  (docs/ANTENNA-CAL.md)
+engine-e-antenna-cal-missing-value = { $option } 需要一个值
+engine-e-antenna-cal-unknown-option = 未知选项 { $option }（kshana antenna-cal --help 列出所有选项）
+engine-e-antenna-cal-bad-number = { $option } 需要一个大于或等于零的有限数值，而不是 { $value }
+engine-e-antenna-cal-cannot-read = 无法读取 { $path }：{ $e }
+engine-e-antenna-cal-cannot-write = 无法写入 { $path }：{ $e }
+engine-e-antenna-cal-bad-spec = { $path } 不是有效的规格：{ $e }
+engine-e-antenna-cal-no-antenna = { $path } 中没有天线 { $name }
+engine-e-antenna-cal-too-few-units = 可比较的 { $name } 校准少于两个
+engine-e-antenna-cal-unknown-signal = 某个组合引用了未知信号 { $value }
+engine-e-antenna-cal-bad-group-delay = 群时延规格至少需要一个信号、有序且有限的温度范围、正的频率以及有限的时延
+engine-e-antenna-cal-same-pair = 无电离层组合需要两个不同的频率
+engine-e-antenna-cal-bad-pattern = 未知天线方向图（patch、choke-ring 或 table）
+engine-e-antenna-cal-bad-gain-table = 增益表至少需要两个有限的仰角与增益点
+engine-e-antenna-cal-bad-link = J/S 规格需要正的频率、有限的 EIRP 以及正的距离
+
 engine-main-usage =
     用法：kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }或：kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -9914,6 +9931,7 @@ engine-main-usage =
     { "   " }或：kshana leo-verify <burst-timing|holdover-tdev|cost|indoor|rain-fade|rtk-ar|jam-claim|doppler-integrity> <input.json>
     { "   " }或：kshana sil-obs <generate|compare> ... (kshana sil-obs --help)
     { "   " }或：kshana interference-lib <models|generate|fit|bench|cases> ... (kshana interference-lib --help)
+    { "   " }或：kshana antenna-cal <lint|spread|compare|group-delay|js-margin> ... (kshana antenna-cal --help)
     { "   " }或：kshana kinds [--json]
     { "   " }或：kshana example [<name>]
     { "   " }或：kshana --help | --version

@@ -10401,6 +10401,23 @@ engine-e-sil-obs-no-satellites = { $path } has no broadcast record of the reques
 engine-e-sil-obs-unknown-system = unknown system { $value } (G or E)
 engine-e-sil-obs-bad-canyon = the canyon needs a positive width, an antenna offset inside the street, a reflection loss of at least 1 dB and finite values
 
+## Receiver-antenna characterisation (src/antenna_cal.rs)
+engine-antenna-cal-usage = usage: kshana antenna-cal lint <file.atx> | spread <file.atx>... --type <type-radome> | compare <a.atx> [<b.atx>] --type <type-radome> [--serial-a <s>] [--serial-b <s>] [--max-zenith <deg>] | group-delay <spec.toml> | js-margin <spec.toml>  [--out <file.json>]  (docs/ANTENNA-CAL.md)
+engine-e-antenna-cal-missing-value = { $option } needs a value
+engine-e-antenna-cal-unknown-option = unknown option { $option } (kshana antenna-cal --help lists the options)
+engine-e-antenna-cal-bad-number = { $option } needs a finite number of zero or more, not { $value }
+engine-e-antenna-cal-cannot-read = cannot read { $path }: { $e }
+engine-e-antenna-cal-cannot-write = cannot write { $path }: { $e }
+engine-e-antenna-cal-bad-spec = { $path } is not a valid specification: { $e }
+engine-e-antenna-cal-no-antenna = no antenna { $name } in { $path }
+engine-e-antenna-cal-too-few-units = fewer than two calibrations of { $name } to compare
+engine-e-antenna-cal-unknown-signal = a pair names the unknown signal { $value }
+engine-e-antenna-cal-bad-group-delay = the group-delay specification needs at least one signal, an ordered finite temperature range, positive frequencies and finite delays
+engine-e-antenna-cal-same-pair = an ionosphere-free pair needs two different frequencies
+engine-e-antenna-cal-bad-pattern = unknown antenna pattern (patch, choke-ring or table)
+engine-e-antenna-cal-bad-gain-table = a gain table needs at least two finite points of elevation and gain
+engine-e-antenna-cal-bad-link = the J/S specification needs a positive frequency, a finite EIRP and positive ranges
+
 engine-main-usage =
     usage: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }or: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10445,6 +10462,7 @@ engine-main-usage =
     { "   " }or: kshana leo-verify <burst-timing|holdover-tdev|cost|indoor|rain-fade|rtk-ar|jam-claim|doppler-integrity> <input.json>
     { "   " }or: kshana sil-obs <generate|compare> ... (kshana sil-obs --help)
     { "   " }or: kshana interference-lib <models|generate|fit|bench|cases> ... (kshana interference-lib --help)
+    { "   " }or: kshana antenna-cal <lint|spread|compare|group-delay|js-margin> ... (kshana antenna-cal --help)
     { "   " }or: kshana kinds [--json]
     { "   " }or: kshana example [<name>]
     { "   " }or: kshana --help | --version

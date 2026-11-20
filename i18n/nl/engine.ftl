@@ -10626,6 +10626,23 @@ engine-e-interference-lib-cannot-read = kan { $path } niet lezen: { $e }
 engine-e-interference-lib-cannot-write = kan { $path } niet schrijven: { $e }
 engine-e-interference-lib-bad-predictions = een voorspellingsregel is geen id,class met een bekende klasse: { $row }
 
+## Receiver-antenna characterisation (src/antenna_cal.rs)
+engine-antenna-cal-usage = gebruik: kshana antenna-cal lint <file.atx> | spread <file.atx>... --type <type-radome> | compare <a.atx> [<b.atx>] --type <type-radome> [--serial-a <s>] [--serial-b <s>] [--max-zenith <deg>] | group-delay <spec.toml> | js-margin <spec.toml>  [--out <file.json>]  (docs/ANTENNA-CAL.md)
+engine-e-antenna-cal-missing-value = { $option } heeft een waarde nodig
+engine-e-antenna-cal-unknown-option = onbekende optie { $option } (kshana antenna-cal --help toont de opties)
+engine-e-antenna-cal-bad-number = { $option } vraagt een eindig getal van nul of meer, niet { $value }
+engine-e-antenna-cal-cannot-read = kan { $path } niet lezen: { $e }
+engine-e-antenna-cal-cannot-write = kan { $path } niet schrijven: { $e }
+engine-e-antenna-cal-bad-spec = { $path } is geen geldige specificatie: { $e }
+engine-e-antenna-cal-no-antenna = geen antenne { $name } in { $path }
+engine-e-antenna-cal-too-few-units = minder dan twee kalibraties van { $name } om te vergelijken
+engine-e-antenna-cal-unknown-signal = een paar noemt het onbekende signaal { $value }
+engine-e-antenna-cal-bad-group-delay = de groepsvertragingsspecificatie vraagt ten minste één signaal, een geordend eindig temperatuurbereik, positieve frequenties en eindige vertragingen
+engine-e-antenna-cal-same-pair = een ionosfeervrij paar vraagt twee verschillende frequenties
+engine-e-antenna-cal-bad-pattern = onbekend antennediagram (patch, choke-ring of table)
+engine-e-antenna-cal-bad-gain-table = een versterkingstabel vraagt ten minste twee eindige punten van elevatie en versterking
+engine-e-antenna-cal-bad-link = de J/S-specificatie vraagt een positieve frequentie, een eindige EIRP en positieve afstanden
+
 engine-main-usage =
     gebruik: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }of: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10670,6 +10687,7 @@ engine-main-usage =
     { "   " }of: kshana leo-verify <burst-timing|holdover-tdev|cost|indoor|rain-fade|rtk-ar|jam-claim|doppler-integrity> <input.json>
     { "   " }of: kshana sil-obs <generate|compare> ... (kshana sil-obs --help)
     { "   " }of: kshana interference-lib <models|generate|fit|bench|cases> ... (kshana interference-lib --help)
+    { "   " }of: kshana antenna-cal <lint|spread|compare|group-delay|js-margin> ... (kshana antenna-cal --help)
     { "   " }of: kshana kinds [--json]
     { "   " }of: kshana example [<name>]
     { "   " }of: kshana --help | --version

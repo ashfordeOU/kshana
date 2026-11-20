@@ -1297,6 +1297,12 @@ fn main_in_language(args: Vec<String>) -> ExitCode {
     if args.get(1).map(String::as_str) == Some("sil-obs") {
         return ExitCode::from(kshana::sil_obs::run_cli(&args[2..]) as u8);
     }
+    // `kshana antenna-cal <lint|spread|compare|group-delay|js-margin> ...`: receiver-antenna
+    // characterisation tools (src/antenna_cal.rs, docs/ANTENNA-CAL.md). Exit 1 when `lint`
+    // finds an error, 2 on a usage or input error.
+    if args.get(1).map(String::as_str) == Some("antenna-cal") {
+        return ExitCode::from(kshana::antenna_cal::run_cli(&args[2..]) as u8);
+    }
     // `kshana time-vectors [--json] [<file|dir>...]`: the time-scale conformance vectors
     // (src/time_vectors.rs, docs/TIME-VECTORS.md). Exit 1 when any vector fails.
     if args.get(1).map(String::as_str) == Some("time-vectors") {
