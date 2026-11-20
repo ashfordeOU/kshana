@@ -1502,3 +1502,20 @@ fn signal_readiness_profiles() {
         }
     });
 }
+
+#[test]
+fn leo_od_plan_files() {
+    let seed = head("examples/leo-od-plan/plan.toml", 60);
+    fuzz("leo-od-plan toml", &[seed], None, |b| {
+        if let Ok(mut p) = toml::from_str::<kshana::leo_od_plan::Plan>(&text(b)) {
+            // Keep each fuzz case small: a short arc and a coarse step.
+            p.arc_hours = p.arc_hours.min(1.0);
+            p.step_s = p.step_s.max(600.0);
+            p.stations.truncate(4);
+            if let Some(l) = p.leo.as_mut() {
+                l.total = l.total.min(12);
+            }
+            let _ = kshana::leo_od_plan::run_plan(&p);
+        }
+    });
+}

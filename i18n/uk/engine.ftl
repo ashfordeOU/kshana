@@ -10842,6 +10842,7 @@ engine-main-usage =
     { "   " }або: kshana arctic-plan --site <lat,lon[,h]> | --place <name> [--systems <a,b,...>] [--compare] [--hours <h>] [--kp <n>] ... (kshana arctic-plan --help)
     { "   " }або: kshana lunar-ref <tcb-tcl|approx|convert|transform|terms|models> ... (kshana lunar-ref --help)
     { "   " }або: kshana signal-readiness <profile.toml> [<obs.rnx>...]
+    { "   " }або: kshana leo-od-plan <plan.toml>
     { "   " }або: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }або: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }або: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
@@ -12113,3 +12114,9 @@ engine-e-signal-readiness-bad-rinex = { $path } не є файлом спост�
 engine-e-signal-readiness-unknown-option = невідомий параметр { $option } (kshana signal-readiness --help)
 engine-e-signal-readiness-cannot-read = не вдалося прочитати { $path }: { $e }
 engine-e-signal-readiness-bad-profile = { $path } не є профілем приймача: { $e }
+
+## BeiDou-LEO planning (src/leo_od_plan.rs, docs/LEO-OD-PLAN.md)
+engine-leo-od-plan-usage = використання: kshana leo-od-plan <plan.toml>  (docs/LEO-OD-PLAN.md; MODELLED, a planning tool)
+engine-e-leo-od-plan-bad-plan = значення плану поза допустимим діапазоном: дуга, крок, шуми й маски додатні та скінченні, не більше 100000 кроків, маски в межах ±90 градусів, півширина променя від 0 до 90 градусів і схема Вокера LEO, у якої кількість площин ділить кількість супутників
+engine-e-leo-od-plan-cannot-read = не вдалося прочитати { $path }: { $e }
+engine-e-leo-od-plan-bad-file = { $path } не є планом: { $e }

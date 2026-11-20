@@ -1400,6 +1400,9 @@ fn main_in_language(args: Vec<String>) -> ExitCode {
         // `kshana signal-readiness <profile.toml> [<obs.rnx>...]`: future-signal readiness
         // (src/signal_readiness.rs).
         Some("signal-readiness") => Some(kshana::signal_readiness::run),
+        // `kshana leo-od-plan <plan.toml>`: BeiDou-LEO interoperability planning and a LEO-aided
+        // orbit determination covariance study (src/leo_od_plan.rs).
+        Some("leo-od-plan") => Some(kshana::leo_od_plan::run),
         // `kshana oscillator <part> <input.json>`: oscillator models (src/oscillator/).
         Some("oscillator") => Some(kshana::oscillator::run),
         // `kshana leo-verify <part> <input.json>`: LEO-PNT verification tools (src/leo_verify/).

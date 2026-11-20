@@ -9972,6 +9972,7 @@ engine-main-usage =
     { "   " }或：kshana arctic-plan --site <lat,lon[,h]> | --place <name> [--systems <a,b,...>] [--compare] [--hours <h>] [--kp <n>] ... (kshana arctic-plan --help)
     { "   " }或：kshana lunar-ref <tcb-tcl|approx|convert|transform|terms|models> ... (kshana lunar-ref --help)
     { "   " }或：kshana signal-readiness <profile.toml> [<obs.rnx>...]
+    { "   " }或：kshana leo-od-plan <plan.toml>
     { "   " }或：kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }或：kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }或：kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
@@ -11232,3 +11233,9 @@ engine-e-signal-readiness-bad-rinex = { $path } 不是 RINEX 3 或 4 观测文�
 engine-e-signal-readiness-unknown-option = 未知选项 { $option }（kshana signal-readiness --help）
 engine-e-signal-readiness-cannot-read = 无法读取 { $path }：{ $e }
 engine-e-signal-readiness-bad-profile = { $path } 不是接收机配置文件：{ $e }
+
+## BeiDou-LEO planning (src/leo_od_plan.rs, docs/LEO-OD-PLAN.md)
+engine-leo-od-plan-usage = 用法：kshana leo-od-plan <plan.toml>  (docs/LEO-OD-PLAN.md; MODELLED, a planning tool)
+engine-e-leo-od-plan-bad-plan = 计划数值超出范围：弧段、步长、噪声和掩码须为正的有限值，步数最多 100000，掩码在 ±90 度以内，半波束宽度在 0 到 90 度之间，LEO 沃克星座的轨道面数须整除卫星数
+engine-e-leo-od-plan-cannot-read = 无法读取 { $path }：{ $e }
+engine-e-leo-od-plan-bad-file = { $path } 不是计划文件：{ $e }

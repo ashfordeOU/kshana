@@ -9905,6 +9905,7 @@ engine-main-usage =
     { "   " }または：kshana arctic-plan --site <lat,lon[,h]> | --place <name> [--systems <a,b,...>] [--compare] [--hours <h>] [--kp <n>] ... (kshana arctic-plan --help)
     { "   " }または：kshana lunar-ref <tcb-tcl|approx|convert|transform|terms|models> ... (kshana lunar-ref --help)
     { "   " }または：kshana signal-readiness <profile.toml> [<obs.rnx>...]
+    { "   " }または：kshana leo-od-plan <plan.toml>
     { "   " }または：kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }または：kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }または：kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
@@ -11177,3 +11178,9 @@ engine-e-signal-readiness-bad-rinex = { $path } は RINEX 3 または 4 の観�
 engine-e-signal-readiness-unknown-option = 不明なオプション { $option }（kshana signal-readiness --help）
 engine-e-signal-readiness-cannot-read = { $path } を読み込めません：{ $e }
 engine-e-signal-readiness-bad-profile = { $path } は受信機プロファイルではありません：{ $e }
+
+## BeiDou-LEO planning (src/leo_od_plan.rs, docs/LEO-OD-PLAN.md)
+engine-leo-od-plan-usage = 使い方：kshana leo-od-plan <plan.toml>  (docs/LEO-OD-PLAN.md; MODELLED, a planning tool)
+engine-e-leo-od-plan-bad-plan = 計画の数値が範囲外です：アーク、ステップ、雑音、マスクは正の有限値、ステップ数は最大 100000、マスクは ±90 度以内、半ビーム幅は 0 から 90 度、LEO ウォーカー配置は面数が衛星数を割り切ること
+engine-e-leo-od-plan-cannot-read = { $path } を読み込めません：{ $e }
+engine-e-leo-od-plan-bad-file = { $path } は計画ファイルではありません：{ $e }

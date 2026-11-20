@@ -10689,6 +10689,7 @@ engine-main-usage =
     { "   " }või: kshana arctic-plan --site <lat,lon[,h]> | --place <name> [--systems <a,b,...>] [--compare] [--hours <h>] [--kp <n>] ... (kshana arctic-plan --help)
     { "   " }või: kshana lunar-ref <tcb-tcl|approx|convert|transform|terms|models> ... (kshana lunar-ref --help)
     { "   " }või: kshana signal-readiness <profile.toml> [<obs.rnx>...]
+    { "   " }või: kshana leo-od-plan <plan.toml>
     { "   " }või: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }või: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }või: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
@@ -11952,3 +11953,9 @@ engine-e-signal-readiness-bad-rinex = { $path } ei ole RINEX 3 ega 4 vaatlusfail
 engine-e-signal-readiness-unknown-option = tundmatu valik { $option } (kshana signal-readiness --help)
 engine-e-signal-readiness-cannot-read = faili { $path } ei saa lugeda: { $e }
 engine-e-signal-readiness-bad-profile = { $path } ei ole vastuvõtja profiil: { $e }
+
+## BeiDou-LEO planning (src/leo_od_plan.rs, docs/LEO-OD-PLAN.md)
+engine-leo-od-plan-usage = kasutus: kshana leo-od-plan <plan.toml>  (docs/LEO-OD-PLAN.md; MODELLED, a planning tool)
+engine-e-leo-od-plan-bad-plan = plaani väärtused on lubatud vahemikust väljas: kaar, samm, mürad ja maskid positiivsed ja lõplikud, kõige rohkem 100000 sammu, maskid ±90 kraadi piires, poolkiirelaius 0 kuni 90 kraadi ja LEO Walkeri muster, mille tasandid jagavad satelliitide arvu
+engine-e-leo-od-plan-cannot-read = faili { $path } ei saa lugeda: { $e }
+engine-e-leo-od-plan-bad-file = { $path } ei ole plaan: { $e }
