@@ -1,0 +1,5 @@
+name = "built-in reader: unicore (binary AGC, JAMSTATUS, FREQJAMSTATUS)"
+input = "input.unc"
+reader = "unicore"
+station = "../../../examples/obs/station.toml"
+expected = "expected.obs.jsonl"

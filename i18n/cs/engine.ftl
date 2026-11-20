@@ -10566,7 +10566,7 @@ engine-main-usage =
     { "   " }nebo: kshana obs <convert <log> --format <format> --station <station.toml> [--out <file>] | check <file.obs.jsonl> [--json]>
     { "   " }nebo: kshana connect <map <input> --mapping <connect.toml> --station <station.toml> [--out <file.obs.jsonl>] | check <vector.toml|dir> [--bless] | watch <dir> --mapping <connect.toml> --station <station.toml> [--suffix <.csv>] [--interval <s>] [--once] | mqtt <host:port> --topic <filter> --mapping <connect.toml> --station <station.toml> [--header <row>] [--qos 0|1] [--user <name> --password-env <VAR>] [--client-id <id>] [--max-messages <n>] [--per-topic] | nats <host:port> --subject <s> --mapping <connect.toml> --station <station.toml> [--header <row>] [--per-topic] [--user <name> --password-env <VAR> | --token-env <VAR>] [--max-messages <n>] | ws <ws://host:port/path> --mapping <connect.toml> --station <station.toml> [--header <row>] [--max-messages <n>] | check-live <vector.toml|dir> [--json] | load-test [--stations <n>] [--rate <Hz>] [--seconds <s>] [--via memory|mqtt] [--json] | adapters <list|check> [<dir>] [--json]>
     { "   " }nebo: kshana osnma verify <pages|vectors.csv|stream.ubx> [--merkle-root <hex>] [--public-key <id:type:hex>] [--reference-time <gst-s>] [--json] (kshana osnma --help)
-    { "   " }nebo: kshana iq <scene|acquire|track|sweep|labfit|campaign|conditions|frontend|monitor|inventory|info|extract|convert|decimate> ... (kshana iq --help)
+    { "   " }nebo: kshana iq <scene|acquire|track|sweep|labfit|campaign|conditions|frontend|monitor|diagnose|gnss-sdr-conf|inventory|info|extract|convert|decimate> ... (kshana iq --help)
     { "   " }nebo: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }nebo: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }nebo: kshana time-vectors [--json] [<vectors.json|dir> ...]
@@ -10762,6 +10762,8 @@ engine-iq-cli-usage =
     { "   " }nebo: kshana iq conditions <test-conditions.toml|json>
     { "   " }nebo: kshana iq frontend <in> <out> [--bandpass lo,hi] [--notch] [--blank <thr>] [--excise] [--agc] [--bits <n>] [--out-format <fmt>]
     { "   " }nebo: kshana iq monitor <recording> [--power] [--spectral] [--settings <toml|json>] [--baseline <s>] [--signal <name> --prn <list> [--spacing <chips>] [--pll-bw <hz>] [--fll-bw <hz>] [--dll-bw <hz>] [--coherent <N>] [--cn0-windows <M>] [--doppler-max <hz>]] [--max-seconds <s>] [--follow [--idle-timeout <s>]] [--json <out>] [--csv <prefix>]
+    { "   " }nebo: kshana iq diagnose <recording> [--max-seconds <s>] [--block <s>] [--gain-step-db <db>] [--signal <name> --prn <list> [--coherent <N>] [--noncoherent <M>] [--doppler-max <hz>] [--doppler-step <hz>] [--pfa <p>] [--step <s>] [--steps <n>] [--max-sat-doppler <hz>]]
+    { "   " }nebo: kshana iq gnss-sdr-conf <recording> [--signal <name[:channels]>,...] [--profile default|narrowband] [--doppler-max <hz>] [--rate-ms <ms>] [--monitor-ports <ch,pvt> | --no-monitor] [--out <file.conf>]
     { " " }scénáře labfit: [[runs]] záznamů přijímače, nebo [input] campaign = "<out-dir>" označující výstupní složku kampaně kshana iq campaign (relativně k souboru scénáře)
     { " " }návrhy smyček: soubor TOML kshana.loop-design/1 (docs/design/LOOP-DESIGN-TOML.md); explicitní příznaky smyčky a akvizice přebíjejí vybraný návrh
     { " " }acquire/track/sweep přijímají také příznaky předního konce [--bandpass lo,hi] [--notch] [--blank <thr>] [--excise] [--agc] [--bits <n>], použité před zpracováním (na akvizici i sledování stejně)
@@ -11546,3 +11548,16 @@ engine-e-interference-map-locate-bad-tdoa = { $path } není použitelný soubor 
 engine-e-interference-map-locate-source-required = je vyžadováno --source adsb nebo --source ais
 
 engine-e-interference-map-locate-no-evidence-rows = pro výstupy locate nejsou uvedeny žádné řádky důkazů
+
+## SDR front-end diagnostics and the GNSS-SDR configuration (src/iq/frontdiag.rs, src/iq/gnss_sdr_conf.rs)
+engine-e-iq-frontdiag-no-samples = záznam neobsahuje žádné vzorky
+engine-e-iq-frontdiag-positive = --block, --step a --gain-step-db musí být kladné
+engine-e-iq-gnss-sdr-conf-format = souborový zdroj GNSS-SDR čte ci16_le, ci8 a cf32_le, ne { $format }: záznam nejprve převeďte (kshana iq convert <in> <out> --to ci16_le)
+engine-e-iq-gnss-sdr-conf-layout = souborový zdroj GNSS-SDR čte jeden proud z jednoho datového souboru bez hlavičky: proud nejprve vyjměte (kshana iq convert)
+engine-e-iq-gnss-sdr-conf-if = záznam má nenulovou mezifrekvenci: nejprve jej převeďte na nulovou (kshana iq decimate --if-hz)
+engine-e-iq-gnss-sdr-conf-no-signal = uveďte alespoň jeden signál volbou --signal
+engine-e-iq-gnss-sdr-conf-rate = výstupní perioda PVT musí být násobkem 20 ms, ne { $rate }
+engine-e-iq-gnss-sdr-conf-signal = pro { $signal } se konfigurace GNSS-SDR nezapisuje (zapisuje se pro: { $known })
+engine-e-iq-gnss-sdr-conf-centre = { $signal } je { $offset_hz } Hz od středního kmitočtu záznamu; výchozí řetězec GNSS-SDR jej potřebuje na nulovém kmitočtu
+engine-e-iq-gnss-sdr-conf-profile = neznámý profil { $profile } (default, narrowband)
+engine-iq-gnss-sdr-conf-written = konfigurace GNSS-SDR zapsána do { $path }

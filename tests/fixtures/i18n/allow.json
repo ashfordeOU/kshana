@@ -1342,8 +1342,8 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/receiver_trust/monitors.rs": {
-   "count": 13,
-   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
+   "count": 14,
+   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md); the Unicore self-report source label, beside the other formats' labels"
   },
   "src/receiver_trust/platform.rs": {
    "count": 9,
@@ -1672,6 +1672,26 @@
   "src/time_vectors.rs": {
    "count": 13,
    "reason": "identifier: the kshana.time-vectors/1 format tag, the embedded vector file names and the JSON field names of the vector format (docs/TIME-VECTORS.md)"
+  },
+  "src/iq/cli/diagnose.rs": {
+   "count": 3,
+   "reason": "identifier: the command-line flag names of kshana iq diagnose"
+  },
+  "src/iq/cli/gnss_sdr.rs": {
+   "count": 3,
+   "reason": "identifier: the kshana iq gnss-sdr-conf command name and its command-line flag names"
+  },
+  "src/iq/cli/mod.rs": {
+   "count": 2,
+   "reason": "identifier: the gnss-sdr-conf command name in the dispatcher"
+  },
+  "src/iq/frontdiag.rs": {
+   "count": 6,
+   "reason": "identifier: the stable finding codes of the front-end diagnosis JSON (iq-gain-imbalance, repeated-samples, ...)"
+  },
+  "src/iq/gnss_sdr_conf.rs": {
+   "count": 67,
+   "reason": "machine-document: GNSS-SDR configuration keys, block implementation names and the comment lines of the generated configuration file, a format-bound input of another program"
   }
  }
 }
