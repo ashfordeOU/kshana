@@ -10333,6 +10333,7 @@ engine-main-usage =
     { "   " }tai: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }tai: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
     { "   " }tai: kshana space-receiver <clock|timestamps|dynamics|bench|mms|od-vs-tle> ... [--out <file.json>] (kshana space-receiver --help)
+    { "   " }tai: kshana feed <pack|verify|send|spectrum|leaderboard> ... (kshana feed --help)
     { "   " }tai: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }tai: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }tai: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
@@ -11523,3 +11524,31 @@ engine-bench-site-col-gsdc-score = Pisteet, P50:n ja P95:n keskiarvo (m)
 engine-bench-site-col-p50 = P50 yhdistetty (m)
 
 engine-bench-site-col-p95 = P95 yhdistetty (m)
+
+## Feeder clients (src/feeder.rs, docs/FEEDER.md)
+engine-feed-usage = käyttö: kshana feed pack <file.obs.jsonl|dir>... --key <keyfile> [--privacy public|exact] [--grid-deg <deg>] [--created <time>] [--include-open] [--out <bundle.json>] | verify <bundle.json> [--pubkey <hex>] [--json] | send <bundle.json> --url <http://host:port/path> [--token-file <file>] | spectrum <capture> --format cu8|ci8|ci16_le --rate <Hz> --centre <Hz> --station <station.toml> [--front-end <name>] [--nfft <n>] [--bins <n>] [--max-samples <n>] [--time <label>] [--out <file.obs.jsonl>] | leaderboard <bundle.json>... [--json]  (docs/FEEDER.md)
+engine-feed-packed = { $out }: aseman { $station } paketti, tiedostoja { $files }, epookkeja { $epochs }, yksityisyys { $mode }
+engine-feed-verified = { $path }: allekirjoitus on kelvollinen (allekirjoittaja { $key }); asema { $station }, tiedostoja { $files }, epookkeja { $epochs }, jokainen tiedosto kelvollinen kshana.obs/1
+engine-feed-sent = lähetetty osoitteeseen { $url }: HTTP { $code }
+engine-feed-spectrum-written = { $out }: spektrin tilannekuva, lokeroita { $bins } (MODELLED: tasot suhteessa täyteen asteikkoon, ei kalibroitu teho)
+engine-e-feed-missing-value = { $option } tarvitsee arvon
+engine-e-feed-unknown-option = tuntematon valitsin { $option } (kshana feed --help luettelee valitsimet)
+engine-e-feed-cannot-read = tiedostoa { $path } ei voi lukea: { $e }
+engine-e-feed-cannot-write = tiedostoa { $path } ei voi kirjoittaa: { $e }
+engine-e-feed-not-obs = { $path } ei ole kelvollinen kshana.obs/1-tiedosto: { $e }
+engine-e-feed-mixed-stations = tiedostot tulevat useammalta kuin yhdeltä asemalta ({ $a } ja { $b }); pakkaa yksi asema pakettia kohden
+engine-e-feed-no-files = ei pakattavia havaintotiedostoja
+engine-e-feed-bad-privacy = tuntematon yksityisyystila { $value } (public tai exact)
+engine-e-feed-bad-grid = sijaintiruudukon on oltava 0.01–10 astetta, ei { $value }
+engine-e-feed-not-bundle = ei kshana.feed/1-paketti: { $e }
+engine-e-feed-bad-signature = paketin allekirjoitus ei ole kelvollinen
+engine-e-feed-key-mismatch = paketin on allekirjoittanut { $found }, ei odotettu avain { $expected }
+engine-e-feed-hash-mismatch = sisältö { $name } ei vastaa tallennettua SHA-256-tiivistettään
+engine-e-feed-payload-mismatch = sisältö { $name } ei vastaa asemaa tai paketin ilmoittamia tietuemääriä
+engine-e-feed-not-coarsened = julkisen paketin sisältö { $name } sisältää yhä kentän { $what }
+engine-e-feed-bad-format = näyteformaattia ei tueta: { $value } (cu8, ci8 tai ci16_le)
+engine-e-feed-bad-number = { $option }: { $value } ei ole tässä kelvollinen arvo
+engine-e-feed-short-capture = tallenteessa on { $n } näytettä, vähemmän kuin muunnoksen pituus { $nfft }
+engine-e-feed-send-failed = lähetys osoitteeseen { $url } epäonnistui: { $e }
+engine-e-feed-send-refused = { $url } hylkäsi paketin: HTTP { $code }
+engine-e-obs-bad-spectrum = rivi { $line }: spektri tarvitsee äärellisen ajan ja keskitaajuuden, positiivisen näytteenottotaajuuden ja lokeron leveyden sekä äärelliset tasot

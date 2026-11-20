@@ -152,6 +152,8 @@ pub mod ephemeris;
 pub mod estimator;
 pub mod eval_stats;
 pub mod evidence_label;
+/// Feeder clients: signed, privacy-coarsened feed bundles of a station's observations (`kshana feed`).
+pub mod feeder;
 mod fes2004_data;
 pub mod field_schema;
 pub mod filter_health;

@@ -1349,6 +1349,8 @@ fn main_in_language(args: Vec<String>) -> ExitCode {
         Some("drone") => Some(kshana::drone_pnt::run),
         // `kshana station run|check|service <station.toml>`: the headless receiver service (src/station.rs).
         Some("station") => Some(kshana::station::run),
+        // `kshana feed pack|verify|send|spectrum|leaderboard`: feeder clients (src/feeder.rs).
+        Some("feed") => Some(kshana::feeder::run),
         // `kshana oscillator <part> <input.json>`: oscillator models (src/oscillator/).
         Some("oscillator") => Some(kshana::oscillator::run),
         // `kshana leo-verify <part> <input.json>`: LEO-PNT verification tools (src/leo_verify/).
