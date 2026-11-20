@@ -10907,6 +10907,7 @@ engine-main-usage =
     { "   " }o: kshana arctic-plan --site <lat,lon[,h]> | --place <name> [--systems <a,b,...>] [--compare] [--hours <h>] [--kp <n>] ... (kshana arctic-plan --help)
     { "   " }o: kshana lunar-ref <tcb-tcl|approx|convert|transform|terms|models> ... (kshana lunar-ref --help)
     { "   " }o: kshana signal-readiness <profile.toml> [<obs.rnx>...]
+    { "   " }o: kshana leo-od-plan <plan.toml>
     { "   " }o: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }o: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }o: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
@@ -12175,3 +12176,9 @@ engine-e-signal-readiness-bad-rinex = { $path } no es un archivo de observación
 engine-e-signal-readiness-unknown-option = opción desconocida { $option } (kshana signal-readiness --help)
 engine-e-signal-readiness-cannot-read = no se puede leer { $path }: { $e }
 engine-e-signal-readiness-bad-profile = { $path } no es un perfil de receptor: { $e }
+
+## BeiDou-LEO planning (src/leo_od_plan.rs, docs/LEO-OD-PLAN.md)
+engine-leo-od-plan-usage = uso: kshana leo-od-plan <plan.toml>  (docs/LEO-OD-PLAN.md; MODELLED, a planning tool)
+engine-e-leo-od-plan-bad-plan = los valores del plan están fuera de rango: arco, paso, ruidos y máscaras positivos y finitos, como máximo 100000 pasos, máscaras dentro de ±90 grados, un semiancho de haz de 0 a 90 grados y un patrón Walker LEO cuyos planos dividan sus satélites
+engine-e-leo-od-plan-cannot-read = no se puede leer { $path }: { $e }
+engine-e-leo-od-plan-bad-file = { $path } no es un plan: { $e }
