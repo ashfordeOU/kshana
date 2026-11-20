@@ -9862,6 +9862,7 @@ engine-main-usage =
     { "   " }或：kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
     { "   " }或：kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
     { "   " }或：kshana orbit-data <check|convert|gp-compare|gp-audit|cov> ... (kshana orbit-data --help)
+    { "   " }或：kshana drone <prearm|prearm-calibrate|estimator-cases|dr-budget|quad-loss|failover|zonotope-pl> ... (kshana drone --help)
     { "   " }或：kshana kinds [--json]
     { "   " }或：kshana example [<name>]
     { "   " }或：kshana --help | --version
@@ -10952,3 +10953,18 @@ engine-e-orbit-data-convert-traj = 轨迹类型 { $kind } 没有 OEM 形式（CA
 engine-e-orbit-data-convert-cov = 协方差 { $kind } { $ordering } 没有 OEM 形式（LTM、UTM 或 FULL 的 CARTPV 有）
 engine-e-orbit-data-cov-input = 输入缺少有效的 { $key }
 engine-e-orbit-data-cov-not-pd = 初始协方差不是正定的，或请求的样本太少
+
+## Drone, UTM and robotics PNT tools (src/drone_pnt)
+engine-drone-usage = 用法：kshana drone prearm <log.ulg|log.bin|epochs.jsonl> [--window <s>] [--config <thresholds.json>] [--gate] | prearm-calibrate [--runs <n>] [--seed <n>] | estimator-cases [--case <id> --trace <trace.jsonl> [--params <json>]] | dr-budget [<spec.json> | --airframe multirotor|fixed-wing|vtol|ground-robot] | quad-loss [<spec.json>] | failover [<spec.json>] | zonotope-pl <spec.json>  (docs/DRONE-PNT.md)
+engine-e-drone-dataflash-header = 不是 ArduPilot DataFlash 日志（必须以八位组 A3 95 开头）
+engine-e-drone-bad-number = { $flag } 必须是有限数值，而不是 { $value }
+engine-e-drone-prearm-gate-failed = 解锁前检查 FAIL：请勿解锁（参见报告中的 playbook 步骤）
+engine-e-drone-no-epochs = 日志中没有接收机历元（应为 PX4 ULog、ArduPilot DataFlash 日志或 JSON Lines 历元）
+engine-e-drone-trace-bad-line = 轨迹行不是带数值 t 的 JSON 对象：{ $line }
+engine-e-drone-trace-missing-channel = 轨迹中没有通道 { $channel }（可用 --params 的 channels 对象重命名通道）
+engine-e-drone-unknown-case = 未知的估计器用例 { $case }（kshana drone estimator-cases 列出所有用例）
+engine-e-drone-unknown-airframe = 未知的机型类别 { $name }（multirotor、fixed-wing、vtol、ground-robot）
+engine-e-drone-failover-bad-spec = 故障切换运行需要至少一个源、正的步长以及不超过一千万步的非负时长
+engine-e-drone-failover-bad-kind = 未知的源类型 { $kind }（absolute、relative、inertial）
+engine-e-drone-failover-bad-event = 事件指向未知的源或状态：{ $source }（状态为 fail 或 recover）
+engine-e-drone-zonotope-bad-geometry = 保护级需要至少四颗具有有限方位角、仰角和正误差界的卫星，以及可解的几何构型

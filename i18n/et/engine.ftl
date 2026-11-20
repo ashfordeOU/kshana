@@ -10579,6 +10579,7 @@ engine-main-usage =
     { "   " }või: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
     { "   " }või: kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
     { "   " }või: kshana orbit-data <check|convert|gp-compare|gp-audit|cov> ... (kshana orbit-data --help)
+    { "   " }või: kshana drone <prearm|prearm-calibrate|estimator-cases|dr-budget|quad-loss|failover|zonotope-pl> ... (kshana drone --help)
     { "   " }või: kshana kinds [--json]
     { "   " }või: kshana example [<name>]
     { "   " }või: kshana --help | --version
@@ -11672,3 +11673,18 @@ engine-e-orbit-data-convert-traj = trajektoori tüübil { $kind } ei ole OEM-kuj
 engine-e-orbit-data-convert-cov = kovariatsioonil { $kind } { $ordering } ei ole OEM-kuju (CARTPV LTM-, UTM- või FULL-kujul on)
 engine-e-orbit-data-cov-input = sisendist puudub kehtiv { $key }
 engine-e-orbit-data-cov-not-pd = algkovariatsioon ei ole positiivselt määratud või küsiti liiga vähe valimeid
+
+## Drone, UTM and robotics PNT tools (src/drone_pnt)
+engine-drone-usage = kasutus: kshana drone prearm <log.ulg|log.bin|epochs.jsonl> [--window <s>] [--config <thresholds.json>] [--gate] | prearm-calibrate [--runs <n>] [--seed <n>] | estimator-cases [--case <id> --trace <trace.jsonl> [--params <json>]] | dr-budget [<spec.json> | --airframe multirotor|fixed-wing|vtol|ground-robot] | quad-loss [<spec.json>] | failover [<spec.json>] | zonotope-pl <spec.json>  (docs/DRONE-PNT.md)
+engine-e-drone-dataflash-header = see ei ole ArduPiloti DataFlashi logi (see peab algama oktettidega A3 95)
+engine-e-drone-bad-number = { $flag } peab olema lõplik arv, mitte { $value }
+engine-e-drone-prearm-gate-failed = relvastamiseelne kontroll FAIL: ära relvasta (vaata aruande playbooki samme)
+engine-e-drone-no-epochs = logis pole vastuvõtja epohhe (oodati PX4 ULogi, ArduPiloti DataFlashi logi või JSON Lines epohhe)
+engine-e-drone-trace-bad-line = jälje rida ei ole arvulise t-ga JSON-objekt: { $line }
+engine-e-drone-trace-missing-channel = jäljel pole kanalit { $channel } (nimeta kanalid ümber --params channels-objektiga)
+engine-e-drone-unknown-case = tundmatu hindaja juhtum { $case } (kshana drone estimator-cases loetleb juhtumid)
+engine-e-drone-unknown-airframe = tundmatu õhusõiduki klass { $name } (multirotor, fixed-wing, vtol, ground-robot)
+engine-e-drone-failover-bad-spec = ümberlülituse käivitus vajab vähemalt üht allikat, positiivset sammu ja mittenegatiivset kestust kuni kümme miljonit sammu
+engine-e-drone-failover-bad-kind = tundmatu allika liik { $kind } (absolute, relative, inertial)
+engine-e-drone-failover-bad-event = sündmus nimetab tundmatu allika või oleku: { $source } (olek fail või recover)
+engine-e-drone-zonotope-bad-geometry = kaitsetase vajab vähemalt nelja satelliiti lõpliku asimuudi ja kõrgusnurga ning positiivse piiriga ja lahenduvat geomeetriat

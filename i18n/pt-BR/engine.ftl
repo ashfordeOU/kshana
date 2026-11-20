@@ -10839,6 +10839,7 @@ engine-main-usage =
     { "   " }ou: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
     { "   " }ou: kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
     { "   " }ou: kshana orbit-data <check|convert|gp-compare|gp-audit|cov> ... (kshana orbit-data --help)
+    { "   " }ou: kshana drone <prearm|prearm-calibrate|estimator-cases|dr-budget|quad-loss|failover|zonotope-pl> ... (kshana drone --help)
     { "   " }ou: kshana kinds [--json]
     { "   " }ou: kshana example [<name>]
     { "   " }ou: kshana --help | --version
@@ -11937,3 +11938,18 @@ engine-e-orbit-data-convert-traj = o tipo de trajetória { $kind } não tem form
 engine-e-orbit-data-convert-cov = a covariância { $kind } { $ordering } não tem forma OEM (CARTPV em LTM, UTM ou FULL tem)
 engine-e-orbit-data-cov-input = falta à entrada um { $key } válido
 engine-e-orbit-data-cov-not-pd = a covariância inicial não é positiva definida, ou foram pedidas poucas amostras
+
+## Drone, UTM and robotics PNT tools (src/drone_pnt)
+engine-drone-usage = uso: kshana drone prearm <log.ulg|log.bin|epochs.jsonl> [--window <s>] [--config <thresholds.json>] [--gate] | prearm-calibrate [--runs <n>] [--seed <n>] | estimator-cases [--case <id> --trace <trace.jsonl> [--params <json>]] | dr-budget [<spec.json> | --airframe multirotor|fixed-wing|vtol|ground-robot] | quad-loss [<spec.json>] | failover [<spec.json>] | zonotope-pl <spec.json>  (docs/DRONE-PNT.md)
+engine-e-drone-dataflash-header = não é um log DataFlash do ArduPilot (deve começar com os octetos A3 95)
+engine-e-drone-bad-number = { $flag } deve ser um número finito, não { $value }
+engine-e-drone-prearm-gate-failed = verificação pré-armamento FAIL: não arme (veja as etapas do playbook no relatório)
+engine-e-drone-no-epochs = o log não tem épocas do receptor (esperado: um ULog do PX4, um log DataFlash do ArduPilot ou épocas JSON Lines)
+engine-e-drone-trace-bad-line = uma linha do traço não é um objeto JSON com t numérico: { $line }
+engine-e-drone-trace-missing-channel = o traço não tem o canal { $channel } (renomeie canais com o objeto channels de --params)
+engine-e-drone-unknown-case = caso de estimador desconhecido { $case } (kshana drone estimator-cases lista os casos)
+engine-e-drone-unknown-airframe = classe de aeronave desconhecida { $name } (multirotor, fixed-wing, vtol, ground-robot)
+engine-e-drone-failover-bad-spec = a execução de failover precisa de pelo menos uma fonte, um passo positivo e uma duração não negativa de no máximo dez milhões de passos
+engine-e-drone-failover-bad-kind = tipo de fonte desconhecido { $kind } (absolute, relative, inertial)
+engine-e-drone-failover-bad-event = um evento indica uma fonte ou um estado desconhecido: { $source } (estado fail ou recover)
+engine-e-drone-zonotope-bad-geometry = o nível de proteção precisa de pelo menos quatro satélites com azimute e elevação finitos e um limite positivo, e de uma geometria solúvel

@@ -10321,6 +10321,7 @@ engine-main-usage =
     { "   " }tai: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
     { "   " }tai: kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
     { "   " }tai: kshana orbit-data <check|convert|gp-compare|gp-audit|cov> ... (kshana orbit-data --help)
+    { "   " }tai: kshana drone <prearm|prearm-calibrate|estimator-cases|dr-budget|quad-loss|failover|zonotope-pl> ... (kshana drone --help)
     { "   " }tai: kshana kinds [--json]
     { "   " }tai: kshana example [<name>]
     { "   " }tai: kshana --help | --version
@@ -11416,3 +11417,18 @@ engine-e-orbit-data-convert-traj = ratatyypillä { $kind } ei ole OEM-muotoa (CA
 engine-e-orbit-data-convert-cov = kovarianssilla { $kind } { $ordering } ei ole OEM-muotoa (CARTPV muodossa LTM, UTM tai FULL on)
 engine-e-orbit-data-cov-input = syötteestä puuttuu kelvollinen { $key }
 engine-e-orbit-data-cov-not-pd = alkukovarianssi ei ole positiivisesti definiitti, tai otoksia pyydettiin liian vähän
+
+## Drone, UTM and robotics PNT tools (src/drone_pnt)
+engine-drone-usage = käyttö: kshana drone prearm <log.ulg|log.bin|epochs.jsonl> [--window <s>] [--config <thresholds.json>] [--gate] | prearm-calibrate [--runs <n>] [--seed <n>] | estimator-cases [--case <id> --trace <trace.jsonl> [--params <json>]] | dr-budget [<spec.json> | --airframe multirotor|fixed-wing|vtol|ground-robot] | quad-loss [<spec.json>] | failover [<spec.json>] | zonotope-pl <spec.json>  (docs/DRONE-PNT.md)
+engine-e-drone-dataflash-header = ei ArduPilot DataFlash -loki (sen on alettava oktetein A3 95)
+engine-e-drone-bad-number = { $flag } on oltava äärellinen luku, ei { $value }
+engine-e-drone-prearm-gate-failed = virityksen esitarkastus FAIL: älä viritä (katso raportin playbook-vaiheet)
+engine-e-drone-no-epochs = lokissa ei ole vastaanottimen epookkeja (odotettiin PX4 ULog-, ArduPilot DataFlash- tai JSON Lines -epookkeja)
+engine-e-drone-trace-bad-line = jäljen rivi ei ole JSON-objekti, jossa on numeerinen t: { $line }
+engine-e-drone-trace-missing-channel = jäljessä ei ole kanavaa { $channel } (nimeä kanavat uudelleen --params-valitsimen channels-objektilla)
+engine-e-drone-unknown-case = tuntematon estimaattoritapaus { $case } (kshana drone estimator-cases luettelee tapaukset)
+engine-e-drone-unknown-airframe = tuntematon ilma-alusluokka { $name } (multirotor, fixed-wing, vtol, ground-robot)
+engine-e-drone-failover-bad-spec = vaihtoajo tarvitsee vähintään yhden lähteen, positiivisen askeleen ja ei-negatiivisen keston, joka on enintään kymmenen miljoonaa askelta
+engine-e-drone-failover-bad-kind = tuntematon lähdetyyppi { $kind } (absolute, relative, inertial)
+engine-e-drone-failover-bad-event = tapahtuma nimeää tuntemattoman lähteen tai tilan: { $source } (tila fail tai recover)
+engine-e-drone-zonotope-bad-geometry = suojaustaso vaatii vähintään neljä satelliittia, joilla on äärellinen atsimuutti ja korotus sekä positiivinen raja, ja ratkeavan geometrian
