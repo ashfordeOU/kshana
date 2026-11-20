@@ -490,12 +490,12 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/interference_map/adsb.rs": {
-   "count": 53,
-   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
+   "count": 62,
+   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md); the per-cell confidence statement and data window (JSON keys, level names, the statement id)"
   },
   "src/interference_map/ais.rs": {
-   "count": 49,
-   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
+   "count": 50,
+   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md); the data_window key"
   },
   "src/interference_map/cli.rs": {
    "count": 12,
@@ -514,8 +514,8 @@
    "reason": "identifiers: command-line flag names and output file name suffixes"
   },
   "src/interference_map/observatory.rs": {
-   "count": 95,
-   "reason": "machine-document and developer: JSON keys and notes of the published files, the PNG text (hashed into the manifest, built in English), and command-line error messages not yet converted"
+   "count": 97,
+   "reason": "machine-document and developer: JSON keys and notes of the published files, the PNG text (hashed into the manifest, built in English), and command-line error messages not yet converted; the latency statement keys of the release block"
   },
   "src/interference_map/output.rs": {
    "count": 9,
@@ -1676,6 +1676,10 @@
   "src/time_vectors.rs": {
    "count": 13,
    "reason": "identifier: the kshana.time-vectors/1 format tag, the embedded vector file names and the JSON field names of the vector format (docs/TIME-VECTORS.md)"
+  },
+  "src/interference_map/incident.rs": {
+   "count": 183,
+   "reason": "machine-document and identifier: the kshana-interference-incidents/1 vocabulary, field names and schema tags, the validator's problem messages (written to the machine-readable report, English by design), CSV column names and the Zenodo metadata keys (docs/INTERFERENCE-INCIDENTS.md)"
   }
  }
 }

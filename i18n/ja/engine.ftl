@@ -9885,6 +9885,7 @@ engine-interference-map-cli-usage-map =
     { "   " }または：kshana interference-map daily <input.csv|trace.json[.gz]|dir> --dataset <adsb-lol|custom> --day <YYYY-MM-DD> --out <dir> [--cell-deg <deg, { $lit_0_5 } or coarser>] [--bbox <south,west,north,east>] [--delay-hours <24 or more>]
     { "   " }または：kshana interference-map sensitivity <input.csv|trace.json[.gz]|dir> --dataset <adsb-lol|custom> --day <YYYY-MM-DD> --out <report.json> [--bbox <south,west,north,east>]
     { "   " }または：kshana interference-map fetch-land --out <land.geojson> --allow-network
+    { "   " }または：kshana interference-map incidents <validate <library.json> [--releases <RELEASES.json>] [--json] | release <library.json> --out <dir> | from-observatory <day.incidents.json> --source-url <https://...> --out <file.json>>
     { "   " }（--dataset custom には --licence <text> --licence-url <url> --attribution <text> も必要です）
 
 engine-interference-map-cli-usage-route = 使い方：kshana route-exposure --route <route.geojson|route.csv> --map <map.geojson|dir> [--map ...] [--from <YYYY-MM-DD>] [--to <YYYY-MM-DD>] [--out <report.json>] [--json]
@@ -10704,3 +10705,9 @@ engine-e-interference-map-locate-source-required = --source adsb または --sou
 engine-e-interference-map-locate-no-evidence-rows = locate の出力に対する証拠行が一覧にありません
 
 engine-interference-map-locate-note-not-preregistered = 注意：いずれかのオプションが事前登録されたパラメータと異なるため、これは事前登録された手法ではありません
+
+## Interference-incident format and case library (src/interference_map/incident.rs)
+engine-interference-incidents-valid = { $file }：{ $n } 件のレコード、有効
+engine-e-interference-incidents-invalid = インシデントライブラリに { $n } 件の問題があります。一覧は kshana interference-map incidents validate <file> で表示します
+engine-e-interference-incidents-not-a-document = { $file } は { $schema } 文書ではありません
+engine-e-interference-incidents-source-url-required = --source-url は必須です：各レコードは成果物が公開されている https:// アドレスを引用します

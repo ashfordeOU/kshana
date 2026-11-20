@@ -305,6 +305,7 @@ const UNLABELLED_WRITERS: &[(&str, &str)] = &[
     ("src/time_transfer_budget.rs", "writes only in a unit test (a temporary clock CSV)"),
     ("src/iq/signals/galileo.rs", "writes only in a unit test (a temporary code table)"),
     ("src/ais_integrity.rs", "writes the per-track flag report as JSON Lines (`ais-integrity --out`); its header line carries the MODELLED label and the method, so the file labels itself"),
+    ("src/interference_map/incident.rs", "writes the incident library release bundle (`interference-map incidents release`): the REPORTED and MODELLED records each carry their own label field, as given; data, not a result of the engine"),
     ("src/python.rs", "writes the CSV a labelled `run` already carries (RunOutput::csv)"),
     ("src/bin/crossover_study.rs", "a generator of a committed study document, not the output of a run"),
     ("src/bin/gen_araim_m3_study.rs", "a generator of a committed study document, not the output of a run"),

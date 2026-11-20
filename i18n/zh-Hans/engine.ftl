@@ -9966,6 +9966,7 @@ engine-interference-map-cli-usage-map =
     { "   " }或：kshana interference-map daily <input.csv|trace.json[.gz]|dir> --dataset <adsb-lol|custom> --day <YYYY-MM-DD> --out <dir> [--cell-deg <deg, { $lit_0_5 } or coarser>] [--bbox <south,west,north,east>] [--delay-hours <24 or more>]
     { "   " }或：kshana interference-map sensitivity <input.csv|trace.json[.gz]|dir> --dataset <adsb-lol|custom> --day <YYYY-MM-DD> --out <report.json> [--bbox <south,west,north,east>]
     { "   " }或：kshana interference-map fetch-land --out <land.geojson> --allow-network
+    { "   " }或：kshana interference-map incidents <validate <library.json> [--releases <RELEASES.json>] [--json] | release <library.json> --out <dir> | from-observatory <day.incidents.json> --source-url <https://...> --out <file.json>>
     { "   " }（--dataset custom 还需要 --licence <text> --licence-url <url> --attribution <text>）
 
 engine-interference-map-cli-usage-route = 用法：kshana route-exposure --route <route.geojson|route.csv> --map <map.geojson|dir> [--map ...] [--from <YYYY-MM-DD>] [--to <YYYY-MM-DD>] [--out <report.json>] [--json]
@@ -10759,3 +10760,9 @@ engine-e-interference-map-locate-bad-tdoa = { $path } 不是可用的 TDOA 定�
 engine-e-interference-map-locate-source-required = 需要 --source adsb 或 --source ais
 
 engine-e-interference-map-locate-no-evidence-rows = 未列出定位输出的任何证据行
+
+## Interference-incident format and case library (src/interference_map/incident.rs)
+engine-interference-incidents-valid = { $file }：{ $n } 条记录，有效
+engine-e-interference-incidents-invalid = 事件库中有 { $n } 个问题；运行 kshana interference-map incidents validate <file> 查看列表
+engine-e-interference-incidents-not-a-document = { $file } 不是 { $schema } 文档
+engine-e-interference-incidents-source-url-required = --source-url 为必填项：每条记录都引用产品发布的 https:// 地址
