@@ -320,6 +320,7 @@ const UNLABELLED_WRITERS: &[(&str, &str)] = &[
     ("src/iq/cli/campaign.rs", "writes the campaign manifest, an input to the runner"),
     ("src/iq/cli/labfit.rs", "writes the fitted receiver-trust parameters, an input to later runs"),
     ("src/iq/cli/scene.rs", "writes IQ scene truth and SigMF/SDR metadata beside the samples: format-bound files read by other tools"),
+    ("src/iq/cli/gnss_sdr.rs", "writes a GNSS-SDR configuration file (`iq gnss-sdr-conf --out`): a format-bound input of another program, not a result of the engine"),
     ("src/iq/io/cli.rs", "writes converted sample files and SigMF metadata: format-bound"),
     ("src/iq/io/inventory.rs", "writes a file inventory of recordings, a catalogue of inputs"),
     ("src/iq/io/record.rs", "writes a capture tool's samples, unchanged, and their SigMF metadata: format-bound"),

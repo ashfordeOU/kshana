@@ -37,6 +37,8 @@ fn the_top_level_usage_names_every_subcommand() {
         "inventory",
         "decimate",
         "time-vectors",
+        "diagnose",
+        "gnss-sdr-conf",
     ] {
         assert!(
             text.contains(want),

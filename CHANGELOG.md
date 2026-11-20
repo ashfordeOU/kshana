@@ -9,6 +9,26 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+### Added (receiver formats and SDR front-end tooling)
+
+- Unicore interference logs: the `unicore` reader also reads `AGC` (220), `JAMSTATUS` (511) and `FREQJAMSTATUS`
+  (519), binary or ASCII, from the N4 reference manual R1.13. The master antenna's AGC becomes the epoch's `agc`
+  and the `CWFlag` the receiver's own jamming state, so Unicore flags enter the `receiver-self-report` comparison.
+  ASCII lines are checked against their CRC. Vectors: `conformance/connect/reader-unicore-ascii/` (the manual's own
+  example lines, a document vector) and `reader-unicore-interference/` (binary, self-derived).
+- RTCM 3 MSM1, MSM2, MSM3, MSM5 and MSM6: `rtcm3_obs` and `kshana connect decode rtcm3` decode every MSM type
+  (MSM1-3 ranges marked `modulo_1ms`), and the `rtcm3` C/N0 reader reads MSM4 to MSM7. Vector:
+  `conformance/timing/rtcm3-decode-msm/` (self-derived, from the RTKLIB and pyrtcm field tables).
+- `kshana iq diagnose`: SDR front-end diagnostics of a recording (DC, I/Q gain and phase imbalance, clipping and
+  levels used, zero runs, repeated samples with their period, gain steps, and with `--signal`/`--prn` the
+  oscillator-offset interval and the code-against-carrier sample-clock mismatch), each against a stated threshold.
+  MODELLED: checked on self-made fixtures with each fault injected (`tests/iq_frontdiag.rs`).
+- `kshana iq gnss-sdr-conf`: a GNSS-SDR configuration file for a recording (GPS L1 C/A, Galileo E1B, BeiDou B1I;
+  a `narrowband` 20 ms tracking profile), with the monitor streams `integrations/gnss-sdr/relay.py` reads, so a
+  GNSS-SDR run can be scored with `receiver-trust`. `docs/IQ-FRONTEND-DIAGNOSTICS.md`.
+- Not built: ComNav, Hi-Target, CHC and Allystar raw decoders, for want of a public protocol document
+  (`docs/RECEIVER-PROTOCOLS.md`).
+
 ### Added (radio time-signal migration guide)
 
 - `docs/RADIO-TIME-MIGRATION.md`: the status of the CHU, MSF, DCF77 and WWVB time signals from public sources (CHU

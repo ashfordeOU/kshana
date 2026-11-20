@@ -10560,7 +10560,7 @@ engine-main-usage =
     { "   " }või: kshana obs <convert <log> --format <format> --station <station.toml> [--out <file>] | check <file.obs.jsonl> [--json]>
     { "   " }või: kshana connect <map <input> --mapping <connect.toml> --station <station.toml> [--out <file.obs.jsonl>] | check <vector.toml|dir> [--bless] | watch <dir> --mapping <connect.toml> --station <station.toml> [--suffix <.csv>] [--interval <s>] [--once] | mqtt <host:port> --topic <filter> --mapping <connect.toml> --station <station.toml> [--header <row>] [--qos 0|1] [--user <name> --password-env <VAR>] [--client-id <id>] [--max-messages <n>] [--per-topic] | nats <host:port> --subject <s> --mapping <connect.toml> --station <station.toml> [--header <row>] [--per-topic] [--user <name> --password-env <VAR> | --token-env <VAR>] [--max-messages <n>] | ws <ws://host:port/path> --mapping <connect.toml> --station <station.toml> [--header <row>] [--max-messages <n>] | check-live <vector.toml|dir> [--json] | load-test [--stations <n>] [--rate <Hz>] [--seconds <s>] [--via memory|mqtt] [--json] | adapters <list|check> [<dir>] [--json]>
     { "   " }või: kshana osnma verify <pages|vectors.csv|stream.ubx> [--merkle-root <hex>] [--public-key <id:type:hex>] [--reference-time <gst-s>] [--json] (kshana osnma --help)
-    { "   " }või: kshana iq <scene|acquire|track|sweep|labfit|campaign|conditions|frontend|monitor|inventory|info|extract|convert|decimate> ... (kshana iq --help)
+    { "   " }või: kshana iq <scene|acquire|track|sweep|labfit|campaign|conditions|frontend|monitor|diagnose|gnss-sdr-conf|inventory|info|extract|convert|decimate> ... (kshana iq --help)
     { "   " }või: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }või: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }või: kshana time-vectors [--json] [<vectors.json|dir> ...]
@@ -10748,6 +10748,8 @@ engine-iq-cli-usage =
     { "   " }või: kshana iq conditions <test-conditions.toml|json>
     { "   " }või: kshana iq frontend <in> <out> [--bandpass lo,hi] [--notch] [--blank <thr>] [--excise] [--agc] [--bits <n>] [--out-format <fmt>]
     { "   " }või: kshana iq monitor <recording> [--power] [--spectral] [--settings <toml|json>] [--baseline <s>] [--signal <name> --prn <list> [--spacing <chips>] [--pll-bw <hz>] [--fll-bw <hz>] [--dll-bw <hz>] [--coherent <N>] [--cn0-windows <M>] [--doppler-max <hz>]] [--max-seconds <s>] [--follow [--idle-timeout <s>]] [--json <out>] [--csv <prefix>]
+    { "   " }või: kshana iq diagnose <recording> [--max-seconds <s>] [--block <s>] [--gain-step-db <db>] [--signal <name> --prn <list> [--coherent <N>] [--noncoherent <M>] [--doppler-max <hz>] [--doppler-step <hz>] [--pfa <p>] [--step <s>] [--steps <n>] [--max-sat-doppler <hz>]]
+    { "   " }või: kshana iq gnss-sdr-conf <recording> [--signal <name[:channels]>,...] [--profile default|narrowband] [--doppler-max <hz>] [--rate-ms <ms>] [--monitor-ports <ch,pvt> | --no-monitor] [--out <file.conf>]
     { " " }labfit stsenaariumid: salvestuste [[runs]] vastuvõtja logidest või [input] campaign = "<out-dir>", mis nimetab kshana iq campaign väljundkausta (stsenaariumifaili suhtes)
     { " " }ahelakujundused: kshana.loop-design/1 TOML-fail (docs/design/LOOP-DESIGN-TOML.md); selgesõnalised ahela-/hõivamislipud tühistavad valitud kujunduse
     { " " }acquire/track/sweep võtavad ka sisendastme lipud [--bandpass lo,hi] [--notch] [--blank <thr>] [--excise] [--agc] [--bits <n>], mida rakendatakse enne töötlemist (nii hõivamisele kui ka jälgimiskäigule)
@@ -11468,3 +11470,16 @@ engine-e-interference-map-locate-bad-tdoa = { $path } ei ole kasutatav TDOA fiks
 engine-e-interference-map-locate-source-required = --source adsb või --source ais on nõutav
 
 engine-e-interference-map-locate-no-evidence-rows = locate väljundite jaoks pole tõendusridu loetletud
+
+## SDR front-end diagnostics and the GNSS-SDR configuration (src/iq/frontdiag.rs, src/iq/gnss_sdr_conf.rs)
+engine-e-iq-frontdiag-no-samples = salvestis ei sisalda ühtegi valimit
+engine-e-iq-frontdiag-positive = --block, --step ja --gain-step-db peavad olema positiivsed
+engine-e-iq-gnss-sdr-conf-format = GNSS-SDR-i failiallikas loeb vorminguid ci16_le, ci8 ja cf32_le, mitte { $format }: teisenda salvestis esmalt (kshana iq convert <in> <out> --to ci16_le)
+engine-e-iq-gnss-sdr-conf-layout = GNSS-SDR-i failiallikas loeb ühte voogu ühest päiseta andmefailist: eralda voog esmalt (kshana iq convert)
+engine-e-iq-gnss-sdr-conf-if = salvestise vahesagedus ei ole null: vii see esmalt null-vahesagedusele (kshana iq decimate --if-hz)
+engine-e-iq-gnss-sdr-conf-no-signal = nimeta vähemalt üks signaal võtmega --signal
+engine-e-iq-gnss-sdr-conf-rate = PVT väljundsamm peab olema 20 ms kordne, mitte { $rate }
+engine-e-iq-gnss-sdr-conf-signal = signaalile { $signal } GNSS-SDR-i seadistust ei kirjutata (kirjutatakse signaalidele: { $known })
+engine-e-iq-gnss-sdr-conf-centre = { $signal } on salvestise keskmisest sagedusest { $offset_hz } Hz kaugusel; GNSS-SDR-i vaikeahel vajab seda nullsagedusel
+engine-e-iq-gnss-sdr-conf-profile = tundmatu profiil { $profile } (default, narrowband)
+engine-iq-gnss-sdr-conf-written = GNSS-SDR-i seadistus kirjutati faili { $path }

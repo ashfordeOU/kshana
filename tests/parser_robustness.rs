@@ -502,10 +502,11 @@ fn crc24q(data: &[u8]) -> u32 {
 }
 
 fn gen_rtcm3(rng: &mut Rng) -> Vec<u8> {
-    // MSM4/MSM7 of each system, SSR orbit/clock, station and ephemeris messages.
+    // MSM1-7 of each system, SSR orbit/clock, station and ephemeris messages.
     const TYPES: &[u16] = &[
         1074, 1077, 1084, 1087, 1094, 1097, 1124, 1127, 1114, 1117, 1005, 1006, 1019, 1020, 1042,
-        1046, 1057, 1058, 1060, 1240, 1243, 1264, 4076, 1013, 1033,
+        1046, 1057, 1058, 1060, 1240, 1243, 1264, 4076, 1013, 1033, 1071, 1072, 1073, 1075, 1076,
+        1081, 1093, 1105, 1116, 1121, 1132, 1136,
     ];
     let mut out = Vec::new();
     for _ in 0..1 + rng.below(4) {
@@ -770,6 +771,55 @@ fn receiver_other_binary() {
     ] {
         fuzz(&format!("receiver {f:?}"), &[], None, |b| receiver(f, b));
     }
+}
+
+#[test]
+fn receiver_unicore_interference_logs() {
+    use kshana::receiver_trust::LogFormat;
+    // The N4 manual's ASCII example lines and the binary interference vector (E17).
+    let seeds = vec![
+        bytes("conformance/connect/reader-unicore-ascii/input.unc", 4096),
+        bytes(
+            "conformance/connect/reader-unicore-interference/input.unc",
+            4096,
+        ),
+    ];
+    fuzz("unicore interference", &seeds, None, |b| {
+        receiver(LogFormat::Unicore, b)
+    });
+}
+
+#[test]
+fn iq_frontend_diagnosis() {
+    use kshana::iq::acq::AcqConfig;
+    use kshana::iq::frontdiag::{diagnose, DiagConfig};
+    use kshana::iq::io::format::{decode_samples, SampleFormat};
+    // Any bytes, read as 8-bit I/Q, through the front-end diagnosis (no codes: the statistics).
+    let spec = kshana::iq::SampleSpec {
+        fs_hz: 1.0e5,
+        center_hz: 0.0,
+        if_hz: 0.0,
+    };
+    let acq = AcqConfig {
+        coherent_periods: 1,
+        noncoherent: 1,
+        doppler_max_hz: 0.0,
+        doppler_step_hz: 1.0,
+        pfa: 1e-3,
+    };
+    let seed = (0..512u32)
+        .map(|k| (k * 37 % 251) as u8)
+        .collect::<Vec<_>>();
+    fuzz("iq frontdiag", &[seed], None, |b| {
+        let mut src = kshana::iq::VecSource::new(spec, decode_samples(SampleFormat::CI8, b, 1.0));
+        let _ = diagnose(
+            &mut src,
+            SampleFormat::CI8,
+            &[],
+            &acq,
+            &DiagConfig::default(),
+        );
+    });
 }
 
 #[test]
