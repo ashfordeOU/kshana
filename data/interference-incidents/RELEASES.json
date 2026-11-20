@@ -1,0 +1,12 @@
+{
+ "schema": "kshana-interference-incidents-releases/1",
+ "note": "One entry per released library version. A released version never changes: tests/interference_incidents.rs checks library.json against this register, so any edit needs a new library_version and a new entry. Old entries are never edited or removed.",
+ "releases": [
+  {
+   "library_version": "1.0.0",
+   "content_sha256": "aebf03260a7a1f446fe6dd20ff44529392efd1c14b4d8fc7e3b800de792a8d0a",
+   "records": 19,
+   "date": "2026-11-20"
+  }
+ ]
+}

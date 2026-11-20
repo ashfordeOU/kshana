@@ -119,6 +119,7 @@ pub mod conflict_resilience;
 pub mod conflict_threat_params;
 pub mod constellation;
 pub mod contact_schedule;
+pub mod corrections;
 pub mod cr3bp;
 /// Not validated (finding, 0.36): see the module's Status section. Hidden from the documented API.
 #[doc(hidden)]
@@ -133,6 +134,7 @@ pub mod detection;
 pub mod dop_error_ci;
 pub mod dop_error_mc;
 pub mod dro;
+pub mod drone_pnt;
 pub mod earth_gnss_lunar;
 pub mod egm2008_data;
 pub mod ensemble;
@@ -228,6 +230,7 @@ pub mod lunar_frame;
 pub mod lunar_frame_campaign;
 pub mod lunar_frame_predict;
 pub mod lunar_frame_realise;
+pub mod lunar_frames;
 pub mod lunar_gauge;
 pub mod lunar_identifiability;
 pub mod lunar_infra;
@@ -242,6 +245,7 @@ pub mod lunar_orientation;
 pub mod lunar_perturbed;
 pub mod lunar_phase;
 pub mod lunar_receiver;
+pub mod lunar_ref;
 pub mod lunar_rendezvous;
 pub mod lunar_service;
 pub mod lunar_solution;
@@ -253,6 +257,7 @@ pub mod lunar_time;
 pub mod lunar_time_budget;
 pub mod lunar_time_budget_scenario;
 pub mod lunar_time_lab;
+pub mod lunar_timescale;
 pub mod lunar_vlbi;
 /// Station-coordinate covariance from a lunar-VLBI schedule: the delay partials of
 /// [`lunar_vlbi`] accumulated over baselines and epochs into a Fisher information matrix.
@@ -292,8 +297,12 @@ pub mod optical_techniques;
 pub mod optical_timeseries;
 pub mod optical_weather;
 pub mod orbit;
+pub mod orbit_data;
 pub mod orbit_determination;
 pub mod orbital_timing;
+/// Oscillator models: g-sensitivity, temperature and shock holdover, selection, clock-aided RAIM
+/// and datasheet TDEV (`kshana oscillator`, docs/OSCILLATOR.md).
+pub mod oscillator;
 pub mod osnma;
 pub mod palette;
 pub mod particle_filter;
@@ -374,6 +383,7 @@ pub mod resilience;
 pub mod rinex;
 pub mod rinex_obs;
 pub mod rtcm_ssr;
+pub mod rtk_qa;
 pub mod rtk_real;
 pub mod rts25;
 pub mod run;
@@ -395,6 +405,7 @@ pub mod sp3;
 pub mod space_geoloc;
 pub mod space_packet;
 pub mod space_weather;
+pub mod space_weather_pnt;
 pub mod spectrum;
 pub mod speed_bench;
 pub mod spk_writer;

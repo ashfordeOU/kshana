@@ -10582,6 +10582,15 @@ engine-e-ais-integrity-cannot-read = kan { $path } niet lezen: { $e }
 engine-e-ais-integrity-cannot-write = kan { $path } niet schrijven: { $e }
 engine-e-ais-integrity-bad-place = een rij van de plaatsenlijst is geen name,lat,lon,radius_m met een geldige positie en een positieve straal: { $row }
 
+## Lunar time scales, frames, terminology and model provenance (src/lunar_ref.rs)
+engine-lunar-ref-usage = gebruik: kshana lunar-ref tcb-tcl [--jd <JD TCB>] [--window <jd0,jd1>] | approx [--window <jd0,jd1>] [--grid-days <d>] | convert --from <tt|tdb|tcb|tcg|tcl|ltc> --to <scale> --jd <JD> | transform --from <ICRF|MOON_PA_DE440|MOON_PA|MOON_ME|ILURF> --to <frame> --xyz <x,y,z> [--jd <JD TDB>] | terms | models [--check] [--root <dir>]   [--out <file.json>]  (docs/LUNAR-REF.md)
+engine-e-lunar-ref-missing-value = { $option } heeft een waarde nodig
+engine-e-lunar-ref-unknown-option = onbekende optie { $option } (kshana lunar-ref --help toont de opties)
+engine-e-lunar-ref-cannot-write = kan { $path } niet schrijven: { $e }
+engine-e-lunar-ref-bad-number = { $option }: { $value } is geen geldig getal
+engine-e-lunar-ref-unknown-name = onbekende naam { $name } (bekend: { $known })
+engine-e-lunar-ref-out-of-span = het tijdstip valt buiten het bereik van de gebruikte efemeriden (Standish-elementen 1800-2050; DE440-maanoriëntatie 2014-2030)
+
 engine-main-usage =
     gebruik: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }of: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10609,11 +10618,17 @@ engine-main-usage =
     { "   " }of: kshana obs <convert <log> --format <format> --station <station.toml> [--out <file>] | check <file.obs.jsonl> [--json]>
     { "   " }of: kshana connect <map <input> --mapping <connect.toml> --station <station.toml> [--out <file.obs.jsonl>] | check <vector.toml|dir> [--bless] | watch <dir> --mapping <connect.toml> --station <station.toml> [--suffix <.csv>] [--interval <s>] [--once] | mqtt <host:port> --topic <filter> --mapping <connect.toml> --station <station.toml> [--header <row>] [--qos 0|1] [--user <name> --password-env <VAR>] [--client-id <id>] [--max-messages <n>] [--per-topic] | nats <host:port> --subject <s> --mapping <connect.toml> --station <station.toml> [--header <row>] [--per-topic] [--user <name> --password-env <VAR> | --token-env <VAR>] [--max-messages <n>] | ws <ws://host:port/path> --mapping <connect.toml> --station <station.toml> [--header <row>] [--max-messages <n>] | check-live <vector.toml|dir> [--json] | load-test [--stations <n>] [--rate <Hz>] [--seconds <s>] [--via memory|mqtt] [--json] | adapters <list|check> [<dir>] [--json]>
     { "   " }of: kshana osnma verify <pages|vectors.csv|stream.ubx> [--merkle-root <hex>] [--public-key <id:type:hex>] [--reference-time <gst-s>] [--json] (kshana osnma --help)
-    { "   " }of: kshana iq <scene|acquire|track|sweep|labfit|campaign|conditions|frontend|monitor|inventory|info|extract|convert|decimate> ... (kshana iq --help)
+    { "   " }of: kshana iq <scene|acquire|track|sweep|labfit|campaign|conditions|frontend|monitor|diagnose|gnss-sdr-conf|inventory|info|extract|convert|decimate> ... (kshana iq --help)
     { "   " }of: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }of: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }of: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
+    { "   " }of: kshana lunar-ref <tcb-tcl|approx|convert|transform|terms|models> ... (kshana lunar-ref --help)
     { "   " }of: kshana time-vectors [--json] [<vectors.json|dir> ...]
+    { "   " }of: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
+    { "   " }of: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
+    { "   " }of: kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
+    { "   " }of: kshana orbit-data <check|convert|gp-compare|gp-audit|cov> ... (kshana orbit-data --help)
+    { "   " }of: kshana drone <prearm|prearm-calibrate|estimator-cases|dr-budget|quad-loss|failover|zonotope-pl> ... (kshana drone --help)
     { "   " }of: kshana kinds [--json]
     { "   " }of: kshana example [<name>]
     { "   " }of: kshana --help | --version
@@ -10722,6 +10737,7 @@ engine-interference-map-cli-usage-map =
     { "   " }of: kshana interference-map daily <input.csv|trace.json[.gz]|dir> --dataset <adsb-lol|custom> --day <YYYY-MM-DD> --out <dir> [--cell-deg <deg, { $lit_0_5 } or coarser>] [--bbox <south,west,north,east>] [--delay-hours <24 or more>]
     { "   " }of: kshana interference-map sensitivity <input.csv|trace.json[.gz]|dir> --dataset <adsb-lol|custom> --day <YYYY-MM-DD> --out <report.json> [--bbox <south,west,north,east>]
     { "   " }of: kshana interference-map fetch-land --out <land.geojson> --allow-network
+    { "   " }of: kshana interference-map incidents <validate <library.json> [--releases <RELEASES.json>] [--json] | release <library.json> --out <dir> | from-observatory <day.incidents.json> --source-url <https://...> --out <file.json>>
     { "   " }(--dataset custom heeft ook --licence <text> --licence-url <url> --attribution <text> nodig)
 
 engine-interference-map-cli-usage-route = gebruik: kshana route-exposure --route <route.geojson|route.csv> --map <map.geojson|dir> [--map ...] [--from <YYYY-MM-DD>] [--to <YYYY-MM-DD>] [--out <report.json>] [--json]
@@ -10802,6 +10818,8 @@ engine-iq-cli-usage =
     { "   " }of: kshana iq conditions <test-conditions.toml|json>
     { "   " }of: kshana iq frontend <in> <out> [--bandpass lo,hi] [--notch] [--blank <thr>] [--excise] [--agc] [--bits <n>] [--out-format <fmt>]
     { "   " }of: kshana iq monitor <recording> [--power] [--spectral] [--settings <toml|json>] [--baseline <s>] [--signal <name> --prn <list> [--spacing <chips>] [--pll-bw <hz>] [--fll-bw <hz>] [--dll-bw <hz>] [--coherent <N>] [--cn0-windows <M>] [--doppler-max <hz>]] [--max-seconds <s>] [--follow [--idle-timeout <s>]] [--json <out>] [--csv <prefix>]
+    { "   " }of: kshana iq diagnose <recording> [--max-seconds <s>] [--block <s>] [--gain-step-db <db>] [--signal <name> --prn <list> [--coherent <N>] [--noncoherent <M>] [--doppler-max <hz>] [--doppler-step <hz>] [--pfa <p>] [--step <s>] [--steps <n>] [--max-sat-doppler <hz>]]
+    { "   " }of: kshana iq gnss-sdr-conf <recording> [--signal <name[:channels]>,...] [--profile default|narrowband] [--doppler-max <hz>] [--rate-ms <ms>] [--monitor-ports <ch,pvt> | --no-monitor] [--out <file.conf>]
     { " " }labfit-scenario's: [[runs]] van ontvangerlogs, of [input] campaign = "<out-dir>" die een uitvoermap van kshana iq campaign noemt (relatief ten opzichte van het scenariobestand)
     { " " }lusontwerpen: een kshana.loop-design/1 TOML-bestand (docs/design/LOOP-DESIGN-TOML.md); expliciete lus-/acquisitievlaggen overschrijven het gekozen ontwerp
     { " " }acquire/track/sweep accepteren ook de front-endvlaggen [--bandpass lo,hi] [--notch] [--blank <thr>] [--excise] [--agc] [--bits <n>], toegepast vóór de verwerking (op de acquisitie en de trackingpas beide)
@@ -11546,3 +11564,214 @@ engine-e-interference-map-locate-bad-tdoa = { $path } is geen bruikbaar TDOA-fix
 engine-e-interference-map-locate-source-required = --source adsb of --source ais is vereist
 
 engine-e-interference-map-locate-no-evidence-rows = er zijn geen bewijsrijen vermeld voor de locate-uitvoer
+
+## Interference-incident format and case library (src/interference_map/incident.rs)
+engine-interference-incidents-valid = { $file }: { $n } records, geldig
+engine-e-interference-incidents-invalid = { $n } probleem/problemen in de incidentbibliotheek; voer kshana interference-map incidents validate <file> uit voor de lijst
+engine-e-interference-incidents-not-a-document = { $file } is geen { $schema }-document
+engine-e-interference-incidents-source-url-required = --source-url is verplicht: elk record verwijst naar het https://-adres waar het product is gepubliceerd
+
+## Correction decoders (src/corrections/)
+engine-e-corrections-bad-hex = geen hexadecimaal frame: { $line }
+engine-e-corrections-unknown-decoder = onbekende decoder { $decoder } (has, b2b, l6)
+engine-e-corrections-bad-vector = vector { $id } mist hexadecimale frames of een expect-object
+engine-e-corrections-bad-file = { $file } is geen { $format }-document (formaatlabel en een vectors-array)
+engine-corrections-summary = { $n } vectoren: { $passed } geslaagd, { $failed } mislukt
+engine-corrections-usage = gebruik: kshana corrections decode --format <has|b2b|l6> <frames.txt | -> | kshana corrections vectors [--json] [<vectors.json | dir> ...]  (één frame per regel in hexadecimaal; docs/CORRECTION-DECODERS.md)
+
+## src/space_weather_pnt/
+
+engine-space-weather-pnt-usage =
+    gebruik: kshana space-weather storms
+    { "   " }of: kshana space-weather storm <id> [--altitudes <km,km,...>]
+    { "   " }of: kshana space-weather dgnss <request.json> [--forecast <3-day-forecast.txt>]
+    { "   " }of: kshana space-weather iono <request.json> [--ionex <file>]
+    { "   " }of: kshana space-weather density-scorecard <windows.csv>
+    { "   " }of: kshana space-weather lifetime <request.json>
+    { "   " }(docs/SPACE-WEATHER-PNT.md)
+
+engine-e-space-weather-pnt-out-of-range = `{ $field }` moet een eindig getal van { $lo } tot { $hi } zijn
+engine-e-space-weather-pnt-unknown-storm = geen storm `{ $id }` in de bibliotheek (kshana space-weather storms toont ze)
+engine-e-space-weather-pnt-request = geen geldig verzoek: { $e }
+engine-e-space-weather-pnt-bad-time = geen UTC-tijd (YYYY-MM-DDTHH:MM[:SS]Z): { $value }
+engine-e-space-weather-pnt-not-a-forecast = geen driedaagse voorspelling van NOAA SWPC: geen volledige Kp-uitsplitsingstabel
+engine-e-space-weather-pnt-one-source = geef precies één bron van Kp-intervallen: storm, intervals of een voorspelling (swpc_forecast of --forecast)
+engine-e-space-weather-pnt-ionex-span = de IONEX-kaarten dekken { $t } niet
+engine-e-space-weather-pnt-ionex-flag = een IONEX-kaart wordt gebruikt dan en slechts dan als vtec in het verzoek "ionex" is en --ionex <file> is opgegeven
+engine-e-space-weather-pnt-no-epochs = het verzoek heeft ten minste één epoche in epochs_utc nodig
+engine-e-space-weather-pnt-window-row = regel { $line }: geen rij van een dichtheidsvenster (campaign,phase,start_utc,mean_alt_km,n_valid,measured_mean,points)
+engine-e-rtkqa-usage = gebruik: kshana rtk-qa monitor <host:port> --mount <name> [--user <name> --password-env <VAR>] [--gga <lat,lon[,h]>] [--seconds <s>] [--stale-after <s>] [--link-bps <n>]
+    kshana rtk-qa sources <table.txt|host:port> [--near <lat,lon>]
+    kshana rtk-qa base <stream.rtcm3> --reference <reference.toml|json> [--epoch <decimal year>]
+    kshana rtk-qa fix <solution.pos|nmea> [--control <name,lat,lon,h>]... [--radius <m>] [--h-tol <m>] [--v-tol <m>]
+    kshana rtk-qa ppk <rover.obs> [--base <base.obs>]
+    kshana rtk-qa probe <host:port> --mount <name> [--user <name> --password-env <VAR>] [--gga <lat,lon[,h]>] [--seconds <s>]
+    kshana rtk-qa caster --listen <host:port> --stream <file.rtcm3> --mount <name> [--user <name> --password-env <VAR>] [--chunk-ext] [--clients <n>] [--max-clients <n>] [--pace-ms <n>]
+    kshana rtk-qa log-check <client.log> --user <name> --password-env <VAR>
+    kshana rtk-qa failover <spec.json|toml>
+
+engine-e-rtkqa-frame = onbekend referentiestelsel { $frame } (ITRF2014, ITRF2020, ETRF2014 of ETRF2020)
+
+engine-e-rtkqa-tide = onbekend getijdesysteem { $tide } (tide-free, zero-tide of mean-tide)
+
+engine-e-rtkqa-pos-columns = het oplossingsbestand geeft posities in graden, minuten en seconden of als basislijn; schrijf het in decimale graden of ECEF
+
+engine-e-rtkqa-pos-line = regel { $line } is geen oplossingsepoche
+
+engine-e-rtkqa-no-solutions = geen oplossingsepochen gevonden (een .pos-bestand in RTKLIB-stijl of NMEA GGA-zinnen)
+
+engine-e-rtkqa-no-station = de stroom bevat geen stationbericht 1005 of 1006
+
+engine-e-rtkqa-failover-spec = de failovertest heeft een positieve duur en stap en ten minste één bron nodig
+
+engine-e-rtkqa-failover-source = het beleid noemt een bron die niet is gedefinieerd: { $name }
+
+engine-rtkqa-monitor-summary = rtk-qa monitor: score { $score }/100 (MODELLED); beschikbaar { $availability } %, mediane latentie { $latency } ms, volledigheid { $completeness } %, alarmen { $alarms }
+
+engine-rtkqa-sources-summary = rtk-qa sources: mountpoints { $n }
+
+engine-rtkqa-base-summary = rtk-qa base: stations { $n }; in orde { $ok }, waarschuwingen { $warn }, fouten { $fail } (MODELLED)
+
+engine-rtkqa-fix-summary = rtk-qa fix: opstellingen { $n }; geslaagd { $pass }, waarschuwingen { $warn }, fouten { $fail }, zonder fix { $nofix } (MODELLED)
+
+engine-rtkqa-ppk-summary = rtk-qa ppk: waarschijnlijke oorzaken { $n }: { $causes }
+
+engine-rtkqa-probe-summary = rtk-qa probe: { $met } van { $total } controles voldaan; niet voldaan: { $failed }
+
+engine-rtkqa-caster-listening = rtk-qa caster: luistert op { $addr }, mountpoint { $mount }
+
+engine-rtkqa-caster-client = rtk-qa caster: client { $peer } kreeg { $answer }; { $met } van { $total } controles voldaan
+
+engine-rtkqa-log-summary = rtk-qa log-check: inloggegevens { $n } keer gevonden in { $file }
+
+engine-rtkqa-failover-summary = rtk-qa failover: omschakelingen { $switches }; correctieleeftijd boven de grens gedurende { $over } s; grootste leeftijd { $max_age } s (MODELLED)
+
+## SDR front-end diagnostics and the GNSS-SDR configuration (src/iq/frontdiag.rs, src/iq/gnss_sdr_conf.rs)
+engine-e-iq-frontdiag-no-samples = de opname bevat geen samples
+engine-e-iq-frontdiag-positive = --block, --step en --gain-step-db moeten positief zijn
+engine-e-iq-gnss-sdr-conf-format = de bestandsbron van GNSS-SDR leest ci16_le, ci8 en cf32_le, niet { $format }: zet de opname eerst om (kshana iq convert <in> <out> --to ci16_le)
+engine-e-iq-gnss-sdr-conf-layout = de bestandsbron van GNSS-SDR leest één stroom uit één databestand zonder header: haal de stroom eerst los (kshana iq convert)
+engine-e-iq-gnss-sdr-conf-if = de opname heeft een middenfrequentie ongelijk aan nul: breng haar eerst naar nul-MF (kshana iq decimate --if-hz)
+engine-e-iq-gnss-sdr-conf-no-signal = geef ten minste één signaal op met --signal
+engine-e-iq-gnss-sdr-conf-rate = de PVT-uitvoersnelheid moet een veelvoud van 20 ms zijn, niet { $rate }
+engine-e-iq-gnss-sdr-conf-signal = voor { $signal } wordt geen GNSS-SDR-configuratie geschreven (geschreven voor: { $known })
+engine-e-iq-gnss-sdr-conf-centre = { $signal } ligt { $offset_hz } Hz van de middenfrequentie van de opname; de standaardketen van GNSS-SDR heeft het op frequentie nul nodig
+engine-e-iq-gnss-sdr-conf-profile = onbekend profiel { $profile } (default, narrowband)
+engine-iq-gnss-sdr-conf-written = GNSS-SDR-configuratie geschreven naar { $path }
+
+## Orbit-data validators, converters and monitors (src/orbit_data)
+engine-orbit-data-valid = geldig volgens { $standard }
+engine-orbit-data-valid-with-warnings = geldig volgens { $standard }, waarschuwingen: { $warnings }
+engine-orbit-data-invalid = ongeldig volgens { $standard }: fouten: { $errors }, waarschuwingen: { $warnings }
+engine-orbit-data-error = fout
+engine-orbit-data-warning = waarschuwing
+engine-orbit-data-not-checked = niet gecontroleerd: { $what }
+engine-orbit-data-header = kop
+engine-orbit-data-cdm-relative = relatieve metadata/gegevens
+engine-orbit-data-cdm-object = metadata/gegevens van het object
+engine-orbit-data-covariance = covariantie
+engine-orbit-data-oem-metadata = metadata van segment { $n }
+engine-orbit-data-line-too-long = de regel heeft { $n } tekens, meer dan { $max }
+engine-orbit-data-non-printable = de regel bevat een teken dat geen afdrukbaar ASCII is
+engine-orbit-data-not-key-value = geen regel SLEUTELWOORD = waarde: { $text }
+engine-orbit-data-keyword-blank = het sleutelwoord { $key } bevat een spatie
+engine-orbit-data-keyword-case = het sleutelwoord { $key } staat niet in hoofdletters
+engine-orbit-data-units-format = de eenheden van { $key } moeten na een spatie achter de waarde staan, tussen vierkante haken
+engine-orbit-data-first-line = de eerste regel moet { $key } zijn
+engine-orbit-data-parse-failed = het bericht is niet leesbaar: { $err }
+engine-orbit-data-xml-root = het wortelelement is { $name }, niet { $want }
+engine-orbit-data-xml-attr = het wortelattribuut { $attr } moet { $want } zijn
+engine-orbit-data-xml-missing = het bericht heeft geen { $tag }
+engine-orbit-data-empty-value = { $key } heeft een lege waarde
+engine-orbit-data-bad-time = { $key } = { $value } is geen tijdstempel (yyyy-mm-ddThh:mm:ss[.d] / yyyy-dddThh:mm:ss[.d])
+engine-orbit-data-bad-number = { $key } = { $value } is geen getal in de notatie van de norm
+engine-orbit-data-bad-integer = { $key } = { $value } is geen geheel getal
+engine-orbit-data-bad-value = { $key } = { $value } is niet een van: { $allowed }
+engine-orbit-data-out-of-range = { $key } = { $value } ligt buiten { $range }
+engine-orbit-data-version = versie { $value }: deze controle volgt versie { $want }
+engine-orbit-data-bad-chars = { $key } = { $value } bevat andere tekens dan letters, cijfers, liggend streepje en koppelteken
+engine-orbit-data-identifier-blank = { $key } = { $value } bevat een spatie (de norm staat letters, cijfers, liggend streepje en koppelteken toe)
+engine-orbit-data-lower-case = { $key } = { $value } bevat kleine letters
+engine-orbit-data-bad-units = { $key } heeft de eenheden [{ $given }]; de norm geeft [{ $want }]
+engine-orbit-data-missing-units = { $key } toont zijn eenheden [{ $want }] niet
+engine-orbit-data-unknown-keyword = { $key } is geen sleutelwoord van de sectie { $section }
+engine-orbit-data-duplicate-keyword = { $key } komt meer dan eens voor in de sectie { $section }
+engine-orbit-data-keyword-order = { $key } staat buiten de volgorde die de norm vastlegt (het volgt op { $prev })
+engine-orbit-data-missing-keyword = de sectie { $section } mist het verplichte { $key }
+engine-orbit-data-cdm-object-count = objectsecties in het bericht: { $n }; een CDM heeft er twee, OBJECT1 en dan OBJECT2
+engine-orbit-data-cov-row = covariantierij { $row } is onvolledig of volgt op een ontbrekende rij
+engine-orbit-data-cov-zero-diagonal = de covariantie van { $at } heeft een variantie nul; de rij en kolom ervan horen niet gebruikt te worden
+engine-orbit-data-not-pd = de covariantie bij { $at } is niet positief definiet (kleinste eigenwaarde van de correlatie { $min })
+engine-orbit-data-frame-mismatch = REF_FRAME verschilt tussen de objecten ({ $a }, { $b })
+engine-orbit-data-inconsistent = { $key } = { $given } { $unit }, maar de gegevens geven { $computed } { $unit }
+engine-orbit-data-time-order = { $first } ({ $a }) ligt na { $second } ({ $b })
+engine-orbit-data-count-order = { $used } = { $a } is groter dan { $avail } = { $b }
+engine-orbit-data-unterminated = het bericht eindigt binnen een blok
+engine-orbit-data-no-segment = het bericht heeft geen segment
+engine-orbit-data-time-system-changed = TIME_SYSTEM wisselt binnen het bericht ({ $a }, daarna { $b })
+engine-orbit-data-outside-span = het tijdstip { $t } ligt buiten de spanne die de metadata geven
+engine-orbit-data-useable-overlap = de bruikbare spannes van segmenten { $a } en { $b } overlappen
+engine-orbit-data-data-width = een gegevensregel heeft { $n } waarden; verwacht: { $want }
+engine-orbit-data-duplicate-time = het tijdstempel { $t } herhaalt zich
+engine-orbit-data-time-not-increasing = het tijdstempel { $t } stijgt niet (het vorige is { $prev })
+engine-orbit-data-too-few-points = gegevensregels: { $n }; te weinig voor interpolatie van graad { $deg } (nodig: { $need })
+engine-orbit-data-mixed-time = het blok { $block } mengt relatieve en absolute tijdstempels
+engine-orbit-data-span-short = de bruikbare spanne is { $days } dagen, korter dan de gevraagde { $min } dagen
+engine-orbit-data-gap = een gat van { $s } s, langer dan de gevraagde { $max } s
+engine-orbit-data-gp-checksum = regel { $line }: de controlesom in kolom 69 klopt niet (die zou { $want } moeten zijn)
+engine-orbit-data-gp-catalogue = regel 1 en regel 2 noemen niet hetzelfde catalogusnummer
+engine-orbit-data-gp-perigee = het perigeum ligt op { $km } km, onder het aardoppervlak
+engine-orbit-data-gp-sgp4 = SGP4 faalt { $days } dagen na de epoch (foutcode { $code })
+engine-orbit-data-gp-stale = de epoch ligt { $days } dagen voor de referentietijd (meer dan { $max })
+engine-orbit-data-gp-future = de epoch ligt { $days } dagen na de referentietijd
+engine-orbit-data-gp-repeated-epoch = een andere set van dit object heeft dezelfde epoch en andere elementen
+engine-orbit-data-gp-elset-number = het elementsetnummer gaat bij een latere epoch terug van { $a } naar { $b }
+engine-orbit-data-gp-jump = deze set en de vorige verschillen { $km } km bij zijn epoch, { $hours } h later (meer dan { $max } km): een manoeuvre of een foute set
+engine-orbit-data-gp-compare-summary = objecten in beide bronnen: { $n }, gemarkeerd boven { $threshold } km: { $flagged }; alleen in de eerste: { $only_a }, alleen in de tweede: { $only_b } (MODELLED: SGP4-verschillen, geen nauwkeurigheid)
+engine-orbit-data-gp-audit-summary = elementsets: { $sets }, objecten: { $objects }, bevindingen: { $findings }
+engine-orbit-data-usage =
+    gebruik: kshana orbit-data check <cdm|oem|ocm file> [--json] [--aliases <map.json>] [--min-span-days <d>] [--max-gap-s <s>]
+    { "   " }of: kshana orbit-data convert <file> --to <ocm|oem|cdm> [--aliases <map.json>]
+    { "   " }of: kshana orbit-data gp-compare <a.tle> <b.tle> [--hours <h>] [--step-min <min>] [--threshold-km <km>] [--json]
+    { "   " }of: kshana orbit-data gp-audit <sets.tle> ... [--at <epoch>] [--stale-days <d>] [--jump-km <km>] [--json]
+    { "   " }of: kshana orbit-data cov <check|propagate|monte-carlo|synthetic|realism> <input.json> [--dt-s <s>] [--step-s <s>] [--samples <n>] [--seed <n>] [--sigma-rtn <r,t,n,rdot,tdot,ndot>] [--full]
+    { "   " }(docs/ORBIT-DATA.md)
+engine-e-orbit-data-unknown-message = { $path } is geen CDM, OEM (KVN) of OCM: geen regel CCSDS_CDM_VERS, CCSDS_OEM_VERS of CCSDS_OCM_VERS en geen wortel <cdm> of <ocm>
+engine-e-orbit-data-bad-flag = { $flag } { $value }: geen bruikbare waarde
+engine-e-orbit-data-aliases-not-object = de aliastabel moet een JSON-object zijn van "name": "KEYWORD"
+engine-e-orbit-data-alias-target = de alias { $key } verwijst niet naar een CDM-sleutelwoord
+engine-e-orbit-data-convert-pair = { $path }: geen conversie naar { $to } (OEM naar ocm, OCM naar oem, CDM naar cdm)
+engine-e-orbit-data-convert-empty = de OEM heeft geen segment om te converteren
+engine-e-orbit-data-convert-one-object = de OEM bevat objecten: { $n }; een OCM bevat er één
+engine-e-orbit-data-convert-missing = de bron mist { $key }, dat het doel nodig heeft
+engine-e-orbit-data-convert-width = een gegevens- of covariantieregel heeft het verkeerde aantal waarden voor de conversie
+engine-e-orbit-data-convert-time = het tijdstempel { $t } kan niet absoluut gemaakt worden (geen EPOCH_TZERO, of geen getal)
+engine-e-orbit-data-convert-traj = trajecttype { $kind } heeft geen OEM-vorm (CARTPV en CARTPVA wel)
+engine-e-orbit-data-convert-cov = covariantie { $kind } { $ordering } heeft geen OEM-vorm (CARTPV in LTM, UTM of FULL wel)
+engine-e-orbit-data-cov-input = de invoer mist een geldige { $key }
+engine-e-orbit-data-cov-not-pd = de begincovariantie is niet positief definiet, of er zijn te weinig steekproeven gevraagd
+
+## Drone, UTM and robotics PNT tools (src/drone_pnt)
+engine-drone-usage = gebruik: kshana drone prearm <log.ulg|log.bin|epochs.jsonl> [--window <s>] [--config <thresholds.json>] [--gate] | prearm-calibrate [--runs <n>] [--seed <n>] | estimator-cases [--case <id> --trace <trace.jsonl> [--params <json>]] | dr-budget [<spec.json> | --airframe multirotor|fixed-wing|vtol|ground-robot] | quad-loss [<spec.json>] | failover [<spec.json>] | zonotope-pl <spec.json>  (docs/DRONE-PNT.md)
+engine-e-drone-dataflash-header = geen ArduPilot DataFlash-log (het moet beginnen met de octetten A3 95)
+engine-e-drone-bad-number = { $flag } moet een eindig getal zijn, niet { $value }
+engine-e-drone-prearm-gate-failed = pre-arm-controle FAIL: niet armen (zie de playbookstappen in het rapport)
+engine-e-drone-no-epochs = het log bevat geen ontvangerepochs (verwacht: een PX4 ULog, een ArduPilot DataFlash-log of JSON Lines-epochs)
+engine-e-drone-trace-bad-line = een traceregel is geen JSON-object met een numerieke t: { $line }
+engine-e-drone-trace-missing-channel = de trace heeft geen kanaal { $channel } (hernoem kanalen met het channels-object van --params)
+engine-e-drone-unknown-case = onbekend schattergeval { $case } (kshana drone estimator-cases toont de gevallen)
+engine-e-drone-unknown-airframe = onbekende luchtvaartuigklasse { $name } (multirotor, fixed-wing, vtol, ground-robot)
+engine-e-drone-failover-bad-spec = de failover-run heeft minstens één bron, een positieve stap en een niet-negatieve duur van hoogstens tien miljoen stappen nodig
+engine-e-drone-failover-bad-kind = onbekend brontype { $kind } (absolute, relative, inertial)
+engine-e-drone-failover-bad-event = een gebeurtenis noemt een onbekende bron of toestand: { $source } (toestand fail of recover)
+engine-e-drone-zonotope-bad-geometry = het beschermingsniveau vereist minstens vier satellieten met eindige azimut en elevatie en een positieve grens, en een oplosbare geometrie
+
+## src/oscillator/mod.rs
+
+engine-oscillator-usage = gebruik: kshana oscillator <vibration|holdover|select|raim-aid|datasheet> <input.json>, of kshana oscillator refs (docs/OSCILLATOR.md)
+
+engine-e-oscillator-input = de invoer voor { $part } is niet geldig: { $e }
+
+engine-e-oscillator-unknown-clock = onbekende klokvoorinstelling { $id } (een van { $known })
+
+engine-e-oscillator-field = { $field } valt buiten het bereik: { $value }

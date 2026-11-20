@@ -202,3 +202,14 @@ evidence-label-line-rows: n
 evidence-label-line-rows-more: n n_more
 interference-map-locate-summary: n_sessions n_withheld
 interference-map-locate-fig-subtitle: n
+interference-incidents-valid: n
+e-interference-incidents-invalid: n
+orbit-data-valid-with-warnings: warnings
+orbit-data-invalid: errors warnings
+orbit-data-line-too-long: n max
+orbit-data-cdm-object-count: n
+orbit-data-data-width: n
+orbit-data-too-few-points: n deg need
+orbit-data-gp-compare-summary: n flagged only_a only_b
+orbit-data-gp-audit-summary: sets objects findings
+e-orbit-data-convert-one-object: n

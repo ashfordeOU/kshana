@@ -1,0 +1,4 @@
+{"type":"header","schema":"kshana.obs/1","station":{"id":"example-station-1","lat_deg":59.44,"lon_deg":24.75,"height_m":30.0,"antenna":"example patch antenna","receiver":"example GNSS receiver","partner_input":false},"source_format":"unicore","start_label":"GPS week 2164 TOW 559464.000 s","observables":["agc"],"skipped_records":0}
+{"type":"epoch","station":"example-station-1","t_s":0.0,"time_label":"GPS week 2164 TOW 559464.000 s","cn0":[],"agc":null,"jam_ind":null,"fix":null,"self_report":{"spoofing":null,"jamming":3}}
+{"type":"epoch","station":"example-station-1","t_s":15530748.0,"time_label":"GPS week 2190 TOW 365412.000 s","cn0":[],"agc":null,"jam_ind":null,"fix":null,"self_report":{"spoofing":null,"jamming":1}}
+{"type":"epoch","station":"example-station-1","t_s":15540906.0,"time_label":"GPS week 2190 TOW 375570.000 s","cn0":[],"agc":51.0,"jam_ind":null,"fix":null}
