@@ -10570,6 +10570,7 @@ engine-main-usage =
     { "   " }nebo: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }nebo: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }nebo: kshana time-vectors [--json] [<vectors.json|dir> ...]
+    { "   " }nebo: kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
     { "   " }nebo: kshana kinds [--json]
     { "   " }nebo: kshana example [<name>]
     { "   " }nebo: kshana --help | --version
@@ -11546,3 +11547,49 @@ engine-e-interference-map-locate-bad-tdoa = { $path } není použitelný soubor 
 engine-e-interference-map-locate-source-required = je vyžadováno --source adsb nebo --source ais
 
 engine-e-interference-map-locate-no-evidence-rows = pro výstupy locate nejsou uvedeny žádné řádky důkazů
+
+engine-e-rtkqa-usage = použití: kshana rtk-qa monitor <host:port> --mount <name> [--user <name> --password-env <VAR>] [--gga <lat,lon[,h]>] [--seconds <s>] [--stale-after <s>] [--link-bps <n>]
+    kshana rtk-qa sources <table.txt|host:port> [--near <lat,lon>]
+    kshana rtk-qa base <stream.rtcm3> --reference <reference.toml|json> [--epoch <decimal year>]
+    kshana rtk-qa fix <solution.pos|nmea> [--control <name,lat,lon,h>]... [--radius <m>] [--h-tol <m>] [--v-tol <m>]
+    kshana rtk-qa ppk <rover.obs> [--base <base.obs>]
+    kshana rtk-qa probe <host:port> --mount <name> [--user <name> --password-env <VAR>] [--gga <lat,lon[,h]>] [--seconds <s>]
+    kshana rtk-qa caster --listen <host:port> --stream <file.rtcm3> --mount <name> [--user <name> --password-env <VAR>] [--chunk-ext] [--clients <n>] [--max-clients <n>] [--pace-ms <n>]
+    kshana rtk-qa log-check <client.log> --user <name> --password-env <VAR>
+    kshana rtk-qa failover <spec.json|toml>
+
+engine-e-rtkqa-frame = neznámý referenční rámec { $frame } (ITRF2014, ITRF2020, ETRF2014 nebo ETRF2020)
+
+engine-e-rtkqa-tide = neznámý slapový systém { $tide } (tide-free, zero-tide nebo mean-tide)
+
+engine-e-rtkqa-pos-columns = soubor řešení uvádí polohy ve stupních, minutách a sekundách nebo jako základnu; zapište jej v desetinných stupních nebo ECEF
+
+engine-e-rtkqa-pos-line = řádek { $line } není epochou řešení
+
+engine-e-rtkqa-no-solutions = nenalezeny žádné epochy řešení (soubor .pos ve stylu RTKLIB nebo věty NMEA GGA)
+
+engine-e-rtkqa-no-station = proud neobsahuje žádnou staniční zprávu 1005 ani 1006
+
+engine-e-rtkqa-failover-spec = test přepínání potřebuje kladnou dobu trvání a krok a alespoň jeden zdroj
+
+engine-e-rtkqa-failover-source = politika uvádí zdroj, který není definován: { $name }
+
+engine-rtkqa-monitor-summary = rtk-qa monitor: skóre { $score }/100 (MODELLED); dostupnost { $availability } %, medián latence { $latency } ms, úplnost { $completeness } %, poplachy { $alarms }
+
+engine-rtkqa-sources-summary = rtk-qa sources: přípojné body { $n }
+
+engine-rtkqa-base-summary = rtk-qa base: stanice { $n }; v pořádku { $ok }, varování { $warn }, selhání { $fail } (MODELLED)
+
+engine-rtkqa-fix-summary = rtk-qa fix: stanoviska { $n }; vyhověla { $pass }, varování { $warn }, selhání { $fail }, bez fixu { $nofix } (MODELLED)
+
+engine-rtkqa-ppk-summary = rtk-qa ppk: pravděpodobné příčiny { $n }: { $causes }
+
+engine-rtkqa-probe-summary = rtk-qa probe: splněno { $met } z { $total } kontrol; nesplněno: { $failed }
+
+engine-rtkqa-caster-listening = rtk-qa caster: naslouchá na { $addr }, přípojný bod { $mount }
+
+engine-rtkqa-caster-client = rtk-qa caster: klient { $peer } dostal { $answer }; splněno { $met } z { $total } kontrol
+
+engine-rtkqa-log-summary = rtk-qa log-check: přihlašovací údaje nalezeny { $n }krát v { $file }
+
+engine-rtkqa-failover-summary = rtk-qa failover: přepnutí { $switches }; stáří korekcí nad limitem po { $over } s; největší stáří { $max_age } s (MODELLED)

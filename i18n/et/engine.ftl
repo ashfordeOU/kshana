@@ -10564,6 +10564,7 @@ engine-main-usage =
     { "   " }või: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }või: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }või: kshana time-vectors [--json] [<vectors.json|dir> ...]
+    { "   " }või: kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
     { "   " }või: kshana kinds [--json]
     { "   " }või: kshana example [<name>]
     { "   " }või: kshana --help | --version
@@ -11468,3 +11469,49 @@ engine-e-interference-map-locate-bad-tdoa = { $path } ei ole kasutatav TDOA fiks
 engine-e-interference-map-locate-source-required = --source adsb või --source ais on nõutav
 
 engine-e-interference-map-locate-no-evidence-rows = locate väljundite jaoks pole tõendusridu loetletud
+
+engine-e-rtkqa-usage = kasutus: kshana rtk-qa monitor <host:port> --mount <name> [--user <name> --password-env <VAR>] [--gga <lat,lon[,h]>] [--seconds <s>] [--stale-after <s>] [--link-bps <n>]
+    kshana rtk-qa sources <table.txt|host:port> [--near <lat,lon>]
+    kshana rtk-qa base <stream.rtcm3> --reference <reference.toml|json> [--epoch <decimal year>]
+    kshana rtk-qa fix <solution.pos|nmea> [--control <name,lat,lon,h>]... [--radius <m>] [--h-tol <m>] [--v-tol <m>]
+    kshana rtk-qa ppk <rover.obs> [--base <base.obs>]
+    kshana rtk-qa probe <host:port> --mount <name> [--user <name> --password-env <VAR>] [--gga <lat,lon[,h]>] [--seconds <s>]
+    kshana rtk-qa caster --listen <host:port> --stream <file.rtcm3> --mount <name> [--user <name> --password-env <VAR>] [--chunk-ext] [--clients <n>] [--max-clients <n>] [--pace-ms <n>]
+    kshana rtk-qa log-check <client.log> --user <name> --password-env <VAR>
+    kshana rtk-qa failover <spec.json|toml>
+
+engine-e-rtkqa-frame = tundmatu taustsüsteem { $frame } (ITRF2014, ITRF2020, ETRF2014 või ETRF2020)
+
+engine-e-rtkqa-tide = tundmatu loodesüsteem { $tide } (tide-free, zero-tide või mean-tide)
+
+engine-e-rtkqa-pos-columns = lahendifail annab asukohad kraadides, minutites ja sekundites või baasjoonena; kirjuta see kümnendkraadides või ECEF-is
+
+engine-e-rtkqa-pos-line = rida { $line } ei ole lahendi epohh
+
+engine-e-rtkqa-no-solutions = lahendi epohhe ei leitud (RTKLIB-stiilis .pos-fail või NMEA GGA laused)
+
+engine-e-rtkqa-no-station = voos pole ühtegi jaamateadet 1005 ega 1006
+
+engine-e-rtkqa-failover-spec = ümberlülitustest vajab positiivset kestust ja sammu ning vähemalt ühte allikat
+
+engine-e-rtkqa-failover-source = poliitika nimetab allikat, mida pole määratletud: { $name }
+
+engine-rtkqa-monitor-summary = rtk-qa monitor: hinne { $score }/100 (MODELLED); saadaval { $availability } %, mediaanlatentsus { $latency } ms, täielikkus { $completeness } %, häired { $alarms }
+
+engine-rtkqa-sources-summary = rtk-qa sources: ühenduspunktid { $n }
+
+engine-rtkqa-base-summary = rtk-qa base: jaamad { $n }; korras { $ok }, hoiatused { $warn }, vead { $fail } (MODELLED)
+
+engine-rtkqa-fix-summary = rtk-qa fix: mõõtmiskohad { $n }; läbitud { $pass }, hoiatused { $warn }, vead { $fail }, fiksita { $nofix } (MODELLED)
+
+engine-rtkqa-ppk-summary = rtk-qa ppk: tõenäolised põhjused { $n }: { $causes }
+
+engine-rtkqa-probe-summary = rtk-qa probe: { $met } kontrolli { $total }-st täidetud; täitmata: { $failed }
+
+engine-rtkqa-caster-listening = rtk-qa caster: kuulab aadressil { $addr }, ühenduspunkt { $mount }
+
+engine-rtkqa-caster-client = rtk-qa caster: klient { $peer } sai vastuse { $answer }; { $met } kontrolli { $total }-st täidetud
+
+engine-rtkqa-log-summary = rtk-qa log-check: kasutajaandmeid leiti { $n } korda failist { $file }
+
+engine-rtkqa-failover-summary = rtk-qa failover: ümberlülitusi { $switches }; paranduste vanus üle piiri { $over } s; suurim vanus { $max_age } s (MODELLED)

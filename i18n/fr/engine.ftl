@@ -10712,6 +10712,7 @@ engine-main-usage =
     { "   " }ou : kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }ou : kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }ou : kshana time-vectors [--json] [<vectors.json|dir> ...]
+    { "   " }ou : kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
     { "   " }ou : kshana kinds [--json]
     { "   " }ou : kshana example [<name>]
     { "   " }ou : kshana --help | --version
@@ -11619,3 +11620,49 @@ engine-e-interference-map-locate-bad-tdoa = { $path } n'est pas un fichier de so
 engine-e-interference-map-locate-source-required = --source adsb ou --source ais est requis
 
 engine-e-interference-map-locate-no-evidence-rows = aucune ligne de preuve n'est listée pour les sorties de locate
+
+engine-e-rtkqa-usage = utilisation : kshana rtk-qa monitor <host:port> --mount <name> [--user <name> --password-env <VAR>] [--gga <lat,lon[,h]>] [--seconds <s>] [--stale-after <s>] [--link-bps <n>]
+    kshana rtk-qa sources <table.txt|host:port> [--near <lat,lon>]
+    kshana rtk-qa base <stream.rtcm3> --reference <reference.toml|json> [--epoch <decimal year>]
+    kshana rtk-qa fix <solution.pos|nmea> [--control <name,lat,lon,h>]... [--radius <m>] [--h-tol <m>] [--v-tol <m>]
+    kshana rtk-qa ppk <rover.obs> [--base <base.obs>]
+    kshana rtk-qa probe <host:port> --mount <name> [--user <name> --password-env <VAR>] [--gga <lat,lon[,h]>] [--seconds <s>]
+    kshana rtk-qa caster --listen <host:port> --stream <file.rtcm3> --mount <name> [--user <name> --password-env <VAR>] [--chunk-ext] [--clients <n>] [--max-clients <n>] [--pace-ms <n>]
+    kshana rtk-qa log-check <client.log> --user <name> --password-env <VAR>
+    kshana rtk-qa failover <spec.json|toml>
+
+engine-e-rtkqa-frame = repère de référence inconnu { $frame } (ITRF2014, ITRF2020, ETRF2014 ou ETRF2020)
+
+engine-e-rtkqa-tide = système de marée inconnu { $tide } (tide-free, zero-tide ou mean-tide)
+
+engine-e-rtkqa-pos-columns = le fichier de solutions donne les positions en degrés, minutes et secondes ou sous forme de ligne de base ; écrivez-le en degrés décimaux ou en ECEF
+
+engine-e-rtkqa-pos-line = la ligne { $line } n'est pas une époque de solution
+
+engine-e-rtkqa-no-solutions = aucune époque de solution trouvée (un fichier .pos de type RTKLIB ou des phrases NMEA GGA)
+
+engine-e-rtkqa-no-station = le flux ne contient aucun message de station 1005 ou 1006
+
+engine-e-rtkqa-failover-spec = le test de basculement exige une durée et un pas positifs et au moins une source
+
+engine-e-rtkqa-failover-source = la politique nomme une source non définie : { $name }
+
+engine-rtkqa-monitor-summary = rtk-qa monitor : note { $score }/100 (MODELLED) ; disponible { $availability } %, latence médiane { $latency } ms, complétude { $completeness } %, alarmes { $alarms }
+
+engine-rtkqa-sources-summary = rtk-qa sources : points de montage { $n }
+
+engine-rtkqa-base-summary = rtk-qa base : stations { $n } ; conformes { $ok }, avertissements { $warn }, échecs { $fail } (MODELLED)
+
+engine-rtkqa-fix-summary = rtk-qa fix : stationnements { $n } ; réussis { $pass }, avertissements { $warn }, échecs { $fail }, sans fixation { $nofix } (MODELLED)
+
+engine-rtkqa-ppk-summary = rtk-qa ppk : causes probables { $n } : { $causes }
+
+engine-rtkqa-probe-summary = rtk-qa probe : { $met } vérifications satisfaites sur { $total } ; non satisfaites : { $failed }
+
+engine-rtkqa-caster-listening = rtk-qa caster : à l'écoute sur { $addr }, point de montage { $mount }
+
+engine-rtkqa-caster-client = rtk-qa caster : client { $peer }, réponse { $answer } ; { $met } vérifications satisfaites sur { $total }
+
+engine-rtkqa-log-summary = rtk-qa log-check : identifiants trouvés { $n } fois dans { $file }
+
+engine-rtkqa-failover-summary = rtk-qa failover : basculements { $switches } ; âge des corrections au-dessus de la limite pendant { $over } s ; âge maximal { $max_age } s (MODELLED)

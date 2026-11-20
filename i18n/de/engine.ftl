@@ -10582,6 +10582,7 @@ engine-main-usage =
     { "   " }oder: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }oder: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }oder: kshana time-vectors [--json] [<vectors.json|dir> ...]
+    { "   " }oder: kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
     { "   " }oder: kshana kinds [--json]
     { "   " }oder: kshana example [<name>]
     { "   " }oder: kshana --help | --version
@@ -11490,3 +11491,49 @@ engine-e-interference-map-locate-bad-tdoa = { $path } ist keine brauchbare TDOA-
 engine-e-interference-map-locate-source-required = --source adsb oder --source ais ist erforderlich
 
 engine-e-interference-map-locate-no-evidence-rows = für die Ausgaben von locate sind keine Evidenzzeilen aufgeführt
+
+engine-e-rtkqa-usage = Aufruf: kshana rtk-qa monitor <host:port> --mount <name> [--user <name> --password-env <VAR>] [--gga <lat,lon[,h]>] [--seconds <s>] [--stale-after <s>] [--link-bps <n>]
+    kshana rtk-qa sources <table.txt|host:port> [--near <lat,lon>]
+    kshana rtk-qa base <stream.rtcm3> --reference <reference.toml|json> [--epoch <decimal year>]
+    kshana rtk-qa fix <solution.pos|nmea> [--control <name,lat,lon,h>]... [--radius <m>] [--h-tol <m>] [--v-tol <m>]
+    kshana rtk-qa ppk <rover.obs> [--base <base.obs>]
+    kshana rtk-qa probe <host:port> --mount <name> [--user <name> --password-env <VAR>] [--gga <lat,lon[,h]>] [--seconds <s>]
+    kshana rtk-qa caster --listen <host:port> --stream <file.rtcm3> --mount <name> [--user <name> --password-env <VAR>] [--chunk-ext] [--clients <n>] [--max-clients <n>] [--pace-ms <n>]
+    kshana rtk-qa log-check <client.log> --user <name> --password-env <VAR>
+    kshana rtk-qa failover <spec.json|toml>
+
+engine-e-rtkqa-frame = unbekannter Bezugsrahmen { $frame } (ITRF2014, ITRF2020, ETRF2014 oder ETRF2020)
+
+engine-e-rtkqa-tide = unbekanntes Gezeitensystem { $tide } (tide-free, zero-tide oder mean-tide)
+
+engine-e-rtkqa-pos-columns = die Lösungsdatei gibt Positionen in Grad, Minuten und Sekunden oder als Basislinie an; schreiben Sie sie in Dezimalgrad oder ECEF
+
+engine-e-rtkqa-pos-line = Zeile { $line } ist keine Lösungsepoche
+
+engine-e-rtkqa-no-solutions = keine Lösungsepochen gefunden (eine .pos-Datei im RTKLIB-Stil oder NMEA-GGA-Sätze)
+
+engine-e-rtkqa-no-station = der Datenstrom enthält keine Stationsnachricht 1005 oder 1006
+
+engine-e-rtkqa-failover-spec = der Failover-Test braucht eine positive Dauer und Schrittweite und mindestens eine Quelle
+
+engine-e-rtkqa-failover-source = die Strategie nennt eine nicht definierte Quelle: { $name }
+
+engine-rtkqa-monitor-summary = rtk-qa monitor: Bewertung { $score }/100 (MODELLED); verfügbar { $availability } %, Median-Latenz { $latency } ms, Vollständigkeit { $completeness } %, Alarme { $alarms }
+
+engine-rtkqa-sources-summary = rtk-qa sources: Mountpoints { $n }
+
+engine-rtkqa-base-summary = rtk-qa base: Stationen { $n }; in Ordnung { $ok }, Warnungen { $warn }, Fehler { $fail } (MODELLED)
+
+engine-rtkqa-fix-summary = rtk-qa fix: Aufstellungen { $n }; bestanden { $pass }, Warnungen { $warn }, Fehler { $fail }, ohne Fix { $nofix } (MODELLED)
+
+engine-rtkqa-ppk-summary = rtk-qa ppk: wahrscheinliche Ursachen { $n }: { $causes }
+
+engine-rtkqa-probe-summary = rtk-qa probe: { $met } von { $total } Prüfungen erfüllt; nicht erfüllt: { $failed }
+
+engine-rtkqa-caster-listening = rtk-qa caster: lauscht auf { $addr }, Mountpoint { $mount }
+
+engine-rtkqa-caster-client = rtk-qa caster: Client { $peer } erhielt { $answer }; { $met } von { $total } Prüfungen erfüllt
+
+engine-rtkqa-log-summary = rtk-qa log-check: Zugangsdaten { $n }-mal in { $file } gefunden
+
+engine-rtkqa-failover-summary = rtk-qa failover: Umschaltungen { $switches }; Korrekturalter über dem Grenzwert während { $over } s; größtes Alter { $max_age } s (MODELLED)

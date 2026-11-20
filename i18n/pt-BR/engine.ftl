@@ -10824,6 +10824,7 @@ engine-main-usage =
     { "   " }ou: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }ou: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }ou: kshana time-vectors [--json] [<vectors.json|dir> ...]
+    { "   " }ou: kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
     { "   " }ou: kshana kinds [--json]
     { "   " }ou: kshana example [<name>]
     { "   " }ou: kshana --help | --version
@@ -11733,3 +11734,49 @@ engine-e-interference-map-locate-bad-tdoa = { $path } não é um arquivo de fix 
 engine-e-interference-map-locate-source-required = --source adsb ou --source ais é obrigatório
 
 engine-e-interference-map-locate-no-evidence-rows = nenhuma linha de evidência está listada para as saídas de locate
+
+engine-e-rtkqa-usage = uso: kshana rtk-qa monitor <host:port> --mount <name> [--user <name> --password-env <VAR>] [--gga <lat,lon[,h]>] [--seconds <s>] [--stale-after <s>] [--link-bps <n>]
+    kshana rtk-qa sources <table.txt|host:port> [--near <lat,lon>]
+    kshana rtk-qa base <stream.rtcm3> --reference <reference.toml|json> [--epoch <decimal year>]
+    kshana rtk-qa fix <solution.pos|nmea> [--control <name,lat,lon,h>]... [--radius <m>] [--h-tol <m>] [--v-tol <m>]
+    kshana rtk-qa ppk <rover.obs> [--base <base.obs>]
+    kshana rtk-qa probe <host:port> --mount <name> [--user <name> --password-env <VAR>] [--gga <lat,lon[,h]>] [--seconds <s>]
+    kshana rtk-qa caster --listen <host:port> --stream <file.rtcm3> --mount <name> [--user <name> --password-env <VAR>] [--chunk-ext] [--clients <n>] [--max-clients <n>] [--pace-ms <n>]
+    kshana rtk-qa log-check <client.log> --user <name> --password-env <VAR>
+    kshana rtk-qa failover <spec.json|toml>
+
+engine-e-rtkqa-frame = referencial desconhecido { $frame } (ITRF2014, ITRF2020, ETRF2014 ou ETRF2020)
+
+engine-e-rtkqa-tide = sistema de maré desconhecido { $tide } (tide-free, zero-tide ou mean-tide)
+
+engine-e-rtkqa-pos-columns = o arquivo de soluções dá as posições em graus, minutos e segundos ou como linha de base; escreva-o em graus decimais ou ECEF
+
+engine-e-rtkqa-pos-line = a linha { $line } não é uma época de solução
+
+engine-e-rtkqa-no-solutions = nenhuma época de solução encontrada (um arquivo .pos no estilo do RTKLIB ou sentenças NMEA GGA)
+
+engine-e-rtkqa-no-station = o fluxo não contém nenhuma mensagem de estação 1005 ou 1006
+
+engine-e-rtkqa-failover-spec = o teste de failover precisa de duração e passo positivos e de pelo menos uma fonte
+
+engine-e-rtkqa-failover-source = a política cita uma fonte que não está definida: { $name }
+
+engine-rtkqa-monitor-summary = rtk-qa monitor: pontuação { $score }/100 (MODELLED); disponível { $availability } %, latência mediana { $latency } ms, completude { $completeness } %, alarmes { $alarms }
+
+engine-rtkqa-sources-summary = rtk-qa sources: pontos de montagem { $n }
+
+engine-rtkqa-base-summary = rtk-qa base: estações { $n }; ok { $ok }, avisos { $warn }, falhas { $fail } (MODELLED)
+
+engine-rtkqa-fix-summary = rtk-qa fix: ocupações { $n }; aprovadas { $pass }, avisos { $warn }, falhas { $fail }, sem fix { $nofix } (MODELLED)
+
+engine-rtkqa-ppk-summary = rtk-qa ppk: causas prováveis { $n }: { $causes }
+
+engine-rtkqa-probe-summary = rtk-qa probe: { $met } de { $total } verificações atendidas; não atendidas: { $failed }
+
+engine-rtkqa-caster-listening = rtk-qa caster: escutando em { $addr }, ponto de montagem { $mount }
+
+engine-rtkqa-caster-client = rtk-qa caster: cliente { $peer } recebeu { $answer }; { $met } de { $total } verificações atendidas
+
+engine-rtkqa-log-summary = rtk-qa log-check: credenciais encontradas { $n } vezes em { $file }
+
+engine-rtkqa-failover-summary = rtk-qa failover: comutações { $switches }; idade das correções acima do limite durante { $over } s; maior idade { $max_age } s (MODELLED)

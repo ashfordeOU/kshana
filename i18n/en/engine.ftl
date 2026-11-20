@@ -10378,6 +10378,7 @@ engine-main-usage =
     { "   " }or: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }or: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }or: kshana time-vectors [--json] [<vectors.json|dir> ...]
+    { "   " }or: kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
     { "   " }or: kshana kinds [--json]
     { "   " }or: kshana example [<name>]
     { "   " }or: kshana --help | --version
@@ -11460,6 +11461,52 @@ engine-e-ntrip-no-mountpoint = the caster has no mountpoint { $mountpoint } (it 
 engine-e-ntrip-usage = usage: kshana ntrip <host:port> [--mount <name>] [--user <name> --password-env <VAR>] [--gga <lat,lon[,height]>] [--out <file>] [--max-bytes <n>] [--seconds <s>]   (no --mount: print the caster's source table)
 
 engine-ntrip-summary = ntrip: { $bytes } bytes, { $frames } RTCM 3 frames with a valid CRC, { $bad } with a bad CRC; messages { $messages }
+
+engine-e-rtkqa-usage = usage: kshana rtk-qa monitor <host:port> --mount <name> [--user <name> --password-env <VAR>] [--gga <lat,lon[,h]>] [--seconds <s>] [--stale-after <s>] [--link-bps <n>]
+    kshana rtk-qa sources <table.txt|host:port> [--near <lat,lon>]
+    kshana rtk-qa base <stream.rtcm3> --reference <reference.toml|json> [--epoch <decimal year>]
+    kshana rtk-qa fix <solution.pos|nmea> [--control <name,lat,lon,h>]... [--radius <m>] [--h-tol <m>] [--v-tol <m>]
+    kshana rtk-qa ppk <rover.obs> [--base <base.obs>]
+    kshana rtk-qa probe <host:port> --mount <name> [--user <name> --password-env <VAR>] [--gga <lat,lon[,h]>] [--seconds <s>]
+    kshana rtk-qa caster --listen <host:port> --stream <file.rtcm3> --mount <name> [--user <name> --password-env <VAR>] [--chunk-ext] [--clients <n>] [--max-clients <n>] [--pace-ms <n>]
+    kshana rtk-qa log-check <client.log> --user <name> --password-env <VAR>
+    kshana rtk-qa failover <spec.json|toml>
+
+engine-e-rtkqa-frame = unknown reference frame { $frame } (ITRF2014, ITRF2020, ETRF2014 or ETRF2020)
+
+engine-e-rtkqa-tide = unknown tide system { $tide } (tide-free, zero-tide or mean-tide)
+
+engine-e-rtkqa-pos-columns = the solution file gives positions in degrees, minutes and seconds or as a baseline; write it in decimal degrees or ECEF
+
+engine-e-rtkqa-pos-line = line { $line } is not a solution epoch
+
+engine-e-rtkqa-no-solutions = no solution epochs found (an RTKLIB-style .pos file or NMEA GGA sentences)
+
+engine-e-rtkqa-no-station = the stream holds no 1005 or 1006 station message
+
+engine-e-rtkqa-failover-spec = the failover test needs a positive duration and step and at least one source
+
+engine-e-rtkqa-failover-source = the policy names a source that is not defined: { $name }
+
+engine-rtkqa-monitor-summary = rtk-qa monitor: score { $score }/100 (MODELLED); available { $availability } %, median latency { $latency } ms, completeness { $completeness } %, alarms { $alarms }
+
+engine-rtkqa-sources-summary = rtk-qa sources: mountpoints { $n }
+
+engine-rtkqa-base-summary = rtk-qa base: stations { $n }; ok { $ok }, warnings { $warn }, failures { $fail } (MODELLED)
+
+engine-rtkqa-fix-summary = rtk-qa fix: occupations { $n }; pass { $pass }, warnings { $warn }, failures { $fail }, no fix { $nofix } (MODELLED)
+
+engine-rtkqa-ppk-summary = rtk-qa ppk: likely causes { $n }: { $causes }
+
+engine-rtkqa-probe-summary = rtk-qa probe: { $met } of { $total } checks met; not met: { $failed }
+
+engine-rtkqa-caster-listening = rtk-qa caster: listening on { $addr }, mountpoint { $mount }
+
+engine-rtkqa-caster-client = rtk-qa caster: client { $peer } answered { $answer }; { $met } of { $total } checks met
+
+engine-rtkqa-log-summary = rtk-qa log-check: credentials found { $n } times in { $file }
+
+engine-rtkqa-failover-summary = rtk-qa failover: switches { $switches }; correction age above the limit for { $over } s; largest age { $max_age } s (MODELLED)
 
 engine-e-connect-nats-protocol = the server sent a line that is not the NATS client protocol
 

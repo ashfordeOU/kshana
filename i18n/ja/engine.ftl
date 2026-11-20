@@ -9780,6 +9780,7 @@ engine-main-usage =
     { "   " }または：kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }または：kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }または：kshana time-vectors [--json] [<vectors.json|dir> ...]
+    { "   " }または：kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
     { "   " }または：kshana kinds [--json]
     { "   " }または：kshana example [<name>]
     { "   " }または：kshana --help | --version
@@ -10693,3 +10694,49 @@ engine-e-interference-map-locate-source-required = --source adsb または --sou
 engine-e-interference-map-locate-no-evidence-rows = locate の出力に対する証拠行が一覧にありません
 
 engine-interference-map-locate-note-not-preregistered = 注意：いずれかのオプションが事前登録されたパラメータと異なるため、これは事前登録された手法ではありません
+
+engine-e-rtkqa-usage = 使い方：kshana rtk-qa monitor <host:port> --mount <name> [--user <name> --password-env <VAR>] [--gga <lat,lon[,h]>] [--seconds <s>] [--stale-after <s>] [--link-bps <n>]
+    kshana rtk-qa sources <table.txt|host:port> [--near <lat,lon>]
+    kshana rtk-qa base <stream.rtcm3> --reference <reference.toml|json> [--epoch <decimal year>]
+    kshana rtk-qa fix <solution.pos|nmea> [--control <name,lat,lon,h>]... [--radius <m>] [--h-tol <m>] [--v-tol <m>]
+    kshana rtk-qa ppk <rover.obs> [--base <base.obs>]
+    kshana rtk-qa probe <host:port> --mount <name> [--user <name> --password-env <VAR>] [--gga <lat,lon[,h]>] [--seconds <s>]
+    kshana rtk-qa caster --listen <host:port> --stream <file.rtcm3> --mount <name> [--user <name> --password-env <VAR>] [--chunk-ext] [--clients <n>] [--max-clients <n>] [--pace-ms <n>]
+    kshana rtk-qa log-check <client.log> --user <name> --password-env <VAR>
+    kshana rtk-qa failover <spec.json|toml>
+
+engine-e-rtkqa-frame = 不明な基準座標系 { $frame }（ITRF2014、ITRF2020、ETRF2014、ETRF2020 のいずれか）
+
+engine-e-rtkqa-tide = 不明な潮汐系 { $tide }（tide-free、zero-tide、mean-tide のいずれか）
+
+engine-e-rtkqa-pos-columns = 解ファイルの位置が度分秒または基線で書かれています。10 進度または ECEF で書いてください
+
+engine-e-rtkqa-pos-line = { $line } 行目は解のエポックではありません
+
+engine-e-rtkqa-no-solutions = 解のエポックが見つかりません（RTKLIB 形式の .pos ファイルまたは NMEA GGA センテンス）
+
+engine-e-rtkqa-no-station = ストリームに局メッセージ 1005 または 1006 がありません
+
+engine-e-rtkqa-failover-spec = フェイルオーバー試験には正の期間とステップ、および 1 つ以上のソースが必要です
+
+engine-e-rtkqa-failover-source = ポリシーが未定義のソースを指定しています：{ $name }
+
+engine-rtkqa-monitor-summary = rtk-qa monitor：スコア { $score }/100（MODELLED）；可用 { $availability } %、遅延の中央値 { $latency } ms、完全性 { $completeness } %、アラーム { $alarms }
+
+engine-rtkqa-sources-summary = rtk-qa sources：マウントポイント { $n }
+
+engine-rtkqa-base-summary = rtk-qa base：局 { $n }；正常 { $ok }、警告 { $warn }、失敗 { $fail }（MODELLED）
+
+engine-rtkqa-fix-summary = rtk-qa fix：観測点 { $n }；合格 { $pass }、警告 { $warn }、失敗 { $fail }、FIX なし { $nofix }（MODELLED）
+
+engine-rtkqa-ppk-summary = rtk-qa ppk：考えられる原因 { $n }：{ $causes }
+
+engine-rtkqa-probe-summary = rtk-qa probe：{ $total } 件中 { $met } 件のチェックを満たしました；未達：{ $failed }
+
+engine-rtkqa-caster-listening = rtk-qa caster：{ $addr } で待ち受け中、マウントポイント { $mount }
+
+engine-rtkqa-caster-client = rtk-qa caster：クライアント { $peer } への応答 { $answer }；{ $total } 件中 { $met } 件のチェックを満たしました
+
+engine-rtkqa-log-summary = rtk-qa log-check：{ $file } で認証情報が { $n } 回見つかりました
+
+engine-rtkqa-failover-summary = rtk-qa failover：切り替え { $switches }；補正の経過時間が上限を超えた時間 { $over } s；最大経過時間 { $max_age } s（MODELLED）

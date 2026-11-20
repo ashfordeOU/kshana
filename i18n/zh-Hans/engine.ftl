@@ -9847,6 +9847,7 @@ engine-main-usage =
     { "   " }或：kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }或：kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }或：kshana time-vectors [--json] [<vectors.json|dir> ...]
+    { "   " }或：kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
     { "   " }或：kshana kinds [--json]
     { "   " }或：kshana example [<name>]
     { "   " }或：kshana --help | --version
@@ -10748,3 +10749,49 @@ engine-e-interference-map-locate-bad-tdoa = { $path } 不是可用的 TDOA 定�
 engine-e-interference-map-locate-source-required = 需要 --source adsb 或 --source ais
 
 engine-e-interference-map-locate-no-evidence-rows = 未列出定位输出的任何证据行
+
+engine-e-rtkqa-usage = 用法：kshana rtk-qa monitor <host:port> --mount <name> [--user <name> --password-env <VAR>] [--gga <lat,lon[,h]>] [--seconds <s>] [--stale-after <s>] [--link-bps <n>]
+    kshana rtk-qa sources <table.txt|host:port> [--near <lat,lon>]
+    kshana rtk-qa base <stream.rtcm3> --reference <reference.toml|json> [--epoch <decimal year>]
+    kshana rtk-qa fix <solution.pos|nmea> [--control <name,lat,lon,h>]... [--radius <m>] [--h-tol <m>] [--v-tol <m>]
+    kshana rtk-qa ppk <rover.obs> [--base <base.obs>]
+    kshana rtk-qa probe <host:port> --mount <name> [--user <name> --password-env <VAR>] [--gga <lat,lon[,h]>] [--seconds <s>]
+    kshana rtk-qa caster --listen <host:port> --stream <file.rtcm3> --mount <name> [--user <name> --password-env <VAR>] [--chunk-ext] [--clients <n>] [--max-clients <n>] [--pace-ms <n>]
+    kshana rtk-qa log-check <client.log> --user <name> --password-env <VAR>
+    kshana rtk-qa failover <spec.json|toml>
+
+engine-e-rtkqa-frame = 未知的参考框架 { $frame }（ITRF2014、ITRF2020、ETRF2014 或 ETRF2020）
+
+engine-e-rtkqa-tide = 未知的潮汐系统 { $tide }（tide-free、zero-tide 或 mean-tide）
+
+engine-e-rtkqa-pos-columns = 解算文件以度分秒或基线形式给出位置；请改用十进制度或 ECEF
+
+engine-e-rtkqa-pos-line = 第 { $line } 行不是解算历元
+
+engine-e-rtkqa-no-solutions = 未找到解算历元（RTKLIB 风格的 .pos 文件或 NMEA GGA 语句）
+
+engine-e-rtkqa-no-station = 数据流中没有 1005 或 1006 测站电文
+
+engine-e-rtkqa-failover-spec = 故障切换测试需要正的时长和步长以及至少一个来源
+
+engine-e-rtkqa-failover-source = 策略中指定了未定义的来源：{ $name }
+
+engine-rtkqa-monitor-summary = rtk-qa monitor：评分 { $score }/100（MODELLED）；可用 { $availability } %，延迟中位数 { $latency } ms，完整性 { $completeness } %，告警 { $alarms }
+
+engine-rtkqa-sources-summary = rtk-qa sources：挂载点 { $n }
+
+engine-rtkqa-base-summary = rtk-qa base：测站 { $n }；正常 { $ok }，警告 { $warn }，失败 { $fail }（MODELLED）
+
+engine-rtkqa-fix-summary = rtk-qa fix：测点 { $n }；通过 { $pass }，警告 { $warn }，失败 { $fail }，无固定解 { $nofix }（MODELLED）
+
+engine-rtkqa-ppk-summary = rtk-qa ppk：可能原因 { $n }：{ $causes }
+
+engine-rtkqa-probe-summary = rtk-qa probe：{ $total } 项检查中满足 { $met } 项；未满足：{ $failed }
+
+engine-rtkqa-caster-listening = rtk-qa caster：正在 { $addr } 上监听，挂载点 { $mount }
+
+engine-rtkqa-caster-client = rtk-qa caster：客户端 { $peer } 收到 { $answer }；{ $total } 项检查中满足 { $met } 项
+
+engine-rtkqa-log-summary = rtk-qa log-check：在 { $file } 中发现凭据 { $n } 次
+
+engine-rtkqa-failover-summary = rtk-qa failover：切换 { $switches } 次；改正数龄期超过上限的时间 { $over } s；最大龄期 { $max_age } s（MODELLED）
