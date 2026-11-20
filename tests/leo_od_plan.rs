@@ -101,13 +101,13 @@ fn a_narrower_beam_sees_fewer_leo_receivers() {
 #[test]
 fn bad_plans_are_refused() {
     let base = example();
-    let bad: Vec<Box<dyn Fn(&mut Plan)>> = vec![
-        Box::new(|p| p.step_s = 0.0),
-        Box::new(|p| p.arc_hours = f64::NAN),
-        Box::new(|p| p.ground_sigma_m = -1.0),
-        Box::new(|p| p.bds_half_beamwidth_deg = 120.0),
-        Box::new(|p| p.leo.as_mut().unwrap().planes = 7),
-        Box::new(|p| p.step_s = 0.1),
+    let bad: Vec<fn(&mut Plan)> = vec![
+        (|p| p.step_s = 0.0),
+        (|p| p.arc_hours = f64::NAN),
+        (|p| p.ground_sigma_m = -1.0),
+        (|p| p.bds_half_beamwidth_deg = 120.0),
+        (|p| p.leo.as_mut().unwrap().planes = 7),
+        (|p| p.step_s = 0.1),
     ];
     for f in bad {
         let mut p = base.clone();
