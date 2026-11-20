@@ -10542,6 +10542,7 @@ engine-main-usage =
     { "   " }eller: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }eller: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
     { "   " }eller: kshana time-vectors [--json] [<vectors.json|dir> ...]
+    { "   " }eller: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }eller: kshana kinds [--json]
     { "   " }eller: kshana example [<name>]
     { "   " }eller: kshana --help | --version
@@ -11494,3 +11495,11 @@ engine-interference-incidents-valid = { $file }: { $n } poster, gyldig
 engine-e-interference-incidents-invalid = { $n } problem(er) i hendelsesbiblioteket; kjør kshana interference-map incidents validate <file> for listen
 engine-e-interference-incidents-not-a-document = { $file } er ikke et { $schema }-dokument
 engine-e-interference-incidents-source-url-required = --source-url er påkrevd: hver post viser til https://-adressen der produktet er publisert
+
+## Correction decoders (src/corrections/)
+engine-e-corrections-bad-hex = ikke en heksadesimal ramme: { $line }
+engine-e-corrections-unknown-decoder = ukjent dekoder { $decoder } (has, b2b, l6)
+engine-e-corrections-bad-vector = vektor { $id } mangler heksadesimale rammer eller et expect-objekt
+engine-e-corrections-bad-file = { $file } er ikke et { $format }-dokument (formatmerke og en vectors-tabell)
+engine-corrections-summary = { $n } vektorer: { $passed } bestått, { $failed } feilet
+engine-corrections-usage = bruk: kshana corrections decode --format <has|b2b|l6> <frames.txt | -> | kshana corrections vectors [--json] [<vectors.json | dir> ...]  (én ramme per linje i heksadesimal; docs/CORRECTION-DECODERS.md)

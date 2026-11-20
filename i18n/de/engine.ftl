@@ -10593,6 +10593,7 @@ engine-main-usage =
     { "   " }oder: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }oder: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
     { "   " }oder: kshana time-vectors [--json] [<vectors.json|dir> ...]
+    { "   " }oder: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }oder: kshana kinds [--json]
     { "   " }oder: kshana example [<name>]
     { "   " }oder: kshana --help | --version
@@ -11508,3 +11509,11 @@ engine-interference-incidents-valid = { $file }: { $n } Datensätze, gültig
 engine-e-interference-incidents-invalid = { $n } Problem(e) in der Vorfallsbibliothek; die Liste zeigt kshana interference-map incidents validate <file>
 engine-e-interference-incidents-not-a-document = { $file } ist kein { $schema }-Dokument
 engine-e-interference-incidents-source-url-required = --source-url ist erforderlich: Jeder Datensatz nennt die https://-Adresse, unter der das Produkt veröffentlicht ist
+
+## Correction decoders (src/corrections/)
+engine-e-corrections-bad-hex = kein hexadezimaler Rahmen: { $line }
+engine-e-corrections-unknown-decoder = unbekannter Decoder { $decoder } (has, b2b, l6)
+engine-e-corrections-bad-vector = dem Vektor { $id } fehlen hexadezimale Rahmen oder ein expect-Objekt
+engine-e-corrections-bad-file = { $file } ist kein { $format }-Dokument (Format-Kennung und ein vectors-Array)
+engine-corrections-summary = { $n } Vektoren: { $passed } bestanden, { $failed } fehlgeschlagen
+engine-corrections-usage = Aufruf: kshana corrections decode --format <has|b2b|l6> <frames.txt | -> | kshana corrections vectors [--json] [<vectors.json | dir> ...]  (ein Rahmen pro Zeile, hexadezimal; docs/CORRECTION-DECODERS.md)

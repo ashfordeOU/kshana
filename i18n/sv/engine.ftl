@@ -10460,6 +10460,7 @@ engine-main-usage =
     { "   " }eller: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }eller: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
     { "   " }eller: kshana time-vectors [--json] [<vectors.json|dir> ...]
+    { "   " }eller: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }eller: kshana kinds [--json]
     { "   " }eller: kshana example [<name>]
     { "   " }eller: kshana --help | --version
@@ -11371,3 +11372,11 @@ engine-interference-incidents-valid = { $file }: { $n } poster, giltig
 engine-e-interference-incidents-invalid = { $n } problem i incidentbiblioteket; kör kshana interference-map incidents validate <file> för listan
 engine-e-interference-incidents-not-a-document = { $file } är inte ett { $schema }-dokument
 engine-e-interference-incidents-source-url-required = --source-url krävs: varje post hänvisar till den https://-adress där produkten är publicerad
+
+## Correction decoders (src/corrections/)
+engine-e-corrections-bad-hex = inte en hexadecimal ram: { $line }
+engine-e-corrections-unknown-decoder = okänd avkodare { $decoder } (has, b2b, l6)
+engine-e-corrections-bad-vector = vektor { $id } saknar hexadecimala ramar eller ett expect-objekt
+engine-e-corrections-bad-file = { $file } är inte ett { $format }-dokument (formatmärkning och en vectors-array)
+engine-corrections-summary = { $n } vektorer: { $passed } godkända, { $failed } underkända
+engine-corrections-usage = användning: kshana corrections decode --format <has|b2b|l6> <frames.txt | -> | kshana corrections vectors [--json] [<vectors.json | dir> ...]  (en ram per rad i hexadecimal form; docs/CORRECTION-DECODERS.md)

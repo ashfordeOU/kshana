@@ -10753,6 +10753,7 @@ engine-main-usage =
     { "   " }lub: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }lub: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
     { "   " }lub: kshana time-vectors [--json] [<vectors.json|dir> ...]
+    { "   " }lub: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }lub: kshana kinds [--json]
     { "   " }lub: kshana example [<name>]
     { "   " }lub: kshana --help | --version
@@ -11729,3 +11730,11 @@ engine-interference-incidents-valid = { $file }: { $n } rekordów, poprawny
 engine-e-interference-incidents-invalid = { $n } problem(y) w bibliotece incydentów; listę pokazuje kshana interference-map incidents validate <file>
 engine-e-interference-incidents-not-a-document = { $file } nie jest dokumentem { $schema }
 engine-e-interference-incidents-source-url-required = --source-url jest wymagany: każdy rekord podaje adres https://, pod którym opublikowano produkt
+
+## Correction decoders (src/corrections/)
+engine-e-corrections-bad-hex = to nie jest ramka szesnastkowa: { $line }
+engine-e-corrections-unknown-decoder = nieznany dekoder { $decoder } (has, b2b, l6)
+engine-e-corrections-bad-vector = wektorowi { $id } brakuje ramek szesnastkowych lub obiektu expect
+engine-e-corrections-bad-file = { $file } nie jest dokumentem { $format } (znacznik formatu i tablica vectors)
+engine-corrections-summary = { $n } wektorów: { $passed } zaliczonych, { $failed } niezaliczonych
+engine-corrections-usage = użycie: kshana corrections decode --format <has|b2b|l6> <frames.txt | -> | kshana corrections vectors [--json] [<vectors.json | dir> ...]  (jedna ramka na wiersz, szesnastkowo; docs/CORRECTION-DECODERS.md)
