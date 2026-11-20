@@ -119,6 +119,7 @@ pub mod conflict_resilience;
 pub mod conflict_threat_params;
 pub mod constellation;
 pub mod contact_schedule;
+pub mod corrections;
 pub mod cr3bp;
 /// Not validated (finding, 0.36): see the module's Status section. Hidden from the documented API.
 #[doc(hidden)]
@@ -133,6 +134,7 @@ pub mod detection;
 pub mod dop_error_ci;
 pub mod dop_error_mc;
 pub mod dro;
+pub mod drone_pnt;
 pub mod earth_gnss_lunar;
 pub mod egm2008_data;
 pub mod ensemble;
@@ -150,6 +152,8 @@ pub mod ephemeris;
 pub mod estimator;
 pub mod eval_stats;
 pub mod evidence_label;
+/// Feeder clients: signed, privacy-coarsened feed bundles of a station's observations (`kshana feed`).
+pub mod feeder;
 mod fes2004_data;
 pub mod field_schema;
 pub mod filter_health;
@@ -292,8 +296,12 @@ pub mod optical_techniques;
 pub mod optical_timeseries;
 pub mod optical_weather;
 pub mod orbit;
+pub mod orbit_data;
 pub mod orbit_determination;
 pub mod orbital_timing;
+/// Oscillator models: g-sensitivity, temperature and shock holdover, selection, clock-aided RAIM
+/// and datasheet TDEV (`kshana oscillator`, docs/OSCILLATOR.md).
+pub mod oscillator;
 pub mod osnma;
 pub mod palette;
 pub mod particle_filter;
@@ -374,6 +382,7 @@ pub mod resilience;
 pub mod rinex;
 pub mod rinex_obs;
 pub mod rtcm_ssr;
+pub mod rtk_qa;
 pub mod rtk_real;
 pub mod rts25;
 pub mod run;
@@ -395,6 +404,7 @@ pub mod sp3;
 pub mod space_geoloc;
 pub mod space_packet;
 pub mod space_weather;
+pub mod space_weather_pnt;
 pub mod spectrum;
 pub mod speed_bench;
 pub mod spk_writer;

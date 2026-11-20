@@ -1,0 +1,6 @@
+{
+  "clock": "ocxo",
+  "duration_s": 86400,
+  "threshold_s": 1.5e-6,
+  "temperature": {"points": [[0, 25], [3600, 25], [3660, 35]], "lag_s": 600}
+}

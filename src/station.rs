@@ -520,7 +520,7 @@ fn http_reply(s: &mut TcpStream, code: u16, ctype: &str, body: &str) {
 }
 
 /// Post `body` to an `http://` URL with an optional bearer token; returns the status code.
-fn post(url: &str, token: Option<&str>, body: &str) -> Result<u16, String> {
+pub(crate) fn post(url: &str, token: Option<&str>, body: &str) -> Result<u16, String> {
     let rest = url.strip_prefix("http://").ok_or("http:// only")?;
     let (host, path) = rest
         .split_once('/')

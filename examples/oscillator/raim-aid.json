@@ -1,0 +1,9 @@
+{
+  "clock": "rubidium",
+  "satellites": [[0, 80], [40, 30], [120, 45], [200, 20], [300, 35]],
+  "sigma_m": 3.0,
+  "p_fa": 1e-5,
+  "p_md": 1e-3,
+  "calibration_sigma_s": 1e-9,
+  "coast_s": [0, 60, 600, 3600, 86400]
+}

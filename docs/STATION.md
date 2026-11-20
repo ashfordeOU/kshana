@@ -196,5 +196,6 @@ which may read serial ports.
 
 - The fleet report is plain HTTP; across a network put a TLS tunnel in front of it.
 - A source blocked on a device read stops only with the process.
+- To share a Station's files as a feeder (signed, with privacy-safe defaults), see [FEEDER.md](FEEDER.md).
 - One Station is open. Managing several from one place (fleet management) is part of
   Kshana Pro.

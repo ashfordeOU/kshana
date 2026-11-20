@@ -49,6 +49,10 @@
    "count": 19,
    "reason": "signed: summary.html of an evidence pack is hashed into the manifest the pack signs, so it is built in English whatever the language (commit 4bc89cca; docs/i18n.md)"
   },
+  "src/feeder.rs": {
+   "count": 9,
+   "reason": "identifier: the field names (station.id, epoch.fix, ...) the public-bundle check returns, which reach people only inside the translated e-feed-not-coarsened message as its what variable, and the tab-separated column header of the leaderboard (column identifiers of a machine-readable table)"
+  },
   "src/fusion/gnss_ins_ekf.rs": {
    "count": 4,
    "reason": "error: public Result<_, &'static str> of the EKF update; a catalogue message cannot be a &'static str (kept on purpose)"
@@ -132,6 +136,22 @@
   "src/tm_bridge.rs": {
    "count": 3,
    "reason": "write: COSMOS cmd_tlm keywords (ITEM, UNITS, STATE) written into a machine definition file"
+  },
+  "src/oscillator/environment.rs": {
+   "count": 5,
+   "reason": "machine identifiers: the JSON input field names (dotted paths) passed as the `field` variable of the catalogued e-oscillator-field message; not prose"
+  },
+  "src/oscillator/mod.rs": {
+   "count": 2,
+   "reason": "machine identifiers: the JSON input field names (dotted paths) passed as the `field` variable of the catalogued e-oscillator-field message; not prose"
+  },
+  "src/oscillator/select.rs": {
+   "count": 2,
+   "reason": "machine identifiers: the JSON input field names (dotted paths) passed as the `field` variable of the catalogued e-oscillator-field message; not prose"
+  },
+  "src/oscillator/vibration.rs": {
+   "count": 3,
+   "reason": "machine identifiers: the JSON input field names (dotted paths) passed as the `field` variable of the catalogued e-oscillator-field message; not prose"
   }
  }
 }

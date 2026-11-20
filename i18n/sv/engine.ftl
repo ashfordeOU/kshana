@@ -10455,11 +10455,17 @@ engine-main-usage =
     { "   " }eller: kshana obs <convert <log> --format <format> --station <station.toml> [--out <file>] | check <file.obs.jsonl> [--json]>
     { "   " }eller: kshana connect <map <input> --mapping <connect.toml> --station <station.toml> [--out <file.obs.jsonl>] | check <vector.toml|dir> [--bless] | watch <dir> --mapping <connect.toml> --station <station.toml> [--suffix <.csv>] [--interval <s>] [--once] | mqtt <host:port> --topic <filter> --mapping <connect.toml> --station <station.toml> [--header <row>] [--qos 0|1] [--user <name> --password-env <VAR>] [--client-id <id>] [--max-messages <n>] [--per-topic] | nats <host:port> --subject <s> --mapping <connect.toml> --station <station.toml> [--header <row>] [--per-topic] [--user <name> --password-env <VAR> | --token-env <VAR>] [--max-messages <n>] | ws <ws://host:port/path> --mapping <connect.toml> --station <station.toml> [--header <row>] [--max-messages <n>] | check-live <vector.toml|dir> [--json] | load-test [--stations <n>] [--rate <Hz>] [--seconds <s>] [--via memory|mqtt] [--json] | adapters <list|check> [<dir>] [--json]>
     { "   " }eller: kshana osnma verify <pages|vectors.csv|stream.ubx> [--merkle-root <hex>] [--public-key <id:type:hex>] [--reference-time <gst-s>] [--json] (kshana osnma --help)
-    { "   " }eller: kshana iq <scene|acquire|track|sweep|labfit|campaign|conditions|frontend|monitor|inventory|info|extract|convert|decimate> ... (kshana iq --help)
+    { "   " }eller: kshana iq <scene|acquire|track|sweep|labfit|campaign|conditions|frontend|monitor|diagnose|gnss-sdr-conf|inventory|info|extract|convert|decimate> ... (kshana iq --help)
     { "   " }eller: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }eller: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }eller: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
+    { "   " }eller: kshana feed <pack|verify|send|spectrum|leaderboard> ... (kshana feed --help)
     { "   " }eller: kshana time-vectors [--json] [<vectors.json|dir> ...]
+    { "   " }eller: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
+    { "   " }eller: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
+    { "   " }eller: kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
+    { "   " }eller: kshana orbit-data <check|convert|gp-compare|gp-audit|cov> ... (kshana orbit-data --help)
+    { "   " }eller: kshana drone <prearm|prearm-calibrate|estimator-cases|dr-budget|quad-loss|failover|zonotope-pl> ... (kshana drone --help)
     { "   " }eller: kshana kinds [--json]
     { "   " }eller: kshana example [<name>]
     { "   " }eller: kshana --help | --version
@@ -10568,6 +10574,7 @@ engine-interference-map-cli-usage-map =
     { "   " }eller: kshana interference-map daily <input.csv|trace.json[.gz]|dir> --dataset <adsb-lol|custom> --day <YYYY-MM-DD> --out <dir> [--cell-deg <deg, { $lit_0_5 } or coarser>] [--bbox <south,west,north,east>] [--delay-hours <24 or more>]
     { "   " }eller: kshana interference-map sensitivity <input.csv|trace.json[.gz]|dir> --dataset <adsb-lol|custom> --day <YYYY-MM-DD> --out <report.json> [--bbox <south,west,north,east>]
     { "   " }eller: kshana interference-map fetch-land --out <land.geojson> --allow-network
+    { "   " }eller: kshana interference-map incidents <validate <library.json> [--releases <RELEASES.json>] [--json] | release <library.json> --out <dir> | from-observatory <day.incidents.json> --source-url <https://...> --out <file.json>>
     { "   " }(--dataset custom kräver också --licence <text> --licence-url <url> --attribution <text>)
 
 engine-interference-map-cli-usage-route = användning: kshana route-exposure --route <route.geojson|route.csv> --map <map.geojson|dir> [--map ...] [--from <YYYY-MM-DD>] [--to <YYYY-MM-DD>] [--out <report.json>] [--json]
@@ -10644,6 +10651,8 @@ engine-iq-cli-usage =
     { "   " }eller: kshana iq conditions <test-conditions.toml|json>
     { "   " }eller: kshana iq frontend <in> <out> [--bandpass lo,hi] [--notch] [--blank <thr>] [--excise] [--agc] [--bits <n>] [--out-format <fmt>]
     { "   " }eller: kshana iq monitor <recording> [--power] [--spectral] [--settings <toml|json>] [--baseline <s>] [--signal <name> --prn <list> [--spacing <chips>] [--pll-bw <hz>] [--fll-bw <hz>] [--dll-bw <hz>] [--coherent <N>] [--cn0-windows <M>] [--doppler-max <hz>]] [--max-seconds <s>] [--follow [--idle-timeout <s>]] [--json <out>] [--csv <prefix>]
+    { "   " }eller: kshana iq diagnose <recording> [--max-seconds <s>] [--block <s>] [--gain-step-db <db>] [--signal <name> --prn <list> [--coherent <N>] [--noncoherent <M>] [--doppler-max <hz>] [--doppler-step <hz>] [--pfa <p>] [--step <s>] [--steps <n>] [--max-sat-doppler <hz>]]
+    { "   " }eller: kshana iq gnss-sdr-conf <recording> [--signal <name[:channels]>,...] [--profile default|narrowband] [--doppler-max <hz>] [--rate-ms <ms>] [--monitor-ports <ch,pvt> | --no-monitor] [--out <file.conf>]
     { " " }labfit-scenarier: [[runs]] med mottagarloggar, eller [input] campaign = "<out-dir>" som anger en utdatamapp från kshana iq campaign (relativt scenariofilen)
     { " " }slingutformningar: en TOML-fil av typen kshana.loop-design/1 (docs/design/LOOP-DESIGN-TOML.md); explicita slingflaggor och förvärvsflaggor åsidosätter den valda utformningen
     { " " }acquire/track/sweep tar också frontend-flaggorna [--bandpass lo,hi] [--notch] [--blank <thr>] [--excise] [--agc] [--bits <n>], tillämpade före bearbetningen (på både förvärvet och följningspasset)
@@ -11364,3 +11373,242 @@ engine-e-interference-map-locate-bad-tdoa = { $path } är inte en användbar TDO
 engine-e-interference-map-locate-source-required = --source adsb eller --source ais krävs
 
 engine-e-interference-map-locate-no-evidence-rows = inga belägg-rader är listade för locate-utdata
+
+## Interference-incident format and case library (src/interference_map/incident.rs)
+engine-interference-incidents-valid = { $file }: { $n } poster, giltig
+engine-e-interference-incidents-invalid = { $n } problem i incidentbiblioteket; kör kshana interference-map incidents validate <file> för listan
+engine-e-interference-incidents-not-a-document = { $file } är inte ett { $schema }-dokument
+engine-e-interference-incidents-source-url-required = --source-url krävs: varje post hänvisar till den https://-adress där produkten är publicerad
+
+## Correction decoders (src/corrections/)
+engine-e-corrections-bad-hex = inte en hexadecimal ram: { $line }
+engine-e-corrections-unknown-decoder = okänd avkodare { $decoder } (has, b2b, l6)
+engine-e-corrections-bad-vector = vektor { $id } saknar hexadecimala ramar eller ett expect-objekt
+engine-e-corrections-bad-file = { $file } är inte ett { $format }-dokument (formatmärkning och en vectors-array)
+engine-corrections-summary = { $n } vektorer: { $passed } godkända, { $failed } underkända
+engine-corrections-usage = användning: kshana corrections decode --format <has|b2b|l6> <frames.txt | -> | kshana corrections vectors [--json] [<vectors.json | dir> ...]  (en ram per rad i hexadecimal form; docs/CORRECTION-DECODERS.md)
+
+## src/space_weather_pnt/
+
+engine-space-weather-pnt-usage =
+    användning: kshana space-weather storms
+    { "   " }eller: kshana space-weather storm <id> [--altitudes <km,km,...>]
+    { "   " }eller: kshana space-weather dgnss <request.json> [--forecast <3-day-forecast.txt>]
+    { "   " }eller: kshana space-weather iono <request.json> [--ionex <file>]
+    { "   " }eller: kshana space-weather density-scorecard <windows.csv>
+    { "   " }eller: kshana space-weather lifetime <request.json>
+    { "   " }(docs/SPACE-WEATHER-PNT.md)
+
+engine-e-space-weather-pnt-out-of-range = `{ $field }` måste vara ett ändligt tal från { $lo } till { $hi }
+engine-e-space-weather-pnt-unknown-storm = ingen storm `{ $id }` i biblioteket (kshana space-weather storms listar dem)
+engine-e-space-weather-pnt-request = ingen giltig begäran: { $e }
+engine-e-space-weather-pnt-bad-time = inte en UTC-tid (YYYY-MM-DDTHH:MM[:SS]Z): { $value }
+engine-e-space-weather-pnt-not-a-forecast = inte en 3-dygnsprognos från NOAA SWPC: ingen fullständig Kp-tabell
+engine-e-space-weather-pnt-one-source = ange exakt en källa till Kp-intervall: storm, intervals eller en prognos (swpc_forecast eller --forecast)
+engine-e-space-weather-pnt-ionex-span = IONEX-kartorna täcker inte { $t }
+engine-e-space-weather-pnt-ionex-flag = en IONEX-karta används om, och endast om, begärans vtec är "ionex" och --ionex <file> anges
+engine-e-space-weather-pnt-no-epochs = begäran behöver minst en epok i epochs_utc
+engine-e-space-weather-pnt-window-row = rad { $line }: inte en rad med ett densitetsfönster (campaign,phase,start_utc,mean_alt_km,n_valid,measured_mean,points)
+engine-e-rtkqa-usage = användning: kshana rtk-qa monitor <host:port> --mount <name> [--user <name> --password-env <VAR>] [--gga <lat,lon[,h]>] [--seconds <s>] [--stale-after <s>] [--link-bps <n>]
+    kshana rtk-qa sources <table.txt|host:port> [--near <lat,lon>]
+    kshana rtk-qa base <stream.rtcm3> --reference <reference.toml|json> [--epoch <decimal year>]
+    kshana rtk-qa fix <solution.pos|nmea> [--control <name,lat,lon,h>]... [--radius <m>] [--h-tol <m>] [--v-tol <m>]
+    kshana rtk-qa ppk <rover.obs> [--base <base.obs>]
+    kshana rtk-qa probe <host:port> --mount <name> [--user <name> --password-env <VAR>] [--gga <lat,lon[,h]>] [--seconds <s>]
+    kshana rtk-qa caster --listen <host:port> --stream <file.rtcm3> --mount <name> [--user <name> --password-env <VAR>] [--chunk-ext] [--clients <n>] [--max-clients <n>] [--pace-ms <n>]
+    kshana rtk-qa log-check <client.log> --user <name> --password-env <VAR>
+    kshana rtk-qa failover <spec.json|toml>
+
+engine-e-rtkqa-frame = okänd referensram { $frame } (ITRF2014, ITRF2020, ETRF2014 eller ETRF2020)
+
+engine-e-rtkqa-tide = okänt tidvattensystem { $tide } (tide-free, zero-tide eller mean-tide)
+
+engine-e-rtkqa-pos-columns = lösningsfilen anger positioner i grader, minuter och sekunder eller som baslinje; skriv den i decimalgrader eller ECEF
+
+engine-e-rtkqa-pos-line = rad { $line } är ingen lösningsepok
+
+engine-e-rtkqa-no-solutions = inga lösningsepoker hittades (en .pos-fil i RTKLIB-stil eller NMEA GGA-meningar)
+
+engine-e-rtkqa-no-station = strömmen innehåller inget stationsmeddelande 1005 eller 1006
+
+engine-e-rtkqa-failover-spec = failover-testet behöver en positiv varaktighet och ett positivt steg och minst en källa
+
+engine-e-rtkqa-failover-source = policyn nämner en källa som inte är definierad: { $name }
+
+engine-rtkqa-monitor-summary = rtk-qa monitor: poäng { $score }/100 (MODELLED); tillgänglig { $availability } %, medianlatens { $latency } ms, fullständighet { $completeness } %, larm { $alarms }
+
+engine-rtkqa-sources-summary = rtk-qa sources: monteringspunkter { $n }
+
+engine-rtkqa-base-summary = rtk-qa base: stationer { $n }; godkända { $ok }, varningar { $warn }, fel { $fail } (MODELLED)
+
+engine-rtkqa-fix-summary = rtk-qa fix: uppställningar { $n }; godkända { $pass }, varningar { $warn }, fel { $fail }, utan fix { $nofix } (MODELLED)
+
+engine-rtkqa-ppk-summary = rtk-qa ppk: troliga orsaker { $n }: { $causes }
+
+engine-rtkqa-probe-summary = rtk-qa probe: { $met } av { $total } kontroller uppfyllda; ej uppfyllda: { $failed }
+
+engine-rtkqa-caster-listening = rtk-qa caster: lyssnar på { $addr }, monteringspunkt { $mount }
+
+engine-rtkqa-caster-client = rtk-qa caster: klient { $peer } fick { $answer }; { $met } av { $total } kontroller uppfyllda
+
+engine-rtkqa-log-summary = rtk-qa log-check: inloggningsuppgifter hittade { $n } gånger i { $file }
+
+engine-rtkqa-failover-summary = rtk-qa failover: byten { $switches }; korrektionsålder över gränsen under { $over } s; största ålder { $max_age } s (MODELLED)
+
+## SDR front-end diagnostics and the GNSS-SDR configuration (src/iq/frontdiag.rs, src/iq/gnss_sdr_conf.rs)
+engine-e-iq-frontdiag-no-samples = inspelningen innehåller inga sampel
+engine-e-iq-frontdiag-positive = --block, --step och --gain-step-db måste vara positiva
+engine-e-iq-gnss-sdr-conf-format = GNSS-SDR:s filkälla läser ci16_le, ci8 och cf32_le, inte { $format }: konvertera inspelningen först (kshana iq convert <in> <out> --to ci16_le)
+engine-e-iq-gnss-sdr-conf-layout = GNSS-SDR:s filkälla läser en ström ur en datafil utan huvud: extrahera strömmen först (kshana iq convert)
+engine-e-iq-gnss-sdr-conf-if = inspelningen har en mellanfrekvens skild från noll: för den till noll-MF först (kshana iq decimate --if-hz)
+engine-e-iq-gnss-sdr-conf-no-signal = ange minst en signal med --signal
+engine-e-iq-gnss-sdr-conf-rate = PVT-utdatatakten måste vara en multipel av 20 ms, inte { $rate }
+engine-e-iq-gnss-sdr-conf-signal = ingen GNSS-SDR-konfiguration skrivs för { $signal } (skrivs för: { $known })
+engine-e-iq-gnss-sdr-conf-centre = { $signal } ligger { $offset_hz } Hz från inspelningens mittfrekvens; GNSS-SDR:s standardkedja behöver den på frekvensen noll
+engine-e-iq-gnss-sdr-conf-profile = okänd profil { $profile } (default, narrowband)
+engine-iq-gnss-sdr-conf-written = skrev GNSS-SDR-konfigurationen till { $path }
+
+## Orbit-data validators, converters and monitors (src/orbit_data)
+engine-orbit-data-valid = giltig enligt { $standard }
+engine-orbit-data-valid-with-warnings = giltig enligt { $standard }, varningar: { $warnings }
+engine-orbit-data-invalid = ogiltig enligt { $standard }: fel: { $errors }, varningar: { $warnings }
+engine-orbit-data-error = fel
+engine-orbit-data-warning = varning
+engine-orbit-data-not-checked = inte kontrollerat: { $what }
+engine-orbit-data-header = huvud
+engine-orbit-data-cdm-relative = relativa metadata/data
+engine-orbit-data-cdm-object = objektets metadata/data
+engine-orbit-data-covariance = kovarians
+engine-orbit-data-oem-metadata = metadata för segment { $n }
+engine-orbit-data-line-too-long = raden har { $n } tecken, fler än { $max }
+engine-orbit-data-non-printable = raden har ett tecken som inte är utskrivbar ASCII
+engine-orbit-data-not-key-value = inte en rad NYCKELORD = värde: { $text }
+engine-orbit-data-keyword-blank = nyckelordet { $key } innehåller ett blanksteg
+engine-orbit-data-keyword-case = nyckelordet { $key } är inte skrivet med versaler
+engine-orbit-data-units-format = enheterna för { $key } ska stå efter värdet efter ett blanksteg, inom hakparenteser
+engine-orbit-data-first-line = första raden ska vara { $key }
+engine-orbit-data-parse-failed = meddelandet går inte att läsa: { $err }
+engine-orbit-data-xml-root = rotelementet är { $name }, inte { $want }
+engine-orbit-data-xml-attr = rotattributet { $attr } ska vara { $want }
+engine-orbit-data-xml-missing = meddelandet saknar { $tag }
+engine-orbit-data-empty-value = { $key } har ett tomt värde
+engine-orbit-data-bad-time = { $key } = { $value } är ingen tidsstämpel (yyyy-mm-ddThh:mm:ss[.d] / yyyy-dddThh:mm:ss[.d])
+engine-orbit-data-bad-number = { $key } = { $value } är inget tal i standardens notation
+engine-orbit-data-bad-integer = { $key } = { $value } är inget heltal
+engine-orbit-data-bad-value = { $key } = { $value } är inte något av: { $allowed }
+engine-orbit-data-out-of-range = { $key } = { $value } ligger utanför { $range }
+engine-orbit-data-version = version { $value }: denna kontroll följer version { $want }
+engine-orbit-data-bad-chars = { $key } = { $value } har andra tecken än bokstäver, siffror, understreck och bindestreck
+engine-orbit-data-identifier-blank = { $key } = { $value } har ett blanksteg (standarden tillåter bokstäver, siffror, understreck och bindestreck)
+engine-orbit-data-lower-case = { $key } = { $value } har gemener
+engine-orbit-data-bad-units = { $key } har enheterna [{ $given }]; standarden anger [{ $want }]
+engine-orbit-data-missing-units = { $key } visar inte sina enheter [{ $want }]
+engine-orbit-data-unknown-keyword = { $key } är inget nyckelord i avsnittet { $section }
+engine-orbit-data-duplicate-keyword = { $key } förekommer mer än en gång i avsnittet { $section }
+engine-orbit-data-keyword-order = { $key } står utanför den ordning standarden fastställer (det följer { $prev })
+engine-orbit-data-missing-keyword = avsnittet { $section } saknar det obligatoriska { $key }
+engine-orbit-data-cdm-object-count = objektavsnitt i meddelandet: { $n }; en CDM har två, OBJECT1 och sedan OBJECT2
+engine-orbit-data-cov-row = kovariansrad { $row } är ofullständig eller följer på en rad som saknas
+engine-orbit-data-cov-zero-diagonal = kovariansen för { $at } har en varians noll; dess rad och kolumn ska inte användas
+engine-orbit-data-not-pd = kovariansen vid { $at } är inte positivt definit (minsta egenvärde för korrelationen { $min })
+engine-orbit-data-frame-mismatch = REF_FRAME skiljer sig mellan objekten ({ $a }, { $b })
+engine-orbit-data-inconsistent = { $key } = { $given } { $unit }, men data ger { $computed } { $unit }
+engine-orbit-data-time-order = { $first } ({ $a }) ligger efter { $second } ({ $b })
+engine-orbit-data-count-order = { $used } = { $a } är större än { $avail } = { $b }
+engine-orbit-data-unterminated = meddelandet slutar inne i ett block
+engine-orbit-data-no-segment = meddelandet har inget segment
+engine-orbit-data-time-system-changed = TIME_SYSTEM byts inom meddelandet ({ $a }, sedan { $b })
+engine-orbit-data-outside-span = tiden { $t } ligger utanför det spann som metadata anger
+engine-orbit-data-useable-overlap = de användbara spannen för segment { $a } och { $b } överlappar
+engine-orbit-data-data-width = en datarad har { $n } värden; väntat: { $want }
+engine-orbit-data-duplicate-time = tidsstämpeln { $t } upprepas
+engine-orbit-data-time-not-increasing = tidsstämpeln { $t } ökar inte (den före är { $prev })
+engine-orbit-data-too-few-points = datarader: { $n }; för få för interpolation av grad { $deg } (behövs: { $need })
+engine-orbit-data-mixed-time = blocket { $block } blandar relativa och absoluta tidsstämplar
+engine-orbit-data-span-short = det användbara spannet är { $days } dagar, kortare än de begärda { $min } dagarna
+engine-orbit-data-gap = en lucka på { $s } s, längre än de begärda { $max } s
+engine-orbit-data-gp-checksum = rad { $line }: kontrollsumman i kolumn 69 är fel (den borde vara { $want })
+engine-orbit-data-gp-catalogue = rad 1 och rad 2 anger inte samma katalognummer
+engine-orbit-data-gp-perigee = perigeum ligger på { $km } km, under jordytan
+engine-orbit-data-gp-sgp4 = SGP4 misslyckas { $days } dagar efter epoken (felkod { $code })
+engine-orbit-data-gp-stale = epoken ligger { $days } dagar före referenstiden (mer än { $max })
+engine-orbit-data-gp-future = epoken ligger { $days } dagar efter referenstiden
+engine-orbit-data-gp-repeated-epoch = en annan uppsättning för detta objekt har samma epok och andra element
+engine-orbit-data-gp-elset-number = elementuppsättningens nummer går tillbaka från { $a } till { $b } vid en senare epok
+engine-orbit-data-gp-jump = denna uppsättning och den före skiljer sig med { $km } km vid dess epok, { $hours } h senare (mer än { $max } km): en manöver eller en felaktig uppsättning
+engine-orbit-data-gp-compare-summary = objekt i båda källorna: { $n }, flaggade över { $threshold } km: { $flagged }; bara i den första: { $only_a }, bara i den andra: { $only_b } (MODELLED: SGP4-skillnader, inte noggrannhet)
+engine-orbit-data-gp-audit-summary = elementuppsättningar: { $sets }, objekt: { $objects }, fynd: { $findings }
+engine-orbit-data-usage =
+    användning: kshana orbit-data check <cdm|oem|ocm file> [--json] [--aliases <map.json>] [--min-span-days <d>] [--max-gap-s <s>]
+    { "   " }eller: kshana orbit-data convert <file> --to <ocm|oem|cdm> [--aliases <map.json>]
+    { "   " }eller: kshana orbit-data gp-compare <a.tle> <b.tle> [--hours <h>] [--step-min <min>] [--threshold-km <km>] [--json]
+    { "   " }eller: kshana orbit-data gp-audit <sets.tle> ... [--at <epoch>] [--stale-days <d>] [--jump-km <km>] [--json]
+    { "   " }eller: kshana orbit-data cov <check|propagate|monte-carlo|synthetic|realism> <input.json> [--dt-s <s>] [--step-s <s>] [--samples <n>] [--seed <n>] [--sigma-rtn <r,t,n,rdot,tdot,ndot>] [--full]
+    { "   " }(docs/ORBIT-DATA.md)
+engine-e-orbit-data-unknown-message = { $path } är varken CDM, OEM (KVN) eller OCM: ingen rad CCSDS_CDM_VERS, CCSDS_OEM_VERS eller CCSDS_OCM_VERS och ingen rot <cdm> eller <ocm>
+engine-e-orbit-data-bad-flag = { $flag } { $value }: inget användbart värde
+engine-e-orbit-data-aliases-not-object = aliastabellen ska vara ett JSON-objekt av "name": "KEYWORD"
+engine-e-orbit-data-alias-target = aliaset { $key } pekar inte på något CDM-nyckelord
+engine-e-orbit-data-convert-pair = { $path }: ingen konvertering till { $to } (OEM till ocm, OCM till oem, CDM till cdm)
+engine-e-orbit-data-convert-empty = OEM:en har inget segment att konvertera
+engine-e-orbit-data-convert-one-object = OEM:en innehåller objekt: { $n }; en OCM innehåller ett
+engine-e-orbit-data-convert-missing = källan saknar { $key }, som målet behöver
+engine-e-orbit-data-convert-width = en data- eller kovariansrad har fel antal värden för konverteringen
+engine-e-orbit-data-convert-time = tidsstämpeln { $t } kan inte göras absolut (ingen EPOCH_TZERO, eller inget tal)
+engine-e-orbit-data-convert-traj = banttypen { $kind } har ingen OEM-form (CARTPV och CARTPVA har)
+engine-e-orbit-data-convert-cov = kovariansen { $kind } { $ordering } har ingen OEM-form (CARTPV i LTM, UTM eller FULL har)
+engine-e-orbit-data-cov-input = indata saknar en giltig { $key }
+engine-e-orbit-data-cov-not-pd = startkovariansen är inte positivt definit, eller så begärdes för få stickprov
+
+## Drone, UTM and robotics PNT tools (src/drone_pnt)
+engine-drone-usage = användning: kshana drone prearm <log.ulg|log.bin|epochs.jsonl> [--window <s>] [--config <thresholds.json>] [--gate] | prearm-calibrate [--runs <n>] [--seed <n>] | estimator-cases [--case <id> --trace <trace.jsonl> [--params <json>]] | dr-budget [<spec.json> | --airframe multirotor|fixed-wing|vtol|ground-robot] | quad-loss [<spec.json>] | failover [<spec.json>] | zonotope-pl <spec.json>  (docs/DRONE-PNT.md)
+engine-e-drone-dataflash-header = inte en ArduPilot DataFlash-logg (den måste börja med oktetterna A3 95)
+engine-e-drone-bad-number = { $flag } måste vara ett ändligt tal, inte { $value }
+engine-e-drone-prearm-gate-failed = pre-arm-kontroll FAIL: armera inte (se playbook-stegen i rapporten)
+engine-e-drone-no-epochs = loggen har inga mottagarepoker (förväntat: en PX4 ULog, en ArduPilot DataFlash-logg eller JSON Lines-epoker)
+engine-e-drone-trace-bad-line = en spårrad är inte ett JSON-objekt med numeriskt t: { $line }
+engine-e-drone-trace-missing-channel = spåret har ingen kanal { $channel } (byt namn på kanaler med channels-objektet i --params)
+engine-e-drone-unknown-case = okänt estimatorfall { $case } (kshana drone estimator-cases listar fallen)
+engine-e-drone-unknown-airframe = okänd luftfartygsklass { $name } (multirotor, fixed-wing, vtol, ground-robot)
+engine-e-drone-failover-bad-spec = failover-körningen behöver minst en källa, ett positivt steg och en icke-negativ längd på högst tio miljoner steg
+engine-e-drone-failover-bad-kind = okänd källtyp { $kind } (absolute, relative, inertial)
+engine-e-drone-failover-bad-event = en händelse nämner en okänd källa eller ett okänt tillstånd: { $source } (tillstånd fail eller recover)
+engine-e-drone-zonotope-bad-geometry = skyddsnivån kräver minst fyra satelliter med ändlig azimut och elevation och en positiv gräns samt en lösbar geometri
+
+## src/oscillator/mod.rs
+
+engine-oscillator-usage = användning: kshana oscillator <vibration|holdover|select|raim-aid|datasheet> <input.json>, eller kshana oscillator refs (docs/OSCILLATOR.md)
+
+engine-e-oscillator-input = indata för { $part } är inte giltiga: { $e }
+
+engine-e-oscillator-unknown-clock = okänd förinställning för klocka { $id } (en av { $known })
+
+engine-e-oscillator-field = { $field } ligger utanför intervallet: { $value }
+
+## Feeder clients (src/feeder.rs, docs/FEEDER.md)
+engine-feed-usage = användning: kshana feed pack <file.obs.jsonl|dir>... --key <keyfile> [--privacy public|exact] [--grid-deg <deg>] [--created <time>] [--include-open] [--out <bundle.json>] | verify <bundle.json> [--pubkey <hex>] [--json] | send <bundle.json> --url <http://host:port/path> [--token-file <file>] | spectrum <capture> --format cu8|ci8|ci16_le --rate <Hz> --centre <Hz> --station <station.toml> [--front-end <name>] [--nfft <n>] [--bins <n>] [--max-samples <n>] [--time <label>] [--out <file.obs.jsonl>] | leaderboard <bundle.json>... [--json]  (docs/FEEDER.md)
+engine-feed-packed = { $out }: paket för station { $station }, { $files } filer, { $epochs } epoker, integritet { $mode }
+engine-feed-verified = { $path }: signaturen är giltig (undertecknare { $key }); station { $station }, { $files } filer, { $epochs } epoker, varje fil giltig kshana.obs/1
+engine-feed-sent = skickat till { $url }: HTTP { $code }
+engine-feed-spectrum-written = { $out }: spektrumögonblicksbild i { $bins } fack (MODELLED: nivåer relativt full skala, inte kalibrerad effekt)
+engine-e-feed-missing-value = { $option } behöver ett värde
+engine-e-feed-unknown-option = okänt alternativ { $option } (kshana feed --help listar alternativen)
+engine-e-feed-cannot-read = kan inte läsa { $path }: { $e }
+engine-e-feed-cannot-write = kan inte skriva { $path }: { $e }
+engine-e-feed-not-obs = { $path } är inte en giltig kshana.obs/1-fil: { $e }
+engine-e-feed-mixed-stations = filerna kommer från mer än en station ({ $a } och { $b }); packa en station per paket
+engine-e-feed-no-files = inga observationsfiler att packa
+engine-e-feed-bad-privacy = okänt integritetsläge { $value } (public eller exact)
+engine-e-feed-bad-grid = positionsrutnätet måste vara från 0.01 till 10 grader, inte { $value }
+engine-e-feed-not-bundle = inte ett kshana.feed/1-paket: { $e }
+engine-e-feed-bad-signature = paketets signatur är inte giltig
+engine-e-feed-key-mismatch = paketet är signerat av { $found }, inte av den förväntade nyckeln { $expected }
+engine-e-feed-hash-mismatch = innehållet { $name } stämmer inte med dess registrerade SHA-256
+engine-e-feed-payload-mismatch = innehållet { $name } stämmer inte med stationen eller de postantal paketet anger
+engine-e-feed-not-coarsened = innehållet { $name } i ett offentligt paket innehåller fortfarande { $what }
+engine-e-feed-bad-format = samplingsformatet stöds inte: { $value } (cu8, ci8 eller ci16_le)
+engine-e-feed-bad-number = { $option }: { $value } är inte ett giltigt värde här
+engine-e-feed-short-capture = inspelningen har { $n } sampel, färre än transformlängden { $nfft }
+engine-e-feed-send-failed = det gick inte att skicka till { $url }: { $e }
+engine-e-feed-send-refused = { $url } avvisade paketet: HTTP { $code }
+engine-e-obs-bad-spectrum = rad { $line }: ett spektrum behöver ändlig tid och mittfrekvens, positiv samplingsfrekvens och fackbredd samt ändliga nivåer

@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://kshana.dev/spec/obs-1.schema.json",
   "title": "kshana.obs/1 record",
-  "description": "One line of a kshana.obs/1 observation file (JSON Lines). The first line is a header; later lines are epochs, alarms and SSR corrections of the header's station. See docs/OBS-SCHEMA.md.",
+  "description": "One line of a kshana.obs/1 observation file (JSON Lines). The first line is a header; later lines are epochs, alarms, SSR corrections and SDR spectrum snapshots of the header's station. See docs/OBS-SCHEMA.md.",
   "type": "object",
   "required": [
     "type"
@@ -19,6 +19,9 @@
     },
     {
       "$ref": "#/$defs/correction"
+    },
+    {
+      "$ref": "#/$defs/spectrum"
     }
   ],
   "$defs": {
@@ -525,6 +528,76 @@
               }
             }
           }
+        }
+      }
+    },
+    "spectrum": {
+      "type": "object",
+      "description": "A power spectrum snapshot of a receive-only SDR capture (kshana feed spectrum): the Welch density averaged into equal bins, lowest frequency first, in dB relative to the decoded samples' full scale per hertz (not calibrated power).",
+      "required": [
+        "type",
+        "station",
+        "t_s",
+        "front_end",
+        "centre_hz",
+        "sample_rate_hz",
+        "samples",
+        "nfft",
+        "segments",
+        "bin_hz",
+        "psd_dbfs_hz",
+        "capture_sha256"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "const": "spectrum"
+        },
+        "station": {
+          "type": "string",
+          "minLength": 1
+        },
+        "t_s": {
+          "type": "number"
+        },
+        "time_label": {
+          "type": "string"
+        },
+        "front_end": {
+          "type": "string"
+        },
+        "centre_hz": {
+          "type": "number"
+        },
+        "sample_rate_hz": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "samples": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "nfft": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "segments": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "bin_hz": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "psd_dbfs_hz": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "number"
+          }
+        },
+        "capture_sha256": {
+          "type": "string"
         }
       }
     }
