@@ -9847,6 +9847,7 @@ engine-main-usage =
     { "   " }或：kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }或：kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }或：kshana time-vectors [--json] [<vectors.json|dir> ...]
+    { "   " }或：kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }或：kshana kinds [--json]
     { "   " }或：kshana example [<name>]
     { "   " }或：kshana --help | --version
@@ -10748,3 +10749,11 @@ engine-e-interference-map-locate-bad-tdoa = { $path } 不是可用的 TDOA 定�
 engine-e-interference-map-locate-source-required = 需要 --source adsb 或 --source ais
 
 engine-e-interference-map-locate-no-evidence-rows = 未列出定位输出的任何证据行
+
+## Correction decoders (src/corrections/)
+engine-e-corrections-bad-hex = 不是十六进制帧：{ $line }
+engine-e-corrections-unknown-decoder = 未知解码器 { $decoder }（has、b2b、l6）
+engine-e-corrections-bad-vector = 向量 { $id } 缺少十六进制帧或 expect 对象
+engine-e-corrections-bad-file = { $file } 不是 { $format } 文档（格式标签和 vectors 数组）
+engine-corrections-summary = { $n } 个向量：通过 { $passed } 个，失败 { $failed } 个
+engine-corrections-usage = 用法：kshana corrections decode --format <has|b2b|l6> <frames.txt | -> | kshana corrections vectors [--json] [<vectors.json | dir> ...]  (每行一个十六进制帧; docs/CORRECTION-DECODERS.md)

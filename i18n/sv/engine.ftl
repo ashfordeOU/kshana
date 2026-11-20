@@ -10449,6 +10449,7 @@ engine-main-usage =
     { "   " }eller: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }eller: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }eller: kshana time-vectors [--json] [<vectors.json|dir> ...]
+    { "   " }eller: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }eller: kshana kinds [--json]
     { "   " }eller: kshana example [<name>]
     { "   " }eller: kshana --help | --version
@@ -11353,3 +11354,11 @@ engine-e-interference-map-locate-bad-tdoa = { $path } är inte en användbar TDO
 engine-e-interference-map-locate-source-required = --source adsb eller --source ais krävs
 
 engine-e-interference-map-locate-no-evidence-rows = inga belägg-rader är listade för locate-utdata
+
+## Correction decoders (src/corrections/)
+engine-e-corrections-bad-hex = inte en hexadecimal ram: { $line }
+engine-e-corrections-unknown-decoder = okänd avkodare { $decoder } (has, b2b, l6)
+engine-e-corrections-bad-vector = vektor { $id } saknar hexadecimala ramar eller ett expect-objekt
+engine-e-corrections-bad-file = { $file } är inte ett { $format }-dokument (formatmärkning och en vectors-array)
+engine-corrections-summary = { $n } vektorer: { $passed } godkända, { $failed } underkända
+engine-corrections-usage = användning: kshana corrections decode --format <has|b2b|l6> <frames.txt | -> | kshana corrections vectors [--json] [<vectors.json | dir> ...]  (en ram per rad i hexadecimal form; docs/CORRECTION-DECODERS.md)

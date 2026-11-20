@@ -9780,6 +9780,7 @@ engine-main-usage =
     { "   " }または：kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }または：kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }または：kshana time-vectors [--json] [<vectors.json|dir> ...]
+    { "   " }または：kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }または：kshana kinds [--json]
     { "   " }または：kshana example [<name>]
     { "   " }または：kshana --help | --version
@@ -10693,3 +10694,11 @@ engine-e-interference-map-locate-source-required = --source adsb または --sou
 engine-e-interference-map-locate-no-evidence-rows = locate の出力に対する証拠行が一覧にありません
 
 engine-interference-map-locate-note-not-preregistered = 注意：いずれかのオプションが事前登録されたパラメータと異なるため、これは事前登録された手法ではありません
+
+## Correction decoders (src/corrections/)
+engine-e-corrections-bad-hex = 16 進数のフレームではありません：{ $line }
+engine-e-corrections-unknown-decoder = 不明なデコーダー { $decoder }（has、b2b、l6）
+engine-e-corrections-bad-vector = ベクトル { $id } に 16 進数のフレームまたは expect オブジェクトがありません
+engine-e-corrections-bad-file = { $file } は { $format } 文書ではありません（形式タグと vectors 配列）
+engine-corrections-summary = { $n } 件のベクトル：合格 { $passed } 件、不合格 { $failed } 件
+engine-corrections-usage = 使い方：kshana corrections decode --format <has|b2b|l6> <frames.txt | -> | kshana corrections vectors [--json] [<vectors.json | dir> ...]  (1 行に 1 フレーム、16 進数; docs/CORRECTION-DECODERS.md)

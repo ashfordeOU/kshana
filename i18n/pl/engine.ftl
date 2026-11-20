@@ -10742,6 +10742,7 @@ engine-main-usage =
     { "   " }lub: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }lub: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }lub: kshana time-vectors [--json] [<vectors.json|dir> ...]
+    { "   " }lub: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }lub: kshana kinds [--json]
     { "   " }lub: kshana example [<name>]
     { "   " }lub: kshana --help | --version
@@ -11711,3 +11712,11 @@ engine-e-interference-map-locate-bad-tdoa = { $path } nie jest użytecznym pliki
 engine-e-interference-map-locate-source-required = wymagane jest --source adsb albo --source ais
 
 engine-e-interference-map-locate-no-evidence-rows = brak wierszy dowodowych dla wyników locate
+
+## Correction decoders (src/corrections/)
+engine-e-corrections-bad-hex = to nie jest ramka szesnastkowa: { $line }
+engine-e-corrections-unknown-decoder = nieznany dekoder { $decoder } (has, b2b, l6)
+engine-e-corrections-bad-vector = wektorowi { $id } brakuje ramek szesnastkowych lub obiektu expect
+engine-e-corrections-bad-file = { $file } nie jest dokumentem { $format } (znacznik formatu i tablica vectors)
+engine-corrections-summary = { $n } wektorów: { $passed } zaliczonych, { $failed } niezaliczonych
+engine-corrections-usage = użycie: kshana corrections decode --format <has|b2b|l6> <frames.txt | -> | kshana corrections vectors [--json] [<vectors.json | dir> ...]  (jedna ramka na wiersz, szesnastkowo; docs/CORRECTION-DECODERS.md)

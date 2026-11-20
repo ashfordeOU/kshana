@@ -1281,6 +1281,19 @@ fn main_in_language(args: Vec<String>) -> ExitCode {
             }
         };
     }
+    // `kshana corrections <decode|vectors>`: open decoders for Galileo HAS, BeiDou PPP-B2b and
+    // QZSS L6 (CLAS, MADOCA-PPP) correction messages and their test vectors
+    // (src/corrections/, docs/CORRECTION-DECODERS.md). Exit 1 when any vector fails.
+    if args.get(1).map(String::as_str) == Some("corrections") {
+        return match kshana::corrections::run_cli(&args[2..]) {
+            Ok(true) => ExitCode::SUCCESS,
+            Ok(false) => ExitCode::from(1),
+            Err(e) => {
+                eprintln!("{e}");
+                ExitCode::from(2)
+            }
+        };
+    }
     // `kshana clock-live --format <f> --from <...>` follows a servo, chrony or PPS log and prints
     // one JSON line per reading (kshana::clock_live; docs/CLOCK-LOG-FORMATS.md). Read only.
     // `kshana sensor-live --kind imu ...` follows a sensor log (kshana::sensor_live). Read only.

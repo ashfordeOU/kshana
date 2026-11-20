@@ -10782,6 +10782,7 @@ engine-main-usage =
     { "   " }o: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }o: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }o: kshana time-vectors [--json] [<vectors.json|dir> ...]
+    { "   " }o: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }o: kshana kinds [--json]
     { "   " }o: kshana example [<name>]
     { "   " }o: kshana --help | --version
@@ -11691,3 +11692,11 @@ engine-e-interference-map-locate-bad-tdoa = { $path } no es un archivo de fix TD
 engine-e-interference-map-locate-source-required = se requiere --source adsb o --source ais
 
 engine-e-interference-map-locate-no-evidence-rows = no hay filas de evidencia listadas para las salidas de locate
+
+## Correction decoders (src/corrections/)
+engine-e-corrections-bad-hex = no es una trama hexadecimal: { $line }
+engine-e-corrections-unknown-decoder = decodificador desconocido { $decoder } (has, b2b, l6)
+engine-e-corrections-bad-vector = al vector { $id } le faltan tramas hexadecimales o un objeto expect
+engine-e-corrections-bad-file = { $file } no es un documento { $format } (etiqueta de formato y un array vectors)
+engine-corrections-summary = { $n } vectores: { $passed } superados, { $failed } fallidos
+engine-corrections-usage = uso: kshana corrections decode --format <has|b2b|l6> <frames.txt | -> | kshana corrections vectors [--json] [<vectors.json | dir> ...]  (una trama por línea en hexadecimal; docs/CORRECTION-DECODERS.md)

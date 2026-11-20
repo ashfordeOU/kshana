@@ -1672,6 +1672,22 @@
   "src/time_vectors.rs": {
    "count": 13,
    "reason": "identifier: the kshana.time-vectors/1 format tag, the embedded vector file names and the JSON field names of the vector format (docs/TIME-VECTORS.md)"
+  },
+  "src/corrections/b2b.rs": {
+   "count": 1,
+   "reason": "identifier: the slot<n> label of a reserved PPP-B2b mask slot in the JSON report"
+  },
+  "src/corrections/has.rs": {
+   "count": 4,
+   "reason": "identifier: machine codes of the JSON report (status and error values, the reserved signal name, gnss<id>:<n> labels of undefined GNSS IDs)"
+  },
+  "src/corrections/l6.rs": {
+   "count": 1,
+   "reason": "identifier: the madoca-iono service name in the JSON report"
+  },
+  "src/corrections/vectors.rs": {
+   "count": 2,
+   "reason": "identifier: the PASS/FAIL markers of the vector table, as in src/time_vectors.rs"
   }
  }
 }

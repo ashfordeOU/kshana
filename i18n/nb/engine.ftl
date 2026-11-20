@@ -10531,6 +10531,7 @@ engine-main-usage =
     { "   " }eller: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }eller: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }eller: kshana time-vectors [--json] [<vectors.json|dir> ...]
+    { "   " }eller: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }eller: kshana kinds [--json]
     { "   " }eller: kshana example [<name>]
     { "   " }eller: kshana --help | --version
@@ -11476,3 +11477,11 @@ engine-e-interference-map-locate-bad-tdoa = { $path } er ikke en brukbar TDOA-fi
 engine-e-interference-map-locate-source-required = --source adsb eller --source ais kreves
 
 engine-e-interference-map-locate-no-evidence-rows = ingen evidensrader er oppført for locate-utdataene
+
+## Correction decoders (src/corrections/)
+engine-e-corrections-bad-hex = ikke en heksadesimal ramme: { $line }
+engine-e-corrections-unknown-decoder = ukjent dekoder { $decoder } (has, b2b, l6)
+engine-e-corrections-bad-vector = vektor { $id } mangler heksadesimale rammer eller et expect-objekt
+engine-e-corrections-bad-file = { $file } er ikke et { $format }-dokument (formatmerke og en vectors-tabell)
+engine-corrections-summary = { $n } vektorer: { $passed } bestått, { $failed } feilet
+engine-corrections-usage = bruk: kshana corrections decode --format <has|b2b|l6> <frames.txt | -> | kshana corrections vectors [--json] [<vectors.json | dir> ...]  (én ramme per linje i heksadesimal; docs/CORRECTION-DECODERS.md)
