@@ -537,8 +537,8 @@ pub fn run(args: &[String]) -> Result<(), String> {
                 }
                 _ => return Err(crate::terr!("e-register-crl-needs-key")),
             };
-            let date = flag(rest, "--date")?
-                .unwrap_or_else(|| crate::iq::io::record::now_iso()[..10].to_string());
+            let date =
+                flag(rest, "--date")?.unwrap_or_else(|| now_iso().chars().take(10).collect());
             let v = view(&reg, crl.as_ref(), &date)?;
             if rest.iter().any(|a| a == "--json") {
                 println!(
@@ -639,4 +639,16 @@ pub fn run(args: &[String]) -> Result<(), String> {
         }
         _ => Err(usage()),
     }
+}
+
+/// The current time as ISO 8601 UTC, from the computer's clock. In a WebAssembly build there is no
+/// clock to read: the string is empty and the caller must be given the time explicitly.
+#[cfg(not(target_arch = "wasm32"))]
+fn now_iso() -> String {
+    crate::iq::io::record::now_iso()
+}
+
+#[cfg(target_arch = "wasm32")]
+fn now_iso() -> String {
+    String::new()
 }

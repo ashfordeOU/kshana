@@ -881,11 +881,7 @@ pub fn run(args: &[String]) -> Result<(), String> {
                 }
             }
             let seed = crate::evidence::cli::read_seed(key)?;
-            let created = a
-                .opts
-                .get("--created")
-                .cloned()
-                .unwrap_or_else(crate::iq::io::record::now_iso);
+            let created = a.opts.get("--created").cloned().unwrap_or_else(now_iso);
             let b = pack(&inputs, &seed, mode, grid, &created)?;
             let text = serde_json::to_string(&b).map_err(|e| e.to_string())? + "\n";
             write_or_print(a.opts.get("--out"), &text)?;
@@ -1064,4 +1060,16 @@ pub fn run(args: &[String]) -> Result<(), String> {
         }
         _ => Err(usage()),
     }
+}
+
+/// The current time as ISO 8601 UTC, from the computer's clock. In a WebAssembly build there is no
+/// clock to read: the string is empty and the caller must be given the time explicitly.
+#[cfg(not(target_arch = "wasm32"))]
+fn now_iso() -> String {
+    crate::iq::io::record::now_iso()
+}
+
+#[cfg(target_arch = "wasm32")]
+fn now_iso() -> String {
+    String::new()
 }
