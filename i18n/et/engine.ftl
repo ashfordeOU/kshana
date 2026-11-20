@@ -10543,6 +10543,15 @@ engine-e-ais-integrity-cannot-read = faili { $path } ei saa lugeda: { $e }
 engine-e-ais-integrity-cannot-write = faili { $path } ei saa kirjutada: { $e }
 engine-e-ais-integrity-bad-place = kohtade loendi rida ei ole name,lat,lon,radius_m kehtiva asukoha ja positiivse raadiusega: { $row }
 
+## Lunar time scales, frames, terminology and model provenance (src/lunar_ref.rs)
+engine-lunar-ref-usage = kasutus: kshana lunar-ref tcb-tcl [--jd <JD TCB>] [--window <jd0,jd1>] | approx [--window <jd0,jd1>] [--grid-days <d>] | convert --from <tt|tdb|tcb|tcg|tcl|ltc> --to <scale> --jd <JD> | transform --from <ICRF|MOON_PA_DE440|MOON_PA|MOON_ME|ILURF> --to <frame> --xyz <x,y,z> [--jd <JD TDB>] | terms | models [--check] [--root <dir>]   [--out <file.json>]  (docs/LUNAR-REF.md)
+engine-e-lunar-ref-missing-value = { $option } vajab väärtust
+engine-e-lunar-ref-unknown-option = tundmatu valik { $option } (valikud loetleb kshana lunar-ref --help)
+engine-e-lunar-ref-cannot-write = faili { $path } ei saa kirjutada: { $e }
+engine-e-lunar-ref-bad-number = { $option }: { $value } ei ole kehtiv arv
+engine-e-lunar-ref-unknown-name = tundmatu nimi { $name } (tuntud: { $known })
+engine-e-lunar-ref-out-of-span = epohh on kasutatud efemeriidide vahemikust väljas (Standishi elemendid 1800–2050; DE440 Kuu orientatsioon 2014–2030)
+
 engine-main-usage =
     kasutus: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }või: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10574,6 +10583,7 @@ engine-main-usage =
     { "   " }või: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }või: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }või: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
+    { "   " }või: kshana lunar-ref <tcb-tcl|approx|convert|transform|terms|models> ... (kshana lunar-ref --help)
     { "   " }või: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }või: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }või: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>

@@ -230,6 +230,7 @@ pub mod lunar_frame;
 pub mod lunar_frame_campaign;
 pub mod lunar_frame_predict;
 pub mod lunar_frame_realise;
+pub mod lunar_frames;
 pub mod lunar_gauge;
 pub mod lunar_identifiability;
 pub mod lunar_infra;
@@ -244,6 +245,7 @@ pub mod lunar_orientation;
 pub mod lunar_perturbed;
 pub mod lunar_phase;
 pub mod lunar_receiver;
+pub mod lunar_ref;
 pub mod lunar_rendezvous;
 pub mod lunar_service;
 pub mod lunar_solution;
@@ -255,6 +257,7 @@ pub mod lunar_time;
 pub mod lunar_time_budget;
 pub mod lunar_time_budget_scenario;
 pub mod lunar_time_lab;
+pub mod lunar_timescale;
 pub mod lunar_vlbi;
 /// Station-coordinate covariance from a lunar-VLBI schedule: the delay partials of
 /// [`lunar_vlbi`] accumulated over baselines and epochs into a Fisher information matrix.
