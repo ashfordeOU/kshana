@@ -10696,6 +10696,33 @@ engine-e-ais-integrity-cannot-read = не вдалося прочитати { $p
 engine-e-ais-integrity-cannot-write = не вдалося записати { $path }: { $e }
 engine-e-ais-integrity-bad-place = рядок списку місць не має вигляду name,lat,lon,radius_m з допустимою позицією та додатним радіусом: { $row }
 
+## Quantum inertial-sensor benchmark (src/quantum_bench.rs)
+engine-quantum-bench-usage = використання: kshana quantum-bench protocol [--out <protocol.json>] | simulate <spec.toml> --out <series.csv> | score <series.csv> [--fringe-m-s2 <a>] [--out <score.json>]  (docs/QUANTUM-BENCH.md)
+engine-quantum-bench-simulated = записано { $n } відліків ({ $n_wrapped } із загорнутою смугою) у { $path } (MODELLED)
+engine-e-quantum-bench-missing-value = { $option } потребує значення
+engine-e-quantum-bench-unknown-option = невідомий параметр { $option } (параметри перелічує kshana quantum-bench --help)
+engine-e-quantum-bench-bad-number = { $option } потребує скінченного додатного числа, а не { $value }
+engine-e-quantum-bench-cannot-read = не вдалося прочитати { $path }: { $e }
+engine-e-quantum-bench-cannot-write = не вдалося записати { $path }: { $e }
+engine-e-quantum-bench-bad-spec = { $path } не є допустимою специфікацією: { $e }
+engine-e-quantum-bench-bad-sensor = датчику потрібні додатний інтервал між імпульсами, щонайменше один атом, контраст у (0, 1] і час циклу не менше подвоєного інтервалу
+engine-e-quantum-bench-bad-run = прогону потрібна тривалість не менше одного й не більше десяти мільйонів циклів
+engine-e-quantum-bench-too-short = ряду потрібно щонайменше 16 відліків зі зростаючим часом
+engine-e-quantum-bench-bad-csv = ряду потрібні стовпці t_s і measured_m_s2 зі скінченними числами: { $row }
+
+## Terrestrial signals of opportunity, clock offset (src/soop_clock.rs)
+engine-soop-clock-usage = використання: kshana soop-clock lte <capture.sigmf-meta> --start-gps-s <t> --rx <lat,lon,h> --tx <lat,lon,h> [--tx-offset-ns <ns>] [--prior-offset-s <s>] [--carrier-hz <f>] [--min-metric <m>] [--out <file.json>] | cp <capture.sigmf-meta> --nfft <n> --ncp <n> [--carrier-hz <f>] [--out <file.json>] | synth-lte --out <base> [--fs <hz>] [--duration-s <s>] [--nid2 <0|1|2>] [--delay-s <s>] [--cfo-hz <f>] [--snr-db <d>] [--seed <s>]  (docs/SOOP-CLOCK.md)
+engine-soop-clock-summary = { $n } виявлень PSS; зсув годинника приймача { $offset_us } мкс на початку запису (MODELLED)
+engine-e-soop-clock-missing-value = { $option } потребує значення
+engine-e-soop-clock-unknown-option = невідомий параметр { $option } (параметри перелічує kshana soop-clock --help)
+engine-e-soop-clock-bad-number = { $option } потребує скінченного числа, а не { $value }
+engine-e-soop-clock-bad-position = { $option } потребує lat,lon[,h] у градусах і метрах, а не { $value }
+engine-e-soop-clock-cannot-read = не вдалося прочитати { $path }: { $e }
+engine-e-soop-clock-cannot-write = не вдалося записати { $path }: { $e }
+engine-e-soop-clock-too-few-detections = { $n } виявлень PSS; для зсуву та швидкості потрібно щонайменше три
+engine-e-soop-clock-too-short = запис коротший за два символи OFDM
+engine-e-soop-clock-bad-synth = тестовому сигналу потрібні частота дискретизації від 100 кГц до 61,44 МГц і додатна тривалість не більше 20 мільйонів відліків
+
 engine-main-usage =
     використання: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }або: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10733,6 +10760,8 @@ engine-main-usage =
     { "   " }або: kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
     { "   " }або: kshana orbit-data <check|convert|gp-compare|gp-audit|cov> ... (kshana orbit-data --help)
     { "   " }або: kshana drone <prearm|prearm-calibrate|estimator-cases|dr-budget|quad-loss|failover|zonotope-pl> ... (kshana drone --help)
+    { "   " }або: kshana quantum-bench <protocol|simulate|score> ... (kshana quantum-bench --help)
+    { "   " }або: kshana soop-clock <lte|cp|synth-lte> ... (kshana soop-clock --help)
     { "   " }або: kshana kinds [--json]
     { "   " }або: kshana example [<name>]
     { "   " }або: kshana --help | --version

@@ -9826,6 +9826,33 @@ engine-e-ais-integrity-cannot-read = 无法读取 { $path }：{ $e }
 engine-e-ais-integrity-cannot-write = 无法写入 { $path }：{ $e }
 engine-e-ais-integrity-bad-place = 地点列表的一行不是带有效位置和正半径的 name,lat,lon,radius_m：{ $row }
 
+## Quantum inertial-sensor benchmark (src/quantum_bench.rs)
+engine-quantum-bench-usage = 用法：kshana quantum-bench protocol [--out <protocol.json>] | simulate <spec.toml> --out <series.csv> | score <series.csv> [--fringe-m-s2 <a>] [--out <score.json>]  (docs/QUANTUM-BENCH.md)
+engine-quantum-bench-simulated = 已将 { $n } 个样本（其中 { $n_wrapped } 个条纹相位发生卷绕）写入 { $path } (MODELLED)
+engine-e-quantum-bench-missing-value = { $option } 需要一个值
+engine-e-quantum-bench-unknown-option = 未知选项 { $option }（kshana quantum-bench --help 列出所有选项）
+engine-e-quantum-bench-bad-number = { $option } 需要一个有限的正数，而不是 { $value }
+engine-e-quantum-bench-cannot-read = 无法读取 { $path }：{ $e }
+engine-e-quantum-bench-cannot-write = 无法写入 { $path }：{ $e }
+engine-e-quantum-bench-bad-spec = { $path } 不是有效的规格：{ $e }
+engine-e-quantum-bench-bad-sensor = 传感器需要正的脉冲间隔、至少一个原子、(0, 1] 内的对比度，以及不少于脉冲间隔两倍的周期时间
+engine-e-quantum-bench-bad-run = 运行时长须至少一个周期且不超过一千万个周期
+engine-e-quantum-bench-too-short = 序列至少需要 16 个时间递增的样本
+engine-e-quantum-bench-bad-csv = 序列需要包含有限数值的 t_s 和 measured_m_s2 列：{ $row }
+
+## Terrestrial signals of opportunity, clock offset (src/soop_clock.rs)
+engine-soop-clock-usage = 用法：kshana soop-clock lte <capture.sigmf-meta> --start-gps-s <t> --rx <lat,lon,h> --tx <lat,lon,h> [--tx-offset-ns <ns>] [--prior-offset-s <s>] [--carrier-hz <f>] [--min-metric <m>] [--out <file.json>] | cp <capture.sigmf-meta> --nfft <n> --ncp <n> [--carrier-hz <f>] [--out <file.json>] | synth-lte --out <base> [--fs <hz>] [--duration-s <s>] [--nid2 <0|1|2>] [--delay-s <s>] [--cfo-hz <f>] [--snr-db <d>] [--seed <s>]  (docs/SOOP-CLOCK.md)
+engine-soop-clock-summary = 检测到 { $n } 个 PSS；记录开始时接收机时钟偏差 { $offset_us } µs (MODELLED)
+engine-e-soop-clock-missing-value = { $option } 需要一个值
+engine-e-soop-clock-unknown-option = 未知选项 { $option }（kshana soop-clock --help 列出所有选项）
+engine-e-soop-clock-bad-number = { $option } 需要一个有限数值，而不是 { $value }
+engine-e-soop-clock-bad-position = { $option } 需要以度和米表示的 lat,lon[,h]，而不是 { $value }
+engine-e-soop-clock-cannot-read = 无法读取 { $path }：{ $e }
+engine-e-soop-clock-cannot-write = 无法写入 { $path }：{ $e }
+engine-e-soop-clock-too-few-detections = 检测到 { $n } 个 PSS；求偏差和速率至少需要三个
+engine-e-soop-clock-too-short = 记录短于两个 OFDM 符号
+engine-e-soop-clock-bad-synth = 测试信号需要 100 kHz 至 61.44 MHz 的采样率，以及不超过 2000 万个样本的正时长
+
 engine-main-usage =
     用法：kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }或：kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -9863,6 +9890,8 @@ engine-main-usage =
     { "   " }或：kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
     { "   " }或：kshana orbit-data <check|convert|gp-compare|gp-audit|cov> ... (kshana orbit-data --help)
     { "   " }或：kshana drone <prearm|prearm-calibrate|estimator-cases|dr-budget|quad-loss|failover|zonotope-pl> ... (kshana drone --help)
+    { "   " }或：kshana quantum-bench <protocol|simulate|score> ... (kshana quantum-bench --help)
+    { "   " }或：kshana soop-clock <lte|cp|synth-lte> ... (kshana soop-clock --help)
     { "   " }或：kshana kinds [--json]
     { "   " }或：kshana example [<name>]
     { "   " }或：kshana --help | --version

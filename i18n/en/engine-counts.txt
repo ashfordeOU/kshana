@@ -1,6 +1,9 @@
 # Messages whose variables are counts. In every language these reach Fluent as numbers, so a
 # translation may write { $n -> [one] ... [few] ... *[other] ... }. One message per line: id: variables.
 ais-integrity-summary: n_tracks n_flagged n_flags n_events
+quantum-bench-simulated: n n_wrapped
+soop-clock-summary: n
+e-soop-clock-too-few-detections: n
 e-clock-log-the-log-has-missing-epoch: n_gaps n_missing
 advanced-report-rows-of-non-numeric-column: n
 e-altpnt-maps-emag2-rows-do-not-fill: n_lat n_lon

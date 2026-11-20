@@ -10357,6 +10357,33 @@ engine-e-ais-integrity-cannot-read = cannot read { $path }: { $e }
 engine-e-ais-integrity-cannot-write = cannot write { $path }: { $e }
 engine-e-ais-integrity-bad-place = a places row is not name,lat,lon,radius_m with a valid position and a positive radius: { $row }
 
+## Quantum inertial-sensor benchmark (src/quantum_bench.rs)
+engine-quantum-bench-usage = usage: kshana quantum-bench protocol [--out <protocol.json>] | simulate <spec.toml> --out <series.csv> | score <series.csv> [--fringe-m-s2 <a>] [--out <score.json>]  (docs/QUANTUM-BENCH.md)
+engine-quantum-bench-simulated = wrote { $n } samples ({ $n_wrapped } with a wrapped fringe) to { $path } (MODELLED)
+engine-e-quantum-bench-missing-value = { $option } needs a value
+engine-e-quantum-bench-unknown-option = unknown option { $option } (kshana quantum-bench --help lists the options)
+engine-e-quantum-bench-bad-number = { $option } needs a finite positive number, not { $value }
+engine-e-quantum-bench-cannot-read = cannot read { $path }: { $e }
+engine-e-quantum-bench-cannot-write = cannot write { $path }: { $e }
+engine-e-quantum-bench-bad-spec = { $path } is not a valid specification: { $e }
+engine-e-quantum-bench-bad-sensor = the sensor needs a positive pulse separation, at least one atom, a contrast in (0, 1] and a cycle time of at least twice the pulse separation
+engine-e-quantum-bench-bad-run = the run needs a duration of at least one cycle and at most ten million cycles
+engine-e-quantum-bench-too-short = the series needs at least 16 samples with increasing times
+engine-e-quantum-bench-bad-csv = the series needs t_s and measured_m_s2 columns of finite numbers: { $row }
+
+## Terrestrial signals of opportunity, clock offset (src/soop_clock.rs)
+engine-soop-clock-usage = usage: kshana soop-clock lte <capture.sigmf-meta> --start-gps-s <t> --rx <lat,lon,h> --tx <lat,lon,h> [--tx-offset-ns <ns>] [--prior-offset-s <s>] [--carrier-hz <f>] [--min-metric <m>] [--out <file.json>] | cp <capture.sigmf-meta> --nfft <n> --ncp <n> [--carrier-hz <f>] [--out <file.json>] | synth-lte --out <base> [--fs <hz>] [--duration-s <s>] [--nid2 <0|1|2>] [--delay-s <s>] [--cfo-hz <f>] [--snr-db <d>] [--seed <s>]  (docs/SOOP-CLOCK.md)
+engine-soop-clock-summary = { $n } PSS detections; receiver clock offset { $offset_us } µs at the capture start (MODELLED)
+engine-e-soop-clock-missing-value = { $option } needs a value
+engine-e-soop-clock-unknown-option = unknown option { $option } (kshana soop-clock --help lists the options)
+engine-e-soop-clock-bad-number = { $option } needs a finite number, not { $value }
+engine-e-soop-clock-bad-position = { $option } needs lat,lon[,h] in degrees and metres, not { $value }
+engine-e-soop-clock-cannot-read = cannot read { $path }: { $e }
+engine-e-soop-clock-cannot-write = cannot write { $path }: { $e }
+engine-e-soop-clock-too-few-detections = { $n } PSS detections; at least three are needed for an offset and a rate
+engine-e-soop-clock-too-short = the capture is shorter than two OFDM symbols
+engine-e-soop-clock-bad-synth = the test signal needs a sample rate from 100 kHz to 61.44 MHz and a positive duration of at most 20 million samples
+
 engine-main-usage =
     usage: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }or: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10394,6 +10421,8 @@ engine-main-usage =
     { "   " }or: kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
     { "   " }or: kshana orbit-data <check|convert|gp-compare|gp-audit|cov> ... (kshana orbit-data --help)
     { "   " }or: kshana drone <prearm|prearm-calibrate|estimator-cases|dr-budget|quad-loss|failover|zonotope-pl> ... (kshana drone --help)
+    { "   " }or: kshana quantum-bench <protocol|simulate|score> ... (kshana quantum-bench --help)
+    { "   " }or: kshana soop-clock <lte|cp|synth-lte> ... (kshana soop-clock --help)
     { "   " }or: kshana kinds [--json]
     { "   " }or: kshana example [<name>]
     { "   " }or: kshana --help | --version
