@@ -9,6 +9,16 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+- **Smaller published crate: the DE440 Moon PA orientation series is embedded as binary.** `src/lunar_orientation.rs` now embeds `data/lunar/de440_moon_pa.bin` instead of the 1.6 MB CSV: the same 6 209 x 10 doubles, bit for bit (`tests/lunar_orientation_binary.rs`), column-major and byte-planed, about 352 KB of the `.crate` against 650 KB. Results are unchanged. The CSV stays in the repository as the source of record and is no longer packaged. Regenerate with `scripts/gen_de440_moon_pa_bin.py`.
+
+### Added (radio time-signal migration guide)
+
+- `docs/RADIO-TIME-MIGRATION.md`: the status of the CHU, MSF, DCF77 and WWVB time signals from public sources (CHU
+  reported ended 22 June 2026; the UK call for evidence on MSF closes 22 December 2026), an advisor table of which
+  source suits which timing need, migration notes per service, and a checklist for swapping a legacy GPS-disciplined
+  oscillator (week-number pivot, outputs, cable delay, holdover, leap seconds, parallel run). Linked from
+  `docs/TIMING-SYSTEMS.md`. Documentation only.
+
 ### Added (parser hardening and time-scale conformance vectors)
 
 - `tests/parser_robustness.rs`: a deterministic mutation fuzzer (no new dependency) with a counting allocator drives
