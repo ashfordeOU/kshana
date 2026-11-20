@@ -10617,6 +10617,7 @@ engine-main-usage =
     { "   " }of: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }of: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
     { "   " }of: kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
+    { "   " }of: kshana orbit-data <check|convert|gp-compare|gp-audit|cov> ... (kshana orbit-data --help)
     { "   " }of: kshana kinds [--json]
     { "   " }of: kshana example [<name>]
     { "   " }of: kshana --help | --version
@@ -11646,3 +11647,95 @@ engine-e-iq-gnss-sdr-conf-signal = voor { $signal } wordt geen GNSS-SDR-configur
 engine-e-iq-gnss-sdr-conf-centre = { $signal } ligt { $offset_hz } Hz van de middenfrequentie van de opname; de standaardketen van GNSS-SDR heeft het op frequentie nul nodig
 engine-e-iq-gnss-sdr-conf-profile = onbekend profiel { $profile } (default, narrowband)
 engine-iq-gnss-sdr-conf-written = GNSS-SDR-configuratie geschreven naar { $path }
+
+## Orbit-data validators, converters and monitors (src/orbit_data)
+engine-orbit-data-valid = geldig volgens { $standard }
+engine-orbit-data-valid-with-warnings = geldig volgens { $standard }, waarschuwingen: { $warnings }
+engine-orbit-data-invalid = ongeldig volgens { $standard }: fouten: { $errors }, waarschuwingen: { $warnings }
+engine-orbit-data-error = fout
+engine-orbit-data-warning = waarschuwing
+engine-orbit-data-not-checked = niet gecontroleerd: { $what }
+engine-orbit-data-header = kop
+engine-orbit-data-cdm-relative = relatieve metadata/gegevens
+engine-orbit-data-cdm-object = metadata/gegevens van het object
+engine-orbit-data-covariance = covariantie
+engine-orbit-data-oem-metadata = metadata van segment { $n }
+engine-orbit-data-line-too-long = de regel heeft { $n } tekens, meer dan { $max }
+engine-orbit-data-non-printable = de regel bevat een teken dat geen afdrukbaar ASCII is
+engine-orbit-data-not-key-value = geen regel SLEUTELWOORD = waarde: { $text }
+engine-orbit-data-keyword-blank = het sleutelwoord { $key } bevat een spatie
+engine-orbit-data-keyword-case = het sleutelwoord { $key } staat niet in hoofdletters
+engine-orbit-data-units-format = de eenheden van { $key } moeten na een spatie achter de waarde staan, tussen vierkante haken
+engine-orbit-data-first-line = de eerste regel moet { $key } zijn
+engine-orbit-data-parse-failed = het bericht is niet leesbaar: { $err }
+engine-orbit-data-xml-root = het wortelelement is { $name }, niet { $want }
+engine-orbit-data-xml-attr = het wortelattribuut { $attr } moet { $want } zijn
+engine-orbit-data-xml-missing = het bericht heeft geen { $tag }
+engine-orbit-data-empty-value = { $key } heeft een lege waarde
+engine-orbit-data-bad-time = { $key } = { $value } is geen tijdstempel (yyyy-mm-ddThh:mm:ss[.d] / yyyy-dddThh:mm:ss[.d])
+engine-orbit-data-bad-number = { $key } = { $value } is geen getal in de notatie van de norm
+engine-orbit-data-bad-integer = { $key } = { $value } is geen geheel getal
+engine-orbit-data-bad-value = { $key } = { $value } is niet een van: { $allowed }
+engine-orbit-data-out-of-range = { $key } = { $value } ligt buiten { $range }
+engine-orbit-data-version = versie { $value }: deze controle volgt versie { $want }
+engine-orbit-data-bad-chars = { $key } = { $value } bevat andere tekens dan letters, cijfers, liggend streepje en koppelteken
+engine-orbit-data-identifier-blank = { $key } = { $value } bevat een spatie (de norm staat letters, cijfers, liggend streepje en koppelteken toe)
+engine-orbit-data-lower-case = { $key } = { $value } bevat kleine letters
+engine-orbit-data-bad-units = { $key } heeft de eenheden [{ $given }]; de norm geeft [{ $want }]
+engine-orbit-data-missing-units = { $key } toont zijn eenheden [{ $want }] niet
+engine-orbit-data-unknown-keyword = { $key } is geen sleutelwoord van de sectie { $section }
+engine-orbit-data-duplicate-keyword = { $key } komt meer dan eens voor in de sectie { $section }
+engine-orbit-data-keyword-order = { $key } staat buiten de volgorde die de norm vastlegt (het volgt op { $prev })
+engine-orbit-data-missing-keyword = de sectie { $section } mist het verplichte { $key }
+engine-orbit-data-cdm-object-count = objectsecties in het bericht: { $n }; een CDM heeft er twee, OBJECT1 en dan OBJECT2
+engine-orbit-data-cov-row = covariantierij { $row } is onvolledig of volgt op een ontbrekende rij
+engine-orbit-data-cov-zero-diagonal = de covariantie van { $at } heeft een variantie nul; de rij en kolom ervan horen niet gebruikt te worden
+engine-orbit-data-not-pd = de covariantie bij { $at } is niet positief definiet (kleinste eigenwaarde van de correlatie { $min })
+engine-orbit-data-frame-mismatch = REF_FRAME verschilt tussen de objecten ({ $a }, { $b })
+engine-orbit-data-inconsistent = { $key } = { $given } { $unit }, maar de gegevens geven { $computed } { $unit }
+engine-orbit-data-time-order = { $first } ({ $a }) ligt na { $second } ({ $b })
+engine-orbit-data-count-order = { $used } = { $a } is groter dan { $avail } = { $b }
+engine-orbit-data-unterminated = het bericht eindigt binnen een blok
+engine-orbit-data-no-segment = het bericht heeft geen segment
+engine-orbit-data-time-system-changed = TIME_SYSTEM wisselt binnen het bericht ({ $a }, daarna { $b })
+engine-orbit-data-outside-span = het tijdstip { $t } ligt buiten de spanne die de metadata geven
+engine-orbit-data-useable-overlap = de bruikbare spannes van segmenten { $a } en { $b } overlappen
+engine-orbit-data-data-width = een gegevensregel heeft { $n } waarden; verwacht: { $want }
+engine-orbit-data-duplicate-time = het tijdstempel { $t } herhaalt zich
+engine-orbit-data-time-not-increasing = het tijdstempel { $t } stijgt niet (het vorige is { $prev })
+engine-orbit-data-too-few-points = gegevensregels: { $n }; te weinig voor interpolatie van graad { $deg } (nodig: { $need })
+engine-orbit-data-mixed-time = het blok { $block } mengt relatieve en absolute tijdstempels
+engine-orbit-data-span-short = de bruikbare spanne is { $days } dagen, korter dan de gevraagde { $min } dagen
+engine-orbit-data-gap = een gat van { $s } s, langer dan de gevraagde { $max } s
+engine-orbit-data-gp-checksum = regel { $line }: de controlesom in kolom 69 klopt niet (die zou { $want } moeten zijn)
+engine-orbit-data-gp-catalogue = regel 1 en regel 2 noemen niet hetzelfde catalogusnummer
+engine-orbit-data-gp-perigee = het perigeum ligt op { $km } km, onder het aardoppervlak
+engine-orbit-data-gp-sgp4 = SGP4 faalt { $days } dagen na de epoch (foutcode { $code })
+engine-orbit-data-gp-stale = de epoch ligt { $days } dagen voor de referentietijd (meer dan { $max })
+engine-orbit-data-gp-future = de epoch ligt { $days } dagen na de referentietijd
+engine-orbit-data-gp-repeated-epoch = een andere set van dit object heeft dezelfde epoch en andere elementen
+engine-orbit-data-gp-elset-number = het elementsetnummer gaat bij een latere epoch terug van { $a } naar { $b }
+engine-orbit-data-gp-jump = deze set en de vorige verschillen { $km } km bij zijn epoch, { $hours } h later (meer dan { $max } km): een manoeuvre of een foute set
+engine-orbit-data-gp-compare-summary = objecten in beide bronnen: { $n }, gemarkeerd boven { $threshold } km: { $flagged }; alleen in de eerste: { $only_a }, alleen in de tweede: { $only_b } (MODELLED: SGP4-verschillen, geen nauwkeurigheid)
+engine-orbit-data-gp-audit-summary = elementsets: { $sets }, objecten: { $objects }, bevindingen: { $findings }
+engine-orbit-data-usage =
+    gebruik: kshana orbit-data check <cdm|oem|ocm file> [--json] [--aliases <map.json>] [--min-span-days <d>] [--max-gap-s <s>]
+    { "   " }of: kshana orbit-data convert <file> --to <ocm|oem|cdm> [--aliases <map.json>]
+    { "   " }of: kshana orbit-data gp-compare <a.tle> <b.tle> [--hours <h>] [--step-min <min>] [--threshold-km <km>] [--json]
+    { "   " }of: kshana orbit-data gp-audit <sets.tle> ... [--at <epoch>] [--stale-days <d>] [--jump-km <km>] [--json]
+    { "   " }of: kshana orbit-data cov <check|propagate|monte-carlo|synthetic|realism> <input.json> [--dt-s <s>] [--step-s <s>] [--samples <n>] [--seed <n>] [--sigma-rtn <r,t,n,rdot,tdot,ndot>] [--full]
+    { "   " }(docs/ORBIT-DATA.md)
+engine-e-orbit-data-unknown-message = { $path } is geen CDM, OEM (KVN) of OCM: geen regel CCSDS_CDM_VERS, CCSDS_OEM_VERS of CCSDS_OCM_VERS en geen wortel <cdm> of <ocm>
+engine-e-orbit-data-bad-flag = { $flag } { $value }: geen bruikbare waarde
+engine-e-orbit-data-aliases-not-object = de aliastabel moet een JSON-object zijn van "name": "KEYWORD"
+engine-e-orbit-data-alias-target = de alias { $key } verwijst niet naar een CDM-sleutelwoord
+engine-e-orbit-data-convert-pair = { $path }: geen conversie naar { $to } (OEM naar ocm, OCM naar oem, CDM naar cdm)
+engine-e-orbit-data-convert-empty = de OEM heeft geen segment om te converteren
+engine-e-orbit-data-convert-one-object = de OEM bevat objecten: { $n }; een OCM bevat er één
+engine-e-orbit-data-convert-missing = de bron mist { $key }, dat het doel nodig heeft
+engine-e-orbit-data-convert-width = een gegevens- of covariantieregel heeft het verkeerde aantal waarden voor de conversie
+engine-e-orbit-data-convert-time = het tijdstempel { $t } kan niet absoluut gemaakt worden (geen EPOCH_TZERO, of geen getal)
+engine-e-orbit-data-convert-traj = trajecttype { $kind } heeft geen OEM-vorm (CARTPV en CARTPVA wel)
+engine-e-orbit-data-convert-cov = covariantie { $kind } { $ordering } heeft geen OEM-vorm (CARTPV in LTM, UTM of FULL wel)
+engine-e-orbit-data-cov-input = de invoer mist een geldige { $key }
+engine-e-orbit-data-cov-not-pd = de begincovariantie is niet positief definiet, of er zijn te weinig steekproeven gevraagd

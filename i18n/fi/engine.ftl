@@ -10320,6 +10320,7 @@ engine-main-usage =
     { "   " }tai: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }tai: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
     { "   " }tai: kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
+    { "   " }tai: kshana orbit-data <check|convert|gp-compare|gp-audit|cov> ... (kshana orbit-data --help)
     { "   " }tai: kshana kinds [--json]
     { "   " }tai: kshana example [<name>]
     { "   " }tai: kshana --help | --version
@@ -11323,3 +11324,95 @@ engine-e-iq-gnss-sdr-conf-signal = signaalille { $signal } ei kirjoiteta GNSS-SD
 engine-e-iq-gnss-sdr-conf-centre = { $signal } on { $offset_hz } Hz:n päässä tallenteen keskitaajuudesta; GNSS-SDR:n oletusketju tarvitsee sen nollataajuudelle
 engine-e-iq-gnss-sdr-conf-profile = tuntematon profiili { $profile } (default, narrowband)
 engine-iq-gnss-sdr-conf-written = GNSS-SDR-asetukset kirjoitettu tiedostoon { $path }
+
+## Orbit-data validators, converters and monitors (src/orbit_data)
+engine-orbit-data-valid = kelvollinen standardin { $standard } mukaan
+engine-orbit-data-valid-with-warnings = kelvollinen standardin { $standard } mukaan, varoituksia: { $warnings }
+engine-orbit-data-invalid = ei kelvollinen standardin { $standard } mukaan: virheitä: { $errors }, varoituksia: { $warnings }
+engine-orbit-data-error = virhe
+engine-orbit-data-warning = varoitus
+engine-orbit-data-not-checked = ei tarkistettu: { $what }
+engine-orbit-data-header = otsake
+engine-orbit-data-cdm-relative = suhteelliset metatiedot/tiedot
+engine-orbit-data-cdm-object = kohteen metatiedot/tiedot
+engine-orbit-data-covariance = kovarianssi
+engine-orbit-data-oem-metadata = segmentin { $n } metatiedot
+engine-orbit-data-line-too-long = rivillä on { $n } merkkiä, enemmän kuin { $max }
+engine-orbit-data-non-printable = rivillä on merkki, joka ei ole tulostettavaa ASCII:ta
+engine-orbit-data-not-key-value = ei AVAINSANA = arvo -rivi: { $text }
+engine-orbit-data-keyword-blank = avainsana { $key } sisältää välilyönnin
+engine-orbit-data-keyword-case = avainsana { $key } ei ole isoin kirjaimin
+engine-orbit-data-units-format = kohteen { $key } yksiköiden on oltava arvon perässä välilyönnin jälkeen hakasulkeissa
+engine-orbit-data-first-line = ensimmäisen rivin on oltava { $key }
+engine-orbit-data-parse-failed = viestiä ei voi lukea: { $err }
+engine-orbit-data-xml-root = juurielementti on { $name }, ei { $want }
+engine-orbit-data-xml-attr = juuren attribuutin { $attr } on oltava { $want }
+engine-orbit-data-xml-missing = viestissä ei ole kohtaa { $tag }
+engine-orbit-data-empty-value = kohteen { $key } arvo on tyhjä
+engine-orbit-data-bad-time = { $key } = { $value } ei ole aikaleima (yyyy-mm-ddThh:mm:ss[.d] / yyyy-dddThh:mm:ss[.d])
+engine-orbit-data-bad-number = { $key } = { $value } ei ole luku standardin merkintätavalla
+engine-orbit-data-bad-integer = { $key } = { $value } ei ole kokonaisluku
+engine-orbit-data-bad-value = { $key } = { $value } ei ole mikään näistä: { $allowed }
+engine-orbit-data-out-of-range = { $key } = { $value } on välin { $range } ulkopuolella
+engine-orbit-data-version = versio { $value }: tämä tarkistus noudattaa versiota { $want }
+engine-orbit-data-bad-chars = { $key } = { $value } sisältää muita merkkejä kuin kirjaimia, numeroita, alaviivaa ja yhdysmerkkiä
+engine-orbit-data-identifier-blank = { $key } = { $value } sisältää välilyönnin (standardi sallii kirjaimet, numerot, alaviivan ja yhdysmerkin)
+engine-orbit-data-lower-case = { $key } = { $value } sisältää pieniä kirjaimia
+engine-orbit-data-bad-units = kohteen { $key } yksiköt ovat [{ $given }]; standardi antaa [{ $want }]
+engine-orbit-data-missing-units = { $key } ei näytä yksiköitään [{ $want }]
+engine-orbit-data-unknown-keyword = { $key } ei ole osan { $section } avainsana
+engine-orbit-data-duplicate-keyword = { $key } esiintyy osassa { $section } useammin kuin kerran
+engine-orbit-data-keyword-order = { $key } poikkeaa standardin määräämästä järjestyksestä (se tulee kohdan { $prev } jälkeen)
+engine-orbit-data-missing-keyword = osasta { $section } puuttuu pakollinen { $key }
+engine-orbit-data-cdm-object-count = kohdeosia viestissä: { $n }; CDM:ssä on kaksi, OBJECT1 ja sitten OBJECT2
+engine-orbit-data-cov-row = kovarianssirivi { $row } on vaillinainen tai seuraa puuttuvaa riviä
+engine-orbit-data-cov-zero-diagonal = kohteen { $at } kovarianssissa on nollavarianssi; sen riviä ja saraketta ei pidä käyttää
+engine-orbit-data-not-pd = kovarianssi hetkellä { $at } ei ole positiivisesti definiitti (korrelaation pienin ominaisarvo { $min })
+engine-orbit-data-frame-mismatch = REF_FRAME eroaa kohteiden välillä ({ $a }, { $b })
+engine-orbit-data-inconsistent = { $key } = { $given } { $unit }, mutta tiedoista saadaan { $computed } { $unit }
+engine-orbit-data-time-order = { $first } ({ $a }) on myöhempi kuin { $second } ({ $b })
+engine-orbit-data-count-order = { $used } = { $a } on suurempi kuin { $avail } = { $b }
+engine-orbit-data-unterminated = viesti päättyy lohkon sisään
+engine-orbit-data-no-segment = viestissä ei ole segmenttiä
+engine-orbit-data-time-system-changed = TIME_SYSTEM vaihtuu viestin sisällä ({ $a }, sitten { $b })
+engine-orbit-data-outside-span = aika { $t } on metatietojen antaman jakson ulkopuolella
+engine-orbit-data-useable-overlap = segmenttien { $a } ja { $b } käyttökelpoiset jaksot menevät päällekkäin
+engine-orbit-data-data-width = datarivillä on { $n } arvoa; odotettiin: { $want }
+engine-orbit-data-duplicate-time = aikaleima { $t } toistuu
+engine-orbit-data-time-not-increasing = aikaleima { $t } ei kasva (edellinen on { $prev })
+engine-orbit-data-too-few-points = datarivejä: { $n }; liian vähän asteen { $deg } interpolointiin (tarvitaan: { $need })
+engine-orbit-data-mixed-time = lohko { $block } sekoittaa suhteellisia ja absoluuttisia aikaleimoja
+engine-orbit-data-span-short = käyttökelpoinen jakso on { $days } päivää, lyhyempi kuin pyydetyt { $min } päivää
+engine-orbit-data-gap = { $s } s:n aukko, pidempi kuin pyydetyt { $max } s
+engine-orbit-data-gp-checksum = rivi { $line }: sarakkeen 69 tarkistussumma on väärä (sen pitäisi olla { $want })
+engine-orbit-data-gp-catalogue = rivi 1 ja rivi 2 eivät nimeä samaa luettelonumeroa
+engine-orbit-data-gp-perigee = perigeum on { $km } km:ssä, maan pinnan alapuolella
+engine-orbit-data-gp-sgp4 = SGP4 epäonnistuu { $days } päivää epookin jälkeen (virhekoodi { $code })
+engine-orbit-data-gp-stale = epookki on { $days } päivää ennen viiteaikaa (yli { $max })
+engine-orbit-data-gp-future = epookki on { $days } päivää viiteajan jälkeen
+engine-orbit-data-gp-repeated-epoch = toisella tämän kohteen joukolla on sama epookki ja eri elementit
+engine-orbit-data-gp-elset-number = elementtijoukon numero palaa luvusta { $a } lukuun { $b } myöhemmässä epookissa
+engine-orbit-data-gp-jump = tämä joukko ja edellinen eroavat { $km } km sen epookissa, { $hours } h myöhemmin (yli { $max } km): liikehdintä tai virheellinen joukko
+engine-orbit-data-gp-compare-summary = kohteita molemmissa lähteissä: { $n }, merkitty yli { $threshold } km: { $flagged }; vain ensimmäisessä: { $only_a }, vain toisessa: { $only_b } (MODELLED: SGP4-erot, ei tarkkuus)
+engine-orbit-data-gp-audit-summary = elementtijoukkoja: { $sets }, kohteita: { $objects }, havaintoja: { $findings }
+engine-orbit-data-usage =
+    käyttö: kshana orbit-data check <cdm|oem|ocm file> [--json] [--aliases <map.json>] [--min-span-days <d>] [--max-gap-s <s>]
+    { "   " }tai: kshana orbit-data convert <file> --to <ocm|oem|cdm> [--aliases <map.json>]
+    { "   " }tai: kshana orbit-data gp-compare <a.tle> <b.tle> [--hours <h>] [--step-min <min>] [--threshold-km <km>] [--json]
+    { "   " }tai: kshana orbit-data gp-audit <sets.tle> ... [--at <epoch>] [--stale-days <d>] [--jump-km <km>] [--json]
+    { "   " }tai: kshana orbit-data cov <check|propagate|monte-carlo|synthetic|realism> <input.json> [--dt-s <s>] [--step-s <s>] [--samples <n>] [--seed <n>] [--sigma-rtn <r,t,n,rdot,tdot,ndot>] [--full]
+    { "   " }(docs/ORBIT-DATA.md)
+engine-e-orbit-data-unknown-message = { $path } ei ole CDM, OEM (KVN) eikä OCM: ei riviä CCSDS_CDM_VERS, CCSDS_OEM_VERS tai CCSDS_OCM_VERS eikä juurta <cdm> tai <ocm>
+engine-e-orbit-data-bad-flag = { $flag } { $value }: ei käyttökelpoinen arvo
+engine-e-orbit-data-aliases-not-object = aliastaulukon on oltava JSON-objekti muotoa "name": "KEYWORD"
+engine-e-orbit-data-alias-target = alias { $key } ei viittaa CDM-avainsanaan
+engine-e-orbit-data-convert-pair = { $path }: ei muunnosta muotoon { $to } (OEM muotoon ocm, OCM muotoon oem, CDM muotoon cdm)
+engine-e-orbit-data-convert-empty = OEM:ssä ei ole muunnettavaa segmenttiä
+engine-e-orbit-data-convert-one-object = OEM sisältää kohteita: { $n }; OCM sisältää yhden
+engine-e-orbit-data-convert-missing = lähteestä puuttuu { $key }, jota kohde tarvitsee
+engine-e-orbit-data-convert-width = data- tai kovarianssirivillä on muunnokselle väärä määrä arvoja
+engine-e-orbit-data-convert-time = aikaleimaa { $t } ei voi muuttaa absoluuttiseksi (ei EPOCH_TZERO-arvoa, tai ei luku)
+engine-e-orbit-data-convert-traj = ratatyypillä { $kind } ei ole OEM-muotoa (CARTPV:llä ja CARTPVA:lla on)
+engine-e-orbit-data-convert-cov = kovarianssilla { $kind } { $ordering } ei ole OEM-muotoa (CARTPV muodossa LTM, UTM tai FULL on)
+engine-e-orbit-data-cov-input = syötteestä puuttuu kelvollinen { $key }
+engine-e-orbit-data-cov-not-pd = alkukovarianssi ei ole positiivisesti definiitti, tai otoksia pyydettiin liian vähän

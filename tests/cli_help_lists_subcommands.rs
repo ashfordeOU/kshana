@@ -43,6 +43,7 @@ fn the_top_level_usage_names_every_subcommand() {
         "rtk-qa",
         "diagnose",
         "gnss-sdr-conf",
+        "orbit-data",
     ] {
         assert!(
             text.contains(want),

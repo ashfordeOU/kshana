@@ -10578,6 +10578,7 @@ engine-main-usage =
     { "   " }või: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }või: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
     { "   " }või: kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
+    { "   " }või: kshana orbit-data <check|convert|gp-compare|gp-audit|cov> ... (kshana orbit-data --help)
     { "   " }või: kshana kinds [--json]
     { "   " }või: kshana example [<name>]
     { "   " }või: kshana --help | --version
@@ -11579,3 +11580,95 @@ engine-e-iq-gnss-sdr-conf-signal = signaalile { $signal } GNSS-SDR-i seadistust 
 engine-e-iq-gnss-sdr-conf-centre = { $signal } on salvestise keskmisest sagedusest { $offset_hz } Hz kaugusel; GNSS-SDR-i vaikeahel vajab seda nullsagedusel
 engine-e-iq-gnss-sdr-conf-profile = tundmatu profiil { $profile } (default, narrowband)
 engine-iq-gnss-sdr-conf-written = GNSS-SDR-i seadistus kirjutati faili { $path }
+
+## Orbit-data validators, converters and monitors (src/orbit_data)
+engine-orbit-data-valid = kehtiv standardi { $standard } järgi
+engine-orbit-data-valid-with-warnings = kehtiv standardi { $standard } järgi, hoiatusi: { $warnings }
+engine-orbit-data-invalid = kehtetu standardi { $standard } järgi: vigu: { $errors }, hoiatusi: { $warnings }
+engine-orbit-data-error = viga
+engine-orbit-data-warning = hoiatus
+engine-orbit-data-not-checked = kontrollimata: { $what }
+engine-orbit-data-header = päis
+engine-orbit-data-cdm-relative = suhtelised metaandmed/andmed
+engine-orbit-data-cdm-object = objekti metaandmed/andmed
+engine-orbit-data-covariance = kovariatsioon
+engine-orbit-data-oem-metadata = segmendi { $n } metaandmed
+engine-orbit-data-line-too-long = real on { $n } märki, rohkem kui { $max }
+engine-orbit-data-non-printable = real on märk, mis ei ole prinditav ASCII
+engine-orbit-data-not-key-value = see ei ole rida VÕTMESÕNA = väärtus: { $text }
+engine-orbit-data-keyword-blank = võtmesõna { $key } sisaldab tühikut
+engine-orbit-data-keyword-case = võtmesõna { $key } ei ole suurtähtedega
+engine-orbit-data-units-format = { $key } ühikud peavad olema väärtuse järel tühiku järel nurksulgudes
+engine-orbit-data-first-line = esimene rida peab olema { $key }
+engine-orbit-data-parse-failed = sõnumit ei saa lugeda: { $err }
+engine-orbit-data-xml-root = juurelement on { $name }, mitte { $want }
+engine-orbit-data-xml-attr = juure atribuut { $attr } peab olema { $want }
+engine-orbit-data-xml-missing = sõnumil puudub { $tag }
+engine-orbit-data-empty-value = { $key } väärtus on tühi
+engine-orbit-data-bad-time = { $key } = { $value } ei ole ajatempel (yyyy-mm-ddThh:mm:ss[.d] / yyyy-dddThh:mm:ss[.d])
+engine-orbit-data-bad-number = { $key } = { $value } ei ole arv standardi kirjaviisis
+engine-orbit-data-bad-integer = { $key } = { $value } ei ole täisarv
+engine-orbit-data-bad-value = { $key } = { $value } ei ole ükski järgmistest: { $allowed }
+engine-orbit-data-out-of-range = { $key } = { $value } jääb välja vahemikust { $range }
+engine-orbit-data-version = versioon { $value }: see kontroll järgib versiooni { $want }
+engine-orbit-data-bad-chars = { $key } = { $value } sisaldab muid märke peale tähtede, numbrite, allkriipsu ja sidekriipsu
+engine-orbit-data-identifier-blank = { $key } = { $value } sisaldab tühikut (standard lubab tähti, numbreid, allkriipsu ja sidekriipsu)
+engine-orbit-data-lower-case = { $key } = { $value } sisaldab väiketähti
+engine-orbit-data-bad-units = { $key } ühikud on [{ $given }]; standard annab [{ $want }]
+engine-orbit-data-missing-units = { $key } ei näita oma ühikuid [{ $want }]
+engine-orbit-data-unknown-keyword = { $key } ei ole jaotise { $section } võtmesõna
+engine-orbit-data-duplicate-keyword = { $key } esineb jaotises { $section } rohkem kui üks kord
+engine-orbit-data-keyword-order = { $key } on väljaspool standardi määratud järjekorda (see järgneb võtmesõnale { $prev })
+engine-orbit-data-missing-keyword = jaotisest { $section } puudub kohustuslik { $key }
+engine-orbit-data-cdm-object-count = objektijaotisi sõnumis: { $n }; CDM-is on kaks, OBJECT1 ja seejärel OBJECT2
+engine-orbit-data-cov-row = kovariatsioonirida { $row } on puudulik või järgneb puuduvale reale
+engine-orbit-data-cov-zero-diagonal = objekti { $at } kovariatsioonis on nulldispersioon; selle rida ja veergu ei tohi kasutada
+engine-orbit-data-not-pd = kovariatsioon ajahetkel { $at } ei ole positiivselt määratud (korrelatsiooni vähim omaväärtus { $min })
+engine-orbit-data-frame-mismatch = REF_FRAME erineb objektide vahel ({ $a }, { $b })
+engine-orbit-data-inconsistent = { $key } = { $given } { $unit }, kuid andmetest tuleb { $computed } { $unit }
+engine-orbit-data-time-order = { $first } ({ $a }) on hilisem kui { $second } ({ $b })
+engine-orbit-data-count-order = { $used } = { $a } on suurem kui { $avail } = { $b }
+engine-orbit-data-unterminated = sõnum lõpeb ploki sees
+engine-orbit-data-no-segment = sõnumil pole ühtegi segmenti
+engine-orbit-data-time-system-changed = TIME_SYSTEM muutub sõnumi sees ({ $a }, seejärel { $b })
+engine-orbit-data-outside-span = aeg { $t } jääb väljapoole metaandmetes antud vahemikku
+engine-orbit-data-useable-overlap = segmentide { $a } ja { $b } kasutatavad vahemikud kattuvad
+engine-orbit-data-data-width = andmereal on { $n } väärtust; oodati: { $want }
+engine-orbit-data-duplicate-time = ajatempel { $t } kordub
+engine-orbit-data-time-not-increasing = ajatempel { $t } ei kasva (eelmine on { $prev })
+engine-orbit-data-too-few-points = andmeridu: { $n }; astme { $deg } interpoleerimiseks liiga vähe (vaja: { $need })
+engine-orbit-data-mixed-time = plokk { $block } segab suhtelisi ja absoluutseid ajatempleid
+engine-orbit-data-span-short = kasutatav vahemik on { $days } päeva, lühem kui soovitud { $min } päeva
+engine-orbit-data-gap = { $s } s pikkune lünk, pikem kui soovitud { $max } s
+engine-orbit-data-gp-checksum = rida { $line }: veeru 69 kontrollsumma on vale (peaks olema { $want })
+engine-orbit-data-gp-catalogue = rida 1 ja rida 2 ei nimeta sama kataloogi numbrit
+engine-orbit-data-gp-perigee = perigee on { $km } km kõrgusel, allpool Maa pinda
+engine-orbit-data-gp-sgp4 = SGP4 ebaõnnestub { $days } päeva pärast epohhi (veakood { $code })
+engine-orbit-data-gp-stale = epohh on { $days } päeva enne võrdlusaega (rohkem kui { $max })
+engine-orbit-data-gp-future = epohh on { $days } päeva pärast võrdlusaega
+engine-orbit-data-gp-repeated-epoch = selle objekti teisel komplektil on sama epohh ja teised elemendid
+engine-orbit-data-gp-elset-number = elementide komplekti number läheb hilisema epohhi juures tagasi { $a }-lt { $b }-le
+engine-orbit-data-gp-jump = see komplekt ja eelmine erinevad selle epohhi juures { $km } km võrra, { $hours } h hiljem (rohkem kui { $max } km): manööver või vigane komplekt
+engine-orbit-data-gp-compare-summary = objekte mõlemas allikas: { $n }, märgitud üle { $threshold } km: { $flagged }; ainult esimeses: { $only_a }, ainult teises: { $only_b } (MODELLED: SGP4 erinevused, mitte täpsus)
+engine-orbit-data-gp-audit-summary = elementide komplekte: { $sets }, objekte: { $objects }, leide: { $findings }
+engine-orbit-data-usage =
+    kasutus: kshana orbit-data check <cdm|oem|ocm file> [--json] [--aliases <map.json>] [--min-span-days <d>] [--max-gap-s <s>]
+    { "   " }või: kshana orbit-data convert <file> --to <ocm|oem|cdm> [--aliases <map.json>]
+    { "   " }või: kshana orbit-data gp-compare <a.tle> <b.tle> [--hours <h>] [--step-min <min>] [--threshold-km <km>] [--json]
+    { "   " }või: kshana orbit-data gp-audit <sets.tle> ... [--at <epoch>] [--stale-days <d>] [--jump-km <km>] [--json]
+    { "   " }või: kshana orbit-data cov <check|propagate|monte-carlo|synthetic|realism> <input.json> [--dt-s <s>] [--step-s <s>] [--samples <n>] [--seed <n>] [--sigma-rtn <r,t,n,rdot,tdot,ndot>] [--full]
+    { "   " }(docs/ORBIT-DATA.md)
+engine-e-orbit-data-unknown-message = { $path } ei ole CDM, OEM (KVN) ega OCM: puudub rida CCSDS_CDM_VERS, CCSDS_OEM_VERS või CCSDS_OCM_VERS ning juur <cdm> või <ocm>
+engine-e-orbit-data-bad-flag = { $flag } { $value }: kasutamiskõlbmatu väärtus
+engine-e-orbit-data-aliases-not-object = aliaste tabel peab olema JSON-objekt kujul "name": "KEYWORD"
+engine-e-orbit-data-alias-target = alias { $key } ei viita ühelegi CDM-i võtmesõnale
+engine-e-orbit-data-convert-pair = { $path }: teisendust vormingusse { $to } ei ole (OEM ocm-iks, OCM oem-iks, CDM cdm-iks)
+engine-e-orbit-data-convert-empty = OEM-is pole teisendatavat segmenti
+engine-e-orbit-data-convert-one-object = OEM sisaldab objekte: { $n }; OCM sisaldab ühte
+engine-e-orbit-data-convert-missing = allikast puudub { $key }, mida siht vajab
+engine-e-orbit-data-convert-width = andme- või kovariatsioonireal on teisenduseks vale arv väärtusi
+engine-e-orbit-data-convert-time = ajatemplit { $t } ei saa absoluutseks teha (EPOCH_TZERO puudub või see pole arv)
+engine-e-orbit-data-convert-traj = trajektoori tüübil { $kind } ei ole OEM-kuju (CARTPV-l ja CARTPVA-l on)
+engine-e-orbit-data-convert-cov = kovariatsioonil { $kind } { $ordering } ei ole OEM-kuju (CARTPV LTM-, UTM- või FULL-kujul on)
+engine-e-orbit-data-cov-input = sisendist puudub kehtiv { $key }
+engine-e-orbit-data-cov-not-pd = algkovariatsioon ei ole positiivselt määratud või küsiti liiga vähe valimeid

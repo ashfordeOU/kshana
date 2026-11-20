@@ -10596,6 +10596,7 @@ engine-main-usage =
     { "   " }oder: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }oder: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
     { "   " }oder: kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
+    { "   " }oder: kshana orbit-data <check|convert|gp-compare|gp-audit|cov> ... (kshana orbit-data --help)
     { "   " }oder: kshana kinds [--json]
     { "   " }oder: kshana example [<name>]
     { "   " }oder: kshana --help | --version
@@ -11601,3 +11602,95 @@ engine-e-iq-gnss-sdr-conf-signal = für { $signal } wird keine GNSS-SDR-Konfigur
 engine-e-iq-gnss-sdr-conf-centre = { $signal } liegt { $offset_hz } Hz von der Mittenfrequenz der Aufzeichnung entfernt; die Standardkette von GNSS-SDR braucht es bei der Frequenz null
 engine-e-iq-gnss-sdr-conf-profile = unbekanntes Profil { $profile } (default, narrowband)
 engine-iq-gnss-sdr-conf-written = GNSS-SDR-Konfiguration nach { $path } geschrieben
+
+## Orbit-data validators, converters and monitors (src/orbit_data)
+engine-orbit-data-valid = gültig gemäß { $standard }
+engine-orbit-data-valid-with-warnings = gültig gemäß { $standard }, Warnungen: { $warnings }
+engine-orbit-data-invalid = ungültig gemäß { $standard }: Fehler: { $errors }, Warnungen: { $warnings }
+engine-orbit-data-error = Fehler
+engine-orbit-data-warning = Warnung
+engine-orbit-data-not-checked = nicht geprüft: { $what }
+engine-orbit-data-header = Kopf
+engine-orbit-data-cdm-relative = relative Metadaten/Daten
+engine-orbit-data-cdm-object = Objekt-Metadaten/-Daten
+engine-orbit-data-covariance = Kovarianz
+engine-orbit-data-oem-metadata = Metadaten von Segment { $n }
+engine-orbit-data-line-too-long = die Zeile hat { $n } Zeichen, mehr als { $max }
+engine-orbit-data-non-printable = die Zeile enthält ein Zeichen, das kein druckbares ASCII ist
+engine-orbit-data-not-key-value = keine Zeile der Form SCHLÜSSELWORT = Wert: { $text }
+engine-orbit-data-keyword-blank = das Schlüsselwort { $key } enthält ein Leerzeichen
+engine-orbit-data-keyword-case = das Schlüsselwort { $key } ist nicht in Großbuchstaben
+engine-orbit-data-units-format = die Einheiten von { $key } müssen nach einem Leerzeichen hinter dem Wert in eckigen Klammern stehen
+engine-orbit-data-first-line = die erste Zeile muss { $key } sein
+engine-orbit-data-parse-failed = die Nachricht ist nicht lesbar: { $err }
+engine-orbit-data-xml-root = das Wurzelelement ist { $name }, nicht { $want }
+engine-orbit-data-xml-attr = das Wurzelattribut { $attr } muss { $want } sein
+engine-orbit-data-xml-missing = die Nachricht hat kein { $tag }
+engine-orbit-data-empty-value = { $key } hat einen leeren Wert
+engine-orbit-data-bad-time = { $key } = { $value } ist keine Zeitmarke (yyyy-mm-ddThh:mm:ss[.d] / yyyy-dddThh:mm:ss[.d])
+engine-orbit-data-bad-number = { $key } = { $value } ist keine Zahl in der Schreibweise des Standards
+engine-orbit-data-bad-integer = { $key } = { $value } ist keine ganze Zahl
+engine-orbit-data-bad-value = { $key } = { $value } ist keiner der Werte: { $allowed }
+engine-orbit-data-out-of-range = { $key } = { $value } liegt außerhalb von { $range }
+engine-orbit-data-version = Version { $value }: diese Prüfung folgt Version { $want }
+engine-orbit-data-bad-chars = { $key } = { $value } enthält andere Zeichen als Buchstaben, Ziffern, Unterstrich und Bindestrich
+engine-orbit-data-identifier-blank = { $key } = { $value } enthält ein Leerzeichen (der Standard erlaubt Buchstaben, Ziffern, Unterstrich und Bindestrich)
+engine-orbit-data-lower-case = { $key } = { $value } enthält Kleinbuchstaben
+engine-orbit-data-bad-units = { $key } hat die Einheiten [{ $given }]; der Standard nennt [{ $want }]
+engine-orbit-data-missing-units = { $key } zeigt seine Einheiten [{ $want }] nicht
+engine-orbit-data-unknown-keyword = { $key } ist kein Schlüsselwort des Abschnitts { $section }
+engine-orbit-data-duplicate-keyword = { $key } kommt im Abschnitt { $section } mehrfach vor
+engine-orbit-data-keyword-order = { $key } steht außerhalb der vom Standard festgelegten Reihenfolge (nach { $prev })
+engine-orbit-data-missing-keyword = im Abschnitt { $section } fehlt das Pflichtschlüsselwort { $key }
+engine-orbit-data-cdm-object-count = die Nachricht hat Objektabschnitte: { $n }; eine CDM hat zwei, OBJECT1, dann OBJECT2
+engine-orbit-data-cov-row = Kovarianzzeile { $row } ist unvollständig oder folgt auf eine fehlende Zeile
+engine-orbit-data-cov-zero-diagonal = die Kovarianz von { $at } hat eine Varianz null; ihre Zeile und Spalte sind nicht zu verwenden
+engine-orbit-data-not-pd = die Kovarianz bei { $at } ist nicht positiv definit (kleinster Eigenwert der Korrelation { $min })
+engine-orbit-data-frame-mismatch = REF_FRAME unterscheidet sich zwischen den Objekten ({ $a }, { $b })
+engine-orbit-data-inconsistent = { $key } = { $given } { $unit }, aber die Daten ergeben { $computed } { $unit }
+engine-orbit-data-time-order = { $first } ({ $a }) liegt nach { $second } ({ $b })
+engine-orbit-data-count-order = { $used } = { $a } ist größer als { $avail } = { $b }
+engine-orbit-data-unterminated = die Nachricht endet innerhalb eines Blocks
+engine-orbit-data-no-segment = die Nachricht hat kein Segment
+engine-orbit-data-time-system-changed = TIME_SYSTEM wechselt innerhalb der Nachricht ({ $a }, dann { $b })
+engine-orbit-data-outside-span = die Zeit { $t } liegt außerhalb der Spanne, die die Metadaten angeben
+engine-orbit-data-useable-overlap = die nutzbaren Spannen der Segmente { $a } und { $b } überlappen
+engine-orbit-data-data-width = eine Datenzeile hat { $n } Werte; erwartet: { $want }
+engine-orbit-data-duplicate-time = die Zeitmarke { $t } wiederholt sich
+engine-orbit-data-time-not-increasing = die Zeitmarke { $t } steigt nicht an (die vorige ist { $prev })
+engine-orbit-data-too-few-points = Datenzeilen: { $n }; das reicht nicht für eine Interpolation vom Grad { $deg } (nötig: { $need })
+engine-orbit-data-mixed-time = der Block { $block } mischt relative und absolute Zeitmarken
+engine-orbit-data-span-short = die nutzbare Spanne ist { $days } Tage, kürzer als die verlangten { $min } Tage
+engine-orbit-data-gap = eine Lücke von { $s } s, länger als die verlangten { $max } s
+engine-orbit-data-gp-checksum = Zeile { $line }: die Prüfsumme in Spalte 69 ist falsch (sie sollte { $want } sein)
+engine-orbit-data-gp-catalogue = Zeile 1 und Zeile 2 nennen nicht dieselbe Katalognummer
+engine-orbit-data-gp-perigee = das Perigäum liegt bei { $km } km, unter der Erdoberfläche
+engine-orbit-data-gp-sgp4 = SGP4 versagt { $days } Tage nach der Epoche (Fehlercode { $code })
+engine-orbit-data-gp-stale = die Epoche liegt { $days } Tage vor der Bezugszeit (mehr als { $max })
+engine-orbit-data-gp-future = die Epoche liegt { $days } Tage nach der Bezugszeit
+engine-orbit-data-gp-repeated-epoch = ein anderer Satz dieses Objekts hat dieselbe Epoche und andere Elemente
+engine-orbit-data-gp-elset-number = die Elementsatznummer geht bei einer späteren Epoche von { $a } auf { $b } zurück
+engine-orbit-data-gp-jump = dieser Satz und der vorige weichen bei seiner Epoche, { $hours } h später, um { $km } km ab (mehr als { $max } km): ein Manöver oder ein fehlerhafter Satz
+engine-orbit-data-gp-compare-summary = Objekte in beiden Quellen: { $n }, markiert über { $threshold } km: { $flagged }; nur in der ersten: { $only_a }, nur in der zweiten: { $only_b } (MODELLED: SGP4-Differenzen, keine Genauigkeit)
+engine-orbit-data-gp-audit-summary = Elementsätze: { $sets }, Objekte: { $objects }, Befunde: { $findings }
+engine-orbit-data-usage =
+    Aufruf: kshana orbit-data check <cdm|oem|ocm file> [--json] [--aliases <map.json>] [--min-span-days <d>] [--max-gap-s <s>]
+    { "   " }oder: kshana orbit-data convert <file> --to <ocm|oem|cdm> [--aliases <map.json>]
+    { "   " }oder: kshana orbit-data gp-compare <a.tle> <b.tle> [--hours <h>] [--step-min <min>] [--threshold-km <km>] [--json]
+    { "   " }oder: kshana orbit-data gp-audit <sets.tle> ... [--at <epoch>] [--stale-days <d>] [--jump-km <km>] [--json]
+    { "   " }oder: kshana orbit-data cov <check|propagate|monte-carlo|synthetic|realism> <input.json> [--dt-s <s>] [--step-s <s>] [--samples <n>] [--seed <n>] [--sigma-rtn <r,t,n,rdot,tdot,ndot>] [--full]
+    { "   " }(docs/ORBIT-DATA.md)
+engine-e-orbit-data-unknown-message = { $path } ist weder CDM noch OEM (KVN) noch OCM: keine Zeile CCSDS_CDM_VERS, CCSDS_OEM_VERS oder CCSDS_OCM_VERS und keine Wurzel <cdm> oder <ocm>
+engine-e-orbit-data-bad-flag = { $flag } { $value }: kein brauchbarer Wert
+engine-e-orbit-data-aliases-not-object = die Alias-Tabelle muss ein JSON-Objekt aus "name": "KEYWORD" sein
+engine-e-orbit-data-alias-target = der Alias { $key } verweist auf kein CDM-Schlüsselwort
+engine-e-orbit-data-convert-pair = { $path }: keine Umwandlung nach { $to } (OEM nach ocm, OCM nach oem, CDM nach cdm)
+engine-e-orbit-data-convert-empty = die OEM hat kein Segment zum Umwandeln
+engine-e-orbit-data-convert-one-object = die OEM enthält Objekte: { $n }; eine OCM enthält eines
+engine-e-orbit-data-convert-missing = der Quelle fehlt { $key }, das das Ziel braucht
+engine-e-orbit-data-convert-width = eine Daten- oder Kovarianzzeile hat für die Umwandlung die falsche Anzahl Werte
+engine-e-orbit-data-convert-time = die Zeitmarke { $t } lässt sich nicht absolut machen (kein EPOCH_TZERO oder keine Zahl)
+engine-e-orbit-data-convert-traj = der Trajektorientyp { $kind } hat keine OEM-Form (CARTPV und CARTPVA haben eine)
+engine-e-orbit-data-convert-cov = die Kovarianz { $kind } { $ordering } hat keine OEM-Form (CARTPV in LTM, UTM oder FULL hat eine)
+engine-e-orbit-data-cov-input = der Eingabe fehlt ein gültiges { $key }
+engine-e-orbit-data-cov-not-pd = die Anfangskovarianz ist nicht positiv definit, oder es wurden zu wenige Stichproben verlangt

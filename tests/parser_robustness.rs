@@ -936,6 +936,57 @@ fn ais_integrity_inputs() {
 }
 
 #[test]
+fn orbit_data_checks_and_monitors() {
+    let fx = |p: &str| {
+        std::fs::read(format!("{}/tests/fixtures/{p}", env!("CARGO_MANIFEST_DIR"))).unwrap()
+    };
+    let none = std::collections::BTreeMap::new();
+    let cdms = vec![
+        fx("orbit_data/cdm_508_b1_example_3_6_3.cdm"),
+        fx("orbit_data/cdm_508_b1_example_4_4.xml"),
+    ];
+    fuzz("cdm check", &cdms, None, |b| {
+        let (m, _) = kshana::orbit_data::cdm::validate(&text(b), &none);
+        let _ = m.to_kvn();
+    });
+    let oem = vec![
+        fx("ccsds_cov/kshana_cov_leo.oem"),
+        fx("ccsds/oem_502_b3_figG11.oem"),
+    ];
+    let p = kshana::orbit_data::ephem::Profile {
+        min_span_days: Some(1.0),
+        max_gap_s: Some(60.0),
+    };
+    fuzz("oem check and convert", &oem, None, |b| {
+        let _ = kshana::orbit_data::ephem::check_oem(&text(b), p);
+        if let Ok(o) = kshana::orbit_data::convert::oem_to_ocm(&text(b)) {
+            let _ = kshana::orbit_data::convert::ocm_to_oem(&o);
+        }
+    });
+    let ocm = vec![
+        fx("odm_orekit_oracle/kshana/C05.kvn"),
+        fx("odm_orekit_oracle/kshana/C02.xml"),
+    ];
+    fuzz("ocm check and convert", &ocm, None, |b| {
+        let _ = kshana::orbit_data::ephem::check_ocm(&text(b), p);
+        let _ = kshana::orbit_data::convert::ocm_to_oem(&text(b));
+    });
+    let tles = vec![
+        fx("orbit_data/gp_audit.tle"),
+        fx("orbit_data/gp_source_b.tle"),
+    ];
+    fuzz("gp audit", &tles, None, |b| {
+        let sets = kshana::orbit_data::gp_quality::read_sets(&text(b));
+        let _ = kshana::orbit_data::gp_quality::audit(&sets, Default::default());
+        let o = kshana::orbit_data::gp_quality::CompareOpts {
+            hours: 1.0,
+            ..Default::default()
+        };
+        let _ = kshana::orbit_data::gp_quality::compare(&sets, &sets, o);
+    });
+}
+
+#[test]
 fn ccsds_messages() {
     let oem = vec![
         head("tests/fixtures/ccsds/oem_502_b3_figG11.oem", 80),
