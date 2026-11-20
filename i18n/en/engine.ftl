@@ -10392,6 +10392,7 @@ engine-main-usage =
     { "   " }or: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }or: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
     { "   " }or: kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
+    { "   " }or: kshana orbit-data <check|convert|gp-compare|gp-audit|cov> ... (kshana orbit-data --help)
     { "   " }or: kshana kinds [--json]
     { "   " }or: kshana example [<name>]
     { "   " }or: kshana --help | --version
@@ -11974,3 +11975,95 @@ engine-e-iq-gnss-sdr-conf-signal = no GNSS-SDR configuration is written for { $s
 engine-e-iq-gnss-sdr-conf-centre = { $signal } is { $offset_hz } Hz from the recording's centre frequency; the default GNSS-SDR chain needs it at zero frequency
 engine-e-iq-gnss-sdr-conf-profile = unknown profile { $profile } (default, narrowband)
 engine-iq-gnss-sdr-conf-written = wrote the GNSS-SDR configuration to { $path }
+
+## Orbit-data validators, converters and monitors (src/orbit_data)
+engine-orbit-data-valid = valid against { $standard }
+engine-orbit-data-valid-with-warnings = valid against { $standard }, with { $warnings } warnings
+engine-orbit-data-invalid = invalid against { $standard }: { $errors } errors, { $warnings } warnings
+engine-orbit-data-error = error
+engine-orbit-data-warning = warning
+engine-orbit-data-not-checked = not checked: { $what }
+engine-orbit-data-header = header
+engine-orbit-data-cdm-relative = relative metadata/data
+engine-orbit-data-cdm-object = object metadata/data
+engine-orbit-data-covariance = covariance
+engine-orbit-data-oem-metadata = metadata of segment { $n }
+engine-orbit-data-line-too-long = the line has { $n } characters, more than { $max }
+engine-orbit-data-non-printable = the line has a character that is not printable ASCII
+engine-orbit-data-not-key-value = not a KEYWORD = value line: { $text }
+engine-orbit-data-keyword-blank = the keyword { $key } contains a blank
+engine-orbit-data-keyword-case = the keyword { $key } is not in upper case
+engine-orbit-data-units-format = the units of { $key } must follow the value after a blank, in square brackets
+engine-orbit-data-first-line = the first line must be { $key }
+engine-orbit-data-parse-failed = the message does not read: { $err }
+engine-orbit-data-xml-root = the root element is { $name }, not { $want }
+engine-orbit-data-xml-attr = the root attribute { $attr } must be { $want }
+engine-orbit-data-xml-missing = the message has no { $tag }
+engine-orbit-data-empty-value = { $key } has an empty value
+engine-orbit-data-bad-time = { $key } = { $value } is not a time tag (yyyy-mm-ddThh:mm:ss[.d] or yyyy-dddThh:mm:ss[.d])
+engine-orbit-data-bad-number = { $key } = { $value } is not a number in the standard's notation
+engine-orbit-data-bad-integer = { $key } = { $value } is not an integer
+engine-orbit-data-bad-value = { $key } = { $value } is not one of: { $allowed }
+engine-orbit-data-out-of-range = { $key } = { $value } is outside { $range }
+engine-orbit-data-version = version { $value }: this checker follows version { $want }
+engine-orbit-data-bad-chars = { $key } = { $value } has characters other than letters, digits, underscore and dash
+engine-orbit-data-identifier-blank = { $key } = { $value } has a blank (the standard allows letters, digits, underscore and dash)
+engine-orbit-data-lower-case = { $key } = { $value } has lower-case text
+engine-orbit-data-bad-units = { $key } has units [{ $given }]; the standard gives [{ $want }]
+engine-orbit-data-missing-units = { $key } does not show its units [{ $want }]
+engine-orbit-data-unknown-keyword = { $key } is not a keyword of the { $section }
+engine-orbit-data-duplicate-keyword = { $key } appears more than once in the { $section }
+engine-orbit-data-keyword-order = { $key } is out of the order the standard fixes (it follows { $prev })
+engine-orbit-data-missing-keyword = the { $section } lacks the obligatory { $key }
+engine-orbit-data-cdm-object-count = the message has { $n } object sections; a CDM has two, OBJECT1 then OBJECT2
+engine-orbit-data-cov-row = covariance row { $row } is incomplete, or follows a row that is missing
+engine-orbit-data-cov-zero-diagonal = the covariance of { $at } has a zero variance; its row and column should be discounted
+engine-orbit-data-not-pd = the covariance at { $at } is not positive definite (smallest correlation eigenvalue { $min })
+engine-orbit-data-frame-mismatch = REF_FRAME differs between the objects ({ $a }, { $b })
+engine-orbit-data-inconsistent = { $key } = { $given } { $unit }, but the data give { $computed } { $unit }
+engine-orbit-data-time-order = { $first } ({ $a }) is later than { $second } ({ $b })
+engine-orbit-data-count-order = { $used } = { $a } is larger than { $avail } = { $b }
+engine-orbit-data-unterminated = the message ends inside a block
+engine-orbit-data-no-segment = the message has no segment
+engine-orbit-data-time-system-changed = TIME_SYSTEM changes within the message ({ $a }, then { $b })
+engine-orbit-data-outside-span = time { $t } lies outside the span the metadata give
+engine-orbit-data-useable-overlap = the useable spans of segments { $a } and { $b } overlap
+engine-orbit-data-data-width = a data line has { $n } values; expected { $want }
+engine-orbit-data-duplicate-time = the time tag { $t } repeats
+engine-orbit-data-time-not-increasing = the time tag { $t } does not increase (the one before is { $prev })
+engine-orbit-data-too-few-points = { $n } data lines cannot carry interpolation of degree { $deg } (it needs { $need })
+engine-orbit-data-mixed-time = the { $block } block mixes relative and absolute time tags
+engine-orbit-data-span-short = the useable span is { $days } days, shorter than the { $min } days asked for
+engine-orbit-data-gap = a gap of { $s } s, longer than the { $max } s asked for
+engine-orbit-data-gp-checksum = line { $line }: the checksum in column 69 is wrong (it should be { $want })
+engine-orbit-data-gp-catalogue = line 1 and line 2 do not name the same catalogue number
+engine-orbit-data-gp-perigee = the perigee is { $km } km, below the Earth's surface
+engine-orbit-data-gp-sgp4 = SGP4 fails { $days } days after the epoch (error code { $code })
+engine-orbit-data-gp-stale = the epoch is { $days } days before the reference time (more than { $max })
+engine-orbit-data-gp-future = the epoch is { $days } days after the reference time
+engine-orbit-data-gp-repeated-epoch = another set of this object has the same epoch and different elements
+engine-orbit-data-gp-elset-number = the element set number goes back from { $a } to { $b } at a later epoch
+engine-orbit-data-gp-jump = this set and the one before it differ by { $km } km at its epoch, { $hours } h later (more than { $max } km): a manoeuvre or a bad set
+engine-orbit-data-gp-compare-summary = { $n } objects in both sources, { $flagged } flagged above { $threshold } km; { $only_a } only in the first, { $only_b } only in the second (MODELLED: SGP4 differences, not accuracy)
+engine-orbit-data-gp-audit-summary = { $sets } element sets, { $objects } objects, { $findings } findings
+engine-orbit-data-usage =
+    usage: kshana orbit-data check <cdm|oem|ocm file> [--json] [--aliases <map.json>] [--min-span-days <d>] [--max-gap-s <s>]
+    { "   " }or: kshana orbit-data convert <file> --to <ocm|oem|cdm> [--aliases <map.json>]
+    { "   " }or: kshana orbit-data gp-compare <a.tle> <b.tle> [--hours <h>] [--step-min <min>] [--threshold-km <km>] [--json]
+    { "   " }or: kshana orbit-data gp-audit <sets.tle> ... [--at <epoch>] [--stale-days <d>] [--jump-km <km>] [--json]
+    { "   " }or: kshana orbit-data cov <check|propagate|monte-carlo|synthetic|realism> <input.json> [--dt-s <s>] [--step-s <s>] [--samples <n>] [--seed <n>] [--sigma-rtn <r,t,n,rdot,tdot,ndot>] [--full]
+    { "   " }(docs/ORBIT-DATA.md)
+engine-e-orbit-data-unknown-message = { $path } is not a CDM, OEM (KVN) or OCM: no CCSDS_CDM_VERS, CCSDS_OEM_VERS or CCSDS_OCM_VERS line and no <cdm> or <ocm> root
+engine-e-orbit-data-bad-flag = { $flag } { $value }: not a usable value
+engine-e-orbit-data-aliases-not-object = the alias table must be a JSON object of "name": "KEYWORD"
+engine-e-orbit-data-alias-target = the alias { $key } does not map to a CDM keyword
+engine-e-orbit-data-convert-pair = { $path }: no conversion to { $to } (OEM to ocm, OCM to oem, CDM to cdm)
+engine-e-orbit-data-convert-empty = the OEM has no segment to convert
+engine-e-orbit-data-convert-one-object = the OEM holds { $n } objects; an OCM holds one
+engine-e-orbit-data-convert-missing = the source lacks { $key }, which the target needs
+engine-e-orbit-data-convert-width = a data or covariance line has the wrong number of values for the conversion
+engine-e-orbit-data-convert-time = the time tag { $t } cannot be made absolute (no EPOCH_TZERO, or not a number)
+engine-e-orbit-data-convert-traj = trajectory type { $kind } has no OEM form (CARTPV and CARTPVA do)
+engine-e-orbit-data-convert-cov = covariance { $kind } { $ordering } has no OEM form (CARTPV in LTM, UTM or FULL does)
+engine-e-orbit-data-cov-input = the input lacks a valid { $key }
+engine-e-orbit-data-cov-not-pd = the initial covariance is not positive definite, or too few samples were asked for

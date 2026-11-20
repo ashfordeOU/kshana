@@ -9861,6 +9861,7 @@ engine-main-usage =
     { "   " }或：kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }或：kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
     { "   " }或：kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
+    { "   " }或：kshana orbit-data <check|convert|gp-compare|gp-audit|cov> ... (kshana orbit-data --help)
     { "   " }或：kshana kinds [--json]
     { "   " }或：kshana example [<name>]
     { "   " }或：kshana --help | --version
@@ -10859,3 +10860,95 @@ engine-e-iq-gnss-sdr-conf-signal = 不为 { $signal } 生成 GNSS-SDR 配置（�
 engine-e-iq-gnss-sdr-conf-centre = { $signal } 距录制文件的中心频率 { $offset_hz } Hz；GNSS-SDR 的默认处理链要求它位于零频
 engine-e-iq-gnss-sdr-conf-profile = 未知的配置档 { $profile }（default、narrowband）
 engine-iq-gnss-sdr-conf-written = 已将 GNSS-SDR 配置写入 { $path }
+
+## Orbit-data validators, converters and monitors (src/orbit_data)
+engine-orbit-data-valid = 依据 { $standard }：有效
+engine-orbit-data-valid-with-warnings = 依据 { $standard }：有效，警告：{ $warnings }
+engine-orbit-data-invalid = 依据 { $standard }：无效，错误：{ $errors }，警告：{ $warnings }
+engine-orbit-data-error = 错误
+engine-orbit-data-warning = 警告
+engine-orbit-data-not-checked = 未检查：{ $what }
+engine-orbit-data-header = 头部
+engine-orbit-data-cdm-relative = 相对元数据/数据
+engine-orbit-data-cdm-object = 对象元数据/数据
+engine-orbit-data-covariance = 协方差
+engine-orbit-data-oem-metadata = 段 { $n } 的元数据
+engine-orbit-data-line-too-long = 该行有 { $n } 个字符，超过 { $max }
+engine-orbit-data-non-printable = 该行含有非可打印 ASCII 字符
+engine-orbit-data-not-key-value = 不是 KEYWORD = value 形式的行：{ $text }
+engine-orbit-data-keyword-blank = 关键字 { $key } 含有空格
+engine-orbit-data-keyword-case = 关键字 { $key } 不是大写
+engine-orbit-data-units-format = { $key } 的单位必须在值之后，以空格隔开，放在方括号中
+engine-orbit-data-first-line = 第一行必须是 { $key }
+engine-orbit-data-parse-failed = 无法读取该消息：{ $err }
+engine-orbit-data-xml-root = 根元素是 { $name }，而不是 { $want }
+engine-orbit-data-xml-attr = 根属性 { $attr } 必须为 { $want }
+engine-orbit-data-xml-missing = 该消息没有 { $tag }
+engine-orbit-data-empty-value = { $key } 的值为空
+engine-orbit-data-bad-time = { $key } = { $value } 不是时间标签 (yyyy-mm-ddThh:mm:ss[.d] / yyyy-dddThh:mm:ss[.d])
+engine-orbit-data-bad-number = { $key } = { $value } 不是该标准记法的数字
+engine-orbit-data-bad-integer = { $key } = { $value } 不是整数
+engine-orbit-data-bad-value = { $key } = { $value } 不在以下值中：{ $allowed }
+engine-orbit-data-out-of-range = { $key } = { $value } 超出 { $range }
+engine-orbit-data-version = 版本 { $value }：本检查遵循版本 { $want }
+engine-orbit-data-bad-chars = { $key } = { $value } 含有字母、数字、下划线和连字符以外的字符
+engine-orbit-data-identifier-blank = { $key } = { $value } 含有空格（标准允许字母、数字、下划线和连字符）
+engine-orbit-data-lower-case = { $key } = { $value } 含有小写字母
+engine-orbit-data-bad-units = { $key } 的单位为 [{ $given }]；标准规定 [{ $want }]
+engine-orbit-data-missing-units = { $key } 未标出单位 [{ $want }]
+engine-orbit-data-unknown-keyword = { $key } 不是 { $section } 的关键字
+engine-orbit-data-duplicate-keyword = { $key } 在 { $section } 中出现多次
+engine-orbit-data-keyword-order = { $key } 不符合标准规定的顺序（位于 { $prev } 之后）
+engine-orbit-data-missing-keyword = { $section } 缺少必需的 { $key }
+engine-orbit-data-cdm-object-count = 消息中的对象节数：{ $n }；CDM 有两个，先 OBJECT1 后 OBJECT2
+engine-orbit-data-cov-row = 协方差第 { $row } 行不完整，或位于缺失的行之后
+engine-orbit-data-cov-zero-diagonal = { $at } 的协方差有零方差；其行和列不应使用
+engine-orbit-data-not-pd = { $at } 处的协方差不是正定的（相关矩阵最小特征值 { $min }）
+engine-orbit-data-frame-mismatch = 两个对象的 REF_FRAME 不同（{ $a }，{ $b }）
+engine-orbit-data-inconsistent = { $key } = { $given } { $unit }，但数据给出 { $computed } { $unit }
+engine-orbit-data-time-order = { $first }（{ $a }）晚于 { $second }（{ $b }）
+engine-orbit-data-count-order = { $used } = { $a } 大于 { $avail } = { $b }
+engine-orbit-data-unterminated = 消息在块内结束
+engine-orbit-data-no-segment = 消息没有段
+engine-orbit-data-time-system-changed = 消息中 TIME_SYSTEM 发生变化（{ $a }，然后 { $b }）
+engine-orbit-data-outside-span = 时间 { $t } 超出元数据给出的跨度
+engine-orbit-data-useable-overlap = 段 { $a } 和段 { $b } 的可用跨度重叠
+engine-orbit-data-data-width = 数据行有 { $n } 个值；应为 { $want }
+engine-orbit-data-duplicate-time = 时间标签 { $t } 重复
+engine-orbit-data-time-not-increasing = 时间标签 { $t } 未递增（前一个为 { $prev }）
+engine-orbit-data-too-few-points = 数据行数：{ $n }；不足以进行 { $deg } 阶插值（需要 { $need }）
+engine-orbit-data-mixed-time = { $block } 块混用了相对和绝对时间标签
+engine-orbit-data-span-short = 可用跨度为 { $days } 天，短于要求的 { $min } 天
+engine-orbit-data-gap = 有 { $s } 秒的间隔，长于要求的 { $max } 秒
+engine-orbit-data-gp-checksum = 第 { $line } 行：第 69 列校验和错误（应为 { $want }）
+engine-orbit-data-gp-catalogue = 第 1 行和第 2 行的编目号不一致
+engine-orbit-data-gp-perigee = 近地点高度为 { $km } km，低于地球表面
+engine-orbit-data-gp-sgp4 = 历元后 { $days } 天 SGP4 失败（错误码 { $code }）
+engine-orbit-data-gp-stale = 历元早于参考时间 { $days } 天（超过 { $max }）
+engine-orbit-data-gp-future = 历元晚于参考时间 { $days } 天
+engine-orbit-data-gp-repeated-epoch = 该对象的另一组根数历元相同而根数不同
+engine-orbit-data-gp-elset-number = 在较晚的历元，根数组编号从 { $a } 回退到 { $b }
+engine-orbit-data-gp-jump = 此组与前一组在其历元（{ $hours } 小时后）相差 { $km } km（超过 { $max } km）：机动或错误的根数组
+engine-orbit-data-gp-compare-summary = 两个来源共有对象：{ $n }，超过 { $threshold } km 被标记：{ $flagged }；仅在第一个：{ $only_a }，仅在第二个：{ $only_b }（MODELLED：SGP4 差值，不是精度）
+engine-orbit-data-gp-audit-summary = 根数组：{ $sets }，对象：{ $objects }，发现：{ $findings }
+engine-orbit-data-usage =
+    用法：kshana orbit-data check <cdm|oem|ocm file> [--json] [--aliases <map.json>] [--min-span-days <d>] [--max-gap-s <s>]
+    { "   " }或：kshana orbit-data convert <file> --to <ocm|oem|cdm> [--aliases <map.json>]
+    { "   " }或：kshana orbit-data gp-compare <a.tle> <b.tle> [--hours <h>] [--step-min <min>] [--threshold-km <km>] [--json]
+    { "   " }或：kshana orbit-data gp-audit <sets.tle> ... [--at <epoch>] [--stale-days <d>] [--jump-km <km>] [--json]
+    { "   " }或：kshana orbit-data cov <check|propagate|monte-carlo|synthetic|realism> <input.json> [--dt-s <s>] [--step-s <s>] [--samples <n>] [--seed <n>] [--sigma-rtn <r,t,n,rdot,tdot,ndot>] [--full]
+    { "   " }(docs/ORBIT-DATA.md)
+engine-e-orbit-data-unknown-message = { $path } 不是 CDM、OEM（KVN）或 OCM：没有 CCSDS_CDM_VERS、CCSDS_OEM_VERS 或 CCSDS_OCM_VERS 行，也没有 <cdm> 或 <ocm> 根元素
+engine-e-orbit-data-bad-flag = { $flag } { $value }：不可用的值
+engine-e-orbit-data-aliases-not-object = 别名表必须是 "name": "KEYWORD" 形式的 JSON 对象
+engine-e-orbit-data-alias-target = 别名 { $key } 未映射到 CDM 关键字
+engine-e-orbit-data-convert-pair = { $path }：没有到 { $to } 的转换（OEM 到 ocm，OCM 到 oem，CDM 到 cdm）
+engine-e-orbit-data-convert-empty = OEM 没有可转换的段
+engine-e-orbit-data-convert-one-object = OEM 含有对象：{ $n }；OCM 只含一个
+engine-e-orbit-data-convert-missing = 源缺少目标所需的 { $key }
+engine-e-orbit-data-convert-width = 数据行或协方差行的值个数不适合转换
+engine-e-orbit-data-convert-time = 时间标签 { $t } 无法转为绝对时间（没有 EPOCH_TZERO，或不是数字）
+engine-e-orbit-data-convert-traj = 轨迹类型 { $kind } 没有 OEM 形式（CARTPV 和 CARTPVA 有）
+engine-e-orbit-data-convert-cov = 协方差 { $kind } { $ordering } 没有 OEM 形式（LTM、UTM 或 FULL 的 CARTPV 有）
+engine-e-orbit-data-cov-input = 输入缺少有效的 { $key }
+engine-e-orbit-data-cov-not-pd = 初始协方差不是正定的，或请求的样本太少

@@ -10578,6 +10578,7 @@ engine-main-usage =
     { "   " }eller: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }eller: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
     { "   " }eller: kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
+    { "   " }eller: kshana orbit-data <check|convert|gp-compare|gp-audit|cov> ... (kshana orbit-data --help)
     { "   " }eller: kshana kinds [--json]
     { "   " }eller: kshana example [<name>]
     { "   " }eller: kshana --help | --version
@@ -11609,3 +11610,95 @@ engine-e-iq-gnss-sdr-conf-signal = der skrives ingen GNSS-SDR-konfiguration for 
 engine-e-iq-gnss-sdr-conf-centre = { $signal } ligger { $offset_hz } Hz fra optagelsens centerfrekvens; GNSS-SDR's standardkæde skal have den på frekvens nul
 engine-e-iq-gnss-sdr-conf-profile = ukendt profil { $profile } (default, narrowband)
 engine-iq-gnss-sdr-conf-written = skrev GNSS-SDR-konfigurationen til { $path }
+
+## Orbit-data validators, converters and monitors (src/orbit_data)
+engine-orbit-data-valid = gyldig efter { $standard }
+engine-orbit-data-valid-with-warnings = gyldig efter { $standard }, advarsler: { $warnings }
+engine-orbit-data-invalid = ugyldig efter { $standard }: fejl: { $errors }, advarsler: { $warnings }
+engine-orbit-data-error = fejl
+engine-orbit-data-warning = advarsel
+engine-orbit-data-not-checked = ikke kontrolleret: { $what }
+engine-orbit-data-header = hoved
+engine-orbit-data-cdm-relative = relative metadata/data
+engine-orbit-data-cdm-object = objektets metadata/data
+engine-orbit-data-covariance = kovarians
+engine-orbit-data-oem-metadata = metadata for segment { $n }
+engine-orbit-data-line-too-long = linjen har { $n } tegn, flere end { $max }
+engine-orbit-data-non-printable = linjen har et tegn, der ikke er udskrivbart ASCII
+engine-orbit-data-not-key-value = ikke en linje NØGLEORD = værdi: { $text }
+engine-orbit-data-keyword-blank = nøgleordet { $key } indeholder et mellemrum
+engine-orbit-data-keyword-case = nøgleordet { $key } er ikke skrevet med store bogstaver
+engine-orbit-data-units-format = enhederne for { $key } skal stå efter værdien efter et mellemrum, i kantede parenteser
+engine-orbit-data-first-line = første linje skal være { $key }
+engine-orbit-data-parse-failed = meddelelsen kan ikke læses: { $err }
+engine-orbit-data-xml-root = rodelementet er { $name }, ikke { $want }
+engine-orbit-data-xml-attr = rodattributten { $attr } skal være { $want }
+engine-orbit-data-xml-missing = meddelelsen har ingen { $tag }
+engine-orbit-data-empty-value = { $key } har en tom værdi
+engine-orbit-data-bad-time = { $key } = { $value } er ikke et tidsstempel (yyyy-mm-ddThh:mm:ss[.d] / yyyy-dddThh:mm:ss[.d])
+engine-orbit-data-bad-number = { $key } = { $value } er ikke et tal i standardens notation
+engine-orbit-data-bad-integer = { $key } = { $value } er ikke et heltal
+engine-orbit-data-bad-value = { $key } = { $value } er ikke en af: { $allowed }
+engine-orbit-data-out-of-range = { $key } = { $value } ligger uden for { $range }
+engine-orbit-data-version = version { $value }: denne kontrol følger version { $want }
+engine-orbit-data-bad-chars = { $key } = { $value } har andre tegn end bogstaver, cifre, understreg og bindestreg
+engine-orbit-data-identifier-blank = { $key } = { $value } har et mellemrum (standarden tillader bogstaver, cifre, understreg og bindestreg)
+engine-orbit-data-lower-case = { $key } = { $value } har små bogstaver
+engine-orbit-data-bad-units = { $key } har enhederne [{ $given }]; standarden angiver [{ $want }]
+engine-orbit-data-missing-units = { $key } viser ikke sine enheder [{ $want }]
+engine-orbit-data-unknown-keyword = { $key } er ikke et nøgleord i afsnittet { $section }
+engine-orbit-data-duplicate-keyword = { $key } forekommer mere end én gang i afsnittet { $section }
+engine-orbit-data-keyword-order = { $key } står uden for den rækkefølge, standarden fastlægger (det følger { $prev })
+engine-orbit-data-missing-keyword = afsnittet { $section } mangler det obligatoriske { $key }
+engine-orbit-data-cdm-object-count = objektafsnit i meddelelsen: { $n }; en CDM har to, OBJECT1 og derefter OBJECT2
+engine-orbit-data-cov-row = kovariansrække { $row } er ufuldstændig eller følger efter en manglende række
+engine-orbit-data-cov-zero-diagonal = kovariansen for { $at } har en varians på nul; dens række og søjle skal ikke bruges
+engine-orbit-data-not-pd = kovariansen ved { $at } er ikke positivt definit (mindste egenværdi for korrelationen { $min })
+engine-orbit-data-frame-mismatch = REF_FRAME er forskellig mellem objekterne ({ $a }, { $b })
+engine-orbit-data-inconsistent = { $key } = { $given } { $unit }, men data giver { $computed } { $unit }
+engine-orbit-data-time-order = { $first } ({ $a }) ligger efter { $second } ({ $b })
+engine-orbit-data-count-order = { $used } = { $a } er større end { $avail } = { $b }
+engine-orbit-data-unterminated = meddelelsen slutter inde i en blok
+engine-orbit-data-no-segment = meddelelsen har intet segment
+engine-orbit-data-time-system-changed = TIME_SYSTEM skifter i meddelelsen ({ $a }, derefter { $b })
+engine-orbit-data-outside-span = tiden { $t } ligger uden for det spænd, metadata angiver
+engine-orbit-data-useable-overlap = de brugbare spænd for segment { $a } og { $b } overlapper
+engine-orbit-data-data-width = en datalinje har { $n } værdier; forventet: { $want }
+engine-orbit-data-duplicate-time = tidsstemplet { $t } gentages
+engine-orbit-data-time-not-increasing = tidsstemplet { $t } stiger ikke (det forrige er { $prev })
+engine-orbit-data-too-few-points = datalinjer: { $n }; for få til interpolation af grad { $deg } (kræver: { $need })
+engine-orbit-data-mixed-time = blokken { $block } blander relative og absolutte tidsstempler
+engine-orbit-data-span-short = det brugbare spænd er { $days } dage, kortere end de ønskede { $min } dage
+engine-orbit-data-gap = et hul på { $s } s, længere end de ønskede { $max } s
+engine-orbit-data-gp-checksum = linje { $line }: kontrolsummen i kolonne 69 er forkert (den burde være { $want })
+engine-orbit-data-gp-catalogue = linje 1 og linje 2 angiver ikke samme katalognummer
+engine-orbit-data-gp-perigee = perigæet ligger i { $km } km, under jordens overflade
+engine-orbit-data-gp-sgp4 = SGP4 fejler { $days } dage efter epoken (fejlkode { $code })
+engine-orbit-data-gp-stale = epoken ligger { $days } dage før referencetiden (mere end { $max })
+engine-orbit-data-gp-future = epoken ligger { $days } dage efter referencetiden
+engine-orbit-data-gp-repeated-epoch = et andet sæt for dette objekt har samme epoke og andre elementer
+engine-orbit-data-gp-elset-number = elementsættets nummer går tilbage fra { $a } til { $b } ved en senere epoke
+engine-orbit-data-gp-jump = dette sæt og det forrige afviger med { $km } km ved dets epoke, { $hours } h senere (mere end { $max } km): en manøvre eller et fejlagtigt sæt
+engine-orbit-data-gp-compare-summary = objekter i begge kilder: { $n }, markeret over { $threshold } km: { $flagged }; kun i den første: { $only_a }, kun i den anden: { $only_b } (MODELLED: SGP4-forskelle, ikke nøjagtighed)
+engine-orbit-data-gp-audit-summary = elementsæt: { $sets }, objekter: { $objects }, fund: { $findings }
+engine-orbit-data-usage =
+    brug: kshana orbit-data check <cdm|oem|ocm file> [--json] [--aliases <map.json>] [--min-span-days <d>] [--max-gap-s <s>]
+    { "   " }eller: kshana orbit-data convert <file> --to <ocm|oem|cdm> [--aliases <map.json>]
+    { "   " }eller: kshana orbit-data gp-compare <a.tle> <b.tle> [--hours <h>] [--step-min <min>] [--threshold-km <km>] [--json]
+    { "   " }eller: kshana orbit-data gp-audit <sets.tle> ... [--at <epoch>] [--stale-days <d>] [--jump-km <km>] [--json]
+    { "   " }eller: kshana orbit-data cov <check|propagate|monte-carlo|synthetic|realism> <input.json> [--dt-s <s>] [--step-s <s>] [--samples <n>] [--seed <n>] [--sigma-rtn <r,t,n,rdot,tdot,ndot>] [--full]
+    { "   " }(docs/ORBIT-DATA.md)
+engine-e-orbit-data-unknown-message = { $path } er hverken CDM, OEM (KVN) eller OCM: ingen linje CCSDS_CDM_VERS, CCSDS_OEM_VERS eller CCSDS_OCM_VERS og ingen rod <cdm> eller <ocm>
+engine-e-orbit-data-bad-flag = { $flag } { $value }: ikke en brugbar værdi
+engine-e-orbit-data-aliases-not-object = aliastabellen skal være et JSON-objekt af "name": "KEYWORD"
+engine-e-orbit-data-alias-target = aliaset { $key } peger ikke på et CDM-nøgleord
+engine-e-orbit-data-convert-pair = { $path }: ingen konvertering til { $to } (OEM til ocm, OCM til oem, CDM til cdm)
+engine-e-orbit-data-convert-empty = OEM'en har intet segment at konvertere
+engine-e-orbit-data-convert-one-object = OEM'en indeholder objekter: { $n }; en OCM indeholder ét
+engine-e-orbit-data-convert-missing = kilden mangler { $key }, som målet har brug for
+engine-e-orbit-data-convert-width = en data- eller kovarianslinje har forkert antal værdier til konverteringen
+engine-e-orbit-data-convert-time = tidsstemplet { $t } kan ikke gøres absolut (ingen EPOCH_TZERO, eller ikke et tal)
+engine-e-orbit-data-convert-traj = banetypen { $kind } har ingen OEM-form (CARTPV og CARTPVA har)
+engine-e-orbit-data-convert-cov = kovariansen { $kind } { $ordering } har ingen OEM-form (CARTPV i LTM, UTM eller FULL har)
+engine-e-orbit-data-cov-input = inddata mangler en gyldig { $key }
+engine-e-orbit-data-cov-not-pd = startkovariansen er ikke positivt definit, eller der blev bedt om for få stikprøver
