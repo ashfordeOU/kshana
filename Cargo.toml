@@ -117,6 +117,42 @@ exclude = [
     "/tests/interference_map_examples.rs",
     "/tests/interference_map_reference.rs",
     "/tests/sgp4_crate_comparison.rs",
+    # 0.42 (20 Nov 2026): the .crate was 25 KB over crates.io's 10 MiB limit after the interference-incident
+    # library. None of these is embedded by src/ (include_str!): the repository-only scenarios (run from a
+    # checkout; tests/cli_first_run.rs keeps their REPO_ONLY reasons), the standards packs' pre-registration
+    # notes, the time-vector generator, a provenance note and the incident library and release register
+    # (the library embeds only the schema; tests read the records from a checkout).
+    "/scenarios/celeste-iod-classical-pilot-signals.toml",
+    "/scenarios/celeste-iod-end-to-end.toml",
+    "/scenarios/celeste-iod-fused-pvt.toml",
+    "/scenarios/leo-navmsg-celeste-iod.toml",
+    "/scenarios/leo-pass-celeste-iod-multiband.toml",
+    "/scenarios/lunar-descent-lola.toml",
+    "/scenarios/lunar-llr-datum.toml",
+    "/scenarios/lunar-station-coverage-terrain.toml",
+    "/scenarios/lunar-station-geodesy-baseline.toml",
+    "/scenarios/lunar-station-geodesy-with-station.toml",
+    "/scenarios/lunar-surface-terrain.toml",
+    "/scenarios/mission-thread-artemis-class.toml",
+    "/scenarios/quantum-pnt-demonstrator.suite.toml",
+    "/scenarios/training/coastal-drag-off.toml",
+    "/scenarios/training/combined-event.toml",
+    "/scenarios/training/fjord-natural-degradation.toml",
+    "/scenarios/training/port-approach-time-spoof.toml",
+    "/standards/*/PREREGISTRATION.md",
+    "/data/conformance/time/gen_time_vectors.py",
+    "/data/galileo-os-sis-icd/PROVENANCE.md",
+    "/data/interference-incidents/library.json",
+    "/data/interference-incidents/RELEASES.json",
+    # Repository community files and tooling config (read on GitHub, embedded by nothing), and the golden
+    # hashes the integration tests read from a checkout.
+    "/CONTRIBUTING.md",
+    "/GOVERNANCE.md",
+    "/CODE_OF_CONDUCT.md",
+    "/SECURITY.md",
+    "/sonar-project.properties",
+    "/.gitignore",
+    "/tests/golden",
     "/tests/terrain_nav_validation.rs",
     # The ANISE frame cross-validation is a standalone, workspace-excluded crate with
     # its own Cargo.lock: it depends on `anise` + `hifitime`, whose MPL-2.0 licence the
