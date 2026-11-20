@@ -490,12 +490,12 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/interference_map/adsb.rs": {
-   "count": 53,
-   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
+   "count": 62,
+   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md); the per-cell confidence statement and data window (JSON keys, level names, the statement id)"
   },
   "src/interference_map/ais.rs": {
-   "count": 49,
-   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
+   "count": 50,
+   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md); the data_window key"
   },
   "src/interference_map/cli.rs": {
    "count": 12,
@@ -514,8 +514,8 @@
    "reason": "identifiers: command-line flag names and output file name suffixes"
   },
   "src/interference_map/observatory.rs": {
-   "count": 95,
-   "reason": "machine-document and developer: JSON keys and notes of the published files, the PNG text (hashed into the manifest, built in English), and command-line error messages not yet converted"
+   "count": 97,
+   "reason": "machine-document and developer: JSON keys and notes of the published files, the PNG text (hashed into the manifest, built in English), and command-line error messages not yet converted; the latency statement keys of the release block"
   },
   "src/interference_map/output.rs": {
    "count": 9,
@@ -1090,8 +1090,8 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/main.rs": {
-   "count": 74,
-   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md); clock-live prints its error text as given; the sensor-live command name; the device and bench-speed command names; the data-pack, area-trust and env-baseline command names; the ephem-export command name; the time-vectors command name; the ais-integrity command name."
+   "count": 77,
+   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md); clock-live prints its error text as given; the sensor-live command name; the device and bench-speed command names; the data-pack, area-trust and env-baseline command names; the ephem-export command name; the time-vectors command name; the ais-integrity command name; the space-weather command name; the orbit-data command name; the space-receiver command name."
   },
   "src/mars_pnt.rs": {
    "count": 31,
@@ -1346,8 +1346,8 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/receiver_trust/monitors.rs": {
-   "count": 13,
-   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
+   "count": 14,
+   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md); the Unicore self-report source label, beside the other formats' labels"
   },
   "src/receiver_trust/platform.rs": {
    "count": 9,
@@ -1676,6 +1676,198 @@
   "src/time_vectors.rs": {
    "count": 13,
    "reason": "identifier: the kshana.time-vectors/1 format tag, the embedded vector file names and the JSON field names of the vector format (docs/TIME-VECTORS.md)"
+  },
+  "src/oscillator/datasheet.rs": {
+   "count": 2,
+   "reason": "machine identifiers: the JSON input field names (`snake_case`, dotted paths) named verbatim in the out-of-range error, and check ids written into the JSON report; not prose"
+  },
+  "src/oscillator/environment.rs": {
+   "count": 9,
+   "reason": "machine identifiers: the JSON input field names (`snake_case`, dotted paths) named verbatim in the out-of-range error, and check ids written into the JSON report; not prose"
+  },
+  "src/oscillator/mod.rs": {
+   "count": 7,
+   "reason": "machine identifiers: the JSON input field names (`snake_case`, dotted paths) named verbatim in the out-of-range error, and check ids written into the JSON report; not prose"
+  },
+  "src/oscillator/raim_aid.rs": {
+   "count": 1,
+   "reason": "machine identifiers: the JSON input field names (`snake_case`, dotted paths) named verbatim in the out-of-range error, and check ids written into the JSON report; not prose"
+  },
+  "src/oscillator/refs.rs": {
+   "count": 9,
+   "reason": "data: the cited documents and descriptions of the acceleration-sensitivity reference table (`kshana oscillator refs`), printed as JSON fields"
+  },
+  "src/oscillator/select.rs": {
+   "count": 11,
+   "reason": "machine identifiers: the JSON input field names (`snake_case`, dotted paths) named verbatim in the out-of-range error, and check ids written into the JSON report; not prose"
+  },
+  "src/oscillator/vibration.rs": {
+   "count": 9,
+   "reason": "machine identifiers: the JSON input field names (`snake_case`, dotted paths) named verbatim in the out-of-range error, and check ids written into the JSON report; not prose"
+  },
+  "src/drone_pnt/budget.rs": {
+   "count": 19,
+   "reason": "identifier: aiding kinds, the quad-loss mode names, the kshana.drone-dr-budget/1 and kshana.drone-quad-loss/1 format tags and the JSON field names of those documents (docs/DRONE-PNT.md)"
+  },
+  "src/drone_pnt/estimator_cases.rs": {
+   "count": 67,
+   "reason": "identifier: the estimator case ids, the URLs of the public issues each case cites, the trace channel and parameter names and the JSON field names of the kshana.drone-estimator-cases/1 document (docs/DRONE-PNT.md)"
+  },
+  "src/drone_pnt/epochs.rs": {
+   "count": 19,
+   "reason": "identifier: PX4 ULog topic and field names and ArduPilot DataFlash column labels read from (or written into test fixtures of) the logs"
+  },
+  "src/drone_pnt/failover.rs": {
+   "count": 1,
+   "reason": "identifier: the kshana.drone-failover/1 format tag"
+  },
+  "src/drone_pnt/mod.rs": {
+   "count": 3,
+   "reason": "identifier: the prearm-calibrate, estimator-cases and quad-loss subcommand names"
+  },
+  "src/drone_pnt/prearm.rs": {
+   "count": 13,
+   "reason": "identifier: the pre-arm check ids and the kshana.drone-prearm/1 and kshana.drone-prearm-calibration/1 format tags (docs/DRONE-PNT.md)"
+  },
+  "src/drone_pnt/zonotope.rs": {
+   "count": 1,
+   "reason": "identifier: the kshana.drone-zonotope-pl/1 format tag"
+  },
+  "src/orbit_data/cdm.rs": {
+   "count": 145,
+   "reason": "identifier: CCSDS 508.0-B-1 CDM keywords, normative values and units (Tables 3-1 to 3-4), the standard's document name and section references, and the stable machine codes of the findings"
+  },
+  "src/orbit_data/ephem.rs": {
+   "count": 95,
+   "reason": "identifier: CCSDS 502.0-B-3 OEM and OCM keywords and block markers, the standard's document name and section references, and the stable machine codes of the findings"
+  },
+  "src/orbit_data/convert.rs": {
+   "count": 60,
+   "reason": "machine-document: the CCSDS OEM and OCM keywords and block markers written into converted messages, and the PROVENANCE comment line format (docs/ORBIT-DATA.md)"
+  },
+  "src/orbit_data/cli.rs": {
+   "count": 17,
+   "reason": "identifier: command-line flag names, the JSON field names of the cov input and output, a finding code, and the dynamics-model field of the JSON output"
+  },
+  "src/orbit_data/gp_quality.rs": {
+   "count": 4,
+   "reason": "identifier: the stable machine codes of the audit findings"
+  },
+  "src/iq/cli/diagnose.rs": {
+   "count": 3,
+   "reason": "identifier: the command-line flag names of kshana iq diagnose"
+  },
+  "src/iq/cli/gnss_sdr.rs": {
+   "count": 3,
+   "reason": "identifier: the kshana iq gnss-sdr-conf command name and its command-line flag names"
+  },
+  "src/iq/cli/mod.rs": {
+   "count": 2,
+   "reason": "identifier: the gnss-sdr-conf command name in the dispatcher"
+  },
+  "src/iq/frontdiag.rs": {
+   "count": 6,
+   "reason": "identifier: the stable finding codes of the front-end diagnosis JSON (iq-gain-imbalance, repeated-samples, ...)"
+  },
+  "src/iq/gnss_sdr_conf.rs": {
+   "count": 67,
+   "reason": "machine-document: GNSS-SDR configuration keys, block implementation names and the comment lines of the generated configuration file, a format-bound input of another program"
+  },
+  "src/rtk_qa/base_check.rs": {
+   "count": 15,
+   "reason": "identifier: the finding and match codes of the kshana rtk-qa base report (JSON field values, docs/RTK-QA.md) and the default tide-system name"
+  },
+  "src/rtk_qa/fix_check.rs": {
+   "count": 10,
+   "reason": "identifier: the finding codes of the kshana rtk-qa fix report (JSON field values, docs/RTK-QA.md), a wavelength name and the RTKLIB .pos column-header keywords it looks for"
+  },
+  "src/rtk_qa/liveness.rs": {
+   "count": 3,
+   "reason": "identifier: the alarm kinds of the kshana rtk-qa monitor (JSON field values, docs/RTK-QA.md)"
+  },
+  "src/rtk_qa/mod.rs": {
+   "count": 6,
+   "reason": "identifier: command-line flag and subcommand names of kshana rtk-qa"
+  },
+  "src/rtk_qa/ppk_diag.rs": {
+   "count": 14,
+   "reason": "identifier: the cause codes of the kshana rtk-qa ppk report (JSON field values, docs/RTK-QA.md)"
+  },
+  "src/rtk_qa/protocol.rs": {
+   "count": 44,
+   "reason": "machine-document: NTRIP/HTTP request and answer lines, header names and a source-table record written to or read from the network; identifier: the check ids and leak kinds of the rtk-qa probe, caster and log-check reports"
+  },
+  "src/rtk_real.rs": {
+   "count": 1,
+   "reason": "machine-document: the RTKLIB-style .pos column-header line written by to_pos"
+  },
+  "src/space_weather_pnt/density.rs": {
+   "count": 18,
+   "reason": "machine-document: the JSON field names, format tags (kshana.space-weather.*/1) and MODELLED/MEASURED evidence labels of the space-weather documents (docs/SPACE-WEATHER-PNT.md), and the request field names quoted in range errors"
+  },
+  "src/space_weather_pnt/dgnss.rs": {
+   "count": 14,
+   "reason": "machine-document: the JSON field names, format tags (kshana.space-weather.*/1) and MODELLED/MEASURED evidence labels of the space-weather documents (docs/SPACE-WEATHER-PNT.md), and the request field names quoted in range errors; the NOAA SWPC table heading the forecast parser looks for"
+  },
+  "src/space_weather_pnt/iono4d.rs": {
+   "count": 18,
+   "reason": "machine-document: the JSON field names, format tags (kshana.space-weather.*/1) and MODELLED/MEASURED evidence labels of the space-weather documents (docs/SPACE-WEATHER-PNT.md), and the request field names quoted in range errors"
+  },
+  "src/space_weather_pnt/mod.rs": {
+   "count": 2,
+   "reason": "identifier: the density-scorecard subcommand name and the usage message id"
+  },
+  "src/space_weather_pnt/storms.rs": {
+   "count": 15,
+   "reason": "machine-document: the JSON field names, format tags (kshana.space-weather.*/1) and MODELLED/MEASURED evidence labels of the space-weather documents (docs/SPACE-WEATHER-PNT.md), and the request field names quoted in range errors"
+  },
+  "src/corrections/b2b.rs": {
+   "count": 1,
+   "reason": "identifier: the slot<n> label of a reserved PPP-B2b mask slot in the JSON report"
+  },
+  "src/corrections/has.rs": {
+   "count": 4,
+   "reason": "identifier: machine codes of the JSON report (status and error values, the reserved signal name, gnss<id>:<n> labels of undefined GNSS IDs)"
+  },
+  "src/corrections/l6.rs": {
+   "count": 1,
+   "reason": "identifier: the madoca-iono service name in the JSON report"
+  },
+  "src/corrections/vectors.rs": {
+   "count": 2,
+   "reason": "identifier: the PASS/FAIL markers of the vector table, as in src/time_vectors.rs"
+  },
+  "src/interference_map/incident.rs": {
+   "count": 183,
+   "reason": "machine-document and identifier: the kshana-interference-incidents/1 vocabulary, field names and schema tags, the validator's problem messages (written to the machine-readable report, English by design), CSV column names and the Zenodo metadata keys (docs/INTERFERENCE-INCIDENTS.md)"
+  },
+  "src/space_receiver/bench.rs": {
+   "count": 7,
+   "reason": "machine-document and identifier: the case ids, orbit presets and antenna names of upper-ssv-bench/1, the schema and version ids, and the English label written into the kshana.space-receiver-bench/1 document"
+  },
+  "src/space_receiver/cli.rs": {
+   "count": 25,
+   "reason": "identifier: the option names of kshana space-receiver (--max-doppler-rate and the like), band and oscillator names, and the keys of the bench --list document"
+  },
+  "src/space_receiver/clock.rs": {
+   "count": 4,
+   "reason": "machine-document and identifier: the oscillator class names, the schema id, the source notes and the English label written into the kshana.space-receiver-clock/1 document"
+  },
+  "src/space_receiver/dynamics.rs": {
+   "count": 4,
+   "reason": "machine-document and identifier: the orbit preset names, the schema id and the English label written into the kshana.space-receiver-dynamics/1 document"
+  },
+  "src/space_receiver/mms.rs": {
+   "count": 4,
+   "reason": "machine-document and identifier: the schema id, verdict values, the cited source reference and the English label written into the kshana.space-receiver-mms/1 document"
+  },
+  "src/space_receiver/od_vs_tle.rs": {
+   "count": 3,
+   "reason": "machine-document and identifier: the schema id, the CCSDS standard id and frame names, and the English label written into the kshana.space-receiver-od-vs-tle/1 document"
+  },
+  "src/space_receiver/timestamps.rs": {
+   "count": 23,
+   "reason": "machine-document and identifier: the fault-kind names and CSV column names, the schema id and the English label written into the kshana.space-receiver-timestamps/1 document"
   }
  }
 }

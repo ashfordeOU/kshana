@@ -305,6 +305,7 @@ const UNLABELLED_WRITERS: &[(&str, &str)] = &[
     ("src/time_transfer_budget.rs", "writes only in a unit test (a temporary clock CSV)"),
     ("src/iq/signals/galileo.rs", "writes only in a unit test (a temporary code table)"),
     ("src/ais_integrity.rs", "writes the per-track flag report as JSON Lines (`ais-integrity --out`); its header line carries the MODELLED label and the method, so the file labels itself"),
+    ("src/interference_map/incident.rs", "writes the incident library release bundle (`interference-map incidents release`): the REPORTED and MODELLED records each carry their own label field, as given; data, not a result of the engine"),
     ("src/python.rs", "writes the CSV a labelled `run` already carries (RunOutput::csv)"),
     ("src/bin/crossover_study.rs", "a generator of a committed study document, not the output of a run"),
     ("src/bin/gen_araim_m3_study.rs", "a generator of a committed study document, not the output of a run"),
@@ -321,6 +322,7 @@ const UNLABELLED_WRITERS: &[(&str, &str)] = &[
     ("src/iq/cli/campaign.rs", "writes the campaign manifest, an input to the runner"),
     ("src/iq/cli/labfit.rs", "writes the fitted receiver-trust parameters, an input to later runs"),
     ("src/iq/cli/scene.rs", "writes IQ scene truth and SigMF/SDR metadata beside the samples: format-bound files read by other tools"),
+    ("src/iq/cli/gnss_sdr.rs", "writes a GNSS-SDR configuration file (`iq gnss-sdr-conf --out`): a format-bound input of another program, not a result of the engine"),
     ("src/iq/io/cli.rs", "writes converted sample files and SigMF metadata: format-bound"),
     ("src/iq/io/inventory.rs", "writes a file inventory of recordings, a catalogue of inputs"),
     ("src/iq/io/record.rs", "writes a capture tool's samples, unchanged, and their SigMF metadata: format-bound"),
@@ -330,6 +332,7 @@ const UNLABELLED_WRITERS: &[(&str, &str)] = &[
     ("src/live_io.rs", "writes the append-only session log of a live receiver feed (a stream of records, each labelled by its schema)"),
     ("src/nmea_synth/cli.rs", "writes the NMEA training stream and its truth log, which simulators and receivers read as plain NMEA"),
     ("src/realtime_frame_eop.rs", "writes the run's CSV, already labelled when it came from api::run_toml (RunOutput::write_csv)"),
+    ("src/space_receiver/cli.rs", "writes the space-receiver JSON reports (--out), each self-labelled MODELLED in its own label field"),
 ];
 
 fn source_files(dir: &Path, out: &mut Vec<String>) {

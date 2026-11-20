@@ -1,0 +1,1207 @@
+{
+ "schema": "kshana-interference-incidents/1",
+ "library_version": "1.0.0",
+ "vocabulary": "kshana-interference-vocabulary/1",
+ "title": "Kshana public GNSS interference case library",
+ "description": "Public incidents, periods, statistics and studies of GNSS interference, each with its sources. Every record is REPORTED: taken from the cited public sources and graded by this format's confidence rules. Kshana has not measured or verified any of it. Records name no aircraft, vessel or person and attribute no cause beyond the technical categories of the vocabulary.",
+ "label": "REPORTED",
+ "licence": "CC-BY-4.0",
+ "licence_url": "https://creativecommons.org/licenses/by/4.0/",
+ "creators": [
+  {
+   "name": "Baweja, Chakshu",
+   "affiliation": "Ashforde OÜ"
+  }
+ ],
+ "records": [
+  {
+   "id": "KIC-0001",
+   "record_kind": "event",
+   "title": "Containership grounding in the Red Sea near Jeddah, with GNSS interference reported on board",
+   "time": {
+    "start": "2025-05-10",
+    "end": null,
+    "precision": "day"
+   },
+   "area": {
+    "description": "Red Sea, shoals near the port of Jeddah",
+    "bbox": {
+     "south": 21.0,
+     "west": 38.5,
+     "north": 22.0,
+     "east": 39.5
+    },
+    "bbox_basis": "editor_envelope"
+   },
+   "domains": [
+    "maritime"
+   ],
+   "effect": {
+    "class": "interference_unspecified",
+    "confidence": "probable",
+    "terms_in_source": [
+     "GPS jamming",
+     "fake signals"
+    ],
+    "class_note": "The source calls it GPS jamming and also describes false signals taken as genuine (spoofing). It does not separate the two, so the class is left unspecified. 'Confirms' in the source's headline is an analyst's conclusion from AIS data, which this format grades as probable, not confirmed."
+   },
+   "observed_effects": [
+    "grounding",
+    "position_jump"
+   ],
+   "evidence_basis": [
+    "position_report_analysis",
+    "secondary_report"
+   ],
+   "origin": {
+    "category": "unknown",
+    "platform": "unknown",
+    "confidence": "undetermined"
+   },
+   "sources": [
+    {
+     "url": "https://gcaptain.com/pole-star-confirms-gps-interference-caused-msc-antonia-grounding/",
+     "publisher": "gCaptain",
+     "published": "2025-05-15",
+     "kind": "news",
+     "retrieved": "2026-11-20"
+    }
+   ],
+   "notes": "The day before, a maritime trade advisory service reported corroborating vessel reports of GNSS interference in the Red Sea lasting several hours (as stated in the source).",
+   "figures": []
+  },
+  {
+   "id": "KIC-0002",
+   "record_kind": "event",
+   "title": "Linear position displacement of several vessels near Port Sudan, months before the Jeddah grounding",
+   "time": {
+    "start": "2025-01",
+    "end": null,
+    "precision": "month"
+   },
+   "area": {
+    "description": "Red Sea, near Port Sudan",
+    "bbox": {
+     "south": 19.0,
+     "west": 36.5,
+     "north": 20.5,
+     "east": 38.0
+    },
+    "bbox_basis": "editor_envelope"
+   },
+   "domains": [
+    "maritime"
+   ],
+   "effect": {
+    "class": "spoofing",
+    "confidence": "probable",
+    "terms_in_source": [
+     "spoofing",
+     "false movements"
+    ]
+   },
+   "observed_effects": [
+    "implausible_motion",
+    "position_jump"
+   ],
+   "evidence_basis": [
+    "position_report_analysis"
+   ],
+   "origin": {
+    "category": "unknown",
+    "platform": "unknown",
+    "confidence": "undetermined"
+   },
+   "figures": [
+    {
+     "quantity": "vessels with overlapping false movements",
+     "value": 12,
+     "qualifier": "at_least",
+     "source": 0
+    }
+   ],
+   "sources": [
+    {
+     "url": "https://hackread.com/ship-study-global-gps-spoofing-red-sea-activity/",
+     "publisher": "HackRead",
+     "published": "2026-10-02",
+     "kind": "news",
+     "retrieved": "2026-11-20"
+    },
+    {
+     "url": "https://arxiv.org/abs/2609.37676",
+     "publisher": "arXiv (Georgia Institute of Technology authors)",
+     "published": "2026-09-29",
+     "kind": "study",
+     "retrieved": "2026-11-20"
+    }
+   ],
+   "notes": "The study reports that the false tracks shared the same latitude, to the fifth decimal place, as the pattern later recorded from the vessel in KIC-0001."
+  },
+  {
+   "id": "KIC-0003",
+   "record_kind": "event",
+   "title": "Synchronised position jumps of about 200 vessels in the Gulf of Mexico",
+   "time": {
+    "start": "2024-12-31",
+    "end": null,
+    "precision": "day"
+   },
+   "area": {
+    "description": "Gulf of Mexico",
+    "bbox": {
+     "south": 18.0,
+     "west": -98.0,
+     "north": 31.0,
+     "east": -80.0
+    },
+    "bbox_basis": "editor_envelope"
+   },
+   "domains": [
+    "maritime"
+   ],
+   "effect": {
+    "class": "interference_unspecified",
+    "confidence": "probable",
+    "terms_in_source": [
+     "synchronized positional jumps"
+    ],
+    "class_note": "The source reports synchronised jumps and gives no cause."
+   },
+   "observed_effects": [
+    "position_jump"
+   ],
+   "evidence_basis": [
+    "position_report_analysis"
+   ],
+   "origin": {
+    "category": "unknown",
+    "platform": "unknown",
+    "confidence": "undetermined"
+   },
+   "figures": [
+    {
+     "quantity": "vessels with synchronised position jumps",
+     "value": 200,
+     "qualifier": "about",
+     "source": 0
+    }
+   ],
+   "sources": [
+    {
+     "url": "https://hackread.com/ship-study-global-gps-spoofing-red-sea-activity/",
+     "publisher": "HackRead",
+     "published": "2026-10-02",
+     "kind": "news",
+     "retrieved": "2026-11-20"
+    },
+    {
+     "url": "https://arxiv.org/abs/2609.37676",
+     "publisher": "arXiv (Georgia Institute of Technology authors)",
+     "published": "2026-09-29",
+     "kind": "study",
+     "retrieved": "2026-11-20"
+    }
+   ],
+   "notes": "The study reports reproducing the event from public NOAA AIS data, independently of its commercial dataset. Reproducible from open data: a candidate for the open zone registry."
+  },
+  {
+   "id": "KIC-0004",
+   "record_kind": "study",
+   "title": "Global measurement study of large-area maritime GPS spoofing from AIS data",
+   "time": {
+    "start": "2024-11",
+    "end": "2025-02",
+    "precision": "month",
+    "basis": "late November 2024 to early February 2025"
+   },
+   "area": {
+    "description": "Global ship traffic",
+    "bbox": null
+   },
+   "domains": [
+    "maritime"
+   ],
+   "effect": {
+    "class": "spoofing",
+    "confidence": "probable",
+    "terms_in_source": [
+     "spoofing",
+     "abnormal GPS activity"
+    ]
+   },
+   "observed_effects": [
+    "implausible_motion",
+    "position_jump"
+   ],
+   "evidence_basis": [
+    "position_report_analysis"
+   ],
+   "origin": {
+    "category": "unknown",
+    "platform": "unknown",
+    "confidence": "undetermined"
+   },
+   "figures": [
+    {
+     "quantity": "vessels in the AIS data",
+     "value": 367000,
+     "qualifier": "at_least",
+     "source": 0
+    },
+    {
+     "quantity": "abnormal episodes",
+     "value": 17936,
+     "qualifier": "exact",
+     "source": 0
+    },
+    {
+     "quantity": "vessels involved in abnormal episodes",
+     "value": 2663,
+     "qualifier": "exact",
+     "source": 0
+    },
+    {
+     "quantity": "persistent zones",
+     "value": 31,
+     "qualifier": "exact",
+     "source": 0
+    },
+    {
+     "quantity": "zones classed as corroborated spoofing",
+     "value": 13,
+     "qualifier": "exact",
+     "source": 0
+    },
+    {
+     "quantity": "zones classed as newly identified spoofing",
+     "value": 9,
+     "qualifier": "exact",
+     "source": 0
+    },
+    {
+     "quantity": "zones classed as suggestive",
+     "value": 9,
+     "qualifier": "exact",
+     "source": 0
+    }
+   ],
+   "sources": [
+    {
+     "url": "https://hackread.com/ship-study-global-gps-spoofing-red-sea-activity/",
+     "publisher": "HackRead",
+     "published": "2026-10-02",
+     "kind": "news",
+     "retrieved": "2026-11-20"
+    },
+    {
+     "url": "https://arxiv.org/abs/2609.37676",
+     "publisher": "arXiv (Georgia Institute of Technology authors)",
+     "published": "2026-09-29",
+     "kind": "study",
+     "retrieved": "2026-11-20"
+    },
+    {
+     "url": "https://rntfnd.org/2026/10/25/367000-ship-study-22-gps-spoofing-hot-spots-georgia-tech/",
+     "publisher": "Resilient Navigation and Timing Foundation",
+     "published": "2026-10-25",
+     "kind": "secondary",
+     "retrieved": "2026-11-20"
+    }
+   ],
+   "notes": "Detection signs reported: apparent speed above 60 knots, positions on land, deviation of more than 5 km from the expected course, shared by independent vessels at similar places and times. The authors call the result a lower bound; AIS cannot show the radio cause."
+  },
+  {
+   "id": "KIC-0005",
+   "record_kind": "event",
+   "title": "GNSS outages and AIS position jumps off Los Angeles and Long Beach within one hour",
+   "time": {
+    "start": "2026-01-30T07:00Z",
+    "end": "2026-01-30T08:00Z",
+    "precision": "hour",
+    "basis": "between 11 p.m. and midnight local time on 29 January 2026"
+   },
+   "area": {
+    "description": "Approaches to Los Angeles and Long Beach, including the traffic separation scheme and the Channel Islands",
+    "bbox": {
+     "south": 32.5,
+     "west": -120.5,
+     "north": 34.5,
+     "east": -117.5
+    },
+    "bbox_basis": "editor_envelope"
+   },
+   "domains": [
+    "maritime",
+    "aviation",
+    "reference_station"
+   ],
+   "effect": {
+    "class": "spoofing",
+    "confidence": "probable",
+    "terms_in_source": [
+     "spoofing",
+     "jamming",
+     "GPS outages"
+    ],
+    "class_note": "The source describes a spoofing and jamming incident. AIS position jumps point to spoofing; the reference-station SNR drops are signal-level evidence of interference that does not separate the two."
+   },
+   "observed_effects": [
+    "position_jump",
+    "loss_of_fix",
+    "signal_to_noise_drop",
+    "accuracy_degraded"
+   ],
+   "evidence_basis": [
+    "position_report_analysis",
+    "rf_measurement",
+    "crew_report",
+    "authority_statement"
+   ],
+   "origin": {
+    "category": "authorised_test",
+    "platform": "unknown",
+    "confidence": "suspected",
+    "note": "Harbour safety committee minutes, as quoted in the source, name a GPS testing event as the likely cause; the source says the data do not give certainty."
+   },
+   "figures": [
+    {
+     "quantity": "vessels with AIS position jumps",
+     "value": 7,
+     "qualifier": "at_least",
+     "source": 0
+    },
+    {
+     "quantity": "reference stations with SNR anomalies",
+     "value": 3,
+     "qualifier": "exact",
+     "source": 0
+    },
+    {
+     "quantity": "extent of the affected area, miles",
+     "value": 100,
+     "qualifier": "at_least",
+     "source": 0
+    }
+   ],
+   "sources": [
+    {
+     "url": "https://insidegnss.com/la-long-beach-vtis-records-spoofing-event-in-january-2026-gps-test-window/",
+     "publisher": "Inside GNSS",
+     "published": "2026-06-10",
+     "kind": "news",
+     "retrieved": "2026-11-20"
+    }
+   ]
+  },
+  {
+   "id": "KIC-0006",
+   "record_kind": "event",
+   "title": "Two-minute spoofing burst near Dallas-Fort Worth",
+   "time": {
+    "start": "2026-03-19T16:47Z",
+    "end": "2026-03-19T16:49Z",
+    "precision": "minute"
+   },
+   "area": {
+    "description": "Dallas-Fort Worth area",
+    "bbox": {
+     "south": 32.0,
+     "west": -98.0,
+     "north": 33.5,
+     "east": -96.0
+    },
+    "bbox_basis": "editor_envelope"
+   },
+   "domains": [
+    "aviation"
+   ],
+   "effect": {
+    "class": "spoofing",
+    "confidence": "probable",
+    "terms_in_source": [
+     "spoofing"
+    ]
+   },
+   "observed_effects": [
+    "accuracy_degraded"
+   ],
+   "evidence_basis": [
+    "position_report_analysis",
+    "secondary_report"
+   ],
+   "origin": {
+    "category": "unknown",
+    "platform": "unknown",
+    "confidence": "undetermined"
+   },
+   "figures": [
+    {
+     "quantity": "aircraft affected",
+     "value": 12,
+     "qualifier": "exact",
+     "source": 0
+    }
+   ],
+   "sources": [
+    {
+     "url": "https://rntfnd.org/2026/03/20/spoofing-at-dallas-gpswise/",
+     "publisher": "Resilient Navigation and Timing Foundation",
+     "published": "2026-03-20",
+     "kind": "secondary",
+     "retrieved": "2026-11-20"
+    }
+   ],
+   "notes": "Detected by a commercial monitoring service from aircraft data, as quoted in the source."
+  },
+  {
+   "id": "KIC-0007",
+   "record_kind": "event",
+   "title": "Airliners report severe GPS jamming near Los Angeles",
+   "time": {
+    "start": "2026-09-25",
+    "end": null,
+    "precision": "day",
+    "basis": "early morning, local time"
+   },
+   "area": {
+    "description": "Offshore Los Angeles and near San Diego",
+    "bbox": null
+   },
+   "domains": [
+    "aviation"
+   ],
+   "effect": {
+    "class": "jamming",
+    "confidence": "suspected",
+    "terms_in_source": [
+     "GPS jamming"
+    ]
+   },
+   "observed_effects": [
+    "loss_of_fix"
+   ],
+   "evidence_basis": [
+    "crew_report",
+    "secondary_report"
+   ],
+   "origin": {
+    "category": "unknown",
+    "platform": "unknown",
+    "confidence": "undetermined",
+    "note": "The source says the cause remained unclear."
+   },
+   "figures": [
+    {
+     "quantity": "flights reporting severe jamming",
+     "value": 2,
+     "qualifier": "exact",
+     "source": 0
+    }
+   ],
+   "sources": [
+    {
+     "url": "https://rntfnd.org/2026/09/26/airliners-jammed-in-socal-warnings-of-global-crisis-at-ion-the-travel-location-business-news/",
+     "publisher": "Resilient Navigation and Timing Foundation",
+     "published": "2026-09-26",
+     "kind": "secondary",
+     "retrieved": "2026-11-20"
+    }
+   ]
+  },
+  {
+   "id": "KIC-0008",
+   "record_kind": "period",
+   "title": "Transient wide-area GNSS interference events from a space-based source",
+   "time": {
+    "start": "2019",
+    "end": "2026",
+    "precision": "year"
+   },
+   "area": {
+    "description": "Continental Europe, Greenland and Canada",
+    "bbox": null
+   },
+   "domains": [
+    "reference_station"
+   ],
+   "effect": {
+    "class": "interference_unspecified",
+    "confidence": "confirmed",
+    "terms_in_source": [
+     "interference"
+    ]
+   },
+   "observed_effects": [
+    "signal_to_noise_drop"
+   ],
+   "evidence_basis": [
+    "rf_measurement"
+   ],
+   "origin": {
+    "category": "unknown",
+    "platform": "space",
+    "confidence": "probable",
+    "note": "The study identifies the platform as space-based from received power and time-difference-of-arrival measurements; this format records the platform only."
+   },
+   "sources": [
+    {
+     "url": "https://arxiv.org/abs/2606.03673",
+     "publisher": "arXiv (University of Texas at Austin authors)",
+     "published": "2026-06-02",
+     "kind": "study",
+     "retrieved": "2026-11-20"
+    }
+   ],
+   "notes": "Scores of powerful transient events, detected by received power at a network of terrestrial reference stations (as stated in the abstract).",
+   "figures": []
+  },
+  {
+   "id": "KIC-0009",
+   "record_kind": "event",
+   "title": "One-day band of degraded aircraft navigation reports along eastern Europe",
+   "time": {
+    "start": "2026-11-03",
+    "end": null,
+    "precision": "day"
+   },
+   "area": {
+    "description": "A band from the southern Baltic Sea through Lithuania, eastern Poland, Romania and Bulgaria to the western Black Sea",
+    "bbox": {
+     "south": 41.0,
+     "west": 19.0,
+     "north": 56.0,
+     "east": 30.0
+    },
+    "bbox_basis": "editor_envelope"
+   },
+   "domains": [
+    "aviation"
+   ],
+   "effect": {
+    "class": "jamming",
+    "confidence": "probable",
+    "terms_in_source": [
+     "jamming"
+    ]
+   },
+   "observed_effects": [
+    "accuracy_degraded"
+   ],
+   "evidence_basis": [
+    "position_report_analysis",
+    "secondary_report"
+   ],
+   "origin": {
+    "category": "unknown",
+    "platform": "unknown",
+    "confidence": "undetermined"
+   },
+   "sources": [
+    {
+     "url": "https://rntfnd.org/2026/11/05/putins-electronic-wall-gps-jamming-hits-almost-all-of-natos-eastern-flank-in-one-day-defense-blog/",
+     "publisher": "Resilient Navigation and Timing Foundation",
+     "published": "2026-11-05",
+     "kind": "secondary",
+     "retrieved": "2026-11-20"
+    }
+   ],
+   "notes": "From a map of aircraft position-quality data published by a flight-tracking project, as quoted in the source. Lighter degradation was reported along further air routes.",
+   "figures": []
+  },
+  {
+   "id": "KIC-0010",
+   "record_kind": "statistic",
+   "title": "Interference instances logged by a measuring station on Bornholm, 2024 to 2026",
+   "time": {
+    "start": "2024",
+    "end": "2026",
+    "precision": "year",
+    "basis": "2024, 2025, and 2026 up to early August"
+   },
+   "area": {
+    "description": "Bornholm and the surrounding Baltic Sea",
+    "bbox": {
+     "south": 54.5,
+     "west": 14.0,
+     "north": 55.8,
+     "east": 16.0
+    },
+    "bbox_basis": "editor_envelope"
+   },
+   "domains": [
+    "reference_station",
+    "maritime"
+   ],
+   "effect": {
+    "class": "interference_unspecified",
+    "confidence": "confirmed",
+    "terms_in_source": [
+     "jamming and spoofing"
+    ]
+   },
+   "observed_effects": [
+    "station_detections"
+   ],
+   "evidence_basis": [
+    "rf_measurement",
+    "secondary_report"
+   ],
+   "origin": {
+    "category": "unknown",
+    "platform": "unknown",
+    "confidence": "undetermined",
+    "note": "The source says the instruments cannot pinpoint the source."
+   },
+   "figures": [
+    {
+     "quantity": "instances in 2024",
+     "value": 11,
+     "qualifier": "exact",
+     "source": 0
+    },
+    {
+     "quantity": "instances in 2025",
+     "value": 16,
+     "qualifier": "exact",
+     "source": 0
+    },
+    {
+     "quantity": "instances in 2026 up to early August",
+     "value": 30,
+     "qualifier": "exact",
+     "source": 0
+    }
+   ],
+   "sources": [
+    {
+     "url": "https://rntfnd.org/2026/08/17/denmark-records-record-gps-disruptions-russian-attack-planned-eualive/",
+     "publisher": "Resilient Navigation and Timing Foundation",
+     "published": "2026-08-17",
+     "kind": "secondary",
+     "retrieved": "2026-11-20"
+    }
+   ]
+  },
+  {
+   "id": "KIC-0011",
+   "record_kind": "event",
+   "title": "Full day without adequate GNSS signal between Gdansk and Gotland",
+   "time": {
+    "start": "2026-07-29",
+    "end": null,
+    "precision": "day"
+   },
+   "area": {
+    "description": "Baltic Sea between Gdansk and Gotland",
+    "bbox": {
+     "south": 54.0,
+     "west": 17.5,
+     "north": 57.5,
+     "east": 20.0
+    },
+    "bbox_basis": "editor_envelope"
+   },
+   "domains": [
+    "maritime"
+   ],
+   "effect": {
+    "class": "interference_unspecified",
+    "confidence": "suspected",
+    "terms_in_source": [
+     "disruptions"
+    ]
+   },
+   "observed_effects": [
+    "loss_of_fix"
+   ],
+   "evidence_basis": [
+    "crew_report",
+    "secondary_report"
+   ],
+   "origin": {
+    "category": "unknown",
+    "platform": "unknown",
+    "confidence": "undetermined"
+   },
+   "sources": [
+    {
+     "url": "https://rntfnd.org/2026/08/17/denmark-records-record-gps-disruptions-russian-attack-planned-eualive/",
+     "publisher": "Resilient Navigation and Timing Foundation",
+     "published": "2026-08-17",
+     "kind": "secondary",
+     "retrieved": "2026-11-20"
+    }
+   ],
+   "notes": "Reported by a cargo-vessel operator, as quoted in the source; earlier disruptions there typically lasted no more than 20 minutes.",
+   "figures": []
+  },
+  {
+   "id": "KIC-0012",
+   "record_kind": "event",
+   "title": "Rare spoofing west of Beijing",
+   "time": {
+    "start": "2026-01-20",
+    "end": null,
+    "precision": "day"
+   },
+   "area": {
+    "description": "West of Beijing",
+    "bbox": {
+     "south": 39.0,
+     "west": 115.0,
+     "north": 41.0,
+     "east": 117.0
+    },
+    "bbox_basis": "editor_envelope"
+   },
+   "domains": [
+    "aviation"
+   ],
+   "effect": {
+    "class": "spoofing",
+    "confidence": "probable",
+    "terms_in_source": [
+     "spoofing"
+    ]
+   },
+   "observed_effects": [
+    "position_jump"
+   ],
+   "evidence_basis": [
+    "position_report_analysis",
+    "secondary_report"
+   ],
+   "origin": {
+    "category": "unknown",
+    "platform": "unknown",
+    "confidence": "undetermined",
+    "note": "The source suggests it could be accidental spoofing or radio interference that appeared as spoofing."
+   },
+   "sources": [
+    {
+     "url": "https://rntfnd.org/2026/01/22/rare-spoofing-near-beijing/",
+     "publisher": "Resilient Navigation and Timing Foundation",
+     "published": "2026-01-22",
+     "kind": "secondary",
+     "retrieved": "2026-11-20"
+    }
+   ],
+   "figures": []
+  },
+  {
+   "id": "KIC-0013",
+   "record_kind": "period",
+   "title": "GNSS jamming in the Caribbean around Venezuela, late 2025",
+   "time": {
+    "start": "2025-09",
+    "end": "2025-12",
+    "precision": "month",
+    "basis": "recent months before 20 December 2025, as stated in the source"
+   },
+   "area": {
+    "description": "Caribbean Sea and the coast of Venezuela",
+    "bbox": null
+   },
+   "domains": [
+    "aviation",
+    "maritime"
+   ],
+   "effect": {
+    "class": "jamming",
+    "confidence": "probable",
+    "terms_in_source": [
+     "jam",
+     "jamming"
+    ]
+   },
+   "observed_effects": [
+    "accuracy_degraded"
+   ],
+   "evidence_basis": [
+    "position_report_analysis",
+    "secondary_report"
+   ],
+   "origin": {
+    "category": "unknown",
+    "platform": "unknown",
+    "confidence": "undetermined"
+   },
+   "sources": [
+    {
+     "url": "https://rntfnd.org/2025/12/20/u-s-and-venezuela-jam-caribbean-gps-signals-to-thwart-attacks-raising-flight-hazard-ny-times/",
+     "publisher": "Resilient Navigation and Timing Foundation",
+     "published": "2025-12-20",
+     "kind": "secondary",
+     "retrieved": "2026-11-20"
+    }
+   ],
+   "notes": "The source cites analyses of aircraft and satellite data by a university and a satellite-data company.",
+   "figures": []
+  },
+  {
+   "id": "KIC-0014",
+   "record_kind": "period",
+   "title": "Finland: daily GNSS interference at aviation altitudes while ground level stays normal",
+   "time": {
+    "start": "2026-03",
+    "end": "2026-04",
+    "precision": "month",
+    "basis": "spring 2026, statement of 21 April 2026"
+   },
+   "area": {
+    "description": "Southern and central Finland (aviation); eastern Gulf of Finland (maritime)",
+    "bbox": {
+     "south": 59.5,
+     "west": 20.0,
+     "north": 64.0,
+     "east": 31.5
+    },
+    "bbox_basis": "editor_envelope"
+   },
+   "domains": [
+    "aviation",
+    "maritime",
+    "land",
+    "drone"
+   ],
+   "effect": {
+    "class": "interference_unspecified",
+    "confidence": "confirmed",
+    "terms_in_source": [
+     "GNSS interference"
+    ]
+   },
+   "observed_effects": [
+    "accuracy_degraded",
+    "station_detections"
+   ],
+   "evidence_basis": [
+    "rf_measurement",
+    "authority_statement"
+   ],
+   "origin": {
+    "category": "unknown",
+    "platform": "unknown",
+    "confidence": "undetermined"
+   },
+   "sources": [
+    {
+     "url": "https://traficom.fi/en/news/interference-affecting-mobile-communications-and-satellite-navigation-services-continues-finland",
+     "publisher": "Traficom (Finnish Transport and Communications Agency)",
+     "published": "2026-04-21",
+     "kind": "official",
+     "retrieved": "2026-11-20"
+    },
+    {
+     "url": "https://tieto.traficom.fi/en/statistics/satellite-navigation-service-interferences-finland",
+     "publisher": "Traficom (Finnish Transport and Communications Agency)",
+     "published": "2026-11-12",
+     "kind": "official",
+     "retrieved": "2026-11-20"
+    }
+   ],
+   "notes": "Ground-level versus airborne separation: the authority states that at ground level the situation is normal, with local exceptions very close to the eastern border and on the eastern Gulf of Finland coast, because terrain, vegetation and buildings attenuate interference; at cruising altitude interference is detected daily. Drone operations further inland may be affected.",
+   "figures": []
+  },
+  {
+   "id": "KIC-0015",
+   "record_kind": "period",
+   "title": "Ships affected by GNSS jamming in the Strait of Hormuz, June 2025",
+   "time": {
+    "start": "2025-06",
+    "end": null,
+    "precision": "month"
+   },
+   "area": {
+    "description": "Strait of Hormuz",
+    "bbox": {
+     "south": 25.0,
+     "west": 54.5,
+     "north": 27.5,
+     "east": 57.5
+    },
+    "bbox_basis": "editor_envelope"
+   },
+   "domains": [
+    "maritime"
+   ],
+   "effect": {
+    "class": "jamming",
+    "confidence": "suspected",
+    "terms_in_source": [
+     "GPS jamming"
+    ]
+   },
+   "observed_effects": [
+    "traffic_reduction"
+   ],
+   "evidence_basis": [
+    "secondary_report"
+   ],
+   "origin": {
+    "category": "unknown",
+    "platform": "unknown",
+    "confidence": "undetermined"
+   },
+   "figures": [
+    {
+     "quantity": "ships per day experiencing jamming (estimate)",
+     "value": 970,
+     "qualifier": "about",
+     "source": 0
+    },
+    {
+     "quantity": "drop in traffic through the strait, percent",
+     "value": 20,
+     "qualifier": "about",
+     "source": 0
+    }
+   ],
+   "sources": [
+    {
+     "url": "https://insidegnss.com/gnss-interference-now-a-constant-of-modern-conflict-swf-annual-report-finds/",
+     "publisher": "Inside GNSS",
+     "published": "2026-04-08",
+     "kind": "news",
+     "retrieved": "2026-11-20"
+    }
+   ],
+   "notes": "Estimate by a maritime information-sharing centre, cited in an annual open-source report and quoted in the source."
+  },
+  {
+   "id": "KIC-0016",
+   "record_kind": "event",
+   "title": "Spoofed GNSS units in satellite-internet user terminals in Iran",
+   "time": {
+    "start": "2026-01",
+    "end": null,
+    "precision": "month"
+   },
+   "area": {
+    "description": "Iran",
+    "bbox": null
+   },
+   "domains": [
+    "satellite_terminal"
+   ],
+   "effect": {
+    "class": "spoofing",
+    "confidence": "suspected",
+    "terms_in_source": [
+     "spoofed"
+    ]
+   },
+   "observed_effects": [
+    "service_degraded"
+   ],
+   "evidence_basis": [
+    "secondary_report"
+   ],
+   "origin": {
+    "category": "unknown",
+    "platform": "unknown",
+    "confidence": "undetermined"
+   },
+   "figures": [
+    {
+     "quantity": "packet loss, percent, lower end",
+     "value": 30,
+     "qualifier": "exact",
+     "source": 0
+    },
+    {
+     "quantity": "packet loss, percent, upper end",
+     "value": 80,
+     "qualifier": "exact",
+     "source": 0
+    }
+   ],
+   "sources": [
+    {
+     "url": "https://insidegnss.com/gnss-interference-now-a-constant-of-modern-conflict-swf-annual-report-finds/",
+     "publisher": "Inside GNSS",
+     "published": "2026-04-08",
+     "kind": "news",
+     "retrieved": "2026-11-20"
+    }
+   ],
+   "notes": "Users who switched to the terminal's internal position estimate restored connectivity, and the operator later pushed a software update (as stated in the source)."
+  },
+  {
+   "id": "KIC-0017",
+   "record_kind": "period",
+   "title": "Spoofing reports in the Delhi region and flight diversions",
+   "time": {
+    "start": "2025-11",
+    "end": null,
+    "precision": "month"
+   },
+   "area": {
+    "description": "Delhi region",
+    "bbox": null
+   },
+   "domains": [
+    "aviation"
+   ],
+   "effect": {
+    "class": "spoofing",
+    "confidence": "suspected",
+    "terms_in_source": [
+     "spoofing",
+     "interference"
+    ]
+   },
+   "observed_effects": [
+    "diversion"
+   ],
+   "evidence_basis": [
+    "secondary_report"
+   ],
+   "origin": {
+    "category": "unknown",
+    "platform": "unknown",
+    "confidence": "undetermined"
+   },
+   "figures": [
+    {
+     "quantity": "share of flights in the Delhi region reporting spoofing, percent",
+     "value": 10,
+     "qualifier": "at_least",
+     "source": 0
+    }
+   ],
+   "sources": [
+    {
+     "url": "https://insidegnss.com/gnss-interference-now-a-constant-of-modern-conflict-swf-annual-report-finds/",
+     "publisher": "Inside GNSS",
+     "published": "2026-04-08",
+     "kind": "news",
+     "retrieved": "2026-11-20"
+    }
+   ],
+   "notes": "Interference around the main airport was severe enough to divert flights to alternate airports (as stated in the source)."
+  },
+  {
+   "id": "KIC-0018",
+   "record_kind": "event",
+   "title": "Vessel in the Red Sea: ECDIS position jump towards the coast and false speed over ground",
+   "time": {
+    "start": null,
+    "end": null,
+    "precision": "unknown",
+    "basis": "not stated; the safety flash was published on 20 August 2026"
+   },
+   "area": {
+    "description": "Red Sea",
+    "bbox": null
+   },
+   "domains": [
+    "maritime"
+   ],
+   "effect": {
+    "class": "jamming",
+    "confidence": "suspected",
+    "terms_in_source": [
+     "GPS jamming"
+    ],
+    "class_note": "The source says jamming. A position jump of dozens of miles and a speed over ground rising from about 12 to 39 knots are also consistent with spoofing; the source does not separate them."
+   },
+   "observed_effects": [
+    "position_jump",
+    "false_alert"
+   ],
+   "evidence_basis": [
+    "operator_statement"
+   ],
+   "origin": {
+    "category": "unknown",
+    "platform": "unknown",
+    "confidence": "undetermined"
+   },
+   "figures": [
+    {
+     "quantity": "speed over ground shown, knots",
+     "value": 39,
+     "qualifier": "about",
+     "source": 0
+    },
+    {
+     "quantity": "actual speed, knots",
+     "value": 12,
+     "qualifier": "about",
+     "source": 0
+    }
+   ],
+   "sources": [
+    {
+     "url": "https://www.imca-int.com/resources/safety/safety-flashes/1526-gps-jamming-and-spoofing-good-practice-example/",
+     "publisher": "International Marine Contractors Association",
+     "published": "2026-08-20",
+     "kind": "primary_report",
+     "retrieved": "2026-11-20"
+    }
+   ],
+   "notes": "The bridge team changed to dead reckoning using speed through the water, radar and visual means; no injury, damage, pollution or navigational incident (as stated in the source)."
+  },
+  {
+   "id": "KIC-0019",
+   "record_kind": "statistic",
+   "title": "Aircraft GNSS interference cases in Poland, October 2024 and January 2025",
+   "time": {
+    "start": "2024-10",
+    "end": "2025-01",
+    "precision": "month"
+   },
+   "area": {
+    "description": "Poland",
+    "bbox": null
+   },
+   "domains": [
+    "aviation"
+   ],
+   "effect": {
+    "class": "interference_unspecified",
+    "confidence": "suspected",
+    "terms_in_source": [
+     "GNSS interference"
+    ]
+   },
+   "observed_effects": [
+    "accuracy_degraded"
+   ],
+   "evidence_basis": [
+    "secondary_report"
+   ],
+   "origin": {
+    "category": "unknown",
+    "platform": "unknown",
+    "confidence": "undetermined"
+   },
+   "figures": [
+    {
+     "quantity": "cases in October 2024",
+     "value": 1908,
+     "qualifier": "exact",
+     "source": 0
+    },
+    {
+     "quantity": "cases in January 2025",
+     "value": 2732,
+     "qualifier": "exact",
+     "source": 0
+    }
+   ],
+   "sources": [
+    {
+     "url": "https://insidegnss.com/gnss-interference-now-a-constant-of-modern-conflict-swf-annual-report-finds/",
+     "publisher": "Inside GNSS",
+     "published": "2026-04-08",
+     "kind": "news",
+     "retrieved": "2026-11-20"
+    }
+   ],
+   "notes": "Figures from European Council data, as cited in an annual open-source report and quoted in the source."
+  }
+ ]
+}

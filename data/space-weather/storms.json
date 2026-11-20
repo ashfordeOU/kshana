@@ -1,0 +1,64 @@
+{
+ "format": "kshana.storms/1",
+ "source": "GFZ German Research Centre for Geosciences, Kp_ap_Ap_SN_F107_since_1932.txt (https://kp.gfz.de/), CC BY 4.0; Matzka et al. (2021), Space Weather 19, e2020SW002641, doi:10.1029/2020SW002641",
+ "source_sha256": "5f479a3d98019dbe2324e9dd744932bfb894380ca1b3e9911307b497f890d884",
+ "storms": [
+  {"id": "2003-10-halloween", "name": "Halloween storms, October 2003", "context": "Two extreme (Kp 9) storms after X-class flares; the FAA reported WAAS vertical guidance unavailable for many hours on 29 and 30 October (FAA WAAS performance analysis report).", "synthetic": false, "days": [
+   {"date": "2003-10-28", "kp": [3.0, 4.667, 3.667, 4.667, 2.667, 4.0, 3.333, 4.0], "ap": [15, 39, 22, 39, 12, 27, 18, 27], "ap_daily": 25, "f107": 274.4, "f107a": 146.95, "definitive": true},
+   {"date": "2003-10-29", "kp": [4.667, 4.0, 9.0, 8.0, 7.667, 7.667, 8.667, 8.667], "ap": [39, 27, 400, 207, 179, 179, 300, 300], "ap_daily": 204, "f107": 291.7, "f107a": 146.76, "definitive": true},
+   {"date": "2003-10-30", "kp": [8.667, 7.333, 5.333, 4.667, 5.0, 7.0, 9.0, 9.0], "ap": [300, 154, 56, 39, 48, 132, 400, 400], "ap_daily": 191, "f107": 271.4, "f107a": 146.53, "definitive": true},
+   {"date": "2003-10-31", "kp": [8.333, 7.667, 7.333, 6.667, 7.333, 4.667, 4.0, 4.333], "ap": [236, 179, 154, 111, 154, 39, 27, 32], "ap_daily": 116, "f107": 248.9, "f107a": 146.25, "definitive": true},
+   {"date": "2003-11-01", "kp": [5.0, 4.667, 4.0, 2.667, 3.0, 3.333, 3.333, 4.0], "ap": [48, 39, 27, 12, 15, 18, 18, 27], "ap_daily": 26, "f107": 210.4, "f107a": 145.83, "definitive": true}
+  ]},
+  {"id": "2008-06-quiet", "name": "Quiet days at the 2008 solar minimum", "context": "A reference without a storm: Kp below 2 and F10.7 near 66 sfu in the deepest solar minimum of the space age (Emmert et al. 2010, Geophys. Res. Lett. 37, L12102).", "synthetic": false, "days": [
+   {"date": "2008-06-10", "kp": [0.667, 0.333, 0.0, 0.333, 1.0, 0.667, 0.333, 0.333], "ap": [3, 2, 0, 2, 4, 3, 2, 2], "ap_daily": 2, "f107": 66.2, "f107a": 66.76, "definitive": true},
+   {"date": "2008-06-11", "kp": [0.667, 0.667, 1.333, 1.0, 0.667, 0.333, 0.333, 0.667], "ap": [3, 3, 5, 4, 3, 2, 2, 3], "ap_daily": 3, "f107": 65.7, "f107a": 66.73, "definitive": true},
+   {"date": "2008-06-12", "kp": [0.333, 1.0, 1.333, 0.333, 0.333, 0.667, 0.667, 1.0], "ap": [2, 4, 5, 2, 2, 3, 3, 4], "ap_daily": 3, "f107": 67.1, "f107a": 66.7, "definitive": true}
+  ]},
+  {"id": "2015-03-st-patricks", "name": "St Patrick's Day storm, March 2015", "context": "The strongest storm of solar cycle 24 by Dst; Kp reached 8- (NOAA G4) on 17 March.", "synthetic": false, "days": [
+   {"date": "2015-03-16", "kp": [1.667, 3.333, 3.667, 3.0, 2.667, 2.667, 1.333, 0.333], "ap": [6, 18, 22, 15, 12, 12, 5, 2], "ap_daily": 12, "f107": 117.2, "f107a": 128.77, "definitive": true},
+   {"date": "2015-03-17", "kp": [2.0, 4.667, 5.667, 5.333, 7.667, 7.667, 7.333, 7.667], "ap": [7, 39, 67, 56, 179, 179, 154, 179], "ap_daily": 108, "f107": 114.3, "f107a": 128.32, "definitive": true},
+   {"date": "2015-03-18", "kp": [6.0, 4.667, 4.333, 4.333, 5.333, 5.333, 4.667, 4.667], "ap": [80, 39, 32, 32, 56, 56, 39, 39], "ap_daily": 47, "f107": 114.8, "f107a": 127.9, "definitive": true},
+   {"date": "2015-03-19", "kp": [4.333, 4.0, 3.667, 5.0, 4.333, 3.0, 2.333, 3.667], "ap": [32, 27, 22, 48, 32, 15, 9, 22], "ap_daily": 26, "f107": 109.3, "f107a": 127.46, "definitive": true}
+  ]},
+  {"id": "2017-09-08", "name": "Storm of 7-8 September 2017", "context": "Kp 8+ after the X9.3 flare of 6 September 2017.", "synthetic": false, "days": [
+   {"date": "2017-09-06", "kp": [1.333, 1.333, 1.333, 2.667, 3.0, 1.667, 0.333, 3.333], "ap": [5, 5, 5, 12, 15, 6, 2, 18], "ap_daily": 8, "f107": 132.9, "f107a": 83.09, "definitive": true},
+   {"date": "2017-09-07", "kp": [2.667, 3.667, 3.667, 3.667, 2.667, 2.0, 2.667, 7.667], "ap": [12, 22, 22, 22, 12, 7, 12, 179], "ap_daily": 36, "f107": 128.5, "f107a": 83.1, "definitive": true},
+   {"date": "2017-09-08", "kp": [8.0, 4.667, 4.333, 5.0, 8.333, 7.333, 6.333, 4.667], "ap": [207, 39, 32, 48, 236, 154, 94, 39], "ap_daily": 106, "f107": 116.8, "f107a": 83.14, "definitive": true},
+   {"date": "2017-09-09", "kp": [2.333, 1.667, 0.333, 0.333, 0.667, 0.333, 0.0, 0.0], "ap": [9, 6, 2, 2, 3, 2, 0, 0], "ap_daily": 3, "f107": 107.2, "f107a": 83.19, "definitive": true}
+  ]},
+  {"id": "2022-02-starlink", "name": "Minor storms of 3-4 February 2022", "context": "Kp 5 (NOAA G1) storms; SpaceX reported that up to 40 of the 49 Starlink satellites launched on 3 February 2022 would re-enter after the storm raised the drag at their deployment altitude (SpaceX update, 8 February 2022).", "synthetic": false, "days": [
+   {"date": "2022-02-01", "kp": [1.667, 1.667, 0.667, 0.667, 1.333, 0.667, 0.333, 3.333], "ap": [6, 6, 3, 3, 5, 3, 2, 18], "ap_daily": 6, "f107": 128.6, "f107a": 109.47, "definitive": true},
+   {"date": "2022-02-02", "kp": [4.0, 2.667, 0.667, 0.333, 1.667, 3.667, 1.667, 1.333], "ap": [27, 12, 3, 2, 6, 22, 6, 5], "ap_daily": 10, "f107": 128.2, "f107a": 109.28, "definitive": true},
+   {"date": "2022-02-03", "kp": [2.0, 4.333, 5.0, 5.333, 4.0, 3.0, 3.0, 2.667], "ap": [7, 32, 48, 56, 27, 15, 15, 12], "ap_daily": 26, "f107": 126.5, "f107a": 109.09, "definitive": true},
+   {"date": "2022-02-04", "kp": [4.0, 4.0, 3.667, 3.667, 4.0, 5.333, 5.0, 4.0], "ap": [27, 27, 22, 22, 27, 56, 48, 27], "ap_daily": 32, "f107": 129.6, "f107a": 108.79, "definitive": true},
+   {"date": "2022-02-05", "kp": [2.667, 3.0, 2.0, 2.333, 3.0, 2.667, 2.667, 1.667], "ap": [12, 15, 7, 9, 15, 12, 12, 6], "ap_daily": 11, "f107": 125.9, "f107a": 108.51, "definitive": true},
+   {"date": "2022-02-06", "kp": [3.667, 3.0, 2.667, 3.0, 3.0, 1.667, 2.667, 2.667], "ap": [22, 15, 12, 15, 15, 6, 12, 12], "ap_daily": 14, "f107": 123.6, "f107a": 108.19, "definitive": true}
+  ]},
+  {"id": "2024-05-gannon", "name": "Gannon storm, May 2024", "context": "The first Kp 9 (NOAA G5) storm since 2003; disruptions of GNSS-guided farm machinery were widely reported in North America.", "synthetic": false, "days": [
+   {"date": "2024-05-09", "kp": [0.667, 1.333, 0.667, 1.333, 1.0, 1.0, 2.333, 2.0], "ap": [3, 5, 3, 5, 4, 4, 9, 7], "ap_daily": 5, "f107": 233.2, "f107a": 175.53, "definitive": true},
+   {"date": "2024-05-10", "kp": [2.667, 2.667, 2.333, 2.0, 3.667, 7.667, 8.667, 8.667], "ap": [12, 12, 9, 7, 22, 179, 300, 300], "ap_daily": 105, "f107": 223.4, "f107a": 176.23, "definitive": true},
+   {"date": "2024-05-11", "kp": [9.0, 8.333, 8.333, 9.0, 8.667, 8.333, 7.667, 7.667], "ap": [400, 236, 236, 400, 300, 236, 179, 179], "ap_daily": 271, "f107": 213.7, "f107a": 177.09, "definitive": true},
+   {"date": "2024-05-12", "kp": [6.333, 7.0, 3.667, 4.333, 2.0, 3.0, 4.0, 6.333], "ap": [94, 132, 22, 32, 7, 15, 27, 94], "ap_daily": 53, "f107": 221.8, "f107a": 178.03, "definitive": true},
+   {"date": "2024-05-13", "kp": [5.333, 6.0, 3.333, 2.667, 3.333, 2.667, 2.333, 2.333], "ap": [56, 80, 18, 12, 18, 12, 9, 9], "ap_daily": 27, "f107": 215.4, "f107a": 179.05, "definitive": true}
+  ]},
+  {"id": "2024-10-10", "name": "Storm of 10-11 October 2024", "context": "Kp 8+ to 9- (NOAA G4) after the X1.8 flare of 9 October 2024.", "synthetic": false, "days": [
+   {"date": "2024-10-09", "kp": [4.0, 4.333, 3.667, 3.0, 3.333, 2.667, 2.0, 2.333], "ap": [27, 32, 22, 15, 18, 12, 7, 9], "ap_daily": 18, "f107": 220.3, "f107a": 208.47, "definitive": true},
+   {"date": "2024-10-10", "kp": [2.0, 2.667, 1.333, 2.667, 3.667, 7.667, 8.333, 8.667], "ap": [7, 12, 5, 12, 22, 179, 236, 300], "ap_daily": 97, "f107": 216.3, "f107a": 207.76, "definitive": true},
+   {"date": "2024-10-11", "kp": [8.333, 7.667, 7.667, 7.667, 6.333, 4.0, 3.0, 3.333], "ap": [236, 179, 179, 179, 94, 27, 15, 18], "ap_daily": 116, "f107": 213.9, "f107a": 206.91, "definitive": true},
+   {"date": "2024-10-12", "kp": [3.333, 1.667, 2.333, 4.667, 4.0, 3.0, 3.0, 2.667], "ap": [18, 6, 9, 39, 27, 15, 15, 12], "ap_daily": 18, "f107": 213.6, "f107a": 206.18, "definitive": true}
+  ]},
+  {"id": "2025-11-12", "name": "Geomagnetic superstorm, November 2025", "context": "Kp 9- (NOAA G4) from 00 to 06 UT on 12 November 2025 (the evening of 11 November in North America); RNTF (10 Sep 2026) reported GPS errors of about 30 ft affecting farming.", "synthetic": false, "days": [
+   {"date": "2025-11-10", "kp": [2.667, 2.0, 1.0, 2.333, 2.667, 4.333, 3.0, 3.333], "ap": [12, 7, 4, 9, 12, 32, 15, 18], "ap_daily": 14, "f107": 180.3, "f107a": 145.43, "definitive": true},
+   {"date": "2025-11-11", "kp": [1.333, 2.667, 1.0, 2.333, 0.667, 1.0, 0.333, 2.333], "ap": [5, 12, 4, 9, 3, 4, 2, 9], "ap_daily": 6, "f107": 168.0, "f107a": 144.69, "definitive": true},
+   {"date": "2025-11-12", "kp": [8.667, 8.667, 7.0, 7.667, 5.333, 4.333, 5.667, 4.0], "ap": [300, 300, 132, 179, 56, 32, 67, 27], "ap_daily": 137, "f107": 163.3, "f107a": 144.27, "definitive": true},
+   {"date": "2025-11-13", "kp": [6.667, 7.333, 6.333, 3.667, 4.667, 3.667, 2.667, 0.667], "ap": [111, 154, 94, 22, 39, 22, 12, 3], "ap_daily": 57, "f107": 155.9, "f107a": 143.92, "definitive": true},
+   {"date": "2025-11-14", "kp": [0.667, 0.667, 0.667, 1.333, 1.0, 1.0, 0.333, 0.0], "ap": [3, 3, 3, 5, 4, 4, 2, 0], "ap_daily": 3, "f107": 145.3, "f107a": 143.63, "definitive": true}
+  ]},
+  {"id": "synthetic-extreme", "name": "Synthetic extreme storm (stress case)", "context": "SYNTHETIC, not an observed storm: 24 hours at the top of the Kp scale (9o) with an active Sun (F10.7 250 sfu), framed by a day of Kp 6 either side, as a stress case for extreme-space-weather tests. Kp saturates at 9, so a Carrington-class event cannot be told apart from it in Kp alone.", "synthetic": true, "days": [
+   {"date": "2000-01-01", "kp": [6.0, 6.0, 6.0, 6.0, 6.0, 6.0, 6.0, 6.0], "ap": [80, 80, 80, 80, 80, 80, 80, 80], "ap_daily": 80, "f107": 250.0, "f107a": 250.0, "definitive": false},
+   {"date": "2000-01-02", "kp": [9.0, 9.0, 9.0, 9.0, 9.0, 9.0, 9.0, 9.0], "ap": [400, 400, 400, 400, 400, 400, 400, 400], "ap_daily": 400, "f107": 250.0, "f107a": 250.0, "definitive": false},
+   {"date": "2000-01-03", "kp": [6.0, 6.0, 6.0, 6.0, 6.0, 6.0, 6.0, 6.0], "ap": [80, 80, 80, 80, 80, 80, 80, 80], "ap_daily": 80, "f107": 250.0, "f107a": 250.0, "definitive": false}
+  ]}
+ ]
+}
