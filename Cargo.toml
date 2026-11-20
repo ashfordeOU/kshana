@@ -101,10 +101,9 @@ exclude = [
     "/README.ja.md",
     "/README.zh-Hans.md",
     "/tests/fixtures",
-    # ...except the one fixture the LIBRARY itself embeds. src/lunar_orientation.rs holds
-    # a top-level `include_str!` of this catalogue, so excluding it makes the published
-    # crate fail to compile — which is exactly what happened to the v0.27.0 publish.
-    "!/tests/fixtures/llr_geometry/de440_moon_pa.csv",
+    # (The DE440 Moon PA orientation CSV used to be re-included here because the library embedded it;
+    # since 0.42 the library embeds data/lunar/de440_moon_pa.bin, the same doubles as binary byte planes,
+    # about 352 KB in the .crate against 650 KB for the text. The CSV stays the source of record.)
     "/tests/igs_real_data.rs",
     # The LRO LOLA south-polar DEM crop (about 1 MB) is read at run time by path, by
     # scenarios/lunar-station-coverage-terrain.toml (repository-only) and its test; nothing

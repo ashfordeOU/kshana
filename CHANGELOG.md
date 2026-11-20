@@ -21,6 +21,7 @@ breaking changes are called out explicitly.
   density-model scorecard of the static, Jacchia 1971 and NRLMSISE-00 models against the TOLEOS accelerometer
   densities (NRLMSISE-00 best, rms log10 ratio 0.176; all models too dense in the 2008 minimum, the sign Emmert et
   al. 2010 reported); and an orbit lifetime with the model and index-forecast density uncertainty.
+- **Smaller published crate: the DE440 Moon PA orientation series is embedded as binary.** `src/lunar_orientation.rs` now embeds `data/lunar/de440_moon_pa.bin` instead of the 1.6 MB CSV: the same 6 209 x 10 doubles, bit for bit (`tests/lunar_orientation_binary.rs`), column-major and byte-planed, about 352 KB of the `.crate` against 650 KB. Results are unchanged. The CSV stays in the repository as the source of record and is no longer packaged. Regenerate with `scripts/gen_de440_moon_pa_bin.py`.
 
 ### Added (radio time-signal migration guide)
 
