@@ -10445,7 +10445,7 @@ engine-main-usage =
     { "   " }eller: kshana nmea-scenario <scenario.toml> [--out <file.nmea>] [--tcp <addr>|--udp <addr>] (kshana nmea-scenario --help)
     { "   " }eller: kshana interference-map <adsb|ais|fetch-land> ... (kshana interference-map --help)
     { "   " }eller: kshana route-exposure --route <route> --map <map.geojson|dir> [--from <date>] [--to <date>]
-    { "   " }eller: kshana bench <spec|truth|cases|score|baseline|seal|reveal-check|manifest|verify-manifest|validate|leaderboard> ... (kshana bench --help)
+    { "   " }eller: kshana bench <spec|truth|cases|score|baseline|seal|reveal-check|manifest|verify-manifest|validate|leaderboard|positions|datasets|cite|golden> ... (kshana bench --help)
     { "   " }eller: kshana bench-export <scenario.toml> [--out <base>] [--epoch <YYYY-MM-DDTHH:MM:SS>]
     { "   " }eller: kshana compliance-report [--out <base>] <result.json>... | --mapping | --sources
     { "   " }eller: kshana lunanet-afs-check <spec [--json] [--strict]|symbols <file> [--max-sp-errors <n>] [--json]|generate --frames <n> [--toi0 <t>] --out <file>>
@@ -10593,13 +10593,18 @@ engine-interference-map-cli-col-not-observed = inte observerad
 engine-bench-cli-usage =
     användning: kshana bench spec
     { "   " }eller: kshana bench truth --task a --data <extracted JammerTest 2024 dir> --split <dev|test|holdout|all> --out <truth.json>
-    { "   " }eller: kshana bench cases --task <c|d> --split <dev|test|holdout> --out <dir> [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
+    { "   " }eller: kshana bench truth --task g --data <GSDC-layout train dir> --split <dev|test|holdout> --out <truth.json>
+    { "   " }eller: kshana bench cases --task <c|d|f> --split <dev|test|holdout> --out <dir> [--data <dataset.csv>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
     { "   " }eller: kshana bench score --truth <truth.json> --predictions <predictions.json> [--threshold <x>] [--out <result.json>]
-    { "   " }eller: kshana bench baseline --task <a|b|c|d> --split <dev|test|holdout> --out <dir> [--data <dir>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
+    { "   " }eller: kshana bench baseline --task <a|b|c|d|e|f|g> --split <dev|test|holdout> --out <dir> [--data <dir>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
     { "   " }eller: kshana bench seal --task <a|b|c|d> --seed-file <file> [--new]
     { "   " }eller: kshana bench reveal-check --task <a|b|c|d> --seed-file <file> --commitment <hex>
     { "   " }eller: kshana bench manifest --task a --data <extracted dir> [--archive <tar.gz>] --out <manifest.json>
     { "   " }eller: kshana bench verify-manifest <manifest.json> --root <dir>
+    { "   " }eller: kshana bench positions --task g --split <dev|test|holdout> --csv <submission.csv> --name <system> [--version <v>] --out <predictions.json>
+    { "   " }eller: kshana bench datasets [--json | --check [--root <repo>]]
+    { "   " }eller: kshana bench cite <result.json>...
+    { "   " }eller: kshana bench golden [--root <repo>] (--out <GOLDEN.json> | --check <GOLDEN.json>)
     { "   " }eller: kshana bench validate <result.json>...
     { "   " }eller: kshana bench leaderboard [<results dir|result.json>...] --out <page.html> [--fragment]   (inga indata: tomt tillstånd; --fragment: ett inbäddningsbart avsnitt)
     { "   " }(en seed-fil innehåller hemligheten bakom en förseglad undanhållen datamängd; håll den utanför versionshanteringen)
@@ -11583,3 +11588,49 @@ engine-e-oscillator-input = indata för { $part } är inte giltiga: { $e }
 engine-e-oscillator-unknown-clock = okänd förinställning för klocka { $id } (en av { $known })
 
 engine-e-oscillator-field = { $field } ligger utanför intervallet: { $value }
+
+## src/bench: tasks (f) and (g), the dataset registry and the golden index (E34)
+
+engine-bench-data-no-header = { $file }: ingen rubrikrad
+
+engine-bench-data-no-column = { $file }: ingen kolumn `{ $column }`
+
+engine-bench-data-bad-value = { $file } rad { $line }: `{ $column }` saknas eller är ogiltig
+
+engine-bench-data-no-rows = { $file }: inga datarader
+
+engine-bench-task-has-no-holdout = uppgift ({ $task }) har ingen holdout-uppdelning: dess data och uppdelning är offentliga
+
+engine-bench-unknown-baseline = okänd baslinje `{ $name }`
+
+engine-bench-g-no-traces = ingen <drive>/<phone>/ground_truth.csv under { $root }
+
+engine-bench-g-no-object = inget `{ $key }`-objekt med spår
+
+engine-bench-g-bad-epoch = spår `{ $id }`: varje epok måste vara [UnixTimeMillis, latitud, longitud]
+
+engine-bench-f-dataset-mismatch = { $path }: SHA-256 { $got } är inte den fastlåsta dataset.csv för uppgift (f); hämta den med scripts/fetch_opssat_ad.sh
+
+engine-bench-cli-unknown-task-g = okänd uppgift `{ $t }` (a till g)
+
+engine-bench-cli-wrote-predictions = skrev { $path } ({ $traces } spår)
+
+engine-bench-datasets-summary = { $n } datamängder: { $in_bench } i benchmarken, { $candidate } kandidater, { $wanted } efterfrågade
+
+engine-bench-datasets-ok = register: { $n } datamängder, alla regler uppfyllda
+
+engine-bench-golden-ok = { $n } frysta filer oförändrade; citerings-id:n stabila
+
+engine-bench-golden-written = skrev { $path } ({ $n } frysta filer)
+
+engine-bench-site-title-f = Uppgift (f): avvikelsedetektering i rymdfarkosttelemetri
+
+engine-bench-site-title-g = Uppgift (g): positioneringsnoggrannhet för smartphones
+
+engine-bench-site-col-ap = Genomsnittlig precision
+
+engine-bench-site-col-gsdc-score = Poäng, medelvärde av P50 och P95 (m)
+
+engine-bench-site-col-p50 = P50 sammanslaget (m)
+
+engine-bench-site-col-p95 = P95 sammanslaget (m)

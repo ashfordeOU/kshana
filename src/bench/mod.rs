@@ -13,8 +13,12 @@
 //! a corpus, never a product. Nothing in this module reads the network or writes outside the paths
 //! it is given.
 
+pub mod anomaly;
+pub mod cite;
 pub mod cli;
+pub mod datasets;
 pub mod site;
+pub mod smartphone;
 pub mod task_e;
 pub mod tasks;
 pub mod texbat;
@@ -44,6 +48,16 @@ pub const PFA_CAP: f64 = 0.01;
 pub const OPTIMISM_TOL: f64 = 0.05;
 /// The advisory statement every result file carries.
 pub const NOTICE: &str = "Advisory: modelled or measured against stated references, not an approval, certification or statement of conformance. A score describes a log or corpus, never a product.";
+
+/// The spec version a task is scored under: 2.0.0 for tasks a to d, 2.1.0 for task (e) and 2.2.0
+/// for tasks (f) and (g) (each added as a minor version).
+pub fn spec_version_of(task: &str) -> &'static str {
+    match task {
+        "e" => task_e::SPEC_VERSION_E,
+        "f" | "g" => anomaly::SPEC_VERSION_FG,
+        _ => SPEC_VERSION,
+    }
+}
 
 /// Errors of the bench commands; the message says what to fix.
 #[derive(Debug)]
@@ -362,12 +376,7 @@ pub(crate) fn result_json(
 ) -> Value {
     let mut m = Map::new();
     m.insert("schema".into(), json!(RESULT_SCHEMA));
-    let spec = if task == "e" {
-        task_e::SPEC_VERSION_E
-    } else {
-        SPEC_VERSION
-    };
-    m.insert("spec_version".into(), json!(spec));
+    m.insert("spec_version".into(), json!(spec_version_of(task)));
     m.insert("task".into(), json!(task));
     m.insert("split".into(), json!(split));
     m.insert("system".into(), system.to_json());
@@ -397,8 +406,8 @@ pub fn validate_result(v: &Value) -> Vec<String> {
     if !s("spec_version").is_some_and(|x| x.starts_with("kshana-bench/")) {
         p.push("`spec_version` must start with `kshana-bench/`".into());
     }
-    if !matches!(s("task"), Some("a" | "b" | "c" | "d" | "e")) {
-        p.push("`task` must be a, b, c, d or e".into());
+    if !matches!(s("task"), Some("a" | "b" | "c" | "d" | "e" | "f" | "g")) {
+        p.push("`task` must be one of a to g".into());
     }
     if !matches!(s("split"), Some("dev" | "test" | "holdout")) {
         p.push("`split` must be dev, test or holdout".into());
@@ -468,11 +477,7 @@ pub fn score(
     if preds.get("split").and_then(Value::as_str) != Some(split) {
         return err("predictions and truth name different splits");
     }
-    let spec = if task == "e" {
-        task_e::SPEC_VERSION_E
-    } else {
-        SPEC_VERSION
-    };
+    let spec = spec_version_of(task);
     if truth.get("spec_version").and_then(Value::as_str) != Some(spec) {
         return err(crate::t!(
             "bench-truth-was-made-under-another",
@@ -486,6 +491,8 @@ pub fn score(
         "c" => tasks::score_c(&truth, &preds)?,
         "d" => tasks::score_d(&truth, &preds)?,
         "e" => task_e::score_e(&truth, &preds)?,
+        "f" => anomaly::score_f(&truth, &preds, declared_threshold)?,
+        "g" => smartphone::score_g(&truth, &preds)?,
         other => return err(crate::t!("bench-unknown-task", other = other)),
     };
     let mut r = result_json(
