@@ -45,6 +45,7 @@ fn the_top_level_usage_names_every_subcommand() {
         "gnss-sdr-conf",
         "orbit-data",
         "leo-verify",
+        "datasets|cite|golden",
     ] {
         assert!(
             text.contains(want),

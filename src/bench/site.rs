@@ -33,7 +33,7 @@ fn num(v: Option<&Value>, digits: usize) -> String {
 }
 
 /// The tasks in page order.
-const TASKS: [&str; 4] = ["a", "b", "c", "d"];
+const TASKS: [&str; 6] = ["a", "b", "c", "d", "f", "g"];
 
 /// The heading of a task's section, in the current language.
 fn task_title(task: &str) -> String {
@@ -42,6 +42,8 @@ fn task_title(task: &str) -> String {
         "b" => crate::t!("bench-site-title-b"),
         "c" => crate::t!("bench-site-title-c"),
         "d" => crate::t!("bench-site-title-d"),
+        "f" => crate::t!("bench-site-title-f"),
+        "g" => crate::t!("bench-site-title-g"),
         other => other.to_string(),
     }
 }
@@ -51,6 +53,7 @@ fn sort_key(task: &str, r: &Value) -> f64 {
     let f = |p: &str| m.pointer(p).and_then(Value::as_f64).unwrap_or(f64::NAN);
     let k = match task {
         "c" => f("/primary_rmse_3600_ns"),
+        "g" => f("/gsdc_score_m"),
         "d" => -f("/auc_out"),
         _ => -f("/auc"),
     };
@@ -73,6 +76,16 @@ fn columns(task: &str) -> Vec<String> {
             crate::t!("bench-site-col-auc-out"),
             crate::t!("bench-site-col-optimism-gap"),
             crate::t!("bench-site-col-flag"),
+        ],
+        "f" => vec![
+            crate::t!("bench-site-col-auc"),
+            crate::t!("bench-site-col-ap"),
+            crate::t!("bench-site-col-pd-at-pfa-cap"),
+        ],
+        "g" => vec![
+            crate::t!("bench-site-col-gsdc-score"),
+            crate::t!("bench-site-col-p50"),
+            crate::t!("bench-site-col-p95"),
         ],
         _ => vec![
             crate::t!("bench-site-col-auc"),
@@ -106,6 +119,16 @@ fn cells(task: &str, r: &Value) -> Vec<String> {
                 Some(false) => crate::t!("bench-site-flag-within-tolerance"),
                 None => crate::t!("bench-site-not-available"),
             },
+        ],
+        "f" => vec![
+            num(m.get("auc"), 3),
+            num(m.get("average_precision"), 3),
+            num(m.get("pd_at_pfa_cap"), 3),
+        ],
+        "g" => vec![
+            num(m.get("gsdc_score_m"), 3),
+            num(m.get("pooled_p50_m"), 3),
+            num(m.get("pooled_p95_m"), 3),
         ],
         _ => vec![num(m.get("auc"), 3), num(m.get("pd_at_pfa_cap"), 3)],
     }
