@@ -23,8 +23,12 @@ breaking changes are called out explicitly.
   reference count (reversals, duplicates, gaps, millisecond, leap-second, time-scale-offset and week-rollover steps,
   outliers, frequency steps, clock-bias jumps), shown on synthetic series with injected faults. `dynamics`: Doppler,
   Doppler rate and its derivative of every GNSS signal in view along GEO, GTO, HEO, HEO-perigee and transfer orbits,
-  against stated tracking limits. `bench`: the versioned upper-SSV benchmark `upper-ssv-bench/1` (five cases from the
-  8,000 km SSV edge to a lunar transfer) with availability, outages, dynamics and holdover checks for a receiver profile.
+  against stated tracking limits. `bench`: the versioned upper-SSV benchmark `upper-ssv-bench/1` (six cases from the
+  8,000 km SSV edge through MMS Phase 2B to a lunar transfer, `--sidelobes` for side-lobe tracking) with availability,
+  outages, dynamics and holdover checks for a receiver profile. The timestamp detector also checks clock jumps at
+  satellite-set changes and an absorbed inter-system bias, and reports disciplining evidence. `mms`: the MMS Phase 2B
+  case against the published flight figures (NTRS 20170009487): not reproduced with the booklet's minimum powers, with
+  a margin and sidelobe sensitivity grid. `od-vs-tle`: an onboard OEM against an SGP4-propagated element set in RTN.
   MODELLED throughout.
 
 ### Added (space weather for PNT and drag)

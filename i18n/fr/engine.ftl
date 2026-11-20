@@ -10692,7 +10692,7 @@ engine-e-ais-integrity-cannot-write = impossible d'écrire { $path } : { $e }
 engine-e-ais-integrity-bad-place = une ligne de la liste de lieux n'est pas name,lat,lon,radius_m avec une position valide et un rayon positif : { $row }
 
 ## A GNSS receiver in space: clock, timestamps, dynamics, upper-SSV benchmark (src/space_receiver/)
-engine-space-receiver-usage = utilisation : kshana space-receiver clock [--orbit <preset|a_km,e,i_deg>] [--oscillator <name>] [--temp-swing <K>] [--outage-min <m>]... | timestamps <tags.csv> [--oscillator <name>] [--step-floor <s>] [--gap-factor <x>] [--window <n>] | dynamics [--orbit <preset|a_km,e,i_deg>] [--duration-min <m>] [--step-s <s>] [--band l1|l5] [--max-off-boresight <deg>] [--max-doppler <Hz>] [--max-doppler-rate <Hz/s>] | bench [--list] [--case <id>]... [--cn0 <dB-Hz>] [--oscillator <name>] [--max-doppler <Hz>] [--max-doppler-rate <Hz/s>] [--time-budget <s>]   [--out <file.json>]  (docs/SPACE-RECEIVER.md)
+engine-space-receiver-usage = utilisation : kshana space-receiver clock [--orbit <preset|a_km,e,i_deg>] [--oscillator <name>] [--temp-swing <K>] [--outage-min <m>]... | timestamps <tags.csv> [--oscillator <name>] [--step-floor <s>] [--gap-factor <x>] [--window <n>] | dynamics [--orbit <preset|a_km,e,i_deg>] [--duration-min <m>] [--step-s <s>] [--band l1|l5] [--max-off-boresight <deg>] [--max-doppler <Hz>] [--max-doppler-rate <Hz/s>] | bench [--list] [--case <id>]... [--cn0 <dB-Hz>] [--oscillator <name>] [--max-doppler <Hz>] [--max-doppler-rate <Hz/s>] [--time-budget <s>] [--sidelobes] | mms [--cn0 <dB-Hz>] [--orbits <n>] [--step-min <m>] | od-vs-tle <onboard.oem> --tle <set.tle>   [--out <file.json>]  (docs/SPACE-RECEIVER.md)
 engine-e-space-receiver-missing-value = { $option } exige une valeur
 engine-e-space-receiver-unknown-option = option inconnue { $option } (kshana space-receiver --help liste les options)
 engine-e-space-receiver-cannot-read = impossible de lire { $path } : { $e }
@@ -10702,6 +10702,10 @@ engine-e-space-receiver-unknown-name = nom inconnu { $name } (connus : { $known 
 engine-e-space-receiver-no-columns = l'en-tête CSV doit nommer t_ref_s et soit t_rx_s, soit week et tow_s
 engine-e-space-receiver-bad-row = ligne { $line } : une colonne requise manque ou n'est pas un nombre
 engine-e-space-receiver-too-few-rows = au moins trois lignes d'horodatage sont nécessaires
+
+## Space receiver: MMS case and onboard OD against an element set (src/space_receiver/)
+engine-e-space-receiver-no-tle = aucun jeu d'éléments à deux lignes trouvé (ligne 1 commençant par "1 " suivie de la ligne 2)
+engine-e-space-receiver-oem-frame = le repère OEM { $frame } n'est pas lu par cette comparaison (EME2000, GCRF, ICRF ou TEME)
 
 engine-main-usage =
     utilisation : kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
@@ -10734,7 +10738,7 @@ engine-main-usage =
     { "   " }ou : kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }ou : kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }ou : kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
-    { "   " }ou : kshana space-receiver <clock|timestamps|dynamics|bench> ... [--out <file.json>] (kshana space-receiver --help)
+    { "   " }ou : kshana space-receiver <clock|timestamps|dynamics|bench|mms|od-vs-tle> ... [--out <file.json>] (kshana space-receiver --help)
     { "   " }ou : kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }ou : kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }ou : kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>

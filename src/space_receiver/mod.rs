@@ -12,7 +12,9 @@
 //!   view along a GEO, GTO, HEO or transfer orbit, against the receiver's stated tracking limits;
 //! * [`bench`]: the upper-SSV benchmark, a versioned set of trajectory cases run through the
 //!   `gnss-ssv` sweep ([`crate::ssv`]) and the two modules above;
-//! * [`cli`]: `kshana space-receiver <clock|timestamps|dynamics|bench>`.
+//! * [`mms`]: the MMS Phase 2B case set beside the flight results NASA published;
+//! * [`od_vs_tle`]: an onboard orbit-determination ephemeris (CCSDS OEM) against an element set;
+//! * [`cli`]: `kshana space-receiver <clock|timestamps|dynamics|bench|mms|od-vs-tle>`.
 //!
 //! MODELLED throughout: two-body orbits, the ICG booklet's constellation tables and link budget,
 //! and representative oscillator classes. The relativistic constant is checked against the value
@@ -22,4 +24,6 @@ pub mod bench;
 pub mod cli;
 pub mod clock;
 pub mod dynamics;
+pub mod mms;
+pub mod od_vs_tle;
 pub mod timestamps;

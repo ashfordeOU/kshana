@@ -106,7 +106,10 @@ fn bench_lists_its_versioned_cases() {
         .iter()
         .map(|c| c["id"].as_str().unwrap())
         .collect();
-    assert_eq!(ids, ["meo-8000", "geo", "gto", "heo", "lunar-transfer"]);
+    assert_eq!(
+        ids,
+        ["meo-8000", "geo", "gto", "heo", "mms-2b", "lunar-transfer"]
+    );
 }
 
 #[test]
@@ -148,6 +151,8 @@ fn usage_errors_exit_2() {
         &["bench", "--case", "nope"],
         &["timestamps", "no/such/file.csv"],
         &["timestamps"],
+        &["od-vs-tle", "x.oem"],
+        &["od-vs-tle", "no/such.oem", "--tle", "no/such.tle"],
         &["fly"],
     ] {
         let (code, _, err) = run(args);
@@ -157,4 +162,25 @@ fn usage_errors_exit_2() {
     let (code, out, _) = run(&["--help"]);
     assert_eq!(code, 0);
     assert!(out.contains("kshana space-receiver clock"));
+}
+
+#[test]
+fn mms_case_reports_the_published_values_and_a_verdict() {
+    let v = json(&["mms", "--orbits", "1", "--step-min", "10"]);
+    assert_eq!(v["schema"], "kshana.space-receiver-mms/1");
+    assert_eq!(v["published"][0], 99.0);
+    assert!(v["source"].as_str().unwrap().contains("NTRS 20170009487"));
+    assert_eq!(v["sensitivity"].as_array().unwrap().len(), 6);
+    let verdict = v["verdict"].as_str().unwrap();
+    assert!(verdict == "reproduced" || verdict == "not_reproduced");
+}
+
+#[test]
+fn bench_sidelobes_counts_more_signals() {
+    let a = json(&["bench", "--case", "geo"]);
+    let b = json(&["bench", "--case", "geo", "--sidelobes"]);
+    let pa = a["cases"][0]["at_least_4_pct"].as_f64().unwrap();
+    let pb = b["cases"][0]["at_least_4_pct"].as_f64().unwrap();
+    assert!(pb >= pa, "{pa} {pb}");
+    assert_eq!(b["profile"]["sidelobes"], true);
 }

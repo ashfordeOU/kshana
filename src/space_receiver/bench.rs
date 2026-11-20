@@ -15,6 +15,9 @@
 //! * three checks: Doppler within the limit, Doppler rate within the limit, time error within the
 //!   budget. A check with no limit given is `not_checked`.
 //!
+//! With `sidelobes` the transmit pattern is the parametric shaped beam with a sidelobe floor 25 dB
+//! down (representative), so the side-lobe tracking a weak-signal receiver can do is counted.
+//!
 //! The case list is `upper-ssv-bench/1`; any change to it is a new version, never an edit, so a
 //! result names the cases it was scored on.
 //!
@@ -52,7 +55,7 @@ pub struct Case {
 }
 
 /// The cases of [`VERSION`].
-pub const CASES: [Case; 5] = [
+pub const CASES: [Case; 6] = [
     Case {
         id: "meo-8000",
         preset: "meo",
@@ -82,6 +85,13 @@ pub const CASES: [Case; 5] = [
         dynamics_step_s: 60.0,
     },
     Case {
+        id: "mms-2b",
+        preset: "mms-2b",
+        duration_min: 4020.0,
+        step_min: 10.0,
+        dynamics_step_s: 300.0,
+    },
+    Case {
         id: "lunar-transfer",
         preset: "lunar-transfer",
         duration_min: 4.0 * 1440.0,
@@ -103,6 +113,8 @@ pub struct Profile {
     pub limits: Limits,
     /// Time-error budget over an outage, s.
     pub time_budget_s: Option<f64>,
+    /// Count sidelobe signals: the parametric transmit pattern in place of the booklet's main lobe.
+    pub sidelobes: bool,
 }
 
 impl Profile {
@@ -114,6 +126,7 @@ impl Profile {
             oscillator,
             limits: Limits::default(),
             time_budget_s: None,
+            sidelobes: false,
         }
     }
 }
@@ -219,7 +232,11 @@ pub fn run_case(case: &Case, profile: &Profile) -> Result<CaseResult, String> {
             Band::L1,
             profile.antennas.iter().map(|a| antenna(a)).collect(),
         )],
-        tx: TxPattern::Booklet,
+        tx: if profile.sidelobes {
+            TxPattern::Parametric(crate::ssv::pattern::ParametricPattern::default())
+        } else {
+            TxPattern::Booklet
+        },
         mrtp_reference_alt_km: 36000.0,
         series_every_epochs: 0,
         collect_limb: false,

@@ -21,7 +21,15 @@
 //! * `frequency_step`: the slope of the offset over the second half of the trailing window differs
 //!   from the first half by more than `rate_sigma` standard errors and by at least `min_rate` (the
 //!   window then keeps only its second half, so one change is reported once);
-//! * `clock_bias_jump`: the reported clock bias moved by more than `bias_jump_s` between rows.
+//! * `clock_bias_jump`: the reported clock bias moved by more than `bias_jump_s` between rows;
+//! * `set_change_jump`: where the satellite set (an optional `sats` column, `G05;E11;...`)
+//!   changed, the clock bias moved by more than twice `k_sigma` times the jump expected from the
+//!   set change ([`set_change_sigma_s`]): a satellite with a large ranging error entered or left;
+//! * `isb_unhandled`: with two systems in the sets, the clock bias follows the share of the second
+//!   system ([`DualSystem`]), so the inter-system bias is absorbed by the clock.
+//!
+//! With a `clock_bias_s` column the report also gives disciplining evidence ([`Discipline`]):
+//! steering steps, the free-running drift between them and the Allan deviation of the bias.
 //!
 //! The step threshold is `max(step_floor_s, k_sigma · x(Δt))`, with `x(Δt) = Δt·σ_y(Δt)` the
 //! free-run time error of the stated oscillator class ([`super::clock`]) over the row interval
@@ -63,6 +71,8 @@ pub struct Params {
     pub bias_jump_s: f64,
     /// Tolerance for naming a step after a known offset, s.
     pub name_tol_s: f64,
+    /// One-sigma signal-in-space ranging error per satellite for the set-change model, m.
+    pub sisre_m: f64,
 }
 
 impl Default for Params {
@@ -76,12 +86,13 @@ impl Default for Params {
             min_rate: 1e-11,
             bias_jump_s: 5e-4,
             name_tol_s: 1e-3,
+            sisre_m: 1.0,
         }
     }
 }
 
 /// One input row.
-#[derive(Clone, Copy, Debug, PartialEq)]
+#[derive(Clone, Debug, PartialEq)]
 pub struct Row {
     /// Onboard reference count, s.
     pub t_ref_s: f64,
@@ -89,6 +100,8 @@ pub struct Row {
     pub t_rx_s: f64,
     /// Clock bias the receiver reports, s.
     pub clock_bias_s: Option<f64>,
+    /// Satellites used in the solution (`G05`, `E11`: system letter first), when given.
+    pub sats: Option<Vec<String>>,
 }
 
 /// One detected fault.
@@ -123,6 +136,108 @@ pub struct Report {
     pub events: Vec<Event>,
     /// Count per kind.
     pub counts: BTreeMap<&'static str, usize>,
+    /// Two-system bias check, with a `sats` column naming two systems.
+    pub dual_system: Option<DualSystem>,
+    /// Disciplining evidence, with a `clock_bias_s` column.
+    pub discipline: Option<Discipline>,
+}
+
+/// The expected one-sigma jump (s) of a least-squares receiver-clock estimate when its satellite
+/// set changes from `n1` to `n2` satellites with `common` kept, each satellite carrying an
+/// independent ranging error of `sisre_m`: the clock absorbs the mean error of the set, so the
+/// jump is the difference of two means, of variance `σ²(1/n1 + 1/n2 − 2k/(n1·n2))`.
+pub fn set_change_sigma_s(n1: usize, n2: usize, common: usize, sisre_m: f64) -> f64 {
+    if n1 == 0 || n2 == 0 {
+        return 0.0;
+    }
+    let (a, b, k) = (n1 as f64, n2 as f64, common as f64);
+    let v = (1.0 / a + 1.0 / b - 2.0 * k / (a * b)).max(0.0);
+    sisre_m * v.sqrt() / 299_792_458.0
+}
+
+/// A receiver that solves one clock for two systems absorbs the inter-system bias (ISB) in
+/// proportion to the share of the second system in its set: at a set change the clock moves by
+/// `ISB · Δshare`. The check regresses the clock-bias change on the change of share over every
+/// set change; a slope beyond five standard errors and 1 ns says the bias is not being handled.
+#[derive(Clone, Debug, PartialEq, Serialize)]
+pub struct DualSystem {
+    /// The two systems (letters).
+    pub systems: [String; 2],
+    /// Set changes used.
+    pub set_changes: usize,
+    /// Estimated absorbed bias, s.
+    pub isb_s: f64,
+    /// Its standard error, s.
+    pub isb_se_s: f64,
+    /// Whether the bias looks unhandled.
+    pub unhandled: bool,
+}
+
+/// What the reported clock bias says about the receiver's clock disciplining.
+#[derive(Clone, Debug, PartialEq, Serialize)]
+pub struct Discipline {
+    /// Largest reported |clock bias|, s.
+    pub max_abs_bias_s: f64,
+    /// Steering steps (a whole number of milliseconds), count.
+    pub steering_steps: usize,
+    /// Free-running drift between steps (least-squares slope), s/s.
+    pub drift: f64,
+    /// Overlapping Allan deviation of the bias, with steps removed, at 1, 10 and 100 nominal
+    /// intervals: `(tau_s, adev)`.
+    pub adev: Vec<(f64, f64)>,
+}
+
+/// Overlapping Allan deviation of phase data `x` (s) sampled every `tau0` at `m·tau0`.
+fn oadev(x: &[f64], tau0: f64, m: usize) -> Option<f64> {
+    if m == 0 || x.len() < 2 * m + 1 {
+        return None;
+    }
+    let n = x.len() - 2 * m;
+    let s: f64 = (0..n)
+        .map(|i| {
+            let d = x[i + 2 * m] - 2.0 * x[i + m] + x[i];
+            d * d
+        })
+        .sum();
+    let tau = m as f64 * tau0;
+    Some((s / (2.0 * n as f64 * tau * tau)).sqrt())
+}
+
+fn discipline(rows: &[Row], nominal: f64) -> Option<Discipline> {
+    let b: Vec<(f64, f64)> = rows
+        .iter()
+        .filter_map(|r| r.clock_bias_s.map(|v| (r.t_ref_s, v)))
+        .collect();
+    if b.len() < 3 {
+        return None;
+    }
+    let mut steps = 0usize;
+    // Phase with the steering steps removed.
+    let mut x = vec![b[0].1];
+    let mut off = 0.0;
+    let (mut sdt, mut sdx) = (0.0, 0.0);
+    for w in b.windows(2) {
+        let d = w[1].1 - w[0].1;
+        let ms = (d * 1e3).round();
+        if ms != 0.0 && (d - ms * 1e-3).abs() < 1e-5 {
+            steps += 1;
+            off -= ms * 1e-3;
+        } else {
+            sdt += w[1].0 - w[0].0;
+            sdx += d;
+        }
+        x.push(w[1].1 + off);
+    }
+    let adev = [1usize, 10, 100]
+        .iter()
+        .filter_map(|&m| oadev(&x, nominal, m).map(|a| (m as f64 * nominal, a)))
+        .collect();
+    Some(Discipline {
+        max_abs_bias_s: b.iter().map(|p| p.1.abs()).fold(0.0, f64::max),
+        steering_steps: steps,
+        drift: if sdt > 0.0 { sdx / sdt } else { 0.0 },
+        adev,
+    })
 }
 
 /// Name a step of the offset by its size.
@@ -214,10 +329,10 @@ pub fn detect(rows: &[Row], osc: &Oscillator, p: &Params) -> Report {
         })
     };
     for i in 0..rows.len() {
-        let r = rows[i];
+        let r = &rows[i];
         let d = r.t_rx_s - r.t_ref_s;
         if i > 0 {
-            let q = rows[i - 1];
+            let q = &rows[i - 1];
             let dt_ref = r.t_ref_s - q.t_ref_s;
             if dt_ref == 0.0 {
                 push(&mut events, i, "duplicate_reference", 0.0);
@@ -298,6 +413,76 @@ pub fn detect(rows: &[Row], osc: &Oscillator, p: &Params) -> Report {
     if let Some((j, s)) = pending {
         push(&mut events, j, classify_step(s, p.name_tol_s), s);
     }
+    // Set changes: an unexpectedly large clock-bias move where the satellite set changed, and the
+    // two-system bias regression.
+    let mut pairs: Vec<(f64, f64)> = Vec::new();
+    let mut systems: Vec<char> = Vec::new();
+    for r in rows {
+        for s in r.sats.iter().flatten() {
+            if let Some(c) = s.chars().next() {
+                if !systems.contains(&c) {
+                    systems.push(c);
+                }
+            }
+        }
+    }
+    systems.sort_unstable();
+    let share = |v: &[String], c: char| {
+        if v.is_empty() {
+            0.0
+        } else {
+            v.iter().filter(|s| s.starts_with(c)).count() as f64 / v.len() as f64
+        }
+    };
+    for i in 1..rows.len() {
+        let (q, r) = (&rows[i - 1], &rows[i]);
+        let (Some(a), Some(b), Some(ba), Some(bb)) =
+            (&q.sats, &r.sats, q.clock_bias_s, r.clock_bias_s)
+        else {
+            continue;
+        };
+        if a == b {
+            continue;
+        }
+        let common = b.iter().filter(|s| a.contains(s)).count();
+        let sig = set_change_sigma_s(a.len(), b.len(), common, p.sisre_m);
+        let d = bb - ba;
+        if systems.len() == 2 {
+            pairs.push((share(b, systems[1]) - share(a, systems[1]), d));
+        }
+        let ms = (d * 1e3).round();
+        let steering = ms != 0.0 && (d - ms * 1e-3).abs() < 1e-5;
+        if !steering && d.abs() <= p.bias_jump_s && d.abs() > p.k_sigma * sig.max(1e-12) * 2.0 {
+            push(&mut events, i, "set_change_jump", d);
+        }
+    }
+    let dual_system = (systems.len() == 2 && pairs.len() >= 3).then(|| {
+        let sxx: f64 = pairs.iter().map(|p| p.0 * p.0).sum();
+        let sxy: f64 = pairs.iter().map(|p| p.0 * p.1).sum();
+        let isb = if sxx > 0.0 { sxy / sxx } else { 0.0 };
+        let rss: f64 = pairs.iter().map(|p| (p.1 - isb * p.0).powi(2)).sum();
+        let se = if sxx > 0.0 {
+            (rss / (pairs.len() as f64 - 1.0)).sqrt() / sxx.sqrt()
+        } else {
+            f64::INFINITY
+        };
+        DualSystem {
+            systems: [systems[0].to_string(), systems[1].to_string()],
+            set_changes: pairs.len(),
+            isb_s: isb,
+            isb_se_s: se,
+            unhandled: isb.abs() > 1e-9 && isb.abs() > 5.0 * se,
+        }
+    });
+    if dual_system.as_ref().is_some_and(|d| d.unhandled) {
+        let last = rows.len() - 1;
+        push(
+            &mut events,
+            last,
+            "isb_unhandled",
+            dual_system.as_ref().map_or(0.0, |d| d.isb_s),
+        );
+    }
     events.sort_by_key(|e| e.row);
     let mut counts = BTreeMap::new();
     for e in &events {
@@ -312,6 +497,8 @@ pub fn detect(rows: &[Row], osc: &Oscillator, p: &Params) -> Report {
         params: p.clone(),
         events,
         counts,
+        dual_system,
+        discipline: discipline(rows, nominal),
     }
 }
 
@@ -335,6 +522,7 @@ pub fn parse_csv(text: &str) -> Result<Vec<Row>, String> {
     let week = find("week");
     let tow = find("tow_s");
     let bias = find("clock_bias_s");
+    let sats_col = find("sats");
     let Some(t_ref) = t_ref else {
         return Err(crate::terr!("e-space-receiver-no-columns"));
     };
@@ -360,10 +548,17 @@ pub fn parse_csv(text: &str) -> Result<Vec<Row>, String> {
             Some(k) if cells.get(k).is_some_and(|s| !s.is_empty()) => Some(num(k)?),
             _ => None,
         };
+        let sats = sats_col.and_then(|k| cells.get(k)).map(|c| {
+            c.split(';')
+                .map(|s| s.trim().to_string())
+                .filter(|s| !s.is_empty())
+                .collect::<Vec<_>>()
+        });
         rows.push(Row {
             t_ref_s: num(t_ref)?,
             t_rx_s,
             clock_bias_s,
+            sats,
         });
     }
     if rows.len() < 3 {
@@ -389,6 +584,7 @@ mod tests {
                     t_ref_s: t,
                     t_rx_s: t + 5e-4 + 2e-9 * k as f64 + noise,
                     clock_bias_s: None,
+                    sats: None,
                 }
             })
             .collect()
@@ -488,6 +684,82 @@ mod tests {
         assert!(!f.is_empty(), "{:?}", rep.events);
         assert!(f[0].row >= 200 && f[0].row < 240, "{:?}", f);
         assert!(rep.events.iter().all(|e| e.kind == "frequency_step"));
+    }
+
+    /// A 1 Hz series whose satellite set changes every 30 rows, alternating between sets with
+    /// different Galileo shares; the clock bias carries `isb_s` times the Galileo share.
+    fn mixed(isb_s: f64, seed: u64) -> Vec<Row> {
+        use rand::{Rng, SeedableRng};
+        let mut rng = rand_chacha::ChaCha8Rng::seed_from_u64(seed);
+        let sets: [&[&str]; 3] = [
+            &["G01", "G05", "G07", "G12", "E02", "E11"],
+            &["G01", "G05", "G07", "G12", "G15", "E11"],
+            &["G01", "G05", "E02", "E11", "E24", "E30"],
+        ];
+        let mut rows = series(300, seed);
+        for (k, r) in rows.iter_mut().enumerate() {
+            let set = sets[(k / 30) % 3];
+            let gal = set.iter().filter(|s| s.starts_with('E')).count() as f64 / set.len() as f64;
+            r.sats = Some(set.iter().map(|s| s.to_string()).collect());
+            r.clock_bias_s =
+                Some(2e-4 + 1e-9 * k as f64 + isb_s * gal + (rng.gen::<f64>() - 0.5) * 1e-10);
+        }
+        rows
+    }
+
+    #[test]
+    fn an_absorbed_inter_system_bias_is_found_and_none_when_handled() {
+        let osc = oscillator("ocxo").unwrap();
+        let rep = detect(&mixed(40e-9, 5), &osc, &Params::default());
+        let d = rep.dual_system.clone().unwrap();
+        assert_eq!(d.systems, ["E".to_string(), "G".to_string()]);
+        // The regression is on the share of the second system in letter order ("G"), so the
+        // absorbed bias comes out with the opposite sign.
+        assert!((d.isb_s + 40e-9).abs() < 2e-9, "{d:?}");
+        assert!(d.unhandled);
+        assert!(rep.events.iter().any(|e| e.kind == "isb_unhandled"));
+        let rep = detect(&mixed(0.0, 5), &osc, &Params::default());
+        assert!(!rep.dual_system.unwrap().unhandled);
+        assert!(rep.events.is_empty(), "{:?}", rep.events);
+    }
+
+    #[test]
+    fn a_bad_satellite_entering_the_set_is_a_set_change_jump() {
+        let osc = oscillator("ocxo").unwrap();
+        let mut rows = mixed(0.0, 9);
+        // At row 60 the set changes and the clock moves by 300 ns: far beyond 1 m of ranging error.
+        for r in rows.iter_mut().skip(60) {
+            r.clock_bias_s = r.clock_bias_s.map(|b| b + 300e-9);
+        }
+        let rep = detect(&rows, &osc, &Params::default());
+        assert!(
+            rep.events
+                .iter()
+                .any(|e| e.row == 60 && e.kind == "set_change_jump"),
+            "{:?}",
+            rep.events
+        );
+        // The model's own scale: one satellite of six swapped, 1 m each: σ·√(2/36), about 0.8 ns.
+        let s = set_change_sigma_s(6, 6, 5, 1.0);
+        assert!((s * 299_792_458.0 - (2.0f64 / 36.0).sqrt()).abs() < 1e-12);
+        assert_eq!(set_change_sigma_s(5, 5, 5, 1.0), 0.0);
+    }
+
+    #[test]
+    fn disciplining_evidence() {
+        let osc = oscillator("ocxo").unwrap();
+        let mut rows = series(400, 2);
+        for (k, r) in rows.iter_mut().enumerate() {
+            // Drift 5e-9 s/s, steered back by 1 ms whenever the bias passes 1 ms.
+            let free = 9.9e-4 + 5e-9 * k as f64;
+            let steer = if k >= 200 { 1e-3 } else { 0.0 };
+            r.clock_bias_s = Some(free - steer);
+        }
+        let d = detect(&rows, &osc, &Params::default()).discipline.unwrap();
+        assert_eq!(d.steering_steps, 1);
+        assert!((d.drift - 5e-9).abs() < 1e-12, "{}", d.drift);
+        assert_eq!(d.adev.len(), 3);
+        assert!(d.max_abs_bias_s < 1e-3);
     }
 
     #[test]
