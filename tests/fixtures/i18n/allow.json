@@ -1086,8 +1086,8 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/main.rs": {
-   "count": 72,
-   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md); clock-live prints its error text as given; the sensor-live command name; the device and bench-speed command names; the data-pack, area-trust and env-baseline command names; the ephem-export command name"
+   "count": 73,
+   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md); clock-live prints its error text as given; the sensor-live command name; the device and bench-speed command names; the data-pack, area-trust and env-baseline command names; the ephem-export command name; the time-vectors command name."
   },
   "src/mars_pnt.rs": {
    "count": 31,
@@ -1664,6 +1664,14 @@
   "src/tm_bridge.rs": {
    "count": 18,
    "reason": "machine-document: XTCE, COSMOS cmd_tlm and Open MCT dictionary keywords and the parameter names and short descriptions written into those mission-database files"
+  },
+  "src/norad.rs": {
+   "count": 6,
+   "reason": "identifier: CCSDS OMM keywords (NORAD_CAT_ID, MEAN_MOTION, RA_OF_ASC_NODE, ARG_OF_PERICENTER, MEAN_ANOMALY) looked up in a parsed message"
+  },
+  "src/time_vectors.rs": {
+   "count": 13,
+   "reason": "identifier: the kshana.time-vectors/1 format tag, the embedded vector file names and the JSON field names of the vector format (docs/TIME-VECTORS.md)"
   }
  }
 }

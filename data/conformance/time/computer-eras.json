@@ -1,0 +1,30 @@
+{
+ "format": "kshana.time-vectors/1",
+ "set": "computer-eras",
+ "version": "1.0.0",
+ "description": "The NTP era rollover (2036), signed and unsigned 32-bit Unix time (2038, 2106).",
+ "generator": "data/conformance/time/gen_time_vectors.py",
+ "vectors": [
+  {"id": "unix-to-ntp--2208988800", "op": "unix_to_ntp", "input": {"unix": -2208988800}, "expect": {"era": 0, "seconds": 0}},
+  {"id": "unix-to-ntp-0", "op": "unix_to_ntp", "input": {"unix": 0}, "expect": {"era": 0, "seconds": 2208988800}},
+  {"id": "unix-to-ntp-2085978495", "op": "unix_to_ntp", "input": {"unix": 2085978495}, "expect": {"era": 0, "seconds": 4294967295}},
+  {"id": "unix-to-ntp-2085978496", "op": "unix_to_ntp", "input": {"unix": 2085978496}, "expect": {"era": 1, "seconds": 0}},
+  {"id": "unix-to-ntp-2085978497", "op": "unix_to_ntp", "input": {"unix": 2085978497}, "expect": {"era": 1, "seconds": 1}},
+  {"id": "unix-to-ntp-6380945791", "op": "unix_to_ntp", "input": {"unix": 6380945791}, "expect": {"era": 1, "seconds": 4294967295}},
+  {"id": "ntp-to-unix-0-near-1794657600", "op": "ntp_to_unix", "input": {"seconds": 0, "pivot_unix": 1794657600}, "expect": {"unix": 2085978496, "era": 1, "utc": "2036-02-07T06:28:16"}, "note": "NTP seconds 0 read in 2026: the 2036 era-1 start, not 1900"},
+  {"id": "ntp-to-unix-4294967295-near-2085978000", "op": "ntp_to_unix", "input": {"seconds": 4294967295, "pivot_unix": 2085978000}, "expect": {"unix": 2085978495, "era": 0, "utc": "2036-02-07T06:28:15"}, "note": "the last second of era 0"},
+  {"id": "ntp-to-unix-0-near-2085978000", "op": "ntp_to_unix", "input": {"seconds": 0, "pivot_unix": 2085978000}, "expect": {"unix": 2085978496, "era": 1, "utc": "2036-02-07T06:28:16"}, "note": "the first second of era 1 (2036-02-07T06:28:16Z)"},
+  {"id": "ntp-to-unix-3913056000-near-1794657600", "op": "ntp_to_unix", "input": {"seconds": 3913056000, "pivot_unix": 1794657600}, "expect": {"unix": 1704067200, "era": 0, "utc": "2024-01-01T00:00:00"}, "note": "an ordinary 2024 value"},
+  {"id": "ntp-to-unix-100-near-2085979000", "op": "ntp_to_unix", "input": {"seconds": 100, "pivot_unix": 2085979000}, "expect": {"unix": 2085978596, "era": 1, "utc": "2036-02-07T06:29:56"}, "note": "just after the 2036 wrap"},
+  {"id": "unix-i32-0", "op": "unix_i32", "input": {"unix": 0}, "expect": {"fits": true, "wrapped": 0, "utc": "1970-01-01T00:00:00", "wrapped_utc": "1970-01-01T00:00:00"}},
+  {"id": "unix-i32--1", "op": "unix_i32", "input": {"unix": -1}, "expect": {"fits": true, "wrapped": -1, "utc": "1969-12-31T23:59:59", "wrapped_utc": "1969-12-31T23:59:59"}},
+  {"id": "unix-i32-2147483647", "op": "unix_i32", "input": {"unix": 2147483647}, "expect": {"fits": true, "wrapped": 2147483647, "utc": "2038-01-19T03:14:07", "wrapped_utc": "2038-01-19T03:14:07"}, "note": "2038-01-19T03:14:07Z is the last second a signed 32-bit time_t holds"},
+  {"id": "unix-i32-2147483648", "op": "unix_i32", "input": {"unix": 2147483648}, "expect": {"fits": false, "wrapped": -2147483648, "utc": "2038-01-19T03:14:08", "wrapped_utc": "1901-12-13T20:45:52"}},
+  {"id": "unix-i32-4294967295", "op": "unix_i32", "input": {"unix": 4294967295}, "expect": {"fits": false, "wrapped": -1, "utc": "2106-02-07T06:28:15", "wrapped_utc": "1969-12-31T23:59:59"}},
+  {"id": "unix-i32-1794657600", "op": "unix_i32", "input": {"unix": 1794657600}, "expect": {"fits": true, "wrapped": 1794657600, "utc": "2026-11-14T12:00:00", "wrapped_utc": "2026-11-14T12:00:00"}},
+  {"id": "unix-u32-0-near-4294967000", "op": "unix_u32_resolve", "input": {"raw": 0, "pivot_unix": 4294967000}, "expect": {"unix": 4294967296, "utc": "2106-02-07T06:28:16"}, "note": "an unsigned 32-bit counter wraps at 2106-02-07T06:28:16Z"},
+  {"id": "unix-u32-4294967295-near-4294967400", "op": "unix_u32_resolve", "input": {"raw": 4294967295, "pivot_unix": 4294967400}, "expect": {"unix": 4294967295, "utc": "2106-02-07T06:28:15"}},
+  {"id": "unix-u32-2147483648-near-2147483000", "op": "unix_u32_resolve", "input": {"raw": 2147483648, "pivot_unix": 2147483000}, "expect": {"unix": 2147483648, "utc": "2038-01-19T03:14:08"}, "note": "a signed counter read as unsigned across 2038"},
+  {"id": "unix-u32-1794657600-near-1794657000", "op": "unix_u32_resolve", "input": {"raw": 1794657600, "pivot_unix": 1794657000}, "expect": {"unix": 1794657600, "utc": "2026-11-14T12:00:00"}}
+ ]
+}

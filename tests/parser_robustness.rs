@@ -842,6 +842,26 @@ EPHEMERIS_TYPE = 0\nCLASSIFICATION_TYPE = U\nNORAD_CAT_ID = 270001\nELEMENT_SET_
 BSTAR = 0.0001\nMEAN_MOTION_DOT = 0.0\nMEAN_MOTION_DDOT = 0.0\n";
 
 #[test]
+fn norad_alpha5_and_omm() {
+    let tle = b"1 A0001U 26001A   26318.50000000  .00000000  00000-0  00000-0 0  9990\n2 A0001  51.6400 100.0000 0001000  90.0000 270.0000 15.50000000    05\n".to_vec();
+    fuzz("alpha-5", &[tle], None, |b| {
+        let t = text(b);
+        for tok in t.split_whitespace() {
+            let _ = kshana::norad::decode(tok);
+        }
+        for l in t.lines() {
+            let _ = kshana::tle::parse_tle_identity(l);
+        }
+    });
+    fuzz("omm to sgp4", &[OMM_KVN.as_bytes().to_vec()], None, |b| {
+        if let Ok(m) = kshana::odm::OmmMessage::parse(&text(b)) {
+            let _ = kshana::norad::tle_from_omm(&m);
+        }
+        let _ = kshana::norad::epoch_days_1950(&text(b));
+    });
+}
+
+#[test]
 fn ccsds_messages() {
     let oem = vec![
         head("tests/fixtures/ccsds/oem_502_b3_figG11.oem", 80),
@@ -986,6 +1006,7 @@ fn other_text_formats() {
         for l in t.lines() {
             let _ = kshana::telemetry::time::parse_rfc3339_utc(l);
             let _ = kshana::telemetry::sample::parse_live_line(l);
+            let _ = kshana::norad::epoch_days_1950(l);
         }
     });
 }

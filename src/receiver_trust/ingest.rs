@@ -1493,7 +1493,14 @@ fn nmea_rmc(st: &mut NmeaState, f: &[&str]) -> Sentence {
     if st.base_day.is_none() && date.len() == 6 {
         let num = |a: usize| date.get(a..a + 2).and_then(|s| s.parse::<i64>().ok());
         if let (Some(d), Some(m), Some(y)) = (num(0), num(2), num(4)) {
-            let y = if y >= 80 { 1900 + y } else { 2000 + y };
+            // NMEA carries no century: the reader's fixed window (80-99 -> 19xx), the RINEX 2
+            // convention, through the one conformance-tested implementation.
+            let y = crate::gnss_time::two_digit_year(
+                y as u32,
+                crate::gnss_time::YearConvention::Rinex2,
+                0,
+            )
+            .unwrap_or(0);
             if plausible_date(y, m, d) {
                 st.base_day = Some(days_from_civil(y, m, d) - st.day_off);
             }

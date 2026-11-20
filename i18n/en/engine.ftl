@@ -10377,6 +10377,7 @@ engine-main-usage =
     { "   " }or: kshana iq <scene|acquire|track|sweep|labfit|campaign|conditions|frontend|monitor|inventory|info|extract|convert|decimate> ... (kshana iq --help)
     { "   " }or: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }or: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
+    { "   " }or: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }or: kshana kinds [--json]
     { "   " }or: kshana example [<name>]
     { "   " }or: kshana --help | --version
@@ -11832,3 +11833,32 @@ engine-e-clock-grid-too-long = the clock record would need { $n } grid epochs fo
 
 ## IONEX grid bound (src/ionex.rs)
 engine-e-ionex-grid-too-large = the IONEX grid has more than { $max } nodes (check LAT1 / LAT2 / DLAT and LON1 / LON2 / DLON)
+
+## NORAD catalogue numbers (src/norad.rs)
+engine-e-norad-bad-catalogue-field = not a TLE catalogue field (five digits, or an Alpha-5 letter and four digits): { $field }
+engine-e-norad-beyond-alpha5 = catalogue number { $n } is above 339999 and does not fit a TLE even in Alpha-5; write an OMM instead
+engine-e-norad-omm-no-cat-id = the OMM has no NORAD_CAT_ID
+engine-e-norad-omm-bad-cat-id = the OMM NORAD_CAT_ID is not an unsigned integer of up to nine digits: { $value }
+engine-e-norad-bad-epoch = not a CCSDS epoch (YYYY-MM-DDThh:mm:ss or YYYY-DDDThh:mm:ss, 1950-2100): { $value }
+engine-e-norad-omm-missing = the OMM lacks a finite { $key }
+engine-e-norad-omm-elements-out-of-range = the OMM mean elements are out of range (inclination 0-180 deg, eccentricity 0-1, mean motion positive)
+
+## GNSS and computer time-scale arithmetic (src/gnss_time.rs)
+engine-e-gnss-time-unknown-scale = unknown time scale { $name } (UTC, TAI, TT, GPST, GST, BDT, GLONASST)
+engine-e-gnss-time-bad-time = not a date and time YYYY-MM-DDThh:mm:ss[.fffffffff][Z] with fields in range: { $value }
+engine-e-gnss-time-before-1972 = UTC before 1972-01-01 has no integer TAI-UTC: { $value }
+engine-e-gnss-time-no-leap-second = no leap second was inserted at the end of that UTC day: { $value }
+engine-e-gnss-time-no-weeks = { $name } has no week count here (GPST, GST and BDT do)
+engine-e-gnss-time-out-of-range = week or time of week out of range: { $value }
+engine-e-gnss-time-bad-week = truncated week { $truncated } does not fit { $bits } bits (1 to 20 bits)
+engine-e-gnss-time-unknown-convention = unknown two-digit-year convention { $name } (rinex2, tle, nmea)
+engine-e-gnss-time-bad-yy = two-digit year { $yy } is not 0 to 99
+
+## Time-scale conformance vectors (src/time_vectors.rs)
+engine-e-time-vectors-missing-input = the vector input lacks a valid { $key }
+engine-e-time-vectors-unknown-op = unknown vector operation { $op }
+engine-e-time-vectors-no-expect = the vector has no expect object
+engine-e-time-vectors-expected-error = the vector expects an error, and the operation succeeded
+engine-e-time-vectors-bad-format = { $file } is not a { $format } document (format tag and a vectors array)
+engine-time-vectors-summary = { $n } vectors: { $passed } passed, { $failed } failed
+engine-time-vectors-usage = usage: kshana time-vectors [--json] [<vectors.json | dir> ...]  (no path: the built-in set, data/conformance/time; docs/TIME-VECTORS.md)
