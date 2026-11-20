@@ -10716,6 +10716,7 @@ engine-main-usage =
     { "   " }або: kshana iq <scene|acquire|track|sweep|labfit|campaign|conditions|frontend|monitor|inventory|info|extract|convert|decimate> ... (kshana iq --help)
     { "   " }або: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }або: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
+    { "   " }або: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }або: kshana kinds [--json]
     { "   " }або: kshana example [<name>]
     { "   " }або: kshana --help | --version

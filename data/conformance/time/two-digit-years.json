@@ -1,0 +1,29 @@
+{
+ "format": "kshana.time-vectors/1",
+ "set": "two-digit-years",
+ "version": "1.0.0",
+ "description": "Two-digit years in RINEX 2, TLE and NMEA.",
+ "generator": "data/conformance/time/gen_time_vectors.py",
+ "vectors": [
+  {"id": "rinex2-00", "op": "two_digit_year", "input": {"yy": 0, "convention": "rinex2"}, "expect": {"year": 2000}},
+  {"id": "rinex2-26", "op": "two_digit_year", "input": {"yy": 26, "convention": "rinex2"}, "expect": {"year": 2026}},
+  {"id": "rinex2-79", "op": "two_digit_year", "input": {"yy": 79, "convention": "rinex2"}, "expect": {"year": 2079}},
+  {"id": "rinex2-80", "op": "two_digit_year", "input": {"yy": 80, "convention": "rinex2"}, "expect": {"year": 1980}},
+  {"id": "rinex2-99", "op": "two_digit_year", "input": {"yy": 99, "convention": "rinex2"}, "expect": {"year": 1999}},
+  {"id": "tle-00", "op": "two_digit_year", "input": {"yy": 0, "convention": "tle"}, "expect": {"year": 2000}},
+  {"id": "tle-26", "op": "two_digit_year", "input": {"yy": 26, "convention": "tle"}, "expect": {"year": 2026}},
+  {"id": "tle-56", "op": "two_digit_year", "input": {"yy": 56, "convention": "tle"}, "expect": {"year": 2056}},
+  {"id": "tle-57", "op": "two_digit_year", "input": {"yy": 57, "convention": "tle"}, "expect": {"year": 1957}},
+  {"id": "tle-99", "op": "two_digit_year", "input": {"yy": 99, "convention": "tle"}, "expect": {"year": 1999}},
+  {"id": "nmea-26-ref-2026", "op": "two_digit_year", "input": {"yy": 26, "convention": "nmea", "reference_year": 2026}, "expect": {"year": 2026}, "note": "NMEA ddmmyy carries no century: the year within -50/+49 of the reference"},
+  {"id": "nmea-75-ref-2026", "op": "two_digit_year", "input": {"yy": 75, "convention": "nmea", "reference_year": 2026}, "expect": {"year": 2075}, "note": "NMEA ddmmyy carries no century: the year within -50/+49 of the reference"},
+  {"id": "nmea-76-ref-2026", "op": "two_digit_year", "input": {"yy": 76, "convention": "nmea", "reference_year": 2026}, "expect": {"year": 1976}, "note": "NMEA ddmmyy carries no century: the year within -50/+49 of the reference"},
+  {"id": "nmea-99-ref-2026", "op": "two_digit_year", "input": {"yy": 99, "convention": "nmea", "reference_year": 2026}, "expect": {"year": 1999}, "note": "NMEA ddmmyy carries no century: the year within -50/+49 of the reference"},
+  {"id": "nmea-00-ref-2026", "op": "two_digit_year", "input": {"yy": 0, "convention": "nmea", "reference_year": 2026}, "expect": {"year": 2000}, "note": "NMEA ddmmyy carries no century: the year within -50/+49 of the reference"},
+  {"id": "nmea-19-ref-2070", "op": "two_digit_year", "input": {"yy": 19, "convention": "nmea", "reference_year": 2070}, "expect": {"year": 2119}, "note": "NMEA ddmmyy carries no century: the year within -50/+49 of the reference"},
+  {"id": "nmea-20-ref-2070", "op": "two_digit_year", "input": {"yy": 20, "convention": "nmea", "reference_year": 2070}, "expect": {"year": 2020}, "note": "NMEA ddmmyy carries no century: the year within -50/+49 of the reference"},
+  {"id": "nmea-37-ref-2087", "op": "two_digit_year", "input": {"yy": 37, "convention": "nmea", "reference_year": 2087}, "expect": {"year": 2037}, "note": "NMEA ddmmyy carries no century: the year within -50/+49 of the reference"},
+  {"id": "nmea-38-ref-2087", "op": "two_digit_year", "input": {"yy": 38, "convention": "nmea", "reference_year": 2087}, "expect": {"year": 2038}, "note": "NMEA ddmmyy carries no century: the year within -50/+49 of the reference"},
+  {"id": "yy-out-of-range", "op": "two_digit_year", "input": {"yy": 100, "convention": "tle"}, "expect": {"error": true}}
+ ]
+}

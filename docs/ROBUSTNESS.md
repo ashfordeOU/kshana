@@ -43,9 +43,9 @@ voyages, Celestrak TLE sets) or short synthetic samples written in the test.
 | GNSS products | RINEX 3/4 navigation (`rinex::parse_nav`), GLONASS navigation, RINEX observation (`rinex_obs::parse_obs`, `realdata::rinex`), SP3 (orbits and accuracy), RINEX clock (`precise_products`, `realdata::clk`), ANTEX, code DCB, Bias-SINEX, IONEX (`parse_ionex`, `parse_ionex_file`), IERS EOP (finals, Bulletin B) |
 | Time transfer and clocks | CGGTTS, BIPM Circular T section 1, BIPM UTC(k) tables, every clock-log format (`rinex-clk`, TimeLab, TICC, ptp4l, phc2sys, ts2phc, chrony tracking/statistics, ntpd loopstats/peerstats, White Rabbit, CGGTTS, PPS) under all three gap policies |
 | Receiver logs | NMEA 0183, IEC 61162-450, u-blox UBX (receiver trust, `realdata::ubx`, OSNMA page extraction), Septentrio SBF, RTCM 3 (MSM reader, MSM decoder, SSR reader), NovAtel, Swift SBP, Javad GREIS, Unicore, RTKLIB `.pos`, Android GnssLogger, GNSS-SDR monitor, `kshana.obs/1` |
-| Orbits | TLE (sets, propagator dispatch, identity, checksum), CCSDS OEM (and covariance), TDM, AEM, APM, OPM, OMM, OCM, NDM/XML |
+| Orbits | TLE (sets, propagator dispatch, identity, checksum), Alpha-5 catalogue fields, OMM to SGP4, CCSDS OEM (and covariance), TDM, AEM, APM, OPM, OMM, OCM, NDM/XML |
 | Other protocols | IEEE C37.118, ASTERIX CAT021, CCSDS Space Packet, PTP management, NMEA 2000 candump, SigMF, LEO navigation-message frames, ODF |
-| Other text | YUMA almanac, LOLA DEM text, ILRS CRD, LuGRE logs, ION SDR metadata, sat-grid and scintillation logs, PDS SHADR gravity tables, OSNMA page files, RFC 3339 time stamps |
+| Other text | YUMA almanac, LOLA DEM text, ILRS CRD, LuGRE logs, ION SDR metadata, sat-grid and scintillation logs, PDS SHADR gravity tables, OSNMA page files, RFC 3339 and CCSDS epochs |
 
 ## What it found and what changed (this round)
 
