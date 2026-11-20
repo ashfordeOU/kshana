@@ -9827,7 +9827,7 @@ engine-e-ais-integrity-cannot-write = 无法写入 { $path }：{ $e }
 engine-e-ais-integrity-bad-place = 地点列表的一行不是带有效位置和正半径的 name,lat,lon,radius_m：{ $row }
 
 ## A GNSS receiver in space: clock, timestamps, dynamics, upper-SSV benchmark (src/space_receiver/)
-engine-space-receiver-usage = 用法：kshana space-receiver clock [--orbit <preset|a_km,e,i_deg>] [--oscillator <name>] [--temp-swing <K>] [--outage-min <m>]... | timestamps <tags.csv> [--oscillator <name>] [--step-floor <s>] [--gap-factor <x>] [--window <n>] | dynamics [--orbit <preset|a_km,e,i_deg>] [--duration-min <m>] [--step-s <s>] [--band l1|l5] [--max-off-boresight <deg>] [--max-doppler <Hz>] [--max-doppler-rate <Hz/s>] | bench [--list] [--case <id>]... [--cn0 <dB-Hz>] [--oscillator <name>] [--max-doppler <Hz>] [--max-doppler-rate <Hz/s>] [--time-budget <s>]   [--out <file.json>]  (docs/SPACE-RECEIVER.md)
+engine-space-receiver-usage = 用法：kshana space-receiver clock [--orbit <preset|a_km,e,i_deg>] [--oscillator <name>] [--temp-swing <K>] [--outage-min <m>]... | timestamps <tags.csv> [--oscillator <name>] [--step-floor <s>] [--gap-factor <x>] [--window <n>] | dynamics [--orbit <preset|a_km,e,i_deg>] [--duration-min <m>] [--step-s <s>] [--band l1|l5] [--max-off-boresight <deg>] [--max-doppler <Hz>] [--max-doppler-rate <Hz/s>] | bench [--list] [--case <id>]... [--cn0 <dB-Hz>] [--oscillator <name>] [--max-doppler <Hz>] [--max-doppler-rate <Hz/s>] [--time-budget <s>] [--sidelobes] | mms [--cn0 <dB-Hz>] [--orbits <n>] [--step-min <m>] | od-vs-tle <onboard.oem> --tle <set.tle>   [--out <file.json>]  (docs/SPACE-RECEIVER.md)
 engine-e-space-receiver-missing-value = { $option } 需要一个值
 engine-e-space-receiver-unknown-option = 未知选项 { $option }（kshana space-receiver --help 列出所有选项）
 engine-e-space-receiver-cannot-read = 无法读取 { $path }：{ $e }
@@ -9837,6 +9837,10 @@ engine-e-space-receiver-unknown-name = 未知名称 { $name }（已知：{ $know
 engine-e-space-receiver-no-columns = CSV 表头必须包含 t_ref_s，以及 t_rx_s 或 week 和 tow_s
 engine-e-space-receiver-bad-row = 第 { $line } 行：缺少必需的列或该列不是数字
 engine-e-space-receiver-too-few-rows = 至少需要三行时间戳
+
+## Space receiver: MMS case and onboard OD against an element set (src/space_receiver/)
+engine-e-space-receiver-no-tle = 未找到两行轨道根数（以 "1 " 开头的第 1 行及其后的第 2 行）
+engine-e-space-receiver-oem-frame = 此比较不读取 OEM 参考系 { $frame }（EME2000、GCRF、ICRF 或 TEME）
 
 engine-main-usage =
     用法：kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
@@ -9869,7 +9873,7 @@ engine-main-usage =
     { "   " }或：kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }或：kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }或：kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
-    { "   " }或：kshana space-receiver <clock|timestamps|dynamics|bench> ... [--out <file.json>] (kshana space-receiver --help)
+    { "   " }或：kshana space-receiver <clock|timestamps|dynamics|bench|mms|od-vs-tle> ... [--out <file.json>] (kshana space-receiver --help)
     { "   " }或：kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }或：kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }或：kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>

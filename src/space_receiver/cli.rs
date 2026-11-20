@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
-//! `kshana space-receiver <clock|timestamps|dynamics|bench>`: JSON to standard output or to
+//! `kshana space-receiver <clock|timestamps|dynamics|bench|mms|od-vs-tle>`: JSON to standard output or to
 //! `--out`. Exit 0 on success, 2 on a usage or input error. See `docs/SPACE-RECEIVER.md`.
 
-use super::{bench, clock, dynamics, timestamps};
+use super::{bench, clock, dynamics, mms, od_vs_tle, timestamps};
 use crate::ssv::constellations::{Band, Constellation};
 use crate::ssv::sweep::UserOrbit;
 
@@ -63,7 +63,7 @@ fn parse(args: &[String], known: &[&str]) -> Result<Opts, String> {
             if !known.contains(&a.as_str()) {
                 return Err(crate::terr!("e-space-receiver-unknown-option", option = a));
             }
-            if a == "--list" {
+            if a == "--list" || a == "--sidelobes" {
                 o.pairs.push((a.clone(), String::new()));
                 continue;
             }
@@ -251,6 +251,7 @@ fn run_inner(args: &[String]) -> Result<(), String> {
                     "--max-doppler-rate",
                     "--time-budget",
                     "--list",
+                    "--sidelobes",
                     "--out",
                 ],
             )?;
@@ -276,7 +277,29 @@ fn run_inner(args: &[String]) -> Result<(), String> {
                 max_doppler_rate_hz_s: o.num("--max-doppler-rate")?,
             };
             prof.time_budget_s = o.num("--time-budget")?;
+            prof.sidelobes = o.get("--sidelobes").is_some();
             let rep = bench::run(prof, &only)?;
+            emit(&rep, o.get("--out"))
+        }
+        "mms" => {
+            let o = parse(rest, &["--cn0", "--orbits", "--step-min", "--out"])?;
+            let rep = mms::run(
+                o.num("--cn0")?.unwrap_or(20.0),
+                o.num("--orbits")?.unwrap_or(3.0),
+                o.num("--step-min")?.unwrap_or(5.0),
+            )?;
+            emit(&rep, o.get("--out"))
+        }
+        "od-vs-tle" => {
+            let o = parse(rest, &["--tle", "--out"])?;
+            let ([oem], Some(tle)) = (o.positional.as_slice(), o.get("--tle")) else {
+                return Err(crate::t!("space-receiver-usage"));
+            };
+            let read = |p: &str| {
+                std::fs::read_to_string(p)
+                    .map_err(|e| crate::terr!("e-space-receiver-cannot-read", path = p, e = e))
+            };
+            let rep = od_vs_tle::compare(&read(oem)?, &read(tle)?)?;
             emit(&rep, o.get("--out"))
         }
         _ => Err(crate::t!("space-receiver-usage")),

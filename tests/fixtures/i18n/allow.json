@@ -1846,7 +1846,7 @@
    "reason": "machine-document and identifier: the case ids, orbit presets and antenna names of upper-ssv-bench/1, the schema and version ids, and the English label written into the kshana.space-receiver-bench/1 document"
   },
   "src/space_receiver/cli.rs": {
-   "count": 23,
+   "count": 25,
    "reason": "identifier: the option names of kshana space-receiver (--max-doppler-rate and the like), band and oscillator names, and the keys of the bench --list document"
   },
   "src/space_receiver/clock.rs": {
@@ -1857,8 +1857,16 @@
    "count": 4,
    "reason": "machine-document and identifier: the orbit preset names, the schema id and the English label written into the kshana.space-receiver-dynamics/1 document"
   },
+  "src/space_receiver/mms.rs": {
+   "count": 4,
+   "reason": "machine-document and identifier: the schema id, verdict values, the cited source reference and the English label written into the kshana.space-receiver-mms/1 document"
+  },
+  "src/space_receiver/od_vs_tle.rs": {
+   "count": 3,
+   "reason": "machine-document and identifier: the schema id, the CCSDS standard id and frame names, and the English label written into the kshana.space-receiver-od-vs-tle/1 document"
+  },
   "src/space_receiver/timestamps.rs": {
-   "count": 21,
+   "count": 23,
    "reason": "machine-document and identifier: the fault-kind names and CSV column names, the schema id and the English label written into the kshana.space-receiver-timestamps/1 document"
   }
  }

@@ -62,6 +62,14 @@ optionally with the receiver's reported `clock_bias_s`. The detector follows the
 | `outlier` | one row off the line that the next row returns to |
 | `frequency_step` | the slope over the second half of the window differs from the first half by more than 8 standard errors and 1e−11 |
 | `clock_bias_jump` | the reported clock bias moved by more than 0.5 ms |
+| `set_change_jump` | where the satellite set (optional `sats` column, `G05;E11;...`) changed, the clock bias moved by more than 12 times the jump the set change explains (1 m ranging error per satellite: the clock absorbs the set's mean error, so the expected jump has variance `σ²(1/n₁ + 1/n₂ − 2k/(n₁n₂))`) |
+| `isb_unhandled` | with two systems in the sets, the clock bias follows the second system's share across set changes (slope beyond five standard errors and 1 ns): the inter-system bias is absorbed by one clock |
+
+With a `clock_bias_s` column the report adds **disciplining evidence**: the steering steps (whole
+milliseconds), the free-running drift between them, and the overlapping Allan deviation of the
+bias with the steps removed at 1, 10 and 100 nominal intervals. With a `sats` column naming two
+systems it adds the **dual-system** block (the absorbed bias, its standard error, and whether it
+looks unhandled).
 
 The step threshold is the larger of `--step-floor` (1 µs) and six times the oscillator's free-run
 error over the row interval combined with the recent residual scatter. Detection is shown on
@@ -84,6 +92,43 @@ gravitational acceleration, and how many links lie beyond the stated limits. Lig
 receiver's own clock drift are not included. Presets add `gto` (250 × 35,786 km, 27 degrees) and
 `heo-perigee` (the booklet HEO started 30 minutes before perigee) to the `gnss-ssv` ones.
 
+Presets also include `mms-1` and `mms-2b`, the Magnetospheric Multiscale orbits (1.2 × 12 and
+1.2 × 25 Earth radii), started at apogee.
+
+## `mms`: the MMS Phase 2B flight results
+
+```
+kshana space-receiver mms [--cn0 20] [--orbits 3] [--step-min 5]
+```
+
+The published Phase 2B figures (Winternitz, Bamford and Price, NASA GSFC, NTRS 20170009487,
+days 142-149 of 2017): at least one GPS satellite tracked 99 % of the time, four or more 70 % of
+the time, about three signals near apogee on average, the apogee signals mostly sidelobes at 20 to
+30 dB-Hz. The model: GPS only on L1, the booklet's annex C orbits, the parametric sidelobe
+pattern, an omnidirectional 0 dBi antenna for MMS's four body-mounted antennas, a 20 dB-Hz
+threshold, the 1.2 × 25 RE orbit at 28 degrees (inclination and phase to confirm). The tolerance,
+fixed before the run, is ±15 points on each availability and ±1.5 signals near apogee.
+
+**Result: not reproduced.** With the booklet's minimum transmit powers the model tracks at least
+one signal about 8 % of the time and four about 4 %, far below the flight figures; this is the
+same shortfall the mission's own pre-flight analysis showed (it predicted zero to two main-lobe
+signals at apogee). The report carries a sensitivity grid (extra link margin 0, 5, 10 dB; sidelobe
+floor 25 or 15 dB down): 10 dB lifts one-signal availability to about 84 %, but four-signal
+availability stays under 10 % in every setting, so the representative pattern and constellation,
+not the margin alone, keep the model from the flight result. A measured GPS transmit pattern
+(`[transmit] pattern = "table"` in `gnss-ssv`) is the next step; it is not part of this release.
+
+## `od-vs-tle`: onboard orbit determination against an element set
+
+```
+kshana space-receiver od-vs-tle onboard.oem --tle object.tle
+```
+
+The onboard solution as a CCSDS OEM (`REF_FRAME` EME2000, GCRF, ICRF or TEME; epochs read as
+UTC) against the element set propagated with SGP4 (WGS-72) and rotated TEME to GCRS: largest and
+RMS distance, RTN at the largest, the mean RTN difference and the element set's age. A
+disagreement between two sources, not the accuracy of either.
+
 ## `bench`: the upper-SSV benchmark
 
 ```
@@ -91,9 +136,11 @@ kshana space-receiver bench --list
 kshana space-receiver bench --cn0 20 --oscillator ocxo --max-doppler 50000 --max-doppler-rate 100 --time-budget 1e-6
 ```
 
-`upper-ssv-bench/1` is five cases: `meo-8000` (the lower edge of the SSV, one day), `geo` (one
-day), `gto` (one orbit), `heo` (the booklet's table 5.10 orbit, one orbit) and `lunar-transfer`
-(four days of the outbound ellipse). Each is run with the booklet link budget and main-lobe
+`upper-ssv-bench/1` is six cases: `meo-8000` (the lower edge of the SSV, one day), `geo` (one
+day), `gto` (one orbit), `heo` (the booklet's table 5.10 orbit, one orbit), `mms-2b` (one 67-hour
+MMS Phase 2B orbit) and `lunar-transfer` (four days of the outbound ellipse). `--sidelobes`
+counts side-lobe signals (the parametric pattern, sidelobe floor 25 dB down) in place of the
+booklet's main lobe. Each is run with the booklet link budget and main-lobe
 transmit pattern on L1, all six constellations, a booklet high-gain nadir and patch zenith antenna
 and the receiver's C/N0 threshold, and reports availability of one and four signals, the longest
 outages, the Doppler and Doppler-rate envelope, the relativistic rate and the free-run time error

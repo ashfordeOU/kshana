@@ -14,7 +14,9 @@
 //!
 //! High-dynamics presets add to the `gnss-ssv` ones ([`crate::ssv::scenario::preset_orbit`]):
 //! `gto` (perigee 250 km, apogee 35,786 km, inclination 27 degrees) and `heo-perigee` (the HEO
-//! orbit started 30 minutes before perigee), so the fastest part of a pass is sampled finely.
+//! orbit started 30 minutes before perigee), so the fastest part of a pass is sampled finely, and
+//! the two Magnetospheric Multiscale orbits `mms-1` (1.2 × 12 Earth radii) and `mms-2b`
+//! (1.2 × 25 Earth radii), started at apogee ([`super::mms`]).
 //!
 //! MODELLED: two-body orbits and booklet constellations; no signal-power cut is applied here (the
 //! [`super::bench`] pairs these figures with the link-budget availability).
@@ -38,6 +40,8 @@ pub const PRESETS: &[&str] = &[
     "gto",
     "heo",
     "heo-perigee",
+    "mms-1",
+    "mms-2b",
     "lunar-transfer",
 ];
 
@@ -66,6 +70,8 @@ pub fn preset(name: &str) -> Option<UserOrbit> {
             o.true_anomaly_deg = nu.to_degrees();
             Some(o)
         }
+        "mms-1" => Some(super::mms::orbit(1.2, 12.0)),
+        "mms-2b" => Some(super::mms::orbit(1.2, 25.0)),
         other => crate::ssv::scenario::preset_orbit(other),
     }
 }
