@@ -103,8 +103,8 @@ not for canboat JSON and OpenSky-style files, whose samples are written by hand.
 * AIS message types other than those listed (for example 21, aids to navigation, and 27, long-range).
 * ADS-B surface positions (type codes 5 to 8), velocities (type code 19) and Comm-B replies.
 * ASTERIX categories other than 010, 021, 048 and 062; CAT062 flight-plan data are stepped over.
-* MAVLink messages other than the three GNSS ones (their checksums cannot be checked without their
-  definitions and they are stepped over by length); PX4 `satellite_info`.
+* MAVLink messages other than the three GNSS ones (their checksums are checked against MAVLink's
+  `all.xml` and they are counted and stepped over); PX4 `satellite_info`.
 * NMEA 2000 from the CAN bus directly: see `kshana sensor-live --kind n2k` (`docs/MACHINE-INPUTS.md`).
 * OpenSky Network data itself: these readers read files in the layout only. Whether a copy of OpenSky
   data may be used is a matter of its licence; Kshana's public observatory does not take it

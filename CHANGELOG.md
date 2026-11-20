@@ -9,6 +9,18 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+### Fixed (MAVLink readers check every checksum)
+
+- **A damaged frame no longer hides the GNSS fixes behind it.** The `.tlog`, raw MAVLink and `mavlink-udp` readers
+  (`interconnect::mavlink`) checked the checksum of the three GNSS messages only and stepped over any other frame by
+  the length its own header claimed, so a cut or damaged record that started like an unknown message took the real
+  frames after it with it, and a checksum failure also skipped the claimed length. Frame boundaries and checksums now
+  come from the `mavlink-tlog` crate (MIT, no dependencies, the `CRC_EXTRA` of all 353 messages in MAVLink's
+  `all.xml`): every frame is checked, a frame that fails or whose id no definition has is not taken, and reading moves
+  on one octet. On pymavlink's `flight.tlog` with 300 cut writes, 6 320 of the fixes are read where 6 302 were; with
+  300 bit flips, 252 checksum failures are reported where 18 were (the rest were counted as good, undecoded frames).
+  Undamaged logs read exactly as before (the three MAVLink conformance vectors are unchanged).
+
 - **Smaller published crate: the DE440 Moon PA orientation series is embedded as binary.** `src/lunar_orientation.rs` now embeds `data/lunar/de440_moon_pa.bin` instead of the 1.6 MB CSV: the same 6 209 x 10 doubles, bit for bit (`tests/lunar_orientation_binary.rs`), column-major and byte-planed, about 352 KB of the `.crate` against 650 KB. Results are unchanged. The CSV stays in the repository as the source of record and is no longer packaged. Regenerate with `scripts/gen_de440_moon_pa_bin.py`.
 
 ### Added (radio time-signal migration guide)
