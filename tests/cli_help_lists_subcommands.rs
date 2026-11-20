@@ -44,6 +44,7 @@ fn the_top_level_usage_names_every_subcommand() {
         "diagnose",
         "gnss-sdr-conf",
         "orbit-data",
+        "leo-od-plan <plan.toml>",
     ] {
         assert!(
             text.contains(want),

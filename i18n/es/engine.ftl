@@ -10792,6 +10792,7 @@ engine-main-usage =
     { "   " }o: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }o: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }o: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
+    { "   " }o: kshana leo-od-plan <plan.toml>
     { "   " }o: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }o: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }o: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
@@ -11921,3 +11922,9 @@ engine-e-oscillator-input = la entrada de { $part } no es válida: { $e }
 engine-e-oscillator-unknown-clock = preajuste de reloj desconocido { $id } (uno de { $known })
 
 engine-e-oscillator-field = { $field } está fuera de rango: { $value }
+
+## BeiDou-LEO planning (src/leo_od_plan.rs, docs/LEO-OD-PLAN.md)
+engine-leo-od-plan-usage = uso: kshana leo-od-plan <plan.toml>  (docs/LEO-OD-PLAN.md; MODELLED, a planning tool)
+engine-e-leo-od-plan-bad-plan = los valores del plan están fuera de rango: arco, paso, ruidos y máscaras positivos y finitos, como máximo 100000 pasos, máscaras dentro de ±90 grados, un semiancho de haz de 0 a 90 grados y un patrón Walker LEO cuyos planos dividan sus satélites
+engine-e-leo-od-plan-cannot-read = no se puede leer { $path }: { $e }
+engine-e-leo-od-plan-bad-file = { $path } no es un plan: { $e }

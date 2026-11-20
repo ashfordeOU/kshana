@@ -10574,6 +10574,7 @@ engine-main-usage =
     { "   " }eller: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }eller: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }eller: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
+    { "   " }eller: kshana leo-od-plan <plan.toml>
     { "   " }eller: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }eller: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }eller: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
@@ -11728,3 +11729,9 @@ engine-e-oscillator-input = { $part }-input er ikke gyldigt: { $e }
 engine-e-oscillator-unknown-clock = ukendt urforudindstilling { $id } (en af { $known })
 
 engine-e-oscillator-field = { $field } er uden for området: { $value }
+
+## BeiDou-LEO planning (src/leo_od_plan.rs, docs/LEO-OD-PLAN.md)
+engine-leo-od-plan-usage = brug: kshana leo-od-plan <plan.toml>  (docs/LEO-OD-PLAN.md; MODELLED, a planning tool)
+engine-e-leo-od-plan-bad-plan = planens tal er uden for området: bue, skridt, støj og masker positive og endelige, højst 100000 skridt, masker inden for ±90 grader, en halv strålebredde fra 0 til 90 grader og et LEO-Walker-mønster, hvis planer går op i antallet af satellitter
+engine-e-leo-od-plan-cannot-read = kan ikke læse { $path }: { $e }
+engine-e-leo-od-plan-bad-file = { $path } er ikke en plan: { $e }
