@@ -1010,3 +1010,24 @@ fn other_text_formats() {
         }
     });
 }
+
+#[test]
+fn oscillator_inputs() {
+    let seeds: Vec<Vec<u8>> = [
+        "vibration",
+        "holdover-temperature-step",
+        "holdover-ramp-and-shock",
+        "select",
+        "raim-aid",
+        "datasheet",
+    ]
+    .iter()
+    .map(|n| bytes(&format!("examples/oscillator/{n}.json"), 4096))
+    .collect();
+    fuzz("oscillator inputs", &seeds, None, |b| {
+        let t = text(b);
+        for part in ["vibration", "holdover", "select", "raim-aid", "datasheet"] {
+            let _ = kshana::oscillator::run_json(part, &t);
+        }
+    });
+}

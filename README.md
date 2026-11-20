@@ -649,6 +649,7 @@ them and [`docs/SCENARIOS.md`](docs/SCENARIOS.md) documents every field.
 |---|---|
 | [Spectrum](docs/SPECTRUM.md) | how a jammer takes the GNSS L band, band by band, second by second |
 | [Clocks and timing](docs/TELECOM-TIMING.md) | how long each clock holds time after GNSS is lost |
+| [Oscillators](docs/OSCILLATOR.md) | what an oscillator's datasheet figures mean for tracking under vibration, holdover through temperature changes and shocks, and RAIM |
 | [Constellations around any body](docs/CONSTELLATION-DESIGN.md) | coverage, dilution of precision and availability around the Earth, the Moon or Mars |
 | [Solar system](docs/SOLAR-SYSTEM.md) | where every planet is, and the light time of any link |
 | [Low-Earth-orbit navigation](docs/LEO-PNT.md) | a pass, a link, a navigation message and a fused fix, stage by stage |

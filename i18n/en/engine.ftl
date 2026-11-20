@@ -11862,3 +11862,13 @@ engine-e-time-vectors-expected-error = the vector expects an error, and the oper
 engine-e-time-vectors-bad-format = { $file } is not a { $format } document (format tag and a vectors array)
 engine-time-vectors-summary = { $n } vectors: { $passed } passed, { $failed } failed
 engine-time-vectors-usage = usage: kshana time-vectors [--json] [<vectors.json | dir> ...]  (no path: the built-in set, data/conformance/time; docs/TIME-VECTORS.md)
+
+## src/oscillator/mod.rs
+
+engine-oscillator-usage = usage: kshana oscillator <vibration|holdover|select|raim-aid|datasheet> <input.json>, or kshana oscillator refs (docs/OSCILLATOR.md)
+
+engine-e-oscillator-input = the { $part } input is not valid: { $e }
+
+engine-e-oscillator-unknown-clock = unknown clock preset { $id } (one of { $known })
+
+engine-e-oscillator-field = { $field } is out of range: { $value }

@@ -1,0 +1,7 @@
+{
+  "clock": "csac",
+  "duration_s": 86400,
+  "threshold_s": 1e-6,
+  "temperature": {"points": [[0, 20], [4800, 60]], "lag_s": 0},
+  "shocks": [{"t_s": 21600, "freq_step": 5e-10, "outage_s": 180, "outage_freq_offset": 5e-10}]
+}

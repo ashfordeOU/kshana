@@ -11476,3 +11476,13 @@ engine-e-interference-map-locate-bad-tdoa = { $path } er ikke en brukbar TDOA-fi
 engine-e-interference-map-locate-source-required = --source adsb eller --source ais kreves
 
 engine-e-interference-map-locate-no-evidence-rows = ingen evidensrader er oppført for locate-utdataene
+
+## src/oscillator/mod.rs
+
+engine-oscillator-usage = bruk: kshana oscillator <vibration|holdover|select|raim-aid|datasheet> <input.json>, eller kshana oscillator refs (docs/OSCILLATOR.md)
+
+engine-e-oscillator-input = { $part }-inndata er ikke gyldige: { $e }
+
+engine-e-oscillator-unknown-clock = ukjent klokkeforhåndsinnstilling { $id } (en av { $known })
+
+engine-e-oscillator-field = { $field } er utenfor området: { $value }

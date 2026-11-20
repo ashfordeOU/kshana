@@ -1672,6 +1672,34 @@
   "src/time_vectors.rs": {
    "count": 13,
    "reason": "identifier: the kshana.time-vectors/1 format tag, the embedded vector file names and the JSON field names of the vector format (docs/TIME-VECTORS.md)"
+  },
+  "src/oscillator/datasheet.rs": {
+   "count": 2,
+   "reason": "machine identifiers: the JSON input field names (`snake_case`, dotted paths) named verbatim in the out-of-range error, and check ids written into the JSON report; not prose"
+  },
+  "src/oscillator/environment.rs": {
+   "count": 9,
+   "reason": "machine identifiers: the JSON input field names (`snake_case`, dotted paths) named verbatim in the out-of-range error, and check ids written into the JSON report; not prose"
+  },
+  "src/oscillator/mod.rs": {
+   "count": 7,
+   "reason": "machine identifiers: the JSON input field names (`snake_case`, dotted paths) named verbatim in the out-of-range error, and check ids written into the JSON report; not prose"
+  },
+  "src/oscillator/raim_aid.rs": {
+   "count": 1,
+   "reason": "machine identifiers: the JSON input field names (`snake_case`, dotted paths) named verbatim in the out-of-range error, and check ids written into the JSON report; not prose"
+  },
+  "src/oscillator/refs.rs": {
+   "count": 9,
+   "reason": "data: the cited documents and descriptions of the acceleration-sensitivity reference table (`kshana oscillator refs`), printed as JSON fields"
+  },
+  "src/oscillator/select.rs": {
+   "count": 11,
+   "reason": "machine identifiers: the JSON input field names (`snake_case`, dotted paths) named verbatim in the out-of-range error, and check ids written into the JSON report; not prose"
+  },
+  "src/oscillator/vibration.rs": {
+   "count": 9,
+   "reason": "machine identifiers: the JSON input field names (`snake_case`, dotted paths) named verbatim in the out-of-range error, and check ids written into the JSON report; not prose"
   }
  }
 }
