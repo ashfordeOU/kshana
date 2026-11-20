@@ -48,6 +48,8 @@ magnitudes here are Modelled and do NOT reproduce Sośnica's −0.97 / 15.3 cm v
 
 ## DE440 lunar principal-axis orientation time series (`de440_moon_pa.csv`)
 
+The library embeds the same values as `data/lunar/de440_moon_pa.bin` (binary byte planes, written from this CSV by `scripts/gen_de440_moon_pa_bin.py` and checked bit for bit by `tests/lunar_orientation_binary.rs`); this CSV remains the source of record.
+
 **Source:** JPL Development Ephemeris DE440 binary PCK kernel
 `moon_pa_de440_200625.bpc` — the numerically-integrated MOON_PA_DE440 physical libration.
 
