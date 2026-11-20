@@ -10366,6 +10366,33 @@ engine-e-lunar-ref-bad-number = { $option }: { $value } ei ole kelvollinen luku
 engine-e-lunar-ref-unknown-name = tuntematon nimi { $name } (tunnetut: { $known })
 engine-e-lunar-ref-out-of-span = epookki on käytettyjen efemeridien jakson ulkopuolella (Standishin ratatiedot 1800–2050; DE440-kuun asento 2014–2030)
 
+## Quantum inertial-sensor benchmark (src/quantum_bench.rs)
+engine-quantum-bench-usage = käyttö: kshana quantum-bench protocol [--out <protocol.json>] | simulate <spec.toml> --out <series.csv> | score <series.csv> [--fringe-m-s2 <a>] [--out <score.json>]  (docs/QUANTUM-BENCH.md)
+engine-quantum-bench-simulated = kirjoitettu { $n } näytettä ({ $n_wrapped } kiertyneellä interferenssivaiheella) tiedostoon { $path } (MODELLED)
+engine-e-quantum-bench-missing-value = { $option } tarvitsee arvon
+engine-e-quantum-bench-unknown-option = tuntematon valitsin { $option } (kshana quantum-bench --help luettelee valitsimet)
+engine-e-quantum-bench-bad-number = { $option } tarvitsee äärellisen positiivisen luvun, ei { $value }
+engine-e-quantum-bench-cannot-read = tiedostoa { $path } ei voi lukea: { $e }
+engine-e-quantum-bench-cannot-write = tiedostoon { $path } ei voi kirjoittaa: { $e }
+engine-e-quantum-bench-bad-spec = { $path } ei ole kelvollinen määrittely: { $e }
+engine-e-quantum-bench-bad-sensor = anturi tarvitsee positiivisen pulssivälin, vähintään yhden atomin, kontrastin väliltä (0, 1] ja vähintään kaksinkertaisen jaksonajan pulssiväliin nähden
+engine-e-quantum-bench-bad-run = ajo tarvitsee keston, joka on vähintään yksi ja enintään kymmenen miljoonaa jaksoa
+engine-e-quantum-bench-too-short = sarja tarvitsee vähintään 16 näytettä kasvavin ajoin
+engine-e-quantum-bench-bad-csv = sarja tarvitsee sarakkeet t_s ja measured_m_s2 äärellisin luvuin: { $row }
+
+## Terrestrial signals of opportunity, clock offset (src/soop_clock.rs)
+engine-soop-clock-usage = käyttö: kshana soop-clock lte <capture.sigmf-meta> --start-gps-s <t> --rx <lat,lon,h> --tx <lat,lon,h> [--tx-offset-ns <ns>] [--prior-offset-s <s>] [--carrier-hz <f>] [--min-metric <m>] [--out <file.json>] | cp <capture.sigmf-meta> --nfft <n> --ncp <n> [--carrier-hz <f>] [--out <file.json>] | synth-lte --out <base> [--fs <hz>] [--duration-s <s>] [--nid2 <0|1|2>] [--delay-s <s>] [--cfo-hz <f>] [--snr-db <d>] [--seed <s>]  (docs/SOOP-CLOCK.md)
+engine-soop-clock-summary = { $n } PSS-havaintoa; vastaanottimen kellon poikkeama { $offset_us } µs tallenteen alussa (MODELLED)
+engine-e-soop-clock-missing-value = { $option } tarvitsee arvon
+engine-e-soop-clock-unknown-option = tuntematon valitsin { $option } (kshana soop-clock --help luettelee valitsimet)
+engine-e-soop-clock-bad-number = { $option } tarvitsee äärellisen luvun, ei { $value }
+engine-e-soop-clock-bad-position = { $option } tarvitsee lat,lon[,h] asteina ja metreinä, ei { $value }
+engine-e-soop-clock-cannot-read = tiedostoa { $path } ei voi lukea: { $e }
+engine-e-soop-clock-cannot-write = tiedostoon { $path } ei voi kirjoittaa: { $e }
+engine-e-soop-clock-too-few-detections = { $n } PSS-havaintoa; poikkeamaan ja nopeuteen tarvitaan vähintään kolme
+engine-e-soop-clock-too-short = tallenne on lyhyempi kuin kaksi OFDM-symbolia
+engine-e-soop-clock-bad-synth = testisignaali tarvitsee näytteenottotaajuuden 100 kHz–61,44 MHz ja positiivisen keston, enintään 20 miljoonaa näytettä
+
 engine-main-usage =
     käyttö: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }tai: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10414,6 +10441,8 @@ engine-main-usage =
     { "   " }tai: kshana sil-obs <generate|compare> ... (kshana sil-obs --help)
     { "   " }tai: kshana interference-lib <models|generate|fit|bench|cases> ... (kshana interference-lib --help)
     { "   " }tai: kshana antenna-cal <lint|spread|compare|group-delay|js-margin> ... (kshana antenna-cal --help)
+    { "   " }tai: kshana quantum-bench <protocol|simulate|score> ... (kshana quantum-bench --help)
+    { "   " }tai: kshana soop-clock <lte|cp|synth-lte> ... (kshana soop-clock --help)
     { "   " }tai: kshana kinds [--json]
     { "   " }tai: kshana example [<name>]
     { "   " }tai: kshana --help | --version

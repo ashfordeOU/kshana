@@ -310,6 +310,8 @@ const UNLABELLED_WRITERS: &[(&str, &str)] = &[
     ("src/sil_obs.rs", "writes the SIL RINEX observation file (a COMMENT header line states MODELLED), the truth JSON Lines (header line labelled MODELLED) and the compare document (label field MODELLED); the files label themselves"),
     ("src/interference_lib.rs", "writes synthetic SigMF recordings (core:description states MODELLED), the fit and benchmark documents (label field MODELLED) and the corpus CSV of case parameters; the files label themselves or are inputs, not results"),
     ("src/antenna_cal.rs", "writes JSON documents only (`antenna-cal --out`): an ANTEX format check of an input file, arithmetic on given calibrations, and the group-delay and J/S budgets whose documents carry the MODELLED label field"),
+    ("src/quantum_bench.rs", "writes the protocol document, the simulated series (its first line states MODELLED and the predictions) and the score document of a supplied series; the files label themselves or are statistics of the user's data"),
+    ("src/soop_clock.rs", "writes the clock-offset documents (label field MODELLED) and a synthetic SigMF test capture whose core:description states MODELLED and that it is not a conformant LTE downlink"),
     ("src/ais_integrity.rs", "writes the per-track flag report as JSON Lines (`ais-integrity --out`); its header line carries the MODELLED label and the method, so the file labels itself"),
     ("src/interference_map/incident.rs", "writes the incident library release bundle (`interference-map incidents release`): the REPORTED and MODELLED records each carry their own label field, as given; data, not a result of the engine"),
     ("src/python.rs", "writes the CSV a labelled `run` already carries (RunOutput::csv)"),
