@@ -1,0 +1,33 @@
+# An illustrative interference environment at an L1 SBAS Category I Type 1 receiver
+# (kshana interference-env evaluate; docs/INTERFERENCE-ENV.md). Levels are received at the
+# passive antenna output. Invented for the example, not a measured site. MODELLED.
+receiver = "sbas-cat1-type1"
+mode = "tracking"
+noise_temperature_k = 513.0        # M.1903-1 Table 2, column 1
+precorrelation_bw_hz = 20.46e6     # M.1903-1 Table 2, column 1
+n_lim = 0.0                        # a pulse-blanking receiver
+
+[[source]]
+kind = "cw"
+name = "spurious tone"
+power_dbw = -158.0
+
+[[source]]
+kind = "wideband"
+name = "broadband noise"
+density_dbw_mhz = -150.0
+bandwidth_hz = 2.0e6
+
+[[source]]
+kind = "pulsed"
+name = "strong pulsed group"
+peak_dbw = -120.0
+pulse_width_s = 3.5e-6
+prf_hz = 2700.0
+
+[[source]]
+kind = "pulsed"
+name = "weak pulsed group"
+peak_dbw = -145.0
+pulse_width_s = 3.5e-6
+prf_hz = 5400.0

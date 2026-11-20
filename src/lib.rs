@@ -329,6 +329,8 @@ pub mod geodesic;
 pub mod governor;
 /// Read-only Modbus TCP and DNP3 clients (0.42 I7).
 pub mod industrial;
+/// Interference environments for RNSS receivers against ITU-R M.1903 thresholds and the M.2030 pulsed method (`kshana interference-env`).
+pub mod interference_env;
 pub mod interference_map;
 pub mod live_health;
 /// The monitoring-network planner (0.41 row B1a): `kshana planner`.

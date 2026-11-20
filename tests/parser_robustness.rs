@@ -1202,3 +1202,13 @@ fn oscillator_inputs() {
         }
     });
 }
+
+#[test]
+fn interference_environment_files() {
+    let seed = head("examples/interference-env/l1-mixed.toml", 60);
+    fuzz("interference-env toml", &[seed], None, |b| {
+        if let Ok(env) = toml::from_str::<kshana::interference_env::Environment>(&text(b)) {
+            let _ = kshana::interference_env::evaluate(&env);
+        }
+    });
+}

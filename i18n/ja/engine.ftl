@@ -9790,6 +9790,7 @@ engine-main-usage =
     { "   " }または：kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }または：kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }または：kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
+    { "   " }または：kshana interference-env <evaluate|thresholds|degradation> ... (kshana interference-env --help)
     { "   " }または：kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }または：kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }または：kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
@@ -10923,3 +10924,16 @@ engine-e-oscillator-input = { $part } の入力が無効です: { $e }
 engine-e-oscillator-unknown-clock = 不明なクロックプリセット { $id }（{ $known } のいずれか）
 
 engine-e-oscillator-field = { $field } が範囲外です: { $value }
+
+## Interference environments (src/interference_env.rs, docs/INTERFERENCE-ENV.md)
+engine-interference-env-usage = 使い方：kshana interference-env evaluate <environment.toml> | thresholds [--receiver <id>] | degradation --baseline <id> --pulse-width <s> --prf <Hz> [--below-ratio <R>] [--recovery <s>]  (docs/INTERFERENCE-ENV.md; MODELLED)
+engine-e-interference-env-unknown-receiver = 不明な受信機 { $id }（kshana interference-env thresholds で一覧表示）
+engine-e-interference-env-unknown-baseline = 不明なベースライン { $id }（docs/INTERFERENCE-ENV.md を参照）
+engine-e-interference-env-bad-source = ソース { $name }：電力、帯域幅、パルス幅、繰り返し周波数のいずれかが有効な正の有限値ではありません
+engine-e-interference-env-pulsed-needs-receiver = パルス源には受信機の noise_temperature_k、precorrelation_bw_hz と、ブランキングまたは飽和レベルが必要です
+engine-e-interference-env-saturated = パルスがブランキングされない時間を残しません：デューティ比が 1 に達しています
+engine-e-interference-env-missing-value = { $option } には値が必要です
+engine-e-interference-env-bad-number = { $option } には数値が必要です（指定値 { $value }）
+engine-e-interference-env-unknown-option = 不明なオプション { $option }（kshana interference-env --help でオプションを一覧表示）
+engine-e-interference-env-cannot-read = { $path } を読み込めません：{ $e }
+engine-e-interference-env-bad-file = { $path } は干渉環境ではありません：{ $e }

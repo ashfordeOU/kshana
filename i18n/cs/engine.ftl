@@ -10580,6 +10580,7 @@ engine-main-usage =
     { "   " }nebo: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }nebo: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }nebo: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
+    { "   " }nebo: kshana interference-env <evaluate|thresholds|degradation> ... (kshana interference-env --help)
     { "   " }nebo: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }nebo: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }nebo: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
@@ -11776,3 +11777,16 @@ engine-e-oscillator-input = vstup { $part } není platný: { $e }
 engine-e-oscillator-unknown-clock = neznámá předvolba hodin { $id } (jedna z { $known })
 
 engine-e-oscillator-field = { $field } je mimo rozsah: { $value }
+
+## Interference environments (src/interference_env.rs, docs/INTERFERENCE-ENV.md)
+engine-interference-env-usage = použití: kshana interference-env evaluate <environment.toml> | thresholds [--receiver <id>] | degradation --baseline <id> --pulse-width <s> --prf <Hz> [--below-ratio <R>] [--recovery <s>]  (docs/INTERFERENCE-ENV.md; MODELLED)
+engine-e-interference-env-unknown-receiver = neznámý přijímač { $id } (kshana interference-env thresholds je vypíše)
+engine-e-interference-env-unknown-baseline = neznámá základní úroveň { $id } (viz docs/INTERFERENCE-ENV.md)
+engine-e-interference-env-bad-source = zdroj { $name }: výkon, šířka pásma, šířka impulzu nebo opakovací kmitočet není platná kladná konečná hodnota
+engine-e-interference-env-pulsed-needs-receiver = pulzní zdroje vyžadují noise_temperature_k, precorrelation_bw_hz přijímače a úroveň potlačení nebo saturace
+engine-e-interference-env-saturated = impulzy nenechávají žádný nepotlačený čas: střída dosahuje 1
+engine-e-interference-env-missing-value = { $option } vyžaduje hodnotu
+engine-e-interference-env-bad-number = { $option } vyžaduje číslo, ne { $value }
+engine-e-interference-env-unknown-option = neznámá volba { $option } (kshana interference-env --help vypíše volby)
+engine-e-interference-env-cannot-read = nelze číst { $path }: { $e }
+engine-e-interference-env-bad-file = { $path } není prostředí rušení: { $e }
