@@ -20,6 +20,23 @@ use std::sync::atomic::{AtomicU64, Ordering};
 use std::sync::Arc;
 use std::time::Duration;
 
+/// The NTRIP test password, made at run time so that no credential is written into the source.
+fn pw() -> &'static str {
+    static PW: std::sync::OnceLock<String> = std::sync::OnceLock::new();
+    PW.get_or_init(|| {
+        let t = std::time::SystemTime::now()
+            .duration_since(std::time::UNIX_EPOCH)
+            .map(|d| d.subsec_nanos())
+            .unwrap_or(0);
+        format!("pw-{}-{t:x}", std::process::id())
+    })
+}
+
+/// `user:password` as an HTTP Basic token.
+fn basic_token() -> String {
+    kshana::permalink::base64_encode(format!("rover:{}", pw()).as_bytes())
+}
+
 static SEQ: AtomicU64 = AtomicU64::new(0);
 
 fn temp(name: &str) -> std::path::PathBuf {
@@ -687,7 +704,7 @@ fn caster(
     let addr = l.local_addr().unwrap().to_string();
     let mut cfg = protocol::CasterConfig::new("KSH0", stream_bytes());
     if creds {
-        cfg.credentials = Some(("rover".into(), "s3cret-pw".into()));
+        cfg.credentials = Some(("rover".into(), pw().into()));
     }
     cfg.chunk_extensions = ext;
     cfg.chunk_bytes = 61;
@@ -703,8 +720,7 @@ fn caster(
 fn kshana_ntrip_reads_the_reference_caster_in_both_versions() {
     let (addr, h) = caster(true, true, 1);
     let mut st =
-        kshana::ntrip::NtripStream::open(&ntrip_cfg(addr, "KSH0", Some(("rover", "s3cret-pw"))))
-            .unwrap();
+        kshana::ntrip::NtripStream::open(&ntrip_cfg(addr, "KSH0", Some(("rover", pw())))).unwrap();
     assert_eq!(st.answer, kshana::ntrip::Answer::Ntrip2 { chunked: true });
     let mut got = Vec::new();
     st.read_to_end(&mut got).unwrap();
@@ -750,7 +766,7 @@ fn curl_as_a_third_party_client() {
             "--noproxy",
             "*",
             "-u",
-            "rover:s3cret-pw",
+            &*format!("rover:{}", pw()),
             "-H",
             "Ntrip-Version: Ntrip/2.0",
             "-o",
@@ -780,7 +796,7 @@ fn the_probe_meets_every_check_against_the_reference_caster() {
     let rep = protocol::probe(&protocol::ProbeConfig {
         addr,
         mount: "KSH0".into(),
-        credentials: Some(("rover".into(), "s3cret-pw".into())),
+        credentials: Some(("rover".into(), pw().into())),
         gga: Some(kshana::ntrip::gga(59.44, 24.75, 30.0)),
         seconds: 1.0,
     });
@@ -796,7 +812,7 @@ fn the_probe_meets_every_check_against_the_reference_caster() {
     );
     // nothing the caster or the probe reports carries the password
     let all = serde_json::to_string(&(rep, reps)).unwrap();
-    assert!(!all.contains("s3cret-pw") && !all.contains("cm92ZXI6czNjcmV0LXB3"));
+    assert!(!all.contains(pw()) && !all.contains(&basic_token()));
 }
 
 #[test]
@@ -851,22 +867,24 @@ fn credentials_stay_out_of_kshana_output_and_logs_are_scanned() {
             "--out",
         ])
         .arg(&out)
-        .env("KSHANA_TEST_NTRIP_PW", "s3cret-pw")
+        .env("KSHANA_TEST_NTRIP_PW", pw())
         .output()
         .unwrap();
     assert!(o.status.success());
     h.join().unwrap();
     let mut log = String::from_utf8_lossy(&o.stdout).to_string();
     log.push_str(&String::from_utf8_lossy(&o.stderr));
-    assert!(
-        protocol::scan_log(&log, "rover", "s3cret-pw").is_empty(),
-        "{log}"
-    );
+    assert!(protocol::scan_log(&log, "rover", pw()).is_empty(), "{log}");
 
     // a careless client log
-    let bad = "connecting to ntrip://rover:s3cret-pw@caster.example:2101/KSH0\n\
-               > Authorization: Basic cm92ZXI6czNjcmV0LXB3\nok\n";
-    let leaks = protocol::scan_log(bad, "rover", "s3cret-pw");
+    let bad = format!(
+        "connecting to ntrip://rover:{}@caster.example:2101/KSH0\n\
+         > Authorization: Basic {}\nok\n",
+        pw(),
+        basic_token()
+    );
+    let bad = bad.as_str();
+    let leaks = protocol::scan_log(bad, "rover", pw());
     let kinds: Vec<(usize, &str)> = leaks.iter().map(|l| (l.line, l.kind)).collect();
     assert_eq!(
         kinds,
@@ -879,7 +897,7 @@ fn credentials_stay_out_of_kshana_output_and_logs_are_scanned() {
     );
     let clean = protocol::redact(bad);
     assert!(
-        protocol::scan_log(&clean, "rover", "s3cret-pw").is_empty(),
+        protocol::scan_log(&clean, "rover", pw()).is_empty(),
         "{clean}"
     );
     let p = temp("client.log");
@@ -894,11 +912,11 @@ fn credentials_stay_out_of_kshana_output_and_logs_are_scanned() {
             "--password-env",
             "KSHANA_TEST_NTRIP_PW",
         ])
-        .env("KSHANA_TEST_NTRIP_PW", "s3cret-pw")
+        .env("KSHANA_TEST_NTRIP_PW", pw())
         .output()
         .unwrap();
     assert_eq!(o.status.code(), Some(1));
-    assert!(!String::from_utf8_lossy(&o.stdout).contains("s3cret-pw"));
+    assert!(!String::from_utf8_lossy(&o.stdout).contains(pw()));
 }
 
 #[test]
