@@ -10717,6 +10717,7 @@ engine-main-usage =
     { "   " }або: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }або: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }або: kshana time-vectors [--json] [<vectors.json|dir> ...]
+    { "   " }або: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
     { "   " }або: kshana kinds [--json]
     { "   " }або: kshana example [<name>]
     { "   " }або: kshana --help | --version
@@ -11629,3 +11630,25 @@ engine-e-interference-map-locate-bad-tdoa = { $path } не є придатним
 engine-e-interference-map-locate-source-required = потрібен --source adsb або --source ais
 
 engine-e-interference-map-locate-no-evidence-rows = для виводів locate не перелічено жодного рядка доказів
+
+## src/space_weather_pnt/
+
+engine-space-weather-pnt-usage =
+    використання: kshana space-weather storms
+    { "   " }або: kshana space-weather storm <id> [--altitudes <km,km,...>]
+    { "   " }або: kshana space-weather dgnss <request.json> [--forecast <3-day-forecast.txt>]
+    { "   " }або: kshana space-weather iono <request.json> [--ionex <file>]
+    { "   " }або: kshana space-weather density-scorecard <windows.csv>
+    { "   " }або: kshana space-weather lifetime <request.json>
+    { "   " }(docs/SPACE-WEATHER-PNT.md)
+
+engine-e-space-weather-pnt-out-of-range = `{ $field }` має бути скінченним числом від { $lo } до { $hi }
+engine-e-space-weather-pnt-unknown-storm = бурі `{ $id }` немає в бібліотеці (список виводить kshana space-weather storms)
+engine-e-space-weather-pnt-request = недійсний запит: { $e }
+engine-e-space-weather-pnt-bad-time = не час UTC (YYYY-MM-DDTHH:MM[:SS]Z): { $value }
+engine-e-space-weather-pnt-not-a-forecast = це не триденний прогноз NOAA SWPC: немає повної таблиці розбивки Kp
+engine-e-space-weather-pnt-one-source = вкажіть рівно одне джерело інтервалів Kp: storm, intervals або прогноз (swpc_forecast чи --forecast)
+engine-e-space-weather-pnt-ionex-span = карти IONEX не охоплюють { $t }
+engine-e-space-weather-pnt-ionex-flag = карта IONEX використовується тоді й лише тоді, коли vtec у запиті дорівнює "ionex" і задано --ionex <file>
+engine-e-space-weather-pnt-no-epochs = у запиті потрібна принаймні одна епоха в epochs_utc
+engine-e-space-weather-pnt-window-row = рядок { $line }: це не рядок вікна густини (campaign,phase,start_utc,mean_alt_km,n_valid,measured_mean,points)

@@ -10603,6 +10603,7 @@ engine-main-usage =
     { "   " }of: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }of: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }of: kshana time-vectors [--json] [<vectors.json|dir> ...]
+    { "   " }of: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
     { "   " }of: kshana kinds [--json]
     { "   " }of: kshana example [<name>]
     { "   " }of: kshana --help | --version
@@ -11535,3 +11536,25 @@ engine-e-interference-map-locate-bad-tdoa = { $path } is geen bruikbaar TDOA-fix
 engine-e-interference-map-locate-source-required = --source adsb of --source ais is vereist
 
 engine-e-interference-map-locate-no-evidence-rows = er zijn geen bewijsrijen vermeld voor de locate-uitvoer
+
+## src/space_weather_pnt/
+
+engine-space-weather-pnt-usage =
+    gebruik: kshana space-weather storms
+    { "   " }of: kshana space-weather storm <id> [--altitudes <km,km,...>]
+    { "   " }of: kshana space-weather dgnss <request.json> [--forecast <3-day-forecast.txt>]
+    { "   " }of: kshana space-weather iono <request.json> [--ionex <file>]
+    { "   " }of: kshana space-weather density-scorecard <windows.csv>
+    { "   " }of: kshana space-weather lifetime <request.json>
+    { "   " }(docs/SPACE-WEATHER-PNT.md)
+
+engine-e-space-weather-pnt-out-of-range = `{ $field }` moet een eindig getal van { $lo } tot { $hi } zijn
+engine-e-space-weather-pnt-unknown-storm = geen storm `{ $id }` in de bibliotheek (kshana space-weather storms toont ze)
+engine-e-space-weather-pnt-request = geen geldig verzoek: { $e }
+engine-e-space-weather-pnt-bad-time = geen UTC-tijd (YYYY-MM-DDTHH:MM[:SS]Z): { $value }
+engine-e-space-weather-pnt-not-a-forecast = geen driedaagse voorspelling van NOAA SWPC: geen volledige Kp-uitsplitsingstabel
+engine-e-space-weather-pnt-one-source = geef precies één bron van Kp-intervallen: storm, intervals of een voorspelling (swpc_forecast of --forecast)
+engine-e-space-weather-pnt-ionex-span = de IONEX-kaarten dekken { $t } niet
+engine-e-space-weather-pnt-ionex-flag = een IONEX-kaart wordt gebruikt dan en slechts dan als vtec in het verzoek "ionex" is en --ionex <file> is opgegeven
+engine-e-space-weather-pnt-no-epochs = het verzoek heeft ten minste één epoche in epochs_utc nodig
+engine-e-space-weather-pnt-window-row = regel { $line }: geen rij van een dichtheidsvenster (campaign,phase,start_utc,mean_alt_km,n_valid,measured_mean,points)
