@@ -10505,6 +10505,7 @@ engine-main-usage =
     { "   " }eller: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
     { "   " }eller: kshana space-receiver <clock|timestamps|dynamics|bench|mms|od-vs-tle> ... [--out <file.json>] (kshana space-receiver --help)
     { "   " }eller: kshana feed <pack|verify|send|spectrum|leaderboard> ... (kshana feed --help)
+    { "   " }eller: kshana register <check|crl-check|view|sign> ... (kshana register --help)
     { "   " }eller: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }eller: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }eller: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
@@ -11723,3 +11724,25 @@ engine-e-feed-short-capture = inspelningen har { $n } sampel, färre än transfo
 engine-e-feed-send-failed = det gick inte att skicka till { $url }: { $e }
 engine-e-feed-send-refused = { $url } avvisade paketet: HTTP { $code }
 engine-e-obs-bad-spectrum = rad { $line }: ett spektrum behöver ändlig tid och mittfrekvens, positiv samplingsfrekvens och fackbredd samt ändliga nivåer
+
+## Product register (src/product_register.rs, docs/PRODUCT-REGISTER.md)
+engine-register-usage = användning: kshana register check <register.json> [--key <hex>] | crl-check <crl.json> --key <hex> | view <register.json> [--key <hex>] [--crl <crl.json> --crl-key <hex>] [--date <YYYY-MM-DD>] [--json] | sign <register.json|crl.json> --key <keyfile> [--out <file>]  (docs/PRODUCT-REGISTER.md)
+engine-register-check-ok = { $path }: register från { $publisher }, { $n } poster, signaturen är giltig (undertecknare { $key })
+engine-register-crl-check-ok = { $path }: återkallelselista från { $issuer }, { $n } återkallade poster, signaturen är giltig; nästa lista väntas { $next }
+engine-register-view-summary = per { $date }: { $current } gällande, { $due } ska poängsättas igen, { $revoked } återkallade
+engine-register-view-no-crl = ingen återkallelselista angiven: återkallelse är okänd (--crl <crl.json> --crl-key <hex>)
+engine-register-view-crl-stale = återkallelselistan är inaktuell: nästa uppdatering skulle komma { $next }
+engine-e-register-key-mismatch = signerad av { $found }, inte av den förväntade nyckeln { $expected }
+engine-e-register-bad-signature = signaturen är inte giltig
+engine-e-register-bad-date = { $field } är inte ett datum på formen YYYY-MM-DD: { $value }
+engine-e-register-not-register = inte ett kshana.register/1-register: { $e }
+engine-e-register-not-crl = inte en kshana.register-crl/1-återkallelselista: { $e }
+engine-e-register-bad-id = post-id { $id }: använd 1 till 128 bokstäver, siffror, punkter, bindestreck eller understreck
+engine-e-register-duplicate-id = post-id { $id } förekommer mer än en gång
+engine-e-register-revalidate-before-scored = posten { $id } ska poängsättas igen före det datum den poängsattes
+engine-e-register-bad-digest = posten { $id }: evidence_sha256 måste vara 64 hexadecimala siffror
+engine-e-register-missing-value = { $option } behöver ett värde
+engine-e-register-cannot-read = kan inte läsa { $path }: { $e }
+engine-e-register-cannot-write = kan inte skriva { $path }: { $e }
+engine-e-register-unknown-option = okänt alternativ { $option } (kshana register --help listar alternativen)
+engine-e-register-crl-needs-key = --crl och --crl-key hör ihop: en återkallelselista kontrolleras mot utfärdarens nyckel

@@ -10798,6 +10798,7 @@ engine-main-usage =
     { "   " }lub: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
     { "   " }lub: kshana space-receiver <clock|timestamps|dynamics|bench|mms|od-vs-tle> ... [--out <file.json>] (kshana space-receiver --help)
     { "   " }lub: kshana feed <pack|verify|send|spectrum|leaderboard> ... (kshana feed --help)
+    { "   " }lub: kshana register <check|crl-check|view|sign> ... (kshana register --help)
     { "   " }lub: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }lub: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }lub: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
@@ -12081,3 +12082,25 @@ engine-e-feed-short-capture = nagranie zawiera { $n } próbek, mniej niż długo
 engine-e-feed-send-failed = wysłanie do { $url } nie powiodło się: { $e }
 engine-e-feed-send-refused = { $url } odrzucił pakiet: HTTP { $code }
 engine-e-obs-bad-spectrum = wiersz { $line }: widmo wymaga skończonego czasu i częstotliwości środkowej, dodatniej częstotliwości próbkowania i szerokości przedziału oraz skończonych poziomów
+
+## Product register (src/product_register.rs, docs/PRODUCT-REGISTER.md)
+engine-register-usage = użycie: kshana register check <register.json> [--key <hex>] | crl-check <crl.json> --key <hex> | view <register.json> [--key <hex>] [--crl <crl.json> --crl-key <hex>] [--date <YYYY-MM-DD>] [--json] | sign <register.json|crl.json> --key <keyfile> [--out <file>]  (docs/PRODUCT-REGISTER.md)
+engine-register-check-ok = { $path }: rejestr { $publisher }, wpisów: { $n }, podpis jest prawidłowy (podpisujący { $key })
+engine-register-crl-check-ok = { $path }: lista odwołań { $issuer }, odwołanych wpisów: { $n }, podpis jest prawidłowy; następna lista { $next }
+engine-register-view-summary = na { $date }: aktualne: { $current }, do ponownej oceny: { $due }, odwołane: { $revoked }
+engine-register-view-no-crl = nie podano listy odwołań: stan odwołania jest nieznany (--crl <crl.json> --crl-key <hex>)
+engine-register-view-crl-stale = lista odwołań jest nieaktualna: jej następna aktualizacja miała nastąpić { $next }
+engine-e-register-key-mismatch = podpisane przez { $found }, a nie oczekiwanym kluczem { $expected }
+engine-e-register-bad-signature = podpis jest nieprawidłowy
+engine-e-register-bad-date = { $field } nie jest datą w formacie YYYY-MM-DD: { $value }
+engine-e-register-not-register = to nie jest rejestr kshana.register/1: { $e }
+engine-e-register-not-crl = to nie jest lista odwołań kshana.register-crl/1: { $e }
+engine-e-register-bad-id = identyfikator wpisu { $id }: użyj od 1 do 128 liter, cyfr, kropek, łączników lub podkreśleń
+engine-e-register-duplicate-id = identyfikator wpisu { $id } występuje więcej niż raz
+engine-e-register-revalidate-before-scored = wpis { $id } miałby być oceniony ponownie przed datą swojej oceny
+engine-e-register-bad-digest = wpis { $id }: evidence_sha256 musi mieć 64 cyfry szesnastkowe
+engine-e-register-missing-value = { $option } wymaga wartości
+engine-e-register-cannot-read = nie można odczytać { $path }: { $e }
+engine-e-register-cannot-write = nie można zapisać { $path }: { $e }
+engine-e-register-unknown-option = nieznana opcja { $option } (kshana register --help wyświetla opcje)
+engine-e-register-crl-needs-key = --crl i --crl-key występują razem: listę odwołań sprawdza się kluczem wystawcy

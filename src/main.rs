@@ -1363,6 +1363,8 @@ fn main_in_language(args: Vec<String>) -> ExitCode {
         Some("station") => Some(kshana::station::run),
         // `kshana feed pack|verify|send|spectrum|leaderboard`: feeder clients (src/feeder.rs).
         Some("feed") => Some(kshana::feeder::run),
+        // `kshana register check|crl-check|view|sign`: the product register (src/product_register.rs).
+        Some("register") => Some(kshana::product_register::run),
         // `kshana oscillator <part> <input.json>`: oscillator models (src/oscillator/).
         Some("oscillator") => Some(kshana::oscillator::run),
         // `kshana leo-verify <part> <input.json>`: LEO-PNT verification tools (src/leo_verify/).
