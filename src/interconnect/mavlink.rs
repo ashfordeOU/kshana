@@ -17,8 +17,10 @@
 //! | `GPS_STATUS` | 25 | 23 | per-satellite SNR, elevation, azimuth and use |
 //! | `GPS2_RAW` | 124 | 87 | a fix of the second receiver |
 //!
-//! Every other message is stepped over by its length and counted; its checksum cannot be checked
-//! without its definition.
+//! Every other message is stepped over by its length and counted, after its checksum is checked with the
+//! `CRC_EXTRA` of its definition in MAVLink's `all.xml` (353 messages, from the `mavlink-tlog` crate). A
+//! start octet whose frame fails its checksum, or whose message id no definition has, is not taken as a
+//! frame: reading moves on by one octet, so the real frames behind a damaged one are still found.
 //!
 //! A fix needs a fix type of 2 (2D) or more. Trust attributes: `fix_type`, `satellites`, `hdop` and
 //! `vdop` (`eph` and `epv` divided by 100, as the definition states), and where the message has its
@@ -30,6 +32,8 @@
 //! send nothing to it.
 
 use std::collections::BTreeMap;
+
+use mavlink_tlog::{CrcPolicy, FrameError, FrameRef, Version};
 
 use super::{Decoded, Fix, Quality};
 use crate::receiver_trust::{LogEpoch, ReportedDop, ReportedFix, SatCn0, SatSky, Timeline};
@@ -84,55 +88,41 @@ pub enum At {
 }
 
 /// The frame starting at `i`.
+///
+/// The frame's boundaries and checksum come from `mavlink-tlog`: every message in MAVLink's `all.xml`
+/// has its checksum checked, not only the ones read here, so a damaged octet that looks like a start
+/// octet is not taken as a frame of an unknown message and stepped over with the real frames behind it.
 pub fn frame_at(b: &[u8], i: usize) -> At {
-    let Some(&magic) = b.get(i) else {
+    let Some(rest) = b.get(i..) else {
         return At::None;
     };
-    let (hdr, version) = match magic {
-        0xFE => (6, 1),
-        0xFD => (10, 2),
-        _ => return At::None,
-    };
-    let Some(&len) = b.get(i + 1) else {
+    // No start octet, unknown incompatibility flags, or cut short.
+    let Ok(frame) = FrameRef::parse_unchecked(rest) else {
         return At::None;
     };
-    let len = usize::from(len);
-    let sig = if version == 2 && b.get(i + 2).is_some_and(|f| f & 1 == 1) {
-        13
-    } else {
-        0
-    };
-    let total = hdr + len + 2 + sig;
-    if i + total > b.len() {
-        return At::None;
+    let total = frame.len();
+    match frame.check(CrcPolicy::Strict) {
+        Ok(()) => {}
+        // No MAVLink definition has this id: not a frame.
+        Err(FrameError::UnknownMessage(_)) => return At::None,
+        Err(_) => return At::BadCrc(total),
     }
-    let f = &b[i..i + total];
-    let (sysid, compid, msgid) = if version == 1 {
-        (f[3], f[4], u32::from(f[5]))
-    } else {
-        (
-            f[5],
-            f[6],
-            u32::from(f[7]) | u32::from(f[8]) << 8 | u32::from(f[9]) << 16,
-        )
-    };
-    let Some((extra, full)) = known(msgid) else {
+    let msgid = frame.msg_id();
+    let Some((_, full)) = known(msgid) else {
         return At::Unknown(total);
     };
-    let crc = crc_accumulate(0xFFFF, &f[1..hdr + len]);
-    let crc = crc_accumulate(crc, &[extra]);
-    if crc.to_le_bytes() != [f[hdr + len], f[hdr + len + 1]] {
-        return At::BadCrc(total);
-    }
-    let mut payload = f[hdr..hdr + len].to_vec();
+    let mut payload = frame.payload().to_vec();
     if payload.len() < full {
         payload.resize(full, 0);
     }
     At::Good(
         Frame {
-            version,
-            sysid,
-            compid,
+            version: match frame.version() {
+                Version::V1 => 1,
+                Version::V2 => 2,
+            },
+            sysid: frame.sys_id(),
+            compid: frame.comp_id(),
             msgid,
             payload,
         },
@@ -285,10 +275,11 @@ fn walk(bytes: &[u8], tlog: bool, mut each: impl FnMut(Option<f64>, &Frame), d: 
                 d.other += 1;
                 i += pre + n;
             }
-            At::BadCrc(n) => {
-                d.read += 1;
+            At::BadCrc(_) => {
+                // A damaged frame, or a start octet inside damaged data: its length cannot be trusted
+                // either, so look for the next frame one octet on.
                 d.bad_checksum += 1;
-                i += pre + n;
+                i += 1;
             }
             At::None => {
                 i += 1;
@@ -523,6 +514,30 @@ pub(crate) mod tests {
     fn x25_check_value() {
         // CRC-16/MCRF4XX of "123456789" is 0x6F91.
         assert_eq!(crc_accumulate(0xFFFF, b"123456789"), 0x6F91);
+    }
+
+    #[test]
+    fn a_cut_frame_does_not_swallow_the_fixes_behind_it() {
+        // A record whose frame was cut off after its header (a dropped telemetry write): the start
+        // octet and a length of 200 survive, the rest of the frame does not. The length cannot be
+        // trusted, so neither can a step over it: the five real fixes after it must all be read.
+        let p = gps_raw_int(47.397742, 8.545594, 488_000, 3, 10, 121);
+        for (cut_msgid, v2) in [(0u8, false), (147, false), (0, true)] {
+            let mut tlog = Vec::new();
+            tlog.extend_from_slice(&1_700_000_000_000_000u64.to_be_bytes());
+            if v2 {
+                tlog.extend_from_slice(&[0xFD, 200, 0, 0, 7, 1, 1, cut_msgid, 0, 0]);
+            } else {
+                tlog.extend_from_slice(&[0xFE, 200, 7, 1, 1, cut_msgid]);
+            }
+            for k in 0..5u64 {
+                tlog.extend_from_slice(&(1_700_000_000_100_000 + k * 200_000).to_be_bytes());
+                tlog.extend(frame(v2, 1, 24, &p, k as u8));
+            }
+            let d = decode_tlog(&tlog);
+            assert_eq!(d.fixes.len(), 5, "msgid {cut_msgid}, v2 {v2}: {d:?}");
+            assert_eq!(d.other, 0, "no frame was invented from the cut record");
+        }
     }
 
     #[test]

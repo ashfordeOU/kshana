@@ -244,6 +244,11 @@ ed25519-dalek = { version = "2", default-features = false, features = ["std"] }
 # dependency (thiserror), pure Rust. Evaluated before adoption: see docs/RECEIVER-PROTOCOLS.md.
 sbf-tools = { version = "0.4", default-features = false }
 
+# MAVLink frame boundaries and checksums for `interconnect::mavlink` (the `.tlog` and UDP readers): the
+# `CRC_EXTRA` of all 353 messages in MAVLink's `all.xml`, so every frame's checksum is checked, not only
+# the three GNSS messages read. MIT, no dependencies, `no_std` core; built without its `std` I/O layer.
+mavlink-tlog = { version = "0.1.2", default-features = false }
+
 # Optional bindings. Off by default: the core library, CLI, tests, and the
 # dependency-audit gate never compile or scan these unless the feature is enabled.
 pyo3 = { version = "0.29", features = ["extension-module", "abi3-py39"], optional = true }

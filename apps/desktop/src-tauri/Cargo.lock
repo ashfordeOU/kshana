@@ -2056,6 +2056,7 @@ dependencies = [
  "hmac 0.12.1",
  "libc",
  "libm",
+ "mavlink-tlog",
  "p256",
  "p384",
  "p521",
@@ -2180,6 +2181,12 @@ dependencies = [
  "tendril",
  "web_atoms",
 ]
+
+[[package]]
+name = "mavlink-tlog"
+version = "0.1.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "da742b92f6820a5de512a96a83911a29b4621b61370a2cec0baff8651a48a07b"
 
 [[package]]
 name = "memchr"
