@@ -1,0 +1,111 @@
+{
+  "systems": [
+    {
+      "name": "Pulsar FOC, polar planes (Xona Space Systems)",
+      "altitude_km": 1080.0,
+      "inclination_deg": 97.0,
+      "earth_radius_km": 6371.0,
+      "orbit_source": "J. Leclère, T. Marathe, T. G. R. Reid (Xona Space Systems), Insights into Xona Pulsar LEO PNT: Constellation, Signals, and Receiver Design, ION GNSS+ 2025, arXiv:2509.19551, section 2.2 and Table 1 (orbit radius 7451.0 km, so an Earth radius of 6371 km)",
+      "claims": [
+        {"id": "pulsar-polar-period", "check": {"orbital_period_min": {"stated": 106.7}}, "tolerance": {"abs": 0.1},
+         "source": "arXiv:2509.19551, Table 1: orbital period 106.7 min"},
+        {"id": "pulsar-polar-speed", "check": {"orbital_speed_m_s": {"stated": 7314.1}}, "tolerance": {"abs": 1.0},
+         "source": "arXiv:2509.19551, Table 1: satellite orbital speed 7314.1 m/s"},
+        {"id": "pulsar-polar-relative-speed", "check": {"max_relative_speed_m_s": {"stated": 6327.4}}, "tolerance": {"rel": 0.002},
+         "source": "arXiv:2509.19551, Table 1: maximum relative speed to a static user 6327.4 m/s (polar orbit)"},
+        {"id": "pulsar-polar-doppler-x1", "check": {"max_doppler_hz": {"carrier_mhz": 1593.3225, "stated": 33628.5}}, "tolerance": {"rel": 0.002},
+         "source": "arXiv:2509.19551, Table 1: max. L1 band carrier Doppler 33628.5 Hz; Table 2: X1 carrier 1593.3225 MHz"},
+        {"id": "pulsar-polar-doppler-x5", "check": {"max_doppler_hz": {"carrier_mhz": 1190.51625, "stated": 25126.9}}, "tolerance": {"rel": 0.002},
+         "source": "arXiv:2509.19551, Table 1: max. L5 band carrier Doppler 25126.9 Hz; Table 2: X5 carrier 1190.51625 MHz"},
+        {"id": "pulsar-polar-horizon", "check": {"horizon_slant_range_km": {"stated": 3864.0}}, "tolerance": {"abs": 2.0},
+         "source": "arXiv:2509.19551, section 2.2: 'the footprint radius is about 3864 km for a Pulsar FOC satellite ... (with a 0° elevation mask)'",
+         "note": "the paper calls this figure the footprint radius; it is the slant range to a satellite on the horizon, and the ground arc is reported beside it"},
+        {"id": "pulsar-doppler-vs-gps", "check": {"max_doppler_ratio": {"reference": {"altitude_km": 20180.0, "inclination_deg": 55.0}, "stated": 8.0}}, "tolerance": {"rel": 0.15},
+         "source": "arXiv:2509.19551, section 2.2: Doppler 'is about 8 times greater for Pulsar than for GPS' (GPS orbit from Table 1: 20180 km, 55°)",
+         "note": "the stated figure is approximate ('about'), hence the 15 % tolerance"},
+        {"id": "pulsar-doppler-rate-vs-gps", "check": {"max_doppler_rate_ratio": {"reference": {"altitude_km": 20180.0, "inclination_deg": 55.0}, "stated": 250.0}}, "tolerance": {"rel": 0.2},
+         "source": "arXiv:2509.19551, section 2.2: the Doppler rate 'is about 250 times higher for the Pulsar FOC constellation'",
+         "note": "the stated figure is approximate ('about'), hence the 20 % tolerance"},
+        {"id": "pulsar-polar-doppler-rate-x1", "check": {"max_doppler_rate_hz_s": {"carrier_mhz": 1593.3225, "stated": 230.0}}, "tolerance": {"rel": 0.01},
+         "source": "arXiv:2509.19551, section 6.2: 'The largest carrier Doppler rate is up to −230 Hz/s on X1 and −172 Hz/s on X5'",
+         "note": "the paper gives the magnitude for the FOC constellation; the polar planes give the larger rate"},
+        {"id": "pulsar-polar-doppler-rate-x5", "check": {"max_doppler_rate_hz_s": {"carrier_mhz": 1190.51625, "stated": 172.0}}, "tolerance": {"rel": 0.01},
+         "source": "arXiv:2509.19551, section 6.2: '... and −172 Hz/s on X5'"},
+        {"id": "pulsar-x1-power-vs-gps-l1", "check": {"power_advantage": {"stated_ratio": 100.0, "system_dbw": [-148.2, -139.1], "reference_dbw": [-158.5, -153.0],
+            "powers_source": "arXiv:2509.19551, Table 2: minimum and maximum received power, Pulsar X1 −148.2 and −139.1 dBW (10° elevation or more), GPS L1 C/A −158.5 and −153.0 dBW (5° or more)"}},
+         "tolerance": {"abs": 0.5},
+         "source": "xonaspace.com/news/fcc-authorization (read 2026-11-21): 'signals up to 100 times stronger than GPS'"},
+        {"id": "pulsar-x5-power-vs-gps-l5", "check": {"power_advantage": {"stated_ratio": 100.0, "system_dbw": [-144.9, -136.2], "reference_dbw": [-154.0, -150.0],
+            "powers_source": "arXiv:2509.19551, Table 2: Pulsar X5 −144.9 and −136.2 dBW, GPS L5 −154.0 and −150.0 dBW"}},
+         "tolerance": {"abs": 0.5},
+         "source": "xonaspace.com/news/fcc-authorization (read 2026-11-21): 'signals up to 100 times stronger than GPS'"}
+      ]
+    },
+    {
+      "name": "Pulsar FOC, inclined planes (Xona Space Systems)",
+      "altitude_km": 1080.0,
+      "inclination_deg": 53.0,
+      "orbit_source": "arXiv:2509.19551, section 2.2 and Table 1",
+      "claims": [
+        {"id": "pulsar-inclined-relative-speed", "check": {"max_relative_speed_m_s": {"stated": 5985.9}}, "tolerance": {"rel": 0.002},
+         "source": "arXiv:2509.19551, Table 1: maximum relative speed to a static user 5985.9 m/s (inclined orbit)"},
+        {"id": "pulsar-inclined-doppler-x1", "check": {"max_doppler_hz": {"carrier_mhz": 1593.3225, "stated": 31813.4}}, "tolerance": {"rel": 0.002},
+         "source": "arXiv:2509.19551, Table 1: max. L1 band carrier Doppler 31813.4 Hz (inclined orbit)"}
+      ]
+    },
+    {
+      "name": "Pulsar IOV (Xona Space Systems)",
+      "altitude_km": 520.0,
+      "inclination_deg": 97.0,
+      "orbit_source": "arXiv:2509.19551, section 2.2 and Table 1 (orbit radius 6891.0 km)",
+      "claims": [
+        {"id": "pulsar-iov-period", "check": {"orbital_period_min": {"stated": 94.9}}, "tolerance": {"abs": 0.1},
+         "source": "arXiv:2509.19551, Table 1: orbital period 94.9 min"},
+        {"id": "pulsar-iov-relative-speed", "check": {"max_relative_speed_m_s": {"stated": 7103.2}}, "tolerance": {"rel": 0.002},
+         "source": "arXiv:2509.19551, Table 1: maximum relative speed to a static user 7103.2 m/s"},
+        {"id": "pulsar-iov-horizon", "check": {"horizon_slant_range_km": {"stated": 2626.0}}, "tolerance": {"abs": 2.0},
+         "source": "arXiv:2509.19551, section 2.2: footprint radius 'about ... 2626 km for the Pulsar IOV satellite (with a 0° elevation mask)'",
+         "note": "as for the FOC figure, the slant range to the horizon"}
+      ]
+    },
+    {
+      "name": "GPS, the nominal orbit of the same paper",
+      "altitude_km": 20180.0,
+      "inclination_deg": 55.0,
+      "orbit_source": "arXiv:2509.19551, Table 1 (orbit radius 26551.0 km)",
+      "claims": [
+        {"id": "gps-relative-speed", "check": {"max_relative_speed_m_s": {"stated": 764.7}}, "tolerance": {"rel": 0.002},
+         "source": "arXiv:2509.19551, Table 1: GPS maximum relative speed to a static user 764.7 m/s"},
+        {"id": "gps-doppler-l1", "check": {"max_doppler_hz": {"carrier_mhz": 1575.42, "stated": 4018.4}}, "tolerance": {"rel": 0.002},
+         "source": "arXiv:2509.19551, Table 1: GPS max. L1 band carrier Doppler 4018.4 Hz"}
+      ]
+    },
+    {
+      "name": "Iridium (66 satellites)",
+      "altitude_km": 780.0,
+      "inclination_deg": 87.0,
+      "orbit_source": "D. Lawrence, H. S. Cobb, G. Gutt, M. O'Connor, T. G. R. Reid, T. Walter, D. Whelan, Navigation from LEO: Current Capability and Future Promise, GPS World, July 2017 (Innovation column, ed. R. B. Langley), Table 1: Iridium 66 satellites, 780 km, 87°",
+      "claims": [
+        {"id": "iridium-closer-than-gps", "check": {"altitude_ratio": {"reference_altitude_km": 20200.0, "stated": 25.0}}, "tolerance": {"rel": 0.05},
+         "source": "GPS World, July 2017, Lawrence et al., 'LEO versus MEO': 'Iridium being 25 times closer to Earth than GPS' (GPS at 20,200 km, Figure 1)"},
+        {"id": "iridium-spreading-loss", "check": {"spreading_loss_db": {"stated_min": -140.0, "stated_max": -130.0}}, "tolerance": {"abs": 1.5},
+         "source": "GPS World, July 2017, Lawrence et al.: 'the signal spreading (or space) loss for Iridium is between –140 and –130 dB' (Figure 2)",
+         "note": "values read from a plotted figure, hence 1.5 dB"},
+        {"id": "iridium-stronger-than-gnss", "check": {"spreading_advantage": {"reference_altitude_km": 20200.0, "stated_min": 300.0, "stated_max": 2400.0}}, "tolerance": {"rel": 0.0},
+         "source": "GPS World, July 2017, Lawrence et al.: 'Iridium signals are 300 to 2,400 times stronger than GNSS signals on the ground'",
+         "note": "the check covers spreading loss only; the stated range also reflects transmit power and antennas, which no cited figure gives"}
+      ]
+    },
+    {
+      "name": "GPS at 20,200 km, as the Iridium comparison states it",
+      "altitude_km": 20200.0,
+      "inclination_deg": 55.0,
+      "orbit_source": "GPS World, July 2017, Lawrence et al., Figure 1 and Table 1: GPS at 20,200 km, 55°",
+      "claims": [
+        {"id": "gps-spreading-loss", "check": {"spreading_loss_db": {"stated_min": -160.0, "stated_max": -160.0}}, "tolerance": {"abs": 1.5},
+         "source": "GPS World, July 2017, Lawrence et al.: '... compared to GPS at –160 dB' (Figure 2)",
+         "note": "a single value read from a plotted figure, hence 1.5 dB"}
+      ]
+    }
+  ]
+}

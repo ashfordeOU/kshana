@@ -10753,7 +10753,7 @@ engine-main-usage =
     { "   " }oder: kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
     { "   " }oder: kshana orbit-data <check|convert|gp-compare|gp-audit|cov> ... (kshana orbit-data --help)
     { "   " }oder: kshana drone <prearm|prearm-calibrate|estimator-cases|dr-budget|quad-loss|failover|zonotope-pl> ... (kshana drone --help)
-    { "   " }oder: kshana leo-verify <burst-timing|holdover-tdev|cost|indoor|rain-fade|rtk-ar|jam-claim|doppler-integrity> <input.json>
+    { "   " }oder: kshana leo-verify <burst-timing|holdover-tdev|cost|indoor|rain-fade|rtk-ar|jam-claim|doppler-integrity|signal-claims> <input.json>
     { "   " }oder: kshana sil-obs <generate|compare> ... (kshana sil-obs --help)
     { "   " }oder: kshana interference-lib <models|generate|fit|bench|cases> ... (kshana interference-lib --help)
     { "   " }oder: kshana antenna-cal <lint|spread|compare|group-delay|js-margin> ... (kshana antenna-cal --help)
@@ -11891,7 +11891,7 @@ engine-e-oscillator-field = { $field } liegt außerhalb des Bereichs: { $value }
 
 ## src/leo_verify/mod.rs
 
-engine-leo-verify-usage = Verwendung: kshana leo-verify <burst-timing|holdover-tdev|cost|indoor|rain-fade|rtk-ar|jam-claim|doppler-integrity> <input.json> (docs/LEO-VERIFY.md)
+engine-leo-verify-usage = Verwendung: kshana leo-verify <burst-timing|holdover-tdev|cost|indoor|rain-fade|rtk-ar|jam-claim|doppler-integrity|signal-claims> <input.json> (docs/LEO-VERIFY.md)
 
 engine-e-leo-verify-input = die Eingabe für { $part } ist ungültig: { $e }
 
