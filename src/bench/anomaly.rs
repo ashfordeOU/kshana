@@ -51,6 +51,11 @@ pub const F_FEATURES: [&str; 18] = [
 /// The task (f) baselines (`PREREGISTRATION.md`).
 pub const F_BASELINES: [&str; 2] = ["feature-z-max", "diff2-var-z"];
 
+/// The contamination factor of the task (f) operating point (`PREREGISTRATION-2.md`): the share of `dev`
+/// segments flagged, from B. Ruszczak et al., Scientific Data 12 (2025), doi 10.1038/s41597-025-05035-3,
+/// which runs its PyOD models at contamination 0.2.
+pub const F_CONTAMINATION: f64 = 0.2;
+
 /// A channel needs this many dev nominal segments to be its own reference set.
 const MIN_CHANNEL_REF: usize = 10;
 
@@ -314,6 +319,20 @@ pub fn f_baseline_scores(
     Ok(out)
 }
 
+/// The operating point of one baseline, frozen on `dev` without labels (`PREREGISTRATION-2.md`): the
+/// `k`-th largest `dev` score with `k = floor(F_CONTAMINATION * n_dev)`; an alarm is `score >= threshold`.
+pub fn f_dev_threshold(baseline: &str, segments: &[Segment]) -> Result<f64, BenchError> {
+    let mut dev: Vec<f64> = f_baseline_scores(baseline, segments, Split::Dev)?
+        .into_values()
+        .collect();
+    dev.sort_by(|a, b| b.total_cmp(a));
+    let k = (F_CONTAMINATION * dev.len() as f64).floor() as usize;
+    if k == 0 {
+        return err(crate::t!("bench-data-no-rows", file = "dataset.csv"));
+    }
+    Ok(dev[k - 1])
+}
+
 /// Average precision: the mean, over the positives, of the precision at each positive's score,
 /// with tied scores taken as one step (alarm when `score >= threshold`).
 pub fn average_precision(labeled: &[(bool, f64)]) -> f64 {
@@ -374,6 +393,7 @@ pub fn score_f(
         m["recall_at_declared"] = finite(recall);
         m["f1_at_declared"] = finite(f1);
         m["mcc_at_declared"] = finite(mcc);
+        m["accuracy_at_declared"] = finite((tp + tn) / (tp + fp + tn + fn_));
     }
     Ok((
         m,
@@ -430,6 +450,17 @@ mod tests {
         assert!(cases["cases"][0].get("positive").is_none());
         assert_eq!(truth["labels"][1]["positive"], json!(true));
         assert!(f_files(&segs, Split::Holdout).is_err());
+    }
+
+    #[test]
+    fn the_operating_point_is_the_kth_largest_dev_score() {
+        // 14 dev segments: k = floor(0.2 * 14) = 2, so the threshold is the second-largest dev score,
+        // that of seg-101 (value 7.0, below seg-100 at 9.0 and above every nominal segment).
+        let segs = f_load(&csv()).unwrap();
+        for b in F_BASELINES {
+            let dev = f_baseline_scores(b, &segs, Split::Dev).unwrap();
+            assert_eq!(f_dev_threshold(b, &segs).unwrap(), dev["seg-101"]);
+        }
     }
 
     #[test]
