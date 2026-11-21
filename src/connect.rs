@@ -652,6 +652,16 @@ fn row_time(m: &Mapping, r: &Row) -> Result<f64, String> {
         "gps-week-tow" => {
             let wc = m.time.week_column.as_deref().unwrap_or_default();
             let week = r.number(wc)?.ok_or_else(|| bad(raw.clone()))?;
+            // A full GPS week counts from 1980; a receiver that writes the broadcast 10-bit week
+            // (0 to 1023, rolled over in 1999 and 2019) would date its data 19.6 or 39.3 years
+            // early. A week before the first rollover is refused rather than guessed.
+            if week < 1024.0 {
+                return Err(crate::terr!(
+                    "e-connect-week-not-full",
+                    line = r.line.to_string(),
+                    week = week
+                ));
+            }
             let tow = num().ok_or_else(|| bad(raw.clone()))?;
             to_utc(GPS_EPOCH_UNIX + week * 604_800.0 + tow, "gps")
         }
@@ -1059,6 +1069,20 @@ mod tests {
         assert_eq!(to_utc(utc + 18.0, "gps"), utc);
         assert_eq!(to_utc(utc + 37.0, "tai"), utc);
         assert_eq!(label_of(utc + 0.25), "2026-01-01T00:00:00.250Z");
+    }
+
+    #[test]
+    fn a_ten_bit_week_is_refused() {
+        let m = parse_mapping(
+            "schema = \"kshana.connect/1\"\n[source]\nformat = \"csv\"\n[time]\ncolumn = \"tow\"\nweek_column = \"week\"\nformat = \"gps-week-tow\"\n[signals]\nband = \"L1\"\nwide = { G01 = \"cn0\" }\n",
+        )
+        .unwrap();
+        // Week 2400 (full) is read; week 352 (2400 mod 1024, a 10-bit week) is refused.
+        let full = row_times(&m, "week,tow,cn0\n2400,100,45\n").unwrap();
+        assert_eq!(full.len(), 1);
+        assert!((full[0].1 - (GPS_EPOCH_UNIX + 2400.0 * 604_800.0 + 100.0 - 18.0)).abs() < 1e-6);
+        let err = row_times(&m, "week,tow,cn0\n352,100,45\n").unwrap_err();
+        assert!(err.contains("352"), "{err}");
     }
 
     #[test]

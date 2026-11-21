@@ -11005,6 +11005,9 @@ engine-e-space-receiver-oem-time-system = cette comparaison ne lit pas le systè
 ## leo-pass leap-second epoch
 engine-e-leo-pass-epoch-is-a-leap-second = l'époque { $s } est une seconde intercalaire, qui n'a pas de date julienne UTC simple ; donnez l'époque en temps GPS ou TAI, ou une seconde avant ou après
 
+## connect: GPS week guard
+engine-e-connect-week-not-full = ligne { $line } : la semaine GPS { $week } n'est pas une semaine complète (une semaine diffusée sur 10 bits repart à zéro toutes les 1024 semaines) ; donnez la semaine complète comptée depuis le 1980-01-06
+
 engine-main-usage =
     utilisation : kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }ou : kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]

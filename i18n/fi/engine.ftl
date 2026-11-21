@@ -10599,6 +10599,9 @@ engine-e-space-receiver-oem-time-system = tämä vertailu ei lue OEM-aikajärjes
 ## leo-pass leap-second epoch
 engine-e-leo-pass-epoch-is-a-leap-second = epookki { $s } on karkaussekunti, jolla ei ole tavallista UTC-juliaanista päivämäärää; anna epookki GPS- tai TAI-ajassa tai sekuntia aiemmin tai myöhemmin
 
+## connect: GPS week guard
+engine-e-connect-week-not-full = rivi { $line }: GPS-viikko { $week } ei ole täysi viikko (10-bittinen lähetetty viikko kiertää 1024 viikon välein); anna täysi viikko laskettuna 1980-01-06 alkaen
+
 engine-main-usage =
     käyttö: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }tai: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]

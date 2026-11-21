@@ -34,7 +34,7 @@ filter = { column = "type", equals = ["Raw"] }  # keep only these rows
 [time]
 column = "tow"
 format = "gps-week-tow" # rfc3339, unix-s, unix-ms, gps-s, gps-week-tow or pattern
-week_column = "week"    # gps-week-tow: the full GPS week
+week_column = "week"    # gps-week-tow: the full GPS week (a week below 1024, a 10-bit broadcast week, is refused)
 pattern = "%d/%m/%Y %H:%M:%S"  # pattern: %Y %m %d %H %M %S (seconds may have a fraction)
 scale = "utc"           # rfc3339, unix-* and pattern: utc (default), gps or tai
 group_tolerance_s = 0.0005  # rows this close in time are one epoch
