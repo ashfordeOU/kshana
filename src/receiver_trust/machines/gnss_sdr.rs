@@ -19,7 +19,7 @@
 //! Observations are placed in one-second bins of `RX_time`, the last value per satellite and
 //! signal in a bin winning (GNSS-SDR emits every 20 ms by default).
 
-use super::{sat_id_from_prn, EpochMap};
+use super::{sat_id_from_prn, EpochMap, WEEK_MS};
 use crate::receiver_trust::{ReportedDop, ReportedFix, SatCn0, SatSky, Timeline};
 use serde_json::Value;
 
@@ -94,7 +94,7 @@ fn synchro(v: &Value, map: &mut EpochMap) -> Option<()> {
         .and_then(Value::as_str)
         .unwrap_or("1C")
         .to_string();
-    let e = map.at(key);
+    let e = map.at_wrapped(key, WEEK_MS);
     e.time_label.get_or_insert_with(|| {
         crate::t!(
             "receiver-trust-machines-gnss-sdr-gps-tow",
@@ -121,7 +121,7 @@ fn pvt(v: &Value, map: &mut EpochMap, week: &mut Option<i64>) -> Option<()> {
     if let Some(w) = u(v, "week").filter(|w| *w > 0) {
         *week = Some(i64::from(w));
     }
-    let e = map.at(key);
+    let e = map.at_wrapped(key, WEEK_MS);
     let tow = key as f64 / 1000.0;
     e.time_label = Some(
         match (
@@ -221,6 +221,17 @@ not json
         assert!((e1.sky[0].azim_deg - 190.0).abs() < 1e-9);
         assert!(!e1.sky[1].tracked);
         assert_eq!(e1.cn0[0].sat, "E11");
+    }
+
+    #[test]
+    fn a_log_across_the_week_rollover_stays_in_order() {
+        let log = r#"{"msg":"synchro","System":"G","Signal":"1C","PRN":5,"CN0_dB_hz":44.0,"RX_time":604799.0,"Flag_valid_pseudorange":true}
+{"msg":"synchro","System":"G","Signal":"1C","PRN":5,"CN0_dB_hz":45.0,"RX_time":1.0,"Flag_valid_pseudorange":true}
+"#;
+        let tl = read_gnss_sdr_monitor(log).unwrap();
+        assert_eq!(tl.epochs.len(), 2);
+        assert_eq!(tl.epochs[0].cn0[0].cn0_dbhz, 44.0);
+        assert_eq!(tl.epochs[1].t_s, 2.0);
     }
 
     #[test]
