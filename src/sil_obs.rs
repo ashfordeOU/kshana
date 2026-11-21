@@ -301,10 +301,11 @@ pub fn parse_epoch(s: &str) -> Option<EpochUtc> {
 pub fn epoch_add(start: &EpochUtc, secs: f64) -> EpochUtc {
     let base_days = crate::gnss_time::days_from_civil(start.year as i64, start.month, start.day);
     let sod = start.hour as f64 * 3600.0 + start.minute as f64 * 60.0 + start.second + secs;
+    // Round to 0.1 µs before the day carry, so a time a hair before midnight rounds to the
+    // next day's 00:00:00 rather than to 24:00:00 (or 60 s) on this one.
+    let sod = (sod * 1e7).round() / 1e7;
     let day_off = (sod / 86_400.0).floor();
-    let mut rem = sod - day_off * 86_400.0;
-    // Keep sub-microsecond rounding from producing 60.0 seconds.
-    rem = (rem * 1e7).round() / 1e7;
+    let rem = sod - day_off * 86_400.0;
     let (y, m, d) = crate::gnss_time::civil_from_days(base_days + day_off as i64);
     let hour = (rem / 3600.0).floor() as u32;
     let minute = ((rem - hour as f64 * 3600.0) / 60.0).floor() as u32;
@@ -1529,6 +1530,25 @@ mod tests {
             antenna_height_m: 0.0,
             reflection_loss_db: 6.0,
         }
+    }
+
+    #[test]
+    fn epoch_add_carries_a_rounded_midnight_into_the_next_day() {
+        let start = EpochUtc {
+            year: 2024,
+            month: 12,
+            day: 31,
+            hour: 23,
+            minute: 59,
+            second: 59.0,
+        };
+        // 0.99999996 s later rounds to midnight: the next day (and year) at 00:00:00.
+        let e = epoch_add(&start, 0.999_999_96);
+        assert_eq!(
+            (e.year, e.month, e.day, e.hour, e.minute),
+            (2025, 1, 1, 0, 0)
+        );
+        assert!(e.second.abs() < 1e-9, "{}", e.second);
     }
 
     #[test]
