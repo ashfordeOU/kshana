@@ -171,14 +171,13 @@ used as a key source.
 
 These keys and the authority prove nothing about any real log.
 
-## To confirm
+## Encodings
 
-- **Non-ASCII text in canonical JSON.** It is written as UTF-8, as `serde_json` writes it. A
-  producer that escapes it (Python's `ensure_ascii`) would sign different bytes. The fixtures are
-  ASCII only.
-- **Key history encodings.** `public_key` is read as 64 hex digits, `algorithm` as `ed25519`,
-  and record signatures and endorsements as hex. These follow the statement signatures; they were
-  not stated for the history.
-- **Timestamps in key periods.** Key periods compare `YYYY-MM-DDTHH:MM:SSZ` strings, so a
-  timestamp in any other form does not select a key.
-- **Fractional seconds.** `logged_utc` and `utc` are read without them.
+These are as the producer describes them:
+
+- **Canonical JSON** is written by `serde_json`: keys sorted, no whitespace, non-ASCII text as raw
+  UTF-8 (not escaped).
+- **Key history.** `public_key` is 64 hex digits; record signatures and endorsements are 128 hex
+  digits; `algorithm` is `Ed25519`, accepted in any letter case.
+- **Timestamps** are `YYYY-MM-DDTHH:MM:SSZ` with no fractional seconds; key periods compare them
+  as strings.

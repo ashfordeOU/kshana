@@ -13,8 +13,8 @@
 //!
 //! PIN-SCOPE: the published RFC 6962 vectors, the brief's vector-log hashes and the committed
 //!   fixtures under tests/fixtures/tlog/.
-//! PIN-EXCLUDES: any real log, service, key or timestamp authority; non-ASCII canonical JSON
-//!   escaping (to confirm, docs/TLOG.md).
+//! PIN-EXCLUDES: any real log, service, key or timestamp authority; non-ASCII text in canonical
+//!   JSON (the fixtures are ASCII).
 
 use kshana::tlog::*;
 use serde_json::Value;
@@ -389,6 +389,15 @@ fn the_key_history_verifies_and_supplies_keys_by_period() {
     let only_second: String = lines[1].to_string();
     let (r, _) = verify_key_history(&only_second, None, None).unwrap();
     assert!(failed(&r).contains(&"record[0].seq".to_string()));
+    // The fixtures write the algorithm "Ed25519", as the producer does; any case is accepted,
+    // and a record whose algorithm is not Ed25519 fails (and so does its self-signature,
+    // which covers the field).
+    assert_eq!(lines[0]["record"]["algorithm"], "Ed25519");
+    let mut l = lines.clone();
+    l[0]["record"]["algorithm"] = "ECDSA-P256".into();
+    let joined: String = l.iter().map(|v| v.to_string() + "\n").collect();
+    let (r, _) = verify_key_history(&joined, None, None).unwrap();
+    assert!(failed(&r).contains(&"record[0].algorithm".to_string()));
     let mut l = lines.clone();
     l[1]["previous_key_endorsement"] = "00".repeat(64).into();
     let joined: String = l.iter().map(|v| v.to_string() + "\n").collect();

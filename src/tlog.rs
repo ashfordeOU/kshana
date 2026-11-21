@@ -7,7 +7,7 @@
 //! supplies, and the `format` and `service` strings of the statements are opaque (a caller can
 //! require an exact `format` with `--format`). Public keys and timestamp authority roots are
 //! supplied by the user. Format details that are not in an RFC are documented in
-//! `docs/TLOG.md`, with what is still to confirm.
+//! `docs/TLOG.md`, with the encodings.
 //!
 //! * Leaves: the compact JSON of an entry with its keys in the order `pack_sha256`, `kind`,
 //!   `signer_key_id`, `logged_utc` and, when present, `class`, whatever order the entry was
@@ -1016,7 +1016,11 @@ pub fn verify_key_history(
             r.check(format!("{p}.format"), got == w, format!("{got} / {w}"));
         }
         let alg = rec.get("algorithm").and_then(Value::as_str).unwrap_or("");
-        r.check(format!("{p}.algorithm"), alg == "ed25519", alg.to_string());
+        r.check(
+            format!("{p}.algorithm"),
+            alg.eq_ignore_ascii_case("ed25519"),
+            alg.to_string(),
+        );
         let key_id = field(rec, "key_id")?
             .as_str()
             .ok_or_else(|| crate::terr!("e-tlog-bad-field", field = "key_id".to_string()))?
