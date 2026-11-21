@@ -79,6 +79,10 @@ and with a GetResponse built by an independent encoder (`conformance/timing/snmp
 - `ntpq -c rv` and NTP mode 6 read variables: the variable list (quoted values kept whole; an
   unquoted value with commas, such as `reftime`, kept whole), and the system status word split into
   leap, clock source, event count and event code (RFC 9327 section 3.1).
+- The health summary's `offset_s` is system time minus reference time (positive when the system
+  clock is fast) for both daemons: chrony's system offset as printed, and ntpd's `offset`
+  variable (the reference relative to this host, RFC 5905 θ) negated and converted from ms. The
+  raw variables keep the sign ntpd printed.
 - `kshana connect ntp <host:port>` sends one read-variables request (opcode 2) and reassembles the
   response fragments by offset. Tested against a loopback server that sends its two fragments out
   of order.
