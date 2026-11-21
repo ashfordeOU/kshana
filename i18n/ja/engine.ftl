@@ -9759,6 +9759,15 @@ engine-e-ais-integrity-cannot-read = { $path } を読み込めません：{ $e }
 engine-e-ais-integrity-cannot-write = { $path } に書き込めません：{ $e }
 engine-e-ais-integrity-bad-place = 地点リストの行が、有効な位置と正の半径を持つ name,lat,lon,radius_m ではありません：{ $row }
 
+## Private holdout of kshana-bench tasks (f) and (g) (src/bench/holdout.rs)
+engine-e-bench-holdout-inside-repository = 非公開ホールドアウトはリポジトリ内に書き込みません: { $path } (リポジトリ外のディレクトリを指定してください)
+engine-e-bench-holdout-task = 非公開ホールドアウトはタスク (f) と (g) にのみあります
+engine-e-bench-holdout-no-truth = タスク ({ $task }) の非公開の正解がありません: --truth <file> を指定するか { $var } を設定してください
+engine-bench-holdout-not-a-private-truth = 非公開ホールドアウトの正解ではありません: タスク (f) または (g) の split が holdout の kshana-bench 正解ファイルが必要です
+engine-bench-holdout-not-registered = SHA-256 が { $sha } のタスク ({ $task }) の正解は bench/holdout/PRIVATE.json に登録されていません
+engine-bench-site-holdout-not-private = 結果 { $v1 } はタスク (f) または (g) のホールドアウト結果ですが、非公開の印がないか、正解が登録されていません
+engine-bench-site-provenance-private-holdout = 非公開ホールドアウトで採点 (登録済みの正解)
+
 engine-main-usage =
     使い方：kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }または：kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -9776,7 +9785,7 @@ engine-main-usage =
     { "   " }または：kshana nmea-scenario <scenario.toml> [--out <file.nmea>] [--tcp <addr>|--udp <addr>] (kshana nmea-scenario --help)
     { "   " }または：kshana interference-map <adsb|ais|fetch-land> ... (kshana interference-map --help)
     { "   " }または：kshana route-exposure --route <route> --map <map.geojson|dir> [--from <date>] [--to <date>]
-    { "   " }または：kshana bench <spec|truth|cases|score|baseline|seal|reveal-check|manifest|verify-manifest|validate|leaderboard|positions|datasets|cite|golden> ... (kshana bench --help)
+    { "   " }または：kshana bench <spec|truth|cases|score|baseline|seal|reveal-check|manifest|verify-manifest|validate|leaderboard|positions|datasets|cite|golden|holdout> ... (kshana bench --help)
     { "   " }または：kshana bench-export <scenario.toml> [--out <base>] [--epoch <YYYY-MM-DDTHH:MM:SS>]
     { "   " }または：kshana compliance-report [--out <base>] <result.json>... | --mapping | --sources
     { "   " }または：kshana lunanet-afs-check <spec [--json] [--strict]|symbols <file> [--max-sp-errors <n>] [--json]|generate --frames <n> [--toi0 <t>] --out <file>>
@@ -9924,6 +9933,9 @@ engine-bench-cli-usage =
     { "   " }または：kshana bench golden [--root <repo>] (--out <GOLDEN.json> | --check <GOLDEN.json>)
     { "   " }または：kshana bench validate <result.json>...
     { "   " }または：kshana bench leaderboard [<results dir|result.json>...] --out <page.html> [--fragment]   （入力なし：空の状態。--fragment：埋め込み可能なセクション）
+    { "   " }または：kshana bench holdout truth --task <f|g> --data <private data> --out <private dir>
+    { "   " }または：kshana bench holdout register --truth <private truth.json>
+    { "   " }または：kshana bench holdout score --task <f|g> --predictions <predictions.json> [--truth <private truth.json>] [--out <result.json>]   (KSHANA_BENCH_HOLDOUT_F, KSHANA_BENCH_HOLDOUT_G)
     { "   " }（シードファイルは封印されたホールドアウトの背後にあるシークレットを保持します。バージョン管理には含めないでください）
 
 engine-bench-cli-match = 一致

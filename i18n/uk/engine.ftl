@@ -10696,6 +10696,15 @@ engine-e-ais-integrity-cannot-read = не вдалося прочитати { $p
 engine-e-ais-integrity-cannot-write = не вдалося записати { $path }: { $e }
 engine-e-ais-integrity-bad-place = рядок списку місць не має вигляду name,lat,lon,radius_m з допустимою позицією та додатним радіусом: { $row }
 
+## Private holdout of kshana-bench tasks (f) and (g) (src/bench/holdout.rs)
+engine-e-bench-holdout-inside-repository = приватний holdout не записується всередину репозиторію: { $path } (виберіть каталог поза ним)
+engine-e-bench-holdout-task = приватний holdout є лише в завдань (f) і (g)
+engine-e-bench-holdout-no-truth = немає приватної істини для завдання ({ $task }): вкажіть --truth <file> або задайте { $var }
+engine-bench-holdout-not-a-private-truth = це не істина приватного holdout: потрібен файл істини kshana-bench завдання (f) або (g) з розбиттям holdout
+engine-bench-holdout-not-registered = істина завдання ({ $task }) з SHA-256 { $sha } не зареєстрована в bench/holdout/PRIVATE.json
+engine-bench-site-holdout-not-private = результат { $v1 } — результат holdout завдання (f) або (g), не позначений як приватний або з незареєстрованою істиною
+engine-bench-site-provenance-private-holdout = оцінено на приватному holdout (зареєстрована істина)
+
 engine-main-usage =
     використання: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }або: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10713,7 +10722,7 @@ engine-main-usage =
     { "   " }або: kshana nmea-scenario <scenario.toml> [--out <file.nmea>] [--tcp <addr>|--udp <addr>] (kshana nmea-scenario --help)
     { "   " }або: kshana interference-map <adsb|ais|fetch-land> ... (kshana interference-map --help)
     { "   " }або: kshana route-exposure --route <route> --map <map.geojson|dir> [--from <date>] [--to <date>]
-    { "   " }або: kshana bench <spec|truth|cases|score|baseline|seal|reveal-check|manifest|verify-manifest|validate|leaderboard|positions|datasets|cite|golden> ... (kshana bench --help)
+    { "   " }або: kshana bench <spec|truth|cases|score|baseline|seal|reveal-check|manifest|verify-manifest|validate|leaderboard|positions|datasets|cite|golden|holdout> ... (kshana bench --help)
     { "   " }або: kshana bench-export <scenario.toml> [--out <base>] [--epoch <YYYY-MM-DDTHH:MM:SS>]
     { "   " }або: kshana compliance-report [--out <base>] <result.json>... | --mapping | --sources
     { "   " }або: kshana lunanet-afs-check <spec [--json] [--strict]|symbols <file> [--max-sp-errors <n>] [--json]|generate --frames <n> [--toi0 <t>] --out <file>>
@@ -10875,6 +10884,9 @@ engine-bench-cli-usage =
     { "   " }або: kshana bench golden [--root <repo>] (--out <GOLDEN.json> | --check <GOLDEN.json>)
     { "   " }або: kshana bench validate <result.json>...
     { "   " }або: kshana bench leaderboard [<results dir|result.json>...] --out <page.html> [--fragment]   (без входів: порожній стан; --fragment: вбудовуваний розділ)
+    { "   " }або: kshana bench holdout truth --task <f|g> --data <private data> --out <private dir>
+    { "   " }або: kshana bench holdout register --truth <private truth.json>
+    { "   " }або: kshana bench holdout score --task <f|g> --predictions <predictions.json> [--truth <private truth.json>] [--out <result.json>]   (KSHANA_BENCH_HOLDOUT_F, KSHANA_BENCH_HOLDOUT_G)
     { "   " }(файл seed містить секрет запечатаного holdout; тримайте його поза системою керування версіями)
 
 engine-bench-cli-match = збігається

@@ -353,6 +353,7 @@ fn run_inner(args: &[String]) -> Result<i32, BenchError> {
                 Ok(1)
             }
         }
+        "holdout" => holdout_cmd(rest),
         "manifest" => manifest(rest),
         "positions" => positions(rest),
         "datasets" => datasets_cmd(rest),
@@ -437,6 +438,100 @@ fn run_inner(args: &[String]) -> Result<i32, BenchError> {
             other = other,
             BENCH_USAGE = bench_usage()
         ))),
+    }
+}
+
+/// `kshana bench holdout <truth|register|score>`: the private holdout of tasks (f) and (g).
+fn holdout_cmd(args: &[String]) -> Result<i32, BenchError> {
+    use super::holdout;
+    let Some(sub) = args.first().map(String::as_str) else {
+        return Err(BenchError(bench_usage()));
+    };
+    let rest = &args[1..];
+    match sub {
+        "truth" => {
+            check(rest, &["--task", "--data", "--out"], false)?;
+            let out = PathBuf::from(need(rest, "--out")?);
+            let abs = std::env::current_dir()
+                .map(|c| c.join(&out))
+                .unwrap_or(out.clone());
+            if holdout::inside_repository(&abs) {
+                return Err(BenchError(crate::terr!(
+                    "e-bench-holdout-inside-repository",
+                    path = out.display().to_string()
+                )));
+            }
+            std::fs::create_dir_all(&out).map_err(|e| {
+                BenchError(crate::t!(
+                    "bench-cli-cannot-read-2",
+                    i = out.display(),
+                    e = e
+                ))
+            })?;
+            let data = need(rest, "--data")?;
+            let truth = match task_arg(rest)? {
+                "f" => {
+                    let (cases, truth) = holdout::truth_f(&read(data)?)?;
+                    write(&out.join("cases.json"), &pretty(&cases))?;
+                    truth
+                }
+                "g" => holdout::truth_g(Path::new(data))?,
+                _ => return Err(BenchError(crate::terr!("e-bench-holdout-task"))),
+            };
+            let text = pretty(&truth);
+            write(&out.join("truth.json"), &text)?;
+            println!("{}", pretty(&holdout::entry(&text)?));
+            Ok(0)
+        }
+        "register" => {
+            check(rest, &["--truth"], false)?;
+            let text = read(need(rest, "--truth")?)?;
+            let mut e = holdout::entry(&text)?;
+            let days = std::time::SystemTime::now()
+                .duration_since(std::time::UNIX_EPOCH)
+                .map(|d| d.as_secs() / 86_400)
+                .unwrap_or(0) as i64;
+            let (y, m, d) = crate::gnss_time::civil_from_days(days);
+            e["registered"] = json!(format!("{y:04}-{m:02}-{d:02}"));
+            println!("{}", pretty(&e));
+            Ok(0)
+        }
+        "score" => {
+            check(
+                rest,
+                &["--task", "--truth", "--predictions", "--out"],
+                false,
+            )?;
+            let task = task_arg(rest)?;
+            if !holdout::TASKS.contains(&task) {
+                return Err(BenchError(crate::terr!("e-bench-holdout-task")));
+            }
+            let var = holdout::env_var(task);
+            let path = match flag(rest, "--truth")? {
+                Some(p) => p.to_string(),
+                None => std::env::var(&var).map_err(|_| {
+                    BenchError(crate::terr!(
+                        "e-bench-holdout-no-truth",
+                        task = task,
+                        var = var.as_str()
+                    ))
+                })?,
+            };
+            let r = holdout::score_private(
+                holdout::REGISTRY,
+                &read(&path)?,
+                &read(need(rest, "--predictions")?)?,
+            )?;
+            if r["task"].as_str() != Some(task) {
+                return Err(BenchError(crate::terr!("e-bench-holdout-task")));
+            }
+            match flag(rest, "--out")? {
+                Some(p) => write(Path::new(p), &pretty(&r))?,
+                None => println!("{}", pretty(&r)),
+            }
+            Ok(0)
+        }
+        _ => Err(BenchError(bench_usage())),
     }
 }
 

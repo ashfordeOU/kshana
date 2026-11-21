@@ -10549,6 +10549,15 @@ engine-e-ais-integrity-cannot-read = nelze číst { $path }: { $e }
 engine-e-ais-integrity-cannot-write = nelze zapsat { $path }: { $e }
 engine-e-ais-integrity-bad-place = řádek seznamu míst není name,lat,lon,radius_m s platnou polohou a kladným poloměrem: { $row }
 
+## Private holdout of kshana-bench tasks (f) and (g) (src/bench/holdout.rs)
+engine-e-bench-holdout-inside-repository = privátní holdout se do repozitáře nezapíše: { $path } (zvolte adresář mimo něj)
+engine-e-bench-holdout-task = privátní holdout existuje jen pro úlohy (f) a (g)
+engine-e-bench-holdout-no-truth = pro úlohu ({ $task }) chybí privátní pravda: zadejte --truth <file> nebo nastavte { $var }
+engine-bench-holdout-not-a-private-truth = není to pravda privátního holdoutu: musí to být soubor pravdy kshana-bench úlohy (f) nebo (g) s rozdělením holdout
+engine-bench-holdout-not-registered = pravda úlohy ({ $task }) se SHA-256 { $sha } není registrována v bench/holdout/PRIVATE.json
+engine-bench-site-holdout-not-private = výsledek { $v1 } je výsledek holdoutu úlohy (f) nebo (g), který není označen jako privátní nebo jehož pravda není registrována
+engine-bench-site-provenance-private-holdout = hodnoceno na privátním holdoutu (registrovaná pravda)
+
 engine-main-usage =
     použití: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }nebo: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10566,7 +10575,7 @@ engine-main-usage =
     { "   " }nebo: kshana nmea-scenario <scenario.toml> [--out <file.nmea>] [--tcp <addr>|--udp <addr>] (kshana nmea-scenario --help)
     { "   " }nebo: kshana interference-map <adsb|ais|fetch-land> ... (kshana interference-map --help)
     { "   " }nebo: kshana route-exposure --route <route> --map <map.geojson|dir> [--from <date>] [--to <date>]
-    { "   " }nebo: kshana bench <spec|truth|cases|score|baseline|seal|reveal-check|manifest|verify-manifest|validate|leaderboard|positions|datasets|cite|golden> ... (kshana bench --help)
+    { "   " }nebo: kshana bench <spec|truth|cases|score|baseline|seal|reveal-check|manifest|verify-manifest|validate|leaderboard|positions|datasets|cite|golden|holdout> ... (kshana bench --help)
     { "   " }nebo: kshana bench-export <scenario.toml> [--out <base>] [--epoch <YYYY-MM-DDTHH:MM:SS>]
     { "   " }nebo: kshana compliance-report [--out <base>] <result.json>... | --mapping | --sources
     { "   " }nebo: kshana lunanet-afs-check <spec [--json] [--strict]|symbols <file> [--max-sp-errors <n>] [--json]|generate --frames <n> [--toi0 <t>] --out <file>>
@@ -10730,6 +10739,9 @@ engine-bench-cli-usage =
     { "   " }nebo: kshana bench golden [--root <repo>] (--out <GOLDEN.json> | --check <GOLDEN.json>)
     { "   " }nebo: kshana bench validate <result.json>...
     { "   " }nebo: kshana bench leaderboard [<results dir|result.json>...] --out <page.html> [--fragment]   (bez vstupů: prázdný stav; --fragment: vložitelná sekce)
+    { "   " }nebo: kshana bench holdout truth --task <f|g> --data <private data> --out <private dir>
+    { "   " }nebo: kshana bench holdout register --truth <private truth.json>
+    { "   " }nebo: kshana bench holdout score --task <f|g> --predictions <predictions.json> [--truth <private truth.json>] [--out <result.json>]   (KSHANA_BENCH_HOLDOUT_F, KSHANA_BENCH_HOLDOUT_G)
     { "   " }(soubor seed obsahuje tajemství za zapečetěným holdoutem; udržujte jej mimo správu verzí)
 
 engine-bench-cli-match = shoda
