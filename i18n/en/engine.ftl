@@ -10374,12 +10374,12 @@ engine-e-space-receiver-no-tle = no two-line element set found (line 1 starting 
 engine-e-space-receiver-oem-frame = OEM reference frame { $frame } is not one this comparison reads (EME2000, GCRF, ICRF or TEME)
 
 ## Interference model library (src/interference_lib.rs)
-engine-interference-lib-usage = usage: kshana interference-lib models | generate --class <none|cw|narrowband|wideband|chirp|pulsed> [--centre-hz <f>] [--bandwidth-hz <b>] [--period-s <t>] [--pulse-width-s <w>] [--jnr-db <j>] [--drift-hz-per-s <r>] [--triangle] [--fs <hz>] [--samples <n>] [--seed <s>] --out <base> | fit <recording.sigmf-meta> [--out <fit.json>] | bench [--per-class <n>] [--seed <s>] [--predictions <ids.csv>] [--out <bench.json>] | cases [--per-class <n>] [--seed <s>] [--out <cases.csv>]  (docs/INTERFERENCE-LIB.md)
+engine-interference-lib-usage = usage: kshana interference-lib models | generate --class <none|cw|narrowband|wideband|chirp|pulsed|multitone|fm_tone> [--centre-hz <f>] [--bandwidth-hz <b>] [--period-s <t>] [--pulse-width-s <w>] [--jnr-db <j>] [--drift-hz-per-s <r>] [--triangle] [--tones-hz <f1,f2,...>] [--deviation-hz <d>] [--mod-freq-hz <m>] [--fs <hz>] [--samples <n>] [--seed <s>] --out <base> | fit <recording.sigmf-meta> [--out <fit.json>] | bench [--per-class <n>] [--seed <s>] [--predictions <ids.csv>] [--out <bench.json>] | cases [--per-class <n>] [--seed <s>] [--out <cases.csv>]  (docs/INTERFERENCE-LIB.md)
 engine-interference-lib-written = wrote { $path } ({ $n } samples, MODELLED synthetic interference)
 engine-e-interference-lib-missing-value = { $option } needs a value
 engine-e-interference-lib-unknown-option = unknown option { $option } (kshana interference-lib --help lists the options)
 engine-e-interference-lib-bad-number = { $option } needs a finite number, not { $value }
-engine-e-interference-lib-unknown-class = unknown interference class { $value } (none, cw, narrowband, wideband, chirp or pulsed)
+engine-e-interference-lib-unknown-class = unknown interference class { $value } (none, cw, narrowband, wideband, chirp, pulsed, multitone or fm_tone)
 engine-e-interference-lib-bad-size = the sample rate must be positive and the recording a power of two from 1024 to 16777216 samples (bench: 1 to 1000 cases per class)
 engine-e-interference-lib-cannot-read = cannot read { $path }: { $e }
 engine-e-interference-lib-cannot-write = cannot write { $path }: { $e }

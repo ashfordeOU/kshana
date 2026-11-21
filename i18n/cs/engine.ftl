@@ -10582,12 +10582,12 @@ engine-e-sil-obs-unknown-system = neznámý systém { $value } (G nebo E)
 engine-e-sil-obs-bad-canyon = kaňon potřebuje kladnou šířku, posun antény uvnitř ulice, ztrátu odrazem nejméně 1 dB a konečné hodnoty
 
 ## Interference model library (src/interference_lib.rs)
-engine-interference-lib-usage = použití: kshana interference-lib models | generate --class <none|cw|narrowband|wideband|chirp|pulsed> [--centre-hz <f>] [--bandwidth-hz <b>] [--period-s <t>] [--pulse-width-s <w>] [--jnr-db <j>] [--drift-hz-per-s <r>] [--triangle] [--fs <hz>] [--samples <n>] [--seed <s>] --out <base> | fit <recording.sigmf-meta> [--out <fit.json>] | bench [--per-class <n>] [--seed <s>] [--predictions <ids.csv>] [--out <bench.json>] | cases [--per-class <n>] [--seed <s>] [--out <cases.csv>]  (docs/INTERFERENCE-LIB.md)
+engine-interference-lib-usage = použití: kshana interference-lib models | generate --class <none|cw|narrowband|wideband|chirp|pulsed|multitone|fm_tone> [--centre-hz <f>] [--bandwidth-hz <b>] [--period-s <t>] [--pulse-width-s <w>] [--jnr-db <j>] [--drift-hz-per-s <r>] [--triangle] [--tones-hz <f1,f2,...>] [--deviation-hz <d>] [--mod-freq-hz <m>] [--fs <hz>] [--samples <n>] [--seed <s>] --out <base> | fit <recording.sigmf-meta> [--out <fit.json>] | bench [--per-class <n>] [--seed <s>] [--predictions <ids.csv>] [--out <bench.json>] | cases [--per-class <n>] [--seed <s>] [--out <cases.csv>]  (docs/INTERFERENCE-LIB.md)
 engine-interference-lib-written = zapsáno { $path } ({ $n } vzorků, MODELLED syntetické rušení)
 engine-e-interference-lib-missing-value = { $option } vyžaduje hodnotu
 engine-e-interference-lib-unknown-option = neznámá volba { $option } (volby vypíše kshana interference-lib --help)
 engine-e-interference-lib-bad-number = { $option } vyžaduje konečné číslo, ne { $value }
-engine-e-interference-lib-unknown-class = neznámá třída rušení { $value } (none, cw, narrowband, wideband, chirp nebo pulsed)
+engine-e-interference-lib-unknown-class = neznámá třída rušení { $value } (none, cw, narrowband, wideband, chirp, pulsed, multitone nebo fm_tone)
 engine-e-interference-lib-bad-size = vzorkovací kmitočet musí být kladný a záznam mocnina dvou od 1024 do 16777216 vzorků (bench: 1 až 1000 případů na třídu)
 engine-e-interference-lib-cannot-read = nelze číst { $path }: { $e }
 engine-e-interference-lib-cannot-write = nelze zapsat { $path }: { $e }
