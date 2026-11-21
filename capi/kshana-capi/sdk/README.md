@@ -19,8 +19,13 @@ Build the library first: `cd capi/kshana-capi && cargo build --release` gives
 | Java | [`java/KshanaConformance.java`](java/KshanaConformance.java) (`Kshana`) | Foreign Function and Memory API (Java 22+, or 21 with `--enable-preview`); no JNI code | yes |
 | .NET (C#) | [`csharp/Kshana.cs`](csharp/Kshana.cs) (`Kshana.Engine`) | P/Invoke (`DllImport`), .NET 8 | yes |
 | Julia | [`julia/conformance.jl`](julia/conformance.jl) (`Kshana`) | `ccall`, standard library only | runs when `julia` is installed; not installed on the runners yet |
-| MATLAB | [`matlab/kshana_conformance.m`](matlab/kshana_conformance.m) | `loadlibrary` and `calllib` | no (no licence on the runners) |
-| LabVIEW | [`labview/README.md`](labview/README.md) | Call Library Function Node | no (configuration guide; no VI) |
+| MATLAB | [`matlab/`](matlab/README.md): the `+kshana` package (`kshana.run`, `kshana.validate`, `kshana.connectMap`) and [`kshana_conformance.m`](matlab/kshana_conformance.m) | `loadlibrary` and `calllib` | not on MATLAB (no licence on the runners); its C call sequence is replayed with ctypes ([`python/wrapper_patterns.py`](python/wrapper_patterns.py)) |
+| LabVIEW | [`labview/README.md`](labview/README.md) (node settings) and [`VI-LIBRARY.md`](labview/VI-LIBRARY.md) (six VIs described in text) | Call Library Function Node | not in LabVIEW (no VI; no licence on the runners); its C call sequence is replayed with ctypes ([`python/wrapper_patterns.py`](python/wrapper_patterns.py)) |
+
+`tests/sdk_wrappers.rs` checks the MATLAB and LabVIEW material without those tools: the C names the
+`.m` files call are all in the header, the LabVIEW guide configures every function, the replay of both
+call sequences runs on the built library, and the teaching labs' Python solutions
+([`docs/teaching/`](../../../docs/teaching/README.md)) reproduce the answers their sheets state.
 
 Two more SDKs are native rather than over the C interface, and run the same cases with the same
 digests: the **Python package** (`pip install kshana`; `kshana.run`, `kshana.connect_map`;

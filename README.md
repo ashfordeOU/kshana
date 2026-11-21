@@ -1659,6 +1659,10 @@ the concept DOI (Digital Object Identifier)
 [10.5281/zenodo.20528627](https://doi.org/10.5281/zenodo.20528627) always resolves to the
 latest version.
 
+Teaching or researching with Kshana: [academic use](docs/ACADEMIC.md) gathers the access routes
+(including MATLAB and LabVIEW over the C library), the [teaching kit](docs/teaching/README.md) of lab
+sheets with worked answers, and how to cite and reproduce a result.
+
 > Baweja, C. (2026). *Kshana — a PNT-resilience simulator with quantum-sensor performance models*. [Ashforde OÜ](https://ashforde.org). https://doi.org/10.5281/zenodo.20528627
 
 The papers above:
