@@ -64,6 +64,7 @@
 pub mod acquisition;
 pub mod adm;
 pub mod advanced_report;
+pub mod afs_interop;
 pub mod ais_integrity;
 pub mod allan;
 pub mod altpnt;

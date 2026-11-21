@@ -1,0 +1,10 @@
+{
+ "format": "kshana.lunar-ue-register/1",
+ "note": "Template with two synthetic entries (not real equipment): one entry per piece of user equipment, naming an organisation, never a person. Replace the entries with your own.",
+ "entries": [
+  {"ue_id": "example-rover-1", "organisation": "Example Organisation A", "mission": "example surface mission", "platform": "rover", "status": "planned",
+   "signals": ["afs-q", "afs-i"], "afs_q_prns": [1, 2, 3, 4], "time_scale": "TCL", "frame": "MOON_ME", "receiver": "example receiver", "notes": "synthetic template entry"},
+  {"ue_id": "example-orbiter-1", "organisation": "Example Organisation B", "mission": "example orbiter", "platform": "orbiter", "status": "in-development",
+   "signals": ["afs-q", "gps-l1ca"], "afs_q_prns": [1, 5], "time_scale": "TT", "frame": "ICRF", "receiver": "example receiver", "notes": "synthetic template entry"}
+ ]
+}
