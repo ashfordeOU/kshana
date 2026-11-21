@@ -10561,6 +10561,16 @@ engine-e-ais-integrity-cannot-read = { $path } kann nicht gelesen werden: { $e }
 engine-e-ais-integrity-cannot-write = { $path } kann nicht geschrieben werden: { $e }
 engine-e-ais-integrity-bad-place = eine Zeile der Ortsliste ist nicht name,lat,lon,radius_m mit gültiger Position und positivem Radius: { $row }
 
+## Lunar OEM frame conversion (src/lunar_oem.rs)
+engine-lunar-oem-usage = Aufruf: kshana lunar-oem convert <in.oem> --to ICRF|MOON_PA440|MOON_ME [--out <file>] | frames   (Moon-centred CCSDS OEM, positions and velocities, DE440 lunar orientation 2014 to 2030; docs/LUNAR-OEM.md)
+engine-e-lunar-oem-missing-value = { $option } braucht einen Wert
+engine-e-lunar-oem-unknown-option = unbekannte Option { $option } (kshana lunar-oem --help listet die Optionen)
+engine-e-lunar-oem-cannot-read = { $path } kann nicht gelesen werden: { $e }
+engine-e-lunar-oem-cannot-write = { $path } kann nicht geschrieben werden: { $e }
+engine-e-lunar-oem-time-system = TIME_SYSTEM { $time_system } lässt sich für die Mondorientierung nicht in TDB umrechnen (TDB, TT, TAI, GPS oder UTC)
+engine-e-lunar-oem-not-moon-centred = CENTER_NAME ist { $center }; umgerechnet werden nur mondzentrierte OEMs (CENTER_NAME = MOON)
+engine-e-lunar-oem-unknown-frame = REF_FRAME { $frame } wird hier nicht umgerechnet (ICRF, MOON_PA440, MOON_ME; gelesen werden auch MOON_PA_DE440, MOON_ME_DE440_ME421, MOON_PA; EME2000 und J2000 weichen von ICRF um den Frame Bias ab, der nicht angewandt wird)
+
 engine-main-usage =
     Aufruf: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }oder: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10592,6 +10602,7 @@ engine-main-usage =
     { "   " }oder: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }oder: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }oder: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
+    { "   " }oder: kshana lunar-oem convert <in.oem> --to ICRF|MOON_PA440|MOON_ME [--out <file>] | frames (kshana lunar-oem --help)
     { "   " }oder: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }oder: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }oder: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
