@@ -866,7 +866,41 @@ def madoca_vectors():
     return [vec("l6-madoca-bds3-gnss-id-7-and-e6", "l6", frames,
                 {"messages": msgs, "unknown_gnss_ids": []},
                 "IS-QZSS-MDC-005 GNSS ID 7 (BDS-3, mask position 1 = C19) and Galileo E6 B/C "
-                "signal names")]
+                "signal names")] + [madoca_phase_bias_and_ura(flav, sats)]
+
+
+def madoca_phase_bias_and_ura(flav, sats):
+    w, m1 = cssr_mask(flav, 2000, 9, MDC_SYS)
+    msgs = [m1]
+    # ST5 phase bias: 15-bit bias (0.001 m, -16384 = not available) and a 2-bit
+    # discontinuity indicator per signal cell
+    e = cssr_head(w, 5, 1200, 9)
+    bs = []
+    for i, (lab, _, cells) in enumerate(sats):
+        row = []
+        for j, sig in enumerate(cells):
+            v = na(15) if (i, j) == (2, 1) else (i * 4111 - j * 2003) % 32000 - 16000
+            w.s(v, 15).u((3 * i + j) % 4, 2)
+            row.append({"signal": sig, "phase_bias_m": opt(v, 15, 0.001),
+                        "discontinuity": (3 * i + j) % 4})
+        bs.append({"sat": lab, "biases": row})
+    msgs.append(dict(e, biases=bs))
+    # ST7 URA: 6-bit class/value per satellite, 0 = undefined, 63 = over 5466.5 mm
+    e = cssr_head(w, 7, 1200, 9)
+    us = []
+    for i, (lab, _, _) in enumerate(sats):
+        u = [63, 0, 1, 17, 42][i % 5]
+        w.u(u, 6)
+        us.append({"sat": lab, "ura": u, "ura_mm": ura(u)})
+    msgs.append(dict(e, uras=us))
+    for m in msgs:
+        m.update(prn=199, service="madoca", facility=3)
+    frames = l6_frames(199, 0b010_11_00_0, w.b)
+    return vec("l6-madoca-phase-bias-and-ura", "l6", frames,
+               {"messages": msgs, "unknown_gnss_ids": []},
+               "IS-QZSS-MDC-005 section 4.2.2, sub type 5 (phase bias with discontinuity "
+               "indicator) and sub type 7 (URA); one phase bias cell carries the "
+               "not-available code")
 
 
 def iono_vectors():
