@@ -10958,6 +10958,14 @@ engine-bench-holdout-not-registered = a verdade da tarefa ({ $task }) com SHA-25
 engine-bench-site-holdout-not-private = o resultado { $v1 } é um resultado de holdout da tarefa (f) ou (g) que não está marcado como privado ou cuja verdade não está registada
 engine-bench-site-provenance-private-holdout = pontuado no holdout privado (verdade registada)
 
+## Constellation-claim verification datasets (src/claim_check.rs)
+engine-claim-check-usage = utilização: kshana claim-check [<dataset.json>...] [--out <file.json>] | --template   (no file: the shipped public-claims dataset; docs/CLAIM-CHECK.md)
+engine-e-claim-check-missing-value = { $option } precisa de um valor
+engine-e-claim-check-unknown-option = opção desconhecida { $option } (kshana claim-check --help lista as opções)
+engine-e-claim-check-cannot-read = não foi possível ler { $path }: { $e }
+engine-e-claim-check-cannot-write = não foi possível escrever { $path }: { $e }
+engine-e-claim-check-bad-dataset = não é um ficheiro kshana.claims/1: { $e }
+
 engine-main-usage =
     utilização: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }ou: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10998,6 +11006,7 @@ engine-main-usage =
     { "   " }ou: kshana lunar-ref <tcb-tcl|approx|convert|transform|terms|models> ... (kshana lunar-ref --help)
     { "   " }ou: kshana signal-readiness <profile.toml> [<obs.rnx>...]
     { "   " }ou: kshana leo-od-plan <plan.toml>
+    { "   " }ou: kshana claim-check [<dataset.json>...] [--out <file.json>] | --template
     { "   " }ou: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }ou: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }ou: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>

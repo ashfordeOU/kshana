@@ -9981,6 +9981,14 @@ engine-bench-holdout-not-registered = SHA-256 为 { $sha } 的任务 ({ $task })
 engine-bench-site-holdout-not-private = 结果 { $v1 } 是任务 (f) 或 (g) 的保留集结果，但未标记为私有或其真值未登记
 engine-bench-site-provenance-private-holdout = 在私有保留集上评分（已登记真值）
 
+## Constellation-claim verification datasets (src/claim_check.rs)
+engine-claim-check-usage = 用法：kshana claim-check [<dataset.json>...] [--out <file.json>] | --template   (no file: the shipped public-claims dataset; docs/CLAIM-CHECK.md)
+engine-e-claim-check-missing-value = { $option } 需要一个值
+engine-e-claim-check-unknown-option = 未知选项 { $option }（kshana claim-check --help 列出所有选项）
+engine-e-claim-check-cannot-read = 无法读取 { $path }：{ $e }
+engine-e-claim-check-cannot-write = 无法写入 { $path }：{ $e }
+engine-e-claim-check-bad-dataset = 不是 kshana.claims/1 文件：{ $e }
+
 engine-main-usage =
     用法：kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }或：kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10021,6 +10029,7 @@ engine-main-usage =
     { "   " }或：kshana lunar-ref <tcb-tcl|approx|convert|transform|terms|models> ... (kshana lunar-ref --help)
     { "   " }或：kshana signal-readiness <profile.toml> [<obs.rnx>...]
     { "   " }或：kshana leo-od-plan <plan.toml>
+    { "   " }或：kshana claim-check [<dataset.json>...] [--out <file.json>] | --template
     { "   " }或：kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }或：kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }或：kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>

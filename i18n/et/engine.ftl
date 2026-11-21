@@ -10698,6 +10698,14 @@ engine-bench-holdout-not-registered = ülesande ({ $task }) tõde SHA-256-ga { $
 engine-bench-site-holdout-not-private = tulemus { $v1 } on ülesande (f) või (g) holdouti tulemus, mida pole märgitud privaatseks või mille tõde pole registreeritud
 engine-bench-site-provenance-private-holdout = hinnatud privaatsel holdoutil (registreeritud tõde)
 
+## Constellation-claim verification datasets (src/claim_check.rs)
+engine-claim-check-usage = kasutus: kshana claim-check [<dataset.json>...] [--out <file.json>] | --template   (no file: the shipped public-claims dataset; docs/CLAIM-CHECK.md)
+engine-e-claim-check-missing-value = { $option } vajab väärtust
+engine-e-claim-check-unknown-option = tundmatu valik { $option } (valikud loetleb kshana claim-check --help)
+engine-e-claim-check-cannot-read = faili { $path } ei saa lugeda: { $e }
+engine-e-claim-check-cannot-write = faili { $path } ei saa kirjutada: { $e }
+engine-e-claim-check-bad-dataset = ei ole kshana.claims/1 fail: { $e }
+
 engine-main-usage =
     kasutus: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }või: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10738,6 +10746,7 @@ engine-main-usage =
     { "   " }või: kshana lunar-ref <tcb-tcl|approx|convert|transform|terms|models> ... (kshana lunar-ref --help)
     { "   " }või: kshana signal-readiness <profile.toml> [<obs.rnx>...]
     { "   " }või: kshana leo-od-plan <plan.toml>
+    { "   " }või: kshana claim-check [<dataset.json>...] [--out <file.json>] | --template
     { "   " }või: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }või: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }või: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>

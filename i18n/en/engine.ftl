@@ -10512,6 +10512,14 @@ engine-bench-holdout-not-registered = the truth of task ({ $task }) with SHA-256
 engine-bench-site-holdout-not-private = result { $v1 } is a task (f) or (g) holdout result that is not marked private or whose truth is not registered
 engine-bench-site-provenance-private-holdout = scored on the private holdout (registered truth)
 
+## Constellation-claim verification datasets (src/claim_check.rs)
+engine-claim-check-usage = usage: kshana claim-check [<dataset.json>...] [--out <file.json>] | --template   (no file: the shipped public-claims dataset; docs/CLAIM-CHECK.md)
+engine-e-claim-check-missing-value = { $option } needs a value
+engine-e-claim-check-unknown-option = unknown option { $option } (kshana claim-check --help lists the options)
+engine-e-claim-check-cannot-read = cannot read { $path }: { $e }
+engine-e-claim-check-cannot-write = cannot write { $path }: { $e }
+engine-e-claim-check-bad-dataset = not a kshana.claims/1 file: { $e }
+
 engine-main-usage =
     usage: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }or: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10552,6 +10560,7 @@ engine-main-usage =
     { "   " }or: kshana lunar-ref <tcb-tcl|approx|convert|transform|terms|models> ... (kshana lunar-ref --help)
     { "   " }or: kshana signal-readiness <profile.toml> [<obs.rnx>...]
     { "   " }or: kshana leo-od-plan <plan.toml>
+    { "   " }or: kshana claim-check [<dataset.json>...] [--out <file.json>] | --template
     { "   " }or: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }or: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }or: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>

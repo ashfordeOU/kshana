@@ -49,6 +49,7 @@ fn the_top_level_usage_names_every_subcommand() {
         "soop-clock",
         "adsb-indicators",
         "interference-atlas",
+        "claim-check",
         "corrections",
         "space-weather",
         "rtk-qa",

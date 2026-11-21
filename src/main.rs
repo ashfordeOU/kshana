@@ -1292,6 +1292,12 @@ fn main_in_language(args: Vec<String>) -> ExitCode {
     if args.get(1).map(String::as_str) == Some("lunar-afs-kit") {
         return ExitCode::from(kshana::lunar_afs::kit::run_cli(&args[2..]) as u8);
     }
+    // `kshana claim-check [<dataset.json>...] | --template`: public constellation claims, each
+    // with its source, checked against kshana's own computations (src/claim_check.rs,
+    // docs/CLAIM-CHECK.md). Exit 1 on an inconsistent claim, 2 on a usage or input error.
+    if args.get(1).map(String::as_str) == Some("claim-check") {
+        return ExitCode::from(kshana::claim_check::run_cli(&args[2..]) as u8);
+    }
     // `kshana ais-integrity <input> [...]`: per-track AIS position-integrity flags as JSON Lines
     // (src/ais_integrity.rs, docs/AIS-INTEGRITY.md). Exit 2 on a usage or input error.
     if args.get(1).map(String::as_str) == Some("ais-integrity") {

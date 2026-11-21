@@ -10704,6 +10704,14 @@ engine-bench-holdout-not-registered = pravda úlohy ({ $task }) se SHA-256 { $sh
 engine-bench-site-holdout-not-private = výsledek { $v1 } je výsledek holdoutu úlohy (f) nebo (g), který není označen jako privátní nebo jehož pravda není registrována
 engine-bench-site-provenance-private-holdout = hodnoceno na privátním holdoutu (registrovaná pravda)
 
+## Constellation-claim verification datasets (src/claim_check.rs)
+engine-claim-check-usage = použití: kshana claim-check [<dataset.json>...] [--out <file.json>] | --template   (no file: the shipped public-claims dataset; docs/CLAIM-CHECK.md)
+engine-e-claim-check-missing-value = { $option } vyžaduje hodnotu
+engine-e-claim-check-unknown-option = neznámá volba { $option } (volby vypíše kshana claim-check --help)
+engine-e-claim-check-cannot-read = nelze číst { $path }: { $e }
+engine-e-claim-check-cannot-write = nelze zapsat { $path }: { $e }
+engine-e-claim-check-bad-dataset = není soubor kshana.claims/1: { $e }
+
 engine-main-usage =
     použití: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }nebo: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10744,6 +10752,7 @@ engine-main-usage =
     { "   " }nebo: kshana lunar-ref <tcb-tcl|approx|convert|transform|terms|models> ... (kshana lunar-ref --help)
     { "   " }nebo: kshana signal-readiness <profile.toml> [<obs.rnx>...]
     { "   " }nebo: kshana leo-od-plan <plan.toml>
+    { "   " }nebo: kshana claim-check [<dataset.json>...] [--out <file.json>] | --template
     { "   " }nebo: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }nebo: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }nebo: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
