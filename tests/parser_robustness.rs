@@ -958,6 +958,14 @@ fn norad_alpha5_and_omm() {
 }
 
 #[test]
+fn sil_obsgen_scenario() {
+    let seeds = vec![head("examples/sil-obsgen/urban-canyon.toml", 60)];
+    fuzz("sil-obsgen scenario", &seeds, None, |b| {
+        let _ = kshana::sil_obsgen::parse(&String::from_utf8_lossy(b));
+    });
+}
+
+#[test]
 fn ais_integrity_inputs() {
     let csv = vec![
         head("tests/fixtures/ais_integrity/patterns.csv", 60),
