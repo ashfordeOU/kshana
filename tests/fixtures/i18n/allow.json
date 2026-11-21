@@ -1741,6 +1741,10 @@
    "count": 24,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
+  "src/tlog.rs": {
+   "count": 108,
+   "reason": "machine identifiers: the check ids, JSON field names, entry classes and leaf-field order of the kshana.tlog-verify/1 report and of the log formats it reads (documented in docs/TLOG.md), and the RFC 9162 proof failure codes shown as the detail of a catalogued check line; not prose"
+  },
   "src/tracking_loop.rs": {
    "count": 214,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"

@@ -10765,6 +10765,33 @@ engine-e-rnss-design-bad-profile = ikke en brukbar kshana.rnss-profile/1-fil: { 
 engine-e-rnss-design-unknown-profile = ingen innebygd profil { $name } (innebygde: { $names }); oppgi i stedet stien til en profilfil
 engine-e-rnss-design-unknown-gps = ukjent GPS-bærebølge { $name } for --with-gps (l1, l2, l5 eller none)
 
+## Transparency-log verifier (src/tlog.rs)
+engine-tlog-usage = bruk: kshana tlog verify-inclusion <proof.json> [--entry <entry.json>] [--sth <sth.json>] | verify-consistency <proof.json> [--sth-from <sth.json>] [--sth-to <sth.json>] | verify-sth <sth.json> [--entries <entries.jsonl>] | verify-daily-root <statement.json> [--tsa-ca <roots.pem>] [--tsa-certs <certs.pem>] | verify-key-history <history.jsonl> [--first-key <hex>]   (signed statements: --key <hex> or --key-history <history.jsonl>; --format <id>; --json; offline RFC 6962/9162 log verification; docs/TLOG.md)
+engine-e-tlog-missing-value = { $option } trenger en verdi
+engine-e-tlog-cannot-read = kan ikke lese { $path }: { $e }
+engine-e-tlog-unknown-option = ukjent valg { $option } (kshana tlog --help viser valgene)
+engine-tlog-check-pass = PASS { $id }: { $detail }
+engine-tlog-check-fail = FAIL { $id }: { $detail }
+engine-tlog-fact = { $key } = { $value }
+engine-tlog-verdict-pass = tlog { $command }: alle kontroller bestått
+engine-tlog-verdict-fail = tlog { $command }: { $n } kontroll(er) feilet
+engine-tlog-not-anchored = ikke forankret (erklæringen har ingen tidsstempler)
+engine-tlog-no-tsa-roots = ingen røtter for tidsstempelmyndigheten oppgitt (--tsa-ca): tokenets signatur og kjede kontrolleres ikke
+engine-tlog-no-endorsement = ingen godkjenning fra forrige nøkkel
+engine-e-tlog-entry-not-object = en loggoppføring må være et JSON-objekt
+engine-e-tlog-entry-missing-field = en loggoppføring mangler { $field }
+engine-e-tlog-entry-bad-field = en loggoppførings { $field } har feil form
+engine-e-tlog-bad-key = en offentlig nøkkel må være 64 heksadesimale sifre (32 byte, Ed25519)
+engine-e-tlog-missing-field = dokumentet mangler { $field }
+engine-e-tlog-bad-field = { $field } har feil form (hasher er 64 heksadesimale sifre, størrelser og indekser heltall)
+engine-e-tlog-needs-key = en signert erklæring trenger --key <hex> eller --key-history <history.jsonl>
+engine-e-tlog-bad-json = ikke gyldig JSON: { $e }
+engine-e-tlog-bad-json-line = linje { $line } er ikke gyldig JSON: { $e }
+engine-e-tlog-bad-json-file = { $path } er ikke gyldig JSON: { $e }
+engine-e-tlog-key-and-history = oppgi --key eller --key-history, ikke begge
+engine-e-tlog-history-failed = nøkkelhistorikken { $path } verifiseres ikke og kan derfor ikke gi nøkler
+engine-e-tlog-verification-failed = tlog { $command }: verifiseringen feilet (rapporten over viser hver kontroll)
+
 engine-main-usage =
     bruk: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }eller: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10801,6 +10828,7 @@ engine-main-usage =
     { "   " }eller: kshana feed <pack|verify|send|spectrum|leaderboard|watch> ... (kshana feed --help)
     { "   " }eller: kshana register-products <verify|show|diff> ... (kshana register-products --help)
     { "   " }eller: kshana register <check|crl-check|view|sign> ... (kshana register --help)
+    { "   " }eller: kshana tlog verify-inclusion | verify-consistency | verify-sth | verify-daily-root | verify-key-history <file> [options] (kshana tlog --help)
     { "   " }eller: kshana interference-env <evaluate|thresholds|degradation> ... (kshana interference-env --help)
     { "   " }eller: kshana arctic-plan --site <lat,lon[,h]> | --place <name> [--systems <a,b,...>] [--compare] [--hours <h>] [--kp <n>] ... (kshana arctic-plan --help)
     { "   " }eller: kshana lunar-afs-kit <vectors|registry|output-check|output-example|output-reexpress> ... (kshana lunar-afs-kit --help)

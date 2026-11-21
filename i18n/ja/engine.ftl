@@ -10014,6 +10014,33 @@ engine-e-rnss-design-bad-profile = 使用できる kshana.rnss-profile/1 ファ�
 engine-e-rnss-design-unknown-profile = 組み込みプロファイル { $name } はありません（組み込み：{ $names }）。代わりにプロファイルファイルのパスを指定してください
 engine-e-rnss-design-unknown-gps = --with-gps の GPS 搬送波 { $name } が不明です（l1、l2、l5、none）
 
+## Transparency-log verifier (src/tlog.rs)
+engine-tlog-usage = 使い方：kshana tlog verify-inclusion <proof.json> [--entry <entry.json>] [--sth <sth.json>] | verify-consistency <proof.json> [--sth-from <sth.json>] [--sth-to <sth.json>] | verify-sth <sth.json> [--entries <entries.jsonl>] | verify-daily-root <statement.json> [--tsa-ca <roots.pem>] [--tsa-certs <certs.pem>] | verify-key-history <history.jsonl> [--first-key <hex>]   (signed statements: --key <hex> or --key-history <history.jsonl>; --format <id>; --json; offline RFC 6962/9162 log verification; docs/TLOG.md)
+engine-e-tlog-missing-value = { $option } には値が必要です
+engine-e-tlog-cannot-read = { $path } を読み込めません：{ $e }
+engine-e-tlog-unknown-option = 不明なオプション { $option }（kshana tlog --help でオプションを一覧表示）
+engine-tlog-check-pass = PASS { $id }：{ $detail }
+engine-tlog-check-fail = FAIL { $id }：{ $detail }
+engine-tlog-fact = { $key } = { $value }
+engine-tlog-verdict-pass = tlog { $command }：すべての検査に合格しました
+engine-tlog-verdict-fail = tlog { $command }：{ $n } 件の検査が不合格です
+engine-tlog-not-anchored = アンカーなし（この声明にはタイムスタンプがありません）
+engine-tlog-no-tsa-roots = タイムスタンプ局のルートが指定されていません（--tsa-ca）：トークンの署名とチェーンは検査されません
+engine-tlog-no-endorsement = 前の鍵による承認なし
+engine-e-tlog-entry-not-object = ログエントリは JSON オブジェクトでなければなりません
+engine-e-tlog-entry-missing-field = ログエントリに { $field } がありません
+engine-e-tlog-entry-bad-field = ログエントリの { $field } の形式が正しくありません
+engine-e-tlog-bad-key = 公開鍵は 16 進 64 桁（32 バイト、Ed25519）でなければなりません
+engine-e-tlog-missing-field = 文書に { $field } がありません
+engine-e-tlog-bad-field = { $field } の形式が正しくありません（ハッシュは 16 進 64 桁、サイズとインデックスは整数）
+engine-e-tlog-needs-key = 署名付き声明には --key <hex> または --key-history <history.jsonl> が必要です
+engine-e-tlog-bad-json = 有効な JSON ではありません：{ $e }
+engine-e-tlog-bad-json-line = { $line } 行目は有効な JSON ではありません：{ $e }
+engine-e-tlog-bad-json-file = { $path } は有効な JSON ではありません：{ $e }
+engine-e-tlog-key-and-history = --key と --key-history のどちらか一方を指定してください
+engine-e-tlog-history-failed = 鍵履歴 { $path } は検証できないため、鍵を提供できません
+engine-e-tlog-verification-failed = tlog { $command }：検証に失敗しました（上の報告に各検査を示します）
+
 engine-main-usage =
     使い方：kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }または：kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10050,6 +10077,7 @@ engine-main-usage =
     { "   " }または：kshana feed <pack|verify|send|spectrum|leaderboard|watch> ... (kshana feed --help)
     { "   " }または：kshana register-products <verify|show|diff> ... (kshana register-products --help)
     { "   " }または：kshana register <check|crl-check|view|sign> ... (kshana register --help)
+    { "   " }または：kshana tlog verify-inclusion | verify-consistency | verify-sth | verify-daily-root | verify-key-history <file> [options] (kshana tlog --help)
     { "   " }または：kshana interference-env <evaluate|thresholds|degradation> ... (kshana interference-env --help)
     { "   " }または：kshana arctic-plan --site <lat,lon[,h]> | --place <name> [--systems <a,b,...>] [--compare] [--hours <h>] [--kp <n>] ... (kshana arctic-plan --help)
     { "   " }または：kshana lunar-afs-kit <vectors|registry|output-check|output-example|output-reexpress> ... (kshana lunar-afs-kit --help)

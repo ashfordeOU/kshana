@@ -1,0 +1,17 @@
+{
+ "service": "example-log",
+ "method": "sth",
+ "evidence_class": "log_state",
+ "utc": "2026-11-20T02:30:00Z",
+ "key_id": "kid-log-1",
+ "verdict": {
+  "format": "example-sth/1",
+  "log_key_id": "kid-log-1",
+  "size": 3,
+  "root_hash": "6ecd73fa5a59588f78cc9cccd5f9b3b6e7f595d7d4c838117c57ad4dd8a58276",
+  "chain_head": "25c6e3cd722da80e5b4f62e06217ed3fdbae31858111bb3604eb749525290a8b",
+  "timestamp_utc": "2026-11-20T02:30:00Z"
+ },
+ "verdict_sha256": "c00d63bad842c3939cf809ef8dbc398a9cda05c9e1417b5021f9880dc342e48a",
+ "signature": "df3d890e997812b73f67c5a14a85205cef2494b8a722c734c55112f86f80af37846c5c81dff7d0d8a46c016325c04ab1858135f4bbcfaf5f2f7dc5d62ea21a0d"
+}
