@@ -23,6 +23,13 @@ New to the project? Read the [concepts primer](../CONCEPTS.md) and the
 | 2 | [Clock holdover: how long can you coast](02-clock-holdover.md) | run a GNSS-denied clock holdover, read the timing figure of merit, and understand the √(q_wf·T) growth law behind it | `clock` | beginner | 20 min |
 | 3 | [Quantum vs classical GNSS resilience](03-quantum-vs-classical.md) | the capstone: a spoofing detector (`spoof`) and a full fused PNT suite (`hybrid`), and how to read security / integrity / dead-reckoning together | `spoof` + `hybrid` | intermediate | 35 min |
 
+## Teaching kit (MATLAB, LabVIEW, Python)
+
+Three lab sheets with worked answers, for students who call the engine from MATLAB, LabVIEW or
+Python through the C library: first calls, a link-budget sweep, and mapping a receiver log. See
+[`docs/teaching/`](../teaching/README.md); for citing and reproducing results in academic work, see
+[`ACADEMIC.md`](../ACADEMIC.md).
+
 ## Notebooks
 
 Runnable Jupyter notebooks, on synthetic data and public element sets kept in the repository only, are in [`notebooks/`](../../notebooks/README.md):

@@ -71,7 +71,8 @@ impl Sp3SatState {
 /// All satellite states at one epoch.
 #[derive(Clone, Debug, Serialize)]
 pub struct Sp3Epoch {
-    /// Epoch time (the SP3 calendar time, GPS time scale).
+    /// Epoch time (the SP3 calendar time, in the file's `%c` time system: GPS when the line
+    /// is absent, UTC in the files this crate writes).
     pub time: EpochUtc,
     /// Per-satellite states recorded at this epoch.
     pub sats: Vec<Sp3SatState>,
@@ -128,9 +129,11 @@ impl Sp3File {
     /// Build an SP3 file from a propagated constellation: each satellite's
     /// inertial (TEME) state is sampled on the time grid and rotated into the
     /// Earth-fixed frame, giving the ECEF position series SP3 records. `start` is
-    /// the calendar time of epoch 0 (GPS time scale) and `start_jd_ut1` its UT1
-    /// Julian Date — the GMST argument the TEME→ECEF rotation needs; later epochs
-    /// advance both by `step_s`. Satellites carry no clock model, so every clock
+    /// the calendar time of epoch 0 (the scenario `epoch`, UTC) and `start_jd_ut1`
+    /// its UT1 Julian Date — the GMST argument the TEME→ECEF rotation needs; later
+    /// epochs advance both by `step_s`. A propagator that dates itself (a TLE, a
+    /// broadcast ephemeris, an SP3 file) is evaluated at the labelled instant, not at
+    /// its own epoch plus `i·step_s` ([`crate::orbit::Propagator::own_jd_utc`]). Satellites carry no clock model, so every clock
     /// field is the SP3 "unavailable" sentinel. This is the export half of SP3
     /// interop: Kshana orbits out, in the format Ginan/RTKLIB/gLAB ingest.
     pub fn from_propagators(
@@ -156,7 +159,10 @@ impl Sp3File {
             let civil = crate::timescales::civil_from_jd(start_jd_cal + t / 86_400.0);
             let mut states = Vec::with_capacity(sats.len());
             for (id, sat) in ids.iter().zip(sats.iter()) {
-                let ecef = crate::frames::teme_to_ecef(sat.position_eci(t), jd_ut1);
+                let offset = sat
+                    .own_jd_utc(0.0)
+                    .map_or(0.0, |own0| (start_jd_ut1 - own0) * 86_400.0);
+                let ecef = crate::frames::teme_to_ecef(sat.position_eci(offset + t), jd_ut1);
                 states.push(Sp3SatState {
                     sat: id.clone(),
                     pos_m: ecef,
@@ -189,7 +195,8 @@ impl Sp3File {
     }
 
     /// Serialise to SP3-c position-record text. The output round-trips through
-    /// [`parse_sp3`]: header line, the `+` satellite list, one `*` epoch header
+    /// [`parse_sp3`]: header line, the `+` satellite list, the two `%c` lines (time system
+    /// `UTC`, the scale the epochs are written in), one `*` epoch header
     /// per epoch with its `P` records (ECEF m → km, clock µs), and an `EOF`
     /// trailer. Velocity records are not emitted (positions only).
     pub fn to_sp3_string(&self) -> String {
@@ -213,6 +220,19 @@ impl Sp3File {
         }
         out.push_str(&plus);
         out.push('\n');
+        // The two `%c` lines of SP3-c: file type (columns 4-5) and time system (columns 10-12).
+        // The epochs are UTC (the engine dates every instant as UTC, UT1 taken equal to UTC), so
+        // the time system is `UTC`, which SP3-c allows; without the line a reader assumes GPS
+        // time and places every epoch 18 s late.
+        let file_type = if self.header.sat_ids.iter().all(|id| id.starts_with('G')) {
+            'G'
+        } else {
+            'M'
+        };
+        out.push_str(&format!(
+            "%c {file_type}  cc UTC ccc cccc cccc cccc cccc ccccc ccccc ccccc ccccc\n"
+        ));
+        out.push_str("%c cc cc ccc ccc cccc cccc cccc cccc ccccc ccccc ccccc ccccc\n");
         // Epoch blocks.
         for epoch in &self.epochs {
             let t = &epoch.time;
