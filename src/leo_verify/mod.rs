@@ -15,6 +15,7 @@
 //! | `rtk-ar` | [`rtk_ar`] | cascaded integer ambiguity resolution success rates for any set of carriers (for example L band with C band) |
 //! | `jam-claim` | [`jam_claim`] | what a stated received-power advantage means for jamming: the J/S each signal tolerates and the free-space denial radius of a stated jammer |
 //! | `doppler-integrity` | [`doppler_integrity`] | protection levels of a Doppler-only LEO fix (weighted slope method) over a Walker constellation at any latitude, with an optional injected fault |
+//! | `signal-claims` | [`claims`] | published LEO-PNT figures (Doppler, Doppler rate, relative speed, period, horizon range, spreading loss, power advantage over GPS), each with its source, checked against orbit and link physics |
 //!
 //! # Evidence
 //!
@@ -25,6 +26,7 @@
 //! requirement; a row says only whether a modelled figure is above or below a stated threshold.
 
 pub mod burst;
+pub mod claims;
 pub mod cost;
 pub mod doppler_integrity;
 pub mod indoor;
@@ -48,6 +50,7 @@ pub const PARTS: &[&str] = &[
     "rtk-ar",
     "jam-claim",
     "doppler-integrity",
+    "signal-claims",
 ];
 
 /// The error for a field whose value is out of range.
@@ -138,6 +141,7 @@ pub fn run_json(part: &str, text: &str) -> Result<String, String> {
             "doppler-integrity",
             doppler_integrity::run(&parse(part, text)?)?,
         ),
+        "signal-claims" => wrap("signal-claims", claims::run(&parse(part, text)?)?),
         _ => Err(crate::t!("leo-verify-usage")),
     }
 }
