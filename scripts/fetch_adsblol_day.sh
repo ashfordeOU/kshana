@@ -13,6 +13,11 @@
 #   dest-dir/<tag>.parts.json  name, bytes and SHA-256 of each part
 #   dest-dir/extracted/<day>/  the extracted traces (what `interference-map daily` reads)
 # Downloads one part at a time with an identifying User-Agent and resumes a partial file.
+#
+# Pinned days: when PINS_DIR (default: docs/observatory/back-catalogue/fetch in this checkout) holds
+# <tag>.parts.json for the day, from an earlier fetch, every part must match its name, size and SHA-256
+# there, and the number of parts must match; otherwise the script stops before extracting. A day without
+# a pin file is fetched and its hashes recorded, as before.
 set -eu
 
 DAY="${1:?usage: fetch_adsblol_day.sh <YYYY-MM-DD> <dest-dir>}"
@@ -58,6 +63,29 @@ fi
     done
     printf ']}\n'
 } > "$DEST/$TAG.parts.json"
+
+HERE="$(cd "$(dirname "$0")" && pwd)"
+PINS_DIR="${PINS_DIR:-$HERE/../docs/observatory/back-catalogue/fetch}"
+PIN="$PINS_DIR/$TAG.parts.json"
+if [ -f "$PIN" ]; then
+    WANT_N="$(grep -o '"name":"[^"]*"' "$PIN" | wc -l | tr -d ' ')"
+    GOT_N=0
+    for F in $PARTS; do
+        GOT_N=$((GOT_N + 1))
+        ENTRY="$(printf '"name":"%s","bytes":%s,"sha256":"%s"' "$(basename "$F")" "$(wc -c < "$F" | tr -d ' ')" "$(sha256_of "$F")")"
+        if ! grep -qF "$ENTRY" "$PIN"; then
+            echo "$(basename "$F") does not match its pin in $PIN (name, size or SHA-256)" >&2
+            exit 1
+        fi
+    done
+    if [ "$GOT_N" != "$WANT_N" ]; then
+        echo "$DAY: $GOT_N parts fetched, $WANT_N pinned in $PIN" >&2
+        exit 1
+    fi
+    echo "$DAY: every part matches $PIN"
+else
+    echo "$DAY: no pin file in $PINS_DIR; part hashes recorded in $DEST/$TAG.parts.json"
+fi
 
 # The parts are one tar cut into pieces: concatenate them in order.
 # shellcheck disable=SC2086

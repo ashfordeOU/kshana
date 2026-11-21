@@ -229,3 +229,48 @@ fn the_command_line() {
     assert_eq!(run(&["interference-atlas".into(), "build".into()]).0, 2);
     let _ = std::fs::remove_dir_all(&dir);
 }
+
+/// An observatory day product (`kshana interference-map daily`): its cells carry `state`, and its
+/// `data` block names the source licence.
+fn observatory_day(date: &str, cells: &[(i64, i64, &str)]) -> String {
+    let feats: Vec<Value> = cells
+        .iter()
+        .map(|(i, j, s)| json!({"type": "Feature", "geometry": null, "properties": {"cell_i": i, "cell_j": j, "state": s}}))
+        .collect();
+    json!({"type": "FeatureCollection", "kshana_observatory": {"date": date, "grid": {"cell_deg": 0.5},
+        "method": {"id": "kshana-interference-map/adsb/v2"},
+        "data": {"dataset": "adsb-lol", "licence": "ODbL-1.0",
+                 "licence_url": "https://opendatacommons.org/licenses/odbl/1-0/",
+                 "attribution": "Contains aircraft position data from adsb.lol, made available under the Open Database License (ODbL 1.0)"}},
+        "features": feats})
+    .to_string()
+}
+
+#[test]
+fn observatory_day_products_build_an_atlas_that_carries_their_licence() {
+    let days: Vec<(String, String)> = (1..=4)
+        .map(|d| {
+            let date = format!("2026-09-1{d}");
+            let s = if d == 2 { "not_degraded" } else { "degraded" };
+            let cells = [(300, 400, s), (300, 401, s), (310, 410, "not_observed")];
+            (format!("obs{d}.geojson"), observatory_day(&date, &cells))
+        })
+        .collect();
+    let a = build(&days, &AtlasParams::PREREGISTERED_V1, None).unwrap();
+    // Degraded on 3 of 4 called days: persistence 0.75, one zone of two cells; `not_observed` is
+    // not a call.
+    let zones = a["zones"].as_array().unwrap();
+    assert_eq!(zones.len(), 1, "{zones:?}");
+    assert_eq!(zones[0]["cells"], 2);
+    assert!(a["cells"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .all(|c| c["cell_i"] != 310));
+    // The licence of the source data travels with the atlas, once.
+    let ds = a["data_sources"].as_array().unwrap();
+    assert_eq!(ds.len(), 1);
+    assert_eq!(ds[0]["licence"], "ODbL-1.0");
+    assert!(ds[0]["attribution"].as_str().unwrap().contains("adsb.lol"));
+    assert!(verify(&a));
+}
