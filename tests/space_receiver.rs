@@ -184,3 +184,29 @@ fn bench_sidelobes_counts_more_signals() {
     assert!(pb >= pa, "{pa} {pb}");
     assert_eq!(b["profile"]["sidelobes"], true);
 }
+
+#[test]
+fn bench_reports_geometry_and_signal_levels_without_a_comparator() {
+    // MODELLED outputs with no published comparator (the booklet has no DOP or tabulated
+    // C/N0): only their internal consistency is checked here.
+    let v = json(&["bench", "--case", "geo"]);
+    let c = &v["cases"][0];
+    let (m, p95, w) = (
+        c["pdop_median"].as_f64().unwrap(),
+        c["pdop_p95"].as_f64().unwrap(),
+        c["pdop_worst"].as_f64().unwrap(),
+    );
+    assert!(1.0 <= m && m <= p95 && p95 <= w, "{m} {p95} {w}");
+    let cn0 = &c["best_cn0_dbhz"];
+    let (lo, mean, hi) = (
+        cn0["min"].as_f64().unwrap(),
+        cn0["mean"].as_f64().unwrap(),
+        cn0["max"].as_f64().unwrap(),
+    );
+    // Only links at or above the 20 dB-Hz threshold are counted.
+    assert!(
+        20.0 <= lo && lo <= mean && mean <= hi && hi < 60.0,
+        "{lo} {mean} {hi}"
+    );
+    assert!(c["signals_in_view"]["max"].as_f64().unwrap() >= 4.0);
+}
