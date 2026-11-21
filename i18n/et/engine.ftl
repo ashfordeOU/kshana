@@ -10543,6 +10543,15 @@ engine-e-ais-integrity-cannot-read = faili { $path } ei saa lugeda: { $e }
 engine-e-ais-integrity-cannot-write = faili { $path } ei saa kirjutada: { $e }
 engine-e-ais-integrity-bad-place = kohtade loendi rida ei ole name,lat,lon,radius_m kehtiva asukoha ja positiivse raadiusega: { $row }
 
+## Private holdout of kshana-bench tasks (f) and (g) (src/bench/holdout.rs)
+engine-e-bench-holdout-inside-repository = privaatset holdouti ei kirjutata hoidlasse: { $path } (valige kataloog väljaspool seda)
+engine-e-bench-holdout-task = privaatne holdout on olemas ainult ülesannetel (f) ja (g)
+engine-e-bench-holdout-no-truth = ülesandel ({ $task }) puudub privaatne tõde: andke --truth <file> või määrake { $var }
+engine-bench-holdout-not-a-private-truth = see ei ole privaatse holdouti tõde: see peab olema ülesande (f) või (g) kshana-benchi tõefail jaotusega holdout
+engine-bench-holdout-not-registered = ülesande ({ $task }) tõde SHA-256-ga { $sha } pole failis bench/holdout/PRIVATE.json registreeritud
+engine-bench-site-holdout-not-private = tulemus { $v1 } on ülesande (f) või (g) holdouti tulemus, mida pole märgitud privaatseks või mille tõde pole registreeritud
+engine-bench-site-provenance-private-holdout = hinnatud privaatsel holdoutil (registreeritud tõde)
+
 engine-main-usage =
     kasutus: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }või: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10560,7 +10569,7 @@ engine-main-usage =
     { "   " }või: kshana nmea-scenario <scenario.toml> [--out <file.nmea>] [--tcp <addr>|--udp <addr>] (kshana nmea-scenario --help)
     { "   " }või: kshana interference-map <adsb|ais|fetch-land> ... (kshana interference-map --help)
     { "   " }või: kshana route-exposure --route <route> --map <map.geojson|dir> [--from <date>] [--to <date>]
-    { "   " }või: kshana bench <spec|truth|cases|score|baseline|seal|reveal-check|manifest|verify-manifest|validate|leaderboard> ... (kshana bench --help)
+    { "   " }või: kshana bench <spec|truth|cases|score|baseline|seal|reveal-check|manifest|verify-manifest|validate|leaderboard|positions|datasets|cite|golden|holdout> ... (kshana bench --help)
     { "   " }või: kshana bench-export <scenario.toml> [--out <base>] [--epoch <YYYY-MM-DDTHH:MM:SS>]
     { "   " }või: kshana compliance-report [--out <base>] <result.json>... | --mapping | --sources
     { "   " }või: kshana lunanet-afs-check <spec [--json] [--strict]|symbols <file> [--max-sp-errors <n>] [--json]|generate --frames <n> [--toi0 <t>] --out <file>>
@@ -10708,15 +10717,23 @@ engine-interference-map-cli-col-not-observed = vaatlemata
 engine-bench-cli-usage =
     kasutus: kshana bench spec
     { "   " }või: kshana bench truth --task a --data <extracted JammerTest 2024 dir> --split <dev|test|holdout|all> --out <truth.json>
-    { "   " }või: kshana bench cases --task <c|d> --split <dev|test|holdout> --out <dir> [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
+    { "   " }või: kshana bench truth --task g --data <GSDC-layout train dir> --split <dev|test|holdout> --out <truth.json>
+    { "   " }või: kshana bench cases --task <c|d|f> --split <dev|test|holdout> --out <dir> [--data <dataset.csv>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
     { "   " }või: kshana bench score --truth <truth.json> --predictions <predictions.json> [--threshold <x>] [--out <result.json>]
-    { "   " }või: kshana bench baseline --task <a|b|c|d> --split <dev|test|holdout> --out <dir> [--data <dir>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
+    { "   " }või: kshana bench baseline --task <a|b|c|d|e|f|g> --split <dev|test|holdout> --out <dir> [--data <dir>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
     { "   " }või: kshana bench seal --task <a|b|c|d> --seed-file <file> [--new]
     { "   " }või: kshana bench reveal-check --task <a|b|c|d> --seed-file <file> --commitment <hex>
     { "   " }või: kshana bench manifest --task a --data <extracted dir> [--archive <tar.gz>] --out <manifest.json>
     { "   " }või: kshana bench verify-manifest <manifest.json> --root <dir>
+    { "   " }või: kshana bench positions --task g --split <dev|test|holdout> --csv <submission.csv> --name <system> [--version <v>] --out <predictions.json>
+    { "   " }või: kshana bench datasets [--json | --check [--root <repo>]]
+    { "   " }või: kshana bench cite <result.json>...
+    { "   " }või: kshana bench golden [--root <repo>] (--out <GOLDEN.json> | --check <GOLDEN.json>)
     { "   " }või: kshana bench validate <result.json>...
     { "   " }või: kshana bench leaderboard [<results dir|result.json>...] --out <page.html> [--fragment]   (sisendeid ei ole: tühi olek; --fragment: manustatav jaotis)
+    { "   " }või: kshana bench holdout truth --task <f|g> --data <private data> --out <private dir>
+    { "   " }või: kshana bench holdout register --truth <private truth.json>
+    { "   " }või: kshana bench holdout score --task <f|g> --predictions <predictions.json> [--truth <private truth.json>] [--out <result.json>]   (KSHANA_BENCH_HOLDOUT_F, KSHANA_BENCH_HOLDOUT_G)
     { "   " }(algväärtusefail hoiab suletud holdout'i taga olevat saladust; hoia see versioonihaldusest väljas)
 
 engine-bench-cli-match = kattub
@@ -11698,3 +11715,49 @@ engine-e-oscillator-input = { $part } sisend ei ole kehtiv: { $e }
 engine-e-oscillator-unknown-clock = tundmatu kella eelseadistus { $id } (üks järgmistest: { $known })
 
 engine-e-oscillator-field = { $field } on väljaspool vahemikku: { $value }
+
+## src/bench: tasks (f) and (g), the dataset registry and the golden index (E34)
+
+engine-bench-data-no-header = { $file }: päiserida puudub
+
+engine-bench-data-no-column = { $file }: veergu `{ $column }` pole
+
+engine-bench-data-bad-value = { $file } rida { $line }: `{ $column }` puudub või on vigane
+
+engine-bench-data-no-rows = { $file }: andmeridu pole
+
+engine-bench-task-has-no-holdout = ülesandel ({ $task }) pole kõrvalejäetud jaotust: selle andmed ja jaotus on avalikud
+
+engine-bench-unknown-baseline = tundmatu baastase `{ $name }`
+
+engine-bench-g-no-traces = kataloogis { $root } pole faili <drive>/<phone>/ground_truth.csv
+
+engine-bench-g-no-object = jälgede objekti `{ $key }` pole
+
+engine-bench-g-bad-epoch = jälg `{ $id }`: iga epohh peab olema [UnixTimeMillis, laius, pikkus]
+
+engine-bench-f-dataset-mismatch = { $path }: SHA-256 { $got } ei ole ülesande (f) kinnitatud dataset.csv; laadige see skriptiga scripts/fetch_opssat_ad.sh
+
+engine-bench-cli-unknown-task-g = tundmatu ülesanne `{ $t }` (a kuni g)
+
+engine-bench-cli-wrote-predictions = kirjutatud { $path } ({ $traces } jälge)
+
+engine-bench-datasets-summary = { $n } andmestikku: { $in_bench } võrdluses, { $candidate } kandidaati, { $wanted } otsitud
+
+engine-bench-datasets-ok = register: { $n } andmestikku, kõik reeglid täidetud
+
+engine-bench-golden-ok = { $n } külmutatud faili muutmata; viitetunnused stabiilsed
+
+engine-bench-golden-written = kirjutatud { $path } ({ $n } külmutatud faili)
+
+engine-bench-site-title-f = Ülesanne (f): kosmosesõiduki telemeetria anomaaliate tuvastamine
+
+engine-bench-site-title-g = Ülesanne (g): nutitelefoni positsioneerimise täpsus
+
+engine-bench-site-col-ap = Keskmine täpsus
+
+engine-bench-site-col-gsdc-score = Skoor, P50 ja P95 keskmine (m)
+
+engine-bench-site-col-p50 = P50 koondatud (m)
+
+engine-bench-site-col-p95 = P95 koondatud (m)
