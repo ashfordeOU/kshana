@@ -10024,6 +10024,14 @@ engine-e-sil-obsgen-cannot-read = 无法读取 { $path }：{ $e }
 engine-e-sil-obsgen-cannot-write = 无法写入 { $path }：{ $e }
 engine-e-sil-obsgen-bad-scenario = 不是带可选 [urban] 和 [rinex] 表的 gnss-sim 场景：{ $e }
 
+## Probability of collision, Foster 2D (src/orbit_data/pc.rs)
+engine-e-orbit-data-pc-radius = --hbr 需要合并硬体半径（米，正数）
+engine-e-orbit-data-pc-no-relative-velocity = 两个物体速度相同：不存在交会平面
+engine-e-orbit-data-pc-not-positive-definite = 投影到交会平面的合并协方差不是正定的（较小特征值 { $lambda } m²）
+engine-e-orbit-data-pc-not-finite = 某个状态或协方差值不是有限数
+engine-e-orbit-data-pc-missing-data = CDM 中没有两个各自带状态（X 至 Z_DOT）和 RTN 协方差（CR_R 至 CNDOT_NDOT）的物体
+engine-e-orbit-data-pc-frame-mismatch = 两个物体的 REF_FRAME 不同（{ $a } 与 { $b }）；Pc 要求两个状态在同一坐标系中
+
 engine-main-usage =
     用法：kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }或：kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -11169,6 +11177,7 @@ engine-orbit-data-usage =
     { "   " }或：kshana orbit-data gp-compare <a.tle> <b.tle> [--hours <h>] [--step-min <min>] [--threshold-km <km>] [--json]
     { "   " }或：kshana orbit-data gp-audit <sets.tle> ... [--at <epoch>] [--stale-days <d>] [--jump-km <km>] [--json]
     { "   " }或：kshana orbit-data cov <check|propagate|monte-carlo|synthetic|realism> <input.json> [--dt-s <s>] [--step-s <s>] [--samples <n>] [--seed <n>] [--sigma-rtn <r,t,n,rdot,tdot,ndot>] [--full]
+    { "   " }或：kshana orbit-data pc <cdm> --hbr <m> [--aliases <map.json>] [--cdm-out <file>]
     { "   " }(docs/ORBIT-DATA.md)
 engine-e-orbit-data-unknown-message = { $path } 不是 CDM、OEM（KVN）或 OCM：没有 CCSDS_CDM_VERS、CCSDS_OEM_VERS 或 CCSDS_OCM_VERS 行，也没有 <cdm> 或 <ocm> 根元素
 engine-e-orbit-data-bad-flag = { $flag } { $value }：不可用的值

@@ -9957,6 +9957,14 @@ engine-e-sil-obsgen-cannot-read = { $path } を読み込めません：{ $e }
 engine-e-sil-obsgen-cannot-write = { $path } に書き込めません：{ $e }
 engine-e-sil-obsgen-bad-scenario = 任意の [urban] と [rinex] テーブルを持つ gnss-sim シナリオではありません：{ $e }
 
+## Probability of collision, Foster 2D (src/orbit_data/pc.rs)
+engine-e-orbit-data-pc-radius = --hbr には合成ハードボディ半径（メートル、正の数）が必要です
+engine-e-orbit-data-pc-no-relative-velocity = 2 つの物体の速度が同じです。遭遇面がありません
+engine-e-orbit-data-pc-not-positive-definite = 遭遇面に投影した合成共分散が正定値ではありません（小さい固有値 { $lambda } m²）
+engine-e-orbit-data-pc-not-finite = 状態または共分散の値が有限の数ではありません
+engine-e-orbit-data-pc-missing-data = CDM に、状態（X～Z_DOT）と RTN 共分散（CR_R～CNDOT_NDOT）をそれぞれ持つ 2 つの物体がありません
+engine-e-orbit-data-pc-frame-mismatch = 2 つの物体の REF_FRAME が異なります（{ $a } と { $b }）。Pc には両方の状態が同じ座標系にある必要があります
+
 engine-main-usage =
     使い方：kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }または：kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -11114,6 +11122,7 @@ engine-orbit-data-usage =
     { "   " }または：kshana orbit-data gp-compare <a.tle> <b.tle> [--hours <h>] [--step-min <min>] [--threshold-km <km>] [--json]
     { "   " }または：kshana orbit-data gp-audit <sets.tle> ... [--at <epoch>] [--stale-days <d>] [--jump-km <km>] [--json]
     { "   " }または：kshana orbit-data cov <check|propagate|monte-carlo|synthetic|realism> <input.json> [--dt-s <s>] [--step-s <s>] [--samples <n>] [--seed <n>] [--sigma-rtn <r,t,n,rdot,tdot,ndot>] [--full]
+    { "   " }または：kshana orbit-data pc <cdm> --hbr <m> [--aliases <map.json>] [--cdm-out <file>]
     { "   " }(docs/ORBIT-DATA.md)
 engine-e-orbit-data-unknown-message = { $path } は CDM、OEM（KVN）、OCM のいずれでもありません。CCSDS_CDM_VERS、CCSDS_OEM_VERS、CCSDS_OCM_VERS の行も、<cdm> や <ocm> のルートもありません
 engine-e-orbit-data-bad-flag = { $flag } { $value }：使用できない値です
