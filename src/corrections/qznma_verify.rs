@@ -117,8 +117,11 @@ pub fn load_key(arg: &str) -> Result<PublicKey, String> {
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize)]
 #[serde(rename_all = "snake_case")]
 pub enum Status {
+    /// The signature verified over one combination of stored messages.
     Verified,
+    /// No combination tried verified with the key.
     Failed,
+    /// No public key with the signature's key ID was given.
     NoKey,
     /// The navigation messages it signs are not in the file.
     NoNavigation,
@@ -132,11 +135,16 @@ pub struct Check {
     /// Frame index and RDS slot (0 or 1) of an L6E RDS.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub frame: Option<usize>,
+    /// RDS slot (0 or 1) within the L6E frame; `None` for a QZSS DSS.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub slot: Option<usize>,
+    /// Satellite label of the signed navigation data; `None` when the RDS SV ID has no label.
     pub sat: Option<String>,
+    /// Signal signed; `None` for an RDS of an unknown message type.
     pub signal: Option<Signal>,
+    /// Key ID as carried by the RDS or DSS; the key is looked up by its 7 LSBs.
     pub key_id: u8,
+    /// Outcome of the check.
     pub status: Status,
     /// Combinations of navigation messages tried.
     pub tried: usize,
@@ -145,11 +153,17 @@ pub struct Check {
 /// The verification report.
 #[derive(Clone, Debug, PartialEq, Serialize, Default)]
 pub struct Report {
+    /// Evidence label of the whole report, always `MODELLED` (no QZSS-generated test data).
     pub label: &'static str,
+    /// Every signature checked: L6E RDS first, then QZSS DSS signatures.
     pub checks: Vec<Check>,
+    /// Checks with status [`Status::Verified`].
     pub verified: usize,
+    /// Checks with status [`Status::Failed`].
     pub failed: usize,
+    /// Checks with status [`Status::NoKey`].
     pub no_key: usize,
+    /// Checks with status [`Status::NoNavigation`].
     pub no_navigation: usize,
 }
 

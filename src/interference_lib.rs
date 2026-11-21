@@ -62,15 +62,22 @@ const CA_RATE: f64 = 1.023e6;
 #[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub enum Class {
+    /// No interference: thermal noise only.
     None,
+    /// Continuous-wave tone at `centre_hz`, optionally drifting at `drift_hz_per_s`.
     Cw,
+    /// Band-limited noise with an occupied bandwidth below [`NARROW_WIDE_HZ`].
     Narrowband,
+    /// Band-limited noise with an occupied bandwidth of [`NARROW_WIDE_HZ`] or more.
     Wideband,
+    /// Linear-frequency chirp sweeping `bandwidth_hz` around `centre_hz` every `period_s`.
     Chirp,
+    /// DME-like Gaussian pulse pairs (12 µs spacing) repeating every `period_s`.
     Pulsed,
 }
 
 impl Class {
+    /// Every class, in declaration order.
     pub const ALL: [Class; 6] = [
         Class::None,
         Class::Cw,
@@ -79,6 +86,7 @@ impl Class {
         Class::Chirp,
         Class::Pulsed,
     ];
+    /// The snake_case name of the class, as used in serialised documents and CSVs.
     pub fn as_str(self) -> &'static str {
         match self {
             Class::None => "none",
@@ -89,6 +97,7 @@ impl Class {
             Class::Pulsed => "pulsed",
         }
     }
+    /// The class whose name ([`Class::as_str`]) equals `s` after trimming, if any.
     pub fn parse(s: &str) -> Option<Class> {
         Class::ALL.into_iter().find(|c| c.as_str() == s.trim())
     }
@@ -98,14 +107,17 @@ impl Class {
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize, Default)]
 #[serde(rename_all = "snake_case")]
 pub enum Sweep {
+    /// Frequency rises linearly across the band, then jumps back to the start each period.
     #[default]
     Sawtooth,
+    /// Frequency rises across the band over half a period and falls back over the other half.
     Triangle,
 }
 
 /// One interference model.
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 pub struct Model {
+    /// Interference class to synthesise.
     pub class: Class,
     /// Centre frequency offset from the recording centre (Hz).
     #[serde(default)]
@@ -134,6 +146,7 @@ pub struct Model {
 }
 
 impl Model {
+    /// A model of class `none` with every parameter zero (noise only).
     pub fn none() -> Model {
         Model {
             class: Class::None,
@@ -539,7 +552,9 @@ pub fn classify(f: &Features, _fs: f64) -> Class {
 /// A fit of one recording.
 #[derive(Clone, Debug, Serialize)]
 pub struct Fit {
+    /// The fitted interference model: classified class and estimated parameters.
     pub model: Model,
+    /// The estimator's features of the recording that the classification used.
     pub features: Features,
     /// RMS of the dB difference between the recording's Welch spectrum and the fitted model's.
     pub residual_db: f64,
@@ -662,9 +677,13 @@ pub fn fit(x: &[Cf64], fs: f64, seed: u64) -> Result<Fit, String> {
 /// One labelled benchmark case.
 #[derive(Clone, Debug, Serialize)]
 pub struct Case {
+    /// Case id: `id` or `ood`, the class name and a three-digit index (e.g. `ood-chirp-007`).
     pub id: String,
+    /// Whether the case is drawn from the out-of-distribution ranges.
     pub ood: bool,
+    /// The ground-truth model the case is synthesised from.
     pub model: Model,
+    /// Seed for synthesising the case's recording.
     pub seed: u64,
 }
 
@@ -762,11 +781,17 @@ pub fn corpus(per_class: usize, seed: u64) -> Vec<Case> {
 /// One scored case.
 #[derive(Clone, Debug, Serialize)]
 pub struct CaseScore {
+    /// Id of the corpus case scored.
     pub id: String,
+    /// Whether the case belongs to the out-of-distribution part.
     pub ood: bool,
+    /// The class the case was synthesised from.
     pub truth: Class,
+    /// The classifier's predicted class; `None` when no prediction was given for the case.
     pub predicted: Option<Class>,
+    /// Pre-correlation power rise: total power over the estimated noise floor (dB).
     pub power_rise_db: f64,
+    /// Post-correlation C/N0 loss for GPS L1 C/A at the band centre from the fitted spectrum (dB).
     pub ca_cn0_loss_db: f64,
 }
 

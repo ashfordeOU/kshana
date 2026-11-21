@@ -43,20 +43,29 @@ pub const LNAV_RAND_BITS: usize = 1000;
 /// One Reformat Digital Signature.
 #[derive(Clone, Debug, PartialEq, Serialize)]
 pub struct Rds {
+    /// NMA ID (4 bits); 0 marks an RDS in use, any other value an unused one.
     pub nma_id: u8,
     /// Reference time of week (20 bits; GPS LNAV and CNAV use its 17 LSBs).
     pub rtow: u32,
+    /// SV ID (8 bits) of the satellite whose navigation data are signed.
     pub sv_id: u8,
     /// Satellite label: G01..G63 for SV ID 1..63, E01..E63 for 65..127.
     pub sat: Option<String>,
+    /// Message type (4 bits) naming the signed signal (Table 6-1).
     pub message_type: u8,
+    /// Name of the message type from [`message_type_name`]; `None` for an unknown type.
     pub message_type_name: Option<&'static str>,
+    /// Reference ephemeris 1 (11 bits), copied as is into the signed RAND.
     pub ref_ephemeris1: u16,
+    /// Reference ephemeris 2 (11 bits), copied as is into the signed RAND.
     pub ref_ephemeris2: u16,
+    /// Reference clock (11 bits), copied as is into the signed RAND.
     pub ref_clock: u16,
+    /// Key ID (8 bits) of the public key; the verifier looks the key up by its 7 LSBs.
     pub key_id: u8,
     /// The 512-bit signature (r || s), hexadecimal.
     pub signature: String,
+    /// SALT (16 bits), appended to the navigation data in the signed RAND.
     pub salt: u16,
     /// Usable for authentication: NMA ID 0 and not the all-zero filler.
     pub used: bool,
@@ -65,8 +74,11 @@ pub struct Rds {
 /// One QZNMA frame.
 #[derive(Clone, Debug, PartialEq, Serialize)]
 pub struct QznmaFrame {
+    /// 0-based position of the frame in the decoded input.
     pub index: usize,
+    /// PRN of the transmitting QZSS satellite, from the L6 header.
     pub prn: u8,
+    /// Alert flag of the L6 header.
     pub alert: bool,
     /// The two RDS; `None` for the all-zero filler.
     pub rds: Vec<Option<Rds>>,
@@ -77,11 +89,15 @@ pub struct QznmaFrame {
 /// The decoder's report.
 #[derive(Clone, Debug, PartialEq, Serialize, Default)]
 pub struct Report {
+    /// Frames given to the decoder.
     pub frames: usize,
+    /// Frames shorter than the 49-bit header plus the 1695-bit data part, skipped.
     pub short: usize,
+    /// Frames whose L6 header could not be read (wrong preamble), skipped.
     pub bad_preamble: usize,
     /// L6 frames of another vendor (CLAS, MADOCA-PPP), skipped.
     pub other_vendor: usize,
+    /// The QZNMA frames decoded, in input order.
     pub messages: Vec<QznmaFrame>,
     /// DRAFT: messages completed from ST13,11 segments (normally ST13,3 root key information).
     pub reassembled_draft: Vec<cma::Message>,

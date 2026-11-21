@@ -43,13 +43,21 @@ use serde::Serialize;
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, Serialize)]
 #[serde(rename_all = "snake_case")]
 pub enum Signal {
+    /// GPS LNAV (RDS message type 1).
     GpsLnav,
+    /// GPS CNAV (RDS message type 2).
     GpsCnav,
+    /// GPS CNAV2 (RDS message type 3).
     GpsCnav2,
+    /// Galileo I/NAV (RDS message type 5).
     GalInav,
+    /// Galileo F/NAV (RDS message type 4).
     GalFnav,
+    /// QZSS LNAV, signed through its own DSS.
     QzsLnav,
+    /// QZSS CNAV, signed through its own DSS.
     QzsCnav,
+    /// QZSS CNAV2, signed through its own DSS.
     QzsCnav2,
 }
 
@@ -309,8 +317,11 @@ pub fn gnss_rand(rds: &Rds, parts: &[&[u8]]) -> Option<Vec<u8>> {
 /// A QZSS signal's signature, rebuilt from its three DSS (RDS of Figures 5-10, 5-22, 5-32).
 #[derive(Clone, Debug, PartialEq, Eq, Serialize)]
 pub struct QzssSignature {
+    /// The QZSS signal whose DSS carried the signature.
     pub signal: Signal,
+    /// Key ID (the first 8 bits of the rebuilt RDS).
     pub key_id: u8,
+    /// SALT (16 bits after the signature), appended to the navigation data in the RAND.
     pub salt: u16,
     /// The 512-bit signature (r || s), hexadecimal.
     pub signature: String,

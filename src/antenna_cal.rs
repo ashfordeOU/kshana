@@ -41,9 +41,13 @@ use std::collections::{BTreeMap, BTreeSet};
 
 /// Schema ids of the documents.
 pub const LINT_SCHEMA: &str = "kshana.antex-lint/1";
+/// Schema id of the unit-spread document written by [`spread`].
 pub const SPREAD_SCHEMA: &str = "kshana.antenna-spread/1";
+/// Schema id of the calibration-comparison document written by [`compare`].
 pub const COMPARE_SCHEMA: &str = "kshana.antenna-compare/1";
+/// Schema id of the group-delay timing document written by [`group_delay`].
 pub const GROUP_DELAY_SCHEMA: &str = "kshana.antenna-group-delay/1";
+/// Schema id of the installation J/S margin document written by [`js_margin`].
 pub const JS_SCHEMA: &str = "kshana.antenna-js-margin/1";
 
 const C: f64 = 299_792_458.0;
@@ -75,6 +79,7 @@ pub fn freq_hz(code: &str) -> Option<f64> {
 /// One frequency of one antenna.
 #[derive(Clone, Debug, Default, Serialize, PartialEq)]
 pub struct Frequency {
+    /// ANTEX frequency code from `START OF FREQUENCY` (system letter and band number, e.g. `G01`).
     pub code: String,
     /// North, east, up offset (mm).
     pub pco_mm: [f64; 3],
@@ -91,16 +96,27 @@ pub struct Antenna {
     pub type_radome: String,
     /// Serial number or satellite code.
     pub serial: String,
+    /// Calibration method from `METH / BY / # / DATE` (columns 1-20, trimmed).
     pub method: String,
+    /// Calibrating agency from `METH / BY / # / DATE` (columns 21-40, trimmed).
     pub agency: String,
+    /// Number of individual antennas calibrated, from `METH / BY / # / DATE`; `None` when blank or unparsable.
     pub n_calibrated: Option<u32>,
+    /// Calibration date from `METH / BY / # / DATE` (columns 51-60, trimmed, as written).
     pub date: String,
+    /// Azimuth grid step `DAZI` (deg); zero means no azimuth-dependent rows.
     pub dazi: f64,
+    /// Zenith grid `ZEN1 / ZEN2 / DZEN`: first and last zenith angle and step (deg).
     pub zen: [f64; 3],
+    /// Number of frequencies declared in `# OF FREQUENCIES`, checked against the blocks present.
     pub n_freq_declared: Option<usize>,
+    /// `VALID FROM` epoch as written (six whitespace-separated fields), if present.
     pub valid_from: Option<String>,
+    /// `VALID UNTIL` epoch as written (six whitespace-separated fields), if present.
     pub valid_until: Option<String>,
+    /// `SINEX CODE` record (first 10 columns, trimmed), if present.
     pub sinex_code: Option<String>,
+    /// Frequency blocks of the antenna, in file order.
     pub freqs: Vec<Frequency>,
     /// First line of the block (1-based).
     pub line: usize,
@@ -124,6 +140,7 @@ impl Antenna {
         let n = ((z2 - z1) / dz).round() as usize + 1;
         (0..n).map(|i| z1 + i as f64 * dz).collect()
     }
+    /// The frequency block with ANTEX code `code`, if the antenna has one.
     pub fn freq(&self, code: &str) -> Option<&Frequency> {
         self.freqs.iter().find(|f| f.code == code)
     }
@@ -135,8 +152,11 @@ pub struct Finding {
     /// `error` (the file breaks the format) or `warning` (it parses but a value is
     /// implausible or a convention is not followed).
     pub severity: &'static str,
+    /// Line of the input the finding refers to (1-based).
     pub line: usize,
+    /// Short machine-readable finding id (e.g. `bad-dazi`, `unknown-frequency-code`).
     pub code: &'static str,
+    /// Free-text detail: the offending value or line excerpt.
     pub detail: String,
 }
 
@@ -825,6 +845,7 @@ pub fn compare(a: &Antenna, b: &Antenna, max_zenith_deg: f64) -> serde_json::Val
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(deny_unknown_fields)]
 pub struct GroupDelaySpec {
+    /// Signals whose group delay is assessed (`[[signal]]` tables); at least one is required.
     pub signal: Vec<GdSignal>,
     /// Temperature range (°C) the antenna sees.
     pub temperature_c: [f64; 2],
@@ -844,7 +865,9 @@ fn default_ref_t() -> f64 {
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(deny_unknown_fields)]
 pub struct GdSignal {
+    /// Signal name, used to refer to it in `pairs`.
     pub name: String,
+    /// Carrier frequency of the signal (Hz); must be positive.
     pub freq_hz: f64,
     /// Group delay at zenith and the reference temperature (ns).
     pub group_delay_ns: f64,
@@ -859,6 +882,7 @@ pub struct GdSignal {
 /// Errors of the spec-driven tools.
 #[derive(Clone, Debug, PartialEq)]
 pub enum SpecError {
+    /// Group delay: a pair names a signal not among the `signal` entries (the name is carried).
     UnknownSignal(String),
     /// Group delay: no signal, an unordered or non-finite temperature range, a non-positive
     /// frequency or a non-finite delay.
@@ -961,6 +985,7 @@ pub fn group_delay(s: &GroupDelaySpec) -> Result<serde_json::Value, SpecError> {
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(deny_unknown_fields)]
 pub struct JsSpec {
+    /// Carrier frequency of the assessed signal (Hz), used for the free-space path loss.
     pub frequency_hz: f64,
     /// Jammer EIRP toward the installation (dBW).
     pub jammer_eirp_dbw: f64,
