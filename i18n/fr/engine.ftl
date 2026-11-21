@@ -12166,7 +12166,9 @@ engine-bench-task-has-no-holdout = la tâche ({ $task }) n’a pas de partition 
 engine-bench-unknown-baseline = référence de base inconnue `{ $name }`
 
 engine-bench-g-no-traces = aucun <drive>/<phone>/ground_truth.csv sous { $root }
-engine-bench-h-no-sequences = aucun <sequence>/ground_truth.txt sous { $root }
+engine-bench-h-no-sequences = aucun <sequence>/(ground_truth.txt|tk_reference.csv) sous { $root }
+engine-bench-h-mixed-editions = { $root } mélange les éditions Hong Kong et Tokyo de la tâche (h) (ground_truth.txt et tk_reference.csv) : récupérez chacune dans son propre répertoire
+engine-bench-h-baseline-skipped = référence { $baseline } ignorée : ses fichiers d’entrée ne sont pas présents pour chaque trace
 
 engine-bench-g-no-object = aucun objet `{ $key }` de traces
 

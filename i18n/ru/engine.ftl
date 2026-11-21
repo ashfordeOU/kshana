@@ -12245,7 +12245,9 @@ engine-bench-task-has-no-holdout = у задачи ({ $task }) нет отлож
 engine-bench-unknown-baseline = неизвестный базовый метод `{ $name }`
 
 engine-bench-g-no-traces = в { $root } нет <drive>/<phone>/ground_truth.csv
-engine-bench-h-no-sequences = в { $root } нет <sequence>/ground_truth.txt
+engine-bench-h-no-sequences = в { $root } нет <sequence>/(ground_truth.txt|tk_reference.csv)
+engine-bench-h-mixed-editions = { $root } смешивает гонконгское и токийское издания задачи (h) (ground_truth.txt и tk_reference.csv): загрузите каждое в отдельный каталог
+engine-bench-h-baseline-skipped = базовый метод { $baseline } пропущен: его входных файлов нет для всех треков
 
 engine-bench-g-no-object = нет объекта треков `{ $key }`
 

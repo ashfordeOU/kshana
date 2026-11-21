@@ -17371,10 +17371,31 @@
   "id": "bench-h-no-sequences",
   "error": false,
   "parts": [
-   "no <sequence>/ground_truth.txt under ",
+   "no <sequence>/(ground_truth.txt|tk_reference.csv) under ",
    {
     "var": "root"
    }
+  ]
+ },
+ {
+  "id": "bench-h-mixed-editions",
+  "error": false,
+  "parts": [
+   {
+    "var": "root"
+   },
+   " mixes the Hong Kong and Tokyo editions of task (h) (ground_truth.txt and tk_reference.csv): fetch each into its own directory"
+  ]
+ },
+ {
+  "id": "bench-h-baseline-skipped",
+  "error": false,
+  "parts": [
+   "baseline ",
+   {
+    "var": "baseline"
+   },
+   " skipped: its input files are not there for every trace"
   ]
  },
  {

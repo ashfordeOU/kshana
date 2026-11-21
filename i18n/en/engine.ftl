@@ -12408,7 +12408,9 @@ engine-bench-task-has-no-holdout = task ({ $task }) has no holdout split: its da
 engine-bench-unknown-baseline = unknown baseline `{ $name }`
 
 engine-bench-g-no-traces = no <drive>/<phone>/ground_truth.csv under { $root }
-engine-bench-h-no-sequences = no <sequence>/ground_truth.txt under { $root }
+engine-bench-h-no-sequences = no <sequence>/(ground_truth.txt|tk_reference.csv) under { $root }
+engine-bench-h-mixed-editions = { $root } mixes the Hong Kong and Tokyo editions of task (h) (ground_truth.txt and tk_reference.csv): fetch each into its own directory
+engine-bench-h-baseline-skipped = baseline { $baseline } skipped: its input files are not there for every trace
 
 engine-bench-g-no-object = no `{ $key }` object of traces
 
