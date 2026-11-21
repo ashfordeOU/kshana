@@ -1034,6 +1034,14 @@ fn timing_stack_inputs() {
 }
 
 #[test]
+fn register_products_revocations() {
+    let seeds = vec![head("tests/fixtures/register_products/revoked.jsonl", 10)];
+    fuzz("register-products revocations", &seeds, None, |b| {
+        let _ = kshana::register_products::parse_revocations(&String::from_utf8_lossy(b));
+    });
+}
+
+#[test]
 fn ais_integrity_inputs() {
     let csv = vec![
         head("tests/fixtures/ais_integrity/patterns.csv", 60),
@@ -1547,6 +1555,8 @@ fn product_registers_and_revocation_lists() {
             outcome: "o".into(),
             evidence_sha256: None,
             evidence_url: None,
+            scenario_set: None,
+            scenario_set_version: None,
         }],
         signer: String::new(),
         signature: String::new(),

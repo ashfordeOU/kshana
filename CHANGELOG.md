@@ -104,6 +104,15 @@ breaking changes are called out explicitly.
   `chronyc -N authdata`. Stale alarms carry the time a live monitor would have raised them; the stopped-SHM and
   stale-PPS fixtures alarm within 10 s. MODELLED.
 
+### Added (product register: packs, published revocations, versions)
+
+- `kshana register-products` (src/register_products.rs, docs/PRODUCT-REGISTER.md): checks `kshana.register/1` entries
+  against their signed evidence packs (the SHA-256 of the pack's signed manifest equals the entry's digest and the pack
+  passes the evidence verifier), shows the register at a date against a published revocation list of JSON lines
+  (serial, revoked_at, reason) read from a file or an http(s) URL the user gives, with revoked entries as REVOKED, and
+  compares two register versions for the append-only rule. Entries may name their scenario set and its version.
+  docs/METHODOLOGY-CHANGELOG.md lists the versioned scoring methods an entry can cite.
+
 ### Added (space weather for PNT and drag)
 
 - `kshana space-weather` (src/space_weather_pnt/, docs/SPACE-WEATHER-PNT.md): a storm library of eight recorded

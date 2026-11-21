@@ -10466,6 +10466,15 @@ engine-e-timing-stack-cannot-read = tiedostoa { $path } ei voi lukea: { $e }
 engine-e-timing-stack-cannot-write = tiedostoon { $path } ei voi kirjoittaa: { $e }
 engine-e-timing-stack-bad-number = { $option }: { $value } ei ole kelvollinen luku
 
+## Register entries against packs, published revocations and versions (src/register_products.rs)
+engine-register-products-usage = käyttö: kshana register-products verify <register.json> [--packs <dir>] [--pack-key <hex>] [--pin <hex>] [--json] | show <register.json> [--revocations <file.jsonl|url>] [--date <YYYY-MM-DD>] [--pin <hex>] [--json] | diff <older.json> <newer.json> [--pin <hex>]  (docs/PRODUCT-REGISTER.md)
+engine-e-register-products-missing-value = { $option } tarvitsee arvon
+engine-e-register-products-unknown-option = tuntematon valitsin { $option } (kshana register-products --help luettelee valitsimet)
+engine-e-register-products-cannot-read = tiedostoa { $path } ei voi lukea: { $e }
+engine-e-register-products-bad-revocation = peruutusluettelon rivillä { $line } on oltava serial, revoked_at (YYYY-MM-DD) ja reason
+engine-e-register-products-cannot-fetch = { $url } ei voi noutaa: { $e }
+engine-e-register-products-bad-key = avain ei ole 32 tavua heksadesimaalina
+
 engine-main-usage =
     käyttö: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }tai: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10499,6 +10508,7 @@ engine-main-usage =
     { "   " }tai: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
     { "   " }tai: kshana space-receiver <clock|timestamps|dynamics|bench|mms|od-vs-tle> ... [--out <file.json>] (kshana space-receiver --help)
     { "   " }tai: kshana feed <pack|verify|send|spectrum|leaderboard> ... (kshana feed --help)
+    { "   " }tai: kshana register-products <verify|show|diff> ... (kshana register-products --help)
     { "   " }tai: kshana register <check|crl-check|view|sign> ... (kshana register --help)
     { "   " }tai: kshana interference-env <evaluate|thresholds|degradation> ... (kshana interference-env --help)
     { "   " }tai: kshana arctic-plan --site <lat,lon[,h]> | --place <name> [--systems <a,b,...>] [--compare] [--hours <h>] [--kp <n>] ... (kshana arctic-plan --help)

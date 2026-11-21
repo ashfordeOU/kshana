@@ -52,6 +52,7 @@ fn the_top_level_usage_names_every_subcommand() {
         "claim-check",
         "afs-interop",
         "timing-stack",
+        "register-products",
         "corrections",
         "space-weather",
         "rtk-qa",

@@ -10902,6 +10902,15 @@ engine-e-timing-stack-cannot-read = nie można odczytać { $path }: { $e }
 engine-e-timing-stack-cannot-write = nie można zapisać { $path }: { $e }
 engine-e-timing-stack-bad-number = { $option }: { $value } nie jest prawidłową liczbą
 
+## Register entries against packs, published revocations and versions (src/register_products.rs)
+engine-register-products-usage = użycie: kshana register-products verify <register.json> [--packs <dir>] [--pack-key <hex>] [--pin <hex>] [--json] | show <register.json> [--revocations <file.jsonl|url>] [--date <YYYY-MM-DD>] [--pin <hex>] [--json] | diff <older.json> <newer.json> [--pin <hex>]  (docs/PRODUCT-REGISTER.md)
+engine-e-register-products-missing-value = { $option } wymaga wartości
+engine-e-register-products-unknown-option = nieznana opcja { $option } (opcje wypisuje kshana register-products --help)
+engine-e-register-products-cannot-read = nie można odczytać { $path }: { $e }
+engine-e-register-products-bad-revocation = wiersz { $line } listy odwołań musi mieć serial, revoked_at (YYYY-MM-DD) i reason
+engine-e-register-products-cannot-fetch = nie można pobrać { $url }: { $e }
+engine-e-register-products-bad-key = klucz nie ma 32 bajtów w zapisie szesnastkowym
+
 engine-main-usage =
     użycie: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }lub: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10935,6 +10944,7 @@ engine-main-usage =
     { "   " }lub: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
     { "   " }lub: kshana space-receiver <clock|timestamps|dynamics|bench|mms|od-vs-tle> ... [--out <file.json>] (kshana space-receiver --help)
     { "   " }lub: kshana feed <pack|verify|send|spectrum|leaderboard> ... (kshana feed --help)
+    { "   " }lub: kshana register-products <verify|show|diff> ... (kshana register-products --help)
     { "   " }lub: kshana register <check|crl-check|view|sign> ... (kshana register --help)
     { "   " }lub: kshana interference-env <evaluate|thresholds|degradation> ... (kshana interference-env --help)
     { "   " }lub: kshana arctic-plan --site <lat,lon[,h]> | --place <name> [--systems <a,b,...>] [--compare] [--hours <h>] [--kp <n>] ... (kshana arctic-plan --help)
