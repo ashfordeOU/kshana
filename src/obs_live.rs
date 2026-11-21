@@ -180,7 +180,7 @@ impl LiveObs {
             match r {
                 Record::Header(h) => header = Some(h),
                 Record::Epoch(e) => epochs.push(e),
-                Record::Alarm(_) | Record::Correction(_) => {}
+                Record::Alarm(_) | Record::Correction(_) | Record::Spectrum(_) => {}
             }
         }
         let n = epochs.len();
