@@ -53,7 +53,7 @@ use crate::lunar::{LUNAR_SIGMA_URE_M, MOON_GM_M3_S2, R_MOON_M};
 use crate::lunar_od::LunarForceModel;
 use crate::lunar_perturbed::elements_to_state;
 use crate::lunar_phase::{
-    age_clock, cov_is_valid, default_ctx, default_entry, epoch_jd, kind_seed, Cov6, Dm, Frame,
+    age_clock, cov_is_valid, default_ctx, default_entry, epoch_jd_tdb, kind_seed, Cov6, Dm, Frame,
     NavState,
 };
 use crate::lunar_service::LunarConstellation;
@@ -837,7 +837,7 @@ impl LunarRendezvousScenario {
                 "e-lunar-ascent-entry-covariance-is-not-symmetric"
             ));
         }
-        let epoch_jd_tdb = epoch_jd(ctx, entry.t_s)?;
+        let epoch_jd_tdb = epoch_jd_tdb(ctx, entry.t_s)?;
         let field = lunar_field(
             self.gravity_table_path.as_deref(),
             self.gravity_degree.unwrap_or(150),
@@ -1526,7 +1526,7 @@ mod tests {
             .unwrap();
         let cfg = s.resolve().unwrap();
         let field = lunar_field(None, 150).unwrap();
-        let model = LunarForceModel::new(field, epoch_jd(&ctx, 0.0).unwrap());
+        let model = LunarForceModel::new(field, epoch_jd_tdb(&ctx, 0.0).unwrap());
         let (mut st, _) = nominal_states(&cfg);
         let mut phi = Dm::eye(6);
         let mut t = 0.0;

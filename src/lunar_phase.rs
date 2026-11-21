@@ -58,9 +58,10 @@ pub fn cov_is_valid(p: &Cov6) -> bool {
     (0..6).all(|i| p[i][i] >= 0.0 && (0..6).all(|j| (p[i][j] - p[j][i]).abs() <= 1e-9 * scale))
 }
 
-/// Julian Date of the thread's epoch plus `t_s` seconds of mission time. The epoch is read as UTC and used as the
-/// time argument of the lunar orientation and ephemeris series without the 69 s UTC to TDB offset, which moves
-/// the Moon by about 70 m along its track and nothing a phase here is sensitive to.
+/// UTC Julian Date of the thread's epoch plus `t_s` seconds of mission time. The epoch is read as UTC. Use it for
+/// Earth rotation (UT1 ≈ UTC); the lunar orientation and the Moon's ephemeris take [`epoch_jd_tdb`], since the
+/// 69 s from UTC to TDB moves the Moon about 70 km along its track (1.02 km/s) and turns the Moon by about
+/// 1.8e-4 rad (320 m at the surface).
 pub fn epoch_jd(ctx: &ThreadCtx, t_s: f64) -> Result<f64, String> {
     let s = ctx.epoch_utc.trim();
     let (date, time) = match s.split_once('T') {
@@ -86,6 +87,16 @@ pub fn epoch_jd(ctx: &ThreadCtx, t_s: f64) -> Result<f64, String> {
     let jd0 = (367 * y - (7 * (y + (m + 9) / 12)) / 4 + (275 * m) / 9 + day) as f64 + 1_721_013.5;
     let frac = (num(t[0])? * 3600.0 + num(t[1])? * 60.0 + num(t[2])?) / 86_400.0;
     Ok(jd0 + frac + t_s / 86_400.0)
+}
+
+/// TDB Julian Date of the thread's epoch plus `t_s` seconds of mission time: [`epoch_jd`] (UTC) through TT (the
+/// leap-second table and 32.184 s) to TDB. The time argument of the lunar orientation, the lunar and solar
+/// ephemerides and the third-body terms.
+pub fn epoch_jd_tdb(ctx: &ThreadCtx, t_s: f64) -> Result<f64, String> {
+    let jd_utc = epoch_jd(ctx, t_s)?;
+    Ok(crate::timescales::tt_to_tdb(crate::timescales::utc_to_tt(
+        jd_utc,
+    )))
 }
 
 /// The seed a standalone run of a kind uses: the thread's id-keyed seed ([`ThreadCtx::phase_seed`]) with the kind

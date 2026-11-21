@@ -1,0 +1,1057 @@
+{
+ "format": "kshana.correction-vectors/1",
+ "set": "l1s",
+ "version": "1.0.0",
+ "source": "IS-QZSS-L1S-009 section 4.1; IS-QZSS-DCR-017 section 4.1.2.3; IS-QZSS-DCX-004 section 4.2",
+ "provenance": "self-derived: frames encoded by this generator from field values it chose, following its own reading of the interface document; a second implementation of the same reading, not an independent reference",
+ "generator": "data/conformance/corrections/gen_correction_vectors.py",
+ "vectors": [
+  {
+   "id": "l1s-mt48-mask",
+   "decoder": "l1s",
+   "frames": [
+    "53c2a80080000000000182200000000001000000000000000800000025979c40"
+   ],
+   "expect": {
+    "frames": 1,
+    "bad_crc": 0,
+    "messages": [
+     {
+      "preamble": "A",
+      "mt": 48,
+      "crc_ok": true,
+      "iodp": 2,
+      "mask": [
+       "G01",
+       "G03",
+       "G05",
+       "G17",
+       "G64",
+       "J01",
+       "J07",
+       "R02",
+       "E11",
+       "C36"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "id": "l1s-mt49-iod",
+   "decoder": "l1s",
+   "frames": [
+    "53c2a80080000000000182200000000001000000000000000800000025979c40",
+    "9ac5a400002200c60001fe00000000000000000000000000000000012ef76200"
+   ],
+   "expect": {
+    "messages": [
+     {
+      "mt": 48
+     },
+     {
+      "mt": 49,
+      "iodi": 1,
+      "iodp": 2,
+      "iod": [
+       [
+        "G01",
+        17
+       ],
+       [
+        "G05",
+        99
+       ],
+       [
+        "J01",
+        255
+       ]
+      ]
+     }
+    ]
+   },
+   "note": "IODs map to satellites through the MT48 of the same IODP"
+  },
+  {
+   "id": "l1s-mt50-prc",
+   "decoder": "l1s",
+   "frames": [
+    "53c2a80080000000000182200000000001000000000000000800000025979c40",
+    "c6ca486820000198018007ff000000000000000000000000000000003b3e0940"
+   ],
+   "expect": {
+    "messages": [
+     {
+      "mt": 48
+     },
+     {
+      "mt": 50,
+      "iodp": 2,
+      "iodi": 1,
+      "gms_code": 8,
+      "gms_healthy": true,
+      "prc": [
+       {
+        "sat": "G01",
+        "prc_m": 1.0,
+        "unhealthy_30s": false
+       },
+       {
+        "sat": "G03",
+        "prc_m": -81.88,
+        "unhealthy_30s": false
+       },
+       {
+        "sat": "G17",
+        "prc_m": null,
+        "unhealthy_30s": true
+       },
+       {
+        "sat": "C36",
+        "prc_m": 81.88,
+        "unhealthy_30s": false
+       }
+      ]
+     }
+    ]
+   },
+   "note": "PRC 0.04 m; -2048 marks the satellite unhealthy for 30 s"
+  },
+  {
+   "id": "l1s-mt50-without-mask",
+   "decoder": "l1s",
+   "frames": [
+    "c6ca486820000198018007ff000000000000000000000000000000003b3e0940"
+   ],
+   "expect": {
+    "messages": [
+     {
+      "mt": 50,
+      "iodp": 2,
+      "note": "no MT48 with IODP 2 received before"
+     }
+    ]
+   },
+   "note": "no satellites without the mask"
+  },
+  {
+   "id": "l1s-mt47-stations",
+   "decoder": "l1s",
+   "frames": [
+    "53bc0436c51f0334985072213f000000000fc000000003f0000000001ba9af40"
+   ],
+   "expect": {
+    "messages": [
+     {
+      "mt": 47,
+      "stations": [
+       {
+        "code": 0,
+        "name": "Sapporo",
+        "lat_deg": 43.15,
+        "lon_deg": 141.22,
+        "height_m": 50.0
+       },
+       {
+        "code": 13,
+        "name": "Ishigaki",
+        "lat_deg": 24.37,
+        "lon_deg": 124.13,
+        "height_m": 100.0
+       }
+      ]
+     }
+    ]
+   },
+   "note": "latitude and longitude 0.005 deg, longitude about 115 E, height 50 m about -100 m"
+  },
+  {
+   "id": "l1s-mt51-health",
+   "decoder": "l1s",
+   "frames": [
+    "9acc08000000000000000000000000000100000000000000000000003fc48240"
+   ],
+   "expect": {
+    "messages": [
+     {
+      "mt": 51,
+      "unhealthy": [
+       "G05",
+       "E11"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "id": "l1s-mt43-eew",
+   "decoder": "l1s",
+   "frames": [
+    "c6ac8dd0cf00a3240000a19c053b5795e0000000004000000000401015c88c40"
+   ],
+   "expect": {
+    "messages": [
+     {
+      "mt": 43,
+      "crc_ok": true,
+      "dc_report": {
+       "classification": 1,
+       "disaster_category": 1,
+       "report_time": [
+        11,
+        20,
+        6,
+        30
+       ],
+       "information_type": 0,
+       "version": 1,
+       "body": {
+        "table": "IS-QZSS-DCR-017 Table 4.1.2-5",
+        "long_period_lower": 2,
+        "long_period_upper": 4,
+        "notifications": [
+         201
+        ],
+        "occurrence_time": {
+         "day": 20,
+         "hour": 6,
+         "minute": 28
+        },
+        "depth_code": 10,
+        "depth_km": 10,
+        "magnitude_code": 59,
+        "magnitude": 5.9,
+        "epicenter": 350,
+        "intensity_lower": 5,
+        "intensity_upper": 7,
+        "forecast_regions": [
+         1,
+         40,
+         80
+        ]
+       }
+      }
+     }
+    ]
+   },
+   "note": "zero notification codes are dropped; forecast regions are the set flags"
+  },
+  {
+   "id": "l1s-mt43-hypocenter",
+   "decoder": "l1s",
+   "frames": [
+    "53ad15d0cf00034dae00a19cfafe1e08e959174bc000000000000010268edb00"
+   ],
+   "expect": {
+    "messages": [
+     {
+      "mt": 43,
+      "crc_ok": true,
+      "dc_report": {
+       "classification": 2,
+       "disaster_category": 2,
+       "report_time": [
+        11,
+        20,
+        6,
+        30
+       ],
+       "information_type": 0,
+       "version": 1,
+       "body": {
+        "table": "IS-QZSS-DCR-017 Table 4.1.2-12",
+        "notifications": [
+         211,
+         215
+        ],
+        "depth_code": 501,
+        "depth_km": null,
+        "magnitude_code": 126,
+        "magnitude": null,
+        "epicenter": 120,
+        "position": {
+         "lat_deg": 35.689444,
+         "lon_deg": 139.691667
+        }
+       }
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "l1s-mt43-seismic-intensity",
+   "decoder": "l1s",
+   "frames": [
+    "9aad1dd0cf00050ce53616000000000000000000000000000000001035472900"
+   ],
+   "expect": {
+    "messages": [
+     {
+      "mt": 43,
+      "crc_ok": true,
+      "dc_report": {
+       "classification": 2,
+       "disaster_category": 3,
+       "report_time": [
+        11,
+        20,
+        6,
+        30
+       ],
+       "information_type": 0,
+       "version": 1,
+       "body": {
+        "table": "IS-QZSS-DCR-017 Table 4.1.2-14",
+        "occurrence_time": {
+         "day": 20,
+         "hour": 6,
+         "minute": 28
+        },
+        "regions": [
+         {
+          "intensity": 5,
+          "prefecture": 13
+         },
+         {
+          "intensity": 4,
+          "prefecture": 11
+         }
+        ]
+       }
+      }
+     }
+    ]
+   },
+   "note": "trailing all-zero regions are not reported"
+  },
+  {
+   "id": "l1s-mt43-nankai-trough",
+   "decoder": "l1s",
+   "frames": [
+    "c6ad25d0cf000271c1c371c15cf1c1c400000000000000000002101033e9c100"
+   ],
+   "expect": {
+    "messages": [
+     {
+      "mt": 43,
+      "crc_ok": true,
+      "dc_report": {
+       "classification": 2,
+       "disaster_category": 4,
+       "report_time": [
+        11,
+        20,
+        6,
+        30
+       ],
+       "information_type": 0,
+       "version": 1,
+       "body": {
+        "table": "IS-QZSS-DCR-017 Table 4.1.2-18",
+        "information_serial": 4,
+        "page": 1,
+        "pages": 2,
+        "text": "e38386e382b9e38388000000000000000000",
+        "text_utf8": "テスト"
+       }
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "l1s-mt43-tsunami",
+   "decoder": "l1s",
+   "frames": [
+    "53acadd0cf0001e8000031cf3191ffd8c87be2fa00000000000000102bd0ef00"
+   ],
+   "expect": {
+    "messages": [
+     {
+      "mt": 43,
+      "crc_ok": true,
+      "dc_report": {
+       "classification": 1,
+       "disaster_category": 5,
+       "report_time": [
+        11,
+        20,
+        6,
+        30
+       ],
+       "information_type": 0,
+       "version": 1,
+       "body": {
+        "table": "IS-QZSS-DCR-017 Table 4.1.2-21",
+        "notifications": [
+         122
+        ],
+        "warning": 3,
+        "regions": [
+         {
+          "arrival": {
+           "next_day": false,
+           "hour": 7,
+           "minute": 15,
+           "status": "expected"
+          },
+          "height": 3,
+          "region": 100
+         },
+         {
+          "arrival": {
+           "next_day": false,
+           "hour": 31,
+           "minute": 63,
+           "status": "arrived"
+          },
+          "height": 6,
+          "region": 200
+         },
+         {
+          "arrival": {
+           "next_day": false,
+           "hour": 30,
+           "minute": 62,
+           "status": "no_data"
+          },
+          "height": 2,
+          "region": 1000
+         }
+        ]
+       }
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "l1s-mt43-nw-pacific-tsunami",
+   "decoder": "l1s",
+   "frames": [
+    "9aad35d0cf00028c5fe647ff0201000000000000000000000000001028f07700"
+   ],
+   "expect": {
+    "messages": [
+     {
+      "mt": 43,
+      "crc_ok": true,
+      "dc_report": {
+       "classification": 2,
+       "disaster_category": 6,
+       "report_time": [
+        11,
+        20,
+        6,
+        30
+       ],
+       "information_type": 0,
+       "version": 1,
+       "body": {
+        "table": "IS-QZSS-DCR-017 Table 4.1.2-26",
+        "tsunamigenic_potential": 2,
+        "regions": [
+         {
+          "arrival": {
+           "next_day": true,
+           "hour": 3,
+           "minute": 5,
+           "status": "expected"
+          },
+          "height": 508,
+          "coastal_region": 100
+         },
+         {
+          "arrival": {
+           "next_day": false,
+           "hour": 31,
+           "minute": 63,
+           "status": "arrived_or_unknown"
+          },
+          "height": 4,
+          "coastal_region": 1
+         }
+        ]
+       }
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "l1s-mt43-volcano",
+   "decoder": "l1s",
+   "frames": [
+    "c6ad45d0cf001d0bd951fa27fb2924f7fc000000000000000000001019ade8c0"
+   ],
+   "expect": {
+    "messages": [
+     {
+      "mt": 43,
+      "crc_ok": true,
+      "dc_report": {
+       "classification": 2,
+       "disaster_category": 8,
+       "report_time": [
+        11,
+        20,
+        6,
+        30
+       ],
+       "information_type": 0,
+       "version": 1,
+       "body": {
+        "table": "IS-QZSS-DCR-017 Table 4.1.2-30",
+        "time_ambiguity": 3,
+        "activity_time": {
+         "day": 20,
+         "hour": 5,
+         "minute": 59
+        },
+        "warning": 21,
+        "volcano": 506,
+        "local_governments": [
+         1310100,
+         4799999
+        ]
+       }
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "l1s-mt43-ash-fall",
+   "decoder": "l1s",
+   "frames": [
+    "53ad4dd0cf00050bdc3f49c68138000000000000000000000000001026ff7100"
+   ],
+   "expect": {
+    "messages": [
+     {
+      "mt": 43,
+      "crc_ok": true,
+      "dc_report": {
+       "classification": 2,
+       "disaster_category": 9,
+       "report_time": [
+        11,
+        20,
+        6,
+        30
+       ],
+       "information_type": 0,
+       "version": 1,
+       "body": {
+        "table": "IS-QZSS-DCR-017 Table 4.1.2-35",
+        "warning_type": 2,
+        "volcano": 506,
+        "regions": [
+         {
+          "expected_hours": 2,
+          "warning": 3,
+          "local_government": 4620600
+         }
+        ]
+       }
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "l1s-mt43-weather",
+   "decoder": "l1s",
+   "frames": [
+    "9aad55d0cf000119fbda3c1eb00000000000000000000000000000102d7430c0"
+   ],
+   "expect": {
+    "messages": [
+     {
+      "mt": 43,
+      "crc_ok": true,
+      "dc_report": {
+       "classification": 2,
+       "disaster_category": 10,
+       "report_time": [
+        11,
+        20,
+        6,
+        30
+       ],
+       "information_type": 0,
+       "version": 1,
+       "body": {
+        "table": "IS-QZSS-DCR-017 Table 4.1.2-38",
+        "warning_state": 1,
+        "regions": [
+         {
+          "sub_category": 3,
+          "region": 130010
+         },
+         {
+          "sub_category": 7,
+          "region": 270000
+         }
+        ]
+       }
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "l1s-mt43-flood",
+   "decoder": "l1s",
+   "frames": [
+    "c6ad5dd0cf0001e0a8fcd52e000000000000000000000000000000102232ca40"
+   ],
+   "expect": {
+    "messages": [
+     {
+      "mt": 43,
+      "crc_ok": true,
+      "dc_report": {
+       "classification": 2,
+       "disaster_category": 11,
+       "report_time": [
+        11,
+        20,
+        6,
+        30
+       ],
+       "information_type": 0,
+       "version": 1,
+       "body": {
+        "table": "IS-QZSS-DCR-017 Table 4.1.2-43",
+        "regions": [
+         {
+          "level": 3,
+          "region": 830304004700
+         }
+        ]
+       }
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "l1s-mt43-typhoon",
+   "decoder": "l1s",
+   "frames": [
+    "53ade5d0cf000500010000384851e010e000f151b2000000000000103c00fcc0"
+   ],
+   "expect": {
+    "messages": [
+     {
+      "mt": 43,
+      "crc_ok": true,
+      "dc_report": {
+       "classification": 3,
+       "disaster_category": 12,
+       "report_time": [
+        11,
+        20,
+        6,
+        30
+       ],
+       "information_type": 0,
+       "version": 1,
+       "body": {
+        "table": "IS-QZSS-DCR-017 Table 4.1.2-47",
+        "reference_time": {
+         "day": 20,
+         "hour": 0,
+         "minute": 0
+        },
+        "reference_type": 1,
+        "elapsed_hours": 0,
+        "typhoon_number": 14,
+        "scale": 1,
+        "intensity": 2,
+        "position": {
+         "lat_deg": 20.5,
+         "lon_deg": 135.0
+        },
+        "pressure_hpa": 965,
+        "max_wind_ms": 35,
+        "max_gust_ms": 50
+       }
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "l1s-mt43-marine",
+   "decoder": "l1s",
+   "frames": [
+    "9aadf5d0cf000283e8647180000000000000000000000000000004103f915c80"
+   ],
+   "expect": {
+    "messages": [
+     {
+      "mt": 43,
+      "crc_ok": true,
+      "dc_report": {
+       "classification": 3,
+       "disaster_category": 14,
+       "report_time": [
+        11,
+        20,
+        6,
+        30
+       ],
+       "information_type": 0,
+       "version": 1,
+       "body": {
+        "table": "IS-QZSS-DCR-017 Table 4.1.2-51",
+        "regions": [
+         {
+          "warning": 10,
+          "region": 1000
+         },
+         {
+          "warning": 12,
+          "region": 9100
+         }
+        ],
+        "spare_nonzero": true
+       }
+      }
+     }
+    ]
+   },
+   "note": "a spare bit that is not zero is flagged"
+  },
+  {
+   "id": "l1s-mt43-unused-category",
+   "decoder": "l1s",
+   "frames": [
+    "c6acbdd0cf15555555555555555555555555555555555555555554101fcd3840"
+   ],
+   "expect": {
+    "messages": [
+     {
+      "mt": 43,
+      "note": "disaster category 7 is unused or unknown",
+      "dc_report": {
+       "disaster_category": 7,
+       "body": null,
+       "body_hex": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "l1s-mt44-l-alert",
+   "decoder": "l1s",
+   "frames": [
+    "53b0004de19b24cda305b2c1e355b57800000113000000000000001032ef5dc0"
+   ],
+   "expect": {
+    "messages": [
+     {
+      "mt": 44,
+      "dcx": {
+       "kind": "l_alert",
+       "camf": {
+        "message_type": "alert",
+        "country": 111,
+        "provider": 1,
+        "hazard": 77,
+        "severity": "severe",
+        "onset_week": "current",
+        "onset_time_code": 9421,
+        "onset_time": {
+         "weekday": "sunday",
+         "hour": 13,
+         "minute": 0
+        },
+        "duration": "6h_to_12h",
+        "library": "country_region",
+        "library_version": 1,
+        "instruction": {
+         "code": 773,
+         "basic": "keep_away_from",
+         "information": "water_area"
+        },
+        "ellipse": {
+         "lat_deg": 35.688258,
+         "lon_deg": 139.690855,
+         "semi_major_km": 10.933,
+         "semi_minor_km": 5.979,
+         "azimuth_deg": 45.0
+        },
+        "specific_settings_type": "b1_main_ellipse_resolution"
+       },
+       "extended": {
+        "target_area": 1100,
+        "version": 1
+       }
+      }
+     }
+    ]
+   },
+   "note": "field values of the DCX-004 section 5 L-Alert example"
+  },
+  {
+   "id": "l1s-mt44-local-government",
+   "decoder": "l1s",
+   "frames": [
+    "9ab0004de49d24cda000b2c1e355b578000001131658286ab35780103688ff00"
+   ],
+   "expect": {
+    "messages": [
+     {
+      "mt": 44,
+      "dcx": {
+       "kind": "local_government",
+       "camf": {
+        "provider": 4,
+        "instruction": {
+         "code": 0
+        },
+        "ellipse": {
+         "lat_deg": 35.688258,
+         "lon_deg": 139.690855,
+         "semi_major_km": 10.933,
+         "semi_minor_km": 5.979,
+         "azimuth_deg": 45.0
+        }
+       },
+       "extended": {
+        "target_area": 1100,
+        "evacuate_direction": "leave_area",
+        "additional_ellipse": {
+         "lat_deg": 35.687299,
+         "lon_deg": 139.689138,
+         "semi_major_km": 10.933,
+         "semi_minor_km": 5.979,
+         "azimuth_deg": 45.0
+        },
+        "version": 1
+       }
+      }
+     }
+    ]
+   },
+   "note": "field values of the DCX-004 section 5 local-government example"
+  },
+  {
+   "id": "l1s-mt44-j-alert-prefectures",
+   "decoder": "l1s",
+   "frames": [
+    "c6b3e44de29f02d122030000000000000000000000000004c000001000698ec0"
+   ],
+   "expect": {
+    "messages": [
+     {
+      "mt": 44,
+      "dcx": {
+       "kind": "j_alert",
+       "sd": {
+        "kind": "transmission_status",
+        "flags": [
+         1,
+         1,
+         1,
+         1,
+         0,
+         0,
+         1,
+         0,
+         0
+        ],
+        "satellites": [
+         {
+          "prn": 183,
+          "flag": 1
+         },
+         {
+          "prn": 184,
+          "flag": 1
+         },
+         {
+          "prn": 185,
+          "flag": 1
+         },
+         {
+          "prn": 186,
+          "flag": 1
+         },
+         {
+          "prn": 189,
+          "flag": 1
+         }
+        ]
+       },
+       "camf": {
+        "onset_time": {
+         "weekday": "monday",
+         "hour": 12,
+         "minute": 0
+        },
+        "duration": "unknown",
+        "ellipse": null,
+        "instruction": {
+         "code": 515,
+         "basic": "move_to",
+         "information": "underground"
+        }
+       },
+       "extended": {
+        "list_type": "prefecture",
+        "prefectures": [
+         "Hokkaido",
+         "Aomori",
+         "Akita"
+        ],
+        "version": 1
+       }
+      }
+     }
+    ]
+   },
+   "note": "field values of the DCX-004 section 5 J-Alert example; SDM bits to PRN per Table 5.6-3"
+  },
+  {
+   "id": "l1s-mt44-j-alert-municipalities",
+   "decoder": "l1s",
+   "frames": [
+    "53b0004de29f02d12203000000000000000020898096400000000010370e1000"
+   ],
+   "expect": {
+    "messages": [
+     {
+      "mt": 44,
+      "dcx": {
+       "kind": "j_alert",
+       "extended": {
+        "list_type": "municipality",
+        "target_areas": [
+         1100,
+         1202
+        ]
+       }
+      }
+     }
+    ]
+   },
+   "note": "Sapporo and Hakodate codes of Table 4.2-21"
+  },
+  {
+   "id": "l1s-mt44-outside-japan",
+   "decoder": "l1s",
+   "frames": [
+    "9ab00041a159800000a94e20c3505254000024924924924924924820184def40"
+   ],
+   "expect": {
+    "messages": [
+     {
+      "mt": 44,
+      "dcx": {
+       "kind": "outside_japan",
+       "camf": {
+        "country": 13,
+        "severity": "extreme",
+        "library": "international",
+        "instruction": {
+         "code": 169,
+         "list_a": 5,
+         "list_b": 9
+        }
+       },
+       "extended": {
+        "organization_specific_hex": "92492492492492492",
+        "version": 2
+       }
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "l1s-mt44-null-and-discarded",
+   "decoder": "l1s",
+   "frames": [
+    "c6b0040de0000000000000000000000000000000000000000000000033025200",
+    "53b0004de900000020000000000000000000000000000000000000002c8c9200"
+   ],
+   "expect": {
+    "messages": [
+     {
+      "mt": 44,
+      "dcx": {
+       "kind": "null",
+       "sd": {
+        "kind": "service_type",
+        "satellites": [
+         {
+          "prn": 183,
+          "flag": 0
+         },
+         {
+          "prn": 184,
+          "flag": 0
+         },
+         {
+          "prn": 185,
+          "flag": 0
+         },
+         {
+          "prn": 186,
+          "flag": 0
+         },
+         {
+          "prn": 189,
+          "flag": 1
+         }
+        ]
+       },
+       "extended": null
+      }
+     },
+     {
+      "mt": 44,
+      "dcx": {
+       "kind": "discarded",
+       "extended": null
+      }
+     }
+    ]
+   },
+   "note": "DCX-004 section 5.7: A2 Japan with A3 other than 1 to 4 is discarded"
+  },
+  {
+   "id": "l1s-mt0-mt63-bad-crc",
+   "decoder": "l1s",
+   "frames": [
+    "9a00000000000000000000000000000000000000000000000000000029737f80",
+    "53fc0000000000000000000000000000000000000000000000000000018036c0",
+    "53fc000000000000000000000000000000000000000000000000000001803ec0"
+   ],
+   "expect": {
+    "frames": 3,
+    "bad_crc": 1,
+    "messages": [
+     {
+      "mt": 0,
+      "crc_ok": true,
+      "test_mode": true
+     },
+     {
+      "mt": 63,
+      "crc_ok": true
+     },
+     {
+      "crc_ok": false
+     }
+    ]
+   }
+  }
+ ]
+}

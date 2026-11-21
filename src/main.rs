@@ -1269,6 +1269,55 @@ fn main_in_language(args: Vec<String>) -> ExitCode {
     if args.get(1).map(String::as_str) == Some("ntrip") {
         return run_ntrip_cli(&args[2..]);
     }
+    // `kshana space-receiver <clock|timestamps|dynamics|bench>`: a GNSS receiver in space, its
+    // onboard clock, timestamp faults, signal dynamics and the upper-SSV benchmark
+    // (src/space_receiver/, docs/SPACE-RECEIVER.md). Exit 2 on a usage or input error.
+    if args.get(1).map(String::as_str) == Some("space-receiver") {
+        return ExitCode::from(kshana::space_receiver::cli::run(&args[2..]) as u8);
+    }
+    // `kshana arctic-plan --site <lat,lon> | --place <name> [...]`: GNSS availability over a
+    // planning horizon at a high-latitude site, built on `kshana sky` (src/arctic_plan.rs,
+    // docs/ARCTIC-PLAN.md). Exit 2 on a usage or input error.
+    if args.get(1).map(String::as_str) == Some("arctic-plan") {
+        return ExitCode::from(kshana::arctic_plan::run_cli(&args[2..]) as u8);
+    }
+    // `kshana lunar-ref <tcb-tcl|approx|convert|transform|terms|models>`: lunar time scales,
+    // lunar frames with ILuRF, the terminology registry and the geodetic-model manifest
+    // (src/lunar_ref.rs, docs/LUNAR-REF.md).
+    if args.get(1).map(String::as_str) == Some("lunar-ref") {
+        return ExitCode::from(kshana::lunar_ref::run_cli(&args[2..]) as u8);
+    }
+    // `kshana lunar-afs-kit <vectors|registry|output-check|output-example|output-reexpress>`: the
+    // AFS receiver verification kit (src/lunar_afs/kit.rs, docs/LUNAR-AFS-KIT.md).
+    if args.get(1).map(String::as_str) == Some("lunar-afs-kit") {
+        return ExitCode::from(kshana::lunar_afs::kit::run_cli(&args[2..]) as u8);
+    }
+    // `kshana claim-check [<dataset.json>...] | --template`: public constellation claims, each
+    // with its source, checked against kshana's own computations (src/claim_check.rs,
+    // docs/CLAIM-CHECK.md). Exit 1 on an inconsistent claim, 2 on a usage or input error.
+    if args.get(1).map(String::as_str) == Some("claim-check") {
+        return ExitCode::from(kshana::claim_check::run_cli(&args[2..]) as u8);
+    }
+    // `kshana afs-interop <study|ue-register>`: AFS code-family interoperability planning and the
+    // lunar user-equipment register (src/afs_interop.rs, docs/AFS-INTEROP.md).
+    if args.get(1).map(String::as_str) == Some("afs-interop") {
+        return ExitCode::from(kshana::afs_interop::run_cli(&args[2..]) as u8);
+    }
+    // `kshana timing-stack <tai|ts2phc|pps|shm|ntpq|nts>`: Linux timing-stack verification from
+    // status outputs and PPS data (src/timing_stack.rs, docs/TIMING-STACK.md). Read only.
+    if args.get(1).map(String::as_str) == Some("timing-stack") {
+        return ExitCode::from(kshana::timing_stack::run_cli(&args[2..]) as u8);
+    }
+    // `kshana register-products <verify|show|diff>`: register entries against their signed packs,
+    // a published revocation list and the append-only rule (src/register_products.rs).
+    if args.get(1).map(String::as_str) == Some("register-products") {
+        return ExitCode::from(kshana::register_products::run_cli(&args[2..]) as u8);
+    }
+    // `kshana sil-obsgen <scenario.toml> --out <obs.rnx> [--truth <truth.json>]`: deterministic RINEX
+    // observations from a gnss-sim scenario with an optional street canyon (src/sil_obsgen.rs).
+    if args.get(1).map(String::as_str) == Some("sil-obsgen") {
+        return ExitCode::from(kshana::sil_obsgen::run_cli(&args[2..]) as u8);
+    }
     // `kshana ais-integrity <input> [...]`: per-track AIS position-integrity flags as JSON Lines
     // (src/ais_integrity.rs, docs/AIS-INTEGRITY.md). Exit 2 on a usage or input error.
     if args.get(1).map(String::as_str) == Some("ais-integrity") {
@@ -1278,6 +1327,46 @@ fn main_in_language(args: Vec<String>) -> ExitCode {
     // NTRIP and correction-service quality checks (kshana::rtk_qa; docs/RTK-QA.md).
     if args.get(1).map(String::as_str) == Some("rtk-qa") {
         return ExitCode::from(kshana::rtk_qa::run_cli(&args[2..]) as u8);
+    }
+    // `kshana interference-lib <models|generate|fit|bench|cases> ...`: the synthetic
+    // interference library, reference fit and classifier benchmark (src/interference_lib.rs,
+    // docs/INTERFERENCE-LIB.md). Exit 2 on a usage or input error.
+    if args.get(1).map(String::as_str) == Some("interference-lib") {
+        return ExitCode::from(kshana::interference_lib::run_cli(&args[2..]) as u8);
+    }
+    // `kshana sil-obs <generate|compare> ...`: SIL RINEX observations with a street-canyon
+    // multipath/NLOS model, and observation-statistics comparison (src/sil_obs.rs,
+    // docs/SIL-OBS.md). Exit 2 on a usage or input error.
+    if args.get(1).map(String::as_str) == Some("sil-obs") {
+        return ExitCode::from(kshana::sil_obs::run_cli(&args[2..]) as u8);
+    }
+    // `kshana antenna-cal <lint|spread|compare|group-delay|js-margin> ...`: receiver-antenna
+    // characterisation tools (src/antenna_cal.rs, docs/ANTENNA-CAL.md). Exit 1 when `lint`
+    // finds an error, 2 on a usage or input error.
+    if args.get(1).map(String::as_str) == Some("antenna-cal") {
+        return ExitCode::from(kshana::antenna_cal::run_cli(&args[2..]) as u8);
+    }
+    // `kshana quantum-bench <protocol|simulate|score> ...`: quantum inertial-sensor benchmark
+    // protocol, cold-atom output model and scorer; evaluation only (src/quantum_bench.rs,
+    // docs/QUANTUM-BENCH.md). Exit 2 on a usage or input error.
+    if args.get(1).map(String::as_str) == Some("quantum-bench") {
+        return ExitCode::from(kshana::quantum_bench::run_cli(&args[2..]) as u8);
+    }
+    // `kshana soop-clock <lte|cp|synth-lte> ...`: receiver clock and frequency offset from
+    // terrestrial OFDM signals of opportunity (src/soop_clock.rs, docs/SOOP-CLOCK.md).
+    if args.get(1).map(String::as_str) == Some("soop-clock") {
+        return ExitCode::from(kshana::soop_clock::run_cli(&args[2..]) as u8);
+    }
+    // `kshana adsb-indicators <adsb.csv> [...]`: update-rate collapse, track consistency and
+    // exposed-flight denominators per cell (src/adsb_indicators.rs, docs/ADSB-INDICATORS.md).
+    if args.get(1).map(String::as_str) == Some("adsb-indicators") {
+        return ExitCode::from(kshana::adsb_indicators::run_cli(&args[2..]) as u8);
+    }
+    // `kshana interference-atlas <build|verify|cors> ...`: persistent interference-area atlas,
+    // station C/N0 layer and ground-against-airborne comparison (src/interference_atlas.rs,
+    // docs/INTERFERENCE-ATLAS.md). Exit 1 when `verify` finds a changed atlas.
+    if args.get(1).map(String::as_str) == Some("interference-atlas") {
+        return ExitCode::from(kshana::interference_atlas::run_cli(&args[2..]) as u8);
     }
     // `kshana time-vectors [--json] [<file|dir>...]`: the time-scale conformance vectors
     // (src/time_vectors.rs, docs/TIME-VECTORS.md). Exit 1 when any vector fails.
@@ -1343,8 +1432,23 @@ fn main_in_language(args: Vec<String>) -> ExitCode {
         Some("drone") => Some(kshana::drone_pnt::run),
         // `kshana station run|check|service <station.toml>`: the headless receiver service (src/station.rs).
         Some("station") => Some(kshana::station::run),
+        // `kshana feed pack|verify|send|spectrum|leaderboard`: feeder clients (src/feeder.rs).
+        Some("feed") => Some(kshana::feeder::run),
+        // `kshana register check|crl-check|view|sign`: the product register (src/product_register.rs).
+        Some("register") => Some(kshana::product_register::run),
+        // `kshana interference-env evaluate|thresholds|degradation`: interference environments
+        // against ITU-R M.1903 thresholds and the M.2030 pulsed method (src/interference_env.rs).
+        Some("interference-env") => Some(kshana::interference_env::run),
+        // `kshana signal-readiness <profile.toml> [<obs.rnx>...]`: future-signal readiness
+        // (src/signal_readiness.rs).
+        Some("signal-readiness") => Some(kshana::signal_readiness::run),
+        // `kshana leo-od-plan <plan.toml>`: BeiDou-LEO interoperability planning and a LEO-aided
+        // orbit determination covariance study (src/leo_od_plan.rs).
+        Some("leo-od-plan") => Some(kshana::leo_od_plan::run),
         // `kshana oscillator <part> <input.json>`: oscillator models (src/oscillator/).
         Some("oscillator") => Some(kshana::oscillator::run),
+        // `kshana leo-verify <part> <input.json>`: LEO-PNT verification tools (src/leo_verify/).
+        Some("leo-verify") => Some(kshana::leo_verify::run),
         _ => None,
     };
     if let Some(run) = live_cmd {
