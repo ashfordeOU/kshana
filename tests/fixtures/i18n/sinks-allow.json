@@ -49,6 +49,10 @@
    "count": 19,
    "reason": "signed: summary.html of an evidence pack is hashed into the manifest the pack signs, so it is built in English whatever the language (commit 4bc89cca; docs/i18n.md)"
   },
+  "src/feeder.rs": {
+   "count": 9,
+   "reason": "identifier: the field names (station.id, epoch.fix, ...) the public-bundle check returns, which reach people only inside the translated e-feed-not-coarsened message as its what variable, and the tab-separated column header of the leaderboard (column identifiers of a machine-readable table)"
+  },
   "src/fusion/gnss_ins_ekf.rs": {
    "count": 4,
    "reason": "error: public Result<_, &'static str> of the EKF update; a catalogue message cannot be a &'static str (kept on purpose)"
@@ -88,6 +92,10 @@
   "src/maneuver.rs": {
    "count": 1,
    "reason": "developer: the text of an expect() on an infallible serialisation, not shown to a user"
+  },
+  "src/product_register.rs": {
+   "count": 1,
+   "reason": "identifier: the tab-separated column header of the text view (column identifiers of a machine-readable table)"
   },
   "src/realtime_frame_eop.rs": {
    "count": 1,
@@ -148,6 +156,22 @@
   "src/oscillator/vibration.rs": {
    "count": 3,
    "reason": "machine identifiers: the JSON input field names (dotted paths) passed as the `field` variable of the catalogued e-oscillator-field message; not prose"
+  },
+  "src/leo_verify/doppler_integrity.rs": {
+   "count": 2,
+   "reason": "machine identifiers: the JSON input field names (dotted paths) passed as the `field` variable of the catalogued e-leo-verify-field message; not prose"
+  },
+  "src/tlog.rs": {
+   "count": 11,
+   "reason": "identifier: the RFC 9162 inclusion and consistency failure codes (path-too-long, first-root-mismatch, ...) returned by the proof functions as `&'static str` errors; they are stable machine codes shown as the detail of a catalogued check line and documented in docs/TLOG.md"
+  },
+  "src/leo_verify/rtk_ar.rs": {
+   "count": 2,
+   "reason": "machine identifiers: the JSON input field names (dotted paths) passed as the `field` variable of the catalogued e-leo-verify-field message; not prose"
+  },
+  "src/leo_verify/tdev.rs": {
+   "count": 1,
+   "reason": "machine identifiers: the JSON input field names (dotted paths) passed as the `field` variable of the catalogued e-leo-verify-field message; not prose"
   }
  }
 }

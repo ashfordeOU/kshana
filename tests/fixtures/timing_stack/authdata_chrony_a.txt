@@ -1,0 +1,5 @@
+Name/IP address             Mode KeyID Type KLen Last Atmp  NAK Cook CLen
+=========================================================================
+nts1.example.org             NTS     1   15  256  33m    0    0    8  100
+nts2.example.net             NTS     2   30  128   5m    0    2    0    0
+ntp.example.com                -     0    0    0    -    0    0    0    0

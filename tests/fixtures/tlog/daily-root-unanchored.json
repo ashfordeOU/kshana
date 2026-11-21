@@ -1,0 +1,23 @@
+{
+ "service": "example-log",
+ "method": "daily-root",
+ "evidence_class": "log_anchor",
+ "utc": "2026-11-21T00:05:00Z",
+ "key_id": "kid-log-1",
+ "verdict": {
+  "daily_root": {
+   "chain_head": "553a5cb27cb83d5ff7d7d5ab577ef7b00710a4fea6b188660cb4d7a93d940b2d",
+   "date": "2026-11-20",
+   "format": "example-daily-root/1",
+   "log_key_id": "kid-log-1",
+   "root_hash": "cb451fcf8acd96d640384218c8ab28380398dcf5850465fd72448e5bff545e94",
+   "size": 5
+  },
+  "daily_root_sha256": "b87d102b1b76cfe3ed8ccdbc8d002b27e848ca00dd88cb98548c2653ed0c9a02",
+  "anchoring": "rfc3161",
+  "statement": "test vector: a daily root of the five-entry vector log",
+  "timestamps": []
+ },
+ "verdict_sha256": "83401ca61b4399fbf3000a956533b462ecd8ec41c2510fd2b26629e0121b503d",
+ "signature": "4fbe1176a3ed18d42999cce44ef44341bd83e4994d7e5c4e4b8c7f2653370f5ed3afda10fd7ce83c44a97fa8fa020b79c1e708c882eef39dfe84b019b3827803"
+}
