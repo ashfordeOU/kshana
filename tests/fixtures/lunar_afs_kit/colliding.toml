@@ -1,0 +1,30 @@
+# Two nodes that share an AFS-Q primary PRN (synthetic, for the collision checker).
+[[node]]
+provider = "example-a"
+status = "proposed"
+node_id = 21
+i_prn = 21
+q_prn = 30
+secondary = 0
+tertiary_prn = 21
+tertiary_phase = 0
+
+[[node]]
+provider = "example-b"
+status = "proposed"
+node_id = 22
+i_prn = 22
+q_prn = 30
+secondary = 1
+tertiary_prn = 22
+tertiary_phase = 0
+
+[[node]]
+provider = "example-c"
+status = "proposed"
+node_id = 23
+i_prn = 23
+q_prn = 31
+secondary = 2
+tertiary_prn = 23
+tertiary_phase = 0
