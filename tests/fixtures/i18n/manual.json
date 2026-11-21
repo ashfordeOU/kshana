@@ -20644,17 +20644,6 @@
   ]
  },
  {
-  "id": "bench-cli-unknown-task-g",
-  "error": false,
-  "parts": [
-   "unknown task `",
-   {
-    "var": "t"
-   },
-   "` (a to g)"
-  ]
- },
- {
   "id": "e-orbit-data-pc-radius",
   "error": true,
   "parts": [
