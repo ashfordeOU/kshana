@@ -695,7 +695,10 @@ pub const GM_SUN_DE440: f64 = 1.327_124_400_412_793_9e20;
 
 /// The force model of the ephemeris-grade propagation, every constant explicit: the lunar
 /// monopole, `J2` and `C22` (unnormalised, `S22 = 0`) evaluated in the IAU Moon-fixed
-/// mean-Earth frame ([`crate::lunar_frame::icrf_to_iau_moon`]), and Earth and Sun third-body
+/// mean-Earth frame ([`crate::lunar_frame::icrf_to_iau_moon`]). `S22 = 0` defines the
+/// principal-axis frame, which is about 68″ from mean-Earth about z
+/// ([`crate::lunar_frame::icrf_to_moon_pa`]); evaluating `C22` in mean-Earth turns the bulge by
+/// that much, the effect of an `S22` of about 0.07 % of `C22`. Earth and Sun third-body
 /// point masses at their positions from an SPK planetary ephemeris (JPL DE440, read by
 /// [`crate::naif_kernel`]). The integration frame is Moon-centred with ICRF axes.
 #[derive(Clone, Copy, Debug, PartialEq)]
