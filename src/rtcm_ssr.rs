@@ -635,7 +635,8 @@ fn nearest(x: i64, period: i64, near: i64) -> i64 {
 /// week, each put in the week that brings it nearest the message before it (so two messages more
 /// than half a week apart are ambiguous); a BeiDou RTCM epoch (BeiDou time) is moved 14 s to GPS time;
 /// a GLONASS RTCM epoch (seconds of the GLONASS day, UTC + 3 h) is moved to GPS time with
-/// GPS − UTC = 18 s and placed in the day of the message before it. Records are in stream order,
+/// GPS − UTC = 18 s and placed in the day of the message before it (for a stream that opens with
+/// GLONASS, the day of its first week-based epoch). Records are in stream order,
 /// so `t_s` need not increase from one to the next. The header's
 /// `skipped_records` counts frames with a bad CRC, truncated SSR frames and frames of other
 /// messages; `observables` lists the kinds present.
@@ -644,7 +645,18 @@ pub fn to_obs(stream: &Stream, station: &crate::obs::Station) -> Vec<crate::obs:
     let mut kinds: Vec<String> = Vec::new();
     let mut recs = Vec::new();
     let mut first: Option<i64> = None;
-    let mut last: Option<i64> = None;
+    // A GLONASS epoch carries only the time of day, so it is placed in the day of the message
+    // before it. When the stream opens with GLONASS there is none: anchor it on the stream's
+    // first week-based epoch instead, so it is not taken as day 0 of the week (which put the
+    // following GPS messages days away).
+    let mut last: Option<i64> = stream
+        .messages
+        .iter()
+        .find(|m| !(m.igs_message.is_none() && m.system == Some(System::Glonass)))
+        .map(|m| {
+            let bdt = m.igs_message.is_none() && m.system == Some(System::Beidou);
+            i64::from(m.epoch_s) + if bdt { BDT_TO_GPS_S } else { 0 }
+        });
     for m in &stream.messages {
         let glonass_day = m.igs_message.is_none() && m.system == Some(System::Glonass);
         let t_abs = if glonass_day {
@@ -989,6 +1001,51 @@ mod tests {
             })
             .collect();
         assert_eq!(t, vec![0.0, 8.0, 0.0, 86_380.0, 86_395.0]);
+    }
+
+    #[test]
+    fn a_stream_that_opens_with_glonass_is_placed_on_the_gps_week() {
+        let msg = |number: u16, system: System, epoch_s: u32| {
+            let mut m = new_message(
+                number,
+                Some(system),
+                Kind::Clock,
+                Header {
+                    epoch_s,
+                    update_interval: 0,
+                    multiple: false,
+                    iod_ssr: 0,
+                    provider: 0,
+                    solution: 0,
+                },
+            );
+            m.sats.push(new_sat(system, 1));
+            m
+        };
+        // Saturday 22:13:02 UTC is 01:13:02 GLONASS time (UTC + 3 h) and GPS 22:13:20, second
+        // 598 400 of the GPS week. A GLONASS message at that instant opens the stream, then a GPS
+        // message one second later: they are 1 s apart, not days (the GLONASS time of day was
+        // taken as day 0 of the week before).
+        let glo_tod = (22 * 3600 + 13 * 60 + 2 + 3 * 3600) % 86_400;
+        let st = Stream {
+            messages: vec![
+                msg(1064, System::Glonass, glo_tod),
+                msg(1058, System::Gps, 598_401),
+            ],
+            ..Default::default()
+        };
+        let station = crate::obs::Station {
+            id: "T".into(),
+            ..Default::default()
+        };
+        let t: Vec<f64> = to_obs(&st, &station)
+            .iter()
+            .filter_map(|r| match r {
+                crate::obs::Record::Correction(c) => Some(c.t_s),
+                _ => None,
+            })
+            .collect();
+        assert_eq!(t, vec![0.0, 1.0]);
     }
 
     #[test]
