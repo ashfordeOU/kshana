@@ -63,18 +63,22 @@
 
 pub mod acquisition;
 pub mod adm;
+pub mod adsb_indicators;
 pub mod advanced_report;
+pub mod afs_interop;
 pub mod ais_integrity;
 pub mod allan;
 pub mod altpnt;
 pub mod animation;
 pub mod antenna;
+pub mod antenna_cal;
 pub mod aocs;
 pub mod aocs_kind;
 pub mod aocs_mekf;
 pub mod aperture_duty;
 pub mod api;
 pub mod araim_reference;
+pub mod arctic_plan;
 pub mod area_trust;
 pub mod assurance;
 pub mod asterix_cat021;
@@ -107,6 +111,7 @@ mod cio_s06_data;
 pub mod cislunar_arc_recovery;
 pub mod cislunar_observability;
 pub mod cislunar_srif;
+pub mod claim_check;
 pub mod clock_fit;
 pub mod clock_integrity;
 pub mod clock_library;
@@ -152,6 +157,9 @@ pub mod ephemeris;
 pub mod estimator;
 pub mod eval_stats;
 pub mod evidence_label;
+/// Feeder clients: signed, privacy-coarsened feed bundles of a station's observations (`kshana feed`).
+pub mod feeder;
+pub mod feeder_watch;
 mod fes2004_data;
 pub mod field_schema;
 pub mod filter_health;
@@ -194,6 +202,8 @@ pub mod integrity;
 pub mod integrity_impact;
 pub mod interchange;
 pub mod interconnect;
+pub mod interference_atlas;
+pub mod interference_lib;
 pub mod interop;
 pub mod intersat_range;
 pub mod ionex;
@@ -211,9 +221,15 @@ pub mod legal;
 pub mod leo_fusion;
 pub mod leo_link;
 pub mod leo_navmsg;
+/// BeiDou–LEO interoperability planning and a LEO-aided orbit determination covariance study (`kshana leo-od-plan`).
+pub mod leo_od_plan;
 pub mod leo_pass;
 pub mod leo_pnt_chain;
 pub mod leo_signal;
+/// LEO-PNT verification tools: burst timing, holdover TDEV, cost against resilience, indoor loss,
+/// rain fade, cascaded ambiguity resolution, jamming claims and Doppler-only integrity
+/// (`kshana leo-verify`, docs/LEO-VERIFY.md).
+pub mod leo_verify;
 pub mod linalg_sr;
 pub mod linkbudget;
 pub mod lunar;
@@ -230,6 +246,7 @@ pub mod lunar_frame;
 pub mod lunar_frame_campaign;
 pub mod lunar_frame_predict;
 pub mod lunar_frame_realise;
+pub mod lunar_frames;
 pub mod lunar_gauge;
 pub mod lunar_identifiability;
 pub mod lunar_infra;
@@ -241,9 +258,11 @@ pub mod lunar_llr;
 pub mod lunar_llr_geometry;
 pub mod lunar_od;
 pub mod lunar_orientation;
+pub mod lunar_output;
 pub mod lunar_perturbed;
 pub mod lunar_phase;
 pub mod lunar_receiver;
+pub mod lunar_ref;
 pub mod lunar_rendezvous;
 pub mod lunar_service;
 pub mod lunar_solution;
@@ -255,6 +274,7 @@ pub mod lunar_time;
 pub mod lunar_time_budget;
 pub mod lunar_time_budget_scenario;
 pub mod lunar_time_lab;
+pub mod lunar_timescale;
 pub mod lunar_vlbi;
 /// Station-coordinate covariance from a lunar-VLBI schedule: the delay partials of
 /// [`lunar_vlbi`] accumulated over baselines and epochs into a Fisher information matrix.
@@ -329,6 +349,8 @@ pub mod geodesic;
 pub mod governor;
 /// Read-only Modbus TCP and DNP3 clients (0.42 I7).
 pub mod industrial;
+/// Interference environments for RNSS receivers against ITU-R M.1903 thresholds and the M.2030 pulsed method (`kshana interference-env`).
+pub mod interference_env;
 pub mod interference_map;
 pub mod live_health;
 /// The monitoring-network planner (0.41 row B1a): `kshana planner`.
@@ -356,6 +378,8 @@ pub mod ppp_real;
 pub mod precession;
 pub mod precise_od;
 pub mod precise_products;
+/// A public register of products scored under a stated method, with signed revocation lists (`kshana register`).
+pub mod product_register;
 pub mod propagator;
 /// IEEE 1588 PTP management: linuxptp `pmc` text and the binary management TLVs (0.42 I2).
 pub mod ptp_mgmt;
@@ -363,6 +387,7 @@ pub mod pvt;
 #[cfg(feature = "python")]
 pub mod python;
 pub mod qtrade;
+pub mod quantum_bench;
 pub mod quantum_devices;
 pub mod quantum_faults;
 pub mod quantum_nav_od;
@@ -373,6 +398,7 @@ pub mod realdata;
 pub mod realtime_frame_eop;
 pub mod receiver_trust;
 pub mod reentry;
+pub mod register_products;
 pub mod registry;
 pub mod report;
 pub mod representativeness;
@@ -392,15 +418,21 @@ pub mod security;
 pub mod sensor_live;
 pub mod sgp4;
 pub mod sigmf;
+/// Future-signal readiness of a receiver profile and observation files (`kshana signal-readiness`).
+pub mod signal_readiness;
+pub mod sil_obs;
+pub mod sil_obsgen;
 pub mod skyline;
 pub mod slot_timing;
 /// A read-only SNMPv2c client and OID maps for grandmasters and time servers (0.42 I2).
 pub mod snmp;
 pub mod solar_system;
 pub mod solid_tide;
+pub mod soop_clock;
 pub mod sp3;
 pub mod space_geoloc;
 pub mod space_packet;
+pub mod space_receiver;
 pub mod space_weather;
 pub mod space_weather_pnt;
 pub mod spectrum;
@@ -424,6 +456,7 @@ pub mod sweep;
 pub mod telecom_timing;
 /// chrony and ntpd health: `chronyc`, `ntpq` text and NTP mode 6 read variables (0.42 I2).
 pub mod time_server;
+pub mod timing_stack;
 /// The trust stream as CCSDS packets with XTCE, COSMOS and Open MCT definitions (0.42 I8).
 pub mod tm_bridge;
 // Comparison helpers shared by the byte-identity guards. Test-only: it exists so those
