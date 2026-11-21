@@ -194,7 +194,9 @@ pub struct Trajectory {
 pub struct SlotNote {
     /// The engine's PRN (index) of the slot, after the Walker shell's.
     pub prn: usize,
+    /// Name of the slot set the slot comes from (`inline` for the scenario's own slots).
     pub set: String,
+    /// The slot's `id` within its set.
     pub id: String,
     /// The slot as the scenario states it (kind, longitude, inclination, eccentricity, ...).
     pub slot: crate::gnss_slots::Slot,

@@ -687,8 +687,11 @@ pub const UNITS: &[crate::field_schema::FieldUnit] = {
 /// A GEO or IGSO slot in the simulation: its PRN (index), the set it came from and its id.
 #[derive(Clone, Debug, Serialize)]
 pub struct SlotUsed {
+    /// The satellite index (PRN) of the slot: after the Walker shell, in slot order.
     pub prn: usize,
+    /// The slot set the slot came from (`inline` for the scenario's own `slots`).
     pub set: String,
+    /// The slot's id as given in its set (for example `GEO 32.5E`).
     pub id: String,
 }
 

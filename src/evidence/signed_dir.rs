@@ -34,18 +34,26 @@ pub const ENVELOPE_FILE: &str = "operating-envelope.json";
 /// One listed file, as signed.
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, serde::Deserialize)]
 pub struct FileEntry {
+    /// `/`-separated path of the file relative to the directory root.
     pub path: String,
+    /// SHA-256 of the file's bytes, as hex (compared case-insensitively).
     pub sha256: String,
 }
 
 /// The signed statement, fields in signing order.
 #[derive(Clone, Debug, PartialEq, Eq, Serialize)]
 pub struct Statement {
+    /// Statement format; [`FORMAT`] is the one this module verifies.
     pub format: String,
+    /// Signer name as written in `signature.json`.
     pub signer: String,
+    /// Signing time as written in `signature.json`.
     pub utc: String,
+    /// Ed25519 public key, 64 hex digits.
     pub public_key: String,
+    /// First 16 hex digits of SHA-256 of the public key bytes.
     pub key_id: String,
+    /// Every covered file with its SHA-256, sorted by path.
     pub files: Vec<FileEntry>,
 }
 
@@ -66,34 +74,63 @@ pub fn key_id_of(public_key: &[u8; 32]) -> String {
 #[serde(rename_all = "snake_case", tag = "kind")]
 pub enum Problem {
     /// The statement's format is not [`FORMAT`].
-    Format { found: String },
+    Format {
+        /// The `format` value the statement carries.
+        found: String,
+    },
     /// `key_id` is not the first 16 hex digits of SHA-256 of the public key.
-    KeyId { found: String, expected: String },
+    KeyId {
+        /// The `key_id` the statement carries.
+        found: String,
+        /// The key id computed from the statement's public key (16 hex digits).
+        expected: String,
+    },
     /// A listed file is not in the directory.
-    Missing { path: String },
+    Missing {
+        /// Relative path of the listed file that is not in the directory.
+        path: String,
+    },
     /// A listed file has a different SHA-256.
     Changed {
+        /// Relative path of the file.
         path: String,
+        /// SHA-256 hex given for the file in the statement.
         listed: String,
+        /// SHA-256 hex of the file as found in the directory.
         found: String,
     },
     /// A file in the directory is not listed.
-    NotCovered { path: String },
+    NotCovered {
+        /// Relative path of the file found in the directory but not listed.
+        path: String,
+    },
     /// A listed path is listed more than once.
-    Duplicate { path: String },
+    Duplicate {
+        /// The path listed more than once.
+        path: String,
+    },
     /// An entry in the directory that is not a regular file or directory (a symbolic link, for
     /// example): it is not covered and a reader could be misled by it.
-    NotRegular { path: String },
+    NotRegular {
+        /// Relative path of the entry that is neither a regular file nor a directory.
+        path: String,
+    },
 }
 
 /// The outcome.
 #[derive(Clone, Debug, PartialEq, Serialize)]
 pub struct DirReport {
+    /// Report schema, [`REPORT_SCHEMA`].
     pub schema: &'static str,
+    /// Statement `format`, as read from `signature.json`.
     pub format: String,
+    /// Statement `signer`, as read from `signature.json`.
     pub signer: String,
+    /// Statement `utc` (signing time), as read from `signature.json`.
     pub utc: String,
+    /// Statement `public_key` (Ed25519, 64 hex), as read from `signature.json`.
     pub public_key: String,
+    /// Statement `key_id`, as read; checked against the public key (see [`Problem::KeyId`]).
     pub key_id: String,
     /// The signature verified over the statement with the key it names.
     pub signature_valid: bool,
@@ -103,6 +140,7 @@ pub struct DirReport {
     pub files_listed: usize,
     /// Regular files found (excluding `signature.json` and `longterm.json`).
     pub files_found: usize,
+    /// Every mismatch found between the directory and the statement; empty when none.
     pub problems: Vec<Problem>,
     /// `longterm.json` is present (not covered by the statement, not checked here).
     pub longterm_present: bool,
