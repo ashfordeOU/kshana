@@ -1831,7 +1831,10 @@ G01 2023 01 01 00 00 00 4.567890123456D-04 1.136868377216D-12 0.000000000000D+00
         // epoch of a GPS file, of a BeiDou-time file (14 s behind) and of a GLONASS file
         // (UTC, 18 s behind in 2023). Each must give the same satellite position; read as
         // GPS time, the BDT and GLO epochs would put the satellite 14 s and 18 s early.
-        let eph = parse_nav(NAV_SAMPLE).unwrap()[0];
+        // The record is given the observation's week (2243), as ephemerides are chosen by
+        // absolute time (`select_ephemeris_at`).
+        let mut eph = parse_nav(NAV_SAMPLE).unwrap()[0];
+        eph.gps_week = 2243.0;
         let tow = 172_800.0;
         let approx_tx = eph.sv_position_ecef(tow - 0.075);
         let rx = {
