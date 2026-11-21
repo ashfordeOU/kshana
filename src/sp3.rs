@@ -144,19 +144,21 @@ impl Sp3File {
         step_s: f64,
         num_epochs: usize,
     ) -> Self {
-        let start_jd_cal = crate::timescales::julian_date(
-            start.year,
-            start.month,
-            start.day,
-            start.hour,
-            start.minute,
-            start.second,
-        );
+        // The epoch labels advance in seconds of day from `start` (8 decimals, as written), not
+        // through a Julian Date, which would turn a clean grid into 00:14:59.99998659.
+        let start_civil = crate::timescales::CivilTime {
+            year: start.year,
+            month: start.month,
+            day: start.day,
+            hour: start.hour,
+            minute: start.minute,
+            second: start.second,
+        };
         let mut epochs = Vec::with_capacity(num_epochs);
         for i in 0..num_epochs {
             let t = i as f64 * step_s;
             let jd_ut1 = start_jd_ut1 + t / 86_400.0;
-            let civil = crate::timescales::civil_from_jd(start_jd_cal + t / 86_400.0);
+            let civil = crate::timescales::civil_after(start_civil, t, 8);
             let mut states = Vec::with_capacity(sats.len());
             for (id, sat) in ids.iter().zip(sats.iter()) {
                 let offset = sat
@@ -840,6 +842,36 @@ mod tests {
     use super::*;
 
     #[test]
+    fn a_clean_grid_is_written_as_clean_epochs() {
+        let orbit = crate::orbit::Orbit::new(26_560e3, 0.96, 0.0, 0.0);
+        let start = EpochUtc {
+            year: 2023,
+            month: 1,
+            day: 1,
+            hour: 0,
+            minute: 0,
+            second: 0.0,
+        };
+        let jd = crate::timescales::julian_date(2023, 1, 1, 0, 0, 0.0);
+        let f = Sp3File::from_propagators(
+            &["G01".to_string()],
+            &[crate::orbit::Propagator::Kepler(orbit)],
+            start,
+            jd,
+            900.0,
+            97,
+        );
+        let text = f.to_sp3_string();
+        assert!(
+            text.contains("*  2023  1  1  0 15  0.00000000\n"),
+            "{}",
+            &text[..400]
+        );
+        assert!(text.contains("*  2023  1  2  0  0  0.00000000\n"));
+        assert!(!text.contains("59.9999"));
+    }
+
+    #[test]
     fn accuracy_codes_map_to_position_sigmas() {
         // SAMPLE with per-record standard deviations on G01's first record (base 1.25 mm):
         // exponents 10, 9, 11 → 1.25^n mm. Header exponents: G01 = 2, G02 = 2.
@@ -1101,10 +1133,8 @@ EOF";
         // (1) Exact at an interior node: rotation is identity there (the
         // argument OMGE·(t_node − t) is zero), so the corrected polynomial passes
         // through the raw stored sample. Query at the node's OWN tabulated time
-        // (interp.t_s[10]); the nominal 10×900 s differs from it by the sub-µs
-        // round-trip noise of from_propagators' civil_from_jd, which at MEO
-        // velocity would otherwise show as ~cm — exactly the precision sensitivity
-        // this whole change is about.
+        // (interp.t_s[10]), which on the exact grid from_propagators now writes is
+        // the nominal 10×900 s.
         let t_node = interp.t_s[10];
         let stored = f.position_of("G01", 10).expect("stored node");
         let at_node = interp.position_ecef(t_node);
@@ -1118,8 +1148,10 @@ EOF";
         }
 
         // (2) Off a node, the correction shifts X/Y relative to a raw Lagrange
-        // fit (Z is untouched by a +Z rotation). The shift is sub-metre over a
-        // 900 s half-step at this radius but must be clearly non-zero.
+        // fit (Z is untouched by a +Z rotation). On a clean epoch grid the shift
+        // is the difference of two 10th-order fits of smooth motion, about 0.4 mm
+        // here; it must be clearly non-zero. (Before the grid labels were made
+        // exact, their ~10 µs noise added about a millimetre to this difference.)
         let t_mid = 10.5 * 900.0;
         let corrected = interp.position_ecef(t_mid);
         // Reproduce the raw (uncorrected) Lagrange fit over the same window.
@@ -1132,7 +1164,7 @@ EOF";
         ];
         let dxy = ((corrected[0] - raw[0]).ppowi(2) + (corrected[1] - raw[1]).ppowi(2)).sqrt();
         assert!(
-            dxy > 1e-3,
+            dxy > 1e-4,
             "Earth-rotation correction should move the X/Y fit off the raw fit, Δxy={dxy:.6} m"
         );
         // Z is unaffected by a rotation about +Z.
