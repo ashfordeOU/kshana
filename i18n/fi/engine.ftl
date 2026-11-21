@@ -10285,6 +10285,14 @@ engine-e-ais-integrity-cannot-read = tiedostoa { $path } ei voi lukea: { $e }
 engine-e-ais-integrity-cannot-write = tiedostoon { $path } ei voi kirjoittaa: { $e }
 engine-e-ais-integrity-bad-place = paikkaluettelon rivi ei ole name,lat,lon,radius_m, jossa on kelvollinen sijainti ja positiivinen säde: { $row }
 
+## Linux timing-stack verification (src/timing_stack.rs)
+engine-timing-stack-usage = käyttö: kshana timing-stack tai [--pmc <pmc.txt>] [--phc-ctl <phc_ctl.txt>] [--chrony <tracking.txt>] [--tai-utc <s>] | ts2phc <ts2phc.log> [--max-offset <s>] | pps <assert.txt> | shm <ntpshmmon.txt> | ntpq <ntpq-p.txt> [--rv <ntpq-rv.txt>] | nts [--client <name>=<authdata.txt>]... [<authdata.txt>]   [--end <t>] [--stale-after <s>] [--out <file.json>]  (docs/TIMING-STACK.md)
+engine-e-timing-stack-missing-value = { $option } tarvitsee arvon
+engine-e-timing-stack-unknown-option = tuntematon valitsin { $option } (kshana timing-stack --help luettelee valitsimet)
+engine-e-timing-stack-cannot-read = tiedostoa { $path } ei voi lukea: { $e }
+engine-e-timing-stack-cannot-write = tiedostoon { $path } ei voi kirjoittaa: { $e }
+engine-e-timing-stack-bad-number = { $option }: { $value } ei ole kelvollinen luku
+
 engine-main-usage =
     käyttö: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }tai: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10316,6 +10324,7 @@ engine-main-usage =
     { "   " }tai: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }tai: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }tai: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
+    { "   " }tai: kshana timing-stack <tai|ts2phc|pps|shm|ntpq|nts> ... (kshana timing-stack --help)
     { "   " }tai: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }tai: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }tai: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
