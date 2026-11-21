@@ -34,6 +34,17 @@ is tied to the exact bytes below by SHA-256.
   `realtime-frame-eop` runtime default until G12; it is final-only, so on it
   `predicted_rows.n` is 0, and a test keeps that path exercised.
 
+### `eop/finals2000A_2019203.txt`
+- **Product:** IERS `finals2000A.all` (`finals.all.iau2000.txt`), Bulletin A
+  FINAL values (flag `I`) — UT1−UTC and the polar-motion pole (xₚ, yₚ).
+- **Source (open, no login):** IERS Data Centre,
+  `https://datacenter.iers.org/data/9/finals2000A.all` (retrieved 2026-11-21); IERS
+  products, free use with citation.
+- **Slice:** MJD 58684..58688 (2019-07-20 .. 2019-07-24), five rows verbatim under a
+  comment header, bracketing the Lucky-7 GPS track of 2019-07-22 used by
+  `tests/amateur_od_lucky7.rs`.
+- **SHA-256:** `67682bbe1d4c9b0ecba7774dd471601f2b0b9b40c9e8efb19743891af4810329`
+
 ### `eop/finals2000A_2026.txt`
 - **Product:** IERS `finals2000A.all` (`finals.all.iau2000.txt`) — Bulletin A rapid
   UT1−UTC and pole, plus the Bulletin B (EOP 14 C04) final block where published.

@@ -69,6 +69,7 @@ pub mod afs_interop;
 pub mod ais_integrity;
 pub mod allan;
 pub mod altpnt;
+pub mod amateur_od;
 pub mod animation;
 pub mod antenna;
 pub mod antenna_cal;

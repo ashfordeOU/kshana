@@ -12287,3 +12287,7 @@ engine-e-ccsds-not-finite = { $t } není konečné číslo
 engine-e-oem-unclosed-covariance = segment objektu { $object } otevírá COVARIANCE_START a nikdy jej neuzavře pomocí COVARIANCE_STOP
 engine-e-orbit-data-convert-time-system-changes = segmenty nesdílejí jeden TIME_SYSTEM ({ $first }, pak { $other }); OCM nese jen jeden, převod se proto odmítá
 engine-e-ccsds-tdm-data-outside-block = datový řádek mimo blok DATA_START až DATA_STOP: { $line }
+
+engine-amateur-od-bad-record = řádek { $line }: záznam { $what } nelze přečíst
+engine-amateur-od-bad-json = pozorování SatNOGS: pole { $field } chybí nebo není číslo
+engine-amateur-od-unknown-site = Dopplerův záznam uvádí stanici { $site }, která není v seznamu stanic

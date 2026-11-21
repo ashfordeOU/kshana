@@ -77,6 +77,10 @@
    "count": 22,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
+  "src/amateur_od.rs": {
+   "count": 5,
+   "reason": "machine-document: the field names of a SatNOGS Network observation record (ground_station, station_lat, station_lng, station_alt, transmitter_downlink_low) read from its JSON"
+  },
   "src/bench/anomaly.rs": {
    "count": 24,
    "reason": "identifier and machine-document: the OPSSAT-AD column names, the task (f) baseline names, the JSON keys of the task (f) truth, cases and result documents, the spec version, the pinned dataset SHA-256 and the English `label` written into that machine document (bench/SPEC.md, task (f))"

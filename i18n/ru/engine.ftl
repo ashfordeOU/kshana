@@ -12439,3 +12439,7 @@ engine-e-ccsds-not-finite = { $t } не является конечным чис
 engine-e-oem-unclosed-covariance = сегмент { $object } открывает COVARIANCE_START и не закрывает его через COVARIANCE_STOP
 engine-e-orbit-data-convert-time-system-changes = у сегментов нет общего TIME_SYSTEM ({ $first }, затем { $other }); OCM несёт только одну, поэтому преобразование отклонено
 engine-e-ccsds-tdm-data-outside-block = строка данных вне блока от DATA_START до DATA_STOP: { $line }
+
+engine-amateur-od-bad-record = строка { $line }: запись { $what } не читается
+engine-amateur-od-bad-json = наблюдение SatNOGS: поле { $field } отсутствует или не является числом
+engine-amateur-od-unknown-site = доплеровская запись указывает станцию { $site }, которой нет в списке станций

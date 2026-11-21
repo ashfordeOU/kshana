@@ -11953,3 +11953,7 @@ engine-e-ccsds-not-finite = { $t } ei ole äärellinen luku
 engine-e-oem-unclosed-covariance = kohteen { $object } segmentti avaa COVARIANCE_START-lohkon eikä koskaan sulje sitä COVARIANCE_STOP-rivillä
 engine-e-orbit-data-convert-time-system-changes = segmenteillä ei ole yhteistä TIME_SYSTEM-arvoa ({ $first }, sitten { $other }); OCM sisältää vain yhden, joten muunnos hylätään
 engine-e-ccsds-tdm-data-outside-block = datarivi DATA_START–DATA_STOP-lohkon ulkopuolella: { $line }
+
+engine-amateur-od-bad-record = rivi { $line }: { $what }-tietuetta ei voi lukea
+engine-amateur-od-bad-json = SatNOGS-havainto: kenttä { $field } puuttuu tai ei ole luku
+engine-amateur-od-unknown-site = Doppler-tietue nimeää aseman { $site }, jota ei ole asemaluettelossa
