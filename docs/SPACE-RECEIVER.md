@@ -144,7 +144,12 @@ booklet's main lobe. Each is run with the booklet link budget and main-lobe
 transmit pattern on L1, all six constellations, a booklet high-gain nadir and patch zenith antenna
 and the receiver's C/N0 threshold, and reports availability of one and four signals, the longest
 outages, the Doppler and Doppler-rate envelope, the relativistic rate and the free-run time error
-of the oscillator over the longest four-signal outage. Three checks per case (Doppler, Doppler
+of the oscillator over the longest four-signal outage. It also reports the position DOP of the combined signals
+(median, 95th percentile, worst, over the epochs with four or more), the strongest link's C/N0
+(minimum, mean, maximum) and the signals in view. These are MODELLED and have **no published
+comparator**: the ICG booklet (UN ST/SPACE/75) gives no DOP figure and tabulates no received C/N0
+(its figure 5.9 only plots one, which is not digitised here); the specified minimum received powers
+it does tabulate are already checked by bar S0 of the `gnss-ssv` comparison ([SSV.md](SSV.md)). Three checks per case (Doppler, Doppler
 rate, time error) pass, fail or are `not_checked` when no limit is given. The case list is
 versioned: a change is a new version, never an edit.
 
