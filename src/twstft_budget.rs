@@ -380,11 +380,13 @@ mod tests {
     fn the_sagnac_term_is_the_bipm_closed_form() {
         let (a, b, s) = link();
         let terms = solve_offset(&a, &b, &s, 0.0, 0.0);
-        // −½[S(A→S→B) − S(B→S→A)] = −S(A→S→B) by antisymmetry, which is minus the loop
-        // A→S→B→A less its B→A leg; compare with the module's loop closed form.
-        let loop_ab = crate::timetransfer_adv::twstft_sagnac(a.r_m, s.r_m, b.r_m)
-            - sagnac_correction(b.r_m, a.r_m);
-        assert!((terms.sagnac + loop_ab).abs() < 1e-18);
+        // −½[S(A→S→B) − S(B→S→A)] = −S(A→S→B) by antisymmetry: minus the TWSTFT Sagnac
+        // term of the path, which is the closed form 2·A·ω/c² over the quadrilateral
+        // (centre, A, S, B).
+        let path_ab = crate::timetransfer_adv::twstft_sagnac(a.r_m, s.r_m, b.r_m);
+        assert!((terms.sagnac + path_ab).abs() < 1e-18);
+        let bipm = crate::timetransfer_adv::twstft_sagnac_bipm(a.r_m, s.r_m, b.r_m);
+        assert!((terms.sagnac + bipm).abs() < 1e-15 * bipm.abs().max(1e-12));
     }
 
     #[test]
