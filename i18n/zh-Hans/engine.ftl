@@ -10126,6 +10126,9 @@ engine-e-evidence-dir-cannot-read = 无法读取 { $path }：{ $e }
 engine-e-evidence-dir-bad-json = { $path } 不是有效的 JSON：{ $e }
 engine-e-evidence-dir-bad-field = signature.json：{ $field } 缺失或格式错误
 
+## space-receiver od-vs-tle time system
+engine-e-space-receiver-oem-time-system = 此比较不读取 OEM 时间系统 { $ts }（UTC、GPS、TAI 或 TT）
+
 engine-main-usage =
     用法：kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }或：kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]

@@ -10861,6 +10861,9 @@ engine-e-evidence-dir-cannot-read = { $path } kann nicht gelesen werden: { $e }
 engine-e-evidence-dir-bad-json = { $path } ist kein gültiges JSON: { $e }
 engine-e-evidence-dir-bad-field = signature.json: { $field } fehlt oder hat die falsche Form
 
+## space-receiver od-vs-tle time system
+engine-e-space-receiver-oem-time-system = das OEM-Zeitsystem { $ts } liest dieser Vergleich nicht (UTC, GPS, TAI oder TT)
+
 engine-main-usage =
     Aufruf: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }oder: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]

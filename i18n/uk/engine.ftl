@@ -10996,6 +10996,9 @@ engine-e-evidence-dir-cannot-read = не вдається прочитати { $
 engine-e-evidence-dir-bad-json = { $path } — недійсний JSON: { $e }
 engine-e-evidence-dir-bad-field = signature.json: { $field } відсутнє або має неправильний вигляд
 
+## space-receiver od-vs-tle time system
+engine-e-space-receiver-oem-time-system = це порівняння не читає систему часу OEM { $ts } (UTC, GPS, TAI або TT)
+
 engine-main-usage =
     використання: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }або: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
