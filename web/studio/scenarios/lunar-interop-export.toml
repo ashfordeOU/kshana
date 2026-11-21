@@ -33,6 +33,9 @@ kind = "lunar-interop-export"
 # Lunar body frame: MOON_ME (mean-Earth / polar-axis) or MOON_PA440 (DE440 principal axes;
 # the older MOON_PA is read as MOON_PA440).
 frame = "MOON_ME"
+# The TDB epoch of the first state: it anchors the grid and lets the inertial sample states be
+# rotated into the body frame MOON_ME (without it only ICRF, the states' own frame, is written).
+epoch_tdb = "2030-01-01T00:00:00"
 
 # Time system: TDB (SANA-registered, the default) or UTC. The lunar tokens LTC and TCL are
 # not in the SANA Time Systems registry; to write one anyway set
