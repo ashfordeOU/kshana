@@ -10591,6 +10591,16 @@ engine-e-claim-check-cannot-read = kan inte läsa { $path }: { $e }
 engine-e-claim-check-cannot-write = kan inte skriva { $path }: { $e }
 engine-e-claim-check-bad-dataset = inte en kshana.claims/1-fil: { $e }
 
+## AFS interoperability planning and the lunar user-equipment register (src/afs_interop.rs)
+engine-afs-interop-usage = användning: kshana afs-interop study [--afs-prns <1-12>] [--gps-prns <1-32>] [--galileo-prns <1-36>] [--fs <Hz>] [--integration-ms <ms>] [--max-doppler <Hz>] [--doppler-step <Hz>] [--sweep-pairs <n>] | ue-register [<register.json>] | ue-register --template   [--out <file>]  (docs/AFS-INTEROP.md)
+engine-e-afs-interop-missing-value = { $option } behöver ett värde
+engine-e-afs-interop-unknown-option = okänt alternativ { $option } (kshana afs-interop --help listar alternativen)
+engine-e-afs-interop-cannot-read = kan inte läsa { $path }: { $e }
+engine-e-afs-interop-cannot-write = kan inte skriva { $path }: { $e }
+engine-e-afs-interop-bad-number = { $option }: { $value } är inte ett giltigt tal
+engine-e-afs-interop-bad-register = inte en kshana.lunar-ue-register/1-fil: { $e }
+engine-e-afs-interop-bad-settings = studiens inställningar ligger utanför gränserna: fs × integrationstid måste ge 64 till 200 000 sampel, Doppler-steget måste vara positivt och gränsen inte negativ
+
 engine-main-usage =
     användning: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }eller: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10632,6 +10642,7 @@ engine-main-usage =
     { "   " }eller: kshana signal-readiness <profile.toml> [<obs.rnx>...]
     { "   " }eller: kshana leo-od-plan <plan.toml>
     { "   " }eller: kshana claim-check [<dataset.json>...] [--out <file.json>] | --template
+    { "   " }eller: kshana afs-interop <study|ue-register> ... (kshana afs-interop --help)
     { "   " }eller: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }eller: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }eller: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>

@@ -347,6 +347,7 @@ const UNLABELLED_WRITERS: &[(&str, &str)] = &[
     ("src/lunar_afs/kit.rs", "writes the kit's JSON reports and message streams (--out): check reports and synthetic example messages, each naming its schema or profile"),
     ("src/lunar_ref.rs", "writes the lunar-ref JSON documents (--out); the time-scale and transform documents carry their MODELLED label, the registries are data"),
     ("src/claim_check.rs", "writes the claim-check JSON (--out); every verdict carries its MODELLED label and sources"),
+    ("src/afs_interop.rs", "writes the afs-interop JSON (--out): the study carries its MODELLED label, the register check is a validation report"),
 ];
 
 fn source_files(dir: &Path, out: &mut Vec<String>) {

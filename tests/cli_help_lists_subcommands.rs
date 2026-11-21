@@ -50,6 +50,7 @@ fn the_top_level_usage_names_every_subcommand() {
         "adsb-indicators",
         "interference-atlas",
         "claim-check",
+        "afs-interop",
         "corrections",
         "space-weather",
         "rtk-qa",

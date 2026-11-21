@@ -86,6 +86,15 @@ breaking changes are called out explicitly.
   source is refused. Ships seven claims about ESA Celeste quoted from ESA and Thales Alenia Space public pages, and a
   template. MODELLED.
 
+### Added (AFS interoperability planning)
+
+- `kshana afs-interop` (src/afs_interop.rs, docs/AFS-INTEROP.md): code-family separation of the LunaNet AFS-Q codes
+  from GPS L1 C/A, Galileo E1 (user-supplied tables) and each other, sampled over a common window: exact zero-Doppler
+  cross-correlation over every lag by bit counting, a Doppler sweep within stated bounds for the worst pairs, and each
+  family's out-of-phase autocorrelation (GPS C/A reproduces the Gold bound, -23.94 dB). Co-channel worst case, not a
+  prediction of interference between the broadcasts. And the kshana.lunar-ue-register/1 user-equipment register with
+  its check (no personal contact fields). MODELLED, planning only.
+
 ### Added (space weather for PNT and drag)
 
 - `kshana space-weather` (src/space_weather_pnt/, docs/SPACE-WEATHER-PNT.md): a storm library of eight recorded
