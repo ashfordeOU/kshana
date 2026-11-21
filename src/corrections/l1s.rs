@@ -84,51 +84,71 @@ pub fn mask_label(n: u32) -> Option<String> {
 /// A monitoring station of MT47.
 #[derive(Clone, Debug, Serialize, PartialEq)]
 pub struct Station {
+    /// Station code (6 bits) as broadcast; 63 marks an empty slot and is not reported.
     pub code: u8,
+    /// Station name looked up from [`STATIONS`]; `None` for a code not in the table.
     pub name: Option<&'static str>,
+    /// Broadcast latitude, degrees (0.005° steps, rounded to 3 decimals).
     pub lat_deg: Option<f64>,
+    /// Broadcast longitude, degrees: 115° plus the signed offset in 0.005° steps, rounded to 3 decimals.
     pub lon_deg: Option<f64>,
+    /// Broadcast height, metres: −100 m plus the 6-bit code in 50 m steps.
     pub height_m: Option<f64>,
 }
 
 /// One pseudorange correction of MT50.
 #[derive(Clone, Debug, Serialize, PartialEq)]
 pub struct Prc {
+    /// Satellite label (`G01`, `J01`, ...) from the MT48 mask entry this correction belongs to.
     pub sat: String,
     /// Metres; `None` for the −81.92 m "do not use" code.
     pub prc_m: Option<f64>,
+    /// Set when the raw value is the −81.92 m code: the satellite is to be treated as unhealthy for 30 s.
     pub unhealthy_30s: bool,
 }
 
 /// One decoded message.
 #[derive(Clone, Debug, Serialize, PartialEq, Default)]
 pub struct Message {
+    /// 0-based position of the frame in the decoded input.
     pub index: usize,
+    /// Preamble pattern (`A`, `B` or `C`) matched by the first 8 bits; `None` for no match.
     pub preamble: Option<char>,
+    /// Message type (6 bits after the preamble).
     pub mt: u8,
+    /// Whether the CRC-24Q over bits 1 to 226 matches the last 24 bits; the body is decoded only when it does.
     pub crc_ok: bool,
+    /// MT0: `Some(true)` for the test-mode message.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub test_mode: Option<bool>,
+    /// MT47: the monitoring stations broadcast (up to 5; empty slots with code 63 skipped).
     #[serde(skip_serializing_if = "Option::is_none")]
     pub stations: Option<Vec<Station>>,
+    /// MT48, MT49, MT50: issue of data of the PRN mask (2 bits).
     #[serde(skip_serializing_if = "Option::is_none")]
     pub iodp: Option<u8>,
+    /// MT49, MT50: issue of data of the data issue numbers (2 bits).
     #[serde(skip_serializing_if = "Option::is_none")]
     pub iodi: Option<u8>,
+    /// MT48: labels of the satellites set in the PRN mask, in mask-number order.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub mask: Option<Vec<String>>,
     /// MT49: (satellite, IOD) for the selected satellites.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub iod: Option<Vec<(String, u8)>>,
+    /// MT50: monitoring station code (6 bits) of the corrections.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub gms_code: Option<u8>,
+    /// MT50: `true` when the station health flag bit is clear (the decoder stores the inverted bit).
     #[serde(skip_serializing_if = "Option::is_none")]
     pub gms_healthy: Option<bool>,
+    /// MT50: pseudorange corrections of the selected satellites, mapped through the MT48 with the same IODP.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub prc: Option<Vec<Prc>>,
     /// MT51: satellites marked unhealthy.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub unhealthy: Option<Vec<String>>,
+    /// MT43: the JMA DC Report header and its category body.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub dc_report: Option<DcReport>,
     /// MT44: the DCX message.
@@ -144,13 +164,17 @@ pub struct Message {
 pub struct DcReport {
     /// 1 maximum priority, 2 priority, 3 regular, 7 training/test.
     pub classification: u8,
+    /// Name of the report classification code; `None` for a code not listed above.
     pub classification_name: Option<&'static str>,
+    /// Disaster category code (4 bits).
     pub disaster_category: u8,
+    /// Name of the disaster category from [`DISASTER_CATEGORIES`]; `None` for an unused or unknown code.
     pub disaster_category_name: Option<&'static str>,
     /// Report time (UTC): month, day, hour, minute.
     pub report_time: [u8; 4],
     /// 0 issue, 2 cancellation.
     pub information_type: u8,
+    /// Version number read from block bits 215 to 220 (6 bits).
     pub version: u8,
     /// Category-specific bits 44 to 214, hexadecimal.
     pub body_hex: String,
@@ -161,9 +185,13 @@ pub struct DcReport {
 /// The decoder's report.
 #[derive(Clone, Debug, Serialize, PartialEq, Default)]
 pub struct Report {
+    /// Frames given to the decoder.
     pub frames: usize,
+    /// Frames whose CRC-24Q did not match (their bodies are not decoded).
     pub bad_crc: usize,
+    /// Frames shorter than [`BLOCK_BITS`], skipped.
     pub short: usize,
+    /// One entry per frame of full length, in input order.
     pub messages: Vec<Message>,
 }
 

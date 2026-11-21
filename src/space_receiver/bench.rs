@@ -183,7 +183,9 @@ pub struct CaseResult {
     /// percentile and worst. MODELLED, with no published comparator: the ICG booklet (UN
     /// ST/SPACE/75) gives no DOP figure.
     pub pdop_median: Option<f64>,
+    /// 95th-percentile PDOP over those epochs (MODELLED, no published comparator).
     pub pdop_p95: Option<f64>,
+    /// Worst (largest) PDOP over those epochs (MODELLED, no published comparator).
     pub pdop_worst: Option<f64>,
     /// The strongest link's C/N0 (dB-Hz) over the epochs with one: minimum, mean and maximum.
     /// MODELLED, with no published comparator: the booklet tabulates no received C/N0 (its

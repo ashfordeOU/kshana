@@ -43,6 +43,7 @@ use std::fmt::Write as _;
 
 /// Schema ids.
 pub const PROTOCOL_SCHEMA: &str = "kshana.quantum-bench-protocol/1";
+/// Schema id of the score document written by [`score`].
 pub const SCORE_SCHEMA: &str = "kshana.quantum-bench-score/1";
 /// The protocol version the scorer implements.
 pub const PROTOCOL_ID: &str = "quantum-bench/v1";
@@ -85,10 +86,14 @@ pub fn protocol() -> serde_json::Value {
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(deny_unknown_fields)]
 pub struct SimSpec {
+    /// The interferometer parameters.
     pub sensor: SensorCfg,
+    /// Sensor errors beyond projection noise; all zero when omitted.
     #[serde(default)]
     pub errors: ErrorCfg,
+    /// The true acceleration along the sensitive axis.
     pub profile: ProfileCfg,
+    /// Run length and random seed.
     pub run: RunCfg,
 }
 
@@ -96,6 +101,7 @@ pub struct SimSpec {
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(deny_unknown_fields)]
 pub struct SensorCfg {
+    /// Laser wavelength (m) giving `k_eff = 4π/λ`; defaults to the Rb-87 D2 line.
     #[serde(default = "default_lambda")]
     pub wavelength_m: f64,
     /// Pulse separation `T` (s).
@@ -137,10 +143,13 @@ pub struct ErrorCfg {
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(deny_unknown_fields)]
 pub struct ProfileCfg {
+    /// Constant acceleration (m/s²).
     #[serde(default)]
     pub constant_m_s2: f64,
+    /// Amplitude of the sinusoidal acceleration (m/s²).
     #[serde(default)]
     pub sine_amplitude_m_s2: f64,
+    /// Frequency of the sinusoidal acceleration (Hz).
     #[serde(default)]
     pub sine_hz: f64,
     /// Steps `[time s, added acceleration m/s²]`.
@@ -149,6 +158,7 @@ pub struct ProfileCfg {
 }
 
 impl ProfileCfg {
+    /// The true acceleration at time `t` (s): constant plus sine plus every step at or before `t` (m/s²).
     pub fn at(&self, t: f64) -> f64 {
         let mut a =
             self.constant_m_s2 + self.sine_amplitude_m_s2 * (2.0 * PI * self.sine_hz * t).psin();
@@ -165,7 +175,9 @@ impl ProfileCfg {
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(deny_unknown_fields)]
 pub struct RunCfg {
+    /// Run duration (s); the number of samples is the duration over the cycle time, rounded down.
     pub duration_s: f64,
+    /// Seed of the noise generator; zero when omitted.
     #[serde(default)]
     pub seed: u64,
 }
@@ -199,6 +211,7 @@ pub enum BenchError {
 }
 
 impl SensorCfg {
+    /// The [`CaiAccelerometer`] model of the quantum-IMU module with these parameters.
     pub fn cai(&self) -> CaiAccelerometer {
         CaiAccelerometer {
             wavelength_m: self.wavelength_m,
@@ -326,8 +339,11 @@ pub fn predictions(spec: &SimSpec) -> serde_json::Value {
 /// A recorded series.
 #[derive(Clone, Debug, Default)]
 pub struct Series {
+    /// Sample times (s), from the `t_s` column.
     pub t: Vec<f64>,
+    /// Measured acceleration (m/s²), from the `measured_m_s2` column.
     pub y: Vec<f64>,
+    /// Reference acceleration (m/s²) from the `reference_m_s2` column, when the CSV has one.
     pub reference: Option<Vec<f64>>,
 }
 

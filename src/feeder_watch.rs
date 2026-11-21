@@ -41,6 +41,7 @@ pub struct Queued {
 /// `state.json`.
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub struct Spool {
+    /// Schema tag of the state file; must equal [`SPOOL_SCHEMA`] on load.
     pub schema: String,
     /// SHA-256 (hex) of every observation file already packed.
     pub packed: BTreeSet<String>,
@@ -64,13 +65,21 @@ impl Default for Spool {
 /// What a feeder watches and where it sends.
 #[derive(Clone, Debug)]
 pub struct WatchCfg {
+    /// Observation files or directories whose closed files are packed.
     pub inputs: Vec<PathBuf>,
+    /// Ed25519 signing-key seed that signs each bundle (and derives the station pseudonym).
     pub seed: [u8; 32],
+    /// Privacy mode applied when packing (`public` or `exact`).
     pub privacy: Privacy,
+    /// Location grid (deg) to which positions are generalised in the `public` mode.
     pub grid_deg: f64,
+    /// Also pack the newest file of each directory, which is otherwise treated as still open.
     pub include_open: bool,
+    /// Spool directory holding `state.json`, `pending/`, `sent/` and `rejected/`.
     pub spool: PathBuf,
+    /// Collector URL (plain `http://`) bundles are sent to; `None` only packs.
     pub url: Option<String>,
+    /// Bearer token sent with each bundle, read from `--token-file`.
     pub token: Option<String>,
     /// Cycle interval, seconds: also the longest retry delay.
     pub interval_s: u64,

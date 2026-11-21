@@ -83,10 +83,14 @@ pub struct Common {
 /// ST13,1 authentication information.
 #[derive(Clone, Debug, PartialEq, Serialize)]
 pub struct AuthInfo {
+    /// The header fields common to every ST13 message.
     #[serde(flatten)]
     pub common: Common,
+    /// Chain ID of the TESLA key chain (2 bits).
     pub chain_id: u8,
+    /// Key Size code (SDF505, 4 bits); see [`key_bits`].
     pub key_size: u8,
+    /// MAC Size code (SDF506, 4 bits); see [`mac_bits`].
     pub mac_size: u8,
     /// MACs in target order (CTR 1, 2, ...), hexadecimal, left-aligned.
     pub macs: Vec<String>,
@@ -96,6 +100,7 @@ pub struct AuthInfo {
     pub ccf: bool,
     /// Continuity threshold code and its value in metres, when the flag is set.
     pub ct: Option<u8>,
+    /// Continuity threshold in metres from [`continuity_threshold_m`], rounded to 4 decimals.
     pub ct_m: Option<f64>,
     /// The default message of 7.2.8 (CMAS 3, no MACs, no key).
     pub default_message: bool,
@@ -104,12 +109,14 @@ pub struct AuthInfo {
 /// ST13,3 root key information.
 #[derive(Clone, Debug, PartialEq, Serialize)]
 pub struct RootKeyInfo {
+    /// The header fields common to every ST13 message.
     #[serde(flatten)]
     pub common: Common,
     /// Chain ID of KROOT.
     pub chain_id: u8,
     /// 1 ECDSA P-256, 3 ECDSA P-521.
     pub public_key_type: u8,
+    /// Public key ID (8 bits) of the key that signs KROOT.
     pub public_key_id: u8,
     /// A test key of Table 9-1: no operational guarantee.
     pub test_key: bool,
@@ -117,20 +124,26 @@ pub struct RootKeyInfo {
     pub hash_function: u8,
     /// MAC function: 0 HMAC-SHA-256, 1 CMAC-AES.
     pub mac_function: u8,
+    /// Key Size code (SDF505) of KROOT and the chain; see [`key_bits`].
     pub key_size: u8,
     /// KROOT week number (GPS week modulo 4096) and hour of week.
     pub kroot_week: u16,
+    /// KROOT hour of week (8 bits).
     pub kroot_hour: u8,
     /// SALT (48 bits), KROOT and the digital signature, hexadecimal.
     pub salt: String,
+    /// The root key KROOT, hexadecimal, of the length given by the Key Size code.
     pub kroot: String,
+    /// Digital signature over the KROOT message, hexadecimal; its length follows the public key type.
     pub signature: String,
 }
 
 /// ST13,11 authentication segmented information.
 #[derive(Clone, Debug, PartialEq, Serialize)]
 pub struct Segment {
+    /// Multiple message indicator: set while more segments of the stream follow; clear on the last.
     pub multiple: bool,
+    /// Segment counter (8 bits) giving the segment's position in the stream, from 0.
     pub counter: u8,
     /// Issue of auxiliary frame data.
     pub iod: u8,
@@ -147,11 +160,15 @@ pub struct Segment {
 #[derive(Clone, Debug, PartialEq, Serialize)]
 #[serde(tag = "sub_subtype_name", rename_all = "snake_case")]
 pub enum Message {
+    /// ST13,1 authentication information.
     AuthInfo(AuthInfo),
+    /// ST13,3 root key information.
     RootKeyInfo(RootKeyInfo),
+    /// ST13,11 authentication segmented information.
     Segment(Segment),
     /// A reserved or unknown sub-subtype; the rest of the slot is not read.
     Other {
+        /// The sub-subtype number read (4 bits).
         sub_subtype: u8,
     },
 }
@@ -364,7 +381,9 @@ pub fn verify_kroot(r: &RootKeyInfo, key: &PublicKey) -> Result<(), SigError> {
 /// A QZSS time as week (modulo 4096) and time of week, s.
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub struct QzssTime {
+    /// Week number modulo 4096.
     pub week: u16,
+    /// Time of week, s.
     pub tow: u32,
 }
 
