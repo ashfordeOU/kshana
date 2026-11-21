@@ -11018,6 +11018,16 @@ engine-osnma-scenario-report-overall = geral: { $status }
 engine-osnma-scenario-report-check-met = verificação { $what }: esperado { $expected }, observado { $observed }: atendida
 engine-osnma-scenario-report-check-not-met = verificação { $what }: esperado { $expected }, observado { $observed }: NÃO ATENDIDA (NOT MET)
 
+## Lunar OEM frame conversion (src/lunar_oem.rs)
+engine-lunar-oem-usage = uso: kshana lunar-oem convert <in.oem> --to ICRF|MOON_PA440|MOON_ME [--out <file>] | frames   (Moon-centred CCSDS OEM, positions and velocities, DE440 lunar orientation 2014 to 2030; docs/LUNAR-OEM.md)
+engine-e-lunar-oem-missing-value = { $option } precisa de um valor
+engine-e-lunar-oem-unknown-option = opção desconhecida { $option } (kshana lunar-oem --help lista as opções)
+engine-e-lunar-oem-cannot-read = não foi possível ler { $path }: { $e }
+engine-e-lunar-oem-cannot-write = não foi possível gravar { $path }: { $e }
+engine-e-lunar-oem-time-system = TIME_SYSTEM { $time_system } não pode ser convertido para TDB para a orientação lunar (TDB, TT, TAI, GPS ou UTC)
+engine-e-lunar-oem-not-moon-centred = CENTER_NAME é { $center }; só OEMs centrados na Lua (CENTER_NAME = MOON) são convertidos
+engine-e-lunar-oem-unknown-frame = REF_FRAME { $frame } não é convertido aqui (ICRF, MOON_PA440, MOON_ME; também são lidos MOON_PA_DE440, MOON_ME_DE440_ME421, MOON_PA; EME2000 e J2000 diferem do ICRF pelo frame bias, que não é aplicado)
+
 engine-main-usage =
     uso: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }ou: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -11064,6 +11074,7 @@ engine-main-usage =
     { "   " }ou: kshana timing-stack <tai|ts2phc|pps|shm|ntpq|nts> ... (kshana timing-stack --help)
     { "   " }ou: kshana sil-obsgen <scenario.toml> --out <obs.rnx> [--truth <truth.json>]
     { "   " }ou: kshana osnma scenario run <scenario.json> [--json] | template (kshana osnma scenario --help)
+    { "   " }ou: kshana lunar-oem convert <in.oem> --to ICRF|MOON_PA440|MOON_ME [--out <file>] | frames (kshana lunar-oem --help)
     { "   " }ou: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }ou: kshana corrections <decode --format <has|b2b|l6|l1s|qznma> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...] | qznma-verify [--frames <frames.txt>] [--nav <nav.txt>] --pubkey <key.der> ...>
     { "   " }ou: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
