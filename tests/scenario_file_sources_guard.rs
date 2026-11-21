@@ -22,6 +22,12 @@ const NOT_A_SCENARIO_FILE_SOURCE: &[(&str, &str, &str)] = &[
         "an output field: the name of the vector file a result came from; the engine never reads it",
     ),
     (
+        "src/feeder_watch.rs",
+        "file",
+        "spool state of the feed watch command: the name of a queued bundle under the spool's \
+         pending directory, which the command itself wrote; never read from scenario text",
+    ),
+    (
         "src/lunar_ref.rs",
         "file",
         "an output field: the model file a manifest check names in its result (FileCheck is \
