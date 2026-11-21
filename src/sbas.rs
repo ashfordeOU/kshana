@@ -959,11 +959,11 @@ mod tests {
             "{two:?} vs {one:?}"
         );
         assert_eq!(two.n_used, 8);
-        // The clock-state columns: the two clocks are both estimated (6 × 6 covariance).
+        // Two clock states are estimated: 3 + 2 = 5 unknowns, a 5 × 5 covariance.
         let d = wls_covariance_multi(&sats, &system).unwrap();
-        assert_eq!(d.len(), 6);
-        // Arbitrary ids map the same way as 0/1.
-        let relabelled = [9, 4, 9, 4, 9, 4, 9, 4];
+        assert_eq!(d.len(), 5);
+        // Order-preserving ids give the same columns, so the same bits.
+        let relabelled = [2, 5, 2, 5, 2, 5, 2, 5];
         assert_eq!(
             sbas_protection_level_multi(
                 &sats,
@@ -973,6 +973,17 @@ mod tests {
             ),
             Some(two)
         );
+        // Swapped ids reorder the clock columns: same answer up to rounding.
+        let swapped = [9, 4, 9, 4, 9, 4, 9, 4];
+        let sw = sbas_protection_level_multi(
+            &sats,
+            &swapped,
+            SbasMode::PrecisionApproach,
+            SbasClockModel::PerSystem,
+        )
+        .unwrap();
+        assert!((sw.hpl_m - two.hpl_m).abs() < 1e-12);
+        assert!((sw.vpl_m.unwrap() - two.vpl_m.unwrap()).abs() < 1e-12);
     }
 
     #[test]
