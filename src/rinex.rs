@@ -494,6 +494,15 @@ const BDT_MINUS_GPS_WEEKS: f64 = 1356.0;
 /// leap-free since, so the offset is fixed. `gps_tow = bdt_tow + 14`.
 pub(crate) const BDT_MINUS_GPS_S: f64 = 14.0;
 
+/// A GPS-time Julian Date as a UTC Julian Date: GPS − UTC = (TAI − UTC) − 19 s, with TAI − UTC
+/// looked up at the UTC instant. Looking it up at the GPS-time date would take the new leap
+/// second about 18 s early (GPS time reaches the next UTC day before UTC does), so the lookup is
+/// refined once from a first guess, as leap steps are whole seconds.
+pub(crate) fn gps_jd_to_utc(jd_gps: f64) -> f64 {
+    let guess = jd_gps - (crate::timescales::tai_minus_utc(jd_gps) - 19.0) / 86_400.0;
+    jd_gps - (crate::timescales::tai_minus_utc(guess) - 19.0) / 86_400.0
+}
+
 /// WGS-84 / GPS gravitational constant `μ` (m³/s²), the value mandated by
 /// IS-GPS-200 for broadcast-ephemeris evaluation (subtly different from the
 /// WGS-84 `GM`).
@@ -764,8 +773,7 @@ impl RinexEphemeris {
         // GPS time epoch is 1980-01-06 00:00:00; whole weeks then the time of week.
         let jd_gps =
             crate::timescales::julian_date(1980, 1, 6, 0, 0, 0.0) + week * 7.0 + tow_s / 86_400.0;
-        let gps_minus_utc = crate::timescales::tai_minus_utc(jd_gps) - 19.0;
-        jd_gps - gps_minus_utc / 86_400.0
+        gps_jd_to_utc(jd_gps)
     }
 
     /// The satellite's position (m) in the TEME inertial frame at GPS
@@ -1227,5 +1235,32 @@ G01 2023 01 01 00 00 00 4.567890123456D-04 1.136868377216D-12 0.000000000000D+00
      3.04           N: GNSS NAV DATA    G: GPS              RINEX VERSION / TYPE
                                                             END OF HEADER";
         assert!(parse_nav(only_header).unwrap().is_empty());
+    }
+}
+
+#[cfg(test)]
+mod gps_utc_tests {
+    use super::gps_jd_to_utc;
+    use crate::timescales::julian_date;
+
+    #[test]
+    fn gps_to_utc_takes_the_leap_second_at_the_utc_instant() {
+        // GPS 2017-01-01T00:00:10 is UTC 2016-12-31T23:59:53 (GPS − UTC = 17 s until the leap
+        // at the end of that UTC day), not 2016-12-31T23:59:52 (18 s).
+        let got = gps_jd_to_utc(julian_date(2017, 1, 1, 0, 0, 10.0));
+        let want = julian_date(2016, 12, 31, 23, 59, 53.0);
+        assert!(
+            (got - want).abs() * 86_400.0 < 1e-4,
+            "{}",
+            (got - want) * 86_400.0
+        );
+        // Well after the leap: 18 s.
+        let got = gps_jd_to_utc(julian_date(2017, 1, 1, 1, 0, 0.0));
+        let want = julian_date(2017, 1, 1, 0, 59, 42.0);
+        assert!((got - want).abs() * 86_400.0 < 1e-4);
+        // Well before: 17 s.
+        let got = gps_jd_to_utc(julian_date(2016, 12, 31, 12, 0, 0.0));
+        let want = julian_date(2016, 12, 31, 11, 59, 43.0);
+        assert!((got - want).abs() * 86_400.0 < 1e-4);
     }
 }
