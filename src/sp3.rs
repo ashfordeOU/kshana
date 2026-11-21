@@ -238,8 +238,12 @@ impl Sp3File {
     /// Build a position interpolator for one satellite, ready to be used as a
     /// [`crate::orbit::Propagator`]. Returns `None` if the satellite is absent or
     /// has fewer than two epochs. The UT1 reference is taken from the file's start
-    /// epoch (the SP3 time scale is GPS time and UT1 ≈ UTC ≈ GPS time at the
-    /// GMST-only level used for the Earth-fixed↔inertial rotation).
+    /// epoch, which is GPS time (SP3's default; the `%c` time-system field is not read):
+    /// UT1 is about 18 s from GPS time (2017 on), which turns the Earth-fixed↔inertial
+    /// rotation by about 0.075° — it cancels for an SP3-only scenario (the same date in
+    /// and out) but puts an SP3 satellite about 35 km from where a UTC-dated satellite
+    /// (TLE, RINEX) would place it in the shared inertial frame, and
+    /// [`crate::orbit::Propagator::own_jd_utc`] returns this GPS-time date, 18 s off UTC.
     pub fn interpolator(&self, sat: &str) -> Option<Sp3Interpolator> {
         let s0 = self.header.start;
         let jd0 = crate::timescales::julian_date(

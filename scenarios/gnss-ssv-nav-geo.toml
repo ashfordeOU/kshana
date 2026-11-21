@@ -1,0 +1,27 @@
+# Onboard GNSS navigation at geostationary altitude: an extended Kalman filter on pseudoranges alone.
+#
+# The craft sits on the booklet's GEO orbit. The nine-state filter (position, velocity, receiver clock bias and drift, a
+# solar-radiation-pressure scale) runs on the far-side signals that reach the nadir high-gain antenna at the booklet's
+# 20 dB-Hz threshold; the truth adds radiation pressure with the Earth's shadow, which the filter estimates. The report
+# gives the position error against the filter's own uncertainty, the longest gap with no measurement and the mean
+# normalised estimation error squared (about 3 for a consistent position block). Reduced to half a day so it runs in
+# seconds.
+#
+# MODELLED: simulated truth and noise, low-precision circular Sun and Moon, no manoeuvres, no flight data.
+
+kind = "gnss-ssv"
+name = "GEO onboard GNSS EKF (reduced length)"
+
+[constellations]
+include = ["gps", "glonass", "galileo", "bds"]
+bands = ["l1", "l5"]
+
+[receiver]
+cn0_min_dbhz = 20.0
+
+[navigation]
+preset = "geo"
+duration_min = 720.0
+step_s = 300.0
+antennas = ["booklet-high-gain-nadir", "booklet-patch-zenith"]
+series_every_min = 120.0
