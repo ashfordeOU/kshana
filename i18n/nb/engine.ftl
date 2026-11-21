@@ -10541,6 +10541,7 @@ engine-main-usage =
     { "   " }eller: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }eller: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }eller: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
+    { "   " }eller: kshana feed <pack|verify|send|spectrum|leaderboard|watch> ... (kshana feed --help)
     { "   " }eller: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }eller: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }eller: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
@@ -11706,3 +11707,34 @@ engine-e-oscillator-input = { $part }-inndata er ikke gyldige: { $e }
 engine-e-oscillator-unknown-clock = ukjent klokkeforhåndsinnstilling { $id } (en av { $known })
 
 engine-e-oscillator-field = { $field } er utenfor området: { $value }
+
+## Feeder clients (src/feeder.rs, docs/FEEDER.md)
+engine-feed-usage = bruk: kshana feed pack <file.obs.jsonl|dir>... --key <keyfile> [--privacy public|exact] [--grid-deg <deg>] [--created <time>] [--include-open] [--out <bundle.json>] | verify <bundle.json> [--pubkey <hex>] [--json] | send <bundle.json> --url <http://host:port/path> [--token-file <file>] | spectrum <capture> --format cu8|ci8|ci16_le --rate <Hz> --centre <Hz> --station <station.toml> [--front-end <name>] [--nfft <n>] [--bins <n>] [--max-samples <n>] [--time <label>] [--out <file.obs.jsonl>] | leaderboard <bundle.json>... [--json] | watch <dir|file>... --key <keyfile> --spool <dir> [--url <http://host:port/path>] [--token-file <file>] [--interval-s <s>] [--privacy public|exact] [--grid-deg <deg>] [--include-open] [--once]  (docs/FEEDER.md)
+engine-e-feed-bad-spool = { $path }: ikke en kshana.feed-spool/1-tilstand ({ $e })
+engine-e-feed-http-only = { $url }: bare http://-adresser støttes (motoren har ingen TLS-klient; sett en TLS-tunnel foran innsamleren)
+engine-feed-watch-cycle = feed watch: { $files } filer pakket i { $bundles } pakker, { $sent } sendt, { $rejected } avvist, { $pending } venter
+engine-feed-packed = { $out }: bunt for stasjon { $station }, { $files } filer, { $epochs } epoker, personvern { $mode }
+engine-feed-verified = { $path }: signaturen er gyldig (underskriver { $key }); stasjon { $station }, { $files } filer, { $epochs } epoker, hver fil gyldig kshana.obs/1
+engine-feed-sent = sendt til { $url }: HTTP { $code }
+engine-feed-spectrum-written = { $out }: spektrumøyeblikksbilde i { $bins } bins (MODELLED: nivåer i forhold til full skala, ikke kalibrert effekt)
+engine-e-feed-missing-value = { $option } trenger en verdi
+engine-e-feed-unknown-option = ukjent valg { $option } (kshana feed --help viser valgene)
+engine-e-feed-cannot-read = kan ikke lese { $path }: { $e }
+engine-e-feed-cannot-write = kan ikke skrive { $path }: { $e }
+engine-e-feed-not-obs = { $path } er ikke en gyldig kshana.obs/1-fil: { $e }
+engine-e-feed-mixed-stations = filene kommer fra mer enn én stasjon ({ $a } og { $b }); pakk én stasjon per bunt
+engine-e-feed-no-files = ingen observasjonsfiler å pakke
+engine-e-feed-bad-privacy = ukjent personvernmodus { $value } (public eller exact)
+engine-e-feed-bad-grid = posisjonsrutenettet må være fra 0.01 til 10 grader, ikke { $value }
+engine-e-feed-not-bundle = ikke en kshana.feed/1-bunt: { $e }
+engine-e-feed-bad-signature = buntens signatur er ikke gyldig
+engine-e-feed-key-mismatch = bunten er signert av { $found }, ikke av den forventede nøkkelen { $expected }
+engine-e-feed-hash-mismatch = innholdet { $name } samsvarer ikke med sin registrerte SHA-256
+engine-e-feed-payload-mismatch = innholdet { $name } passer ikke med stasjonen eller postantallene bunten oppgir
+engine-e-feed-not-coarsened = innholdet { $name } i en offentlig bunt inneholder fortsatt { $what }
+engine-e-feed-bad-format = sampleformatet støttes ikke: { $value } (cu8, ci8 eller ci16_le)
+engine-e-feed-bad-number = { $option }: { $value } er ikke en gyldig verdi her
+engine-e-feed-short-capture = opptaket har { $n } samples, færre enn transformasjonslengden { $nfft }
+engine-e-feed-send-failed = sending til { $url } mislyktes: { $e }
+engine-e-feed-send-refused = { $url } avviste bunten: HTTP { $code }
+engine-e-obs-bad-spectrum = linje { $line }: et spektrum trenger endelig tid og senterfrekvens, positiv samplingsrate og binbredde og endelige nivåer

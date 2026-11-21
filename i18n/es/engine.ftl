@@ -10792,6 +10792,7 @@ engine-main-usage =
     { "   " }o: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }o: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }o: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
+    { "   " }o: kshana feed <pack|verify|send|spectrum|leaderboard|watch> ... (kshana feed --help)
     { "   " }o: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }o: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }o: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
@@ -11921,3 +11922,34 @@ engine-e-oscillator-input = la entrada de { $part } no es válida: { $e }
 engine-e-oscillator-unknown-clock = preajuste de reloj desconocido { $id } (uno de { $known })
 
 engine-e-oscillator-field = { $field } está fuera de rango: { $value }
+
+## Feeder clients (src/feeder.rs, docs/FEEDER.md)
+engine-feed-usage = uso: kshana feed pack <file.obs.jsonl|dir>... --key <keyfile> [--privacy public|exact] [--grid-deg <deg>] [--created <time>] [--include-open] [--out <bundle.json>] | verify <bundle.json> [--pubkey <hex>] [--json] | send <bundle.json> --url <http://host:port/path> [--token-file <file>] | spectrum <capture> --format cu8|ci8|ci16_le --rate <Hz> --centre <Hz> --station <station.toml> [--front-end <name>] [--nfft <n>] [--bins <n>] [--max-samples <n>] [--time <label>] [--out <file.obs.jsonl>] | leaderboard <bundle.json>... [--json] | watch <dir|file>... --key <keyfile> --spool <dir> [--url <http://host:port/path>] [--token-file <file>] [--interval-s <s>] [--privacy public|exact] [--grid-deg <deg>] [--include-open] [--once]  (docs/FEEDER.md)
+engine-e-feed-bad-spool = { $path }: no es un estado kshana.feed-spool/1 ({ $e })
+engine-e-feed-http-only = { $url }: solo se admiten direcciones http:// (el motor no tiene cliente TLS; ponga un túnel TLS delante del colector)
+engine-feed-watch-cycle = feed watch: { $files } archivos empaquetados en { $bundles } paquetes, { $sent } enviados, { $rejected } rechazados, { $pending } en espera
+engine-feed-packed = { $out }: paquete de la estación { $station }, { $files } archivos, { $epochs } épocas, privacidad { $mode }
+engine-feed-verified = { $path }: la firma es válida (firmante { $key }); estación { $station }, { $files } archivos, { $epochs } épocas, cada archivo es kshana.obs/1 válido
+engine-feed-sent = enviado a { $url }: HTTP { $code }
+engine-feed-spectrum-written = { $out }: instantánea de espectro en { $bins } celdas (MODELLED: niveles relativos a la escala completa, no potencia calibrada)
+engine-e-feed-missing-value = { $option } necesita un valor
+engine-e-feed-unknown-option = opción desconocida { $option } (kshana feed --help enumera las opciones)
+engine-e-feed-cannot-read = no se puede leer { $path }: { $e }
+engine-e-feed-cannot-write = no se puede escribir { $path }: { $e }
+engine-e-feed-not-obs = { $path } no es un archivo kshana.obs/1 válido: { $e }
+engine-e-feed-mixed-stations = los archivos proceden de más de una estación ({ $a } y { $b }); empaquete una estación por paquete
+engine-e-feed-no-files = no hay archivos de observación que empaquetar
+engine-e-feed-bad-privacy = modo de privacidad desconocido { $value } (public o exact)
+engine-e-feed-bad-grid = la cuadrícula de posición debe estar entre 0.01 y 10 grados, no { $value }
+engine-e-feed-not-bundle = no es un paquete kshana.feed/1: { $e }
+engine-e-feed-bad-signature = la firma del paquete no es válida
+engine-e-feed-key-mismatch = el paquete está firmado por { $found }, no por la clave esperada { $expected }
+engine-e-feed-hash-mismatch = el contenido { $name } no coincide con su SHA-256 registrado
+engine-e-feed-payload-mismatch = el contenido { $name } no coincide con la estación o con los recuentos de registros que indica el paquete
+engine-e-feed-not-coarsened = el contenido { $name } de un paquete público aún contiene { $what }
+engine-e-feed-bad-format = formato de muestras no admitido { $value } (cu8, ci8 o ci16_le)
+engine-e-feed-bad-number = { $option }: { $value } no es un valor válido aquí
+engine-e-feed-short-capture = la captura contiene { $n } muestras, menos que la longitud de transformada { $nfft }
+engine-e-feed-send-failed = falló el envío a { $url }: { $e }
+engine-e-feed-send-refused = { $url } rechazó el paquete: HTTP { $code }
+engine-e-obs-bad-spectrum = línea { $line }: un espectro necesita tiempo y frecuencia central finitos, frecuencia de muestreo y ancho de celda positivos, y niveles finitos

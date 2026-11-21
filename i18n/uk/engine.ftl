@@ -10727,6 +10727,7 @@ engine-main-usage =
     { "   " }або: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }або: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }або: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
+    { "   " }або: kshana feed <pack|verify|send|spectrum|leaderboard|watch> ... (kshana feed --help)
     { "   " }або: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }або: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }або: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
@@ -11859,3 +11860,34 @@ engine-e-oscillator-input = вхідні дані { $part } недійсні: { 
 engine-e-oscillator-unknown-clock = невідома передустановка годинника { $id } (одна з: { $known })
 
 engine-e-oscillator-field = { $field } поза допустимим діапазоном: { $value }
+
+## Feeder clients (src/feeder.rs, docs/FEEDER.md)
+engine-feed-usage = використання: kshana feed pack <file.obs.jsonl|dir>... --key <keyfile> [--privacy public|exact] [--grid-deg <deg>] [--created <time>] [--include-open] [--out <bundle.json>] | verify <bundle.json> [--pubkey <hex>] [--json] | send <bundle.json> --url <http://host:port/path> [--token-file <file>] | spectrum <capture> --format cu8|ci8|ci16_le --rate <Hz> --centre <Hz> --station <station.toml> [--front-end <name>] [--nfft <n>] [--bins <n>] [--max-samples <n>] [--time <label>] [--out <file.obs.jsonl>] | leaderboard <bundle.json>... [--json] | watch <dir|file>... --key <keyfile> --spool <dir> [--url <http://host:port/path>] [--token-file <file>] [--interval-s <s>] [--privacy public|exact] [--grid-deg <deg>] [--include-open] [--once]  (docs/FEEDER.md)
+engine-e-feed-bad-spool = { $path }: не стан kshana.feed-spool/1 ({ $e })
+engine-e-feed-http-only = { $url }: підтримуються лише адреси http:// (рушій не має клієнта TLS; поставте TLS-тунель перед збирачем)
+engine-feed-watch-cycle = feed watch: { $files } файлів запаковано в { $bundles } пакетів, { $sent } надіслано, { $rejected } відхилено, { $pending } очікує
+engine-feed-packed = { $out }: пакет станції { $station }, файлів: { $files }, епох: { $epochs }, приватність { $mode }
+engine-feed-verified = { $path }: підпис дійсний (підписант { $key }); станція { $station }, файлів: { $files }, епох: { $epochs }, кожен файл — коректний kshana.obs/1
+engine-feed-sent = надіслано на { $url }: HTTP { $code }
+engine-feed-spectrum-written = { $out }: знімок спектра, смуг: { $bins } (MODELLED: рівні відносно повної шкали, не калібрована потужність)
+engine-e-feed-missing-value = { $option } потребує значення
+engine-e-feed-unknown-option = невідомий параметр { $option } (kshana feed --help перелічує параметри)
+engine-e-feed-cannot-read = не вдалося прочитати { $path }: { $e }
+engine-e-feed-cannot-write = не вдалося записати { $path }: { $e }
+engine-e-feed-not-obs = { $path } не є коректним файлом kshana.obs/1: { $e }
+engine-e-feed-mixed-stations = файли отримано з більш ніж однієї станції ({ $a } і { $b }); пакуйте одну станцію в пакет
+engine-e-feed-no-files = немає файлів спостережень для пакування
+engine-e-feed-bad-privacy = невідомий режим приватності { $value } (public або exact)
+engine-e-feed-bad-grid = сітка положення має бути від 0.01 до 10 градусів, а не { $value }
+engine-e-feed-not-bundle = не пакет kshana.feed/1: { $e }
+engine-e-feed-bad-signature = підпис пакета недійсний
+engine-e-feed-key-mismatch = пакет підписано ключем { $found }, а не очікуваним ключем { $expected }
+engine-e-feed-hash-mismatch = вміст { $name } не збігається із записаним SHA-256
+engine-e-feed-payload-mismatch = вміст { $name } не відповідає станції або кількості записів, указаним у пакеті
+engine-e-feed-not-coarsened = вміст { $name } публічного пакета все ще містить { $what }
+engine-e-feed-bad-format = непідтримуваний формат відліків { $value } (cu8, ci8 або ci16_le)
+engine-e-feed-bad-number = { $option }: { $value } тут неприпустиме значення
+engine-e-feed-short-capture = запис містить { $n } відліків, менше за довжину перетворення { $nfft }
+engine-e-feed-send-failed = не вдалося надіслати на { $url }: { $e }
+engine-e-feed-send-refused = { $url } відхилив пакет: HTTP { $code }
+engine-e-obs-bad-spectrum = рядок { $line }: спектру потрібні скінченні час і центральна частота, додатні частота дискретизації та ширина смуги і скінченні рівні

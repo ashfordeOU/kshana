@@ -1202,3 +1202,63 @@ fn oscillator_inputs() {
         }
     });
 }
+
+#[test]
+fn feed_bundles_and_sdr_captures() {
+    // Seeds made here: a signed public bundle of the NMEA example, and an RTL-SDR tone.
+    let station = kshana::obs::Station {
+        id: "fuzz".into(),
+        lat_deg: Some(59.0),
+        lon_deg: Some(10.0),
+        ..Default::default()
+    };
+    let nmea = head("examples/receiver-trust/illustrative-jamming.nmea", 40);
+    let obs =
+        kshana::obs::to_jsonl(&kshana::obs::from_log("nmea", &nmea, &station).unwrap()).unwrap();
+    let b = kshana::feeder::pack(
+        &[("a.obs.jsonl".into(), obs)],
+        &[3u8; 32],
+        kshana::feeder::Privacy::Public,
+        0.1,
+        "2026-11-20T00:00:00.000Z",
+    )
+    .unwrap();
+    let bundle = serde_json::to_vec(&b).unwrap();
+    fuzz("feed bundle", &[bundle], None, |x| {
+        let _ = kshana::feeder::verify(&text(x), None);
+        let _ = kshana::feeder::leaderboard(&[("x".into(), text(x).into_owned())]);
+    });
+    let tone: Vec<u8> = (0..4096)
+        .flat_map(|k| {
+            let ph = k as f64 * 0.7;
+            [
+                (127.5 + 90.0 * ph.cos()) as u8,
+                (127.5 + 90.0 * ph.sin()) as u8,
+            ]
+        })
+        .collect();
+    fuzz("sdr spectrum capture", &[tone], None, |x| {
+        let p = kshana::feeder::SpectrumParams {
+            nfft: 64,
+            bins: 16,
+            ..Default::default()
+        };
+        if let Ok(r) = kshana::feeder::spectrum_snapshot(x, &p, &station) {
+            let _ = kshana::obs::check(&kshana::obs::to_jsonl(&r).unwrap()).unwrap();
+        }
+    });
+}
+
+#[test]
+fn feeder_spool_state() {
+    let seeds: Vec<Vec<u8>> = [
+        r#"{"schema":"kshana.feed-spool/1","packed":["ab"],"queue":[{"file":"000001.json","attempts":2,"next_try_s":90}],"next_seq":2}"#,
+        r#"{"schema":"kshana.feed-spool/1","packed":[],"queue":[],"next_seq":1}"#,
+    ]
+    .iter()
+    .map(|s| s.as_bytes().to_vec())
+    .collect();
+    fuzz("feeder spool state", &seeds, None, |b| {
+        let _ = kshana::feeder_watch::parse_spool(&text(b), "state.json");
+    });
+}

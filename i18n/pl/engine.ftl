@@ -10752,6 +10752,7 @@ engine-main-usage =
     { "   " }lub: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }lub: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }lub: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
+    { "   " }lub: kshana feed <pack|verify|send|spectrum|leaderboard|watch> ... (kshana feed --help)
     { "   " }lub: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }lub: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }lub: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
@@ -11941,3 +11942,34 @@ engine-e-oscillator-input = dane wejściowe { $part } są nieprawidłowe: { $e }
 engine-e-oscillator-unknown-clock = nieznane ustawienie zegara { $id } (jedno z: { $known })
 
 engine-e-oscillator-field = { $field } jest poza zakresem: { $value }
+
+## Feeder clients (src/feeder.rs, docs/FEEDER.md)
+engine-feed-usage = użycie: kshana feed pack <file.obs.jsonl|dir>... --key <keyfile> [--privacy public|exact] [--grid-deg <deg>] [--created <time>] [--include-open] [--out <bundle.json>] | verify <bundle.json> [--pubkey <hex>] [--json] | send <bundle.json> --url <http://host:port/path> [--token-file <file>] | spectrum <capture> --format cu8|ci8|ci16_le --rate <Hz> --centre <Hz> --station <station.toml> [--front-end <name>] [--nfft <n>] [--bins <n>] [--max-samples <n>] [--time <label>] [--out <file.obs.jsonl>] | leaderboard <bundle.json>... [--json] | watch <dir|file>... --key <keyfile> --spool <dir> [--url <http://host:port/path>] [--token-file <file>] [--interval-s <s>] [--privacy public|exact] [--grid-deg <deg>] [--include-open] [--once]  (docs/FEEDER.md)
+engine-e-feed-bad-spool = { $path }: to nie jest stan kshana.feed-spool/1 ({ $e })
+engine-e-feed-http-only = { $url }: obsługiwane są tylko adresy http:// (silnik nie ma klienta TLS; umieść tunel TLS przed kolektorem)
+engine-feed-watch-cycle = feed watch: { $files } plików spakowano w { $bundles } pakietów, { $sent } wysłano, { $rejected } odrzucono, { $pending } oczekuje
+engine-feed-packed = { $out }: pakiet stacji { $station }, plików: { $files }, epok: { $epochs }, prywatność { $mode }
+engine-feed-verified = { $path }: podpis jest prawidłowy (podpisujący { $key }); stacja { $station }, plików: { $files }, epok: { $epochs }, każdy plik to prawidłowy kshana.obs/1
+engine-feed-sent = wysłano do { $url }: HTTP { $code }
+engine-feed-spectrum-written = { $out }: migawka widma w przedziałach: { $bins } (MODELLED: poziomy względem pełnej skali, nie skalibrowana moc)
+engine-e-feed-missing-value = { $option } wymaga wartości
+engine-e-feed-unknown-option = nieznana opcja { $option } (kshana feed --help wyświetla opcje)
+engine-e-feed-cannot-read = nie można odczytać { $path }: { $e }
+engine-e-feed-cannot-write = nie można zapisać { $path }: { $e }
+engine-e-feed-not-obs = { $path } nie jest prawidłowym plikiem kshana.obs/1: { $e }
+engine-e-feed-mixed-stations = pliki pochodzą z więcej niż jednej stacji ({ $a } i { $b }); pakuj jedną stację na pakiet
+engine-e-feed-no-files = brak plików obserwacji do spakowania
+engine-e-feed-bad-privacy = nieznany tryb prywatności { $value } (public lub exact)
+engine-e-feed-bad-grid = siatka położenia musi mieć od 0.01 do 10 stopni, nie { $value }
+engine-e-feed-not-bundle = to nie jest pakiet kshana.feed/1: { $e }
+engine-e-feed-bad-signature = podpis pakietu jest nieprawidłowy
+engine-e-feed-key-mismatch = pakiet jest podpisany przez { $found }, a nie oczekiwanym kluczem { $expected }
+engine-e-feed-hash-mismatch = zawartość { $name } nie zgadza się z zapisanym SHA-256
+engine-e-feed-payload-mismatch = zawartość { $name } nie zgadza się ze stacją lub liczbą rekordów podaną w pakiecie
+engine-e-feed-not-coarsened = zawartość { $name } pakietu publicznego nadal zawiera { $what }
+engine-e-feed-bad-format = nieobsługiwany format próbek { $value } (cu8, ci8 lub ci16_le)
+engine-e-feed-bad-number = { $option }: { $value } nie jest tu prawidłową wartością
+engine-e-feed-short-capture = nagranie zawiera { $n } próbek, mniej niż długość transformaty { $nfft }
+engine-e-feed-send-failed = wysłanie do { $url } nie powiodło się: { $e }
+engine-e-feed-send-refused = { $url } odrzucił pakiet: HTTP { $code }
+engine-e-obs-bad-spectrum = wiersz { $line }: widmo wymaga skończonego czasu i częstotliwości środkowej, dodatniej częstotliwości próbkowania i szerokości przedziału oraz skończonych poziomów

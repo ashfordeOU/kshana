@@ -10580,6 +10580,7 @@ engine-main-usage =
     { "   " }nebo: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }nebo: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }nebo: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
+    { "   " }nebo: kshana feed <pack|verify|send|spectrum|leaderboard|watch> ... (kshana feed --help)
     { "   " }nebo: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }nebo: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }nebo: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
@@ -11776,3 +11777,34 @@ engine-e-oscillator-input = vstup { $part } není platný: { $e }
 engine-e-oscillator-unknown-clock = neznámá předvolba hodin { $id } (jedna z { $known })
 
 engine-e-oscillator-field = { $field } je mimo rozsah: { $value }
+
+## Feeder clients (src/feeder.rs, docs/FEEDER.md)
+engine-feed-usage = použití: kshana feed pack <file.obs.jsonl|dir>... --key <keyfile> [--privacy public|exact] [--grid-deg <deg>] [--created <time>] [--include-open] [--out <bundle.json>] | verify <bundle.json> [--pubkey <hex>] [--json] | send <bundle.json> --url <http://host:port/path> [--token-file <file>] | spectrum <capture> --format cu8|ci8|ci16_le --rate <Hz> --centre <Hz> --station <station.toml> [--front-end <name>] [--nfft <n>] [--bins <n>] [--max-samples <n>] [--time <label>] [--out <file.obs.jsonl>] | leaderboard <bundle.json>... [--json] | watch <dir|file>... --key <keyfile> --spool <dir> [--url <http://host:port/path>] [--token-file <file>] [--interval-s <s>] [--privacy public|exact] [--grid-deg <deg>] [--include-open] [--once]  (docs/FEEDER.md)
+engine-e-feed-bad-spool = { $path }: není stav kshana.feed-spool/1 ({ $e })
+engine-e-feed-http-only = { $url }: podporovány jsou jen adresy http:// (jádro nemá klienta TLS; umístěte před kolektor tunel TLS)
+engine-feed-watch-cycle = feed watch: { $files } souborů zabaleno do { $bundles } balíčků, { $sent } odesláno, { $rejected } odmítnuto, { $pending } čeká
+engine-feed-packed = { $out }: balík stanice { $station }, souborů: { $files }, epoch: { $epochs }, soukromí { $mode }
+engine-feed-verified = { $path }: podpis je platný (podepsal { $key }); stanice { $station }, souborů: { $files }, epoch: { $epochs }, každý soubor je platný kshana.obs/1
+engine-feed-sent = odesláno na { $url }: HTTP { $code }
+engine-feed-spectrum-written = { $out }: snímek spektra v pásmech: { $bins } (MODELLED: úrovně vůči plnému rozsahu, ne kalibrovaný výkon)
+engine-e-feed-missing-value = { $option } vyžaduje hodnotu
+engine-e-feed-unknown-option = neznámá volba { $option } (kshana feed --help vypíše volby)
+engine-e-feed-cannot-read = nelze číst { $path }: { $e }
+engine-e-feed-cannot-write = nelze zapsat { $path }: { $e }
+engine-e-feed-not-obs = { $path } není platný soubor kshana.obs/1: { $e }
+engine-e-feed-mixed-stations = soubory pocházejí z více než jedné stanice ({ $a } a { $b }); zabalte jednu stanici do jednoho balíku
+engine-e-feed-no-files = žádné soubory pozorování k zabalení
+engine-e-feed-bad-privacy = neznámý režim soukromí { $value } (public nebo exact)
+engine-e-feed-bad-grid = mřížka polohy musí být od 0.01 do 10 stupňů, ne { $value }
+engine-e-feed-not-bundle = není balík kshana.feed/1: { $e }
+engine-e-feed-bad-signature = podpis balíku není platný
+engine-e-feed-key-mismatch = balík podepsal { $found }, ne očekávaný klíč { $expected }
+engine-e-feed-hash-mismatch = obsah { $name } neodpovídá zaznamenanému SHA-256
+engine-e-feed-payload-mismatch = obsah { $name } neodpovídá stanici ani počtům záznamů uvedeným v balíku
+engine-e-feed-not-coarsened = obsah { $name } veřejného balíku stále obsahuje { $what }
+engine-e-feed-bad-format = nepodporovaný formát vzorků { $value } (cu8, ci8 nebo ci16_le)
+engine-e-feed-bad-number = { $option }: { $value } zde není platná hodnota
+engine-e-feed-short-capture = záznam obsahuje { $n } vzorků, méně než délka transformace { $nfft }
+engine-e-feed-send-failed = odeslání na { $url } selhalo: { $e }
+engine-e-feed-send-refused = { $url } odmítl balík: HTTP { $code }
+engine-e-obs-bad-spectrum = řádek { $line }: spektrum vyžaduje konečný čas a střední frekvenci, kladnou vzorkovací frekvenci a šířku pásma a konečné úrovně
