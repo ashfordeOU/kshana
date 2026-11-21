@@ -10657,6 +10657,18 @@ engine-e-soop-clock-too-few-detections = { $n } detekcí PSS; pro posun a rychlo
 engine-e-soop-clock-too-short = záznam je kratší než dva symboly OFDM
 engine-e-soop-clock-bad-synth = testovací signál potřebuje vzorkovací kmitočet od 100 kHz do 61,44 MHz a kladnou dobu trvání nejvýše 20 milionů vzorků
 
+## LunaNet AFS receiver verification kit and lunar output message profile (src/lunar_afs/kit.rs, src/lunar_output.rs)
+engine-lunar-afs-kit-usage = použití: kshana lunar-afs-kit vectors [<vectors.json>] | registry [<registry.toml|json>] [--limit-db <dB>] [--no-correlation] | output-check <messages.jsonl> | output-example [--n <count>] [--jd <JD TCL>] | output-reexpress <messages.jsonl> --scale <tt|tdb|tcb|tcg|tcl|ltc> --frame <ICRF|MOON_PA_DE440|MOON_PA|MOON_ME|ILURF>   [--out <file>]  (docs/LUNAR-AFS-KIT.md)
+engine-e-lunar-afs-kit-missing-value = { $option } vyžaduje hodnotu
+engine-e-lunar-afs-kit-unknown-option = neznámá volba { $option } (volby vypíše kshana lunar-afs-kit --help)
+engine-e-lunar-afs-kit-cannot-read = nelze číst { $path }: { $e }
+engine-e-lunar-afs-kit-cannot-write = nelze zapsat { $path }: { $e }
+engine-e-lunar-afs-kit-bad-number = { $option }: { $value } není platné číslo
+engine-e-lunar-afs-kit-unknown-name = neznámý název { $name } (známé: { $known })
+engine-e-lunar-afs-kit-bad-registry = registr není seznam přidělení [[node]]: { $e }
+engine-e-lunar-afs-kit-bad-vectors = není soubor kshana.afs-vectors/1: { $e }
+engine-e-lunar-afs-kit-bad-message = řádek není zpráva kshana.lunar-pnt-output/1 s epochou, soustavou a polohou
+
 engine-main-usage =
     použití: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }nebo: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10693,6 +10705,7 @@ engine-main-usage =
     { "   " }nebo: kshana register <check|crl-check|view|sign> ... (kshana register --help)
     { "   " }nebo: kshana interference-env <evaluate|thresholds|degradation> ... (kshana interference-env --help)
     { "   " }nebo: kshana arctic-plan --site <lat,lon[,h]> | --place <name> [--systems <a,b,...>] [--compare] [--hours <h>] [--kp <n>] ... (kshana arctic-plan --help)
+    { "   " }nebo: kshana lunar-afs-kit <vectors|registry|output-check|output-example|output-reexpress> ... (kshana lunar-afs-kit --help)
     { "   " }nebo: kshana lunar-ref <tcb-tcl|approx|convert|transform|terms|models> ... (kshana lunar-ref --help)
     { "   " }nebo: kshana signal-readiness <profile.toml> [<obs.rnx>...]
     { "   " }nebo: kshana leo-od-plan <plan.toml>

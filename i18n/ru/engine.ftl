@@ -10874,6 +10874,18 @@ engine-e-soop-clock-too-few-detections = { $n } обнаружений PSS; дл
 engine-e-soop-clock-too-short = запись короче двух символов OFDM
 engine-e-soop-clock-bad-synth = тестовому сигналу нужны частота дискретизации от 100 кГц до 61,44 МГц и положительная длительность не более 20 миллионов отсчётов
 
+## LunaNet AFS receiver verification kit and lunar output message profile (src/lunar_afs/kit.rs, src/lunar_output.rs)
+engine-lunar-afs-kit-usage = использование: kshana lunar-afs-kit vectors [<vectors.json>] | registry [<registry.toml|json>] [--limit-db <dB>] [--no-correlation] | output-check <messages.jsonl> | output-example [--n <count>] [--jd <JD TCL>] | output-reexpress <messages.jsonl> --scale <tt|tdb|tcb|tcg|tcl|ltc> --frame <ICRF|MOON_PA_DE440|MOON_PA|MOON_ME|ILURF>   [--out <file>]  (docs/LUNAR-AFS-KIT.md)
+engine-e-lunar-afs-kit-missing-value = { $option } требует значения
+engine-e-lunar-afs-kit-unknown-option = неизвестный параметр { $option } (параметры перечисляет kshana lunar-afs-kit --help)
+engine-e-lunar-afs-kit-cannot-read = не удаётся прочитать { $path }: { $e }
+engine-e-lunar-afs-kit-cannot-write = не удаётся записать { $path }: { $e }
+engine-e-lunar-afs-kit-bad-number = { $option }: { $value } не является допустимым числом
+engine-e-lunar-afs-kit-unknown-name = неизвестное имя { $name } (известные: { $known })
+engine-e-lunar-afs-kit-bad-registry = реестр не является списком назначений [[node]]: { $e }
+engine-e-lunar-afs-kit-bad-vectors = это не файл kshana.afs-vectors/1: { $e }
+engine-e-lunar-afs-kit-bad-message = строка не является сообщением kshana.lunar-pnt-output/1 с эпохой, системой отсчёта и положением
+
 engine-main-usage =
     использование: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }или: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10910,6 +10922,7 @@ engine-main-usage =
     { "   " }или: kshana register <check|crl-check|view|sign> ... (kshana register --help)
     { "   " }или: kshana interference-env <evaluate|thresholds|degradation> ... (kshana interference-env --help)
     { "   " }или: kshana arctic-plan --site <lat,lon[,h]> | --place <name> [--systems <a,b,...>] [--compare] [--hours <h>] [--kp <n>] ... (kshana arctic-plan --help)
+    { "   " }или: kshana lunar-afs-kit <vectors|registry|output-check|output-example|output-reexpress> ... (kshana lunar-afs-kit --help)
     { "   " }или: kshana lunar-ref <tcb-tcl|approx|convert|transform|terms|models> ... (kshana lunar-ref --help)
     { "   " }или: kshana signal-readiness <profile.toml> [<obs.rnx>...]
     { "   " }или: kshana leo-od-plan <plan.toml>

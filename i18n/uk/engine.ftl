@@ -10804,6 +10804,18 @@ engine-e-soop-clock-too-few-detections = { $n } виявлень PSS; для з�
 engine-e-soop-clock-too-short = запис коротший за два символи OFDM
 engine-e-soop-clock-bad-synth = тестовому сигналу потрібні частота дискретизації від 100 кГц до 61,44 МГц і додатна тривалість не більше 20 мільйонів відліків
 
+## LunaNet AFS receiver verification kit and lunar output message profile (src/lunar_afs/kit.rs, src/lunar_output.rs)
+engine-lunar-afs-kit-usage = використання: kshana lunar-afs-kit vectors [<vectors.json>] | registry [<registry.toml|json>] [--limit-db <dB>] [--no-correlation] | output-check <messages.jsonl> | output-example [--n <count>] [--jd <JD TCL>] | output-reexpress <messages.jsonl> --scale <tt|tdb|tcb|tcg|tcl|ltc> --frame <ICRF|MOON_PA_DE440|MOON_PA|MOON_ME|ILURF>   [--out <file>]  (docs/LUNAR-AFS-KIT.md)
+engine-e-lunar-afs-kit-missing-value = { $option } потребує значення
+engine-e-lunar-afs-kit-unknown-option = невідомий параметр { $option } (параметри перелічує kshana lunar-afs-kit --help)
+engine-e-lunar-afs-kit-cannot-read = не вдалося прочитати { $path }: { $e }
+engine-e-lunar-afs-kit-cannot-write = не вдалося записати { $path }: { $e }
+engine-e-lunar-afs-kit-bad-number = { $option }: { $value } не є допустимим числом
+engine-e-lunar-afs-kit-unknown-name = невідома назва { $name } (відомі: { $known })
+engine-e-lunar-afs-kit-bad-registry = реєстр не є списком призначень [[node]]: { $e }
+engine-e-lunar-afs-kit-bad-vectors = це не файл kshana.afs-vectors/1: { $e }
+engine-e-lunar-afs-kit-bad-message = рядок не є повідомленням kshana.lunar-pnt-output/1 з епохою, системою відліку та положенням
+
 engine-main-usage =
     використання: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }або: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10840,6 +10852,7 @@ engine-main-usage =
     { "   " }або: kshana register <check|crl-check|view|sign> ... (kshana register --help)
     { "   " }або: kshana interference-env <evaluate|thresholds|degradation> ... (kshana interference-env --help)
     { "   " }або: kshana arctic-plan --site <lat,lon[,h]> | --place <name> [--systems <a,b,...>] [--compare] [--hours <h>] [--kp <n>] ... (kshana arctic-plan --help)
+    { "   " }або: kshana lunar-afs-kit <vectors|registry|output-check|output-example|output-reexpress> ... (kshana lunar-afs-kit --help)
     { "   " }або: kshana lunar-ref <tcb-tcl|approx|convert|transform|terms|models> ... (kshana lunar-ref --help)
     { "   " }або: kshana signal-readiness <profile.toml> [<obs.rnx>...]
     { "   " }або: kshana leo-od-plan <plan.toml>

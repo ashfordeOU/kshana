@@ -64,6 +64,16 @@ breaking changes are called out explicitly.
   manifest with file checksums. The TCL origin convention is to confirm; no LUNEX parser (no published format).
   MODELLED.
 
+### Added (LunaNet AFS receiver verification kit)
+
+- `kshana lunar-afs-kit` (src/lunar_afs/kit.rs, vectors.rs, registry.rs, src/lunar_output.rs, docs/LUNAR-AFS-KIT.md):
+  bit-true vectors (data/conformance/lunar-afs/, kshana.afs-vectors/1) for all 210 AFS-Q primary codes, the secondary
+  codes, CRC-24Q and the Figure 8 SB1 codeword, computed by an independent Python generator and matching the tables
+  `kshana lunanet-afs-check spec` checks (210 of 210); a PRN and code allocation registry (LSIS V1.0 Table 11 by
+  default) with range, collision and AFS-Q periodic correlation checks; and the kshana.lunar-pnt-output/1 real-time
+  output message profile with a validator, a synthetic example stream and re-expression in another time scale and
+  lunar frame. MODELLED.
+
 ### Added (space weather for PNT and drag)
 
 - `kshana space-weather` (src/space_weather_pnt/, docs/SPACE-WEATHER-PNT.md): a storm library of eight recorded

@@ -10829,6 +10829,18 @@ engine-e-soop-clock-too-few-detections = { $n } wykryć PSS; do przesunięcia i 
 engine-e-soop-clock-too-short = nagranie jest krótsze niż dwa symbole OFDM
 engine-e-soop-clock-bad-synth = sygnał testowy wymaga częstotliwości próbkowania od 100 kHz do 61,44 MHz i dodatniego czasu trwania najwyżej 20 milionów próbek
 
+## LunaNet AFS receiver verification kit and lunar output message profile (src/lunar_afs/kit.rs, src/lunar_output.rs)
+engine-lunar-afs-kit-usage = użycie: kshana lunar-afs-kit vectors [<vectors.json>] | registry [<registry.toml|json>] [--limit-db <dB>] [--no-correlation] | output-check <messages.jsonl> | output-example [--n <count>] [--jd <JD TCL>] | output-reexpress <messages.jsonl> --scale <tt|tdb|tcb|tcg|tcl|ltc> --frame <ICRF|MOON_PA_DE440|MOON_PA|MOON_ME|ILURF>   [--out <file>]  (docs/LUNAR-AFS-KIT.md)
+engine-e-lunar-afs-kit-missing-value = { $option } wymaga wartości
+engine-e-lunar-afs-kit-unknown-option = nieznana opcja { $option } (opcje wypisuje kshana lunar-afs-kit --help)
+engine-e-lunar-afs-kit-cannot-read = nie można odczytać { $path }: { $e }
+engine-e-lunar-afs-kit-cannot-write = nie można zapisać { $path }: { $e }
+engine-e-lunar-afs-kit-bad-number = { $option }: { $value } nie jest prawidłową liczbą
+engine-e-lunar-afs-kit-unknown-name = nieznana nazwa { $name } (znane: { $known })
+engine-e-lunar-afs-kit-bad-registry = rejestr nie jest listą przydziałów [[node]]: { $e }
+engine-e-lunar-afs-kit-bad-vectors = to nie jest plik kshana.afs-vectors/1: { $e }
+engine-e-lunar-afs-kit-bad-message = wiersz nie jest komunikatem kshana.lunar-pnt-output/1 z epoką, układem odniesienia i pozycją
+
 engine-main-usage =
     użycie: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }lub: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10865,6 +10877,7 @@ engine-main-usage =
     { "   " }lub: kshana register <check|crl-check|view|sign> ... (kshana register --help)
     { "   " }lub: kshana interference-env <evaluate|thresholds|degradation> ... (kshana interference-env --help)
     { "   " }lub: kshana arctic-plan --site <lat,lon[,h]> | --place <name> [--systems <a,b,...>] [--compare] [--hours <h>] [--kp <n>] ... (kshana arctic-plan --help)
+    { "   " }lub: kshana lunar-afs-kit <vectors|registry|output-check|output-example|output-reexpress> ... (kshana lunar-afs-kit --help)
     { "   " }lub: kshana lunar-ref <tcb-tcl|approx|convert|transform|terms|models> ... (kshana lunar-ref --help)
     { "   " }lub: kshana signal-readiness <profile.toml> [<obs.rnx>...]
     { "   " }lub: kshana leo-od-plan <plan.toml>
