@@ -10059,6 +10059,10 @@ engine-e-orbit-omm-export-requires-tle-defined = OMM-eksport krever en TLE-defin
 engine-e-passes-earth-orientation-parameters-out-of = jordorienteringsparametere utenfor området: |ut1_minus_utc_s| <= 1, |xp_arcsec| og |yp_arcsec| <= 2
 
 engine-e-pvt-no-priori-position-set-apriori = ingen a priori-posisjon: sett apriori_ecef, en APPROX POSITION XYZ i observasjonsoverskriften, eller truth_ecef
+engine-e-gnss-slots-unknown-set = ukjent slotsett `{ $name }` (kjente: { $sets })
+engine-e-gnss-slots-out-of-range = slot `{ $id }`: `{ $field }` mangler, er ikke endelig eller er utenfor området
+engine-e-gnss-slots-geo-needs-lon = GEO-slot `{ $id }` trenger lon_deg
+engine-e-gnss-slots-igso-needs-one-longitude = IGSO-slot `{ $id }` trenger en inclination_deg ulik null og nøyaktig én av crossing_lon_deg og center_lon_deg
 
 engine-e-python-pll-bws-dll-bws-spacings = pll_bws, dll_bws, spacings og coherents kan ikke kombineres med design: sveipet kjører hver utforming i filen
 

@@ -1,0 +1,40 @@
+# BeiDou-2 GEO slots for `kshana gnss-sim` (`slot_sets = ["beidou-2-geo"]`).
+name = "beidou-2-geo"
+title = "BeiDou-2: 5 GEO"
+sources = [
+  "China Satellite Navigation Office, BDS-SIS-ICD-B1I-3.0 (February 2019), section 3.1: BDS-2 GEO satellites at 35,786 km, located at 58.75°E, 80°E, 110.5°E, 140°E and 160°E",
+]
+omitted = [
+  "IGSO: section 3.1 gives the altitude and the 55° inclination but no equatorial crossing longitude or position along the track",
+  "three of these longitudes are shared with the BDS-3 GEO (beidou-geo): do not load both sets",
+]
+
+[[slot]]
+id = "BDS-2 GEO 58.75E"
+kind = "geo"
+lon_deg = 58.75
+source = "BDS-SIS-ICD-B1I-3.0, section 3.1"
+
+[[slot]]
+id = "BDS-2 GEO 80E"
+kind = "geo"
+lon_deg = 80.0
+source = "BDS-SIS-ICD-B1I-3.0, section 3.1"
+
+[[slot]]
+id = "BDS-2 GEO 110.5E"
+kind = "geo"
+lon_deg = 110.5
+source = "BDS-SIS-ICD-B1I-3.0, section 3.1"
+
+[[slot]]
+id = "BDS-2 GEO 140E"
+kind = "geo"
+lon_deg = 140.0
+source = "BDS-SIS-ICD-B1I-3.0, section 3.1"
+
+[[slot]]
+id = "BDS-2 GEO 160E"
+kind = "geo"
+lon_deg = 160.0
+source = "BDS-SIS-ICD-B1I-3.0, section 3.1"

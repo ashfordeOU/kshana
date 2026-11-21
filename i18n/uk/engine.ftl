@@ -10245,6 +10245,10 @@ engine-e-orbit-omm-export-requires-tle-defined = експорт OMM потреб
 engine-e-passes-earth-orientation-parameters-out-of = параметри орієнтації Землі поза діапазоном: |ut1_minus_utc_s| <= 1, |xp_arcsec| і |yp_arcsec| <= 2
 
 engine-e-pvt-no-priori-position-set-apriori = немає апріорного положення: задайте apriori_ecef, APPROX POSITION XYZ із заголовка спостережень або truth_ecef
+engine-e-gnss-slots-unknown-set = невідомий набір позицій `{ $name }` (відомі: { $sets })
+engine-e-gnss-slots-out-of-range = позиція `{ $id }`: `{ $field }` відсутнє, не скінченне або поза діапазоном
+engine-e-gnss-slots-geo-needs-lon = позиції GEO `{ $id }` потрібен lon_deg
+engine-e-gnss-slots-igso-needs-one-longitude = позиції IGSO `{ $id }` потрібні ненульовий inclination_deg і рівно одне з crossing_lon_deg та center_lon_deg
 
 engine-e-python-pll-bws-dll-bws-spacings = pll_bws, dll_bws, spacings і coherents не можна поєднувати з design: перебір запускає кожен проєкт у файлі
 

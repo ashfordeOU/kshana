@@ -1041,7 +1041,7 @@ fn run_gnss_sim(scn: &crate::gnss_sim::GnssSimScenario) -> Result<RunOutput, Str
     scn.time.validate()?;
     let (alert_h, alert_v) = (scn.alert_limit_h_m, scn.alert_limit_v_m);
     let sky = scn.sky()?;
-    let r = crate::gnss_sim::run_gnss_sim_sky(scn, sky.as_ref());
+    let r = crate::gnss_sim::run_gnss_sim_sky(scn, sky.as_ref())?;
     let summary = crate::t!(
         "api-builtins-scenario-gnss-sim-mean-iono",
         r = &r.scenario_hash[..12],

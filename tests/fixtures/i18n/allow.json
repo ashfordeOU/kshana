@@ -54,8 +54,8 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/api.rs": {
-   "count": 993,
-   "reason": "identifier and machine-format: kind ids and TOML field names of the kind catalogue; the descriptions of the new lunar, mission-thread and tip-and-cue kinds are served by list_scenario_kinds and move to the catalogue with the kind descriptions (tests/i18n_kinds.rs); the allow_unregistered_time_system field name of lunar-interop-export."
+   "count": 994,
+   "reason": "identifier and machine-format: kind ids and TOML field names of the kind catalogue; the descriptions of the new lunar, mission-thread and tip-and-cue kinds are served by list_scenario_kinds and move to the catalogue with the kind descriptions (tests/i18n_kinds.rs); the allow_unregistered_time_system field name of lunar-interop-export; the gnss-sim slot_sets and slots field names."
   },
   "src/api/builtins.rs": {
    "count": 88,
@@ -228,6 +228,10 @@
   "src/device.rs": {
    "count": 2,
    "reason": "machine-document: the test <n>: prefix before a catalogued error, and the <path>: <error> prefix of an operating-system or parse error"
+  },
+  "src/gnss_slots.rs": {
+   "count": 6,
+   "reason": "identifier: the names of the compiled-in slot sets and the slot field names named verbatim in the catalogued e-gnss-slots-out-of-range error (docs/GNSS-SLOTS.md)"
   },
   "src/interconnect/mavlink_table.rs": {
    "count": 1,
