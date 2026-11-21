@@ -10581,7 +10581,7 @@ engine-main-usage =
     { "   " }nebo: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }nebo: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
     { "   " }nebo: kshana time-vectors [--json] [<vectors.json|dir> ...]
-    { "   " }nebo: kshana corrections <decode --format <has|b2b|l6|l1s|qznma> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
+    { "   " }nebo: kshana corrections <decode --format <has|b2b|l6|l1s|qznma> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...] | qznma-verify [--frames <frames.txt>] [--nav <nav.txt>] --pubkey <key.der> ...>
     { "   " }nebo: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
     { "   " }nebo: kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
     { "   " }nebo: kshana orbit-data <check|convert|gp-compare|gp-audit|cov> ... (kshana orbit-data --help)
@@ -11578,7 +11578,10 @@ engine-e-corrections-unknown-decoder = neznámý dekodér { $decoder } (has, b2b
 engine-e-corrections-bad-vector = vektoru { $id } chybí šestnáctkové rámce nebo objekt expect
 engine-e-corrections-bad-file = { $file } není dokument { $format } (značka formátu a pole vectors)
 engine-corrections-summary = { $n } vektorů: { $passed } prošlo, { $failed } selhalo
-engine-corrections-usage = použití: kshana corrections decode --format <has|b2b|l6|l1s|qznma> <frames.txt | -> | kshana corrections vectors [--json] [<vectors.json | dir> ...]  (jeden rámec na řádek, šestnáctkově; docs/CORRECTION-DECODERS.md)
+engine-corrections-usage = použití: kshana corrections decode --format <has|b2b|l6|l1s|qznma> <frames.txt | -> | kshana corrections vectors [--json] [<vectors.json | dir> ...] | kshana corrections qznma-verify [--frames <frames.txt>] [--nav <nav.txt>] --pubkey <ID:key.der | 001.der> ...  (jeden rámec na řádek, šestnáctkově; docs/CORRECTION-DECODERS.md)
+engine-e-qznma-bad-nav-line = není řádek navigační zprávy (<satellite> <signal> <part> <hex>): { $line }
+engine-e-qznma-bad-key = { $path }: není veřejný klíč P-256 ani P-521 (DER nebo SEC1) s ID klíče v názvu souboru nebo ve tvaru ID:path
+engine-qznma-verify-summary = { $n } podpisů: { $verified } ověřeno, { $failed } selhalo, { $no_key } bez klíče, { $no_navigation } bez navigačních zpráv
 
 ## src/space_weather_pnt/
 

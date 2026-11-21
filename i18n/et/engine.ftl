@@ -10575,7 +10575,7 @@ engine-main-usage =
     { "   " }või: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }või: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
     { "   " }või: kshana time-vectors [--json] [<vectors.json|dir> ...]
-    { "   " }või: kshana corrections <decode --format <has|b2b|l6|l1s|qznma> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
+    { "   " }või: kshana corrections <decode --format <has|b2b|l6|l1s|qznma> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...] | qznma-verify [--frames <frames.txt>] [--nav <nav.txt>] --pubkey <key.der> ...>
     { "   " }või: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
     { "   " }või: kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
     { "   " }või: kshana orbit-data <check|convert|gp-compare|gp-audit|cov> ... (kshana orbit-data --help)
@@ -11500,7 +11500,10 @@ engine-e-corrections-unknown-decoder = tundmatu dekooder { $decoder } (has, b2b,
 engine-e-corrections-bad-vector = vektoril { $id } puuduvad kuueteistkümnendkaadrid või expect-objekt
 engine-e-corrections-bad-file = { $file } ei ole { $format } dokument (vormingumärgis ja vectors-massiiv)
 engine-corrections-summary = { $n } vektorit: { $passed } läbis, { $failed } kukkus läbi
-engine-corrections-usage = kasutus: kshana corrections decode --format <has|b2b|l6|l1s|qznma> <frames.txt | -> | kshana corrections vectors [--json] [<vectors.json | dir> ...]  (üks kaader rea kohta kuueteistkümnendsüsteemis; docs/CORRECTION-DECODERS.md)
+engine-corrections-usage = kasutus: kshana corrections decode --format <has|b2b|l6|l1s|qznma> <frames.txt | -> | kshana corrections vectors [--json] [<vectors.json | dir> ...] | kshana corrections qznma-verify [--frames <frames.txt>] [--nav <nav.txt>] --pubkey <ID:key.der | 001.der> ...  (üks kaader rea kohta kuueteistkümnendsüsteemis; docs/CORRECTION-DECODERS.md)
+engine-e-qznma-bad-nav-line = pole navigatsioonisõnumi rida (<satellite> <signal> <part> <hex>): { $line }
+engine-e-qznma-bad-key = { $path }: pole P-256 ega P-521 avalik võti (DER või SEC1), mille võtme ID on failinimes või kujul ID:path
+engine-qznma-verify-summary = { $n } allkirja: { $verified } kontrollitud, { $failed } ebaõnnestus, { $no_key } võtmeta, { $no_navigation } navigatsioonisõnumiteta
 
 ## src/space_weather_pnt/
 

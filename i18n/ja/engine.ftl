@@ -9791,7 +9791,7 @@ engine-main-usage =
     { "   " }または：kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }または：kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
     { "   " }または：kshana time-vectors [--json] [<vectors.json|dir> ...]
-    { "   " }または：kshana corrections <decode --format <has|b2b|l6|l1s|qznma> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
+    { "   " }または：kshana corrections <decode --format <has|b2b|l6|l1s|qznma> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...] | qznma-verify [--frames <frames.txt>] [--nav <nav.txt>] --pubkey <key.der> ...>
     { "   " }または：kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
     { "   " }または：kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
     { "   " }または：kshana orbit-data <check|convert|gp-compare|gp-audit|cov> ... (kshana orbit-data --help)
@@ -10725,7 +10725,10 @@ engine-e-corrections-unknown-decoder = 不明なデコーダー { $decoder }（h
 engine-e-corrections-bad-vector = ベクトル { $id } に 16 進数のフレームまたは expect オブジェクトがありません
 engine-e-corrections-bad-file = { $file } は { $format } 文書ではありません（形式タグと vectors 配列）
 engine-corrections-summary = { $n } 件のベクトル：合格 { $passed } 件、不合格 { $failed } 件
-engine-corrections-usage = 使い方：kshana corrections decode --format <has|b2b|l6|l1s|qznma> <frames.txt | -> | kshana corrections vectors [--json] [<vectors.json | dir> ...]  (1 行に 1 フレーム、16 進数; docs/CORRECTION-DECODERS.md)
+engine-corrections-usage = 使い方：kshana corrections decode --format <has|b2b|l6|l1s|qznma> <frames.txt | -> | kshana corrections vectors [--json] [<vectors.json | dir> ...] | kshana corrections qznma-verify [--frames <frames.txt>] [--nav <nav.txt>] --pubkey <ID:key.der | 001.der> ...  (1 行に 1 フレーム、16 進数; docs/CORRECTION-DECODERS.md)
+engine-e-qznma-bad-nav-line = 航法メッセージの行ではありません（<satellite> <signal> <part> <hex>）：{ $line }
+engine-e-qznma-bad-key = { $path }：ファイル名または ID:path の形で鍵 ID を持つ P-256 または P-521 の公開鍵（DER または SEC1）ではありません
+engine-qznma-verify-summary = 署名 { $n } 件：検証済み { $verified }、失敗 { $failed }、鍵なし { $no_key }、航法メッセージなし { $no_navigation }
 
 ## src/space_weather_pnt/
 

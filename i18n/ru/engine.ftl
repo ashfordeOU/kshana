@@ -10798,7 +10798,7 @@ engine-main-usage =
     { "   " }или: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }или: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
     { "   " }или: kshana time-vectors [--json] [<vectors.json|dir> ...]
-    { "   " }или: kshana corrections <decode --format <has|b2b|l6|l1s|qznma> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
+    { "   " }или: kshana corrections <decode --format <has|b2b|l6|l1s|qznma> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...] | qznma-verify [--frames <frames.txt>] [--nav <nav.txt>] --pubkey <key.der> ...>
     { "   " }или: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
     { "   " }или: kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
     { "   " }или: kshana orbit-data <check|convert|gp-compare|gp-audit|cov> ... (kshana orbit-data --help)
@@ -11730,7 +11730,10 @@ engine-e-corrections-unknown-decoder = неизвестный декодер { $
 engine-e-corrections-bad-vector = у вектора { $id } нет шестнадцатеричных кадров или объекта expect
 engine-e-corrections-bad-file = { $file } не является документом { $format } (метка формата и массив vectors)
 engine-corrections-summary = векторов: { $n }; пройдено: { $passed }, не пройдено: { $failed }
-engine-corrections-usage = использование: kshana corrections decode --format <has|b2b|l6|l1s|qznma> <frames.txt | -> | kshana corrections vectors [--json] [<vectors.json | dir> ...]  (один кадр на строку в шестнадцатеричном виде; docs/CORRECTION-DECODERS.md)
+engine-corrections-usage = использование: kshana corrections decode --format <has|b2b|l6|l1s|qznma> <frames.txt | -> | kshana corrections vectors [--json] [<vectors.json | dir> ...] | kshana corrections qznma-verify [--frames <frames.txt>] [--nav <nav.txt>] --pubkey <ID:key.der | 001.der> ...  (один кадр на строку в шестнадцатеричном виде; docs/CORRECTION-DECODERS.md)
+engine-e-qznma-bad-nav-line = не строка навигационного сообщения (<satellite> <signal> <part> <hex>): { $line }
+engine-e-qznma-bad-key = { $path }: не открытый ключ P-256 или P-521 (DER или SEC1) с идентификатором ключа в имени файла или в виде ID:path
+engine-qznma-verify-summary = { $n } подписей: { $verified } проверено, { $failed } не прошли, { $no_key } без ключа, { $no_navigation } без навигационных сообщений
 
 ## src/space_weather_pnt/
 
