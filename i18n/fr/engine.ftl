@@ -12168,6 +12168,7 @@ engine-bench-golden-written = { $path } écrit ({ $n } fichiers figés)
 engine-bench-site-title-f = Tâche (f) : détection d’anomalies dans la télémesure d’engin spatial
 
 engine-bench-site-title-g = Tâche (g) : précision de positionnement sur smartphone
+engine-bench-site-title-h = Tâche (h) : précision de positionnement en ville
 
 engine-bench-site-col-ap = Précision moyenne
 

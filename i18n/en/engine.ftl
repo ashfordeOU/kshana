@@ -12410,6 +12410,7 @@ engine-bench-golden-written = wrote { $path } ({ $n } frozen files)
 engine-bench-site-title-f = Task (f): spacecraft telemetry anomaly detection
 
 engine-bench-site-title-g = Task (g): smartphone positioning accuracy
+engine-bench-site-title-h = Task (h): urban positioning accuracy
 
 engine-bench-site-col-ap = Average precision
 

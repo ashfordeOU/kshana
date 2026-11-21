@@ -4,8 +4,10 @@
 //!
 //! * Truth, CSV submissions and scoring run end to end through the binary on a synthetic directory
 //!   in the layout `scripts/fetch_urbannav.sh` writes; the holdout split is refused.
+//! * The committed result files (`bench/results/h-*.result.json`) are valid, metric-only (scores
+//!   per trace, no position) and carry the scores of `xval/bench-h/RESULTS.md`.
 //! * With `KSHANA_URBANNAV=<dir>` (the directory the fetch script filled) both baselines are
-//!   recomputed on both splits and compared with `xval/bench-h/RESULTS.md`.
+//!   recomputed on both splits and compared with the committed result files, metric for metric.
 
 use std::path::{Path, PathBuf};
 use std::process::Command;
@@ -144,6 +146,56 @@ fn task_h_truth_positions_and_score_run_end_to_end() {
     let _ = std::fs::remove_dir_all(&out);
 }
 
+/// The published first-run scores (`xval/bench-h/RESULTS.md`).
+// PIN-SCOPE:    the first-run scores of xval/bench-h/RESULTS.md, on the SHA-256-checked files.
+// PIN-EXCLUDES: any other data, receiver or baseline.
+const PUBLISHED: [(&str, &str, f64); 4] = [
+    ("test", "provided-nmea", 31.9825),
+    ("test", "kshana-spp", 59.1150),
+    ("dev", "provided-nmea", 209.2892),
+    ("dev", "kshana-spp", 264.8843),
+];
+
+fn committed(split: &str, baseline: &str) -> Value {
+    json(
+        &PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .join(format!("bench/results/h-{split}-{baseline}.result.json")),
+    )
+}
+
+/// Every key anywhere in a JSON document.
+fn keys(v: &Value, out: &mut Vec<String>) {
+    match v {
+        Value::Object(m) => {
+            for (k, x) in m {
+                out.push(k.clone());
+                keys(x, out);
+            }
+        }
+        Value::Array(a) => a.iter().for_each(|x| keys(x, out)),
+        _ => {}
+    }
+}
+
+#[test]
+fn task_h_committed_results_are_metric_only_and_carry_the_published_scores() {
+    for (split, b, score) in PUBLISHED {
+        let r = committed(split, b);
+        assert!(kshana::bench::validate_result(&r).is_empty(), "{split} {b}");
+        assert_eq!(r["spec_version"], "kshana-bench/2.3.0");
+        assert!(r["label"].as_str().unwrap().starts_with("MODELLED"));
+        let got = r["metrics"]["gsdc_score_m"].as_f64().unwrap();
+        assert!((got - score).abs() < 5e-5, "{split} {b}: {got} vs {score}");
+        // No UrbanNav position is redistributed: no latitude, longitude, truth or predictions.
+        let mut k = Vec::new();
+        keys(&r, &mut k);
+        for bad in ["positions", "traces", "lat", "lon", "latitude", "longitude"] {
+            assert!(!k.iter().any(|x| x == bad), "{split} {b}: key {bad}");
+        }
+        assert_eq!(r["metrics"]["per_trace"].as_array().unwrap().len(), 4);
+    }
+}
+
 #[test]
 fn task_h_baselines_reproduce_the_published_results_when_the_data_is_present() {
     let Some(dir) = std::env::var_os("KSHANA_URBANNAV") else {
@@ -152,14 +204,6 @@ fn task_h_baselines_reproduce_the_published_results_when_the_data_is_present() {
         );
         return;
     };
-    // PIN-SCOPE:    the first-run scores of xval/bench-h/RESULTS.md, on the SHA-256-checked files.
-    // PIN-EXCLUDES: any other data, receiver or baseline.
-    let want = [
-        ("test", "provided-nmea", 31.9825),
-        ("test", "kshana-spp", 59.1150),
-        ("dev", "provided-nmea", 209.2892),
-        ("dev", "kshana-spp", 264.8843),
-    ];
     let out = temp_dir("baseline");
     for split in ["test", "dev"] {
         let (code, text) = kshana(&[
@@ -176,10 +220,25 @@ fn task_h_baselines_reproduce_the_published_results_when_the_data_is_present() {
         ]);
         assert_eq!(code, 0, "{text}");
     }
-    for (split, b, score) in want {
+    for (split, b, _) in PUBLISHED {
         let r = json(&out.join(format!("h-{split}-{b}.result.json")));
-        let got = r["metrics"]["gsdc_score_m"].as_f64().unwrap();
-        assert!((got - score).abs() < 5e-5, "{split} {b}: {got} vs {score}");
+        assert_eq!(r["metrics"], committed(split, b)["metrics"], "{split} {b}");
+        assert_eq!(r["truth_sha256"], committed(split, b)["truth_sha256"]);
+        assert_eq!(
+            r["predictions_sha256"],
+            committed(split, b)["predictions_sha256"]
+        );
     }
     let _ = std::fs::remove_dir_all(&out);
+}
+
+#[test]
+fn the_leaderboard_renders_task_h_and_refuses_a_task_h_holdout_row() {
+    let r = committed("test", "kshana-spp");
+    let page = kshana::bench::site::leaderboard_html(std::slice::from_ref(&r)).unwrap();
+    assert!(page.contains("Task (h)"), "no task (h) section");
+    assert!(page.contains("59.115"), "the score is not on the board");
+    let mut h = r.clone();
+    h["split"] = Value::from("holdout");
+    assert!(kshana::bench::site::leaderboard_html(&[h]).is_err());
 }

@@ -12247,6 +12247,7 @@ engine-bench-golden-written = записан { $path } (замороженных
 engine-bench-site-title-f = Задача (f): обнаружение аномалий в телеметрии космического аппарата
 
 engine-bench-site-title-g = Задача (g): точность позиционирования смартфонов
+engine-bench-site-title-h = Задача (h): точность позиционирования в городе
 
 engine-bench-site-col-ap = Средняя точность (AP)
 

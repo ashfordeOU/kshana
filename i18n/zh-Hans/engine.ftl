@@ -11297,6 +11297,7 @@ engine-bench-golden-written = 已写入 { $path }（{ $n } 个冻结文件）
 engine-bench-site-title-f = 任务 (f)：航天器遥测异常检测
 
 engine-bench-site-title-g = 任务 (g)：智能手机定位精度
+engine-bench-site-title-h = 任务 (h)：城市定位精度
 
 engine-bench-site-col-ap = 平均精度
 
