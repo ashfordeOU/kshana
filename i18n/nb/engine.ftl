@@ -10708,6 +10708,9 @@ engine-e-sil-obsgen-cannot-read = kan ikke lese { $path }: { $e }
 engine-e-sil-obsgen-cannot-write = kan ikke skrive { $path }: { $e }
 engine-e-sil-obsgen-bad-scenario = ikke et gnss-sim-scenario med valgfrie [urban]- og [rinex]-tabeller: { $e }
 
+## connect: GPS week guard
+engine-e-connect-week-not-full = linje { $line }: GPS-uke { $week } er ikke en full uke (en 10-bits kringkastet uke ruller over hver 1024. uke); oppgi hele uken talt fra 1980-01-06
+
 engine-main-usage =
     bruk: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }eller: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]

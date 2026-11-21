@@ -9957,6 +9957,9 @@ engine-e-sil-obsgen-cannot-read = { $path } を読み込めません：{ $e }
 engine-e-sil-obsgen-cannot-write = { $path } に書き込めません：{ $e }
 engine-e-sil-obsgen-bad-scenario = 任意の [urban] と [rinex] テーブルを持つ gnss-sim シナリオではありません：{ $e }
 
+## connect: GPS week guard
+engine-e-connect-week-not-full = { $line } 行目：GPS 週 { $week } は完全な週番号ではありません（10 ビットの放送週番号は 1024 週ごとに折り返します）。1980-01-06 から数えた完全な週番号を指定してください
+
 engine-main-usage =
     使い方：kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }または：kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
