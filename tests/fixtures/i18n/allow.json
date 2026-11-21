@@ -1549,6 +1549,10 @@
    "count": 23,
    "reason": "machine-document and identifier: schema ids, option names, SigMF file suffixes, field names and the notes written into the kshana.soop-clock-lte/1 and -cp/1 documents, and the SigMF description of the synthetic test capture (docs/SOOP-CLOCK.md)"
   },
+  "src/sp3.rs": {
+   "count": 2,
+   "reason": "machine-format: the two SP3-c %c header lines (file type and time system UTC) of the SP3 export (IGS SP3-c format)"
+  },
   "src/space_packet.rs": {
    "count": 29,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
