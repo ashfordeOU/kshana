@@ -1,7 +1,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
-//! Task (h) of kshana-bench (spec 2.3.0): urban positioning accuracy on the UrbanNav Hong Kong
-//! sequences (IPNL, The Hong Kong Polytechnic University; MIT licence as the publisher's README
-//! states it, `bench/manifests/datasets.json`).
+//! Task (h) of kshana-bench (spec 2.3.0): urban positioning accuracy on the UrbanNav sequences
+//! (IPNL, The Hong Kong Polytechnic University; MIT licence as the publisher's README states it,
+//! `bench/manifests/datasets.json`), in two editions scored separately, never pooled: Hong Kong
+//! (`scripts/fetch_urbannav.sh`, truth `ground_truth.txt`) and Tokyo
+//! (`scripts/fetch_urbannav_tokyo.sh`, truth `tk_reference.csv`). A data directory holds one edition.
 //!
 //! The unit is one epoch of one trace (`<sequence>/<receiver>`); the truth is the sequence's
 //! `ground_truth.txt`, the publisher's NovAtel SPAN-CPT reference trajectory at 1 Hz; a submission
@@ -27,8 +29,14 @@ use super::{err, sha256_hex, BenchError, Split, PREDICTIONS_SCHEMA, TRUTH_SCHEMA
 /// Spec version of task (h), added as a minor version.
 pub const SPEC_VERSION_H: &str = "kshana-bench/2.3.0";
 
-/// The receivers of a sequence directory, by file stem (`<stem>.obs`, `<stem>.nmea`).
-pub const RECEIVERS: [&str; 2] = ["ublox-f9p", "xiaomi-mi8"];
+/// The receivers of a sequence directory, by file stem (`<stem>.obs`, `<stem>.nmea`): the Hong Kong
+/// edition has the first two, the Tokyo edition the u-blox F9P and the Trimble NetR9.
+pub const RECEIVERS: [&str; 3] = ["ublox-f9p", "xiaomi-mi8", "trimble-netr9"];
+
+/// The truth file of a sequence of the Hong Kong edition (`scripts/fetch_urbannav.sh`).
+pub const TRUTH_HK: &str = "ground_truth.txt";
+/// The truth file of a sequence of the Tokyo edition (`scripts/fetch_urbannav_tokyo.sh`).
+pub const TRUTH_TOKYO: &str = "tk_reference.csv";
 
 /// The task (h) baselines: the receiver's own NMEA GGA fix, and the engine's code single-point
 /// solution ([`crate::pvt::run_pvt`]) from the receiver's RINEX observations and the day's broadcast
@@ -101,6 +109,84 @@ pub fn h_truth_of(file: &str, text: &str) -> Result<Vec<Fix>, BenchError> {
     Ok(v)
 }
 
+/// Read an UrbanNav Tokyo reference file (the publisher's `reference.csv`, laid out as
+/// `tk_reference.csv`; Applanix POS LV620 at 10 Hz: columns
+/// `GPS TOW (s)`, `GPS Week`, `Latitude (deg)`, `Longitude (deg)`, ...). Only whole-second epochs
+/// are kept, so the truth is 1 Hz as in the Hong Kong edition; GPS time becomes Unix UTC
+/// milliseconds with [`GPS_MINUS_UTC_S`].
+pub fn h_truth_tokyo_of(file: &str, text: &str) -> Result<Vec<Fix>, BenchError> {
+    let mut lines = text.lines().filter(|l| !l.trim().is_empty());
+    let header: Vec<&str> = lines
+        .next()
+        .ok_or_else(|| BenchError(crate::t!("bench-data-no-header", file = file)))?
+        .split(',')
+        .map(str::trim)
+        .collect();
+    let col = |name: &str| {
+        header.iter().position(|h| *h == name).ok_or_else(|| {
+            BenchError(crate::t!(
+                "bench-data-no-column",
+                file = file,
+                column = name
+            ))
+        })
+    };
+    let (ct, cw, cla, clo) = (
+        col("GPS TOW (s)")?,
+        col("GPS Week")?,
+        col("Latitude (deg)")?,
+        col("Longitude (deg)")?,
+    );
+    let mut v = Vec::new();
+    for (i, line) in lines.enumerate() {
+        let f: Vec<&str> = line.split(',').map(str::trim).collect();
+        let num = |c: usize, name: &str| {
+            f.get(c)
+                .and_then(|x| x.parse::<f64>().ok())
+                .filter(|x| x.is_finite())
+                .ok_or_else(|| {
+                    BenchError(crate::t!(
+                        "bench-data-bad-value",
+                        file = file,
+                        line = i + 2,
+                        column = name
+                    ))
+                })
+        };
+        let tow = num(ct, "GPS TOW (s)")?;
+        let ms_tow = (tow * 1000.0).round() as i64;
+        if ms_tow % 1000 != 0 {
+            continue;
+        }
+        let week = num(cw, "GPS Week")? as i64;
+        let unix_ms = (GPS_EPOCH_UNIX_S + week * 604_800 - GPS_MINUS_UTC_S) * 1000 + ms_tow;
+        v.push((
+            unix_ms,
+            num(cla, "Latitude (deg)")?,
+            num(clo, "Longitude (deg)")?,
+        ));
+    }
+    if v.is_empty() {
+        return err(crate::t!("bench-data-no-rows", file = file));
+    }
+    v.sort_by_key(|f| f.0);
+    v.dedup_by_key(|f| f.0);
+    Ok(v)
+}
+
+/// Unix time of the GPS epoch, 1980-01-06T00:00:00Z, s.
+pub const GPS_EPOCH_UNIX_S: i64 = 315_964_800;
+
+/// The truth of one sequence directory, whichever edition it belongs to.
+fn sequence_truth(dir: &Path) -> Result<Vec<Fix>, BenchError> {
+    let hk = dir.join(TRUTH_HK);
+    if hk.is_file() {
+        return h_truth_of(&hk.display().to_string(), &read(&hk)?);
+    }
+    let tk = dir.join(TRUTH_TOKYO);
+    h_truth_tokyo_of(&tk.display().to_string(), &read(&tk)?)
+}
+
 /// The traces under `root`: `(trace id, sequence name, sequence directory)`, sorted.
 fn trace_dirs(root: &Path) -> Result<Vec<(String, String, PathBuf)>, BenchError> {
     let mut seqs: Vec<PathBuf> = std::fs::read_dir(root)
@@ -113,9 +199,19 @@ fn trace_dirs(root: &Path) -> Result<Vec<(String, String, PathBuf)>, BenchError>
         })?
         .flatten()
         .map(|e| e.path())
-        .filter(|p| p.join("ground_truth.txt").is_file())
+        .filter(|p| p.join(TRUTH_HK).is_file() || p.join(TRUTH_TOKYO).is_file())
         .collect();
     seqs.sort();
+    // One directory holds one edition: the splits are drawn among its own sequences, so mixing
+    // editions would move the frozen splits of either.
+    let hk = seqs.iter().any(|p| p.join(TRUTH_HK).is_file());
+    let tk = seqs.iter().any(|p| p.join(TRUTH_TOKYO).is_file());
+    if hk && tk {
+        return err(crate::t!(
+            "bench-h-mixed-editions",
+            root = root.display().to_string()
+        ));
+    }
     let mut out = Vec::new();
     for s in seqs {
         let name = s
@@ -176,11 +272,7 @@ pub fn h_load(
             continue;
         }
         if !truth_of.contains_key(&seq) {
-            let p = dir.join("ground_truth.txt");
-            truth_of.insert(
-                seq.clone(),
-                h_truth_of(&p.display().to_string(), &read(&p)?)?,
-            );
+            truth_of.insert(seq.clone(), sequence_truth(&dir)?);
         }
         traces.insert(id.clone(), truth_of[&seq].clone());
         where_.insert(id, dir);
@@ -352,6 +444,21 @@ pub fn h_spp_positions(
     Ok((nearest(&fixes, epochs), info))
 }
 
+/// Whether a baseline has its inputs for every trace: `provided-nmea` needs each receiver's NMEA
+/// (the Tokyo edition has none), `kshana-spp` its RINEX observations and the navigation file.
+pub fn h_baseline_available(baseline: &str, dirs: &BTreeMap<String, PathBuf>) -> bool {
+    dirs.iter().all(|(id, dir)| {
+        let receiver = id.rsplit('/').next().unwrap_or("");
+        match baseline {
+            "provided-nmea" => dir.join(format!("{receiver}.nmea")).is_file(),
+            "kshana-spp" => {
+                dir.join(format!("{receiver}.obs")).is_file() && dir.join("nav.rnx").is_file()
+            }
+            _ => false,
+        }
+    })
+}
+
 /// The predictions of a baseline over the traces of a split, with a note per trace of what the
 /// baseline had to work with.
 pub fn h_baseline(
@@ -385,10 +492,21 @@ pub fn h_baseline(
             notes.insert(id.clone(), info);
         }
     }
+    // The Tokyo edition's baselines carry the edition in their name, so a board never shows them
+    // as the Hong Kong rows.
+    let tokyo = dirs.values().any(|d| d.join(TRUTH_TOKYO).is_file());
+    let label = if tokyo {
+        format!("{baseline}/tokyo")
+    } else {
+        baseline.to_string()
+    };
     let mut d = h_predictions_json(
         &out,
         split,
-        &crate::t!("bench-tasks-kshana-bench-baseline", baseline = baseline),
+        &crate::t!(
+            "bench-tasks-kshana-bench-baseline",
+            baseline = label.as_str()
+        ),
         SPEC_VERSION_H,
     );
     if !notes.is_empty() {
@@ -414,6 +532,16 @@ mod tests {
         assert!((v[1].1 - lat).abs() < 1e-12 && (v[1].2 - lon).abs() < 1e-12);
         assert!(h_truth_of("gt.txt", "1621218775.00 2158 95593 22 18\n").is_err());
         assert!(h_truth_of("gt.txt", "header only\n").is_err());
+    }
+
+    #[test]
+    fn tokyo_reference_keeps_whole_seconds_and_converts_gps_time() {
+        let csv = "GPS TOW (s), GPS Week, Latitude (deg), Longitude (deg), Ellipsoid Height (m)\n273375.90, 2032, 35.1, 139.1, 44.6\n273376.00, 2032, 35.62931853, 139.78712595, 44.6995\n273376.10, 2032, 35.2, 139.2, 44.6\n";
+        let v = h_truth_tokyo_of("reference.csv", csv).unwrap();
+        // Week 2032, TOW 273376 s (GPS) is 2018-12-19T03:55:58Z (UTC, 18 s earlier).
+        assert_eq!(v, vec![(1_545_191_758_000, 35.62931853, 139.78712595)]);
+        assert!(h_truth_tokyo_of("r.csv", "GPS TOW (s), GPS Week\n1, 2\n").is_err());
+        assert!(h_truth_tokyo_of("r.csv", "").is_err());
     }
 
     #[test]

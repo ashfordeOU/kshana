@@ -11476,7 +11476,9 @@ engine-bench-task-has-no-holdout = tehtävällä ({ $task }) ei ole holdout-jako
 engine-bench-unknown-baseline = tuntematon perustaso `{ $name }`
 
 engine-bench-g-no-traces = ei tiedostoa <drive>/<phone>/ground_truth.csv hakemistossa { $root }
-engine-bench-h-no-sequences = ei tiedostoa <sequence>/ground_truth.txt hakemistossa { $root }
+engine-bench-h-no-sequences = ei tiedostoa <sequence>/(ground_truth.txt|tk_reference.csv) hakemistossa { $root }
+engine-bench-h-mixed-editions = { $root } sekoittaa tehtävän (h) Hongkongin ja Tokion painokset (ground_truth.txt ja tk_reference.csv): hae kumpikin omaan hakemistoonsa
+engine-bench-h-baseline-skipped = perustaso { $baseline } ohitettu: sen syötetiedostoja ei ole kaikille jäljille
 
 engine-bench-g-no-object = ei jälkien `{ $key }`-objektia
 

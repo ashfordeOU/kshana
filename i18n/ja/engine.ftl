@@ -10957,7 +10957,9 @@ engine-bench-task-has-no-holdout = タスク ({ $task }) にはホールドア�
 engine-bench-unknown-baseline = 不明なベースライン `{ $name }`
 
 engine-bench-g-no-traces = { $root } の下に <drive>/<phone>/ground_truth.csv がありません
-engine-bench-h-no-sequences = { $root } の下に <sequence>/ground_truth.txt がありません
+engine-bench-h-no-sequences = { $root } の下に <sequence>/(ground_truth.txt|tk_reference.csv) がありません
+engine-bench-h-mixed-editions = { $root } にタスク (h) の香港版と東京版が混在しています（ground_truth.txt と tk_reference.csv）：それぞれ別のディレクトリに取得してください
+engine-bench-h-baseline-skipped = ベースライン { $baseline } をスキップしました：すべてのトレースに入力ファイルがありません
 
 engine-bench-g-no-object = トレースの `{ $key }` オブジェクトがありません
 

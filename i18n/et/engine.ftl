@@ -11732,7 +11732,9 @@ engine-bench-task-has-no-holdout = ülesandel ({ $task }) pole kõrvalejäetud j
 engine-bench-unknown-baseline = tundmatu baastase `{ $name }`
 
 engine-bench-g-no-traces = kataloogis { $root } pole faili <drive>/<phone>/ground_truth.csv
-engine-bench-h-no-sequences = kataloogis { $root } pole faili <sequence>/ground_truth.txt
+engine-bench-h-no-sequences = kataloogis { $root } pole faili <sequence>/(ground_truth.txt|tk_reference.csv)
+engine-bench-h-mixed-editions = { $root } segab ülesande (h) Hongkongi ja Tokyo väljaannet (ground_truth.txt ja tk_reference.csv): laadige kumbki oma kataloogi
+engine-bench-h-baseline-skipped = baasmeetod { $baseline } jäeti vahele: selle sisendfailid ei ole kõigi radade jaoks olemas
 
 engine-bench-g-no-object = jälgede objekti `{ $key }` pole
 

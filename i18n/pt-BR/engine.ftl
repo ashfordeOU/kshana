@@ -11997,7 +11997,9 @@ engine-bench-task-has-no-holdout = a tarefa ({ $task }) não tem partição de r
 engine-bench-unknown-baseline = linha de base desconhecida `{ $name }`
 
 engine-bench-g-no-traces = nenhum <drive>/<phone>/ground_truth.csv em { $root }
-engine-bench-h-no-sequences = nenhum <sequence>/ground_truth.txt em { $root }
+engine-bench-h-no-sequences = nenhum <sequence>/(ground_truth.txt|tk_reference.csv) em { $root }
+engine-bench-h-mixed-editions = { $root } mistura as edições de Hong Kong e Tóquio da tarefa (h) (ground_truth.txt e tk_reference.csv): baixe cada uma em seu próprio diretório
+engine-bench-h-baseline-skipped = linha de base { $baseline } ignorada: seus arquivos de entrada não estão presentes para todos os traços
 
 engine-bench-g-no-object = nenhum objeto `{ $key }` de trajetos
 

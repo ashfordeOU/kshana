@@ -7,7 +7,9 @@
 //! * The committed result files (`bench/results/h-*.result.json`) are valid, metric-only (scores
 //!   per trace, no position) and carry the scores of `xval/bench-h/RESULTS.md`.
 //! * With `KSHANA_URBANNAV=<dir>` (the directory the fetch script filled) both baselines are
-//!   recomputed on both splits and compared with the committed result files, metric for metric.
+//!   recomputed on both splits and compared with the committed result files, metric for metric;
+//!   `KSHANA_URBANNAV_TOKYO=<dir>` does the same for the Tokyo edition
+//!   (`scripts/fetch_urbannav_tokyo.sh`, `bench/results/h-tokyo-*.result.json`).
 
 use std::path::{Path, PathBuf};
 use std::process::Command;
@@ -163,6 +165,73 @@ fn committed(split: &str, baseline: &str) -> Value {
     )
 }
 
+/// The published first-run scores of the Tokyo edition (`xval/bench-h/RESULTS-TOKYO.md`).
+// PIN-SCOPE:    the first-run Tokyo scores of xval/bench-h/RESULTS-TOKYO.md, on the SHA-256-checked files.
+// PIN-EXCLUDES: any other data, receiver or baseline, and the Hong Kong edition.
+const PUBLISHED_TOKYO: [(&str, f64); 2] = [("test", 26.5997), ("dev", 11.7161)];
+
+fn committed_tokyo(split: &str) -> Value {
+    json(&PathBuf::from(env!("CARGO_MANIFEST_DIR")).join(format!(
+        "bench/results/h-tokyo-{split}-kshana-spp.result.json"
+    )))
+}
+
+#[test]
+fn task_h_tokyo_results_are_metric_only_named_by_edition_and_carry_the_published_scores() {
+    for (split, score) in PUBLISHED_TOKYO {
+        let r = committed_tokyo(split);
+        assert!(kshana::bench::validate_result(&r).is_empty(), "{split}");
+        assert_eq!(r["task"], "h");
+        assert!(r["system"]["name"]
+            .as_str()
+            .unwrap()
+            .ends_with("kshana-spp/tokyo"));
+        let got = r["metrics"]["gsdc_score_m"].as_f64().unwrap();
+        assert!((got - score).abs() < 5e-5, "{split}: {got} vs {score}");
+        let mut k = Vec::new();
+        keys(&r, &mut k);
+        for bad in ["positions", "traces", "lat", "lon", "latitude", "longitude"] {
+            assert!(!k.iter().any(|x| x == bad), "{split}: key {bad}");
+        }
+        let traces: Vec<&str> = r["metrics"]["per_trace"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .map(|t| t["trace"].as_str().unwrap())
+            .collect();
+        assert!(traces.iter().all(|t| t.starts_with("tokyo-")), "{traces:?}");
+    }
+}
+
+#[test]
+fn task_h_tokyo_baseline_reproduces_the_published_results_when_the_data_is_present() {
+    let Some(dir) = std::env::var_os("KSHANA_URBANNAV_TOKYO") else {
+        eprintln!("KSHANA_URBANNAV_TOKYO is not set: the Tokyo recomputation is skipped (scripts/fetch_urbannav_tokyo.sh)");
+        return;
+    };
+    let out = temp_dir("tokyo");
+    for (split, _) in PUBLISHED_TOKYO {
+        let (code, text) = kshana(&[
+            "bench",
+            "baseline",
+            "--task",
+            "h",
+            "--split",
+            split,
+            "--data",
+            dir.to_str().unwrap(),
+            "--out",
+            out.to_str().unwrap(),
+        ]);
+        assert_eq!(code, 0, "{text}");
+        assert!(text.contains("provided-nmea skipped"), "{text}");
+        let r = json(&out.join(format!("h-{split}-kshana-spp.result.json")));
+        assert_eq!(r["metrics"], committed_tokyo(split)["metrics"], "{split}");
+        assert_eq!(r["truth_sha256"], committed_tokyo(split)["truth_sha256"]);
+    }
+    let _ = std::fs::remove_dir_all(&out);
+}
+
 /// Every key anywhere in a JSON document.
 fn keys(v: &Value, out: &mut Vec<String>) {
     match v {
@@ -241,4 +310,41 @@ fn the_leaderboard_renders_task_h_and_refuses_a_task_h_holdout_row() {
     let mut h = r.clone();
     h["split"] = Value::from("holdout");
     assert!(kshana::bench::site::leaderboard_html(&[h]).is_err());
+}
+
+#[test]
+fn a_directory_mixing_the_two_editions_is_refused() {
+    let data = temp_dir("mixed");
+    std::fs::create_dir_all(data.join("medium-urban-1")).unwrap();
+    std::fs::write(
+        data.join("medium-urban-1/ground_truth.txt"),
+        format!("{HEADER}1621218775.00 2158.00000  95593.00   22 18 04.0  114 10 44.0  3.4\n"),
+    )
+    .unwrap();
+    std::fs::write(data.join("medium-urban-1/ublox-f9p.nmea"), "").unwrap();
+    std::fs::create_dir_all(data.join("tokyo-odaiba")).unwrap();
+    std::fs::write(
+        data.join("tokyo-odaiba/tk_reference.csv"),
+        "GPS TOW (s), GPS Week, Latitude (deg), Longitude (deg)\n273376.00, 2032, 35.6, 139.7\n",
+    )
+    .unwrap();
+    std::fs::write(data.join("tokyo-odaiba/ublox-f9p.obs"), "").unwrap();
+    let (code, text) = kshana(&[
+        "bench",
+        "truth",
+        "--task",
+        "h",
+        "--data",
+        data.to_str().unwrap(),
+        "--split",
+        "test",
+        "--out",
+        data.join("t.json").to_str().unwrap(),
+    ]);
+    assert_ne!(code, 0);
+    assert!(
+        text.contains("mixes the Hong Kong and Tokyo editions"),
+        "{text}"
+    );
+    let _ = std::fs::remove_dir_all(&data);
 }

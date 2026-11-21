@@ -40,6 +40,10 @@ Task (h): [`xval/bench-h/PREREGISTRATION.md`](../xval/bench-h/PREREGISTRATION.md
 [`RESULTS.md`](../xval/bench-h/RESULTS.md); test `gsdc_score_m` 31.98 m for the receivers' own NMEA fixes and 59.12 m
 for the engine's single-frequency code SPP (MODELLED; bar H1 NOT MET, explained there). The four task (h) result files
 are committed (`bench/results/h-*.result.json`, in `bench/GOLDEN.json`): scores per trace only, no position.
+Task (h) also has a Tokyo edition (UrbanNav-TK-20181219, same MIT grant; `scripts/fetch_urbannav_tokyo.sh`), scored in a
+directory of its own and never pooled with Hong Kong: [`PREREGISTRATION-TOKYO.md`](../xval/bench-h/PREREGISTRATION-TOKYO.md)
+and [`RESULTS-TOKYO.md`](../xval/bench-h/RESULTS-TOKYO.md); test `gsdc_score_m` 26.60 m for `kshana-spp/tokyo` (bar T1
+MET; no NMEA baseline, the publisher provides no receiver NMEA).
 
 ## Commands
 
@@ -69,6 +73,8 @@ KSHANA_BENCH_HOLDOUT_F=~/private/f/truth.json kshana bench holdout score --task 
 scripts/score_gsdc_local.sh ~/data/gsdc2023/train ~/bench-out              # task (g) baselines on your own GSDC copy
 scripts/fetch_urbannav.sh ~/data/urbannav                                # task (h) data, every file's SHA-256 checked
 kshana bench baseline --task h --split test --data ~/data/urbannav --out results/
+scripts/fetch_urbannav_tokyo.sh ~/data/urbannav-tokyo                    # task (h), Tokyo edition: a directory of its own
+kshana bench baseline --task h --split test --data ~/data/urbannav-tokyo --out results/
 kshana bench positions --task h --split test --csv submission.csv --name my-filter --out preds.json   # tripId = <sequence>/<receiver>
 ```
 

@@ -281,7 +281,7 @@
     },
     {
       "id": "urbannav",
-      "title": "UrbanNav multisensory urban positioning dataset (PolyU), Hong Kong sequences",
+      "title": "UrbanNav multisensory urban positioning dataset (PolyU), Hong Kong and Tokyo sequences",
       "kind": "urban-multisensor",
       "threat_class": null,
       "tasks": [
@@ -294,14 +294,17 @@
       "in_repository": false,
       "access": "fetch-script",
       "fetch": "scripts/fetch_urbannav.sh",
-      "checksums": "SHA-256 of every kept file (ground truth, RINEX observations, NMEA, BRDC navigation) pinned in scripts/fetch_urbannav.sh; the Dropbox folder archives are built on request and not pinned",
+      "fetch_tokyo": "scripts/fetch_urbannav_tokyo.sh",
+      "checksums": "Hong Kong: SHA-256 of every kept file (ground truth, RINEX observations, NMEA, BRDC navigation) pinned in scripts/fetch_urbannav.sh, the Dropbox folder archives being built on request and not pinned; Tokyo: SHA-256 of Tokyo_Data.zip and of every kept file pinned in scripts/fetch_urbannav_tokyo.sh",
       "files": [
         "ground_truth.txt",
         "ublox-f9p.obs",
         "ublox-f9p.nmea",
         "xiaomi-mi8.obs",
         "xiaomi-mi8.nmea",
-        "nav.rnx"
+        "nav.rnx",
+        "tk_reference.csv",
+        "trimble-netr9.obs"
       ],
       "use_limits": "the MIT notice is kept with any copy; the README asks users to cite the ION GNSS+ 2021 paper; not redistributed by this project; scores describe these sequences, never a receiver",
       "status": "in-bench",
