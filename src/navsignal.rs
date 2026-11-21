@@ -47,7 +47,12 @@ pub enum Modulation {
     /// **Cosine-phased BOC(m, n)** — the same code and subcarrier rates with a cosine-phased
     /// square-wave subcarrier (written `BOCc(m,n)`; Betz, *Binary Offset Carrier Modulations for
     /// Radionavigation*, NAVIGATION 48(4), 2001).
-    BocCos { m: f64, n: f64 },
+    BocCos {
+        /// Subcarrier-rate multiple: the subcarrier runs at `m · 1.023` MHz.
+        m: f64,
+        /// Chip-rate multiple: the code runs at `n · 1.023` Mcps.
+        n: f64,
+    },
     /// **MBOC(6, 1, p)** — the multiplexed BOC power spectral density
     /// `(1 − p)·G_BOC(1,1)(f) + p·G_BOC(6,1)(f)` on a 1.023 Mcps code. With
     /// `p = 1/11` this is the spectrum agreed for Galileo E1 OS and GPS L1C (Hein et

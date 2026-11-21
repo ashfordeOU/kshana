@@ -211,8 +211,12 @@ pub fn canonical_json(v: &Value) -> String {
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize)]
 #[serde(rename_all = "snake_case")]
 pub enum EntryClass {
+    /// An evidence pack record: `class` `evidence_pack`, or no `class` and a kind other than
+    /// [`REVOCATION_KIND`].
     EvidencePack,
+    /// A calibration record: `class` `calibration_record`.
     CalibrationRecord,
+    /// A revocation record: no `class` and kind [`REVOCATION_KIND`].
     Revocation,
 }
 
@@ -334,17 +338,24 @@ pub fn key_of_hex(s: &str) -> Result<[u8; 32], String> {
 /// One check: a stable id (documented in docs/TLOG.md), its outcome, and the values compared.
 #[derive(Clone, Debug, Serialize, PartialEq)]
 pub struct Check {
+    /// Stable check id, prefixed by what it checks (for example `sth.signature`).
     pub id: String,
+    /// True when the check passed.
     pub pass: bool,
+    /// The values compared (typically `got / expected`), for the reader.
     pub detail: String,
 }
 
 /// The report of one `tlog` command.
 #[derive(Clone, Debug, Serialize, PartialEq)]
 pub struct Report {
+    /// The report schema, [`SCHEMA`].
     pub schema: &'static str,
+    /// The `tlog` command that produced the report.
     pub command: String,
+    /// True when every check passed.
     pub pass: bool,
+    /// The checks, in the order they were run.
     pub checks: Vec<Check>,
     /// Facts read from the inputs (sizes, roots, key ids, classes), not checks.
     pub facts: BTreeMap<String, Value>,
@@ -425,13 +436,21 @@ impl Report {
 /// The fields of a signed statement around its `verdict` payload.
 #[derive(Clone, Debug)]
 pub struct Signed {
+    /// The `service` string, opaque; part of the signed body.
     pub service: Value,
+    /// The `method` field, as served; part of the signed body.
     pub method: Value,
+    /// The `evidence_class` field, as served; part of the signed body.
     pub evidence_class: Value,
+    /// The signing time, checked to be a UTC timestamp; part of the signed body.
     pub utc: Value,
+    /// Id of the signing key, used to pick a key from a key history; part of the body.
     pub key_id: Value,
+    /// The signed payload (an STH, a daily root, ...).
     pub verdict: Value,
+    /// SHA-256 of the canonical body, hex, as served (compared case-insensitively).
     pub verdict_sha256: String,
+    /// Ed25519 signature over the canonical body, 128 hex characters.
     pub signature: String,
 }
 
@@ -441,6 +460,8 @@ pub fn is_signed(doc: &Value) -> bool {
 }
 
 impl Signed {
+    /// Read the fields from a document; errors name a missing field, or a non-string
+    /// `verdict_sha256` or `signature`.
     pub fn parse(doc: &Value) -> Result<Self, String> {
         let get = |k: &str| {
             doc.get(k)
@@ -606,7 +627,9 @@ fn path_field(v: &Value, k: &str) -> Result<Vec<Hash>, String> {
 /// Options shared by the commands.
 #[derive(Default)]
 pub struct Opts<'a> {
+    /// Where the public keys of signed statements come from; `None` when none was given.
     pub keys: Option<KeySource<'a>>,
+    /// The exact payload `format` to require (`--format`); `None` checks no format.
     pub format: Option<String>,
 }
 
@@ -815,7 +838,9 @@ pub fn verify_sth(sth: &Value, entries: Option<&[Value]>, opts: &Opts) -> Result
 /// RFC 3161 inputs for `verify-daily-root`: trusted authority roots and extra certificates (DER).
 #[derive(Default)]
 pub struct TsaInputs {
+    /// Trusted timestamp authority root certificates, DER; empty fails the RFC 3161 checks.
     pub anchors: Vec<Vec<u8>>,
+    /// Extra (intermediate) certificates for building the chain, DER; not trusted.
     pub untrusted: Vec<Vec<u8>>,
 }
 
@@ -951,18 +976,24 @@ pub fn verify_daily_root(
 /// One verified key period.
 #[derive(Clone, Debug, Serialize, PartialEq)]
 pub struct KeyPeriod {
+    /// The record's `seq`, checked to equal its position in the history (from 0).
     pub seq: u64,
+    /// The key's id, as named by the `key_id` of signed statements.
     pub key_id: String,
+    /// The Ed25519 public key, 64 hex characters.
     pub public_key: String,
+    /// UTC time from which the key is valid, later than the previous record's.
     pub not_before: String,
     /// The next record's `not_before`; `None` for the current key.
     pub not_after: Option<String>,
+    /// True when the previous key's endorsement of this key verified (false for the first).
     pub endorsed_by_previous: bool,
 }
 
 /// A key history whose records all verified.
 #[derive(Clone, Debug, Default)]
 pub struct KeyHistory {
+    /// The key periods, in record order (oldest first).
     pub periods: Vec<KeyPeriod>,
 }
 

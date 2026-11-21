@@ -57,7 +57,9 @@ pub enum SlotKind {
 #[derive(Clone, Debug, PartialEq, Deserialize, Serialize)]
 #[serde(deny_unknown_fields)]
 pub struct Slot {
+    /// The slot's label within its set (for example `GEO 32.5E`), reported in the result.
     pub id: String,
+    /// GEO (fixed sub-satellite longitude) or IGSO (inclined geosynchronous).
     pub kind: SlotKind,
     /// GEO: the sub-satellite longitude, degrees east.
     #[serde(default, skip_serializing_if = "Option::is_none")]
@@ -65,6 +67,7 @@ pub struct Slot {
     /// IGSO: the inclination, degrees (GEO: 0).
     #[serde(default)]
     pub inclination_deg: f64,
+    /// Orbital eccentricity, dimensionless, checked to lie in `0.0..0.5`; 0 (circular) by default.
     #[serde(default)]
     pub eccentricity: f64,
     /// Argument of perigee, degrees (the QZO apogee is over the north at 270°).
@@ -90,11 +93,15 @@ pub struct Slot {
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(deny_unknown_fields)]
 pub struct SlotSet {
+    /// The set's name, as used in `slot_sets` (for example `navic`).
     pub name: String,
+    /// A one-line human-readable title of the set.
     pub title: String,
+    /// The published sources of the set's values, one string each.
     pub sources: Vec<String>,
     /// What the sources leave out, and what stands in for it.
     pub omitted: Vec<String>,
+    /// The slots of the set, in file order (`[[slot]]` tables).
     pub slot: Vec<Slot>,
 }
 
