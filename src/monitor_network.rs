@@ -19,8 +19,9 @@
 //!   sum of the legitimate floor and the spoof power **as it arrives at that station** —
 //!   computed with [`crate::spoof_monitors::combine_power_dbm`] and
 //!   [`crate::spoof_monitors::AgcMonitor::excess_db`]. The spoof power arriving at a
-//!   station is the emitter EIRP less the free-space path loss over the real slant range
-//!   to it (airless Moon: no refraction, no absorption). So a distant station sees a
+//!   station is the emitter EIRP less the free-space path loss `20·log10(4πdf/c)` over the
+//!   real slant range `d` to it at the emitter's carrier `f` (airless Moon: no refraction, no
+//!   absorption). So a distant station sees a
 //!   weaker spoof, a smaller `μ`, and a lower `P_d` — the geometry drives the statistic.
 //! * **(b) The selenographic coverage/visibility geometry of [`crate::lunar_service`].**
 //!   Whether a station *observes* the event is the real visibility test
@@ -190,7 +191,14 @@ pub struct SpoofEvent {
     pub alt_m: f64,
     /// Emitter effective isotropic radiated power, dBm.
     pub eirp_dbm: f64,
+    /// Carrier frequency of the emitter, Hz (for example [`AFS_CARRIER_HZ`]): the free-space
+    /// loss depends on the wavelength as well as the range.
+    pub freq_hz: f64,
 }
+
+/// The LunaNet Augmented Forward Signal carrier, 2492.028 MHz: a frequency for a spoof of the
+/// lunar navigation signal.
+pub const AFS_CARRIER_HZ: f64 = 2_492.028e6;
 
 impl SpoofEvent {
     /// The emitter's selenographic position.
@@ -208,17 +216,14 @@ impl SpoofEvent {
     }
 }
 
-/// Free-space path loss (dB) over a slant range of `range_m`, referenced to a 1 m range:
-/// `20·log10(range_m)`. On the airless Moon there is no refractive bending, atmospheric
-/// absorption or skywave path, so the received-power falloff of a spoof emitter is the
-/// bare inverse-square free-space term — the geometric core that makes a distant station's
-/// AGC statistic weaker. Range below 1 m is clamped to 0 dB (no gain).
-pub fn free_space_path_loss_db(range_m: f64) -> f64 {
-    if range_m <= 1.0 {
-        0.0
-    } else {
-        20.0 * range_m.plog10()
-    }
+/// Free-space path loss (dB) over a slant range of `range_m` at carrier `freq_hz`:
+/// `20·log10(4π·range·f/c)` ([`crate::jamming::free_space_path_loss_db`]), the loss between
+/// isotropic antennas that turns an EIRP into a received power. On the airless Moon there is no
+/// refractive bending, atmospheric absorption or skywave path, so the received-power falloff of a
+/// spoof emitter is this free-space term — the geometric core that makes a distant station's AGC
+/// statistic weaker.
+pub fn free_space_path_loss_db(range_m: f64, freq_hz: f64) -> f64 {
+    crate::jamming::free_space_path_loss_db(range_m, freq_hz)
 }
 
 /// Slant range (m) between two MCMF points — the straight-line distance the spoof signal
@@ -233,7 +238,7 @@ fn slant_range_m(a: [f64; 3], b: [f64; 3]) -> f64 {
 /// the station's AGC power-excess statistic ([`SurfaceMonitor::detection_statistic`]).
 pub fn spoof_power_at_monitor(event: &SpoofEvent, monitor: &SurfaceMonitor) -> f64 {
     let range_m = slant_range_m(event.position_mcmf(), monitor.position_mcmf());
-    event.eirp_dbm - free_space_path_loss_db(range_m)
+    event.eirp_dbm - free_space_path_loss_db(range_m, event.freq_hz)
 }
 
 /// Whether a station **observes** an event: the emitter, placed in MCMF, clears the
@@ -427,18 +432,30 @@ mod tests {
         assert!((network_detection_probability(&[1.0]) - 1.0).abs() < 1e-15);
     }
 
-    // ORACLE: free-space inverse-square law. Path loss over range 1 m is 0 dB; doubling
-    // the range adds 20*log10(2) ≈ 6.0206 dB; a 10x range adds exactly 20 dB.
+    // ORACLE: the free-space loss between isotropic antennas, 20·log10(4πdf/c). At 1 km and
+    // the 2492.028 MHz AFS carrier it is 100.379 dB (computed independently: 20·log10(4π·1000·
+    // 2.492028e9 / 299 792 458) = 100.3788); doubling the range adds 20·log10(2) dB, a tenfold
+    // range 20 dB. The wavelength term (about 40.4 dB here) is what turns an EIRP into a
+    // received power; leaving it out overstated every station's spoof power by that much.
     #[test]
-    fn free_space_path_loss_is_inverse_square() {
-        assert_eq!(free_space_path_loss_db(1.0), 0.0);
-        assert_eq!(free_space_path_loss_db(0.5), 0.0); // clamped below 1 m
-        assert!((free_space_path_loss_db(10.0) - 20.0).abs() < 1e-12);
-        assert!((free_space_path_loss_db(100.0) - 40.0).abs() < 1e-12);
-        // Doubling range: +6.0206 dB.
-        let d1 = free_space_path_loss_db(1000.0);
-        let d2 = free_space_path_loss_db(2000.0);
-        assert!((d2 - d1 - 20.0 * 2.0_f64.plog10()).abs() < 1e-12);
+    fn free_space_path_loss_includes_the_wavelength() {
+        let l1 = free_space_path_loss_db(1000.0, AFS_CARRIER_HZ);
+        assert!((l1 - 100.3788).abs() < 1e-3, "{l1}");
+        let l2 = free_space_path_loss_db(2000.0, AFS_CARRIER_HZ);
+        assert!((l2 - l1 - 20.0 * 2.0_f64.plog10()).abs() < 1e-12);
+        let l10 = free_space_path_loss_db(10_000.0, AFS_CARRIER_HZ);
+        assert!((l10 - l1 - 20.0).abs() < 1e-12);
+        // The received power is the EIRP less this loss.
+        let event = SpoofEvent {
+            lat_rad: 0.0,
+            lon_rad: 0.0,
+            alt_m: 1000.0,
+            eirp_dbm: 40.0,
+            freq_hz: AFS_CARRIER_HZ,
+        };
+        let under = SurfaceMonitor::new(0.0, 0.0, 0.0, nominal_floor_dbm(), 1.0);
+        let rx = spoof_power_at_monitor(&event, &under);
+        assert!((rx - (40.0 - 100.3788)).abs() < 1e-3, "{rx}");
     }
 
     // ORACLE: crate::lunar_service::visible_sat_positions (the real selenographic
@@ -453,6 +470,7 @@ mod tests {
             lon_rad: 0.0,
             alt_m: 2.0e6, // orbital-scale altitude
             eirp_dbm: 30.0,
+            freq_hz: AFS_CARRIER_HZ,
         };
         let mask = 5.0_f64.to_radians();
 
@@ -505,6 +523,7 @@ mod tests {
             lon_rad: 0.0,
             alt_m: 2.0e6,
             eirp_dbm: 60.0,
+            freq_hz: AFS_CARRIER_HZ,
         };
         // Three stations clustered under the emitter (all observe it), plus one at the
         // antipode that cannot see it over the horizon.
@@ -561,6 +580,7 @@ mod tests {
             lon_rad: 0.0,
             alt_m: 1.0e5,
             eirp_dbm: 90.0,
+            freq_hz: AFS_CARRIER_HZ,
         };
         // Two identical stations: one under the emitter, one ~200 km east.
         let near = SurfaceMonitor::new(0.0, 0.0, 0.0, floor, 1.0);
