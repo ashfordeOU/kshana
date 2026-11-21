@@ -12582,3 +12582,6 @@ engine-e-leo-sparse-bad-study = the study's numbers are out of range: a valid us
 engine-e-leo-sparse-singular = the information matrix cannot be inverted even with the priors
 engine-e-leo-sparse-cannot-read = cannot read { $path }: { $e }
 engine-e-leo-sparse-bad-file = { $path } is not a study: { $e }
+engine-amateur-od-bad-record = line { $line }: the { $what } record cannot be read
+engine-amateur-od-bad-json = SatNOGS observation: field { $field } is missing or not a number
+engine-amateur-od-unknown-site = Doppler record names site { $site }, which is not in the site list

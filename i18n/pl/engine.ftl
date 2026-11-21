@@ -12432,3 +12432,6 @@ engine-e-leo-sparse-bad-study = wartości badania są poza zakresem: prawidłowe
 engine-e-leo-sparse-singular = macierzy informacji nie da się odwrócić nawet z wartościami a priori
 engine-e-leo-sparse-cannot-read = nie można odczytać { $path }: { $e }
 engine-e-leo-sparse-bad-file = { $path } nie jest badaniem: { $e }
+engine-amateur-od-bad-record = wiersz { $line }: nie można odczytać rekordu { $what }
+engine-amateur-od-bad-json = obserwacja SatNOGS: brak pola { $field } lub nie jest liczbą
+engine-amateur-od-unknown-site = rekord Dopplera wskazuje stację { $site }, której nie ma na liście stacji

@@ -12197,3 +12197,6 @@ engine-e-leo-sparse-bad-study = studiens tall er utenfor området: en gyldig bru
 engine-e-leo-sparse-singular = informasjonsmatrisen kan ikke inverteres, heller ikke med a priori-verdiene
 engine-e-leo-sparse-cannot-read = kan ikke lese { $path }: { $e }
 engine-e-leo-sparse-bad-file = { $path } er ikke en studie: { $e }
+engine-amateur-od-bad-record = linje { $line }: { $what }-posten kan ikke leses
+engine-amateur-od-bad-json = SatNOGS-observasjon: feltet { $field } mangler eller er ikke et tall
+engine-amateur-od-unknown-site = Doppler-posten nevner stasjon { $site }, som ikke er i stasjonslisten

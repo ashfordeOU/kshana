@@ -11469,3 +11469,6 @@ engine-e-leo-sparse-bad-study = 研究参数超出范围：有效的用户位置
 engine-e-leo-sparse-singular = 即使加上先验值，信息矩阵也无法求逆
 engine-e-leo-sparse-cannot-read = 无法读取 { $path }：{ $e }
 engine-e-leo-sparse-bad-file = { $path } 不是研究文件：{ $e }
+engine-amateur-od-bad-record = 第 { $line } 行：无法读取 { $what } 记录
+engine-amateur-od-bad-json = SatNOGS 观测：字段 { $field } 缺失或不是数字
+engine-amateur-od-unknown-site = 多普勒记录指向站点 { $site }，但它不在站点列表中

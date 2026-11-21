@@ -11933,3 +11933,6 @@ engine-e-leo-sparse-bad-study = tutkimuksen arvot ovat sallitun alueen ulkopuole
 engine-e-leo-sparse-singular = informaatiomatriisia ei voi kääntää edes a priori -arvojen kanssa
 engine-e-leo-sparse-cannot-read = tiedostoa { $path } ei voi lukea: { $e }
 engine-e-leo-sparse-bad-file = { $path } ei ole tutkimus: { $e }
+engine-amateur-od-bad-record = rivi { $line }: { $what }-tietuetta ei voi lukea
+engine-amateur-od-bad-json = SatNOGS-havainto: kenttä { $field } puuttuu tai ei ole luku
+engine-amateur-od-unknown-site = Doppler-tietue nimeää aseman { $site }, jota ei ole asemaluettelossa

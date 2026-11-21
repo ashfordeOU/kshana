@@ -12267,3 +12267,6 @@ engine-e-leo-sparse-bad-study = hodnoty studie jsou mimo rozsah: platná poloha 
 engine-e-leo-sparse-singular = informační matici nelze invertovat ani s apriorními hodnotami
 engine-e-leo-sparse-cannot-read = nelze číst { $path }: { $e }
 engine-e-leo-sparse-bad-file = { $path } není studie: { $e }
+engine-amateur-od-bad-record = řádek { $line }: záznam { $what } nelze přečíst
+engine-amateur-od-bad-json = pozorování SatNOGS: pole { $field } chybí nebo není číslo
+engine-amateur-od-unknown-site = Dopplerův záznam uvádí stanici { $site }, která není v seznamu stanic

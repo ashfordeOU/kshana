@@ -12189,3 +12189,6 @@ engine-e-leo-sparse-bad-study = uuringu väärtused on lubatud vahemikust välja
 engine-e-leo-sparse-singular = infomaatriksit ei saa pöörata isegi eelväärtustega
 engine-e-leo-sparse-cannot-read = faili { $path } ei saa lugeda: { $e }
 engine-e-leo-sparse-bad-file = { $path } ei ole uuring: { $e }
+engine-amateur-od-bad-record = rida { $line }: kirjet { $what } ei saa lugeda
+engine-amateur-od-bad-json = SatNOGS-i vaatlus: väli { $field } puudub või ei ole arv
+engine-amateur-od-unknown-site = Doppleri kirje nimetab jaama { $site }, mida jaamade loendis ei ole
