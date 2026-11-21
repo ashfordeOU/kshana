@@ -259,7 +259,7 @@ fn msm(p: &[u8], map: &mut EpochMap) -> Option<()> {
             .collect()
     };
     let (sats, sigs) = (ids(sat_mask, 64), ids(sig_mask & 0xFFFF_FFFF, 32));
-    let e = map.at(key);
+    let e = map.at_wrapped(key, WEEK_MS);
     e.time_label.get_or_insert_with(|| {
         crate::t!(
             "receiver-trust-machines-gnss-sdr-gps-tow",
@@ -415,6 +415,19 @@ mod tests {
         // Across the week boundary: BDT TOW 604 790 s is GPS TOW 4 s of the next week.
         let tl = read_rtcm3(&frame(1124, &[(30, 604_790_000)], 2, &[(11, 41)])).unwrap();
         assert_eq!(tl.epochs[0].time_label.as_deref(), Some("GPS TOW 4.000 s"));
+    }
+
+    #[test]
+    fn a_log_across_the_week_rollover_stays_in_order() {
+        // Saturday 23:59:59 GPS (TOW 604 799 s), then Sunday 00:00:01 (TOW 1 s): two epochs
+        // 2 s apart, in that order, not the Sunday epoch first and a week-long gap.
+        let mut s = frame(1074, &[(30, 604_799_000)], 2, &[(5, 44)]);
+        s.extend(frame(1074, &[(30, 1_000)], 2, &[(5, 45)]));
+        let tl = read_rtcm3(&s).unwrap();
+        assert_eq!(tl.epochs.len(), 2);
+        assert_eq!(tl.epochs[0].cn0[0].cn0_dbhz, 44.0);
+        assert_eq!(tl.epochs[1].t_s, 2.0);
+        assert_eq!(tl.epochs[1].time_label.as_deref(), Some("GPS TOW 1.000 s"));
     }
 
     #[test]
