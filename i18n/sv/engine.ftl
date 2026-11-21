@@ -10728,6 +10728,9 @@ engine-e-evidence-dir-cannot-read = kan inte läsa { $path }: { $e }
 engine-e-evidence-dir-bad-json = { $path } är inte giltig JSON: { $e }
 engine-e-evidence-dir-bad-field = signature.json: { $field } saknas eller har fel form
 
+## space-receiver od-vs-tle time system
+engine-e-space-receiver-oem-time-system = den här jämförelsen läser inte OEM-tidssystemet { $ts } (UTC, GPS, TAI eller TT)
+
 engine-main-usage =
     användning: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }eller: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]

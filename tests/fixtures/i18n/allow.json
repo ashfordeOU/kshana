@@ -1602,8 +1602,8 @@
    "reason": "machine-document and identifier: the schema id, verdict values, the cited source reference and the English label written into the kshana.space-receiver-mms/1 document"
   },
   "src/space_receiver/od_vs_tle.rs": {
-   "count": 3,
-   "reason": "machine-document and identifier: the schema id, the CCSDS standard id and frame names, and the English label written into the kshana.space-receiver-od-vs-tle/1 document"
+   "count": 4,
+   "reason": "machine-document and identifier: the schema id, the CCSDS standard id and frame names, and the English label written into the kshana.space-receiver-od-vs-tle/1 document; the CCSDS keyword TIME_SYSTEM and its time-system names."
   },
   "src/space_receiver/timestamps.rs": {
    "count": 23,
