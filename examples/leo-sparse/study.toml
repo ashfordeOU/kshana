@@ -1,0 +1,24 @@
+# An illustrative sparse-geometry LEO-PNT study (kshana leo-sparse; docs/LEO-SPARSE.md): a static
+# user at mid latitude, a polar LEO constellation, and at most one or two satellites used at once.
+# Every number is a planning input chosen for the example, not a value of any system. MODELLED.
+mask_deg = 10.0
+max_in_view = [1, 2]
+measurements = "doppler"
+doppler_sigma_mps = 0.1        # range-rate noise, 1 sigma
+duration_hours = 6.0
+step_s = 10.0
+report_every_s = 600.0
+target_horizontal_m = 50.0
+target_3d_m = 100.0
+
+[user]
+lat_deg = 48.0
+lon_deg = 11.0
+height_m = 500.0
+
+[leo]
+total = 24
+planes = 6
+phasing = 1
+altitude_km = 800.0
+inclination_deg = 86.0

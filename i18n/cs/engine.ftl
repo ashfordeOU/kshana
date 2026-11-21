@@ -10821,6 +10821,7 @@ engine-main-usage =
     { "   " }nebo: kshana sil-obsgen <scenario.toml> --out <obs.rnx> [--truth <truth.json>]
     { "   " }nebo: kshana osnma scenario run <scenario.json> [--json] | template (kshana osnma scenario --help)
     { "   " }nebo: kshana lunar-oem convert <in.oem> --to ICRF|MOON_PA440|MOON_ME [--out <file>] | frames (kshana lunar-oem --help)
+    { "   " }nebo: kshana leo-sparse <study.toml>
     { "   " }nebo: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }nebo: kshana corrections <decode --format <has|b2b|l6|l1s|qznma> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...] | qznma-verify [--frames <frames.txt>] [--nav <nav.txt>] --pubkey <key.der> ...>
     { "   " }nebo: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
@@ -12175,3 +12176,10 @@ engine-leo-od-plan-usage = použití: kshana leo-od-plan <plan.toml>  (docs/LEO-
 engine-e-leo-od-plan-bad-plan = hodnoty plánu jsou mimo rozsah: oblouk, krok, šumy a masky kladné a konečné, nejvýše 100000 kroků, masky v rozmezí ±90 stupňů, poloviční šířka svazku od 0 do 90 stupňů a vzor Walker LEO, jehož roviny dělí počet družic
 engine-e-leo-od-plan-cannot-read = nelze číst { $path }: { $e }
 engine-e-leo-od-plan-bad-file = { $path } není plán: { $e }
+
+## Sparse-geometry LEO-PNT study (src/leo_sparse.rs, docs/LEO-SPARSE.md)
+engine-leo-sparse-usage = použití: kshana leo-sparse <study.toml>  (docs/LEO-SPARSE.md; MODELLED, a planning study)
+engine-e-leo-sparse-bad-study = hodnoty studie jsou mimo rozsah: platná poloha uživatele, vzor Walker LEO pod 3000 km, jehož roviny dělí počet družic, maska od 0 do 90 stupňů, max_in_view 1 nebo 2, kladné šumy, apriorní hodnoty a cíle, nejvýše 200000 kroků a interval zpráv ne kratší než krok
+engine-e-leo-sparse-singular = informační matici nelze invertovat ani s apriorními hodnotami
+engine-e-leo-sparse-cannot-read = nelze číst { $path }: { $e }
+engine-e-leo-sparse-bad-file = { $path } není studie: { $e }

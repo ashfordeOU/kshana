@@ -10968,6 +10968,7 @@ engine-main-usage =
     { "   " }або: kshana sil-obsgen <scenario.toml> --out <obs.rnx> [--truth <truth.json>]
     { "   " }або: kshana osnma scenario run <scenario.json> [--json] | template (kshana osnma scenario --help)
     { "   " }або: kshana lunar-oem convert <in.oem> --to ICRF|MOON_PA440|MOON_ME [--out <file>] | frames (kshana lunar-oem --help)
+    { "   " }або: kshana leo-sparse <study.toml>
     { "   " }або: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }або: kshana corrections <decode --format <has|b2b|l6|l1s|qznma> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...] | qznma-verify [--frames <frames.txt>] [--nav <nav.txt>] --pubkey <key.der> ...>
     { "   " }або: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
@@ -12258,3 +12259,10 @@ engine-leo-od-plan-usage = використання: kshana leo-od-plan <plan.to
 engine-e-leo-od-plan-bad-plan = значення плану поза допустимим діапазоном: дуга, крок, шуми й маски додатні та скінченні, не більше 100000 кроків, маски в межах ±90 градусів, півширина променя від 0 до 90 градусів і схема Вокера LEO, у якої кількість площин ділить кількість супутників
 engine-e-leo-od-plan-cannot-read = не вдалося прочитати { $path }: { $e }
 engine-e-leo-od-plan-bad-file = { $path } не є планом: { $e }
+
+## Sparse-geometry LEO-PNT study (src/leo_sparse.rs, docs/LEO-SPARSE.md)
+engine-leo-sparse-usage = використання: kshana leo-sparse <study.toml>  (docs/LEO-SPARSE.md; MODELLED, a planning study)
+engine-e-leo-sparse-bad-study = значення дослідження поза допустимим діапазоном: коректне положення користувача, схема Вокера LEO нижче 3000 км, у якої кількість площин ділить кількість супутників, маска від 0 до 90 градусів, max_in_view 1 або 2, додатні шуми, апріорні значення й цілі, не більше 200000 кроків та інтервал звітів не коротший за крок
+engine-e-leo-sparse-singular = інформаційну матрицю не можна обернути навіть з апріорними значеннями
+engine-e-leo-sparse-cannot-read = не вдалося прочитати { $path }: { $e }
+engine-e-leo-sparse-bad-file = { $path } не є дослідженням: { $e }

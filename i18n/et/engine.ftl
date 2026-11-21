@@ -10815,6 +10815,7 @@ engine-main-usage =
     { "   " }või: kshana sil-obsgen <scenario.toml> --out <obs.rnx> [--truth <truth.json>]
     { "   " }või: kshana osnma scenario run <scenario.json> [--json] | template (kshana osnma scenario --help)
     { "   " }või: kshana lunar-oem convert <in.oem> --to ICRF|MOON_PA440|MOON_ME [--out <file>] | frames (kshana lunar-oem --help)
+    { "   " }või: kshana leo-sparse <study.toml>
     { "   " }või: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }või: kshana corrections <decode --format <has|b2b|l6|l1s|qznma> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...] | qznma-verify [--frames <frames.txt>] [--nav <nav.txt>] --pubkey <key.der> ...>
     { "   " }või: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
@@ -12097,3 +12098,10 @@ engine-leo-od-plan-usage = kasutus: kshana leo-od-plan <plan.toml>  (docs/LEO-OD
 engine-e-leo-od-plan-bad-plan = plaani väärtused on lubatud vahemikust väljas: kaar, samm, mürad ja maskid positiivsed ja lõplikud, kõige rohkem 100000 sammu, maskid ±90 kraadi piires, poolkiirelaius 0 kuni 90 kraadi ja LEO Walkeri muster, mille tasandid jagavad satelliitide arvu
 engine-e-leo-od-plan-cannot-read = faili { $path } ei saa lugeda: { $e }
 engine-e-leo-od-plan-bad-file = { $path } ei ole plaan: { $e }
+
+## Sparse-geometry LEO-PNT study (src/leo_sparse.rs, docs/LEO-SPARSE.md)
+engine-leo-sparse-usage = kasutus: kshana leo-sparse <study.toml>  (docs/LEO-SPARSE.md; MODELLED, a planning study)
+engine-e-leo-sparse-bad-study = uuringu väärtused on lubatud vahemikust väljas: kehtiv kasutaja asukoht, alla 3000 km LEO Walkeri muster, mille tasandid jagavad satelliitide arvu, mask 0 kuni 90 kraadi, max_in_view 1 või 2, positiivsed mürad, eelväärtused ja eesmärgid, kõige rohkem 200000 sammu ja aruandeintervall mitte lühem kui samm
+engine-e-leo-sparse-singular = infomaatriksit ei saa pöörata isegi eelväärtustega
+engine-e-leo-sparse-cannot-read = faili { $path } ei saa lugeda: { $e }
+engine-e-leo-sparse-bad-file = { $path } ei ole uuring: { $e }
