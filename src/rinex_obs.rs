@@ -141,6 +141,38 @@ pub struct RinexObs {
 }
 
 impl RinexObs {
+    /// The time of epoch `idx` as seconds from the GPS epoch (1980-01-06) on GPS time, from the
+    /// epoch as written and the file's `TIME OF FIRST OBS` time system
+    /// ([`ObsHeader::time_system`]): a BeiDou (`BDT`) file is 14 s behind GPS time, a GLONASS
+    /// (`GLO`, UTC) file is GPS − UTC behind, and `GAL`, `QZS`, `IRN` are GPS time. A file that
+    /// declares no system, or one not in that list, is read as GPS time (the RINEX default for
+    /// GPS and mixed files). Every consumer that needs an absolute instant (positioning, PPP,
+    /// RTK pairing) takes it from here, not from the epoch as written.
+    pub fn epoch_gps_seconds(&self, idx: usize) -> Option<f64> {
+        let e = self.epochs.get(idx)?;
+        let t = e.time.seconds_from_gps_epoch();
+        let jd = crate::timescales::julian_date(
+            e.time.year,
+            e.time.month,
+            e.time.day,
+            e.time.hour,
+            e.time.minute,
+            e.time.second,
+        );
+        let off = self
+            .header
+            .time_system
+            .as_deref()
+            .and_then(|ts| crate::timescales::gps_minus_scale_s(ts, jd))
+            .unwrap_or(0.0);
+        Some(t + off)
+    }
+
+    /// [`RinexObs::epoch_gps_seconds`] as a GPS time of week.
+    pub fn epoch_gps_tow(&self, idx: usize) -> Option<f64> {
+        self.epoch_gps_seconds(idx).map(|t| t.rem_euclid(604_800.0))
+    }
+
     /// The measured value of observation `code` for satellite `sat` at epoch index
     /// `epoch_idx`, if that satellite was observed at that epoch and the code is
     /// defined and present.
