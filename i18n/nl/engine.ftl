@@ -10780,6 +10780,33 @@ engine-e-sil-obsgen-cannot-read = kan { $path } niet lezen: { $e }
 engine-e-sil-obsgen-cannot-write = kan { $path } niet schrijven: { $e }
 engine-e-sil-obsgen-bad-scenario = geen gnss-sim-scenario met optionele tabellen [urban] en [rinex]: { $e }
 
+## Transparency-log verifier (src/tlog.rs)
+engine-tlog-usage = gebruik: kshana tlog verify-inclusion <proof.json> [--entry <entry.json>] [--sth <sth.json>] | verify-consistency <proof.json> [--sth-from <sth.json>] [--sth-to <sth.json>] | verify-sth <sth.json> [--entries <entries.jsonl>] | verify-daily-root <statement.json> [--tsa-ca <roots.pem>] [--tsa-certs <certs.pem>] | verify-key-history <history.jsonl> [--first-key <hex>]   (signed statements: --key <hex> or --key-history <history.jsonl>; --format <id>; --json; offline RFC 6962/9162 log verification; docs/TLOG.md)
+engine-e-tlog-missing-value = { $option } heeft een waarde nodig
+engine-e-tlog-cannot-read = kan { $path } niet lezen: { $e }
+engine-e-tlog-unknown-option = onbekende optie { $option } (kshana tlog --help toont de opties)
+engine-tlog-check-pass = PASS { $id }: { $detail }
+engine-tlog-check-fail = FAIL { $id }: { $detail }
+engine-tlog-fact = { $key } = { $value }
+engine-tlog-verdict-pass = tlog { $command }: alle controles geslaagd
+engine-tlog-verdict-fail = tlog { $command }: { $n } controle(s) mislukt
+engine-tlog-not-anchored = niet verankerd (de verklaring heeft geen tijdstempels)
+engine-tlog-no-tsa-roots = geen wortels van de tijdstempelautoriteit opgegeven (--tsa-ca): handtekening en keten van het token worden niet gecontroleerd
+engine-tlog-no-endorsement = geen bekrachtiging door de vorige sleutel
+engine-e-tlog-entry-not-object = een logboekitem moet een JSON-object zijn
+engine-e-tlog-entry-missing-field = een logboekitem mist { $field }
+engine-e-tlog-entry-bad-field = { $field } van een logboekitem heeft de verkeerde vorm
+engine-e-tlog-bad-key = een publieke sleutel moet uit 64 hexadecimale cijfers bestaan (32 bytes, Ed25519)
+engine-e-tlog-missing-field = het document mist { $field }
+engine-e-tlog-bad-field = { $field } heeft de verkeerde vorm (hashes zijn 64 hexadecimale cijfers, groottes en indexen gehele getallen)
+engine-e-tlog-needs-key = een ondertekende verklaring heeft --key <hex> of --key-history <history.jsonl> nodig
+engine-e-tlog-bad-json = geen geldige JSON: { $e }
+engine-e-tlog-bad-json-line = regel { $line } is geen geldige JSON: { $e }
+engine-e-tlog-bad-json-file = { $path } is geen geldige JSON: { $e }
+engine-e-tlog-key-and-history = geef --key of --key-history, niet beide
+engine-e-tlog-history-failed = de sleutelgeschiedenis { $path } verifieert niet en kan dus geen sleutels leveren
+engine-e-tlog-verification-failed = tlog { $command }: verificatie mislukt (het rapport hierboven noemt elke controle)
+
 engine-main-usage =
     gebruik: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }of: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10815,6 +10842,7 @@ engine-main-usage =
     { "   " }of: kshana feed <pack|verify|send|spectrum|leaderboard|watch> ... (kshana feed --help)
     { "   " }of: kshana register-products <verify|show|diff> ... (kshana register-products --help)
     { "   " }of: kshana register <check|crl-check|view|sign> ... (kshana register --help)
+    { "   " }of: kshana tlog verify-inclusion | verify-consistency | verify-sth | verify-daily-root | verify-key-history <file> [options] (kshana tlog --help)
     { "   " }of: kshana interference-env <evaluate|thresholds|degradation> ... (kshana interference-env --help)
     { "   " }of: kshana arctic-plan --site <lat,lon[,h]> | --place <name> [--systems <a,b,...>] [--compare] [--hours <h>] [--kp <n>] ... (kshana arctic-plan --help)
     { "   " }of: kshana lunar-afs-kit <vectors|registry|output-check|output-example|output-reexpress> ... (kshana lunar-afs-kit --help)

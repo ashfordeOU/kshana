@@ -2052,6 +2052,10 @@
   "src/leo_verify/tdev.rs": {
    "count": 3,
    "reason": "machine identifiers: the JSON input field names (`snake_case`, dotted paths) named verbatim in the catalogued e-leo-verify-field error, and the part names and enum values written into the JSON report; not prose"
+  },
+  "src/tlog.rs": {
+   "count": 108,
+   "reason": "machine identifiers: the check ids, JSON field names, entry classes and leaf-field order of the kshana.tlog-verify/1 report and of the log formats it reads (documented in docs/TLOG.md), and the RFC 9162 proof failure codes shown as the detail of a catalogued check line; not prose"
   }
  }
 }

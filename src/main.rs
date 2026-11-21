@@ -1436,6 +1436,9 @@ fn main_in_language(args: Vec<String>) -> ExitCode {
         Some("feed") => Some(kshana::feeder::run),
         // `kshana register check|crl-check|view|sign`: the product register (src/product_register.rs).
         Some("register") => Some(kshana::product_register::run),
+        // `kshana tlog verify-inclusion|verify-consistency|verify-sth|verify-daily-root|
+        // verify-key-history`: the offline transparency-log verifier (src/tlog.rs).
+        Some("tlog") => Some(kshana::tlog::run),
         // `kshana interference-env evaluate|thresholds|degradation`: interference environments
         // against ITU-R M.1903 thresholds and the M.2030 pulsed method (src/interference_env.rs).
         Some("interference-env") => Some(kshana::interference_env::run),

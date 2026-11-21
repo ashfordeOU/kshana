@@ -10741,6 +10741,33 @@ engine-e-sil-obsgen-cannot-read = kan ikke læse { $path }: { $e }
 engine-e-sil-obsgen-cannot-write = kan ikke skrive { $path }: { $e }
 engine-e-sil-obsgen-bad-scenario = ikke et gnss-sim-scenarie med valgfrie [urban]- og [rinex]-tabeller: { $e }
 
+## Transparency-log verifier (src/tlog.rs)
+engine-tlog-usage = brug: kshana tlog verify-inclusion <proof.json> [--entry <entry.json>] [--sth <sth.json>] | verify-consistency <proof.json> [--sth-from <sth.json>] [--sth-to <sth.json>] | verify-sth <sth.json> [--entries <entries.jsonl>] | verify-daily-root <statement.json> [--tsa-ca <roots.pem>] [--tsa-certs <certs.pem>] | verify-key-history <history.jsonl> [--first-key <hex>]   (signed statements: --key <hex> or --key-history <history.jsonl>; --format <id>; --json; offline RFC 6962/9162 log verification; docs/TLOG.md)
+engine-e-tlog-missing-value = { $option } kræver en værdi
+engine-e-tlog-cannot-read = kan ikke læse { $path }: { $e }
+engine-e-tlog-unknown-option = ukendt tilvalg { $option } (kshana tlog --help viser tilvalgene)
+engine-tlog-check-pass = PASS { $id }: { $detail }
+engine-tlog-check-fail = FAIL { $id }: { $detail }
+engine-tlog-fact = { $key } = { $value }
+engine-tlog-verdict-pass = tlog { $command }: alle kontroller bestået
+engine-tlog-verdict-fail = tlog { $command }: { $n } kontrol(ler) fejlede
+engine-tlog-not-anchored = ikke forankret (erklæringen har ingen tidsstempler)
+engine-tlog-no-tsa-roots = ingen rødder for tidsstempelmyndigheden angivet (--tsa-ca): tokenets signatur og kæde kontrolleres ikke
+engine-tlog-no-endorsement = ingen godkendelse fra den forrige nøgle
+engine-e-tlog-entry-not-object = en logpost skal være et JSON-objekt
+engine-e-tlog-entry-missing-field = en logpost mangler { $field }
+engine-e-tlog-entry-bad-field = en logposts { $field } har forkert form
+engine-e-tlog-bad-key = en offentlig nøgle skal være 64 hexcifre (32 byte, Ed25519)
+engine-e-tlog-missing-field = dokumentet mangler { $field }
+engine-e-tlog-bad-field = { $field } har forkert form (hashværdier er 64 hexcifre, størrelser og indeks hele tal)
+engine-e-tlog-needs-key = en signeret erklæring kræver --key <hex> eller --key-history <history.jsonl>
+engine-e-tlog-bad-json = ikke gyldig JSON: { $e }
+engine-e-tlog-bad-json-line = linje { $line } er ikke gyldig JSON: { $e }
+engine-e-tlog-bad-json-file = { $path } er ikke gyldig JSON: { $e }
+engine-e-tlog-key-and-history = angiv --key eller --key-history, ikke begge
+engine-e-tlog-history-failed = nøglehistorikken { $path } verificeres ikke og kan derfor ikke levere nøgler
+engine-e-tlog-verification-failed = tlog { $command }: verifikationen fejlede (rapporten ovenfor viser hver kontrol)
+
 engine-main-usage =
     brug: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }eller: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10776,6 +10803,7 @@ engine-main-usage =
     { "   " }eller: kshana feed <pack|verify|send|spectrum|leaderboard|watch> ... (kshana feed --help)
     { "   " }eller: kshana register-products <verify|show|diff> ... (kshana register-products --help)
     { "   " }eller: kshana register <check|crl-check|view|sign> ... (kshana register --help)
+    { "   " }eller: kshana tlog verify-inclusion | verify-consistency | verify-sth | verify-daily-root | verify-key-history <file> [options] (kshana tlog --help)
     { "   " }eller: kshana interference-env <evaluate|thresholds|degradation> ... (kshana interference-env --help)
     { "   " }eller: kshana arctic-plan --site <lat,lon[,h]> | --place <name> [--systems <a,b,...>] [--compare] [--hours <h>] [--kp <n>] ... (kshana arctic-plan --help)
     { "   " }eller: kshana lunar-afs-kit <vectors|registry|output-check|output-example|output-reexpress> ... (kshana lunar-afs-kit --help)

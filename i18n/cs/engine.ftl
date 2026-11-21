@@ -10747,6 +10747,33 @@ engine-e-sil-obsgen-cannot-read = nelze číst { $path }: { $e }
 engine-e-sil-obsgen-cannot-write = nelze zapsat { $path }: { $e }
 engine-e-sil-obsgen-bad-scenario = není scénář gnss-sim s volitelnými tabulkami [urban] a [rinex]: { $e }
 
+## Transparency-log verifier (src/tlog.rs)
+engine-tlog-usage = použití: kshana tlog verify-inclusion <proof.json> [--entry <entry.json>] [--sth <sth.json>] | verify-consistency <proof.json> [--sth-from <sth.json>] [--sth-to <sth.json>] | verify-sth <sth.json> [--entries <entries.jsonl>] | verify-daily-root <statement.json> [--tsa-ca <roots.pem>] [--tsa-certs <certs.pem>] | verify-key-history <history.jsonl> [--first-key <hex>]   (signed statements: --key <hex> or --key-history <history.jsonl>; --format <id>; --json; offline RFC 6962/9162 log verification; docs/TLOG.md)
+engine-e-tlog-missing-value = { $option } vyžaduje hodnotu
+engine-e-tlog-cannot-read = nelze číst { $path }: { $e }
+engine-e-tlog-unknown-option = neznámá volba { $option } (kshana tlog --help vypíše volby)
+engine-tlog-check-pass = PASS { $id }: { $detail }
+engine-tlog-check-fail = FAIL { $id }: { $detail }
+engine-tlog-fact = { $key } = { $value }
+engine-tlog-verdict-pass = tlog { $command }: všechny kontroly prošly
+engine-tlog-verdict-fail = tlog { $command }: neprošlo kontrol: { $n }
+engine-tlog-not-anchored = nezakotveno (prohlášení nemá časová razítka)
+engine-tlog-no-tsa-roots = nejsou zadány kořeny autority časových razítek (--tsa-ca): podpis a řetězec tokenu se nekontrolují
+engine-tlog-no-endorsement = bez potvrzení předchozím klíčem
+engine-e-tlog-entry-not-object = záznam logu musí být objekt JSON
+engine-e-tlog-entry-missing-field = záznamu logu chybí { $field }
+engine-e-tlog-entry-bad-field = pole { $field } záznamu logu má nesprávný tvar
+engine-e-tlog-bad-key = veřejný klíč musí mít 64 šestnáctkových číslic (32 bajtů, Ed25519)
+engine-e-tlog-missing-field = dokumentu chybí { $field }
+engine-e-tlog-bad-field = { $field } má nesprávný tvar (haše mají 64 šestnáctkových číslic, velikosti a indexy jsou celá čísla)
+engine-e-tlog-needs-key = podepsané prohlášení vyžaduje --key <hex> nebo --key-history <history.jsonl>
+engine-e-tlog-bad-json = neplatný JSON: { $e }
+engine-e-tlog-bad-json-line = řádek { $line } není platný JSON: { $e }
+engine-e-tlog-bad-json-file = { $path } není platný JSON: { $e }
+engine-e-tlog-key-and-history = zadejte --key nebo --key-history, ne obojí
+engine-e-tlog-history-failed = historie klíčů { $path } se neověřila, nemůže proto poskytnout klíče
+engine-e-tlog-verification-failed = tlog { $command }: ověření selhalo (zpráva výše uvádí jednotlivé kontroly)
+
 engine-main-usage =
     použití: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }nebo: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10782,6 +10809,7 @@ engine-main-usage =
     { "   " }nebo: kshana feed <pack|verify|send|spectrum|leaderboard|watch> ... (kshana feed --help)
     { "   " }nebo: kshana register-products <verify|show|diff> ... (kshana register-products --help)
     { "   " }nebo: kshana register <check|crl-check|view|sign> ... (kshana register --help)
+    { "   " }nebo: kshana tlog verify-inclusion | verify-consistency | verify-sth | verify-daily-root | verify-key-history <file> [options] (kshana tlog --help)
     { "   " }nebo: kshana interference-env <evaluate|thresholds|degradation> ... (kshana interference-env --help)
     { "   " }nebo: kshana arctic-plan --site <lat,lon[,h]> | --place <name> [--systems <a,b,...>] [--compare] [--hours <h>] [--kp <n>] ... (kshana arctic-plan --help)
     { "   " }nebo: kshana lunar-afs-kit <vectors|registry|output-check|output-example|output-reexpress> ... (kshana lunar-afs-kit --help)

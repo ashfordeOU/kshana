@@ -10626,6 +10626,33 @@ engine-e-sil-obsgen-cannot-read = kan inte läsa { $path }: { $e }
 engine-e-sil-obsgen-cannot-write = kan inte skriva { $path }: { $e }
 engine-e-sil-obsgen-bad-scenario = inte ett gnss-sim-scenario med valfria tabeller [urban] och [rinex]: { $e }
 
+## Transparency-log verifier (src/tlog.rs)
+engine-tlog-usage = användning: kshana tlog verify-inclusion <proof.json> [--entry <entry.json>] [--sth <sth.json>] | verify-consistency <proof.json> [--sth-from <sth.json>] [--sth-to <sth.json>] | verify-sth <sth.json> [--entries <entries.jsonl>] | verify-daily-root <statement.json> [--tsa-ca <roots.pem>] [--tsa-certs <certs.pem>] | verify-key-history <history.jsonl> [--first-key <hex>]   (signed statements: --key <hex> or --key-history <history.jsonl>; --format <id>; --json; offline RFC 6962/9162 log verification; docs/TLOG.md)
+engine-e-tlog-missing-value = { $option } behöver ett värde
+engine-e-tlog-cannot-read = kan inte läsa { $path }: { $e }
+engine-e-tlog-unknown-option = okänt alternativ { $option } (kshana tlog --help listar alternativen)
+engine-tlog-check-pass = PASS { $id }: { $detail }
+engine-tlog-check-fail = FAIL { $id }: { $detail }
+engine-tlog-fact = { $key } = { $value }
+engine-tlog-verdict-pass = tlog { $command }: alla kontroller godkända
+engine-tlog-verdict-fail = tlog { $command }: { $n } kontroll(er) misslyckades
+engine-tlog-not-anchored = inte förankrad (uttalandet har inga tidsstämplar)
+engine-tlog-no-tsa-roots = inga rötter för tidsstämpelutfärdaren angivna (--tsa-ca): tokenets signatur och kedja kontrolleras inte
+engine-tlog-no-endorsement = ingen bekräftelse av föregående nyckel
+engine-e-tlog-entry-not-object = en loggpost måste vara ett JSON-objekt
+engine-e-tlog-entry-missing-field = en loggpost saknar { $field }
+engine-e-tlog-entry-bad-field = en loggposts { $field } har fel form
+engine-e-tlog-bad-key = en publik nyckel måste vara 64 hexadecimala siffror (32 byte, Ed25519)
+engine-e-tlog-missing-field = dokumentet saknar { $field }
+engine-e-tlog-bad-field = { $field } har fel form (hashvärden är 64 hexadecimala siffror, storlekar och index heltal)
+engine-e-tlog-needs-key = ett signerat uttalande behöver --key <hex> eller --key-history <history.jsonl>
+engine-e-tlog-bad-json = inte giltig JSON: { $e }
+engine-e-tlog-bad-json-line = rad { $line } är inte giltig JSON: { $e }
+engine-e-tlog-bad-json-file = { $path } är inte giltig JSON: { $e }
+engine-e-tlog-key-and-history = ange --key eller --key-history, inte båda
+engine-e-tlog-history-failed = nyckelhistoriken { $path } verifieras inte och kan därför inte ge nycklar
+engine-e-tlog-verification-failed = tlog { $command }: verifieringen misslyckades (rapporten ovan visar varje kontroll)
+
 engine-main-usage =
     användning: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }eller: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10661,6 +10688,7 @@ engine-main-usage =
     { "   " }eller: kshana feed <pack|verify|send|spectrum|leaderboard|watch> ... (kshana feed --help)
     { "   " }eller: kshana register-products <verify|show|diff> ... (kshana register-products --help)
     { "   " }eller: kshana register <check|crl-check|view|sign> ... (kshana register --help)
+    { "   " }eller: kshana tlog verify-inclusion | verify-consistency | verify-sth | verify-daily-root | verify-key-history <file> [options] (kshana tlog --help)
     { "   " }eller: kshana interference-env <evaluate|thresholds|degradation> ... (kshana interference-env --help)
     { "   " }eller: kshana arctic-plan --site <lat,lon[,h]> | --place <name> [--systems <a,b,...>] [--compare] [--hours <h>] [--kp <n>] ... (kshana arctic-plan --help)
     { "   " }eller: kshana lunar-afs-kit <vectors|registry|output-check|output-example|output-reexpress> ... (kshana lunar-afs-kit --help)

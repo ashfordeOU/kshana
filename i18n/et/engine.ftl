@@ -10741,6 +10741,33 @@ engine-e-sil-obsgen-cannot-read = faili { $path } ei saa lugeda: { $e }
 engine-e-sil-obsgen-cannot-write = faili { $path } ei saa kirjutada: { $e }
 engine-e-sil-obsgen-bad-scenario = ei ole gnss-sim stsenaarium valikuliste tabelitega [urban] ja [rinex]: { $e }
 
+## Transparency-log verifier (src/tlog.rs)
+engine-tlog-usage = kasutus: kshana tlog verify-inclusion <proof.json> [--entry <entry.json>] [--sth <sth.json>] | verify-consistency <proof.json> [--sth-from <sth.json>] [--sth-to <sth.json>] | verify-sth <sth.json> [--entries <entries.jsonl>] | verify-daily-root <statement.json> [--tsa-ca <roots.pem>] [--tsa-certs <certs.pem>] | verify-key-history <history.jsonl> [--first-key <hex>]   (signed statements: --key <hex> or --key-history <history.jsonl>; --format <id>; --json; offline RFC 6962/9162 log verification; docs/TLOG.md)
+engine-e-tlog-missing-value = { $option } vajab väärtust
+engine-e-tlog-cannot-read = faili { $path } ei saa lugeda: { $e }
+engine-e-tlog-unknown-option = tundmatu valik { $option } (kshana tlog --help loetleb valikud)
+engine-tlog-check-pass = PASS { $id }: { $detail }
+engine-tlog-check-fail = FAIL { $id }: { $detail }
+engine-tlog-fact = { $key } = { $value }
+engine-tlog-verdict-pass = tlog { $command }: kõik kontrollid läbitud
+engine-tlog-verdict-fail = tlog { $command }: { $n } kontrolli ebaõnnestus
+engine-tlog-not-anchored = ankurdamata (avaldusel pole ajatempleid)
+engine-tlog-no-tsa-roots = ajatempliasutuse juuri pole antud (--tsa-ca): tõendi allkirja ja ahelat ei kontrollita
+engine-tlog-no-endorsement = eelmise võtme kinnitus puudub
+engine-e-tlog-entry-not-object = logikirje peab olema JSON-objekt
+engine-e-tlog-entry-missing-field = logikirjel puudub { $field }
+engine-e-tlog-entry-bad-field = logikirje väljal { $field } on vale kuju
+engine-e-tlog-bad-key = avalik võti peab olema 64 kuueteistkümnendnumbrit (32 baiti, Ed25519)
+engine-e-tlog-missing-field = dokumendis puudub { $field }
+engine-e-tlog-bad-field = { $field } on vale kujuga (räsid on 64 kuueteistkümnendnumbrit, suurused ja indeksid täisarvud)
+engine-e-tlog-needs-key = allkirjastatud avaldus vajab --key <hex> või --key-history <history.jsonl>
+engine-e-tlog-bad-json = vigane JSON: { $e }
+engine-e-tlog-bad-json-line = rida { $line } pole kehtiv JSON: { $e }
+engine-e-tlog-bad-json-file = { $path } pole kehtiv JSON: { $e }
+engine-e-tlog-key-and-history = andke --key või --key-history, mitte mõlemad
+engine-e-tlog-history-failed = võtmeajalugu { $path } ei kontrollu, seega ei saa see võtmeid anda
+engine-e-tlog-verification-failed = tlog { $command }: kontroll ebaõnnestus (ülal olev aruanne loetleb iga kontrolli)
+
 engine-main-usage =
     kasutus: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }või: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10776,6 +10803,7 @@ engine-main-usage =
     { "   " }või: kshana feed <pack|verify|send|spectrum|leaderboard|watch> ... (kshana feed --help)
     { "   " }või: kshana register-products <verify|show|diff> ... (kshana register-products --help)
     { "   " }või: kshana register <check|crl-check|view|sign> ... (kshana register --help)
+    { "   " }või: kshana tlog verify-inclusion | verify-consistency | verify-sth | verify-daily-root | verify-key-history <file> [options] (kshana tlog --help)
     { "   " }või: kshana interference-env <evaluate|thresholds|degradation> ... (kshana interference-env --help)
     { "   " }või: kshana arctic-plan --site <lat,lon[,h]> | --place <name> [--systems <a,b,...>] [--compare] [--hours <h>] [--kp <n>] ... (kshana arctic-plan --help)
     { "   " }või: kshana lunar-afs-kit <vectors|registry|output-check|output-example|output-reexpress> ... (kshana lunar-afs-kit --help)

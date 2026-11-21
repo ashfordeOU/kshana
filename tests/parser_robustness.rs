@@ -1042,6 +1042,36 @@ fn register_products_revocations() {
 }
 
 #[test]
+fn tlog_inputs() {
+    let seeds = vec![
+        head("tests/fixtures/tlog/daily-root.json", 60),
+        head("tests/fixtures/tlog/key-history.jsonl", 4),
+        head("tests/fixtures/tlog/entries.jsonl", 8),
+        head("tests/fixtures/tlog/inclusion-2-of-5.json", 30),
+    ];
+    let key = kshana::tlog::key_of_hex(&"11".repeat(32)).unwrap();
+    fuzz("tlog inputs", &seeds, None, |b| {
+        let text = String::from_utf8_lossy(b);
+        let _ = kshana::tlog::verify_key_history(&text, None, None);
+        if let Ok(es) = kshana::tlog::parse_entries(&text) {
+            for e in &es {
+                let _ = kshana::tlog::leaf_bytes(e);
+            }
+        }
+        if let Ok(v) = serde_json::from_str::<serde_json::Value>(&text) {
+            let o = kshana::tlog::Opts {
+                keys: Some(kshana::tlog::KeySource::Key(key)),
+                format: None,
+            };
+            let _ = kshana::tlog::verify_inclusion(&v, Some(&v), Some(&v), &o);
+            let _ = kshana::tlog::verify_consistency_doc(&v, Some(&v), None, &o);
+            let _ = kshana::tlog::verify_sth(&v, None, &o);
+            let _ = kshana::tlog::verify_daily_root(&v, None, &o);
+        }
+    });
+}
+
+#[test]
 fn sil_obsgen_scenario() {
     let seeds = vec![head("examples/sil-obsgen/urban-canyon.toml", 60)];
     fuzz("sil-obsgen scenario", &seeds, None, |b| {
