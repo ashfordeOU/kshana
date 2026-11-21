@@ -130,6 +130,9 @@ booklet is a simulation, the verdict rule requires S0 to S3 under the pre-regist
 ```
 kshana scenarios/gnss-ssv-shell.toml            # the upper SSV, reduced size
 kshana scenarios/gnss-ssv-heo.toml              # a HEO, parametric sidelobes, limb medium
+kshana scenarios/gnss-ssv-geo.toml              # a GEO user over one day, nadir high-gain and zenith patch antennas
+kshana scenarios/gnss-ssv-gto.toml              # a GTO (250 x 35,786 km, 27 deg): signals and geometry through the shells
+kshana scenarios/gnss-ssv-nav-geo.toml          # onboard EKF at GEO
 kshana scenarios/gnss-ssv-lunar-weak.toml       # lunar transfer, weak-signal receiver design
 kshana scenarios/gnss-ssv-nav-lunar.toml        # onboard EKF on the way to the Moon
 kshana scenarios/gnss-ssv-formation-heo.toml    # formation relative navigation

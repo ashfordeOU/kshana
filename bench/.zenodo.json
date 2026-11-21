@@ -1,0 +1,35 @@
+{
+  "title": "kshana-bench: open tasks, splits and metrics for GNSS interference detection, timing holdover, spacecraft telemetry anomalies and smartphone positioning",
+  "upload_type": "dataset",
+  "description": "An open benchmark: task definitions, split rules, truth rules and metrics (bench/SPEC.md, spec 2.2.0), dataset manifests with licence and redistribution status, the scorer and baselines in the Kshana engine, and the public results with stable citation ids. Datasets that may not be redistributed (JammerTest, TEXBAT, GSDC) are referenced and fetched, never included. Every score is MODELLED and describes a log or a corpus, never a product. DOI: to be filled after deposit.",
+  "creators": [
+    {
+      "name": "Ashforde OÜ"
+    }
+  ],
+  "access_right": "open",
+  "license": "AGPL-3.0-only",
+  "version": "2.2.0",
+  "keywords": [
+    "benchmark",
+    "GNSS",
+    "interference",
+    "timing holdover",
+    "anomaly detection",
+    "smartphone positioning"
+  ],
+  "related_identifiers": [
+    {
+      "identifier": "https://github.com/ashfordeOU/kshana",
+      "relation": "isSupplementTo",
+      "scheme": "url",
+      "resource_type": "software"
+    },
+    {
+      "identifier": "10.5281/zenodo.20528627",
+      "relation": "isSupplementTo",
+      "scheme": "doi",
+      "resource_type": "software"
+    }
+  ]
+}
