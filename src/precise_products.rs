@@ -54,6 +54,16 @@ pub fn parse_clock_rinex(text: &str) -> Result<ClockRinex, String> {
     parse_clock_rinex_records(text, "AS")
 }
 
+/// Whether a RINEX clock line carries the header label `name`: in columns 61-80 up to version
+/// 3.02, in columns 66-85 from 3.04 on (to confirm against the 3.04 text: the position follows
+/// Orekit's `RinexClockHeader`). Either position is accepted, so a 3.04 file is not read as all
+/// header.
+pub(crate) fn clock_label_is(line: &str, name: &str) -> bool {
+    [60usize, 65]
+        .iter()
+        .any(|&c| line.get(c..).map(str::trim_end) == Some(name))
+}
+
 /// Parse the records of one type of a RINEX clock file (`"AS"` satellite clocks, `"AR"`
 /// receiver or station clocks, and so on), keyed by the record's name field. Epochs are the
 /// record's calendar fields counted as seconds from 1980-01-06 00:00:00 with no time-scale
@@ -64,10 +74,7 @@ pub fn parse_clock_rinex_records(text: &str, record: &str) -> Result<ClockRinex,
     let mut in_header = true;
     for line in text.lines() {
         if in_header {
-            if line
-                .get(60..)
-                .is_some_and(|l| l.starts_with("END OF HEADER"))
-            {
+            if clock_label_is(line, "END OF HEADER") {
                 in_header = false;
             }
             continue;
@@ -83,14 +90,19 @@ pub fn parse_clock_rinex_records(text: &str, record: &str) -> Result<ClockRinex,
                 line = format!("{:?}", line)
             ));
         }
+        // A non-finite value (`NaN`, `inf`, an overflowing `1.0D+400`) is refused like text.
         let num = |s: &str| -> Result<f64, String> {
-            s.replace(['D', 'd'], "E").parse::<f64>().map_err(|_| {
-                crate::terr!(
-                    "e-precise-products-bad-number-in",
-                    s = format!("{:?}", s),
-                    line = format!("{:?}", line)
-                )
-            })
+            s.replace(['D', 'd'], "E")
+                .parse::<f64>()
+                .ok()
+                .filter(|v| v.is_finite())
+                .ok_or_else(|| {
+                    crate::terr!(
+                        "e-precise-products-bad-number-in",
+                        s = format!("{:?}", s),
+                        line = format!("{:?}", line)
+                    )
+                })
         };
         let int = |s: &str| -> Result<u32, String> {
             s.parse::<u32>().map_err(|_| {
@@ -116,6 +128,9 @@ pub fn parse_clock_rinex_records(text: &str, record: &str) -> Result<ClockRinex,
     for v in out.sats.values_mut() {
         v.sort_by(|a, b| a.0.total_cmp(&b.0));
         v.dedup_by(|a, b| a.0 == b.0);
+    }
+    if in_header {
+        return Err(crate::terr!("e-precise-products-clock-no-end-of-header"));
     }
     Ok(out)
 }

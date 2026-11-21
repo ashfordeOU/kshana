@@ -509,7 +509,7 @@ fn finish(g: Gridded, gaps: GapPolicy) -> Result<NormalisedPhase, String> {
 fn check_rinex_clock_version(text: &str) -> Result<(), String> {
     let line = text
         .lines()
-        .find(|l| l.get(60..).map(str::trim_end) == Some("RINEX VERSION / TYPE"))
+        .find(|l| crate::precise_products::clock_label_is(l, "RINEX VERSION / TYPE"))
         .ok_or_else(|| crate::terr!("e-clock-log-not-rinex-clock-file-no-2"))?;
     let field = line.get(..9).unwrap_or("").trim();
     let v: f64 = field.parse().map_err(|_| {
@@ -538,7 +538,7 @@ fn parse_rinex(
     check_rinex_clock_version(text)?;
     if !text
         .lines()
-        .any(|l| l.get(60..).map(str::trim_end) == Some("END OF HEADER"))
+        .any(|l| crate::precise_products::clock_label_is(l, "END OF HEADER"))
     {
         return Err(crate::terr!("e-clock-log-not-rinex-clock-file-no"));
     }

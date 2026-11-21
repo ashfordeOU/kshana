@@ -6017,6 +6017,10 @@ engine-e-rinex-obs-bad = virheellinen { $what }: { $s }
 engine-e-rinex-obs-rinex-observation-file-has-no = RINEX-havaintotiedostossa ei ole END OF HEADER -riviä
 
 engine-e-rinex-obs-rinex-observation-file-contained-no = RINEX-havaintotiedosto ei sisältänyt epookkitietueita
+engine-e-rinex-not-finite = { $s } ei ole äärellinen luku
+engine-e-rinex-nav-version-unsupported = RINEX { $version } -navigointitiedosto: vain RINEX 3- ja 4-navigointitiedostot luetaan
+engine-e-rinex-obs-epoch-overrun = epookki { $line } ilmoittaa { $n } tietuetta, mutta seuraava epookin otsake tulee jo { $got } jälkeen
+engine-e-precise-products-clock-no-end-of-header = RINEX-kellotiedostossa ei ole END OF HEADER -riviä
 
 ## src/scenario.rs
 

@@ -6781,6 +6781,10 @@ engine-e-rinex-obs-bad = ungültige(r) { $what }: { $s }
 engine-e-rinex-obs-rinex-observation-file-has-no = die RINEX-Beobachtungsdatei hat kein END OF HEADER
 
 engine-e-rinex-obs-rinex-observation-file-contained-no = die RINEX-Beobachtungsdatei enthielt keine Epochensätze
+engine-e-rinex-not-finite = { $s } ist keine endliche Zahl
+engine-e-rinex-nav-version-unsupported = RINEX-{ $version }-Navigationsdatei: nur Navigationsdateien in RINEX 3 und 4 werden gelesen
+engine-e-rinex-obs-epoch-overrun = die Epoche { $line } kündigt { $n } Datensätze an, doch der nächste Epochenkopf folgt nach { $got }
+engine-e-precise-products-clock-no-end-of-header = die RINEX-Uhrendatei hat kein END OF HEADER
 
 ## src/scenario.rs
 

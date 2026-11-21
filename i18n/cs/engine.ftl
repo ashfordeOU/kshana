@@ -5717,6 +5717,10 @@ engine-e-rinex-obs-bad = chybné { $what }: { $s }
 engine-e-rinex-obs-rinex-observation-file-has-no = soubor pozorování RINEX nemá END OF HEADER
 
 engine-e-rinex-obs-rinex-observation-file-contained-no = soubor pozorování RINEX neobsahoval žádné záznamy epoch
+engine-e-rinex-not-finite = { $s } není konečné číslo
+engine-e-rinex-nav-version-unsupported = navigační soubor RINEX { $version }: čtou se jen navigační soubory RINEX 3 a 4
+engine-e-rinex-obs-epoch-overrun = epocha { $line } deklaruje { $n } záznamů, ale další hlavička epochy následuje už po { $got }
+engine-e-precise-products-clock-no-end-of-header = soubor hodin RINEX nemá END OF HEADER
 
 ## src/scenario.rs
 

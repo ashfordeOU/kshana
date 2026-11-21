@@ -6688,6 +6688,10 @@ engine-e-rinex-obs-bad = felaktigt { $what }: { $s }
 engine-e-rinex-obs-rinex-observation-file-has-no = RINEX-observationsfilen har ingen END OF HEADER
 
 engine-e-rinex-obs-rinex-observation-file-contained-no = RINEX-observationsfilen innehöll inga epokposter
+engine-e-rinex-not-finite = { $s } är inte ett ändligt tal
+engine-e-rinex-nav-version-unsupported = RINEX { $version }-navigeringsfil: bara navigeringsfiler i RINEX 3 och 4 läses
+engine-e-rinex-obs-epoch-overrun = epoken { $line } anger { $n } poster, men nästa epokhuvud följer efter { $got }
+engine-e-precise-products-clock-no-end-of-header = RINEX-klockfilen saknar END OF HEADER
 
 ## src/scenario.rs
 

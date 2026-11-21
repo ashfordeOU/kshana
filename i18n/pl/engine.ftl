@@ -5757,6 +5757,10 @@ engine-e-rinex-obs-bad = nieprawidłowe { $what }: { $s }
 engine-e-rinex-obs-rinex-observation-file-has-no = plik obserwacji RINEX nie ma END OF HEADER
 
 engine-e-rinex-obs-rinex-observation-file-contained-no = plik obserwacji RINEX nie zawierał rekordów epok
+engine-e-rinex-not-finite = { $s } nie jest liczbą skończoną
+engine-e-rinex-nav-version-unsupported = plik nawigacyjny RINEX { $version }: odczytywane są tylko pliki nawigacyjne RINEX 3 i 4
+engine-e-rinex-obs-epoch-overrun = epoka { $line } deklaruje { $n } rekordów, ale następny nagłówek epoki pojawia się po { $got }
+engine-e-precise-products-clock-no-end-of-header = plik zegarów RINEX nie ma END OF HEADER
 
 ## src/scenario.rs
 

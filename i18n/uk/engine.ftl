@@ -5687,6 +5687,10 @@ engine-e-rinex-obs-bad = хибне { $what }: { $s }
 engine-e-rinex-obs-rinex-observation-file-has-no = у файлі спостережень RINEX немає END OF HEADER
 
 engine-e-rinex-obs-rinex-observation-file-contained-no = файл спостережень RINEX не містив записів епох
+engine-e-rinex-not-finite = { $s } не є скінченним числом
+engine-e-rinex-nav-version-unsupported = навігаційний файл RINEX { $version }: читаються лише навігаційні файли RINEX 3 і 4
+engine-e-rinex-obs-epoch-overrun = епоха { $line } оголошує { $n } записів, але наступний заголовок епохи йде вже після { $got }
+engine-e-precise-products-clock-no-end-of-header = у файлі годинників RINEX немає END OF HEADER
 
 ## src/scenario.rs
 
