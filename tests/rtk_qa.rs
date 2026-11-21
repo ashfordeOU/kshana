@@ -179,6 +179,26 @@ fn msm_latency_completeness_and_score() {
 }
 
 #[test]
+fn completeness_holds_across_the_gps_week_rollover() {
+    // Ten 1 Hz epochs from TOW 604 795 s across Sunday 00:00 GPS (TOW 0) to 4 s, the fourth
+    // missing: completeness 0.9, as without the rollover (the span stays positive).
+    let mut m = liveness::LivenessMonitor::new(liveness::MonitorConfig::default());
+    for k in 0..10u32 {
+        if k == 3 {
+            continue;
+        }
+        let tow_ms = (604_795_000u64 + u64::from(k) * 1000) % 604_800_000;
+        m.push(f64::from(k), &msm_frame(tow_ms as u32), None);
+    }
+    let card = m.scorecard(10.0);
+    assert!(
+        (card.completeness.unwrap() - 0.9).abs() < 1e-9,
+        "{:?}",
+        card.completeness
+    );
+}
+
+#[test]
 fn the_source_table_command_sorts_by_distance() {
     let p = temp("table.txt");
     std::fs::write(
