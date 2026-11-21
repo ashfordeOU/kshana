@@ -192,7 +192,9 @@ pub fn solid_tide_ecef(r: Vec3, sun: Vec3, moon: Vec3) -> Vec3 {
 
 /// Low-precision Moon position (ECEF, m) at `t` seconds from the GPS epoch (the companion of
 /// [`sun_ecef`]): the series of [`crate::ephem::moon_position`] rotated by Greenwich mean
-/// sidereal time.
+/// sidereal time. The lunar series is referred to the J2000 equinox and no precession is applied,
+/// so the direction is off by about 0.36 degrees (2026), a few millimetres of solid-tide
+/// displacement.
 pub fn moon_ecef(t: f64) -> Vec3 {
     let jd = 2_444_244.5 + t / 86_400.0;
     let t_jc = (jd + (19.0 + 32.184) / 86_400.0 - 2_451_545.0) / 36_525.0;

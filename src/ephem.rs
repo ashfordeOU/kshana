@@ -43,8 +43,10 @@ const OBLIQUITY_J2000: f64 = 23.439_291_11 * std::f64::consts::PI / 180.0;
 /// One astronomical unit (m), IAU 2012 definition — for reference/scale.
 pub const AU_M: f64 = 1.495_978_707e11;
 
-/// Geocentric Sun position (m, mean-equator/equinox of date) from the Montenbruck & Gill
-/// low-precision series. `t_tt_jc` is the time in Julian centuries of Terrestrial Time since
+/// Geocentric Sun position (m) from the Montenbruck & Gill low-precision series (Satellite Orbits,
+/// eq. 3.43). With the longitude constant 282.94° and the J2000 obliquity the result is referred
+/// to the mean equator and equinox of J2000 (M&G add 1.3972°·T for the equinox of date, which this
+/// series does not), not of date: about 0.36° apart in 2026. `t_tt_jc` is the time in Julian centuries of Terrestrial Time since
 /// J2000.0 (`(JD_TT − 2451545.0) / 36525`).
 pub fn sun_position(t_tt_jc: f64) -> Vec3 {
     let deg = std::f64::consts::PI / 180.0;
