@@ -10740,6 +10740,15 @@ engine-e-sil-obsgen-unknown-option = ukendt tilvalg { $option } (kshana sil-obsg
 engine-e-sil-obsgen-cannot-read = kan ikke læse { $path }: { $e }
 engine-e-sil-obsgen-cannot-write = kan ikke skrive { $path }: { $e }
 engine-e-sil-obsgen-bad-scenario = ikke et gnss-sim-scenarie med valgfrie [urban]- og [rinex]-tabeller: { $e }
+## Lunar OEM frame conversion (src/lunar_oem.rs)
+engine-lunar-oem-usage = brug: kshana lunar-oem convert <in.oem> --to ICRF|MOON_PA440|MOON_ME [--out <file>] | frames   (Moon-centred CCSDS OEM, positions and velocities, DE440 lunar orientation 2014 to 2030; docs/LUNAR-OEM.md)
+engine-e-lunar-oem-missing-value = { $option } kræver en værdi
+engine-e-lunar-oem-unknown-option = ukendt tilvalg { $option } (kshana lunar-oem --help viser tilvalgene)
+engine-e-lunar-oem-cannot-read = kan ikke læse { $path }: { $e }
+engine-e-lunar-oem-cannot-write = kan ikke skrive { $path }: { $e }
+engine-e-lunar-oem-time-system = TIME_SYSTEM { $time_system } kan ikke omregnes til TDB for Månens orientering (TDB, TT, TAI, GPS eller UTC)
+engine-e-lunar-oem-not-moon-centred = CENTER_NAME er { $center }; kun månecentrerede OEM'er (CENTER_NAME = MOON) omregnes
+engine-e-lunar-oem-unknown-frame = REF_FRAME { $frame } omregnes ikke her (ICRF, MOON_PA440, MOON_ME; læses også: MOON_PA_DE440, MOON_ME_DE440_ME421, MOON_PA; EME2000 og J2000 afviger fra ICRF med frame bias, som ikke anvendes)
 
 engine-main-usage =
     brug: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
@@ -10786,6 +10795,7 @@ engine-main-usage =
     { "   " }eller: kshana afs-interop <study|ue-register> ... (kshana afs-interop --help)
     { "   " }eller: kshana timing-stack <tai|ts2phc|pps|shm|ntpq|nts> ... (kshana timing-stack --help)
     { "   " }eller: kshana sil-obsgen <scenario.toml> --out <obs.rnx> [--truth <truth.json>]
+    { "   " }eller: kshana lunar-oem convert <in.oem> --to ICRF|MOON_PA440|MOON_ME [--out <file>] | frames (kshana lunar-oem --help)
     { "   " }eller: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }eller: kshana corrections <decode --format <has|b2b|l6|l1s|qznma> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...] | qznma-verify [--frames <frames.txt>] [--nav <nav.txt>] --pubkey <key.der> ...>
     { "   " }eller: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>

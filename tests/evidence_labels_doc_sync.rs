@@ -293,6 +293,7 @@ const LABELLED_WRITERS: &[&str] = &[
 /// labelled (and moved to the list above) or added here with its reason; the scan below fails otherwise, and fails on a
 /// stale entry.
 const UNLABELLED_WRITERS: &[(&str, &str)] = &[
+    ("src/lunar_oem.rs", "writes a CCSDS OEM (`lunar-oem convert --out`): a standard interchange file whose keywords are fixed; the MODELLED label is carried in its COMMENT lines"),
     ("src/altpnt/terrain.rs", "writes only in a unit test (a temporary grid)"),
     ("src/bench/cite.rs", "writes only in a unit test (a temporary tree of frozen files for the golden-index check)"),
     ("src/connect_timing.rs", "writes only the expected output of a timing conformance vector under `connect timing check --bless`; a test fixture, no result file"),
