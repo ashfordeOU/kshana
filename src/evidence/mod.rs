@@ -30,6 +30,7 @@ pub mod html;
 pub mod lab;
 #[cfg(not(target_arch = "wasm32"))]
 pub mod roundtrip;
+pub mod signed_dir;
 pub mod tsa;
 pub mod tsr;
 pub mod verify;

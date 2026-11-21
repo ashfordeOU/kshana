@@ -9957,6 +9957,24 @@ engine-e-sil-obsgen-cannot-read = { $path } を読み込めません：{ $e }
 engine-e-sil-obsgen-cannot-write = { $path } に書き込めません：{ $e }
 engine-e-sil-obsgen-bad-scenario = 任意の [urban] と [rinex] テーブルを持つ gnss-sim シナリオではありません：{ $e }
 
+## Signed-directory verification (src/evidence/signed_dir.rs)
+engine-evidence-dir-usage = kshana evidence verify-dir <dir> [--trust <hex|file>]... [--json]   署名付きディレクトリ（signature.json）；終了コード 0 合格、1 不合格、3 改変なしだが鍵が信頼されていない
+engine-evidence-dir-statement = { $format }：署名者 { $signer }、{ $utc }、鍵 ID { $key_id }、記載ファイル数 { $n }
+engine-evidence-dir-signature-valid = PASS 署名：鍵 { $key } による Ed25519
+engine-evidence-dir-signature-invalid = FAIL 署名：鍵 { $key } で検証できません
+engine-evidence-dir-problem = FAIL { $p }
+engine-evidence-dir-longterm-present = 注：longterm.json があります。署名後に追加されるもので、署名の対象外であり、ここでは検査しません
+engine-evidence-dir-unsigned-fields = 注：署名の対象外である signature.json のフィールド：{ $fields }
+engine-evidence-dir-envelope = 運用範囲 { $key }：{ $value }（参考情報）
+engine-evidence-dir-passed = 検証済み：署名は有効で、全ファイルが一致し、鍵は信頼されています
+engine-evidence-dir-intact-untrusted = 改変なしだが未信頼：署名と全ファイルは一致しますが、鍵 { $key } は --trust で指定されていません
+engine-evidence-dir-failed = 未検証：問題 { $n } 件、または署名を検証できません
+engine-e-evidence-dir-needs-directory = verify-dir には署名付きディレクトリが必要です
+engine-e-evidence-dir-unknown-option = verify-dir の不明なオプション { $option }（--trust <hex|file>、--json）
+engine-e-evidence-dir-cannot-read = { $path } を読み込めません：{ $e }
+engine-e-evidence-dir-bad-json = { $path } は有効な JSON ではありません：{ $e }
+engine-e-evidence-dir-bad-field = signature.json：{ $field } がないか形式が正しくありません
+
 engine-main-usage =
     使い方：kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }または：kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]

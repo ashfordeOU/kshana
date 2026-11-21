@@ -10959,6 +10959,24 @@ engine-e-sil-obsgen-cannot-read = no se puede leer { $path }: { $e }
 engine-e-sil-obsgen-cannot-write = no se puede escribir { $path }: { $e }
 engine-e-sil-obsgen-bad-scenario = no es un escenario gnss-sim con tablas opcionales [urban] y [rinex]: { $e }
 
+## Signed-directory verification (src/evidence/signed_dir.rs)
+engine-evidence-dir-usage = kshana evidence verify-dir <dir> [--trust <hex|file>]... [--json]   directorio firmado (signature.json); salida 0 superado, 1 fallido, 3 íntegro pero la clave no es de confianza
+engine-evidence-dir-statement = { $format } firmado por { $signer } el { $utc }, id de clave { $key_id }, { $n } ficheros listados
+engine-evidence-dir-signature-valid = PASS firma: Ed25519 con la clave { $key }
+engine-evidence-dir-signature-invalid = FAIL firma: no se verifica con la clave { $key }
+engine-evidence-dir-problem = FAIL { $p }
+engine-evidence-dir-longterm-present = nota: longterm.json está presente; se añade tras la firma, no lo cubre la firma y no se comprueba aquí
+engine-evidence-dir-unsigned-fields = nota: campos de signature.json que la firma no cubre: { $fields }
+engine-evidence-dir-envelope = envolvente operativa { $key }: { $value } (solo informativo)
+engine-evidence-dir-passed = verificado: la firma es válida, todos los ficheros coinciden y la clave es de confianza
+engine-evidence-dir-intact-untrusted = íntegro pero no de confianza: la firma y todos los ficheros cuadran, pero la clave { $key } no se dio con --trust
+engine-evidence-dir-failed = no verificado: { $n } problema(s), o la firma no se verifica
+engine-e-evidence-dir-needs-directory = verify-dir necesita el directorio firmado
+engine-e-evidence-dir-unknown-option = opción desconocida { $option } para verify-dir (--trust <hex|file>, --json)
+engine-e-evidence-dir-cannot-read = no se puede leer { $path }: { $e }
+engine-e-evidence-dir-bad-json = { $path } no es JSON válido: { $e }
+engine-e-evidence-dir-bad-field = signature.json: { $field } falta o tiene una forma incorrecta
+
 engine-main-usage =
     uso:  kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }o: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]

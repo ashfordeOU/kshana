@@ -10889,6 +10889,24 @@ engine-e-sil-obsgen-cannot-read = impossible de lire { $path } : { $e }
 engine-e-sil-obsgen-cannot-write = impossible d'écrire { $path } : { $e }
 engine-e-sil-obsgen-bad-scenario = ce n'est pas un scénario gnss-sim avec les tables facultatives [urban] et [rinex] : { $e }
 
+## Signed-directory verification (src/evidence/signed_dir.rs)
+engine-evidence-dir-usage = kshana evidence verify-dir <dir> [--trust <hex|file>]... [--json]   répertoire signé (signature.json) ; code 0 réussi, 1 échec, 3 intact mais la clé n'est pas de confiance
+engine-evidence-dir-statement = { $format } signé par { $signer } le { $utc }, identifiant de clé { $key_id }, { $n } fichiers listés
+engine-evidence-dir-signature-valid = PASS signature : Ed25519 avec la clé { $key }
+engine-evidence-dir-signature-invalid = FAIL signature : ne se vérifie pas avec la clé { $key }
+engine-evidence-dir-problem = FAIL { $p }
+engine-evidence-dir-longterm-present = remarque : longterm.json est présent ; il est ajouté après la signature, n'est pas couvert par elle et n'est pas vérifié ici
+engine-evidence-dir-unsigned-fields = remarque : champs de signature.json non couverts par la signature : { $fields }
+engine-evidence-dir-envelope = enveloppe d'exploitation { $key } : { $value } (information seulement)
+engine-evidence-dir-passed = vérifié : la signature est valide, chaque fichier correspond et la clé est de confiance
+engine-evidence-dir-intact-untrusted = intact mais pas de confiance : la signature et chaque fichier sont corrects, mais la clé { $key } n'a pas été donnée avec --trust
+engine-evidence-dir-failed = non vérifié : { $n } problème(s), ou la signature ne se vérifie pas
+engine-e-evidence-dir-needs-directory = verify-dir a besoin du répertoire signé
+engine-e-evidence-dir-unknown-option = option inconnue { $option } pour verify-dir (--trust <hex|file>, --json)
+engine-e-evidence-dir-cannot-read = impossible de lire { $path } : { $e }
+engine-e-evidence-dir-bad-json = { $path } n'est pas du JSON valide : { $e }
+engine-e-evidence-dir-bad-field = signature.json : { $field } est absent ou a une forme incorrecte
+
 engine-main-usage =
     utilisation : kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }ou : kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]

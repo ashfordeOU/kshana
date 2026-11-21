@@ -10780,6 +10780,24 @@ engine-e-sil-obsgen-cannot-read = kan { $path } niet lezen: { $e }
 engine-e-sil-obsgen-cannot-write = kan { $path } niet schrijven: { $e }
 engine-e-sil-obsgen-bad-scenario = geen gnss-sim-scenario met optionele tabellen [urban] en [rinex]: { $e }
 
+## Signed-directory verification (src/evidence/signed_dir.rs)
+engine-evidence-dir-usage = kshana evidence verify-dir <dir> [--trust <hex|file>]... [--json]   ondertekende map (signature.json); exit 0 geslaagd, 1 mislukt, 3 intact maar de sleutel wordt niet vertrouwd
+engine-evidence-dir-statement = { $format } ondertekend door { $signer } op { $utc }, sleutel-id { $key_id }, { $n } bestanden vermeld
+engine-evidence-dir-signature-valid = PASS handtekening: Ed25519 met sleutel { $key }
+engine-evidence-dir-signature-invalid = FAIL handtekening: verifieert niet met sleutel { $key }
+engine-evidence-dir-problem = FAIL { $p }
+engine-evidence-dir-longterm-present = let op: longterm.json is aanwezig; het wordt na ondertekening toegevoegd, valt niet onder de handtekening en wordt hier niet gecontroleerd
+engine-evidence-dir-unsigned-fields = let op: velden van signature.json die niet onder de handtekening vallen: { $fields }
+engine-evidence-dir-envelope = bedrijfsomhullende { $key }: { $value } (alleen ter informatie)
+engine-evidence-dir-passed = geverifieerd: de handtekening is geldig, elk bestand klopt en de sleutel wordt vertrouwd
+engine-evidence-dir-intact-untrusted = intact maar niet vertrouwd: handtekening en alle bestanden kloppen, maar de sleutel { $key } is niet met --trust opgegeven
+engine-evidence-dir-failed = niet geverifieerd: { $n } probleem/problemen, of de handtekening verifieert niet
+engine-e-evidence-dir-needs-directory = verify-dir heeft de ondertekende map nodig
+engine-e-evidence-dir-unknown-option = onbekende optie { $option } voor verify-dir (--trust <hex|file>, --json)
+engine-e-evidence-dir-cannot-read = kan { $path } niet lezen: { $e }
+engine-e-evidence-dir-bad-json = { $path } is geen geldige JSON: { $e }
+engine-e-evidence-dir-bad-field = signature.json: { $field } ontbreekt of heeft de verkeerde vorm
+
 engine-main-usage =
     gebruik: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }of: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
