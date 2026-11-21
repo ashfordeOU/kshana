@@ -32,6 +32,34 @@ Kshana computes `D` by inverting the 4×4 normal matrix with the same routine th
 projection route `Σᵢ S_{U,i}²·σᵢ²` must agree) plus against an independent numpy `inv(GᵀG)`
 reference geometry.
 
+### Multi-constellation receiver clock (MODELLED)
+
+A mixed GPS + Galileo (or other mixed-system) solution has one receiver clock bias per system,
+because the system time scales differ by an inter-system offset (for GPS/Galileo, the GGTO).
+[`sbas::sbas_protection_level_multi`](../src/sbas.rs) takes a per-satellite system id and offers
+two clock models:
+
+- **`SbasClockModel::PerSystem`** estimates one clock state per system present, so the state is
+  `[E, N, U, b₁ … b_k]` and each row is `Gᵢ = [ −cos Elᵢ·sin Azᵢ, −cos Elᵢ·cos Azᵢ, −sin Elᵢ,
+  0 … 1 … 0 ]` with the one in its system's clock column. The covariance is the
+  `(3 + k)`-square `(GᵀWG)⁻¹` (`sbas::wls_covariance_multi`) and HPL/VPL use only its ENU block,
+  exactly as above. This is the multi-constellation clock treatment of the EU-U.S. WG-C ARAIM
+  Airborne Design Document (ADD v3.1 and later) and of Blanch, Walter, Enge et al., "Advanced
+  RAIM user algorithm description: integrity support message processing, fault detection,
+  exclusion, and protection level calculation", ION GNSS 2012. Each extra clock state is a
+  nuisance parameter, so the protection level can only rise relative to one clock.
+- **`SbasClockModel::KnownOffset`** keeps one clock state: the caller has applied a known
+  inter-system offset (e.g. the broadcast GGTO) to the pseudoranges and folds any residual offset
+  error into each satellite's error budget. The result is the single-clock protection level.
+
+With a single system present both models return the single-clock `sbas_protection_level`
+result bit for bit. The per-system model refuses (returns `None`) when there are fewer
+satellites than the `3 + k` unknowns, or when a system contributes a single satellite (its range
+only determines its own clock state, adding no position information or redundancy). The method
+is checked against a hand-derived two-system, five-satellite example
+(`sbas::tests::two_system_five_satellite_hand_example`); there is no external
+multi-constellation SBAS oracle, so this capability is MODELLED.
+
 ## K-factors
 
 | Mode | K_H | K_V | Source |
