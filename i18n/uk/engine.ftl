@@ -10696,6 +10696,204 @@ engine-e-ais-integrity-cannot-read = не вдалося прочитати { $p
 engine-e-ais-integrity-cannot-write = не вдалося записати { $path }: { $e }
 engine-e-ais-integrity-bad-place = рядок списку місць не має вигляду name,lat,lon,radius_m з допустимою позицією та додатним радіусом: { $row }
 
+## A GNSS receiver in space: clock, timestamps, dynamics, upper-SSV benchmark (src/space_receiver/)
+engine-space-receiver-usage = використання: kshana space-receiver clock [--orbit <preset|a_km,e,i_deg>] [--oscillator <name>] [--temp-swing <K>] [--outage-min <m>]... | timestamps <tags.csv> [--oscillator <name>] [--step-floor <s>] [--gap-factor <x>] [--window <n>] | dynamics [--orbit <preset|a_km,e,i_deg>] [--duration-min <m>] [--step-s <s>] [--band l1|l5] [--max-off-boresight <deg>] [--max-doppler <Hz>] [--max-doppler-rate <Hz/s>] | bench [--list] [--case <id>]... [--cn0 <dB-Hz>] [--oscillator <name>] [--max-doppler <Hz>] [--max-doppler-rate <Hz/s>] [--time-budget <s>] [--sidelobes] | mms [--cn0 <dB-Hz>] [--orbits <n>] [--step-min <m>] | od-vs-tle <onboard.oem> --tle <set.tle>   [--out <file.json>]  (docs/SPACE-RECEIVER.md)
+engine-e-space-receiver-missing-value = { $option } потребує значення
+engine-e-space-receiver-unknown-option = невідомий параметр { $option } (параметри перелічує kshana space-receiver --help)
+engine-e-space-receiver-cannot-read = не вдалося прочитати { $path }: { $e }
+engine-e-space-receiver-cannot-write = не вдалося записати { $path }: { $e }
+engine-e-space-receiver-bad-number = { $option }: { $value } не є допустимим числом
+engine-e-space-receiver-unknown-name = невідома назва { $name } (відомі: { $known })
+engine-e-space-receiver-no-columns = заголовок CSV має містити t_ref_s і або t_rx_s, або week і tow_s
+engine-e-space-receiver-bad-row = рядок { $line }: обов'язковий стовпець відсутній або не є числом
+engine-e-space-receiver-too-few-rows = потрібно щонайменше три рядки позначок часу
+
+## Space receiver: MMS case and onboard OD against an element set (src/space_receiver/)
+engine-e-space-receiver-no-tle = дворядковий набір елементів не знайдено (рядок 1, що починається з "1 ", і за ним рядок 2)
+engine-e-space-receiver-oem-frame = система відліку OEM { $frame } не підтримується цим порівнянням (EME2000, GCRF, ICRF або TEME)
+
+## SIL observation generator (src/sil_obs.rs)
+engine-sil-obs-usage = використання: kshana sil-obs generate <scenario.toml> --nav <nav.rnx> --out <sim.obs> [--truth <truth.jsonl>] | compare <a.obs> <b.obs> [--json] [--out <file.json>]  (docs/SIL-OBS.md)
+engine-sil-obs-summary = { $n_epochs } епох, записано { $n_obs } відліків сигналу; { $n_nlos } супутнико-епох NLOS і { $n_blocked } заблокованих (MODELLED)
+engine-e-sil-obs-missing-value = { $option } потребує значення
+engine-e-sil-obs-unknown-option = невідомий параметр { $option } (параметри перелічує kshana sil-obs --help)
+engine-e-sil-obs-cannot-read = не вдалося прочитати { $path }: { $e }
+engine-e-sil-obs-cannot-write = не вдалося записати { $path }: { $e }
+engine-e-sil-obs-bad-scenario = { $path } не є сценарієм sil-obs: { $e }
+engine-e-sil-obs-bad-nav = { $path } не є навігаційним файлом RINEX: { $e }
+engine-e-sil-obs-bad-obs = { $path } не є файлом спостережень RINEX: { $e }
+engine-e-sil-obs-bad-start = початок { $value } не є часом GPS у вигляді YYYY-MM-DDTHH:MM:SS
+engine-e-sil-obs-bad-timing = тривалість має бути нульовою або більшою, а крок додатним, не більше мільйона епох
+engine-e-sil-obs-no-satellites = у { $path } немає широкомовних записів запитаних систем
+engine-e-sil-obs-unknown-system = невідома система { $value } (G або E)
+engine-e-sil-obs-bad-canyon = каньйону потрібні додатна ширина, зміщення антени в межах вулиці, втрати на відбиття не менше 1 дБ і скінченні значення
+
+## Interference model library (src/interference_lib.rs)
+engine-interference-lib-usage = використання: kshana interference-lib models | generate --class <none|cw|narrowband|wideband|chirp|pulsed|multitone|fm_tone> [--centre-hz <f>] [--bandwidth-hz <b>] [--period-s <t>] [--pulse-width-s <w>] [--jnr-db <j>] [--drift-hz-per-s <r>] [--triangle] [--tones-hz <f1,f2,...>] [--deviation-hz <d>] [--mod-freq-hz <m>] [--fs <hz>] [--samples <n>] [--seed <s>] --out <base> | fit <recording.sigmf-meta> [--out <fit.json>] | bench [--per-class <n>] [--seed <s>] [--predictions <ids.csv>] [--out <bench.json>] | cases [--per-class <n>] [--seed <s>] [--out <cases.csv>]  (docs/INTERFERENCE-LIB.md)
+engine-interference-lib-written = записано { $path } ({ $n } відліків, MODELLED синтетична завада)
+engine-e-interference-lib-missing-value = { $option } потребує значення
+engine-e-interference-lib-unknown-option = невідомий параметр { $option } (параметри перелічує kshana interference-lib --help)
+engine-e-interference-lib-bad-number = { $option } потребує скінченного числа, а не { $value }
+engine-e-interference-lib-unknown-class = невідомий клас завади { $value } (none, cw, narrowband, wideband, chirp, pulsed, multitone або fm_tone)
+engine-e-interference-lib-bad-size = частота дискретизації має бути додатною, а запис — степенем двійки від 1024 до 16777216 відліків (bench: від 1 до 1000 випадків на клас)
+engine-e-interference-lib-cannot-read = не вдалося прочитати { $path }: { $e }
+engine-e-interference-lib-cannot-write = не вдалося записати { $path }: { $e }
+engine-e-interference-lib-bad-predictions = рядок передбачень не має вигляду id,class з відомим класом: { $row }
+
+## Receiver-antenna characterisation (src/antenna_cal.rs)
+engine-antenna-cal-usage = використання: kshana antenna-cal lint <file.atx> | spread <file.atx>... --type <type-radome> | compare <a.atx> [<b.atx>] --type <type-radome> [--serial-a <s>] [--serial-b <s>] [--max-zenith <deg>] | group-delay <spec.toml> | js-margin <spec.toml>  [--out <file.json>]  (docs/ANTENNA-CAL.md)
+engine-e-antenna-cal-missing-value = { $option } потребує значення
+engine-e-antenna-cal-unknown-option = невідомий параметр { $option } (параметри перелічує kshana antenna-cal --help)
+engine-e-antenna-cal-bad-number = { $option } потребує скінченного числа не менше нуля, а не { $value }
+engine-e-antenna-cal-cannot-read = не вдалося прочитати { $path }: { $e }
+engine-e-antenna-cal-cannot-write = не вдалося записати { $path }: { $e }
+engine-e-antenna-cal-bad-spec = { $path } не є допустимою специфікацією: { $e }
+engine-e-antenna-cal-no-antenna = у { $path } немає антени { $name }
+engine-e-antenna-cal-too-few-units = менше двох калібрувань { $name } для порівняння
+engine-e-antenna-cal-unknown-signal = пара називає невідомий сигнал { $value }
+engine-e-antenna-cal-bad-group-delay = специфікації групової затримки потрібні щонайменше один сигнал, упорядкований скінченний діапазон температур, додатні частоти та скінченні затримки
+engine-e-antenna-cal-same-pair = вільній від іоносфери парі потрібні дві різні частоти
+engine-e-antenna-cal-bad-pattern = невідома діаграма антени (patch, choke-ring або table)
+engine-e-antenna-cal-bad-gain-table = таблиці підсилення потрібні щонайменше дві скінченні точки кута місця й підсилення
+engine-e-antenna-cal-bad-link = специфікації J/S потрібні додатна частота, скінченна ЕІВП і додатні відстані
+
+## Arctic GNSS availability planner (src/arctic_plan.rs)
+engine-arctic-plan-usage = використання: kshana arctic-plan --site <lat,lon[,h]> | --place <name> | --places  [--systems <a,b,...>] [--compare] [--hours <h>] [--step-min <m>] [--start-s <s>] [--mask <deg>] [--skyline-preset <name>] [--clock common|per-system] [--min-sats <n>] [--max-pdop <x>] [--task-min <m>] [--kp <n>] [--year <y>] [--iono-mask <deg>] [--tle <file> --epoch <YYYY-MM-DDTHH:MM:SS>] [--epochs] [--out <file.json>]  (docs/ARCTIC-PLAN.md)
+engine-e-arctic-plan-missing-value = { $option } потребує значення
+engine-e-arctic-plan-unknown-option = невідомий параметр { $option } (параметри перелічує kshana arctic-plan --help)
+engine-e-arctic-plan-cannot-read = не вдалося прочитати { $path }: { $e }
+engine-e-arctic-plan-cannot-write = не вдалося записати { $path }: { $e }
+engine-e-arctic-plan-bad-number = { $option }: { $value } не є допустимим числом
+engine-e-arctic-plan-unknown-name = невідома назва { $name } (відомі: { $known })
+engine-e-arctic-plan-needs-site = вкажіть місце за допомогою --site <lat,lon[,h]> або --place <name> (--places виводить назви)
+engine-e-arctic-plan-bad-horizon = горизонт і крок мають бути додатними й давати не більше 20 000 епох
+
+## Lunar time scales, frames, terminology and model provenance (src/lunar_ref.rs)
+engine-lunar-ref-usage = використання: kshana lunar-ref tcb-tcl [--jd <JD TCB>] [--window <jd0,jd1>] | approx [--window <jd0,jd1>] [--grid-days <d>] | convert --from <tt|tdb|tcb|tcg|tcl|ltc> --to <scale> --jd <JD> | transform --from <ICRF|MOON_PA_DE440|MOON_PA|MOON_ME|ILURF> --to <frame> --xyz <x,y,z> [--jd <JD TDB>] | terms | models [--check] [--root <dir>]   [--out <file.json>]  (docs/LUNAR-REF.md)
+engine-e-lunar-ref-missing-value = { $option } потребує значення
+engine-e-lunar-ref-unknown-option = невідомий параметр { $option } (параметри перелічує kshana lunar-ref --help)
+engine-e-lunar-ref-cannot-write = не вдалося записати { $path }: { $e }
+engine-e-lunar-ref-bad-number = { $option }: { $value } не є допустимим числом
+engine-e-lunar-ref-unknown-name = невідома назва { $name } (відомі: { $known })
+engine-e-lunar-ref-out-of-span = епоха поза проміжком використаних ефемерид (елементи Стендіша 1800–2050; орієнтація Місяця DE440 2014–2030)
+
+## Quantum inertial-sensor benchmark (src/quantum_bench.rs)
+engine-quantum-bench-usage = використання: kshana quantum-bench protocol [--out <protocol.json>] | simulate <spec.toml> --out <series.csv> | score <series.csv> [--fringe-m-s2 <a>] [--out <score.json>]  (docs/QUANTUM-BENCH.md)
+engine-quantum-bench-simulated = записано { $n } відліків ({ $n_wrapped } із загорнутою смугою) у { $path } (MODELLED)
+engine-e-quantum-bench-missing-value = { $option } потребує значення
+engine-e-quantum-bench-unknown-option = невідомий параметр { $option } (параметри перелічує kshana quantum-bench --help)
+engine-e-quantum-bench-bad-number = { $option } потребує скінченного додатного числа, а не { $value }
+engine-e-quantum-bench-cannot-read = не вдалося прочитати { $path }: { $e }
+engine-e-quantum-bench-cannot-write = не вдалося записати { $path }: { $e }
+engine-e-quantum-bench-bad-spec = { $path } не є допустимою специфікацією: { $e }
+engine-e-quantum-bench-bad-sensor = датчику потрібні додатний інтервал між імпульсами, щонайменше один атом, контраст у (0, 1] і час циклу не менше подвоєного інтервалу
+engine-e-quantum-bench-bad-run = прогону потрібна тривалість не менше одного й не більше десяти мільйонів циклів
+engine-e-quantum-bench-too-short = ряду потрібно щонайменше 16 відліків зі зростаючим часом
+engine-e-quantum-bench-bad-csv = ряду потрібні стовпці t_s і measured_m_s2 зі скінченними числами: { $row }
+
+## Terrestrial signals of opportunity, clock offset (src/soop_clock.rs)
+engine-soop-clock-usage = використання: kshana soop-clock lte <capture.sigmf-meta> --start-gps-s <t> --rx <lat,lon,h> --tx <lat,lon,h> [--tx-offset-ns <ns>] [--prior-offset-s <s>] [--carrier-hz <f>] [--min-metric <m>] [--out <file.json>] | cp <capture.sigmf-meta> --nfft <n> --ncp <n> [--carrier-hz <f>] [--out <file.json>] | synth-lte --out <base> [--fs <hz>] [--duration-s <s>] [--nid2 <0|1|2>] [--delay-s <s>] [--cfo-hz <f>] [--snr-db <d>] [--seed <s>]  (docs/SOOP-CLOCK.md)
+engine-soop-clock-summary = { $n } виявлень PSS; зсув годинника приймача { $offset_us } мкс на початку запису (MODELLED)
+engine-e-soop-clock-missing-value = { $option } потребує значення
+engine-e-soop-clock-unknown-option = невідомий параметр { $option } (параметри перелічує kshana soop-clock --help)
+engine-e-soop-clock-bad-number = { $option } потребує скінченного числа, а не { $value }
+engine-e-soop-clock-bad-position = { $option } потребує lat,lon[,h] у градусах і метрах, а не { $value }
+engine-e-soop-clock-cannot-read = не вдалося прочитати { $path }: { $e }
+engine-e-soop-clock-cannot-write = не вдалося записати { $path }: { $e }
+engine-e-soop-clock-too-few-detections = { $n } виявлень PSS; для зсуву та швидкості потрібно щонайменше три
+engine-e-soop-clock-too-short = запис коротший за два символи OFDM
+engine-e-soop-clock-bad-synth = тестовому сигналу потрібні частота дискретизації від 100 кГц до 61,44 МГц і додатна тривалість не більше 20 мільйонів відліків
+
+## LunaNet AFS receiver verification kit and lunar output message profile (src/lunar_afs/kit.rs, src/lunar_output.rs)
+engine-lunar-afs-kit-usage = використання: kshana lunar-afs-kit vectors [<vectors.json>] | registry [<registry.toml|json>] [--limit-db <dB>] [--no-correlation] | output-check <messages.jsonl> | output-example [--n <count>] [--jd <JD TCL>] | output-reexpress <messages.jsonl> --scale <tt|tdb|tcb|tcg|tcl|ltc> --frame <ICRF|MOON_PA_DE440|MOON_PA|MOON_ME|ILURF>   [--out <file>]  (docs/LUNAR-AFS-KIT.md)
+engine-e-lunar-afs-kit-missing-value = { $option } потребує значення
+engine-e-lunar-afs-kit-unknown-option = невідомий параметр { $option } (параметри перелічує kshana lunar-afs-kit --help)
+engine-e-lunar-afs-kit-cannot-read = не вдалося прочитати { $path }: { $e }
+engine-e-lunar-afs-kit-cannot-write = не вдалося записати { $path }: { $e }
+engine-e-lunar-afs-kit-bad-number = { $option }: { $value } не є допустимим числом
+engine-e-lunar-afs-kit-unknown-name = невідома назва { $name } (відомі: { $known })
+engine-e-lunar-afs-kit-bad-registry = реєстр не є списком призначень [[node]]: { $e }
+engine-e-lunar-afs-kit-bad-vectors = це не файл kshana.afs-vectors/1: { $e }
+engine-e-lunar-afs-kit-bad-message = рядок не є повідомленням kshana.lunar-pnt-output/1 з епохою, системою відліку та положенням
+
+## ADS-B interference indicators (src/adsb_indicators.rs)
+engine-adsb-indicators-usage = використання: kshana adsb-indicators <adsb.csv> [--cell-deg <d>] [--out <indicators.json>]  (docs/ADSB-INDICATORS.md)
+engine-adsb-indicators-summary = позначено опублікованих комірок: { $n } (MODELLED; причина не називається)
+engine-e-adsb-indicators-missing-value = { $option } потребує значення
+engine-e-adsb-indicators-unknown-option = невідомий параметр { $option } (параметри перелічує kshana adsb-indicators --help)
+engine-e-adsb-indicators-bad-cell = розмір комірки має бути від 0,01 до 10 градусів, а не { $value }
+engine-e-adsb-indicators-cannot-read = не вдалося прочитати { $path }: { $e }
+engine-e-adsb-indicators-cannot-write = не вдалося записати { $path }: { $e }
+engine-e-adsb-indicators-missing-column = у CSV ADS-B немає стовпця { $name }
+
+## Interference atlas and station C/N0 layer (src/interference_atlas.rs)
+engine-interference-atlas-usage = використання: kshana interference-atlas build <day.geojson>... [--previous <atlas.json>] [--out <atlas.json>] | verify <atlas.json> | cors <today.obs> --baseline <earlier.obs> [--adsb-day <day.geojson>] [--station <lat,lon>] [--out <layer.json>]  (docs/INTERFERENCE-ATLAS.md)
+engine-interference-atlas-built = комірок: { $n_cells }, зон: { $n_zones }; версія { $version } (MODELLED)
+engine-interference-atlas-verified = { $path }: версія відповідає вмісту
+engine-e-interference-atlas-missing-value = { $option } потребує значення
+engine-e-interference-atlas-unknown-option = невідомий параметр { $option } (параметри перелічує kshana interference-atlas --help)
+engine-e-interference-atlas-cannot-read = не вдалося прочитати { $path }: { $e }
+engine-e-interference-atlas-cannot-write = не вдалося записати { $path }: { $e }
+engine-e-interference-atlas-not-a-product = { $path } не є ні добовим продуктом карти завад, ні атласом
+engine-e-interference-atlas-mixed = добові продукти змішують сітки або джерела
+engine-e-interference-atlas-empty = не задано жодного добового продукту
+engine-e-interference-atlas-changed = { $path }: версія не відповідає вмісту (атлас змінено)
+engine-e-interference-atlas-bad-obs = { $path } не є файлом спостережень RINEX: { $e }
+engine-e-interference-atlas-no-cn0 = у двох файлах спостережень немає спільного супутника GPS із C/N0 через один повтор траси
+engine-e-interference-atlas-bad-station = станції потрібні lat,lon у градусах (або приблизне положення в заголовку спостережень), а не { $value }
+
+## Private holdout of kshana-bench tasks (f) and (g) (src/bench/holdout.rs)
+engine-e-bench-holdout-inside-repository = приватний holdout не записується всередину репозиторію: { $path } (виберіть каталог поза ним)
+engine-e-bench-holdout-task = приватний holdout є лише в завдань (f) і (g)
+engine-e-bench-holdout-no-truth = немає приватної істини для завдання ({ $task }): вкажіть --truth <file> або задайте { $var }
+engine-bench-holdout-not-a-private-truth = це не істина приватного holdout: потрібен файл істини kshana-bench завдання (f) або (g) з розбиттям holdout
+engine-bench-holdout-not-registered = істина завдання ({ $task }) з SHA-256 { $sha } не зареєстрована в bench/holdout/PRIVATE.json
+engine-bench-site-holdout-not-private = результат { $v1 } — результат holdout завдання (f) або (g), не позначений як приватний або з незареєстрованою істиною
+engine-bench-site-provenance-private-holdout = оцінено на приватному holdout (зареєстрована істина)
+
+## Constellation-claim verification datasets (src/claim_check.rs)
+engine-claim-check-usage = використання: kshana claim-check [<dataset.json>...] [--out <file.json>] | --template   (no file: the shipped public-claims dataset; docs/CLAIM-CHECK.md)
+engine-e-claim-check-missing-value = { $option } потребує значення
+engine-e-claim-check-unknown-option = невідомий параметр { $option } (параметри перелічує kshana claim-check --help)
+engine-e-claim-check-cannot-read = не вдалося прочитати { $path }: { $e }
+engine-e-claim-check-cannot-write = не вдалося записати { $path }: { $e }
+engine-e-claim-check-bad-dataset = це не файл kshana.claims/1: { $e }
+
+## AFS interoperability planning and the lunar user-equipment register (src/afs_interop.rs)
+engine-afs-interop-usage = використання: kshana afs-interop study [--afs-prns <1-12>] [--gps-prns <1-32>] [--galileo-prns <1-36>] [--fs <Hz>] [--integration-ms <ms>] [--max-doppler <Hz>] [--doppler-step <Hz>] [--sweep-pairs <n>] | ue-register [<register.json>] | ue-register --template   [--out <file>]  (docs/AFS-INTEROP.md)
+engine-e-afs-interop-missing-value = { $option } потребує значення
+engine-e-afs-interop-unknown-option = невідомий параметр { $option } (параметри перелічує kshana afs-interop --help)
+engine-e-afs-interop-cannot-read = не вдалося прочитати { $path }: { $e }
+engine-e-afs-interop-cannot-write = не вдалося записати { $path }: { $e }
+engine-e-afs-interop-bad-number = { $option }: { $value } не є допустимим числом
+engine-e-afs-interop-bad-register = це не файл kshana.lunar-ue-register/1: { $e }
+engine-e-afs-interop-bad-settings = параметри дослідження поза межами: fs × час накопичення має давати від 64 до 200 000 відліків, крок Доплера має бути додатним, а межа невід'ємною
+
+## Linux timing-stack verification (src/timing_stack.rs)
+engine-timing-stack-usage = використання: kshana timing-stack tai [--pmc <pmc.txt>] [--phc-ctl <phc_ctl.txt>] [--chrony <tracking.txt>] [--tai-utc <s>] | ts2phc <ts2phc.log> [--max-offset <s>] | pps <assert.txt> | shm <ntpshmmon.txt> | ntpq <ntpq-p.txt> [--rv <ntpq-rv.txt>] | nts [--client <name>=<authdata.txt>]... [<authdata.txt>]   [--end <t>] [--stale-after <s>] [--out <file.json>]  (docs/TIMING-STACK.md)
+engine-e-timing-stack-missing-value = { $option } потребує значення
+engine-e-timing-stack-unknown-option = невідомий параметр { $option } (параметри перелічує kshana timing-stack --help)
+engine-e-timing-stack-cannot-read = не вдалося прочитати { $path }: { $e }
+engine-e-timing-stack-cannot-write = не вдалося записати { $path }: { $e }
+engine-e-timing-stack-bad-number = { $option }: { $value } не є допустимим числом
+
+## Register entries against packs, published revocations and versions (src/register_products.rs)
+engine-register-products-usage = використання: kshana register-products verify <register.json> [--packs <dir>] [--pack-key <hex>] [--pin <hex>] [--json] | show <register.json> [--revocations <file.jsonl|url>] [--date <YYYY-MM-DD>] [--pin <hex>] [--json] | diff <older.json> <newer.json> [--pin <hex>]  (docs/PRODUCT-REGISTER.md)
+engine-e-register-products-missing-value = { $option } потребує значення
+engine-e-register-products-unknown-option = невідомий параметр { $option } (параметри перелічує kshana register-products --help)
+engine-e-register-products-cannot-read = не вдалося прочитати { $path }: { $e }
+engine-e-register-products-bad-revocation = у рядку { $line } списку відкликань потрібні serial, revoked_at (YYYY-MM-DD) і reason
+engine-e-register-products-cannot-fetch = не вдається отримати { $url }: { $e }
+engine-e-register-products-bad-key = ключ не є 32 байтами в шістнадцятковому вигляді
+
+## Software-in-the-loop observation generator (src/sil_obsgen.rs)
+engine-sil-obsgen-usage = використання: kshana sil-obsgen <scenario.toml> --out <obs.rnx> [--truth <truth.json>]   (a gnss-sim scenario with optional [urban] and [rinex] tables; docs/SIL-OBSGEN.md)
+engine-e-sil-obsgen-missing-value = { $option } потребує значення
+engine-e-sil-obsgen-unknown-option = невідомий параметр { $option } (параметри перелічує kshana sil-obsgen --help)
+engine-e-sil-obsgen-cannot-read = не вдалося прочитати { $path }: { $e }
+engine-e-sil-obsgen-cannot-write = не вдалося записати { $path }: { $e }
+engine-e-sil-obsgen-bad-scenario = це не сценарій gnss-sim з необов'язковими таблицями [urban] і [rinex]: { $e }
+
 engine-main-usage =
     використання: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }або: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10713,7 +10911,7 @@ engine-main-usage =
     { "   " }або: kshana nmea-scenario <scenario.toml> [--out <file.nmea>] [--tcp <addr>|--udp <addr>] (kshana nmea-scenario --help)
     { "   " }або: kshana interference-map <adsb|ais|fetch-land> ... (kshana interference-map --help)
     { "   " }або: kshana route-exposure --route <route> --map <map.geojson|dir> [--from <date>] [--to <date>]
-    { "   " }або: kshana bench <spec|truth|cases|score|baseline|seal|reveal-check|manifest|verify-manifest|validate|leaderboard> ... (kshana bench --help)
+    { "   " }або: kshana bench <spec|truth|cases|score|baseline|seal|reveal-check|manifest|verify-manifest|validate|leaderboard|positions|datasets|cite|golden|holdout> ... (kshana bench --help)
     { "   " }або: kshana bench-export <scenario.toml> [--out <base>] [--epoch <YYYY-MM-DDTHH:MM:SS>]
     { "   " }або: kshana compliance-report [--out <base>] <result.json>... | --mapping | --sources
     { "   " }або: kshana lunanet-afs-check <spec [--json] [--strict]|symbols <file> [--max-sp-errors <n>] [--json]|generate --frames <n> [--toi0 <t>] --out <file>>
@@ -10727,12 +10925,34 @@ engine-main-usage =
     { "   " }або: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }або: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }або: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
+    { "   " }або: kshana space-receiver <clock|timestamps|dynamics|bench|mms|od-vs-tle> ... [--out <file.json>] (kshana space-receiver --help)
+    { "   " }або: kshana feed <pack|verify|send|spectrum|leaderboard|watch> ... (kshana feed --help)
+    { "   " }або: kshana register-products <verify|show|diff> ... (kshana register-products --help)
+    { "   " }або: kshana register <check|crl-check|view|sign> ... (kshana register --help)
+    { "   " }або: kshana interference-env <evaluate|thresholds|degradation> ... (kshana interference-env --help)
+    { "   " }або: kshana arctic-plan --site <lat,lon[,h]> | --place <name> [--systems <a,b,...>] [--compare] [--hours <h>] [--kp <n>] ... (kshana arctic-plan --help)
+    { "   " }або: kshana lunar-afs-kit <vectors|registry|output-check|output-example|output-reexpress> ... (kshana lunar-afs-kit --help)
+    { "   " }або: kshana lunar-ref <tcb-tcl|approx|convert|transform|terms|models> ... (kshana lunar-ref --help)
+    { "   " }або: kshana signal-readiness <profile.toml> [<obs.rnx>...]
+    { "   " }або: kshana leo-od-plan <plan.toml>
+    { "   " }або: kshana claim-check [<dataset.json>...] [--out <file.json>] | --template
+    { "   " }або: kshana afs-interop <study|ue-register> ... (kshana afs-interop --help)
+    { "   " }або: kshana timing-stack <tai|ts2phc|pps|shm|ntpq|nts> ... (kshana timing-stack --help)
+    { "   " }або: kshana sil-obsgen <scenario.toml> --out <obs.rnx> [--truth <truth.json>]
     { "   " }або: kshana time-vectors [--json] [<vectors.json|dir> ...]
-    { "   " }або: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
+    { "   " }або: kshana corrections <decode --format <has|b2b|l6|l1s|qznma> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...] | qznma-verify [--frames <frames.txt>] [--nav <nav.txt>] --pubkey <key.der> ...>
     { "   " }або: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
     { "   " }або: kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
     { "   " }або: kshana orbit-data <check|convert|gp-compare|gp-audit|cov> ... (kshana orbit-data --help)
     { "   " }або: kshana drone <prearm|prearm-calibrate|estimator-cases|dr-budget|quad-loss|failover|zonotope-pl> ... (kshana drone --help)
+    { "   " }або: kshana leo-verify <burst-timing|holdover-tdev|cost|indoor|rain-fade|rtk-ar|jam-claim|doppler-integrity> <input.json>
+    { "   " }або: kshana sil-obs <generate|compare> ... (kshana sil-obs --help)
+    { "   " }або: kshana interference-lib <models|generate|fit|bench|cases> ... (kshana interference-lib --help)
+    { "   " }або: kshana antenna-cal <lint|spread|compare|group-delay|js-margin> ... (kshana antenna-cal --help)
+    { "   " }або: kshana quantum-bench <protocol|simulate|score> ... (kshana quantum-bench --help)
+    { "   " }або: kshana soop-clock <lte|cp|synth-lte> ... (kshana soop-clock --help)
+    { "   " }або: kshana adsb-indicators <adsb.csv> [--cell-deg <d>] [--out <indicators.json>]
+    { "   " }або: kshana interference-atlas <build|verify|cors> ... (kshana interference-atlas --help)
     { "   " }або: kshana kinds [--json]
     { "   " }або: kshana example [<name>]
     { "   " }або: kshana --help | --version
@@ -10861,15 +11081,23 @@ engine-interference-map-cli-col-not-observed = не спостерігалося
 engine-bench-cli-usage =
     використання: kshana bench spec
     { "   " }або: kshana bench truth --task a --data <extracted JammerTest 2024 dir> --split <dev|test|holdout|all> --out <truth.json>
-    { "   " }або: kshana bench cases --task <c|d> --split <dev|test|holdout> --out <dir> [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
+    { "   " }або: kshana bench truth --task g --data <GSDC-layout train dir> --split <dev|test|holdout> --out <truth.json>
+    { "   " }або: kshana bench cases --task <c|d|f> --split <dev|test|holdout> --out <dir> [--data <dataset.csv>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
     { "   " }або: kshana bench score --truth <truth.json> --predictions <predictions.json> [--threshold <x>] [--out <result.json>]
-    { "   " }або: kshana bench baseline --task <a|b|c|d> --split <dev|test|holdout> --out <dir> [--data <dir>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
+    { "   " }або: kshana bench baseline --task <a|b|c|d|e|f|g> --split <dev|test|holdout> --out <dir> [--data <dir>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
     { "   " }або: kshana bench seal --task <a|b|c|d> --seed-file <file> [--new]
     { "   " }або: kshana bench reveal-check --task <a|b|c|d> --seed-file <file> --commitment <hex>
     { "   " }або: kshana bench manifest --task a --data <extracted dir> [--archive <tar.gz>] --out <manifest.json>
     { "   " }або: kshana bench verify-manifest <manifest.json> --root <dir>
+    { "   " }або: kshana bench positions --task g --split <dev|test|holdout> --csv <submission.csv> --name <system> [--version <v>] --out <predictions.json>
+    { "   " }або: kshana bench datasets [--json | --check [--root <repo>]]
+    { "   " }або: kshana bench cite <result.json>...
+    { "   " }або: kshana bench golden [--root <repo>] (--out <GOLDEN.json> | --check <GOLDEN.json>)
     { "   " }або: kshana bench validate <result.json>...
     { "   " }або: kshana bench leaderboard [<results dir|result.json>...] --out <page.html> [--fragment]   (без входів: порожній стан; --fragment: вбудовуваний розділ)
+    { "   " }або: kshana bench holdout truth --task <f|g> --data <private data> --out <private dir>
+    { "   " }або: kshana bench holdout register --truth <private truth.json>
+    { "   " }або: kshana bench holdout score --task <f|g> --predictions <predictions.json> [--truth <private truth.json>] [--out <result.json>]   (KSHANA_BENCH_HOLDOUT_F, KSHANA_BENCH_HOLDOUT_G)
     { "   " }(файл seed містить секрет запечатаного holdout; тримайте його поза системою керування версіями)
 
 engine-bench-cli-match = збігається
@@ -11657,11 +11885,14 @@ engine-e-interference-incidents-source-url-required = --source-url обов'яз
 
 ## Correction decoders (src/corrections/)
 engine-e-corrections-bad-hex = не шістнадцятковий кадр: { $line }
-engine-e-corrections-unknown-decoder = невідомий декодер { $decoder } (has, b2b, l6)
+engine-e-corrections-unknown-decoder = невідомий декодер { $decoder } (has, b2b, l6, l1s, qznma)
 engine-e-corrections-bad-vector = у вектора { $id } немає шістнадцяткових кадрів або об'єкта expect
 engine-e-corrections-bad-file = { $file } не є документом { $format } (мітка формату та масив vectors)
 engine-corrections-summary = векторів: { $n }; пройдено: { $passed }, не пройдено: { $failed }
-engine-corrections-usage = використання: kshana corrections decode --format <has|b2b|l6> <frames.txt | -> | kshana corrections vectors [--json] [<vectors.json | dir> ...]  (один кадр на рядок у шістнадцятковому вигляді; docs/CORRECTION-DECODERS.md)
+engine-corrections-usage = використання: kshana corrections decode --format <has|b2b|l6|l1s|qznma> <frames.txt | -> | kshana corrections vectors [--json] [<vectors.json | dir> ...] | kshana corrections qznma-verify [--frames <frames.txt>] [--nav <nav.txt>] --pubkey <ID:key.der | 001.der> ...  (один кадр на рядок у шістнадцятковому вигляді; docs/CORRECTION-DECODERS.md)
+engine-e-qznma-bad-nav-line = не рядок навігаційного повідомлення (<satellite> <signal> <part> <hex>): { $line }
+engine-e-qznma-bad-key = { $path }: не відкритий ключ P-256 або P-521 (DER або SEC1) з ідентифікатором ключа в назві файлу або у вигляді ID:path
+engine-qznma-verify-summary = { $n } підписів: { $verified } перевірено, { $failed } не пройшли, { $no_key } без ключа, { $no_navigation } без навігаційних повідомлень
 
 ## src/space_weather_pnt/
 
@@ -11859,3 +12090,140 @@ engine-e-oscillator-input = вхідні дані { $part } недійсні: { 
 engine-e-oscillator-unknown-clock = невідома передустановка годинника { $id } (одна з: { $known })
 
 engine-e-oscillator-field = { $field } поза допустимим діапазоном: { $value }
+
+## src/leo_verify/mod.rs
+
+engine-leo-verify-usage = використання: kshana leo-verify <burst-timing|holdover-tdev|cost|indoor|rain-fade|rtk-ar|jam-claim|doppler-integrity> <input.json> (docs/LEO-VERIFY.md)
+
+engine-e-leo-verify-input = вхідні дані { $part } недійсні: { $e }
+
+engine-e-leo-verify-field = { $field } поза допустимим діапазоном: { $value }
+
+engine-e-leo-verify-too-large = розрахунок завеликий: { $n } кроків (не більше { $max })
+
+engine-e-leo-verify-unknown-id = { $field } вказує невідомий ідентифікатор: { $id }
+
+## src/bench: tasks (f) and (g), the dataset registry and the golden index (E34)
+
+engine-bench-data-no-header = { $file }: немає рядка заголовка
+
+engine-bench-data-no-column = { $file }: немає стовпця `{ $column }`
+
+engine-bench-data-bad-value = { $file }, рядок { $line }: `{ $column }` відсутнє або неприпустиме
+
+engine-bench-data-no-rows = { $file }: немає рядків даних
+
+engine-bench-task-has-no-holdout = задача ({ $task }) не має відкладеної вибірки: її дані та розбиття публічні
+
+engine-bench-unknown-baseline = невідомий базовий метод `{ $name }`
+
+engine-bench-g-no-traces = у { $root } немає <drive>/<phone>/ground_truth.csv
+
+engine-bench-g-no-object = немає об'єкта треків `{ $key }`
+
+engine-bench-g-bad-epoch = трек `{ $id }`: кожна епоха має бути [UnixTimeMillis, широта, довгота]
+
+engine-bench-f-dataset-mismatch = { $path }: SHA-256 { $got } не збігається із закріпленим dataset.csv задачі (f); завантажте його скриптом scripts/fetch_opssat_ad.sh
+
+engine-bench-cli-unknown-task-g = невідома задача `{ $t }` (від a до g)
+
+engine-bench-cli-wrote-predictions = записано { $path } (треків: { $traces })
+
+engine-bench-datasets-summary = наборів даних: { $n }; у бенчмарку: { $in_bench }, кандидатів: { $candidate }, потрібно: { $wanted }
+
+engine-bench-datasets-ok = реєстр: наборів даних: { $n }, усі правила дотримано
+
+engine-bench-golden-ok = заморожених файлів без змін: { $n }; ідентифікатори цитування стабільні
+
+engine-bench-golden-written = записано { $path } (заморожених файлів: { $n })
+
+engine-bench-site-title-f = Задача (f): виявлення аномалій у телеметрії космічного апарата
+
+engine-bench-site-title-g = Задача (g): точність позиціонування смартфонів
+
+engine-bench-site-col-ap = Середня точність (AP)
+
+engine-bench-site-col-gsdc-score = Оцінка, середнє P50 і P95 (м)
+
+engine-bench-site-col-p50 = P50 загалом (м)
+
+engine-bench-site-col-p95 = P95 загалом (м)
+
+## Feeder clients (src/feeder.rs, docs/FEEDER.md)
+engine-feed-usage = використання: kshana feed pack <file.obs.jsonl|dir>... --key <keyfile> [--privacy public|exact] [--grid-deg <deg>] [--created <time>] [--include-open] [--out <bundle.json>] | verify <bundle.json> [--pubkey <hex>] [--json] | send <bundle.json> --url <http://host:port/path> [--token-file <file>] | spectrum <capture> --format cu8|ci8|ci16_le --rate <Hz> --centre <Hz> --station <station.toml> [--front-end <name>] [--nfft <n>] [--bins <n>] [--max-samples <n>] [--time <label>] [--out <file.obs.jsonl>] | leaderboard <bundle.json>... [--json] | watch <dir|file>... --key <keyfile> --spool <dir> [--url <http://host:port/path>] [--token-file <file>] [--interval-s <s>] [--privacy public|exact] [--grid-deg <deg>] [--include-open] [--once]  (docs/FEEDER.md)
+engine-e-feed-bad-spool = { $path }: не стан kshana.feed-spool/1 ({ $e })
+engine-e-feed-http-only = { $url }: підтримуються лише адреси http:// (рушій не має клієнта TLS; поставте TLS-тунель перед збирачем)
+engine-feed-watch-cycle = feed watch: { $files } файлів запаковано в { $bundles } пакетів, { $sent } надіслано, { $rejected } відхилено, { $pending } очікує
+engine-feed-packed = { $out }: пакет станції { $station }, файлів: { $files }, епох: { $epochs }, приватність { $mode }
+engine-feed-verified = { $path }: підпис дійсний (підписант { $key }); станція { $station }, файлів: { $files }, епох: { $epochs }, кожен файл — коректний kshana.obs/1
+engine-feed-sent = надіслано на { $url }: HTTP { $code }
+engine-feed-spectrum-written = { $out }: знімок спектра, смуг: { $bins } (MODELLED: рівні відносно повної шкали, не калібрована потужність)
+engine-e-feed-missing-value = { $option } потребує значення
+engine-e-feed-unknown-option = невідомий параметр { $option } (kshana feed --help перелічує параметри)
+engine-e-feed-cannot-read = не вдалося прочитати { $path }: { $e }
+engine-e-feed-cannot-write = не вдалося записати { $path }: { $e }
+engine-e-feed-not-obs = { $path } не є коректним файлом kshana.obs/1: { $e }
+engine-e-feed-mixed-stations = файли отримано з більш ніж однієї станції ({ $a } і { $b }); пакуйте одну станцію в пакет
+engine-e-feed-no-files = немає файлів спостережень для пакування
+engine-e-feed-bad-privacy = невідомий режим приватності { $value } (public або exact)
+engine-e-feed-bad-grid = сітка положення має бути від 0.01 до 10 градусів, а не { $value }
+engine-e-feed-not-bundle = не пакет kshana.feed/1: { $e }
+engine-e-feed-bad-signature = підпис пакета недійсний
+engine-e-feed-key-mismatch = пакет підписано ключем { $found }, а не очікуваним ключем { $expected }
+engine-e-feed-hash-mismatch = вміст { $name } не збігається із записаним SHA-256
+engine-e-feed-payload-mismatch = вміст { $name } не відповідає станції або кількості записів, указаним у пакеті
+engine-e-feed-not-coarsened = вміст { $name } публічного пакета все ще містить { $what }
+engine-e-feed-bad-format = непідтримуваний формат відліків { $value } (cu8, ci8 або ci16_le)
+engine-e-feed-bad-number = { $option }: { $value } тут неприпустиме значення
+engine-e-feed-short-capture = запис містить { $n } відліків, менше за довжину перетворення { $nfft }
+engine-e-feed-send-failed = не вдалося надіслати на { $url }: { $e }
+engine-e-feed-send-refused = { $url } відхилив пакет: HTTP { $code }
+engine-e-obs-bad-spectrum = рядок { $line }: спектру потрібні скінченні час і центральна частота, додатні частота дискретизації та ширина смуги і скінченні рівні
+
+## Product register (src/product_register.rs, docs/PRODUCT-REGISTER.md)
+engine-register-usage = використання: kshana register check <register.json> [--key <hex>] | crl-check <crl.json> --key <hex> | view <register.json> [--key <hex>] [--crl <crl.json> --crl-key <hex>] [--date <YYYY-MM-DD>] [--json] | sign <register.json|crl.json> --key <keyfile> [--out <file>]  (docs/PRODUCT-REGISTER.md)
+engine-register-check-ok = { $path }: реєстр { $publisher }, записів: { $n }, підпис дійсний (підписант { $key })
+engine-register-crl-check-ok = { $path }: список відкликання { $issuer }, відкликаних записів: { $n }, підпис дійсний; наступний список очікується { $next }
+engine-register-view-summary = на { $date }: чинних: { $current }, до повторного оцінювання: { $due }, відкликаних: { $revoked }
+engine-register-view-no-crl = список відкликання не вказано: статус відкликання невідомий (--crl <crl.json> --crl-key <hex>)
+engine-register-view-crl-stale = список відкликання застарів: його наступне оновлення очікувалося { $next }
+engine-e-register-key-mismatch = підписано ключем { $found }, а не очікуваним ключем { $expected }
+engine-e-register-bad-signature = підпис недійсний
+engine-e-register-bad-date = { $field } не є датою у форматі YYYY-MM-DD: { $value }
+engine-e-register-not-register = не реєстр kshana.register/1: { $e }
+engine-e-register-not-crl = не список відкликання kshana.register-crl/1: { $e }
+engine-e-register-bad-id = ідентифікатор запису { $id }: використовуйте від 1 до 128 літер, цифр, крапок, дефісів або підкреслень
+engine-e-register-duplicate-id = ідентифікатор запису { $id } трапляється більше одного разу
+engine-e-register-revalidate-before-scored = запис { $id } має бути оцінений повторно раніше дати свого оцінювання
+engine-e-register-bad-digest = запис { $id }: evidence_sha256 має складатися з 64 шістнадцяткових цифр
+engine-e-register-missing-value = { $option } потребує значення
+engine-e-register-cannot-read = не вдалося прочитати { $path }: { $e }
+engine-e-register-cannot-write = не вдалося записати { $path }: { $e }
+engine-e-register-unknown-option = невідомий параметр { $option } (kshana register --help перелічує параметри)
+engine-e-register-crl-needs-key = --crl і --crl-key задаються разом: список відкликання перевіряється ключем видавця
+
+## Interference environments (src/interference_env.rs, docs/INTERFERENCE-ENV.md)
+engine-interference-env-usage = використання: kshana interference-env evaluate <environment.toml> | thresholds [--receiver <id>] | degradation --baseline <id> --pulse-width <s> --prf <Hz> [--below-ratio <R>] [--recovery <s>]  (docs/INTERFERENCE-ENV.md; MODELLED)
+engine-e-interference-env-unknown-receiver = невідомий приймач { $id } (kshana interference-env thresholds перелічує їх)
+engine-e-interference-env-unknown-baseline = невідома базова лінія { $id } (див. docs/INTERFERENCE-ENV.md)
+engine-e-interference-env-bad-source = джерело { $name }: потужність, ширина смуги, тривалість імпульсу чи частота не є допустимим додатним скінченним значенням
+engine-e-interference-env-pulsed-needs-receiver = імпульсним джерелам потрібні noise_temperature_k, precorrelation_bw_hz приймача і рівень бланкування або насичення
+engine-e-interference-env-saturated = імпульси не залишають часу без бланкування: коефіцієнт заповнення сягає 1
+engine-e-interference-env-missing-value = { $option } потребує значення
+engine-e-interference-env-bad-number = { $option } потребує числа, а не { $value }
+engine-e-interference-env-unknown-option = невідомий параметр { $option } (kshana interference-env --help перелічує параметри)
+engine-e-interference-env-cannot-read = не вдалося прочитати { $path }: { $e }
+engine-e-interference-env-bad-file = { $path } не є завадовою обстановкою: { $e }
+
+## Future-signal readiness (src/signal_readiness.rs, docs/SIGNAL-READINESS.md)
+engine-signal-readiness-usage = використання: kshana signal-readiness <profile.toml> [<obs.rnx>...]  (docs/SIGNAL-READINESS.md)
+engine-e-signal-readiness-bad-rinex = { $path } не є файлом спостережень RINEX 3 або 4: { $e }
+engine-e-signal-readiness-unknown-option = невідомий параметр { $option } (kshana signal-readiness --help)
+engine-e-signal-readiness-cannot-read = не вдалося прочитати { $path }: { $e }
+engine-e-signal-readiness-bad-profile = { $path } не є профілем приймача: { $e }
+
+## BeiDou-LEO planning (src/leo_od_plan.rs, docs/LEO-OD-PLAN.md)
+engine-leo-od-plan-usage = використання: kshana leo-od-plan <plan.toml>  (docs/LEO-OD-PLAN.md; MODELLED, a planning tool)
+engine-e-leo-od-plan-bad-plan = значення плану поза допустимим діапазоном: дуга, крок, шуми й маски додатні та скінченні, не більше 100000 кроків, маски в межах ±90 градусів, півширина променя від 0 до 90 градусів і схема Вокера LEO, у якої кількість площин ділить кількість супутників
+engine-e-leo-od-plan-cannot-read = не вдалося прочитати { $path }: { $e }
+engine-e-leo-od-plan-bad-file = { $path } не є планом: { $e }

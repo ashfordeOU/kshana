@@ -26,6 +26,14 @@ pub const BUILTIN: &[(&str, &str)] = &[
         "l6.json",
         include_str!("../../data/conformance/corrections/l6.json"),
     ),
+    (
+        "l1s.json",
+        include_str!("../../data/conformance/corrections/l1s.json"),
+    ),
+    (
+        "qznma.json",
+        include_str!("../../data/conformance/corrections/qznma.json"),
+    ),
 ];
 
 /// The outcome of one vector.
