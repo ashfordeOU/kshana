@@ -307,7 +307,7 @@ fn the_cli_prints_usage_on_a_bad_call() {
 }
 
 #[test]
-fn signal_claims_reproduce_the_published_tables_and_quantify_the_stronger_than_gps_claims() {
+fn signal_claims_reproduce_the_published_tables_and_check_illustrative_power_claims() {
     // PIN-SCOPE:    the outcome of each row of examples/leo-verify/signal-claims.json, whose stated
     //               figures and tolerances are fixed in that file with their sources.
     // PIN-EXCLUDES: the computed values themselves beyond the tolerances, and the JSON layout.
@@ -341,27 +341,30 @@ fn signal_claims_reproduce_the_published_tables_and_quantify_the_stronger_than_g
         "gps-relative-speed",
         "gps-doppler-l1",
         "pulsar-doppler-vs-gps",
-        "iridium-closer-than-gps",
+        "illustrative-closer-than-gps",
     ] {
         assert_eq!(outcome(id), "consistent", "{id}");
     }
-    assert_eq!(outcome("iridium-spreading-loss"), "within");
-    assert_eq!(outcome("gps-spreading-loss"), "within");
+    assert_eq!(outcome("illustrative-spreading-loss"), "within");
+    assert_eq!(outcome("illustrative-spreading-advantage"), "within");
     // The ratio of the Doppler rates (about 316 with the paper's own GPS orbit) is outside the
     // 20 % around "about 250".
     assert_eq!(outcome("pulsar-doppler-rate-vs-gps"), "not_consistent");
-    // "Up to 100 times stronger than GPS": the paper's own received powers give at most 13.9 dB
-    // like for like and 19.4 dB (X1) from the Pulsar maximum to the GPS minimum.
+    // The illustrative power claims (hypothetical figures) show the three outcomes: 50 times
+    // (17 dB) is reached like for like, 150 times (21.8 dB) only from the system maximum to the
+    // reference minimum (23 dB), 1,000 times (30 dB) not at all.
     assert_eq!(
-        outcome("pulsar-x1-power-vs-gps-l1"),
-        "not_reached_with_cited_powers"
+        outcome("illustrative-power-advantage-50"),
+        "reached_like_for_like"
     );
     assert_eq!(
-        outcome("pulsar-x5-power-vs-gps-l5"),
+        outcome("illustrative-power-advantage-150"),
+        "reached_only_at_the_extremes"
+    );
+    assert_eq!(
+        outcome("illustrative-power-advantage-1000"),
         "not_reached_with_cited_powers"
     );
-    // "300 to 2,400 times": spreading loss alone reaches about 39 to 1,094 times.
-    assert_eq!(outcome("iridium-stronger-than-gnss"), "outside");
     // Every row names its source.
     assert!(rows
         .iter()
