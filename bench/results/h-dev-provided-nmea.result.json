@@ -1,0 +1,53 @@
+{
+  "label": "MODELLED: truth is the UrbanNav reference trajectory (NovAtel SPAN-CPT, as the publisher states it) of each sequence, whose own error is not removed; a score describes these sequences, never a receiver or a product",
+  "metrics": {
+    "gsdc_score_m": 209.2891556216876,
+    "n_epochs": 5426,
+    "n_traces": 4,
+    "per_trace": [
+      {
+        "n_epochs": 2312,
+        "p50_m": 4.053375309440172,
+        "p95_m": 10.831849871150009,
+        "score_m": 7.442612590295091,
+        "trace": "harsh-urban-1/ublox-f9p"
+      },
+      {
+        "n_epochs": 2312,
+        "p50_m": 10.193494524168166,
+        "p95_m": 36.740274208189724,
+        "score_m": 23.466884366178945,
+        "trace": "harsh-urban-1/xiaomi-mi8"
+      },
+      {
+        "n_epochs": 401,
+        "p50_m": 4.519361381004315,
+        "p95_m": 791.5891146326031,
+        "score_m": 398.0542380068037,
+        "trace": "tunnel-1/ublox-f9p"
+      },
+      {
+        "n_epochs": 401,
+        "p50_m": 7.218151489064221,
+        "p95_m": 809.1676235578813,
+        "score_m": 408.19288752347273,
+        "trace": "tunnel-1/xiaomi-mi8"
+      }
+    ],
+    "pooled_p50_m": 6.949843130265093,
+    "pooled_p95_m": 125.00080097233894,
+    "radius_m": 6371000.0
+  },
+  "notice": "Advisory: modelled or measured against stated references, not an approval, certification or statement of conformance. A score describes a log or corpus, never a product.",
+  "predictions_sha256": "e8ddb2726daa94e214e2ac05f8c97dac75e5b68f52d2fb04395e76eb5eb56552",
+  "provenance": "scored",
+  "schema": "kshana-bench-result/1",
+  "spec_version": "kshana-bench/2.3.0",
+  "split": "dev",
+  "system": {
+    "name": "kshana-bench baseline: provided-nmea",
+    "version": "kshana-bench/2.3.0"
+  },
+  "task": "h",
+  "truth_sha256": "8231944511c9359609bc3fe8ec90ac3152d3b3fff1a05190733ba9610e846f84"
+}

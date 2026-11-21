@@ -11822,6 +11822,7 @@ engine-bench-golden-written = { $path } geschreven ({ $n } bevroren bestanden)
 engine-bench-site-title-f = Taak (f): anomaliedetectie in ruimtevaartuigtelemetrie
 
 engine-bench-site-title-g = Taak (g): positioneringsnauwkeurigheid van smartphones
+engine-bench-site-title-h = Taak (h): positienauwkeurigheid in de stad
 
 engine-bench-site-col-ap = Gemiddelde precisie
 
