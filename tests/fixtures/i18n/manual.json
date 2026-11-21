@@ -10115,7 +10115,7 @@
   "id": "main-usage",
   "error": false,
   "parts": [
-   "usage: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]\n   or: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]\n   or: kshana --study <suite.toml>\n   or: kshana --validate <scenario.toml>\n   or: kshana receiver-trust <scenario.toml>\n   or: kshana receiver-trust live <session.toml> [--stdin | --file <path> [--follow] | --tcp <host:port> | --udp <port>] [--gate] (kshana receiver-trust live --help)\n   or: kshana receiver-trust evidence <scenario.toml> --from <t0> --to <t1> --key <keyfile> --out <dir> (kshana evidence --help)\n   or: kshana evidence <keygen|verify|attach-timestamp> ... (kshana evidence --help)\n   or: kshana jammertest <import|score> ... (kshana jammertest --help)\n   or: kshana evidence round-trip <scenario.toml> --scenario <bench-scenario> --conditions <file> --from <t0> --to <t1> --key <keyfile> --out <dir> (kshana evidence --help)\n   or: kshana trust-telemetry [options] (kshana trust-telemetry --help)\n   or: kshana imu-fit <imu.csv> [--format csv|euroc] [--axis x|y|z] [--expected-mean <m/s2>] [--id <name>] [--json]\n   or: kshana ephem-export <horizons.txt> [--format oem|opm|spk] [--out <file>] [--index <n>] [--spk-type 13|9] [--degree <n>] [--creation-date <YYYY-MM-DDTHH:MM:SS>] [--object-id <id>]\n   or: kshana nmea-scenario <scenario.toml> [--out <file.nmea>] [--tcp <addr>|--udp <addr>] (kshana nmea-scenario --help)\n   or: kshana interference-map <adsb|ais|fetch-land> ... (kshana interference-map --help)\n   or: kshana route-exposure --route <route> --map <map.geojson|dir> [--from <date>] [--to <date>]\n   or: kshana bench <spec|truth|cases|score|baseline|seal|reveal-check|manifest|verify-manifest|validate|leaderboard> ... (kshana bench --help)\n   or: kshana bench-export <scenario.toml> [--out <base>] [--epoch <YYYY-MM-DDTHH:MM:SS>]\n   or: kshana compliance-report [--out <base>] <result.json>... | --mapping | --sources\n   or: kshana lunanet-afs-check <spec [--json] [--strict]|symbols <file> [--max-sp-errors <n>] [--json]|generate --frames <n> [--toi0 <t>] --out <file>>\n   or: kshana standards-pack <list|run <id> [--json] [--out <base>]|rows <id>|tests <id>>\n   or: kshana partner check <submission.toml> [--json]\n   or: kshana scenario <migrate <scenario.toml> [--in-place] | version>\n   or: kshana obs <convert <log> --format <format> --station <station.toml> [--out <file>] | check <file.obs.jsonl> [--json]>\n   or: kshana connect <map <input> --mapping <connect.toml> --station <station.toml> [--out <file.obs.jsonl>] | check <vector.toml|dir> [--bless] | watch <dir> --mapping <connect.toml> --station <station.toml> [--suffix <.csv>] [--interval <s>] [--once] | mqtt <host:port> --topic <filter> --mapping <connect.toml> --station <station.toml> [--header <row>] [--qos 0|1] [--user <name> --password-env <VAR>] [--client-id <id>] [--max-messages <n>] [--per-topic] | nats <host:port> --subject <s> --mapping <connect.toml> --station <station.toml> [--header <row>] [--per-topic] [--user <name> --password-env <VAR> | --token-env <VAR>] [--max-messages <n>] | ws <ws://host:port/path> --mapping <connect.toml> --station <station.toml> [--header <row>] [--max-messages <n>] | check-live <vector.toml|dir> [--json] | load-test [--stations <n>] [--rate <Hz>] [--seconds <s>] [--via memory|mqtt] [--json] | adapters <list|check> [<dir>] [--json]>\n   or: kshana osnma verify <pages|vectors.csv|stream.ubx> [--merkle-root <hex>] [--public-key <id:type:hex>] [--reference-time <gst-s>] [--json] (kshana osnma --help)\n   or: kshana iq <scene|acquire|track|sweep|labfit|campaign|conditions|frontend|monitor|diagnose|gnss-sdr-conf|inventory|info|extract|convert|decimate> ... (kshana iq --help)\n   or: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)\n   or: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>\n   or: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]\n   or: kshana time-vectors [--json] [<vectors.json|dir> ...]\n   or: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>\n   or: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>\n   or: kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)\n   or: kshana orbit-data <check|convert|gp-compare|gp-audit|cov> ... (kshana orbit-data --help)\n   or: kshana drone <prearm|prearm-calibrate|estimator-cases|dr-budget|quad-loss|failover|zonotope-pl> ... (kshana drone --help)\n   or: kshana kinds [--json]\n   or: kshana example [<name>]\n   or: kshana --help | --version"
+   "usage: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]\n   or: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]\n   or: kshana --study <suite.toml>\n   or: kshana --validate <scenario.toml>\n   or: kshana receiver-trust <scenario.toml>\n   or: kshana receiver-trust live <session.toml> [--stdin | --file <path> [--follow] | --tcp <host:port> | --udp <port>] [--gate] (kshana receiver-trust live --help)\n   or: kshana receiver-trust evidence <scenario.toml> --from <t0> --to <t1> --key <keyfile> --out <dir> (kshana evidence --help)\n   or: kshana evidence <keygen|verify|attach-timestamp> ... (kshana evidence --help)\n   or: kshana jammertest <import|score> ... (kshana jammertest --help)\n   or: kshana evidence round-trip <scenario.toml> --scenario <bench-scenario> --conditions <file> --from <t0> --to <t1> --key <keyfile> --out <dir> (kshana evidence --help)\n   or: kshana trust-telemetry [options] (kshana trust-telemetry --help)\n   or: kshana imu-fit <imu.csv> [--format csv|euroc] [--axis x|y|z] [--expected-mean <m/s2>] [--id <name>] [--json]\n   or: kshana ephem-export <horizons.txt> [--format oem|opm|spk] [--out <file>] [--index <n>] [--spk-type 13|9] [--degree <n>] [--creation-date <YYYY-MM-DDTHH:MM:SS>] [--object-id <id>]\n   or: kshana nmea-scenario <scenario.toml> [--out <file.nmea>] [--tcp <addr>|--udp <addr>] (kshana nmea-scenario --help)\n   or: kshana interference-map <adsb|ais|fetch-land> ... (kshana interference-map --help)\n   or: kshana route-exposure --route <route> --map <map.geojson|dir> [--from <date>] [--to <date>]\n   or: kshana bench <spec|truth|cases|score|baseline|seal|reveal-check|manifest|verify-manifest|validate|leaderboard> ... (kshana bench --help)\n   or: kshana bench-export <scenario.toml> [--out <base>] [--epoch <YYYY-MM-DDTHH:MM:SS>]\n   or: kshana compliance-report [--out <base>] <result.json>... | --mapping | --sources\n   or: kshana lunanet-afs-check <spec [--json] [--strict]|symbols <file> [--max-sp-errors <n>] [--json]|generate --frames <n> [--toi0 <t>] --out <file>>\n   or: kshana standards-pack <list|run <id> [--json] [--out <base>]|rows <id>|tests <id>>\n   or: kshana partner check <submission.toml> [--json]\n   or: kshana scenario <migrate <scenario.toml> [--in-place] | version>\n   or: kshana obs <convert <log> --format <format> --station <station.toml> [--out <file>] | check <file.obs.jsonl> [--json]>\n   or: kshana connect <map <input> --mapping <connect.toml> --station <station.toml> [--out <file.obs.jsonl>] | check <vector.toml|dir> [--bless] | watch <dir> --mapping <connect.toml> --station <station.toml> [--suffix <.csv>] [--interval <s>] [--once] | mqtt <host:port> --topic <filter> --mapping <connect.toml> --station <station.toml> [--header <row>] [--qos 0|1] [--user <name> --password-env <VAR>] [--client-id <id>] [--max-messages <n>] [--per-topic] | nats <host:port> --subject <s> --mapping <connect.toml> --station <station.toml> [--header <row>] [--per-topic] [--user <name> --password-env <VAR> | --token-env <VAR>] [--max-messages <n>] | ws <ws://host:port/path> --mapping <connect.toml> --station <station.toml> [--header <row>] [--max-messages <n>] | check-live <vector.toml|dir> [--json] | load-test [--stations <n>] [--rate <Hz>] [--seconds <s>] [--via memory|mqtt] [--json] | adapters <list|check> [<dir>] [--json]>\n   or: kshana osnma verify <pages|vectors.csv|stream.ubx> [--merkle-root <hex>] [--public-key <id:type:hex>] [--reference-time <gst-s>] [--json] (kshana osnma --help)\n   or: kshana iq <scene|acquire|track|sweep|labfit|campaign|conditions|frontend|monitor|diagnose|gnss-sdr-conf|inventory|info|extract|convert|decimate> ... (kshana iq --help)\n   or: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)\n   or: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>\n   or: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]\n   or: kshana lunar-afs-kit <vectors|registry|output-check|output-example|output-reexpress> ... (kshana lunar-afs-kit --help)\n   or: kshana lunar-ref <tcb-tcl|approx|convert|transform|terms|models> ... (kshana lunar-ref --help)\n   or: kshana time-vectors [--json] [<vectors.json|dir> ...]\n   or: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>\n   or: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>\n   or: kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)\n   or: kshana orbit-data <check|convert|gp-compare|gp-audit|cov> ... (kshana orbit-data --help)\n   or: kshana drone <prearm|prearm-calibrate|estimator-cases|dr-budget|quad-loss|failover|zonotope-pl> ... (kshana drone --help)\n   or: kshana kinds [--json]\n   or: kshana example [<name>]\n   or: kshana --help | --version"
   ]
  },
  {
@@ -17230,6 +17230,196 @@
   "error": true,
   "parts": [
    "--source-url is required: every record cites the https:// address where the product is published"
+  ]
+ },
+ {
+  "id": "lunar-ref-usage",
+  "error": false,
+  "parts": [
+   "usage: kshana lunar-ref tcb-tcl [--jd <JD TCB>] [--window <jd0,jd1>] | approx [--window <jd0,jd1>] [--grid-days <d>] | convert --from <tt|tdb|tcb|tcg|tcl|ltc> --to <scale> --jd <JD> | transform --from <ICRF|MOON_PA_DE440|MOON_PA|MOON_ME|ILURF> --to <frame> --xyz <x,y,z> [--jd <JD TDB>] | terms | models [--check] [--root <dir>]   [--out <file.json>]  (docs/LUNAR-REF.md)"
+  ]
+ },
+ {
+  "id": "e-lunar-ref-missing-value",
+  "error": true,
+  "parts": [
+   {
+    "var": "option"
+   },
+   " needs a value"
+  ]
+ },
+ {
+  "id": "e-lunar-ref-unknown-option",
+  "error": true,
+  "parts": [
+   "unknown option ",
+   {
+    "var": "option"
+   },
+   " (kshana lunar-ref --help lists the options)"
+  ]
+ },
+ {
+  "id": "e-lunar-ref-cannot-write",
+  "error": true,
+  "parts": [
+   "cannot write ",
+   {
+    "var": "path"
+   },
+   ": ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-lunar-ref-bad-number",
+  "error": true,
+  "parts": [
+   {
+    "var": "option"
+   },
+   ": ",
+   {
+    "var": "value"
+   },
+   " is not a valid number"
+  ]
+ },
+ {
+  "id": "e-lunar-ref-unknown-name",
+  "error": true,
+  "parts": [
+   "unknown name ",
+   {
+    "var": "name"
+   },
+   " (known: ",
+   {
+    "var": "known"
+   },
+   ")"
+  ]
+ },
+ {
+  "id": "e-lunar-ref-out-of-span",
+  "error": true,
+  "parts": [
+   "the epoch is outside the span of the ephemerides used (Standish elements 1800-2050; DE440 lunar orientation 2014-2030)"
+  ]
+ },
+ {
+  "id": "lunar-afs-kit-usage",
+  "error": false,
+  "parts": [
+   "usage: kshana lunar-afs-kit vectors [<vectors.json>] | registry [<registry.toml|json>] [--limit-db <dB>] [--no-correlation] | output-check <messages.jsonl> | output-example [--n <count>] [--jd <JD TCL>] | output-reexpress <messages.jsonl> --scale <tt|tdb|tcb|tcg|tcl|ltc> --frame <ICRF|MOON_PA_DE440|MOON_PA|MOON_ME|ILURF>   [--out <file>]  (docs/LUNAR-AFS-KIT.md)"
+  ]
+ },
+ {
+  "id": "e-lunar-afs-kit-missing-value",
+  "error": true,
+  "parts": [
+   {
+    "var": "option"
+   },
+   " needs a value"
+  ]
+ },
+ {
+  "id": "e-lunar-afs-kit-unknown-option",
+  "error": true,
+  "parts": [
+   "unknown option ",
+   {
+    "var": "option"
+   },
+   " (kshana lunar-afs-kit --help lists the options)"
+  ]
+ },
+ {
+  "id": "e-lunar-afs-kit-cannot-read",
+  "error": true,
+  "parts": [
+   "cannot read ",
+   {
+    "var": "path"
+   },
+   ": ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-lunar-afs-kit-cannot-write",
+  "error": true,
+  "parts": [
+   "cannot write ",
+   {
+    "var": "path"
+   },
+   ": ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-lunar-afs-kit-bad-number",
+  "error": true,
+  "parts": [
+   {
+    "var": "option"
+   },
+   ": ",
+   {
+    "var": "value"
+   },
+   " is not a valid number"
+  ]
+ },
+ {
+  "id": "e-lunar-afs-kit-unknown-name",
+  "error": true,
+  "parts": [
+   "unknown name ",
+   {
+    "var": "name"
+   },
+   " (known: ",
+   {
+    "var": "known"
+   },
+   ")"
+  ]
+ },
+ {
+  "id": "e-lunar-afs-kit-bad-registry",
+  "error": true,
+  "parts": [
+   "the registry is not a list of [[node]] allocations: ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-lunar-afs-kit-bad-vectors",
+  "error": true,
+  "parts": [
+   "not a kshana.afs-vectors/1 file: ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-lunar-afs-kit-bad-message",
+  "error": true,
+  "parts": [
+   "a line is not a kshana.lunar-pnt-output/1 message with an epoch, a frame and a position"
   ]
  }
 ]

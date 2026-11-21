@@ -10761,6 +10761,27 @@ engine-e-ais-integrity-cannot-read = no se puede leer { $path }: { $e }
 engine-e-ais-integrity-cannot-write = no se puede escribir { $path }: { $e }
 engine-e-ais-integrity-bad-place = una fila de la lista de lugares no es name,lat,lon,radius_m con una posición válida y un radio positivo: { $row }
 
+## Lunar time scales, frames, terminology and model provenance (src/lunar_ref.rs)
+engine-lunar-ref-usage = uso: kshana lunar-ref tcb-tcl [--jd <JD TCB>] [--window <jd0,jd1>] | approx [--window <jd0,jd1>] [--grid-days <d>] | convert --from <tt|tdb|tcb|tcg|tcl|ltc> --to <scale> --jd <JD> | transform --from <ICRF|MOON_PA_DE440|MOON_PA|MOON_ME|ILURF> --to <frame> --xyz <x,y,z> [--jd <JD TDB>] | terms | models [--check] [--root <dir>]   [--out <file.json>]  (docs/LUNAR-REF.md)
+engine-e-lunar-ref-missing-value = { $option } necesita un valor
+engine-e-lunar-ref-unknown-option = opción desconocida { $option } (kshana lunar-ref --help enumera las opciones)
+engine-e-lunar-ref-cannot-write = no se puede escribir { $path }: { $e }
+engine-e-lunar-ref-bad-number = { $option }: { $value } no es un número válido
+engine-e-lunar-ref-unknown-name = nombre desconocido { $name } (conocidos: { $known })
+engine-e-lunar-ref-out-of-span = la época está fuera del intervalo de las efemérides usadas (elementos de Standish 1800-2050; orientación lunar DE440 2014-2030)
+
+## LunaNet AFS receiver verification kit and lunar output message profile (src/lunar_afs/kit.rs, src/lunar_output.rs)
+engine-lunar-afs-kit-usage = uso: kshana lunar-afs-kit vectors [<vectors.json>] | registry [<registry.toml|json>] [--limit-db <dB>] [--no-correlation] | output-check <messages.jsonl> | output-example [--n <count>] [--jd <JD TCL>] | output-reexpress <messages.jsonl> --scale <tt|tdb|tcb|tcg|tcl|ltc> --frame <ICRF|MOON_PA_DE440|MOON_PA|MOON_ME|ILURF>   [--out <file>]  (docs/LUNAR-AFS-KIT.md)
+engine-e-lunar-afs-kit-missing-value = { $option } necesita un valor
+engine-e-lunar-afs-kit-unknown-option = opción desconocida { $option } (kshana lunar-afs-kit --help enumera las opciones)
+engine-e-lunar-afs-kit-cannot-read = no se puede leer { $path }: { $e }
+engine-e-lunar-afs-kit-cannot-write = no se puede escribir { $path }: { $e }
+engine-e-lunar-afs-kit-bad-number = { $option }: { $value } no es un número válido
+engine-e-lunar-afs-kit-unknown-name = nombre desconocido { $name } (conocidos: { $known })
+engine-e-lunar-afs-kit-bad-registry = el registro no es una lista de asignaciones [[node]]: { $e }
+engine-e-lunar-afs-kit-bad-vectors = no es un archivo kshana.afs-vectors/1: { $e }
+engine-e-lunar-afs-kit-bad-message = una línea no es un mensaje kshana.lunar-pnt-output/1 con época, sistema de referencia y posición
+
 engine-main-usage =
     uso:  kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }o: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10792,6 +10813,8 @@ engine-main-usage =
     { "   " }o: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }o: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }o: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
+    { "   " }o: kshana lunar-afs-kit <vectors|registry|output-check|output-example|output-reexpress> ... (kshana lunar-afs-kit --help)
+    { "   " }o: kshana lunar-ref <tcb-tcl|approx|convert|transform|terms|models> ... (kshana lunar-ref --help)
     { "   " }o: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }o: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }o: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>

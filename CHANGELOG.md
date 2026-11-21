@@ -13,6 +13,27 @@ breaking changes are called out explicitly.
 - **Smaller published crate: the DE440 Moon PA orientation series is embedded as binary.** `src/lunar_orientation.rs` now embeds `data/lunar/de440_moon_pa.bin` instead of the 1.6 MB CSV: the same 6 209 x 10 doubles, bit for bit (`tests/lunar_orientation_binary.rs`), column-major and byte-planed, about 352 KB of the `.crate` against 650 KB. Results are unchanged. The CSV stays in the repository as the source of record and is no longer packaged. Regenerate with `scripts/gen_de440_moon_pa_bin.py`.
 - **Smaller published crate: the seventeen translated engine catalogues ship as one xz stream.** The `.crate` carries `data/i18n/catalogues.xz` (about 1.9 MB) in place of `i18n/<lang>/engine.ftl` (13.4 MB of text, about 3.8 MB as separate gzip members): 10 192 071 bytes before, about 8 254 190 after: 1.94 MB more headroom under crates.io's 10 MiB limit. The `.ftl` files stay the source in the repository and are what a build from a checkout embeds, exactly as before. In a build of the published crate, `build.rs` decodes the archive (pure-Rust `lzma-rs`, MIT, a build dependency only) and the library embeds the decoded text, so no decoding happens at run time and the messages are byte for byte the same (`tests/i18n_packed.rs`). The archive is generated, never committed: `python3 scripts/pack_catalogues.py` (CI's `package` job, the crates.io release and the sdist build run it; contributors never need to).
 
+### Added (lunar time scales and frames)
+
+- `kshana lunar-ref` (src/lunar_timescale.rs, src/lunar_frames.rs, src/lunar_ref.rs, docs/LUNAR-REF.md): TCB − TCL
+  integrated from the first post-Newtonian rate at the Moon's centre (Standish elements and the analytic Moon), with
+  the same computation at the geocentre giving the IERS L_C within the stated 2e-12 bound; an analytical approximation
+  whose error (about 13 us over 2014-2030) is shown on a denser grid; a swappable time scale (TT, TDB, TCB, TCG, TCL,
+  LTC) with round-trip regression tests; named lunar frames (ICRF, DE440 PA, analytic PA, ME) and ILuRF as a datum
+  realisation (placeholder parameters, to confirm); a lunar terminology registry and a geodetic-model provenance
+  manifest with file checksums. The TCL origin convention is to confirm; no LUNEX parser (no published format).
+  MODELLED.
+
+### Added (LunaNet AFS receiver verification kit)
+
+- `kshana lunar-afs-kit` (src/lunar_afs/kit.rs, vectors.rs, registry.rs, src/lunar_output.rs, docs/LUNAR-AFS-KIT.md):
+  bit-true vectors (data/conformance/lunar-afs/, kshana.afs-vectors/1) for all 210 AFS-Q primary codes, the secondary
+  codes, CRC-24Q and the Figure 8 SB1 codeword, computed by an independent Python generator and matching the tables
+  `kshana lunanet-afs-check spec` checks (210 of 210); a PRN and code allocation registry (LSIS V1.0 Table 11 by
+  default) with range, collision and AFS-Q periodic correlation checks; and the kshana.lunar-pnt-output/1 real-time
+  output message profile with a validator, a synthetic example stream and re-expression in another time scale and
+  lunar frame. MODELLED.
+
 ### Added (space weather for PNT and drag)
 
 - `kshana space-weather` (src/space_weather_pnt/, docs/SPACE-WEATHER-PNT.md): a storm library of eight recorded

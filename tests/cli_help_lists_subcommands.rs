@@ -38,6 +38,8 @@ fn the_top_level_usage_names_every_subcommand() {
         "decimate",
         "time-vectors",
         "ais-integrity",
+        "lunar-afs-kit",
+        "lunar-ref",
         "corrections",
         "space-weather",
         "rtk-qa",

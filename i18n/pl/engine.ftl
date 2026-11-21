@@ -10721,6 +10721,27 @@ engine-e-ais-integrity-cannot-read = nie można odczytać { $path }: { $e }
 engine-e-ais-integrity-cannot-write = nie można zapisać { $path }: { $e }
 engine-e-ais-integrity-bad-place = wiersz listy miejsc nie ma postaci name,lat,lon,radius_m z poprawną pozycją i dodatnim promieniem: { $row }
 
+## Lunar time scales, frames, terminology and model provenance (src/lunar_ref.rs)
+engine-lunar-ref-usage = użycie: kshana lunar-ref tcb-tcl [--jd <JD TCB>] [--window <jd0,jd1>] | approx [--window <jd0,jd1>] [--grid-days <d>] | convert --from <tt|tdb|tcb|tcg|tcl|ltc> --to <scale> --jd <JD> | transform --from <ICRF|MOON_PA_DE440|MOON_PA|MOON_ME|ILURF> --to <frame> --xyz <x,y,z> [--jd <JD TDB>] | terms | models [--check] [--root <dir>]   [--out <file.json>]  (docs/LUNAR-REF.md)
+engine-e-lunar-ref-missing-value = { $option } wymaga wartości
+engine-e-lunar-ref-unknown-option = nieznana opcja { $option } (opcje wypisuje kshana lunar-ref --help)
+engine-e-lunar-ref-cannot-write = nie można zapisać { $path }: { $e }
+engine-e-lunar-ref-bad-number = { $option }: { $value } nie jest prawidłową liczbą
+engine-e-lunar-ref-unknown-name = nieznana nazwa { $name } (znane: { $known })
+engine-e-lunar-ref-out-of-span = epoka leży poza zakresem użytych efemeryd (elementy Standisha 1800–2050; orientacja Księżyca DE440 2014–2030)
+
+## LunaNet AFS receiver verification kit and lunar output message profile (src/lunar_afs/kit.rs, src/lunar_output.rs)
+engine-lunar-afs-kit-usage = użycie: kshana lunar-afs-kit vectors [<vectors.json>] | registry [<registry.toml|json>] [--limit-db <dB>] [--no-correlation] | output-check <messages.jsonl> | output-example [--n <count>] [--jd <JD TCL>] | output-reexpress <messages.jsonl> --scale <tt|tdb|tcb|tcg|tcl|ltc> --frame <ICRF|MOON_PA_DE440|MOON_PA|MOON_ME|ILURF>   [--out <file>]  (docs/LUNAR-AFS-KIT.md)
+engine-e-lunar-afs-kit-missing-value = { $option } wymaga wartości
+engine-e-lunar-afs-kit-unknown-option = nieznana opcja { $option } (opcje wypisuje kshana lunar-afs-kit --help)
+engine-e-lunar-afs-kit-cannot-read = nie można odczytać { $path }: { $e }
+engine-e-lunar-afs-kit-cannot-write = nie można zapisać { $path }: { $e }
+engine-e-lunar-afs-kit-bad-number = { $option }: { $value } nie jest prawidłową liczbą
+engine-e-lunar-afs-kit-unknown-name = nieznana nazwa { $name } (znane: { $known })
+engine-e-lunar-afs-kit-bad-registry = rejestr nie jest listą przydziałów [[node]]: { $e }
+engine-e-lunar-afs-kit-bad-vectors = to nie jest plik kshana.afs-vectors/1: { $e }
+engine-e-lunar-afs-kit-bad-message = wiersz nie jest komunikatem kshana.lunar-pnt-output/1 z epoką, układem odniesienia i pozycją
+
 engine-main-usage =
     użycie: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }lub: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10752,6 +10773,8 @@ engine-main-usage =
     { "   " }lub: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }lub: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }lub: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
+    { "   " }lub: kshana lunar-afs-kit <vectors|registry|output-check|output-example|output-reexpress> ... (kshana lunar-afs-kit --help)
+    { "   " }lub: kshana lunar-ref <tcb-tcl|approx|convert|transform|terms|models> ... (kshana lunar-ref --help)
     { "   " }lub: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }lub: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }lub: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>

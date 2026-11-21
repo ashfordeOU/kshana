@@ -38,9 +38,12 @@
 
 pub mod codes;
 pub mod frame;
+pub mod kit;
 pub mod ldpc;
 pub mod lsis;
 pub mod params;
+pub mod registry;
+pub mod vectors;
 pub mod waveform;
 
 /// The standard every output of this module is pinned to.

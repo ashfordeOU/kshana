@@ -1,0 +1,15 @@
+{
+ "format": "kshana.lunar-geodetic-models/1",
+ "note": "Every lunar geodetic model and constant the lunar time and frame modules use, with its source, the file that carries it when there is one, that file's SHA-256, and the modules that use it. tests check the files and the module paths.",
+ "models": [
+  {"id": "iau2015-moon-orientation", "what": "IAU 2015 WGCCRE lunar pole, prime meridian and the 13 lunar arguments", "source": "Archinal et al. 2018, Celest. Mech. Dyn. Astr. 130:22", "file": null, "sha256": null, "used_by": ["src/lunar_frame.rs"]},
+  {"id": "de421-me-to-pa", "what": "fixed ME-to-PA rotation, 67.92, 78.56, 0.30 arcseconds about axes 3, 2, 1", "source": "NAIF frame kernel moon_080317.tf (MOON_ME_DE421, TKFRAME_31007)", "file": null, "sha256": null, "used_by": ["src/lunar_frame.rs"]},
+  {"id": "de440-moon-pa-series", "what": "daily DE440 Moon PA orientation, 2014-2030, as binary byte planes", "source": "JPL DE440 (Park et al. 2021), via scripts/gen_de440_moon_pa_bin.py", "file": "data/lunar/de440_moon_pa.bin", "sha256": "38472cb7a5c76702114393f3acabd8d7497c60336141c3c9b7b8873b363cc51a", "used_by": ["src/lunar_orientation.rs"]},
+  {"id": "de430-retroreflectors-mer", "what": "lunar laser retroreflector coordinates, MER frame", "source": "JPL DE430 documentation, Table 7", "file": "tests/fixtures/lunar_llr/de430_retroreflectors_mer.csv", "sha256": "28d514aa24ca5df26761f285b719edb05614605a0c5b6de77600d3f50ce2006e", "used_by": ["src/lunar_llr.rs"]},
+  {"id": "moon-mean-radius", "what": "mean lunar radius 1,737.4 km", "source": "IAU WGCCRE (Archinal et al. 2018)", "file": null, "sha256": null, "used_by": ["src/lunar_time.rs"]},
+  {"id": "moon-gm", "what": "GM of the Moon 4.902800066e12 m^3/s^2", "source": "JPL DE430/DE440 constants", "file": null, "sha256": null, "used_by": ["src/forces.rs"]},
+  {"id": "standish-elements", "what": "approximate planetary elements, 1800-2050 (Table 1)", "source": "Standish and Williams, JPL, Keplerian Elements for Approximate Positions of the Major Planets", "file": null, "sha256": null, "used_by": ["src/ephem.rs", "src/lunar_timescale.rs"]},
+  {"id": "iau2009-mass-ratios", "what": "Sun-to-planet mass ratios", "source": "IAU 2009 System of Astronomical Constants", "file": null, "sha256": null, "used_by": ["src/lunar_timescale.rs"]},
+  {"id": "ilurf-realisation", "what": "ILuRF realisation parameters", "source": "to confirm: none read; a zero-datum placeholder from MOON_ME is used", "file": null, "sha256": null, "used_by": ["src/lunar_frames.rs"]}
+ ]
+}

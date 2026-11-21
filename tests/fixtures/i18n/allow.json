@@ -1090,8 +1090,8 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/main.rs": {
-   "count": 76,
-   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md); clock-live prints its error text as given; the sensor-live command name; the device and bench-speed command names; the data-pack, area-trust and env-baseline command names; the ephem-export command name; the time-vectors command name; the ais-integrity command name; the space-weather command name; the orbit-data command name."
+   "count": 78,
+   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md); clock-live prints its error text as given; the sensor-live command name; the device and bench-speed command names; the data-pack, area-trust and env-baseline command names; the ephem-export command name; the time-vectors command name; the ais-integrity command name; the space-weather command name; the orbit-data command name; the lunar-ref command name; the lunar-afs-kit command name."
   },
   "src/mars_pnt.rs": {
    "count": 31,
@@ -1840,6 +1840,34 @@
   "src/interference_map/incident.rs": {
    "count": 183,
    "reason": "machine-document and identifier: the kshana-interference-incidents/1 vocabulary, field names and schema tags, the validator's problem messages (written to the machine-readable report, English by design), CSV column names and the Zenodo metadata keys (docs/INTERFERENCE-INCIDENTS.md)"
+  },
+  "src/lunar_afs/kit.rs": {
+   "count": 0,
+   "reason": "identifier: the option and subcommand names of kshana lunar-afs-kit and the lists of known scale and frame names"
+  },
+  "src/lunar_afs/registry.rs": {
+   "count": 15,
+   "reason": "machine-document and identifier: finding kinds, severities, the status of the interim table, the schema id and the English label written into the kshana.lunar-afs-registry-check/1 document"
+  },
+  "src/lunar_afs/vectors.rs": {
+   "count": 5,
+   "reason": "machine-document and identifier: vector operation names, field names and the schema id of kshana.afs-vectors/1"
+  },
+  "src/lunar_frames.rs": {
+   "count": 2,
+   "reason": "machine-document and identifier: the frame names, the ILuRF realisation name and its source note written into the transform document"
+  },
+  "src/lunar_output.rs": {
+   "count": 44,
+   "reason": "machine-document and identifier: the field names, enumerated values and English rule texts of the kshana.lunar-pnt-output/1 profile and its check document, and the example stream label"
+  },
+  "src/lunar_ref.rs": {
+   "count": 3,
+   "reason": "identifier: the option and subcommand names of kshana lunar-ref, scale names and the schema id of the convert document"
+  },
+  "src/lunar_timescale.rs": {
+   "count": 2,
+   "reason": "machine-document and identifier: the schema id and the English label written into the kshana.lunar-tcb-tcl/1 document"
   }
  }
 }
