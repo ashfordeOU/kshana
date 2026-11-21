@@ -10024,6 +10024,9 @@ engine-e-sil-obsgen-cannot-read = 无法读取 { $path }：{ $e }
 engine-e-sil-obsgen-cannot-write = 无法写入 { $path }：{ $e }
 engine-e-sil-obsgen-bad-scenario = 不是带可选 [urban] 和 [rinex] 表的 gnss-sim 场景：{ $e }
 
+## connect: GPS week guard
+engine-e-connect-week-not-full = 第 { $line } 行：GPS 周 { $week } 不是完整周数（10 位广播周数每 1024 周翻转一次）；请给出从 1980-01-06 起算的完整周数
+
 engine-main-usage =
     用法：kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }或：kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]

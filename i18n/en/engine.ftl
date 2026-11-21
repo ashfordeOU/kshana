@@ -10555,6 +10555,9 @@ engine-e-sil-obsgen-cannot-read = cannot read { $path }: { $e }
 engine-e-sil-obsgen-cannot-write = cannot write { $path }: { $e }
 engine-e-sil-obsgen-bad-scenario = not a gnss-sim scenario with optional [urban] and [rinex] tables: { $e }
 
+## connect: GPS week guard
+engine-e-connect-week-not-full = line { $line }: GPS week { $week } is not a full week (a 10-bit broadcast week rolls over every 1024 weeks); give the full week counted from 1980-01-06
+
 engine-main-usage =
     usage: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }or: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
