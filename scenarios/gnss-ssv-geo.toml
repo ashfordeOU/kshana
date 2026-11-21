@@ -1,0 +1,31 @@
+# A geostationary user: what a GEO spacecraft's receiver sees over one day.
+#
+# The orbit is the booklet's GEO (table 5.3 / B11: 42,164 km, circular, equatorial). From 35,786 km altitude the user is
+# above every GNSS shell and hears only the main lobes and sidelobes that spill past the far side of the Earth. A nadir
+# high-gain antenna and a zenith patch are fitted (booklet table B10); each satellite is received on whichever gives the
+# higher gain. The parametric sidelobe stand-in is on, so main-lobe and sidelobe links are counted apart; the booklet's own
+# model has no sidelobes, so the availability here is not the booklet's table 5.4 figure (that comparison is
+# xval/gnss-ssv, bar S4). The report gives availability of one and four signals, outages, signals in view, the best C/N0
+# and the dilution of precision along the day.
+#
+# MODELLED: two-body orbits, a representative (not measured) transmit pattern, booklet antennas (docs/SSV.md).
+
+kind = "gnss-ssv"
+name = "GEO, high-gain nadir and patch zenith antennas, parametric sidelobes (one day)"
+
+[constellations]
+include = ["gps", "glonass", "galileo", "bds"]
+bands = ["l1", "l5"]
+
+[transmit]
+pattern = "parametric"
+
+[receiver]
+cn0_min_dbhz = 20.0
+
+[trajectory]
+preset = "geo"
+duration_min = 1440.0
+step_min = 10.0
+antennas = ["booklet-high-gain-nadir", "booklet-patch-zenith"]
+series_every_min = 60.0

@@ -1,0 +1,5 @@
+associd=0 status=0615 leap_none, sync_ntp, 1 event, clock_sync,
+version="ntpd 4.2.8p15", processor="x86_64", system="Linux",
+leap=00, stratum=2, precision=-23, rootdelay=1.234, rootdisp=5.678,
+refid=192.0.2.1, offset=0.321, frequency=-12.345, sys_jitter=0.050,
+clk_jitter=0.010, clk_wander=0.002
