@@ -2426,6 +2426,7 @@ engine-e-interop-scene-missing-integer-waypoints = 缺少整数 `waypoints`
 engine-e-interop-scene-waypoints-is-outside-1000000 = waypoints = { $n } 超出 1..=1000000
 
 engine-interop-scene-walker-at-km-deg-inclination = Walker { $w }/{ $planes }/{ $phasing_f }，高度 { $altitude_km } km，倾角 { $inclination_deg } deg（SGP4）
+engine-interop-scene-gnss-slot = { $set } 的轨位 { $id }（地球同步二体名义轨位，MODELLED）；来源：{ $source }；相位：{ $phase }
 
 engine-interop-scene-the-scenario-gives-no-epoch = 场景未给出 `epoch`；t = 0 为 { $epoch }，即各卫星自身数据（TLE、广播星历或 SP3 历元）所带的最早历元。每颗卫星从各自的历元外推，这些历元相差 { $spread_h } h：时间标签遵循引擎的前提，即每颗卫星都从 t = 0 开始，而每个位置按该卫星自身的时刻旋转到 GCRS 和地固坐标系。SP3 和 OEM 导出则改把 t = 0 标为 2000-01-01T00:00:00Z
 
@@ -9375,6 +9376,10 @@ engine-e-orbit-omm-export-requires-tle-defined = OMM 导出需要由 TLE 定义�
 engine-e-passes-earth-orientation-parameters-out-of = 地球定向参数超出范围：|ut1_minus_utc_s| <= 1，|xp_arcsec| 和 |yp_arcsec| <= 2
 
 engine-e-pvt-no-priori-position-set-apriori = 没有先验位置：请设置 apriori_ecef、观测头部的 APPROX POSITION XYZ，或 truth_ecef
+engine-e-gnss-slots-unknown-set = 未知的轨位集 `{ $name }`（已知：{ $sets }）
+engine-e-gnss-slots-out-of-range = 轨位 `{ $id }`：`{ $field }` 缺失、非有限值或超出范围
+engine-e-gnss-slots-geo-needs-lon = GEO 轨位 `{ $id }` 需要 lon_deg
+engine-e-gnss-slots-igso-needs-one-longitude = IGSO 轨位 `{ $id }` 需要非零的 inclination_deg，且 crossing_lon_deg 与 center_lon_deg 二者必须恰有其一
 
 engine-e-python-pll-bws-dll-bws-spacings = pll_bws、dll_bws、spacings 和 coherents 不能与 design 组合：扫描会运行文件中的每个设计
 
@@ -10057,6 +10062,73 @@ engine-e-lunar-interop-unknown-time-system = 未知的时间系统 { $time_syste
 engine-e-lunar-interop-unregistered-time-system = TIME_SYSTEM { $time_system } 不在 CCSDS OEM 所用的 SANA Time Systems 注册表中；如仍要写入，请设 allow_unregistered_time_system = true（届时以 COMMENT 注明），或改用 TDB
 engine-e-lunar-interop-bad-step = step_min 必须是有限的非负分钟数，而不是 { $step }
 
+## Probability of collision, Foster 2D (src/orbit_data/pc.rs)
+engine-e-orbit-data-pc-radius = --hbr 需要合并硬体半径（米，正数）
+engine-e-orbit-data-pc-no-relative-velocity = 两个物体速度相同：不存在交会平面
+engine-e-orbit-data-pc-not-positive-definite = 投影到交会平面的合并协方差不是正定的（较小特征值 { $lambda } m²）
+engine-e-orbit-data-pc-not-finite = 某个状态或协方差值不是有限数
+engine-e-orbit-data-pc-missing-data = CDM 中没有两个各自带状态（X 至 Z_DOT）和 RTN 协方差（CR_R 至 CNDOT_NDOT）的物体
+engine-e-orbit-data-pc-frame-mismatch = 两个物体的 REF_FRAME 不同（{ $a } 与 { $b }）；Pc 要求两个状态在同一坐标系中
+
+## Regional RNSS signal designer (src/rnss_design.rs)
+engine-rnss-design-usage = 用法：kshana rnss-design profiles | run <profile|profile.toml> [--band-mhz <B>] [--cn0 <dB-Hz>] [--discriminator non-coherent|coherent] [--with-gps l1,l2,l5|none] [--phase-sigma-m <m>] [--out <report.json>]   (kshana.rnss-profile/1 signals: spectra, spectral separation, multi-band RTK settings; MODELLED; docs/RNSS-DESIGN.md)
+engine-e-rnss-design-missing-value = { $option } 需要一个值
+engine-e-rnss-design-unknown-option = 未知选项 { $option }（kshana rnss-design --help 列出所有选项）
+engine-e-rnss-design-cannot-read = 无法读取 { $path }：{ $e }
+engine-e-rnss-design-cannot-write = 无法写入 { $path }：{ $e }
+engine-e-rnss-design-bad-number = { $option }：{ $value } 不是有效的数字
+engine-e-rnss-design-bad-profile = 不是可用的 kshana.rnss-profile/1 文件：{ $e }
+engine-e-rnss-design-unknown-profile = 没有内置配置 { $name }（内置：{ $names }）；请改为给出配置文件路径
+engine-e-rnss-design-unknown-gps = --with-gps 的 GPS 载波 { $name } 未知（l1、l2、l5 或 none）
+
+## Transparency-log verifier (src/tlog.rs)
+engine-tlog-usage = 用法：kshana tlog verify-inclusion <proof.json> [--entry <entry.json>] [--sth <sth.json>] | verify-consistency <proof.json> [--sth-from <sth.json>] [--sth-to <sth.json>] | verify-sth <sth.json> [--entries <entries.jsonl>] | verify-daily-root <statement.json> [--tsa-ca <roots.pem>] [--tsa-certs <certs.pem>] | verify-key-history <history.jsonl> [--first-key <hex>]   (signed statements: --key <hex> or --key-history <history.jsonl>; --format <id>; --json; offline RFC 6962/9162 log verification; docs/TLOG.md)
+engine-e-tlog-missing-value = { $option } 需要一个值
+engine-e-tlog-cannot-read = 无法读取 { $path }：{ $e }
+engine-e-tlog-unknown-option = 未知选项 { $option }（kshana tlog --help 列出所有选项）
+engine-tlog-check-pass = PASS { $id }：{ $detail }
+engine-tlog-check-fail = FAIL { $id }：{ $detail }
+engine-tlog-fact = { $key } = { $value }
+engine-tlog-verdict-pass = tlog { $command }：所有检查均通过
+engine-tlog-verdict-fail = tlog { $command }：{ $n } 项检查未通过
+engine-tlog-not-anchored = 未锚定（该声明没有时间戳）
+engine-tlog-no-tsa-roots = 未提供时间戳机构根证书（--tsa-ca）：不检查令牌的签名和证书链
+engine-tlog-no-endorsement = 没有前一密钥的背书
+engine-e-tlog-entry-not-object = 日志条目必须是 JSON 对象
+engine-e-tlog-entry-missing-field = 日志条目缺少 { $field }
+engine-e-tlog-entry-bad-field = 日志条目的 { $field } 格式错误
+engine-e-tlog-bad-key = 公钥必须是 64 位十六进制数字（32 字节，Ed25519）
+engine-e-tlog-missing-field = 文档缺少 { $field }
+engine-e-tlog-bad-field = { $field } 格式错误（哈希为 64 位十六进制数字，大小和索引为整数）
+engine-e-tlog-needs-key = 签名声明需要 --key <hex> 或 --key-history <history.jsonl>
+engine-e-tlog-bad-json = 不是有效的 JSON：{ $e }
+engine-e-tlog-bad-json-line = 第 { $line } 行不是有效的 JSON：{ $e }
+engine-e-tlog-bad-json-file = { $path } 不是有效的 JSON：{ $e }
+engine-e-tlog-key-and-history = 请给出 --key 或 --key-history，不要同时给出
+engine-e-tlog-history-failed = 密钥历史 { $path } 未通过验证，因此不能提供密钥
+engine-e-tlog-verification-failed = tlog { $command }：验证失败（上方报告列出了每项检查）
+
+## Signed-directory verification (src/evidence/signed_dir.rs)
+engine-evidence-dir-usage = kshana evidence verify-dir <dir> [--trust <hex|file>]... [--json]   签名目录（signature.json）；退出码 0 通过、1 失败、3 完整但密钥不受信任
+engine-evidence-dir-statement = { $format }，签名者 { $signer }，时间 { $utc }，密钥 ID { $key_id }，列出 { $n } 个文件
+engine-evidence-dir-signature-valid = PASS 签名：使用密钥 { $key } 的 Ed25519
+engine-evidence-dir-signature-invalid = FAIL 签名：无法用密钥 { $key } 验证
+engine-evidence-dir-problem = FAIL { $p }
+engine-evidence-dir-longterm-present = 注意：存在 longterm.json；它在签名后添加，不在签名范围内，此处不检查
+engine-evidence-dir-unsigned-fields = 注意：signature.json 中不在签名范围内的字段：{ $fields }
+engine-evidence-dir-envelope = 运行包络 { $key }：{ $value }（仅供参考）
+engine-evidence-dir-passed = 已验证：签名有效，所有文件一致，且密钥受信任
+engine-evidence-dir-intact-untrusted = 完整但未受信任：签名和所有文件均一致，但未通过 --trust 提供密钥 { $key }
+engine-evidence-dir-failed = 未验证：{ $n } 个问题，或签名无法验证
+engine-e-evidence-dir-needs-directory = verify-dir 需要签名目录
+engine-e-evidence-dir-unknown-option = verify-dir 的未知选项 { $option }（--trust <hex|file>、--json）
+engine-e-evidence-dir-cannot-read = 无法读取 { $path }：{ $e }
+engine-e-evidence-dir-bad-json = { $path } 不是有效的 JSON：{ $e }
+engine-e-evidence-dir-bad-field = signature.json：{ $field } 缺失或格式错误
+
+## space-receiver od-vs-tle time system
+engine-e-space-receiver-oem-time-system = 此比较不读取 OEM 时间系统 { $ts }（UTC、GPS、TAI 或 TT）
+
 engine-main-usage =
     用法：kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }或：kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10088,10 +10160,12 @@ engine-main-usage =
     { "   " }或：kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }或：kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }或：kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
+    { "   " }或：kshana rnss-design profiles | run <profile|profile.toml> [options] (kshana rnss-design --help)
     { "   " }或：kshana space-receiver <clock|timestamps|dynamics|bench|mms|od-vs-tle> ... [--out <file.json>] (kshana space-receiver --help)
     { "   " }或：kshana feed <pack|verify|send|spectrum|leaderboard|watch> ... (kshana feed --help)
     { "   " }或：kshana register-products <verify|show|diff> ... (kshana register-products --help)
     { "   " }或：kshana register <check|crl-check|view|sign> ... (kshana register --help)
+    { "   " }或：kshana tlog verify-inclusion | verify-consistency | verify-sth | verify-daily-root | verify-key-history <file> [options] (kshana tlog --help)
     { "   " }或：kshana interference-env <evaluate|thresholds|degradation> ... (kshana interference-env --help)
     { "   " }或：kshana arctic-plan --site <lat,lon[,h]> | --place <name> [--systems <a,b,...>] [--compare] [--hours <h>] [--kp <n>] ... (kshana arctic-plan --help)
     { "   " }或：kshana lunar-afs-kit <vectors|registry|output-check|output-example|output-reexpress> ... (kshana lunar-afs-kit --help)
@@ -11206,6 +11280,7 @@ engine-orbit-data-usage =
     { "   " }或：kshana orbit-data gp-compare <a.tle> <b.tle> [--hours <h>] [--step-min <min>] [--threshold-km <km>] [--json]
     { "   " }或：kshana orbit-data gp-audit <sets.tle> ... [--at <epoch>] [--stale-days <d>] [--jump-km <km>] [--json]
     { "   " }或：kshana orbit-data cov <check|propagate|monte-carlo|synthetic|realism> <input.json> [--dt-s <s>] [--step-s <s>] [--samples <n>] [--seed <n>] [--sigma-rtn <r,t,n,rdot,tdot,ndot>] [--full]
+    { "   " }或：kshana orbit-data pc <cdm> --hbr <m> [--aliases <map.json>] [--cdm-out <file>]
     { "   " }(docs/ORBIT-DATA.md)
 engine-e-orbit-data-unknown-message = { $path } 不是 CDM、OEM（KVN）或 OCM：没有 CCSDS_CDM_VERS、CCSDS_OEM_VERS 或 CCSDS_OCM_VERS 行，也没有 <cdm> 或 <ocm> 根元素
 engine-e-orbit-data-bad-flag = { $flag } { $value }：不可用的值
@@ -11274,7 +11349,9 @@ engine-bench-task-has-no-holdout = 任务 ({ $task }) 没有保留划分：其�
 engine-bench-unknown-baseline = 未知基线 `{ $name }`
 
 engine-bench-g-no-traces = { $root } 下没有 <drive>/<phone>/ground_truth.csv
-engine-bench-h-no-sequences = { $root } 下没有 <sequence>/ground_truth.txt
+engine-bench-h-no-sequences = { $root } 下没有 <sequence>/(ground_truth.txt|tk_reference.csv)
+engine-bench-h-mixed-editions = { $root } 混合了任务 (h) 的香港版和东京版（ground_truth.txt 与 tk_reference.csv）：请将两者分别获取到各自的目录
+engine-bench-h-baseline-skipped = 已跳过基线 { $baseline }：并非每条轨迹都有其输入文件
 
 engine-bench-g-no-object = 没有轨迹对象 `{ $key }`
 
@@ -11297,6 +11374,7 @@ engine-bench-golden-written = 已写入 { $path }（{ $n } 个冻结文件）
 engine-bench-site-title-f = 任务 (f)：航天器遥测异常检测
 
 engine-bench-site-title-g = 任务 (g)：智能手机定位精度
+engine-bench-site-title-h = 任务 (h)：城市定位精度
 
 engine-bench-site-col-ap = 平均精度
 

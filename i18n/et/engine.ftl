@@ -2606,6 +2606,7 @@ engine-e-interop-scene-waypoints-is-outside-1000000 =
     }
 
 engine-interop-scene-walker-at-km-deg-inclination = Walker { $w }/{ $planes }/{ $phasing_f } kõrgusel { $altitude_km } km, kaldenurk { $inclination_deg } deg (SGP4)
+engine-interop-scene-gnss-slot = { $set } pesa { $id } (geosünkroonne kahe keha nominaalpesa, MODELLED); allikas: { $source }; faas: { $phase }
 
 engine-interop-scene-the-scenario-gives-no-epoch = stsenaarium ei anna `epoch`; t = 0 on { $epoch }, varaseim epohh, mida satelliitide enda andmed kannavad (TLE, edastatud efemeriid või SP3 epohh). Iga satelliiti levitatakse tema enda epohhist ja need hõlmavad { $spread_h } h: ajamärgised järgivad mootori eeldust, et iga satelliit algab hetkel t = 0, samas kui iga asukoht pööratakse GCRS- ja Maaga seotud süsteemi selle satelliidi enda ajahetkel. SP3 ja OEM eksport märgivad t = 0 hoopis kui 2000-01-01T00:00:00Z
 
@@ -10092,6 +10093,10 @@ engine-e-orbit-omm-export-requires-tle-defined = OMM eksport nõuab TLE-ga mää
 engine-e-passes-earth-orientation-parameters-out-of = Maa orientatsiooniparameetrid väljaspool vahemikku: |ut1_minus_utc_s| <= 1, |xp_arcsec| ja |yp_arcsec| <= 2
 
 engine-e-pvt-no-priori-position-set-apriori = a priori positsiooni ei ole: sea apriori_ecef, vaatluspäise APPROX POSITION XYZ või truth_ecef
+engine-e-gnss-slots-unknown-set = tundmatu pesade komplekt `{ $name }` (teada: { $sets })
+engine-e-gnss-slots-out-of-range = pesa `{ $id }`: `{ $field }` puudub, ei ole lõplik või on vahemikust väljas
+engine-e-gnss-slots-geo-needs-lon = GEO-pesa `{ $id }` vajab väärtust lon_deg
+engine-e-gnss-slots-igso-needs-one-longitude = IGSO-pesa `{ $id }` vajab nullist erinevat inclination_deg ja täpselt ühte väärtustest crossing_lon_deg ja center_lon_deg
 
 engine-e-python-pll-bws-dll-bws-spacings = pll_bws, dll_bws, spacings ja coherents ei saa olla koos väärtusega design: pühkimine käivitab iga faili kujunduse
 
@@ -10774,6 +10779,73 @@ engine-e-lunar-interop-unknown-time-system = tundmatu ajasüsteem { $time_system
 engine-e-lunar-interop-unregistered-time-system = TIME_SYSTEM { $time_system } ei ole SANA Time Systems registris, mida CCSDS OEM kasutab; seadke allow_unregistered_time_system = true, et see siiski kirjutada (COMMENT ütleb seda), või kasutage TDB-d
 engine-e-lunar-interop-bad-step = step_min peab olema lõplik mittenegatiivne minutite arv, mitte { $step }
 
+## Probability of collision, Foster 2D (src/orbit_data/pc.rs)
+engine-e-orbit-data-pc-radius = --hbr vajab ühendatud kõva keha raadiust meetrites, positiivset arvu
+engine-e-orbit-data-pc-no-relative-velocity = kahel objektil on sama kiirus: kohtumistasandit ei ole
+engine-e-orbit-data-pc-not-positive-definite = kohtumistasandile projitseeritud ühendkovariatsioon ei ole positiivselt määratud (väiksem omaväärtus { $lambda } m²)
+engine-e-orbit-data-pc-not-finite = oleku- või kovariatsiooniväärtus ei ole lõplik arv
+engine-e-orbit-data-pc-missing-data = CDM ei sisalda kahte objekti, millest kummalgi on olek (X kuni Z_DOT) ja RTN-kovariatsioon (CR_R kuni CNDOT_NDOT)
+engine-e-orbit-data-pc-frame-mismatch = kahe objekti REF_FRAME erinevad ({ $a } ja { $b }); Pc vajab mõlemat olekut samas süsteemis
+
+## Regional RNSS signal designer (src/rnss_design.rs)
+engine-rnss-design-usage = kasutus: kshana rnss-design profiles | run <profile|profile.toml> [--band-mhz <B>] [--cn0 <dB-Hz>] [--discriminator non-coherent|coherent] [--with-gps l1,l2,l5|none] [--phase-sigma-m <m>] [--out <report.json>]   (kshana.rnss-profile/1 signals: spectra, spectral separation, multi-band RTK settings; MODELLED; docs/RNSS-DESIGN.md)
+engine-e-rnss-design-missing-value = { $option } vajab väärtust
+engine-e-rnss-design-unknown-option = tundmatu valik { $option } (valikud loetleb kshana rnss-design --help)
+engine-e-rnss-design-cannot-read = faili { $path } ei saa lugeda: { $e }
+engine-e-rnss-design-cannot-write = faili { $path } ei saa kirjutada: { $e }
+engine-e-rnss-design-bad-number = { $option }: { $value } ei ole kehtiv arv
+engine-e-rnss-design-bad-profile = ei ole kasutatav kshana.rnss-profile/1 fail: { $e }
+engine-e-rnss-design-unknown-profile = sisseehitatud profiili { $name } ei ole (sisseehitatud: { $names }); andke selle asemel profiilifaili tee
+engine-e-rnss-design-unknown-gps = tundmatu GPS-kandja { $name } valikule --with-gps (l1, l2, l5 või none)
+
+## Transparency-log verifier (src/tlog.rs)
+engine-tlog-usage = kasutus: kshana tlog verify-inclusion <proof.json> [--entry <entry.json>] [--sth <sth.json>] | verify-consistency <proof.json> [--sth-from <sth.json>] [--sth-to <sth.json>] | verify-sth <sth.json> [--entries <entries.jsonl>] | verify-daily-root <statement.json> [--tsa-ca <roots.pem>] [--tsa-certs <certs.pem>] | verify-key-history <history.jsonl> [--first-key <hex>]   (signed statements: --key <hex> or --key-history <history.jsonl>; --format <id>; --json; offline RFC 6962/9162 log verification; docs/TLOG.md)
+engine-e-tlog-missing-value = { $option } vajab väärtust
+engine-e-tlog-cannot-read = faili { $path } ei saa lugeda: { $e }
+engine-e-tlog-unknown-option = tundmatu valik { $option } (kshana tlog --help loetleb valikud)
+engine-tlog-check-pass = PASS { $id }: { $detail }
+engine-tlog-check-fail = FAIL { $id }: { $detail }
+engine-tlog-fact = { $key } = { $value }
+engine-tlog-verdict-pass = tlog { $command }: kõik kontrollid läbitud
+engine-tlog-verdict-fail = tlog { $command }: { $n } kontrolli ebaõnnestus
+engine-tlog-not-anchored = ankurdamata (avaldusel pole ajatempleid)
+engine-tlog-no-tsa-roots = ajatempliasutuse juuri pole antud (--tsa-ca): tõendi allkirja ja ahelat ei kontrollita
+engine-tlog-no-endorsement = eelmise võtme kinnitus puudub
+engine-e-tlog-entry-not-object = logikirje peab olema JSON-objekt
+engine-e-tlog-entry-missing-field = logikirjel puudub { $field }
+engine-e-tlog-entry-bad-field = logikirje väljal { $field } on vale kuju
+engine-e-tlog-bad-key = avalik võti peab olema 64 kuueteistkümnendnumbrit (32 baiti, Ed25519)
+engine-e-tlog-missing-field = dokumendis puudub { $field }
+engine-e-tlog-bad-field = { $field } on vale kujuga (räsid on 64 kuueteistkümnendnumbrit, suurused ja indeksid täisarvud)
+engine-e-tlog-needs-key = allkirjastatud avaldus vajab --key <hex> või --key-history <history.jsonl>
+engine-e-tlog-bad-json = vigane JSON: { $e }
+engine-e-tlog-bad-json-line = rida { $line } pole kehtiv JSON: { $e }
+engine-e-tlog-bad-json-file = { $path } pole kehtiv JSON: { $e }
+engine-e-tlog-key-and-history = andke --key või --key-history, mitte mõlemad
+engine-e-tlog-history-failed = võtmeajalugu { $path } ei kontrollu, seega ei saa see võtmeid anda
+engine-e-tlog-verification-failed = tlog { $command }: kontroll ebaõnnestus (ülal olev aruanne loetleb iga kontrolli)
+
+## Signed-directory verification (src/evidence/signed_dir.rs)
+engine-evidence-dir-usage = kshana evidence verify-dir <dir> [--trust <hex|file>]... [--json]   allkirjastatud kataloog (signature.json); väljumiskood 0 läbitud, 1 ebaõnnestus, 3 terve, kuid võti pole usaldatud
+engine-evidence-dir-statement = { $format }, allkirjastaja { $signer }, aeg { $utc }, võtme ID { $key_id }, loetletud faile { $n }
+engine-evidence-dir-signature-valid = PASS allkiri: Ed25519 võtmega { $key }
+engine-evidence-dir-signature-invalid = FAIL allkiri: ei kontrollu võtmega { $key }
+engine-evidence-dir-problem = FAIL { $p }
+engine-evidence-dir-longterm-present = märkus: longterm.json on olemas; see lisatakse pärast allkirjastamist, allkiri seda ei kata ja siin seda ei kontrollita
+engine-evidence-dir-unsigned-fields = märkus: signature.json väljad, mida allkiri ei kata: { $fields }
+engine-evidence-dir-envelope = tööpiirid { $key }: { $value } (ainult teadmiseks)
+engine-evidence-dir-passed = kontrollitud: allkiri kehtib, kõik failid klapivad ja võti on usaldatud
+engine-evidence-dir-intact-untrusted = terve, kuid usaldamata: allkiri ja kõik failid klapivad, kuid võtit { $key } ei antud --trust abil
+engine-evidence-dir-failed = kontrollimata: { $n } probleemi või allkiri ei kontrollu
+engine-e-evidence-dir-needs-directory = verify-dir vajab allkirjastatud kataloogi
+engine-e-evidence-dir-unknown-option = tundmatu valik { $option } käsule verify-dir (--trust <hex|file>, --json)
+engine-e-evidence-dir-cannot-read = faili { $path } ei saa lugeda: { $e }
+engine-e-evidence-dir-bad-json = { $path } pole kehtiv JSON: { $e }
+engine-e-evidence-dir-bad-field = signature.json: { $field } puudub või on vale kujuga
+
+## space-receiver od-vs-tle time system
+engine-e-space-receiver-oem-time-system = see võrdlus ei loe OEM-i ajasüsteemi { $ts } (UTC, GPS, TAI või TT)
+
 engine-main-usage =
     kasutus: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }või: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10805,10 +10877,12 @@ engine-main-usage =
     { "   " }või: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }või: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }või: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
+    { "   " }või: kshana rnss-design profiles | run <profile|profile.toml> [options] (kshana rnss-design --help)
     { "   " }või: kshana space-receiver <clock|timestamps|dynamics|bench|mms|od-vs-tle> ... [--out <file.json>] (kshana space-receiver --help)
     { "   " }või: kshana feed <pack|verify|send|spectrum|leaderboard|watch> ... (kshana feed --help)
     { "   " }või: kshana register-products <verify|show|diff> ... (kshana register-products --help)
     { "   " }või: kshana register <check|crl-check|view|sign> ... (kshana register --help)
+    { "   " }või: kshana tlog verify-inclusion | verify-consistency | verify-sth | verify-daily-root | verify-key-history <file> [options] (kshana tlog --help)
     { "   " }või: kshana interference-env <evaluate|thresholds|degradation> ... (kshana interference-env --help)
     { "   " }või: kshana arctic-plan --site <lat,lon[,h]> | --place <name> [--systems <a,b,...>] [--compare] [--hours <h>] [--kp <n>] ... (kshana arctic-plan --help)
     { "   " }või: kshana lunar-afs-kit <vectors|registry|output-check|output-example|output-reexpress> ... (kshana lunar-afs-kit --help)
@@ -11926,6 +12000,7 @@ engine-orbit-data-usage =
     { "   " }või: kshana orbit-data gp-compare <a.tle> <b.tle> [--hours <h>] [--step-min <min>] [--threshold-km <km>] [--json]
     { "   " }või: kshana orbit-data gp-audit <sets.tle> ... [--at <epoch>] [--stale-days <d>] [--jump-km <km>] [--json]
     { "   " }või: kshana orbit-data cov <check|propagate|monte-carlo|synthetic|realism> <input.json> [--dt-s <s>] [--step-s <s>] [--samples <n>] [--seed <n>] [--sigma-rtn <r,t,n,rdot,tdot,ndot>] [--full]
+    { "   " }või: kshana orbit-data pc <cdm> --hbr <m> [--aliases <map.json>] [--cdm-out <file>]
     { "   " }(docs/ORBIT-DATA.md)
 engine-e-orbit-data-unknown-message = { $path } ei ole CDM, OEM (KVN) ega OCM: puudub rida CCSDS_CDM_VERS, CCSDS_OEM_VERS või CCSDS_OCM_VERS ning juur <cdm> või <ocm>
 engine-e-orbit-data-bad-flag = { $flag } { $value }: kasutamiskõlbmatu väärtus
@@ -11994,7 +12069,9 @@ engine-bench-task-has-no-holdout = ülesandel ({ $task }) pole kõrvalejäetud j
 engine-bench-unknown-baseline = tundmatu baastase `{ $name }`
 
 engine-bench-g-no-traces = kataloogis { $root } pole faili <drive>/<phone>/ground_truth.csv
-engine-bench-h-no-sequences = kataloogis { $root } pole faili <sequence>/ground_truth.txt
+engine-bench-h-no-sequences = kataloogis { $root } pole faili <sequence>/(ground_truth.txt|tk_reference.csv)
+engine-bench-h-mixed-editions = { $root } segab ülesande (h) Hongkongi ja Tokyo väljaannet (ground_truth.txt ja tk_reference.csv): laadige kumbki oma kataloogi
+engine-bench-h-baseline-skipped = baasmeetod { $baseline } jäeti vahele: selle sisendfailid ei ole kõigi radade jaoks olemas
 
 engine-bench-g-no-object = jälgede objekti `{ $key }` pole
 
@@ -12017,6 +12094,7 @@ engine-bench-golden-written = kirjutatud { $path } ({ $n } külmutatud faili)
 engine-bench-site-title-f = Ülesanne (f): kosmosesõiduki telemeetria anomaaliate tuvastamine
 
 engine-bench-site-title-g = Ülesanne (g): nutitelefoni positsioneerimise täpsus
+engine-bench-site-title-h = Ülesanne (h): positsioneerimise täpsus linnas
 
 engine-bench-site-col-ap = Keskmine täpsus
 

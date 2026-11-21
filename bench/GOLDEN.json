@@ -221,6 +221,42 @@
       "sha256": "391f1344fe72e0eb6e65b7fbee56f108c32983739f021b36c46a46fc043a2f22"
     },
     {
+      "bytes": 1842,
+      "citation_id": "kb-2-h-dev-7451ea70d7bc0d38",
+      "path": "bench/results/h-dev-kshana-spp.result.json",
+      "sha256": "3874b38a03221f2ddcd0c04a313c9666a7c5df535b03bab3f2c1e7628e8557da"
+    },
+    {
+      "bytes": 1847,
+      "citation_id": "kb-2-h-dev-d34a0d222d15eb40",
+      "path": "bench/results/h-dev-provided-nmea.result.json",
+      "sha256": "2ac863be974d92d3564a7ea566499e8ec5a9383e6d94cff344dd3dc4a1668529"
+    },
+    {
+      "bytes": 1855,
+      "citation_id": "kb-2-h-test-ca1bfb391cd2dc45",
+      "path": "bench/results/h-test-kshana-spp.result.json",
+      "sha256": "011e58a024223b13767b69dfa4cd50ecf7bdcd2387a762276a459a76c66532bd"
+    },
+    {
+      "bytes": 1858,
+      "citation_id": "kb-2-h-test-ab7ce65dee66103b",
+      "path": "bench/results/h-test-provided-nmea.result.json",
+      "sha256": "fc435410aac611da40b82d296dddd358c4e2b2bafb93dffefa95258d6eb7e692"
+    },
+    {
+      "bytes": 1470,
+      "citation_id": "kb-2-h-dev-af9e9138ecd47770",
+      "path": "bench/results/h-tokyo-dev-kshana-spp.result.json",
+      "sha256": "cf0d5a3af44a24a0f19fe013204b62f7cc6bdc4c0dd3bd4a9a2a7ef171906ad4"
+    },
+    {
+      "bytes": 1469,
+      "citation_id": "kb-2-h-test-da56072b8697194e",
+      "path": "bench/results/h-tokyo-test-kshana-spp.result.json",
+      "sha256": "feefa28f6dab45b4dd83f0be2d3658dc8d43218e92ea4f2cd2d8b75f24103ec3"
+    },
+    {
       "bytes": 1195,
       "citation_id": "kb-1-a-dev-19990131ee34f23c",
       "path": "bench/results-v1/a-dev-agc-k-sigma.result.json",

@@ -184,6 +184,11 @@ result document, and the data file has the `iq.sigmf.data_bytes` length. The wri
 - Satellites keep the positional identifiers `G01`, `G02`, ... the SP3 and OEM exports
   give them, because the propagators do not carry the TLE name lines.
 
+  A `gnss-sim` scenario's GEO and IGSO slots ([GNSS slots](GNSS-SLOTS.md)) follow its Walker shell as
+  satellites `S01`, `S02`, ..., on the same epoch and times; each description names the slot set, the slot,
+  its source and where its phase comes from. The test-bench export lists the same slots in the motion
+  metadata (`space_segment`), since a bench sets up the satellites the receiver is to see.
+
 ## Imports
 
 - **GeoJSON route.** `--import-route <file>` (library: `interop::geojson::apply_route`)
@@ -453,6 +458,7 @@ stale.
 | `mission-thread-short.toml` | `mission-thread` | no [4] | no [4] | no [4] | no [4] | no [2] |
 | `moonlight-service-volume.toml` | `moonlight-service-volume` | no [10] | no [10] | no [10] | no [10] | no [2] |
 | `multi-band-jamming-waterfall.toml` | `spectrum` | no [4] | no [4] | no [4] | no [4] | no [17] |
+| `navic-regional.toml` | `gnss-sim` | yes | yes | yes | yes | no [2] |
 | `ntn-5g-positioning.toml` | `ntn-positioning` | no [9] | no [9] | no [9] | no [9] | no [2] |
 | `oem-interop.toml` | `oem-interop` | no [18] | no [18] | no [18] | no [18] | no [2] |
 | `optical-atmosphere-network.toml` | `optical-atmosphere` | no [19] | no [19] | no [19] | no [19] | no [2] |

@@ -3,13 +3,15 @@
 //! interference layer from RINEX observations, and the ground-against-airborne comparison.**
 //! MODELLED.
 //!
-//! * [`build`] reads daily ADS-B (or AIS) map products (`kshana interference-map` GeoJSON) and
-//!   states, per cell: the days with a call (`degraded` or `not_degraded`), the days degraded,
+//! * [`build`] reads daily ADS-B (or AIS) map products (`kshana interference-map` GeoJSON, or the
+//!   observatory day products of `kshana interference-map daily`) and states, per cell: the days with a call (`degraded` or `not_degraded`), the days degraded,
 //!   the persistence (degraded over called days) with a Wilson 95 % interval, and the first and
 //!   last degraded day. Cells degraded on at least [`AtlasParams::min_days`] days with a
 //!   persistence of at least [`AtlasParams::min_persistence`] form **zones**: groups of such
 //!   cells touching at an edge or a corner, each with its bounding box, cell count, degraded
-//!   days and dates. The atlas carries the SHA-256 of every input file and a **version**: the
+//!   days and dates. The atlas carries the data licence and attribution blocks of its inputs
+//!   (`data_sources`: an atlas built from ODbL data is a derived database under ODbL), the
+//!   SHA-256 of every input file and a **version**: the
 //!   SHA-256 of its own canonical content (inputs, parameters, cells and zones). `verify`
 //!   recomputes it, so a changed atlas is detected; `--previous` records the version it
 //!   supersedes, so versions form a chain and none is edited in place.
@@ -99,10 +101,17 @@ pub fn build(
     let mut source: Option<String> = None;
     let mut files = Vec::new();
     let mut dates = BTreeSet::new();
+    let mut data_sources: Vec<Value> = Vec::new();
     for (name, text) in inputs {
         let v: Value =
             serde_json::from_str(text).map_err(|_| AtlasError::NotAProduct(name.clone()))?;
-        let meta = &v["kshana_interference_map"];
+        // A map product (`kshana_interference_map`) or an observatory day product
+        // (`kshana_observatory`, whose cells carry `state` instead of `status`).
+        let meta = if v["kshana_interference_map"].is_object() {
+            &v["kshana_interference_map"]
+        } else {
+            &v["kshana_observatory"]
+        };
         let (Some(date), Some(deg), Some(features)) = (
             meta["date"].as_str(),
             meta["grid"]["cell_deg"].as_f64(),
@@ -127,13 +136,16 @@ pub fn build(
         grid_deg = Some(deg);
         source = Some(src);
         dates.insert(date.to_string());
+        if meta["data"].is_object() && !data_sources.contains(&meta["data"]) {
+            data_sources.push(meta["data"].clone());
+        }
         files.push(json!({"name": name, "sha256": sha256_hex(text.as_bytes()), "date": date}));
         for f in features {
             let pr = &f["properties"];
             let (Some(i), Some(j), Some(status)) = (
                 pr["cell_i"].as_i64(),
                 pr["cell_j"].as_i64(),
-                pr["status"].as_str(),
+                pr["status"].as_str().or_else(|| pr["state"].as_str()),
             ) else {
                 continue;
             };
@@ -227,6 +239,7 @@ pub fn build(
         "dates": {"first": dates.iter().next(), "last": dates.iter().next_back(), "count": dates.len()},
         "inputs": files,
         "previous_version": previous,
+        "data_sources": data_sources,
         "cells": cell_rows,
         "zones": zones,
     });

@@ -2746,6 +2746,7 @@ engine-e-interop-scene-missing-integer-waypoints = `waypoints` entier manquant
 engine-e-interop-scene-waypoints-is-outside-1000000 = waypoints = { $n } est hors de 1..=1000000
 
 engine-interop-scene-walker-at-km-deg-inclination = Walker { $w }/{ $planes }/{ $phasing_f } à { $altitude_km } km, inclinaison { $inclination_deg } deg (SGP4)
+engine-interop-scene-gnss-slot = position { $id } de { $set } (position nominale géosynchrone à deux corps, MODELLED) ; source : { $source } ; phase : { $phase }
 
 engine-interop-scene-the-scenario-gives-no-epoch = le scénario ne donne pas d'`epoch` ; t = 0 est { $epoch }, la plus ancienne époque contenue dans les données propres des satellites (époque TLE, d'éphéméride diffusée ou SP3). Chaque satellite est propagé depuis sa propre époque, et celles-ci s'étendent sur { $spread_h } h : les étiquettes de temps suivent la prémisse du moteur selon laquelle tous les satellites partent de t = 0, tandis que chaque position est tournée dans les référentiels GCRS et fixe par rapport à la Terre à l'instant propre de ce satellite. Les exports SP3 et OEM étiquettent à la place t = 0 comme 2000-01-01T00:00:00Z
 
@@ -10240,6 +10241,10 @@ engine-e-orbit-omm-export-requires-tle-defined = l'export OMM nécessite une con
 engine-e-passes-earth-orientation-parameters-out-of = paramètres d'orientation de la Terre hors plage : |ut1_minus_utc_s| <= 1, |xp_arcsec| et |yp_arcsec| <= 2
 
 engine-e-pvt-no-priori-position-set-apriori = aucune position a priori : définissez apriori_ecef, un APPROX POSITION XYZ d'en-tête d'observation, ou truth_ecef
+engine-e-gnss-slots-unknown-set = jeu de positions inconnu `{ $name }` (connus : { $sets })
+engine-e-gnss-slots-out-of-range = position `{ $id }` : `{ $field }` est absent, non fini ou hors plage
+engine-e-gnss-slots-geo-needs-lon = la position GEO `{ $id }` requiert lon_deg
+engine-e-gnss-slots-igso-needs-one-longitude = la position IGSO `{ $id }` requiert une inclination_deg non nulle et exactement un de crossing_lon_deg et center_lon_deg
 
 engine-e-python-pll-bws-dll-bws-spacings = pll_bws, dll_bws, spacings et coherents ne peuvent pas être combinés avec design : le balayage exécute toutes les conceptions du fichier
 
@@ -10922,6 +10927,73 @@ engine-e-lunar-interop-unknown-time-system = système de temps inconnu { $time_s
 engine-e-lunar-interop-unregistered-time-system = TIME_SYSTEM { $time_system } ne figure pas au registre SANA Time Systems utilisé par CCSDS OEM ; mettez allow_unregistered_time_system = true pour l'écrire quand même (un COMMENT le signale) ou utilisez TDB
 engine-e-lunar-interop-bad-step = step_min doit être un nombre fini et positif ou nul de minutes, pas { $step }
 
+## Probability of collision, Foster 2D (src/orbit_data/pc.rs)
+engine-e-orbit-data-pc-radius = --hbr attend le rayon combiné des corps en mètres, un nombre positif
+engine-e-orbit-data-pc-no-relative-velocity = les deux objets ont la même vitesse : il n'y a pas de plan de rencontre
+engine-e-orbit-data-pc-not-positive-definite = la covariance combinée projetée sur le plan de rencontre n'est pas définie positive (plus petite valeur propre { $lambda } m²)
+engine-e-orbit-data-pc-not-finite = une valeur d'état ou de covariance n'est pas un nombre fini
+engine-e-orbit-data-pc-missing-data = le CDM ne contient pas deux objets ayant chacun un état (X à Z_DOT) et une covariance RTN (CR_R à CNDOT_NDOT)
+engine-e-orbit-data-pc-frame-mismatch = les REF_FRAME des deux objets diffèrent ({ $a } et { $b }) ; la Pc exige les deux états dans un même repère
+
+## Regional RNSS signal designer (src/rnss_design.rs)
+engine-rnss-design-usage = utilisation : kshana rnss-design profiles | run <profile|profile.toml> [--band-mhz <B>] [--cn0 <dB-Hz>] [--discriminator non-coherent|coherent] [--with-gps l1,l2,l5|none] [--phase-sigma-m <m>] [--out <report.json>]   (kshana.rnss-profile/1 signals: spectra, spectral separation, multi-band RTK settings; MODELLED; docs/RNSS-DESIGN.md)
+engine-e-rnss-design-missing-value = { $option } exige une valeur
+engine-e-rnss-design-unknown-option = option inconnue { $option } (kshana rnss-design --help liste les options)
+engine-e-rnss-design-cannot-read = impossible de lire { $path } : { $e }
+engine-e-rnss-design-cannot-write = impossible d'écrire { $path } : { $e }
+engine-e-rnss-design-bad-number = { $option } : { $value } n'est pas un nombre valide
+engine-e-rnss-design-bad-profile = pas un fichier kshana.rnss-profile/1 utilisable : { $e }
+engine-e-rnss-design-unknown-profile = aucun profil intégré { $name } (intégrés : { $names }) ; donnez plutôt le chemin d'un fichier de profil
+engine-e-rnss-design-unknown-gps = porteuse GPS inconnue { $name } pour --with-gps (l1, l2, l5 ou none)
+
+## Transparency-log verifier (src/tlog.rs)
+engine-tlog-usage = utilisation : kshana tlog verify-inclusion <proof.json> [--entry <entry.json>] [--sth <sth.json>] | verify-consistency <proof.json> [--sth-from <sth.json>] [--sth-to <sth.json>] | verify-sth <sth.json> [--entries <entries.jsonl>] | verify-daily-root <statement.json> [--tsa-ca <roots.pem>] [--tsa-certs <certs.pem>] | verify-key-history <history.jsonl> [--first-key <hex>]   (signed statements: --key <hex> or --key-history <history.jsonl>; --format <id>; --json; offline RFC 6962/9162 log verification; docs/TLOG.md)
+engine-e-tlog-missing-value = { $option } attend une valeur
+engine-e-tlog-cannot-read = impossible de lire { $path } : { $e }
+engine-e-tlog-unknown-option = option inconnue { $option } (kshana tlog --help liste les options)
+engine-tlog-check-pass = PASS { $id } : { $detail }
+engine-tlog-check-fail = FAIL { $id } : { $detail }
+engine-tlog-fact = { $key } = { $value }
+engine-tlog-verdict-pass = tlog { $command } : toutes les vérifications ont réussi
+engine-tlog-verdict-fail = tlog { $command } : { $n } vérification(s) en échec
+engine-tlog-not-anchored = non ancré (la déclaration n'a pas d'horodatage)
+engine-tlog-no-tsa-roots = aucune racine d'autorité d'horodatage fournie (--tsa-ca) : la signature et la chaîne du jeton ne sont pas vérifiées
+engine-tlog-no-endorsement = aucune approbation par la clé précédente
+engine-e-tlog-entry-not-object = une entrée du journal doit être un objet JSON
+engine-e-tlog-entry-missing-field = une entrée du journal n'a pas de { $field }
+engine-e-tlog-entry-bad-field = le champ { $field } d'une entrée du journal a une forme incorrecte
+engine-e-tlog-bad-key = une clé publique doit comporter 64 chiffres hexadécimaux (32 octets, Ed25519)
+engine-e-tlog-missing-field = le document n'a pas de { $field }
+engine-e-tlog-bad-field = { $field } a une forme incorrecte (les empreintes font 64 chiffres hexadécimaux, tailles et indices sont des entiers)
+engine-e-tlog-needs-key = une déclaration signée nécessite --key <hex> ou --key-history <history.jsonl>
+engine-e-tlog-bad-json = JSON non valide : { $e }
+engine-e-tlog-bad-json-line = la ligne { $line } n'est pas du JSON valide : { $e }
+engine-e-tlog-bad-json-file = { $path } n'est pas du JSON valide : { $e }
+engine-e-tlog-key-and-history = indiquez --key ou --key-history, pas les deux
+engine-e-tlog-history-failed = l'historique des clés { $path } ne se vérifie pas et ne peut donc pas fournir de clés
+engine-e-tlog-verification-failed = tlog { $command } : échec de la vérification (le rapport ci-dessus liste chaque vérification)
+
+## Signed-directory verification (src/evidence/signed_dir.rs)
+engine-evidence-dir-usage = kshana evidence verify-dir <dir> [--trust <hex|file>]... [--json]   répertoire signé (signature.json) ; code 0 réussi, 1 échec, 3 intact mais la clé n'est pas de confiance
+engine-evidence-dir-statement = { $format } signé par { $signer } le { $utc }, identifiant de clé { $key_id }, { $n } fichiers listés
+engine-evidence-dir-signature-valid = PASS signature : Ed25519 avec la clé { $key }
+engine-evidence-dir-signature-invalid = FAIL signature : ne se vérifie pas avec la clé { $key }
+engine-evidence-dir-problem = FAIL { $p }
+engine-evidence-dir-longterm-present = remarque : longterm.json est présent ; il est ajouté après la signature, n'est pas couvert par elle et n'est pas vérifié ici
+engine-evidence-dir-unsigned-fields = remarque : champs de signature.json non couverts par la signature : { $fields }
+engine-evidence-dir-envelope = enveloppe d'exploitation { $key } : { $value } (information seulement)
+engine-evidence-dir-passed = vérifié : la signature est valide, chaque fichier correspond et la clé est de confiance
+engine-evidence-dir-intact-untrusted = intact mais pas de confiance : la signature et chaque fichier sont corrects, mais la clé { $key } n'a pas été donnée avec --trust
+engine-evidence-dir-failed = non vérifié : { $n } problème(s), ou la signature ne se vérifie pas
+engine-e-evidence-dir-needs-directory = verify-dir a besoin du répertoire signé
+engine-e-evidence-dir-unknown-option = option inconnue { $option } pour verify-dir (--trust <hex|file>, --json)
+engine-e-evidence-dir-cannot-read = impossible de lire { $path } : { $e }
+engine-e-evidence-dir-bad-json = { $path } n'est pas du JSON valide : { $e }
+engine-e-evidence-dir-bad-field = signature.json : { $field } est absent ou a une forme incorrecte
+
+## space-receiver od-vs-tle time system
+engine-e-space-receiver-oem-time-system = cette comparaison ne lit pas le système de temps OEM { $ts } (UTC, GPS, TAI ou TT)
+
 engine-main-usage =
     utilisation : kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }ou : kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10953,10 +11025,12 @@ engine-main-usage =
     { "   " }ou : kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }ou : kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }ou : kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
+    { "   " }ou : kshana rnss-design profiles | run <profile|profile.toml> [options] (kshana rnss-design --help)
     { "   " }ou : kshana space-receiver <clock|timestamps|dynamics|bench|mms|od-vs-tle> ... [--out <file.json>] (kshana space-receiver --help)
     { "   " }ou : kshana feed <pack|verify|send|spectrum|leaderboard|watch> ... (kshana feed --help)
     { "   " }ou : kshana register-products <verify|show|diff> ... (kshana register-products --help)
     { "   " }ou : kshana register <check|crl-check|view|sign> ... (kshana register --help)
+    { "   " }ou : kshana tlog verify-inclusion | verify-consistency | verify-sth | verify-daily-root | verify-key-history <file> [options] (kshana tlog --help)
     { "   " }ou : kshana interference-env <evaluate|thresholds|degradation> ... (kshana interference-env --help)
     { "   " }ou : kshana arctic-plan --site <lat,lon[,h]> | --place <name> [--systems <a,b,...>] [--compare] [--hours <h>] [--kp <n>] ... (kshana arctic-plan --help)
     { "   " }ou : kshana lunar-afs-kit <vectors|registry|output-check|output-example|output-reexpress> ... (kshana lunar-afs-kit --help)
@@ -12077,6 +12151,7 @@ engine-orbit-data-usage =
     { "   " }ou : kshana orbit-data gp-compare <a.tle> <b.tle> [--hours <h>] [--step-min <min>] [--threshold-km <km>] [--json]
     { "   " }ou : kshana orbit-data gp-audit <sets.tle> ... [--at <epoch>] [--stale-days <d>] [--jump-km <km>] [--json]
     { "   " }ou : kshana orbit-data cov <check|propagate|monte-carlo|synthetic|realism> <input.json> [--dt-s <s>] [--step-s <s>] [--samples <n>] [--seed <n>] [--sigma-rtn <r,t,n,rdot,tdot,ndot>] [--full]
+    { "   " }ou : kshana orbit-data pc <cdm> --hbr <m> [--aliases <map.json>] [--cdm-out <file>]
     { "   " }(docs/ORBIT-DATA.md)
 engine-e-orbit-data-unknown-message = { $path } n'est ni un CDM, ni un OEM (KVN), ni un OCM : pas de ligne CCSDS_CDM_VERS, CCSDS_OEM_VERS ou CCSDS_OCM_VERS et pas de racine <cdm> ou <ocm>
 engine-e-orbit-data-bad-flag = { $flag } { $value } : valeur inutilisable
@@ -12145,7 +12220,9 @@ engine-bench-task-has-no-holdout = la tâche ({ $task }) n’a pas de partition 
 engine-bench-unknown-baseline = référence de base inconnue `{ $name }`
 
 engine-bench-g-no-traces = aucun <drive>/<phone>/ground_truth.csv sous { $root }
-engine-bench-h-no-sequences = aucun <sequence>/ground_truth.txt sous { $root }
+engine-bench-h-no-sequences = aucun <sequence>/(ground_truth.txt|tk_reference.csv) sous { $root }
+engine-bench-h-mixed-editions = { $root } mélange les éditions Hong Kong et Tokyo de la tâche (h) (ground_truth.txt et tk_reference.csv) : récupérez chacune dans son propre répertoire
+engine-bench-h-baseline-skipped = référence { $baseline } ignorée : ses fichiers d’entrée ne sont pas présents pour chaque trace
 
 engine-bench-g-no-object = aucun objet `{ $key }` de traces
 
@@ -12168,6 +12245,7 @@ engine-bench-golden-written = { $path } écrit ({ $n } fichiers figés)
 engine-bench-site-title-f = Tâche (f) : détection d’anomalies dans la télémesure d’engin spatial
 
 engine-bench-site-title-g = Tâche (g) : précision de positionnement sur smartphone
+engine-bench-site-title-h = Tâche (h) : précision de positionnement en ville
 
 engine-bench-site-col-ap = Précision moyenne
 

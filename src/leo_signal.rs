@@ -152,14 +152,18 @@ pub enum SourceClass {
     Workshop,
     /// Not published: a representative value chosen for the trade, labelled as such.
     Representative,
+    /// A candidate design from a published study, not a specification of any system.
+    Candidate,
 }
 
 impl SourceClass {
-    fn as_str(self) -> &'static str {
+    /// The label written in reports.
+    pub fn as_str(self) -> &'static str {
         match self {
             SourceClass::Public => "PUBLIC",
             SourceClass::Workshop => "WORKSHOP",
             SourceClass::Representative => "REPRESENTATIVE",
+            SourceClass::Candidate => "CANDIDATE",
         }
     }
 }
@@ -228,7 +232,9 @@ impl Shape {
     /// The narrowest spectral feature (Hz), which sets the integration resolution.
     pub fn lobe_hz(&self) -> f64 {
         match *self {
-            Shape::Mod(Modulation::BocSin { m, n }) => m.min(n) * F0_HZ,
+            Shape::Mod(Modulation::BocSin { m, n }) | Shape::Mod(Modulation::BocCos { m, n }) => {
+                m.min(n) * F0_HZ
+            }
             Shape::Mod(Modulation::Mboc { .. }) => F0_HZ,
             Shape::Mod(m) => m.chip_rate_hz(),
             Shape::Flat { bandwidth_hz } => bandwidth_hz / 4.0,

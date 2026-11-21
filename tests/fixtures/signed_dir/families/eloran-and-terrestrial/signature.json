@@ -1,0 +1,22 @@
+{
+  "format": "kshana-dossier-signature/1",
+  "signer": "Test signer (synthetic)",
+  "utc": "2026-11-21T10:06:00Z",
+  "public_key": "a729ef7c772d4bf0da7a88d434bc2d4003084c548641bdfa1e5bbc3c7fb2b209",
+  "key_id": "d1a061cbd94f3655",
+  "files": [
+    {
+      "path": "inputs/eloran-and-terrestrial.txt",
+      "sha256": "2ec65920338287cc61d9d4f656b83a4192c2536b3c98fc09bcf04a75ab73cc90"
+    },
+    {
+      "path": "operating-envelope.json",
+      "sha256": "e169f7ed1cb2011b2df45177215620f3f3206350700e967464e4aeeb89c8c52a"
+    },
+    {
+      "path": "report.json",
+      "sha256": "b5dc763844e22022b77fefda7d73007db131c8a98be0a1d6fdcd4dc7de04a3c1"
+    }
+  ],
+  "signature": "8aed6dc0c31e394b634f46dde801cebcc5d7044ecdad64d7b3da57e5e3b5f6bfe3b55218d48f874ad0ad1c3465d4fda768f01b23a74aa2c176525484e96c2507"
+}

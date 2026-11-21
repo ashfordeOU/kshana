@@ -54,8 +54,8 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/api.rs": {
-   "count": 993,
-   "reason": "identifier and machine-format: kind ids and TOML field names of the kind catalogue; the descriptions of the new lunar, mission-thread and tip-and-cue kinds are served by list_scenario_kinds and move to the catalogue with the kind descriptions (tests/i18n_kinds.rs); the allow_unregistered_time_system field name of lunar-interop-export."
+   "count": 994,
+   "reason": "identifier and machine-format: kind ids and TOML field names of the kind catalogue; the descriptions of the new lunar, mission-thread and tip-and-cue kinds are served by list_scenario_kinds and move to the catalogue with the kind descriptions (tests/i18n_kinds.rs); the allow_unregistered_time_system field name of lunar-interop-export; the gnss-sim slot_sets and slots field names."
   },
   "src/api/builtins.rs": {
    "count": 88,
@@ -118,8 +118,8 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/bench/urban.rs": {
-   "count": 13,
-   "reason": "identifier and machine-document: the task (h) spec version and baseline names, the file names of the fetch-script layout (ground_truth.txt, nav.rnx), the JSON keys of the task (h) truth and predictions documents, and the English `label` written into the result document (bench/SPEC.md, task (h))."
+   "count": 23,
+   "reason": "identifier and machine-document: the task (h) spec version and baseline names, the file names of the fetch-script layouts (ground_truth.txt, reference.csv, nav.rnx), the publisher's column names of the Tokyo reference.csv, the /tokyo edition suffix of the baseline system name, the JSON keys of the task (h) truth and predictions documents, and the English `label` written into the result document (bench/SPEC.md, task (h))."
   },
   "src/benchmark/faults.rs": {
    "count": 9,
@@ -150,8 +150,8 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/bundled_scenarios.rs": {
-   "count": 206,
-   "reason": "bundled scenario file names mission-thread-short.toml, tip-and-cue-baltic-m2, tip-and-cue-short, gnss-ssv-geo, gnss-ssv-gto and gnss-ssv-nav-geo (machine data, not user-facing text)"
+   "count": 207,
+   "reason": "bundled scenario file names mission-thread-short.toml, tip-and-cue-baltic-m2, tip-and-cue-short, gnss-ssv-geo, gnss-ssv-gto, gnss-ssv-nav-geo and navic-regional (machine data, not user-facing text)"
   },
   "src/calibration_ensembles.rs": {
    "count": 14,
@@ -229,13 +229,17 @@
    "count": 2,
    "reason": "machine-document: the test <n>: prefix before a catalogued error, and the <path>: <error> prefix of an operating-system or parse error"
   },
+  "src/gnss_slots.rs": {
+   "count": 6,
+   "reason": "identifier: the names of the compiled-in slot sets and the slot field names named verbatim in the catalogued e-gnss-slots-out-of-range error (docs/GNSS-SLOTS.md)"
+  },
   "src/interconnect/mavlink_table.rs": {
    "count": 1,
    "reason": "identifier: the generated table's record of the mavlink/mavlink definitions commit (a hash), never shown as prose"
   },
   "src/interference_atlas.rs": {
-   "count": 34,
-   "reason": "machine-document and identifier: the kshana.interference-atlas/1 and kshana.cors-cn0-layer/1 documents (schema and method ids, field names, status values and notes written into those machine documents) and the map product's status names (docs/INTERFERENCE-ATLAS.md)"
+   "count": 37,
+   "reason": "machine-document and identifier: the kshana.interference-atlas/1 and kshana.cors-cn0-layer/1 documents (schema and method ids, field names, status values and notes written into those machine documents) the map product's status names, and the observatory day product's keys it reads (kshana_observatory, state) and the data_sources field (docs/INTERFERENCE-ATLAS.md)"
   },
   "src/interference_env.rs": {
    "count": 18,
@@ -332,6 +336,10 @@
   "src/register_products.rs": {
    "count": 10,
    "reason": "machine-document and identifier: pack-check results, status words printed in the register view (REVOKED and the like), curl arguments, option names and schema ids"
+  },
+  "src/rnss_design.rs": {
+   "count": 6,
+   "reason": "machine-document and identifier: the kshana.rnss-design/1 evidence label, the discriminator option values, and the GPS carrier signal description built as TOML"
   },
   "src/rtcm_ssr.rs": {
    "count": 3,
@@ -442,8 +450,8 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/evidence/cli.rs": {
-   "count": 11,
-   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
+   "count": 12,
+   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md); +1 identifier: the option name --trust passed as the `name` variable of the catalogued e-evidence-cli-needs-value message."
   },
   "src/evidence/html.rs": {
    "count": 31,
@@ -674,8 +682,8 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/interop/testbench.rs": {
-   "count": 52,
-   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
+   "count": 54,
+   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md); the space_segment key and note of the motion metadata (the gnss-sim slots)"
   },
   "src/ionex.rs": {
    "count": 22,
@@ -1210,8 +1218,8 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/main.rs": {
-   "count": 98,
-   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md); clock-live prints its error text as given; the sensor-live command name; the device and bench-speed command names; the data-pack, area-trust and env-baseline command names; the ephem-export command name; the time-vectors command name; the ais-integrity command name; the space-weather command name; the orbit-data command name; the leo-verify command name; the space-receiver command name; the sil-obs and interference-lib command names; the interference-env command name; the antenna-cal command name; the arctic-plan command name; the lunar-ref command name; the signal-readiness command name; the quantum-bench and soop-clock command names; the leo-od-plan command name; the lunar-afs-kit command name; the adsb-indicators and interference-atlas command names; the claim-check command name; the afs-interop command name; the timing-stack command name; the register-products command name; the sil-obsgen command name; the lunar-oem command name in the dispatch; the leo-sparse command name."
+   "count": 99,
+   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md); clock-live prints its error text as given; the sensor-live command name; the device and bench-speed command names; the data-pack, area-trust and env-baseline command names; the ephem-export command name; the time-vectors command name; the ais-integrity command name; the space-weather command name; the orbit-data command name; the leo-verify command name; the space-receiver command name; the sil-obs and interference-lib command names; the interference-env command name; the antenna-cal command name; the arctic-plan command name; the lunar-ref command name; the signal-readiness command name; the quantum-bench and soop-clock command names; the leo-od-plan command name; the lunar-afs-kit command name; the adsb-indicators and interference-atlas command names; the claim-check command name; the afs-interop command name; the timing-stack command name; the register-products command name; the sil-obsgen command name; the lunar-oem command name in the dispatch; the leo-sparse command name; the rnss-design command name."
   },
   "src/mars_pnt.rs": {
    "count": 31,
@@ -1569,6 +1577,10 @@
    "count": 23,
    "reason": "machine-document and identifier: schema ids, option names, SigMF file suffixes, field names and the notes written into the kshana.soop-clock-lte/1 and -cp/1 documents, and the SigMF description of the synthetic test capture (docs/SOOP-CLOCK.md)"
   },
+  "src/sp3.rs": {
+   "count": 2,
+   "reason": "machine-format: the two SP3-c %c header lines (file type and time system UTC) of the SP3 export (IGS SP3-c format)"
+  },
   "src/space_packet.rs": {
    "count": 29,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
@@ -1594,8 +1606,8 @@
    "reason": "machine-document and identifier: the schema id, verdict values, the cited source reference and the English label written into the kshana.space-receiver-mms/1 document"
   },
   "src/space_receiver/od_vs_tle.rs": {
-   "count": 3,
-   "reason": "machine-document and identifier: the schema id, the CCSDS standard id and frame names, and the English label written into the kshana.space-receiver-od-vs-tle/1 document"
+   "count": 4,
+   "reason": "machine-document and identifier: the schema id, the CCSDS standard id and frame names, and the English label written into the kshana.space-receiver-od-vs-tle/1 document; the CCSDS keyword TIME_SYSTEM and its time-system names."
   },
   "src/space_receiver/timestamps.rs": {
    "count": 23,
@@ -1732,6 +1744,10 @@
   "src/tle.rs": {
    "count": 24,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
+  },
+  "src/tlog.rs": {
+   "count": 108,
+   "reason": "machine identifiers: the check ids, JSON field names, entry classes and leaf-field order of the kshana.tlog-verify/1 report and of the log formats it reads (documented in docs/TLOG.md), and the RFC 9162 proof failure codes shown as the detail of a catalogued check line; not prose"
   },
   "src/tracking_loop.rs": {
    "count": 214,
@@ -1914,8 +1930,8 @@
    "reason": "machine-document: the CCSDS OEM and OCM keywords and block markers written into converted messages, and the PROVENANCE comment line format (docs/ORBIT-DATA.md)"
   },
   "src/orbit_data/cli.rs": {
-   "count": 17,
-   "reason": "identifier: command-line flag names, the JSON field names of the cov input and output, a finding code, and the dynamics-model field of the JSON output"
+   "count": 22,
+   "reason": "identifier: command-line flag names, the JSON field names of the cov input and output, a finding code, and the dynamics-model field of the JSON output; the pc command option names and the kshana.conjunction-pc/1 schema, note and keys of its JSON document."
   },
   "src/orbit_data/gp_quality.rs": {
    "count": 4,
@@ -2033,6 +2049,10 @@
    "count": 3,
    "reason": "identifier: the vector-format tag and the built-in vector file names (has.json, qznma.json) the scanner reads as words"
   },
+  "src/evidence/signed_dir.rs": {
+   "count": 7,
+   "reason": "machine identifiers: the file names signature.json, longterm.json and operating-envelope.json, the statement format tag and the signed-statement field names of kshana-dossier-signature/1 (documented in docs/SIGNED-DIRECTORY.md); not prose"
+  },
   "src/interference_map/incident.rs": {
    "count": 183,
    "reason": "machine-document and identifier: the kshana-interference-incidents/1 vocabulary, field names and schema tags, the validator's problem messages (written to the machine-readable report, English by design), CSV column names and the Zenodo metadata keys (docs/INTERFERENCE-INCIDENTS.md)"
@@ -2072,6 +2092,10 @@
   "src/leo_verify/tdev.rs": {
    "count": 3,
    "reason": "machine identifiers: the JSON input field names (`snake_case`, dotted paths) named verbatim in the catalogued e-leo-verify-field error, and the part names and enum values written into the JSON report; not prose"
+  },
+  "src/orbit_data/pc.rs": {
+   "count": 6,
+   "reason": "machine-document and identifier: the CDM keywords, the FOSTER-1992 method value and the MODELLED COMMENT written into the message, and the REF_FRAME keyword read from it"
   }
  }
 }

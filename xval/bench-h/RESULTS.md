@@ -3,9 +3,11 @@
 Scored once, after `PREREGISTRATION.md` was written, with
 `kshana bench baseline --task h --split <test|dev> --data <dir> --out <dir>` on the files `scripts/fetch_urbannav.sh`
 fetched and checked. The pre-registration and these results are in the same commit; the pre-registration was written
-before the first score was computed, and nothing in it was changed afterwards. Result files are not committed (the
-truth and predictions they come from hold UrbanNav positions, which this project does not redistribute);
-`tests/bench_urban.rs` recomputes every number below when `KSHANA_URBANNAV=<dir>` is set. Every number is MODELLED: it
+before the first score was computed, and nothing in it was changed afterwards. The result files are committed as
+`bench/results/h-*.result.json` (citation ids in `bench/GOLDEN.json`); they hold the scores per trace and the SHA-256
+of the truth and predictions files, and no position. The truth and predictions files themselves hold UrbanNav
+positions and are not committed. `tests/bench_urban.rs` checks the committed files and, when `KSHANA_URBANNAV=<dir>`
+is set, recomputes them and compares them metric for metric. Every number is MODELLED: it
 describes these sequences against the publisher's reference trajectory, never a receiver or a product.
 
 Splits (SHA-256 order of the sequence names): test = `deep-urban-1`, `medium-urban-1`; dev = `harsh-urban-1`,

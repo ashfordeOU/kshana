@@ -1323,6 +1323,11 @@ fn main_in_language(args: Vec<String>) -> ExitCode {
     if args.get(1).map(String::as_str) == Some("lunar-oem") {
         return ExitCode::from(kshana::lunar_oem::run_cli(&args[2..]) as u8);
     }
+    // `kshana rnss-design <profiles|run>`: a configurable regional RNSS signal model, spectra,
+    // spectral separation and multi-band RTK settings (src/rnss_design.rs, docs/RNSS-DESIGN.md).
+    if args.get(1).map(String::as_str) == Some("rnss-design") {
+        return ExitCode::from(kshana::rnss_design::run_cli(&args[2..]) as u8);
+    }
     // `kshana ais-integrity <input> [...]`: per-track AIS position-integrity flags as JSON Lines
     // (src/ais_integrity.rs, docs/AIS-INTEGRITY.md). Exit 2 on a usage or input error.
     if args.get(1).map(String::as_str) == Some("ais-integrity") {
@@ -1441,6 +1446,9 @@ fn main_in_language(args: Vec<String>) -> ExitCode {
         Some("feed") => Some(kshana::feeder::run),
         // `kshana register check|crl-check|view|sign`: the product register (src/product_register.rs).
         Some("register") => Some(kshana::product_register::run),
+        // `kshana tlog verify-inclusion|verify-consistency|verify-sth|verify-daily-root|
+        // verify-key-history`: the offline transparency-log verifier (src/tlog.rs).
+        Some("tlog") => Some(kshana::tlog::run),
         // `kshana interference-env evaluate|thresholds|degradation`: interference environments
         // against ITU-R M.1903 thresholds and the M.2030 pulsed method (src/interference_env.rs).
         Some("interference-env") => Some(kshana::interference_env::run),

@@ -2304,6 +2304,7 @@ engine-e-interop-scene-missing-integer-waypoints = 整数 `waypoints` があり�
 engine-e-interop-scene-waypoints-is-outside-1000000 = waypoints = { $n } は 1..=1000000 の範囲外です
 
 engine-interop-scene-walker-at-km-deg-inclination = Walker { $w }/{ $planes }/{ $phasing_f }、高度 { $altitude_km } km、軌道傾斜角 { $inclination_deg } deg（SGP4）
+engine-interop-scene-gnss-slot = { $set } のスロット { $id }（静止同期軌道の二体名目スロット、MODELLED）；出典：{ $source }；位相：{ $phase }
 
 engine-interop-scene-the-scenario-gives-no-epoch = シナリオに `epoch` の指定がありません。t = 0 は { $epoch } で、衛星自身のデータ（TLE、放送エフェメリスまたは SP3 の元期）が持つ最も早い元期です。各衛星はそれぞれの元期から伝搬され、それらは { $spread_h } h にわたります。時刻タグは、すべての衛星が t = 0 から始まるというエンジンの前提に従い、各位置はその衛星自身の時刻で GCRS と地球固定の座標系に回転されます。SP3 と OEM のエクスポートでは、代わりに t = 0 を 2000-01-01T00:00:00Z と表記します
 
@@ -9320,6 +9321,10 @@ engine-e-orbit-omm-export-requires-tle-defined = OMM のエクスポートには
 engine-e-passes-earth-orientation-parameters-out-of = 地球姿勢パラメータが範囲外です：|ut1_minus_utc_s| <= 1、|xp_arcsec| と |yp_arcsec| <= 2
 
 engine-e-pvt-no-priori-position-set-apriori = 事前位置がありません：apriori_ecef、観測ヘッダの APPROX POSITION XYZ、または truth_ecef を設定してください
+engine-e-gnss-slots-unknown-set = 不明なスロットセット `{ $name }`（既知: { $sets }）
+engine-e-gnss-slots-out-of-range = スロット `{ $id }`：`{ $field }` がない、有限でない、または範囲外です
+engine-e-gnss-slots-geo-needs-lon = GEO スロット `{ $id }` には lon_deg が必要です
+engine-e-gnss-slots-igso-needs-one-longitude = IGSO スロット `{ $id }` には 0 でない inclination_deg と、crossing_lon_deg と center_lon_deg のちょうど一方が必要です
 
 engine-e-python-pll-bws-dll-bws-spacings = pll_bws、dll_bws、spacings、coherents は design と併用できません：スイープはファイル内のすべての設計を実行します
 
@@ -9990,6 +9995,73 @@ engine-e-lunar-interop-unknown-time-system = 不明な時刻系 { $time_system }
 engine-e-lunar-interop-unregistered-time-system = TIME_SYSTEM { $time_system } は CCSDS OEM が用いる SANA Time Systems レジストリにありません。それでも書くには allow_unregistered_time_system = true を設定してください（COMMENT でその旨を記します）。または TDB を使ってください
 engine-e-lunar-interop-bad-step = step_min は有限で負でない分数でなければなりません（{ $step } は不可）
 
+## Probability of collision, Foster 2D (src/orbit_data/pc.rs)
+engine-e-orbit-data-pc-radius = --hbr には合成ハードボディ半径（メートル、正の数）が必要です
+engine-e-orbit-data-pc-no-relative-velocity = 2 つの物体の速度が同じです。遭遇面がありません
+engine-e-orbit-data-pc-not-positive-definite = 遭遇面に投影した合成共分散が正定値ではありません（小さい固有値 { $lambda } m²）
+engine-e-orbit-data-pc-not-finite = 状態または共分散の値が有限の数ではありません
+engine-e-orbit-data-pc-missing-data = CDM に、状態（X～Z_DOT）と RTN 共分散（CR_R～CNDOT_NDOT）をそれぞれ持つ 2 つの物体がありません
+engine-e-orbit-data-pc-frame-mismatch = 2 つの物体の REF_FRAME が異なります（{ $a } と { $b }）。Pc には両方の状態が同じ座標系にある必要があります
+
+## Regional RNSS signal designer (src/rnss_design.rs)
+engine-rnss-design-usage = 使い方：kshana rnss-design profiles | run <profile|profile.toml> [--band-mhz <B>] [--cn0 <dB-Hz>] [--discriminator non-coherent|coherent] [--with-gps l1,l2,l5|none] [--phase-sigma-m <m>] [--out <report.json>]   (kshana.rnss-profile/1 signals: spectra, spectral separation, multi-band RTK settings; MODELLED; docs/RNSS-DESIGN.md)
+engine-e-rnss-design-missing-value = { $option } には値が必要です
+engine-e-rnss-design-unknown-option = 不明なオプション { $option }（kshana rnss-design --help でオプションを一覧表示）
+engine-e-rnss-design-cannot-read = { $path } を読み込めません：{ $e }
+engine-e-rnss-design-cannot-write = { $path } に書き込めません：{ $e }
+engine-e-rnss-design-bad-number = { $option }：{ $value } は有効な数値ではありません
+engine-e-rnss-design-bad-profile = 使用できる kshana.rnss-profile/1 ファイルではありません：{ $e }
+engine-e-rnss-design-unknown-profile = 組み込みプロファイル { $name } はありません（組み込み：{ $names }）。代わりにプロファイルファイルのパスを指定してください
+engine-e-rnss-design-unknown-gps = --with-gps の GPS 搬送波 { $name } が不明です（l1、l2、l5、none）
+
+## Transparency-log verifier (src/tlog.rs)
+engine-tlog-usage = 使い方：kshana tlog verify-inclusion <proof.json> [--entry <entry.json>] [--sth <sth.json>] | verify-consistency <proof.json> [--sth-from <sth.json>] [--sth-to <sth.json>] | verify-sth <sth.json> [--entries <entries.jsonl>] | verify-daily-root <statement.json> [--tsa-ca <roots.pem>] [--tsa-certs <certs.pem>] | verify-key-history <history.jsonl> [--first-key <hex>]   (signed statements: --key <hex> or --key-history <history.jsonl>; --format <id>; --json; offline RFC 6962/9162 log verification; docs/TLOG.md)
+engine-e-tlog-missing-value = { $option } には値が必要です
+engine-e-tlog-cannot-read = { $path } を読み込めません：{ $e }
+engine-e-tlog-unknown-option = 不明なオプション { $option }（kshana tlog --help でオプションを一覧表示）
+engine-tlog-check-pass = PASS { $id }：{ $detail }
+engine-tlog-check-fail = FAIL { $id }：{ $detail }
+engine-tlog-fact = { $key } = { $value }
+engine-tlog-verdict-pass = tlog { $command }：すべての検査に合格しました
+engine-tlog-verdict-fail = tlog { $command }：{ $n } 件の検査が不合格です
+engine-tlog-not-anchored = アンカーなし（この声明にはタイムスタンプがありません）
+engine-tlog-no-tsa-roots = タイムスタンプ局のルートが指定されていません（--tsa-ca）：トークンの署名とチェーンは検査されません
+engine-tlog-no-endorsement = 前の鍵による承認なし
+engine-e-tlog-entry-not-object = ログエントリは JSON オブジェクトでなければなりません
+engine-e-tlog-entry-missing-field = ログエントリに { $field } がありません
+engine-e-tlog-entry-bad-field = ログエントリの { $field } の形式が正しくありません
+engine-e-tlog-bad-key = 公開鍵は 16 進 64 桁（32 バイト、Ed25519）でなければなりません
+engine-e-tlog-missing-field = 文書に { $field } がありません
+engine-e-tlog-bad-field = { $field } の形式が正しくありません（ハッシュは 16 進 64 桁、サイズとインデックスは整数）
+engine-e-tlog-needs-key = 署名付き声明には --key <hex> または --key-history <history.jsonl> が必要です
+engine-e-tlog-bad-json = 有効な JSON ではありません：{ $e }
+engine-e-tlog-bad-json-line = { $line } 行目は有効な JSON ではありません：{ $e }
+engine-e-tlog-bad-json-file = { $path } は有効な JSON ではありません：{ $e }
+engine-e-tlog-key-and-history = --key と --key-history のどちらか一方を指定してください
+engine-e-tlog-history-failed = 鍵履歴 { $path } は検証できないため、鍵を提供できません
+engine-e-tlog-verification-failed = tlog { $command }：検証に失敗しました（上の報告に各検査を示します）
+
+## Signed-directory verification (src/evidence/signed_dir.rs)
+engine-evidence-dir-usage = kshana evidence verify-dir <dir> [--trust <hex|file>]... [--json]   署名付きディレクトリ（signature.json）；終了コード 0 合格、1 不合格、3 改変なしだが鍵が信頼されていない
+engine-evidence-dir-statement = { $format }：署名者 { $signer }、{ $utc }、鍵 ID { $key_id }、記載ファイル数 { $n }
+engine-evidence-dir-signature-valid = PASS 署名：鍵 { $key } による Ed25519
+engine-evidence-dir-signature-invalid = FAIL 署名：鍵 { $key } で検証できません
+engine-evidence-dir-problem = FAIL { $p }
+engine-evidence-dir-longterm-present = 注：longterm.json があります。署名後に追加されるもので、署名の対象外であり、ここでは検査しません
+engine-evidence-dir-unsigned-fields = 注：署名の対象外である signature.json のフィールド：{ $fields }
+engine-evidence-dir-envelope = 運用範囲 { $key }：{ $value }（参考情報）
+engine-evidence-dir-passed = 検証済み：署名は有効で、全ファイルが一致し、鍵は信頼されています
+engine-evidence-dir-intact-untrusted = 改変なしだが未信頼：署名と全ファイルは一致しますが、鍵 { $key } は --trust で指定されていません
+engine-evidence-dir-failed = 未検証：問題 { $n } 件、または署名を検証できません
+engine-e-evidence-dir-needs-directory = verify-dir には署名付きディレクトリが必要です
+engine-e-evidence-dir-unknown-option = verify-dir の不明なオプション { $option }（--trust <hex|file>、--json）
+engine-e-evidence-dir-cannot-read = { $path } を読み込めません：{ $e }
+engine-e-evidence-dir-bad-json = { $path } は有効な JSON ではありません：{ $e }
+engine-e-evidence-dir-bad-field = signature.json：{ $field } がないか形式が正しくありません
+
+## space-receiver od-vs-tle time system
+engine-e-space-receiver-oem-time-system = この比較は OEM の時刻系 { $ts } を読み取りません（UTC、GPS、TAI、TT のいずれか）
+
 engine-main-usage =
     使い方：kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }または：kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10021,10 +10093,12 @@ engine-main-usage =
     { "   " }または：kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }または：kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }または：kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
+    { "   " }または：kshana rnss-design profiles | run <profile|profile.toml> [options] (kshana rnss-design --help)
     { "   " }または：kshana space-receiver <clock|timestamps|dynamics|bench|mms|od-vs-tle> ... [--out <file.json>] (kshana space-receiver --help)
     { "   " }または：kshana feed <pack|verify|send|spectrum|leaderboard|watch> ... (kshana feed --help)
     { "   " }または：kshana register-products <verify|show|diff> ... (kshana register-products --help)
     { "   " }または：kshana register <check|crl-check|view|sign> ... (kshana register --help)
+    { "   " }または：kshana tlog verify-inclusion | verify-consistency | verify-sth | verify-daily-root | verify-key-history <file> [options] (kshana tlog --help)
     { "   " }または：kshana interference-env <evaluate|thresholds|degradation> ... (kshana interference-env --help)
     { "   " }または：kshana arctic-plan --site <lat,lon[,h]> | --place <name> [--systems <a,b,...>] [--compare] [--hours <h>] [--kp <n>] ... (kshana arctic-plan --help)
     { "   " }または：kshana lunar-afs-kit <vectors|registry|output-check|output-example|output-reexpress> ... (kshana lunar-afs-kit --help)
@@ -11151,6 +11225,7 @@ engine-orbit-data-usage =
     { "   " }または：kshana orbit-data gp-compare <a.tle> <b.tle> [--hours <h>] [--step-min <min>] [--threshold-km <km>] [--json]
     { "   " }または：kshana orbit-data gp-audit <sets.tle> ... [--at <epoch>] [--stale-days <d>] [--jump-km <km>] [--json]
     { "   " }または：kshana orbit-data cov <check|propagate|monte-carlo|synthetic|realism> <input.json> [--dt-s <s>] [--step-s <s>] [--samples <n>] [--seed <n>] [--sigma-rtn <r,t,n,rdot,tdot,ndot>] [--full]
+    { "   " }または：kshana orbit-data pc <cdm> --hbr <m> [--aliases <map.json>] [--cdm-out <file>]
     { "   " }(docs/ORBIT-DATA.md)
 engine-e-orbit-data-unknown-message = { $path } は CDM、OEM（KVN）、OCM のいずれでもありません。CCSDS_CDM_VERS、CCSDS_OEM_VERS、CCSDS_OCM_VERS の行も、<cdm> や <ocm> のルートもありません
 engine-e-orbit-data-bad-flag = { $flag } { $value }：使用できない値です
@@ -11219,7 +11294,9 @@ engine-bench-task-has-no-holdout = タスク ({ $task }) にはホールドア�
 engine-bench-unknown-baseline = 不明なベースライン `{ $name }`
 
 engine-bench-g-no-traces = { $root } の下に <drive>/<phone>/ground_truth.csv がありません
-engine-bench-h-no-sequences = { $root } の下に <sequence>/ground_truth.txt がありません
+engine-bench-h-no-sequences = { $root } の下に <sequence>/(ground_truth.txt|tk_reference.csv) がありません
+engine-bench-h-mixed-editions = { $root } にタスク (h) の香港版と東京版が混在しています（ground_truth.txt と tk_reference.csv）：それぞれ別のディレクトリに取得してください
+engine-bench-h-baseline-skipped = ベースライン { $baseline } をスキップしました：すべてのトレースに入力ファイルがありません
 
 engine-bench-g-no-object = トレースの `{ $key }` オブジェクトがありません
 
@@ -11242,6 +11319,7 @@ engine-bench-golden-written = { $path } を書き込みました（凍結ファ�
 engine-bench-site-title-f = タスク (f)：宇宙機テレメトリの異常検知
 
 engine-bench-site-title-g = タスク (g)：スマートフォンの測位精度
+engine-bench-site-title-h = タスク (h)：都市部の測位精度
 
 engine-bench-site-col-ap = 平均適合率
 

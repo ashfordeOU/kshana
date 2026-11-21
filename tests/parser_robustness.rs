@@ -1042,6 +1042,54 @@ fn register_products_revocations() {
 }
 
 #[test]
+fn tlog_inputs() {
+    let seeds = vec![
+        head("tests/fixtures/tlog/daily-root.json", 60),
+        head("tests/fixtures/tlog/key-history.jsonl", 4),
+        head("tests/fixtures/tlog/entries.jsonl", 8),
+        head("tests/fixtures/tlog/inclusion-2-of-5.json", 30),
+    ];
+    let key = kshana::tlog::key_of_hex(&"11".repeat(32)).unwrap();
+    fuzz("tlog inputs", &seeds, None, |b| {
+        let text = String::from_utf8_lossy(b);
+        let _ = kshana::tlog::verify_key_history(&text, None, None);
+        if let Ok(es) = kshana::tlog::parse_entries(&text) {
+            for e in &es {
+                let _ = kshana::tlog::leaf_bytes(e);
+            }
+        }
+        if let Ok(v) = serde_json::from_str::<serde_json::Value>(&text) {
+            let o = kshana::tlog::Opts {
+                keys: Some(kshana::tlog::KeySource::Key(key)),
+                format: None,
+            };
+            let _ = kshana::tlog::verify_inclusion(&v, Some(&v), Some(&v), &o);
+            let _ = kshana::tlog::verify_consistency_doc(&v, Some(&v), None, &o);
+            let _ = kshana::tlog::verify_sth(&v, None, &o);
+            let _ = kshana::tlog::verify_daily_root(&v, None, &o);
+        }
+    });
+}
+
+#[test]
+fn signed_dir_statement() {
+    let seeds = vec![head("tests/fixtures/signed_dir/pack/signature.json", 60)];
+    static SEQ: std::sync::atomic::AtomicU64 = std::sync::atomic::AtomicU64::new(0);
+    let dir = std::env::temp_dir().join(format!(
+        "kshana-fuzz-signed-dir-{}-{}",
+        std::process::id(),
+        SEQ.fetch_add(1, std::sync::atomic::Ordering::Relaxed)
+    ));
+    std::fs::create_dir_all(&dir).unwrap();
+    std::fs::write(dir.join("a.txt"), "a").unwrap();
+    fuzz("signed-dir statement", &seeds, None, |b| {
+        std::fs::write(dir.join("signature.json"), b).unwrap();
+        let _ = kshana::evidence::signed_dir::verify_dir(&dir, &[]);
+    });
+    let _ = std::fs::remove_dir_all(&dir);
+}
+
+#[test]
 fn sil_obsgen_scenario() {
     let seeds = vec![head("examples/sil-obsgen/urban-canyon.toml", 60)];
     fuzz("sil-obsgen scenario", &seeds, None, |b| {

@@ -1,0 +1,29 @@
+# BeiDou GEO slots for `kshana gnss-sim` (`slot_sets = ["beidou-geo"]`). The MEO satellites are a
+# Walker shell (`constellation`), not slots.
+name = "beidou-geo"
+title = "BeiDou: the 3 BDS-3 GEO (the 5 BDS-2 GEO in beidou-2-geo)"
+sources = [
+  "China Satellite Navigation Office, BDS-SIS-ICD-B1I-3.0 (February 2019), section 3.1: BDS-3 GEO satellites at 35,786 km, located at 80°E, 110.5°E and 140°E",
+  "China Satellite Navigation Office, BeiDou Navigation Satellite System Open Service Performance Standard (Version 3.0), BDS-OS-PS-3.0 (May 2021), section 4.1: the same three GEO longitudes; IGSO at 35,786 km and 55° inclination",
+]
+omitted = [
+  "IGSO: B1I ICD section 3.1 and BDS-OS-PS-3.0 section 4.1 give the altitude (35,786 km) and inclination (55°) but no equatorial crossing longitude or position along the track, so no IGSO slot is given here",
+]
+
+[[slot]]
+id = "BDS-3 GEO 80E"
+kind = "geo"
+lon_deg = 80.0
+source = "BDS-SIS-ICD-B1I-3.0, section 3.1; BDS-OS-PS-3.0, section 4.1"
+
+[[slot]]
+id = "BDS-3 GEO 110.5E"
+kind = "geo"
+lon_deg = 110.5
+source = "BDS-SIS-ICD-B1I-3.0, section 3.1; BDS-OS-PS-3.0, section 4.1"
+
+[[slot]]
+id = "BDS-3 GEO 140E"
+kind = "geo"
+lon_deg = 140.0
+source = "BDS-SIS-ICD-B1I-3.0, section 3.1; BDS-OS-PS-3.0, section 4.1"

@@ -1550,8 +1550,10 @@ pub struct OrbitClockScenario {
     pub constellations: Vec<ConstellationCfg>,
     pub clock_quantum: ClockCfg,
     pub clock_classical: ClockCfg,
-    /// Optional calendar epoch (UTC/GPS) labelling time `t = 0`, used when exporting
-    /// the propagated constellation to SP3. Defaults to 2000-01-01 00:00:00.
+    /// Optional calendar epoch (UTC; the engine takes UT1 equal to UTC) labelling time
+    /// `t = 0`, used when exporting the propagated constellation to SP3 (whose `%c` time
+    /// system is `UTC`) and OEM (whose `TIME_SYSTEM` is `UTC`). Defaults as
+    /// `export_start` says.
     #[serde(default)]
     pub epoch: Option<crate::rinex::EpochUtc>,
     /// When `true`, the CLI also writes the propagated constellation to an SP3-c file
@@ -1638,7 +1640,7 @@ impl OrbitClockScenario {
             return Err(crate::terr!("e-orbit-no-satellites-to-export"));
         }
         let ids: Vec<String> = (1..=sats.len()).map(|i| format!("G{i:02}")).collect();
-        let start = self.epoch.unwrap_or(DEFAULT_SP3_EPOCH);
+        let start = self.export_start(&sats);
         let start_jd_ut1 = crate::timescales::julian_date(
             start.year,
             start.month,
@@ -1698,6 +1700,37 @@ impl OrbitClockScenario {
             .join("\n"))
     }
 
+    /// The calendar epoch (UTC) of the first exported state: the scenario's `epoch` when set;
+    /// otherwise the own epoch of the first satellite that dates itself (a TLE, a broadcast
+    /// ephemeris, an SP3 file), rounded to the millisecond; otherwise (a Walker or Keplerian
+    /// pattern, which has no date of its own) the J2000 default. Every state is then evaluated
+    /// at the instant it is labelled with.
+    fn export_start(&self, sats: &[Propagator]) -> crate::rinex::EpochUtc {
+        if let Some(e) = self.epoch {
+            return e;
+        }
+        let Some(jd) = sats.iter().find_map(|p| p.own_jd_utc(0.0)) else {
+            return DEFAULT_SP3_EPOCH;
+        };
+        let c = crate::timescales::civil_from_jd(jd);
+        let mut sod = c.hour as f64 * 3600.0 + c.minute as f64 * 60.0 + c.second;
+        sod = (sod * 1000.0).round() / 1000.0;
+        let day_jd = crate::timescales::julian_date(c.year, c.month, c.day, 0, 0, 0.0);
+        let day_add = (sod / 86_400.0).floor();
+        sod -= day_add * 86_400.0;
+        let d = crate::timescales::civil_from_jd(day_jd + day_add);
+        let hour = (sod / 3600.0).floor();
+        let minute = ((sod - hour * 3600.0) / 60.0).floor();
+        crate::rinex::EpochUtc {
+            year: d.year,
+            month: d.month,
+            day: d.day,
+            hour: hour as u32,
+            minute: minute as u32,
+            second: sod - hour * 3600.0 - minute * 60.0,
+        }
+    }
+
     /// Export the propagated constellation as a CCSDS OEM (Orbit Ephemeris Message):
     /// each satellite is sampled on the scenario's time grid directly in the inertial
     /// TEME frame and written with its full state — position AND velocity (km, km/s).
@@ -1712,7 +1745,7 @@ impl OrbitClockScenario {
             return Err(crate::terr!("e-orbit-no-satellites-to-export"));
         }
         let ids: Vec<String> = (1..=sats.len()).map(|i| format!("G{i:02}")).collect();
-        let start = self.epoch.unwrap_or(DEFAULT_SP3_EPOCH);
+        let start = self.export_start(&sats);
         let step_s = self.time.step_s;
         if step_s <= 0.0 {
             return Err(crate::terr!("e-orbit-time-step-must-be-positive-2"));

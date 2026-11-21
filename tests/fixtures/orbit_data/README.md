@@ -8,6 +8,8 @@
 | `gen_selfmade_tles.py` | Writes the three `.tle` files below. |
 | `gp_source_a.tle`, `gp_source_b.tle` | SELF-MADE two-line element sets: two "sources" for placeholder objects 90001 to 90005, with planted differences (none, 0.5 degrees of mean anomaly, 0.01 degrees of RAAN) and one object in each source only. No real object or catalogue data. |
 | `gp_audit.tle` | SELF-MADE: placeholder objects 90010 to 90014 with planted defects (a manoeuvre-sized jump with a falling element set number, a bad checksum, a perigee below the surface, a stale epoch) and one consistent pair built with the SGP4 secular rates. |
+| `gen_selfmade_cdm.py`, `cdm_selfmade_leo.cdm` | SELF-MADE CCSDS 508.0-B-1 KVN CDM: placeholder objects 90001 and 90002 crossing 30 m apart in low Earth orbit, diagonal RTN covariances (for `tests/orbit_data_pc.rs`). No real object or catalogue data. |
+| `extract_cara_pc_cases.py` | Reads the Pc2D_Foster test cases from your own clone of NASA's CARA Analysis Tools (NASA Open Source Agreement) into JSON for the opt-in comparison in `tests/orbit_data_pc.rs`; the cases themselves are not copied here. |
 | `cov_leo.json` | SELF-MADE: a low-Earth-orbit state and an uncorrelated covariance for the `cov` commands. |
 
 The OEM and OCM fixtures the tests also use are older: `tests/fixtures/ccsds/oem_502_b3_figG11.oem` (CCSDS 502.0-B-3

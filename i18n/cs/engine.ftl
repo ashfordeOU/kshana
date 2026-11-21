@@ -2365,6 +2365,7 @@ engine-e-interop-scene-missing-integer-waypoints = chybí celé číslo `waypoin
 engine-e-interop-scene-waypoints-is-outside-1000000 = waypoints = { $n } je mimo 1..=1000000
 
 engine-interop-scene-walker-at-km-deg-inclination = Walker { $w }/{ $planes }/{ $phasing_f } ve výšce { $altitude_km } km, sklon { $inclination_deg } deg (SGP4)
+engine-interop-scene-gnss-slot = slot { $id } ze sady { $set } (geosynchronní nominální slot, problém dvou těles, MODELLED); zdroj: { $source }; fáze: { $phase }
 
 engine-interop-scene-the-scenario-gives-no-epoch = scénář neuvádí `epoch`; t = 0 je { $epoch }, nejstarší epocha, kterou nesou vlastní data družic (epocha TLE, broadcast efemerid nebo SP3). Každá družice je propagována od své vlastní epochy a ty se rozprostírají přes { $spread_h } h: časové značky sledují předpoklad enginu, že každá družice začíná v t = 0, zatímco každá poloha je převedena do soustav GCRS a pevně vázané k Zemi v okamžiku dané družice. Exporty SP3 a OEM místo toho označují t = 0 jako 2000-01-01T00:00:00Z
 
@@ -10100,6 +10101,10 @@ engine-e-orbit-omm-export-requires-tle-defined = export OMM vyžaduje konstelaci
 engine-e-passes-earth-orientation-parameters-out-of = parametry orientace Země mimo rozsah: |ut1_minus_utc_s| <= 1, |xp_arcsec| a |yp_arcsec| <= 2
 
 engine-e-pvt-no-priori-position-set-apriori = chybí apriorní poloha: nastavte apriori_ecef, APPROX POSITION XYZ v záhlaví pozorování nebo truth_ecef
+engine-e-gnss-slots-unknown-set = neznámá sada slotů `{ $name }` (známé: { $sets })
+engine-e-gnss-slots-out-of-range = slot `{ $id }`: `{ $field }` chybí, není konečné nebo je mimo rozsah
+engine-e-gnss-slots-geo-needs-lon = slot GEO `{ $id }` potřebuje lon_deg
+engine-e-gnss-slots-igso-needs-one-longitude = slot IGSO `{ $id }` potřebuje nenulové inclination_deg a právě jedno z crossing_lon_deg a center_lon_deg
 
 engine-e-python-pll-bws-dll-bws-spacings = pll_bws, dll_bws, spacings a coherents nelze kombinovat s design: přehled projde každý návrh v souboru
 
@@ -10780,6 +10785,73 @@ engine-e-lunar-interop-unknown-time-system = neznámý časový systém { $time_
 engine-e-lunar-interop-unregistered-time-system = TIME_SYSTEM { $time_system } není v registru SANA Time Systems, který CCSDS OEM používá; nastavte allow_unregistered_time_system = true, chcete-li ho přesto zapsat (COMMENT to pak uvede), nebo použijte TDB
 engine-e-lunar-interop-bad-step = step_min musí být konečný nezáporný počet minut, ne { $step }
 
+## Probability of collision, Foster 2D (src/orbit_data/pc.rs)
+engine-e-orbit-data-pc-radius = --hbr vyžaduje kombinovaný poloměr tělesa v metrech, kladné číslo
+engine-e-orbit-data-pc-no-relative-velocity = oba objekty mají stejnou rychlost: rovina setkání neexistuje
+engine-e-orbit-data-pc-not-positive-definite = kombinovaná kovariance promítnutá do roviny setkání není pozitivně definitní (menší vlastní číslo { $lambda } m²)
+engine-e-orbit-data-pc-not-finite = hodnota stavu nebo kovariance není konečné číslo
+engine-e-orbit-data-pc-missing-data = CDM neobsahuje dva objekty, každý se stavem (X až Z_DOT) a kovariancí RTN (CR_R až CNDOT_NDOT)
+engine-e-orbit-data-pc-frame-mismatch = REF_FRAME obou objektů se liší ({ $a } a { $b }); Pc vyžaduje oba stavy v jednom systému
+
+## Regional RNSS signal designer (src/rnss_design.rs)
+engine-rnss-design-usage = použití: kshana rnss-design profiles | run <profile|profile.toml> [--band-mhz <B>] [--cn0 <dB-Hz>] [--discriminator non-coherent|coherent] [--with-gps l1,l2,l5|none] [--phase-sigma-m <m>] [--out <report.json>]   (kshana.rnss-profile/1 signals: spectra, spectral separation, multi-band RTK settings; MODELLED; docs/RNSS-DESIGN.md)
+engine-e-rnss-design-missing-value = { $option } vyžaduje hodnotu
+engine-e-rnss-design-unknown-option = neznámá volba { $option } (volby vypíše kshana rnss-design --help)
+engine-e-rnss-design-cannot-read = nelze číst { $path }: { $e }
+engine-e-rnss-design-cannot-write = nelze zapsat { $path }: { $e }
+engine-e-rnss-design-bad-number = { $option }: { $value } není platné číslo
+engine-e-rnss-design-bad-profile = nepoužitelný soubor kshana.rnss-profile/1: { $e }
+engine-e-rnss-design-unknown-profile = žádný vestavěný profil { $name } (vestavěné: { $names }); místo toho zadejte cestu k souboru profilu
+engine-e-rnss-design-unknown-gps = neznámá nosná GPS { $name } pro --with-gps (l1, l2, l5 nebo none)
+
+## Transparency-log verifier (src/tlog.rs)
+engine-tlog-usage = použití: kshana tlog verify-inclusion <proof.json> [--entry <entry.json>] [--sth <sth.json>] | verify-consistency <proof.json> [--sth-from <sth.json>] [--sth-to <sth.json>] | verify-sth <sth.json> [--entries <entries.jsonl>] | verify-daily-root <statement.json> [--tsa-ca <roots.pem>] [--tsa-certs <certs.pem>] | verify-key-history <history.jsonl> [--first-key <hex>]   (signed statements: --key <hex> or --key-history <history.jsonl>; --format <id>; --json; offline RFC 6962/9162 log verification; docs/TLOG.md)
+engine-e-tlog-missing-value = { $option } vyžaduje hodnotu
+engine-e-tlog-cannot-read = nelze číst { $path }: { $e }
+engine-e-tlog-unknown-option = neznámá volba { $option } (kshana tlog --help vypíše volby)
+engine-tlog-check-pass = PASS { $id }: { $detail }
+engine-tlog-check-fail = FAIL { $id }: { $detail }
+engine-tlog-fact = { $key } = { $value }
+engine-tlog-verdict-pass = tlog { $command }: všechny kontroly prošly
+engine-tlog-verdict-fail = tlog { $command }: neprošlo kontrol: { $n }
+engine-tlog-not-anchored = nezakotveno (prohlášení nemá časová razítka)
+engine-tlog-no-tsa-roots = nejsou zadány kořeny autority časových razítek (--tsa-ca): podpis a řetězec tokenu se nekontrolují
+engine-tlog-no-endorsement = bez potvrzení předchozím klíčem
+engine-e-tlog-entry-not-object = záznam logu musí být objekt JSON
+engine-e-tlog-entry-missing-field = záznamu logu chybí { $field }
+engine-e-tlog-entry-bad-field = pole { $field } záznamu logu má nesprávný tvar
+engine-e-tlog-bad-key = veřejný klíč musí mít 64 šestnáctkových číslic (32 bajtů, Ed25519)
+engine-e-tlog-missing-field = dokumentu chybí { $field }
+engine-e-tlog-bad-field = { $field } má nesprávný tvar (haše mají 64 šestnáctkových číslic, velikosti a indexy jsou celá čísla)
+engine-e-tlog-needs-key = podepsané prohlášení vyžaduje --key <hex> nebo --key-history <history.jsonl>
+engine-e-tlog-bad-json = neplatný JSON: { $e }
+engine-e-tlog-bad-json-line = řádek { $line } není platný JSON: { $e }
+engine-e-tlog-bad-json-file = { $path } není platný JSON: { $e }
+engine-e-tlog-key-and-history = zadejte --key nebo --key-history, ne obojí
+engine-e-tlog-history-failed = historie klíčů { $path } se neověřila, nemůže proto poskytnout klíče
+engine-e-tlog-verification-failed = tlog { $command }: ověření selhalo (zpráva výše uvádí jednotlivé kontroly)
+
+## Signed-directory verification (src/evidence/signed_dir.rs)
+engine-evidence-dir-usage = kshana evidence verify-dir <dir> [--trust <hex|file>]... [--json]   podepsaný adresář (signature.json); návratový kód 0 prošlo, 1 selhalo, 3 neporušeno, ale klíč není důvěryhodný
+engine-evidence-dir-statement = { $format } podepsal { $signer } v { $utc }, ID klíče { $key_id }, uvedeno souborů: { $n }
+engine-evidence-dir-signature-valid = PASS podpis: Ed25519 klíčem { $key }
+engine-evidence-dir-signature-invalid = FAIL podpis: neověřuje se klíčem { $key }
+engine-evidence-dir-problem = FAIL { $p }
+engine-evidence-dir-longterm-present = poznámka: longterm.json je přítomen; přidává se po podpisu, podpis ho nepokrývá a zde se nekontroluje
+engine-evidence-dir-unsigned-fields = poznámka: pole signature.json, která podpis nepokrývá: { $fields }
+engine-evidence-dir-envelope = provozní obálka { $key }: { $value } (pouze pro informaci)
+engine-evidence-dir-passed = ověřeno: podpis je platný, všechny soubory odpovídají a klíč je důvěryhodný
+engine-evidence-dir-intact-untrusted = neporušeno, ale nedůvěryhodné: podpis i všechny soubory sedí, ale klíč { $key } nebyl zadán přes --trust
+engine-evidence-dir-failed = neověřeno: problémů { $n }, nebo se podpis neověřil
+engine-e-evidence-dir-needs-directory = verify-dir potřebuje podepsaný adresář
+engine-e-evidence-dir-unknown-option = neznámá volba { $option } pro verify-dir (--trust <hex|file>, --json)
+engine-e-evidence-dir-cannot-read = nelze číst { $path }: { $e }
+engine-e-evidence-dir-bad-json = { $path } není platný JSON: { $e }
+engine-e-evidence-dir-bad-field = signature.json: { $field } chybí nebo má nesprávný tvar
+
+## space-receiver od-vs-tle time system
+engine-e-space-receiver-oem-time-system = časový systém OEM { $ts } toto porovnání nečte (UTC, GPS, TAI nebo TT)
+
 engine-main-usage =
     použití: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }nebo: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10811,10 +10883,12 @@ engine-main-usage =
     { "   " }nebo: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }nebo: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }nebo: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
+    { "   " }nebo: kshana rnss-design profiles | run <profile|profile.toml> [options] (kshana rnss-design --help)
     { "   " }nebo: kshana space-receiver <clock|timestamps|dynamics|bench|mms|od-vs-tle> ... [--out <file.json>] (kshana space-receiver --help)
     { "   " }nebo: kshana feed <pack|verify|send|spectrum|leaderboard|watch> ... (kshana feed --help)
     { "   " }nebo: kshana register-products <verify|show|diff> ... (kshana register-products --help)
     { "   " }nebo: kshana register <check|crl-check|view|sign> ... (kshana register --help)
+    { "   " }nebo: kshana tlog verify-inclusion | verify-consistency | verify-sth | verify-daily-root | verify-key-history <file> [options] (kshana tlog --help)
     { "   " }nebo: kshana interference-env <evaluate|thresholds|degradation> ... (kshana interference-env --help)
     { "   " }nebo: kshana arctic-plan --site <lat,lon[,h]> | --place <name> [--systems <a,b,...>] [--compare] [--hours <h>] [--kp <n>] ... (kshana arctic-plan --help)
     { "   " }nebo: kshana lunar-afs-kit <vectors|registry|output-check|output-example|output-reexpress> ... (kshana lunar-afs-kit --help)
@@ -12004,6 +12078,7 @@ engine-orbit-data-usage =
     { "   " }nebo: kshana orbit-data gp-compare <a.tle> <b.tle> [--hours <h>] [--step-min <min>] [--threshold-km <km>] [--json]
     { "   " }nebo: kshana orbit-data gp-audit <sets.tle> ... [--at <epoch>] [--stale-days <d>] [--jump-km <km>] [--json]
     { "   " }nebo: kshana orbit-data cov <check|propagate|monte-carlo|synthetic|realism> <input.json> [--dt-s <s>] [--step-s <s>] [--samples <n>] [--seed <n>] [--sigma-rtn <r,t,n,rdot,tdot,ndot>] [--full]
+    { "   " }nebo: kshana orbit-data pc <cdm> --hbr <m> [--aliases <map.json>] [--cdm-out <file>]
     { "   " }(docs/ORBIT-DATA.md)
 engine-e-orbit-data-unknown-message = { $path } není CDM, OEM (KVN) ani OCM: chybí řádek CCSDS_CDM_VERS, CCSDS_OEM_VERS nebo CCSDS_OCM_VERS i kořen <cdm> nebo <ocm>
 engine-e-orbit-data-bad-flag = { $flag } { $value }: nepoužitelná hodnota
@@ -12072,7 +12147,9 @@ engine-bench-task-has-no-holdout = úloha ({ $task }) nemá rozdělení holdout:
 engine-bench-unknown-baseline = neznámá základní metoda `{ $name }`
 
 engine-bench-g-no-traces = v { $root } není žádný <drive>/<phone>/ground_truth.csv
-engine-bench-h-no-sequences = v { $root } není žádný <sequence>/ground_truth.txt
+engine-bench-h-no-sequences = v { $root } není žádný <sequence>/(ground_truth.txt|tk_reference.csv)
+engine-bench-h-mixed-editions = { $root } míchá hongkongské a tokijské vydání úlohy (h) (ground_truth.txt a tk_reference.csv): stáhněte každé do vlastního adresáře
+engine-bench-h-baseline-skipped = základní metoda { $baseline } vynechána: její vstupní soubory nejsou u všech stop
 
 engine-bench-g-no-object = chybí objekt stop `{ $key }`
 
@@ -12095,6 +12172,7 @@ engine-bench-golden-written = zapsáno { $path } (zmrazených souborů: { $n })
 engine-bench-site-title-f = Úloha (f): detekce anomálií v telemetrii kosmické lodi
 
 engine-bench-site-title-g = Úloha (g): přesnost určování polohy chytrých telefonů
+engine-bench-site-title-h = Úloha (h): přesnost určování polohy ve městě
 
 engine-bench-site-col-ap = Průměrná přesnost
 

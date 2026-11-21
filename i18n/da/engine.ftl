@@ -2667,6 +2667,7 @@ engine-e-interop-scene-missing-integer-waypoints = manglende heltal `waypoints`
 engine-e-interop-scene-waypoints-is-outside-1000000 = waypoints = { $n } ligger uden for 1..=1000000
 
 engine-interop-scene-walker-at-km-deg-inclination = Walker { $w }/{ $planes }/{ $phasing_f } ved { $altitude_km } km, { $inclination_deg } deg inklination (SGP4)
+engine-interop-scene-gnss-slot = { $set }-slot { $id } (geosynkron nominel to-legeme-slot, MODELLED); kilde: { $source }; fase: { $phase }
 
 engine-interop-scene-the-scenario-gives-no-epoch = scenariet angiver ingen `epoch`; t = 0 er { $epoch }, den tidligste epoke, som satellitternes egne data bærer (TLE-, broadcast-efemeride- eller SP3-epoke). Hver satellit propageres fra sin egen epoke, og de spænder over { $spread_h } h: tidsmærkerne følger motorens forudsætning om, at hver satellit starter ved t = 0, mens hver position roteres ind i GCRS- og jordfaste systemer ved den pågældende satellits eget tidspunkt. SP3- og OEM-eksporterne mærker i stedet t = 0 som 2000-01-01T00:00:00Z
 
@@ -10092,6 +10093,10 @@ engine-e-orbit-omm-export-requires-tle-defined = OMM-eksport kræver en TLE-defi
 engine-e-passes-earth-orientation-parameters-out-of = jordorienteringsparametre uden for intervallet: |ut1_minus_utc_s| <= 1, |xp_arcsec| og |yp_arcsec| <= 2
 
 engine-e-pvt-no-priori-position-set-apriori = ingen a priori-position: angiv apriori_ecef, en observationsheaders APPROX POSITION XYZ eller truth_ecef
+engine-e-gnss-slots-unknown-set = ukendt slotsæt `{ $name }` (kendte: { $sets })
+engine-e-gnss-slots-out-of-range = slot `{ $id }`: `{ $field }` mangler, er ikke endelig eller er uden for området
+engine-e-gnss-slots-geo-needs-lon = GEO-slot `{ $id }` kræver lon_deg
+engine-e-gnss-slots-igso-needs-one-longitude = IGSO-slot `{ $id }` kræver en inclination_deg forskellig fra nul og præcis én af crossing_lon_deg og center_lon_deg
 
 engine-e-python-pll-bws-dll-bws-spacings = pll_bws, dll_bws, spacings og coherents kan ikke kombineres med design: sweepet kører hver udformning i filen
 
@@ -10774,6 +10779,73 @@ engine-e-lunar-interop-unknown-time-system = ukendt tidssystem { $time_system } 
 engine-e-lunar-interop-unregistered-time-system = TIME_SYSTEM { $time_system } er ikke i SANA-registret Time Systems, som CCSDS OEM bruger; sæt allow_unregistered_time_system = true for alligevel at skrive den (en COMMENT siger det så), eller brug TDB
 engine-e-lunar-interop-bad-step = step_min skal være et endeligt, ikke-negativt antal minutter, ikke { $step }
 
+## Probability of collision, Foster 2D (src/orbit_data/pc.rs)
+engine-e-orbit-data-pc-radius = --hbr kræver den samlede hard-body-radius i meter, et positivt tal
+engine-e-orbit-data-pc-no-relative-velocity = de to objekter har samme hastighed: der er intet mødeplan
+engine-e-orbit-data-pc-not-positive-definite = den samlede kovarians projiceret på mødeplanet er ikke positivt definit (mindste egenværdi { $lambda } m²)
+engine-e-orbit-data-pc-not-finite = en tilstands- eller kovariansværdi er ikke et endeligt tal
+engine-e-orbit-data-pc-missing-data = CDM'en indeholder ikke to objekter, hver med en tilstand (X til Z_DOT) og en RTN-kovarians (CR_R til CNDOT_NDOT)
+engine-e-orbit-data-pc-frame-mismatch = de to objekters REF_FRAME er forskellige ({ $a } og { $b }); Pc kræver begge tilstande i ét system
+
+## Regional RNSS signal designer (src/rnss_design.rs)
+engine-rnss-design-usage = brug: kshana rnss-design profiles | run <profile|profile.toml> [--band-mhz <B>] [--cn0 <dB-Hz>] [--discriminator non-coherent|coherent] [--with-gps l1,l2,l5|none] [--phase-sigma-m <m>] [--out <report.json>]   (kshana.rnss-profile/1 signals: spectra, spectral separation, multi-band RTK settings; MODELLED; docs/RNSS-DESIGN.md)
+engine-e-rnss-design-missing-value = { $option } kræver en værdi
+engine-e-rnss-design-unknown-option = ukendt tilvalg { $option } (kshana rnss-design --help viser tilvalgene)
+engine-e-rnss-design-cannot-read = kan ikke læse { $path }: { $e }
+engine-e-rnss-design-cannot-write = kan ikke skrive { $path }: { $e }
+engine-e-rnss-design-bad-number = { $option }: { $value } er ikke et gyldigt tal
+engine-e-rnss-design-bad-profile = ikke en brugbar kshana.rnss-profile/1-fil: { $e }
+engine-e-rnss-design-unknown-profile = ingen indbygget profil { $name } (indbyggede: { $names }); angiv i stedet stien til en profilfil
+engine-e-rnss-design-unknown-gps = ukendt GPS-bærebølge { $name } til --with-gps (l1, l2, l5 eller none)
+
+## Transparency-log verifier (src/tlog.rs)
+engine-tlog-usage = brug: kshana tlog verify-inclusion <proof.json> [--entry <entry.json>] [--sth <sth.json>] | verify-consistency <proof.json> [--sth-from <sth.json>] [--sth-to <sth.json>] | verify-sth <sth.json> [--entries <entries.jsonl>] | verify-daily-root <statement.json> [--tsa-ca <roots.pem>] [--tsa-certs <certs.pem>] | verify-key-history <history.jsonl> [--first-key <hex>]   (signed statements: --key <hex> or --key-history <history.jsonl>; --format <id>; --json; offline RFC 6962/9162 log verification; docs/TLOG.md)
+engine-e-tlog-missing-value = { $option } kræver en værdi
+engine-e-tlog-cannot-read = kan ikke læse { $path }: { $e }
+engine-e-tlog-unknown-option = ukendt tilvalg { $option } (kshana tlog --help viser tilvalgene)
+engine-tlog-check-pass = PASS { $id }: { $detail }
+engine-tlog-check-fail = FAIL { $id }: { $detail }
+engine-tlog-fact = { $key } = { $value }
+engine-tlog-verdict-pass = tlog { $command }: alle kontroller bestået
+engine-tlog-verdict-fail = tlog { $command }: { $n } kontrol(ler) fejlede
+engine-tlog-not-anchored = ikke forankret (erklæringen har ingen tidsstempler)
+engine-tlog-no-tsa-roots = ingen rødder for tidsstempelmyndigheden angivet (--tsa-ca): tokenets signatur og kæde kontrolleres ikke
+engine-tlog-no-endorsement = ingen godkendelse fra den forrige nøgle
+engine-e-tlog-entry-not-object = en logpost skal være et JSON-objekt
+engine-e-tlog-entry-missing-field = en logpost mangler { $field }
+engine-e-tlog-entry-bad-field = en logposts { $field } har forkert form
+engine-e-tlog-bad-key = en offentlig nøgle skal være 64 hexcifre (32 byte, Ed25519)
+engine-e-tlog-missing-field = dokumentet mangler { $field }
+engine-e-tlog-bad-field = { $field } har forkert form (hashværdier er 64 hexcifre, størrelser og indeks hele tal)
+engine-e-tlog-needs-key = en signeret erklæring kræver --key <hex> eller --key-history <history.jsonl>
+engine-e-tlog-bad-json = ikke gyldig JSON: { $e }
+engine-e-tlog-bad-json-line = linje { $line } er ikke gyldig JSON: { $e }
+engine-e-tlog-bad-json-file = { $path } er ikke gyldig JSON: { $e }
+engine-e-tlog-key-and-history = angiv --key eller --key-history, ikke begge
+engine-e-tlog-history-failed = nøglehistorikken { $path } verificeres ikke og kan derfor ikke levere nøgler
+engine-e-tlog-verification-failed = tlog { $command }: verifikationen fejlede (rapporten ovenfor viser hver kontrol)
+
+## Signed-directory verification (src/evidence/signed_dir.rs)
+engine-evidence-dir-usage = kshana evidence verify-dir <dir> [--trust <hex|file>]... [--json]   signeret mappe (signature.json); exit 0 bestået, 1 fejlet, 3 intakt, men nøglen er ikke betroet
+engine-evidence-dir-statement = { $format } signeret af { $signer } { $utc }, nøgle-id { $key_id }, { $n } filer opført
+engine-evidence-dir-signature-valid = PASS signatur: Ed25519 med nøgle { $key }
+engine-evidence-dir-signature-invalid = FAIL signatur: verificeres ikke med nøgle { $key }
+engine-evidence-dir-problem = FAIL { $p }
+engine-evidence-dir-longterm-present = bemærk: longterm.json findes; den tilføjes efter signering, er ikke dækket af signaturen og kontrolleres ikke her
+engine-evidence-dir-unsigned-fields = bemærk: felter i signature.json, som signaturen ikke dækker: { $fields }
+engine-evidence-dir-envelope = driftsramme { $key }: { $value } (kun til orientering)
+engine-evidence-dir-passed = verificeret: signaturen er gyldig, alle filer stemmer, og nøglen er betroet
+engine-evidence-dir-intact-untrusted = intakt, men ikke betroet: signaturen og alle filer stemmer, men nøglen { $key } blev ikke angivet med --trust
+engine-evidence-dir-failed = ikke verificeret: { $n } problem(er), eller signaturen verificeres ikke
+engine-e-evidence-dir-needs-directory = verify-dir kræver den signerede mappe
+engine-e-evidence-dir-unknown-option = ukendt tilvalg { $option } til verify-dir (--trust <hex|file>, --json)
+engine-e-evidence-dir-cannot-read = kan ikke læse { $path }: { $e }
+engine-e-evidence-dir-bad-json = { $path } er ikke gyldig JSON: { $e }
+engine-e-evidence-dir-bad-field = signature.json: { $field } mangler eller har forkert form
+
+## space-receiver od-vs-tle time system
+engine-e-space-receiver-oem-time-system = OEM-tidssystemet { $ts } kan denne sammenligning ikke læse (UTC, GPS, TAI eller TT)
+
 engine-main-usage =
     brug: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }eller: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10805,10 +10877,12 @@ engine-main-usage =
     { "   " }eller: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }eller: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }eller: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
+    { "   " }eller: kshana rnss-design profiles | run <profile|profile.toml> [options] (kshana rnss-design --help)
     { "   " }eller: kshana space-receiver <clock|timestamps|dynamics|bench|mms|od-vs-tle> ... [--out <file.json>] (kshana space-receiver --help)
     { "   " }eller: kshana feed <pack|verify|send|spectrum|leaderboard|watch> ... (kshana feed --help)
     { "   " }eller: kshana register-products <verify|show|diff> ... (kshana register-products --help)
     { "   " }eller: kshana register <check|crl-check|view|sign> ... (kshana register --help)
+    { "   " }eller: kshana tlog verify-inclusion | verify-consistency | verify-sth | verify-daily-root | verify-key-history <file> [options] (kshana tlog --help)
     { "   " }eller: kshana interference-env <evaluate|thresholds|degradation> ... (kshana interference-env --help)
     { "   " }eller: kshana arctic-plan --site <lat,lon[,h]> | --place <name> [--systems <a,b,...>] [--compare] [--hours <h>] [--kp <n>] ... (kshana arctic-plan --help)
     { "   " }eller: kshana lunar-afs-kit <vectors|registry|output-check|output-example|output-reexpress> ... (kshana lunar-afs-kit --help)
@@ -11956,6 +12030,7 @@ engine-orbit-data-usage =
     { "   " }eller: kshana orbit-data gp-compare <a.tle> <b.tle> [--hours <h>] [--step-min <min>] [--threshold-km <km>] [--json]
     { "   " }eller: kshana orbit-data gp-audit <sets.tle> ... [--at <epoch>] [--stale-days <d>] [--jump-km <km>] [--json]
     { "   " }eller: kshana orbit-data cov <check|propagate|monte-carlo|synthetic|realism> <input.json> [--dt-s <s>] [--step-s <s>] [--samples <n>] [--seed <n>] [--sigma-rtn <r,t,n,rdot,tdot,ndot>] [--full]
+    { "   " }eller: kshana orbit-data pc <cdm> --hbr <m> [--aliases <map.json>] [--cdm-out <file>]
     { "   " }(docs/ORBIT-DATA.md)
 engine-e-orbit-data-unknown-message = { $path } er hverken CDM, OEM (KVN) eller OCM: ingen linje CCSDS_CDM_VERS, CCSDS_OEM_VERS eller CCSDS_OCM_VERS og ingen rod <cdm> eller <ocm>
 engine-e-orbit-data-bad-flag = { $flag } { $value }: ikke en brugbar værdi
@@ -12024,7 +12099,9 @@ engine-bench-task-has-no-holdout = opgave ({ $task }) har ingen holdout-opdeling
 engine-bench-unknown-baseline = ukendt baseline `{ $name }`
 
 engine-bench-g-no-traces = ingen <drive>/<phone>/ground_truth.csv under { $root }
-engine-bench-h-no-sequences = ingen <sequence>/ground_truth.txt under { $root }
+engine-bench-h-no-sequences = ingen <sequence>/(ground_truth.txt|tk_reference.csv) under { $root }
+engine-bench-h-mixed-editions = { $root } blander Hongkong- og Tokyo-udgaven af opgave (h) (ground_truth.txt og tk_reference.csv): hent hver til sin egen mappe
+engine-bench-h-baseline-skipped = baseline { $baseline } sprunget over: dens inputfiler findes ikke for alle spor
 
 engine-bench-g-no-object = intet `{ $key }`-objekt med spor
 
@@ -12047,6 +12124,7 @@ engine-bench-golden-written = skrev { $path } ({ $n } frosne filer)
 engine-bench-site-title-f = Opgave (f): anomalidetektion i rumfartøjstelemetri
 
 engine-bench-site-title-g = Opgave (g): positioneringsnøjagtighed for smartphones
+engine-bench-site-title-h = Opgave (h): positioneringsnøjagtighed i by
 
 engine-bench-site-col-ap = Gennemsnitlig præcision
 

@@ -176,6 +176,7 @@ pub mod geometry;
 pub mod glonass;
 pub mod gnss_navmsg;
 pub mod gnss_sim;
+pub mod gnss_slots;
 pub mod gnss_time;
 pub mod gps_lnav;
 pub mod gravimeter;
@@ -408,6 +409,7 @@ pub mod representativeness;
 pub mod resilience;
 pub mod rinex;
 pub mod rinex_obs;
+pub mod rnss_design;
 pub mod rtcm_ssr;
 pub mod rtk_qa;
 pub mod rtk_real;
@@ -460,6 +462,9 @@ pub mod telecom_timing;
 /// chrony and ntpd health: `chronyc`, `ntpq` text and NTP mode 6 read variables (0.42 I2).
 pub mod time_server;
 pub mod timing_stack;
+/// The offline transparency-log verifier: RFC 6962/9162 proofs, signed statements, daily roots
+/// and key history (`kshana tlog`).
+pub mod tlog;
 /// The trust stream as CCSDS packets with XTCE, COSMOS and Open MCT definitions (0.42 I8).
 pub mod tm_bridge;
 // Comparison helpers shared by the byte-identity guards. Test-only: it exists so those
