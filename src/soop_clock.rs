@@ -53,6 +53,7 @@ use std::f64::consts::PI;
 
 /// Schema ids.
 pub const LTE_SCHEMA: &str = "kshana.soop-clock-lte/1";
+/// Schema id of the cyclic-prefix (`cp`) estimate document.
 pub const CP_SCHEMA: &str = "kshana.soop-clock-cp/1";
 /// Speed of light (m/s).
 const C: f64 = 299_792_458.0;
@@ -112,6 +113,7 @@ pub fn pss_template(nid2: usize, fs: f64) -> Vec<Cf64> {
 /// One PSS detection.
 #[derive(Clone, Debug, Serialize, PartialEq)]
 pub struct PssHit {
+    /// PSS root `N_ID^(2)` (0, 1 or 2) whose template gave the detection.
     pub nid2: usize,
     /// Arrival of the PSS useful part after the first capture sample (s).
     pub toa_s: f64,
@@ -239,11 +241,15 @@ pub fn offsets(
 pub struct OffsetFit {
     /// Offset at the capture start (s).
     pub offset_s: f64,
+    /// Standard uncertainty of `offset_s` from the residual scatter (s).
     pub offset_u_s: f64,
     /// Rate (s/s).
     pub rate: f64,
+    /// Standard uncertainty of `rate` from the residual scatter (s/s).
     pub rate_u: f64,
+    /// RMS of the residuals about the fitted line (s).
     pub residual_rms_s: f64,
+    /// Number of `(t, offset)` points fitted.
     pub n: usize,
 }
 

@@ -38,6 +38,7 @@ use std::collections::{BTreeMap, BTreeSet};
 
 /// Schema ids.
 pub const ATLAS_SCHEMA: &str = "kshana.interference-atlas/1";
+/// Schema id of the ground-station C/N0 layer written by [`cors_layer`].
 pub const CORS_SCHEMA: &str = "kshana.cors-cn0-layer/1";
 /// Method id of the atlas and layer.
 pub const METHOD_ID: &str = "kshana-interference-atlas/v1";
@@ -47,11 +48,14 @@ pub const GPS_REPEAT_S: f64 = 86_156.0;
 /// Atlas parameters (pre-registered).
 #[derive(Clone, Debug, PartialEq)]
 pub struct AtlasParams {
+    /// Least number of degraded days for a cell to join a zone.
     pub min_days: usize,
+    /// Least persistence (degraded days over called days, 0-1) for a cell to join a zone.
     pub min_persistence: f64,
 }
 
 impl AtlasParams {
+    /// The pre-registered v1 parameters: at least 3 degraded days and a persistence of at least 0.5.
     pub const PREREGISTERED_V1: AtlasParams = AtlasParams {
         min_days: 3,
         min_persistence: 0.5,
@@ -249,12 +253,16 @@ pub fn verify(atlas: &Value) -> bool {
 /// C/N0 layer parameters (pre-registered).
 #[derive(Clone, Debug, PartialEq)]
 pub struct CorsParams {
+    /// Median C/N0 drop (dB, earlier day minus this day) at or above which an epoch is flagged.
     pub drop_db: f64,
+    /// Least number of satellites with a C/N0 drop at an epoch for it to be flagged.
     pub min_sats: usize,
+    /// Largest gap (s) between flagged epochs that are joined into one interval.
     pub join_s: f64,
 }
 
 impl CorsParams {
+    /// The pre-registered v1 parameters: a 6 dB median drop over at least 4 satellites, joined within 120 s.
     pub const PREREGISTERED_V1: CorsParams = CorsParams {
         drop_db: 6.0,
         min_sats: 4,

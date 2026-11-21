@@ -78,6 +78,7 @@ pub struct Params {
 }
 
 impl Params {
+    /// The pre-registered version-1 parameter set, used by the method `kshana-adsb-indicators/v1`.
     pub const PREREGISTERED_V1: Params = Params {
         min_alt_ft: 5000.0,
         gap_s: 30.0,
@@ -91,6 +92,7 @@ impl Params {
         low_report_share: 0.5,
     };
 
+    /// The parameters as JSON, with the method id and the publication minimum of distinct aircraft.
     pub fn to_json(&self) -> Value {
         json!({
             "method": METHOD_ID,
@@ -116,9 +118,14 @@ struct Report {
 /// Input counts.
 #[derive(Clone, Debug, Default, serde::Serialize)]
 pub struct ReadStats {
+    /// Non-empty data rows read after the header.
     pub rows: u64,
+    /// Rows kept as reports (parsed, in range and at or above `min_alt_ft`).
     pub used: u64,
+    /// Rows dropped because the barometric altitude was below [`Params::min_alt_ft`].
     pub below_min_alt: u64,
+    /// Rows dropped for an unparseable timestamp or position, an empty aircraft id, or an
+    /// out-of-range latitude/longitude.
     pub bad_row: u64,
 }
 
