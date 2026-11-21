@@ -408,6 +408,8 @@ const fn e(
     }
 }
 
+// PIN-SCOPE:    the official OSNMA test-vector archive (Test_vectors.zip), the whole file
+// PIN-EXCLUDES: nothing; the archive is checked as downloaded, before extraction
 /// SHA-256 of the official archive (`Test_vectors.zip`, readme dated 2024-01-25) this test was
 /// written and run against. `tools/fetch_osnma_official_vectors.sh` refuses any other.
 const OFFICIAL_ARCHIVE_SHA256: &str =
