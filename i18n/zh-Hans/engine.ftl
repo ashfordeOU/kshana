@@ -5867,6 +5867,10 @@ engine-e-rinex-obs-bad = 无效的 { $what }：{ $s }
 engine-e-rinex-obs-rinex-observation-file-has-no = RINEX 观测文件没有 END OF HEADER
 
 engine-e-rinex-obs-rinex-observation-file-contained-no = RINEX 观测文件不含历元记录
+engine-e-rinex-not-finite = { $s } 不是有限数值
+engine-e-rinex-nav-version-unsupported = RINEX { $version } 导航文件：仅读取 RINEX 3 和 4 导航文件
+engine-e-rinex-obs-epoch-overrun = 历元 { $line } 声明了 { $n } 条记录，但在 { $got } 条之后就出现了下一个历元头
+engine-e-precise-products-clock-no-end-of-header = RINEX 钟差文件没有 END OF HEADER
 
 engine-e-scenario-time-step-must-be-finite = time.step_s 必须为有限值且 > 0（实际为 { $step_s }）
 

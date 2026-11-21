@@ -6818,6 +6818,10 @@ engine-e-rinex-obs-bad = ongeldige { $what }: { $s }
 engine-e-rinex-obs-rinex-observation-file-has-no = het RINEX-observatiebestand heeft geen END OF HEADER
 
 engine-e-rinex-obs-rinex-observation-file-contained-no = het RINEX-observatiebestand bevatte geen epochrecords
+engine-e-rinex-not-finite = { $s } is geen eindig getal
+engine-e-rinex-nav-version-unsupported = RINEX { $version }-navigatiebestand: alleen navigatiebestanden in RINEX 3 en 4 worden gelezen
+engine-e-rinex-obs-epoch-overrun = het tijdstip { $line } kondigt { $n } records aan, maar de volgende tijdstipkop volgt na { $got }
+engine-e-precise-products-clock-no-end-of-header = het RINEX-klokbestand heeft geen END OF HEADER
 
 ## src/scenario.rs
 

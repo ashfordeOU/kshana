@@ -129,16 +129,22 @@ pub struct RinexEphemeris {
 }
 
 /// Parse a Fortran `D`/`E`-exponent float as written in RINEX (`-1.23D-09`,
-/// `4.5678E+04`, or a plain decimal). Blank fields parse to `0.0`.
+/// `4.5678E+04`, or a plain decimal). Blank fields parse to `0.0`. A value that is not
+/// finite (`NaN`, `inf`, or one that overflows, `1.0D+400`) is an error: Rust's float parser
+/// accepts those spellings, and none is a RINEX value.
 pub fn parse_d(s: &str) -> Result<f64, String> {
     let t = s.trim();
     if t.is_empty() {
         return Ok(0.0);
     }
     let normalized = t.replace(['D', 'd'], "E");
-    normalized
+    let v = normalized
         .parse::<f64>()
-        .map_err(|_| crate::terr!("e-osnma-cli-not-number", s = format!("{:?}", s)))
+        .map_err(|_| crate::terr!("e-osnma-cli-not-number", s = format!("{:?}", s)))?;
+    if !v.is_finite() {
+        return Err(crate::terr!("e-rinex-not-finite", s = format!("{:?}", s)));
+    }
+    Ok(v)
 }
 
 /// Returned by [`col`] when a requested column boundary falls inside a
@@ -263,6 +269,15 @@ pub fn parse_nav_with(text: &str, opts: NavParseOptions) -> Result<Vec<RinexEphe
         if done {
             break;
         }
+    }
+    if let Some(v) = declared.filter(|v| *v < 3.0) {
+        // RINEX 2 navigation records carry no system letter (` 6 13  1 ...`); the RINEX 3
+        // walk would step over every one as an unknown system and return nothing, which a
+        // caller could not tell from a file with no GPS records.
+        return Err(crate::terr!(
+            "e-rinex-nav-version-unsupported",
+            version = format!("{v:.2}")
+        ));
     }
     let rinex4 = match declared {
         Some(v) => v >= 4.0,

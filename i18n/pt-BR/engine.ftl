@@ -7026,6 +7026,10 @@ engine-e-rinex-obs-bad = { $what } inválido: { $s }
 engine-e-rinex-obs-rinex-observation-file-has-no = o arquivo de observação RINEX não tem END OF HEADER
 
 engine-e-rinex-obs-rinex-observation-file-contained-no = o arquivo de observação RINEX não continha registros de época
+engine-e-rinex-not-finite = { $s } não é um número finito
+engine-e-rinex-nav-version-unsupported = arquivo de navegação RINEX { $version }: só são lidos arquivos de navegação RINEX 3 e 4
+engine-e-rinex-obs-epoch-overrun = a época { $line } declara { $n } registros, mas o próximo cabeçalho de época vem após { $got }
+engine-e-precise-products-clock-no-end-of-header = o arquivo de relógios RINEX não tem END OF HEADER
 
 ## src/scenario.rs
 
