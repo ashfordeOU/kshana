@@ -50,8 +50,10 @@ fn d_radius() -> f64 {
 #[derive(Clone, Copy, Debug, Default, PartialEq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct Tolerance {
+    /// Absolute tolerance, in the stated value's unit (0 when absent).
     #[serde(default)]
     pub abs: Option<f64>,
+    /// Relative tolerance, as a fraction of the stated value's magnitude (0 when absent).
     #[serde(default)]
     pub rel: Option<f64>,
 }
@@ -68,7 +70,9 @@ impl Tolerance {
 #[derive(Clone, Copy, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct RefOrbit {
+    /// Reference orbit altitude above the spherical Earth (km).
     pub altitude_km: f64,
+    /// Reference orbit inclination (degrees).
     pub inclination_deg: f64,
 }
 
@@ -76,62 +80,110 @@ pub struct RefOrbit {
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case", deny_unknown_fields)]
 pub enum Check {
+    /// Orbital period (minutes), checked against `2π √(r³/GM)` for the circular orbit.
     OrbitalPeriodMin {
+        /// The stated period (minutes).
         stated: f64,
     },
+    /// Orbital speed (m/s), checked against the circular two-body speed `√(GM/r)`.
     OrbitalSpeedMS {
+        /// The stated orbital speed (m/s).
         stated: f64,
     },
+    /// Largest line-of-sight speed to a static user above the mask (m/s), found by a
+    /// grid search over orbit position and user latitude and longitude, then refined.
     MaxRelativeSpeedMS {
+        /// The stated largest relative speed (m/s).
         stated: f64,
+        /// Elevation mask (degrees, 0 to 60; default 0).
         #[serde(default)]
         mask_deg: f64,
     },
+    /// Largest Doppler shift (Hz): the largest line-of-sight speed above the mask times `f/c`.
     MaxDopplerHz {
+        /// Carrier frequency (MHz).
         carrier_mhz: f64,
+        /// The stated largest Doppler shift (Hz).
         stated: f64,
+        /// Elevation mask (degrees, 0 to 60; default 0).
         #[serde(default)]
         mask_deg: f64,
     },
+    /// Largest Doppler rate (Hz/s): the largest rate of change of the line-of-sight speed
+    /// above the mask, by central differences in time, times `f/c`.
     MaxDopplerRateHzS {
+        /// Carrier frequency (MHz).
         carrier_mhz: f64,
+        /// The stated largest Doppler rate (Hz/s).
         stated: f64,
+        /// Elevation mask (degrees, 0 to 60; default 0).
         #[serde(default)]
         mask_deg: f64,
     },
+    /// Ratio of the system's largest line-of-sight speed (so Doppler, at one carrier) to a
+    /// reference orbit's, both searched above the same mask.
     MaxDopplerRatio {
+        /// The reference orbit, on the system's Earth radius.
         reference: RefOrbit,
+        /// The stated Doppler ratio (dimensionless, system over reference).
         stated: f64,
+        /// Elevation mask (degrees, 0 to 60; default 0), applied to both orbits.
         #[serde(default)]
         mask_deg: f64,
     },
+    /// Ratio of the system's largest Doppler rate to a reference orbit's, from the largest
+    /// line-of-sight accelerations of each above the same mask.
     MaxDopplerRateRatio {
+        /// The reference orbit, on the system's Earth radius.
         reference: RefOrbit,
+        /// The stated Doppler-rate ratio (dimensionless, system over reference).
         stated: f64,
+        /// Elevation mask (degrees, 0 to 60; default 0), applied to both orbits.
         #[serde(default)]
         mask_deg: f64,
     },
+    /// Slant range to a satellite on the horizon (km), checked against `√(r² − R²)`; the
+    /// ground arc is reported beside it.
     HorizonSlantRangeKm {
+        /// The stated horizon slant range (km).
         stated: f64,
     },
+    /// Reference altitude divided by the system's altitude, checked against a stated ratio.
     AltitudeRatio {
+        /// Reference orbit altitude (km).
         reference_altitude_km: f64,
+        /// The stated altitude ratio (dimensionless, reference over system).
         stated: f64,
     },
+    /// Free-space spreading loss `−10 log10(4π d²)` (dB) from the range at the mask to the
+    /// zenith range, checked as an interval against a stated interval (absolute tolerance).
     SpreadingLossDb {
+        /// Lower end of the stated spreading-loss interval (dB).
         stated_min: f64,
+        /// Upper end of the stated spreading-loss interval (dB).
         stated_max: f64,
+        /// Elevation mask (degrees, 0 to 60; default 0) giving the longest range.
         #[serde(default)]
         mask_deg: f64,
     },
+    /// Ratio of a reference orbit's squared range to the system's (spreading only), over
+    /// every pair of elevations above the mask, checked against a stated interval.
     SpreadingAdvantage {
+        /// Reference orbit altitude (km).
         reference_altitude_km: f64,
+        /// Lower end of the stated advantage interval (linear ratio).
         stated_min: f64,
+        /// Upper end of the stated advantage interval (linear ratio); the relative tolerance
+        /// is taken of this value.
         stated_max: f64,
+        /// Elevation mask (degrees, 0 to 60; default 0), applied to both orbits.
         #[serde(default)]
         mask_deg: f64,
     },
+    /// A stated received-power ratio over a reference signal, compared in dB with the
+    /// like-for-like and extreme differences of the stated power intervals.
     PowerAdvantage {
+        /// The stated power ratio (linear, system over reference), converted to dB.
         stated_ratio: f64,
         /// The system's minimum and maximum received power (dBW).
         system_dbw: [f64; 2],
@@ -146,13 +198,16 @@ pub enum Check {
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct Claim {
+    /// Identifier of the claim, unique within its system.
     pub id: String,
+    /// What the claim states and which computation checks it.
     pub check: Check,
     /// Tolerance on the stated value (or on each end of a stated interval).
     #[serde(default)]
     pub tolerance: Tolerance,
     /// Where the stated figure is published (document, section, page or URL, and the words).
     pub source: String,
+    /// Optional free-text note, copied to the report row.
     #[serde(default)]
     pub note: Option<String>,
 }
@@ -161,14 +216,18 @@ pub struct Claim {
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct System {
+    /// Name of the system, copied to each report row.
     pub name: String,
+    /// Circular orbit altitude above the spherical Earth (km); must be positive.
     pub altitude_km: f64,
+    /// Orbit inclination (degrees, 0 to 180).
     pub inclination_deg: f64,
     /// Earth radius used by the publication (km); default 6371.
     #[serde(default = "d_radius")]
     pub earth_radius_km: f64,
     /// Where the orbit is published.
     pub orbit_source: String,
+    /// The claims checked against this orbit (at most 64).
     pub claims: Vec<Claim>,
 }
 
@@ -176,16 +235,22 @@ pub struct System {
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct ClaimsInput {
+    /// The systems to check (at most 32).
     pub systems: Vec<System>,
 }
 
 /// One checked claim.
 #[derive(Clone, Debug, PartialEq, Serialize)]
 pub struct Row {
+    /// Name of the system the claim belongs to.
     pub system: String,
+    /// Identifier of the claim.
     pub id: String,
+    /// Snake-case name of the check, such as `max_doppler_hz`.
     pub check: &'static str,
+    /// Where the stated figure is published, copied from the claim.
     pub source: String,
+    /// The claim's note, if any; omitted from the output when absent.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub note: Option<String>,
     /// The stated value or interval.
@@ -203,8 +268,11 @@ pub struct Row {
 /// The report.
 #[derive(Clone, Debug, PartialEq, Serialize)]
 pub struct ClaimsReport {
+    /// One row per checked claim, in input order.
     pub rows: Vec<Row>,
+    /// Rows whose outcome is `consistent`, `within` or `reached_like_for_like`.
     pub consistent: usize,
+    /// All other rows: the row count less `consistent`.
     pub not_consistent: usize,
 }
 
@@ -220,6 +288,8 @@ pub struct Geometry {
 }
 
 impl Geometry {
+    /// Geometry from an altitude (km), an inclination (degrees) and an Earth radius (km),
+    /// stored in metres and radians.
     pub fn new(altitude_km: f64, inclination_deg: f64, earth_radius_km: f64) -> Self {
         Self {
             r: (earth_radius_km + altitude_km) * 1e3,
@@ -228,14 +298,17 @@ impl Geometry {
         }
     }
 
+    /// Circular orbital speed `√(GM/r)` (m/s).
     pub fn speed(&self) -> f64 {
         (GM / self.r).sqrt()
     }
 
+    /// Orbital period `2π √(r³/GM)` (s).
     pub fn period_s(&self) -> f64 {
         2.0 * std::f64::consts::PI * (self.r.ppowi(3) / GM).sqrt()
     }
 
+    /// Mean motion: orbital speed over orbit radius (rad/s).
     pub fn mean_motion(&self) -> f64 {
         self.speed() / self.r
     }
