@@ -243,11 +243,25 @@ impl OemFile {
     }
 }
 
-/// Format an epoch as the CCSDS calendar time `yyyy-mm-ddTHH:MM:SS.ffffff`.
+/// Format an epoch as the CCSDS calendar time `yyyy-mm-ddTHH:MM:SS.ffffff`, rounded to the
+/// printed microsecond with the carry taken through the minute, hour and day, so 59.9999996 s
+/// prints as the next minute rather than as second 60.
 fn iso8601(e: &EpochUtc) -> String {
+    let us_of_day =
+        ((e.hour as f64 * 3600.0 + e.minute as f64 * 60.0 + e.second) * 1e6).round() as i64;
+    let days = crate::gnss_time::days_from_civil(e.year as i64, e.month, e.day)
+        + us_of_day.div_euclid(86_400_000_000);
+    let us = us_of_day.rem_euclid(86_400_000_000);
+    let (y, m, d) = crate::gnss_time::civil_from_days(days);
     format!(
-        "{:04}-{:02}-{:02}T{:02}:{:02}:{:09.6}",
-        e.year, e.month, e.day, e.hour, e.minute, e.second
+        "{:04}-{:02}-{:02}T{:02}:{:02}:{:02}.{:06}",
+        y,
+        m,
+        d,
+        us / 3_600_000_000,
+        us / 60_000_000 % 60,
+        us / 1_000_000 % 60,
+        us % 1_000_000
     )
 }
 
@@ -829,6 +843,27 @@ mod tests {
             }
         }
         c
+    }
+
+    #[test]
+    fn iso8601_carries_a_rounded_second_into_the_minute_and_day() {
+        let e = |h, mi, sec| EpochUtc {
+            year: 2024,
+            month: 12,
+            day: 31,
+            hour: h,
+            minute: mi,
+            second: sec,
+        };
+        assert_eq!(
+            iso8601(&e(12, 30, 59.999_999_6)),
+            "2024-12-31T12:31:00.000000"
+        );
+        assert_eq!(
+            iso8601(&e(23, 59, 59.999_999_7)),
+            "2025-01-01T00:00:00.000000"
+        );
+        assert_eq!(iso8601(&e(1, 2, 3.25)), "2024-12-31T01:02:03.250000");
     }
 
     #[test]
