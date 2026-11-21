@@ -5175,6 +5175,7 @@ engine-e-orbit-rinex-block-parsed-but-contained = rinex ブロックは解析さ
 engine-e-orbit-user-site-lat-deg-must = user_site：lat_deg は [-90, 90] の範囲で、すべてのフィールドが有限でなければなりません
 
 engine-e-orbit-no-satellites-to-export = エクスポートする衛星がありません
+engine-e-orbit-too-many-satellites-for-sp3 = { $n } 機の衛星は SP3-c ファイルに収まりません（最大 { $max }）。数を減らすか OEM エクスポートを使ってください
 
 engine-e-orbit-time-step-must-be-positive = SP3 のエクスポートでは time.step_s は正の値でなければなりません
 

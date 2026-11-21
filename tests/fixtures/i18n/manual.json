@@ -20541,5 +20541,19 @@
     "var": "step"
    }
   ]
+ },
+ {
+  "id": "e-orbit-too-many-satellites-for-sp3",
+  "error": true,
+  "parts": [
+   {
+    "var": "n"
+   },
+   " satellites do not fit an SP3-c file (at most ",
+   {
+    "var": "max"
+   },
+   "); export fewer, or use the OEM export"
+  ]
  }
 ]

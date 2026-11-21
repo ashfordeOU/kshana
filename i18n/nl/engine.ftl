@@ -6076,6 +6076,7 @@ engine-e-orbit-rinex-block-parsed-but-contained = RINEX-blok verwerkt maar bevat
 engine-e-orbit-user-site-lat-deg-must = user_site: lat_deg moet in [-90, 90] liggen en elk veld moet eindig zijn
 
 engine-e-orbit-no-satellites-to-export = geen satellieten om te exporteren
+engine-e-orbit-too-many-satellites-for-sp3 = { $n } satellieten passen niet in een SP3-c-bestand (hoogstens { $max }); exporteer er minder of gebruik de OEM-export
 
 engine-e-orbit-time-step-must-be-positive = time.step_s moet positief zijn voor SP3-export
 
