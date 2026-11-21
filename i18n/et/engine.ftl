@@ -10576,12 +10576,12 @@ engine-e-sil-obs-unknown-system = tundmatu süsteem { $value } (G või E)
 engine-e-sil-obs-bad-canyon = kanjon vajab positiivset laiust, antenni nihet tänava sees, vähemalt 1 dB peegelduskadu ja lõplikke väärtusi
 
 ## Interference model library (src/interference_lib.rs)
-engine-interference-lib-usage = kasutus: kshana interference-lib models | generate --class <none|cw|narrowband|wideband|chirp|pulsed> [--centre-hz <f>] [--bandwidth-hz <b>] [--period-s <t>] [--pulse-width-s <w>] [--jnr-db <j>] [--drift-hz-per-s <r>] [--triangle] [--fs <hz>] [--samples <n>] [--seed <s>] --out <base> | fit <recording.sigmf-meta> [--out <fit.json>] | bench [--per-class <n>] [--seed <s>] [--predictions <ids.csv>] [--out <bench.json>] | cases [--per-class <n>] [--seed <s>] [--out <cases.csv>]  (docs/INTERFERENCE-LIB.md)
+engine-interference-lib-usage = kasutus: kshana interference-lib models | generate --class <none|cw|narrowband|wideband|chirp|pulsed|multitone|fm_tone> [--centre-hz <f>] [--bandwidth-hz <b>] [--period-s <t>] [--pulse-width-s <w>] [--jnr-db <j>] [--drift-hz-per-s <r>] [--triangle] [--tones-hz <f1,f2,...>] [--deviation-hz <d>] [--mod-freq-hz <m>] [--fs <hz>] [--samples <n>] [--seed <s>] --out <base> | fit <recording.sigmf-meta> [--out <fit.json>] | bench [--per-class <n>] [--seed <s>] [--predictions <ids.csv>] [--out <bench.json>] | cases [--per-class <n>] [--seed <s>] [--out <cases.csv>]  (docs/INTERFERENCE-LIB.md)
 engine-interference-lib-written = kirjutatud { $path } ({ $n } proovi, MODELLED sünteetiline häire)
 engine-e-interference-lib-missing-value = { $option } vajab väärtust
 engine-e-interference-lib-unknown-option = tundmatu valik { $option } (valikud loetleb kshana interference-lib --help)
 engine-e-interference-lib-bad-number = { $option } vajab lõplikku arvu, mitte { $value }
-engine-e-interference-lib-unknown-class = tundmatu häireklass { $value } (none, cw, narrowband, wideband, chirp või pulsed)
+engine-e-interference-lib-unknown-class = tundmatu häireklass { $value } (none, cw, narrowband, wideband, chirp, pulsed, multitone või fm_tone)
 engine-e-interference-lib-bad-size = diskreetimissagedus peab olema positiivne ja salvestis kahe aste 1024 kuni 16777216 proovi (bench: 1 kuni 1000 juhtumit klassi kohta)
 engine-e-interference-lib-cannot-read = faili { $path } ei saa lugeda: { $e }
 engine-e-interference-lib-cannot-write = faili { $path } ei saa kirjutada: { $e }
