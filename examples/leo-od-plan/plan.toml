@@ -1,0 +1,36 @@
+# An illustrative BeiDou-LEO planning case (kshana leo-od-plan; docs/LEO-OD-PLAN.md).
+# Every number below is a planning input chosen for the example, not a published value of
+# any system. MODELLED.
+arc_hours = 24.0
+step_s = 300.0
+ground_mask_deg = 10.0
+leo_mask_deg = -20.0               # a zenith antenna that also sees below the local horizontal
+grazing_height_km = 100.0          # the line of sight must clear 100 km
+bds_half_beamwidth_deg = 23.0      # illustrative: about 10 degrees beyond the Earth's edge from MEO
+ground_sigma_m = 0.5
+leo_sigma_m = 1.0
+include_geo_igso = false
+
+[leo]
+total = 60
+planes = 6
+phasing = 1
+altitude_km = 900.0
+inclination_deg = 87.0
+
+[[station]]
+name = "regional-a"
+lat_deg = 40.0
+lon_deg = 116.0
+[[station]]
+name = "regional-b"
+lat_deg = 25.0
+lon_deg = 102.0
+[[station]]
+name = "regional-c"
+lat_deg = 44.0
+lon_deg = 87.0
+[[station]]
+name = "regional-d"
+lat_deg = 30.0
+lon_deg = 120.0

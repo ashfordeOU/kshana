@@ -10510,6 +10510,212 @@ engine-e-ais-integrity-cannot-read = kan ikke lese { $path }: { $e }
 engine-e-ais-integrity-cannot-write = kan ikke skrive { $path }: { $e }
 engine-e-ais-integrity-bad-place = en rad i stedslisten er ikke name,lat,lon,radius_m med gyldig posisjon og positiv radius: { $row }
 
+## A GNSS receiver in space: clock, timestamps, dynamics, upper-SSV benchmark (src/space_receiver/)
+engine-space-receiver-usage = bruk: kshana space-receiver clock [--orbit <preset|a_km,e,i_deg>] [--oscillator <name>] [--temp-swing <K>] [--outage-min <m>]... | timestamps <tags.csv> [--oscillator <name>] [--step-floor <s>] [--gap-factor <x>] [--window <n>] | dynamics [--orbit <preset|a_km,e,i_deg>] [--duration-min <m>] [--step-s <s>] [--band l1|l5] [--max-off-boresight <deg>] [--max-doppler <Hz>] [--max-doppler-rate <Hz/s>] | bench [--list] [--case <id>]... [--cn0 <dB-Hz>] [--oscillator <name>] [--max-doppler <Hz>] [--max-doppler-rate <Hz/s>] [--time-budget <s>] [--sidelobes] | mms [--cn0 <dB-Hz>] [--orbits <n>] [--step-min <m>] | od-vs-tle <onboard.oem> --tle <set.tle>   [--out <file.json>]  (docs/SPACE-RECEIVER.md)
+engine-e-space-receiver-missing-value = { $option } trenger en verdi
+engine-e-space-receiver-unknown-option = ukjent valg { $option } (kshana space-receiver --help viser valgene)
+engine-e-space-receiver-cannot-read = kan ikke lese { $path }: { $e }
+engine-e-space-receiver-cannot-write = kan ikke skrive { $path }: { $e }
+engine-e-space-receiver-bad-number = { $option }: { $value } er ikke et gyldig tall
+engine-e-space-receiver-unknown-name = ukjent navn { $name } (kjente: { $known })
+engine-e-space-receiver-no-columns = CSV-overskriften må navngi t_ref_s og enten t_rx_s eller week og tow_s
+engine-e-space-receiver-bad-row = linje { $line }: en påkrevd kolonne mangler eller er ikke et tall
+engine-e-space-receiver-too-few-rows = minst tre tidsstempelrader trengs
+
+## Space receiver: MMS case and onboard OD against an element set (src/space_receiver/)
+engine-e-space-receiver-no-tle = fant ikke noe tolinjers elementsett (linje 1 som begynner med "1 ", fulgt av linje 2)
+engine-e-space-receiver-oem-frame = OEM-referanserammen { $frame } kan ikke leses av denne sammenligningen (EME2000, GCRF, ICRF eller TEME)
+
+## SIL observation generator (src/sil_obs.rs)
+engine-sil-obs-usage = bruk: kshana sil-obs generate <scenario.toml> --nav <nav.rnx> --out <sim.obs> [--truth <truth.jsonl>] | compare <a.obs> <b.obs> [--json] [--out <file.json>]  (docs/SIL-OBS.md)
+engine-sil-obs-summary = { $n_epochs } epoker, { $n_obs } signalprøver skrevet; { $n_nlos } NLOS- og { $n_blocked } blokkerte satellittepoker (MODELLED)
+engine-e-sil-obs-missing-value = { $option } trenger en verdi
+engine-e-sil-obs-unknown-option = ukjent valg { $option } (kshana sil-obs --help viser valgene)
+engine-e-sil-obs-cannot-read = kan ikke lese { $path }: { $e }
+engine-e-sil-obs-cannot-write = kan ikke skrive { $path }: { $e }
+engine-e-sil-obs-bad-scenario = { $path } er ikke et sil-obs-scenario: { $e }
+engine-e-sil-obs-bad-nav = { $path } er ikke en RINEX-navigasjonsfil: { $e }
+engine-e-sil-obs-bad-obs = { $path } er ikke en RINEX-observasjonsfil: { $e }
+engine-e-sil-obs-bad-start = starten { $value } er ikke en GPS-tid på formen YYYY-MM-DDTHH:MM:SS
+engine-e-sil-obs-bad-timing = varigheten må være null eller mer og steget positivt, med høyst én million epoker
+engine-e-sil-obs-no-satellites = { $path } har ingen kringkastede poster for de valgte systemene
+engine-e-sil-obs-unknown-system = ukjent system { $value } (G eller E)
+engine-e-sil-obs-bad-canyon = kløften trenger en positiv bredde, en antenneforskyvning innenfor gaten, et refleksjonstap på minst 1 dB og endelige verdier
+
+## Interference model library (src/interference_lib.rs)
+engine-interference-lib-usage = bruk: kshana interference-lib models | generate --class <none|cw|narrowband|wideband|chirp|pulsed> [--centre-hz <f>] [--bandwidth-hz <b>] [--period-s <t>] [--pulse-width-s <w>] [--jnr-db <j>] [--drift-hz-per-s <r>] [--triangle] [--fs <hz>] [--samples <n>] [--seed <s>] --out <base> | fit <recording.sigmf-meta> [--out <fit.json>] | bench [--per-class <n>] [--seed <s>] [--predictions <ids.csv>] [--out <bench.json>] | cases [--per-class <n>] [--seed <s>] [--out <cases.csv>]  (docs/INTERFERENCE-LIB.md)
+engine-interference-lib-written = skrev { $path } ({ $n } prøver, MODELLED syntetisk interferens)
+engine-e-interference-lib-missing-value = { $option } trenger en verdi
+engine-e-interference-lib-unknown-option = ukjent valg { $option } (kshana interference-lib --help viser valgene)
+engine-e-interference-lib-bad-number = { $option } trenger et endelig tall, ikke { $value }
+engine-e-interference-lib-unknown-class = ukjent interferensklasse { $value } (none, cw, narrowband, wideband, chirp eller pulsed)
+engine-e-interference-lib-bad-size = samplingsraten må være positiv og opptaket en potens av to fra 1024 til 16777216 prøver (bench: 1 til 1000 tilfeller per klasse)
+engine-e-interference-lib-cannot-read = kan ikke lese { $path }: { $e }
+engine-e-interference-lib-cannot-write = kan ikke skrive { $path }: { $e }
+engine-e-interference-lib-bad-predictions = en prediksjonsrad er ikke id,class med en kjent klasse: { $row }
+
+## Receiver-antenna characterisation (src/antenna_cal.rs)
+engine-antenna-cal-usage = bruk: kshana antenna-cal lint <file.atx> | spread <file.atx>... --type <type-radome> | compare <a.atx> [<b.atx>] --type <type-radome> [--serial-a <s>] [--serial-b <s>] [--max-zenith <deg>] | group-delay <spec.toml> | js-margin <spec.toml>  [--out <file.json>]  (docs/ANTENNA-CAL.md)
+engine-e-antenna-cal-missing-value = { $option } trenger en verdi
+engine-e-antenna-cal-unknown-option = ukjent valg { $option } (kshana antenna-cal --help viser valgene)
+engine-e-antenna-cal-bad-number = { $option } trenger et endelig tall på null eller mer, ikke { $value }
+engine-e-antenna-cal-cannot-read = kan ikke lese { $path }: { $e }
+engine-e-antenna-cal-cannot-write = kan ikke skrive { $path }: { $e }
+engine-e-antenna-cal-bad-spec = { $path } er ikke en gyldig spesifikasjon: { $e }
+engine-e-antenna-cal-no-antenna = ingen antenne { $name } i { $path }
+engine-e-antenna-cal-too-few-units = færre enn to kalibreringer av { $name } å sammenligne
+engine-e-antenna-cal-unknown-signal = et par nevner det ukjente signalet { $value }
+engine-e-antenna-cal-bad-group-delay = gruppeforsinkelsesspesifikasjonen trenger minst ett signal, et ordnet endelig temperaturområde, positive frekvenser og endelige forsinkelser
+engine-e-antenna-cal-same-pair = et ionosfærefritt par trenger to forskjellige frekvenser
+engine-e-antenna-cal-bad-pattern = ukjent antennediagram (patch, choke-ring eller table)
+engine-e-antenna-cal-bad-gain-table = en forsterkningstabell trenger minst to endelige punkter med elevasjon og forsterkning
+engine-e-antenna-cal-bad-link = J/S-spesifikasjonen trenger en positiv frekvens, en endelig EIRP og positive avstander
+
+## Arctic GNSS availability planner (src/arctic_plan.rs)
+engine-arctic-plan-usage = bruk: kshana arctic-plan --site <lat,lon[,h]> | --place <name> | --places  [--systems <a,b,...>] [--compare] [--hours <h>] [--step-min <m>] [--start-s <s>] [--mask <deg>] [--skyline-preset <name>] [--clock common|per-system] [--min-sats <n>] [--max-pdop <x>] [--task-min <m>] [--kp <n>] [--year <y>] [--iono-mask <deg>] [--tle <file> --epoch <YYYY-MM-DDTHH:MM:SS>] [--epochs] [--out <file.json>]  (docs/ARCTIC-PLAN.md)
+engine-e-arctic-plan-missing-value = { $option } trenger en verdi
+engine-e-arctic-plan-unknown-option = ukjent valg { $option } (kshana arctic-plan --help viser valgene)
+engine-e-arctic-plan-cannot-read = kan ikke lese { $path }: { $e }
+engine-e-arctic-plan-cannot-write = kan ikke skrive { $path }: { $e }
+engine-e-arctic-plan-bad-number = { $option }: { $value } er ikke et gyldig tall
+engine-e-arctic-plan-unknown-name = ukjent navn { $name } (kjente: { $known })
+engine-e-arctic-plan-needs-site = oppgi stedet med --site <lat,lon[,h]> eller --place <name> (--places viser navnene)
+engine-e-arctic-plan-bad-horizon = horisont og steg må være positive og gi høyst 20 000 epoker
+
+## Lunar time scales, frames, terminology and model provenance (src/lunar_ref.rs)
+engine-lunar-ref-usage = bruk: kshana lunar-ref tcb-tcl [--jd <JD TCB>] [--window <jd0,jd1>] | approx [--window <jd0,jd1>] [--grid-days <d>] | convert --from <tt|tdb|tcb|tcg|tcl|ltc> --to <scale> --jd <JD> | transform --from <ICRF|MOON_PA_DE440|MOON_PA|MOON_ME|ILURF> --to <frame> --xyz <x,y,z> [--jd <JD TDB>] | terms | models [--check] [--root <dir>]   [--out <file.json>]  (docs/LUNAR-REF.md)
+engine-e-lunar-ref-missing-value = { $option } trenger en verdi
+engine-e-lunar-ref-unknown-option = ukjent valg { $option } (kshana lunar-ref --help viser valgene)
+engine-e-lunar-ref-cannot-write = kan ikke skrive { $path }: { $e }
+engine-e-lunar-ref-bad-number = { $option }: { $value } er ikke et gyldig tall
+engine-e-lunar-ref-unknown-name = ukjent navn { $name } (kjente: { $known })
+engine-e-lunar-ref-out-of-span = epoken ligger utenfor spennet til efemeridene som brukes (Standish-elementer 1800–2050; DE440-månens orientering 2014–2030)
+
+## Quantum inertial-sensor benchmark (src/quantum_bench.rs)
+engine-quantum-bench-usage = bruk: kshana quantum-bench protocol [--out <protocol.json>] | simulate <spec.toml> --out <series.csv> | score <series.csv> [--fringe-m-s2 <a>] [--out <score.json>]  (docs/QUANTUM-BENCH.md)
+engine-quantum-bench-simulated = skrev { $n } prøver ({ $n_wrapped } med en omslått frynse) til { $path } (MODELLED)
+engine-e-quantum-bench-missing-value = { $option } trenger en verdi
+engine-e-quantum-bench-unknown-option = ukjent valg { $option } (kshana quantum-bench --help viser valgene)
+engine-e-quantum-bench-bad-number = { $option } trenger et endelig positivt tall, ikke { $value }
+engine-e-quantum-bench-cannot-read = kan ikke lese { $path }: { $e }
+engine-e-quantum-bench-cannot-write = kan ikke skrive { $path }: { $e }
+engine-e-quantum-bench-bad-spec = { $path } er ikke en gyldig spesifikasjon: { $e }
+engine-e-quantum-bench-bad-sensor = sensoren trenger en positiv pulsavstand, minst ett atom, en kontrast i (0, 1] og en syklustid på minst to ganger pulsavstanden
+engine-e-quantum-bench-bad-run = kjøringen trenger en varighet på minst én syklus og høyst ti millioner sykluser
+engine-e-quantum-bench-too-short = serien trenger minst 16 prøver med stigende tider
+engine-e-quantum-bench-bad-csv = serien trenger kolonnene t_s og measured_m_s2 med endelige tall: { $row }
+
+## Terrestrial signals of opportunity, clock offset (src/soop_clock.rs)
+engine-soop-clock-usage = bruk: kshana soop-clock lte <capture.sigmf-meta> --start-gps-s <t> --rx <lat,lon,h> --tx <lat,lon,h> [--tx-offset-ns <ns>] [--prior-offset-s <s>] [--carrier-hz <f>] [--min-metric <m>] [--out <file.json>] | cp <capture.sigmf-meta> --nfft <n> --ncp <n> [--carrier-hz <f>] [--out <file.json>] | synth-lte --out <base> [--fs <hz>] [--duration-s <s>] [--nid2 <0|1|2>] [--delay-s <s>] [--cfo-hz <f>] [--snr-db <d>] [--seed <s>]  (docs/SOOP-CLOCK.md)
+engine-soop-clock-summary = { $n } PSS-deteksjoner; mottakerens klokkeavvik { $offset_us } µs ved opptakets start (MODELLED)
+engine-e-soop-clock-missing-value = { $option } trenger en verdi
+engine-e-soop-clock-unknown-option = ukjent valg { $option } (kshana soop-clock --help viser valgene)
+engine-e-soop-clock-bad-number = { $option } trenger et endelig tall, ikke { $value }
+engine-e-soop-clock-bad-position = { $option } trenger lat,lon[,h] i grader og meter, ikke { $value }
+engine-e-soop-clock-cannot-read = kan ikke lese { $path }: { $e }
+engine-e-soop-clock-cannot-write = kan ikke skrive { $path }: { $e }
+engine-e-soop-clock-too-few-detections = { $n } PSS-deteksjoner; det trengs minst tre for et avvik og en rate
+engine-e-soop-clock-too-short = opptaket er kortere enn to OFDM-symboler
+engine-e-soop-clock-bad-synth = testsignalet trenger en samplingsrate fra 100 kHz til 61,44 MHz og en positiv varighet på høyst 20 millioner prøver
+
+## LunaNet AFS receiver verification kit and lunar output message profile (src/lunar_afs/kit.rs, src/lunar_output.rs)
+engine-lunar-afs-kit-usage = bruk: kshana lunar-afs-kit vectors [<vectors.json>] | registry [<registry.toml|json>] [--limit-db <dB>] [--no-correlation] | output-check <messages.jsonl> | output-example [--n <count>] [--jd <JD TCL>] | output-reexpress <messages.jsonl> --scale <tt|tdb|tcb|tcg|tcl|ltc> --frame <ICRF|MOON_PA_DE440|MOON_PA|MOON_ME|ILURF>   [--out <file>]  (docs/LUNAR-AFS-KIT.md)
+engine-e-lunar-afs-kit-missing-value = { $option } trenger en verdi
+engine-e-lunar-afs-kit-unknown-option = ukjent valg { $option } (kshana lunar-afs-kit --help viser valgene)
+engine-e-lunar-afs-kit-cannot-read = kan ikke lese { $path }: { $e }
+engine-e-lunar-afs-kit-cannot-write = kan ikke skrive { $path }: { $e }
+engine-e-lunar-afs-kit-bad-number = { $option }: { $value } er ikke et gyldig tall
+engine-e-lunar-afs-kit-unknown-name = ukjent navn { $name } (kjente: { $known })
+engine-e-lunar-afs-kit-bad-registry = registeret er ikke en liste over [[node]]-tildelinger: { $e }
+engine-e-lunar-afs-kit-bad-vectors = ikke en kshana.afs-vectors/1-fil: { $e }
+engine-e-lunar-afs-kit-bad-message = en linje er ikke en kshana.lunar-pnt-output/1-melding med epoke, referanseramme og posisjon
+
+## ADS-B interference indicators (src/adsb_indicators.rs)
+engine-adsb-indicators-usage = bruk: kshana adsb-indicators <adsb.csv> [--cell-deg <d>] [--out <indicators.json>]  (docs/ADSB-INDICATORS.md)
+engine-adsb-indicators-summary = { $n } publiserte celler flagget (MODELLED; ingen årsak nevnes)
+engine-e-adsb-indicators-missing-value = { $option } trenger en verdi
+engine-e-adsb-indicators-unknown-option = ukjent valg { $option } (kshana adsb-indicators --help viser valgene)
+engine-e-adsb-indicators-bad-cell = cellestørrelsen må være 0,01 til 10 grader, ikke { $value }
+engine-e-adsb-indicators-cannot-read = kan ikke lese { $path }: { $e }
+engine-e-adsb-indicators-cannot-write = kan ikke skrive { $path }: { $e }
+engine-e-adsb-indicators-missing-column = ADS-B-CSV-filen har ingen kolonne { $name }
+
+## Interference atlas and station C/N0 layer (src/interference_atlas.rs)
+engine-interference-atlas-usage = bruk: kshana interference-atlas build <day.geojson>... [--previous <atlas.json>] [--out <atlas.json>] | verify <atlas.json> | cors <today.obs> --baseline <earlier.obs> [--adsb-day <day.geojson>] [--station <lat,lon>] [--out <layer.json>]  (docs/INTERFERENCE-ATLAS.md)
+engine-interference-atlas-built = { $n_cells } celler, { $n_zones } soner; versjon { $version } (MODELLED)
+engine-interference-atlas-verified = { $path }: versjonen samsvarer med innholdet
+engine-e-interference-atlas-missing-value = { $option } trenger en verdi
+engine-e-interference-atlas-unknown-option = ukjent valg { $option } (kshana interference-atlas --help viser valgene)
+engine-e-interference-atlas-cannot-read = kan ikke lese { $path }: { $e }
+engine-e-interference-atlas-cannot-write = kan ikke skrive { $path }: { $e }
+engine-e-interference-atlas-not-a-product = { $path } er verken et daglig interferenskartprodukt eller et atlas
+engine-e-interference-atlas-mixed = de daglige produktene blander rutenett eller kilder
+engine-e-interference-atlas-empty = ingen daglig produkt ble oppgitt
+engine-e-interference-atlas-changed = { $path }: versjonen samsvarer ikke med innholdet (atlaset er endret)
+engine-e-interference-atlas-bad-obs = { $path } er ikke en RINEX-observasjonsfil: { $e }
+engine-e-interference-atlas-no-cn0 = de to observasjonsfilene deler ingen GPS-satellitt med C/N0 én sporgjentakelse fra hverandre
+engine-e-interference-atlas-bad-station = stasjonen trenger lat,lon i grader (eller en omtrentlig posisjon i observasjonshodet), ikke { $value }
+
+## Private holdout of kshana-bench tasks (f) and (g) (src/bench/holdout.rs)
+engine-e-bench-holdout-inside-repository = nekter å skrive et privat holdout inne i repositoriet: { $path } (velg en mappe utenfor det)
+engine-e-bench-holdout-task = det private holdoutet finnes bare for oppgave (f) og (g)
+engine-e-bench-holdout-no-truth = ingen privat fasit for oppgave ({ $task }): oppgi --truth <file> eller sett { $var }
+engine-bench-holdout-not-a-private-truth = ikke en privat holdout-fasit: det må være en kshana-bench-fasitfil for oppgave (f) eller (g) med split holdout
+engine-bench-holdout-not-registered = fasiten for oppgave ({ $task }) med SHA-256 { $sha } er ikke registrert i bench/holdout/PRIVATE.json
+engine-bench-site-holdout-not-private = resultat { $v1 } er et holdout-resultat for oppgave (f) eller (g) som ikke er merket privat, eller der fasiten ikke er registrert
+engine-bench-site-provenance-private-holdout = skåret på det private holdoutet (registrert fasit)
+
+## Constellation-claim verification datasets (src/claim_check.rs)
+engine-claim-check-usage = bruk: kshana claim-check [<dataset.json>...] [--out <file.json>] | --template   (no file: the shipped public-claims dataset; docs/CLAIM-CHECK.md)
+engine-e-claim-check-missing-value = { $option } trenger en verdi
+engine-e-claim-check-unknown-option = ukjent valg { $option } (kshana claim-check --help viser valgene)
+engine-e-claim-check-cannot-read = kan ikke lese { $path }: { $e }
+engine-e-claim-check-cannot-write = kan ikke skrive { $path }: { $e }
+engine-e-claim-check-bad-dataset = ikke en kshana.claims/1-fil: { $e }
+
+## AFS interoperability planning and the lunar user-equipment register (src/afs_interop.rs)
+engine-afs-interop-usage = bruk: kshana afs-interop study [--afs-prns <1-12>] [--gps-prns <1-32>] [--galileo-prns <1-36>] [--fs <Hz>] [--integration-ms <ms>] [--max-doppler <Hz>] [--doppler-step <Hz>] [--sweep-pairs <n>] | ue-register [<register.json>] | ue-register --template   [--out <file>]  (docs/AFS-INTEROP.md)
+engine-e-afs-interop-missing-value = { $option } trenger en verdi
+engine-e-afs-interop-unknown-option = ukjent valg { $option } (kshana afs-interop --help viser valgene)
+engine-e-afs-interop-cannot-read = kan ikke lese { $path }: { $e }
+engine-e-afs-interop-cannot-write = kan ikke skrive { $path }: { $e }
+engine-e-afs-interop-bad-number = { $option }: { $value } er ikke et gyldig tall
+engine-e-afs-interop-bad-register = ikke en kshana.lunar-ue-register/1-fil: { $e }
+engine-e-afs-interop-bad-settings = studiens innstillinger er utenfor grensene: fs × integrasjonstid må gi 64 til 200 000 sampler, Doppler-steget må være positivt og grensen ikke negativ
+
+## Linux timing-stack verification (src/timing_stack.rs)
+engine-timing-stack-usage = bruk: kshana timing-stack tai [--pmc <pmc.txt>] [--phc-ctl <phc_ctl.txt>] [--chrony <tracking.txt>] [--tai-utc <s>] | ts2phc <ts2phc.log> [--max-offset <s>] | pps <assert.txt> | shm <ntpshmmon.txt> | ntpq <ntpq-p.txt> [--rv <ntpq-rv.txt>] | nts [--client <name>=<authdata.txt>]... [<authdata.txt>]   [--end <t>] [--stale-after <s>] [--out <file.json>]  (docs/TIMING-STACK.md)
+engine-e-timing-stack-missing-value = { $option } trenger en verdi
+engine-e-timing-stack-unknown-option = ukjent valg { $option } (kshana timing-stack --help viser valgene)
+engine-e-timing-stack-cannot-read = kan ikke lese { $path }: { $e }
+engine-e-timing-stack-cannot-write = kan ikke skrive { $path }: { $e }
+engine-e-timing-stack-bad-number = { $option }: { $value } er ikke et gyldig tall
+
+## Register entries against packs, published revocations and versions (src/register_products.rs)
+engine-register-products-usage = bruk: kshana register-products verify <register.json> [--packs <dir>] [--pack-key <hex>] [--pin <hex>] [--json] | show <register.json> [--revocations <file.jsonl|url>] [--date <YYYY-MM-DD>] [--pin <hex>] [--json] | diff <older.json> <newer.json> [--pin <hex>]  (docs/PRODUCT-REGISTER.md)
+engine-e-register-products-missing-value = { $option } trenger en verdi
+engine-e-register-products-unknown-option = ukjent valg { $option } (kshana register-products --help viser valgene)
+engine-e-register-products-cannot-read = kan ikke lese { $path }: { $e }
+engine-e-register-products-bad-revocation = linje { $line } i tilbakekallingslisten må ha serial, revoked_at (YYYY-MM-DD) og reason
+engine-e-register-products-cannot-fetch = kan ikke hente { $url }: { $e }
+engine-e-register-products-bad-key = nøkkelen er ikke 32 byte heksadesimal
+
+## Software-in-the-loop observation generator (src/sil_obsgen.rs)
+engine-sil-obsgen-usage = bruk: kshana sil-obsgen <scenario.toml> --out <obs.rnx> [--truth <truth.json>]   (a gnss-sim scenario with optional [urban] and [rinex] tables; docs/SIL-OBSGEN.md)
+engine-e-sil-obsgen-missing-value = { $option } trenger en verdi
+engine-e-sil-obsgen-unknown-option = ukjent valg { $option } (kshana sil-obsgen --help viser valgene)
+engine-e-sil-obsgen-cannot-read = kan ikke lese { $path }: { $e }
+engine-e-sil-obsgen-cannot-write = kan ikke skrive { $path }: { $e }
+engine-e-sil-obsgen-bad-scenario = ikke et gnss-sim-scenario med valgfrie [urban]- og [rinex]-tabeller: { $e }
+
+## Probability of collision, Foster 2D (src/orbit_data/pc.rs)
+engine-e-orbit-data-pc-radius = --hbr krever den samlede hard-body-radiusen i meter, et positivt tall
+engine-e-orbit-data-pc-no-relative-velocity = de to objektene har samme hastighet: det finnes ikke noe møteplan
+engine-e-orbit-data-pc-not-positive-definite = den samlede kovariansen projisert på møteplanet er ikke positivt definitt (minste egenverdi { $lambda } m²)
+engine-e-orbit-data-pc-not-finite = en tilstands- eller kovariansverdi er ikke et endelig tall
+engine-e-orbit-data-pc-missing-data = CDM-en inneholder ikke to objekter, hver med en tilstand (X til Z_DOT) og en RTN-kovarians (CR_R til CNDOT_NDOT)
+engine-e-orbit-data-pc-frame-mismatch = de to objektenes REF_FRAME er ulike ({ $a } og { $b }); Pc krever begge tilstandene i samme system
+
 engine-main-usage =
     bruk: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }eller: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10527,7 +10733,7 @@ engine-main-usage =
     { "   " }eller: kshana nmea-scenario <scenario.toml> [--out <file.nmea>] [--tcp <addr>|--udp <addr>] (kshana nmea-scenario --help)
     { "   " }eller: kshana interference-map <adsb|ais|fetch-land> ... (kshana interference-map --help)
     { "   " }eller: kshana route-exposure --route <route> --map <map.geojson|dir> [--from <date>] [--to <date>]
-    { "   " }eller: kshana bench <spec|truth|cases|score|baseline|seal|reveal-check|manifest|verify-manifest|validate|leaderboard> ... (kshana bench --help)
+    { "   " }eller: kshana bench <spec|truth|cases|score|baseline|seal|reveal-check|manifest|verify-manifest|validate|leaderboard|positions|datasets|cite|golden|holdout> ... (kshana bench --help)
     { "   " }eller: kshana bench-export <scenario.toml> [--out <base>] [--epoch <YYYY-MM-DDTHH:MM:SS>]
     { "   " }eller: kshana compliance-report [--out <base>] <result.json>... | --mapping | --sources
     { "   " }eller: kshana lunanet-afs-check <spec [--json] [--strict]|symbols <file> [--max-sp-errors <n>] [--json]|generate --frames <n> [--toi0 <t>] --out <file>>
@@ -10541,12 +10747,34 @@ engine-main-usage =
     { "   " }eller: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }eller: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }eller: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
+    { "   " }eller: kshana space-receiver <clock|timestamps|dynamics|bench|mms|od-vs-tle> ... [--out <file.json>] (kshana space-receiver --help)
+    { "   " }eller: kshana feed <pack|verify|send|spectrum|leaderboard|watch> ... (kshana feed --help)
+    { "   " }eller: kshana register-products <verify|show|diff> ... (kshana register-products --help)
+    { "   " }eller: kshana register <check|crl-check|view|sign> ... (kshana register --help)
+    { "   " }eller: kshana interference-env <evaluate|thresholds|degradation> ... (kshana interference-env --help)
+    { "   " }eller: kshana arctic-plan --site <lat,lon[,h]> | --place <name> [--systems <a,b,...>] [--compare] [--hours <h>] [--kp <n>] ... (kshana arctic-plan --help)
+    { "   " }eller: kshana lunar-afs-kit <vectors|registry|output-check|output-example|output-reexpress> ... (kshana lunar-afs-kit --help)
+    { "   " }eller: kshana lunar-ref <tcb-tcl|approx|convert|transform|terms|models> ... (kshana lunar-ref --help)
+    { "   " }eller: kshana signal-readiness <profile.toml> [<obs.rnx>...]
+    { "   " }eller: kshana leo-od-plan <plan.toml>
+    { "   " }eller: kshana claim-check [<dataset.json>...] [--out <file.json>] | --template
+    { "   " }eller: kshana afs-interop <study|ue-register> ... (kshana afs-interop --help)
+    { "   " }eller: kshana timing-stack <tai|ts2phc|pps|shm|ntpq|nts> ... (kshana timing-stack --help)
+    { "   " }eller: kshana sil-obsgen <scenario.toml> --out <obs.rnx> [--truth <truth.json>]
     { "   " }eller: kshana time-vectors [--json] [<vectors.json|dir> ...]
-    { "   " }eller: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
+    { "   " }eller: kshana corrections <decode --format <has|b2b|l6|l1s|qznma> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...] | qznma-verify [--frames <frames.txt>] [--nav <nav.txt>] --pubkey <key.der> ...>
     { "   " }eller: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
     { "   " }eller: kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
     { "   " }eller: kshana orbit-data <check|convert|gp-compare|gp-audit|cov> ... (kshana orbit-data --help)
     { "   " }eller: kshana drone <prearm|prearm-calibrate|estimator-cases|dr-budget|quad-loss|failover|zonotope-pl> ... (kshana drone --help)
+    { "   " }eller: kshana leo-verify <burst-timing|holdover-tdev|cost|indoor|rain-fade|rtk-ar|jam-claim|doppler-integrity> <input.json>
+    { "   " }eller: kshana sil-obs <generate|compare> ... (kshana sil-obs --help)
+    { "   " }eller: kshana interference-lib <models|generate|fit|bench|cases> ... (kshana interference-lib --help)
+    { "   " }eller: kshana antenna-cal <lint|spread|compare|group-delay|js-margin> ... (kshana antenna-cal --help)
+    { "   " }eller: kshana quantum-bench <protocol|simulate|score> ... (kshana quantum-bench --help)
+    { "   " }eller: kshana soop-clock <lte|cp|synth-lte> ... (kshana soop-clock --help)
+    { "   " }eller: kshana adsb-indicators <adsb.csv> [--cell-deg <d>] [--out <indicators.json>]
+    { "   " }eller: kshana interference-atlas <build|verify|cors> ... (kshana interference-atlas --help)
     { "   " }eller: kshana kinds [--json]
     { "   " }eller: kshana example [<name>]
     { "   " }eller: kshana --help | --version
@@ -10675,15 +10903,23 @@ engine-interference-map-cli-col-not-observed = ikke observert
 engine-bench-cli-usage =
     bruk: kshana bench spec
     { "   " }eller: kshana bench truth --task a --data <extracted JammerTest 2024 dir> --split <dev|test|holdout|all> --out <truth.json>
-    { "   " }eller: kshana bench cases --task <c|d> --split <dev|test|holdout> --out <dir> [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
+    { "   " }eller: kshana bench truth --task g --data <GSDC-layout train dir> --split <dev|test|holdout> --out <truth.json>
+    { "   " }eller: kshana bench cases --task <c|d|f> --split <dev|test|holdout> --out <dir> [--data <dataset.csv>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
     { "   " }eller: kshana bench score --truth <truth.json> --predictions <predictions.json> [--threshold <x>] [--out <result.json>]
-    { "   " }eller: kshana bench baseline --task <a|b|c|d> --split <dev|test|holdout> --out <dir> [--data <dir>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
+    { "   " }eller: kshana bench baseline --task <a|b|c|d|e|f|g> --split <dev|test|holdout> --out <dir> [--data <dir>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
     { "   " }eller: kshana bench seal --task <a|b|c|d> --seed-file <file> [--new]
     { "   " }eller: kshana bench reveal-check --task <a|b|c|d> --seed-file <file> --commitment <hex>
     { "   " }eller: kshana bench manifest --task a --data <extracted dir> [--archive <tar.gz>] --out <manifest.json>
     { "   " }eller: kshana bench verify-manifest <manifest.json> --root <dir>
+    { "   " }eller: kshana bench positions --task g --split <dev|test|holdout> --csv <submission.csv> --name <system> [--version <v>] --out <predictions.json>
+    { "   " }eller: kshana bench datasets [--json | --check [--root <repo>]]
+    { "   " }eller: kshana bench cite <result.json>...
+    { "   " }eller: kshana bench golden [--root <repo>] (--out <GOLDEN.json> | --check <GOLDEN.json>)
     { "   " }eller: kshana bench validate <result.json>...
     { "   " }eller: kshana bench leaderboard [<results dir|result.json>...] --out <page.html> [--fragment]   (ingen inndata: tilstanden uten innhold; --fragment: en seksjon som kan bygges inn)
+    { "   " }eller: kshana bench holdout truth --task <f|g> --data <private data> --out <private dir>
+    { "   " }eller: kshana bench holdout register --truth <private truth.json>
+    { "   " }eller: kshana bench holdout score --task <f|g> --predictions <predictions.json> [--truth <private truth.json>] [--out <result.json>]   (KSHANA_BENCH_HOLDOUT_F, KSHANA_BENCH_HOLDOUT_G)
     { "   " }(en seed-fil inneholder hemmeligheten bak et forseglet tilbakeholdt datasett; hold den utenfor versjonskontroll)
 
 engine-bench-cli-match = samsvarer
@@ -11504,11 +11740,14 @@ engine-e-interference-incidents-source-url-required = --source-url er påkrevd: 
 
 ## Correction decoders (src/corrections/)
 engine-e-corrections-bad-hex = ikke en heksadesimal ramme: { $line }
-engine-e-corrections-unknown-decoder = ukjent dekoder { $decoder } (has, b2b, l6)
+engine-e-corrections-unknown-decoder = ukjent dekoder { $decoder } (has, b2b, l6, l1s, qznma)
 engine-e-corrections-bad-vector = vektor { $id } mangler heksadesimale rammer eller et expect-objekt
 engine-e-corrections-bad-file = { $file } er ikke et { $format }-dokument (formatmerke og en vectors-tabell)
 engine-corrections-summary = { $n } vektorer: { $passed } bestått, { $failed } feilet
-engine-corrections-usage = bruk: kshana corrections decode --format <has|b2b|l6> <frames.txt | -> | kshana corrections vectors [--json] [<vectors.json | dir> ...]  (én ramme per linje i heksadesimal; docs/CORRECTION-DECODERS.md)
+engine-corrections-usage = bruk: kshana corrections decode --format <has|b2b|l6|l1s|qznma> <frames.txt | -> | kshana corrections vectors [--json] [<vectors.json | dir> ...] | kshana corrections qznma-verify [--frames <frames.txt>] [--nav <nav.txt>] --pubkey <ID:key.der | 001.der> ...  (én ramme per linje i heksadesimal; docs/CORRECTION-DECODERS.md)
+engine-e-qznma-bad-nav-line = ikke en linje med navigasjonsmelding (<satellite> <signal> <part> <hex>): { $line }
+engine-e-qznma-bad-key = { $path }: ikke en offentlig P-256- eller P-521-nøkkel (DER eller SEC1) med en nøkkel-ID i filnavnet eller som ID:path
+engine-qznma-verify-summary = { $n } signaturer: { $verified } verifisert, { $failed } mislyktes, { $no_key } uten nøkkel, { $no_navigation } uten navigasjonsmeldinger
 
 ## src/space_weather_pnt/
 
@@ -11666,6 +11905,7 @@ engine-orbit-data-usage =
     { "   " }eller: kshana orbit-data gp-compare <a.tle> <b.tle> [--hours <h>] [--step-min <min>] [--threshold-km <km>] [--json]
     { "   " }eller: kshana orbit-data gp-audit <sets.tle> ... [--at <epoch>] [--stale-days <d>] [--jump-km <km>] [--json]
     { "   " }eller: kshana orbit-data cov <check|propagate|monte-carlo|synthetic|realism> <input.json> [--dt-s <s>] [--step-s <s>] [--samples <n>] [--seed <n>] [--sigma-rtn <r,t,n,rdot,tdot,ndot>] [--full]
+    { "   " }eller: kshana orbit-data pc <cdm> --hbr <m> [--aliases <map.json>] [--cdm-out <file>]
     { "   " }(docs/ORBIT-DATA.md)
 engine-e-orbit-data-unknown-message = { $path } er verken CDM, OEM (KVN) eller OCM: ingen linje CCSDS_CDM_VERS, CCSDS_OEM_VERS eller CCSDS_OCM_VERS og ingen rot <cdm> eller <ocm>
 engine-e-orbit-data-bad-flag = { $flag } { $value }: ikke en brukbar verdi
@@ -11706,3 +11946,140 @@ engine-e-oscillator-input = { $part }-inndata er ikke gyldige: { $e }
 engine-e-oscillator-unknown-clock = ukjent klokkeforhåndsinnstilling { $id } (en av { $known })
 
 engine-e-oscillator-field = { $field } er utenfor området: { $value }
+
+## src/leo_verify/mod.rs
+
+engine-leo-verify-usage = bruk: kshana leo-verify <burst-timing|holdover-tdev|cost|indoor|rain-fade|rtk-ar|jam-claim|doppler-integrity> <input.json> (docs/LEO-VERIFY.md)
+
+engine-e-leo-verify-input = { $part }-inndata er ikke gyldige: { $e }
+
+engine-e-leo-verify-field = { $field } er utenfor området: { $value }
+
+engine-e-leo-verify-too-large = kjøringen er for stor: { $n } trinn (høyst { $max })
+
+engine-e-leo-verify-unknown-id = { $field } angir en ukjent id: { $id }
+
+## src/bench: tasks (f) and (g), the dataset registry and the golden index (E34)
+
+engine-bench-data-no-header = { $file }: ingen overskriftsrad
+
+engine-bench-data-no-column = { $file }: ingen kolonne `{ $column }`
+
+engine-bench-data-bad-value = { $file } linje { $line }: `{ $column }` mangler eller er ugyldig
+
+engine-bench-data-no-rows = { $file }: ingen datarader
+
+engine-bench-task-has-no-holdout = oppgave ({ $task }) har ingen holdout-inndeling: dataene og inndelingen er offentlige
+
+engine-bench-unknown-baseline = ukjent baseline `{ $name }`
+
+engine-bench-g-no-traces = ingen <drive>/<phone>/ground_truth.csv under { $root }
+
+engine-bench-g-no-object = intet `{ $key }`-objekt med spor
+
+engine-bench-g-bad-epoch = spor `{ $id }`: hver epoke må være [UnixTimeMillis, bredde, lengde]
+
+engine-bench-f-dataset-mismatch = { $path }: SHA-256 { $got } er ikke den fastlåste dataset.csv for oppgave (f); hent den med scripts/fetch_opssat_ad.sh
+
+engine-bench-cli-unknown-task-g = ukjent oppgave `{ $t }` (a til g)
+
+engine-bench-cli-wrote-predictions = skrev { $path } ({ $traces } spor)
+
+engine-bench-datasets-summary = { $n } datasett: { $in_bench } i benchmarken, { $candidate } kandidater, { $wanted } etterlyst
+
+engine-bench-datasets-ok = register: { $n } datasett, alle regler oppfylt
+
+engine-bench-golden-ok = { $n } frosne filer uendret; sitasjons-ID-er stabile
+
+engine-bench-golden-written = skrev { $path } ({ $n } frosne filer)
+
+engine-bench-site-title-f = Oppgave (f): avviksdeteksjon i romfartøytelemetri
+
+engine-bench-site-title-g = Oppgave (g): posisjoneringsnøyaktighet for smarttelefoner
+
+engine-bench-site-col-ap = Gjennomsnittlig presisjon
+
+engine-bench-site-col-gsdc-score = Poeng, gjennomsnitt av P50 og P95 (m)
+
+engine-bench-site-col-p50 = P50 samlet (m)
+
+engine-bench-site-col-p95 = P95 samlet (m)
+
+## Feeder clients (src/feeder.rs, docs/FEEDER.md)
+engine-feed-usage = bruk: kshana feed pack <file.obs.jsonl|dir>... --key <keyfile> [--privacy public|exact] [--grid-deg <deg>] [--created <time>] [--include-open] [--out <bundle.json>] | verify <bundle.json> [--pubkey <hex>] [--json] | send <bundle.json> --url <http://host:port/path> [--token-file <file>] | spectrum <capture> --format cu8|ci8|ci16_le --rate <Hz> --centre <Hz> --station <station.toml> [--front-end <name>] [--nfft <n>] [--bins <n>] [--max-samples <n>] [--time <label>] [--out <file.obs.jsonl>] | leaderboard <bundle.json>... [--json] | watch <dir|file>... --key <keyfile> --spool <dir> [--url <http://host:port/path>] [--token-file <file>] [--interval-s <s>] [--privacy public|exact] [--grid-deg <deg>] [--include-open] [--once]  (docs/FEEDER.md)
+engine-e-feed-bad-spool = { $path }: ikke en kshana.feed-spool/1-tilstand ({ $e })
+engine-e-feed-http-only = { $url }: bare http://-adresser støttes (motoren har ingen TLS-klient; sett en TLS-tunnel foran innsamleren)
+engine-feed-watch-cycle = feed watch: { $files } filer pakket i { $bundles } pakker, { $sent } sendt, { $rejected } avvist, { $pending } venter
+engine-feed-packed = { $out }: bunt for stasjon { $station }, { $files } filer, { $epochs } epoker, personvern { $mode }
+engine-feed-verified = { $path }: signaturen er gyldig (underskriver { $key }); stasjon { $station }, { $files } filer, { $epochs } epoker, hver fil gyldig kshana.obs/1
+engine-feed-sent = sendt til { $url }: HTTP { $code }
+engine-feed-spectrum-written = { $out }: spektrumøyeblikksbilde i { $bins } bins (MODELLED: nivåer i forhold til full skala, ikke kalibrert effekt)
+engine-e-feed-missing-value = { $option } trenger en verdi
+engine-e-feed-unknown-option = ukjent valg { $option } (kshana feed --help viser valgene)
+engine-e-feed-cannot-read = kan ikke lese { $path }: { $e }
+engine-e-feed-cannot-write = kan ikke skrive { $path }: { $e }
+engine-e-feed-not-obs = { $path } er ikke en gyldig kshana.obs/1-fil: { $e }
+engine-e-feed-mixed-stations = filene kommer fra mer enn én stasjon ({ $a } og { $b }); pakk én stasjon per bunt
+engine-e-feed-no-files = ingen observasjonsfiler å pakke
+engine-e-feed-bad-privacy = ukjent personvernmodus { $value } (public eller exact)
+engine-e-feed-bad-grid = posisjonsrutenettet må være fra 0.01 til 10 grader, ikke { $value }
+engine-e-feed-not-bundle = ikke en kshana.feed/1-bunt: { $e }
+engine-e-feed-bad-signature = buntens signatur er ikke gyldig
+engine-e-feed-key-mismatch = bunten er signert av { $found }, ikke av den forventede nøkkelen { $expected }
+engine-e-feed-hash-mismatch = innholdet { $name } samsvarer ikke med sin registrerte SHA-256
+engine-e-feed-payload-mismatch = innholdet { $name } passer ikke med stasjonen eller postantallene bunten oppgir
+engine-e-feed-not-coarsened = innholdet { $name } i en offentlig bunt inneholder fortsatt { $what }
+engine-e-feed-bad-format = sampleformatet støttes ikke: { $value } (cu8, ci8 eller ci16_le)
+engine-e-feed-bad-number = { $option }: { $value } er ikke en gyldig verdi her
+engine-e-feed-short-capture = opptaket har { $n } samples, færre enn transformasjonslengden { $nfft }
+engine-e-feed-send-failed = sending til { $url } mislyktes: { $e }
+engine-e-feed-send-refused = { $url } avviste bunten: HTTP { $code }
+engine-e-obs-bad-spectrum = linje { $line }: et spektrum trenger endelig tid og senterfrekvens, positiv samplingsrate og binbredde og endelige nivåer
+
+## Product register (src/product_register.rs, docs/PRODUCT-REGISTER.md)
+engine-register-usage = bruk: kshana register check <register.json> [--key <hex>] | crl-check <crl.json> --key <hex> | view <register.json> [--key <hex>] [--crl <crl.json> --crl-key <hex>] [--date <YYYY-MM-DD>] [--json] | sign <register.json|crl.json> --key <keyfile> [--out <file>]  (docs/PRODUCT-REGISTER.md)
+engine-register-check-ok = { $path }: register fra { $publisher }, { $n } oppføringer, signaturen er gyldig (underskriver { $key })
+engine-register-crl-check-ok = { $path }: tilbakekallingsliste fra { $issuer }, { $n } tilbakekalte oppføringer, signaturen er gyldig; neste liste ventes { $next }
+engine-register-view-summary = per { $date }: { $current } gjeldende, { $due } skal scores på nytt, { $revoked } tilbakekalt
+engine-register-view-no-crl = ingen tilbakekallingsliste oppgitt: tilbakekalling er ukjent (--crl <crl.json> --crl-key <hex>)
+engine-register-view-crl-stale = tilbakekallingslisten er utdatert: neste oppdatering skulle komme { $next }
+engine-e-register-key-mismatch = signert av { $found }, ikke av den forventede nøkkelen { $expected }
+engine-e-register-bad-signature = signaturen er ikke gyldig
+engine-e-register-bad-date = { $field } er ikke en dato på formen YYYY-MM-DD: { $value }
+engine-e-register-not-register = ikke et kshana.register/1-register: { $e }
+engine-e-register-not-crl = ikke en kshana.register-crl/1-tilbakekallingsliste: { $e }
+engine-e-register-bad-id = oppførings-id { $id }: bruk 1 til 128 bokstaver, sifre, punktum, bindestreker eller understreker
+engine-e-register-duplicate-id = oppførings-id { $id } forekommer mer enn én gang
+engine-e-register-revalidate-before-scored = oppføringen { $id } skal scores på nytt før datoen den ble scoret
+engine-e-register-bad-digest = oppføringen { $id }: evidence_sha256 må være 64 heksadesimale sifre
+engine-e-register-missing-value = { $option } trenger en verdi
+engine-e-register-cannot-read = kan ikke lese { $path }: { $e }
+engine-e-register-cannot-write = kan ikke skrive { $path }: { $e }
+engine-e-register-unknown-option = ukjent valg { $option } (kshana register --help viser valgene)
+engine-e-register-crl-needs-key = --crl og --crl-key hører sammen: en tilbakekallingsliste kontrolleres mot utstederens nøkkel
+
+## Interference environments (src/interference_env.rs, docs/INTERFERENCE-ENV.md)
+engine-interference-env-usage = bruk: kshana interference-env evaluate <environment.toml> | thresholds [--receiver <id>] | degradation --baseline <id> --pulse-width <s> --prf <Hz> [--below-ratio <R>] [--recovery <s>]  (docs/INTERFERENCE-ENV.md; MODELLED)
+engine-e-interference-env-unknown-receiver = ukjent mottaker { $id } (kshana interference-env thresholds viser dem)
+engine-e-interference-env-unknown-baseline = ukjent grunnlinje { $id } (se docs/INTERFERENCE-ENV.md)
+engine-e-interference-env-bad-source = kilden { $name }: effekt, båndbredde, pulsbredde eller rate er ikke en gyldig positiv endelig verdi
+engine-e-interference-env-pulsed-needs-receiver = pulserte kilder trenger mottakerens noise_temperature_k, precorrelation_bw_hz og et blanker- eller metningsnivå
+engine-e-interference-env-saturated = pulsene etterlater ingen tid uten blanking: driftssyklusen når 1
+engine-e-interference-env-missing-value = { $option } trenger en verdi
+engine-e-interference-env-bad-number = { $option } trenger et tall, ikke { $value }
+engine-e-interference-env-unknown-option = ukjent valg { $option } (kshana interference-env --help viser valgene)
+engine-e-interference-env-cannot-read = kan ikke lese { $path }: { $e }
+engine-e-interference-env-bad-file = { $path } er ikke et interferensmiljø: { $e }
+
+## Future-signal readiness (src/signal_readiness.rs, docs/SIGNAL-READINESS.md)
+engine-signal-readiness-usage = bruk: kshana signal-readiness <profile.toml> [<obs.rnx>...]  (docs/SIGNAL-READINESS.md)
+engine-e-signal-readiness-bad-rinex = { $path } er ikke en RINEX 3- eller 4-observasjonsfil: { $e }
+engine-e-signal-readiness-unknown-option = ukjent valg { $option } (kshana signal-readiness --help)
+engine-e-signal-readiness-cannot-read = kan ikke lese { $path }: { $e }
+engine-e-signal-readiness-bad-profile = { $path } er ikke en mottakerprofil: { $e }
+
+## BeiDou-LEO planning (src/leo_od_plan.rs, docs/LEO-OD-PLAN.md)
+engine-leo-od-plan-usage = bruk: kshana leo-od-plan <plan.toml>  (docs/LEO-OD-PLAN.md; MODELLED, a planning tool)
+engine-e-leo-od-plan-bad-plan = planens tall er utenfor området: bue, steg, støy og masker positive og endelige, høyst 100000 steg, masker innenfor ±90 grader, en halv strålebredde fra 0 til 90 grader og et LEO-Walker-mønster der planene går opp i antall satellitter
+engine-e-leo-od-plan-cannot-read = kan ikke lese { $path }: { $e }
+engine-e-leo-od-plan-bad-file = { $path } er ikke en plan: { $e }
