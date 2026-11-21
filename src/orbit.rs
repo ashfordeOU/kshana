@@ -718,7 +718,7 @@ pub fn cofactor_from_los(los: &[Vec3], clock: &[usize], n_clocks: usize) -> Opti
 
 /// Invert a square matrix by Gauss-Jordan elimination with partial pivoting, the algorithm
 /// of `invert4` for any size. `None` if it is singular.
-fn invert_square(mut a: Vec<Vec<f64>>) -> Option<Vec<Vec<f64>>> {
+pub(crate) fn invert_square(mut a: Vec<Vec<f64>>) -> Option<Vec<Vec<f64>>> {
     let n = a.len();
     let mut inv = vec![vec![0.0; n]; n];
     for (i, row) in inv.iter_mut().enumerate() {
