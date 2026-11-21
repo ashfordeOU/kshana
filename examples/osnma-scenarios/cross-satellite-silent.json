@@ -1,0 +1,20 @@
+{
+ "format": "kshana.osnma-scenario/1",
+ "name": "cross-satellite-silent",
+ "description": "E05 never transmits; its cross-authentication tags cannot be decided and none fails.",
+ "subframes": 18,
+ "changes": [
+  {
+   "kind": "drop_pages",
+   "prn": 5,
+   "from_subframe": 0,
+   "to_subframe": 17
+  }
+ ],
+ "expect": {
+  "any_tag_failed": false,
+  "status": {
+   "E02": "authenticated"
+  }
+ }
+}

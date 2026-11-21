@@ -1,0 +1,20 @@
+{
+ "format": "kshana.osnma-scenario/1",
+ "name": "cmac-aes-sha3-chain",
+ "description": "A chain with SHA3-256 and CMAC-AES; the clean stream authenticates.",
+ "subframes": 18,
+ "chain": {
+  "hash": "sha3-256",
+  "mac": "cmac-aes",
+  "seed": 9,
+  "cid": 1
+ },
+ "changes": [],
+ "expect": {
+  "status": {
+   "E02": "authenticated",
+   "E05": "authenticated"
+  },
+  "any_tag_failed": false
+ }
+}

@@ -89,6 +89,10 @@
    "count": 1,
    "reason": "developer: the text of an expect() on an infallible serialisation, not shown to a user"
   },
+  "src/osnma/scenario.rs": {
+   "count": 8,
+   "reason": "identifier: field paths and value constraints of kshana.osnma-scenario/1 (field names, enumerated values, ranges) substituted into the translated e-osnma-scenario-field message"
+  },
   "src/realtime_frame_eop.rs": {
    "count": 1,
    "reason": "machine-format: the `#` comment header of <scenario>.table.csv (part of the reproducibility table, golden-pinned)"
