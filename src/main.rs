@@ -1343,6 +1343,8 @@ fn main_in_language(args: Vec<String>) -> ExitCode {
         Some("drone") => Some(kshana::drone_pnt::run),
         // `kshana station run|check|service <station.toml>`: the headless receiver service (src/station.rs).
         Some("station") => Some(kshana::station::run),
+        // `kshana leo-sparse <study.toml>`: sparse-geometry LEO-PNT study (src/leo_sparse.rs).
+        Some("leo-sparse") => Some(kshana::leo_sparse::run),
         // `kshana oscillator <part> <input.json>`: oscillator models (src/oscillator/).
         Some("oscillator") => Some(kshana::oscillator::run),
         _ => None,

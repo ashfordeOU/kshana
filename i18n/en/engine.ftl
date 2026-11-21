@@ -10388,6 +10388,7 @@ engine-main-usage =
     { "   " }or: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }or: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }or: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
+    { "   " }or: kshana leo-sparse <study.toml>
     { "   " }or: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }or: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }or: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
@@ -12093,3 +12094,10 @@ engine-e-oscillator-input = the { $part } input is not valid: { $e }
 engine-e-oscillator-unknown-clock = unknown clock preset { $id } (one of { $known })
 
 engine-e-oscillator-field = { $field } is out of range: { $value }
+
+## Sparse-geometry LEO-PNT study (src/leo_sparse.rs, docs/LEO-SPARSE.md)
+engine-leo-sparse-usage = usage: kshana leo-sparse <study.toml>  (docs/LEO-SPARSE.md; MODELLED, a planning study)
+engine-e-leo-sparse-bad-study = the study's numbers are out of range: a valid user position, a LEO Walker pattern whose planes divide its satellites below 3000 km, a mask from 0 to 90 degrees, max_in_view of 1 or 2, positive noises, priors and targets, at most 200000 steps and a report interval no shorter than the step
+engine-e-leo-sparse-singular = the information matrix cannot be inverted even with the priors
+engine-e-leo-sparse-cannot-read = cannot read { $path }: { $e }
+engine-e-leo-sparse-bad-file = { $path } is not a study: { $e }

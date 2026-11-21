@@ -10580,6 +10580,7 @@ engine-main-usage =
     { "   " }nebo: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }nebo: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }nebo: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
+    { "   " }nebo: kshana leo-sparse <study.toml>
     { "   " }nebo: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }nebo: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }nebo: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
@@ -11776,3 +11777,10 @@ engine-e-oscillator-input = vstup { $part } není platný: { $e }
 engine-e-oscillator-unknown-clock = neznámá předvolba hodin { $id } (jedna z { $known })
 
 engine-e-oscillator-field = { $field } je mimo rozsah: { $value }
+
+## Sparse-geometry LEO-PNT study (src/leo_sparse.rs, docs/LEO-SPARSE.md)
+engine-leo-sparse-usage = použití: kshana leo-sparse <study.toml>  (docs/LEO-SPARSE.md; MODELLED, a planning study)
+engine-e-leo-sparse-bad-study = hodnoty studie jsou mimo rozsah: platná poloha uživatele, vzor Walker LEO pod 3000 km, jehož roviny dělí počet družic, maska od 0 do 90 stupňů, max_in_view 1 nebo 2, kladné šumy, apriorní hodnoty a cíle, nejvýše 200000 kroků a interval zpráv ne kratší než krok
+engine-e-leo-sparse-singular = informační matici nelze invertovat ani s apriorními hodnotami
+engine-e-leo-sparse-cannot-read = nelze číst { $path }: { $e }
+engine-e-leo-sparse-bad-file = { $path } není studie: { $e }
