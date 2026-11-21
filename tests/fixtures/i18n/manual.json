@@ -20184,5 +20184,16 @@
    },
    " waiting"
   ]
+ },
+ {
+  "id": "e-space-receiver-oem-time-system",
+  "error": true,
+  "parts": [
+   "OEM time system ",
+   {
+    "var": "ts"
+   },
+   " is not one this comparison reads (UTC, GPS, TAI or TT)"
+  ]
  }
 ]

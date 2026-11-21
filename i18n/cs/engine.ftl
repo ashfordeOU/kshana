@@ -10747,6 +10747,9 @@ engine-e-sil-obsgen-cannot-read = nelze číst { $path }: { $e }
 engine-e-sil-obsgen-cannot-write = nelze zapsat { $path }: { $e }
 engine-e-sil-obsgen-bad-scenario = není scénář gnss-sim s volitelnými tabulkami [urban] a [rinex]: { $e }
 
+## space-receiver od-vs-tle time system
+engine-e-space-receiver-oem-time-system = časový systém OEM { $ts } toto porovnání nečte (UTC, GPS, TAI nebo TT)
+
 engine-main-usage =
     použití: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }nebo: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]

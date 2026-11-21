@@ -10741,6 +10741,9 @@ engine-e-sil-obsgen-cannot-read = faili { $path } ei saa lugeda: { $e }
 engine-e-sil-obsgen-cannot-write = faili { $path } ei saa kirjutada: { $e }
 engine-e-sil-obsgen-bad-scenario = ei ole gnss-sim stsenaarium valikuliste tabelitega [urban] ja [rinex]: { $e }
 
+## space-receiver od-vs-tle time system
+engine-e-space-receiver-oem-time-system = see võrdlus ei loe OEM-i ajasüsteemi { $ts } (UTC, GPS, TAI või TT)
+
 engine-main-usage =
     kasutus: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }või: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]

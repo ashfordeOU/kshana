@@ -10959,6 +10959,9 @@ engine-e-sil-obsgen-cannot-read = no se puede leer { $path }: { $e }
 engine-e-sil-obsgen-cannot-write = no se puede escribir { $path }: { $e }
 engine-e-sil-obsgen-bad-scenario = no es un escenario gnss-sim con tablas opcionales [urban] y [rinex]: { $e }
 
+## space-receiver od-vs-tle time system
+engine-e-space-receiver-oem-time-system = esta comparación no lee el sistema de tiempo OEM { $ts } (UTC, GPS, TAI o TT)
+
 engine-main-usage =
     uso:  kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }o: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
