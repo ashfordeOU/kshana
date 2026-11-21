@@ -11489,3 +11489,7 @@ engine-e-ccsds-not-finite = { $t } 不是有限数值
 engine-e-oem-unclosed-covariance = { $object } 的段打开了 COVARIANCE_START，却始终没有用 COVARIANCE_STOP 关闭
 engine-e-orbit-data-convert-time-system-changes = 各段的 TIME_SYSTEM 不一致（先是 { $first }，后是 { $other }）；OCM 只能携带一个，因此拒绝转换
 engine-e-ccsds-tdm-data-outside-block = 数据行位于 DATA_START 至 DATA_STOP 块之外：{ $line }
+
+engine-amateur-od-bad-record = 第 { $line } 行：无法读取 { $what } 记录
+engine-amateur-od-bad-json = SatNOGS 观测：字段 { $field } 缺失或不是数字
+engine-amateur-od-unknown-site = 多普勒记录指向站点 { $site }，但它不在站点列表中

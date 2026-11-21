@@ -12209,3 +12209,7 @@ engine-e-ccsds-not-finite = { $t } ei ole lõplik arv
 engine-e-oem-unclosed-covariance = objekti { $object } segment avab COVARIANCE_START, kuid ei sulge seda kunagi COVARIANCE_STOP-iga
 engine-e-orbit-data-convert-time-system-changes = segmentidel ei ole ühist TIME_SYSTEM-i ({ $first }, siis { $other }); OCM kannab ainult üht, seega teisendus keeldutakse
 engine-e-ccsds-tdm-data-outside-block = andmerida väljaspool DATA_START kuni DATA_STOP plokki: { $line }
+
+engine-amateur-od-bad-record = rida { $line }: kirjet { $what } ei saa lugeda
+engine-amateur-od-bad-json = SatNOGS-i vaatlus: väli { $field } puudub või ei ole arv
+engine-amateur-od-unknown-site = Doppleri kirje nimetab jaama { $site }, mida jaamade loendis ei ole

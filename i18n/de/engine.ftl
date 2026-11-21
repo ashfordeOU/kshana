@@ -12231,3 +12231,7 @@ engine-e-ccsds-not-finite = { $t } ist keine endliche Zahl
 engine-e-oem-unclosed-covariance = das Segment von { $object } öffnet COVARIANCE_START und schließt es nie mit COVARIANCE_STOP
 engine-e-orbit-data-convert-time-system-changes = die Segmente haben kein gemeinsames TIME_SYSTEM ({ $first }, dann { $other }); eine OCM trägt nur eines, daher wird die Umwandlung abgelehnt
 engine-e-ccsds-tdm-data-outside-block = Datenzeile außerhalb eines Blocks von DATA_START bis DATA_STOP: { $line }
+
+engine-amateur-od-bad-record = Zeile { $line }: der { $what }-Datensatz kann nicht gelesen werden
+engine-amateur-od-bad-json = SatNOGS-Beobachtung: Feld { $field } fehlt oder ist keine Zahl
+engine-amateur-od-unknown-site = Doppler-Datensatz nennt Station { $site }, die nicht in der Stationsliste steht

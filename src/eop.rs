@@ -305,7 +305,7 @@ impl EopSeries {
     }
 
     /// TT Julian Date to UTC Julian Date through TAI and the leap-second table.
-    fn jd_tt_to_jd_utc(jd_tt: f64) -> f64 {
+    pub fn jd_tt_to_jd_utc(jd_tt: f64) -> f64 {
         let jd_tai = jd_tt - TT_MINUS_TAI / SECONDS_PER_DAY;
         // Leap seconds are piecewise-constant; one refinement step lands the argument
         // squarely inside the correct UTC day (TAI leads UTC by ~37 s).

@@ -11434,3 +11434,7 @@ engine-e-ccsds-not-finite = { $t } は有限の数値ではありません
 engine-e-oem-unclosed-covariance = { $object } のセグメントは COVARIANCE_START を開いたまま COVARIANCE_STOP で閉じていません
 engine-e-orbit-data-convert-time-system-changes = セグメント間で TIME_SYSTEM が一致しません（{ $first } の後に { $other }）。OCM は 1 つしか持てないため変換を拒否します
 engine-e-ccsds-tdm-data-outside-block = DATA_START から DATA_STOP までのブロックの外にあるデータ行: { $line }
+
+engine-amateur-od-bad-record = { $line } 行目：{ $what } レコードを読み取れません
+engine-amateur-od-bad-json = SatNOGS 観測：フィールド { $field } がないか数値ではありません
+engine-amateur-od-unknown-site = ドップラーレコードが局 { $site } を指していますが、局リストにありません

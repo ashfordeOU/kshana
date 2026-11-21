@@ -12370,3 +12370,7 @@ engine-e-ccsds-not-finite = { $t } не є скінченним числом
 engine-e-oem-unclosed-covariance = сегмент { $object } відкриває COVARIANCE_START і не закриває його через COVARIANCE_STOP
 engine-e-orbit-data-convert-time-system-changes = сегменти не мають спільного TIME_SYSTEM ({ $first }, потім { $other }); OCM несе лише одну, тому перетворення відхилено
 engine-e-ccsds-tdm-data-outside-block = рядок даних поза блоком від DATA_START до DATA_STOP: { $line }
+
+engine-amateur-od-bad-record = рядок { $line }: запис { $what } не читається
+engine-amateur-od-bad-json = спостереження SatNOGS: поле { $field } відсутнє або не є числом
+engine-amateur-od-unknown-site = доплерівський запис указує станцію { $site }, якої немає у списку станцій
