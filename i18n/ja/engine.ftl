@@ -2304,6 +2304,7 @@ engine-e-interop-scene-missing-integer-waypoints = 整数 `waypoints` があり�
 engine-e-interop-scene-waypoints-is-outside-1000000 = waypoints = { $n } は 1..=1000000 の範囲外です
 
 engine-interop-scene-walker-at-km-deg-inclination = Walker { $w }/{ $planes }/{ $phasing_f }、高度 { $altitude_km } km、軌道傾斜角 { $inclination_deg } deg（SGP4）
+engine-interop-scene-gnss-slot = { $set } のスロット { $id }（静止同期軌道の二体名目スロット、MODELLED）；出典：{ $source }；位相：{ $phase }
 
 engine-interop-scene-the-scenario-gives-no-epoch = シナリオに `epoch` の指定がありません。t = 0 は { $epoch } で、衛星自身のデータ（TLE、放送エフェメリスまたは SP3 の元期）が持つ最も早い元期です。各衛星はそれぞれの元期から伝搬され、それらは { $spread_h } h にわたります。時刻タグは、すべての衛星が t = 0 から始まるというエンジンの前提に従い、各位置はその衛星自身の時刻で GCRS と地球固定の座標系に回転されます。SP3 と OEM のエクスポートでは、代わりに t = 0 を 2000-01-01T00:00:00Z と表記します
 

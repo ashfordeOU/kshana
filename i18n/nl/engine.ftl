@@ -2700,6 +2700,7 @@ engine-e-interop-scene-missing-integer-waypoints = geheel getal `waypoints` ontb
 engine-e-interop-scene-waypoints-is-outside-1000000 = waypoints = { $n } ligt buiten 1..=1000000
 
 engine-interop-scene-walker-at-km-deg-inclination = Walker { $w }/{ $planes }/{ $phasing_f } op { $altitude_km } km, { $inclination_deg } deg inclinatie (SGP4)
+engine-interop-scene-gnss-slot = { $set }-slot { $id } (geosynchrone nominale tweelichamenslot, MODELLED); bron: { $source }; fase: { $phase }
 
 engine-interop-scene-the-scenario-gives-no-epoch = het scenario geeft geen `epoch`; t = 0 is { $epoch }, de vroegste epoch in de eigen gegevens van de satellieten (TLE-, broadcast-efemeride- of SP3-epoch). Elke satelliet wordt vanaf zijn eigen epoch gepropageerd, en die beslaan { $spread_h } h: de tijdlabels volgen het uitgangspunt van de engine dat elke satelliet bij t = 0 begint, terwijl elke positie op het eigen tijdstip van die satelliet naar de GCRS- en aardvaste stelsels wordt geroteerd. De SP3- en OEM-exports labelen t = 0 in plaats daarvan als 2000-01-01T00:00:00Z
 

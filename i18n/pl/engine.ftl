@@ -2363,6 +2363,7 @@ engine-e-interop-scene-missing-integer-waypoints = brak liczby całkowitej `wayp
 engine-e-interop-scene-waypoints-is-outside-1000000 = waypoints = { $n } jest poza 1..=1000000
 
 engine-interop-scene-walker-at-km-deg-inclination = Walker { $w }/{ $planes }/{ $phasing_f } na wysokości { $altitude_km } km, inklinacja { $inclination_deg } deg (SGP4)
+engine-interop-scene-gnss-slot = pozycja { $id } zestawu { $set } (geosynchroniczna nominalna pozycja dwóch ciał, MODELLED); źródło: { $source }; faza: { $phase }
 
 engine-interop-scene-the-scenario-gives-no-epoch = scenariusz nie podaje `epoch`; t = 0 to { $epoch }, najwcześniejsza epoka w danych własnych satelitów (epoka TLE, efemeryd transmitowanych lub SP3). Każdy satelita jest propagowany od własnej epoki, a rozpiętość tych epok wynosi { $spread_h } h: znaczniki czasu wynikają z założenia silnika, że każdy satelita zaczyna w t = 0, a każda pozycja jest obracana do układów GCRS i związanego z Ziemią w chwili właściwej temu satelicie. Eksporty SP3 i OEM oznaczają natomiast t = 0 jako 2000-01-01T00:00:00Z
 

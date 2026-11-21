@@ -2764,6 +2764,7 @@ engine-e-interop-scene-missing-integer-waypoints = `waypoints` inteiro ausente
 engine-e-interop-scene-waypoints-is-outside-1000000 = waypoints = { $n } está fora de 1..=1000000
 
 engine-interop-scene-walker-at-km-deg-inclination = Walker { $w }/{ $planes }/{ $phasing_f } a { $altitude_km } km, inclinação de { $inclination_deg } deg (SGP4)
+engine-interop-scene-gnss-slot = posição { $id } de { $set } (posição nominal geossíncrona de dois corpos, MODELLED); fonte: { $source }; fase: { $phase }
 
 engine-interop-scene-the-scenario-gives-no-epoch = o cenário não informa `epoch`; t = 0 é { $epoch }, a época mais antiga entre os dados próprios dos satélites (época de TLE, de efemérides de transmissão ou de SP3). Cada satélite é propagado a partir de sua própria época, e essas épocas abrangem { $spread_h } h: as marcas de tempo seguem a premissa do motor de que todo satélite começa em t = 0, enquanto cada posição é rotacionada para os referenciais GCRS e fixo à Terra no instante do próprio satélite. As exportações SP3 e OEM rotulam t = 0 como 2000-01-01T00:00:00Z
 

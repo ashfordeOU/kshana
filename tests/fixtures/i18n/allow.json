@@ -146,8 +146,8 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/bundled_scenarios.rs": {
-   "count": 203,
-   "reason": "bundled scenario file names mission-thread-short.toml, tip-and-cue-baltic-m2 and tip-and-cue-short (machine data, not user-facing text)"
+   "count": 207,
+   "reason": "bundled scenario file names mission-thread-short.toml, tip-and-cue-baltic-m2 and tip-and-cue-short, gnss-ssv-geo, gnss-ssv-gto, gnss-ssv-nav-geo and navic-regional (machine data, not user-facing text)"
   },
   "src/calibration_ensembles.rs": {
    "count": 14,
@@ -658,8 +658,8 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/interop/testbench.rs": {
-   "count": 52,
-   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
+   "count": 54,
+   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md); the space_segment key and note of the motion metadata (the gnss-sim slots)"
   },
   "src/ionex.rs": {
    "count": 22,

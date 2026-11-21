@@ -2501,6 +2501,7 @@ engine-e-interop-scene-missing-integer-waypoints = kokonaisluku `waypoints` puut
 engine-e-interop-scene-waypoints-is-outside-1000000 = waypoints = { $n } on välin 1..=1000000 ulkopuolella
 
 engine-interop-scene-walker-at-km-deg-inclination = Walker { $w }/{ $planes }/{ $phasing_f } korkeudella { $altitude_km } km, inklinaatio { $inclination_deg } deg (SGP4)
+engine-interop-scene-gnss-slot = { $set }-paikka { $id } (geosynkroninen kahden kappaleen nimellispaikka, MODELLED); lähde: { $source }; vaihe: { $phase }
 
 engine-interop-scene-the-scenario-gives-no-epoch = skenaario ei anna kenttää `epoch`; t = 0 on { $epoch }, aikaisin epookki, jonka satelliittien omat tiedot sisältävät (TLE, lähetetty efemeridi tai SP3-epookki). Jokainen satelliitti propagoidaan omasta epookistaan, ja ne kattavat { $spread_h } h: aikaleimat noudattavat moottorin oletusta, että jokainen satelliitti alkaa hetkellä t = 0, kun taas jokainen sijainti kierretään GCRS- ja Maan mukana pyörivään kehykseen kyseisen satelliitin omalla ajanhetkellä. SP3- ja OEM-viennit nimeävät t = 0 sen sijaan arvoksi 2000-01-01T00:00:00Z
 

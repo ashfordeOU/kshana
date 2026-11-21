@@ -2426,6 +2426,7 @@ engine-e-interop-scene-missing-integer-waypoints = 缺少整数 `waypoints`
 engine-e-interop-scene-waypoints-is-outside-1000000 = waypoints = { $n } 超出 1..=1000000
 
 engine-interop-scene-walker-at-km-deg-inclination = Walker { $w }/{ $planes }/{ $phasing_f }，高度 { $altitude_km } km，倾角 { $inclination_deg } deg（SGP4）
+engine-interop-scene-gnss-slot = { $set } 的轨位 { $id }（地球同步二体名义轨位，MODELLED）；来源：{ $source }；相位：{ $phase }
 
 engine-interop-scene-the-scenario-gives-no-epoch = 场景未给出 `epoch`；t = 0 为 { $epoch }，即各卫星自身数据（TLE、广播星历或 SP3 历元）所带的最早历元。每颗卫星从各自的历元外推，这些历元相差 { $spread_h } h：时间标签遵循引擎的前提，即每颗卫星都从 t = 0 开始，而每个位置按该卫星自身的时刻旋转到 GCRS 和地固坐标系。SP3 和 OEM 导出则改把 t = 0 标为 2000-01-01T00:00:00Z
 
