@@ -503,7 +503,7 @@ fn decode_keplerian_record(system: char, prn: u8, rec: &[&str]) -> Result<RinexE
 /// (2006-01-01 00:00:00 UTC): 9492 days, exactly 1356 weeks. A RINEX BeiDou
 /// record's week counter is on the BDT scale, so this is what turns it into a
 /// GPS week number.
-const BDT_MINUS_GPS_WEEKS: f64 = 1356.0;
+pub(crate) const BDT_MINUS_GPS_WEEKS: f64 = 1356.0;
 /// Seconds GPS time leads BeiDou time. BDT was aligned with UTC at its 2006
 /// epoch, by which point GPS already led UTC by 14 leap seconds; both scales are
 /// leap-free since, so the offset is fixed. `gps_tow = bdt_tow + 14`. Despite its name the
