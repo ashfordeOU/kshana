@@ -10768,7 +10768,7 @@ engine-main-usage =
     { "   " }eller: kshana afs-interop <study|ue-register> ... (kshana afs-interop --help)
     { "   " }eller: kshana timing-stack <tai|ts2phc|pps|shm|ntpq|nts> ... (kshana timing-stack --help)
     { "   " }eller: kshana time-vectors [--json] [<vectors.json|dir> ...]
-    { "   " }eller: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
+    { "   " }eller: kshana corrections <decode --format <has|b2b|l6|l1s|qznma> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }eller: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
     { "   " }eller: kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
     { "   " }eller: kshana orbit-data <check|convert|gp-compare|gp-audit|cov> ... (kshana orbit-data --help)
@@ -11735,11 +11735,11 @@ engine-e-interference-incidents-source-url-required = --source-url er påkrævet
 
 ## Correction decoders (src/corrections/)
 engine-e-corrections-bad-hex = ikke en hexadecimal ramme: { $line }
-engine-e-corrections-unknown-decoder = ukendt dekoder { $decoder } (has, b2b, l6)
+engine-e-corrections-unknown-decoder = ukendt dekoder { $decoder } (has, b2b, l6, l1s, qznma)
 engine-e-corrections-bad-vector = vektor { $id } mangler hexadecimale rammer eller et expect-objekt
 engine-e-corrections-bad-file = { $file } er ikke et { $format }-dokument (formatmærke og et vectors-array)
 engine-corrections-summary = { $n } vektorer: { $passed } bestået, { $failed } fejlet
-engine-corrections-usage = brug: kshana corrections decode --format <has|b2b|l6> <frames.txt | -> | kshana corrections vectors [--json] [<vectors.json | dir> ...]  (én ramme pr. linje i hexadecimal; docs/CORRECTION-DECODERS.md)
+engine-corrections-usage = brug: kshana corrections decode --format <has|b2b|l6|l1s|qznma> <frames.txt | -> | kshana corrections vectors [--json] [<vectors.json | dir> ...]  (én ramme pr. linje i hexadecimal; docs/CORRECTION-DECODERS.md)
 
 ## src/space_weather_pnt/
 

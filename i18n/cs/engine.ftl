@@ -10774,7 +10774,7 @@ engine-main-usage =
     { "   " }nebo: kshana afs-interop <study|ue-register> ... (kshana afs-interop --help)
     { "   " }nebo: kshana timing-stack <tai|ts2phc|pps|shm|ntpq|nts> ... (kshana timing-stack --help)
     { "   " }nebo: kshana time-vectors [--json] [<vectors.json|dir> ...]
-    { "   " }nebo: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
+    { "   " }nebo: kshana corrections <decode --format <has|b2b|l6|l1s|qznma> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }nebo: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
     { "   " }nebo: kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
     { "   " }nebo: kshana orbit-data <check|convert|gp-compare|gp-audit|cov> ... (kshana orbit-data --help)
@@ -11783,11 +11783,11 @@ engine-e-interference-incidents-source-url-required = --source-url je povinný: 
 
 ## Correction decoders (src/corrections/)
 engine-e-corrections-bad-hex = není šestnáctkový rámec: { $line }
-engine-e-corrections-unknown-decoder = neznámý dekodér { $decoder } (has, b2b, l6)
+engine-e-corrections-unknown-decoder = neznámý dekodér { $decoder } (has, b2b, l6, l1s, qznma)
 engine-e-corrections-bad-vector = vektoru { $id } chybí šestnáctkové rámce nebo objekt expect
 engine-e-corrections-bad-file = { $file } není dokument { $format } (značka formátu a pole vectors)
 engine-corrections-summary = { $n } vektorů: { $passed } prošlo, { $failed } selhalo
-engine-corrections-usage = použití: kshana corrections decode --format <has|b2b|l6> <frames.txt | -> | kshana corrections vectors [--json] [<vectors.json | dir> ...]  (jeden rámec na řádek, šestnáctkově; docs/CORRECTION-DECODERS.md)
+engine-corrections-usage = použití: kshana corrections decode --format <has|b2b|l6|l1s|qznma> <frames.txt | -> | kshana corrections vectors [--json] [<vectors.json | dir> ...]  (jeden rámec na řádek, šestnáctkově; docs/CORRECTION-DECODERS.md)
 
 ## src/space_weather_pnt/
 

@@ -10051,7 +10051,7 @@ engine-main-usage =
     { "   " }或：kshana afs-interop <study|ue-register> ... (kshana afs-interop --help)
     { "   " }或：kshana timing-stack <tai|ts2phc|pps|shm|ntpq|nts> ... (kshana timing-stack --help)
     { "   " }或：kshana time-vectors [--json] [<vectors.json|dir> ...]
-    { "   " }或：kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
+    { "   " }或：kshana corrections <decode --format <has|b2b|l6|l1s|qznma> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }或：kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
     { "   " }或：kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
     { "   " }或：kshana orbit-data <check|convert|gp-compare|gp-audit|cov> ... (kshana orbit-data --help)
@@ -10985,11 +10985,11 @@ engine-e-interference-incidents-source-url-required = --source-url 为必填项�
 
 ## Correction decoders (src/corrections/)
 engine-e-corrections-bad-hex = 不是十六进制帧：{ $line }
-engine-e-corrections-unknown-decoder = 未知解码器 { $decoder }（has、b2b、l6）
+engine-e-corrections-unknown-decoder = 未知解码器 { $decoder }（has、b2b、l6、l1s、qznma）
 engine-e-corrections-bad-vector = 向量 { $id } 缺少十六进制帧或 expect 对象
 engine-e-corrections-bad-file = { $file } 不是 { $format } 文档（格式标签和 vectors 数组）
 engine-corrections-summary = { $n } 个向量：通过 { $passed } 个，失败 { $failed } 个
-engine-corrections-usage = 用法：kshana corrections decode --format <has|b2b|l6> <frames.txt | -> | kshana corrections vectors [--json] [<vectors.json | dir> ...]  (每行一个十六进制帧; docs/CORRECTION-DECODERS.md)
+engine-corrections-usage = 用法：kshana corrections decode --format <has|b2b|l6|l1s|qznma> <frames.txt | -> | kshana corrections vectors [--json] [<vectors.json | dir> ...]  (每行一个十六进制帧; docs/CORRECTION-DECODERS.md)
 
 ## src/space_weather_pnt/
 
