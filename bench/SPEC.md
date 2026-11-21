@@ -30,7 +30,9 @@ data stated in section 3.
 ## 2. Versioning
 
 `SPEC_VERSION` is `kshana-bench/2.0.0` for tasks a to d; task (e), added as a minor version, is scored under
-`kshana-bench/2.1.0`. A change to a metric, a split rule or a truth rule is a new major
+`kshana-bench/2.1.0`; tasks (f) and (g), added together as a minor version, are scored under `kshana-bench/2.2.0`;
+task (h), added as a minor version, is scored under `kshana-bench/2.3.0`.
+A change to a metric, a split rule or a truth rule is a new major
 version, and results from different major versions are never put in one table. Adding a baseline, a manifest
 entry or a task is a minor version. A result file carries the spec version it was scored under.
 
@@ -131,6 +133,68 @@ Pre-registered in `docs/design/evidence/b4a-benchmark-classes/PREREGISTRATION.md
 - **Baselines:** B-log, the receiver-trust monitors at the 0.35 defaults mapped to a class by a fixed rule, with
   PositionJump on stationary folders only; a descriptive variant runs PositionJump everywhere.
 
+### Task (f): spacecraft telemetry anomaly detection (added in 2.2.0)
+
+Pre-registered in `xval/bench-f/PREREGISTRATION.md`; the first scores are in `xval/bench-f/RESULTS.md`.
+
+- **Data:** OPSSAT-AD `dataset.csv`, Zenodo 10.5281/zenodo.15108715 (CC-BY-4.0 in the record metadata; the record's
+  LICENSE file is MIT), fetched by `scripts/fetch_opssat_ad.sh`, SHA-256 pinned in `bench/manifests/f-opssat-ad.json`
+  and refused by `kshana bench` when it differs. Never committed. (An earlier record, 10.5281/zenodo.12588359, is
+  vendored as a test fixture for other tests; it is not the task data.)
+- **Unit:** one housekeeping telemetry segment, id `seg-<segment>`.
+- **Truth:** the publisher's `anomaly` label.
+- **Submission:** `scores`, one per segment, higher = more likely anomalous; an optional `threshold`.
+- **Metrics:** AUC, average precision, the detection probability at the empirical `P_fa <= 0.01` threshold (an upper
+  bound), and at a declared threshold precision, recall, F1 and the Matthews correlation coefficient.
+- **Splits:** the publisher's: `dev` = `train = 1`, `test` = `train = 0`. **No holdout:** the data and the split are
+  public, and `--split holdout` is refused.
+- **Baselines:** `feature-z-max` and `diff2-var-z`, robust z-scores over the dataset's own feature columns against the
+  dev nominal segments of the same channel. The dev results are in-sample.
+
+### Task (g): smartphone positioning accuracy (added in 2.2.0)
+
+The metric of the Google Smartphone Decimeter Challenge, continued on data laid out as its training set.
+
+- **Data:** a directory `<drive>/<phone>/ground_truth.csv` (and `device_gnss.csv` for the baseline), as in the GSDC
+  2023 training set on Kaggle. The user downloads it under the competition's rules; nothing is redistributed and no
+  hash is pinned yet (`bench/manifests/datasets.json`, entry `gsdc-2023`). Any data in this layout can be scored the
+  same way.
+- **Unit:** one epoch of one trace (`<drive>/<phone>`), keyed by `UnixTimeMillis`.
+- **Truth:** the trace's reference latitude and longitude. The reference's own error is not removed.
+- **Submission:** `positions`: per trace, `[UnixTimeMillis, latitude, longitude]` for every truth epoch (extra epochs
+  are ignored, a missing one is refused). `kshana bench positions` converts a GSDC-format CSV
+  (`tripId,UnixTimeMillis,LatitudeDegrees,LongitudeDegrees`).
+- **Metrics:** per trace, the 50th and 95th percentile horizontal errors (haversine on a 6,371,000 m sphere, linear
+  percentile interpolation) and their mean; **primary: `gsdc_score_m`, the mean of that over the traces**, lower is
+  better; the pooled P50 and P95.
+- **Splits:** the section 4 rule over traces, one stratum.
+- **Baseline:** `provided-wls`, the weighted-least-squares fix each trace's `device_gnss.csv` already carries, at the
+  nearest epoch. No baseline number is published: no copy of the data has been scored here.
+
+### Task (h): urban positioning accuracy (added in 2.3.0)
+
+The metric of task (g) on the UrbanNav Hong Kong sequences, whose raw RINEX lets a method be scored from the
+measurements up. Pre-registered in `xval/bench-h/PREREGISTRATION.md`; the first scores are in `xval/bench-h/RESULTS.md`.
+
+- **Data:** UrbanNav (IPNL, The Hong Kong Polytechnic University; MIT, as its README states it for the dataset files),
+  sequences `medium-urban-1`, `deep-urban-1`, `harsh-urban-1` and `tunnel-1`, receivers `ublox-f9p` and `xiaomi-mi8`,
+  with the day's IGS BRDC broadcast navigation. `scripts/fetch_urbannav.sh <dir>` lays them out as
+  `<sequence>/{ground_truth.txt, <receiver>.obs, <receiver>.nmea, nav.rnx}` and checks every file's SHA-256. Never
+  committed.
+- **Unit:** one ground-truth epoch (1 Hz) of one trace (`<sequence>/<receiver>`), keyed by Unix milliseconds (the
+  file's UTCTime column).
+- **Truth:** the sequence's reference latitude and longitude (NovAtel SPAN-CPT, as the publisher states it), shared by
+  the receivers of the sequence. The reference's own error is not removed.
+- **Submission:** as task (g); `kshana bench positions --task h` converts a CSV whose `tripId` is the trace id.
+- **Metrics:** as task (g); primary `gsdc_score_m`, lower is better.
+- **Splits:** per sequence, so a sequence's receivers share one split: sorted by the lowercase hex SHA-256 of the
+  sequence name, the first half (rounded up) are `test` and the rest `dev`. **No holdout:** the truth is public, and
+  `--split holdout` is refused.
+- **Baselines:** `provided-nmea`, each receiver's own GGA fix at the nearest epoch; `kshana-spp`, the engine's code
+  single-point solution (`src/pvt.rs`) from the receiver's RINEX and the broadcast navigation, single frequency with
+  the Klobuchar model, in two passes that do not use the truth (no elevation mask from the Earth's centre, then a 10°
+  mask from the median of the first pass), at the nearest epoch.
+
 ## 4. Splits and the sealed holdout
 
 **Real-data splits (a).** The evaluable folders (by the truth rules of task (a)) form two strata: *jamming
@@ -150,6 +214,14 @@ submissions with the corpus regenerated from `s`. After the leaderboard round, `
 `kshana bench reveal-check` confirms it matches. The owner makes the seed with `kshana bench seal --task d --seed-file <file> --new`, which prints only the
 commitment, and commits that hash to `bench/holdout/COMMITMENTS.json`; **no seed is ever in this repository or in
 a message.** No release holdout is sealed yet, and `reveal-check` and the leaderboard refuse a provisional hash.
+
+**Private holdout of tasks (f) and (g).** Added on 20 November 2026 by owner decision; it adds a split
+realisation and changes no metric, truth rule or public split. The owner keeps a truth file of cases that are not
+public, in the truth format of the task with split `holdout`, outside this repository, and commits only its entry to
+`bench/holdout/PRIVATE.json` (task, SHA-256 of the file, number of cases, date). A private-holdout result is scored by
+`kshana bench holdout score` from that file, given at run time, only when its SHA-256 is registered; the result carries
+`holdout.private = true`. The leaderboard shows a task (f) or (g) holdout row only on those conditions. The private
+data, the private truth and the cases file are never in this repository or in a message.
 
 **Leaderboard hygiene.** A result states the split it was scored on. The `holdout` column is filled only by
 the owner or an operator they name. One method, one holdout evaluation per round.
@@ -174,3 +246,21 @@ miss.
 A row says: "this file scored X on split S under spec V". It does not mean any product has been rated or approved
 by anyone, and no organisation is named as an endorser. Names on the page are the names the
 submitter gave their system.
+
+## 8. Governance: datasets, frozen files and citation ids
+
+- **Dataset registry.** `bench/manifests/datasets.json` lists every dataset a task uses or may use: DOI or URL, what
+  the publisher states about its licence, whether it may be redistributed, how it is fetched and checked, and its use
+  limits. `kshana bench datasets --check --root .` enforces the rules: data is in the repository only when its licence
+  allows redistribution and `NOTICE` names it; TEXBAT and JammerTest data are never in the repository; a spoofing or
+  jamming set is for detection benchmarking only; a fetch script exists. Sets wanted but not found are listed as gaps.
+- **Frozen files.** The split manifests, the result schema, the holdout commitments and the published result files are
+  frozen. `bench/GOLDEN.json` indexes each with its size and SHA-256; `kshana bench golden --check bench/GOLDEN.json`
+  fails when one changed, disappeared or appeared unindexed. A revision is a new file (or a new major version) and a
+  new index entry, made in a reviewed commit. The dataset registry is a living list and is not frozen.
+- **Citation ids.** `kshana bench cite <result.json>` prints `kb-<major>-<task>-<split>-<16 hex>`: the start of the
+  SHA-256 of the spec major version, task, split, truth and predictions hashes, system name and version, and
+  provenance. It holds no engine version, date or metric value, so a result keeps its id across releases; the golden
+  index records every id and the check fails if one would move.
+- **Anti-overfitting.** The rules of sections 4 and 6 apply to every task: one holdout evaluation per method per
+  round; real-data holdouts are public and say so; bars are registered before the first scored run and never loosened.

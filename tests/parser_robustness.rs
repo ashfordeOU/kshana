@@ -1202,3 +1202,52 @@ fn oscillator_inputs() {
         }
     });
 }
+
+#[test]
+fn bench_dataset_inputs() {
+    // Task (f): OPSSAT-AD dataset.csv (the vendored earlier record's header and first rows).
+    let opssat = head("tests/fixtures/opssat/dataset.csv", 6);
+    fuzz("bench task f dataset.csv", &[opssat], None, |b| {
+        let _ = kshana::bench::anomaly::f_load(&text(b));
+    });
+    // Task (g): GSDC ground truth, device WLS fixes and a submission CSV.
+    let gt = b"MessageType,Provider,LatitudeDegrees,LongitudeDegrees,AltitudeMeters,UnixTimeMillis\nFix,GT,37.4,-122.1,10,1600000000000\nFix,GT,37.40001,-122.1,10,1600000001000\n".to_vec();
+    let dev = b"utcTimeMillis,Svid,WlsPositionXEcefMeters,WlsPositionYEcefMeters,WlsPositionZEcefMeters\n1600000000000,5,-2700000.5,-4290000.25,3860000.75\n1600000001000,5,,,\n".to_vec();
+    let sub =
+        b"tripId,UnixTimeMillis,LatitudeDegrees,LongitudeDegrees\nd/p,1600000000000,37.4,-122.1\n"
+            .to_vec();
+    fuzz("bench task g csv", &[gt, dev, sub], None, |b| {
+        let t = text(b);
+        if let Ok(eps) = kshana::bench::smartphone::g_truth_of("ground_truth.csv", &t) {
+            let _ = kshana::bench::smartphone::g_wls_positions("device_gnss.csv", &t, &eps);
+        }
+        let _ = kshana::bench::smartphone::g_wls_positions(
+            "device_gnss.csv",
+            &t,
+            &[(1_600_000_000_000, 0.0, 0.0)],
+        );
+        let _ = kshana::bench::smartphone::g_positions_from_csv("sub.csv", &t);
+    });
+    // Task (h): the UrbanNav ground-truth text and a receiver's NMEA.
+    let gt = b"  UTCTime Week GPSTime Latitude Longitude H-Ell\n  (sec)\n1621218775.00 2158.00000  95593.00   22 18 04.31949  114 10 44.60559  3.472\r\n".to_vec();
+    let gga =
+        b"$GNGGA,023255.00,2218.07395,N,11410.74198,E,2,12,0.62,9.0,M,-1.6,M,,0000*51\n".to_vec();
+    fuzz("bench task h text", &[gt, gga], None, |b| {
+        let t = text(b);
+        if let Ok(eps) = kshana::bench::urban::h_truth_of("ground_truth.txt", &t) {
+            let _ = kshana::bench::urban::h_nmea_positions("r.nmea", &t, &eps);
+        }
+        let _ =
+            kshana::bench::urban::h_nmea_positions("r.nmea", &t, &[(1_621_218_775_000, 0.0, 0.0)]);
+    });
+    // The registry check and the golden-index check read JSON documents.
+    let reg = kshana::bench::datasets::REGISTRY.as_bytes().to_vec();
+    fuzz("bench dataset registry", &[reg], None, |b| {
+        if let Ok(v) = serde_json::from_slice::<serde_json::Value>(b) {
+            let _ = kshana::bench::datasets::check(&v, Some("NOTICE"), None);
+            let _ = kshana::bench::datasets::table(&v);
+            let _ = kshana::bench::cite::citation_id(&v);
+            let _ = kshana::bench::cite::citation_line(&v);
+        }
+    });
+}
