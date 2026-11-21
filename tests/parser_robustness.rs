@@ -1202,3 +1202,43 @@ fn oscillator_inputs() {
         }
     });
 }
+
+#[test]
+fn qzss_l1s_and_qznma_frames() {
+    // Seeds: the frames of the L1S (SLAS, DC Report, DCX) and QZNMA vectors, one per line.
+    let mut seeds = Vec::new();
+    for set in ["l1s", "qznma"] {
+        let doc: serde_json::Value = serde_json::from_slice(&bytes(
+            &format!("data/conformance/corrections/{set}.json"),
+            1 << 20,
+        ))
+        .expect("vector file");
+        for v in doc["vectors"].as_array().expect("vectors") {
+            let lines: Vec<&str> = v["frames"]
+                .as_array()
+                .expect("frames")
+                .iter()
+                .filter_map(|f| f.as_str())
+                .collect();
+            seeds.push(lines.join("\n").into_bytes());
+        }
+    }
+    fuzz("qzss l1s and qznma frames", &seeds, None, |b| {
+        // As a frame file.
+        if let Ok(frames) = kshana::corrections::parse_frames(&text(b)) {
+            for d in ["l1s", "qznma"] {
+                let _ = kshana::corrections::decode(d, &frames);
+            }
+        }
+        // As the raw bits of one frame, and of a QZNMA-CLAS slot.
+        let hex: String = b.iter().map(|x| format!("{x:02x}")).collect();
+        if let Some(f) = kshana::corrections::parse_hex(&hex) {
+            for d in ["l1s", "qznma"] {
+                let _ = kshana::corrections::decode(d, std::slice::from_ref(&f));
+            }
+            let _ = kshana::corrections::cma::parse_messages(&f.bits());
+            let _ = kshana::corrections::dcr::decode_body(b[0] & 15, &f.bits());
+            let _ = kshana::corrections::dcx::decode(&f.bits());
+        }
+    });
+}

@@ -10728,7 +10728,7 @@ engine-main-usage =
     { "   " }або: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }або: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
     { "   " }або: kshana time-vectors [--json] [<vectors.json|dir> ...]
-    { "   " }або: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
+    { "   " }або: kshana corrections <decode --format <has|b2b|l6|l1s|qznma> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }або: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
     { "   " }або: kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
     { "   " }або: kshana orbit-data <check|convert|gp-compare|gp-audit|cov> ... (kshana orbit-data --help)
@@ -11657,11 +11657,11 @@ engine-e-interference-incidents-source-url-required = --source-url обов'яз
 
 ## Correction decoders (src/corrections/)
 engine-e-corrections-bad-hex = не шістнадцятковий кадр: { $line }
-engine-e-corrections-unknown-decoder = невідомий декодер { $decoder } (has, b2b, l6)
+engine-e-corrections-unknown-decoder = невідомий декодер { $decoder } (has, b2b, l6, l1s, qznma)
 engine-e-corrections-bad-vector = у вектора { $id } немає шістнадцяткових кадрів або об'єкта expect
 engine-e-corrections-bad-file = { $file } не є документом { $format } (мітка формату та масив vectors)
 engine-corrections-summary = векторів: { $n }; пройдено: { $passed }, не пройдено: { $failed }
-engine-corrections-usage = використання: kshana corrections decode --format <has|b2b|l6> <frames.txt | -> | kshana corrections vectors [--json] [<vectors.json | dir> ...]  (один кадр на рядок у шістнадцятковому вигляді; docs/CORRECTION-DECODERS.md)
+engine-corrections-usage = використання: kshana corrections decode --format <has|b2b|l6|l1s|qznma> <frames.txt | -> | kshana corrections vectors [--json] [<vectors.json | dir> ...]  (один кадр на рядок у шістнадцятковому вигляді; docs/CORRECTION-DECODERS.md)
 
 ## src/space_weather_pnt/
 

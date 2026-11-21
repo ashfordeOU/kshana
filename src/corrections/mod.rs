@@ -10,6 +10,15 @@
 //!   SSR messages (message 4073, sub types 1 to 12) of CLAS (IS-QZSS-L6-008, section 4.1) and
 //!   MADOCA-PPP (IS-QZSS-MDC-005, section 4.2), and the MADOCA-PPP wide-area ionospheric
 //!   messages (IS-QZSS-MDC-005, section 6.3).
+//! * [`l1s`], [`dcr`] and [`dcx`]: QZSS L1S messages: SLAS message types 0, 47 to 51 and 63
+//!   (IS-QZSS-L1S-009, section 4.1), the JMA DC Report in message type 43 (IS-QZSS-DCR-017,
+//!   section 4.1.2.3: common header and the twelve category bodies) and the DCX message in
+//!   message type 44 (IS-QZSS-DCX-004, section 4.2).
+//! * [`qznma`] and [`cma`]: QZSS L6E QZNMA messages (IS-QZSS-SAS-001, section 6.8): the two
+//!   Reformat Digital Signatures per frame, with a GPS LNAV RAND builder and ECDSA check; and,
+//!   from the IS-QZSS-SAS-002 **draft** (section 7), the CLAS correction message
+//!   authentication slot (ST13 messages, ST13,11 reassembly, TESLA key chain, KROOT signature
+//!   and MAC checks). Everything from the draft is labelled draft.
 //!
 //! Every decoder takes frames whose channel coding a receiver has already removed (the
 //! Viterbi and de-interleaving of E6-B, the LDPC of B2b, the Reed-Solomon of L6) and reads
@@ -30,15 +39,20 @@
 
 pub mod b2b;
 pub mod bits;
+pub mod cma;
 pub mod cssr;
+pub mod dcr;
+pub mod dcx;
 pub mod has;
+pub mod l1s;
 pub mod l6;
+pub mod qznma;
 pub mod vectors;
 
 use serde_json::Value;
 
 /// The decoders the command line and the vectors name.
-pub const DECODERS: &[&str] = &["has", "b2b", "l6"];
+pub const DECODERS: &[&str] = &["has", "b2b", "l6", "l1s", "qznma"];
 
 /// One frame of an input file: optional `key=value` tokens and the frame in hexadecimal.
 #[derive(Clone, Debug, PartialEq, Eq)]
@@ -100,6 +114,8 @@ pub fn decode(decoder: &str, frames: &[Frame]) -> Result<Value, String> {
         "has" => serde_json::to_value(has::decode_frames(frames)),
         "b2b" => serde_json::to_value(b2b::decode_frames(frames)),
         "l6" => serde_json::to_value(l6::decode_frames(frames)),
+        "l1s" => serde_json::to_value(l1s::decode_frames(frames)),
+        "qznma" => serde_json::to_value(qznma::decode_frames(frames)),
         _ => {
             return Err(crate::terr!(
                 "e-corrections-unknown-decoder",

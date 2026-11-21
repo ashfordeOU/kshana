@@ -1833,9 +1833,25 @@
    "count": 1,
    "reason": "identifier: the madoca-iono service name in the JSON report"
   },
+  "src/corrections/l1s.rs": {
+   "count": 10,
+   "reason": "identifier: the disaster-category and classification names and the note values of the L1S JSON report (machine document, English by design, docs/CORRECTION-DECODERS.md)"
+  },
+  "src/corrections/dcr.rs": {
+   "count": 35,
+   "reason": "identifier: the JSON field names of the DC Report category bodies, the arrival states and the cited table name (docs/CORRECTION-DECODERS.md)"
+  },
+  "src/corrections/dcx.rs": {
+   "count": 43,
+   "reason": "identifier: the JSON field names and enumerated values of the DCX report (message kinds, CAMF names, instruction-library names, prefecture names; docs/CORRECTION-DECODERS.md)"
+  },
+  "src/corrections/qznma.rs": {
+   "count": 5,
+   "reason": "identifier: the message-type names of the QZNMA RDS in the JSON report"
+  },
   "src/corrections/vectors.rs": {
-   "count": 2,
-   "reason": "identifier: the PASS/FAIL markers of the vector table, as in src/time_vectors.rs"
+   "count": 3,
+   "reason": "identifier: the vector-format tag and the built-in vector file names (has.json, qznma.json) the scanner reads as words"
   },
   "src/interference_map/incident.rs": {
    "count": 183,
