@@ -10956,6 +10956,14 @@ engine-e-register-products-bad-revocation = в строке { $line } списк
 engine-e-register-products-cannot-fetch = не удаётся получить { $url }: { $e }
 engine-e-register-products-bad-key = ключ не является 32 байтами в шестнадцатеричном виде
 
+## Software-in-the-loop observation generator (src/sil_obsgen.rs)
+engine-sil-obsgen-usage = использование: kshana sil-obsgen <scenario.toml> --out <obs.rnx> [--truth <truth.json>]   (a gnss-sim scenario with optional [urban] and [rinex] tables; docs/SIL-OBSGEN.md)
+engine-e-sil-obsgen-missing-value = { $option } требует значения
+engine-e-sil-obsgen-unknown-option = неизвестный параметр { $option } (параметры перечисляет kshana sil-obsgen --help)
+engine-e-sil-obsgen-cannot-read = не удаётся прочитать { $path }: { $e }
+engine-e-sil-obsgen-cannot-write = не удаётся записать { $path }: { $e }
+engine-e-sil-obsgen-bad-scenario = это не сценарий gnss-sim с необязательными таблицами [urban] и [rinex]: { $e }
+
 engine-main-usage =
     использование: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }или: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -11000,6 +11008,7 @@ engine-main-usage =
     { "   " }или: kshana claim-check [<dataset.json>...] [--out <file.json>] | --template
     { "   " }или: kshana afs-interop <study|ue-register> ... (kshana afs-interop --help)
     { "   " }или: kshana timing-stack <tai|ts2phc|pps|shm|ntpq|nts> ... (kshana timing-stack --help)
+    { "   " }или: kshana sil-obsgen <scenario.toml> --out <obs.rnx> [--truth <truth.json>]
     { "   " }или: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }или: kshana corrections <decode --format <has|b2b|l6|l1s|qznma> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }или: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>

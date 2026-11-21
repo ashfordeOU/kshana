@@ -53,6 +53,7 @@ fn the_top_level_usage_names_every_subcommand() {
         "afs-interop",
         "timing-stack",
         "register-products",
+        "sil-obsgen",
         "corrections",
         "space-weather",
         "rtk-qa",
