@@ -21251,5 +21251,42 @@
    },
    " is not one this comparison reads (UTC, GPS, TAI or TT)"
   ]
+ },
+ {
+  "id": "amateur-od-bad-record",
+  "error": false,
+  "parts": [
+   "line ",
+   {
+    "var": "line"
+   },
+   ": the ",
+   {
+    "var": "what"
+   },
+   " record cannot be read"
+  ]
+ },
+ {
+  "id": "amateur-od-bad-json",
+  "error": false,
+  "parts": [
+   "SatNOGS observation: field ",
+   {
+    "var": "field"
+   },
+   " is missing or not a number"
+  ]
+ },
+ {
+  "id": "amateur-od-unknown-site",
+  "error": false,
+  "parts": [
+   "Doppler record names site ",
+   {
+    "var": "site"
+   },
+   ", which is not in the site list"
+  ]
  }
 ]
