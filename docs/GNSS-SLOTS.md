@@ -22,7 +22,10 @@ planes = 0
 sats_per_plane = 0
 ```
 
-The slots take the PRNs after the shell's, and the report lists them (`slots`: PRN, set, id).
+The slots take the PRNs after the shell's, and the report lists them (`slots`: PRN, set, id). The bundled
+`scenarios/navic-regional.toml` is NavIC alone over India (Bengaluru, a day at 10-minute steps). The
+interop scene exports carry the slots as satellites `S01`, `S02`, ... with their source and phase labels, and
+the test-bench export lists them in the motion metadata (`space_segment`) ([Interop](INTEROP.md)).
 
 ## The orbit of a slot
 
@@ -62,6 +65,22 @@ Left out, and why (each file lists its own omissions):
 - **NavIC eccentricity:** not stated; the NavIC slots are circular.
 - The QZSS semi-major axis (42,165 km in the source) is replaced by the geosynchronous radius above, and
   its right ascensions (given at different epochs) by the centre longitudes.
+
+## A published figure, compared
+
+The QZSS operator's overview (qzss.go.jp, Technology, Orbit, read 2026-11-21) states that one QZO satellite
+seen from the area near Tokyo stays about 8 h a day at 70° elevation or more, 12 h at 50° or more and 16 h at
+20° or more. The nominal slots give, from Tokyo (35.68°N, 139.69°E):
+
+| QZS2 | ≥ 70° | ≥ 50° | ≥ 20° |
+|---|---|---|---|
+| published (one QZO, near Tokyo) | about 8 h | about 12 h | about 16 h |
+| `qzss-ps-005` (centre 140°E) | 9.13 h | 12.70 h | 17.99 h |
+| `qzss-six-satellite` (centre 147°E) | 8.85 h | 12.59 h | 17.90 h |
+
+The model is longer at every threshold, by 0.6 to 2.0 h. The gap is reported, not tuned: the published
+figures are rounded, the place and the satellite are not stated exactly, and the slots are two-body nominal
+orbits without perturbations. `tests/gnss_slots.rs` pins the computed hours and records the published ones.
 
 ## Tests
 

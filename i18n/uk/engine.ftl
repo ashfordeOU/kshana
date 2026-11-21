@@ -2353,6 +2353,7 @@ engine-e-interop-scene-missing-integer-waypoints = відсутнє ціле з�
 engine-e-interop-scene-waypoints-is-outside-1000000 = waypoints = { $n } поза межами 1..=1000000
 
 engine-interop-scene-walker-at-km-deg-inclination = Walker { $w }/{ $planes }/{ $phasing_f }, висота { $altitude_km } km, нахил { $inclination_deg } deg (SGP4)
+engine-interop-scene-gnss-slot = позиція { $id } набору { $set } (геосинхронна номінальна позиція задачі двох тіл, MODELLED); джерело: { $source }; фаза: { $phase }
 
 engine-interop-scene-the-scenario-gives-no-epoch = сценарій не задає `epoch`; t = 0 є { $epoch }, найраніша епоха з власних даних супутників (епоха TLE, бортових ефемерид або SP3). Кожен супутник поширюється від власної епохи, і вони охоплюють { $spread_h } h: часові мітки відповідають припущенню рушія, що кожен супутник стартує при t = 0, тоді як кожне положення повертається в системи GCRS і земну фіксовану в момент власного часу цього супутника. Експорти SP3 і OEM натомість позначають t = 0 як 2000-01-01T00:00:00Z
 

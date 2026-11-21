@@ -2641,6 +2641,7 @@ engine-e-interop-scene-missing-integer-waypoints = heltalet `waypoints` saknas
 engine-e-interop-scene-waypoints-is-outside-1000000 = waypoints = { $n } ligger utanför 1..=1000000
 
 engine-interop-scene-walker-at-km-deg-inclination = Walker { $w }/{ $planes }/{ $phasing_f } på { $altitude_km } km, { $inclination_deg } deg inklination (SGP4)
+engine-interop-scene-gnss-slot = { $set }-slot { $id } (geosynkron nominell tvåkropps-slot, MODELLED); källa: { $source }; fas: { $phase }
 
 engine-interop-scene-the-scenario-gives-no-epoch = scenariot anger ingen `epoch`; t = 0 är { $epoch }, den tidigaste epok som satelliternas egna data bär (TLE-, sändningsefemerid- eller SP3-epok). Varje satellit propageras från sin egen epok, och dessa spänner över { $spread_h } h: tidsetiketterna följer motorns förutsättning att varje satellit startar vid t = 0, medan varje position roteras till GCRS- och jordfasta system vid den satellitens egna tidpunkt. SP3- och OEM-exporterna anger i stället t = 0 som 2000-01-01T00:00:00Z
 

@@ -2365,6 +2365,7 @@ engine-e-interop-scene-missing-integer-waypoints = chybí celé číslo `waypoin
 engine-e-interop-scene-waypoints-is-outside-1000000 = waypoints = { $n } je mimo 1..=1000000
 
 engine-interop-scene-walker-at-km-deg-inclination = Walker { $w }/{ $planes }/{ $phasing_f } ve výšce { $altitude_km } km, sklon { $inclination_deg } deg (SGP4)
+engine-interop-scene-gnss-slot = slot { $id } ze sady { $set } (geosynchronní nominální slot, problém dvou těles, MODELLED); zdroj: { $source }; fáze: { $phase }
 
 engine-interop-scene-the-scenario-gives-no-epoch = scénář neuvádí `epoch`; t = 0 je { $epoch }, nejstarší epocha, kterou nesou vlastní data družic (epocha TLE, broadcast efemerid nebo SP3). Každá družice je propagována od své vlastní epochy a ty se rozprostírají přes { $spread_h } h: časové značky sledují předpoklad enginu, že každá družice začíná v t = 0, zatímco každá poloha je převedena do soustav GCRS a pevně vázané k Zemi v okamžiku dané družice. Exporty SP3 a OEM místo toho označují t = 0 jako 2000-01-01T00:00:00Z
 

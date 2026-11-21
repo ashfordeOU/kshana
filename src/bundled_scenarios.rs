@@ -168,6 +168,7 @@ pub const BUNDLED: &[(&str, &str)] = &[
     bundled!("mission-thread-short"),
     bundled!("moonlight-service-volume"),
     bundled!("multi-band-jamming-waterfall"),
+    bundled!("navic-regional"),
     bundled!("ntn-5g-positioning"),
     bundled!("oem-interop"),
     bundled!("optical-atmosphere-network"),

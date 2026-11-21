@@ -3169,6 +3169,7 @@ engine-e-interop-scene-missing-integer-waypoints = missing integer `waypoints`
 engine-e-interop-scene-waypoints-is-outside-1000000 = waypoints = { $n } is outside 1..=1000000
 
 engine-interop-scene-walker-at-km-deg-inclination = Walker { $w }/{ $planes }/{ $phasing_f } at { $altitude_km } km, { $inclination_deg } deg inclination (SGP4)
+engine-interop-scene-gnss-slot = { $set } slot { $id } (geosynchronous two-body nominal slot, MODELLED); source: { $source }; phase: { $phase }
 
 engine-interop-scene-the-scenario-gives-no-epoch = the scenario gives no `epoch`; t = 0 is { $epoch }, the earliest epoch the satellites' own data carry (TLE, broadcast-ephemeris or SP3 epoch). Each satellite is propagated from its own epoch, and those span { $spread_h } h: the time tags follow the engine's premise that every satellite starts at t = 0, while each position is rotated into the GCRS and Earth-fixed frames at that satellite's own instant. The SP3 and OEM exports label t = 0 as 2000-01-01T00:00:00Z instead
 
