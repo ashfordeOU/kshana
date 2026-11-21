@@ -30,9 +30,10 @@
 //! The parser keeps the metadata keys it round-trips as named fields plus a
 //! free-form list of any other recognised optional keys, so a file emitted by
 //! [`TdmFile::to_tdm_string`] re-parses to an equal structure. The
-//! [`TdmFile::to_radiometric_obs`] bridge maps the unambiguous `RANGE`/`DOPPLER_*`
-//! records onto the [`crate::radiometric`] observable types so the solver can run
-//! on a TDM directly.
+//! [`TdmFile::to_radiometric_obs`] bridge maps the `RANGE` records whose
+//! `RANGE_UNITS` it can convert (km, s) onto the [`crate::radiometric`] range
+//! observable so the solver can run on a TDM directly; `DOPPLER_*` range rates are
+//! not a frequency shift and are left unmapped.
 //!
 //! * CCSDS 503.0-B-2, *Tracking Data Message* (June 2020) — the KVN structure,
 //!   keyword set, and the informative Annex-E examples mirrored here.
@@ -386,12 +387,16 @@ impl TdmFile {
     /// This is the honest subset: only records whose [`ObsKind`] and link
     /// geometry are unambiguous from the standard are mapped.
     ///
-    /// * `RANGE` → [`ObsKind::Range`] (value km → metres).
-    /// * `DOPPLER_INSTANTANEOUS` / `DOPPLER_INTEGRATED` → [`ObsKind::Doppler`]
-    ///   (value km/s → m/s; the Doppler *frequency-shift* convention of
-    ///   [`crate::radiometric`] differs, but the CCSDS km/s range-rate is the
-    ///   physical observable carried, so it is passed through as the value with
-    ///   the kind tagged `Doppler`).
+    /// * `RANGE` → [`ObsKind::Range`] in metres, by the segment's `RANGE_UNITS`:
+    ///   `km` × 1000, `s` (light time) × c. `RU` (range units, which need the uplink
+    ///   frequency and the station's range-unit definition) and an absent
+    ///   `RANGE_UNITS` (the CCSDS default is `RU`) are skipped.
+    /// * `DOPPLER_INSTANTANEOUS` / `DOPPLER_INTEGRATED` are **not** mapped: CCSDS
+    ///   carries them as a range rate in km/s, positive when the range increases,
+    ///   while [`ObsKind::Doppler`] is a carrier-frequency shift in Hz, negative when
+    ///   the range increases (`f_D = −(f/c)·ρ̇`); turning one into the other needs the
+    ///   carrier frequencies and the transponder ratio of the pass, which this bridge
+    ///   does not guess.
     ///
     /// The link [`ObsWay`] is read from the segment `PATH`: `1,2` → one-way
     /// (down-leg), `1,2,1` (same first/last participant) → two-way, otherwise
@@ -416,18 +421,31 @@ impl TdmFile {
             let (Some(way), Some(band)) = (way, band) else {
                 continue;
             };
+            // Metres per RANGE unit, by RANGE_UNITS; RU and an absent value (CCSDS
+            // default RU) cannot be converted without the uplink frequency.
+            let range_scale = match seg
+                .meta
+                .range_units
+                .as_deref()
+                .map(|u| u.trim().to_ascii_lowercase())
+                .as_deref()
+            {
+                Some("km") => Some(1000.0),
+                Some("s") => Some(crate::timegeo::C_M_PER_S),
+                _ => None,
+            };
             for obs in &seg.data {
-                let kind = match obs.key.as_str() {
-                    "RANGE" => ObsKind::Range,
-                    "DOPPLER_INSTANTANEOUS" | "DOPPLER_INTEGRATED" => ObsKind::Doppler,
+                let (kind, scale) = match obs.key.as_str() {
+                    "RANGE" => match range_scale {
+                        Some(k) => (ObsKind::Range, k),
+                        None => continue,
+                    },
                     _ => continue,
                 };
                 let Some(epoch) = parse_epoch_to_tdb(&obs.epoch, &seg.meta.time_system) else {
                     continue;
                 };
-                // RANGE is reported in km here (the fixture/range-units path); the
-                // radiometric model is SI, so km → m. Doppler km/s → m/s.
-                let value = obs.value * 1000.0;
+                let value = obs.value * scale;
                 out.push(RadiometricObs {
                     kind,
                     way,
@@ -668,15 +686,14 @@ mod tests {
     fn tdm_to_radiometric() {
         let f = TdmFile::parse(REFERENCE_TDM).expect("parse");
         let obs = f.to_radiometric_obs();
-        // All 6 RANGE/DOPPLER records map (the fixture has no angle/freq lines).
-        assert_eq!(obs.len(), 6);
+        // The 3 RANGE records map (RANGE_UNITS = km); the 3 DOPPLER records, a range rate
+        // in km/s, are not a frequency shift in Hz and are not mapped.
+        assert_eq!(obs.len(), 3);
 
         let ranges: Vec<&RadiometricObs> =
             obs.iter().filter(|o| o.kind == ObsKind::Range).collect();
-        let dopplers: Vec<&RadiometricObs> =
-            obs.iter().filter(|o| o.kind == ObsKind::Doppler).collect();
         assert_eq!(ranges.len(), 3);
-        assert_eq!(dopplers.len(), 3);
+        assert!(obs.iter().all(|o| o.kind != ObsKind::Doppler));
 
         // Two-way X-band link inferred from PATH = 1,2,1 and TRANSMIT_BAND = X.
         for o in &obs {
@@ -690,12 +707,29 @@ mod tests {
             "range value {} m off",
             ranges[0].value
         );
-        // DOPPLER km/s → m/s: first record -1.234567890 km/s → -1234.56789 m/s.
-        assert!(
-            (dopplers[0].value - (-1_234.567_89)).abs() < 1e-3,
-            "doppler value {} m/s off",
-            dopplers[0].value
-        );
+    }
+
+    #[test]
+    fn range_follows_range_units() {
+        let tdm = |units: &str| {
+            format!(
+                "CCSDS_TDM_VERS = 2.0\nCREATION_DATE = 2026-06-14T00:00:00.000\nORIGINATOR = KSHANA\n\
+                 META_START\nTIME_SYSTEM = UTC\nPARTICIPANT_1 = DSS-25\nPARTICIPANT_2 = SC\n\
+                 MODE = SEQUENTIAL\nPATH = 1,2,1\nTRANSMIT_BAND = X\n{units}META_STOP\nDATA_START\n\
+                 RANGE = 2026-06-14T01:00:00.000 2.5\nDATA_STOP\n"
+            )
+        };
+        let one = |units: &str| TdmFile::parse(&tdm(units)).unwrap().to_radiometric_obs();
+        // km: 2.5 km = 2500 m.
+        let km = one("RANGE_UNITS = km\n");
+        assert_eq!(km.len(), 1);
+        assert!((km[0].value - 2500.0).abs() < 1e-9);
+        // s: 2.5 s of light time = 2.5 c metres of path.
+        let sec = one("RANGE_UNITS = s\n");
+        assert!((sec[0].value - 2.5 * crate::timegeo::C_M_PER_S).abs() < 1e-3);
+        // RU, and absent (CCSDS default RU), are not converted.
+        assert!(one("RANGE_UNITS = RU\n").is_empty());
+        assert!(one("").is_empty());
     }
 
     #[test]
@@ -754,14 +788,11 @@ DATA_STOP
         assert_eq!(f.segments[0].data.len(), 1);
         assert_eq!(f.segments[1].data.len(), 1);
         let obs = f.to_radiometric_obs();
-        assert_eq!(obs.len(), 2);
-        // First is a two-way X-band range, second a one-way S-band Doppler.
+        // The two-way X-band range maps; the one-way Doppler (a km/s range rate) does not.
+        assert_eq!(obs.len(), 1);
         assert_eq!(obs[0].kind, ObsKind::Range);
         assert_eq!(obs[0].way, ObsWay::Two);
         assert_eq!(obs[0].band, Band::X);
-        assert_eq!(obs[1].kind, ObsKind::Doppler);
-        assert_eq!(obs[1].way, ObsWay::One);
-        assert_eq!(obs[1].band, Band::S);
     }
 
     #[test]
