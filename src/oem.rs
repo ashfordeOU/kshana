@@ -22,10 +22,10 @@
 //!
 //! Determinism: the `CREATION_DATE` is a caller-supplied epoch, never wall-clock,
 //! so the same run produces byte-identical output (the engine's reproducibility
-//! contract). `REF_FRAME` is reported as `TEME` and `TIME_SYSTEM` as `GPS` —
+//! contract). `REF_FRAME` is reported as `TEME` and `TIME_SYSTEM` as `UTC` —
 //! honest about the frame the propagators integrate in and the time scale the
-//! epoch grid is tagged with; no silent re-labelling to EME2000/UTC the engine
-//! does not actually compute.
+//! epoch grid is written in (the engine dates instants as UTC, UT1 taken equal to
+//! UTC); no silent re-labelling to EME2000 the engine does not actually compute.
 //!
 //! Both directions ship: [`parse_oem`] is the *import* path — the standards-based
 //! ingest bridge that lets Kshana read an ephemeris produced by an external
@@ -52,7 +52,7 @@ pub struct OemMetadata {
     pub center_name: String,
     /// `REF_FRAME` — the reference frame of the state vectors (`TEME`).
     pub ref_frame: String,
-    /// `TIME_SYSTEM` — the time scale of the epochs (`GPS`).
+    /// `TIME_SYSTEM` — the time scale of the epochs (`UTC` for the export).
     pub time_system: String,
     /// `START_TIME` — the first ephemeris epoch.
     pub start: EpochUtc,
@@ -64,7 +64,7 @@ pub struct OemMetadata {
 /// (km/s) of the segment's object.
 #[derive(Clone, Debug, PartialEq, Serialize)]
 pub struct OemStateLine {
-    /// The state epoch (GPS time scale, matching the segment `TIME_SYSTEM`).
+    /// The state epoch (UTC, matching the segment `TIME_SYSTEM`).
     pub epoch: EpochUtc,
     /// Inertial (TEME) position, kilometres.
     pub pos_km: [f64; 3],
@@ -97,7 +97,9 @@ impl OemFile {
     /// Build an OEM from a propagated constellation: each satellite becomes one
     /// segment whose ephemeris lines are the propagator's inertial state sampled
     /// every `step_s` for `num_epochs` epochs, starting at calendar epoch `start`
-    /// (GPS time scale). Because OEM is written in the inertial (TEME) frame the
+    /// (UTC: the engine dates every absolute instant as UTC, UT1 taken equal to UTC, so the
+    /// segment's `TIME_SYSTEM` is `UTC`; before 0.42 it said `GPS` over the same UTC values,
+    /// an 18 s mislabel, `tests/oem_time_system.rs`). Because OEM is written in the inertial (TEME) frame the
     /// state is taken straight from [`crate::orbit::Propagator::state_eci`] with
     /// no Earth-fixed rotation — position m → km, velocity m/s → km/s.
     /// `creation_date` stamps the header deterministically.
@@ -158,7 +160,7 @@ impl OemFile {
                     object_id: id.clone(),
                     center_name: "EARTH".to_string(),
                     ref_frame: "TEME".to_string(),
-                    time_system: "GPS".to_string(),
+                    time_system: "UTC".to_string(),
                     start: epoch_at(0),
                     stop: epoch_at(last),
                 },
@@ -917,7 +919,7 @@ mod tests {
             "OBJECT_ID = G01",
             "CENTER_NAME = EARTH",
             "REF_FRAME = TEME",
-            "TIME_SYSTEM = GPS",
+            "TIME_SYSTEM = UTC",
             "START_TIME = 2023-01-01T00:00:00.000000",
             "STOP_TIME = 2023-01-01T00:45:00.000000",
         ] {
@@ -1079,7 +1081,7 @@ mod tests {
                    ORIGINATOR = T\n\n\
                    META_START\n\
                    OBJECT_NAME = A\nOBJECT_ID = A\nCENTER_NAME = EARTH\n\
-                   REF_FRAME = TEME\nTIME_SYSTEM = GPS\n\
+                   REF_FRAME = TEME\nTIME_SYSTEM = UTC\n\
                    START_TIME = 2024-01-01T00:00:00.000000\n\
                    STOP_TIME = 2024-01-01T00:00:00.000000\n\
                    META_STOP\n\n\
@@ -1099,7 +1101,7 @@ mod tests {
                    ORIGINATOR = T\n\n\
                    META_START\n\
                    OBJECT_NAME = A\nOBJECT_ID = A\nCENTER_NAME = EARTH\n\
-                   REF_FRAME = TEME\nTIME_SYSTEM = GPS\n\
+                   REF_FRAME = TEME\nTIME_SYSTEM = UTC\n\
                    START_TIME = 2024-01-01T00:00:00.000000\n\
                    STOP_TIME = 2024-01-01T00:00:00.000000\n\
                    META_STOP\n\n\
@@ -1151,7 +1153,7 @@ mod tests {
                    ORIGINATOR = T\n\n\
                    META_START\n\
                    OBJECT_NAME = A\nOBJECT_ID = A\nCENTER_NAME = EARTH\n\
-                   TIME_SYSTEM = GPS\n\
+                   TIME_SYSTEM = UTC\n\
                    START_TIME = 2024-01-01T00:00:00.000000\n\
                    STOP_TIME = 2024-01-01T00:00:00.000000\n\
                    META_STOP\n\n\

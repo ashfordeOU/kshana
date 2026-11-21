@@ -65,8 +65,8 @@ field, read from a run of `scenarios/orbit-sgp4-gps.toml` with `--export-oem` an
 
 | Kshana output | CCSDS ODM field | Value / unit |
 |---------------|-----------------|--------------|
-| OEM segment metadata | `CENTER_NAME` / `REF_FRAME` / `TIME_SYSTEM` | `EARTH` / `TEME` / `GPS` — the frame the propagators integrate in and the time scale of the epoch grid, not relabelled |
-| OEM state epoch | first column of each data line | ISO-8601 (ISO: International Organization for Standardization) calendar time, GPS time scale |
+| OEM segment metadata | `CENTER_NAME` / `REF_FRAME` / `TIME_SYSTEM` | `EARTH` / `TEME` / `UTC` — the frame the propagators integrate in and the time scale of the epoch grid, not relabelled (0.41 wrote `GPS` over the same UTC epochs) |
+| OEM state epoch | first column of each data line | ISO-8601 (ISO: International Organization for Standardization) calendar time, UTC (`TIME_SYSTEM = UTC`; the engine dates instants as UTC, UT1 taken equal to UTC) |
 | OEM position, velocity | `X Y Z X_DOT Y_DOT Z_DOT` data columns | km, km/s |
 | OMM metadata | `REF_FRAME` / `TIME_SYSTEM` / `MEAN_ELEMENT_THEORY` | `TEME` / `UTC` / `SGP4` |
 | OMM epoch | `EPOCH` | ISO-8601 day-of-year form (the TLE epoch) |

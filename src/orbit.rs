@@ -1550,8 +1550,9 @@ pub struct OrbitClockScenario {
     pub constellations: Vec<ConstellationCfg>,
     pub clock_quantum: ClockCfg,
     pub clock_classical: ClockCfg,
-    /// Optional calendar epoch (UTC/GPS) labelling time `t = 0`, used when exporting
-    /// the propagated constellation to SP3. Defaults to 2000-01-01 00:00:00.
+    /// Optional calendar epoch (UTC; the engine takes UT1 equal to UTC) labelling time
+    /// `t = 0`, used when exporting the propagated constellation to SP3 and OEM (whose
+    /// `TIME_SYSTEM` is `UTC`). Defaults to 2000-01-01 00:00:00.
     #[serde(default)]
     pub epoch: Option<crate::rinex::EpochUtc>,
     /// When `true`, the CLI also writes the propagated constellation to an SP3-c file
