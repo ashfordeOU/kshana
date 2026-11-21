@@ -958,6 +958,32 @@ fn norad_alpha5_and_omm() {
 }
 
 #[test]
+fn timing_stack_inputs() {
+    let d = "tests/fixtures/timing_stack/";
+    let shm = vec![head(&format!("{d}ntpshmmon_stopped.txt"), 30)];
+    fuzz("timing-stack ntpshmmon", &shm, None, |b| {
+        let _ = kshana::timing_stack::check_shm(&String::from_utf8_lossy(b), Some(0.0), 3.0);
+    });
+    let auth = vec![head(&format!("{d}authdata_chrony_a.txt"), 10)];
+    fuzz("timing-stack authdata", &auth, None, |b| {
+        let _ = kshana::timing_stack::parse_authdata(&String::from_utf8_lossy(b));
+    });
+    let ntpq = vec![head(&format!("{d}ntpq_peers_misreport.txt"), 10)];
+    fuzz("timing-stack ntpq", &ntpq, None, |b| {
+        let t = String::from_utf8_lossy(b);
+        let _ = kshana::timing_stack::check_ntpq(&t, Some(&t));
+    });
+    fuzz(
+        "timing-stack phc_ctl",
+        &[b"offset from CLOCK_REALTIME is -37000000012ns".to_vec()],
+        None,
+        |b| {
+            let _ = kshana::timing_stack::parse_phc_ctl_cmp(&String::from_utf8_lossy(b));
+        },
+    );
+}
+
+#[test]
 fn ais_integrity_inputs() {
     let csv = vec![
         head("tests/fixtures/ais_integrity/patterns.csv", 60),

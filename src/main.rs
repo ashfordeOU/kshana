@@ -1269,6 +1269,11 @@ fn main_in_language(args: Vec<String>) -> ExitCode {
     if args.get(1).map(String::as_str) == Some("ntrip") {
         return run_ntrip_cli(&args[2..]);
     }
+    // `kshana timing-stack <tai|ts2phc|pps|shm|ntpq|nts>`: Linux timing-stack verification from
+    // status outputs and PPS data (src/timing_stack.rs, docs/TIMING-STACK.md). Read only.
+    if args.get(1).map(String::as_str) == Some("timing-stack") {
+        return ExitCode::from(kshana::timing_stack::run_cli(&args[2..]) as u8);
+    }
     // `kshana ais-integrity <input> [...]`: per-track AIS position-integrity flags as JSON Lines
     // (src/ais_integrity.rs, docs/AIS-INTEGRITY.md). Exit 2 on a usage or input error.
     if args.get(1).map(String::as_str) == Some("ais-integrity") {
