@@ -10919,6 +10919,23 @@ engine-e-sil-obsgen-cannot-read = nie można odczytać { $path }: { $e }
 engine-e-sil-obsgen-cannot-write = nie można zapisać { $path }: { $e }
 engine-e-sil-obsgen-bad-scenario = to nie jest scenariusz gnss-sim z opcjonalnymi tabelami [urban] i [rinex]: { $e }
 
+## OSNMA scenario files and the reference-model runner (src/osnma/scenario.rs)
+engine-osnma-scenario-usage = użycie: kshana osnma scenario run <scenario.json> [--json] | template   (kshana.osnma-scenario/1: a synthetic stream from the reference model with test keys, run in memory through the verifier; exit 0 all expectations met, 1 one not met, 2 input error; docs/OSNMA-SCENARIOS.md)
+engine-e-osnma-scenario-unknown-option = nieznana opcja { $option } (opcje wypisuje kshana osnma scenario --help)
+engine-e-osnma-scenario-cannot-read = nie można odczytać { $path }: { $e }
+engine-e-osnma-scenario-bad = to nie jest plik kshana.osnma-scenario/1: { $e }
+
+## OSNMA scenario run report and field checks (src/osnma/scenario.rs, src/osnma/cli.rs)
+engine-e-osnma-scenario-field = { $field } jest poza zakresem lub nieznane (dozwolone: { $allowed })
+engine-osnma-scenario-report-head = scenariusz { $name }: { $subframes } podramek, { $pages } stron
+engine-osnma-scenario-report-tags = znaczniki: { $list }
+engine-osnma-scenario-report-reasons = przyczyny: { $list }
+engine-osnma-scenario-report-events = zdarzenia: { $list }
+engine-osnma-scenario-report-status = stan { $sat }: { $status }
+engine-osnma-scenario-report-overall = ogółem: { $status }
+engine-osnma-scenario-report-check-met = sprawdzenie { $what }: oczekiwano { $expected }, zaobserwowano { $observed }: spełnione
+engine-osnma-scenario-report-check-not-met = sprawdzenie { $what }: oczekiwano { $expected }, zaobserwowano { $observed }: NIESPEŁNIONE (NOT MET)
+
 engine-main-usage =
     użycie: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }lub: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10964,6 +10981,7 @@ engine-main-usage =
     { "   " }lub: kshana afs-interop <study|ue-register> ... (kshana afs-interop --help)
     { "   " }lub: kshana timing-stack <tai|ts2phc|pps|shm|ntpq|nts> ... (kshana timing-stack --help)
     { "   " }lub: kshana sil-obsgen <scenario.toml> --out <obs.rnx> [--truth <truth.json>]
+    { "   " }lub: kshana osnma scenario run <scenario.json> [--json] | template (kshana osnma scenario --help)
     { "   " }lub: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }lub: kshana corrections <decode --format <has|b2b|l6|l1s|qznma> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...] | qznma-verify [--frames <frames.txt>] [--nav <nav.txt>] --pubkey <key.der> ...>
     { "   " }lub: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
