@@ -33,7 +33,7 @@ error: messages read, fixes, other records, checksum failures, malformed and und
 | `asterix` | ASTERIX CAT010 (edition 1.1), CAT048 (1.21), CAT062 (1.18) and CAT021 (2.6) data blocks; other categories stepped over | CAT010 and CAT048: `detection`, `simulated`, `tentative`, standard deviations of position; CAT062: `tentative`, `simulated`, `coasting`, `sd_x_m`, `sd_y_m`, `sd_lat_deg`, `sd_lon_deg`; CAT021: `nic`, `nacp`, `mops` | radar and surface plots `unknown`; CAT021 by the ADS-B rule |
 | `beast`, `avr` | Mode S extended squitter from the Beast binary stream or AVR hex lines (`*...;`, `@<counter>...;`); CRC-24 checked; identification, airborne position (CPR, global then local), target state (type code 29), operational status (31) | `nic`, `nacp`, `version`, `type_code` | the ADS-B rule |
 | `opensky-json`, `opensky-csv` | OpenSky-style state vectors: the REST `/states/all` shape (one document or several), or the historical CSV columns found by name | `position_source`; `nic` and `nacp` only when the export adds them | the ADS-B rule, else `unknown` |
-| `mavlink`, `mavlink-tlog` | MAVLink v1 and v2 frames (raw, or a `.tlog` with its 64-bit time before each frame): `GPS_RAW_INT`, `GPS2_RAW`, `GPS_STATUS`; X.25 checksum with each message's `CRC_EXTRA` | `fix_type`, `satellites`, `hdop`, `vdop`, `h_acc_m`, `v_acc_m` | `good` for a 3D fix or better, `degraded` for a 2D fix |
+| `mavlink`, `mavlink-tlog` | MAVLink v1 and v2 frames (raw, or a `.tlog` with its 64-bit time before each frame): `GPS_RAW_INT`, `GPS2_RAW`, `GPS_STATUS`; the X.25 checksum of every frame is checked with its message's `CRC_EXTRA` (all messages of the official definitions); a frame that fails, or of an undefined message, is not taken and the reader resynchronises one octet on | `fix_type`, `satellites`, `hdop`, `vdop`, `h_acc_m`, `v_acc_m` | `good` for a 3D fix or better, `degraded` for a 2D fix |
 | `ulog` | PX4 ULog `vehicle_gps_position` and `sensor_gps`, either field set | `fix_type`, `satellites`, `eph_m`, `epv_m`, `hdop`, `vdop`, `jamming_indicator`, `jamming_state`, `spoofing_state`, `noise_per_ms` | `degraded` for a 2D fix or a jamming or spoofing state of 2 or more, else `good` |
 
 **The ADS-B rule** is the interference map's pre-registered one (`docs/INTERFERENCE-MAP.md`):
@@ -103,8 +103,8 @@ not for canboat JSON and OpenSky-style files, whose samples are written by hand.
 * AIS message types other than those listed (for example 21, aids to navigation, and 27, long-range).
 * ADS-B surface positions (type codes 5 to 8), velocities (type code 19) and Comm-B replies.
 * ASTERIX categories other than 010, 021, 048 and 062; CAT062 flight-plan data are stepped over.
-* MAVLink messages other than the three GNSS ones (their checksums cannot be checked without their
-  definitions and they are stepped over by length); PX4 `satellite_info`.
+* MAVLink messages other than the three GNSS ones are checked and counted, not decoded; PX4
+  `satellite_info`.
 * NMEA 2000 from the CAN bus directly: see `kshana sensor-live --kind n2k` (`docs/MACHINE-INPUTS.md`).
 * OpenSky Network data itself: these readers read files in the layout only. Whether a copy of OpenSky
   data may be used is a matter of its licence; Kshana's public observatory does not take it

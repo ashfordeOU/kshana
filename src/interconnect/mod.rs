@@ -33,6 +33,9 @@ pub mod canboat;
 pub mod cli;
 pub mod export;
 pub mod mavlink;
+/// The CRC_EXTRA and maximum payload length of every defined MAVLink message (generated).
+#[rustfmt::skip]
+pub mod mavlink_table;
 pub mod modes;
 pub mod opensky;
 pub mod ulog;
