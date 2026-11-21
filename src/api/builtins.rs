@@ -645,7 +645,7 @@ impl BuiltinKind for crate::lunar_station::LunarStationCoverageScenario {
 fn run_lunar_interop(
     scn: &crate::lunar_interop::LunarInteropScenario,
 ) -> Result<RunOutput, String> {
-    let report = scn.run();
+    let report = scn.run()?;
     let summary = crate::t!(
         "api-builtins-lunar-interop-export-ref-frame",
         frame = report.frame,
