@@ -10877,6 +10877,15 @@ engine-e-timing-stack-cannot-read = не вдалося прочитати { $pa
 engine-e-timing-stack-cannot-write = не вдалося записати { $path }: { $e }
 engine-e-timing-stack-bad-number = { $option }: { $value } не є допустимим числом
 
+## Register entries against packs, published revocations and versions (src/register_products.rs)
+engine-register-products-usage = використання: kshana register-products verify <register.json> [--packs <dir>] [--pack-key <hex>] [--pin <hex>] [--json] | show <register.json> [--revocations <file.jsonl|url>] [--date <YYYY-MM-DD>] [--pin <hex>] [--json] | diff <older.json> <newer.json> [--pin <hex>]  (docs/PRODUCT-REGISTER.md)
+engine-e-register-products-missing-value = { $option } потребує значення
+engine-e-register-products-unknown-option = невідомий параметр { $option } (параметри перелічує kshana register-products --help)
+engine-e-register-products-cannot-read = не вдалося прочитати { $path }: { $e }
+engine-e-register-products-bad-revocation = у рядку { $line } списку відкликань потрібні serial, revoked_at (YYYY-MM-DD) і reason
+engine-e-register-products-cannot-fetch = не вдається отримати { $url }: { $e }
+engine-e-register-products-bad-key = ключ не є 32 байтами в шістнадцятковому вигляді
+
 engine-main-usage =
     використання: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }або: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10910,6 +10919,7 @@ engine-main-usage =
     { "   " }або: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
     { "   " }або: kshana space-receiver <clock|timestamps|dynamics|bench|mms|od-vs-tle> ... [--out <file.json>] (kshana space-receiver --help)
     { "   " }або: kshana feed <pack|verify|send|spectrum|leaderboard> ... (kshana feed --help)
+    { "   " }або: kshana register-products <verify|show|diff> ... (kshana register-products --help)
     { "   " }або: kshana register <check|crl-check|view|sign> ... (kshana register --help)
     { "   " }або: kshana interference-env <evaluate|thresholds|degradation> ... (kshana interference-env --help)
     { "   " }або: kshana arctic-plan --site <lat,lon[,h]> | --place <name> [--systems <a,b,...>] [--compare] [--hours <h>] [--kp <n>] ... (kshana arctic-plan --help)

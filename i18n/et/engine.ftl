@@ -10724,6 +10724,15 @@ engine-e-timing-stack-cannot-read = faili { $path } ei saa lugeda: { $e }
 engine-e-timing-stack-cannot-write = faili { $path } ei saa kirjutada: { $e }
 engine-e-timing-stack-bad-number = { $option }: { $value } ei ole kehtiv arv
 
+## Register entries against packs, published revocations and versions (src/register_products.rs)
+engine-register-products-usage = kasutus: kshana register-products verify <register.json> [--packs <dir>] [--pack-key <hex>] [--pin <hex>] [--json] | show <register.json> [--revocations <file.jsonl|url>] [--date <YYYY-MM-DD>] [--pin <hex>] [--json] | diff <older.json> <newer.json> [--pin <hex>]  (docs/PRODUCT-REGISTER.md)
+engine-e-register-products-missing-value = { $option } vajab väärtust
+engine-e-register-products-unknown-option = tundmatu valik { $option } (valikud loetleb kshana register-products --help)
+engine-e-register-products-cannot-read = faili { $path } ei saa lugeda: { $e }
+engine-e-register-products-bad-revocation = tühistusloendi rida { $line } vajab välju serial, revoked_at (YYYY-MM-DD) ja reason
+engine-e-register-products-cannot-fetch = { $url } ei saa alla laadida: { $e }
+engine-e-register-products-bad-key = võti ei ole 32 baiti kuueteistkümnendkujul
+
 engine-main-usage =
     kasutus: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }või: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10757,6 +10766,7 @@ engine-main-usage =
     { "   " }või: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
     { "   " }või: kshana space-receiver <clock|timestamps|dynamics|bench|mms|od-vs-tle> ... [--out <file.json>] (kshana space-receiver --help)
     { "   " }või: kshana feed <pack|verify|send|spectrum|leaderboard> ... (kshana feed --help)
+    { "   " }või: kshana register-products <verify|show|diff> ... (kshana register-products --help)
     { "   " }või: kshana register <check|crl-check|view|sign> ... (kshana register --help)
     { "   " }või: kshana interference-env <evaluate|thresholds|degradation> ... (kshana interference-env --help)
     { "   " }või: kshana arctic-plan --site <lat,lon[,h]> | --place <name> [--systems <a,b,...>] [--compare] [--hours <h>] [--kp <n>] ... (kshana arctic-plan --help)

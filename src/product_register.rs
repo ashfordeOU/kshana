@@ -56,6 +56,12 @@ pub struct Entry {
     /// Where the evidence can be read.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub evidence_url: Option<String>,
+    /// The test scenario set the product was scored on.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub scenario_set: Option<String>,
+    /// That set's version.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub scenario_set_version: Option<String>,
 }
 
 /// A signed register.

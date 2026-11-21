@@ -91,3 +91,30 @@ is a tab-separated table, with the counts and any warning about the list on stan
 - The viewer trusts the clock it is given; a revocation dated after the view date does not apply.
 - No product has been scored under any method in this register format yet; the example in
   `examples/register/` is illustrative.
+
+## `kshana register-products`: packs, published revocations and versions
+
+```bash
+kshana register-products verify register.json --packs evidence/ [--pack-key <hex>] [--pin <publisher key hex>] [--json]
+kshana register-products show register.json --revocations revoked.jsonl [--date 2026-11-20] [--json]
+kshana register-products show register.json --revocations https://example.org/revoked.jsonl
+kshana register-products diff register-v1.json register-v2.json
+```
+
+* **verify**: each entry with an `evidence_sha256` names a signed evidence pack in
+  `<packs>/<entry id>/`. The SHA-256 of the pack's signed `manifest.json` must equal the entry's
+  digest, and the pack must pass `kshana evidence verify`'s checks (files, hashes, Ed25519
+  signature; against `--pack-key` when given). Results: `verified`, `digest-mismatch`,
+  `pack-invalid`, `no-pack`, `no-digest`. Exit 1 when any pack fails.
+* **show**: the register at a date against a published revocation list in JSON lines, one object
+  per revocation: `{"serial": "<entry id>", "revoked_at": "YYYY-MM-DD", "reason": "..."}`, read
+  from a file or fetched from an `http(s)` URL the user gives (the system `curl`, a GET only; no
+  service is built in). A revoked entry shows as **REVOKED** from its revocation date. Unlike the
+  signed `kshana.register-crl/1` list that `register view` reads, a JSON-lines list carries no
+  signature: it is as trustworthy as the place it was read from. Exit 1 when any entry is revoked.
+* **diff**: the append-only rule between two versions: every entry of the older is present,
+  unchanged, in the newer, and the newer is not issued earlier. Removed and changed entries break
+  the rule (exit 1); added entries are listed.
+
+Entries may also name the `scenario_set` and `scenario_set_version` they were scored on. Method
+versions are listed in [METHODOLOGY-CHANGELOG.md](METHODOLOGY-CHANGELOG.md).

@@ -9940,6 +9940,15 @@ engine-e-timing-stack-cannot-read = { $path } を読み込めません：{ $e }
 engine-e-timing-stack-cannot-write = { $path } に書き込めません：{ $e }
 engine-e-timing-stack-bad-number = { $option }：{ $value } は有効な数値ではありません
 
+## Register entries against packs, published revocations and versions (src/register_products.rs)
+engine-register-products-usage = 使い方：kshana register-products verify <register.json> [--packs <dir>] [--pack-key <hex>] [--pin <hex>] [--json] | show <register.json> [--revocations <file.jsonl|url>] [--date <YYYY-MM-DD>] [--pin <hex>] [--json] | diff <older.json> <newer.json> [--pin <hex>]  (docs/PRODUCT-REGISTER.md)
+engine-e-register-products-missing-value = { $option } には値が必要です
+engine-e-register-products-unknown-option = 不明なオプション { $option }（kshana register-products --help でオプションを一覧表示）
+engine-e-register-products-cannot-read = { $path } を読み込めません：{ $e }
+engine-e-register-products-bad-revocation = 失効リストの { $line } 行目には serial、revoked_at (YYYY-MM-DD)、reason が必要です
+engine-e-register-products-cannot-fetch = { $url } を取得できません：{ $e }
+engine-e-register-products-bad-key = 鍵が 16 進数の 32 バイトではありません
+
 engine-main-usage =
     使い方：kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }または：kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -9973,6 +9982,7 @@ engine-main-usage =
     { "   " }または：kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
     { "   " }または：kshana space-receiver <clock|timestamps|dynamics|bench|mms|od-vs-tle> ... [--out <file.json>] (kshana space-receiver --help)
     { "   " }または：kshana feed <pack|verify|send|spectrum|leaderboard> ... (kshana feed --help)
+    { "   " }または：kshana register-products <verify|show|diff> ... (kshana register-products --help)
     { "   " }または：kshana register <check|crl-check|view|sign> ... (kshana register --help)
     { "   " }または：kshana interference-env <evaluate|thresholds|degradation> ... (kshana interference-env --help)
     { "   " }または：kshana arctic-plan --site <lat,lon[,h]> | --place <name> [--systems <a,b,...>] [--compare] [--hours <h>] [--kp <n>] ... (kshana arctic-plan --help)
