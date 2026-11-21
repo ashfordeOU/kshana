@@ -10523,7 +10523,7 @@
   "id": "bench-cli-usage",
   "error": false,
   "parts": [
-   "usage: kshana bench spec\n   or: kshana bench truth --task a --data <extracted JammerTest 2024 dir> --split <dev|test|holdout|all> --out <truth.json>\n   or: kshana bench truth --task g --data <GSDC-layout train dir> --split <dev|test|holdout> --out <truth.json>\n   or: kshana bench cases --task <c|d|f> --split <dev|test|holdout> --out <dir> [--data <dataset.csv>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]\n   or: kshana bench score --truth <truth.json> --predictions <predictions.json> [--threshold <x>] [--out <result.json>]\n   or: kshana bench baseline --task <a|b|c|d|e|f|g> --split <dev|test|holdout> --out <dir> [--data <dir>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]\n   or: kshana bench seal --task <a|b|c|d> --seed-file <file> [--new]\n   or: kshana bench reveal-check --task <a|b|c|d> --seed-file <file> --commitment <hex>\n   or: kshana bench manifest --task a --data <extracted dir> [--archive <tar.gz>] --out <manifest.json>\n   or: kshana bench verify-manifest <manifest.json> --root <dir>\n   or: kshana bench positions --task g --split <dev|test|holdout> --csv <submission.csv> --name <system> [--version <v>] --out <predictions.json>\n   or: kshana bench datasets [--json | --check [--root <repo>]]\n   or: kshana bench cite <result.json>...\n   or: kshana bench golden [--root <repo>] (--out <GOLDEN.json> | --check <GOLDEN.json>)\n   or: kshana bench validate <result.json>...\n   or: kshana bench leaderboard [<results dir|result.json>...] --out <page.html> [--fragment]   (no inputs: the empty state; --fragment: an embeddable section)\n   or: kshana bench holdout truth --task <f|g> --data <private data> --out <private dir>\n   or: kshana bench holdout register --truth <private truth.json>\n   or: kshana bench holdout score --task <f|g> --predictions <predictions.json> [--truth <private truth.json>] [--out <result.json>]   (KSHANA_BENCH_HOLDOUT_F, KSHANA_BENCH_HOLDOUT_G)\n   (a seed file holds the secret behind a sealed holdout; keep it out of version control)"
+   "usage: kshana bench spec\n   or: kshana bench truth --task a --data <extracted JammerTest 2024 dir> --split <dev|test|holdout|all> --out <truth.json>\n   or: kshana bench truth --task g --data <GSDC-layout train dir> --split <dev|test|holdout> --out <truth.json>\n   or: kshana bench truth --task h --data <scripts/fetch_urbannav.sh dir> --split <dev|test> --out <truth.json>\n   or: kshana bench cases --task <c|d|f> --split <dev|test|holdout> --out <dir> [--data <dataset.csv>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]\n   or: kshana bench score --truth <truth.json> --predictions <predictions.json> [--threshold <x>] [--out <result.json>]\n   or: kshana bench baseline --task <a|b|c|d|e|f|g|h> --split <dev|test|holdout> --out <dir> [--data <dir>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]\n   or: kshana bench seal --task <a|b|c|d> --seed-file <file> [--new]\n   or: kshana bench reveal-check --task <a|b|c|d> --seed-file <file> --commitment <hex>\n   or: kshana bench manifest --task a --data <extracted dir> [--archive <tar.gz>] --out <manifest.json>\n   or: kshana bench verify-manifest <manifest.json> --root <dir>\n   or: kshana bench positions --task <g|h> --split <dev|test|holdout> --csv <submission.csv> --name <system> [--version <v>] --out <predictions.json>\n   or: kshana bench datasets [--json | --check [--root <repo>]]\n   or: kshana bench cite <result.json>...\n   or: kshana bench golden [--root <repo>] (--out <GOLDEN.json> | --check <GOLDEN.json>)\n   or: kshana bench validate <result.json>...\n   or: kshana bench leaderboard [<results dir|result.json>...] --out <page.html> [--fragment]   (no inputs: the empty state; --fragment: an embeddable section)\n   or: kshana bench holdout truth --task <f|g> --data <private data> --out <private dir>\n   or: kshana bench holdout register --truth <private truth.json>\n   or: kshana bench holdout score --task <f|g> --predictions <predictions.json> [--truth <private truth.json>] [--out <result.json>]   (KSHANA_BENCH_HOLDOUT_F, KSHANA_BENCH_HOLDOUT_G)\n   (a seed file holds the secret behind a sealed holdout; keep it out of version control)"
   ]
  },
  {
@@ -17378,6 +17378,16 @@
   ]
  },
  {
+  "id": "bench-h-no-sequences",
+  "error": false,
+  "parts": [
+   "no <sequence>/ground_truth.txt under ",
+   {
+    "var": "root"
+   }
+  ]
+ },
+ {
   "id": "bench-g-no-object",
   "error": false,
   "parts": [
@@ -17414,14 +17424,14 @@
   ]
  },
  {
-  "id": "bench-cli-unknown-task-g",
+  "id": "bench-cli-unknown-task-h",
   "error": false,
   "parts": [
    "unknown task `",
    {
     "var": "t"
    },
-   "` (a to g)"
+   "` (a to h)"
   ]
  },
  {
