@@ -34,12 +34,19 @@ pub const PRN_W: u8 = 9;
 /// Everything that distinguishes one chain from another.
 #[derive(Clone)]
 pub struct Ctx {
+    /// Hash function of the TESLA chain.
     pub hash: HashFn,
+    /// MAC function used for the tags.
     pub mac: MacFn,
+    /// Chain ID (CID).
     pub cid: u8,
+    /// Random pattern alpha of the chain.
     pub alpha: [u8; 6],
+    /// GST (s) of the chain's first key.
     pub gst0: u32,
+    /// Byte the chain's keys are derived from.
     pub seed: u8,
+    /// NMA status (NMAS) carried in the header.
     pub nmas: u8,
     /// Tags for `PRN_X` are dummy tags (COP 0, computed over zeros).
     pub dummy_x: bool,
@@ -317,21 +324,26 @@ pub fn edit_page(p: &InavPage, edit: impl FnOnce(&mut [u8; 30])) -> InavPage {
 
 /// A throwaway ECDSA signing key made from a repeated byte. It authenticates nothing real.
 pub enum Signer {
+    /// A P-256 signing key.
     P256(p256::ecdsa::SigningKey),
+    /// A P-521 signing key.
     P521(p521::ecdsa::SigningKey),
 }
 
 impl Signer {
+    /// A P-256 key made by repeating `seed`.
     pub fn p256(seed: u8) -> Self {
         Self::P256(p256::ecdsa::SigningKey::from_slice(&[seed; 32]).expect("valid scalar"))
     }
 
+    /// A P-521 key made by repeating `seed` (top byte set to 1 so it is a valid scalar).
     pub fn p521(seed: u8) -> Self {
         let mut scalar = [seed; 66];
         scalar[0] = 0x01;
         Self::P521(p521::ecdsa::SigningKey::from_slice(&scalar).expect("valid scalar"))
     }
 
+    /// The public key under ID `pkid`, as a receiver would hold it.
     pub fn public(&self, pkid: u8) -> PublicKey {
         match self {
             Self::P256(sk) => PublicKey {
@@ -411,6 +423,7 @@ pub struct Tree {
 }
 
 impl Tree {
+    /// Build the tree over the leaves (hashed with SHA-256, paired level by level).
     pub fn new(leaves: &[Vec<u8>]) -> Self {
         let mut levels = vec![leaves
             .iter()
@@ -426,6 +439,7 @@ impl Tree {
         Self { levels }
     }
 
+    /// The Merkle root.
     pub fn root(&self) -> [u8; 32] {
         self.levels[self.levels.len() - 1][0]
     }
@@ -477,7 +491,9 @@ pub type Tamper<'a> = &'a mut dyn FnMut(u32, u32, u8, &mut Vec<InavPage>);
 
 /// What `PRNA` transmits in one sub-frame.
 pub struct Frame {
+    /// HKROOT section: one byte from each of the sub-frame's 15 pages.
     pub hk: [u8; 15],
+    /// MACK section: four bytes from each of the sub-frame's 15 pages.
     pub mack: [u8; 60],
 }
 
