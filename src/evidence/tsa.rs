@@ -424,6 +424,12 @@ pub fn pem_certificates(text: &str) -> Result<Vec<Vec<u8>>, String> {
     Ok(out)
 }
 
+/// Standard base64 (RFC 4648 section 4) with `=` padding; whitespace is ignored.
+pub(crate) fn base64_decode_relaxed(s: &str) -> Result<Vec<u8>, String> {
+    let compact: String = s.chars().filter(|c| !c.is_whitespace()).collect();
+    base64_decode(&compact)
+}
+
 /// Standard base64 (RFC 4648 section 4) with `=` padding, whitespace already removed.
 fn base64_decode(s: &str) -> Result<Vec<u8>, String> {
     let val = |c: u8| -> Result<u32, String> {

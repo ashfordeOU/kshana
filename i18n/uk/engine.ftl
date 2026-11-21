@@ -10894,6 +10894,33 @@ engine-e-sil-obsgen-cannot-read = не вдалося прочитати { $path
 engine-e-sil-obsgen-cannot-write = не вдалося записати { $path }: { $e }
 engine-e-sil-obsgen-bad-scenario = це не сценарій gnss-sim з необов'язковими таблицями [urban] і [rinex]: { $e }
 
+## Transparency-log verifier (src/tlog.rs)
+engine-tlog-usage = використання: kshana tlog verify-inclusion <proof.json> [--entry <entry.json>] [--sth <sth.json>] | verify-consistency <proof.json> [--sth-from <sth.json>] [--sth-to <sth.json>] | verify-sth <sth.json> [--entries <entries.jsonl>] | verify-daily-root <statement.json> [--tsa-ca <roots.pem>] [--tsa-certs <certs.pem>] | verify-key-history <history.jsonl> [--first-key <hex>]   (signed statements: --key <hex> or --key-history <history.jsonl>; --format <id>; --json; offline RFC 6962/9162 log verification; docs/TLOG.md)
+engine-e-tlog-missing-value = { $option } потребує значення
+engine-e-tlog-cannot-read = не вдалося прочитати { $path }: { $e }
+engine-e-tlog-unknown-option = невідомий параметр { $option } (kshana tlog --help перелічує параметри)
+engine-tlog-check-pass = PASS { $id }: { $detail }
+engine-tlog-check-fail = FAIL { $id }: { $detail }
+engine-tlog-fact = { $key } = { $value }
+engine-tlog-verdict-pass = tlog { $command }: усі перевірки пройдено
+engine-tlog-verdict-fail = tlog { $command }: не пройдено перевірок: { $n }
+engine-tlog-not-anchored = не закріплено (у заяві немає позначок часу)
+engine-tlog-no-tsa-roots = не задано корені служби позначок часу (--tsa-ca): підпис і ланцюжок токена не перевіряються
+engine-tlog-no-endorsement = немає підтвердження попереднім ключем
+engine-e-tlog-entry-not-object = запис журналу має бути об'єктом JSON
+engine-e-tlog-entry-missing-field = у записі журналу немає { $field }
+engine-e-tlog-entry-bad-field = поле { $field } запису журналу має неправильний вигляд
+engine-e-tlog-bad-key = відкритий ключ має складатися з 64 шістнадцяткових цифр (32 байти, Ed25519)
+engine-e-tlog-missing-field = у документі немає { $field }
+engine-e-tlog-bad-field = { $field } має неправильний вигляд (геші — 64 шістнадцяткові цифри, розміри й індекси — цілі числа)
+engine-e-tlog-needs-key = для підписаної заяви потрібен --key <hex> або --key-history <history.jsonl>
+engine-e-tlog-bad-json = недійсний JSON: { $e }
+engine-e-tlog-bad-json-line = рядок { $line } — недійсний JSON: { $e }
+engine-e-tlog-bad-json-file = { $path } — недійсний JSON: { $e }
+engine-e-tlog-key-and-history = вкажіть --key або --key-history, але не обидва
+engine-e-tlog-history-failed = історія ключів { $path } не проходить перевірку, тож не може надати ключі
+engine-e-tlog-verification-failed = tlog { $command }: перевірку не пройдено (звіт вище перелічує всі перевірки)
+
 engine-main-usage =
     використання: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }або: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10929,6 +10956,7 @@ engine-main-usage =
     { "   " }або: kshana feed <pack|verify|send|spectrum|leaderboard|watch> ... (kshana feed --help)
     { "   " }або: kshana register-products <verify|show|diff> ... (kshana register-products --help)
     { "   " }або: kshana register <check|crl-check|view|sign> ... (kshana register --help)
+    { "   " }або: kshana tlog verify-inclusion | verify-consistency | verify-sth | verify-daily-root | verify-key-history <file> [options] (kshana tlog --help)
     { "   " }або: kshana interference-env <evaluate|thresholds|degradation> ... (kshana interference-env --help)
     { "   " }або: kshana arctic-plan --site <lat,lon[,h]> | --place <name> [--systems <a,b,...>] [--compare] [--hours <h>] [--kp <n>] ... (kshana arctic-plan --help)
     { "   " }або: kshana lunar-afs-kit <vectors|registry|output-check|output-example|output-reexpress> ... (kshana lunar-afs-kit --help)
