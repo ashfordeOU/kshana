@@ -520,7 +520,7 @@ fn http_reply(s: &mut TcpStream, code: u16, ctype: &str, body: &str) {
 }
 
 /// Post `body` to an `http://` URL with an optional bearer token; returns the status code.
-fn post(url: &str, token: Option<&str>, body: &str) -> Result<u16, String> {
+pub(crate) fn post(url: &str, token: Option<&str>, body: &str) -> Result<u16, String> {
     let rest = url.strip_prefix("http://").ok_or("http:// only")?;
     let (host, path) = rest
         .split_once('/')
@@ -580,9 +580,17 @@ pub fn start(config: Config) -> Result<Handle, String> {
                 };
                 let _ = s.set_nonblocking(false);
                 let _ = s.set_read_timeout(Some(Duration::from_secs(5)));
-                let mut buf = vec![0u8; 8192];
-                let n = s.read(&mut buf).unwrap_or(0);
-                let head = String::from_utf8_lossy(&buf[..n]).to_string();
+                // Read the request head until its blank line: a client may send it in several
+                // segments. Bounded by 8 KiB and the read timeout.
+                let mut buf = Vec::with_capacity(1024);
+                let mut chunk = [0u8; 1024];
+                while buf.len() < 8192 && !buf.windows(4).any(|w| w == b"\r\n\r\n") {
+                    match s.read(&mut chunk) {
+                        Ok(0) | Err(_) => break,
+                        Ok(n) => buf.extend_from_slice(&chunk[..n]),
+                    }
+                }
+                let head = String::from_utf8_lossy(&buf).to_string();
                 let line = head.lines().next().unwrap_or("");
                 let authorised = http_token.as_deref().is_none_or(|t| {
                     head.lines().any(|l| {

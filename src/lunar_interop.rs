@@ -9,8 +9,12 @@
 //! lunar context:
 //!
 //! - [`export_lunar_oem`] emits a CCSDS Orbit Ephemeris Message whose `REF_FRAME` is the
-//!   lunar body frame (`MOON_ME` / `MOON_PA`, the IAU 2015 WGCCRE mean-Earth / principal-axis
-//!   lunar frames) and whose `TIME_SYSTEM` is the lunar time scale (`LTC` / `TCL` / `UTC`).
+//!   lunar body frame under its SANA-registered name (`MOON_ME`, or `MOON_PA440` for the DE440
+//!   principal axes) and whose `TIME_SYSTEM` is `TDB` by default (`UTC` too; the unregistered
+//!   lunar tokens `LTC` / `TCL` only on explicit request, with a `COMMENT` saying so). The
+//!   scenario's sample states are rotated from Moon-centred inertial axes into the named body
+//!   frame with the DE440 orientation ([`crate::lunar_oem`]). Files with the older unversioned
+//!   `MOON_PA` are still read.
 //!   The state grid carries lunar-centred positions (m) and velocities (m/s) per epoch.
 //! - [`export_lunar_time_metadata`] emits a small LunaNet/IOAG-aligned lunar-time descriptor
 //!   (scale id, secular rate µs/day, published reference band, reference surface) that
@@ -50,45 +54,123 @@ pub const LUNAR_HONESTY_LABEL: &str = "MODELLED";
 /// A 3-vector (m or m/s, depending on field).
 pub type Vec3 = [f64; 3];
 
-/// The lunar body reference frame an artifact is expressed in. The string forms are the
-/// IAU 2015 WGCCRE lunar frame identifiers used as CCSDS `REF_FRAME` / LunaNet frame tags.
+/// The lunar body reference frame an artifact is expressed in. The string forms are values of
+/// the SANA "Celestial Body Reference Frames" registry that CCSDS 502.0-B-3 points `REF_FRAME`
+/// to: `MOON_ME` and `MOON_PAxxx` (the principal-axis frame of a named JPL DE; written here as
+/// `MOON_PA440` for DE440, the separator-free spelling being our reading, to confirm). See
+/// docs/LUNAR-OEM.md.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub enum LunarFrameId {
-    /// Mean-Earth / polar-axis lunar frame (`MOON_ME`).
+    /// Mean-Earth / polar-axis lunar frame (`MOON_ME`), realised from DE440 as NAIF
+    /// `MOON_ME_DE440_ME421`.
     MoonMe,
-    /// Principal-axis lunar frame (`MOON_PA`).
+    /// DE440 principal-axis lunar frame (`MOON_PA440`).
     MoonPa,
 }
 
 impl LunarFrameId {
-    /// The CCSDS / LunaNet `REF_FRAME` token for this frame.
+    /// The CCSDS `REF_FRAME` token written for this frame.
     pub fn as_ccsds_str(self) -> &'static str {
         match self {
             LunarFrameId::MoonMe => "MOON_ME",
-            LunarFrameId::MoonPa => "MOON_PA",
+            LunarFrameId::MoonPa => "MOON_PA440",
+        }
+    }
+
+    /// Read a `REF_FRAME` token, including the older unversioned `MOON_PA` this module wrote
+    /// before it used registered names (read as DE440 PA) and the NAIF names.
+    pub fn parse(token: &str) -> Option<LunarFrameId> {
+        match token.trim().to_ascii_uppercase().as_str() {
+            "MOON_ME" | "MOON_ME_DE440_ME421" => Some(LunarFrameId::MoonMe),
+            "MOON_PA" | "MOON_PA440" | "MOON_PA_DE440" => Some(LunarFrameId::MoonPa),
+            _ => None,
+        }
+    }
+
+    /// The `COMMENT` that states how the frame is realised.
+    fn realisation(self) -> &'static str {
+        match self {
+            LunarFrameId::MoonMe => {
+                "REF_FRAME MOON_ME realised as NAIF MOON_ME_DE440_ME421 (DE440 PA with the constant offset of moon_de440_220930.tf)"
+            }
+            LunarFrameId::MoonPa => "REF_FRAME MOON_PA440: the DE440 principal-axis frame",
+        }
+    }
+
+    fn oem_frame(self) -> crate::lunar_oem::Frame {
+        match self {
+            LunarFrameId::MoonMe => crate::lunar_oem::Frame::MoonMe,
+            LunarFrameId::MoonPa => crate::lunar_oem::Frame::MoonPa440,
         }
     }
 }
 
-/// The lunar time scale an artifact's epochs are tagged with. The string forms are the
-/// CCSDS `TIME_SYSTEM` / LunaNet time-scale tags.
+/// The time scale an artifact's epochs are tagged with: the CCSDS `TIME_SYSTEM` token. The
+/// SANA "Time Systems" registry lists no lunar time scale, so the default is `TDB`; `LTC` and
+/// `TCL` are written only when asked for explicitly, with a `COMMENT` saying the value is not
+/// registered.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub enum LunarTimeId {
-    /// Lunar Coordinate Time (`LTC`).
+    /// Barycentric Dynamical Time (`TDB`), SANA-registered; the default.
+    Tdb,
+    /// A lunar-surface time scale (`LTC`): the model of [`crate::lunar_time`], the label
+    /// `kshana lunar-ref convert` uses (`docs/LUNAR-REF.md`). The label is proposed, not an
+    /// adopted standard name (to confirm). LTC and TCL are different scales, not two spellings
+    /// of one.
     Ltc,
-    /// Lunar coordinate time scale, barycentric-style label (`TCL`).
+    /// Lunar Coordinate Time (`TCL`, Temps-Coordonnée Lunaire): the coordinate time of the IAU
+    /// 2024 lunar reference system, the lunar counterpart of TCG, as `kshana lunar-ref` carries
+    /// it.
     Tcl,
     /// Coordinated Universal Time (`UTC`) — the Earth tie.
     Utc,
+}
+
+/// The values of the SANA "Time Systems" registry (<https://sanaregistry.org/r/time_systems>,
+/// read 2026-11-21: 15 records, the latest change GMST on 2023-05-17), which CCSDS 502.0 names
+/// as the source of OEM `TIME_SYSTEM` values. It holds no lunar time scale, so neither `LTC` nor
+/// `TCL` is among them, and a strict CCSDS reader refuses both.
+pub const SANA_TIME_SYSTEMS: [&str; 15] = [
+    "UT1", "GPS", "BEIDOU", "TCB", "TCG", "ET", "UTC", "NAVIC", "SCLK", "GALILEO", "GLONASS",
+    "TAI", "TDB", "TT", "GMST",
+];
+
+/// Whether a `TIME_SYSTEM` token is a value of the SANA "Time Systems" registry.
+pub fn time_system_is_sana_registered(token: &str) -> bool {
+    SANA_TIME_SYSTEMS.contains(&token)
+}
+
+/// Whether a `TIME_SYSTEM` token is one the lunar interchange reads: a SANA-registered value,
+/// or one of the unregistered lunar tokens `LTC` / `TCL` it writes on request.
+pub fn time_system_is_recognised(token: &str) -> bool {
+    matches!(token, "LTC" | "TCL") || time_system_is_sana_registered(token)
 }
 
 impl LunarTimeId {
     /// The CCSDS / LunaNet `TIME_SYSTEM` token for this time scale.
     pub fn as_ccsds_str(self) -> &'static str {
         match self {
+            LunarTimeId::Tdb => "TDB",
             LunarTimeId::Ltc => "LTC",
             LunarTimeId::Tcl => "TCL",
             LunarTimeId::Utc => "UTC",
+        }
+    }
+
+    /// Whether the token is a value of the SANA "Time Systems" registry
+    /// ([`SANA_TIME_SYSTEMS`]).
+    pub fn sana_registered(self) -> bool {
+        time_system_is_sana_registered(self.as_ccsds_str())
+    }
+
+    /// Read a `TIME_SYSTEM` token.
+    pub fn parse(token: &str) -> Option<LunarTimeId> {
+        match token.trim().to_ascii_uppercase().as_str() {
+            "TDB" => Some(LunarTimeId::Tdb),
+            "LTC" => Some(LunarTimeId::Ltc),
+            "TCL" => Some(LunarTimeId::Tcl),
+            "UTC" => Some(LunarTimeId::Utc),
+            _ => None,
         }
     }
 }
@@ -143,8 +225,11 @@ fn epoch_at(offset_s: f64) -> EpochUtc {
 
 /// Export a lunar ephemeris as a CCSDS OEM 2.0 (KVN) message in the lunar body frame.
 ///
-/// The OEM header `REF_FRAME` is set to the lunar frame token (`MOON_ME` / `MOON_PA`) and
-/// `TIME_SYSTEM` to the lunar time token (`LTC` / `TCL` / `UTC`); `CENTER_NAME` is `MOON`.
+/// The OEM header `REF_FRAME` is set to the SANA-registered lunar frame token (`MOON_ME` /
+/// `MOON_PA440`) and `TIME_SYSTEM` to the time token (`TDB` by default, `UTC`, or on explicit
+/// request the unregistered `LTC` / `TCL`); `CENTER_NAME` is `MOON`. `COMMENT` lines at the
+/// start of the metadata state the frame's realisation and, for `LTC` / `TCL`, that the value
+/// is not SANA-registered. The states must already be in the named frame.
 /// The state grid is written in km / km·s⁻¹ (the OEM unit convention) from the supplied
 /// `states` (m / m·s⁻¹). The `CREATION_DATE` is a fixed deterministic epoch (never
 /// wall-clock) so the same inputs produce byte-identical output.
@@ -194,7 +279,26 @@ pub fn export_lunar_oem(
             states: oem_states,
         }],
     };
-    file.to_oem_string()
+    let mut comments = vec![frame.realisation().to_string()];
+    if !time_system.sana_registered() {
+        comments.push(format!(
+            "TIME_SYSTEM {} is not a SANA-registered value (the SANA Time Systems registry lists no lunar time scale); written on explicit request",
+            time_system.as_ccsds_str()
+        ));
+    }
+    let text = file.to_oem_string();
+    let mut out = String::with_capacity(text.len() + 256);
+    for line in text.split_inclusive('\n') {
+        out.push_str(line);
+        if line.trim_end() == "META_START" {
+            for c in &comments {
+                out.push_str("COMMENT ");
+                out.push_str(c);
+                out.push('\n');
+            }
+        }
+    }
+    out
 }
 
 /// A LunaNet/IOAG-aligned lunar-time descriptor: the scale identifier, its secular rate
@@ -249,9 +353,9 @@ pub fn parse_lunar_time_metadata(json: &str) -> Option<LunarTimeMeta> {
 pub struct LunarInteropArtifacts {
     /// CCSDS OEM 2.0 (KVN) ephemeris text.
     pub oem: String,
-    /// The lunar body frame token (`MOON_ME` / `MOON_PA`).
+    /// The lunar body frame token (`MOON_ME` / `MOON_PA440`).
     pub frame: String,
-    /// The lunar time-scale token (`LTC` / `TCL` / `UTC`).
+    /// The time-scale token (`TDB` / `UTC`, or on request `LTC` / `TCL`).
     pub time_system: String,
     /// The LunaNet/IOAG-aligned lunar-time descriptor.
     pub time_metadata: LunarTimeMeta,
@@ -389,7 +493,9 @@ pub fn oem_conformance(oem: &str) -> OemConformance {
         .unwrap_or(false);
     let time_present = time_system
         .as_deref()
-        .map(|t| !t.is_empty())
+        // A TIME_SYSTEM the interchange recognises (a SANA value, or LTC / TCL), not merely a
+        // non-empty one: before, any token passed.
+        .map(time_system_is_recognised)
         .unwrap_or(false);
 
     let pass = missing.is_empty() && frame_is_lunar && time_present && data_lines >= 1;
@@ -435,6 +541,38 @@ fn sample_lunar_states(n: usize, step_s: f64) -> Vec<EphemState> {
         .collect()
 }
 
+/// Rotate Moon-centred inertial states (axes read as ICRF-aligned) into the lunar body frame
+/// `frame` at the OEM epochs, positions and velocities, with [`crate::lunar_oem::convert_state`].
+/// The epochs are read as TDB for the orientation; a lunar time label differs from TDB by
+/// far less than the orientation's sensitivity at this sampling. Epochs outside the DE440
+/// orientation series (2014 to 2030) keep their inertial values.
+pub fn in_frame(states: &[EphemState], frame: LunarFrameId) -> Vec<EphemState> {
+    states
+        .iter()
+        .map(|s| {
+            let e = epoch_at(s.t_s);
+            let jd =
+                crate::timescales::julian_date(e.year, e.month, e.day, e.hour, e.minute, e.second);
+            let r = [s.pos_m[0] / 1e3, s.pos_m[1] / 1e3, s.pos_m[2] / 1e3];
+            let v = [s.vel_m_s[0] / 1e3, s.vel_m_s[1] / 1e3, s.vel_m_s[2] / 1e3];
+            match crate::lunar_oem::convert_state(
+                crate::lunar_oem::Frame::Icrf,
+                frame.oem_frame(),
+                jd,
+                r,
+                v,
+            ) {
+                Ok((r, v)) => EphemState {
+                    t_s: s.t_s,
+                    pos_m: [r[0] * 1e3, r[1] * 1e3, r[2] * 1e3],
+                    vel_m_s: [v[0] * 1e3, v[1] * 1e3, v[2] * 1e3],
+                },
+                Err(_) => *s,
+            }
+        })
+        .collect()
+}
+
 // ---------------------------------------------------------------------------
 // Scenario
 // ---------------------------------------------------------------------------
@@ -443,7 +581,7 @@ fn d_frame() -> String {
     "MOON_ME".to_string()
 }
 fn d_time_system() -> String {
-    "LTC".to_string()
+    "TDB".to_string()
 }
 fn d_n_states() -> usize {
     9
@@ -466,12 +604,17 @@ fn d_object() -> String {
 /// interoperability conformance test; no agency affiliation/endorsement/heritage/TRL claimed.
 #[derive(Clone, Debug, Deserialize)]
 pub struct LunarInteropScenario {
-    /// Lunar body frame: `MOON_ME` (mean-Earth) or `MOON_PA` (principal-axis).
+    /// Lunar body frame: `MOON_ME` (mean-Earth) or `MOON_PA440` (DE440 principal axes; `MOON_PA`
+    /// is read as `MOON_PA440`).
     #[serde(default = "d_frame")]
     pub frame: String,
-    /// Lunar time scale: `LTC`, `TCL` or `UTC`.
+    /// Time scale: `TDB` (default) or `UTC`; `LTC` or `TCL` only with
+    /// `allow_unregistered_time_system = true`, as they are not SANA-registered.
     #[serde(default = "d_time_system")]
     pub time_system: String,
+    /// Opt in to writing the unregistered lunar time tokens `LTC` / `TCL`.
+    #[serde(default)]
+    pub allow_unregistered_time_system: bool,
     /// Number of ephemeris states to emit.
     #[serde(default = "d_n_states")]
     pub n_states: usize,
@@ -492,6 +635,7 @@ impl Default for LunarInteropScenario {
         Self {
             frame: d_frame(),
             time_system: d_time_system(),
+            allow_unregistered_time_system: false,
             n_states: d_n_states(),
             epoch: String::new(),
             step_min: d_step_min(),
@@ -566,20 +710,55 @@ pub struct LunarInteropReport {
 }
 
 impl LunarInteropScenario {
-    /// Resolve the configured frame token to a [`LunarFrameId`] (defaults to `MOON_ME`).
-    fn frame_id(&self) -> LunarFrameId {
-        match self.frame.to_uppercase().as_str() {
-            "MOON_PA" => LunarFrameId::MoonPa,
-            _ => LunarFrameId::MoonMe,
+    /// Check the frame and time tokens: a known frame, a known time scale, and `LTC` / `TCL`
+    /// only with the opt-in.
+    pub fn validate(&self) -> Result<(), String> {
+        if LunarFrameId::parse(&self.frame).is_none() {
+            return Err(crate::terr!(
+                "e-lunar-interop-unknown-frame",
+                frame = self.frame.clone()
+            ));
         }
+        match LunarTimeId::parse(&self.time_system) {
+            None => Err(crate::terr!(
+                "e-lunar-interop-unknown-time-system",
+                time_system = self.time_system.clone()
+            )),
+            Some(t) if !t.sana_registered() && !self.allow_unregistered_time_system => {
+                Err(crate::terr!(
+                    "e-lunar-interop-unregistered-time-system",
+                    time_system = self.time_system.clone()
+                ))
+            }
+            Some(_) => Ok(()),
+        }?;
+        // The sample states are rotated into the body frame with the DE440 orientation series;
+        // the last epoch must lie inside it.
+        let last_s = (self.n_states.max(1) - 1) as f64 * self.step_min * 60.0;
+        if !last_s.is_finite() || last_s < 0.0 {
+            return Err(crate::terr!(
+                "e-lunar-interop-bad-step",
+                step = self.step_min
+            ));
+        }
+        let e = epoch_at(last_s);
+        let jd = crate::timescales::julian_date(e.year, e.month, e.day, e.hour, e.minute, e.second);
+        crate::lunar_frame::try_icrf_to_moon_pa_de440(jd)
+            .map(|_| ())
+            .map_err(|e| e.to_string())
     }
 
-    /// Resolve the configured time-scale token to a [`LunarTimeId`] (defaults to `LTC`).
+    /// Resolve the configured frame token to a [`LunarFrameId`] (defaults to `MOON_ME`).
+    fn frame_id(&self) -> LunarFrameId {
+        LunarFrameId::parse(&self.frame).unwrap_or(LunarFrameId::MoonMe)
+    }
+
+    /// Resolve the configured time-scale token to a [`LunarTimeId`] (defaults to `TDB`; `LTC`
+    /// and `TCL` fall back to `TDB` unless opted in, which [`Self::validate`] reports).
     fn time_id(&self) -> LunarTimeId {
-        match self.time_system.to_uppercase().as_str() {
-            "TCL" => LunarTimeId::Tcl,
-            "UTC" => LunarTimeId::Utc,
-            _ => LunarTimeId::Ltc,
+        match LunarTimeId::parse(&self.time_system) {
+            Some(t) if t.sana_registered() || self.allow_unregistered_time_system => t,
+            _ => LunarTimeId::Tdb,
         }
     }
 
@@ -589,7 +768,7 @@ impl LunarInteropScenario {
         let time_system = self.time_id();
         let n = self.n_states.max(1);
         let step_s = self.step_min * 60.0;
-        let states = sample_lunar_states(n, step_s);
+        let states = in_frame(&sample_lunar_states(n, step_s), frame);
 
         let oem = export_lunar_oem(&self.object, frame, time_system, &states);
         let conformance = oem_conformance(&oem);
@@ -823,7 +1002,8 @@ mod tests {
         assert!(report.oem_roundtrip_ok);
         assert!(report.time_metadata_roundtrip_ok);
         assert_eq!(report.frame, "MOON_ME");
-        assert_eq!(report.time_system, "LTC");
+        // The default time system is the SANA-registered TDB.
+        assert_eq!(report.time_system, "TDB");
         assert_eq!(report.honesty, LUNAR_HONESTY_LABEL);
         assert!(report.kif_bytes > 0);
         assert_eq!(report.artifacts_emitted.len(), 3);
@@ -831,6 +1011,160 @@ mod tests {
         let json = serde_json::to_string(&report).unwrap();
         assert!(json.starts_with('{'));
         assert!(lunar_interop_svg(&report).starts_with("<svg"));
+    }
+
+    #[test]
+    fn registered_names_by_default_and_lunar_time_only_on_request() {
+        let st = sample_lunar_states(3, 600.0);
+        let pa = export_lunar_oem("X", LunarFrameId::MoonPa, LunarTimeId::Tdb, &st);
+        assert!(pa.contains("REF_FRAME = MOON_PA440"));
+        assert!(pa.contains("TIME_SYSTEM = TDB"));
+        assert!(pa.contains("COMMENT REF_FRAME MOON_PA440: the DE440 principal-axis frame"));
+        assert!(!pa.contains("not a SANA-registered"));
+        let ltc = export_lunar_oem("X", LunarFrameId::MoonMe, LunarTimeId::Ltc, &st);
+        assert!(ltc.contains("TIME_SYSTEM = LTC"));
+        assert!(ltc.contains("COMMENT TIME_SYSTEM LTC is not a SANA-registered value"));
+        // The comments sit at the start of the metadata and the file still parses.
+        assert!(crate::oem::parse_oem(&ltc).is_ok());
+        assert!(oem_conformance(&ltc).pass);
+        // The scenario refuses LTC/TCL unless opted in, and unknown tokens.
+        let mut scn = LunarInteropScenario {
+            time_system: "LTC".into(),
+            ..LunarInteropScenario::default()
+        };
+        assert!(scn.validate().is_err());
+        scn.allow_unregistered_time_system = true;
+        assert!(scn.validate().is_ok());
+        assert_eq!(scn.run().time_system, "LTC");
+        scn.frame = "MOON_XX".into();
+        assert!(scn.validate().is_err());
+        let late = LunarInteropScenario {
+            n_states: 100,
+            step_min: 10_000.0,
+            ..LunarInteropScenario::default()
+        };
+        assert!(
+            late.validate().is_err(),
+            "past the DE440 orientation series"
+        );
+    }
+
+    #[test]
+    fn the_written_states_are_in_the_stated_frame() {
+        // End to end: the OEM the scenario writes, read back and converted from its stated
+        // REF_FRAME to ICRF by the independent conversion path (crate::lunar_oem, which reads
+        // the frame from the file), equals the inertial sample to the OEM's printed precision.
+        let inertial = sample_lunar_states(5, 1800.0);
+        for frame in [LunarFrameId::MoonMe, LunarFrameId::MoonPa] {
+            let oem = export_lunar_oem("X", frame, LunarTimeId::Tdb, &in_frame(&inertial, frame));
+            let parsed = crate::oem::parse_oem(&oem).unwrap();
+            let back = crate::lunar_oem::convert(&parsed, crate::lunar_oem::Frame::Icrf).unwrap();
+            for (got, want) in back.oem.segments[0].states.iter().zip(&inertial) {
+                for k in 0..3 {
+                    assert!(
+                        (got.pos_km[k] - want.pos_m[k] / 1e3).abs() < 2e-6,
+                        "{frame:?}"
+                    );
+                    assert!(
+                        (got.vel_km_s[k] - want.vel_m_s[k] / 1e3).abs() < 3e-9,
+                        "{frame:?}"
+                    );
+                }
+            }
+            // Labelled as inertial data (no rotation), the file would be off by kilometres.
+            let wrong = export_lunar_oem("X", frame, LunarTimeId::Tdb, &inertial);
+            let back = crate::lunar_oem::convert(
+                &crate::oem::parse_oem(&wrong).unwrap(),
+                crate::lunar_oem::Frame::Icrf,
+            )
+            .unwrap();
+            let d = back.oem.segments[0].states[0].pos_km[0] - inertial[0].pos_m[0] / 1e3;
+            let e = back.oem.segments[0].states[0].pos_km[1] - inertial[0].pos_m[1] / 1e3;
+            assert!(d.hypot(e) > 1.0, "{frame:?}: {d} {e}");
+        }
+    }
+
+    #[test]
+    fn old_tokens_are_still_read() {
+        assert_eq!(LunarFrameId::parse("MOON_PA"), Some(LunarFrameId::MoonPa));
+        assert_eq!(
+            LunarFrameId::parse("moon_pa_de440"),
+            Some(LunarFrameId::MoonPa)
+        );
+        assert_eq!(LunarFrameId::parse("MOON_ME"), Some(LunarFrameId::MoonMe));
+        assert_eq!(LunarTimeId::parse("tcl"), Some(LunarTimeId::Tcl));
+        assert!(!LunarTimeId::Ltc.sana_registered());
+        assert!(LunarTimeId::Utc.sana_registered());
+    }
+
+    #[test]
+    fn the_sana_list_holds_no_lunar_scale_and_the_reader_refuses_unknown_tokens() {
+        // PIN-SCOPE:    the SANA Time Systems values as read 2026-11-21 (15, no lunar scale),
+        //               which tokens the lunar OEM reader passes, and which it refuses.
+        // PIN-EXCLUDES: the state vectors and every header field other than TIME_SYSTEM.
+        assert_eq!(SANA_TIME_SYSTEMS.len(), 15);
+        let mut sorted = SANA_TIME_SYSTEMS.to_vec();
+        sorted.sort_unstable();
+        sorted.dedup();
+        assert_eq!(sorted.len(), 15, "no value listed twice");
+        for t in ["UTC", "TDB", "TT", "TAI", "GPS", "TCB", "TCG"] {
+            assert!(time_system_is_sana_registered(t), "{t}");
+        }
+        for t in ["LTC", "TCL", "utc", "MOONTIME", ""] {
+            assert!(!time_system_is_sana_registered(t), "{t}");
+        }
+        for ts in [
+            LunarTimeId::Tdb,
+            LunarTimeId::Ltc,
+            LunarTimeId::Tcl,
+            LunarTimeId::Utc,
+        ] {
+            assert!(time_system_is_recognised(ts.as_ccsds_str()));
+            assert_eq!(
+                ts.sana_registered(),
+                !matches!(ts, LunarTimeId::Ltc | LunarTimeId::Tcl)
+            );
+        }
+        let states = sample_lunar_states(3, 600.0);
+        let good = export_lunar_oem("LCNS-1", LunarFrameId::MoonMe, LunarTimeId::Tcl, &states);
+        assert!(oem_conformance(&good).pass);
+        // An unknown token used to pass as merely non-empty; it is refused now.
+        let odd = good.replace("TIME_SYSTEM = TCL", "TIME_SYSTEM = MOONTIME");
+        let c = oem_conformance(&odd);
+        assert!(!c.pass, "{c:?}");
+        assert_eq!(c.time_system.as_deref(), Some("MOONTIME"));
+        // Any SANA value is read, also one the writer never emits.
+        let tt = good.replace("TIME_SYSTEM = TCL", "TIME_SYSTEM = TT");
+        assert!(oem_conformance(&tt).pass);
+    }
+
+    #[test]
+    fn sample_states_are_rotated_into_the_body_frame() {
+        // The inertial sample and the exported state differ by the lunar orientation, keep
+        // the radius, and convert back to the inertial state.
+        let st = sample_lunar_states(2, 600.0);
+        for f in [LunarFrameId::MoonMe, LunarFrameId::MoonPa] {
+            let b = in_frame(&st, f);
+            let norm = |v: Vec3| (v[0] * v[0] + v[1] * v[1] + v[2] * v[2]).sqrt();
+            assert!((norm(b[0].pos_m) - norm(st[0].pos_m)).abs() < 1e-6);
+            assert!((b[0].pos_m[0] - st[0].pos_m[0]).abs() > 1.0);
+            let e = epoch_at(0.0);
+            let jd = crate::timescales::julian_date(e.year, e.month, e.day, 0, 0, 0.0);
+            let r = b[0].pos_m.map(|x| x / 1e3);
+            let v = b[0].vel_m_s.map(|x| x / 1e3);
+            let (ri, vi) = crate::lunar_oem::convert_state(
+                f.oem_frame(),
+                crate::lunar_oem::Frame::Icrf,
+                jd,
+                r,
+                v,
+            )
+            .unwrap();
+            for k in 0..3 {
+                assert!((ri[k] * 1e3 - st[0].pos_m[k]).abs() < 1e-6);
+                assert!((vi[k] * 1e3 - st[0].vel_m_s[k]).abs() < 1e-9);
+            }
+        }
     }
 
     #[test]
