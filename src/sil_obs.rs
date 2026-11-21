@@ -84,10 +84,14 @@ const CHIP_1023X10_M: f64 = C_M_PER_S / 10.23e6;
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(deny_unknown_fields)]
 pub struct SilScenario {
+    /// Run settings: start, duration, step, seed, systems, mask and marker (`[sil]`).
     pub sil: SilCfg,
+    /// The antenna's start position, clock and motion (`[receiver]`).
     pub receiver: ReceiverCfg,
+    /// Optional street canyon; without one every satellite above the mask is LOS (`[canyon]`).
     #[serde(default)]
     pub canyon: Option<Canyon>,
+    /// C/N0, tracking-loop and noise settings (`[signal]`); defaults when absent.
     #[serde(default)]
     pub signal: SignalCfg,
 }
@@ -133,8 +137,11 @@ fn default_marker() -> String {
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(deny_unknown_fields)]
 pub struct ReceiverCfg {
+    /// WGS-84 geodetic latitude of the antenna at the first epoch (deg).
     pub lat_deg: f64,
+    /// WGS-84 longitude of the antenna at the first epoch (deg).
     pub lon_deg: f64,
+    /// Height of the antenna above the WGS-84 ellipsoid at the first epoch (m).
     pub height_m: f64,
     /// Receiver clock bias at the first epoch (m).
     #[serde(default)]
@@ -335,6 +342,7 @@ pub enum PathState {
 }
 
 impl PathState {
+    /// The snake_case name of the state (as serialised), the key of the state counts.
     pub fn as_str(self) -> &'static str {
         match self {
             PathState::Los => "los",
@@ -348,6 +356,7 @@ impl PathState {
 /// The paths of one satellite in the canyon.
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct CanyonPaths {
+    /// Which paths reach the antenna (direct, reflection, both or neither).
     pub state: PathState,
     /// Excess path of the reflection over the direct path (m); zero without one.
     pub excess_m: f64,
@@ -562,22 +571,40 @@ fn light_time(eph: &RinexEphemeris, rx: Vec3, t_rx: f64) -> (f64, f64, Vec3) {
 /// One satellite-signal sample of the truth file.
 #[derive(Clone, Debug, Serialize)]
 pub struct TruthRow {
+    /// Time since the scenario start (s).
     pub t: f64,
+    /// Satellite id, system letter and two-digit PRN (e.g. `G05`).
     pub sat: String,
+    /// RINEX observation code suffix of the signal (e.g. `1C`).
     pub signal: String,
+    /// Path state of the satellite in the canyon at this epoch.
     pub state: PathState,
+    /// Elevation of the satellite seen from the antenna (deg).
     pub el_deg: f64,
+    /// Azimuth of the satellite seen from the antenna (deg from north).
     pub az_deg: f64,
+    /// Modelled C/N0 including the multipath or NLOS effect (dB-Hz); -1 when blocked.
     pub cn0_dbhz: f64,
+    /// Excess path of the reflection over the direct path (m); zero without one.
     pub excess_path_m: f64,
+    /// Code multipath error (m): the DLL error for LOS + multipath, the excess path for NLOS.
     pub code_multipath_m: f64,
+    /// Carrier multipath error (m): the phase error for LOS + multipath, the excess path for NLOS.
     pub carrier_multipath_m: f64,
+    /// Code noise added from the DLL jitter (m); zero when untracked or noise is off.
     pub code_noise_m: f64,
+    /// Carrier noise added from the PLL jitter (m); zero when untracked or noise is off.
     pub carrier_noise_m: f64,
+    /// Klobuchar ionospheric delay scaled to this signal's frequency (m).
     pub iono_m: f64,
+    /// Saastamoinen/Niell tropospheric delay (m).
     pub tropo_m: f64,
+    /// Geometric range from the satellite at transmit time to the antenna at reception (m).
     pub geometric_range_m: f64,
+    /// Whether the signal is tracked (not blocked and C/N0 at or above the tracking threshold).
     pub tracked: bool,
+    /// Whether a new carrier arc (fresh ambiguity) starts here: first tracked epoch, or
+    /// entering or leaving NLOS.
     pub arc_break: bool,
 }
 
@@ -588,6 +615,7 @@ pub struct SilOutput {
     pub rinex: String,
     /// JSON Lines truth text (header line first).
     pub truth: String,
+    /// Epochs written to the RINEX file (those with at least one observation).
     pub n_epochs: usize,
     /// Satellite-signal samples written.
     pub n_obs: usize,
@@ -598,10 +626,17 @@ pub struct SilOutput {
 /// Errors of [`generate`]; the CLI maps them to catalogue messages.
 #[derive(Clone, Debug, PartialEq)]
 pub enum SilError {
+    /// The start epoch could not be parsed (the given text).
     BadStart(String),
+    /// The step is not positive and finite, the duration is negative or not finite, or the
+    /// run would exceed a million epochs.
     BadTiming,
+    /// The navigation file has no satellite of the requested systems.
     NoSatellites,
+    /// A system other than `G` or `E` was requested (the given text).
     UnknownSystem(String),
+    /// A canyon parameter is not finite or out of range (width, offset, reflection loss,
+    /// antenna height).
     BadCanyon,
 }
 
@@ -1073,30 +1108,47 @@ pub fn band_freq_hz(system: char, band: char) -> Option<f64> {
 /// Statistics of one observation file, from its observations alone.
 #[derive(Clone, Debug, Serialize, Default)]
 pub struct ObsStats {
+    /// Epochs in the file.
     pub epochs: usize,
+    /// Interval from the RINEX header (s), if stated.
     pub interval_s: Option<f64>,
+    /// Mean number of satellites with a primary-signal code observation per epoch.
     pub sats_per_epoch_mean: f64,
+    /// 10th percentile of satellites with a primary-signal code observation per epoch.
     pub sats_per_epoch_p10: f64,
+    /// Median number of satellites with a primary-signal code observation per epoch.
     pub sats_per_epoch_p50: f64,
+    /// 90th percentile of satellites with a primary-signal code observation per epoch.
     pub sats_per_epoch_p90: f64,
     /// Primary signals used (`system:code`), e.g. `G:1C`.
     pub signals: Vec<String>,
+    /// Primary-signal C/N0 samples kept (strictly between 0 and 80 dB-Hz).
     pub cn0_samples: usize,
+    /// Mean primary-signal C/N0 (dB-Hz).
     pub cn0_mean_dbhz: f64,
+    /// 10th percentile of primary-signal C/N0 (dB-Hz).
     pub cn0_p10_dbhz: f64,
+    /// Median primary-signal C/N0 (dB-Hz).
     pub cn0_p50_dbhz: f64,
+    /// 90th percentile of primary-signal C/N0 (dB-Hz).
     pub cn0_p90_dbhz: f64,
     /// Detrended code-minus-carrier samples (arcs of at least 10 epochs).
     pub cmc_samples: usize,
+    /// RMS of the detrended code-minus-carrier samples (m).
     pub cmc_rms_m: f64,
+    /// Median absolute detrended code-minus-carrier (m).
     pub cmc_abs_p50_m: f64,
+    /// 95th percentile of absolute detrended code-minus-carrier (m).
     pub cmc_abs_p95_m: f64,
     /// CMC RMS (m) per 5 dB-Hz C/N0 bin, keyed by the bin's lower edge.
     pub cmc_rms_by_cn0_m: BTreeMap<String, f64>,
     /// Carrier-arc breaks (loss-of-lock flag or gap) per 100 satellite-epochs.
     pub arc_breaks_per_100: f64,
+    /// The C/N0 samples (dB-Hz), kept for the Kolmogorov-Smirnov comparison; not serialised.
     #[serde(skip)]
     pub cn0_values: Vec<f64>,
+    /// Sorted absolute detrended CMC samples (m), for the Kolmogorov-Smirnov comparison;
+    /// not serialised.
     #[serde(skip)]
     pub cmc_abs_values: Vec<f64>,
 }
