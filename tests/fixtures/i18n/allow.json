@@ -221,6 +221,10 @@
    "count": 5,
    "reason": "identifier: the class names and JSON keys of the M5 result and B4 documents (machine documents)"
   },
+  "src/product_register.rs": {
+   "count": 7,
+   "reason": "identifier: the register option names (--crl-key, ...), the field names a date check reports (revalidate_by, next_update, ...), and the tab-separated column header of the text view"
+  },
   "src/rtcm_ssr.rs": {
    "count": 3,
    "reason": "identifiers: the source names `rtcm-ssr` and `igs-ssr` written into kshana.obs/1 correction records"
@@ -1090,8 +1094,8 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/main.rs": {
-   "count": 76,
-   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md); clock-live prints its error text as given; the sensor-live command name; the device and bench-speed command names; the data-pack, area-trust and env-baseline command names; the ephem-export command name; the time-vectors command name; the ais-integrity command name; the space-weather command name; the orbit-data command name."
+   "count": 77,
+   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md); clock-live prints its error text as given; the sensor-live command name; the device and bench-speed command names; the data-pack, area-trust and env-baseline command names; the ephem-export command name; the time-vectors command name; the ais-integrity command name; the space-weather command name; the orbit-data command name; the register-products command name."
   },
   "src/mars_pnt.rs": {
    "count": 31,
@@ -1840,6 +1844,10 @@
   "src/interference_map/incident.rs": {
    "count": 183,
    "reason": "machine-document and identifier: the kshana-interference-incidents/1 vocabulary, field names and schema tags, the validator's problem messages (written to the machine-readable report, English by design), CSV column names and the Zenodo metadata keys (docs/INTERFERENCE-INCIDENTS.md)"
+  },
+  "src/register_products.rs": {
+   "count": 10,
+   "reason": "machine-document and identifier: pack-check results, status words printed in the register view (REVOKED and the like), curl arguments, option names and schema ids"
   }
  }
 }

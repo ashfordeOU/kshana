@@ -10543,6 +10543,15 @@ engine-e-ais-integrity-cannot-read = kan ikke læse { $path }: { $e }
 engine-e-ais-integrity-cannot-write = kan ikke skrive { $path }: { $e }
 engine-e-ais-integrity-bad-place = en række i stedlisten er ikke name,lat,lon,radius_m med en gyldig position og en positiv radius: { $row }
 
+## Register entries against packs, published revocations and versions (src/register_products.rs)
+engine-register-products-usage = brug: kshana register-products verify <register.json> [--packs <dir>] [--pack-key <hex>] [--pin <hex>] [--json] | show <register.json> [--revocations <file.jsonl|url>] [--date <YYYY-MM-DD>] [--pin <hex>] [--json] | diff <older.json> <newer.json> [--pin <hex>]  (docs/PRODUCT-REGISTER.md)
+engine-e-register-products-missing-value = { $option } kræver en værdi
+engine-e-register-products-unknown-option = ukendt tilvalg { $option } (kshana register-products --help viser tilvalgene)
+engine-e-register-products-cannot-read = kan ikke læse { $path }: { $e }
+engine-e-register-products-bad-revocation = linje { $line } i tilbagekaldelseslisten skal have serial, revoked_at (YYYY-MM-DD) og reason
+engine-e-register-products-cannot-fetch = kan ikke hente { $url }: { $e }
+engine-e-register-products-bad-key = nøglen er ikke 32 byte hex
+
 engine-main-usage =
     brug: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }eller: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10574,6 +10583,8 @@ engine-main-usage =
     { "   " }eller: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }eller: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }eller: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
+    { "   " }eller: kshana register-products <verify|show|diff> ... (kshana register-products --help)
+    { "   " }eller: kshana register <check|crl-check|view|sign> ... (kshana register --help)
     { "   " }eller: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }eller: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }eller: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
@@ -11728,3 +11739,25 @@ engine-e-oscillator-input = { $part }-input er ikke gyldigt: { $e }
 engine-e-oscillator-unknown-clock = ukendt urforudindstilling { $id } (en af { $known })
 
 engine-e-oscillator-field = { $field } er uden for området: { $value }
+
+## Product register (src/product_register.rs, docs/PRODUCT-REGISTER.md)
+engine-register-usage = brug: kshana register check <register.json> [--key <hex>] | crl-check <crl.json> --key <hex> | view <register.json> [--key <hex>] [--crl <crl.json> --crl-key <hex>] [--date <YYYY-MM-DD>] [--json] | sign <register.json|crl.json> --key <keyfile> [--out <file>]  (docs/PRODUCT-REGISTER.md)
+engine-register-check-ok = { $path }: register fra { $publisher }, { $n } poster, signaturen er gyldig (underskriver { $key })
+engine-register-crl-check-ok = { $path }: tilbagekaldelsesliste fra { $issuer }, { $n } tilbagekaldte poster, signaturen er gyldig; næste liste forventes { $next }
+engine-register-view-summary = pr. { $date }: { $current } gældende, { $due } skal scores igen, { $revoked } tilbagekaldt
+engine-register-view-no-crl = ingen tilbagekaldelsesliste angivet: tilbagekaldelse er ukendt (--crl <crl.json> --crl-key <hex>)
+engine-register-view-crl-stale = tilbagekaldelseslisten er forældet: næste opdatering skulle komme { $next }
+engine-e-register-key-mismatch = signeret af { $found }, ikke af den forventede nøgle { $expected }
+engine-e-register-bad-signature = signaturen er ikke gyldig
+engine-e-register-bad-date = { $field } er ikke en dato på formen YYYY-MM-DD: { $value }
+engine-e-register-not-register = ikke et kshana.register/1-register: { $e }
+engine-e-register-not-crl = ikke en kshana.register-crl/1-tilbagekaldelsesliste: { $e }
+engine-e-register-bad-id = post-id { $id }: brug 1 til 128 bogstaver, cifre, punktummer, bindestreger eller understreger
+engine-e-register-duplicate-id = post-id { $id } forekommer mere end én gang
+engine-e-register-revalidate-before-scored = posten { $id } skal scores igen før den dato, den blev scoret
+engine-e-register-bad-digest = posten { $id }: evidence_sha256 skal være 64 hexcifre
+engine-e-register-missing-value = { $option } kræver en værdi
+engine-e-register-cannot-read = kan ikke læse { $path }: { $e }
+engine-e-register-cannot-write = kan ikke skrive { $path }: { $e }
+engine-e-register-unknown-option = ukendt tilvalg { $option } (kshana register --help viser tilvalgene)
+engine-e-register-crl-needs-key = --crl og --crl-key hører sammen: en tilbagekaldelsesliste kontrolleres mod udstederens nøgle

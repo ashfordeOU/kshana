@@ -958,6 +958,14 @@ fn norad_alpha5_and_omm() {
 }
 
 #[test]
+fn register_products_revocations() {
+    let seeds = vec![head("tests/fixtures/register_products/revoked.jsonl", 10)];
+    fuzz("register-products revocations", &seeds, None, |b| {
+        let _ = kshana::register_products::parse_revocations(&String::from_utf8_lossy(b));
+    });
+}
+
+#[test]
 fn ais_integrity_inputs() {
     let csv = vec![
         head("tests/fixtures/ais_integrity/patterns.csv", 60),
@@ -1200,5 +1208,57 @@ fn oscillator_inputs() {
         for part in ["vibration", "holdover", "select", "raim-aid", "datasheet"] {
             let _ = kshana::oscillator::run_json(part, &t);
         }
+    });
+}
+
+#[test]
+fn product_registers_and_revocation_lists() {
+    let mut r = kshana::product_register::Register {
+        schema: kshana::product_register::REGISTER_SCHEMA.into(),
+        publisher: "p".into(),
+        issued: "2026-11-20".into(),
+        entries: vec![kshana::product_register::Entry {
+            id: "a".into(),
+            product: "x".into(),
+            maker: "m".into(),
+            version: "1".into(),
+            method: "k".into(),
+            method_version: "1".into(),
+            scored: "2026-01-01".into(),
+            revalidate_by: "2027-01-01".into(),
+            outcome: "o".into(),
+            evidence_sha256: None,
+            evidence_url: None,
+            scenario_set: None,
+            scenario_set_version: None,
+        }],
+        signer: String::new(),
+        signature: String::new(),
+    };
+    kshana::product_register::sign(&mut r, &[5u8; 32]);
+    let mut c = kshana::product_register::Crl {
+        schema: kshana::product_register::CRL_SCHEMA.into(),
+        issuer: "i".into(),
+        issued: "2026-11-20".into(),
+        next_update: "2026-12-20".into(),
+        revoked: vec![kshana::product_register::Revoked {
+            id: "a".into(),
+            revoked: "2026-11-01".into(),
+            reason: "r".into(),
+        }],
+        signer: String::new(),
+        signature: String::new(),
+    };
+    kshana::product_register::sign(&mut c, &[6u8; 32]);
+    let key = c.signer.clone();
+    let reg = serde_json::to_vec_pretty(&r).unwrap();
+    let crl = serde_json::to_vec_pretty(&c).unwrap();
+    fuzz("register", &[reg], None, |b| {
+        if let Ok(r) = kshana::product_register::check_register(&text(b), None) {
+            let _ = kshana::product_register::view(&r, None, "2026-11-20");
+        }
+    });
+    fuzz("register crl", &[crl], None, |b| {
+        let _ = kshana::product_register::check_crl(&text(b), &key);
     });
 }

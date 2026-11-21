@@ -10721,6 +10721,15 @@ engine-e-ais-integrity-cannot-read = nie można odczytać { $path }: { $e }
 engine-e-ais-integrity-cannot-write = nie można zapisać { $path }: { $e }
 engine-e-ais-integrity-bad-place = wiersz listy miejsc nie ma postaci name,lat,lon,radius_m z poprawną pozycją i dodatnim promieniem: { $row }
 
+## Register entries against packs, published revocations and versions (src/register_products.rs)
+engine-register-products-usage = użycie: kshana register-products verify <register.json> [--packs <dir>] [--pack-key <hex>] [--pin <hex>] [--json] | show <register.json> [--revocations <file.jsonl|url>] [--date <YYYY-MM-DD>] [--pin <hex>] [--json] | diff <older.json> <newer.json> [--pin <hex>]  (docs/PRODUCT-REGISTER.md)
+engine-e-register-products-missing-value = { $option } wymaga wartości
+engine-e-register-products-unknown-option = nieznana opcja { $option } (opcje wypisuje kshana register-products --help)
+engine-e-register-products-cannot-read = nie można odczytać { $path }: { $e }
+engine-e-register-products-bad-revocation = wiersz { $line } listy odwołań musi mieć serial, revoked_at (YYYY-MM-DD) i reason
+engine-e-register-products-cannot-fetch = nie można pobrać { $url }: { $e }
+engine-e-register-products-bad-key = klucz nie ma 32 bajtów w zapisie szesnastkowym
+
 engine-main-usage =
     użycie: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }lub: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10752,6 +10761,8 @@ engine-main-usage =
     { "   " }lub: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }lub: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }lub: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
+    { "   " }lub: kshana register-products <verify|show|diff> ... (kshana register-products --help)
+    { "   " }lub: kshana register <check|crl-check|view|sign> ... (kshana register --help)
     { "   " }lub: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }lub: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }lub: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
@@ -11941,3 +11952,25 @@ engine-e-oscillator-input = dane wejściowe { $part } są nieprawidłowe: { $e }
 engine-e-oscillator-unknown-clock = nieznane ustawienie zegara { $id } (jedno z: { $known })
 
 engine-e-oscillator-field = { $field } jest poza zakresem: { $value }
+
+## Product register (src/product_register.rs, docs/PRODUCT-REGISTER.md)
+engine-register-usage = użycie: kshana register check <register.json> [--key <hex>] | crl-check <crl.json> --key <hex> | view <register.json> [--key <hex>] [--crl <crl.json> --crl-key <hex>] [--date <YYYY-MM-DD>] [--json] | sign <register.json|crl.json> --key <keyfile> [--out <file>]  (docs/PRODUCT-REGISTER.md)
+engine-register-check-ok = { $path }: rejestr { $publisher }, wpisów: { $n }, podpis jest prawidłowy (podpisujący { $key })
+engine-register-crl-check-ok = { $path }: lista odwołań { $issuer }, odwołanych wpisów: { $n }, podpis jest prawidłowy; następna lista { $next }
+engine-register-view-summary = na { $date }: aktualne: { $current }, do ponownej oceny: { $due }, odwołane: { $revoked }
+engine-register-view-no-crl = nie podano listy odwołań: stan odwołania jest nieznany (--crl <crl.json> --crl-key <hex>)
+engine-register-view-crl-stale = lista odwołań jest nieaktualna: jej następna aktualizacja miała nastąpić { $next }
+engine-e-register-key-mismatch = podpisane przez { $found }, a nie oczekiwanym kluczem { $expected }
+engine-e-register-bad-signature = podpis jest nieprawidłowy
+engine-e-register-bad-date = { $field } nie jest datą w formacie YYYY-MM-DD: { $value }
+engine-e-register-not-register = to nie jest rejestr kshana.register/1: { $e }
+engine-e-register-not-crl = to nie jest lista odwołań kshana.register-crl/1: { $e }
+engine-e-register-bad-id = identyfikator wpisu { $id }: użyj od 1 do 128 liter, cyfr, kropek, łączników lub podkreśleń
+engine-e-register-duplicate-id = identyfikator wpisu { $id } występuje więcej niż raz
+engine-e-register-revalidate-before-scored = wpis { $id } miałby być oceniony ponownie przed datą swojej oceny
+engine-e-register-bad-digest = wpis { $id }: evidence_sha256 musi mieć 64 cyfry szesnastkowe
+engine-e-register-missing-value = { $option } wymaga wartości
+engine-e-register-cannot-read = nie można odczytać { $path }: { $e }
+engine-e-register-cannot-write = nie można zapisać { $path }: { $e }
+engine-e-register-unknown-option = nieznana opcja { $option } (kshana register --help wyświetla opcje)
+engine-e-register-crl-needs-key = --crl i --crl-key występują razem: listę odwołań sprawdza się kluczem wystawcy

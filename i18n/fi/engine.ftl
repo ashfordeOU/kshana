@@ -10285,6 +10285,15 @@ engine-e-ais-integrity-cannot-read = tiedostoa { $path } ei voi lukea: { $e }
 engine-e-ais-integrity-cannot-write = tiedostoon { $path } ei voi kirjoittaa: { $e }
 engine-e-ais-integrity-bad-place = paikkaluettelon rivi ei ole name,lat,lon,radius_m, jossa on kelvollinen sijainti ja positiivinen säde: { $row }
 
+## Register entries against packs, published revocations and versions (src/register_products.rs)
+engine-register-products-usage = käyttö: kshana register-products verify <register.json> [--packs <dir>] [--pack-key <hex>] [--pin <hex>] [--json] | show <register.json> [--revocations <file.jsonl|url>] [--date <YYYY-MM-DD>] [--pin <hex>] [--json] | diff <older.json> <newer.json> [--pin <hex>]  (docs/PRODUCT-REGISTER.md)
+engine-e-register-products-missing-value = { $option } tarvitsee arvon
+engine-e-register-products-unknown-option = tuntematon valitsin { $option } (kshana register-products --help luettelee valitsimet)
+engine-e-register-products-cannot-read = tiedostoa { $path } ei voi lukea: { $e }
+engine-e-register-products-bad-revocation = peruutusluettelon rivillä { $line } on oltava serial, revoked_at (YYYY-MM-DD) ja reason
+engine-e-register-products-cannot-fetch = { $url } ei voi noutaa: { $e }
+engine-e-register-products-bad-key = avain ei ole 32 tavua heksadesimaalina
+
 engine-main-usage =
     käyttö: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }tai: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10316,6 +10325,8 @@ engine-main-usage =
     { "   " }tai: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }tai: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }tai: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
+    { "   " }tai: kshana register-products <verify|show|diff> ... (kshana register-products --help)
+    { "   " }tai: kshana register <check|crl-check|view|sign> ... (kshana register --help)
     { "   " }tai: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }tai: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }tai: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
@@ -11442,3 +11453,25 @@ engine-e-oscillator-input = { $part }-syöte ei kelpaa: { $e }
 engine-e-oscillator-unknown-clock = tuntematon kelloesiasetus { $id } (jokin näistä: { $known })
 
 engine-e-oscillator-field = { $field } on alueen ulkopuolella: { $value }
+
+## Product register (src/product_register.rs, docs/PRODUCT-REGISTER.md)
+engine-register-usage = käyttö: kshana register check <register.json> [--key <hex>] | crl-check <crl.json> --key <hex> | view <register.json> [--key <hex>] [--crl <crl.json> --crl-key <hex>] [--date <YYYY-MM-DD>] [--json] | sign <register.json|crl.json> --key <keyfile> [--out <file>]  (docs/PRODUCT-REGISTER.md)
+engine-register-check-ok = { $path }: julkaisijan { $publisher } rekisteri, merkintöjä { $n }, allekirjoitus on kelvollinen (allekirjoittaja { $key })
+engine-register-crl-check-ok = { $path }: myöntäjän { $issuer } peruutuslista, peruttuja merkintöjä { $n }, allekirjoitus on kelvollinen; seuraava lista { $next }
+engine-register-view-summary = { $date }: voimassa { $current }, uudelleenpisteytys erääntynyt { $due }, peruttu { $revoked }
+engine-register-view-no-crl = peruutuslistaa ei annettu: peruutustila on tuntematon (--crl <crl.json> --crl-key <hex>)
+engine-register-view-crl-stale = peruutuslista on vanhentunut: seuraava päivitys erääntyi { $next }
+engine-e-register-key-mismatch = allekirjoittaja on { $found }, ei odotettu avain { $expected }
+engine-e-register-bad-signature = allekirjoitus ei ole kelvollinen
+engine-e-register-bad-date = { $field } ei ole muotoa YYYY-MM-DD oleva päivämäärä: { $value }
+engine-e-register-not-register = ei kshana.register/1-rekisteri: { $e }
+engine-e-register-not-crl = ei kshana.register-crl/1-peruutuslista: { $e }
+engine-e-register-bad-id = merkinnän tunnus { $id }: käytä 1–128 kirjainta, numeroa, pistettä, yhdysmerkkiä tai alaviivaa
+engine-e-register-duplicate-id = merkinnän tunnus { $id } esiintyy useammin kuin kerran
+engine-e-register-revalidate-before-scored = merkintä { $id } pisteytettäisiin uudelleen ennen alkuperäistä pisteytyspäivää
+engine-e-register-bad-digest = merkintä { $id }: evidence_sha256 on oltava 64 heksadesimaalinumeroa
+engine-e-register-missing-value = { $option } tarvitsee arvon
+engine-e-register-cannot-read = tiedostoa { $path } ei voi lukea: { $e }
+engine-e-register-cannot-write = tiedostoa { $path } ei voi kirjoittaa: { $e }
+engine-e-register-unknown-option = tuntematon valitsin { $option } (kshana register --help luettelee valitsimet)
+engine-e-register-crl-needs-key = --crl ja --crl-key kuuluvat yhteen: peruutuslista tarkistetaan myöntäjän avainta vasten

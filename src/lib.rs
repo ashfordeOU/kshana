@@ -356,6 +356,8 @@ pub mod ppp_real;
 pub mod precession;
 pub mod precise_od;
 pub mod precise_products;
+/// A public register of products scored under a stated method, with signed revocation lists (`kshana register`).
+pub mod product_register;
 pub mod propagator;
 /// IEEE 1588 PTP management: linuxptp `pmc` text and the binary management TLVs (0.42 I2).
 pub mod ptp_mgmt;
@@ -373,6 +375,7 @@ pub mod realdata;
 pub mod realtime_frame_eop;
 pub mod receiver_trust;
 pub mod reentry;
+pub mod register_products;
 pub mod registry;
 pub mod report;
 pub mod representativeness;

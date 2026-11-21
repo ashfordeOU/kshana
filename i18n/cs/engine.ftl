@@ -10549,6 +10549,15 @@ engine-e-ais-integrity-cannot-read = nelze číst { $path }: { $e }
 engine-e-ais-integrity-cannot-write = nelze zapsat { $path }: { $e }
 engine-e-ais-integrity-bad-place = řádek seznamu míst není name,lat,lon,radius_m s platnou polohou a kladným poloměrem: { $row }
 
+## Register entries against packs, published revocations and versions (src/register_products.rs)
+engine-register-products-usage = použití: kshana register-products verify <register.json> [--packs <dir>] [--pack-key <hex>] [--pin <hex>] [--json] | show <register.json> [--revocations <file.jsonl|url>] [--date <YYYY-MM-DD>] [--pin <hex>] [--json] | diff <older.json> <newer.json> [--pin <hex>]  (docs/PRODUCT-REGISTER.md)
+engine-e-register-products-missing-value = { $option } vyžaduje hodnotu
+engine-e-register-products-unknown-option = neznámá volba { $option } (volby vypíše kshana register-products --help)
+engine-e-register-products-cannot-read = nelze číst { $path }: { $e }
+engine-e-register-products-bad-revocation = řádek { $line } seznamu odvolání potřebuje serial, revoked_at (YYYY-MM-DD) a reason
+engine-e-register-products-cannot-fetch = nelze stáhnout { $url }: { $e }
+engine-e-register-products-bad-key = klíč není 32 bajtů v šestnáctkovém zápisu
+
 engine-main-usage =
     použití: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }nebo: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10580,6 +10589,8 @@ engine-main-usage =
     { "   " }nebo: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }nebo: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }nebo: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
+    { "   " }nebo: kshana register-products <verify|show|diff> ... (kshana register-products --help)
+    { "   " }nebo: kshana register <check|crl-check|view|sign> ... (kshana register --help)
     { "   " }nebo: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }nebo: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }nebo: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
@@ -11776,3 +11787,25 @@ engine-e-oscillator-input = vstup { $part } není platný: { $e }
 engine-e-oscillator-unknown-clock = neznámá předvolba hodin { $id } (jedna z { $known })
 
 engine-e-oscillator-field = { $field } je mimo rozsah: { $value }
+
+## Product register (src/product_register.rs, docs/PRODUCT-REGISTER.md)
+engine-register-usage = použití: kshana register check <register.json> [--key <hex>] | crl-check <crl.json> --key <hex> | view <register.json> [--key <hex>] [--crl <crl.json> --crl-key <hex>] [--date <YYYY-MM-DD>] [--json] | sign <register.json|crl.json> --key <keyfile> [--out <file>]  (docs/PRODUCT-REGISTER.md)
+engine-register-check-ok = { $path }: rejstřík vydavatele { $publisher }, záznamů: { $n }, podpis je platný (podepsal { $key })
+engine-register-crl-check-ok = { $path }: seznam odvolání vydavatele { $issuer }, odvolaných záznamů: { $n }, podpis je platný; další seznam { $next }
+engine-register-view-summary = k { $date }: platných { $current }, k novému hodnocení { $due }, odvolaných { $revoked }
+engine-register-view-no-crl = seznam odvolání nebyl zadán: stav odvolání je neznámý (--crl <crl.json> --crl-key <hex>)
+engine-register-view-crl-stale = seznam odvolání je zastaralý: jeho další aktualizace měla přijít { $next }
+engine-e-register-key-mismatch = podepsáno klíčem { $found }, ne očekávaným klíčem { $expected }
+engine-e-register-bad-signature = podpis není platný
+engine-e-register-bad-date = { $field } není datum ve tvaru YYYY-MM-DD: { $value }
+engine-e-register-not-register = není rejstřík kshana.register/1: { $e }
+engine-e-register-not-crl = není seznam odvolání kshana.register-crl/1: { $e }
+engine-e-register-bad-id = id záznamu { $id }: použijte 1 až 128 písmen, číslic, teček, pomlček nebo podtržítek
+engine-e-register-duplicate-id = id záznamu { $id } se vyskytuje vícekrát
+engine-e-register-revalidate-before-scored = záznam { $id } má být znovu hodnocen před datem svého hodnocení
+engine-e-register-bad-digest = záznam { $id }: evidence_sha256 musí mít 64 šestnáctkových číslic
+engine-e-register-missing-value = { $option } vyžaduje hodnotu
+engine-e-register-cannot-read = nelze číst { $path }: { $e }
+engine-e-register-cannot-write = nelze zapsat { $path }: { $e }
+engine-e-register-unknown-option = neznámá volba { $option } (kshana register --help vypíše volby)
+engine-e-register-crl-needs-key = --crl a --crl-key patří k sobě: seznam odvolání se ověřuje klíčem vydavatele

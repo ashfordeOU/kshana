@@ -10696,6 +10696,15 @@ engine-e-ais-integrity-cannot-read = не вдалося прочитати { $p
 engine-e-ais-integrity-cannot-write = не вдалося записати { $path }: { $e }
 engine-e-ais-integrity-bad-place = рядок списку місць не має вигляду name,lat,lon,radius_m з допустимою позицією та додатним радіусом: { $row }
 
+## Register entries against packs, published revocations and versions (src/register_products.rs)
+engine-register-products-usage = використання: kshana register-products verify <register.json> [--packs <dir>] [--pack-key <hex>] [--pin <hex>] [--json] | show <register.json> [--revocations <file.jsonl|url>] [--date <YYYY-MM-DD>] [--pin <hex>] [--json] | diff <older.json> <newer.json> [--pin <hex>]  (docs/PRODUCT-REGISTER.md)
+engine-e-register-products-missing-value = { $option } потребує значення
+engine-e-register-products-unknown-option = невідомий параметр { $option } (параметри перелічує kshana register-products --help)
+engine-e-register-products-cannot-read = не вдалося прочитати { $path }: { $e }
+engine-e-register-products-bad-revocation = у рядку { $line } списку відкликань потрібні serial, revoked_at (YYYY-MM-DD) і reason
+engine-e-register-products-cannot-fetch = не вдається отримати { $url }: { $e }
+engine-e-register-products-bad-key = ключ не є 32 байтами в шістнадцятковому вигляді
+
 engine-main-usage =
     використання: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }або: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10727,6 +10736,8 @@ engine-main-usage =
     { "   " }або: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }або: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }або: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
+    { "   " }або: kshana register-products <verify|show|diff> ... (kshana register-products --help)
+    { "   " }або: kshana register <check|crl-check|view|sign> ... (kshana register --help)
     { "   " }або: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }або: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }або: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
@@ -11859,3 +11870,25 @@ engine-e-oscillator-input = вхідні дані { $part } недійсні: { 
 engine-e-oscillator-unknown-clock = невідома передустановка годинника { $id } (одна з: { $known })
 
 engine-e-oscillator-field = { $field } поза допустимим діапазоном: { $value }
+
+## Product register (src/product_register.rs, docs/PRODUCT-REGISTER.md)
+engine-register-usage = використання: kshana register check <register.json> [--key <hex>] | crl-check <crl.json> --key <hex> | view <register.json> [--key <hex>] [--crl <crl.json> --crl-key <hex>] [--date <YYYY-MM-DD>] [--json] | sign <register.json|crl.json> --key <keyfile> [--out <file>]  (docs/PRODUCT-REGISTER.md)
+engine-register-check-ok = { $path }: реєстр { $publisher }, записів: { $n }, підпис дійсний (підписант { $key })
+engine-register-crl-check-ok = { $path }: список відкликання { $issuer }, відкликаних записів: { $n }, підпис дійсний; наступний список очікується { $next }
+engine-register-view-summary = на { $date }: чинних: { $current }, до повторного оцінювання: { $due }, відкликаних: { $revoked }
+engine-register-view-no-crl = список відкликання не вказано: статус відкликання невідомий (--crl <crl.json> --crl-key <hex>)
+engine-register-view-crl-stale = список відкликання застарів: його наступне оновлення очікувалося { $next }
+engine-e-register-key-mismatch = підписано ключем { $found }, а не очікуваним ключем { $expected }
+engine-e-register-bad-signature = підпис недійсний
+engine-e-register-bad-date = { $field } не є датою у форматі YYYY-MM-DD: { $value }
+engine-e-register-not-register = не реєстр kshana.register/1: { $e }
+engine-e-register-not-crl = не список відкликання kshana.register-crl/1: { $e }
+engine-e-register-bad-id = ідентифікатор запису { $id }: використовуйте від 1 до 128 літер, цифр, крапок, дефісів або підкреслень
+engine-e-register-duplicate-id = ідентифікатор запису { $id } трапляється більше одного разу
+engine-e-register-revalidate-before-scored = запис { $id } має бути оцінений повторно раніше дати свого оцінювання
+engine-e-register-bad-digest = запис { $id }: evidence_sha256 має складатися з 64 шістнадцяткових цифр
+engine-e-register-missing-value = { $option } потребує значення
+engine-e-register-cannot-read = не вдалося прочитати { $path }: { $e }
+engine-e-register-cannot-write = не вдалося записати { $path }: { $e }
+engine-e-register-unknown-option = невідомий параметр { $option } (kshana register --help перелічує параметри)
+engine-e-register-crl-needs-key = --crl і --crl-key задаються разом: список відкликання перевіряється ключем видавця
