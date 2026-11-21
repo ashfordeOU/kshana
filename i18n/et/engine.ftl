@@ -10651,6 +10651,18 @@ engine-e-soop-clock-too-few-detections = { $n } PSS-tuvastust; nihke ja kiiruse 
 engine-e-soop-clock-too-short = salvestis on lühem kui kaks OFDM-sümbolit
 engine-e-soop-clock-bad-synth = testsignaal vajab diskreetimissagedust 100 kHz kuni 61,44 MHz ja positiivset kestust kõige rohkem 20 miljonit proovi
 
+## LunaNet AFS receiver verification kit and lunar output message profile (src/lunar_afs/kit.rs, src/lunar_output.rs)
+engine-lunar-afs-kit-usage = kasutus: kshana lunar-afs-kit vectors [<vectors.json>] | registry [<registry.toml|json>] [--limit-db <dB>] [--no-correlation] | output-check <messages.jsonl> | output-example [--n <count>] [--jd <JD TCL>] | output-reexpress <messages.jsonl> --scale <tt|tdb|tcb|tcg|tcl|ltc> --frame <ICRF|MOON_PA_DE440|MOON_PA|MOON_ME|ILURF>   [--out <file>]  (docs/LUNAR-AFS-KIT.md)
+engine-e-lunar-afs-kit-missing-value = { $option } vajab väärtust
+engine-e-lunar-afs-kit-unknown-option = tundmatu valik { $option } (valikud loetleb kshana lunar-afs-kit --help)
+engine-e-lunar-afs-kit-cannot-read = faili { $path } ei saa lugeda: { $e }
+engine-e-lunar-afs-kit-cannot-write = faili { $path } ei saa kirjutada: { $e }
+engine-e-lunar-afs-kit-bad-number = { $option }: { $value } ei ole kehtiv arv
+engine-e-lunar-afs-kit-unknown-name = tundmatu nimi { $name } (tuntud: { $known })
+engine-e-lunar-afs-kit-bad-registry = register ei ole [[node]] eraldiste loend: { $e }
+engine-e-lunar-afs-kit-bad-vectors = ei ole kshana.afs-vectors/1 fail: { $e }
+engine-e-lunar-afs-kit-bad-message = rida ei ole kshana.lunar-pnt-output/1 sõnum epohhi, tugisüsteemi ja asukohaga
+
 engine-main-usage =
     kasutus: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }või: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10687,6 +10699,7 @@ engine-main-usage =
     { "   " }või: kshana register <check|crl-check|view|sign> ... (kshana register --help)
     { "   " }või: kshana interference-env <evaluate|thresholds|degradation> ... (kshana interference-env --help)
     { "   " }või: kshana arctic-plan --site <lat,lon[,h]> | --place <name> [--systems <a,b,...>] [--compare] [--hours <h>] [--kp <n>] ... (kshana arctic-plan --help)
+    { "   " }või: kshana lunar-afs-kit <vectors|registry|output-check|output-example|output-reexpress> ... (kshana lunar-afs-kit --help)
     { "   " }või: kshana lunar-ref <tcb-tcl|approx|convert|transform|terms|models> ... (kshana lunar-ref --help)
     { "   " }või: kshana signal-readiness <profile.toml> [<obs.rnx>...]
     { "   " }või: kshana leo-od-plan <plan.toml>

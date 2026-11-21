@@ -9867,6 +9867,18 @@ engine-e-soop-clock-too-few-detections = PSS 検出 { $n } 件。オフセット
 engine-e-soop-clock-too-short = 記録が OFDM シンボル 2 個分より短いです
 engine-e-soop-clock-bad-synth = テスト信号にはサンプルレート 100 kHz から 61.44 MHz と、2000 万サンプル以下の正の長さが必要です
 
+## LunaNet AFS receiver verification kit and lunar output message profile (src/lunar_afs/kit.rs, src/lunar_output.rs)
+engine-lunar-afs-kit-usage = 使い方：kshana lunar-afs-kit vectors [<vectors.json>] | registry [<registry.toml|json>] [--limit-db <dB>] [--no-correlation] | output-check <messages.jsonl> | output-example [--n <count>] [--jd <JD TCL>] | output-reexpress <messages.jsonl> --scale <tt|tdb|tcb|tcg|tcl|ltc> --frame <ICRF|MOON_PA_DE440|MOON_PA|MOON_ME|ILURF>   [--out <file>]  (docs/LUNAR-AFS-KIT.md)
+engine-e-lunar-afs-kit-missing-value = { $option } には値が必要です
+engine-e-lunar-afs-kit-unknown-option = 不明なオプション { $option }（kshana lunar-afs-kit --help でオプションを一覧表示）
+engine-e-lunar-afs-kit-cannot-read = { $path } を読み込めません：{ $e }
+engine-e-lunar-afs-kit-cannot-write = { $path } に書き込めません：{ $e }
+engine-e-lunar-afs-kit-bad-number = { $option }：{ $value } は有効な数値ではありません
+engine-e-lunar-afs-kit-unknown-name = 不明な名前 { $name }（既知：{ $known }）
+engine-e-lunar-afs-kit-bad-registry = レジストリが [[node]] 割り当ての一覧ではありません：{ $e }
+engine-e-lunar-afs-kit-bad-vectors = kshana.afs-vectors/1 ファイルではありません：{ $e }
+engine-e-lunar-afs-kit-bad-message = エポック、座標系、位置を持つ kshana.lunar-pnt-output/1 メッセージではない行があります
+
 engine-main-usage =
     使い方：kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }または：kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -9903,6 +9915,7 @@ engine-main-usage =
     { "   " }または：kshana register <check|crl-check|view|sign> ... (kshana register --help)
     { "   " }または：kshana interference-env <evaluate|thresholds|degradation> ... (kshana interference-env --help)
     { "   " }または：kshana arctic-plan --site <lat,lon[,h]> | --place <name> [--systems <a,b,...>] [--compare] [--hours <h>] [--kp <n>] ... (kshana arctic-plan --help)
+    { "   " }または：kshana lunar-afs-kit <vectors|registry|output-check|output-example|output-reexpress> ... (kshana lunar-afs-kit --help)
     { "   " }または：kshana lunar-ref <tcb-tcl|approx|convert|transform|terms|models> ... (kshana lunar-ref --help)
     { "   " }または：kshana signal-readiness <profile.toml> [<obs.rnx>...]
     { "   " }または：kshana leo-od-plan <plan.toml>

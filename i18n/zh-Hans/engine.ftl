@@ -9934,6 +9934,18 @@ engine-e-soop-clock-too-few-detections = 检测到 { $n } 个 PSS；求偏差和
 engine-e-soop-clock-too-short = 记录短于两个 OFDM 符号
 engine-e-soop-clock-bad-synth = 测试信号需要 100 kHz 至 61.44 MHz 的采样率，以及不超过 2000 万个样本的正时长
 
+## LunaNet AFS receiver verification kit and lunar output message profile (src/lunar_afs/kit.rs, src/lunar_output.rs)
+engine-lunar-afs-kit-usage = 用法：kshana lunar-afs-kit vectors [<vectors.json>] | registry [<registry.toml|json>] [--limit-db <dB>] [--no-correlation] | output-check <messages.jsonl> | output-example [--n <count>] [--jd <JD TCL>] | output-reexpress <messages.jsonl> --scale <tt|tdb|tcb|tcg|tcl|ltc> --frame <ICRF|MOON_PA_DE440|MOON_PA|MOON_ME|ILURF>   [--out <file>]  (docs/LUNAR-AFS-KIT.md)
+engine-e-lunar-afs-kit-missing-value = { $option } 需要一个值
+engine-e-lunar-afs-kit-unknown-option = 未知选项 { $option }（kshana lunar-afs-kit --help 列出所有选项）
+engine-e-lunar-afs-kit-cannot-read = 无法读取 { $path }：{ $e }
+engine-e-lunar-afs-kit-cannot-write = 无法写入 { $path }：{ $e }
+engine-e-lunar-afs-kit-bad-number = { $option }：{ $value } 不是有效的数字
+engine-e-lunar-afs-kit-unknown-name = 未知名称 { $name }（已知：{ $known }）
+engine-e-lunar-afs-kit-bad-registry = 注册表不是 [[node]] 分配列表：{ $e }
+engine-e-lunar-afs-kit-bad-vectors = 不是 kshana.afs-vectors/1 文件：{ $e }
+engine-e-lunar-afs-kit-bad-message = 有一行不是包含历元、参考系和位置的 kshana.lunar-pnt-output/1 消息
+
 engine-main-usage =
     用法：kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }或：kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -9970,6 +9982,7 @@ engine-main-usage =
     { "   " }或：kshana register <check|crl-check|view|sign> ... (kshana register --help)
     { "   " }或：kshana interference-env <evaluate|thresholds|degradation> ... (kshana interference-env --help)
     { "   " }或：kshana arctic-plan --site <lat,lon[,h]> | --place <name> [--systems <a,b,...>] [--compare] [--hours <h>] [--kp <n>] ... (kshana arctic-plan --help)
+    { "   " }或：kshana lunar-afs-kit <vectors|registry|output-check|output-example|output-reexpress> ... (kshana lunar-afs-kit --help)
     { "   " }或：kshana lunar-ref <tcb-tcl|approx|convert|transform|terms|models> ... (kshana lunar-ref --help)
     { "   " }或：kshana signal-readiness <profile.toml> [<obs.rnx>...]
     { "   " }或：kshana leo-od-plan <plan.toml>

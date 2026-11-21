@@ -43,6 +43,7 @@ fn the_top_level_usage_names_every_subcommand() {
         "interference-lib",
         "antenna-cal",
         "arctic-plan",
+        "lunar-afs-kit",
         "lunar-ref",
         "quantum-bench",
         "soop-clock",
