@@ -129,7 +129,22 @@ fn oem_doc_to_ocm(doc: &OemDoc) -> Result<String, String> {
     } else {
         meta.set("OBJECT_DESIGNATOR", id);
     }
-    meta.set("TIME_SYSTEM", need(first, "TIME_SYSTEM")?);
+    let ts = need(first, "TIME_SYSTEM")?;
+    // An OCM carries one TIME_SYSTEM; stamping a later segment's epochs with the first one's
+    // scale would shift them (37 s between UTC and TAI).
+    if let Some(other) = doc
+        .segments
+        .iter()
+        .filter_map(|s| s.get("TIME_SYSTEM"))
+        .find(|t| *t != ts)
+    {
+        return Err(crate::terr!(
+            "e-orbit-data-convert-time-system-changes",
+            first = ts.as_str(),
+            other = other
+        ));
+    }
+    meta.set("TIME_SYSTEM", ts);
     meta.set("EPOCH_TZERO", need(first, "START_TIME")?);
     meta.set("START_TIME", need(first, "START_TIME")?);
     let last = doc.segments.last().unwrap_or(first);

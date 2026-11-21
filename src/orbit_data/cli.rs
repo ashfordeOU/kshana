@@ -163,6 +163,15 @@ fn convert_cmd(args: &[String]) -> Result<u8, String> {
             {
                 return Err(rep.to_text());
             }
+            // The KVN writer labels each value with the standard's unit. A value given in
+            // another unit (`MISS_DISTANCE = 0.5 [km]`) would be relabelled, not converted:
+            // a 1000x error. Refuse it, naming the keyword and both units.
+            let mut units = super::Report::new("CDM", rep.standard.as_str());
+            cdm::check(&m, &mut units);
+            units.findings.retain(|f| f.code == "units");
+            if !units.findings.is_empty() {
+                return Err(units.to_text());
+            }
             m.to_kvn()
         }
         _ => {

@@ -11855,3 +11855,7 @@ engine-e-leo-sparse-bad-study = tutkimuksen arvot ovat sallitun alueen ulkopuole
 engine-e-leo-sparse-singular = informaatiomatriisia ei voi kääntää edes a priori -arvojen kanssa
 engine-e-leo-sparse-cannot-read = tiedostoa { $path } ei voi lukea: { $e }
 engine-e-leo-sparse-bad-file = { $path } ei ole tutkimus: { $e }
+engine-e-ccsds-not-finite = { $t } ei ole äärellinen luku
+engine-e-oem-unclosed-covariance = kohteen { $object } segmentti avaa COVARIANCE_START-lohkon eikä koskaan sulje sitä COVARIANCE_STOP-rivillä
+engine-e-orbit-data-convert-time-system-changes = segmenteillä ei ole yhteistä TIME_SYSTEM-arvoa ({ $first }, sitten { $other }); OCM sisältää vain yhden, joten muunnos hylätään
+engine-e-ccsds-tdm-data-outside-block = datarivi DATA_START–DATA_STOP-lohkon ulkopuolella: { $line }

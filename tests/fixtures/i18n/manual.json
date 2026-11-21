@@ -20541,5 +20541,51 @@
     "var": "step"
    }
   ]
+ },
+ {
+  "id": "e-ccsds-not-finite",
+  "error": true,
+  "parts": [
+   {
+    "var": "t"
+   },
+   " is not a finite number"
+  ]
+ },
+ {
+  "id": "e-oem-unclosed-covariance",
+  "error": true,
+  "parts": [
+   "the segment of ",
+   {
+    "var": "object"
+   },
+   " opens COVARIANCE_START and never closes it with COVARIANCE_STOP"
+  ]
+ },
+ {
+  "id": "e-orbit-data-convert-time-system-changes",
+  "error": true,
+  "parts": [
+   "the segments do not share one TIME_SYSTEM (",
+   {
+    "var": "first"
+   },
+   ", then ",
+   {
+    "var": "other"
+   },
+   "); an OCM carries one, so the conversion is refused"
+  ]
+ },
+ {
+  "id": "e-ccsds-tdm-data-outside-block",
+  "error": true,
+  "parts": [
+   "data line outside a DATA_START to DATA_STOP block: ",
+   {
+    "var": "line"
+   }
+  ]
  }
 ]

@@ -12341,3 +12341,7 @@ engine-e-leo-sparse-bad-study = значения исследования вне
 engine-e-leo-sparse-singular = информационную матрицу нельзя обратить даже с априорными значениями
 engine-e-leo-sparse-cannot-read = не удаётся прочитать { $path }: { $e }
 engine-e-leo-sparse-bad-file = { $path } не является исследованием: { $e }
+engine-e-ccsds-not-finite = { $t } не является конечным числом
+engine-e-oem-unclosed-covariance = сегмент { $object } открывает COVARIANCE_START и не закрывает его через COVARIANCE_STOP
+engine-e-orbit-data-convert-time-system-changes = у сегментов нет общего TIME_SYSTEM ({ $first }, затем { $other }); OCM несёт только одну, поэтому преобразование отклонено
+engine-e-ccsds-tdm-data-outside-block = строка данных вне блока от DATA_START до DATA_STOP: { $line }

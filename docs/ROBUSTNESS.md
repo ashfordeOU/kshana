@@ -83,6 +83,25 @@ exists. For a framed binary protocol, add a generator that writes valid frames w
 allocation by the input (lines or bytes left) or by a documented maximum, and return an error beyond
 it.
 
+## CCSDS messages: what the reader returns and the writer emits
+
+Beyond not panicking: values that are wrong without saying so. Tests:
+`tests/ccsds_reader_robustness.rs`, including a seeded fuzz that writes `NaN`, `inf` and
+overflowing exponents into the OEM and TDM fixtures and checks every value returned is finite.
+
+| Reader / writer | Defect | Now |
+|---|---|---|
+| `orbit-data convert --to cdm` | the KVN writer labels each value with the standard's unit, so `MISS_DISTANCE = 0.5 [km]` (or XML `units="km"`) was written as `0.5 [m]`, a 1000x error | a value in any other unit is refused, naming the keyword and both units |
+| `OmmFile::to_omm_kvn` | `MEAN_MOTION`, `RA_OF_ASC_NODE`, `ARG_OF_PERICENTER` and `MEAN_ANOMALY` were written with the language's decimal mark (`15,50000000` in German) beside `ECCENTRICITY = 0.0006000` | `.` in every language |
+| `oem::parse_oem`, `parse_covariance_block` | `NaN` / `inf` state and covariance values were accepted; an unclosed `COVARIANCE_START` skipped every later state line of the segment with no error | both are errors |
+| `orbit_data::convert::oem_to_ocm` | every segment was stamped with the first segment's `TIME_SYSTEM` (a UTC then TAI file shifted the second segment by 37 s) | segments in different time systems are refused |
+| `ccsds_tdm::TdmFile::parse` | `NaN` / `inf` values were accepted, a third token on a data line was dropped, and a data line between `DATA_STOP` and the next `META_START` was ignored | all three are errors |
+| `odm::Section::num` (OPM, OMM, OCM values) | `NaN` / `inf` were numbers | an error |
+
+Not changed: the OPM/OMM KVN reader drops bracketed units without checking them against the
+standard's (`X = 6678137.0 [m]` reads as km). There is no OPM/OMM unit table in the crate yet; one
+needs the CCSDS 502.0 tables transcribed, so it is a separate change.
+
 ## Limits (honest)
 
 * This is a mutation fuzzer, not a coverage-guided one: it finds the defects random corruption of
