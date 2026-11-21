@@ -257,6 +257,7 @@ pub mod lunar_landing;
 pub mod lunar_llr;
 pub mod lunar_llr_geometry;
 pub mod lunar_od;
+pub mod lunar_oem;
 pub mod lunar_orientation;
 pub mod lunar_output;
 pub mod lunar_perturbed;

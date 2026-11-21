@@ -10023,6 +10023,15 @@ engine-e-sil-obsgen-unknown-option = 未知选项 { $option }（kshana sil-obsge
 engine-e-sil-obsgen-cannot-read = 无法读取 { $path }：{ $e }
 engine-e-sil-obsgen-cannot-write = 无法写入 { $path }：{ $e }
 engine-e-sil-obsgen-bad-scenario = 不是带可选 [urban] 和 [rinex] 表的 gnss-sim 场景：{ $e }
+## Lunar OEM frame conversion (src/lunar_oem.rs)
+engine-lunar-oem-usage = 用法：kshana lunar-oem convert <in.oem> --to ICRF|MOON_PA440|MOON_ME [--out <file>] | frames   (Moon-centred CCSDS OEM, positions and velocities, DE440 lunar orientation 2014 to 2030; docs/LUNAR-OEM.md)
+engine-e-lunar-oem-missing-value = { $option } 需要一个值
+engine-e-lunar-oem-unknown-option = 未知选项 { $option }（kshana lunar-oem --help 列出所有选项）
+engine-e-lunar-oem-cannot-read = 无法读取 { $path }：{ $e }
+engine-e-lunar-oem-cannot-write = 无法写入 { $path }：{ $e }
+engine-e-lunar-oem-time-system = TIME_SYSTEM { $time_system } 无法换算为月球指向所需的 TDB（TDB、TT、TAI、GPS 或 UTC）
+engine-e-lunar-oem-not-moon-centred = CENTER_NAME 为 { $center }；只转换以月球为中心的 OEM（CENTER_NAME = MOON）
+engine-e-lunar-oem-unknown-frame = 此处不转换 REF_FRAME { $frame }（ICRF、MOON_PA440、MOON_ME；也可读取 MOON_PA_DE440、MOON_ME_DE440_ME421、MOON_PA；EME2000 和 J2000 与 ICRF 相差框架偏差，此处不应用）
 
 engine-main-usage =
     用法：kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
@@ -10069,6 +10078,7 @@ engine-main-usage =
     { "   " }或：kshana afs-interop <study|ue-register> ... (kshana afs-interop --help)
     { "   " }或：kshana timing-stack <tai|ts2phc|pps|shm|ntpq|nts> ... (kshana timing-stack --help)
     { "   " }或：kshana sil-obsgen <scenario.toml> --out <obs.rnx> [--truth <truth.json>]
+    { "   " }或：kshana lunar-oem convert <in.oem> --to ICRF|MOON_PA440|MOON_ME [--out <file>] | frames (kshana lunar-oem --help)
     { "   " }或：kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }或：kshana corrections <decode --format <has|b2b|l6|l1s|qznma> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...] | qznma-verify [--frames <frames.txt>] [--nav <nav.txt>] --pubkey <key.der> ...>
     { "   " }或：kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
