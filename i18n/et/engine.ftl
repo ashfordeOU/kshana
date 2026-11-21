@@ -10575,7 +10575,7 @@ engine-main-usage =
     { "   " }või: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }või: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
     { "   " }või: kshana time-vectors [--json] [<vectors.json|dir> ...]
-    { "   " }või: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
+    { "   " }või: kshana corrections <decode --format <has|b2b|l6|l1s|qznma> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }või: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
     { "   " }või: kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
     { "   " }või: kshana orbit-data <check|convert|gp-compare|gp-audit|cov> ... (kshana orbit-data --help)
@@ -11496,11 +11496,11 @@ engine-e-interference-incidents-source-url-required = --source-url on kohustusli
 
 ## Correction decoders (src/corrections/)
 engine-e-corrections-bad-hex = pole kuueteistkümnendkaader: { $line }
-engine-e-corrections-unknown-decoder = tundmatu dekooder { $decoder } (has, b2b, l6)
+engine-e-corrections-unknown-decoder = tundmatu dekooder { $decoder } (has, b2b, l6, l1s, qznma)
 engine-e-corrections-bad-vector = vektoril { $id } puuduvad kuueteistkümnendkaadrid või expect-objekt
 engine-e-corrections-bad-file = { $file } ei ole { $format } dokument (vormingumärgis ja vectors-massiiv)
 engine-corrections-summary = { $n } vektorit: { $passed } läbis, { $failed } kukkus läbi
-engine-corrections-usage = kasutus: kshana corrections decode --format <has|b2b|l6> <frames.txt | -> | kshana corrections vectors [--json] [<vectors.json | dir> ...]  (üks kaader rea kohta kuueteistkümnendsüsteemis; docs/CORRECTION-DECODERS.md)
+engine-corrections-usage = kasutus: kshana corrections decode --format <has|b2b|l6|l1s|qznma> <frames.txt | -> | kshana corrections vectors [--json] [<vectors.json | dir> ...]  (üks kaader rea kohta kuueteistkümnendsüsteemis; docs/CORRECTION-DECODERS.md)
 
 ## src/space_weather_pnt/
 

@@ -10460,7 +10460,7 @@ engine-main-usage =
     { "   " }eller: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }eller: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
     { "   " }eller: kshana time-vectors [--json] [<vectors.json|dir> ...]
-    { "   " }eller: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
+    { "   " }eller: kshana corrections <decode --format <has|b2b|l6|l1s|qznma> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }eller: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
     { "   " }eller: kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
     { "   " }eller: kshana orbit-data <check|convert|gp-compare|gp-audit|cov> ... (kshana orbit-data --help)
@@ -11381,11 +11381,11 @@ engine-e-interference-incidents-source-url-required = --source-url krävs: varje
 
 ## Correction decoders (src/corrections/)
 engine-e-corrections-bad-hex = inte en hexadecimal ram: { $line }
-engine-e-corrections-unknown-decoder = okänd avkodare { $decoder } (has, b2b, l6)
+engine-e-corrections-unknown-decoder = okänd avkodare { $decoder } (has, b2b, l6, l1s, qznma)
 engine-e-corrections-bad-vector = vektor { $id } saknar hexadecimala ramar eller ett expect-objekt
 engine-e-corrections-bad-file = { $file } är inte ett { $format }-dokument (formatmärkning och en vectors-array)
 engine-corrections-summary = { $n } vektorer: { $passed } godkända, { $failed } underkända
-engine-corrections-usage = användning: kshana corrections decode --format <has|b2b|l6> <frames.txt | -> | kshana corrections vectors [--json] [<vectors.json | dir> ...]  (en ram per rad i hexadecimal form; docs/CORRECTION-DECODERS.md)
+engine-corrections-usage = användning: kshana corrections decode --format <has|b2b|l6|l1s|qznma> <frames.txt | -> | kshana corrections vectors [--json] [<vectors.json | dir> ...]  (en ram per rad i hexadecimal form; docs/CORRECTION-DECODERS.md)
 
 ## src/space_weather_pnt/
 

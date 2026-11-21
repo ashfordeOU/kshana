@@ -10793,7 +10793,7 @@ engine-main-usage =
     { "   " }o: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }o: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
     { "   " }o: kshana time-vectors [--json] [<vectors.json|dir> ...]
-    { "   " }o: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
+    { "   " }o: kshana corrections <decode --format <has|b2b|l6|l1s|qznma> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }o: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
     { "   " }o: kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
     { "   " }o: kshana orbit-data <check|convert|gp-compare|gp-audit|cov> ... (kshana orbit-data --help)
@@ -11719,11 +11719,11 @@ engine-e-interference-incidents-source-url-required = --source-url es obligatori
 
 ## Correction decoders (src/corrections/)
 engine-e-corrections-bad-hex = no es una trama hexadecimal: { $line }
-engine-e-corrections-unknown-decoder = decodificador desconocido { $decoder } (has, b2b, l6)
+engine-e-corrections-unknown-decoder = decodificador desconocido { $decoder } (has, b2b, l6, l1s, qznma)
 engine-e-corrections-bad-vector = al vector { $id } le faltan tramas hexadecimales o un objeto expect
 engine-e-corrections-bad-file = { $file } no es un documento { $format } (etiqueta de formato y un array vectors)
 engine-corrections-summary = { $n } vectores: { $passed } superados, { $failed } fallidos
-engine-corrections-usage = uso: kshana corrections decode --format <has|b2b|l6> <frames.txt | -> | kshana corrections vectors [--json] [<vectors.json | dir> ...]  (una trama por línea en hexadecimal; docs/CORRECTION-DECODERS.md)
+engine-corrections-usage = uso: kshana corrections decode --format <has|b2b|l6|l1s|qznma> <frames.txt | -> | kshana corrections vectors [--json] [<vectors.json | dir> ...]  (una trama por línea en hexadecimal; docs/CORRECTION-DECODERS.md)
 
 ## src/space_weather_pnt/
 
