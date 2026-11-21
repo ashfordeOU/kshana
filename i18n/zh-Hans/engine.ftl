@@ -10018,7 +10018,7 @@ engine-main-usage =
     { "   " }或：kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
     { "   " }或：kshana orbit-data <check|convert|gp-compare|gp-audit|cov> ... (kshana orbit-data --help)
     { "   " }或：kshana drone <prearm|prearm-calibrate|estimator-cases|dr-budget|quad-loss|failover|zonotope-pl> ... (kshana drone --help)
-    { "   " }或：kshana leo-verify <burst-timing|holdover-tdev|cost|indoor|rain-fade|rtk-ar|jam-claim|doppler-integrity> <input.json>
+    { "   " }或：kshana leo-verify <burst-timing|holdover-tdev|cost|indoor|rain-fade|rtk-ar|jam-claim|doppler-integrity|signal-claims> <input.json>
     { "   " }或：kshana sil-obs <generate|compare> ... (kshana sil-obs --help)
     { "   " }或：kshana interference-lib <models|generate|fit|bench|cases> ... (kshana interference-lib --help)
     { "   " }或：kshana antenna-cal <lint|spread|compare|group-delay|js-margin> ... (kshana antenna-cal --help)
@@ -11149,7 +11149,7 @@ engine-e-oscillator-field = { $field } 超出范围：{ $value }
 
 ## src/leo_verify/mod.rs
 
-engine-leo-verify-usage = 用法：kshana leo-verify <burst-timing|holdover-tdev|cost|indoor|rain-fade|rtk-ar|jam-claim|doppler-integrity> <input.json>（docs/LEO-VERIFY.md）
+engine-leo-verify-usage = 用法：kshana leo-verify <burst-timing|holdover-tdev|cost|indoor|rain-fade|rtk-ar|jam-claim|doppler-integrity|signal-claims> <input.json>（docs/LEO-VERIFY.md）
 
 engine-e-leo-verify-input = { $part } 输入无效：{ $e }
 
