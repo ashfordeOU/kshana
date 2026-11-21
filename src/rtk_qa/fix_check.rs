@@ -176,8 +176,8 @@ fn nmea_angle(v: &str, hemi: &str, deg_digits: usize) -> Option<f64> {
     if v.len() <= deg_digits {
         return None;
     }
-    let d: f64 = v[..deg_digits].parse().ok()?;
-    let m: f64 = v[deg_digits..].parse().ok()?;
+    let d: f64 = v.get(..deg_digits)?.parse().ok()?;
+    let m: f64 = v.get(deg_digits..)?.parse().ok()?;
     let x = d + m / 60.0;
     Some(if hemi == "S" || hemi == "W" { -x } else { x })
 }
@@ -201,9 +201,11 @@ pub fn parse_gga(text: &str) -> Result<Vec<SolEpoch>, String> {
         let (Some(lat), Some(lon)) = (nmea_angle(f[2], f[3], 2), nmea_angle(f[4], f[5], 3)) else {
             continue;
         };
-        let tod = f[1][..2].parse::<f64>().unwrap_or(0.0) * 3600.0
-            + f[1][2..4].parse::<f64>().unwrap_or(0.0) * 60.0
-            + f[1][4..].parse::<f64>().unwrap_or(0.0);
+        let part = |r: std::ops::Range<usize>| f[1].get(r).and_then(|x| x.parse::<f64>().ok());
+        let (Some(hh), Some(mm), Some(ss)) = (part(0..2), part(2..4), part(4..f[1].len())) else {
+            continue;
+        };
+        let tod = hh * 3600.0 + mm * 60.0 + ss;
         if tod < last {
             day += 86_400.0;
         }

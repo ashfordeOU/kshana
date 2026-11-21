@@ -10966,14 +10966,15 @@ engine-bench-cli-usage =
     použití: kshana bench spec
     { "   " }nebo: kshana bench truth --task a --data <extracted JammerTest 2024 dir> --split <dev|test|holdout|all> --out <truth.json>
     { "   " }nebo: kshana bench truth --task g --data <GSDC-layout train dir> --split <dev|test|holdout> --out <truth.json>
+    { "   " }nebo: kshana bench truth --task h --data <scripts/fetch_urbannav.sh dir> --split <dev|test> --out <truth.json>
     { "   " }nebo: kshana bench cases --task <c|d|f> --split <dev|test|holdout> --out <dir> [--data <dataset.csv>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
     { "   " }nebo: kshana bench score --truth <truth.json> --predictions <predictions.json> [--threshold <x>] [--out <result.json>]
-    { "   " }nebo: kshana bench baseline --task <a|b|c|d|e|f|g> --split <dev|test|holdout> --out <dir> [--data <dir>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
+    { "   " }nebo: kshana bench baseline --task <a|b|c|d|e|f|g|h> --split <dev|test|holdout> --out <dir> [--data <dir>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
     { "   " }nebo: kshana bench seal --task <a|b|c|d> --seed-file <file> [--new]
     { "   " }nebo: kshana bench reveal-check --task <a|b|c|d> --seed-file <file> --commitment <hex>
     { "   " }nebo: kshana bench manifest --task a --data <extracted dir> [--archive <tar.gz>] --out <manifest.json>
     { "   " }nebo: kshana bench verify-manifest <manifest.json> --root <dir>
-    { "   " }nebo: kshana bench positions --task g --split <dev|test|holdout> --csv <submission.csv> --name <system> [--version <v>] --out <predictions.json>
+    { "   " }nebo: kshana bench positions --task <g|h> --split <dev|test|holdout> --csv <submission.csv> --name <system> [--version <v>] --out <predictions.json>
     { "   " }nebo: kshana bench datasets [--json | --check [--root <repo>]]
     { "   " }nebo: kshana bench cite <result.json>...
     { "   " }nebo: kshana bench golden [--root <repo>] (--out <GOLDEN.json> | --check <GOLDEN.json>)
@@ -12064,6 +12065,7 @@ engine-bench-task-has-no-holdout = úloha ({ $task }) nemá rozdělení holdout:
 engine-bench-unknown-baseline = neznámá základní metoda `{ $name }`
 
 engine-bench-g-no-traces = v { $root } není žádný <drive>/<phone>/ground_truth.csv
+engine-bench-h-no-sequences = v { $root } není žádný <sequence>/ground_truth.txt
 
 engine-bench-g-no-object = chybí objekt stop `{ $key }`
 
@@ -12071,7 +12073,7 @@ engine-bench-g-bad-epoch = stopa `{ $id }`: každá epocha musí být [UnixTimeM
 
 engine-bench-f-dataset-mismatch = { $path }: SHA-256 { $got } není připnutý dataset.csv úlohy (f); stáhněte jej skriptem scripts/fetch_opssat_ad.sh
 
-engine-bench-cli-unknown-task-g = neznámá úloha `{ $t }` (a až g)
+engine-bench-cli-unknown-task-h = neznámá úloha `{ $t }` (a až h)
 
 engine-bench-cli-wrote-predictions = zapsáno { $path } (stop: { $traces })
 
