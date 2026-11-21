@@ -30,7 +30,8 @@ data stated in section 3.
 ## 2. Versioning
 
 `SPEC_VERSION` is `kshana-bench/2.0.0` for tasks a to d; task (e), added as a minor version, is scored under
-`kshana-bench/2.1.0`; tasks (f) and (g), added together as a minor version, are scored under `kshana-bench/2.2.0`.
+`kshana-bench/2.1.0`; tasks (f) and (g), added together as a minor version, are scored under `kshana-bench/2.2.0`;
+task (h), added as a minor version, is scored under `kshana-bench/2.3.0`.
 A change to a metric, a split rule or a truth rule is a new major
 version, and results from different major versions are never put in one table. Adding a baseline, a manifest
 entry or a task is a minor version. A result file carries the spec version it was scored under.
@@ -169,6 +170,30 @@ The metric of the Google Smartphone Decimeter Challenge, continued on data laid 
 - **Splits:** the section 4 rule over traces, one stratum.
 - **Baseline:** `provided-wls`, the weighted-least-squares fix each trace's `device_gnss.csv` already carries, at the
   nearest epoch. No baseline number is published: no copy of the data has been scored here.
+
+### Task (h): urban positioning accuracy (added in 2.3.0)
+
+The metric of task (g) on the UrbanNav Hong Kong sequences, whose raw RINEX lets a method be scored from the
+measurements up. Pre-registered in `xval/bench-h/PREREGISTRATION.md`; the first scores are in `xval/bench-h/RESULTS.md`.
+
+- **Data:** UrbanNav (IPNL, The Hong Kong Polytechnic University; MIT, as its README states it for the dataset files),
+  sequences `medium-urban-1`, `deep-urban-1`, `harsh-urban-1` and `tunnel-1`, receivers `ublox-f9p` and `xiaomi-mi8`,
+  with the day's IGS BRDC broadcast navigation. `scripts/fetch_urbannav.sh <dir>` lays them out as
+  `<sequence>/{ground_truth.txt, <receiver>.obs, <receiver>.nmea, nav.rnx}` and checks every file's SHA-256. Never
+  committed.
+- **Unit:** one ground-truth epoch (1 Hz) of one trace (`<sequence>/<receiver>`), keyed by Unix milliseconds (the
+  file's UTCTime column).
+- **Truth:** the sequence's reference latitude and longitude (NovAtel SPAN-CPT, as the publisher states it), shared by
+  the receivers of the sequence. The reference's own error is not removed.
+- **Submission:** as task (g); `kshana bench positions --task h` converts a CSV whose `tripId` is the trace id.
+- **Metrics:** as task (g); primary `gsdc_score_m`, lower is better.
+- **Splits:** per sequence, so a sequence's receivers share one split: sorted by the lowercase hex SHA-256 of the
+  sequence name, the first half (rounded up) are `test` and the rest `dev`. **No holdout:** the truth is public, and
+  `--split holdout` is refused.
+- **Baselines:** `provided-nmea`, each receiver's own GGA fix at the nearest epoch; `kshana-spp`, the engine's code
+  single-point solution (`src/pvt.rs`) from the receiver's RINEX and the broadcast navigation, single frequency with
+  the Klobuchar model, in two passes that do not use the truth (no elevation mask from the Earth's centre, then a 10°
+  mask from the median of the first pass), at the nearest epoch.
 
 ## 4. Splits and the sealed holdout
 
