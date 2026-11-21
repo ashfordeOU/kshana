@@ -16,6 +16,7 @@ kshana leo-verify rain-fade         examples/leo-verify/rain-fade.json
 kshana leo-verify rtk-ar            examples/leo-verify/rtk-ar.json
 kshana leo-verify jam-claim         examples/leo-verify/jam-claim.json
 kshana leo-verify doppler-integrity examples/leo-verify/doppler-integrity-arctic.json
+kshana leo-verify signal-claims     examples/leo-verify/signal-claims.json
 ```
 
 Each prints one JSON report (`part`, `label`, `result`) to standard output and writes no file. The tools are
@@ -139,6 +140,44 @@ To compare two LEO-PNT systems neutrally, run the same `doppler-integrity`, `bur
 `rain-fade` inputs with each system's published parameters, the same site list (include a polar site), the same
 noise assumptions, and report every input file next to the results. A comparison that changes inputs between
 systems is not a comparison.
+
+## signal-claims: published figures against orbit and link physics
+
+A LEO-PNT service is described in papers, filings and web pages with figures: a Doppler range, a Doppler rate, a
+pass geometry, a received-power advantage over GPS. `signal-claims` takes each such figure with its source and
+recomputes it from what the same publications state about the orbit (circular: altitude, inclination, the Earth
+radius they use) and, for power, from the received-power intervals they cite. The tolerance of each claim is part of
+the input, fixed before the run; a row is `consistent` or `not_consistent` with the stated figure (`within` /
+`outside` for an interval; for a power advantage, `reached_like_for_like`, `reached_only_at_the_extremes` or
+`not_reached_with_cited_powers`). A row says nothing about whether a service performs: only whether its published
+figures agree with each other and with orbit physics.
+
+| check | computed from |
+|---|---|
+| `orbital_period_min`, `orbital_speed_m_s` | Kepler, WGS 84 `GM` |
+| `max_relative_speed_m_s`, `max_doppler_hz`, `max_doppler_rate_hz_s` | the largest line-of-sight speed (or its rate of change) for a static user on a spherical Earth rotating at the WGS 84 rate, above the elevation mask: a grid search over orbit position, user latitude and longitude, refined from the eight best grid points |
+| `max_doppler_ratio`, `max_doppler_rate_ratio` | the same for the system and a reference orbit |
+| `horizon_slant_range_km` | `√(r² − R²)`; the ground arc is reported beside it |
+| `altitude_ratio` | reference altitude over the system's |
+| `spreading_loss_db` | `−10 log10(4π d²)` from the zenith to the mask |
+| `spreading_advantage` | a reference orbit's spreading loss over the system's, at equal elevation and over any pair of elevations (spreading only) |
+| `power_advantage` | cited minimum and maximum received powers of the system and of the reference signal |
+
+The example file reproduces one peer-reviewed source, J. Leclère, T. Marathe and T. G. R. Reid, *Insights into Xona
+Pulsar LEO PNT: Constellation, Signals, and Receiver Design*, ION GNSS+ 2025, arXiv:2509.19551:
+
+- Every orbital figure of the paper's Table 1 (periods, speeds, largest relative speeds, largest Doppler on both
+  carriers for the IOV, polar, inclined and GPS orbits), the horizon ranges of section 2.2 and the 230 and 172 Hz/s
+  Doppler rates of section 6.2 follow from its orbits within 0.2 % (1 % for the rounded rates). Its "footprint radius"
+  of 3,864 km is the slant range to the horizon; the ground arc is 3,473 km.
+- Its "about 250 times" Doppler-rate ratio to GPS (section 2.2) does not: with its own GPS orbit the ratio is about 316.
+
+The altitude-ratio, spreading and power checks are shown on an illustrative system whose figures are made up for the
+example and marked so; they are no operator's statement. Its three power claims show the three outcomes: 50 times
+reached like for like, 150 times only from the system maximum to the reference minimum, 1,000 times not reached.
+
+Add a system by adding its orbit and its published figures with their sources; a figure without a source does not
+belong in the file.
 
 ## Not covered here
 
