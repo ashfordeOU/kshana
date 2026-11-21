@@ -325,6 +325,18 @@
    "count": 37,
    "reason": "kshana.osnma-scenario/1 field names, values and constraint expressions substituted into the translated e-osnma-scenario-field message; the run report is a machine document (JSON keys and status names)"
   },
+  "src/osnma/vectors/gen.rs": {
+   "count": 1,
+   "reason": "machine-input: the header comment of a generated synthetic page file"
+  },
+  "src/osnma/vectors/mod.rs": {
+   "count": 52,
+   "reason": "machine-document: the manifest, bar file and result document of the open OSNMA vector set (English by design, like `kshana osnma verify --json`), and the set scope statement"
+  },
+  "src/osnma/vectors/set_v1.rs": {
+   "count": 174,
+   "reason": "data: vector ids, titles, ICD/Receiver Guidelines citations and bar keys of the published machine-readable vector set"
+  },
   "src/product_register.rs": {
    "count": 7,
    "reason": "identifier: the register option names (--crl-key, ...), the field names a date check reports (revalidate_by, next_update, ...), and the tab-separated column header of the text view"

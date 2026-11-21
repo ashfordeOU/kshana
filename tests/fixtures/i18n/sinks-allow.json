@@ -97,6 +97,14 @@
    "count": 8,
    "reason": "identifier: field paths and value constraints of kshana.osnma-scenario/1 (field names, enumerated values, ranges) substituted into the translated e-osnma-scenario-field message"
   },
+  "src/osnma/vectors/gen.rs": {
+   "count": 1,
+   "reason": "machine-input: the header comment of a generated synthetic page file"
+  },
+  "src/osnma/vectors/mod.rs": {
+   "count": 4,
+   "reason": "format strings that join catalogue messages with the advisory; the text itself comes from the catalogue"
+  },
   "src/product_register.rs": {
    "count": 1,
    "reason": "identifier: the tab-separated column header of the text view (column identifiers of a machine-readable table)"
