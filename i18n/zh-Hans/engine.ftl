@@ -10056,7 +10056,7 @@ engine-main-usage =
     { "   " }或：kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }或：kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
     { "   " }或：kshana space-receiver <clock|timestamps|dynamics|bench|mms|od-vs-tle> ... [--out <file.json>] (kshana space-receiver --help)
-    { "   " }或：kshana feed <pack|verify|send|spectrum|leaderboard> ... (kshana feed --help)
+    { "   " }或：kshana feed <pack|verify|send|spectrum|leaderboard|watch> ... (kshana feed --help)
     { "   " }或：kshana register-products <verify|show|diff> ... (kshana register-products --help)
     { "   " }或：kshana register <check|crl-check|view|sign> ... (kshana register --help)
     { "   " }或：kshana interference-env <evaluate|thresholds|degradation> ... (kshana interference-env --help)
@@ -11269,7 +11269,10 @@ engine-bench-site-col-p50 = P50 总体 (m)
 engine-bench-site-col-p95 = P95 总体 (m)
 
 ## Feeder clients (src/feeder.rs, docs/FEEDER.md)
-engine-feed-usage = 用法：kshana feed pack <file.obs.jsonl|dir>... --key <keyfile> [--privacy public|exact] [--grid-deg <deg>] [--created <time>] [--include-open] [--out <bundle.json>] | verify <bundle.json> [--pubkey <hex>] [--json] | send <bundle.json> --url <http://host:port/path> [--token-file <file>] | spectrum <capture> --format cu8|ci8|ci16_le --rate <Hz> --centre <Hz> --station <station.toml> [--front-end <name>] [--nfft <n>] [--bins <n>] [--max-samples <n>] [--time <label>] [--out <file.obs.jsonl>] | leaderboard <bundle.json>... [--json]  (docs/FEEDER.md)
+engine-feed-usage = 用法：kshana feed pack <file.obs.jsonl|dir>... --key <keyfile> [--privacy public|exact] [--grid-deg <deg>] [--created <time>] [--include-open] [--out <bundle.json>] | verify <bundle.json> [--pubkey <hex>] [--json] | send <bundle.json> --url <http://host:port/path> [--token-file <file>] | spectrum <capture> --format cu8|ci8|ci16_le --rate <Hz> --centre <Hz> --station <station.toml> [--front-end <name>] [--nfft <n>] [--bins <n>] [--max-samples <n>] [--time <label>] [--out <file.obs.jsonl>] | leaderboard <bundle.json>... [--json] | watch <dir|file>... --key <keyfile> --spool <dir> [--url <http://host:port/path>] [--token-file <file>] [--interval-s <s>] [--privacy public|exact] [--grid-deg <deg>] [--include-open] [--once]  (docs/FEEDER.md)
+engine-e-feed-bad-spool = { $path }：不是 kshana.feed-spool/1 状态（{ $e }）
+engine-e-feed-http-only = { $url }：仅支持 http:// 地址（引擎没有 TLS 客户端；请在收集端前放置 TLS 隧道）
+engine-feed-watch-cycle = feed watch：{ $files } 个文件打包为 { $bundles } 个数据包，已发送 { $sent } 个，被拒绝 { $rejected } 个，等待 { $pending } 个
 engine-feed-packed = { $out }：站 { $station } 的数据包，{ $files } 个文件，{ $epochs } 个历元，隐私模式 { $mode }
 engine-feed-verified = { $path }：签名有效（签名者 { $key }）；站 { $station }，{ $files } 个文件，{ $epochs } 个历元，每个文件均为有效的 kshana.obs/1
 engine-feed-sent = 已发送到 { $url }：HTTP { $code }

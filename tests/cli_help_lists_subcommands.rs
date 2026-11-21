@@ -62,7 +62,7 @@ fn the_top_level_usage_names_every_subcommand() {
         "orbit-data",
         "leo-verify",
         "datasets|cite|golden",
-        "feed <pack|verify|send|spectrum|leaderboard>",
+        "feed <pack|verify|send|spectrum|leaderboard|watch>",
         "register <check|crl-check|view|sign>",
         "interference-env <evaluate|thresholds|degradation>",
         "signal-readiness <profile.toml>",

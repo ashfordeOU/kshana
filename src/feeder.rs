@@ -794,7 +794,7 @@ pub fn collect_inputs(path: &Path, include_open: bool) -> Result<Vec<PathBuf>, S
     Ok(out)
 }
 
-fn read_text(path: &str) -> Result<String, String> {
+pub(crate) fn read_text(path: &str) -> Result<String, String> {
     std::fs::read_to_string(path)
         .map_err(|e| crate::terr!("e-feed-cannot-read", path = path, e = e.to_string()))
 }
@@ -810,13 +810,17 @@ fn write_or_print(out: Option<&String>, text: &str) -> Result<(), String> {
     }
 }
 
-struct Args {
-    pos: Vec<String>,
-    opts: BTreeMap<String, String>,
-    flags: BTreeSet<String>,
+pub(crate) struct Args {
+    pub(crate) pos: Vec<String>,
+    pub(crate) opts: BTreeMap<String, String>,
+    pub(crate) flags: BTreeSet<String>,
 }
 
-fn parse_args(args: &[String], valued: &[&str], switches: &[&str]) -> Result<Args, String> {
+pub(crate) fn parse_args(
+    args: &[String],
+    valued: &[&str],
+    switches: &[&str],
+) -> Result<Args, String> {
     let mut a = Args {
         pos: Vec::new(),
         opts: BTreeMap::new(),
@@ -840,7 +844,7 @@ fn parse_args(args: &[String], valued: &[&str], switches: &[&str]) -> Result<Arg
     Ok(a)
 }
 
-fn num<T: std::str::FromStr>(a: &Args, opt: &str, default: T) -> Result<T, String> {
+pub(crate) fn num<T: std::str::FromStr>(a: &Args, opt: &str, default: T) -> Result<T, String> {
     match a.opts.get(opt) {
         None => Ok(default),
         Some(v) => v.parse().map_err(|_| {
@@ -853,7 +857,7 @@ fn num<T: std::str::FromStr>(a: &Args, opt: &str, default: T) -> Result<T, Strin
     }
 }
 
-/// `kshana feed <pack|verify|send|spectrum|leaderboard> ...`.
+/// `kshana feed <pack|verify|send|spectrum|leaderboard|watch> ...`.
 pub fn run(args: &[String]) -> Result<(), String> {
     let usage = || crate::t!("feed-usage");
     let Some((cmd, rest)) = args.split_first() else {
@@ -1029,6 +1033,7 @@ pub fn run(args: &[String]) -> Result<(), String> {
             }
             Ok(())
         }
+        "watch" => crate::feeder_watch::run(rest),
         "leaderboard" => {
             let a = parse_args(rest, &[], &["--json"])?;
             if a.pos.is_empty() {

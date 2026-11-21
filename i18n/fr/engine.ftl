@@ -10921,7 +10921,7 @@ engine-main-usage =
     { "   " }ou : kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }ou : kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
     { "   " }ou : kshana space-receiver <clock|timestamps|dynamics|bench|mms|od-vs-tle> ... [--out <file.json>] (kshana space-receiver --help)
-    { "   " }ou : kshana feed <pack|verify|send|spectrum|leaderboard> ... (kshana feed --help)
+    { "   " }ou : kshana feed <pack|verify|send|spectrum|leaderboard|watch> ... (kshana feed --help)
     { "   " }ou : kshana register-products <verify|show|diff> ... (kshana register-products --help)
     { "   " }ou : kshana register <check|crl-check|view|sign> ... (kshana register --help)
     { "   " }ou : kshana interference-env <evaluate|thresholds|degradation> ... (kshana interference-env --help)
@@ -12140,7 +12140,10 @@ engine-bench-site-col-p50 = P50 global (m)
 engine-bench-site-col-p95 = P95 global (m)
 
 ## Feeder clients (src/feeder.rs, docs/FEEDER.md)
-engine-feed-usage = utilisation : kshana feed pack <file.obs.jsonl|dir>... --key <keyfile> [--privacy public|exact] [--grid-deg <deg>] [--created <time>] [--include-open] [--out <bundle.json>] | verify <bundle.json> [--pubkey <hex>] [--json] | send <bundle.json> --url <http://host:port/path> [--token-file <file>] | spectrum <capture> --format cu8|ci8|ci16_le --rate <Hz> --centre <Hz> --station <station.toml> [--front-end <name>] [--nfft <n>] [--bins <n>] [--max-samples <n>] [--time <label>] [--out <file.obs.jsonl>] | leaderboard <bundle.json>... [--json]  (docs/FEEDER.md)
+engine-feed-usage = utilisation : kshana feed pack <file.obs.jsonl|dir>... --key <keyfile> [--privacy public|exact] [--grid-deg <deg>] [--created <time>] [--include-open] [--out <bundle.json>] | verify <bundle.json> [--pubkey <hex>] [--json] | send <bundle.json> --url <http://host:port/path> [--token-file <file>] | spectrum <capture> --format cu8|ci8|ci16_le --rate <Hz> --centre <Hz> --station <station.toml> [--front-end <name>] [--nfft <n>] [--bins <n>] [--max-samples <n>] [--time <label>] [--out <file.obs.jsonl>] | leaderboard <bundle.json>... [--json] | watch <dir|file>... --key <keyfile> --spool <dir> [--url <http://host:port/path>] [--token-file <file>] [--interval-s <s>] [--privacy public|exact] [--grid-deg <deg>] [--include-open] [--once]  (docs/FEEDER.md)
+engine-e-feed-bad-spool = { $path } : pas un état kshana.feed-spool/1 ({ $e })
+engine-e-feed-http-only = { $url } : seules les adresses http:// sont prises en charge (le moteur n’a pas de client TLS ; placez un tunnel TLS devant le collecteur)
+engine-feed-watch-cycle = feed watch : { $files } fichiers empaquetés en { $bundles } paquets, { $sent } envoyés, { $rejected } refusés, { $pending } en attente
 engine-feed-packed = { $out } : lot pour la station { $station }, { $files } fichiers, { $epochs } époques, confidentialité { $mode }
 engine-feed-verified = { $path } : la signature est valide (signataire { $key }) ; station { $station }, { $files } fichiers, { $epochs } époques, chaque fichier est un kshana.obs/1 valide
 engine-feed-sent = envoyé à { $url } : HTTP { $code }
