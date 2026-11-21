@@ -5143,6 +5143,7 @@ engine-e-orbit-rinex-block-parsed-but-contained = blok RINEX byl zpracován, ale
 engine-e-orbit-user-site-lat-deg-must = user_site: lat_deg musí ležet v [-90, 90] a každé pole musí být konečné
 
 engine-e-orbit-no-satellites-to-export = žádné družice k exportu
+engine-e-orbit-too-many-satellites-for-sp3 = { $n } družic se nevejde do souboru SP3-c (nejvýše { $max }); exportujte méně nebo použijte export OEM
 
 engine-e-orbit-time-step-must-be-positive = time.step_s musí být pro export SP3 kladné
 
