@@ -150,9 +150,9 @@ def main():
         "consistency": [{"from": m, "to": n, "path": [hx(p) for p in subproof(m, rl[:n], True)]}
                         for n in range(1, 9) for m in range(1, n + 1)]})
     # Key history: key 0 from 2026-01-01, rotated to key 1 on 2026-11-01, endorsed by key 0.
-    r0 = {"format": FORMAT_KEYS, "seq": 0, "key_id": "kid-log-0", "algorithm": "ed25519", "public_key": pk0,
+    r0 = {"format": FORMAT_KEYS, "seq": 0, "key_id": "kid-log-0", "algorithm": "Ed25519", "public_key": pk0,
           "not_before": "2026-01-01T00:00:00Z", "previous_key_id": None, "previous_record_sha256": "0" * 64}
-    r1 = {"format": FORMAT_KEYS, "seq": 1, "key_id": "kid-log-1", "algorithm": "ed25519", "public_key": pk1,
+    r1 = {"format": FORMAT_KEYS, "seq": 1, "key_id": "kid-log-1", "algorithm": "Ed25519", "public_key": pk1,
           "not_before": "2026-11-01T00:00:00Z", "previous_key_id": "kid-log-0",
           "previous_record_sha256": hx(H(canon(r0)))}
     endorse = canon({"format": FORMAT_KEYS, "next_key_id": "kid-log-1", "next_public_key": pk1, "previous_key_id": "kid-log-0"})
