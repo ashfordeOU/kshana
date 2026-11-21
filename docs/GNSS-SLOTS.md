@@ -66,6 +66,22 @@ Left out, and why (each file lists its own omissions):
 - The QZSS semi-major axis (42,165 km in the source) is replaced by the geosynchronous radius above, and
   its right ascensions (given at different epochs) by the centre longitudes.
 
+## A published figure, compared
+
+The QZSS operator's overview (qzss.go.jp, Technology, Orbit, read 2026-11-21) states that one QZO satellite
+seen from the area near Tokyo stays about 8 h a day at 70° elevation or more, 12 h at 50° or more and 16 h at
+20° or more. The nominal slots give, from Tokyo (35.68°N, 139.69°E):
+
+| QZS2 | ≥ 70° | ≥ 50° | ≥ 20° |
+|---|---|---|---|
+| published (one QZO, near Tokyo) | about 8 h | about 12 h | about 16 h |
+| `qzss-ps-005` (centre 140°E) | 9.13 h | 12.70 h | 17.99 h |
+| `qzss-six-satellite` (centre 147°E) | 8.85 h | 12.59 h | 17.90 h |
+
+The model is longer at every threshold, by 0.6 to 2.0 h. The gap is reported, not tuned: the published
+figures are rounded, the place and the satellite are not stated exactly, and the slots are two-body nominal
+orbits without perturbations. `tests/gnss_slots.rs` pins the computed hours and records the published ones.
+
 ## Tests
 
 `tests/gnss_slots.rs`: an IGSO track is a figure eight whose latitude extent is the inclination, whose
