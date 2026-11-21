@@ -10724,12 +10724,12 @@ engine-e-sil-obs-unknown-system = système inconnu { $value } (G ou E)
 engine-e-sil-obs-bad-canyon = le canyon demande une largeur positive, un décalage d’antenne à l’intérieur de la rue, une perte de réflexion d’au moins 1 dB et des valeurs finies
 
 ## Interference model library (src/interference_lib.rs)
-engine-interference-lib-usage = utilisation : kshana interference-lib models | generate --class <none|cw|narrowband|wideband|chirp|pulsed> [--centre-hz <f>] [--bandwidth-hz <b>] [--period-s <t>] [--pulse-width-s <w>] [--jnr-db <j>] [--drift-hz-per-s <r>] [--triangle] [--fs <hz>] [--samples <n>] [--seed <s>] --out <base> | fit <recording.sigmf-meta> [--out <fit.json>] | bench [--per-class <n>] [--seed <s>] [--predictions <ids.csv>] [--out <bench.json>] | cases [--per-class <n>] [--seed <s>] [--out <cases.csv>]  (docs/INTERFERENCE-LIB.md)
+engine-interference-lib-usage = utilisation : kshana interference-lib models | generate --class <none|cw|narrowband|wideband|chirp|pulsed|multitone|fm_tone> [--centre-hz <f>] [--bandwidth-hz <b>] [--period-s <t>] [--pulse-width-s <w>] [--jnr-db <j>] [--drift-hz-per-s <r>] [--triangle] [--tones-hz <f1,f2,...>] [--deviation-hz <d>] [--mod-freq-hz <m>] [--fs <hz>] [--samples <n>] [--seed <s>] --out <base> | fit <recording.sigmf-meta> [--out <fit.json>] | bench [--per-class <n>] [--seed <s>] [--predictions <ids.csv>] [--out <bench.json>] | cases [--per-class <n>] [--seed <s>] [--out <cases.csv>]  (docs/INTERFERENCE-LIB.md)
 engine-interference-lib-written = écrit { $path } ({ $n } échantillons, interférence synthétique MODELLED)
 engine-e-interference-lib-missing-value = { $option } exige une valeur
 engine-e-interference-lib-unknown-option = option inconnue { $option } (kshana interference-lib --help liste les options)
 engine-e-interference-lib-bad-number = { $option } attend un nombre fini, pas { $value }
-engine-e-interference-lib-unknown-class = classe d’interférence inconnue { $value } (none, cw, narrowband, wideband, chirp ou pulsed)
+engine-e-interference-lib-unknown-class = classe d’interférence inconnue { $value } (none, cw, narrowband, wideband, chirp, pulsed, multitone ou fm_tone)
 engine-e-interference-lib-bad-size = la fréquence d’échantillonnage doit être positive et l’enregistrement une puissance de deux de 1024 à 16777216 échantillons (bench : 1 à 1000 cas par classe)
 engine-e-interference-lib-cannot-read = impossible de lire { $path } : { $e }
 engine-e-interference-lib-cannot-write = impossible d'écrire { $path } : { $e }
