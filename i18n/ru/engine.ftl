@@ -10964,6 +10964,14 @@ engine-e-sil-obsgen-cannot-read = не удаётся прочитать { $path
 engine-e-sil-obsgen-cannot-write = не удаётся записать { $path }: { $e }
 engine-e-sil-obsgen-bad-scenario = это не сценарий gnss-sim с необязательными таблицами [urban] и [rinex]: { $e }
 
+## Probability of collision, Foster 2D (src/orbit_data/pc.rs)
+engine-e-orbit-data-pc-radius = --hbr требует суммарный радиус тел в метрах, положительное число
+engine-e-orbit-data-pc-no-relative-velocity = у двух объектов одинаковая скорость: плоскости сближения нет
+engine-e-orbit-data-pc-not-positive-definite = суммарная ковариация, спроецированная на плоскость сближения, не положительно определена (меньшее собственное значение { $lambda } м²)
+engine-e-orbit-data-pc-not-finite = значение состояния или ковариации не является конечным числом
+engine-e-orbit-data-pc-missing-data = в CDM нет двух объектов, у каждого из которых есть состояние (X–Z_DOT) и ковариация RTN (CR_R–CNDOT_NDOT)
+engine-e-orbit-data-pc-frame-mismatch = REF_FRAME двух объектов различаются ({ $a } и { $b }); для Pc оба состояния должны быть в одной системе
+
 engine-main-usage =
     использование: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }или: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -12119,6 +12127,7 @@ engine-orbit-data-usage =
     { "   " }или: kshana orbit-data gp-compare <a.tle> <b.tle> [--hours <h>] [--step-min <min>] [--threshold-km <km>] [--json]
     { "   " }или: kshana orbit-data gp-audit <sets.tle> ... [--at <epoch>] [--stale-days <d>] [--jump-km <km>] [--json]
     { "   " }или: kshana orbit-data cov <check|propagate|monte-carlo|synthetic|realism> <input.json> [--dt-s <s>] [--step-s <s>] [--samples <n>] [--seed <n>] [--sigma-rtn <r,t,n,rdot,tdot,ndot>] [--full]
+    { "   " }или: kshana orbit-data pc <cdm> --hbr <m> [--aliases <map.json>] [--cdm-out <file>]
     { "   " }(docs/ORBIT-DATA.md)
 engine-e-orbit-data-unknown-message = { $path } не является ни CDM, ни OEM (KVN), ни OCM: нет строки CCSDS_CDM_VERS, CCSDS_OEM_VERS или CCSDS_OCM_VERS и корня <cdm> или <ocm>
 engine-e-orbit-data-bad-flag = { $flag } { $value }: непригодное значение

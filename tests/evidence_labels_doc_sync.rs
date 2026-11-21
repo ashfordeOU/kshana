@@ -293,6 +293,7 @@ const LABELLED_WRITERS: &[&str] = &[
 /// labelled (and moved to the list above) or added here with its reason; the scan below fails otherwise, and fails on a
 /// stale entry.
 const UNLABELLED_WRITERS: &[(&str, &str)] = &[
+    ("src/orbit_data/cli.rs", "writes a CCSDS CDM (`orbit-data pc --cdm-out`): a standard message whose keywords are fixed; the computed COLLISION_PROBABILITY is labelled MODELLED in a COMMENT"),
     ("src/altpnt/terrain.rs", "writes only in a unit test (a temporary grid)"),
     ("src/bench/cite.rs", "writes only in a unit test (a temporary tree of frozen files for the golden-index check)"),
     ("src/connect_timing.rs", "writes only the expected output of a timing conformance vector under `connect timing check --bless`; a test fixture, no result file"),

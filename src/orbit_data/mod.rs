@@ -30,6 +30,7 @@ pub mod convert;
 pub mod covariance;
 pub mod ephem;
 pub mod gp_quality;
+pub mod pc;
 
 use serde::Serialize;
 

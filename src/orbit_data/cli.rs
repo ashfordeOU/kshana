@@ -422,6 +422,35 @@ fn cov_cmd(args: &[String]) -> Result<u8, String> {
     Ok(code)
 }
 
+/// `kshana orbit-data pc <cdm> --hbr <m> [--aliases <map.json>] [--cdm-out <file>]`: the Foster
+/// 2D probability of collision of the CDM's two objects (src/orbit_data/pc.rs).
+fn pc_cmd(args: &[String]) -> Result<u8, String> {
+    let a = parse_args(args, &["--hbr", "--aliases", "--cdm-out"], &[])?;
+    let [path] = a.pos.as_slice() else {
+        return Err(usage());
+    };
+    let hbr = a.num("--hbr", f64::NAN)?;
+    let (m, _) = cdm::validate(&read(path)?, &aliases(&a)?);
+    let (p, frame) = super::pc::from_cdm(&m, hbr).map_err(|e| e.to_string())?;
+    if let Some(out) = a.vals.get("--cdm-out") {
+        std::fs::write(out, super::pc::with_pc(&m, &p).to_kvn())
+            .map_err(|e| format!("{out}: {e}"))?;
+    }
+    let out = json!({
+        "schema": "kshana.conjunction-pc/1",
+        "evidence": "MODELLED",
+        "input": path,
+        "ref_frame": frame,
+        "result": p,
+        "note": "Foster and Estes (1992) two-dimensional encounter-plane Pc with a circular combined hard-body radius: short-term encounter, Gaussian position errors, velocity uncertainty neglected",
+    });
+    println!(
+        "{}",
+        serde_json::to_string_pretty(&out).map_err(|e| e.to_string())?
+    );
+    Ok(0)
+}
+
 /// Run `kshana orbit-data <args>`; returns the exit status (0 clean, 1 findings) or an error.
 pub fn run(args: &[String]) -> Result<u8, String> {
     let Some((cmd, rest)) = args.split_first() else {
@@ -437,6 +466,7 @@ pub fn run(args: &[String]) -> Result<u8, String> {
         "gp-compare" => gp_compare(rest),
         "gp-audit" => gp_audit(rest),
         "cov" => cov_cmd(rest),
+        "pc" => pc_cmd(rest),
         _ => Err(usage()),
     }
 }

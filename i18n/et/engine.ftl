@@ -10741,6 +10741,14 @@ engine-e-sil-obsgen-cannot-read = faili { $path } ei saa lugeda: { $e }
 engine-e-sil-obsgen-cannot-write = faili { $path } ei saa kirjutada: { $e }
 engine-e-sil-obsgen-bad-scenario = ei ole gnss-sim stsenaarium valikuliste tabelitega [urban] ja [rinex]: { $e }
 
+## Probability of collision, Foster 2D (src/orbit_data/pc.rs)
+engine-e-orbit-data-pc-radius = --hbr vajab ühendatud kõva keha raadiust meetrites, positiivset arvu
+engine-e-orbit-data-pc-no-relative-velocity = kahel objektil on sama kiirus: kohtumistasandit ei ole
+engine-e-orbit-data-pc-not-positive-definite = kohtumistasandile projitseeritud ühendkovariatsioon ei ole positiivselt määratud (väiksem omaväärtus { $lambda } m²)
+engine-e-orbit-data-pc-not-finite = oleku- või kovariatsiooniväärtus ei ole lõplik arv
+engine-e-orbit-data-pc-missing-data = CDM ei sisalda kahte objekti, millest kummalgi on olek (X kuni Z_DOT) ja RTN-kovariatsioon (CR_R kuni CNDOT_NDOT)
+engine-e-orbit-data-pc-frame-mismatch = kahe objekti REF_FRAME erinevad ({ $a } ja { $b }); Pc vajab mõlemat olekut samas süsteemis
+
 engine-main-usage =
     kasutus: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }või: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -11889,6 +11897,7 @@ engine-orbit-data-usage =
     { "   " }või: kshana orbit-data gp-compare <a.tle> <b.tle> [--hours <h>] [--step-min <min>] [--threshold-km <km>] [--json]
     { "   " }või: kshana orbit-data gp-audit <sets.tle> ... [--at <epoch>] [--stale-days <d>] [--jump-km <km>] [--json]
     { "   " }või: kshana orbit-data cov <check|propagate|monte-carlo|synthetic|realism> <input.json> [--dt-s <s>] [--step-s <s>] [--samples <n>] [--seed <n>] [--sigma-rtn <r,t,n,rdot,tdot,ndot>] [--full]
+    { "   " }või: kshana orbit-data pc <cdm> --hbr <m> [--aliases <map.json>] [--cdm-out <file>]
     { "   " }(docs/ORBIT-DATA.md)
 engine-e-orbit-data-unknown-message = { $path } ei ole CDM, OEM (KVN) ega OCM: puudub rida CCSDS_CDM_VERS, CCSDS_OEM_VERS või CCSDS_OCM_VERS ning juur <cdm> või <ocm>
 engine-e-orbit-data-bad-flag = { $flag } { $value }: kasutamiskõlbmatu väärtus

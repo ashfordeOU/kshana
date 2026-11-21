@@ -10747,6 +10747,14 @@ engine-e-sil-obsgen-cannot-read = nelze číst { $path }: { $e }
 engine-e-sil-obsgen-cannot-write = nelze zapsat { $path }: { $e }
 engine-e-sil-obsgen-bad-scenario = není scénář gnss-sim s volitelnými tabulkami [urban] a [rinex]: { $e }
 
+## Probability of collision, Foster 2D (src/orbit_data/pc.rs)
+engine-e-orbit-data-pc-radius = --hbr vyžaduje kombinovaný poloměr tělesa v metrech, kladné číslo
+engine-e-orbit-data-pc-no-relative-velocity = oba objekty mají stejnou rychlost: rovina setkání neexistuje
+engine-e-orbit-data-pc-not-positive-definite = kombinovaná kovariance promítnutá do roviny setkání není pozitivně definitní (menší vlastní číslo { $lambda } m²)
+engine-e-orbit-data-pc-not-finite = hodnota stavu nebo kovariance není konečné číslo
+engine-e-orbit-data-pc-missing-data = CDM neobsahuje dva objekty, každý se stavem (X až Z_DOT) a kovariancí RTN (CR_R až CNDOT_NDOT)
+engine-e-orbit-data-pc-frame-mismatch = REF_FRAME obou objektů se liší ({ $a } a { $b }); Pc vyžaduje oba stavy v jednom systému
+
 engine-main-usage =
     použití: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }nebo: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -11967,6 +11975,7 @@ engine-orbit-data-usage =
     { "   " }nebo: kshana orbit-data gp-compare <a.tle> <b.tle> [--hours <h>] [--step-min <min>] [--threshold-km <km>] [--json]
     { "   " }nebo: kshana orbit-data gp-audit <sets.tle> ... [--at <epoch>] [--stale-days <d>] [--jump-km <km>] [--json]
     { "   " }nebo: kshana orbit-data cov <check|propagate|monte-carlo|synthetic|realism> <input.json> [--dt-s <s>] [--step-s <s>] [--samples <n>] [--seed <n>] [--sigma-rtn <r,t,n,rdot,tdot,ndot>] [--full]
+    { "   " }nebo: kshana orbit-data pc <cdm> --hbr <m> [--aliases <map.json>] [--cdm-out <file>]
     { "   " }(docs/ORBIT-DATA.md)
 engine-e-orbit-data-unknown-message = { $path } není CDM, OEM (KVN) ani OCM: chybí řádek CCSDS_CDM_VERS, CCSDS_OEM_VERS nebo CCSDS_OCM_VERS i kořen <cdm> nebo <ocm>
 engine-e-orbit-data-bad-flag = { $flag } { $value }: nepoužitelná hodnota
