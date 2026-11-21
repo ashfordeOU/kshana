@@ -91,6 +91,32 @@ pub struct CivilTime {
     pub second: f64,
 }
 
+/// The civil time `secs` seconds after `start`, computed in seconds of day with an integer day
+/// carry (no Julian Date round trip, whose ~40 µs floor makes a clean grid read
+/// `00:14:59.99998659`), the seconds rounded to `decimals` places before the split so the
+/// result never reads second 60 or hour 24. Days are 86 400 s (no leap second inside).
+pub fn civil_after(start: CivilTime, secs: f64, decimals: i32) -> CivilTime {
+    let scale = 10f64.powi(decimals);
+    let sod = start.hour as f64 * 3600.0 + start.minute as f64 * 60.0 + start.second + secs;
+    let sod = (sod * scale).round() / scale;
+    let day_off = (sod / 86_400.0).floor();
+    let rem = ((sod - day_off * 86_400.0) * scale).round() / scale;
+    let days = crate::gnss_time::days_from_civil(start.year as i64, start.month, start.day)
+        + day_off as i64;
+    let (y, m, d) = crate::gnss_time::civil_from_days(days);
+    let hour = (rem / 3600.0).floor();
+    let minute = ((rem - hour * 3600.0) / 60.0).floor();
+    let second = ((rem - hour * 3600.0 - minute * 60.0) * scale).round() / scale;
+    CivilTime {
+        year: y as i32,
+        month: m,
+        day: d,
+        hour: hour as u32,
+        minute: minute as u32,
+        second,
+    }
+}
+
 /// Inverse of [`julian_date`]: recover the Gregorian civil date/time from a
 /// Julian Date (Meeus ch. 7). The returned fields are in the same scale as the
 /// input JD.
@@ -428,6 +454,38 @@ mod tests {
     use super::*;
 
     const EPS_JD: f64 = 1e-9; // ~1e-4 s
+
+    #[test]
+    fn civil_after_keeps_a_clean_grid_clean_and_carries_days() {
+        let start = CivilTime {
+            year: 2023,
+            month: 1,
+            day: 1,
+            hour: 0,
+            minute: 0,
+            second: 0.0,
+        };
+        for k in 0..96 {
+            let c = civil_after(start, k as f64 * 900.0, 8);
+            assert_eq!(c.second, 0.0, "epoch {k}: {c:?}");
+            assert_eq!(c.minute % 15, 0);
+        }
+        let c = civil_after(start, 366.0 * 86_400.0 - 1e-9, 8);
+        assert_eq!(
+            (c.year, c.month, c.day, c.hour, c.minute, c.second),
+            (2024, 1, 2, 0, 0, 0.0)
+        );
+        let late = CivilTime {
+            year: 2024,
+            month: 2,
+            day: 28,
+            hour: 23,
+            minute: 59,
+            second: 30.0,
+        };
+        let c = civil_after(late, 30.0, 8);
+        assert_eq!((c.month, c.day, c.hour), (2, 29, 0));
+    }
 
     #[test]
     fn j2000_epoch_is_2451545() {
