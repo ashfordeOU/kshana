@@ -10754,12 +10754,12 @@ engine-e-sil-obs-unknown-system = nieznany system { $value } (G lub E)
 engine-e-sil-obs-bad-canyon = kanion wymaga dodatniej szerokości, przesunięcia anteny wewnątrz ulicy, straty odbicia co najmniej 1 dB i skończonych wartości
 
 ## Interference model library (src/interference_lib.rs)
-engine-interference-lib-usage = użycie: kshana interference-lib models | generate --class <none|cw|narrowband|wideband|chirp|pulsed> [--centre-hz <f>] [--bandwidth-hz <b>] [--period-s <t>] [--pulse-width-s <w>] [--jnr-db <j>] [--drift-hz-per-s <r>] [--triangle] [--fs <hz>] [--samples <n>] [--seed <s>] --out <base> | fit <recording.sigmf-meta> [--out <fit.json>] | bench [--per-class <n>] [--seed <s>] [--predictions <ids.csv>] [--out <bench.json>] | cases [--per-class <n>] [--seed <s>] [--out <cases.csv>]  (docs/INTERFERENCE-LIB.md)
+engine-interference-lib-usage = użycie: kshana interference-lib models | generate --class <none|cw|narrowband|wideband|chirp|pulsed|multitone|fm_tone> [--centre-hz <f>] [--bandwidth-hz <b>] [--period-s <t>] [--pulse-width-s <w>] [--jnr-db <j>] [--drift-hz-per-s <r>] [--triangle] [--tones-hz <f1,f2,...>] [--deviation-hz <d>] [--mod-freq-hz <m>] [--fs <hz>] [--samples <n>] [--seed <s>] --out <base> | fit <recording.sigmf-meta> [--out <fit.json>] | bench [--per-class <n>] [--seed <s>] [--predictions <ids.csv>] [--out <bench.json>] | cases [--per-class <n>] [--seed <s>] [--out <cases.csv>]  (docs/INTERFERENCE-LIB.md)
 engine-interference-lib-written = zapisano { $path } ({ $n } próbek, MODELLED syntetyczne zakłócenie)
 engine-e-interference-lib-missing-value = { $option } wymaga wartości
 engine-e-interference-lib-unknown-option = nieznana opcja { $option } (opcje wypisuje kshana interference-lib --help)
 engine-e-interference-lib-bad-number = { $option } wymaga skończonej liczby, nie { $value }
-engine-e-interference-lib-unknown-class = nieznana klasa zakłócenia { $value } (none, cw, narrowband, wideband, chirp lub pulsed)
+engine-e-interference-lib-unknown-class = nieznana klasa zakłócenia { $value } (none, cw, narrowband, wideband, chirp, pulsed, multitone lub fm_tone)
 engine-e-interference-lib-bad-size = częstotliwość próbkowania musi być dodatnia, a nagranie potęgą dwójki od 1024 do 16777216 próbek (bench: od 1 do 1000 przypadków na klasę)
 engine-e-interference-lib-cannot-read = nie można odczytać { $path }: { $e }
 engine-e-interference-lib-cannot-write = nie można zapisać { $path }: { $e }

@@ -10729,12 +10729,12 @@ engine-e-sil-obs-unknown-system = невідома система { $value } (G 
 engine-e-sil-obs-bad-canyon = каньйону потрібні додатна ширина, зміщення антени в межах вулиці, втрати на відбиття не менше 1 дБ і скінченні значення
 
 ## Interference model library (src/interference_lib.rs)
-engine-interference-lib-usage = використання: kshana interference-lib models | generate --class <none|cw|narrowband|wideband|chirp|pulsed> [--centre-hz <f>] [--bandwidth-hz <b>] [--period-s <t>] [--pulse-width-s <w>] [--jnr-db <j>] [--drift-hz-per-s <r>] [--triangle] [--fs <hz>] [--samples <n>] [--seed <s>] --out <base> | fit <recording.sigmf-meta> [--out <fit.json>] | bench [--per-class <n>] [--seed <s>] [--predictions <ids.csv>] [--out <bench.json>] | cases [--per-class <n>] [--seed <s>] [--out <cases.csv>]  (docs/INTERFERENCE-LIB.md)
+engine-interference-lib-usage = використання: kshana interference-lib models | generate --class <none|cw|narrowband|wideband|chirp|pulsed|multitone|fm_tone> [--centre-hz <f>] [--bandwidth-hz <b>] [--period-s <t>] [--pulse-width-s <w>] [--jnr-db <j>] [--drift-hz-per-s <r>] [--triangle] [--tones-hz <f1,f2,...>] [--deviation-hz <d>] [--mod-freq-hz <m>] [--fs <hz>] [--samples <n>] [--seed <s>] --out <base> | fit <recording.sigmf-meta> [--out <fit.json>] | bench [--per-class <n>] [--seed <s>] [--predictions <ids.csv>] [--out <bench.json>] | cases [--per-class <n>] [--seed <s>] [--out <cases.csv>]  (docs/INTERFERENCE-LIB.md)
 engine-interference-lib-written = записано { $path } ({ $n } відліків, MODELLED синтетична завада)
 engine-e-interference-lib-missing-value = { $option } потребує значення
 engine-e-interference-lib-unknown-option = невідомий параметр { $option } (параметри перелічує kshana interference-lib --help)
 engine-e-interference-lib-bad-number = { $option } потребує скінченного числа, а не { $value }
-engine-e-interference-lib-unknown-class = невідомий клас завади { $value } (none, cw, narrowband, wideband, chirp або pulsed)
+engine-e-interference-lib-unknown-class = невідомий клас завади { $value } (none, cw, narrowband, wideband, chirp, pulsed, multitone або fm_tone)
 engine-e-interference-lib-bad-size = частота дискретизації має бути додатною, а запис — степенем двійки від 1024 до 16777216 відліків (bench: від 1 до 1000 випадків на клас)
 engine-e-interference-lib-cannot-read = не вдалося прочитати { $path }: { $e }
 engine-e-interference-lib-cannot-write = не вдалося записати { $path }: { $e }

@@ -9792,12 +9792,12 @@ engine-e-sil-obs-unknown-system = 不明なシステム { $value } (G または 
 engine-e-sil-obs-bad-canyon = キャニオンには正の幅、通りの内側のアンテナ位置、1 dB 以上の反射損失、有限の値が必要です
 
 ## Interference model library (src/interference_lib.rs)
-engine-interference-lib-usage = 使い方：kshana interference-lib models | generate --class <none|cw|narrowband|wideband|chirp|pulsed> [--centre-hz <f>] [--bandwidth-hz <b>] [--period-s <t>] [--pulse-width-s <w>] [--jnr-db <j>] [--drift-hz-per-s <r>] [--triangle] [--fs <hz>] [--samples <n>] [--seed <s>] --out <base> | fit <recording.sigmf-meta> [--out <fit.json>] | bench [--per-class <n>] [--seed <s>] [--predictions <ids.csv>] [--out <bench.json>] | cases [--per-class <n>] [--seed <s>] [--out <cases.csv>]  (docs/INTERFERENCE-LIB.md)
+engine-interference-lib-usage = 使い方：kshana interference-lib models | generate --class <none|cw|narrowband|wideband|chirp|pulsed|multitone|fm_tone> [--centre-hz <f>] [--bandwidth-hz <b>] [--period-s <t>] [--pulse-width-s <w>] [--jnr-db <j>] [--drift-hz-per-s <r>] [--triangle] [--tones-hz <f1,f2,...>] [--deviation-hz <d>] [--mod-freq-hz <m>] [--fs <hz>] [--samples <n>] [--seed <s>] --out <base> | fit <recording.sigmf-meta> [--out <fit.json>] | bench [--per-class <n>] [--seed <s>] [--predictions <ids.csv>] [--out <bench.json>] | cases [--per-class <n>] [--seed <s>] [--out <cases.csv>]  (docs/INTERFERENCE-LIB.md)
 engine-interference-lib-written = { $path } を書き込みました ({ $n } サンプル、MODELLED 合成干渉)
 engine-e-interference-lib-missing-value = { $option } には値が必要です
 engine-e-interference-lib-unknown-option = 不明なオプション { $option }（kshana interference-lib --help でオプションを一覧表示）
 engine-e-interference-lib-bad-number = { $option } には有限の数値が必要です ({ $value } ではありません)
-engine-e-interference-lib-unknown-class = 不明な干渉クラス { $value } (none、cw、narrowband、wideband、chirp、pulsed のいずれか)
+engine-e-interference-lib-unknown-class = 不明な干渉クラス { $value } (none、cw、narrowband、wideband、chirp、pulsed、multitone、fm_tone のいずれか)
 engine-e-interference-lib-bad-size = サンプルレートは正、記録長は 1024 から 16777216 サンプルの 2 のべき乗でなければなりません (bench: クラスあたり 1 から 1000 ケース)
 engine-e-interference-lib-cannot-read = { $path } を読み込めません：{ $e }
 engine-e-interference-lib-cannot-write = { $path } に書き込めません：{ $e }

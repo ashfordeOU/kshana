@@ -10318,12 +10318,12 @@ engine-e-sil-obs-unknown-system = tuntematon järjestelmä { $value } (G tai E)
 engine-e-sil-obs-bad-canyon = kanjonilla on oltava positiivinen leveys, antennin siirtymä kadun sisällä, vähintään 1 dB:n heijastushäviö ja äärelliset arvot
 
 ## Interference model library (src/interference_lib.rs)
-engine-interference-lib-usage = käyttö: kshana interference-lib models | generate --class <none|cw|narrowband|wideband|chirp|pulsed> [--centre-hz <f>] [--bandwidth-hz <b>] [--period-s <t>] [--pulse-width-s <w>] [--jnr-db <j>] [--drift-hz-per-s <r>] [--triangle] [--fs <hz>] [--samples <n>] [--seed <s>] --out <base> | fit <recording.sigmf-meta> [--out <fit.json>] | bench [--per-class <n>] [--seed <s>] [--predictions <ids.csv>] [--out <bench.json>] | cases [--per-class <n>] [--seed <s>] [--out <cases.csv>]  (docs/INTERFERENCE-LIB.md)
+engine-interference-lib-usage = käyttö: kshana interference-lib models | generate --class <none|cw|narrowband|wideband|chirp|pulsed|multitone|fm_tone> [--centre-hz <f>] [--bandwidth-hz <b>] [--period-s <t>] [--pulse-width-s <w>] [--jnr-db <j>] [--drift-hz-per-s <r>] [--triangle] [--tones-hz <f1,f2,...>] [--deviation-hz <d>] [--mod-freq-hz <m>] [--fs <hz>] [--samples <n>] [--seed <s>] --out <base> | fit <recording.sigmf-meta> [--out <fit.json>] | bench [--per-class <n>] [--seed <s>] [--predictions <ids.csv>] [--out <bench.json>] | cases [--per-class <n>] [--seed <s>] [--out <cases.csv>]  (docs/INTERFERENCE-LIB.md)
 engine-interference-lib-written = kirjoitettu { $path } ({ $n } näytettä, MODELLED synteettinen häiriö)
 engine-e-interference-lib-missing-value = { $option } tarvitsee arvon
 engine-e-interference-lib-unknown-option = tuntematon valitsin { $option } (kshana interference-lib --help luettelee valitsimet)
 engine-e-interference-lib-bad-number = { $option } tarvitsee äärellisen luvun, ei { $value }
-engine-e-interference-lib-unknown-class = tuntematon häiriöluokka { $value } (none, cw, narrowband, wideband, chirp tai pulsed)
+engine-e-interference-lib-unknown-class = tuntematon häiriöluokka { $value } (none, cw, narrowband, wideband, chirp, pulsed, multitone tai fm_tone)
 engine-e-interference-lib-bad-size = näytteenottotaajuuden on oltava positiivinen ja tallenteen kahden potenssi 1024–16777216 näytettä (bench: 1–1000 tapausta luokkaa kohden)
 engine-e-interference-lib-cannot-read = tiedostoa { $path } ei voi lukea: { $e }
 engine-e-interference-lib-cannot-write = tiedostoon { $path } ei voi kirjoittaa: { $e }

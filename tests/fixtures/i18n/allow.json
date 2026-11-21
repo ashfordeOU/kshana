@@ -238,8 +238,8 @@
    "reason": "machine-document and identifier: the JSON output (the cited Recommendation names and editions written into it, the JSON keys), the option names, and the receiver and baseline ids"
   },
   "src/interference_lib.rs": {
-   "count": 27,
-   "reason": "machine-document and identifier: the kshana.interference-fit/1 and kshana.interference-bench/1 schema ids, field names, case ids, the classifier id and the note written into those machine documents, the SigMF description and the corpus CSV header (docs/INTERFERENCE-LIB.md)"
+   "count": 37,
+   "reason": "machine-document and identifier: the kshana.interference-fit/1 and kshana.interference-bench/1 schema ids, field names, case ids, the classifier id and the note written into those machine documents, the SigMF description and the corpus CSV header (docs/INTERFERENCE-LIB.md); the multitone and fm_tone option names, the corpus ranges keys and the primary-metric statement of the machine-readable bench document."
   },
   "src/interference_map/live.rs": {
    "count": 6,

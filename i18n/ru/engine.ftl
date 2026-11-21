@@ -10799,12 +10799,12 @@ engine-e-sil-obs-unknown-system = неизвестная система { $value
 engine-e-sil-obs-bad-canyon = каньону нужны положительная ширина, смещение антенны в пределах улицы, потери на отражение не менее 1 дБ и конечные значения
 
 ## Interference model library (src/interference_lib.rs)
-engine-interference-lib-usage = использование: kshana interference-lib models | generate --class <none|cw|narrowband|wideband|chirp|pulsed> [--centre-hz <f>] [--bandwidth-hz <b>] [--period-s <t>] [--pulse-width-s <w>] [--jnr-db <j>] [--drift-hz-per-s <r>] [--triangle] [--fs <hz>] [--samples <n>] [--seed <s>] --out <base> | fit <recording.sigmf-meta> [--out <fit.json>] | bench [--per-class <n>] [--seed <s>] [--predictions <ids.csv>] [--out <bench.json>] | cases [--per-class <n>] [--seed <s>] [--out <cases.csv>]  (docs/INTERFERENCE-LIB.md)
+engine-interference-lib-usage = использование: kshana interference-lib models | generate --class <none|cw|narrowband|wideband|chirp|pulsed|multitone|fm_tone> [--centre-hz <f>] [--bandwidth-hz <b>] [--period-s <t>] [--pulse-width-s <w>] [--jnr-db <j>] [--drift-hz-per-s <r>] [--triangle] [--tones-hz <f1,f2,...>] [--deviation-hz <d>] [--mod-freq-hz <m>] [--fs <hz>] [--samples <n>] [--seed <s>] --out <base> | fit <recording.sigmf-meta> [--out <fit.json>] | bench [--per-class <n>] [--seed <s>] [--predictions <ids.csv>] [--out <bench.json>] | cases [--per-class <n>] [--seed <s>] [--out <cases.csv>]  (docs/INTERFERENCE-LIB.md)
 engine-interference-lib-written = записан { $path } ({ $n } отсчётов, MODELLED синтетическая помеха)
 engine-e-interference-lib-missing-value = { $option } требует значения
 engine-e-interference-lib-unknown-option = неизвестный параметр { $option } (параметры перечисляет kshana interference-lib --help)
 engine-e-interference-lib-bad-number = { $option } требует конечного числа, а не { $value }
-engine-e-interference-lib-unknown-class = неизвестный класс помехи { $value } (none, cw, narrowband, wideband, chirp или pulsed)
+engine-e-interference-lib-unknown-class = неизвестный класс помехи { $value } (none, cw, narrowband, wideband, chirp, pulsed, multitone или fm_tone)
 engine-e-interference-lib-bad-size = частота дискретизации должна быть положительной, а запись — степенью двойки от 1024 до 16777216 отсчётов (bench: от 1 до 1000 случаев на класс)
 engine-e-interference-lib-cannot-read = не удаётся прочитать { $path }: { $e }
 engine-e-interference-lib-cannot-write = не удаётся записать { $path }: { $e }
