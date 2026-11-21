@@ -62,7 +62,10 @@ fn sp3_export_round_trips_real_gps_within_tolerance() {
         let t = idx as f64 * step_s;
         let jd_ut1 = start_jd_ut1 + t / 86_400.0;
         for (i, sat) in sats.iter().enumerate() {
-            let truth = teme_to_ecef(sat.position_eci(t), jd_ut1);
+            // Each satellite at the labelled instant: its own epoch dates the TLE, so the
+            // propagation time is counted from the export start, not from the TLE epoch.
+            let own = (start_jd_ut1 - sat.own_jd_utc(0.0).unwrap()) * 86_400.0;
+            let truth = teme_to_ecef(sat.position_eci(own + t), jd_ut1);
             let got = parsed
                 .position_of(&ids[i], idx)
                 .expect("satellite present at this epoch");
@@ -253,4 +256,39 @@ fn api_auto_export_oem_honours_the_scenario_flag() {
         .unwrap()
         .expect("export_oem = true yields Some");
     assert!(text.starts_with("CCSDS_OEM_VERS = 2.0\n"));
+}
+
+#[test]
+fn exported_states_are_at_the_instant_they_are_labelled_with() {
+    // A TLE satellite exported with the scenario epoch one hour after its TLE epoch: the first
+    // OEM state is the SGP4 state one hour after the TLE epoch, and it is labelled UTC.
+    use kshana::orbit::Propagator;
+    let sats = parse_propagators(GPS_TLE).expect("real GPS TLEs parse to propagators");
+    let sat = &sats[0];
+    let own0 = sat.own_jd_utc(0.0).unwrap();
+    let start_jd = own0 + 1.0 / 24.0;
+    let c = kshana::timescales::civil_from_jd(start_jd);
+    let start = EpochUtc {
+        year: c.year,
+        month: c.month,
+        day: c.day,
+        hour: c.hour,
+        minute: c.minute,
+        second: c.second,
+    };
+    let jd_label = julian_date(c.year, c.month, c.day, c.hour, c.minute, c.second);
+    let one: Vec<Propagator> = vec![sat.clone()];
+    let oem = kshana::oem::OemFile::from_propagators(&["G01".into()], &one, start, 60.0, 2, start);
+    let text = oem.to_oem_string();
+    assert!(text.contains("TIME_SYSTEM = UTC"));
+    let first = oem.segments[0].states[0].pos_km;
+    let want = sat.state_eci((jd_label - own0) * 86_400.0).r_m;
+    let at_own_epoch = sat.state_eci(0.0).r_m;
+    let d = |a: [f64; 3], b: [f64; 3]| {
+        ((a[0] * 1e3 - b[0]).powi(2) + (a[1] * 1e3 - b[1]).powi(2) + (a[2] * 1e3 - b[2]).powi(2))
+            .sqrt()
+    };
+    assert!(d(first, want) < 1e-3, "{}", d(first, want));
+    // The old behaviour, the state at the TLE epoch under the later label, is thousands of km off.
+    assert!(d(first, at_own_epoch) > 1e6, "{}", d(first, at_own_epoch));
 }
