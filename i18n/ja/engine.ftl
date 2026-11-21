@@ -9790,6 +9790,7 @@ engine-main-usage =
     { "   " }または：kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }または：kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }または：kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
+    { "   " }または：kshana leo-sparse <study.toml>
     { "   " }または：kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }または：kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }または：kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
@@ -10923,3 +10924,10 @@ engine-e-oscillator-input = { $part } の入力が無効です: { $e }
 engine-e-oscillator-unknown-clock = 不明なクロックプリセット { $id }（{ $known } のいずれか）
 
 engine-e-oscillator-field = { $field } が範囲外です: { $value }
+
+## Sparse-geometry LEO-PNT study (src/leo_sparse.rs, docs/LEO-SPARSE.md)
+engine-leo-sparse-usage = 使い方：kshana leo-sparse <study.toml>  (docs/LEO-SPARSE.md; MODELLED, a planning study)
+engine-e-leo-sparse-bad-study = 検討の数値が範囲外です：有効な利用者位置、面数が衛星数を割り切る 3000 km 未満の LEO ウォーカー配置、0 から 90 度のマスク、max_in_view は 1 または 2、正の雑音・事前値・目標値、ステップ数は最大 200000、報告間隔はステップ以上であること
+engine-e-leo-sparse-singular = 事前値を加えても情報行列を逆行列にできません
+engine-e-leo-sparse-cannot-read = { $path } を読み込めません：{ $e }
+engine-e-leo-sparse-bad-file = { $path } は検討ファイルではありません：{ $e }
