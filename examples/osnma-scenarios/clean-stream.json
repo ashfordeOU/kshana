@@ -1,0 +1,20 @@
+{
+ "format": "kshana.osnma-scenario/1",
+ "name": "clean-stream",
+ "description": "No changes: E02 and E05 (by cross-authentication) authenticate; slow-MAC (ADKD 12) and ADKD 4 tags are decided too.",
+ "subframes": 18,
+ "changes": [],
+ "expect": {
+  "status": {
+   "E02": "authenticated",
+   "E05": "authenticated"
+  },
+  "overall": "authenticated",
+  "any_tag_failed": false,
+  "authenticated_tags_min": 1,
+  "events": {
+   "key_verified": true,
+   "key_rejected": false
+  }
+ }
+}

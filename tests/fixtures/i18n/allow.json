@@ -1840,6 +1840,10 @@
   "src/interference_map/incident.rs": {
    "count": 183,
    "reason": "machine-document and identifier: the kshana-interference-incidents/1 vocabulary, field names and schema tags, the validator's problem messages (written to the machine-readable report, English by design), CSV column names and the Zenodo metadata keys (docs/INTERFERENCE-INCIDENTS.md)"
+  },
+  "src/osnma/scenario.rs": {
+   "count": 37,
+   "reason": "kshana.osnma-scenario/1 field names, values and constraint expressions substituted into the translated e-osnma-scenario-field message; the run report is a machine document (JSON keys and status names)"
   }
  }
 }
