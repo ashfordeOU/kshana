@@ -221,7 +221,7 @@ fn vehicle_positions(
         }
         "moon-direction" => {
             for k in 0..n {
-                let jd = crate::lunar_phase::epoch_jd(ctx, entry.t_s + k as f64 * step_s)?;
+                let jd = crate::lunar_phase::epoch_jd_tdb(ctx, entry.t_s + k as f64 * step_s)?;
                 let from_kernel = ctx.moon_kernel.as_ref().and_then(|kern| {
                     use crate::ephem_provider::EphemerisProvider;
                     kern.relative_position(
@@ -350,6 +350,25 @@ impl Coverage {
 mod tests {
     use super::*;
     use crate::mission_thread::phase::Timescale;
+
+    #[test]
+    fn the_moon_direction_is_the_ephemeris_at_tdb_not_utc() {
+        // The analytic Moon (no kernel) at the thread epoch: evaluated at TDB, which in 2028 is
+        // UTC + 69.184 s (37 leap seconds + 32.184 s, TDB - TT under 2 ms).
+        let ctx = ThreadCtx::new("2028-02-01T00:00:00Z", 1);
+        let pos = vehicle_positions("moon-direction", &ctx, &leo_entry(), 0.0, 60.0).unwrap();
+        let jd_utc = crate::lunar_phase::epoch_jd(&ctx, 0.0).unwrap();
+        let jd_tdb = crate::lunar_phase::epoch_jd_tdb(&ctx, 0.0).unwrap();
+        assert!(((jd_tdb - jd_utc) * 86_400.0 - 69.184).abs() < 2e-3);
+        let want = crate::ephem::moon_icrf(jd_tdb);
+        let at_utc = crate::ephem::moon_icrf(jd_utc);
+        let d = |a: [f64; 3], b: [f64; 3]| {
+            ((a[0] - b[0]).powi(2) + (a[1] - b[1]).powi(2) + (a[2] - b[2]).powi(2)).sqrt()
+        };
+        assert!(d(pos[0], want) < 1e-6, "{}", d(pos[0], want));
+        // The 69 s matter: the UTC instant puts the Moon tens of kilometres away.
+        assert!(d(pos[0], at_utc) > 50e3, "{}", d(pos[0], at_utc));
+    }
 
     fn net(extra: &str) -> GroundNetworkDoc {
         toml::from_str(&format!(
