@@ -11295,7 +11295,9 @@ engine-bench-task-has-no-holdout = 任务 ({ $task }) 没有保留划分：其�
 engine-bench-unknown-baseline = 未知基线 `{ $name }`
 
 engine-bench-g-no-traces = { $root } 下没有 <drive>/<phone>/ground_truth.csv
-engine-bench-h-no-sequences = { $root } 下没有 <sequence>/ground_truth.txt
+engine-bench-h-no-sequences = { $root } 下没有 <sequence>/(ground_truth.txt|tk_reference.csv)
+engine-bench-h-mixed-editions = { $root } 混合了任务 (h) 的香港版和东京版（ground_truth.txt 与 tk_reference.csv）：请将两者分别获取到各自的目录
+engine-bench-h-baseline-skipped = 已跳过基线 { $baseline }：并非每条轨迹都有其输入文件
 
 engine-bench-g-no-object = 没有轨迹对象 `{ $key }`
 

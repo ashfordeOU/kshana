@@ -12093,7 +12093,9 @@ engine-bench-task-has-no-holdout = úloha ({ $task }) nemá rozdělení holdout:
 engine-bench-unknown-baseline = neznámá základní metoda `{ $name }`
 
 engine-bench-g-no-traces = v { $root } není žádný <drive>/<phone>/ground_truth.csv
-engine-bench-h-no-sequences = v { $root } není žádný <sequence>/ground_truth.txt
+engine-bench-h-no-sequences = v { $root } není žádný <sequence>/(ground_truth.txt|tk_reference.csv)
+engine-bench-h-mixed-editions = { $root } míchá hongkongské a tokijské vydání úlohy (h) (ground_truth.txt a tk_reference.csv): stáhněte každé do vlastního adresáře
+engine-bench-h-baseline-skipped = základní metoda { $baseline } vynechána: její vstupní soubory nejsou u všech stop
 
 engine-bench-g-no-object = chybí objekt stop `{ $key }`
 

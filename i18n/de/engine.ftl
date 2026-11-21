@@ -12037,7 +12037,9 @@ engine-bench-task-has-no-holdout = Aufgabe ({ $task }) hat keinen Holdout-Split:
 engine-bench-unknown-baseline = unbekannte Baseline `{ $name }`
 
 engine-bench-g-no-traces = keine <drive>/<phone>/ground_truth.csv unter { $root }
-engine-bench-h-no-sequences = keine <sequence>/ground_truth.txt unter { $root }
+engine-bench-h-no-sequences = keine <sequence>/(ground_truth.txt|tk_reference.csv) unter { $root }
+engine-bench-h-mixed-editions = { $root } mischt die Hongkong- und die Tokio-Ausgabe von Aufgabe (h) (ground_truth.txt und tk_reference.csv): jede in ein eigenes Verzeichnis laden
+engine-bench-h-baseline-skipped = Baseline { $baseline } übersprungen: ihre Eingabedateien fehlen für mindestens eine Spur
 
 engine-bench-g-no-object = kein Objekt `{ $key }` mit Spuren
 

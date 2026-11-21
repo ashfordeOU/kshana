@@ -118,8 +118,8 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/bench/urban.rs": {
-   "count": 13,
-   "reason": "identifier and machine-document: the task (h) spec version and baseline names, the file names of the fetch-script layout (ground_truth.txt, nav.rnx), the JSON keys of the task (h) truth and predictions documents, and the English `label` written into the result document (bench/SPEC.md, task (h))."
+   "count": 23,
+   "reason": "identifier and machine-document: the task (h) spec version and baseline names, the file names of the fetch-script layouts (ground_truth.txt, reference.csv, nav.rnx), the publisher's column names of the Tokyo reference.csv, the /tokyo edition suffix of the baseline system name, the JSON keys of the task (h) truth and predictions documents, and the English `label` written into the result document (bench/SPEC.md, task (h))."
   },
   "src/benchmark/faults.rs": {
    "count": 9,

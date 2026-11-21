@@ -12258,7 +12258,9 @@ engine-bench-task-has-no-holdout = zadanie ({ $task }) nie ma podziału holdout:
 engine-bench-unknown-baseline = nieznana linia bazowa `{ $name }`
 
 engine-bench-g-no-traces = brak <drive>/<phone>/ground_truth.csv w { $root }
-engine-bench-h-no-sequences = brak <sequence>/ground_truth.txt w { $root }
+engine-bench-h-no-sequences = brak <sequence>/(ground_truth.txt|tk_reference.csv) w { $root }
+engine-bench-h-mixed-editions = { $root } łączy wydania hongkońskie i tokijskie zadania (h) (ground_truth.txt i tk_reference.csv): pobierz każde do osobnego katalogu
+engine-bench-h-baseline-skipped = pominięto metodę bazową { $baseline }: jej pliki wejściowe nie istnieją dla każdego śladu
 
 engine-bench-g-no-object = brak obiektu `{ $key }` ze śladami
 
