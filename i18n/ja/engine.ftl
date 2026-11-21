@@ -5728,6 +5728,10 @@ engine-e-rinex-obs-bad = 不正な { $what }：{ $s }
 engine-e-rinex-obs-rinex-observation-file-has-no = RINEX 観測ファイルに END OF HEADER がありません
 
 engine-e-rinex-obs-rinex-observation-file-contained-no = RINEX 観測ファイルにエポックレコードがありませんでした
+engine-e-rinex-not-finite = { $s } は有限の数値ではありません
+engine-e-rinex-nav-version-unsupported = RINEX { $version } 航法ファイル: 読み込めるのは RINEX 3 と 4 の航法ファイルのみです
+engine-e-rinex-obs-epoch-overrun = エポック { $line } は { $n } 件のレコードを宣言していますが、{ $got } 件の後に次のエポックヘッダーが現れます
+engine-e-precise-products-clock-no-end-of-header = RINEX クロックファイルに END OF HEADER がありません
 
 engine-e-scenario-time-step-must-be-finite = time.step_s は有限かつ 0 より大きくなければなりません（実際の値 { $step_s }）
 

@@ -27,14 +27,13 @@ pub const KNOWN_CLOCK_TIME_SYSTEMS: [&str; 8] =
 pub fn rinex_clock_time_system(text: &str) -> Result<(String, bool), String> {
     let mut sat_system: Option<char> = None;
     for line in text.lines() {
-        let label = line.get(60..).map(str::trim_end).unwrap_or("");
-        if label == "END OF HEADER" {
+        if crate::precise_products::clock_label_is(line, "END OF HEADER") {
             break;
         }
-        if label == "RINEX VERSION / TYPE" {
+        if crate::precise_products::clock_label_is(line, "RINEX VERSION / TYPE") {
             sat_system = Some(line.chars().nth(40).unwrap_or(' '));
         }
-        if label == "TIME SYSTEM ID" {
+        if crate::precise_products::clock_label_is(line, "TIME SYSTEM ID") {
             let id = line[..60].trim().to_string();
             if KNOWN_CLOCK_TIME_SYSTEMS.contains(&id.as_str()) {
                 return Ok((id, true));

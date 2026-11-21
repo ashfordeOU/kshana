@@ -63,6 +63,28 @@ voyages, Celestrak TLE sets) or short synthetic samples written in the test.
 | `n2k` | the same in the candump data field | non-ASCII data is not a frame |
 | `realdata::llr_crd` | a 7-field normal-point record indexed the optional 8th field | optional fields read with `get` |
 
+## Beyond panics: what a reader returns
+
+Not panicking is the floor. A reader can also return data that is wrong without saying so: a
+record dropped with no count, `NaN` or `inf` accepted (Rust's float parser takes `NaN`, `inf`,
+`infinity`, and an overflowing `1.0D+400` becomes infinite), a header field written but ignored on
+read, or a count in the file trusted over the records that follow. Each reader family gets a test
+file of such cases and a seeded fuzz that writes `NaN`, `inf`, overflowing exponents and `*`
+overflow fields into numeric columns of real files and checks that every value returned is finite.
+
+| Reader | Defect | Now |
+|---|---|---|
+| `rinex_obs::parse_obs` | an event record (epoch flag 2-5) was read as satellites: its header or comment lines became satellites such as `"  A"`, and the event an epoch | the lines are stepped over, no epoch is returned, and `skipped.event_records` counts it |
+| `rinex_obs::parse_obs` | a satellite count larger than the records took the next `>` epoch header as a satellite and lost that epoch | an error naming the epoch and both counts |
+| `rinex_obs::parse_obs` | records beyond the count, unreadable values (`**************`, `NaN`), satellites of a system with no `SYS / # / OBS TYPES`, a cut last epoch: all silent | counted in `skipped` (`stray_lines`, `unreadable_values`, `undeclared_system_records`, `truncated_epochs`) |
+| `rinex_obs::parse_obs` | an unreadable epoch flag read as 0 (observations); a COMMENT naming a label (`... INTERVAL after decimation`) overwrote that header field in RINEX 2/3 | the flag must be 0-6, else an error; labels are matched in columns 61-80 in every version |
+| `rinex_obs::parse_obs` | the `TIME OF FIRST OBS` time system was never read | `header.time_system` (`GPS`, `BDT`, `GLO`, ...); epochs stay as written, in that system |
+| `rinex::parse_d` (navigation, observation, epochs) | `NaN`, `inf` and overflowing exponents were values | an error |
+| `rinex::parse_nav` | a RINEX 2 file returned no ephemerides and no error (its records carry no system letter) | an error naming the version |
+| `precise_products::parse_clock_rinex*`, `realdata::clk`, `clock_log` | clock 3.04 labels sit in columns 66-85 (to confirm against the 3.04 text); read at column 61 only, such a file was all header and returned no records; a missing `END OF HEADER` returned nothing; `NaN` clock values were kept | labels found at either column; a missing `END OF HEADER` and non-finite values are errors |
+
+Tests: `tests/rinex_reader_robustness.rs`.
+
 ## Run
 
 ```sh

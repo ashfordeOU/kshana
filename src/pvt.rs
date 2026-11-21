@@ -1642,6 +1642,7 @@ G01 2023 01 01 00 00 00 4.567890123456D-04 1.136868377216D-12 0.000000000000D+00
                 approx_xyz: Some(rx),
                 interval_s: Some(30.0),
                 time_of_first_obs: Some(epoch_time),
+                time_system: None,
             },
             epochs: vec![ObsEpoch {
                 time: epoch_time,
@@ -1655,6 +1656,7 @@ G01 2023 01 01 00 00 00 4.567890123456D-04 1.136868377216D-12 0.000000000000D+00
                     })],
                 }],
             }],
+            skipped: Default::default(),
         };
         let m = assemble_epoch(&obs, 0, &[eph], rx, &AtmosModel::default(), 5.0, false);
         assert_eq!(m.len(), 1, "one visible BeiDou satellite");
@@ -1707,6 +1709,7 @@ G01 2023 01 01 00 00 00 4.567890123456D-04 1.136868377216D-12 0.000000000000D+00
                 approx_xyz: Some(rx),
                 interval_s: Some(30.0),
                 time_of_first_obs: Some(epoch_time),
+                time_system: None,
             },
             epochs: vec![ObsEpoch {
                 time: epoch_time,
@@ -1720,6 +1723,7 @@ G01 2023 01 01 00 00 00 4.567890123456D-04 1.136868377216D-12 0.000000000000D+00
                     })],
                 }],
             }],
+            skipped: Default::default(),
         };
         let m = assemble_epoch(&obs, 0, &[eph], rx, &AtmosModel::default(), 5.0, true);
         assert_eq!(m.len(), 1, "one visible satellite");
@@ -1826,6 +1830,7 @@ G01 2023 01 01 00 00 00 4.567890123456D-04 1.136868377216D-12 0.000000000000D+00
                 approx_xyz: Some(rx),
                 interval_s: Some(30.0),
                 time_of_first_obs: Some(epoch_time),
+                time_system: None,
             },
             epochs: vec![ObsEpoch {
                 time: epoch_time,
@@ -1842,6 +1847,7 @@ G01 2023 01 01 00 00 00 4.567890123456D-04 1.136868377216D-12 0.000000000000D+00
                     })
                     .collect(),
             }],
+            skipped: Default::default(),
         };
         let meas: Vec<_> = assemble_epoch(&obs, 0, &ephs, rx, &atmos, 5.0, true)
             .into_iter()

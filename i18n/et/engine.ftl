@@ -6351,6 +6351,10 @@ engine-e-rinex-obs-bad = vigane { $what }: { $s }
 engine-e-rinex-obs-rinex-observation-file-has-no = RINEX vaatlusfailis puudub END OF HEADER
 
 engine-e-rinex-obs-rinex-observation-file-contained-no = RINEX vaatlusfail ei sisaldanud ühtegi epohhikirjet
+engine-e-rinex-not-finite = { $s } ei ole lõplik arv
+engine-e-rinex-nav-version-unsupported = RINEX { $version } navigatsioonifail: loetakse ainult RINEX 3 ja 4 navigatsioonifaile
+engine-e-rinex-obs-epoch-overrun = epohh { $line } deklareerib { $n } kirjet, kuid järgmine epohhi päis tuleb juba { $got } järel
+engine-e-precise-products-clock-no-end-of-header = RINEX-kellafailil puudub END OF HEADER
 
 ## src/scenario.rs
 

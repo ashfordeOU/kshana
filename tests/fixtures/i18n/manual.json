@@ -20541,5 +20541,51 @@
     "var": "step"
    }
   ]
+ },
+ {
+  "id": "e-rinex-not-finite",
+  "error": true,
+  "parts": [
+   {
+    "var": "s"
+   },
+   " is not a finite number"
+  ]
+ },
+ {
+  "id": "e-rinex-nav-version-unsupported",
+  "error": true,
+  "parts": [
+   "RINEX ",
+   {
+    "var": "version"
+   },
+   " navigation file: only RINEX 3 and 4 navigation files are read"
+  ]
+ },
+ {
+  "id": "e-rinex-obs-epoch-overrun",
+  "error": true,
+  "parts": [
+   "epoch ",
+   {
+    "var": "line"
+   },
+   " declares ",
+   {
+    "var": "n"
+   },
+   " records, but the next epoch header follows after ",
+   {
+    "var": "got"
+   }
+  ]
+ },
+ {
+  "id": "e-precise-products-clock-no-end-of-header",
+  "error": true,
+  "parts": [
+   "RINEX clock file has no END OF HEADER"
+  ]
  }
 ]
