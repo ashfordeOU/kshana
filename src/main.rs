@@ -1269,6 +1269,11 @@ fn main_in_language(args: Vec<String>) -> ExitCode {
     if args.get(1).map(String::as_str) == Some("ntrip") {
         return run_ntrip_cli(&args[2..]);
     }
+    // `kshana afs-interop <study|ue-register>`: AFS code-family interoperability planning and the
+    // lunar user-equipment register (src/afs_interop.rs, docs/AFS-INTEROP.md).
+    if args.get(1).map(String::as_str) == Some("afs-interop") {
+        return ExitCode::from(kshana::afs_interop::run_cli(&args[2..]) as u8);
+    }
     // `kshana ais-integrity <input> [...]`: per-track AIS position-integrity flags as JSON Lines
     // (src/ais_integrity.rs, docs/AIS-INTEGRITY.md). Exit 2 on a usage or input error.
     if args.get(1).map(String::as_str) == Some("ais-integrity") {
