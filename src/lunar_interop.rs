@@ -113,12 +113,37 @@ impl LunarFrameId {
 pub enum LunarTimeId {
     /// Barycentric Dynamical Time (`TDB`), SANA-registered; the default.
     Tdb,
-    /// Lunar Coordinate Time (`LTC`).
+    /// A lunar-surface time scale (`LTC`): the model of [`crate::lunar_time`], the label
+    /// `kshana lunar-ref convert` uses (`docs/LUNAR-REF.md`). The label is proposed, not an
+    /// adopted standard name (to confirm). LTC and TCL are different scales, not two spellings
+    /// of one.
     Ltc,
-    /// Lunar coordinate time scale, barycentric-style label (`TCL`).
+    /// Lunar Coordinate Time (`TCL`, Temps-Coordonnée Lunaire): the coordinate time of the IAU
+    /// 2024 lunar reference system, the lunar counterpart of TCG, as `kshana lunar-ref` carries
+    /// it.
     Tcl,
     /// Coordinated Universal Time (`UTC`) — the Earth tie.
     Utc,
+}
+
+/// The values of the SANA "Time Systems" registry (<https://sanaregistry.org/r/time_systems>,
+/// read 2026-11-21: 15 records, the latest change GMST on 2023-05-17), which CCSDS 502.0 names
+/// as the source of OEM `TIME_SYSTEM` values. It holds no lunar time scale, so neither `LTC` nor
+/// `TCL` is among them, and a strict CCSDS reader refuses both.
+pub const SANA_TIME_SYSTEMS: [&str; 15] = [
+    "UT1", "GPS", "BEIDOU", "TCB", "TCG", "ET", "UTC", "NAVIC", "SCLK", "GALILEO", "GLONASS",
+    "TAI", "TDB", "TT", "GMST",
+];
+
+/// Whether a `TIME_SYSTEM` token is a value of the SANA "Time Systems" registry.
+pub fn time_system_is_sana_registered(token: &str) -> bool {
+    SANA_TIME_SYSTEMS.contains(&token)
+}
+
+/// Whether a `TIME_SYSTEM` token is one the lunar interchange reads: a SANA-registered value,
+/// or one of the unregistered lunar tokens `LTC` / `TCL` it writes on request.
+pub fn time_system_is_recognised(token: &str) -> bool {
+    matches!(token, "LTC" | "TCL") || time_system_is_sana_registered(token)
 }
 
 impl LunarTimeId {
@@ -132,9 +157,10 @@ impl LunarTimeId {
         }
     }
 
-    /// Whether the token is a value of the SANA "Time Systems" registry (read 21 November 2026).
+    /// Whether the token is a value of the SANA "Time Systems" registry
+    /// ([`SANA_TIME_SYSTEMS`]).
     pub fn sana_registered(self) -> bool {
-        matches!(self, LunarTimeId::Tdb | LunarTimeId::Utc)
+        time_system_is_sana_registered(self.as_ccsds_str())
     }
 
     /// Read a `TIME_SYSTEM` token.
@@ -467,7 +493,9 @@ pub fn oem_conformance(oem: &str) -> OemConformance {
         .unwrap_or(false);
     let time_present = time_system
         .as_deref()
-        .map(|t| !t.is_empty())
+        // A TIME_SYSTEM the interchange recognises (a SANA value, or LTC / TCL), not merely a
+        // non-empty one: before, any token passed.
+        .map(time_system_is_recognised)
         .unwrap_or(false);
 
     let pass = missing.is_empty() && frame_is_lunar && time_present && data_lines >= 1;
@@ -1067,6 +1095,47 @@ mod tests {
         assert_eq!(LunarTimeId::parse("tcl"), Some(LunarTimeId::Tcl));
         assert!(!LunarTimeId::Ltc.sana_registered());
         assert!(LunarTimeId::Utc.sana_registered());
+    }
+
+    #[test]
+    fn the_sana_list_holds_no_lunar_scale_and_the_reader_refuses_unknown_tokens() {
+        // PIN-SCOPE:    the SANA Time Systems values as read 2026-11-21 (15, no lunar scale),
+        //               which tokens the lunar OEM reader passes, and which it refuses.
+        // PIN-EXCLUDES: the state vectors and every header field other than TIME_SYSTEM.
+        assert_eq!(SANA_TIME_SYSTEMS.len(), 15);
+        let mut sorted = SANA_TIME_SYSTEMS.to_vec();
+        sorted.sort_unstable();
+        sorted.dedup();
+        assert_eq!(sorted.len(), 15, "no value listed twice");
+        for t in ["UTC", "TDB", "TT", "TAI", "GPS", "TCB", "TCG"] {
+            assert!(time_system_is_sana_registered(t), "{t}");
+        }
+        for t in ["LTC", "TCL", "utc", "MOONTIME", ""] {
+            assert!(!time_system_is_sana_registered(t), "{t}");
+        }
+        for ts in [
+            LunarTimeId::Tdb,
+            LunarTimeId::Ltc,
+            LunarTimeId::Tcl,
+            LunarTimeId::Utc,
+        ] {
+            assert!(time_system_is_recognised(ts.as_ccsds_str()));
+            assert_eq!(
+                ts.sana_registered(),
+                !matches!(ts, LunarTimeId::Ltc | LunarTimeId::Tcl)
+            );
+        }
+        let states = sample_lunar_states(3, 600.0);
+        let good = export_lunar_oem("LCNS-1", LunarFrameId::MoonMe, LunarTimeId::Tcl, &states);
+        assert!(oem_conformance(&good).pass);
+        // An unknown token used to pass as merely non-empty; it is refused now.
+        let odd = good.replace("TIME_SYSTEM = TCL", "TIME_SYSTEM = MOONTIME");
+        let c = oem_conformance(&odd);
+        assert!(!c.pass, "{c:?}");
+        assert_eq!(c.time_system.as_deref(), Some("MOONTIME"));
+        // Any SANA value is read, also one the writer never emits.
+        let tt = good.replace("TIME_SYSTEM = TCL", "TIME_SYSTEM = TT");
+        assert!(oem_conformance(&tt).pass);
     }
 
     #[test]
