@@ -181,6 +181,11 @@ measurements up. Pre-registered in `xval/bench-h/PREREGISTRATION.md`; the first 
   with the day's IGS BRDC broadcast navigation. `scripts/fetch_urbannav.sh <dir>` lays them out as
   `<sequence>/{ground_truth.txt, <receiver>.obs, <receiver>.nmea, nav.rnx}` and checks every file's SHA-256. Never
   committed.
+- **Editions:** Hong Kong (above) and Tokyo: `scripts/fetch_urbannav_tokyo.sh <dir>` lays out `tokyo-odaiba` and
+  `tokyo-shinjuku` (UrbanNav-TK-20181219, the same MIT grant) as `<sequence>/{tk_reference.csv, ublox-f9p.obs,
+  trimble-netr9.obs, nav.rnx}`, the truth being the whole-second epochs of the Applanix POS LV620 reference. Each
+  edition is fetched into a directory of its own and scored on its own; a directory holding both is refused, and
+  results of the two are never pooled. Pre-registered in `xval/bench-h/PREREGISTRATION-TOKYO.md`.
 - **Unit:** one ground-truth epoch (1 Hz) of one trace (`<sequence>/<receiver>`), keyed by Unix milliseconds (the
   file's UTCTime column).
 - **Truth:** the sequence's reference latitude and longitude (NovAtel SPAN-CPT, as the publisher states it), shared by
@@ -190,7 +195,7 @@ measurements up. Pre-registered in `xval/bench-h/PREREGISTRATION.md`; the first 
 - **Splits:** per sequence, so a sequence's receivers share one split: sorted by the lowercase hex SHA-256 of the
   sequence name, the first half (rounded up) are `test` and the rest `dev`. **No holdout:** the truth is public, and
   `--split holdout` is refused.
-- **Baselines:** `provided-nmea`, each receiver's own GGA fix at the nearest epoch; `kshana-spp`, the engine's code
+- **Baselines** (a baseline whose input files are missing for a trace is skipped: Tokyo has no NMEA): `provided-nmea`, each receiver's own GGA fix at the nearest epoch; `kshana-spp`, the engine's code
   single-point solution (`src/pvt.rs`) from the receiver's RINEX and the broadcast navigation, single frequency with
   the Klobuchar model, in two passes that do not use the truth (no elevation mask from the Earth's centre, then a 10°
   mask from the median of the first pass), at the nearest epoch.

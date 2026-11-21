@@ -11799,7 +11799,9 @@ engine-bench-task-has-no-holdout = taak ({ $task }) heeft geen holdout-split: de
 engine-bench-unknown-baseline = onbekende baseline `{ $name }`
 
 engine-bench-g-no-traces = geen <drive>/<phone>/ground_truth.csv onder { $root }
-engine-bench-h-no-sequences = geen <sequence>/ground_truth.txt onder { $root }
+engine-bench-h-no-sequences = geen <sequence>/(ground_truth.txt|tk_reference.csv) onder { $root }
+engine-bench-h-mixed-editions = { $root } mengt de Hongkong- en Tokio-editie van taak (h) (ground_truth.txt en tk_reference.csv): haal elk op in een eigen map
+engine-bench-h-baseline-skipped = baseline { $baseline } overgeslagen: de invoerbestanden ontbreken voor ten minste één spoor
 
 engine-bench-g-no-object = geen object `{ $key }` met sporen
 

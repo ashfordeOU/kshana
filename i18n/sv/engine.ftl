@@ -11617,7 +11617,9 @@ engine-bench-task-has-no-holdout = uppgift ({ $task }) har ingen holdout-uppdeln
 engine-bench-unknown-baseline = okänd baslinje `{ $name }`
 
 engine-bench-g-no-traces = ingen <drive>/<phone>/ground_truth.csv under { $root }
-engine-bench-h-no-sequences = ingen <sequence>/ground_truth.txt under { $root }
+engine-bench-h-no-sequences = ingen <sequence>/(ground_truth.txt|tk_reference.csv) under { $root }
+engine-bench-h-mixed-editions = { $root } blandar Hongkong- och Tokyo-utgåvan av uppgift (h) (ground_truth.txt och tk_reference.csv): hämta var och en till en egen katalog
+engine-bench-h-baseline-skipped = baslinjen { $baseline } hoppades över: dess indatafiler finns inte för alla spår
 
 engine-bench-g-no-object = inget `{ $key }`-objekt med spår
 

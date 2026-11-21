@@ -11740,7 +11740,9 @@ engine-bench-task-has-no-holdout = oppgave ({ $task }) har ingen holdout-inndeli
 engine-bench-unknown-baseline = ukjent baseline `{ $name }`
 
 engine-bench-g-no-traces = ingen <drive>/<phone>/ground_truth.csv under { $root }
-engine-bench-h-no-sequences = ingen <sequence>/ground_truth.txt under { $root }
+engine-bench-h-no-sequences = ingen <sequence>/(ground_truth.txt|tk_reference.csv) under { $root }
+engine-bench-h-mixed-editions = { $root } blander Hongkong- og Tokyo-utgaven av oppgave (h) (ground_truth.txt og tk_reference.csv): hent hver til sin egen mappe
+engine-bench-h-baseline-skipped = baseline { $baseline } hoppet over: inndatafilene finnes ikke for alle spor
 
 engine-bench-g-no-object = intet `{ $key }`-objekt med spor
 
