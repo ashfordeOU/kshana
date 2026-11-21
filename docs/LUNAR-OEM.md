@@ -39,8 +39,9 @@ Also read on input:
 
 * `MOON_PA_DE440` and `MOON_ME_DE440_ME421`, the NAIF names.
 * `MOON_PA` with no DE number. It is read as DE440 PA, and a `COMMENT` says so. Kshana's own
-  `lunar_interop` export writes this token, which is not a registered value; nor are the `LTC` and
-  `TCL` time tokens that export writes.
+  `lunar_interop` export wrote this token before 21 November 2026; it now writes `MOON_PA440`, `TDB`
+  by default, and the unregistered `LTC` / `TCL` only on explicit request with a `COMMENT` (see
+  below).
 
 Refused:
 
@@ -61,6 +62,22 @@ scales: the SANA "Time Systems" registry lists none. Epochs keep their original 
 within each day, so the difference matches that interpolation exactly within a day. A point fixed on
 the lunar surface, written in ICRF, comes out at rest in `MOON_PA440` to better than 1 mm/s
 (`tests/lunar_oem.rs`).
+
+## The lunar interop export
+
+`lunar_interop` (the `lunar-interop-export` scenario kind) writes the same registered names:
+
+* `REF_FRAME` is `MOON_ME` or `MOON_PA440`, and a `COMMENT` states the realisation.
+* `TIME_SYSTEM` is `TDB` by default, or `UTC`.
+* `LTC` and `TCL` are written only with `allow_unregistered_time_system = true`, and a `COMMENT`
+  says the value is not SANA-registered.
+
+Its sample states are rotated from Moon-centred inertial axes into the named body frame with the
+orientation used here. A test converts the written file back to ICRF through this module and gets
+the inertial states back.
+
+Two independent readers decode the default export: `oem` 0.4.5 and Orekit 12.2
+(`tests/lunar_interop_oem_oracle.rs`). Orekit still refuses `LTC`.
 
 ## Not carried
 
