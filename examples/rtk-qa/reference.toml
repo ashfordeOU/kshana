@@ -1,0 +1,18 @@
+# Reference for `kshana rtk-qa base examples/rtk-qa/base.rtcm3 --reference examples/rtk-qa/reference.toml --epoch 2026.9`
+# (docs/RTK-QA.md). An illustrative station, not a real one: the coordinate is ITRF2020 at 2015.0
+# with the Eurasian plate velocity there. base.rtcm3 still broadcasts the 2015.0 coordinate, so the
+# check names an epoch mismatch; the project is in ETRF2020 with a mean-tide geoid.
+
+[project]
+frame = "ETRF2020"
+epoch = 2026.9
+tolerance_m = 0.02
+geoid_tide = "mean-tide"
+
+[[station]]
+id = 7
+name = "EXAMPLE"
+frame = "ITRF2020"
+epoch = 2015.0
+ecef_m = [2952564.8, 1361338.5, 5468884.0]
+velocity_m_per_yr = [-0.0187, 0.0131, 0.0069]

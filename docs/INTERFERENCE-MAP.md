@@ -188,6 +188,23 @@ FeatureCollection
                            AIS:   vessels_observed, vessels_flagged{detector: n|null}, detectors[]
 ```
 
+**Confidence and data window (0.42, additive).** Every published cell carries a `confidence` object
+(`statement: "kshana-interference-map/confidence/v1"`), and every file's `day` block a `data_window`
+(`first_report_utc`, `last_report_utc`, truncated to the minute). The confidence statement describes how much a
+call rests on; it changes nothing about the call.
+
+| Field | ADS-B | AIS |
+|---|---|---|
+| `level` | `high`: at least 20 sampled aircraft and at least 90% of the cell's reports carry NACp; `medium`: at least 10 sampled aircraft (the call minimum) and at least 50% carry NACp; `low`: otherwise | `high`: at least 20 vessels observed; `medium`: at least 10; `low`: otherwise |
+| `affected_share_ci95` | Wilson score interval of `affected_share` at 95%, given only when the share itself is published (so it reveals no withheld count); otherwise `null` | not present |
+| `reports` | reports used in the cell; `null` below 5 | not present |
+| `nacp_report_share`, `nic_report_share` | share of the cell's reports that carried NACp, NIC: how much of the call rests on the stronger accuracy field | not present |
+
+The levels are a reading aid fixed with this statement, not a validated grading, and the interval is the sampling
+uncertainty of a share of distinct aircraft only: it does not cover coverage bias or the other causes of low
+accuracy. The interval is checked against an independent quadratic-formula solution of the Wilson bound (`adsb.rs` unit tests). The observatory product adds a
+latency statement (`docs/observatory/METHOD.md`).
+
 `status` values: ADS-B `degraded`, `not_degraded`, `insufficient_sample`,
 `withheld_day_confounded`, `withheld_no_background`; AIS `anomalous`, `not_anomalous`. `degraded` is true for
 `degraded` and `anomalous` only. The route-exposure report has its own

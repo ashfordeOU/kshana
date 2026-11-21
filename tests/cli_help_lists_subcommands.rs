@@ -38,6 +38,12 @@ fn the_top_level_usage_names_every_subcommand() {
         "decimate",
         "time-vectors",
         "ais-integrity",
+        "corrections",
+        "space-weather",
+        "rtk-qa",
+        "diagnose",
+        "gnss-sdr-conf",
+        "orbit-data",
     ] {
         assert!(
             text.contains(want),

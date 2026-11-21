@@ -35,6 +35,14 @@
         "aircraft_sampled": null,
         "cell_i": 220,
         "cell_j": 239,
+        "confidence": {
+          "affected_share_ci95": null,
+          "level": "low",
+          "nacp_report_share": 1.0,
+          "nic_report_share": 1.0,
+          "reports": 168,
+          "statement": "kshana-interference-map/confidence/v1"
+        },
         "degraded": false,
         "status": "insufficient_sample"
       },
@@ -75,6 +83,14 @@
         "aircraft_sampled": null,
         "cell_i": 224,
         "cell_j": 239,
+        "confidence": {
+          "affected_share_ci95": null,
+          "level": "low",
+          "nacp_report_share": 1.0,
+          "nic_report_share": 1.0,
+          "reports": 168,
+          "statement": "kshana-interference-map/confidence/v1"
+        },
         "degraded": false,
         "status": "insufficient_sample"
       },
@@ -115,6 +131,14 @@
         "aircraft_sampled": null,
         "cell_i": 228,
         "cell_j": 239,
+        "confidence": {
+          "affected_share_ci95": null,
+          "level": "low",
+          "nacp_report_share": 1.0,
+          "nic_report_share": 1.0,
+          "reports": 168,
+          "statement": "kshana-interference-map/confidence/v1"
+        },
         "degraded": false,
         "status": "insufficient_sample"
       },
@@ -155,6 +179,14 @@
         "aircraft_sampled": 12,
         "cell_i": 240,
         "cell_j": 259,
+        "confidence": {
+          "affected_share_ci95": null,
+          "level": "medium",
+          "nacp_report_share": 1.0,
+          "nic_report_share": 1.0,
+          "reports": 48,
+          "statement": "kshana-interference-map/confidence/v1"
+        },
         "degraded": false,
         "status": "not_degraded"
       },
@@ -195,6 +227,14 @@
         "aircraft_sampled": 12,
         "cell_i": 240,
         "cell_j": 260,
+        "confidence": {
+          "affected_share_ci95": null,
+          "level": "medium",
+          "nacp_report_share": 1.0,
+          "nic_report_share": 1.0,
+          "reports": 48,
+          "statement": "kshana-interference-map/confidence/v1"
+        },
         "degraded": false,
         "status": "not_degraded"
       },
@@ -235,6 +275,17 @@
         "aircraft_sampled": 12,
         "cell_i": 240,
         "cell_j": 261,
+        "confidence": {
+          "affected_share_ci95": [
+            0.3195,
+            0.8067
+          ],
+          "level": "medium",
+          "nacp_report_share": 1.0,
+          "nic_report_share": 1.0,
+          "reports": 48,
+          "statement": "kshana-interference-map/confidence/v1"
+        },
         "degraded": true,
         "status": "degraded"
       },
@@ -275,6 +326,14 @@
         "aircraft_sampled": 12,
         "cell_i": 240,
         "cell_j": 262,
+        "confidence": {
+          "affected_share_ci95": null,
+          "level": "medium",
+          "nacp_report_share": 1.0,
+          "nic_report_share": 1.0,
+          "reports": 48,
+          "statement": "kshana-interference-map/confidence/v1"
+        },
         "degraded": false,
         "status": "not_degraded"
       },
@@ -315,6 +374,14 @@
         "aircraft_sampled": 12,
         "cell_i": 240,
         "cell_j": 263,
+        "confidence": {
+          "affected_share_ci95": null,
+          "level": "medium",
+          "nacp_report_share": 1.0,
+          "nic_report_share": 1.0,
+          "reports": 48,
+          "statement": "kshana-interference-map/confidence/v1"
+        },
         "degraded": false,
         "status": "not_degraded"
       },
@@ -355,6 +422,14 @@
         "aircraft_sampled": 12,
         "cell_i": 240,
         "cell_j": 264,
+        "confidence": {
+          "affected_share_ci95": null,
+          "level": "medium",
+          "nacp_report_share": 1.0,
+          "nic_report_share": 1.0,
+          "reports": 48,
+          "statement": "kshana-interference-map/confidence/v1"
+        },
         "degraded": false,
         "status": "not_degraded"
       },
@@ -395,6 +470,14 @@
         "aircraft_sampled": 12,
         "cell_i": 240,
         "cell_j": 265,
+        "confidence": {
+          "affected_share_ci95": null,
+          "level": "medium",
+          "nacp_report_share": 1.0,
+          "nic_report_share": 1.0,
+          "reports": 48,
+          "statement": "kshana-interference-map/confidence/v1"
+        },
         "degraded": false,
         "status": "not_degraded"
       },
@@ -435,6 +518,14 @@
         "aircraft_sampled": null,
         "cell_i": 242,
         "cell_j": 259,
+        "confidence": {
+          "affected_share_ci95": null,
+          "level": "low",
+          "nacp_report_share": 1.0,
+          "nic_report_share": 1.0,
+          "reports": 28,
+          "statement": "kshana-interference-map/confidence/v1"
+        },
         "degraded": false,
         "status": "insufficient_sample"
       },
@@ -458,6 +549,10 @@
       "background_share": 0.0,
       "cells_published": 11,
       "cells_suppressed_below_min_distinct": 1,
+      "data_window": {
+        "first_report_utc": "2026-03-01T09:00:00Z",
+        "last_report_utc": "2026-03-01T10:03:00Z"
+      },
       "day_confounded": false
     },
     "format_version": 1,
@@ -467,7 +562,7 @@
       "preregistered_cell_deg": 0.5,
       "type": "fixed_lat_lon"
     },
-    "kshana_version": "0.34.0",
+    "kshana_version": "0.41.0",
     "method": {
       "caveats": [
         "A degraded cell means a high share of aircraft reported low navigation accuracy there that day. It does not identify interference as the cause.",

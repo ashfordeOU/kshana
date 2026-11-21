@@ -76,7 +76,7 @@ public documents; no recorded receiver log is included. The values in them are i
 |---|---|---|---|
 | `sbp` | Swift Navigation `libsbp` specification (MIT; `spec/yaml/swiftnav/sbp/*.yaml`, `c/src/edc.c`) | frame `0x55`, CRC-16-CCITT; `MSG_GPS_TIME`(`_GNSS`) week; `MSG_POS_LLH`(`_GNSS`) latitude, longitude, ellipsoidal height, satellites used (fix mode 0 gives no fix); `MSG_DOPS` PDOP, HDOP, VDOP; `MSG_OBS` and `MSG_MEASUREMENT_STATE` C/N0 (0.25 dB-Hz) per signal, with the `GnssSignal` code table | pseudorange, phase and Doppler of `MSG_OBS`; GLONASS signals named only by frequency channel; auxiliary-antenna codes |
 | `greis` | Javad *GREIS* 4.3.00 (javad.com) | `IIHHH` framing and the 8-bit checksum (appendix A.1.1); `[~~]`, `[::]`, `[RD]` (the label says `GPST` for GPS time, `Z` for UTC, `GLONASST` for GLONASS time); `[SX]`, `[SI]`, `[NN]`; `[EC] [E1] [E2] [E3] [E5] [El]` and the ×4 forms; `[PG]` (solution type 0 gives no fix); `[DP]` (PDOP formed as √(HDOP² + VDOP²)) | the measurements (`[R*]`, `[P*]`, `[D*]`), navigation data, text messages; a GLONASS satellite with no `[NN]` slot |
-| `unicore` | Unicore *Reference Commands Manual for N4 High Precision Products* V2 R1.13 (en.unicore.com) | header `AA 44 B5` (24 bytes), the 32-bit CRC NovAtel also uses; `BESTNAV` (2118: status 0 only, height = MSL + undulation, satellites used); `OBSVM` (12: C/N0 × 100 per signal, system and signal type from the tracking status word) | ASCII logs, other messages; Unicore receivers that use NovAtel headers (`AA 44 12`) are read with `novatel` |
+| `unicore` | Unicore *Reference Commands Manual for N4 High Precision Products* V2 R1.13 (en.unicore.com) | header `AA 44 B5` (24 bytes), the 32-bit CRC NovAtel also uses; `BESTNAV` (2118: status 0 only, height = MSL + undulation, satellites used); `OBSVM` (12: C/N0 × 100 per signal, system and signal type from the tracking status word); since E17 `AGC`, `JAMSTATUS`, `FREQJAMSTATUS`, binary or ASCII (below) | other ASCII logs, other messages; Unicore receivers that use NovAtel headers (`AA 44 12`) are read with `novatel` |
 
 **RTCM 3 observations and stations (library and `kshana connect decode rtcm3`).** The `rtcm3` reader
 of 0.38 reads the C/N0 of MSM4 and MSM7. `receiver_trust::machines::rtcm3_obs` decodes the rest of
@@ -91,6 +91,41 @@ RTKLIB (`rtcm3.c`, BSD 2-Clause) and pyrtcm (BSD 3-Clause); the RTCM standard it
 consulted, so check against RTCM 10403.3 before relying on this beyond monitoring. Vector:
 `conformance/timing/rtcm3-decode/` (a 1006 and an MSM7 with invalid markers); round trip:
 `rtcm_station_and_msm_round_trip` (MSM4 and MSM7 encoded and decoded within their resolutions).
+
+## Receiver formats added in E17: Unicore interference logs, RTCM 3 MSM1 to MSM7
+
+**Unicore AGC and jamming flags.** The `unicore` reader also reads three interference logs of the same
+manual (R1.13), binary or ASCII: `AGC` (message 220, §7.5.7, Table 7-55), `JAMSTATUS` (511, §7.5.49,
+Table 7-106) and `FREQJAMSTATUS` (519, §7.5.36, Table 7-91). The epoch's `agc` is the mean of the master
+antenna's valid L1, L2 and L5 values on Unicore's own 0-119 scale (the manual: interference lowers it);
+the `CWFlag` (the highest band of `FREQJAMSTATUS`) becomes the receiver's own jamming state
+(`self_report.jamming`: flag 0 is state 1, flag 1 state 2, flag 2 state 3), so it enters the
+`receiver-self-report` comparison above like a UBX-SEC-SIG flag. The `CWRatio` is not carried, and the
+logs have no spoofing flag. ASCII lines are read only for these three logs (`AGCA`, `JAMSTATUSA`,
+`FREQJAMSTATUSA`), each checked against its CRC (Table 7-46: the characters between `#` and `*`).
+
+| Vector | Kind | What it is |
+|---|---|---|
+| `conformance/connect/reader-unicore-ascii/` | document | the manual's own example output lines of the three logs, byte for byte with their CRCs |
+| `conformance/connect/reader-unicore-interference/` | self-derived | the three logs in binary with `OBSVM`, three epochs of a rising CW flag (invented values) |
+
+**RTCM 3 MSM1, MSM2, MSM3, MSM5 and MSM6.** `rtcm3_obs` (and so `kshana connect decode rtcm3`) now
+decodes every MSM type: MSM1 the fine pseudorange, MSM2 the fine phase range with lock time and
+half-cycle flag, MSM3 both, MSM5 as MSM4 plus the extended information and the phase-range rates, MSM6
+the high-resolution cells of MSM7 without the rates. MSM1 to MSM3 send no whole milliseconds, so their
+ranges are modulo one light-millisecond (299 792.458 m) and are marked `"modulo_1ms": true`; a receiver
+needs its own approximate range to restore them. The `rtcm3` C/N0 reader reads MSM4 to MSM7 (MSM1 to
+MSM3 carry no C/N0). Same provenance as above (RTKLIB and pyrtcm field tables, not the standard's text).
+Vector: `conformance/timing/rtcm3-decode-msm/` (self-derived); round trip:
+`every_msm_type_round_trips_what_it_carries` (each type encoded and decoded within its resolution).
+
+The vector inputs are written by `conformance/tools/gen_receiver_format_vectors.py`.
+
+**Not built, and why.** ComNav, Hi-Target, CHC and Allystar raw formats: no public protocol document
+for them could be read (ComNav's OEM board reference manual is behind a sign-in; the others publish
+none), and these readers are built only from public documents. A receiver of these makers that outputs
+NMEA or RTCM 3 is read with `nmea` or `rtcm3`. UBX-SEC-SIG (jamming and spoofing states) has been read since
+0.38, see the top of this page.
 
 **What exists from earlier releases.** u-blox UBX (NAV-PVT, NAV-SAT, MON-RF, NAV-TIMEGPS, NAV-STATUS,
 SEC-SIG), Septentrio SBF (PVTGeodetic, MeasEpoch, RFStatus), NovAtel OEM7 (BESTPOS, RANGE,

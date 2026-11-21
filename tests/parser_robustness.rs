@@ -502,10 +502,11 @@ fn crc24q(data: &[u8]) -> u32 {
 }
 
 fn gen_rtcm3(rng: &mut Rng) -> Vec<u8> {
-    // MSM4/MSM7 of each system, SSR orbit/clock, station and ephemeris messages.
+    // MSM1-7 of each system, SSR orbit/clock, station and ephemeris messages.
     const TYPES: &[u16] = &[
         1074, 1077, 1084, 1087, 1094, 1097, 1124, 1127, 1114, 1117, 1005, 1006, 1019, 1020, 1042,
-        1046, 1057, 1058, 1060, 1240, 1243, 1264, 4076, 1013, 1033,
+        1046, 1057, 1058, 1060, 1240, 1243, 1264, 4076, 1013, 1033, 1071, 1072, 1073, 1075, 1076,
+        1081, 1093, 1105, 1116, 1121, 1132, 1136,
     ];
     let mut out = Vec::new();
     for _ in 0..1 + rng.below(4) {
@@ -773,6 +774,55 @@ fn receiver_other_binary() {
 }
 
 #[test]
+fn receiver_unicore_interference_logs() {
+    use kshana::receiver_trust::LogFormat;
+    // The N4 manual's ASCII example lines and the binary interference vector (E17).
+    let seeds = vec![
+        bytes("conformance/connect/reader-unicore-ascii/input.unc", 4096),
+        bytes(
+            "conformance/connect/reader-unicore-interference/input.unc",
+            4096,
+        ),
+    ];
+    fuzz("unicore interference", &seeds, None, |b| {
+        receiver(LogFormat::Unicore, b)
+    });
+}
+
+#[test]
+fn iq_frontend_diagnosis() {
+    use kshana::iq::acq::AcqConfig;
+    use kshana::iq::frontdiag::{diagnose, DiagConfig};
+    use kshana::iq::io::format::{decode_samples, SampleFormat};
+    // Any bytes, read as 8-bit I/Q, through the front-end diagnosis (no codes: the statistics).
+    let spec = kshana::iq::SampleSpec {
+        fs_hz: 1.0e5,
+        center_hz: 0.0,
+        if_hz: 0.0,
+    };
+    let acq = AcqConfig {
+        coherent_periods: 1,
+        noncoherent: 1,
+        doppler_max_hz: 0.0,
+        doppler_step_hz: 1.0,
+        pfa: 1e-3,
+    };
+    let seed = (0..512u32)
+        .map(|k| (k * 37 % 251) as u8)
+        .collect::<Vec<_>>();
+    fuzz("iq frontdiag", &[seed], None, |b| {
+        let mut src = kshana::iq::VecSource::new(spec, decode_samples(SampleFormat::CI8, b, 1.0));
+        let _ = diagnose(
+            &mut src,
+            SampleFormat::CI8,
+            &[],
+            &acq,
+            &DiagConfig::default(),
+        );
+    });
+}
+
+#[test]
 fn receiver_other_text() {
     use kshana::receiver_trust::LogFormat;
     let rinex = head(
@@ -842,6 +892,52 @@ EPHEMERIS_TYPE = 0\nCLASSIFICATION_TYPE = U\nNORAD_CAT_ID = 270001\nELEMENT_SET_
 BSTAR = 0.0001\nMEAN_MOTION_DOT = 0.0\nMEAN_MOTION_DDOT = 0.0\n";
 
 #[test]
+fn drone_logs() {
+    use kshana::drone_pnt::epochs::{encode_dataflash, encode_ulog, load, GnssEpoch};
+    let rows: Vec<GnssEpoch> = (0..6)
+        .map(|k| GnssEpoch {
+            t_s: 1.0 + k as f64 * 0.2,
+            instance: (k % 2) as u8,
+            fix_type: 3,
+            lat_deg: Some(47.4),
+            lon_deg: Some(8.5),
+            eph_m: Some(1.5),
+            jam_ind: Some(40.0),
+            spoofing_state: Some(1),
+            rx_time_s: Some(1.7e9 + k as f64),
+            ..GnssEpoch::default()
+        })
+        .collect();
+    let cfg = kshana::drone_pnt::prearm::PrearmConfig::default();
+    let seeds = vec![
+        encode_dataflash(&rows, Some(1.5)),
+        encode_ulog(&rows, Some(1.5)),
+    ];
+    fuzz("dataflash and ulog pre-arm", &seeds, None, |b| {
+        let _ = kshana::drone_pnt::dataflash::read(b, &["GPS", "GPA", "UBX1", "ARM"]);
+        if let Ok(log) = load(b) {
+            let _ = kshana::drone_pnt::prearm::check(&log, &cfg);
+        }
+    });
+    let jsonl = b"{\"t_s\":1,\"fix_type\":3,\"lat_deg\":47.4,\"lon_deg\":8.5}\n{\"t_s\":2,\"armed\":true}\n".to_vec();
+    let trace = b"{\"t\":0,\"est_x\":1}\n{\"t\":0.1,\"est_x\":null,\"est_x_replay\":2}\n".to_vec();
+    fuzz("drone jsonl and traces", &[jsonl, trace], None, |b| {
+        if let Ok(log) = load(b) {
+            let _ = kshana::drone_pnt::prearm::check(&log, &cfg);
+        }
+        if let Ok(tr) = kshana::drone_pnt::estimator_cases::Trace::from_jsonl(&text(b)) {
+            for (case, _) in kshana::drone_pnt::estimator_cases::CASES {
+                let _ = kshana::drone_pnt::estimator_cases::run_case(
+                    case,
+                    &tr,
+                    &serde_json::Value::Null,
+                );
+            }
+        }
+    });
+}
+
+#[test]
 fn norad_alpha5_and_omm() {
     let tle = b"1 A0001U 26001A   26318.50000000  .00000000  00000-0  00000-0 0  9990\n2 A0001  51.6400 100.0000 0001000  90.0000 270.0000 15.50000000    05\n".to_vec();
     fuzz("alpha-5", &[tle], None, |b| {
@@ -883,6 +979,57 @@ fn ais_integrity_inputs() {
             let _ = kshana::ais_integrity::read_places(b);
         },
     );
+}
+
+#[test]
+fn orbit_data_checks_and_monitors() {
+    let fx = |p: &str| {
+        std::fs::read(format!("{}/tests/fixtures/{p}", env!("CARGO_MANIFEST_DIR"))).unwrap()
+    };
+    let none = std::collections::BTreeMap::new();
+    let cdms = vec![
+        fx("orbit_data/cdm_508_b1_example_3_6_3.cdm"),
+        fx("orbit_data/cdm_508_b1_example_4_4.xml"),
+    ];
+    fuzz("cdm check", &cdms, None, |b| {
+        let (m, _) = kshana::orbit_data::cdm::validate(&text(b), &none);
+        let _ = m.to_kvn();
+    });
+    let oem = vec![
+        fx("ccsds_cov/kshana_cov_leo.oem"),
+        fx("ccsds/oem_502_b3_figG11.oem"),
+    ];
+    let p = kshana::orbit_data::ephem::Profile {
+        min_span_days: Some(1.0),
+        max_gap_s: Some(60.0),
+    };
+    fuzz("oem check and convert", &oem, None, |b| {
+        let _ = kshana::orbit_data::ephem::check_oem(&text(b), p);
+        if let Ok(o) = kshana::orbit_data::convert::oem_to_ocm(&text(b)) {
+            let _ = kshana::orbit_data::convert::ocm_to_oem(&o);
+        }
+    });
+    let ocm = vec![
+        fx("odm_orekit_oracle/kshana/C05.kvn"),
+        fx("odm_orekit_oracle/kshana/C02.xml"),
+    ];
+    fuzz("ocm check and convert", &ocm, None, |b| {
+        let _ = kshana::orbit_data::ephem::check_ocm(&text(b), p);
+        let _ = kshana::orbit_data::convert::ocm_to_oem(&text(b));
+    });
+    let tles = vec![
+        fx("orbit_data/gp_audit.tle"),
+        fx("orbit_data/gp_source_b.tle"),
+    ];
+    fuzz("gp audit", &tles, None, |b| {
+        let sets = kshana::orbit_data::gp_quality::read_sets(&text(b));
+        let _ = kshana::orbit_data::gp_quality::audit(&sets, Default::default());
+        let o = kshana::orbit_data::gp_quality::CompareOpts {
+            hours: 1.0,
+            ..Default::default()
+        };
+        let _ = kshana::orbit_data::gp_quality::compare(&sets, &sets, o);
+    });
 }
 
 #[test]
@@ -1031,6 +1178,27 @@ fn other_text_formats() {
             let _ = kshana::telemetry::time::parse_rfc3339_utc(l);
             let _ = kshana::telemetry::sample::parse_live_line(l);
             let _ = kshana::norad::epoch_days_1950(l);
+        }
+    });
+}
+
+#[test]
+fn oscillator_inputs() {
+    let seeds: Vec<Vec<u8>> = [
+        "vibration",
+        "holdover-temperature-step",
+        "holdover-ramp-and-shock",
+        "select",
+        "raim-aid",
+        "datasheet",
+    ]
+    .iter()
+    .map(|n| bytes(&format!("examples/oscillator/{n}.json"), 4096))
+    .collect();
+    fuzz("oscillator inputs", &seeds, None, |b| {
+        let t = text(b);
+        for part in ["vibration", "holdover", "select", "raim-aid", "datasheet"] {
+            let _ = kshana::oscillator::run_json(part, &t);
         }
     });
 }

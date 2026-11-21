@@ -1,0 +1,8 @@
+{
+  "site": { "lat_deg": 60.4, "lon_deg": 5.3, "name": "North Sea worksite (illustrative)" },
+  "mode": "dgnss",
+  "baseline_km": 50,
+  "limit_m": 1.0,
+  "operation_hours": 12,
+  "storm": "2024-05-gannon"
+}

@@ -1,0 +1,5 @@
+{"duration_s": 900, "max_age_s": 8,
+ "policy": {"order": ["radio", "ntrip", "lband"], "switch_after_s": 5, "switch_back_hold_s": 60},
+ "sources": [{"name": "radio", "latency_s": 0.5, "outages": [[100, 200]]},
+             {"name": "ntrip", "latency_s": 1.5, "outages": [[150, 400]]},
+             {"name": "lband", "latency_s": 6.0, "interval_s": 5}]}
