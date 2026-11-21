@@ -11336,3 +11336,7 @@ engine-e-leo-sparse-bad-study = 検討の数値が範囲外です：有効な利
 engine-e-leo-sparse-singular = 事前値を加えても情報行列を逆行列にできません
 engine-e-leo-sparse-cannot-read = { $path } を読み込めません：{ $e }
 engine-e-leo-sparse-bad-file = { $path } は検討ファイルではありません：{ $e }
+engine-e-ccsds-not-finite = { $t } は有限の数値ではありません
+engine-e-oem-unclosed-covariance = { $object } のセグメントは COVARIANCE_START を開いたまま COVARIANCE_STOP で閉じていません
+engine-e-orbit-data-convert-time-system-changes = セグメント間で TIME_SYSTEM が一致しません（{ $first } の後に { $other }）。OCM は 1 つしか持てないため変換を拒否します
+engine-e-ccsds-tdm-data-outside-block = DATA_START から DATA_STOP までのブロックの外にあるデータ行: { $line }
