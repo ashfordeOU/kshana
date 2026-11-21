@@ -1269,6 +1269,11 @@ fn main_in_language(args: Vec<String>) -> ExitCode {
     if args.get(1).map(String::as_str) == Some("ntrip") {
         return run_ntrip_cli(&args[2..]);
     }
+    // `kshana sil-obsgen <scenario.toml> --out <obs.rnx> [--truth <truth.json>]`: deterministic RINEX
+    // observations from a gnss-sim scenario with an optional street canyon (src/sil_obsgen.rs).
+    if args.get(1).map(String::as_str) == Some("sil-obsgen") {
+        return ExitCode::from(kshana::sil_obsgen::run_cli(&args[2..]) as u8);
+    }
     // `kshana ais-integrity <input> [...]`: per-track AIS position-integrity flags as JSON Lines
     // (src/ais_integrity.rs, docs/AIS-INTEGRITY.md). Exit 2 on a usage or input error.
     if args.get(1).map(String::as_str) == Some("ais-integrity") {
