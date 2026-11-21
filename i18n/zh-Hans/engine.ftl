@@ -9857,6 +9857,7 @@ engine-main-usage =
     { "   " }或：kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }或：kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }或：kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
+    { "   " }或：kshana interference-env <evaluate|thresholds|degradation> ... (kshana interference-env --help)
     { "   " }或：kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }或：kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }或：kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
@@ -10978,3 +10979,16 @@ engine-e-oscillator-input = { $part } 输入无效：{ $e }
 engine-e-oscillator-unknown-clock = 未知的时钟预设 { $id }（可选：{ $known }）
 
 engine-e-oscillator-field = { $field } 超出范围：{ $value }
+
+## Interference environments (src/interference_env.rs, docs/INTERFERENCE-ENV.md)
+engine-interference-env-usage = 用法：kshana interference-env evaluate <environment.toml> | thresholds [--receiver <id>] | degradation --baseline <id> --pulse-width <s> --prf <Hz> [--below-ratio <R>] [--recovery <s>]  (docs/INTERFERENCE-ENV.md; MODELLED)
+engine-e-interference-env-unknown-receiver = 未知接收机 { $id }（kshana interference-env thresholds 列出所有接收机）
+engine-e-interference-env-unknown-baseline = 未知基线 { $id }（参见 docs/INTERFERENCE-ENV.md）
+engine-e-interference-env-bad-source = 源 { $name }：其功率、带宽、脉宽或重复频率不是有效的正有限值
+engine-e-interference-env-pulsed-needs-receiver = 脉冲源需要接收机的 noise_temperature_k、precorrelation_bw_hz 以及消隐或饱和电平
+engine-e-interference-env-saturated = 脉冲使未消隐时间为零：占空比达到 1
+engine-e-interference-env-missing-value = { $option } 需要一个值
+engine-e-interference-env-bad-number = { $option } 需要数字，而不是 { $value }
+engine-e-interference-env-unknown-option = 未知选项 { $option }（kshana interference-env --help 列出所有选项）
+engine-e-interference-env-cannot-read = 无法读取 { $path }：{ $e }
+engine-e-interference-env-bad-file = { $path } 不是干扰环境：{ $e }

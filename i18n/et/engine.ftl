@@ -10574,6 +10574,7 @@ engine-main-usage =
     { "   " }või: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }või: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }või: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
+    { "   " }või: kshana interference-env <evaluate|thresholds|degradation> ... (kshana interference-env --help)
     { "   " }või: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }või: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }või: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
@@ -11698,3 +11699,16 @@ engine-e-oscillator-input = { $part } sisend ei ole kehtiv: { $e }
 engine-e-oscillator-unknown-clock = tundmatu kella eelseadistus { $id } (üks järgmistest: { $known })
 
 engine-e-oscillator-field = { $field } on väljaspool vahemikku: { $value }
+
+## Interference environments (src/interference_env.rs, docs/INTERFERENCE-ENV.md)
+engine-interference-env-usage = kasutus: kshana interference-env evaluate <environment.toml> | thresholds [--receiver <id>] | degradation --baseline <id> --pulse-width <s> --prf <Hz> [--below-ratio <R>] [--recovery <s>]  (docs/INTERFERENCE-ENV.md; MODELLED)
+engine-e-interference-env-unknown-receiver = tundmatu vastuvõtja { $id } (kshana interference-env thresholds loetleb need)
+engine-e-interference-env-unknown-baseline = tundmatu baastase { $id } (vt docs/INTERFERENCE-ENV.md)
+engine-e-interference-env-bad-source = allikas { $name }: võimsus, ribalaius, impulsi laius või sagedus ei ole kehtiv positiivne lõplik väärtus
+engine-e-interference-env-pulsed-needs-receiver = impulssallikad vajavad vastuvõtja väärtusi noise_temperature_k, precorrelation_bw_hz ning summutus- või küllastustaset
+engine-e-interference-env-saturated = impulsid ei jäta summutamata aega: täitetegur jõuab väärtuseni 1
+engine-e-interference-env-missing-value = { $option } vajab väärtust
+engine-e-interference-env-bad-number = { $option } vajab arvu, mitte { $value }
+engine-e-interference-env-unknown-option = tundmatu valik { $option } (kshana interference-env --help loetleb valikud)
+engine-e-interference-env-cannot-read = faili { $path } ei saa lugeda: { $e }
+engine-e-interference-env-bad-file = { $path } ei ole häirekeskkond: { $e }

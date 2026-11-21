@@ -10727,6 +10727,7 @@ engine-main-usage =
     { "   " }або: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }або: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }або: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
+    { "   " }або: kshana interference-env <evaluate|thresholds|degradation> ... (kshana interference-env --help)
     { "   " }або: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }або: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }або: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
@@ -11859,3 +11860,16 @@ engine-e-oscillator-input = вхідні дані { $part } недійсні: { 
 engine-e-oscillator-unknown-clock = невідома передустановка годинника { $id } (одна з: { $known })
 
 engine-e-oscillator-field = { $field } поза допустимим діапазоном: { $value }
+
+## Interference environments (src/interference_env.rs, docs/INTERFERENCE-ENV.md)
+engine-interference-env-usage = використання: kshana interference-env evaluate <environment.toml> | thresholds [--receiver <id>] | degradation --baseline <id> --pulse-width <s> --prf <Hz> [--below-ratio <R>] [--recovery <s>]  (docs/INTERFERENCE-ENV.md; MODELLED)
+engine-e-interference-env-unknown-receiver = невідомий приймач { $id } (kshana interference-env thresholds перелічує їх)
+engine-e-interference-env-unknown-baseline = невідома базова лінія { $id } (див. docs/INTERFERENCE-ENV.md)
+engine-e-interference-env-bad-source = джерело { $name }: потужність, ширина смуги, тривалість імпульсу чи частота не є допустимим додатним скінченним значенням
+engine-e-interference-env-pulsed-needs-receiver = імпульсним джерелам потрібні noise_temperature_k, precorrelation_bw_hz приймача і рівень бланкування або насичення
+engine-e-interference-env-saturated = імпульси не залишають часу без бланкування: коефіцієнт заповнення сягає 1
+engine-e-interference-env-missing-value = { $option } потребує значення
+engine-e-interference-env-bad-number = { $option } потребує числа, а не { $value }
+engine-e-interference-env-unknown-option = невідомий параметр { $option } (kshana interference-env --help перелічує параметри)
+engine-e-interference-env-cannot-read = не вдалося прочитати { $path }: { $e }
+engine-e-interference-env-bad-file = { $path } не є завадовою обстановкою: { $e }

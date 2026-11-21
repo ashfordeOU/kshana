@@ -10613,6 +10613,7 @@ engine-main-usage =
     { "   " }of: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }of: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }of: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
+    { "   " }of: kshana interference-env <evaluate|thresholds|degradation> ... (kshana interference-env --help)
     { "   " }of: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }of: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }of: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
@@ -11765,3 +11766,16 @@ engine-e-oscillator-input = de invoer voor { $part } is niet geldig: { $e }
 engine-e-oscillator-unknown-clock = onbekende klokvoorinstelling { $id } (een van { $known })
 
 engine-e-oscillator-field = { $field } valt buiten het bereik: { $value }
+
+## Interference environments (src/interference_env.rs, docs/INTERFERENCE-ENV.md)
+engine-interference-env-usage = gebruik: kshana interference-env evaluate <environment.toml> | thresholds [--receiver <id>] | degradation --baseline <id> --pulse-width <s> --prf <Hz> [--below-ratio <R>] [--recovery <s>]  (docs/INTERFERENCE-ENV.md; MODELLED)
+engine-e-interference-env-unknown-receiver = onbekende ontvanger { $id } (kshana interference-env thresholds toont ze)
+engine-e-interference-env-unknown-baseline = onbekende basislijn { $id } (zie docs/INTERFERENCE-ENV.md)
+engine-e-interference-env-bad-source = bron { $name }: vermogen, bandbreedte, pulsbreedte of herhalingsfrequentie is geen geldige positieve eindige waarde
+engine-e-interference-env-pulsed-needs-receiver = gepulste bronnen vereisen noise_temperature_k, precorrelation_bw_hz van de ontvanger en een blanker- of verzadigingsniveau
+engine-e-interference-env-saturated = de pulsen laten geen tijd onderdrukt vrij: de bezettingsgraad bereikt 1
+engine-e-interference-env-missing-value = { $option } heeft een waarde nodig
+engine-e-interference-env-bad-number = { $option } heeft een getal nodig, niet { $value }
+engine-e-interference-env-unknown-option = onbekende optie { $option } (kshana interference-env --help toont de opties)
+engine-e-interference-env-cannot-read = kan { $path } niet lezen: { $e }
+engine-e-interference-env-bad-file = { $path } is geen storingsomgeving: { $e }

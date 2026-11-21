@@ -10574,6 +10574,7 @@ engine-main-usage =
     { "   " }eller: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }eller: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }eller: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
+    { "   " }eller: kshana interference-env <evaluate|thresholds|degradation> ... (kshana interference-env --help)
     { "   " }eller: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }eller: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }eller: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
@@ -11728,3 +11729,16 @@ engine-e-oscillator-input = { $part }-input er ikke gyldigt: { $e }
 engine-e-oscillator-unknown-clock = ukendt urforudindstilling { $id } (en af { $known })
 
 engine-e-oscillator-field = { $field } er uden for området: { $value }
+
+## Interference environments (src/interference_env.rs, docs/INTERFERENCE-ENV.md)
+engine-interference-env-usage = brug: kshana interference-env evaluate <environment.toml> | thresholds [--receiver <id>] | degradation --baseline <id> --pulse-width <s> --prf <Hz> [--below-ratio <R>] [--recovery <s>]  (docs/INTERFERENCE-ENV.md; MODELLED)
+engine-e-interference-env-unknown-receiver = ukendt modtager { $id } (kshana interference-env thresholds viser dem)
+engine-e-interference-env-unknown-baseline = ukendt basislinje { $id } (se docs/INTERFERENCE-ENV.md)
+engine-e-interference-env-bad-source = kilden { $name }: effekt, båndbredde, pulsbredde eller rate er ikke en gyldig positiv endelig værdi
+engine-e-interference-env-pulsed-needs-receiver = pulserede kilder kræver modtagerens noise_temperature_k, precorrelation_bw_hz og et blanker- eller mætningsniveau
+engine-e-interference-env-saturated = pulserne efterlader ingen tid uden blanking: arbejdscyklussen når 1
+engine-e-interference-env-missing-value = { $option } kræver en værdi
+engine-e-interference-env-bad-number = { $option } kræver et tal, ikke { $value }
+engine-e-interference-env-unknown-option = ukendt tilvalg { $option } (kshana interference-env --help viser tilvalgene)
+engine-e-interference-env-cannot-read = kan ikke læse { $path }: { $e }
+engine-e-interference-env-bad-file = { $path } er ikke et interferensmiljø: { $e }
