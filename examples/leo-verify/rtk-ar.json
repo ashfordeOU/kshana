@@ -1,0 +1,28 @@
+{
+  "double_difference": true,
+  "epochs": 1,
+  "satellites": 8,
+  "dd_iono_m": 0.02,
+  "iono_ref_mhz": 1575.42,
+  "cases": [
+    {
+      "id": "gps-l1-l2-l5",
+      "carriers": [
+        { "id": "L1", "f_mhz": 1575.42, "code_sigma_m": 0.3, "phase_sigma_m": 0.003 },
+        { "id": "L2", "f_mhz": 1227.6, "code_sigma_m": 0.3, "phase_sigma_m": 0.003 },
+        { "id": "L5", "f_mhz": 1176.45, "code_sigma_m": 0.3, "phase_sigma_m": 0.003 }
+      ],
+      "stages": [["L2", "L5"], ["L1", "L2"], ["L1"]]
+    },
+    {
+      "id": "gps-l1-l2-l5-with-c",
+      "carriers": [
+        { "id": "L1", "f_mhz": 1575.42, "code_sigma_m": 0.3, "phase_sigma_m": 0.003 },
+        { "id": "L2", "f_mhz": 1227.6, "code_sigma_m": 0.3, "phase_sigma_m": 0.003 },
+        { "id": "L5", "f_mhz": 1176.45, "code_sigma_m": 0.3, "phase_sigma_m": 0.003 },
+        { "id": "C", "f_mhz": 5020.0, "code_sigma_m": 0.3, "phase_sigma_m": 0.001 }
+      ],
+      "stages": [["L2", "L5"], ["L1", "L2"], ["L1"], ["C"]]
+    }
+  ]
+}

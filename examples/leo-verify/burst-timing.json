@@ -1,0 +1,11 @@
+{
+  "clock": "ocxo",
+  "duration_s": 21600,
+  "step_s": 1,
+  "bursts": { "period_s": 600, "length_s": 60, "sigma_ns": 30 },
+  "outages": [ { "start_s": 7200, "length_s": 3600 } ],
+  "threshold_ns": 1500,
+  "coverage_factor": 2,
+  "runs": 5,
+  "seed": 1
+}

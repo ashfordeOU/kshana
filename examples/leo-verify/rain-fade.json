@@ -1,0 +1,13 @@
+{
+  "lat_deg": 51.5,
+  "station_height_km": 0.031383,
+  "rain_height_km": 2.452733,
+  "r001_mm_h": 26.48052,
+  "polarisation_tilt_deg": 45,
+  "bands": [
+    { "id": "l-band", "f_ghz": 1.6, "margin_db": 1 },
+    { "id": "c-band", "f_ghz": 5.0, "margin_db": 1 },
+    { "id": "ku-band", "f_ghz": 14.25, "margin_db": 3 }
+  ],
+  "elevations_deg": [10, 20, 40, 70]
+}

@@ -1,0 +1,7 @@
+{
+  "clock": "rubidium",
+  "taus_s": [1, 10, 100, 1000, 10000],
+  "include_drift": true,
+  "mask": "g811-prc",
+  "simulate": { "tau0_s": 1, "samples": 200000, "seed": 1 }
+}

@@ -1,0 +1,9 @@
+{
+  "signals": [
+    { "id": "leo-l-band", "f_ghz": 1.62, "outdoor_cn0_dbhz": 70, "threshold_dbhz": 25 },
+    { "id": "gnss-l1", "f_ghz": 1.57542, "outdoor_cn0_dbhz": 44, "threshold_dbhz": 25 }
+  ],
+  "classes": ["traditional", "thermally-efficient"],
+  "probabilities": [0.5, 0.9],
+  "elevations_deg": [15, 45, 75]
+}

@@ -1,0 +1,17 @@
+{
+  "site": { "lat_deg": 78.22, "lon_deg": 15.65, "height_m": 0 },
+  "shells": [
+    { "altitude_km": 550, "inclination_deg": 53, "planes": 24, "sats_per_plane": 22, "phasing": 1 },
+    { "altitude_km": 560, "inclination_deg": 97.6, "planes": 12, "sats_per_plane": 20, "phasing": 1 }
+  ],
+  "starts_s": [0, 900, 1800, 2700],
+  "window_s": 120,
+  "step_s": 2,
+  "mask_deg": 15,
+  "sigma_mps": 0.1,
+  "height_sigma_m": 10,
+  "p_fa": 1e-5,
+  "p_md": 1e-3,
+  "horizontal_alert_limit_m": 100,
+  "fault": { "bias_mps": 0.15, "seed": 1 }
+}

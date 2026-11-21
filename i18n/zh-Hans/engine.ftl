@@ -9863,6 +9863,7 @@ engine-main-usage =
     { "   " }或：kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
     { "   " }或：kshana orbit-data <check|convert|gp-compare|gp-audit|cov> ... (kshana orbit-data --help)
     { "   " }或：kshana drone <prearm|prearm-calibrate|estimator-cases|dr-budget|quad-loss|failover|zonotope-pl> ... (kshana drone --help)
+    { "   " }或：kshana leo-verify <burst-timing|holdover-tdev|cost|indoor|rain-fade|rtk-ar|jam-claim|doppler-integrity> <input.json>
     { "   " }或：kshana kinds [--json]
     { "   " }或：kshana example [<name>]
     { "   " }或：kshana --help | --version
@@ -10978,3 +10979,15 @@ engine-e-oscillator-input = { $part } 输入无效：{ $e }
 engine-e-oscillator-unknown-clock = 未知的时钟预设 { $id }（可选：{ $known }）
 
 engine-e-oscillator-field = { $field } 超出范围：{ $value }
+
+## src/leo_verify/mod.rs
+
+engine-leo-verify-usage = 用法：kshana leo-verify <burst-timing|holdover-tdev|cost|indoor|rain-fade|rtk-ar|jam-claim|doppler-integrity> <input.json>（docs/LEO-VERIFY.md）
+
+engine-e-leo-verify-input = { $part } 输入无效：{ $e }
+
+engine-e-leo-verify-field = { $field } 超出范围：{ $value }
+
+engine-e-leo-verify-too-large = 运行规模过大：{ $n } 步（最多 { $max }）
+
+engine-e-leo-verify-unknown-id = { $field } 指定了未知的标识：{ $id }

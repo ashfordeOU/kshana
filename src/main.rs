@@ -1345,6 +1345,8 @@ fn main_in_language(args: Vec<String>) -> ExitCode {
         Some("station") => Some(kshana::station::run),
         // `kshana oscillator <part> <input.json>`: oscillator models (src/oscillator/).
         Some("oscillator") => Some(kshana::oscillator::run),
+        // `kshana leo-verify <part> <input.json>`: LEO-PNT verification tools (src/leo_verify/).
+        Some("leo-verify") => Some(kshana::leo_verify::run),
         _ => None,
     };
     if let Some(run) = live_cmd {

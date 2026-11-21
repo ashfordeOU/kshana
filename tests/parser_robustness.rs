@@ -1202,3 +1202,26 @@ fn oscillator_inputs() {
         }
     });
 }
+
+#[test]
+fn leo_verify_inputs() {
+    let seeds: Vec<Vec<u8>> = [
+        r#"{"clock":"csac","duration_s":600,"bursts":{"period_s":120,"length_s":20,"sigma_ns":30},"threshold_ns":500,"runs":2}"#,
+        r#"{"clock":"ocxo","taus_s":[1,10,100],"mask":"g811-prc","simulate":{"samples":2000}}"#,
+        r#"{"threshold_ns":1500,"years":5,"outage_hours":[1,24],"options":[{"id":"a","clock":"ocxo","capex":1,"leo":{"interval_s":600,"sigma_ns":50,"availability":0.5}}]}"#,
+        r#"{"signals":[{"id":"a","f_ghz":1.6,"outdoor_cn0_dbhz":60,"threshold_dbhz":25}]}"#,
+        r#"{"lat_deg":50,"rain_height_km":3,"r001_mm_h":30,"bands":[{"id":"c","f_ghz":5,"margin_db":2}]}"#,
+        r#"{"cases":[{"id":"x","carriers":[{"id":"A","f_mhz":1575.42,"code_sigma_m":0.3,"phase_sigma_m":0.003},{"id":"B","f_mhz":1227.6,"code_sigma_m":0.3,"phase_sigma_m":0.003}],"stages":[["A","B"],["A"]]}]}"#,
+        r#"{"signals":[{"id":"a","f_mhz":1575.42,"received_power_dbw":-158.5,"chip_rate_mcps":1.023,"threshold_dbhz":28}],"jammer_eirp_dbw":[0]}"#,
+        r#"{"site":{"lat_deg":60,"lon_deg":10},"shells":[{"altitude_km":550,"inclination_deg":53,"planes":6,"sats_per_plane":8}],"window_s":60,"step_s":5,"sigma_mps":0.2,"horizontal_alert_limit_m":100,"fault":{"bias_mps":1}}"#,
+    ]
+    .iter()
+    .map(|s| s.as_bytes().to_vec())
+    .collect();
+    fuzz("leo-verify inputs", &seeds, None, |b| {
+        let t = text(b);
+        for part in kshana::leo_verify::PARTS {
+            let _ = kshana::leo_verify::run_json(part, &t);
+        }
+    });
+}
