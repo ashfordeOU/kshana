@@ -6,7 +6,10 @@
 //! ## The two-way equation
 //!
 //! Each station's time-interval counter is started by its own clock tick and stopped by the
-//! other station's signal. With `T_A`, `T_B` the two clocks, the counter readings are
+//! other station's signal. With `T_A`, `T_B` the two clocks, the counter readings are (note:
+//! ITU-R TF.1153 writes `T_A − T_B = ½[TI(A) − TI(B)] + …` with its own labelling of the
+//! readings; here `TI(B)` is the reading at B, so the same solution reads
+//! `½[TI(B) − TI(A)] − …`, and readings imported from a laboratory must follow this labelling)
 //!
 //! ```text
 //!   TI(B) = (T_A − T_B) + TX_A + ρ_AS/c + up_A + SAT_AB + ρ_SB/c + down_B + RX_B + S(A→S→B)
