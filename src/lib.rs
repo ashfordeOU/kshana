@@ -453,6 +453,7 @@ pub mod sweep;
 pub mod telecom_timing;
 /// chrony and ntpd health: `chronyc`, `ntpq` text and NTP mode 6 read variables (0.42 I2).
 pub mod time_server;
+pub mod timing_stack;
 /// The trust stream as CCSDS packets with XTCE, COSMOS and Open MCT definitions (0.42 I8).
 pub mod tm_bridge;
 // Comparison helpers shared by the byte-identity guards. Test-only: it exists so those

@@ -51,6 +51,7 @@ fn the_top_level_usage_names_every_subcommand() {
         "interference-atlas",
         "claim-check",
         "afs-interop",
+        "timing-stack",
         "corrections",
         "space-weather",
         "rtk-qa",

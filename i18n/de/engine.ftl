@@ -10734,6 +10734,14 @@ engine-e-afs-interop-bad-number = { $option }: { $value } ist keine gültige Zah
 engine-e-afs-interop-bad-register = keine kshana.lunar-ue-register/1-Datei: { $e }
 engine-e-afs-interop-bad-settings = die Einstellungen der Studie liegen außerhalb der Grenzen: fs × Integrationszeit muss 64 bis 200.000 Abtastwerte ergeben, der Doppler-Schritt muss positiv und die Grenze nicht negativ sein
 
+## Linux timing-stack verification (src/timing_stack.rs)
+engine-timing-stack-usage = Aufruf: kshana timing-stack tai [--pmc <pmc.txt>] [--phc-ctl <phc_ctl.txt>] [--chrony <tracking.txt>] [--tai-utc <s>] | ts2phc <ts2phc.log> [--max-offset <s>] | pps <assert.txt> | shm <ntpshmmon.txt> | ntpq <ntpq-p.txt> [--rv <ntpq-rv.txt>] | nts [--client <name>=<authdata.txt>]... [<authdata.txt>]   [--end <t>] [--stale-after <s>] [--out <file.json>]  (docs/TIMING-STACK.md)
+engine-e-timing-stack-missing-value = { $option } braucht einen Wert
+engine-e-timing-stack-unknown-option = unbekannte Option { $option } (kshana timing-stack --help listet die Optionen)
+engine-e-timing-stack-cannot-read = { $path } kann nicht gelesen werden: { $e }
+engine-e-timing-stack-cannot-write = { $path } kann nicht geschrieben werden: { $e }
+engine-e-timing-stack-bad-number = { $option }: { $value } ist keine gültige Zahl
+
 engine-main-usage =
     Aufruf: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }oder: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10776,6 +10784,7 @@ engine-main-usage =
     { "   " }oder: kshana leo-od-plan <plan.toml>
     { "   " }oder: kshana claim-check [<dataset.json>...] [--out <file.json>] | --template
     { "   " }oder: kshana afs-interop <study|ue-register> ... (kshana afs-interop --help)
+    { "   " }oder: kshana timing-stack <tai|ts2phc|pps|shm|ntpq|nts> ... (kshana timing-stack --help)
     { "   " }oder: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }oder: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }oder: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>

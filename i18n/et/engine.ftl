@@ -10716,6 +10716,14 @@ engine-e-afs-interop-bad-number = { $option }: { $value } ei ole kehtiv arv
 engine-e-afs-interop-bad-register = ei ole kshana.lunar-ue-register/1 fail: { $e }
 engine-e-afs-interop-bad-settings = uuringu sätted on piiridest väljas: fs × integreerimisaeg peab andma 64 kuni 200 000 valimit, Doppleri samm peab olema positiivne ja piir mitte negatiivne
 
+## Linux timing-stack verification (src/timing_stack.rs)
+engine-timing-stack-usage = kasutus: kshana timing-stack tai [--pmc <pmc.txt>] [--phc-ctl <phc_ctl.txt>] [--chrony <tracking.txt>] [--tai-utc <s>] | ts2phc <ts2phc.log> [--max-offset <s>] | pps <assert.txt> | shm <ntpshmmon.txt> | ntpq <ntpq-p.txt> [--rv <ntpq-rv.txt>] | nts [--client <name>=<authdata.txt>]... [<authdata.txt>]   [--end <t>] [--stale-after <s>] [--out <file.json>]  (docs/TIMING-STACK.md)
+engine-e-timing-stack-missing-value = { $option } vajab väärtust
+engine-e-timing-stack-unknown-option = tundmatu valik { $option } (valikud loetleb kshana timing-stack --help)
+engine-e-timing-stack-cannot-read = faili { $path } ei saa lugeda: { $e }
+engine-e-timing-stack-cannot-write = faili { $path } ei saa kirjutada: { $e }
+engine-e-timing-stack-bad-number = { $option }: { $value } ei ole kehtiv arv
+
 engine-main-usage =
     kasutus: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }või: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10758,6 +10766,7 @@ engine-main-usage =
     { "   " }või: kshana leo-od-plan <plan.toml>
     { "   " }või: kshana claim-check [<dataset.json>...] [--out <file.json>] | --template
     { "   " }või: kshana afs-interop <study|ue-register> ... (kshana afs-interop --help)
+    { "   " }või: kshana timing-stack <tai|ts2phc|pps|shm|ntpq|nts> ... (kshana timing-stack --help)
     { "   " }või: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }või: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }või: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>

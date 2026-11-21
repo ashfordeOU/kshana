@@ -95,6 +95,15 @@ breaking changes are called out explicitly.
   prediction of interference between the broadcasts. And the kshana.lunar-ue-register/1 user-equipment register with
   its check (no personal contact fields). MODELLED, planning only.
 
+### Added (Linux timing-stack verification)
+
+- `kshana timing-stack` (src/timing_stack.rs, docs/TIMING-STACK.md): read-only checks of a Linux timing stack from
+  status outputs and PPS data, reusing the connect timing and clock-log parsers: PTP UTC offset and PHC TAI sanity
+  (pmc, phc_ctl, chrony tracking), ts2phc lock, offsets and missed pulses, PPS jitter and the path it suggests (kernel
+  PPS or DCD polling), stopped gpsd SHM units (ntpshmmon), ntpq misreports, and an NTS interoperability matrix from
+  `chronyc -N authdata`. Stale alarms carry the time a live monitor would have raised them; the stopped-SHM and
+  stale-PPS fixtures alarm within 10 s. MODELLED.
+
 ### Added (space weather for PNT and drag)
 
 - `kshana space-weather` (src/space_weather_pnt/, docs/SPACE-WEATHER-PNT.md): a storm library of eight recorded

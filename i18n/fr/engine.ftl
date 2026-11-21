@@ -10864,6 +10864,14 @@ engine-e-afs-interop-bad-number = { $option } : { $value } n'est pas un nombre v
 engine-e-afs-interop-bad-register = ce n'est pas un fichier kshana.lunar-ue-register/1 : { $e }
 engine-e-afs-interop-bad-settings = les réglages de l'étude sont hors limites : fs × temps d'intégration doit donner 64 à 200 000 échantillons, le pas Doppler doit être positif et la borne non négative
 
+## Linux timing-stack verification (src/timing_stack.rs)
+engine-timing-stack-usage = utilisation : kshana timing-stack tai [--pmc <pmc.txt>] [--phc-ctl <phc_ctl.txt>] [--chrony <tracking.txt>] [--tai-utc <s>] | ts2phc <ts2phc.log> [--max-offset <s>] | pps <assert.txt> | shm <ntpshmmon.txt> | ntpq <ntpq-p.txt> [--rv <ntpq-rv.txt>] | nts [--client <name>=<authdata.txt>]... [<authdata.txt>]   [--end <t>] [--stale-after <s>] [--out <file.json>]  (docs/TIMING-STACK.md)
+engine-e-timing-stack-missing-value = { $option } exige une valeur
+engine-e-timing-stack-unknown-option = option inconnue { $option } (kshana timing-stack --help liste les options)
+engine-e-timing-stack-cannot-read = impossible de lire { $path } : { $e }
+engine-e-timing-stack-cannot-write = impossible d'écrire { $path } : { $e }
+engine-e-timing-stack-bad-number = { $option } : { $value } n'est pas un nombre valide
+
 engine-main-usage =
     utilisation : kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }ou : kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10906,6 +10914,7 @@ engine-main-usage =
     { "   " }ou : kshana leo-od-plan <plan.toml>
     { "   " }ou : kshana claim-check [<dataset.json>...] [--out <file.json>] | --template
     { "   " }ou : kshana afs-interop <study|ue-register> ... (kshana afs-interop --help)
+    { "   " }ou : kshana timing-stack <tai|ts2phc|pps|shm|ntpq|nts> ... (kshana timing-stack --help)
     { "   " }ou : kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }ou : kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }ou : kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
