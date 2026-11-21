@@ -213,6 +213,10 @@
    "count": 2,
    "reason": "machine-document: the test <n>: prefix before a catalogued error, and the <path>: <error> prefix of an operating-system or parse error"
   },
+  "src/interconnect/mavlink_table.rs": {
+   "count": 1,
+   "reason": "identifier: the generated table's record of the mavlink/mavlink definitions commit (a hash), never shown as prose"
+  },
   "src/interference_atlas.rs": {
    "count": 34,
    "reason": "machine-document and identifier: the kshana.interference-atlas/1 and kshana.cors-cn0-layer/1 documents (schema and method ids, field names, status values and notes written into those machine documents) and the map product's status names (docs/INTERFERENCE-ATLAS.md)"
