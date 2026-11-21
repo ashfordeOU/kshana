@@ -44,6 +44,10 @@ pub enum Modulation {
     /// **Sine-phased BOC(m, n)** — a square-wave subcarrier at `m · 1.023` MHz on
     /// a code at `n · 1.023` Mcps (Galileo E1 OS is `BocSin { m: 1.0, n: 1.0 }`).
     BocSin { m: f64, n: f64 },
+    /// **Cosine-phased BOC(m, n)** — the same code and subcarrier rates with a cosine-phased
+    /// square-wave subcarrier (written `BOCc(m,n)`; Betz, *Binary Offset Carrier Modulations for
+    /// Radionavigation*, NAVIGATION 48(4), 2001).
+    BocCos { m: f64, n: f64 },
     /// **MBOC(6, 1, p)** — the multiplexed BOC power spectral density
     /// `(1 − p)·G_BOC(1,1)(f) + p·G_BOC(6,1)(f)` on a 1.023 Mcps code. With
     /// `p = 1/11` this is the spectrum agreed for Galileo E1 OS and GPS L1C (Hein et
@@ -63,7 +67,7 @@ impl Modulation {
     pub fn chip_rate_hz(&self) -> f64 {
         match *self {
             Modulation::BpskR { n } => n * F0_HZ,
-            Modulation::BocSin { n, .. } => n * F0_HZ,
+            Modulation::BocSin { n, .. } | Modulation::BocCos { n, .. } => n * F0_HZ,
             Modulation::Mboc { .. } => F0_HZ,
         }
     }
@@ -103,6 +107,31 @@ impl Modulation {
                 let factor = num_code * arg_sub.psin() / (PI * f_hz * cos_sub);
                 fc * factor.ppowi(2)
             }
+            Modulation::BocCos { m, n } => {
+                // Betz (2001): with k = 2 f_s / f_c subcarrier half-periods per chip,
+                // G(f) = f_c [2 S(f) sin²(πf/(4f_s)) / (πf cos(πf/(2f_s)))]², S = sin(πf/f_c)
+                // for even k and cos(πf/f_c) for odd k.
+                let fc = n * F0_HZ;
+                let fs = m * F0_HZ;
+                if f_hz.abs() < 1e-9 {
+                    return 0.0;
+                }
+                let half = PI * f_hz / (2.0 * fs);
+                let c = half.pcos();
+                if c.abs() < 1e-9 {
+                    let eps = 1e-6 * fs;
+                    return self.psd(f_hz + eps);
+                }
+                let k_even = ((2.0 * fs / fc).round() as i64) % 2 == 0;
+                let code = if k_even {
+                    (PI * f_hz / fc).psin()
+                } else {
+                    (PI * f_hz / fc).pcos()
+                };
+                let quarter = (PI * f_hz / (4.0 * fs)).psin();
+                let factor = 2.0 * code * quarter * quarter / (PI * f_hz * c);
+                fc * factor.ppowi(2)
+            }
             Modulation::Mboc { p } => {
                 let p = p.clamp(0.0, 1.0);
                 (1.0 - p) * Modulation::BocSin { m: 1.0, n: 1.0 }.psd(f_hz)
@@ -126,6 +155,7 @@ impl Modulation {
         match *self {
             Modulation::BpskR { n } => format!("BPSK({})", num(n)),
             Modulation::BocSin { m, n } => format!("BOC({},{})", num(m), num(n)),
+            Modulation::BocCos { m, n } => format!("BOCc({},{})", num(m), num(n)),
             Modulation::Mboc { p } if (p - 1.0 / 11.0).abs() < 1e-12 => {
                 "MBOC(6,1,1/11)".to_string()
             }
@@ -186,7 +216,11 @@ pub fn parse_modulation(label: &str) -> Result<Modulation, String> {
         ("BPSK" | "BPSK-R", 1) => Ok(Modulation::BpskR {
             n: parse_ratio(parts[0])?,
         }),
-        ("BOC" | "BOCSIN", 2) => Ok(Modulation::BocSin {
+        ("BOC" | "BOCSIN" | "BOCS", 2) => Ok(Modulation::BocSin {
+            m: parse_ratio(parts[0])?,
+            n: parse_ratio(parts[1])?,
+        }),
+        ("BOCC" | "BOCCOS", 2) => Ok(Modulation::BocCos {
             m: parse_ratio(parts[0])?,
             n: parse_ratio(parts[1])?,
         }),

@@ -293,6 +293,7 @@ const LABELLED_WRITERS: &[&str] = &[
 /// labelled (and moved to the list above) or added here with its reason; the scan below fails otherwise, and fails on a
 /// stale entry.
 const UNLABELLED_WRITERS: &[(&str, &str)] = &[
+    ("src/rnss_design.rs", "writes the kshana.rnss-design/1 report (`rnss-design run --out`), which carries `evidence: MODELLED` and the profile's status and disclaimer in its own fields"),
     ("src/altpnt/terrain.rs", "writes only in a unit test (a temporary grid)"),
     ("src/bench/cite.rs", "writes only in a unit test (a temporary tree of frozen files for the golden-index check)"),
     ("src/connect_timing.rs", "writes only the expected output of a timing conformance vector under `connect timing check --bless`; a test fixture, no result file"),

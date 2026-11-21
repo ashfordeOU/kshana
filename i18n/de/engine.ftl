@@ -10759,6 +10759,17 @@ engine-e-sil-obsgen-cannot-read = { $path } kann nicht gelesen werden: { $e }
 engine-e-sil-obsgen-cannot-write = { $path } kann nicht geschrieben werden: { $e }
 engine-e-sil-obsgen-bad-scenario = kein gnss-sim-Szenario mit optionalen Tabellen [urban] und [rinex]: { $e }
 
+## Regional RNSS signal designer (src/rnss_design.rs)
+engine-rnss-design-usage = Aufruf: kshana rnss-design profiles | run <profile|profile.toml> [--band-mhz <B>] [--cn0 <dB-Hz>] [--discriminator non-coherent|coherent] [--with-gps l1,l2,l5|none] [--phase-sigma-m <m>] [--out <report.json>]   (kshana.rnss-profile/1 signals: spectra, spectral separation, multi-band RTK settings; MODELLED; docs/RNSS-DESIGN.md)
+engine-e-rnss-design-missing-value = { $option } braucht einen Wert
+engine-e-rnss-design-unknown-option = unbekannte Option { $option } (kshana rnss-design --help listet die Optionen)
+engine-e-rnss-design-cannot-read = { $path } kann nicht gelesen werden: { $e }
+engine-e-rnss-design-cannot-write = { $path } kann nicht geschrieben werden: { $e }
+engine-e-rnss-design-bad-number = { $option }: { $value } ist keine gültige Zahl
+engine-e-rnss-design-bad-profile = keine verwendbare kshana.rnss-profile/1-Datei: { $e }
+engine-e-rnss-design-unknown-profile = kein eingebautes Profil { $name } (eingebaut: { $names }); stattdessen den Pfad einer Profildatei angeben
+engine-e-rnss-design-unknown-gps = unbekannter GPS-Träger { $name } für --with-gps (l1, l2, l5 oder none)
+
 engine-main-usage =
     Aufruf: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }oder: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10790,6 +10801,7 @@ engine-main-usage =
     { "   " }oder: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }oder: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }oder: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
+    { "   " }oder: kshana rnss-design profiles | run <profile|profile.toml> [options] (kshana rnss-design --help)
     { "   " }oder: kshana space-receiver <clock|timestamps|dynamics|bench|mms|od-vs-tle> ... [--out <file.json>] (kshana space-receiver --help)
     { "   " }oder: kshana feed <pack|verify|send|spectrum|leaderboard|watch> ... (kshana feed --help)
     { "   " }oder: kshana register-products <verify|show|diff> ... (kshana register-products --help)
