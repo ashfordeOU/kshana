@@ -1323,6 +1323,11 @@ fn main_in_language(args: Vec<String>) -> ExitCode {
     if args.get(1).map(String::as_str) == Some("lunar-oem") {
         return ExitCode::from(kshana::lunar_oem::run_cli(&args[2..]) as u8);
     }
+    // `kshana rnss-design <profiles|run>`: a configurable regional RNSS signal model, spectra,
+    // spectral separation and multi-band RTK settings (src/rnss_design.rs, docs/RNSS-DESIGN.md).
+    if args.get(1).map(String::as_str) == Some("rnss-design") {
+        return ExitCode::from(kshana::rnss_design::run_cli(&args[2..]) as u8);
+    }
     // `kshana ais-integrity <input> [...]`: per-track AIS position-integrity flags as JSON Lines
     // (src/ais_integrity.rs, docs/AIS-INTEGRITY.md). Exit 2 on a usage or input error.
     if args.get(1).map(String::as_str) == Some("ais-integrity") {

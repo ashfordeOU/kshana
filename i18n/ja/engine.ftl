@@ -9998,6 +9998,17 @@ engine-e-orbit-data-pc-not-finite = 状態または共分散の値が有限の�
 engine-e-orbit-data-pc-missing-data = CDM に、状態（X～Z_DOT）と RTN 共分散（CR_R～CNDOT_NDOT）をそれぞれ持つ 2 つの物体がありません
 engine-e-orbit-data-pc-frame-mismatch = 2 つの物体の REF_FRAME が異なります（{ $a } と { $b }）。Pc には両方の状態が同じ座標系にある必要があります
 
+## Regional RNSS signal designer (src/rnss_design.rs)
+engine-rnss-design-usage = 使い方：kshana rnss-design profiles | run <profile|profile.toml> [--band-mhz <B>] [--cn0 <dB-Hz>] [--discriminator non-coherent|coherent] [--with-gps l1,l2,l5|none] [--phase-sigma-m <m>] [--out <report.json>]   (kshana.rnss-profile/1 signals: spectra, spectral separation, multi-band RTK settings; MODELLED; docs/RNSS-DESIGN.md)
+engine-e-rnss-design-missing-value = { $option } には値が必要です
+engine-e-rnss-design-unknown-option = 不明なオプション { $option }（kshana rnss-design --help でオプションを一覧表示）
+engine-e-rnss-design-cannot-read = { $path } を読み込めません：{ $e }
+engine-e-rnss-design-cannot-write = { $path } に書き込めません：{ $e }
+engine-e-rnss-design-bad-number = { $option }：{ $value } は有効な数値ではありません
+engine-e-rnss-design-bad-profile = 使用できる kshana.rnss-profile/1 ファイルではありません：{ $e }
+engine-e-rnss-design-unknown-profile = 組み込みプロファイル { $name } はありません（組み込み：{ $names }）。代わりにプロファイルファイルのパスを指定してください
+engine-e-rnss-design-unknown-gps = --with-gps の GPS 搬送波 { $name } が不明です（l1、l2、l5、none）
+
 engine-main-usage =
     使い方：kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }または：kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10029,6 +10040,7 @@ engine-main-usage =
     { "   " }または：kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }または：kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }または：kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
+    { "   " }または：kshana rnss-design profiles | run <profile|profile.toml> [options] (kshana rnss-design --help)
     { "   " }または：kshana space-receiver <clock|timestamps|dynamics|bench|mms|od-vs-tle> ... [--out <file.json>] (kshana space-receiver --help)
     { "   " }または：kshana feed <pack|verify|send|spectrum|leaderboard|watch> ... (kshana feed --help)
     { "   " }または：kshana register-products <verify|show|diff> ... (kshana register-products --help)

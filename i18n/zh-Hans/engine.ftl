@@ -10065,6 +10065,17 @@ engine-e-orbit-data-pc-not-finite = 某个状态或协方差值不是有限数
 engine-e-orbit-data-pc-missing-data = CDM 中没有两个各自带状态（X 至 Z_DOT）和 RTN 协方差（CR_R 至 CNDOT_NDOT）的物体
 engine-e-orbit-data-pc-frame-mismatch = 两个物体的 REF_FRAME 不同（{ $a } 与 { $b }）；Pc 要求两个状态在同一坐标系中
 
+## Regional RNSS signal designer (src/rnss_design.rs)
+engine-rnss-design-usage = 用法：kshana rnss-design profiles | run <profile|profile.toml> [--band-mhz <B>] [--cn0 <dB-Hz>] [--discriminator non-coherent|coherent] [--with-gps l1,l2,l5|none] [--phase-sigma-m <m>] [--out <report.json>]   (kshana.rnss-profile/1 signals: spectra, spectral separation, multi-band RTK settings; MODELLED; docs/RNSS-DESIGN.md)
+engine-e-rnss-design-missing-value = { $option } 需要一个值
+engine-e-rnss-design-unknown-option = 未知选项 { $option }（kshana rnss-design --help 列出所有选项）
+engine-e-rnss-design-cannot-read = 无法读取 { $path }：{ $e }
+engine-e-rnss-design-cannot-write = 无法写入 { $path }：{ $e }
+engine-e-rnss-design-bad-number = { $option }：{ $value } 不是有效的数字
+engine-e-rnss-design-bad-profile = 不是可用的 kshana.rnss-profile/1 文件：{ $e }
+engine-e-rnss-design-unknown-profile = 没有内置配置 { $name }（内置：{ $names }）；请改为给出配置文件路径
+engine-e-rnss-design-unknown-gps = --with-gps 的 GPS 载波 { $name } 未知（l1、l2、l5 或 none）
+
 engine-main-usage =
     用法：kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }或：kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10096,6 +10107,7 @@ engine-main-usage =
     { "   " }或：kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }或：kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }或：kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
+    { "   " }或：kshana rnss-design profiles | run <profile|profile.toml> [options] (kshana rnss-design --help)
     { "   " }或：kshana space-receiver <clock|timestamps|dynamics|bench|mms|od-vs-tle> ... [--out <file.json>] (kshana space-receiver --help)
     { "   " }或：kshana feed <pack|verify|send|spectrum|leaderboard|watch> ... (kshana feed --help)
     { "   " }或：kshana register-products <verify|show|diff> ... (kshana register-products --help)
