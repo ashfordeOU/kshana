@@ -78,7 +78,7 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/bench/anomaly.rs": {
-   "count": 23,
+   "count": 24,
    "reason": "identifier and machine-document: the OPSSAT-AD column names, the task (f) baseline names, the JSON keys of the task (f) truth, cases and result documents, the spec version, the pinned dataset SHA-256 and the English `label` written into that machine document (bench/SPEC.md, task (f))"
   },
   "src/bench/cite.rs": {

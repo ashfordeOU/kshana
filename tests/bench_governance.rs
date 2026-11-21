@@ -168,7 +168,11 @@ fn f_results() -> Vec<(String, Value)> {
 #[test]
 fn task_f_results_are_valid_and_meet_bars_f2_and_f3() {
     let rs = f_results();
-    assert_eq!(rs.len(), 4, "dev and test for both baselines");
+    assert_eq!(
+        rs.len(),
+        8,
+        "dev and test for both baselines, without and with the dev-frozen operating point"
+    );
     let auc = |name: &str| {
         rs.iter().find(|(n, _)| n == name).unwrap().1["metrics"]["auc"]
             .as_f64()
@@ -183,6 +187,14 @@ fn task_f_results_are_valid_and_meet_bars_f2_and_f3() {
     // Bars F2 and F3 (xval/bench-f/PREREGISTRATION.md), test split.
     assert!(auc("f-test-feature-z-max.result.json") >= 0.80);
     assert!(auc("f-test-diff2-var-z.result.json") >= 0.70);
+    // Bars F5 and F6 (xval/bench-f/PREREGISTRATION-2.md): MCC at the operating point frozen on dev.
+    let mcc = |name: &str| {
+        rs.iter().find(|(n, _)| n == name).unwrap().1["metrics"]["mcc_at_declared"]
+            .as_f64()
+            .expect("mcc_at_declared")
+    };
+    assert!(mcc("f-test-feature-z-max-dev-op.result.json") >= 0.30);
+    assert!(mcc("f-test-diff2-var-z-dev-op.result.json") >= 0.20);
 }
 
 #[test]

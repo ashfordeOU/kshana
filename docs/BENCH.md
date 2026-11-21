@@ -28,13 +28,17 @@ and a score describes a log or a corpus, never a product. Kshana results are adv
 | (b) detection on IQ | one scored window of a scene | Kshana synthetic scene recipe; TEXBAT reference-only | AUC per alarm kind |
 | (c) timing holdover prediction | (satellite, origin) | IGS clocks at 300 s (committed extract, pinned hash) | RMSE at 3600 s |
 | (d) out-of-distribution optimism gap | one synthetic case | `impairment-eval` corpus, in and out of distribution | AUC out, and the gap |
-| (f) spacecraft telemetry anomaly detection (spec 2.2.0) | one OPS-SAT housekeeping segment | OPSSAT-AD, fetched by `scripts/fetch_opssat_ad.sh` (CC-BY-4.0, never vendored) | AUC, and average precision |
+| (f) spacecraft telemetry anomaly detection (spec 2.2.0) | one OPS-SAT housekeeping segment | OPSSAT-AD, fetched by `scripts/fetch_opssat_ad.sh` (CC-BY-4.0, never vendored) | AUC, and average precision; precision, recall, F1, MCC and accuracy at the dev-frozen operating point |
 | (g) smartphone positioning accuracy (spec 2.2.0) | one epoch of one phone trace | GSDC-layout traces the user downloads (Kaggle rules, never redistributed) | mean over traces of (P50 + P95) / 2, m |
 | (h) urban positioning accuracy (spec 2.3.0) | one epoch of one receiver on one UrbanNav Hong Kong sequence | fetched by `scripts/fetch_urbannav.sh` (MIT, every file's SHA-256 checked, never vendored) | as (g) |
 
 Task (e) is described in [`guides/BENCHMARK-CLASSES.md`](guides/BENCHMARK-CLASSES.md). Task (f) bars and first scores:
 [`xval/bench-f/PREREGISTRATION.md`](../xval/bench-f/PREREGISTRATION.md) and [`RESULTS.md`](../xval/bench-f/RESULTS.md)
-(F1 to F3 MET: test AUC 0.858 for `feature-z-max`, 0.852 for `diff2-var-z`; MODELLED). Task (g) has no published
+(F1 to F3 MET: test AUC 0.858 for `feature-z-max`, 0.852 for `diff2-var-z`; MODELLED). Amendment 2 freezes an operating point
+on `dev` (contamination 0.2, the OPS-SAT-AD paper's rule) and adds precision, recall, F1, MCC and accuracy:
+[`PREREGISTRATION-2.md`](../xval/bench-f/PREREGISTRATION-2.md), [`RESULTS-2.md`](../xval/bench-f/RESULTS-2.md) (F4 to F6 MET:
+test MCC 0.544 and 0.573, beside the paper's own Table 3 as carried context). ESA-ADB stays out: neither of its
+Zenodo versions states a data licence (re-read 2026-11-21, `bench/LICENCES.md`). Task (g) has no published
 baseline number yet: no copy of the data has been scored here.
 Task (h): [`xval/bench-h/PREREGISTRATION.md`](../xval/bench-h/PREREGISTRATION.md) and
 [`RESULTS.md`](../xval/bench-h/RESULTS.md); test `gsdc_score_m` 31.98 m for the receivers' own NMEA fixes and 59.12 m
