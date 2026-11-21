@@ -49,7 +49,10 @@ pub fn combine_power_dbm(powers_dbm: &[f64]) -> f64 {
 #[derive(Clone, Copy, Debug)]
 pub struct AgcMonitor {
     /// Expected nominal total received power (dBm): thermal noise plus the legitimate
-    /// satellite aggregate the receiver sees with no interference.
+    /// satellite aggregate the receiver sees with no interference. The engine's callers
+    /// (`spoof_detect`, `monitor_network`) pass the satellite aggregate alone, so their excess
+    /// is measured over the satellite floor; with thermal noise (about −111 dBm in 2 MHz)
+    /// included, the same spoof power would give a smaller excess.
     pub expected_dbm: f64,
     /// Excess over the expected power (dB) that raises an alert (RTCA/Spirent practice
     /// uses a few dB; `3.0` is a doubling of power).

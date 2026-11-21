@@ -491,7 +491,9 @@ fn decode_keplerian_record(system: char, prn: u8, rec: &[&str]) -> Result<RinexE
 const BDT_MINUS_GPS_WEEKS: f64 = 1356.0;
 /// Seconds GPS time leads BeiDou time. BDT was aligned with UTC at its 2006
 /// epoch, by which point GPS already led UTC by 14 leap seconds; both scales are
-/// leap-free since, so the offset is fixed. `gps_tow = bdt_tow + 14`.
+/// leap-free since, so the offset is fixed. `gps_tow = bdt_tow + 14`. Despite its name the
+/// value is GPS − BDT (+14 s); BDT − GPS is −14 s. Every use adds it to a BDT time or subtracts
+/// it from a GPS time.
 pub(crate) const BDT_MINUS_GPS_S: f64 = 14.0;
 
 /// WGS-84 / GPS gravitational constant `μ` (m³/s²), the value mandated by
