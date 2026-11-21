@@ -54,8 +54,8 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/api.rs": {
-   "count": 992,
-   "reason": "identifier and machine-format: kind ids and TOML field names of the kind catalogue; the descriptions of the new lunar, mission-thread and tip-and-cue kinds are served by list_scenario_kinds and move to the catalogue with the kind descriptions (tests/i18n_kinds.rs)"
+   "count": 993,
+   "reason": "identifier and machine-format: kind ids and TOML field names of the kind catalogue; the descriptions of the new lunar, mission-thread and tip-and-cue kinds are served by list_scenario_kinds and move to the catalogue with the kind descriptions (tests/i18n_kinds.rs); the allow_unregistered_time_system field name of lunar-interop-export."
   },
   "src/api/builtins.rs": {
    "count": 88,
@@ -86,8 +86,8 @@
    "reason": "machine-document and identifier: the frozen directories, the golden-index schema and rule text and its check findings (English in every language, like validate_result's), the citation-id domain string and the metric names of the citation line, which is a bibliographic entry kept in English"
   },
   "src/bench/cli.rs": {
-   "count": 59,
-   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md); the task (e) baseline stems (b-log, b-log-pj-all) and the task (e) line of the spec document; the task (b) result's machine metric keys auc_fresh and auc_without_restart_2026_10_13 (JSON keys); the manifest key sha256_pinned; the TEXBAT score command's recording names, file kinds and schema (B4a E5, 11 November 2026); the task (f) and (g) lines of the spec document and the f-/g- truth file names (E34); the option names, file names and the registry-entry key of the private-holdout subcommand."
+   "count": 61,
+   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md); the task (e) baseline stems (b-log, b-log-pj-all) and the task (e) line of the spec document; the task (b) result's machine metric keys auc_fresh and auc_without_restart_2026_10_13 (JSON keys); the manifest key sha256_pinned; the TEXBAT score command's recording names, file kinds and schema (B4a E5, 11 November 2026); the task (f) and (g) lines of the spec document and the f-/g- truth file names (E34); the option names, file names and the registry-entry key of the private-holdout subcommand; the task (h) line of the spec document and the h- truth file name."
   },
   "src/bench/datasets.rs": {
    "count": 34,
@@ -116,6 +116,10 @@
   "src/bench/tasks.rs": {
    "count": 30,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
+  },
+  "src/bench/urban.rs": {
+   "count": 13,
+   "reason": "identifier and machine-document: the task (h) spec version and baseline names, the file names of the fetch-script layout (ground_truth.txt, nav.rnx), the JSON keys of the task (h) truth and predictions documents, and the English `label` written into the result document (bench/SPEC.md, task (h))."
   },
   "src/benchmark/faults.rs": {
    "count": 9,
@@ -225,6 +229,10 @@
    "count": 2,
    "reason": "machine-document: the test <n>: prefix before a catalogued error, and the <path>: <error> prefix of an operating-system or parse error"
   },
+  "src/interconnect/mavlink_table.rs": {
+   "count": 1,
+   "reason": "identifier: the generated table's record of the mavlink/mavlink definitions commit (a hash), never shown as prose"
+  },
   "src/interference_atlas.rs": {
    "count": 34,
    "reason": "machine-document and identifier: the kshana.interference-atlas/1 and kshana.cors-cn0-layer/1 documents (schema and method ids, field names, status values and notes written into those machine documents) and the map product's status names (docs/INTERFERENCE-ATLAS.md)"
@@ -234,8 +242,8 @@
    "reason": "machine-document and identifier: the JSON output (the cited Recommendation names and editions written into it, the JSON keys), the option names, and the receiver and baseline ids"
   },
   "src/interference_lib.rs": {
-   "count": 27,
-   "reason": "machine-document and identifier: the kshana.interference-fit/1 and kshana.interference-bench/1 schema ids, field names, case ids, the classifier id and the note written into those machine documents, the SigMF description and the corpus CSV header (docs/INTERFERENCE-LIB.md)"
+   "count": 37,
+   "reason": "machine-document and identifier: the kshana.interference-fit/1 and kshana.interference-bench/1 schema ids, field names, case ids, the classifier id and the note written into those machine documents, the SigMF description and the corpus CSV header (docs/INTERFERENCE-LIB.md); the multitone and fm_tone option names, the corpus ranges keys and the primary-metric statement of the machine-readable bench document."
   },
   "src/interference_map/live.rs": {
    "count": 6,
@@ -244,6 +252,10 @@
   "src/jammertest/location.rs": {
    "count": 1,
    "reason": "machine-document: the schema id of the kshana.referee-location/1 score"
+  },
+  "src/leo_sparse.rs": {
+   "count": 1,
+   "reason": "identifier: the schema id of the kshana.leo-sparse/1 JSON output"
   },
   "src/live_health.rs": {
    "count": 3,
@@ -277,6 +289,10 @@
    "count": 2,
    "reason": "machine-document and identifier: the frame names, the ILuRF realisation name and its source note written into the transform document"
   },
+  "src/lunar_oem.rs": {
+   "count": 5,
+   "reason": "machine-document: COMMENT lines written into the CCSDS OEM (English like the rest of the OEM keyword text) and SANA/NAIF frame tokens"
+  },
   "src/lunar_output.rs": {
    "count": 44,
    "reason": "machine-document and identifier: the field names, enumerated values and English rule texts of the kshana.lunar-pnt-output/1 profile and its check document, and the example stream label"
@@ -300,6 +316,10 @@
   "src/m5_hybrid.rs": {
    "count": 5,
    "reason": "identifier: the class names and JSON keys of the M5 result and B4 documents (machine documents)"
+  },
+  "src/osnma/scenario.rs": {
+   "count": 37,
+   "reason": "kshana.osnma-scenario/1 field names, values and constraint expressions substituted into the translated e-osnma-scenario-field message; the run report is a machine document (JSON keys and status names)"
   },
   "src/product_register.rs": {
    "count": 7,
@@ -1122,8 +1142,8 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/lunar_interop.rs": {
-   "count": 25,
-   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
+   "count": 29,
+   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md); the OEM COMMENT lines stating the frame realisation and an unregistered TIME_SYSTEM (CCSDS keyword text, English like the OEM)."
   },
   "src/lunar_jamming.rs": {
    "count": 164,
@@ -1190,8 +1210,8 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/main.rs": {
-   "count": 96,
-   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md); clock-live prints its error text as given; the sensor-live command name; the device and bench-speed command names; the data-pack, area-trust and env-baseline command names; the ephem-export command name; the time-vectors command name; the ais-integrity command name; the space-weather command name; the orbit-data command name; the leo-verify command name; the space-receiver command name; the sil-obs and interference-lib command names; the interference-env command name; the antenna-cal command name; the arctic-plan command name; the lunar-ref command name; the signal-readiness command name; the quantum-bench and soop-clock command names; the leo-od-plan command name; the lunar-afs-kit command name; the adsb-indicators and interference-atlas command names; the claim-check command name; the afs-interop command name; the timing-stack command name; the register-products command name; the sil-obsgen command name."
+   "count": 98,
+   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md); clock-live prints its error text as given; the sensor-live command name; the device and bench-speed command names; the data-pack, area-trust and env-baseline command names; the ephem-export command name; the time-vectors command name; the ais-integrity command name; the space-weather command name; the orbit-data command name; the leo-verify command name; the space-receiver command name; the sil-obs and interference-lib command names; the interference-env command name; the antenna-cal command name; the arctic-plan command name; the lunar-ref command name; the signal-readiness command name; the quantum-bench and soop-clock command names; the leo-od-plan command name; the lunar-afs-kit command name; the adsb-indicators and interference-atlas command names; the claim-check command name; the afs-interop command name; the timing-stack command name; the register-products command name; the sil-obsgen command name; the lunar-oem command name in the dispatch; the leo-sparse command name."
   },
   "src/mars_pnt.rs": {
    "count": 31,

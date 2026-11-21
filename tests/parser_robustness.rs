@@ -1487,6 +1487,18 @@ fn bench_dataset_inputs() {
         );
         let _ = kshana::bench::smartphone::g_positions_from_csv("sub.csv", &t);
     });
+    // Task (h): the UrbanNav ground-truth text and a receiver's NMEA.
+    let gt = b"  UTCTime Week GPSTime Latitude Longitude H-Ell\n  (sec)\n1621218775.00 2158.00000  95593.00   22 18 04.31949  114 10 44.60559  3.472\r\n".to_vec();
+    let gga =
+        b"$GNGGA,023255.00,2218.07395,N,11410.74198,E,2,12,0.62,9.0,M,-1.6,M,,0000*51\n".to_vec();
+    fuzz("bench task h text", &[gt, gga], None, |b| {
+        let t = text(b);
+        if let Ok(eps) = kshana::bench::urban::h_truth_of("ground_truth.txt", &t) {
+            let _ = kshana::bench::urban::h_nmea_positions("r.nmea", &t, &eps);
+        }
+        let _ =
+            kshana::bench::urban::h_nmea_positions("r.nmea", &t, &[(1_621_218_775_000, 0.0, 0.0)]);
+    });
     // The registry check and the golden-index check read JSON documents.
     let reg = kshana::bench::datasets::REGISTRY.as_bytes().to_vec();
     fuzz("bench dataset registry", &[reg], None, |b| {
@@ -1714,5 +1726,42 @@ fn feeder_spool_state() {
     .collect();
     fuzz("feeder spool state", &seeds, None, |b| {
         let _ = kshana::feeder_watch::parse_spool(&text(b), "state.json");
+    });
+}
+
+#[test]
+fn osnma_scenario_files() {
+    let seeds = vec![serde_json::to_vec(&kshana::osnma::scenario::template()).unwrap()];
+    fuzz("osnma scenario", &seeds, None, |b| {
+        if let Ok(s) = kshana::osnma::scenario::Scenario::from_json(&String::from_utf8_lossy(b)) {
+            let _ = kshana::osnma::scenario::run(&s);
+        }
+    });
+}
+
+#[test]
+fn lunar_oem_conversion() {
+    let seed = "CCSDS_OEM_VERS = 2.0\nCREATION_DATE = 2024-03-01T00:00:00\nORIGINATOR = T\n\nMETA_START\nOBJECT_NAME = A\nOBJECT_ID = A\nCENTER_NAME = MOON\nREF_FRAME = MOON_PA\nTIME_SYSTEM = UTC\nSTART_TIME = 2024-03-01T00:00:00\nSTOP_TIME = 2024-03-01T00:10:00\nMETA_STOP\n\n2024-03-01T00:00:00 1837.4 0 0 0 1.6 0\n2024-03-01T00:10:00 1700.0 600 0 -0.5 1.5 0\n";
+    fuzz("lunar oem", &[seed.as_bytes().to_vec()], None, |b| {
+        if let Ok(o) = kshana::oem::parse_oem(&String::from_utf8_lossy(b)) {
+            for f in kshana::lunar_oem::FRAMES {
+                let _ = kshana::lunar_oem::convert(&o, f);
+            }
+        }
+    });
+}
+
+#[test]
+fn leo_sparse_studies() {
+    let seed = head("examples/leo-sparse/study.toml", 40);
+    fuzz("leo-sparse toml", &[seed], None, |b| {
+        if let Ok(mut s) = toml::from_str::<kshana::leo_sparse::Study>(&text(b)) {
+            // Keep each case small.
+            s.duration_hours = s.duration_hours.min(0.5);
+            s.step_s = s.step_s.max(30.0);
+            s.report_every_s = s.report_every_s.max(s.step_s);
+            s.leo.total = s.leo.total.min(12);
+            let _ = kshana::leo_sparse::run_study(&s);
+        }
     });
 }

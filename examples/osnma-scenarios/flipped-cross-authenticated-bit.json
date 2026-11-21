@@ -1,0 +1,23 @@
+{
+ "format": "kshana.osnma-scenario/1",
+ "name": "flipped-cross-authenticated-bit",
+ "description": "One bit of E05's word type 1 is flipped in sub-frame 6 (CRC recomputed); the cross tag fails and both the satellite whose data it covers and the one that sent it are charged.",
+ "subframes": 18,
+ "changes": [
+  {
+   "kind": "flip_page_bit",
+   "prn": 5,
+   "subframe": 6,
+   "page": 0,
+   "bit": 27
+  }
+ ],
+ "expect": {
+  "status": {
+   "E02": "failed",
+   "E05": "failed"
+  },
+  "overall": "failed",
+  "any_tag_failed": true
+ }
+}

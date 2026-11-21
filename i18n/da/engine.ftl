@@ -8895,7 +8895,7 @@ engine-kind-lunar-differential-pnt-description = Modelleret lunar DIFFERENTIEL P
 
 engine-kind-lunar-station-coverage-description = Modelleret lunar referencestationsdækning: et Monte Carlo-sweep af den lunare differentielle PNT-model over et sydpolart brugergitter og et døgns epoker. En differentiel referencestation på et kendt sydpolart sted korrigerer en angivet konstellation (illustrativ Kepler eller en tabuleret efemeride) med en angivet signal-i-rummet-fejl, opmålingsfejl, korrektionslatens og linkkvantisering; pr. punkt og over regionen rapporterer den den korrigerede og ukorrigerede positionsfejl som percentil (3-D, horisontal, vertikal), tilgængelighed, dækning mod en angivet tærskel, DO-229E-beskyttelsesniveauer, dækningsradius pr. azimut og korrektionslinkets budget ved stationen og i det værste punkt. Ikke en udtalelse om ydeevnen af noget reelt system; ikke tilknyttet eller støttet af nogen myndighed. MODELLED.
 
-engine-kind-lunar-interop-export-description = Modelleret lunar interoperabilitetseksport: udsender det lunare referencesystem, den lunare tidsskala og den lunare efemeride i LunaNet/IOAG-afstemte, CCSDS-baserede udvekslingsformer med rundtur-/feltkontrol. GENBRUGER cratens CCSDS OEM 2.0-udsender+parser (crate::oem), gentaget for den lunare kontekst — OEM-feltet REF_FRAME bærer IAU 2015 WGCCRE's lunare legemssystem (MOON_ME / MOON_PA), TIME_SYSTEM den lunare tidsskala (LTC / TCL / UTC), CENTER_NAME = MOON — over en illustrativ eksempelefemeride af LCNS-klassen (positioner fra crate::lunar_service, hastighed ved endelig differens). Udsender også en LunaNet/IOAG-afstemt lunar tidsbeskrivelse (skala-id, sekulær rate µs/dag fra crate::lunar_time, offentliggjort bånd, referenceoverflade), der går rundtur via serde_json, og pakker artefakterne ind i den eksisterende KIF-kuvert (crate::interchange) med den MODELLED ærlighedsmærkat. Rapporterer udsendte artefakter, OEM-linjeantal, bestået feltkontrol + liste over til stede værende/manglende felter, OEM-rundtur ok, rundtur for tidsmetadata ok og KIF-bytestørrelse. MODELLED — deterministisk rundtur + kontrol af feltnavne mod offentliggjort CCSDS OEM + LunaNet/IOAG-feltsemantik er den uafhængige reference; IKKE en certificeret test af interoperabilitet; illustrativ efemeride fra offentlige kilder, ikke tilknyttet ESA; ingen TRL/heritage/opbakning fra nogen myndighed.
+engine-kind-lunar-interop-export-description = Modelleret lunar interoperabilitetseksport: udsender det lunare referencesystem, den lunare tidsskala og den lunare efemeride i LunaNet/IOAG-afstemte, CCSDS-baserede udvekslingsformer med rundtur-/feltkontrol. GENBRUGER cratens CCSDS OEM 2.0-udsender+parser (crate::oem), gentaget for den lunare kontekst — OEM-feltet REF_FRAME bærer det lunare legemssystem under dets SANA-registrerede navn (MOON_ME, eller MOON_PA440 for DE440-hovedakserne), TIME_SYSTEM er som standard TDB (også UTC; de uregistrerede lunare tokens LTC / TCL kun med allow_unregistered_time_system = true, og en COMMENT angiver det så), CENTER_NAME = MOON — over en illustrativ eksempelefemeride af LCNS-klassen (positioner fra crate::lunar_service, hastighed ved endelig differens) roteret fra månecentrerede inertialakser til det navngivne system med DE440-orienteringen. Udsender også en LunaNet/IOAG-afstemt lunar tidsbeskrivelse (skala-id, sekulær rate µs/dag fra crate::lunar_time, offentliggjort bånd, referenceoverflade), der går rundtur via serde_json, og pakker artefakterne ind i den eksisterende KIF-kuvert (crate::interchange) med den MODELLED ærlighedsmærkat. Rapporterer udsendte artefakter, OEM-linjeantal, bestået feltkontrol + liste over til stede værende/manglende felter, OEM-rundtur ok, rundtur for tidsmetadata ok og KIF-bytestørrelse. MODELLED — deterministisk rundtur + kontrol af feltnavne mod offentliggjort CCSDS OEM + LunaNet/IOAG-feltsemantik er den uafhængige reference; IKKE en certificeret test af interoperabilitet; illustrativ efemeride fra offentlige kilder, ikke tilknyttet ESA; ingen TRL/heritage/opbakning fra nogen myndighed.
 
 engine-kind-timetransfer-description = Optisk mod RF tovejs tids-/frekvensoverførsel.
 
@@ -10576,12 +10576,12 @@ engine-e-sil-obs-unknown-system = ukendt system { $value } (G eller E)
 engine-e-sil-obs-bad-canyon = kløften skal have en positiv bredde, en antenneforskydning inden for gaden, et refleksionstab på mindst 1 dB og endelige værdier
 
 ## Interference model library (src/interference_lib.rs)
-engine-interference-lib-usage = brug: kshana interference-lib models | generate --class <none|cw|narrowband|wideband|chirp|pulsed> [--centre-hz <f>] [--bandwidth-hz <b>] [--period-s <t>] [--pulse-width-s <w>] [--jnr-db <j>] [--drift-hz-per-s <r>] [--triangle] [--fs <hz>] [--samples <n>] [--seed <s>] --out <base> | fit <recording.sigmf-meta> [--out <fit.json>] | bench [--per-class <n>] [--seed <s>] [--predictions <ids.csv>] [--out <bench.json>] | cases [--per-class <n>] [--seed <s>] [--out <cases.csv>]  (docs/INTERFERENCE-LIB.md)
+engine-interference-lib-usage = brug: kshana interference-lib models | generate --class <none|cw|narrowband|wideband|chirp|pulsed|multitone|fm_tone> [--centre-hz <f>] [--bandwidth-hz <b>] [--period-s <t>] [--pulse-width-s <w>] [--jnr-db <j>] [--drift-hz-per-s <r>] [--triangle] [--tones-hz <f1,f2,...>] [--deviation-hz <d>] [--mod-freq-hz <m>] [--fs <hz>] [--samples <n>] [--seed <s>] --out <base> | fit <recording.sigmf-meta> [--out <fit.json>] | bench [--per-class <n>] [--seed <s>] [--predictions <ids.csv>] [--out <bench.json>] | cases [--per-class <n>] [--seed <s>] [--out <cases.csv>]  (docs/INTERFERENCE-LIB.md)
 engine-interference-lib-written = skrev { $path } ({ $n } prøver, MODELLED syntetisk interferens)
 engine-e-interference-lib-missing-value = { $option } kræver en værdi
 engine-e-interference-lib-unknown-option = ukendt tilvalg { $option } (kshana interference-lib --help viser tilvalgene)
 engine-e-interference-lib-bad-number = { $option } kræver et endeligt tal, ikke { $value }
-engine-e-interference-lib-unknown-class = ukendt interferensklasse { $value } (none, cw, narrowband, wideband, chirp eller pulsed)
+engine-e-interference-lib-unknown-class = ukendt interferensklasse { $value } (none, cw, narrowband, wideband, chirp, pulsed, multitone eller fm_tone)
 engine-e-interference-lib-bad-size = samplingsraten skal være positiv og optagelsen en potens af to fra 1024 til 16777216 prøver (bench: 1 til 1000 tilfælde pr. klasse)
 engine-e-interference-lib-cannot-read = kan ikke læse { $path }: { $e }
 engine-e-interference-lib-cannot-write = kan ikke skrive { $path }: { $e }
@@ -10741,6 +10741,39 @@ engine-e-sil-obsgen-cannot-read = kan ikke læse { $path }: { $e }
 engine-e-sil-obsgen-cannot-write = kan ikke skrive { $path }: { $e }
 engine-e-sil-obsgen-bad-scenario = ikke et gnss-sim-scenarie med valgfrie [urban]- og [rinex]-tabeller: { $e }
 
+## OSNMA scenario files and the reference-model runner (src/osnma/scenario.rs)
+engine-osnma-scenario-usage = brug: kshana osnma scenario run <scenario.json> [--json] | template   (kshana.osnma-scenario/1: a synthetic stream from the reference model with test keys, run in memory through the verifier; exit 0 all expectations met, 1 one not met, 2 input error; docs/OSNMA-SCENARIOS.md)
+engine-e-osnma-scenario-unknown-option = ukendt tilvalg { $option } (kshana osnma scenario --help viser tilvalgene)
+engine-e-osnma-scenario-cannot-read = kan ikke læse { $path }: { $e }
+engine-e-osnma-scenario-bad = ikke en kshana.osnma-scenario/1-fil: { $e }
+
+## OSNMA scenario run report and field checks (src/osnma/scenario.rs, src/osnma/cli.rs)
+engine-e-osnma-scenario-field = { $field } er uden for området eller ukendt (tilladt: { $allowed })
+engine-osnma-scenario-report-head = scenarie { $name }: { $subframes } delrammer, { $pages } sider
+engine-osnma-scenario-report-tags = tags: { $list }
+engine-osnma-scenario-report-reasons = årsager: { $list }
+engine-osnma-scenario-report-events = hændelser: { $list }
+engine-osnma-scenario-report-status = status { $sat }: { $status }
+engine-osnma-scenario-report-overall = samlet: { $status }
+engine-osnma-scenario-report-check-met = kontrol { $what }: forventet { $expected }, observeret { $observed }: opfyldt
+engine-osnma-scenario-report-check-not-met = kontrol { $what }: forventet { $expected }, observeret { $observed }: IKKE OPFYLDT (NOT MET)
+
+## Lunar OEM frame conversion (src/lunar_oem.rs)
+engine-lunar-oem-usage = brug: kshana lunar-oem convert <in.oem> --to ICRF|MOON_PA440|MOON_ME [--out <file>] | frames   (Moon-centred CCSDS OEM, positions and velocities, DE440 lunar orientation 2014 to 2030; docs/LUNAR-OEM.md)
+engine-e-lunar-oem-missing-value = { $option } kræver en værdi
+engine-e-lunar-oem-unknown-option = ukendt tilvalg { $option } (kshana lunar-oem --help viser tilvalgene)
+engine-e-lunar-oem-cannot-read = kan ikke læse { $path }: { $e }
+engine-e-lunar-oem-cannot-write = kan ikke skrive { $path }: { $e }
+engine-e-lunar-oem-time-system = TIME_SYSTEM { $time_system } kan ikke omregnes til TDB for Månens orientering (TDB, TT, TAI, GPS eller UTC)
+engine-e-lunar-oem-not-moon-centred = CENTER_NAME er { $center }; kun månecentrerede OEM'er (CENTER_NAME = MOON) omregnes
+engine-e-lunar-oem-unknown-frame = REF_FRAME { $frame } omregnes ikke her (ICRF, MOON_PA440, MOON_ME; læses også: MOON_PA_DE440, MOON_ME_DE440_ME421, MOON_PA; EME2000 og J2000 afviger fra ICRF med frame bias, som ikke anvendes)
+
+## Lunar interop export: SANA-registered names (src/lunar_interop.rs)
+engine-e-lunar-interop-unknown-frame = ukendt månereferencesystem { $frame } (MOON_ME eller MOON_PA440; MOON_PA læses som MOON_PA440)
+engine-e-lunar-interop-unknown-time-system = ukendt tidssystem { $time_system } (TDB, UTC eller med allow_unregistered_time_system = true LTC eller TCL)
+engine-e-lunar-interop-unregistered-time-system = TIME_SYSTEM { $time_system } er ikke i SANA-registret Time Systems, som CCSDS OEM bruger; sæt allow_unregistered_time_system = true for alligevel at skrive den (en COMMENT siger det så), eller brug TDB
+engine-e-lunar-interop-bad-step = step_min skal være et endeligt, ikke-negativt antal minutter, ikke { $step }
+
 engine-main-usage =
     brug: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }eller: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10786,6 +10819,9 @@ engine-main-usage =
     { "   " }eller: kshana afs-interop <study|ue-register> ... (kshana afs-interop --help)
     { "   " }eller: kshana timing-stack <tai|ts2phc|pps|shm|ntpq|nts> ... (kshana timing-stack --help)
     { "   " }eller: kshana sil-obsgen <scenario.toml> --out <obs.rnx> [--truth <truth.json>]
+    { "   " }eller: kshana osnma scenario run <scenario.json> [--json] | template (kshana osnma scenario --help)
+    { "   " }eller: kshana lunar-oem convert <in.oem> --to ICRF|MOON_PA440|MOON_ME [--out <file>] | frames (kshana lunar-oem --help)
+    { "   " }eller: kshana leo-sparse <study.toml>
     { "   " }eller: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }eller: kshana corrections <decode --format <has|b2b|l6|l1s|qznma> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...] | qznma-verify [--frames <frames.txt>] [--nav <nav.txt>] --pubkey <key.der> ...>
     { "   " }eller: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
@@ -10929,14 +10965,15 @@ engine-bench-cli-usage =
     brug: kshana bench spec
     { "   " }eller: kshana bench truth --task a --data <extracted JammerTest 2024 dir> --split <dev|test|holdout|all> --out <truth.json>
     { "   " }eller: kshana bench truth --task g --data <GSDC-layout train dir> --split <dev|test|holdout> --out <truth.json>
+    { "   " }eller: kshana bench truth --task h --data <scripts/fetch_urbannav.sh dir> --split <dev|test> --out <truth.json>
     { "   " }eller: kshana bench cases --task <c|d|f> --split <dev|test|holdout> --out <dir> [--data <dataset.csv>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
     { "   " }eller: kshana bench score --truth <truth.json> --predictions <predictions.json> [--threshold <x>] [--out <result.json>]
-    { "   " }eller: kshana bench baseline --task <a|b|c|d|e|f|g> --split <dev|test|holdout> --out <dir> [--data <dir>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
+    { "   " }eller: kshana bench baseline --task <a|b|c|d|e|f|g|h> --split <dev|test|holdout> --out <dir> [--data <dir>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
     { "   " }eller: kshana bench seal --task <a|b|c|d> --seed-file <file> [--new]
     { "   " }eller: kshana bench reveal-check --task <a|b|c|d> --seed-file <file> --commitment <hex>
     { "   " }eller: kshana bench manifest --task a --data <extracted dir> [--archive <tar.gz>] --out <manifest.json>
     { "   " }eller: kshana bench verify-manifest <manifest.json> --root <dir>
-    { "   " }eller: kshana bench positions --task g --split <dev|test|holdout> --csv <submission.csv> --name <system> [--version <v>] --out <predictions.json>
+    { "   " }eller: kshana bench positions --task <g|h> --split <dev|test|holdout> --csv <submission.csv> --name <system> [--version <v>] --out <predictions.json>
     { "   " }eller: kshana bench datasets [--json | --check [--root <repo>]]
     { "   " }eller: kshana bench cite <result.json>...
     { "   " }eller: kshana bench golden [--root <repo>] (--out <GOLDEN.json> | --check <GOLDEN.json>)
@@ -11987,6 +12024,7 @@ engine-bench-task-has-no-holdout = opgave ({ $task }) har ingen holdout-opdeling
 engine-bench-unknown-baseline = ukendt baseline `{ $name }`
 
 engine-bench-g-no-traces = ingen <drive>/<phone>/ground_truth.csv under { $root }
+engine-bench-h-no-sequences = ingen <sequence>/ground_truth.txt under { $root }
 
 engine-bench-g-no-object = intet `{ $key }`-objekt med spor
 
@@ -11994,7 +12032,7 @@ engine-bench-g-bad-epoch = spor `{ $id }`: hver epoke skal være [UnixTimeMillis
 
 engine-bench-f-dataset-mismatch = { $path }: SHA-256 { $got } er ikke den fastlåste dataset.csv for opgave (f); hent den med scripts/fetch_opssat_ad.sh
 
-engine-bench-cli-unknown-task-g = ukendt opgave `{ $t }` (a til g)
+engine-bench-cli-unknown-task-h = ukendt opgave `{ $t }` (a til h)
 
 engine-bench-cli-wrote-predictions = skrev { $path } ({ $traces } spor)
 
@@ -12096,3 +12134,10 @@ engine-leo-od-plan-usage = brug: kshana leo-od-plan <plan.toml>  (docs/LEO-OD-PL
 engine-e-leo-od-plan-bad-plan = planens tal er uden for området: bue, skridt, støj og masker positive og endelige, højst 100000 skridt, masker inden for ±90 grader, en halv strålebredde fra 0 til 90 grader og et LEO-Walker-mønster, hvis planer går op i antallet af satellitter
 engine-e-leo-od-plan-cannot-read = kan ikke læse { $path }: { $e }
 engine-e-leo-od-plan-bad-file = { $path } er ikke en plan: { $e }
+
+## Sparse-geometry LEO-PNT study (src/leo_sparse.rs, docs/LEO-SPARSE.md)
+engine-leo-sparse-usage = brug: kshana leo-sparse <study.toml>  (docs/LEO-SPARSE.md; MODELLED, a planning study)
+engine-e-leo-sparse-bad-study = undersøgelsens tal er uden for området: en gyldig brugerposition, et LEO-Walker-mønster under 3000 km, hvis planer går op i antallet af satellitter, en maske fra 0 til 90 grader, max_in_view 1 eller 2, positive støjværdier, a priori-værdier og mål, højst 200000 skridt og et rapportinterval ikke kortere end skridtet
+engine-e-leo-sparse-singular = informationsmatricen kan ikke inverteres, heller ikke med a priori-værdierne
+engine-e-leo-sparse-cannot-read = kan ikke læse { $path }: { $e }
+engine-e-leo-sparse-bad-file = { $path } er ikke en undersøgelse: { $e }

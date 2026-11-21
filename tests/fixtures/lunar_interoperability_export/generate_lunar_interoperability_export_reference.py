@@ -19,23 +19,27 @@ What this validates (the quantity compared):
     rejected by the independent parser (proving the parser is actually enforcing
     the mandatory CCSDS keyword, not rubber-stamping anything).
 
-Two frame x time-system combinations are exercised, each with 9 epochs:
-  - MOON_ME / LTC  (mean-Earth frame, Lunar Coordinate Time)
-  - MOON_PA / TCL  (principal-axis frame, barycentric-style lunar time)
-= 18 states + 1 negative control.
+Three frame x time-system combinations are exercised, each with 9 epochs:
+  - MOON_ME / TDB     (the default: SANA-registered frame and time names)
+  - MOON_PA440 / TDB  (DE440 principal axes, SANA MOON_PAxxx)
+  - MOON_ME / LTC     (the explicit opt-in to an unregistered lunar time token, with a COMMENT)
+= 27 states + 3 negative controls. The older MOON_ME/LTC and MOON_PA/TCL files
+(kshana_lunar_moon_me_ltc.oem, kshana_lunar_moon_pa_tcl.oem) stay committed as files
+written before the registered names; the Rust test checks they are still read.
 
 HONEST SCOPE: this is an OEM *interchange* round-trip — it proves that what
 kshana writes, an independent CCSDS OEM parser reads back identically (tokens
 exact; states to print precision), and that a malformed export is rejected. It
 does NOT validate the lunar frame/time *semantics* themselves (whether MOON_ME is
 realised to WGCCRE, whether LTC's rate is correct) — those are checked by the
-dedicated lunar-frame / lunar-time references. The lunar tokens are non-standard
-CCSDS extensions; the oem library carries them through verbatim, which is exactly
-the interoperability property under test.
+dedicated lunar-frame / lunar-time references. MOON_ME, MOON_PAxxx and TDB are
+SANA-registered CCSDS values; LTC is not and is written only on explicit request.
+The oem library carries the tokens through verbatim, which is exactly the
+interoperability property under test.
 
 The inputs are kshana's own emitted OEM, frozen into the committed `.oem`
-fixtures next to this script (kshana_lunar_moon_me_ltc.oem,
-kshana_lunar_moon_pa_tcl.oem). This generator imports ONLY the oracle (oem +
+fixtures next to this script (kshana_lunar_moon_me_tdb.oem,
+kshana_lunar_moon_pa440_tdb.oem, kshana_lunar_moon_me_ltc_optin.oem). This generator imports ONLY the oracle (oem +
 numpy), never kshana. The Rust test re-generates those OEM strings from kshana at
 runtime and asserts they are byte-identical to the committed fixtures, so the
 pinned oracle output stays bound to kshana's current behaviour.
@@ -65,8 +69,9 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 
 # (combo label, fixture filename) — kshana's frozen emitted OEM for each combo.
 COMBOS = [
-    ("MOON_ME_LTC", "kshana_lunar_moon_me_ltc.oem"),
-    ("MOON_PA_TCL", "kshana_lunar_moon_pa_tcl.oem"),
+    ("MOON_ME_TDB", "kshana_lunar_moon_me_tdb.oem"),
+    ("MOON_PA440_TDB", "kshana_lunar_moon_pa440_tdb.oem"),
+    ("MOON_ME_LTC_OPTIN", "kshana_lunar_moon_me_ltc_optin.oem"),
 ]
 
 

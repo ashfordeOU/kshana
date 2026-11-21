@@ -8417,7 +8417,7 @@ engine-kind-lunar-differential-pnt-description = Modelované měsíční DIFEREN
 
 engine-kind-lunar-station-coverage-description = Modelované pokrytí měsíční referenční stanicí: průchod Monte Carlo modelem měsíčního diferenčního PNT přes jihopolární mřížku uživatelů a den epoch. Diferenční referenční stanice na známém jihopolárním místě opravuje uvedenou konstelaci (ilustrativní keplerovskou nebo tabelované efemeridy) s uvedenou chybou signálu v prostoru, chybou zaměření, latencí korekcí a kvantizací spoje; pro každý bod a přes oblast uvádí percentil opravené a neopravené polohové chyby (3-D, horizontální, vertikální), dostupnost, pokrytí vůči uvedenému prahu, ochranné úrovně DO-229E, poloměr pokrytí podle azimutu a rozpočet korekčního spoje na stanici a v nejhorším bodě. Nejde o tvrzení o výkonu žádného reálného systému; bez příslušnosti k žádné agentuře ani její podpory. MODELLED.
 
-engine-kind-lunar-interop-export-description = Modelovaný export interoperability měsíčních dat: vydává měsíční referenční soustavu, měsíční časovou škálu a měsíční efemeridy ve výměnných formách založených na CCSDS a sladěných s LunaNet/IOAG, s kontrolou round-trip a shody polí. POUŽÍVÁ ZNOVU emitor a parser CCSDS OEM 2.0 v tomto crate (crate::oem), přeznačkované pro měsíční kontext — REF_FRAME v OEM nese měsíční tělesovou soustavu IAU 2015 WGCCRE (MOON_ME / MOON_PA), TIME_SYSTEM měsíční časovou škálu (LTC / TCL / UTC), CENTER_NAME = MOON — nad ukázkovými ilustrativními efemeridami třídy LCNS (polohy z crate::lunar_service, rychlost konečnou diferencí). Vydává také popisovač měsíčního času sladěný s LunaNet/IOAG (id škály, sekulární rychlost µs/den z crate::lunar_time, zveřejněné pásmo, referenční povrch), který projde round-trip přes serde_json, a artefakty obalí do stávající obálky KIF (crate::interchange) se štítkem otevřenosti MODELLED. Uvádí vydané artefakty, počet řádků OEM, výsledek shody polí + seznam přítomných/chybějících polí, úspěšnost round-trip OEM, úspěšnost round-trip časových metadat a velikost KIF v bajtech. MODELLED — orákulem je deterministický round-trip + shoda názvů polí vůči zveřejněnému CCSDS OEM a sémantice polí LunaNet/IOAG; NEJDE o certifikovaný test shody interoperability; ilustrativní efemeridy ze zveřejněných zdrojů, bez příslušnosti k ESA; bez TRL, letové historie ani podpory agentury.
+engine-kind-lunar-interop-export-description = Modelovaný export interoperability měsíčních dat: vydává měsíční referenční soustavu, měsíční časovou škálu a měsíční efemeridy ve výměnných formách založených na CCSDS a sladěných s LunaNet/IOAG, s kontrolou round-trip a shody polí. POUŽÍVÁ ZNOVU emitor a parser CCSDS OEM 2.0 v tomto crate (crate::oem), přeznačkované pro měsíční kontext — REF_FRAME v OEM nese měsíční tělesovou soustavu pod jejím názvem registrovaným v SANA (MOON_ME, nebo MOON_PA440 pro hlavní osy DE440), TIME_SYSTEM je ve výchozím stavu TDB (také UTC; neregistrované měsíční tokeny LTC / TCL jen s allow_unregistered_time_system = true, a pak to uvádí COMMENT), CENTER_NAME = MOON — nad ukázkovými ilustrativními efemeridami třídy LCNS (polohy z crate::lunar_service, rychlost konečnou diferencí) otočenými z inerciálních os se středem v Měsíci do pojmenované soustavy s orientací DE440. Vydává také popisovač měsíčního času sladěný s LunaNet/IOAG (id škály, sekulární rychlost µs/den z crate::lunar_time, zveřejněné pásmo, referenční povrch), který projde round-trip přes serde_json, a artefakty obalí do stávající obálky KIF (crate::interchange) se štítkem otevřenosti MODELLED. Uvádí vydané artefakty, počet řádků OEM, výsledek shody polí + seznam přítomných/chybějících polí, úspěšnost round-trip OEM, úspěšnost round-trip časových metadat a velikost KIF v bajtech. MODELLED — orákulem je deterministický round-trip + shoda názvů polí vůči zveřejněnému CCSDS OEM a sémantice polí LunaNet/IOAG; NEJDE o certifikovaný test shody interoperability; ilustrativní efemeridy ze zveřejněných zdrojů, bez příslušnosti k ESA; bez TRL, letové historie ani podpory agentury.
 
 engine-kind-timetransfer-description = Optický vs RF obousměrný přenos času/frekvence.
 
@@ -10582,12 +10582,12 @@ engine-e-sil-obs-unknown-system = neznámý systém { $value } (G nebo E)
 engine-e-sil-obs-bad-canyon = kaňon potřebuje kladnou šířku, posun antény uvnitř ulice, ztrátu odrazem nejméně 1 dB a konečné hodnoty
 
 ## Interference model library (src/interference_lib.rs)
-engine-interference-lib-usage = použití: kshana interference-lib models | generate --class <none|cw|narrowband|wideband|chirp|pulsed> [--centre-hz <f>] [--bandwidth-hz <b>] [--period-s <t>] [--pulse-width-s <w>] [--jnr-db <j>] [--drift-hz-per-s <r>] [--triangle] [--fs <hz>] [--samples <n>] [--seed <s>] --out <base> | fit <recording.sigmf-meta> [--out <fit.json>] | bench [--per-class <n>] [--seed <s>] [--predictions <ids.csv>] [--out <bench.json>] | cases [--per-class <n>] [--seed <s>] [--out <cases.csv>]  (docs/INTERFERENCE-LIB.md)
+engine-interference-lib-usage = použití: kshana interference-lib models | generate --class <none|cw|narrowband|wideband|chirp|pulsed|multitone|fm_tone> [--centre-hz <f>] [--bandwidth-hz <b>] [--period-s <t>] [--pulse-width-s <w>] [--jnr-db <j>] [--drift-hz-per-s <r>] [--triangle] [--tones-hz <f1,f2,...>] [--deviation-hz <d>] [--mod-freq-hz <m>] [--fs <hz>] [--samples <n>] [--seed <s>] --out <base> | fit <recording.sigmf-meta> [--out <fit.json>] | bench [--per-class <n>] [--seed <s>] [--predictions <ids.csv>] [--out <bench.json>] | cases [--per-class <n>] [--seed <s>] [--out <cases.csv>]  (docs/INTERFERENCE-LIB.md)
 engine-interference-lib-written = zapsáno { $path } ({ $n } vzorků, MODELLED syntetické rušení)
 engine-e-interference-lib-missing-value = { $option } vyžaduje hodnotu
 engine-e-interference-lib-unknown-option = neznámá volba { $option } (volby vypíše kshana interference-lib --help)
 engine-e-interference-lib-bad-number = { $option } vyžaduje konečné číslo, ne { $value }
-engine-e-interference-lib-unknown-class = neznámá třída rušení { $value } (none, cw, narrowband, wideband, chirp nebo pulsed)
+engine-e-interference-lib-unknown-class = neznámá třída rušení { $value } (none, cw, narrowband, wideband, chirp, pulsed, multitone nebo fm_tone)
 engine-e-interference-lib-bad-size = vzorkovací kmitočet musí být kladný a záznam mocnina dvou od 1024 do 16777216 vzorků (bench: 1 až 1000 případů na třídu)
 engine-e-interference-lib-cannot-read = nelze číst { $path }: { $e }
 engine-e-interference-lib-cannot-write = nelze zapsat { $path }: { $e }
@@ -10747,6 +10747,39 @@ engine-e-sil-obsgen-cannot-read = nelze číst { $path }: { $e }
 engine-e-sil-obsgen-cannot-write = nelze zapsat { $path }: { $e }
 engine-e-sil-obsgen-bad-scenario = není scénář gnss-sim s volitelnými tabulkami [urban] a [rinex]: { $e }
 
+## OSNMA scenario files and the reference-model runner (src/osnma/scenario.rs)
+engine-osnma-scenario-usage = použití: kshana osnma scenario run <scenario.json> [--json] | template   (kshana.osnma-scenario/1: a synthetic stream from the reference model with test keys, run in memory through the verifier; exit 0 all expectations met, 1 one not met, 2 input error; docs/OSNMA-SCENARIOS.md)
+engine-e-osnma-scenario-unknown-option = neznámá volba { $option } (volby vypíše kshana osnma scenario --help)
+engine-e-osnma-scenario-cannot-read = nelze číst { $path }: { $e }
+engine-e-osnma-scenario-bad = není soubor kshana.osnma-scenario/1: { $e }
+
+## OSNMA scenario run report and field checks (src/osnma/scenario.rs, src/osnma/cli.rs)
+engine-e-osnma-scenario-field = { $field } je mimo rozsah nebo neznámé (povoleno: { $allowed })
+engine-osnma-scenario-report-head = scénář { $name }: { $subframes } podrámců, { $pages } stránek
+engine-osnma-scenario-report-tags = značky: { $list }
+engine-osnma-scenario-report-reasons = důvody: { $list }
+engine-osnma-scenario-report-events = události: { $list }
+engine-osnma-scenario-report-status = stav { $sat }: { $status }
+engine-osnma-scenario-report-overall = celkově: { $status }
+engine-osnma-scenario-report-check-met = kontrola { $what }: očekáváno { $expected }, zjištěno { $observed }: splněno
+engine-osnma-scenario-report-check-not-met = kontrola { $what }: očekáváno { $expected }, zjištěno { $observed }: NESPLNĚNO (NOT MET)
+
+## Lunar OEM frame conversion (src/lunar_oem.rs)
+engine-lunar-oem-usage = použití: kshana lunar-oem convert <in.oem> --to ICRF|MOON_PA440|MOON_ME [--out <file>] | frames   (Moon-centred CCSDS OEM, positions and velocities, DE440 lunar orientation 2014 to 2030; docs/LUNAR-OEM.md)
+engine-e-lunar-oem-missing-value = { $option } vyžaduje hodnotu
+engine-e-lunar-oem-unknown-option = neznámá volba { $option } (volby vypíše kshana lunar-oem --help)
+engine-e-lunar-oem-cannot-read = nelze číst { $path }: { $e }
+engine-e-lunar-oem-cannot-write = nelze zapsat { $path }: { $e }
+engine-e-lunar-oem-time-system = TIME_SYSTEM { $time_system } nelze převést na TDB pro orientaci Měsíce (TDB, TT, TAI, GPS nebo UTC)
+engine-e-lunar-oem-not-moon-centred = CENTER_NAME je { $center }; převádějí se jen OEM se středem v Měsíci (CENTER_NAME = MOON)
+engine-e-lunar-oem-unknown-frame = REF_FRAME { $frame } se zde nepřevádí (ICRF, MOON_PA440, MOON_ME; čtou se také MOON_PA_DE440, MOON_ME_DE440_ME421, MOON_PA; EME2000 a J2000 se od ICRF liší o frame bias, který se neuplatňuje)
+
+## Lunar interop export: SANA-registered names (src/lunar_interop.rs)
+engine-e-lunar-interop-unknown-frame = neznámý měsíční systém { $frame } (MOON_ME nebo MOON_PA440; MOON_PA se čte jako MOON_PA440)
+engine-e-lunar-interop-unknown-time-system = neznámý časový systém { $time_system } (TDB, UTC, nebo s allow_unregistered_time_system = true LTC či TCL)
+engine-e-lunar-interop-unregistered-time-system = TIME_SYSTEM { $time_system } není v registru SANA Time Systems, který CCSDS OEM používá; nastavte allow_unregistered_time_system = true, chcete-li ho přesto zapsat (COMMENT to pak uvede), nebo použijte TDB
+engine-e-lunar-interop-bad-step = step_min musí být konečný nezáporný počet minut, ne { $step }
+
 engine-main-usage =
     použití: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }nebo: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10792,6 +10825,9 @@ engine-main-usage =
     { "   " }nebo: kshana afs-interop <study|ue-register> ... (kshana afs-interop --help)
     { "   " }nebo: kshana timing-stack <tai|ts2phc|pps|shm|ntpq|nts> ... (kshana timing-stack --help)
     { "   " }nebo: kshana sil-obsgen <scenario.toml> --out <obs.rnx> [--truth <truth.json>]
+    { "   " }nebo: kshana osnma scenario run <scenario.json> [--json] | template (kshana osnma scenario --help)
+    { "   " }nebo: kshana lunar-oem convert <in.oem> --to ICRF|MOON_PA440|MOON_ME [--out <file>] | frames (kshana lunar-oem --help)
+    { "   " }nebo: kshana leo-sparse <study.toml>
     { "   " }nebo: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }nebo: kshana corrections <decode --format <has|b2b|l6|l1s|qznma> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...] | qznma-verify [--frames <frames.txt>] [--nav <nav.txt>] --pubkey <key.der> ...>
     { "   " }nebo: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
@@ -10937,14 +10973,15 @@ engine-bench-cli-usage =
     použití: kshana bench spec
     { "   " }nebo: kshana bench truth --task a --data <extracted JammerTest 2024 dir> --split <dev|test|holdout|all> --out <truth.json>
     { "   " }nebo: kshana bench truth --task g --data <GSDC-layout train dir> --split <dev|test|holdout> --out <truth.json>
+    { "   " }nebo: kshana bench truth --task h --data <scripts/fetch_urbannav.sh dir> --split <dev|test> --out <truth.json>
     { "   " }nebo: kshana bench cases --task <c|d|f> --split <dev|test|holdout> --out <dir> [--data <dataset.csv>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
     { "   " }nebo: kshana bench score --truth <truth.json> --predictions <predictions.json> [--threshold <x>] [--out <result.json>]
-    { "   " }nebo: kshana bench baseline --task <a|b|c|d|e|f|g> --split <dev|test|holdout> --out <dir> [--data <dir>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
+    { "   " }nebo: kshana bench baseline --task <a|b|c|d|e|f|g|h> --split <dev|test|holdout> --out <dir> [--data <dir>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
     { "   " }nebo: kshana bench seal --task <a|b|c|d> --seed-file <file> [--new]
     { "   " }nebo: kshana bench reveal-check --task <a|b|c|d> --seed-file <file> --commitment <hex>
     { "   " }nebo: kshana bench manifest --task a --data <extracted dir> [--archive <tar.gz>] --out <manifest.json>
     { "   " }nebo: kshana bench verify-manifest <manifest.json> --root <dir>
-    { "   " }nebo: kshana bench positions --task g --split <dev|test|holdout> --csv <submission.csv> --name <system> [--version <v>] --out <predictions.json>
+    { "   " }nebo: kshana bench positions --task <g|h> --split <dev|test|holdout> --csv <submission.csv> --name <system> [--version <v>] --out <predictions.json>
     { "   " }nebo: kshana bench datasets [--json | --check [--root <repo>]]
     { "   " }nebo: kshana bench cite <result.json>...
     { "   " }nebo: kshana bench golden [--root <repo>] (--out <GOLDEN.json> | --check <GOLDEN.json>)
@@ -12035,6 +12072,7 @@ engine-bench-task-has-no-holdout = úloha ({ $task }) nemá rozdělení holdout:
 engine-bench-unknown-baseline = neznámá základní metoda `{ $name }`
 
 engine-bench-g-no-traces = v { $root } není žádný <drive>/<phone>/ground_truth.csv
+engine-bench-h-no-sequences = v { $root } není žádný <sequence>/ground_truth.txt
 
 engine-bench-g-no-object = chybí objekt stop `{ $key }`
 
@@ -12042,7 +12080,7 @@ engine-bench-g-bad-epoch = stopa `{ $id }`: každá epocha musí být [UnixTimeM
 
 engine-bench-f-dataset-mismatch = { $path }: SHA-256 { $got } není připnutý dataset.csv úlohy (f); stáhněte jej skriptem scripts/fetch_opssat_ad.sh
 
-engine-bench-cli-unknown-task-g = neznámá úloha `{ $t }` (a až g)
+engine-bench-cli-unknown-task-h = neznámá úloha `{ $t }` (a až h)
 
 engine-bench-cli-wrote-predictions = zapsáno { $path } (stop: { $traces })
 
@@ -12144,3 +12182,10 @@ engine-leo-od-plan-usage = použití: kshana leo-od-plan <plan.toml>  (docs/LEO-
 engine-e-leo-od-plan-bad-plan = hodnoty plánu jsou mimo rozsah: oblouk, krok, šumy a masky kladné a konečné, nejvýše 100000 kroků, masky v rozmezí ±90 stupňů, poloviční šířka svazku od 0 do 90 stupňů a vzor Walker LEO, jehož roviny dělí počet družic
 engine-e-leo-od-plan-cannot-read = nelze číst { $path }: { $e }
 engine-e-leo-od-plan-bad-file = { $path } není plán: { $e }
+
+## Sparse-geometry LEO-PNT study (src/leo_sparse.rs, docs/LEO-SPARSE.md)
+engine-leo-sparse-usage = použití: kshana leo-sparse <study.toml>  (docs/LEO-SPARSE.md; MODELLED, a planning study)
+engine-e-leo-sparse-bad-study = hodnoty studie jsou mimo rozsah: platná poloha uživatele, vzor Walker LEO pod 3000 km, jehož roviny dělí počet družic, maska od 0 do 90 stupňů, max_in_view 1 nebo 2, kladné šumy, apriorní hodnoty a cíle, nejvýše 200000 kroků a interval zpráv ne kratší než krok
+engine-e-leo-sparse-singular = informační matici nelze invertovat ani s apriorními hodnotami
+engine-e-leo-sparse-cannot-read = nelze číst { $path }: { $e }
+engine-e-leo-sparse-bad-file = { $path } není studie: { $e }

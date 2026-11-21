@@ -7716,7 +7716,7 @@ engine-kind-lunar-differential-pnt-description = 经建模的月球差分 PNT（
 
 engine-kind-lunar-station-coverage-description = 经建模的月球参考站覆盖：对月球差分 PNT 模型在南极用户网格和一天历元上做蒙特卡罗扫描。位于已知南极站点的差分参考站修正一个给定的星座（说明性开普勒星座或表格化星历），给定空间信号误差、测量误差、修正延迟和链路量化；对每个点以及整个区域，报告修正后与未修正的位置误差百分位（3-D、水平、垂直）、可用性、对照给定阈值的覆盖率、DO-229E 保护级、每个方位角的覆盖半径，以及测站处和最差点处的修正链路预算。不代表任何真实系统的性能；与任何机构无隶属关系，亦未获其背书。MODELLED。
 
-engine-kind-lunar-interop-export-description = 经建模的月球互操作性导出：以与 LunaNet/IOAG 对齐、基于 CCSDS 的交换格式输出月球参考框架、月球时标和月球星历，并附往返 / 字段符合性检查。复用本 crate 的 CCSDS OEM 2.0 生成器与解析器（crate::oem），为月球场景重新标注：OEM 的 REF_FRAME 采用 IAU 2015 WGCCRE 月球天体框架（MOON_ME / MOON_PA），TIME_SYSTEM 采用月球时标（LTC / TCL / UTC），CENTER_NAME = MOON，基于一份说明性的 LCNS 级星历样本（位置来自 crate::lunar_service，速度由有限差分得到）。同时输出与 LunaNet/IOAG 对齐的月球时间描述符（时标标识、来自 crate::lunar_time 的长期速率 µs/day、已发布范围、参考面），该描述符可经 serde_json 往返，并把这些产物封装进现有的 KIF 信封（crate::interchange），附 MODELLED 诚实标签。报告输出的产物、OEM 行数、字段符合性通过情况 + 存在/缺失字段列表、OEM 往返是否正常、时间元数据往返是否正常以及 KIF 字节数。MODELLED：确定性往返 + 对照已发布的 CCSDS OEM 及 LunaNet/IOAG 字段语义的字段名符合性是参考基准（oracle）；不是经认证的互操作性符合性测试；说明性的公开资料星历，与 ESA 无隶属关系；无 TRL/飞行传承/机构背书。
+engine-kind-lunar-interop-export-description = 经建模的月球互操作性导出：以与 LunaNet/IOAG 对齐、基于 CCSDS 的交换格式输出月球参考框架、月球时标和月球星历，并附往返 / 字段符合性检查。复用本 crate 的 CCSDS OEM 2.0 生成器与解析器（crate::oem），为月球场景重新标注：OEM 的 REF_FRAME 采用月球天体框架在 SANA 注册的名称（MOON_ME，或 DE440 主轴对应的 MOON_PA440），TIME_SYSTEM 默认为 TDB（也可为 UTC；未注册的月球时标标记 LTC / TCL 仅在 allow_unregistered_time_system = true 时使用，此时会有 COMMENT 说明），CENTER_NAME = MOON，基于一份说明性的 LCNS 级星历样本（位置来自 crate::lunar_service，速度由有限差分得到），并以 DE440 定向从月心惯性轴旋转到所指定的框架。同时输出与 LunaNet/IOAG 对齐的月球时间描述符（时标标识、来自 crate::lunar_time 的长期速率 µs/day、已发布范围、参考面），该描述符可经 serde_json 往返，并把这些产物封装进现有的 KIF 信封（crate::interchange），附 MODELLED 诚实标签。报告输出的产物、OEM 行数、字段符合性通过情况 + 存在/缺失字段列表、OEM 往返是否正常、时间元数据往返是否正常以及 KIF 字节数。MODELLED：确定性往返 + 对照已发布的 CCSDS OEM 及 LunaNet/IOAG 字段语义的字段名符合性是参考基准（oracle）；不是经认证的互操作性符合性测试；说明性的公开资料星历，与 ESA 无隶属关系；无 TRL/飞行传承/机构背书。
 
 engine-kind-timetransfer-description = 光学与射频双向时间/频率传递对比。
 
@@ -9859,12 +9859,12 @@ engine-e-sil-obs-unknown-system = 未知系统 { $value }（G 或 E）
 engine-e-sil-obs-bad-canyon = 峡谷需要正的宽度、位于街道内的天线偏移、至少 1 dB 的反射损耗以及有限值
 
 ## Interference model library (src/interference_lib.rs)
-engine-interference-lib-usage = 用法：kshana interference-lib models | generate --class <none|cw|narrowband|wideband|chirp|pulsed> [--centre-hz <f>] [--bandwidth-hz <b>] [--period-s <t>] [--pulse-width-s <w>] [--jnr-db <j>] [--drift-hz-per-s <r>] [--triangle] [--fs <hz>] [--samples <n>] [--seed <s>] --out <base> | fit <recording.sigmf-meta> [--out <fit.json>] | bench [--per-class <n>] [--seed <s>] [--predictions <ids.csv>] [--out <bench.json>] | cases [--per-class <n>] [--seed <s>] [--out <cases.csv>]  (docs/INTERFERENCE-LIB.md)
+engine-interference-lib-usage = 用法：kshana interference-lib models | generate --class <none|cw|narrowband|wideband|chirp|pulsed|multitone|fm_tone> [--centre-hz <f>] [--bandwidth-hz <b>] [--period-s <t>] [--pulse-width-s <w>] [--jnr-db <j>] [--drift-hz-per-s <r>] [--triangle] [--tones-hz <f1,f2,...>] [--deviation-hz <d>] [--mod-freq-hz <m>] [--fs <hz>] [--samples <n>] [--seed <s>] --out <base> | fit <recording.sigmf-meta> [--out <fit.json>] | bench [--per-class <n>] [--seed <s>] [--predictions <ids.csv>] [--out <bench.json>] | cases [--per-class <n>] [--seed <s>] [--out <cases.csv>]  (docs/INTERFERENCE-LIB.md)
 engine-interference-lib-written = 已写入 { $path }（{ $n } 个样本，MODELLED 合成干扰）
 engine-e-interference-lib-missing-value = { $option } 需要一个值
 engine-e-interference-lib-unknown-option = 未知选项 { $option }（kshana interference-lib --help 列出所有选项）
 engine-e-interference-lib-bad-number = { $option } 需要一个有限数值，而不是 { $value }
-engine-e-interference-lib-unknown-class = 未知干扰类别 { $value }（none、cw、narrowband、wideband、chirp 或 pulsed）
+engine-e-interference-lib-unknown-class = 未知干扰类别 { $value }（none、cw、narrowband、wideband、chirp、pulsed、multitone 或 fm_tone）
 engine-e-interference-lib-bad-size = 采样率须为正，记录长度须为 1024 至 16777216 之间的 2 的幂（bench：每类 1 至 1000 个案例）
 engine-e-interference-lib-cannot-read = 无法读取 { $path }：{ $e }
 engine-e-interference-lib-cannot-write = 无法写入 { $path }：{ $e }
@@ -10024,6 +10024,39 @@ engine-e-sil-obsgen-cannot-read = 无法读取 { $path }：{ $e }
 engine-e-sil-obsgen-cannot-write = 无法写入 { $path }：{ $e }
 engine-e-sil-obsgen-bad-scenario = 不是带可选 [urban] 和 [rinex] 表的 gnss-sim 场景：{ $e }
 
+## OSNMA scenario files and the reference-model runner (src/osnma/scenario.rs)
+engine-osnma-scenario-usage = 用法：kshana osnma scenario run <scenario.json> [--json] | template   (kshana.osnma-scenario/1: a synthetic stream from the reference model with test keys, run in memory through the verifier; exit 0 all expectations met, 1 one not met, 2 input error; docs/OSNMA-SCENARIOS.md)
+engine-e-osnma-scenario-unknown-option = 未知选项 { $option }（kshana osnma scenario --help 列出所有选项）
+engine-e-osnma-scenario-cannot-read = 无法读取 { $path }：{ $e }
+engine-e-osnma-scenario-bad = 不是 kshana.osnma-scenario/1 文件：{ $e }
+
+## OSNMA scenario run report and field checks (src/osnma/scenario.rs, src/osnma/cli.rs)
+engine-e-osnma-scenario-field = { $field } 超出范围或未知（允许：{ $allowed }）
+engine-osnma-scenario-report-head = 场景 { $name }：{ $subframes } 个子帧，{ $pages } 页
+engine-osnma-scenario-report-tags = 标签：{ $list }
+engine-osnma-scenario-report-reasons = 原因：{ $list }
+engine-osnma-scenario-report-events = 事件：{ $list }
+engine-osnma-scenario-report-status = 状态 { $sat }：{ $status }
+engine-osnma-scenario-report-overall = 总体：{ $status }
+engine-osnma-scenario-report-check-met = 检查 { $what }：预期 { $expected }，观测 { $observed }：满足
+engine-osnma-scenario-report-check-not-met = 检查 { $what }：预期 { $expected }，观测 { $observed }：未满足 (NOT MET)
+
+## Lunar OEM frame conversion (src/lunar_oem.rs)
+engine-lunar-oem-usage = 用法：kshana lunar-oem convert <in.oem> --to ICRF|MOON_PA440|MOON_ME [--out <file>] | frames   (Moon-centred CCSDS OEM, positions and velocities, DE440 lunar orientation 2014 to 2030; docs/LUNAR-OEM.md)
+engine-e-lunar-oem-missing-value = { $option } 需要一个值
+engine-e-lunar-oem-unknown-option = 未知选项 { $option }（kshana lunar-oem --help 列出所有选项）
+engine-e-lunar-oem-cannot-read = 无法读取 { $path }：{ $e }
+engine-e-lunar-oem-cannot-write = 无法写入 { $path }：{ $e }
+engine-e-lunar-oem-time-system = TIME_SYSTEM { $time_system } 无法换算为月球指向所需的 TDB（TDB、TT、TAI、GPS 或 UTC）
+engine-e-lunar-oem-not-moon-centred = CENTER_NAME 为 { $center }；只转换以月球为中心的 OEM（CENTER_NAME = MOON）
+engine-e-lunar-oem-unknown-frame = 此处不转换 REF_FRAME { $frame }（ICRF、MOON_PA440、MOON_ME；也可读取 MOON_PA_DE440、MOON_ME_DE440_ME421、MOON_PA；EME2000 和 J2000 与 ICRF 相差框架偏差，此处不应用）
+
+## Lunar interop export: SANA-registered names (src/lunar_interop.rs)
+engine-e-lunar-interop-unknown-frame = 未知的月球坐标系 { $frame }（MOON_ME 或 MOON_PA440；MOON_PA 按 MOON_PA440 读取）
+engine-e-lunar-interop-unknown-time-system = 未知的时间系统 { $time_system }（TDB、UTC，或在 allow_unregistered_time_system = true 时用 LTC 或 TCL）
+engine-e-lunar-interop-unregistered-time-system = TIME_SYSTEM { $time_system } 不在 CCSDS OEM 所用的 SANA Time Systems 注册表中；如仍要写入，请设 allow_unregistered_time_system = true（届时以 COMMENT 注明），或改用 TDB
+engine-e-lunar-interop-bad-step = step_min 必须是有限的非负分钟数，而不是 { $step }
+
 engine-main-usage =
     用法：kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }或：kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10069,6 +10102,9 @@ engine-main-usage =
     { "   " }或：kshana afs-interop <study|ue-register> ... (kshana afs-interop --help)
     { "   " }或：kshana timing-stack <tai|ts2phc|pps|shm|ntpq|nts> ... (kshana timing-stack --help)
     { "   " }或：kshana sil-obsgen <scenario.toml> --out <obs.rnx> [--truth <truth.json>]
+    { "   " }或：kshana osnma scenario run <scenario.json> [--json] | template (kshana osnma scenario --help)
+    { "   " }或：kshana lunar-oem convert <in.oem> --to ICRF|MOON_PA440|MOON_ME [--out <file>] | frames (kshana lunar-oem --help)
+    { "   " }或：kshana leo-sparse <study.toml>
     { "   " }或：kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }或：kshana corrections <decode --format <has|b2b|l6|l1s|qznma> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...] | qznma-verify [--frames <frames.txt>] [--nav <nav.txt>] --pubkey <key.der> ...>
     { "   " }或：kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
@@ -10212,14 +10248,15 @@ engine-bench-cli-usage =
     用法：kshana bench spec
     { "   " }或：kshana bench truth --task a --data <extracted JammerTest 2024 dir> --split <dev|test|holdout|all> --out <truth.json>
     { "   " }或：kshana bench truth --task g --data <GSDC-layout train dir> --split <dev|test|holdout> --out <truth.json>
+    { "   " }或：kshana bench truth --task h --data <scripts/fetch_urbannav.sh dir> --split <dev|test> --out <truth.json>
     { "   " }或：kshana bench cases --task <c|d|f> --split <dev|test|holdout> --out <dir> [--data <dataset.csv>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
     { "   " }或：kshana bench score --truth <truth.json> --predictions <predictions.json> [--threshold <x>] [--out <result.json>]
-    { "   " }或：kshana bench baseline --task <a|b|c|d|e|f|g> --split <dev|test|holdout> --out <dir> [--data <dir>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
+    { "   " }或：kshana bench baseline --task <a|b|c|d|e|f|g|h> --split <dev|test|holdout> --out <dir> [--data <dir>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
     { "   " }或：kshana bench seal --task <a|b|c|d> --seed-file <file> [--new]
     { "   " }或：kshana bench reveal-check --task <a|b|c|d> --seed-file <file> --commitment <hex>
     { "   " }或：kshana bench manifest --task a --data <extracted dir> [--archive <tar.gz>] --out <manifest.json>
     { "   " }或：kshana bench verify-manifest <manifest.json> --root <dir>
-    { "   " }或：kshana bench positions --task g --split <dev|test|holdout> --csv <submission.csv> --name <system> [--version <v>] --out <predictions.json>
+    { "   " }或：kshana bench positions --task <g|h> --split <dev|test|holdout> --csv <submission.csv> --name <system> [--version <v>] --out <predictions.json>
     { "   " }或：kshana bench datasets [--json | --check [--root <repo>]]
     { "   " }或：kshana bench cite <result.json>...
     { "   " }或：kshana bench golden [--root <repo>] (--out <GOLDEN.json> | --check <GOLDEN.json>)
@@ -11237,6 +11274,7 @@ engine-bench-task-has-no-holdout = 任务 ({ $task }) 没有保留划分：其�
 engine-bench-unknown-baseline = 未知基线 `{ $name }`
 
 engine-bench-g-no-traces = { $root } 下没有 <drive>/<phone>/ground_truth.csv
+engine-bench-h-no-sequences = { $root } 下没有 <sequence>/ground_truth.txt
 
 engine-bench-g-no-object = 没有轨迹对象 `{ $key }`
 
@@ -11244,7 +11282,7 @@ engine-bench-g-bad-epoch = 轨迹 `{ $id }`：每个历元必须是 [UnixTimeMil
 
 engine-bench-f-dataset-mismatch = { $path }：SHA-256 { $got } 不是任务 (f) 固定的 dataset.csv；请用 scripts/fetch_opssat_ad.sh 获取
 
-engine-bench-cli-unknown-task-g = 未知任务 `{ $t }`（a 到 g）
+engine-bench-cli-unknown-task-h = 未知任务 `{ $t }`（a 到 h）
 
 engine-bench-cli-wrote-predictions = 已写入 { $path }（{ $traces } 条轨迹）
 
@@ -11346,3 +11384,10 @@ engine-leo-od-plan-usage = 用法：kshana leo-od-plan <plan.toml>  (docs/LEO-OD
 engine-e-leo-od-plan-bad-plan = 计划数值超出范围：弧段、步长、噪声和掩码须为正的有限值，步数最多 100000，掩码在 ±90 度以内，半波束宽度在 0 到 90 度之间，LEO 沃克星座的轨道面数须整除卫星数
 engine-e-leo-od-plan-cannot-read = 无法读取 { $path }：{ $e }
 engine-e-leo-od-plan-bad-file = { $path } 不是计划文件：{ $e }
+
+## Sparse-geometry LEO-PNT study (src/leo_sparse.rs, docs/LEO-SPARSE.md)
+engine-leo-sparse-usage = 用法：kshana leo-sparse <study.toml>  (docs/LEO-SPARSE.md; MODELLED, a planning study)
+engine-e-leo-sparse-bad-study = 研究参数超出范围：有效的用户位置、低于 3000 km 且轨道面数整除卫星数的 LEO 沃克星座、0 到 90 度的掩码、max_in_view 为 1 或 2、正的噪声、先验值和目标值、步数最多 200000，且报告间隔不短于步长
+engine-e-leo-sparse-singular = 即使加上先验值，信息矩阵也无法求逆
+engine-e-leo-sparse-cannot-read = 无法读取 { $path }：{ $e }
+engine-e-leo-sparse-bad-file = { $path } 不是研究文件：{ $e }

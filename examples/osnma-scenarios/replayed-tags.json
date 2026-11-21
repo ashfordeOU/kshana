@@ -1,0 +1,17 @@
+{
+ "format": "kshana.osnma-scenario/1",
+ "name": "replayed-tags",
+ "description": "In sub-frame 6 E02 repeats the tags of sub-frame 4 with the genuine key of sub-frame 6; the old tags do not authenticate the new data.",
+ "subframes": 18,
+ "changes": [
+  {
+   "kind": "replay_tags",
+   "subframe": 6,
+   "from_subframe": 4
+  }
+ ],
+ "expect": {
+  "any_tag_failed": true,
+  "overall": "failed"
+ }
+}

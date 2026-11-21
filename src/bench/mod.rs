@@ -23,6 +23,7 @@ pub mod smartphone;
 pub mod task_e;
 pub mod tasks;
 pub mod texbat;
+pub mod urban;
 
 use std::collections::BTreeMap;
 
@@ -51,11 +52,12 @@ pub const OPTIMISM_TOL: f64 = 0.05;
 pub const NOTICE: &str = "Advisory: modelled or measured against stated references, not an approval, certification or statement of conformance. A score describes a log or corpus, never a product.";
 
 /// The spec version a task is scored under: 2.0.0 for tasks a to d, 2.1.0 for task (e) and 2.2.0
-/// for tasks (f) and (g) (each added as a minor version).
+/// for tasks (f) and (g), and 2.3.0 for task (h) (each added as a minor version).
 pub fn spec_version_of(task: &str) -> &'static str {
     match task {
         "e" => task_e::SPEC_VERSION_E,
         "f" | "g" => anomaly::SPEC_VERSION_FG,
+        "h" => urban::SPEC_VERSION_H,
         _ => SPEC_VERSION,
     }
 }
@@ -407,8 +409,11 @@ pub fn validate_result(v: &Value) -> Vec<String> {
     if !s("spec_version").is_some_and(|x| x.starts_with("kshana-bench/")) {
         p.push("`spec_version` must start with `kshana-bench/`".into());
     }
-    if !matches!(s("task"), Some("a" | "b" | "c" | "d" | "e" | "f" | "g")) {
-        p.push("`task` must be one of a to g".into());
+    if !matches!(
+        s("task"),
+        Some("a" | "b" | "c" | "d" | "e" | "f" | "g" | "h")
+    ) {
+        p.push("`task` must be one of a to h".into());
     }
     if !matches!(s("split"), Some("dev" | "test" | "holdout")) {
         p.push("`split` must be dev, test or holdout".into());
@@ -494,6 +499,7 @@ pub fn score(
         "e" => task_e::score_e(&truth, &preds)?,
         "f" => anomaly::score_f(&truth, &preds, declared_threshold)?,
         "g" => smartphone::score_g(&truth, &preds)?,
+        "h" => urban::score_h(&truth, &preds)?,
         other => return err(crate::t!("bench-unknown-task", other = other)),
     };
     let mut r = result_json(

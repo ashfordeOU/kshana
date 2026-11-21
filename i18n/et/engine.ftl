@@ -8402,7 +8402,7 @@ engine-kind-lunar-differential-pnt-description = Modelleeritud Kuu DIFERENTSIAAL
 
 engine-kind-lunar-station-coverage-description = Modelleeritud Kuu tugijaama katvus: Kuu diferentsiaal-PNT mudeli Monte Carlo pühkimine üle lõunapolaarse kasutajaruudustiku ja ühe päeva epohhide. Teadaolevas lõunapolaarses asukohas olev diferentsiaaltugijaam korrigeerib nimetatud konstellatsiooni (illustratiivne Kepleri või tabuleeritud efemeriid) nimetatud signaali ruumis levimise vea, mõõdistusvea, parandusviivituse ja lingi kvantimisega; punkti kohta ja piirkonna ulatuses esitab see protsentiilina korrigeeritud ja korrigeerimata asukohavea (3-D, horisontaalne, vertikaalne), kättesaadavuse, katvuse nimetatud läve suhtes, DO-229E kaitsetasemed, katvusraadiuse asimuudi kohta ning paranduslingi eelarve jaamas ja halvimas punktis. Mitte väide ühegi reaalse süsteemi toimivuse kohta; ühegi asutusega sidumata ega ühegi asutuse poolt heaks kiitmata. MODELLED.
 
-engine-kind-lunar-interop-export-description = Modelleeritud Kuu koostalitlusvõime eksport: väljastab Kuu tugisüsteemi, Kuu ajaskaala ja Kuu efemeriidi LunaNet/IOAG-ga joondatud CCSDS-põhistes vahetusvormingutes koos edasi-tagasi teisenduse / väljade vastavuse kontrolliga. KASUTAB UUESTI paketi CCSDS OEM 2.0 väljastajat+parserit (crate::oem), mis on Kuu konteksti jaoks ümber märgistatud — OEM-i REF_FRAME kannab IAU 2015 WGCCRE Kuu kehatugisüsteemi (MOON_ME / MOON_PA), TIME_SYSTEM Kuu ajaskaalat (LTC / TCL / UTC), CENTER_NAME = MOON — näidisena illustratiivse LCNS-klassi efemeriidi kohal (asukohad crate::lunar_service-ist, kiirus lõplike vahede abil). Väljastab ka LunaNet/IOAG-ga joondatud Kuu aja kirjeldaja (skaala id, sekulaarne kiirus µs/day crate::lunar_time-ist, avaldatud riba, tugipind), mis teeb serde_json kaudu edasi-tagasi teisenduse, ning mähib artefaktid olemasolevasse KIF ümbrisesse (crate::interchange) koos MODELLED ausameelsussildiga. Esitab väljastatud artefaktid, OEM-i ridade arvu, väljade vastavuse läbimise + olemasolevate/puuduvate väljade loendi, OEM-i edasi-tagasi teisenduse korras, ajametaandmete edasi-tagasi teisenduse korras ja KIF-i baidimahu. MODELLED — deterministlik edasi-tagasi teisendus + väljanimede vastavus võrreldes avaldatud CCSDS OEM-i + LunaNet/IOAG väljasemantikaga on oraakel; EI OLE sertifitseeritud koostalitlusvõime vastavustest; illustratiivne avaliku allika efemeriid, ESA-ga sidumata; ei mingit TRL-i/pärandi/asutuse heakskiitu.
+engine-kind-lunar-interop-export-description = Modelleeritud Kuu koostalitlusvõime eksport: väljastab Kuu tugisüsteemi, Kuu ajaskaala ja Kuu efemeriidi LunaNet/IOAG-ga joondatud CCSDS-põhistes vahetusvormingutes koos edasi-tagasi teisenduse / väljade vastavuse kontrolliga. KASUTAB UUESTI paketi CCSDS OEM 2.0 väljastajat+parserit (crate::oem), mis on Kuu konteksti jaoks ümber märgistatud — OEM-i REF_FRAME kannab Kuu kehatugisüsteemi selle SANA-s registreeritud nime all (MOON_ME või DE440 peatelgede jaoks MOON_PA440), TIME_SYSTEM on vaikimisi TDB (ka UTC; registreerimata Kuu märgendid LTC / TCL ainult koos allow_unregistered_time_system = true, ja siis märgib seda COMMENT), CENTER_NAME = MOON — näidisena illustratiivse LCNS-klassi efemeriidi kohal (asukohad crate::lunar_service-ist, kiirus lõplike vahede abil), mis on DE440 orientatsiooniga pööratud Kuu-kesksetelt inertsiaaltelgedelt nimetatud tugisüsteemi. Väljastab ka LunaNet/IOAG-ga joondatud Kuu aja kirjeldaja (skaala id, sekulaarne kiirus µs/day crate::lunar_time-ist, avaldatud riba, tugipind), mis teeb serde_json kaudu edasi-tagasi teisenduse, ning mähib artefaktid olemasolevasse KIF ümbrisesse (crate::interchange) koos MODELLED ausameelsussildiga. Esitab väljastatud artefaktid, OEM-i ridade arvu, väljade vastavuse läbimise + olemasolevate/puuduvate väljade loendi, OEM-i edasi-tagasi teisenduse korras, ajametaandmete edasi-tagasi teisenduse korras ja KIF-i baidimahu. MODELLED — deterministlik edasi-tagasi teisendus + väljanimede vastavus võrreldes avaldatud CCSDS OEM-i + LunaNet/IOAG väljasemantikaga on oraakel; EI OLE sertifitseeritud koostalitlusvõime vastavustest; illustratiivne avaliku allika efemeriid, ESA-ga sidumata; ei mingit TRL-i/pärandi/asutuse heakskiitu.
 
 engine-kind-timetransfer-description = Optiline vs RF kahesuunaline aja/sageduse edastamine.
 
@@ -10576,12 +10576,12 @@ engine-e-sil-obs-unknown-system = tundmatu süsteem { $value } (G või E)
 engine-e-sil-obs-bad-canyon = kanjon vajab positiivset laiust, antenni nihet tänava sees, vähemalt 1 dB peegelduskadu ja lõplikke väärtusi
 
 ## Interference model library (src/interference_lib.rs)
-engine-interference-lib-usage = kasutus: kshana interference-lib models | generate --class <none|cw|narrowband|wideband|chirp|pulsed> [--centre-hz <f>] [--bandwidth-hz <b>] [--period-s <t>] [--pulse-width-s <w>] [--jnr-db <j>] [--drift-hz-per-s <r>] [--triangle] [--fs <hz>] [--samples <n>] [--seed <s>] --out <base> | fit <recording.sigmf-meta> [--out <fit.json>] | bench [--per-class <n>] [--seed <s>] [--predictions <ids.csv>] [--out <bench.json>] | cases [--per-class <n>] [--seed <s>] [--out <cases.csv>]  (docs/INTERFERENCE-LIB.md)
+engine-interference-lib-usage = kasutus: kshana interference-lib models | generate --class <none|cw|narrowband|wideband|chirp|pulsed|multitone|fm_tone> [--centre-hz <f>] [--bandwidth-hz <b>] [--period-s <t>] [--pulse-width-s <w>] [--jnr-db <j>] [--drift-hz-per-s <r>] [--triangle] [--tones-hz <f1,f2,...>] [--deviation-hz <d>] [--mod-freq-hz <m>] [--fs <hz>] [--samples <n>] [--seed <s>] --out <base> | fit <recording.sigmf-meta> [--out <fit.json>] | bench [--per-class <n>] [--seed <s>] [--predictions <ids.csv>] [--out <bench.json>] | cases [--per-class <n>] [--seed <s>] [--out <cases.csv>]  (docs/INTERFERENCE-LIB.md)
 engine-interference-lib-written = kirjutatud { $path } ({ $n } proovi, MODELLED sünteetiline häire)
 engine-e-interference-lib-missing-value = { $option } vajab väärtust
 engine-e-interference-lib-unknown-option = tundmatu valik { $option } (valikud loetleb kshana interference-lib --help)
 engine-e-interference-lib-bad-number = { $option } vajab lõplikku arvu, mitte { $value }
-engine-e-interference-lib-unknown-class = tundmatu häireklass { $value } (none, cw, narrowband, wideband, chirp või pulsed)
+engine-e-interference-lib-unknown-class = tundmatu häireklass { $value } (none, cw, narrowband, wideband, chirp, pulsed, multitone või fm_tone)
 engine-e-interference-lib-bad-size = diskreetimissagedus peab olema positiivne ja salvestis kahe aste 1024 kuni 16777216 proovi (bench: 1 kuni 1000 juhtumit klassi kohta)
 engine-e-interference-lib-cannot-read = faili { $path } ei saa lugeda: { $e }
 engine-e-interference-lib-cannot-write = faili { $path } ei saa kirjutada: { $e }
@@ -10741,6 +10741,39 @@ engine-e-sil-obsgen-cannot-read = faili { $path } ei saa lugeda: { $e }
 engine-e-sil-obsgen-cannot-write = faili { $path } ei saa kirjutada: { $e }
 engine-e-sil-obsgen-bad-scenario = ei ole gnss-sim stsenaarium valikuliste tabelitega [urban] ja [rinex]: { $e }
 
+## OSNMA scenario files and the reference-model runner (src/osnma/scenario.rs)
+engine-osnma-scenario-usage = kasutus: kshana osnma scenario run <scenario.json> [--json] | template   (kshana.osnma-scenario/1: a synthetic stream from the reference model with test keys, run in memory through the verifier; exit 0 all expectations met, 1 one not met, 2 input error; docs/OSNMA-SCENARIOS.md)
+engine-e-osnma-scenario-unknown-option = tundmatu valik { $option } (valikud loetleb kshana osnma scenario --help)
+engine-e-osnma-scenario-cannot-read = faili { $path } ei saa lugeda: { $e }
+engine-e-osnma-scenario-bad = ei ole kshana.osnma-scenario/1 fail: { $e }
+
+## OSNMA scenario run report and field checks (src/osnma/scenario.rs, src/osnma/cli.rs)
+engine-e-osnma-scenario-field = { $field } on väljaspool vahemikku või tundmatu (lubatud: { $allowed })
+engine-osnma-scenario-report-head = stsenaarium { $name }: { $subframes } alamkaadrit, { $pages } lehte
+engine-osnma-scenario-report-tags = sildid: { $list }
+engine-osnma-scenario-report-reasons = põhjused: { $list }
+engine-osnma-scenario-report-events = sündmused: { $list }
+engine-osnma-scenario-report-status = olek { $sat }: { $status }
+engine-osnma-scenario-report-overall = kokku: { $status }
+engine-osnma-scenario-report-check-met = kontroll { $what }: oodatud { $expected }, täheldatud { $observed }: täidetud
+engine-osnma-scenario-report-check-not-met = kontroll { $what }: oodatud { $expected }, täheldatud { $observed }: EI OLE TÄIDETUD (NOT MET)
+
+## Lunar OEM frame conversion (src/lunar_oem.rs)
+engine-lunar-oem-usage = kasutus: kshana lunar-oem convert <in.oem> --to ICRF|MOON_PA440|MOON_ME [--out <file>] | frames   (Moon-centred CCSDS OEM, positions and velocities, DE440 lunar orientation 2014 to 2030; docs/LUNAR-OEM.md)
+engine-e-lunar-oem-missing-value = { $option } vajab väärtust
+engine-e-lunar-oem-unknown-option = tundmatu valik { $option } (valikud loetleb kshana lunar-oem --help)
+engine-e-lunar-oem-cannot-read = faili { $path } ei saa lugeda: { $e }
+engine-e-lunar-oem-cannot-write = faili { $path } ei saa kirjutada: { $e }
+engine-e-lunar-oem-time-system = TIME_SYSTEM { $time_system } ei saa Kuu orientatsiooni jaoks TDB-ks teisendada (TDB, TT, TAI, GPS või UTC)
+engine-e-lunar-oem-not-moon-centred = CENTER_NAME on { $center }; teisendatakse ainult Kuu-keskseid OEM-e (CENTER_NAME = MOON)
+engine-e-lunar-oem-unknown-frame = REF_FRAME { $frame } siin ei teisendata (ICRF, MOON_PA440, MOON_ME; loetakse ka MOON_PA_DE440, MOON_ME_DE440_ME421, MOON_PA; EME2000 ja J2000 erinevad ICRF-ist frame bias'i võrra, mida ei rakendata)
+
+## Lunar interop export: SANA-registered names (src/lunar_interop.rs)
+engine-e-lunar-interop-unknown-frame = tundmatu Kuu taustsüsteem { $frame } (MOON_ME või MOON_PA440; MOON_PA loetakse kui MOON_PA440)
+engine-e-lunar-interop-unknown-time-system = tundmatu ajasüsteem { $time_system } (TDB, UTC või allow_unregistered_time_system = true korral LTC või TCL)
+engine-e-lunar-interop-unregistered-time-system = TIME_SYSTEM { $time_system } ei ole SANA Time Systems registris, mida CCSDS OEM kasutab; seadke allow_unregistered_time_system = true, et see siiski kirjutada (COMMENT ütleb seda), või kasutage TDB-d
+engine-e-lunar-interop-bad-step = step_min peab olema lõplik mittenegatiivne minutite arv, mitte { $step }
+
 engine-main-usage =
     kasutus: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }või: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10786,6 +10819,9 @@ engine-main-usage =
     { "   " }või: kshana afs-interop <study|ue-register> ... (kshana afs-interop --help)
     { "   " }või: kshana timing-stack <tai|ts2phc|pps|shm|ntpq|nts> ... (kshana timing-stack --help)
     { "   " }või: kshana sil-obsgen <scenario.toml> --out <obs.rnx> [--truth <truth.json>]
+    { "   " }või: kshana osnma scenario run <scenario.json> [--json] | template (kshana osnma scenario --help)
+    { "   " }või: kshana lunar-oem convert <in.oem> --to ICRF|MOON_PA440|MOON_ME [--out <file>] | frames (kshana lunar-oem --help)
+    { "   " }või: kshana leo-sparse <study.toml>
     { "   " }või: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }või: kshana corrections <decode --format <has|b2b|l6|l1s|qznma> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...] | qznma-verify [--frames <frames.txt>] [--nav <nav.txt>] --pubkey <key.der> ...>
     { "   " }või: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
@@ -10929,14 +10965,15 @@ engine-bench-cli-usage =
     kasutus: kshana bench spec
     { "   " }või: kshana bench truth --task a --data <extracted JammerTest 2024 dir> --split <dev|test|holdout|all> --out <truth.json>
     { "   " }või: kshana bench truth --task g --data <GSDC-layout train dir> --split <dev|test|holdout> --out <truth.json>
+    { "   " }või: kshana bench truth --task h --data <scripts/fetch_urbannav.sh dir> --split <dev|test> --out <truth.json>
     { "   " }või: kshana bench cases --task <c|d|f> --split <dev|test|holdout> --out <dir> [--data <dataset.csv>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
     { "   " }või: kshana bench score --truth <truth.json> --predictions <predictions.json> [--threshold <x>] [--out <result.json>]
-    { "   " }või: kshana bench baseline --task <a|b|c|d|e|f|g> --split <dev|test|holdout> --out <dir> [--data <dir>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
+    { "   " }või: kshana bench baseline --task <a|b|c|d|e|f|g|h> --split <dev|test|holdout> --out <dir> [--data <dir>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
     { "   " }või: kshana bench seal --task <a|b|c|d> --seed-file <file> [--new]
     { "   " }või: kshana bench reveal-check --task <a|b|c|d> --seed-file <file> --commitment <hex>
     { "   " }või: kshana bench manifest --task a --data <extracted dir> [--archive <tar.gz>] --out <manifest.json>
     { "   " }või: kshana bench verify-manifest <manifest.json> --root <dir>
-    { "   " }või: kshana bench positions --task g --split <dev|test|holdout> --csv <submission.csv> --name <system> [--version <v>] --out <predictions.json>
+    { "   " }või: kshana bench positions --task <g|h> --split <dev|test|holdout> --csv <submission.csv> --name <system> [--version <v>] --out <predictions.json>
     { "   " }või: kshana bench datasets [--json | --check [--root <repo>]]
     { "   " }või: kshana bench cite <result.json>...
     { "   " }või: kshana bench golden [--root <repo>] (--out <GOLDEN.json> | --check <GOLDEN.json>)
@@ -11957,6 +11994,7 @@ engine-bench-task-has-no-holdout = ülesandel ({ $task }) pole kõrvalejäetud j
 engine-bench-unknown-baseline = tundmatu baastase `{ $name }`
 
 engine-bench-g-no-traces = kataloogis { $root } pole faili <drive>/<phone>/ground_truth.csv
+engine-bench-h-no-sequences = kataloogis { $root } pole faili <sequence>/ground_truth.txt
 
 engine-bench-g-no-object = jälgede objekti `{ $key }` pole
 
@@ -11964,7 +12002,7 @@ engine-bench-g-bad-epoch = jälg `{ $id }`: iga epohh peab olema [UnixTimeMillis
 
 engine-bench-f-dataset-mismatch = { $path }: SHA-256 { $got } ei ole ülesande (f) kinnitatud dataset.csv; laadige see skriptiga scripts/fetch_opssat_ad.sh
 
-engine-bench-cli-unknown-task-g = tundmatu ülesanne `{ $t }` (a kuni g)
+engine-bench-cli-unknown-task-h = tundmatu ülesanne `{ $t }` (a kuni h)
 
 engine-bench-cli-wrote-predictions = kirjutatud { $path } ({ $traces } jälge)
 
@@ -12066,3 +12104,10 @@ engine-leo-od-plan-usage = kasutus: kshana leo-od-plan <plan.toml>  (docs/LEO-OD
 engine-e-leo-od-plan-bad-plan = plaani väärtused on lubatud vahemikust väljas: kaar, samm, mürad ja maskid positiivsed ja lõplikud, kõige rohkem 100000 sammu, maskid ±90 kraadi piires, poolkiirelaius 0 kuni 90 kraadi ja LEO Walkeri muster, mille tasandid jagavad satelliitide arvu
 engine-e-leo-od-plan-cannot-read = faili { $path } ei saa lugeda: { $e }
 engine-e-leo-od-plan-bad-file = { $path } ei ole plaan: { $e }
+
+## Sparse-geometry LEO-PNT study (src/leo_sparse.rs, docs/LEO-SPARSE.md)
+engine-leo-sparse-usage = kasutus: kshana leo-sparse <study.toml>  (docs/LEO-SPARSE.md; MODELLED, a planning study)
+engine-e-leo-sparse-bad-study = uuringu väärtused on lubatud vahemikust väljas: kehtiv kasutaja asukoht, alla 3000 km LEO Walkeri muster, mille tasandid jagavad satelliitide arvu, mask 0 kuni 90 kraadi, max_in_view 1 või 2, positiivsed mürad, eelväärtused ja eesmärgid, kõige rohkem 200000 sammu ja aruandeintervall mitte lühem kui samm
+engine-e-leo-sparse-singular = infomaatriksit ei saa pöörata isegi eelväärtustega
+engine-e-leo-sparse-cannot-read = faili { $path } ei saa lugeda: { $e }
+engine-e-leo-sparse-bad-file = { $path } ei ole uuring: { $e }

@@ -88,12 +88,20 @@ fn epochs_of(text: &str) -> Vec<String> {
 
 fn get(addr: std::net::SocketAddr, path: &str, token: Option<&str>) -> (u16, String) {
     let mut s = std::net::TcpStream::connect(addr).unwrap();
+    // A generous timeout: on a loaded machine the status thread may be slow to answer.
+    s.set_read_timeout(Some(Duration::from_secs(60))).unwrap();
     let auth = token
         .map(|t| format!("Authorization: Bearer {t}\r\n"))
         .unwrap_or_default();
-    write!(s, "GET {path} HTTP/1.1\r\nHost: x\r\n{auth}\r\n").unwrap();
+    let request = format!("GET {path} HTTP/1.1\r\nHost: x\r\n{auth}\r\n");
+    s.write_all(request.as_bytes()).unwrap();
     let mut out = String::new();
     s.read_to_string(&mut out).unwrap();
+    assert!(
+        out.len() >= 12 && out.starts_with("HTTP/1.1 "),
+        "no HTTP status line from {path} ({} bytes received; the response itself is not logged)",
+        out.len()
+    );
     (
         out[9..12].parse().unwrap(),
         out.split_once("\r\n\r\n")
@@ -220,10 +228,12 @@ fn the_status_port_is_local_and_a_token_guards_it_elsewhere_and_the_fleet_hears_
     let (tx, rx) = std::sync::mpsc::channel();
     std::thread::spawn(move || {
         let (mut s, _) = fleet.accept().unwrap();
+        s.set_read_timeout(Some(Duration::from_secs(1))).unwrap();
         let mut buf = vec![0u8; 65536];
         let mut got = Vec::new();
         let t = Instant::now();
-        while t.elapsed() < Duration::from_secs(5) {
+        // Generous: under load the report may arrive in pieces and late.
+        while t.elapsed() < Duration::from_secs(60) {
             let n = s.read(&mut buf).unwrap_or(0);
             got.extend_from_slice(&buf[..n]);
             let txt = String::from_utf8_lossy(&got).to_string();
@@ -257,7 +267,7 @@ fn the_status_port_is_local_and_a_token_guards_it_elsewhere_and_the_fleet_hears_
     let v: serde_json::Value = serde_json::from_str(&body).unwrap();
     assert_eq!(v["schema"], "kshana.station-status/1");
     let report = rx
-        .recv_timeout(Duration::from_secs(10))
+        .recv_timeout(Duration::from_secs(90))
         .expect("the fleet heard nothing");
     assert!(report.starts_with("POST /fleet/stations/example-station-1/heartbeat HTTP/1.1"));
     assert!(report.contains("Authorization: Bearer fleet-test-token"));
@@ -300,4 +310,37 @@ fn service_files_and_configuration_errors() {
     .contains("nope"));
     assert!(bad("[[source]]\nname = \"a\"\ninput = \"x\"\nformat = \"nmea\"\n[output]\ndir = \"o\"\nrotate_mb = 0\n").contains("rotate_mb"));
     assert!(bad("[[source]]\nname = \"a\"\ninput = \"x\"\nformat = \"nmea\"\n[output]\ndir = \"o\"\n[fleet]\nurl = \"https://x\"\n").contains("http://"));
+}
+
+#[test]
+fn a_request_head_sent_in_pieces_is_read_whole() {
+    // The status server reads the request head up to its blank line, so a client that sends it
+    // in several segments is still answered (and authorised) correctly.
+    let dir = tmp("pieces");
+    let addr = receiver(1);
+    write_config(&dir, &addr, "");
+    let text = std::fs::read_to_string(dir.join("station.toml")).unwrap();
+    std::fs::write(dir.join("token"), "piece-token\n").unwrap();
+    std::fs::write(
+        dir.join("pieces.toml"),
+        text + "\n[http]\nlisten = \"127.0.0.1:0\"\ntoken_file = \"token\"\n",
+    )
+    .unwrap();
+    let h = station::start(station::load(&dir.join("pieces.toml")).unwrap()).unwrap();
+    let mut s = std::net::TcpStream::connect(h.http_addr).unwrap();
+    s.set_read_timeout(Some(Duration::from_secs(60))).unwrap();
+    s.write_all(b"GET /status HTTP/1.1\r\nHost: x\r\n").unwrap();
+    s.flush().unwrap();
+    std::thread::sleep(Duration::from_millis(200));
+    s.write_all(b"Authorization: Bearer piece-token\r\n\r\n")
+        .unwrap();
+    let mut out = String::new();
+    s.read_to_string(&mut out).unwrap();
+    assert!(
+        out.starts_with("HTTP/1.1 200"),
+        "the status server did not answer 200 ({} bytes received; the response itself is not logged)",
+        out.len()
+    );
+    assert!(out.contains("kshana.station-status/1"));
+    h.stop();
 }

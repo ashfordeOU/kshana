@@ -213,6 +213,30 @@ pub fn try_icrf_to_moon_pa_de440(
     crate::lunar_orientation::try_de440_moon_pa(t_jc).map(|r| transpose(&r))
 }
 
+/// The fixed DE440 rotation from the lunar mean-Earth frame `MOON_ME_DE440_ME421` to the DE440
+/// principal-axis frame, `r_PA = R · r_ME`, from the NAIF frame kernel `moon_de440_220930.tf`
+/// (`TKFRAME_31009`: ANGLES 67.8526″, 78.6944″, 0.2785″ about AXES 3, 2, 1, relative to
+/// `MOON_PA_DE440`), in the same convention as [`pa_from_me`]. The kernel describes the frame as a
+/// constant offset from DE440 PA "closely aligned with the DE421 lunar mean Earth/polar axis frame".
+fn pa440_from_me() -> Mat3 {
+    let a = (67.8526_f64 / 3600.0).to_radians();
+    let b = (78.6944_f64 / 3600.0).to_radians();
+    let c = (0.2785_f64 / 3600.0).to_radians();
+    matmul(&matmul(&rz(a), &ry(b)), &rx(c))
+}
+
+/// The rotation from inertial ICRF to the lunar mean-Earth frame realised from DE440
+/// (`MOON_ME_DE440_ME421`) at `jd_tdb`, `r_ME = R · r_icrf`: the DE440 principal-axis rotation
+/// ([`try_icrf_to_moon_pa_de440`]) followed by the constant PA→ME offset of the NAIF kernel.
+///
+/// # Errors
+/// Outside the series span (2014-01-01 to 2030-12-31) it returns the span error.
+pub fn try_icrf_to_moon_me_de440(
+    jd_tdb: f64,
+) -> Result<Mat3, crate::lunar_orientation::OrientationSpanError> {
+    try_icrf_to_moon_pa_de440(jd_tdb).map(|pa| matmul(&transpose(&pa440_from_me()), &pa))
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

@@ -3,10 +3,11 @@
 //! transparent reference fit and classifier, a classifier-generalisation benchmark and a
 //! cross-stage (pre- and post-correlation) detection reference.** MODELLED.
 //!
-//! The library has six classes of complex-baseband interference added to unit-power thermal
+//! The library has eight classes of complex-baseband interference added to unit-power thermal
 //! noise ([`Class`]): none, continuous wave (optionally drifting), narrowband and wideband
 //! band-limited noise (the boundary is an occupied bandwidth of 1 MHz), a linear-frequency
-//! chirp (sawtooth or triangle sweep), and DME-like Gaussian pulse pairs (12 µs pair spacing).
+//! chirp (sawtooth or triangle sweep), DME-like Gaussian pulse pairs (12 µs pair spacing),
+//! equal-power multitone, and a sinusoidally frequency-modulated tone.
 //! [`synthesise`] draws a recording of a [`Model`] at a stated sample rate; the interference
 //! power is stated as the jammer-to-noise ratio over the whole sampled band (`jnr_db`), as the
 //! average power of the record (for pulses too).
@@ -24,7 +25,9 @@
 //! and out-of-distribution (OOD) ones (lower JNR, triangle sweeps, drifting tones, jittered
 //! pulse spacing, see [`ranges`]). It scores the reference classifier, or any other
 //! classifier's predictions (a CSV of `id,class`), per class on each part; the difference is
-//! the generalisation gap. For every case it also reports the **cross-stage** pair: the
+//! the generalisation gap. The pre-registered primary metric is the macro-averaged F1 over the
+//! classes ([`PRIMARY_METRIC`]), also broken down by JNR bin. For every case it also reports
+//! the **cross-stage** pair: the
 //! pre-correlation power rise and the post-correlation C/N0 loss that the estimated
 //! interference spectrum causes to GPS L1 C/A at the band centre, through the spectral
 //! separation coefficient (Betz, *Effect of partial-band interference on receiver estimation
@@ -74,17 +77,23 @@ pub enum Class {
     Chirp,
     /// DME-like Gaussian pulse pairs (12 µs spacing) repeating every `period_s`.
     Pulsed,
+    /// Several tones of equal power.
+    Multitone,
+    /// A tone frequency-modulated by a sinusoid.
+    FmTone,
 }
 
 impl Class {
     /// Every class, in declaration order.
-    pub const ALL: [Class; 6] = [
+    pub const ALL: [Class; 8] = [
         Class::None,
         Class::Cw,
         Class::Narrowband,
         Class::Wideband,
         Class::Chirp,
         Class::Pulsed,
+        Class::Multitone,
+        Class::FmTone,
     ];
     /// The snake_case name of the class, as used in serialised documents and CSVs.
     pub fn as_str(self) -> &'static str {
@@ -95,6 +104,8 @@ impl Class {
             Class::Wideband => "wideband",
             Class::Chirp => "chirp",
             Class::Pulsed => "pulsed",
+            Class::Multitone => "multitone",
+            Class::FmTone => "fm_tone",
         }
     }
     /// The class whose name ([`Class::as_str`]) equals `s` after trimming, if any.
@@ -143,6 +154,15 @@ pub struct Model {
     /// Random jitter of the pulse-pair spacing, as a fraction of the spacing.
     #[serde(default)]
     pub pair_jitter: f64,
+    /// Multitone: the tone frequencies, offsets from the recording centre (Hz).
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub tones_hz: Vec<f64>,
+    /// FM tone: peak frequency deviation (Hz).
+    #[serde(default)]
+    pub deviation_hz: f64,
+    /// FM tone: modulating frequency (Hz).
+    #[serde(default)]
+    pub mod_freq_hz: f64,
 }
 
 impl Model {
@@ -158,6 +178,9 @@ impl Model {
             sweep: Sweep::Sawtooth,
             drift_hz_per_s: 0.0,
             pair_jitter: 0.0,
+            tones_hz: Vec::new(),
+            deviation_hz: 0.0,
+            mod_freq_hz: 0.0,
         }
     }
 }
@@ -295,6 +318,47 @@ pub fn synthesise(m: &Model, fs: f64, n: usize, seed: u64) -> Vec<Cf64> {
                 })
                 .collect()
         }
+        Class::Multitone => {
+            // Equal-power tones with random phases; with no tone list, one tone at the centre.
+            let tones = if m.tones_hz.is_empty() {
+                vec![m.centre_hz]
+            } else {
+                m.tones_hz.clone()
+            };
+            let a = (j / tones.len() as f64).sqrt();
+            let phases: Vec<f64> = tones.iter().map(|_| rng.gen_range(0.0..2.0 * PI)).collect();
+            (0..n)
+                .map(|k| {
+                    let t = k as f64 * dt;
+                    tones
+                        .iter()
+                        .zip(&phases)
+                        .fold(Cf64::default(), |acc, (f, p)| {
+                            let ph = 2.0 * PI * f * t + p;
+                            acc + Cf64::new(a * ph.pcos(), a * ph.psin())
+                        })
+                })
+                .collect()
+        }
+        Class::FmTone => {
+            // Phase 2π·fc·t + (Δf/fm)·sin(2π·fm·t + φm): peak deviation Δf, constant envelope.
+            let a = j.sqrt();
+            let phm: f64 = rng.gen_range(0.0..2.0 * PI);
+            let beta = if m.mod_freq_hz > 0.0 {
+                m.deviation_hz / m.mod_freq_hz
+            } else {
+                0.0
+            };
+            (0..n)
+                .map(|k| {
+                    let t = k as f64 * dt;
+                    let ph = 2.0 * PI * m.centre_hz * t
+                        + beta * (2.0 * PI * m.mod_freq_hz * t + phm).psin()
+                        + phi0;
+                    Cf64::new(a * ph.pcos(), a * ph.psin())
+                })
+                .collect()
+        }
     };
     for (xi, ji) in x.iter_mut().zip(jam) {
         *xi = *xi + ji;
@@ -331,6 +395,25 @@ pub struct Features {
     pub period_s: f64,
     /// Estimated pulse full width at half amplitude (s).
     pub pulse_width_s: f64,
+    /// Isolated spectral peaks: Welch bins over ten times the floor and ten times the mean of
+    /// the bins three and four away on each side, at least three bins apart (at most eight).
+    pub peaks: usize,
+    /// Fraction of the excess power in the three bins around each isolated peak.
+    pub peak_concentration: f64,
+    /// Coefficient of variation of the sample power |x|² (1 for Gaussian noise of any band,
+    /// lower for a constant-envelope interferer over the noise).
+    pub envelope_cv: f64,
+    /// Frequency of the short-time peak track's oscillation about its mean (Hz): sign changes
+    /// over twice the record length.
+    pub track_oscillation_hz: f64,
+    /// Symmetry of the short-time peak track: the smaller over the larger of the median upward
+    /// and median downward move (bins). Near 1 for a sinusoidal swing or a triangle sweep, small
+    /// for a sawtooth sweep (small steps up, one large jump back); 0 with fewer than three
+    /// moves either way.
+    pub track_symmetry: f64,
+    /// Frequencies of the isolated peaks (Hz).
+    #[serde(skip)]
+    pub peak_freqs_hz: Vec<f64>,
 }
 
 const LONG_NFFT: usize = 512;
@@ -396,6 +479,50 @@ pub fn features(x: &[Cf64], fs: f64) -> Result<(Features, Vec<f64>, Vec<f64>), S
         0.0
     };
 
+    // Isolated peaks (tones), strongest first.
+    let iso = |k: usize| {
+        let at = |d: i64| w.psd[(k as i64 + d).rem_euclid(nb as i64) as usize];
+        (at(-4) + at(-3) + at(3) + at(4)) / 4.0
+    };
+    let mut cand: Vec<usize> = (0..nb)
+        .filter(|&k| {
+            let (l, r) = (w.psd[(k + nb - 1) % nb], w.psd[(k + 1) % nb]);
+            w.psd[k] > 10.0 * floor && w.psd[k] >= l && w.psd[k] > r && w.psd[k] > 10.0 * iso(k)
+        })
+        .collect();
+    cand.sort_by(|a, b| w.psd[*b].total_cmp(&w.psd[*a]));
+    let mut picked: Vec<usize> = Vec::new();
+    for k in cand {
+        let near = |q: &usize| {
+            let d = (k as i64 - *q as i64).rem_euclid(nb as i64);
+            d.min(nb as i64 - d) < 3
+        };
+        if picked.len() < 8 && !picked.iter().any(near) {
+            picked.push(k);
+        }
+    }
+    let in_peaks: f64 = picked
+        .iter()
+        .flat_map(|k| [nb + k - 1, *k, k + 1])
+        .map(|k| (w.psd[k % nb] - floor).max(0.0))
+        .sum();
+    let peak_concentration = if all_excess > 0.0 {
+        in_peaks / all_excess
+    } else {
+        0.0
+    };
+    let peak_freqs_hz: Vec<f64> = picked.iter().map(|k| w.freq_hz[*k]).collect();
+    let envelope_cv = {
+        let p: Vec<f64> = x.iter().map(|c| c.re * c.re + c.im * c.im).collect();
+        let mean = p.iter().sum::<f64>() / p.len().max(1) as f64;
+        let var = p.iter().map(|q| (q - mean) * (q - mean)).sum::<f64>() / p.len().max(1) as f64;
+        if mean > 0.0 {
+            var.sqrt() / mean
+        } else {
+            0.0
+        }
+    };
+
     // Short-time peak track on non-overlapping segments.
     let nseg = x.len() / SHORT_NFFT;
     let mut peaks = Vec::with_capacity(nseg);
@@ -446,6 +573,59 @@ pub fn features(x: &[Cf64], fs: f64) -> Result<(Features, Vec<f64>, Vec<f64>), S
         steady.iter().sum::<i64>() as f64 / steady.len() as f64
     };
     let sweep_rate_hz_per_s = mean_move * (fs / SHORT_NFFT as f64) / seg_t;
+    let track_symmetry = {
+        let signed_moves: Vec<i64> = peaks
+            .windows(2)
+            .map(|p| {
+                let mut d = (p[1] - p[0]).rem_euclid(m);
+                if d > m / 2 {
+                    d -= m;
+                }
+                d
+            })
+            .collect();
+        let med = |mut v: Vec<i64>| {
+            v.sort_unstable();
+            v[v.len() / 2] as f64
+        };
+        let up: Vec<i64> = signed_moves.iter().copied().filter(|d| *d > 0).collect();
+        let down: Vec<i64> = signed_moves
+            .iter()
+            .filter(|d| **d < 0)
+            .map(|d| -d)
+            .collect();
+        if up.len() < 3 || down.len() < 3 {
+            0.0
+        } else {
+            let (a, b) = (med(up), med(down));
+            a.min(b) / a.max(b)
+        }
+    };
+    // Oscillation of the (signed) peak track about its mean: an FM tone's peak swings at the
+    // modulating frequency.
+    let track_oscillation_hz = {
+        let signed: Vec<f64> = peaks
+            .iter()
+            .map(|k| {
+                if *k > m / 2 {
+                    (*k - m) as f64
+                } else {
+                    *k as f64
+                }
+            })
+            .collect();
+        let mean = signed.iter().sum::<f64>() / signed.len().max(1) as f64;
+        let changes = signed
+            .windows(2)
+            .filter(|p| (p[0] - mean) * (p[1] - mean) < 0.0)
+            .count();
+        let dur = signed.len() as f64 * seg_t;
+        if dur > 0.0 {
+            changes as f64 / (2.0 * dur)
+        } else {
+            0.0
+        }
+    };
 
     // Block-power envelope.
     let blk = 16usize;
@@ -518,6 +698,12 @@ pub fn features(x: &[Cf64], fs: f64) -> Result<(Features, Vec<f64>, Vec<f64>), S
         papr_db,
         period_s: 0.0,
         pulse_width_s,
+        peaks: picked.len(),
+        peak_concentration,
+        envelope_cv,
+        track_oscillation_hz,
+        track_symmetry,
+        peak_freqs_hz,
     };
     let period_s = match classify(&f, fs) {
         Class::Pulsed => pulse_period,
@@ -527,12 +713,20 @@ pub fn features(x: &[Cf64], fs: f64) -> Result<(Features, Vec<f64>, Vec<f64>), S
     Ok((Features { period_s, ..f }, w.freq_hz, w.psd))
 }
 
-/// The reference classifier's fixed thresholds (version `interference-lib/v1`):
+/// Identifier of the reference classifier's rules.
+pub const CLASSIFIER: &str = "interference-lib/v2 reference (fixed thresholds)";
+
+/// The reference classifier's fixed thresholds (version `interference-lib/v2`: the `v1` rules
+/// with two classes added, each rule stated here and in docs/INTERFERENCE-LIB.md):
 /// `none` below 0.4 dB of power rise and 4 dB of largest excess; `pulsed` when some, but
 /// under 30 %, of the blocks are ten times the median block power and the peak block is
 /// 12 dB over the mean; `cw` when the three bins around the largest hold 85 % of the excess;
-/// `chirp` when the short-time peak moves steadily (consistency over 0.6) across an occupied
-/// band of at least 1.5 MHz; otherwise band noise, `narrowband` below 1 MHz of occupied band.
+/// `multitone` when there are at least two isolated peaks and the bins around them hold 80 %
+/// of the excess; `fm_tone` when the envelope is nearly constant (coefficient of variation of
+/// the sample power under 0.75, where Gaussian noise of any band gives 1) and the short-time
+/// peak swings symmetrically (track symmetry over 0.5); `chirp` when the short-time peak moves
+/// steadily (consistency over 0.6) across an occupied band of at least 1.5 MHz; otherwise band
+/// noise, `narrowband` below 1 MHz of occupied band.
 pub fn classify(f: &Features, _fs: f64) -> Class {
     if f.power_rise_db < 0.4 && f.max_excess_db < 4.0 {
         Class::None
@@ -540,6 +734,10 @@ pub fn classify(f: &Features, _fs: f64) -> Class {
         Class::Pulsed
     } else if f.concentration >= 0.85 {
         Class::Cw
+    } else if f.peaks >= 2 && f.peak_concentration >= 0.8 {
+        Class::Multitone
+    } else if f.envelope_cv < 0.75 && f.track_symmetry > 0.5 {
+        Class::FmTone
     } else if f.track_consistency > 0.6 && f.occupied_bw_hz >= 1.5 * NARROW_WIDE_HZ {
         Class::Chirp
     } else if f.occupied_bw_hz < NARROW_WIDE_HZ {
@@ -649,6 +847,27 @@ pub fn fit(x: &[Cf64], fs: f64, seed: u64) -> Result<Fit, String> {
                     f.pulse_width_s.max(1e-7)
                 };
             }
+            Class::Multitone => {
+                model.tones_hz = f.peak_freqs_hz.clone();
+            }
+            Class::FmTone => {
+                // A wide FM tone's spectrum (arcsine-shaped) peaks just inside ±Δf of the
+                // carrier: take the strongest occupied bin on each side of the centroid.
+                let side = |upper: bool| {
+                    (0..psd.len())
+                        .filter(|&k| psd[k] > 2.0 * floor && (freq[k] > f.centroid_hz) == upper)
+                        .max_by(|a, b| psd[*a].total_cmp(&psd[*b]))
+                        .map(|k| freq[k])
+                };
+                match (side(false), side(true)) {
+                    (Some(lo), Some(hi)) => {
+                        model.centre_hz = (lo + hi) / 2.0;
+                        model.deviation_hz = (hi - lo) / 2.0;
+                    }
+                    _ => model.deviation_hz = f.occupied_bw_hz / 2.0,
+                }
+                model.mod_freq_hz = f.track_oscillation_hz;
+            }
             Class::None => {}
         }
     }
@@ -698,9 +917,12 @@ pub fn ranges() -> serde_json::Value {
         "samples": 16384,
         "id": {"jnr_db": [5.0, 20.0], "cw_centre_hz": [-3.0e6, 3.0e6], "narrowband_bw_hz": [1.0e5, 8.0e5],
                "wideband_bw_hz": [1.5e6, 4.0e6], "chirp_bw_hz": [2.0e6, 4.0e6], "chirp_period_s": [2.0e-5, 1.0e-4],
-               "chirp_sweep": "sawtooth", "pulse_width_s": [2.5e-6, 4.5e-6], "pulse_period_s": [2.0e-4, 5.0e-4]},
+               "chirp_sweep": "sawtooth", "pulse_width_s": [2.5e-6, 4.5e-6], "pulse_period_s": [2.0e-4, 5.0e-4],
+               "multitone_tones": [3, 5], "multitone_span_hz": [-3.0e6, 3.0e6], "multitone_min_spacing_hz": 1.0e5,
+               "fm_deviation_hz": [2.0e5, 1.0e6], "fm_mod_freq_hz": [2.0e3, 5.0e4]},
         "ood": {"jnr_db": [0.0, 5.0], "cw_drift_hz_per_s": [-2.0e8, 2.0e8], "chirp_sweep": "triangle",
-                "pair_jitter": [0.0, 0.3]},
+                "pair_jitter": [0.0, 0.3], "multitone_tones": [6, 8],
+                "fm_deviation_hz": [1.0e5, 3.0e5], "fm_mod_freq_hz": [5.0e4, 2.0e5]},
     })
 }
 
@@ -749,6 +971,33 @@ pub fn draw(class: Class, ood: bool, rng: &mut ChaCha8Rng) -> Model {
                 m.pair_jitter = rng.gen_range(0.0..0.3);
             }
         }
+        Class::Multitone => {
+            // ID 3 to 5 tones, OOD 6 to 8, within ±3 MHz and at least 100 kHz apart.
+            let k = if ood {
+                rng.gen_range(6..=8)
+            } else {
+                rng.gen_range(3..=5)
+            };
+            while m.tones_hz.len() < k {
+                let f = rng.gen_range(-3.0e6..3.0e6);
+                if m.tones_hz.iter().all(|g: &f64| (g - f).abs() >= 1.0e5) {
+                    m.tones_hz.push(f);
+                }
+            }
+            m.centre_hz = m.tones_hz.iter().sum::<f64>() / k as f64;
+        }
+        Class::FmTone => {
+            // ID: 0.2 to 1 MHz deviation at 2 to 50 kHz (wide FM, a continuous band); OOD:
+            // 0.1 to 0.3 MHz at 50 to 200 kHz (narrower index, discrete sidebands).
+            m.centre_hz = rng.gen_range(-2.0e6..2.0e6);
+            if ood {
+                m.deviation_hz = rng.gen_range(1.0e5..3.0e5);
+                m.mod_freq_hz = rng.gen_range(5.0e4..2.0e5);
+            } else {
+                m.deviation_hz = rng.gen_range(2.0e5..1.0e6);
+                m.mod_freq_hz = rng.gen_range(2.0e3..5.0e4);
+            }
+        }
         Class::None => {}
     }
     m
@@ -789,14 +1038,65 @@ pub struct CaseScore {
     pub truth: Class,
     /// The classifier's predicted class; `None` when no prediction was given for the case.
     pub predicted: Option<Class>,
+    /// The case's JNR (dB); unused for `none`.
+    #[serde(default)]
+    pub jnr_db: f64,
     /// Pre-correlation power rise: total power over the estimated noise floor (dB).
     pub power_rise_db: f64,
     /// Post-correlation C/N0 loss for GPS L1 C/A at the band centre from the fitted spectrum (dB).
     pub ca_cn0_loss_db: f64,
 }
 
+/// The pre-registered primary metric of the benchmark.
+pub const PRIMARY_METRIC: &str =
+    "macro-averaged F1 over the eight classes, per part (id, ood); a missing prediction counts as wrong";
+
+/// The JNR bins of the breakdown (dB, lower bound inclusive).
+pub const JNR_BINS: [(f64, f64); 4] = [(0.0, 5.0), (5.0, 10.0), (10.0, 15.0), (15.0, 20.0)];
+
+/// Per-class precision, recall and F1 over `sel`, and their macro averages over the classes
+/// with at least one true case in `sel` (all eight in a full part).
+fn f1_table(sel: &[&CaseScore]) -> (serde_json::Map<String, serde_json::Value>, f64, f64) {
+    let mut per = serde_json::Map::new();
+    let (mut f1s, mut recs, mut k) = (0.0, 0.0, 0usize);
+    for class in Class::ALL {
+        let truth = sel.iter().filter(|c| c.truth == class).count();
+        if truth == 0 {
+            continue;
+        }
+        let predicted = sel.iter().filter(|c| c.predicted == Some(class)).count();
+        let tp = sel
+            .iter()
+            .filter(|c| c.truth == class && c.predicted == Some(class))
+            .count() as f64;
+        let precision = if predicted > 0 {
+            tp / predicted as f64
+        } else {
+            0.0
+        };
+        let recall = tp / truth as f64;
+        let f1 = if precision + recall > 0.0 {
+            2.0 * precision * recall / (precision + recall)
+        } else {
+            0.0
+        };
+        f1s += f1;
+        recs += recall;
+        k += 1;
+        per.insert(
+            class.as_str().into(),
+            serde_json::json!({"precision": precision, "recall": recall, "f1": f1}),
+        );
+    }
+    let kk = k.max(1) as f64;
+    (per, f1s / kk, recs / kk)
+}
+
 /// Score predictions against a corpus: per part (`id`, `ood`), the accuracy, the per-class
-/// recall and the confusion counts (`truth -> predicted -> n`, `missing` for no prediction).
+/// recall and the confusion counts (`truth -> predicted -> n`, `missing` for no prediction),
+/// the pre-registered primary metric (macro-averaged F1, [`PRIMARY_METRIC`]), per-class
+/// precision, recall and F1, the balanced accuracy, and accuracy and macro-F1 per JNR bin
+/// ([`JNR_BINS`]; `none` cases are outside the bins).
 pub fn score(cases: &[CaseScore]) -> serde_json::Value {
     let mut parts = serde_json::Map::new();
     for (name, ood) in [("id", false), ("ood", true)] {
@@ -824,12 +1124,35 @@ pub fn score(cases: &[CaseScore]) -> serde_json::Value {
             }
         }
         let ok = sel.iter().filter(|c| c.predicted == Some(c.truth)).count();
+        let (per_class, macro_f1, balanced) = f1_table(&sel);
+        let by_jnr: Vec<serde_json::Value> = JNR_BINS
+            .iter()
+            .map(|(lo, hi)| {
+                let b: Vec<&CaseScore> = sel
+                    .iter()
+                    .copied()
+                    .filter(|c| c.truth != Class::None && c.jnr_db >= *lo && c.jnr_db < *hi)
+                    .collect();
+                let ok = b.iter().filter(|c| c.predicted == Some(c.truth)).count();
+                let (_, mf1, _) = f1_table(&b);
+                serde_json::json!({
+                    "jnr_db": [lo, hi],
+                    "cases": b.len(),
+                    "accuracy": if b.is_empty() { serde_json::Value::Null } else { serde_json::json!(ok as f64 / b.len() as f64) },
+                    "macro_f1": if b.is_empty() { serde_json::Value::Null } else { serde_json::json!(mf1) },
+                })
+            })
+            .collect();
         parts.insert(
             name.into(),
             serde_json::json!({
                 "cases": sel.len(),
                 "accuracy": if sel.is_empty() { serde_json::Value::Null } else { serde_json::json!(ok as f64 / sel.len() as f64) },
+                "macro_f1": if sel.is_empty() { serde_json::Value::Null } else { serde_json::json!(macro_f1) },
+                "balanced_accuracy": if sel.is_empty() { serde_json::Value::Null } else { serde_json::json!(balanced) },
                 "recall": recall,
+                "per_class": per_class,
+                "by_jnr": by_jnr,
                 "confusion": conf,
             }),
         );
@@ -839,7 +1162,12 @@ pub fn score(cases: &[CaseScore]) -> serde_json::Value {
         (Some(a), Some(b)) => serde_json::json!(a - b),
         _ => serde_json::Value::Null,
     };
-    serde_json::json!({"parts": parts, "generalisation_gap": gap})
+    let mf = |k: &str| parts.get(k).and_then(|p| p["macro_f1"].as_f64());
+    let mf_gap = match (mf("id"), mf("ood")) {
+        (Some(a), Some(b)) => serde_json::json!(a - b),
+        _ => serde_json::Value::Null,
+    };
+    serde_json::json!({"parts": parts, "generalisation_gap": gap, "macro_f1_gap": mf_gap})
 }
 
 /// Run the benchmark: synthesise every case, fit the reference model, and score the
@@ -863,6 +1191,7 @@ pub fn benchmark(
             ood: c.ood,
             truth: c.model.class,
             predicted: Some(f.model.class),
+            jnr_db: c.model.jnr_db,
             power_rise_db: f.features.power_rise_db,
             ca_cn0_loss_db: f.ca_cn0_loss_db,
         };
@@ -884,7 +1213,8 @@ pub fn benchmark(
         "schema": BENCH_SCHEMA,
         "label": "MODELLED",
         "note": "synthetic library corpus; accuracy here is not accuracy on real captures",
-        "classifier": "interference-lib/v1 reference (fixed thresholds)",
+        "classifier": CLASSIFIER,
+        "primary_metric": PRIMARY_METRIC,
         "seed": seed,
         "per_class": per_class,
         "ranges": ranges(),
@@ -1043,6 +1373,22 @@ fn run_inner(args: &[String]) -> Result<(), String> {
             "--pulse-width-s" => m.pulse_width_s = num(args, &mut i)?,
             "--jnr-db" => m.jnr_db = num(args, &mut i)?,
             "--drift-hz-per-s" => m.drift_hz_per_s = num(args, &mut i)?,
+            "--deviation-hz" => m.deviation_hz = num(args, &mut i)?,
+            "--mod-freq-hz" => m.mod_freq_hz = num(args, &mut i)?,
+            "--tones-hz" => {
+                let v = text(args, &mut i)?;
+                m.tones_hz = v
+                    .split(',')
+                    .map(|t| t.trim().parse::<f64>().ok().filter(|x| x.is_finite()))
+                    .collect::<Option<Vec<f64>>>()
+                    .ok_or_else(|| {
+                        crate::terr!(
+                            "e-interference-lib-bad-number",
+                            option = "--tones-hz",
+                            value = v.as_str()
+                        )
+                    })?;
+            }
             "--triangle" => m.sweep = Sweep::Triangle,
             "--fs" => fs = num(args, &mut i)?,
             "--samples" => n = num(args, &mut i)? as usize,
@@ -1097,7 +1443,7 @@ fn run_inner(args: &[String]) -> Result<(), String> {
                 &serde_json::json!({
                     "schema": FIT_SCHEMA,
                     "label": "MODELLED",
-                    "classifier": "interference-lib/v1 reference (fixed thresholds)",
+                    "classifier": CLASSIFIER,
                     "input": input,
                     "sample_rate_hz": fs,
                     "samples": x.len(),
@@ -1122,11 +1468,11 @@ fn run_inner(args: &[String]) -> Result<(), String> {
         "cases" => {
             // The corpus as a CSV (id, ood, class and parameters), for an external classifier
             // that draws its own recordings with `generate`.
-            let mut s = String::from("id,ood,class,centre_hz,bandwidth_hz,period_s,pulse_width_s,jnr_db,sweep,drift_hz_per_s,pair_jitter,seed\n");
+            let mut s = String::from("id,ood,class,centre_hz,bandwidth_hz,period_s,pulse_width_s,jnr_db,sweep,drift_hz_per_s,pair_jitter,seed,tones_hz,deviation_hz,mod_freq_hz\n");
             for c in corpus(per_class, seed) {
                 let m = &c.model;
                 s.push_str(&format!(
-                    "{},{},{},{},{},{},{},{},{},{},{},{}\n",
+                    "{},{},{},{},{},{},{},{},{},{},{},{},{},{},{}\n",
                     c.id,
                     c.ood,
                     m.class.as_str(),
@@ -1142,7 +1488,14 @@ fn run_inner(args: &[String]) -> Result<(), String> {
                     },
                     m.drift_hz_per_s,
                     m.pair_jitter,
-                    c.seed
+                    c.seed,
+                    m.tones_hz
+                        .iter()
+                        .map(|t| t.to_string())
+                        .collect::<Vec<_>>()
+                        .join(";"),
+                    m.deviation_hz,
+                    m.mod_freq_hz
                 ));
             }
             match out {
