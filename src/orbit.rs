@@ -256,6 +256,18 @@ pub enum Propagator {
     Sp3Precise(Box<crate::sp3::Sp3Interpolator>),
 }
 
+/// How far (s) from its `Toe` a broadcast ephemeris is evaluated. The IS-GPS-200 user algorithm
+/// folds the time from `Toe` into half a week either side, so beyond half a week it would place
+/// the satellite a week away from where the date says while the Earth rotation follows the date.
+/// Past this reach the propagator fails like a decayed SGP4 satellite (the geocentre, which the
+/// geometry checks treat as not visible). Within it the broadcast model is extrapolated as before;
+/// its fit interval (a few hours) is the accuracy limit, not this one.
+pub const RINEX_MAX_REACH_S: f64 = 302_400.0;
+
+fn rinex_in_reach(t: f64) -> bool {
+    t.abs() < RINEX_MAX_REACH_S
+}
+
 /// Time step (s) used to finite-difference a [`Propagator::Rinex`] position into
 /// a velocity: the broadcast ephemeris gives position only. A one-second central
 /// difference resolves the ~3.9 km/s orbital velocity to better than a mm/s.
@@ -301,7 +313,12 @@ impl Propagator {
                 Ok((r_km, _v)) => [r_km[0] * 1000.0, r_km[1] * 1000.0, r_km[2] * 1000.0],
                 Err(_) => [0.0, 0.0, 0.0],
             },
-            Propagator::Rinex(e) => e.sv_position_teme(e.toe + t),
+            Propagator::Rinex(e) => {
+                if !rinex_in_reach(t) {
+                    return [0.0, 0.0, 0.0];
+                }
+                e.sv_position_teme(e.toe + t)
+            }
             Propagator::Glonass(e) => e.position_teme(t),
             Propagator::Sp3Precise(e) => e.position_teme(t),
         }
@@ -320,6 +337,9 @@ impl Propagator {
                 Err(_) => [0.0, 0.0, 0.0],
             },
             Propagator::Rinex(e) => {
+                if !rinex_in_reach(t) {
+                    return [0.0, 0.0, 0.0];
+                }
                 let ahead = e.sv_position_teme(e.toe + t + RINEX_VEL_DT_S);
                 let behind = e.sv_position_teme(e.toe + t - RINEX_VEL_DT_S);
                 [
@@ -1729,6 +1749,25 @@ impl OrbitClockScenario {
 mod tests {
     use super::*;
     use std::f64::consts::{FRAC_PI_2, PI};
+
+    #[test]
+    fn a_broadcast_ephemeris_is_not_evaluated_past_half_a_week() {
+        let e = crate::rinex::parse_nav(include_str!(
+            "../tests/fixtures/rinex_sp3_interop/brdc_multignss_slice.rnx"
+        ))
+        .unwrap()
+        .into_iter()
+        .find(|e| e.system == 'G')
+        .unwrap();
+        let p = Propagator::from(e);
+        let r = p.position_eci(3_600.0);
+        assert!((r[0] * r[0] + r[1] * r[1] + r[2] * r[2]).sqrt() > 2.0e7);
+        // Four days from Toe the IS-GPS-200 fold would place the satellite a week away from the
+        // date; the propagator fails instead (the geocentre: not visible).
+        assert_eq!(p.position_eci(4.0 * 86_400.0), [0.0, 0.0, 0.0]);
+        assert_eq!(p.position_eci(-4.0 * 86_400.0), [0.0, 0.0, 0.0]);
+        assert_eq!(p.velocity_eci(4.0 * 86_400.0), [0.0, 0.0, 0.0]);
+    }
 
     #[test]
     fn period_matches_mean_motion() {
