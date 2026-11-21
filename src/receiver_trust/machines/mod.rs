@@ -52,12 +52,33 @@ pub(crate) fn gps_week_ms(week: i64, tow_ms: i64) -> i64 {
 #[derive(Default)]
 pub(crate) struct EpochMap {
     map: BTreeMap<i64, LogEpoch>,
+    /// The last raw key given to [`EpochMap::at_wrapped`] and the periods added since.
+    last_raw: Option<i64>,
+    periods: i64,
 }
 
 impl EpochMap {
     /// The epoch at `key_ms`, created empty when new.
     pub(crate) fn at(&mut self, key_ms: i64) -> &mut LogEpoch {
         self.map.entry(key_ms).or_default()
+    }
+
+    /// The epoch at a key that restarts every `period_ms` (a time of week or of day), unwrapped
+    /// in stream order: a drop of more than half a period is the rollover (Saturday to Sunday,
+    /// or midnight), and a jump of more than half a period the other way undoes it (a stale
+    /// message straddling the rollover), as the UBX reader does with iTOW. Without this a log
+    /// crossing the rollover would put the new week or day before the old one.
+    pub(crate) fn at_wrapped(&mut self, raw_ms: i64, period_ms: i64) -> &mut LogEpoch {
+        if let Some(last) = self.last_raw {
+            if raw_ms < last - period_ms / 2 {
+                self.periods += 1;
+            } else if raw_ms > last + period_ms / 2 {
+                self.periods -= 1;
+            }
+        }
+        self.last_raw = Some(raw_ms);
+        let key = raw_ms + self.periods * period_ms;
+        self.map.entry(key).or_default()
     }
 
     /// The earliest key, if any.
