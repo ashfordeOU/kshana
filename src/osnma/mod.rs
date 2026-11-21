@@ -16,6 +16,7 @@ pub mod maclt_data;
 pub mod merkle;
 pub mod navdata;
 pub mod page;
+pub mod scenario;
 pub mod signature;
 pub mod subframe;
 pub mod tables;

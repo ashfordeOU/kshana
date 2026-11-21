@@ -1716,3 +1716,13 @@ fn feeder_spool_state() {
         let _ = kshana::feeder_watch::parse_spool(&text(b), "state.json");
     });
 }
+
+#[test]
+fn osnma_scenario_files() {
+    let seeds = vec![serde_json::to_vec(&kshana::osnma::scenario::template()).unwrap()];
+    fuzz("osnma scenario", &seeds, None, |b| {
+        if let Ok(s) = kshana::osnma::scenario::Scenario::from_json(&String::from_utf8_lossy(b)) {
+            let _ = kshana::osnma::scenario::run(&s);
+        }
+    });
+}

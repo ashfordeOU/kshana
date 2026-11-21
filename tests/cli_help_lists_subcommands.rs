@@ -17,6 +17,7 @@ fn the_top_level_usage_names_every_subcommand() {
         "trust-telemetry",
         "ephem-export",
         "osnma verify",
+        "osnma scenario run",
         "nmea-scenario",
         "interference-map",
         "route-exposure",
