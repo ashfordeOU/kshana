@@ -9,7 +9,7 @@ use std::path::{Path, PathBuf};
 use serde_json::{json, Value};
 
 use super::tasks::{self, C_BASELINES};
-use super::{anomaly, cite, datasets, smartphone};
+use super::{anomaly, cite, datasets, smartphone, urban};
 use super::{
     reveal_check, seal, sha256_hex, site, validate_result, BenchError, Split, MANIFEST_SCHEMA,
     SPEC_VERSION,
@@ -125,10 +125,10 @@ fn secret(args: &[String]) -> Result<Option<Vec<u8>>, BenchError> {
 
 fn task_arg(args: &[String]) -> Result<&str, BenchError> {
     let t = need(args, "--task")?;
-    if matches!(t, "a" | "b" | "c" | "d" | "e" | "f" | "g") {
+    if matches!(t, "a" | "b" | "c" | "d" | "e" | "f" | "g" | "h") {
         Ok(t)
     } else {
-        Err(BenchError(crate::t!("bench-cli-unknown-task-g", t = t)))
+        Err(BenchError(crate::t!("bench-cli-unknown-task-h", t = t)))
     }
 }
 
@@ -189,6 +189,7 @@ fn run_inner(args: &[String]) -> Result<i32, BenchError> {
                         "e": "four-class interference labelling on receiver logs (JammerTest 2024; spec 2.1.0)",
                         "f": "spacecraft telemetry anomaly detection (OPS-SAT-AD; spec 2.2.0)",
                         "g": "smartphone positioning accuracy, GSDC metric (GSDC-layout traces; spec 2.2.0)",
+                        "h": "urban positioning accuracy, GSDC metric (UrbanNav Hong Kong, scripts/fetch_urbannav.sh; spec 2.3.0)",
                     },
                     "splits": ["dev", "test", "holdout"],
                 }))
@@ -204,6 +205,23 @@ fn run_inner(args: &[String]) -> Result<i32, BenchError> {
                 write(
                     Path::new(need(rest, "--out")?),
                     &pretty(&en_ok(|| smartphone::g_truth_json(&t, split))),
+                )?;
+                println!(
+                    "{}",
+                    crate::t!(
+                        "bench-cli-scored-epochs-in-folder",
+                        labels = t.values().map(Vec::len).sum::<usize>(),
+                        folders = t.len()
+                    )
+                );
+                return Ok(0);
+            }
+            if task_arg(rest)? == "h" {
+                let split = Split::parse(need(rest, "--split")?)?;
+                let (t, _) = en(|| urban::h_load(Path::new(need(rest, "--data")?), split))?;
+                write(
+                    Path::new(need(rest, "--out")?),
+                    &pretty(&en_ok(|| urban::h_truth_json(&t, split))),
                 )?;
                 println!(
                     "{}",
@@ -664,6 +682,18 @@ fn baseline(args: &[String]) -> Result<i32, BenchError> {
                 emit(&out, &format!("g-{}-{b}", split.name()), &truth_text, &doc)?;
             }
         }
+        "h" => {
+            let (t, dirs) = en(|| urban::h_load(Path::new(need(args, "--data")?), split))?;
+            let truth_text = pretty(&en_ok(|| urban::h_truth_json(&t, split)));
+            write(
+                &out.join(format!("h-{}.truth.json", split.name())),
+                &truth_text,
+            )?;
+            for b in urban::H_BASELINES {
+                let doc = en(|| urban::h_baseline(b, &t, &dirs, split))?;
+                emit(&out, &format!("h-{}-{b}", split.name()), &truth_text, &doc)?;
+            }
+        }
         "e" => {
             use super::task_e::{b_log_predictions, e_load, e_truth_text, BLogVariant};
             let t = en(|| e_load(Path::new(need(args, "--data")?)))?;
@@ -1002,28 +1032,30 @@ fn f_data(args: &[String]) -> Result<Vec<anomaly::Segment>, BenchError> {
     en(|| anomaly::f_load(&text))
 }
 
-/// `positions`: a GSDC-format submission CSV to a task (g) predictions file.
+/// `positions`: a GSDC-format submission CSV to a task (g) or (h) predictions file (for task (h)
+/// the `tripId` column holds the trace id, `<sequence>/<receiver>`).
 fn positions(args: &[String]) -> Result<i32, BenchError> {
     check(
         args,
         &["--task", "--split", "--csv", "--name", "--version", "--out"],
         false,
     )?;
-    if task_arg(args)? != "g" {
-        return Err(BenchError(crate::t!(
-            "bench-cli-unknown-task-g",
-            t = need(args, "--task")?
-        )));
+    let task = task_arg(args)?;
+    if task != "g" && task != "h" {
+        return Err(BenchError(crate::t!("bench-cli-unknown-task-h", t = task)));
     }
     let split = Split::parse(need(args, "--split")?)?;
     let csv = need(args, "--csv")?;
     let pos = en(|| smartphone::g_positions_from_csv(csv, &read(csv)?))?;
-    let doc = smartphone::g_predictions_json(
-        &pos,
-        split,
+    let (name, version) = (
         need(args, "--name")?,
         flag(args, "--version")?.unwrap_or("unversioned"),
     );
+    let doc = if task == "h" {
+        urban::h_predictions_json(&pos, split, name, version)
+    } else {
+        smartphone::g_predictions_json(&pos, split, name, version)
+    };
     let out = need(args, "--out")?;
     write(Path::new(out), &pretty(&doc))?;
     println!(

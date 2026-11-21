@@ -10685,14 +10685,15 @@ engine-bench-cli-usage =
     bruk: kshana bench spec
     { "   " }eller: kshana bench truth --task a --data <extracted JammerTest 2024 dir> --split <dev|test|holdout|all> --out <truth.json>
     { "   " }eller: kshana bench truth --task g --data <GSDC-layout train dir> --split <dev|test|holdout> --out <truth.json>
+    { "   " }eller: kshana bench truth --task h --data <scripts/fetch_urbannav.sh dir> --split <dev|test> --out <truth.json>
     { "   " }eller: kshana bench cases --task <c|d|f> --split <dev|test|holdout> --out <dir> [--data <dataset.csv>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
     { "   " }eller: kshana bench score --truth <truth.json> --predictions <predictions.json> [--threshold <x>] [--out <result.json>]
-    { "   " }eller: kshana bench baseline --task <a|b|c|d|e|f|g> --split <dev|test|holdout> --out <dir> [--data <dir>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
+    { "   " }eller: kshana bench baseline --task <a|b|c|d|e|f|g|h> --split <dev|test|holdout> --out <dir> [--data <dir>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
     { "   " }eller: kshana bench seal --task <a|b|c|d> --seed-file <file> [--new]
     { "   " }eller: kshana bench reveal-check --task <a|b|c|d> --seed-file <file> --commitment <hex>
     { "   " }eller: kshana bench manifest --task a --data <extracted dir> [--archive <tar.gz>] --out <manifest.json>
     { "   " }eller: kshana bench verify-manifest <manifest.json> --root <dir>
-    { "   " }eller: kshana bench positions --task g --split <dev|test|holdout> --csv <submission.csv> --name <system> [--version <v>] --out <predictions.json>
+    { "   " }eller: kshana bench positions --task <g|h> --split <dev|test|holdout> --csv <submission.csv> --name <system> [--version <v>] --out <predictions.json>
     { "   " }eller: kshana bench datasets [--json | --check [--root <repo>]]
     { "   " }eller: kshana bench cite <result.json>...
     { "   " }eller: kshana bench golden [--root <repo>] (--out <GOLDEN.json> | --check <GOLDEN.json>)
@@ -11739,6 +11740,7 @@ engine-bench-task-has-no-holdout = oppgave ({ $task }) har ingen holdout-inndeli
 engine-bench-unknown-baseline = ukjent baseline `{ $name }`
 
 engine-bench-g-no-traces = ingen <drive>/<phone>/ground_truth.csv under { $root }
+engine-bench-h-no-sequences = ingen <sequence>/ground_truth.txt under { $root }
 
 engine-bench-g-no-object = intet `{ $key }`-objekt med spor
 
@@ -11746,7 +11748,7 @@ engine-bench-g-bad-epoch = spor `{ $id }`: hver epoke må være [UnixTimeMillis,
 
 engine-bench-f-dataset-mismatch = { $path }: SHA-256 { $got } er ikke den fastlåste dataset.csv for oppgave (f); hent den med scripts/fetch_opssat_ad.sh
 
-engine-bench-cli-unknown-task-g = ukjent oppgave `{ $t }` (a til g)
+engine-bench-cli-unknown-task-h = ukjent oppgave `{ $t }` (a til h)
 
 engine-bench-cli-wrote-predictions = skrev { $path } ({ $traces } spor)
 
