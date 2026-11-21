@@ -467,8 +467,11 @@ pub fn body_axes(r_sat: Vec3, r_sun: Vec3) -> (Vec3, Vec3, Vec3) {
 }
 
 /// Low-precision Sun position (ECEF, m) at `t` seconds from the GPS epoch: the series of
-/// [`crate::ephem::sun_position`] (mean equator of date) rotated by the Greenwich mean sidereal
-/// time. Its error (about 0.01 degrees) is far below what the satellite attitude needs.
+/// [`crate::ephem::sun_position`] rotated by the Greenwich mean sidereal time. The series is
+/// referred to the J2000 equator and equinox (its obliquity is J2000's), and the rotation applies no
+/// precession, so the direction is off by the precession since J2000 (about 0.36 degrees in 2026)
+/// as well as GPS time standing in for UT1 (18 s, under 0.01 degrees). That is far below what the
+/// nominal-yaw attitude and the phase wind-up need, but it is not the 0.01 degrees once stated.
 pub fn sun_ecef(t: f64) -> Vec3 {
     // GPS epoch 1980-01-06 00:00 is JD 2444244.5; UT1 differs from GPS time by at most tens of
     // seconds, which turns the Sun direction by under 0.01 degrees.

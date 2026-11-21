@@ -165,10 +165,68 @@ the linear propagation against Monte Carlo over 30 minutes in low Earth orbit (v
 sigmas), forward-then-back propagation returning the covariance, and the realism statistics on draws from a known
 covariance (scale factor near 1, near 4 when the stated covariance is halved in sigma).
 
+## `kshana orbit-data pc <cdm> --hbr <m>`
+
+The probability of collision (Pc) of the CDM's two objects, by the two-dimensional encounter-plane method of Foster
+and Estes (1992). That is the method CCSDS 508.0-B-1 names `FOSTER-1992` for `COLLISION_PROBABILITY_METHOD`
+(Table 3-2; the example of section 3.6.3 uses it). `src/orbit_data/pc.rs`. The integral is the encounter-plane
+form under which the method is commonly stated. The 1992 report (NASA JSC-25898) was not read for this module, to
+confirm.
+
+```
+kshana orbit-data pc <cdm> --hbr <m> [--aliases <map.json>] [--cdm-out <file>]
+```
+
+`--hbr` is the combined hard-body radius in metres. The CDM gives no radius, so it is always stated by the user.
+`--cdm-out` writes the message back in KVN, through the existing writer, with `COLLISION_PROBABILITY` and
+`COLLISION_PROBABILITY_METHOD = FOSTER-1992` set (replacing earlier values).
+
+The JSON result (`kshana.conjunction-pc/1`, MODELLED) gives:
+
+* the Pc;
+* the miss distance, the miss projected onto the encounter plane, and the relative speed;
+* the 2x2 encounter-plane covariance, with its principal standard deviations and the miss in those axes;
+* the time the relative motion takes to cross five combined sigmas: a long value flags an encounter outside the
+  short-term assumption.
+
+**Method.** States are taken at TCA in the message's `REF_FRAME` (km and km/s). Each object's RTN position covariance
+(m²) is rotated to that frame (annex E axes) and the two are summed. The encounter plane is perpendicular to the
+relative velocity. In the principal axes of the projected covariance the inner integral over the hard-body disc is a
+difference of error functions, and the outer integral (`x = R sin t`) is evaluated by adaptive Simpson quadrature to a
+relative tolerance of 1e-10, with `erf` from `libm`.
+
+The usual short-term assumptions apply:
+
+* rectilinear relative motion;
+* Gaussian, uncorrelated position errors, constant over the encounter;
+* no velocity uncertainty.
+
+A slow encounter, such as the GEO cases of Alfano (2009), is outside them: the number is still computed.
+
+**Checks** (`tests/orbit_data_pc.rs` and the unit tests):
+
+* Head-on with an isotropic covariance and zero miss, the result equals the closed form `1 − exp(−R²/2σ²)` to 1e-10.
+* A small radius equals `πR² f(miss)` with its second-order curvature term, to 1e-8.
+* On the self-made CDM `cdm_selfmade_leo.cdm` it agrees with a 400,000-draw Monte Carlo count. The Monte Carlo draws
+  in 3D with its own RTN rotation and projects onto the plane perpendicular to the relative velocity; agreement is
+  within four binomial sigmas.
+* The CDM written with `--cdm-out` reads back valid, with the Pc, the method and both objects' states and covariances
+  unchanged.
+
+**External comparison (opt-in, recorded 21 November 2026).** NASA's CARA Analysis Tools (NASA Open Source Agreement)
+ship unit-test cases for their `Pc2D_Foster`: the eleven conjunctions of Alfano (2009, *Satellite Conjunction Monte
+Carlo Analysis*) with expected Pc, and one Omitron case. They are not copied here.
+`tests/fixtures/orbit_data/extract_cara_pc_cases.py` reads them from your own clone, and
+`KSHANA_CARA_PC_CASES=<json> cargo test --test orbit_data_pc` compares them at the unit test's relative tolerance
+of 1e-3. All twelve pass: the largest relative difference is 1.1e-4 (Alfano case 5), and the others are within 6e-5.
+The cases compare the 2D computation, including the slow GEO cases where the method's assumptions do not hold.
+
 ## Not here
 
-- Conjunction screening, collision-probability methods and conjunction-assessment verification are not part of this
-  module; it checks the data formats and their consistency only.
+- Conjunction screening and conjunction-assessment verification are not part of this module. Of the
+  collision-probability methods only the Foster 2D Pc with a circular hard-body radius is here (no square
+  hard-body areas, no 3D or Monte Carlo Pc, no covariance remediation of a non-positive-definite input, which is
+  refused).
 - SatNOGS database checks (transmitter status) need that database and are not built.
 - OEM in XML, the OCM `PERT` and `OD` blocks, and CDM version 2 are not checked.
 

@@ -247,7 +247,7 @@ fn header_line(body: &str, label: &str) -> String {
 
 /// Generate.
 pub fn generate(s: &SilScenario) -> Result<Generated, String> {
-    let res = run_gnss_sim_sky(&s.sim, None);
+    let res = run_gnss_sim_sky(&s.sim, None)?;
     let lambda = C / L1_HZ;
     let t0 = crate::walker::walker_epoch_jd();
     let cal = |t: f64| crate::timescales::civil_from_jd(t0 + t / 86_400.0);

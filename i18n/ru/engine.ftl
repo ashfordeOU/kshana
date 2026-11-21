@@ -2365,6 +2365,7 @@ engine-e-interop-scene-missing-integer-waypoints = отсутствует цел
 engine-e-interop-scene-waypoints-is-outside-1000000 = waypoints = { $n } вне 1..=1000000
 
 engine-interop-scene-walker-at-km-deg-inclination = Walker { $w }/{ $planes }/{ $phasing_f } на высоте { $altitude_km } km, наклонение { $inclination_deg } deg (SGP4)
+engine-interop-scene-gnss-slot = позиция { $id } набора { $set } (геосинхронная номинальная позиция задачи двух тел, MODELLED); источник: { $source }; фаза: { $phase }
 
 engine-interop-scene-the-scenario-gives-no-epoch = сценарий не задаёт `epoch`; t = 0 — это { $epoch }, самая ранняя эпоха среди собственных данных спутников (эпоха TLE, бортовых эфемерид или SP3). Каждый спутник распространяется от собственной эпохи, и они охватывают { $spread_h } h: метки времени следуют допущению движка, что каждый спутник стартует при t = 0, а каждое положение поворачивается в системы GCRS и земную в собственный момент этого спутника. Экспорты SP3 и OEM вместо этого помечают t = 0 как 2000-01-01T00:00:00Z
 
@@ -10315,6 +10316,10 @@ engine-e-orbit-omm-export-requires-tle-defined = для экспорта OMM н�
 engine-e-passes-earth-orientation-parameters-out-of = параметры ориентации Земли вне допустимого диапазона: |ut1_minus_utc_s| <= 1, |xp_arcsec| и |yp_arcsec| <= 2
 
 engine-e-pvt-no-priori-position-set-apriori = нет априорного положения: задайте apriori_ecef, APPROX POSITION XYZ из заголовка наблюдений или truth_ecef
+engine-e-gnss-slots-unknown-set = неизвестный набор позиций `{ $name }` (известные: { $sets })
+engine-e-gnss-slots-out-of-range = позиция `{ $id }`: `{ $field }` отсутствует, не конечно или вне диапазона
+engine-e-gnss-slots-geo-needs-lon = позиции GEO `{ $id }` нужен lon_deg
+engine-e-gnss-slots-igso-needs-one-longitude = позиции IGSO `{ $id }` нужны ненулевой inclination_deg и ровно одно из crossing_lon_deg и center_lon_deg
 
 engine-e-python-pll-bws-dll-bws-spacings = pll_bws, dll_bws, spacings и coherents нельзя сочетать с design: перебор выполняет каждый проект из файла
 
@@ -10997,6 +11002,73 @@ engine-e-lunar-interop-unknown-time-system = неизвестная шкала �
 engine-e-lunar-interop-unregistered-time-system = TIME_SYSTEM { $time_system } нет в реестре SANA Time Systems, на который ссылается CCSDS OEM; задайте allow_unregistered_time_system = true, чтобы всё же записать его (COMMENT это укажет), или используйте TDB
 engine-e-lunar-interop-bad-step = step_min должен быть конечным неотрицательным числом минут, а не { $step }
 
+## Probability of collision, Foster 2D (src/orbit_data/pc.rs)
+engine-e-orbit-data-pc-radius = --hbr требует суммарный радиус тел в метрах, положительное число
+engine-e-orbit-data-pc-no-relative-velocity = у двух объектов одинаковая скорость: плоскости сближения нет
+engine-e-orbit-data-pc-not-positive-definite = суммарная ковариация, спроецированная на плоскость сближения, не положительно определена (меньшее собственное значение { $lambda } м²)
+engine-e-orbit-data-pc-not-finite = значение состояния или ковариации не является конечным числом
+engine-e-orbit-data-pc-missing-data = в CDM нет двух объектов, у каждого из которых есть состояние (X–Z_DOT) и ковариация RTN (CR_R–CNDOT_NDOT)
+engine-e-orbit-data-pc-frame-mismatch = REF_FRAME двух объектов различаются ({ $a } и { $b }); для Pc оба состояния должны быть в одной системе
+
+## Regional RNSS signal designer (src/rnss_design.rs)
+engine-rnss-design-usage = использование: kshana rnss-design profiles | run <profile|profile.toml> [--band-mhz <B>] [--cn0 <dB-Hz>] [--discriminator non-coherent|coherent] [--with-gps l1,l2,l5|none] [--phase-sigma-m <m>] [--out <report.json>]   (kshana.rnss-profile/1 signals: spectra, spectral separation, multi-band RTK settings; MODELLED; docs/RNSS-DESIGN.md)
+engine-e-rnss-design-missing-value = { $option } требует значения
+engine-e-rnss-design-unknown-option = неизвестный параметр { $option } (параметры перечисляет kshana rnss-design --help)
+engine-e-rnss-design-cannot-read = не удаётся прочитать { $path }: { $e }
+engine-e-rnss-design-cannot-write = не удаётся записать { $path }: { $e }
+engine-e-rnss-design-bad-number = { $option }: { $value } не является допустимым числом
+engine-e-rnss-design-bad-profile = непригодный файл kshana.rnss-profile/1: { $e }
+engine-e-rnss-design-unknown-profile = встроенного профиля { $name } нет (встроенные: { $names }); укажите вместо этого путь к файлу профиля
+engine-e-rnss-design-unknown-gps = неизвестная несущая GPS { $name } для --with-gps (l1, l2, l5 или none)
+
+## Transparency-log verifier (src/tlog.rs)
+engine-tlog-usage = использование: kshana tlog verify-inclusion <proof.json> [--entry <entry.json>] [--sth <sth.json>] | verify-consistency <proof.json> [--sth-from <sth.json>] [--sth-to <sth.json>] | verify-sth <sth.json> [--entries <entries.jsonl>] | verify-daily-root <statement.json> [--tsa-ca <roots.pem>] [--tsa-certs <certs.pem>] | verify-key-history <history.jsonl> [--first-key <hex>]   (signed statements: --key <hex> or --key-history <history.jsonl>; --format <id>; --json; offline RFC 6962/9162 log verification; docs/TLOG.md)
+engine-e-tlog-missing-value = { $option } требует значения
+engine-e-tlog-cannot-read = не удаётся прочитать { $path }: { $e }
+engine-e-tlog-unknown-option = неизвестный параметр { $option } (kshana tlog --help перечисляет параметры)
+engine-tlog-check-pass = PASS { $id }: { $detail }
+engine-tlog-check-fail = FAIL { $id }: { $detail }
+engine-tlog-fact = { $key } = { $value }
+engine-tlog-verdict-pass = tlog { $command }: все проверки пройдены
+engine-tlog-verdict-fail = tlog { $command }: проверок не пройдено: { $n }
+engine-tlog-not-anchored = не закреплено (в заявлении нет меток времени)
+engine-tlog-no-tsa-roots = не заданы корни службы меток времени (--tsa-ca): подпись и цепочка токена не проверяются
+engine-tlog-no-endorsement = нет подтверждения предыдущим ключом
+engine-e-tlog-entry-not-object = запись журнала должна быть объектом JSON
+engine-e-tlog-entry-missing-field = в записи журнала нет { $field }
+engine-e-tlog-entry-bad-field = поле { $field } записи журнала имеет неверный вид
+engine-e-tlog-bad-key = открытый ключ должен состоять из 64 шестнадцатеричных цифр (32 байта, Ed25519)
+engine-e-tlog-missing-field = в документе нет { $field }
+engine-e-tlog-bad-field = { $field } имеет неверный вид (хеши — 64 шестнадцатеричные цифры, размеры и индексы — целые числа)
+engine-e-tlog-needs-key = для подписанного заявления нужен --key <hex> или --key-history <history.jsonl>
+engine-e-tlog-bad-json = недопустимый JSON: { $e }
+engine-e-tlog-bad-json-line = строка { $line } — недопустимый JSON: { $e }
+engine-e-tlog-bad-json-file = { $path } — недопустимый JSON: { $e }
+engine-e-tlog-key-and-history = укажите --key или --key-history, но не оба
+engine-e-tlog-history-failed = история ключей { $path } не проходит проверку и не может предоставить ключи
+engine-e-tlog-verification-failed = tlog { $command }: проверка не пройдена (в отчёте выше перечислены все проверки)
+
+## Signed-directory verification (src/evidence/signed_dir.rs)
+engine-evidence-dir-usage = kshana evidence verify-dir <dir> [--trust <hex|file>]... [--json]   подписанный каталог (signature.json); код 0 пройдено, 1 не пройдено, 3 не изменён, но ключ не доверенный
+engine-evidence-dir-statement = { $format }, подписал { $signer }, { $utc }, ID ключа { $key_id }, файлов в списке: { $n }
+engine-evidence-dir-signature-valid = PASS подпись: Ed25519 ключом { $key }
+engine-evidence-dir-signature-invalid = FAIL подпись: не проходит проверку ключом { $key }
+engine-evidence-dir-problem = FAIL { $p }
+engine-evidence-dir-longterm-present = примечание: есть longterm.json; он добавляется после подписи, подписью не покрыт и здесь не проверяется
+engine-evidence-dir-unsigned-fields = примечание: поля signature.json, не покрытые подписью: { $fields }
+engine-evidence-dir-envelope = рабочие пределы { $key }: { $value } (только для сведения)
+engine-evidence-dir-passed = проверено: подпись действительна, все файлы совпадают, ключ доверенный
+engine-evidence-dir-intact-untrusted = не изменён, но не доверен: подпись и все файлы в порядке, но ключ { $key } не указан в --trust
+engine-evidence-dir-failed = не проверено: проблем { $n }, или подпись не проходит проверку
+engine-e-evidence-dir-needs-directory = verify-dir нужен подписанный каталог
+engine-e-evidence-dir-unknown-option = неизвестный параметр { $option } для verify-dir (--trust <hex|file>, --json)
+engine-e-evidence-dir-cannot-read = не удаётся прочитать { $path }: { $e }
+engine-e-evidence-dir-bad-json = { $path } — недопустимый JSON: { $e }
+engine-e-evidence-dir-bad-field = signature.json: { $field } отсутствует или имеет неверный вид
+
+## space-receiver od-vs-tle time system
+engine-e-space-receiver-oem-time-system = это сравнение не читает систему времени OEM { $ts } (UTC, GPS, TAI или TT)
+
 engine-main-usage =
     использование: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }или: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -11028,10 +11100,12 @@ engine-main-usage =
     { "   " }или: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }или: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }или: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
+    { "   " }или: kshana rnss-design profiles | run <profile|profile.toml> [options] (kshana rnss-design --help)
     { "   " }или: kshana space-receiver <clock|timestamps|dynamics|bench|mms|od-vs-tle> ... [--out <file.json>] (kshana space-receiver --help)
     { "   " }или: kshana feed <pack|verify|send|spectrum|leaderboard|watch> ... (kshana feed --help)
     { "   " }или: kshana register-products <verify|show|diff> ... (kshana register-products --help)
     { "   " }или: kshana register <check|crl-check|view|sign> ... (kshana register --help)
+    { "   " }или: kshana tlog verify-inclusion | verify-consistency | verify-sth | verify-daily-root | verify-key-history <file> [options] (kshana tlog --help)
     { "   " }или: kshana interference-env <evaluate|thresholds|degradation> ... (kshana interference-env --help)
     { "   " }или: kshana arctic-plan --site <lat,lon[,h]> | --place <name> [--systems <a,b,...>] [--compare] [--hours <h>] [--kp <n>] ... (kshana arctic-plan --help)
     { "   " }или: kshana lunar-afs-kit <vectors|registry|output-check|output-example|output-reexpress> ... (kshana lunar-afs-kit --help)
@@ -12156,6 +12230,7 @@ engine-orbit-data-usage =
     { "   " }или: kshana orbit-data gp-compare <a.tle> <b.tle> [--hours <h>] [--step-min <min>] [--threshold-km <km>] [--json]
     { "   " }или: kshana orbit-data gp-audit <sets.tle> ... [--at <epoch>] [--stale-days <d>] [--jump-km <km>] [--json]
     { "   " }или: kshana orbit-data cov <check|propagate|monte-carlo|synthetic|realism> <input.json> [--dt-s <s>] [--step-s <s>] [--samples <n>] [--seed <n>] [--sigma-rtn <r,t,n,rdot,tdot,ndot>] [--full]
+    { "   " }или: kshana orbit-data pc <cdm> --hbr <m> [--aliases <map.json>] [--cdm-out <file>]
     { "   " }(docs/ORBIT-DATA.md)
 engine-e-orbit-data-unknown-message = { $path } не является ни CDM, ни OEM (KVN), ни OCM: нет строки CCSDS_CDM_VERS, CCSDS_OEM_VERS или CCSDS_OCM_VERS и корня <cdm> или <ocm>
 engine-e-orbit-data-bad-flag = { $flag } { $value }: непригодное значение
@@ -12224,7 +12299,9 @@ engine-bench-task-has-no-holdout = у задачи ({ $task }) нет отлож
 engine-bench-unknown-baseline = неизвестный базовый метод `{ $name }`
 
 engine-bench-g-no-traces = в { $root } нет <drive>/<phone>/ground_truth.csv
-engine-bench-h-no-sequences = в { $root } нет <sequence>/ground_truth.txt
+engine-bench-h-no-sequences = в { $root } нет <sequence>/(ground_truth.txt|tk_reference.csv)
+engine-bench-h-mixed-editions = { $root } смешивает гонконгское и токийское издания задачи (h) (ground_truth.txt и tk_reference.csv): загрузите каждое в отдельный каталог
+engine-bench-h-baseline-skipped = базовый метод { $baseline } пропущен: его входных файлов нет для всех треков
 
 engine-bench-g-no-object = нет объекта треков `{ $key }`
 
@@ -12247,6 +12324,7 @@ engine-bench-golden-written = записан { $path } (замороженных
 engine-bench-site-title-f = Задача (f): обнаружение аномалий в телеметрии космического аппарата
 
 engine-bench-site-title-g = Задача (g): точность позиционирования смартфонов
+engine-bench-site-title-h = Задача (h): точность позиционирования в городе
 
 engine-bench-site-col-ap = Средняя точность (AP)
 

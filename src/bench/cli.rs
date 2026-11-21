@@ -690,6 +690,10 @@ fn baseline(args: &[String]) -> Result<i32, BenchError> {
                 &truth_text,
             )?;
             for b in urban::H_BASELINES {
+                if !urban::h_baseline_available(b, &dirs) {
+                    println!("{}", crate::t!("bench-h-baseline-skipped", baseline = b));
+                    continue;
+                }
                 let doc = en(|| urban::h_baseline(b, &t, &dirs, split))?;
                 emit(&out, &format!("h-{}-{b}", split.name()), &truth_text, &doc)?;
             }

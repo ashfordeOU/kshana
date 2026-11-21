@@ -68,6 +68,22 @@ A list is checked only against the issuer key the reader gives (`--crl-key`): a 
 any other key is refused, so a register's publisher cannot revoke or restore entries in the
 issuer's name.
 
+### Signed test vector
+
+`examples/register/crl-test-vector.json` is a signed list for implementers of other readers. It is
+signed with a public test seed, SHA-256 of the ASCII text `register crl test vector`
+(`0fbb7a1b9ce44b011a943e06b980ba5b3dfc3ffecb514a9e37602b182aef09c7`), whose public key is
+`a028f6212dcbd196a38fe8e13927a9d997f4d72ab00341276b9437d8f2273a8d`:
+
+```
+kshana register crl-check examples/register/crl-test-vector.json \
+  --key a028f6212dcbd196a38fe8e13927a9d997f4d72ab00341276b9437d8f2273a8d
+```
+
+The seed is published, so the vector proves nothing about any issuer: it only shows the signing
+bytes (the schema id and a newline, then the compact JSON with `signature` empty). The test in
+`tests/product_register.rs` re-signs the content with the seed and compares the bytes.
+
 ## The view
 
 `view` joins a register and, optionally, a list at a date (default: today, by the computer's clock;

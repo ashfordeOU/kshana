@@ -434,9 +434,34 @@ pub struct GnssSimScenario {
     /// [`crate::skyline`]). Absent, the mask is the flat `mask_deg`, as before.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub skyline: Option<crate::skyline::SkylineCfg>,
+    /// Compiled-in GEO and IGSO slot sets added to the Walker shell, by name (`navic`,
+    /// `beidou-geo`, `beidou-2-geo`, `qzss-ps-005`, `qzss-six-satellite`; see
+    /// [`crate::gnss_slots`]). A shell of `planes = 0` leaves only the slots.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub slot_sets: Vec<String>,
+    /// The scenario's own GEO and IGSO slots, after those of `slot_sets`.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub slots: Vec<crate::gnss_slots::Slot>,
 }
 
 impl GnssSimScenario {
+    /// The satellites: the Walker shell (PRN 0 onwards), then the slots of `slot_sets` and
+    /// `slots` in order, with the slot list (PRN, set, id).
+    pub fn satellites(&self) -> Result<(Vec<crate::orbit::Propagator>, Vec<SlotUsed>), String> {
+        let mut sats = self.constellation.satellites();
+        let mut used = Vec::new();
+        for (set, slot) in crate::gnss_slots::resolve(&self.slot_sets, &self.slots)? {
+            let o = crate::gnss_slots::slot_orbit(&slot)?;
+            used.push(SlotUsed {
+                prn: sats.len(),
+                set,
+                id: slot.id.clone(),
+            });
+            sats.push(crate::orbit::Propagator::Kepler(o));
+        }
+        Ok((sats, used))
+    }
+
     /// The skyline of the scenario's `[skyline]` section (`None` without one), applied over
     /// `mask_deg`. An invalid section is an error.
     pub fn sky(&self) -> Result<Option<crate::skyline::Skyline>, String> {
@@ -659,6 +684,17 @@ pub const UNITS: &[crate::field_schema::FieldUnit] = {
     ]
 };
 
+/// A GEO or IGSO slot in the simulation: its PRN (index), the set it came from and its id.
+#[derive(Clone, Debug, Serialize)]
+pub struct SlotUsed {
+    /// The satellite index (PRN) of the slot: after the Walker shell, in slot order.
+    pub prn: usize,
+    /// The slot set the slot came from (`inline` for the scenario's own `slots`).
+    pub set: String,
+    /// The slot's id as given in its set (for example `GEO 32.5E`).
+    pub id: String,
+}
+
 /// The measurement-domain GNSS simulation result.
 #[derive(Clone, Debug, Serialize)]
 pub struct GnssSimResult {
@@ -668,6 +704,9 @@ pub struct GnssSimResult {
     pub seed: u64,
     pub fom: GnssSimFoM,
     pub gnss_measurements: Vec<GnssSimEpoch>,
+    /// The GEO and IGSO slots after the Walker shell's PRNs; absent without slots.
+    #[serde(skip_serializing_if = "Vec::is_empty")]
+    pub slots: Vec<SlotUsed>,
 }
 
 /// A representative elevation-dependent C/N₀ (dB-Hz): ~48 at zenith, ~40 at the
@@ -695,21 +734,21 @@ fn hash_scenario(scn: &GnssSimScenario) -> String {
 /// silent fall-back to the flat mask). [`run_gnss_sim_sky`] takes the skyline explicitly.
 pub fn run_gnss_sim(scn: &GnssSimScenario) -> Result<GnssSimResult, String> {
     let sky = scn.sky()?;
-    Ok(run_gnss_sim_sky(scn, sky.as_ref()))
+    run_gnss_sim_sky(scn, sky.as_ref())
 }
 
 /// Run the measurement-domain GNSS simulation with an explicit visibility mask.
 pub fn run_gnss_sim_sky(
     scn: &GnssSimScenario,
     sky: Option<&crate::skyline::Skyline>,
-) -> GnssSimResult {
+) -> Result<GnssSimResult, String> {
     let station = Geodetic {
         lat_rad: scn.receiver.lat_deg.to_radians(),
         lon_rad: scn.receiver.lon_deg.to_radians(),
         alt_m: scn.receiver.alt_m,
     };
     let station_ecef = geodetic_to_ecef(station);
-    let sats = scn.constellation.satellites();
+    let (sats, slots_used) = scn.satellites()?;
     let lambda_l1 = C_M_PER_S / L1_HZ;
     let iono = scn.iono.as_ref().map(|c| {
         (
@@ -868,7 +907,7 @@ pub fn run_gnss_sim_sky(
     let denom = (n + 1) as f64;
     let hv = hvpl_count.max(1) as f64;
     let mc = meas_count.max(1) as f64;
-    GnssSimResult {
+    Ok(GnssSimResult {
         schema_version: crate::interchange::SCHEMA_VERSION.into(),
         engine_version: env!("CARGO_PKG_VERSION").into(),
         scenario_hash: hash_scenario(scn),
@@ -882,7 +921,8 @@ pub fn run_gnss_sim_sky(
             mean_tropo_m: tropo_sum / mc,
         },
         gnss_measurements: epochs,
-    }
+        slots: slots_used,
+    })
 }
 
 /// Render the horizontal and vertical protection levels over time against their
@@ -1116,6 +1156,8 @@ mod tests {
             alert_limit_h_m: 40.0,
             alert_limit_v_m: 50.0,
             skyline: None,
+            slot_sets: Vec::new(),
+            slots: Vec::new(),
         }
     }
 

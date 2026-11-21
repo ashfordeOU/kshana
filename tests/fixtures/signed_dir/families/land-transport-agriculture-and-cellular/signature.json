@@ -1,0 +1,22 @@
+{
+  "format": "kshana-dossier-signature/1",
+  "signer": "Test signer (synthetic)",
+  "utc": "2026-11-21T10:03:00Z",
+  "public_key": "a729ef7c772d4bf0da7a88d434bc2d4003084c548641bdfa1e5bbc3c7fb2b209",
+  "key_id": "d1a061cbd94f3655",
+  "files": [
+    {
+      "path": "inputs/land-transport-agriculture-and-cellular.txt",
+      "sha256": "c81e2bc9c9ab0809c9081e925578a7486127259e18adaa1088718eee399da301"
+    },
+    {
+      "path": "operating-envelope.json",
+      "sha256": "8652fd6835405d7bf5ae83b2fff28fa2e9288225c58bc79104054385097d7b20"
+    },
+    {
+      "path": "report.json",
+      "sha256": "75ebcbfa3a096e2f5f6159792de7ce0c4999c6a8a378cc82adc7df4cb2edfd36"
+    }
+  ],
+  "signature": "38434b85d713bf752b40f4e912f36e6b713439487a691baf70ed67004784cc2e58b37fe163493a6a382dceed9d4d9ae5c36d0b9fead92cf87167b33d825d130a"
+}

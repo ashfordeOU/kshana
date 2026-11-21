@@ -294,9 +294,12 @@ const LABELLED_WRITERS: &[&str] = &[
 /// stale entry.
 const UNLABELLED_WRITERS: &[(&str, &str)] = &[
     ("src/lunar_oem.rs", "writes a CCSDS OEM (`lunar-oem convert --out`): a standard interchange file whose keywords are fixed; the MODELLED label is carried in its COMMENT lines"),
+    ("src/orbit_data/cli.rs", "writes a CCSDS CDM (`orbit-data pc --cdm-out`): a standard message whose keywords are fixed; the computed COLLISION_PROBABILITY is labelled MODELLED in a COMMENT"),
+    ("src/rnss_design.rs", "writes the kshana.rnss-design/1 report (`rnss-design run --out`), which carries `evidence: MODELLED` and the profile's status and disclaimer in its own fields"),
     ("src/altpnt/terrain.rs", "writes only in a unit test (a temporary grid)"),
     ("src/bench/cite.rs", "writes only in a unit test (a temporary tree of frozen files for the golden-index check)"),
     ("src/connect_timing.rs", "writes only the expected output of a timing conformance vector under `connect timing check --bless`; a test fixture, no result file"),
+    ("src/evidence/signed_dir.rs", "writes only signature.json in `sign_dir`, a statement over the files of a directory used to make test vectors; no result file"),
     ("src/soapy.rs", "writes only an IQ capture as SigMF (`connect sdr-capture`, `soapy` feature): the samples as received from the radio, data rather than a result of the engine"),
     ("src/connect_live.rs", "writes only the live check's own scratch log, which the directory-watch replay reads back and removes; no result file"),
     ("src/feeder.rs", "writes the feeder's own observations as a signed kshana.feed/1 bundle (privacy-coarsened kshana.obs/1 payloads) and an SDR capture's spectrum snapshot as kshana.obs/1; data packaged for upload, not a result figure or table of the engine"),

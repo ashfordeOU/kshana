@@ -1,0 +1,5 @@
+{"kind": "kshana-dossier/1", "logged_utc": "2026-11-20T00:00:00Z", "pack_sha256": "b5ad45dc932b245a2f88f729ce30a4a098c868bd549de8bf8d8641b37a5e8501", "signer_key_id": "kid-vector"}
+{"class": "evidence_pack", "kind": "kshana-dossier/1", "logged_utc": "2026-11-20T01:00:00Z", "pack_sha256": "755857880e120d9459f8a967958f4bf832e02acdb94518de504f35c6443d818a", "signer_key_id": "kid-vector"}
+{"class": "calibration_record", "kind": "delay-calibration/1", "logged_utc": "2026-11-20T02:00:00Z", "pack_sha256": "da360ee2266b1c52042a4d8735d594f85d129c90d4ddc1cc5eab4f4917872704", "signer_key_id": "kid-vector"}
+{"class": "evidence_pack", "kind": "kshana-dossier/1", "logged_utc": "2026-11-20T03:00:00Z", "pack_sha256": "801d8b5450e12d2a81b26bd0bdab479dbac079fa9717d4ba0e2df9bc8d07bb1d", "signer_key_id": "kid-vector"}
+{"class": "calibration_record", "kind": "delay-calibration/1", "logged_utc": "2026-11-20T04:00:00Z", "pack_sha256": "82853c20b7e39fd5593a04bc3f0d2727b3a0dcf2692b92c182684ff1f9d2dc70", "signer_key_id": "kid-vector"}
