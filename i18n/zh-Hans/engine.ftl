@@ -7716,7 +7716,7 @@ engine-kind-lunar-differential-pnt-description = 经建模的月球差分 PNT（
 
 engine-kind-lunar-station-coverage-description = 经建模的月球参考站覆盖：对月球差分 PNT 模型在南极用户网格和一天历元上做蒙特卡罗扫描。位于已知南极站点的差分参考站修正一个给定的星座（说明性开普勒星座或表格化星历），给定空间信号误差、测量误差、修正延迟和链路量化；对每个点以及整个区域，报告修正后与未修正的位置误差百分位（3-D、水平、垂直）、可用性、对照给定阈值的覆盖率、DO-229E 保护级、每个方位角的覆盖半径，以及测站处和最差点处的修正链路预算。不代表任何真实系统的性能；与任何机构无隶属关系，亦未获其背书。MODELLED。
 
-engine-kind-lunar-interop-export-description = 经建模的月球互操作性导出：以与 LunaNet/IOAG 对齐、基于 CCSDS 的交换格式输出月球参考框架、月球时标和月球星历，并附往返 / 字段符合性检查。复用本 crate 的 CCSDS OEM 2.0 生成器与解析器（crate::oem），为月球场景重新标注：OEM 的 REF_FRAME 采用月球天体框架在 SANA 注册的名称（MOON_ME，或 DE440 主轴对应的 MOON_PA440），TIME_SYSTEM 默认为 TDB（也可为 UTC；未注册的月球时标标记 LTC / TCL 仅在 allow_unregistered_time_system = true 时使用，此时会有 COMMENT 说明），CENTER_NAME = MOON，基于一份说明性的 LCNS 级星历样本（位置来自 crate::lunar_service，速度由有限差分得到），并以 DE440 定向从月心惯性轴旋转到所指定的框架。同时输出与 LunaNet/IOAG 对齐的月球时间描述符（时标标识、来自 crate::lunar_time 的长期速率 µs/day、已发布范围、参考面），该描述符可经 serde_json 往返，并把这些产物封装进现有的 KIF 信封（crate::interchange），附 MODELLED 诚实标签。报告输出的产物、OEM 行数、字段符合性通过情况 + 存在/缺失字段列表、OEM 往返是否正常、时间元数据往返是否正常以及 KIF 字节数。MODELLED：确定性往返 + 对照已发布的 CCSDS OEM 及 LunaNet/IOAG 字段语义的字段名符合性是参考基准（oracle）；不是经认证的互操作性符合性测试；说明性的公开资料星历，与 ESA 无隶属关系；无 TRL/飞行传承/机构背书。
+engine-kind-lunar-interop-export-description = 经建模的月球互操作性导出：以与 LunaNet/IOAG 对齐、基于 CCSDS 的交换格式输出月球参考框架、月球时标和月球星历，并附往返 / 字段符合性检查。复用本 crate 的 CCSDS OEM 2.0 生成器与解析器（crate::oem），为月球场景重新标注：OEM 的 REF_FRAME 采用月球天体框架在 SANA 注册的名称（MOON_ME，或 DE440 主轴对应的 MOON_PA440）（仅在给出 epoch_tdb 时；否则 REF_FRAME = ICRF，状态不旋转），TIME_SYSTEM 默认为 TDB（也可为 UTC；未注册的月球时标标记 LTC / TCL 仅在 allow_unregistered_time_system = true 时使用，此时会有 COMMENT 说明），CENTER_NAME = MOON，基于一份说明性的 LCNS 级星历样本（位置来自 crate::lunar_service，速度由有限差分得到），并以 DE440 定向从月心惯性轴旋转到所指定的框架。同时输出与 LunaNet/IOAG 对齐的月球时间描述符（时标标识、来自 crate::lunar_time 的长期速率 µs/day、已发布范围、参考面），该描述符可经 serde_json 往返，并把这些产物封装进现有的 KIF 信封（crate::interchange），附 MODELLED 诚实标签。报告输出的产物、OEM 行数、字段符合性通过情况 + 存在/缺失字段列表、OEM 往返是否正常、时间元数据往返是否正常以及 KIF 字节数。MODELLED：确定性往返 + 对照已发布的 CCSDS OEM 及 LunaNet/IOAG 字段语义的字段名符合性是参考基准（oracle）；不是经认证的互操作性符合性测试；说明性的公开资料星历，与 ESA 无隶属关系；无 TRL/飞行传承/机构背书。
 
 engine-kind-timetransfer-description = 光学与射频双向时间/频率传递对比。
 
@@ -10052,7 +10052,10 @@ engine-e-lunar-oem-not-moon-centred = CENTER_NAME 为 { $center }；只转换以
 engine-e-lunar-oem-unknown-frame = 此处不转换 REF_FRAME { $frame }（ICRF、MOON_PA440、MOON_ME；也可读取 MOON_PA_DE440、MOON_ME_DE440_ME421、MOON_PA；EME2000 和 J2000 与 ICRF 相差框架偏差，此处不应用）
 
 ## Lunar interop export: SANA-registered names (src/lunar_interop.rs)
-engine-e-lunar-interop-unknown-frame = 未知的月球坐标系 { $frame }（MOON_ME 或 MOON_PA440；MOON_PA 按 MOON_PA440 读取）
+engine-e-lunar-interop-unknown-frame = 未知的月球坐标系 { $frame }（ICRF, MOON_ME 或 MOON_PA440；MOON_PA 按 MOON_PA440 读取）
+engine-e-lunar-interop-body-frame-needs-epoch = REF_FRAME { $frame } 随月球转动：惯性状态只能在绝对历元下旋转到该坐标系；请设置 epoch_tdb，或写为 ICRF（状态本身的坐标系）
+engine-e-lunar-interop-epoch-needs-tdb = epoch_tdb 将网格锚定在 TDB：请设置 time_system = TDB，而不是 { $time_system }
+engine-e-lunar-interop-bad-epoch = epoch_tdb { $epoch } 不是 YYYY-MM-DDTHH:MM:SS 格式的日期
 engine-e-lunar-interop-unknown-time-system = 未知的时间系统 { $time_system }（TDB、UTC，或在 allow_unregistered_time_system = true 时用 LTC 或 TCL）
 engine-e-lunar-interop-unregistered-time-system = TIME_SYSTEM { $time_system } 不在 CCSDS OEM 所用的 SANA Time Systems 注册表中；如仍要写入，请设 allow_unregistered_time_system = true（届时以 COMMENT 注明），或改用 TDB
 engine-e-lunar-interop-bad-step = step_min 必须是有限的非负分钟数，而不是 { $step }

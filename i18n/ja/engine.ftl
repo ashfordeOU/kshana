@@ -7622,7 +7622,7 @@ engine-kind-lunar-differential-pnt-description = モデル化した月の差動 
 
 engine-kind-lunar-station-coverage-description = モデル化した月の基準局のカバレッジ：月南極域のユーザーグリッドと 一日分のエポックにわたる、月の差動 PNT モデルのモンテカルロ・スイープ。既知の南極域の地点にある差動基準局が、指定した信号空間誤差、測量誤差、補正の遅延、リンクの量子化を持つ、指定のコンステレーション（例示的なケプラー軌道または表形式のエフェメリス）を補正します。地点ごと、および領域全体について、補正後と補正なしの位置誤差（3 次元、水平、垂直）のパーセンタイル、可用性、指定したしきい値に対するカバレッジ、DO-229E の保護レベル、方位角ごとのカバレッジ半径、および基準局と最悪地点での補正リンクバジェットを報告します。実在のいかなるシステムの性能についての記述でもなく、いかなる機関とも提携しておらず、いかなる機関からも承認されていません。MODELLED。
 
-engine-kind-lunar-interop-export-description = モデル化した月の相互運用性エクスポート：月の座標系、月の時間スケール、月のエフェメリスを、ラウンドトリップ / フィールド適合性付きで、LunaNet/IOAG 準拠の CCSDS ベースの交換形式で出力します。月の文脈用にタグを付け直した、クレートの CCSDS OEM 2.0 エミッター + パーサー（crate::oem）を再利用します — OEM の REF_FRAME には SANA 登録名による月天体座標系（MOON_ME、または DE440 主軸用の MOON_PA440）を入れ、TIME_SYSTEM は既定で TDB とし（UTC も可。未登録の月時間トークン LTC / TCL は allow_unregistered_time_system = true の場合のみで、その際は COMMENT にその旨を記載）、CENTER_NAME = MOON を入れ、月中心慣性軸から DE440 の向きで指定座標系へ回転した、例示的な LCNS クラスのエフェメリス（位置は crate::lunar_service から、速度は有限差分による）のサンプルを対象とします。あわせて、serde_json でラウンドトリップする LunaNet/IOAG 準拠の月時刻記述子（スケール ID、crate::lunar_time による永年レート µs/day、公表されている範囲、基準面）を出力し、これらの成果物を、MODELLED の正直さを示すラベル付きで、既存の KIF エンベロープ（crate::interchange）に包みます。出力した成果物、OEM の行数、フィールド適合性の合否と存在する・欠落しているフィールドの一覧、OEM のラウンドトリップの成否、時刻メタデータのラウンドトリップの成否、KIF のバイトサイズを報告します。MODELLED — 決定論的なラウンドトリップと、公表されている CCSDS OEM + LunaNet/IOAG のフィールド意味論に対するフィールド名の適合性がオラクルです；認証済みの相互運用性適合性試験ではありません；例示的で公開情報に基づくエフェメリスであり、ESA とは無関係です；TRL・実績・機関による承認はありません。
+engine-kind-lunar-interop-export-description = モデル化した月の相互運用性エクスポート：月の座標系、月の時間スケール、月のエフェメリスを、ラウンドトリップ / フィールド適合性付きで、LunaNet/IOAG 準拠の CCSDS ベースの交換形式で出力します。月の文脈用にタグを付け直した、クレートの CCSDS OEM 2.0 エミッター + パーサー（crate::oem）を再利用します — OEM の REF_FRAME には SANA 登録名による月天体座標系（MOON_ME、または DE440 主軸用の MOON_PA440）（epoch_tdb 指定時のみ。未指定なら REF_FRAME = ICRF で状態は回転しない）を入れ、TIME_SYSTEM は既定で TDB とし（UTC も可。未登録の月時間トークン LTC / TCL は allow_unregistered_time_system = true の場合のみで、その際は COMMENT にその旨を記載）、CENTER_NAME = MOON を入れ、月中心慣性軸から DE440 の向きで指定座標系へ回転した、例示的な LCNS クラスのエフェメリス（位置は crate::lunar_service から、速度は有限差分による）のサンプルを対象とします。あわせて、serde_json でラウンドトリップする LunaNet/IOAG 準拠の月時刻記述子（スケール ID、crate::lunar_time による永年レート µs/day、公表されている範囲、基準面）を出力し、これらの成果物を、MODELLED の正直さを示すラベル付きで、既存の KIF エンベロープ（crate::interchange）に包みます。出力した成果物、OEM の行数、フィールド適合性の合否と存在する・欠落しているフィールドの一覧、OEM のラウンドトリップの成否、時刻メタデータのラウンドトリップの成否、KIF のバイトサイズを報告します。MODELLED — 決定論的なラウンドトリップと、公表されている CCSDS OEM + LunaNet/IOAG のフィールド意味論に対するフィールド名の適合性がオラクルです；認証済みの相互運用性適合性試験ではありません；例示的で公開情報に基づくエフェメリスであり、ESA とは無関係です；TRL・実績・機関による承認はありません。
 
 engine-kind-timetransfer-description = 光と RF の双方向の時刻・周波数比較。
 
@@ -9985,7 +9985,10 @@ engine-e-lunar-oem-not-moon-centred = CENTER_NAME は { $center } です。変�
 engine-e-lunar-oem-unknown-frame = REF_FRAME { $frame } はここでは変換しません（ICRF、MOON_PA440、MOON_ME。読み込みは MOON_PA_DE440、MOON_ME_DE440_ME421、MOON_PA も可。EME2000 と J2000 は ICRF とフレームバイアス分異なり、それは適用しません）
 
 ## Lunar interop export: SANA-registered names (src/lunar_interop.rs)
-engine-e-lunar-interop-unknown-frame = 不明な月面座標系 { $frame }（MOON_ME または MOON_PA440。MOON_PA は MOON_PA440 として読みます）
+engine-e-lunar-interop-unknown-frame = 不明な月面座標系 { $frame }（ICRF, MOON_ME または MOON_PA440。MOON_PA は MOON_PA440 として読みます）
+engine-e-lunar-interop-body-frame-needs-epoch = REF_FRAME { $frame } は月とともに回転します。慣性系の状態は絶対エポックでのみ回転できます。epoch_tdb を設定するか、ICRF（状態本来の座標系）で書き出してください
+engine-e-lunar-interop-epoch-needs-tdb = epoch_tdb はグリッドを TDB に固定します。time_system = TDB を設定してください（{ $time_system } ではなく）
+engine-e-lunar-interop-bad-epoch = epoch_tdb { $epoch } は YYYY-MM-DDTHH:MM:SS 形式の日付ではありません
 engine-e-lunar-interop-unknown-time-system = 不明な時刻系 { $time_system }（TDB、UTC、または allow_unregistered_time_system = true のとき LTC か TCL）
 engine-e-lunar-interop-unregistered-time-system = TIME_SYSTEM { $time_system } は CCSDS OEM が用いる SANA Time Systems レジストリにありません。それでも書くには allow_unregistered_time_system = true を設定してください（COMMENT でその旨を記します）。または TDB を使ってください
 engine-e-lunar-interop-bad-step = step_min は有限で負でない分数でなければなりません（{ $step } は不可）

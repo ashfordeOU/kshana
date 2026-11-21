@@ -53,9 +53,18 @@ const POS_TOL_KM: f64 = 5e-7;
 const VEL_TOL_KM_S: f64 = 5e-10;
 
 /// The same state grids the export fixtures were written from (see
-/// `tests/lunar_interoperability_export_reference.rs`): inertial, rotated into the frame.
+/// `tests/lunar_interoperability_export_reference.rs`): inertial, rotated into the frame at
+/// the same absolute start epoch (TDB).
 fn grid(sat_index: usize, n: usize, step_s: f64, frame: LunarFrameId) -> Vec<EphemState> {
-    in_frame(&inertial_grid(sat_index, n, step_s), frame)
+    let start = kshana::rinex::EpochUtc {
+        year: 2030,
+        month: 1,
+        day: 1,
+        hour: 0,
+        minute: 0,
+        second: 0.0,
+    };
+    in_frame(&inertial_grid(sat_index, n, step_s), frame, &start).expect("inside the DE440 span")
 }
 
 fn inertial_grid(sat_index: usize, n: usize, step_s: f64) -> Vec<EphemState> {
