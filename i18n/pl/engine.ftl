@@ -11032,6 +11032,9 @@ engine-e-evidence-dir-bad-field = signature.json: brak { $field } lub ma niewła
 ## space-receiver od-vs-tle time system
 engine-e-space-receiver-oem-time-system = to porównanie nie odczytuje systemu czasu OEM { $ts } (UTC, GPS, TAI lub TT)
 
+## leo-pass leap-second epoch
+engine-e-leo-pass-epoch-is-a-leap-second = epoka { $s } jest sekundą przestępną, która nie ma zwykłej juliańskiej daty UTC; podaj epokę w czasie GPS lub TAI albo sekundę wcześniej lub później
+
 engine-main-usage =
     użycie: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }lub: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]

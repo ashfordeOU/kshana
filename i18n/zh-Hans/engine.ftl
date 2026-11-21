@@ -10137,6 +10137,9 @@ engine-e-evidence-dir-bad-field = signature.json：{ $field } 缺失或格式错
 ## space-receiver od-vs-tle time system
 engine-e-space-receiver-oem-time-system = 此比较不读取 OEM 时间系统 { $ts }（UTC、GPS、TAI 或 TT）
 
+## leo-pass leap-second epoch
+engine-e-leo-pass-epoch-is-a-leap-second = 历元 { $s } 是闰秒，没有普通的 UTC 儒略日；请用 GPS 或 TAI 时间给出历元，或前后各差一秒的时刻
+
 engine-main-usage =
     用法：kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }或：kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
