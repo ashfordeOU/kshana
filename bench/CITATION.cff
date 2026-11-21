@@ -1,0 +1,26 @@
+# Citation metadata of kshana-bench, the benchmark (specification, manifests, scorer, baselines and
+# public results) as a deposit of its own. The engine's own metadata is ../CITATION.cff.
+# DOI: to be filled after deposit (the owner deposits on Zenodo; no DOI exists yet).
+cff-version: 1.2.0
+title: "kshana-bench: open tasks, splits and metrics for GNSS interference detection, timing holdover, spacecraft telemetry anomalies and smartphone positioning"
+message: "If you use kshana-bench, please cite it using this metadata, and cite each result by its citation id (kb-...)."
+type: dataset
+authors:
+  - name: "Ashforde OÜ"
+repository-code: "https://github.com/ashfordeOU/kshana"
+url: "https://github.com/ashfordeOU/kshana/blob/main/docs/BENCH.md"
+abstract: >-
+  An open benchmark: task definitions, split rules, truth rules and metrics (bench/SPEC.md,
+  spec 2.2.0), dataset manifests with licence and redistribution status, the scorer and
+  baselines in the Kshana engine, and the public results with stable citation ids. Datasets
+  that may not be redistributed (JammerTest, TEXBAT, GSDC) are referenced and fetched, never
+  included. Every score is MODELLED and describes a log or a corpus, never a product.
+keywords:
+  - benchmark
+  - GNSS
+  - interference
+  - timing holdover
+  - anomaly detection
+  - smartphone positioning
+license: AGPL-3.0-only
+version: "2.2.0"

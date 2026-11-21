@@ -1,0 +1,39 @@
+{
+  "label": "MODELLED: truth is the UrbanNav reference trajectory (NovAtel SPAN-CPT, as the publisher states it) of each sequence, whose own error is not removed; a score describes these sequences, never a receiver or a product",
+  "metrics": {
+    "gsdc_score_m": 11.716093090780507,
+    "n_epochs": 2482,
+    "n_traces": 2,
+    "per_trace": [
+      {
+        "n_epochs": 1241,
+        "p50_m": 1.3125421854434816,
+        "p95_m": 14.947549092112432,
+        "score_m": 8.130045638777958,
+        "trace": "tokyo-odaiba/trimble-netr9"
+      },
+      {
+        "n_epochs": 1241,
+        "p50_m": 4.600146940016813,
+        "p95_m": 26.004134145549305,
+        "score_m": 15.302140542783059,
+        "trace": "tokyo-odaiba/ublox-f9p"
+      }
+    ],
+    "pooled_p50_m": 2.0506469922896673,
+    "pooled_p95_m": 21.29392331872947,
+    "radius_m": 6371000.0
+  },
+  "notice": "Advisory: modelled or measured against stated references, not an approval, certification or statement of conformance. A score describes a log or corpus, never a product.",
+  "predictions_sha256": "8b4be1541b9075741b2856a0053b93a6ec8f1a90baa4c4f6e13bba0438f680a0",
+  "provenance": "scored",
+  "schema": "kshana-bench-result/1",
+  "spec_version": "kshana-bench/2.3.0",
+  "split": "dev",
+  "system": {
+    "name": "kshana-bench baseline: kshana-spp/tokyo",
+    "version": "kshana-bench/2.3.0"
+  },
+  "task": "h",
+  "truth_sha256": "b97c06cef03f3a1bf97d6d84583ea4d72dcce6ed5427f059fe0dd2f6025f3719"
+}
