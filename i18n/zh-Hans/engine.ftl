@@ -10140,6 +10140,9 @@ engine-e-space-receiver-oem-time-system = 此比较不读取 OEM 时间系统 { 
 ## leo-pass leap-second epoch
 engine-e-leo-pass-epoch-is-a-leap-second = 历元 { $s } 是闰秒，没有普通的 UTC 儒略日；请用 GPS 或 TAI 时间给出历元，或前后各差一秒的时刻
 
+## connect: GPS week guard
+engine-e-connect-week-not-full = 第 { $line } 行：GPS 周 { $week } 不是完整周数（10 位广播周数每 1024 周翻转一次）；请给出从 1980-01-06 起算的完整周数
+
 engine-main-usage =
     用法：kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }或：kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]

@@ -10857,6 +10857,9 @@ engine-e-space-receiver-oem-time-system = OEM-tidssystemet { $ts } kan denne sam
 ## leo-pass leap-second epoch
 engine-e-leo-pass-epoch-is-a-leap-second = epoken { $s } er et skudsekund, som ikke har en almindelig UTC-juliansk dato; angiv epoken i GPS- eller TAI-tid eller et sekund før eller efter
 
+## connect: GPS week guard
+engine-e-connect-week-not-full = linje { $line }: GPS-uge { $week } er ikke en fuld uge (en 10-bit udsendt uge ruller over hver 1024. uge); angiv den fulde uge talt fra 1980-01-06
+
 engine-main-usage =
     brug: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }eller: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]

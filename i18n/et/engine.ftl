@@ -10857,6 +10857,9 @@ engine-e-space-receiver-oem-time-system = see võrdlus ei loe OEM-i ajasüsteemi
 ## leo-pass leap-second epoch
 engine-e-leo-pass-epoch-is-a-leap-second = epohh { $s } on liigsekund, millel pole tavalist UTC Juliuse kuupäeva; andke epohh GPS- või TAI-ajas või sekund varem või hiljem
 
+## connect: GPS week guard
+engine-e-connect-week-not-full = rida { $line }: GPS-nädal { $week } pole täisnädal (10-bitine levinädal pöördub iga 1024 nädala järel); andke täisnädal, loetuna alates 1980-01-06
+
 engine-main-usage =
     kasutus: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }või: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]

@@ -10863,6 +10863,9 @@ engine-e-space-receiver-oem-time-system = časový systém OEM { $ts } toto poro
 ## leo-pass leap-second epoch
 engine-e-leo-pass-epoch-is-a-leap-second = epocha { $s } je přestupná sekunda, která nemá prosté juliánské datum UTC; zadejte epochu v čase GPS nebo TAI, nebo o sekundu vedle
 
+## connect: GPS week guard
+engine-e-connect-week-not-full = řádek { $line }: týden GPS { $week } není úplný týden (10bitový vysílaný týden se přetáčí každých 1024 týdnů); zadejte úplný týden počítaný od 1980-01-06
+
 engine-main-usage =
     použití: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }nebo: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]

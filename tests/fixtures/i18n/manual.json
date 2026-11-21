@@ -21354,5 +21354,20 @@
    },
    " is a leap second, which has no plain UTC Julian date; give the epoch in GPS or TAI time, or a second either side"
   ]
+ },
+ {
+  "id": "e-connect-week-not-full",
+  "error": true,
+  "parts": [
+   "line ",
+   {
+    "var": "line"
+   },
+   ": GPS week ",
+   {
+    "var": "week"
+   },
+   " is not a full week (a 10-bit broadcast week rolls over every 1024 weeks); give the full week counted from 1980-01-06"
+  ]
  }
 ]
