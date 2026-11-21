@@ -230,6 +230,10 @@ fn sub(a: Vec3, b: Vec3) -> Vec3 {
     [a[0] - b[0], a[1] - b[1], a[2] - b[2]]
 }
 
+/// AFS code-tracking ranging 1-sigma (m): the Gabor-bandwidth bound `c / (beta sqrt(2 C/N0 T))`
+/// with `T = 1 s` (a one-second code measurement), the same bound as
+/// [`crate::lunar_rendezvous::code_ranging_sigma_m`] at `integration_s = 1`. The landing and
+/// ascent filters apply it per AFS update whatever the update interval.
 pub(crate) fn sigma_th(cn0_dbhz: f64) -> f64 {
     let cn0 = 10f64.powf(cn0_dbhz / 10.0);
     let beta = std::f64::consts::PI * AFS_Q_CHIP_RATE / 3f64.sqrt();
