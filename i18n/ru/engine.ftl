@@ -11048,6 +11048,24 @@ engine-e-tlog-key-and-history = укажите --key или --key-history, но 
 engine-e-tlog-history-failed = история ключей { $path } не проходит проверку и не может предоставить ключи
 engine-e-tlog-verification-failed = tlog { $command }: проверка не пройдена (в отчёте выше перечислены все проверки)
 
+## Signed-directory verification (src/evidence/signed_dir.rs)
+engine-evidence-dir-usage = kshana evidence verify-dir <dir> [--trust <hex|file>]... [--json]   подписанный каталог (signature.json); код 0 пройдено, 1 не пройдено, 3 не изменён, но ключ не доверенный
+engine-evidence-dir-statement = { $format }, подписал { $signer }, { $utc }, ID ключа { $key_id }, файлов в списке: { $n }
+engine-evidence-dir-signature-valid = PASS подпись: Ed25519 ключом { $key }
+engine-evidence-dir-signature-invalid = FAIL подпись: не проходит проверку ключом { $key }
+engine-evidence-dir-problem = FAIL { $p }
+engine-evidence-dir-longterm-present = примечание: есть longterm.json; он добавляется после подписи, подписью не покрыт и здесь не проверяется
+engine-evidence-dir-unsigned-fields = примечание: поля signature.json, не покрытые подписью: { $fields }
+engine-evidence-dir-envelope = рабочие пределы { $key }: { $value } (только для сведения)
+engine-evidence-dir-passed = проверено: подпись действительна, все файлы совпадают, ключ доверенный
+engine-evidence-dir-intact-untrusted = не изменён, но не доверен: подпись и все файлы в порядке, но ключ { $key } не указан в --trust
+engine-evidence-dir-failed = не проверено: проблем { $n }, или подпись не проходит проверку
+engine-e-evidence-dir-needs-directory = verify-dir нужен подписанный каталог
+engine-e-evidence-dir-unknown-option = неизвестный параметр { $option } для verify-dir (--trust <hex|file>, --json)
+engine-e-evidence-dir-cannot-read = не удаётся прочитать { $path }: { $e }
+engine-e-evidence-dir-bad-json = { $path } — недопустимый JSON: { $e }
+engine-e-evidence-dir-bad-field = signature.json: { $field } отсутствует или имеет неверный вид
+
 engine-main-usage =
     использование: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }или: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]

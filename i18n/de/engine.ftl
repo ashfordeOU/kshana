@@ -10843,6 +10843,24 @@ engine-e-tlog-key-and-history = geben Sie --key oder --key-history an, nicht bei
 engine-e-tlog-history-failed = die Schlüsselhistorie { $path } verifiziert nicht und kann daher keine Schlüssel liefern
 engine-e-tlog-verification-failed = tlog { $command }: Verifikation fehlgeschlagen (der Bericht oben listet jede Prüfung)
 
+## Signed-directory verification (src/evidence/signed_dir.rs)
+engine-evidence-dir-usage = kshana evidence verify-dir <dir> [--trust <hex|file>]... [--json]   signiertes Verzeichnis (signature.json); Exit 0 bestanden, 1 fehlgeschlagen, 3 unversehrt, aber der Schlüssel ist nicht vertrauenswürdig
+engine-evidence-dir-statement = { $format } signiert von { $signer } um { $utc }, Schlüssel-ID { $key_id }, { $n } Dateien aufgeführt
+engine-evidence-dir-signature-valid = PASS Signatur: Ed25519 mit Schlüssel { $key }
+engine-evidence-dir-signature-invalid = FAIL Signatur: verifiziert nicht mit Schlüssel { $key }
+engine-evidence-dir-problem = FAIL { $p }
+engine-evidence-dir-longterm-present = Hinweis: longterm.json ist vorhanden; sie wird nach dem Signieren hinzugefügt, ist nicht von der Signatur erfasst und wird hier nicht geprüft
+engine-evidence-dir-unsigned-fields = Hinweis: Felder von signature.json, die die Signatur nicht erfasst: { $fields }
+engine-evidence-dir-envelope = Betriebsrahmen { $key }: { $value } (nur zur Information)
+engine-evidence-dir-passed = verifiziert: die Signatur ist gültig, jede Datei stimmt überein und der Schlüssel ist vertrauenswürdig
+engine-evidence-dir-intact-untrusted = unversehrt, aber nicht vertrauenswürdig: Signatur und alle Dateien stimmen, aber der Schlüssel { $key } wurde nicht mit --trust angegeben
+engine-evidence-dir-failed = nicht verifiziert: { $n } Problem(e), oder die Signatur verifiziert nicht
+engine-e-evidence-dir-needs-directory = verify-dir braucht das signierte Verzeichnis
+engine-e-evidence-dir-unknown-option = unbekannte Option { $option } für verify-dir (--trust <hex|file>, --json)
+engine-e-evidence-dir-cannot-read = { $path } kann nicht gelesen werden: { $e }
+engine-e-evidence-dir-bad-json = { $path } ist kein gültiges JSON: { $e }
+engine-e-evidence-dir-bad-field = signature.json: { $field } fehlt oder hat die falsche Form
+
 engine-main-usage =
     Aufruf: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }oder: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]

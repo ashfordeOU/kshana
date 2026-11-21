@@ -10108,6 +10108,24 @@ engine-e-tlog-key-and-history = 请给出 --key 或 --key-history，不要同时
 engine-e-tlog-history-failed = 密钥历史 { $path } 未通过验证，因此不能提供密钥
 engine-e-tlog-verification-failed = tlog { $command }：验证失败（上方报告列出了每项检查）
 
+## Signed-directory verification (src/evidence/signed_dir.rs)
+engine-evidence-dir-usage = kshana evidence verify-dir <dir> [--trust <hex|file>]... [--json]   签名目录（signature.json）；退出码 0 通过、1 失败、3 完整但密钥不受信任
+engine-evidence-dir-statement = { $format }，签名者 { $signer }，时间 { $utc }，密钥 ID { $key_id }，列出 { $n } 个文件
+engine-evidence-dir-signature-valid = PASS 签名：使用密钥 { $key } 的 Ed25519
+engine-evidence-dir-signature-invalid = FAIL 签名：无法用密钥 { $key } 验证
+engine-evidence-dir-problem = FAIL { $p }
+engine-evidence-dir-longterm-present = 注意：存在 longterm.json；它在签名后添加，不在签名范围内，此处不检查
+engine-evidence-dir-unsigned-fields = 注意：signature.json 中不在签名范围内的字段：{ $fields }
+engine-evidence-dir-envelope = 运行包络 { $key }：{ $value }（仅供参考）
+engine-evidence-dir-passed = 已验证：签名有效，所有文件一致，且密钥受信任
+engine-evidence-dir-intact-untrusted = 完整但未受信任：签名和所有文件均一致，但未通过 --trust 提供密钥 { $key }
+engine-evidence-dir-failed = 未验证：{ $n } 个问题，或签名无法验证
+engine-e-evidence-dir-needs-directory = verify-dir 需要签名目录
+engine-e-evidence-dir-unknown-option = verify-dir 的未知选项 { $option }（--trust <hex|file>、--json）
+engine-e-evidence-dir-cannot-read = 无法读取 { $path }：{ $e }
+engine-e-evidence-dir-bad-json = { $path } 不是有效的 JSON：{ $e }
+engine-e-evidence-dir-bad-field = signature.json：{ $field } 缺失或格式错误
+
 engine-main-usage =
     用法：kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }或：kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]

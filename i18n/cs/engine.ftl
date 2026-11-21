@@ -10831,6 +10831,24 @@ engine-e-tlog-key-and-history = zadejte --key nebo --key-history, ne obojí
 engine-e-tlog-history-failed = historie klíčů { $path } se neověřila, nemůže proto poskytnout klíče
 engine-e-tlog-verification-failed = tlog { $command }: ověření selhalo (zpráva výše uvádí jednotlivé kontroly)
 
+## Signed-directory verification (src/evidence/signed_dir.rs)
+engine-evidence-dir-usage = kshana evidence verify-dir <dir> [--trust <hex|file>]... [--json]   podepsaný adresář (signature.json); návratový kód 0 prošlo, 1 selhalo, 3 neporušeno, ale klíč není důvěryhodný
+engine-evidence-dir-statement = { $format } podepsal { $signer } v { $utc }, ID klíče { $key_id }, uvedeno souborů: { $n }
+engine-evidence-dir-signature-valid = PASS podpis: Ed25519 klíčem { $key }
+engine-evidence-dir-signature-invalid = FAIL podpis: neověřuje se klíčem { $key }
+engine-evidence-dir-problem = FAIL { $p }
+engine-evidence-dir-longterm-present = poznámka: longterm.json je přítomen; přidává se po podpisu, podpis ho nepokrývá a zde se nekontroluje
+engine-evidence-dir-unsigned-fields = poznámka: pole signature.json, která podpis nepokrývá: { $fields }
+engine-evidence-dir-envelope = provozní obálka { $key }: { $value } (pouze pro informaci)
+engine-evidence-dir-passed = ověřeno: podpis je platný, všechny soubory odpovídají a klíč je důvěryhodný
+engine-evidence-dir-intact-untrusted = neporušeno, ale nedůvěryhodné: podpis i všechny soubory sedí, ale klíč { $key } nebyl zadán přes --trust
+engine-evidence-dir-failed = neověřeno: problémů { $n }, nebo se podpis neověřil
+engine-e-evidence-dir-needs-directory = verify-dir potřebuje podepsaný adresář
+engine-e-evidence-dir-unknown-option = neznámá volba { $option } pro verify-dir (--trust <hex|file>, --json)
+engine-e-evidence-dir-cannot-read = nelze číst { $path }: { $e }
+engine-e-evidence-dir-bad-json = { $path } není platný JSON: { $e }
+engine-e-evidence-dir-bad-field = signature.json: { $field } chybí nebo má nesprávný tvar
+
 engine-main-usage =
     použití: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }nebo: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]

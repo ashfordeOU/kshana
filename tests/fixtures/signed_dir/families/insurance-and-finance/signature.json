@@ -1,0 +1,22 @@
+{
+  "format": "kshana-dossier-signature/1",
+  "signer": "Test signer (synthetic)",
+  "utc": "2026-11-21T10:05:00Z",
+  "public_key": "a729ef7c772d4bf0da7a88d434bc2d4003084c548641bdfa1e5bbc3c7fb2b209",
+  "key_id": "d1a061cbd94f3655",
+  "files": [
+    {
+      "path": "inputs/insurance-and-finance.txt",
+      "sha256": "8d511f5288a905c84d2324d0e78ffb155030d0348b19aa335ba7e339750c9da1"
+    },
+    {
+      "path": "operating-envelope.json",
+      "sha256": "a24e1ed68ff6802c8795277faa69141a4f1ed5ae618e88788825eee8a8e6bb3d"
+    },
+    {
+      "path": "report.json",
+      "sha256": "66254e8c25f814b1bb56fa16a7c6120baa508b3b698e235f5b9df5ac97af5a13"
+    }
+  ],
+  "signature": "c8da3144f21096e39cb9ff18941207fc030c39e8c1a81684f5eb87361cf58ee8a3e47829874d74bbfa5daf8892812df4dda386994cd810502483b1e0b1894809"
+}

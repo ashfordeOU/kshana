@@ -11085,6 +11085,24 @@ engine-e-tlog-key-and-history = informe --key ou --key-history, não ambos
 engine-e-tlog-history-failed = o histórico de chaves { $path } não se verifica, portanto não pode fornecer chaves
 engine-e-tlog-verification-failed = tlog { $command }: a verificação falhou (o relatório acima lista cada verificação)
 
+## Signed-directory verification (src/evidence/signed_dir.rs)
+engine-evidence-dir-usage = kshana evidence verify-dir <dir> [--trust <hex|file>]... [--json]   diretório assinado (signature.json); saída 0 aprovado, 1 falhou, 3 íntegro, mas a chave não é confiável
+engine-evidence-dir-statement = { $format } assinado por { $signer } em { $utc }, id da chave { $key_id }, { $n } arquivos listados
+engine-evidence-dir-signature-valid = PASS assinatura: Ed25519 com a chave { $key }
+engine-evidence-dir-signature-invalid = FAIL assinatura: não se verifica com a chave { $key }
+engine-evidence-dir-problem = FAIL { $p }
+engine-evidence-dir-longterm-present = nota: longterm.json está presente; é adicionado após a assinatura, não é coberto por ela e não é verificado aqui
+engine-evidence-dir-unsigned-fields = nota: campos de signature.json não cobertos pela assinatura: { $fields }
+engine-evidence-dir-envelope = envelope operacional { $key }: { $value } (apenas informativo)
+engine-evidence-dir-passed = verificado: a assinatura é válida, todos os arquivos conferem e a chave é confiável
+engine-evidence-dir-intact-untrusted = íntegro, mas não confiável: a assinatura e todos os arquivos conferem, mas a chave { $key } não foi informada com --trust
+engine-evidence-dir-failed = não verificado: { $n } problema(s), ou a assinatura não se verifica
+engine-e-evidence-dir-needs-directory = verify-dir precisa do diretório assinado
+engine-e-evidence-dir-unknown-option = opção desconhecida { $option } para verify-dir (--trust <hex|file>, --json)
+engine-e-evidence-dir-cannot-read = não é possível ler { $path }: { $e }
+engine-e-evidence-dir-bad-json = { $path } não é JSON válido: { $e }
+engine-e-evidence-dir-bad-field = signature.json: { $field } está ausente ou tem forma errada
+
 engine-main-usage =
     uso: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }ou: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
