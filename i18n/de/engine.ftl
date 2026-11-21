@@ -10594,12 +10594,12 @@ engine-e-sil-obs-unknown-system = unbekanntes System { $value } (G oder E)
 engine-e-sil-obs-bad-canyon = die Straßenschlucht braucht eine positive Breite, einen Antennenversatz innerhalb der Straße, mindestens 1 dB Reflexionsverlust und endliche Werte
 
 ## Interference model library (src/interference_lib.rs)
-engine-interference-lib-usage = Aufruf: kshana interference-lib models | generate --class <none|cw|narrowband|wideband|chirp|pulsed> [--centre-hz <f>] [--bandwidth-hz <b>] [--period-s <t>] [--pulse-width-s <w>] [--jnr-db <j>] [--drift-hz-per-s <r>] [--triangle] [--fs <hz>] [--samples <n>] [--seed <s>] --out <base> | fit <recording.sigmf-meta> [--out <fit.json>] | bench [--per-class <n>] [--seed <s>] [--predictions <ids.csv>] [--out <bench.json>] | cases [--per-class <n>] [--seed <s>] [--out <cases.csv>]  (docs/INTERFERENCE-LIB.md)
+engine-interference-lib-usage = Aufruf: kshana interference-lib models | generate --class <none|cw|narrowband|wideband|chirp|pulsed|multitone|fm_tone> [--centre-hz <f>] [--bandwidth-hz <b>] [--period-s <t>] [--pulse-width-s <w>] [--jnr-db <j>] [--drift-hz-per-s <r>] [--triangle] [--tones-hz <f1,f2,...>] [--deviation-hz <d>] [--mod-freq-hz <m>] [--fs <hz>] [--samples <n>] [--seed <s>] --out <base> | fit <recording.sigmf-meta> [--out <fit.json>] | bench [--per-class <n>] [--seed <s>] [--predictions <ids.csv>] [--out <bench.json>] | cases [--per-class <n>] [--seed <s>] [--out <cases.csv>]  (docs/INTERFERENCE-LIB.md)
 engine-interference-lib-written = { $path } geschrieben ({ $n } Abtastwerte, MODELLED synthetische Störung)
 engine-e-interference-lib-missing-value = { $option } braucht einen Wert
 engine-e-interference-lib-unknown-option = unbekannte Option { $option } (kshana interference-lib --help listet die Optionen)
 engine-e-interference-lib-bad-number = { $option } braucht eine endliche Zahl, nicht { $value }
-engine-e-interference-lib-unknown-class = unbekannte Störungsklasse { $value } (none, cw, narrowband, wideband, chirp oder pulsed)
+engine-e-interference-lib-unknown-class = unbekannte Störungsklasse { $value } (none, cw, narrowband, wideband, chirp, pulsed, multitone oder fm_tone)
 engine-e-interference-lib-bad-size = die Abtastrate muss positiv sein und die Aufzeichnung eine Zweierpotenz von 1024 bis 16777216 Abtastwerten (bench: 1 bis 1000 Fälle je Klasse)
 engine-e-interference-lib-cannot-read = { $path } kann nicht gelesen werden: { $e }
 engine-e-interference-lib-cannot-write = { $path } kann nicht geschrieben werden: { $e }
