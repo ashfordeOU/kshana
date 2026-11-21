@@ -5402,6 +5402,7 @@ engine-e-orbit-rinex-block-parsed-but-contained = rinex-lohko jäsennettiin, mut
 engine-e-orbit-user-site-lat-deg-must = user_site: lat_deg on oltava välillä [-90, 90] ja jokaisen kentän äärellinen
 
 engine-e-orbit-no-satellites-to-export = ei vietäviä satelliitteja
+engine-e-orbit-too-many-satellites-for-sp3 = { $n } satelliittia ei mahdu SP3-c-tiedostoon (enintään { $max }); vie vähemmän tai käytä OEM-vientiä
 
 engine-e-orbit-time-step-must-be-positive = time.step_s on oltava positiivinen SP3-viennille
 

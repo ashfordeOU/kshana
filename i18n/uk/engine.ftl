@@ -5114,6 +5114,7 @@ engine-e-orbit-rinex-block-parsed-but-contained = блок rinex розібра�
 engine-e-orbit-user-site-lat-deg-must = user_site: lat_deg має бути в [-90, 90], і кожне поле скінченне
 
 engine-e-orbit-no-satellites-to-export = немає супутників для експорту
+engine-e-orbit-too-many-satellites-for-sp3 = { $n } супутників не вміщуються у файл SP3-c (не більше { $max }); експортуйте менше або скористайтеся експортом OEM
 
 engine-e-orbit-time-step-must-be-positive = time.step_s має бути додатним для експорту SP3
 

@@ -1637,6 +1637,15 @@ impl OrbitClockScenario {
         if sats.is_empty() {
             return Err(crate::terr!("e-orbit-no-satellites-to-export"));
         }
+        if sats.len() > crate::sp3::MAX_SP3C_SATELLITES {
+            // SP3-c lists at most 85 satellites (five `+` records of 17), and positional ids
+            // past G99 would not be three characters.
+            return Err(crate::terr!(
+                "e-orbit-too-many-satellites-for-sp3",
+                n = sats.len(),
+                max = crate::sp3::MAX_SP3C_SATELLITES
+            ));
+        }
         let ids: Vec<String> = (1..=sats.len()).map(|i| format!("G{i:02}")).collect();
         let start = self.epoch.unwrap_or(DEFAULT_SP3_EPOCH);
         let start_jd_ut1 = crate::timescales::julian_date(

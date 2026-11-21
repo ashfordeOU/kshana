@@ -5732,6 +5732,7 @@ engine-e-orbit-rinex-block-parsed-but-contained = RINEX plokk parsiti, kuid see 
 engine-e-orbit-user-site-lat-deg-must = user_site: lat_deg peab olema vahemikus [-90, 90] ja iga väli lõplik
 
 engine-e-orbit-no-satellites-to-export = eksportimiseks pole satelliite
+engine-e-orbit-too-many-satellites-for-sp3 = { $n } satelliiti ei mahu SP3-c-faili (kõige rohkem { $max }); eksportige vähem või kasutage OEM-eksporti
 
 engine-e-orbit-time-step-must-be-positive = time.step_s peab SP3 ekspordi jaoks olema positiivne
 
