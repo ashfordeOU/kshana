@@ -10721,6 +10721,15 @@ engine-e-ais-integrity-cannot-read = nie można odczytać { $path }: { $e }
 engine-e-ais-integrity-cannot-write = nie można zapisać { $path }: { $e }
 engine-e-ais-integrity-bad-place = wiersz listy miejsc nie ma postaci name,lat,lon,radius_m z poprawną pozycją i dodatnim promieniem: { $row }
 
+## Private holdout of kshana-bench tasks (f) and (g) (src/bench/holdout.rs)
+engine-e-bench-holdout-inside-repository = odmowa zapisu prywatnego holdoutu w repozytorium: { $path } (wybierz katalog poza nim)
+engine-e-bench-holdout-task = prywatny holdout istnieje tylko dla zadań (f) i (g)
+engine-e-bench-holdout-no-truth = brak prywatnej prawdy dla zadania ({ $task }): podaj --truth <file> lub ustaw { $var }
+engine-bench-holdout-not-a-private-truth = to nie jest prawda prywatnego holdoutu: musi to być plik prawdy kshana-bench zadania (f) lub (g) z podziałem holdout
+engine-bench-holdout-not-registered = prawda zadania ({ $task }) o SHA-256 { $sha } nie jest zarejestrowana w bench/holdout/PRIVATE.json
+engine-bench-site-holdout-not-private = wynik { $v1 } to wynik holdoutu zadania (f) lub (g), który nie jest oznaczony jako prywatny lub którego prawda nie jest zarejestrowana
+engine-bench-site-provenance-private-holdout = oceniono na prywatnym holdoucie (zarejestrowana prawda)
+
 engine-main-usage =
     użycie: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }lub: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10738,7 +10747,7 @@ engine-main-usage =
     { "   " }lub: kshana nmea-scenario <scenario.toml> [--out <file.nmea>] [--tcp <addr>|--udp <addr>] (kshana nmea-scenario --help)
     { "   " }lub: kshana interference-map <adsb|ais|fetch-land> ... (kshana interference-map --help)
     { "   " }lub: kshana route-exposure --route <route> --map <map.geojson|dir> [--from <date>] [--to <date>]
-    { "   " }lub: kshana bench <spec|truth|cases|score|baseline|seal|reveal-check|manifest|verify-manifest|validate|leaderboard> ... (kshana bench --help)
+    { "   " }lub: kshana bench <spec|truth|cases|score|baseline|seal|reveal-check|manifest|verify-manifest|validate|leaderboard|positions|datasets|cite|golden|holdout> ... (kshana bench --help)
     { "   " }lub: kshana bench-export <scenario.toml> [--out <base>] [--epoch <YYYY-MM-DDTHH:MM:SS>]
     { "   " }lub: kshana compliance-report [--out <base>] <result.json>... | --mapping | --sources
     { "   " }lub: kshana lunanet-afs-check <spec [--json] [--strict]|symbols <file> [--max-sp-errors <n>] [--json]|generate --frames <n> [--toi0 <t>] --out <file>>
@@ -10886,15 +10895,24 @@ engine-interference-map-cli-col-not-observed = nieobserwowane
 engine-bench-cli-usage =
     użycie: kshana bench spec
     { "   " }lub: kshana bench truth --task a --data <extracted JammerTest 2024 dir> --split <dev|test|holdout|all> --out <truth.json>
-    { "   " }lub: kshana bench cases --task <c|d> --split <dev|test|holdout> --out <dir> [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
+    { "   " }lub: kshana bench truth --task g --data <GSDC-layout train dir> --split <dev|test|holdout> --out <truth.json>
+    { "   " }lub: kshana bench truth --task h --data <scripts/fetch_urbannav.sh dir> --split <dev|test> --out <truth.json>
+    { "   " }lub: kshana bench cases --task <c|d|f> --split <dev|test|holdout> --out <dir> [--data <dataset.csv>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
     { "   " }lub: kshana bench score --truth <truth.json> --predictions <predictions.json> [--threshold <x>] [--out <result.json>]
-    { "   " }lub: kshana bench baseline --task <a|b|c|d> --split <dev|test|holdout> --out <dir> [--data <dir>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
+    { "   " }lub: kshana bench baseline --task <a|b|c|d|e|f|g|h> --split <dev|test|holdout> --out <dir> [--data <dir>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
     { "   " }lub: kshana bench seal --task <a|b|c|d> --seed-file <file> [--new]
     { "   " }lub: kshana bench reveal-check --task <a|b|c|d> --seed-file <file> --commitment <hex>
     { "   " }lub: kshana bench manifest --task a --data <extracted dir> [--archive <tar.gz>] --out <manifest.json>
     { "   " }lub: kshana bench verify-manifest <manifest.json> --root <dir>
+    { "   " }lub: kshana bench positions --task <g|h> --split <dev|test|holdout> --csv <submission.csv> --name <system> [--version <v>] --out <predictions.json>
+    { "   " }lub: kshana bench datasets [--json | --check [--root <repo>]]
+    { "   " }lub: kshana bench cite <result.json>...
+    { "   " }lub: kshana bench golden [--root <repo>] (--out <GOLDEN.json> | --check <GOLDEN.json>)
     { "   " }lub: kshana bench validate <result.json>...
     { "   " }lub: kshana bench leaderboard [<results dir|result.json>...] --out <page.html> [--fragment]   (bez wejść: stan pusty; --fragment: sekcja do osadzenia)
+    { "   " }lub: kshana bench holdout truth --task <f|g> --data <private data> --out <private dir>
+    { "   " }lub: kshana bench holdout register --truth <private truth.json>
+    { "   " }lub: kshana bench holdout score --task <f|g> --predictions <predictions.json> [--truth <private truth.json>] [--out <result.json>]   (KSHANA_BENCH_HOLDOUT_F, KSHANA_BENCH_HOLDOUT_G)
     { "   " }(plik ziarna (seed) zawiera sekret zapieczętowanego holdoutu; trzymaj go poza kontrolą wersji)
 
 engine-bench-cli-match = zgodne
@@ -11941,3 +11959,50 @@ engine-e-oscillator-input = dane wejściowe { $part } są nieprawidłowe: { $e }
 engine-e-oscillator-unknown-clock = nieznane ustawienie zegara { $id } (jedno z: { $known })
 
 engine-e-oscillator-field = { $field } jest poza zakresem: { $value }
+
+## src/bench: tasks (f) and (g), the dataset registry and the golden index (E34)
+
+engine-bench-data-no-header = { $file }: brak wiersza nagłówka
+
+engine-bench-data-no-column = { $file }: brak kolumny `{ $column }`
+
+engine-bench-data-bad-value = { $file } wiersz { $line }: brak `{ $column }` lub wartość nieprawidłowa
+
+engine-bench-data-no-rows = { $file }: brak wierszy danych
+
+engine-bench-task-has-no-holdout = zadanie ({ $task }) nie ma podziału holdout: jego dane i podział są publiczne
+
+engine-bench-unknown-baseline = nieznana linia bazowa `{ $name }`
+
+engine-bench-g-no-traces = brak <drive>/<phone>/ground_truth.csv w { $root }
+engine-bench-h-no-sequences = brak <sequence>/ground_truth.txt w { $root }
+
+engine-bench-g-no-object = brak obiektu `{ $key }` ze śladami
+
+engine-bench-g-bad-epoch = ślad `{ $id }`: każda epoka musi mieć postać [UnixTimeMillis, szerokość, długość]
+
+engine-bench-f-dataset-mismatch = { $path }: SHA-256 { $got } nie jest przypiętym plikiem dataset.csv zadania (f); pobierz go skryptem scripts/fetch_opssat_ad.sh
+
+engine-bench-cli-unknown-task-h = nieznane zadanie `{ $t }` (od a do h)
+
+engine-bench-cli-wrote-predictions = zapisano { $path } (śladów: { $traces })
+
+engine-bench-datasets-summary = zbiorów danych: { $n }; w benchmarku: { $in_bench }, kandydatów: { $candidate }, poszukiwanych: { $wanted }
+
+engine-bench-datasets-ok = rejestr: zbiorów danych: { $n }, wszystkie reguły spełnione
+
+engine-bench-golden-ok = zamrożonych plików bez zmian: { $n }; identyfikatory cytowań stabilne
+
+engine-bench-golden-written = zapisano { $path } (zamrożonych plików: { $n })
+
+engine-bench-site-title-f = Zadanie (f): wykrywanie anomalii w telemetrii statku kosmicznego
+
+engine-bench-site-title-g = Zadanie (g): dokładność pozycjonowania smartfonów
+
+engine-bench-site-col-ap = Średnia precyzja
+
+engine-bench-site-col-gsdc-score = Wynik, średnia z P50 i P95 (m)
+
+engine-bench-site-col-p50 = P50 łącznie (m)
+
+engine-bench-site-col-p95 = P95 łącznie (m)

@@ -10549,6 +10549,15 @@ engine-e-ais-integrity-cannot-read = nelze číst { $path }: { $e }
 engine-e-ais-integrity-cannot-write = nelze zapsat { $path }: { $e }
 engine-e-ais-integrity-bad-place = řádek seznamu míst není name,lat,lon,radius_m s platnou polohou a kladným poloměrem: { $row }
 
+## Private holdout of kshana-bench tasks (f) and (g) (src/bench/holdout.rs)
+engine-e-bench-holdout-inside-repository = privátní holdout se do repozitáře nezapíše: { $path } (zvolte adresář mimo něj)
+engine-e-bench-holdout-task = privátní holdout existuje jen pro úlohy (f) a (g)
+engine-e-bench-holdout-no-truth = pro úlohu ({ $task }) chybí privátní pravda: zadejte --truth <file> nebo nastavte { $var }
+engine-bench-holdout-not-a-private-truth = není to pravda privátního holdoutu: musí to být soubor pravdy kshana-bench úlohy (f) nebo (g) s rozdělením holdout
+engine-bench-holdout-not-registered = pravda úlohy ({ $task }) se SHA-256 { $sha } není registrována v bench/holdout/PRIVATE.json
+engine-bench-site-holdout-not-private = výsledek { $v1 } je výsledek holdoutu úlohy (f) nebo (g), který není označen jako privátní nebo jehož pravda není registrována
+engine-bench-site-provenance-private-holdout = hodnoceno na privátním holdoutu (registrovaná pravda)
+
 engine-main-usage =
     použití: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }nebo: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10566,7 +10575,7 @@ engine-main-usage =
     { "   " }nebo: kshana nmea-scenario <scenario.toml> [--out <file.nmea>] [--tcp <addr>|--udp <addr>] (kshana nmea-scenario --help)
     { "   " }nebo: kshana interference-map <adsb|ais|fetch-land> ... (kshana interference-map --help)
     { "   " }nebo: kshana route-exposure --route <route> --map <map.geojson|dir> [--from <date>] [--to <date>]
-    { "   " }nebo: kshana bench <spec|truth|cases|score|baseline|seal|reveal-check|manifest|verify-manifest|validate|leaderboard> ... (kshana bench --help)
+    { "   " }nebo: kshana bench <spec|truth|cases|score|baseline|seal|reveal-check|manifest|verify-manifest|validate|leaderboard|positions|datasets|cite|golden|holdout> ... (kshana bench --help)
     { "   " }nebo: kshana bench-export <scenario.toml> [--out <base>] [--epoch <YYYY-MM-DDTHH:MM:SS>]
     { "   " }nebo: kshana compliance-report [--out <base>] <result.json>... | --mapping | --sources
     { "   " }nebo: kshana lunanet-afs-check <spec [--json] [--strict]|symbols <file> [--max-sp-errors <n>] [--json]|generate --frames <n> [--toi0 <t>] --out <file>>
@@ -10716,15 +10725,24 @@ engine-interference-map-cli-col-not-observed = nepozorováno
 engine-bench-cli-usage =
     použití: kshana bench spec
     { "   " }nebo: kshana bench truth --task a --data <extracted JammerTest 2024 dir> --split <dev|test|holdout|all> --out <truth.json>
-    { "   " }nebo: kshana bench cases --task <c|d> --split <dev|test|holdout> --out <dir> [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
+    { "   " }nebo: kshana bench truth --task g --data <GSDC-layout train dir> --split <dev|test|holdout> --out <truth.json>
+    { "   " }nebo: kshana bench truth --task h --data <scripts/fetch_urbannav.sh dir> --split <dev|test> --out <truth.json>
+    { "   " }nebo: kshana bench cases --task <c|d|f> --split <dev|test|holdout> --out <dir> [--data <dataset.csv>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
     { "   " }nebo: kshana bench score --truth <truth.json> --predictions <predictions.json> [--threshold <x>] [--out <result.json>]
-    { "   " }nebo: kshana bench baseline --task <a|b|c|d> --split <dev|test|holdout> --out <dir> [--data <dir>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
+    { "   " }nebo: kshana bench baseline --task <a|b|c|d|e|f|g|h> --split <dev|test|holdout> --out <dir> [--data <dir>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
     { "   " }nebo: kshana bench seal --task <a|b|c|d> --seed-file <file> [--new]
     { "   " }nebo: kshana bench reveal-check --task <a|b|c|d> --seed-file <file> --commitment <hex>
     { "   " }nebo: kshana bench manifest --task a --data <extracted dir> [--archive <tar.gz>] --out <manifest.json>
     { "   " }nebo: kshana bench verify-manifest <manifest.json> --root <dir>
+    { "   " }nebo: kshana bench positions --task <g|h> --split <dev|test|holdout> --csv <submission.csv> --name <system> [--version <v>] --out <predictions.json>
+    { "   " }nebo: kshana bench datasets [--json | --check [--root <repo>]]
+    { "   " }nebo: kshana bench cite <result.json>...
+    { "   " }nebo: kshana bench golden [--root <repo>] (--out <GOLDEN.json> | --check <GOLDEN.json>)
     { "   " }nebo: kshana bench validate <result.json>...
     { "   " }nebo: kshana bench leaderboard [<results dir|result.json>...] --out <page.html> [--fragment]   (bez vstupů: prázdný stav; --fragment: vložitelná sekce)
+    { "   " }nebo: kshana bench holdout truth --task <f|g> --data <private data> --out <private dir>
+    { "   " }nebo: kshana bench holdout register --truth <private truth.json>
+    { "   " }nebo: kshana bench holdout score --task <f|g> --predictions <predictions.json> [--truth <private truth.json>] [--out <result.json>]   (KSHANA_BENCH_HOLDOUT_F, KSHANA_BENCH_HOLDOUT_G)
     { "   " }(soubor seed obsahuje tajemství za zapečetěným holdoutem; udržujte jej mimo správu verzí)
 
 engine-bench-cli-match = shoda
@@ -11776,3 +11794,50 @@ engine-e-oscillator-input = vstup { $part } není platný: { $e }
 engine-e-oscillator-unknown-clock = neznámá předvolba hodin { $id } (jedna z { $known })
 
 engine-e-oscillator-field = { $field } je mimo rozsah: { $value }
+
+## src/bench: tasks (f) and (g), the dataset registry and the golden index (E34)
+
+engine-bench-data-no-header = { $file }: chybí řádek záhlaví
+
+engine-bench-data-no-column = { $file }: chybí sloupec `{ $column }`
+
+engine-bench-data-bad-value = { $file } řádek { $line }: `{ $column }` chybí nebo je neplatný
+
+engine-bench-data-no-rows = { $file }: žádné datové řádky
+
+engine-bench-task-has-no-holdout = úloha ({ $task }) nemá rozdělení holdout: její data i rozdělení jsou veřejná
+
+engine-bench-unknown-baseline = neznámá základní metoda `{ $name }`
+
+engine-bench-g-no-traces = v { $root } není žádný <drive>/<phone>/ground_truth.csv
+engine-bench-h-no-sequences = v { $root } není žádný <sequence>/ground_truth.txt
+
+engine-bench-g-no-object = chybí objekt stop `{ $key }`
+
+engine-bench-g-bad-epoch = stopa `{ $id }`: každá epocha musí být [UnixTimeMillis, šířka, délka]
+
+engine-bench-f-dataset-mismatch = { $path }: SHA-256 { $got } není připnutý dataset.csv úlohy (f); stáhněte jej skriptem scripts/fetch_opssat_ad.sh
+
+engine-bench-cli-unknown-task-h = neznámá úloha `{ $t }` (a až h)
+
+engine-bench-cli-wrote-predictions = zapsáno { $path } (stop: { $traces })
+
+engine-bench-datasets-summary = datových sad: { $n }; v benchmarku: { $in_bench }, kandidátů: { $candidate }, hledaných: { $wanted }
+
+engine-bench-datasets-ok = registr: datových sad: { $n }, všechna pravidla splněna
+
+engine-bench-golden-ok = zmrazených souborů beze změny: { $n }; citační identifikátory stabilní
+
+engine-bench-golden-written = zapsáno { $path } (zmrazených souborů: { $n })
+
+engine-bench-site-title-f = Úloha (f): detekce anomálií v telemetrii kosmické lodi
+
+engine-bench-site-title-g = Úloha (g): přesnost určování polohy chytrých telefonů
+
+engine-bench-site-col-ap = Průměrná přesnost
+
+engine-bench-site-col-gsdc-score = Skóre, průměr P50 a P95 (m)
+
+engine-bench-site-col-p50 = P50 souhrnně (m)
+
+engine-bench-site-col-p95 = P95 souhrnně (m)

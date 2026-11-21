@@ -10696,6 +10696,15 @@ engine-e-ais-integrity-cannot-read = не вдалося прочитати { $p
 engine-e-ais-integrity-cannot-write = не вдалося записати { $path }: { $e }
 engine-e-ais-integrity-bad-place = рядок списку місць не має вигляду name,lat,lon,radius_m з допустимою позицією та додатним радіусом: { $row }
 
+## Private holdout of kshana-bench tasks (f) and (g) (src/bench/holdout.rs)
+engine-e-bench-holdout-inside-repository = приватний holdout не записується всередину репозиторію: { $path } (виберіть каталог поза ним)
+engine-e-bench-holdout-task = приватний holdout є лише в завдань (f) і (g)
+engine-e-bench-holdout-no-truth = немає приватної істини для завдання ({ $task }): вкажіть --truth <file> або задайте { $var }
+engine-bench-holdout-not-a-private-truth = це не істина приватного holdout: потрібен файл істини kshana-bench завдання (f) або (g) з розбиттям holdout
+engine-bench-holdout-not-registered = істина завдання ({ $task }) з SHA-256 { $sha } не зареєстрована в bench/holdout/PRIVATE.json
+engine-bench-site-holdout-not-private = результат { $v1 } — результат holdout завдання (f) або (g), не позначений як приватний або з незареєстрованою істиною
+engine-bench-site-provenance-private-holdout = оцінено на приватному holdout (зареєстрована істина)
+
 engine-main-usage =
     використання: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }або: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10713,7 +10722,7 @@ engine-main-usage =
     { "   " }або: kshana nmea-scenario <scenario.toml> [--out <file.nmea>] [--tcp <addr>|--udp <addr>] (kshana nmea-scenario --help)
     { "   " }або: kshana interference-map <adsb|ais|fetch-land> ... (kshana interference-map --help)
     { "   " }або: kshana route-exposure --route <route> --map <map.geojson|dir> [--from <date>] [--to <date>]
-    { "   " }або: kshana bench <spec|truth|cases|score|baseline|seal|reveal-check|manifest|verify-manifest|validate|leaderboard> ... (kshana bench --help)
+    { "   " }або: kshana bench <spec|truth|cases|score|baseline|seal|reveal-check|manifest|verify-manifest|validate|leaderboard|positions|datasets|cite|golden|holdout> ... (kshana bench --help)
     { "   " }або: kshana bench-export <scenario.toml> [--out <base>] [--epoch <YYYY-MM-DDTHH:MM:SS>]
     { "   " }або: kshana compliance-report [--out <base>] <result.json>... | --mapping | --sources
     { "   " }або: kshana lunanet-afs-check <spec [--json] [--strict]|symbols <file> [--max-sp-errors <n>] [--json]|generate --frames <n> [--toi0 <t>] --out <file>>
@@ -10861,15 +10870,24 @@ engine-interference-map-cli-col-not-observed = не спостерігалося
 engine-bench-cli-usage =
     використання: kshana bench spec
     { "   " }або: kshana bench truth --task a --data <extracted JammerTest 2024 dir> --split <dev|test|holdout|all> --out <truth.json>
-    { "   " }або: kshana bench cases --task <c|d> --split <dev|test|holdout> --out <dir> [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
+    { "   " }або: kshana bench truth --task g --data <GSDC-layout train dir> --split <dev|test|holdout> --out <truth.json>
+    { "   " }або: kshana bench truth --task h --data <scripts/fetch_urbannav.sh dir> --split <dev|test> --out <truth.json>
+    { "   " }або: kshana bench cases --task <c|d|f> --split <dev|test|holdout> --out <dir> [--data <dataset.csv>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
     { "   " }або: kshana bench score --truth <truth.json> --predictions <predictions.json> [--threshold <x>] [--out <result.json>]
-    { "   " }або: kshana bench baseline --task <a|b|c|d> --split <dev|test|holdout> --out <dir> [--data <dir>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
+    { "   " }або: kshana bench baseline --task <a|b|c|d|e|f|g|h> --split <dev|test|holdout> --out <dir> [--data <dir>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
     { "   " }або: kshana bench seal --task <a|b|c|d> --seed-file <file> [--new]
     { "   " }або: kshana bench reveal-check --task <a|b|c|d> --seed-file <file> --commitment <hex>
     { "   " }або: kshana bench manifest --task a --data <extracted dir> [--archive <tar.gz>] --out <manifest.json>
     { "   " }або: kshana bench verify-manifest <manifest.json> --root <dir>
+    { "   " }або: kshana bench positions --task <g|h> --split <dev|test|holdout> --csv <submission.csv> --name <system> [--version <v>] --out <predictions.json>
+    { "   " }або: kshana bench datasets [--json | --check [--root <repo>]]
+    { "   " }або: kshana bench cite <result.json>...
+    { "   " }або: kshana bench golden [--root <repo>] (--out <GOLDEN.json> | --check <GOLDEN.json>)
     { "   " }або: kshana bench validate <result.json>...
     { "   " }або: kshana bench leaderboard [<results dir|result.json>...] --out <page.html> [--fragment]   (без входів: порожній стан; --fragment: вбудовуваний розділ)
+    { "   " }або: kshana bench holdout truth --task <f|g> --data <private data> --out <private dir>
+    { "   " }або: kshana bench holdout register --truth <private truth.json>
+    { "   " }або: kshana bench holdout score --task <f|g> --predictions <predictions.json> [--truth <private truth.json>] [--out <result.json>]   (KSHANA_BENCH_HOLDOUT_F, KSHANA_BENCH_HOLDOUT_G)
     { "   " }(файл seed містить секрет запечатаного holdout; тримайте його поза системою керування версіями)
 
 engine-bench-cli-match = збігається
@@ -11859,3 +11877,50 @@ engine-e-oscillator-input = вхідні дані { $part } недійсні: { 
 engine-e-oscillator-unknown-clock = невідома передустановка годинника { $id } (одна з: { $known })
 
 engine-e-oscillator-field = { $field } поза допустимим діапазоном: { $value }
+
+## src/bench: tasks (f) and (g), the dataset registry and the golden index (E34)
+
+engine-bench-data-no-header = { $file }: немає рядка заголовка
+
+engine-bench-data-no-column = { $file }: немає стовпця `{ $column }`
+
+engine-bench-data-bad-value = { $file }, рядок { $line }: `{ $column }` відсутнє або неприпустиме
+
+engine-bench-data-no-rows = { $file }: немає рядків даних
+
+engine-bench-task-has-no-holdout = задача ({ $task }) не має відкладеної вибірки: її дані та розбиття публічні
+
+engine-bench-unknown-baseline = невідомий базовий метод `{ $name }`
+
+engine-bench-g-no-traces = у { $root } немає <drive>/<phone>/ground_truth.csv
+engine-bench-h-no-sequences = у { $root } немає <sequence>/ground_truth.txt
+
+engine-bench-g-no-object = немає об'єкта треків `{ $key }`
+
+engine-bench-g-bad-epoch = трек `{ $id }`: кожна епоха має бути [UnixTimeMillis, широта, довгота]
+
+engine-bench-f-dataset-mismatch = { $path }: SHA-256 { $got } не збігається із закріпленим dataset.csv задачі (f); завантажте його скриптом scripts/fetch_opssat_ad.sh
+
+engine-bench-cli-unknown-task-h = невідома задача `{ $t }` (від a до h)
+
+engine-bench-cli-wrote-predictions = записано { $path } (треків: { $traces })
+
+engine-bench-datasets-summary = наборів даних: { $n }; у бенчмарку: { $in_bench }, кандидатів: { $candidate }, потрібно: { $wanted }
+
+engine-bench-datasets-ok = реєстр: наборів даних: { $n }, усі правила дотримано
+
+engine-bench-golden-ok = заморожених файлів без змін: { $n }; ідентифікатори цитування стабільні
+
+engine-bench-golden-written = записано { $path } (заморожених файлів: { $n })
+
+engine-bench-site-title-f = Задача (f): виявлення аномалій у телеметрії космічного апарата
+
+engine-bench-site-title-g = Задача (g): точність позиціонування смартфонів
+
+engine-bench-site-col-ap = Середня точність (AP)
+
+engine-bench-site-col-gsdc-score = Оцінка, середнє P50 і P95 (м)
+
+engine-bench-site-col-p50 = P50 загалом (м)
+
+engine-bench-site-col-p95 = P95 загалом (м)
