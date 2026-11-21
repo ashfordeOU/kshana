@@ -96,6 +96,22 @@ The default run takes about a minute in a debug build. The longer soak is the on
 release or after touching a parser. When a target fails, the report prints the failing input; copy it
 into a unit test next to the parser when fixing it.
 
+## SP3, IONEX and ANTEX: what the reader returns and the writer emits
+
+Beyond not panicking: values that are wrong without saying so. Tests:
+`tests/sp3_ionex_antex_reader_robustness.rs`, including a seeded fuzz that writes `NaN`, `inf`,
+overflowing exponents and `*` fields into the fixtures and checks every value returned is finite.
+
+| Reader / writer | Defect | Now |
+|---|---|---|
+| `Sp3File::to_sp3_string` | the header start second was written with the language's decimal mark (`0,00000000` in German, French, Russian, ...), which the crate's own reader and other tools refuse | `.` in every language |
+| `Sp3File::from_propagators` | epoch labels came from a Julian Date near 2.45e6 (~40 µs resolution), so a 900 s grid was written as `0 14 59.99998659`, `0 30  0.00001341` | labels built from the whole day and seconds of day: exactly on the grid |
+| `Sp3File::to_sp3_string`, orbit SP3 export | every id on one `+` line: past 17 ids not SP3-c, and at 100 satellites the count pushed the ids a column right (the reader found none) and `PG100` was read as `G10` | five `+` records of 17 ids padded with `  0` (SP3-c); an export of more than 85 satellites is refused |
+| `Sp3File::interpolator` | the (0, 0, 0) bad-position sentinel was an interpolation node, pulling nearby positions toward the geocentre; a repeated epoch made the Lagrange weights divide by zero | both are left out as nodes (`Sp3SatState::position_is_bad`) |
+| `parse_sp3` | `NaN` / `inf` positions and clocks were accepted; a `V` record with no `P`, a repeated epoch, a missing `EOF`, fewer epochs than the header declares and the `+` count were silent | non-finite values are an error; the rest is reported in `Sp3File::read` and `missing_epochs()` |
+| `ionex::parse_ionex` | the no-value marker `9999` was a value (999.9 TECU at `EXPONENT -1`); a map's own `EXPONENT` was ignored; a `NaN` token was a value | `9999` is NaN; the map's exponent applies to it; a non-finite token leaves the map short and refused (`parse_ionex_file`, the strict reader, already did this) |
+| `ppp_real::parse_antex_receiver` | `NOAZI` rows split on blanks, so an unreadable value was dropped and every later value moved to the wrong zenith angle; a row off the `ZEN1 / ZEN2 / DZEN` grid was used as is; a `NaN` offset was accepted | rows read as F8.2 columns; a row with an unreadable value or the wrong length is left out and counted in `dropped_tables`; non-finite offsets are not read |
+
 ## Adding a parser
 
 Add a `fuzz("name", &seeds, generator, |bytes| { let _ = my_parser(...); })` call to the right test

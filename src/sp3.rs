@@ -66,6 +66,12 @@ impl Sp3SatState {
     pub fn clock_is_bad(&self) -> bool {
         (self.clock_us - BAD_CLOCK_US).abs() < 1e-6
     }
+
+    /// True when the position is the SP3 "bad or absent position" sentinel (all three
+    /// coordinates exactly 0) or not finite: not a point on the orbit.
+    pub fn position_is_bad(&self) -> bool {
+        self.pos_m == [0.0; 3] || self.pos_m.iter().any(|v| !v.is_finite())
+    }
 }
 
 /// All satellite states at one epoch.
@@ -98,6 +104,43 @@ pub struct Sp3Header {
 pub struct Sp3File {
     pub header: Sp3Header,
     pub epochs: Vec<Sp3Epoch>,
+    /// What the reader found that does not match the header or was stepped over. All zero /
+    /// `None` / `true` for a clean file, and for a file built in memory.
+    pub read: Sp3ReadCounts,
+}
+
+/// What [`parse_sp3`] found that does not match the header, or stepped over.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize)]
+pub struct Sp3ReadCounts {
+    /// The satellite count of the first `+` record, when it reads as a number. Compare with
+    /// `header.sat_ids.len()`.
+    pub declared_sat_count: Option<usize>,
+    /// `*` epochs whose time repeats the previous epoch's. They are kept as read; the
+    /// interpolator uses the first.
+    pub duplicate_epochs: usize,
+    /// `V` records with no `P` record of the same satellite earlier in the epoch; dropped.
+    pub velocity_without_position: usize,
+    /// Whether the file ended at an `EOF` record. A file cut short ends without one.
+    pub ended_at_eof: bool,
+}
+
+impl Default for Sp3ReadCounts {
+    fn default() -> Self {
+        Sp3ReadCounts {
+            declared_sat_count: None,
+            duplicate_epochs: 0,
+            velocity_without_position: 0,
+            ended_at_eof: true,
+        }
+    }
+}
+
+impl Sp3File {
+    /// Epochs the header declares that the file does not hold (0 when it holds as many or
+    /// more).
+    pub fn missing_epochs(&self) -> usize {
+        self.header.num_epochs.saturating_sub(self.epochs.len())
+    }
 }
 
 impl Sp3File {
@@ -193,6 +236,7 @@ impl Sp3File {
                 sat_ids: ids.to_vec(),
             },
             epochs,
+            read: Sp3ReadCounts::default(),
         }
     }
 
@@ -204,7 +248,8 @@ impl Sp3File {
     pub fn to_sp3_string(&self) -> String {
         let mut out = String::new();
         let s = &self.header.start;
-        // Header line 1: version, position mode, start epoch, epoch count.
+        // Header line 1: version, position mode, start epoch, epoch count. A machine format:
+        // the decimal mark is `.` in every language (the second is not localised).
         out.push_str(&crate::t!(
             "sp3-cp-orbit-igs14-hlm-kshana",
             year = format!("{:4}", s.year),
@@ -212,14 +257,11 @@ impl Sp3File {
             day = format!("{:2}", s.day),
             hour = format!("{:2}", s.hour),
             minute = format!("{:2}", s.minute),
-            second = crate::i18n::localise_decimal(format!("{:11.8}", s.second)),
+            second = format!("{:11.8}", s.second),
             num_epochs = format!("{:6}", self.header.num_epochs)
         ));
         // `+` satellite list: count then three-character ids packed from column 9.
-        let mut plus = format!("+   {:2}   ", self.header.sat_ids.len());
-        for id in &self.header.sat_ids {
-            plus.push_str(id);
-        }
+        let plus = plus_records(&self.header.sat_ids);
         out.push_str(&plus);
         out.push('\n');
         // The two `%c` lines of SP3-c: file type (columns 4-5) and time system (columns 10-12).
@@ -274,7 +316,16 @@ impl Sp3File {
         let (mut t_s, mut x, mut y, mut z) = (Vec::new(), Vec::new(), Vec::new(), Vec::new());
         for epoch in &self.epochs {
             if let Some(st) = epoch.sats.iter().find(|s| s.sat == sat) {
+                // The bad-position sentinel (0, 0, 0) is not a node: as one it would pull every
+                // window that holds it toward the geocentre. A repeated epoch time is not a
+                // second node either (the Lagrange weights divide by node differences).
+                if st.position_is_bad() {
+                    continue;
+                }
                 let e = epoch.time;
+                if t_s.last() == Some(&node_offset_s(s0, e)) {
+                    continue;
+                }
                 // Node time relative to the file start, in seconds. Computing this
                 // as `(julian_date(e) - julian_date(s0)) * 86400` suffers
                 // catastrophic cancellation: both JDs are ~2.45e6, whose f64 ULP
@@ -347,6 +398,28 @@ pub fn interpolate_clock_linear(nodes: &[(f64, f64)], t: f64, max_gap_s: f64) ->
     }
     Some(c0 + (c1 - c0) * (t - t0) / (t1 - t0))
 }
+
+/// The SP3-c `+` header records for `ids`: five lines of 17 three-character ids, padded with
+/// `  0`, the count on the first (SP3-c lines 3-7). More than 85 ids (or ids that are not
+/// three characters) do not fit SP3-c; the caller refuses them ([`MAX_SP3C_SATELLITES`]).
+fn plus_records(ids: &[String]) -> String {
+    let mut lines = Vec::with_capacity(5);
+    for k in 0..5 {
+        let mut l = if k == 0 {
+            format!("+   {:2}   ", ids.len())
+        } else {
+            "+        ".to_string()
+        };
+        for j in 0..17 {
+            l.push_str(ids.get(k * 17 + j).map_or("  0", String::as_str));
+        }
+        lines.push(l);
+    }
+    lines.join("\n")
+}
+
+/// The most satellites an SP3-c header lists: five `+` records of 17.
+pub const MAX_SP3C_SATELLITES: usize = 85;
 
 /// Seconds elapsed from epoch `from` to epoch `to`, computed without the
 /// large-magnitude Julian-Date cancellation that injects per-node timing jitter.
@@ -532,6 +605,13 @@ fn parse_record_values(body: &str) -> Result<[f64; 4], String> {
             .map(|t| t.parse::<f64>())
             .collect::<Result<Vec<f64>, _>>()
         {
+            if let Some(bad) = ws.iter().zip(&nums).find(|(_, v)| !v.is_finite()) {
+                // Rust's float parser accepts `NaN` and `inf`; neither is an SP3 value.
+                return Err(crate::terr!(
+                    "e-sp3-bad-number",
+                    field = format!("{:?}", bad.0)
+                ));
+            }
             return Ok([nums[0], nums[1], nums[2], nums[3]]);
         }
     }
@@ -547,7 +627,9 @@ fn parse_record_values(body: &str) -> Result<[f64; 4], String> {
             .ok_or_else(|| crate::terr!("e-sp3-record-needs-values-missing-column", v1 = k + 1))?;
         *slot = field
             .parse::<f64>()
-            .map_err(|_| crate::terr!("e-sp3-bad-number", field = format!("{:?}", field)))?;
+            .ok()
+            .filter(|v| v.is_finite())
+            .ok_or_else(|| crate::terr!("e-sp3-bad-number", field = format!("{:?}", field)))?;
     }
     Ok(nums)
 }
@@ -594,12 +676,19 @@ pub fn parse_sp3(text: &str) -> Result<Sp3File, String> {
     let mut sat_ids = Vec::new();
     let mut epochs: Vec<Sp3Epoch> = Vec::new();
     let mut current: Option<Sp3Epoch> = None;
+    let mut read = Sp3ReadCounts {
+        ended_at_eof: false,
+        ..Sp3ReadCounts::default()
+    };
 
     for line in lines {
         if line.starts_with("++") || line.starts_with("%") || line.starts_with("/*") {
             continue;
         }
         if let Some(rest) = line.strip_prefix('+') {
+            if read.declared_sat_count.is_none() {
+                read.declared_sat_count = rest.get(..8).and_then(|c| c.trim().parse().ok());
+            }
             // Satellite ids are packed three characters each, starting at column 9
             // of the full line → offset 8 after stripping the leading '+'.
             let ids = rest.get(8..).unwrap_or("");
@@ -615,6 +704,7 @@ pub fn parse_sp3(text: &str) -> Result<Sp3File, String> {
             continue;
         }
         if line.starts_with("EOF") {
+            read.ended_at_eof = true;
             break;
         }
         if let Some(rest) = line.strip_prefix('*') {
@@ -623,8 +713,12 @@ pub fn parse_sp3(text: &str) -> Result<Sp3File, String> {
                 epochs.push(e);
             }
             let tokens: Vec<&str> = rest.split_whitespace().collect();
+            let time = parse_epoch(&tokens)?;
+            if epochs.last().is_some_and(|e| e.time == time) {
+                read.duplicate_epochs += 1;
+            }
             current = Some(Sp3Epoch {
-                time: parse_epoch(&tokens)?,
+                time,
                 sats: Vec::new(),
             });
             continue;
@@ -656,6 +750,8 @@ pub fn parse_sp3(text: &str) -> Result<Sp3File, String> {
             } else if let Some(state) = epoch.sats.iter_mut().rev().find(|s| s.sat == sat) {
                 // SP3 dm/s → m/s.
                 state.vel_m_s = Some([vals[0] * 0.1, vals[1] * 0.1, vals[2] * 0.1]);
+            } else {
+                read.velocity_without_position += 1;
             }
         }
     }
@@ -676,6 +772,7 @@ pub fn parse_sp3(text: &str) -> Result<Sp3File, String> {
             sat_ids,
         },
         epochs,
+        read,
     })
 }
 
