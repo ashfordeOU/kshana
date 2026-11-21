@@ -10110,6 +10110,10 @@ engine-e-orbit-omm-export-requires-tle-defined = der OMM-Export erfordert eine p
 engine-e-passes-earth-orientation-parameters-out-of = Erdorientierungsparameter außerhalb des Bereichs: |ut1_minus_utc_s| <= 1, |xp_arcsec| und |yp_arcsec| <= 2
 
 engine-e-pvt-no-priori-position-set-apriori = keine A-priori-Position: setzen Sie apriori_ecef, ein APPROX POSITION XYZ im Beobachtungs-Header oder truth_ecef
+engine-e-gnss-slots-unknown-set = unbekannter Slot-Satz `{ $name }` (bekannt: { $sets })
+engine-e-gnss-slots-out-of-range = Slot `{ $id }`: `{ $field }` fehlt, ist nicht endlich oder außerhalb des Bereichs
+engine-e-gnss-slots-geo-needs-lon = GEO-Slot `{ $id }` braucht lon_deg
+engine-e-gnss-slots-igso-needs-one-longitude = IGSO-Slot `{ $id }` braucht eine von null verschiedene inclination_deg und genau eines von crossing_lon_deg und center_lon_deg
 
 engine-e-python-pll-bws-dll-bws-spacings = pll_bws, dll_bws, spacings und coherents lassen sich nicht mit design kombinieren: der Sweep durchläuft jeden Entwurf der Datei
 

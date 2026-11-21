@@ -10131,6 +10131,10 @@ engine-e-orbit-omm-export-requires-tle-defined = OMM-export vereist een met TLE 
 engine-e-passes-earth-orientation-parameters-out-of = aardoriëntatieparameters buiten bereik: |ut1_minus_utc_s| <= 1, |xp_arcsec| en |yp_arcsec| <= 2
 
 engine-e-pvt-no-priori-position-set-apriori = geen a-priori positie: stel apriori_ecef in, een observatieheader APPROX POSITION XYZ, of truth_ecef
+engine-e-gnss-slots-unknown-set = onbekende slotset `{ $name }` (bekend: { $sets })
+engine-e-gnss-slots-out-of-range = slot `{ $id }`: `{ $field }` ontbreekt, is niet eindig of valt buiten het bereik
+engine-e-gnss-slots-geo-needs-lon = GEO-slot `{ $id }` heeft lon_deg nodig
+engine-e-gnss-slots-igso-needs-one-longitude = IGSO-slot `{ $id }` heeft een inclination_deg ongelijk aan nul nodig en precies één van crossing_lon_deg en center_lon_deg
 
 engine-e-python-pll-bws-dll-bws-spacings = pll_bws, dll_bws, spacings en coherents kunnen niet met design worden gecombineerd: de sweep draait elk ontwerp in het bestand
 

@@ -9320,6 +9320,10 @@ engine-e-orbit-omm-export-requires-tle-defined = OMM のエクスポートには
 engine-e-passes-earth-orientation-parameters-out-of = 地球姿勢パラメータが範囲外です：|ut1_minus_utc_s| <= 1、|xp_arcsec| と |yp_arcsec| <= 2
 
 engine-e-pvt-no-priori-position-set-apriori = 事前位置がありません：apriori_ecef、観測ヘッダの APPROX POSITION XYZ、または truth_ecef を設定してください
+engine-e-gnss-slots-unknown-set = 不明なスロットセット `{ $name }`（既知: { $sets }）
+engine-e-gnss-slots-out-of-range = スロット `{ $id }`：`{ $field }` がない、有限でない、または範囲外です
+engine-e-gnss-slots-geo-needs-lon = GEO スロット `{ $id }` には lon_deg が必要です
+engine-e-gnss-slots-igso-needs-one-longitude = IGSO スロット `{ $id }` には 0 でない inclination_deg と、crossing_lon_deg と center_lon_deg のちょうど一方が必要です
 
 engine-e-python-pll-bws-dll-bws-spacings = pll_bws、dll_bws、spacings、coherents は design と併用できません：スイープはファイル内のすべての設計を実行します
 

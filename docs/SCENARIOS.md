@@ -261,7 +261,7 @@ Loosely- and tightly-coupled GNSS/INS error-state EKF.
 Measurement-domain pseudorange simulation (Klobuchar iono, Saastamoinen/Niell tropo) + RAIM.
 
 - **Required fields:** `seed`, `time`, `receiver`, `constellation`
-- **Optional fields:** `iono`, `tropo`, `mask_deg`, `noise_sigma_m`, `multipath_m`, `sat_clock_rms_m`, `uere_m`, `p_fa`, `p_md`, `alert_limit_h_m`, `alert_limit_v_m`, `skyline`
+- **Optional fields:** `iono`, `tropo`, `mask_deg`, `noise_sigma_m`, `multipath_m`, `sat_clock_rms_m`, `uere_m`, `p_fa`, `p_md`, `alert_limit_h_m`, `alert_limit_v_m`, `skyline`, `slot_sets`, `slots`
 
 ## `jamming`
 

@@ -10092,6 +10092,10 @@ engine-e-orbit-omm-export-requires-tle-defined = OMM eksport nõuab TLE-ga mää
 engine-e-passes-earth-orientation-parameters-out-of = Maa orientatsiooniparameetrid väljaspool vahemikku: |ut1_minus_utc_s| <= 1, |xp_arcsec| ja |yp_arcsec| <= 2
 
 engine-e-pvt-no-priori-position-set-apriori = a priori positsiooni ei ole: sea apriori_ecef, vaatluspäise APPROX POSITION XYZ või truth_ecef
+engine-e-gnss-slots-unknown-set = tundmatu pesade komplekt `{ $name }` (teada: { $sets })
+engine-e-gnss-slots-out-of-range = pesa `{ $id }`: `{ $field }` puudub, ei ole lõplik või on vahemikust väljas
+engine-e-gnss-slots-geo-needs-lon = GEO-pesa `{ $id }` vajab väärtust lon_deg
+engine-e-gnss-slots-igso-needs-one-longitude = IGSO-pesa `{ $id }` vajab nullist erinevat inclination_deg ja täpselt ühte väärtustest crossing_lon_deg ja center_lon_deg
 
 engine-e-python-pll-bws-dll-bws-spacings = pll_bws, dll_bws, spacings ja coherents ei saa olla koos väärtusega design: pühkimine käivitab iga faili kujunduse
 

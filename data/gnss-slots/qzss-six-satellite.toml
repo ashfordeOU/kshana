@@ -1,0 +1,69 @@
+# QZSS slots for `kshana gnss-sim` (`slot_sets = ["qzss-six-satellite"]`).
+name = "qzss-six-satellite"
+title = "QZSS during the six-satellite operation: 2 GEO, 1 QGEO and 3 QZO"
+sources = [
+  "Cabinet Office, PS-QZSS-005, Quasi-Zenith Satellite System Performance Standard (August 5, 2025), section 3.2.3: Tables 3.2-2 to 3.2-4, nominal values",
+  "Cabinet Office, QSS-CUS-101439, The satellite orbits and service performance during the six-satellite operation (July 27 and 28, 2026), p. 3: during the six-satellite operation the centre longitudes of QZS2 and QZS1R differ from PS-QZSS-005 (147°E and 127°E) and QZS5 is not applicable, having been lost",
+]
+omitted = [
+  "semi-major axis: the source gives 42,165 km; the slots use the geosynchronous radius of the engine's sidereal rate (about 42,164 km) so that a ground track does not drift",
+  "right ascension of the ascending node: the source gives each value at a different epoch (2025 to 2031), so it fixes no relative position along the track; each slot is placed by its centre longitude instead",
+  "the position of each QZO and QGEO satellite along its ground track: not stated; the QZO satellites are spaced evenly in mean anomaly (an assumption, to confirm)",
+  "operational ranges and the orbit-control manoeuvres (about every 6 months for QZO and QGEO, 22 to 23 days for GEO): not modelled",
+]
+
+[[slot]]
+id = "QZS3 GEO 127E"
+kind = "geo"
+lon_deg = 127.0
+source = "PS-QZSS-005, Table 3.2-2 (1/2)"
+
+[[slot]]
+id = "QZS6 GEO 90.5E"
+kind = "geo"
+lon_deg = 90.5
+source = "PS-QZSS-005, Table 3.2-2 (2/2)"
+
+[[slot]]
+id = "QZS7 QGEO"
+kind = "igso"
+inclination_deg = 5.0
+eccentricity = 0.008
+argp_deg = 0.0
+center_lon_deg = 184.5
+phase_deg = 0.0
+source = "PS-QZSS-005, Table 3.2-3: e 0.008, i 5°, argument of perigee 0°, centre longitude 184.5°E"
+phase_source = "assumption (to confirm): not stated"
+
+[[slot]]
+id = "QZS2 QZO"
+kind = "igso"
+inclination_deg = 41.0
+eccentricity = 0.075
+argp_deg = 270.0
+center_lon_deg = 147.0
+phase_deg = 0.0
+source = "QSS-CUS-101439 p. 3 (centre longitude 147°E); PS-QZSS-005 Table 3.2-4 (1/4) for e, i and the argument of perigee: e 0.075, i 41°, argument of perigee 270°, centre longitude 147°E"
+phase_source = "assumption (to confirm): three QZO spaced 120° in mean anomaly"
+
+[[slot]]
+id = "QZS4 QZO"
+kind = "igso"
+inclination_deg = 41.0
+eccentricity = 0.075
+argp_deg = 270.0
+center_lon_deg = 137.5
+phase_deg = 120.0
+source = "PS-QZSS-005, Table 3.2-4 (2/4): e 0.075, i 41°, argument of perigee 270°, centre longitude 137.5°E"
+phase_source = "assumption (to confirm): three QZO spaced 120° in mean anomaly"
+
+[[slot]]
+id = "QZS1R QZO"
+kind = "igso"
+inclination_deg = 39.0
+eccentricity = 0.075
+argp_deg = 270.0
+center_lon_deg = 127.0
+phase_deg = 240.0
+source = "QSS-CUS-101439 p. 3 (centre longitude 127°E); PS-QZSS-005 Table 3.2-4 (3/4) for e, i and the argument of perigee: e 0.075, i 39°, argument of perigee 270°, centre longitude 127°E"
+phase_source = "assumption (to confirm): three QZO spaced 120° in mean anomaly"

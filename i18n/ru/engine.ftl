@@ -10315,6 +10315,10 @@ engine-e-orbit-omm-export-requires-tle-defined = для экспорта OMM н�
 engine-e-passes-earth-orientation-parameters-out-of = параметры ориентации Земли вне допустимого диапазона: |ut1_minus_utc_s| <= 1, |xp_arcsec| и |yp_arcsec| <= 2
 
 engine-e-pvt-no-priori-position-set-apriori = нет априорного положения: задайте apriori_ecef, APPROX POSITION XYZ из заголовка наблюдений или truth_ecef
+engine-e-gnss-slots-unknown-set = неизвестный набор позиций `{ $name }` (известные: { $sets })
+engine-e-gnss-slots-out-of-range = позиция `{ $id }`: `{ $field }` отсутствует, не конечно или вне диапазона
+engine-e-gnss-slots-geo-needs-lon = позиции GEO `{ $id }` нужен lon_deg
+engine-e-gnss-slots-igso-needs-one-longitude = позиции IGSO `{ $id }` нужны ненулевой inclination_deg и ровно одно из crossing_lon_deg и center_lon_deg
 
 engine-e-python-pll-bws-dll-bws-spacings = pll_bws, dll_bws, spacings и coherents нельзя сочетать с design: перебор выполняет каждый проект из файла
 
