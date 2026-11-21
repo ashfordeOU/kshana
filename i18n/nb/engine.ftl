@@ -10708,6 +10708,24 @@ engine-e-sil-obsgen-cannot-read = kan ikke lese { $path }: { $e }
 engine-e-sil-obsgen-cannot-write = kan ikke skrive { $path }: { $e }
 engine-e-sil-obsgen-bad-scenario = ikke et gnss-sim-scenario med valgfrie [urban]- og [rinex]-tabeller: { $e }
 
+## Signed-directory verification (src/evidence/signed_dir.rs)
+engine-evidence-dir-usage = kshana evidence verify-dir <dir> [--trust <hex|file>]... [--json]   signert katalog (signature.json); exit 0 bestått, 1 feilet, 3 intakt, men nøkkelen er ikke klarert
+engine-evidence-dir-statement = { $format } signert av { $signer } { $utc }, nøkkel-ID { $key_id }, { $n } filer oppført
+engine-evidence-dir-signature-valid = PASS signatur: Ed25519 med nøkkel { $key }
+engine-evidence-dir-signature-invalid = FAIL signatur: verifiseres ikke med nøkkel { $key }
+engine-evidence-dir-problem = FAIL { $p }
+engine-evidence-dir-longterm-present = merk: longterm.json finnes; den legges til etter signering, dekkes ikke av signaturen og kontrolleres ikke her
+engine-evidence-dir-unsigned-fields = merk: felt i signature.json som signaturen ikke dekker: { $fields }
+engine-evidence-dir-envelope = driftsramme { $key }: { $value } (kun til informasjon)
+engine-evidence-dir-passed = verifisert: signaturen er gyldig, alle filer stemmer, og nøkkelen er klarert
+engine-evidence-dir-intact-untrusted = intakt, men ikke klarert: signaturen og alle filer stemmer, men nøkkelen { $key } ble ikke oppgitt med --trust
+engine-evidence-dir-failed = ikke verifisert: { $n } problem(er), eller signaturen verifiseres ikke
+engine-e-evidence-dir-needs-directory = verify-dir trenger den signerte katalogen
+engine-e-evidence-dir-unknown-option = ukjent valg { $option } for verify-dir (--trust <hex|file>, --json)
+engine-e-evidence-dir-cannot-read = kan ikke lese { $path }: { $e }
+engine-e-evidence-dir-bad-json = { $path } er ikke gyldig JSON: { $e }
+engine-e-evidence-dir-bad-field = signature.json: { $field } mangler eller har feil form
+
 engine-main-usage =
     bruk: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }eller: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]

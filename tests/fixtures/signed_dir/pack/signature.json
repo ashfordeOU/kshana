@@ -1,0 +1,30 @@
+{
+  "format": "kshana-dossier-signature/1",
+  "signer": "Test signer (synthetic)",
+  "utc": "2026-11-21T09:00:00Z",
+  "public_key": "a729ef7c772d4bf0da7a88d434bc2d4003084c548641bdfa1e5bbc3c7fb2b209",
+  "key_id": "d1a061cbd94f3655",
+  "files": [
+    {
+      "path": "README.txt",
+      "sha256": "9b3df952d6b9bbd20f84f2b21ad87ca69e8ec879a0583adc2af995601e5452a3"
+    },
+    {
+      "path": "data/nested/notes.txt",
+      "sha256": "414f8e9fd34ff68f66cbdab5ec63a5e738aa107f3454fa7edb51f49528abf9c6"
+    },
+    {
+      "path": "data/series.csv",
+      "sha256": "2e648751535d60fb4eb9ba7c687ed563dd2d400d8b4db60f2dfd09771292874f"
+    },
+    {
+      "path": "operating-envelope.json",
+      "sha256": "5b3c169893031ae08cd66a397b6da2cad73ba45ec936413c1f5ffa66ca78ee9e"
+    },
+    {
+      "path": "result.json",
+      "sha256": "a5f8cb27954ce8adce38a387d62091c722c9a0c811f3d29d73bc3b059c9738f3"
+    }
+  ],
+  "signature": "b5a8fc6868ff46d7e01d95371777742563b0b1284bc6c5fd0ec4182ebe7f6cc98b4a37ba5c83c060a3223f11609d797990e2dc1a7592a50729f892f0d7286403"
+}

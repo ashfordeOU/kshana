@@ -422,8 +422,8 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/evidence/cli.rs": {
-   "count": 11,
-   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
+   "count": 12,
+   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md); +1 identifier: the option name --trust passed as the `name` variable of the catalogued e-evidence-cli-needs-value message."
   },
   "src/evidence/html.rs": {
    "count": 31,
@@ -2012,6 +2012,10 @@
   "src/corrections/vectors.rs": {
    "count": 3,
    "reason": "identifier: the vector-format tag and the built-in vector file names (has.json, qznma.json) the scanner reads as words"
+  },
+  "src/evidence/signed_dir.rs": {
+   "count": 7,
+   "reason": "machine identifiers: the file names signature.json, longterm.json and operating-envelope.json, the statement format tag and the signed-statement field names of kshana-dossier-signature/1 (documented in docs/SIGNED-DIRECTORY.md); not prose"
   },
   "src/interference_map/incident.rs": {
    "count": 183,

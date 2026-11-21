@@ -10483,6 +10483,24 @@ engine-e-sil-obsgen-cannot-read = tiedostoa { $path } ei voi lukea: { $e }
 engine-e-sil-obsgen-cannot-write = tiedostoon { $path } ei voi kirjoittaa: { $e }
 engine-e-sil-obsgen-bad-scenario = ei ole gnss-sim-skenaario, jossa on valinnaiset taulukot [urban] ja [rinex]: { $e }
 
+## Signed-directory verification (src/evidence/signed_dir.rs)
+engine-evidence-dir-usage = kshana evidence verify-dir <dir> [--trust <hex|file>]... [--json]   allekirjoitettu hakemisto (signature.json); paluuarvo 0 läpäisty, 1 epäonnistui, 3 eheä, mutta avain ei ole luotettu
+engine-evidence-dir-statement = { $format }, allekirjoittaja { $signer }, aika { $utc }, avaimen tunnus { $key_id }, lueteltuja tiedostoja { $n }
+engine-evidence-dir-signature-valid = PASS allekirjoitus: Ed25519 avaimella { $key }
+engine-evidence-dir-signature-invalid = FAIL allekirjoitus: ei todennu avaimella { $key }
+engine-evidence-dir-problem = FAIL { $p }
+engine-evidence-dir-longterm-present = huomautus: longterm.json on mukana; se lisätään allekirjoituksen jälkeen, allekirjoitus ei kata sitä eikä sitä tarkisteta tässä
+engine-evidence-dir-unsigned-fields = huomautus: signature.jsonin kentät, joita allekirjoitus ei kata: { $fields }
+engine-evidence-dir-envelope = toimintarajat { $key }: { $value } (vain tiedoksi)
+engine-evidence-dir-passed = todennettu: allekirjoitus on kelvollinen, jokainen tiedosto täsmää ja avain on luotettu
+engine-evidence-dir-intact-untrusted = eheä mutta ei luotettu: allekirjoitus ja kaikki tiedostot täsmäävät, mutta avainta { $key } ei annettu --trust-valitsimella
+engine-evidence-dir-failed = ei todennettu: { $n } ongelmaa, tai allekirjoitus ei todennu
+engine-e-evidence-dir-needs-directory = verify-dir tarvitsee allekirjoitetun hakemiston
+engine-e-evidence-dir-unknown-option = tuntematon valitsin { $option } komennolle verify-dir (--trust <hex|file>, --json)
+engine-e-evidence-dir-cannot-read = kohdetta { $path } ei voi lukea: { $e }
+engine-e-evidence-dir-bad-json = { $path } ei ole kelvollista JSONia: { $e }
+engine-e-evidence-dir-bad-field = signature.json: { $field } puuttuu tai on väärän muotoinen
+
 engine-main-usage =
     käyttö: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }tai: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
