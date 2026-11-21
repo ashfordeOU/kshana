@@ -150,8 +150,8 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/bundled_scenarios.rs": {
-   "count": 210,
-   "reason": "bundled scenario file names mission-thread-short.toml, tip-and-cue-baltic-m2, tip-and-cue-short, gnss-ssv-geo, gnss-ssv-gto and gnss-ssv-nav-geo (machine data, not user-facing text) bundled scenario file names mission-thread-short.toml, tip-and-cue-baltic-m2 and tip-and-cue-short, gnss-ssv-geo, gnss-ssv-gto, gnss-ssv-nav-geo and navic-regional (machine data, not user-facing text)."
+   "count": 207,
+   "reason": "bundled scenario file names mission-thread-short.toml, tip-and-cue-baltic-m2, tip-and-cue-short, gnss-ssv-geo, gnss-ssv-gto, gnss-ssv-nav-geo and navic-regional (machine data, not user-facing text)"
   },
   "src/calibration_ensembles.rs": {
    "count": 14,
