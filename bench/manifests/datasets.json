@@ -281,22 +281,31 @@
     },
     {
       "id": "urbannav",
-      "title": "UrbanNav multisensory urban positioning dataset (PolyU)",
+      "title": "UrbanNav multisensory urban positioning dataset (PolyU), Hong Kong sequences",
       "kind": "urban-multisensor",
       "threat_class": null,
-      "tasks": [],
+      "tasks": [
+        "h"
+      ],
       "reference": "https://github.com/IPNL-POLYU/UrbanNavDataset",
-      "publisher_licence": "not verified in this review",
-      "spdx": null,
-      "redistribution": "not-stated",
+      "publisher_licence": "MIT: the repository README, section License, states it covers the dataset files including the RINEX, IMU and ground-truth data; LICENSE 'Copyright (c) 2026 UrbanNav contributors' (LICENSE SHA-256 0fb32ba74223c6015c22fc46cbc10640c2f7bf549040fad6ad43f3bae9c963c7, README SHA-256 af9412786eb7c9bdf6ae9440335a4a6347d77b951ff108c711fe0848ab7365f5, read 2026-11-21)",
+      "spdx": "MIT",
+      "redistribution": "allowed",
       "in_repository": false,
-      "access": "manual",
-      "fetch": "not used until its terms are read and cited",
-      "checksums": "none pinned",
-      "files": [],
-      "use_limits": "none recorded until terms are read",
-      "status": "candidate",
-      "citation": "L.-T. Hsu et al., UrbanNav, ION GNSS+ 2021",
+      "access": "fetch-script",
+      "fetch": "scripts/fetch_urbannav.sh",
+      "checksums": "SHA-256 of every kept file (ground truth, RINEX observations, NMEA, BRDC navigation) pinned in scripts/fetch_urbannav.sh; the Dropbox folder archives are built on request and not pinned",
+      "files": [
+        "ground_truth.txt",
+        "ublox-f9p.obs",
+        "ublox-f9p.nmea",
+        "xiaomi-mi8.obs",
+        "xiaomi-mi8.nmea",
+        "nav.rnx"
+      ],
+      "use_limits": "the MIT notice is kept with any copy; the README asks users to cite the ION GNSS+ 2021 paper; not redistributed by this project; scores describe these sequences, never a receiver",
+      "status": "in-bench",
+      "citation": "L.-T. Hsu, N. Kubo, W. Wen, W. Chen, Z. Liu, T. Suzuki, J. Meguro, UrbanNav: An Open-Sourced Multisensory Dataset for Benchmarking Positioning Algorithms Designed for Urban Areas, ION GNSS+ 2021, pp. 226-256, doi 10.33012/2021.17895",
       "derived_extracts_in_repository": false
     },
     {

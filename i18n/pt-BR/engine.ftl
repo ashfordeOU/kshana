@@ -11218,14 +11218,15 @@ engine-bench-cli-usage =
     uso: kshana bench spec
     { "   " }ou: kshana bench truth --task a --data <extracted JammerTest 2024 dir> --split <dev|test|holdout|all> --out <truth.json>
     { "   " }ou: kshana bench truth --task g --data <GSDC-layout train dir> --split <dev|test|holdout> --out <truth.json>
+    { "   " }ou: kshana bench truth --task h --data <scripts/fetch_urbannav.sh dir> --split <dev|test> --out <truth.json>
     { "   " }ou: kshana bench cases --task <c|d|f> --split <dev|test|holdout> --out <dir> [--data <dataset.csv>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
     { "   " }ou: kshana bench score --truth <truth.json> --predictions <predictions.json> [--threshold <x>] [--out <result.json>]
-    { "   " }ou: kshana bench baseline --task <a|b|c|d|e|f|g> --split <dev|test|holdout> --out <dir> [--data <dir>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
+    { "   " }ou: kshana bench baseline --task <a|b|c|d|e|f|g|h> --split <dev|test|holdout> --out <dir> [--data <dir>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
     { "   " }ou: kshana bench seal --task <a|b|c|d> --seed-file <file> [--new]
     { "   " }ou: kshana bench reveal-check --task <a|b|c|d> --seed-file <file> --commitment <hex>
     { "   " }ou: kshana bench manifest --task a --data <extracted dir> [--archive <tar.gz>] --out <manifest.json>
     { "   " }ou: kshana bench verify-manifest <manifest.json> --root <dir>
-    { "   " }ou: kshana bench positions --task g --split <dev|test|holdout> --csv <submission.csv> --name <system> [--version <v>] --out <predictions.json>
+    { "   " }ou: kshana bench positions --task <g|h> --split <dev|test|holdout> --csv <submission.csv> --name <system> [--version <v>] --out <predictions.json>
     { "   " }ou: kshana bench datasets [--json | --check [--root <repo>]]
     { "   " }ou: kshana bench cite <result.json>...
     { "   " }ou: kshana bench golden [--root <repo>] (--out <GOLDEN.json> | --check <GOLDEN.json>)
@@ -12251,6 +12252,7 @@ engine-bench-task-has-no-holdout = a tarefa ({ $task }) não tem partição de r
 engine-bench-unknown-baseline = linha de base desconhecida `{ $name }`
 
 engine-bench-g-no-traces = nenhum <drive>/<phone>/ground_truth.csv em { $root }
+engine-bench-h-no-sequences = nenhum <sequence>/ground_truth.txt em { $root }
 
 engine-bench-g-no-object = nenhum objeto `{ $key }` de trajetos
 
@@ -12258,7 +12260,7 @@ engine-bench-g-bad-epoch = trajeto `{ $id }`: cada época deve ser [UnixTimeMill
 
 engine-bench-f-dataset-mismatch = { $path }: o SHA-256 { $got } não é o dataset.csv fixado da tarefa (f); baixe-o com scripts/fetch_opssat_ad.sh
 
-engine-bench-cli-unknown-task-g = tarefa desconhecida `{ $t }` (de a a g)
+engine-bench-cli-unknown-task-h = tarefa desconhecida `{ $t }` (de a a h)
 
 engine-bench-cli-wrote-predictions = gravado { $path } ({ $traces } trajetos)
 

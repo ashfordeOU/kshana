@@ -10958,14 +10958,15 @@ engine-bench-cli-usage =
     kasutus: kshana bench spec
     { "   " }või: kshana bench truth --task a --data <extracted JammerTest 2024 dir> --split <dev|test|holdout|all> --out <truth.json>
     { "   " }või: kshana bench truth --task g --data <GSDC-layout train dir> --split <dev|test|holdout> --out <truth.json>
+    { "   " }või: kshana bench truth --task h --data <scripts/fetch_urbannav.sh dir> --split <dev|test> --out <truth.json>
     { "   " }või: kshana bench cases --task <c|d|f> --split <dev|test|holdout> --out <dir> [--data <dataset.csv>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
     { "   " }või: kshana bench score --truth <truth.json> --predictions <predictions.json> [--threshold <x>] [--out <result.json>]
-    { "   " }või: kshana bench baseline --task <a|b|c|d|e|f|g> --split <dev|test|holdout> --out <dir> [--data <dir>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
+    { "   " }või: kshana bench baseline --task <a|b|c|d|e|f|g|h> --split <dev|test|holdout> --out <dir> [--data <dir>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
     { "   " }või: kshana bench seal --task <a|b|c|d> --seed-file <file> [--new]
     { "   " }või: kshana bench reveal-check --task <a|b|c|d> --seed-file <file> --commitment <hex>
     { "   " }või: kshana bench manifest --task a --data <extracted dir> [--archive <tar.gz>] --out <manifest.json>
     { "   " }või: kshana bench verify-manifest <manifest.json> --root <dir>
-    { "   " }või: kshana bench positions --task g --split <dev|test|holdout> --csv <submission.csv> --name <system> [--version <v>] --out <predictions.json>
+    { "   " }või: kshana bench positions --task <g|h> --split <dev|test|holdout> --csv <submission.csv> --name <system> [--version <v>] --out <predictions.json>
     { "   " }või: kshana bench datasets [--json | --check [--root <repo>]]
     { "   " }või: kshana bench cite <result.json>...
     { "   " }või: kshana bench golden [--root <repo>] (--out <GOLDEN.json> | --check <GOLDEN.json>)
@@ -11986,6 +11987,7 @@ engine-bench-task-has-no-holdout = ülesandel ({ $task }) pole kõrvalejäetud j
 engine-bench-unknown-baseline = tundmatu baastase `{ $name }`
 
 engine-bench-g-no-traces = kataloogis { $root } pole faili <drive>/<phone>/ground_truth.csv
+engine-bench-h-no-sequences = kataloogis { $root } pole faili <sequence>/ground_truth.txt
 
 engine-bench-g-no-object = jälgede objekti `{ $key }` pole
 
@@ -11993,7 +11995,7 @@ engine-bench-g-bad-epoch = jälg `{ $id }`: iga epohh peab olema [UnixTimeMillis
 
 engine-bench-f-dataset-mismatch = { $path }: SHA-256 { $got } ei ole ülesande (f) kinnitatud dataset.csv; laadige see skriptiga scripts/fetch_opssat_ad.sh
 
-engine-bench-cli-unknown-task-g = tundmatu ülesanne `{ $t }` (a kuni g)
+engine-bench-cli-unknown-task-h = tundmatu ülesanne `{ $t }` (a kuni h)
 
 engine-bench-cli-wrote-predictions = kirjutatud { $path } ({ $traces } jälge)
 

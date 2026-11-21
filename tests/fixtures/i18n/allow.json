@@ -86,8 +86,8 @@
    "reason": "machine-document and identifier: the frozen directories, the golden-index schema and rule text and its check findings (English in every language, like validate_result's), the citation-id domain string and the metric names of the citation line, which is a bibliographic entry kept in English"
   },
   "src/bench/cli.rs": {
-   "count": 59,
-   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md); the task (e) baseline stems (b-log, b-log-pj-all) and the task (e) line of the spec document; the task (b) result's machine metric keys auc_fresh and auc_without_restart_2026_10_13 (JSON keys); the manifest key sha256_pinned; the TEXBAT score command's recording names, file kinds and schema (B4a E5, 11 November 2026); the task (f) and (g) lines of the spec document and the f-/g- truth file names (E34); the option names, file names and the registry-entry key of the private-holdout subcommand."
+   "count": 61,
+   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md); the task (e) baseline stems (b-log, b-log-pj-all) and the task (e) line of the spec document; the task (b) result's machine metric keys auc_fresh and auc_without_restart_2026_10_13 (JSON keys); the manifest key sha256_pinned; the TEXBAT score command's recording names, file kinds and schema (B4a E5, 11 November 2026); the task (f) and (g) lines of the spec document and the f-/g- truth file names (E34); the option names, file names and the registry-entry key of the private-holdout subcommand; the task (h) line of the spec document and the h- truth file name."
   },
   "src/bench/datasets.rs": {
    "count": 34,
@@ -116,6 +116,10 @@
   "src/bench/tasks.rs": {
    "count": 30,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
+  },
+  "src/bench/urban.rs": {
+   "count": 13,
+   "reason": "identifier and machine-document: the task (h) spec version and baseline names, the file names of the fetch-script layout (ground_truth.txt, nav.rnx), the JSON keys of the task (h) truth and predictions documents, and the English `label` written into the result document (bench/SPEC.md, task (h))."
   },
   "src/benchmark/faults.rs": {
    "count": 9,

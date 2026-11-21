@@ -1487,6 +1487,18 @@ fn bench_dataset_inputs() {
         );
         let _ = kshana::bench::smartphone::g_positions_from_csv("sub.csv", &t);
     });
+    // Task (h): the UrbanNav ground-truth text and a receiver's NMEA.
+    let gt = b"  UTCTime Week GPSTime Latitude Longitude H-Ell\n  (sec)\n1621218775.00 2158.00000  95593.00   22 18 04.31949  114 10 44.60559  3.472\r\n".to_vec();
+    let gga =
+        b"$GNGGA,023255.00,2218.07395,N,11410.74198,E,2,12,0.62,9.0,M,-1.6,M,,0000*51\n".to_vec();
+    fuzz("bench task h text", &[gt, gga], None, |b| {
+        let t = text(b);
+        if let Ok(eps) = kshana::bench::urban::h_truth_of("ground_truth.txt", &t) {
+            let _ = kshana::bench::urban::h_nmea_positions("r.nmea", &t, &eps);
+        }
+        let _ =
+            kshana::bench::urban::h_nmea_positions("r.nmea", &t, &[(1_621_218_775_000, 0.0, 0.0)]);
+    });
     // The registry check and the golden-index check read JSON documents.
     let reg = kshana::bench::datasets::REGISTRY.as_bytes().to_vec();
     fuzz("bench dataset registry", &[reg], None, |b| {

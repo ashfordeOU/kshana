@@ -11181,14 +11181,15 @@ engine-bench-cli-usage =
     использование: kshana bench spec
     { "   " }или: kshana bench truth --task a --data <extracted JammerTest 2024 dir> --split <dev|test|holdout|all> --out <truth.json>
     { "   " }или: kshana bench truth --task g --data <GSDC-layout train dir> --split <dev|test|holdout> --out <truth.json>
+    { "   " }или: kshana bench truth --task h --data <scripts/fetch_urbannav.sh dir> --split <dev|test> --out <truth.json>
     { "   " }или: kshana bench cases --task <c|d|f> --split <dev|test|holdout> --out <dir> [--data <dataset.csv>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
     { "   " }или: kshana bench score --truth <truth.json> --predictions <predictions.json> [--threshold <x>] [--out <result.json>]
-    { "   " }или: kshana bench baseline --task <a|b|c|d|e|f|g> --split <dev|test|holdout> --out <dir> [--data <dir>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
+    { "   " }или: kshana bench baseline --task <a|b|c|d|e|f|g|h> --split <dev|test|holdout> --out <dir> [--data <dir>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
     { "   " }или: kshana bench seal --task <a|b|c|d> --seed-file <file> [--new]
     { "   " }или: kshana bench reveal-check --task <a|b|c|d> --seed-file <file> --commitment <hex>
     { "   " }или: kshana bench manifest --task a --data <extracted dir> [--archive <tar.gz>] --out <manifest.json>
     { "   " }или: kshana bench verify-manifest <manifest.json> --root <dir>
-    { "   " }или: kshana bench positions --task g --split <dev|test|holdout> --csv <submission.csv> --name <system> [--version <v>] --out <predictions.json>
+    { "   " }или: kshana bench positions --task <g|h> --split <dev|test|holdout> --csv <submission.csv> --name <system> [--version <v>] --out <predictions.json>
     { "   " }или: kshana bench datasets [--json | --check [--root <repo>]]
     { "   " }или: kshana bench cite <result.json>...
     { "   " }или: kshana bench golden [--root <repo>] (--out <GOLDEN.json> | --check <GOLDEN.json>)
@@ -12216,6 +12217,7 @@ engine-bench-task-has-no-holdout = у задачи ({ $task }) нет отлож
 engine-bench-unknown-baseline = неизвестный базовый метод `{ $name }`
 
 engine-bench-g-no-traces = в { $root } нет <drive>/<phone>/ground_truth.csv
+engine-bench-h-no-sequences = в { $root } нет <sequence>/ground_truth.txt
 
 engine-bench-g-no-object = нет объекта треков `{ $key }`
 
@@ -12223,7 +12225,7 @@ engine-bench-g-bad-epoch = трек `{ $id }`: каждая эпоха долж�
 
 engine-bench-f-dataset-mismatch = { $path }: SHA-256 { $got } не совпадает с закреплённым dataset.csv задачи (f); загрузите его скриптом scripts/fetch_opssat_ad.sh
 
-engine-bench-cli-unknown-task-g = неизвестная задача `{ $t }` (от a до g)
+engine-bench-cli-unknown-task-h = неизвестная задача `{ $t }` (от a до h)
 
 engine-bench-cli-wrote-predictions = записан { $path } (треков: { $traces })
 
