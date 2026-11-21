@@ -329,6 +329,7 @@ pub mod geodesic;
 pub mod governor;
 /// Read-only Modbus TCP and DNP3 clients (0.42 I7).
 pub mod industrial;
+pub mod interference_lib;
 pub mod interference_map;
 pub mod live_health;
 /// The monitoring-network planner (0.41 row B1a): `kshana planner`.

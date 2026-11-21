@@ -958,6 +958,20 @@ fn norad_alpha5_and_omm() {
 }
 
 #[test]
+fn interference_lib_predictions() {
+    let d = kshana::interference_lib::generate(&kshana::interference_lib::Settings {
+        per_class: 2,
+        samples: 256,
+        ..Default::default()
+    })
+    .unwrap();
+    let seeds = vec![kshana::interference_lib::baseline(&d).into_bytes()];
+    fuzz("interference-lib predictions", &seeds, None, |b| {
+        let _ = kshana::interference_lib::score(&d, &String::from_utf8_lossy(b));
+    });
+}
+
+#[test]
 fn ais_integrity_inputs() {
     let csv = vec![
         head("tests/fixtures/ais_integrity/patterns.csv", 60),

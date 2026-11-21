@@ -9759,6 +9759,17 @@ engine-e-ais-integrity-cannot-read = { $path } を読み込めません：{ $e }
 engine-e-ais-integrity-cannot-write = { $path } に書き込めません：{ $e }
 engine-e-ais-integrity-bad-place = 地点リストの行が、有効な位置と正の半径を持つ name,lat,lon,radius_m ではありません：{ $row }
 
+## Interference model library and classifier benchmark (src/interference_lib.rs)
+engine-interference-lib-usage = 使い方：kshana interference-lib generate --out <dir> [--seed <n>] [--per-class <n>] [--samples <n>] [--fs <Hz>] [--jn-min <dB>] [--jn-max <dB>] [--test-share <x>] | baseline --dataset <dir> [--out <pred.csv>] | score --dataset <dir> --predictions <pred.csv> | classes   (files only, nothing radiates; docs/INTERFERENCE-LIB.md)
+engine-e-interference-lib-missing-value = { $option } には値が必要です
+engine-e-interference-lib-unknown-option = 不明なオプション { $option }（kshana interference-lib --help でオプションを一覧表示）
+engine-e-interference-lib-cannot-read = { $path } を読み込めません：{ $e }
+engine-e-interference-lib-cannot-write = { $path } に書き込めません：{ $e }
+engine-e-interference-lib-bad-number = { $option }：{ $value } は有効な数値ではありません
+engine-e-interference-lib-bad-dataset = kshana.interference-dataset/1 ファイルではありません：{ $e }
+engine-e-interference-lib-bad-settings = 設定が範囲外です：クラスあたり 1～10,000 例、256～1,048,576 サンプル、正のサンプルレート、jn-max は jn-min 以上、テスト割合は [0, 1]
+engine-e-interference-lib-bad-prediction = 予測の { $line } 行目が既知のクラスを持つ id,label ではありません（kshana interference-lib classes で一覧表示）
+
 engine-main-usage =
     使い方：kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }または：kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -9790,6 +9801,7 @@ engine-main-usage =
     { "   " }または：kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }または：kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }または：kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
+    { "   " }または：kshana interference-lib <generate|baseline|score|classes> ... (kshana interference-lib --help)
     { "   " }または：kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }または：kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }または：kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>

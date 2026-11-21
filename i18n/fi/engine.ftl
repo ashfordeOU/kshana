@@ -10285,6 +10285,17 @@ engine-e-ais-integrity-cannot-read = tiedostoa { $path } ei voi lukea: { $e }
 engine-e-ais-integrity-cannot-write = tiedostoon { $path } ei voi kirjoittaa: { $e }
 engine-e-ais-integrity-bad-place = paikkaluettelon rivi ei ole name,lat,lon,radius_m, jossa on kelvollinen sijainti ja positiivinen säde: { $row }
 
+## Interference model library and classifier benchmark (src/interference_lib.rs)
+engine-interference-lib-usage = käyttö: kshana interference-lib generate --out <dir> [--seed <n>] [--per-class <n>] [--samples <n>] [--fs <Hz>] [--jn-min <dB>] [--jn-max <dB>] [--test-share <x>] | baseline --dataset <dir> [--out <pred.csv>] | score --dataset <dir> --predictions <pred.csv> | classes   (files only, nothing radiates; docs/INTERFERENCE-LIB.md)
+engine-e-interference-lib-missing-value = { $option } tarvitsee arvon
+engine-e-interference-lib-unknown-option = tuntematon valitsin { $option } (kshana interference-lib --help luettelee valitsimet)
+engine-e-interference-lib-cannot-read = tiedostoa { $path } ei voi lukea: { $e }
+engine-e-interference-lib-cannot-write = tiedostoon { $path } ei voi kirjoittaa: { $e }
+engine-e-interference-lib-bad-number = { $option }: { $value } ei ole kelvollinen luku
+engine-e-interference-lib-bad-dataset = ei ole kshana.interference-dataset/1-tiedosto: { $e }
+engine-e-interference-lib-bad-settings = asetukset ovat rajojen ulkopuolella: 1–10 000 esimerkkiä luokkaa kohden, 256–1 048 576 näytettä, positiivinen näytteenottotaajuus, jn-max ei alle jn-min, testiosuus välillä [0, 1]
+engine-e-interference-lib-bad-prediction = ennusteiden rivi { $line } ei ole id,label tunnetulla luokalla (kshana interference-lib classes luettelee ne)
+
 engine-main-usage =
     käyttö: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }tai: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10316,6 +10327,7 @@ engine-main-usage =
     { "   " }tai: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }tai: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }tai: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
+    { "   " }tai: kshana interference-lib <generate|baseline|score|classes> ... (kshana interference-lib --help)
     { "   " }tai: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }tai: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }tai: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>

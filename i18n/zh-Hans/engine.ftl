@@ -9826,6 +9826,17 @@ engine-e-ais-integrity-cannot-read = 无法读取 { $path }：{ $e }
 engine-e-ais-integrity-cannot-write = 无法写入 { $path }：{ $e }
 engine-e-ais-integrity-bad-place = 地点列表的一行不是带有效位置和正半径的 name,lat,lon,radius_m：{ $row }
 
+## Interference model library and classifier benchmark (src/interference_lib.rs)
+engine-interference-lib-usage = 用法：kshana interference-lib generate --out <dir> [--seed <n>] [--per-class <n>] [--samples <n>] [--fs <Hz>] [--jn-min <dB>] [--jn-max <dB>] [--test-share <x>] | baseline --dataset <dir> [--out <pred.csv>] | score --dataset <dir> --predictions <pred.csv> | classes   (files only, nothing radiates; docs/INTERFERENCE-LIB.md)
+engine-e-interference-lib-missing-value = { $option } 需要一个值
+engine-e-interference-lib-unknown-option = 未知选项 { $option }（kshana interference-lib --help 列出所有选项）
+engine-e-interference-lib-cannot-read = 无法读取 { $path }：{ $e }
+engine-e-interference-lib-cannot-write = 无法写入 { $path }：{ $e }
+engine-e-interference-lib-bad-number = { $option }：{ $value } 不是有效的数字
+engine-e-interference-lib-bad-dataset = 不是 kshana.interference-dataset/1 文件：{ $e }
+engine-e-interference-lib-bad-settings = 设置超出范围：每类 1 至 10,000 个样例，256 至 1,048,576 个采样，采样率为正，jn-max 不低于 jn-min，测试占比在 [0, 1]
+engine-e-interference-lib-bad-prediction = 预测第 { $line } 行不是带已知类别的 id,label（kshana interference-lib classes 列出类别）
+
 engine-main-usage =
     用法：kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }或：kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -9857,6 +9868,7 @@ engine-main-usage =
     { "   " }或：kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }或：kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }或：kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
+    { "   " }或：kshana interference-lib <generate|baseline|score|classes> ... (kshana interference-lib --help)
     { "   " }或：kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }或：kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }或：kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
