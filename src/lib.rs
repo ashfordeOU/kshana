@@ -63,6 +63,7 @@
 
 pub mod acquisition;
 pub mod adm;
+pub mod adsb_indicators;
 pub mod advanced_report;
 pub mod ais_integrity;
 pub mod allan;
@@ -194,6 +195,7 @@ pub mod integrity;
 pub mod integrity_impact;
 pub mod interchange;
 pub mod interconnect;
+pub mod interference_atlas;
 pub mod interop;
 pub mod intersat_range;
 pub mod ionex;
