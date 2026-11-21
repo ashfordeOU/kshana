@@ -1,0 +1,50 @@
+# NavIC over India: the three geostationary and four inclined geosynchronous satellites of the
+# Indian regional system, seen from Bengaluru, through the measurement-domain `gnss-sim` kind.
+#
+# The slots are the compiled-in set `navic` (data/gnss-slots/navic.toml, docs/GNSS-SLOTS.md): GEO at
+# 32.5°E, 83°E and 129.5°E; IGSO crossing the equator at 55°E and 111.75°E, inclination 29°, two
+# per track (ISRO, Satellite Navigation Services page). The position of each IGSO satellite along
+# its track is not published and is an assumption, marked so in the data file. No Walker shell is
+# added (planes = 0): the receiver sees NavIC alone, so RAIM runs on at most seven satellites.
+# Geosynchronous two-body nominal slots, not broadcast orbits: MODELLED.
+kind = "gnss-sim"
+seed = 11
+mask_deg = 10.0
+slot_sets = ["navic"]
+noise_sigma_m = 1.5
+multipath_m = 0.5
+sat_clock_rms_m = 30.0
+uere_m = 3.0
+p_fa = 1.0e-5
+p_md = 1.0e-3
+alert_limit_h_m = 40.0
+alert_limit_v_m = 50.0
+
+# A day at 10-minute steps: the IGSO satellites trace their figure eights once.
+[time]
+step_s = 600.0
+duration_s = 86400.0
+
+[receiver]
+lat_deg = 12.97
+lon_deg = 77.59
+alt_m = 920.0
+clock_bias_m = 1500.0
+
+# No Walker shell: the slots are the whole constellation.
+[constellation]
+altitude_km = 20200.0
+inclination_deg = 55.0
+planes = 0
+sats_per_plane = 0
+
+[iono]
+alpha = [3.82e-8, 1.49e-8, -1.79e-7, 0.0]
+beta = [1.43e5, 0.0, -3.28e5, 1.13e5]
+gps_seconds_of_day = 21600.0
+
+[tropo]
+pressure_hpa = 1013.25
+temp_k = 300.15
+humidity = 0.6
+day_of_year = 180.0

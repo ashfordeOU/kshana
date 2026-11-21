@@ -1,0 +1,65 @@
+# NavIC (IRNSS) nominal slots for `kshana gnss-sim` (`slot_sets = ["navic"]`).
+name = "navic"
+title = "NavIC: 3 GEO and 4 IGSO"
+sources = [
+  "ISRO, Satellite Navigation Services, https://www.isro.gov.in/SatelliteNavigationServices.html (read 2026-11-21): three satellites in geostationary orbit at 32.5°E, 83°E and 129.5°E; four in inclined geosynchronous orbit with equatorial crossings of 55°E and 111.75°E, inclination 29°, two satellites in each plane",
+]
+omitted = [
+  "eccentricity: not stated by the source; the slots are circular",
+  "the position of each IGSO satellite along its ground track: not stated by the source; the two satellites of a track are placed half a revolution apart (an assumption, to confirm)",
+  "the signal-in-space ICDs (ISRO-IRNSS-ICD-SPS-1.1, 2017; NavIC SPS ICD for L1, 2023) state no slots",
+]
+
+[[slot]]
+id = "GEO 32.5E"
+kind = "geo"
+lon_deg = 32.5
+source = "ISRO Satellite Navigation Services page"
+
+[[slot]]
+id = "GEO 83E"
+kind = "geo"
+lon_deg = 83.0
+source = "ISRO Satellite Navigation Services page"
+
+[[slot]]
+id = "GEO 129.5E"
+kind = "geo"
+lon_deg = 129.5
+source = "ISRO Satellite Navigation Services page"
+
+[[slot]]
+id = "IGSO 55E a"
+kind = "igso"
+inclination_deg = 29.0
+crossing_lon_deg = 55.0
+phase_deg = 0.0
+source = "ISRO Satellite Navigation Services page"
+phase_source = "assumption (to confirm): the source states no position along the track"
+
+[[slot]]
+id = "IGSO 55E b"
+kind = "igso"
+inclination_deg = 29.0
+crossing_lon_deg = 55.0
+phase_deg = 180.0
+source = "ISRO Satellite Navigation Services page"
+phase_source = "assumption (to confirm): half a revolution from IGSO 55E a"
+
+[[slot]]
+id = "IGSO 111.75E a"
+kind = "igso"
+inclination_deg = 29.0
+crossing_lon_deg = 111.75
+phase_deg = 90.0
+source = "ISRO Satellite Navigation Services page"
+phase_source = "assumption (to confirm): the source states no position along the track"
+
+[[slot]]
+id = "IGSO 111.75E b"
+kind = "igso"
+inclination_deg = 29.0
+crossing_lon_deg = 111.75
+phase_deg = 270.0
+source = "ISRO Satellite Navigation Services page"
+phase_source = "assumption (to confirm): half a revolution from IGSO 111.75E a"
