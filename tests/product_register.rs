@@ -346,3 +346,54 @@ fn the_command_line_signs_checks_and_views() {
     ]));
     std::fs::remove_dir_all(&dir).ok();
 }
+
+/// The signed test vector `examples/register/crl-test-vector.json`: a `kshana.register-crl/1`
+/// list signed with the public test seed SHA-256("register crl test vector"). It verifies with
+/// the published key, and re-signing its content with that seed gives the same bytes.
+#[test]
+fn the_signed_crl_test_vector_verifies_and_re_signs_to_the_same_bytes() {
+    use sha2::{Digest, Sha256};
+    let text = std::fs::read_to_string(concat!(
+        env!("CARGO_MANIFEST_DIR"),
+        "/examples/register/crl-test-vector.json"
+    ))
+    .unwrap();
+    // PIN-SCOPE: the public key of the published test seed and the committed test-vector file.
+    // PIN-EXCLUDES: every other register or list, and the signing code beyond these bytes.
+    let key = "a028f6212dcbd196a38fe8e13927a9d997f4d72ab00341276b9437d8f2273a8d";
+    let c = check_crl(&text, key).unwrap();
+    assert_eq!(c.revoked.len(), 2);
+    assert_eq!(c.next_update, "2026-11-27");
+    let seed: [u8; 32] = Sha256::digest(b"register crl test vector").into();
+    assert_eq!(kshana::evidence::bundle::public_key_hex(&seed), key);
+    // Re-sign the content with the seed: same signer, same signature, same compact JSON.
+    let mut again = c.clone();
+    again.signer.clear();
+    again.signature.clear();
+    sign(&mut again, &seed);
+    assert_eq!(again.signer, c.signer);
+    assert_eq!(again.signature, c.signature);
+    assert_eq!(serde_json::to_string(&again).unwrap(), text.trim_end());
+    // Any change to the content breaks it.
+    let changed = text.replace("score withdrawn", "score withdrawn.");
+    assert!(check_crl(&changed, key).is_err());
+    // And the command line agrees.
+    let out = std::process::Command::new(env!("CARGO_BIN_EXE_kshana"))
+        .args([
+            "register",
+            "crl-check",
+            concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/examples/register/crl-test-vector.json"
+            ),
+            "--key",
+            key,
+        ])
+        .output()
+        .unwrap();
+    assert!(
+        out.status.success(),
+        "{}",
+        String::from_utf8_lossy(&out.stderr)
+    );
+}
