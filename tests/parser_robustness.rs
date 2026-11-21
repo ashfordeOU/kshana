@@ -989,6 +989,17 @@ fn lunar_afs_kit_inputs() {
 }
 
 #[test]
+fn claim_check_datasets() {
+    let seeds = vec![
+        head("data/claims/celeste.json", 200),
+        head("data/claims/template.json", 200),
+    ];
+    fuzz("claim-check dataset", &seeds, None, |b| {
+        let _ = kshana::claim_check::check(&String::from_utf8_lossy(b));
+    });
+}
+
+#[test]
 fn ais_integrity_inputs() {
     let csv = vec![
         head("tests/fixtures/ais_integrity/patterns.csv", 60),

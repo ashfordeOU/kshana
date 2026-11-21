@@ -77,6 +77,15 @@ breaking changes are called out explicitly.
   output message profile with a validator, a synthetic example stream and re-expression in another time scale and
   lunar frame. MODELLED.
 
+### Added (constellation-claim verification datasets)
+
+- `kshana claim-check` (src/claim_check.rs, data/claims/, docs/CLAIM-CHECK.md): datasets of public constellation
+  claims (claim, value, unit, source URL, date read, quote and its location), checked where kshana computes the same
+  quantity (sun-synchronous inclination for a quasi-polar claim, two-body period, horizon Doppler, free-space C/N0, or
+  agreement with a second source); every verdict cites its sources and is labelled, and a claim without a public
+  source is refused. Ships seven claims about ESA Celeste quoted from ESA and Thales Alenia Space public pages, and a
+  template. MODELLED.
+
 ### Added (space weather for PNT and drag)
 
 - `kshana space-weather` (src/space_weather_pnt/, docs/SPACE-WEATHER-PNT.md): a storm library of eight recorded
