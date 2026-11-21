@@ -178,11 +178,18 @@ pub fn run_rtk(
         .epochs
         .iter()
         .enumerate()
-        .map(|(i, e)| ((e.time.seconds_from_gps_epoch() * 1000.0).round() as i64, i))
+        .map(|(i, e)| {
+            let t = rover
+                .epoch_gps_seconds(i)
+                .unwrap_or_else(|| e.time.seconds_from_gps_epoch());
+            ((t * 1000.0).round() as i64, i)
+        })
         .collect();
 
     for (bi, be) in base.epochs.iter().enumerate() {
-        let t = be.time.seconds_from_gps_epoch();
+        let t = base
+            .epoch_gps_seconds(bi)
+            .unwrap_or_else(|| be.time.seconds_from_gps_epoch());
         let Some(&ri) = rover_times.get(&((t * 1000.0).round() as i64)) else {
             continue;
         };

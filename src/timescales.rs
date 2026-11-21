@@ -223,6 +223,30 @@ pub fn tai_minus_utc_on_date(year: i32, month: u32, day: u32, fd: f64) -> f64 {
     delat + (mjd + fd - mjd_ref) * rate
 }
 
+/// GPS time minus the time scale `system` (seconds) at about the Julian date `jd`, for the
+/// time-system identifiers of RINEX and SP3 files: `GPS`, `GAL` (GST is steered to GPS time),
+/// `QZS` (QZSST) and `IRN` (IRNWT) are GPS time; `BDT` is 14 s behind; `GLO` (UTC(SU) as RINEX
+/// writes it) and `UTC` are UTC, `(TAI − UTC) − 19 s` behind; `TAI` is 19 s ahead. `None` for
+/// an identifier not in that list.
+pub fn gps_minus_scale_s(system: &str, jd: f64) -> Option<f64> {
+    match system.trim().to_ascii_uppercase().as_str() {
+        "GPS" | "GAL" | "QZS" | "IRN" => Some(0.0),
+        "BDT" | "BDS" => Some(14.0),
+        "GLO" | "UTC" => Some(tai_minus_utc(jd) - 19.0),
+        "TAI" => Some(-19.0),
+        _ => None,
+    }
+}
+
+/// A Julian date on the time scale `system` (see [`gps_minus_scale_s`]) as a UTC Julian date:
+/// moved to GPS time, then to UTC with TAI − UTC looked up at the UTC instant (refined once, as
+/// leap steps are whole seconds). `None` for an unknown scale.
+pub fn scale_jd_to_utc(jd: f64, system: &str) -> Option<f64> {
+    let jd_gps = jd + gps_minus_scale_s(system, jd)? / SECONDS_PER_DAY;
+    let guess = jd_gps - (tai_minus_utc(jd_gps) - 19.0) / SECONDS_PER_DAY;
+    Some(jd_gps - (tai_minus_utc(guess) - 19.0) / SECONDS_PER_DAY)
+}
+
 /// TAI − UTC (seconds) at a given instant expressed as a JD in UTC. Returns the
 /// value of the latest leap-second entry in effect at that instant. For dates
 /// before 1972-01-01 (outside the modern integer-leap regime) this clamps to the
@@ -425,6 +449,34 @@ pub fn tdb_to_tt(jd_tdb: f64) -> f64 {
 
 #[cfg(test)]
 mod tests {
+    #[test]
+    fn file_time_systems_move_to_utc() {
+        let jd = julian_date(2021, 6, 1, 12, 0, 0.0);
+        let behind = |ts: &str| (jd - scale_jd_to_utc(jd, ts).unwrap()) * 86_400.0;
+        for (ts, s) in [
+            ("GPS", 18.0),
+            ("gal", 18.0),
+            ("QZS", 18.0),
+            ("IRN", 18.0),
+            ("BDT", 4.0),
+            ("GLO", 0.0),
+            ("UTC", 0.0),
+            ("TAI", 37.0),
+        ] {
+            assert!((behind(ts) - s).abs() < 1e-4, "{ts}: {}", behind(ts));
+        }
+        assert_eq!(scale_jd_to_utc(jd, "XYZ"), None);
+        // 2017-01-01 00:00:10 GPS time is 2016-12-31 23:59:53 UTC: GPS − UTC was 17 s
+        // before the leap second ending 2016 and 18 s after it, looked up at the UTC instant
+        // (not at the GPS date, which is already past the step).
+        let g = julian_date(2017, 1, 1, 0, 0, 10.0);
+        let u = scale_jd_to_utc(g, "GPS").unwrap();
+        assert!(((g - u) * 86_400.0 - 17.0).abs() < 1e-4);
+        let g = julian_date(2017, 1, 1, 0, 0, 20.0);
+        let u = scale_jd_to_utc(g, "GPS").unwrap();
+        assert!(((g - u) * 86_400.0 - 18.0).abs() < 1e-4);
+    }
+
     use super::*;
 
     const EPS_JD: f64 = 1e-9; // ~1e-4 s

@@ -377,7 +377,9 @@ pub fn run_ppp(obs: &RinexObs, prod: &PreciseProducts, cfg: &PppConfig) -> PppRe
         if epoch.flag > 1 {
             continue;
         }
-        let t_rx = epoch.time.seconds_from_gps_epoch();
+        let t_rx = obs
+            .epoch_gps_seconds(ei)
+            .unwrap_or_else(|| epoch.time.seconds_from_gps_epoch());
         // Gather the satellite data.
         struct Sv {
             sat: String,
