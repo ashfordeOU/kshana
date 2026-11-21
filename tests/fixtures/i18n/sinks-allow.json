@@ -93,6 +93,10 @@
    "count": 1,
    "reason": "developer: the text of an expect() on an infallible serialisation, not shown to a user"
   },
+  "src/osnma/scenario.rs": {
+   "count": 8,
+   "reason": "identifier: field paths and value constraints of kshana.osnma-scenario/1 (field names, enumerated values, ranges) substituted into the translated e-osnma-scenario-field message"
+  },
   "src/product_register.rs": {
    "count": 1,
    "reason": "identifier: the tab-separated column header of the text view (column identifiers of a machine-readable table)"

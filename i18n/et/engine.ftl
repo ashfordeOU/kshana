@@ -10741,6 +10741,23 @@ engine-e-sil-obsgen-cannot-read = faili { $path } ei saa lugeda: { $e }
 engine-e-sil-obsgen-cannot-write = faili { $path } ei saa kirjutada: { $e }
 engine-e-sil-obsgen-bad-scenario = ei ole gnss-sim stsenaarium valikuliste tabelitega [urban] ja [rinex]: { $e }
 
+## OSNMA scenario files and the reference-model runner (src/osnma/scenario.rs)
+engine-osnma-scenario-usage = kasutus: kshana osnma scenario run <scenario.json> [--json] | template   (kshana.osnma-scenario/1: a synthetic stream from the reference model with test keys, run in memory through the verifier; exit 0 all expectations met, 1 one not met, 2 input error; docs/OSNMA-SCENARIOS.md)
+engine-e-osnma-scenario-unknown-option = tundmatu valik { $option } (valikud loetleb kshana osnma scenario --help)
+engine-e-osnma-scenario-cannot-read = faili { $path } ei saa lugeda: { $e }
+engine-e-osnma-scenario-bad = ei ole kshana.osnma-scenario/1 fail: { $e }
+
+## OSNMA scenario run report and field checks (src/osnma/scenario.rs, src/osnma/cli.rs)
+engine-e-osnma-scenario-field = { $field } on väljaspool vahemikku või tundmatu (lubatud: { $allowed })
+engine-osnma-scenario-report-head = stsenaarium { $name }: { $subframes } alamkaadrit, { $pages } lehte
+engine-osnma-scenario-report-tags = sildid: { $list }
+engine-osnma-scenario-report-reasons = põhjused: { $list }
+engine-osnma-scenario-report-events = sündmused: { $list }
+engine-osnma-scenario-report-status = olek { $sat }: { $status }
+engine-osnma-scenario-report-overall = kokku: { $status }
+engine-osnma-scenario-report-check-met = kontroll { $what }: oodatud { $expected }, täheldatud { $observed }: täidetud
+engine-osnma-scenario-report-check-not-met = kontroll { $what }: oodatud { $expected }, täheldatud { $observed }: EI OLE TÄIDETUD (NOT MET)
+
 engine-main-usage =
     kasutus: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }või: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10786,6 +10803,7 @@ engine-main-usage =
     { "   " }või: kshana afs-interop <study|ue-register> ... (kshana afs-interop --help)
     { "   " }või: kshana timing-stack <tai|ts2phc|pps|shm|ntpq|nts> ... (kshana timing-stack --help)
     { "   " }või: kshana sil-obsgen <scenario.toml> --out <obs.rnx> [--truth <truth.json>]
+    { "   " }või: kshana osnma scenario run <scenario.json> [--json] | template (kshana osnma scenario --help)
     { "   " }või: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }või: kshana corrections <decode --format <has|b2b|l6|l1s|qznma> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...] | qznma-verify [--frames <frames.txt>] [--nav <nav.txt>] --pubkey <key.der> ...>
     { "   " }või: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>

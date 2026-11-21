@@ -9957,6 +9957,23 @@ engine-e-sil-obsgen-cannot-read = { $path } を読み込めません：{ $e }
 engine-e-sil-obsgen-cannot-write = { $path } に書き込めません：{ $e }
 engine-e-sil-obsgen-bad-scenario = 任意の [urban] と [rinex] テーブルを持つ gnss-sim シナリオではありません：{ $e }
 
+## OSNMA scenario files and the reference-model runner (src/osnma/scenario.rs)
+engine-osnma-scenario-usage = 使い方：kshana osnma scenario run <scenario.json> [--json] | template   (kshana.osnma-scenario/1: a synthetic stream from the reference model with test keys, run in memory through the verifier; exit 0 all expectations met, 1 one not met, 2 input error; docs/OSNMA-SCENARIOS.md)
+engine-e-osnma-scenario-unknown-option = 不明なオプション { $option }（kshana osnma scenario --help でオプションを一覧表示）
+engine-e-osnma-scenario-cannot-read = { $path } を読み込めません：{ $e }
+engine-e-osnma-scenario-bad = kshana.osnma-scenario/1 ファイルではありません：{ $e }
+
+## OSNMA scenario run report and field checks (src/osnma/scenario.rs, src/osnma/cli.rs)
+engine-e-osnma-scenario-field = { $field } は範囲外か不明です（許容値：{ $allowed }）
+engine-osnma-scenario-report-head = シナリオ { $name }：サブフレーム { $subframes }、ページ { $pages }
+engine-osnma-scenario-report-tags = タグ：{ $list }
+engine-osnma-scenario-report-reasons = 理由：{ $list }
+engine-osnma-scenario-report-events = イベント：{ $list }
+engine-osnma-scenario-report-status = 状態 { $sat }：{ $status }
+engine-osnma-scenario-report-overall = 全体：{ $status }
+engine-osnma-scenario-report-check-met = チェック { $what }：期待値 { $expected }、観測値 { $observed }：満たす
+engine-osnma-scenario-report-check-not-met = チェック { $what }：期待値 { $expected }、観測値 { $observed }：満たさない (NOT MET)
+
 engine-main-usage =
     使い方：kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }または：kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10002,6 +10019,7 @@ engine-main-usage =
     { "   " }または：kshana afs-interop <study|ue-register> ... (kshana afs-interop --help)
     { "   " }または：kshana timing-stack <tai|ts2phc|pps|shm|ntpq|nts> ... (kshana timing-stack --help)
     { "   " }または：kshana sil-obsgen <scenario.toml> --out <obs.rnx> [--truth <truth.json>]
+    { "   " }または：kshana osnma scenario run <scenario.json> [--json] | template (kshana osnma scenario --help)
     { "   " }または：kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }または：kshana corrections <decode --format <has|b2b|l6|l1s|qznma> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...] | qznma-verify [--frames <frames.txt>] [--nav <nav.txt>] --pubkey <key.der> ...>
     { "   " }または：kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
