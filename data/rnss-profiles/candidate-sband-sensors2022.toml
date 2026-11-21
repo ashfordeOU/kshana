@@ -1,0 +1,274 @@
+# SPDX-License-Identifier: AGPL-3.0-only
+# Candidate S-band RNSS signals from a published study, for kshana rnss-design.
+#
+# NOT an official specification of any system. The source evaluates candidate signals a
+# Korean regional system might use in the S band; it states no signal specification, and no
+# public KPS interface control document exists as of November 2026. Values are taken from the
+# paper's Table 3 (carrier, modulation, chip rate, subcarrier frequency). The paper gives no
+# code length, data/pilot split, data rate or received power for the candidates, so none is set
+# here; each candidate is one component. The paper's Table 3 prints the subcarrier and chip rate
+# of BOC(4,4) and BOCc(4,4) as 4.192 MHz while naming them (4,4) throughout its Tables 4 to 10;
+# the (4,4) name (4.092 MHz) is used here.
+format = "kshana.rnss-profile/1"
+
+[profile]
+name = "candidate-sband-sensors2022"
+title = "Candidate S-band RNSS signals (Sensors 2022 study)"
+status = "CANDIDATE"
+citation = 'K. Han, S. Lee, M. You, J.-H. Won, "A Comprehensive Evaluation of Possible RNSS Signals in the S-Band for the KPS", Sensors 22(6):2180, 2022, doi:10.3390/s22062180, Table 3'
+url = "https://doi.org/10.3390/s22062180"
+licence = "CC BY 4.0 (the source article)"
+disclaimer = "Not an official KPS specification; no public KPS ICD exists as of Nov 2026. Candidate signals from a published study, MODELLED."
+notes = "Transmit band 16.5 MHz, the receiver front-end bandwidth of the study (Table 6) and the width of the 2483.5-2500 MHz RDSS band (Table 1). Reference signals: NavIC SPS-S and RS-S as the study gives them (its Table 2, citing ISRO-IRNSS-ICD-SPS-1.1)."
+
+[[references]]
+name = "navic-s-sps"
+centre_mhz = 2492.028
+modulation = "BPSK(1)"
+source = "NavIC SPS-S as given in the study's Table 2 (ISRO-IRNSS-ICD-SPS-1.1)"
+
+[[references]]
+name = "navic-s-rs"
+centre_mhz = 2492.028
+modulation = "BOC(5,2)"
+source = "NavIC RS-S as given in the study's Table 2"
+
+[[signals]]
+name = "bpsk-1"
+source = "CANDIDATE"
+source_ref = "Sensors 22(6):2180 (2022), Table 3"
+centre_mhz = 2492.028
+tx_bandwidth_mhz = 16.5
+allocation = "rdss"
+[[signals.components]]
+role = "data"
+modulation = "BPSK(1)"
+note = "one component; the study gives no data/pilot split"
+
+[[signals]]
+name = "bpsk-4"
+source = "CANDIDATE"
+source_ref = "Sensors 22(6):2180 (2022), Table 3"
+centre_mhz = 2492.028
+tx_bandwidth_mhz = 16.5
+allocation = "rdss"
+[[signals.components]]
+role = "data"
+modulation = "BPSK(4)"
+note = "one component; the study gives no data/pilot split"
+
+[[signals]]
+name = "bpsk-5"
+source = "CANDIDATE"
+source_ref = "Sensors 22(6):2180 (2022), Table 3"
+centre_mhz = 2492.028
+tx_bandwidth_mhz = 16.5
+allocation = "rdss"
+[[signals.components]]
+role = "data"
+modulation = "BPSK(5)"
+note = "one component; the study gives no data/pilot split"
+
+[[signals]]
+name = "bpsk-8"
+source = "CANDIDATE"
+source_ref = "Sensors 22(6):2180 (2022), Table 3"
+centre_mhz = 2492.028
+tx_bandwidth_mhz = 16.5
+allocation = "rdss"
+[[signals.components]]
+role = "data"
+modulation = "BPSK(8)"
+note = "one component; the study gives no data/pilot split"
+
+[[signals]]
+name = "bocs-1-1"
+source = "CANDIDATE"
+source_ref = "Sensors 22(6):2180 (2022), Table 3"
+centre_mhz = 2492.028
+tx_bandwidth_mhz = 16.5
+allocation = "rdss"
+[[signals.components]]
+role = "data"
+modulation = "BOC(1,1)"
+note = "one component; the study gives no data/pilot split"
+
+[[signals]]
+name = "bocs-2-1"
+source = "CANDIDATE"
+source_ref = "Sensors 22(6):2180 (2022), Table 3"
+centre_mhz = 2492.028
+tx_bandwidth_mhz = 16.5
+allocation = "rdss"
+[[signals.components]]
+role = "data"
+modulation = "BOC(2,1)"
+note = "one component; the study gives no data/pilot split"
+
+[[signals]]
+name = "bocs-2-2"
+source = "CANDIDATE"
+source_ref = "Sensors 22(6):2180 (2022), Table 3"
+centre_mhz = 2492.028
+tx_bandwidth_mhz = 16.5
+allocation = "rdss"
+[[signals.components]]
+role = "data"
+modulation = "BOC(2,2)"
+note = "one component; the study gives no data/pilot split"
+
+[[signals]]
+name = "bocs-3-1"
+source = "CANDIDATE"
+source_ref = "Sensors 22(6):2180 (2022), Table 3"
+centre_mhz = 2492.028
+tx_bandwidth_mhz = 16.5
+allocation = "rdss"
+[[signals.components]]
+role = "data"
+modulation = "BOC(3,1)"
+note = "one component; the study gives no data/pilot split"
+
+[[signals]]
+name = "bocs-3-2"
+source = "CANDIDATE"
+source_ref = "Sensors 22(6):2180 (2022), Table 3"
+centre_mhz = 2492.028
+tx_bandwidth_mhz = 16.5
+allocation = "rdss"
+[[signals.components]]
+role = "data"
+modulation = "BOC(3,2)"
+note = "one component; the study gives no data/pilot split"
+
+[[signals]]
+name = "bocs-3-3"
+source = "CANDIDATE"
+source_ref = "Sensors 22(6):2180 (2022), Table 3"
+centre_mhz = 2492.028
+tx_bandwidth_mhz = 16.5
+allocation = "rdss"
+[[signals.components]]
+role = "data"
+modulation = "BOC(3,3)"
+note = "one component; the study gives no data/pilot split"
+
+[[signals]]
+name = "bocs-4-4"
+source = "CANDIDATE"
+source_ref = "Sensors 22(6):2180 (2022), Table 3"
+centre_mhz = 2492.028
+tx_bandwidth_mhz = 16.5
+allocation = "rdss"
+[[signals.components]]
+role = "data"
+modulation = "BOC(4,4)"
+note = "one component; the study gives no data/pilot split"
+
+[[signals]]
+name = "bocs-5-2"
+source = "CANDIDATE"
+source_ref = "Sensors 22(6):2180 (2022), Table 3"
+centre_mhz = 2492.028
+tx_bandwidth_mhz = 16.5
+allocation = "rdss"
+[[signals.components]]
+role = "data"
+modulation = "BOC(5,2)"
+note = "one component; the study gives no data/pilot split"
+
+[[signals]]
+name = "bocc-1-1"
+source = "CANDIDATE"
+source_ref = "Sensors 22(6):2180 (2022), Table 3"
+centre_mhz = 2492.028
+tx_bandwidth_mhz = 16.5
+allocation = "rdss"
+[[signals.components]]
+role = "data"
+modulation = "BOCc(1,1)"
+note = "one component; the study gives no data/pilot split"
+
+[[signals]]
+name = "bocc-2-1"
+source = "CANDIDATE"
+source_ref = "Sensors 22(6):2180 (2022), Table 3"
+centre_mhz = 2492.028
+tx_bandwidth_mhz = 16.5
+allocation = "rdss"
+[[signals.components]]
+role = "data"
+modulation = "BOCc(2,1)"
+note = "one component; the study gives no data/pilot split"
+
+[[signals]]
+name = "bocc-2-2"
+source = "CANDIDATE"
+source_ref = "Sensors 22(6):2180 (2022), Table 3"
+centre_mhz = 2492.028
+tx_bandwidth_mhz = 16.5
+allocation = "rdss"
+[[signals.components]]
+role = "data"
+modulation = "BOCc(2,2)"
+note = "one component; the study gives no data/pilot split"
+
+[[signals]]
+name = "bocc-3-1"
+source = "CANDIDATE"
+source_ref = "Sensors 22(6):2180 (2022), Table 3"
+centre_mhz = 2492.028
+tx_bandwidth_mhz = 16.5
+allocation = "rdss"
+[[signals.components]]
+role = "data"
+modulation = "BOCc(3,1)"
+note = "one component; the study gives no data/pilot split"
+
+[[signals]]
+name = "bocc-3-2"
+source = "CANDIDATE"
+source_ref = "Sensors 22(6):2180 (2022), Table 3"
+centre_mhz = 2492.028
+tx_bandwidth_mhz = 16.5
+allocation = "rdss"
+[[signals.components]]
+role = "data"
+modulation = "BOCc(3,2)"
+note = "one component; the study gives no data/pilot split"
+
+[[signals]]
+name = "bocc-3-3"
+source = "CANDIDATE"
+source_ref = "Sensors 22(6):2180 (2022), Table 3"
+centre_mhz = 2492.028
+tx_bandwidth_mhz = 16.5
+allocation = "rdss"
+[[signals.components]]
+role = "data"
+modulation = "BOCc(3,3)"
+note = "one component; the study gives no data/pilot split"
+
+[[signals]]
+name = "bocc-4-4"
+source = "CANDIDATE"
+source_ref = "Sensors 22(6):2180 (2022), Table 3"
+centre_mhz = 2492.028
+tx_bandwidth_mhz = 16.5
+allocation = "rdss"
+[[signals.components]]
+role = "data"
+modulation = "BOCc(4,4)"
+note = "one component; the study gives no data/pilot split"
+
+[[signals]]
+name = "mboc"
+source = "CANDIDATE"
+source_ref = "Sensors 22(6):2180 (2022), Table 3"
+centre_mhz = 2492.028
+tx_bandwidth_mhz = 16.5
+allocation = "rdss"
+[[signals.components]]
+role = "data"
+modulation = "MBOC(6,1,1/11)"
+note = "one component; the study gives no data/pilot split"

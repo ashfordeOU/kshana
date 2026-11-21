@@ -1,0 +1,14 @@
+{
+  "threshold_ns": 1500,
+  "coverage_factor": 2,
+  "locked_sigma_ns": 10,
+  "years": 10,
+  "outage_hours": [0.5, 4, 24, 72, 168],
+  "options": [
+    { "id": "gnss-ocxo", "clock": "ocxo", "capex": 1000, "annual": 0 },
+    { "id": "gnss-rubidium", "clock": "rubidium", "capex": 4000, "annual": 0 },
+    { "id": "gnss-csac", "clock": "csac", "capex": 6000, "annual": 0 },
+    { "id": "leo-ocxo", "clock": "ocxo", "capex": 1500, "annual": 300,
+      "leo": { "interval_s": 600, "sigma_ns": 50, "availability": 0.9 } }
+  ]
+}

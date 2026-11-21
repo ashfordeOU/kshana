@@ -1,0 +1,7 @@
+{
+ "schema": "kshana-bench-private-holdouts/1",
+ "decision": "owner decision of 20 November 2026: tasks (f) and (g) get a hidden holdout",
+ "rule": "the owner keeps the private truth file outside this repository and commits only the entry `kshana bench holdout register --truth <file>` prints (task, SHA-256 of the truth file, number of cases, spec version, date); scoring reads the truth from --truth or KSHANA_BENCH_HOLDOUT_F / KSHANA_BENCH_HOLDOUT_G at run time and refuses a truth whose SHA-256 is not listed here",
+ "status": "UNREGISTERED: no private holdout truth is registered yet; holdout results of tasks (f) and (g) are refused until one is",
+ "holdouts": []
+}
