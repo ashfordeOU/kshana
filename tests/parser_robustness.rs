@@ -1202,3 +1202,18 @@ fn oscillator_inputs() {
         }
     });
 }
+
+#[test]
+fn leo_sparse_studies() {
+    let seed = head("examples/leo-sparse/study.toml", 40);
+    fuzz("leo-sparse toml", &[seed], None, |b| {
+        if let Ok(mut s) = toml::from_str::<kshana::leo_sparse::Study>(&text(b)) {
+            // Keep each case small.
+            s.duration_hours = s.duration_hours.min(0.5);
+            s.step_s = s.step_s.max(30.0);
+            s.report_every_s = s.report_every_s.max(s.step_s);
+            s.leo.total = s.leo.total.min(12);
+            let _ = kshana::leo_sparse::run_study(&s);
+        }
+    });
+}

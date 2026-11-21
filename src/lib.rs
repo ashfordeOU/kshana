@@ -214,6 +214,8 @@ pub mod leo_navmsg;
 pub mod leo_pass;
 pub mod leo_pnt_chain;
 pub mod leo_signal;
+/// Sparse-geometry LEO-PNT study: one or two satellites in view (`kshana leo-sparse`).
+pub mod leo_sparse;
 pub mod linalg_sr;
 pub mod linkbudget;
 pub mod lunar;

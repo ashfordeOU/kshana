@@ -10316,6 +10316,7 @@ engine-main-usage =
     { "   " }tai: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }tai: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }tai: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
+    { "   " }tai: kshana leo-sparse <study.toml>
     { "   " }tai: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }tai: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }tai: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
@@ -11442,3 +11443,10 @@ engine-e-oscillator-input = { $part }-syöte ei kelpaa: { $e }
 engine-e-oscillator-unknown-clock = tuntematon kelloesiasetus { $id } (jokin näistä: { $known })
 
 engine-e-oscillator-field = { $field } on alueen ulkopuolella: { $value }
+
+## Sparse-geometry LEO-PNT study (src/leo_sparse.rs, docs/LEO-SPARSE.md)
+engine-leo-sparse-usage = käyttö: kshana leo-sparse <study.toml>  (docs/LEO-SPARSE.md; MODELLED, a planning study)
+engine-e-leo-sparse-bad-study = tutkimuksen arvot ovat sallitun alueen ulkopuolella: kelvollinen käyttäjän sijainti, alle 3000 km:n LEO-Walker-kuvio, jonka tasot jakavat satelliittien määrän, maski 0–90 astetta, max_in_view 1 tai 2, positiiviset kohinat, a priori -arvot ja tavoitteet, enintään 200000 askelta ja raportointiväli vähintään askeleen pituinen
+engine-e-leo-sparse-singular = informaatiomatriisia ei voi kääntää edes a priori -arvojen kanssa
+engine-e-leo-sparse-cannot-read = tiedostoa { $path } ei voi lukea: { $e }
+engine-e-leo-sparse-bad-file = { $path } ei ole tutkimus: { $e }

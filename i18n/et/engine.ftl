@@ -10574,6 +10574,7 @@ engine-main-usage =
     { "   " }või: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }või: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }või: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
+    { "   " }või: kshana leo-sparse <study.toml>
     { "   " }või: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }või: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }või: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
@@ -11698,3 +11699,10 @@ engine-e-oscillator-input = { $part } sisend ei ole kehtiv: { $e }
 engine-e-oscillator-unknown-clock = tundmatu kella eelseadistus { $id } (üks järgmistest: { $known })
 
 engine-e-oscillator-field = { $field } on väljaspool vahemikku: { $value }
+
+## Sparse-geometry LEO-PNT study (src/leo_sparse.rs, docs/LEO-SPARSE.md)
+engine-leo-sparse-usage = kasutus: kshana leo-sparse <study.toml>  (docs/LEO-SPARSE.md; MODELLED, a planning study)
+engine-e-leo-sparse-bad-study = uuringu väärtused on lubatud vahemikust väljas: kehtiv kasutaja asukoht, alla 3000 km LEO Walkeri muster, mille tasandid jagavad satelliitide arvu, mask 0 kuni 90 kraadi, max_in_view 1 või 2, positiivsed mürad, eelväärtused ja eesmärgid, kõige rohkem 200000 sammu ja aruandeintervall mitte lühem kui samm
+engine-e-leo-sparse-singular = infomaatriksit ei saa pöörata isegi eelväärtustega
+engine-e-leo-sparse-cannot-read = faili { $path } ei saa lugeda: { $e }
+engine-e-leo-sparse-bad-file = { $path } ei ole uuring: { $e }
