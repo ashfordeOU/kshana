@@ -491,7 +491,9 @@ fn ntp_mode6_query_reassembles_fragments_from_a_loopback_server() {
     assert_eq!(r.system_status.source, 6);
     let h = time_server::health_ntpd(&r.variables, None);
     assert_eq!(h.synchronised, Some(true));
-    assert!((h.offset_s.unwrap() + 34e-6).abs() < 1e-12);
+    // ntpd's offset=-0.034 ms is the reference relative to this host (RFC 5905 theta); the
+    // health summary carries system minus reference, so +34 us (the system clock is fast).
+    assert!((h.offset_s.unwrap() - 34e-6).abs() < 1e-12);
 }
 
 #[test]
