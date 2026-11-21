@@ -748,7 +748,8 @@ pub fn generate(
         let gps_sod = tow_tag.rem_euclid(86_400.0);
         let mut lines: Vec<String> = Vec::new();
         for &(sys, prn) in &sats {
-            let Some(eph) = crate::pvt::select_ephemeris(ephs, sys, prn, t_rx) else {
+            let t_rx_abs = ep.seconds_from_gps_epoch() - bias_m / C_M_PER_S;
+            let Some(eph) = crate::pvt::select_ephemeris_at(ephs, sys, prn, t_rx_abs) else {
                 continue;
             };
             let (rho, t_tx, sat) = light_time(eph, rx, t_rx);
