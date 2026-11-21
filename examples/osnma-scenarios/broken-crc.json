@@ -1,0 +1,20 @@
+{
+ "format": "kshana.osnma-scenario/1",
+ "name": "broken-crc",
+ "description": "One page of E05 in sub-frame 4 fails its CRC and is dropped; nothing fails.",
+ "subframes": 18,
+ "changes": [
+  {
+   "kind": "break_crc",
+   "prn": 5,
+   "subframe": 4,
+   "page": 2
+  }
+ ],
+ "expect": {
+  "any_tag_failed": false,
+  "events": {
+   "bad_crc": true
+  }
+ }
+}

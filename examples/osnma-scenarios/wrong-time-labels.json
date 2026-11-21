@@ -1,0 +1,20 @@
+{
+ "format": "kshana.osnma-scenario/1",
+ "name": "wrong-time-labels",
+ "description": "Every page of E02 claims a time 60 s later than its data; the keys no longer fit the chain and nothing authenticates.",
+ "subframes": 18,
+ "changes": [
+  {
+   "kind": "time_offset",
+   "prn": 2,
+   "from_subframe": 0,
+   "seconds": 60
+  }
+ ],
+ "expect": {
+  "authenticated_tags_max": 0,
+  "events": {
+   "key_rejected": true
+  }
+ }
+}

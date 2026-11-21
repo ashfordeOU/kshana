@@ -344,8 +344,11 @@ stale.
 | `gnss-sim-container-terminal-skyline.toml` | `gnss-sim` | yes | yes | yes | yes | no [2] |
 | `gnss-sim-raim.toml` | `gnss-sim` | yes | yes | yes | yes | no [2] |
 | `gnss-ssv-formation-heo.toml` | `gnss-ssv` | no [14] | no [14] | no [14] | no [14] | no [2] |
+| `gnss-ssv-geo.toml` | `gnss-ssv` | no [14] | no [14] | no [14] | no [14] | no [2] |
+| `gnss-ssv-gto.toml` | `gnss-ssv` | no [14] | no [14] | no [14] | no [14] | no [2] |
 | `gnss-ssv-heo.toml` | `gnss-ssv` | no [14] | no [14] | no [14] | no [14] | no [2] |
 | `gnss-ssv-lunar-weak.toml` | `gnss-ssv` | no [14] | no [14] | no [14] | no [14] | no [2] |
+| `gnss-ssv-nav-geo.toml` | `gnss-ssv` | no [14] | no [14] | no [14] | no [14] | no [2] |
 | `gnss-ssv-nav-lunar.toml` | `gnss-ssv` | no [14] | no [14] | no [14] | no [14] | no [2] |
 | `gnss-ssv-shell.toml` | `gnss-ssv` | no [14] | no [14] | no [14] | no [14] | no [2] |
 | `gps-denied-gravity-nav-egm2008.toml` | `gravity-map` | yes | yes | yes | no [6] | no [2] |

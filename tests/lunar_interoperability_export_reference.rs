@@ -22,17 +22,24 @@
 //!     not rubber-stamping), and kshana's own `oem_conformance` independently flags
 //!     the same corruption.
 //!
-//! Two frame x time-system combos x 9 epochs = 18 states + 2 negative controls:
-//!   - MOON_ME / LTC  (mean-Earth frame, Lunar Coordinate Time)
-//!   - MOON_PA / TCL  (principal-axis frame, barycentric-style lunar time)
+//! Three frame x time-system combos x 9 epochs = 27 states + 3 negative controls:
+//!   - MOON_ME / TDB     (the default: SANA-registered frame and time names)
+//!   - MOON_PA440 / TDB  (DE440 principal axes, SANA `MOON_PAxxx`)
+//!   - MOON_ME / LTC     (the explicit opt-in to an unregistered lunar time token)
+//!
+//! The grids are the illustrative inertial states rotated into the named body frame
+//! ([`kshana::lunar_interop::in_frame`]), as the scenario exports them. The files written
+//! before the registered names (MOON_ME/LTC and MOON_PA/TCL) stay committed and are still
+//! read (`files_written_before_the_registered_names_are_still_read`).
 //!
 //! HONEST SCOPE: this is an OEM **interchange** round-trip. It proves that what
 //! kshana writes, an independent CCSDS OEM parser reads back identically, and that
 //! a malformed export is rejected. It does NOT validate the lunar frame/time
 //! *semantics* (whether MOON_ME is realised to WGCCRE, whether LTC's rate is
 //! right) — those are covered by the dedicated lunar-frame / lunar-time references.
-//! The lunar tokens are non-standard CCSDS extensions; the oem library carries
-//! them through verbatim, which is precisely the interoperability property tested.
+//! MOON_ME, MOON_PAxxx and TDB are SANA-registered CCSDS values; LTC is not and is written
+//! only on request. The oem library carries the tokens through verbatim, which is precisely
+//! the interoperability property tested.
 //!
 //! The committed fixtures (`kshana_lunar_*.oem`, the frozen kshana output that the
 //! oracle parsed; `lunar_interoperability_export_reference.txt`, the oracle's
@@ -41,16 +48,23 @@
 //! `tests/fixtures/lunar_interoperability_export/`.
 
 use kshana::lunar_interop::{
-    export_lunar_oem, oem_conformance, EphemState, LunarFrameId, LunarTimeId,
+    export_lunar_oem, in_frame, oem_conformance, EphemState, LunarFrameId, LunarTimeId,
 };
 use kshana::lunar_service::LunarConstellation;
 
 const REF: &str = include_str!(
     "fixtures/lunar_interoperability_export/lunar_interoperability_export_reference.txt"
 );
-const OEM_ME_LTC: &str =
+const OEM_ME_TDB: &str =
+    include_str!("fixtures/lunar_interoperability_export/kshana_lunar_moon_me_tdb.oem");
+const OEM_PA440_TDB: &str =
+    include_str!("fixtures/lunar_interoperability_export/kshana_lunar_moon_pa440_tdb.oem");
+const OEM_ME_LTC_OPTIN: &str =
+    include_str!("fixtures/lunar_interoperability_export/kshana_lunar_moon_me_ltc_optin.oem");
+/// Files written before the registered names (kept to show they are still read).
+const OLD_ME_LTC: &str =
     include_str!("fixtures/lunar_interoperability_export/kshana_lunar_moon_me_ltc.oem");
-const OEM_PA_TCL: &str =
+const OLD_PA_TCL: &str =
     include_str!("fixtures/lunar_interoperability_export/kshana_lunar_moon_pa_tcl.oem");
 
 // OEM data lines are printed at 6 dp (km position) and 9 dp (km/s velocity); the
@@ -63,7 +77,11 @@ const VEL_TOL_KM_S: f64 = 1e-9; // 1 µm/s
 /// illustrative LCNS-class constellation (the same recipe kshana uses internally in
 /// `lunar_interop::sample_lunar_states`): analytic MCI position + central-difference
 /// velocity, pinned here to explicit inputs.
-fn grid(sat_index: usize, n: usize, step_s: f64) -> Vec<EphemState> {
+fn grid(sat_index: usize, n: usize, step_s: f64, frame: LunarFrameId) -> Vec<EphemState> {
+    in_frame(&inertial_grid(sat_index, n, step_s), frame)
+}
+
+fn inertial_grid(sat_index: usize, n: usize, step_s: f64) -> Vec<EphemState> {
     let cons = LunarConstellation::illustrative_lcns(4);
     let sat = cons.sats[sat_index];
     let dt = 1.0_f64;
@@ -114,30 +132,60 @@ struct Combo {
 fn combos() -> Vec<Combo> {
     vec![
         Combo {
-            label: "MOON_ME_LTC",
+            label: "MOON_ME_TDB",
+            object: "LCNS-ILLUSTRATIVE-1",
+            frame: LunarFrameId::MoonMe,
+            time: LunarTimeId::Tdb,
+            sat_index: 0,
+            n: 9,
+            step_s: 30.0 * 60.0,
+            fixture: OEM_ME_TDB,
+            ref_frame_tok: "MOON_ME",
+            time_system_tok: "TDB",
+        },
+        Combo {
+            label: "MOON_PA440_TDB",
+            object: "LCNS-ILLUSTRATIVE-3",
+            frame: LunarFrameId::MoonPa,
+            time: LunarTimeId::Tdb,
+            sat_index: 2,
+            n: 9,
+            step_s: 20.0 * 60.0,
+            fixture: OEM_PA440_TDB,
+            ref_frame_tok: "MOON_PA440",
+            time_system_tok: "TDB",
+        },
+        Combo {
+            label: "MOON_ME_LTC_OPTIN",
             object: "LCNS-ILLUSTRATIVE-1",
             frame: LunarFrameId::MoonMe,
             time: LunarTimeId::Ltc,
             sat_index: 0,
             n: 9,
             step_s: 30.0 * 60.0,
-            fixture: OEM_ME_LTC,
+            fixture: OEM_ME_LTC_OPTIN,
             ref_frame_tok: "MOON_ME",
             time_system_tok: "LTC",
         },
-        Combo {
-            label: "MOON_PA_TCL",
-            object: "LCNS-ILLUSTRATIVE-3",
-            frame: LunarFrameId::MoonPa,
-            time: LunarTimeId::Tcl,
-            sat_index: 2,
-            n: 9,
-            step_s: 20.0 * 60.0,
-            fixture: OEM_PA_TCL,
-            ref_frame_tok: "MOON_PA",
-            time_system_tok: "TCL",
-        },
     ]
+}
+
+/// Files written before the registered names (`MOON_PA` without a DE number, the lunar time
+/// tokens with no comment) still parse, still pass the field conformance check, and their
+/// frame tokens are still recognised.
+#[test]
+fn files_written_before_the_registered_names_are_still_read() {
+    for (old, frame, time) in [
+        (OLD_ME_LTC, LunarFrameId::MoonMe, LunarTimeId::Ltc),
+        (OLD_PA_TCL, LunarFrameId::MoonPa, LunarTimeId::Tcl),
+    ] {
+        let parsed = kshana::oem::parse_oem(old).unwrap();
+        let meta = &parsed.segments[0].meta;
+        assert_eq!(LunarFrameId::parse(&meta.ref_frame), Some(frame));
+        assert_eq!(LunarTimeId::parse(&meta.time_system), Some(time));
+        assert_eq!(parsed.segments[0].states.len(), 9);
+        assert!(oem_conformance(old).pass);
+    }
 }
 
 /// The committed `.oem` fixtures must be byte-identical to what kshana emits *now*
@@ -147,7 +195,7 @@ fn combos() -> Vec<Combo> {
 #[test]
 fn committed_oem_fixtures_match_current_kshana_export() {
     for c in combos() {
-        let states = grid(c.sat_index, c.n, c.step_s);
+        let states = grid(c.sat_index, c.n, c.step_s, c.frame);
         let oem = export_lunar_oem(c.object, c.frame, c.time, &states);
         assert_eq!(
             oem, c.fixture,
@@ -170,7 +218,7 @@ fn oem_oracle_roundtrips_tokens_and_states() {
     for c in &cs {
         // The kshana-side truth: the same states kshana wrote into the OEM, in km
         // / km/s (the emitter divides metres by 1000).
-        let states = grid(c.sat_index, c.n, c.step_s);
+        let states = grid(c.sat_index, c.n, c.step_s, c.frame);
         let truth_km: Vec<([f64; 3], [f64; 3])> = states
             .iter()
             .map(|s| {
@@ -261,8 +309,8 @@ fn oem_oracle_roundtrips_tokens_and_states() {
     }
 
     assert!(
-        n_states >= 18,
-        "expected >=18 oracle-checked states, got {n_states}"
+        n_states >= 27,
+        "expected >=27 oracle-checked states, got {n_states}"
     );
     eprintln!(
         "lunar_interoperability_export: {n_states} states vs oem 0.4.5 across {} combos; \
@@ -294,7 +342,7 @@ fn negative_control_dropped_time_system_is_rejected() {
 
         // Independently: kshana's own field-conformance must also fail on the same
         // corruption (drop every TIME_SYSTEM line from the good export).
-        let states = grid(c.sat_index, c.n, c.step_s);
+        let states = grid(c.sat_index, c.n, c.step_s, c.frame);
         let good = export_lunar_oem(c.object, c.frame, c.time, &states);
         assert!(
             oem_conformance(&good).pass,
@@ -320,8 +368,8 @@ fn negative_control_dropped_time_system_is_rejected() {
         checked += 1;
     }
     assert!(
-        checked >= 2,
-        "expected >=2 negative controls, got {checked}"
+        checked >= 3,
+        "expected >=3 negative controls, got {checked}"
     );
     eprintln!("lunar_interoperability_export: {checked} negative controls rejected by both oem 0.4.5 and kshana conformance");
 }

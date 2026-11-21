@@ -1,0 +1,17 @@
+{
+ "format": "kshana.osnma-scenario/1",
+ "name": "dummy-cross-tags",
+ "description": "E02 sends dummy tags (COP 0) for E05; dummy tags never authenticate a satellite.",
+ "subframes": 18,
+ "chain": {
+  "dummy_cross_tags": true
+ },
+ "changes": [],
+ "expect": {
+  "status": {
+   "E02": "authenticated",
+   "E05": "unavailable"
+  },
+  "any_tag_failed": false
+ }
+}
