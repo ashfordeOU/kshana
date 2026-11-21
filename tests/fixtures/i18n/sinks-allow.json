@@ -132,6 +132,22 @@
   "src/tm_bridge.rs": {
    "count": 3,
    "reason": "write: COSMOS cmd_tlm keywords (ITEM, UNITS, STATE) written into a machine definition file"
+  },
+  "src/oscillator/environment.rs": {
+   "count": 5,
+   "reason": "machine identifiers: the JSON input field names (dotted paths) passed as the `field` variable of the catalogued e-oscillator-field message; not prose"
+  },
+  "src/oscillator/mod.rs": {
+   "count": 2,
+   "reason": "machine identifiers: the JSON input field names (dotted paths) passed as the `field` variable of the catalogued e-oscillator-field message; not prose"
+  },
+  "src/oscillator/select.rs": {
+   "count": 2,
+   "reason": "machine identifiers: the JSON input field names (dotted paths) passed as the `field` variable of the catalogued e-oscillator-field message; not prose"
+  },
+  "src/oscillator/vibration.rs": {
+   "count": 3,
+   "reason": "machine identifiers: the JSON input field names (dotted paths) passed as the `field` variable of the catalogued e-oscillator-field message; not prose"
   }
  }
 }

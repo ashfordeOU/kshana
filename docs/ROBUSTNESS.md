@@ -44,7 +44,7 @@ voyages, Celestrak TLE sets) or short synthetic samples written in the test.
 | Time transfer and clocks | CGGTTS, BIPM Circular T section 1, BIPM UTC(k) tables, every clock-log format (`rinex-clk`, TimeLab, TICC, ptp4l, phc2sys, ts2phc, chrony tracking/statistics, ntpd loopstats/peerstats, White Rabbit, CGGTTS, PPS) under all three gap policies |
 | Receiver logs | NMEA 0183, IEC 61162-450, u-blox UBX (receiver trust, `realdata::ubx`, OSNMA page extraction), Septentrio SBF, RTCM 3 (MSM reader, MSM decoder, SSR reader), NovAtel, Swift SBP, Javad GREIS, Unicore, RTKLIB `.pos`, Android GnssLogger, GNSS-SDR monitor, `kshana.obs/1` |
 | Orbits | TLE (sets, propagator dispatch, identity, checksum), Alpha-5 catalogue fields, OMM to SGP4, CCSDS OEM (and covariance), TDM, AEM, APM, OPM, OMM, OCM, NDM/XML |
-| Other protocols | IEEE C37.118, ASTERIX CAT021, CCSDS Space Packet, PTP management, NMEA 2000 candump, SigMF, LEO navigation-message frames, ODF |
+| Other protocols | IEEE C37.118, ASTERIX CAT021, CCSDS Space Packet, PTP management, NMEA 2000 candump, SigMF, LEO navigation-message frames, ODF, ArduPilot DataFlash and PX4 ULog (drone pre-arm reader), drone epoch JSON Lines and estimator traces |
 | Other text | YUMA almanac, LOLA DEM text, ILRS CRD, LuGRE logs, ION SDR metadata, sat-grid and scintillation logs, PDS SHADR gravity tables, OSNMA page files, RFC 3339 and CCSDS epochs |
 
 ## What it found and what changed (this round)

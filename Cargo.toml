@@ -49,6 +49,27 @@ exclude = [
     "/i18n/*/studio-pages.ftl",
     "/i18n/*/ui.ftl",
     "/i18n/en/engine-*.txt",
+    # The seventeen translated engine catalogues (13 MB, about 3.8 MB as separate gzip members) ship as ONE xz stream,
+    # data/i18n/catalogues.xz (about 1.9 MB), which build.rs decodes at build time; the .ftl files stay the source in the
+    # repository. That file is generated, never committed: run `python3 scripts/pack_catalogues.py` before `cargo package`
+    # (CI and publish.yml do; it leaves the tree with one untracked file, hence their `--allow-dirty`). English stays as is.
+    "/i18n/nl/engine.ftl",
+    "/i18n/pl/engine.ftl",
+    "/i18n/pt-BR/engine.ftl",
+    "/i18n/pt-PT/engine.ftl",
+    "/i18n/fi/engine.ftl",
+    "/i18n/sv/engine.ftl",
+    "/i18n/da/engine.ftl",
+    "/i18n/nb/engine.ftl",
+    "/i18n/cs/engine.ftl",
+    "/i18n/uk/engine.ftl",
+    "/i18n/ru/engine.ftl",
+    "/i18n/de/engine.ftl",
+    "/i18n/fr/engine.ftl",
+    "/i18n/es/engine.ftl",
+    "/i18n/et/engine.ftl",
+    "/i18n/ja/engine.ftl",
+    "/i18n/zh-Hans/engine.ftl",
     # The integration tests (tests/*.rs and their helpers) run from a checkout, never from the published crate, which
     # builds only the library; about 6 MB.
     "/tests/**/*.rs",
@@ -116,6 +137,42 @@ exclude = [
     "/tests/interference_map_examples.rs",
     "/tests/interference_map_reference.rs",
     "/tests/sgp4_crate_comparison.rs",
+    # 0.42 (20 Nov 2026): the .crate was 25 KB over crates.io's 10 MiB limit after the interference-incident
+    # library. None of these is embedded by src/ (include_str!): the repository-only scenarios (run from a
+    # checkout; tests/cli_first_run.rs keeps their REPO_ONLY reasons), the standards packs' pre-registration
+    # notes, the time-vector generator, a provenance note and the incident library and release register
+    # (the library embeds only the schema; tests read the records from a checkout).
+    "/scenarios/celeste-iod-classical-pilot-signals.toml",
+    "/scenarios/celeste-iod-end-to-end.toml",
+    "/scenarios/celeste-iod-fused-pvt.toml",
+    "/scenarios/leo-navmsg-celeste-iod.toml",
+    "/scenarios/leo-pass-celeste-iod-multiband.toml",
+    "/scenarios/lunar-descent-lola.toml",
+    "/scenarios/lunar-llr-datum.toml",
+    "/scenarios/lunar-station-coverage-terrain.toml",
+    "/scenarios/lunar-station-geodesy-baseline.toml",
+    "/scenarios/lunar-station-geodesy-with-station.toml",
+    "/scenarios/lunar-surface-terrain.toml",
+    "/scenarios/mission-thread-artemis-class.toml",
+    "/scenarios/quantum-pnt-demonstrator.suite.toml",
+    "/scenarios/training/coastal-drag-off.toml",
+    "/scenarios/training/combined-event.toml",
+    "/scenarios/training/fjord-natural-degradation.toml",
+    "/scenarios/training/port-approach-time-spoof.toml",
+    "/standards/*/PREREGISTRATION.md",
+    "/data/conformance/time/gen_time_vectors.py",
+    "/data/galileo-os-sis-icd/PROVENANCE.md",
+    "/data/interference-incidents/library.json",
+    "/data/interference-incidents/RELEASES.json",
+    # Repository community files and tooling config (read on GitHub, embedded by nothing), and the golden
+    # hashes the integration tests read from a checkout.
+    "/CONTRIBUTING.md",
+    "/GOVERNANCE.md",
+    "/CODE_OF_CONDUCT.md",
+    "/SECURITY.md",
+    "/sonar-project.properties",
+    "/.gitignore",
+    "/tests/golden",
     "/tests/terrain_nav_validation.rs",
     # The ANISE frame cross-validation is a standalone, workspace-excluded crate with
     # its own Cargo.lock: it depends on `anise` + `hifitime`, whose MPL-2.0 licence the
@@ -289,7 +346,15 @@ otlp = []
 # crate and no link dependency: the user's own libSoapySDR (0.8 ABI) is opened at run time.
 soapy = []
 
+# Decodes data/i18n/catalogues.xz (the packed translated catalogues) in a build of the published crate; see build.rs.
+# A build dependency only: the library itself decodes nothing at run time. Pure Rust, no C, MIT (its dependencies crc and
+# crc-catalog are MIT OR Apache-2.0, byteorder Unlicense OR MIT).
+[build-dependencies]
+lzma-rs = { version = "0.3", default-features = false }
+
 [dev-dependencies]
+# The same decoder, for tests/i18n_packed.rs (it includes src/i18n/packed.rs, as build.rs does).
+lzma-rs = { version = "0.3", default-features = false }
 # Independent SGP4 implementation for the head-to-head accuracy cross-check
 # (tests/sgp4_crate_comparison.rs). Test-only: never compiled into the library,
 # CLI, or the published bindings; the package excludes the test that uses it.

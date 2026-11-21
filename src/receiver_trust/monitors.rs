@@ -383,6 +383,7 @@ fn self_report_source(format: super::LogFormat) -> &'static str {
         Novatel => {
             "jammer flag (NovAtel RXSTATUS receiver status bit 15; RXSTATUS carries no spoofing flag)"
         }
+        Unicore => "jamming flags (Unicore JAMSTATUS and FREQJAMSTATUS CWFlag; no spoofing flag)",
         _ => "spoofing/jamming flags (as this log format carries them)",
     }
 }
