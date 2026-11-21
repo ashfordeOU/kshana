@@ -32,6 +32,7 @@ fn every_example_runs_and_is_labelled_modelled() {
         ("rtk-ar", "rtk-ar.json"),
         ("jam-claim", "jam-claim.json"),
         ("doppler-integrity", "doppler-integrity-arctic.json"),
+        ("signal-claims", "signal-claims.json"),
     ] {
         report(part, file);
     }
@@ -303,4 +304,69 @@ fn the_cli_prints_usage_on_a_bad_call() {
         .output()
         .unwrap();
     assert!(ok.status.success());
+}
+
+#[test]
+fn signal_claims_reproduce_the_published_tables_and_check_illustrative_power_claims() {
+    // PIN-SCOPE:    the outcome of each row of examples/leo-verify/signal-claims.json, whose stated
+    //               figures and tolerances are fixed in that file with their sources.
+    // PIN-EXCLUDES: the computed values themselves beyond the tolerances, and the JSON layout.
+    // `report` checks the part and the MODELLED label.
+    let v = report("signal-claims", "signal-claims.json");
+    let rows = v["rows"].as_array().unwrap();
+    let outcome = |id: &str| {
+        rows.iter()
+            .find(|r| r["id"] == id)
+            .unwrap_or_else(|| panic!("no row {id}"))["outcome"]
+            .as_str()
+            .unwrap()
+            .to_string()
+    };
+    // Every orbit-derived figure of the paper's Tables 1 and 2 and section 6.2 follows from its
+    // stated orbits within 0.2 % (1 % for the rounded Doppler rates).
+    for id in [
+        "pulsar-polar-period",
+        "pulsar-polar-speed",
+        "pulsar-polar-relative-speed",
+        "pulsar-polar-doppler-x1",
+        "pulsar-polar-doppler-x5",
+        "pulsar-polar-horizon",
+        "pulsar-polar-doppler-rate-x1",
+        "pulsar-polar-doppler-rate-x5",
+        "pulsar-inclined-relative-speed",
+        "pulsar-inclined-doppler-x1",
+        "pulsar-iov-period",
+        "pulsar-iov-relative-speed",
+        "pulsar-iov-horizon",
+        "gps-relative-speed",
+        "gps-doppler-l1",
+        "pulsar-doppler-vs-gps",
+        "illustrative-closer-than-gps",
+    ] {
+        assert_eq!(outcome(id), "consistent", "{id}");
+    }
+    assert_eq!(outcome("illustrative-spreading-loss"), "within");
+    assert_eq!(outcome("illustrative-spreading-advantage"), "within");
+    // The ratio of the Doppler rates (about 316 with the paper's own GPS orbit) is outside the
+    // 20 % around "about 250".
+    assert_eq!(outcome("pulsar-doppler-rate-vs-gps"), "not_consistent");
+    // The illustrative power claims (hypothetical figures) show the three outcomes: 50 times
+    // (17 dB) is reached like for like, 150 times (21.8 dB) only from the system maximum to the
+    // reference minimum (23 dB), 1,000 times (30 dB) not at all.
+    assert_eq!(
+        outcome("illustrative-power-advantage-50"),
+        "reached_like_for_like"
+    );
+    assert_eq!(
+        outcome("illustrative-power-advantage-150"),
+        "reached_only_at_the_extremes"
+    );
+    assert_eq!(
+        outcome("illustrative-power-advantage-1000"),
+        "not_reached_with_cited_powers"
+    );
+    // Every row names its source.
+    assert!(rows
+        .iter()
+        .all(|r| !r["source"].as_str().unwrap().is_empty()));
 }

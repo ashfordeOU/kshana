@@ -2073,6 +2073,10 @@
    "count": 11,
    "reason": "machine identifiers: the JSON input field names (`snake_case`, dotted paths) named verbatim in the catalogued e-leo-verify-field error, and the part names and enum values written into the JSON report; not prose"
   },
+  "src/leo_verify/claims.rs": {
+   "count": 37,
+   "reason": "machine identifiers: the JSON input field names (`snake_case`) named verbatim in the catalogued e-leo-verify-field error, and the check names, computed-value keys and outcome values written into the JSON report; not prose"
+  },
   "src/leo_verify/cost.rs": {
    "count": 9,
    "reason": "machine identifiers: the JSON input field names (`snake_case`, dotted paths) named verbatim in the catalogued e-leo-verify-field error, and the part names and enum values written into the JSON report; not prose"
@@ -2090,7 +2094,7 @@
    "reason": "machine identifiers: the JSON input field names (`snake_case`, dotted paths) named verbatim in the catalogued e-leo-verify-field error, and the part names and enum values written into the JSON report; not prose"
   },
   "src/leo_verify/mod.rs": {
-   "count": 10,
+   "count": 12,
    "reason": "machine identifiers: the JSON input field names (`snake_case`, dotted paths) named verbatim in the catalogued e-leo-verify-field error, and the part names and enum values written into the JSON report; not prose"
   },
   "src/leo_verify/rain.rs": {
