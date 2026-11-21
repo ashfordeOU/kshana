@@ -295,6 +295,7 @@ const LABELLED_WRITERS: &[&str] = &[
 const UNLABELLED_WRITERS: &[(&str, &str)] = &[
     ("src/lunar_oem.rs", "writes a CCSDS OEM (`lunar-oem convert --out`): a standard interchange file whose keywords are fixed; the MODELLED label is carried in its COMMENT lines"),
     ("src/orbit_data/cli.rs", "writes a CCSDS CDM (`orbit-data pc --cdm-out`): a standard message whose keywords are fixed; the computed COLLISION_PROBABILITY is labelled MODELLED in a COMMENT"),
+    ("src/rnss_design.rs", "writes the kshana.rnss-design/1 report (`rnss-design run --out`), which carries `evidence: MODELLED` and the profile's status and disclaimer in its own fields"),
     ("src/altpnt/terrain.rs", "writes only in a unit test (a temporary grid)"),
     ("src/bench/cite.rs", "writes only in a unit test (a temporary tree of frozen files for the golden-index check)"),
     ("src/connect_timing.rs", "writes only the expected output of a timing conformance vector under `connect timing check --bless`; a test fixture, no result file"),
