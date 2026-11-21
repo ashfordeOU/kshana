@@ -1,0 +1,18 @@
+{
+  "schema": "kshana.register/1",
+  "publisher": "Example publisher (illustrative only)",
+  "issued": "2026-11-20",
+  "entries": [
+    {
+      "id": "example-receiver-1",
+      "product": "Example GNSS receiver",
+      "maker": "Example maker",
+      "version": "firmware 1.0",
+      "method": "example-interference-method",
+      "method_version": "1",
+      "scored": "2026-11-01",
+      "revalidate_by": "2027-11-01",
+      "outcome": "illustrative entry: no product has been scored"
+    }
+  ]
+}

@@ -1,0 +1,2840 @@
+{
+ "format": "kshana.afs-vectors/1",
+ "source": "independent generator gen_afs_vectors.py from the IS-GPS-800J (w, p) table and the LSIS V1.0 construction",
+ "sha256_of": "the 10230 chips as bytes of value 0 or 1, first chip first",
+ "vectors": [
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 1
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "05752067",
+    "last_24_octal": "20173742",
+    "sha256": "46790a8c3e6b6423b614b17042e42280d3ef9a48b4fa595ec5c33bc95d24e98d"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 2
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "70146401",
+    "last_24_octal": "35437154",
+    "sha256": "c8d6975410d6aad929688cfe112f456fa247b325c443cfb78ef98bd7b9f8cb70"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 3
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "32066222",
+    "last_24_octal": "00161056",
+    "sha256": "5f548bd798711370f8f95eeee5e237534d9f3514dc6dfad63c05dc664a7f5012"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 4
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "72125121",
+    "last_24_octal": "71435437",
+    "sha256": "1deb0b0f7141ec3990222dfc32bde967e4db42903c143c8e066f40c53d59310a"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 5
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "42323273",
+    "last_24_octal": "15035661",
+    "sha256": "3044123c083ea6ed32c482093555d439aef07e190c1ee434ce072034bc75a8cc"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 6
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "01650642",
+    "last_24_octal": "32606570",
+    "sha256": "b29ae30535e2888b99d0192e1f1a881838eae44e30dde0bdf03ff652c34333e7"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 7
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "21303446",
+    "last_24_octal": "03475644",
+    "sha256": "db8ed201edc16f5b0268d0a6954a97563b5d474fede045fbccc98a0cea29527d"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 8
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "35504263",
+    "last_24_octal": "11316575",
+    "sha256": "185528ddc7d850174d04aecff58945d2f4078a80632615e8870786d51c6ded66"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 9
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "66434311",
+    "last_24_octal": "23047575",
+    "sha256": "074052c957103d47be671c99de1cbf10784122f953d1a353651e7dede5df8b11"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 10
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "52631623",
+    "last_24_octal": "07355246",
+    "sha256": "96a3728d65c91640ed9ecb6730615276cb94a6426849ed134cd8e5d17fb31e62"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 11
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "04733076",
+    "last_24_octal": "15210113",
+    "sha256": "c324bbcdd88a59abd5c2bcfeb32f2441b4549652e4a9d86b16b97e74da5b45bf"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 12
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "50352603",
+    "last_24_octal": "72643606",
+    "sha256": "6509b3908c965320603eb1a84f2c6ae24465496767382af5f7c4a99e75de8fea"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 13
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "32026612",
+    "last_24_octal": "63457333",
+    "sha256": "a4a8bdec8fe8a1e4f3eecbf4b1faa0003678f189295dfef5f222c207c5c19b5d"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 14
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "07476042",
+    "last_24_octal": "46623624",
+    "sha256": "1278d9eea783795439fe9866255734c34284e7ca981be23552dadb87a4ea059a"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 15
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "22210746",
+    "last_24_octal": "35467322",
+    "sha256": "0bb0c4a365805a2c2a037c06fe00cef5b33a25487b4b38c4b8dc562902c43c02"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 16
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "30706376",
+    "last_24_octal": "70116567",
+    "sha256": "2c188035abc658e4413cd5d1803f70d3386e7390761ebc78a5db5da18ca81482"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 17
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "75764610",
+    "last_24_octal": "62731643",
+    "sha256": "d7e640f17ef66e575946d340503a1d3a745ba32b30bad9ce553f7eccdab34639"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 18
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "73202225",
+    "last_24_octal": "14040613",
+    "sha256": "b29536d2523a0e8dc80d3bd5336694bc773ebfd28bf1922f86114c21ab4b59bd"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 19
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "47227426",
+    "last_24_octal": "07750525",
+    "sha256": "c309f77356c18f3e55d6649bf308883d06943e949b44f79d6dd55bebb2bedbcd"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 20
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "16064126",
+    "last_24_octal": "37171211",
+    "sha256": "3e70dc52de198fb777c19de301fe53b89d6a84eee400d375d3cd57a0bfc40990"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 21
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "66415734",
+    "last_24_octal": "01302134",
+    "sha256": "7daef285559ff83d251e04c984d8647e014f5096cb3e224348bc658017f50699"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 22
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "27600270",
+    "last_24_octal": "37672235",
+    "sha256": "1b6ba48609943f782f3b678572915b76e2a2351baa2e8eee517a84092349007c"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 23
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "66101627",
+    "last_24_octal": "32201230",
+    "sha256": "71bd5e866dbe4abe28906d3b1a7212c7072c8d9fccd1b510455c1037b69e1c8c"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 24
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "17717055",
+    "last_24_octal": "37437553",
+    "sha256": "3bac7d897193060b3a2a3f7e3b31add68f604de7ccc58410034ecb3ca589e968"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 25
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "47500232",
+    "last_24_octal": "23310544",
+    "sha256": "c721c5cae622282b2c010426abcf4c52c83fc2b9a4372102804ff44723d75ed4"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 26
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "52057615",
+    "last_24_octal": "07152415",
+    "sha256": "46d6cc062441093cede2acf6369d21193eda0899f912c202c1f4871624169f5f"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 27
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "76153566",
+    "last_24_octal": "02571041",
+    "sha256": "2e7f4253f43ba8edf2d581a2b9adcf6d0aea7ba0fed5652406ae075344408808"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 28
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "22444670",
+    "last_24_octal": "52270664",
+    "sha256": "4ab08e7e6c2dea1f44b6e0ddd07fcf0c7912dee45c8915cc39180446445e964e"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 29
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "62330044",
+    "last_24_octal": "61317104",
+    "sha256": "7dbadb658be2cd63607719b1a89da36b4b89229922db2f75a147265c7dce31a1"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 30
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "13674337",
+    "last_24_octal": "43137330",
+    "sha256": "7dc36b9bc6c839cf180d5d7550152f57bb131bfb52d674527c116318b2c2e536"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 31
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "60635146",
+    "last_24_octal": "20336467",
+    "sha256": "1daec6405c8a372d37651aef756009bd5cbcdf1b082f34474f885d32ce933c2b"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 32
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "73527653",
+    "last_24_octal": "40745656",
+    "sha256": "e3c16086be03c5c972fbe5f7a74d5f8de104e262a16462d9beedf39f6dc16335"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 33
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "63772350",
+    "last_24_octal": "50272475",
+    "sha256": "38e9b386406a4822117a0ad35321db22f29df25bb2d077aaa789406e9ba6b0d7"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 34
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "33564215",
+    "last_24_octal": "75604301",
+    "sha256": "d4215b898bab6787781e7d22acfbad0bce8ea4ff47a98d3b40e50aa08352db92"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 35
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "52236055",
+    "last_24_octal": "52550266",
+    "sha256": "eb9124b1a818ec60d231b63479818df48cead5d657488a2973d95ee3c4656d1a"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 36
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "64506521",
+    "last_24_octal": "15334214",
+    "sha256": "33563bec9405934025c3d01a92acaa8f13e899031cb5ff2d0b7a939a49a3f444"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 37
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "73561133",
+    "last_24_octal": "53445703",
+    "sha256": "060c6372a5f7243da601d6e26202b1c7bbba19916157aff0dcff3b8acaff781a"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 38
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "12647121",
+    "last_24_octal": "71136024",
+    "sha256": "c3e2fc1e2031e4de2e22a16af655258e0200eff4426f1fd9ce6df89d75f2c883"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 39
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "16640265",
+    "last_24_octal": "01607455",
+    "sha256": "9da7b6aac45a0c3b244146c18cc70a35310efd4bd15b3ba3fd44eb1897b4a59f"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 40
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "11161337",
+    "last_24_octal": "73467421",
+    "sha256": "588c4b227937aaba32512f772983594ee36523677269f3f61e97e0e9e4aa5878"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 41
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "22055260",
+    "last_24_octal": "54372454",
+    "sha256": "8deb3bd81312958b696413c30400b8bbaf3fc153fcb33a4fc6b1153028d7d290"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 42
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "11546064",
+    "last_24_octal": "11526534",
+    "sha256": "db32e34ba52a79b58e2ecec9d52212f7bc296627ae5dfd0350bfc6c52acfeecd"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 43
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "24765004",
+    "last_24_octal": "16522173",
+    "sha256": "5a6601fc8637f2dd7bff4df543ba9e20f1991407e8984e19dde9b0352ea8baac"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 44
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "14042504",
+    "last_24_octal": "74053703",
+    "sha256": "4ad342cb8f3a3f95641362680a0c06b5c333a185d31d2f6d1d2b8ddf845a2a13"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 45
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "53512265",
+    "last_24_octal": "52211303",
+    "sha256": "9b8173c7663d1ba89dc9e98fa372743eedd9dfaec5efb69d97f470eea18cfc87"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 46
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "15317006",
+    "last_24_octal": "72655147",
+    "sha256": "cdd45d9fd15869cb114f0be9106a3a0be61a6739e31c95ce889f77304f4bd91f"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 47
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "16151224",
+    "last_24_octal": "01212152",
+    "sha256": "862eb19029388a48c94e2ce3200f2ec199a457866f2a3486f58d6570aeaffb08"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 48
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "67454561",
+    "last_24_octal": "10410122",
+    "sha256": "7474ebedf9d1c3fab4e779c6e12a4b666e06387124b9fe8c55815079c784f712"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 49
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "47542743",
+    "last_24_octal": "22473073",
+    "sha256": "2cd8d4183ee6834a7e04468f69a219eb3aa8abf6d01f9cab84ec289562efc3c6"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 50
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "65057230",
+    "last_24_octal": "63145220",
+    "sha256": "70c42618e99e795403aad0e70d99fd757ec0f84667d471be02b7fc6c989af3fa"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 51
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "77415771",
+    "last_24_octal": "65734110",
+    "sha256": "f801c5356010b92c087fc9af39f08df4828daf800709d283c3249f90cb990bfb"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 52
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "75364651",
+    "last_24_octal": "25167435",
+    "sha256": "0ddd5dc96b46f1d5585fd94a2e2d60c9eb5d3374728121c92bdbb0ec77ad350d"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 53
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "75664330",
+    "last_24_octal": "17524136",
+    "sha256": "e44fc21f18322d3efa15762fae4c222ed8553c1385f63749e7c86ac0146f5549"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 54
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "44600202",
+    "last_24_octal": "47064764",
+    "sha256": "a63d99cb4bad10818fa22764c9acf88da9ef132c70d8c7ed13f2ccc9a5ed543e"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 55
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "23211425",
+    "last_24_octal": "14016156",
+    "sha256": "d386e9e9fe1bd77c0985def14db6ca89ce1e2b169376c7fd24790018b8ee55c8"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 56
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "51504740",
+    "last_24_octal": "11723025",
+    "sha256": "5844b9b9746b0fba1202a4601b429966f6920bd5f097d27287b09d282feecc8e"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 57
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "47712554",
+    "last_24_octal": "76760325",
+    "sha256": "4f5368bed4a8888089b0327b99b5c08f2d441643b2afaf5f68ba572e9229a73f"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 58
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "67325233",
+    "last_24_octal": "04724615",
+    "sha256": "b06e7dbcca02243d1acda959033a622fe1a579598b82306b2736ec62a69de978"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 59
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "61517015",
+    "last_24_octal": "72504743",
+    "sha256": "c487fa9875149f7bab55e8f3fbac1f6c64ab8778564688d61f438efaa07d79cb"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 60
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "43217554",
+    "last_24_octal": "51215201",
+    "sha256": "7e3753104cd6a88f64cbc8421744c2eb6059861eabf1646c6e9cd19f49444916"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 61
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "52520062",
+    "last_24_octal": "00630473",
+    "sha256": "1903c19f9d49ba93ecb732596976d6b7f32a4066911b9876e3535fc21390f0a6"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 62
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "77073716",
+    "last_24_octal": "71217605",
+    "sha256": "ee66c1ef831a97b7910b1283bc7639c29a6463865afbfe1883dbc3b65af2f309"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 63
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "56350460",
+    "last_24_octal": "50200707",
+    "sha256": "3e81c1c29344f0201677dea93f6aa9fbb33905fd21d7e944f9155da89633cd97"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 64
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "02447300",
+    "last_24_octal": "44305246",
+    "sha256": "51361f070e4584b43e4d42586815fd1aed58e53b382b512b2d5fcdcccb169ccb"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 65
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "71725674",
+    "last_24_octal": "00460475",
+    "sha256": "474c7c5e4d09380a980bfed174229ad735a12f921690ced5ac30900937e2df49"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 66
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "25453304",
+    "last_24_octal": "05674447",
+    "sha256": "e7f0e42830bbe83ac02bbec1bd43f8c04e398e1b89381b9d7cbdca7da7a05c0e"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 67
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "14574042",
+    "last_24_octal": "36357263",
+    "sha256": "d6145a1485f8cdb03d18a4375d92398dd765c2fa3534a44d6b0eddd07e51dcce"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 68
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "74661664",
+    "last_24_octal": "42702346",
+    "sha256": "7f040bc94cb0ecaed46d57db8b1afdfdeb59b72cad904ca1c12da3369f64796c"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 69
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "23576062",
+    "last_24_octal": "32521054",
+    "sha256": "3be75c549decb0af5b416b310496766adf35c8f6e9b0c5f9aaaeda2c8a289dbb"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 70
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "41542650",
+    "last_24_octal": "42476101",
+    "sha256": "7bf233407543cd099e2b049f3a9c0ccf1ef47f2ae9b40f4736955a811d8239ab"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 71
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "01104546",
+    "last_24_octal": "61116204",
+    "sha256": "b2a8fe5655ca9b5503d8167936fd98082cec32e5b6488e77df3819903eef32df"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 72
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "33434042",
+    "last_24_octal": "04262600",
+    "sha256": "3ceb71f89fab3828119680b2b1cc436d4d68b39028b9ce7613a6cf26ceb19c22"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 73
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "21774465",
+    "last_24_octal": "01545263",
+    "sha256": "199620abf4a8e060240a80a815e71bf370f86a7079373ddf502a40dd46c02c7c"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 74
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "40262622",
+    "last_24_octal": "40375205",
+    "sha256": "c8805d090991ee2f1947e27f767a7871b1c5a1badce74d717a4fc76527124041"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 75
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "56142774",
+    "last_24_octal": "40344363",
+    "sha256": "5e86576a4277247539e9c2407e2358ffa1fca52669f4fd166bf59fd1aa5fb18d"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 76
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "43202027",
+    "last_24_octal": "50372155",
+    "sha256": "c5ca2d27b3c7d383313acf986d626ba7af0ffada26227d4f704a739797f8b6b6"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 77
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "04516115",
+    "last_24_octal": "33621000",
+    "sha256": "35accb3934b4acf3e89a986e1b30ee8b54b1ea1c33b947c55de0a78cf9c9e8c1"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 78
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "74662364",
+    "last_24_octal": "36551057",
+    "sha256": "8a9ce5dc7084090099932587286df72ed6f09d688f9a869ab5e62db8823cfe02"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 79
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "52076567",
+    "last_24_octal": "27766445",
+    "sha256": "72489a99887a83e2cb88a8c917d3120dd5db6b9b075ecd4e7eca7d1565b58e44"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 80
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "47474451",
+    "last_24_octal": "52411766",
+    "sha256": "b9384e6f68a5ecdd6c9fc7e2baad36c3d50b6ed181e6f180c7bf499b702718f3"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 81
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "02211543",
+    "last_24_octal": "33572343",
+    "sha256": "ff3bac6543801ed41e9abab31c64ce691ec96fdd17593663127142a819cbd8e0"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 82
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "23163471",
+    "last_24_octal": "56266077",
+    "sha256": "a6fe4e46fdf09a9cbf7efef9ca343e4d597d0d1db5edb8b34bce9bfa2e6d461d"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 83
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "25176610",
+    "last_24_octal": "31141052",
+    "sha256": "5d0840f1469b396ada3942b771f73618a5ac14475873d235d491d0d7e5fe26bd"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 84
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "14457237",
+    "last_24_octal": "42211412",
+    "sha256": "3872801e5478e28552591f095dbb97304c50a2d25469c50a5e4e4fd1badd5fe3"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 85
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "17254300",
+    "last_24_octal": "51377401",
+    "sha256": "2840b77ec20e14ef5883099f5458aceadcbed3fa89ff1185c212e54f73b5b4df"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 86
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "17501057",
+    "last_24_octal": "06740644",
+    "sha256": "497cec8deb8afe3fe48f4b976b7244526f845cdff22e1e3bc28cc15c2c1f8542"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 87
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "50364001",
+    "last_24_octal": "15746533",
+    "sha256": "e7ad713933de50f0b7b72a3efd64de2233a6faf2a796178c278c617950efb9b4"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 88
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "45555767",
+    "last_24_octal": "10015665",
+    "sha256": "0b7e86cca8a93cdc2720d14776b4a3f45bab4b12ab8b5144abcbdd6746846c7e"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 89
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "00107361",
+    "last_24_octal": "73402571",
+    "sha256": "12ab3313a9188c443c36665a9f50d6c0d647a4801d9e27d2704b1bbb28d996d9"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 90
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "50312164",
+    "last_24_octal": "77323304",
+    "sha256": "c013622e019c4d6267849f90f884b0d5e7a632f090c84a3dc991c864ef4b5e12"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 91
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "20514052",
+    "last_24_octal": "15263715",
+    "sha256": "24cead152aecca0236a65e80db5c57013c11aa44bb58108135f89e1b0ebd9b9d"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 92
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "03627757",
+    "last_24_octal": "10233327",
+    "sha256": "95f89bb873ff39d3a0659b78927a8a05ad849a9766b1cbb58c6ac818b4bd0720"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 93
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "03102361",
+    "last_24_octal": "57310034",
+    "sha256": "858af6bff13aa578c907cfa3b0e858d56a220394da6eb56a1455ad173686fced"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 94
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "07637647",
+    "last_24_octal": "77143271",
+    "sha256": "544e018a614d1891f9cecd99bcc9144d8bc839b502a2070fcdb159f87523c0b5"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 95
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "72757527",
+    "last_24_octal": "43465043",
+    "sha256": "91c4a445eef183cdde7da07bcc87b24772d6511170cf0af3c68fbf72f7bd222a"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 96
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "74713660",
+    "last_24_octal": "00574365",
+    "sha256": "143d14ba6789143670331d378bb3af6cf107df6c0f07fc37add9ed03ab83a147"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 97
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "47776235",
+    "last_24_octal": "44401766",
+    "sha256": "5202a91a0ab640e26bb4d5a43d773eaf8de9625d8aec85a7f53b3f631d137e94"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 98
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "15011643",
+    "last_24_octal": "34576343",
+    "sha256": "5f3d21bdf5afd5cc9ce411c4594a162aa748291733f8a2391d6c26427bbef8c0"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 99
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "70055175",
+    "last_24_octal": "31725507",
+    "sha256": "06366764470a48c551fe504696fc98306b066adccb927c7bc06ff0cbae93b584"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 100
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "13300130",
+    "last_24_octal": "67312706",
+    "sha256": "c4e3b1172bcbc299acd7728fe4f1e62944d8d3e7f677f154faecddf5a06c846c"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 101
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "51731304",
+    "last_24_octal": "46621603",
+    "sha256": "d750ae286530f9dcae2d64391cf3e88e17d55445e196a291e8d65416ca34f440"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 102
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "17630510",
+    "last_24_octal": "64345411",
+    "sha256": "0ddc52f1e707b3dd2dd576ff922fd288ab27512b89931d2867f2d51c4cf2cafc"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 103
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "63203440",
+    "last_24_octal": "61602741",
+    "sha256": "729f9bc474ba7e4a27364febf5012b5d9dd89abe2c04a1e38e3b29148ab7522a"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 104
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "14332223",
+    "last_24_octal": "54253415",
+    "sha256": "9c2ed74f4d51c516a971889ded16a79a62c35638b0d28ad75d8c0a8d0584001e"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 105
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "76103604",
+    "last_24_octal": "43302054",
+    "sha256": "08babfc162c9366fb2e82b7f5d641aac0dba5dea369d9725ddb434f1d5bc7c56"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 106
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "37324636",
+    "last_24_octal": "03453741",
+    "sha256": "0f04c34c37018e45c58f9ae1c43d15b0c0b0fe1243ae67fb26fc247a59ebfdd7"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 107
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "26603302",
+    "last_24_octal": "52233056",
+    "sha256": "ba2f95bf74174e1947de5abaed1d08652918ba86d76970cca2990d976f5536a1"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 108
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "02757505",
+    "last_24_octal": "43130175",
+    "sha256": "153c310df52c9ac2d0738c26356104b9175716653886a8b911716534f8b3db91"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 109
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "55462247",
+    "last_24_octal": "12241054",
+    "sha256": "8fb47a3e52385bf9f1e9bf0b757bf1482c07492dfd91eda3587b19540841faa5"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 110
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "40577461",
+    "last_24_octal": "75365233",
+    "sha256": "3f99b84c3d7205126a83616640a10106bdd27f8fdcd67bbe769e336628ba55e8"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 111
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "17433077",
+    "last_24_octal": "21435116",
+    "sha256": "f83883662f54ff1a2546c25f087e4fc316f587c2f647178a66304d8dc77964a9"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 112
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "04115442",
+    "last_24_octal": "40670365",
+    "sha256": "2b354823bf02bc8eee476c2067111a7206b081f56e5fb3f092f6680fc71bd730"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 113
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "13154727",
+    "last_24_octal": "64265263",
+    "sha256": "91cca3df0c927565e77017156d8ee667debe08162560777734534e75b05283b4"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 114
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "77057317",
+    "last_24_octal": "30074057",
+    "sha256": "087fc3845aaf14d8a5e912ccffedec49459b1984cc7f49909fcc4b9130c53522"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 115
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "01513425",
+    "last_24_octal": "75121550",
+    "sha256": "a661e59f642a00e71aae023214cb9bc29edfe04a8d332ddac754d8449a3a9725"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 116
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "05132465",
+    "last_24_octal": "54744641",
+    "sha256": "0c506e4b820165e5aae5866e95a369c5932bca2642c479cf8eb13329ae1c869d"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 117
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "50104501",
+    "last_24_octal": "05312042",
+    "sha256": "e76f32a004f6d527841ac34cb7a73cb045856d685d11d5bb61f9396c74bba064"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 118
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "60523106",
+    "last_24_octal": "43103551",
+    "sha256": "8fb8ef8a2fc34d94e9b6c92a4c9734eff188bfc16fa0aced90f3bbd57ab2c56f"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 119
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "22246740",
+    "last_24_octal": "51372531",
+    "sha256": "68a84e61ef4057403d2ba0066319bdcaf28cb2cf506dd75172a2f42684e36801"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 120
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "12364050",
+    "last_24_octal": "42135401",
+    "sha256": "110ba04a3e016755bd344a646b22e82e7cecf0c26303edba8fb8d1f915f1254c"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 121
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "32514207",
+    "last_24_octal": "30171775",
+    "sha256": "d3b0126560a430bcddc8ab91cbd6a6290f51fde9a3f966ea612b2561cd724253"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 122
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "67423664",
+    "last_24_octal": "10455535",
+    "sha256": "5d734932a7327d352e867d6db9e6aa5cc79bb78931a1ea807532a6e3ee6e04aa"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 123
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "77266167",
+    "last_24_octal": "01324227",
+    "sha256": "a03c728f88bd2e858935d187683137d85112127eaa8fc1c05d47aa329a1b83cb"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 124
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "46461421",
+    "last_24_octal": "31664661",
+    "sha256": "38ff45568a94f0c707d108a7b52be0f24988d2dbd3b1e38cc6f2eec69d7e86b1"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 125
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "44731317",
+    "last_24_octal": "05002237",
+    "sha256": "52dfb85758717553b4e6e68b4544cda0967ac70818ea96a684d913dcc90bc2aa"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 126
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "40352277",
+    "last_24_octal": "30601263",
+    "sha256": "5b3505391fead913f8abb43f56c8f9d0e7bb4ae5d41fc7fc24634579a31e6b2d"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 127
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "60334000",
+    "last_24_octal": "52663163",
+    "sha256": "54dd550bc8990145343abf00f0be1ea8f730102b93f4a0569ee66a38f36a6b72"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 128
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "31414460",
+    "last_24_octal": "42263623",
+    "sha256": "4ab78e436d367d58cda1f0c480abce0cfb07b367c68a9cc3ffb2b92f6499d8de"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 129
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "21565451",
+    "last_24_octal": "53041061",
+    "sha256": "418d0a9ffc8d2c0aeb3e6a5462df518de1714903865c4ef78dc6054e3f08f40e"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 130
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "16330346",
+    "last_24_octal": "66052070",
+    "sha256": "e718fe286b6149017a172209eb7d01ff82cafc170507e44f70ff34ffe51cfeb1"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 131
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "32652065",
+    "last_24_octal": "04013232",
+    "sha256": "94c2c96c6dc5604db61b2cfc7e4b6b6835268b8c653a03c9660e8c3500b86ee5"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 132
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "26514154",
+    "last_24_octal": "67750663",
+    "sha256": "7dde6b58e041cf4cdeefc145c7560862ce50fb7682d72ca28ba293f05e59a915"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 133
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "34231746",
+    "last_24_octal": "54647730",
+    "sha256": "ed932ec4fcf4f918b9fcd3b59ed60b1f799e93953ca72a285b7528000430b8ca"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 134
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "76662461",
+    "last_24_octal": "15133614",
+    "sha256": "b8f15ea8b6f6dc663a227883df521e2d8224de68629d94ff48acbbb36b75eecd"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 135
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "47747731",
+    "last_24_octal": "01314434",
+    "sha256": "947360adcb01dba55762b8d3282bea8f5b7b43ecd09837e0b24945bb4b6d223a"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 136
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "02344033",
+    "last_24_octal": "56230626",
+    "sha256": "ba1715486c1ace82f4cedc64ea948a4011e239532f524aa696e465af7335b8c3"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 137
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "66173226",
+    "last_24_octal": "45676614",
+    "sha256": "65ddbd29a9f256dde005d2410cec85ac4185746a5c4d56a0fdd4c388a740ac47"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 138
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "73016727",
+    "last_24_octal": "47111161",
+    "sha256": "edc81fb101cd0cfdc0bb671efdb7a743fe9eaf3eef921ec355a89ec0656b4449"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 139
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "77312770",
+    "last_24_octal": "52710401",
+    "sha256": "d501cfb91b3ddc362aad082dbc1e5c5fd165d08c28521f8353fdf768ddff539a"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 140
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "51646142",
+    "last_24_octal": "36536254",
+    "sha256": "8a40070c3784678d98630eff1a2da86590be7d695e607c2530992c18550e767b"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 141
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "56016363",
+    "last_24_octal": "02567340",
+    "sha256": "be86fe791f11aebd0f2a894f6491ef1a2e5e04f5d6120ac218a5ddfa46223af4"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 142
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "42604563",
+    "last_24_octal": "61470650",
+    "sha256": "728fbaefe4c46283e88b1a7ff949c56e0f3359ef479ebaf9348d97333d5a3603"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 143
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "31351337",
+    "last_24_octal": "54031347",
+    "sha256": "e2af9b05f942714fba762b1622d484be95bfa3e3515865313e1f7d7c1623a8f8"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 144
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "27106364",
+    "last_24_octal": "22157757",
+    "sha256": "c0105fe3252c973e42cce0d501a377f6e491f237b43e06261eed30f6f92f4dab"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 145
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "41653674",
+    "last_24_octal": "34140067",
+    "sha256": "18939aa6d9e4cc36c1715be1790bea148180bc2654ac24fe0b7258faa7237686"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 146
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "41723426",
+    "last_24_octal": "13666204",
+    "sha256": "77f9729aa573130efe5d0f159207c20a17c6e01ab7642a72a2d47587230b4b0b"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 147
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "67572676",
+    "last_24_octal": "30653236",
+    "sha256": "0ad528a497e951265114e2793b5d6fea747bca4e450f5ceb01b439673bb4027f"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 148
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "13221317",
+    "last_24_octal": "26243171",
+    "sha256": "0d5abef0fe110be9f7f2151f45eb822105139d53d8ed8d6c72a8580bfd442468"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 149
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "00546077",
+    "last_24_octal": "16413664",
+    "sha256": "078e49f5d69687b7fc18b9bb6a6f7642fb2812fdfca177982d0878c2daa746b5"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 150
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "26001221",
+    "last_24_octal": "55366035",
+    "sha256": "031fcbe8379d9400780ed92af9e7d261d53eb0018af6ef26c7d4696eb84a7a54"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 151
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "25023624",
+    "last_24_octal": "22432004",
+    "sha256": "1a97f9531e4557083f96f71cb056984139ae733ebc2767abee2f423a1208d741"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 152
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "06170665",
+    "last_24_octal": "13123426",
+    "sha256": "80c82411833ba98d425c1169fde9d47ebbe12e849954724b5972ef10d724eae8"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 153
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "56716445",
+    "last_24_octal": "52547645",
+    "sha256": "0d47d3e8bcb25f9226133f31b8e27c387c8cdb0273da23b18e54bcee8f0991e4"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 154
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "42176035",
+    "last_24_octal": "56243100",
+    "sha256": "e9d7d066917f41331d461f7d5789d3623f71fe5d05309b5858353535558ce8dc"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 155
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "54672466",
+    "last_24_octal": "40035633",
+    "sha256": "56119f53d738b6428c6b5ca02610a71762998fab8c1bf787a40d109405409fe5"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 156
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "30010163",
+    "last_24_octal": "23111613",
+    "sha256": "03a9202b7f71b5a2ca1fa65e201d40dac85f24166ca71f62fa56aed2a2448a5b"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 157
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "12460454",
+    "last_24_octal": "45324016",
+    "sha256": "c581588c72b28c30781220a35a165c490ac3028553ca8dd16bd153a40bb4e229"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 158
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "02433231",
+    "last_24_octal": "43266171",
+    "sha256": "bb47ec7ce1cddf72d953396632ed88e0ab9912c3016418c015bd2f7363cf2aec"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 159
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "44262655",
+    "last_24_octal": "33672171",
+    "sha256": "034d6ccfd4631e7580da36a8fa574ad2b7e8f76fb3c0ce81e0b056c269eb8f61"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 160
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "74466417",
+    "last_24_octal": "45007430",
+    "sha256": "10ce524a0c7f45dbd0bce2deb43007ce32d64e7cb9bc6b4cb4486b6a67fabef1"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 161
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "40534627",
+    "last_24_octal": "47162164",
+    "sha256": "c3a634b90e51876a36fafde3b9af7f60f4595a78a98349c09abc30200e30402c"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 162
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "77507301",
+    "last_24_octal": "14403627",
+    "sha256": "e8b1a9ea65c62162f2644beb06dfb93d91f7e13e021ac7094ab281e15cdd1950"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 163
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "77047741",
+    "last_24_octal": "07244501",
+    "sha256": "d0bd1f4b663ad6f49688579b4970ae07f5abca34eeed667d072ce7584c610462"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 164
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "06772006",
+    "last_24_octal": "64545666",
+    "sha256": "fb6d89035f8ad7328fbbb85f39b67e71b901fe5cbe8f498065ba8e568c1f0af5"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 165
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "40473120",
+    "last_24_octal": "12372447",
+    "sha256": "e73e01bae6a0172f2bbb87ff7a72948427327654cefe07399a073f3e986242c3"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 166
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "34300604",
+    "last_24_octal": "13076376",
+    "sha256": "c735af920ba70706f7cd18a02b27a841327a9cd5dae9a4880bc87ccdd06ed451"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 167
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "65107417",
+    "last_24_octal": "40367614",
+    "sha256": "98743e84b56516f3e1f4e44a6da616fca6d13d65e124a63485544f621dbded83"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 168
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "70400121",
+    "last_24_octal": "74416333",
+    "sha256": "fe577899b3dfe9b298ff55911bd7565400ad9b22810755b42d93d20688abd072"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 169
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "25212235",
+    "last_24_octal": "01370063",
+    "sha256": "cd931dc8bc3fec743322ff7dabad6ae16e1f89572caef67ac9c3d446c96b2a63"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 170
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "74600422",
+    "last_24_octal": "46656071",
+    "sha256": "240c137e44a635a67dde39e54a722d4e12f60fc7e819a5bf1f44b45d95dadd7c"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 171
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "12032423",
+    "last_24_octal": "31523361",
+    "sha256": "4805f33600f1c0fbd109e394de7282b33943cd5c598949f5bbb715bd526a50cf"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 172
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "13632510",
+    "last_24_octal": "17725050",
+    "sha256": "eb6d07fe8187f1e1cb71bbe45da19889fa98d1bd85a4e8dd2d4b9eb984687156"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 173
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "71510055",
+    "last_24_octal": "60560145",
+    "sha256": "8c984c7f5b8ab8a69e360ff7b4f7cd0496115e88a889fdd44bede3dd29e1d089"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 174
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "75143230",
+    "last_24_octal": "70762153",
+    "sha256": "92385eefeedee40a8a0564320dd75d31f64706243bb5a5572cd7b8da2484df7a"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 175
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "45520711",
+    "last_24_octal": "63715635",
+    "sha256": "fbe9429b37219a52c08b5306f700b94b0ce6f4ddc2c01d949738f1056cf305df"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 176
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "71255143",
+    "last_24_octal": "33356000",
+    "sha256": "eee73189e345e1d99cc0dfa90c7dd850eb6ceb74833fc7ed38c4c66a3bf948b6"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 177
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "74432602",
+    "last_24_octal": "60240565",
+    "sha256": "677b24b96aa91548427f11e814b3dea3ade3581271cf85bc79361750991fc26e"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 178
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "64502543",
+    "last_24_octal": "37553063",
+    "sha256": "f10d7a8af915680f63d95538659b0f1a4627f36dfe2616a574c4bc716165e872"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 179
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "62244257",
+    "last_24_octal": "57024466",
+    "sha256": "73f01f696a62c6621318c583f7e7f2bda2f4d3ef62325273dca4d4942f16bc5e"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 180
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "56114714",
+    "last_24_octal": "56224523",
+    "sha256": "1d28664c824cff4dad567500e6d63a2d5bb4b93ec5c4210354dcd5b61012121a"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 181
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "20545772",
+    "last_24_octal": "71662723",
+    "sha256": "6238d448f041a125a56ba321b85ceea5cc91ff11539a662381232c239c2d3eed"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 182
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "34440721",
+    "last_24_octal": "52501713",
+    "sha256": "50de5dfe71ed0dd7e68c61706e17e1a7e8b8881d000f716d797e8231d3c8571a"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 183
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "27113701",
+    "last_24_octal": "32506507",
+    "sha256": "5dde1dba57ebb36de7845d5d94cdb227ea3afd51cb3636b1f6c2bc1ed3dfeeff"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 184
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "55315473",
+    "last_24_octal": "51205405",
+    "sha256": "88431ca4974ae3f2619c82269ded552eb4229006bac2c0db2a647030efacd64b"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 185
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "03002035",
+    "last_24_octal": "13765021",
+    "sha256": "e699730bd4728eeab99fb4820b5c3e706dc3253d58ada24c6e1bab912d458c3d"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 186
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "22413634",
+    "last_24_octal": "25612410",
+    "sha256": "0cba6749293d0639aa8d77a5e7fb2db57e1fd00d13af182f7b93c7aeb7b45a8f"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 187
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "50147661",
+    "last_24_octal": "27377757",
+    "sha256": "7f17d4f7864b38cc528dac11e5345be82cb685d35118dc789e648f55a5f0d5bd"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 188
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "36713526",
+    "last_24_octal": "21553277",
+    "sha256": "961682f916672301d4f04e4fa41656bdcbb9247ba3c68338250498c129f9b3a1"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 189
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "67255070",
+    "last_24_octal": "21044121",
+    "sha256": "9e59d6ad869a3fee7960c5e281ab36c979dedc06425561f863980479120313c9"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 190
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "17310715",
+    "last_24_octal": "71430410",
+    "sha256": "1c44d8c4c9976e700ac0041909c085eba4f5028b578d2f5ee2a9a4094f0e82cf"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 191
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "20674706",
+    "last_24_octal": "01406234",
+    "sha256": "8c2aefeeaf9ddddba01424aeb640a7f1fcff883174972cb42af37f4b82743cc7"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 192
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "21764400",
+    "last_24_octal": "10264531",
+    "sha256": "8998661fc8fff780ded8f4879c9c220e1c509142607a6ce0e565d33d0e497580"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 193
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "70670250",
+    "last_24_octal": "11640746",
+    "sha256": "d6bdbb42cc4a620ded26c62a40aa99c1a224cdb4b718a71f179b976cc2ce8339"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 194
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "24737373",
+    "last_24_octal": "51661203",
+    "sha256": "c6feb76372175fada3325248715edb060822370e8918b2ffda08add45616c90f"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 195
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "04467202",
+    "last_24_octal": "15610600",
+    "sha256": "0eeaeb4a766a0e42b8bf07de308aa1cb24289b2a7a7a2ac8ae737cdac1c7beb8"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 196
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "02551300",
+    "last_24_octal": "70117174",
+    "sha256": "4ca49d14b48942fd32c2c6949aa4f6ec07ca6d6891cd871d443d7fd9705a7e22"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 197
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "32252546",
+    "last_24_octal": "77615261",
+    "sha256": "47f0610ceb430467144c8790d6057eb85b1b30facbea39bc551d2995a9049148"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 198
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "10121331",
+    "last_24_octal": "22447126",
+    "sha256": "85c382299833116ceec9c07693358b244cdf4d6b464889bf80abca36c80e933e"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 199
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "10537634",
+    "last_24_octal": "65022442",
+    "sha256": "08c0cce5c4ec9b25e085f6cb85d0fa63dd3413e70a74a182cc883df92da61799"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 200
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "32014275",
+    "last_24_octal": "41243522",
+    "sha256": "ea470e5321d20b2767c698d962471da37feb85177ba05708fcacb74cc426ce7d"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 201
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "13126037",
+    "last_24_octal": "56605536",
+    "sha256": "8baba73691b20f1a59dcbe4f745582582cc930eed06021c2b24006b0ce41bfb5"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 202
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "60700561",
+    "last_24_octal": "13020736",
+    "sha256": "ad1f7b3cfa744413c29fd30109facb8faf738da2c55224be06d8d2fd8f5ea20a"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 203
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "75356470",
+    "last_24_octal": "15605531",
+    "sha256": "8b980285d624ef2a8357c2ee72d913db613b104d5ec759eea3795b82bd5a005a"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 204
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "20543613",
+    "last_24_octal": "02371410",
+    "sha256": "5e5758eb1820066446faf6143b7c4a8af9e438c0d21d2a96aa406805b7b75976"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 205
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "33767061",
+    "last_24_octal": "10107642",
+    "sha256": "dbcfe9ebbf04dbc30dc85d7be1d60595af99dcedec048399128059969831c8ec"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 206
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "05734074",
+    "last_24_octal": "10115665",
+    "sha256": "5b77990703251fdc398176e563084f6a4f066c0c8856fbbdc1409b86fad76f37"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 207
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "36277063",
+    "last_24_octal": "72611614",
+    "sha256": "a74a073cf799fe163185b4e166aeeb1eb1f7bafb627918821835c8acdc3fac02"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 208
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "04163243",
+    "last_24_octal": "56150655",
+    "sha256": "6df4f7144b908953fe9fa7c3d5adbe4f676d52088e4b94866e3697dbdd3d4dcf"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 209
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "71443237",
+    "last_24_octal": "54060273",
+    "sha256": "4da572470435e28a472b321ba504df72cbd9d7491576c3c8326e148121c412aa"
+   }
+  },
+  {
+   "op": "afs_q_primary",
+   "input": {
+    "prn": 210
+   },
+   "expected": {
+    "length": 10230,
+    "ones": 5115,
+    "first_24_octal": "26113110",
+    "last_24_octal": "12644254",
+    "sha256": "b3ba7cbbd9dbb9fc03288247c8e2a5f371b2c0246dff39e2ad6bd5a502b6dc60"
+   }
+  },
+  {
+   "op": "afs_q_secondary",
+   "input": {
+    "id": 0
+   },
+   "expected": {
+    "chips": [
+     1,
+     1,
+     1,
+     0
+    ]
+   }
+  },
+  {
+   "op": "afs_q_secondary",
+   "input": {
+    "id": 1
+   },
+   "expected": {
+    "chips": [
+     0,
+     1,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "op": "afs_q_secondary",
+   "input": {
+    "id": 2
+   },
+   "expected": {
+    "chips": [
+     1,
+     0,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "op": "afs_q_secondary",
+   "input": {
+    "id": 3
+   },
+   "expected": {
+    "chips": [
+     1,
+     1,
+     0,
+     1
+    ]
+   }
+  },
+  {
+   "op": "crc24q",
+   "input": {
+    "hex": ""
+   },
+   "expected": {
+    "crc": "000000"
+   }
+  },
+  {
+   "op": "crc24q",
+   "input": {
+    "hex": "00"
+   },
+   "expected": {
+    "crc": "000000"
+   }
+  },
+  {
+   "op": "crc24q",
+   "input": {
+    "hex": "313233343536373839"
+   },
+   "expected": {
+    "crc": "cde703"
+   }
+  },
+  {
+   "op": "crc24q",
+   "input": {
+    "hex": "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff"
+   },
+   "expected": {
+    "crc": "d5549f"
+   }
+  },
+  {
+   "op": "sb1_encode",
+   "input": {
+    "fid": 0,
+    "toi": 69
+   },
+   "expected": {
+    "codeword_hex": "229F61DBB84A0"
+   },
+   "source": "LSIS V1.0 Figure 8 worked example (0x045 encodes to 0x229F61DBB84A0)"
+  }
+ ]
+}

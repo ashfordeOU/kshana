@@ -28,6 +28,13 @@ and a score describes a log or a corpus, never a product. Kshana results are adv
 | (b) detection on IQ | one scored window of a scene | Kshana synthetic scene recipe; TEXBAT reference-only | AUC per alarm kind |
 | (c) timing holdover prediction | (satellite, origin) | IGS clocks at 300 s (committed extract, pinned hash) | RMSE at 3600 s |
 | (d) out-of-distribution optimism gap | one synthetic case | `impairment-eval` corpus, in and out of distribution | AUC out, and the gap |
+| (f) spacecraft telemetry anomaly detection (spec 2.2.0) | one OPS-SAT housekeeping segment | OPSSAT-AD, fetched by `scripts/fetch_opssat_ad.sh` (CC-BY-4.0, never vendored) | AUC, and average precision |
+| (g) smartphone positioning accuracy (spec 2.2.0) | one epoch of one phone trace | GSDC-layout traces the user downloads (Kaggle rules, never redistributed) | mean over traces of (P50 + P95) / 2, m |
+
+Task (e) is described in [`guides/BENCHMARK-CLASSES.md`](guides/BENCHMARK-CLASSES.md). Task (f) bars and first scores:
+[`xval/bench-f/PREREGISTRATION.md`](../xval/bench-f/PREREGISTRATION.md) and [`RESULTS.md`](../xval/bench-f/RESULTS.md)
+(F1 to F3 MET: test AUC 0.858 for `feature-z-max`, 0.852 for `diff2-var-z`; MODELLED). Task (g) has no published
+baseline number yet: no copy of the data has been scored here.
 
 ## Commands
 
@@ -44,7 +51,30 @@ kshana bench seal --task d --seed-file secret.txt --new                  # owner
 kshana bench reveal-check --task d --seed-file secret.txt --commitment <hex>
 kshana bench manifest --task a --data <extracted dir> --out manifest.json
 kshana bench verify-manifest manifest.json --root <dir>
+scripts/fetch_opssat_ad.sh ~/data/opssat                                 # task (f) data, SHA-256 checked
+kshana bench baseline --task f --split test --data ~/data/opssat/dataset.csv --out results/
+kshana bench truth --task g --data <GSDC train dir> --split test --out truth.json
+kshana bench positions --task g --split test --csv submission.csv --name my-filter --out preds.json
+kshana bench datasets                                                    # the dataset registry; --check enforces its rules
+kshana bench cite results/f-test-feature-z-max.result.json               # citation id, stable across releases
+kshana bench golden --root . --check bench/GOLDEN.json                   # the frozen files are unchanged
 ```
+
+## Datasets, frozen files and citation ids
+
+Every dataset is listed in [`bench/manifests/datasets.json`](../bench/manifests/datasets.json) with its DOI or URL, what
+its publisher states about the licence, whether it may be redistributed, how it is fetched and checked, and the limits
+on its use. Nothing is copied unless its licence allows it and [`NOTICE`](../NOTICE) names it; TEXBAT and JammerTest
+data are never redistributed; spoofing and jamming sets are for detection benchmarking only. Datasets that were looked
+for and not found with clear terms (multi-band spoofing, rail, vision and civil A-PNT, 5G field data) are listed as
+gaps rather than invented. `kshana bench datasets --check --root .` enforces the rules, and `tests/bench_governance.rs`
+also fails if a file of a non-redistributed dataset appears anywhere in the tree.
+
+[`bench/GOLDEN.json`](../bench/GOLDEN.json) indexes the frozen files (manifests, schema, holdout commitments, result
+files) with their SHA-256 and each result's citation id `kb-<major>-<task>-<split>-<16 hex>`. The id is derived from
+what defines the result (spec major version, task, split, truth and predictions hashes, system name and version),
+never from the engine version or a metric, so a procurement document or paper can cite it across releases.
+Specification section 8 has the rules.
 
 A submission is a file (`kshana-bench-predictions/1`): `scores` (one number per case id; higher is more
 likely impaired) for tasks a, b and d, or `predictions` (the phase change in ns at each horizon) for task c. A
@@ -52,6 +82,9 @@ result file (`kshana-bench-result/1`) names the spec version, the split, the SHA
 predictions, and the metrics. Results of different major spec versions are never put in one table.
 
 ## Honest limits
+
+- Tasks (f) and (g) use their publishers' public data, so neither has a hidden holdout: task (f) refuses
+  `--split holdout`; the holdout traces of task (g) are public like those of task (a).
 
 - The real-data holdouts (a and c) are public, because anyone can download the data. They guard against
   choosing a split after seeing scores, not against tuning on those folders. The sealed holdout of task (d) is

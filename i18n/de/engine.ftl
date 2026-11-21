@@ -10561,6 +10561,152 @@ engine-e-ais-integrity-cannot-read = { $path } kann nicht gelesen werden: { $e }
 engine-e-ais-integrity-cannot-write = { $path } kann nicht geschrieben werden: { $e }
 engine-e-ais-integrity-bad-place = eine Zeile der Ortsliste ist nicht name,lat,lon,radius_m mit gültiger Position und positivem Radius: { $row }
 
+## A GNSS receiver in space: clock, timestamps, dynamics, upper-SSV benchmark (src/space_receiver/)
+engine-space-receiver-usage = Aufruf: kshana space-receiver clock [--orbit <preset|a_km,e,i_deg>] [--oscillator <name>] [--temp-swing <K>] [--outage-min <m>]... | timestamps <tags.csv> [--oscillator <name>] [--step-floor <s>] [--gap-factor <x>] [--window <n>] | dynamics [--orbit <preset|a_km,e,i_deg>] [--duration-min <m>] [--step-s <s>] [--band l1|l5] [--max-off-boresight <deg>] [--max-doppler <Hz>] [--max-doppler-rate <Hz/s>] | bench [--list] [--case <id>]... [--cn0 <dB-Hz>] [--oscillator <name>] [--max-doppler <Hz>] [--max-doppler-rate <Hz/s>] [--time-budget <s>] [--sidelobes] | mms [--cn0 <dB-Hz>] [--orbits <n>] [--step-min <m>] | od-vs-tle <onboard.oem> --tle <set.tle>   [--out <file.json>]  (docs/SPACE-RECEIVER.md)
+engine-e-space-receiver-missing-value = { $option } braucht einen Wert
+engine-e-space-receiver-unknown-option = unbekannte Option { $option } (kshana space-receiver --help listet die Optionen)
+engine-e-space-receiver-cannot-read = { $path } kann nicht gelesen werden: { $e }
+engine-e-space-receiver-cannot-write = { $path } kann nicht geschrieben werden: { $e }
+engine-e-space-receiver-bad-number = { $option }: { $value } ist keine gültige Zahl
+engine-e-space-receiver-unknown-name = unbekannter Name { $name } (bekannt: { $known })
+engine-e-space-receiver-no-columns = die CSV-Kopfzeile muss t_ref_s und entweder t_rx_s oder week und tow_s nennen
+engine-e-space-receiver-bad-row = Zeile { $line }: eine benötigte Spalte fehlt oder ist keine Zahl
+engine-e-space-receiver-too-few-rows = mindestens drei Zeitstempelzeilen werden benötigt
+
+## Space receiver: MMS case and onboard OD against an element set (src/space_receiver/)
+engine-e-space-receiver-no-tle = kein Zweizeilen-Elementsatz gefunden (Zeile 1 mit "1 " am Anfang, gefolgt von Zeile 2)
+engine-e-space-receiver-oem-frame = das OEM-Bezugssystem { $frame } liest dieser Vergleich nicht (EME2000, GCRF, ICRF oder TEME)
+
+## SIL observation generator (src/sil_obs.rs)
+engine-sil-obs-usage = Aufruf: kshana sil-obs generate <scenario.toml> --nav <nav.rnx> --out <sim.obs> [--truth <truth.jsonl>] | compare <a.obs> <b.obs> [--json] [--out <file.json>]  (docs/SIL-OBS.md)
+engine-sil-obs-summary = { $n_epochs } Epochen, { $n_obs } Signalwerte geschrieben; { $n_nlos } NLOS- und { $n_blocked } blockierte Satellitenepochen (MODELLED)
+engine-e-sil-obs-missing-value = { $option } braucht einen Wert
+engine-e-sil-obs-unknown-option = unbekannte Option { $option } (kshana sil-obs --help listet die Optionen)
+engine-e-sil-obs-cannot-read = { $path } kann nicht gelesen werden: { $e }
+engine-e-sil-obs-cannot-write = { $path } kann nicht geschrieben werden: { $e }
+engine-e-sil-obs-bad-scenario = { $path } ist kein sil-obs-Szenario: { $e }
+engine-e-sil-obs-bad-nav = { $path } ist keine RINEX-Navigationsdatei: { $e }
+engine-e-sil-obs-bad-obs = { $path } ist keine RINEX-Beobachtungsdatei: { $e }
+engine-e-sil-obs-bad-start = der Start { $value } ist keine GPS-Zeit der Form YYYY-MM-DDTHH:MM:SS
+engine-e-sil-obs-bad-timing = die Dauer muss null oder mehr und der Schritt positiv sein, mit höchstens einer Million Epochen
+engine-e-sil-obs-no-satellites = { $path } enthält keinen Broadcast-Datensatz der angeforderten Systeme
+engine-e-sil-obs-unknown-system = unbekanntes System { $value } (G oder E)
+engine-e-sil-obs-bad-canyon = die Straßenschlucht braucht eine positive Breite, einen Antennenversatz innerhalb der Straße, mindestens 1 dB Reflexionsverlust und endliche Werte
+
+## Interference model library (src/interference_lib.rs)
+engine-interference-lib-usage = Aufruf: kshana interference-lib models | generate --class <none|cw|narrowband|wideband|chirp|pulsed> [--centre-hz <f>] [--bandwidth-hz <b>] [--period-s <t>] [--pulse-width-s <w>] [--jnr-db <j>] [--drift-hz-per-s <r>] [--triangle] [--fs <hz>] [--samples <n>] [--seed <s>] --out <base> | fit <recording.sigmf-meta> [--out <fit.json>] | bench [--per-class <n>] [--seed <s>] [--predictions <ids.csv>] [--out <bench.json>] | cases [--per-class <n>] [--seed <s>] [--out <cases.csv>]  (docs/INTERFERENCE-LIB.md)
+engine-interference-lib-written = { $path } geschrieben ({ $n } Abtastwerte, MODELLED synthetische Störung)
+engine-e-interference-lib-missing-value = { $option } braucht einen Wert
+engine-e-interference-lib-unknown-option = unbekannte Option { $option } (kshana interference-lib --help listet die Optionen)
+engine-e-interference-lib-bad-number = { $option } braucht eine endliche Zahl, nicht { $value }
+engine-e-interference-lib-unknown-class = unbekannte Störungsklasse { $value } (none, cw, narrowband, wideband, chirp oder pulsed)
+engine-e-interference-lib-bad-size = die Abtastrate muss positiv sein und die Aufzeichnung eine Zweierpotenz von 1024 bis 16777216 Abtastwerten (bench: 1 bis 1000 Fälle je Klasse)
+engine-e-interference-lib-cannot-read = { $path } kann nicht gelesen werden: { $e }
+engine-e-interference-lib-cannot-write = { $path } kann nicht geschrieben werden: { $e }
+engine-e-interference-lib-bad-predictions = eine Vorhersagezeile ist nicht id,class mit einer bekannten Klasse: { $row }
+
+## Receiver-antenna characterisation (src/antenna_cal.rs)
+engine-antenna-cal-usage = Aufruf: kshana antenna-cal lint <file.atx> | spread <file.atx>... --type <type-radome> | compare <a.atx> [<b.atx>] --type <type-radome> [--serial-a <s>] [--serial-b <s>] [--max-zenith <deg>] | group-delay <spec.toml> | js-margin <spec.toml>  [--out <file.json>]  (docs/ANTENNA-CAL.md)
+engine-e-antenna-cal-missing-value = { $option } braucht einen Wert
+engine-e-antenna-cal-unknown-option = unbekannte Option { $option } (kshana antenna-cal --help listet die Optionen)
+engine-e-antenna-cal-bad-number = { $option } braucht eine endliche Zahl von null oder mehr, nicht { $value }
+engine-e-antenna-cal-cannot-read = { $path } kann nicht gelesen werden: { $e }
+engine-e-antenna-cal-cannot-write = { $path } kann nicht geschrieben werden: { $e }
+engine-e-antenna-cal-bad-spec = { $path } ist keine gültige Spezifikation: { $e }
+engine-e-antenna-cal-no-antenna = keine Antenne { $name } in { $path }
+engine-e-antenna-cal-too-few-units = weniger als zwei Kalibrierungen von { $name } zum Vergleich
+engine-e-antenna-cal-unknown-signal = ein Paar nennt das unbekannte Signal { $value }
+engine-e-antenna-cal-bad-group-delay = die Gruppenlaufzeit-Spezifikation braucht mindestens ein Signal, einen geordneten endlichen Temperaturbereich, positive Frequenzen und endliche Laufzeiten
+engine-e-antenna-cal-same-pair = ein ionosphärenfreies Paar braucht zwei verschiedene Frequenzen
+engine-e-antenna-cal-bad-pattern = unbekanntes Antennendiagramm (patch, choke-ring oder table)
+engine-e-antenna-cal-bad-gain-table = eine Gewinntabelle braucht mindestens zwei endliche Punkte aus Elevation und Gewinn
+engine-e-antenna-cal-bad-link = die J/S-Spezifikation braucht eine positive Frequenz, eine endliche EIRP und positive Entfernungen
+
+## Arctic GNSS availability planner (src/arctic_plan.rs)
+engine-arctic-plan-usage = Aufruf: kshana arctic-plan --site <lat,lon[,h]> | --place <name> | --places  [--systems <a,b,...>] [--compare] [--hours <h>] [--step-min <m>] [--start-s <s>] [--mask <deg>] [--skyline-preset <name>] [--clock common|per-system] [--min-sats <n>] [--max-pdop <x>] [--task-min <m>] [--kp <n>] [--year <y>] [--iono-mask <deg>] [--tle <file> --epoch <YYYY-MM-DDTHH:MM:SS>] [--epochs] [--out <file.json>]  (docs/ARCTIC-PLAN.md)
+engine-e-arctic-plan-missing-value = { $option } braucht einen Wert
+engine-e-arctic-plan-unknown-option = unbekannte Option { $option } (kshana arctic-plan --help listet die Optionen)
+engine-e-arctic-plan-cannot-read = { $path } kann nicht gelesen werden: { $e }
+engine-e-arctic-plan-cannot-write = { $path } kann nicht geschrieben werden: { $e }
+engine-e-arctic-plan-bad-number = { $option }: { $value } ist keine gültige Zahl
+engine-e-arctic-plan-unknown-name = unbekannter Name { $name } (bekannt: { $known })
+engine-e-arctic-plan-needs-site = den Standort mit --site <lat,lon[,h]> oder --place <name> angeben (--places listet die Namen)
+engine-e-arctic-plan-bad-horizon = Horizont und Schrittweite müssen positiv sein und höchstens 20.000 Epochen ergeben
+
+## Lunar time scales, frames, terminology and model provenance (src/lunar_ref.rs)
+engine-lunar-ref-usage = Aufruf: kshana lunar-ref tcb-tcl [--jd <JD TCB>] [--window <jd0,jd1>] | approx [--window <jd0,jd1>] [--grid-days <d>] | convert --from <tt|tdb|tcb|tcg|tcl|ltc> --to <scale> --jd <JD> | transform --from <ICRF|MOON_PA_DE440|MOON_PA|MOON_ME|ILURF> --to <frame> --xyz <x,y,z> [--jd <JD TDB>] | terms | models [--check] [--root <dir>]   [--out <file.json>]  (docs/LUNAR-REF.md)
+engine-e-lunar-ref-missing-value = { $option } braucht einen Wert
+engine-e-lunar-ref-unknown-option = unbekannte Option { $option } (kshana lunar-ref --help listet die Optionen)
+engine-e-lunar-ref-cannot-write = { $path } kann nicht geschrieben werden: { $e }
+engine-e-lunar-ref-bad-number = { $option }: { $value } ist keine gültige Zahl
+engine-e-lunar-ref-unknown-name = unbekannter Name { $name } (bekannt: { $known })
+engine-e-lunar-ref-out-of-span = die Epoche liegt außerhalb des Bereichs der verwendeten Ephemeriden (Standish-Elemente 1800–2050; DE440-Mondorientierung 2014–2030)
+
+## Quantum inertial-sensor benchmark (src/quantum_bench.rs)
+engine-quantum-bench-usage = Aufruf: kshana quantum-bench protocol [--out <protocol.json>] | simulate <spec.toml> --out <series.csv> | score <series.csv> [--fringe-m-s2 <a>] [--out <score.json>]  (docs/QUANTUM-BENCH.md)
+engine-quantum-bench-simulated = { $n } Werte ({ $n_wrapped } mit umgebrochener Interferenzphase) nach { $path } geschrieben (MODELLED)
+engine-e-quantum-bench-missing-value = { $option } braucht einen Wert
+engine-e-quantum-bench-unknown-option = unbekannte Option { $option } (kshana quantum-bench --help listet die Optionen)
+engine-e-quantum-bench-bad-number = { $option } braucht eine endliche positive Zahl, nicht { $value }
+engine-e-quantum-bench-cannot-read = { $path } kann nicht gelesen werden: { $e }
+engine-e-quantum-bench-cannot-write = { $path } kann nicht geschrieben werden: { $e }
+engine-e-quantum-bench-bad-spec = { $path } ist keine gültige Spezifikation: { $e }
+engine-e-quantum-bench-bad-sensor = der Sensor braucht einen positiven Pulsabstand, mindestens ein Atom, einen Kontrast in (0, 1] und eine Zykluszeit von mindestens dem doppelten Pulsabstand
+engine-e-quantum-bench-bad-run = der Lauf braucht eine Dauer von mindestens einem und höchstens zehn Millionen Zyklen
+engine-e-quantum-bench-too-short = die Reihe braucht mindestens 16 Werte mit steigenden Zeiten
+engine-e-quantum-bench-bad-csv = die Reihe braucht die Spalten t_s und measured_m_s2 mit endlichen Zahlen: { $row }
+
+## Terrestrial signals of opportunity, clock offset (src/soop_clock.rs)
+engine-soop-clock-usage = Aufruf: kshana soop-clock lte <capture.sigmf-meta> --start-gps-s <t> --rx <lat,lon,h> --tx <lat,lon,h> [--tx-offset-ns <ns>] [--prior-offset-s <s>] [--carrier-hz <f>] [--min-metric <m>] [--out <file.json>] | cp <capture.sigmf-meta> --nfft <n> --ncp <n> [--carrier-hz <f>] [--out <file.json>] | synth-lte --out <base> [--fs <hz>] [--duration-s <s>] [--nid2 <0|1|2>] [--delay-s <s>] [--cfo-hz <f>] [--snr-db <d>] [--seed <s>]  (docs/SOOP-CLOCK.md)
+engine-soop-clock-summary = { $n } PSS-Detektionen; Empfängeruhr-Versatz { $offset_us } µs zu Beginn der Aufzeichnung (MODELLED)
+engine-e-soop-clock-missing-value = { $option } braucht einen Wert
+engine-e-soop-clock-unknown-option = unbekannte Option { $option } (kshana soop-clock --help listet die Optionen)
+engine-e-soop-clock-bad-number = { $option } braucht eine endliche Zahl, nicht { $value }
+engine-e-soop-clock-bad-position = { $option } braucht lat,lon[,h] in Grad und Metern, nicht { $value }
+engine-e-soop-clock-cannot-read = { $path } kann nicht gelesen werden: { $e }
+engine-e-soop-clock-cannot-write = { $path } kann nicht geschrieben werden: { $e }
+engine-e-soop-clock-too-few-detections = { $n } PSS-Detektionen; für Versatz und Rate werden mindestens drei gebraucht
+engine-e-soop-clock-too-short = die Aufzeichnung ist kürzer als zwei OFDM-Symbole
+engine-e-soop-clock-bad-synth = das Testsignal braucht eine Abtastrate von 100 kHz bis 61,44 MHz und eine positive Dauer von höchstens 20 Millionen Abtastwerten
+
+## LunaNet AFS receiver verification kit and lunar output message profile (src/lunar_afs/kit.rs, src/lunar_output.rs)
+engine-lunar-afs-kit-usage = Aufruf: kshana lunar-afs-kit vectors [<vectors.json>] | registry [<registry.toml|json>] [--limit-db <dB>] [--no-correlation] | output-check <messages.jsonl> | output-example [--n <count>] [--jd <JD TCL>] | output-reexpress <messages.jsonl> --scale <tt|tdb|tcb|tcg|tcl|ltc> --frame <ICRF|MOON_PA_DE440|MOON_PA|MOON_ME|ILURF>   [--out <file>]  (docs/LUNAR-AFS-KIT.md)
+engine-e-lunar-afs-kit-missing-value = { $option } braucht einen Wert
+engine-e-lunar-afs-kit-unknown-option = unbekannte Option { $option } (kshana lunar-afs-kit --help listet die Optionen)
+engine-e-lunar-afs-kit-cannot-read = { $path } kann nicht gelesen werden: { $e }
+engine-e-lunar-afs-kit-cannot-write = { $path } kann nicht geschrieben werden: { $e }
+engine-e-lunar-afs-kit-bad-number = { $option }: { $value } ist keine gültige Zahl
+engine-e-lunar-afs-kit-unknown-name = unbekannter Name { $name } (bekannt: { $known })
+engine-e-lunar-afs-kit-bad-registry = das Register ist keine Liste von [[node]]-Zuteilungen: { $e }
+engine-e-lunar-afs-kit-bad-vectors = keine kshana.afs-vectors/1-Datei: { $e }
+engine-e-lunar-afs-kit-bad-message = eine Zeile ist keine kshana.lunar-pnt-output/1-Nachricht mit Epoche, Bezugssystem und Position
+
+## ADS-B interference indicators (src/adsb_indicators.rs)
+engine-adsb-indicators-usage = Aufruf: kshana adsb-indicators <adsb.csv> [--cell-deg <d>] [--out <indicators.json>]  (docs/ADSB-INDICATORS.md)
+engine-adsb-indicators-summary = { $n } veröffentlichte Zellen markiert (MODELLED; keine Ursache genannt)
+engine-e-adsb-indicators-missing-value = { $option } braucht einen Wert
+engine-e-adsb-indicators-unknown-option = unbekannte Option { $option } (kshana adsb-indicators --help listet die Optionen)
+engine-e-adsb-indicators-bad-cell = die Zellgröße muss 0,01 bis 10 Grad betragen, nicht { $value }
+engine-e-adsb-indicators-cannot-read = { $path } kann nicht gelesen werden: { $e }
+engine-e-adsb-indicators-cannot-write = { $path } kann nicht geschrieben werden: { $e }
+engine-e-adsb-indicators-missing-column = die ADS-B-CSV hat keine Spalte { $name }
+
+## Interference atlas and station C/N0 layer (src/interference_atlas.rs)
+engine-interference-atlas-usage = Aufruf: kshana interference-atlas build <day.geojson>... [--previous <atlas.json>] [--out <atlas.json>] | verify <atlas.json> | cors <today.obs> --baseline <earlier.obs> [--adsb-day <day.geojson>] [--station <lat,lon>] [--out <layer.json>]  (docs/INTERFERENCE-ATLAS.md)
+engine-interference-atlas-built = { $n_cells } Zellen, { $n_zones } Zonen; Version { $version } (MODELLED)
+engine-interference-atlas-verified = { $path }: die Version passt zum Inhalt
+engine-e-interference-atlas-missing-value = { $option } braucht einen Wert
+engine-e-interference-atlas-unknown-option = unbekannte Option { $option } (kshana interference-atlas --help listet die Optionen)
+engine-e-interference-atlas-cannot-read = { $path } kann nicht gelesen werden: { $e }
+engine-e-interference-atlas-cannot-write = { $path } kann nicht geschrieben werden: { $e }
+engine-e-interference-atlas-not-a-product = { $path } ist weder ein Tagesprodukt der Störungskarte noch ein Atlas
+engine-e-interference-atlas-mixed = die Tagesprodukte mischen Gitter oder Quellen
+engine-e-interference-atlas-empty = kein Tagesprodukt angegeben
+engine-e-interference-atlas-changed = { $path }: die Version passt nicht zum Inhalt (der Atlas wurde verändert)
+engine-e-interference-atlas-bad-obs = { $path } ist keine RINEX-Beobachtungsdatei: { $e }
+engine-e-interference-atlas-no-cn0 = die beiden Beobachtungsdateien teilen keinen GPS-Satelliten mit C/N0 im Abstand einer Bodenspur-Wiederholung
+engine-e-interference-atlas-bad-station = die Station braucht lat,lon in Grad (oder eine Näherungsposition im Beobachtungskopf), nicht { $value }
+
 engine-main-usage =
     Aufruf: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }oder: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10578,7 +10724,7 @@ engine-main-usage =
     { "   " }oder: kshana nmea-scenario <scenario.toml> [--out <file.nmea>] [--tcp <addr>|--udp <addr>] (kshana nmea-scenario --help)
     { "   " }oder: kshana interference-map <adsb|ais|fetch-land> ... (kshana interference-map --help)
     { "   " }oder: kshana route-exposure --route <route> --map <map.geojson|dir> [--from <date>] [--to <date>]
-    { "   " }oder: kshana bench <spec|truth|cases|score|baseline|seal|reveal-check|manifest|verify-manifest|validate|leaderboard> ... (kshana bench --help)
+    { "   " }oder: kshana bench <spec|truth|cases|score|baseline|seal|reveal-check|manifest|verify-manifest|validate|leaderboard|positions|datasets|cite|golden> ... (kshana bench --help)
     { "   " }oder: kshana bench-export <scenario.toml> [--out <base>] [--epoch <YYYY-MM-DDTHH:MM:SS>]
     { "   " }oder: kshana compliance-report [--out <base>] <result.json>... | --mapping | --sources
     { "   " }oder: kshana lunanet-afs-check <spec [--json] [--strict]|symbols <file> [--max-sp-errors <n>] [--json]|generate --frames <n> [--toi0 <t>] --out <file>>
@@ -10592,12 +10738,29 @@ engine-main-usage =
     { "   " }oder: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }oder: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }oder: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
+    { "   " }oder: kshana space-receiver <clock|timestamps|dynamics|bench|mms|od-vs-tle> ... [--out <file.json>] (kshana space-receiver --help)
+    { "   " }oder: kshana feed <pack|verify|send|spectrum|leaderboard> ... (kshana feed --help)
+    { "   " }oder: kshana register <check|crl-check|view|sign> ... (kshana register --help)
+    { "   " }oder: kshana interference-env <evaluate|thresholds|degradation> ... (kshana interference-env --help)
+    { "   " }oder: kshana arctic-plan --site <lat,lon[,h]> | --place <name> [--systems <a,b,...>] [--compare] [--hours <h>] [--kp <n>] ... (kshana arctic-plan --help)
+    { "   " }oder: kshana lunar-afs-kit <vectors|registry|output-check|output-example|output-reexpress> ... (kshana lunar-afs-kit --help)
+    { "   " }oder: kshana lunar-ref <tcb-tcl|approx|convert|transform|terms|models> ... (kshana lunar-ref --help)
+    { "   " }oder: kshana signal-readiness <profile.toml> [<obs.rnx>...]
+    { "   " }oder: kshana leo-od-plan <plan.toml>
     { "   " }oder: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }oder: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }oder: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
     { "   " }oder: kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
     { "   " }oder: kshana orbit-data <check|convert|gp-compare|gp-audit|cov> ... (kshana orbit-data --help)
     { "   " }oder: kshana drone <prearm|prearm-calibrate|estimator-cases|dr-budget|quad-loss|failover|zonotope-pl> ... (kshana drone --help)
+    { "   " }oder: kshana leo-verify <burst-timing|holdover-tdev|cost|indoor|rain-fade|rtk-ar|jam-claim|doppler-integrity> <input.json>
+    { "   " }oder: kshana sil-obs <generate|compare> ... (kshana sil-obs --help)
+    { "   " }oder: kshana interference-lib <models|generate|fit|bench|cases> ... (kshana interference-lib --help)
+    { "   " }oder: kshana antenna-cal <lint|spread|compare|group-delay|js-margin> ... (kshana antenna-cal --help)
+    { "   " }oder: kshana quantum-bench <protocol|simulate|score> ... (kshana quantum-bench --help)
+    { "   " }oder: kshana soop-clock <lte|cp|synth-lte> ... (kshana soop-clock --help)
+    { "   " }oder: kshana adsb-indicators <adsb.csv> [--cell-deg <d>] [--out <indicators.json>]
+    { "   " }oder: kshana interference-atlas <build|verify|cors> ... (kshana interference-atlas --help)
     { "   " }oder: kshana kinds [--json]
     { "   " }oder: kshana example [<name>]
     { "   " }oder: kshana --help | --version
@@ -10726,13 +10889,18 @@ engine-interference-map-cli-col-not-observed = nicht beobachtet
 engine-bench-cli-usage =
     Aufruf: kshana bench spec
     { "   " }oder: kshana bench truth --task a --data <extracted JammerTest 2024 dir> --split <dev|test|holdout|all> --out <truth.json>
-    { "   " }oder: kshana bench cases --task <c|d> --split <dev|test|holdout> --out <dir> [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
+    { "   " }oder: kshana bench truth --task g --data <GSDC-layout train dir> --split <dev|test|holdout> --out <truth.json>
+    { "   " }oder: kshana bench cases --task <c|d|f> --split <dev|test|holdout> --out <dir> [--data <dataset.csv>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
     { "   " }oder: kshana bench score --truth <truth.json> --predictions <predictions.json> [--threshold <x>] [--out <result.json>]
-    { "   " }oder: kshana bench baseline --task <a|b|c|d> --split <dev|test|holdout> --out <dir> [--data <dir>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
+    { "   " }oder: kshana bench baseline --task <a|b|c|d|e|f|g> --split <dev|test|holdout> --out <dir> [--data <dir>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
     { "   " }oder: kshana bench seal --task <a|b|c|d> --seed-file <file> [--new]
     { "   " }oder: kshana bench reveal-check --task <a|b|c|d> --seed-file <file> --commitment <hex>
     { "   " }oder: kshana bench manifest --task a --data <extracted dir> [--archive <tar.gz>] --out <manifest.json>
     { "   " }oder: kshana bench verify-manifest <manifest.json> --root <dir>
+    { "   " }oder: kshana bench positions --task g --split <dev|test|holdout> --csv <submission.csv> --name <system> [--version <v>] --out <predictions.json>
+    { "   " }oder: kshana bench datasets [--json | --check [--root <repo>]]
+    { "   " }oder: kshana bench cite <result.json>...
+    { "   " }oder: kshana bench golden [--root <repo>] (--out <GOLDEN.json> | --check <GOLDEN.json>)
     { "   " }oder: kshana bench validate <result.json>...
     { "   " }oder: kshana bench leaderboard [<results dir|result.json>...] --out <page.html> [--fragment]   (keine Eingaben: der leere Zustand; --fragment: ein einbettbarer Abschnitt)
     { "   " }(eine Seed-Datei enthält das Geheimnis hinter einem versiegelten zurückgehaltenen Datensatz; halten Sie sie aus der Versionsverwaltung heraus)
@@ -11720,3 +11888,137 @@ engine-e-oscillator-input = die Eingabe für { $part } ist ungültig: { $e }
 engine-e-oscillator-unknown-clock = unbekannte Uhren-Voreinstellung { $id } (eine von { $known })
 
 engine-e-oscillator-field = { $field } liegt außerhalb des Bereichs: { $value }
+
+## src/leo_verify/mod.rs
+
+engine-leo-verify-usage = Verwendung: kshana leo-verify <burst-timing|holdover-tdev|cost|indoor|rain-fade|rtk-ar|jam-claim|doppler-integrity> <input.json> (docs/LEO-VERIFY.md)
+
+engine-e-leo-verify-input = die Eingabe für { $part } ist ungültig: { $e }
+
+engine-e-leo-verify-field = { $field } liegt außerhalb des Bereichs: { $value }
+
+engine-e-leo-verify-too-large = der Lauf ist zu groß: { $n } Schritte (höchstens { $max })
+
+engine-e-leo-verify-unknown-id = { $field } nennt eine unbekannte Kennung: { $id }
+
+## src/bench: tasks (f) and (g), the dataset registry and the golden index (E34)
+
+engine-bench-data-no-header = { $file }: keine Kopfzeile
+
+engine-bench-data-no-column = { $file }: keine Spalte `{ $column }`
+
+engine-bench-data-bad-value = { $file } Zeile { $line }: `{ $column }` fehlt oder ist ungültig
+
+engine-bench-data-no-rows = { $file }: keine Datenzeilen
+
+engine-bench-task-has-no-holdout = Aufgabe ({ $task }) hat keinen Holdout-Split: ihre Daten und ihr Split sind öffentlich
+
+engine-bench-unknown-baseline = unbekannte Baseline `{ $name }`
+
+engine-bench-g-no-traces = keine <drive>/<phone>/ground_truth.csv unter { $root }
+
+engine-bench-g-no-object = kein Objekt `{ $key }` mit Spuren
+
+engine-bench-g-bad-epoch = Spur `{ $id }`: jede Epoche muss [UnixTimeMillis, Breite, Länge] sein
+
+engine-bench-f-dataset-mismatch = { $path }: SHA-256 { $got } ist nicht die festgelegte dataset.csv von Aufgabe (f); mit scripts/fetch_opssat_ad.sh abrufen
+
+engine-bench-cli-unknown-task-g = unbekannte Aufgabe `{ $t }` (a bis g)
+
+engine-bench-cli-wrote-predictions = { $path } geschrieben ({ $traces } Spuren)
+
+engine-bench-datasets-summary = { $n } Datensätze: { $in_bench } im Benchmark, { $candidate } Kandidaten, { $wanted } gesucht
+
+engine-bench-datasets-ok = Register: { $n } Datensätze, jede Regel erfüllt
+
+engine-bench-golden-ok = { $n } eingefrorene Dateien unverändert; Zitier-IDs stabil
+
+engine-bench-golden-written = { $path } geschrieben ({ $n } eingefrorene Dateien)
+
+engine-bench-site-title-f = Aufgabe (f): Anomalieerkennung in Raumfahrzeug-Telemetrie
+
+engine-bench-site-title-g = Aufgabe (g): Positionsgenauigkeit von Smartphones
+
+engine-bench-site-col-ap = Durchschnittliche Präzision
+
+engine-bench-site-col-gsdc-score = Wert, Mittel aus P50 und P95 (m)
+
+engine-bench-site-col-p50 = P50 gesamt (m)
+
+engine-bench-site-col-p95 = P95 gesamt (m)
+
+## Feeder clients (src/feeder.rs, docs/FEEDER.md)
+engine-feed-usage = Aufruf: kshana feed pack <file.obs.jsonl|dir>... --key <keyfile> [--privacy public|exact] [--grid-deg <deg>] [--created <time>] [--include-open] [--out <bundle.json>] | verify <bundle.json> [--pubkey <hex>] [--json] | send <bundle.json> --url <http://host:port/path> [--token-file <file>] | spectrum <capture> --format cu8|ci8|ci16_le --rate <Hz> --centre <Hz> --station <station.toml> [--front-end <name>] [--nfft <n>] [--bins <n>] [--max-samples <n>] [--time <label>] [--out <file.obs.jsonl>] | leaderboard <bundle.json>... [--json]  (docs/FEEDER.md)
+engine-feed-packed = { $out }: Bündel für Station { $station }, { $files } Dateien, { $epochs } Epochen, Datenschutz { $mode }
+engine-feed-verified = { $path }: die Signatur ist gültig (Unterzeichner { $key }); Station { $station }, { $files } Dateien, { $epochs } Epochen, jede Datei gültiges kshana.obs/1
+engine-feed-sent = gesendet an { $url }: HTTP { $code }
+engine-feed-spectrum-written = { $out }: Spektrum-Momentaufnahme in { $bins } Bins (MODELLED: Pegel relativ zum Vollausschlag, keine kalibrierte Leistung)
+engine-e-feed-missing-value = { $option } braucht einen Wert
+engine-e-feed-unknown-option = unbekannte Option { $option } (kshana feed --help listet die Optionen)
+engine-e-feed-cannot-read = { $path } kann nicht gelesen werden: { $e }
+engine-e-feed-cannot-write = { $path } kann nicht geschrieben werden: { $e }
+engine-e-feed-not-obs = { $path } ist keine gültige kshana.obs/1-Datei: { $e }
+engine-e-feed-mixed-stations = die Dateien stammen von mehr als einer Station ({ $a } und { $b }); eine Station pro Bündel packen
+engine-e-feed-no-files = keine Beobachtungsdateien zum Packen
+engine-e-feed-bad-privacy = unbekannter Datenschutzmodus { $value } (public oder exact)
+engine-e-feed-bad-grid = das Ortsraster muss zwischen 0.01 und 10 Grad liegen, nicht { $value }
+engine-e-feed-not-bundle = kein kshana.feed/1-Bündel: { $e }
+engine-e-feed-bad-signature = die Signatur des Bündels ist ungültig
+engine-e-feed-key-mismatch = das Bündel ist von { $found } signiert, nicht vom erwarteten Schlüssel { $expected }
+engine-e-feed-hash-mismatch = Nutzdaten { $name } stimmen nicht mit ihrem gespeicherten SHA-256 überein
+engine-e-feed-payload-mismatch = Nutzdaten { $name } passen nicht zur Station oder zu den Satzzahlen, die das Bündel angibt
+engine-e-feed-not-coarsened = Nutzdaten { $name } eines öffentlichen Bündels enthalten noch { $what }
+engine-e-feed-bad-format = nicht unterstütztes Abtastformat { $value } (cu8, ci8 oder ci16_le)
+engine-e-feed-bad-number = { $option }: { $value } ist hier kein gültiger Wert
+engine-e-feed-short-capture = die Aufnahme enthält { $n } Abtastwerte, weniger als die Transformationslänge { $nfft }
+engine-e-feed-send-failed = Senden an { $url } fehlgeschlagen: { $e }
+engine-e-feed-send-refused = { $url } hat das Bündel abgelehnt: HTTP { $code }
+engine-e-obs-bad-spectrum = Zeile { $line }: ein Spektrum braucht endliche Zeit und Mittenfrequenz, positive Abtastrate und Bin-Breite sowie endliche Pegel
+
+## Product register (src/product_register.rs, docs/PRODUCT-REGISTER.md)
+engine-register-usage = Aufruf: kshana register check <register.json> [--key <hex>] | crl-check <crl.json> --key <hex> | view <register.json> [--key <hex>] [--crl <crl.json> --crl-key <hex>] [--date <YYYY-MM-DD>] [--json] | sign <register.json|crl.json> --key <keyfile> [--out <file>]  (docs/PRODUCT-REGISTER.md)
+engine-register-check-ok = { $path }: Register von { $publisher }, { $n } Einträge, die Signatur ist gültig (Unterzeichner { $key })
+engine-register-crl-check-ok = { $path }: Sperrliste von { $issuer }, { $n } gesperrte Einträge, die Signatur ist gültig; nächste Liste fällig am { $next }
+engine-register-view-summary = am { $date }: { $current } aktuell, { $due } zur erneuten Bewertung fällig, { $revoked } gesperrt
+engine-register-view-no-crl = keine Sperrliste angegeben: der Sperrstatus ist unbekannt (--crl <crl.json> --crl-key <hex>)
+engine-register-view-crl-stale = die Sperrliste ist veraltet: ihre nächste Aktualisierung war am { $next } fällig
+engine-e-register-key-mismatch = signiert von { $found }, nicht vom erwarteten Schlüssel { $expected }
+engine-e-register-bad-signature = die Signatur ist ungültig
+engine-e-register-bad-date = { $field } ist kein Datum der Form YYYY-MM-DD: { $value }
+engine-e-register-not-register = kein kshana.register/1-Register: { $e }
+engine-e-register-not-crl = keine kshana.register-crl/1-Sperrliste: { $e }
+engine-e-register-bad-id = Eintrags-ID { $id }: 1 bis 128 Buchstaben, Ziffern, Punkte, Bindestriche oder Unterstriche verwenden
+engine-e-register-duplicate-id = Eintrags-ID { $id } kommt mehr als einmal vor
+engine-e-register-revalidate-before-scored = Eintrag { $id } soll vor dem Datum seiner Bewertung erneut bewertet werden
+engine-e-register-bad-digest = Eintrag { $id }: evidence_sha256 muss aus 64 Hexadezimalziffern bestehen
+engine-e-register-missing-value = { $option } braucht einen Wert
+engine-e-register-cannot-read = { $path } kann nicht gelesen werden: { $e }
+engine-e-register-cannot-write = { $path } kann nicht geschrieben werden: { $e }
+engine-e-register-unknown-option = unbekannte Option { $option } (kshana register --help listet die Optionen)
+engine-e-register-crl-needs-key = --crl und --crl-key gehören zusammen: eine Sperrliste wird gegen den Schlüssel des Ausstellers geprüft
+
+## Interference environments (src/interference_env.rs, docs/INTERFERENCE-ENV.md)
+engine-interference-env-usage = Aufruf: kshana interference-env evaluate <environment.toml> | thresholds [--receiver <id>] | degradation --baseline <id> --pulse-width <s> --prf <Hz> [--below-ratio <R>] [--recovery <s>]  (docs/INTERFERENCE-ENV.md; MODELLED)
+engine-e-interference-env-unknown-receiver = unbekannter Empfänger { $id } (kshana interference-env thresholds listet sie)
+engine-e-interference-env-unknown-baseline = unbekannte Basislinie { $id } (siehe docs/INTERFERENCE-ENV.md)
+engine-e-interference-env-bad-source = Quelle { $name }: Leistung, Bandbreite, Pulsbreite oder Rate ist kein gültiger positiver endlicher Wert
+engine-e-interference-env-pulsed-needs-receiver = gepulste Quellen brauchen noise_temperature_k, precorrelation_bw_hz des Empfängers und einen Blanker- oder Sättigungspegel
+engine-e-interference-env-saturated = die Pulse lassen keine Zeit unausgetastet: das Tastverhältnis erreicht 1
+engine-e-interference-env-missing-value = { $option } braucht einen Wert
+engine-e-interference-env-bad-number = { $option } braucht eine Zahl, nicht { $value }
+engine-e-interference-env-unknown-option = unbekannte Option { $option } (kshana interference-env --help listet die Optionen)
+engine-e-interference-env-cannot-read = { $path } kann nicht gelesen werden: { $e }
+engine-e-interference-env-bad-file = { $path } ist keine Störumgebung: { $e }
+
+## Future-signal readiness (src/signal_readiness.rs, docs/SIGNAL-READINESS.md)
+engine-signal-readiness-usage = Aufruf: kshana signal-readiness <profile.toml> [<obs.rnx>...]  (docs/SIGNAL-READINESS.md)
+engine-e-signal-readiness-bad-rinex = { $path } ist keine RINEX-3- oder RINEX-4-Beobachtungsdatei: { $e }
+engine-e-signal-readiness-unknown-option = unbekannte Option { $option } (kshana signal-readiness --help)
+engine-e-signal-readiness-cannot-read = { $path } kann nicht gelesen werden: { $e }
+engine-e-signal-readiness-bad-profile = { $path } ist kein Empfängerprofil: { $e }
+
+## BeiDou-LEO planning (src/leo_od_plan.rs, docs/LEO-OD-PLAN.md)
+engine-leo-od-plan-usage = Aufruf: kshana leo-od-plan <plan.toml>  (docs/LEO-OD-PLAN.md; MODELLED, a planning tool)
+engine-e-leo-od-plan-bad-plan = die Zahlen des Plans liegen außerhalb des Bereichs: Bogen, Schritt, Rauschen und Masken positiv und endlich, höchstens 100000 Schritte, Masken innerhalb von ±90 Grad, eine Halbwertsbreite von 0 bis 90 Grad und ein LEO-Walker-Muster, dessen Ebenen die Satellitenzahl teilen
+engine-e-leo-od-plan-cannot-read = { $path } kann nicht gelesen werden: { $e }
+engine-e-leo-od-plan-bad-file = { $path } ist kein Plan: { $e }
