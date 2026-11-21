@@ -9826,6 +9826,15 @@ engine-e-ais-integrity-cannot-read = 无法读取 { $path }：{ $e }
 engine-e-ais-integrity-cannot-write = 无法写入 { $path }：{ $e }
 engine-e-ais-integrity-bad-place = 地点列表的一行不是带有效位置和正半径的 name,lat,lon,radius_m：{ $row }
 
+## Private holdout of kshana-bench tasks (f) and (g) (src/bench/holdout.rs)
+engine-e-bench-holdout-inside-repository = 拒绝在仓库内写入私有保留集：{ $path }（请选择仓库外的目录）
+engine-e-bench-holdout-task = 私有保留集仅适用于任务 (f) 和 (g)
+engine-e-bench-holdout-no-truth = 任务 ({ $task }) 没有私有真值：请给出 --truth <file> 或设置 { $var }
+engine-bench-holdout-not-a-private-truth = 不是私有保留集真值：必须是任务 (f) 或 (g)、划分为 holdout 的 kshana-bench 真值文件
+engine-bench-holdout-not-registered = SHA-256 为 { $sha } 的任务 ({ $task }) 真值未在 bench/holdout/PRIVATE.json 中登记
+engine-bench-site-holdout-not-private = 结果 { $v1 } 是任务 (f) 或 (g) 的保留集结果，但未标记为私有或其真值未登记
+engine-bench-site-provenance-private-holdout = 在私有保留集上评分（已登记真值）
+
 engine-main-usage =
     用法：kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }或：kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -9843,7 +9852,7 @@ engine-main-usage =
     { "   " }或：kshana nmea-scenario <scenario.toml> [--out <file.nmea>] [--tcp <addr>|--udp <addr>] (kshana nmea-scenario --help)
     { "   " }或：kshana interference-map <adsb|ais|fetch-land> ... (kshana interference-map --help)
     { "   " }或：kshana route-exposure --route <route> --map <map.geojson|dir> [--from <date>] [--to <date>]
-    { "   " }或：kshana bench <spec|truth|cases|score|baseline|seal|reveal-check|manifest|verify-manifest|validate|leaderboard|positions|datasets|cite|golden> ... (kshana bench --help)
+    { "   " }或：kshana bench <spec|truth|cases|score|baseline|seal|reveal-check|manifest|verify-manifest|validate|leaderboard|positions|datasets|cite|golden|holdout> ... (kshana bench --help)
     { "   " }或：kshana bench-export <scenario.toml> [--out <base>] [--epoch <YYYY-MM-DDTHH:MM:SS>]
     { "   " }或：kshana compliance-report [--out <base>] <result.json>... | --mapping | --sources
     { "   " }或：kshana lunanet-afs-check <spec [--json] [--strict]|symbols <file> [--max-sp-errors <n>] [--json]|generate --frames <n> [--toi0 <t>] --out <file>>
@@ -10005,6 +10014,9 @@ engine-bench-cli-usage =
     { "   " }或：kshana bench golden [--root <repo>] (--out <GOLDEN.json> | --check <GOLDEN.json>)
     { "   " }或：kshana bench validate <result.json>...
     { "   " }或：kshana bench leaderboard [<results dir|result.json>...] --out <page.html> [--fragment]   （无输入：空状态；--fragment：可嵌入的片段）
+    { "   " }或：kshana bench holdout truth --task <f|g> --data <private data> --out <private dir>
+    { "   " }或：kshana bench holdout register --truth <private truth.json>
+    { "   " }或：kshana bench holdout score --task <f|g> --predictions <predictions.json> [--truth <private truth.json>] [--out <result.json>]   (KSHANA_BENCH_HOLDOUT_F, KSHANA_BENCH_HOLDOUT_G)
     { "   " }（种子文件保存封存保留集背后的密钥；请勿纳入版本控制）
 
 engine-bench-cli-match = 一致

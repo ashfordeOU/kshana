@@ -190,6 +190,14 @@ submissions with the corpus regenerated from `s`. After the leaderboard round, `
 commitment, and commits that hash to `bench/holdout/COMMITMENTS.json`; **no seed is ever in this repository or in
 a message.** No release holdout is sealed yet, and `reveal-check` and the leaderboard refuse a provisional hash.
 
+**Private holdout of tasks (f) and (g).** Added on 20 November 2026 by owner decision; it adds a split
+realisation and changes no metric, truth rule or public split. The owner keeps a truth file of cases that are not
+public, in the truth format of the task with split `holdout`, outside this repository, and commits only its entry to
+`bench/holdout/PRIVATE.json` (task, SHA-256 of the file, number of cases, date). A private-holdout result is scored by
+`kshana bench holdout score` from that file, given at run time, only when its SHA-256 is registered; the result carries
+`holdout.private = true`. The leaderboard shows a task (f) or (g) holdout row only on those conditions. The private
+data, the private truth and the cases file are never in this repository or in a message.
+
 **Leaderboard hygiene.** A result states the split it was scored on. The `holdout` column is filled only by
 the owner or an operator they name. One method, one holdout evaluation per round.
 

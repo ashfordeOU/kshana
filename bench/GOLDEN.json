@@ -36,6 +36,11 @@
       "sha256": "a46e7cd8e78fcc11519892c8bb5cd28a411e4145bd7bd4ad0523b9c8bae2be12"
     },
     {
+      "bytes": 672,
+      "path": "bench/holdout/PRIVATE.json",
+      "sha256": "b644f721d7eb8d065ab5152538ed80ecefb2627fdbc3e044200bc6251f573664"
+    },
+    {
       "bytes": 1195,
       "citation_id": "kb-2-a-dev-98ee164e6a965522",
       "path": "bench/results/a-dev-agc-k-sigma.result.json",

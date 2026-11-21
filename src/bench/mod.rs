@@ -17,6 +17,7 @@ pub mod anomaly;
 pub mod cite;
 pub mod cli;
 pub mod datasets;
+pub mod holdout;
 pub mod site;
 pub mod smartphone;
 pub mod task_e;
