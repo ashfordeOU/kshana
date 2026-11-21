@@ -97,10 +97,14 @@ impl OemFile {
     /// Build an OEM from a propagated constellation: each satellite becomes one
     /// segment whose ephemeris lines are the propagator's inertial state sampled
     /// every `step_s` for `num_epochs` epochs, starting at calendar epoch `start`
-    /// (GPS time scale). Because OEM is written in the inertial (TEME) frame the
-    /// state is taken straight from [`crate::orbit::Propagator::state_eci`] with
-    /// no Earth-fixed rotation — position m → km, velocity m/s → km/s.
-    /// `creation_date` stamps the header deterministically.
+    /// (UTC, the scale of the scenario `epoch`). Because OEM is written in the
+    /// inertial (TEME) frame the state is taken from
+    /// [`crate::orbit::Propagator::state_eci`] with no Earth-fixed rotation —
+    /// position m → km, velocity m/s → km/s. A propagator that dates itself (a TLE,
+    /// a broadcast ephemeris, an SP3 file) is evaluated at the labelled instant,
+    /// `start + i·step_s`, not at its own epoch plus `i·step_s`
+    /// ([`crate::orbit::Propagator::own_jd_utc`]). `creation_date` stamps the
+    /// header deterministically.
     pub fn from_propagators(
         ids: &[String],
         sats: &[crate::orbit::Propagator],
@@ -136,12 +140,23 @@ impl OemFile {
             }
         };
         let last = num_epochs.saturating_sub(1);
+        let start_jd = crate::timescales::julian_date(
+            start.year,
+            start.month,
+            start.day,
+            start.hour,
+            start.minute,
+            start.second,
+        );
         let mut segments = Vec::with_capacity(sats.len());
         for (id, sat) in ids.iter().zip(sats.iter()) {
             let mut states = Vec::with_capacity(num_epochs);
+            let offset = sat
+                .own_jd_utc(0.0)
+                .map_or(0.0, |own0| (start_jd - own0) * 86_400.0);
             for i in 0..num_epochs {
                 let t = i as f64 * step_s;
-                let s = sat.state_eci(t);
+                let s = sat.state_eci(offset + t);
                 states.push(OemStateLine {
                     epoch: epoch_at(i),
                     pos_km: [s.r_m[0] / 1000.0, s.r_m[1] / 1000.0, s.r_m[2] / 1000.0],
@@ -158,7 +173,7 @@ impl OemFile {
                     object_id: id.clone(),
                     center_name: "EARTH".to_string(),
                     ref_frame: "TEME".to_string(),
-                    time_system: "GPS".to_string(),
+                    time_system: "UTC".to_string(),
                     start: epoch_at(0),
                     stop: epoch_at(last),
                 },
@@ -917,7 +932,7 @@ mod tests {
             "OBJECT_ID = G01",
             "CENTER_NAME = EARTH",
             "REF_FRAME = TEME",
-            "TIME_SYSTEM = GPS",
+            "TIME_SYSTEM = UTC",
             "START_TIME = 2023-01-01T00:00:00.000000",
             "STOP_TIME = 2023-01-01T00:45:00.000000",
         ] {

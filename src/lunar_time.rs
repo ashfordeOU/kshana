@@ -153,7 +153,7 @@ pub fn lunar_rate_breakdown(t_tt_jc: f64) -> LunarRateBreakdown {
 
 /// The secular LTC−TT rate as a dimensionless ratio (s of LTC per s of TT), at TT epoch
 /// `t_tt_jc`. This is `total_us_per_day · 1e-6 / 86400`.
-fn rate_s_per_s(t_tt_jc: f64) -> f64 {
+pub fn rate_s_per_s(t_tt_jc: f64) -> f64 {
     lunar_rate_breakdown(t_tt_jc).total_us_per_day * 1e-6 / SECONDS_PER_DAY
 }
 
