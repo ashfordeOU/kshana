@@ -167,8 +167,9 @@ impl State {
     fn flush(&mut self) {
         let Some(ep) = self.cur.take() else { return };
         if let Some(prev) = self.last_tod {
-            // A time of day that goes backwards with no new [RD] is the next day.
-            if ep.tod < prev {
+            // A time of day that drops by more than half a day with no new [RD] is the next
+            // day; a smaller step back is an epoch out of order, not a new day.
+            if ep.tod < prev - DAY_MS / 2 {
                 if let Some((d, b)) = self.date {
                     self.date = Some((d + 1, b));
                 }
@@ -207,7 +208,12 @@ impl State {
         if ep.e.cn0.is_empty() && ep.e.fix.is_none() && ep.e.reported_dop.is_none() {
             return;
         }
-        let e = self.map.at(key);
+        // Without a date the key is the time of day, which restarts at midnight.
+        let e = if self.date.is_some() {
+            self.map.at(key)
+        } else {
+            self.map.at_wrapped(key, DAY_MS)
+        };
         e.time_label.get_or_insert(label);
         let LogEpoch {
             cn0,
