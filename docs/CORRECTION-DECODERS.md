@@ -69,7 +69,7 @@ fails, 2 on a usage or file error.
 
 ## Test vectors: `kshana.correction-vectors/1`
 
-The set (24 vectors, set version 1.0.0) is `has.json`, `b2b.json` and `l6.json` in
+The set (25 vectors, set version 1.0.0) is `has.json`, `b2b.json` and `l6.json` in
 `data/conformance/corrections/`. They are written by `gen_correction_vectors.py`, a Python standard-library encoder that shares
 no code with the Rust decoders: from field values it chooses it builds the frames bit by bit (including
 the HAS Reed-Solomon parity by polynomial division and the CRCs) and writes the values it expects back.
@@ -100,7 +100,25 @@ everything else exactly.
 |---|---|
 | `has` | a message with every block type and a cell mask, from parity and systematic pages, from C/NAV pages and from bare HAS pages; redundant, dummy, corrupted, zero-carrying and reserved-PID pages; a clock-only and a clock-subset message using an earlier mask; a message whose mask never arrived; an incomplete message; a Message ID reused with new content |
 | `b2b` | each message type, the not-available codes, URAI 0 and 63, entries past the mask, a clock message without its mask, null, reserved type, bad CRC and short frames |
-| `l6` | a CLAS subframe with sub types 1 to 12 across three data parts, the mask carried to the next subframe, no mask, IOD SSR mismatch and a truncated subframe; MADOCA-PPP with GNSS ID 7 and Galileo E6; the MADOCA-PPP ionospheric coverage and correction messages; QZNMA and orphan data parts, wrong preamble, short frames |
+| `l6` | a CLAS subframe with sub types 1 to 12 across three data parts, the mask carried to the next subframe, no mask, IOD SSR mismatch and a truncated subframe; MADOCA-PPP with GNSS ID 7 and Galileo E6, and its phase-bias (sub type 5) and URA (sub type 7) messages; the MADOCA-PPP ionospheric coverage and correction messages; QZNMA and orphan data parts, wrong preamble, short frames |
+
+### Message types and the vectors that cover them
+
+Every message type the decoders read has at least one vector. Section and table numbers are the
+documents' own, as cited in the decoder sources; the generator encodes from the same tables.
+
+| Decoder | Message type | Document and section | Vectors |
+|---|---|---|---|
+| HAS | page header, dummy page, reserved PID | Galileo HAS SIS ICD Issue 1.0, section 2.4.1, section 3 (Tables 7 and 8) | `has-redundant-dummy-and-bad-crc`, `has-reserved-pid-and-short-frame` |
+| HAS | outer code RS(255,32) | same, section 6 (Eq. 7 to 17) | `has-mt1-all-blocks-from-two-cnav-pages`, `has-mt1-from-448-bit-has-pages`, `has-incomplete-message`, `has-mid-reused-with-new-content` |
+| HAS | MT1 header, mask, orbit, clock full-set, code and phase biases | same, section 5 (Tables 12, 15 to 31, 35 to 40) | `has-mt1-all-blocks-from-two-cnav-pages`, `has-mt1-from-448-bit-has-pages` |
+| HAS | MT1 clock subset, mask taken from an earlier message | same, section 5 (Tables 32 to 34), section 7.6 | `has-clock-and-subset-use-the-earlier-mask`, `has-clock-without-mask` |
+| L6 | header, vendor and subframe indicator | IS-QZSS-L6-008 section 4.1.2.1; IS-QZSS-MDC-005 Table 4.2.1-2 | `l6-vendors-orphans-and-preamble` |
+| L6 CLAS | Compact SSR sub types 1 to 12 | IS-QZSS-L6-008 section 4.1.2.2 (Tables 4.1.2-3 to 4.1.2-42) | `l6-clas-subframe-all-subtypes`, `l6-clas-mask-carried-to-next-subframe`, `l6-clas-no-mask`, `l6-clas-iod-ssr-mismatch` |
+| L6 MADOCA-PPP | sub types 1 to 4, GNSS ID 7, Galileo E6 signals | IS-QZSS-MDC-005 section 4.2.2 (Tables 4.2.2-7 to 4.2.2-9) | `l6-madoca-bds3-gnss-id-7-and-e6` |
+| L6 MADOCA-PPP | sub type 5 (phase bias) and sub type 7 (URA) | IS-QZSS-MDC-005 section 4.2.2 (field tables to confirm) | `l6-madoca-phase-bias-and-ura` |
+| L6 MADOCA-PPP iono | messages 1 (coverage) and 2 (correction) | IS-QZSS-MDC-005 section 6.3.2 | `l6-madoca-ionospheric-coverage-and-correction` |
+| B2b | types 1 to 7, null, reserved | BeiDou PPP-B2b ICD (as cited in `b2b.json`) | `b2b-*` |
 
 ### Checking against the HAS ICD's own examples (opt-in)
 
