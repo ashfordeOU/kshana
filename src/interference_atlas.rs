@@ -292,8 +292,12 @@ fn cn0_series(o: &RinexObs) -> BTreeMap<(String, i64), f64> {
     let Some(k) = codes.iter().position(|c| c.starts_with("S1")) else {
         return out;
     };
-    for ep in &o.epochs {
-        let t = (ep.time.seconds_from_gps_epoch() * 10.0).round() as i64; // decisecond key
+    for (i, ep) in o.epochs.iter().enumerate() {
+        // Decisecond key on GPS time, from the file's declared time system.
+        let t_gps = o
+            .epoch_gps_seconds(i)
+            .unwrap_or_else(|| ep.time.seconds_from_gps_epoch());
+        let t = (t_gps * 10.0).round() as i64;
         for sv in &ep.sats {
             if !sv.sat.starts_with('G') {
                 continue;
