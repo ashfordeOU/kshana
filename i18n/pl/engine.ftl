@@ -10993,6 +10993,7 @@ engine-main-usage =
     { "   " }lub: kshana sil-obsgen <scenario.toml> --out <obs.rnx> [--truth <truth.json>]
     { "   " }lub: kshana osnma scenario run <scenario.json> [--json] | template (kshana osnma scenario --help)
     { "   " }lub: kshana lunar-oem convert <in.oem> --to ICRF|MOON_PA440|MOON_ME [--out <file>] | frames (kshana lunar-oem --help)
+    { "   " }lub: kshana leo-sparse <study.toml>
     { "   " }lub: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }lub: kshana corrections <decode --format <has|b2b|l6|l1s|qznma> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...] | qznma-verify [--frames <frames.txt>] [--nav <nav.txt>] --pubkey <key.der> ...>
     { "   " }lub: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
@@ -12340,3 +12341,10 @@ engine-leo-od-plan-usage = użycie: kshana leo-od-plan <plan.toml>  (docs/LEO-OD
 engine-e-leo-od-plan-bad-plan = wartości planu są poza zakresem: łuk, krok, szumy i maski dodatnie i skończone, najwyżej 100000 kroków, maski w granicach ±90 stopni, połowa szerokości wiązki od 0 do 90 stopni i wzorzec Walkera LEO, którego płaszczyzny dzielą liczbę satelitów
 engine-e-leo-od-plan-cannot-read = nie można odczytać { $path }: { $e }
 engine-e-leo-od-plan-bad-file = { $path } nie jest planem: { $e }
+
+## Sparse-geometry LEO-PNT study (src/leo_sparse.rs, docs/LEO-SPARSE.md)
+engine-leo-sparse-usage = użycie: kshana leo-sparse <study.toml>  (docs/LEO-SPARSE.md; MODELLED, a planning study)
+engine-e-leo-sparse-bad-study = wartości badania są poza zakresem: prawidłowe położenie użytkownika, wzorzec Walkera LEO poniżej 3000 km, którego płaszczyzny dzielą liczbę satelitów, maska od 0 do 90 stopni, max_in_view równe 1 lub 2, dodatnie szumy, wartości a priori i cele, najwyżej 200000 kroków i odstęp raportów nie krótszy niż krok
+engine-e-leo-sparse-singular = macierzy informacji nie da się odwrócić nawet z wartościami a priori
+engine-e-leo-sparse-cannot-read = nie można odczytać { $path }: { $e }
+engine-e-leo-sparse-bad-file = { $path } nie jest badaniem: { $e }

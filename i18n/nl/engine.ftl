@@ -10854,6 +10854,7 @@ engine-main-usage =
     { "   " }of: kshana sil-obsgen <scenario.toml> --out <obs.rnx> [--truth <truth.json>]
     { "   " }of: kshana osnma scenario run <scenario.json> [--json] | template (kshana osnma scenario --help)
     { "   " }of: kshana lunar-oem convert <in.oem> --to ICRF|MOON_PA440|MOON_ME [--out <file>] | frames (kshana lunar-oem --help)
+    { "   " }of: kshana leo-sparse <study.toml>
     { "   " }of: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }of: kshana corrections <decode --format <has|b2b|l6|l1s|qznma> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...] | qznma-verify [--frames <frames.txt>] [--nav <nav.txt>] --pubkey <key.der> ...>
     { "   " }of: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
@@ -12164,3 +12165,10 @@ engine-leo-od-plan-usage = gebruik: kshana leo-od-plan <plan.toml>  (docs/LEO-OD
 engine-e-leo-od-plan-bad-plan = de waarden van het plan vallen buiten het bereik: boog, stap, ruis en maskers positief en eindig, hoogstens 100000 stappen, maskers binnen ±90 graden, een halve bundelbreedte van 0 tot 90 graden en een LEO-Walkerpatroon waarvan de vlakken het aantal satellieten delen
 engine-e-leo-od-plan-cannot-read = kan { $path } niet lezen: { $e }
 engine-e-leo-od-plan-bad-file = { $path } is geen plan: { $e }
+
+## Sparse-geometry LEO-PNT study (src/leo_sparse.rs, docs/LEO-SPARSE.md)
+engine-leo-sparse-usage = gebruik: kshana leo-sparse <study.toml>  (docs/LEO-SPARSE.md; MODELLED, a planning study)
+engine-e-leo-sparse-bad-study = de waarden van de studie vallen buiten het bereik: een geldige gebruikerspositie, een LEO-Walkerpatroon onder 3000 km waarvan de vlakken het aantal satellieten delen, een masker van 0 tot 90 graden, max_in_view 1 of 2, positieve ruis, a-priori's en doelen, hoogstens 200000 stappen en een rapportinterval niet korter dan de stap
+engine-e-leo-sparse-singular = de informatiematrix is ook met de a-priori's niet te inverteren
+engine-e-leo-sparse-cannot-read = kan { $path } niet lezen: { $e }
+engine-e-leo-sparse-bad-file = { $path } is geen studie: { $e }
