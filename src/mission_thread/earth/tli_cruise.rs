@@ -653,7 +653,7 @@ impl TliCruise {
         }
         let entry = &stated;
         let t0 = entry.t_s;
-        let jd0 = crate::lunar_phase::epoch_jd(ctx, t0)?;
+        let jd0 = crate::lunar_phase::epoch_jd_tdb(ctx, t0)?;
         let dur = phase.duration_s;
 
         // The burn.
