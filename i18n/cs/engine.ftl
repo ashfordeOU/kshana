@@ -10549,6 +10549,33 @@ engine-e-ais-integrity-cannot-read = nelze číst { $path }: { $e }
 engine-e-ais-integrity-cannot-write = nelze zapsat { $path }: { $e }
 engine-e-ais-integrity-bad-place = řádek seznamu míst není name,lat,lon,radius_m s platnou polohou a kladným poloměrem: { $row }
 
+## Quantum inertial-sensor benchmark (src/quantum_bench.rs)
+engine-quantum-bench-usage = použití: kshana quantum-bench protocol [--out <protocol.json>] | simulate <spec.toml> --out <series.csv> | score <series.csv> [--fringe-m-s2 <a>] [--out <score.json>]  (docs/QUANTUM-BENCH.md)
+engine-quantum-bench-simulated = zapsáno { $n } vzorků ({ $n_wrapped } s přetočeným proužkem) do { $path } (MODELLED)
+engine-e-quantum-bench-missing-value = { $option } vyžaduje hodnotu
+engine-e-quantum-bench-unknown-option = neznámá volba { $option } (volby vypíše kshana quantum-bench --help)
+engine-e-quantum-bench-bad-number = { $option } vyžaduje konečné kladné číslo, ne { $value }
+engine-e-quantum-bench-cannot-read = nelze číst { $path }: { $e }
+engine-e-quantum-bench-cannot-write = nelze zapsat { $path }: { $e }
+engine-e-quantum-bench-bad-spec = { $path } není platná specifikace: { $e }
+engine-e-quantum-bench-bad-sensor = senzor potřebuje kladný odstup pulzů, alespoň jeden atom, kontrast v (0, 1] a dobu cyklu nejméně dvojnásobek odstupu pulzů
+engine-e-quantum-bench-bad-run = běh potřebuje dobu trvání alespoň jednoho cyklu a nejvýše deset milionů cyklů
+engine-e-quantum-bench-too-short = řada potřebuje alespoň 16 vzorků s rostoucími časy
+engine-e-quantum-bench-bad-csv = řada potřebuje sloupce t_s a measured_m_s2 s konečnými čísly: { $row }
+
+## Terrestrial signals of opportunity, clock offset (src/soop_clock.rs)
+engine-soop-clock-usage = použití: kshana soop-clock lte <capture.sigmf-meta> --start-gps-s <t> --rx <lat,lon,h> --tx <lat,lon,h> [--tx-offset-ns <ns>] [--prior-offset-s <s>] [--carrier-hz <f>] [--min-metric <m>] [--out <file.json>] | cp <capture.sigmf-meta> --nfft <n> --ncp <n> [--carrier-hz <f>] [--out <file.json>] | synth-lte --out <base> [--fs <hz>] [--duration-s <s>] [--nid2 <0|1|2>] [--delay-s <s>] [--cfo-hz <f>] [--snr-db <d>] [--seed <s>]  (docs/SOOP-CLOCK.md)
+engine-soop-clock-summary = { $n } detekcí PSS; posun hodin přijímače { $offset_us } µs na začátku záznamu (MODELLED)
+engine-e-soop-clock-missing-value = { $option } vyžaduje hodnotu
+engine-e-soop-clock-unknown-option = neznámá volba { $option } (volby vypíše kshana soop-clock --help)
+engine-e-soop-clock-bad-number = { $option } vyžaduje konečné číslo, ne { $value }
+engine-e-soop-clock-bad-position = { $option } vyžaduje lat,lon[,h] ve stupních a metrech, ne { $value }
+engine-e-soop-clock-cannot-read = nelze číst { $path }: { $e }
+engine-e-soop-clock-cannot-write = nelze zapsat { $path }: { $e }
+engine-e-soop-clock-too-few-detections = { $n } detekcí PSS; pro posun a rychlost jsou potřeba alespoň tři
+engine-e-soop-clock-too-short = záznam je kratší než dva symboly OFDM
+engine-e-soop-clock-bad-synth = testovací signál potřebuje vzorkovací kmitočet od 100 kHz do 61,44 MHz a kladnou dobu trvání nejvýše 20 milionů vzorků
+
 engine-main-usage =
     použití: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }nebo: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10586,6 +10613,8 @@ engine-main-usage =
     { "   " }nebo: kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
     { "   " }nebo: kshana orbit-data <check|convert|gp-compare|gp-audit|cov> ... (kshana orbit-data --help)
     { "   " }nebo: kshana drone <prearm|prearm-calibrate|estimator-cases|dr-budget|quad-loss|failover|zonotope-pl> ... (kshana drone --help)
+    { "   " }nebo: kshana quantum-bench <protocol|simulate|score> ... (kshana quantum-bench --help)
+    { "   " }nebo: kshana soop-clock <lte|cp|synth-lte> ... (kshana soop-clock --help)
     { "   " }nebo: kshana kinds [--json]
     { "   " }nebo: kshana example [<name>]
     { "   " }nebo: kshana --help | --version

@@ -221,6 +221,10 @@
    "count": 5,
    "reason": "identifier: the class names and JSON keys of the M5 result and B4 documents (machine documents)"
   },
+  "src/quantum_bench.rs": {
+   "count": 67,
+   "reason": "machine-document and identifier: the quantum-bench/v1 protocol document (test names, conditions, data and rules written into that machine document), schema ids, field names, the CSV header and its MODELLED comment line, and the score note (docs/QUANTUM-BENCH.md)"
+  },
   "src/rtcm_ssr.rs": {
    "count": 3,
    "reason": "identifiers: the source names `rtcm-ssr` and `igs-ssr` written into kshana.obs/1 correction records"
@@ -1090,8 +1094,8 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/main.rs": {
-   "count": 76,
-   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md); clock-live prints its error text as given; the sensor-live command name; the device and bench-speed command names; the data-pack, area-trust and env-baseline command names; the ephem-export command name; the time-vectors command name; the ais-integrity command name; the space-weather command name; the orbit-data command name."
+   "count": 78,
+   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md); clock-live prints its error text as given; the sensor-live command name; the device and bench-speed command names; the data-pack, area-trust and env-baseline command names; the ephem-export command name; the time-vectors command name; the ais-integrity command name; the space-weather command name; the orbit-data command name; the quantum-bench and soop-clock command names."
   },
   "src/mars_pnt.rs": {
    "count": 31,
@@ -1432,6 +1436,10 @@
   "src/solar_system.rs": {
    "count": 77,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
+  },
+  "src/soop_clock.rs": {
+   "count": 23,
+   "reason": "machine-document and identifier: schema ids, option names, SigMF file suffixes, field names and the notes written into the kshana.soop-clock-lte/1 and -cp/1 documents, and the SigMF description of the synthetic test capture (docs/SOOP-CLOCK.md)"
   },
   "src/space_packet.rs": {
    "count": 29,

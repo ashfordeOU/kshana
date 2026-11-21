@@ -10691,6 +10691,33 @@ engine-e-ais-integrity-cannot-read = impossible de lire { $path } : { $e }
 engine-e-ais-integrity-cannot-write = impossible d'écrire { $path } : { $e }
 engine-e-ais-integrity-bad-place = une ligne de la liste de lieux n'est pas name,lat,lon,radius_m avec une position valide et un rayon positif : { $row }
 
+## Quantum inertial-sensor benchmark (src/quantum_bench.rs)
+engine-quantum-bench-usage = utilisation : kshana quantum-bench protocol [--out <protocol.json>] | simulate <spec.toml> --out <series.csv> | score <series.csv> [--fringe-m-s2 <a>] [--out <score.json>]  (docs/QUANTUM-BENCH.md)
+engine-quantum-bench-simulated = { $n } échantillons écrits ({ $n_wrapped } avec une frange repliée) dans { $path } (MODELLED)
+engine-e-quantum-bench-missing-value = { $option } exige une valeur
+engine-e-quantum-bench-unknown-option = option inconnue { $option } (kshana quantum-bench --help liste les options)
+engine-e-quantum-bench-bad-number = { $option } attend un nombre fini et positif, pas { $value }
+engine-e-quantum-bench-cannot-read = impossible de lire { $path } : { $e }
+engine-e-quantum-bench-cannot-write = impossible d'écrire { $path } : { $e }
+engine-e-quantum-bench-bad-spec = { $path } n’est pas une spécification valide : { $e }
+engine-e-quantum-bench-bad-sensor = le capteur demande un écart d’impulsions positif, au moins un atome, un contraste dans (0, 1] et un temps de cycle d’au moins deux fois l’écart
+engine-e-quantum-bench-bad-run = l’exécution demande une durée d’au moins un cycle et d’au plus dix millions de cycles
+engine-e-quantum-bench-too-short = la série demande au moins 16 échantillons à temps croissants
+engine-e-quantum-bench-bad-csv = la série demande des colonnes t_s et measured_m_s2 de nombres finis : { $row }
+
+## Terrestrial signals of opportunity, clock offset (src/soop_clock.rs)
+engine-soop-clock-usage = utilisation : kshana soop-clock lte <capture.sigmf-meta> --start-gps-s <t> --rx <lat,lon,h> --tx <lat,lon,h> [--tx-offset-ns <ns>] [--prior-offset-s <s>] [--carrier-hz <f>] [--min-metric <m>] [--out <file.json>] | cp <capture.sigmf-meta> --nfft <n> --ncp <n> [--carrier-hz <f>] [--out <file.json>] | synth-lte --out <base> [--fs <hz>] [--duration-s <s>] [--nid2 <0|1|2>] [--delay-s <s>] [--cfo-hz <f>] [--snr-db <d>] [--seed <s>]  (docs/SOOP-CLOCK.md)
+engine-soop-clock-summary = { $n } détections PSS ; décalage d’horloge du récepteur { $offset_us } µs au début de la capture (MODELLED)
+engine-e-soop-clock-missing-value = { $option } exige une valeur
+engine-e-soop-clock-unknown-option = option inconnue { $option } (kshana soop-clock --help liste les options)
+engine-e-soop-clock-bad-number = { $option } attend un nombre fini, pas { $value }
+engine-e-soop-clock-bad-position = { $option } attend lat,lon[,h] en degrés et en mètres, pas { $value }
+engine-e-soop-clock-cannot-read = impossible de lire { $path } : { $e }
+engine-e-soop-clock-cannot-write = impossible d'écrire { $path } : { $e }
+engine-e-soop-clock-too-few-detections = { $n } détections PSS ; il en faut au moins trois pour un décalage et une dérive
+engine-e-soop-clock-too-short = la capture est plus courte que deux symboles OFDM
+engine-e-soop-clock-bad-synth = le signal de test demande une fréquence d’échantillonnage de 100 kHz à 61,44 MHz et une durée positive d’au plus 20 millions d’échantillons
+
 engine-main-usage =
     utilisation : kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }ou : kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10728,6 +10755,8 @@ engine-main-usage =
     { "   " }ou : kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
     { "   " }ou : kshana orbit-data <check|convert|gp-compare|gp-audit|cov> ... (kshana orbit-data --help)
     { "   " }ou : kshana drone <prearm|prearm-calibrate|estimator-cases|dr-budget|quad-loss|failover|zonotope-pl> ... (kshana drone --help)
+    { "   " }ou : kshana quantum-bench <protocol|simulate|score> ... (kshana quantum-bench --help)
+    { "   " }ou : kshana soop-clock <lte|cp|synth-lte> ... (kshana soop-clock --help)
     { "   " }ou : kshana kinds [--json]
     { "   " }ou : kshana example [<name>]
     { "   " }ou : kshana --help | --version

@@ -9759,6 +9759,33 @@ engine-e-ais-integrity-cannot-read = { $path } を読み込めません：{ $e }
 engine-e-ais-integrity-cannot-write = { $path } に書き込めません：{ $e }
 engine-e-ais-integrity-bad-place = 地点リストの行が、有効な位置と正の半径を持つ name,lat,lon,radius_m ではありません：{ $row }
 
+## Quantum inertial-sensor benchmark (src/quantum_bench.rs)
+engine-quantum-bench-usage = 使い方：kshana quantum-bench protocol [--out <protocol.json>] | simulate <spec.toml> --out <series.csv> | score <series.csv> [--fringe-m-s2 <a>] [--out <score.json>]  (docs/QUANTUM-BENCH.md)
+engine-quantum-bench-simulated = { $n } 件のサンプル (うち干渉縞が折り返したもの { $n_wrapped } 件) を { $path } に書き込みました (MODELLED)
+engine-e-quantum-bench-missing-value = { $option } には値が必要です
+engine-e-quantum-bench-unknown-option = 不明なオプション { $option }（kshana quantum-bench --help でオプションを一覧表示）
+engine-e-quantum-bench-bad-number = { $option } には有限の正の数値が必要です ({ $value } ではありません)
+engine-e-quantum-bench-cannot-read = { $path } を読み込めません：{ $e }
+engine-e-quantum-bench-cannot-write = { $path } に書き込めません：{ $e }
+engine-e-quantum-bench-bad-spec = { $path } は有効な仕様ではありません: { $e }
+engine-e-quantum-bench-bad-sensor = センサーには正のパルス間隔、1 個以上の原子、(0, 1] のコントラスト、パルス間隔の 2 倍以上のサイクル時間が必要です
+engine-e-quantum-bench-bad-run = 実行時間は 1 サイクル以上、1000 万サイクル以下でなければなりません
+engine-e-quantum-bench-too-short = 系列には時刻が増加する 16 件以上のサンプルが必要です
+engine-e-quantum-bench-bad-csv = 系列には有限の数値の t_s 列と measured_m_s2 列が必要です: { $row }
+
+## Terrestrial signals of opportunity, clock offset (src/soop_clock.rs)
+engine-soop-clock-usage = 使い方：kshana soop-clock lte <capture.sigmf-meta> --start-gps-s <t> --rx <lat,lon,h> --tx <lat,lon,h> [--tx-offset-ns <ns>] [--prior-offset-s <s>] [--carrier-hz <f>] [--min-metric <m>] [--out <file.json>] | cp <capture.sigmf-meta> --nfft <n> --ncp <n> [--carrier-hz <f>] [--out <file.json>] | synth-lte --out <base> [--fs <hz>] [--duration-s <s>] [--nid2 <0|1|2>] [--delay-s <s>] [--cfo-hz <f>] [--snr-db <d>] [--seed <s>]  (docs/SOOP-CLOCK.md)
+engine-soop-clock-summary = PSS 検出 { $n } 件。記録開始時の受信機クロックオフセット { $offset_us } µs (MODELLED)
+engine-e-soop-clock-missing-value = { $option } には値が必要です
+engine-e-soop-clock-unknown-option = 不明なオプション { $option }（kshana soop-clock --help でオプションを一覧表示）
+engine-e-soop-clock-bad-number = { $option } には有限の数値が必要です ({ $value } ではありません)
+engine-e-soop-clock-bad-position = { $option } には度とメートルで lat,lon[,h] が必要です ({ $value } ではありません)
+engine-e-soop-clock-cannot-read = { $path } を読み込めません：{ $e }
+engine-e-soop-clock-cannot-write = { $path } に書き込めません：{ $e }
+engine-e-soop-clock-too-few-detections = PSS 検出 { $n } 件。オフセットとレートには 3 件以上が必要です
+engine-e-soop-clock-too-short = 記録が OFDM シンボル 2 個分より短いです
+engine-e-soop-clock-bad-synth = テスト信号にはサンプルレート 100 kHz から 61.44 MHz と、2000 万サンプル以下の正の長さが必要です
+
 engine-main-usage =
     使い方：kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }または：kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -9796,6 +9823,8 @@ engine-main-usage =
     { "   " }または：kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
     { "   " }または：kshana orbit-data <check|convert|gp-compare|gp-audit|cov> ... (kshana orbit-data --help)
     { "   " }または：kshana drone <prearm|prearm-calibrate|estimator-cases|dr-budget|quad-loss|failover|zonotope-pl> ... (kshana drone --help)
+    { "   " }または：kshana quantum-bench <protocol|simulate|score> ... (kshana quantum-bench --help)
+    { "   " }または：kshana soop-clock <lte|cp|synth-lte> ... (kshana soop-clock --help)
     { "   " }または：kshana kinds [--json]
     { "   " }または：kshana example [<name>]
     { "   " }または：kshana --help | --version

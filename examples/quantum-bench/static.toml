@@ -1,0 +1,21 @@
+# kshana quantum-bench simulate examples/quantum-bench/static.toml --out static.csv
+# A cold-atom accelerometer on a static bench (protocol test T1), with a bias random walk.
+# Illustrative values, not a product's. MODELLED (docs/QUANTUM-BENCH.md).
+[sensor]
+pulse_sep_t_s = 0.1
+atom_number = 1.0e6
+contrast = 0.5
+cycle_time_s = 0.5
+contrast_decay_s = 2.0
+
+[errors]
+vibration_psd = 1.0e-17
+bias_m_s2 = 2.0e-7
+bias_rw_m_s2_per_sqrt_s = 2.0e-10
+
+[profile]
+constant_m_s2 = 1.0e-6
+
+[run]
+duration_s = 3600.0
+seed = 1

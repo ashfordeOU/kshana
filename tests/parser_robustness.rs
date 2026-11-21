@@ -1033,6 +1033,35 @@ fn orbit_data_checks_and_monitors() {
 }
 
 #[test]
+fn quantum_bench_and_soop_clock_inputs() {
+    fuzz(
+        "quantum-bench series",
+        &[b"t_s,measured_m_s2,reference_m_s2\n0,1e-6,0\n0.5,2e-6,0\n1.0,1e-6,0\n".to_vec()],
+        None,
+        |b| {
+            if let Ok(t) = std::str::from_utf8(b) {
+                if let Ok(s) = kshana::quantum_bench::read_csv(t) {
+                    let _ = kshana::quantum_bench::score(&s, Some(1e-5));
+                }
+            }
+        },
+    );
+    fuzz(
+        "quantum-bench spec",
+        &[head("examples/quantum-bench/static.toml", 40)],
+        None,
+        |b| {
+            if let Ok(t) = std::str::from_utf8(b) {
+                if let Ok(mut s) = toml::from_str::<kshana::quantum_bench::SimSpec>(t) {
+                    s.run.duration_s = s.run.duration_s.min(20.0);
+                    let _ = kshana::quantum_bench::simulate(&s);
+                }
+            }
+        },
+    );
+}
+
+#[test]
 fn ccsds_messages() {
     let oem = vec![
         head("tests/fixtures/ccsds/oem_502_b3_figG11.oem", 80),
