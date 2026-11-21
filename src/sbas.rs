@@ -197,7 +197,145 @@ pub fn wls_covariance(sats: &[SbasSat]) -> Option<[[f64; 4]; 4]> {
 /// DO-229E weighted-least-squares protection levels for the satellite set and mode.
 pub fn sbas_protection_level(sats: &[SbasSat], mode: SbasMode) -> Option<SbasProtectionLevel> {
     let d = wls_covariance(sats)?;
-    let (de2, dn2, den, du2) = (d[0][0], d[1][1], d[0][1], d[2][2]);
+    Some(pl_from_position_block(
+        d[0][0],
+        d[1][1],
+        d[0][1],
+        d[2][2],
+        sats.len(),
+        mode,
+    ))
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Multi-constellation receiver clock (one clock state per system)
+// ─────────────────────────────────────────────────────────────────────────────
+
+/// How a multi-constellation protection-level solution treats the receiver clock.
+///
+/// A GPS + Galileo (or any mixed) solution has one receiver clock bias per system, because the
+/// system time scales differ by an inter-system offset (for GPS/Galileo the GGTO). Two choices,
+/// both documented in `docs/COMPLIANCE.md`:
+///
+/// * [`SbasClockModel::PerSystem`] estimates one clock state per system present: the state
+///   vector is `[E, N, U, b₁ … b_k]` (`3 + k` unknowns). This is the multi-constellation clock
+///   treatment of the EU-U.S. WG-C ARAIM Airborne Design Document (ADD v3.1 and later) and of
+///   Blanch, Walter, Enge et al., "Advanced RAIM user algorithm description" (ION GNSS 2012):
+///   the inter-system offset is a nuisance state, so it costs one satellite's worth of
+///   information per extra system and the protection level can only rise.
+/// * [`SbasClockModel::KnownOffset`] uses one clock state, as single-system DO-229E does. The
+///   caller has already applied a known inter-system offset (e.g. the broadcast GGTO) to the
+///   pseudoranges and folds any residual offset error into each satellite's
+///   [`SbasErrorModel`]; the geometry is then the classic four-state one.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize)]
+pub enum SbasClockModel {
+    /// One receiver-clock state per system present (`3 + k` unknowns).
+    PerSystem,
+    /// One receiver-clock state; the caller has applied a known inter-system offset.
+    KnownOffset,
+}
+
+/// Number of distinct systems in `system` (an empty slice counts as one system), or `None` if
+/// `system` is non-empty and its length differs from `n_sats`.
+fn distinct_systems(system: &[usize], n_sats: usize) -> Option<Vec<usize>> {
+    if system.is_empty() {
+        return Some(vec![0]);
+    }
+    if system.len() != n_sats {
+        return None;
+    }
+    let mut ids: Vec<usize> = system.to_vec();
+    ids.sort_unstable();
+    ids.dedup();
+    Some(ids)
+}
+
+/// The `3 + n_clocks` observation row of one satellite: the [`geometry_row`] ENU part, then a
+/// one in column `3 + clock` (its system's receiver-clock state) and zeros elsewhere. `None` if
+/// `n_clocks` is zero or `clock >= n_clocks`.
+pub fn geometry_row_multi(s: &SbasSat, clock: usize, n_clocks: usize) -> Option<Vec<f64>> {
+    if n_clocks == 0 || clock >= n_clocks {
+        return None;
+    }
+    let g = geometry_row(s);
+    let mut row = vec![0.0_f64; 3 + n_clocks];
+    row[..3].copy_from_slice(&g[..3]);
+    row[3 + clock] = 1.0;
+    Some(row)
+}
+
+/// The weighted covariance `D = (GᵀWG)⁻¹` of the state `[E, N, U, b₁ … b_k]` with one
+/// receiver-clock state per system (ARAIM ADD / Blanch et al. multi-constellation clock states;
+/// see [`SbasClockModel::PerSystem`]).
+///
+/// `system[i]` is any identifier of satellite `i`'s constellation (for example a
+/// `rinex::System` discriminant); ids are mapped to clock columns in ascending order. An empty
+/// `system` puts every satellite on one clock. With a single system present this returns the
+/// [`wls_covariance`] matrix exactly (same arithmetic, bit for bit), as a `4 × 4` `Vec`.
+///
+/// Returns `None` — a refusal, not a degraded answer — when:
+/// * `system` is non-empty and not one id per satellite;
+/// * there are fewer satellites than the `3 + k` unknowns (the system count leaves no
+///   solution at all);
+/// * a system contributes exactly one satellite while `k ≥ 2`: that satellite's range is spent
+///   entirely on its own clock state, so it adds no position information and no redundancy,
+///   and a protection level that silently counts it as "used" would overstate the geometry.
+///   Drop it, or use [`SbasClockModel::KnownOffset`];
+/// * any input is non-finite, a variance is not positive, or the geometry is singular or
+///   yields a non-finite / negative covariance diagonal (the [`wls_covariance`] guards).
+pub fn wls_covariance_multi(sats: &[SbasSat], system: &[usize]) -> Option<Vec<Vec<f64>>> {
+    let ids = distinct_systems(system, sats.len())?;
+    let k = ids.len();
+    if k == 1 {
+        return wls_covariance(sats).map(|d| d.iter().map(|r| r.to_vec()).collect());
+    }
+    let n = 3 + k;
+    if sats.len() < n {
+        return None;
+    }
+    let mut a = vec![vec![0.0_f64; n]; n];
+    let mut count = vec![0_usize; k];
+    for (s, id) in sats.iter().zip(system) {
+        if !s.el_rad.is_finite() || !s.az_rad.is_finite() {
+            return None;
+        }
+        let var = s.err.variance();
+        if !var.is_finite() || var <= 0.0 {
+            return None;
+        }
+        let w = 1.0 / var;
+        let clock = ids.binary_search(id).ok()?;
+        count[clock] += 1;
+        let g = geometry_row_multi(s, clock, k)?;
+        for i in 0..n {
+            for j in 0..n {
+                a[i][j] += w * g[i] * g[j];
+            }
+        }
+    }
+    if count.iter().any(|&c| c < 2) {
+        return None;
+    }
+    let d = crate::orbit::invert_square(a)?;
+    if d.iter().any(|row| row.iter().any(|x| !x.is_finite())) {
+        return None;
+    }
+    if (0..n).any(|i| d[i][i] < 0.0) {
+        return None;
+    }
+    Some(d)
+}
+
+/// HPL/VPL from the ENU position block of a WLS covariance (DO-229E Appendix J). Only the
+/// position block enters; the clock states are nuisance parameters.
+fn pl_from_position_block(
+    de2: f64,
+    dn2: f64,
+    den: f64,
+    du2: f64,
+    n_used: usize,
+    mode: SbasMode,
+) -> SbasProtectionLevel {
     // Largest eigenvalue of the 2×2 EN covariance → horizontal error-ellipse major axis.
     let d_major = ((de2 + dn2) / 2.0 + (((de2 - dn2) / 2.0).ppowi(2) + den * den).sqrt()).sqrt();
     let d_u = du2.sqrt();
@@ -205,13 +343,43 @@ pub fn sbas_protection_level(sats: &[SbasSat], mode: SbasMode) -> Option<SbasPro
         SbasMode::PrecisionApproach => (K_H_PA, Some(k_v_pa())),
         SbasMode::EnRouteToNpa => (k_h_npa(), None),
     };
-    Some(SbasProtectionLevel {
-        n_used: sats.len(),
+    SbasProtectionLevel {
+        n_used,
         d_major_m: d_major,
         d_u_m: d_u,
         hpl_m: k_h * d_major,
         vpl_m: k_v.map(|k| k * d_u),
-    })
+    }
+}
+
+/// DO-229E weighted-least-squares protection levels for a multi-constellation satellite set.
+///
+/// `system[i]` identifies satellite `i`'s constellation (empty: all one system). With
+/// [`SbasClockModel::PerSystem`] the covariance is [`wls_covariance_multi`] (`3 + k` states)
+/// and HPL/VPL are formed from its ENU block only; with [`SbasClockModel::KnownOffset`] the
+/// inter-system offset is taken as applied and the single-clock [`sbas_protection_level`] is
+/// returned (`system` is then only length-checked). For a single system both models return
+/// exactly [`sbas_protection_level`]. MODELLED: the method follows the published ARAIM
+/// multi-constellation clock treatment; it has no external multi-constellation SBAS oracle.
+pub fn sbas_protection_level_multi(
+    sats: &[SbasSat],
+    system: &[usize],
+    mode: SbasMode,
+    clock: SbasClockModel,
+) -> Option<SbasProtectionLevel> {
+    let ids = distinct_systems(system, sats.len())?;
+    if ids.len() == 1 || clock == SbasClockModel::KnownOffset {
+        return sbas_protection_level(sats, mode);
+    }
+    let d = wls_covariance_multi(sats, system)?;
+    Some(pl_from_position_block(
+        d[0][0],
+        d[1][1],
+        d[0][1],
+        d[2][2],
+        sats.len(),
+        mode,
+    ))
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -648,5 +816,200 @@ mod tests {
         let mut nan_az = base;
         nan_az[0].az_rad = f64::NAN;
         assert!(sbas_protection_level(&nan_az, SbasMode::PrecisionApproach).is_none());
+    }
+
+    // --- Multi-constellation receiver clock (one clock state per system) ---
+
+    fn mixed_geometry() -> [SbasSat; 8] {
+        let deg = std::f64::consts::PI / 180.0;
+        let mk = |el: f64, az: f64, sigma: f64| SbasSat {
+            el_rad: el * deg,
+            az_rad: az * deg,
+            err: SbasErrorModel::uniform(sigma),
+        };
+        [
+            mk(80.0, 10.0, 1.5),
+            mk(30.0, 120.0, 2.0),
+            mk(45.0, 200.0, 1.0),
+            mk(20.0, 300.0, 2.5),
+            mk(60.0, 45.0, 1.2),
+            mk(35.0, 250.0, 1.8),
+            mk(25.0, 160.0, 1.1),
+            mk(50.0, 330.0, 1.4),
+        ]
+    }
+
+    #[test]
+    fn single_system_multi_is_bit_identical_to_single_clock() {
+        let sats = mixed_geometry();
+        for mode in [SbasMode::PrecisionApproach, SbasMode::EnRouteToNpa] {
+            let base = sbas_protection_level(&sats, mode).unwrap();
+            for clock in [SbasClockModel::PerSystem, SbasClockModel::KnownOffset] {
+                // Empty system slice, and every satellite on one arbitrary id.
+                assert_eq!(
+                    sbas_protection_level_multi(&sats, &[], mode, clock),
+                    Some(base)
+                );
+                assert_eq!(
+                    sbas_protection_level_multi(&sats, &[7; 8], mode, clock),
+                    Some(base)
+                );
+            }
+        }
+        let d4 = wls_covariance(&sats).unwrap();
+        let dm = wls_covariance_multi(&sats, &[3; 8]).unwrap();
+        for i in 0..4 {
+            for j in 0..4 {
+                assert_eq!(d4[i][j].to_bits(), dm[i][j].to_bits(), "D[{i}][{j}]");
+            }
+        }
+    }
+
+    /// Hand-checked two-system example on the 5-satellite geometry of
+    /// `wls_pl_matches_numpy_on_five_satellite_geometry` (σ = 1). System A = {zenith, az 0°,
+    /// az 180°}, system B = {az 90°, az 270°} at El = 15°. Five states, five satellites, so
+    /// `G` is square and the estimate is an exact solve: East = (ρ₅ − ρ₄)/(2 cos El) gives
+    /// d_E² = 1/(2 cos² 15°) = 0.535898384862 (and d_N² likewise), unchanged from one clock;
+    /// Up must come from system A alone, U = (ρ₂ + ρ₃ − 2ρ₁)/(2(1 − sin 15°)), so
+    /// d_U² = 6/(4(1 − sin 15°)²) = 2.730503618503, up from 2.275419682086 with one clock
+    /// (numpy `inv(GᵀG)` agrees).
+    #[test]
+    fn two_system_five_satellite_hand_example() {
+        let deg = std::f64::consts::PI / 180.0;
+        let mk = |el: f64, az: f64| SbasSat {
+            el_rad: el * deg,
+            az_rad: az * deg,
+            err: SbasErrorModel::uniform(1.0),
+        };
+        let sats = [
+            mk(90.0, 0.0),
+            mk(15.0, 0.0),
+            mk(15.0, 180.0),
+            mk(15.0, 90.0),
+            mk(15.0, 270.0),
+        ];
+        let system = [0, 0, 0, 1, 1];
+        let d = wls_covariance_multi(&sats, &system).expect("solvable");
+        assert_eq!(d.len(), 5);
+        assert!(
+            (d[0][0] - 0.535_898_384_862).abs() < 1e-9,
+            "d_E² {}",
+            d[0][0]
+        );
+        assert!(
+            (d[1][1] - 0.535_898_384_862).abs() < 1e-9,
+            "d_N² {}",
+            d[1][1]
+        );
+        assert!(
+            (d[2][2] - 2.730_503_618_503).abs() < 1e-9,
+            "d_U² {}",
+            d[2][2]
+        );
+        let one = sbas_protection_level(&sats, SbasMode::PrecisionApproach).unwrap();
+        let two = sbas_protection_level_multi(
+            &sats,
+            &system,
+            SbasMode::PrecisionApproach,
+            SbasClockModel::PerSystem,
+        )
+        .unwrap();
+        assert!(
+            (two.d_u_m - 1.652_423_559_050).abs() < 1e-9,
+            "d_U {}",
+            two.d_u_m
+        );
+        assert!(
+            (two.hpl_m - 4.392_304_845_413).abs() < 1e-9,
+            "HPL {}",
+            two.hpl_m
+        );
+        assert!(
+            two.vpl_m.unwrap() > one.vpl_m.unwrap() + 0.7,
+            "VPL must rise"
+        );
+        // Known-offset mode keeps the one-clock answer.
+        assert_eq!(
+            sbas_protection_level_multi(
+                &sats,
+                &system,
+                SbasMode::PrecisionApproach,
+                SbasClockModel::KnownOffset
+            ),
+            Some(one)
+        );
+    }
+
+    #[test]
+    fn extra_clock_state_raises_protection_levels() {
+        let sats = mixed_geometry();
+        let system = [0, 1, 0, 1, 0, 1, 0, 1];
+        let one = sbas_protection_level(&sats, SbasMode::PrecisionApproach).unwrap();
+        let two = sbas_protection_level_multi(
+            &sats,
+            &system,
+            SbasMode::PrecisionApproach,
+            SbasClockModel::PerSystem,
+        )
+        .unwrap();
+        // An added nuisance state can never shrink the position covariance (Schur complement).
+        assert!(two.hpl_m >= one.hpl_m - 1e-12, "{two:?} vs {one:?}");
+        assert!(
+            two.vpl_m.unwrap() > one.vpl_m.unwrap(),
+            "{two:?} vs {one:?}"
+        );
+        assert_eq!(two.n_used, 8);
+        // The clock-state columns: the two clocks are both estimated (6 × 6 covariance).
+        let d = wls_covariance_multi(&sats, &system).unwrap();
+        assert_eq!(d.len(), 6);
+        // Arbitrary ids map the same way as 0/1.
+        let relabelled = [9, 4, 9, 4, 9, 4, 9, 4];
+        assert_eq!(
+            sbas_protection_level_multi(
+                &sats,
+                &relabelled,
+                SbasMode::PrecisionApproach,
+                SbasClockModel::PerSystem
+            ),
+            Some(two)
+        );
+    }
+
+    #[test]
+    fn multi_clock_refuses_without_redundancy() {
+        let sats = mixed_geometry();
+        let pa = SbasMode::PrecisionApproach;
+        let per = SbasClockModel::PerSystem;
+        // Two systems, four satellites: fewer satellites than the five unknowns.
+        assert!(sbas_protection_level_multi(&sats[..4], &[0, 0, 1, 1], pa, per).is_none());
+        // A system with a single satellite only feeds its own clock state.
+        assert!(sbas_protection_level_multi(&sats[..6], &[0, 0, 0, 0, 0, 1], pa, per).is_none());
+        // Three systems on five satellites: six unknowns.
+        assert!(sbas_protection_level_multi(&sats[..5], &[0, 0, 1, 1, 2], pa, per).is_none());
+        // Mismatched system slice length.
+        assert!(sbas_protection_level_multi(&sats, &[0, 1], pa, per).is_none());
+        assert!(wls_covariance_multi(&sats, &[0, 1]).is_none());
+        // Known-offset mode still solves the single-satellite-system case with one clock.
+        assert!(sbas_protection_level_multi(
+            &sats[..6],
+            &[0, 0, 0, 0, 0, 1],
+            pa,
+            SbasClockModel::KnownOffset
+        )
+        .is_some());
+        // Non-finite input is refused in the multi-clock path too.
+        let mut bad = sats;
+        bad[1].err.sigma_flt_m = f64::NAN;
+        assert!(sbas_protection_level_multi(&bad, &[0, 1, 0, 1, 0, 1, 0, 1], pa, per).is_none());
+    }
+
+    #[test]
+    fn geometry_row_multi_places_the_clock_column() {
+        let s = mixed_geometry()[2];
+        let g = geometry_row(&s);
+        let r = geometry_row_multi(&s, 1, 3).unwrap();
+        assert_eq!(r, vec![g[0], g[1], g[2], 0.0, 1.0, 0.0]);
+        assert!(geometry_row_multi(&s, 3, 3).is_none());
+        assert!(geometry_row_multi(&s, 0, 0).is_none());
     }
 }
