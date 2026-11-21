@@ -422,8 +422,10 @@ pub struct Health {
     pub stratum: Option<u32>,
     /// The reference (name, address or refid).
     pub reference: Option<String>,
-    /// Offset of the system clock from its reference, s (chrony: system time minus NTP time;
-    /// ntpd: the `offset` variable, converted from ms).
+    /// Offset of the system clock from its reference, s: system time minus reference time,
+    /// positive when the system clock is fast, for both daemons (chrony: the "fast"/"slow" system
+    /// time; ntpd: the `offset` variable, which is the reference relative to this host (RFC 5905
+    /// θ, positive when the system clock is slow), negated and converted from ms).
     pub offset_s: Option<f64>,
     /// Root delay, s.
     pub root_delay_s: Option<f64>,
@@ -470,7 +472,9 @@ pub fn health_ntpd(vars: &BTreeMap<String, String>, peers: Option<&[NtpqPeer]>) 
         },
         stratum,
         reference: vars.get("refid").cloned(),
-        offset_s: num("offset").map(|v| v / 1e3),
+        // ntpd's `offset` is the reference relative to this host (RFC 5905 θ): negate it to
+        // system minus reference, the convention of `Health::offset_s`.
+        offset_s: num("offset").map(|v| -v / 1e3),
         root_delay_s: num("rootdelay").map(|v| v / 1e3),
         root_dispersion_s: num("rootdisp").map(|v| v / 1e3),
         leap,
@@ -682,6 +686,21 @@ mod tests {
         assert_eq!(chrony_seconds("-2629us"), Some(-2629e-6));
         assert_eq!(chrony_age("5m"), Some(300.0));
         assert_eq!(chrony_age("11"), Some(11.0));
+    }
+
+    #[test]
+    fn health_offset_has_one_sign_convention_for_both_daemons() {
+        // A system clock 34.123 µs fast: chrony prints "fast of NTP time", ntpd's offset (the
+        // server relative to this host, RFC 5905 θ) is -0.034123 ms. Both give +34.123 µs.
+        let mut vars = BTreeMap::new();
+        vars.insert("offset".to_string(), "-0.034123".to_string());
+        let h = health_ntpd(&vars, None);
+        assert!((h.offset_s.unwrap() - 34.123e-6).abs() < 1e-12);
+        let t = ChronyTracking {
+            system_offset_s: Some(34.123e-6),
+            ..Default::default()
+        };
+        assert!((health_chrony(&t, None).offset_s.unwrap() - 34.123e-6).abs() < 1e-15);
     }
 
     #[test]
