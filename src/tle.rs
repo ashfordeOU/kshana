@@ -42,6 +42,16 @@ fn days_1950_to_year(year: i64) -> f64 {
     days as f64
 }
 
+/// The four-digit year of a TLE two-digit year (57-99 -> 19xx, 00-56 -> 20xx), through
+/// [`crate::gnss_time::two_digit_year`] (checked by the `two-digit-years` conformance vectors).
+fn tle_year(yy: i64) -> Result<i64, String> {
+    u32::try_from(yy)
+        .map_err(|_| crate::terr!("e-gnss-time-bad-yy", yy = yy))
+        .and_then(|yy| {
+            crate::gnss_time::two_digit_year(yy, crate::gnss_time::YearConvention::Tle, 0)
+        })
+}
+
 /// A full two-line element set parsed into SGP4 inputs (SGP4 units: angles in
 /// radians, mean motion in rad/min, epoch in days since 1950 Jan 0.0 UTC).
 #[derive(Clone, Copy, Debug)]
@@ -192,7 +202,7 @@ pub fn parse_tle(line1: &str, line2: &str) -> Result<Tle, String> {
             col = format!("{:?}", col(line1, 18, 20, "").ok())
         )
     })?;
-    let year = if yy < 57 { 2000 + yy } else { 1900 + yy };
+    let year = tle_year(yy)?;
     let epochdays = num(col(line1, 20, 32, "epoch day")?, "epoch day")?;
     // SGP4 epoch in days since 1950 Jan 0.0 (day-of-year is 1-based; Jan 1.0 -> 1.0).
     let epoch_days_1950 = days_1950_to_year(year) + epochdays;
@@ -240,7 +250,8 @@ pub fn parse_tle(line1: &str, line2: &str) -> Result<Tle, String> {
 /// surfaced here for the OMM export path.
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct TleIdentity {
-    /// NORAD catalogue number (line 1, columns 3-7).
+    /// NORAD catalogue number (line 1, columns 3-7; Alpha-5 above 99,999, see
+    /// [`crate::norad`]).
     pub norad_cat_id: u32,
     /// COSPAR international designator expanded to `YYYY-NNNP` (e.g. `1998-067A`).
     pub intl_designator: String,
@@ -261,22 +272,20 @@ pub fn parse_tle_identity(line1: &str) -> Result<TleIdentity, String> {
             line1 = format!("{:?}", line1)
         ));
     }
-    let norad_cat_id: u32 = col(line1, 2, 7, "catalogue number")?.parse().map_err(|_| {
-        crate::terr!(
-            "e-tle-invalid-catalogue-number-in-tle",
-            col = format!("{:?}", col(line1, 2, 7, "").ok())
-        )
-    })?;
+    // Five digits, or Alpha-5 (a letter for the two leading digits) above 99,999.
+    let norad_cat_id: u32 =
+        crate::norad::decode(col(line1, 2, 7, "catalogue number")?).map_err(|_| {
+            crate::terr!(
+                "e-tle-invalid-catalogue-number-in-tle",
+                col = format!("{:?}", col(line1, 2, 7, "").ok())
+            )
+        })?;
 
     // International designator: 2-digit launch year, 3-digit launch number, piece.
     let des_yy: i64 = col(line1, 9, 11, "designator year")?
         .parse()
         .map_err(|_| crate::terr!("e-tle-invalid-designator-launch-year-in"))?;
-    let des_year = if des_yy < 57 {
-        2000 + des_yy
-    } else {
-        1900 + des_yy
-    };
+    let des_year = tle_year(des_yy)?;
     let launch_num = col(line1, 11, 14, "designator number")?;
     let piece = col(line1, 14, 17, "designator piece")?;
     let intl_designator = format!("{des_year:04}-{launch_num}{piece}");
@@ -285,7 +294,7 @@ pub fn parse_tle_identity(line1: &str) -> Result<TleIdentity, String> {
     let yy: i64 = col(line1, 18, 20, "epoch year")?
         .parse()
         .map_err(|_| crate::terr!("e-tle-invalid-epoch-year-in-tle-2"))?;
-    let year = if yy < 57 { 2000 + yy } else { 1900 + yy };
+    let year = tle_year(yy)?;
     let epochdays: f64 = col(line1, 20, 32, "epoch day")?
         .parse()
         .map_err(|_| crate::terr!("e-tle-invalid-epoch-day-in-tle"))?;

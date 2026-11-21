@@ -129,8 +129,14 @@ impl DemTile {
         let lon_max_deg = next()?;
         let n_lat = next()? as usize;
         let n_lon = next()? as usize;
-        let mut heights_m = Vec::with_capacity(n_lat * n_lon);
-        for _ in 0..(n_lat * n_lon) {
+        // The dimensions come from the file: an overflowing product cannot be matched by the
+        // values, and the reservation never exceeds what the text could hold (one number per
+        // two bytes).
+        let total = n_lat
+            .checked_mul(n_lon)
+            .ok_or_else(|| crate::terr!("e-realdata-lola-dem-unexpected-end-of-dem"))?;
+        let mut heights_m = Vec::with_capacity(total.min(text.len() / 2 + 1));
+        for _ in 0..total {
             heights_m.push(next()?);
         }
         if n_lat == 0 || n_lon == 0 {

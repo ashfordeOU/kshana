@@ -1,5 +1,13 @@
 # Messages whose variables are counts. In every language these reach Fluent as numbers, so a
 # translation may write { $n -> [one] ... [few] ... *[other] ... }. One message per line: id: variables.
+ais-integrity-summary: n_tracks n_flagged n_flags n_events
+sil-obs-summary: n_epochs n_obs n_nlos n_blocked
+interference-lib-written: n
+quantum-bench-simulated: n n_wrapped
+soop-clock-summary: n
+e-soop-clock-too-few-detections: n
+adsb-indicators-summary: n
+interference-atlas-built: n_cells n_zones
 e-clock-log-the-log-has-missing-epoch: n_gaps n_missing
 advanced-report-rows-of-non-numeric-column: n
 e-altpnt-maps-emag2-rows-do-not-fill: n_lat n_lon
@@ -201,3 +209,21 @@ evidence-label-line-rows: n
 evidence-label-line-rows-more: n n_more
 interference-map-locate-summary: n_sessions n_withheld
 interference-map-locate-fig-subtitle: n
+interference-incidents-valid: n
+e-interference-incidents-invalid: n
+orbit-data-valid-with-warnings: warnings
+orbit-data-invalid: errors warnings
+orbit-data-line-too-long: n max
+orbit-data-cdm-object-count: n
+orbit-data-data-width: n
+orbit-data-too-few-points: n deg need
+orbit-data-gp-compare-summary: n flagged only_a only_b
+orbit-data-gp-audit-summary: sets objects findings
+e-orbit-data-convert-one-object: n
+feed-packed: files epochs
+feed-verified: files epochs
+feed-spectrum-written: bins
+e-feed-short-capture: n nfft
+register-check-ok: n
+register-crl-check-ok: n
+register-view-summary: current due revoked

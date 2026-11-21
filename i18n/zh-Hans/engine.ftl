@@ -9816,6 +9816,214 @@ engine-e-realdata-llr-crd-short-h4-record = 过短的 h4（会话）记录
 
 engine-e-mcp-main-needs-value = { $a } 需要一个值
 
+## AIS position-integrity flags (src/ais_integrity.rs)
+engine-ais-integrity-usage = 用法：kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]  (docs/AIS-INTEGRITY.md)
+engine-ais-integrity-summary = { $n_tracks } 条航迹，{ $n_flagged } 条有标记：{ $n_flags } 个标记，{ $n_events } 个事件 (MODELLED)
+engine-e-ais-integrity-missing-value = { $option } 需要一个值
+engine-e-ais-integrity-unknown-option = 未知选项 { $option }（kshana ais-integrity --help 列出所有选项）
+engine-e-ais-integrity-bad-format = 未知输入格式 { $value }（csv 或 nmea）
+engine-e-ais-integrity-cannot-read = 无法读取 { $path }：{ $e }
+engine-e-ais-integrity-cannot-write = 无法写入 { $path }：{ $e }
+engine-e-ais-integrity-bad-place = 地点列表的一行不是带有效位置和正半径的 name,lat,lon,radius_m：{ $row }
+
+## A GNSS receiver in space: clock, timestamps, dynamics, upper-SSV benchmark (src/space_receiver/)
+engine-space-receiver-usage = 用法：kshana space-receiver clock [--orbit <preset|a_km,e,i_deg>] [--oscillator <name>] [--temp-swing <K>] [--outage-min <m>]... | timestamps <tags.csv> [--oscillator <name>] [--step-floor <s>] [--gap-factor <x>] [--window <n>] | dynamics [--orbit <preset|a_km,e,i_deg>] [--duration-min <m>] [--step-s <s>] [--band l1|l5] [--max-off-boresight <deg>] [--max-doppler <Hz>] [--max-doppler-rate <Hz/s>] | bench [--list] [--case <id>]... [--cn0 <dB-Hz>] [--oscillator <name>] [--max-doppler <Hz>] [--max-doppler-rate <Hz/s>] [--time-budget <s>] [--sidelobes] | mms [--cn0 <dB-Hz>] [--orbits <n>] [--step-min <m>] | od-vs-tle <onboard.oem> --tle <set.tle>   [--out <file.json>]  (docs/SPACE-RECEIVER.md)
+engine-e-space-receiver-missing-value = { $option } 需要一个值
+engine-e-space-receiver-unknown-option = 未知选项 { $option }（kshana space-receiver --help 列出所有选项）
+engine-e-space-receiver-cannot-read = 无法读取 { $path }：{ $e }
+engine-e-space-receiver-cannot-write = 无法写入 { $path }：{ $e }
+engine-e-space-receiver-bad-number = { $option }：{ $value } 不是有效的数字
+engine-e-space-receiver-unknown-name = 未知名称 { $name }（已知：{ $known }）
+engine-e-space-receiver-no-columns = CSV 表头必须包含 t_ref_s，以及 t_rx_s 或 week 和 tow_s
+engine-e-space-receiver-bad-row = 第 { $line } 行：缺少必需的列或该列不是数字
+engine-e-space-receiver-too-few-rows = 至少需要三行时间戳
+
+## Space receiver: MMS case and onboard OD against an element set (src/space_receiver/)
+engine-e-space-receiver-no-tle = 未找到两行轨道根数（以 "1 " 开头的第 1 行及其后的第 2 行）
+engine-e-space-receiver-oem-frame = 此比较不读取 OEM 参考系 { $frame }（EME2000、GCRF、ICRF 或 TEME）
+
+## SIL observation generator (src/sil_obs.rs)
+engine-sil-obs-usage = 用法：kshana sil-obs generate <scenario.toml> --nav <nav.rnx> --out <sim.obs> [--truth <truth.jsonl>] | compare <a.obs> <b.obs> [--json] [--out <file.json>]  (docs/SIL-OBS.md)
+engine-sil-obs-summary = { $n_epochs } 个历元，已写入 { $n_obs } 个信号样本；NLOS 卫星历元 { $n_nlos } 个，遮挡 { $n_blocked } 个 (MODELLED)
+engine-e-sil-obs-missing-value = { $option } 需要一个值
+engine-e-sil-obs-unknown-option = 未知选项 { $option }（kshana sil-obs --help 列出所有选项）
+engine-e-sil-obs-cannot-read = 无法读取 { $path }：{ $e }
+engine-e-sil-obs-cannot-write = 无法写入 { $path }：{ $e }
+engine-e-sil-obs-bad-scenario = { $path } 不是 sil-obs 场景：{ $e }
+engine-e-sil-obs-bad-nav = { $path } 不是 RINEX 导航文件：{ $e }
+engine-e-sil-obs-bad-obs = { $path } 不是 RINEX 观测文件：{ $e }
+engine-e-sil-obs-bad-start = 起始时间 { $value } 不是 YYYY-MM-DDTHH:MM:SS 格式的 GPS 时间
+engine-e-sil-obs-bad-timing = 持续时间须为零或以上，步长须为正，历元数不超过一百万
+engine-e-sil-obs-no-satellites = { $path } 中没有所请求系统的广播星历记录
+engine-e-sil-obs-unknown-system = 未知系统 { $value }（G 或 E）
+engine-e-sil-obs-bad-canyon = 峡谷需要正的宽度、位于街道内的天线偏移、至少 1 dB 的反射损耗以及有限值
+
+## Interference model library (src/interference_lib.rs)
+engine-interference-lib-usage = 用法：kshana interference-lib models | generate --class <none|cw|narrowband|wideband|chirp|pulsed> [--centre-hz <f>] [--bandwidth-hz <b>] [--period-s <t>] [--pulse-width-s <w>] [--jnr-db <j>] [--drift-hz-per-s <r>] [--triangle] [--fs <hz>] [--samples <n>] [--seed <s>] --out <base> | fit <recording.sigmf-meta> [--out <fit.json>] | bench [--per-class <n>] [--seed <s>] [--predictions <ids.csv>] [--out <bench.json>] | cases [--per-class <n>] [--seed <s>] [--out <cases.csv>]  (docs/INTERFERENCE-LIB.md)
+engine-interference-lib-written = 已写入 { $path }（{ $n } 个样本，MODELLED 合成干扰）
+engine-e-interference-lib-missing-value = { $option } 需要一个值
+engine-e-interference-lib-unknown-option = 未知选项 { $option }（kshana interference-lib --help 列出所有选项）
+engine-e-interference-lib-bad-number = { $option } 需要一个有限数值，而不是 { $value }
+engine-e-interference-lib-unknown-class = 未知干扰类别 { $value }（none、cw、narrowband、wideband、chirp 或 pulsed）
+engine-e-interference-lib-bad-size = 采样率须为正，记录长度须为 1024 至 16777216 之间的 2 的幂（bench：每类 1 至 1000 个案例）
+engine-e-interference-lib-cannot-read = 无法读取 { $path }：{ $e }
+engine-e-interference-lib-cannot-write = 无法写入 { $path }：{ $e }
+engine-e-interference-lib-bad-predictions = 预测行不是带有已知类别的 id,class：{ $row }
+
+## Receiver-antenna characterisation (src/antenna_cal.rs)
+engine-antenna-cal-usage = 用法：kshana antenna-cal lint <file.atx> | spread <file.atx>... --type <type-radome> | compare <a.atx> [<b.atx>] --type <type-radome> [--serial-a <s>] [--serial-b <s>] [--max-zenith <deg>] | group-delay <spec.toml> | js-margin <spec.toml>  [--out <file.json>]  (docs/ANTENNA-CAL.md)
+engine-e-antenna-cal-missing-value = { $option } 需要一个值
+engine-e-antenna-cal-unknown-option = 未知选项 { $option }（kshana antenna-cal --help 列出所有选项）
+engine-e-antenna-cal-bad-number = { $option } 需要一个大于或等于零的有限数值，而不是 { $value }
+engine-e-antenna-cal-cannot-read = 无法读取 { $path }：{ $e }
+engine-e-antenna-cal-cannot-write = 无法写入 { $path }：{ $e }
+engine-e-antenna-cal-bad-spec = { $path } 不是有效的规格：{ $e }
+engine-e-antenna-cal-no-antenna = { $path } 中没有天线 { $name }
+engine-e-antenna-cal-too-few-units = 可比较的 { $name } 校准少于两个
+engine-e-antenna-cal-unknown-signal = 某个组合引用了未知信号 { $value }
+engine-e-antenna-cal-bad-group-delay = 群时延规格至少需要一个信号、有序且有限的温度范围、正的频率以及有限的时延
+engine-e-antenna-cal-same-pair = 无电离层组合需要两个不同的频率
+engine-e-antenna-cal-bad-pattern = 未知天线方向图（patch、choke-ring 或 table）
+engine-e-antenna-cal-bad-gain-table = 增益表至少需要两个有限的仰角与增益点
+engine-e-antenna-cal-bad-link = J/S 规格需要正的频率、有限的 EIRP 以及正的距离
+
+## Arctic GNSS availability planner (src/arctic_plan.rs)
+engine-arctic-plan-usage = 用法：kshana arctic-plan --site <lat,lon[,h]> | --place <name> | --places  [--systems <a,b,...>] [--compare] [--hours <h>] [--step-min <m>] [--start-s <s>] [--mask <deg>] [--skyline-preset <name>] [--clock common|per-system] [--min-sats <n>] [--max-pdop <x>] [--task-min <m>] [--kp <n>] [--year <y>] [--iono-mask <deg>] [--tle <file> --epoch <YYYY-MM-DDTHH:MM:SS>] [--epochs] [--out <file.json>]  (docs/ARCTIC-PLAN.md)
+engine-e-arctic-plan-missing-value = { $option } 需要一个值
+engine-e-arctic-plan-unknown-option = 未知选项 { $option }（kshana arctic-plan --help 列出所有选项）
+engine-e-arctic-plan-cannot-read = 无法读取 { $path }：{ $e }
+engine-e-arctic-plan-cannot-write = 无法写入 { $path }：{ $e }
+engine-e-arctic-plan-bad-number = { $option }：{ $value } 不是有效的数字
+engine-e-arctic-plan-unknown-name = 未知名称 { $name }（已知：{ $known }）
+engine-e-arctic-plan-needs-site = 请用 --site <lat,lon[,h]> 或 --place <name> 指定地点（--places 列出名称）
+engine-e-arctic-plan-bad-horizon = 规划时长和步长必须为正，且历元数不超过 20,000
+
+## Lunar time scales, frames, terminology and model provenance (src/lunar_ref.rs)
+engine-lunar-ref-usage = 用法：kshana lunar-ref tcb-tcl [--jd <JD TCB>] [--window <jd0,jd1>] | approx [--window <jd0,jd1>] [--grid-days <d>] | convert --from <tt|tdb|tcb|tcg|tcl|ltc> --to <scale> --jd <JD> | transform --from <ICRF|MOON_PA_DE440|MOON_PA|MOON_ME|ILURF> --to <frame> --xyz <x,y,z> [--jd <JD TDB>] | terms | models [--check] [--root <dir>]   [--out <file.json>]  (docs/LUNAR-REF.md)
+engine-e-lunar-ref-missing-value = { $option } 需要一个值
+engine-e-lunar-ref-unknown-option = 未知选项 { $option }（kshana lunar-ref --help 列出所有选项）
+engine-e-lunar-ref-cannot-write = 无法写入 { $path }：{ $e }
+engine-e-lunar-ref-bad-number = { $option }：{ $value } 不是有效的数字
+engine-e-lunar-ref-unknown-name = 未知名称 { $name }（已知：{ $known }）
+engine-e-lunar-ref-out-of-span = 历元超出所用星历的范围（Standish 根数 1800–2050 年；DE440 月球姿态 2014–2030 年）
+
+## Quantum inertial-sensor benchmark (src/quantum_bench.rs)
+engine-quantum-bench-usage = 用法：kshana quantum-bench protocol [--out <protocol.json>] | simulate <spec.toml> --out <series.csv> | score <series.csv> [--fringe-m-s2 <a>] [--out <score.json>]  (docs/QUANTUM-BENCH.md)
+engine-quantum-bench-simulated = 已将 { $n } 个样本（其中 { $n_wrapped } 个条纹相位发生卷绕）写入 { $path } (MODELLED)
+engine-e-quantum-bench-missing-value = { $option } 需要一个值
+engine-e-quantum-bench-unknown-option = 未知选项 { $option }（kshana quantum-bench --help 列出所有选项）
+engine-e-quantum-bench-bad-number = { $option } 需要一个有限的正数，而不是 { $value }
+engine-e-quantum-bench-cannot-read = 无法读取 { $path }：{ $e }
+engine-e-quantum-bench-cannot-write = 无法写入 { $path }：{ $e }
+engine-e-quantum-bench-bad-spec = { $path } 不是有效的规格：{ $e }
+engine-e-quantum-bench-bad-sensor = 传感器需要正的脉冲间隔、至少一个原子、(0, 1] 内的对比度，以及不少于脉冲间隔两倍的周期时间
+engine-e-quantum-bench-bad-run = 运行时长须至少一个周期且不超过一千万个周期
+engine-e-quantum-bench-too-short = 序列至少需要 16 个时间递增的样本
+engine-e-quantum-bench-bad-csv = 序列需要包含有限数值的 t_s 和 measured_m_s2 列：{ $row }
+
+## Terrestrial signals of opportunity, clock offset (src/soop_clock.rs)
+engine-soop-clock-usage = 用法：kshana soop-clock lte <capture.sigmf-meta> --start-gps-s <t> --rx <lat,lon,h> --tx <lat,lon,h> [--tx-offset-ns <ns>] [--prior-offset-s <s>] [--carrier-hz <f>] [--min-metric <m>] [--out <file.json>] | cp <capture.sigmf-meta> --nfft <n> --ncp <n> [--carrier-hz <f>] [--out <file.json>] | synth-lte --out <base> [--fs <hz>] [--duration-s <s>] [--nid2 <0|1|2>] [--delay-s <s>] [--cfo-hz <f>] [--snr-db <d>] [--seed <s>]  (docs/SOOP-CLOCK.md)
+engine-soop-clock-summary = 检测到 { $n } 个 PSS；记录开始时接收机时钟偏差 { $offset_us } µs (MODELLED)
+engine-e-soop-clock-missing-value = { $option } 需要一个值
+engine-e-soop-clock-unknown-option = 未知选项 { $option }（kshana soop-clock --help 列出所有选项）
+engine-e-soop-clock-bad-number = { $option } 需要一个有限数值，而不是 { $value }
+engine-e-soop-clock-bad-position = { $option } 需要以度和米表示的 lat,lon[,h]，而不是 { $value }
+engine-e-soop-clock-cannot-read = 无法读取 { $path }：{ $e }
+engine-e-soop-clock-cannot-write = 无法写入 { $path }：{ $e }
+engine-e-soop-clock-too-few-detections = 检测到 { $n } 个 PSS；求偏差和速率至少需要三个
+engine-e-soop-clock-too-short = 记录短于两个 OFDM 符号
+engine-e-soop-clock-bad-synth = 测试信号需要 100 kHz 至 61.44 MHz 的采样率，以及不超过 2000 万个样本的正时长
+
+## LunaNet AFS receiver verification kit and lunar output message profile (src/lunar_afs/kit.rs, src/lunar_output.rs)
+engine-lunar-afs-kit-usage = 用法：kshana lunar-afs-kit vectors [<vectors.json>] | registry [<registry.toml|json>] [--limit-db <dB>] [--no-correlation] | output-check <messages.jsonl> | output-example [--n <count>] [--jd <JD TCL>] | output-reexpress <messages.jsonl> --scale <tt|tdb|tcb|tcg|tcl|ltc> --frame <ICRF|MOON_PA_DE440|MOON_PA|MOON_ME|ILURF>   [--out <file>]  (docs/LUNAR-AFS-KIT.md)
+engine-e-lunar-afs-kit-missing-value = { $option } 需要一个值
+engine-e-lunar-afs-kit-unknown-option = 未知选项 { $option }（kshana lunar-afs-kit --help 列出所有选项）
+engine-e-lunar-afs-kit-cannot-read = 无法读取 { $path }：{ $e }
+engine-e-lunar-afs-kit-cannot-write = 无法写入 { $path }：{ $e }
+engine-e-lunar-afs-kit-bad-number = { $option }：{ $value } 不是有效的数字
+engine-e-lunar-afs-kit-unknown-name = 未知名称 { $name }（已知：{ $known }）
+engine-e-lunar-afs-kit-bad-registry = 注册表不是 [[node]] 分配列表：{ $e }
+engine-e-lunar-afs-kit-bad-vectors = 不是 kshana.afs-vectors/1 文件：{ $e }
+engine-e-lunar-afs-kit-bad-message = 有一行不是包含历元、参考系和位置的 kshana.lunar-pnt-output/1 消息
+
+## ADS-B interference indicators (src/adsb_indicators.rs)
+engine-adsb-indicators-usage = 用法：kshana adsb-indicators <adsb.csv> [--cell-deg <d>] [--out <indicators.json>]  (docs/ADSB-INDICATORS.md)
+engine-adsb-indicators-summary = 已标记 { $n } 个已发布网格（MODELLED；不指明原因）
+engine-e-adsb-indicators-missing-value = { $option } 需要一个值
+engine-e-adsb-indicators-unknown-option = 未知选项 { $option }（kshana adsb-indicators --help 列出所有选项）
+engine-e-adsb-indicators-bad-cell = 网格大小须为 0.01 至 10 度，而不是 { $value }
+engine-e-adsb-indicators-cannot-read = 无法读取 { $path }：{ $e }
+engine-e-adsb-indicators-cannot-write = 无法写入 { $path }：{ $e }
+engine-e-adsb-indicators-missing-column = ADS-B CSV 中没有 { $name } 列
+
+## Interference atlas and station C/N0 layer (src/interference_atlas.rs)
+engine-interference-atlas-usage = 用法：kshana interference-atlas build <day.geojson>... [--previous <atlas.json>] [--out <atlas.json>] | verify <atlas.json> | cors <today.obs> --baseline <earlier.obs> [--adsb-day <day.geojson>] [--station <lat,lon>] [--out <layer.json>]  (docs/INTERFERENCE-ATLAS.md)
+engine-interference-atlas-built = { $n_cells } 个网格，{ $n_zones } 个区域；版本 { $version } (MODELLED)
+engine-interference-atlas-verified = { $path }：版本与内容一致
+engine-e-interference-atlas-missing-value = { $option } 需要一个值
+engine-e-interference-atlas-unknown-option = 未知选项 { $option }（kshana interference-atlas --help 列出所有选项）
+engine-e-interference-atlas-cannot-read = 无法读取 { $path }：{ $e }
+engine-e-interference-atlas-cannot-write = 无法写入 { $path }：{ $e }
+engine-e-interference-atlas-not-a-product = { $path } 既不是干扰地图的日产品，也不是图集
+engine-e-interference-atlas-mixed = 日产品混用了不同网格或来源
+engine-e-interference-atlas-empty = 未提供任何日产品
+engine-e-interference-atlas-changed = { $path }：版本与内容不一致（图集已被更改）
+engine-e-interference-atlas-bad-obs = { $path } 不是 RINEX 观测文件：{ $e }
+engine-e-interference-atlas-no-cn0 = 两个观测文件中没有相隔一个地面轨迹重复周期且带 C/N0 的共同 GPS 卫星
+engine-e-interference-atlas-bad-station = 测站需要以度表示的 lat,lon（或观测文件头中的概略位置），而不是 { $value }
+
+## Private holdout of kshana-bench tasks (f) and (g) (src/bench/holdout.rs)
+engine-e-bench-holdout-inside-repository = 拒绝在仓库内写入私有保留集：{ $path }（请选择仓库外的目录）
+engine-e-bench-holdout-task = 私有保留集仅适用于任务 (f) 和 (g)
+engine-e-bench-holdout-no-truth = 任务 ({ $task }) 没有私有真值：请给出 --truth <file> 或设置 { $var }
+engine-bench-holdout-not-a-private-truth = 不是私有保留集真值：必须是任务 (f) 或 (g)、划分为 holdout 的 kshana-bench 真值文件
+engine-bench-holdout-not-registered = SHA-256 为 { $sha } 的任务 ({ $task }) 真值未在 bench/holdout/PRIVATE.json 中登记
+engine-bench-site-holdout-not-private = 结果 { $v1 } 是任务 (f) 或 (g) 的保留集结果，但未标记为私有或其真值未登记
+engine-bench-site-provenance-private-holdout = 在私有保留集上评分（已登记真值）
+
+## Constellation-claim verification datasets (src/claim_check.rs)
+engine-claim-check-usage = 用法：kshana claim-check [<dataset.json>...] [--out <file.json>] | --template   (no file: the shipped public-claims dataset; docs/CLAIM-CHECK.md)
+engine-e-claim-check-missing-value = { $option } 需要一个值
+engine-e-claim-check-unknown-option = 未知选项 { $option }（kshana claim-check --help 列出所有选项）
+engine-e-claim-check-cannot-read = 无法读取 { $path }：{ $e }
+engine-e-claim-check-cannot-write = 无法写入 { $path }：{ $e }
+engine-e-claim-check-bad-dataset = 不是 kshana.claims/1 文件：{ $e }
+
+## AFS interoperability planning and the lunar user-equipment register (src/afs_interop.rs)
+engine-afs-interop-usage = 用法：kshana afs-interop study [--afs-prns <1-12>] [--gps-prns <1-32>] [--galileo-prns <1-36>] [--fs <Hz>] [--integration-ms <ms>] [--max-doppler <Hz>] [--doppler-step <Hz>] [--sweep-pairs <n>] | ue-register [<register.json>] | ue-register --template   [--out <file>]  (docs/AFS-INTEROP.md)
+engine-e-afs-interop-missing-value = { $option } 需要一个值
+engine-e-afs-interop-unknown-option = 未知选项 { $option }（kshana afs-interop --help 列出所有选项）
+engine-e-afs-interop-cannot-read = 无法读取 { $path }：{ $e }
+engine-e-afs-interop-cannot-write = 无法写入 { $path }：{ $e }
+engine-e-afs-interop-bad-number = { $option }：{ $value } 不是有效的数字
+engine-e-afs-interop-bad-register = 不是 kshana.lunar-ue-register/1 文件：{ $e }
+engine-e-afs-interop-bad-settings = 研究设置超出范围：fs × 积分时间须为 64 至 200,000 个采样，多普勒步长须为正，上限不得为负
+
+## Linux timing-stack verification (src/timing_stack.rs)
+engine-timing-stack-usage = 用法：kshana timing-stack tai [--pmc <pmc.txt>] [--phc-ctl <phc_ctl.txt>] [--chrony <tracking.txt>] [--tai-utc <s>] | ts2phc <ts2phc.log> [--max-offset <s>] | pps <assert.txt> | shm <ntpshmmon.txt> | ntpq <ntpq-p.txt> [--rv <ntpq-rv.txt>] | nts [--client <name>=<authdata.txt>]... [<authdata.txt>]   [--end <t>] [--stale-after <s>] [--out <file.json>]  (docs/TIMING-STACK.md)
+engine-e-timing-stack-missing-value = { $option } 需要一个值
+engine-e-timing-stack-unknown-option = 未知选项 { $option }（kshana timing-stack --help 列出所有选项）
+engine-e-timing-stack-cannot-read = 无法读取 { $path }：{ $e }
+engine-e-timing-stack-cannot-write = 无法写入 { $path }：{ $e }
+engine-e-timing-stack-bad-number = { $option }：{ $value } 不是有效的数字
+
+## Register entries against packs, published revocations and versions (src/register_products.rs)
+engine-register-products-usage = 用法：kshana register-products verify <register.json> [--packs <dir>] [--pack-key <hex>] [--pin <hex>] [--json] | show <register.json> [--revocations <file.jsonl|url>] [--date <YYYY-MM-DD>] [--pin <hex>] [--json] | diff <older.json> <newer.json> [--pin <hex>]  (docs/PRODUCT-REGISTER.md)
+engine-e-register-products-missing-value = { $option } 需要一个值
+engine-e-register-products-unknown-option = 未知选项 { $option }（kshana register-products --help 列出所有选项）
+engine-e-register-products-cannot-read = 无法读取 { $path }：{ $e }
+engine-e-register-products-bad-revocation = 吊销列表第 { $line } 行须包含 serial、revoked_at (YYYY-MM-DD) 和 reason
+engine-e-register-products-cannot-fetch = 无法获取 { $url }：{ $e }
+engine-e-register-products-bad-key = 密钥不是 32 字节的十六进制
+
+## Software-in-the-loop observation generator (src/sil_obsgen.rs)
+engine-sil-obsgen-usage = 用法：kshana sil-obsgen <scenario.toml> --out <obs.rnx> [--truth <truth.json>]   (a gnss-sim scenario with optional [urban] and [rinex] tables; docs/SIL-OBSGEN.md)
+engine-e-sil-obsgen-missing-value = { $option } 需要一个值
+engine-e-sil-obsgen-unknown-option = 未知选项 { $option }（kshana sil-obsgen --help 列出所有选项）
+engine-e-sil-obsgen-cannot-read = 无法读取 { $path }：{ $e }
+engine-e-sil-obsgen-cannot-write = 无法写入 { $path }：{ $e }
+engine-e-sil-obsgen-bad-scenario = 不是带可选 [urban] 和 [rinex] 表的 gnss-sim 场景：{ $e }
+
 engine-main-usage =
     用法：kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }或：kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -9833,7 +10041,7 @@ engine-main-usage =
     { "   " }或：kshana nmea-scenario <scenario.toml> [--out <file.nmea>] [--tcp <addr>|--udp <addr>] (kshana nmea-scenario --help)
     { "   " }或：kshana interference-map <adsb|ais|fetch-land> ... (kshana interference-map --help)
     { "   " }或：kshana route-exposure --route <route> --map <map.geojson|dir> [--from <date>] [--to <date>]
-    { "   " }或：kshana bench <spec|truth|cases|score|baseline|seal|reveal-check|manifest|verify-manifest|validate|leaderboard> ... (kshana bench --help)
+    { "   " }或：kshana bench <spec|truth|cases|score|baseline|seal|reveal-check|manifest|verify-manifest|validate|leaderboard|positions|datasets|cite|golden|holdout> ... (kshana bench --help)
     { "   " }或：kshana bench-export <scenario.toml> [--out <base>] [--epoch <YYYY-MM-DDTHH:MM:SS>]
     { "   " }或：kshana compliance-report [--out <base>] <result.json>... | --mapping | --sources
     { "   " }或：kshana lunanet-afs-check <spec [--json] [--strict]|symbols <file> [--max-sp-errors <n>] [--json]|generate --frames <n> [--toi0 <t>] --out <file>>
@@ -9843,9 +10051,38 @@ engine-main-usage =
     { "   " }或：kshana obs <convert <log> --format <format> --station <station.toml> [--out <file>] | check <file.obs.jsonl> [--json]>
     { "   " }或：kshana connect <map <input> --mapping <connect.toml> --station <station.toml> [--out <file.obs.jsonl>] | check <vector.toml|dir> [--bless] | watch <dir> --mapping <connect.toml> --station <station.toml> [--suffix <.csv>] [--interval <s>] [--once] | mqtt <host:port> --topic <filter> --mapping <connect.toml> --station <station.toml> [--header <row>] [--qos 0|1] [--user <name> --password-env <VAR>] [--client-id <id>] [--max-messages <n>] [--per-topic] | nats <host:port> --subject <s> --mapping <connect.toml> --station <station.toml> [--header <row>] [--per-topic] [--user <name> --password-env <VAR> | --token-env <VAR>] [--max-messages <n>] | ws <ws://host:port/path> --mapping <connect.toml> --station <station.toml> [--header <row>] [--max-messages <n>] | check-live <vector.toml|dir> [--json] | load-test [--stations <n>] [--rate <Hz>] [--seconds <s>] [--via memory|mqtt] [--json] | adapters <list|check> [<dir>] [--json]>
     { "   " }或：kshana osnma verify <pages|vectors.csv|stream.ubx> [--merkle-root <hex>] [--public-key <id:type:hex>] [--reference-time <gst-s>] [--json] (kshana osnma --help)
-    { "   " }或：kshana iq <scene|acquire|track|sweep|labfit|campaign|conditions|frontend|monitor|inventory|info|extract|convert|decimate> ... (kshana iq --help)
+    { "   " }或：kshana iq <scene|acquire|track|sweep|labfit|campaign|conditions|frontend|monitor|diagnose|gnss-sdr-conf|inventory|info|extract|convert|decimate> ... (kshana iq --help)
     { "   " }或：kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }或：kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
+    { "   " }或：kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
+    { "   " }或：kshana space-receiver <clock|timestamps|dynamics|bench|mms|od-vs-tle> ... [--out <file.json>] (kshana space-receiver --help)
+    { "   " }或：kshana feed <pack|verify|send|spectrum|leaderboard|watch> ... (kshana feed --help)
+    { "   " }或：kshana register-products <verify|show|diff> ... (kshana register-products --help)
+    { "   " }或：kshana register <check|crl-check|view|sign> ... (kshana register --help)
+    { "   " }或：kshana interference-env <evaluate|thresholds|degradation> ... (kshana interference-env --help)
+    { "   " }或：kshana arctic-plan --site <lat,lon[,h]> | --place <name> [--systems <a,b,...>] [--compare] [--hours <h>] [--kp <n>] ... (kshana arctic-plan --help)
+    { "   " }或：kshana lunar-afs-kit <vectors|registry|output-check|output-example|output-reexpress> ... (kshana lunar-afs-kit --help)
+    { "   " }或：kshana lunar-ref <tcb-tcl|approx|convert|transform|terms|models> ... (kshana lunar-ref --help)
+    { "   " }或：kshana signal-readiness <profile.toml> [<obs.rnx>...]
+    { "   " }或：kshana leo-od-plan <plan.toml>
+    { "   " }或：kshana claim-check [<dataset.json>...] [--out <file.json>] | --template
+    { "   " }或：kshana afs-interop <study|ue-register> ... (kshana afs-interop --help)
+    { "   " }或：kshana timing-stack <tai|ts2phc|pps|shm|ntpq|nts> ... (kshana timing-stack --help)
+    { "   " }或：kshana sil-obsgen <scenario.toml> --out <obs.rnx> [--truth <truth.json>]
+    { "   " }或：kshana time-vectors [--json] [<vectors.json|dir> ...]
+    { "   " }或：kshana corrections <decode --format <has|b2b|l6|l1s|qznma> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...] | qznma-verify [--frames <frames.txt>] [--nav <nav.txt>] --pubkey <key.der> ...>
+    { "   " }或：kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
+    { "   " }或：kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
+    { "   " }或：kshana orbit-data <check|convert|gp-compare|gp-audit|cov> ... (kshana orbit-data --help)
+    { "   " }或：kshana drone <prearm|prearm-calibrate|estimator-cases|dr-budget|quad-loss|failover|zonotope-pl> ... (kshana drone --help)
+    { "   " }或：kshana leo-verify <burst-timing|holdover-tdev|cost|indoor|rain-fade|rtk-ar|jam-claim|doppler-integrity> <input.json>
+    { "   " }或：kshana sil-obs <generate|compare> ... (kshana sil-obs --help)
+    { "   " }或：kshana interference-lib <models|generate|fit|bench|cases> ... (kshana interference-lib --help)
+    { "   " }或：kshana antenna-cal <lint|spread|compare|group-delay|js-margin> ... (kshana antenna-cal --help)
+    { "   " }或：kshana quantum-bench <protocol|simulate|score> ... (kshana quantum-bench --help)
+    { "   " }或：kshana soop-clock <lte|cp|synth-lte> ... (kshana soop-clock --help)
+    { "   " }或：kshana adsb-indicators <adsb.csv> [--cell-deg <d>] [--out <indicators.json>]
+    { "   " }或：kshana interference-atlas <build|verify|cors> ... (kshana interference-atlas --help)
     { "   " }或：kshana kinds [--json]
     { "   " }或：kshana example [<name>]
     { "   " }或：kshana --help | --version
@@ -9954,6 +10191,7 @@ engine-interference-map-cli-usage-map =
     { "   " }或：kshana interference-map daily <input.csv|trace.json[.gz]|dir> --dataset <adsb-lol|custom> --day <YYYY-MM-DD> --out <dir> [--cell-deg <deg, { $lit_0_5 } or coarser>] [--bbox <south,west,north,east>] [--delay-hours <24 or more>]
     { "   " }或：kshana interference-map sensitivity <input.csv|trace.json[.gz]|dir> --dataset <adsb-lol|custom> --day <YYYY-MM-DD> --out <report.json> [--bbox <south,west,north,east>]
     { "   " }或：kshana interference-map fetch-land --out <land.geojson> --allow-network
+    { "   " }或：kshana interference-map incidents <validate <library.json> [--releases <RELEASES.json>] [--json] | release <library.json> --out <dir> | from-observatory <day.incidents.json> --source-url <https://...> --out <file.json>>
     { "   " }（--dataset custom 还需要 --licence <text> --licence-url <url> --attribution <text>）
 
 engine-interference-map-cli-usage-route = 用法：kshana route-exposure --route <route.geojson|route.csv> --map <map.geojson|dir> [--map ...] [--from <YYYY-MM-DD>] [--to <YYYY-MM-DD>] [--out <report.json>] [--json]
@@ -9973,15 +10211,23 @@ engine-interference-map-cli-col-not-observed = 未观测
 engine-bench-cli-usage =
     用法：kshana bench spec
     { "   " }或：kshana bench truth --task a --data <extracted JammerTest 2024 dir> --split <dev|test|holdout|all> --out <truth.json>
-    { "   " }或：kshana bench cases --task <c|d> --split <dev|test|holdout> --out <dir> [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
+    { "   " }或：kshana bench truth --task g --data <GSDC-layout train dir> --split <dev|test|holdout> --out <truth.json>
+    { "   " }或：kshana bench cases --task <c|d|f> --split <dev|test|holdout> --out <dir> [--data <dataset.csv>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
     { "   " }或：kshana bench score --truth <truth.json> --predictions <predictions.json> [--threshold <x>] [--out <result.json>]
-    { "   " }或：kshana bench baseline --task <a|b|c|d> --split <dev|test|holdout> --out <dir> [--data <dir>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
+    { "   " }或：kshana bench baseline --task <a|b|c|d|e|f|g> --split <dev|test|holdout> --out <dir> [--data <dir>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
     { "   " }或：kshana bench seal --task <a|b|c|d> --seed-file <file> [--new]
     { "   " }或：kshana bench reveal-check --task <a|b|c|d> --seed-file <file> --commitment <hex>
     { "   " }或：kshana bench manifest --task a --data <extracted dir> [--archive <tar.gz>] --out <manifest.json>
     { "   " }或：kshana bench verify-manifest <manifest.json> --root <dir>
+    { "   " }或：kshana bench positions --task g --split <dev|test|holdout> --csv <submission.csv> --name <system> [--version <v>] --out <predictions.json>
+    { "   " }或：kshana bench datasets [--json | --check [--root <repo>]]
+    { "   " }或：kshana bench cite <result.json>...
+    { "   " }或：kshana bench golden [--root <repo>] (--out <GOLDEN.json> | --check <GOLDEN.json>)
     { "   " }或：kshana bench validate <result.json>...
     { "   " }或：kshana bench leaderboard [<results dir|result.json>...] --out <page.html> [--fragment]   （无输入：空状态；--fragment：可嵌入的片段）
+    { "   " }或：kshana bench holdout truth --task <f|g> --data <private data> --out <private dir>
+    { "   " }或：kshana bench holdout register --truth <private truth.json>
+    { "   " }或：kshana bench holdout score --task <f|g> --predictions <predictions.json> [--truth <private truth.json>] [--out <result.json>]   (KSHANA_BENCH_HOLDOUT_F, KSHANA_BENCH_HOLDOUT_G)
     { "   " }（种子文件保存封存保留集背后的密钥；请勿纳入版本控制）
 
 engine-bench-cli-match = 一致
@@ -10030,6 +10276,8 @@ engine-iq-cli-usage =
     { "   " }或：kshana iq conditions <test-conditions.toml|json>
     { "   " }或：kshana iq frontend <in> <out> [--bandpass lo,hi] [--notch] [--blank <thr>] [--excise] [--agc] [--bits <n>] [--out-format <fmt>]
     { "   " }或：kshana iq monitor <recording> [--power] [--spectral] [--settings <toml|json>] [--baseline <s>] [--signal <name> --prn <list> [--spacing <chips>] [--pll-bw <hz>] [--fll-bw <hz>] [--dll-bw <hz>] [--coherent <N>] [--cn0-windows <M>] [--doppler-max <hz>]] [--max-seconds <s>] [--follow [--idle-timeout <s>]] [--json <out>] [--csv <prefix>]
+    { "   " }或：kshana iq diagnose <recording> [--max-seconds <s>] [--block <s>] [--gain-step-db <db>] [--signal <name> --prn <list> [--coherent <N>] [--noncoherent <M>] [--doppler-max <hz>] [--doppler-step <hz>] [--pfa <p>] [--step <s>] [--steps <n>] [--max-sat-doppler <hz>]]
+    { "   " }或：kshana iq gnss-sdr-conf <recording> [--signal <name[:channels]>,...] [--profile default|narrowband] [--doppler-max <hz>] [--rate-ms <ms>] [--monitor-ports <ch,pvt> | --no-monitor] [--out <file.conf>]
     { " " }labfit 场景：由接收机日志组成的 [[runs]]，或 [input] campaign = "<out-dir>"，指向 kshana iq campaign 的输出文件夹（相对于场景文件）
     { " " }环路设计：kshana.loop-design/1 TOML 文件（docs/design/LOOP-DESIGN-TOML.md）；显式给出的环路/捕获标志会覆盖所选设计
     { " " }acquire/track/sweep 也接受前端标志 [--bandpass lo,hi] [--notch] [--blank <thr>] [--excise] [--agc] [--bits <n>]，在处理之前应用（对捕获和跟踪两遍同样适用）
@@ -10747,3 +10995,354 @@ engine-e-interference-map-locate-bad-tdoa = { $path } 不是可用的 TDOA 定�
 engine-e-interference-map-locate-source-required = 需要 --source adsb 或 --source ais
 
 engine-e-interference-map-locate-no-evidence-rows = 未列出定位输出的任何证据行
+
+## Interference-incident format and case library (src/interference_map/incident.rs)
+engine-interference-incidents-valid = { $file }：{ $n } 条记录，有效
+engine-e-interference-incidents-invalid = 事件库中有 { $n } 个问题；运行 kshana interference-map incidents validate <file> 查看列表
+engine-e-interference-incidents-not-a-document = { $file } 不是 { $schema } 文档
+engine-e-interference-incidents-source-url-required = --source-url 为必填项：每条记录都引用产品发布的 https:// 地址
+
+## Correction decoders (src/corrections/)
+engine-e-corrections-bad-hex = 不是十六进制帧：{ $line }
+engine-e-corrections-unknown-decoder = 未知解码器 { $decoder }（has、b2b、l6、l1s、qznma）
+engine-e-corrections-bad-vector = 向量 { $id } 缺少十六进制帧或 expect 对象
+engine-e-corrections-bad-file = { $file } 不是 { $format } 文档（格式标签和 vectors 数组）
+engine-corrections-summary = { $n } 个向量：通过 { $passed } 个，失败 { $failed } 个
+engine-corrections-usage = 用法：kshana corrections decode --format <has|b2b|l6|l1s|qznma> <frames.txt | -> | kshana corrections vectors [--json] [<vectors.json | dir> ...] | kshana corrections qznma-verify [--frames <frames.txt>] [--nav <nav.txt>] --pubkey <ID:key.der | 001.der> ...  (每行一个十六进制帧; docs/CORRECTION-DECODERS.md)
+engine-e-qznma-bad-nav-line = 不是导航电文行（<satellite> <signal> <part> <hex>）：{ $line }
+engine-e-qznma-bad-key = { $path }：不是在文件名中或以 ID:path 形式带有密钥 ID 的 P-256 或 P-521 公钥（DER 或 SEC1）
+engine-qznma-verify-summary = { $n } 个签名：{ $verified } 个已验证，{ $failed } 个失败，{ $no_key } 个无密钥，{ $no_navigation } 个无导航电文
+
+## src/space_weather_pnt/
+
+engine-space-weather-pnt-usage =
+    用法：kshana space-weather storms
+    { "   " }或：kshana space-weather storm <id> [--altitudes <km,km,...>]
+    { "   " }或：kshana space-weather dgnss <request.json> [--forecast <3-day-forecast.txt>]
+    { "   " }或：kshana space-weather iono <request.json> [--ionex <file>]
+    { "   " }或：kshana space-weather density-scorecard <windows.csv>
+    { "   " }或：kshana space-weather lifetime <request.json>
+    { "   " }(docs/SPACE-WEATHER-PNT.md)
+
+engine-e-space-weather-pnt-out-of-range = `{ $field }` 必须是 { $lo } 到 { $hi } 之间的有限数
+engine-e-space-weather-pnt-unknown-storm = 库中没有风暴 `{ $id }`（用 kshana space-weather storms 列出）
+engine-e-space-weather-pnt-request = 无效的请求：{ $e }
+engine-e-space-weather-pnt-bad-time = 不是 UTC 时间（YYYY-MM-DDTHH:MM[:SS]Z）：{ $value }
+engine-e-space-weather-pnt-not-a-forecast = 不是 NOAA SWPC 3 天预报：缺少完整的 Kp 分时表
+engine-e-space-weather-pnt-one-source = 请只给出一个 Kp 时段来源：storm、intervals 或预报（swpc_forecast 或 --forecast）
+engine-e-space-weather-pnt-ionex-span = IONEX 地图不覆盖 { $t }
+engine-e-space-weather-pnt-ionex-flag = 当且仅当请求的 vtec 为 "ionex" 并给出 --ionex <file> 时才使用 IONEX 地图
+engine-e-space-weather-pnt-no-epochs = 请求的 epochs_utc 中至少需要一个历元
+engine-e-space-weather-pnt-window-row = 第 { $line } 行：不是密度窗口行 (campaign,phase,start_utc,mean_alt_km,n_valid,measured_mean,points)
+engine-e-rtkqa-usage = 用法：kshana rtk-qa monitor <host:port> --mount <name> [--user <name> --password-env <VAR>] [--gga <lat,lon[,h]>] [--seconds <s>] [--stale-after <s>] [--link-bps <n>]
+    kshana rtk-qa sources <table.txt|host:port> [--near <lat,lon>]
+    kshana rtk-qa base <stream.rtcm3> --reference <reference.toml|json> [--epoch <decimal year>]
+    kshana rtk-qa fix <solution.pos|nmea> [--control <name,lat,lon,h>]... [--radius <m>] [--h-tol <m>] [--v-tol <m>]
+    kshana rtk-qa ppk <rover.obs> [--base <base.obs>]
+    kshana rtk-qa probe <host:port> --mount <name> [--user <name> --password-env <VAR>] [--gga <lat,lon[,h]>] [--seconds <s>]
+    kshana rtk-qa caster --listen <host:port> --stream <file.rtcm3> --mount <name> [--user <name> --password-env <VAR>] [--chunk-ext] [--clients <n>] [--max-clients <n>] [--pace-ms <n>]
+    kshana rtk-qa log-check <client.log> --user <name> --password-env <VAR>
+    kshana rtk-qa failover <spec.json|toml>
+
+engine-e-rtkqa-frame = 未知的参考框架 { $frame }（ITRF2014、ITRF2020、ETRF2014 或 ETRF2020）
+
+engine-e-rtkqa-tide = 未知的潮汐系统 { $tide }（tide-free、zero-tide 或 mean-tide）
+
+engine-e-rtkqa-pos-columns = 解算文件以度分秒或基线形式给出位置；请改用十进制度或 ECEF
+
+engine-e-rtkqa-pos-line = 第 { $line } 行不是解算历元
+
+engine-e-rtkqa-no-solutions = 未找到解算历元（RTKLIB 风格的 .pos 文件或 NMEA GGA 语句）
+
+engine-e-rtkqa-no-station = 数据流中没有 1005 或 1006 测站电文
+
+engine-e-rtkqa-failover-spec = 故障切换测试需要正的时长和步长以及至少一个来源
+
+engine-e-rtkqa-failover-source = 策略中指定了未定义的来源：{ $name }
+
+engine-rtkqa-monitor-summary = rtk-qa monitor：评分 { $score }/100（MODELLED）；可用 { $availability } %，延迟中位数 { $latency } ms，完整性 { $completeness } %，告警 { $alarms }
+
+engine-rtkqa-sources-summary = rtk-qa sources：挂载点 { $n }
+
+engine-rtkqa-base-summary = rtk-qa base：测站 { $n }；正常 { $ok }，警告 { $warn }，失败 { $fail }（MODELLED）
+
+engine-rtkqa-fix-summary = rtk-qa fix：测点 { $n }；通过 { $pass }，警告 { $warn }，失败 { $fail }，无固定解 { $nofix }（MODELLED）
+
+engine-rtkqa-ppk-summary = rtk-qa ppk：可能原因 { $n }：{ $causes }
+
+engine-rtkqa-probe-summary = rtk-qa probe：{ $total } 项检查中满足 { $met } 项；未满足：{ $failed }
+
+engine-rtkqa-caster-listening = rtk-qa caster：正在 { $addr } 上监听，挂载点 { $mount }
+
+engine-rtkqa-caster-client = rtk-qa caster：客户端 { $peer } 收到 { $answer }；{ $total } 项检查中满足 { $met } 项
+
+engine-rtkqa-log-summary = rtk-qa log-check：在 { $file } 中发现凭据 { $n } 次
+
+engine-rtkqa-failover-summary = rtk-qa failover：切换 { $switches } 次；改正数龄期超过上限的时间 { $over } s；最大龄期 { $max_age } s（MODELLED）
+
+## SDR front-end diagnostics and the GNSS-SDR configuration (src/iq/frontdiag.rs, src/iq/gnss_sdr_conf.rs)
+engine-e-iq-frontdiag-no-samples = 录制文件中没有样本
+engine-e-iq-frontdiag-positive = --block、--step 和 --gain-step-db 必须为正数
+engine-e-iq-gnss-sdr-conf-format = GNSS-SDR 的文件信号源读取 ci16_le、ci8 和 cf32_le，不读取 { $format }：请先转换录制文件（kshana iq convert <in> <out> --to ci16_le）
+engine-e-iq-gnss-sdr-conf-layout = GNSS-SDR 的文件信号源从一个无文件头的数据文件中读取一路数据流：请先提取该数据流（kshana iq convert）
+engine-e-iq-gnss-sdr-conf-if = 录制文件的中频不为零：请先将其变换到零中频（kshana iq decimate --if-hz）
+engine-e-iq-gnss-sdr-conf-no-signal = 请用 --signal 至少指定一个信号
+engine-e-iq-gnss-sdr-conf-rate = PVT 输出间隔必须是 20 ms 的整数倍，而不是 { $rate }
+engine-e-iq-gnss-sdr-conf-signal = 不为 { $signal } 生成 GNSS-SDR 配置（可生成：{ $known }）
+engine-e-iq-gnss-sdr-conf-centre = { $signal } 距录制文件的中心频率 { $offset_hz } Hz；GNSS-SDR 的默认处理链要求它位于零频
+engine-e-iq-gnss-sdr-conf-profile = 未知的配置档 { $profile }（default、narrowband）
+engine-iq-gnss-sdr-conf-written = 已将 GNSS-SDR 配置写入 { $path }
+
+## Orbit-data validators, converters and monitors (src/orbit_data)
+engine-orbit-data-valid = 依据 { $standard }：有效
+engine-orbit-data-valid-with-warnings = 依据 { $standard }：有效，警告：{ $warnings }
+engine-orbit-data-invalid = 依据 { $standard }：无效，错误：{ $errors }，警告：{ $warnings }
+engine-orbit-data-error = 错误
+engine-orbit-data-warning = 警告
+engine-orbit-data-not-checked = 未检查：{ $what }
+engine-orbit-data-header = 头部
+engine-orbit-data-cdm-relative = 相对元数据/数据
+engine-orbit-data-cdm-object = 对象元数据/数据
+engine-orbit-data-covariance = 协方差
+engine-orbit-data-oem-metadata = 段 { $n } 的元数据
+engine-orbit-data-line-too-long = 该行有 { $n } 个字符，超过 { $max }
+engine-orbit-data-non-printable = 该行含有非可打印 ASCII 字符
+engine-orbit-data-not-key-value = 不是 KEYWORD = value 形式的行：{ $text }
+engine-orbit-data-keyword-blank = 关键字 { $key } 含有空格
+engine-orbit-data-keyword-case = 关键字 { $key } 不是大写
+engine-orbit-data-units-format = { $key } 的单位必须在值之后，以空格隔开，放在方括号中
+engine-orbit-data-first-line = 第一行必须是 { $key }
+engine-orbit-data-parse-failed = 无法读取该消息：{ $err }
+engine-orbit-data-xml-root = 根元素是 { $name }，而不是 { $want }
+engine-orbit-data-xml-attr = 根属性 { $attr } 必须为 { $want }
+engine-orbit-data-xml-missing = 该消息没有 { $tag }
+engine-orbit-data-empty-value = { $key } 的值为空
+engine-orbit-data-bad-time = { $key } = { $value } 不是时间标签 (yyyy-mm-ddThh:mm:ss[.d] / yyyy-dddThh:mm:ss[.d])
+engine-orbit-data-bad-number = { $key } = { $value } 不是该标准记法的数字
+engine-orbit-data-bad-integer = { $key } = { $value } 不是整数
+engine-orbit-data-bad-value = { $key } = { $value } 不在以下值中：{ $allowed }
+engine-orbit-data-out-of-range = { $key } = { $value } 超出 { $range }
+engine-orbit-data-version = 版本 { $value }：本检查遵循版本 { $want }
+engine-orbit-data-bad-chars = { $key } = { $value } 含有字母、数字、下划线和连字符以外的字符
+engine-orbit-data-identifier-blank = { $key } = { $value } 含有空格（标准允许字母、数字、下划线和连字符）
+engine-orbit-data-lower-case = { $key } = { $value } 含有小写字母
+engine-orbit-data-bad-units = { $key } 的单位为 [{ $given }]；标准规定 [{ $want }]
+engine-orbit-data-missing-units = { $key } 未标出单位 [{ $want }]
+engine-orbit-data-unknown-keyword = { $key } 不是 { $section } 的关键字
+engine-orbit-data-duplicate-keyword = { $key } 在 { $section } 中出现多次
+engine-orbit-data-keyword-order = { $key } 不符合标准规定的顺序（位于 { $prev } 之后）
+engine-orbit-data-missing-keyword = { $section } 缺少必需的 { $key }
+engine-orbit-data-cdm-object-count = 消息中的对象节数：{ $n }；CDM 有两个，先 OBJECT1 后 OBJECT2
+engine-orbit-data-cov-row = 协方差第 { $row } 行不完整，或位于缺失的行之后
+engine-orbit-data-cov-zero-diagonal = { $at } 的协方差有零方差；其行和列不应使用
+engine-orbit-data-not-pd = { $at } 处的协方差不是正定的（相关矩阵最小特征值 { $min }）
+engine-orbit-data-frame-mismatch = 两个对象的 REF_FRAME 不同（{ $a }，{ $b }）
+engine-orbit-data-inconsistent = { $key } = { $given } { $unit }，但数据给出 { $computed } { $unit }
+engine-orbit-data-time-order = { $first }（{ $a }）晚于 { $second }（{ $b }）
+engine-orbit-data-count-order = { $used } = { $a } 大于 { $avail } = { $b }
+engine-orbit-data-unterminated = 消息在块内结束
+engine-orbit-data-no-segment = 消息没有段
+engine-orbit-data-time-system-changed = 消息中 TIME_SYSTEM 发生变化（{ $a }，然后 { $b }）
+engine-orbit-data-outside-span = 时间 { $t } 超出元数据给出的跨度
+engine-orbit-data-useable-overlap = 段 { $a } 和段 { $b } 的可用跨度重叠
+engine-orbit-data-data-width = 数据行有 { $n } 个值；应为 { $want }
+engine-orbit-data-duplicate-time = 时间标签 { $t } 重复
+engine-orbit-data-time-not-increasing = 时间标签 { $t } 未递增（前一个为 { $prev }）
+engine-orbit-data-too-few-points = 数据行数：{ $n }；不足以进行 { $deg } 阶插值（需要 { $need }）
+engine-orbit-data-mixed-time = { $block } 块混用了相对和绝对时间标签
+engine-orbit-data-span-short = 可用跨度为 { $days } 天，短于要求的 { $min } 天
+engine-orbit-data-gap = 有 { $s } 秒的间隔，长于要求的 { $max } 秒
+engine-orbit-data-gp-checksum = 第 { $line } 行：第 69 列校验和错误（应为 { $want }）
+engine-orbit-data-gp-catalogue = 第 1 行和第 2 行的编目号不一致
+engine-orbit-data-gp-perigee = 近地点高度为 { $km } km，低于地球表面
+engine-orbit-data-gp-sgp4 = 历元后 { $days } 天 SGP4 失败（错误码 { $code }）
+engine-orbit-data-gp-stale = 历元早于参考时间 { $days } 天（超过 { $max }）
+engine-orbit-data-gp-future = 历元晚于参考时间 { $days } 天
+engine-orbit-data-gp-repeated-epoch = 该对象的另一组根数历元相同而根数不同
+engine-orbit-data-gp-elset-number = 在较晚的历元，根数组编号从 { $a } 回退到 { $b }
+engine-orbit-data-gp-jump = 此组与前一组在其历元（{ $hours } 小时后）相差 { $km } km（超过 { $max } km）：机动或错误的根数组
+engine-orbit-data-gp-compare-summary = 两个来源共有对象：{ $n }，超过 { $threshold } km 被标记：{ $flagged }；仅在第一个：{ $only_a }，仅在第二个：{ $only_b }（MODELLED：SGP4 差值，不是精度）
+engine-orbit-data-gp-audit-summary = 根数组：{ $sets }，对象：{ $objects }，发现：{ $findings }
+engine-orbit-data-usage =
+    用法：kshana orbit-data check <cdm|oem|ocm file> [--json] [--aliases <map.json>] [--min-span-days <d>] [--max-gap-s <s>]
+    { "   " }或：kshana orbit-data convert <file> --to <ocm|oem|cdm> [--aliases <map.json>]
+    { "   " }或：kshana orbit-data gp-compare <a.tle> <b.tle> [--hours <h>] [--step-min <min>] [--threshold-km <km>] [--json]
+    { "   " }或：kshana orbit-data gp-audit <sets.tle> ... [--at <epoch>] [--stale-days <d>] [--jump-km <km>] [--json]
+    { "   " }或：kshana orbit-data cov <check|propagate|monte-carlo|synthetic|realism> <input.json> [--dt-s <s>] [--step-s <s>] [--samples <n>] [--seed <n>] [--sigma-rtn <r,t,n,rdot,tdot,ndot>] [--full]
+    { "   " }(docs/ORBIT-DATA.md)
+engine-e-orbit-data-unknown-message = { $path } 不是 CDM、OEM（KVN）或 OCM：没有 CCSDS_CDM_VERS、CCSDS_OEM_VERS 或 CCSDS_OCM_VERS 行，也没有 <cdm> 或 <ocm> 根元素
+engine-e-orbit-data-bad-flag = { $flag } { $value }：不可用的值
+engine-e-orbit-data-aliases-not-object = 别名表必须是 "name": "KEYWORD" 形式的 JSON 对象
+engine-e-orbit-data-alias-target = 别名 { $key } 未映射到 CDM 关键字
+engine-e-orbit-data-convert-pair = { $path }：没有到 { $to } 的转换（OEM 到 ocm，OCM 到 oem，CDM 到 cdm）
+engine-e-orbit-data-convert-empty = OEM 没有可转换的段
+engine-e-orbit-data-convert-one-object = OEM 含有对象：{ $n }；OCM 只含一个
+engine-e-orbit-data-convert-missing = 源缺少目标所需的 { $key }
+engine-e-orbit-data-convert-width = 数据行或协方差行的值个数不适合转换
+engine-e-orbit-data-convert-time = 时间标签 { $t } 无法转为绝对时间（没有 EPOCH_TZERO，或不是数字）
+engine-e-orbit-data-convert-traj = 轨迹类型 { $kind } 没有 OEM 形式（CARTPV 和 CARTPVA 有）
+engine-e-orbit-data-convert-cov = 协方差 { $kind } { $ordering } 没有 OEM 形式（LTM、UTM 或 FULL 的 CARTPV 有）
+engine-e-orbit-data-cov-input = 输入缺少有效的 { $key }
+engine-e-orbit-data-cov-not-pd = 初始协方差不是正定的，或请求的样本太少
+
+## Drone, UTM and robotics PNT tools (src/drone_pnt)
+engine-drone-usage = 用法：kshana drone prearm <log.ulg|log.bin|epochs.jsonl> [--window <s>] [--config <thresholds.json>] [--gate] | prearm-calibrate [--runs <n>] [--seed <n>] | estimator-cases [--case <id> --trace <trace.jsonl> [--params <json>]] | dr-budget [<spec.json> | --airframe multirotor|fixed-wing|vtol|ground-robot] | quad-loss [<spec.json>] | failover [<spec.json>] | zonotope-pl <spec.json>  (docs/DRONE-PNT.md)
+engine-e-drone-dataflash-header = 不是 ArduPilot DataFlash 日志（必须以八位组 A3 95 开头）
+engine-e-drone-bad-number = { $flag } 必须是有限数值，而不是 { $value }
+engine-e-drone-prearm-gate-failed = 解锁前检查 FAIL：请勿解锁（参见报告中的 playbook 步骤）
+engine-e-drone-no-epochs = 日志中没有接收机历元（应为 PX4 ULog、ArduPilot DataFlash 日志或 JSON Lines 历元）
+engine-e-drone-trace-bad-line = 轨迹行不是带数值 t 的 JSON 对象：{ $line }
+engine-e-drone-trace-missing-channel = 轨迹中没有通道 { $channel }（可用 --params 的 channels 对象重命名通道）
+engine-e-drone-unknown-case = 未知的估计器用例 { $case }（kshana drone estimator-cases 列出所有用例）
+engine-e-drone-unknown-airframe = 未知的机型类别 { $name }（multirotor、fixed-wing、vtol、ground-robot）
+engine-e-drone-failover-bad-spec = 故障切换运行需要至少一个源、正的步长以及不超过一千万步的非负时长
+engine-e-drone-failover-bad-kind = 未知的源类型 { $kind }（absolute、relative、inertial）
+engine-e-drone-failover-bad-event = 事件指向未知的源或状态：{ $source }（状态为 fail 或 recover）
+engine-e-drone-zonotope-bad-geometry = 保护级需要至少四颗具有有限方位角、仰角和正误差界的卫星，以及可解的几何构型
+
+## src/oscillator/mod.rs
+
+engine-oscillator-usage = 用法：kshana oscillator <vibration|holdover|select|raim-aid|datasheet> <input.json>，或 kshana oscillator refs（docs/OSCILLATOR.md）
+
+engine-e-oscillator-input = { $part } 输入无效：{ $e }
+
+engine-e-oscillator-unknown-clock = 未知的时钟预设 { $id }（可选：{ $known }）
+
+engine-e-oscillator-field = { $field } 超出范围：{ $value }
+
+## src/leo_verify/mod.rs
+
+engine-leo-verify-usage = 用法：kshana leo-verify <burst-timing|holdover-tdev|cost|indoor|rain-fade|rtk-ar|jam-claim|doppler-integrity> <input.json>（docs/LEO-VERIFY.md）
+
+engine-e-leo-verify-input = { $part } 输入无效：{ $e }
+
+engine-e-leo-verify-field = { $field } 超出范围：{ $value }
+
+engine-e-leo-verify-too-large = 运行规模过大：{ $n } 步（最多 { $max }）
+
+engine-e-leo-verify-unknown-id = { $field } 指定了未知的标识：{ $id }
+
+## src/bench: tasks (f) and (g), the dataset registry and the golden index (E34)
+
+engine-bench-data-no-header = { $file }：没有标题行
+
+engine-bench-data-no-column = { $file }：没有列 `{ $column }`
+
+engine-bench-data-bad-value = { $file } 第 { $line } 行：`{ $column }` 缺失或无效
+
+engine-bench-data-no-rows = { $file }：没有数据行
+
+engine-bench-task-has-no-holdout = 任务 ({ $task }) 没有保留划分：其数据和划分均已公开
+
+engine-bench-unknown-baseline = 未知基线 `{ $name }`
+
+engine-bench-g-no-traces = { $root } 下没有 <drive>/<phone>/ground_truth.csv
+
+engine-bench-g-no-object = 没有轨迹对象 `{ $key }`
+
+engine-bench-g-bad-epoch = 轨迹 `{ $id }`：每个历元必须是 [UnixTimeMillis, 纬度, 经度]
+
+engine-bench-f-dataset-mismatch = { $path }：SHA-256 { $got } 不是任务 (f) 固定的 dataset.csv；请用 scripts/fetch_opssat_ad.sh 获取
+
+engine-bench-cli-unknown-task-g = 未知任务 `{ $t }`（a 到 g）
+
+engine-bench-cli-wrote-predictions = 已写入 { $path }（{ $traces } 条轨迹）
+
+engine-bench-datasets-summary = { $n } 个数据集：基准内 { $in_bench } 个，候选 { $candidate } 个，待寻 { $wanted } 个
+
+engine-bench-datasets-ok = 登记表：{ $n } 个数据集，所有规则均满足
+
+engine-bench-golden-ok = { $n } 个冻结文件未变；引用标识稳定
+
+engine-bench-golden-written = 已写入 { $path }（{ $n } 个冻结文件）
+
+engine-bench-site-title-f = 任务 (f)：航天器遥测异常检测
+
+engine-bench-site-title-g = 任务 (g)：智能手机定位精度
+
+engine-bench-site-col-ap = 平均精度
+
+engine-bench-site-col-gsdc-score = 得分，P50 与 P95 的平均值 (m)
+
+engine-bench-site-col-p50 = P50 总体 (m)
+
+engine-bench-site-col-p95 = P95 总体 (m)
+
+## Feeder clients (src/feeder.rs, docs/FEEDER.md)
+engine-feed-usage = 用法：kshana feed pack <file.obs.jsonl|dir>... --key <keyfile> [--privacy public|exact] [--grid-deg <deg>] [--created <time>] [--include-open] [--out <bundle.json>] | verify <bundle.json> [--pubkey <hex>] [--json] | send <bundle.json> --url <http://host:port/path> [--token-file <file>] | spectrum <capture> --format cu8|ci8|ci16_le --rate <Hz> --centre <Hz> --station <station.toml> [--front-end <name>] [--nfft <n>] [--bins <n>] [--max-samples <n>] [--time <label>] [--out <file.obs.jsonl>] | leaderboard <bundle.json>... [--json] | watch <dir|file>... --key <keyfile> --spool <dir> [--url <http://host:port/path>] [--token-file <file>] [--interval-s <s>] [--privacy public|exact] [--grid-deg <deg>] [--include-open] [--once]  (docs/FEEDER.md)
+engine-e-feed-bad-spool = { $path }：不是 kshana.feed-spool/1 状态（{ $e }）
+engine-e-feed-http-only = { $url }：仅支持 http:// 地址（引擎没有 TLS 客户端；请在收集端前放置 TLS 隧道）
+engine-feed-watch-cycle = feed watch：{ $files } 个文件打包为 { $bundles } 个数据包，已发送 { $sent } 个，被拒绝 { $rejected } 个，等待 { $pending } 个
+engine-feed-packed = { $out }：站 { $station } 的数据包，{ $files } 个文件，{ $epochs } 个历元，隐私模式 { $mode }
+engine-feed-verified = { $path }：签名有效（签名者 { $key }）；站 { $station }，{ $files } 个文件，{ $epochs } 个历元，每个文件均为有效的 kshana.obs/1
+engine-feed-sent = 已发送到 { $url }：HTTP { $code }
+engine-feed-spectrum-written = { $out }：频谱快照，{ $bins } 个频格（MODELLED：电平相对于满量程，并非校准功率）
+engine-e-feed-missing-value = { $option } 需要一个值
+engine-e-feed-unknown-option = 未知选项 { $option }（kshana feed --help 列出所有选项）
+engine-e-feed-cannot-read = 无法读取 { $path }：{ $e }
+engine-e-feed-cannot-write = 无法写入 { $path }：{ $e }
+engine-e-feed-not-obs = { $path } 不是有效的 kshana.obs/1 文件：{ $e }
+engine-e-feed-mixed-stations = 这些文件来自多个站（{ $a } 和 { $b }）；每个数据包只打包一个站
+engine-e-feed-no-files = 没有可打包的观测文件
+engine-e-feed-bad-privacy = 未知的隐私模式 { $value }（public 或 exact）
+engine-e-feed-bad-grid = 位置网格必须在 0.01 到 10 度之间，而不是 { $value }
+engine-e-feed-not-bundle = 不是 kshana.feed/1 数据包：{ $e }
+engine-e-feed-bad-signature = 数据包的签名无效
+engine-e-feed-key-mismatch = 数据包由 { $found } 签名，而不是预期的密钥 { $expected }
+engine-e-feed-hash-mismatch = 载荷 { $name } 与其记录的 SHA-256 不符
+engine-e-feed-payload-mismatch = 载荷 { $name } 与数据包声明的站或记录数不符
+engine-e-feed-not-coarsened = 公开数据包的载荷 { $name } 仍包含 { $what }
+engine-e-feed-bad-format = 不支持的采样格式 { $value }（cu8、ci8 或 ci16_le）
+engine-e-feed-bad-number = { $option }：{ $value } 在此处不是有效值
+engine-e-feed-short-capture = 采集包含 { $n } 个样本，少于变换长度 { $nfft }
+engine-e-feed-send-failed = 发送到 { $url } 失败：{ $e }
+engine-e-feed-send-refused = { $url } 拒绝了数据包：HTTP { $code }
+engine-e-obs-bad-spectrum = 第 { $line } 行：频谱需要有限的时间和中心频率、正的采样率和频格宽度，以及有限的电平
+
+## Product register (src/product_register.rs, docs/PRODUCT-REGISTER.md)
+engine-register-usage = 用法：kshana register check <register.json> [--key <hex>] | crl-check <crl.json> --key <hex> | view <register.json> [--key <hex>] [--crl <crl.json> --crl-key <hex>] [--date <YYYY-MM-DD>] [--json] | sign <register.json|crl.json> --key <keyfile> [--out <file>]  (docs/PRODUCT-REGISTER.md)
+engine-register-check-ok = { $path }：{ $publisher } 的登记册，{ $n } 个条目，签名有效（签名者 { $key }）
+engine-register-crl-check-ok = { $path }：{ $issuer } 的撤销列表，{ $n } 个已撤销条目，签名有效；下一份列表预计于 { $next }
+engine-register-view-summary = 截至 { $date }：现行 { $current } 个，待重新评分 { $due } 个，已撤销 { $revoked } 个
+engine-register-view-no-crl = 未提供撤销列表：撤销状态未知（--crl <crl.json> --crl-key <hex>）
+engine-register-view-crl-stale = 撤销列表已过期：其下一次更新应于 { $next }
+engine-e-register-key-mismatch = 由 { $found } 签名，而不是预期的密钥 { $expected }
+engine-e-register-bad-signature = 签名无效
+engine-e-register-bad-date = { $field } 不是 YYYY-MM-DD 格式的日期：{ $value }
+engine-e-register-not-register = 不是 kshana.register/1 登记册：{ $e }
+engine-e-register-not-crl = 不是 kshana.register-crl/1 撤销列表：{ $e }
+engine-e-register-bad-id = 条目 ID { $id }：请使用 1 到 128 个字母、数字、点、连字符或下划线
+engine-e-register-duplicate-id = 条目 ID { $id } 出现了不止一次
+engine-e-register-revalidate-before-scored = 条目 { $id } 的重新评分日期早于其评分日期
+engine-e-register-bad-digest = 条目 { $id }：evidence_sha256 必须是 64 位十六进制数字
+engine-e-register-missing-value = { $option } 需要一个值
+engine-e-register-cannot-read = 无法读取 { $path }：{ $e }
+engine-e-register-cannot-write = 无法写入 { $path }：{ $e }
+engine-e-register-unknown-option = 未知选项 { $option }（kshana register --help 列出所有选项）
+engine-e-register-crl-needs-key = --crl 与 --crl-key 需一起使用：撤销列表要用签发者的密钥核对
+
+## Interference environments (src/interference_env.rs, docs/INTERFERENCE-ENV.md)
+engine-interference-env-usage = 用法：kshana interference-env evaluate <environment.toml> | thresholds [--receiver <id>] | degradation --baseline <id> --pulse-width <s> --prf <Hz> [--below-ratio <R>] [--recovery <s>]  (docs/INTERFERENCE-ENV.md; MODELLED)
+engine-e-interference-env-unknown-receiver = 未知接收机 { $id }（kshana interference-env thresholds 列出所有接收机）
+engine-e-interference-env-unknown-baseline = 未知基线 { $id }（参见 docs/INTERFERENCE-ENV.md）
+engine-e-interference-env-bad-source = 源 { $name }：其功率、带宽、脉宽或重复频率不是有效的正有限值
+engine-e-interference-env-pulsed-needs-receiver = 脉冲源需要接收机的 noise_temperature_k、precorrelation_bw_hz 以及消隐或饱和电平
+engine-e-interference-env-saturated = 脉冲使未消隐时间为零：占空比达到 1
+engine-e-interference-env-missing-value = { $option } 需要一个值
+engine-e-interference-env-bad-number = { $option } 需要数字，而不是 { $value }
+engine-e-interference-env-unknown-option = 未知选项 { $option }（kshana interference-env --help 列出所有选项）
+engine-e-interference-env-cannot-read = 无法读取 { $path }：{ $e }
+engine-e-interference-env-bad-file = { $path } 不是干扰环境：{ $e }
+
+## Future-signal readiness (src/signal_readiness.rs, docs/SIGNAL-READINESS.md)
+engine-signal-readiness-usage = 用法：kshana signal-readiness <profile.toml> [<obs.rnx>...]  (docs/SIGNAL-READINESS.md)
+engine-e-signal-readiness-bad-rinex = { $path } 不是 RINEX 3 或 4 观测文件：{ $e }
+engine-e-signal-readiness-unknown-option = 未知选项 { $option }（kshana signal-readiness --help）
+engine-e-signal-readiness-cannot-read = 无法读取 { $path }：{ $e }
+engine-e-signal-readiness-bad-profile = { $path } 不是接收机配置文件：{ $e }
+
+## BeiDou-LEO planning (src/leo_od_plan.rs, docs/LEO-OD-PLAN.md)
+engine-leo-od-plan-usage = 用法：kshana leo-od-plan <plan.toml>  (docs/LEO-OD-PLAN.md; MODELLED, a planning tool)
+engine-e-leo-od-plan-bad-plan = 计划数值超出范围：弧段、步长、噪声和掩码须为正的有限值，步数最多 100000，掩码在 ±90 度以内，半波束宽度在 0 到 90 度之间，LEO 沃克星座的轨道面数须整除卫星数
+engine-e-leo-od-plan-cannot-read = 无法读取 { $path }：{ $e }
+engine-e-leo-od-plan-bad-file = { $path } 不是计划文件：{ $e }

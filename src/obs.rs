@@ -236,6 +236,42 @@ pub enum Record {
     Alarm(AlarmRecord),
     /// A decoded SSR correction.
     Correction(Box<CorrectionRecord>),
+    /// A power spectrum snapshot from a receive-only SDR front end.
+    Spectrum(Box<SpectrumRecord>),
+}
+
+/// A power spectrum snapshot of a receive-only SDR capture (`kshana feed spectrum`): the
+/// Welch estimate of the capture's density, averaged into equal bins across the band the
+/// front end passes. Levels are relative to the decoded samples (full scale 1), not
+/// calibrated power.
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct SpectrumRecord {
+    /// The station id (equal to the header's).
+    pub station: String,
+    /// Seconds since the first record of the file.
+    pub t_s: f64,
+    /// The capture's absolute time as the operator states it, when known.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub time_label: Option<String>,
+    /// The front end (`rtl-sdr`, `hackrf`, or another name the operator gives).
+    pub front_end: String,
+    /// Centre frequency, hertz.
+    pub centre_hz: f64,
+    /// Sample rate, hertz.
+    pub sample_rate_hz: f64,
+    /// Samples the estimate used.
+    pub samples: u64,
+    /// Transform length of the estimate.
+    pub nfft: usize,
+    /// Segments averaged.
+    pub segments: usize,
+    /// Width of one output bin, hertz.
+    pub bin_hz: f64,
+    /// Density per output bin, lowest frequency first, dB relative to full scale per hertz.
+    pub psd_dbfs_hz: Vec<f64>,
+    /// SHA-256 of the capture's bytes, hex.
+    pub capture_sha256: String,
 }
 
 /// Read a log of `format` (`ubx`, `rinex`, `android`, `sbf`, `nmea`, `rtklib-pos`, `novatel`,
@@ -309,6 +345,9 @@ pub struct CheckReport {
     /// Correction records.
     #[serde(default)]
     pub corrections: usize,
+    /// Spectrum snapshot records.
+    #[serde(default)]
+    pub spectra: usize,
     /// Epochs that reference an IQ recording.
     pub iq_refs: usize,
     /// Whether the header marks the data as partner input.
@@ -323,6 +362,7 @@ pub fn check(text: &str) -> Result<(Vec<Record>, CheckReport), String> {
     let mut header: Option<Header> = None;
     let mut last_t = f64::NEG_INFINITY;
     let (mut epochs, mut alarms, mut iq_refs, mut corrections) = (0usize, 0usize, 0usize, 0usize);
+    let mut spectra = 0usize;
     for (i, line) in text.lines().enumerate() {
         let n = i + 1;
         if line.trim().is_empty() {
@@ -382,6 +422,21 @@ pub fn check(text: &str) -> Result<(Vec<Record>, CheckReport), String> {
                 }
                 corrections += 1;
             }
+            (Some(h), Record::Spectrum(p)) => {
+                same_station(&h.station.id, &p.station, n)?;
+                let ok = p.t_s.is_finite()
+                    && p.centre_hz.is_finite()
+                    && p.sample_rate_hz.is_finite()
+                    && p.sample_rate_hz > 0.0
+                    && p.bin_hz.is_finite()
+                    && p.bin_hz > 0.0
+                    && !p.psd_dbfs_hz.is_empty()
+                    && p.psd_dbfs_hz.iter().all(|v| v.is_finite());
+                if !ok {
+                    return Err(crate::terr!("e-obs-bad-spectrum", line = n.to_string()));
+                }
+                spectra += 1;
+            }
         }
         records.push(rec);
     }
@@ -392,6 +447,7 @@ pub fn check(text: &str) -> Result<(Vec<Record>, CheckReport), String> {
         epochs,
         alarms,
         corrections,
+        spectra,
         iq_refs,
         partner_input: h.station.partner_input,
     };

@@ -1,0 +1,12 @@
+{
+  "comment": "SELF-MADE input for tests/orbit_data.rs: a low-Earth-orbit state (km, km/s, inertial) and an uncorrelated covariance (km^2, km^2/s^2): 0.1 km and 0.1 m/s 1-sigma per axis.",
+  "state_km": [7078.137, 0.0, 0.0, 0.0, 6.5, 3.7],
+  "cov_km": [
+    [0.01, 0, 0, 0, 0, 0],
+    [0, 0.01, 0, 0, 0, 0],
+    [0, 0, 0.01, 0, 0, 0],
+    [0, 0, 0, 1e-8, 0, 0],
+    [0, 0, 0, 0, 1e-8, 0],
+    [0, 0, 0, 0, 0, 1e-8]
+  ]
+}

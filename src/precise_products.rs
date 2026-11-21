@@ -64,7 +64,10 @@ pub fn parse_clock_rinex_records(text: &str, record: &str) -> Result<ClockRinex,
     let mut in_header = true;
     for line in text.lines() {
         if in_header {
-            if line.len() >= 60 && line[60..].starts_with("END OF HEADER") {
+            if line
+                .get(60..)
+                .is_some_and(|l| l.starts_with("END OF HEADER"))
+            {
                 in_header = false;
             }
             continue;
@@ -207,10 +210,13 @@ pub fn parse_antex_satellites(text: &str) -> Result<SatelliteAntennas, String> {
         ))
     };
     for line in text.lines() {
-        if line.len() < 61 {
+        // Columns 61-80 are the label; a line cut inside a multi-byte character is not ANTEX.
+        let (Some(body), Some(label)) = (line.get(..60), line.get(60..)) else {
+            continue;
+        };
+        if label.is_empty() {
             continue;
         }
-        let (body, label) = line.split_at(60);
         let label = label.trim_end();
         match label {
             "START OF ANTENNA" => {

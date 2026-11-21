@@ -10533,6 +10533,214 @@ engine-e-realdata-llr-crd-short-h4-record = lühike h4 (sessiooni) kirje
 
 engine-e-mcp-main-needs-value = { $a } vajab väärtust
 
+## AIS position-integrity flags (src/ais_integrity.rs)
+engine-ais-integrity-usage = kasutus: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]  (docs/AIS-INTEGRITY.md)
+engine-ais-integrity-summary = jälgi { $n_tracks }, märgistega { $n_flagged }: märkeid { $n_flags }, sündmusi { $n_events } (MODELLED)
+engine-e-ais-integrity-missing-value = { $option } vajab väärtust
+engine-e-ais-integrity-unknown-option = tundmatu valik { $option } (valikud loetleb kshana ais-integrity --help)
+engine-e-ais-integrity-bad-format = tundmatu sisendvorming { $value } (csv või nmea)
+engine-e-ais-integrity-cannot-read = faili { $path } ei saa lugeda: { $e }
+engine-e-ais-integrity-cannot-write = faili { $path } ei saa kirjutada: { $e }
+engine-e-ais-integrity-bad-place = kohtade loendi rida ei ole name,lat,lon,radius_m kehtiva asukoha ja positiivse raadiusega: { $row }
+
+## A GNSS receiver in space: clock, timestamps, dynamics, upper-SSV benchmark (src/space_receiver/)
+engine-space-receiver-usage = kasutus: kshana space-receiver clock [--orbit <preset|a_km,e,i_deg>] [--oscillator <name>] [--temp-swing <K>] [--outage-min <m>]... | timestamps <tags.csv> [--oscillator <name>] [--step-floor <s>] [--gap-factor <x>] [--window <n>] | dynamics [--orbit <preset|a_km,e,i_deg>] [--duration-min <m>] [--step-s <s>] [--band l1|l5] [--max-off-boresight <deg>] [--max-doppler <Hz>] [--max-doppler-rate <Hz/s>] | bench [--list] [--case <id>]... [--cn0 <dB-Hz>] [--oscillator <name>] [--max-doppler <Hz>] [--max-doppler-rate <Hz/s>] [--time-budget <s>] [--sidelobes] | mms [--cn0 <dB-Hz>] [--orbits <n>] [--step-min <m>] | od-vs-tle <onboard.oem> --tle <set.tle>   [--out <file.json>]  (docs/SPACE-RECEIVER.md)
+engine-e-space-receiver-missing-value = { $option } vajab väärtust
+engine-e-space-receiver-unknown-option = tundmatu valik { $option } (valikud loetleb kshana space-receiver --help)
+engine-e-space-receiver-cannot-read = faili { $path } ei saa lugeda: { $e }
+engine-e-space-receiver-cannot-write = faili { $path } ei saa kirjutada: { $e }
+engine-e-space-receiver-bad-number = { $option }: { $value } ei ole kehtiv arv
+engine-e-space-receiver-unknown-name = tundmatu nimi { $name } (tuntud: { $known })
+engine-e-space-receiver-no-columns = CSV päis peab nimetama t_ref_s ja kas t_rx_s või week ja tow_s
+engine-e-space-receiver-bad-row = rida { $line }: nõutav veerg puudub või ei ole arv
+engine-e-space-receiver-too-few-rows = vaja on vähemalt kolme ajatempli rida
+
+## Space receiver: MMS case and onboard OD against an element set (src/space_receiver/)
+engine-e-space-receiver-no-tle = kaherealist elementide komplekti ei leitud (rida 1, mis algab "1 ", ja sellele järgnev rida 2)
+engine-e-space-receiver-oem-frame = OEM-i tugisüsteemi { $frame } see võrdlus ei loe (EME2000, GCRF, ICRF või TEME)
+
+## SIL observation generator (src/sil_obs.rs)
+engine-sil-obs-usage = kasutus: kshana sil-obs generate <scenario.toml> --nav <nav.rnx> --out <sim.obs> [--truth <truth.jsonl>] | compare <a.obs> <b.obs> [--json] [--out <file.json>]  (docs/SIL-OBS.md)
+engine-sil-obs-summary = { $n_epochs } epohhi, kirjutatud { $n_obs } signaaliproovi; { $n_nlos } NLOS- ja { $n_blocked } blokeeritud satelliidiepohhi (MODELLED)
+engine-e-sil-obs-missing-value = { $option } vajab väärtust
+engine-e-sil-obs-unknown-option = tundmatu valik { $option } (valikud loetleb kshana sil-obs --help)
+engine-e-sil-obs-cannot-read = faili { $path } ei saa lugeda: { $e }
+engine-e-sil-obs-cannot-write = faili { $path } ei saa kirjutada: { $e }
+engine-e-sil-obs-bad-scenario = { $path } ei ole sil-obs stsenaarium: { $e }
+engine-e-sil-obs-bad-nav = { $path } ei ole RINEX-navigatsioonifail: { $e }
+engine-e-sil-obs-bad-obs = { $path } ei ole RINEX-vaatlusfail: { $e }
+engine-e-sil-obs-bad-start = algus { $value } ei ole GPS-aeg kujul YYYY-MM-DDTHH:MM:SS
+engine-e-sil-obs-bad-timing = kestus peab olema null või rohkem ja samm positiivne, kõige rohkem miljon epohhi
+engine-e-sil-obs-no-satellites = { $path } ei sisalda soovitud süsteemide leviedastuse kirjeid
+engine-e-sil-obs-unknown-system = tundmatu süsteem { $value } (G või E)
+engine-e-sil-obs-bad-canyon = kanjon vajab positiivset laiust, antenni nihet tänava sees, vähemalt 1 dB peegelduskadu ja lõplikke väärtusi
+
+## Interference model library (src/interference_lib.rs)
+engine-interference-lib-usage = kasutus: kshana interference-lib models | generate --class <none|cw|narrowband|wideband|chirp|pulsed> [--centre-hz <f>] [--bandwidth-hz <b>] [--period-s <t>] [--pulse-width-s <w>] [--jnr-db <j>] [--drift-hz-per-s <r>] [--triangle] [--fs <hz>] [--samples <n>] [--seed <s>] --out <base> | fit <recording.sigmf-meta> [--out <fit.json>] | bench [--per-class <n>] [--seed <s>] [--predictions <ids.csv>] [--out <bench.json>] | cases [--per-class <n>] [--seed <s>] [--out <cases.csv>]  (docs/INTERFERENCE-LIB.md)
+engine-interference-lib-written = kirjutatud { $path } ({ $n } proovi, MODELLED sünteetiline häire)
+engine-e-interference-lib-missing-value = { $option } vajab väärtust
+engine-e-interference-lib-unknown-option = tundmatu valik { $option } (valikud loetleb kshana interference-lib --help)
+engine-e-interference-lib-bad-number = { $option } vajab lõplikku arvu, mitte { $value }
+engine-e-interference-lib-unknown-class = tundmatu häireklass { $value } (none, cw, narrowband, wideband, chirp või pulsed)
+engine-e-interference-lib-bad-size = diskreetimissagedus peab olema positiivne ja salvestis kahe aste 1024 kuni 16777216 proovi (bench: 1 kuni 1000 juhtumit klassi kohta)
+engine-e-interference-lib-cannot-read = faili { $path } ei saa lugeda: { $e }
+engine-e-interference-lib-cannot-write = faili { $path } ei saa kirjutada: { $e }
+engine-e-interference-lib-bad-predictions = ennustuste rida ei ole id,class teadaoleva klassiga: { $row }
+
+## Receiver-antenna characterisation (src/antenna_cal.rs)
+engine-antenna-cal-usage = kasutus: kshana antenna-cal lint <file.atx> | spread <file.atx>... --type <type-radome> | compare <a.atx> [<b.atx>] --type <type-radome> [--serial-a <s>] [--serial-b <s>] [--max-zenith <deg>] | group-delay <spec.toml> | js-margin <spec.toml>  [--out <file.json>]  (docs/ANTENNA-CAL.md)
+engine-e-antenna-cal-missing-value = { $option } vajab väärtust
+engine-e-antenna-cal-unknown-option = tundmatu valik { $option } (valikud loetleb kshana antenna-cal --help)
+engine-e-antenna-cal-bad-number = { $option } vajab lõplikku arvu, mis on null või suurem, mitte { $value }
+engine-e-antenna-cal-cannot-read = faili { $path } ei saa lugeda: { $e }
+engine-e-antenna-cal-cannot-write = faili { $path } ei saa kirjutada: { $e }
+engine-e-antenna-cal-bad-spec = { $path } ei ole kehtiv spetsifikatsioon: { $e }
+engine-e-antenna-cal-no-antenna = failis { $path } ei ole antenni { $name }
+engine-e-antenna-cal-too-few-units = võrdlemiseks on vähem kui kaks { $name } kalibreeringut
+engine-e-antenna-cal-unknown-signal = paar nimetab tundmatut signaali { $value }
+engine-e-antenna-cal-bad-group-delay = rühmaviivituse spetsifikatsioon vajab vähemalt ühte signaali, järjestatud lõplikku temperatuurivahemikku, positiivseid sagedusi ja lõplikke viivitusi
+engine-e-antenna-cal-same-pair = ionosfäärivaba paar vajab kahte erinevat sagedust
+engine-e-antenna-cal-bad-pattern = tundmatu antenni suunadiagramm (patch, choke-ring või table)
+engine-e-antenna-cal-bad-gain-table = võimendustabel vajab vähemalt kahte lõplikku kõrgusnurga ja võimenduse punkti
+engine-e-antenna-cal-bad-link = J/S-spetsifikatsioon vajab positiivset sagedust, lõplikku EIRP-d ja positiivseid kaugusi
+
+## Arctic GNSS availability planner (src/arctic_plan.rs)
+engine-arctic-plan-usage = kasutus: kshana arctic-plan --site <lat,lon[,h]> | --place <name> | --places  [--systems <a,b,...>] [--compare] [--hours <h>] [--step-min <m>] [--start-s <s>] [--mask <deg>] [--skyline-preset <name>] [--clock common|per-system] [--min-sats <n>] [--max-pdop <x>] [--task-min <m>] [--kp <n>] [--year <y>] [--iono-mask <deg>] [--tle <file> --epoch <YYYY-MM-DDTHH:MM:SS>] [--epochs] [--out <file.json>]  (docs/ARCTIC-PLAN.md)
+engine-e-arctic-plan-missing-value = { $option } vajab väärtust
+engine-e-arctic-plan-unknown-option = tundmatu valik { $option } (valikud loetleb kshana arctic-plan --help)
+engine-e-arctic-plan-cannot-read = faili { $path } ei saa lugeda: { $e }
+engine-e-arctic-plan-cannot-write = faili { $path } ei saa kirjutada: { $e }
+engine-e-arctic-plan-bad-number = { $option }: { $value } ei ole kehtiv arv
+engine-e-arctic-plan-unknown-name = tundmatu nimi { $name } (tuntud: { $known })
+engine-e-arctic-plan-needs-site = andke koht valikuga --site <lat,lon[,h]> või --place <name> (nimed loetleb --places)
+engine-e-arctic-plan-bad-horizon = horisont ja samm peavad olema positiivsed ning andma kuni 20 000 epohhi
+
+## Lunar time scales, frames, terminology and model provenance (src/lunar_ref.rs)
+engine-lunar-ref-usage = kasutus: kshana lunar-ref tcb-tcl [--jd <JD TCB>] [--window <jd0,jd1>] | approx [--window <jd0,jd1>] [--grid-days <d>] | convert --from <tt|tdb|tcb|tcg|tcl|ltc> --to <scale> --jd <JD> | transform --from <ICRF|MOON_PA_DE440|MOON_PA|MOON_ME|ILURF> --to <frame> --xyz <x,y,z> [--jd <JD TDB>] | terms | models [--check] [--root <dir>]   [--out <file.json>]  (docs/LUNAR-REF.md)
+engine-e-lunar-ref-missing-value = { $option } vajab väärtust
+engine-e-lunar-ref-unknown-option = tundmatu valik { $option } (valikud loetleb kshana lunar-ref --help)
+engine-e-lunar-ref-cannot-write = faili { $path } ei saa kirjutada: { $e }
+engine-e-lunar-ref-bad-number = { $option }: { $value } ei ole kehtiv arv
+engine-e-lunar-ref-unknown-name = tundmatu nimi { $name } (tuntud: { $known })
+engine-e-lunar-ref-out-of-span = epohh on kasutatud efemeriidide vahemikust väljas (Standishi elemendid 1800–2050; DE440 Kuu orientatsioon 2014–2030)
+
+## Quantum inertial-sensor benchmark (src/quantum_bench.rs)
+engine-quantum-bench-usage = kasutus: kshana quantum-bench protocol [--out <protocol.json>] | simulate <spec.toml> --out <series.csv> | score <series.csv> [--fringe-m-s2 <a>] [--out <score.json>]  (docs/QUANTUM-BENCH.md)
+engine-quantum-bench-simulated = kirjutatud { $n } proovi ({ $n_wrapped } mähitud triibuga) faili { $path } (MODELLED)
+engine-e-quantum-bench-missing-value = { $option } vajab väärtust
+engine-e-quantum-bench-unknown-option = tundmatu valik { $option } (valikud loetleb kshana quantum-bench --help)
+engine-e-quantum-bench-bad-number = { $option } vajab lõplikku positiivset arvu, mitte { $value }
+engine-e-quantum-bench-cannot-read = faili { $path } ei saa lugeda: { $e }
+engine-e-quantum-bench-cannot-write = faili { $path } ei saa kirjutada: { $e }
+engine-e-quantum-bench-bad-spec = { $path } ei ole kehtiv spetsifikatsioon: { $e }
+engine-e-quantum-bench-bad-sensor = andur vajab positiivset impulsside vahet, vähemalt ühte aatomit, kontrasti vahemikus (0, 1] ja tsükliaega vähemalt kaks korda impulsside vahest
+engine-e-quantum-bench-bad-run = käivitus vajab kestust vähemalt üks ja kõige rohkem kümme miljonit tsüklit
+engine-e-quantum-bench-too-short = seeria vajab vähemalt 16 proovi kasvavate aegadega
+engine-e-quantum-bench-bad-csv = seeria vajab veerge t_s ja measured_m_s2 lõplike arvudega: { $row }
+
+## Terrestrial signals of opportunity, clock offset (src/soop_clock.rs)
+engine-soop-clock-usage = kasutus: kshana soop-clock lte <capture.sigmf-meta> --start-gps-s <t> --rx <lat,lon,h> --tx <lat,lon,h> [--tx-offset-ns <ns>] [--prior-offset-s <s>] [--carrier-hz <f>] [--min-metric <m>] [--out <file.json>] | cp <capture.sigmf-meta> --nfft <n> --ncp <n> [--carrier-hz <f>] [--out <file.json>] | synth-lte --out <base> [--fs <hz>] [--duration-s <s>] [--nid2 <0|1|2>] [--delay-s <s>] [--cfo-hz <f>] [--snr-db <d>] [--seed <s>]  (docs/SOOP-CLOCK.md)
+engine-soop-clock-summary = { $n } PSS-tuvastust; vastuvõtja kella nihe { $offset_us } µs salvestuse alguses (MODELLED)
+engine-e-soop-clock-missing-value = { $option } vajab väärtust
+engine-e-soop-clock-unknown-option = tundmatu valik { $option } (valikud loetleb kshana soop-clock --help)
+engine-e-soop-clock-bad-number = { $option } vajab lõplikku arvu, mitte { $value }
+engine-e-soop-clock-bad-position = { $option } vajab lat,lon[,h] kraadides ja meetrites, mitte { $value }
+engine-e-soop-clock-cannot-read = faili { $path } ei saa lugeda: { $e }
+engine-e-soop-clock-cannot-write = faili { $path } ei saa kirjutada: { $e }
+engine-e-soop-clock-too-few-detections = { $n } PSS-tuvastust; nihke ja kiiruse jaoks on vaja vähemalt kolme
+engine-e-soop-clock-too-short = salvestis on lühem kui kaks OFDM-sümbolit
+engine-e-soop-clock-bad-synth = testsignaal vajab diskreetimissagedust 100 kHz kuni 61,44 MHz ja positiivset kestust kõige rohkem 20 miljonit proovi
+
+## LunaNet AFS receiver verification kit and lunar output message profile (src/lunar_afs/kit.rs, src/lunar_output.rs)
+engine-lunar-afs-kit-usage = kasutus: kshana lunar-afs-kit vectors [<vectors.json>] | registry [<registry.toml|json>] [--limit-db <dB>] [--no-correlation] | output-check <messages.jsonl> | output-example [--n <count>] [--jd <JD TCL>] | output-reexpress <messages.jsonl> --scale <tt|tdb|tcb|tcg|tcl|ltc> --frame <ICRF|MOON_PA_DE440|MOON_PA|MOON_ME|ILURF>   [--out <file>]  (docs/LUNAR-AFS-KIT.md)
+engine-e-lunar-afs-kit-missing-value = { $option } vajab väärtust
+engine-e-lunar-afs-kit-unknown-option = tundmatu valik { $option } (valikud loetleb kshana lunar-afs-kit --help)
+engine-e-lunar-afs-kit-cannot-read = faili { $path } ei saa lugeda: { $e }
+engine-e-lunar-afs-kit-cannot-write = faili { $path } ei saa kirjutada: { $e }
+engine-e-lunar-afs-kit-bad-number = { $option }: { $value } ei ole kehtiv arv
+engine-e-lunar-afs-kit-unknown-name = tundmatu nimi { $name } (tuntud: { $known })
+engine-e-lunar-afs-kit-bad-registry = register ei ole [[node]] eraldiste loend: { $e }
+engine-e-lunar-afs-kit-bad-vectors = ei ole kshana.afs-vectors/1 fail: { $e }
+engine-e-lunar-afs-kit-bad-message = rida ei ole kshana.lunar-pnt-output/1 sõnum epohhi, tugisüsteemi ja asukohaga
+
+## ADS-B interference indicators (src/adsb_indicators.rs)
+engine-adsb-indicators-usage = kasutus: kshana adsb-indicators <adsb.csv> [--cell-deg <d>] [--out <indicators.json>]  (docs/ADSB-INDICATORS.md)
+engine-adsb-indicators-summary = { $n } avaldatud lahtrit märgistatud (MODELLED; põhjust ei nimetata)
+engine-e-adsb-indicators-missing-value = { $option } vajab väärtust
+engine-e-adsb-indicators-unknown-option = tundmatu valik { $option } (valikud loetleb kshana adsb-indicators --help)
+engine-e-adsb-indicators-bad-cell = lahtri suurus peab olema 0,01 kuni 10 kraadi, mitte { $value }
+engine-e-adsb-indicators-cannot-read = faili { $path } ei saa lugeda: { $e }
+engine-e-adsb-indicators-cannot-write = faili { $path } ei saa kirjutada: { $e }
+engine-e-adsb-indicators-missing-column = ADS-B CSV-failis pole veergu { $name }
+
+## Interference atlas and station C/N0 layer (src/interference_atlas.rs)
+engine-interference-atlas-usage = kasutus: kshana interference-atlas build <day.geojson>... [--previous <atlas.json>] [--out <atlas.json>] | verify <atlas.json> | cors <today.obs> --baseline <earlier.obs> [--adsb-day <day.geojson>] [--station <lat,lon>] [--out <layer.json>]  (docs/INTERFERENCE-ATLAS.md)
+engine-interference-atlas-built = { $n_cells } lahtrit, { $n_zones } tsooni; versioon { $version } (MODELLED)
+engine-interference-atlas-verified = { $path }: versioon vastab sisule
+engine-e-interference-atlas-missing-value = { $option } vajab väärtust
+engine-e-interference-atlas-unknown-option = tundmatu valik { $option } (valikud loetleb kshana interference-atlas --help)
+engine-e-interference-atlas-cannot-read = faili { $path } ei saa lugeda: { $e }
+engine-e-interference-atlas-cannot-write = faili { $path } ei saa kirjutada: { $e }
+engine-e-interference-atlas-not-a-product = { $path } ei ole häirekaardi päevatoode ega atlas
+engine-e-interference-atlas-mixed = päevatooted segavad võrgustikke või allikaid
+engine-e-interference-atlas-empty = ühtegi päevatoodet ei antud
+engine-e-interference-atlas-changed = { $path }: versioon ei vasta sisule (atlast on muudetud)
+engine-e-interference-atlas-bad-obs = { $path } ei ole RINEX-vaatlusfail: { $e }
+engine-e-interference-atlas-no-cn0 = kahes vaatlusfailis pole ühtegi GPS-satelliiti C/N0-ga, mis oleks ühe maajälje korduse kaugusel
+engine-e-interference-atlas-bad-station = jaam vajab lat,lon kraadides (või ligikaudset asukohta vaatluse päises), mitte { $value }
+
+## Private holdout of kshana-bench tasks (f) and (g) (src/bench/holdout.rs)
+engine-e-bench-holdout-inside-repository = privaatset holdouti ei kirjutata hoidlasse: { $path } (valige kataloog väljaspool seda)
+engine-e-bench-holdout-task = privaatne holdout on olemas ainult ülesannetel (f) ja (g)
+engine-e-bench-holdout-no-truth = ülesandel ({ $task }) puudub privaatne tõde: andke --truth <file> või määrake { $var }
+engine-bench-holdout-not-a-private-truth = see ei ole privaatse holdouti tõde: see peab olema ülesande (f) või (g) kshana-benchi tõefail jaotusega holdout
+engine-bench-holdout-not-registered = ülesande ({ $task }) tõde SHA-256-ga { $sha } pole failis bench/holdout/PRIVATE.json registreeritud
+engine-bench-site-holdout-not-private = tulemus { $v1 } on ülesande (f) või (g) holdouti tulemus, mida pole märgitud privaatseks või mille tõde pole registreeritud
+engine-bench-site-provenance-private-holdout = hinnatud privaatsel holdoutil (registreeritud tõde)
+
+## Constellation-claim verification datasets (src/claim_check.rs)
+engine-claim-check-usage = kasutus: kshana claim-check [<dataset.json>...] [--out <file.json>] | --template   (no file: the shipped public-claims dataset; docs/CLAIM-CHECK.md)
+engine-e-claim-check-missing-value = { $option } vajab väärtust
+engine-e-claim-check-unknown-option = tundmatu valik { $option } (valikud loetleb kshana claim-check --help)
+engine-e-claim-check-cannot-read = faili { $path } ei saa lugeda: { $e }
+engine-e-claim-check-cannot-write = faili { $path } ei saa kirjutada: { $e }
+engine-e-claim-check-bad-dataset = ei ole kshana.claims/1 fail: { $e }
+
+## AFS interoperability planning and the lunar user-equipment register (src/afs_interop.rs)
+engine-afs-interop-usage = kasutus: kshana afs-interop study [--afs-prns <1-12>] [--gps-prns <1-32>] [--galileo-prns <1-36>] [--fs <Hz>] [--integration-ms <ms>] [--max-doppler <Hz>] [--doppler-step <Hz>] [--sweep-pairs <n>] | ue-register [<register.json>] | ue-register --template   [--out <file>]  (docs/AFS-INTEROP.md)
+engine-e-afs-interop-missing-value = { $option } vajab väärtust
+engine-e-afs-interop-unknown-option = tundmatu valik { $option } (valikud loetleb kshana afs-interop --help)
+engine-e-afs-interop-cannot-read = faili { $path } ei saa lugeda: { $e }
+engine-e-afs-interop-cannot-write = faili { $path } ei saa kirjutada: { $e }
+engine-e-afs-interop-bad-number = { $option }: { $value } ei ole kehtiv arv
+engine-e-afs-interop-bad-register = ei ole kshana.lunar-ue-register/1 fail: { $e }
+engine-e-afs-interop-bad-settings = uuringu sätted on piiridest väljas: fs × integreerimisaeg peab andma 64 kuni 200 000 valimit, Doppleri samm peab olema positiivne ja piir mitte negatiivne
+
+## Linux timing-stack verification (src/timing_stack.rs)
+engine-timing-stack-usage = kasutus: kshana timing-stack tai [--pmc <pmc.txt>] [--phc-ctl <phc_ctl.txt>] [--chrony <tracking.txt>] [--tai-utc <s>] | ts2phc <ts2phc.log> [--max-offset <s>] | pps <assert.txt> | shm <ntpshmmon.txt> | ntpq <ntpq-p.txt> [--rv <ntpq-rv.txt>] | nts [--client <name>=<authdata.txt>]... [<authdata.txt>]   [--end <t>] [--stale-after <s>] [--out <file.json>]  (docs/TIMING-STACK.md)
+engine-e-timing-stack-missing-value = { $option } vajab väärtust
+engine-e-timing-stack-unknown-option = tundmatu valik { $option } (valikud loetleb kshana timing-stack --help)
+engine-e-timing-stack-cannot-read = faili { $path } ei saa lugeda: { $e }
+engine-e-timing-stack-cannot-write = faili { $path } ei saa kirjutada: { $e }
+engine-e-timing-stack-bad-number = { $option }: { $value } ei ole kehtiv arv
+
+## Register entries against packs, published revocations and versions (src/register_products.rs)
+engine-register-products-usage = kasutus: kshana register-products verify <register.json> [--packs <dir>] [--pack-key <hex>] [--pin <hex>] [--json] | show <register.json> [--revocations <file.jsonl|url>] [--date <YYYY-MM-DD>] [--pin <hex>] [--json] | diff <older.json> <newer.json> [--pin <hex>]  (docs/PRODUCT-REGISTER.md)
+engine-e-register-products-missing-value = { $option } vajab väärtust
+engine-e-register-products-unknown-option = tundmatu valik { $option } (valikud loetleb kshana register-products --help)
+engine-e-register-products-cannot-read = faili { $path } ei saa lugeda: { $e }
+engine-e-register-products-bad-revocation = tühistusloendi rida { $line } vajab välju serial, revoked_at (YYYY-MM-DD) ja reason
+engine-e-register-products-cannot-fetch = { $url } ei saa alla laadida: { $e }
+engine-e-register-products-bad-key = võti ei ole 32 baiti kuueteistkümnendkujul
+
+## Software-in-the-loop observation generator (src/sil_obsgen.rs)
+engine-sil-obsgen-usage = kasutus: kshana sil-obsgen <scenario.toml> --out <obs.rnx> [--truth <truth.json>]   (a gnss-sim scenario with optional [urban] and [rinex] tables; docs/SIL-OBSGEN.md)
+engine-e-sil-obsgen-missing-value = { $option } vajab väärtust
+engine-e-sil-obsgen-unknown-option = tundmatu valik { $option } (valikud loetleb kshana sil-obsgen --help)
+engine-e-sil-obsgen-cannot-read = faili { $path } ei saa lugeda: { $e }
+engine-e-sil-obsgen-cannot-write = faili { $path } ei saa kirjutada: { $e }
+engine-e-sil-obsgen-bad-scenario = ei ole gnss-sim stsenaarium valikuliste tabelitega [urban] ja [rinex]: { $e }
+
 engine-main-usage =
     kasutus: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }või: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10550,7 +10758,7 @@ engine-main-usage =
     { "   " }või: kshana nmea-scenario <scenario.toml> [--out <file.nmea>] [--tcp <addr>|--udp <addr>] (kshana nmea-scenario --help)
     { "   " }või: kshana interference-map <adsb|ais|fetch-land> ... (kshana interference-map --help)
     { "   " }või: kshana route-exposure --route <route> --map <map.geojson|dir> [--from <date>] [--to <date>]
-    { "   " }või: kshana bench <spec|truth|cases|score|baseline|seal|reveal-check|manifest|verify-manifest|validate|leaderboard> ... (kshana bench --help)
+    { "   " }või: kshana bench <spec|truth|cases|score|baseline|seal|reveal-check|manifest|verify-manifest|validate|leaderboard|positions|datasets|cite|golden|holdout> ... (kshana bench --help)
     { "   " }või: kshana bench-export <scenario.toml> [--out <base>] [--epoch <YYYY-MM-DDTHH:MM:SS>]
     { "   " }või: kshana compliance-report [--out <base>] <result.json>... | --mapping | --sources
     { "   " }või: kshana lunanet-afs-check <spec [--json] [--strict]|symbols <file> [--max-sp-errors <n>] [--json]|generate --frames <n> [--toi0 <t>] --out <file>>
@@ -10560,9 +10768,38 @@ engine-main-usage =
     { "   " }või: kshana obs <convert <log> --format <format> --station <station.toml> [--out <file>] | check <file.obs.jsonl> [--json]>
     { "   " }või: kshana connect <map <input> --mapping <connect.toml> --station <station.toml> [--out <file.obs.jsonl>] | check <vector.toml|dir> [--bless] | watch <dir> --mapping <connect.toml> --station <station.toml> [--suffix <.csv>] [--interval <s>] [--once] | mqtt <host:port> --topic <filter> --mapping <connect.toml> --station <station.toml> [--header <row>] [--qos 0|1] [--user <name> --password-env <VAR>] [--client-id <id>] [--max-messages <n>] [--per-topic] | nats <host:port> --subject <s> --mapping <connect.toml> --station <station.toml> [--header <row>] [--per-topic] [--user <name> --password-env <VAR> | --token-env <VAR>] [--max-messages <n>] | ws <ws://host:port/path> --mapping <connect.toml> --station <station.toml> [--header <row>] [--max-messages <n>] | check-live <vector.toml|dir> [--json] | load-test [--stations <n>] [--rate <Hz>] [--seconds <s>] [--via memory|mqtt] [--json] | adapters <list|check> [<dir>] [--json]>
     { "   " }või: kshana osnma verify <pages|vectors.csv|stream.ubx> [--merkle-root <hex>] [--public-key <id:type:hex>] [--reference-time <gst-s>] [--json] (kshana osnma --help)
-    { "   " }või: kshana iq <scene|acquire|track|sweep|labfit|campaign|conditions|frontend|monitor|inventory|info|extract|convert|decimate> ... (kshana iq --help)
+    { "   " }või: kshana iq <scene|acquire|track|sweep|labfit|campaign|conditions|frontend|monitor|diagnose|gnss-sdr-conf|inventory|info|extract|convert|decimate> ... (kshana iq --help)
     { "   " }või: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }või: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
+    { "   " }või: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
+    { "   " }või: kshana space-receiver <clock|timestamps|dynamics|bench|mms|od-vs-tle> ... [--out <file.json>] (kshana space-receiver --help)
+    { "   " }või: kshana feed <pack|verify|send|spectrum|leaderboard|watch> ... (kshana feed --help)
+    { "   " }või: kshana register-products <verify|show|diff> ... (kshana register-products --help)
+    { "   " }või: kshana register <check|crl-check|view|sign> ... (kshana register --help)
+    { "   " }või: kshana interference-env <evaluate|thresholds|degradation> ... (kshana interference-env --help)
+    { "   " }või: kshana arctic-plan --site <lat,lon[,h]> | --place <name> [--systems <a,b,...>] [--compare] [--hours <h>] [--kp <n>] ... (kshana arctic-plan --help)
+    { "   " }või: kshana lunar-afs-kit <vectors|registry|output-check|output-example|output-reexpress> ... (kshana lunar-afs-kit --help)
+    { "   " }või: kshana lunar-ref <tcb-tcl|approx|convert|transform|terms|models> ... (kshana lunar-ref --help)
+    { "   " }või: kshana signal-readiness <profile.toml> [<obs.rnx>...]
+    { "   " }või: kshana leo-od-plan <plan.toml>
+    { "   " }või: kshana claim-check [<dataset.json>...] [--out <file.json>] | --template
+    { "   " }või: kshana afs-interop <study|ue-register> ... (kshana afs-interop --help)
+    { "   " }või: kshana timing-stack <tai|ts2phc|pps|shm|ntpq|nts> ... (kshana timing-stack --help)
+    { "   " }või: kshana sil-obsgen <scenario.toml> --out <obs.rnx> [--truth <truth.json>]
+    { "   " }või: kshana time-vectors [--json] [<vectors.json|dir> ...]
+    { "   " }või: kshana corrections <decode --format <has|b2b|l6|l1s|qznma> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...] | qznma-verify [--frames <frames.txt>] [--nav <nav.txt>] --pubkey <key.der> ...>
+    { "   " }või: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
+    { "   " }või: kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
+    { "   " }või: kshana orbit-data <check|convert|gp-compare|gp-audit|cov> ... (kshana orbit-data --help)
+    { "   " }või: kshana drone <prearm|prearm-calibrate|estimator-cases|dr-budget|quad-loss|failover|zonotope-pl> ... (kshana drone --help)
+    { "   " }või: kshana leo-verify <burst-timing|holdover-tdev|cost|indoor|rain-fade|rtk-ar|jam-claim|doppler-integrity> <input.json>
+    { "   " }või: kshana sil-obs <generate|compare> ... (kshana sil-obs --help)
+    { "   " }või: kshana interference-lib <models|generate|fit|bench|cases> ... (kshana interference-lib --help)
+    { "   " }või: kshana antenna-cal <lint|spread|compare|group-delay|js-margin> ... (kshana antenna-cal --help)
+    { "   " }või: kshana quantum-bench <protocol|simulate|score> ... (kshana quantum-bench --help)
+    { "   " }või: kshana soop-clock <lte|cp|synth-lte> ... (kshana soop-clock --help)
+    { "   " }või: kshana adsb-indicators <adsb.csv> [--cell-deg <d>] [--out <indicators.json>]
+    { "   " }või: kshana interference-atlas <build|verify|cors> ... (kshana interference-atlas --help)
     { "   " }või: kshana kinds [--json]
     { "   " }või: kshana example [<name>]
     { "   " }või: kshana --help | --version
@@ -10671,6 +10908,7 @@ engine-interference-map-cli-usage-map =
     { "   " }või: kshana interference-map daily <input.csv|trace.json[.gz]|dir> --dataset <adsb-lol|custom> --day <YYYY-MM-DD> --out <dir> [--cell-deg <deg, { $lit_0_5 } or coarser>] [--bbox <south,west,north,east>] [--delay-hours <24 or more>]
     { "   " }või: kshana interference-map sensitivity <input.csv|trace.json[.gz]|dir> --dataset <adsb-lol|custom> --day <YYYY-MM-DD> --out <report.json> [--bbox <south,west,north,east>]
     { "   " }või: kshana interference-map fetch-land --out <land.geojson> --allow-network
+    { "   " }või: kshana interference-map incidents <validate <library.json> [--releases <RELEASES.json>] [--json] | release <library.json> --out <dir> | from-observatory <day.incidents.json> --source-url <https://...> --out <file.json>>
     { "   " }(--dataset custom vajab lisaks --licence <text> --licence-url <url> --attribution <text>)
 
 engine-interference-map-cli-usage-route = kasutus: kshana route-exposure --route <route.geojson|route.csv> --map <map.geojson|dir> [--map ...] [--from <YYYY-MM-DD>] [--to <YYYY-MM-DD>] [--out <report.json>] [--json]
@@ -10690,15 +10928,23 @@ engine-interference-map-cli-col-not-observed = vaatlemata
 engine-bench-cli-usage =
     kasutus: kshana bench spec
     { "   " }või: kshana bench truth --task a --data <extracted JammerTest 2024 dir> --split <dev|test|holdout|all> --out <truth.json>
-    { "   " }või: kshana bench cases --task <c|d> --split <dev|test|holdout> --out <dir> [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
+    { "   " }või: kshana bench truth --task g --data <GSDC-layout train dir> --split <dev|test|holdout> --out <truth.json>
+    { "   " }või: kshana bench cases --task <c|d|f> --split <dev|test|holdout> --out <dir> [--data <dataset.csv>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
     { "   " }või: kshana bench score --truth <truth.json> --predictions <predictions.json> [--threshold <x>] [--out <result.json>]
-    { "   " }või: kshana bench baseline --task <a|b|c|d> --split <dev|test|holdout> --out <dir> [--data <dir>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
+    { "   " }või: kshana bench baseline --task <a|b|c|d|e|f|g> --split <dev|test|holdout> --out <dir> [--data <dir>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
     { "   " }või: kshana bench seal --task <a|b|c|d> --seed-file <file> [--new]
     { "   " }või: kshana bench reveal-check --task <a|b|c|d> --seed-file <file> --commitment <hex>
     { "   " }või: kshana bench manifest --task a --data <extracted dir> [--archive <tar.gz>] --out <manifest.json>
     { "   " }või: kshana bench verify-manifest <manifest.json> --root <dir>
+    { "   " }või: kshana bench positions --task g --split <dev|test|holdout> --csv <submission.csv> --name <system> [--version <v>] --out <predictions.json>
+    { "   " }või: kshana bench datasets [--json | --check [--root <repo>]]
+    { "   " }või: kshana bench cite <result.json>...
+    { "   " }või: kshana bench golden [--root <repo>] (--out <GOLDEN.json> | --check <GOLDEN.json>)
     { "   " }või: kshana bench validate <result.json>...
     { "   " }või: kshana bench leaderboard [<results dir|result.json>...] --out <page.html> [--fragment]   (sisendeid ei ole: tühi olek; --fragment: manustatav jaotis)
+    { "   " }või: kshana bench holdout truth --task <f|g> --data <private data> --out <private dir>
+    { "   " }või: kshana bench holdout register --truth <private truth.json>
+    { "   " }või: kshana bench holdout score --task <f|g> --predictions <predictions.json> [--truth <private truth.json>] [--out <result.json>]   (KSHANA_BENCH_HOLDOUT_F, KSHANA_BENCH_HOLDOUT_G)
     { "   " }(algväärtusefail hoiab suletud holdout'i taga olevat saladust; hoia see versioonihaldusest väljas)
 
 engine-bench-cli-match = kattub
@@ -10747,6 +10993,8 @@ engine-iq-cli-usage =
     { "   " }või: kshana iq conditions <test-conditions.toml|json>
     { "   " }või: kshana iq frontend <in> <out> [--bandpass lo,hi] [--notch] [--blank <thr>] [--excise] [--agc] [--bits <n>] [--out-format <fmt>]
     { "   " }või: kshana iq monitor <recording> [--power] [--spectral] [--settings <toml|json>] [--baseline <s>] [--signal <name> --prn <list> [--spacing <chips>] [--pll-bw <hz>] [--fll-bw <hz>] [--dll-bw <hz>] [--coherent <N>] [--cn0-windows <M>] [--doppler-max <hz>]] [--max-seconds <s>] [--follow [--idle-timeout <s>]] [--json <out>] [--csv <prefix>]
+    { "   " }või: kshana iq diagnose <recording> [--max-seconds <s>] [--block <s>] [--gain-step-db <db>] [--signal <name> --prn <list> [--coherent <N>] [--noncoherent <M>] [--doppler-max <hz>] [--doppler-step <hz>] [--pfa <p>] [--step <s>] [--steps <n>] [--max-sat-doppler <hz>]]
+    { "   " }või: kshana iq gnss-sdr-conf <recording> [--signal <name[:channels]>,...] [--profile default|narrowband] [--doppler-max <hz>] [--rate-ms <ms>] [--monitor-ports <ch,pvt> | --no-monitor] [--out <file.conf>]
     { " " }labfit stsenaariumid: salvestuste [[runs]] vastuvõtja logidest või [input] campaign = "<out-dir>", mis nimetab kshana iq campaign väljundkausta (stsenaariumifaili suhtes)
     { " " }ahelakujundused: kshana.loop-design/1 TOML-fail (docs/design/LOOP-DESIGN-TOML.md); selgesõnalised ahela-/hõivamislipud tühistavad valitud kujunduse
     { " " }acquire/track/sweep võtavad ka sisendastme lipud [--bandpass lo,hi] [--notch] [--blank <thr>] [--excise] [--agc] [--bits <n>], mida rakendatakse enne töötlemist (nii hõivamisele kui ka jälgimiskäigule)
@@ -11467,3 +11715,354 @@ engine-e-interference-map-locate-bad-tdoa = { $path } ei ole kasutatav TDOA fiks
 engine-e-interference-map-locate-source-required = --source adsb või --source ais on nõutav
 
 engine-e-interference-map-locate-no-evidence-rows = locate väljundite jaoks pole tõendusridu loetletud
+
+## Interference-incident format and case library (src/interference_map/incident.rs)
+engine-interference-incidents-valid = { $file }: { $n } kirjet, kehtiv
+engine-e-interference-incidents-invalid = Intsidentide teegis on { $n } probleemi; loendi näitab kshana interference-map incidents validate <file>
+engine-e-interference-incidents-not-a-document = { $file } ei ole { $schema } dokument
+engine-e-interference-incidents-source-url-required = --source-url on kohustuslik: iga kirje viitab https:// aadressile, kus toode on avaldatud
+
+## Correction decoders (src/corrections/)
+engine-e-corrections-bad-hex = pole kuueteistkümnendkaader: { $line }
+engine-e-corrections-unknown-decoder = tundmatu dekooder { $decoder } (has, b2b, l6, l1s, qznma)
+engine-e-corrections-bad-vector = vektoril { $id } puuduvad kuueteistkümnendkaadrid või expect-objekt
+engine-e-corrections-bad-file = { $file } ei ole { $format } dokument (vormingumärgis ja vectors-massiiv)
+engine-corrections-summary = { $n } vektorit: { $passed } läbis, { $failed } kukkus läbi
+engine-corrections-usage = kasutus: kshana corrections decode --format <has|b2b|l6|l1s|qznma> <frames.txt | -> | kshana corrections vectors [--json] [<vectors.json | dir> ...] | kshana corrections qznma-verify [--frames <frames.txt>] [--nav <nav.txt>] --pubkey <ID:key.der | 001.der> ...  (üks kaader rea kohta kuueteistkümnendsüsteemis; docs/CORRECTION-DECODERS.md)
+engine-e-qznma-bad-nav-line = pole navigatsioonisõnumi rida (<satellite> <signal> <part> <hex>): { $line }
+engine-e-qznma-bad-key = { $path }: pole P-256 ega P-521 avalik võti (DER või SEC1), mille võtme ID on failinimes või kujul ID:path
+engine-qznma-verify-summary = { $n } allkirja: { $verified } kontrollitud, { $failed } ebaõnnestus, { $no_key } võtmeta, { $no_navigation } navigatsioonisõnumiteta
+
+## src/space_weather_pnt/
+
+engine-space-weather-pnt-usage =
+    kasutus: kshana space-weather storms
+    { "   " }või: kshana space-weather storm <id> [--altitudes <km,km,...>]
+    { "   " }või: kshana space-weather dgnss <request.json> [--forecast <3-day-forecast.txt>]
+    { "   " }või: kshana space-weather iono <request.json> [--ionex <file>]
+    { "   " }või: kshana space-weather density-scorecard <windows.csv>
+    { "   " }või: kshana space-weather lifetime <request.json>
+    { "   " }(docs/SPACE-WEATHER-PNT.md)
+
+engine-e-space-weather-pnt-out-of-range = `{ $field }` peab olema lõplik arv vahemikus { $lo } kuni { $hi }
+engine-e-space-weather-pnt-unknown-storm = tormi `{ $id }` teegis ei ole (kshana space-weather storms loetleb need)
+engine-e-space-weather-pnt-request = kehtetu päring: { $e }
+engine-e-space-weather-pnt-bad-time = pole UTC-aeg (YYYY-MM-DDTHH:MM[:SS]Z): { $value }
+engine-e-space-weather-pnt-not-a-forecast = pole NOAA SWPC kolme päeva prognoos: täielik Kp jaotustabel puudub
+engine-e-space-weather-pnt-one-source = andke täpselt üks Kp-intervallide allikas: storm, intervals või prognoos (swpc_forecast või --forecast)
+engine-e-space-weather-pnt-ionex-span = IONEX-kaardid ei kata aega { $t }
+engine-e-space-weather-pnt-ionex-flag = IONEX-kaarti kasutatakse siis ja ainult siis, kui päringu vtec on "ionex" ja on antud --ionex <file>
+engine-e-space-weather-pnt-no-epochs = päringus peab epochs_utc all olema vähemalt üks epohh
+engine-e-space-weather-pnt-window-row = rida { $line }: pole tiheduseakna rida (campaign,phase,start_utc,mean_alt_km,n_valid,measured_mean,points)
+engine-e-rtkqa-usage = kasutus: kshana rtk-qa monitor <host:port> --mount <name> [--user <name> --password-env <VAR>] [--gga <lat,lon[,h]>] [--seconds <s>] [--stale-after <s>] [--link-bps <n>]
+    kshana rtk-qa sources <table.txt|host:port> [--near <lat,lon>]
+    kshana rtk-qa base <stream.rtcm3> --reference <reference.toml|json> [--epoch <decimal year>]
+    kshana rtk-qa fix <solution.pos|nmea> [--control <name,lat,lon,h>]... [--radius <m>] [--h-tol <m>] [--v-tol <m>]
+    kshana rtk-qa ppk <rover.obs> [--base <base.obs>]
+    kshana rtk-qa probe <host:port> --mount <name> [--user <name> --password-env <VAR>] [--gga <lat,lon[,h]>] [--seconds <s>]
+    kshana rtk-qa caster --listen <host:port> --stream <file.rtcm3> --mount <name> [--user <name> --password-env <VAR>] [--chunk-ext] [--clients <n>] [--max-clients <n>] [--pace-ms <n>]
+    kshana rtk-qa log-check <client.log> --user <name> --password-env <VAR>
+    kshana rtk-qa failover <spec.json|toml>
+
+engine-e-rtkqa-frame = tundmatu taustsüsteem { $frame } (ITRF2014, ITRF2020, ETRF2014 või ETRF2020)
+
+engine-e-rtkqa-tide = tundmatu loodesüsteem { $tide } (tide-free, zero-tide või mean-tide)
+
+engine-e-rtkqa-pos-columns = lahendifail annab asukohad kraadides, minutites ja sekundites või baasjoonena; kirjuta see kümnendkraadides või ECEF-is
+
+engine-e-rtkqa-pos-line = rida { $line } ei ole lahendi epohh
+
+engine-e-rtkqa-no-solutions = lahendi epohhe ei leitud (RTKLIB-stiilis .pos-fail või NMEA GGA laused)
+
+engine-e-rtkqa-no-station = voos pole ühtegi jaamateadet 1005 ega 1006
+
+engine-e-rtkqa-failover-spec = ümberlülitustest vajab positiivset kestust ja sammu ning vähemalt ühte allikat
+
+engine-e-rtkqa-failover-source = poliitika nimetab allikat, mida pole määratletud: { $name }
+
+engine-rtkqa-monitor-summary = rtk-qa monitor: hinne { $score }/100 (MODELLED); saadaval { $availability } %, mediaanlatentsus { $latency } ms, täielikkus { $completeness } %, häired { $alarms }
+
+engine-rtkqa-sources-summary = rtk-qa sources: ühenduspunktid { $n }
+
+engine-rtkqa-base-summary = rtk-qa base: jaamad { $n }; korras { $ok }, hoiatused { $warn }, vead { $fail } (MODELLED)
+
+engine-rtkqa-fix-summary = rtk-qa fix: mõõtmiskohad { $n }; läbitud { $pass }, hoiatused { $warn }, vead { $fail }, fiksita { $nofix } (MODELLED)
+
+engine-rtkqa-ppk-summary = rtk-qa ppk: tõenäolised põhjused { $n }: { $causes }
+
+engine-rtkqa-probe-summary = rtk-qa probe: { $met } kontrolli { $total }-st täidetud; täitmata: { $failed }
+
+engine-rtkqa-caster-listening = rtk-qa caster: kuulab aadressil { $addr }, ühenduspunkt { $mount }
+
+engine-rtkqa-caster-client = rtk-qa caster: klient { $peer } sai vastuse { $answer }; { $met } kontrolli { $total }-st täidetud
+
+engine-rtkqa-log-summary = rtk-qa log-check: kasutajaandmeid leiti { $n } korda failist { $file }
+
+engine-rtkqa-failover-summary = rtk-qa failover: ümberlülitusi { $switches }; paranduste vanus üle piiri { $over } s; suurim vanus { $max_age } s (MODELLED)
+
+## SDR front-end diagnostics and the GNSS-SDR configuration (src/iq/frontdiag.rs, src/iq/gnss_sdr_conf.rs)
+engine-e-iq-frontdiag-no-samples = salvestis ei sisalda ühtegi valimit
+engine-e-iq-frontdiag-positive = --block, --step ja --gain-step-db peavad olema positiivsed
+engine-e-iq-gnss-sdr-conf-format = GNSS-SDR-i failiallikas loeb vorminguid ci16_le, ci8 ja cf32_le, mitte { $format }: teisenda salvestis esmalt (kshana iq convert <in> <out> --to ci16_le)
+engine-e-iq-gnss-sdr-conf-layout = GNSS-SDR-i failiallikas loeb ühte voogu ühest päiseta andmefailist: eralda voog esmalt (kshana iq convert)
+engine-e-iq-gnss-sdr-conf-if = salvestise vahesagedus ei ole null: vii see esmalt null-vahesagedusele (kshana iq decimate --if-hz)
+engine-e-iq-gnss-sdr-conf-no-signal = nimeta vähemalt üks signaal võtmega --signal
+engine-e-iq-gnss-sdr-conf-rate = PVT väljundsamm peab olema 20 ms kordne, mitte { $rate }
+engine-e-iq-gnss-sdr-conf-signal = signaalile { $signal } GNSS-SDR-i seadistust ei kirjutata (kirjutatakse signaalidele: { $known })
+engine-e-iq-gnss-sdr-conf-centre = { $signal } on salvestise keskmisest sagedusest { $offset_hz } Hz kaugusel; GNSS-SDR-i vaikeahel vajab seda nullsagedusel
+engine-e-iq-gnss-sdr-conf-profile = tundmatu profiil { $profile } (default, narrowband)
+engine-iq-gnss-sdr-conf-written = GNSS-SDR-i seadistus kirjutati faili { $path }
+
+## Orbit-data validators, converters and monitors (src/orbit_data)
+engine-orbit-data-valid = kehtiv standardi { $standard } järgi
+engine-orbit-data-valid-with-warnings = kehtiv standardi { $standard } järgi, hoiatusi: { $warnings }
+engine-orbit-data-invalid = kehtetu standardi { $standard } järgi: vigu: { $errors }, hoiatusi: { $warnings }
+engine-orbit-data-error = viga
+engine-orbit-data-warning = hoiatus
+engine-orbit-data-not-checked = kontrollimata: { $what }
+engine-orbit-data-header = päis
+engine-orbit-data-cdm-relative = suhtelised metaandmed/andmed
+engine-orbit-data-cdm-object = objekti metaandmed/andmed
+engine-orbit-data-covariance = kovariatsioon
+engine-orbit-data-oem-metadata = segmendi { $n } metaandmed
+engine-orbit-data-line-too-long = real on { $n } märki, rohkem kui { $max }
+engine-orbit-data-non-printable = real on märk, mis ei ole prinditav ASCII
+engine-orbit-data-not-key-value = see ei ole rida VÕTMESÕNA = väärtus: { $text }
+engine-orbit-data-keyword-blank = võtmesõna { $key } sisaldab tühikut
+engine-orbit-data-keyword-case = võtmesõna { $key } ei ole suurtähtedega
+engine-orbit-data-units-format = { $key } ühikud peavad olema väärtuse järel tühiku järel nurksulgudes
+engine-orbit-data-first-line = esimene rida peab olema { $key }
+engine-orbit-data-parse-failed = sõnumit ei saa lugeda: { $err }
+engine-orbit-data-xml-root = juurelement on { $name }, mitte { $want }
+engine-orbit-data-xml-attr = juure atribuut { $attr } peab olema { $want }
+engine-orbit-data-xml-missing = sõnumil puudub { $tag }
+engine-orbit-data-empty-value = { $key } väärtus on tühi
+engine-orbit-data-bad-time = { $key } = { $value } ei ole ajatempel (yyyy-mm-ddThh:mm:ss[.d] / yyyy-dddThh:mm:ss[.d])
+engine-orbit-data-bad-number = { $key } = { $value } ei ole arv standardi kirjaviisis
+engine-orbit-data-bad-integer = { $key } = { $value } ei ole täisarv
+engine-orbit-data-bad-value = { $key } = { $value } ei ole ükski järgmistest: { $allowed }
+engine-orbit-data-out-of-range = { $key } = { $value } jääb välja vahemikust { $range }
+engine-orbit-data-version = versioon { $value }: see kontroll järgib versiooni { $want }
+engine-orbit-data-bad-chars = { $key } = { $value } sisaldab muid märke peale tähtede, numbrite, allkriipsu ja sidekriipsu
+engine-orbit-data-identifier-blank = { $key } = { $value } sisaldab tühikut (standard lubab tähti, numbreid, allkriipsu ja sidekriipsu)
+engine-orbit-data-lower-case = { $key } = { $value } sisaldab väiketähti
+engine-orbit-data-bad-units = { $key } ühikud on [{ $given }]; standard annab [{ $want }]
+engine-orbit-data-missing-units = { $key } ei näita oma ühikuid [{ $want }]
+engine-orbit-data-unknown-keyword = { $key } ei ole jaotise { $section } võtmesõna
+engine-orbit-data-duplicate-keyword = { $key } esineb jaotises { $section } rohkem kui üks kord
+engine-orbit-data-keyword-order = { $key } on väljaspool standardi määratud järjekorda (see järgneb võtmesõnale { $prev })
+engine-orbit-data-missing-keyword = jaotisest { $section } puudub kohustuslik { $key }
+engine-orbit-data-cdm-object-count = objektijaotisi sõnumis: { $n }; CDM-is on kaks, OBJECT1 ja seejärel OBJECT2
+engine-orbit-data-cov-row = kovariatsioonirida { $row } on puudulik või järgneb puuduvale reale
+engine-orbit-data-cov-zero-diagonal = objekti { $at } kovariatsioonis on nulldispersioon; selle rida ja veergu ei tohi kasutada
+engine-orbit-data-not-pd = kovariatsioon ajahetkel { $at } ei ole positiivselt määratud (korrelatsiooni vähim omaväärtus { $min })
+engine-orbit-data-frame-mismatch = REF_FRAME erineb objektide vahel ({ $a }, { $b })
+engine-orbit-data-inconsistent = { $key } = { $given } { $unit }, kuid andmetest tuleb { $computed } { $unit }
+engine-orbit-data-time-order = { $first } ({ $a }) on hilisem kui { $second } ({ $b })
+engine-orbit-data-count-order = { $used } = { $a } on suurem kui { $avail } = { $b }
+engine-orbit-data-unterminated = sõnum lõpeb ploki sees
+engine-orbit-data-no-segment = sõnumil pole ühtegi segmenti
+engine-orbit-data-time-system-changed = TIME_SYSTEM muutub sõnumi sees ({ $a }, seejärel { $b })
+engine-orbit-data-outside-span = aeg { $t } jääb väljapoole metaandmetes antud vahemikku
+engine-orbit-data-useable-overlap = segmentide { $a } ja { $b } kasutatavad vahemikud kattuvad
+engine-orbit-data-data-width = andmereal on { $n } väärtust; oodati: { $want }
+engine-orbit-data-duplicate-time = ajatempel { $t } kordub
+engine-orbit-data-time-not-increasing = ajatempel { $t } ei kasva (eelmine on { $prev })
+engine-orbit-data-too-few-points = andmeridu: { $n }; astme { $deg } interpoleerimiseks liiga vähe (vaja: { $need })
+engine-orbit-data-mixed-time = plokk { $block } segab suhtelisi ja absoluutseid ajatempleid
+engine-orbit-data-span-short = kasutatav vahemik on { $days } päeva, lühem kui soovitud { $min } päeva
+engine-orbit-data-gap = { $s } s pikkune lünk, pikem kui soovitud { $max } s
+engine-orbit-data-gp-checksum = rida { $line }: veeru 69 kontrollsumma on vale (peaks olema { $want })
+engine-orbit-data-gp-catalogue = rida 1 ja rida 2 ei nimeta sama kataloogi numbrit
+engine-orbit-data-gp-perigee = perigee on { $km } km kõrgusel, allpool Maa pinda
+engine-orbit-data-gp-sgp4 = SGP4 ebaõnnestub { $days } päeva pärast epohhi (veakood { $code })
+engine-orbit-data-gp-stale = epohh on { $days } päeva enne võrdlusaega (rohkem kui { $max })
+engine-orbit-data-gp-future = epohh on { $days } päeva pärast võrdlusaega
+engine-orbit-data-gp-repeated-epoch = selle objekti teisel komplektil on sama epohh ja teised elemendid
+engine-orbit-data-gp-elset-number = elementide komplekti number läheb hilisema epohhi juures tagasi { $a }-lt { $b }-le
+engine-orbit-data-gp-jump = see komplekt ja eelmine erinevad selle epohhi juures { $km } km võrra, { $hours } h hiljem (rohkem kui { $max } km): manööver või vigane komplekt
+engine-orbit-data-gp-compare-summary = objekte mõlemas allikas: { $n }, märgitud üle { $threshold } km: { $flagged }; ainult esimeses: { $only_a }, ainult teises: { $only_b } (MODELLED: SGP4 erinevused, mitte täpsus)
+engine-orbit-data-gp-audit-summary = elementide komplekte: { $sets }, objekte: { $objects }, leide: { $findings }
+engine-orbit-data-usage =
+    kasutus: kshana orbit-data check <cdm|oem|ocm file> [--json] [--aliases <map.json>] [--min-span-days <d>] [--max-gap-s <s>]
+    { "   " }või: kshana orbit-data convert <file> --to <ocm|oem|cdm> [--aliases <map.json>]
+    { "   " }või: kshana orbit-data gp-compare <a.tle> <b.tle> [--hours <h>] [--step-min <min>] [--threshold-km <km>] [--json]
+    { "   " }või: kshana orbit-data gp-audit <sets.tle> ... [--at <epoch>] [--stale-days <d>] [--jump-km <km>] [--json]
+    { "   " }või: kshana orbit-data cov <check|propagate|monte-carlo|synthetic|realism> <input.json> [--dt-s <s>] [--step-s <s>] [--samples <n>] [--seed <n>] [--sigma-rtn <r,t,n,rdot,tdot,ndot>] [--full]
+    { "   " }(docs/ORBIT-DATA.md)
+engine-e-orbit-data-unknown-message = { $path } ei ole CDM, OEM (KVN) ega OCM: puudub rida CCSDS_CDM_VERS, CCSDS_OEM_VERS või CCSDS_OCM_VERS ning juur <cdm> või <ocm>
+engine-e-orbit-data-bad-flag = { $flag } { $value }: kasutamiskõlbmatu väärtus
+engine-e-orbit-data-aliases-not-object = aliaste tabel peab olema JSON-objekt kujul "name": "KEYWORD"
+engine-e-orbit-data-alias-target = alias { $key } ei viita ühelegi CDM-i võtmesõnale
+engine-e-orbit-data-convert-pair = { $path }: teisendust vormingusse { $to } ei ole (OEM ocm-iks, OCM oem-iks, CDM cdm-iks)
+engine-e-orbit-data-convert-empty = OEM-is pole teisendatavat segmenti
+engine-e-orbit-data-convert-one-object = OEM sisaldab objekte: { $n }; OCM sisaldab ühte
+engine-e-orbit-data-convert-missing = allikast puudub { $key }, mida siht vajab
+engine-e-orbit-data-convert-width = andme- või kovariatsioonireal on teisenduseks vale arv väärtusi
+engine-e-orbit-data-convert-time = ajatemplit { $t } ei saa absoluutseks teha (EPOCH_TZERO puudub või see pole arv)
+engine-e-orbit-data-convert-traj = trajektoori tüübil { $kind } ei ole OEM-kuju (CARTPV-l ja CARTPVA-l on)
+engine-e-orbit-data-convert-cov = kovariatsioonil { $kind } { $ordering } ei ole OEM-kuju (CARTPV LTM-, UTM- või FULL-kujul on)
+engine-e-orbit-data-cov-input = sisendist puudub kehtiv { $key }
+engine-e-orbit-data-cov-not-pd = algkovariatsioon ei ole positiivselt määratud või küsiti liiga vähe valimeid
+
+## Drone, UTM and robotics PNT tools (src/drone_pnt)
+engine-drone-usage = kasutus: kshana drone prearm <log.ulg|log.bin|epochs.jsonl> [--window <s>] [--config <thresholds.json>] [--gate] | prearm-calibrate [--runs <n>] [--seed <n>] | estimator-cases [--case <id> --trace <trace.jsonl> [--params <json>]] | dr-budget [<spec.json> | --airframe multirotor|fixed-wing|vtol|ground-robot] | quad-loss [<spec.json>] | failover [<spec.json>] | zonotope-pl <spec.json>  (docs/DRONE-PNT.md)
+engine-e-drone-dataflash-header = see ei ole ArduPiloti DataFlashi logi (see peab algama oktettidega A3 95)
+engine-e-drone-bad-number = { $flag } peab olema lõplik arv, mitte { $value }
+engine-e-drone-prearm-gate-failed = relvastamiseelne kontroll FAIL: ära relvasta (vaata aruande playbooki samme)
+engine-e-drone-no-epochs = logis pole vastuvõtja epohhe (oodati PX4 ULogi, ArduPiloti DataFlashi logi või JSON Lines epohhe)
+engine-e-drone-trace-bad-line = jälje rida ei ole arvulise t-ga JSON-objekt: { $line }
+engine-e-drone-trace-missing-channel = jäljel pole kanalit { $channel } (nimeta kanalid ümber --params channels-objektiga)
+engine-e-drone-unknown-case = tundmatu hindaja juhtum { $case } (kshana drone estimator-cases loetleb juhtumid)
+engine-e-drone-unknown-airframe = tundmatu õhusõiduki klass { $name } (multirotor, fixed-wing, vtol, ground-robot)
+engine-e-drone-failover-bad-spec = ümberlülituse käivitus vajab vähemalt üht allikat, positiivset sammu ja mittenegatiivset kestust kuni kümme miljonit sammu
+engine-e-drone-failover-bad-kind = tundmatu allika liik { $kind } (absolute, relative, inertial)
+engine-e-drone-failover-bad-event = sündmus nimetab tundmatu allika või oleku: { $source } (olek fail või recover)
+engine-e-drone-zonotope-bad-geometry = kaitsetase vajab vähemalt nelja satelliiti lõpliku asimuudi ja kõrgusnurga ning positiivse piiriga ja lahenduvat geomeetriat
+
+## src/oscillator/mod.rs
+
+engine-oscillator-usage = kasutus: kshana oscillator <vibration|holdover|select|raim-aid|datasheet> <input.json> või kshana oscillator refs (docs/OSCILLATOR.md)
+
+engine-e-oscillator-input = { $part } sisend ei ole kehtiv: { $e }
+
+engine-e-oscillator-unknown-clock = tundmatu kella eelseadistus { $id } (üks järgmistest: { $known })
+
+engine-e-oscillator-field = { $field } on väljaspool vahemikku: { $value }
+
+## src/leo_verify/mod.rs
+
+engine-leo-verify-usage = kasutus: kshana leo-verify <burst-timing|holdover-tdev|cost|indoor|rain-fade|rtk-ar|jam-claim|doppler-integrity> <input.json> (docs/LEO-VERIFY.md)
+
+engine-e-leo-verify-input = { $part } sisend ei ole kehtiv: { $e }
+
+engine-e-leo-verify-field = { $field } on väljaspool vahemikku: { $value }
+
+engine-e-leo-verify-too-large = arvutus on liiga suur: { $n } sammu (kõige rohkem { $max })
+
+engine-e-leo-verify-unknown-id = { $field } nimetab tundmatu tunnuse: { $id }
+
+## src/bench: tasks (f) and (g), the dataset registry and the golden index (E34)
+
+engine-bench-data-no-header = { $file }: päiserida puudub
+
+engine-bench-data-no-column = { $file }: veergu `{ $column }` pole
+
+engine-bench-data-bad-value = { $file } rida { $line }: `{ $column }` puudub või on vigane
+
+engine-bench-data-no-rows = { $file }: andmeridu pole
+
+engine-bench-task-has-no-holdout = ülesandel ({ $task }) pole kõrvalejäetud jaotust: selle andmed ja jaotus on avalikud
+
+engine-bench-unknown-baseline = tundmatu baastase `{ $name }`
+
+engine-bench-g-no-traces = kataloogis { $root } pole faili <drive>/<phone>/ground_truth.csv
+
+engine-bench-g-no-object = jälgede objekti `{ $key }` pole
+
+engine-bench-g-bad-epoch = jälg `{ $id }`: iga epohh peab olema [UnixTimeMillis, laius, pikkus]
+
+engine-bench-f-dataset-mismatch = { $path }: SHA-256 { $got } ei ole ülesande (f) kinnitatud dataset.csv; laadige see skriptiga scripts/fetch_opssat_ad.sh
+
+engine-bench-cli-unknown-task-g = tundmatu ülesanne `{ $t }` (a kuni g)
+
+engine-bench-cli-wrote-predictions = kirjutatud { $path } ({ $traces } jälge)
+
+engine-bench-datasets-summary = { $n } andmestikku: { $in_bench } võrdluses, { $candidate } kandidaati, { $wanted } otsitud
+
+engine-bench-datasets-ok = register: { $n } andmestikku, kõik reeglid täidetud
+
+engine-bench-golden-ok = { $n } külmutatud faili muutmata; viitetunnused stabiilsed
+
+engine-bench-golden-written = kirjutatud { $path } ({ $n } külmutatud faili)
+
+engine-bench-site-title-f = Ülesanne (f): kosmosesõiduki telemeetria anomaaliate tuvastamine
+
+engine-bench-site-title-g = Ülesanne (g): nutitelefoni positsioneerimise täpsus
+
+engine-bench-site-col-ap = Keskmine täpsus
+
+engine-bench-site-col-gsdc-score = Skoor, P50 ja P95 keskmine (m)
+
+engine-bench-site-col-p50 = P50 koondatud (m)
+
+engine-bench-site-col-p95 = P95 koondatud (m)
+
+## Feeder clients (src/feeder.rs, docs/FEEDER.md)
+engine-feed-usage = kasutus: kshana feed pack <file.obs.jsonl|dir>... --key <keyfile> [--privacy public|exact] [--grid-deg <deg>] [--created <time>] [--include-open] [--out <bundle.json>] | verify <bundle.json> [--pubkey <hex>] [--json] | send <bundle.json> --url <http://host:port/path> [--token-file <file>] | spectrum <capture> --format cu8|ci8|ci16_le --rate <Hz> --centre <Hz> --station <station.toml> [--front-end <name>] [--nfft <n>] [--bins <n>] [--max-samples <n>] [--time <label>] [--out <file.obs.jsonl>] | leaderboard <bundle.json>... [--json] | watch <dir|file>... --key <keyfile> --spool <dir> [--url <http://host:port/path>] [--token-file <file>] [--interval-s <s>] [--privacy public|exact] [--grid-deg <deg>] [--include-open] [--once]  (docs/FEEDER.md)
+engine-e-feed-bad-spool = { $path }: pole kshana.feed-spool/1 olek ({ $e })
+engine-e-feed-http-only = { $url }: toetatud on ainult http:// aadressid (mootoril pole TLS-klienti; pange koguja ette TLS-tunnel)
+engine-feed-watch-cycle = feed watch: { $files } faili pakitud { $bundles } paketti, { $sent } saadetud, { $rejected } tagasi lükatud, { $pending } ootel
+engine-feed-packed = { $out }: jaama { $station } kimp, faile { $files }, epohhe { $epochs }, privaatsus { $mode }
+engine-feed-verified = { $path }: allkiri kehtib (allkirjastaja { $key }); jaam { $station }, faile { $files }, epohhe { $epochs }, iga fail on kehtiv kshana.obs/1
+engine-feed-sent = saadetud aadressile { $url }: HTTP { $code }
+engine-feed-spectrum-written = { $out }: spektri hetktõmmis, vahemikke { $bins } (MODELLED: tasemed täisskaala suhtes, mitte kalibreeritud võimsus)
+engine-e-feed-missing-value = { $option } vajab väärtust
+engine-e-feed-unknown-option = tundmatu valik { $option } (kshana feed --help loetleb valikud)
+engine-e-feed-cannot-read = faili { $path } ei saa lugeda: { $e }
+engine-e-feed-cannot-write = faili { $path } ei saa kirjutada: { $e }
+engine-e-feed-not-obs = { $path } ei ole kehtiv kshana.obs/1-fail: { $e }
+engine-e-feed-mixed-stations = failid pärinevad rohkem kui ühest jaamast ({ $a } ja { $b }); pakkige üks jaam kimbu kohta
+engine-e-feed-no-files = pole vaatlusfaile, mida pakkida
+engine-e-feed-bad-privacy = tundmatu privaatsusrežiim { $value } (public või exact)
+engine-e-feed-bad-grid = asukohavõrk peab olema 0.01 kuni 10 kraadi, mitte { $value }
+engine-e-feed-not-bundle = ei ole kshana.feed/1-kimp: { $e }
+engine-e-feed-bad-signature = kimbu allkiri ei kehti
+engine-e-feed-key-mismatch = kimbu on allkirjastanud { $found }, mitte oodatud võti { $expected }
+engine-e-feed-hash-mismatch = sisu { $name } ei vasta salvestatud SHA-256-le
+engine-e-feed-payload-mismatch = sisu { $name } ei vasta jaamale ega kimbus märgitud kirjete arvudele
+engine-e-feed-not-coarsened = avaliku kimbu sisu { $name } sisaldab endiselt välja { $what }
+engine-e-feed-bad-format = toetamata valimivorming { $value } (cu8, ci8 või ci16_le)
+engine-e-feed-bad-number = { $option }: { $value } ei ole siin kehtiv väärtus
+engine-e-feed-short-capture = salvestis sisaldab { $n } valimit, vähem kui teisenduse pikkus { $nfft }
+engine-e-feed-send-failed = saatmine aadressile { $url } ebaõnnestus: { $e }
+engine-e-feed-send-refused = { $url } lükkas kimbu tagasi: HTTP { $code }
+engine-e-obs-bad-spectrum = rida { $line }: spekter vajab lõplikku aega ja kesksagedust, positiivset diskreetimissagedust ja vahemiku laiust ning lõplikke tasemeid
+
+## Product register (src/product_register.rs, docs/PRODUCT-REGISTER.md)
+engine-register-usage = kasutus: kshana register check <register.json> [--key <hex>] | crl-check <crl.json> --key <hex> | view <register.json> [--key <hex>] [--crl <crl.json> --crl-key <hex>] [--date <YYYY-MM-DD>] [--json] | sign <register.json|crl.json> --key <keyfile> [--out <file>]  (docs/PRODUCT-REGISTER.md)
+engine-register-check-ok = { $path }: väljaandja { $publisher } register, kirjeid { $n }, allkiri kehtib (allkirjastaja { $key })
+engine-register-crl-check-ok = { $path }: väljastaja { $issuer } tühistusnimekiri, tühistatud kirjeid { $n }, allkiri kehtib; järgmine nimekiri { $next }
+engine-register-view-summary = seisuga { $date }: kehtivaid { $current }, uuesti hindamisele kuuluvaid { $due }, tühistatud { $revoked }
+engine-register-view-no-crl = tühistusnimekirja ei antud: tühistamine on teadmata (--crl <crl.json> --crl-key <hex>)
+engine-register-view-crl-stale = tühistusnimekiri on aegunud: selle järgmine uuendus oli oodata { $next }
+engine-e-register-key-mismatch = allkirjastanud { $found }, mitte oodatud võti { $expected }
+engine-e-register-bad-signature = allkiri ei kehti
+engine-e-register-bad-date = { $field } ei ole kujul YYYY-MM-DD kuupäev: { $value }
+engine-e-register-not-register = ei ole kshana.register/1-register: { $e }
+engine-e-register-not-crl = ei ole kshana.register-crl/1-tühistusnimekiri: { $e }
+engine-e-register-bad-id = kirje tunnus { $id }: kasutage 1 kuni 128 tähte, numbrit, punkti, sidekriipsu või alakriipsu
+engine-e-register-duplicate-id = kirje tunnus { $id } esineb rohkem kui üks kord
+engine-e-register-revalidate-before-scored = kirje { $id } tuleks uuesti hinnata enne selle hindamise kuupäeva
+engine-e-register-bad-digest = kirje { $id }: evidence_sha256 peab olema 64 kuueteistkümnendnumbrit
+engine-e-register-missing-value = { $option } vajab väärtust
+engine-e-register-cannot-read = faili { $path } ei saa lugeda: { $e }
+engine-e-register-cannot-write = faili { $path } ei saa kirjutada: { $e }
+engine-e-register-unknown-option = tundmatu valik { $option } (kshana register --help loetleb valikud)
+engine-e-register-crl-needs-key = --crl ja --crl-key käivad koos: tühistusnimekirja kontrollitakse väljastaja võtmega
+
+## Interference environments (src/interference_env.rs, docs/INTERFERENCE-ENV.md)
+engine-interference-env-usage = kasutus: kshana interference-env evaluate <environment.toml> | thresholds [--receiver <id>] | degradation --baseline <id> --pulse-width <s> --prf <Hz> [--below-ratio <R>] [--recovery <s>]  (docs/INTERFERENCE-ENV.md; MODELLED)
+engine-e-interference-env-unknown-receiver = tundmatu vastuvõtja { $id } (kshana interference-env thresholds loetleb need)
+engine-e-interference-env-unknown-baseline = tundmatu baastase { $id } (vt docs/INTERFERENCE-ENV.md)
+engine-e-interference-env-bad-source = allikas { $name }: võimsus, ribalaius, impulsi laius või sagedus ei ole kehtiv positiivne lõplik väärtus
+engine-e-interference-env-pulsed-needs-receiver = impulssallikad vajavad vastuvõtja väärtusi noise_temperature_k, precorrelation_bw_hz ning summutus- või küllastustaset
+engine-e-interference-env-saturated = impulsid ei jäta summutamata aega: täitetegur jõuab väärtuseni 1
+engine-e-interference-env-missing-value = { $option } vajab väärtust
+engine-e-interference-env-bad-number = { $option } vajab arvu, mitte { $value }
+engine-e-interference-env-unknown-option = tundmatu valik { $option } (kshana interference-env --help loetleb valikud)
+engine-e-interference-env-cannot-read = faili { $path } ei saa lugeda: { $e }
+engine-e-interference-env-bad-file = { $path } ei ole häirekeskkond: { $e }
+
+## Future-signal readiness (src/signal_readiness.rs, docs/SIGNAL-READINESS.md)
+engine-signal-readiness-usage = kasutus: kshana signal-readiness <profile.toml> [<obs.rnx>...]  (docs/SIGNAL-READINESS.md)
+engine-e-signal-readiness-bad-rinex = { $path } ei ole RINEX 3 ega 4 vaatlusfail: { $e }
+engine-e-signal-readiness-unknown-option = tundmatu valik { $option } (kshana signal-readiness --help)
+engine-e-signal-readiness-cannot-read = faili { $path } ei saa lugeda: { $e }
+engine-e-signal-readiness-bad-profile = { $path } ei ole vastuvõtja profiil: { $e }
+
+## BeiDou-LEO planning (src/leo_od_plan.rs, docs/LEO-OD-PLAN.md)
+engine-leo-od-plan-usage = kasutus: kshana leo-od-plan <plan.toml>  (docs/LEO-OD-PLAN.md; MODELLED, a planning tool)
+engine-e-leo-od-plan-bad-plan = plaani väärtused on lubatud vahemikust väljas: kaar, samm, mürad ja maskid positiivsed ja lõplikud, kõige rohkem 100000 sammu, maskid ±90 kraadi piires, poolkiirelaius 0 kuni 90 kraadi ja LEO Walkeri muster, mille tasandid jagavad satelliitide arvu
+engine-e-leo-od-plan-cannot-read = faili { $path } ei saa lugeda: { $e }
+engine-e-leo-od-plan-bad-file = { $path } ei ole plaan: { $e }

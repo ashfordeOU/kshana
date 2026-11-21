@@ -3,15 +3,6 @@ version = 2
 # Fail (not just warn) if a dependency resolves to a yanked release, so a yanked
 # crate cannot silently enter the build.
 yanked = "deny"
-# RUSTSEC-2026-0462 (rmcp < 3.9, kshana-mcp's lockfile): unbounded response-body buffering in rmcp's
-# Streamable HTTP *clients* (features transport-streamable-http-client-reqwest and -unix-socket).
-# kshana-mcp is a server: it enables server, macros, transport-io and transport-streamable-http-server,
-# and its tests the generic `client` feature only; neither client transport is compiled (reqwest is not in
-# its lockfile). Ignored for that reason on 11 November 2026; the move to rmcp 3.9+ is tracked as its own
-# change (a major version) and this entry goes with it.
-# RUSTSEC-2026-0457 (rmcp 2.0 to < 3.7): SSRF in the OAuth *client*'s address checks (AuthorizationManager, the
-# `auth` feature). kshana-mcp does not enable `auth`, and neither oauth2 nor reqwest is in its lockfile. Ignored for
-# that reason on 12 November 2026; it goes with the same rmcp 3.9+ move.
 # RUSTSEC-2026-0543 (chrono, all versions): an "unmaintained" notice, not a vulnerability; there is no
 # patched release. No Kshana crate depends on chrono directly. In the root lockfile it comes only through
 # the `sgp4` dev-dependency (tests/sgp4_crate_comparison.rs), which is never built into the library, CLI or
@@ -19,8 +10,6 @@ yanked = "deny"
 # schemars through rmcp's chrono04 feature, so it cannot be removed without dropping the MCP SDK.
 # Ignored for those reasons on 19 November 2026; remove this entry when rmcp and sgp4 move off chrono.
 ignore = [
-  { id = "RUSTSEC-2026-0462", reason = "affects rmcp's Streamable HTTP client transports only; kshana-mcp compiles neither (server-only)" },
-  { id = "RUSTSEC-2026-0457", reason = "affects rmcp's OAuth client (feature auth) only; kshana-mcp does not enable it (no oauth2 or reqwest in its lockfile)" },
   { id = "RUSTSEC-2026-0543", reason = "chrono unmaintained (informational, no patch); not a direct dependency: test-only via sgp4, and required by rmcp/schemars in kshana-mcp" },
 ]
 
