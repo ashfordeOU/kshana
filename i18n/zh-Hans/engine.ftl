@@ -10016,6 +10016,14 @@ engine-e-register-products-bad-revocation = 吊销列表第 { $line } 行须包�
 engine-e-register-products-cannot-fetch = 无法获取 { $url }：{ $e }
 engine-e-register-products-bad-key = 密钥不是 32 字节的十六进制
 
+## Software-in-the-loop observation generator (src/sil_obsgen.rs)
+engine-sil-obsgen-usage = 用法：kshana sil-obsgen <scenario.toml> --out <obs.rnx> [--truth <truth.json>]   (a gnss-sim scenario with optional [urban] and [rinex] tables; docs/SIL-OBSGEN.md)
+engine-e-sil-obsgen-missing-value = { $option } 需要一个值
+engine-e-sil-obsgen-unknown-option = 未知选项 { $option }（kshana sil-obsgen --help 列出所有选项）
+engine-e-sil-obsgen-cannot-read = 无法读取 { $path }：{ $e }
+engine-e-sil-obsgen-cannot-write = 无法写入 { $path }：{ $e }
+engine-e-sil-obsgen-bad-scenario = 不是带可选 [urban] 和 [rinex] 表的 gnss-sim 场景：{ $e }
+
 engine-main-usage =
     用法：kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }或：kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10060,6 +10068,7 @@ engine-main-usage =
     { "   " }或：kshana claim-check [<dataset.json>...] [--out <file.json>] | --template
     { "   " }或：kshana afs-interop <study|ue-register> ... (kshana afs-interop --help)
     { "   " }或：kshana timing-stack <tai|ts2phc|pps|shm|ntpq|nts> ... (kshana timing-stack --help)
+    { "   " }或：kshana sil-obsgen <scenario.toml> --out <obs.rnx> [--truth <truth.json>]
     { "   " }或：kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }或：kshana corrections <decode --format <has|b2b|l6|l1s|qznma> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }或：kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>

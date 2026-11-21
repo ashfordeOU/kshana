@@ -113,6 +113,14 @@ breaking changes are called out explicitly.
   compares two register versions for the append-only rule. Entries may name their scenario set and its version.
   docs/METHODOLOGY-CHANGELOG.md lists the versioned scoring methods an entry can cite.
 
+### Added (software-in-the-loop observation generator)
+
+- `kshana sil-obsgen` (src/sil_obsgen.rs, docs/SIL-OBSGEN.md, examples/sil-obsgen/): a deterministic RINEX 3.04
+  observation file (C1C, L1C, D1C, S1C) from a gnss-sim scenario for continuous-integration runs, read back by the
+  engine's RINEX reader, with an optional street-canyon model of line-of-sight blocking, multipath and NLOS (image
+  source; its broadside delay checked against the published form of Hsu 2018, GPS Solutions 22:7) and a truth file of
+  each row's reception class and injected error. MODELLED.
+
 ### Added (space weather for PNT and drag)
 
 - `kshana space-weather` (src/space_weather_pnt/, docs/SPACE-WEATHER-PNT.md): a storm library of eight recorded

@@ -349,6 +349,7 @@ const UNLABELLED_WRITERS: &[(&str, &str)] = &[
     ("src/claim_check.rs", "writes the claim-check JSON (--out); every verdict carries its MODELLED label and sources"),
     ("src/afs_interop.rs", "writes the afs-interop JSON (--out): the study carries its MODELLED label, the register check is a validation report"),
     ("src/timing_stack.rs", "writes the timing-stack JSON (--out), each document carrying its MODELLED label"),
+    ("src/sil_obsgen.rs", "writes a RINEX 3.04 observation file (format-bound; its header carries a synthetic MODELLED comment) and a truth JSON carrying its MODELLED label"),
 ];
 
 fn source_files(dir: &Path, out: &mut Vec<String>) {

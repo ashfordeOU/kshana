@@ -10993,6 +10993,14 @@ engine-e-register-products-bad-revocation = a linha { $line } da lista de revoga
 engine-e-register-products-cannot-fetch = não foi possível obter { $url }: { $e }
 engine-e-register-products-bad-key = a chave não tem 32 bytes em hexadecimal
 
+## Software-in-the-loop observation generator (src/sil_obsgen.rs)
+engine-sil-obsgen-usage = utilização: kshana sil-obsgen <scenario.toml> --out <obs.rnx> [--truth <truth.json>]   (a gnss-sim scenario with optional [urban] and [rinex] tables; docs/SIL-OBSGEN.md)
+engine-e-sil-obsgen-missing-value = { $option } precisa de um valor
+engine-e-sil-obsgen-unknown-option = opção desconhecida { $option } (kshana sil-obsgen --help lista as opções)
+engine-e-sil-obsgen-cannot-read = não foi possível ler { $path }: { $e }
+engine-e-sil-obsgen-cannot-write = não foi possível escrever { $path }: { $e }
+engine-e-sil-obsgen-bad-scenario = não é um cenário gnss-sim com as tabelas opcionais [urban] e [rinex]: { $e }
+
 engine-main-usage =
     utilização: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }ou: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -11037,6 +11045,7 @@ engine-main-usage =
     { "   " }ou: kshana claim-check [<dataset.json>...] [--out <file.json>] | --template
     { "   " }ou: kshana afs-interop <study|ue-register> ... (kshana afs-interop --help)
     { "   " }ou: kshana timing-stack <tai|ts2phc|pps|shm|ntpq|nts> ... (kshana timing-stack --help)
+    { "   " }ou: kshana sil-obsgen <scenario.toml> --out <obs.rnx> [--truth <truth.json>]
     { "   " }ou: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }ou: kshana corrections <decode --format <has|b2b|l6|l1s|qznma> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }ou: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>

@@ -10739,6 +10739,14 @@ engine-e-register-products-bad-revocation = řádek { $line } seznamu odvolání
 engine-e-register-products-cannot-fetch = nelze stáhnout { $url }: { $e }
 engine-e-register-products-bad-key = klíč není 32 bajtů v šestnáctkovém zápisu
 
+## Software-in-the-loop observation generator (src/sil_obsgen.rs)
+engine-sil-obsgen-usage = použití: kshana sil-obsgen <scenario.toml> --out <obs.rnx> [--truth <truth.json>]   (a gnss-sim scenario with optional [urban] and [rinex] tables; docs/SIL-OBSGEN.md)
+engine-e-sil-obsgen-missing-value = { $option } vyžaduje hodnotu
+engine-e-sil-obsgen-unknown-option = neznámá volba { $option } (volby vypíše kshana sil-obsgen --help)
+engine-e-sil-obsgen-cannot-read = nelze číst { $path }: { $e }
+engine-e-sil-obsgen-cannot-write = nelze zapsat { $path }: { $e }
+engine-e-sil-obsgen-bad-scenario = není scénář gnss-sim s volitelnými tabulkami [urban] a [rinex]: { $e }
+
 engine-main-usage =
     použití: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }nebo: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10783,6 +10791,7 @@ engine-main-usage =
     { "   " }nebo: kshana claim-check [<dataset.json>...] [--out <file.json>] | --template
     { "   " }nebo: kshana afs-interop <study|ue-register> ... (kshana afs-interop --help)
     { "   " }nebo: kshana timing-stack <tai|ts2phc|pps|shm|ntpq|nts> ... (kshana timing-stack --help)
+    { "   " }nebo: kshana sil-obsgen <scenario.toml> --out <obs.rnx> [--truth <truth.json>]
     { "   " }nebo: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }nebo: kshana corrections <decode --format <has|b2b|l6|l1s|qznma> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }nebo: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>

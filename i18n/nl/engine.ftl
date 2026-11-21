@@ -10772,6 +10772,14 @@ engine-e-register-products-bad-revocation = regel { $line } van de intrekkingsli
 engine-e-register-products-cannot-fetch = kan { $url } niet ophalen: { $e }
 engine-e-register-products-bad-key = de sleutel is geen 32 bytes hexadecimaal
 
+## Software-in-the-loop observation generator (src/sil_obsgen.rs)
+engine-sil-obsgen-usage = gebruik: kshana sil-obsgen <scenario.toml> --out <obs.rnx> [--truth <truth.json>]   (a gnss-sim scenario with optional [urban] and [rinex] tables; docs/SIL-OBSGEN.md)
+engine-e-sil-obsgen-missing-value = { $option } heeft een waarde nodig
+engine-e-sil-obsgen-unknown-option = onbekende optie { $option } (kshana sil-obsgen --help toont de opties)
+engine-e-sil-obsgen-cannot-read = kan { $path } niet lezen: { $e }
+engine-e-sil-obsgen-cannot-write = kan { $path } niet schrijven: { $e }
+engine-e-sil-obsgen-bad-scenario = geen gnss-sim-scenario met optionele tabellen [urban] en [rinex]: { $e }
+
 engine-main-usage =
     gebruik: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }of: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10816,6 +10824,7 @@ engine-main-usage =
     { "   " }of: kshana claim-check [<dataset.json>...] [--out <file.json>] | --template
     { "   " }of: kshana afs-interop <study|ue-register> ... (kshana afs-interop --help)
     { "   " }of: kshana timing-stack <tai|ts2phc|pps|shm|ntpq|nts> ... (kshana timing-stack --help)
+    { "   " }of: kshana sil-obsgen <scenario.toml> --out <obs.rnx> [--truth <truth.json>]
     { "   " }of: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }of: kshana corrections <decode --format <has|b2b|l6|l1s|qznma> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }of: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>

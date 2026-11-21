@@ -1186,8 +1186,8 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/main.rs": {
-   "count": 95,
-   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md); clock-live prints its error text as given; the sensor-live command name; the device and bench-speed command names; the data-pack, area-trust and env-baseline command names; the ephem-export command name; the time-vectors command name; the ais-integrity command name; the space-weather command name; the orbit-data command name; the leo-verify command name; the space-receiver command name; the sil-obs and interference-lib command names; the interference-env command name; the antenna-cal command name; the arctic-plan command name; the lunar-ref command name; the signal-readiness command name; the quantum-bench and soop-clock command names; the leo-od-plan command name; the lunar-afs-kit command name; the adsb-indicators and interference-atlas command names; the claim-check command name; the afs-interop command name; the timing-stack command name; the register-products command name."
+   "count": 96,
+   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md); clock-live prints its error text as given; the sensor-live command name; the device and bench-speed command names; the data-pack, area-trust and env-baseline command names; the ephem-export command name; the time-vectors command name; the ais-integrity command name; the space-weather command name; the orbit-data command name; the leo-verify command name; the space-receiver command name; the sil-obs and interference-lib command names; the interference-env command name; the antenna-cal command name; the arctic-plan command name; the lunar-ref command name; the signal-readiness command name; the quantum-bench and soop-clock command names; the leo-od-plan command name; the lunar-afs-kit command name; the adsb-indicators and interference-atlas command names; the claim-check command name; the afs-interop command name; the timing-stack command name; the register-products command name; the sil-obsgen command name."
   },
   "src/mars_pnt.rs": {
    "count": 31,
@@ -1524,6 +1524,10 @@
   "src/sil_obs.rs": {
    "count": 28,
    "reason": "machine-document and identifier: the RINEX 3.04 observation header labels and fixed fields (format text, not prose), the kshana.sil-obs-truth/1 and kshana.sil-obs-compare/1 schema ids, field names, the method and note written into those machine documents (docs/SIL-OBS.md)"
+  },
+  "src/sil_obsgen.rs": {
+   "count": 18,
+   "reason": "machine-document and identifier: RINEX header labels and fixed header text written into the RINEX format, reception class names, option names and the English label written into the truth document"
   },
   "src/skyline.rs": {
    "count": 29,
