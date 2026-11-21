@@ -10510,6 +10510,12 @@ engine-e-lunar-oem-time-system = TIME_SYSTEM { $time_system } ei muunnu TDB:ksi 
 engine-e-lunar-oem-not-moon-centred = CENTER_NAME on { $center }; vain Kuu-keskisiä OEM-tiedostoja (CENTER_NAME = MOON) muunnetaan
 engine-e-lunar-oem-unknown-frame = REF_FRAME { $frame } ei muunnu tässä (ICRF, MOON_PA440, MOON_ME; luetaan myös MOON_PA_DE440, MOON_ME_DE440_ME421, MOON_PA; EME2000 ja J2000 eroavat ICRF:stä frame biasin verran, jota ei sovelleta)
 
+## Lunar interop export: SANA-registered names (src/lunar_interop.rs)
+engine-e-lunar-interop-unknown-frame = tuntematon Kuun koordinaatisto { $frame } (MOON_ME tai MOON_PA440; MOON_PA luetaan muodossa MOON_PA440)
+engine-e-lunar-interop-unknown-time-system = tuntematon aikajärjestelmä { $time_system } (TDB, UTC tai asetuksella allow_unregistered_time_system = true LTC tai TCL)
+engine-e-lunar-interop-unregistered-time-system = TIME_SYSTEM { $time_system } ei ole SANA Time Systems -rekisterissä, jota CCSDS OEM käyttää; aseta allow_unregistered_time_system = true kirjoittaaksesi sen silti (COMMENT kertoo siitä) tai käytä TDB:tä
+engine-e-lunar-interop-bad-step = step_min on oltava äärellinen, ei-negatiivinen minuuttimäärä, ei { $step }
+
 engine-main-usage =
     käyttö: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }tai: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
