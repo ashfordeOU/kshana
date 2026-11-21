@@ -9977,6 +9977,10 @@ engine-e-orbit-omm-export-requires-tle-defined = OMM-export kräver en TLE-defin
 engine-e-passes-earth-orientation-parameters-out-of = parametrarna för jordens orientering är utanför intervallet: |ut1_minus_utc_s| <= 1, |xp_arcsec| och |yp_arcsec| <= 2
 
 engine-e-pvt-no-priori-position-set-apriori = ingen apriori-position: ange apriori_ecef, ett APPROX POSITION XYZ i observationsrubriken eller truth_ecef
+engine-e-gnss-slots-unknown-set = okänd slotuppsättning `{ $name }` (kända: { $sets })
+engine-e-gnss-slots-out-of-range = slot `{ $id }`: `{ $field }` saknas, är inte ändligt eller ligger utanför intervallet
+engine-e-gnss-slots-geo-needs-lon = GEO-slot `{ $id }` behöver lon_deg
+engine-e-gnss-slots-igso-needs-one-longitude = IGSO-slot `{ $id }` behöver en inclination_deg skild från noll och exakt en av crossing_lon_deg och center_lon_deg
 
 engine-e-python-pll-bws-dll-bws-spacings = pll_bws, dll_bws, spacings och coherents kan inte kombineras med design: svepet kör varje utformning i filen
 
