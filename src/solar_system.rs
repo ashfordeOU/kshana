@@ -262,12 +262,12 @@ pub(crate) fn epoch_to_jd_tdb(epoch: &str) -> Result<f64, String> {
     let hour: u32 = t[0].parse().map_err(|_| bad("hour", t[0]))?;
     let minute: u32 = t[1].parse().map_err(|_| bad("minute", t[1]))?;
     let second: f64 = t[2].parse().map_err(|_| bad("second", t[2]))?;
-    if !(1..=12).contains(&month) || !(1..=31).contains(&day) || hour > 23 || minute > 59 {
-        return Err(crate::terr!("e-leo-pass-epoch-is-out-of-range", s = s));
-    }
-    let jd_utc = crate::timescales::julian_date(year, month, day, hour, minute, second);
-    Ok(crate::timescales::tt_to_tdb(crate::timescales::utc_to_tt(
-        jd_utc,
+    // UTC through TAI with the leap-second table: a real date, and 23:59:60.x only on a day that
+    // ends in a leap second (continuous in TAI); anything else out of range is refused.
+    let tai = crate::timescales::utc_calendar_to_tai(year, month, day, hour, minute, second)
+        .map_err(|_| crate::terr!("e-leo-pass-epoch-is-out-of-range", s = s))?;
+    Ok(crate::timescales::tt_to_tdb(crate::timescales::tai_to_tt(
+        tai,
     )))
 }
 
@@ -876,6 +876,15 @@ mod tests {
     fn run(src: &str) -> SolarSystemReport {
         let scn: SolarSystemScenario = toml::from_str(src).expect("toml");
         scn.compute().expect("compute")
+    }
+
+    #[test]
+    fn the_scenario_epoch_takes_a_leap_second_on_its_day() {
+        let leap = epoch_to_jd_tdb("2016-12-31T23:59:60.5Z").unwrap();
+        let next = epoch_to_jd_tdb("2017-01-01T00:00:00.5Z").unwrap();
+        assert!(((next - leap) * 86_400.0 - 1.0).abs() < 1e-3);
+        assert!(epoch_to_jd_tdb("2026-01-01T00:00:-1Z").is_err());
+        assert!(epoch_to_jd_tdb("2026-02-30T00:00:00Z").is_err());
     }
 
     #[test]

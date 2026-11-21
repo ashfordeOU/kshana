@@ -223,6 +223,44 @@ pub fn tai_minus_utc_on_date(year: i32, month: u32, day: u32, fd: f64) -> f64 {
     delat + (mjd + fd - mjd_ref) * rate
 }
 
+/// The TAI Julian date of a UTC calendar time, leap seconds included: `23:59:60.x` is valid in
+/// the last minute of a day that ends in a leap second (from the leap-second table) and lies on
+/// that day, one second before the next day's `00:00:00` in TAI, so TAI is continuous across the
+/// leap. Every other field is range-checked against the calendar. Through the SOFA conventions of
+/// [`crate::jd2::Jd2::from_utc_calendar`] and [`crate::jd2::utc_to_tai`].
+pub fn utc_calendar_to_tai(
+    year: i32,
+    month: u32,
+    day: u32,
+    hour: u32,
+    minute: u32,
+    second: f64,
+) -> Result<f64, String> {
+    let utc = crate::jd2::Jd2::from_utc_calendar(year, month, day, hour, minute, second)?;
+    Ok(crate::jd2::utc_to_tai(utc).total())
+}
+
+/// Check a calendar time on a scale without leap seconds (TAI, GPS, TT, TDB): a real date, an
+/// hour under 24, a minute under 60 and a second in `[0, 60)`.
+pub fn check_uniform_calendar(
+    year: i32,
+    month: u32,
+    day: u32,
+    hour: u32,
+    minute: u32,
+    second: f64,
+) -> Result<(), String> {
+    if !(0.0..60.0).contains(&second) {
+        return Err(crate::terr!(
+            "e-jd2-utc-second-out-of-range",
+            second = second,
+            hour = hour,
+            minute = minute
+        ));
+    }
+    crate::jd2::Jd2::from_utc_calendar(year, month, day, hour, minute, second).map(|_| ())
+}
+
 /// TAI − UTC (seconds) at a given instant expressed as a JD in UTC. Returns the
 /// value of the latest leap-second entry in effect at that instant. For dates
 /// before 1972-01-01 (outside the modern integer-leap regime) this clamps to the
@@ -428,6 +466,23 @@ mod tests {
     use super::*;
 
     const EPS_JD: f64 = 1e-9; // ~1e-4 s
+
+    #[test]
+    fn a_leap_second_lies_on_its_day_and_tai_is_continuous() {
+        let leap = utc_calendar_to_tai(2016, 12, 31, 23, 59, 60.5).unwrap();
+        let next = utc_calendar_to_tai(2017, 1, 1, 0, 0, 0.5).unwrap();
+        let before = utc_calendar_to_tai(2016, 12, 31, 23, 59, 59.5).unwrap();
+        assert!(((next - leap) * 86_400.0 - 1.0).abs() < 1e-4);
+        assert!(((leap - before) * 86_400.0 - 1.0).abs() < 1e-4);
+        // Second 60 only at 23:59 of a day that ends in a leap second.
+        assert!(utc_calendar_to_tai(2017, 12, 31, 23, 59, 60.5).is_err());
+        assert!(utc_calendar_to_tai(2016, 12, 31, 12, 30, 60.0).is_err());
+        assert!(utc_calendar_to_tai(2023, 2, 31, 0, 0, 0.0).is_err());
+        // Scales without leap seconds refuse second 60 everywhere.
+        assert!(check_uniform_calendar(2016, 12, 31, 23, 59, 60.5).is_err());
+        assert!(check_uniform_calendar(2024, 2, 29, 23, 59, 59.9).is_ok());
+        assert!(check_uniform_calendar(2023, 13, 1, 0, 0, 0.0).is_err());
+    }
 
     #[test]
     fn j2000_epoch_is_2451545() {

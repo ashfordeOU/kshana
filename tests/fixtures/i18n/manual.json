@@ -20184,5 +20184,16 @@
    },
    " waiting"
   ]
+ },
+ {
+  "id": "e-leo-pass-epoch-is-a-leap-second",
+  "error": true,
+  "parts": [
+   "epoch ",
+   {
+    "var": "s"
+   },
+   " is a leap second, which has no plain UTC Julian date; give the epoch in GPS or TAI time, or a second either side"
+  ]
  }
 ]

@@ -11001,6 +11001,9 @@ engine-e-sil-obsgen-cannot-read = não foi possível ler { $path }: { $e }
 engine-e-sil-obsgen-cannot-write = não foi possível escrever { $path }: { $e }
 engine-e-sil-obsgen-bad-scenario = não é um cenário gnss-sim com as tabelas opcionais [urban] e [rinex]: { $e }
 
+## leo-pass leap-second epoch
+engine-e-leo-pass-epoch-is-a-leap-second = a época { $s } é um segundo intercalar, que não tem data juliana UTC simples; indique a época em tempo GPS ou TAI, ou um segundo antes ou depois
+
 engine-main-usage =
     utilização: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }ou: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
