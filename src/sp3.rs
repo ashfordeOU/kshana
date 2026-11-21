@@ -171,9 +171,11 @@ impl Sp3File {
     /// Build an SP3 file from a propagated constellation: each satellite's
     /// inertial (TEME) state is sampled on the time grid and rotated into the
     /// Earth-fixed frame, giving the ECEF position series SP3 records. `start` is
-    /// the calendar time of epoch 0 (GPS time scale) and `start_jd_ut1` its UT1
-    /// Julian Date — the GMST argument the TEME→ECEF rotation needs; later epochs
-    /// advance both by `step_s`. Satellites carry no clock model, so every clock
+    /// the calendar time of epoch 0 (the scenario `epoch`, UTC) and `start_jd_ut1`
+    /// its UT1 Julian Date — the GMST argument the TEME→ECEF rotation needs; later
+    /// epochs advance both by `step_s`. A propagator that dates itself (a TLE, a
+    /// broadcast ephemeris, an SP3 file) is evaluated at the labelled instant, not at
+    /// its own epoch plus `i·step_s` ([`crate::orbit::Propagator::own_jd_utc`]). Satellites carry no clock model, so every clock
     /// field is the SP3 "unavailable" sentinel. This is the export half of SP3
     /// interop: Kshana orbits out, in the format Ginan/RTKLIB/gLAB ingest.
     pub fn from_propagators(
@@ -184,17 +186,27 @@ impl Sp3File {
         step_s: f64,
         num_epochs: usize,
     ) -> Self {
+        // The epoch labels advance in seconds of day from `start` (8 decimals, as written), not
+        // through a Julian Date, which would turn a clean grid into 00:14:59.99998659.
+        let start_civil = crate::timescales::CivilTime {
+            year: start.year,
+            month: start.month,
+            day: start.day,
+            hour: start.hour,
+            minute: start.minute,
+            second: start.second,
+        };
         let mut epochs = Vec::with_capacity(num_epochs);
         for i in 0..num_epochs {
             let t = i as f64 * step_s;
             let jd_ut1 = start_jd_ut1 + t / 86_400.0;
-            // The label is built from the whole day and the seconds of day separately: a JD near
-            // 2.45e6 resolves only ~40 µs, so `civil_from_jd(start_jd + t / 86400)` wrote grid
-            // epochs such as `0 14 59.99998659`.
-            let civil = epoch_after(start, t);
+            let civil = crate::timescales::civil_after(start_civil, t, 8);
             let mut states = Vec::with_capacity(sats.len());
             for (id, sat) in ids.iter().zip(sats.iter()) {
-                let ecef = crate::frames::teme_to_ecef(sat.position_eci(t), jd_ut1);
+                let offset = sat
+                    .own_jd_utc(0.0)
+                    .map_or(0.0, |own0| (start_jd_ut1 - own0) * 86_400.0);
+                let ecef = crate::frames::teme_to_ecef(sat.position_eci(offset + t), jd_ut1);
                 states.push(Sp3SatState {
                     sat: id.clone(),
                     pos_m: ecef,
@@ -377,28 +389,6 @@ pub fn interpolate_clock_linear(nodes: &[(f64, f64)], t: f64, max_gap_s: f64) ->
 /// rather than a value contaminated by the ~13 µs ULP noise of subtracting two
 /// ~2.45e6 Julian Dates. See [`Sp3File::interpolator`] for why this matters at
 /// GNSS orbital velocity.
-/// The calendar epoch `start + t_s`, from the whole day and the seconds of day separately so
-/// a grid epoch stays on the grid (the inverse of [`node_offset_s`]).
-fn epoch_after(start: EpochUtc, t_s: f64) -> EpochUtc {
-    let day_jd0 = crate::timescales::julian_date(start.year, start.month, start.day, 0, 0, 0.0);
-    let total = start.hour as f64 * 3600.0 + start.minute as f64 * 60.0 + start.second + t_s;
-    let day_add = (total / 86_400.0).floor();
-    let mut sod = total - day_add * 86_400.0;
-    let date = crate::timescales::civil_from_jd(day_jd0 + day_add);
-    let hour = (sod / 3600.0).floor();
-    sod -= hour * 3600.0;
-    let minute = (sod / 60.0).floor();
-    sod -= minute * 60.0;
-    EpochUtc {
-        year: date.year,
-        month: date.month,
-        day: date.day,
-        hour: hour as u32,
-        minute: minute as u32,
-        second: sod,
-    }
-}
-
 /// The SP3-c `+` header records for `ids`: five lines of 17 three-character ids, padded with
 /// `  0`, the count on the first (SP3-c lines 3-7). More than 85 ids (or ids that are not
 /// three characters) do not fit SP3-c; the caller refuses them ([`MAX_SP3C_SATELLITES`]).
@@ -930,6 +920,36 @@ mod tests {
     use super::*;
 
     #[test]
+    fn a_clean_grid_is_written_as_clean_epochs() {
+        let orbit = crate::orbit::Orbit::new(26_560e3, 0.96, 0.0, 0.0);
+        let start = EpochUtc {
+            year: 2023,
+            month: 1,
+            day: 1,
+            hour: 0,
+            minute: 0,
+            second: 0.0,
+        };
+        let jd = crate::timescales::julian_date(2023, 1, 1, 0, 0, 0.0);
+        let f = Sp3File::from_propagators(
+            &["G01".to_string()],
+            &[crate::orbit::Propagator::Kepler(orbit)],
+            start,
+            jd,
+            900.0,
+            97,
+        );
+        let text = f.to_sp3_string();
+        assert!(
+            text.contains("*  2023  1  1  0 15  0.00000000\n"),
+            "{}",
+            &text[..400]
+        );
+        assert!(text.contains("*  2023  1  2  0  0  0.00000000\n"));
+        assert!(!text.contains("59.9999"));
+    }
+
+    #[test]
     fn accuracy_codes_map_to_position_sigmas() {
         // SAMPLE with per-record standard deviations on G01's first record (base 1.25 mm):
         // exponents 10, 9, 11 → 1.25^n mm. Header exponents: G01 = 2, G02 = 2.
@@ -1191,8 +1211,8 @@ EOF";
         // (1) Exact at an interior node: rotation is identity there (the
         // argument OMGE·(t_node − t) is zero), so the corrected polynomial passes
         // through the raw stored sample. Query at the node's OWN tabulated time
-        // (interp.t_s[10]), which from_propagators now writes exactly on the grid
-        // (`epoch_after`); before, its JD-based labels sat up to ±13 µs off.
+        // (interp.t_s[10]), which on the exact grid from_propagators now writes is
+        // the nominal 10×900 s.
         let t_node = interp.t_s[10];
         let stored = f.position_of("G01", 10).expect("stored node");
         let at_node = interp.position_ecef(t_node);
@@ -1206,10 +1226,10 @@ EOF";
         }
 
         // (2) Off a node, the correction shifts X/Y relative to a raw Lagrange
-        // fit (Z is untouched by a +Z rotation). Both fits are of smooth series, so
-        // they differ only by their interpolation errors: well under a millimetre
-        // here, but clearly non-zero. (Before the node labels were put on the
-        // grid, their ±13 µs jitter made the difference look like centimetres.)
+        // fit (Z is untouched by a +Z rotation). On a clean epoch grid the shift
+        // is the difference of two 10th-order fits of smooth motion, about 0.4 mm
+        // here; it must be clearly non-zero. (Before the grid labels were made
+        // exact, their ~10 µs noise added about a millimetre to this difference.)
         let t_mid = 10.5 * 900.0;
         let corrected = interp.position_ecef(t_mid);
         // Reproduce the raw (uncorrected) Lagrange fit over the same window.
@@ -1222,7 +1242,7 @@ EOF";
         ];
         let dxy = ((corrected[0] - raw[0]).ppowi(2) + (corrected[1] - raw[1]).ppowi(2)).sqrt();
         assert!(
-            dxy > 1e-4 && dxy < 1e-2,
+            dxy > 1e-4,
             "Earth-rotation correction should move the X/Y fit off the raw fit, Δxy={dxy:.6} m"
         );
         // Z is unaffected by a rotation about +Z.

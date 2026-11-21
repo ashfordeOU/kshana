@@ -83,7 +83,7 @@ overflowing exponents and `*` fields into the fixtures and checks every value re
 | Reader / writer | Defect | Now |
 |---|---|---|
 | `Sp3File::to_sp3_string` | the header start second was written with the language's decimal mark (`0,00000000` in German, French, Russian, ...), which the crate's own reader and other tools refuse | `.` in every language |
-| `Sp3File::from_propagators` | epoch labels came from a Julian Date near 2.45e6 (~40 µs resolution), so a 900 s grid was written as `0 14 59.99998659`, `0 30  0.00001341` | labels built from the whole day and seconds of day: exactly on the grid |
+| `Sp3File::from_propagators` | epoch labels came from a Julian Date near 2.45e6 (~40 µs resolution), so a 900 s grid was written as `0 14 59.99998659`, `0 30  0.00001341` | labels advance in seconds of day with a day carry (`timescales::civil_after`): exactly on the grid |
 | `Sp3File::to_sp3_string`, orbit SP3 export | every id on one `+` line: past 17 ids not SP3-c, and at 100 satellites the count pushed the ids a column right (the reader found none) and `PG100` was read as `G10` | five `+` records of 17 ids padded with `  0` (SP3-c); an export of more than 85 satellites is refused |
 | `Sp3File::interpolator` | the (0, 0, 0) bad-position sentinel was an interpolation node, pulling nearby positions toward the geocentre; a repeated epoch made the Lagrange weights divide by zero | both are left out as nodes (`Sp3SatState::position_is_bad`) |
 | `parse_sp3` | `NaN` / `inf` positions and clocks were accepted; a `V` record with no `P`, a repeated epoch, a missing `EOF`, fewer epochs than the header declares and the `+` count were silent | non-finite values are an error; the rest is reported in `Sp3File::read` and `missing_epochs()` |
