@@ -10672,7 +10672,7 @@ engine-main-usage =
     { "   " }eller: kshana timing-stack <tai|ts2phc|pps|shm|ntpq|nts> ... (kshana timing-stack --help)
     { "   " }eller: kshana sil-obsgen <scenario.toml> --out <obs.rnx> [--truth <truth.json>]
     { "   " }eller: kshana time-vectors [--json] [<vectors.json|dir> ...]
-    { "   " }eller: kshana corrections <decode --format <has|b2b|l6|l1s|qznma> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
+    { "   " }eller: kshana corrections <decode --format <has|b2b|l6|l1s|qznma> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...] | qznma-verify [--frames <frames.txt>] [--nav <nav.txt>] --pubkey <key.der> ...>
     { "   " }eller: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
     { "   " }eller: kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
     { "   " }eller: kshana orbit-data <check|convert|gp-compare|gp-audit|cov> ... (kshana orbit-data --help)
@@ -11613,7 +11613,10 @@ engine-e-corrections-unknown-decoder = okänd avkodare { $decoder } (has, b2b, l
 engine-e-corrections-bad-vector = vektor { $id } saknar hexadecimala ramar eller ett expect-objekt
 engine-e-corrections-bad-file = { $file } är inte ett { $format }-dokument (formatmärkning och en vectors-array)
 engine-corrections-summary = { $n } vektorer: { $passed } godkända, { $failed } underkända
-engine-corrections-usage = användning: kshana corrections decode --format <has|b2b|l6|l1s|qznma> <frames.txt | -> | kshana corrections vectors [--json] [<vectors.json | dir> ...]  (en ram per rad i hexadecimal form; docs/CORRECTION-DECODERS.md)
+engine-corrections-usage = användning: kshana corrections decode --format <has|b2b|l6|l1s|qznma> <frames.txt | -> | kshana corrections vectors [--json] [<vectors.json | dir> ...] | kshana corrections qznma-verify [--frames <frames.txt>] [--nav <nav.txt>] --pubkey <ID:key.der | 001.der> ...  (en ram per rad i hexadecimal form; docs/CORRECTION-DECODERS.md)
+engine-e-qznma-bad-nav-line = inte en rad med navigationsmeddelande (<satellite> <signal> <part> <hex>): { $line }
+engine-e-qznma-bad-key = { $path }: inte en publik P-256- eller P-521-nyckel (DER eller SEC1) med ett nyckel-ID i filnamnet eller som ID:path
+engine-qznma-verify-summary = { $n } signaturer: { $verified } verifierade, { $failed } misslyckade, { $no_key } utan nyckel, { $no_navigation } utan navigationsmeddelanden
 
 ## src/space_weather_pnt/
 

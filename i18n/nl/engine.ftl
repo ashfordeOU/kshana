@@ -10826,7 +10826,7 @@ engine-main-usage =
     { "   " }of: kshana timing-stack <tai|ts2phc|pps|shm|ntpq|nts> ... (kshana timing-stack --help)
     { "   " }of: kshana sil-obsgen <scenario.toml> --out <obs.rnx> [--truth <truth.json>]
     { "   " }of: kshana time-vectors [--json] [<vectors.json|dir> ...]
-    { "   " }of: kshana corrections <decode --format <has|b2b|l6|l1s|qznma> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
+    { "   " }of: kshana corrections <decode --format <has|b2b|l6|l1s|qznma> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...] | qznma-verify [--frames <frames.txt>] [--nav <nav.txt>] --pubkey <key.der> ...>
     { "   " }of: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
     { "   " }of: kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
     { "   " }of: kshana orbit-data <check|convert|gp-compare|gp-audit|cov> ... (kshana orbit-data --help)
@@ -11795,7 +11795,10 @@ engine-e-corrections-unknown-decoder = onbekende decoder { $decoder } (has, b2b,
 engine-e-corrections-bad-vector = vector { $id } mist hexadecimale frames of een expect-object
 engine-e-corrections-bad-file = { $file } is geen { $format }-document (formaatlabel en een vectors-array)
 engine-corrections-summary = { $n } vectoren: { $passed } geslaagd, { $failed } mislukt
-engine-corrections-usage = gebruik: kshana corrections decode --format <has|b2b|l6|l1s|qznma> <frames.txt | -> | kshana corrections vectors [--json] [<vectors.json | dir> ...]  (één frame per regel in hexadecimaal; docs/CORRECTION-DECODERS.md)
+engine-corrections-usage = gebruik: kshana corrections decode --format <has|b2b|l6|l1s|qznma> <frames.txt | -> | kshana corrections vectors [--json] [<vectors.json | dir> ...] | kshana corrections qznma-verify [--frames <frames.txt>] [--nav <nav.txt>] --pubkey <ID:key.der | 001.der> ...  (één frame per regel in hexadecimaal; docs/CORRECTION-DECODERS.md)
+engine-e-qznma-bad-nav-line = geen navigatieberichtregel (<satellite> <signal> <part> <hex>): { $line }
+engine-e-qznma-bad-key = { $path }: geen openbare P-256- of P-521-sleutel (DER of SEC1) met een sleutel-ID in de bestandsnaam of als ID:path
+engine-qznma-verify-summary = { $n } handtekeningen: { $verified } geverifieerd, { $failed } mislukt, { $no_key } zonder sleutel, { $no_navigation } zonder navigatieberichten
 
 ## src/space_weather_pnt/
 

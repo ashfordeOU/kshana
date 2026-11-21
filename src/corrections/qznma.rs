@@ -21,8 +21,8 @@
 //!   [`verify_rds`] checks the signature with a public key (ECDSA P-256 with SHA-256 over
 //!   RAND, Appendix B). The public keys and the Appendix A test data are given only to
 //!   registered users (section 7.3.5, Appendix A), so the check is tested here with a key
-//!   made by the test, not with QZSS data. CNAV, CNAV2, Galileo and QZSS-signal RAND are not
-//!   built.
+//!   made by the test, not with QZSS data. The other signals' RAND are in
+//!   [`super::qznma_nav`].
 
 use super::bits::{self, Cursor};
 use super::cma;
@@ -196,6 +196,7 @@ pub fn lnav_mask(sf: usize, bit: usize) -> bool {
     }
 }
 
+#[cfg(test)]
 fn push_bits(out: &mut Vec<u8>, v: u64, n: usize) {
     out.extend((0..n).rev().map(|i| ((v >> i) & 1) as u8));
 }
@@ -205,36 +206,10 @@ fn push_bits(out: &mut Vec<u8>, v: u64, n: usize) {
 /// offset so that subframe 1 carries the RTOW (section 6.6.2, case 1); the subframes keep
 /// their spacing (to confirm: the document shows the replacement for subframe 1 only).
 pub fn gps_lnav_rand(rds: &Rds, subframes: [&[u8]; 3]) -> Option<Vec<u8>> {
-    if subframes.iter().any(|s| s.len() < 300) {
+    if rds.message_type != 1 {
         return None;
     }
-    let tow = |s: &[u8]| s[30..47].iter().fold(0i64, |v, b| (v << 1) | i64::from(*b));
-    let shift = i64::from(rds.rtow & 0x1_FFFF) - tow(subframes[0]);
-    let mut out = Vec::with_capacity(LNAV_RAND_BITS);
-    push_bits(&mut out, u64::from(rds.nma_id), 4);
-    push_bits(&mut out, u64::from(rds.rtow), 20);
-    push_bits(&mut out, u64::from(rds.sv_id), 8);
-    push_bits(&mut out, u64::from(rds.message_type), 4);
-    push_bits(&mut out, u64::from(rds.ref_ephemeris1), 11);
-    push_bits(&mut out, u64::from(rds.ref_ephemeris2), 11);
-    push_bits(&mut out, u64::from(rds.ref_clock), 11);
-    push_bits(&mut out, u64::from(rds.key_id), 8);
-    for (k, s) in subframes.iter().enumerate() {
-        let mut sf = s[..300].to_vec();
-        let new_tow = (tow(s) + shift).rem_euclid(100_800) as u64;
-        let mut t = Vec::new();
-        push_bits(&mut t, new_tow, 17);
-        sf[30..47].copy_from_slice(&t);
-        out.extend(
-            sf.iter()
-                .enumerate()
-                .map(|(i, b)| if lnav_mask(k, i) { *b } else { 0 }),
-        );
-    }
-    push_bits(&mut out, u64::from(rds.salt), 16);
-    push_bits(&mut out, 0, 7);
-    debug_assert_eq!(out.len(), LNAV_RAND_BITS);
-    Some(bits::to_bytes(&out))
+    super::qznma_nav::gnss_rand(rds, &subframes)
 }
 
 /// Check the RDS signature over `rand` with a P-256 public key (SAS-001 7.1, Appendix B).

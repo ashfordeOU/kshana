@@ -10940,7 +10940,7 @@ engine-main-usage =
     { "   " }або: kshana timing-stack <tai|ts2phc|pps|shm|ntpq|nts> ... (kshana timing-stack --help)
     { "   " }або: kshana sil-obsgen <scenario.toml> --out <obs.rnx> [--truth <truth.json>]
     { "   " }або: kshana time-vectors [--json] [<vectors.json|dir> ...]
-    { "   " }або: kshana corrections <decode --format <has|b2b|l6|l1s|qznma> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
+    { "   " }або: kshana corrections <decode --format <has|b2b|l6|l1s|qznma> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...] | qznma-verify [--frames <frames.txt>] [--nav <nav.txt>] --pubkey <key.der> ...>
     { "   " }або: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
     { "   " }або: kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
     { "   " }або: kshana orbit-data <check|convert|gp-compare|gp-audit|cov> ... (kshana orbit-data --help)
@@ -11889,7 +11889,10 @@ engine-e-corrections-unknown-decoder = невідомий декодер { $deco
 engine-e-corrections-bad-vector = у вектора { $id } немає шістнадцяткових кадрів або об'єкта expect
 engine-e-corrections-bad-file = { $file } не є документом { $format } (мітка формату та масив vectors)
 engine-corrections-summary = векторів: { $n }; пройдено: { $passed }, не пройдено: { $failed }
-engine-corrections-usage = використання: kshana corrections decode --format <has|b2b|l6|l1s|qznma> <frames.txt | -> | kshana corrections vectors [--json] [<vectors.json | dir> ...]  (один кадр на рядок у шістнадцятковому вигляді; docs/CORRECTION-DECODERS.md)
+engine-corrections-usage = використання: kshana corrections decode --format <has|b2b|l6|l1s|qznma> <frames.txt | -> | kshana corrections vectors [--json] [<vectors.json | dir> ...] | kshana corrections qznma-verify [--frames <frames.txt>] [--nav <nav.txt>] --pubkey <ID:key.der | 001.der> ...  (один кадр на рядок у шістнадцятковому вигляді; docs/CORRECTION-DECODERS.md)
+engine-e-qznma-bad-nav-line = не рядок навігаційного повідомлення (<satellite> <signal> <part> <hex>): { $line }
+engine-e-qznma-bad-key = { $path }: не відкритий ключ P-256 або P-521 (DER або SEC1) з ідентифікатором ключа в назві файлу або у вигляді ID:path
+engine-qznma-verify-summary = { $n } підписів: { $verified } перевірено, { $failed } не пройшли, { $no_key } без ключа, { $no_navigation } без навігаційних повідомлень
 
 ## src/space_weather_pnt/
 
