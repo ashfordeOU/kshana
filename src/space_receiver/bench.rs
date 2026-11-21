@@ -179,6 +179,19 @@ pub struct CaseResult {
     pub max_outage_1_min: f64,
     /// Longest stretch under four signals, minutes.
     pub max_outage_4_min: f64,
+    /// Position DOP of the combined signals over the epochs with at least four: median, 95th
+    /// percentile and worst. MODELLED, with no published comparator: the ICG booklet (UN
+    /// ST/SPACE/75) gives no DOP figure.
+    pub pdop_median: Option<f64>,
+    pub pdop_p95: Option<f64>,
+    pub pdop_worst: Option<f64>,
+    /// The strongest link's C/N0 (dB-Hz) over the epochs with one: minimum, mean and maximum.
+    /// MODELLED, with no published comparator: the booklet tabulates no received C/N0 (its
+    /// figure 5.9 only plots one), only the specified minimum received powers, which
+    /// `xval/gnss-ssv` bar S0 already checks.
+    pub best_cn0_dbhz: Option<crate::ssv::sweep::Stat>,
+    /// Combined signals in view per epoch: minimum, mean and maximum.
+    pub signals_in_view: Option<crate::ssv::sweep::Stat>,
     /// Largest Doppler magnitude in view, Hz.
     pub max_doppler_hz: Option<f64>,
     /// Largest Doppler-rate magnitude in view, Hz/s.
@@ -244,11 +257,9 @@ pub fn run_case(case: &Case, profile: &Profile) -> Result<CaseResult, String> {
         ablation: Default::default(),
     };
     let r = run_trajectory(&cfg, &NoEffects)?;
-    let comb = r
-        .bands
-        .first()
-        .and_then(|b| b.groups.iter().find(|g| g.name == "combined"))
-        .map(|g| g.availability.clone());
+    let band = r.bands.first();
+    let group = band.and_then(|b| b.groups.iter().find(|g| g.name == "combined"));
+    let comb = group.map(|g| g.availability.clone());
     let (a1, a4, o1, o4) = comb
         .map(|a| {
             (
@@ -285,6 +296,11 @@ pub fn run_case(case: &Case, profile: &Profile) -> Result<CaseResult, String> {
         at_least_4_pct: a4,
         max_outage_1_min: o1,
         max_outage_4_min: o4,
+        pdop_median: band.and_then(|b| b.pdop_median),
+        pdop_p95: band.and_then(|b| b.pdop_p95),
+        pdop_worst: band.and_then(|b| b.pdop_worst),
+        best_cn0_dbhz: group.and_then(|g| g.best_cn0_dbhz.clone()),
+        signals_in_view: group.and_then(|g| g.signals_in_view.clone()),
         max_doppler_hz: max_d,
         max_doppler_rate_hz_s: max_r,
         relativity_us_per_day: rel.secular_us_per_day,
