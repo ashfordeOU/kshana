@@ -11,7 +11,11 @@ use std::path::{Path, PathBuf};
 use zeroize::Zeroizing;
 
 fn usage() -> String {
-    crate::t!("evidence-cli-usage")
+    format!(
+        "{}\n  {}",
+        crate::t!("evidence-cli-usage"),
+        crate::t!("evidence-dir-usage")
+    )
 }
 
 pub(crate) fn flag_value(args: &[String], name: &str) -> Result<Option<String>, String> {
@@ -172,6 +176,21 @@ fn read_pubkey(arg: &str, files: &Files) -> Result<[u8; 32], String> {
     Ok(key)
 }
 
+/// A trusted public key for `verify-dir --trust`: 64 hex digits, or a file holding them.
+fn read_trusted_key(arg: &str) -> Result<[u8; 32], String> {
+    let text = if arg.len() == 64 && arg.bytes().all(|b| b.is_ascii_hexdigit()) {
+        arg.to_string()
+    } else {
+        std::fs::read_to_string(arg).map_err(|e| {
+            crate::terr!("e-evidence-cli-pubkey-is-neither-64-hex", arg = arg, e = e)
+        })?
+    };
+    let mut k = [0u8; 32];
+    hex::decode_to_slice(text.trim(), &mut k)
+        .map_err(|_| crate::terr!("e-evidence-cli-pubkey-does-not-hold-hex", arg = arg))?;
+    Ok(k)
+}
+
 fn run_evidence_inner(args: &[String]) -> Result<i32, String> {
     match args.first().map(String::as_str) {
         Some("round-trip") => {
@@ -307,6 +326,49 @@ fn run_evidence_inner(args: &[String]) -> Result<i32, String> {
                 println!("{}", crate::t!("evidence-cli-this-is-technical-record-not"));
             }
             Ok(code)
+        }
+        Some("verify-dir") => {
+            let dir = args
+                .get(1)
+                .filter(|a| !a.starts_with("--"))
+                .ok_or_else(|| crate::terr!("e-evidence-dir-needs-directory"))?;
+            let mut trusted = Vec::new();
+            let mut i = 2;
+            while i < args.len() {
+                match args[i].as_str() {
+                    "--trust" => {
+                        let v = args.get(i + 1).ok_or_else(|| {
+                            crate::terr!("e-evidence-cli-needs-value", name = "--trust")
+                        })?;
+                        trusted.push(read_trusted_key(v)?);
+                        i += 2;
+                    }
+                    "--json" => i += 1,
+                    other => {
+                        return Err(crate::terr!(
+                            "e-evidence-dir-unknown-option",
+                            option = other.to_string()
+                        ))
+                    }
+                }
+            }
+            let rep = crate::evidence::signed_dir::verify_dir(Path::new(dir), &trusted)?;
+            if args.iter().any(|a| a == "--json") {
+                println!(
+                    "{}",
+                    serde_json::to_string_pretty(&rep).map_err(|e| e.to_string())?
+                );
+            } else {
+                println!("{}", crate::evidence::signed_dir::to_text(&rep));
+            }
+            // 0 passed, 1 a problem or a bad signature, 3 intact but the key is not trusted.
+            Ok(if rep.passed {
+                0
+            } else if rep.signature_valid && rep.problems.is_empty() {
+                3
+            } else {
+                1
+            })
         }
         Some("attach-timestamp") => {
             let dir = args.get(1).ok_or_else(|| {

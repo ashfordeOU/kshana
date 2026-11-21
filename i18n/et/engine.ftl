@@ -10825,6 +10825,24 @@ engine-e-tlog-key-and-history = andke --key või --key-history, mitte mõlemad
 engine-e-tlog-history-failed = võtmeajalugu { $path } ei kontrollu, seega ei saa see võtmeid anda
 engine-e-tlog-verification-failed = tlog { $command }: kontroll ebaõnnestus (ülal olev aruanne loetleb iga kontrolli)
 
+## Signed-directory verification (src/evidence/signed_dir.rs)
+engine-evidence-dir-usage = kshana evidence verify-dir <dir> [--trust <hex|file>]... [--json]   allkirjastatud kataloog (signature.json); väljumiskood 0 läbitud, 1 ebaõnnestus, 3 terve, kuid võti pole usaldatud
+engine-evidence-dir-statement = { $format }, allkirjastaja { $signer }, aeg { $utc }, võtme ID { $key_id }, loetletud faile { $n }
+engine-evidence-dir-signature-valid = PASS allkiri: Ed25519 võtmega { $key }
+engine-evidence-dir-signature-invalid = FAIL allkiri: ei kontrollu võtmega { $key }
+engine-evidence-dir-problem = FAIL { $p }
+engine-evidence-dir-longterm-present = märkus: longterm.json on olemas; see lisatakse pärast allkirjastamist, allkiri seda ei kata ja siin seda ei kontrollita
+engine-evidence-dir-unsigned-fields = märkus: signature.json väljad, mida allkiri ei kata: { $fields }
+engine-evidence-dir-envelope = tööpiirid { $key }: { $value } (ainult teadmiseks)
+engine-evidence-dir-passed = kontrollitud: allkiri kehtib, kõik failid klapivad ja võti on usaldatud
+engine-evidence-dir-intact-untrusted = terve, kuid usaldamata: allkiri ja kõik failid klapivad, kuid võtit { $key } ei antud --trust abil
+engine-evidence-dir-failed = kontrollimata: { $n } probleemi või allkiri ei kontrollu
+engine-e-evidence-dir-needs-directory = verify-dir vajab allkirjastatud kataloogi
+engine-e-evidence-dir-unknown-option = tundmatu valik { $option } käsule verify-dir (--trust <hex|file>, --json)
+engine-e-evidence-dir-cannot-read = faili { $path } ei saa lugeda: { $e }
+engine-e-evidence-dir-bad-json = { $path } pole kehtiv JSON: { $e }
+engine-e-evidence-dir-bad-field = signature.json: { $field } puudub või on vale kujuga
+
 engine-main-usage =
     kasutus: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }või: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]

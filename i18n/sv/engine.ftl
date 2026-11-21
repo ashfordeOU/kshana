@@ -10710,6 +10710,24 @@ engine-e-tlog-key-and-history = ange --key eller --key-history, inte båda
 engine-e-tlog-history-failed = nyckelhistoriken { $path } verifieras inte och kan därför inte ge nycklar
 engine-e-tlog-verification-failed = tlog { $command }: verifieringen misslyckades (rapporten ovan visar varje kontroll)
 
+## Signed-directory verification (src/evidence/signed_dir.rs)
+engine-evidence-dir-usage = kshana evidence verify-dir <dir> [--trust <hex|file>]... [--json]   signerad katalog (signature.json); exit 0 godkänd, 1 misslyckad, 3 intakt men nyckeln är inte betrodd
+engine-evidence-dir-statement = { $format } signerad av { $signer } { $utc }, nyckel-id { $key_id }, { $n } filer listade
+engine-evidence-dir-signature-valid = PASS signatur: Ed25519 med nyckel { $key }
+engine-evidence-dir-signature-invalid = FAIL signatur: verifieras inte med nyckel { $key }
+engine-evidence-dir-problem = FAIL { $p }
+engine-evidence-dir-longterm-present = obs: longterm.json finns; den läggs till efter signering, täcks inte av signaturen och kontrolleras inte här
+engine-evidence-dir-unsigned-fields = obs: fält i signature.json som signaturen inte täcker: { $fields }
+engine-evidence-dir-envelope = driftsram { $key }: { $value } (endast information)
+engine-evidence-dir-passed = verifierad: signaturen är giltig, alla filer stämmer och nyckeln är betrodd
+engine-evidence-dir-intact-untrusted = intakt men inte betrodd: signaturen och alla filer stämmer, men nyckeln { $key } angavs inte med --trust
+engine-evidence-dir-failed = inte verifierad: { $n } problem, eller signaturen verifieras inte
+engine-e-evidence-dir-needs-directory = verify-dir behöver den signerade katalogen
+engine-e-evidence-dir-unknown-option = okänt alternativ { $option } för verify-dir (--trust <hex|file>, --json)
+engine-e-evidence-dir-cannot-read = kan inte läsa { $path }: { $e }
+engine-e-evidence-dir-bad-json = { $path } är inte giltig JSON: { $e }
+engine-e-evidence-dir-bad-field = signature.json: { $field } saknas eller har fel form
+
 engine-main-usage =
     användning: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }eller: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]

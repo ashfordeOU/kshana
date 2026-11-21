@@ -1,0 +1,22 @@
+{
+  "format": "kshana-dossier-signature/1",
+  "signer": "Test signer (synthetic)",
+  "utc": "2026-11-21T10:00:00Z",
+  "public_key": "a729ef7c772d4bf0da7a88d434bc2d4003084c548641bdfa1e5bbc3c7fb2b209",
+  "key_id": "d1a061cbd94f3655",
+  "files": [
+    {
+      "path": "inputs/interference-and-forensics.txt",
+      "sha256": "54c2201ace0121eb224093d0571182f8439bca4192524a91fda1efcb355f7c12"
+    },
+    {
+      "path": "operating-envelope.json",
+      "sha256": "83e0b5e522ae8dfbc9e1c1f30cac8acf962de55ef4e4d068b0cef2a306accbfe"
+    },
+    {
+      "path": "report.json",
+      "sha256": "8f486b011fa4836f59617335e320cdca7a4b1af41613f853a78e65dbf1e79340"
+    }
+  ],
+  "signature": "e239e65296ac5a13a28145fe3388b117f7d05cedfb512c6e82184751e7e4b42b26a6cee946862c699d81716a038f12f450dae3d047a156fafa7384e59b11880e"
+}

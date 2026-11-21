@@ -1072,6 +1072,24 @@ fn tlog_inputs() {
 }
 
 #[test]
+fn signed_dir_statement() {
+    let seeds = vec![head("tests/fixtures/signed_dir/pack/signature.json", 60)];
+    static SEQ: std::sync::atomic::AtomicU64 = std::sync::atomic::AtomicU64::new(0);
+    let dir = std::env::temp_dir().join(format!(
+        "kshana-fuzz-signed-dir-{}-{}",
+        std::process::id(),
+        SEQ.fetch_add(1, std::sync::atomic::Ordering::Relaxed)
+    ));
+    std::fs::create_dir_all(&dir).unwrap();
+    std::fs::write(dir.join("a.txt"), "a").unwrap();
+    fuzz("signed-dir statement", &seeds, None, |b| {
+        std::fs::write(dir.join("signature.json"), b).unwrap();
+        let _ = kshana::evidence::signed_dir::verify_dir(&dir, &[]);
+    });
+    let _ = std::fs::remove_dir_all(&dir);
+}
+
+#[test]
 fn sil_obsgen_scenario() {
     let seeds = vec![head("examples/sil-obsgen/urban-canyon.toml", 60)];
     fuzz("sil-obsgen scenario", &seeds, None, |b| {

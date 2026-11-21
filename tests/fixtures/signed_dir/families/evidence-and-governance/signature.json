@@ -1,0 +1,22 @@
+{
+  "format": "kshana-dossier-signature/1",
+  "signer": "Test signer (synthetic)",
+  "utc": "2026-11-21T10:08:00Z",
+  "public_key": "a729ef7c772d4bf0da7a88d434bc2d4003084c548641bdfa1e5bbc3c7fb2b209",
+  "key_id": "d1a061cbd94f3655",
+  "files": [
+    {
+      "path": "inputs/evidence-and-governance.txt",
+      "sha256": "90cb2e87ed77be4d0b05e16eabe5adaed7da27e76dc6c0fad9e030c1128f34dd"
+    },
+    {
+      "path": "operating-envelope.json",
+      "sha256": "6437181fc1365cd18b8840f8466ee272946716cb3d3ba0e4783a584dffb1c518"
+    },
+    {
+      "path": "report.json",
+      "sha256": "a623a54e46e97fc49e7efac1cc042d311a1ab0c630efea048e0a5c3b51097537"
+    }
+  ],
+  "signature": "ee109c6652a131e256ccfa446c6dcbd1692c0be6053f18f500768b69d06f1db6e712185d6db998dac5ffe8d6a78ba027cbdd8b307b777b1e9431ce6404bdc909"
+}

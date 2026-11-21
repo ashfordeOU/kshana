@@ -10825,6 +10825,24 @@ engine-e-tlog-key-and-history = angiv --key eller --key-history, ikke begge
 engine-e-tlog-history-failed = nøglehistorikken { $path } verificeres ikke og kan derfor ikke levere nøgler
 engine-e-tlog-verification-failed = tlog { $command }: verifikationen fejlede (rapporten ovenfor viser hver kontrol)
 
+## Signed-directory verification (src/evidence/signed_dir.rs)
+engine-evidence-dir-usage = kshana evidence verify-dir <dir> [--trust <hex|file>]... [--json]   signeret mappe (signature.json); exit 0 bestået, 1 fejlet, 3 intakt, men nøglen er ikke betroet
+engine-evidence-dir-statement = { $format } signeret af { $signer } { $utc }, nøgle-id { $key_id }, { $n } filer opført
+engine-evidence-dir-signature-valid = PASS signatur: Ed25519 med nøgle { $key }
+engine-evidence-dir-signature-invalid = FAIL signatur: verificeres ikke med nøgle { $key }
+engine-evidence-dir-problem = FAIL { $p }
+engine-evidence-dir-longterm-present = bemærk: longterm.json findes; den tilføjes efter signering, er ikke dækket af signaturen og kontrolleres ikke her
+engine-evidence-dir-unsigned-fields = bemærk: felter i signature.json, som signaturen ikke dækker: { $fields }
+engine-evidence-dir-envelope = driftsramme { $key }: { $value } (kun til orientering)
+engine-evidence-dir-passed = verificeret: signaturen er gyldig, alle filer stemmer, og nøglen er betroet
+engine-evidence-dir-intact-untrusted = intakt, men ikke betroet: signaturen og alle filer stemmer, men nøglen { $key } blev ikke angivet med --trust
+engine-evidence-dir-failed = ikke verificeret: { $n } problem(er), eller signaturen verificeres ikke
+engine-e-evidence-dir-needs-directory = verify-dir kræver den signerede mappe
+engine-e-evidence-dir-unknown-option = ukendt tilvalg { $option } til verify-dir (--trust <hex|file>, --json)
+engine-e-evidence-dir-cannot-read = kan ikke læse { $path }: { $e }
+engine-e-evidence-dir-bad-json = { $path } er ikke gyldig JSON: { $e }
+engine-e-evidence-dir-bad-field = signature.json: { $field } mangler eller har forkert form
+
 engine-main-usage =
     brug: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }eller: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]

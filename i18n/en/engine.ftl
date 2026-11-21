@@ -10639,6 +10639,24 @@ engine-e-tlog-key-and-history = give --key or --key-history, not both
 engine-e-tlog-history-failed = the key history { $path } does not verify, so it cannot supply keys
 engine-e-tlog-verification-failed = tlog { $command }: verification failed (the report above lists each check)
 
+## Signed-directory verification (src/evidence/signed_dir.rs)
+engine-evidence-dir-usage = kshana evidence verify-dir <dir> [--trust <hex|file>]... [--json]   signed directory (signature.json); exit 0 passed, 1 failed, 3 intact but the key is not trusted
+engine-evidence-dir-statement = { $format } signed by { $signer } at { $utc }, key id { $key_id }, { $n } files listed
+engine-evidence-dir-signature-valid = PASS signature: Ed25519 with key { $key }
+engine-evidence-dir-signature-invalid = FAIL signature: does not verify with key { $key }
+engine-evidence-dir-problem = FAIL { $p }
+engine-evidence-dir-longterm-present = note: longterm.json is present; it is added after signing, is not covered by the signature and is not checked here
+engine-evidence-dir-unsigned-fields = note: fields of signature.json not covered by the signature: { $fields }
+engine-evidence-dir-envelope = operating envelope { $key }: { $value } (information only)
+engine-evidence-dir-passed = verified: the signature is valid, every file matches, and the key is trusted
+engine-evidence-dir-intact-untrusted = intact but not trusted: the signature and every file check out, but the key { $key } was not given with --trust
+engine-evidence-dir-failed = not verified: { $n } problem(s), or the signature does not verify
+engine-e-evidence-dir-needs-directory = verify-dir needs the signed directory
+engine-e-evidence-dir-unknown-option = unknown option { $option } for verify-dir (--trust <hex|file>, --json)
+engine-e-evidence-dir-cannot-read = cannot read { $path }: { $e }
+engine-e-evidence-dir-bad-json = { $path } is not valid JSON: { $e }
+engine-e-evidence-dir-bad-field = signature.json: { $field } is missing or has the wrong form
+
 engine-main-usage =
     usage: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }or: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]

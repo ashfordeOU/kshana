@@ -21071,5 +21071,185 @@
    },
    ": verification failed (the report above lists each check)"
   ]
+ },
+ {
+  "id": "evidence-dir-usage",
+  "error": false,
+  "parts": [
+   "kshana evidence verify-dir <dir> [--trust <hex|file>]... [--json]   signed directory (signature.json); exit 0 passed, 1 failed, 3 intact but the key is not trusted"
+  ]
+ },
+ {
+  "id": "evidence-dir-statement",
+  "error": false,
+  "parts": [
+   {
+    "var": "format"
+   },
+   " signed by ",
+   {
+    "var": "signer"
+   },
+   " at ",
+   {
+    "var": "utc"
+   },
+   ", key id ",
+   {
+    "var": "key_id"
+   },
+   ", ",
+   {
+    "var": "n"
+   },
+   " files listed"
+  ]
+ },
+ {
+  "id": "evidence-dir-signature-valid",
+  "error": false,
+  "parts": [
+   "PASS signature: Ed25519 with key ",
+   {
+    "var": "key"
+   }
+  ]
+ },
+ {
+  "id": "evidence-dir-signature-invalid",
+  "error": false,
+  "parts": [
+   "FAIL signature: does not verify with key ",
+   {
+    "var": "key"
+   }
+  ]
+ },
+ {
+  "id": "evidence-dir-problem",
+  "error": false,
+  "parts": [
+   "FAIL ",
+   {
+    "var": "p"
+   }
+  ]
+ },
+ {
+  "id": "evidence-dir-longterm-present",
+  "error": false,
+  "parts": [
+   "note: longterm.json is present; it is added after signing, is not covered by the signature and is not checked here"
+  ]
+ },
+ {
+  "id": "evidence-dir-unsigned-fields",
+  "error": false,
+  "parts": [
+   "note: fields of signature.json not covered by the signature: ",
+   {
+    "var": "fields"
+   }
+  ]
+ },
+ {
+  "id": "evidence-dir-envelope",
+  "error": false,
+  "parts": [
+   "operating envelope ",
+   {
+    "var": "key"
+   },
+   ": ",
+   {
+    "var": "value"
+   },
+   " (information only)"
+  ]
+ },
+ {
+  "id": "evidence-dir-passed",
+  "error": false,
+  "parts": [
+   "verified: the signature is valid, every file matches, and the key is trusted"
+  ]
+ },
+ {
+  "id": "evidence-dir-intact-untrusted",
+  "error": false,
+  "parts": [
+   "intact but not trusted: the signature and every file check out, but the key ",
+   {
+    "var": "key"
+   },
+   " was not given with --trust"
+  ]
+ },
+ {
+  "id": "evidence-dir-failed",
+  "error": false,
+  "parts": [
+   "not verified: ",
+   {
+    "var": "n"
+   },
+   " problem(s), or the signature does not verify"
+  ]
+ },
+ {
+  "id": "e-evidence-dir-needs-directory",
+  "error": true,
+  "parts": [
+   "verify-dir needs the signed directory"
+  ]
+ },
+ {
+  "id": "e-evidence-dir-unknown-option",
+  "error": true,
+  "parts": [
+   "unknown option ",
+   {
+    "var": "option"
+   },
+   " for verify-dir (--trust <hex|file>, --json)"
+  ]
+ },
+ {
+  "id": "e-evidence-dir-cannot-read",
+  "error": true,
+  "parts": [
+   "cannot read ",
+   {
+    "var": "path"
+   },
+   ": ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-evidence-dir-bad-json",
+  "error": true,
+  "parts": [
+   {
+    "var": "path"
+   },
+   " is not valid JSON: ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-evidence-dir-bad-field",
+  "error": true,
+  "parts": [
+   "signature.json: ",
+   {
+    "var": "field"
+   },
+   " is missing or has the wrong form"
+  ]
  }
 ]
