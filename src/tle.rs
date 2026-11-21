@@ -298,15 +298,24 @@ pub fn parse_tle_identity(line1: &str) -> Result<TleIdentity, String> {
     let epochdays: f64 = col(line1, 20, 32, "epoch day")?
         .parse()
         .map_err(|_| crate::terr!("e-tle-invalid-epoch-day-in-tle"))?;
-    let doy = epochdays.floor();
-    let sec_of_day = (epochdays - doy) * 86_400.0;
-    let hh = (sec_of_day / 3600.0).floor();
-    let mm = ((sec_of_day - hh * 3600.0) / 60.0).floor();
-    let ss = sec_of_day - hh * 3600.0 - mm * 60.0;
-    let doy_i = doy as u32;
-    let hh_i = hh as u32;
-    let mm_i = mm as u32;
-    let epoch_iso = format!("{year:04}-{doy_i:03}T{hh_i:02}:{mm_i:02}:{ss:09.6}");
+    // Split the day fraction in whole microseconds (the printed precision), so that a fraction
+    // a hair below a whole minute (00:09:00 is 539.9999999995 s in binary) prints as that
+    // minute, not as second 60, and one a hair below midnight carries into the next day.
+    let mut doy = epochdays.floor() as i64;
+    let mut us = ((epochdays - epochdays.floor()) * 86_400e6).round() as i64;
+    let mut year = year;
+    if us >= 86_400_000_000 {
+        us -= 86_400_000_000;
+        doy += 1;
+        let leap = (year % 4 == 0 && year % 100 != 0) || year % 400 == 0;
+        if doy > if leap { 366 } else { 365 } {
+            doy = 1;
+            year += 1;
+        }
+    }
+    let (hh_i, mm_i) = (us / 3_600_000_000, us / 60_000_000 % 60);
+    let ss = (us % 60_000_000) as f64 / 1e6;
+    let epoch_iso = format!("{year:04}-{doy:03}T{hh_i:02}:{mm_i:02}:{ss:09.6}");
 
     Ok(TleIdentity {
         norad_cat_id,
@@ -646,6 +655,27 @@ mod tests {
         assert_eq!(iss.norad_cat_id, 25544);
         assert_eq!(iss.intl_designator, "1998-067A");
         assert_eq!(iss.epoch_iso, "2024-001T00:00:00.000000");
+    }
+
+    #[test]
+    fn a_whole_minute_epoch_prints_as_that_minute() {
+        // Day 100.00625 is exactly 00:09:00, which in binary is 539.9999999995 s: it must print
+        // 00:09:00.000000, not 00:08:60.000000. A fraction a hair below midnight carries into
+        // the next day, and past the last day of the year into the next year.
+        let l1 =
+            |epoch: &str| format!("1 25544U 98067A   {epoch}  .00000000  00000-0  00000-0 0  9990");
+        assert_eq!(
+            parse_tle_identity(&l1("24100.00625000")).unwrap().epoch_iso,
+            "2024-100T00:09:00.000000"
+        );
+        assert_eq!(
+            parse_tle_identity(&l1("24200.01250000")).unwrap().epoch_iso,
+            "2024-200T00:18:00.000000"
+        );
+        assert_eq!(
+            parse_tle_identity(&l1("24366.99999999")).unwrap().epoch_iso,
+            "2024-366T23:59:59.999136"
+        );
     }
 
     #[test]
