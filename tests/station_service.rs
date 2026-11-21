@@ -99,7 +99,8 @@ fn get(addr: std::net::SocketAddr, path: &str, token: Option<&str>) -> (u16, Str
     s.read_to_string(&mut out).unwrap();
     assert!(
         out.len() >= 12 && out.starts_with("HTTP/1.1 "),
-        "no HTTP status line from {path}: {out:?}"
+        "no HTTP status line from {path} ({} bytes received; the response itself is not logged)",
+        out.len()
     );
     (
         out[9..12].parse().unwrap(),
@@ -335,7 +336,11 @@ fn a_request_head_sent_in_pieces_is_read_whole() {
         .unwrap();
     let mut out = String::new();
     s.read_to_string(&mut out).unwrap();
-    assert!(out.starts_with("HTTP/1.1 200"), "{out:?}");
+    assert!(
+        out.starts_with("HTTP/1.1 200"),
+        "the status server did not answer 200 ({} bytes received; the response itself is not logged)",
+        out.len()
+    );
     assert!(out.contains("kshana.station-status/1"));
     h.stop();
 }
