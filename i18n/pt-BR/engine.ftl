@@ -12282,6 +12282,7 @@ engine-bench-golden-written = gravado { $path } ({ $n } arquivos congelados)
 engine-bench-site-title-f = Tarefa (f): detecção de anomalias em telemetria de espaçonaves
 
 engine-bench-site-title-g = Tarefa (g): exatidão de posicionamento em smartphones
+engine-bench-site-title-h = Tarefa (h): precisão de posicionamento urbano
 
 engine-bench-site-col-ap = Precisão média
 

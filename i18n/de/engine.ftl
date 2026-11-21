@@ -12039,6 +12039,7 @@ engine-bench-golden-written = { $path } geschrieben ({ $n } eingefrorene Dateien
 engine-bench-site-title-f = Aufgabe (f): Anomalieerkennung in Raumfahrzeug-Telemetrie
 
 engine-bench-site-title-g = Aufgabe (g): Positionsgenauigkeit von Smartphones
+engine-bench-site-title-h = Aufgabe (h): Positionierungsgenauigkeit in der Stadt
 
 engine-bench-site-col-ap = Durchschnittliche Präzision
 

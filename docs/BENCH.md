@@ -38,7 +38,8 @@ Task (e) is described in [`guides/BENCHMARK-CLASSES.md`](guides/BENCHMARK-CLASSE
 baseline number yet: no copy of the data has been scored here.
 Task (h): [`xval/bench-h/PREREGISTRATION.md`](../xval/bench-h/PREREGISTRATION.md) and
 [`RESULTS.md`](../xval/bench-h/RESULTS.md); test `gsdc_score_m` 31.98 m for the receivers' own NMEA fixes and 59.12 m
-for the engine's single-frequency code SPP (MODELLED; bar H1 NOT MET, explained there).
+for the engine's single-frequency code SPP (MODELLED; bar H1 NOT MET, explained there). The four task (h) result files
+are committed (`bench/results/h-*.result.json`, in `bench/GOLDEN.json`): scores per trace only, no position.
 
 ## Commands
 

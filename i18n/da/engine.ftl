@@ -12047,6 +12047,7 @@ engine-bench-golden-written = skrev { $path } ({ $n } frosne filer)
 engine-bench-site-title-f = Opgave (f): anomalidetektion i rumfartøjstelemetri
 
 engine-bench-site-title-g = Opgave (g): positioneringsnøjagtighed for smartphones
+engine-bench-site-title-h = Opgave (h): positioneringsnøjagtighed i by
 
 engine-bench-site-col-ap = Gennemsnitlig præcision
 

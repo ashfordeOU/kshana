@@ -33,7 +33,7 @@ fn num(v: Option<&Value>, digits: usize) -> String {
 }
 
 /// The tasks in page order.
-const TASKS: [&str; 6] = ["a", "b", "c", "d", "f", "g"];
+const TASKS: [&str; 7] = ["a", "b", "c", "d", "f", "g", "h"];
 
 /// The heading of a task's section, in the current language.
 fn task_title(task: &str) -> String {
@@ -44,6 +44,7 @@ fn task_title(task: &str) -> String {
         "d" => crate::t!("bench-site-title-d"),
         "f" => crate::t!("bench-site-title-f"),
         "g" => crate::t!("bench-site-title-g"),
+        "h" => crate::t!("bench-site-title-h"),
         other => other.to_string(),
     }
 }
@@ -53,7 +54,7 @@ fn sort_key(task: &str, r: &Value) -> f64 {
     let f = |p: &str| m.pointer(p).and_then(Value::as_f64).unwrap_or(f64::NAN);
     let k = match task {
         "c" => f("/primary_rmse_3600_ns"),
-        "g" => f("/gsdc_score_m"),
+        "g" | "h" => f("/gsdc_score_m"),
         "d" => -f("/auc_out"),
         _ => -f("/auc"),
     };
@@ -82,7 +83,7 @@ fn columns(task: &str) -> Vec<String> {
             crate::t!("bench-site-col-ap"),
             crate::t!("bench-site-col-pd-at-pfa-cap"),
         ],
-        "g" => vec![
+        "g" | "h" => vec![
             crate::t!("bench-site-col-gsdc-score"),
             crate::t!("bench-site-col-p50"),
             crate::t!("bench-site-col-p95"),
@@ -125,7 +126,7 @@ fn cells(task: &str, r: &Value) -> Vec<String> {
             num(m.get("average_precision"), 3),
             num(m.get("pd_at_pfa_cap"), 3),
         ],
-        "g" => vec![
+        "g" | "h" => vec![
             num(m.get("gsdc_score_m"), 3),
             num(m.get("pooled_p50_m"), 3),
             num(m.get("pooled_p95_m"), 3),
@@ -187,6 +188,12 @@ fn render(results: &[Value], fragment: bool) -> Result<String, BenchError> {
             return Err(BenchError(crate::t!(
                 "bench-site-holdout-not-private",
                 v1 = i + 1
+            )));
+        }
+        if r["split"] == "holdout" && r["task"] == "h" {
+            return Err(BenchError(crate::t!(
+                "bench-task-has-no-holdout",
+                task = "h"
             )));
         }
         let v = r["spec_version"].as_str().unwrap_or("");

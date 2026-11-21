@@ -12095,6 +12095,7 @@ engine-bench-golden-written = zapsáno { $path } (zmrazených souborů: { $n })
 engine-bench-site-title-f = Úloha (f): detekce anomálií v telemetrii kosmické lodi
 
 engine-bench-site-title-g = Úloha (g): přesnost určování polohy chytrých telefonů
+engine-bench-site-title-h = Úloha (h): přesnost určování polohy ve městě
 
 engine-bench-site-col-ap = Průměrná přesnost
 

@@ -11761,6 +11761,7 @@ engine-bench-golden-written = kirjoitettu { $path } ({ $n } jäädytettyä tiedo
 engine-bench-site-title-f = Tehtävä (f): avaruusaluksen telemetrian poikkeamien havaitseminen
 
 engine-bench-site-title-g = Tehtävä (g): älypuhelimen paikannustarkkuus
+engine-bench-site-title-h = Tehtävä (h): paikannustarkkuus kaupungissa
 
 engine-bench-site-col-ap = Keskimääräinen tarkkuus
 

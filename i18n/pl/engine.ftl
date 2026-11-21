@@ -12260,6 +12260,7 @@ engine-bench-golden-written = zapisano { $path } (zamrożonych plików: { $n })
 engine-bench-site-title-f = Zadanie (f): wykrywanie anomalii w telemetrii statku kosmicznego
 
 engine-bench-site-title-g = Zadanie (g): dokładność pozycjonowania smartfonów
+engine-bench-site-title-h = Zadanie (h): dokładność pozycjonowania w mieście
 
 engine-bench-site-col-ap = Średnia precyzja
 

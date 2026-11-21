@@ -12017,6 +12017,7 @@ engine-bench-golden-written = kirjutatud { $path } ({ $n } külmutatud faili)
 engine-bench-site-title-f = Ülesanne (f): kosmosesõiduki telemeetria anomaaliate tuvastamine
 
 engine-bench-site-title-g = Ülesanne (g): nutitelefoni positsioneerimise täpsus
+engine-bench-site-title-h = Ülesanne (h): positsioneerimise täpsus linnas
 
 engine-bench-site-col-ap = Keskmine täpsus
 
