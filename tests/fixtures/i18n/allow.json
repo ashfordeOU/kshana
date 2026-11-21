@@ -54,8 +54,8 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/api.rs": {
-   "count": 994,
-   "reason": "identifier and machine-format: kind ids and TOML field names of the kind catalogue; the descriptions of the new lunar, mission-thread and tip-and-cue kinds are served by list_scenario_kinds and move to the catalogue with the kind descriptions (tests/i18n_kinds.rs); the allow_unregistered_time_system field name of lunar-interop-export; the gnss-sim slot_sets and slots field names."
+   "count": 995,
+   "reason": "identifier and machine-format: kind ids and TOML field names of the kind catalogue; the descriptions of the new lunar, mission-thread and tip-and-cue kinds are served by list_scenario_kinds and move to the catalogue with the kind descriptions (tests/i18n_kinds.rs); the allow_unregistered_time_system field name of lunar-interop-export; the gnss-sim slot_sets and slots field names identifier and machine-format: kind ids and TOML field names of the kind catalogue; the descriptions of the new lunar, mission-thread and tip-and-cue kinds are served by list_scenario_kinds and move to the catalogue with the kind descriptions (tests/i18n_kinds.rs); the allow_unregistered_time_system and epoch_tdb field names of lunar-interop-export."
   },
   "src/api/builtins.rs": {
    "count": 88,
@@ -1150,8 +1150,8 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/lunar_interop.rs": {
-   "count": 29,
-   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md); the OEM COMMENT lines stating the frame realisation and an unregistered TIME_SYSTEM (CCSDS keyword text, English like the OEM)."
+   "count": 30,
+   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md); the OEM COMMENT lines stating the frame realisation and an unregistered TIME_SYSTEM (CCSDS keyword text, English like the OEM); the ICRF REF_FRAME token."
   },
   "src/lunar_jamming.rs": {
    "count": 164,

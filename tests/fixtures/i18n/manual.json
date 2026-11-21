@@ -14041,7 +14041,7 @@
   "id": "kind-lunar-interop-export-description",
   "error": false,
   "parts": [
-   "Modelled lunar interoperability export: emits the lunar reference frame, lunar time scale and lunar ephemeris in LunaNet/IOAG-aligned, CCSDS-based interchange forms with round-trip / field conformance. REUSES the crate's CCSDS OEM 2.0 emitter+parser (crate::oem) re-tagged for the lunar context — the OEM REF_FRAME carries the lunar body frame under its SANA-registered name (MOON_ME, or MOON_PA440 for the DE440 principal axes), TIME_SYSTEM is TDB by default (UTC too; the unregistered lunar tokens LTC / TCL only with allow_unregistered_time_system = true, and a COMMENT then says so), CENTER_NAME = MOON — over a sample illustrative LCNS-class ephemeris (positions from crate::lunar_service, velocity by finite difference) rotated from Moon-centred inertial axes into the named frame with the DE440 orientation. Also emits a LunaNet/IOAG-aligned lunar-time descriptor (scale id, secular rate µs/day from crate::lunar_time, published band, reference surface) that round-trips via serde_json, and wraps the artifacts in the existing KIF envelope (crate::interchange) with the MODELLED honesty label. Reports artifacts emitted, OEM line count, field-conformance pass + present/missing field list, OEM round-trip ok, time-metadata round-trip ok, and KIF byte size. MODELLED — deterministic round-trip + field-name conformance vs published CCSDS OEM + LunaNet/IOAG field semantics is the oracle; NOT a certified interoperability conformance test; illustrative public-source ephemeris, not affiliated with ESA; no TRL/heritage/agency endorsement."
+   "Modelled lunar interoperability export: emits the lunar reference frame, lunar time scale and lunar ephemeris in LunaNet/IOAG-aligned, CCSDS-based interchange forms with round-trip / field conformance. REUSES the crate's CCSDS OEM 2.0 emitter+parser (crate::oem) re-tagged for the lunar context — the OEM REF_FRAME carries the lunar body frame under its SANA-registered name (MOON_ME, or MOON_PA440 for the DE440 principal axes) when epoch_tdb is given, otherwise REF_FRAME = ICRF with the states unrotated, TIME_SYSTEM is TDB by default (UTC too; the unregistered lunar tokens LTC / TCL only with allow_unregistered_time_system = true, and a COMMENT then says so), CENTER_NAME = MOON — over a sample illustrative LCNS-class ephemeris (positions from crate::lunar_service, velocity by finite difference) rotated from Moon-centred inertial axes into the named frame with the DE440 orientation. Also emits a LunaNet/IOAG-aligned lunar-time descriptor (scale id, secular rate µs/day from crate::lunar_time, published band, reference surface) that round-trips via serde_json, and wraps the artifacts in the existing KIF envelope (crate::interchange) with the MODELLED honesty label. Reports artifacts emitted, OEM line count, field-conformance pass + present/missing field list, OEM round-trip ok, time-metadata round-trip ok, and KIF byte size. MODELLED — deterministic round-trip + field-name conformance vs published CCSDS OEM + LunaNet/IOAG field semantics is the oracle; NOT a certified interoperability conformance test; illustrative public-source ephemeris, not affiliated with ESA; no TRL/heritage/agency endorsement."
   ]
  },
  {
@@ -20608,7 +20608,39 @@
    {
     "var": "frame"
    },
-   " (MOON_ME or MOON_PA440; MOON_PA is read as MOON_PA440)"
+   " (ICRF, MOON_ME or MOON_PA440; MOON_PA is read as MOON_PA440)"
+  ]
+ },
+ {
+  "id": "e-lunar-interop-body-frame-needs-epoch",
+  "error": true,
+  "parts": [
+   "REF_FRAME ",
+   {
+    "var": "frame"
+   },
+   " turns with the Moon: the inertial states can be rotated into it only at an absolute epoch; set epoch_tdb, or write ICRF (the states' own frame)"
+  ]
+ },
+ {
+  "id": "e-lunar-interop-epoch-needs-tdb",
+  "error": true,
+  "parts": [
+   "epoch_tdb anchors the grid in TDB: set time_system = TDB, not ",
+   {
+    "var": "time_system"
+   }
+  ]
+ },
+ {
+  "id": "e-lunar-interop-bad-epoch",
+  "error": true,
+  "parts": [
+   "epoch_tdb ",
+   {
+    "var": "epoch"
+   },
+   " is not a YYYY-MM-DDTHH:MM:SS date"
   ]
  },
  {
