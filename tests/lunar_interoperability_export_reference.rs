@@ -78,7 +78,17 @@ const VEL_TOL_KM_S: f64 = 1e-9; // 1 µm/s
 /// `lunar_interop::sample_lunar_states`): analytic MCI position + central-difference
 /// velocity, pinned here to explicit inputs.
 fn grid(sat_index: usize, n: usize, step_s: f64, frame: LunarFrameId) -> Vec<EphemState> {
-    in_frame(&inertial_grid(sat_index, n, step_s), frame)
+    // The grid's 2030-01-01T00:00:00 label read as the TDB epoch, as the bundled scenario's
+    // `epoch_tdb` states it.
+    let start = kshana::rinex::EpochUtc {
+        year: 2030,
+        month: 1,
+        day: 1,
+        hour: 0,
+        minute: 0,
+        second: 0.0,
+    };
+    in_frame(&inertial_grid(sat_index, n, step_s), frame, &start).expect("inside the DE440 span")
 }
 
 fn inertial_grid(sat_index: usize, n: usize, step_s: f64) -> Vec<EphemState> {

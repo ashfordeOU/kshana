@@ -67,14 +67,20 @@ the lunar surface, written in ICRF, comes out at rest in `MOON_PA440` to better 
 
 `lunar_interop` (the `lunar-interop-export` scenario kind) writes the same registered names:
 
-* `REF_FRAME` is `MOON_ME` or `MOON_PA440`, and a `COMMENT` states the realisation.
+* `REF_FRAME` is `ICRF` by default (Moon-centred, ICRF axes): the sample states are written as
+  computed, unrotated.
+* `REF_FRAME` is `MOON_ME` or `MOON_PA440` only when the scenario gives `epoch_tdb`, the absolute
+  TDB epoch of the first state. The states are then rotated into that body frame at each state's
+  epoch with the orientation used here, and a `COMMENT` states the realisation. A body frame
+  without `epoch_tdb`, or a grid that reaches outside the DE440 orientation span (2014 to 2030),
+  is refused rather than written with inertial values under a body-frame label.
+* `epoch_tdb` requires `time_system = "TDB"`.
 * `TIME_SYSTEM` is `TDB` by default, or `UTC`.
 * `LTC` and `TCL` are written only with `allow_unregistered_time_system = true`, and a `COMMENT`
   says the value is not SANA-registered.
 
-Its sample states are rotated from Moon-centred inertial axes into the named body frame with the
-orientation used here. A test converts the written file back to ICRF through this module and gets
-the inertial states back.
+A test converts a body-frame file back to ICRF through this module and gets the inertial states
+back. The bundled scenario sets `epoch_tdb = "2030-01-01T00:00:00"` and keeps `MOON_ME`.
 
 Two independent readers decode the default export: `oem` 0.4.5 and Orekit 12.2
 (`tests/lunar_interop_oem_oracle.rs`). Orekit still refuses `LTC`.
