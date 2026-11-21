@@ -30,6 +30,25 @@ canonical JSON without the version field. `verify` recomputes it and exits 1 whe
 changed atlas is detected. `--previous` names the atlas this one supersedes (after verifying it) and
 records its version, so versions form a chain and none is edited in place.
 
+The inputs may be map products (`kshana interference-map`) or the observatory day products of
+`kshana interference-map daily` (whose cells carry `state`; `not_observed` is not a call). The atlas carries
+the licence and attribution blocks of its inputs in `data_sources`: an atlas built from adsb.lol data is a
+Derived Database under ODbL 1.0, as the day products are.
+
+### From adsb.lol history to an atlas in one command
+
+```
+scripts/interference_atlas_days.sh <first-day YYYY-MM-DD> <days> <out-dir> [south,west,north,east]
+```
+
+For each UTC day it fetches the adsb.lol readsb archive (`scripts/fetch_adsblol_day.sh`), runs
+`kshana interference-map daily` over the region (default the Baltic box) and keeps only the day products
+(`scripts/observatory_backcatalogue.sh`); then it builds and verifies `atlas.json` and writes `NOTICE.txt`
+with the ODbL attribution and the derived-database terms. A day of archive is about 4 GB and is deleted
+after its product is made; nothing goes into the repository. The archive parts of a day are checked against
+the SHA-256 pinned in `docs/observatory/back-catalogue/fetch/` when the day is pinned (2026-09-15 for 30
+days is), and recorded otherwise; a part that does not match stops the run. MODELLED, as the atlas.
+
 ## The station C/N0 layer (`cors`)
 
 Two RINEX observation files of the same station (an IGS, EPN or CORS station, or any receiver that
