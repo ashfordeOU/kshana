@@ -340,9 +340,16 @@ impl LivenessMonitor {
                 self.station = Some(s);
             }
             for m in d.msm {
-                let ep =
+                let raw =
                     f64::from(m.epoch_ms) + m.glonass_day.map_or(0.0, |d| f64::from(d) * DAY_MS);
                 let e = self.epochs.entry(msg).or_default();
+                // The epoch restarts every week (GPS, Galileo, BeiDou time of week; GLONASS day
+                // of week and time of day): unwrap it against the previous epoch of the stream,
+                // so a session across the rollover keeps a positive span.
+                let ep = match e.last() {
+                    Some(&last) => last + wrapped(raw, last.rem_euclid(WEEK_MS), WEEK_MS),
+                    None => raw,
+                };
                 if e.last() != Some(&ep) {
                     e.push(ep);
                     if let Some(c) = clock {
