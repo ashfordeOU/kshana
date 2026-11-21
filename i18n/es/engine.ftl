@@ -10881,6 +10881,32 @@ engine-e-lunar-afs-kit-bad-registry = el registro no es una lista de asignacione
 engine-e-lunar-afs-kit-bad-vectors = no es un archivo kshana.afs-vectors/1: { $e }
 engine-e-lunar-afs-kit-bad-message = una línea no es un mensaje kshana.lunar-pnt-output/1 con época, sistema de referencia y posición
 
+## ADS-B interference indicators (src/adsb_indicators.rs)
+engine-adsb-indicators-usage = uso: kshana adsb-indicators <adsb.csv> [--cell-deg <d>] [--out <indicators.json>]  (docs/ADSB-INDICATORS.md)
+engine-adsb-indicators-summary = { $n } celdas publicadas marcadas (MODELLED; no se nombra ninguna causa)
+engine-e-adsb-indicators-missing-value = { $option } necesita un valor
+engine-e-adsb-indicators-unknown-option = opción desconocida { $option } (kshana adsb-indicators --help enumera las opciones)
+engine-e-adsb-indicators-bad-cell = el tamaño de celda debe estar entre 0,01 y 10 grados, no { $value }
+engine-e-adsb-indicators-cannot-read = no se puede leer { $path }: { $e }
+engine-e-adsb-indicators-cannot-write = no se puede escribir { $path }: { $e }
+engine-e-adsb-indicators-missing-column = el CSV de ADS-B no tiene la columna { $name }
+
+## Interference atlas and station C/N0 layer (src/interference_atlas.rs)
+engine-interference-atlas-usage = uso: kshana interference-atlas build <day.geojson>... [--previous <atlas.json>] [--out <atlas.json>] | verify <atlas.json> | cors <today.obs> --baseline <earlier.obs> [--adsb-day <day.geojson>] [--station <lat,lon>] [--out <layer.json>]  (docs/INTERFERENCE-ATLAS.md)
+engine-interference-atlas-built = { $n_cells } celdas, { $n_zones } zonas; versión { $version } (MODELLED)
+engine-interference-atlas-verified = { $path }: la versión coincide con el contenido
+engine-e-interference-atlas-missing-value = { $option } necesita un valor
+engine-e-interference-atlas-unknown-option = opción desconocida { $option } (kshana interference-atlas --help enumera las opciones)
+engine-e-interference-atlas-cannot-read = no se puede leer { $path }: { $e }
+engine-e-interference-atlas-cannot-write = no se puede escribir { $path }: { $e }
+engine-e-interference-atlas-not-a-product = { $path } no es un producto diario del mapa de interferencias ni un atlas
+engine-e-interference-atlas-mixed = los productos diarios mezclan cuadrículas o fuentes
+engine-e-interference-atlas-empty = no se indicó ningún producto diario
+engine-e-interference-atlas-changed = { $path }: la versión no coincide con el contenido (el atlas se modificó)
+engine-e-interference-atlas-bad-obs = { $path } no es un archivo de observación RINEX: { $e }
+engine-e-interference-atlas-no-cn0 = los dos archivos de observación no comparten ningún satélite GPS con C/N0 separado una repetición de traza
+engine-e-interference-atlas-bad-station = la estación necesita lat,lon en grados (o una posición aproximada en la cabecera de observación), no { $value }
+
 engine-main-usage =
     uso:  kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }o: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10933,6 +10959,8 @@ engine-main-usage =
     { "   " }o: kshana antenna-cal <lint|spread|compare|group-delay|js-margin> ... (kshana antenna-cal --help)
     { "   " }o: kshana quantum-bench <protocol|simulate|score> ... (kshana quantum-bench --help)
     { "   " }o: kshana soop-clock <lte|cp|synth-lte> ... (kshana soop-clock --help)
+    { "   " }o: kshana adsb-indicators <adsb.csv> [--cell-deg <d>] [--out <indicators.json>]
+    { "   " }o: kshana interference-atlas <build|verify|cors> ... (kshana interference-atlas --help)
     { "   " }o: kshana kinds [--json]
     { "   " }o: kshana example [<name>]
     { "   " }o: kshana --help | --version

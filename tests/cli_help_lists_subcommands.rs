@@ -47,6 +47,8 @@ fn the_top_level_usage_names_every_subcommand() {
         "lunar-ref",
         "quantum-bench",
         "soop-clock",
+        "adsb-indicators",
+        "interference-atlas",
         "corrections",
         "space-weather",
         "rtk-qa",

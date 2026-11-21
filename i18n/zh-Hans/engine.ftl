@@ -9946,6 +9946,32 @@ engine-e-lunar-afs-kit-bad-registry = 注册表不是 [[node]] 分配列表：{ 
 engine-e-lunar-afs-kit-bad-vectors = 不是 kshana.afs-vectors/1 文件：{ $e }
 engine-e-lunar-afs-kit-bad-message = 有一行不是包含历元、参考系和位置的 kshana.lunar-pnt-output/1 消息
 
+## ADS-B interference indicators (src/adsb_indicators.rs)
+engine-adsb-indicators-usage = 用法：kshana adsb-indicators <adsb.csv> [--cell-deg <d>] [--out <indicators.json>]  (docs/ADSB-INDICATORS.md)
+engine-adsb-indicators-summary = 已标记 { $n } 个已发布网格（MODELLED；不指明原因）
+engine-e-adsb-indicators-missing-value = { $option } 需要一个值
+engine-e-adsb-indicators-unknown-option = 未知选项 { $option }（kshana adsb-indicators --help 列出所有选项）
+engine-e-adsb-indicators-bad-cell = 网格大小须为 0.01 至 10 度，而不是 { $value }
+engine-e-adsb-indicators-cannot-read = 无法读取 { $path }：{ $e }
+engine-e-adsb-indicators-cannot-write = 无法写入 { $path }：{ $e }
+engine-e-adsb-indicators-missing-column = ADS-B CSV 中没有 { $name } 列
+
+## Interference atlas and station C/N0 layer (src/interference_atlas.rs)
+engine-interference-atlas-usage = 用法：kshana interference-atlas build <day.geojson>... [--previous <atlas.json>] [--out <atlas.json>] | verify <atlas.json> | cors <today.obs> --baseline <earlier.obs> [--adsb-day <day.geojson>] [--station <lat,lon>] [--out <layer.json>]  (docs/INTERFERENCE-ATLAS.md)
+engine-interference-atlas-built = { $n_cells } 个网格，{ $n_zones } 个区域；版本 { $version } (MODELLED)
+engine-interference-atlas-verified = { $path }：版本与内容一致
+engine-e-interference-atlas-missing-value = { $option } 需要一个值
+engine-e-interference-atlas-unknown-option = 未知选项 { $option }（kshana interference-atlas --help 列出所有选项）
+engine-e-interference-atlas-cannot-read = 无法读取 { $path }：{ $e }
+engine-e-interference-atlas-cannot-write = 无法写入 { $path }：{ $e }
+engine-e-interference-atlas-not-a-product = { $path } 既不是干扰地图的日产品，也不是图集
+engine-e-interference-atlas-mixed = 日产品混用了不同网格或来源
+engine-e-interference-atlas-empty = 未提供任何日产品
+engine-e-interference-atlas-changed = { $path }：版本与内容不一致（图集已被更改）
+engine-e-interference-atlas-bad-obs = { $path } 不是 RINEX 观测文件：{ $e }
+engine-e-interference-atlas-no-cn0 = 两个观测文件中没有相隔一个地面轨迹重复周期且带 C/N0 的共同 GPS 卫星
+engine-e-interference-atlas-bad-station = 测站需要以度表示的 lat,lon（或观测文件头中的概略位置），而不是 { $value }
+
 engine-main-usage =
     用法：kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }或：kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -9998,6 +10024,8 @@ engine-main-usage =
     { "   " }或：kshana antenna-cal <lint|spread|compare|group-delay|js-margin> ... (kshana antenna-cal --help)
     { "   " }或：kshana quantum-bench <protocol|simulate|score> ... (kshana quantum-bench --help)
     { "   " }或：kshana soop-clock <lte|cp|synth-lte> ... (kshana soop-clock --help)
+    { "   " }或：kshana adsb-indicators <adsb.csv> [--cell-deg <d>] [--out <indicators.json>]
+    { "   " }或：kshana interference-atlas <build|verify|cors> ... (kshana interference-atlas --help)
     { "   " }或：kshana kinds [--json]
     { "   " }或：kshana example [<name>]
     { "   " }或：kshana --help | --version

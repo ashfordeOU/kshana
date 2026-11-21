@@ -10663,6 +10663,32 @@ engine-e-lunar-afs-kit-bad-registry = register ei ole [[node]] eraldiste loend: 
 engine-e-lunar-afs-kit-bad-vectors = ei ole kshana.afs-vectors/1 fail: { $e }
 engine-e-lunar-afs-kit-bad-message = rida ei ole kshana.lunar-pnt-output/1 sõnum epohhi, tugisüsteemi ja asukohaga
 
+## ADS-B interference indicators (src/adsb_indicators.rs)
+engine-adsb-indicators-usage = kasutus: kshana adsb-indicators <adsb.csv> [--cell-deg <d>] [--out <indicators.json>]  (docs/ADSB-INDICATORS.md)
+engine-adsb-indicators-summary = { $n } avaldatud lahtrit märgistatud (MODELLED; põhjust ei nimetata)
+engine-e-adsb-indicators-missing-value = { $option } vajab väärtust
+engine-e-adsb-indicators-unknown-option = tundmatu valik { $option } (valikud loetleb kshana adsb-indicators --help)
+engine-e-adsb-indicators-bad-cell = lahtri suurus peab olema 0,01 kuni 10 kraadi, mitte { $value }
+engine-e-adsb-indicators-cannot-read = faili { $path } ei saa lugeda: { $e }
+engine-e-adsb-indicators-cannot-write = faili { $path } ei saa kirjutada: { $e }
+engine-e-adsb-indicators-missing-column = ADS-B CSV-failis pole veergu { $name }
+
+## Interference atlas and station C/N0 layer (src/interference_atlas.rs)
+engine-interference-atlas-usage = kasutus: kshana interference-atlas build <day.geojson>... [--previous <atlas.json>] [--out <atlas.json>] | verify <atlas.json> | cors <today.obs> --baseline <earlier.obs> [--adsb-day <day.geojson>] [--station <lat,lon>] [--out <layer.json>]  (docs/INTERFERENCE-ATLAS.md)
+engine-interference-atlas-built = { $n_cells } lahtrit, { $n_zones } tsooni; versioon { $version } (MODELLED)
+engine-interference-atlas-verified = { $path }: versioon vastab sisule
+engine-e-interference-atlas-missing-value = { $option } vajab väärtust
+engine-e-interference-atlas-unknown-option = tundmatu valik { $option } (valikud loetleb kshana interference-atlas --help)
+engine-e-interference-atlas-cannot-read = faili { $path } ei saa lugeda: { $e }
+engine-e-interference-atlas-cannot-write = faili { $path } ei saa kirjutada: { $e }
+engine-e-interference-atlas-not-a-product = { $path } ei ole häirekaardi päevatoode ega atlas
+engine-e-interference-atlas-mixed = päevatooted segavad võrgustikke või allikaid
+engine-e-interference-atlas-empty = ühtegi päevatoodet ei antud
+engine-e-interference-atlas-changed = { $path }: versioon ei vasta sisule (atlast on muudetud)
+engine-e-interference-atlas-bad-obs = { $path } ei ole RINEX-vaatlusfail: { $e }
+engine-e-interference-atlas-no-cn0 = kahes vaatlusfailis pole ühtegi GPS-satelliiti C/N0-ga, mis oleks ühe maajälje korduse kaugusel
+engine-e-interference-atlas-bad-station = jaam vajab lat,lon kraadides (või ligikaudset asukohta vaatluse päises), mitte { $value }
+
 engine-main-usage =
     kasutus: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }või: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10715,6 +10741,8 @@ engine-main-usage =
     { "   " }või: kshana antenna-cal <lint|spread|compare|group-delay|js-margin> ... (kshana antenna-cal --help)
     { "   " }või: kshana quantum-bench <protocol|simulate|score> ... (kshana quantum-bench --help)
     { "   " }või: kshana soop-clock <lte|cp|synth-lte> ... (kshana soop-clock --help)
+    { "   " }või: kshana adsb-indicators <adsb.csv> [--cell-deg <d>] [--out <indicators.json>]
+    { "   " }või: kshana interference-atlas <build|verify|cors> ... (kshana interference-atlas --help)
     { "   " }või: kshana kinds [--json]
     { "   " }või: kshana example [<name>]
     { "   " }või: kshana --help | --version
