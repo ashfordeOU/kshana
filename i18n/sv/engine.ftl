@@ -11640,6 +11640,7 @@ engine-bench-golden-written = skrev { $path } ({ $n } frysta filer)
 engine-bench-site-title-f = Uppgift (f): avvikelsedetektering i rymdfarkosttelemetri
 
 engine-bench-site-title-g = Uppgift (g): positioneringsnoggrannhet för smartphones
+engine-bench-site-title-h = Uppgift (h): positioneringsnoggrannhet i stad
 
 engine-bench-site-col-ap = Genomsnittlig precision
 

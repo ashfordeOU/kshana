@@ -11763,6 +11763,7 @@ engine-bench-golden-written = skrev { $path } ({ $n } frosne filer)
 engine-bench-site-title-f = Oppgave (f): avviksdeteksjon i romfartøytelemetri
 
 engine-bench-site-title-g = Oppgave (g): posisjoneringsnøyaktighet for smarttelefoner
+engine-bench-site-title-h = Oppgave (h): posisjoneringsnøyaktighet i by
 
 engine-bench-site-col-ap = Gjennomsnittlig presisjon
 

@@ -10980,6 +10980,7 @@ engine-bench-golden-written = { $path } を書き込みました（凍結ファ�
 engine-bench-site-title-f = タスク (f)：宇宙機テレメトリの異常検知
 
 engine-bench-site-title-g = タスク (g)：スマートフォンの測位精度
+engine-bench-site-title-h = タスク (h)：都市部の測位精度
 
 engine-bench-site-col-ap = 平均適合率
 
