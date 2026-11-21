@@ -10160,14 +10160,15 @@ engine-bench-cli-usage =
     使い方：kshana bench spec
     { "   " }または：kshana bench truth --task a --data <extracted JammerTest 2024 dir> --split <dev|test|holdout|all> --out <truth.json>
     { "   " }または：kshana bench truth --task g --data <GSDC-layout train dir> --split <dev|test|holdout> --out <truth.json>
+    { "   " }または：kshana bench truth --task h --data <scripts/fetch_urbannav.sh dir> --split <dev|test> --out <truth.json>
     { "   " }または：kshana bench cases --task <c|d|f> --split <dev|test|holdout> --out <dir> [--data <dataset.csv>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
     { "   " }または：kshana bench score --truth <truth.json> --predictions <predictions.json> [--threshold <x>] [--out <result.json>]
-    { "   " }または：kshana bench baseline --task <a|b|c|d|e|f|g> --split <dev|test|holdout> --out <dir> [--data <dir>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
+    { "   " }または：kshana bench baseline --task <a|b|c|d|e|f|g|h> --split <dev|test|holdout> --out <dir> [--data <dir>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
     { "   " }または：kshana bench seal --task <a|b|c|d> --seed-file <file> [--new]
     { "   " }または：kshana bench reveal-check --task <a|b|c|d> --seed-file <file> --commitment <hex>
     { "   " }または：kshana bench manifest --task a --data <extracted dir> [--archive <tar.gz>] --out <manifest.json>
     { "   " }または：kshana bench verify-manifest <manifest.json> --root <dir>
-    { "   " }または：kshana bench positions --task g --split <dev|test|holdout> --csv <submission.csv> --name <system> [--version <v>] --out <predictions.json>
+    { "   " }または：kshana bench positions --task <g|h> --split <dev|test|holdout> --csv <submission.csv> --name <system> [--version <v>] --out <predictions.json>
     { "   " }または：kshana bench datasets [--json | --check [--root <repo>]]
     { "   " }または：kshana bench cite <result.json>...
     { "   " }または：kshana bench golden [--root <repo>] (--out <GOLDEN.json> | --check <GOLDEN.json>)
@@ -11211,6 +11212,7 @@ engine-bench-task-has-no-holdout = タスク ({ $task }) にはホールドア�
 engine-bench-unknown-baseline = 不明なベースライン `{ $name }`
 
 engine-bench-g-no-traces = { $root } の下に <drive>/<phone>/ground_truth.csv がありません
+engine-bench-h-no-sequences = { $root } の下に <sequence>/ground_truth.txt がありません
 
 engine-bench-g-no-object = トレースの `{ $key }` オブジェクトがありません
 
@@ -11218,7 +11220,7 @@ engine-bench-g-bad-epoch = トレース `{ $id }`：各エポックは [UnixTime
 
 engine-bench-f-dataset-mismatch = { $path }：SHA-256 { $got } はタスク (f) の固定された dataset.csv ではありません。scripts/fetch_opssat_ad.sh で取得してください
 
-engine-bench-cli-unknown-task-g = 不明なタスク `{ $t }`（a から g）
+engine-bench-cli-unknown-task-h = 不明なタスク `{ $t }`（a から h）
 
 engine-bench-cli-wrote-predictions = { $path } を書き込みました（{ $traces } トレース）
 
