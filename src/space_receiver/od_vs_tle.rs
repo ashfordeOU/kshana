@@ -12,7 +12,9 @@
 //! end of the window.
 //!
 //! MODELLED: the comparison says how far the two disagree through these models; it does not say
-//! which is closer to the true orbit. OEM epochs are read as UTC.
+//! which is closer to the true orbit. OEM epochs are read in the segment's `TIME_SYSTEM`
+//! (`UTC`, `GPS`, `TAI` or `TT`; absent means `UTC`) and put on UTC for SGP4, whose element-set
+//! epoch is UTC; any other time system is refused.
 
 use crate::orbit_data::cdm::rtn_axes;
 use crate::sgp4::wgs72;
@@ -86,11 +88,19 @@ pub fn compare(oem_text: &str, tle_text: &str) -> Result<Report, String> {
             _ => return Err(crate::terr!("e-space-receiver-oem-frame", frame = f)),
         };
         frame = f.clone();
+        let ts = seg
+            .get("TIME_SYSTEM")
+            .unwrap_or("UTC")
+            .trim()
+            .to_ascii_uppercase();
+        if !matches!(ts.as_str(), "UTC" | "GPS" | "TAI" | "TT") {
+            return Err(crate::terr!("e-space-receiver-oem-time-system", ts = ts));
+        }
         for (_, tok) in &seg.lines {
             if tok.len() < 7 {
                 continue;
             }
-            let jd = crate::leo_pass::parse_epoch_jd(&tok[0])?;
+            let jd = to_utc(crate::leo_pass::parse_epoch_jd(&tok[0])?, &ts);
             let mut x = [0.0f64; 6];
             for (k, v) in x.iter_mut().enumerate() {
                 *v = tok[k + 1]
@@ -149,6 +159,19 @@ pub fn compare(oem_text: &str, tle_text: &str) -> Result<Report, String> {
     })
 }
 
+/// A Julian date read in `ts` (`UTC`, `GPS`, `TAI` or `TT`) as a UTC Julian date: GPS = TAI − 19 s,
+/// TT = TAI + 32.184 s, and TAI to UTC through the leap-second table
+/// ([`crate::jd2::tai_to_utc`]).
+pub fn to_utc(jd: f64, ts: &str) -> f64 {
+    let tai = match ts {
+        "GPS" => jd + crate::timescales::TAI_MINUS_GPS / 86_400.0,
+        "TAI" => jd,
+        "TT" => jd - 32.184 / 86_400.0,
+        _ => return jd,
+    };
+    crate::jd2::tai_to_utc(crate::jd2::Jd2::new(tai)).total()
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -159,11 +182,16 @@ mod tests {
 
     /// An OEM written from the same element set: the comparison must be (nearly) zero.
     fn oem_from_tle(frame: &str, shift_km: f64) -> String {
+        oem_from_tle_in(frame, shift_km, "UTC", 0.0)
+    }
+
+    /// The same, with the epochs written `offset_s` after UTC and labelled `ts`.
+    fn oem_from_tle_in(frame: &str, shift_km: f64, ts: &str, offset_s: f64) -> String {
         let tle = parse_tle(TLE.lines().next().unwrap(), TLE.lines().nth(1).unwrap()).unwrap();
         let s = tle.to_sgp4(wgs72(), false);
         let e0 = s.epoch_jd_utc();
         let mut out = format!(
-            "CCSDS_OEM_VERS = 2.0\nCREATION_DATE = 2008-09-20T00:00:00\nORIGINATOR = TEST\n\nMETA_START\nOBJECT_NAME = ISS\nOBJECT_ID = 1998-067A\nCENTER_NAME = EARTH\nREF_FRAME = {frame}\nTIME_SYSTEM = UTC\nSTART_TIME = 2008-09-20T12:25:40.104\nSTOP_TIME = 2008-09-20T13:25:40.104\nMETA_STOP\n\n"
+            "CCSDS_OEM_VERS = 2.0\nCREATION_DATE = 2008-09-20T00:00:00\nORIGINATOR = TEST\n\nMETA_START\nOBJECT_NAME = ISS\nOBJECT_ID = 1998-067A\nCENTER_NAME = EARTH\nREF_FRAME = {frame}\nTIME_SYSTEM = {ts}\nSTART_TIME = 2008-09-20T12:25:40.104\nSTOP_TIME = 2008-09-20T13:25:40.104\nMETA_STOP\n\n"
         );
         for k in 0..7 {
             let jd = e0 + k as f64 * 600.0 / 86_400.0;
@@ -173,7 +201,7 @@ mod tests {
             } else {
                 crate::nutation::teme_to_gcrs(r, v, crate::timescales::utc_to_tt(jd))
             };
-            let c = crate::timescales::civil_from_jd(jd);
+            let c = crate::timescales::civil_from_jd(jd + offset_s / 86_400.0);
             out.push_str(&format!(
                 "{:04}-{:02}-{:02}T{:02}:{:02}:{:09.6} {} {} {} {} {} {}\n",
                 c.year,
@@ -203,6 +231,24 @@ mod tests {
         let r = compare(&oem_from_tle("TEME", 2.0), TLE).unwrap();
         assert!((r.max_km - 2.0).abs() < 0.05, "{}", r.max_km);
         assert!(r.tle_age_days[1] > 0.04);
+    }
+
+    #[test]
+    fn epochs_are_read_in_the_oem_time_system() {
+        // 2008: TAI - UTC = 33 s, so GPS = UTC + 14 s and TT = UTC + 65.184 s. Epochs written in
+        // each scale and labelled with it agree with the element set; GPS epochs labelled UTC
+        // put SGP4 14 s off, about 100 km along track for the ISS.
+        for (ts, off) in [("GPS", 14.0), ("TAI", 33.0), ("TT", 65.184)] {
+            let r = compare(&oem_from_tle_in("TEME", 0.0, ts, off), TLE).unwrap();
+            assert!(r.max_km < 0.05, "{ts}: {}", r.max_km);
+        }
+        let wrong = compare(&oem_from_tle_in("TEME", 0.0, "UTC", 14.0), TLE).unwrap();
+        assert!(wrong.max_km > 80.0, "{}", wrong.max_km);
+        assert!(compare(&oem_from_tle_in("TEME", 0.0, "TDB", 0.0), TLE).is_err());
+        // After 2017: GPS - UTC = 18 s.
+        let jd_gps = crate::timescales::julian_date(2026, 11, 21, 0, 0, 18.0);
+        let jd_utc = crate::timescales::julian_date(2026, 11, 21, 0, 0, 0.0);
+        assert!((to_utc(jd_gps, "GPS") - jd_utc).abs() * 86_400.0 < 1e-4);
     }
 
     #[test]

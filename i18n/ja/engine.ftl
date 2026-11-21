@@ -9957,6 +9957,9 @@ engine-e-sil-obsgen-cannot-read = { $path } を読み込めません：{ $e }
 engine-e-sil-obsgen-cannot-write = { $path } に書き込めません：{ $e }
 engine-e-sil-obsgen-bad-scenario = 任意の [urban] と [rinex] テーブルを持つ gnss-sim シナリオではありません：{ $e }
 
+## space-receiver od-vs-tle time system
+engine-e-space-receiver-oem-time-system = この比較は OEM の時刻系 { $ts } を読み取りません（UTC、GPS、TAI、TT のいずれか）
+
 engine-main-usage =
     使い方：kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }または：kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
