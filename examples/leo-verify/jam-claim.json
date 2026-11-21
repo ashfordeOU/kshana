@@ -1,0 +1,11 @@
+{
+  "signals": [
+    { "id": "gnss-l1-c-a", "f_mhz": 1575.42, "received_power_dbw": -158.5, "chip_rate_mcps": 1.023, "threshold_dbhz": 28 },
+    { "id": "leo-30-db-stronger", "f_mhz": 1575.42, "received_power_dbw": -128.5, "chip_rate_mcps": 1.023, "threshold_dbhz": 28,
+      "stated_js_tolerance_db": 75 }
+  ],
+  "antenna_gain_dbi": 0,
+  "jammer_gain_dbi": -5,
+  "noise_temp_k": 290,
+  "jammer_eirp_dbw": [-30, -20, -10, 0]
+}

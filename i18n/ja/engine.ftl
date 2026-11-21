@@ -9759,6 +9759,152 @@ engine-e-ais-integrity-cannot-read = { $path } を読み込めません：{ $e }
 engine-e-ais-integrity-cannot-write = { $path } に書き込めません：{ $e }
 engine-e-ais-integrity-bad-place = 地点リストの行が、有効な位置と正の半径を持つ name,lat,lon,radius_m ではありません：{ $row }
 
+## A GNSS receiver in space: clock, timestamps, dynamics, upper-SSV benchmark (src/space_receiver/)
+engine-space-receiver-usage = 使い方：kshana space-receiver clock [--orbit <preset|a_km,e,i_deg>] [--oscillator <name>] [--temp-swing <K>] [--outage-min <m>]... | timestamps <tags.csv> [--oscillator <name>] [--step-floor <s>] [--gap-factor <x>] [--window <n>] | dynamics [--orbit <preset|a_km,e,i_deg>] [--duration-min <m>] [--step-s <s>] [--band l1|l5] [--max-off-boresight <deg>] [--max-doppler <Hz>] [--max-doppler-rate <Hz/s>] | bench [--list] [--case <id>]... [--cn0 <dB-Hz>] [--oscillator <name>] [--max-doppler <Hz>] [--max-doppler-rate <Hz/s>] [--time-budget <s>] [--sidelobes] | mms [--cn0 <dB-Hz>] [--orbits <n>] [--step-min <m>] | od-vs-tle <onboard.oem> --tle <set.tle>   [--out <file.json>]  (docs/SPACE-RECEIVER.md)
+engine-e-space-receiver-missing-value = { $option } には値が必要です
+engine-e-space-receiver-unknown-option = 不明なオプション { $option }（kshana space-receiver --help でオプションを一覧表示）
+engine-e-space-receiver-cannot-read = { $path } を読み込めません：{ $e }
+engine-e-space-receiver-cannot-write = { $path } に書き込めません：{ $e }
+engine-e-space-receiver-bad-number = { $option }：{ $value } は有効な数値ではありません
+engine-e-space-receiver-unknown-name = 不明な名前 { $name }（既知：{ $known }）
+engine-e-space-receiver-no-columns = CSV ヘッダーには t_ref_s と、t_rx_s または week と tow_s が必要です
+engine-e-space-receiver-bad-row = { $line } 行目：必須の列がないか、数値ではありません
+engine-e-space-receiver-too-few-rows = タイムスタンプの行が少なくとも 3 行必要です
+
+## Space receiver: MMS case and onboard OD against an element set (src/space_receiver/)
+engine-e-space-receiver-no-tle = 2 行軌道要素が見つかりません（"1 " で始まる 1 行目と、それに続く 2 行目）
+engine-e-space-receiver-oem-frame = OEM 基準座標系 { $frame } はこの比較では読み込めません（EME2000、GCRF、ICRF、TEME のいずれか）
+
+## SIL observation generator (src/sil_obs.rs)
+engine-sil-obs-usage = 使い方：kshana sil-obs generate <scenario.toml> --nav <nav.rnx> --out <sim.obs> [--truth <truth.jsonl>] | compare <a.obs> <b.obs> [--json] [--out <file.json>]  (docs/SIL-OBS.md)
+engine-sil-obs-summary = { $n_epochs } エポック、{ $n_obs } 件の信号サンプルを書き込みました。NLOS の衛星エポック { $n_nlos } 件、遮蔽 { $n_blocked } 件 (MODELLED)
+engine-e-sil-obs-missing-value = { $option } には値が必要です
+engine-e-sil-obs-unknown-option = 不明なオプション { $option }（kshana sil-obs --help でオプションを一覧表示）
+engine-e-sil-obs-cannot-read = { $path } を読み込めません：{ $e }
+engine-e-sil-obs-cannot-write = { $path } に書き込めません：{ $e }
+engine-e-sil-obs-bad-scenario = { $path } は sil-obs のシナリオではありません: { $e }
+engine-e-sil-obs-bad-nav = { $path } は RINEX 航法ファイルではありません: { $e }
+engine-e-sil-obs-bad-obs = { $path } は RINEX 観測ファイルではありません: { $e }
+engine-e-sil-obs-bad-start = 開始 { $value } は YYYY-MM-DDTHH:MM:SS 形式の GPS 時刻ではありません
+engine-e-sil-obs-bad-timing = 継続時間は 0 以上、刻みは正で、エポック数は 100 万以下でなければなりません
+engine-e-sil-obs-no-satellites = { $path } には要求したシステムの放送暦レコードがありません
+engine-e-sil-obs-unknown-system = 不明なシステム { $value } (G または E)
+engine-e-sil-obs-bad-canyon = キャニオンには正の幅、通りの内側のアンテナ位置、1 dB 以上の反射損失、有限の値が必要です
+
+## Interference model library (src/interference_lib.rs)
+engine-interference-lib-usage = 使い方：kshana interference-lib models | generate --class <none|cw|narrowband|wideband|chirp|pulsed> [--centre-hz <f>] [--bandwidth-hz <b>] [--period-s <t>] [--pulse-width-s <w>] [--jnr-db <j>] [--drift-hz-per-s <r>] [--triangle] [--fs <hz>] [--samples <n>] [--seed <s>] --out <base> | fit <recording.sigmf-meta> [--out <fit.json>] | bench [--per-class <n>] [--seed <s>] [--predictions <ids.csv>] [--out <bench.json>] | cases [--per-class <n>] [--seed <s>] [--out <cases.csv>]  (docs/INTERFERENCE-LIB.md)
+engine-interference-lib-written = { $path } を書き込みました ({ $n } サンプル、MODELLED 合成干渉)
+engine-e-interference-lib-missing-value = { $option } には値が必要です
+engine-e-interference-lib-unknown-option = 不明なオプション { $option }（kshana interference-lib --help でオプションを一覧表示）
+engine-e-interference-lib-bad-number = { $option } には有限の数値が必要です ({ $value } ではありません)
+engine-e-interference-lib-unknown-class = 不明な干渉クラス { $value } (none、cw、narrowband、wideband、chirp、pulsed のいずれか)
+engine-e-interference-lib-bad-size = サンプルレートは正、記録長は 1024 から 16777216 サンプルの 2 のべき乗でなければなりません (bench: クラスあたり 1 から 1000 ケース)
+engine-e-interference-lib-cannot-read = { $path } を読み込めません：{ $e }
+engine-e-interference-lib-cannot-write = { $path } に書き込めません：{ $e }
+engine-e-interference-lib-bad-predictions = 予測の行が既知のクラスを持つ id,class ではありません: { $row }
+
+## Receiver-antenna characterisation (src/antenna_cal.rs)
+engine-antenna-cal-usage = 使い方：kshana antenna-cal lint <file.atx> | spread <file.atx>... --type <type-radome> | compare <a.atx> [<b.atx>] --type <type-radome> [--serial-a <s>] [--serial-b <s>] [--max-zenith <deg>] | group-delay <spec.toml> | js-margin <spec.toml>  [--out <file.json>]  (docs/ANTENNA-CAL.md)
+engine-e-antenna-cal-missing-value = { $option } には値が必要です
+engine-e-antenna-cal-unknown-option = 不明なオプション { $option }（kshana antenna-cal --help でオプションを一覧表示）
+engine-e-antenna-cal-bad-number = { $option } には 0 以上の有限の数値が必要です ({ $value } ではありません)
+engine-e-antenna-cal-cannot-read = { $path } を読み込めません：{ $e }
+engine-e-antenna-cal-cannot-write = { $path } に書き込めません：{ $e }
+engine-e-antenna-cal-bad-spec = { $path } は有効な仕様ではありません: { $e }
+engine-e-antenna-cal-no-antenna = { $path } にアンテナ { $name } がありません
+engine-e-antenna-cal-too-few-units = 比較できる { $name } の較正が 2 件未満です
+engine-e-antenna-cal-unknown-signal = ペアが不明な信号 { $value } を指定しています
+engine-e-antenna-cal-bad-group-delay = 群遅延の仕様には、少なくとも 1 つの信号、順序付けられた有限の温度範囲、正の周波数、有限の遅延が必要です
+engine-e-antenna-cal-same-pair = 電離層フリーのペアには異なる 2 つの周波数が必要です
+engine-e-antenna-cal-bad-pattern = 不明なアンテナパターン (patch、choke-ring、table のいずれか)
+engine-e-antenna-cal-bad-gain-table = 利得テーブルには仰角と利得の有限な点が少なくとも 2 つ必要です
+engine-e-antenna-cal-bad-link = J/S の仕様には正の周波数、有限の EIRP、正の距離が必要です
+
+## Arctic GNSS availability planner (src/arctic_plan.rs)
+engine-arctic-plan-usage = 使い方：kshana arctic-plan --site <lat,lon[,h]> | --place <name> | --places  [--systems <a,b,...>] [--compare] [--hours <h>] [--step-min <m>] [--start-s <s>] [--mask <deg>] [--skyline-preset <name>] [--clock common|per-system] [--min-sats <n>] [--max-pdop <x>] [--task-min <m>] [--kp <n>] [--year <y>] [--iono-mask <deg>] [--tle <file> --epoch <YYYY-MM-DDTHH:MM:SS>] [--epochs] [--out <file.json>]  (docs/ARCTIC-PLAN.md)
+engine-e-arctic-plan-missing-value = { $option } には値が必要です
+engine-e-arctic-plan-unknown-option = 不明なオプション { $option }（kshana arctic-plan --help でオプションを一覧表示）
+engine-e-arctic-plan-cannot-read = { $path } を読み込めません：{ $e }
+engine-e-arctic-plan-cannot-write = { $path } に書き込めません：{ $e }
+engine-e-arctic-plan-bad-number = { $option }：{ $value } は有効な数値ではありません
+engine-e-arctic-plan-unknown-name = 不明な名前 { $name }（既知：{ $known }）
+engine-e-arctic-plan-needs-site = --site <lat,lon[,h]> または --place <name> で地点を指定してください（--places で名前を一覧表示）
+engine-e-arctic-plan-bad-horizon = 期間とステップは正の値で、エポック数は 20,000 以下である必要があります
+
+## Lunar time scales, frames, terminology and model provenance (src/lunar_ref.rs)
+engine-lunar-ref-usage = 使い方：kshana lunar-ref tcb-tcl [--jd <JD TCB>] [--window <jd0,jd1>] | approx [--window <jd0,jd1>] [--grid-days <d>] | convert --from <tt|tdb|tcb|tcg|tcl|ltc> --to <scale> --jd <JD> | transform --from <ICRF|MOON_PA_DE440|MOON_PA|MOON_ME|ILURF> --to <frame> --xyz <x,y,z> [--jd <JD TDB>] | terms | models [--check] [--root <dir>]   [--out <file.json>]  (docs/LUNAR-REF.md)
+engine-e-lunar-ref-missing-value = { $option } には値が必要です
+engine-e-lunar-ref-unknown-option = 不明なオプション { $option }（kshana lunar-ref --help でオプションを一覧表示）
+engine-e-lunar-ref-cannot-write = { $path } に書き込めません：{ $e }
+engine-e-lunar-ref-bad-number = { $option }：{ $value } は有効な数値ではありません
+engine-e-lunar-ref-unknown-name = 不明な名前 { $name }（既知：{ $known }）
+engine-e-lunar-ref-out-of-span = エポックが使用している暦の範囲外です（Standish 要素 1800～2050 年、DE440 月姿勢 2014～2030 年）
+
+## Quantum inertial-sensor benchmark (src/quantum_bench.rs)
+engine-quantum-bench-usage = 使い方：kshana quantum-bench protocol [--out <protocol.json>] | simulate <spec.toml> --out <series.csv> | score <series.csv> [--fringe-m-s2 <a>] [--out <score.json>]  (docs/QUANTUM-BENCH.md)
+engine-quantum-bench-simulated = { $n } 件のサンプル (うち干渉縞が折り返したもの { $n_wrapped } 件) を { $path } に書き込みました (MODELLED)
+engine-e-quantum-bench-missing-value = { $option } には値が必要です
+engine-e-quantum-bench-unknown-option = 不明なオプション { $option }（kshana quantum-bench --help でオプションを一覧表示）
+engine-e-quantum-bench-bad-number = { $option } には有限の正の数値が必要です ({ $value } ではありません)
+engine-e-quantum-bench-cannot-read = { $path } を読み込めません：{ $e }
+engine-e-quantum-bench-cannot-write = { $path } に書き込めません：{ $e }
+engine-e-quantum-bench-bad-spec = { $path } は有効な仕様ではありません: { $e }
+engine-e-quantum-bench-bad-sensor = センサーには正のパルス間隔、1 個以上の原子、(0, 1] のコントラスト、パルス間隔の 2 倍以上のサイクル時間が必要です
+engine-e-quantum-bench-bad-run = 実行時間は 1 サイクル以上、1000 万サイクル以下でなければなりません
+engine-e-quantum-bench-too-short = 系列には時刻が増加する 16 件以上のサンプルが必要です
+engine-e-quantum-bench-bad-csv = 系列には有限の数値の t_s 列と measured_m_s2 列が必要です: { $row }
+
+## Terrestrial signals of opportunity, clock offset (src/soop_clock.rs)
+engine-soop-clock-usage = 使い方：kshana soop-clock lte <capture.sigmf-meta> --start-gps-s <t> --rx <lat,lon,h> --tx <lat,lon,h> [--tx-offset-ns <ns>] [--prior-offset-s <s>] [--carrier-hz <f>] [--min-metric <m>] [--out <file.json>] | cp <capture.sigmf-meta> --nfft <n> --ncp <n> [--carrier-hz <f>] [--out <file.json>] | synth-lte --out <base> [--fs <hz>] [--duration-s <s>] [--nid2 <0|1|2>] [--delay-s <s>] [--cfo-hz <f>] [--snr-db <d>] [--seed <s>]  (docs/SOOP-CLOCK.md)
+engine-soop-clock-summary = PSS 検出 { $n } 件。記録開始時の受信機クロックオフセット { $offset_us } µs (MODELLED)
+engine-e-soop-clock-missing-value = { $option } には値が必要です
+engine-e-soop-clock-unknown-option = 不明なオプション { $option }（kshana soop-clock --help でオプションを一覧表示）
+engine-e-soop-clock-bad-number = { $option } には有限の数値が必要です ({ $value } ではありません)
+engine-e-soop-clock-bad-position = { $option } には度とメートルで lat,lon[,h] が必要です ({ $value } ではありません)
+engine-e-soop-clock-cannot-read = { $path } を読み込めません：{ $e }
+engine-e-soop-clock-cannot-write = { $path } に書き込めません：{ $e }
+engine-e-soop-clock-too-few-detections = PSS 検出 { $n } 件。オフセットとレートには 3 件以上が必要です
+engine-e-soop-clock-too-short = 記録が OFDM シンボル 2 個分より短いです
+engine-e-soop-clock-bad-synth = テスト信号にはサンプルレート 100 kHz から 61.44 MHz と、2000 万サンプル以下の正の長さが必要です
+
+## LunaNet AFS receiver verification kit and lunar output message profile (src/lunar_afs/kit.rs, src/lunar_output.rs)
+engine-lunar-afs-kit-usage = 使い方：kshana lunar-afs-kit vectors [<vectors.json>] | registry [<registry.toml|json>] [--limit-db <dB>] [--no-correlation] | output-check <messages.jsonl> | output-example [--n <count>] [--jd <JD TCL>] | output-reexpress <messages.jsonl> --scale <tt|tdb|tcb|tcg|tcl|ltc> --frame <ICRF|MOON_PA_DE440|MOON_PA|MOON_ME|ILURF>   [--out <file>]  (docs/LUNAR-AFS-KIT.md)
+engine-e-lunar-afs-kit-missing-value = { $option } には値が必要です
+engine-e-lunar-afs-kit-unknown-option = 不明なオプション { $option }（kshana lunar-afs-kit --help でオプションを一覧表示）
+engine-e-lunar-afs-kit-cannot-read = { $path } を読み込めません：{ $e }
+engine-e-lunar-afs-kit-cannot-write = { $path } に書き込めません：{ $e }
+engine-e-lunar-afs-kit-bad-number = { $option }：{ $value } は有効な数値ではありません
+engine-e-lunar-afs-kit-unknown-name = 不明な名前 { $name }（既知：{ $known }）
+engine-e-lunar-afs-kit-bad-registry = レジストリが [[node]] 割り当ての一覧ではありません：{ $e }
+engine-e-lunar-afs-kit-bad-vectors = kshana.afs-vectors/1 ファイルではありません：{ $e }
+engine-e-lunar-afs-kit-bad-message = エポック、座標系、位置を持つ kshana.lunar-pnt-output/1 メッセージではない行があります
+
+## ADS-B interference indicators (src/adsb_indicators.rs)
+engine-adsb-indicators-usage = 使い方：kshana adsb-indicators <adsb.csv> [--cell-deg <d>] [--out <indicators.json>]  (docs/ADSB-INDICATORS.md)
+engine-adsb-indicators-summary = 公開セル { $n } 件にフラグ (MODELLED、原因は示しません)
+engine-e-adsb-indicators-missing-value = { $option } には値が必要です
+engine-e-adsb-indicators-unknown-option = 不明なオプション { $option }（kshana adsb-indicators --help でオプションを一覧表示）
+engine-e-adsb-indicators-bad-cell = セルの大きさは 0.01 から 10 度でなければなりません ({ $value } ではありません)
+engine-e-adsb-indicators-cannot-read = { $path } を読み込めません：{ $e }
+engine-e-adsb-indicators-cannot-write = { $path } に書き込めません：{ $e }
+engine-e-adsb-indicators-missing-column = ADS-B の CSV に { $name } 列がありません
+
+## Interference atlas and station C/N0 layer (src/interference_atlas.rs)
+engine-interference-atlas-usage = 使い方：kshana interference-atlas build <day.geojson>... [--previous <atlas.json>] [--out <atlas.json>] | verify <atlas.json> | cors <today.obs> --baseline <earlier.obs> [--adsb-day <day.geojson>] [--station <lat,lon>] [--out <layer.json>]  (docs/INTERFERENCE-ATLAS.md)
+engine-interference-atlas-built = セル { $n_cells } 件、ゾーン { $n_zones } 件。バージョン { $version } (MODELLED)
+engine-interference-atlas-verified = { $path }: バージョンは内容と一致します
+engine-e-interference-atlas-missing-value = { $option } には値が必要です
+engine-e-interference-atlas-unknown-option = 不明なオプション { $option }（kshana interference-atlas --help でオプションを一覧表示）
+engine-e-interference-atlas-cannot-read = { $path } を読み込めません：{ $e }
+engine-e-interference-atlas-cannot-write = { $path } に書き込めません：{ $e }
+engine-e-interference-atlas-not-a-product = { $path } は干渉マップの日次プロダクトでもアトラスでもありません
+engine-e-interference-atlas-mixed = 日次プロダクトのグリッドまたはソースが混在しています
+engine-e-interference-atlas-empty = 日次プロダクトが指定されていません
+engine-e-interference-atlas-changed = { $path }: バージョンが内容と一致しません (アトラスが変更されています)
+engine-e-interference-atlas-bad-obs = { $path } は RINEX 観測ファイルではありません: { $e }
+engine-e-interference-atlas-no-cn0 = 2 つの観測ファイルには、地上軌跡の 1 回の繰り返しを隔てて C/N0 を持つ共通の GPS 衛星がありません
+engine-e-interference-atlas-bad-station = 局には度単位の lat,lon (または観測ヘッダーの概略位置) が必要です ({ $value } ではありません)
+
 engine-main-usage =
     使い方：kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }または：kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -9776,7 +9922,7 @@ engine-main-usage =
     { "   " }または：kshana nmea-scenario <scenario.toml> [--out <file.nmea>] [--tcp <addr>|--udp <addr>] (kshana nmea-scenario --help)
     { "   " }または：kshana interference-map <adsb|ais|fetch-land> ... (kshana interference-map --help)
     { "   " }または：kshana route-exposure --route <route> --map <map.geojson|dir> [--from <date>] [--to <date>]
-    { "   " }または：kshana bench <spec|truth|cases|score|baseline|seal|reveal-check|manifest|verify-manifest|validate|leaderboard> ... (kshana bench --help)
+    { "   " }または：kshana bench <spec|truth|cases|score|baseline|seal|reveal-check|manifest|verify-manifest|validate|leaderboard|positions|datasets|cite|golden> ... (kshana bench --help)
     { "   " }または：kshana bench-export <scenario.toml> [--out <base>] [--epoch <YYYY-MM-DDTHH:MM:SS>]
     { "   " }または：kshana compliance-report [--out <base>] <result.json>... | --mapping | --sources
     { "   " }または：kshana lunanet-afs-check <spec [--json] [--strict]|symbols <file> [--max-sp-errors <n>] [--json]|generate --frames <n> [--toi0 <t>] --out <file>>
@@ -9790,12 +9936,29 @@ engine-main-usage =
     { "   " }または：kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }または：kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }または：kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
+    { "   " }または：kshana space-receiver <clock|timestamps|dynamics|bench|mms|od-vs-tle> ... [--out <file.json>] (kshana space-receiver --help)
+    { "   " }または：kshana feed <pack|verify|send|spectrum|leaderboard> ... (kshana feed --help)
+    { "   " }または：kshana register <check|crl-check|view|sign> ... (kshana register --help)
+    { "   " }または：kshana interference-env <evaluate|thresholds|degradation> ... (kshana interference-env --help)
+    { "   " }または：kshana arctic-plan --site <lat,lon[,h]> | --place <name> [--systems <a,b,...>] [--compare] [--hours <h>] [--kp <n>] ... (kshana arctic-plan --help)
+    { "   " }または：kshana lunar-afs-kit <vectors|registry|output-check|output-example|output-reexpress> ... (kshana lunar-afs-kit --help)
+    { "   " }または：kshana lunar-ref <tcb-tcl|approx|convert|transform|terms|models> ... (kshana lunar-ref --help)
+    { "   " }または：kshana signal-readiness <profile.toml> [<obs.rnx>...]
+    { "   " }または：kshana leo-od-plan <plan.toml>
     { "   " }または：kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }または：kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }または：kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
     { "   " }または：kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
     { "   " }または：kshana orbit-data <check|convert|gp-compare|gp-audit|cov> ... (kshana orbit-data --help)
     { "   " }または：kshana drone <prearm|prearm-calibrate|estimator-cases|dr-budget|quad-loss|failover|zonotope-pl> ... (kshana drone --help)
+    { "   " }または：kshana leo-verify <burst-timing|holdover-tdev|cost|indoor|rain-fade|rtk-ar|jam-claim|doppler-integrity> <input.json>
+    { "   " }または：kshana sil-obs <generate|compare> ... (kshana sil-obs --help)
+    { "   " }または：kshana interference-lib <models|generate|fit|bench|cases> ... (kshana interference-lib --help)
+    { "   " }または：kshana antenna-cal <lint|spread|compare|group-delay|js-margin> ... (kshana antenna-cal --help)
+    { "   " }または：kshana quantum-bench <protocol|simulate|score> ... (kshana quantum-bench --help)
+    { "   " }または：kshana soop-clock <lte|cp|synth-lte> ... (kshana soop-clock --help)
+    { "   " }または：kshana adsb-indicators <adsb.csv> [--cell-deg <d>] [--out <indicators.json>]
+    { "   " }または：kshana interference-atlas <build|verify|cors> ... (kshana interference-atlas --help)
     { "   " }または：kshana kinds [--json]
     { "   " }または：kshana example [<name>]
     { "   " }または：kshana --help | --version
@@ -9910,13 +10073,18 @@ engine-interference-map-cli-col-not-observed = 未観測
 engine-bench-cli-usage =
     使い方：kshana bench spec
     { "   " }または：kshana bench truth --task a --data <extracted JammerTest 2024 dir> --split <dev|test|holdout|all> --out <truth.json>
-    { "   " }または：kshana bench cases --task <c|d> --split <dev|test|holdout> --out <dir> [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
+    { "   " }または：kshana bench truth --task g --data <GSDC-layout train dir> --split <dev|test|holdout> --out <truth.json>
+    { "   " }または：kshana bench cases --task <c|d|f> --split <dev|test|holdout> --out <dir> [--data <dataset.csv>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
     { "   " }または：kshana bench score --truth <truth.json> --predictions <predictions.json> [--threshold <x>] [--out <result.json>]
-    { "   " }または：kshana bench baseline --task <a|b|c|d> --split <dev|test|holdout> --out <dir> [--data <dir>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
+    { "   " }または：kshana bench baseline --task <a|b|c|d|e|f|g> --split <dev|test|holdout> --out <dir> [--data <dir>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
     { "   " }または：kshana bench seal --task <a|b|c|d> --seed-file <file> [--new]
     { "   " }または：kshana bench reveal-check --task <a|b|c|d> --seed-file <file> --commitment <hex>
     { "   " }または：kshana bench manifest --task a --data <extracted dir> [--archive <tar.gz>] --out <manifest.json>
     { "   " }または：kshana bench verify-manifest <manifest.json> --root <dir>
+    { "   " }または：kshana bench positions --task g --split <dev|test|holdout> --csv <submission.csv> --name <system> [--version <v>] --out <predictions.json>
+    { "   " }または：kshana bench datasets [--json | --check [--root <repo>]]
+    { "   " }または：kshana bench cite <result.json>...
+    { "   " }または：kshana bench golden [--root <repo>] (--out <GOLDEN.json> | --check <GOLDEN.json>)
     { "   " }または：kshana bench validate <result.json>...
     { "   " }または：kshana bench leaderboard [<results dir|result.json>...] --out <page.html> [--fragment]   （入力なし：空の状態。--fragment：埋め込み可能なセクション）
     { "   " }（シードファイルは封印されたホールドアウトの背後にあるシークレットを保持します。バージョン管理には含めないでください）
@@ -10923,3 +11091,137 @@ engine-e-oscillator-input = { $part } の入力が無効です: { $e }
 engine-e-oscillator-unknown-clock = 不明なクロックプリセット { $id }（{ $known } のいずれか）
 
 engine-e-oscillator-field = { $field } が範囲外です: { $value }
+
+## src/leo_verify/mod.rs
+
+engine-leo-verify-usage = 使い方: kshana leo-verify <burst-timing|holdover-tdev|cost|indoor|rain-fade|rtk-ar|jam-claim|doppler-integrity> <input.json>（docs/LEO-VERIFY.md）
+
+engine-e-leo-verify-input = { $part } の入力が無効です: { $e }
+
+engine-e-leo-verify-field = { $field } が範囲外です: { $value }
+
+engine-e-leo-verify-too-large = 実行が大きすぎます: { $n } ステップ（最大 { $max }）
+
+engine-e-leo-verify-unknown-id = { $field } が不明な ID を指定しています: { $id }
+
+## src/bench: tasks (f) and (g), the dataset registry and the golden index (E34)
+
+engine-bench-data-no-header = { $file }：ヘッダー行がありません
+
+engine-bench-data-no-column = { $file }：列 `{ $column }` がありません
+
+engine-bench-data-bad-value = { $file } の { $line } 行目：`{ $column }` が欠けているか無効です
+
+engine-bench-data-no-rows = { $file }：データ行がありません
+
+engine-bench-task-has-no-holdout = タスク ({ $task }) にはホールドアウト分割がありません：データと分割は公開されています
+
+engine-bench-unknown-baseline = 不明なベースライン `{ $name }`
+
+engine-bench-g-no-traces = { $root } の下に <drive>/<phone>/ground_truth.csv がありません
+
+engine-bench-g-no-object = トレースの `{ $key }` オブジェクトがありません
+
+engine-bench-g-bad-epoch = トレース `{ $id }`：各エポックは [UnixTimeMillis, 緯度, 経度] である必要があります
+
+engine-bench-f-dataset-mismatch = { $path }：SHA-256 { $got } はタスク (f) の固定された dataset.csv ではありません。scripts/fetch_opssat_ad.sh で取得してください
+
+engine-bench-cli-unknown-task-g = 不明なタスク `{ $t }`（a から g）
+
+engine-bench-cli-wrote-predictions = { $path } を書き込みました（{ $traces } トレース）
+
+engine-bench-datasets-summary = データセット { $n } 件：ベンチマーク内 { $in_bench } 件、候補 { $candidate } 件、募集中 { $wanted } 件
+
+engine-bench-datasets-ok = レジストリ：データセット { $n } 件、すべての規則を満たしています
+
+engine-bench-golden-ok = 凍結ファイル { $n } 件は変更なし。引用 ID は安定しています
+
+engine-bench-golden-written = { $path } を書き込みました（凍結ファイル { $n } 件）
+
+engine-bench-site-title-f = タスク (f)：宇宙機テレメトリの異常検知
+
+engine-bench-site-title-g = タスク (g)：スマートフォンの測位精度
+
+engine-bench-site-col-ap = 平均適合率
+
+engine-bench-site-col-gsdc-score = スコア、P50 と P95 の平均 (m)
+
+engine-bench-site-col-p50 = P50 全体 (m)
+
+engine-bench-site-col-p95 = P95 全体 (m)
+
+## Feeder clients (src/feeder.rs, docs/FEEDER.md)
+engine-feed-usage = 使い方：kshana feed pack <file.obs.jsonl|dir>... --key <keyfile> [--privacy public|exact] [--grid-deg <deg>] [--created <time>] [--include-open] [--out <bundle.json>] | verify <bundle.json> [--pubkey <hex>] [--json] | send <bundle.json> --url <http://host:port/path> [--token-file <file>] | spectrum <capture> --format cu8|ci8|ci16_le --rate <Hz> --centre <Hz> --station <station.toml> [--front-end <name>] [--nfft <n>] [--bins <n>] [--max-samples <n>] [--time <label>] [--out <file.obs.jsonl>] | leaderboard <bundle.json>... [--json]  (docs/FEEDER.md)
+engine-feed-packed = { $out }：局 { $station } のバンドル、ファイル { $files } 個、エポック { $epochs } 個、プライバシー { $mode }
+engine-feed-verified = { $path }：署名は有効です（署名者 { $key }）。局 { $station }、ファイル { $files } 個、エポック { $epochs } 個、すべて有効な kshana.obs/1
+engine-feed-sent = { $url } に送信しました：HTTP { $code }
+engine-feed-spectrum-written = { $out }：{ $bins } ビンのスペクトルスナップショット（MODELLED：レベルはフルスケール基準で、校正された電力ではありません）
+engine-e-feed-missing-value = { $option } には値が必要です
+engine-e-feed-unknown-option = 不明なオプション { $option }（kshana feed --help でオプションを一覧表示）
+engine-e-feed-cannot-read = { $path } を読み込めません：{ $e }
+engine-e-feed-cannot-write = { $path } に書き込めません：{ $e }
+engine-e-feed-not-obs = { $path } は有効な kshana.obs/1 ファイルではありません：{ $e }
+engine-e-feed-mixed-stations = ファイルが複数の局（{ $a } と { $b }）のものです。1 つのバンドルには 1 局だけを入れてください
+engine-e-feed-no-files = パックする観測ファイルがありません
+engine-e-feed-bad-privacy = 不明なプライバシーモード { $value }（public または exact）
+engine-e-feed-bad-grid = 位置グリッドは 0.01 から 10 度の範囲でなければなりません（指定値 { $value }）
+engine-e-feed-not-bundle = kshana.feed/1 バンドルではありません：{ $e }
+engine-e-feed-bad-signature = バンドルの署名が有効ではありません
+engine-e-feed-key-mismatch = バンドルの署名者は { $found } で、期待される鍵 { $expected } ではありません
+engine-e-feed-hash-mismatch = ペイロード { $name } が記録された SHA-256 と一致しません
+engine-e-feed-payload-mismatch = ペイロード { $name } がバンドルの示す局またはレコード数と一致しません
+engine-e-feed-not-coarsened = 公開バンドルのペイロード { $name } にまだ { $what } が含まれています
+engine-e-feed-bad-format = 未対応のサンプル形式 { $value }（cu8、ci8、ci16_le のいずれか）
+engine-e-feed-bad-number = { $option }：{ $value } はここでは有効な値ではありません
+engine-e-feed-short-capture = キャプチャのサンプル数 { $n } が変換長 { $nfft } より少ないです
+engine-e-feed-send-failed = { $url } への送信に失敗しました：{ $e }
+engine-e-feed-send-refused = { $url } がバンドルを拒否しました：HTTP { $code }
+engine-e-obs-bad-spectrum = { $line } 行目：スペクトルには有限の時刻と中心周波数、正のサンプルレートとビン幅、有限のレベルが必要です
+
+## Product register (src/product_register.rs, docs/PRODUCT-REGISTER.md)
+engine-register-usage = 使い方：kshana register check <register.json> [--key <hex>] | crl-check <crl.json> --key <hex> | view <register.json> [--key <hex>] [--crl <crl.json> --crl-key <hex>] [--date <YYYY-MM-DD>] [--json] | sign <register.json|crl.json> --key <keyfile> [--out <file>]  (docs/PRODUCT-REGISTER.md)
+engine-register-check-ok = { $path }：{ $publisher } の登録簿、エントリ { $n } 件、署名は有効です（署名者 { $key }）
+engine-register-crl-check-ok = { $path }：{ $issuer } の失効リスト、失効エントリ { $n } 件、署名は有効です。次のリストは { $next }
+engine-register-view-summary = { $date } 時点：有効 { $current } 件、再スコア期限超過 { $due } 件、失効 { $revoked } 件
+engine-register-view-no-crl = 失効リストが指定されていません：失効状態は不明です（--crl <crl.json> --crl-key <hex>）
+engine-register-view-crl-stale = 失効リストが古くなっています：次の更新は { $next } の予定でした
+engine-e-register-key-mismatch = 署名者は { $found } で、期待される鍵 { $expected } ではありません
+engine-e-register-bad-signature = 署名が有効ではありません
+engine-e-register-bad-date = { $field } は YYYY-MM-DD 形式の日付ではありません：{ $value }
+engine-e-register-not-register = kshana.register/1 登録簿ではありません：{ $e }
+engine-e-register-not-crl = kshana.register-crl/1 失効リストではありません：{ $e }
+engine-e-register-bad-id = エントリ ID { $id }：1 から 128 文字の英数字、ドット、ハイフン、アンダースコアを使ってください
+engine-e-register-duplicate-id = エントリ ID { $id } が複数回現れます
+engine-e-register-revalidate-before-scored = エントリ { $id } の再スコア期限がスコア日より前です
+engine-e-register-bad-digest = エントリ { $id }：evidence_sha256 は 64 桁の 16 進数でなければなりません
+engine-e-register-missing-value = { $option } には値が必要です
+engine-e-register-cannot-read = { $path } を読み込めません：{ $e }
+engine-e-register-cannot-write = { $path } に書き込めません：{ $e }
+engine-e-register-unknown-option = 不明なオプション { $option }（kshana register --help でオプションを一覧表示）
+engine-e-register-crl-needs-key = --crl と --crl-key は一緒に指定します：失効リストは発行者の鍵で確認されます
+
+## Interference environments (src/interference_env.rs, docs/INTERFERENCE-ENV.md)
+engine-interference-env-usage = 使い方：kshana interference-env evaluate <environment.toml> | thresholds [--receiver <id>] | degradation --baseline <id> --pulse-width <s> --prf <Hz> [--below-ratio <R>] [--recovery <s>]  (docs/INTERFERENCE-ENV.md; MODELLED)
+engine-e-interference-env-unknown-receiver = 不明な受信機 { $id }（kshana interference-env thresholds で一覧表示）
+engine-e-interference-env-unknown-baseline = 不明なベースライン { $id }（docs/INTERFERENCE-ENV.md を参照）
+engine-e-interference-env-bad-source = ソース { $name }：電力、帯域幅、パルス幅、繰り返し周波数のいずれかが有効な正の有限値ではありません
+engine-e-interference-env-pulsed-needs-receiver = パルス源には受信機の noise_temperature_k、precorrelation_bw_hz と、ブランキングまたは飽和レベルが必要です
+engine-e-interference-env-saturated = パルスがブランキングされない時間を残しません：デューティ比が 1 に達しています
+engine-e-interference-env-missing-value = { $option } には値が必要です
+engine-e-interference-env-bad-number = { $option } には数値が必要です（指定値 { $value }）
+engine-e-interference-env-unknown-option = 不明なオプション { $option }（kshana interference-env --help でオプションを一覧表示）
+engine-e-interference-env-cannot-read = { $path } を読み込めません：{ $e }
+engine-e-interference-env-bad-file = { $path } は干渉環境ではありません：{ $e }
+
+## Future-signal readiness (src/signal_readiness.rs, docs/SIGNAL-READINESS.md)
+engine-signal-readiness-usage = 使い方：kshana signal-readiness <profile.toml> [<obs.rnx>...]  (docs/SIGNAL-READINESS.md)
+engine-e-signal-readiness-bad-rinex = { $path } は RINEX 3 または 4 の観測ファイルではありません：{ $e }
+engine-e-signal-readiness-unknown-option = 不明なオプション { $option }（kshana signal-readiness --help）
+engine-e-signal-readiness-cannot-read = { $path } を読み込めません：{ $e }
+engine-e-signal-readiness-bad-profile = { $path } は受信機プロファイルではありません：{ $e }
+
+## BeiDou-LEO planning (src/leo_od_plan.rs, docs/LEO-OD-PLAN.md)
+engine-leo-od-plan-usage = 使い方：kshana leo-od-plan <plan.toml>  (docs/LEO-OD-PLAN.md; MODELLED, a planning tool)
+engine-e-leo-od-plan-bad-plan = 計画の数値が範囲外です：アーク、ステップ、雑音、マスクは正の有限値、ステップ数は最大 100000、マスクは ±90 度以内、半ビーム幅は 0 から 90 度、LEO ウォーカー配置は面数が衛星数を割り切ること
+engine-e-leo-od-plan-cannot-read = { $path } を読み込めません：{ $e }
+engine-e-leo-od-plan-bad-file = { $path } は計画ファイルではありません：{ $e }

@@ -1,0 +1,12 @@
+# kshana antenna-cal js-margin examples/antenna-cal/js-margin.toml
+# A ground-level jammer near a rooftop installation with an illustrative patch shape. MODELLED
+# (docs/ANTENNA-CAL.md). The receiver tolerance is a stated input, not a measured value.
+frequency_hz = 1575.42e6
+jammer_eirp_dbw = -20.0
+jammer_elevation_deg = -2.0
+satellite_elevation_deg = 10.0
+signal_power_dbw = -158.5
+receiver_js_tolerance_db = 35.0
+isolation_db = 0.0
+ranges_m = [100.0, 1000.0, 10000.0]
+pattern = "patch"
