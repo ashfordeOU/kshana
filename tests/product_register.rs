@@ -26,6 +26,8 @@ fn entry(id: &str, scored: &str, again: &str) -> Entry {
         outcome: "score 0.91".into(),
         evidence_sha256: Some("ab".repeat(32)),
         evidence_url: None,
+        scenario_set: None,
+        scenario_set_version: None,
     }
 }
 

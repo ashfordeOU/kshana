@@ -10766,6 +10766,15 @@ engine-e-ais-integrity-cannot-read = не удаётся прочитать { $p
 engine-e-ais-integrity-cannot-write = не удаётся записать { $path }: { $e }
 engine-e-ais-integrity-bad-place = строка списка мест не имеет вида name,lat,lon,radius_m с допустимой позицией и положительным радиусом: { $row }
 
+## Register entries against packs, published revocations and versions (src/register_products.rs)
+engine-register-products-usage = использование: kshana register-products verify <register.json> [--packs <dir>] [--pack-key <hex>] [--pin <hex>] [--json] | show <register.json> [--revocations <file.jsonl|url>] [--date <YYYY-MM-DD>] [--pin <hex>] [--json] | diff <older.json> <newer.json> [--pin <hex>]  (docs/PRODUCT-REGISTER.md)
+engine-e-register-products-missing-value = { $option } требует значения
+engine-e-register-products-unknown-option = неизвестный параметр { $option } (параметры перечисляет kshana register-products --help)
+engine-e-register-products-cannot-read = не удаётся прочитать { $path }: { $e }
+engine-e-register-products-bad-revocation = в строке { $line } списка отзыва нужны serial, revoked_at (YYYY-MM-DD) и reason
+engine-e-register-products-cannot-fetch = не удаётся получить { $url }: { $e }
+engine-e-register-products-bad-key = ключ не является 32 байтами в шестнадцатеричном виде
+
 engine-main-usage =
     использование: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }или: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10797,6 +10806,7 @@ engine-main-usage =
     { "   " }или: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }или: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }или: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
+    { "   " }или: kshana register-products <verify|show|diff> ... (kshana register-products --help)
     { "   " }или: kshana register <check|crl-check|view|sign> ... (kshana register --help)
     { "   " }или: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }или: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>

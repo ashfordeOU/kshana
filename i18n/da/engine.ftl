@@ -10543,6 +10543,15 @@ engine-e-ais-integrity-cannot-read = kan ikke læse { $path }: { $e }
 engine-e-ais-integrity-cannot-write = kan ikke skrive { $path }: { $e }
 engine-e-ais-integrity-bad-place = en række i stedlisten er ikke name,lat,lon,radius_m med en gyldig position og en positiv radius: { $row }
 
+## Register entries against packs, published revocations and versions (src/register_products.rs)
+engine-register-products-usage = brug: kshana register-products verify <register.json> [--packs <dir>] [--pack-key <hex>] [--pin <hex>] [--json] | show <register.json> [--revocations <file.jsonl|url>] [--date <YYYY-MM-DD>] [--pin <hex>] [--json] | diff <older.json> <newer.json> [--pin <hex>]  (docs/PRODUCT-REGISTER.md)
+engine-e-register-products-missing-value = { $option } kræver en værdi
+engine-e-register-products-unknown-option = ukendt tilvalg { $option } (kshana register-products --help viser tilvalgene)
+engine-e-register-products-cannot-read = kan ikke læse { $path }: { $e }
+engine-e-register-products-bad-revocation = linje { $line } i tilbagekaldelseslisten skal have serial, revoked_at (YYYY-MM-DD) og reason
+engine-e-register-products-cannot-fetch = kan ikke hente { $url }: { $e }
+engine-e-register-products-bad-key = nøglen er ikke 32 byte hex
+
 engine-main-usage =
     brug: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }eller: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10574,6 +10583,7 @@ engine-main-usage =
     { "   " }eller: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }eller: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }eller: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
+    { "   " }eller: kshana register-products <verify|show|diff> ... (kshana register-products --help)
     { "   " }eller: kshana register <check|crl-check|view|sign> ... (kshana register --help)
     { "   " }eller: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }eller: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>

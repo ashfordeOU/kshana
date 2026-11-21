@@ -375,6 +375,7 @@ pub mod realdata;
 pub mod realtime_frame_eop;
 pub mod receiver_trust;
 pub mod reentry;
+pub mod register_products;
 pub mod registry;
 pub mod report;
 pub mod representativeness;

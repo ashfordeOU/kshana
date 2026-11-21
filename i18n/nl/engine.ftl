@@ -10582,6 +10582,15 @@ engine-e-ais-integrity-cannot-read = kan { $path } niet lezen: { $e }
 engine-e-ais-integrity-cannot-write = kan { $path } niet schrijven: { $e }
 engine-e-ais-integrity-bad-place = een rij van de plaatsenlijst is geen name,lat,lon,radius_m met een geldige positie en een positieve straal: { $row }
 
+## Register entries against packs, published revocations and versions (src/register_products.rs)
+engine-register-products-usage = gebruik: kshana register-products verify <register.json> [--packs <dir>] [--pack-key <hex>] [--pin <hex>] [--json] | show <register.json> [--revocations <file.jsonl|url>] [--date <YYYY-MM-DD>] [--pin <hex>] [--json] | diff <older.json> <newer.json> [--pin <hex>]  (docs/PRODUCT-REGISTER.md)
+engine-e-register-products-missing-value = { $option } heeft een waarde nodig
+engine-e-register-products-unknown-option = onbekende optie { $option } (kshana register-products --help toont de opties)
+engine-e-register-products-cannot-read = kan { $path } niet lezen: { $e }
+engine-e-register-products-bad-revocation = regel { $line } van de intrekkingslijst moet serial, revoked_at (YYYY-MM-DD) en reason hebben
+engine-e-register-products-cannot-fetch = kan { $url } niet ophalen: { $e }
+engine-e-register-products-bad-key = de sleutel is geen 32 bytes hexadecimaal
+
 engine-main-usage =
     gebruik: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }of: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10613,6 +10622,7 @@ engine-main-usage =
     { "   " }of: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }of: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }of: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
+    { "   " }of: kshana register-products <verify|show|diff> ... (kshana register-products --help)
     { "   " }of: kshana register <check|crl-check|view|sign> ... (kshana register --help)
     { "   " }of: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }of: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
