@@ -30,6 +30,7 @@ kshana feed send bundle.json --url http://collector.example:8080/feed [--token-f
 kshana feed spectrum capture.cu8 --format cu8 --rate 2048000 --centre 1575420000 \
   --station station.toml --out spectrum.obs.jsonl
 kshana feed leaderboard bundles/*.json [--json]
+kshana feed watch station-data/ --key feeder.key --spool spool/ --url http://collector.example:8080/feed
 ```
 
 ### `pack`
@@ -115,6 +116,36 @@ the front end's gain setting: MODELLED. `--time` records the capture's absolute 
 knows it; `--front-end` names the device (default `rtl-sdr` for `cu8`, `hackrf` for `ci8`). The
 capture tools above only receive; Kshana reads their files and never drives a radio.
 
+### `watch`: a long-running feeder
+
+```bash
+kshana feed watch station-data/ --key feeder.key --spool spool/ \
+  --url http://127.0.0.1:8080/feed [--token-file token] [--interval-s 3600] [--once]
+```
+
+Every `--interval-s` seconds (default 3,600) it packs the closed files of the inputs (read as `pack`
+reads them: the newest file of each directory is left out unless `--include-open`) that it has not
+packed before, one bundle per station, with the same `--privacy` and `--grid-deg` as `pack`. Then
+it sends every queued bundle whose retry time has come.
+
+| In the spool | What |
+|---|---|
+| `state.json` | `kshana.feed-spool/1`: the SHA-256 of every file packed, the send queue, each bundle's failed attempts and next retry time |
+| `pending/` | bundles not yet accepted |
+| `sent/` | bundles a collector accepted (a 2xx status) |
+| `rejected/` | bundles refused with a 4xx status other than 408 and 429; not retried |
+
+A failed send (no connection, a 5xx, 408 or 429 status) is retried after 30 s, doubling up to the
+interval. Each bundle is written before the state that names it, and the state is replaced by a
+rename, so a feeder that is stopped resumes without packing a file twice or losing a bundle. Without
+`--url` it only packs, for an operator who carries the spool to a collector some other way. `--once`
+runs one cycle and exits, for a timer instead of a service. Each cycle prints one line to standard
+error.
+
+**HTTPS.** Like `send`, `watch` speaks plain HTTP: the engine has no TLS client (no TLS library in
+its dependencies), so an `https://` address is refused with that reason. Across a network, put a TLS
+tunnel in front of the collector and point the feeder at the tunnel's local end.
+
 ### `leaderboard`
 
 Ranks bundles by feeder: verified bundles only, each payload counted once however often it is
@@ -169,5 +200,5 @@ reads the GnssLogger text format, and `kshana feed pack` packs the result.
 - One station per bundle; a feeder with several stations packs each separately.
 - A Station configuration names one fixed position: a moving receiver is detected from its fixes
   only, and a log with no fixes is treated as fixed.
-- `send` speaks plain HTTP and reads only the reply's status code.
+- `send` and `watch` speak plain HTTP and read only the reply's status code.
 - The leaderboard ranks what it is given; it cannot know that two keys belong to one feeder.

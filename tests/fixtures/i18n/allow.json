@@ -453,6 +453,10 @@
    "count": 10,
    "reason": "machine-document: the evidence block of result JSON and its CSV comment lines (id rule, matrix path, field names) and the tool names that select the rows; the strip under a chart is a message"
   },
+  "src/feeder_watch.rs": {
+   "count": 9,
+   "reason": "identifier: the kshana feed watch option names, the spool's state.json file name and the kshana.feed-spool/1 schema tag"
+  },
   "src/feeder.rs": {
    "count": 33,
    "reason": "identifier: the kshana feed option names (--key, --grid-deg, ...), the kshana.feed/1 and kshana.obs/1 field names the privacy step reports and checks (station.id, epoch.fix, ...), the sample format and front-end names, and the tab-separated column header of the leaderboard"

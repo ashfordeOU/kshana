@@ -1702,3 +1702,17 @@ fn qznma_navigation_message_files() {
         }
     });
 }
+
+#[test]
+fn feeder_spool_state() {
+    let seeds: Vec<Vec<u8>> = [
+        r#"{"schema":"kshana.feed-spool/1","packed":["ab"],"queue":[{"file":"000001.json","attempts":2,"next_try_s":90}],"next_seq":2}"#,
+        r#"{"schema":"kshana.feed-spool/1","packed":[],"queue":[],"next_seq":1}"#,
+    ]
+    .iter()
+    .map(|s| s.as_bytes().to_vec())
+    .collect();
+    fuzz("feeder spool state", &seeds, None, |b| {
+        let _ = kshana::feeder_watch::parse_spool(&text(b), "state.json");
+    });
+}
