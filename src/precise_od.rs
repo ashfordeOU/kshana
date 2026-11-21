@@ -650,7 +650,7 @@ fn phi_from_augmented(y: &[f64]) -> [[f64; 6]; 6] {
 /// ascending, all ≥ 0). One forward integration carried segment-by-segment — Φ accumulates from
 /// the epoch, so `samples[i].1` is `∂x(times[i])/∂x0`. This is what the batch estimator needs:
 /// predicted positions and their epoch-state partials at every observation epoch in one pass.
-fn propagate_with_stm_samples<F: ForceModel>(
+pub fn propagate_with_stm_samples<F: ForceModel>(
     fm: &F,
     r0: Vec3,
     v0: Vec3,

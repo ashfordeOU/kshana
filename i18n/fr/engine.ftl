@@ -12340,3 +12340,6 @@ engine-e-leo-sparse-bad-study = les valeurs de l'étude sont hors limites : une 
 engine-e-leo-sparse-singular = la matrice d'information n'est pas inversible, même avec les a priori
 engine-e-leo-sparse-cannot-read = impossible de lire { $path } : { $e }
 engine-e-leo-sparse-bad-file = { $path } n'est pas une étude : { $e }
+engine-amateur-od-bad-record = ligne { $line } : l’enregistrement { $what } est illisible
+engine-amateur-od-bad-json = observation SatNOGS : le champ { $field } est absent ou n’est pas un nombre
+engine-amateur-od-unknown-site = l’enregistrement Doppler nomme la station { $site }, absente de la liste des stations

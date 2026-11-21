@@ -12211,3 +12211,6 @@ engine-e-leo-sparse-bad-study = die Zahlen der Studie liegen außerhalb des Bere
 engine-e-leo-sparse-singular = die Informationsmatrix lässt sich auch mit den Vorwerten nicht invertieren
 engine-e-leo-sparse-cannot-read = { $path } kann nicht gelesen werden: { $e }
 engine-e-leo-sparse-bad-file = { $path } ist keine Studie: { $e }
+engine-amateur-od-bad-record = Zeile { $line }: der { $what }-Datensatz kann nicht gelesen werden
+engine-amateur-od-bad-json = SatNOGS-Beobachtung: Feld { $field } fehlt oder ist keine Zahl
+engine-amateur-od-unknown-site = Doppler-Datensatz nennt Station { $site }, die nicht in der Stationsliste steht

@@ -12256,3 +12256,6 @@ engine-e-leo-sparse-bad-study = de waarden van de studie vallen buiten het berei
 engine-e-leo-sparse-singular = de informatiematrix is ook met de a-priori's niet te inverteren
 engine-e-leo-sparse-cannot-read = kan { $path } niet lezen: { $e }
 engine-e-leo-sparse-bad-file = { $path } is geen studie: { $e }
+engine-amateur-od-bad-record = regel { $line }: het { $what }-record kan niet worden gelezen
+engine-amateur-od-bad-json = SatNOGS-waarneming: veld { $field } ontbreekt of is geen getal
+engine-amateur-od-unknown-site = Doppler-record noemt station { $site }, dat niet in de stationslijst staat

@@ -12419,3 +12419,6 @@ engine-e-leo-sparse-bad-study = значения исследования вне
 engine-e-leo-sparse-singular = информационную матрицу нельзя обратить даже с априорными значениями
 engine-e-leo-sparse-cannot-read = не удаётся прочитать { $path }: { $e }
 engine-e-leo-sparse-bad-file = { $path } не является исследованием: { $e }
+engine-amateur-od-bad-record = строка { $line }: запись { $what } не читается
+engine-amateur-od-bad-json = наблюдение SatNOGS: поле { $field } отсутствует или не является числом
+engine-amateur-od-unknown-site = доплеровская запись указывает станцию { $site }, которой нет в списке станций

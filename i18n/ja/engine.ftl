@@ -11414,3 +11414,6 @@ engine-e-leo-sparse-bad-study = 検討の数値が範囲外です：有効な利
 engine-e-leo-sparse-singular = 事前値を加えても情報行列を逆行列にできません
 engine-e-leo-sparse-cannot-read = { $path } を読み込めません：{ $e }
 engine-e-leo-sparse-bad-file = { $path } は検討ファイルではありません：{ $e }
+engine-amateur-od-bad-record = { $line } 行目：{ $what } レコードを読み取れません
+engine-amateur-od-bad-json = SatNOGS 観測：フィールド { $field } がないか数値ではありません
+engine-amateur-od-unknown-site = ドップラーレコードが局 { $site } を指していますが、局リストにありません
