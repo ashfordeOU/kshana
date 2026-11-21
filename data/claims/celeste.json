@@ -1,0 +1,30 @@
+{
+ "format": "kshana.claims/1",
+ "name": "ESA Celeste (LEO-PNT demonstration), public claims",
+ "note": "Only claims quoted from public pages, read on the date given. Values the pages do not state are not here.",
+ "claims": [
+  {"id": "fleet-size", "subject": "Celeste", "claim": "the demonstration fleet is 11 satellites and one spare", "value": 11, "unit": "satellites",
+   "source_url": "https://www.esa.int/Applications/Satellite_navigation/Celeste/Celeste_IOD_-_Facts_and_figures", "retrieved": "2026-11-20",
+   "quote": "11 satellites + 1 spare", "quote_location": "Constellation size"},
+  {"id": "orbit-altitude", "subject": "Celeste", "claim": "the orbit is quasi polar, between 500 and 600 km", "value": [500, 600], "unit": "km",
+   "source_url": "https://www.esa.int/Applications/Satellite_navigation/Celeste/Celeste_IOD_-_Facts_and_figures", "retrieved": "2026-11-20",
+   "quote": "Quasi polar orbit, between 500 and 600 km.", "quote_location": "Orbit",
+   "check": {"kind": "quasi_polar", "tolerance_deg": 10.0}},
+  {"id": "iod1-mass", "subject": "Celeste IOD-1", "claim": "IOD-1 is a 12U CubeSat of 20 kg built by GMV", "value": 20, "unit": "kg",
+   "source_url": "https://www.esa.int/Applications/Satellite_navigation/Celeste/Celeste_IOD_-_Facts_and_figures", "retrieved": "2026-11-20",
+   "quote": "IOD-1: 12U CubeSat, 20 kg, by GMV", "quote_location": "Satellites size and mass"},
+  {"id": "iod2-mass", "subject": "Celeste IOD-2", "claim": "IOD-2 is a 16U CubeSat of 30 kg built by Thales Alenia Space", "value": 30, "unit": "kg",
+   "source_url": "https://www.esa.int/Applications/Satellite_navigation/Celeste/Celeste_IOD_-_Facts_and_figures", "retrieved": "2026-11-20",
+   "quote": "IOD-2: 16U CubeSat, 30 kg, by Thales Alenia Space", "quote_location": "Satellites size and mass"},
+  {"id": "iod2-mass-tas", "subject": "Celeste IOD-2", "claim": "IOD-2 weighs around 30 kg (the builder's press release)", "value": 30, "unit": "kg",
+   "source_url": "https://www.thalesaleniaspace.com/en/press-releases/iod-2-satellite-built-thales-alenia-space-esas-celeste-mission-lifted-today-new", "retrieved": "2026-11-20",
+   "quote": "weighing around 30 kilograms", "quote_location": "press release of 28 March 2026, body",
+   "check": {"kind": "consistent_with", "other": "iod2-mass", "tolerance": 2.0}},
+  {"id": "iod12-bands", "subject": "Celeste IOD-1 and IOD-2", "claim": "the first two satellites transmit in L and S band", "value": null, "unit": "",
+   "source_url": "https://www.esa.int/Applications/Satellite_navigation/Celeste/Celeste_IOD_-_Facts_and_figures", "retrieved": "2026-11-20",
+   "quote": "L and S-band, from current GNSS.", "quote_location": "Frequency bands"},
+  {"id": "launcher", "subject": "Celeste IOD-1 and IOD-2", "claim": "IOD-1 and IOD-2 launch on Rocket Lab's Electron", "value": null, "unit": "",
+   "source_url": "https://www.esa.int/Applications/Satellite_navigation/Celeste/Celeste_IOD_-_Facts_and_figures", "retrieved": "2026-11-20",
+   "quote": "Rocket Lab's Electron for Celeste IOD-1 and IOD-2", "quote_location": "Launcher"}
+ ]
+}

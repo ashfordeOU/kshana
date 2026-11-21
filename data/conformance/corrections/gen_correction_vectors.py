@@ -12,13 +12,22 @@ of the interface documents:
 * BDS-SIS-ICD-PPP-B2b-1.0 (July 2020), section 6: message types 1 to 7 and 63, CRC-24Q.
 * IS-QZSS-L6-008 (CLAS) section 4.1 and IS-QZSS-MDC-005 (MADOCA-PPP) sections 4.2 and 6.3:
   L6 header, Compact SSR sub types 1 to 12, the MADOCA-PPP ionospheric messages.
+* IS-QZSS-L1S-009 section 4.1 (SLAS message types 0, 47 to 51 and 63, CRC-24Q),
+  IS-QZSS-DCR-017 section 4.1.2.3 (the JMA DC Report in message type 43: common header,
+  version number and the twelve category bodies) and IS-QZSS-DCX-004 section 4.2 (the DCX
+  message in message type 44; the field values of its section 5 examples and calculation
+  examples are used where the document gives them).
+* IS-QZSS-SAS-001 section 6.8 (L6E QZNMA frames, the 605-bit RDS of Figure 6-10) and the
+  IS-QZSS-SAS-002 DRAFT section 7.2 (ST13 messages in the QZNMA-CLAS slot, ST13,11
+  segmentation).
 
 The expected values are the chosen field values times the scale factors of those documents.
 These are SELF-DERIVED round-trip vectors: they show that two implementations of one
 reading agree, not that the reading matches the services. No interface-document example or
 recorded signal is stored here.
 
-Usage:  python3 gen_correction_vectors.py          (rewrite has.json, b2b.json, l6.json)
+Usage:  python3 gen_correction_vectors.py          (rewrite has.json, b2b.json, l6.json, l1s.json,
+                                                   qznma.json)
         python3 gen_correction_vectors.py --check  (exit 1 when a committed file differs)
 Python standard library only.
 """
@@ -866,7 +875,41 @@ def madoca_vectors():
     return [vec("l6-madoca-bds3-gnss-id-7-and-e6", "l6", frames,
                 {"messages": msgs, "unknown_gnss_ids": []},
                 "IS-QZSS-MDC-005 GNSS ID 7 (BDS-3, mask position 1 = C19) and Galileo E6 B/C "
-                "signal names")]
+                "signal names")] + [madoca_phase_bias_and_ura(flav, sats)]
+
+
+def madoca_phase_bias_and_ura(flav, sats):
+    w, m1 = cssr_mask(flav, 2000, 9, MDC_SYS)
+    msgs = [m1]
+    # ST5 phase bias: 15-bit bias (0.001 m, -16384 = not available) and a 2-bit
+    # discontinuity indicator per signal cell
+    e = cssr_head(w, 5, 1200, 9)
+    bs = []
+    for i, (lab, _, cells) in enumerate(sats):
+        row = []
+        for j, sig in enumerate(cells):
+            v = na(15) if (i, j) == (2, 1) else (i * 4111 - j * 2003) % 32000 - 16000
+            w.s(v, 15).u((3 * i + j) % 4, 2)
+            row.append({"signal": sig, "phase_bias_m": opt(v, 15, 0.001),
+                        "discontinuity": (3 * i + j) % 4})
+        bs.append({"sat": lab, "biases": row})
+    msgs.append(dict(e, biases=bs))
+    # ST7 URA: 6-bit class/value per satellite, 0 = undefined, 63 = over 5466.5 mm
+    e = cssr_head(w, 7, 1200, 9)
+    us = []
+    for i, (lab, _, _) in enumerate(sats):
+        u = [63, 0, 1, 17, 42][i % 5]
+        w.u(u, 6)
+        us.append({"sat": lab, "ura": u, "ura_mm": ura(u)})
+    msgs.append(dict(e, uras=us))
+    for m in msgs:
+        m.update(prn=199, service="madoca", facility=3)
+    frames = l6_frames(199, 0b010_11_00_0, w.b)
+    return vec("l6-madoca-phase-bias-and-ura", "l6", frames,
+               {"messages": msgs, "unknown_gnss_ids": []},
+               "IS-QZSS-MDC-005 section 4.2.2, sub type 5 (phase bias with discontinuity "
+               "indicator) and sub type 7 (URA); one phase bias cell carries the "
+               "not-available code")
 
 
 def iono_vectors():
@@ -922,6 +965,470 @@ def l6_doc():
                clas_vectors() + madoca_vectors() + iono_vectors() + l6_misc())
 
 
+# ---------------------------------------------------------------- QZSS L1S (SLAS, DC Report)
+
+L1S_PAB = {"A": 0b01010011, "B": 0b10011010, "C": 0b11000110}
+
+
+def l1s_frame(pab, mt, data_bits):
+    """250-bit L1S block: preamble, message type, 212 data bits, CRC-24Q over bits 1..226."""
+    assert len(data_bits) == 212, len(data_bits)
+    b = W().u(L1S_PAB[pab], 8).u(mt, 6).bits(data_bits).b
+    return hexof(b + [(crc24q(b) >> (23 - i)) & 1 for i in range(24)])
+
+
+def l1s_mask_number(sat):
+    sysl, n = sat[0], int(sat[1:])
+    return {"G": n + 16, "J": n + 192 - 112, "R": n + 89, "E": n + 125, "C": n + 161}[sysl]
+
+
+def l1s_mask_bits(sats):
+    nums = {l1s_mask_number(s) for s in sats}
+    return [1 if n in nums else 0 for n in range(17, 198)]
+
+
+def l1s_vectors():
+    vs = []
+    # MT48 PRN mask, IODP 2: five GPS, two QZSS, one each of GLONASS, Galileo, BeiDou.
+    mask = ["G01", "G03", "G05", "G17", "G64", "J01", "J07", "R02", "E11", "C36"]
+    m48 = l1s_frame("A", 48, W().u(2, 2).bits(l1s_mask_bits(mask)).u(0, 29).b)
+    vs.append(vec("l1s-mt48-mask", "l1s", [m48],
+                  {"frames": 1, "bad_crc": 0, "messages": [{"preamble": "A", "mt": 48, "crc_ok": True,
+                                                             "iodp": 2, "mask": mask}]}, None))
+    # MT49 after it: the first, third and sixth masked satellites selected.
+    sel = [1, 0, 1, 0, 0, 1] + [0] * 17
+    iods = [17, 0, 99, 0, 0, 255] + [0] * 17
+    w = W().u(1, 2).bits(sel)
+    for v in iods:
+        w.u(v, 8)
+    w.u(2, 2).u(0, 1)
+    m49 = l1s_frame("B", 49, w.b)
+    vs.append(vec("l1s-mt49-iod", "l1s", [m48, m49],
+                  {"messages": [{"mt": 48}, {"mt": 49, "iodi": 1, "iodp": 2,
+                                             "iod": [["G01", 17], ["G05", 99], ["J01", 255]]}]},
+                  "IODs map to satellites through the MT48 of the same IODP"))
+    # MT50: monitoring station 8 (Fukuoka), healthy; PRCs for four selected satellites, one
+    # of them the -81.92 m do-not-use code.
+    sel = [1, 1, 0, 1, 0, 0, 0, 0, 0, 1] + [0] * 13
+    prcs = [25, -2047, -2048, 2047]
+    w = W().u(2, 2).u(1, 2).u(8, 6).u(0, 1).bits(sel)
+    for v in prcs + [0] * 10:
+        w.s(v, 12)
+    w.u(0, 10)
+    m50 = l1s_frame("C", 50, w.b)
+    vs.append(vec("l1s-mt50-prc", "l1s", [m48, m50],
+                  {"messages": [{"mt": 48}, {"mt": 50, "iodp": 2, "iodi": 1, "gms_code": 8,
+                                             "gms_healthy": True, "prc": [
+                                                 {"sat": "G01", "prc_m": 1.0, "unhealthy_30s": False},
+                                                 {"sat": "G03", "prc_m": -81.88, "unhealthy_30s": False},
+                                                 {"sat": "G17", "prc_m": None, "unhealthy_30s": True},
+                                                 {"sat": "C36", "prc_m": 81.88, "unhealthy_30s": False}]}]},
+                  "PRC 0.04 m; -2048 marks the satellite unhealthy for 30 s"))
+    vs.append(vec("l1s-mt50-without-mask", "l1s", [m50],
+                  {"messages": [{"mt": 50, "iodp": 2, "note": "no MT48 with IODP 2 received before"}]},
+                  "no satellites without the mask"))
+    # MT47: two stations and three unused slots (code 63).
+    w = W()
+    for code, lat, lon, h in ((0, 43.15, 141.22, 50), (13, 24.37, 124.13, 100)):
+        w.u(code, 6).s(round(lat / 0.005), 15).s(round((lon - 115.0) / 0.005), 15).u((h + 100) // 50, 6)
+    for _ in range(3):
+        w.u(63, 6).u(0, 36)
+    w.u(0, 2)
+    vs.append(vec("l1s-mt47-stations", "l1s", [l1s_frame("A", 47, w.b)],
+                  {"messages": [{"mt": 47, "stations": [
+                      {"code": 0, "name": "Sapporo", "lat_deg": 43.15, "lon_deg": 141.22, "height_m": 50.0},
+                      {"code": 13, "name": "Ishigaki", "lat_deg": 24.37, "lon_deg": 124.13, "height_m": 100.0}]}]},
+                  "latitude and longitude 0.005 deg, longitude about 115 E, height 50 m about -100 m"))
+    # MT51: two unhealthy satellites.
+    vs.append(vec("l1s-mt51-health", "l1s",
+                  [l1s_frame("B", 51, W().u(0, 2).bits(l1s_mask_bits(["G05", "E11"])).u(0, 29).b)],
+                  {"messages": [{"mt": 51, "unhealthy": ["G05", "E11"]}]}, None))
+    vs += dcr_vectors()
+    vs += dcx_vectors()
+    # MT0 test mode, MT63 null, and a frame with a broken CRC.
+    m63 = l1s_frame("A", 63, [0] * 212)
+    # Flip one CRC bit (bit 241); the last hexadecimal digit holds two pad bits.
+    k = len(m63) - 3
+    broken = m63[:k] + "%x" % (int(m63[k], 16) ^ 8) + m63[k + 1:]
+    vs.append(vec("l1s-mt0-mt63-bad-crc", "l1s", [l1s_frame("B", 0, [0] * 212), m63, broken],
+                  {"frames": 3, "bad_crc": 1, "messages": [
+                      {"mt": 0, "crc_ok": True, "test_mode": True},
+                      {"mt": 63, "crc_ok": True}, {"crc_ok": False}]}, None))
+    return vs
+
+
+def l1s_doc():
+    return doc("l1s", "IS-QZSS-L1S-009 section 4.1; IS-QZSS-DCR-017 section 4.1.2.3; "
+               "IS-QZSS-DCX-004 section 4.2", l1s_vectors())
+
+
+# ---------------------------------------------------------------- DC Report bodies (MT43)
+
+def dcr_frame(pab, rc, dc, body, it=0, when=(11, 20, 6, 30)):
+    """MT43: common header, the 171-bit body, version number 1, six reserved bits."""
+    assert len(body) == 171, len(body)
+    w = W().u(rc, 3).u(dc, 4).u(when[0], 4).u(when[1], 5).u(when[2], 5).u(when[3], 6).u(it, 2)
+    return l1s_frame(pab, 43, w.bits(body).u(1, 6).u(0, 6).b)
+
+
+def dhm(w, d, h, m):
+    return w.u(d, 5).u(h, 5).u(m, 6)
+
+
+def latlon(w, south, lat, west, lon):
+    """Hemisphere flag and degrees, minutes, seconds."""
+    w.u(south, 1).u(lat[0], 7).u(lat[1], 6).u(lat[2], 6)
+    return w.u(west, 1).u(lon[0], 8).u(lon[1], 6).u(lon[2], 6)
+
+
+def dcr_case(i, pab, rc, dc, w, body_expect, note=None):
+    body = w.b
+    exp = {"messages": [{"mt": 43, "crc_ok": True, "dc_report": {
+        "classification": rc, "disaster_category": dc, "report_time": [11, 20, 6, 30],
+        "information_type": 0, "version": 1, "body": body_expect}}]}
+    return vec(i, "l1s", [dcr_frame(pab, rc, dc, body)], exp, note)
+
+
+def dcr_vectors():
+    vs = []
+    t = "IS-QZSS-DCR-017 Table 4.1.2-"
+    # 1 Earthquake early warning (Figure 4.1.2-1).
+    w = W().u(0, 4).u(2, 3).u(4, 3).u(201, 9).u(0, 9).u(0, 9)
+    dhm(w, 20, 6, 28).u(10, 9).u(59, 7).u(350, 10).u(5, 4).u(7, 4)
+    w.bits([1 if k in (1, 40, 80) else 0 for k in range(1, 81)]).u(0, 4)
+    vs.append(dcr_case("l1s-mt43-eew", "C", 1, 1, w, {
+        "table": t + "5", "long_period_lower": 2, "long_period_upper": 4, "notifications": [201],
+        "occurrence_time": {"day": 20, "hour": 6, "minute": 28}, "depth_code": 10,
+        "depth_km": 10, "magnitude_code": 59, "magnitude": 5.9, "epicenter": 350,
+        "intensity_lower": 5, "intensity_upper": 7, "forecast_regions": [1, 40, 80]},
+        "zero notification codes are dropped; forecast regions are the set flags"))
+    # 2 Hypocenter (Figure 4.1.2-2): depth above 500 km, magnitude above 8.0 (Mw unknown).
+    w = W().u(0, 10).u(211, 9).u(215, 9).u(0, 9)
+    dhm(w, 20, 6, 28).u(501, 9).u(126, 7).u(120, 10)
+    latlon(w, 0, (35, 41, 22), 0, (139, 41, 30)).u(0, 51)
+    vs.append(dcr_case("l1s-mt43-hypocenter", "A", 2, 2, w, {
+        "table": t + "12", "notifications": [211, 215], "depth_code": 501, "depth_km": None,
+        "magnitude_code": 126, "magnitude": None, "epicenter": 120,
+        "position": {"lat_deg": 35.689444, "lon_deg": 139.691667}}, None))
+    # 3 Seismic intensity (Figure 4.1.2-3): two regions, fourteen empty.
+    w = dhm(W().u(0, 10), 20, 6, 28)
+    for es, pl in [(5, 13), (4, 11)] + [(0, 0)] * 14:
+        w.u(es, 3).u(pl, 6)
+    w.u(0, 1)
+    vs.append(dcr_case("l1s-mt43-seismic-intensity", "B", 2, 3, w, {
+        "table": t + "14", "occurrence_time": {"day": 20, "hour": 6, "minute": 28},
+        "regions": [{"intensity": 5, "prefecture": 13}, {"intensity": 4, "prefecture": 11}]},
+        "trailing all-zero regions are not reported"))
+    # 4 Nankai Trough (Figure 4.1.2-4): page 1 of 2 of a UTF-8 headline.
+    text = "テスト".encode("utf-8")
+    w = W().u(0, 10).u(4, 4)
+    for byte in text + bytes(18 - len(text)):
+        w.u(byte, 8)
+    w.u(1, 6).u(2, 6).u(0, 1)
+    vs.append(dcr_case("l1s-mt43-nankai-trough", "C", 2, 4, w, {
+        "table": t + "18", "information_serial": 4, "page": 1, "pages": 2,
+        "text": (text + bytes(18 - len(text))).hex(), "text_utf8": "テスト"}, None))
+    # 5 Tsunami (Figure 4.1.2-5): expected, arrived, no data.
+    w = W().u(0, 10).u(122, 9).u(0, 9).u(0, 9).u(3, 4)
+    regions = [((0, 7, 15), 3, 100), ((0, 31, 63), 6, 200), ((0, 30, 62), 2, 1000)]
+    for (nd, h, m), th, pl in regions + [((0, 0, 0), 0, 0)] * 2:
+        w.u(nd, 1).u(h, 5).u(m, 6).u(th, 4).u(pl, 10)
+    vs.append(dcr_case("l1s-mt43-tsunami", "A", 1, 5, w, {
+        "table": t + "21", "notifications": [122], "warning": 3, "regions": [
+            {"arrival": {"next_day": False, "hour": 7, "minute": 15, "status": "expected"},
+             "height": 3, "region": 100},
+            {"arrival": {"next_day": False, "hour": 31, "minute": 63, "status": "arrived"},
+             "height": 6, "region": 200},
+            {"arrival": {"next_day": False, "hour": 30, "minute": 62, "status": "no_data"},
+             "height": 2, "region": 1000}]}, None))
+    # 6 North-west Pacific tsunami (Figure 4.1.2-6).
+    w = W().u(0, 10).u(2, 3)
+    for (nd, h, m), th, pl in [((1, 3, 5), 508, 100), ((0, 31, 63), 4, 1)] + [((0, 0, 0), 0, 0)] * 3:
+        w.u(nd, 1).u(h, 5).u(m, 6).u(th, 9).u(pl, 7)
+    w.u(0, 18)
+    vs.append(dcr_case("l1s-mt43-nw-pacific-tsunami", "B", 2, 6, w, {
+        "table": t + "26", "tsunamigenic_potential": 2, "regions": [
+            {"arrival": {"next_day": True, "hour": 3, "minute": 5, "status": "expected"},
+             "height": 508, "coastal_region": 100},
+            {"arrival": {"next_day": False, "hour": 31, "minute": 63,
+                         "status": "arrived_or_unknown"}, "height": 4, "coastal_region": 1}]}, None))
+    # 8 Volcano (Figure 4.1.2-7).
+    w = dhm(W().u(0, 7).u(3, 3), 20, 5, 59).u(21, 7).u(506, 12)
+    for pl in (1310100, 4799999, 0, 0, 0):
+        w.u(pl, 23)
+    w.u(0, 11)
+    vs.append(dcr_case("l1s-mt43-volcano", "C", 2, 8, w, {
+        "table": t + "30", "time_ambiguity": 3,
+        "activity_time": {"day": 20, "hour": 5, "minute": 59}, "warning": 21, "volcano": 506,
+        "local_governments": [1310100, 4799999]}, None))
+    # 9 Ash fall (Figure 4.1.2-8).
+    w = dhm(W().u(0, 10), 20, 5, 59).u(2, 2).u(506, 12)
+    for ho, dw, pl in [(2, 3, 4620600)] + [(0, 0, 0)] * 3:
+        w.u(ho, 3).u(dw, 3).u(pl, 23)
+    w.u(0, 15)
+    vs.append(dcr_case("l1s-mt43-ash-fall", "A", 2, 9, w, {
+        "table": t + "35", "warning_type": 2, "volcano": 506, "regions": [
+            {"expected_hours": 2, "warning": 3, "local_government": 4620600}]}, None))
+    # 10 Weather (Figure 4.1.2-9).
+    w = W().u(0, 10).u(1, 3)
+    for ww, pl in [(3, 130010), (7, 270000)] + [(0, 0)] * 4:
+        w.u(ww, 5).u(pl, 19)
+    w.u(0, 14)
+    vs.append(dcr_case("l1s-mt43-weather", "B", 2, 10, w, {
+        "table": t + "38", "warning_state": 1, "regions": [
+            {"sub_category": 3, "region": 130010}, {"sub_category": 7, "region": 270000}]}, None))
+    # 11 Flood (Figure 4.1.2-10): a 40-bit forecast region code.
+    w = W().u(0, 10)
+    for lv, pl in [(3, 830304004700)] + [(0, 0)] * 2:
+        w.u(lv, 4).u(pl, 40)
+    w.u(0, 29)
+    vs.append(dcr_case("l1s-mt43-flood", "C", 2, 11, w, {
+        "table": t + "43", "regions": [{"level": 3, "region": 830304004700}]}, None))
+    # 12 Typhoon (Figure 4.1.2-11).
+    w = dhm(W().u(0, 10), 20, 0, 0).u(1, 3).u(0, 8).u(0, 7).u(14, 7).u(1, 4).u(2, 4)
+    latlon(w, 0, (20, 30, 0), 0, (135, 0, 0)).u(965, 11).u(35, 7).u(50, 7).u(0, 46)
+    vs.append(dcr_case("l1s-mt43-typhoon", "A", 3, 12, w, {
+        "table": t + "47", "reference_time": {"day": 20, "hour": 0, "minute": 0},
+        "reference_type": 1, "elapsed_hours": 0, "typhoon_number": 14, "scale": 1,
+        "intensity": 2, "position": {"lat_deg": 20.5, "lon_deg": 135.0},
+        "pressure_hpa": 965, "max_wind_ms": 35, "max_gust_ms": 50}, None))
+    # 14 Marine (Figure 4.1.2-12), with a spare bit set.
+    w = W().u(0, 10)
+    for dw, pl in [(10, 1000), (12, 9100)] + [(0, 0)] * 6:
+        w.u(dw, 5).u(pl, 14)
+    w.u(1, 9)
+    vs.append(dcr_case("l1s-mt43-marine", "B", 3, 14, w, {
+        "table": t + "51", "regions": [{"warning": 10, "region": 1000},
+                                       {"warning": 12, "region": 9100}],
+        "spare_nonzero": True}, "a spare bit that is not zero is flagged"))
+    # 7 is unused (Table 4.1.2-2): the body stays hexadecimal.
+    body = [(i * 7 + 3) % 2 for i in range(171)]
+    vs.append(vec("l1s-mt43-unused-category", "l1s", [dcr_frame("C", 1, 7, body)],
+                  {"messages": [{"mt": 43, "note": "disaster category 7 is unused or unknown",
+                                 "dc_report": {"disaster_category": 7, "body": None,
+                                               "body_hex": hexof(body + [0])[:43]}}]}, None))
+    return vs
+
+
+# ---------------------------------------------------------------- DCX (MT44)
+
+JAPAN = 0b001101111
+
+
+def dcx_frame(pab, sdmt, sdm, camf, ex):
+    """MT44: SD (1 + 9), CAMF (A1..A18 as (value, bits) pairs), extended 74 bits, 6 reserved."""
+    w = W().u(sdmt, 1).bits(sdm)
+    for v, n in camf:
+        w.u(v, n)
+    assert len(w.b) == 132, len(w.b)
+    assert len(ex) == 74, len(ex)
+    return l1s_frame(pab, 44, w.bits(ex).u(0, 6).b)
+
+
+def camf(a1=0, a2=JAPAN, a3=0, a4=0, a5=0, a6=0, a7=0, a8=0, a9=1, a10=0, a11=0,
+         a12=0, a13=0, a14=0, a15=0, a16=0, a17=0, a18=0):
+    return [(a1, 2), (a2, 9), (a3, 5), (a4, 7), (a5, 2), (a6, 1), (a7, 14), (a8, 2), (a9, 1),
+            (a10, 3), (a11, 10), (a12, 16), (a13, 17), (a14, 5), (a15, 5), (a16, 6), (a17, 2),
+            (a18, 15)]
+
+
+def dcx_vectors():
+    vs = []
+    zero_sd = [0] * 9
+    # DCX-004 section 5 example (1), L-Alert: alert, severe, Sunday 13:00 (code 6 x 1440 +
+    # 13 x 60 + 1), 6 to 12 h, "keep away from" + "water area", the ellipse of the
+    # calculation examples (A12 45761, A13 116395, A14 13, A15 11, A16 48). The target area is
+    # the Sapporo code of the 4.2.4.1.1 coding example (1100). The hazard code is a value of
+    # ours (77): Table 4.2-7 is only excerpted in the document.
+    l_alert = camf(a1=1, a3=1, a4=77, a5=2, a7=9421, a8=2, a11=(3 << 8) | 5,
+                   a12=45761, a13=116395, a14=13, a15=11, a16=48)
+    ex = W().u(1100, 16).u(0, 1).u(0, 17).u(0, 17).u(0, 5).u(0, 5).u(0, 7).u(1, 6).b
+    ell = {"lat_deg": 35.688258, "lon_deg": 139.690855, "semi_major_km": 10.933,
+           "semi_minor_km": 5.979, "azimuth_deg": 45.0}
+    vs.append(vec("l1s-mt44-l-alert", "l1s", [dcx_frame("A", 0, zero_sd, l_alert, ex)],
+                  {"messages": [{"mt": 44, "dcx": {"kind": "l_alert", "camf": {
+                      "message_type": "alert", "country": JAPAN, "provider": 1, "hazard": 77,
+                      "severity": "severe", "onset_week": "current", "onset_time_code": 9421,
+                      "onset_time": {"weekday": "sunday", "hour": 13, "minute": 0},
+                      "duration": "6h_to_12h", "library": "country_region",
+                      "library_version": 1,
+                      "instruction": {"code": 773, "basic": "keep_away_from",
+                                      "information": "water_area"},
+                      "ellipse": ell, "specific_settings_type": "b1_main_ellipse_resolution"},
+                      "extended": {"target_area": 1100, "version": 1}}}]},
+                  "field values of the DCX-004 section 5 L-Alert example"))
+    # Example (2), local government: instruction not specified, the additional ellipse of the
+    # 4.2.4.1.3 to 4.2.4.1.7 calculation examples (EX3 91522, EX4 68950, EX7 96).
+    local = camf(a1=1, a3=4, a4=78, a5=2, a7=9421, a8=2, a12=45761, a13=116395, a14=13,
+                 a15=11, a16=48)
+    ex = W().u(1100, 16).u(0, 1).u(91522, 17).u(68950, 17).u(13, 5).u(11, 5).u(96, 7).u(1, 6).b
+    vs.append(vec("l1s-mt44-local-government", "l1s", [dcx_frame("B", 0, zero_sd, local, ex)],
+                  {"messages": [{"mt": 44, "dcx": {"kind": "local_government", "camf": {
+                      "provider": 4, "instruction": {"code": 0}, "ellipse": ell},
+                      "extended": {"target_area": 1100, "evacuate_direction": "leave_area",
+                                   "additional_ellipse": {
+                                       "lat_deg": 35.687299, "lon_deg": 139.689138,
+                                       "semi_major_km": 10.933, "semi_minor_km": 5.979,
+                                       "azimuth_deg": 45.0},
+                                   "version": 1}}}]},
+                  "field values of the DCX-004 section 5 local-government example"))
+    # Example (3), J-Alert: "move to" + "underground", Monday 12:00, prefecture list
+    # Hokkaido, Aomori, Akita (bit positions 47, 46, 43); SD as transmission status.
+    j = camf(a1=1, a3=2, a4=79, a5=2, a7=721, a11=(2 << 8) | 3)
+    flags = [1 if p in (47, 46, 43) else 0 for p in range(1, 48)]
+    ex = W().u(0, 1).bits(flags).u(0, 17).u(0, 3).u(1, 6).b
+    sd = [1, 1, 1, 1, 0, 0, 1, 0, 0]
+    vs.append(vec("l1s-mt44-j-alert-prefectures", "l1s", [dcx_frame("C", 1, sd, j, ex)],
+                  {"messages": [{"mt": 44, "dcx": {"kind": "j_alert",
+                      "sd": {"kind": "transmission_status", "flags": sd, "satellites": [
+                          {"prn": 183, "flag": 1}, {"prn": 184, "flag": 1},
+                          {"prn": 185, "flag": 1}, {"prn": 186, "flag": 1},
+                          {"prn": 189, "flag": 1}]},
+                      "camf": {"onset_time": {"weekday": "monday", "hour": 12, "minute": 0},
+                               "duration": "unknown", "ellipse": None,
+                               "instruction": {"code": 515, "basic": "move_to",
+                                               "information": "underground"}},
+                      "extended": {"list_type": "prefecture",
+                                   "prefectures": ["Hokkaido", "Aomori", "Akita"],
+                                   "version": 1}}}]},
+                  "field values of the DCX-004 section 5 J-Alert example; SDM bits to PRN "
+                  "per Table 5.6-3"))
+    ex = W().u(1, 1).u(1100, 16).u(1202, 16).u(0, 16).u(0, 16).u(0, 3).u(1, 6).b
+    vs.append(vec("l1s-mt44-j-alert-municipalities", "l1s", [dcx_frame("A", 0, zero_sd, j, ex)],
+                  {"messages": [{"mt": 44, "dcx": {"kind": "j_alert", "extended": {
+                      "list_type": "municipality", "target_areas": [1100, 1202]}}}]},
+                  "Sapporo and Hakodate codes of Table 4.2-21"))
+    # Information from an organisation outside Japan: international library lists A and B.
+    abroad = camf(a1=1, a2=13, a3=1, a4=44, a5=3, a9=0, a11=(5 << 5) | 9, a12=20000,
+                  a13=100000, a14=20, a15=18, a16=40)
+    body = [(k * 5 + 1) % 3 % 2 for k in range(68)]
+    ex = W().bits(body).u(2, 6).b
+    vs.append(vec("l1s-mt44-outside-japan", "l1s", [dcx_frame("B", 0, zero_sd, abroad, ex)],
+                  {"messages": [{"mt": 44, "dcx": {"kind": "outside_japan", "camf": {
+                      "country": 13, "severity": "extreme", "library": "international",
+                      "instruction": {"code": 169, "list_a": 5, "list_b": 9}},
+                      "extended": {"organization_specific_hex": hexof(body)[:17],
+                                   "version": 2}}}]}, None))
+    # The MT44 NULL message (Table 4.3-1) and a Japanese message of an unknown provider.
+    sd = [0, 0, 0, 0, 0, 0, 1, 0, 0]
+    vs.append(vec("l1s-mt44-null-and-discarded", "l1s",
+                  [dcx_frame("C", 0, sd, camf(a9=0), [0] * 74),
+                   dcx_frame("A", 0, zero_sd, camf(a1=1, a3=9), [0] * 74)],
+                  {"messages": [{"mt": 44, "dcx": {"kind": "null", "sd": {
+                      "kind": "service_type", "satellites": [
+                          {"prn": 183, "flag": 0}, {"prn": 184, "flag": 0},
+                          {"prn": 185, "flag": 0}, {"prn": 186, "flag": 0},
+                          {"prn": 189, "flag": 1}]}, "extended": None}},
+                      {"mt": 44, "dcx": {"kind": "discarded", "extended": None}}]},
+                  "DCX-004 section 5.7: A2 Japan with A3 other than 1 to 4 is discarded"))
+    return vs
+
+
+# ---------------------------------------------------------------- QZNMA (L6E)
+
+QZNMA_TYPE = 0b011 << 5
+
+
+def rds_bits(nma, rtow, sv, mt, re1, re2, rc, key, ds, salt):
+    w = W().u(nma, 4).u(rtow, 20).u(sv, 8).u(mt, 4).u(re1, 11).u(re2, 11).u(rc, 11).u(key, 8)
+    for byte in ds:
+        w.u(byte, 8)
+    return w.u(salt, 16).b
+
+
+def st13_head(w, sst, epoch, adi, mm, cmas, cpks):
+    return w.u(4073, 12).u(13, 4).u(sst, 4).u(epoch, 12).u(adi, 4).u(mm, 1).u(cmas, 2).u(cpks, 3)
+
+
+def qznma_frame(prn, rds1, rds2, slot, type_id=QZNMA_TYPE):
+    slot = slot + [0] * (485 - len(slot))
+    assert len(rds1) == 605 and len(rds2) == 605 and len(slot) == 485
+    return l6_frames(prn, type_id, rds1 + rds2 + slot)[0]
+
+
+def qznma_vectors():
+    vs = []
+    ds1 = bytes((k * 7) % 256 for k in range(64))
+    ds2 = bytes((k * 11 + 5) % 256 for k in range(64))
+    r1 = rds_bits(0, 1234, 12, 1, 77, 77, 300, 5, ds1, 0xBEEF)
+    r2 = rds_bits(0, 1234, 76, 5, 100, 0, 0, 5, ds2, 0x0102)
+    macs = [0x01020304 * (k + 1) & 0xFFFFFFFF for k in range(7)]
+    key = bytes(range(0xA0, 0xB0))
+    w = st13_head(W(), 1, 1805, 0, 0, 2, 1).u(1, 2).u(4, 4).u(8, 4).u(7, 4)
+    for m in macs:
+        w.u(m, 32)
+    for byte in key:
+        w.u(byte, 8)
+    w.u(1, 1).u(0b010011, 6)
+    f1 = qznma_frame(205, r1, r2, w.b)
+    rds = lambda sv, sat, mt, name, re1, re2, rc, ds, salt: {
+        "nma_id": 0, "rtow": 1234, "sv_id": sv, "sat": sat, "message_type": mt,
+        "message_type_name": name, "ref_ephemeris1": re1, "ref_ephemeris2": re2,
+        "ref_clock": rc, "key_id": 5, "signature": ds.hex(), "salt": salt, "used": True}
+    vs.append(vec("qznma-rds-and-auth-info", "qznma", [f1], {
+        "frames": 1, "messages": [{"index": 0, "prn": 205, "alert": False, "rds": [
+            rds(12, "G12", 1, "gps_lnav", 77, 77, 300, ds1, 0xBEEF),
+            rds(76, "E12", 5, "galileo_inav", 100, 0, 0, ds2, 0x0102)],
+            "clas_draft": [{"sub_subtype_name": "auth_info", "epoch_s": 1805, "adi": 0,
+                            "multiple": False, "cmas": 2, "cpks": 1, "chain_id": 1,
+                            "key_size": 4, "mac_size": 8,
+                            "macs": ["%08x" % m for m in macs], "key": key.hex(),
+                            "ccf": True, "ct": 19, "ct_m": 0.59,
+                            "default_message": False}]}]},
+        "two RDS (GPS LNAV, Galileo I/NAV) and a DRAFT ST13,1 with seven 32-bit MACs"))
+    # A filler RDS, an RDS with NMA ID 3 (unused) and the default ST13,1 (SAS-002 draft
+    # Table 7-13).
+    unused = W().u(3, 4).b + [0] * 601
+    w = st13_head(W(), 1, 1815, 0, 0, 3, 1).u(0, 2).u(15, 4).u(8, 4).u(0, 4).u(1, 1).u(0, 6)
+    vs.append(vec("qznma-filler-unused-default", "qznma", [qznma_frame(206, [0] * 605, unused, w.b)], {
+        "messages": [{"prn": 206, "rds": [None, {"nma_id": 3, "used": False}],
+                      "clas_draft": [{"sub_subtype_name": "auth_info", "cmas": 3, "macs": [],
+                                      "key": None, "ct": 0, "ct_m": 0.0,
+                                      "default_message": True}]}]}, None))
+    # An ST13,3 (P-256, 128-bit KROOT) split into two ST13,11 segments of stream 1, received
+    # out of order from two satellites (DRAFT Table 7-12 lets stream 1 combine them).
+    salt = bytes([9, 8, 7, 6, 5, 4])
+    kroot = bytes(range(0x10, 0x20))
+    sig = bytes((k * 13 + 1) % 256 for k in range(64))
+    w = st13_head(W(), 3, 3000, 15, 0, 2, 1).u(1, 2).u(1, 4).u(7, 8).u(0, 2).u(0, 2).u(4, 4)
+    w.u(2400, 12).u(10, 8)
+    for byte in salt + kroot + sig:
+        w.u(byte, 8)
+    rki = w.b
+    assert len(rki) == 132 + 128 + 512
+    data = rki + [0] * (780 - len(rki))
+    seg0 = W().u(4073, 12).u(13, 4).u(11, 4).u(1, 1).u(0, 8).u(1, 2).u(1, 4).u(3, 2).u(6, 3).bits(data[:420]).b
+    seg1 = W().u(4073, 12).u(13, 4).u(11, 4).u(0, 1).u(1, 8).u(1, 2).u(1, 4).u(3, 2).u(5, 3).bits(data[420:]).b
+    nothing = [0] * 605
+    vs.append(vec("qznma-segmented-root-key", "qznma",
+                  [qznma_frame(207, nothing, nothing, seg1), qznma_frame(205, nothing, nothing, seg0)], {
+        "messages": [
+            {"prn": 207, "clas_draft": [{"sub_subtype_name": "segment", "multiple": False,
+                                         "counter": 1, "iod": 1, "stream": 1, "data_bits": 360}]},
+            {"prn": 205, "clas_draft": [{"sub_subtype_name": "segment", "multiple": True,
+                                         "counter": 0, "iod": 1, "stream": 1, "data_bits": 420}]}],
+        "reassembled_draft": [{"sub_subtype_name": "root_key_info", "epoch_s": 3000, "adi": 15,
+                               "cmas": 2, "cpks": 1, "chain_id": 1, "public_key_type": 1,
+                               "public_key_id": 7, "test_key": False, "hash_function": 0,
+                               "mac_function": 0, "key_size": 4, "kroot_week": 2400,
+                               "kroot_hour": 10, "salt": salt.hex(), "kroot": kroot.hex(),
+                               "signature": sig.hex()}]},
+        "DRAFT: segments are joined by counter once the last one (multiple indicator 0) and "
+        "every earlier counter are in"))
+    # Other L6 vendors, short frames and a wrong preamble are counted.
+    clas = qznma_frame(199, nothing, nothing, [], type_id=0b101 << 5)
+    bad = "0" + f1[1:]
+    vs.append(vec("qznma-other-frames", "qznma", [clas, f1[:400], bad, f1], {
+        "frames": 4, "other_vendor": 1, "short": 1, "bad_preamble": 1,
+        "messages": [{"index": 3, "prn": 205}]}, None))
+    return vs
+
+
+def qznma_doc():
+    return doc("qznma", "IS-QZSS-SAS-001 sections 6.8 and 6.1.8; IS-QZSS-SAS-002 DRAFT "
+               "sections 7.2 and 7.4", qznma_vectors())
+
+
 # ---------------------------------------------------------------- output
 
 def vec(i, decoder, frames, expect, note):
@@ -942,7 +1449,8 @@ def render(d):
 
 def main():
     here = os.path.dirname(os.path.abspath(__file__))
-    docs = {"has.json": has_vectors(), "b2b.json": b2b_vectors(), "l6.json": l6_doc()}
+    docs = {"has.json": has_vectors(), "b2b.json": b2b_vectors(), "l6.json": l6_doc(), "l1s.json": l1s_doc(),
+            "qznma.json": qznma_doc()}
     check = "--check" in sys.argv[1:]
     bad = []
     for name, d in docs.items():

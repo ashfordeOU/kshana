@@ -8112,6 +8112,58 @@
   ]
  },
  {
+  "id": "e-gnss-slots-unknown-set",
+  "error": true,
+  "parts": [
+   "unknown slot set `",
+   {
+    "var": "name"
+   },
+   "` (known: ",
+   {
+    "var": "sets"
+   },
+   ")"
+  ]
+ },
+ {
+  "id": "e-gnss-slots-out-of-range",
+  "error": true,
+  "parts": [
+   "slot `",
+   {
+    "var": "id"
+   },
+   "`: `",
+   {
+    "var": "field"
+   },
+   "` is missing, not finite or out of range"
+  ]
+ },
+ {
+  "id": "e-gnss-slots-geo-needs-lon",
+  "error": true,
+  "parts": [
+   "GEO slot `",
+   {
+    "var": "id"
+   },
+   "` needs lon_deg"
+  ]
+ },
+ {
+  "id": "e-gnss-slots-igso-needs-one-longitude",
+  "error": true,
+  "parts": [
+   "IGSO slot `",
+   {
+    "var": "id"
+   },
+   "` needs a non-zero inclination_deg and exactly one of crossing_lon_deg and center_lon_deg"
+  ]
+ },
+ {
   "id": "e-python-pll-bws-dll-bws-spacings",
   "error": true,
   "parts": [
@@ -10115,7 +10167,7 @@
   "id": "main-usage",
   "error": false,
   "parts": [
-   "usage: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]\n   or: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]\n   or: kshana --study <suite.toml>\n   or: kshana --validate <scenario.toml>\n   or: kshana receiver-trust <scenario.toml>\n   or: kshana receiver-trust live <session.toml> [--stdin | --file <path> [--follow] | --tcp <host:port> | --udp <port>] [--gate] (kshana receiver-trust live --help)\n   or: kshana receiver-trust evidence <scenario.toml> --from <t0> --to <t1> --key <keyfile> --out <dir> (kshana evidence --help)\n   or: kshana evidence <keygen|verify|attach-timestamp> ... (kshana evidence --help)\n   or: kshana jammertest <import|score> ... (kshana jammertest --help)\n   or: kshana evidence round-trip <scenario.toml> --scenario <bench-scenario> --conditions <file> --from <t0> --to <t1> --key <keyfile> --out <dir> (kshana evidence --help)\n   or: kshana trust-telemetry [options] (kshana trust-telemetry --help)\n   or: kshana imu-fit <imu.csv> [--format csv|euroc] [--axis x|y|z] [--expected-mean <m/s2>] [--id <name>] [--json]\n   or: kshana ephem-export <horizons.txt> [--format oem|opm|spk] [--out <file>] [--index <n>] [--spk-type 13|9] [--degree <n>] [--creation-date <YYYY-MM-DDTHH:MM:SS>] [--object-id <id>]\n   or: kshana nmea-scenario <scenario.toml> [--out <file.nmea>] [--tcp <addr>|--udp <addr>] (kshana nmea-scenario --help)\n   or: kshana interference-map <adsb|ais|fetch-land> ... (kshana interference-map --help)\n   or: kshana route-exposure --route <route> --map <map.geojson|dir> [--from <date>] [--to <date>]\n   or: kshana bench <spec|truth|cases|score|baseline|seal|reveal-check|manifest|verify-manifest|validate|leaderboard> ... (kshana bench --help)\n   or: kshana bench-export <scenario.toml> [--out <base>] [--epoch <YYYY-MM-DDTHH:MM:SS>]\n   or: kshana compliance-report [--out <base>] <result.json>... | --mapping | --sources\n   or: kshana lunanet-afs-check <spec [--json] [--strict]|symbols <file> [--max-sp-errors <n>] [--json]|generate --frames <n> [--toi0 <t>] --out <file>>\n   or: kshana standards-pack <list|run <id> [--json] [--out <base>]|rows <id>|tests <id>>\n   or: kshana partner check <submission.toml> [--json]\n   or: kshana scenario <migrate <scenario.toml> [--in-place] | version>\n   or: kshana obs <convert <log> --format <format> --station <station.toml> [--out <file>] | check <file.obs.jsonl> [--json]>\n   or: kshana connect <map <input> --mapping <connect.toml> --station <station.toml> [--out <file.obs.jsonl>] | check <vector.toml|dir> [--bless] | watch <dir> --mapping <connect.toml> --station <station.toml> [--suffix <.csv>] [--interval <s>] [--once] | mqtt <host:port> --topic <filter> --mapping <connect.toml> --station <station.toml> [--header <row>] [--qos 0|1] [--user <name> --password-env <VAR>] [--client-id <id>] [--max-messages <n>] [--per-topic] | nats <host:port> --subject <s> --mapping <connect.toml> --station <station.toml> [--header <row>] [--per-topic] [--user <name> --password-env <VAR> | --token-env <VAR>] [--max-messages <n>] | ws <ws://host:port/path> --mapping <connect.toml> --station <station.toml> [--header <row>] [--max-messages <n>] | check-live <vector.toml|dir> [--json] | load-test [--stations <n>] [--rate <Hz>] [--seconds <s>] [--via memory|mqtt] [--json] | adapters <list|check> [<dir>] [--json]>\n   or: kshana osnma verify <pages|vectors.csv|stream.ubx> [--merkle-root <hex>] [--public-key <id:type:hex>] [--reference-time <gst-s>] [--json] (kshana osnma --help)\n   or: kshana iq <scene|acquire|track|sweep|labfit|campaign|conditions|frontend|monitor|diagnose|gnss-sdr-conf|inventory|info|extract|convert|decimate> ... (kshana iq --help)\n   or: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)\n   or: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>\n   or: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]\n   or: kshana time-vectors [--json] [<vectors.json|dir> ...]\n   or: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>\n   or: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>\n   or: kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)\n   or: kshana orbit-data <check|convert|gp-compare|gp-audit|cov> ... (kshana orbit-data --help)\n   or: kshana drone <prearm|prearm-calibrate|estimator-cases|dr-budget|quad-loss|failover|zonotope-pl> ... (kshana drone --help)\n   or: kshana kinds [--json]\n   or: kshana example [<name>]\n   or: kshana --help | --version"
+   "usage: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]\n   or: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]\n   or: kshana --study <suite.toml>\n   or: kshana --validate <scenario.toml>\n   or: kshana receiver-trust <scenario.toml>\n   or: kshana receiver-trust live <session.toml> [--stdin | --file <path> [--follow] | --tcp <host:port> | --udp <port>] [--gate] (kshana receiver-trust live --help)\n   or: kshana receiver-trust evidence <scenario.toml> --from <t0> --to <t1> --key <keyfile> --out <dir> (kshana evidence --help)\n   or: kshana evidence <keygen|verify|attach-timestamp> ... (kshana evidence --help)\n   or: kshana jammertest <import|score> ... (kshana jammertest --help)\n   or: kshana evidence round-trip <scenario.toml> --scenario <bench-scenario> --conditions <file> --from <t0> --to <t1> --key <keyfile> --out <dir> (kshana evidence --help)\n   or: kshana trust-telemetry [options] (kshana trust-telemetry --help)\n   or: kshana imu-fit <imu.csv> [--format csv|euroc] [--axis x|y|z] [--expected-mean <m/s2>] [--id <name>] [--json]\n   or: kshana ephem-export <horizons.txt> [--format oem|opm|spk] [--out <file>] [--index <n>] [--spk-type 13|9] [--degree <n>] [--creation-date <YYYY-MM-DDTHH:MM:SS>] [--object-id <id>]\n   or: kshana nmea-scenario <scenario.toml> [--out <file.nmea>] [--tcp <addr>|--udp <addr>] (kshana nmea-scenario --help)\n   or: kshana interference-map <adsb|ais|fetch-land> ... (kshana interference-map --help)\n   or: kshana route-exposure --route <route> --map <map.geojson|dir> [--from <date>] [--to <date>]\n   or: kshana bench <spec|truth|cases|score|baseline|seal|reveal-check|manifest|verify-manifest|validate|leaderboard|positions|datasets|cite|golden|holdout> ... (kshana bench --help)\n   or: kshana bench-export <scenario.toml> [--out <base>] [--epoch <YYYY-MM-DDTHH:MM:SS>]\n   or: kshana compliance-report [--out <base>] <result.json>... | --mapping | --sources\n   or: kshana lunanet-afs-check <spec [--json] [--strict]|symbols <file> [--max-sp-errors <n>] [--json]|generate --frames <n> [--toi0 <t>] --out <file>>\n   or: kshana standards-pack <list|run <id> [--json] [--out <base>]|rows <id>|tests <id>>\n   or: kshana partner check <submission.toml> [--json]\n   or: kshana scenario <migrate <scenario.toml> [--in-place] | version>\n   or: kshana obs <convert <log> --format <format> --station <station.toml> [--out <file>] | check <file.obs.jsonl> [--json]>\n   or: kshana connect <map <input> --mapping <connect.toml> --station <station.toml> [--out <file.obs.jsonl>] | check <vector.toml|dir> [--bless] | watch <dir> --mapping <connect.toml> --station <station.toml> [--suffix <.csv>] [--interval <s>] [--once] | mqtt <host:port> --topic <filter> --mapping <connect.toml> --station <station.toml> [--header <row>] [--qos 0|1] [--user <name> --password-env <VAR>] [--client-id <id>] [--max-messages <n>] [--per-topic] | nats <host:port> --subject <s> --mapping <connect.toml> --station <station.toml> [--header <row>] [--per-topic] [--user <name> --password-env <VAR> | --token-env <VAR>] [--max-messages <n>] | ws <ws://host:port/path> --mapping <connect.toml> --station <station.toml> [--header <row>] [--max-messages <n>] | check-live <vector.toml|dir> [--json] | load-test [--stations <n>] [--rate <Hz>] [--seconds <s>] [--via memory|mqtt] [--json] | adapters <list|check> [<dir>] [--json]>\n   or: kshana osnma verify <pages|vectors.csv|stream.ubx> [--merkle-root <hex>] [--public-key <id:type:hex>] [--reference-time <gst-s>] [--json] (kshana osnma --help)\n   or: kshana iq <scene|acquire|track|sweep|labfit|campaign|conditions|frontend|monitor|diagnose|gnss-sdr-conf|inventory|info|extract|convert|decimate> ... (kshana iq --help)\n   or: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)\n   or: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>\n   or: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]\n   or: kshana space-receiver <clock|timestamps|dynamics|bench|mms|od-vs-tle> ... [--out <file.json>] (kshana space-receiver --help)\n   or: kshana feed <pack|verify|send|spectrum|leaderboard|watch> ... (kshana feed --help)\n   or: kshana register-products <verify|show|diff> ... (kshana register-products --help)\n   or: kshana register <check|crl-check|view|sign> ... (kshana register --help)\n   or: kshana interference-env <evaluate|thresholds|degradation> ... (kshana interference-env --help)\n   or: kshana arctic-plan --site <lat,lon[,h]> | --place <name> [--systems <a,b,...>] [--compare] [--hours <h>] [--kp <n>] ... (kshana arctic-plan --help)\n   or: kshana lunar-afs-kit <vectors|registry|output-check|output-example|output-reexpress> ... (kshana lunar-afs-kit --help)\n   or: kshana lunar-ref <tcb-tcl|approx|convert|transform|terms|models> ... (kshana lunar-ref --help)\n   or: kshana signal-readiness <profile.toml> [<obs.rnx>...]\n   or: kshana leo-od-plan <plan.toml>\n   or: kshana claim-check [<dataset.json>...] [--out <file.json>] | --template\n   or: kshana afs-interop <study|ue-register> ... (kshana afs-interop --help)\n   or: kshana timing-stack <tai|ts2phc|pps|shm|ntpq|nts> ... (kshana timing-stack --help)\n   or: kshana sil-obsgen <scenario.toml> --out <obs.rnx> [--truth <truth.json>]\n   or: kshana time-vectors [--json] [<vectors.json|dir> ...]\n   or: kshana corrections <decode --format <has|b2b|l6|l1s|qznma> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...] | qznma-verify [--frames <frames.txt>] [--nav <nav.txt>] --pubkey <key.der> ...>\n   or: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>\n   or: kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)\n   or: kshana orbit-data <check|convert|gp-compare|gp-audit|cov> ... (kshana orbit-data --help)\n   or: kshana drone <prearm|prearm-calibrate|estimator-cases|dr-budget|quad-loss|failover|zonotope-pl> ... (kshana drone --help)\n   or: kshana leo-verify <burst-timing|holdover-tdev|cost|indoor|rain-fade|rtk-ar|jam-claim|doppler-integrity> <input.json>\n   or: kshana sil-obs <generate|compare> ... (kshana sil-obs --help)\n   or: kshana interference-lib <models|generate|fit|bench|cases> ... (kshana interference-lib --help)\n   or: kshana antenna-cal <lint|spread|compare|group-delay|js-margin> ... (kshana antenna-cal --help)\n   or: kshana quantum-bench <protocol|simulate|score> ... (kshana quantum-bench --help)\n   or: kshana soop-clock <lte|cp|synth-lte> ... (kshana soop-clock --help)\n   or: kshana adsb-indicators <adsb.csv> [--cell-deg <d>] [--out <indicators.json>]\n   or: kshana interference-atlas <build|verify|cors> ... (kshana interference-atlas --help)\n   or: kshana kinds [--json]\n   or: kshana example [<name>]\n   or: kshana --help | --version"
   ]
  },
  {
@@ -10451,7 +10503,7 @@
   "id": "bench-cli-usage",
   "error": false,
   "parts": [
-   "usage: kshana bench spec\n   or: kshana bench truth --task a --data <extracted JammerTest 2024 dir> --split <dev|test|holdout|all> --out <truth.json>\n   or: kshana bench cases --task <c|d> --split <dev|test|holdout> --out <dir> [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]\n   or: kshana bench score --truth <truth.json> --predictions <predictions.json> [--threshold <x>] [--out <result.json>]\n   or: kshana bench baseline --task <a|b|c|d> --split <dev|test|holdout> --out <dir> [--data <dir>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]\n   or: kshana bench seal --task <a|b|c|d> --seed-file <file> [--new]\n   or: kshana bench reveal-check --task <a|b|c|d> --seed-file <file> --commitment <hex>\n   or: kshana bench manifest --task a --data <extracted dir> [--archive <tar.gz>] --out <manifest.json>\n   or: kshana bench verify-manifest <manifest.json> --root <dir>\n   or: kshana bench validate <result.json>...\n   or: kshana bench leaderboard [<results dir|result.json>...] --out <page.html> [--fragment]   (no inputs: the empty state; --fragment: an embeddable section)\n   (a seed file holds the secret behind a sealed holdout; keep it out of version control)"
+   "usage: kshana bench spec\n   or: kshana bench truth --task a --data <extracted JammerTest 2024 dir> --split <dev|test|holdout|all> --out <truth.json>\n   or: kshana bench truth --task g --data <GSDC-layout train dir> --split <dev|test|holdout> --out <truth.json>\n   or: kshana bench cases --task <c|d|f> --split <dev|test|holdout> --out <dir> [--data <dataset.csv>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]\n   or: kshana bench score --truth <truth.json> --predictions <predictions.json> [--threshold <x>] [--out <result.json>]\n   or: kshana bench baseline --task <a|b|c|d|e|f|g> --split <dev|test|holdout> --out <dir> [--data <dir>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]\n   or: kshana bench seal --task <a|b|c|d> --seed-file <file> [--new]\n   or: kshana bench reveal-check --task <a|b|c|d> --seed-file <file> --commitment <hex>\n   or: kshana bench manifest --task a --data <extracted dir> [--archive <tar.gz>] --out <manifest.json>\n   or: kshana bench verify-manifest <manifest.json> --root <dir>\n   or: kshana bench positions --task g --split <dev|test|holdout> --csv <submission.csv> --name <system> [--version <v>] --out <predictions.json>\n   or: kshana bench datasets [--json | --check [--root <repo>]]\n   or: kshana bench cite <result.json>...\n   or: kshana bench golden [--root <repo>] (--out <GOLDEN.json> | --check <GOLDEN.json>)\n   or: kshana bench validate <result.json>...\n   or: kshana bench leaderboard [<results dir|result.json>...] --out <page.html> [--fragment]   (no inputs: the empty state; --fragment: an embeddable section)\n   or: kshana bench holdout truth --task <f|g> --data <private data> --out <private dir>\n   or: kshana bench holdout register --truth <private truth.json>\n   or: kshana bench holdout score --task <f|g> --predictions <predictions.json> [--truth <private truth.json>] [--out <result.json>]   (KSHANA_BENCH_HOLDOUT_F, KSHANA_BENCH_HOLDOUT_G)\n   (a seed file holds the secret behind a sealed holdout; keep it out of version control)"
   ]
  },
  {
@@ -13710,17 +13762,6 @@
   ]
  },
  {
-  "id": "bench-cli-unknown-task-e",
-  "error": false,
-  "parts": [
-   "unknown task `",
-   {
-    "var": "t"
-   },
-   "` (a, b, c, d or e)"
-  ]
- },
- {
   "id": "e-mission-thread-earth-tli-cruise-impulse-after-end",
   "error": true,
   "parts": [
@@ -15460,6 +15501,68 @@
   ]
  },
  {
+  "id": "leo-verify-usage",
+  "error": false,
+  "parts": [
+   "usage: kshana leo-verify <burst-timing|holdover-tdev|cost|indoor|rain-fade|rtk-ar|jam-claim|doppler-integrity> <input.json> (docs/LEO-VERIFY.md)"
+  ]
+ },
+ {
+  "id": "e-leo-verify-input",
+  "error": true,
+  "parts": [
+   "the ",
+   {
+    "var": "part"
+   },
+   " input is not valid: ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-leo-verify-field",
+  "error": true,
+  "parts": [
+   {
+    "var": "field"
+   },
+   " is out of range: ",
+   {
+    "var": "value"
+   }
+  ]
+ },
+ {
+  "id": "e-leo-verify-too-large",
+  "error": true,
+  "parts": [
+   "the run is too large: ",
+   {
+    "var": "n"
+   },
+   " steps (at most ",
+   {
+    "var": "max"
+   },
+   ")"
+  ]
+ },
+ {
+  "id": "e-leo-verify-unknown-id",
+  "error": true,
+  "parts": [
+   {
+    "var": "field"
+   },
+   " names an unknown id: ",
+   {
+    "var": "id"
+   }
+  ]
+ },
+ {
   "id": "drone-usage",
   "error": false,
   "parts": [
@@ -17134,7 +17237,7 @@
    {
     "var": "decoder"
    },
-   " (has, b2b, l6)"
+   " (has, b2b, l6, l1s, qznma)"
   ]
  },
  {
@@ -17184,7 +17287,7 @@
   "id": "corrections-usage",
   "error": false,
   "parts": [
-   "usage: kshana corrections decode --format <has|b2b|l6> <frames.txt | -> | kshana corrections vectors [--json] [<vectors.json | dir> ...]  (one frame per line in hexadecimal; docs/CORRECTION-DECODERS.md)"
+   "usage: kshana corrections decode --format <has|b2b|l6|l1s|qznma> <frames.txt | -> | kshana corrections vectors [--json] [<vectors.json | dir> ...] | kshana corrections qznma-verify [--frames <frames.txt>] [--nav <nav.txt>] --pubkey <ID:key.der | 001.der> ...  (one frame per line in hexadecimal; docs/CORRECTION-DECODERS.md)"
   ]
  },
  {
@@ -17230,6 +17333,2908 @@
   "error": true,
   "parts": [
    "--source-url is required: every record cites the https:// address where the product is published"
+  ]
+ },
+ {
+  "id": "bench-data-no-header",
+  "error": false,
+  "parts": [
+   {
+    "var": "file"
+   },
+   ": no header row"
+  ]
+ },
+ {
+  "id": "bench-data-no-column",
+  "error": false,
+  "parts": [
+   {
+    "var": "file"
+   },
+   ": no column `",
+   {
+    "var": "column"
+   },
+   "`"
+  ]
+ },
+ {
+  "id": "bench-data-bad-value",
+  "error": false,
+  "parts": [
+   {
+    "var": "file"
+   },
+   " line ",
+   {
+    "var": "line"
+   },
+   ": `",
+   {
+    "var": "column"
+   },
+   "` is missing or not valid"
+  ]
+ },
+ {
+  "id": "bench-data-no-rows",
+  "error": false,
+  "parts": [
+   {
+    "var": "file"
+   },
+   ": no data rows"
+  ]
+ },
+ {
+  "id": "bench-task-has-no-holdout",
+  "error": false,
+  "parts": [
+   "task (",
+   {
+    "var": "task"
+   },
+   ") has no holdout split: its data and its split are public"
+  ]
+ },
+ {
+  "id": "bench-unknown-baseline",
+  "error": false,
+  "parts": [
+   "unknown baseline `",
+   {
+    "var": "name"
+   },
+   "`"
+  ]
+ },
+ {
+  "id": "bench-g-no-traces",
+  "error": false,
+  "parts": [
+   "no <drive>/<phone>/ground_truth.csv under ",
+   {
+    "var": "root"
+   }
+  ]
+ },
+ {
+  "id": "bench-g-no-object",
+  "error": false,
+  "parts": [
+   "no `",
+   {
+    "var": "key"
+   },
+   "` object of traces"
+  ]
+ },
+ {
+  "id": "bench-g-bad-epoch",
+  "error": false,
+  "parts": [
+   "trace `",
+   {
+    "var": "id"
+   },
+   "`: each epoch must be [UnixTimeMillis, latitude, longitude]"
+  ]
+ },
+ {
+  "id": "bench-f-dataset-mismatch",
+  "error": false,
+  "parts": [
+   {
+    "var": "path"
+   },
+   ": SHA-256 ",
+   {
+    "var": "got"
+   },
+   " is not the pinned dataset.csv of task (f); fetch it with scripts/fetch_opssat_ad.sh"
+  ]
+ },
+ {
+  "id": "bench-cli-unknown-task-g",
+  "error": false,
+  "parts": [
+   "unknown task `",
+   {
+    "var": "t"
+   },
+   "` (a to g)"
+  ]
+ },
+ {
+  "id": "bench-cli-wrote-predictions",
+  "error": false,
+  "parts": [
+   "wrote ",
+   {
+    "var": "path"
+   },
+   " (",
+   {
+    "var": "traces"
+   },
+   " traces)"
+  ]
+ },
+ {
+  "id": "bench-datasets-summary",
+  "error": false,
+  "parts": [
+   {
+    "var": "n"
+   },
+   " datasets: ",
+   {
+    "var": "in_bench"
+   },
+   " in the bench, ",
+   {
+    "var": "candidate"
+   },
+   " candidates, ",
+   {
+    "var": "wanted"
+   },
+   " wanted"
+  ]
+ },
+ {
+  "id": "bench-datasets-ok",
+  "error": false,
+  "parts": [
+   "registry: ",
+   {
+    "var": "n"
+   },
+   " datasets, every rule met"
+  ]
+ },
+ {
+  "id": "bench-golden-ok",
+  "error": false,
+  "parts": [
+   {
+    "var": "n"
+   },
+   " frozen files unchanged; citation ids stable"
+  ]
+ },
+ {
+  "id": "bench-golden-written",
+  "error": false,
+  "parts": [
+   "wrote ",
+   {
+    "var": "path"
+   },
+   " (",
+   {
+    "var": "n"
+   },
+   " frozen files)"
+  ]
+ },
+ {
+  "id": "bench-site-title-f",
+  "error": false,
+  "parts": [
+   "Task (f): spacecraft telemetry anomaly detection"
+  ]
+ },
+ {
+  "id": "bench-site-title-g",
+  "error": false,
+  "parts": [
+   "Task (g): smartphone positioning accuracy"
+  ]
+ },
+ {
+  "id": "bench-site-col-ap",
+  "error": false,
+  "parts": [
+   "Average precision"
+  ]
+ },
+ {
+  "id": "bench-site-col-gsdc-score",
+  "error": false,
+  "parts": [
+   "Score, mean of P50 and P95 (m)"
+  ]
+ },
+ {
+  "id": "bench-site-col-p50",
+  "error": false,
+  "parts": [
+   "P50 pooled (m)"
+  ]
+ },
+ {
+  "id": "bench-site-col-p95",
+  "error": false,
+  "parts": [
+   "P95 pooled (m)"
+  ]
+ },
+ {
+  "id": "space-receiver-usage",
+  "error": false,
+  "parts": [
+   "usage: kshana space-receiver clock [--orbit <preset|a_km,e,i_deg>] [--oscillator <name>] [--temp-swing <K>] [--outage-min <m>]... | timestamps <tags.csv> [--oscillator <name>] [--step-floor <s>] [--gap-factor <x>] [--window <n>] | dynamics [--orbit <preset|a_km,e,i_deg>] [--duration-min <m>] [--step-s <s>] [--band l1|l5] [--max-off-boresight <deg>] [--max-doppler <Hz>] [--max-doppler-rate <Hz/s>] | bench [--list] [--case <id>]... [--cn0 <dB-Hz>] [--oscillator <name>] [--max-doppler <Hz>] [--max-doppler-rate <Hz/s>] [--time-budget <s>] [--sidelobes] | mms [--cn0 <dB-Hz>] [--orbits <n>] [--step-min <m>] | od-vs-tle <onboard.oem> --tle <set.tle>   [--out <file.json>]  (docs/SPACE-RECEIVER.md)"
+  ]
+ },
+ {
+  "id": "e-space-receiver-missing-value",
+  "error": true,
+  "parts": [
+   {
+    "var": "option"
+   },
+   " needs a value"
+  ]
+ },
+ {
+  "id": "e-space-receiver-unknown-option",
+  "error": true,
+  "parts": [
+   "unknown option ",
+   {
+    "var": "option"
+   },
+   " (kshana space-receiver --help lists the options)"
+  ]
+ },
+ {
+  "id": "e-space-receiver-cannot-read",
+  "error": true,
+  "parts": [
+   "cannot read ",
+   {
+    "var": "path"
+   },
+   ": ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-space-receiver-cannot-write",
+  "error": true,
+  "parts": [
+   "cannot write ",
+   {
+    "var": "path"
+   },
+   ": ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-space-receiver-bad-number",
+  "error": true,
+  "parts": [
+   {
+    "var": "option"
+   },
+   ": ",
+   {
+    "var": "value"
+   },
+   " is not a valid number"
+  ]
+ },
+ {
+  "id": "e-space-receiver-unknown-name",
+  "error": true,
+  "parts": [
+   "unknown name ",
+   {
+    "var": "name"
+   },
+   " (known: ",
+   {
+    "var": "known"
+   },
+   ")"
+  ]
+ },
+ {
+  "id": "e-space-receiver-no-columns",
+  "error": true,
+  "parts": [
+   "the CSV header must name t_ref_s and either t_rx_s or week and tow_s"
+  ]
+ },
+ {
+  "id": "e-space-receiver-bad-row",
+  "error": true,
+  "parts": [
+   "line ",
+   {
+    "var": "line"
+   },
+   ": a required column is missing or not a number"
+  ]
+ },
+ {
+  "id": "e-space-receiver-too-few-rows",
+  "error": true,
+  "parts": [
+   "at least three timestamp rows are needed"
+  ]
+ },
+ {
+  "id": "e-space-receiver-no-tle",
+  "error": true,
+  "parts": [
+   "no two-line element set found (line 1 starting \"1 \" followed by line 2)"
+  ]
+ },
+ {
+  "id": "e-space-receiver-oem-frame",
+  "error": true,
+  "parts": [
+   "OEM reference frame ",
+   {
+    "var": "frame"
+   },
+   " is not one this comparison reads (EME2000, GCRF, ICRF or TEME)"
+  ]
+ },
+ {
+  "id": "feed-usage",
+  "error": false,
+  "parts": [
+   "usage: kshana feed pack <file.obs.jsonl|dir>... --key <keyfile> [--privacy public|exact] [--grid-deg <deg>] [--created <time>] [--include-open] [--out <bundle.json>] | verify <bundle.json> [--pubkey <hex>] [--json] | send <bundle.json> --url <http://host:port/path> [--token-file <file>] | spectrum <capture> --format cu8|ci8|ci16_le --rate <Hz> --centre <Hz> --station <station.toml> [--front-end <name>] [--nfft <n>] [--bins <n>] [--max-samples <n>] [--time <label>] [--out <file.obs.jsonl>] | leaderboard <bundle.json>... [--json] | watch <dir|file>... --key <keyfile> --spool <dir> [--url <http://host:port/path>] [--token-file <file>] [--interval-s <s>] [--privacy public|exact] [--grid-deg <deg>] [--include-open] [--once]  (docs/FEEDER.md)"
+  ]
+ },
+ {
+  "id": "feed-packed",
+  "error": false,
+  "parts": [
+   {
+    "var": "out"
+   },
+   ": bundle for station ",
+   {
+    "var": "station"
+   },
+   ", ",
+   {
+    "var": "files"
+   },
+   " files, ",
+   {
+    "var": "epochs"
+   },
+   " epochs, privacy ",
+   {
+    "var": "mode"
+   }
+  ]
+ },
+ {
+  "id": "feed-verified",
+  "error": false,
+  "parts": [
+   {
+    "var": "path"
+   },
+   ": the signature verifies (signer ",
+   {
+    "var": "key"
+   },
+   "); station ",
+   {
+    "var": "station"
+   },
+   ", ",
+   {
+    "var": "files"
+   },
+   " files, ",
+   {
+    "var": "epochs"
+   },
+   " epochs, every file valid kshana.obs/1"
+  ]
+ },
+ {
+  "id": "feed-sent",
+  "error": false,
+  "parts": [
+   "sent to ",
+   {
+    "var": "url"
+   },
+   ": HTTP ",
+   {
+    "var": "code"
+   }
+  ]
+ },
+ {
+  "id": "feed-spectrum-written",
+  "error": false,
+  "parts": [
+   {
+    "var": "out"
+   },
+   ": spectrum snapshot in ",
+   {
+    "var": "bins"
+   },
+   " bins (MODELLED: levels relative to full scale, not calibrated power)"
+  ]
+ },
+ {
+  "id": "e-feed-missing-value",
+  "error": true,
+  "parts": [
+   {
+    "var": "option"
+   },
+   " needs a value"
+  ]
+ },
+ {
+  "id": "e-feed-unknown-option",
+  "error": true,
+  "parts": [
+   "unknown option ",
+   {
+    "var": "option"
+   },
+   " (kshana feed --help lists the options)"
+  ]
+ },
+ {
+  "id": "e-feed-cannot-read",
+  "error": true,
+  "parts": [
+   "cannot read ",
+   {
+    "var": "path"
+   },
+   ": ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-feed-cannot-write",
+  "error": true,
+  "parts": [
+   "cannot write ",
+   {
+    "var": "path"
+   },
+   ": ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-feed-not-obs",
+  "error": true,
+  "parts": [
+   {
+    "var": "path"
+   },
+   " is not a valid kshana.obs/1 file: ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-feed-mixed-stations",
+  "error": true,
+  "parts": [
+   "the files come from more than one station (",
+   {
+    "var": "a"
+   },
+   " and ",
+   {
+    "var": "b"
+   },
+   "); pack one station per bundle"
+  ]
+ },
+ {
+  "id": "e-feed-no-files",
+  "error": true,
+  "parts": [
+   "no observation files to pack"
+  ]
+ },
+ {
+  "id": "e-feed-bad-privacy",
+  "error": true,
+  "parts": [
+   "unknown privacy mode ",
+   {
+    "var": "value"
+   },
+   " (public or exact)"
+  ]
+ },
+ {
+  "id": "e-feed-bad-grid",
+  "error": true,
+  "parts": [
+   "the location grid must be from 0.01 to 10 degrees, not ",
+   {
+    "var": "value"
+   }
+  ]
+ },
+ {
+  "id": "e-feed-not-bundle",
+  "error": true,
+  "parts": [
+   "not a kshana.feed/1 bundle: ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-feed-bad-signature",
+  "error": true,
+  "parts": [
+   "the bundle's signature does not verify"
+  ]
+ },
+ {
+  "id": "e-feed-key-mismatch",
+  "error": true,
+  "parts": [
+   "the bundle is signed by ",
+   {
+    "var": "found"
+   },
+   ", not by the expected key ",
+   {
+    "var": "expected"
+   }
+  ]
+ },
+ {
+  "id": "e-feed-hash-mismatch",
+  "error": true,
+  "parts": [
+   "payload ",
+   {
+    "var": "name"
+   },
+   " does not match its recorded SHA-256"
+  ]
+ },
+ {
+  "id": "e-feed-payload-mismatch",
+  "error": true,
+  "parts": [
+   "payload ",
+   {
+    "var": "name"
+   },
+   " does not match the station or the record counts the bundle states"
+  ]
+ },
+ {
+  "id": "e-feed-not-coarsened",
+  "error": true,
+  "parts": [
+   "payload ",
+   {
+    "var": "name"
+   },
+   " of a public bundle still carries ",
+   {
+    "var": "what"
+   }
+  ]
+ },
+ {
+  "id": "e-feed-bad-format",
+  "error": true,
+  "parts": [
+   "unsupported sample format ",
+   {
+    "var": "value"
+   },
+   " (cu8, ci8 or ci16_le)"
+  ]
+ },
+ {
+  "id": "e-feed-bad-number",
+  "error": true,
+  "parts": [
+   {
+    "var": "option"
+   },
+   ": ",
+   {
+    "var": "value"
+   },
+   " is not a valid value here"
+  ]
+ },
+ {
+  "id": "e-feed-short-capture",
+  "error": true,
+  "parts": [
+   "the capture holds ",
+   {
+    "var": "n"
+   },
+   " samples, fewer than the transform length ",
+   {
+    "var": "nfft"
+   }
+  ]
+ },
+ {
+  "id": "e-feed-send-failed",
+  "error": true,
+  "parts": [
+   "sending to ",
+   {
+    "var": "url"
+   },
+   " failed: ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-feed-send-refused",
+  "error": true,
+  "parts": [
+   {
+    "var": "url"
+   },
+   " refused the bundle: HTTP ",
+   {
+    "var": "code"
+   }
+  ]
+ },
+ {
+  "id": "e-obs-bad-spectrum",
+  "error": true,
+  "parts": [
+   "line ",
+   {
+    "var": "line"
+   },
+   ": a spectrum needs a finite time and centre, a positive sample rate and bin width, and finite levels"
+  ]
+ },
+ {
+  "id": "sil-obs-usage",
+  "error": false,
+  "parts": [
+   "usage: kshana sil-obs generate <scenario.toml> --nav <nav.rnx> --out <sim.obs> [--truth <truth.jsonl>] | compare <a.obs> <b.obs> [--json] [--out <file.json>]  (docs/SIL-OBS.md)"
+  ]
+ },
+ {
+  "id": "sil-obs-summary",
+  "error": false,
+  "parts": [
+   {
+    "var": "n_epochs"
+   },
+   " epochs, ",
+   {
+    "var": "n_obs"
+   },
+   " signal samples written; ",
+   {
+    "var": "n_nlos"
+   },
+   " NLOS and ",
+   {
+    "var": "n_blocked"
+   },
+   " blocked satellite-epochs (MODELLED)"
+  ]
+ },
+ {
+  "id": "e-sil-obs-missing-value",
+  "error": true,
+  "parts": [
+   {
+    "var": "option"
+   },
+   " needs a value"
+  ]
+ },
+ {
+  "id": "e-sil-obs-unknown-option",
+  "error": true,
+  "parts": [
+   "unknown option ",
+   {
+    "var": "option"
+   },
+   " (kshana sil-obs --help lists the options)"
+  ]
+ },
+ {
+  "id": "e-sil-obs-cannot-read",
+  "error": true,
+  "parts": [
+   "cannot read ",
+   {
+    "var": "path"
+   },
+   ": ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-sil-obs-cannot-write",
+  "error": true,
+  "parts": [
+   "cannot write ",
+   {
+    "var": "path"
+   },
+   ": ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-sil-obs-bad-scenario",
+  "error": true,
+  "parts": [
+   {
+    "var": "path"
+   },
+   " is not a sil-obs scenario: ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-sil-obs-bad-nav",
+  "error": true,
+  "parts": [
+   {
+    "var": "path"
+   },
+   " is not a RINEX navigation file: ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-sil-obs-bad-obs",
+  "error": true,
+  "parts": [
+   {
+    "var": "path"
+   },
+   " is not a RINEX observation file: ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-sil-obs-bad-start",
+  "error": true,
+  "parts": [
+   "the start ",
+   {
+    "var": "value"
+   },
+   " is not a GPS-time YYYY-MM-DDTHH:MM:SS"
+  ]
+ },
+ {
+  "id": "e-sil-obs-bad-timing",
+  "error": true,
+  "parts": [
+   "the duration must be zero or more and the step positive, with at most a million epochs"
+  ]
+ },
+ {
+  "id": "e-sil-obs-no-satellites",
+  "error": true,
+  "parts": [
+   {
+    "var": "path"
+   },
+   " has no broadcast record of the requested systems"
+  ]
+ },
+ {
+  "id": "e-sil-obs-unknown-system",
+  "error": true,
+  "parts": [
+   "unknown system ",
+   {
+    "var": "value"
+   },
+   " (G or E)"
+  ]
+ },
+ {
+  "id": "e-sil-obs-bad-canyon",
+  "error": true,
+  "parts": [
+   "the canyon needs a positive width, an antenna offset inside the street, a reflection loss of at least 1 dB and finite values"
+  ]
+ },
+ {
+  "id": "interference-lib-usage",
+  "error": false,
+  "parts": [
+   "usage: kshana interference-lib models | generate --class <none|cw|narrowband|wideband|chirp|pulsed> [--centre-hz <f>] [--bandwidth-hz <b>] [--period-s <t>] [--pulse-width-s <w>] [--jnr-db <j>] [--drift-hz-per-s <r>] [--triangle] [--fs <hz>] [--samples <n>] [--seed <s>] --out <base> | fit <recording.sigmf-meta> [--out <fit.json>] | bench [--per-class <n>] [--seed <s>] [--predictions <ids.csv>] [--out <bench.json>] | cases [--per-class <n>] [--seed <s>] [--out <cases.csv>]  (docs/INTERFERENCE-LIB.md)"
+  ]
+ },
+ {
+  "id": "interference-lib-written",
+  "error": false,
+  "parts": [
+   "wrote ",
+   {
+    "var": "path"
+   },
+   " (",
+   {
+    "var": "n"
+   },
+   " samples, MODELLED synthetic interference)"
+  ]
+ },
+ {
+  "id": "e-interference-lib-missing-value",
+  "error": true,
+  "parts": [
+   {
+    "var": "option"
+   },
+   " needs a value"
+  ]
+ },
+ {
+  "id": "e-interference-lib-unknown-option",
+  "error": true,
+  "parts": [
+   "unknown option ",
+   {
+    "var": "option"
+   },
+   " (kshana interference-lib --help lists the options)"
+  ]
+ },
+ {
+  "id": "e-interference-lib-bad-number",
+  "error": true,
+  "parts": [
+   {
+    "var": "option"
+   },
+   " needs a finite number, not ",
+   {
+    "var": "value"
+   }
+  ]
+ },
+ {
+  "id": "e-interference-lib-unknown-class",
+  "error": true,
+  "parts": [
+   "unknown interference class ",
+   {
+    "var": "value"
+   },
+   " (none, cw, narrowband, wideband, chirp or pulsed)"
+  ]
+ },
+ {
+  "id": "e-interference-lib-bad-size",
+  "error": true,
+  "parts": [
+   "the sample rate must be positive and the recording a power of two from 1024 to 16777216 samples (bench: 1 to 1000 cases per class)"
+  ]
+ },
+ {
+  "id": "e-interference-lib-cannot-read",
+  "error": true,
+  "parts": [
+   "cannot read ",
+   {
+    "var": "path"
+   },
+   ": ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-interference-lib-cannot-write",
+  "error": true,
+  "parts": [
+   "cannot write ",
+   {
+    "var": "path"
+   },
+   ": ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-interference-lib-bad-predictions",
+  "error": true,
+  "parts": [
+   "a predictions row is not id,class with a known class: ",
+   {
+    "var": "row"
+   }
+  ]
+ },
+ {
+  "id": "register-usage",
+  "error": false,
+  "parts": [
+   "usage: kshana register check <register.json> [--key <hex>] | crl-check <crl.json> --key <hex> | view <register.json> [--key <hex>] [--crl <crl.json> --crl-key <hex>] [--date <YYYY-MM-DD>] [--json] | sign <register.json|crl.json> --key <keyfile> [--out <file>]  (docs/PRODUCT-REGISTER.md)"
+  ]
+ },
+ {
+  "id": "register-check-ok",
+  "error": false,
+  "parts": [
+   {
+    "var": "path"
+   },
+   ": register of ",
+   {
+    "var": "publisher"
+   },
+   ", ",
+   {
+    "var": "n"
+   },
+   " entries, the signature verifies (signer ",
+   {
+    "var": "key"
+   },
+   ")"
+  ]
+ },
+ {
+  "id": "register-crl-check-ok",
+  "error": false,
+  "parts": [
+   {
+    "var": "path"
+   },
+   ": revocation list of ",
+   {
+    "var": "issuer"
+   },
+   ", ",
+   {
+    "var": "n"
+   },
+   " revoked entries, the signature verifies; next list due ",
+   {
+    "var": "next"
+   }
+  ]
+ },
+ {
+  "id": "register-view-summary",
+  "error": false,
+  "parts": [
+   "at ",
+   {
+    "var": "date"
+   },
+   ": ",
+   {
+    "var": "current"
+   },
+   " current, ",
+   {
+    "var": "due"
+   },
+   " due to be scored again, ",
+   {
+    "var": "revoked"
+   },
+   " revoked"
+  ]
+ },
+ {
+  "id": "register-view-no-crl",
+  "error": false,
+  "parts": [
+   "no revocation list given: revocation is unknown (--crl <crl.json> --crl-key <hex>)"
+  ]
+ },
+ {
+  "id": "register-view-crl-stale",
+  "error": false,
+  "parts": [
+   "the revocation list is stale: its next update was due ",
+   {
+    "var": "next"
+   }
+  ]
+ },
+ {
+  "id": "e-register-key-mismatch",
+  "error": true,
+  "parts": [
+   "signed by ",
+   {
+    "var": "found"
+   },
+   ", not by the expected key ",
+   {
+    "var": "expected"
+   }
+  ]
+ },
+ {
+  "id": "e-register-bad-signature",
+  "error": true,
+  "parts": [
+   "the signature does not verify"
+  ]
+ },
+ {
+  "id": "e-register-bad-date",
+  "error": true,
+  "parts": [
+   {
+    "var": "field"
+   },
+   " is not a date written YYYY-MM-DD: ",
+   {
+    "var": "value"
+   }
+  ]
+ },
+ {
+  "id": "e-register-not-register",
+  "error": true,
+  "parts": [
+   "not a kshana.register/1 register: ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-register-not-crl",
+  "error": true,
+  "parts": [
+   "not a kshana.register-crl/1 revocation list: ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-register-bad-id",
+  "error": true,
+  "parts": [
+   "entry id ",
+   {
+    "var": "id"
+   },
+   ": use 1 to 128 letters, digits, dots, hyphens or underscores"
+  ]
+ },
+ {
+  "id": "e-register-duplicate-id",
+  "error": true,
+  "parts": [
+   "entry id ",
+   {
+    "var": "id"
+   },
+   " appears more than once"
+  ]
+ },
+ {
+  "id": "e-register-revalidate-before-scored",
+  "error": true,
+  "parts": [
+   "entry ",
+   {
+    "var": "id"
+   },
+   " is to be scored again before the date it was scored"
+  ]
+ },
+ {
+  "id": "e-register-bad-digest",
+  "error": true,
+  "parts": [
+   "entry ",
+   {
+    "var": "id"
+   },
+   ": evidence_sha256 must be 64 hex digits"
+  ]
+ },
+ {
+  "id": "e-register-missing-value",
+  "error": true,
+  "parts": [
+   {
+    "var": "option"
+   },
+   " needs a value"
+  ]
+ },
+ {
+  "id": "e-register-cannot-read",
+  "error": true,
+  "parts": [
+   "cannot read ",
+   {
+    "var": "path"
+   },
+   ": ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-register-cannot-write",
+  "error": true,
+  "parts": [
+   "cannot write ",
+   {
+    "var": "path"
+   },
+   ": ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-register-unknown-option",
+  "error": true,
+  "parts": [
+   "unknown option ",
+   {
+    "var": "option"
+   },
+   " (kshana register --help lists the options)"
+  ]
+ },
+ {
+  "id": "e-register-crl-needs-key",
+  "error": true,
+  "parts": [
+   "--crl and --crl-key go together: a revocation list is checked against the issuer's key"
+  ]
+ },
+ {
+  "id": "interference-env-usage",
+  "error": false,
+  "parts": [
+   "usage: kshana interference-env evaluate <environment.toml> | thresholds [--receiver <id>] | degradation --baseline <id> --pulse-width <s> --prf <Hz> [--below-ratio <R>] [--recovery <s>]  (docs/INTERFERENCE-ENV.md; MODELLED)"
+  ]
+ },
+ {
+  "id": "e-interference-env-unknown-receiver",
+  "error": true,
+  "parts": [
+   "unknown receiver ",
+   {
+    "var": "id"
+   },
+   " (kshana interference-env thresholds lists them)"
+  ]
+ },
+ {
+  "id": "e-interference-env-unknown-baseline",
+  "error": true,
+  "parts": [
+   "unknown baseline ",
+   {
+    "var": "id"
+   },
+   " (see docs/INTERFERENCE-ENV.md)"
+  ]
+ },
+ {
+  "id": "e-interference-env-bad-source",
+  "error": true,
+  "parts": [
+   "source ",
+   {
+    "var": "name"
+   },
+   ": its power, bandwidth, pulse width or rate is not a valid positive finite value"
+  ]
+ },
+ {
+  "id": "e-interference-env-pulsed-needs-receiver",
+  "error": true,
+  "parts": [
+   "pulsed sources need the receiver's noise_temperature_k, precorrelation_bw_hz and a blanker or saturation level"
+  ]
+ },
+ {
+  "id": "e-interference-env-saturated",
+  "error": true,
+  "parts": [
+   "the pulses leave no time unblanked: the duty cycle reaches 1"
+  ]
+ },
+ {
+  "id": "e-interference-env-missing-value",
+  "error": true,
+  "parts": [
+   {
+    "var": "option"
+   },
+   " needs a value"
+  ]
+ },
+ {
+  "id": "e-interference-env-bad-number",
+  "error": true,
+  "parts": [
+   {
+    "var": "option"
+   },
+   " needs a number, not ",
+   {
+    "var": "value"
+   }
+  ]
+ },
+ {
+  "id": "e-interference-env-unknown-option",
+  "error": true,
+  "parts": [
+   "unknown option ",
+   {
+    "var": "option"
+   },
+   " (kshana interference-env --help lists the options)"
+  ]
+ },
+ {
+  "id": "e-interference-env-cannot-read",
+  "error": true,
+  "parts": [
+   "cannot read ",
+   {
+    "var": "path"
+   },
+   ": ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-interference-env-bad-file",
+  "error": true,
+  "parts": [
+   {
+    "var": "path"
+   },
+   " is not an interference environment: ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "antenna-cal-usage",
+  "error": false,
+  "parts": [
+   "usage: kshana antenna-cal lint <file.atx> | spread <file.atx>... --type <type-radome> | compare <a.atx> [<b.atx>] --type <type-radome> [--serial-a <s>] [--serial-b <s>] [--max-zenith <deg>] | group-delay <spec.toml> | js-margin <spec.toml>  [--out <file.json>]  (docs/ANTENNA-CAL.md)"
+  ]
+ },
+ {
+  "id": "e-antenna-cal-missing-value",
+  "error": true,
+  "parts": [
+   {
+    "var": "option"
+   },
+   " needs a value"
+  ]
+ },
+ {
+  "id": "e-antenna-cal-unknown-option",
+  "error": true,
+  "parts": [
+   "unknown option ",
+   {
+    "var": "option"
+   },
+   " (kshana antenna-cal --help lists the options)"
+  ]
+ },
+ {
+  "id": "e-antenna-cal-bad-number",
+  "error": true,
+  "parts": [
+   {
+    "var": "option"
+   },
+   " needs a finite number of zero or more, not ",
+   {
+    "var": "value"
+   }
+  ]
+ },
+ {
+  "id": "e-antenna-cal-cannot-read",
+  "error": true,
+  "parts": [
+   "cannot read ",
+   {
+    "var": "path"
+   },
+   ": ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-antenna-cal-cannot-write",
+  "error": true,
+  "parts": [
+   "cannot write ",
+   {
+    "var": "path"
+   },
+   ": ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-antenna-cal-bad-spec",
+  "error": true,
+  "parts": [
+   {
+    "var": "path"
+   },
+   " is not a valid specification: ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-antenna-cal-no-antenna",
+  "error": true,
+  "parts": [
+   "no antenna ",
+   {
+    "var": "name"
+   },
+   " in ",
+   {
+    "var": "path"
+   }
+  ]
+ },
+ {
+  "id": "e-antenna-cal-too-few-units",
+  "error": true,
+  "parts": [
+   "fewer than two calibrations of ",
+   {
+    "var": "name"
+   },
+   " to compare"
+  ]
+ },
+ {
+  "id": "e-antenna-cal-unknown-signal",
+  "error": true,
+  "parts": [
+   "a pair names the unknown signal ",
+   {
+    "var": "value"
+   }
+  ]
+ },
+ {
+  "id": "e-antenna-cal-bad-group-delay",
+  "error": true,
+  "parts": [
+   "the group-delay specification needs at least one signal, an ordered finite temperature range, positive frequencies and finite delays"
+  ]
+ },
+ {
+  "id": "e-antenna-cal-same-pair",
+  "error": true,
+  "parts": [
+   "an ionosphere-free pair needs two different frequencies"
+  ]
+ },
+ {
+  "id": "e-antenna-cal-bad-pattern",
+  "error": true,
+  "parts": [
+   "unknown antenna pattern (patch, choke-ring or table)"
+  ]
+ },
+ {
+  "id": "e-antenna-cal-bad-gain-table",
+  "error": true,
+  "parts": [
+   "a gain table needs at least two finite points of elevation and gain"
+  ]
+ },
+ {
+  "id": "e-antenna-cal-bad-link",
+  "error": true,
+  "parts": [
+   "the J/S specification needs a positive frequency, a finite EIRP and positive ranges"
+  ]
+ },
+ {
+  "id": "arctic-plan-usage",
+  "error": false,
+  "parts": [
+   "usage: kshana arctic-plan --site <lat,lon[,h]> | --place <name> | --places  [--systems <a,b,...>] [--compare] [--hours <h>] [--step-min <m>] [--start-s <s>] [--mask <deg>] [--skyline-preset <name>] [--clock common|per-system] [--min-sats <n>] [--max-pdop <x>] [--task-min <m>] [--kp <n>] [--year <y>] [--iono-mask <deg>] [--tle <file> --epoch <YYYY-MM-DDTHH:MM:SS>] [--epochs] [--out <file.json>]  (docs/ARCTIC-PLAN.md)"
+  ]
+ },
+ {
+  "id": "e-arctic-plan-missing-value",
+  "error": true,
+  "parts": [
+   {
+    "var": "option"
+   },
+   " needs a value"
+  ]
+ },
+ {
+  "id": "e-arctic-plan-unknown-option",
+  "error": true,
+  "parts": [
+   "unknown option ",
+   {
+    "var": "option"
+   },
+   " (kshana arctic-plan --help lists the options)"
+  ]
+ },
+ {
+  "id": "e-arctic-plan-cannot-read",
+  "error": true,
+  "parts": [
+   "cannot read ",
+   {
+    "var": "path"
+   },
+   ": ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-arctic-plan-cannot-write",
+  "error": true,
+  "parts": [
+   "cannot write ",
+   {
+    "var": "path"
+   },
+   ": ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-arctic-plan-bad-number",
+  "error": true,
+  "parts": [
+   {
+    "var": "option"
+   },
+   ": ",
+   {
+    "var": "value"
+   },
+   " is not a valid number"
+  ]
+ },
+ {
+  "id": "e-arctic-plan-unknown-name",
+  "error": true,
+  "parts": [
+   "unknown name ",
+   {
+    "var": "name"
+   },
+   " (known: ",
+   {
+    "var": "known"
+   },
+   ")"
+  ]
+ },
+ {
+  "id": "e-arctic-plan-needs-site",
+  "error": true,
+  "parts": [
+   "give the site with --site <lat,lon[,h]> or --place <name> (--places lists the names)"
+  ]
+ },
+ {
+  "id": "e-arctic-plan-bad-horizon",
+  "error": true,
+  "parts": [
+   "the horizon and step must be positive and give at most 20,000 epochs"
+  ]
+ },
+ {
+  "id": "lunar-ref-usage",
+  "error": false,
+  "parts": [
+   "usage: kshana lunar-ref tcb-tcl [--jd <JD TCB>] [--window <jd0,jd1>] | approx [--window <jd0,jd1>] [--grid-days <d>] | convert --from <tt|tdb|tcb|tcg|tcl|ltc> --to <scale> --jd <JD> | transform --from <ICRF|MOON_PA_DE440|MOON_PA|MOON_ME|ILURF> --to <frame> --xyz <x,y,z> [--jd <JD TDB>] | terms | models [--check] [--root <dir>]   [--out <file.json>]  (docs/LUNAR-REF.md)"
+  ]
+ },
+ {
+  "id": "e-lunar-ref-missing-value",
+  "error": true,
+  "parts": [
+   {
+    "var": "option"
+   },
+   " needs a value"
+  ]
+ },
+ {
+  "id": "e-lunar-ref-unknown-option",
+  "error": true,
+  "parts": [
+   "unknown option ",
+   {
+    "var": "option"
+   },
+   " (kshana lunar-ref --help lists the options)"
+  ]
+ },
+ {
+  "id": "e-lunar-ref-cannot-write",
+  "error": true,
+  "parts": [
+   "cannot write ",
+   {
+    "var": "path"
+   },
+   ": ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-lunar-ref-bad-number",
+  "error": true,
+  "parts": [
+   {
+    "var": "option"
+   },
+   ": ",
+   {
+    "var": "value"
+   },
+   " is not a valid number"
+  ]
+ },
+ {
+  "id": "e-lunar-ref-unknown-name",
+  "error": true,
+  "parts": [
+   "unknown name ",
+   {
+    "var": "name"
+   },
+   " (known: ",
+   {
+    "var": "known"
+   },
+   ")"
+  ]
+ },
+ {
+  "id": "e-lunar-ref-out-of-span",
+  "error": true,
+  "parts": [
+   "the epoch is outside the span of the ephemerides used (Standish elements 1800-2050; DE440 lunar orientation 2014-2030)"
+  ]
+ },
+ {
+  "id": "signal-readiness-usage",
+  "error": false,
+  "parts": [
+   "usage: kshana signal-readiness <profile.toml> [<obs.rnx>...]  (docs/SIGNAL-READINESS.md)"
+  ]
+ },
+ {
+  "id": "e-signal-readiness-bad-rinex",
+  "error": true,
+  "parts": [
+   {
+    "var": "path"
+   },
+   " is not a RINEX 3 or 4 observation file: ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-signal-readiness-unknown-option",
+  "error": true,
+  "parts": [
+   "unknown option ",
+   {
+    "var": "option"
+   },
+   " (kshana signal-readiness --help)"
+  ]
+ },
+ {
+  "id": "e-signal-readiness-cannot-read",
+  "error": true,
+  "parts": [
+   "cannot read ",
+   {
+    "var": "path"
+   },
+   ": ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-signal-readiness-bad-profile",
+  "error": true,
+  "parts": [
+   {
+    "var": "path"
+   },
+   " is not a receiver profile: ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "quantum-bench-usage",
+  "error": false,
+  "parts": [
+   "usage: kshana quantum-bench protocol [--out <protocol.json>] | simulate <spec.toml> --out <series.csv> | score <series.csv> [--fringe-m-s2 <a>] [--out <score.json>]  (docs/QUANTUM-BENCH.md)"
+  ]
+ },
+ {
+  "id": "quantum-bench-simulated",
+  "error": false,
+  "parts": [
+   "wrote ",
+   {
+    "var": "n"
+   },
+   " samples (",
+   {
+    "var": "n_wrapped"
+   },
+   " with a wrapped fringe) to ",
+   {
+    "var": "path"
+   },
+   " (MODELLED)"
+  ]
+ },
+ {
+  "id": "e-quantum-bench-missing-value",
+  "error": true,
+  "parts": [
+   {
+    "var": "option"
+   },
+   " needs a value"
+  ]
+ },
+ {
+  "id": "e-quantum-bench-unknown-option",
+  "error": true,
+  "parts": [
+   "unknown option ",
+   {
+    "var": "option"
+   },
+   " (kshana quantum-bench --help lists the options)"
+  ]
+ },
+ {
+  "id": "e-quantum-bench-bad-number",
+  "error": true,
+  "parts": [
+   {
+    "var": "option"
+   },
+   " needs a finite positive number, not ",
+   {
+    "var": "value"
+   }
+  ]
+ },
+ {
+  "id": "e-quantum-bench-cannot-read",
+  "error": true,
+  "parts": [
+   "cannot read ",
+   {
+    "var": "path"
+   },
+   ": ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-quantum-bench-cannot-write",
+  "error": true,
+  "parts": [
+   "cannot write ",
+   {
+    "var": "path"
+   },
+   ": ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-quantum-bench-bad-spec",
+  "error": true,
+  "parts": [
+   {
+    "var": "path"
+   },
+   " is not a valid specification: ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-quantum-bench-bad-sensor",
+  "error": true,
+  "parts": [
+   "the sensor needs a positive pulse separation, at least one atom, a contrast in (0, 1] and a cycle time of at least twice the pulse separation"
+  ]
+ },
+ {
+  "id": "e-quantum-bench-bad-run",
+  "error": true,
+  "parts": [
+   "the run needs a duration of at least one cycle and at most ten million cycles"
+  ]
+ },
+ {
+  "id": "e-quantum-bench-too-short",
+  "error": true,
+  "parts": [
+   "the series needs at least 16 samples with increasing times"
+  ]
+ },
+ {
+  "id": "e-quantum-bench-bad-csv",
+  "error": true,
+  "parts": [
+   "the series needs t_s and measured_m_s2 columns of finite numbers: ",
+   {
+    "var": "row"
+   }
+  ]
+ },
+ {
+  "id": "soop-clock-usage",
+  "error": false,
+  "parts": [
+   "usage: kshana soop-clock lte <capture.sigmf-meta> --start-gps-s <t> --rx <lat,lon,h> --tx <lat,lon,h> [--tx-offset-ns <ns>] [--prior-offset-s <s>] [--carrier-hz <f>] [--min-metric <m>] [--out <file.json>] | cp <capture.sigmf-meta> --nfft <n> --ncp <n> [--carrier-hz <f>] [--out <file.json>] | synth-lte --out <base> [--fs <hz>] [--duration-s <s>] [--nid2 <0|1|2>] [--delay-s <s>] [--cfo-hz <f>] [--snr-db <d>] [--seed <s>]  (docs/SOOP-CLOCK.md)"
+  ]
+ },
+ {
+  "id": "soop-clock-summary",
+  "error": false,
+  "parts": [
+   {
+    "var": "n"
+   },
+   " PSS detections; receiver clock offset ",
+   {
+    "var": "offset_us"
+   },
+   " µs at the capture start (MODELLED)"
+  ]
+ },
+ {
+  "id": "e-soop-clock-missing-value",
+  "error": true,
+  "parts": [
+   {
+    "var": "option"
+   },
+   " needs a value"
+  ]
+ },
+ {
+  "id": "e-soop-clock-unknown-option",
+  "error": true,
+  "parts": [
+   "unknown option ",
+   {
+    "var": "option"
+   },
+   " (kshana soop-clock --help lists the options)"
+  ]
+ },
+ {
+  "id": "e-soop-clock-bad-number",
+  "error": true,
+  "parts": [
+   {
+    "var": "option"
+   },
+   " needs a finite number, not ",
+   {
+    "var": "value"
+   }
+  ]
+ },
+ {
+  "id": "e-soop-clock-bad-position",
+  "error": true,
+  "parts": [
+   {
+    "var": "option"
+   },
+   " needs lat,lon[,h] in degrees and metres, not ",
+   {
+    "var": "value"
+   }
+  ]
+ },
+ {
+  "id": "e-soop-clock-cannot-read",
+  "error": true,
+  "parts": [
+   "cannot read ",
+   {
+    "var": "path"
+   },
+   ": ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-soop-clock-cannot-write",
+  "error": true,
+  "parts": [
+   "cannot write ",
+   {
+    "var": "path"
+   },
+   ": ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-soop-clock-too-few-detections",
+  "error": true,
+  "parts": [
+   {
+    "var": "n"
+   },
+   " PSS detections; at least three are needed for an offset and a rate"
+  ]
+ },
+ {
+  "id": "e-soop-clock-too-short",
+  "error": true,
+  "parts": [
+   "the capture is shorter than two OFDM symbols"
+  ]
+ },
+ {
+  "id": "e-soop-clock-bad-synth",
+  "error": true,
+  "parts": [
+   "the test signal needs a sample rate from 100 kHz to 61.44 MHz and a positive duration of at most 20 million samples"
+  ]
+ },
+ {
+  "id": "leo-od-plan-usage",
+  "error": false,
+  "parts": [
+   "usage: kshana leo-od-plan <plan.toml>  (docs/LEO-OD-PLAN.md; MODELLED, a planning tool)"
+  ]
+ },
+ {
+  "id": "e-leo-od-plan-bad-plan",
+  "error": true,
+  "parts": [
+   "the plan's numbers are out of range: arc, step, noises and masks positive and finite, at most 100000 steps, masks within ±90 degrees, a half-beamwidth from 0 to 90 degrees, and a LEO Walker pattern whose planes divide its satellites"
+  ]
+ },
+ {
+  "id": "e-leo-od-plan-cannot-read",
+  "error": true,
+  "parts": [
+   "cannot read ",
+   {
+    "var": "path"
+   },
+   ": ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-leo-od-plan-bad-file",
+  "error": true,
+  "parts": [
+   {
+    "var": "path"
+   },
+   " is not a plan: ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "lunar-afs-kit-usage",
+  "error": false,
+  "parts": [
+   "usage: kshana lunar-afs-kit vectors [<vectors.json>] | registry [<registry.toml|json>] [--limit-db <dB>] [--no-correlation] | output-check <messages.jsonl> | output-example [--n <count>] [--jd <JD TCL>] | output-reexpress <messages.jsonl> --scale <tt|tdb|tcb|tcg|tcl|ltc> --frame <ICRF|MOON_PA_DE440|MOON_PA|MOON_ME|ILURF>   [--out <file>]  (docs/LUNAR-AFS-KIT.md)"
+  ]
+ },
+ {
+  "id": "e-lunar-afs-kit-missing-value",
+  "error": true,
+  "parts": [
+   {
+    "var": "option"
+   },
+   " needs a value"
+  ]
+ },
+ {
+  "id": "e-lunar-afs-kit-unknown-option",
+  "error": true,
+  "parts": [
+   "unknown option ",
+   {
+    "var": "option"
+   },
+   " (kshana lunar-afs-kit --help lists the options)"
+  ]
+ },
+ {
+  "id": "e-lunar-afs-kit-cannot-read",
+  "error": true,
+  "parts": [
+   "cannot read ",
+   {
+    "var": "path"
+   },
+   ": ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-lunar-afs-kit-cannot-write",
+  "error": true,
+  "parts": [
+   "cannot write ",
+   {
+    "var": "path"
+   },
+   ": ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-lunar-afs-kit-bad-number",
+  "error": true,
+  "parts": [
+   {
+    "var": "option"
+   },
+   ": ",
+   {
+    "var": "value"
+   },
+   " is not a valid number"
+  ]
+ },
+ {
+  "id": "e-lunar-afs-kit-unknown-name",
+  "error": true,
+  "parts": [
+   "unknown name ",
+   {
+    "var": "name"
+   },
+   " (known: ",
+   {
+    "var": "known"
+   },
+   ")"
+  ]
+ },
+ {
+  "id": "e-lunar-afs-kit-bad-registry",
+  "error": true,
+  "parts": [
+   "the registry is not a list of [[node]] allocations: ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-lunar-afs-kit-bad-vectors",
+  "error": true,
+  "parts": [
+   "not a kshana.afs-vectors/1 file: ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-lunar-afs-kit-bad-message",
+  "error": true,
+  "parts": [
+   "a line is not a kshana.lunar-pnt-output/1 message with an epoch, a frame and a position"
+  ]
+ },
+ {
+  "id": "adsb-indicators-usage",
+  "error": false,
+  "parts": [
+   "usage: kshana adsb-indicators <adsb.csv> [--cell-deg <d>] [--out <indicators.json>]  (docs/ADSB-INDICATORS.md)"
+  ]
+ },
+ {
+  "id": "adsb-indicators-summary",
+  "error": false,
+  "parts": [
+   {
+    "var": "n"
+   },
+   " published cells flagged (MODELLED; no cause is named)"
+  ]
+ },
+ {
+  "id": "e-adsb-indicators-missing-value",
+  "error": true,
+  "parts": [
+   {
+    "var": "option"
+   },
+   " needs a value"
+  ]
+ },
+ {
+  "id": "e-adsb-indicators-unknown-option",
+  "error": true,
+  "parts": [
+   "unknown option ",
+   {
+    "var": "option"
+   },
+   " (kshana adsb-indicators --help lists the options)"
+  ]
+ },
+ {
+  "id": "e-adsb-indicators-bad-cell",
+  "error": true,
+  "parts": [
+   "the cell size must be from 0.01 to 10 degrees, not ",
+   {
+    "var": "value"
+   }
+  ]
+ },
+ {
+  "id": "e-adsb-indicators-cannot-read",
+  "error": true,
+  "parts": [
+   "cannot read ",
+   {
+    "var": "path"
+   },
+   ": ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-adsb-indicators-cannot-write",
+  "error": true,
+  "parts": [
+   "cannot write ",
+   {
+    "var": "path"
+   },
+   ": ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-adsb-indicators-missing-column",
+  "error": true,
+  "parts": [
+   "the ADS-B CSV has no ",
+   {
+    "var": "name"
+   },
+   " column"
+  ]
+ },
+ {
+  "id": "interference-atlas-usage",
+  "error": false,
+  "parts": [
+   "usage: kshana interference-atlas build <day.geojson>... [--previous <atlas.json>] [--out <atlas.json>] | verify <atlas.json> | cors <today.obs> --baseline <earlier.obs> [--adsb-day <day.geojson>] [--station <lat,lon>] [--out <layer.json>]  (docs/INTERFERENCE-ATLAS.md)"
+  ]
+ },
+ {
+  "id": "interference-atlas-built",
+  "error": false,
+  "parts": [
+   {
+    "var": "n_cells"
+   },
+   " cells, ",
+   {
+    "var": "n_zones"
+   },
+   " zones; version ",
+   {
+    "var": "version"
+   },
+   " (MODELLED)"
+  ]
+ },
+ {
+  "id": "interference-atlas-verified",
+  "error": false,
+  "parts": [
+   {
+    "var": "path"
+   },
+   ": the version matches the content"
+  ]
+ },
+ {
+  "id": "e-interference-atlas-missing-value",
+  "error": true,
+  "parts": [
+   {
+    "var": "option"
+   },
+   " needs a value"
+  ]
+ },
+ {
+  "id": "e-interference-atlas-unknown-option",
+  "error": true,
+  "parts": [
+   "unknown option ",
+   {
+    "var": "option"
+   },
+   " (kshana interference-atlas --help lists the options)"
+  ]
+ },
+ {
+  "id": "e-interference-atlas-cannot-read",
+  "error": true,
+  "parts": [
+   "cannot read ",
+   {
+    "var": "path"
+   },
+   ": ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-interference-atlas-cannot-write",
+  "error": true,
+  "parts": [
+   "cannot write ",
+   {
+    "var": "path"
+   },
+   ": ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-interference-atlas-not-a-product",
+  "error": true,
+  "parts": [
+   {
+    "var": "path"
+   },
+   " is not a daily interference-map product or an atlas"
+  ]
+ },
+ {
+  "id": "e-interference-atlas-mixed",
+  "error": true,
+  "parts": [
+   "the daily products mix grids or sources"
+  ]
+ },
+ {
+  "id": "e-interference-atlas-empty",
+  "error": true,
+  "parts": [
+   "no daily product was given"
+  ]
+ },
+ {
+  "id": "e-interference-atlas-changed",
+  "error": true,
+  "parts": [
+   {
+    "var": "path"
+   },
+   ": the version does not match the content (the atlas was changed)"
+  ]
+ },
+ {
+  "id": "e-interference-atlas-bad-obs",
+  "error": true,
+  "parts": [
+   {
+    "var": "path"
+   },
+   " is not a RINEX observation file: ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-interference-atlas-no-cn0",
+  "error": true,
+  "parts": [
+   "the two observation files share no GPS satellite with C/N0 one ground-track repeat apart"
+  ]
+ },
+ {
+  "id": "e-interference-atlas-bad-station",
+  "error": true,
+  "parts": [
+   "the station needs lat,lon in degrees (or an approximate position in the observation header), not ",
+   {
+    "var": "value"
+   }
+  ]
+ },
+ {
+  "id": "e-bench-holdout-inside-repository",
+  "error": true,
+  "parts": [
+   "refusing to write a private holdout inside the repository: ",
+   {
+    "var": "path"
+   },
+   " (choose a directory outside it)"
+  ]
+ },
+ {
+  "id": "e-bench-holdout-task",
+  "error": true,
+  "parts": [
+   "the private holdout exists for tasks (f) and (g) only"
+  ]
+ },
+ {
+  "id": "e-bench-holdout-no-truth",
+  "error": true,
+  "parts": [
+   "no private truth for task (",
+   {
+    "var": "task"
+   },
+   "): give --truth <file> or set ",
+   {
+    "var": "var"
+   }
+  ]
+ },
+ {
+  "id": "bench-holdout-not-a-private-truth",
+  "error": false,
+  "parts": [
+   "not a private holdout truth: it must be a kshana-bench truth file of task (f) or (g) with split holdout"
+  ]
+ },
+ {
+  "id": "bench-holdout-not-registered",
+  "error": false,
+  "parts": [
+   "the truth of task (",
+   {
+    "var": "task"
+   },
+   ") with SHA-256 ",
+   {
+    "var": "sha"
+   },
+   " is not registered in bench/holdout/PRIVATE.json"
+  ]
+ },
+ {
+  "id": "bench-site-holdout-not-private",
+  "error": false,
+  "parts": [
+   "result ",
+   {
+    "var": "v1"
+   },
+   " is a task (f) or (g) holdout result that is not marked private or whose truth is not registered"
+  ]
+ },
+ {
+  "id": "bench-site-provenance-private-holdout",
+  "error": false,
+  "parts": [
+   "scored on the private holdout (registered truth)"
+  ]
+ },
+ {
+  "id": "claim-check-usage",
+  "error": false,
+  "parts": [
+   "usage: kshana claim-check [<dataset.json>...] [--out <file.json>] | --template   (no file: the shipped public-claims dataset; docs/CLAIM-CHECK.md)"
+  ]
+ },
+ {
+  "id": "e-claim-check-missing-value",
+  "error": true,
+  "parts": [
+   {
+    "var": "option"
+   },
+   " needs a value"
+  ]
+ },
+ {
+  "id": "e-claim-check-unknown-option",
+  "error": true,
+  "parts": [
+   "unknown option ",
+   {
+    "var": "option"
+   },
+   " (kshana claim-check --help lists the options)"
+  ]
+ },
+ {
+  "id": "e-claim-check-cannot-read",
+  "error": true,
+  "parts": [
+   "cannot read ",
+   {
+    "var": "path"
+   },
+   ": ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-claim-check-cannot-write",
+  "error": true,
+  "parts": [
+   "cannot write ",
+   {
+    "var": "path"
+   },
+   ": ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-claim-check-bad-dataset",
+  "error": true,
+  "parts": [
+   "not a kshana.claims/1 file: ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "afs-interop-usage",
+  "error": false,
+  "parts": [
+   "usage: kshana afs-interop study [--afs-prns <1-12>] [--gps-prns <1-32>] [--galileo-prns <1-36>] [--fs <Hz>] [--integration-ms <ms>] [--max-doppler <Hz>] [--doppler-step <Hz>] [--sweep-pairs <n>] | ue-register [<register.json>] | ue-register --template   [--out <file>]  (docs/AFS-INTEROP.md)"
+  ]
+ },
+ {
+  "id": "e-afs-interop-missing-value",
+  "error": true,
+  "parts": [
+   {
+    "var": "option"
+   },
+   " needs a value"
+  ]
+ },
+ {
+  "id": "e-afs-interop-unknown-option",
+  "error": true,
+  "parts": [
+   "unknown option ",
+   {
+    "var": "option"
+   },
+   " (kshana afs-interop --help lists the options)"
+  ]
+ },
+ {
+  "id": "e-afs-interop-cannot-read",
+  "error": true,
+  "parts": [
+   "cannot read ",
+   {
+    "var": "path"
+   },
+   ": ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-afs-interop-cannot-write",
+  "error": true,
+  "parts": [
+   "cannot write ",
+   {
+    "var": "path"
+   },
+   ": ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-afs-interop-bad-number",
+  "error": true,
+  "parts": [
+   {
+    "var": "option"
+   },
+   ": ",
+   {
+    "var": "value"
+   },
+   " is not a valid number"
+  ]
+ },
+ {
+  "id": "e-afs-interop-bad-register",
+  "error": true,
+  "parts": [
+   "not a kshana.lunar-ue-register/1 file: ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-afs-interop-bad-settings",
+  "error": true,
+  "parts": [
+   "the study settings are out of bounds: fs × integration time must give 64 to 200,000 samples, the Doppler step must be positive and the bound not negative"
+  ]
+ },
+ {
+  "id": "timing-stack-usage",
+  "error": false,
+  "parts": [
+   "usage: kshana timing-stack tai [--pmc <pmc.txt>] [--phc-ctl <phc_ctl.txt>] [--chrony <tracking.txt>] [--tai-utc <s>] | ts2phc <ts2phc.log> [--max-offset <s>] | pps <assert.txt> | shm <ntpshmmon.txt> | ntpq <ntpq-p.txt> [--rv <ntpq-rv.txt>] | nts [--client <name>=<authdata.txt>]... [<authdata.txt>]   [--end <t>] [--stale-after <s>] [--out <file.json>]  (docs/TIMING-STACK.md)"
+  ]
+ },
+ {
+  "id": "e-timing-stack-missing-value",
+  "error": true,
+  "parts": [
+   {
+    "var": "option"
+   },
+   " needs a value"
+  ]
+ },
+ {
+  "id": "e-timing-stack-unknown-option",
+  "error": true,
+  "parts": [
+   "unknown option ",
+   {
+    "var": "option"
+   },
+   " (kshana timing-stack --help lists the options)"
+  ]
+ },
+ {
+  "id": "e-timing-stack-cannot-read",
+  "error": true,
+  "parts": [
+   "cannot read ",
+   {
+    "var": "path"
+   },
+   ": ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-timing-stack-cannot-write",
+  "error": true,
+  "parts": [
+   "cannot write ",
+   {
+    "var": "path"
+   },
+   ": ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-timing-stack-bad-number",
+  "error": true,
+  "parts": [
+   {
+    "var": "option"
+   },
+   ": ",
+   {
+    "var": "value"
+   },
+   " is not a valid number"
+  ]
+ },
+ {
+  "id": "register-products-usage",
+  "error": false,
+  "parts": [
+   "usage: kshana register-products verify <register.json> [--packs <dir>] [--pack-key <hex>] [--pin <hex>] [--json] | show <register.json> [--revocations <file.jsonl|url>] [--date <YYYY-MM-DD>] [--pin <hex>] [--json] | diff <older.json> <newer.json> [--pin <hex>]  (docs/PRODUCT-REGISTER.md)"
+  ]
+ },
+ {
+  "id": "e-register-products-missing-value",
+  "error": true,
+  "parts": [
+   {
+    "var": "option"
+   },
+   " needs a value"
+  ]
+ },
+ {
+  "id": "e-register-products-unknown-option",
+  "error": true,
+  "parts": [
+   "unknown option ",
+   {
+    "var": "option"
+   },
+   " (kshana register-products --help lists the options)"
+  ]
+ },
+ {
+  "id": "e-register-products-cannot-read",
+  "error": true,
+  "parts": [
+   "cannot read ",
+   {
+    "var": "path"
+   },
+   ": ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-register-products-bad-revocation",
+  "error": true,
+  "parts": [
+   "line ",
+   {
+    "var": "line"
+   },
+   " of the revocation list needs serial, revoked_at (YYYY-MM-DD) and reason"
+  ]
+ },
+ {
+  "id": "e-register-products-cannot-fetch",
+  "error": true,
+  "parts": [
+   "cannot fetch ",
+   {
+    "var": "url"
+   },
+   ": ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-register-products-bad-key",
+  "error": true,
+  "parts": [
+   "the key is not 32 bytes of hex"
+  ]
+ },
+ {
+  "id": "sil-obsgen-usage",
+  "error": false,
+  "parts": [
+   "usage: kshana sil-obsgen <scenario.toml> --out <obs.rnx> [--truth <truth.json>]   (a gnss-sim scenario with optional [urban] and [rinex] tables; docs/SIL-OBSGEN.md)"
+  ]
+ },
+ {
+  "id": "e-sil-obsgen-missing-value",
+  "error": true,
+  "parts": [
+   {
+    "var": "option"
+   },
+   " needs a value"
+  ]
+ },
+ {
+  "id": "e-sil-obsgen-unknown-option",
+  "error": true,
+  "parts": [
+   "unknown option ",
+   {
+    "var": "option"
+   },
+   " (kshana sil-obsgen --help lists the options)"
+  ]
+ },
+ {
+  "id": "e-sil-obsgen-cannot-read",
+  "error": true,
+  "parts": [
+   "cannot read ",
+   {
+    "var": "path"
+   },
+   ": ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-sil-obsgen-cannot-write",
+  "error": true,
+  "parts": [
+   "cannot write ",
+   {
+    "var": "path"
+   },
+   ": ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-sil-obsgen-bad-scenario",
+  "error": true,
+  "parts": [
+   "not a gnss-sim scenario with optional [urban] and [rinex] tables: ",
+   {
+    "var": "e"
+   }
+  ]
+ },
+ {
+  "id": "e-qznma-bad-nav-line",
+  "error": true,
+  "parts": [
+   "not a navigation-message line (<satellite> <signal> <part> <hex>): ",
+   {
+    "var": "line"
+   }
+  ]
+ },
+ {
+  "id": "e-qznma-bad-key",
+  "error": true,
+  "parts": [
+   {
+    "var": "path"
+   },
+   ": not a P-256 or P-521 public key (DER or SEC1) with a key ID in its file name or as ID:path"
+  ]
+ },
+ {
+  "id": "qznma-verify-summary",
+  "error": false,
+  "parts": [
+   {
+    "var": "n"
+   },
+   " signatures: ",
+   {
+    "var": "verified"
+   },
+   " verified, ",
+   {
+    "var": "failed"
+   },
+   " failed, ",
+   {
+    "var": "no_key"
+   },
+   " without a key, ",
+   {
+    "var": "no_navigation"
+   },
+   " without navigation messages"
+  ]
+ },
+ {
+  "id": "e-feed-bad-spool",
+  "error": true,
+  "parts": [
+   {
+    "var": "path"
+   },
+   ": not a kshana.feed-spool/1 state (",
+   {
+    "var": "e"
+   },
+   ")"
+  ]
+ },
+ {
+  "id": "e-feed-http-only",
+  "error": true,
+  "parts": [
+   {
+    "var": "url"
+   },
+   ": only http:// addresses are supported (the engine has no TLS client; put a TLS tunnel in front of the collector)"
+  ]
+ },
+ {
+  "id": "feed-watch-cycle",
+  "error": false,
+  "parts": [
+   "feed watch: ",
+   {
+    "var": "files"
+   },
+   " files packed into ",
+   {
+    "var": "bundles"
+   },
+   " bundles, ",
+   {
+    "var": "sent"
+   },
+   " sent, ",
+   {
+    "var": "rejected"
+   },
+   " rejected, ",
+   {
+    "var": "pending"
+   },
+   " waiting"
   ]
  }
 ]

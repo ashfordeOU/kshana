@@ -1,0 +1,48 @@
+# A receiver in a street canyon in Tallinn's old town (illustrative geometry, not a survey):
+# a gnss-sim scenario plus [urban] and [rinex]. `kshana sil-obsgen` writes RINEX 3.04
+# observations and, with --truth, the reception class and injected error of every row.
+# Synthetic (MODELLED): docs/SIL-OBSGEN.md.
+kind = "gnss-sim"
+seed = 3
+mask_deg = 5.0
+noise_sigma_m = 0.5
+sat_clock_rms_m = 10.0
+
+[time]
+step_s = 30.0
+duration_s = 600.0
+
+[receiver]
+lat_deg = 59.437
+lon_deg = 24.745
+alt_m = 30.0
+clock_bias_m = 300.0
+
+[constellation]
+altitude_km = 20200.0
+inclination_deg = 55.0
+planes = 6
+sats_per_plane = 4
+phasing_f = 1.0
+
+[iono]
+alpha = [3.82e-8, 1.49e-8, -1.79e-7, 0.0]
+beta = [1.43e5, 0.0, -3.28e5, 1.13e5]
+gps_seconds_of_day = 43200.0
+
+[tropo]
+pressure_hpa = 1013.25
+temp_k = 283.15
+humidity = 0.6
+day_of_year = 325.0
+
+[urban]
+street_az_deg = 20.0
+width_m = 18.0
+height_left_m = 25.0
+height_right_m = 15.0
+antenna_m = 1.5
+reflection_loss_db = 6.0
+
+[rinex]
+marker = "SIL-CANYON"

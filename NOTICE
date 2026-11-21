@@ -20,6 +20,21 @@ Third-party data:
   doi 10.5281/zenodo.16411687, licensed under CC BY 4.0. Kshana's fixtures are
   derived extracts; no sample file is redistributed (see docs/LUGRE-DATA.md).
 
+  Contains a decimated extract of the final satellite clock products of the
+  International GNSS Service (IGS), GPS weeks 2380 to 2381, used with attribution
+  to the IGS (tests/fixtures/clock_state_igs_holdout_oracle/clocks.txt; fetched by
+  scripts/fetch_igs_clocks.sh).
+
+  Contains OPSSAT-AD dataset.csv (Zenodo doi 10.5281/zenodo.12588359), B. Ruszczak
+  et al., Scientific Data (2025), doi 10.1038/s41597-025-05035-3, licensed under CC BY 4.0, vendored as tests/fixtures/opssat/dataset.csv (see
+  tests/fixtures/opssat/NOTICE.md). kshana-bench task (f) uses the later record
+  10.5281/zenodo.15108715, fetched by scripts/fetch_opssat_ad.sh and not vendored.
+
+  kshana-bench datasets: apart from the extracts above, no benchmark dataset is
+  redistributed in this repository. Each one is referenced by DOI or URL and fetched
+  by script or by hand, with its licence recorded in bench/manifests/datasets.json (TEXBAT and JammerTest data are
+  never redistributed).
+
   Contains Galileo satellite metadata (box-wing panel areas, optical properties and
   satellite masses in src/srp_boxwing.rs) from the European GNSS Service Centre,
   https://www.gsc-europa.eu/support-to-developers/galileo-satellite-metadata,
