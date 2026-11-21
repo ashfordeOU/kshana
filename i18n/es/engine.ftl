@@ -10793,7 +10793,7 @@ engine-main-usage =
     { "   " }o: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }o: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
     { "   " }o: kshana time-vectors [--json] [<vectors.json|dir> ...]
-    { "   " }o: kshana corrections <decode --format <has|b2b|l6|l1s|qznma> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
+    { "   " }o: kshana corrections <decode --format <has|b2b|l6|l1s|qznma> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...] | qznma-verify [--frames <frames.txt>] [--nav <nav.txt>] --pubkey <key.der> ...>
     { "   " }o: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
     { "   " }o: kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
     { "   " }o: kshana orbit-data <check|convert|gp-compare|gp-audit|cov> ... (kshana orbit-data --help)
@@ -11723,7 +11723,10 @@ engine-e-corrections-unknown-decoder = decodificador desconocido { $decoder } (h
 engine-e-corrections-bad-vector = al vector { $id } le faltan tramas hexadecimales o un objeto expect
 engine-e-corrections-bad-file = { $file } no es un documento { $format } (etiqueta de formato y un array vectors)
 engine-corrections-summary = { $n } vectores: { $passed } superados, { $failed } fallidos
-engine-corrections-usage = uso: kshana corrections decode --format <has|b2b|l6|l1s|qznma> <frames.txt | -> | kshana corrections vectors [--json] [<vectors.json | dir> ...]  (una trama por línea en hexadecimal; docs/CORRECTION-DECODERS.md)
+engine-corrections-usage = uso: kshana corrections decode --format <has|b2b|l6|l1s|qznma> <frames.txt | -> | kshana corrections vectors [--json] [<vectors.json | dir> ...] | kshana corrections qznma-verify [--frames <frames.txt>] [--nav <nav.txt>] --pubkey <ID:key.der | 001.der> ...  (una trama por línea en hexadecimal; docs/CORRECTION-DECODERS.md)
+engine-e-qznma-bad-nav-line = no es una línea de mensaje de navegación (<satellite> <signal> <part> <hex>): { $line }
+engine-e-qznma-bad-key = { $path }: no es una clave pública P-256 o P-521 (DER o SEC1) con un identificador de clave en el nombre del archivo o como ID:path
+engine-qznma-verify-summary = { $n } firmas: { $verified } verificadas, { $failed } fallidas, { $no_key } sin clave, { $no_navigation } sin mensajes de navegación
 
 ## src/space_weather_pnt/
 

@@ -10593,7 +10593,7 @@ engine-main-usage =
     { "   " }oder: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }oder: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
     { "   " }oder: kshana time-vectors [--json] [<vectors.json|dir> ...]
-    { "   " }oder: kshana corrections <decode --format <has|b2b|l6|l1s|qznma> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
+    { "   " }oder: kshana corrections <decode --format <has|b2b|l6|l1s|qznma> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...] | qznma-verify [--frames <frames.txt>] [--nav <nav.txt>] --pubkey <key.der> ...>
     { "   " }oder: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
     { "   " }oder: kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
     { "   " }oder: kshana orbit-data <check|convert|gp-compare|gp-audit|cov> ... (kshana orbit-data --help)
@@ -11522,7 +11522,10 @@ engine-e-corrections-unknown-decoder = unbekannter Decoder { $decoder } (has, b2
 engine-e-corrections-bad-vector = dem Vektor { $id } fehlen hexadezimale Rahmen oder ein expect-Objekt
 engine-e-corrections-bad-file = { $file } ist kein { $format }-Dokument (Format-Kennung und ein vectors-Array)
 engine-corrections-summary = { $n } Vektoren: { $passed } bestanden, { $failed } fehlgeschlagen
-engine-corrections-usage = Aufruf: kshana corrections decode --format <has|b2b|l6|l1s|qznma> <frames.txt | -> | kshana corrections vectors [--json] [<vectors.json | dir> ...]  (ein Rahmen pro Zeile, hexadezimal; docs/CORRECTION-DECODERS.md)
+engine-corrections-usage = Aufruf: kshana corrections decode --format <has|b2b|l6|l1s|qznma> <frames.txt | -> | kshana corrections vectors [--json] [<vectors.json | dir> ...] | kshana corrections qznma-verify [--frames <frames.txt>] [--nav <nav.txt>] --pubkey <ID:key.der | 001.der> ...  (ein Rahmen pro Zeile, hexadezimal; docs/CORRECTION-DECODERS.md)
+engine-e-qznma-bad-nav-line = keine Navigationsnachrichten-Zeile (<satellite> <signal> <part> <hex>): { $line }
+engine-e-qznma-bad-key = { $path }: kein öffentlicher P-256- oder P-521-Schlüssel (DER oder SEC1) mit einer Schlüssel-ID im Dateinamen oder als ID:path
+engine-qznma-verify-summary = { $n } Signaturen: { $verified } verifiziert, { $failed } fehlgeschlagen, { $no_key } ohne Schlüssel, { $no_navigation } ohne Navigationsnachrichten
 
 ## src/space_weather_pnt/
 

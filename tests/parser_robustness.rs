@@ -1242,3 +1242,32 @@ fn qzss_l1s_and_qznma_frames() {
         }
     });
 }
+
+#[test]
+fn qznma_navigation_message_files() {
+    // Seeds: one line of each signal and part kind the verifier reads.
+    let hex300 = "8b".repeat(38);
+    let seeds: Vec<Vec<u8>> = [
+        format!("G05 gps_lnav 1 {hex300}\nG05 gps_lnav 2 {hex300}\nG05 gps_lnav 3 {hex300}"),
+        format!("G07 gps_cnav 10 {hex300}\nG07 gps_cnav 32 {hex300}\nJ01 qzs_cnav 60 {hex300}"),
+        format!("J02 qzs_lnav 5 {hex300}\nJ03 qzs_cnav2 3 {hex300}\nG09 gps_cnav2 1 1ff"),
+        format!(
+            "E11 gal_inav 5 {}\nE12 gal_fnav 4 {}",
+            "a5".repeat(16),
+            "3c".repeat(31)
+        ),
+    ]
+    .into_iter()
+    .map(String::into_bytes)
+    .collect();
+    fuzz("qznma navigation files", &seeds, None, |b| {
+        if let Ok(store) = kshana::corrections::qznma_verify::NavStore::parse(&text(b)) {
+            let _ = kshana::corrections::qznma_verify::run(&[], &store, &Default::default());
+        }
+        // Raw bits as a QZSS DSS-carrying message of each kind.
+        let bits = kshana::corrections::bits::of_bytes(b);
+        for s in kshana::corrections::qznma_nav::SIGNALS {
+            let _ = kshana::corrections::qznma_nav::qzss_dss(s, &bits);
+        }
+    });
+}

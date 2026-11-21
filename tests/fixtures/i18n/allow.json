@@ -1849,6 +1849,18 @@
    "count": 5,
    "reason": "identifier: the message-type names of the QZNMA RDS in the JSON report"
   },
+  "src/corrections/mod.rs": {
+   "count": 1,
+   "reason": "identifier: the qznma-verify subcommand name matched on the command line"
+  },
+  "src/corrections/qznma_nav.rs": {
+   "count": 8,
+   "reason": "identifier: the signal names of the navigation-message file and the JSON report (docs/CORRECTION-DECODERS.md)"
+  },
+  "src/corrections/qznma_verify.rs": {
+   "count": 1,
+   "reason": "identifier: the qzss_dss source tag of the JSON report"
+  },
   "src/corrections/vectors.rs": {
    "count": 3,
    "reason": "identifier: the vector-format tag and the built-in vector file names (has.json, qznma.json) the scanner reads as words"

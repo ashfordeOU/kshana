@@ -55,6 +55,19 @@ breaking changes are called out explicitly.
   not an external reference. An opt-in test (`tests/correction_icd_examples.rs`) checks the HAS decoder against the
   ICD's own Annex B matrix and Annex C/D worked examples from a copy the user downloads; no ICD content is stored.
 
+### Added (QZNMA signature checks: `kshana corrections qznma-verify`)
+
+- `kshana corrections qznma-verify --frames <l6e> --nav <messages> --pubkey <der>`: checks each QZNMA signature against
+  the navigation messages given and reports `verified`, `failed`, `no_key` or `no_navigation` per signature
+  (MODELLED; exit 1 on a failed signature). GPS and Galileo signatures come from the L6E RDS; QZSS signatures are
+  rebuilt from the three Digital Signature Segments in QZSS LNAV subframe 5, CNAV message type 60 and CNAV2
+  subframe 3 (IS-QZSS-SAS-001 sections 5.1 to 5.3).
+- `kshana::corrections::qznma_nav`: the MASK and RAND of every signal of IS-QZSS-SAS-001 (GPS LNAV, CNAV, CNAV2,
+  Galileo I/NAV, F/NAV, QZSS LNAV, CNAV, CNAV2), the RTOW replacement of section 6.6, and the QZSS DSS. Tested with
+  signatures made by the tests (QZSS test data are given only to registered users): later copies with changed
+  time, parity or CRC verify, a changed data bit fails. Two document conflicts are recorded "to confirm" (QZSS
+  CNAV2 RAND length, figure against table).
+
 ### Added (QZSS L1S, DC Report, DCX and QZNMA decoders)
 
 - `kshana corrections decode --format l1s`: QZSS L1S messages after channel decoding (IS-QZSS-L1S-009 section 4.1):

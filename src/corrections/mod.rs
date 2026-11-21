@@ -19,6 +19,10 @@
 //!   from the IS-QZSS-SAS-002 **draft** (section 7), the CLAS correction message
 //!   authentication slot (ST13 messages, ST13,11 reassembly, TESLA key chain, KROOT signature
 //!   and MAC checks). Everything from the draft is labelled draft.
+//! * [`qznma_nav`] and [`qznma_verify`]: the MASK and RAND of every signal SAS-001 covers (GPS
+//!   LNAV, CNAV, CNAV2, Galileo I/NAV, F/NAV, and the QZSS LNAV, CNAV and CNAV2 with their own
+//!   digital signature segments) and `kshana corrections qznma-verify`, which checks each
+//!   signature against a file of navigation messages with the user's public keys.
 //!
 //! Every decoder takes frames whose channel coding a receiver has already removed (the
 //! Viterbi and de-interleaving of E6-B, the LDPC of B2b, the Reed-Solomon of L6) and reads
@@ -47,6 +51,8 @@ pub mod has;
 pub mod l1s;
 pub mod l6;
 pub mod qznma;
+pub mod qznma_nav;
+pub mod qznma_verify;
 pub mod vectors;
 
 use serde_json::Value;
@@ -178,6 +184,7 @@ pub fn run_cli(args: &[String]) -> Result<bool, String> {
             Ok(true)
         }
         Some("vectors") => vectors::run_cli(&args[1..]),
+        Some("qznma-verify") => qznma_verify::run_cli(&args[1..]),
         Some("--help") | Some("-h") => {
             println!("{}", crate::t!("corrections-usage"));
             Ok(true)
