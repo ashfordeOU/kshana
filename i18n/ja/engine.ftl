@@ -10037,7 +10037,7 @@ engine-main-usage =
     { "   " }または：kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
     { "   " }または：kshana orbit-data <check|convert|gp-compare|gp-audit|cov> ... (kshana orbit-data --help)
     { "   " }または：kshana drone <prearm|prearm-calibrate|estimator-cases|dr-budget|quad-loss|failover|zonotope-pl> ... (kshana drone --help)
-    { "   " }または：kshana leo-verify <burst-timing|holdover-tdev|cost|indoor|rain-fade|rtk-ar|jam-claim|doppler-integrity> <input.json>
+    { "   " }または：kshana leo-verify <burst-timing|holdover-tdev|cost|indoor|rain-fade|rtk-ar|jam-claim|doppler-integrity|signal-claims> <input.json>
     { "   " }または：kshana sil-obs <generate|compare> ... (kshana sil-obs --help)
     { "   " }または：kshana interference-lib <models|generate|fit|bench|cases> ... (kshana interference-lib --help)
     { "   " }または：kshana antenna-cal <lint|spread|compare|group-delay|js-margin> ... (kshana antenna-cal --help)
@@ -11187,7 +11187,7 @@ engine-e-oscillator-field = { $field } が範囲外です: { $value }
 
 ## src/leo_verify/mod.rs
 
-engine-leo-verify-usage = 使い方: kshana leo-verify <burst-timing|holdover-tdev|cost|indoor|rain-fade|rtk-ar|jam-claim|doppler-integrity> <input.json>（docs/LEO-VERIFY.md）
+engine-leo-verify-usage = 使い方: kshana leo-verify <burst-timing|holdover-tdev|cost|indoor|rain-fade|rtk-ar|jam-claim|doppler-integrity|signal-claims> <input.json>（docs/LEO-VERIFY.md）
 
 engine-e-leo-verify-input = { $part } の入力が無効です: { $e }
 
