@@ -58,6 +58,31 @@ pub struct ObsHeader {
     pub interval_s: Option<f64>,
     /// Time of the first observation, if declared.
     pub time_of_first_obs: Option<EpochUtc>,
+    /// The time system the `TIME OF FIRST OBS` record declares (columns 49-51: `GPS`, `GAL`,
+    /// `BDT`, `GLO`, `QZS`, `IRN`), if any. Epochs are kept as written, in that system; the
+    /// reader does not convert them.
+    pub time_system: Option<String>,
+}
+
+/// What the observation reader stepped over rather than decoded, so a caller can tell a
+/// clean file from one that lost data. All zero for a clean file.
+#[derive(Clone, Debug, Default, PartialEq, Eq, Serialize)]
+pub struct ObsReadCounts {
+    /// Special-event records (epoch flags 2-5: antenna moved, new site, header information,
+    /// external event). Their lines are header or comment records, not satellites, and are
+    /// not returned as epochs.
+    pub event_records: usize,
+    /// Lines between epochs that are not an epoch header (`>`), for example satellite records
+    /// beyond the count the epoch header declares.
+    pub stray_lines: usize,
+    /// Observation fields that were neither blank nor a finite number (`**************`, `NaN`,
+    /// text); each is returned as absent.
+    pub unreadable_values: usize,
+    /// Satellites whose system has no `SYS / # / OBS TYPES` record; returned with no
+    /// observations.
+    pub undeclared_system_records: usize,
+    /// A last epoch cut short by the end of the file (fewer records than declared).
+    pub truncated_epochs: usize,
 }
 
 impl ObsHeader {
@@ -111,6 +136,8 @@ pub struct ObsEpoch {
 pub struct RinexObs {
     pub header: ObsHeader,
     pub epochs: Vec<ObsEpoch>,
+    /// What was stepped over rather than decoded.
+    pub skipped: ObsReadCounts,
 }
 
 impl RinexObs {
@@ -162,7 +189,18 @@ fn parse_epoch_header(line: &str) -> Result<(EpochUtc, u8, usize), String> {
         minute: parse_i(col(line, 16, 18), "minute")? as u32,
         second: parse_d(col(line, 18, 29))?,
     };
-    let flag = parse_i(col(line, 31, 32), "epoch flag").unwrap_or(0) as u8;
+    // An unreadable flag is an error: read as 0 it would turn an event record into observations.
+    let flag_field = col(line, 31, 32);
+    let flag = match parse_i(flag_field, "epoch flag")? {
+        f @ 0..=6 => f as u8,
+        _ => {
+            return Err(crate::terr!(
+                "e-rinex-obs-bad",
+                what = "epoch flag",
+                s = format!("{:?}", flag_field)
+            ))
+        }
+    };
     let nsat_field = col(line, 32, 35);
     let nsat = usize::try_from(parse_i(nsat_field, "satellite count")?).map_err(|_| {
         crate::terr!(
@@ -177,7 +215,7 @@ fn parse_epoch_header(line: &str) -> Result<(EpochUtc, u8, usize), String> {
 /// Parse one satellite observation record against its system's `codes`. Each
 /// observation occupies a 16-column field: an `F14.3` value followed by the
 /// one-character LLI and SSI flags. A blank value field is `None`.
-fn parse_sat_record(line: &str, codes: &[String]) -> SatObs {
+fn parse_sat_record(line: &str, codes: &[String], unreadable: &mut usize) -> SatObs {
     let sat = col(line, 0, 3).trim().to_string();
     let mut obs = Vec::with_capacity(codes.len());
     for k in 0..codes.len() {
@@ -190,6 +228,7 @@ fn parse_sat_record(line: &str, codes: &[String]) -> SatObs {
         let value = match parse_d(field) {
             Ok(v) => v,
             Err(_) => {
+                *unreadable += 1;
                 obs.push(None);
                 continue;
             }
@@ -222,6 +261,7 @@ pub fn parse_obs(text: &str) -> Result<RinexObs, String> {
     let mut approx_xyz = None;
     let mut interval_s = None;
     let mut time_of_first_obs = None;
+    let mut time_system = None;
 
     let mut i = 0;
     let mut header_ended = false;
@@ -230,13 +270,9 @@ pub fn parse_obs(text: &str) -> Result<RinexObs, String> {
         i += 1;
         // RINEX 4 adds free-text header records (DOI, LICENSE OF USE, STATION
         // INFORMATION); from version 4 on a label is matched in its own columns.
-        let label = |name: &str| {
-            if version >= 4.0 {
-                col(line, 60, 80).trim_end() == name
-            } else {
-                line.contains(name)
-            }
-        };
+        // A label is matched in its own columns (61-80) in every version, so a COMMENT that
+        // mentions one (`... INTERVAL after decimation    COMMENT`) cannot overwrite it.
+        let label = |name: &str| col(line, 60, 80).trim_end() == name;
         if line.contains("RINEX VERSION / TYPE") {
             version = parse_d(col(line, 0, 9)).unwrap_or(0.0);
             system = col(line, 40, 41).chars().next().unwrap_or(' ');
@@ -272,6 +308,8 @@ pub fn parse_obs(text: &str) -> Result<RinexObs, String> {
         } else if label("INTERVAL") {
             interval_s = parse_d(col(line, 0, 10)).ok();
         } else if label("TIME OF FIRST OBS") {
+            let ts = col(line, 48, 51).trim();
+            time_system = (!ts.is_empty()).then(|| ts.to_string());
             time_of_first_obs = Some(EpochUtc {
                 year: parse_i(col(line, 0, 6), "year")? as i32,
                 month: parse_i(col(line, 6, 12), "month")? as u32,
@@ -295,29 +333,63 @@ pub fn parse_obs(text: &str) -> Result<RinexObs, String> {
         approx_xyz,
         interval_s,
         time_of_first_obs,
+        time_system,
     };
 
     // --- Observation epochs ---
     let mut epochs = Vec::new();
+    let mut skipped = ObsReadCounts::default();
     while i < lines.len() {
         let line = lines[i];
         if !line.starts_with('>') {
+            if !line.trim().is_empty() {
+                skipped.stray_lines += 1;
+            }
             i += 1;
             continue;
         }
         let (time, flag, nsat) = parse_epoch_header(line)?;
         i += 1;
+        if (2..=5).contains(&flag) {
+            // Special event: the count is of header / comment lines that follow, not of
+            // satellites. Step over them (stopping at an epoch header, should the count be
+            // wrong) and return no epoch.
+            skipped.event_records += 1;
+            let mut k = 0;
+            while k < nsat && i < lines.len() && !lines[i].starts_with('>') {
+                i += 1;
+                k += 1;
+            }
+            continue;
+        }
         // The count comes from the file: never reserve more records than lines remain.
         let mut sats = Vec::with_capacity(nsat.min(lines.len() - i));
-        for _ in 0..nsat {
+        for got in 0..nsat {
             if i >= lines.len() {
+                skipped.truncated_epochs += 1;
                 break;
             }
             let rec = lines[i];
+            if rec.starts_with('>') {
+                // The header declared more records than precede the next epoch: reading on
+                // would take that epoch header as a satellite and lose its epoch.
+                return Err(crate::terr!(
+                    "e-rinex-obs-epoch-overrun",
+                    line = format!("{:?}", line.trim_end()),
+                    n = nsat,
+                    got = got
+                ));
+            }
             i += 1;
             let sysc = rec.chars().next().unwrap_or(' ');
-            let codes = header.codes_for(sysc).unwrap_or(&[]);
-            sats.push(parse_sat_record(rec, codes));
+            let codes = match header.codes_for(sysc) {
+                Some(c) => c,
+                None => {
+                    skipped.undeclared_system_records += 1;
+                    &[]
+                }
+            };
+            sats.push(parse_sat_record(rec, codes, &mut skipped.unreadable_values));
         }
         epochs.push(ObsEpoch { time, flag, sats });
     }
@@ -328,7 +400,11 @@ pub fn parse_obs(text: &str) -> Result<RinexObs, String> {
         ));
     }
 
-    Ok(RinexObs { header, epochs })
+    Ok(RinexObs {
+        header,
+        epochs,
+        skipped,
+    })
 }
 
 #[cfg(test)]
