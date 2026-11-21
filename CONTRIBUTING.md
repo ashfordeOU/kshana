@@ -98,6 +98,24 @@ before you open one simply means CI tells you nothing you did not already know.
 - Deterministic tests assert exact (hand-derived) values; statistical tests assert a
   stated tolerance and, ideally, average over seeds to control scatter.
 
+## Pull requests from outside contributors
+
+How we handle a pull request from someone outside the core team:
+
+1. **We answer within two working days**, even if only to say when we will review it.
+2. **If the change cannot go in as it is, we say why and ask for changes first.** We rewrite it
+   ourselves only if you would rather we did, if there is no answer within 14 days, or for a
+   security fix that cannot wait; we tell you in the pull request before we do.
+3. **Credit.** When our commit builds on your code or your design, its message names you and
+   links your pull request, and the `CHANGELOG.md` entry and [`CONTRIBUTORS.md`](CONTRIBUTORS.md)
+   name you; when we fix something you reported, the changelog entry and `CONTRIBUTORS.md` name
+   you too. (This repository's hygiene guard, `scripts/check-no-attribution.sh`, rejects
+   co-author trailers of any kind, so credit goes in those three places.)
+4. **New third-party dependencies need a maintainer's review** (licence, age, who publishes it,
+   how it is maintained) before they are added. We prefer an in-tree change for a parser or format
+   Kshana already reads, and we do not add a crate that is newly published by the pull request's
+   own author; please ask in an issue first if your change needs a new dependency.
+
 ## Commits and versioning
 
 - **Conventional Commits** (`feat:`, `fix:`, `docs:`, `test:`, `chore:` …).
