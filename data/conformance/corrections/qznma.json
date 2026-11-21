@@ -1,0 +1,201 @@
+{
+ "format": "kshana.correction-vectors/1",
+ "set": "qznma",
+ "version": "1.0.0",
+ "source": "IS-QZSS-SAS-001 sections 6.8 and 6.1.8; IS-QZSS-SAS-002 DRAFT sections 7.2 and 7.4",
+ "provenance": "self-derived: frames encoded by this generator from field values it chose, following its own reading of the interface document; a second implementation of the same reading, not an independent reference",
+ "generator": "data/conformance/corrections/gen_correction_vectors.py",
+ "vectors": [
+  {
+   "id": "qznma-rds-and-auth-info",
+   "decoder": "qznma",
+   "frames": [
+    "1acffc1dcd6100026906084d09a4b014001c3854708ca8c4e0fd1935516d89a5c1ddfa16324e6a86a2bedaf7132f4b67839fbbd7f00c2844607c98b4d0ed0925415d7995b1cdea06223e5a7692aecae6fbbc001349314320000000a0a20364c62788ea4bad0e6fd13293f556b8197adc3d9ee041a30465c72889eb4cae0f70d23394f657b91a7bdd3e9fe142a40566c8298aec4daf1071d33495f740205fd3a2e1a08a90e0204060804080c10060c1218081018200a141e280c1824300e1c2a3941434547494b4d4f51535557595b5d5f4c000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+   ],
+   "expect": {
+    "frames": 1,
+    "messages": [
+     {
+      "index": 0,
+      "prn": 205,
+      "alert": false,
+      "rds": [
+       {
+        "nma_id": 0,
+        "rtow": 1234,
+        "sv_id": 12,
+        "sat": "G12",
+        "message_type": 1,
+        "message_type_name": "gps_lnav",
+        "ref_ephemeris1": 77,
+        "ref_ephemeris2": 77,
+        "ref_clock": 300,
+        "key_id": 5,
+        "signature": "00070e151c232a31383f464d545b626970777e858c939aa1a8afb6bdc4cbd2d9e0e7eef5fc030a11181f262d343b424950575e656c737a81888f969da4abb2b9",
+        "salt": 48879,
+        "used": true
+       },
+       {
+        "nma_id": 0,
+        "rtow": 1234,
+        "sv_id": 76,
+        "sat": "E12",
+        "message_type": 5,
+        "message_type_name": "galileo_inav",
+        "ref_ephemeris1": 100,
+        "ref_ephemeris2": 0,
+        "ref_clock": 0,
+        "key_id": 5,
+        "signature": "05101b26313c47525d68737e89949faab5c0cbd6e1ecf7020d18232e39444f5a65707b86919ca7b2bdc8d3dee9f4ff0a15202b36414c57626d78838e99a4afba",
+        "salt": 258,
+        "used": true
+       }
+      ],
+      "clas_draft": [
+       {
+        "sub_subtype_name": "auth_info",
+        "epoch_s": 1805,
+        "adi": 0,
+        "multiple": false,
+        "cmas": 2,
+        "cpks": 1,
+        "chain_id": 1,
+        "key_size": 4,
+        "mac_size": 8,
+        "macs": [
+         "01020304",
+         "02040608",
+         "0306090c",
+         "04080c10",
+         "050a0f14",
+         "060c1218",
+         "070e151c"
+        ],
+        "key": "a0a1a2a3a4a5a6a7a8a9aaabacadaeaf",
+        "ccf": true,
+        "ct": 19,
+        "ct_m": 0.59,
+        "default_message": false
+       }
+      ]
+     }
+    ]
+   },
+   "note": "two RDS (GPS LNAV, Galileo I/NAV) and a DRAFT ST13,1 with seven 32-bit MACs"
+  },
+  {
+   "id": "qznma-filler-unused-default",
+   "decoder": "qznma",
+   "frames": [
+    "1acffc1dce6100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000c000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001fd3a2e2e0c9f01000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+   ],
+   "expect": {
+    "messages": [
+     {
+      "prn": 206,
+      "rds": [
+       null,
+       {
+        "nma_id": 3,
+        "used": false
+       }
+      ],
+      "clas_draft": [
+       {
+        "sub_subtype_name": "auth_info",
+        "cmas": 3,
+        "macs": [],
+        "key": null,
+        "ct": 0,
+        "ct_m": 0.0,
+        "default_message": true
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "id": "qznma-segmented-root-key",
+   "decoder": "qznma",
+   "frames": [
+    "1acffc1dcf61000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001fd3b60147a0a243e58728ca6c0daf50f29435d7791abc5dff8122c46607a94aec8e2fd17314b657f99b3cde6001a344e68000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+    "1acffc1dcd61000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001fd3b70047dfd3a7771e8a20e092c01412100e0c0a0820222426282a2c2e30323436383a3c3e021c36506a849eb8d2ed07213b556f89a3bdd7f00000000000000000000000000000000000000000000000000000000000000000000000"
+   ],
+   "expect": {
+    "messages": [
+     {
+      "prn": 207,
+      "clas_draft": [
+       {
+        "sub_subtype_name": "segment",
+        "multiple": false,
+        "counter": 1,
+        "iod": 1,
+        "stream": 1,
+        "data_bits": 360
+       }
+      ]
+     },
+     {
+      "prn": 205,
+      "clas_draft": [
+       {
+        "sub_subtype_name": "segment",
+        "multiple": true,
+        "counter": 0,
+        "iod": 1,
+        "stream": 1,
+        "data_bits": 420
+       }
+      ]
+     }
+    ],
+    "reassembled_draft": [
+     {
+      "sub_subtype_name": "root_key_info",
+      "epoch_s": 3000,
+      "adi": 15,
+      "cmas": 2,
+      "cpks": 1,
+      "chain_id": 1,
+      "public_key_type": 1,
+      "public_key_id": 7,
+      "test_key": false,
+      "hash_function": 0,
+      "mac_function": 0,
+      "key_size": 4,
+      "kroot_week": 2400,
+      "kroot_hour": 10,
+      "salt": "090807060504",
+      "kroot": "101112131415161718191a1b1c1d1e1f",
+      "signature": "010e1b2835424f5c697683909daab7c4d1deebf805121f2c394653606d7a8794a1aebbc8d5e2effc091623303d4a5764717e8b98a5b2bfccd9e6f3000d1a2734"
+     }
+    ]
+   },
+   "note": "DRAFT: segments are joined by counter once the last one (multiple indicator 0) and every earlier counter are in"
+  },
+  {
+   "id": "qznma-other-frames",
+   "decoder": "qznma",
+   "frames": [
+    "1acffc1dc7a100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+    "1acffc1dcd6100026906084d09a4b014001c3854708ca8c4e0fd1935516d89a5c1ddfa16324e6a86a2bedaf7132f4b67839fbbd7f00c2844607c98b4d0ed0925415d7995b1cdea06223e5a7692aecae6fbbc001349314320000000a0a20364c62788ea4bad0e6fd13293f556b8197adc3d9ee041a30465c72889eb4cae0f70d23394f657b91a7bdd3e9fe142a40566c8298aec4daf1071d33495f740205fd3a2e1a08a90e0204060804080c10060c1218081018200a141e280c1824300e1c2a3941434547494b4d4",
+    "0acffc1dcd6100026906084d09a4b014001c3854708ca8c4e0fd1935516d89a5c1ddfa16324e6a86a2bedaf7132f4b67839fbbd7f00c2844607c98b4d0ed0925415d7995b1cdea06223e5a7692aecae6fbbc001349314320000000a0a20364c62788ea4bad0e6fd13293f556b8197adc3d9ee041a30465c72889eb4cae0f70d23394f657b91a7bdd3e9fe142a40566c8298aec4daf1071d33495f740205fd3a2e1a08a90e0204060804080c10060c1218081018200a141e280c1824300e1c2a3941434547494b4d4f51535557595b5d5f4c000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+    "1acffc1dcd6100026906084d09a4b014001c3854708ca8c4e0fd1935516d89a5c1ddfa16324e6a86a2bedaf7132f4b67839fbbd7f00c2844607c98b4d0ed0925415d7995b1cdea06223e5a7692aecae6fbbc001349314320000000a0a20364c62788ea4bad0e6fd13293f556b8197adc3d9ee041a30465c72889eb4cae0f70d23394f657b91a7bdd3e9fe142a40566c8298aec4daf1071d33495f740205fd3a2e1a08a90e0204060804080c10060c1218081018200a141e280c1824300e1c2a3941434547494b4d4f51535557595b5d5f4c000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+   ],
+   "expect": {
+    "frames": 4,
+    "other_vendor": 1,
+    "short": 1,
+    "bad_preamble": 1,
+    "messages": [
+     {
+      "index": 3,
+      "prn": 205
+     }
+    ]
+   }
+  }
+ ]
+}

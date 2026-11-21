@@ -1,0 +1,53 @@
+:Product: 3-Day Forecast
+:Issued: 2026 Nov 20 0030 UTC
+# Prepared by the U.S. Dept. of Commerce, NOAA, Space Weather Prediction Center
+#
+A. NOAA Geomagnetic Activity Observation and Forecast
+
+The greatest observed 3 hr Kp over the past 24 hours was 5 (NOAA Scale
+G1).
+The greatest expected 3 hr Kp for Nov 20-Nov 22 2026 is 3.67 (below NOAA
+Scale levels).
+
+NOAA Kp index breakdown Nov 20-Nov 22 2026
+
+             Nov 20       Nov 21       Nov 22
+00-03UT       3.00         2.33         2.33         
+03-06UT       3.33         2.67         2.00         
+06-09UT       2.67         2.00         2.00         
+09-12UT       2.33         2.00         2.67         
+12-15UT       1.67         1.33         3.67         
+15-18UT       2.67         2.00         2.67         
+18-21UT       2.67         2.00         2.67         
+21-00UT       3.00         2.33         3.00         
+
+Rationale: No G1 (Minor) or greater geomagnetic storms are expected. No
+significant transient or recurrent solar wind features are forecast.
+
+B. NOAA Solar Radiation Activity Observation and Forecast
+
+Solar radiation, as observed by NOAA GOES-18 over the past 24 hours, was
+below S-scale storm level thresholds.
+
+Solar Radiation Storm Forecast for Nov 20-Nov 22 2026
+
+              Nov 20  Nov 21  Nov 22
+S1 or greater    1%      1%      1%
+
+Rationale: No S1 (Minor) or greater solar radiation storms are expected.
+No significant active region activity favorable for radiation storm
+production is forecast.
+
+C. NOAA Radio Blackout Activity and Forecast
+
+Radio blackouts reaching the R1 levels were observed over the past 24
+hours. The largest was at 19/1324Z UTC.
+
+Radio Blackout Forecast for Nov 20-Nov 22 2026
+
+              Nov 20        Nov 21        Nov 22
+R1-R2           15%           15%           15%
+R3 or greater    5%            5%            5%
+
+Rationale: There is a slight chance for R1-R2 (Minor-Moderate)radio
+blackouts over 20-22 Nov

@@ -124,6 +124,20 @@ nothing about the registered rule: a variant is not a validated alternative, and
 says how much the call depends on that parameter, not which value is right. The results for the back-catalogue
 are in `docs/observatory/RESULTS.md`.
 
+## Confidence and latency statement
+
+Each published cell carries the base method's `confidence` object (level, the 95% Wilson interval of the
+affected share when the share is published, and the share of reports carrying NACp and NIC;
+`docs/INTERFERENCE-MAP.md`). The `release` block of the map and the incident file states the latency:
+`last_report_utc` (the newest report behind the product, to the minute), `not_before_utc`, and
+`min_latency_hours`, the shortest time from that report to the product's release. The release rule makes it at
+least the delay (24 h or more): the observatory is a description of past days, not a real-time service, and the
+statement says so in numbers. Measured wall-clock latency of a live pipeline is not part of this product.
+
+Incidents of a day convert into the open incident format with
+`kshana interference-map incidents from-observatory` (`docs/INTERFERENCE-INCIDENTS.md`): class
+`degradation_unattributed`, confidence `undetermined`, labelled MODELLED.
+
 ## Limits
 
 - **Coverage.** adsb.lol follows volunteer receivers; open sea and thinly covered airspace are sparse, and

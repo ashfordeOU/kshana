@@ -742,6 +742,7 @@ fn sbf_blocks(bytes: &[u8]) -> (Vec<sbf_tools::SbfBlock>, usize) {
                 have: bytes.len() - p,
             })?;
             h.validate_crc(block)?;
+            sbf_sub_block_lengths_ok(block)?;
             SbfBlock::parse(block)
         };
         match one() {
@@ -756,6 +757,38 @@ fn sbf_blocks(bytes: &[u8]) -> (Vec<sbf_tools::SbfBlock>, usize) {
         }
     }
     (out, bad)
+}
+
+/// SBF block number of `MeasEpoch`.
+const SBF_MEAS_EPOCH: u16 = 4027;
+/// Length of a `MeasEpoch` Type-1 sub-block (SBF reference guide: 20 bytes; a receiver may
+/// lengthen it for future fields, never shorten it).
+const SBF_MEAS_EPOCH_SB1_MIN: u8 = 20;
+/// Length of a `MeasEpoch` Type-2 sub-block (12 bytes).
+const SBF_MEAS_EPOCH_SB2_MIN: u8 = 12;
+
+/// Refuse a `MeasEpoch` block whose declared sub-block lengths are shorter than the format
+/// defines. `sbf_tools` 0.4 indexes the first bytes of each Type-1 sub-block without checking
+/// `SB1Length`, so a corrupt block with `SB1Length` below 3 made it panic (found by
+/// tests/parser_robustness.rs); a short length is malformed, so it is a skipped record here.
+fn sbf_sub_block_lengths_ok(block: &[u8]) -> Result<(), sbf_tools::SbfError> {
+    let id = block
+        .get(4..6)
+        .map(|b| u16::from_le_bytes([b[0], b[1]]) & 0x1fff);
+    if id == Some(SBF_MEAS_EPOCH) {
+        let (n1, sb1, sb2) = (block.get(14), block.get(15), block.get(16));
+        let bad = match (n1, sb1, sb2) {
+            (Some(&n1), Some(&sb1), Some(&sb2)) => {
+                n1 > 0
+                    && (sb1 < SBF_MEAS_EPOCH_SB1_MIN || (sb2 != 0 && sb2 < SBF_MEAS_EPOCH_SB2_MIN))
+            }
+            _ => true,
+        };
+        if bad {
+            return Err(sbf_tools::SbfError::ParseError("SB1Length".into()));
+        }
+    }
+    Ok(())
 }
 
 /// Read a Septentrio SBF stream (read only). `PVTGeodetic` gives the fix, `MeasEpoch` the
@@ -1460,7 +1493,14 @@ fn nmea_rmc(st: &mut NmeaState, f: &[&str]) -> Sentence {
     if st.base_day.is_none() && date.len() == 6 {
         let num = |a: usize| date.get(a..a + 2).and_then(|s| s.parse::<i64>().ok());
         if let (Some(d), Some(m), Some(y)) = (num(0), num(2), num(4)) {
-            let y = if y >= 80 { 1900 + y } else { 2000 + y };
+            // NMEA carries no century: the reader's fixed window (80-99 -> 19xx), the RINEX 2
+            // convention, through the one conformance-tested implementation.
+            let y = crate::gnss_time::two_digit_year(
+                y as u32,
+                crate::gnss_time::YearConvention::Rinex2,
+                0,
+            )
+            .unwrap_or(0);
             if plausible_date(y, m, d) {
                 st.base_day = Some(days_from_civil(y, m, d) - st.day_off);
             }

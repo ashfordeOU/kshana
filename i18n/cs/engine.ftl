@@ -10539,6 +10539,214 @@ engine-e-realdata-llr-crd-short-h4-record = krátký záznam h4 (relace)
 
 engine-e-mcp-main-needs-value = { $a } vyžaduje hodnotu
 
+## AIS position-integrity flags (src/ais_integrity.rs)
+engine-ais-integrity-usage = použití: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]  (docs/AIS-INTEGRITY.md)
+engine-ais-integrity-summary = stop: { $n_tracks }, s příznaky: { $n_flagged }; příznaků: { $n_flags } v událostech: { $n_events } (MODELLED)
+engine-e-ais-integrity-missing-value = { $option } vyžaduje hodnotu
+engine-e-ais-integrity-unknown-option = neznámá volba { $option } (volby vypíše kshana ais-integrity --help)
+engine-e-ais-integrity-bad-format = neznámý formát vstupu { $value } (csv nebo nmea)
+engine-e-ais-integrity-cannot-read = nelze číst { $path }: { $e }
+engine-e-ais-integrity-cannot-write = nelze zapsat { $path }: { $e }
+engine-e-ais-integrity-bad-place = řádek seznamu míst není name,lat,lon,radius_m s platnou polohou a kladným poloměrem: { $row }
+
+## A GNSS receiver in space: clock, timestamps, dynamics, upper-SSV benchmark (src/space_receiver/)
+engine-space-receiver-usage = použití: kshana space-receiver clock [--orbit <preset|a_km,e,i_deg>] [--oscillator <name>] [--temp-swing <K>] [--outage-min <m>]... | timestamps <tags.csv> [--oscillator <name>] [--step-floor <s>] [--gap-factor <x>] [--window <n>] | dynamics [--orbit <preset|a_km,e,i_deg>] [--duration-min <m>] [--step-s <s>] [--band l1|l5] [--max-off-boresight <deg>] [--max-doppler <Hz>] [--max-doppler-rate <Hz/s>] | bench [--list] [--case <id>]... [--cn0 <dB-Hz>] [--oscillator <name>] [--max-doppler <Hz>] [--max-doppler-rate <Hz/s>] [--time-budget <s>] [--sidelobes] | mms [--cn0 <dB-Hz>] [--orbits <n>] [--step-min <m>] | od-vs-tle <onboard.oem> --tle <set.tle>   [--out <file.json>]  (docs/SPACE-RECEIVER.md)
+engine-e-space-receiver-missing-value = { $option } vyžaduje hodnotu
+engine-e-space-receiver-unknown-option = neznámá volba { $option } (volby vypíše kshana space-receiver --help)
+engine-e-space-receiver-cannot-read = nelze číst { $path }: { $e }
+engine-e-space-receiver-cannot-write = nelze zapsat { $path }: { $e }
+engine-e-space-receiver-bad-number = { $option }: { $value } není platné číslo
+engine-e-space-receiver-unknown-name = neznámý název { $name } (známé: { $known })
+engine-e-space-receiver-no-columns = záhlaví CSV musí obsahovat t_ref_s a buď t_rx_s, nebo week a tow_s
+engine-e-space-receiver-bad-row = řádek { $line }: povinný sloupec chybí nebo není číslo
+engine-e-space-receiver-too-few-rows = jsou potřeba alespoň tři řádky časových značek
+
+## Space receiver: MMS case and onboard OD against an element set (src/space_receiver/)
+engine-e-space-receiver-no-tle = nenalezena žádná sada dvouřádkových prvků (řádek 1 začínající "1 " následovaný řádkem 2)
+engine-e-space-receiver-oem-frame = referenční soustava OEM { $frame } není pro toto srovnání čitelná (EME2000, GCRF, ICRF nebo TEME)
+
+## SIL observation generator (src/sil_obs.rs)
+engine-sil-obs-usage = použití: kshana sil-obs generate <scenario.toml> --nav <nav.rnx> --out <sim.obs> [--truth <truth.jsonl>] | compare <a.obs> <b.obs> [--json] [--out <file.json>]  (docs/SIL-OBS.md)
+engine-sil-obs-summary = { $n_epochs } epoch, zapsáno { $n_obs } vzorků signálu; { $n_nlos } satelit-epoch NLOS a { $n_blocked } zablokovaných (MODELLED)
+engine-e-sil-obs-missing-value = { $option } vyžaduje hodnotu
+engine-e-sil-obs-unknown-option = neznámá volba { $option } (volby vypíše kshana sil-obs --help)
+engine-e-sil-obs-cannot-read = nelze číst { $path }: { $e }
+engine-e-sil-obs-cannot-write = nelze zapsat { $path }: { $e }
+engine-e-sil-obs-bad-scenario = { $path } není scénář sil-obs: { $e }
+engine-e-sil-obs-bad-nav = { $path } není navigační soubor RINEX: { $e }
+engine-e-sil-obs-bad-obs = { $path } není observační soubor RINEX: { $e }
+engine-e-sil-obs-bad-start = začátek { $value } není čas GPS ve tvaru YYYY-MM-DDTHH:MM:SS
+engine-e-sil-obs-bad-timing = doba trvání musí být nula nebo více a krok kladný, nejvýše milion epoch
+engine-e-sil-obs-no-satellites = { $path } neobsahuje žádný vysílaný záznam požadovaných systémů
+engine-e-sil-obs-unknown-system = neznámý systém { $value } (G nebo E)
+engine-e-sil-obs-bad-canyon = kaňon potřebuje kladnou šířku, posun antény uvnitř ulice, ztrátu odrazem nejméně 1 dB a konečné hodnoty
+
+## Interference model library (src/interference_lib.rs)
+engine-interference-lib-usage = použití: kshana interference-lib models | generate --class <none|cw|narrowband|wideband|chirp|pulsed> [--centre-hz <f>] [--bandwidth-hz <b>] [--period-s <t>] [--pulse-width-s <w>] [--jnr-db <j>] [--drift-hz-per-s <r>] [--triangle] [--fs <hz>] [--samples <n>] [--seed <s>] --out <base> | fit <recording.sigmf-meta> [--out <fit.json>] | bench [--per-class <n>] [--seed <s>] [--predictions <ids.csv>] [--out <bench.json>] | cases [--per-class <n>] [--seed <s>] [--out <cases.csv>]  (docs/INTERFERENCE-LIB.md)
+engine-interference-lib-written = zapsáno { $path } ({ $n } vzorků, MODELLED syntetické rušení)
+engine-e-interference-lib-missing-value = { $option } vyžaduje hodnotu
+engine-e-interference-lib-unknown-option = neznámá volba { $option } (volby vypíše kshana interference-lib --help)
+engine-e-interference-lib-bad-number = { $option } vyžaduje konečné číslo, ne { $value }
+engine-e-interference-lib-unknown-class = neznámá třída rušení { $value } (none, cw, narrowband, wideband, chirp nebo pulsed)
+engine-e-interference-lib-bad-size = vzorkovací kmitočet musí být kladný a záznam mocnina dvou od 1024 do 16777216 vzorků (bench: 1 až 1000 případů na třídu)
+engine-e-interference-lib-cannot-read = nelze číst { $path }: { $e }
+engine-e-interference-lib-cannot-write = nelze zapsat { $path }: { $e }
+engine-e-interference-lib-bad-predictions = řádek predikcí není id,class se známou třídou: { $row }
+
+## Receiver-antenna characterisation (src/antenna_cal.rs)
+engine-antenna-cal-usage = použití: kshana antenna-cal lint <file.atx> | spread <file.atx>... --type <type-radome> | compare <a.atx> [<b.atx>] --type <type-radome> [--serial-a <s>] [--serial-b <s>] [--max-zenith <deg>] | group-delay <spec.toml> | js-margin <spec.toml>  [--out <file.json>]  (docs/ANTENNA-CAL.md)
+engine-e-antenna-cal-missing-value = { $option } vyžaduje hodnotu
+engine-e-antenna-cal-unknown-option = neznámá volba { $option } (volby vypíše kshana antenna-cal --help)
+engine-e-antenna-cal-bad-number = { $option } vyžaduje konečné číslo nula nebo větší, ne { $value }
+engine-e-antenna-cal-cannot-read = nelze číst { $path }: { $e }
+engine-e-antenna-cal-cannot-write = nelze zapsat { $path }: { $e }
+engine-e-antenna-cal-bad-spec = { $path } není platná specifikace: { $e }
+engine-e-antenna-cal-no-antenna = v { $path } není anténa { $name }
+engine-e-antenna-cal-too-few-units = méně než dvě kalibrace antény { $name } k porovnání
+engine-e-antenna-cal-unknown-signal = dvojice uvádí neznámý signál { $value }
+engine-e-antenna-cal-bad-group-delay = specifikace skupinového zpoždění potřebuje alespoň jeden signál, uspořádaný konečný rozsah teplot, kladné kmitočty a konečná zpoždění
+engine-e-antenna-cal-same-pair = dvojice pro kombinaci bez ionosféry potřebuje dva různé kmitočty
+engine-e-antenna-cal-bad-pattern = neznámý diagram antény (patch, choke-ring nebo table)
+engine-e-antenna-cal-bad-gain-table = tabulka zisku potřebuje alespoň dva konečné body elevace a zisku
+engine-e-antenna-cal-bad-link = specifikace J/S potřebuje kladný kmitočet, konečný EIRP a kladné vzdálenosti
+
+## Arctic GNSS availability planner (src/arctic_plan.rs)
+engine-arctic-plan-usage = použití: kshana arctic-plan --site <lat,lon[,h]> | --place <name> | --places  [--systems <a,b,...>] [--compare] [--hours <h>] [--step-min <m>] [--start-s <s>] [--mask <deg>] [--skyline-preset <name>] [--clock common|per-system] [--min-sats <n>] [--max-pdop <x>] [--task-min <m>] [--kp <n>] [--year <y>] [--iono-mask <deg>] [--tle <file> --epoch <YYYY-MM-DDTHH:MM:SS>] [--epochs] [--out <file.json>]  (docs/ARCTIC-PLAN.md)
+engine-e-arctic-plan-missing-value = { $option } vyžaduje hodnotu
+engine-e-arctic-plan-unknown-option = neznámá volba { $option } (volby vypíše kshana arctic-plan --help)
+engine-e-arctic-plan-cannot-read = nelze číst { $path }: { $e }
+engine-e-arctic-plan-cannot-write = nelze zapsat { $path }: { $e }
+engine-e-arctic-plan-bad-number = { $option }: { $value } není platné číslo
+engine-e-arctic-plan-unknown-name = neznámý název { $name } (známé: { $known })
+engine-e-arctic-plan-needs-site = zadejte místo pomocí --site <lat,lon[,h]> nebo --place <name> (názvy vypíše --places)
+engine-e-arctic-plan-bad-horizon = horizont a krok musí být kladné a dávat nejvýše 20 000 epoch
+
+## Lunar time scales, frames, terminology and model provenance (src/lunar_ref.rs)
+engine-lunar-ref-usage = použití: kshana lunar-ref tcb-tcl [--jd <JD TCB>] [--window <jd0,jd1>] | approx [--window <jd0,jd1>] [--grid-days <d>] | convert --from <tt|tdb|tcb|tcg|tcl|ltc> --to <scale> --jd <JD> | transform --from <ICRF|MOON_PA_DE440|MOON_PA|MOON_ME|ILURF> --to <frame> --xyz <x,y,z> [--jd <JD TDB>] | terms | models [--check] [--root <dir>]   [--out <file.json>]  (docs/LUNAR-REF.md)
+engine-e-lunar-ref-missing-value = { $option } vyžaduje hodnotu
+engine-e-lunar-ref-unknown-option = neznámá volba { $option } (volby vypíše kshana lunar-ref --help)
+engine-e-lunar-ref-cannot-write = nelze zapsat { $path }: { $e }
+engine-e-lunar-ref-bad-number = { $option }: { $value } není platné číslo
+engine-e-lunar-ref-unknown-name = neznámý název { $name } (známé: { $known })
+engine-e-lunar-ref-out-of-span = epocha je mimo rozsah použitých efemerid (Standishovy elementy 1800–2050; orientace Měsíce DE440 2014–2030)
+
+## Quantum inertial-sensor benchmark (src/quantum_bench.rs)
+engine-quantum-bench-usage = použití: kshana quantum-bench protocol [--out <protocol.json>] | simulate <spec.toml> --out <series.csv> | score <series.csv> [--fringe-m-s2 <a>] [--out <score.json>]  (docs/QUANTUM-BENCH.md)
+engine-quantum-bench-simulated = zapsáno { $n } vzorků ({ $n_wrapped } s přetočeným proužkem) do { $path } (MODELLED)
+engine-e-quantum-bench-missing-value = { $option } vyžaduje hodnotu
+engine-e-quantum-bench-unknown-option = neznámá volba { $option } (volby vypíše kshana quantum-bench --help)
+engine-e-quantum-bench-bad-number = { $option } vyžaduje konečné kladné číslo, ne { $value }
+engine-e-quantum-bench-cannot-read = nelze číst { $path }: { $e }
+engine-e-quantum-bench-cannot-write = nelze zapsat { $path }: { $e }
+engine-e-quantum-bench-bad-spec = { $path } není platná specifikace: { $e }
+engine-e-quantum-bench-bad-sensor = senzor potřebuje kladný odstup pulzů, alespoň jeden atom, kontrast v (0, 1] a dobu cyklu nejméně dvojnásobek odstupu pulzů
+engine-e-quantum-bench-bad-run = běh potřebuje dobu trvání alespoň jednoho cyklu a nejvýše deset milionů cyklů
+engine-e-quantum-bench-too-short = řada potřebuje alespoň 16 vzorků s rostoucími časy
+engine-e-quantum-bench-bad-csv = řada potřebuje sloupce t_s a measured_m_s2 s konečnými čísly: { $row }
+
+## Terrestrial signals of opportunity, clock offset (src/soop_clock.rs)
+engine-soop-clock-usage = použití: kshana soop-clock lte <capture.sigmf-meta> --start-gps-s <t> --rx <lat,lon,h> --tx <lat,lon,h> [--tx-offset-ns <ns>] [--prior-offset-s <s>] [--carrier-hz <f>] [--min-metric <m>] [--out <file.json>] | cp <capture.sigmf-meta> --nfft <n> --ncp <n> [--carrier-hz <f>] [--out <file.json>] | synth-lte --out <base> [--fs <hz>] [--duration-s <s>] [--nid2 <0|1|2>] [--delay-s <s>] [--cfo-hz <f>] [--snr-db <d>] [--seed <s>]  (docs/SOOP-CLOCK.md)
+engine-soop-clock-summary = { $n } detekcí PSS; posun hodin přijímače { $offset_us } µs na začátku záznamu (MODELLED)
+engine-e-soop-clock-missing-value = { $option } vyžaduje hodnotu
+engine-e-soop-clock-unknown-option = neznámá volba { $option } (volby vypíše kshana soop-clock --help)
+engine-e-soop-clock-bad-number = { $option } vyžaduje konečné číslo, ne { $value }
+engine-e-soop-clock-bad-position = { $option } vyžaduje lat,lon[,h] ve stupních a metrech, ne { $value }
+engine-e-soop-clock-cannot-read = nelze číst { $path }: { $e }
+engine-e-soop-clock-cannot-write = nelze zapsat { $path }: { $e }
+engine-e-soop-clock-too-few-detections = { $n } detekcí PSS; pro posun a rychlost jsou potřeba alespoň tři
+engine-e-soop-clock-too-short = záznam je kratší než dva symboly OFDM
+engine-e-soop-clock-bad-synth = testovací signál potřebuje vzorkovací kmitočet od 100 kHz do 61,44 MHz a kladnou dobu trvání nejvýše 20 milionů vzorků
+
+## LunaNet AFS receiver verification kit and lunar output message profile (src/lunar_afs/kit.rs, src/lunar_output.rs)
+engine-lunar-afs-kit-usage = použití: kshana lunar-afs-kit vectors [<vectors.json>] | registry [<registry.toml|json>] [--limit-db <dB>] [--no-correlation] | output-check <messages.jsonl> | output-example [--n <count>] [--jd <JD TCL>] | output-reexpress <messages.jsonl> --scale <tt|tdb|tcb|tcg|tcl|ltc> --frame <ICRF|MOON_PA_DE440|MOON_PA|MOON_ME|ILURF>   [--out <file>]  (docs/LUNAR-AFS-KIT.md)
+engine-e-lunar-afs-kit-missing-value = { $option } vyžaduje hodnotu
+engine-e-lunar-afs-kit-unknown-option = neznámá volba { $option } (volby vypíše kshana lunar-afs-kit --help)
+engine-e-lunar-afs-kit-cannot-read = nelze číst { $path }: { $e }
+engine-e-lunar-afs-kit-cannot-write = nelze zapsat { $path }: { $e }
+engine-e-lunar-afs-kit-bad-number = { $option }: { $value } není platné číslo
+engine-e-lunar-afs-kit-unknown-name = neznámý název { $name } (známé: { $known })
+engine-e-lunar-afs-kit-bad-registry = registr není seznam přidělení [[node]]: { $e }
+engine-e-lunar-afs-kit-bad-vectors = není soubor kshana.afs-vectors/1: { $e }
+engine-e-lunar-afs-kit-bad-message = řádek není zpráva kshana.lunar-pnt-output/1 s epochou, soustavou a polohou
+
+## ADS-B interference indicators (src/adsb_indicators.rs)
+engine-adsb-indicators-usage = použití: kshana adsb-indicators <adsb.csv> [--cell-deg <d>] [--out <indicators.json>]  (docs/ADSB-INDICATORS.md)
+engine-adsb-indicators-summary = { $n } zveřejněných buněk označeno (MODELLED; příčina se neuvádí)
+engine-e-adsb-indicators-missing-value = { $option } vyžaduje hodnotu
+engine-e-adsb-indicators-unknown-option = neznámá volba { $option } (volby vypíše kshana adsb-indicators --help)
+engine-e-adsb-indicators-bad-cell = velikost buňky musí být 0,01 až 10 stupňů, ne { $value }
+engine-e-adsb-indicators-cannot-read = nelze číst { $path }: { $e }
+engine-e-adsb-indicators-cannot-write = nelze zapsat { $path }: { $e }
+engine-e-adsb-indicators-missing-column = ADS-B CSV nemá sloupec { $name }
+
+## Interference atlas and station C/N0 layer (src/interference_atlas.rs)
+engine-interference-atlas-usage = použití: kshana interference-atlas build <day.geojson>... [--previous <atlas.json>] [--out <atlas.json>] | verify <atlas.json> | cors <today.obs> --baseline <earlier.obs> [--adsb-day <day.geojson>] [--station <lat,lon>] [--out <layer.json>]  (docs/INTERFERENCE-ATLAS.md)
+engine-interference-atlas-built = { $n_cells } buněk, { $n_zones } zón; verze { $version } (MODELLED)
+engine-interference-atlas-verified = { $path }: verze odpovídá obsahu
+engine-e-interference-atlas-missing-value = { $option } vyžaduje hodnotu
+engine-e-interference-atlas-unknown-option = neznámá volba { $option } (volby vypíše kshana interference-atlas --help)
+engine-e-interference-atlas-cannot-read = nelze číst { $path }: { $e }
+engine-e-interference-atlas-cannot-write = nelze zapsat { $path }: { $e }
+engine-e-interference-atlas-not-a-product = { $path } není denní produkt mapy rušení ani atlas
+engine-e-interference-atlas-mixed = denní produkty mísí mřížky nebo zdroje
+engine-e-interference-atlas-empty = nebyl zadán žádný denní produkt
+engine-e-interference-atlas-changed = { $path }: verze neodpovídá obsahu (atlas byl změněn)
+engine-e-interference-atlas-bad-obs = { $path } není observační soubor RINEX: { $e }
+engine-e-interference-atlas-no-cn0 = dva observační soubory nesdílejí žádnou družici GPS s C/N0 vzdálenou jedno opakování stopy
+engine-e-interference-atlas-bad-station = stanice potřebuje lat,lon ve stupních (nebo přibližnou polohu v hlavičce pozorování), ne { $value }
+
+## Private holdout of kshana-bench tasks (f) and (g) (src/bench/holdout.rs)
+engine-e-bench-holdout-inside-repository = privátní holdout se do repozitáře nezapíše: { $path } (zvolte adresář mimo něj)
+engine-e-bench-holdout-task = privátní holdout existuje jen pro úlohy (f) a (g)
+engine-e-bench-holdout-no-truth = pro úlohu ({ $task }) chybí privátní pravda: zadejte --truth <file> nebo nastavte { $var }
+engine-bench-holdout-not-a-private-truth = není to pravda privátního holdoutu: musí to být soubor pravdy kshana-bench úlohy (f) nebo (g) s rozdělením holdout
+engine-bench-holdout-not-registered = pravda úlohy ({ $task }) se SHA-256 { $sha } není registrována v bench/holdout/PRIVATE.json
+engine-bench-site-holdout-not-private = výsledek { $v1 } je výsledek holdoutu úlohy (f) nebo (g), který není označen jako privátní nebo jehož pravda není registrována
+engine-bench-site-provenance-private-holdout = hodnoceno na privátním holdoutu (registrovaná pravda)
+
+## Constellation-claim verification datasets (src/claim_check.rs)
+engine-claim-check-usage = použití: kshana claim-check [<dataset.json>...] [--out <file.json>] | --template   (no file: the shipped public-claims dataset; docs/CLAIM-CHECK.md)
+engine-e-claim-check-missing-value = { $option } vyžaduje hodnotu
+engine-e-claim-check-unknown-option = neznámá volba { $option } (volby vypíše kshana claim-check --help)
+engine-e-claim-check-cannot-read = nelze číst { $path }: { $e }
+engine-e-claim-check-cannot-write = nelze zapsat { $path }: { $e }
+engine-e-claim-check-bad-dataset = není soubor kshana.claims/1: { $e }
+
+## AFS interoperability planning and the lunar user-equipment register (src/afs_interop.rs)
+engine-afs-interop-usage = použití: kshana afs-interop study [--afs-prns <1-12>] [--gps-prns <1-32>] [--galileo-prns <1-36>] [--fs <Hz>] [--integration-ms <ms>] [--max-doppler <Hz>] [--doppler-step <Hz>] [--sweep-pairs <n>] | ue-register [<register.json>] | ue-register --template   [--out <file>]  (docs/AFS-INTEROP.md)
+engine-e-afs-interop-missing-value = { $option } vyžaduje hodnotu
+engine-e-afs-interop-unknown-option = neznámá volba { $option } (volby vypíše kshana afs-interop --help)
+engine-e-afs-interop-cannot-read = nelze číst { $path }: { $e }
+engine-e-afs-interop-cannot-write = nelze zapsat { $path }: { $e }
+engine-e-afs-interop-bad-number = { $option }: { $value } není platné číslo
+engine-e-afs-interop-bad-register = není soubor kshana.lunar-ue-register/1: { $e }
+engine-e-afs-interop-bad-settings = nastavení studie jsou mimo meze: fs × doba integrace musí dát 64 až 200 000 vzorků, krok Dopplera musí být kladný a mez nezáporná
+
+## Linux timing-stack verification (src/timing_stack.rs)
+engine-timing-stack-usage = použití: kshana timing-stack tai [--pmc <pmc.txt>] [--phc-ctl <phc_ctl.txt>] [--chrony <tracking.txt>] [--tai-utc <s>] | ts2phc <ts2phc.log> [--max-offset <s>] | pps <assert.txt> | shm <ntpshmmon.txt> | ntpq <ntpq-p.txt> [--rv <ntpq-rv.txt>] | nts [--client <name>=<authdata.txt>]... [<authdata.txt>]   [--end <t>] [--stale-after <s>] [--out <file.json>]  (docs/TIMING-STACK.md)
+engine-e-timing-stack-missing-value = { $option } vyžaduje hodnotu
+engine-e-timing-stack-unknown-option = neznámá volba { $option } (volby vypíše kshana timing-stack --help)
+engine-e-timing-stack-cannot-read = nelze číst { $path }: { $e }
+engine-e-timing-stack-cannot-write = nelze zapsat { $path }: { $e }
+engine-e-timing-stack-bad-number = { $option }: { $value } není platné číslo
+
+## Register entries against packs, published revocations and versions (src/register_products.rs)
+engine-register-products-usage = použití: kshana register-products verify <register.json> [--packs <dir>] [--pack-key <hex>] [--pin <hex>] [--json] | show <register.json> [--revocations <file.jsonl|url>] [--date <YYYY-MM-DD>] [--pin <hex>] [--json] | diff <older.json> <newer.json> [--pin <hex>]  (docs/PRODUCT-REGISTER.md)
+engine-e-register-products-missing-value = { $option } vyžaduje hodnotu
+engine-e-register-products-unknown-option = neznámá volba { $option } (volby vypíše kshana register-products --help)
+engine-e-register-products-cannot-read = nelze číst { $path }: { $e }
+engine-e-register-products-bad-revocation = řádek { $line } seznamu odvolání potřebuje serial, revoked_at (YYYY-MM-DD) a reason
+engine-e-register-products-cannot-fetch = nelze stáhnout { $url }: { $e }
+engine-e-register-products-bad-key = klíč není 32 bajtů v šestnáctkovém zápisu
+
+## Software-in-the-loop observation generator (src/sil_obsgen.rs)
+engine-sil-obsgen-usage = použití: kshana sil-obsgen <scenario.toml> --out <obs.rnx> [--truth <truth.json>]   (a gnss-sim scenario with optional [urban] and [rinex] tables; docs/SIL-OBSGEN.md)
+engine-e-sil-obsgen-missing-value = { $option } vyžaduje hodnotu
+engine-e-sil-obsgen-unknown-option = neznámá volba { $option } (volby vypíše kshana sil-obsgen --help)
+engine-e-sil-obsgen-cannot-read = nelze číst { $path }: { $e }
+engine-e-sil-obsgen-cannot-write = nelze zapsat { $path }: { $e }
+engine-e-sil-obsgen-bad-scenario = není scénář gnss-sim s volitelnými tabulkami [urban] a [rinex]: { $e }
+
 engine-main-usage =
     použití: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }nebo: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10556,7 +10764,7 @@ engine-main-usage =
     { "   " }nebo: kshana nmea-scenario <scenario.toml> [--out <file.nmea>] [--tcp <addr>|--udp <addr>] (kshana nmea-scenario --help)
     { "   " }nebo: kshana interference-map <adsb|ais|fetch-land> ... (kshana interference-map --help)
     { "   " }nebo: kshana route-exposure --route <route> --map <map.geojson|dir> [--from <date>] [--to <date>]
-    { "   " }nebo: kshana bench <spec|truth|cases|score|baseline|seal|reveal-check|manifest|verify-manifest|validate|leaderboard> ... (kshana bench --help)
+    { "   " }nebo: kshana bench <spec|truth|cases|score|baseline|seal|reveal-check|manifest|verify-manifest|validate|leaderboard|positions|datasets|cite|golden|holdout> ... (kshana bench --help)
     { "   " }nebo: kshana bench-export <scenario.toml> [--out <base>] [--epoch <YYYY-MM-DDTHH:MM:SS>]
     { "   " }nebo: kshana compliance-report [--out <base>] <result.json>... | --mapping | --sources
     { "   " }nebo: kshana lunanet-afs-check <spec [--json] [--strict]|symbols <file> [--max-sp-errors <n>] [--json]|generate --frames <n> [--toi0 <t>] --out <file>>
@@ -10566,9 +10774,38 @@ engine-main-usage =
     { "   " }nebo: kshana obs <convert <log> --format <format> --station <station.toml> [--out <file>] | check <file.obs.jsonl> [--json]>
     { "   " }nebo: kshana connect <map <input> --mapping <connect.toml> --station <station.toml> [--out <file.obs.jsonl>] | check <vector.toml|dir> [--bless] | watch <dir> --mapping <connect.toml> --station <station.toml> [--suffix <.csv>] [--interval <s>] [--once] | mqtt <host:port> --topic <filter> --mapping <connect.toml> --station <station.toml> [--header <row>] [--qos 0|1] [--user <name> --password-env <VAR>] [--client-id <id>] [--max-messages <n>] [--per-topic] | nats <host:port> --subject <s> --mapping <connect.toml> --station <station.toml> [--header <row>] [--per-topic] [--user <name> --password-env <VAR> | --token-env <VAR>] [--max-messages <n>] | ws <ws://host:port/path> --mapping <connect.toml> --station <station.toml> [--header <row>] [--max-messages <n>] | check-live <vector.toml|dir> [--json] | load-test [--stations <n>] [--rate <Hz>] [--seconds <s>] [--via memory|mqtt] [--json] | adapters <list|check> [<dir>] [--json]>
     { "   " }nebo: kshana osnma verify <pages|vectors.csv|stream.ubx> [--merkle-root <hex>] [--public-key <id:type:hex>] [--reference-time <gst-s>] [--json] (kshana osnma --help)
-    { "   " }nebo: kshana iq <scene|acquire|track|sweep|labfit|campaign|conditions|frontend|monitor|inventory|info|extract|convert|decimate> ... (kshana iq --help)
+    { "   " }nebo: kshana iq <scene|acquire|track|sweep|labfit|campaign|conditions|frontend|monitor|diagnose|gnss-sdr-conf|inventory|info|extract|convert|decimate> ... (kshana iq --help)
     { "   " }nebo: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }nebo: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
+    { "   " }nebo: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
+    { "   " }nebo: kshana space-receiver <clock|timestamps|dynamics|bench|mms|od-vs-tle> ... [--out <file.json>] (kshana space-receiver --help)
+    { "   " }nebo: kshana feed <pack|verify|send|spectrum|leaderboard|watch> ... (kshana feed --help)
+    { "   " }nebo: kshana register-products <verify|show|diff> ... (kshana register-products --help)
+    { "   " }nebo: kshana register <check|crl-check|view|sign> ... (kshana register --help)
+    { "   " }nebo: kshana interference-env <evaluate|thresholds|degradation> ... (kshana interference-env --help)
+    { "   " }nebo: kshana arctic-plan --site <lat,lon[,h]> | --place <name> [--systems <a,b,...>] [--compare] [--hours <h>] [--kp <n>] ... (kshana arctic-plan --help)
+    { "   " }nebo: kshana lunar-afs-kit <vectors|registry|output-check|output-example|output-reexpress> ... (kshana lunar-afs-kit --help)
+    { "   " }nebo: kshana lunar-ref <tcb-tcl|approx|convert|transform|terms|models> ... (kshana lunar-ref --help)
+    { "   " }nebo: kshana signal-readiness <profile.toml> [<obs.rnx>...]
+    { "   " }nebo: kshana leo-od-plan <plan.toml>
+    { "   " }nebo: kshana claim-check [<dataset.json>...] [--out <file.json>] | --template
+    { "   " }nebo: kshana afs-interop <study|ue-register> ... (kshana afs-interop --help)
+    { "   " }nebo: kshana timing-stack <tai|ts2phc|pps|shm|ntpq|nts> ... (kshana timing-stack --help)
+    { "   " }nebo: kshana sil-obsgen <scenario.toml> --out <obs.rnx> [--truth <truth.json>]
+    { "   " }nebo: kshana time-vectors [--json] [<vectors.json|dir> ...]
+    { "   " }nebo: kshana corrections <decode --format <has|b2b|l6|l1s|qznma> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...] | qznma-verify [--frames <frames.txt>] [--nav <nav.txt>] --pubkey <key.der> ...>
+    { "   " }nebo: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
+    { "   " }nebo: kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
+    { "   " }nebo: kshana orbit-data <check|convert|gp-compare|gp-audit|cov> ... (kshana orbit-data --help)
+    { "   " }nebo: kshana drone <prearm|prearm-calibrate|estimator-cases|dr-budget|quad-loss|failover|zonotope-pl> ... (kshana drone --help)
+    { "   " }nebo: kshana leo-verify <burst-timing|holdover-tdev|cost|indoor|rain-fade|rtk-ar|jam-claim|doppler-integrity> <input.json>
+    { "   " }nebo: kshana sil-obs <generate|compare> ... (kshana sil-obs --help)
+    { "   " }nebo: kshana interference-lib <models|generate|fit|bench|cases> ... (kshana interference-lib --help)
+    { "   " }nebo: kshana antenna-cal <lint|spread|compare|group-delay|js-margin> ... (kshana antenna-cal --help)
+    { "   " }nebo: kshana quantum-bench <protocol|simulate|score> ... (kshana quantum-bench --help)
+    { "   " }nebo: kshana soop-clock <lte|cp|synth-lte> ... (kshana soop-clock --help)
+    { "   " }nebo: kshana adsb-indicators <adsb.csv> [--cell-deg <d>] [--out <indicators.json>]
+    { "   " }nebo: kshana interference-atlas <build|verify|cors> ... (kshana interference-atlas --help)
     { "   " }nebo: kshana kinds [--json]
     { "   " }nebo: kshana example [<name>]
     { "   " }nebo: kshana --help | --version
@@ -10679,6 +10916,7 @@ engine-interference-map-cli-usage-map =
     { "   " }nebo: kshana interference-map daily <input.csv|trace.json[.gz]|dir> --dataset <adsb-lol|custom> --day <YYYY-MM-DD> --out <dir> [--cell-deg <deg, { $lit_0_5 } nebo hrubší>] [--bbox <south,west,north,east>] [--delay-hours <24 nebo více>]
     { "   " }nebo: kshana interference-map sensitivity <input.csv|trace.json[.gz]|dir> --dataset <adsb-lol|custom> --day <YYYY-MM-DD> --out <report.json> [--bbox <south,west,north,east>]
     { "   " }nebo: kshana interference-map fetch-land --out <land.geojson> --allow-network
+    { "   " }nebo: kshana interference-map incidents <validate <library.json> [--releases <RELEASES.json>] [--json] | release <library.json> --out <dir> | from-observatory <day.incidents.json> --source-url <https://...> --out <file.json>>
     { "   " }(--dataset custom vyžaduje také --licence <text> --licence-url <url> --attribution <text>)
 
 engine-interference-map-cli-usage-route = použití: kshana route-exposure --route <route.geojson|route.csv> --map <map.geojson|dir> [--map ...] [--from <YYYY-MM-DD>] [--to <YYYY-MM-DD>] [--out <report.json>] [--json]
@@ -10698,15 +10936,23 @@ engine-interference-map-cli-col-not-observed = nepozorováno
 engine-bench-cli-usage =
     použití: kshana bench spec
     { "   " }nebo: kshana bench truth --task a --data <extracted JammerTest 2024 dir> --split <dev|test|holdout|all> --out <truth.json>
-    { "   " }nebo: kshana bench cases --task <c|d> --split <dev|test|holdout> --out <dir> [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
+    { "   " }nebo: kshana bench truth --task g --data <GSDC-layout train dir> --split <dev|test|holdout> --out <truth.json>
+    { "   " }nebo: kshana bench cases --task <c|d|f> --split <dev|test|holdout> --out <dir> [--data <dataset.csv>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
     { "   " }nebo: kshana bench score --truth <truth.json> --predictions <predictions.json> [--threshold <x>] [--out <result.json>]
-    { "   " }nebo: kshana bench baseline --task <a|b|c|d> --split <dev|test|holdout> --out <dir> [--data <dir>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
+    { "   " }nebo: kshana bench baseline --task <a|b|c|d|e|f|g> --split <dev|test|holdout> --out <dir> [--data <dir>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
     { "   " }nebo: kshana bench seal --task <a|b|c|d> --seed-file <file> [--new]
     { "   " }nebo: kshana bench reveal-check --task <a|b|c|d> --seed-file <file> --commitment <hex>
     { "   " }nebo: kshana bench manifest --task a --data <extracted dir> [--archive <tar.gz>] --out <manifest.json>
     { "   " }nebo: kshana bench verify-manifest <manifest.json> --root <dir>
+    { "   " }nebo: kshana bench positions --task g --split <dev|test|holdout> --csv <submission.csv> --name <system> [--version <v>] --out <predictions.json>
+    { "   " }nebo: kshana bench datasets [--json | --check [--root <repo>]]
+    { "   " }nebo: kshana bench cite <result.json>...
+    { "   " }nebo: kshana bench golden [--root <repo>] (--out <GOLDEN.json> | --check <GOLDEN.json>)
     { "   " }nebo: kshana bench validate <result.json>...
     { "   " }nebo: kshana bench leaderboard [<results dir|result.json>...] --out <page.html> [--fragment]   (bez vstupů: prázdný stav; --fragment: vložitelná sekce)
+    { "   " }nebo: kshana bench holdout truth --task <f|g> --data <private data> --out <private dir>
+    { "   " }nebo: kshana bench holdout register --truth <private truth.json>
+    { "   " }nebo: kshana bench holdout score --task <f|g> --predictions <predictions.json> [--truth <private truth.json>] [--out <result.json>]   (KSHANA_BENCH_HOLDOUT_F, KSHANA_BENCH_HOLDOUT_G)
     { "   " }(soubor seed obsahuje tajemství za zapečetěným holdoutem; udržujte jej mimo správu verzí)
 
 engine-bench-cli-match = shoda
@@ -10761,6 +11007,8 @@ engine-iq-cli-usage =
     { "   " }nebo: kshana iq conditions <test-conditions.toml|json>
     { "   " }nebo: kshana iq frontend <in> <out> [--bandpass lo,hi] [--notch] [--blank <thr>] [--excise] [--agc] [--bits <n>] [--out-format <fmt>]
     { "   " }nebo: kshana iq monitor <recording> [--power] [--spectral] [--settings <toml|json>] [--baseline <s>] [--signal <name> --prn <list> [--spacing <chips>] [--pll-bw <hz>] [--fll-bw <hz>] [--dll-bw <hz>] [--coherent <N>] [--cn0-windows <M>] [--doppler-max <hz>]] [--max-seconds <s>] [--follow [--idle-timeout <s>]] [--json <out>] [--csv <prefix>]
+    { "   " }nebo: kshana iq diagnose <recording> [--max-seconds <s>] [--block <s>] [--gain-step-db <db>] [--signal <name> --prn <list> [--coherent <N>] [--noncoherent <M>] [--doppler-max <hz>] [--doppler-step <hz>] [--pfa <p>] [--step <s>] [--steps <n>] [--max-sat-doppler <hz>]]
+    { "   " }nebo: kshana iq gnss-sdr-conf <recording> [--signal <name[:channels]>,...] [--profile default|narrowband] [--doppler-max <hz>] [--rate-ms <ms>] [--monitor-ports <ch,pvt> | --no-monitor] [--out <file.conf>]
     { " " }scénáře labfit: [[runs]] záznamů přijímače, nebo [input] campaign = "<out-dir>" označující výstupní složku kampaně kshana iq campaign (relativně k souboru scénáře)
     { " " }návrhy smyček: soubor TOML kshana.loop-design/1 (docs/design/LOOP-DESIGN-TOML.md); explicitní příznaky smyčky a akvizice přebíjejí vybraný návrh
     { " " }acquire/track/sweep přijímají také příznaky předního konce [--bandpass lo,hi] [--notch] [--blank <thr>] [--excise] [--agc] [--bits <n>], použité před zpracováním (na akvizici i sledování stejně)
@@ -11545,3 +11793,354 @@ engine-e-interference-map-locate-bad-tdoa = { $path } není použitelný soubor 
 engine-e-interference-map-locate-source-required = je vyžadováno --source adsb nebo --source ais
 
 engine-e-interference-map-locate-no-evidence-rows = pro výstupy locate nejsou uvedeny žádné řádky důkazů
+
+## Interference-incident format and case library (src/interference_map/incident.rs)
+engine-interference-incidents-valid = { $file }: { $n } záznamů, platné
+engine-e-interference-incidents-invalid = { $n } problém(ů) v knihovně incidentů; seznam vypíše kshana interference-map incidents validate <file>
+engine-e-interference-incidents-not-a-document = { $file } není dokument { $schema }
+engine-e-interference-incidents-source-url-required = --source-url je povinný: každý záznam cituje adresu https://, kde je produkt zveřejněn
+
+## Correction decoders (src/corrections/)
+engine-e-corrections-bad-hex = není šestnáctkový rámec: { $line }
+engine-e-corrections-unknown-decoder = neznámý dekodér { $decoder } (has, b2b, l6, l1s, qznma)
+engine-e-corrections-bad-vector = vektoru { $id } chybí šestnáctkové rámce nebo objekt expect
+engine-e-corrections-bad-file = { $file } není dokument { $format } (značka formátu a pole vectors)
+engine-corrections-summary = { $n } vektorů: { $passed } prošlo, { $failed } selhalo
+engine-corrections-usage = použití: kshana corrections decode --format <has|b2b|l6|l1s|qznma> <frames.txt | -> | kshana corrections vectors [--json] [<vectors.json | dir> ...] | kshana corrections qznma-verify [--frames <frames.txt>] [--nav <nav.txt>] --pubkey <ID:key.der | 001.der> ...  (jeden rámec na řádek, šestnáctkově; docs/CORRECTION-DECODERS.md)
+engine-e-qznma-bad-nav-line = není řádek navigační zprávy (<satellite> <signal> <part> <hex>): { $line }
+engine-e-qznma-bad-key = { $path }: není veřejný klíč P-256 ani P-521 (DER nebo SEC1) s ID klíče v názvu souboru nebo ve tvaru ID:path
+engine-qznma-verify-summary = { $n } podpisů: { $verified } ověřeno, { $failed } selhalo, { $no_key } bez klíče, { $no_navigation } bez navigačních zpráv
+
+## src/space_weather_pnt/
+
+engine-space-weather-pnt-usage =
+    použití: kshana space-weather storms
+    { "   " }nebo: kshana space-weather storm <id> [--altitudes <km,km,...>]
+    { "   " }nebo: kshana space-weather dgnss <request.json> [--forecast <3-day-forecast.txt>]
+    { "   " }nebo: kshana space-weather iono <request.json> [--ionex <file>]
+    { "   " }nebo: kshana space-weather density-scorecard <windows.csv>
+    { "   " }nebo: kshana space-weather lifetime <request.json>
+    { "   " }(docs/SPACE-WEATHER-PNT.md)
+
+engine-e-space-weather-pnt-out-of-range = `{ $field }` musí být konečné číslo od { $lo } do { $hi }
+engine-e-space-weather-pnt-unknown-storm = bouře `{ $id }` v knihovně není (vypíše je kshana space-weather storms)
+engine-e-space-weather-pnt-request = neplatný požadavek: { $e }
+engine-e-space-weather-pnt-bad-time = není čas UTC (YYYY-MM-DDTHH:MM[:SS]Z): { $value }
+engine-e-space-weather-pnt-not-a-forecast = není to třídenní předpověď NOAA SWPC: chybí úplná tabulka rozpisu Kp
+engine-e-space-weather-pnt-one-source = zadejte právě jeden zdroj intervalů Kp: storm, intervals nebo předpověď (swpc_forecast nebo --forecast)
+engine-e-space-weather-pnt-ionex-span = mapy IONEX nepokrývají { $t }
+engine-e-space-weather-pnt-ionex-flag = mapa IONEX se použije tehdy a jen tehdy, když je vtec v požadavku "ionex" a je zadáno --ionex <file>
+engine-e-space-weather-pnt-no-epochs = požadavek potřebuje v epochs_utc alespoň jednu epochu
+engine-e-space-weather-pnt-window-row = řádek { $line }: není to řádek okna hustoty (campaign,phase,start_utc,mean_alt_km,n_valid,measured_mean,points)
+engine-e-rtkqa-usage = použití: kshana rtk-qa monitor <host:port> --mount <name> [--user <name> --password-env <VAR>] [--gga <lat,lon[,h]>] [--seconds <s>] [--stale-after <s>] [--link-bps <n>]
+    kshana rtk-qa sources <table.txt|host:port> [--near <lat,lon>]
+    kshana rtk-qa base <stream.rtcm3> --reference <reference.toml|json> [--epoch <decimal year>]
+    kshana rtk-qa fix <solution.pos|nmea> [--control <name,lat,lon,h>]... [--radius <m>] [--h-tol <m>] [--v-tol <m>]
+    kshana rtk-qa ppk <rover.obs> [--base <base.obs>]
+    kshana rtk-qa probe <host:port> --mount <name> [--user <name> --password-env <VAR>] [--gga <lat,lon[,h]>] [--seconds <s>]
+    kshana rtk-qa caster --listen <host:port> --stream <file.rtcm3> --mount <name> [--user <name> --password-env <VAR>] [--chunk-ext] [--clients <n>] [--max-clients <n>] [--pace-ms <n>]
+    kshana rtk-qa log-check <client.log> --user <name> --password-env <VAR>
+    kshana rtk-qa failover <spec.json|toml>
+
+engine-e-rtkqa-frame = neznámý referenční rámec { $frame } (ITRF2014, ITRF2020, ETRF2014 nebo ETRF2020)
+
+engine-e-rtkqa-tide = neznámý slapový systém { $tide } (tide-free, zero-tide nebo mean-tide)
+
+engine-e-rtkqa-pos-columns = soubor řešení uvádí polohy ve stupních, minutách a sekundách nebo jako základnu; zapište jej v desetinných stupních nebo ECEF
+
+engine-e-rtkqa-pos-line = řádek { $line } není epochou řešení
+
+engine-e-rtkqa-no-solutions = nenalezeny žádné epochy řešení (soubor .pos ve stylu RTKLIB nebo věty NMEA GGA)
+
+engine-e-rtkqa-no-station = proud neobsahuje žádnou staniční zprávu 1005 ani 1006
+
+engine-e-rtkqa-failover-spec = test přepínání potřebuje kladnou dobu trvání a krok a alespoň jeden zdroj
+
+engine-e-rtkqa-failover-source = politika uvádí zdroj, který není definován: { $name }
+
+engine-rtkqa-monitor-summary = rtk-qa monitor: skóre { $score }/100 (MODELLED); dostupnost { $availability } %, medián latence { $latency } ms, úplnost { $completeness } %, poplachy { $alarms }
+
+engine-rtkqa-sources-summary = rtk-qa sources: přípojné body { $n }
+
+engine-rtkqa-base-summary = rtk-qa base: stanice { $n }; v pořádku { $ok }, varování { $warn }, selhání { $fail } (MODELLED)
+
+engine-rtkqa-fix-summary = rtk-qa fix: stanoviska { $n }; vyhověla { $pass }, varování { $warn }, selhání { $fail }, bez fixu { $nofix } (MODELLED)
+
+engine-rtkqa-ppk-summary = rtk-qa ppk: pravděpodobné příčiny { $n }: { $causes }
+
+engine-rtkqa-probe-summary = rtk-qa probe: splněno { $met } z { $total } kontrol; nesplněno: { $failed }
+
+engine-rtkqa-caster-listening = rtk-qa caster: naslouchá na { $addr }, přípojný bod { $mount }
+
+engine-rtkqa-caster-client = rtk-qa caster: klient { $peer } dostal { $answer }; splněno { $met } z { $total } kontrol
+
+engine-rtkqa-log-summary = rtk-qa log-check: přihlašovací údaje nalezeny { $n }krát v { $file }
+
+engine-rtkqa-failover-summary = rtk-qa failover: přepnutí { $switches }; stáří korekcí nad limitem po { $over } s; největší stáří { $max_age } s (MODELLED)
+
+## SDR front-end diagnostics and the GNSS-SDR configuration (src/iq/frontdiag.rs, src/iq/gnss_sdr_conf.rs)
+engine-e-iq-frontdiag-no-samples = záznam neobsahuje žádné vzorky
+engine-e-iq-frontdiag-positive = --block, --step a --gain-step-db musí být kladné
+engine-e-iq-gnss-sdr-conf-format = souborový zdroj GNSS-SDR čte ci16_le, ci8 a cf32_le, ne { $format }: záznam nejprve převeďte (kshana iq convert <in> <out> --to ci16_le)
+engine-e-iq-gnss-sdr-conf-layout = souborový zdroj GNSS-SDR čte jeden proud z jednoho datového souboru bez hlavičky: proud nejprve vyjměte (kshana iq convert)
+engine-e-iq-gnss-sdr-conf-if = záznam má nenulovou mezifrekvenci: nejprve jej převeďte na nulovou (kshana iq decimate --if-hz)
+engine-e-iq-gnss-sdr-conf-no-signal = uveďte alespoň jeden signál volbou --signal
+engine-e-iq-gnss-sdr-conf-rate = výstupní perioda PVT musí být násobkem 20 ms, ne { $rate }
+engine-e-iq-gnss-sdr-conf-signal = pro { $signal } se konfigurace GNSS-SDR nezapisuje (zapisuje se pro: { $known })
+engine-e-iq-gnss-sdr-conf-centre = { $signal } je { $offset_hz } Hz od středního kmitočtu záznamu; výchozí řetězec GNSS-SDR jej potřebuje na nulovém kmitočtu
+engine-e-iq-gnss-sdr-conf-profile = neznámý profil { $profile } (default, narrowband)
+engine-iq-gnss-sdr-conf-written = konfigurace GNSS-SDR zapsána do { $path }
+
+## Orbit-data validators, converters and monitors (src/orbit_data)
+engine-orbit-data-valid = platná podle { $standard }
+engine-orbit-data-valid-with-warnings = platná podle { $standard }, varování: { $warnings }
+engine-orbit-data-invalid = neplatná podle { $standard }: chyby: { $errors }, varování: { $warnings }
+engine-orbit-data-error = chyba
+engine-orbit-data-warning = varování
+engine-orbit-data-not-checked = nekontrolováno: { $what }
+engine-orbit-data-header = hlavička
+engine-orbit-data-cdm-relative = relativní metadata/data
+engine-orbit-data-cdm-object = metadata/data objektu
+engine-orbit-data-covariance = kovariance
+engine-orbit-data-oem-metadata = metadata segmentu { $n }
+engine-orbit-data-line-too-long = řádek má znaků: { $n }, víc než { $max }
+engine-orbit-data-non-printable = řádek obsahuje znak, který není tisknutelné ASCII
+engine-orbit-data-not-key-value = nejde o řádek KLÍČOVÉ_SLOVO = hodnota: { $text }
+engine-orbit-data-keyword-blank = klíčové slovo { $key } obsahuje mezeru
+engine-orbit-data-keyword-case = klíčové slovo { $key } není velkými písmeny
+engine-orbit-data-units-format = jednotky { $key } musí následovat za hodnotou po mezeře, v hranatých závorkách
+engine-orbit-data-first-line = první řádek musí být { $key }
+engine-orbit-data-parse-failed = zprávu nelze přečíst: { $err }
+engine-orbit-data-xml-root = kořenový prvek je { $name }, ne { $want }
+engine-orbit-data-xml-attr = kořenový atribut { $attr } musí být { $want }
+engine-orbit-data-xml-missing = zpráva nemá { $tag }
+engine-orbit-data-empty-value = { $key } má prázdnou hodnotu
+engine-orbit-data-bad-time = { $key } = { $value } není časová značka (yyyy-mm-ddThh:mm:ss[.d] / yyyy-dddThh:mm:ss[.d])
+engine-orbit-data-bad-number = { $key } = { $value } není číslo v zápisu normy
+engine-orbit-data-bad-integer = { $key } = { $value } není celé číslo
+engine-orbit-data-bad-value = { $key } = { $value } není žádná z hodnot: { $allowed }
+engine-orbit-data-out-of-range = { $key } = { $value } leží mimo { $range }
+engine-orbit-data-version = verze { $value }: tato kontrola sleduje verzi { $want }
+engine-orbit-data-bad-chars = { $key } = { $value } obsahuje jiné znaky než písmena, číslice, podtržítko a pomlčku
+engine-orbit-data-identifier-blank = { $key } = { $value } obsahuje mezeru (norma připouští písmena, číslice, podtržítko a pomlčku)
+engine-orbit-data-lower-case = { $key } = { $value } obsahuje malá písmena
+engine-orbit-data-bad-units = { $key } má jednotky [{ $given }]; norma uvádí [{ $want }]
+engine-orbit-data-missing-units = { $key } neuvádí své jednotky [{ $want }]
+engine-orbit-data-unknown-keyword = { $key } není klíčové slovo oddílu { $section }
+engine-orbit-data-duplicate-keyword = { $key } se v oddílu { $section } vyskytuje víckrát
+engine-orbit-data-keyword-order = { $key } je mimo pořadí, které norma stanoví (následuje po { $prev })
+engine-orbit-data-missing-keyword = v oddílu { $section } chybí povinné { $key }
+engine-orbit-data-cdm-object-count = oddíly objektů ve zprávě: { $n }; CDM má dva, OBJECT1 a pak OBJECT2
+engine-orbit-data-cov-row = řádek kovariance { $row } je neúplný nebo následuje po chybějícím řádku
+engine-orbit-data-cov-zero-diagonal = kovariance { $at } má nulový rozptyl; její řádek a sloupec se nemají používat
+engine-orbit-data-not-pd = kovariance v { $at } není pozitivně definitní (nejmenší vlastní číslo korelace { $min })
+engine-orbit-data-frame-mismatch = REF_FRAME se mezi objekty liší ({ $a }, { $b })
+engine-orbit-data-inconsistent = { $key } = { $given } { $unit }, ale z dat vychází { $computed } { $unit }
+engine-orbit-data-time-order = { $first } ({ $a }) je pozdější než { $second } ({ $b })
+engine-orbit-data-count-order = { $used } = { $a } je větší než { $avail } = { $b }
+engine-orbit-data-unterminated = zpráva končí uvnitř bloku
+engine-orbit-data-no-segment = zpráva nemá žádný segment
+engine-orbit-data-time-system-changed = TIME_SYSTEM se ve zprávě mění ({ $a }, pak { $b })
+engine-orbit-data-outside-span = čas { $t } leží mimo rozpětí udané metadaty
+engine-orbit-data-useable-overlap = použitelná rozpětí segmentů { $a } a { $b } se překrývají
+engine-orbit-data-data-width = datový řádek má hodnot: { $n }; očekáváno: { $want }
+engine-orbit-data-duplicate-time = časová značka { $t } se opakuje
+engine-orbit-data-time-not-increasing = časová značka { $t } neroste (předchozí je { $prev })
+engine-orbit-data-too-few-points = datové řádky: { $n }; na interpolaci stupně { $deg } jich je málo (potřeba: { $need })
+engine-orbit-data-mixed-time = blok { $block } míchá relativní a absolutní časové značky
+engine-orbit-data-span-short = použitelné rozpětí má dnů: { $days }, méně než požadovaných dnů: { $min }
+engine-orbit-data-gap = mezera { $s } s, delší než požadovaných { $max } s
+engine-orbit-data-gp-checksum = řádek { $line }: kontrolní součet ve sloupci 69 je chybný (měl by být { $want })
+engine-orbit-data-gp-catalogue = řádek 1 a řádek 2 neuvádějí stejné katalogové číslo
+engine-orbit-data-gp-perigee = perigeum leží ve výšce { $km } km, pod povrchem Země
+engine-orbit-data-gp-sgp4 = SGP4 selhává po epoše, dnů: { $days } (kód chyby { $code })
+engine-orbit-data-gp-stale = epocha je před referenčním časem, dnů: { $days } (víc než { $max })
+engine-orbit-data-gp-future = epocha je po referenčním čase, dnů: { $days }
+engine-orbit-data-gp-repeated-epoch = jiná sada tohoto objektu má stejnou epochu a jiné elementy
+engine-orbit-data-gp-elset-number = číslo sady elementů se při pozdější epoše vrací z { $a } na { $b }
+engine-orbit-data-gp-jump = tato sada a předchozí se v její epoše, o { $hours } h později, liší o { $km } km (víc než { $max } km): manévr nebo chybná sada
+engine-orbit-data-gp-compare-summary = objekty v obou zdrojích: { $n }, označené nad { $threshold } km: { $flagged }; jen v prvním: { $only_a }, jen ve druhém: { $only_b } (MODELLED: rozdíly SGP4, ne přesnost)
+engine-orbit-data-gp-audit-summary = sady elementů: { $sets }, objekty: { $objects }, nálezy: { $findings }
+engine-orbit-data-usage =
+    použití: kshana orbit-data check <cdm|oem|ocm file> [--json] [--aliases <map.json>] [--min-span-days <d>] [--max-gap-s <s>]
+    { "   " }nebo: kshana orbit-data convert <file> --to <ocm|oem|cdm> [--aliases <map.json>]
+    { "   " }nebo: kshana orbit-data gp-compare <a.tle> <b.tle> [--hours <h>] [--step-min <min>] [--threshold-km <km>] [--json]
+    { "   " }nebo: kshana orbit-data gp-audit <sets.tle> ... [--at <epoch>] [--stale-days <d>] [--jump-km <km>] [--json]
+    { "   " }nebo: kshana orbit-data cov <check|propagate|monte-carlo|synthetic|realism> <input.json> [--dt-s <s>] [--step-s <s>] [--samples <n>] [--seed <n>] [--sigma-rtn <r,t,n,rdot,tdot,ndot>] [--full]
+    { "   " }(docs/ORBIT-DATA.md)
+engine-e-orbit-data-unknown-message = { $path } není CDM, OEM (KVN) ani OCM: chybí řádek CCSDS_CDM_VERS, CCSDS_OEM_VERS nebo CCSDS_OCM_VERS i kořen <cdm> nebo <ocm>
+engine-e-orbit-data-bad-flag = { $flag } { $value }: nepoužitelná hodnota
+engine-e-orbit-data-aliases-not-object = tabulka aliasů musí být objekt JSON tvaru "name": "KEYWORD"
+engine-e-orbit-data-alias-target = alias { $key } neodkazuje na žádné klíčové slovo CDM
+engine-e-orbit-data-convert-pair = { $path }: převod na { $to } neexistuje (OEM na ocm, OCM na oem, CDM na cdm)
+engine-e-orbit-data-convert-empty = OEM nemá žádný segment k převodu
+engine-e-orbit-data-convert-one-object = OEM obsahuje objekty: { $n }; OCM obsahuje jeden
+engine-e-orbit-data-convert-missing = ve zdroji chybí { $key }, který cíl potřebuje
+engine-e-orbit-data-convert-width = datový nebo kovarianční řádek má pro převod špatný počet hodnot
+engine-e-orbit-data-convert-time = časovou značku { $t } nelze převést na absolutní (chybí EPOCH_TZERO, nebo nejde o číslo)
+engine-e-orbit-data-convert-traj = typ trajektorie { $kind } nemá podobu OEM (CARTPV a CARTPVA ji mají)
+engine-e-orbit-data-convert-cov = kovariance { $kind } { $ordering } nemá podobu OEM (CARTPV v LTM, UTM nebo FULL ji má)
+engine-e-orbit-data-cov-input = vstupu chybí platné { $key }
+engine-e-orbit-data-cov-not-pd = počáteční kovariance není pozitivně definitní, nebo bylo požadováno příliš málo vzorků
+
+## Drone, UTM and robotics PNT tools (src/drone_pnt)
+engine-drone-usage = použití: kshana drone prearm <log.ulg|log.bin|epochs.jsonl> [--window <s>] [--config <thresholds.json>] [--gate] | prearm-calibrate [--runs <n>] [--seed <n>] | estimator-cases [--case <id> --trace <trace.jsonl> [--params <json>]] | dr-budget [<spec.json> | --airframe multirotor|fixed-wing|vtol|ground-robot] | quad-loss [<spec.json>] | failover [<spec.json>] | zonotope-pl <spec.json>  (docs/DRONE-PNT.md)
+engine-e-drone-dataflash-header = nejde o protokol ArduPilot DataFlash (musí začínat oktety A3 95)
+engine-e-drone-bad-number = { $flag } musí být konečné číslo, ne { $value }
+engine-e-drone-prearm-gate-failed = kontrola před odjištěním FAIL: neodjišťujte (viz kroky playbooku ve zprávě)
+engine-e-drone-no-epochs = protokol neobsahuje epochy přijímače (očekáván PX4 ULog, protokol ArduPilot DataFlash nebo epochy JSON Lines)
+engine-e-drone-trace-bad-line = řádek stopy není objekt JSON s číselným t: { $line }
+engine-e-drone-trace-missing-channel = stopa nemá kanál { $channel } (přejmenujte kanály objektem channels v --params)
+engine-e-drone-unknown-case = neznámý případ odhadovače { $case } (kshana drone estimator-cases vypíše případy)
+engine-e-drone-unknown-airframe = neznámá třída letadla { $name } (multirotor, fixed-wing, vtol, ground-robot)
+engine-e-drone-failover-bad-spec = běh přepnutí potřebuje alespoň jeden zdroj, kladný krok a nezápornou dobu nejvýše deset milionů kroků
+engine-e-drone-failover-bad-kind = neznámý druh zdroje { $kind } (absolute, relative, inertial)
+engine-e-drone-failover-bad-event = událost uvádí neznámý zdroj nebo stav: { $source } (stav fail nebo recover)
+engine-e-drone-zonotope-bad-geometry = úroveň ochrany vyžaduje alespoň čtyři družice s konečným azimutem a elevací a kladnou mezí a řešitelnou geometrii
+
+## src/oscillator/mod.rs
+
+engine-oscillator-usage = použití: kshana oscillator <vibration|holdover|select|raim-aid|datasheet> <input.json>, nebo kshana oscillator refs (docs/OSCILLATOR.md)
+
+engine-e-oscillator-input = vstup { $part } není platný: { $e }
+
+engine-e-oscillator-unknown-clock = neznámá předvolba hodin { $id } (jedna z { $known })
+
+engine-e-oscillator-field = { $field } je mimo rozsah: { $value }
+
+## src/leo_verify/mod.rs
+
+engine-leo-verify-usage = použití: kshana leo-verify <burst-timing|holdover-tdev|cost|indoor|rain-fade|rtk-ar|jam-claim|doppler-integrity> <input.json> (docs/LEO-VERIFY.md)
+
+engine-e-leo-verify-input = vstup { $part } není platný: { $e }
+
+engine-e-leo-verify-field = { $field } je mimo rozsah: { $value }
+
+engine-e-leo-verify-too-large = výpočet je příliš velký: { $n } kroků (nejvýše { $max })
+
+engine-e-leo-verify-unknown-id = { $field } uvádí neznámý identifikátor: { $id }
+
+## src/bench: tasks (f) and (g), the dataset registry and the golden index (E34)
+
+engine-bench-data-no-header = { $file }: chybí řádek záhlaví
+
+engine-bench-data-no-column = { $file }: chybí sloupec `{ $column }`
+
+engine-bench-data-bad-value = { $file } řádek { $line }: `{ $column }` chybí nebo je neplatný
+
+engine-bench-data-no-rows = { $file }: žádné datové řádky
+
+engine-bench-task-has-no-holdout = úloha ({ $task }) nemá rozdělení holdout: její data i rozdělení jsou veřejná
+
+engine-bench-unknown-baseline = neznámá základní metoda `{ $name }`
+
+engine-bench-g-no-traces = v { $root } není žádný <drive>/<phone>/ground_truth.csv
+
+engine-bench-g-no-object = chybí objekt stop `{ $key }`
+
+engine-bench-g-bad-epoch = stopa `{ $id }`: každá epocha musí být [UnixTimeMillis, šířka, délka]
+
+engine-bench-f-dataset-mismatch = { $path }: SHA-256 { $got } není připnutý dataset.csv úlohy (f); stáhněte jej skriptem scripts/fetch_opssat_ad.sh
+
+engine-bench-cli-unknown-task-g = neznámá úloha `{ $t }` (a až g)
+
+engine-bench-cli-wrote-predictions = zapsáno { $path } (stop: { $traces })
+
+engine-bench-datasets-summary = datových sad: { $n }; v benchmarku: { $in_bench }, kandidátů: { $candidate }, hledaných: { $wanted }
+
+engine-bench-datasets-ok = registr: datových sad: { $n }, všechna pravidla splněna
+
+engine-bench-golden-ok = zmrazených souborů beze změny: { $n }; citační identifikátory stabilní
+
+engine-bench-golden-written = zapsáno { $path } (zmrazených souborů: { $n })
+
+engine-bench-site-title-f = Úloha (f): detekce anomálií v telemetrii kosmické lodi
+
+engine-bench-site-title-g = Úloha (g): přesnost určování polohy chytrých telefonů
+
+engine-bench-site-col-ap = Průměrná přesnost
+
+engine-bench-site-col-gsdc-score = Skóre, průměr P50 a P95 (m)
+
+engine-bench-site-col-p50 = P50 souhrnně (m)
+
+engine-bench-site-col-p95 = P95 souhrnně (m)
+
+## Feeder clients (src/feeder.rs, docs/FEEDER.md)
+engine-feed-usage = použití: kshana feed pack <file.obs.jsonl|dir>... --key <keyfile> [--privacy public|exact] [--grid-deg <deg>] [--created <time>] [--include-open] [--out <bundle.json>] | verify <bundle.json> [--pubkey <hex>] [--json] | send <bundle.json> --url <http://host:port/path> [--token-file <file>] | spectrum <capture> --format cu8|ci8|ci16_le --rate <Hz> --centre <Hz> --station <station.toml> [--front-end <name>] [--nfft <n>] [--bins <n>] [--max-samples <n>] [--time <label>] [--out <file.obs.jsonl>] | leaderboard <bundle.json>... [--json] | watch <dir|file>... --key <keyfile> --spool <dir> [--url <http://host:port/path>] [--token-file <file>] [--interval-s <s>] [--privacy public|exact] [--grid-deg <deg>] [--include-open] [--once]  (docs/FEEDER.md)
+engine-e-feed-bad-spool = { $path }: není stav kshana.feed-spool/1 ({ $e })
+engine-e-feed-http-only = { $url }: podporovány jsou jen adresy http:// (jádro nemá klienta TLS; umístěte před kolektor tunel TLS)
+engine-feed-watch-cycle = feed watch: { $files } souborů zabaleno do { $bundles } balíčků, { $sent } odesláno, { $rejected } odmítnuto, { $pending } čeká
+engine-feed-packed = { $out }: balík stanice { $station }, souborů: { $files }, epoch: { $epochs }, soukromí { $mode }
+engine-feed-verified = { $path }: podpis je platný (podepsal { $key }); stanice { $station }, souborů: { $files }, epoch: { $epochs }, každý soubor je platný kshana.obs/1
+engine-feed-sent = odesláno na { $url }: HTTP { $code }
+engine-feed-spectrum-written = { $out }: snímek spektra v pásmech: { $bins } (MODELLED: úrovně vůči plnému rozsahu, ne kalibrovaný výkon)
+engine-e-feed-missing-value = { $option } vyžaduje hodnotu
+engine-e-feed-unknown-option = neznámá volba { $option } (kshana feed --help vypíše volby)
+engine-e-feed-cannot-read = nelze číst { $path }: { $e }
+engine-e-feed-cannot-write = nelze zapsat { $path }: { $e }
+engine-e-feed-not-obs = { $path } není platný soubor kshana.obs/1: { $e }
+engine-e-feed-mixed-stations = soubory pocházejí z více než jedné stanice ({ $a } a { $b }); zabalte jednu stanici do jednoho balíku
+engine-e-feed-no-files = žádné soubory pozorování k zabalení
+engine-e-feed-bad-privacy = neznámý režim soukromí { $value } (public nebo exact)
+engine-e-feed-bad-grid = mřížka polohy musí být od 0.01 do 10 stupňů, ne { $value }
+engine-e-feed-not-bundle = není balík kshana.feed/1: { $e }
+engine-e-feed-bad-signature = podpis balíku není platný
+engine-e-feed-key-mismatch = balík podepsal { $found }, ne očekávaný klíč { $expected }
+engine-e-feed-hash-mismatch = obsah { $name } neodpovídá zaznamenanému SHA-256
+engine-e-feed-payload-mismatch = obsah { $name } neodpovídá stanici ani počtům záznamů uvedeným v balíku
+engine-e-feed-not-coarsened = obsah { $name } veřejného balíku stále obsahuje { $what }
+engine-e-feed-bad-format = nepodporovaný formát vzorků { $value } (cu8, ci8 nebo ci16_le)
+engine-e-feed-bad-number = { $option }: { $value } zde není platná hodnota
+engine-e-feed-short-capture = záznam obsahuje { $n } vzorků, méně než délka transformace { $nfft }
+engine-e-feed-send-failed = odeslání na { $url } selhalo: { $e }
+engine-e-feed-send-refused = { $url } odmítl balík: HTTP { $code }
+engine-e-obs-bad-spectrum = řádek { $line }: spektrum vyžaduje konečný čas a střední frekvenci, kladnou vzorkovací frekvenci a šířku pásma a konečné úrovně
+
+## Product register (src/product_register.rs, docs/PRODUCT-REGISTER.md)
+engine-register-usage = použití: kshana register check <register.json> [--key <hex>] | crl-check <crl.json> --key <hex> | view <register.json> [--key <hex>] [--crl <crl.json> --crl-key <hex>] [--date <YYYY-MM-DD>] [--json] | sign <register.json|crl.json> --key <keyfile> [--out <file>]  (docs/PRODUCT-REGISTER.md)
+engine-register-check-ok = { $path }: rejstřík vydavatele { $publisher }, záznamů: { $n }, podpis je platný (podepsal { $key })
+engine-register-crl-check-ok = { $path }: seznam odvolání vydavatele { $issuer }, odvolaných záznamů: { $n }, podpis je platný; další seznam { $next }
+engine-register-view-summary = k { $date }: platných { $current }, k novému hodnocení { $due }, odvolaných { $revoked }
+engine-register-view-no-crl = seznam odvolání nebyl zadán: stav odvolání je neznámý (--crl <crl.json> --crl-key <hex>)
+engine-register-view-crl-stale = seznam odvolání je zastaralý: jeho další aktualizace měla přijít { $next }
+engine-e-register-key-mismatch = podepsáno klíčem { $found }, ne očekávaným klíčem { $expected }
+engine-e-register-bad-signature = podpis není platný
+engine-e-register-bad-date = { $field } není datum ve tvaru YYYY-MM-DD: { $value }
+engine-e-register-not-register = není rejstřík kshana.register/1: { $e }
+engine-e-register-not-crl = není seznam odvolání kshana.register-crl/1: { $e }
+engine-e-register-bad-id = id záznamu { $id }: použijte 1 až 128 písmen, číslic, teček, pomlček nebo podtržítek
+engine-e-register-duplicate-id = id záznamu { $id } se vyskytuje vícekrát
+engine-e-register-revalidate-before-scored = záznam { $id } má být znovu hodnocen před datem svého hodnocení
+engine-e-register-bad-digest = záznam { $id }: evidence_sha256 musí mít 64 šestnáctkových číslic
+engine-e-register-missing-value = { $option } vyžaduje hodnotu
+engine-e-register-cannot-read = nelze číst { $path }: { $e }
+engine-e-register-cannot-write = nelze zapsat { $path }: { $e }
+engine-e-register-unknown-option = neznámá volba { $option } (kshana register --help vypíše volby)
+engine-e-register-crl-needs-key = --crl a --crl-key patří k sobě: seznam odvolání se ověřuje klíčem vydavatele
+
+## Interference environments (src/interference_env.rs, docs/INTERFERENCE-ENV.md)
+engine-interference-env-usage = použití: kshana interference-env evaluate <environment.toml> | thresholds [--receiver <id>] | degradation --baseline <id> --pulse-width <s> --prf <Hz> [--below-ratio <R>] [--recovery <s>]  (docs/INTERFERENCE-ENV.md; MODELLED)
+engine-e-interference-env-unknown-receiver = neznámý přijímač { $id } (kshana interference-env thresholds je vypíše)
+engine-e-interference-env-unknown-baseline = neznámá základní úroveň { $id } (viz docs/INTERFERENCE-ENV.md)
+engine-e-interference-env-bad-source = zdroj { $name }: výkon, šířka pásma, šířka impulzu nebo opakovací kmitočet není platná kladná konečná hodnota
+engine-e-interference-env-pulsed-needs-receiver = pulzní zdroje vyžadují noise_temperature_k, precorrelation_bw_hz přijímače a úroveň potlačení nebo saturace
+engine-e-interference-env-saturated = impulzy nenechávají žádný nepotlačený čas: střída dosahuje 1
+engine-e-interference-env-missing-value = { $option } vyžaduje hodnotu
+engine-e-interference-env-bad-number = { $option } vyžaduje číslo, ne { $value }
+engine-e-interference-env-unknown-option = neznámá volba { $option } (kshana interference-env --help vypíše volby)
+engine-e-interference-env-cannot-read = nelze číst { $path }: { $e }
+engine-e-interference-env-bad-file = { $path } není prostředí rušení: { $e }
+
+## Future-signal readiness (src/signal_readiness.rs, docs/SIGNAL-READINESS.md)
+engine-signal-readiness-usage = použití: kshana signal-readiness <profile.toml> [<obs.rnx>...]  (docs/SIGNAL-READINESS.md)
+engine-e-signal-readiness-bad-rinex = { $path } není pozorovací soubor RINEX 3 ani 4: { $e }
+engine-e-signal-readiness-unknown-option = neznámá volba { $option } (kshana signal-readiness --help)
+engine-e-signal-readiness-cannot-read = nelze číst { $path }: { $e }
+engine-e-signal-readiness-bad-profile = { $path } není profil přijímače: { $e }
+
+## BeiDou-LEO planning (src/leo_od_plan.rs, docs/LEO-OD-PLAN.md)
+engine-leo-od-plan-usage = použití: kshana leo-od-plan <plan.toml>  (docs/LEO-OD-PLAN.md; MODELLED, a planning tool)
+engine-e-leo-od-plan-bad-plan = hodnoty plánu jsou mimo rozsah: oblouk, krok, šumy a masky kladné a konečné, nejvýše 100000 kroků, masky v rozmezí ±90 stupňů, poloviční šířka svazku od 0 do 90 stupňů a vzor Walker LEO, jehož roviny dělí počet družic
+engine-e-leo-od-plan-cannot-read = nelze číst { $path }: { $e }
+engine-e-leo-od-plan-bad-file = { $path } není plán: { $e }

@@ -1,0 +1,9 @@
+{
+  "carrier_hz": 1575420000,
+  "g_sensitivity_per_g": 2e-9,
+  "random": [[20, 0.04], [2000, 0.04]],
+  "sine": [{"freq_hz": 100, "accel_g_peak": 1.0}],
+  "loop": {"order": 3, "bandwidth_hz": 15, "coherent_s": 0.001, "los_dynamics": 0},
+  "clock": "ocxo",
+  "cn0_dbhz": [30, 35, 40, 45]
+}

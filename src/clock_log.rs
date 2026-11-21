@@ -817,6 +817,13 @@ fn parse_timelab(
             .collect();
     }
     let (series, log) = PhaseSeries::from_samples(&samples, tau0);
+    if log.grid_refused > 0 {
+        return Err(crate::terr!(
+            "e-clock-grid-too-long",
+            n = log.grid_refused,
+            samples = samples.len()
+        ));
+    }
     if log.non_finite > 0 {
         return Err(crate::terr!(
             "e-clock-log-the-timelab-log-has-non",
