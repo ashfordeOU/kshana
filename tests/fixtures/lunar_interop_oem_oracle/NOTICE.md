@@ -9,4 +9,8 @@ in `../lunar_interoperability_export/` (input SHA-256 values are in its header):
   `$KSHANA_ORACLES/orekit/` (the oracle toolchain directory).
 
 Both are run as tools; neither is linked into the crate. Regenerate with
-`generate_lunar_interop_oem_oracle.py` (header of that file). Generated 2026-10-01.
+`generate_lunar_interop_oem_oracle.py` (header of that file). Generated 2026-10-01; regenerated
+2026-11-21 for the export with SANA-registered names (`MOON_ME` / `MOON_PA440`, `TDB`, and one file
+with the opt-in `LTC`), with `oem` 0.4.5 from PyPI, Orekit 12.2 and Hipparchus 3.1 from Maven Central
+and the orekit-data `main` archive downloaded that day from gitlab.orekit.org. The Orekit driver now
+prints epoch offsets measured in the file's own `TIME_SYSTEM` (to the nanosecond) rather than in TAI.

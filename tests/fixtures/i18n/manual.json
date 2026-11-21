@@ -20186,17 +20186,6 @@
   ]
  },
  {
-  "id": "bench-cli-unknown-task-e",
-  "error": false,
-  "parts": [
-   "unknown task `",
-   {
-    "var": "t"
-   },
-   "` (a, b, c, d or e)"
-  ]
- },
- {
   "id": "lunar-oem-usage",
   "error": false,
   "parts": [
@@ -20283,6 +20272,49 @@
     "var": "frame"
    },
    " is not converted here (ICRF, MOON_PA440, MOON_ME; read also MOON_PA_DE440, MOON_ME_DE440_ME421, MOON_PA; EME2000 and J2000 differ from ICRF by the frame bias, not applied)"
+  ]
+ },
+ {
+  "id": "e-lunar-interop-unknown-frame",
+  "error": true,
+  "parts": [
+   "unknown lunar frame ",
+   {
+    "var": "frame"
+   },
+   " (MOON_ME or MOON_PA440; MOON_PA is read as MOON_PA440)"
+  ]
+ },
+ {
+  "id": "e-lunar-interop-unknown-time-system",
+  "error": true,
+  "parts": [
+   "unknown time system ",
+   {
+    "var": "time_system"
+   },
+   " (TDB, UTC, or with allow_unregistered_time_system = true LTC or TCL)"
+  ]
+ },
+ {
+  "id": "e-lunar-interop-unregistered-time-system",
+  "error": true,
+  "parts": [
+   "TIME_SYSTEM ",
+   {
+    "var": "time_system"
+   },
+   " is not in the SANA Time Systems registry that CCSDS OEM uses; set allow_unregistered_time_system = true to write it anyway (a COMMENT then says so), or use TDB"
+  ]
+ },
+ {
+  "id": "e-lunar-interop-bad-step",
+  "error": true,
+  "parts": [
+   "step_min must be a finite, non-negative number of minutes, not ",
+   {
+    "var": "step"
+   }
   ]
  }
 ]

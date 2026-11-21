@@ -10033,6 +10033,12 @@ engine-e-lunar-oem-time-system = TIME_SYSTEM { $time_system } 无法换算为月
 engine-e-lunar-oem-not-moon-centred = CENTER_NAME 为 { $center }；只转换以月球为中心的 OEM（CENTER_NAME = MOON）
 engine-e-lunar-oem-unknown-frame = 此处不转换 REF_FRAME { $frame }（ICRF、MOON_PA440、MOON_ME；也可读取 MOON_PA_DE440、MOON_ME_DE440_ME421、MOON_PA；EME2000 和 J2000 与 ICRF 相差框架偏差，此处不应用）
 
+## Lunar interop export: SANA-registered names (src/lunar_interop.rs)
+engine-e-lunar-interop-unknown-frame = 未知的月球坐标系 { $frame }（MOON_ME 或 MOON_PA440；MOON_PA 按 MOON_PA440 读取）
+engine-e-lunar-interop-unknown-time-system = 未知的时间系统 { $time_system }（TDB、UTC，或在 allow_unregistered_time_system = true 时用 LTC 或 TCL）
+engine-e-lunar-interop-unregistered-time-system = TIME_SYSTEM { $time_system } 不在 CCSDS OEM 所用的 SANA Time Systems 注册表中；如仍要写入，请设 allow_unregistered_time_system = true（届时以 COMMENT 注明），或改用 TDB
+engine-e-lunar-interop-bad-step = step_min 必须是有限的非负分钟数，而不是 { $step }
+
 engine-main-usage =
     用法：kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }或：kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]

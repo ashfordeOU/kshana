@@ -9966,6 +9966,12 @@ engine-e-lunar-oem-time-system = TIME_SYSTEM { $time_system } は月の姿勢の
 engine-e-lunar-oem-not-moon-centred = CENTER_NAME は { $center } です。変換できるのは月中心の OEM（CENTER_NAME = MOON）だけです
 engine-e-lunar-oem-unknown-frame = REF_FRAME { $frame } はここでは変換しません（ICRF、MOON_PA440、MOON_ME。読み込みは MOON_PA_DE440、MOON_ME_DE440_ME421、MOON_PA も可。EME2000 と J2000 は ICRF とフレームバイアス分異なり、それは適用しません）
 
+## Lunar interop export: SANA-registered names (src/lunar_interop.rs)
+engine-e-lunar-interop-unknown-frame = 不明な月面座標系 { $frame }（MOON_ME または MOON_PA440。MOON_PA は MOON_PA440 として読みます）
+engine-e-lunar-interop-unknown-time-system = 不明な時刻系 { $time_system }（TDB、UTC、または allow_unregistered_time_system = true のとき LTC か TCL）
+engine-e-lunar-interop-unregistered-time-system = TIME_SYSTEM { $time_system } は CCSDS OEM が用いる SANA Time Systems レジストリにありません。それでも書くには allow_unregistered_time_system = true を設定してください（COMMENT でその旨を記します）。または TDB を使ってください
+engine-e-lunar-interop-bad-step = step_min は有限で負でない分数でなければなりません（{ $step } は不可）
+
 engine-main-usage =
     使い方：kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }または：kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]

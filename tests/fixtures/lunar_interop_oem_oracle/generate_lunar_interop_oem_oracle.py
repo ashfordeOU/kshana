@@ -29,7 +29,11 @@ from oem import OrbitEphemerisMessage
 
 HERE = pathlib.Path(__file__).resolve().parent
 SRC = HERE.parent / "lunar_interoperability_export"
-FILES = ["kshana_lunar_moon_me_ltc.oem", "kshana_lunar_moon_pa_tcl.oem"]
+FILES = [
+    "kshana_lunar_moon_me_tdb.oem",
+    "kshana_lunar_moon_pa440_tdb.oem",
+    "kshana_lunar_moon_me_ltc_optin.oem",
+]
 
 
 def oem_reader(path):
@@ -56,7 +60,14 @@ def oem_reader(path):
         t0 = states[0].epoch
         for st in states:
             dt = st.epoch - t0
-            dt = dt.total_seconds() if hasattr(dt, "total_seconds") else float(dt)
+            # A plain date-time difference (the fallback for an unsupported TIME_SYSTEM) or
+            # an astropy TimeDelta (a supported one, such as TDB).
+            if hasattr(dt, "total_seconds"):
+                dt = dt.total_seconds()
+            elif hasattr(dt, "to_value"):
+                dt = float(dt.to_value("s"))
+            else:
+                dt = float(dt)
             p, v = st.position, st.velocity
             lines.append(
                 "STATE %s t+%.6f %s" % (path.name, dt, " ".join("%.17e" % x for x in list(p) + list(v)))

@@ -1714,6 +1714,10 @@ fn feeder_spool_state() {
     .collect();
     fuzz("feeder spool state", &seeds, None, |b| {
         let _ = kshana::feeder_watch::parse_spool(&text(b), "state.json");
+    });
+}
+
+#[test]
 fn lunar_oem_conversion() {
     let seed = "CCSDS_OEM_VERS = 2.0\nCREATION_DATE = 2024-03-01T00:00:00\nORIGINATOR = T\n\nMETA_START\nOBJECT_NAME = A\nOBJECT_ID = A\nCENTER_NAME = MOON\nREF_FRAME = MOON_PA\nTIME_SYSTEM = UTC\nSTART_TIME = 2024-03-01T00:00:00\nSTOP_TIME = 2024-03-01T00:10:00\nMETA_STOP\n\n2024-03-01T00:00:00 1837.4 0 0 0 1.6 0\n2024-03-01T00:10:00 1700.0 600 0 -0.5 1.5 0\n";
     fuzz("lunar oem", &[seed.as_bytes().to_vec()], None, |b| {
