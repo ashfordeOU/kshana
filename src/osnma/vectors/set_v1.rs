@@ -21,10 +21,15 @@ use serde_json::{json, Value};
 /// What one vector gives the verifier: the pages and the trust anchors and time a receiver
 /// would hold.
 pub struct Built {
+    /// The I/NAV pages the receiver gets.
     pub pages: Vec<InavPage>,
+    /// The Merkle root the receiver trusts, if the vector uses one.
     pub merkle_root: Option<[u8; 32]>,
+    /// The public keys the receiver holds.
     pub public_keys: Vec<PublicKey>,
+    /// The receiver's reference time (GST, s), if the vector sets one.
     pub reference_time: Option<u32>,
+    /// The receiver's maximum time error (s), if the vector sets one.
     pub max_time_error: Option<u32>,
 }
 
@@ -42,11 +47,17 @@ impl Built {
 
 /// One vector of the set.
 pub struct VectorDef {
+    /// Vector ID, as in the manifest.
     pub id: &'static str,
+    /// Category of the vector (valid, keys, key-chain, mack-tags, time, replay, corruption, alert, renewal-revocation).
     pub category: &'static str,
+    /// One-line title.
     pub title: &'static str,
+    /// ICD and Receiver Guidelines references for the vector.
     pub refs: &'static [&'static str],
+    /// Builds the vector's pages and trust anchors.
     pub build: fn() -> Built,
+    /// The vector's fixed bars, as JSON.
     pub bars: fn() -> Value,
 }
 

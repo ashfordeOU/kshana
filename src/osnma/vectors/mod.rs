@@ -59,7 +59,9 @@ fn key_arg(k: &PublicKey) -> String {
 
 /// One generated vector: its manifest entry and its input file.
 pub struct Generated {
+    /// The vector's manifest entry (id, category, input path, references, bars).
     pub entry: Value,
+    /// The vector's input file text (I/NAV pages in the plain format).
     pub input: String,
 }
 
@@ -336,7 +338,9 @@ pub fn evaluate(bar: &Value, report: &Value, exit: i32) -> Vec<Value> {
 
 /// A set ready to run: its manifest, its bar file text, and a way to read each input.
 pub struct LoadedSet {
+    /// The set manifest, as parsed JSON.
     pub manifest: Value,
+    /// The bar file text, exactly as read (its SHA-256 is checked against the manifest).
     pub bars_text: String,
     inputs: Inputs,
 }
