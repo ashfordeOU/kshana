@@ -688,7 +688,9 @@ impl Scenario for crate::lunar_interop::LunarInteropScenario {
 impl BuiltinKind for crate::lunar_interop::LunarInteropScenario {
     const KIND: ScenarioKind = ScenarioKind::LunarInterop;
     fn parse(src: &str) -> Result<Self, String> {
-        parse_toml(src, "lunar-interop-export")
+        let scn: Self = parse_toml(src, "lunar-interop-export")?;
+        scn.validate()?;
+        Ok(scn)
     }
 }
 
