@@ -1,0 +1,22 @@
+{
+  "format": "kshana-dossier-signature/1",
+  "signer": "Test signer (synthetic)",
+  "utc": "2026-11-21T10:02:00Z",
+  "public_key": "a729ef7c772d4bf0da7a88d434bc2d4003084c548641bdfa1e5bbc3c7fb2b209",
+  "key_id": "d1a061cbd94f3655",
+  "files": [
+    {
+      "path": "inputs/aviation-and-airspace.txt",
+      "sha256": "b0102bc590fda7c8888cad3081e520952bbc11e8c896056781171ec848e13e94"
+    },
+    {
+      "path": "operating-envelope.json",
+      "sha256": "cbca2c5a592890fbacdf64ec4c0d467bd01aca3ba0bcecbe1d59b447ab927708"
+    },
+    {
+      "path": "report.json",
+      "sha256": "43f6c4d23dc9b78f39857bba4ad928c4625ff7cd4a07d6bf810e62967e8c2494"
+    }
+  ],
+  "signature": "123e1b83820988a762d625951b79dd876bba34c63b573f89a50d49ac9bca46bbd1070d8f927b88796564ec1e564e276549c8f0700f6b6cc68991a99c5e7ae50b"
+}
