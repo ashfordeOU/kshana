@@ -343,3 +343,54 @@ fn the_slots_round_trip_through_the_scene_and_testbench_exports() {
         .unwrap()
         .contains("MODELLED"));
 }
+
+/// A documented comparison, not a tuned match: the hours per day a QZO satellite stays above 70°,
+/// 50° and 20° elevation near Tokyo, as the operator publishes them, against the nominal slots.
+/// Published (qzss.go.jp, Technology, Orbit, read 2026-11-21): "If you watch one QZO satellite
+/// from the area near Tokyo, it will remain for eight hours at an elevation angle of 70° or more,
+/// 12 hours at 50° or more, and 16 hours at 20° or more." The nominal two-body slots of
+/// PS-QZSS-005 give about 9.1, 12.7 and 18.0 h for QZS2; the gap (+1.1, +0.7, +2.0 h) is reported
+/// in docs/GNSS-SLOTS.md and not tuned away (the published figures are rounded, and "the area near
+/// Tokyo" and the satellite are not stated exactly).
+#[test]
+fn qzo_dwell_over_tokyo_is_compared_with_the_published_hours() {
+    // PIN-SCOPE:    the engine's dwell hours for QZS2 (PS-QZSS-005 and the six-satellite
+    //               operation) from Tokyo, 10 s sampling over one sidereal day.
+    // PIN-EXCLUDES: the published hours, which are recorded here and in the docs, not asserted.
+    const PUBLISHED_H: [f64; 3] = [8.0, 12.0, 16.0];
+    let st = kshana::frames::Geodetic {
+        lat_rad: 35.68f64.to_radians(),
+        lon_rad: 139.69f64.to_radians(),
+        alt_m: 40.0,
+    };
+    let dwell = |set: &str, id: &str| -> [f64; 3] {
+        let o = slot_orbit(&slot(set, id)).unwrap();
+        let mut c = [0usize; 3];
+        let n = (DAY_S / 10.0) as usize;
+        for k in 0..n {
+            let t = 10.0 * k as f64;
+            let r = kshana::frames::teme_to_ecef(
+                o.position_eci(t),
+                kshana::walker::walker_epoch_jd() + t / 86_400.0,
+            );
+            let el = kshana::frames::look_angles(st, r).el_rad.to_degrees();
+            for (i, m) in [70.0, 50.0, 20.0].iter().enumerate() {
+                if el >= *m {
+                    c[i] += 1;
+                }
+            }
+        }
+        c.map(|x| x as f64 * 10.0 / 3600.0)
+    };
+    for (set, want) in [
+        ("qzss-ps-005", [9.13, 12.70, 17.99]),
+        ("qzss-six-satellite", [8.85, 12.59, 17.90]),
+    ] {
+        let got = dwell(set, "QZS2 QZO");
+        for i in 0..3 {
+            assert!((got[i] - want[i]).abs() < 0.05, "{set} {i}: {got:?}");
+            // The modelled dwell is longer than the published one at every threshold.
+            assert!(got[i] > PUBLISHED_H[i], "{set} {i}: {got:?}");
+        }
+    }
+}
