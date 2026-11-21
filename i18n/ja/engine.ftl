@@ -9932,6 +9932,14 @@ engine-e-afs-interop-bad-number = { $option }：{ $value } は有効な数値で
 engine-e-afs-interop-bad-register = kshana.lunar-ue-register/1 ファイルではありません：{ $e }
 engine-e-afs-interop-bad-settings = 検討の設定が範囲外です：fs × 積分時間は 64～200,000 サンプル、ドップラー刻みは正、上限は負でない必要があります
 
+## Linux timing-stack verification (src/timing_stack.rs)
+engine-timing-stack-usage = 使い方：kshana timing-stack tai [--pmc <pmc.txt>] [--phc-ctl <phc_ctl.txt>] [--chrony <tracking.txt>] [--tai-utc <s>] | ts2phc <ts2phc.log> [--max-offset <s>] | pps <assert.txt> | shm <ntpshmmon.txt> | ntpq <ntpq-p.txt> [--rv <ntpq-rv.txt>] | nts [--client <name>=<authdata.txt>]... [<authdata.txt>]   [--end <t>] [--stale-after <s>] [--out <file.json>]  (docs/TIMING-STACK.md)
+engine-e-timing-stack-missing-value = { $option } には値が必要です
+engine-e-timing-stack-unknown-option = 不明なオプション { $option }（kshana timing-stack --help でオプションを一覧表示）
+engine-e-timing-stack-cannot-read = { $path } を読み込めません：{ $e }
+engine-e-timing-stack-cannot-write = { $path } に書き込めません：{ $e }
+engine-e-timing-stack-bad-number = { $option }：{ $value } は有効な数値ではありません
+
 engine-main-usage =
     使い方：kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }または：kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -9974,6 +9982,7 @@ engine-main-usage =
     { "   " }または：kshana leo-od-plan <plan.toml>
     { "   " }または：kshana claim-check [<dataset.json>...] [--out <file.json>] | --template
     { "   " }または：kshana afs-interop <study|ue-register> ... (kshana afs-interop --help)
+    { "   " }または：kshana timing-stack <tai|ts2phc|pps|shm|ntpq|nts> ... (kshana timing-stack --help)
     { "   " }または：kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }または：kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }または：kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>

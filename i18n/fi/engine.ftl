@@ -10458,6 +10458,14 @@ engine-e-afs-interop-bad-number = { $option }: { $value } ei ole kelvollinen luk
 engine-e-afs-interop-bad-register = ei ole kshana.lunar-ue-register/1-tiedosto: { $e }
 engine-e-afs-interop-bad-settings = tutkimuksen asetukset ovat rajojen ulkopuolella: fs × integrointiajan on annettava 64–200 000 näytettä, Doppler-askeleen on oltava positiivinen ja rajan ei-negatiivinen
 
+## Linux timing-stack verification (src/timing_stack.rs)
+engine-timing-stack-usage = käyttö: kshana timing-stack tai [--pmc <pmc.txt>] [--phc-ctl <phc_ctl.txt>] [--chrony <tracking.txt>] [--tai-utc <s>] | ts2phc <ts2phc.log> [--max-offset <s>] | pps <assert.txt> | shm <ntpshmmon.txt> | ntpq <ntpq-p.txt> [--rv <ntpq-rv.txt>] | nts [--client <name>=<authdata.txt>]... [<authdata.txt>]   [--end <t>] [--stale-after <s>] [--out <file.json>]  (docs/TIMING-STACK.md)
+engine-e-timing-stack-missing-value = { $option } tarvitsee arvon
+engine-e-timing-stack-unknown-option = tuntematon valitsin { $option } (kshana timing-stack --help luettelee valitsimet)
+engine-e-timing-stack-cannot-read = tiedostoa { $path } ei voi lukea: { $e }
+engine-e-timing-stack-cannot-write = tiedostoon { $path } ei voi kirjoittaa: { $e }
+engine-e-timing-stack-bad-number = { $option }: { $value } ei ole kelvollinen luku
+
 engine-main-usage =
     käyttö: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }tai: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10500,6 +10508,7 @@ engine-main-usage =
     { "   " }tai: kshana leo-od-plan <plan.toml>
     { "   " }tai: kshana claim-check [<dataset.json>...] [--out <file.json>] | --template
     { "   " }tai: kshana afs-interop <study|ue-register> ... (kshana afs-interop --help)
+    { "   " }tai: kshana timing-stack <tai|ts2phc|pps|shm|ntpq|nts> ... (kshana timing-stack --help)
     { "   " }tai: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }tai: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }tai: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>

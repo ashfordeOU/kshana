@@ -10722,6 +10722,14 @@ engine-e-afs-interop-bad-number = { $option }: { $value } není platné číslo
 engine-e-afs-interop-bad-register = není soubor kshana.lunar-ue-register/1: { $e }
 engine-e-afs-interop-bad-settings = nastavení studie jsou mimo meze: fs × doba integrace musí dát 64 až 200 000 vzorků, krok Dopplera musí být kladný a mez nezáporná
 
+## Linux timing-stack verification (src/timing_stack.rs)
+engine-timing-stack-usage = použití: kshana timing-stack tai [--pmc <pmc.txt>] [--phc-ctl <phc_ctl.txt>] [--chrony <tracking.txt>] [--tai-utc <s>] | ts2phc <ts2phc.log> [--max-offset <s>] | pps <assert.txt> | shm <ntpshmmon.txt> | ntpq <ntpq-p.txt> [--rv <ntpq-rv.txt>] | nts [--client <name>=<authdata.txt>]... [<authdata.txt>]   [--end <t>] [--stale-after <s>] [--out <file.json>]  (docs/TIMING-STACK.md)
+engine-e-timing-stack-missing-value = { $option } vyžaduje hodnotu
+engine-e-timing-stack-unknown-option = neznámá volba { $option } (volby vypíše kshana timing-stack --help)
+engine-e-timing-stack-cannot-read = nelze číst { $path }: { $e }
+engine-e-timing-stack-cannot-write = nelze zapsat { $path }: { $e }
+engine-e-timing-stack-bad-number = { $option }: { $value } není platné číslo
+
 engine-main-usage =
     použití: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }nebo: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10764,6 +10772,7 @@ engine-main-usage =
     { "   " }nebo: kshana leo-od-plan <plan.toml>
     { "   " }nebo: kshana claim-check [<dataset.json>...] [--out <file.json>] | --template
     { "   " }nebo: kshana afs-interop <study|ue-register> ... (kshana afs-interop --help)
+    { "   " }nebo: kshana timing-stack <tai|ts2phc|pps|shm|ntpq|nts> ... (kshana timing-stack --help)
     { "   " }nebo: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }nebo: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }nebo: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
