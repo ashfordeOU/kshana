@@ -9859,12 +9859,12 @@ engine-e-sil-obs-unknown-system = 未知系统 { $value }（G 或 E）
 engine-e-sil-obs-bad-canyon = 峡谷需要正的宽度、位于街道内的天线偏移、至少 1 dB 的反射损耗以及有限值
 
 ## Interference model library (src/interference_lib.rs)
-engine-interference-lib-usage = 用法：kshana interference-lib models | generate --class <none|cw|narrowband|wideband|chirp|pulsed> [--centre-hz <f>] [--bandwidth-hz <b>] [--period-s <t>] [--pulse-width-s <w>] [--jnr-db <j>] [--drift-hz-per-s <r>] [--triangle] [--fs <hz>] [--samples <n>] [--seed <s>] --out <base> | fit <recording.sigmf-meta> [--out <fit.json>] | bench [--per-class <n>] [--seed <s>] [--predictions <ids.csv>] [--out <bench.json>] | cases [--per-class <n>] [--seed <s>] [--out <cases.csv>]  (docs/INTERFERENCE-LIB.md)
+engine-interference-lib-usage = 用法：kshana interference-lib models | generate --class <none|cw|narrowband|wideband|chirp|pulsed|multitone|fm_tone> [--centre-hz <f>] [--bandwidth-hz <b>] [--period-s <t>] [--pulse-width-s <w>] [--jnr-db <j>] [--drift-hz-per-s <r>] [--triangle] [--tones-hz <f1,f2,...>] [--deviation-hz <d>] [--mod-freq-hz <m>] [--fs <hz>] [--samples <n>] [--seed <s>] --out <base> | fit <recording.sigmf-meta> [--out <fit.json>] | bench [--per-class <n>] [--seed <s>] [--predictions <ids.csv>] [--out <bench.json>] | cases [--per-class <n>] [--seed <s>] [--out <cases.csv>]  (docs/INTERFERENCE-LIB.md)
 engine-interference-lib-written = 已写入 { $path }（{ $n } 个样本，MODELLED 合成干扰）
 engine-e-interference-lib-missing-value = { $option } 需要一个值
 engine-e-interference-lib-unknown-option = 未知选项 { $option }（kshana interference-lib --help 列出所有选项）
 engine-e-interference-lib-bad-number = { $option } 需要一个有限数值，而不是 { $value }
-engine-e-interference-lib-unknown-class = 未知干扰类别 { $value }（none、cw、narrowband、wideband、chirp 或 pulsed）
+engine-e-interference-lib-unknown-class = 未知干扰类别 { $value }（none、cw、narrowband、wideband、chirp、pulsed、multitone 或 fm_tone）
 engine-e-interference-lib-bad-size = 采样率须为正，记录长度须为 1024 至 16777216 之间的 2 的幂（bench：每类 1 至 1000 个案例）
 engine-e-interference-lib-cannot-read = 无法读取 { $path }：{ $e }
 engine-e-interference-lib-cannot-write = 无法写入 { $path }：{ $e }

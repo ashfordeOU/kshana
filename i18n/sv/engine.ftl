@@ -10461,12 +10461,12 @@ engine-e-sil-obs-unknown-system = okänt system { $value } (G eller E)
 engine-e-sil-obs-bad-canyon = kanjonen behöver en positiv bredd, en antennförskjutning inom gatan, en reflektionsförlust på minst 1 dB och ändliga värden
 
 ## Interference model library (src/interference_lib.rs)
-engine-interference-lib-usage = användning: kshana interference-lib models | generate --class <none|cw|narrowband|wideband|chirp|pulsed> [--centre-hz <f>] [--bandwidth-hz <b>] [--period-s <t>] [--pulse-width-s <w>] [--jnr-db <j>] [--drift-hz-per-s <r>] [--triangle] [--fs <hz>] [--samples <n>] [--seed <s>] --out <base> | fit <recording.sigmf-meta> [--out <fit.json>] | bench [--per-class <n>] [--seed <s>] [--predictions <ids.csv>] [--out <bench.json>] | cases [--per-class <n>] [--seed <s>] [--out <cases.csv>]  (docs/INTERFERENCE-LIB.md)
+engine-interference-lib-usage = användning: kshana interference-lib models | generate --class <none|cw|narrowband|wideband|chirp|pulsed|multitone|fm_tone> [--centre-hz <f>] [--bandwidth-hz <b>] [--period-s <t>] [--pulse-width-s <w>] [--jnr-db <j>] [--drift-hz-per-s <r>] [--triangle] [--tones-hz <f1,f2,...>] [--deviation-hz <d>] [--mod-freq-hz <m>] [--fs <hz>] [--samples <n>] [--seed <s>] --out <base> | fit <recording.sigmf-meta> [--out <fit.json>] | bench [--per-class <n>] [--seed <s>] [--predictions <ids.csv>] [--out <bench.json>] | cases [--per-class <n>] [--seed <s>] [--out <cases.csv>]  (docs/INTERFERENCE-LIB.md)
 engine-interference-lib-written = skrev { $path } ({ $n } sampel, MODELLED syntetisk störning)
 engine-e-interference-lib-missing-value = { $option } behöver ett värde
 engine-e-interference-lib-unknown-option = okänt alternativ { $option } (kshana interference-lib --help listar alternativen)
 engine-e-interference-lib-bad-number = { $option } behöver ett ändligt tal, inte { $value }
-engine-e-interference-lib-unknown-class = okänd störningsklass { $value } (none, cw, narrowband, wideband, chirp eller pulsed)
+engine-e-interference-lib-unknown-class = okänd störningsklass { $value } (none, cw, narrowband, wideband, chirp, pulsed, multitone eller fm_tone)
 engine-e-interference-lib-bad-size = samplingsfrekvensen måste vara positiv och inspelningen en tvåpotens från 1024 till 16777216 sampel (bench: 1 till 1000 fall per klass)
 engine-e-interference-lib-cannot-read = kan inte läsa { $path }: { $e }
 engine-e-interference-lib-cannot-write = kan inte skriva { $path }: { $e }

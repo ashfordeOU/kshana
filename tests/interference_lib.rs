@@ -30,6 +30,15 @@ fn model(class: Class) -> Model {
             m.pulse_width_s = 3.5e-6;
             m.period_s = 3.0e-4;
         }
+        Class::Multitone => {
+            m.tones_hz = vec![-2.5e6, 0.3e6, 1.9e6];
+            m.centre_hz = (-2.5e6 + 0.3e6 + 1.9e6) / 3.0;
+        }
+        Class::FmTone => {
+            m.centre_hz = 0.5e6;
+            m.deviation_hz = 8.0e5;
+            m.mod_freq_hz = 1.0e4;
+        }
         Class::None => {}
     }
     m
@@ -87,6 +96,22 @@ fn the_fit_recovers_each_class_and_its_parameters() {
                     f.model
                 );
             }
+            Class::Multitone => {
+                let mut got = f.model.tones_hz.clone();
+                got.sort_by(f64::total_cmp);
+                assert_eq!(got.len(), 3, "{:?}", f.model);
+                for (g, t) in got.iter().zip([-2.5e6, 0.3e6, 1.9e6]) {
+                    assert!((g - t).abs() < 2.0e4, "{:?}", f.model);
+                }
+            }
+            Class::FmTone => {
+                assert!(
+                    (f.model.deviation_hz - 8.0e5).abs() < 1.5e5,
+                    "{:?}",
+                    f.model
+                );
+                assert!((f.model.centre_hz - 0.5e6).abs() < 1.0e5, "{:?}", f.model);
+            }
             Class::None => {}
         }
         // Interference near the C/A band centre costs C/N0; the narrowband one 2 MHz away less.
@@ -116,12 +141,33 @@ fn the_benchmark_scores_id_and_ood_and_an_external_classifier() {
         doc["reference"]
     );
     assert!(ood_acc <= id_acc, "OOD is no easier: {ood_acc} vs {id_acc}");
-    assert_eq!(doc["reference"]["parts"]["id"]["cases"], 36);
+    assert_eq!(doc["reference"]["parts"]["id"]["cases"], 48);
     let ext_acc = doc["external"]["parts"]["id"]["accuracy"].as_f64().unwrap();
-    assert!((ext_acc - 1.0 / 6.0).abs() < 1e-9);
+    assert!((ext_acc - 1.0 / 8.0).abs() < 1e-9);
+    // The pre-registered primary metric: macro-F1. An always-wideband classifier has recall 1
+    // and precision 1/8 on wideband and F1 0 elsewhere: (2·(1/8)/(1+1/8))/8 = 1/36.
+    assert_eq!(doc["primary_metric"], PRIMARY_METRIC);
+    let ext_f1 = doc["external"]["parts"]["id"]["macro_f1"].as_f64().unwrap();
+    assert!((ext_f1 - 1.0 / 36.0).abs() < 1e-9, "{ext_f1}");
+    let ref_f1 = doc["reference"]["parts"]["id"]["macro_f1"]
+        .as_f64()
+        .unwrap();
+    assert!(ref_f1 >= 0.85, "reference ID macro-F1 {ref_f1}");
+    // The JNR breakdown: ID cases fall in 5-20 dB, OOD in 0-5 dB; `none` is outside the bins.
+    let id_bins = doc["reference"]["parts"]["id"]["by_jnr"]
+        .as_array()
+        .unwrap();
+    assert_eq!(id_bins.len(), 4);
+    assert_eq!(id_bins[0]["cases"], 0);
+    let in_bins: u64 = id_bins.iter().map(|b| b["cases"].as_u64().unwrap()).sum();
+    assert_eq!(in_bins, 42);
+    let ood_bins = doc["reference"]["parts"]["ood"]["by_jnr"]
+        .as_array()
+        .unwrap();
+    assert_eq!(ood_bins[0]["cases"], 42);
     // Cross-stage rows: one per case, and the stronger ID interference rises more.
     let cross = doc["cross_stage"].as_array().unwrap();
-    assert_eq!(cross.len(), 72);
+    assert_eq!(cross.len(), 96);
     for r in cross {
         assert!(r["post_correlation_ca_cn0_loss_db"].as_f64().unwrap() >= 0.0);
     }
@@ -183,7 +229,8 @@ fn the_command_line_generates_fits_and_benchmarks() {
     assert_eq!(doc["fit"]["model"]["class"], "chirp");
     let (code, out, _) = run(&["interference-lib", "cases", "--per-class", "2"]);
     assert_eq!(code, 0);
-    assert_eq!(out.lines().count(), 1 + 24);
+    assert_eq!(out.lines().count(), 1 + 32);
+    assert!(out.lines().any(|l| l.contains(",multitone,")));
     assert_eq!(
         run(&[
             "interference-lib",
