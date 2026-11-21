@@ -36,6 +36,8 @@ pub const RESULT_FORMAT: &str = "kshana-osnma-vectors-result/1";
 pub const SET_NAME: &str = "kshana-osnma-synthetic";
 /// Version of the built-in set.
 pub const SET_VERSION: &str = "1.0.0";
+// PIN-SCOPE:    the bar file (bars.json) of the built-in synthetic set, version 1.0.0, byte for byte
+// PIN-EXCLUDES: nothing; the manifest and the input files carry their own hashes
 /// SHA-256 of the bar file of the built-in set, version 1.0.0. A change of any bar changes
 /// this value, which must then be changed here together with the set version.
 pub const BARS_SHA256_V1: &str = "cbf7ac5d4207c32117c85a82050a59055e20e367563c12e45e7d6bb028ab5b87";

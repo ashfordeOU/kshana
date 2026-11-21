@@ -12,6 +12,7 @@ use serde_json::{json, Value};
 use sha2::{Digest, Sha256};
 use std::path::{Path, PathBuf};
 use std::process::Command;
+use std::sync::atomic::{AtomicU64, Ordering};
 
 fn root() -> PathBuf {
     PathBuf::from(env!("CARGO_MANIFEST_DIR"))
@@ -34,10 +35,16 @@ fn kshana(args: &[&str]) -> (i32, String, String) {
     )
 }
 
+static SEQ: AtomicU64 = AtomicU64::new(0);
+
 fn tmp(tag: &str) -> PathBuf {
-    let d = std::env::temp_dir().join(format!("kshana-osnma-vectors-{tag}-{}", std::process::id()));
-    let _ = std::fs::remove_dir_all(&d);
-    d
+    let dir = std::env::temp_dir().join(format!(
+        "kshana-osnma-vectors-{tag}-{}-{}",
+        std::process::id(),
+        SEQ.fetch_add(1, Ordering::Relaxed)
+    ));
+    let _ = std::fs::remove_dir_all(&dir);
+    dir
 }
 
 fn copy_set(to: &Path) {
