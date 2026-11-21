@@ -268,3 +268,129 @@ fn visibility_from_cities_matches_an_independent_closed_form() {
     let delhi = run("navic", 28.61, 77.21);
     assert_eq!(delhi["gnss_measurements"][0]["n_visible"], 7);
 }
+
+/// The bundled `navic-regional` scenario through the interop exports: the scene carries the
+/// seven slots as satellites `S01`..`S07` at the positions the engine gives them, each with its
+/// source and phase label, and the bench metadata lists the same slots.
+#[test]
+fn the_slots_round_trip_through_the_scene_and_testbench_exports() {
+    let src = std::fs::read_to_string(
+        std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("scenarios/navic-regional.toml"),
+    )
+    .unwrap();
+    let scn: kshana::gnss_sim::GnssSimScenario = toml::from_str(&src).unwrap();
+    let slots = slot_set("navic").unwrap().slot;
+
+    // Scene, out through GeoJSON and back.
+    let files = kshana::interop::export(&src, kshana::interop::Format::GeoJson).unwrap();
+    let gj: Value = serde_json::from_slice(&files[0].bytes).unwrap();
+    let feats = gj["features"].as_array().unwrap();
+    for (k, s) in slots.iter().enumerate() {
+        let id = format!("satellite/S{:02}", k + 1);
+        let f = feats
+            .iter()
+            .find(|f| f["id"] == id.as_str())
+            .unwrap_or_else(|| panic!("no {id}"));
+        let desc = f["properties"]["description"].as_str().unwrap();
+        assert!(desc.contains(&s.id) && desc.contains(&s.source), "{desc}");
+        if let Some(p) = &s.phase_source {
+            assert!(desc.contains(p.as_str()), "{desc}");
+        }
+        let o = slot_orbit(s).unwrap();
+        let coords = f["geometry"]["coordinates"].as_array().unwrap();
+        assert_eq!(
+            coords.len(),
+            (scn.time.duration_s / scn.time.step_s) as usize + 1
+        );
+        for (j, c) in coords.iter().enumerate() {
+            let t = j as f64 * scn.time.step_s;
+            let want = kshana::frames::teme_to_ecef(
+                o.position_eci(t),
+                kshana::walker::walker_epoch_jd() + t / 86_400.0,
+            );
+            let back = kshana::frames::geodetic_to_ecef(kshana::frames::Geodetic {
+                lat_rad: c[1].as_f64().unwrap().to_radians(),
+                lon_rad: c[0].as_f64().unwrap().to_radians(),
+                alt_m: c[2].as_f64().unwrap(),
+            });
+            let d = ((back[0] - want[0]).powi(2)
+                + (back[1] - want[1]).powi(2)
+                + (back[2] - want[2]).powi(2))
+            .sqrt();
+            assert!(d < 0.05, "{id} sample {j}: {d} m");
+        }
+    }
+
+    // Test bench: the motion metadata names the same slots, with their sources.
+    let tb = kshana::interop::testbench::export(&src, None).unwrap();
+    let meta = tb
+        .iter()
+        .find(|f| f.suffix == ".motion.json")
+        .expect("motion metadata");
+    let m: Value = serde_json::from_slice(&meta.bytes).unwrap();
+    let listed = m["space_segment"]["slots"].as_array().unwrap();
+    assert_eq!(listed.len(), slots.len());
+    for (k, (l, s)) in listed.iter().zip(&slots).enumerate() {
+        assert_eq!(l["prn"], k);
+        assert_eq!(l["set"], "navic");
+        assert_eq!(l["id"], s.id.as_str());
+        assert_eq!(l["slot"]["source"], s.source.as_str());
+        let back: Slot = serde_json::from_value(l["slot"].clone()).unwrap();
+        assert_eq!(&back, s);
+    }
+    assert!(m["space_segment"]["note"]
+        .as_str()
+        .unwrap()
+        .contains("MODELLED"));
+}
+
+/// A documented comparison, not a tuned match: the hours per day a QZO satellite stays above 70°,
+/// 50° and 20° elevation near Tokyo, as the operator publishes them, against the nominal slots.
+/// Published (qzss.go.jp, Technology, Orbit, read 2026-11-21): "If you watch one QZO satellite
+/// from the area near Tokyo, it will remain for eight hours at an elevation angle of 70° or more,
+/// 12 hours at 50° or more, and 16 hours at 20° or more." The nominal two-body slots of
+/// PS-QZSS-005 give about 9.1, 12.7 and 18.0 h for QZS2; the gap (+1.1, +0.7, +2.0 h) is reported
+/// in docs/GNSS-SLOTS.md and not tuned away (the published figures are rounded, and "the area near
+/// Tokyo" and the satellite are not stated exactly).
+#[test]
+fn qzo_dwell_over_tokyo_is_compared_with_the_published_hours() {
+    // PIN-SCOPE:    the engine's dwell hours for QZS2 (PS-QZSS-005 and the six-satellite
+    //               operation) from Tokyo, 10 s sampling over one sidereal day.
+    // PIN-EXCLUDES: the published hours, which are recorded here and in the docs, not asserted.
+    const PUBLISHED_H: [f64; 3] = [8.0, 12.0, 16.0];
+    let st = kshana::frames::Geodetic {
+        lat_rad: 35.68f64.to_radians(),
+        lon_rad: 139.69f64.to_radians(),
+        alt_m: 40.0,
+    };
+    let dwell = |set: &str, id: &str| -> [f64; 3] {
+        let o = slot_orbit(&slot(set, id)).unwrap();
+        let mut c = [0usize; 3];
+        let n = (DAY_S / 10.0) as usize;
+        for k in 0..n {
+            let t = 10.0 * k as f64;
+            let r = kshana::frames::teme_to_ecef(
+                o.position_eci(t),
+                kshana::walker::walker_epoch_jd() + t / 86_400.0,
+            );
+            let el = kshana::frames::look_angles(st, r).el_rad.to_degrees();
+            for (i, m) in [70.0, 50.0, 20.0].iter().enumerate() {
+                if el >= *m {
+                    c[i] += 1;
+                }
+            }
+        }
+        c.map(|x| x as f64 * 10.0 / 3600.0)
+    };
+    for (set, want) in [
+        ("qzss-ps-005", [9.13, 12.70, 17.99]),
+        ("qzss-six-satellite", [8.85, 12.59, 17.90]),
+    ] {
+        let got = dwell(set, "QZS2 QZO");
+        for i in 0..3 {
+            assert!((got[i] - want[i]).abs() < 0.05, "{set} {i}: {got:?}");
+            // The modelled dwell is longer than the published one at every threshold.
+            assert!(got[i] > PUBLISHED_H[i], "{set} {i}: {got:?}");
+        }
+    }
+}

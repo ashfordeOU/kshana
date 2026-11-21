@@ -183,6 +183,21 @@ pub struct Trajectory {
     pub samples: Vec<MotionSample>,
     /// Events, in onset order.
     pub events: Vec<MotionEvent>,
+    /// The GEO and IGSO slots of a `gnss-sim` scenario, which the receiver sees beside its Walker
+    /// shell: written into the motion metadata (`space_segment`) so a bench sets up the same
+    /// satellites. Empty for every other kind.
+    pub space_segment: Vec<SlotNote>,
+}
+
+/// One GEO or IGSO slot of the exported scenario, with where its values come from.
+#[derive(Clone, Debug, PartialEq, serde::Serialize)]
+pub struct SlotNote {
+    /// The engine's PRN (index) of the slot, after the Walker shell's.
+    pub prn: usize,
+    pub set: String,
+    pub id: String,
+    /// The slot as the scenario states it (kind, longitude, inclination, eccentricity, ...).
+    pub slot: crate::gnss_slots::Slot,
 }
 
 /// An epoch from the default.
@@ -332,9 +347,11 @@ pub fn trajectory_of(src: &str, epoch: Option<UtcEpoch>) -> Result<Trajectory, E
                     .into(),
                 samples,
                 events: outage_events(&states),
+                space_segment: Vec::new(),
             })
         }
         ScenarioKind::Jamming | ScenarioKind::GnssSim => {
+            let mut space_segment = Vec::new();
             let (time, lat, lon, alt, jammer) = if kind == ScenarioKind::Jamming {
                 let s: crate::jamming::JammingScenario = toml::from_str(src).map_err(bad)?;
                 let j = s.jammer.as_ref().map(|j| {
@@ -354,6 +371,19 @@ pub fn trajectory_of(src: &str, epoch: Option<UtcEpoch>) -> Result<Trajectory, E
                 )
             } else {
                 let s: crate::gnss_sim::GnssSimScenario = toml::from_str(src).map_err(bad)?;
+                let (_, used) = s.satellites().map_err(ExportError::Failed)?;
+                let all = crate::gnss_slots::resolve(&s.slot_sets, &s.slots)
+                    .map_err(ExportError::Failed)?;
+                space_segment = used
+                    .into_iter()
+                    .zip(all)
+                    .map(|(u, (_, slot))| SlotNote {
+                        prn: u.prn,
+                        set: u.set,
+                        id: u.id,
+                        slot,
+                    })
+                    .collect();
                 (
                     s.time,
                     s.receiver.lat_deg,
@@ -392,6 +422,7 @@ pub fn trajectory_of(src: &str, epoch: Option<UtcEpoch>) -> Result<Trajectory, E
                     .into(),
                 samples,
                 events,
+                space_segment,
             })
         }
         other => Err(ExportError::NotApplicable(crate::terr!(
@@ -542,6 +573,13 @@ pub fn write_motion_meta(t: &Trajectory) -> String {
         },
         "carries_signals": false,
     });
+    let mut doc = doc;
+    if !t.space_segment.is_empty() {
+        doc["space_segment"] = serde_json::json!({
+            "note": "the GEO and IGSO slots the receiver sees beside the scenario's Walker shell, as gnss-sim places them: geosynchronous two-body nominal slots, each with its source; a phase_source that says assumption is not from a published source. MODELLED",
+            "slots": t.space_segment,
+        });
+    }
     let mut s = serde_json::to_string_pretty(&doc).unwrap_or_default();
     s.push('\n');
     s

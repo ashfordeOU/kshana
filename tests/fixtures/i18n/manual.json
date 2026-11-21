@@ -8164,6 +8164,27 @@
   ]
  },
  {
+  "id": "interop-scene-gnss-slot",
+  "error": false,
+  "parts": [
+   {
+    "var": "set"
+   },
+   " slot ",
+   {
+    "var": "id"
+   },
+   " (geosynchronous two-body nominal slot, MODELLED); source: ",
+   {
+    "var": "source"
+   },
+   "; phase: ",
+   {
+    "var": "phase"
+   }
+  ]
+ },
+ {
   "id": "e-python-pll-bws-dll-bws-spacings",
   "error": true,
   "parts": [
