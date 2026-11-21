@@ -12513,3 +12513,7 @@ engine-e-leo-sparse-bad-study = os valores do estudo estão fora do intervalo: u
 engine-e-leo-sparse-singular = a matriz de informação não pode ser invertida nem com os valores a priori
 engine-e-leo-sparse-cannot-read = não foi possível ler { $path }: { $e }
 engine-e-leo-sparse-bad-file = { $path } não é um estudo: { $e }
+engine-e-ccsds-not-finite = { $t } não é um número finito
+engine-e-oem-unclosed-covariance = o segmento de { $object } abre COVARIANCE_START e nunca o fecha com COVARIANCE_STOP
+engine-e-orbit-data-convert-time-system-changes = os segmentos não partilham um único TIME_SYSTEM ({ $first }, depois { $other }); um OCM transporta apenas um, pelo que a conversão é recusada
+engine-e-ccsds-tdm-data-outside-block = linha de dados fora de um bloco DATA_START a DATA_STOP: { $line }

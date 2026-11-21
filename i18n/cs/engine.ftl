@@ -12281,3 +12281,7 @@ engine-e-leo-sparse-bad-study = hodnoty studie jsou mimo rozsah: platná poloha 
 engine-e-leo-sparse-singular = informační matici nelze invertovat ani s apriorními hodnotami
 engine-e-leo-sparse-cannot-read = nelze číst { $path }: { $e }
 engine-e-leo-sparse-bad-file = { $path } není studie: { $e }
+engine-e-ccsds-not-finite = { $t } není konečné číslo
+engine-e-oem-unclosed-covariance = segment objektu { $object } otevírá COVARIANCE_START a nikdy jej neuzavře pomocí COVARIANCE_STOP
+engine-e-orbit-data-convert-time-system-changes = segmenty nesdílejí jeden TIME_SYSTEM ({ $first }, pak { $other }); OCM nese jen jeden, převod se proto odmítá
+engine-e-ccsds-tdm-data-outside-block = datový řádek mimo blok DATA_START až DATA_STOP: { $line }

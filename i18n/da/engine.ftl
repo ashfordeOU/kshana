@@ -12233,3 +12233,7 @@ engine-e-leo-sparse-bad-study = undersøgelsens tal er uden for området: en gyl
 engine-e-leo-sparse-singular = informationsmatricen kan ikke inverteres, heller ikke med a priori-værdierne
 engine-e-leo-sparse-cannot-read = kan ikke læse { $path }: { $e }
 engine-e-leo-sparse-bad-file = { $path } er ikke en undersøgelse: { $e }
+engine-e-ccsds-not-finite = { $t } er ikke et endeligt tal
+engine-e-oem-unclosed-covariance = segmentet for { $object } åbner COVARIANCE_START og lukker det aldrig med COVARIANCE_STOP
+engine-e-orbit-data-convert-time-system-changes = segmenterne deler ikke ét TIME_SYSTEM ({ $first }, derefter { $other }); en OCM bærer ét, så konverteringen afvises
+engine-e-ccsds-tdm-data-outside-block = datalinje uden for en DATA_START til DATA_STOP-blok: { $line }

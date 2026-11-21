@@ -12203,3 +12203,7 @@ engine-e-leo-sparse-bad-study = uuringu väärtused on lubatud vahemikust välja
 engine-e-leo-sparse-singular = infomaatriksit ei saa pöörata isegi eelväärtustega
 engine-e-leo-sparse-cannot-read = faili { $path } ei saa lugeda: { $e }
 engine-e-leo-sparse-bad-file = { $path } ei ole uuring: { $e }
+engine-e-ccsds-not-finite = { $t } ei ole lõplik arv
+engine-e-oem-unclosed-covariance = objekti { $object } segment avab COVARIANCE_START, kuid ei sulge seda kunagi COVARIANCE_STOP-iga
+engine-e-orbit-data-convert-time-system-changes = segmentidel ei ole ühist TIME_SYSTEM-i ({ $first }, siis { $other }); OCM kannab ainult üht, seega teisendus keeldutakse
+engine-e-ccsds-tdm-data-outside-block = andmerida väljaspool DATA_START kuni DATA_STOP plokki: { $line }

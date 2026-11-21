@@ -214,6 +214,14 @@ impl TdmFile {
                             line = format!("{:?}", line)
                         )
                     })?;
+                    if is_data_keyword(k) {
+                        // A data line between DATA_STOP and the next META_START belongs to no
+                        // segment: it was ignored, and its observation lost.
+                        return Err(crate::terr!(
+                            "e-ccsds-tdm-data-outside-block",
+                            line = format!("{:?}", line)
+                        ));
+                    }
                     match k {
                         "CCSDS_TDM_VERS" => version = Some(v.to_string()),
                         "CREATION_DATE" => creation_date = v.to_string(),
@@ -278,13 +286,25 @@ impl TdmFile {
                             k = format!("{:?}", k)
                         )
                     })?;
-                    let value = val_str.parse::<f64>().map_err(|_| {
-                        crate::terr!(
-                            "e-ccsds-tdm-tdm-data-line-bad-value",
-                            k = format!("{:?}", k),
-                            val_str = format!("{:?}", val_str)
-                        )
-                    })?;
+                    // `NaN` / `inf` parse as f64 but are not observables.
+                    let value = val_str
+                        .parse::<f64>()
+                        .ok()
+                        .filter(|v| v.is_finite())
+                        .ok_or_else(|| {
+                            crate::terr!(
+                                "e-ccsds-tdm-tdm-data-line-bad-value",
+                                k = format!("{:?}", k),
+                                val_str = format!("{:?}", val_str)
+                            )
+                        })?;
+                    // `epoch value` and nothing else: an extra token was dropped silently.
+                    if it.next().is_some() {
+                        return Err(crate::terr!(
+                            "e-ccsds-tdm-tdm-malformed-data-line",
+                            line = format!("{:?}", line)
+                        ));
+                    }
                     cur_data.push(TdmObs {
                         epoch: epoch.to_string(),
                         key: k.to_string(),
