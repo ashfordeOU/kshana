@@ -10510,6 +10510,34 @@ engine-e-ais-integrity-cannot-read = kan ikke lese { $path }: { $e }
 engine-e-ais-integrity-cannot-write = kan ikke skrive { $path }: { $e }
 engine-e-ais-integrity-bad-place = en rad i stedslisten er ikke name,lat,lon,radius_m med gyldig posisjon og positiv radius: { $row }
 
+## SIL observation generator (src/sil_obs.rs)
+engine-sil-obs-usage = bruk: kshana sil-obs generate <scenario.toml> --nav <nav.rnx> --out <sim.obs> [--truth <truth.jsonl>] | compare <a.obs> <b.obs> [--json] [--out <file.json>]  (docs/SIL-OBS.md)
+engine-sil-obs-summary = { $n_epochs } epoker, { $n_obs } signalprøver skrevet; { $n_nlos } NLOS- og { $n_blocked } blokkerte satellittepoker (MODELLED)
+engine-e-sil-obs-missing-value = { $option } trenger en verdi
+engine-e-sil-obs-unknown-option = ukjent valg { $option } (kshana sil-obs --help viser valgene)
+engine-e-sil-obs-cannot-read = kan ikke lese { $path }: { $e }
+engine-e-sil-obs-cannot-write = kan ikke skrive { $path }: { $e }
+engine-e-sil-obs-bad-scenario = { $path } er ikke et sil-obs-scenario: { $e }
+engine-e-sil-obs-bad-nav = { $path } er ikke en RINEX-navigasjonsfil: { $e }
+engine-e-sil-obs-bad-obs = { $path } er ikke en RINEX-observasjonsfil: { $e }
+engine-e-sil-obs-bad-start = starten { $value } er ikke en GPS-tid på formen YYYY-MM-DDTHH:MM:SS
+engine-e-sil-obs-bad-timing = varigheten må være null eller mer og steget positivt, med høyst én million epoker
+engine-e-sil-obs-no-satellites = { $path } har ingen kringkastede poster for de valgte systemene
+engine-e-sil-obs-unknown-system = ukjent system { $value } (G eller E)
+engine-e-sil-obs-bad-canyon = kløften trenger en positiv bredde, en antenneforskyvning innenfor gaten, et refleksjonstap på minst 1 dB og endelige verdier
+
+## Interference model library (src/interference_lib.rs)
+engine-interference-lib-usage = bruk: kshana interference-lib models | generate --class <none|cw|narrowband|wideband|chirp|pulsed> [--centre-hz <f>] [--bandwidth-hz <b>] [--period-s <t>] [--pulse-width-s <w>] [--jnr-db <j>] [--drift-hz-per-s <r>] [--triangle] [--fs <hz>] [--samples <n>] [--seed <s>] --out <base> | fit <recording.sigmf-meta> [--out <fit.json>] | bench [--per-class <n>] [--seed <s>] [--predictions <ids.csv>] [--out <bench.json>] | cases [--per-class <n>] [--seed <s>] [--out <cases.csv>]  (docs/INTERFERENCE-LIB.md)
+engine-interference-lib-written = skrev { $path } ({ $n } prøver, MODELLED syntetisk interferens)
+engine-e-interference-lib-missing-value = { $option } trenger en verdi
+engine-e-interference-lib-unknown-option = ukjent valg { $option } (kshana interference-lib --help viser valgene)
+engine-e-interference-lib-bad-number = { $option } trenger et endelig tall, ikke { $value }
+engine-e-interference-lib-unknown-class = ukjent interferensklasse { $value } (none, cw, narrowband, wideband, chirp eller pulsed)
+engine-e-interference-lib-bad-size = samplingsraten må være positiv og opptaket en potens av to fra 1024 til 16777216 prøver (bench: 1 til 1000 tilfeller per klasse)
+engine-e-interference-lib-cannot-read = kan ikke lese { $path }: { $e }
+engine-e-interference-lib-cannot-write = kan ikke skrive { $path }: { $e }
+engine-e-interference-lib-bad-predictions = en prediksjonsrad er ikke id,class med en kjent klasse: { $row }
+
 engine-main-usage =
     bruk: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }eller: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10547,6 +10575,8 @@ engine-main-usage =
     { "   " }eller: kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
     { "   " }eller: kshana orbit-data <check|convert|gp-compare|gp-audit|cov> ... (kshana orbit-data --help)
     { "   " }eller: kshana drone <prearm|prearm-calibrate|estimator-cases|dr-budget|quad-loss|failover|zonotope-pl> ... (kshana drone --help)
+    { "   " }eller: kshana sil-obs <generate|compare> ... (kshana sil-obs --help)
+    { "   " }eller: kshana interference-lib <models|generate|fit|bench|cases> ... (kshana interference-lib --help)
     { "   " }eller: kshana kinds [--json]
     { "   " }eller: kshana example [<name>]
     { "   " }eller: kshana --help | --version
