@@ -128,9 +128,11 @@ impl Sp3File {
     /// Build an SP3 file from a propagated constellation: each satellite's
     /// inertial (TEME) state is sampled on the time grid and rotated into the
     /// Earth-fixed frame, giving the ECEF position series SP3 records. `start` is
-    /// the calendar time of epoch 0 (GPS time scale) and `start_jd_ut1` its UT1
-    /// Julian Date — the GMST argument the TEME→ECEF rotation needs; later epochs
-    /// advance both by `step_s`. Satellites carry no clock model, so every clock
+    /// the calendar time of epoch 0 (the scenario `epoch`, UTC) and `start_jd_ut1`
+    /// its UT1 Julian Date — the GMST argument the TEME→ECEF rotation needs; later
+    /// epochs advance both by `step_s`. A propagator that dates itself (a TLE, a
+    /// broadcast ephemeris, an SP3 file) is evaluated at the labelled instant, not at
+    /// its own epoch plus `i·step_s` ([`crate::orbit::Propagator::own_jd_utc`]). Satellites carry no clock model, so every clock
     /// field is the SP3 "unavailable" sentinel. This is the export half of SP3
     /// interop: Kshana orbits out, in the format Ginan/RTKLIB/gLAB ingest.
     pub fn from_propagators(
@@ -156,7 +158,10 @@ impl Sp3File {
             let civil = crate::timescales::civil_from_jd(start_jd_cal + t / 86_400.0);
             let mut states = Vec::with_capacity(sats.len());
             for (id, sat) in ids.iter().zip(sats.iter()) {
-                let ecef = crate::frames::teme_to_ecef(sat.position_eci(t), jd_ut1);
+                let offset = sat
+                    .own_jd_utc(0.0)
+                    .map_or(0.0, |own0| (start_jd_ut1 - own0) * 86_400.0);
+                let ecef = crate::frames::teme_to_ecef(sat.position_eci(offset + t), jd_ut1);
                 states.push(Sp3SatState {
                     sat: id.clone(),
                     pos_m: ecef,
