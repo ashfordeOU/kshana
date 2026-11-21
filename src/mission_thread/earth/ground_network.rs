@@ -22,7 +22,6 @@
 
 use crate::frames::{geodetic_to_ecef, Geodetic};
 use crate::integrator::Tolerance;
-use crate::jd2::{gmst82, Jd2};
 use crate::mission_thread::budget::BudgetRow;
 use crate::mission_thread::phase::{EvidenceLabel, Frame, NavState};
 use crate::mission_thread::ThreadCtx;
@@ -178,10 +177,21 @@ fn station_frame(s: &StationDoc) -> ([f64; 3], [f64; 3]) {
     (p, n)
 }
 
-/// Rotates an ECEF vector into the inertial frame by the sidereal angle.
-fn to_inertial(v: [f64; 3], gmst: f64) -> [f64; 3] {
-    let (s, c) = gmst.sin_cos();
-    [c * v[0] - s * v[1], s * v[0] + c * v[1], v[2]]
+/// The GCRS-to-ITRS rotation at a UTC Julian Date: the IAU 2006/2000A CIO chain (precession,
+/// nutation, Earth rotation) with TT from the leap-second table, UT1 taken as UTC (under 0.9 s) and no
+/// polar motion (under 20 m at the surface). The vehicle states are GCRF, so the stations must be
+/// put in the same frame; Earth rotation alone (GMST) leaves out about 0.4° of precession in 2028.
+fn gcrs_to_itrs_at(jd_utc: f64) -> [[f64; 3]; 3] {
+    crate::cio::gcrs_to_itrs_matrix(crate::timescales::utc_to_tt(jd_utc), jd_utc, 0.0, 0.0)
+}
+
+/// Rotates an ITRS (ECEF) vector into the GCRS with the transpose of `m` ([`gcrs_to_itrs_at`]).
+fn to_inertial(v: [f64; 3], m: &[[f64; 3]; 3]) -> [f64; 3] {
+    [
+        m[0][0] * v[0] + m[1][0] * v[1] + m[2][0] * v[2],
+        m[0][1] * v[0] + m[1][1] * v[1] + m[2][1] * v[2],
+        m[0][2] * v[0] + m[1][2] * v[1] + m[2][2] * v[2],
+    ]
 }
 
 /// The vehicle's inertial positions at `0, step, 2 step, ...` over the duration, by the stated
@@ -277,12 +287,12 @@ pub fn coverage(
     for (k, r) in pos.iter().enumerate() {
         let t = k as f64 * net.step_s;
         let jd = crate::lunar_phase::epoch_jd(ctx, entry.t_s + t)?;
-        let gmst = gmst82(Jd2::new(jd));
+        let m = gcrs_to_itrs_at(jd);
         // The station with the highest elevation among those above the minimum.
         let mut best: Option<(usize, f64)> = None;
         for (i, (p, nrm)) in frames.iter().enumerate() {
-            let sp = to_inertial(*p, gmst);
-            let up = to_inertial(*nrm, gmst);
+            let sp = to_inertial(*p, &m);
+            let up = to_inertial(*nrm, &m);
             let d = [r[0] - sp[0], r[1] - sp[1], r[2] - sp[2]];
             let dn = (d[0] * d[0] + d[1] * d[1] + d[2] * d[2]).sqrt();
             let s = (d[0] * up[0] + d[1] * up[1] + d[2] * up[2]) / dn;
@@ -475,6 +485,55 @@ mod tests {
     }
 
     #[test]
+    fn elevation_is_measured_in_one_frame_for_the_gcrf_vehicle_and_the_station() {
+        // A GCRF vehicle placed at 10.2 deg elevation east of a station, built in the Earth-fixed
+        // frame and moved to the GCRS with the full chain, is seen with a 10.0 deg mask and not
+        // with a 10.4 deg one. With Earth rotation alone (GMST, no precession) the station sits
+        // about 0.4 deg of right ascension away in 2028, so the boundary would move.
+        let ctx = ThreadCtx::new("2028-02-01T00:00:00Z", 1);
+        let jd = crate::lunar_phase::epoch_jd(&ctx, 0.0).unwrap();
+        let mk = |mask: f64| -> GroundNetworkDoc {
+            toml::from_str(&format!(
+                "min_elevation_deg = {mask}\n[[stations]]\nid = \"eq\"\nlat_deg = 0.0\nlon_deg = 0.0\n"
+            ))
+            .unwrap()
+        };
+        let n = mk(10.0);
+        let (p, up) = station_frame(&n.stations[0]);
+        let east = [0.0, 1.0, 0.0]; // at latitude 0, longitude 0
+        let el = 10.2_f64.to_radians();
+        let range = 3.0e6;
+        let d: Vec<f64> = (0..3)
+            .map(|i| range * (el.cos() * east[i] + el.sin() * up[i]))
+            .collect();
+        let r_itrs = [p[0] + d[0], p[1] + d[1], p[2] + d[2]];
+        let r = to_inertial(r_itrs, &gcrs_to_itrs_at(jd));
+        let mut e = leo_entry();
+        e.x = [r[0], r[1], r[2], 0.0, 0.0, 0.0];
+        assert_eq!(
+            coverage(&n, &spec("entry-orbit", None), &ctx, &e, 0.0)
+                .unwrap()
+                .duty,
+            1.0
+        );
+        assert_eq!(
+            coverage(&mk(10.4), &spec("entry-orbit", None), &ctx, &e, 0.0)
+                .unwrap()
+                .duty,
+            0.0
+        );
+        // The GMST-only rotation differs from the full chain by tens of kilometres at the surface.
+        let g = crate::jd2::gmst82(crate::jd2::Jd2::new(jd));
+        let (sg, cg) = g.sin_cos();
+        let old = [cg * p[0] - sg * p[1], sg * p[0] + cg * p[1], p[2]];
+        let new = to_inertial(p, &gcrs_to_itrs_at(jd));
+        let dd =
+            ((old[0] - new[0]).powi(2) + (old[1] - new[1]).powi(2) + (old[2] - new[2]).powi(2))
+                .sqrt();
+        assert!(dd > 30e3, "{dd}");
+    }
+
+    #[test]
     fn a_vehicle_over_a_station_is_seen_and_one_on_the_other_side_of_the_earth_is_not() {
         let ctx = ThreadCtx::new("2028-02-01T00:00:00Z", 1);
         let n: GroundNetworkDoc = toml::from_str(
@@ -482,9 +541,8 @@ mod tests {
         )
         .unwrap();
         let jd = crate::lunar_phase::epoch_jd(&ctx, 0.0).unwrap();
-        let gmst = gmst82(Jd2::new(jd));
         let (p, _) = station_frame(&n.stations[0]);
-        let up = to_inertial(p, gmst);
+        let up = to_inertial(p, &gcrs_to_itrs_at(jd));
         let mut e = leo_entry();
         e.x = [1.1 * up[0], 1.1 * up[1], 1.1 * up[2], 0.0, 0.0, 0.0];
         let seen = coverage(&n, &spec("entry-orbit", None), &ctx, &e, 0.0).unwrap();

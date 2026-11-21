@@ -658,6 +658,7 @@ them and [`docs/SCENARIOS.md`](docs/SCENARIOS.md) documents every field.
 | [Constellations around any body](docs/CONSTELLATION-DESIGN.md) | coverage, dilution of precision and availability around the Earth, the Moon or Mars |
 | [Solar system](docs/SOLAR-SYSTEM.md) | where every planet is, and the light time of any link |
 | [Low-Earth-orbit navigation](docs/LEO-PNT.md) | a pass, a link, a navigation message and a fused fix, stage by stage |
+| [LEO-PNT verification](docs/LEO-VERIFY.md) | what a LEO timing or positioning service would deliver: burst timing, holdover TDEV, cost against outages, indoor and rain loss, ambiguity resolution, jamming claims and Doppler-only integrity |
 | [Campaigns](docs/CAMPAIGNS.md) | a chained mission, a sweep or a Monte Carlo ensemble in one scenario |
 | [Animation](docs/ANIMATION.md) | a run's time series as an animated drawing, a player or frames |
 | [Reports](docs/REPORTS.md) | every figure with its unit and its label, in HTML (HyperText Markup Language) and JSON (JavaScript Object Notation) |
@@ -1659,6 +1660,10 @@ the concept DOI (Digital Object Identifier)
 [10.5281/zenodo.20528627](https://doi.org/10.5281/zenodo.20528627) always resolves to the
 latest version.
 
+Teaching or researching with Kshana: [academic use](docs/ACADEMIC.md) gathers the access routes
+(including MATLAB and LabVIEW over the C library), the [teaching kit](docs/teaching/README.md) of lab
+sheets with worked answers, and how to cite and reproduce a result.
+
 > Baweja, C. (2026). *Kshana — a PNT-resilience simulator with quantum-sensor performance models*. [Ashforde OÜ](https://ashforde.org). https://doi.org/10.5281/zenodo.20528627
 
 The papers above:
@@ -2127,7 +2132,7 @@ paper-clock). **MODELLED** — the headline figure is *reference-dependent* (Ear
 vs lunar selenoid, averaging window), which is why a band, not a single certified
 number, is reported (`scenarios/lunar-time-offset.toml`).
 
-See `scenarios/` for at least one worked example of every kind (93 kinds, 195 scenario
+See `scenarios/` for at least one worked example of every kind (93 kinds, 198 scenario
 `.toml` files + 1 suite manifest — several kinds ship more than one example). Not every
 kind has a file named after it: `lunar-integrity` → `scenarios/lunanet-araim.toml` and
 `gravity-map` → `scenarios/gps-denied-gravity-nav.toml` are two of several such.
