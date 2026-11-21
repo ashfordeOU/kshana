@@ -470,15 +470,27 @@ pub fn parse_oem(text: &str) -> Result<OemFile, String> {
             }
             let mut vals = [0.0f64; 6];
             for (k, t) in toks[1..7].iter().enumerate() {
-                vals[k] = t.parse::<f64>().map_err(|_| {
-                    crate::terr!("e-oem-non-numeric-oem-state-value", t = t, line = line)
-                })?;
+                // `NaN` and `inf` parse as f64 but are not state values.
+                vals[k] = t
+                    .parse::<f64>()
+                    .ok()
+                    .filter(|v| v.is_finite())
+                    .ok_or_else(|| {
+                        crate::terr!("e-oem-non-numeric-oem-state-value", t = t, line = line)
+                    })?;
             }
             states.push(OemStateLine {
                 epoch,
                 pos_km: [vals[0], vals[1], vals[2]],
                 vel_km_s: [vals[3], vals[4], vals[5]],
             });
+        }
+        if in_cov {
+            // An unclosed covariance block would have swallowed every state line after it.
+            return Err(crate::terr!(
+                "e-oem-unclosed-covariance",
+                object = meta.object_name.as_str()
+            ));
         }
         segments.push(OemSegment { meta, states });
     }
@@ -787,10 +799,13 @@ pub fn parse_covariance_block(text: &str) -> Result<Covariance6, String> {
             continue;
         }
         for tok in line.split_whitespace() {
-            vals.push(
-                tok.parse::<f64>()
-                    .map_err(|e| crate::terr!("e-oem-bad-covariance-value", tok = tok, e = e))?,
-            );
+            let v = tok
+                .parse::<f64>()
+                .map_err(|e| crate::terr!("e-oem-bad-covariance-value", tok = tok, e = e))?;
+            if !v.is_finite() {
+                return Err(crate::terr!("e-ccsds-not-finite", t = tok));
+            }
+            vals.push(v);
         }
     }
     if vals.len() != 21 {

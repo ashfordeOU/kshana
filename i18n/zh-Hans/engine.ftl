@@ -11483,3 +11483,7 @@ engine-e-leo-sparse-bad-study = 研究参数超出范围：有效的用户位置
 engine-e-leo-sparse-singular = 即使加上先验值，信息矩阵也无法求逆
 engine-e-leo-sparse-cannot-read = 无法读取 { $path }：{ $e }
 engine-e-leo-sparse-bad-file = { $path } 不是研究文件：{ $e }
+engine-e-ccsds-not-finite = { $t } 不是有限数值
+engine-e-oem-unclosed-covariance = { $object } 的段打开了 COVARIANCE_START，却始终没有用 COVARIANCE_STOP 关闭
+engine-e-orbit-data-convert-time-system-changes = 各段的 TIME_SYSTEM 不一致（先是 { $first }，后是 { $other }）；OCM 只能携带一个，因此拒绝转换
+engine-e-ccsds-tdm-data-outside-block = 数据行位于 DATA_START 至 DATA_STOP 块之外：{ $line }

@@ -72,7 +72,19 @@ impl Section {
     /// The value of `key` as a number.
     pub fn num(&self, key: &str) -> Result<Option<f64>, String> {
         self.get(key)
-            .map(|v| v.parse::<f64>().map_err(|e| format!("{key} = {v:?}: {e}")))
+            .map(|v| {
+                let x = v
+                    .parse::<f64>()
+                    .map_err(|e| format!("{key} = {v:?}: {e}"))?;
+                // `NaN` and `inf` parse as f64 but are not ODM values.
+                if !x.is_finite() {
+                    return Err(crate::terr!(
+                        "e-ccsds-not-finite",
+                        t = format!("{key} = {v}")
+                    ));
+                }
+                Ok(x)
+            })
             .transpose()
     }
 }

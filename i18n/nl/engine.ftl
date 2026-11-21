@@ -12270,3 +12270,7 @@ engine-e-leo-sparse-bad-study = de waarden van de studie vallen buiten het berei
 engine-e-leo-sparse-singular = de informatiematrix is ook met de a-priori's niet te inverteren
 engine-e-leo-sparse-cannot-read = kan { $path } niet lezen: { $e }
 engine-e-leo-sparse-bad-file = { $path } is geen studie: { $e }
+engine-e-ccsds-not-finite = { $t } is geen eindig getal
+engine-e-oem-unclosed-covariance = het segment van { $object } opent COVARIANCE_START en sluit het nooit met COVARIANCE_STOP
+engine-e-orbit-data-convert-time-system-changes = de segmenten delen geen TIME_SYSTEM ({ $first }, daarna { $other }); een OCM draagt er één, dus de omzetting wordt geweigerd
+engine-e-ccsds-tdm-data-outside-block = gegevensregel buiten een blok van DATA_START tot DATA_STOP: { $line }

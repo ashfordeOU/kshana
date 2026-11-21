@@ -184,25 +184,21 @@ impl OmmFile {
         s.push_str(&format!("EPOCH = {}\n", self.epoch));
         s.push_str(&crate::t!(
             "omm-mean-motion",
-            mean_motion_rev_day =
-                crate::i18n::localise_decimal(format!("{:.8}", self.mean_motion_rev_day))
+            mean_motion_rev_day = format!("{:.8}", self.mean_motion_rev_day)
         ));
         s.push_str(&format!("ECCENTRICITY = {:.7}\n", self.eccentricity));
         s.push_str(&format!("INCLINATION = {:.4}\n", self.inclination_deg));
         s.push_str(&crate::t!(
             "omm-ra-of-asc-node",
-            ra_of_asc_node_deg =
-                crate::i18n::localise_decimal(format!("{:.4}", self.ra_of_asc_node_deg))
+            ra_of_asc_node_deg = format!("{:.4}", self.ra_of_asc_node_deg)
         ));
         s.push_str(&crate::t!(
             "omm-arg-of-pericenter",
-            arg_of_pericenter_deg =
-                crate::i18n::localise_decimal(format!("{:.4}", self.arg_of_pericenter_deg))
+            arg_of_pericenter_deg = format!("{:.4}", self.arg_of_pericenter_deg)
         ));
         s.push_str(&crate::t!(
             "omm-mean-anomaly",
-            mean_anomaly_deg =
-                crate::i18n::localise_decimal(format!("{:.4}", self.mean_anomaly_deg))
+            mean_anomaly_deg = format!("{:.4}", self.mean_anomaly_deg)
         ));
         s.push_str(&crate::t!(
             "omm-ephemeris-type",

@@ -1926,8 +1926,8 @@
    "reason": "identifier: CCSDS 502.0-B-3 OEM and OCM keywords and block markers, the standard's document name and section references, and the stable machine codes of the findings"
   },
   "src/orbit_data/convert.rs": {
-   "count": 60,
-   "reason": "machine-document: the CCSDS OEM and OCM keywords and block markers written into converted messages, and the PROVENANCE comment line format (docs/ORBIT-DATA.md)"
+   "count": 61,
+   "reason": "machine-document: the CCSDS OEM and OCM keywords and block markers written into converted messages, and the PROVENANCE comment line format (docs/ORBIT-DATA.md); the TIME_SYSTEM keyword read from every segment."
   },
   "src/orbit_data/cli.rs": {
    "count": 22,
