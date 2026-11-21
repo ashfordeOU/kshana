@@ -9790,6 +9790,7 @@ engine-main-usage =
     { "   " }または：kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }または：kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }または：kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
+    { "   " }または：kshana register <check|crl-check|view|sign> ... (kshana register --help)
     { "   " }または：kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }または：kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }または：kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
@@ -10923,3 +10924,25 @@ engine-e-oscillator-input = { $part } の入力が無効です: { $e }
 engine-e-oscillator-unknown-clock = 不明なクロックプリセット { $id }（{ $known } のいずれか）
 
 engine-e-oscillator-field = { $field } が範囲外です: { $value }
+
+## Product register (src/product_register.rs, docs/PRODUCT-REGISTER.md)
+engine-register-usage = 使い方：kshana register check <register.json> [--key <hex>] | crl-check <crl.json> --key <hex> | view <register.json> [--key <hex>] [--crl <crl.json> --crl-key <hex>] [--date <YYYY-MM-DD>] [--json] | sign <register.json|crl.json> --key <keyfile> [--out <file>]  (docs/PRODUCT-REGISTER.md)
+engine-register-check-ok = { $path }：{ $publisher } の登録簿、エントリ { $n } 件、署名は有効です（署名者 { $key }）
+engine-register-crl-check-ok = { $path }：{ $issuer } の失効リスト、失効エントリ { $n } 件、署名は有効です。次のリストは { $next }
+engine-register-view-summary = { $date } 時点：有効 { $current } 件、再スコア期限超過 { $due } 件、失効 { $revoked } 件
+engine-register-view-no-crl = 失効リストが指定されていません：失効状態は不明です（--crl <crl.json> --crl-key <hex>）
+engine-register-view-crl-stale = 失効リストが古くなっています：次の更新は { $next } の予定でした
+engine-e-register-key-mismatch = 署名者は { $found } で、期待される鍵 { $expected } ではありません
+engine-e-register-bad-signature = 署名が有効ではありません
+engine-e-register-bad-date = { $field } は YYYY-MM-DD 形式の日付ではありません：{ $value }
+engine-e-register-not-register = kshana.register/1 登録簿ではありません：{ $e }
+engine-e-register-not-crl = kshana.register-crl/1 失効リストではありません：{ $e }
+engine-e-register-bad-id = エントリ ID { $id }：1 から 128 文字の英数字、ドット、ハイフン、アンダースコアを使ってください
+engine-e-register-duplicate-id = エントリ ID { $id } が複数回現れます
+engine-e-register-revalidate-before-scored = エントリ { $id } の再スコア期限がスコア日より前です
+engine-e-register-bad-digest = エントリ { $id }：evidence_sha256 は 64 桁の 16 進数でなければなりません
+engine-e-register-missing-value = { $option } には値が必要です
+engine-e-register-cannot-read = { $path } を読み込めません：{ $e }
+engine-e-register-cannot-write = { $path } に書き込めません：{ $e }
+engine-e-register-unknown-option = 不明なオプション { $option }（kshana register --help でオプションを一覧表示）
+engine-e-register-crl-needs-key = --crl と --crl-key は一緒に指定します：失効リストは発行者の鍵で確認されます

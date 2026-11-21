@@ -9857,6 +9857,7 @@ engine-main-usage =
     { "   " }或：kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }或：kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }或：kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
+    { "   " }或：kshana register <check|crl-check|view|sign> ... (kshana register --help)
     { "   " }或：kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }或：kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }或：kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
@@ -10978,3 +10979,25 @@ engine-e-oscillator-input = { $part } 输入无效：{ $e }
 engine-e-oscillator-unknown-clock = 未知的时钟预设 { $id }（可选：{ $known }）
 
 engine-e-oscillator-field = { $field } 超出范围：{ $value }
+
+## Product register (src/product_register.rs, docs/PRODUCT-REGISTER.md)
+engine-register-usage = 用法：kshana register check <register.json> [--key <hex>] | crl-check <crl.json> --key <hex> | view <register.json> [--key <hex>] [--crl <crl.json> --crl-key <hex>] [--date <YYYY-MM-DD>] [--json] | sign <register.json|crl.json> --key <keyfile> [--out <file>]  (docs/PRODUCT-REGISTER.md)
+engine-register-check-ok = { $path }：{ $publisher } 的登记册，{ $n } 个条目，签名有效（签名者 { $key }）
+engine-register-crl-check-ok = { $path }：{ $issuer } 的撤销列表，{ $n } 个已撤销条目，签名有效；下一份列表预计于 { $next }
+engine-register-view-summary = 截至 { $date }：现行 { $current } 个，待重新评分 { $due } 个，已撤销 { $revoked } 个
+engine-register-view-no-crl = 未提供撤销列表：撤销状态未知（--crl <crl.json> --crl-key <hex>）
+engine-register-view-crl-stale = 撤销列表已过期：其下一次更新应于 { $next }
+engine-e-register-key-mismatch = 由 { $found } 签名，而不是预期的密钥 { $expected }
+engine-e-register-bad-signature = 签名无效
+engine-e-register-bad-date = { $field } 不是 YYYY-MM-DD 格式的日期：{ $value }
+engine-e-register-not-register = 不是 kshana.register/1 登记册：{ $e }
+engine-e-register-not-crl = 不是 kshana.register-crl/1 撤销列表：{ $e }
+engine-e-register-bad-id = 条目 ID { $id }：请使用 1 到 128 个字母、数字、点、连字符或下划线
+engine-e-register-duplicate-id = 条目 ID { $id } 出现了不止一次
+engine-e-register-revalidate-before-scored = 条目 { $id } 的重新评分日期早于其评分日期
+engine-e-register-bad-digest = 条目 { $id }：evidence_sha256 必须是 64 位十六进制数字
+engine-e-register-missing-value = { $option } 需要一个值
+engine-e-register-cannot-read = 无法读取 { $path }：{ $e }
+engine-e-register-cannot-write = 无法写入 { $path }：{ $e }
+engine-e-register-unknown-option = 未知选项 { $option }（kshana register --help 列出所有选项）
+engine-e-register-crl-needs-key = --crl 与 --crl-key 需一起使用：撤销列表要用签发者的密钥核对
