@@ -1090,8 +1090,8 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/main.rs": {
-   "count": 76,
-   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md); clock-live prints its error text as given; the sensor-live command name; the device and bench-speed command names; the data-pack, area-trust and env-baseline command names; the ephem-export command name; the time-vectors command name; the ais-integrity command name; the space-weather command name; the orbit-data command name."
+   "count": 77,
+   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md); clock-live prints its error text as given; the sensor-live command name; the device and bench-speed command names; the data-pack, area-trust and env-baseline command names; the ephem-export command name; the time-vectors command name; the ais-integrity command name; the space-weather command name; the orbit-data command name; the claim-check command name."
   },
   "src/mars_pnt.rs": {
    "count": 31,
@@ -1592,6 +1592,10 @@
   "src/bench/texbat.rs": {
    "count": 8,
    "reason": "machine-document and data: the kshana-bench-texbat-windows/1 and kshana-bench-texbat-pd/1 schema ids, the PRN list formatting inside a catalogue message's variable, and the E5-PD score document's keys (B4a E5 v2 and E5-PD, 9 November 2026); the E5 score's class and verdict values (spoofing, MET, NOT MET, NOT ASSESSABLE; machine values, 11 November 2026)"
+  },
+  "src/claim_check.rs": {
+   "count": 21,
+   "reason": "machine-document and identifier: check kinds, verdict values, the short English reasons and the label written into the kshana.claims-check/1 document, and the schema ids"
   },
   "src/interconnect/ais.rs": {
    "count": 15,
