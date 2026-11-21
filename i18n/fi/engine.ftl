@@ -10596,6 +10596,9 @@ engine-e-evidence-dir-bad-field = signature.json: { $field } puuttuu tai on vä�
 ## space-receiver od-vs-tle time system
 engine-e-space-receiver-oem-time-system = tämä vertailu ei lue OEM-aikajärjestelmää { $ts } (UTC, GPS, TAI tai TT)
 
+## leo-pass leap-second epoch
+engine-e-leo-pass-epoch-is-a-leap-second = epookki { $s } on karkaussekunti, jolla ei ole tavallista UTC-juliaanista päivämäärää; anna epookki GPS- tai TAI-ajassa tai sekuntia aiemmin tai myöhemmin
+
 engine-main-usage =
     käyttö: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }tai: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]

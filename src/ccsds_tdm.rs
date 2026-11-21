@@ -589,10 +589,19 @@ fn parse_epoch_to_tdb(epoch: &str, time_system: &str) -> Option<TwoPartJd> {
     let minute: u32 = t[1].parse().ok()?;
     let second: f64 = t[2].parse().ok()?;
 
+    // Convert the tagged scale to TDB (the scale the radiometric epoch carries). A UTC epoch goes
+    // through TAI with the leap-second table, so 23:59:60.x of a leap-second day is valid and
+    // continuous; the other scales have no leap seconds and are range-checked as such.
+    let scale = time_system.to_ascii_uppercase();
+    if scale == "UTC" {
+        let tai = timescales::utc_calendar_to_tai(year, month, day, hour, minute, second).ok()?;
+        return Some(TwoPartJd::from_f64(timescales::tt_to_tdb(
+            timescales::tai_to_tt(tai),
+        )));
+    }
+    timescales::check_uniform_calendar(year, month, day, hour, minute, second).ok()?;
     let jd_in = timescales::julian_date(year, month, day, hour, minute, second);
-    // Convert the tagged scale to TDB (the scale the radiometric epoch carries).
-    let jd_tdb = match time_system.to_ascii_uppercase().as_str() {
-        "UTC" => timescales::tt_to_tdb(timescales::utc_to_tt(jd_in)),
+    let jd_tdb = match scale.as_str() {
         "TAI" => timescales::tt_to_tdb(timescales::tai_to_tt(jd_in)),
         "GPS" => timescales::tt_to_tdb(timescales::gps_to_tt(jd_in)),
         "TT" => timescales::tt_to_tdb(jd_in),
@@ -610,6 +619,19 @@ mod tests {
     /// not real measurements). Vendored so the parser is exercised against a file
     /// on disk, the way a real agency TDM would arrive.
     const REFERENCE_TDM: &str = include_str!("../tests/fixtures/deepspace/reference.tdm");
+
+    #[test]
+    fn utc_epochs_take_the_leap_second_and_bad_dates_are_refused() {
+        let t = |e: &str, ts: &str| parse_epoch_to_tdb(e, ts).map(|j| (j.day + j.frac) * 86_400.0);
+        let leap = t("2016-12-31T23:59:60.500", "UTC").unwrap();
+        let next = t("2017-01-01T00:00:00.500", "UTC").unwrap();
+        assert!((next - leap - 1.0).abs() < 1e-3, "{}", next - leap);
+        assert!(t("2017-12-31T23:59:60.500", "UTC").is_none());
+        assert!(t("2016-12-31T23:59:60.500", "TAI").is_none());
+        assert!(t("2026-13-01T00:00:00.000", "UTC").is_none());
+        assert!(t("2026-02-30T00:00:00.000", "GPS").is_none());
+        assert!(t("2026-01-01T99:00:00.000", "TT").is_none());
+    }
 
     #[test]
     fn tdm_parse_reference() {

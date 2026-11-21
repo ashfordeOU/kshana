@@ -10860,6 +10860,9 @@ engine-e-evidence-dir-bad-field = signature.json: { $field } chybí nebo má nes
 ## space-receiver od-vs-tle time system
 engine-e-space-receiver-oem-time-system = časový systém OEM { $ts } toto porovnání nečte (UTC, GPS, TAI nebo TT)
 
+## leo-pass leap-second epoch
+engine-e-leo-pass-epoch-is-a-leap-second = epocha { $s } je přestupná sekunda, která nemá prosté juliánské datum UTC; zadejte epochu v čase GPS nebo TAI, nebo o sekundu vedle
+
 engine-main-usage =
     použití: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }nebo: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
