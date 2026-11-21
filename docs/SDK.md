@@ -11,7 +11,7 @@ runs the same three conformance scenarios and the same Kshana Connect mapping wi
 | JavaScript / WebAssembly | `npm install kshana` | `run`, `connect_map` | `web/sdk-conformance.test.mjs` |
 | C, C++ | build `capi/kshana-capi` | `kshana_run_scenario`, `kshana_connect_map` | `capi-check` CI job |
 | Python (ctypes), Go (cgo), Java (FFM), .NET (P/Invoke), Julia (ccall) | build `capi/kshana-capi` | the same C functions | `capi-check` (Julia when installed) |
-| MATLAB, LabVIEW | build `capi/kshana-capi` | the same C functions | by hand (no licences on the runners) |
+| MATLAB (`+kshana` package), LabVIEW (node settings and a VI library in text) | build `capi/kshana-capi` | the same C functions | not run on MATLAB or LabVIEW (no licences on the runners); their C call sequences are replayed with ctypes by `capi/kshana-capi/tests/sdk_wrappers.rs` |
 
 The wrappers over the C interface are in [`capi/kshana-capi/sdk/`](../capi/kshana-capi/sdk/README.md);
 the interface itself is [`capi/kshana-capi/include/kshana.h`](../capi/kshana-capi/include/kshana.h).
@@ -70,3 +70,20 @@ that build and run it.
   files to copy into a project.
 - A MATLAB MEX gateway: `loadlibrary` is used instead.
 - Julia and MATLAB are not run in CI.
+
+## MATLAB and LabVIEW
+
+```matlab
+addpath('capi/kshana-capi/sdk/matlab')
+kshana.loadLibrary('capi/kshana-capi/target/release/libkshana_capi.so')
+r = kshana.run(fileread('scenarios/link-budget.toml'));   % a struct, from jsondecode
+problems = kshana.validate(fileread('scenarios/link-budget.toml'));   % {} when valid
+```
+
+The package and its notes (a C compiler for `loadlibrary`, UTF-8, no Octave) are in
+[`capi/kshana-capi/sdk/matlab/`](../capi/kshana-capi/sdk/matlab/README.md). LabVIEW calls the same
+functions through Call Library Function Nodes: the settings are in
+[`sdk/labview/README.md`](../capi/kshana-capi/sdk/labview/README.md) and a six-VI library is described
+step by step in [`VI-LIBRARY.md`](../capi/kshana-capi/sdk/labview/VI-LIBRARY.md). Neither has been run
+on the target tool. For teaching with either, see the [teaching kit](teaching/README.md) and
+[academic use](ACADEMIC.md).

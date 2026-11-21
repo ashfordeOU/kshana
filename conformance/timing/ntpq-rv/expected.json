@@ -2,7 +2,7 @@
   "health": {
     "daemon": "ntpd",
     "leap": "00",
-    "offset_s": -0.000034123,
+    "offset_s": 0.000034123,
     "reference": "192.0.2.1",
     "root_delay_s": 0.000512,
     "root_dispersion_s": 0.012345,

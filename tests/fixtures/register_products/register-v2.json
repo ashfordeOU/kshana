@@ -1,0 +1,49 @@
+{
+  "schema": "kshana.register/1",
+  "publisher": "Example publisher (synthetic test fixture)",
+  "issued": "2026-11-15",
+  "entries": [
+    {
+      "id": "example-receiver-1",
+      "product": "Example GNSS receiver",
+      "maker": "Example maker",
+      "version": "firmware 1.0",
+      "method": "kshana-bench",
+      "method_version": "2.1.0",
+      "scored": "2026-10-15",
+      "revalidate_by": "2027-10-15",
+      "outcome": "synthetic fixture: no product has been scored",
+      "evidence_sha256": "a466fe06d3eb65bb0f8d192f6e28fe2c29b5def7332c046d9bc11016d47d7134",
+      "scenario_set": "kshana-bench tasks a-e",
+      "scenario_set_version": "2.1.0"
+    },
+    {
+      "id": "example-receiver-2",
+      "product": "Example GNSS receiver",
+      "maker": "Example maker",
+      "version": "firmware 2.0",
+      "method": "kshana-bench",
+      "method_version": "2.1.0",
+      "scored": "2026-10-15",
+      "revalidate_by": "2027-10-15",
+      "outcome": "synthetic fixture: no product has been scored",
+      "scenario_set": "kshana-bench tasks a-e",
+      "scenario_set_version": "2.1.0"
+    },
+    {
+      "id": "example-receiver-3",
+      "product": "Example GNSS receiver",
+      "maker": "Example maker",
+      "version": "firmware 3.0",
+      "method": "kshana-bench",
+      "method_version": "2.1.0",
+      "scored": "2026-10-15",
+      "revalidate_by": "2027-10-15",
+      "outcome": "synthetic fixture: no product has been scored",
+      "scenario_set": "kshana-bench tasks a-e",
+      "scenario_set_version": "2.1.0"
+    }
+  ],
+  "signer": "308243fe78f390a9a65336ced61d4a360eca81c290a48288089c4dcff941a9d3",
+  "signature": "a22abdb0a33d6741138943328d72e419b6243d6c2796274a1752a2b8a93fa261fc7aae5de15270018ee0b6a0c72152d9ff988d4f438c9241e8c84de767cad50f"
+}
