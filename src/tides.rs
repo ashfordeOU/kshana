@@ -135,6 +135,11 @@ pub fn step2_constituent(
 ///
 /// Returns the seven degree-2/3 corrections; combine with [`permanent_tide_c20`] and the
 /// Step-2 / ocean / atmospheric contributions before applying to a field.
+///
+/// The Greenwich angle is the Earth rotation angle evaluated at TT (UT1 − TT is about −69 s,
+/// 0.29°) and is applied to the J2000 Sun and Moon of [`crate::ephem`] without the GCRS-to-CIRS
+/// (precession-nutation) rotation, about 0.36° more (2026); both shift the bodies' Earth-fixed
+/// longitudes, not the tide amplitudes' order of magnitude.
 pub fn solid_earth_tide_step1(jd_tt: f64) -> Vec<StokesDelta> {
     let t_jc = (jd_tt - 2_451_545.0) / 36525.0;
     let theta_g = earth_rotation_angle(jd_tt);
