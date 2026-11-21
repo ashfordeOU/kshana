@@ -69,6 +69,7 @@ fn the_top_level_usage_names_every_subcommand() {
         "interference-env <evaluate|thresholds|degradation>",
         "signal-readiness <profile.toml>",
         "leo-od-plan <plan.toml>",
+        "leo-sparse <study.toml>",
     ] {
         assert!(
             text.contains(want),

@@ -10098,6 +10098,7 @@ engine-main-usage =
     { "   " }或：kshana sil-obsgen <scenario.toml> --out <obs.rnx> [--truth <truth.json>]
     { "   " }或：kshana osnma scenario run <scenario.json> [--json] | template (kshana osnma scenario --help)
     { "   " }或：kshana lunar-oem convert <in.oem> --to ICRF|MOON_PA440|MOON_ME [--out <file>] | frames (kshana lunar-oem --help)
+    { "   " }或：kshana leo-sparse <study.toml>
     { "   " }或：kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }或：kshana corrections <decode --format <has|b2b|l6|l1s|qznma> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...] | qznma-verify [--frames <frames.txt>] [--nav <nav.txt>] --pubkey <key.der> ...>
     { "   " }或：kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
@@ -11377,3 +11378,10 @@ engine-leo-od-plan-usage = 用法：kshana leo-od-plan <plan.toml>  (docs/LEO-OD
 engine-e-leo-od-plan-bad-plan = 计划数值超出范围：弧段、步长、噪声和掩码须为正的有限值，步数最多 100000，掩码在 ±90 度以内，半波束宽度在 0 到 90 度之间，LEO 沃克星座的轨道面数须整除卫星数
 engine-e-leo-od-plan-cannot-read = 无法读取 { $path }：{ $e }
 engine-e-leo-od-plan-bad-file = { $path } 不是计划文件：{ $e }
+
+## Sparse-geometry LEO-PNT study (src/leo_sparse.rs, docs/LEO-SPARSE.md)
+engine-leo-sparse-usage = 用法：kshana leo-sparse <study.toml>  (docs/LEO-SPARSE.md; MODELLED, a planning study)
+engine-e-leo-sparse-bad-study = 研究参数超出范围：有效的用户位置、低于 3000 km 且轨道面数整除卫星数的 LEO 沃克星座、0 到 90 度的掩码、max_in_view 为 1 或 2、正的噪声、先验值和目标值、步数最多 200000，且报告间隔不短于步长
+engine-e-leo-sparse-singular = 即使加上先验值，信息矩阵也无法求逆
+engine-e-leo-sparse-cannot-read = 无法读取 { $path }：{ $e }
+engine-e-leo-sparse-bad-file = { $path } 不是研究文件：{ $e }

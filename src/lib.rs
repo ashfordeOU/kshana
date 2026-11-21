@@ -230,6 +230,8 @@ pub mod leo_signal;
 /// rain fade, cascaded ambiguity resolution, jamming claims and Doppler-only integrity
 /// (`kshana leo-verify`, docs/LEO-VERIFY.md).
 pub mod leo_verify;
+/// Sparse-geometry LEO-PNT study: one or two satellites in view (`kshana leo-sparse`).
+pub mod leo_sparse;
 pub mod linalg_sr;
 pub mod linkbudget;
 pub mod lunar;

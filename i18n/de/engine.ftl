@@ -10833,6 +10833,7 @@ engine-main-usage =
     { "   " }oder: kshana sil-obsgen <scenario.toml> --out <obs.rnx> [--truth <truth.json>]
     { "   " }oder: kshana osnma scenario run <scenario.json> [--json] | template (kshana osnma scenario --help)
     { "   " }oder: kshana lunar-oem convert <in.oem> --to ICRF|MOON_PA440|MOON_ME [--out <file>] | frames (kshana lunar-oem --help)
+    { "   " }oder: kshana leo-sparse <study.toml>
     { "   " }oder: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }oder: kshana corrections <decode --format <has|b2b|l6|l1s|qznma> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...] | qznma-verify [--frames <frames.txt>] [--nav <nav.txt>] --pubkey <key.der> ...>
     { "   " }oder: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
@@ -12119,3 +12120,10 @@ engine-leo-od-plan-usage = Aufruf: kshana leo-od-plan <plan.toml>  (docs/LEO-OD-
 engine-e-leo-od-plan-bad-plan = die Zahlen des Plans liegen außerhalb des Bereichs: Bogen, Schritt, Rauschen und Masken positiv und endlich, höchstens 100000 Schritte, Masken innerhalb von ±90 Grad, eine Halbwertsbreite von 0 bis 90 Grad und ein LEO-Walker-Muster, dessen Ebenen die Satellitenzahl teilen
 engine-e-leo-od-plan-cannot-read = { $path } kann nicht gelesen werden: { $e }
 engine-e-leo-od-plan-bad-file = { $path } ist kein Plan: { $e }
+
+## Sparse-geometry LEO-PNT study (src/leo_sparse.rs, docs/LEO-SPARSE.md)
+engine-leo-sparse-usage = Aufruf: kshana leo-sparse <study.toml>  (docs/LEO-SPARSE.md; MODELLED, a planning study)
+engine-e-leo-sparse-bad-study = die Zahlen der Studie liegen außerhalb des Bereichs: eine gültige Nutzerposition, ein LEO-Walker-Muster unter 3000 km, dessen Ebenen die Satellitenzahl teilen, eine Maske von 0 bis 90 Grad, max_in_view 1 oder 2, positive Rauschwerte, Vorwerte und Ziele, höchstens 200000 Schritte und ein Berichtsintervall nicht kürzer als der Schritt
+engine-e-leo-sparse-singular = die Informationsmatrix lässt sich auch mit den Vorwerten nicht invertieren
+engine-e-leo-sparse-cannot-read = { $path } kann nicht gelesen werden: { $e }
+engine-e-leo-sparse-bad-file = { $path } ist keine Studie: { $e }
