@@ -157,6 +157,10 @@
    "count": 2,
    "reason": "identifiers: the manifest file name adapter.toml and the schema id kshana.adapter/1; not text a person reads"
   },
+  "src/arctic_plan.rs": {
+   "count": 10,
+   "reason": "machine-document and identifier: the preset and place names, the schema id, the --places document keys, option names and the English label written into the kshana.arctic-plan/1 document"
+  },
   "src/connect_live.rs": {
    "count": 6,
    "reason": "machine-document: the loopback test servers' MQTT topic and client id, the HTTP/1.1 upgrade reply, the ws:// URL, and the <path>: <error> prefix of an operating-system error"
@@ -1090,8 +1094,8 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/main.rs": {
-   "count": 76,
-   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md); clock-live prints its error text as given; the sensor-live command name; the device and bench-speed command names; the data-pack, area-trust and env-baseline command names; the ephem-export command name; the time-vectors command name; the ais-integrity command name; the space-weather command name; the orbit-data command name."
+   "count": 77,
+   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md); clock-live prints its error text as given; the sensor-live command name; the device and bench-speed command names; the data-pack, area-trust and env-baseline command names; the ephem-export command name; the time-vectors command name; the ais-integrity command name; the space-weather command name; the orbit-data command name; the arctic-plan command name."
   },
   "src/mars_pnt.rs": {
    "count": 31,

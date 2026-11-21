@@ -10803,6 +10803,17 @@ engine-e-ais-integrity-cannot-read = não foi possível ler { $path }: { $e }
 engine-e-ais-integrity-cannot-write = não foi possível escrever { $path }: { $e }
 engine-e-ais-integrity-bad-place = uma linha da lista de locais não é name,lat,lon,radius_m com posição válida e raio positivo: { $row }
 
+## Arctic GNSS availability planner (src/arctic_plan.rs)
+engine-arctic-plan-usage = utilização: kshana arctic-plan --site <lat,lon[,h]> | --place <name> | --places  [--systems <a,b,...>] [--compare] [--hours <h>] [--step-min <m>] [--start-s <s>] [--mask <deg>] [--skyline-preset <name>] [--clock common|per-system] [--min-sats <n>] [--max-pdop <x>] [--task-min <m>] [--kp <n>] [--year <y>] [--iono-mask <deg>] [--tle <file> --epoch <YYYY-MM-DDTHH:MM:SS>] [--epochs] [--out <file.json>]  (docs/ARCTIC-PLAN.md)
+engine-e-arctic-plan-missing-value = { $option } precisa de um valor
+engine-e-arctic-plan-unknown-option = opção desconhecida { $option } (kshana arctic-plan --help lista as opções)
+engine-e-arctic-plan-cannot-read = não foi possível ler { $path }: { $e }
+engine-e-arctic-plan-cannot-write = não foi possível escrever { $path }: { $e }
+engine-e-arctic-plan-bad-number = { $option }: { $value } não é um número válido
+engine-e-arctic-plan-unknown-name = nome desconhecido { $name } (conhecidos: { $known })
+engine-e-arctic-plan-needs-site = indique o local com --site <lat,lon[,h]> ou --place <name> (--places lista os nomes)
+engine-e-arctic-plan-bad-horizon = o horizonte e o passo devem ser positivos e gerar no máximo 20 000 épocas
+
 engine-main-usage =
     utilização: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }ou: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10834,6 +10845,7 @@ engine-main-usage =
     { "   " }ou: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }ou: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }ou: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
+    { "   " }ou: kshana arctic-plan --site <lat,lon[,h]> | --place <name> [--systems <a,b,...>] [--compare] [--hours <h>] [--kp <n>] ... (kshana arctic-plan --help)
     { "   " }ou: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }ou: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }ou: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>

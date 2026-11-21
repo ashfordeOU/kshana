@@ -75,6 +75,7 @@ pub mod aocs_mekf;
 pub mod aperture_duty;
 pub mod api;
 pub mod araim_reference;
+pub mod arctic_plan;
 pub mod area_trust;
 pub mod assurance;
 pub mod asterix_cat021;
