@@ -1,0 +1,18 @@
+{
+ "format": "kshana.osnma-scenario/1",
+ "name": "distant-reference-time",
+ "description": "The reference time is 100,000 s after the stream; every sub-frame is set aside.",
+ "subframes": 18,
+ "reference_time": {
+  "offset_s": 100000,
+  "max_time_error_s": 29
+ },
+ "changes": [],
+ "expect": {
+  "overall": "unavailable",
+  "authenticated_tags_max": 0,
+  "events": {
+   "time_rejected": true
+  }
+ }
+}

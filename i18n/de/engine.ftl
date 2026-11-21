@@ -10561,6 +10561,23 @@ engine-e-ais-integrity-cannot-read = { $path } kann nicht gelesen werden: { $e }
 engine-e-ais-integrity-cannot-write = { $path } kann nicht geschrieben werden: { $e }
 engine-e-ais-integrity-bad-place = eine Zeile der Ortsliste ist nicht name,lat,lon,radius_m mit gültiger Position und positivem Radius: { $row }
 
+## OSNMA scenario files and the reference-model runner (src/osnma/scenario.rs)
+engine-osnma-scenario-usage = Aufruf: kshana osnma scenario run <scenario.json> [--json] | template   (kshana.osnma-scenario/1: a synthetic stream from the reference model with test keys, run in memory through the verifier; exit 0 all expectations met, 1 one not met, 2 input error; docs/OSNMA-SCENARIOS.md)
+engine-e-osnma-scenario-unknown-option = unbekannte Option { $option } (kshana osnma scenario --help listet die Optionen)
+engine-e-osnma-scenario-cannot-read = { $path } kann nicht gelesen werden: { $e }
+engine-e-osnma-scenario-bad = keine kshana.osnma-scenario/1-Datei: { $e }
+
+## OSNMA scenario run report and field checks (src/osnma/scenario.rs, src/osnma/cli.rs)
+engine-e-osnma-scenario-field = { $field } liegt außerhalb des Bereichs oder ist unbekannt (zulässig: { $allowed })
+engine-osnma-scenario-report-head = Szenario { $name }: { $subframes } Unterrahmen, { $pages } Seiten
+engine-osnma-scenario-report-tags = Tags: { $list }
+engine-osnma-scenario-report-reasons = Gründe: { $list }
+engine-osnma-scenario-report-events = Ereignisse: { $list }
+engine-osnma-scenario-report-status = Status { $sat }: { $status }
+engine-osnma-scenario-report-overall = gesamt: { $status }
+engine-osnma-scenario-report-check-met = Prüfung { $what }: erwartet { $expected }, beobachtet { $observed }: erfüllt
+engine-osnma-scenario-report-check-not-met = Prüfung { $what }: erwartet { $expected }, beobachtet { $observed }: NICHT ERFÜLLT (NOT MET)
+
 engine-main-usage =
     Aufruf: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }oder: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10592,6 +10609,7 @@ engine-main-usage =
     { "   " }oder: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }oder: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }oder: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
+    { "   " }oder: kshana osnma scenario run <scenario.json> [--json] | template (kshana osnma scenario --help)
     { "   " }oder: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }oder: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }oder: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
