@@ -10612,6 +10612,33 @@ engine-e-rnss-design-bad-profile = not a usable kshana.rnss-profile/1 file: { $e
 engine-e-rnss-design-unknown-profile = no built-in profile { $name } (built in: { $names }); give a profile file's path instead
 engine-e-rnss-design-unknown-gps = unknown GPS carrier { $name } for --with-gps (l1, l2, l5 or none)
 
+## Transparency-log verifier (src/tlog.rs)
+engine-tlog-usage = usage: kshana tlog verify-inclusion <proof.json> [--entry <entry.json>] [--sth <sth.json>] | verify-consistency <proof.json> [--sth-from <sth.json>] [--sth-to <sth.json>] | verify-sth <sth.json> [--entries <entries.jsonl>] | verify-daily-root <statement.json> [--tsa-ca <roots.pem>] [--tsa-certs <certs.pem>] | verify-key-history <history.jsonl> [--first-key <hex>]   (signed statements: --key <hex> or --key-history <history.jsonl>; --format <id>; --json; offline RFC 6962/9162 log verification; docs/TLOG.md)
+engine-e-tlog-missing-value = { $option } needs a value
+engine-e-tlog-cannot-read = cannot read { $path }: { $e }
+engine-e-tlog-unknown-option = unknown option { $option } (kshana tlog --help lists the options)
+engine-tlog-check-pass = PASS { $id }: { $detail }
+engine-tlog-check-fail = FAIL { $id }: { $detail }
+engine-tlog-fact = { $key } = { $value }
+engine-tlog-verdict-pass = tlog { $command }: every check passed
+engine-tlog-verdict-fail = tlog { $command }: { $n } check(s) failed
+engine-tlog-not-anchored = not anchored (the statement has no timestamps)
+engine-tlog-no-tsa-roots = no timestamp authority roots given (--tsa-ca): the token's signature and chain are not checked
+engine-tlog-no-endorsement = no endorsement by the previous key
+engine-e-tlog-entry-not-object = a log entry must be a JSON object
+engine-e-tlog-entry-missing-field = a log entry has no { $field }
+engine-e-tlog-entry-bad-field = a log entry's { $field } has the wrong form
+engine-e-tlog-bad-key = a public key must be 64 hex digits (32 bytes, Ed25519)
+engine-e-tlog-missing-field = the document has no { $field }
+engine-e-tlog-bad-field = { $field } has the wrong form (hashes are 64 hex digits, sizes and indices whole numbers)
+engine-e-tlog-needs-key = a signed statement needs --key <hex> or --key-history <history.jsonl>
+engine-e-tlog-bad-json = not valid JSON: { $e }
+engine-e-tlog-bad-json-line = line { $line } is not valid JSON: { $e }
+engine-e-tlog-bad-json-file = { $path } is not valid JSON: { $e }
+engine-e-tlog-key-and-history = give --key or --key-history, not both
+engine-e-tlog-history-failed = the key history { $path } does not verify, so it cannot supply keys
+engine-e-tlog-verification-failed = tlog { $command }: verification failed (the report above lists each check)
+
 engine-main-usage =
     usage: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }or: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10648,6 +10675,7 @@ engine-main-usage =
     { "   " }or: kshana feed <pack|verify|send|spectrum|leaderboard|watch> ... (kshana feed --help)
     { "   " }or: kshana register-products <verify|show|diff> ... (kshana register-products --help)
     { "   " }or: kshana register <check|crl-check|view|sign> ... (kshana register --help)
+    { "   " }or: kshana tlog verify-inclusion | verify-consistency | verify-sth | verify-daily-root | verify-key-history <file> [options] (kshana tlog --help)
     { "   " }or: kshana interference-env <evaluate|thresholds|degradation> ... (kshana interference-env --help)
     { "   " }or: kshana arctic-plan --site <lat,lon[,h]> | --place <name> [--systems <a,b,...>] [--compare] [--hours <h>] [--kp <n>] ... (kshana arctic-plan --help)
     { "   " }or: kshana lunar-afs-kit <vectors|registry|output-check|output-example|output-reexpress> ... (kshana lunar-afs-kit --help)

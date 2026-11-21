@@ -10976,6 +10976,33 @@ engine-e-rnss-design-bad-profile = nieużyteczny plik kshana.rnss-profile/1: { $
 engine-e-rnss-design-unknown-profile = brak wbudowanego profilu { $name } (wbudowane: { $names }); zamiast tego podaj ścieżkę pliku profilu
 engine-e-rnss-design-unknown-gps = nieznana nośna GPS { $name } dla --with-gps (l1, l2, l5 lub none)
 
+## Transparency-log verifier (src/tlog.rs)
+engine-tlog-usage = użycie: kshana tlog verify-inclusion <proof.json> [--entry <entry.json>] [--sth <sth.json>] | verify-consistency <proof.json> [--sth-from <sth.json>] [--sth-to <sth.json>] | verify-sth <sth.json> [--entries <entries.jsonl>] | verify-daily-root <statement.json> [--tsa-ca <roots.pem>] [--tsa-certs <certs.pem>] | verify-key-history <history.jsonl> [--first-key <hex>]   (signed statements: --key <hex> or --key-history <history.jsonl>; --format <id>; --json; offline RFC 6962/9162 log verification; docs/TLOG.md)
+engine-e-tlog-missing-value = { $option } wymaga wartości
+engine-e-tlog-cannot-read = nie można odczytać { $path }: { $e }
+engine-e-tlog-unknown-option = nieznana opcja { $option } (kshana tlog --help wyświetla opcje)
+engine-tlog-check-pass = PASS { $id }: { $detail }
+engine-tlog-check-fail = FAIL { $id }: { $detail }
+engine-tlog-fact = { $key } = { $value }
+engine-tlog-verdict-pass = tlog { $command }: wszystkie kontrole zaliczone
+engine-tlog-verdict-fail = tlog { $command }: nieudane kontrole: { $n }
+engine-tlog-not-anchored = niezakotwiczone (oświadczenie nie ma znaczników czasu)
+engine-tlog-no-tsa-roots = nie podano korzeni urzędu znakowania czasem (--tsa-ca): podpis i łańcuch tokenu nie są sprawdzane
+engine-tlog-no-endorsement = brak poświadczenia poprzednim kluczem
+engine-e-tlog-entry-not-object = wpis dziennika musi być obiektem JSON
+engine-e-tlog-entry-missing-field = we wpisie dziennika brak { $field }
+engine-e-tlog-entry-bad-field = pole { $field } wpisu dziennika ma niewłaściwą postać
+engine-e-tlog-bad-key = klucz publiczny musi mieć 64 cyfry szesnastkowe (32 bajty, Ed25519)
+engine-e-tlog-missing-field = w dokumencie brak { $field }
+engine-e-tlog-bad-field = { $field } ma niewłaściwą postać (skróty mają 64 cyfry szesnastkowe, rozmiary i indeksy są liczbami całkowitymi)
+engine-e-tlog-needs-key = podpisane oświadczenie wymaga --key <hex> lub --key-history <history.jsonl>
+engine-e-tlog-bad-json = nieprawidłowy JSON: { $e }
+engine-e-tlog-bad-json-line = wiersz { $line } nie jest prawidłowym JSON: { $e }
+engine-e-tlog-bad-json-file = { $path } nie jest prawidłowym JSON: { $e }
+engine-e-tlog-key-and-history = podaj --key albo --key-history, nie oba
+engine-e-tlog-history-failed = historia kluczy { $path } nie przechodzi weryfikacji, więc nie może dostarczyć kluczy
+engine-e-tlog-verification-failed = tlog { $command }: weryfikacja nie powiodła się (raport powyżej wymienia każdą kontrolę)
+
 engine-main-usage =
     użycie: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }lub: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -11012,6 +11039,7 @@ engine-main-usage =
     { "   " }lub: kshana feed <pack|verify|send|spectrum|leaderboard|watch> ... (kshana feed --help)
     { "   " }lub: kshana register-products <verify|show|diff> ... (kshana register-products --help)
     { "   " }lub: kshana register <check|crl-check|view|sign> ... (kshana register --help)
+    { "   " }lub: kshana tlog verify-inclusion | verify-consistency | verify-sth | verify-daily-root | verify-key-history <file> [options] (kshana tlog --help)
     { "   " }lub: kshana interference-env <evaluate|thresholds|degradation> ... (kshana interference-env --help)
     { "   " }lub: kshana arctic-plan --site <lat,lon[,h]> | --place <name> [--systems <a,b,...>] [--compare] [--hours <h>] [--kp <n>] ... (kshana arctic-plan --help)
     { "   " }lub: kshana lunar-afs-kit <vectors|registry|output-check|output-example|output-reexpress> ... (kshana lunar-afs-kit --help)

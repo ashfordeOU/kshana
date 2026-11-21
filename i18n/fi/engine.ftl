@@ -10540,6 +10540,33 @@ engine-e-rnss-design-bad-profile = ei käyttökelpoinen kshana.rnss-profile/1-ti
 engine-e-rnss-design-unknown-profile = sisäänrakennettua profiilia { $name } ei ole (sisäänrakennetut: { $names }); anna sen sijaan profiilitiedoston polku
 engine-e-rnss-design-unknown-gps = tuntematon GPS-kantoaalto { $name } valitsimelle --with-gps (l1, l2, l5 tai none)
 
+## Transparency-log verifier (src/tlog.rs)
+engine-tlog-usage = käyttö: kshana tlog verify-inclusion <proof.json> [--entry <entry.json>] [--sth <sth.json>] | verify-consistency <proof.json> [--sth-from <sth.json>] [--sth-to <sth.json>] | verify-sth <sth.json> [--entries <entries.jsonl>] | verify-daily-root <statement.json> [--tsa-ca <roots.pem>] [--tsa-certs <certs.pem>] | verify-key-history <history.jsonl> [--first-key <hex>]   (signed statements: --key <hex> or --key-history <history.jsonl>; --format <id>; --json; offline RFC 6962/9162 log verification; docs/TLOG.md)
+engine-e-tlog-missing-value = { $option } tarvitsee arvon
+engine-e-tlog-cannot-read = tiedostoa { $path } ei voi lukea: { $e }
+engine-e-tlog-unknown-option = tuntematon valitsin { $option } (kshana tlog --help luettelee valitsimet)
+engine-tlog-check-pass = PASS { $id }: { $detail }
+engine-tlog-check-fail = FAIL { $id }: { $detail }
+engine-tlog-fact = { $key } = { $value }
+engine-tlog-verdict-pass = tlog { $command }: kaikki tarkistukset läpäisty
+engine-tlog-verdict-fail = tlog { $command }: { $n } tarkistusta epäonnistui
+engine-tlog-not-anchored = ei ankkuroitu (lausumassa ei ole aikaleimoja)
+engine-tlog-no-tsa-roots = aikaleimapalvelun juuria ei annettu (--tsa-ca): tunnisteen allekirjoitusta ja ketjua ei tarkisteta
+engine-tlog-no-endorsement = ei edellisen avaimen vahvistusta
+engine-e-tlog-entry-not-object = lokimerkinnän on oltava JSON-objekti
+engine-e-tlog-entry-missing-field = lokimerkinnästä puuttuu { $field }
+engine-e-tlog-entry-bad-field = lokimerkinnän kentän { $field } muoto on väärä
+engine-e-tlog-bad-key = julkisen avaimen on oltava 64 heksanumeroa (32 tavua, Ed25519)
+engine-e-tlog-missing-field = asiakirjasta puuttuu { $field }
+engine-e-tlog-bad-field = { $field } on väärän muotoinen (tiivisteet ovat 64 heksanumeroa, koot ja indeksit kokonaislukuja)
+engine-e-tlog-needs-key = allekirjoitettu lausuma tarvitsee --key <hex> tai --key-history <history.jsonl>
+engine-e-tlog-bad-json = ei kelvollista JSONia: { $e }
+engine-e-tlog-bad-json-line = rivi { $line } ei ole kelvollista JSONia: { $e }
+engine-e-tlog-bad-json-file = { $path } ei ole kelvollista JSONia: { $e }
+engine-e-tlog-key-and-history = anna --key tai --key-history, ei molempia
+engine-e-tlog-history-failed = avainhistoria { $path } ei todennu, joten se ei voi antaa avaimia
+engine-e-tlog-verification-failed = tlog { $command }: todennus epäonnistui (yllä oleva raportti luettelee tarkistukset)
+
 engine-main-usage =
     käyttö: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }tai: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10576,6 +10603,7 @@ engine-main-usage =
     { "   " }tai: kshana feed <pack|verify|send|spectrum|leaderboard|watch> ... (kshana feed --help)
     { "   " }tai: kshana register-products <verify|show|diff> ... (kshana register-products --help)
     { "   " }tai: kshana register <check|crl-check|view|sign> ... (kshana register --help)
+    { "   " }tai: kshana tlog verify-inclusion | verify-consistency | verify-sth | verify-daily-root | verify-key-history <file> [options] (kshana tlog --help)
     { "   " }tai: kshana interference-env <evaluate|thresholds|degradation> ... (kshana interference-env --help)
     { "   " }tai: kshana arctic-plan --site <lat,lon[,h]> | --place <name> [--systems <a,b,...>] [--compare] [--hours <h>] [--kp <n>] ... (kshana arctic-plan --help)
     { "   " }tai: kshana lunar-afs-kit <vectors|registry|output-check|output-example|output-reexpress> ... (kshana lunar-afs-kit --help)
