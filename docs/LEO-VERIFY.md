@@ -144,7 +144,7 @@ systems is not a comparison.
 ## signal-claims: published figures against orbit and link physics
 
 A LEO-PNT service is described in papers, filings and web pages with figures: a Doppler range, a Doppler rate, a
-pass geometry, a power "100 times stronger than GPS". `signal-claims` takes each such figure with its source and
+pass geometry, a received-power advantage over GPS. `signal-claims` takes each such figure with its source and
 recomputes it from what the same publications state about the orbit (circular: altitude, inclination, the Earth
 radius they use) and, for power, from the received-power intervals they cite. The tolerance of each claim is part of
 the input, fixed before the run; a row is `consistent` or `not_consistent` with the stated figure (`within` /
@@ -163,21 +163,18 @@ figures agree with each other and with orbit physics.
 | `spreading_advantage` | a reference orbit's spreading loss over the system's, at equal elevation and over any pair of elevations (spreading only) |
 | `power_advantage` | cited minimum and maximum received powers of the system and of the reference signal |
 
-The example file cites three public sources: J. Leclère, T. Marathe and T. G. R. Reid (Xona Space Systems),
-*Insights into Xona Pulsar LEO PNT*, ION GNSS+ 2025, arXiv:2509.19551; Xona's FCC-authorization page; and
-D. Lawrence et al., *Navigation from LEO*, GPS World, July 2017. On it:
+The example file reproduces one peer-reviewed source, J. Leclère, T. Marathe and T. G. R. Reid, *Insights into Xona
+Pulsar LEO PNT: Constellation, Signals, and Receiver Design*, ION GNSS+ 2025, arXiv:2509.19551:
 
 - Every orbital figure of the paper's Table 1 (periods, speeds, largest relative speeds, largest Doppler on both
   carriers for the IOV, polar, inclined and GPS orbits), the horizon ranges of section 2.2 and the 230 and 172 Hz/s
   Doppler rates of section 6.2 follow from its orbits within 0.2 % (1 % for the rounded rates). Its "footprint radius"
   of 3,864 km is the slant range to the horizon; the ground arc is 3,473 km.
-- Its "about 250 times" Doppler-rate ratio to GPS does not: with its own GPS orbit the ratio is about 316.
-- "Up to 100 times stronger than GPS" (20 dB) is not reached with the paper's own received powers: 10.3 dB (X1 minimum
-  to GPS L1 C/A minimum), 13.9 dB (maximum to maximum), 19.4 dB from the Pulsar maximum to the GPS minimum.
-- Iridium: 780 km is 25.9 times closer than 20,200 km (stated: 25); spreading loss −141.2 to −128.8 dB (stated: −140
-  to −130, read from a figure). "300 to 2,400 times stronger than GNSS" exceeds what spreading loss alone gives (about
-  39 to 1,094 times over any pair of elevations); transmit power and antennas, which no cited figure gives, are not in
-  the check.
+- Its "about 250 times" Doppler-rate ratio to GPS (section 2.2) does not: with its own GPS orbit the ratio is about 316.
+
+The altitude-ratio, spreading and power checks are shown on an illustrative system whose figures are made up for the
+example and marked so; they are no operator's statement. Its three power claims show the three outcomes: 50 times
+reached like for like, 150 times only from the system maximum to the reference minimum, 1,000 times not reached.
 
 Add a system by adding its orbit and its published figures with their sources; a figure without a source does not
 belong in the file.
