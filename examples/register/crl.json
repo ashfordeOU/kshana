@@ -1,0 +1,7 @@
+{
+  "schema": "kshana.register-crl/1",
+  "issuer": "Example issuer (illustrative only)",
+  "issued": "2026-11-20",
+  "next_update": "2026-12-20",
+  "revoked": []
+}
