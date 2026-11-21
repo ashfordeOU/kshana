@@ -2365,6 +2365,7 @@ engine-e-interop-scene-missing-integer-waypoints = отсутствует цел
 engine-e-interop-scene-waypoints-is-outside-1000000 = waypoints = { $n } вне 1..=1000000
 
 engine-interop-scene-walker-at-km-deg-inclination = Walker { $w }/{ $planes }/{ $phasing_f } на высоте { $altitude_km } km, наклонение { $inclination_deg } deg (SGP4)
+engine-interop-scene-gnss-slot = позиция { $id } набора { $set } (геосинхронная номинальная позиция задачи двух тел, MODELLED); источник: { $source }; фаза: { $phase }
 
 engine-interop-scene-the-scenario-gives-no-epoch = сценарий не задаёт `epoch`; t = 0 — это { $epoch }, самая ранняя эпоха среди собственных данных спутников (эпоха TLE, бортовых эфемерид или SP3). Каждый спутник распространяется от собственной эпохи, и они охватывают { $spread_h } h: метки времени следуют допущению движка, что каждый спутник стартует при t = 0, а каждое положение поворачивается в системы GCRS и земную в собственный момент этого спутника. Экспорты SP3 и OEM вместо этого помечают t = 0 как 2000-01-01T00:00:00Z
 

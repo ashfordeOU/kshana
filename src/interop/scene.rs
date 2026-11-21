@@ -617,6 +617,7 @@ pub fn scene_of(src: &str) -> Result<Scene, ExportError> {
         ScenarioKind::GnssSim => {
             let scn: crate::gnss_sim::GnssSimScenario = toml::from_str(src).map_err(bad)?;
             walker_scene(&mut scene, &scn.time, &scn.constellation)?;
+            slot_movers(&mut scene, &scn)?;
             scene.sites.push(receiver_site(
                 scn.receiver.lat_deg,
                 scn.receiver.lon_deg,
@@ -854,6 +855,42 @@ fn walker_scene(
         .map(|(id, p)| (id, MoverRole::Satellite, desc.clone(), p))
         .collect();
     scene.movers = sample(items, &epoch, &scene.times_s, false)?;
+    Ok(())
+}
+
+/// Append the GEO and IGSO slots of a `gnss-sim` scenario (after its Walker shell) as
+/// satellites `S01`, `S02`, ..., sampled on the scene's times from the same epoch the engine
+/// turns them to the Earth with. Each description names the set, the slot, its source and where
+/// its phase comes from (an assumption says so).
+fn slot_movers(
+    scene: &mut Scene,
+    scn: &crate::gnss_sim::GnssSimScenario,
+) -> Result<(), ExportError> {
+    let slots =
+        crate::gnss_slots::resolve(&scn.slot_sets, &scn.slots).map_err(ExportError::Failed)?;
+    if slots.is_empty() {
+        return Ok(());
+    }
+    let epoch = UtcEpoch::from_jd_utc(crate::walker::walker_epoch_jd());
+    let mut items = Vec::with_capacity(slots.len());
+    for (k, (set, slot)) in slots.iter().enumerate() {
+        let o = crate::gnss_slots::slot_orbit(slot).map_err(ExportError::Failed)?;
+        let desc = crate::t!(
+            "interop-scene-gnss-slot",
+            set = set.as_str(),
+            id = slot.id.as_str(),
+            source = slot.source.as_str(),
+            phase = slot.phase_source.as_deref().unwrap_or(slot.source.as_str())
+        );
+        items.push((
+            format!("S{:02}", k + 1),
+            MoverRole::Satellite,
+            desc,
+            Propagator::Kepler(o),
+        ));
+    }
+    let mut movers = sample(items, &epoch, &scene.times_s, false)?;
+    scene.movers.append(&mut movers);
     Ok(())
 }
 

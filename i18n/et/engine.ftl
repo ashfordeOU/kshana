@@ -2606,6 +2606,7 @@ engine-e-interop-scene-waypoints-is-outside-1000000 =
     }
 
 engine-interop-scene-walker-at-km-deg-inclination = Walker { $w }/{ $planes }/{ $phasing_f } kõrgusel { $altitude_km } km, kaldenurk { $inclination_deg } deg (SGP4)
+engine-interop-scene-gnss-slot = { $set } pesa { $id } (geosünkroonne kahe keha nominaalpesa, MODELLED); allikas: { $source }; faas: { $phase }
 
 engine-interop-scene-the-scenario-gives-no-epoch = stsenaarium ei anna `epoch`; t = 0 on { $epoch }, varaseim epohh, mida satelliitide enda andmed kannavad (TLE, edastatud efemeriid või SP3 epohh). Iga satelliiti levitatakse tema enda epohhist ja need hõlmavad { $spread_h } h: ajamärgised järgivad mootori eeldust, et iga satelliit algab hetkel t = 0, samas kui iga asukoht pööratakse GCRS- ja Maaga seotud süsteemi selle satelliidi enda ajahetkel. SP3 ja OEM eksport märgivad t = 0 hoopis kui 2000-01-01T00:00:00Z
 

@@ -2695,6 +2695,7 @@ engine-e-interop-scene-missing-integer-waypoints = ganzzahliges `waypoints` fehl
 engine-e-interop-scene-waypoints-is-outside-1000000 = waypoints = { $n } liegt außerhalb von 1..=1000000
 
 engine-interop-scene-walker-at-km-deg-inclination = Walker { $w }/{ $planes }/{ $phasing_f } auf { $altitude_km } km, { $inclination_deg } deg Neigung (SGP4)
+engine-interop-scene-gnss-slot = { $set }-Slot { $id } (geosynchroner nominaler Zweikörper-Slot, MODELLED); Quelle: { $source }; Phase: { $phase }
 
 engine-interop-scene-the-scenario-gives-no-epoch = das Szenario gibt kein `epoch` an; t = 0 ist { $epoch }, die früheste Epoche, die die eigenen Daten der Satelliten tragen (TLE-, Broadcast-Ephemeriden- oder SP3-Epoche). Jeder Satellit wird von seiner eigenen Epoche aus propagiert, und diese erstrecken sich über { $spread_h } h: die Zeitmarken folgen der Prämisse der Engine, dass jeder Satellit bei t = 0 beginnt, während jede Position zum eigenen Zeitpunkt dieses Satelliten in das GCRS und in erdfeste Bezugssysteme gedreht wird. Die SP3- und OEM-Exporte kennzeichnen t = 0 stattdessen als 2000-01-01T00:00:00Z
 

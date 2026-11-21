@@ -22,7 +22,10 @@ planes = 0
 sats_per_plane = 0
 ```
 
-The slots take the PRNs after the shell's, and the report lists them (`slots`: PRN, set, id).
+The slots take the PRNs after the shell's, and the report lists them (`slots`: PRN, set, id). The bundled
+`scenarios/navic-regional.toml` is NavIC alone over India (Bengaluru, a day at 10-minute steps). The
+interop scene exports carry the slots as satellites `S01`, `S02`, ... with their source and phase labels, and
+the test-bench export lists them in the motion metadata (`space_segment`) ([Interop](INTEROP.md)).
 
 ## The orbit of a slot
 
