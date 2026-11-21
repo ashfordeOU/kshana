@@ -950,24 +950,28 @@ impl ConstellationCfg {
             let keplerian = crate::rinex::parse_nav(text)?;
             let mut sats: Vec<Propagator> = Vec::new();
             // Reference epoch for the snapshot: the earliest Toe in the file,
-            // i.e. the file's own start. Each satellite then contributes the
-            // record whose Toe is nearest it, by the same nearest-Toe rule the
-            // PVT solver already uses. A satellite with no record inside that
-            // fit window has no valid ephemeris at the reference epoch and is
-            // left out rather than propagated from an arbitrary later record.
-            let ref_tow = keplerian
-                .iter()
-                .map(|e| e.toe)
-                .fold(f64::INFINITY, f64::min);
+            // i.e. the file's own start, found by absolute GPS time (week and
+            // Toe, a BeiDou record's BDT week and Toe moved to GPS time), not
+            // by the time of week alone, which for a file crossing Saturday to
+            // Sunday would pick a Sunday Toe near 0 at its end. Each satellite
+            // then contributes the record whose Toe is nearest it, by the same
+            // nearest-Toe rule the PVT solver already uses (a BeiDou record on
+            // its own BDT scale). A satellite with no record inside that fit
+            // window has no valid ephemeris at the reference epoch and is left
+            // out rather than propagated from an arbitrary later record.
+            let ref_tow = snapshot_reference_tow(&keplerian);
             let mut seen: Vec<(char, u8)> = Vec::new();
             for e in &keplerian {
                 if seen.contains(&(e.system, e.prn)) {
                     continue;
                 }
                 seen.push((e.system, e.prn));
-                if let Some(best) =
-                    crate::pvt::select_ephemeris(&keplerian, e.system, e.prn, ref_tow)
-                {
+                let tow = if e.system == 'C' {
+                    (ref_tow - crate::rinex::BDT_MINUS_GPS_S).rem_euclid(604_800.0)
+                } else {
+                    ref_tow
+                };
+                if let Some(best) = crate::pvt::select_ephemeris(&keplerian, e.system, e.prn, tow) {
                     sats.push(Propagator::from(*best));
                 }
             }
@@ -1758,10 +1762,57 @@ impl OrbitClockScenario {
     }
 }
 
+/// The GPS time of week of the earliest broadcast record of a navigation file, by absolute GPS
+/// time (week and Toe; a BeiDou record's BDT week and Toe moved to GPS time), not by the time of
+/// week alone: for a file crossing Saturday to Sunday the smallest Toe is a Sunday record at its
+/// end.
+pub(crate) fn snapshot_reference_tow(ephs: &[crate::rinex::RinexEphemeris]) -> f64 {
+    ephs.iter()
+        .map(|e| {
+            let (week, toe) = if e.system == 'C' {
+                (
+                    e.gps_week + crate::rinex::BDT_MINUS_GPS_WEEKS,
+                    e.toe + crate::rinex::BDT_MINUS_GPS_S,
+                )
+            } else {
+                (e.gps_week, e.toe)
+            };
+            week * 604_800.0 + toe
+        })
+        .fold(f64::INFINITY, f64::min)
+        .rem_euclid(604_800.0)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
     use std::f64::consts::{FRAC_PI_2, PI};
+
+    #[test]
+    fn the_snapshot_reference_is_the_earliest_record_across_the_week() {
+        let base = crate::rinex::parse_nav(include_str!(
+            "../tests/fixtures/rinex_sp3_interop/brdc_multignss_slice.rnx"
+        ))
+        .unwrap()
+        .into_iter()
+        .find(|e| e.system == 'G')
+        .unwrap();
+        let rec = |week: f64, toe: f64, system: char| {
+            let mut e = base;
+            e.gps_week = week;
+            e.toe = toe;
+            e.system = system;
+            e
+        };
+        // Saturday 22:00 (week 2300, Toe 597 600 s) and the next Sunday 02:00 (week 2301,
+        // Toe 7 200 s): the earliest is Saturday's, not the smallest Toe.
+        let ephs = [rec(2300.0, 597_600.0, 'G'), rec(2301.0, 7_200.0, 'G')];
+        assert_eq!(snapshot_reference_tow(&ephs), 597_600.0);
+        // A BeiDou record at BDT week 944 (GPS 2300), Toe 597 500 s BDT = 597 514 s GPS, is
+        // earlier than the GPS one at 597 600 s.
+        let ephs = [rec(2300.0, 597_600.0, 'G'), rec(944.0, 597_500.0, 'C')];
+        assert_eq!(snapshot_reference_tow(&ephs), 597_514.0);
+    }
 
     #[test]
     fn period_matches_mean_motion() {
