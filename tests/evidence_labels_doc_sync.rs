@@ -307,6 +307,7 @@ const UNLABELLED_WRITERS: &[(&str, &str)] = &[
     ("src/feeder_watch.rs", "writes the feeder's spool: signed kshana.feed/1 bundles packed from its own observations and the kshana.feed-spool/1 send queue; data packaged for upload, not a result figure or table of the engine"),
     ("src/station.rs", "writes the receiver's observations as kshana.obs/1 files, the stream recorded as received; data, not a result of the engine"),
     ("src/data_pack.rs", "writes synthetic training data and its labels: the manifest states it is synthetic; data, not a result of the engine"),
+    ("src/osnma/vectors/mod.rs", "writes the open OSNMA vector set (`osnma vectors generate --out`): synthetic test inputs, their pinned bars and a manifest naming the set kshana-osnma-synthetic and its scope; test inputs, not a result of the engine"),
     ("src/interference_map/live.rs", "writes a receiver's reports as rows of the documented input CSV: an input file, read back by locate"),
     ("src/lunar_service.rs", "writes only in a unit test (a temporary ephemeris)"),
     ("src/speed_bench.rs", "writes the bench-speed JSON: timings of this machine, not a result of the engine"),
