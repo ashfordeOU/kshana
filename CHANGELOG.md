@@ -13,6 +13,15 @@ breaking changes are called out explicitly.
 - **Smaller published crate: the DE440 Moon PA orientation series is embedded as binary.** `src/lunar_orientation.rs` now embeds `data/lunar/de440_moon_pa.bin` instead of the 1.6 MB CSV: the same 6 209 x 10 doubles, bit for bit (`tests/lunar_orientation_binary.rs`), column-major and byte-planed, about 352 KB of the `.crate` against 650 KB. Results are unchanged. The CSV stays in the repository as the source of record and is no longer packaged. Regenerate with `scripts/gen_de440_moon_pa_bin.py`.
 - **Smaller published crate: the seventeen translated engine catalogues ship as one xz stream.** The `.crate` carries `data/i18n/catalogues.xz` (about 1.9 MB) in place of `i18n/<lang>/engine.ftl` (13.4 MB of text, about 3.8 MB as separate gzip members): 10 192 071 bytes before, about 8 254 190 after: 1.94 MB more headroom under crates.io's 10 MiB limit. The `.ftl` files stay the source in the repository and are what a build from a checkout embeds, exactly as before. In a build of the published crate, `build.rs` decodes the archive (pure-Rust `lzma-rs`, MIT, a build dependency only) and the library embeds the decoded text, so no decoding happens at run time and the messages are byte for byte the same (`tests/i18n_packed.rs`). The archive is generated, never committed: `python3 scripts/pack_catalogues.py` (CI's `package` job, the crates.io release and the sdist build run it; contributors never need to).
 
+### Added (constellation-claim verification datasets)
+
+- `kshana claim-check` (src/claim_check.rs, data/claims/, docs/CLAIM-CHECK.md): datasets of public constellation
+  claims (claim, value, unit, source URL, date read, quote and its location), checked where kshana computes the same
+  quantity (sun-synchronous inclination for a quasi-polar claim, two-body period, horizon Doppler, free-space C/N0, or
+  agreement with a second source); every verdict cites its sources and is labelled, and a claim without a public
+  source is refused. Ships seven claims about ESA Celeste quoted from ESA and Thales Alenia Space public pages, and a
+  template. MODELLED.
+
 ### Added (space weather for PNT and drag)
 
 - `kshana space-weather` (src/space_weather_pnt/, docs/SPACE-WEATHER-PNT.md): a storm library of eight recorded
