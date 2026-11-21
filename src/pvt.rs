@@ -496,8 +496,10 @@ pub fn assemble_epoch(
         Some(e) => e,
         None => return Vec::new(),
     };
-    let tow = epoch.time.gps_time_of_week();
-    let t_gps = epoch.time.seconds_from_gps_epoch();
+    let t_gps = obs
+        .epoch_gps_seconds(epoch_idx)
+        .unwrap_or_else(|| epoch.time.seconds_from_gps_epoch());
+    let tow = t_gps.rem_euclid(604_800.0);
     let gps_sod = tow.rem_euclid(86_400.0);
     let doy = day_of_year(epoch.time.year, epoch.time.month, epoch.time.day);
     let station = ecef_to_geodetic(apriori);
@@ -687,7 +689,9 @@ fn assemble_epoch_precise_inner(
         Some(e) => e,
         None => return Vec::new(),
     };
-    let t_rx = epoch.time.seconds_from_gps_epoch();
+    let t_rx = obs
+        .epoch_gps_seconds(epoch_idx)
+        .unwrap_or_else(|| epoch.time.seconds_from_gps_epoch());
     let doy = day_of_year(epoch.time.year, epoch.time.month, epoch.time.day);
     let station = ecef_to_geodetic(apriori);
     let mut out = Vec::new();
@@ -1819,6 +1823,72 @@ G01 2023 01 01 00 00 00 4.567890123456D-04 1.136868377216D-12 0.000000000000D+00
         assert!(sm.iono_m >= 0.0 && sm.tropo_m > 0.0);
         // Near zenith the elevation weight is close to 1.
         assert!(sm.weight > 0.9, "weight {:.3}", sm.weight);
+    }
+
+    #[test]
+    fn assemble_epoch_reads_the_epoch_on_the_files_time_system() {
+        // The same instant, 2023-01-03 00:00:00 GPS time (TOW 172 800 s), written as the
+        // epoch of a GPS file, of a BeiDou-time file (14 s behind) and of a GLONASS file
+        // (UTC, 18 s behind in 2023). Each must give the same satellite position; read as
+        // GPS time, the BDT and GLO epochs would put the satellite 14 s and 18 s early.
+        let eph = parse_nav(NAV_SAMPLE).unwrap()[0];
+        let tow = 172_800.0;
+        let approx_tx = eph.sv_position_ecef(tow - 0.075);
+        let rx = {
+            let u = norm(approx_tx);
+            [u[0] * 6_371_000.0, u[1] * 6_371_000.0, u[2] * 6_371_000.0]
+        };
+        let rho = dist(rx, approx_tx);
+        let file = |day: u32, hour: u32, minute: u32, second: f64, ts: Option<&str>| {
+            let t = EpochUtc {
+                year: 2023,
+                month: 1,
+                day,
+                hour,
+                minute,
+                second,
+            };
+            RinexObs {
+                header: ObsHeader {
+                    version: 3.04,
+                    system: 'M',
+                    obs_types: vec![('G', vec!["C1C".to_string()])],
+                    approx_xyz: Some(rx),
+                    interval_s: Some(30.0),
+                    time_of_first_obs: Some(t),
+                    time_system: ts.map(str::to_string),
+                },
+                epochs: vec![ObsEpoch {
+                    time: t,
+                    flag: 0,
+                    sats: vec![SatObs {
+                        sat: "G01".to_string(),
+                        obs: vec![Some(Observation {
+                            value: rho,
+                            lli: None,
+                            ssi: None,
+                        })],
+                    }],
+                }],
+                skipped: Default::default(),
+            }
+        };
+        let sat = |obs: &RinexObs| {
+            let m = assemble_epoch(obs, 0, &[eph], rx, &AtmosModel::default(), 5.0, true);
+            assert_eq!(m.len(), 1);
+            m[0].1.sat_ecef
+        };
+        let gps = sat(&file(3, 0, 0, 0.0, Some("GPS")));
+        let undeclared = sat(&file(3, 0, 0, 0.0, None));
+        let bdt = sat(&file(2, 23, 59, 46.0, Some("BDT")));
+        let glo = sat(&file(2, 23, 59, 42.0, Some("GLO")));
+        for (name, p) in [("none", undeclared), ("BDT", bdt), ("GLO", glo)] {
+            let d = dist(p, gps);
+            assert!(
+                d < 1e-3,
+                "{name} file: satellite {d} m from the GPS-file position"
+            );
+        }
     }
 
     #[test]
