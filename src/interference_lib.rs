@@ -1038,10 +1038,10 @@ pub struct CaseScore {
     pub truth: Class,
     /// The classifier's predicted class; `None` when no prediction was given for the case.
     pub predicted: Option<Class>,
-    /// Pre-correlation power rise: total power over the estimated noise floor (dB).
     /// The case's JNR (dB); unused for `none`.
     #[serde(default)]
     pub jnr_db: f64,
+    /// Pre-correlation power rise: total power over the estimated noise floor (dB).
     pub power_rise_db: f64,
     /// Post-correlation C/N0 loss for GPS L1 C/A at the band centre from the fitted spectrum (dB).
     pub ca_cn0_loss_db: f64,

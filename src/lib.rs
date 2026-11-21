@@ -226,12 +226,12 @@ pub mod leo_od_plan;
 pub mod leo_pass;
 pub mod leo_pnt_chain;
 pub mod leo_signal;
+/// Sparse-geometry LEO-PNT study: one or two satellites in view (`kshana leo-sparse`).
+pub mod leo_sparse;
 /// LEO-PNT verification tools: burst timing, holdover TDEV, cost against resilience, indoor loss,
 /// rain fade, cascaded ambiguity resolution, jamming claims and Doppler-only integrity
 /// (`kshana leo-verify`, docs/LEO-VERIFY.md).
 pub mod leo_verify;
-/// Sparse-geometry LEO-PNT study: one or two satellites in view (`kshana leo-sparse`).
-pub mod leo_sparse;
 pub mod linalg_sr;
 pub mod linkbudget;
 pub mod lunar;
