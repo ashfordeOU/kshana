@@ -67,6 +67,43 @@ fn sbp_round_trip() {
 }
 
 #[test]
+fn greis_midnight_and_an_out_of_order_epoch() {
+    let epoch = |tod: u32, cn0: u8| {
+        let mut m = greis::message(b"~~", &tod.to_le_bytes());
+        m.extend(greis::message(b"SX", &[1, 3]));
+        m.extend(greis::message(b"CE", &[cn0]));
+        m.extend(greis::message(b"::", &tod.to_le_bytes()));
+        m
+    };
+    // With a date: 23:59:59, then 23:59:58 (one epoch out of order: same day), then 00:00:01
+    // (the next day).
+    let mut s = greis::message(b"RD", &[0xEA, 0x07, 11, 14, 1]); // 2026-11-14, UTC
+    s.extend(epoch(86_399_000, 160));
+    s.extend(epoch(86_398_000, 164));
+    s.extend(epoch(1_000, 168));
+    let tl = greis::read_greis(&s).unwrap();
+    let labels: Vec<&str> = tl
+        .epochs
+        .iter()
+        .filter_map(|e| e.time_label.as_deref())
+        .collect();
+    assert_eq!(
+        labels,
+        [
+            "2026-11-14T23:59:58.000Z",
+            "2026-11-14T23:59:59.000Z",
+            "2026-11-15T00:00:01.000Z"
+        ]
+    );
+    // Without a date: the time of day restarts at midnight; the new day comes after.
+    let mut s = epoch(86_399_000, 160);
+    s.extend(epoch(1_000, 168));
+    let tl = greis::read_greis(&s).unwrap();
+    assert_eq!(tl.epochs.len(), 2);
+    assert_eq!(tl.epochs[1].t_s, 2.0);
+}
+
+#[test]
 fn greis_round_trip() {
     let mut s = greis::message(b"RD", &[0xEA, 0x07, 11, 14, 1]); // 2026-11-14, UTC
     s.extend(greis::message(b"~~", &3_600_000u32.to_le_bytes()));
