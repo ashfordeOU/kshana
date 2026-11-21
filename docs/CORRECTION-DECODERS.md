@@ -127,6 +127,11 @@ agreement with QZSS-generated data.
   decoder follows the figures and table (their fields add up to 605); to confirm.
 * The RTOW replacement for subframes 2 and 3 (SAS-001 Figure 6-51 shows subframe 1 only): each
   subframe's TOW count is moved by the same offset; to confirm.
+* QZSS CNAV2 RAND: Figure 5-31 gives 166 reserved bits and 1 padding bit (800 bits), Table 5-11
+  172 reserved bits. The module follows the figure; to confirm.
+* The RTOW replacement of the GPS CNAV and Galileo F/NAV parts after the first, and the reading
+  that a QZSS DSS signs the transmitting satellite's own messages (SAS-001 5.1.11 does not name
+  the satellite): to confirm.
 * SAS-002 draft MAC input (9.1.4): the PRN is taken as the 8-bit PRN of the L6 header; the draft does
   not give its width. To confirm.
 * DCX-004 Table 4.2-17 (ellipse axis lengths) lies up to 0.1 % above the formula the section states
@@ -135,6 +140,56 @@ agreement with QZSS-generated data.
 * Sub type 10 is read with 22 header bits (message number, sub type, multiple message indicator,
   counter, data size), as its stated length `22 + 40 x X` implies.
 * CLAS SBAS satellites are labelled `S120` upwards (mask position plus 119).
+
+## Checking QZNMA signatures: `kshana corrections qznma-verify`
+
+```sh
+kshana corrections qznma-verify --frames l6e.txt --nav nav.txt --pubkey keys/001.der --pubkey 2:other.der
+```
+
+It checks every signature it finds against the navigation messages it is given, with the public
+keys the Cabinet Office distributes to registered users (SAS-001 7.3; none ship with kshana):
+
+* the GPS and Galileo Reformat Digital Signatures in L6E QZNMA frames (`--frames`, frames as for
+  `qznma`), and
+* the QZSS signals' own signatures, rebuilt from the three Digital Signature Segments in QZSS
+  LNAV subframe 5 (SV ID 60), CNAV message type 60 or CNAV2 subframe 3 (page ID 60) found in the
+  navigation file (SAS-001 5.1.9 to 5.1.10, 5.2.9 to 5.2.10, 5.3.9 to 5.3.10).
+
+The navigation file (`--nav`) has one decoded message per line,
+`<satellite> <signal> <part> <hex>`, `#` comments allowed:
+
+| Signal | Parts | Bits per part (as decoded, with parity or CRC) |
+|---|---|---|
+| `gps_lnav`, `qzs_lnav` | subframes `1` `2` `3` (QZSS DSS: `5`) | 300 |
+| `gps_cnav`, `qzs_cnav` | message types `10` `11` and `30`–`39` (QZSS DSS: `60`) | 300 |
+| `gps_cnav2`, `qzs_cnav2` | subframes `1` (TOI) and `2` (QZSS DSS: subframe `3`, 274 bits) | 9 and 600 |
+| `gal_inav` | word types `1`–`5` | 128 |
+| `gal_fnav` | page types `1`–`4` (with CRC and tail) | 244 |
+
+The satellite is the label the RDS reports (`G05`, `E12`) and, for QZSS, any label that names
+one satellite. A key is `ID:path` or a DER file whose name ends in its key ID (`001.der`). The
+report is JSON on standard output, one entry per signature with `verified`, `failed`, `no_key`
+or `no_navigation`; a summary line goes to standard error; the exit status is 1 when any
+signature failed. Every result is labelled MODELLED.
+
+How the signed message is rebuilt (`kshana::corrections::qznma_nav`):
+
+| Signal | Signed message (RAND) | MASK | Time fields |
+|---|---|---|---|
+| GPS LNAV | RDS header (77 bits) + 900 + SALT + 7 = 1000 bits (Figure 6-9) | Figures 6-5 to 6-7 | TOW count from RTOW (6.6) |
+| GPS CNAV | 77 + 900 + 16 + 7 = 1000 (Figure 6-19) | Figures 6-15 to 6-17 | message TOW count from RTOW |
+| GPS CNAV2 | 77 + 609 + 16 + 10 = 712 (Figure 6-26) | Figures 6-23, 6-24 | TOI and ITOW from RTOW (Table 6-1) |
+| Galileo I/NAV | 77 + 640 + 16 + 3 = 736 (Figure 6-39) | Figures 6-33 to 6-37 | word type 5 TOW from RTOW |
+| Galileo F/NAV | 77 + 976 + 16 + 3 = 1072 (Table 6-6) | Figures 6-45 to 6-48 | each page TOW, from RTOW |
+| QZSS LNAV | key ID + 900 + SALT + 4 = 928 (Figure 5-9) | Figures 5-5 to 5-7 | as broadcast |
+| QZSS CNAV | 8 + 900 + 16 + 172 = 1096 (Figure 5-21) | Figures 5-17 to 5-19 | as broadcast |
+| QZSS CNAV2 | 8 + 609 + 16 + 167 = 800 (Figure 5-31) | Figures 5-28, 5-29 | as broadcast |
+
+For each signature the newest stored copy of each part is tried first, and up to 64
+combinations of stored copies, so a history of messages (SAS-001 6.6.2, case 2) can be given.
+The GPS CNAV third part is any stored message type from 30 to 39 (Table 4-1: "one of the
+message types 30 or above").
 
 ## Test vectors: `kshana.correction-vectors/1`
 
@@ -196,9 +251,10 @@ calculation examples of sections 4.2.3.12 to 4.2.4.1.7), the vectors and unit te
 
 * Channel decoding: E6-B Viterbi and de-interleaving, the B2b 64-ary LDPC, the L6 Reed-Solomon code.
 * Applying corrections in a position solution, and the HAS completion time-out.
-* QZNMA RAND for GPS CNAV and CNAV2, Galileo I/NAV and F/NAV, and the QZSS signals (LNAV, CNAV,
-  CNAV2 digital signature segments in the QZSS navigation messages); a command-line verification
-  mode (the checks are library functions).
+* Choosing navigation messages by their reference ephemeris and clock (IODE, toe, IODnav): the
+  verifier tries the stored copies instead. Decoding the navigation messages from a receiver
+  log: the navigation file is written by the user.
+* A command-line check of the DRAFT CLAS authentication (its checks are library functions).
 * A final CLAS correction-message-authentication interface: what is here follows the SAS-002 draft.
 * The lookup tables of the DC Report and DCX documents (region, volcano, warning and other codes,
   mostly in Japanese) and the receiver sentence output of DCR-017 section 4.3.

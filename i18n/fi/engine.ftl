@@ -10529,7 +10529,7 @@ engine-main-usage =
     { "   " }tai: kshana timing-stack <tai|ts2phc|pps|shm|ntpq|nts> ... (kshana timing-stack --help)
     { "   " }tai: kshana sil-obsgen <scenario.toml> --out <obs.rnx> [--truth <truth.json>]
     { "   " }tai: kshana time-vectors [--json] [<vectors.json|dir> ...]
-    { "   " }tai: kshana corrections <decode --format <has|b2b|l6|l1s|qznma> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
+    { "   " }tai: kshana corrections <decode --format <has|b2b|l6|l1s|qznma> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...] | qznma-verify [--frames <frames.txt>] [--nav <nav.txt>] --pubkey <key.der> ...>
     { "   " }tai: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
     { "   " }tai: kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
     { "   " }tai: kshana orbit-data <check|convert|gp-compare|gp-audit|cov> ... (kshana orbit-data --help)
@@ -11472,7 +11472,10 @@ engine-e-corrections-unknown-decoder = tuntematon dekooderi { $decoder } (has, b
 engine-e-corrections-bad-vector = vektorista { $id } puuttuvat heksadesimaaliset kehykset tai expect-objekti
 engine-e-corrections-bad-file = { $file } ei ole { $format }-dokumentti (muototunniste ja vectors-taulukko)
 engine-corrections-summary = { $n } vektoria: { $passed } läpäisi, { $failed } epäonnistui
-engine-corrections-usage = käyttö: kshana corrections decode --format <has|b2b|l6|l1s|qznma> <frames.txt | -> | kshana corrections vectors [--json] [<vectors.json | dir> ...]  (yksi kehys riviä kohden heksadesimaalina; docs/CORRECTION-DECODERS.md)
+engine-corrections-usage = käyttö: kshana corrections decode --format <has|b2b|l6|l1s|qznma> <frames.txt | -> | kshana corrections vectors [--json] [<vectors.json | dir> ...] | kshana corrections qznma-verify [--frames <frames.txt>] [--nav <nav.txt>] --pubkey <ID:key.der | 001.der> ...  (yksi kehys riviä kohden heksadesimaalina; docs/CORRECTION-DECODERS.md)
+engine-e-qznma-bad-nav-line = ei navigointiviestirivi (<satellite> <signal> <part> <hex>): { $line }
+engine-e-qznma-bad-key = { $path }: ei P-256- tai P-521-julkinen avain (DER tai SEC1), jonka avaintunnus on tiedostonimessä tai muodossa ID:path
+engine-qznma-verify-summary = { $n } allekirjoitusta: { $verified } varmennettu, { $failed } epäonnistui, { $no_key } ilman avainta, { $no_navigation } ilman navigointiviestejä
 
 ## src/space_weather_pnt/
 

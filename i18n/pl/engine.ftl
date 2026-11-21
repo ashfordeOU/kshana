@@ -10965,7 +10965,7 @@ engine-main-usage =
     { "   " }lub: kshana timing-stack <tai|ts2phc|pps|shm|ntpq|nts> ... (kshana timing-stack --help)
     { "   " }lub: kshana sil-obsgen <scenario.toml> --out <obs.rnx> [--truth <truth.json>]
     { "   " }lub: kshana time-vectors [--json] [<vectors.json|dir> ...]
-    { "   " }lub: kshana corrections <decode --format <has|b2b|l6|l1s|qznma> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
+    { "   " }lub: kshana corrections <decode --format <has|b2b|l6|l1s|qznma> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...] | qznma-verify [--frames <frames.txt>] [--nav <nav.txt>] --pubkey <key.der> ...>
     { "   " }lub: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
     { "   " }lub: kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
     { "   " }lub: kshana orbit-data <check|convert|gp-compare|gp-audit|cov> ... (kshana orbit-data --help)
@@ -11971,7 +11971,10 @@ engine-e-corrections-unknown-decoder = nieznany dekoder { $decoder } (has, b2b, 
 engine-e-corrections-bad-vector = wektorowi { $id } brakuje ramek szesnastkowych lub obiektu expect
 engine-e-corrections-bad-file = { $file } nie jest dokumentem { $format } (znacznik formatu i tablica vectors)
 engine-corrections-summary = { $n } wektorów: { $passed } zaliczonych, { $failed } niezaliczonych
-engine-corrections-usage = użycie: kshana corrections decode --format <has|b2b|l6|l1s|qznma> <frames.txt | -> | kshana corrections vectors [--json] [<vectors.json | dir> ...]  (jedna ramka na wiersz, szesnastkowo; docs/CORRECTION-DECODERS.md)
+engine-corrections-usage = użycie: kshana corrections decode --format <has|b2b|l6|l1s|qznma> <frames.txt | -> | kshana corrections vectors [--json] [<vectors.json | dir> ...] | kshana corrections qznma-verify [--frames <frames.txt>] [--nav <nav.txt>] --pubkey <ID:key.der | 001.der> ...  (jedna ramka na wiersz, szesnastkowo; docs/CORRECTION-DECODERS.md)
+engine-e-qznma-bad-nav-line = to nie jest wiersz komunikatu nawigacyjnego (<satellite> <signal> <part> <hex>): { $line }
+engine-e-qznma-bad-key = { $path }: to nie jest klucz publiczny P-256 ani P-521 (DER lub SEC1) z identyfikatorem klucza w nazwie pliku lub w postaci ID:path
+engine-qznma-verify-summary = { $n } podpisów: { $verified } zweryfikowanych, { $failed } nieudanych, { $no_key } bez klucza, { $no_navigation } bez komunikatów nawigacyjnych
 
 ## src/space_weather_pnt/
 
