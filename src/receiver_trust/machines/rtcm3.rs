@@ -17,15 +17,21 @@
 //! are MSM1-3, which carry no carrier-to-noise ratio. A frame whose CRC does not
 //! match, or whose body is shorter than its masks say, is skipped and counted.
 //!
-//! Time: RTCM MSM carries no week, so labels are `GPS TOW <s>` (BeiDou's is BDT's). GLONASS epochs
-//! (day of week and time of day in Moscow time) are put on the GPS time of week with GPS minus UTC
-//! taken as 18 s, the value since 2017-01-01; a log from before then is shifted by the difference.
+//! Time: RTCM MSM carries no week, so labels are `GPS TOW <s>`. Every system's epoch is put on the
+//! GPS time of week before the cells are merged, so one receiver epoch is one timeline epoch:
+//! Galileo and QZSS time of week already are GPS time of week; BeiDou's (BDT) is moved by the fixed
+//! 14 s (BDT = GPS − 14 s); GLONASS epochs (day of week and time of day in Moscow time) are moved
+//! with GPS minus UTC taken as 18 s, the value since 2017-01-01, so a GLONASS log from before then
+//! is shifted by the difference.
 
 use super::EpochMap;
 use crate::receiver_trust::{SatCn0, Timeline};
 
 /// Added to GLONASS UTC(SU) time to reach GPS time of week, ms: 18 s leap seconds.
 const GLONASS_TO_GPS_LEAP_MS: i64 = 18_000;
+/// BeiDou time is GPS time minus 14 s (BDT started at 2006-01-01 00:00:00 UTC, when GPS − UTC was
+/// 14 s); added to a BDT time of week to reach the GPS time of week, ms.
+const BDT_TO_GPS_MS: i64 = 14_000;
 /// Moscow time offset of the GLONASS epoch, ms.
 const GLONASS_MSK_MS: i64 = 10_800_000;
 const WEEK_MS: i64 = 604_800_000;
@@ -206,7 +212,11 @@ fn msm(p: &[u8], map: &mut EpochMap) -> Option<()> {
         if tow >= WEEK_MS {
             return None;
         }
-        tow
+        if sys == Sys::Beidou {
+            (tow + BDT_TO_GPS_MS).rem_euclid(WEEK_MS)
+        } else {
+            tow
+        }
     };
     // multiple-message bit 1, IODS 3, reserved 7, clock steering 2, external clock 2,
     // smoothing indicator 1, smoothing interval 3
@@ -379,13 +389,32 @@ mod tests {
     #[test]
     fn reads_msm5_and_msm6_cn0_at_their_resolutions() {
         let mut s = frame(1125, &[(30, 7_000)], 2, &[(11, 41)]); // BeiDou MSM5, dB-Hz
-        s.extend(frame(1096, &[(30, 7_000)], 2, &[(4, 42 * 16 + 12)])); // Galileo MSM6, 1/16
+                                                                 // Galileo MSM6, 1/16 dB-Hz, at the same instant: GPS TOW = BDT TOW + 14 s.
+        s.extend(frame(1096, &[(30, 21_000)], 2, &[(4, 42 * 16 + 12)]));
         let tl = read_rtcm3(&s).unwrap();
         let c = &tl.epochs[0].cn0;
         assert!(c.iter().any(|x| x.sat == "C11" && x.cn0_dbhz == 41.0));
         assert!(c.iter().any(|x| x.sat == "E04" && x.cn0_dbhz == 42.75));
         // MSM1-3 carry no C/N0: a stream of them alone holds no epoch
         assert!(read_rtcm3(&frame(1074 - 1, &[(30, 7_000)], 2, &[])).is_err());
+    }
+
+    #[test]
+    fn a_beidou_epoch_is_moved_to_gps_time_and_merges_with_the_same_gps_epoch() {
+        // One receiver epoch: GPS TOW 100 000 s is BDT TOW 99 986 s (BDT = GPS − 14 s).
+        let mut s = frame(1074, &[(30, 100_000_000)], 2, &[(5, 44)]);
+        s.extend(frame(1124, &[(30, 99_986_000)], 2, &[(11, 41)]));
+        let tl = read_rtcm3(&s).unwrap();
+        assert_eq!(tl.epochs.len(), 1, "{:?}", tl.epochs);
+        let c = &tl.epochs[0].cn0;
+        assert!(c.iter().any(|x| x.sat == "G05") && c.iter().any(|x| x.sat == "C11"));
+        assert_eq!(
+            tl.epochs[0].time_label.as_deref(),
+            Some("GPS TOW 100000.000 s")
+        );
+        // Across the week boundary: BDT TOW 604 790 s is GPS TOW 4 s of the next week.
+        let tl = read_rtcm3(&frame(1124, &[(30, 604_790_000)], 2, &[(11, 41)])).unwrap();
+        assert_eq!(tl.epochs[0].time_label.as_deref(), Some("GPS TOW 4.000 s"));
     }
 
     #[test]
