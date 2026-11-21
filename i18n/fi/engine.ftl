@@ -10516,6 +10516,14 @@ engine-e-lunar-interop-unknown-time-system = tuntematon aikajärjestelmä { $tim
 engine-e-lunar-interop-unregistered-time-system = TIME_SYSTEM { $time_system } ei ole SANA Time Systems -rekisterissä, jota CCSDS OEM käyttää; aseta allow_unregistered_time_system = true kirjoittaaksesi sen silti (COMMENT kertoo siitä) tai käytä TDB:tä
 engine-e-lunar-interop-bad-step = step_min on oltava äärellinen, ei-negatiivinen minuuttimäärä, ei { $step }
 
+## Probability of collision, Foster 2D (src/orbit_data/pc.rs)
+engine-e-orbit-data-pc-radius = --hbr tarvitsee yhdistetyn kappaleen säteen metreinä, positiivisen luvun
+engine-e-orbit-data-pc-no-relative-velocity = kummallakin kohteella on sama nopeus: kohtaamistasoa ei ole
+engine-e-orbit-data-pc-not-positive-definite = kohtaamistasolle projisoitu yhdistetty kovarianssi ei ole positiivisesti definiitti (pienempi ominaisarvo { $lambda } m²)
+engine-e-orbit-data-pc-not-finite = tila- tai kovarianssiarvo ei ole äärellinen luku
+engine-e-orbit-data-pc-missing-data = CDM ei sisällä kahta kohdetta, joilla kummallakin on tila (X–Z_DOT) ja RTN-kovarianssi (CR_R–CNDOT_NDOT)
+engine-e-orbit-data-pc-frame-mismatch = kohteiden REF_FRAME eroavat ({ $a } ja { $b }); Pc tarvitsee molemmat tilat samassa koordinaatistossa
+
 engine-main-usage =
     käyttö: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }tai: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -11670,6 +11678,7 @@ engine-orbit-data-usage =
     { "   " }tai: kshana orbit-data gp-compare <a.tle> <b.tle> [--hours <h>] [--step-min <min>] [--threshold-km <km>] [--json]
     { "   " }tai: kshana orbit-data gp-audit <sets.tle> ... [--at <epoch>] [--stale-days <d>] [--jump-km <km>] [--json]
     { "   " }tai: kshana orbit-data cov <check|propagate|monte-carlo|synthetic|realism> <input.json> [--dt-s <s>] [--step-s <s>] [--samples <n>] [--seed <n>] [--sigma-rtn <r,t,n,rdot,tdot,ndot>] [--full]
+    { "   " }tai: kshana orbit-data pc <cdm> --hbr <m> [--aliases <map.json>] [--cdm-out <file>]
     { "   " }(docs/ORBIT-DATA.md)
 engine-e-orbit-data-unknown-message = { $path } ei ole CDM, OEM (KVN) eikä OCM: ei riviä CCSDS_CDM_VERS, CCSDS_OEM_VERS tai CCSDS_OCM_VERS eikä juurta <cdm> tai <ocm>
 engine-e-orbit-data-bad-flag = { $flag } { $value }: ei käyttökelpoinen arvo

@@ -1914,8 +1914,8 @@
    "reason": "machine-document: the CCSDS OEM and OCM keywords and block markers written into converted messages, and the PROVENANCE comment line format (docs/ORBIT-DATA.md)"
   },
   "src/orbit_data/cli.rs": {
-   "count": 17,
-   "reason": "identifier: command-line flag names, the JSON field names of the cov input and output, a finding code, and the dynamics-model field of the JSON output"
+   "count": 22,
+   "reason": "identifier: command-line flag names, the JSON field names of the cov input and output, a finding code, and the dynamics-model field of the JSON output; the pc command option names and the kshana.conjunction-pc/1 schema, note and keys of its JSON document."
   },
   "src/orbit_data/gp_quality.rs": {
    "count": 4,
@@ -2072,6 +2072,10 @@
   "src/leo_verify/tdev.rs": {
    "count": 3,
    "reason": "machine identifiers: the JSON input field names (`snake_case`, dotted paths) named verbatim in the catalogued e-leo-verify-field error, and the part names and enum values written into the JSON report; not prose"
+  },
+  "src/orbit_data/pc.rs": {
+   "count": 6,
+   "reason": "machine-document and identifier: the CDM keywords, the FOSTER-1992 method value and the MODELLED COMMENT written into the message, and the REF_FRAME keyword read from it"
   }
  }
 }

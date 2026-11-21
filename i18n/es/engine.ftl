@@ -10992,6 +10992,14 @@ engine-e-lunar-interop-unknown-time-system = sistema de tiempo desconocido { $ti
 engine-e-lunar-interop-unregistered-time-system = TIME_SYSTEM { $time_system } no está en el registro SANA Time Systems que usa CCSDS OEM; ponga allow_unregistered_time_system = true para escribirlo de todos modos (un COMMENT lo indica) o use TDB
 engine-e-lunar-interop-bad-step = step_min debe ser un número finito y no negativo de minutos, no { $step }
 
+## Probability of collision, Foster 2D (src/orbit_data/pc.rs)
+engine-e-orbit-data-pc-radius = --hbr necesita el radio combinado de cuerpo rígido en metros, un número positivo
+engine-e-orbit-data-pc-no-relative-velocity = los dos objetos tienen la misma velocidad: no hay plano de encuentro
+engine-e-orbit-data-pc-not-positive-definite = la covarianza combinada proyectada en el plano de encuentro no es definida positiva (autovalor menor { $lambda } m²)
+engine-e-orbit-data-pc-not-finite = un valor de estado o de covarianza no es un número finito
+engine-e-orbit-data-pc-missing-data = el CDM no contiene dos objetos, cada uno con estado (X a Z_DOT) y covarianza RTN (CR_R a CNDOT_NDOT)
+engine-e-orbit-data-pc-frame-mismatch = los REF_FRAME de los dos objetos difieren ({ $a } y { $b }); la Pc necesita ambos estados en un mismo marco
+
 engine-main-usage =
     uso:  kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }o: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -12149,6 +12157,7 @@ engine-orbit-data-usage =
     { "   " }o: kshana orbit-data gp-compare <a.tle> <b.tle> [--hours <h>] [--step-min <min>] [--threshold-km <km>] [--json]
     { "   " }o: kshana orbit-data gp-audit <sets.tle> ... [--at <epoch>] [--stale-days <d>] [--jump-km <km>] [--json]
     { "   " }o: kshana orbit-data cov <check|propagate|monte-carlo|synthetic|realism> <input.json> [--dt-s <s>] [--step-s <s>] [--samples <n>] [--seed <n>] [--sigma-rtn <r,t,n,rdot,tdot,ndot>] [--full]
+    { "   " }o: kshana orbit-data pc <cdm> --hbr <m> [--aliases <map.json>] [--cdm-out <file>]
     { "   " }(docs/ORBIT-DATA.md)
 engine-e-orbit-data-unknown-message = { $path } no es un CDM, un OEM (KVN) ni un OCM: no hay línea CCSDS_CDM_VERS, CCSDS_OEM_VERS ni CCSDS_OCM_VERS ni raíz <cdm> u <ocm>
 engine-e-orbit-data-bad-flag = { $flag } { $value }: valor no utilizable

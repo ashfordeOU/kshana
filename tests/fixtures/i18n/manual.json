@@ -16541,7 +16541,7 @@
   "id": "orbit-data-usage",
   "error": false,
   "parts": [
-   "usage: kshana orbit-data check <cdm|oem|ocm file> [--json] [--aliases <map.json>] [--min-span-days <d>] [--max-gap-s <s>]\n   or: kshana orbit-data convert <file> --to <ocm|oem|cdm> [--aliases <map.json>]\n   or: kshana orbit-data gp-compare <a.tle> <b.tle> [--hours <h>] [--step-min <min>] [--threshold-km <km>] [--json]\n   or: kshana orbit-data gp-audit <sets.tle> ... [--at <epoch>] [--stale-days <d>] [--jump-km <km>] [--json]\n   or: kshana orbit-data cov <check|propagate|monte-carlo|synthetic|realism> <input.json> [--dt-s <s>] [--step-s <s>] [--samples <n>] [--seed <n>] [--sigma-rtn <r,t,n,rdot,tdot,ndot>] [--full]\n   (docs/ORBIT-DATA.md)"
+   "usage: kshana orbit-data check <cdm|oem|ocm file> [--json] [--aliases <map.json>] [--min-span-days <d>] [--max-gap-s <s>]\n   or: kshana orbit-data convert <file> --to <ocm|oem|cdm> [--aliases <map.json>]\n   or: kshana orbit-data gp-compare <a.tle> <b.tle> [--hours <h>] [--step-min <min>] [--threshold-km <km>] [--json]\n   or: kshana orbit-data gp-audit <sets.tle> ... [--at <epoch>] [--stale-days <d>] [--jump-km <km>] [--json]\n   or: kshana orbit-data cov <check|propagate|monte-carlo|synthetic|realism> <input.json> [--dt-s <s>] [--step-s <s>] [--samples <n>] [--seed <n>] [--sigma-rtn <r,t,n,rdot,tdot,ndot>] [--full]\n   or: kshana orbit-data pc <cdm> --hbr <m> [--aliases <map.json>] [--cdm-out <file>]\n   (docs/ORBIT-DATA.md)"
   ]
  },
  {
@@ -20547,6 +20547,71 @@
    {
     "var": "step"
    }
+  ]
+ },
+ {
+  "id": "bench-cli-unknown-task-g",
+  "error": false,
+  "parts": [
+   "unknown task `",
+   {
+    "var": "t"
+   },
+   "` (a to g)"
+  ]
+ },
+ {
+  "id": "e-orbit-data-pc-radius",
+  "error": true,
+  "parts": [
+   "--hbr needs the combined hard-body radius in metres, a positive number"
+  ]
+ },
+ {
+  "id": "e-orbit-data-pc-no-relative-velocity",
+  "error": true,
+  "parts": [
+   "the two objects have the same velocity: there is no encounter plane"
+  ]
+ },
+ {
+  "id": "e-orbit-data-pc-not-positive-definite",
+  "error": true,
+  "parts": [
+   "the combined covariance projected onto the encounter plane is not positive definite (smaller eigenvalue ",
+   {
+    "var": "lambda"
+   },
+   " m²)"
+  ]
+ },
+ {
+  "id": "e-orbit-data-pc-not-finite",
+  "error": true,
+  "parts": [
+   "a state or covariance value is not a finite number"
+  ]
+ },
+ {
+  "id": "e-orbit-data-pc-missing-data",
+  "error": true,
+  "parts": [
+   "the CDM does not hold two objects each with a state (X to Z_DOT) and an RTN covariance (CR_R to CNDOT_NDOT)"
+  ]
+ },
+ {
+  "id": "e-orbit-data-pc-frame-mismatch",
+  "error": true,
+  "parts": [
+   "the two objects' REF_FRAME differ (",
+   {
+    "var": "a"
+   },
+   " and ",
+   {
+    "var": "b"
+   },
+   "); the Pc needs both states in one frame"
   ]
  }
 ]
