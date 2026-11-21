@@ -1911,6 +1911,202 @@
    "note": "IS-QZSS-MDC-005 GNSS ID 7 (BDS-3, mask position 1 = C19) and Galileo E6 B/C signal names"
   },
   {
+   "id": "l6-madoca-phase-bias-and-ura",
+   "decoder": "l6",
+   "frames": [
+    "1acffc1dc7597f48803e82a4c2000000040200404800000000000187800000200002087f4aa581260c00dab5a31fc9bc30cf50003e35ae9da80de1e7a5fe974b024fe0028d40000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+   ],
+   "expect": {
+    "messages": [
+     {
+      "subtype": 1,
+      "epoch_s": 2000,
+      "update_interval": 5,
+      "multiple": false,
+      "iod_ssr": 9,
+      "mask": [
+       {
+        "gnss_id": 0,
+        "satellites": [
+         "G01",
+         "G32"
+        ],
+        "signals": [
+         0,
+         11
+        ],
+        "signal_names": [
+         "L1 C/A",
+         "L5 I"
+        ],
+        "cell_mask": null
+       },
+       {
+        "gnss_id": 2,
+        "satellites": [
+         "E02"
+        ],
+        "signals": [
+         12,
+         13
+        ],
+        "signal_names": [
+         "E6 B",
+         "E6 C"
+        ],
+        "cell_mask": null
+       },
+       {
+        "gnss_id": 7,
+        "satellites": [
+         "C19",
+         "C45"
+        ],
+        "signals": [
+         6,
+         12
+        ],
+        "signal_names": [
+         "B2/B2b I",
+         "B2a(D)"
+        ],
+        "cell_mask": null
+       }
+      ],
+      "prn": 199,
+      "service": "madoca",
+      "facility": 3
+     },
+     {
+      "subtype": 5,
+      "epoch_s": 1200,
+      "update_interval": 2,
+      "multiple": false,
+      "iod_ssr": 9,
+      "biases": [
+       {
+        "sat": "G01",
+        "biases": [
+         {
+          "signal": 0,
+          "phase_bias_m": -16.0,
+          "discontinuity": 0
+         },
+         {
+          "signal": 11,
+          "phase_bias_m": 13.997,
+          "discontinuity": 1
+         }
+        ]
+       },
+       {
+        "sat": "G32",
+        "biases": [
+         {
+          "signal": 0,
+          "phase_bias_m": -11.889000000000001,
+          "discontinuity": 3
+         },
+         {
+          "signal": 11,
+          "phase_bias_m": -13.892,
+          "discontinuity": 0
+         }
+        ]
+       },
+       {
+        "sat": "E02",
+        "biases": [
+         {
+          "signal": 12,
+          "phase_bias_m": -7.7780000000000005,
+          "discontinuity": 2
+         },
+         {
+          "signal": 13,
+          "phase_bias_m": null,
+          "discontinuity": 3
+         }
+        ]
+       },
+       {
+        "sat": "C19",
+        "biases": [
+         {
+          "signal": 6,
+          "phase_bias_m": -3.6670000000000003,
+          "discontinuity": 1
+         },
+         {
+          "signal": 12,
+          "phase_bias_m": -5.67,
+          "discontinuity": 2
+         }
+        ]
+       },
+       {
+        "sat": "C45",
+        "biases": [
+         {
+          "signal": 6,
+          "phase_bias_m": 0.444,
+          "discontinuity": 0
+         },
+         {
+          "signal": 12,
+          "phase_bias_m": -1.559,
+          "discontinuity": 1
+         }
+        ]
+       }
+      ],
+      "prn": 199,
+      "service": "madoca",
+      "facility": 3
+     },
+     {
+      "subtype": 7,
+      "epoch_s": 1200,
+      "update_interval": 2,
+      "multiple": false,
+      "iod_ssr": 9,
+      "uras": [
+       {
+        "sat": "G01",
+        "ura": 63,
+        "ura_mm": null
+       },
+       {
+        "sat": "G32",
+        "ura": 0,
+        "ura_mm": null
+       },
+       {
+        "sat": "E02",
+        "ura": 1,
+        "ura_mm": 0.25
+       },
+       {
+        "sat": "C19",
+        "ura": 17,
+        "ura_mm": 10.25
+       },
+       {
+        "sat": "C45",
+        "ura": 42,
+        "ura_mm": 363.5
+       }
+      ],
+      "prn": 199,
+      "service": "madoca",
+      "facility": 3
+     }
+    ],
+    "unknown_gnss_ids": []
+   },
+   "note": "IS-QZSS-MDC-005 section 4.2.2, sub type 5 (phase bias with discontinuity indicator) and sub type 7 (URA); one phase bias cell carries the not-available code"
+  },
+  {
    "id": "l6-madoca-ionospheric-coverage-and-correction",
    "decoder": "l6",
    "frames": [

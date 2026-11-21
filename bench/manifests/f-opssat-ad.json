@@ -1,0 +1,27 @@
+{
+  "schema": "kshana-bench-manifest/1",
+  "spec_version": "kshana-bench/2.2.0",
+  "task": "f",
+  "licence": "CC0 proposed, owner decision pending (facts about the data)",
+  "source": {
+    "name": "OPSSAT-AD, anomaly detection dataset for satellite telemetry",
+    "doi": "10.5281/zenodo.15108715",
+    "data_licence": "CC-BY-4.0 (record metadata); the record's LICENSE file is MIT (copyright 2024 KP Labs)",
+    "use": "fetched by script, never committed"
+  },
+  "fetch": "scripts/fetch_opssat_ad.sh",
+  "files": [
+    {
+      "path": "dataset.csv",
+      "bytes": 507550,
+      "md5_stated_by_zenodo": "5246fdc5e4630a4cecbf7fb6bc8b795e",
+      "sha256": "b524177da6f516d5c9f63c7acbc385341f0ad42046ef20c1bed2d25e51b98f02",
+      "retrieved": "2026-11-20"
+    }
+  ],
+  "splits": {
+    "dev": "rows with train = 1 (1,594 segments: 1,273 nominal, 321 anomalous)",
+    "test": "rows with train = 0 (529 segments: 416 nominal, 113 anomalous)",
+    "holdout": "none: the publisher's split is public"
+  }
+}
