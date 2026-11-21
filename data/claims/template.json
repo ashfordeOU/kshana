@@ -1,0 +1,21 @@
+{
+ "format": "kshana.claims/1",
+ "name": "template: fill source_url (https), retrieved (YYYY-MM-DD), quote and quote_location from a public page; until then every claim is refused",
+ "claims": [
+  {"id": "orbit-altitude", "subject": "", "claim": "orbit altitude", "value": [0, 0], "unit": "km",
+   "source_url": "", "retrieved": "", "quote": "", "quote_location": "",
+   "check": {"kind": "quasi_polar", "tolerance_deg": 10.0}},
+  {"id": "orbit-period", "subject": "", "claim": "orbital period", "value": 0, "unit": "min",
+   "source_url": "", "retrieved": "", "quote": "", "quote_location": "",
+   "check": {"kind": "orbit_period", "altitude_km": 0, "tolerance": 0.5}},
+  {"id": "max-doppler", "subject": "", "claim": "largest Doppler a ground user sees", "value": 0, "unit": "Hz",
+   "source_url": "", "retrieved": "", "quote": "", "quote_location": "",
+   "check": {"kind": "max_doppler", "altitude_km": 0, "frequency_hz": 0, "tolerance": 500}},
+  {"id": "cn0", "subject": "", "claim": "received C/N0", "value": 0, "unit": "dB-Hz",
+   "source_url": "", "retrieved": "", "quote": "", "quote_location": "",
+   "check": {"kind": "link_cn0", "eirp_dbw": 0, "frequency_hz": 0, "range_km": 0, "rx_gain_dbi": 0, "noise_temp_k": 290, "tolerance": 2.0}},
+  {"id": "second-source", "subject": "", "claim": "the same quantity from a second source", "value": 0, "unit": "km",
+   "source_url": "", "retrieved": "", "quote": "", "quote_location": "",
+   "check": {"kind": "consistent_with", "other": "orbit-altitude", "tolerance": 0}}
+ ]
+}

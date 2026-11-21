@@ -1,0 +1,2 @@
+# synthetic published revocation list (test fixture)
+{"serial":"example-receiver-2","revoked_at":"2026-11-10","reason":"evidence pack withdrawn by the scorer (synthetic)"}
