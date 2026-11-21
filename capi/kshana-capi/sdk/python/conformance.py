@@ -22,6 +22,8 @@ class Kshana:
         lib.kshana_version.restype = ctypes.c_char_p
         lib.kshana_run_scenario.argtypes = [ctypes.c_char_p, out, out]
         lib.kshana_run_scenario.restype = ctypes.c_int
+        lib.kshana_validate_scenario.argtypes = [ctypes.c_char_p, out, out]
+        lib.kshana_validate_scenario.restype = ctypes.c_int
         lib.kshana_connect_map.argtypes = [ctypes.c_char_p] * 3 + [out, out]
         lib.kshana_connect_map.restype = ctypes.c_int
         lib.kshana_string_free.argtypes = [ctypes.c_void_p]
@@ -49,6 +51,10 @@ class Kshana:
     def run(self, toml: bytes) -> bytes:
         """Run a scenario; the result document as UTF-8 JSON bytes."""
         return self._call(self._lib.kshana_run_scenario, toml)
+
+    def validate(self, toml: bytes) -> bytes:
+        """Check a scenario without running it; a UTF-8 JSON array of problems (b"[]" when valid)."""
+        return self._call(self._lib.kshana_validate_scenario, toml)
 
     def connect_map(self, mapping: bytes, station: bytes, log: bytes) -> bytes:
         """Map a log to kshana.obs/1 records; UTF-8 JSON-lines bytes."""
