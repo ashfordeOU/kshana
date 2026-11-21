@@ -10100,6 +10100,10 @@ engine-e-orbit-omm-export-requires-tle-defined = export OMM vyžaduje konstelaci
 engine-e-passes-earth-orientation-parameters-out-of = parametry orientace Země mimo rozsah: |ut1_minus_utc_s| <= 1, |xp_arcsec| a |yp_arcsec| <= 2
 
 engine-e-pvt-no-priori-position-set-apriori = chybí apriorní poloha: nastavte apriori_ecef, APPROX POSITION XYZ v záhlaví pozorování nebo truth_ecef
+engine-e-gnss-slots-unknown-set = neznámá sada slotů `{ $name }` (známé: { $sets })
+engine-e-gnss-slots-out-of-range = slot `{ $id }`: `{ $field }` chybí, není konečné nebo je mimo rozsah
+engine-e-gnss-slots-geo-needs-lon = slot GEO `{ $id }` potřebuje lon_deg
+engine-e-gnss-slots-igso-needs-one-longitude = slot IGSO `{ $id }` potřebuje nenulové inclination_deg a právě jedno z crossing_lon_deg a center_lon_deg
 
 engine-e-python-pll-bws-dll-bws-spacings = pll_bws, dll_bws, spacings a coherents nelze kombinovat s design: přehled projde každý návrh v souboru
 

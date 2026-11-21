@@ -10310,6 +10310,10 @@ engine-e-orbit-omm-export-requires-tle-defined = la exportación OMM requiere un
 engine-e-passes-earth-orientation-parameters-out-of = parámetros de orientación de la Tierra fuera de rango: |ut1_minus_utc_s| <= 1, |xp_arcsec| y |yp_arcsec| <= 2
 
 engine-e-pvt-no-priori-position-set-apriori = no hay posición a priori: defina apriori_ecef, un APPROX POSITION XYZ de la cabecera de observación, o truth_ecef
+engine-e-gnss-slots-unknown-set = conjunto de posiciones desconocido `{ $name }` (conocidos: { $sets })
+engine-e-gnss-slots-out-of-range = posición `{ $id }`: `{ $field }` falta, no es finito o está fuera de rango
+engine-e-gnss-slots-geo-needs-lon = la posición GEO `{ $id }` necesita lon_deg
+engine-e-gnss-slots-igso-needs-one-longitude = la posición IGSO `{ $id }` necesita inclination_deg distinto de cero y exactamente uno de crossing_lon_deg y center_lon_deg
 
 engine-e-python-pll-bws-dll-bws-spacings = pll_bws, dll_bws, spacings y coherents no pueden combinarse con design: el barrido ejecuta todos los diseños del archivo
 

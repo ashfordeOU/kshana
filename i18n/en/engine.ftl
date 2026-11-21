@@ -9764,6 +9764,10 @@ engine-e-passes-earth-orientation-parameters-out-of = Earth orientation paramete
 ## src/pvt.rs
 
 engine-e-pvt-no-priori-position-set-apriori = no a-priori position: set apriori_ecef, an observation-header APPROX POSITION XYZ, or truth_ecef
+engine-e-gnss-slots-unknown-set = unknown slot set `{ $name }` (known: { $sets })
+engine-e-gnss-slots-out-of-range = slot `{ $id }`: `{ $field }` is missing, not finite or out of range
+engine-e-gnss-slots-geo-needs-lon = GEO slot `{ $id }` needs lon_deg
+engine-e-gnss-slots-igso-needs-one-longitude = IGSO slot `{ $id }` needs a non-zero inclination_deg and exactly one of crossing_lon_deg and center_lon_deg
 
 ## src/python.rs
 

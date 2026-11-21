@@ -176,6 +176,7 @@ pub mod geometry;
 pub mod glonass;
 pub mod gnss_navmsg;
 pub mod gnss_sim;
+pub mod gnss_slots;
 pub mod gnss_time;
 pub mod gps_lnav;
 pub mod gravimeter;

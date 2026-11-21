@@ -8112,6 +8112,58 @@
   ]
  },
  {
+  "id": "e-gnss-slots-unknown-set",
+  "error": true,
+  "parts": [
+   "unknown slot set `",
+   {
+    "var": "name"
+   },
+   "` (known: ",
+   {
+    "var": "sets"
+   },
+   ")"
+  ]
+ },
+ {
+  "id": "e-gnss-slots-out-of-range",
+  "error": true,
+  "parts": [
+   "slot `",
+   {
+    "var": "id"
+   },
+   "`: `",
+   {
+    "var": "field"
+   },
+   "` is missing, not finite or out of range"
+  ]
+ },
+ {
+  "id": "e-gnss-slots-geo-needs-lon",
+  "error": true,
+  "parts": [
+   "GEO slot `",
+   {
+    "var": "id"
+   },
+   "` needs lon_deg"
+  ]
+ },
+ {
+  "id": "e-gnss-slots-igso-needs-one-longitude",
+  "error": true,
+  "parts": [
+   "IGSO slot `",
+   {
+    "var": "id"
+   },
+   "` needs a non-zero inclination_deg and exactly one of crossing_lon_deg and center_lon_deg"
+  ]
+ },
+ {
   "id": "e-python-pll-bws-dll-bws-spacings",
   "error": true,
   "parts": [

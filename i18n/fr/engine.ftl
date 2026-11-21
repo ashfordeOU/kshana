@@ -10240,6 +10240,10 @@ engine-e-orbit-omm-export-requires-tle-defined = l'export OMM nécessite une con
 engine-e-passes-earth-orientation-parameters-out-of = paramètres d'orientation de la Terre hors plage : |ut1_minus_utc_s| <= 1, |xp_arcsec| et |yp_arcsec| <= 2
 
 engine-e-pvt-no-priori-position-set-apriori = aucune position a priori : définissez apriori_ecef, un APPROX POSITION XYZ d'en-tête d'observation, ou truth_ecef
+engine-e-gnss-slots-unknown-set = jeu de positions inconnu `{ $name }` (connus : { $sets })
+engine-e-gnss-slots-out-of-range = position `{ $id }` : `{ $field }` est absent, non fini ou hors plage
+engine-e-gnss-slots-geo-needs-lon = la position GEO `{ $id }` requiert lon_deg
+engine-e-gnss-slots-igso-needs-one-longitude = la position IGSO `{ $id }` requiert une inclination_deg non nulle et exactement un de crossing_lon_deg et center_lon_deg
 
 engine-e-python-pll-bws-dll-bws-spacings = pll_bws, dll_bws, spacings et coherents ne peuvent pas être combinés avec design : le balayage exécute toutes les conceptions du fichier
 

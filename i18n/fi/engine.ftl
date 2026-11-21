@@ -9836,6 +9836,10 @@ engine-e-orbit-omm-export-requires-tle-defined = OMM-vienti vaatii TLE:llä mä�
 engine-e-passes-earth-orientation-parameters-out-of = Maan asentoparametrit ovat alueen ulkopuolella: |ut1_minus_utc_s| <= 1, |xp_arcsec| ja |yp_arcsec| <= 2
 
 engine-e-pvt-no-priori-position-set-apriori = a priori -paikkaa ei ole: aseta apriori_ecef, havaintootsikon APPROX POSITION XYZ tai truth_ecef
+engine-e-gnss-slots-unknown-set = tuntematon paikkajoukko `{ $name }` (tunnetut: { $sets })
+engine-e-gnss-slots-out-of-range = paikka `{ $id }`: `{ $field }` puuttuu, ei ole äärellinen tai on alueen ulkopuolella
+engine-e-gnss-slots-geo-needs-lon = GEO-paikka `{ $id }` tarvitsee arvon lon_deg
+engine-e-gnss-slots-igso-needs-one-longitude = IGSO-paikka `{ $id }` tarvitsee nollasta poikkeavan arvon inclination_deg ja täsmälleen yhden arvoista crossing_lon_deg ja center_lon_deg
 
 engine-e-python-pll-bws-dll-bws-spacings = pll_bws, dll_bws, spacings ja coherents eivät voi olla yhdessä design-kentän kanssa: pyyhkäisy ajaa jokaisen tiedoston suunnitelman
 

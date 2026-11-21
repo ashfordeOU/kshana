@@ -9375,6 +9375,10 @@ engine-e-orbit-omm-export-requires-tle-defined = OMM 导出需要由 TLE 定义�
 engine-e-passes-earth-orientation-parameters-out-of = 地球定向参数超出范围：|ut1_minus_utc_s| <= 1，|xp_arcsec| 和 |yp_arcsec| <= 2
 
 engine-e-pvt-no-priori-position-set-apriori = 没有先验位置：请设置 apriori_ecef、观测头部的 APPROX POSITION XYZ，或 truth_ecef
+engine-e-gnss-slots-unknown-set = 未知的轨位集 `{ $name }`（已知：{ $sets }）
+engine-e-gnss-slots-out-of-range = 轨位 `{ $id }`：`{ $field }` 缺失、非有限值或超出范围
+engine-e-gnss-slots-geo-needs-lon = GEO 轨位 `{ $id }` 需要 lon_deg
+engine-e-gnss-slots-igso-needs-one-longitude = IGSO 轨位 `{ $id }` 需要非零的 inclination_deg，且 crossing_lon_deg 与 center_lon_deg 二者必须恰有其一
 
 engine-e-python-pll-bws-dll-bws-spacings = pll_bws、dll_bws、spacings 和 coherents 不能与 design 组合：扫描会运行文件中的每个设计
 
