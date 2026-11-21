@@ -180,6 +180,15 @@ fn render(results: &[Value], fragment: bool) -> Result<String, BenchError> {
                 Some(_) => {}
             }
         }
+        if r["split"] == "holdout"
+            && matches!(r["task"].as_str(), Some("f" | "g"))
+            && !super::holdout::accepted(super::holdout::REGISTRY, r)
+        {
+            return Err(BenchError(crate::t!(
+                "bench-site-holdout-not-private",
+                v1 = i + 1
+            )));
+        }
         let v = r["spec_version"].as_str().unwrap_or("");
         if v.rsplit('/').next().and_then(|x| x.split('.').next()) != Some(major) {
             return Err(BenchError(crate::t!(
@@ -267,6 +276,9 @@ fn render(results: &[Value], fragment: bool) -> Result<String, BenchError> {
                         "bench-site-provenance-carried",
                         note = r["provenance_note"].as_str().unwrap_or("")
                     ),
+                    _ if r["holdout"]["private"] == true => {
+                        crate::t!("bench-site-provenance-private-holdout")
+                    }
                     _ => crate::t!("bench-site-provenance-scored"),
                 };
                 let th = r["truth_sha256"].as_str().unwrap_or("");

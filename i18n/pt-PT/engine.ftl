@@ -10949,6 +10949,15 @@ engine-e-interference-atlas-bad-obs = { $path } não é um ficheiro de observaç
 engine-e-interference-atlas-no-cn0 = os dois ficheiros de observação não partilham nenhum satélite GPS com C/N0 separado por uma repetição de traço
 engine-e-interference-atlas-bad-station = a estação precisa de lat,lon em graus (ou uma posição aproximada no cabeçalho de observação), não { $value }
 
+## Private holdout of kshana-bench tasks (f) and (g) (src/bench/holdout.rs)
+engine-e-bench-holdout-inside-repository = recusado escrever um holdout privado dentro do repositório: { $path } (escolha um diretório fora dele)
+engine-e-bench-holdout-task = o holdout privado existe apenas para as tarefas (f) e (g)
+engine-e-bench-holdout-no-truth = não há verdade privada para a tarefa ({ $task }): indique --truth <file> ou defina { $var }
+engine-bench-holdout-not-a-private-truth = não é uma verdade de holdout privado: deve ser um ficheiro de verdade do kshana-bench da tarefa (f) ou (g) com split holdout
+engine-bench-holdout-not-registered = a verdade da tarefa ({ $task }) com SHA-256 { $sha } não está registada em bench/holdout/PRIVATE.json
+engine-bench-site-holdout-not-private = o resultado { $v1 } é um resultado de holdout da tarefa (f) ou (g) que não está marcado como privado ou cuja verdade não está registada
+engine-bench-site-provenance-private-holdout = pontuado no holdout privado (verdade registada)
+
 engine-main-usage =
     utilização: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }ou: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10966,7 +10975,7 @@ engine-main-usage =
     { "   " }ou: kshana nmea-scenario <scenario.toml> [--out <file.nmea>] [--tcp <addr>|--udp <addr>] (kshana nmea-scenario --help)
     { "   " }ou: kshana interference-map <adsb|ais|fetch-land> ... (kshana interference-map --help)
     { "   " }ou: kshana route-exposure --route <route> --map <map.geojson|dir> [--from <date>] [--to <date>]
-    { "   " }ou: kshana bench <spec|truth|cases|score|baseline|seal|reveal-check|manifest|verify-manifest|validate|leaderboard|positions|datasets|cite|golden> ... (kshana bench --help)
+    { "   " }ou: kshana bench <spec|truth|cases|score|baseline|seal|reveal-check|manifest|verify-manifest|validate|leaderboard|positions|datasets|cite|golden|holdout> ... (kshana bench --help)
     { "   " }ou: kshana bench-export <scenario.toml> [--out <base>] [--epoch <YYYY-MM-DDTHH:MM:SS>]
     { "   " }ou: kshana compliance-report [--out <base>] <result.json>... | --mapping | --sources
     { "   " }ou: kshana lunanet-afs-check <spec [--json] [--strict]|symbols <file> [--max-sp-errors <n>] [--json]|generate --frames <n> [--toi0 <t>] --out <file>>
@@ -11145,6 +11154,9 @@ engine-bench-cli-usage =
     { "   " }ou: kshana bench golden [--root <repo>] (--out <GOLDEN.json> | --check <GOLDEN.json>)
     { "   " }ou: kshana bench validate <result.json>...
     { "   " }ou: kshana bench leaderboard [<results dir|result.json>...] --out <page.html> [--fragment]   (sem entradas: o estado vazio; --fragment: uma secção incorporável)
+    { "   " }ou: kshana bench holdout truth --task <f|g> --data <private data> --out <private dir>
+    { "   " }ou: kshana bench holdout register --truth <private truth.json>
+    { "   " }ou: kshana bench holdout score --task <f|g> --predictions <predictions.json> [--truth <private truth.json>] [--out <result.json>]   (KSHANA_BENCH_HOLDOUT_F, KSHANA_BENCH_HOLDOUT_G)
     { "   " }(um ficheiro de semente contém o segredo por trás de um conjunto reservado selado; mantenha-o fora do controlo de versões)
 
 engine-bench-cli-match = coincide

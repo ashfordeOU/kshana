@@ -204,6 +204,24 @@ pub fn g_load(
     Ok((traces, where_))
 }
 
+/// Read every trace under `root` (`<drive>/<phone>/ground_truth.csv`), whatever the split rule
+/// would assign: the owner's private holdout.
+pub fn g_load_all(root: &Path) -> Result<Traces, BenchError> {
+    let mut traces = Traces::new();
+    for (id, dir) in trace_dirs(root)? {
+        let p = dir.join("ground_truth.csv");
+        let text = std::fs::read_to_string(&p).map_err(|e| {
+            BenchError(crate::t!(
+                "bench-cli-cannot-read",
+                p = p.display().to_string(),
+                e = e.to_string()
+            ))
+        })?;
+        traces.insert(id, g_truth_of(&p.display().to_string(), &text)?);
+    }
+    Ok(traces)
+}
+
 fn doc(schema: &str, split: Split) -> Map<String, Value> {
     let mut m = Map::new();
     m.insert("schema".into(), json!(schema));

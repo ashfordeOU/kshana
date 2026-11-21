@@ -58,6 +58,10 @@ kshana bench positions --task g --split test --csv submission.csv --name my-filt
 kshana bench datasets                                                    # the dataset registry; --check enforces its rules
 kshana bench cite results/f-test-feature-z-max.result.json               # citation id, stable across releases
 kshana bench golden --root . --check bench/GOLDEN.json                   # the frozen files are unchanged
+kshana bench holdout truth --task f --data ~/private/opssat-holdout.csv --out ~/private/f   # owner: private holdout files
+kshana bench holdout register --truth ~/private/f/truth.json             # owner: the entry to commit (hash only)
+KSHANA_BENCH_HOLDOUT_F=~/private/f/truth.json kshana bench holdout score --task f --predictions preds.json --out r.json
+scripts/score_gsdc_local.sh ~/data/gsdc2023/train ~/bench-out              # task (g) baselines on your own GSDC copy
 ```
 
 ## Datasets, frozen files and citation ids
@@ -83,8 +87,27 @@ predictions, and the metrics. Results of different major spec versions are never
 
 ## Honest limits
 
-- Tasks (f) and (g) use their publishers' public data, so neither has a hidden holdout: task (f) refuses
-  `--split holdout`; the holdout traces of task (g) are public like those of task (a).
+- Tasks (f) and (g) use their publishers' public data, so their public splits hide nothing: task (f)
+  refuses `--split holdout` on the public file, and the holdout traces of task (g) under the public split rule
+  are public like those of task (a).
+- **Private holdout of tasks (f) and (g)** (owner decision, 20 November 2026; spec section 4). The owner keeps
+  a truth file of cases that are not public (further labelled housekeeping segments for (f), phone traces
+  with ground truth for (g)) outside the repository. `kshana bench holdout truth` builds it (every case of the
+  private data is holdout) and refuses to write inside a checkout; `register` prints the entry the owner
+  commits to [`bench/holdout/PRIVATE.json`](../bench/holdout/PRIVATE.json): task, SHA-256, number of cases,
+  date, and nothing else. `holdout score` reads the truth from `--truth` or `KSHANA_BENCH_HOLDOUT_F` /
+  `KSHANA_BENCH_HOLDOUT_G` at run time, refuses a truth whose SHA-256 is not registered for that task, scores it
+  with the public metric code and marks the result `holdout.private`. The leaderboard accepts a task (f) or (g)
+  holdout row only when it is so marked and its truth hash is registered, and labels its provenance
+  "scored on the private holdout". No private holdout is registered yet. What it protects against: tuning on
+  the evaluation cases. What it does not: a leak by whoever holds the file, or the owner's choice of cases.
+  `tests/bench_holdout.rs` checks that no file in the tree has a registered hash.
+- Task (g) has no published baseline number because no copy of the GSDC data has been scored here.
+  `scripts/score_gsdc_local.sh` scores the baselines on a copy you download from Kaggle yourself, writing only
+  outside the repository.
+- Citation: [`bench/CITATION.cff`](../bench/CITATION.cff) and [`bench/.zenodo.json`](../bench/.zenodo.json) describe
+  kshana-bench as a deposit of its own (creator Ashforde OÜ, licence as the repository). Its DOI is to be filled
+  after the owner deposits it; none exists yet.
 
 - The real-data holdouts (a and c) are public, because anyone can download the data. They guard against
   choosing a split after seeing scores, not against tuning on those folders. The sealed holdout of task (d) is
