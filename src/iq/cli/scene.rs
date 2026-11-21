@@ -84,9 +84,8 @@ pub(crate) fn build_broadcast_scene(p: &BroadcastParams) -> Result<Scene, String
             .iter()
             .filter(|e| e.system == 'G' && e.prn == prn && e.sv_health == 0.0)
             .min_by(|a, b| {
-                (a.toe - p.start_tow_s)
-                    .abs()
-                    .total_cmp(&(b.toe - p.start_tow_s).abs())
+                toe_distance_s(a.toe, p.start_tow_s)
+                    .total_cmp(&toe_distance_s(b.toe, p.start_tow_s))
             })
         {
             chosen.push(e);
@@ -712,4 +711,25 @@ fn generate(
     truth: &mut dyn TruthSink,
 ) -> Result<crate::iq::scene::SceneSummary, IqError> {
     scene.generate(iq, truth)
+}
+
+/// The distance (s) from a time of week to an ephemeris `toe`, across the week boundary: a
+/// record at Saturday 22:00 (toe 597 600 s) is 7 300 s from Sunday 00:01:40 (100 s), not
+/// 597 500 s (IS-GPS-200 20.3.3.4.3.1, the half-week rule).
+fn toe_distance_s(toe: f64, tow_s: f64) -> f64 {
+    let d = (toe - tow_s).abs() % 604_800.0;
+    d.min(604_800.0 - d)
+}
+
+#[cfg(test)]
+mod toe_tests {
+    use super::toe_distance_s;
+
+    #[test]
+    fn the_toe_distance_wraps_the_week() {
+        assert_eq!(toe_distance_s(597_600.0, 100.0), 7_300.0);
+        assert_eq!(toe_distance_s(14_400.0, 100.0), 14_300.0);
+        assert_eq!(toe_distance_s(7_200.0, 3_600.0), 3_600.0);
+        assert_eq!(toe_distance_s(100.0, 604_700.0), 200.0);
+    }
 }
