@@ -55,6 +55,41 @@ breaking changes are called out explicitly.
   not an external reference. An opt-in test (`tests/correction_icd_examples.rs`) checks the HAS decoder against the
   ICD's own Annex B matrix and Annex C/D worked examples from a copy the user downloads; no ICD content is stored.
 
+### Added (QZNMA signature checks: `kshana corrections qznma-verify`)
+
+- `kshana corrections qznma-verify --frames <l6e> --nav <messages> --pubkey <der>`: checks each QZNMA signature against
+  the navigation messages given and reports `verified`, `failed`, `no_key` or `no_navigation` per signature
+  (MODELLED; exit 1 on a failed signature). GPS and Galileo signatures come from the L6E RDS; QZSS signatures are
+  rebuilt from the three Digital Signature Segments in QZSS LNAV subframe 5, CNAV message type 60 and CNAV2
+  subframe 3 (IS-QZSS-SAS-001 sections 5.1 to 5.3).
+- `kshana::corrections::qznma_nav`: the MASK and RAND of every signal of IS-QZSS-SAS-001 (GPS LNAV, CNAV, CNAV2,
+  Galileo I/NAV, F/NAV, QZSS LNAV, CNAV, CNAV2), the RTOW replacement of section 6.6, and the QZSS DSS. Tested with
+  signatures made by the tests (QZSS test data are given only to registered users): later copies with changed
+  time, parity or CRC verify, a changed data bit fails. Two document conflicts are recorded "to confirm" (QZSS
+  CNAV2 RAND length, figure against table).
+
+### Added (QZSS L1S, DC Report, DCX and QZNMA decoders)
+
+- `kshana corrections decode --format l1s`: QZSS L1S messages after channel decoding (IS-QZSS-L1S-009 section 4.1):
+  preamble patterns, CRC-24Q, SLAS message types 47 to 51 (monitoring stations, PRN mask, IOD, DGPS corrections mapped
+  through the mask of the same IODP, satellite health), 0 and 63. Message type 43: the JMA DC Report common header and
+  the twelve category bodies of IS-QZSS-DCR-017 section 4.1.2.3 (field layouts only; codes that the document resolves
+  through its own tables are reported as numbers). Message type 44: the DCX message of IS-QZSS-DCX-004 section 4.2
+  (Satellite Designation, the CAMF fields A1 to A18, the L-Alert, J-Alert, local-government and outside-Japan
+  extended messages, the NULL message). The DCX ellipse axis lengths follow the document's Table 4.2-17, whose rows
+  lie up to 0.1 % above the formula it states; which is meant is to confirm.
+- `kshana corrections decode --format qznma`: QZSS L6E QZNMA frames (IS-QZSS-SAS-001 section 6.8): the two 605-bit
+  Reformat Digital Signatures per frame. Library: the GPS LNAV RAND (section 6.1, MASK of Figures 6-5 to 6-7, TOW
+  replaced from RTOW) and its ECDSA P-256 check (`kshana::corrections::qznma`), and a DER public-key reader. QZSS
+  public keys and the Appendix A test data go only to registered users, so the check is tested with keys made by the
+  tests. CNAV, CNAV2, Galileo and QZSS-signal RAND are not built.
+- DRAFT, from the IS-QZSS-SAS-002 draft (labelled draft wherever it appears): the QZNMA-CLAS slot's ST13 messages
+  (authentication information, root key information, segmented information with reassembly) and the CLAS CMA checks
+  (`kshana::corrections::cma`: KROOT message and ECDSA check, the TESLA truncated hash and key-chain check, the MAC of
+  a target message). The hash and MAC steps are pinned to values computed with Python's `hashlib` and `hmac`.
+- 30 new test vectors (54 in all) from the independent encoder; self-derived round-trip vectors, not an external
+  reference. No QZSS document text is stored.
+
 ### Added (RTK, NTRIP and correction-service quality: `kshana rtk-qa`)
 
 - `kshana rtk-qa` (`kshana::rtk_qa`, `docs/RTK-QA.md`), every result labelled MODELLED:

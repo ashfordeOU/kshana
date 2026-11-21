@@ -10542,7 +10542,7 @@ engine-main-usage =
     { "   " }eller: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }eller: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
     { "   " }eller: kshana time-vectors [--json] [<vectors.json|dir> ...]
-    { "   " }eller: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
+    { "   " }eller: kshana corrections <decode --format <has|b2b|l6|l1s|qznma> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...] | qznma-verify [--frames <frames.txt>] [--nav <nav.txt>] --pubkey <key.der> ...>
     { "   " }eller: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
     { "   " }eller: kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
     { "   " }eller: kshana orbit-data <check|convert|gp-compare|gp-audit|cov> ... (kshana orbit-data --help)
@@ -11504,11 +11504,14 @@ engine-e-interference-incidents-source-url-required = --source-url er påkrevd: 
 
 ## Correction decoders (src/corrections/)
 engine-e-corrections-bad-hex = ikke en heksadesimal ramme: { $line }
-engine-e-corrections-unknown-decoder = ukjent dekoder { $decoder } (has, b2b, l6)
+engine-e-corrections-unknown-decoder = ukjent dekoder { $decoder } (has, b2b, l6, l1s, qznma)
 engine-e-corrections-bad-vector = vektor { $id } mangler heksadesimale rammer eller et expect-objekt
 engine-e-corrections-bad-file = { $file } er ikke et { $format }-dokument (formatmerke og en vectors-tabell)
 engine-corrections-summary = { $n } vektorer: { $passed } bestått, { $failed } feilet
-engine-corrections-usage = bruk: kshana corrections decode --format <has|b2b|l6> <frames.txt | -> | kshana corrections vectors [--json] [<vectors.json | dir> ...]  (én ramme per linje i heksadesimal; docs/CORRECTION-DECODERS.md)
+engine-corrections-usage = bruk: kshana corrections decode --format <has|b2b|l6|l1s|qznma> <frames.txt | -> | kshana corrections vectors [--json] [<vectors.json | dir> ...] | kshana corrections qznma-verify [--frames <frames.txt>] [--nav <nav.txt>] --pubkey <ID:key.der | 001.der> ...  (én ramme per linje i heksadesimal; docs/CORRECTION-DECODERS.md)
+engine-e-qznma-bad-nav-line = ikke en linje med navigasjonsmelding (<satellite> <signal> <part> <hex>): { $line }
+engine-e-qznma-bad-key = { $path }: ikke en offentlig P-256- eller P-521-nøkkel (DER eller SEC1) med en nøkkel-ID i filnavnet eller som ID:path
+engine-qznma-verify-summary = { $n } signaturer: { $verified } verifisert, { $failed } mislyktes, { $no_key } uten nøkkel, { $no_navigation } uten navigasjonsmeldinger
 
 ## src/space_weather_pnt/
 

@@ -1202,3 +1202,72 @@ fn oscillator_inputs() {
         }
     });
 }
+
+#[test]
+fn qzss_l1s_and_qznma_frames() {
+    // Seeds: the frames of the L1S (SLAS, DC Report, DCX) and QZNMA vectors, one per line.
+    let mut seeds = Vec::new();
+    for set in ["l1s", "qznma"] {
+        let doc: serde_json::Value = serde_json::from_slice(&bytes(
+            &format!("data/conformance/corrections/{set}.json"),
+            1 << 20,
+        ))
+        .expect("vector file");
+        for v in doc["vectors"].as_array().expect("vectors") {
+            let lines: Vec<&str> = v["frames"]
+                .as_array()
+                .expect("frames")
+                .iter()
+                .filter_map(|f| f.as_str())
+                .collect();
+            seeds.push(lines.join("\n").into_bytes());
+        }
+    }
+    fuzz("qzss l1s and qznma frames", &seeds, None, |b| {
+        // As a frame file.
+        if let Ok(frames) = kshana::corrections::parse_frames(&text(b)) {
+            for d in ["l1s", "qznma"] {
+                let _ = kshana::corrections::decode(d, &frames);
+            }
+        }
+        // As the raw bits of one frame, and of a QZNMA-CLAS slot.
+        let hex: String = b.iter().map(|x| format!("{x:02x}")).collect();
+        if let Some(f) = kshana::corrections::parse_hex(&hex) {
+            for d in ["l1s", "qznma"] {
+                let _ = kshana::corrections::decode(d, std::slice::from_ref(&f));
+            }
+            let _ = kshana::corrections::cma::parse_messages(&f.bits());
+            let _ = kshana::corrections::dcr::decode_body(b[0] & 15, &f.bits());
+            let _ = kshana::corrections::dcx::decode(&f.bits());
+        }
+    });
+}
+
+#[test]
+fn qznma_navigation_message_files() {
+    // Seeds: one line of each signal and part kind the verifier reads.
+    let hex300 = "8b".repeat(38);
+    let seeds: Vec<Vec<u8>> = [
+        format!("G05 gps_lnav 1 {hex300}\nG05 gps_lnav 2 {hex300}\nG05 gps_lnav 3 {hex300}"),
+        format!("G07 gps_cnav 10 {hex300}\nG07 gps_cnav 32 {hex300}\nJ01 qzs_cnav 60 {hex300}"),
+        format!("J02 qzs_lnav 5 {hex300}\nJ03 qzs_cnav2 3 {hex300}\nG09 gps_cnav2 1 1ff"),
+        format!(
+            "E11 gal_inav 5 {}\nE12 gal_fnav 4 {}",
+            "a5".repeat(16),
+            "3c".repeat(31)
+        ),
+    ]
+    .into_iter()
+    .map(String::into_bytes)
+    .collect();
+    fuzz("qznma navigation files", &seeds, None, |b| {
+        if let Ok(store) = kshana::corrections::qznma_verify::NavStore::parse(&text(b)) {
+            let _ = kshana::corrections::qznma_verify::run(&[], &store, &Default::default());
+        }
+        // Raw bits as a QZSS DSS-carrying message of each kind.
+        let bits = kshana::corrections::bits::of_bytes(b);
+        for s in kshana::corrections::qznma_nav::SIGNALS {
+            let _ = kshana::corrections::qznma_nav::qzss_dss(s, &bits);
+        }
+    });
+}

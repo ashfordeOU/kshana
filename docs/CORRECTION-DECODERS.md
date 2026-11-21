@@ -9,15 +9,17 @@ they carry as JSON; `kshana corrections vectors` runs the vector set against the
 | `has` | Galileo High Accuracy Service, E6-B C/NAV | Galileo HAS SIS ICD, Issue 1.0 (May 2022), sections 2 to 7 | C/NAV page and CRC, HAS page header and dummy pages, the RS(255,32) outer code (any `MS` distinct pages recover a message), message type 1: mask, orbit, clock full-set, clock subset, code and phase biases |
 | `b2b` | BeiDou-3 PPP-B2b | BDS-SIS-ICD-PPP-B2b-1.0 (July 2020), section 6 | CRC, message types 1 (mask), 2 (orbit, URAI), 3 (code biases), 4 (clock), 5 (URAI), 6 and 7 (clock and orbit), 63 (null) |
 | `l6` | QZSS L6: CLAS (L6D) and MADOCA-PPP (L6E, and its L6D ionospheric messages) | IS-QZSS-L6-008 (18 March 2026), section 4.1; IS-QZSS-MDC-005, sections 4.2 and 6.3 | L6 header (vendor, facility, subframe start, alert), subframe assembly across data parts, Compact SSR sub types 1 to 12, MADOCA-PPP STEC coverage and correction messages |
+| `l1s` | QZSS L1S: Sub-meter Level Augmentation Service (SLAS), the JMA DC Report and the DCX message | IS-QZSS-L1S-009 (20 February 2026), section 4.1; IS-QZSS-DCR-017, section 4.1.2.3; IS-QZSS-DCX-004, sections 4.2 to 4.3 and 5.6 to 5.7 | preamble pattern, message type and CRC-24Q; MT47 monitoring stations, MT48 PRN mask, MT49 data issue numbers and MT50 pseudorange corrections (mapped to satellites through the MT48 of the same IODP), MT51 satellite health, MT0 test mode, MT63 null; MT43 JMA DC Report: common header and the body of each of the twelve disaster categories; MT44 DCX message: Satellite Designation, CAMF fields A1 to A18, the extended message of each kind, the NULL message |
+| `qznma` | QZSS L6E QZNMA, and (DRAFT) the CLAS correction-authentication slot | IS-QZSS-SAS-001, sections 6.1, 6.6 and 6.8 to 6.10; IS-QZSS-SAS-002 **draft**, sections 7.2, 7.4 and 9.1 | L6 header with vendor `011`; the two 605-bit Reformat Digital Signatures per frame (NMA ID, RTOW, SV ID, message type, references, key ID, signature, SALT); DRAFT: ST13,1 authentication information, ST13,3 root key information and ST13,11 segments with their reassembly |
 
-All three read open-service data only. They report fields with the scale factors of the documents,
+All five read open-service data only. They report fields with the scale factors of the documents,
 `null` for the "data not available" codes, and satellites as `G01`, `E12`, `C19`, `J01` and so on. They
 do not apply the corrections to a position (the PPP engine does not use them yet).
 
 ## Run
 
 ```sh
-kshana corrections decode --format has  pages.txt     # or b2b, l6; "-" reads standard input
+kshana corrections decode --format has  pages.txt     # or b2b, l6, l1s, qznma; "-" reads standard input
 kshana corrections vectors                           # the built-in set (data/conformance/corrections)
 kshana corrections vectors --json my-vectors.json    # other files, or every *.json in a directory
 ```
@@ -30,6 +32,11 @@ A frame file has one frame per line in hexadecimal; blank lines and `#` comments
 * `b2b`: the 486 bits after LDPC decoding (61 bytes; the last two bits are ignored).
 * `l6`: at least the first 1744 bits of the 2000-bit message (header and data part). The Reed-Solomon
   parity is not checked: the receiver has already decoded it.
+* `l1s`: the 250-bit message block after the 1/2-rate convolutional code is removed (63 hexadecimal
+  digits; the last two bits are ignored). Messages of one satellite go in one file, in reception order.
+  The 63-digit message field of a `$QZQSM` receiver sentence (DCR-017 section 4.3, DCX-004 section 4.4)
+  is such a line.
+* `qznma`: L6 frames as for `l6`; frames of other vendors are counted and skipped.
 
 `decode` prints one JSON report: counters (frames, bad CRC or preamble, dummy, redundant, orphan and so
 on) and the decoded messages in order. `vectors` prints a pass/fail table and exits 1 when a vector
@@ -56,6 +63,58 @@ fails, 2 on a usage or file error.
   do not define are listed in `unknown_gnss_ids`, so a mask from a newer interface version is visible
   rather than silently mislabelled; MADOCA-PPP GNSS ID 7 (BDS-3, mask position 1 = `C19`, added in
   IS-QZSS-MDC-005) is decoded.
+* L1S: PRN masks are kept by IODP; MT49 and MT50 map their selected satellites (the `Mask-SV` bits, in
+  mask order) through the MT48 with the same IODP, and without one report only the header with
+  `note`. A pseudorange-correction code of −2048 (−81.92 m) is given as `prc_m: null` with
+  `unhealthy_30s: true` (IS-QZSS-L1S-009 Table 4.1.2-8). QZSS PRN 193 to 201 are labelled `J01` to
+  `J09`. Message validity periods (Table 4.1.1-2) need reception times and are not applied.
+  L1S-009 changed the Fukuoka station's table coordinates and states that the MT47 broadcast location
+  takes precedence; the decoder reports only what MT47 broadcasts.
+* QZNMA (DRAFT part): ST13,11 segments are joined per stream indicator and issue of data, in counter
+  order, once the segment with multiple indicator 0 and every earlier counter are in. Streams 1 and 2
+  may combine segments from different satellites (SAS-002 draft Table 7-12); other streams are kept per
+  satellite. A new issue of data drops the older one of the same stream.
+
+### DC Report bodies (MT43)
+
+Each of the twelve categories of IS-QZSS-DCR-017 Table 4.1.2-2 has its own 171-bit layout (Figures
+4.1.2-1 to 4.1.2-12). The decoder reads every field and reports it by name; `body.table` names the
+parameter table that defines it. Only layouts are transcribed: codes that the document resolves through
+its lookup tables (notifications on disaster prevention, epicentre, regions, prefectures, volcanoes,
+warning codes, local governments, forecast regions) are reported as numbers, to look up in the cited
+table. Region lists stop reporting at all-zero groups, which the document uses for unused regions.
+Depth 501 and 511 and magnitude 101, 126 and 127 are reported as codes with `depth_km` or `magnitude`
+`null`; tsunami arrival hour 31 / minute 63 is `arrived` (north-west Pacific: `arrived_or_unknown`) and
+30 / 62 `no_data`. The Nankai Trough headline is given as hexadecimal and, when its bytes are whole
+UTF-8, as text (a page can end inside a character). Spare bits that are not zero are flagged with
+`spare_nonzero`. Categories 7 and 13 are unused and keep only `body_hex`.
+
+### DCX messages (MT44)
+
+The kind follows DCX-004 section 5.7 (A2 and A3): `l_alert`, `j_alert`, `local_government`,
+`outside_japan`, `discarded`, or `null` for the NULL message of Table 4.3-1. Names are given for the
+document's small tables (message type, severity, onset week and time, duration, library, the Japanese
+instruction library of Table 4.2-14, the J-Alert prefecture flags of Table 4.2-25, the SD satellites of
+Table 5.6-3); the country, provider, hazard and target-area codes stay numbers. When the Japanese basic
+instruction is `00`, the 10-bit value is a pattern of Table 4.2-15 and only the code is given. The
+Specific Settings field A18 is defined in the CAMF document, which was not read, and is given as a
+number.
+
+### QZNMA signatures and the draft CLAS checks (library)
+
+`kshana::corrections::qznma` builds the 1000-bit GPS LNAV RAND of SAS-001 Figure 6-9 from an RDS and
+subframes 1 to 3 (MASK of Figures 6-5 to 6-7; the TOW count of each subframe moved so subframe 1
+carries the RTOW, section 6.6.2) and checks the RDS signature: ECDSA P-256 with SHA-256 over RAND
+(Appendix B). `public_key_from_der` reads a DER public key as SAS-001 section 7.3.3 distributes them.
+`kshana::corrections::cma` (DRAFT) gives the KROOT message `M` and its ECDSA check (9.1.2), the
+truncated hash `F` and the check of a TESLA key against KROOT (9.1.3, pattern 1: TBA 10 s, ΔT 5 s), and
+the MAC of a target message (9.1.4, HMAC-SHA-256 or CMAC-AES). The QZSS subframe time is not in the
+messages and is a parameter.
+
+The public keys and the test data of SAS-001 Appendix A are given only to registered users, so these
+checks are tested with keys made by the tests (signatures) and with values computed by Python's
+`hashlib` and `hmac` (the truncated hash and the MAC): they test our composition of the inputs, not
+agreement with QZSS-generated data.
 
 ### Readings to know about
 
@@ -63,13 +122,78 @@ fails, 2 on a usage or file error.
   polynomial (hydrostatic) term and bit 1 (value 2) as the residual (wet) term, with the troposphere
   quality present whenever either is set. CLAS fixes both bits to one, so live CLAS data does not depend
   on this reading.
+* SAS-001 section 6.8 says in its text that a QZNMA frame holds "two 576 bits of RDS data and 543 bits
+  of reserved data", while its Figures 6-52 to 6-54 and Table 6-2 give 605-bit RDS and 485 bits. The
+  decoder follows the figures and table (their fields add up to 605); to confirm.
+* The RTOW replacement for subframes 2 and 3 (SAS-001 Figure 6-51 shows subframe 1 only): each
+  subframe's TOW count is moved by the same offset; to confirm.
+* QZSS CNAV2 RAND: Figure 5-31 gives 166 reserved bits and 1 padding bit (800 bits), Table 5-11
+  172 reserved bits. The module follows the figure; to confirm.
+* The RTOW replacement of the GPS CNAV and Galileo F/NAV parts after the first, and the reading
+  that a QZSS DSS signs the transmitting satellite's own messages (SAS-001 5.1.11 does not name
+  the satellite): to confirm.
+* SAS-002 draft MAC input (9.1.4): the PRN is taken as the 8-bit PRN of the L6 header; the draft does
+  not give its width. To confirm.
+* DCX-004 Table 4.2-17 (ellipse axis lengths) lies up to 0.1 % above the formula the section states
+  (code 3: formula 0.534 km, table 0.535 km; the table steps by a ratio of 1.35228, which fits a minimum
+  near 0.21636 km rather than 0.216 km). The decoder uses the table; to confirm.
 * Sub type 10 is read with 22 header bits (message number, sub type, multiple message indicator,
   counter, data size), as its stated length `22 + 40 x X` implies.
 * CLAS SBAS satellites are labelled `S120` upwards (mask position plus 119).
 
+## Checking QZNMA signatures: `kshana corrections qznma-verify`
+
+```sh
+kshana corrections qznma-verify --frames l6e.txt --nav nav.txt --pubkey keys/001.der --pubkey 2:other.der
+```
+
+It checks every signature it finds against the navigation messages it is given, with the public
+keys the Cabinet Office distributes to registered users (SAS-001 7.3; none ship with kshana):
+
+* the GPS and Galileo Reformat Digital Signatures in L6E QZNMA frames (`--frames`, frames as for
+  `qznma`), and
+* the QZSS signals' own signatures, rebuilt from the three Digital Signature Segments in QZSS
+  LNAV subframe 5 (SV ID 60), CNAV message type 60 or CNAV2 subframe 3 (page ID 60) found in the
+  navigation file (SAS-001 5.1.9 to 5.1.10, 5.2.9 to 5.2.10, 5.3.9 to 5.3.10).
+
+The navigation file (`--nav`) has one decoded message per line,
+`<satellite> <signal> <part> <hex>`, `#` comments allowed:
+
+| Signal | Parts | Bits per part (as decoded, with parity or CRC) |
+|---|---|---|
+| `gps_lnav`, `qzs_lnav` | subframes `1` `2` `3` (QZSS DSS: `5`) | 300 |
+| `gps_cnav`, `qzs_cnav` | message types `10` `11` and `30`–`39` (QZSS DSS: `60`) | 300 |
+| `gps_cnav2`, `qzs_cnav2` | subframes `1` (TOI) and `2` (QZSS DSS: subframe `3`, 274 bits) | 9 and 600 |
+| `gal_inav` | word types `1`–`5` | 128 |
+| `gal_fnav` | page types `1`–`4` (with CRC and tail) | 244 |
+
+The satellite is the label the RDS reports (`G05`, `E12`) and, for QZSS, any label that names
+one satellite. A key is `ID:path` or a DER file whose name ends in its key ID (`001.der`). The
+report is JSON on standard output, one entry per signature with `verified`, `failed`, `no_key`
+or `no_navigation`; a summary line goes to standard error; the exit status is 1 when any
+signature failed. Every result is labelled MODELLED.
+
+How the signed message is rebuilt (`kshana::corrections::qznma_nav`):
+
+| Signal | Signed message (RAND) | MASK | Time fields |
+|---|---|---|---|
+| GPS LNAV | RDS header (77 bits) + 900 + SALT + 7 = 1000 bits (Figure 6-9) | Figures 6-5 to 6-7 | TOW count from RTOW (6.6) |
+| GPS CNAV | 77 + 900 + 16 + 7 = 1000 (Figure 6-19) | Figures 6-15 to 6-17 | message TOW count from RTOW |
+| GPS CNAV2 | 77 + 609 + 16 + 10 = 712 (Figure 6-26) | Figures 6-23, 6-24 | TOI and ITOW from RTOW (Table 6-1) |
+| Galileo I/NAV | 77 + 640 + 16 + 3 = 736 (Figure 6-39) | Figures 6-33 to 6-37 | word type 5 TOW from RTOW |
+| Galileo F/NAV | 77 + 976 + 16 + 3 = 1072 (Table 6-6) | Figures 6-45 to 6-48 | each page TOW, from RTOW |
+| QZSS LNAV | key ID + 900 + SALT + 4 = 928 (Figure 5-9) | Figures 5-5 to 5-7 | as broadcast |
+| QZSS CNAV | 8 + 900 + 16 + 172 = 1096 (Figure 5-21) | Figures 5-17 to 5-19 | as broadcast |
+| QZSS CNAV2 | 8 + 609 + 16 + 167 = 800 (Figure 5-31) | Figures 5-28, 5-29 | as broadcast |
+
+For each signature the newest stored copy of each part is tried first, and up to 64
+combinations of stored copies, so a history of messages (SAS-001 6.6.2, case 2) can be given.
+The GPS CNAV third part is any stored message type from 30 to 39 (Table 4-1: "one of the
+message types 30 or above").
+
 ## Test vectors: `kshana.correction-vectors/1`
 
-The set (24 vectors, set version 1.0.0) is `has.json`, `b2b.json` and `l6.json` in
+The set (54 vectors, set version 1.0.0) is `has.json`, `b2b.json`, `l6.json`, `l1s.json` and `qznma.json` in
 `data/conformance/corrections/`. They are written by `gen_correction_vectors.py`, a Python standard-library encoder that shares
 no code with the Rust decoders: from field values it chooses it builds the frames bit by bit (including
 the HAS Reed-Solomon parity by polynomial division and the CRCs) and writes the values it expects back.
@@ -100,6 +224,8 @@ everything else exactly.
 |---|---|
 | `has` | a message with every block type and a cell mask, from parity and systematic pages, from C/NAV pages and from bare HAS pages; redundant, dummy, corrupted, zero-carrying and reserved-PID pages; a clock-only and a clock-subset message using an earlier mask; a message whose mask never arrived; an incomplete message; a Message ID reused with new content |
 | `b2b` | each message type, the not-available codes, URAI 0 and 63, entries past the mask, a clock message without its mask, null, reserved type, bad CRC and short frames |
+| `l1s` | a PRN mask over all five systems, data issue numbers and pseudorange corrections through it (with the −81.92 m code and the extreme values), corrections without a mask, monitoring stations with unused slots, satellite health, a DC Report of each of the twelve categories (with depth and magnitude codes, arrival states, a UTF-8 headline, a non-zero spare) and of an unused category, DCX messages of each kind built from the field values of DCX-004's section 5 examples and calculation examples, the NULL and a discarded message, test mode, null and a broken CRC |
+| `qznma` | two RDS (GPS LNAV, Galileo I/NAV) with a DRAFT ST13,1 of seven MACs; a filler RDS, an unused RDS and the DRAFT default ST13,1; a DRAFT ST13,3 split into two ST13,11 segments received out of order from two satellites; other vendors, a short frame and a wrong preamble |
 | `l6` | a CLAS subframe with sub types 1 to 12 across three data parts, the mask carried to the next subframe, no mask, IOD SSR mismatch and a truncated subframe; MADOCA-PPP with GNSS ID 7 and Galileo E6; the MADOCA-PPP ionospheric coverage and correction messages; QZNMA and orphan data parts, wrong preamble, short frames |
 
 ### Checking against the HAS ICD's own examples (opt-in)
@@ -117,14 +243,21 @@ It compares the computed generator matrix with Annex B entry by entry, the messa
 example's pages with the hex the annex prints, and the decoded header, mask, orbit, clock, code-bias and
 phase-bias values with the annex's (the annex prints the 2-bit multiplier code, the decoder the
 multiplier). Without the variable the test does nothing. The BeiDou PPP-B2b and QZSS documents give no
-worked examples of their messages, so for B2b and L6 only the self-derived vectors exist.
+worked bit-level examples of their messages, so for B2b, L6, L1S and QZNMA only the self-derived vectors
+exist. Where a QZSS document gives decoded examples or calculation examples (DCX-004 section 5 and the
+calculation examples of sections 4.2.3.12 to 4.2.4.1.7), the vectors and unit tests use those values.
 
 ## Not covered
 
 * Channel decoding: E6-B Viterbi and de-interleaving, the B2b 64-ary LDPC, the L6 Reed-Solomon code.
 * Applying corrections in a position solution, and the HAS completion time-out.
-* QZNMA (L6E) and QZSS L1S (SLAS, DC Report), and CLAS message authentication (no published final
-  interface).
+* Choosing navigation messages by their reference ephemeris and clock (IODE, toe, IODnav): the
+  verifier tries the stored copies instead. Decoding the navigation messages from a receiver
+  log: the navigation file is written by the user.
+* A command-line check of the DRAFT CLAS authentication (its checks are library functions).
+* A final CLAS correction-message-authentication interface: what is here follows the SAS-002 draft.
+* The lookup tables of the DC Report and DCX documents (region, volcano, warning and other codes,
+  mostly in Japanese) and the receiver sentence output of DCR-017 section 4.3.
 * Authorised or restricted services of any system.
 
 MODELLED: no live or recorded broadcast has been decoded with these decoders in this repository.
