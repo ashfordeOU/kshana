@@ -252,3 +252,57 @@ fn the_command_line_and_its_exit_codes() {
         Some(1)
     );
 }
+
+/// One synthetic pack per operating-envelope family, each signed by the independent Python
+/// signer: every one verifies, reports its family, and is reproduced by the Rust signer.
+#[test]
+fn one_synthetic_pack_per_envelope_family_round_trips() {
+    const FAMILIES: [&str; 9] = [
+        "interference-and-forensics",
+        "maritime",
+        "aviation-and-airspace",
+        "land-transport-agriculture-and-cellular",
+        "timing",
+        "insurance-and-finance",
+        "eloran-and-terrestrial",
+        "receivers-space-and-test",
+        "evidence-and-governance",
+    ];
+    let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("tests/fixtures/signed_dir/families");
+    let on_disk = std::fs::read_dir(&root).unwrap().count();
+    assert_eq!(on_disk, FAMILIES.len());
+    for (i, fam) in FAMILIES.iter().enumerate() {
+        let dir = root.join(fam);
+        let r = verify_dir(&dir, &[key()]).unwrap();
+        assert!(r.passed, "{fam}: {r:#?}");
+        assert_eq!(r.envelope["family"], *fam);
+        assert_eq!(r.envelope["format"], format!("example-{fam}/1"));
+        assert_eq!(r.files_listed, 3);
+        // The Rust signer gives the same statement for the same files and time.
+        let tmp = std::env::temp_dir().join(format!(
+            "kshana-signed-dir-family-{}-{}",
+            std::process::id(),
+            SEQ.fetch_add(1, Relaxed)
+        ));
+        let _ = std::fs::remove_dir_all(&tmp);
+        copy_dir(&dir, &tmp);
+        sign_dir(
+            &tmp,
+            &seed(),
+            "Test signer (synthetic)",
+            &format!("2026-11-21T10:{i:02}:00Z"),
+        )
+        .unwrap();
+        let a: Value =
+            serde_json::from_str(&std::fs::read_to_string(dir.join("signature.json")).unwrap())
+                .unwrap();
+        let b: Value =
+            serde_json::from_str(&std::fs::read_to_string(tmp.join("signature.json")).unwrap())
+                .unwrap();
+        assert_eq!(a, b, "{fam}");
+        // And a changed report in that family is refused.
+        std::fs::write(tmp.join("report.json"), "{}").unwrap();
+        assert!(!verify_dir(&tmp, &[key()]).unwrap().passed, "{fam}");
+        let _ = std::fs::remove_dir_all(&tmp);
+    }
+}

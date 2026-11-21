@@ -76,7 +76,17 @@ published seed: SHA-256 of `signed directory test vector`, public key
 `a729ef7c772d4bf0da7a88d434bc2d4003084c548641bdfa1e5bbc3c7fb2b209`. The pack is not a real
 output, and the key proves nothing about any signer.
 
+It also writes one synthetic pack per operating-envelope family under
+`tests/fixtures/signed_dir/families/<family>/`. The families are `interference-and-forensics`,
+`maritime`, `aviation-and-airspace`, `land-transport-agriculture-and-cellular`, `timing`,
+`insurance-and-finance`, `eloran-and-terrestrial`, `receivers-space-and-test` and
+`evidence-and-governance`. Each pack's envelope has a neutral format tag, `example-<family>/1`;
+the verifier is generic and does not depend on the tag.
+
 The tests check that:
+
+- every family pack verifies, reports its family, is reproduced by the Rust signer, and is
+  refused once a file in it changes;
 
 - the pack verifies;
 - without `--trust` it is intact but untrusted;
