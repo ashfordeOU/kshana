@@ -10614,7 +10614,7 @@ engine-main-usage =
     { "   " }of: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }of: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
     { "   " }of: kshana time-vectors [--json] [<vectors.json|dir> ...]
-    { "   " }of: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
+    { "   " }of: kshana corrections <decode --format <has|b2b|l6|l1s|qznma> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }of: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
     { "   " }of: kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
     { "   " }of: kshana orbit-data <check|convert|gp-compare|gp-audit|cov> ... (kshana orbit-data --help)
@@ -11563,11 +11563,11 @@ engine-e-interference-incidents-source-url-required = --source-url is verplicht:
 
 ## Correction decoders (src/corrections/)
 engine-e-corrections-bad-hex = geen hexadecimaal frame: { $line }
-engine-e-corrections-unknown-decoder = onbekende decoder { $decoder } (has, b2b, l6)
+engine-e-corrections-unknown-decoder = onbekende decoder { $decoder } (has, b2b, l6, l1s, qznma)
 engine-e-corrections-bad-vector = vector { $id } mist hexadecimale frames of een expect-object
 engine-e-corrections-bad-file = { $file } is geen { $format }-document (formaatlabel en een vectors-array)
 engine-corrections-summary = { $n } vectoren: { $passed } geslaagd, { $failed } mislukt
-engine-corrections-usage = gebruik: kshana corrections decode --format <has|b2b|l6> <frames.txt | -> | kshana corrections vectors [--json] [<vectors.json | dir> ...]  (één frame per regel in hexadecimaal; docs/CORRECTION-DECODERS.md)
+engine-corrections-usage = gebruik: kshana corrections decode --format <has|b2b|l6|l1s|qznma> <frames.txt | -> | kshana corrections vectors [--json] [<vectors.json | dir> ...]  (één frame per regel in hexadecimaal; docs/CORRECTION-DECODERS.md)
 
 ## src/space_weather_pnt/
 
