@@ -16,6 +16,8 @@ import org.orekit.files.ccsds.ndm.ParserBuilder;
 import org.orekit.files.ccsds.ndm.odm.oem.Oem;
 import org.orekit.files.ccsds.ndm.odm.oem.OemMetadata;
 import org.orekit.files.ccsds.ndm.odm.oem.OemSegment;
+import org.orekit.time.TimeScale;
+import org.orekit.time.TimeScalesFactory;
 import org.orekit.utils.TimeStampedPVCoordinates;
 
 public class OrekitOemReader {
@@ -35,10 +37,19 @@ public class OrekitOemReader {
                         + " | " + md.getCenter().getName() + " | " + md.getReferenceFrame().getName()
                         + " | " + md.getTimeSystem() + " | " + md.getStartTime()
                         + " | " + md.getStopTime());
+                    // Offsets are measured in the file's own TIME_SYSTEM, as the epochs are
+                    // labels in that scale (durationFrom would measure them in TAI).
+                    TimeScale scale;
+                    switch (md.getTimeSystem().name()) {
+                        case "TDB": scale = TimeScalesFactory.getTDB(); break;
+                        case "TT": scale = TimeScalesFactory.getTT(); break;
+                        case "UTC": scale = TimeScalesFactory.getUTC(); break;
+                        default: scale = TimeScalesFactory.getTAI();
+                    }
                     for (TimeStampedPVCoordinates pv : seg.getData().getEphemeridesDataLines()) {
                         System.out.println(String.format(Locale.ROOT,
                             "STATE %s t+%s %.17e %.17e %.17e %.17e %.17e %.17e", name,
-                            String.format(Locale.ROOT, "%.6f", pv.getDate().durationFrom(md.getStartTime())),
+                            String.format(Locale.ROOT, "%.9f", pv.getDate().offsetFrom(md.getStartTime(), scale)),
                             pv.getPosition().getX() / 1000.0, pv.getPosition().getY() / 1000.0,
                             pv.getPosition().getZ() / 1000.0, pv.getVelocity().getX() / 1000.0,
                             pv.getVelocity().getY() / 1000.0, pv.getVelocity().getZ() / 1000.0));
