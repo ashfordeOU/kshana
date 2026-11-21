@@ -495,8 +495,12 @@ use in those pages.
 - **WGS-84 — World Geodetic System 1984.** The Earth ellipsoid GPS uses.
 - **UTC / TAI / TT / UT1 / TDB — Coordinated Universal Time / International Atomic Time /
   Terrestrial Time / Universal Time 1 (Earth-rotation time) / Barycentric Dynamical Time.**
-- **LTC / TCL — Lunar Coordinate Time (Temps-Coordonnée Lunaire).** The proposed time
-  scale for the Moon.
+- **TCL — Lunar Coordinate Time (Temps-Coordonnée Lunaire).** The coordinate time of the
+  IAU 2024 lunar reference system, the lunar counterpart of TCG.
+- **LTC — a lunar-surface time scale.** In kshana, the lunar-surface time model of
+  `src/lunar_time.rs` (`kshana lunar-ref convert`); the label is proposed, not adopted. LTC and
+  TCL are different scales. Neither is in the SANA time-systems registry that CCSDS messages
+  take `TIME_SYSTEM` from.
 - **OD — orbit determination.** Recovering an orbit from tracking measurements.
 - **CR3BP**, **NRHO** and **DRO** are defined under "Orbits & cislunar" above.
 

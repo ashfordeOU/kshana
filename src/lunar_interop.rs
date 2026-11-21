@@ -70,16 +70,44 @@ impl LunarFrameId {
     }
 }
 
-/// The lunar time scale an artifact's epochs are tagged with. The string forms are the
-/// CCSDS `TIME_SYSTEM` / LunaNet time-scale tags.
+/// The lunar time scale an artifact's epochs are tagged with: the `TIME_SYSTEM` token of the
+/// OEM and the scale id of the descriptor. The names follow `kshana lunar-ref`
+/// (`docs/LUNAR-REF.md`): TCL is the lunar coordinate time, LTC a lunar-surface time scale; they
+/// are different scales, not two spellings of one.
+///
+/// Neither `LTC` nor `TCL` is a value of the SANA time-systems registry that CCSDS 502.0 points
+/// `TIME_SYSTEM` to ([`SANA_TIME_SYSTEMS`]); a strict CCSDS reader refuses them (Orekit 12.2
+/// does, `docs/VERIFICATION-MATRIX.md`, VM-a157b399). `UTC` is registered.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub enum LunarTimeId {
-    /// Lunar Coordinate Time (`LTC`).
+    /// A lunar-surface time scale (`LTC`): the model of [`crate::lunar_time`], the label
+    /// `kshana lunar-ref convert` uses. The label is proposed, not an adopted standard name
+    /// (to confirm).
     Ltc,
-    /// Lunar coordinate time scale, barycentric-style label (`TCL`).
+    /// Lunar Coordinate Time (`TCL`, Temps-Coordonnée Lunaire): the coordinate time of the IAU
+    /// 2024 lunar reference system, as `kshana lunar-ref` carries it.
     Tcl,
     /// Coordinated Universal Time (`UTC`) — the Earth tie.
     Utc,
+}
+
+/// The values of the SANA time-systems registry (<https://sanaregistry.org/r/time_systems>,
+/// read 2026-11-21: 15 records, the latest change GMST on 2023-05-17), which CCSDS 502.0 names
+/// as the source of `TIME_SYSTEM` values. It holds no lunar time scale.
+pub const SANA_TIME_SYSTEMS: [&str; 15] = [
+    "UT1", "GPS", "BEIDOU", "TCB", "TCG", "ET", "UTC", "NAVIC", "SCLK", "GALILEO", "GLONASS",
+    "TAI", "TDB", "TT", "GMST",
+];
+
+/// Whether a `TIME_SYSTEM` token is a value of the SANA time-systems registry.
+pub fn time_system_is_sana_registered(token: &str) -> bool {
+    SANA_TIME_SYSTEMS.contains(&token)
+}
+
+/// Whether a `TIME_SYSTEM` token is one the lunar interchange reads: a lunar token
+/// ([`LunarTimeId`]) or a SANA-registered value.
+pub fn time_system_is_recognised(token: &str) -> bool {
+    matches!(token, "LTC" | "TCL") || time_system_is_sana_registered(token)
 }
 
 impl LunarTimeId {
@@ -145,6 +173,10 @@ fn epoch_at(offset_s: f64) -> EpochUtc {
 ///
 /// The OEM header `REF_FRAME` is set to the lunar frame token (`MOON_ME` / `MOON_PA`) and
 /// `TIME_SYSTEM` to the lunar time token (`LTC` / `TCL` / `UTC`); `CENTER_NAME` is `MOON`.
+/// Each epoch is the grid instant 2030-01-01T00:00:00 + `t_s`, written in the scale
+/// `TIME_SYSTEM` names, so label and epochs agree. The states carry no absolute epoch of their
+/// own (`t_s` is seconds from the segment start), so the grid is a label: exports of the same
+/// states in two scales carry the same calendar numbers, which are different instants.
 /// The state grid is written in km / km·s⁻¹ (the OEM unit convention) from the supplied
 /// `states` (m / m·s⁻¹). The `CREATION_DATE` is a fixed deterministic epoch (never
 /// wall-clock) so the same inputs produce byte-identical output.
@@ -331,7 +363,9 @@ const REQUIRED_OEM_FIELDS: &[&str] = &[
 /// [`crate::oem::parse_oem`] round-trip: even when the parser would accept a message, this
 /// reports a structured pass / field list so a broken export (e.g. a dropped `TIME_SYSTEM`)
 /// is caught and named. `pass` requires every required field present, a lunar `REF_FRAME`
-/// token (`MOON_*`), a non-empty `TIME_SYSTEM`, and ≥ 1 data line.
+/// token (`MOON_*`), a `TIME_SYSTEM` the interchange recognises (`LTC`, `TCL` or a SANA value,
+/// [`time_system_is_recognised`]), and ≥ 1 data line. Before 0.42 any non-empty `TIME_SYSTEM`
+/// passed.
 pub fn oem_conformance(oem: &str) -> OemConformance {
     let mut present = Vec::new();
     let mut missing = Vec::new();
@@ -389,7 +423,7 @@ pub fn oem_conformance(oem: &str) -> OemConformance {
         .unwrap_or(false);
     let time_present = time_system
         .as_deref()
-        .map(|t| !t.is_empty())
+        .map(time_system_is_recognised)
         .unwrap_or(false);
 
     let pass = missing.is_empty() && frame_is_lunar && time_present && data_lines >= 1;
@@ -412,6 +446,11 @@ pub fn oem_conformance(oem: &str) -> OemConformance {
 /// public-source LCNS-class constellation: `n` states stepped `step_s` apart, position from
 /// [`crate::lunar_service::LunarSat::position_mci`] and velocity by central finite difference
 /// of the same analytic position. **Illustrative; public-source; not affiliated with ESA.**
+///
+/// These are Moon-centred *inertial* states; the scenario writes them under the body-fixed
+/// `REF_FRAME` it is given (`MOON_ME` / `MOON_PA`) without rotating them. A finding recorded in
+/// 0.42, not changed: the label names the frame the interchange carries, not one the sample
+/// states were reduced to.
 fn sample_lunar_states(n: usize, step_s: f64) -> Vec<EphemState> {
     let sat = LunarConstellation::illustrative_lcns(1).sats[0];
     let dt = 1.0_f64; // 1 s half-step for the velocity finite difference
@@ -747,6 +786,58 @@ mod tests {
         let oem_pa = export_lunar_oem("LCNS-1", LunarFrameId::MoonPa, LunarTimeId::Tcl, &states);
         assert!(oem_pa.contains("REF_FRAME = MOON_PA"));
         assert!(oem_pa.contains("TIME_SYSTEM = TCL"));
+    }
+
+    #[test]
+    fn each_time_system_label_agrees_with_the_epochs_written_and_read() {
+        // PIN-SCOPE:    the TIME_SYSTEM token and the epoch grid (2030-01-01T00:00:00 + t_s) of
+        //               the lunar OEM in each scale, read back through crate::oem::parse_oem.
+        // PIN-EXCLUDES: the state vectors (an illustrative ephemeris).
+        let states = sample_lunar_states(4, 900.0);
+        let mut grids = Vec::new();
+        for ts in [LunarTimeId::Ltc, LunarTimeId::Tcl, LunarTimeId::Utc] {
+            let oem = export_lunar_oem("LCNS-1", LunarFrameId::MoonMe, ts, &states);
+            let f = crate::oem::parse_oem(&oem).expect("the lunar OEM parses");
+            let seg = &f.segments[0];
+            assert_eq!(seg.meta.time_system, ts.as_ccsds_str());
+            let grid: Vec<(u32, u32, f64)> = seg
+                .states
+                .iter()
+                .map(|l| {
+                    assert_eq!((l.epoch.year, l.epoch.month, l.epoch.day), (2030, 1, 1));
+                    (l.epoch.hour, l.epoch.minute, l.epoch.second)
+                })
+                .collect();
+            for (k, (h, m, sec)) in grid.iter().enumerate() {
+                let want = 900.0 * k as f64;
+                assert!((*h as f64 * 3600.0 + *m as f64 * 60.0 + sec - want).abs() < 1e-9);
+            }
+            grids.push(grid);
+        }
+        // The same calendar numbers in every scale: the grid is a label (different instants).
+        assert!(grids.windows(2).all(|w| w[0] == w[1]));
+    }
+
+    #[test]
+    fn lunar_time_tokens_are_not_sana_values_and_the_reader_refuses_unknown_ones() {
+        assert!(time_system_is_sana_registered("UTC"));
+        assert!(time_system_is_sana_registered("TDB"));
+        assert!(!time_system_is_sana_registered("LTC"));
+        assert!(!time_system_is_sana_registered("TCL"));
+        for ts in [LunarTimeId::Ltc, LunarTimeId::Tcl, LunarTimeId::Utc] {
+            assert!(time_system_is_recognised(ts.as_ccsds_str()));
+        }
+        let states = sample_lunar_states(3, 600.0);
+        let good = export_lunar_oem("LCNS-1", LunarFrameId::MoonMe, LunarTimeId::Tcl, &states);
+        assert!(oem_conformance(&good).pass);
+        // An unknown token used to pass as merely non-empty; it is refused now.
+        let odd = good.replace("TIME_SYSTEM = TCL", "TIME_SYSTEM = MOONTIME");
+        let c = oem_conformance(&odd);
+        assert!(!c.pass, "{c:?}");
+        assert_eq!(c.time_system.as_deref(), Some("MOONTIME"));
+        // A SANA value such as TDB is read.
+        let tdb = good.replace("TIME_SYSTEM = TCL", "TIME_SYSTEM = TDB");
+        assert!(oem_conformance(&tdb).pass);
     }
 
     #[test]
