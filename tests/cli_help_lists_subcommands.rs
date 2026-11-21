@@ -38,6 +38,7 @@ fn the_top_level_usage_names_every_subcommand() {
         "decimate",
         "time-vectors",
         "ais-integrity",
+        "interference-lib",
         "corrections",
         "space-weather",
         "rtk-qa",
