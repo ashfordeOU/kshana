@@ -10031,6 +10031,7 @@ engine-main-usage =
     { "   " }または：kshana sil-obsgen <scenario.toml> --out <obs.rnx> [--truth <truth.json>]
     { "   " }または：kshana osnma scenario run <scenario.json> [--json] | template (kshana osnma scenario --help)
     { "   " }または：kshana lunar-oem convert <in.oem> --to ICRF|MOON_PA440|MOON_ME [--out <file>] | frames (kshana lunar-oem --help)
+    { "   " }または：kshana leo-sparse <study.toml>
     { "   " }または：kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }または：kshana corrections <decode --format <has|b2b|l6|l1s|qznma> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...] | qznma-verify [--frames <frames.txt>] [--nav <nav.txt>] --pubkey <key.der> ...>
     { "   " }または：kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
@@ -11322,3 +11323,10 @@ engine-leo-od-plan-usage = 使い方：kshana leo-od-plan <plan.toml>  (docs/LEO
 engine-e-leo-od-plan-bad-plan = 計画の数値が範囲外です：アーク、ステップ、雑音、マスクは正の有限値、ステップ数は最大 100000、マスクは ±90 度以内、半ビーム幅は 0 から 90 度、LEO ウォーカー配置は面数が衛星数を割り切ること
 engine-e-leo-od-plan-cannot-read = { $path } を読み込めません：{ $e }
 engine-e-leo-od-plan-bad-file = { $path } は計画ファイルではありません：{ $e }
+
+## Sparse-geometry LEO-PNT study (src/leo_sparse.rs, docs/LEO-SPARSE.md)
+engine-leo-sparse-usage = 使い方：kshana leo-sparse <study.toml>  (docs/LEO-SPARSE.md; MODELLED, a planning study)
+engine-e-leo-sparse-bad-study = 検討の数値が範囲外です：有効な利用者位置、面数が衛星数を割り切る 3000 km 未満の LEO ウォーカー配置、0 から 90 度のマスク、max_in_view は 1 または 2、正の雑音・事前値・目標値、ステップ数は最大 200000、報告間隔はステップ以上であること
+engine-e-leo-sparse-singular = 事前値を加えても情報行列を逆行列にできません
+engine-e-leo-sparse-cannot-read = { $path } を読み込めません：{ $e }
+engine-e-leo-sparse-bad-file = { $path } は検討ファイルではありません：{ $e }

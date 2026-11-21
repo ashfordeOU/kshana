@@ -10557,6 +10557,7 @@ engine-main-usage =
     { "   " }tai: kshana sil-obsgen <scenario.toml> --out <obs.rnx> [--truth <truth.json>]
     { "   " }tai: kshana osnma scenario run <scenario.json> [--json] | template (kshana osnma scenario --help)
     { "   " }tai: kshana lunar-oem convert <in.oem> --to ICRF|MOON_PA440|MOON_ME [--out <file>] | frames (kshana lunar-oem --help)
+    { "   " }tai: kshana leo-sparse <study.toml>
     { "   " }tai: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }tai: kshana corrections <decode --format <has|b2b|l6|l1s|qznma> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...] | qznma-verify [--frames <frames.txt>] [--nav <nav.txt>] --pubkey <key.der> ...>
     { "   " }tai: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
@@ -11841,3 +11842,10 @@ engine-leo-od-plan-usage = käyttö: kshana leo-od-plan <plan.toml>  (docs/LEO-O
 engine-e-leo-od-plan-bad-plan = suunnitelman arvot ovat sallitun alueen ulkopuolella: kaari, askel, kohinat ja maskit positiivisia ja äärellisiä, enintään 100000 askelta, maskit ±90 asteen sisällä, puolikeilanleveys 0–90 astetta ja LEO-Walker-kuvio, jonka tasot jakavat satelliittien määrän
 engine-e-leo-od-plan-cannot-read = tiedostoa { $path } ei voi lukea: { $e }
 engine-e-leo-od-plan-bad-file = { $path } ei ole suunnitelma: { $e }
+
+## Sparse-geometry LEO-PNT study (src/leo_sparse.rs, docs/LEO-SPARSE.md)
+engine-leo-sparse-usage = käyttö: kshana leo-sparse <study.toml>  (docs/LEO-SPARSE.md; MODELLED, a planning study)
+engine-e-leo-sparse-bad-study = tutkimuksen arvot ovat sallitun alueen ulkopuolella: kelvollinen käyttäjän sijainti, alle 3000 km:n LEO-Walker-kuvio, jonka tasot jakavat satelliittien määrän, maski 0–90 astetta, max_in_view 1 tai 2, positiiviset kohinat, a priori -arvot ja tavoitteet, enintään 200000 askelta ja raportointiväli vähintään askeleen pituinen
+engine-e-leo-sparse-singular = informaatiomatriisia ei voi kääntää edes a priori -arvojen kanssa
+engine-e-leo-sparse-cannot-read = tiedostoa { $path } ei voi lukea: { $e }
+engine-e-leo-sparse-bad-file = { $path } ei ole tutkimus: { $e }
