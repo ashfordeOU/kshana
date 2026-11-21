@@ -193,6 +193,42 @@ pub fn f_files(segments: &[Segment], split: Split) -> Result<(Value, Value), Ben
     Ok((Value::Object(cases), Value::Object(truth)))
 }
 
+/// Cases and truth with every segment assigned to `split` (the private holdout of a file the
+/// owner keeps; the publisher's `train` column is ignored).
+pub fn f_files_all_as(segments: &[Segment], split: Split) -> (Value, Value) {
+    let all: Vec<Segment> = segments
+        .iter()
+        .cloned()
+        .map(|mut s| {
+            s.split = split;
+            s
+        })
+        .collect();
+    let mine: Vec<&Segment> = all.iter().collect();
+    let mut cases = head(CASES_SCHEMA, split);
+    cases.insert("features".into(), json!(F_FEATURES));
+    cases.insert(
+        "cases".into(),
+        Value::Array(
+            mine.iter()
+                .map(|s| {
+                    json!({"id": s.id, "channel": s.channel, "sampling": s.sampling, "features": s.features})
+                })
+                .collect(),
+        ),
+    );
+    let mut truth = head(TRUTH_SCHEMA, split);
+    truth.insert(
+        "labels".into(),
+        Value::Array(
+            mine.iter()
+                .map(|s| json!({"id": s.id, "positive": s.anomaly, "channel": s.channel}))
+                .collect(),
+        ),
+    );
+    (Value::Object(cases), Value::Object(truth))
+}
+
 /// Median of a non-empty slice (the mean of the two middle values for an even length).
 fn median(v: &[f64]) -> f64 {
     let mut s = v.to_vec();

@@ -10689,6 +10689,15 @@ engine-e-interference-atlas-bad-obs = { $path } ei ole RINEX-vaatlusfail: { $e }
 engine-e-interference-atlas-no-cn0 = kahes vaatlusfailis pole ühtegi GPS-satelliiti C/N0-ga, mis oleks ühe maajälje korduse kaugusel
 engine-e-interference-atlas-bad-station = jaam vajab lat,lon kraadides (või ligikaudset asukohta vaatluse päises), mitte { $value }
 
+## Private holdout of kshana-bench tasks (f) and (g) (src/bench/holdout.rs)
+engine-e-bench-holdout-inside-repository = privaatset holdouti ei kirjutata hoidlasse: { $path } (valige kataloog väljaspool seda)
+engine-e-bench-holdout-task = privaatne holdout on olemas ainult ülesannetel (f) ja (g)
+engine-e-bench-holdout-no-truth = ülesandel ({ $task }) puudub privaatne tõde: andke --truth <file> või määrake { $var }
+engine-bench-holdout-not-a-private-truth = see ei ole privaatse holdouti tõde: see peab olema ülesande (f) või (g) kshana-benchi tõefail jaotusega holdout
+engine-bench-holdout-not-registered = ülesande ({ $task }) tõde SHA-256-ga { $sha } pole failis bench/holdout/PRIVATE.json registreeritud
+engine-bench-site-holdout-not-private = tulemus { $v1 } on ülesande (f) või (g) holdouti tulemus, mida pole märgitud privaatseks või mille tõde pole registreeritud
+engine-bench-site-provenance-private-holdout = hinnatud privaatsel holdoutil (registreeritud tõde)
+
 engine-main-usage =
     kasutus: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }või: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10706,7 +10715,7 @@ engine-main-usage =
     { "   " }või: kshana nmea-scenario <scenario.toml> [--out <file.nmea>] [--tcp <addr>|--udp <addr>] (kshana nmea-scenario --help)
     { "   " }või: kshana interference-map <adsb|ais|fetch-land> ... (kshana interference-map --help)
     { "   " }või: kshana route-exposure --route <route> --map <map.geojson|dir> [--from <date>] [--to <date>]
-    { "   " }või: kshana bench <spec|truth|cases|score|baseline|seal|reveal-check|manifest|verify-manifest|validate|leaderboard|positions|datasets|cite|golden> ... (kshana bench --help)
+    { "   " }või: kshana bench <spec|truth|cases|score|baseline|seal|reveal-check|manifest|verify-manifest|validate|leaderboard|positions|datasets|cite|golden|holdout> ... (kshana bench --help)
     { "   " }või: kshana bench-export <scenario.toml> [--out <base>] [--epoch <YYYY-MM-DDTHH:MM:SS>]
     { "   " }või: kshana compliance-report [--out <base>] <result.json>... | --mapping | --sources
     { "   " }või: kshana lunanet-afs-check <spec [--json] [--strict]|symbols <file> [--max-sp-errors <n>] [--json]|generate --frames <n> [--toi0 <t>] --out <file>>
@@ -10885,6 +10894,9 @@ engine-bench-cli-usage =
     { "   " }või: kshana bench golden [--root <repo>] (--out <GOLDEN.json> | --check <GOLDEN.json>)
     { "   " }või: kshana bench validate <result.json>...
     { "   " }või: kshana bench leaderboard [<results dir|result.json>...] --out <page.html> [--fragment]   (sisendeid ei ole: tühi olek; --fragment: manustatav jaotis)
+    { "   " }või: kshana bench holdout truth --task <f|g> --data <private data> --out <private dir>
+    { "   " }või: kshana bench holdout register --truth <private truth.json>
+    { "   " }või: kshana bench holdout score --task <f|g> --predictions <predictions.json> [--truth <private truth.json>] [--out <result.json>]   (KSHANA_BENCH_HOLDOUT_F, KSHANA_BENCH_HOLDOUT_G)
     { "   " }(algväärtusefail hoiab suletud holdout'i taga olevat saladust; hoia see versioonihaldusest väljas)
 
 engine-bench-cli-match = kattub
