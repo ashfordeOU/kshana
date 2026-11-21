@@ -323,7 +323,7 @@ pub fn run(args: &[String]) -> Result<(), String> {
         interval_s,
     };
     loop {
-        let created = crate::iq::io::record::now_iso();
+        let created = now_iso();
         let now = now_s();
         let c = cycle(&cfg, now, &created, &mut |u, t, b| {
             crate::station::post(u, t, b)
@@ -364,4 +364,16 @@ mod tests {
         assert_eq!(backoff_s(1, 10), 30);
         assert!(refused_for_good(403) && !refused_for_good(429) && !refused_for_good(503));
     }
+}
+
+/// The current time as ISO 8601 UTC, from the computer's clock. In a WebAssembly build there is no
+/// clock to read: the string is empty.
+#[cfg(not(target_arch = "wasm32"))]
+fn now_iso() -> String {
+    crate::iq::io::record::now_iso()
+}
+
+#[cfg(target_arch = "wasm32")]
+fn now_iso() -> String {
+    String::new()
 }
