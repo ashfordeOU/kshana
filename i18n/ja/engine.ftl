@@ -9974,6 +9974,16 @@ engine-osnma-scenario-report-overall = 全体：{ $status }
 engine-osnma-scenario-report-check-met = チェック { $what }：期待値 { $expected }、観測値 { $observed }：満たす
 engine-osnma-scenario-report-check-not-met = チェック { $what }：期待値 { $expected }、観測値 { $observed }：満たさない (NOT MET)
 
+## Lunar OEM frame conversion (src/lunar_oem.rs)
+engine-lunar-oem-usage = 使い方：kshana lunar-oem convert <in.oem> --to ICRF|MOON_PA440|MOON_ME [--out <file>] | frames   (Moon-centred CCSDS OEM, positions and velocities, DE440 lunar orientation 2014 to 2030; docs/LUNAR-OEM.md)
+engine-e-lunar-oem-missing-value = { $option } には値が必要です
+engine-e-lunar-oem-unknown-option = 不明なオプション { $option }（kshana lunar-oem --help でオプションを一覧表示）
+engine-e-lunar-oem-cannot-read = { $path } を読み込めません：{ $e }
+engine-e-lunar-oem-cannot-write = { $path } に書き込めません：{ $e }
+engine-e-lunar-oem-time-system = TIME_SYSTEM { $time_system } は月の姿勢のために TDB へ変換できません（TDB、TT、TAI、GPS、UTC のいずれか）
+engine-e-lunar-oem-not-moon-centred = CENTER_NAME は { $center } です。変換できるのは月中心の OEM（CENTER_NAME = MOON）だけです
+engine-e-lunar-oem-unknown-frame = REF_FRAME { $frame } はここでは変換しません（ICRF、MOON_PA440、MOON_ME。読み込みは MOON_PA_DE440、MOON_ME_DE440_ME421、MOON_PA も可。EME2000 と J2000 は ICRF とフレームバイアス分異なり、それは適用しません）
+
 engine-main-usage =
     使い方：kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }または：kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10020,6 +10030,7 @@ engine-main-usage =
     { "   " }または：kshana timing-stack <tai|ts2phc|pps|shm|ntpq|nts> ... (kshana timing-stack --help)
     { "   " }または：kshana sil-obsgen <scenario.toml> --out <obs.rnx> [--truth <truth.json>]
     { "   " }または：kshana osnma scenario run <scenario.json> [--json] | template (kshana osnma scenario --help)
+    { "   " }または：kshana lunar-oem convert <in.oem> --to ICRF|MOON_PA440|MOON_ME [--out <file>] | frames (kshana lunar-oem --help)
     { "   " }または：kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }または：kshana corrections <decode --format <has|b2b|l6|l1s|qznma> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...] | qznma-verify [--frames <frames.txt>] [--nav <nav.txt>] --pubkey <key.der> ...>
     { "   " }または：kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>

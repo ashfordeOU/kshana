@@ -55,6 +55,7 @@ fn the_top_level_usage_names_every_subcommand() {
         "timing-stack",
         "register-products",
         "sil-obsgen",
+        "lunar-oem",
         "corrections",
         "space-weather",
         "rtk-qa",
