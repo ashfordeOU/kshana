@@ -63,7 +63,7 @@ pub fn scores_doc(task: &str, split: &str, name: &str, scores: &BTreeMap<String,
     })
 }
 
-fn labels_of(truth: &Value) -> Result<Vec<Labeled>, BenchError> {
+pub(crate) fn labels_of(truth: &Value) -> Result<Vec<Labeled>, BenchError> {
     let arr = truth
         .get("labels")
         .and_then(Value::as_array)
@@ -84,7 +84,7 @@ fn labels_of(truth: &Value) -> Result<Vec<Labeled>, BenchError> {
         .collect()
 }
 
-fn scores_of(preds: &Value) -> Result<BTreeMap<String, f64>, BenchError> {
+pub(crate) fn scores_of(preds: &Value) -> Result<BTreeMap<String, f64>, BenchError> {
     let m = preds
         .get("scores")
         .and_then(Value::as_object)

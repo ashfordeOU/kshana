@@ -9843,7 +9843,7 @@ engine-main-usage =
     { "   " }或：kshana nmea-scenario <scenario.toml> [--out <file.nmea>] [--tcp <addr>|--udp <addr>] (kshana nmea-scenario --help)
     { "   " }或：kshana interference-map <adsb|ais|fetch-land> ... (kshana interference-map --help)
     { "   " }或：kshana route-exposure --route <route> --map <map.geojson|dir> [--from <date>] [--to <date>]
-    { "   " }或：kshana bench <spec|truth|cases|score|baseline|seal|reveal-check|manifest|verify-manifest|validate|leaderboard> ... (kshana bench --help)
+    { "   " }或：kshana bench <spec|truth|cases|score|baseline|seal|reveal-check|manifest|verify-manifest|validate|leaderboard|positions|datasets|cite|golden> ... (kshana bench --help)
     { "   " }或：kshana bench-export <scenario.toml> [--out <base>] [--epoch <YYYY-MM-DDTHH:MM:SS>]
     { "   " }或：kshana compliance-report [--out <base>] <result.json>... | --mapping | --sources
     { "   " }或：kshana lunanet-afs-check <spec [--json] [--strict]|symbols <file> [--max-sp-errors <n>] [--json]|generate --frames <n> [--toi0 <t>] --out <file>>
@@ -9991,13 +9991,18 @@ engine-interference-map-cli-col-not-observed = 未观测
 engine-bench-cli-usage =
     用法：kshana bench spec
     { "   " }或：kshana bench truth --task a --data <extracted JammerTest 2024 dir> --split <dev|test|holdout|all> --out <truth.json>
-    { "   " }或：kshana bench cases --task <c|d> --split <dev|test|holdout> --out <dir> [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
+    { "   " }或：kshana bench truth --task g --data <GSDC-layout train dir> --split <dev|test|holdout> --out <truth.json>
+    { "   " }或：kshana bench cases --task <c|d|f> --split <dev|test|holdout> --out <dir> [--data <dataset.csv>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
     { "   " }或：kshana bench score --truth <truth.json> --predictions <predictions.json> [--threshold <x>] [--out <result.json>]
-    { "   " }或：kshana bench baseline --task <a|b|c|d> --split <dev|test|holdout> --out <dir> [--data <dir>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
+    { "   " }或：kshana bench baseline --task <a|b|c|d|e|f|g> --split <dev|test|holdout> --out <dir> [--data <dir>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
     { "   " }或：kshana bench seal --task <a|b|c|d> --seed-file <file> [--new]
     { "   " }或：kshana bench reveal-check --task <a|b|c|d> --seed-file <file> --commitment <hex>
     { "   " }或：kshana bench manifest --task a --data <extracted dir> [--archive <tar.gz>] --out <manifest.json>
     { "   " }或：kshana bench verify-manifest <manifest.json> --root <dir>
+    { "   " }或：kshana bench positions --task g --split <dev|test|holdout> --csv <submission.csv> --name <system> [--version <v>] --out <predictions.json>
+    { "   " }或：kshana bench datasets [--json | --check [--root <repo>]]
+    { "   " }或：kshana bench cite <result.json>...
+    { "   " }或：kshana bench golden [--root <repo>] (--out <GOLDEN.json> | --check <GOLDEN.json>)
     { "   " }或：kshana bench validate <result.json>...
     { "   " }或：kshana bench leaderboard [<results dir|result.json>...] --out <page.html> [--fragment]   （无输入：空状态；--fragment：可嵌入的片段）
     { "   " }（种子文件保存封存保留集背后的密钥；请勿纳入版本控制）
@@ -10978,3 +10983,49 @@ engine-e-oscillator-input = { $part } 输入无效：{ $e }
 engine-e-oscillator-unknown-clock = 未知的时钟预设 { $id }（可选：{ $known }）
 
 engine-e-oscillator-field = { $field } 超出范围：{ $value }
+
+## src/bench: tasks (f) and (g), the dataset registry and the golden index (E34)
+
+engine-bench-data-no-header = { $file }：没有标题行
+
+engine-bench-data-no-column = { $file }：没有列 `{ $column }`
+
+engine-bench-data-bad-value = { $file } 第 { $line } 行：`{ $column }` 缺失或无效
+
+engine-bench-data-no-rows = { $file }：没有数据行
+
+engine-bench-task-has-no-holdout = 任务 ({ $task }) 没有保留划分：其数据和划分均已公开
+
+engine-bench-unknown-baseline = 未知基线 `{ $name }`
+
+engine-bench-g-no-traces = { $root } 下没有 <drive>/<phone>/ground_truth.csv
+
+engine-bench-g-no-object = 没有轨迹对象 `{ $key }`
+
+engine-bench-g-bad-epoch = 轨迹 `{ $id }`：每个历元必须是 [UnixTimeMillis, 纬度, 经度]
+
+engine-bench-f-dataset-mismatch = { $path }：SHA-256 { $got } 不是任务 (f) 固定的 dataset.csv；请用 scripts/fetch_opssat_ad.sh 获取
+
+engine-bench-cli-unknown-task-g = 未知任务 `{ $t }`（a 到 g）
+
+engine-bench-cli-wrote-predictions = 已写入 { $path }（{ $traces } 条轨迹）
+
+engine-bench-datasets-summary = { $n } 个数据集：基准内 { $in_bench } 个，候选 { $candidate } 个，待寻 { $wanted } 个
+
+engine-bench-datasets-ok = 登记表：{ $n } 个数据集，所有规则均满足
+
+engine-bench-golden-ok = { $n } 个冻结文件未变；引用标识稳定
+
+engine-bench-golden-written = 已写入 { $path }（{ $n } 个冻结文件）
+
+engine-bench-site-title-f = 任务 (f)：航天器遥测异常检测
+
+engine-bench-site-title-g = 任务 (g)：智能手机定位精度
+
+engine-bench-site-col-ap = 平均精度
+
+engine-bench-site-col-gsdc-score = 得分，P50 与 P95 的平均值 (m)
+
+engine-bench-site-col-p50 = P50 总体 (m)
+
+engine-bench-site-col-p95 = P95 总体 (m)

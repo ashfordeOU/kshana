@@ -10115,7 +10115,7 @@
   "id": "main-usage",
   "error": false,
   "parts": [
-   "usage: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]\n   or: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]\n   or: kshana --study <suite.toml>\n   or: kshana --validate <scenario.toml>\n   or: kshana receiver-trust <scenario.toml>\n   or: kshana receiver-trust live <session.toml> [--stdin | --file <path> [--follow] | --tcp <host:port> | --udp <port>] [--gate] (kshana receiver-trust live --help)\n   or: kshana receiver-trust evidence <scenario.toml> --from <t0> --to <t1> --key <keyfile> --out <dir> (kshana evidence --help)\n   or: kshana evidence <keygen|verify|attach-timestamp> ... (kshana evidence --help)\n   or: kshana jammertest <import|score> ... (kshana jammertest --help)\n   or: kshana evidence round-trip <scenario.toml> --scenario <bench-scenario> --conditions <file> --from <t0> --to <t1> --key <keyfile> --out <dir> (kshana evidence --help)\n   or: kshana trust-telemetry [options] (kshana trust-telemetry --help)\n   or: kshana imu-fit <imu.csv> [--format csv|euroc] [--axis x|y|z] [--expected-mean <m/s2>] [--id <name>] [--json]\n   or: kshana ephem-export <horizons.txt> [--format oem|opm|spk] [--out <file>] [--index <n>] [--spk-type 13|9] [--degree <n>] [--creation-date <YYYY-MM-DDTHH:MM:SS>] [--object-id <id>]\n   or: kshana nmea-scenario <scenario.toml> [--out <file.nmea>] [--tcp <addr>|--udp <addr>] (kshana nmea-scenario --help)\n   or: kshana interference-map <adsb|ais|fetch-land> ... (kshana interference-map --help)\n   or: kshana route-exposure --route <route> --map <map.geojson|dir> [--from <date>] [--to <date>]\n   or: kshana bench <spec|truth|cases|score|baseline|seal|reveal-check|manifest|verify-manifest|validate|leaderboard> ... (kshana bench --help)\n   or: kshana bench-export <scenario.toml> [--out <base>] [--epoch <YYYY-MM-DDTHH:MM:SS>]\n   or: kshana compliance-report [--out <base>] <result.json>... | --mapping | --sources\n   or: kshana lunanet-afs-check <spec [--json] [--strict]|symbols <file> [--max-sp-errors <n>] [--json]|generate --frames <n> [--toi0 <t>] --out <file>>\n   or: kshana standards-pack <list|run <id> [--json] [--out <base>]|rows <id>|tests <id>>\n   or: kshana partner check <submission.toml> [--json]\n   or: kshana scenario <migrate <scenario.toml> [--in-place] | version>\n   or: kshana obs <convert <log> --format <format> --station <station.toml> [--out <file>] | check <file.obs.jsonl> [--json]>\n   or: kshana connect <map <input> --mapping <connect.toml> --station <station.toml> [--out <file.obs.jsonl>] | check <vector.toml|dir> [--bless] | watch <dir> --mapping <connect.toml> --station <station.toml> [--suffix <.csv>] [--interval <s>] [--once] | mqtt <host:port> --topic <filter> --mapping <connect.toml> --station <station.toml> [--header <row>] [--qos 0|1] [--user <name> --password-env <VAR>] [--client-id <id>] [--max-messages <n>] [--per-topic] | nats <host:port> --subject <s> --mapping <connect.toml> --station <station.toml> [--header <row>] [--per-topic] [--user <name> --password-env <VAR> | --token-env <VAR>] [--max-messages <n>] | ws <ws://host:port/path> --mapping <connect.toml> --station <station.toml> [--header <row>] [--max-messages <n>] | check-live <vector.toml|dir> [--json] | load-test [--stations <n>] [--rate <Hz>] [--seconds <s>] [--via memory|mqtt] [--json] | adapters <list|check> [<dir>] [--json]>\n   or: kshana osnma verify <pages|vectors.csv|stream.ubx> [--merkle-root <hex>] [--public-key <id:type:hex>] [--reference-time <gst-s>] [--json] (kshana osnma --help)\n   or: kshana iq <scene|acquire|track|sweep|labfit|campaign|conditions|frontend|monitor|diagnose|gnss-sdr-conf|inventory|info|extract|convert|decimate> ... (kshana iq --help)\n   or: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)\n   or: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>\n   or: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]\n   or: kshana time-vectors [--json] [<vectors.json|dir> ...]\n   or: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>\n   or: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>\n   or: kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)\n   or: kshana orbit-data <check|convert|gp-compare|gp-audit|cov> ... (kshana orbit-data --help)\n   or: kshana drone <prearm|prearm-calibrate|estimator-cases|dr-budget|quad-loss|failover|zonotope-pl> ... (kshana drone --help)\n   or: kshana kinds [--json]\n   or: kshana example [<name>]\n   or: kshana --help | --version"
+   "usage: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]\n   or: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]\n   or: kshana --study <suite.toml>\n   or: kshana --validate <scenario.toml>\n   or: kshana receiver-trust <scenario.toml>\n   or: kshana receiver-trust live <session.toml> [--stdin | --file <path> [--follow] | --tcp <host:port> | --udp <port>] [--gate] (kshana receiver-trust live --help)\n   or: kshana receiver-trust evidence <scenario.toml> --from <t0> --to <t1> --key <keyfile> --out <dir> (kshana evidence --help)\n   or: kshana evidence <keygen|verify|attach-timestamp> ... (kshana evidence --help)\n   or: kshana jammertest <import|score> ... (kshana jammertest --help)\n   or: kshana evidence round-trip <scenario.toml> --scenario <bench-scenario> --conditions <file> --from <t0> --to <t1> --key <keyfile> --out <dir> (kshana evidence --help)\n   or: kshana trust-telemetry [options] (kshana trust-telemetry --help)\n   or: kshana imu-fit <imu.csv> [--format csv|euroc] [--axis x|y|z] [--expected-mean <m/s2>] [--id <name>] [--json]\n   or: kshana ephem-export <horizons.txt> [--format oem|opm|spk] [--out <file>] [--index <n>] [--spk-type 13|9] [--degree <n>] [--creation-date <YYYY-MM-DDTHH:MM:SS>] [--object-id <id>]\n   or: kshana nmea-scenario <scenario.toml> [--out <file.nmea>] [--tcp <addr>|--udp <addr>] (kshana nmea-scenario --help)\n   or: kshana interference-map <adsb|ais|fetch-land> ... (kshana interference-map --help)\n   or: kshana route-exposure --route <route> --map <map.geojson|dir> [--from <date>] [--to <date>]\n   or: kshana bench <spec|truth|cases|score|baseline|seal|reveal-check|manifest|verify-manifest|validate|leaderboard|positions|datasets|cite|golden> ... (kshana bench --help)\n   or: kshana bench-export <scenario.toml> [--out <base>] [--epoch <YYYY-MM-DDTHH:MM:SS>]\n   or: kshana compliance-report [--out <base>] <result.json>... | --mapping | --sources\n   or: kshana lunanet-afs-check <spec [--json] [--strict]|symbols <file> [--max-sp-errors <n>] [--json]|generate --frames <n> [--toi0 <t>] --out <file>>\n   or: kshana standards-pack <list|run <id> [--json] [--out <base>]|rows <id>|tests <id>>\n   or: kshana partner check <submission.toml> [--json]\n   or: kshana scenario <migrate <scenario.toml> [--in-place] | version>\n   or: kshana obs <convert <log> --format <format> --station <station.toml> [--out <file>] | check <file.obs.jsonl> [--json]>\n   or: kshana connect <map <input> --mapping <connect.toml> --station <station.toml> [--out <file.obs.jsonl>] | check <vector.toml|dir> [--bless] | watch <dir> --mapping <connect.toml> --station <station.toml> [--suffix <.csv>] [--interval <s>] [--once] | mqtt <host:port> --topic <filter> --mapping <connect.toml> --station <station.toml> [--header <row>] [--qos 0|1] [--user <name> --password-env <VAR>] [--client-id <id>] [--max-messages <n>] [--per-topic] | nats <host:port> --subject <s> --mapping <connect.toml> --station <station.toml> [--header <row>] [--per-topic] [--user <name> --password-env <VAR> | --token-env <VAR>] [--max-messages <n>] | ws <ws://host:port/path> --mapping <connect.toml> --station <station.toml> [--header <row>] [--max-messages <n>] | check-live <vector.toml|dir> [--json] | load-test [--stations <n>] [--rate <Hz>] [--seconds <s>] [--via memory|mqtt] [--json] | adapters <list|check> [<dir>] [--json]>\n   or: kshana osnma verify <pages|vectors.csv|stream.ubx> [--merkle-root <hex>] [--public-key <id:type:hex>] [--reference-time <gst-s>] [--json] (kshana osnma --help)\n   or: kshana iq <scene|acquire|track|sweep|labfit|campaign|conditions|frontend|monitor|diagnose|gnss-sdr-conf|inventory|info|extract|convert|decimate> ... (kshana iq --help)\n   or: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)\n   or: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>\n   or: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]\n   or: kshana time-vectors [--json] [<vectors.json|dir> ...]\n   or: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>\n   or: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>\n   or: kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)\n   or: kshana orbit-data <check|convert|gp-compare|gp-audit|cov> ... (kshana orbit-data --help)\n   or: kshana drone <prearm|prearm-calibrate|estimator-cases|dr-budget|quad-loss|failover|zonotope-pl> ... (kshana drone --help)\n   or: kshana kinds [--json]\n   or: kshana example [<name>]\n   or: kshana --help | --version"
   ]
  },
  {
@@ -10451,7 +10451,7 @@
   "id": "bench-cli-usage",
   "error": false,
   "parts": [
-   "usage: kshana bench spec\n   or: kshana bench truth --task a --data <extracted JammerTest 2024 dir> --split <dev|test|holdout|all> --out <truth.json>\n   or: kshana bench cases --task <c|d> --split <dev|test|holdout> --out <dir> [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]\n   or: kshana bench score --truth <truth.json> --predictions <predictions.json> [--threshold <x>] [--out <result.json>]\n   or: kshana bench baseline --task <a|b|c|d> --split <dev|test|holdout> --out <dir> [--data <dir>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]\n   or: kshana bench seal --task <a|b|c|d> --seed-file <file> [--new]\n   or: kshana bench reveal-check --task <a|b|c|d> --seed-file <file> --commitment <hex>\n   or: kshana bench manifest --task a --data <extracted dir> [--archive <tar.gz>] --out <manifest.json>\n   or: kshana bench verify-manifest <manifest.json> --root <dir>\n   or: kshana bench validate <result.json>...\n   or: kshana bench leaderboard [<results dir|result.json>...] --out <page.html> [--fragment]   (no inputs: the empty state; --fragment: an embeddable section)\n   (a seed file holds the secret behind a sealed holdout; keep it out of version control)"
+   "usage: kshana bench spec\n   or: kshana bench truth --task a --data <extracted JammerTest 2024 dir> --split <dev|test|holdout|all> --out <truth.json>\n   or: kshana bench truth --task g --data <GSDC-layout train dir> --split <dev|test|holdout> --out <truth.json>\n   or: kshana bench cases --task <c|d|f> --split <dev|test|holdout> --out <dir> [--data <dataset.csv>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]\n   or: kshana bench score --truth <truth.json> --predictions <predictions.json> [--threshold <x>] [--out <result.json>]\n   or: kshana bench baseline --task <a|b|c|d|e|f|g> --split <dev|test|holdout> --out <dir> [--data <dir>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]\n   or: kshana bench seal --task <a|b|c|d> --seed-file <file> [--new]\n   or: kshana bench reveal-check --task <a|b|c|d> --seed-file <file> --commitment <hex>\n   or: kshana bench manifest --task a --data <extracted dir> [--archive <tar.gz>] --out <manifest.json>\n   or: kshana bench verify-manifest <manifest.json> --root <dir>\n   or: kshana bench positions --task g --split <dev|test|holdout> --csv <submission.csv> --name <system> [--version <v>] --out <predictions.json>\n   or: kshana bench datasets [--json | --check [--root <repo>]]\n   or: kshana bench cite <result.json>...\n   or: kshana bench golden [--root <repo>] (--out <GOLDEN.json> | --check <GOLDEN.json>)\n   or: kshana bench validate <result.json>...\n   or: kshana bench leaderboard [<results dir|result.json>...] --out <page.html> [--fragment]   (no inputs: the empty state; --fragment: an embeddable section)\n   (a seed file holds the secret behind a sealed holdout; keep it out of version control)"
   ]
  },
  {
@@ -13707,17 +13707,6 @@
     "var": "split"
    },
    ".truth.json"
-  ]
- },
- {
-  "id": "bench-cli-unknown-task-e",
-  "error": false,
-  "parts": [
-   "unknown task `",
-   {
-    "var": "t"
-   },
-   "` (a, b, c, d or e)"
   ]
  },
  {
@@ -17230,6 +17219,252 @@
   "error": true,
   "parts": [
    "--source-url is required: every record cites the https:// address where the product is published"
+  ]
+ },
+ {
+  "id": "bench-data-no-header",
+  "error": false,
+  "parts": [
+   {
+    "var": "file"
+   },
+   ": no header row"
+  ]
+ },
+ {
+  "id": "bench-data-no-column",
+  "error": false,
+  "parts": [
+   {
+    "var": "file"
+   },
+   ": no column `",
+   {
+    "var": "column"
+   },
+   "`"
+  ]
+ },
+ {
+  "id": "bench-data-bad-value",
+  "error": false,
+  "parts": [
+   {
+    "var": "file"
+   },
+   " line ",
+   {
+    "var": "line"
+   },
+   ": `",
+   {
+    "var": "column"
+   },
+   "` is missing or not valid"
+  ]
+ },
+ {
+  "id": "bench-data-no-rows",
+  "error": false,
+  "parts": [
+   {
+    "var": "file"
+   },
+   ": no data rows"
+  ]
+ },
+ {
+  "id": "bench-task-has-no-holdout",
+  "error": false,
+  "parts": [
+   "task (",
+   {
+    "var": "task"
+   },
+   ") has no holdout split: its data and its split are public"
+  ]
+ },
+ {
+  "id": "bench-unknown-baseline",
+  "error": false,
+  "parts": [
+   "unknown baseline `",
+   {
+    "var": "name"
+   },
+   "`"
+  ]
+ },
+ {
+  "id": "bench-g-no-traces",
+  "error": false,
+  "parts": [
+   "no <drive>/<phone>/ground_truth.csv under ",
+   {
+    "var": "root"
+   }
+  ]
+ },
+ {
+  "id": "bench-g-no-object",
+  "error": false,
+  "parts": [
+   "no `",
+   {
+    "var": "key"
+   },
+   "` object of traces"
+  ]
+ },
+ {
+  "id": "bench-g-bad-epoch",
+  "error": false,
+  "parts": [
+   "trace `",
+   {
+    "var": "id"
+   },
+   "`: each epoch must be [UnixTimeMillis, latitude, longitude]"
+  ]
+ },
+ {
+  "id": "bench-f-dataset-mismatch",
+  "error": false,
+  "parts": [
+   {
+    "var": "path"
+   },
+   ": SHA-256 ",
+   {
+    "var": "got"
+   },
+   " is not the pinned dataset.csv of task (f); fetch it with scripts/fetch_opssat_ad.sh"
+  ]
+ },
+ {
+  "id": "bench-cli-unknown-task-g",
+  "error": false,
+  "parts": [
+   "unknown task `",
+   {
+    "var": "t"
+   },
+   "` (a to g)"
+  ]
+ },
+ {
+  "id": "bench-cli-wrote-predictions",
+  "error": false,
+  "parts": [
+   "wrote ",
+   {
+    "var": "path"
+   },
+   " (",
+   {
+    "var": "traces"
+   },
+   " traces)"
+  ]
+ },
+ {
+  "id": "bench-datasets-summary",
+  "error": false,
+  "parts": [
+   {
+    "var": "n"
+   },
+   " datasets: ",
+   {
+    "var": "in_bench"
+   },
+   " in the bench, ",
+   {
+    "var": "candidate"
+   },
+   " candidates, ",
+   {
+    "var": "wanted"
+   },
+   " wanted"
+  ]
+ },
+ {
+  "id": "bench-datasets-ok",
+  "error": false,
+  "parts": [
+   "registry: ",
+   {
+    "var": "n"
+   },
+   " datasets, every rule met"
+  ]
+ },
+ {
+  "id": "bench-golden-ok",
+  "error": false,
+  "parts": [
+   {
+    "var": "n"
+   },
+   " frozen files unchanged; citation ids stable"
+  ]
+ },
+ {
+  "id": "bench-golden-written",
+  "error": false,
+  "parts": [
+   "wrote ",
+   {
+    "var": "path"
+   },
+   " (",
+   {
+    "var": "n"
+   },
+   " frozen files)"
+  ]
+ },
+ {
+  "id": "bench-site-title-f",
+  "error": false,
+  "parts": [
+   "Task (f): spacecraft telemetry anomaly detection"
+  ]
+ },
+ {
+  "id": "bench-site-title-g",
+  "error": false,
+  "parts": [
+   "Task (g): smartphone positioning accuracy"
+  ]
+ },
+ {
+  "id": "bench-site-col-ap",
+  "error": false,
+  "parts": [
+   "Average precision"
+  ]
+ },
+ {
+  "id": "bench-site-col-gsdc-score",
+  "error": false,
+  "parts": [
+   "Score, mean of P50 and P95 (m)"
+  ]
+ },
+ {
+  "id": "bench-site-col-p50",
+  "error": false,
+  "parts": [
+   "P50 pooled (m)"
+  ]
+ },
+ {
+  "id": "bench-site-col-p95",
+  "error": false,
+  "parts": [
+   "P95 pooled (m)"
   ]
  }
 ]

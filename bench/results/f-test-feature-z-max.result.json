@@ -1,0 +1,25 @@
+{
+  "label": "MODELLED: truth is the anomaly label assigned by the OPS-SAT-AD authors to each housekeeping telemetry segment; a score describes this dataset, never a spacecraft or a product",
+  "metrics": {
+    "auc": 0.8578858917631041,
+    "average_precision": 0.6475702784684245,
+    "n_negative": 416,
+    "n_positive": 113,
+    "pd_at_pfa_cap": 0.21238938053097345,
+    "pd_at_pfa_cap_note": "empirical threshold chosen on the scored split itself: an upper bound, not a deployable operating point",
+    "pfa_achieved_at_cap": 0.009615384615384616,
+    "pfa_cap": 0.01
+  },
+  "notice": "Advisory: modelled or measured against stated references, not an approval, certification or statement of conformance. A score describes a log or corpus, never a product.",
+  "predictions_sha256": "52ebd9e4e9c41a4faf78fcb5c791541a6622f52d386bb119d069e11e244332eb",
+  "provenance": "scored",
+  "schema": "kshana-bench-result/1",
+  "spec_version": "kshana-bench/2.2.0",
+  "split": "test",
+  "system": {
+    "name": "kshana-bench baseline: feature-z-max",
+    "version": "kshana-bench/2.2.0"
+  },
+  "task": "f",
+  "truth_sha256": "3179d992e9176371e5d410cfb9a96103dab07d9e93228f21de527ebcf495ec71"
+}

@@ -294,6 +294,7 @@ const LABELLED_WRITERS: &[&str] = &[
 /// stale entry.
 const UNLABELLED_WRITERS: &[(&str, &str)] = &[
     ("src/altpnt/terrain.rs", "writes only in a unit test (a temporary grid)"),
+    ("src/bench/cite.rs", "writes only in a unit test (a temporary tree of frozen files for the golden-index check)"),
     ("src/connect_timing.rs", "writes only the expected output of a timing conformance vector under `connect timing check --bless`; a test fixture, no result file"),
     ("src/soapy.rs", "writes only an IQ capture as SigMF (`connect sdr-capture`, `soapy` feature): the samples as received from the radio, data rather than a result of the engine"),
     ("src/connect_live.rs", "writes only the live check's own scratch log, which the directory-watch replay reads back and removes; no result file"),

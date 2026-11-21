@@ -9,6 +9,7 @@ use std::path::{Path, PathBuf};
 use serde_json::{json, Value};
 
 use super::tasks::{self, C_BASELINES};
+use super::{anomaly, cite, datasets, smartphone};
 use super::{
     reveal_check, seal, sha256_hex, site, validate_result, BenchError, Split, MANIFEST_SCHEMA,
     SPEC_VERSION,
@@ -124,10 +125,10 @@ fn secret(args: &[String]) -> Result<Option<Vec<u8>>, BenchError> {
 
 fn task_arg(args: &[String]) -> Result<&str, BenchError> {
     let t = need(args, "--task")?;
-    if matches!(t, "a" | "b" | "c" | "d" | "e") {
+    if matches!(t, "a" | "b" | "c" | "d" | "e" | "f" | "g") {
         Ok(t)
     } else {
-        Err(BenchError(crate::t!("bench-cli-unknown-task-e", t = t)))
+        Err(BenchError(crate::t!("bench-cli-unknown-task-g", t = t)))
     }
 }
 
@@ -186,6 +187,8 @@ fn run_inner(args: &[String]) -> Result<i32, BenchError> {
                         "c": "timing holdover prediction (IGS clocks, 300 s)",
                         "d": "out-of-distribution optimism gap (synthetic corpus)",
                         "e": "four-class interference labelling on receiver logs (JammerTest 2024; spec 2.1.0)",
+                        "f": "spacecraft telemetry anomaly detection (OPS-SAT-AD; spec 2.2.0)",
+                        "g": "smartphone positioning accuracy, GSDC metric (GSDC-layout traces; spec 2.2.0)",
                     },
                     "splits": ["dev", "test", "holdout"],
                 }))
@@ -195,6 +198,23 @@ fn run_inner(args: &[String]) -> Result<i32, BenchError> {
         }
         "truth" => {
             check(rest, &["--task", "--data", "--split", "--out"], false)?;
+            if task_arg(rest)? == "g" {
+                let split = Split::parse(need(rest, "--split")?)?;
+                let (t, _) = en(|| smartphone::g_load(Path::new(need(rest, "--data")?), split))?;
+                write(
+                    Path::new(need(rest, "--out")?),
+                    &pretty(&en_ok(|| smartphone::g_truth_json(&t, split))),
+                )?;
+                println!(
+                    "{}",
+                    crate::t!(
+                        "bench-cli-scored-epochs-in-folder",
+                        labels = t.values().map(Vec::len).sum::<usize>(),
+                        folders = t.len()
+                    )
+                );
+                return Ok(0);
+            }
             if task_arg(rest)? == "e" {
                 let split = Split::parse(need(rest, "--split")?)?;
                 let t = en(|| super::task_e::e_load(Path::new(need(rest, "--data")?)))?;
@@ -249,12 +269,17 @@ fn run_inner(args: &[String]) -> Result<i32, BenchError> {
                     "--clocks",
                     "--scale",
                     "--seed-file",
+                    "--data",
                 ],
                 false,
             )?;
             let split = Split::parse(need(rest, "--split")?)?;
             let out = PathBuf::from(need(rest, "--out")?);
             let (cases, truth) = match task_arg(rest)? {
+                "f" => {
+                    let segs = f_data(rest)?;
+                    en(|| anomaly::f_files(&segs, split))?
+                }
                 "d" => {
                     let (scale, sec) = (scale_arg(rest)?, secret(rest)?);
                     en(|| tasks::d_files(split, scale, sec.as_deref()))?
@@ -329,6 +354,10 @@ fn run_inner(args: &[String]) -> Result<i32, BenchError> {
             }
         }
         "manifest" => manifest(rest),
+        "positions" => positions(rest),
+        "datasets" => datasets_cmd(rest),
+        "cite" => cite_cmd(rest),
+        "golden" => golden_cmd(rest),
         "verify-manifest" => verify_manifest(rest),
         "texbat-windows" => texbat_windows(rest),
         "texbat-pd" => texbat_pd(rest),
@@ -505,6 +534,41 @@ fn baseline(args: &[String]) -> Result<i32, BenchError> {
     }
     let split = Split::parse(need(args, "--split")?)?;
     match task {
+        "f" => {
+            let segs = f_data(args)?;
+            let (_, truth) = en(|| anomaly::f_files(&segs, split))?;
+            let truth_text = pretty(&truth);
+            write(
+                &out.join(format!("f-{}.truth.json", split.name())),
+                &truth_text,
+            )?;
+            for b in anomaly::F_BASELINES {
+                let scores = en(|| anomaly::f_baseline_scores(b, &segs, split))?;
+                let doc = en_ok(|| {
+                    let mut d = tasks::scores_doc(
+                        "f",
+                        split.name(),
+                        &crate::t!("bench-tasks-kshana-bench-baseline", baseline = b),
+                        &scores,
+                    );
+                    d["system"]["version"] = json!(anomaly::SPEC_VERSION_FG);
+                    d
+                });
+                emit(&out, &format!("f-{}-{b}", split.name()), &truth_text, &doc)?;
+            }
+        }
+        "g" => {
+            let (t, dirs) = en(|| smartphone::g_load(Path::new(need(args, "--data")?), split))?;
+            let truth_text = pretty(&en_ok(|| smartphone::g_truth_json(&t, split)));
+            write(
+                &out.join(format!("g-{}.truth.json", split.name())),
+                &truth_text,
+            )?;
+            for b in smartphone::G_BASELINES {
+                let doc = en(|| smartphone::g_baseline(b, &t, &dirs, split))?;
+                emit(&out, &format!("g-{}-{b}", split.name()), &truth_text, &doc)?;
+            }
+        }
         "e" => {
             use super::task_e::{b_log_predictions, e_load, e_truth_text, BLogVariant};
             let t = en(|| e_load(Path::new(need(args, "--data")?)))?;
@@ -823,6 +887,169 @@ fn texbat_score(args: &[String]) -> Result<i32, BenchError> {
             "bench-texbat-scored",
             v2 = doc["e5_v2"]["verdict"].as_str().unwrap_or(""),
             pd = doc["e5_pd"]["verdict"].as_str().unwrap_or("")
+        )
+    );
+    Ok(0)
+}
+
+/// Read task (f)'s `dataset.csv` from `--data`, refusing a file that is not the pinned one.
+fn f_data(args: &[String]) -> Result<Vec<anomaly::Segment>, BenchError> {
+    let p = need(args, "--data")?;
+    let text = read(p)?;
+    let got = sha256_hex(text.as_bytes());
+    if got != anomaly::F_DATASET_SHA256 {
+        return Err(BenchError(crate::t!(
+            "bench-f-dataset-mismatch",
+            path = p,
+            got = got
+        )));
+    }
+    en(|| anomaly::f_load(&text))
+}
+
+/// `positions`: a GSDC-format submission CSV to a task (g) predictions file.
+fn positions(args: &[String]) -> Result<i32, BenchError> {
+    check(
+        args,
+        &["--task", "--split", "--csv", "--name", "--version", "--out"],
+        false,
+    )?;
+    if task_arg(args)? != "g" {
+        return Err(BenchError(crate::t!(
+            "bench-cli-unknown-task-g",
+            t = need(args, "--task")?
+        )));
+    }
+    let split = Split::parse(need(args, "--split")?)?;
+    let csv = need(args, "--csv")?;
+    let pos = en(|| smartphone::g_positions_from_csv(csv, &read(csv)?))?;
+    let doc = smartphone::g_predictions_json(
+        &pos,
+        split,
+        need(args, "--name")?,
+        flag(args, "--version")?.unwrap_or("unversioned"),
+    );
+    let out = need(args, "--out")?;
+    write(Path::new(out), &pretty(&doc))?;
+    println!(
+        "{}",
+        crate::t!(
+            "bench-cli-wrote-predictions",
+            path = out,
+            traces = pos.len()
+        )
+    );
+    Ok(0)
+}
+
+/// `datasets`: the registry as a table, as JSON, or checked against its rules.
+fn datasets_cmd(args: &[String]) -> Result<i32, BenchError> {
+    let mut v: Vec<String> = args.to_vec();
+    let as_json = v.iter().any(|a| a == "--json");
+    let checking = v.iter().any(|a| a == "--check");
+    v.retain(|a| a != "--json" && a != "--check");
+    check(&v, &["--root"], false)?;
+    let reg = datasets::registry();
+    if as_json {
+        println!("{}", pretty(&reg).trim_end());
+        return Ok(0);
+    }
+    let list = reg["datasets"].as_array().cloned().unwrap_or_default();
+    let count = |st: &str| list.iter().filter(|d| d["status"] == st).count();
+    if !checking {
+        for l in datasets::table(&reg) {
+            println!("{l}");
+        }
+        println!(
+            "{}",
+            crate::t!(
+                "bench-datasets-summary",
+                n = list.len(),
+                in_bench = count("in-bench"),
+                candidate = count("candidate"),
+                wanted = count("wanted")
+            )
+        );
+        return Ok(0);
+    }
+    let root = flag(&v, "--root")?.map(PathBuf::from);
+    let notice = match &root {
+        Some(r) => Some(read(&r.join("NOTICE").to_string_lossy())?),
+        None => None,
+    };
+    let p = datasets::check(&reg, notice.as_deref(), root.as_deref());
+    for m in &p {
+        println!("{m}");
+    }
+    if p.is_empty() {
+        println!("{}", crate::t!("bench-datasets-ok", n = list.len()));
+    }
+    Ok(i32::from(!p.is_empty()))
+}
+
+/// `cite`: the citation id and citation line of each result file.
+fn cite_cmd(args: &[String]) -> Result<i32, BenchError> {
+    let files = check(args, &[], true)?;
+    if files.is_empty() {
+        return Err(BenchError(crate::terr!(
+            "e-bench-cli-validate-needs-at-least-one"
+        )));
+    }
+    let mut bad = 0;
+    for f in &files {
+        let v: Value = serde_json::from_str(&read(f)?)
+            .map_err(|e| BenchError(crate::t!("bench-cli-is-not-json", f = f, e = e)))?;
+        let p = validate_result(&v);
+        match cite::citation_line(&v) {
+            Some(line) if p.is_empty() => println!("{line}"),
+            _ => {
+                bad += 1;
+                for m in p {
+                    println!("{f}: {m}");
+                }
+            }
+        }
+    }
+    Ok(i32::from(bad > 0))
+}
+
+/// `golden`: write the golden index of the frozen files, or check a committed one.
+fn golden_cmd(args: &[String]) -> Result<i32, BenchError> {
+    check(args, &["--root", "--out", "--check"], false)?;
+    let root = PathBuf::from(flag(args, "--root")?.unwrap_or("."));
+    if let Some(c) = flag(args, "--check")? {
+        let idx: Value = serde_json::from_str(&read(c)?)
+            .map_err(|e| BenchError(crate::t!("bench-cli-is-not-json", f = c, e = e)))?;
+        let p = cite::check_golden(&idx, &root);
+        for m in &p {
+            println!("{m}");
+        }
+        if p.is_empty() {
+            println!(
+                "{}",
+                crate::t!(
+                    "bench-golden-ok",
+                    n = idx["files"].as_array().map_or(0, Vec::len)
+                )
+            );
+        }
+        return Ok(i32::from(!p.is_empty()));
+    }
+    let out = need(args, "--out")?;
+    let idx = cite::golden_index(&root).map_err(|e| {
+        BenchError(crate::t!(
+            "bench-cli-cannot-read",
+            p = root.display(),
+            e = e
+        ))
+    })?;
+    write(Path::new(out), &pretty(&idx))?;
+    println!(
+        "{}",
+        crate::t!(
+            "bench-golden-written",
+            path = out,
+            n = idx["files"].as_array().map_or(0, Vec::len)
         )
     );
     Ok(0)

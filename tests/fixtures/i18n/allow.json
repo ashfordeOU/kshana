@@ -62,16 +62,16 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/bench/cli.rs": {
-   "count": 53,
-   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md); the task (e) baseline stems (b-log, b-log-pj-all) and the task (e) line of the spec document; the task (b) result's machine metric keys auc_fresh and auc_without_restart_2026_10_13 (JSON keys); the manifest key sha256_pinned; the TEXBAT score command's recording names, file kinds and schema (B4a E5, 11 November 2026)"
+   "count": 57,
+   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md); the task (e) baseline stems (b-log, b-log-pj-all) and the task (e) line of the spec document; the task (b) result's machine metric keys auc_fresh and auc_without_restart_2026_10_13 (JSON keys); the manifest key sha256_pinned; the TEXBAT score command's recording names, file kinds and schema (B4a E5, 11 November 2026); the task (f) and (g) lines of the spec document and the f-/g- truth file names (E34)"
   },
   "src/bench/mod.rs": {
    "count": 39,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/bench/site.rs": {
-   "count": 10,
-   "reason": "identifier: JSON pointers and keys of the result files; the page text is in the catalogue"
+   "count": 14,
+   "reason": "identifier: JSON pointers and keys of the result files; the page text is in the catalogue; the task (f) and (g) metric keys (E34)"
   },
   "src/bench/task_e.rs": {
    "count": 29,
@@ -1840,6 +1840,22 @@
   "src/interference_map/incident.rs": {
    "count": 183,
    "reason": "machine-document and identifier: the kshana-interference-incidents/1 vocabulary, field names and schema tags, the validator's problem messages (written to the machine-readable report, English by design), CSV column names and the Zenodo metadata keys (docs/INTERFERENCE-INCIDENTS.md)"
+  },
+  "src/bench/anomaly.rs": {
+   "count": 23,
+   "reason": "identifier and machine-document: the OPSSAT-AD column names, the task (f) baseline names, the JSON keys of the task (f) truth, cases and result documents, the spec version, the pinned dataset SHA-256 and the English `label` written into that machine document (bench/SPEC.md, task (f))"
+  },
+  "src/bench/smartphone.rs": {
+   "count": 8,
+   "reason": "identifier and machine-document: the GSDC file and column names, the task (g) baseline name, the JSON keys of the task (g) truth and result documents and the English `label` written into that machine document (bench/SPEC.md, task (g))"
+  },
+  "src/bench/cite.rs": {
+   "count": 33,
+   "reason": "machine-document and identifier: the frozen directories, the golden-index schema and rule text and its check findings (English in every language, like validate_result's), the citation-id domain string and the metric names of the citation line, which is a bibliographic entry kept in English"
+  },
+  "src/bench/datasets.rs": {
+   "count": 34,
+   "reason": "machine-document: the dataset registry's rule findings (a lint of bench/manifests/datasets.json, English in every language, like validate_result's), its vocabulary values and the table's column formatting"
   }
  }
 }

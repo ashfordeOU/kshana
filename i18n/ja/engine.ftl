@@ -9776,7 +9776,7 @@ engine-main-usage =
     { "   " }または：kshana nmea-scenario <scenario.toml> [--out <file.nmea>] [--tcp <addr>|--udp <addr>] (kshana nmea-scenario --help)
     { "   " }または：kshana interference-map <adsb|ais|fetch-land> ... (kshana interference-map --help)
     { "   " }または：kshana route-exposure --route <route> --map <map.geojson|dir> [--from <date>] [--to <date>]
-    { "   " }または：kshana bench <spec|truth|cases|score|baseline|seal|reveal-check|manifest|verify-manifest|validate|leaderboard> ... (kshana bench --help)
+    { "   " }または：kshana bench <spec|truth|cases|score|baseline|seal|reveal-check|manifest|verify-manifest|validate|leaderboard|positions|datasets|cite|golden> ... (kshana bench --help)
     { "   " }または：kshana bench-export <scenario.toml> [--out <base>] [--epoch <YYYY-MM-DDTHH:MM:SS>]
     { "   " }または：kshana compliance-report [--out <base>] <result.json>... | --mapping | --sources
     { "   " }または：kshana lunanet-afs-check <spec [--json] [--strict]|symbols <file> [--max-sp-errors <n>] [--json]|generate --frames <n> [--toi0 <t>] --out <file>>
@@ -9910,13 +9910,18 @@ engine-interference-map-cli-col-not-observed = 未観測
 engine-bench-cli-usage =
     使い方：kshana bench spec
     { "   " }または：kshana bench truth --task a --data <extracted JammerTest 2024 dir> --split <dev|test|holdout|all> --out <truth.json>
-    { "   " }または：kshana bench cases --task <c|d> --split <dev|test|holdout> --out <dir> [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
+    { "   " }または：kshana bench truth --task g --data <GSDC-layout train dir> --split <dev|test|holdout> --out <truth.json>
+    { "   " }または：kshana bench cases --task <c|d|f> --split <dev|test|holdout> --out <dir> [--data <dataset.csv>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
     { "   " }または：kshana bench score --truth <truth.json> --predictions <predictions.json> [--threshold <x>] [--out <result.json>]
-    { "   " }または：kshana bench baseline --task <a|b|c|d> --split <dev|test|holdout> --out <dir> [--data <dir>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
+    { "   " }または：kshana bench baseline --task <a|b|c|d|e|f|g> --split <dev|test|holdout> --out <dir> [--data <dir>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
     { "   " }または：kshana bench seal --task <a|b|c|d> --seed-file <file> [--new]
     { "   " }または：kshana bench reveal-check --task <a|b|c|d> --seed-file <file> --commitment <hex>
     { "   " }または：kshana bench manifest --task a --data <extracted dir> [--archive <tar.gz>] --out <manifest.json>
     { "   " }または：kshana bench verify-manifest <manifest.json> --root <dir>
+    { "   " }または：kshana bench positions --task g --split <dev|test|holdout> --csv <submission.csv> --name <system> [--version <v>] --out <predictions.json>
+    { "   " }または：kshana bench datasets [--json | --check [--root <repo>]]
+    { "   " }または：kshana bench cite <result.json>...
+    { "   " }または：kshana bench golden [--root <repo>] (--out <GOLDEN.json> | --check <GOLDEN.json>)
     { "   " }または：kshana bench validate <result.json>...
     { "   " }または：kshana bench leaderboard [<results dir|result.json>...] --out <page.html> [--fragment]   （入力なし：空の状態。--fragment：埋め込み可能なセクション）
     { "   " }（シードファイルは封印されたホールドアウトの背後にあるシークレットを保持します。バージョン管理には含めないでください）
@@ -10923,3 +10928,49 @@ engine-e-oscillator-input = { $part } の入力が無効です: { $e }
 engine-e-oscillator-unknown-clock = 不明なクロックプリセット { $id }（{ $known } のいずれか）
 
 engine-e-oscillator-field = { $field } が範囲外です: { $value }
+
+## src/bench: tasks (f) and (g), the dataset registry and the golden index (E34)
+
+engine-bench-data-no-header = { $file }：ヘッダー行がありません
+
+engine-bench-data-no-column = { $file }：列 `{ $column }` がありません
+
+engine-bench-data-bad-value = { $file } の { $line } 行目：`{ $column }` が欠けているか無効です
+
+engine-bench-data-no-rows = { $file }：データ行がありません
+
+engine-bench-task-has-no-holdout = タスク ({ $task }) にはホールドアウト分割がありません：データと分割は公開されています
+
+engine-bench-unknown-baseline = 不明なベースライン `{ $name }`
+
+engine-bench-g-no-traces = { $root } の下に <drive>/<phone>/ground_truth.csv がありません
+
+engine-bench-g-no-object = トレースの `{ $key }` オブジェクトがありません
+
+engine-bench-g-bad-epoch = トレース `{ $id }`：各エポックは [UnixTimeMillis, 緯度, 経度] である必要があります
+
+engine-bench-f-dataset-mismatch = { $path }：SHA-256 { $got } はタスク (f) の固定された dataset.csv ではありません。scripts/fetch_opssat_ad.sh で取得してください
+
+engine-bench-cli-unknown-task-g = 不明なタスク `{ $t }`（a から g）
+
+engine-bench-cli-wrote-predictions = { $path } を書き込みました（{ $traces } トレース）
+
+engine-bench-datasets-summary = データセット { $n } 件：ベンチマーク内 { $in_bench } 件、候補 { $candidate } 件、募集中 { $wanted } 件
+
+engine-bench-datasets-ok = レジストリ：データセット { $n } 件、すべての規則を満たしています
+
+engine-bench-golden-ok = 凍結ファイル { $n } 件は変更なし。引用 ID は安定しています
+
+engine-bench-golden-written = { $path } を書き込みました（凍結ファイル { $n } 件）
+
+engine-bench-site-title-f = タスク (f)：宇宙機テレメトリの異常検知
+
+engine-bench-site-title-g = タスク (g)：スマートフォンの測位精度
+
+engine-bench-site-col-ap = 平均適合率
+
+engine-bench-site-col-gsdc-score = スコア、P50 と P95 の平均 (m)
+
+engine-bench-site-col-p50 = P50 全体 (m)
+
+engine-bench-site-col-p95 = P95 全体 (m)

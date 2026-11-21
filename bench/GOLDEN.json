@@ -1,0 +1,359 @@
+{
+  "files": [
+    {
+      "bytes": 3354,
+      "path": "bench/manifests/b-iq.json",
+      "sha256": "ead90f7c9760d249b35e5d0b05c617c7a2eb6ad8e7c0057ab704a5a9e58bc1c3"
+    },
+    {
+      "bytes": 3844,
+      "path": "bench/manifests/c-igs-clocks.json",
+      "sha256": "592aadf4f4b21b11d5072a3cf665aa25f3dc1e7004a147a8ab4e62fe27fe161d"
+    },
+    {
+      "bytes": 1027,
+      "path": "bench/manifests/d-synthetic.json",
+      "sha256": "0a6fcefd675482b99de352cbe3181bf3558495c1bf72c5582de7edc23a0827d1"
+    },
+    {
+      "bytes": 1002,
+      "path": "bench/manifests/f-opssat-ad.json",
+      "sha256": "7b996c2b15249e11fc17e74a50dedbe0874237b1815dd6009f4c79d2908095b0"
+    },
+    {
+      "bytes": 871,
+      "path": "bench/manifests/ood-lugre.json",
+      "sha256": "47a10a43a6892792a4bb7eb6eb0a3eefbeaa715426d8fdaa30101e90d6b6ba1a"
+    },
+    {
+      "bytes": 1861,
+      "path": "bench/schema/result.schema.json",
+      "sha256": "85d55a761bdd1e30d1ec0125ecb1cef5eadeae8ea94d3e9c91cd71986c60fd7a"
+    },
+    {
+      "bytes": 991,
+      "path": "bench/holdout/COMMITMENTS.json",
+      "sha256": "a46e7cd8e78fcc11519892c8bb5cd28a411e4145bd7bd4ad0523b9c8bae2be12"
+    },
+    {
+      "bytes": 1195,
+      "citation_id": "kb-2-a-dev-98ee164e6a965522",
+      "path": "bench/results/a-dev-agc-k-sigma.result.json",
+      "sha256": "b1f954c3a8ac23a5918041682d10ea230d05e4fee2c962bc2d6616ae46680739"
+    },
+    {
+      "bytes": 1194,
+      "citation_id": "kb-2-a-dev-f5ce48d1a78584db",
+      "path": "bench/results/a-dev-cn0-drop-db.result.json",
+      "sha256": "a45657d1164b153592a758330763d47dfe132901b71f6c1af375a25f14e34117"
+    },
+    {
+      "bytes": 1201,
+      "citation_id": "kb-2-a-dev-27a170b59ce774b2",
+      "path": "bench/results/a-dev-jam-ind-threshold.result.json",
+      "sha256": "3d7a9bd5d053b1aadb5e8f760f731ef4c8e3256223fcecd781811badd9d9b09a"
+    },
+    {
+      "bytes": 1164,
+      "citation_id": "kb-2-a-holdout-ed9bda1df15d1c48",
+      "path": "bench/results/a-holdout-agc-k-sigma.result.json",
+      "sha256": "4c98c5d9a53920308a0c8c868b1a9cee5662a7a92bad77d06d09e24d679162a5"
+    },
+    {
+      "bytes": 1194,
+      "citation_id": "kb-2-a-holdout-7d7187c32cd9c691",
+      "path": "bench/results/a-holdout-cn0-drop-db.result.json",
+      "sha256": "9d6e71d46944ae6fe8a9b7eb7b99f5bd8df4db871876b19d79c0768675ac81c2"
+    },
+    {
+      "bytes": 1203,
+      "citation_id": "kb-2-a-holdout-8abf9b9b24196b9f",
+      "path": "bench/results/a-holdout-jam-ind-threshold.result.json",
+      "sha256": "470175aba05ee74045a833500c3dd2605f6d7467246f9f599cba02824c537b91"
+    },
+    {
+      "bytes": 1162,
+      "citation_id": "kb-2-a-test-0acc543bf6cc0776",
+      "path": "bench/results/a-test-agc-k-sigma.result.json",
+      "sha256": "675ce6a87b56516a99b726fa7c606fff4f65f3717d41f63b5fce0fcf8649cd09"
+    },
+    {
+      "bytes": 1194,
+      "citation_id": "kb-2-a-test-bb76b8b72d4c0f5a",
+      "path": "bench/results/a-test-cn0-drop-db.result.json",
+      "sha256": "92581209bd4588d5fcb04b19e064e9698359b7b28f659ff7d952bf6bfd306aa5"
+    },
+    {
+      "bytes": 1201,
+      "citation_id": "kb-2-a-test-83a5f204553b9ed6",
+      "path": "bench/results/a-test-jam-ind-threshold.result.json",
+      "sha256": "cbd7a819a8ed738cae5d08e8dfaaffac34c64eff8f007110188e1c5084ed7de8"
+    },
+    {
+      "bytes": 1179,
+      "citation_id": "kb-2-b-test-b4df9f71e0812200",
+      "path": "bench/results/b-test-kshana-iq-cn0-drop.result.json",
+      "sha256": "bd735f017a80cf4b11dcbbf66ba0ebda996c4d9e3af59bfc78cb9e7a9b3e0cb2"
+    },
+    {
+      "bytes": 1505,
+      "citation_id": "kb-2-c-dev-4542535a60f9f171",
+      "path": "bench/results/c-dev-hold.result.json",
+      "sha256": "41ff2e123e7edf86697312c019f9d077336c13cb7225850b6affdcbb201bee3a"
+    },
+    {
+      "bytes": 1533,
+      "citation_id": "kb-2-c-dev-ab2d75dd2111dc87",
+      "path": "bench/results/c-dev-linear.result.json",
+      "sha256": "fe1033b2588f79652f5119e95f8b65a61508ef1ea87b63421c1391e4e47ed691"
+    },
+    {
+      "bytes": 1536,
+      "citation_id": "kb-2-c-dev-73784fef9ec2738a",
+      "path": "bench/results/c-dev-quadratic.result.json",
+      "sha256": "fb2b99c408fae7fe0e2e11ac99e4d628726160a9b3d6a30191d1b6e7ebcd47dc"
+    },
+    {
+      "bytes": 1511,
+      "citation_id": "kb-2-c-test-5ff9d511e1969b3b",
+      "path": "bench/results/c-test-hold.result.json",
+      "sha256": "11baef21094f93e636d5f851ace3b913dd09c0964a039252c23b8e76f6699c75"
+    },
+    {
+      "bytes": 1534,
+      "citation_id": "kb-2-c-test-ddc0a64e803845a3",
+      "path": "bench/results/c-test-linear.result.json",
+      "sha256": "d8a0b3a35534ff84b62b35822df8ebd6c10ca42a9bedf5b0c76d25b8cbdd6dcd"
+    },
+    {
+      "bytes": 1535,
+      "citation_id": "kb-2-c-test-15b20066099dc1af",
+      "path": "bench/results/c-test-quadratic.result.json",
+      "sha256": "f6f5c69d5758ea1cc609e8ee28f32f6fc8e6ffc3b81edec3aa559b84d95582a1"
+    },
+    {
+      "bytes": 1200,
+      "citation_id": "kb-2-d-dev-ad5adf71d89eee8a",
+      "path": "bench/results/d-dev-agc-excess.result.json",
+      "sha256": "e4b2593c991613840c4ea6b7fd978412fade3f5aa76811200350ae446c515ae4"
+    },
+    {
+      "bytes": 1206,
+      "citation_id": "kb-2-d-dev-9ee06b74a05d5a08",
+      "path": "bench/results/d-dev-energy-cn0-drop.result.json",
+      "sha256": "20e8f72ef7be8afba90aa89ad40c9ebb9eb4edda9de6f05ddd0cde235328e60f"
+    },
+    {
+      "bytes": 1201,
+      "citation_id": "kb-2-d-dev-3f0229f475f4d3d7",
+      "path": "bench/results/d-dev-fused-max-z.result.json",
+      "sha256": "358ca83c4529e0dbf09ab0f0b216e64e0d2797fdac24607daf5b0e3c5e3d2861"
+    },
+    {
+      "bytes": 1200,
+      "citation_id": "kb-2-d-dev-692297b5f9745d91",
+      "path": "bench/results/d-dev-raim-parity.result.json",
+      "sha256": "eae1cbbbe3915cdf8c76fb9c9e2a46161ac0df86cf4f5543491044fdd61fe55c"
+    },
+    {
+      "bytes": 1204,
+      "citation_id": "kb-2-d-dev-eca8de15d22293e4",
+      "path": "bench/results/d-dev-sqm-imbalance.result.json",
+      "sha256": "d95894522ab0a85007837efd65e7c44964f605b1156f552a685fb812c744123b"
+    },
+    {
+      "bytes": 1200,
+      "citation_id": "kb-2-d-test-dfe186161392684e",
+      "path": "bench/results/d-test-agc-excess.result.json",
+      "sha256": "1c9b5cd936ac6f79a9cb87485a4f429d462b93ff5b8b1e012fe3d4e1caa9230e"
+    },
+    {
+      "bytes": 1202,
+      "citation_id": "kb-2-d-test-3b33e5f4df99cd1b",
+      "path": "bench/results/d-test-energy-cn0-drop.result.json",
+      "sha256": "679e5b5041839282963d45ccef617e41494fa5707630940e04bd4e68b8d198c8"
+    },
+    {
+      "bytes": 1199,
+      "citation_id": "kb-2-d-test-067a171b083aac71",
+      "path": "bench/results/d-test-fused-max-z.result.json",
+      "sha256": "473ad8863a523182ddf05545fb16477a928c172becc3dc2f17c2c346cfd98a6c"
+    },
+    {
+      "bytes": 1200,
+      "citation_id": "kb-2-d-test-de0b0e6881ef8e1a",
+      "path": "bench/results/d-test-raim-parity.result.json",
+      "sha256": "0af7a97d1cb1d99c0c320d96b001bd40763a9cc947e252553053c1321d4f2852"
+    },
+    {
+      "bytes": 1205,
+      "citation_id": "kb-2-d-test-74ae7733cfabe329",
+      "path": "bench/results/d-test-sqm-imbalance.result.json",
+      "sha256": "45b1bf63ffe32fc6ffab2fea2df110db08961495309ff925428e9b7a964fc1d8"
+    },
+    {
+      "bytes": 1183,
+      "citation_id": "kb-2-f-dev-8849f485427c00fc",
+      "path": "bench/results/f-dev-diff2-var-z.result.json",
+      "sha256": "05fd7a276700840746de648eb86de581d7b79bb248ca01d17f1c79b834ceebe6"
+    },
+    {
+      "bytes": 1186,
+      "citation_id": "kb-2-f-dev-af2709f953dc827f",
+      "path": "bench/results/f-dev-feature-z-max.result.json",
+      "sha256": "78cb168275b8f278e7e52fe895a49d30acd4d633a596a65ec22a0f4caec2dd8a"
+    },
+    {
+      "bytes": 1184,
+      "citation_id": "kb-2-f-test-dc6801450345f662",
+      "path": "bench/results/f-test-diff2-var-z.result.json",
+      "sha256": "585c6120435fad38003755b04fe05ae444765ceb30273fe56ccb4411e36717ae"
+    },
+    {
+      "bytes": 1186,
+      "citation_id": "kb-2-f-test-c476221db30e6acf",
+      "path": "bench/results/f-test-feature-z-max.result.json",
+      "sha256": "391f1344fe72e0eb6e65b7fbee56f108c32983739f021b36c46a46fc043a2f22"
+    },
+    {
+      "bytes": 1195,
+      "citation_id": "kb-1-a-dev-19990131ee34f23c",
+      "path": "bench/results-v1/a-dev-agc-k-sigma.result.json",
+      "sha256": "fe050f042ae79f9c28a1297f74c2adee8c807e807d5a6ce845692124c80fcc79"
+    },
+    {
+      "bytes": 1194,
+      "citation_id": "kb-1-a-dev-18fc068c2ee5c031",
+      "path": "bench/results-v1/a-dev-cn0-drop-db.result.json",
+      "sha256": "cd85dcbce46f7c831289cfc64496ff8f225f019307f3cab6c7ccf7cad86553ca"
+    },
+    {
+      "bytes": 1200,
+      "citation_id": "kb-1-a-dev-f6f3c9e0bf37ebaf",
+      "path": "bench/results-v1/a-dev-jam-ind-threshold.result.json",
+      "sha256": "d031d35162d8af5a15392b07e322136e93b979f242845aa03ca8e95899632aae"
+    },
+    {
+      "bytes": 1162,
+      "citation_id": "kb-1-a-test-4085f8bda5030fde",
+      "path": "bench/results-v1/a-test-agc-k-sigma.result.json",
+      "sha256": "a660f4ec1dae086d0b5f7475cf0ca58a41719bbed9632a9ecf03313974a00622"
+    },
+    {
+      "bytes": 1194,
+      "citation_id": "kb-1-a-test-95cbfd24e6e71bda",
+      "path": "bench/results-v1/a-test-cn0-drop-db.result.json",
+      "sha256": "37df1aafac62a97135e8cd3591ecd7d92667c03871a25679c73012cf153287a9"
+    },
+    {
+      "bytes": 1186,
+      "citation_id": "kb-1-a-test-950051e7f975ff09",
+      "path": "bench/results-v1/a-test-jam-ind-threshold.result.json",
+      "sha256": "3b83e1a851d092fc9b130b307aadd07ba31db6f89b37454bbfce2797bcbf6980"
+    },
+    {
+      "bytes": 1179,
+      "citation_id": "kb-1-b-test-a3baf74ca3011c0e",
+      "path": "bench/results-v1/b-test-kshana-iq-cn0-drop.result.json",
+      "sha256": "81f8c2da3969c19637d68c2acfe679435a806b4006a8751f75c3492e05b32c61"
+    },
+    {
+      "bytes": 1505,
+      "citation_id": "kb-1-c-dev-d1206ff0db644fb1",
+      "path": "bench/results-v1/c-dev-hold.result.json",
+      "sha256": "4833460f55f0cadcfdead8af89e09d10225402a53668a182a13f3c5b3505d68d"
+    },
+    {
+      "bytes": 1533,
+      "citation_id": "kb-1-c-dev-27f6ab2e888ca66f",
+      "path": "bench/results-v1/c-dev-linear.result.json",
+      "sha256": "2426fabb44c120e1b5aa968618b8beb47b15b3e1098312e3e2505ad8e36fc55c"
+    },
+    {
+      "bytes": 1536,
+      "citation_id": "kb-1-c-dev-8bd3a92a75cc5f07",
+      "path": "bench/results-v1/c-dev-quadratic.result.json",
+      "sha256": "6d39e6170fa0ca2bece10b580f4fafcafa9b2240f961a0f0b62f3becb0f0bd88"
+    },
+    {
+      "bytes": 1511,
+      "citation_id": "kb-1-c-test-04c6d08b677bb0da",
+      "path": "bench/results-v1/c-test-hold.result.json",
+      "sha256": "96604267af0d16d10501cb941d58344897c4ef8f0b562164806737287143dbcf"
+    },
+    {
+      "bytes": 1534,
+      "citation_id": "kb-1-c-test-bfdad66824a31697",
+      "path": "bench/results-v1/c-test-linear.result.json",
+      "sha256": "86733f04da2cea32386e9aeb3ea43e5757d707744cd003de2dd6bc4393817509"
+    },
+    {
+      "bytes": 1535,
+      "citation_id": "kb-1-c-test-d3035e2cb37a258c",
+      "path": "bench/results-v1/c-test-quadratic.result.json",
+      "sha256": "b69932326bcc2fb4feff7d5a15ac701f0bd5a7671c1abc1f5755902e0d428fff"
+    },
+    {
+      "bytes": 1200,
+      "citation_id": "kb-1-d-dev-251aa78cef4d94ad",
+      "path": "bench/results-v1/d-dev-agc-excess.result.json",
+      "sha256": "1277a1ca84531e6a827cf6b76b0e09ca458d6f18c475e1a5b882b247b86d2965"
+    },
+    {
+      "bytes": 1206,
+      "citation_id": "kb-1-d-dev-393bee27c5e545e7",
+      "path": "bench/results-v1/d-dev-energy-cn0-drop.result.json",
+      "sha256": "b88be49154cef06817472925b51bf73b579c82455dac328291bc640ac6185225"
+    },
+    {
+      "bytes": 1201,
+      "citation_id": "kb-1-d-dev-defcb7d700ad7f03",
+      "path": "bench/results-v1/d-dev-fused-max-z.result.json",
+      "sha256": "72e3faa1f9efd6de1a2c8349305e5d78d0172b399b9e8071157df5c5d34b409e"
+    },
+    {
+      "bytes": 1200,
+      "citation_id": "kb-1-d-dev-87bc6ceef84007aa",
+      "path": "bench/results-v1/d-dev-raim-parity.result.json",
+      "sha256": "503e513e97a41f4fb2c290d64f7c7fbbdbf9c4fe49c9993c739e785d42f4e753"
+    },
+    {
+      "bytes": 1204,
+      "citation_id": "kb-1-d-dev-591709d4f0897027",
+      "path": "bench/results-v1/d-dev-sqm-imbalance.result.json",
+      "sha256": "9855be816cede5481d57d2af7657ae9cd0efb2b70a637b2e87af753d813325f1"
+    },
+    {
+      "bytes": 1200,
+      "citation_id": "kb-1-d-test-f3d72a0470218b38",
+      "path": "bench/results-v1/d-test-agc-excess.result.json",
+      "sha256": "cca8a7c2ab088715ec9802829d2255ec5c05205639bed0998cd341182ea76661"
+    },
+    {
+      "bytes": 1202,
+      "citation_id": "kb-1-d-test-b5a2771a4dc145fe",
+      "path": "bench/results-v1/d-test-energy-cn0-drop.result.json",
+      "sha256": "071e8a9275347720f215d9d52a37818600b6d4e04d507eea208d8a2b66c6fec3"
+    },
+    {
+      "bytes": 1199,
+      "citation_id": "kb-1-d-test-21619d5786dfbead",
+      "path": "bench/results-v1/d-test-fused-max-z.result.json",
+      "sha256": "435c0d64514511fc89fe91c1d049389d8cc47c0cbb95828f4dcc2c8644baf949"
+    },
+    {
+      "bytes": 1200,
+      "citation_id": "kb-1-d-test-f29e75e46b887497",
+      "path": "bench/results-v1/d-test-raim-parity.result.json",
+      "sha256": "b2be0c95b9e302836aa0c4daaf564087a333641ea74abfc1a1b6eb5d7b018200"
+    },
+    {
+      "bytes": 1205,
+      "citation_id": "kb-1-d-test-82ac0250f3ab257d",
+      "path": "bench/results-v1/d-test-sqm-imbalance.result.json",
+      "sha256": "5f9be7c9d72624780838a999ce6eb7aac042292fe0ab827768968993acab8c1f"
+    }
+  ],
+  "rule": "Frozen files never change in place: a revision is a new file (or a new spec major version) and a new index entry, made in a reviewed commit. A citation id is derived from the result's facts, never from the engine version, so it is stable across releases.",
+  "schema": "kshana-bench-golden/1"
+}

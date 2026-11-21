@@ -10302,7 +10302,7 @@ engine-main-usage =
     { "   " }tai: kshana nmea-scenario <scenario.toml> [--out <file.nmea>] [--tcp <addr>|--udp <addr>] (kshana nmea-scenario --help)
     { "   " }tai: kshana interference-map <adsb|ais|fetch-land> ... (kshana interference-map --help)
     { "   " }tai: kshana route-exposure --route <route> --map <map.geojson|dir> [--from <date>] [--to <date>]
-    { "   " }tai: kshana bench <spec|truth|cases|score|baseline|seal|reveal-check|manifest|verify-manifest|validate|leaderboard> ... (kshana bench --help)
+    { "   " }tai: kshana bench <spec|truth|cases|score|baseline|seal|reveal-check|manifest|verify-manifest|validate|leaderboard|positions|datasets|cite|golden> ... (kshana bench --help)
     { "   " }tai: kshana bench-export <scenario.toml> [--out <base>] [--epoch <YYYY-MM-DDTHH:MM:SS>]
     { "   " }tai: kshana compliance-report [--out <base>] <result.json>... | --mapping | --sources
     { "   " }tai: kshana lunanet-afs-check <spec [--json] [--strict]|symbols <file> [--max-sp-errors <n>] [--json]|generate --frames <n> [--toi0 <t>] --out <file>>
@@ -10452,13 +10452,18 @@ engine-interference-map-cli-col-not-observed = ei havaittu
 engine-bench-cli-usage =
     käyttö: kshana bench spec
     { "   " }tai: kshana bench truth --task a --data <extracted JammerTest 2024 dir> --split <dev|test|holdout|all> --out <truth.json>
-    { "   " }tai: kshana bench cases --task <c|d> --split <dev|test|holdout> --out <dir> [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
+    { "   " }tai: kshana bench truth --task g --data <GSDC-layout train dir> --split <dev|test|holdout> --out <truth.json>
+    { "   " }tai: kshana bench cases --task <c|d|f> --split <dev|test|holdout> --out <dir> [--data <dataset.csv>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
     { "   " }tai: kshana bench score --truth <truth.json> --predictions <predictions.json> [--threshold <x>] [--out <result.json>]
-    { "   " }tai: kshana bench baseline --task <a|b|c|d> --split <dev|test|holdout> --out <dir> [--data <dir>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
+    { "   " }tai: kshana bench baseline --task <a|b|c|d|e|f|g> --split <dev|test|holdout> --out <dir> [--data <dir>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
     { "   " }tai: kshana bench seal --task <a|b|c|d> --seed-file <file> [--new]
     { "   " }tai: kshana bench reveal-check --task <a|b|c|d> --seed-file <file> --commitment <hex>
     { "   " }tai: kshana bench manifest --task a --data <extracted dir> [--archive <tar.gz>] --out <manifest.json>
     { "   " }tai: kshana bench verify-manifest <manifest.json> --root <dir>
+    { "   " }tai: kshana bench positions --task g --split <dev|test|holdout> --csv <submission.csv> --name <system> [--version <v>] --out <predictions.json>
+    { "   " }tai: kshana bench datasets [--json | --check [--root <repo>]]
+    { "   " }tai: kshana bench cite <result.json>...
+    { "   " }tai: kshana bench golden [--root <repo>] (--out <GOLDEN.json> | --check <GOLDEN.json>)
     { "   " }tai: kshana bench validate <result.json>...
     { "   " }tai: kshana bench leaderboard [<results dir|result.json>...] --out <page.html> [--fragment]   (ei syötteitä: tyhjä tila; --fragment: upotettava osio)
     { "   " }(siemenluku-tiedosto sisältää sinetöidyn holdout-aineiston salaisuuden; pidä se poissa versionhallinnasta)
@@ -11442,3 +11447,49 @@ engine-e-oscillator-input = { $part }-syöte ei kelpaa: { $e }
 engine-e-oscillator-unknown-clock = tuntematon kelloesiasetus { $id } (jokin näistä: { $known })
 
 engine-e-oscillator-field = { $field } on alueen ulkopuolella: { $value }
+
+## src/bench: tasks (f) and (g), the dataset registry and the golden index (E34)
+
+engine-bench-data-no-header = { $file }: ei otsikkoriviä
+
+engine-bench-data-no-column = { $file }: ei saraketta `{ $column }`
+
+engine-bench-data-bad-value = { $file } rivi { $line }: `{ $column }` puuttuu tai on virheellinen
+
+engine-bench-data-no-rows = { $file }: ei datarivejä
+
+engine-bench-task-has-no-holdout = tehtävällä ({ $task }) ei ole holdout-jakoa: sen data ja jako ovat julkisia
+
+engine-bench-unknown-baseline = tuntematon perustaso `{ $name }`
+
+engine-bench-g-no-traces = ei tiedostoa <drive>/<phone>/ground_truth.csv hakemistossa { $root }
+
+engine-bench-g-no-object = ei jälkien `{ $key }`-objektia
+
+engine-bench-g-bad-epoch = jälki `{ $id }`: jokaisen epookin on oltava [UnixTimeMillis, leveysaste, pituusaste]
+
+engine-bench-f-dataset-mismatch = { $path }: SHA-256 { $got } ei ole tehtävän (f) kiinnitetty dataset.csv; hae se skriptillä scripts/fetch_opssat_ad.sh
+
+engine-bench-cli-unknown-task-g = tuntematon tehtävä `{ $t }` (a–g)
+
+engine-bench-cli-wrote-predictions = kirjoitettu { $path } ({ $traces } jälkeä)
+
+engine-bench-datasets-summary = { $n } aineistoa: { $in_bench } vertailussa, { $candidate } ehdokasta, { $wanted } haettua
+
+engine-bench-datasets-ok = rekisteri: { $n } aineistoa, kaikki säännöt täyttyvät
+
+engine-bench-golden-ok = { $n } jäädytettyä tiedostoa ennallaan; viittaustunnisteet vakaat
+
+engine-bench-golden-written = kirjoitettu { $path } ({ $n } jäädytettyä tiedostoa)
+
+engine-bench-site-title-f = Tehtävä (f): avaruusaluksen telemetrian poikkeamien havaitseminen
+
+engine-bench-site-title-g = Tehtävä (g): älypuhelimen paikannustarkkuus
+
+engine-bench-site-col-ap = Keskimääräinen tarkkuus
+
+engine-bench-site-col-gsdc-score = Pisteet, P50:n ja P95:n keskiarvo (m)
+
+engine-bench-site-col-p50 = P50 yhdistetty (m)
+
+engine-bench-site-col-p95 = P95 yhdistetty (m)
