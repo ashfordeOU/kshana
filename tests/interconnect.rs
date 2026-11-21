@@ -245,7 +245,7 @@ fn the_mavlink_listener_receives_and_sends_nothing() {
     let mut frames = Vec::new();
     while i + 8 < tlog.len() {
         match mavlink::frame_at(&tlog, i + 8) {
-            mavlink::At::Good(_, n) | mavlink::At::Unknown(n) => {
+            mavlink::At::Good(_, n) => {
                 frames.push(tlog[i + 8..i + 8 + n].to_vec());
                 i += 8 + n;
             }

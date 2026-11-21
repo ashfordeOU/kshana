@@ -5,13 +5,29 @@
    "count": 176,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
+  "src/adsb_indicators.rs": {
+   "count": 39,
+   "reason": "machine-document and identifier: the kshana.adsb-indicators/1 document (schema and method ids, field and flag names, the note written into that machine document) and the ADS-B CSV column names (docs/ADSB-INDICATORS.md)"
+  },
   "src/advanced_report.rs": {
    "count": 497,
    "reason": "identifier: the crosswalk of kind names to verification-matrix requirement text, matched by equality against the matrix rows (the new lunar, mission-thread and tip-and-cue kinds add rows), and report JSON keys"
   },
+  "src/afs_interop.rs": {
+   "count": 37,
+   "reason": "machine-document and identifier: family, platform, signal, status, scale and frame names, the English rule texts and unavailability reasons written into the study and register documents, option names and schema ids"
+  },
   "src/ais_integrity.rs": {
    "count": 96,
    "reason": "machine-document and identifier: the kshana.ais-integrity/1 JSON Lines (field names, detector and reason names, parameter names, the method id and the English caveats written into that machine document; docs/AIS-INTEGRITY.md)"
+  },
+  "src/antenna_cal.rs": {
+   "count": 92,
+   "reason": "machine-document and identifier: the ANTEX record labels the lint matches (format text), the finding codes and their details in the kshana.antex-lint/1 document, the schema ids, field names and notes of the kshana.antenna-spread/1, -compare/1, -group-delay/1 and -js-margin/1 documents (docs/ANTENNA-CAL.md)"
+  },
+  "src/arctic_plan.rs": {
+   "count": 10,
+   "reason": "machine-document and identifier: the preset and place names, the schema id, the --places document keys, option names and the English label written into the kshana.arctic-plan/1 document"
   },
   "src/area_trust/v3.rs": {
    "count": 1,
@@ -38,8 +54,8 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/api.rs": {
-   "count": 992,
-   "reason": "identifier and machine-format: kind ids and TOML field names of the kind catalogue; the descriptions of the new lunar, mission-thread and tip-and-cue kinds are served by list_scenario_kinds and move to the catalogue with the kind descriptions (tests/i18n_kinds.rs)"
+   "count": 994,
+   "reason": "identifier and machine-format: kind ids and TOML field names of the kind catalogue; the descriptions of the new lunar, mission-thread and tip-and-cue kinds are served by list_scenario_kinds and move to the catalogue with the kind descriptions (tests/i18n_kinds.rs); the allow_unregistered_time_system and epoch_tdb field names of lunar-interop-export."
   },
   "src/api/builtins.rs": {
    "count": 88,
@@ -61,17 +77,37 @@
    "count": 22,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
+  "src/bench/anomaly.rs": {
+   "count": 23,
+   "reason": "identifier and machine-document: the OPSSAT-AD column names, the task (f) baseline names, the JSON keys of the task (f) truth, cases and result documents, the spec version, the pinned dataset SHA-256 and the English `label` written into that machine document (bench/SPEC.md, task (f))"
+  },
+  "src/bench/cite.rs": {
+   "count": 33,
+   "reason": "machine-document and identifier: the frozen directories, the golden-index schema and rule text and its check findings (English in every language, like validate_result's), the citation-id domain string and the metric names of the citation line, which is a bibliographic entry kept in English"
+  },
   "src/bench/cli.rs": {
-   "count": 53,
-   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md); the task (e) baseline stems (b-log, b-log-pj-all) and the task (e) line of the spec document; the task (b) result's machine metric keys auc_fresh and auc_without_restart_2026_10_13 (JSON keys); the manifest key sha256_pinned; the TEXBAT score command's recording names, file kinds and schema (B4a E5, 11 November 2026)"
+   "count": 61,
+   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md); the task (e) baseline stems (b-log, b-log-pj-all) and the task (e) line of the spec document; the task (b) result's machine metric keys auc_fresh and auc_without_restart_2026_10_13 (JSON keys); the manifest key sha256_pinned; the TEXBAT score command's recording names, file kinds and schema (B4a E5, 11 November 2026); the task (f) and (g) lines of the spec document and the f-/g- truth file names (E34); the option names, file names and the registry-entry key of the private-holdout subcommand; the task (h) line of the spec document and the h- truth file name."
+  },
+  "src/bench/datasets.rs": {
+   "count": 34,
+   "reason": "machine-document: the dataset registry's rule findings (a lint of bench/manifests/datasets.json, English in every language, like validate_result's), its vocabulary values and the table's column formatting"
+  },
+  "src/bench/holdout.rs": {
+   "count": 15,
+   "reason": "machine-document and identifier: the registry schema id, field names of the truth, registry and result documents, the environment-variable name pattern, and repository paths (bench/SPEC.md, bench/holdout/PRIVATE.json)"
   },
   "src/bench/mod.rs": {
    "count": 39,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/bench/site.rs": {
-   "count": 10,
-   "reason": "identifier: JSON pointers and keys of the result files; the page text is in the catalogue"
+   "count": 14,
+   "reason": "identifier: JSON pointers and keys of the result files; the page text is in the catalogue; the task (f) and (g) metric keys (E34)"
+  },
+  "src/bench/smartphone.rs": {
+   "count": 9,
+   "reason": "identifier and machine-document: the GSDC file and column names, the task (g) baseline name, the JSON keys of the task (g) truth and result documents and the English `label` written into that machine document (bench/SPEC.md, task (g)); the ground_truth.csv file name read by the private-holdout loader."
   },
   "src/bench/task_e.rs": {
    "count": 29,
@@ -80,6 +116,10 @@
   "src/bench/tasks.rs": {
    "count": 30,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
+  },
+  "src/bench/urban.rs": {
+   "count": 13,
+   "reason": "identifier and machine-document: the task (h) spec version and baseline names, the file names of the fetch-script layout (ground_truth.txt, nav.rnx), the JSON keys of the task (h) truth and predictions documents, and the English `label` written into the result document (bench/SPEC.md, task (h))."
   },
   "src/benchmark/faults.rs": {
    "count": 9,
@@ -110,8 +150,8 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/bundled_scenarios.rs": {
-   "count": 203,
-   "reason": "bundled scenario file names mission-thread-short.toml, tip-and-cue-baltic-m2 and tip-and-cue-short (machine data, not user-facing text)"
+   "count": 206,
+   "reason": "bundled scenario file names mission-thread-short.toml, tip-and-cue-baltic-m2, tip-and-cue-short, gnss-ssv-geo, gnss-ssv-gto and gnss-ssv-nav-geo (machine data, not user-facing text)"
   },
   "src/calibration_ensembles.rs": {
    "count": 14,
@@ -136,6 +176,10 @@
   "src/cislunar_observability.rs": {
    "count": 268,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
+  },
+  "src/claim_check.rs": {
+   "count": 21,
+   "reason": "machine-document and identifier: check kinds, verdict values, the short English reasons and the label written into the kshana.claims-check/1 document, and the schema ids"
   },
   "src/clock_fit.rs": {
    "count": 30,
@@ -185,6 +229,22 @@
    "count": 2,
    "reason": "machine-document: the test <n>: prefix before a catalogued error, and the <path>: <error> prefix of an operating-system or parse error"
   },
+  "src/interconnect/mavlink_table.rs": {
+   "count": 1,
+   "reason": "identifier: the generated table's record of the mavlink/mavlink definitions commit (a hash), never shown as prose"
+  },
+  "src/interference_atlas.rs": {
+   "count": 34,
+   "reason": "machine-document and identifier: the kshana.interference-atlas/1 and kshana.cors-cn0-layer/1 documents (schema and method ids, field names, status values and notes written into those machine documents) and the map product's status names (docs/INTERFERENCE-ATLAS.md)"
+  },
+  "src/interference_env.rs": {
+   "count": 18,
+   "reason": "machine-document and identifier: the JSON output (the cited Recommendation names and editions written into it, the JSON keys), the option names, and the receiver and baseline ids"
+  },
+  "src/interference_lib.rs": {
+   "count": 37,
+   "reason": "machine-document and identifier: the kshana.interference-fit/1 and kshana.interference-bench/1 schema ids, field names, case ids, the classifier id and the note written into those machine documents, the SigMF description and the corpus CSV header (docs/INTERFERENCE-LIB.md); the multitone and fm_tone option names, the corpus ranges keys and the primary-metric statement of the machine-readable bench document."
+  },
   "src/interference_map/live.rs": {
    "count": 6,
    "reason": "machine-document: the two CSV headers of the documented input formats, the CSV row layouts of the ADS-B and AIS reports, the loopback address a bare UDP port binds, and the <source>: <error> prefix of an operating-system error"
@@ -192,6 +252,10 @@
   "src/jammertest/location.rs": {
    "count": 1,
    "reason": "machine-document: the schema id of the kshana.referee-location/1 score"
+  },
+  "src/leo_sparse.rs": {
+   "count": 1,
+   "reason": "identifier: the schema id of the kshana.leo-sparse/1 JSON output"
   },
   "src/live_health.rs": {
    "count": 3,
@@ -209,6 +273,38 @@
    "count": 8,
    "reason": "machine-document: the B3c gate summary's JSON keys (per waveform, g_all, g_wb and the signal classes) and its MET / NOT MET labels, as in src/locate_tdoa.rs"
   },
+  "src/lunar_afs/kit.rs": {
+   "count": 0,
+   "reason": "identifier: the option and subcommand names of kshana lunar-afs-kit and the lists of known scale and frame names"
+  },
+  "src/lunar_afs/registry.rs": {
+   "count": 15,
+   "reason": "machine-document and identifier: finding kinds, severities, the status of the interim table, the schema id and the English label written into the kshana.lunar-afs-registry-check/1 document"
+  },
+  "src/lunar_afs/vectors.rs": {
+   "count": 5,
+   "reason": "machine-document and identifier: vector operation names, field names and the schema id of kshana.afs-vectors/1"
+  },
+  "src/lunar_frames.rs": {
+   "count": 2,
+   "reason": "machine-document and identifier: the frame names, the ILuRF realisation name and its source note written into the transform document"
+  },
+  "src/lunar_oem.rs": {
+   "count": 5,
+   "reason": "machine-document: COMMENT lines written into the CCSDS OEM (English like the rest of the OEM keyword text) and SANA/NAIF frame tokens"
+  },
+  "src/lunar_output.rs": {
+   "count": 44,
+   "reason": "machine-document and identifier: the field names, enumerated values and English rule texts of the kshana.lunar-pnt-output/1 profile and its check document, and the example stream label"
+  },
+  "src/lunar_ref.rs": {
+   "count": 3,
+   "reason": "identifier: the option and subcommand names of kshana lunar-ref, scale names and the schema id of the convert document"
+  },
+  "src/lunar_timescale.rs": {
+   "count": 2,
+   "reason": "machine-document and identifier: the schema id and the English label written into the kshana.lunar-tcb-tcl/1 document"
+  },
   "src/m4_dark_vessel.rs": {
    "count": 4,
    "reason": "identifier: the label names and schema names of the M4 synthetic truth, AIS and RF documents (machine documents)"
@@ -220,6 +316,22 @@
   "src/m5_hybrid.rs": {
    "count": 5,
    "reason": "identifier: the class names and JSON keys of the M5 result and B4 documents (machine documents)"
+  },
+  "src/osnma/scenario.rs": {
+   "count": 37,
+   "reason": "kshana.osnma-scenario/1 field names, values and constraint expressions substituted into the translated e-osnma-scenario-field message; the run report is a machine document (JSON keys and status names)"
+  },
+  "src/product_register.rs": {
+   "count": 7,
+   "reason": "identifier: the register option names (--crl-key, ...), the field names a date check reports (revalidate_by, next_update, ...), and the tab-separated column header of the text view"
+  },
+  "src/quantum_bench.rs": {
+   "count": 67,
+   "reason": "machine-document and identifier: the quantum-bench/v1 protocol document (test names, conditions, data and rules written into that machine document), schema ids, field names, the CSV header and its MODELLED comment line, and the score note (docs/QUANTUM-BENCH.md)"
+  },
+  "src/register_products.rs": {
+   "count": 10,
+   "reason": "machine-document and identifier: pack-check results, status words printed in the register view (REVOKED and the like), curl arguments, option names and schema ids"
   },
   "src/rtcm_ssr.rs": {
    "count": 3,
@@ -360,6 +472,14 @@
   "src/evidence_label.rs": {
    "count": 10,
    "reason": "machine-document: the evidence block of result JSON and its CSV comment lines (id rule, matrix path, field names) and the tool names that select the rows; the strip under a chart is a message"
+  },
+  "src/feeder_watch.rs": {
+   "count": 9,
+   "reason": "identifier: the kshana feed watch option names, the spool's state.json file name and the kshana.feed-spool/1 schema tag"
+  },
+  "src/feeder.rs": {
+   "count": 33,
+   "reason": "identifier: the kshana feed option names (--key, --grid-deg, ...), the kshana.feed/1 and kshana.obs/1 field names the privacy step reports and checks (station.id, epoch.fix, ...), the sample format and front-end names, and the tab-separated column header of the leaderboard"
   },
   "src/field_schema.rs": {
    "count": 7,
@@ -1022,8 +1142,8 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/lunar_interop.rs": {
-   "count": 25,
-   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
+   "count": 30,
+   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md); the OEM COMMENT lines stating the frame realisation and an unregistered TIME_SYSTEM (CCSDS keyword text, English like the OEM); the ICRF REF_FRAME token."
   },
   "src/lunar_jamming.rs": {
    "count": 164,
@@ -1090,8 +1210,8 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/main.rs": {
-   "count": 76,
-   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md); clock-live prints its error text as given; the sensor-live command name; the device and bench-speed command names; the data-pack, area-trust and env-baseline command names; the ephem-export command name; the time-vectors command name; the ais-integrity command name; the space-weather command name; the orbit-data command name."
+   "count": 98,
+   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md); clock-live prints its error text as given; the sensor-live command name; the device and bench-speed command names; the data-pack, area-trust and env-baseline command names; the ephem-export command name; the time-vectors command name; the ais-integrity command name; the space-weather command name; the orbit-data command name; the leo-verify command name; the space-receiver command name; the sil-obs and interference-lib command names; the interference-env command name; the antenna-cal command name; the arctic-plan command name; the lunar-ref command name; the signal-readiness command name; the quantum-bench and soop-clock command names; the leo-od-plan command name; the lunar-afs-kit command name; the adsb-indicators and interference-atlas command names; the claim-check command name; the afs-interop command name; the timing-stack command name; the register-products command name; the sil-obsgen command name; the lunar-oem command name in the dispatch; the leo-sparse command name."
   },
   "src/mars_pnt.rs": {
    "count": 31,
@@ -1421,6 +1541,18 @@
    "count": 2,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
+  "src/signal_readiness.rs": {
+   "count": 30,
+   "reason": "data and machine-document: the reference table (system names, number names, the cited document titles and editions), the SBAS allocation names as printed in the gps.gov table, the signal names, and the JSON keys and check names of the kshana.signal-readiness/1 report"
+  },
+  "src/sil_obs.rs": {
+   "count": 28,
+   "reason": "machine-document and identifier: the RINEX 3.04 observation header labels and fixed fields (format text, not prose), the kshana.sil-obs-truth/1 and kshana.sil-obs-compare/1 schema ids, field names, the method and note written into those machine documents (docs/SIL-OBS.md)"
+  },
+  "src/sil_obsgen.rs": {
+   "count": 18,
+   "reason": "machine-document and identifier: RINEX header labels and fixed header text written into the RINEX format, reception class names, option names and the English label written into the truth document"
+  },
   "src/skyline.rs": {
    "count": 29,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
@@ -1433,9 +1565,41 @@
    "count": 77,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
+  "src/soop_clock.rs": {
+   "count": 23,
+   "reason": "machine-document and identifier: schema ids, option names, SigMF file suffixes, field names and the notes written into the kshana.soop-clock-lte/1 and -cp/1 documents, and the SigMF description of the synthetic test capture (docs/SOOP-CLOCK.md)"
+  },
   "src/space_packet.rs": {
    "count": 29,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
+  },
+  "src/space_receiver/bench.rs": {
+   "count": 7,
+   "reason": "machine-document and identifier: the case ids, orbit presets and antenna names of upper-ssv-bench/1, the schema and version ids, and the English label written into the kshana.space-receiver-bench/1 document"
+  },
+  "src/space_receiver/cli.rs": {
+   "count": 25,
+   "reason": "identifier: the option names of kshana space-receiver (--max-doppler-rate and the like), band and oscillator names, and the keys of the bench --list document"
+  },
+  "src/space_receiver/clock.rs": {
+   "count": 4,
+   "reason": "machine-document and identifier: the oscillator class names, the schema id, the source notes and the English label written into the kshana.space-receiver-clock/1 document"
+  },
+  "src/space_receiver/dynamics.rs": {
+   "count": 4,
+   "reason": "machine-document and identifier: the orbit preset names, the schema id and the English label written into the kshana.space-receiver-dynamics/1 document"
+  },
+  "src/space_receiver/mms.rs": {
+   "count": 4,
+   "reason": "machine-document and identifier: the schema id, verdict values, the cited source reference and the English label written into the kshana.space-receiver-mms/1 document"
+  },
+  "src/space_receiver/od_vs_tle.rs": {
+   "count": 3,
+   "reason": "machine-document and identifier: the schema id, the CCSDS standard id and frame names, and the English label written into the kshana.space-receiver-od-vs-tle/1 document"
+  },
+  "src/space_receiver/timestamps.rs": {
+   "count": 23,
+   "reason": "machine-document and identifier: the fault-kind names and CSV column names, the schema id and the English label written into the kshana.space-receiver-timestamps/1 document"
   },
   "src/space_weather.rs": {
    "count": 23,
@@ -1556,6 +1720,10 @@
   "src/timetransfer_chain.rs": {
    "count": 32,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
+  },
+  "src/timing_stack.rs": {
+   "count": 74,
+   "reason": "machine-document and identifier: check and finding names, PPS path names, AEAD names, the phc_ctl and ntpshmmon tokens matched, option names, schema id and the English label written into the kshana.timing-stack/1 document"
   },
   "src/tip_and_cue.rs": {
    "count": 69,
@@ -1833,13 +2001,77 @@
    "count": 1,
    "reason": "identifier: the madoca-iono service name in the JSON report"
   },
+  "src/corrections/l1s.rs": {
+   "count": 10,
+   "reason": "identifier: the disaster-category and classification names and the note values of the L1S JSON report (machine document, English by design, docs/CORRECTION-DECODERS.md)"
+  },
+  "src/corrections/dcr.rs": {
+   "count": 35,
+   "reason": "identifier: the JSON field names of the DC Report category bodies, the arrival states and the cited table name (docs/CORRECTION-DECODERS.md)"
+  },
+  "src/corrections/dcx.rs": {
+   "count": 43,
+   "reason": "identifier: the JSON field names and enumerated values of the DCX report (message kinds, CAMF names, instruction-library names, prefecture names; docs/CORRECTION-DECODERS.md)"
+  },
+  "src/corrections/qznma.rs": {
+   "count": 5,
+   "reason": "identifier: the message-type names of the QZNMA RDS in the JSON report"
+  },
+  "src/corrections/mod.rs": {
+   "count": 1,
+   "reason": "identifier: the qznma-verify subcommand name matched on the command line"
+  },
+  "src/corrections/qznma_nav.rs": {
+   "count": 8,
+   "reason": "identifier: the signal names of the navigation-message file and the JSON report (docs/CORRECTION-DECODERS.md)"
+  },
+  "src/corrections/qznma_verify.rs": {
+   "count": 1,
+   "reason": "identifier: the qzss_dss source tag of the JSON report"
+  },
   "src/corrections/vectors.rs": {
-   "count": 2,
-   "reason": "identifier: the PASS/FAIL markers of the vector table, as in src/time_vectors.rs"
+   "count": 3,
+   "reason": "identifier: the vector-format tag and the built-in vector file names (has.json, qznma.json) the scanner reads as words"
   },
   "src/interference_map/incident.rs": {
    "count": 183,
    "reason": "machine-document and identifier: the kshana-interference-incidents/1 vocabulary, field names and schema tags, the validator's problem messages (written to the machine-readable report, English by design), CSV column names and the Zenodo metadata keys (docs/INTERFERENCE-INCIDENTS.md)"
+  },
+  "src/leo_verify/burst.rs": {
+   "count": 11,
+   "reason": "machine identifiers: the JSON input field names (`snake_case`, dotted paths) named verbatim in the catalogued e-leo-verify-field error, and the part names and enum values written into the JSON report; not prose"
+  },
+  "src/leo_verify/cost.rs": {
+   "count": 9,
+   "reason": "machine identifiers: the JSON input field names (`snake_case`, dotted paths) named verbatim in the catalogued e-leo-verify-field error, and the part names and enum values written into the JSON report; not prose"
+  },
+  "src/leo_verify/doppler_integrity.rs": {
+   "count": 14,
+   "reason": "machine identifiers: the JSON input field names (`snake_case`, dotted paths) named verbatim in the catalogued e-leo-verify-field error, and the part names and enum values written into the JSON report; not prose"
+  },
+  "src/leo_verify/indoor.rs": {
+   "count": 6,
+   "reason": "machine identifiers: the JSON input field names (`snake_case`, dotted paths) named verbatim in the catalogued e-leo-verify-field error, and the part names and enum values written into the JSON report; not prose"
+  },
+  "src/leo_verify/jam_claim.rs": {
+   "count": 10,
+   "reason": "machine identifiers: the JSON input field names (`snake_case`, dotted paths) named verbatim in the catalogued e-leo-verify-field error, and the part names and enum values written into the JSON report; not prose"
+  },
+  "src/leo_verify/mod.rs": {
+   "count": 10,
+   "reason": "machine identifiers: the JSON input field names (`snake_case`, dotted paths) named verbatim in the catalogued e-leo-verify-field error, and the part names and enum values written into the JSON report; not prose"
+  },
+  "src/leo_verify/rain.rs": {
+   "count": 8,
+   "reason": "machine identifiers: the JSON input field names (`snake_case`, dotted paths) named verbatim in the catalogued e-leo-verify-field error, and the part names and enum values written into the JSON report; not prose"
+  },
+  "src/leo_verify/rtk_ar.rs": {
+   "count": 8,
+   "reason": "machine identifiers: the JSON input field names (`snake_case`, dotted paths) named verbatim in the catalogued e-leo-verify-field error, and the part names and enum values written into the JSON report; not prose"
+  },
+  "src/leo_verify/tdev.rs": {
+   "count": 3,
+   "reason": "machine identifiers: the JSON input field names (`snake_case`, dotted paths) named verbatim in the catalogued e-leo-verify-field error, and the part names and enum values written into the JSON report; not prose"
   }
  }
 }

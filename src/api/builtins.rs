@@ -645,7 +645,7 @@ impl BuiltinKind for crate::lunar_station::LunarStationCoverageScenario {
 fn run_lunar_interop(
     scn: &crate::lunar_interop::LunarInteropScenario,
 ) -> Result<RunOutput, String> {
-    let report = scn.run();
+    let report = scn.run()?;
     let summary = crate::t!(
         "api-builtins-lunar-interop-export-ref-frame",
         frame = report.frame,
@@ -688,7 +688,9 @@ impl Scenario for crate::lunar_interop::LunarInteropScenario {
 impl BuiltinKind for crate::lunar_interop::LunarInteropScenario {
     const KIND: ScenarioKind = ScenarioKind::LunarInterop;
     fn parse(src: &str) -> Result<Self, String> {
-        parse_toml(src, "lunar-interop-export")
+        let scn: Self = parse_toml(src, "lunar-interop-export")?;
+        scn.validate()?;
+        Ok(scn)
     }
 }
 

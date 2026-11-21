@@ -22,30 +22,52 @@
 //!
 //! ## Result (recorded, not tuned)
 //!
-//! `oem` 0.4.5 decodes both files (with a warning that it does not support the TIME_SYSTEM
-//! values `LTC` and `TCL` and falls back to plain date-times). Orekit 12.2 REFUSES both:
-//! "use of time system LTC (TCL) in CCSDS files requires an additional ICD and is not
-//! implemented in Orekit". A diagnostic copy with TIME_SYSTEM set to TDB decodes in Orekit
-//! with REF_FRAME `MOON_PA`/`MOON_ME` passed through, so the refusal is the lunar time-system
-//! token alone. The two-reader comparison therefore fails, and the row stays MODELLED. The
-//! plan-named test below is ignored with that reason; the live test pins the recorded
-//! outcome to the bytes Kshana exports today, so the finding cannot go stale silently.
+//! Before Kshana wrote SANA-registered names (21 November 2026), the files carried
+//! `TIME_SYSTEM` `LTC` and `TCL`: `oem` 0.4.5 decoded them with a warning, and Orekit 12.2
+//! refused both ("use of time system LTC (TCL) in CCSDS files requires an additional ICD and
+//! is not implemented in Orekit", finding M047).
+//!
+//! With the default export (`TDB`, `REF_FRAME` `MOON_ME` and `MOON_PA440`) both readers
+//! decode both files within the tolerances above, so the pre-registered comparison passes on
+//! them. The explicit opt-in file with `LTC` is still decoded by `oem` (with a warning) and
+//! still refused by Orekit; the recorded test pins that too. The comparison is of the
+//! interchange format only (tokens, epochs and numbers), not of the frame or time semantics.
+//!
+//! The Orekit driver measures epoch offsets in the file's own `TIME_SYSTEM` (they are labels in
+//! that scale). Measured in TAI, as the driver did before any file had a time system Orekit
+//! accepts, the TDB offsets fall short by the TDB rate at the epoch, about 0.34 ns per second
+//! (4.8 µs after 4 h): a property of the time scales, not of the files.
 
-use kshana::lunar_interop::{export_lunar_oem, EphemState, LunarFrameId, LunarTimeId};
+use kshana::lunar_interop::{export_lunar_oem, in_frame, EphemState, LunarFrameId, LunarTimeId};
 use kshana::lunar_service::LunarConstellation;
 
 const OUT: &str = include_str!("fixtures/lunar_interop_oem_oracle/two_reader_output.txt");
-const OEM_ME_LTC: &str =
-    include_str!("fixtures/lunar_interoperability_export/kshana_lunar_moon_me_ltc.oem");
-const OEM_PA_TCL: &str =
-    include_str!("fixtures/lunar_interoperability_export/kshana_lunar_moon_pa_tcl.oem");
+const OEM_ME_TDB: &str =
+    include_str!("fixtures/lunar_interoperability_export/kshana_lunar_moon_me_tdb.oem");
+const OEM_PA440_TDB: &str =
+    include_str!("fixtures/lunar_interoperability_export/kshana_lunar_moon_pa440_tdb.oem");
+const OEM_ME_LTC_OPTIN: &str =
+    include_str!("fixtures/lunar_interoperability_export/kshana_lunar_moon_me_ltc_optin.oem");
 
 const POS_TOL_KM: f64 = 5e-7;
 const VEL_TOL_KM_S: f64 = 5e-10;
 
 /// The same state grids the export fixtures were written from (see
-/// `tests/lunar_interoperability_export_reference.rs`).
-fn grid(sat_index: usize, n: usize, step_s: f64) -> Vec<EphemState> {
+/// `tests/lunar_interoperability_export_reference.rs`): inertial, rotated into the frame at
+/// the same absolute start epoch (TDB).
+fn grid(sat_index: usize, n: usize, step_s: f64, frame: LunarFrameId) -> Vec<EphemState> {
+    let start = kshana::rinex::EpochUtc {
+        year: 2030,
+        month: 1,
+        day: 1,
+        hour: 0,
+        minute: 0,
+        second: 0.0,
+    };
+    in_frame(&inertial_grid(sat_index, n, step_s), frame, &start).expect("inside the DE440 span")
+}
+
+fn inertial_grid(sat_index: usize, n: usize, step_s: f64) -> Vec<EphemState> {
     let sat = LunarConstellation::illustrative_lcns(4).sats[sat_index];
     (0..n)
         .map(|i| {
@@ -78,26 +100,38 @@ struct Case {
 }
 
 fn cases() -> Vec<Case> {
+    let me = LunarFrameId::MoonMe;
+    let pa = LunarFrameId::MoonPa;
     vec![
         Case {
-            file: "kshana_lunar_moon_me_ltc.oem",
+            file: "kshana_lunar_moon_me_tdb.oem",
             object: "LCNS-ILLUSTRATIVE-1",
-            frame: LunarFrameId::MoonMe,
+            frame: me,
+            time: LunarTimeId::Tdb,
+            frame_tok: "MOON_ME",
+            time_tok: "TDB",
+            states: grid(0, 9, 1800.0, me),
+            committed: OEM_ME_TDB,
+        },
+        Case {
+            file: "kshana_lunar_moon_pa440_tdb.oem",
+            object: "LCNS-ILLUSTRATIVE-3",
+            frame: pa,
+            time: LunarTimeId::Tdb,
+            frame_tok: "MOON_PA440",
+            time_tok: "TDB",
+            states: grid(2, 9, 1200.0, pa),
+            committed: OEM_PA440_TDB,
+        },
+        Case {
+            file: "kshana_lunar_moon_me_ltc_optin.oem",
+            object: "LCNS-ILLUSTRATIVE-1",
+            frame: me,
             time: LunarTimeId::Ltc,
             frame_tok: "MOON_ME",
             time_tok: "LTC",
-            states: grid(0, 9, 1800.0),
-            committed: OEM_ME_LTC,
-        },
-        Case {
-            file: "kshana_lunar_moon_pa_tcl.oem",
-            object: "LCNS-ILLUSTRATIVE-3",
-            frame: LunarFrameId::MoonPa,
-            time: LunarTimeId::Tcl,
-            frame_tok: "MOON_PA",
-            time_tok: "TCL",
-            states: grid(2, 9, 1200.0),
-            committed: OEM_PA_TCL,
+            states: grid(0, 9, 1800.0, me),
+            committed: OEM_ME_LTC_OPTIN,
         },
     ]
 }
@@ -168,8 +202,8 @@ fn check_reader(reader: &str, c: &Case) -> Result<(), String> {
 }
 
 /// The recorded outcome is about the bytes Kshana exports today: the export is unchanged,
-/// `oem` 0.4.5 decodes both files within the pre-registered tolerances, and Orekit 12.2
-/// refuses both on the lunar TIME_SYSTEM token.
+/// `oem` 0.4.5 decodes every file within the pre-registered tolerances, Orekit 12.2 decodes
+/// the default (`TDB`) files and refuses the opt-in `LTC` file on its time-system token.
 #[test]
 fn recorded_two_reader_outcome_is_for_todays_export() {
     for c in cases() {
@@ -180,23 +214,27 @@ fn recorded_two_reader_outcome_is_for_todays_export() {
             c.file
         );
         check_reader("oem", &c).unwrap();
-        let err = check_reader("orekit", &c).unwrap_err();
-        assert!(
-            err.contains("REFUSED") && err.contains(&format!("time system {}", c.time_tok)),
-            "{}: the recorded Orekit outcome changed ({err}); re-examine row M047",
-            c.file
-        );
+        if c.time.sana_registered() {
+            check_reader("orekit", &c).unwrap();
+        } else {
+            let err = check_reader("orekit", &c).unwrap_err();
+            assert!(
+                err.contains("REFUSED") && err.contains(&format!("time system {}", c.time_tok)),
+                "{}: the recorded Orekit outcome changed ({err}); re-examine row M047",
+                c.file
+            );
+        }
     }
 }
 
-/// The pre-registered comparison. It fails today because Orekit 12.2 refuses the lunar
-/// time systems; it is kept, ignored, so it can be re-run when a reader supports them.
+/// The pre-registered comparison, on the default export (SANA-registered names): both
+/// readers decode both files within the tolerances. The opt-in `LTC` file is left out: Orekit
+/// 12.2 refuses that token (finding M047).
 #[test]
-#[ignore = "Orekit 12.2 refuses TIME_SYSTEM LTC and TCL (finding M047): the two-reader comparison fails"]
 fn lunar_oem_decodes_identically_in_two_independent_readers() {
-    for c in cases() {
+    for c in cases().iter().filter(|c| c.time.sana_registered()) {
         for reader in ["oem", "orekit"] {
-            check_reader(reader, &c).unwrap();
+            check_reader(reader, c).unwrap();
         }
     }
 }

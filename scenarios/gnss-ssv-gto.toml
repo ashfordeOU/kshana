@@ -1,0 +1,38 @@
+# A geostationary transfer orbit: the user crosses the GNSS shells twice per revolution at high speed.
+#
+# Perigee 250 km, apogee 35,786 km altitude (a = 24,396 km, e = 0.7283), inclination 27 degrees, started at perigee. Below
+# the shells the zenith patch sees the constellations from inside; above them the nadir high-gain antenna hears the far-side
+# signals. The run covers one revolution (about 10.5 hours) at five-minute steps, with the limb-ray medium switched on for
+# the links that graze the atmosphere near perigee. The Doppler and Doppler-rate envelope of such an orbit is the
+# space-receiver dynamics report's job; here the question is signals, C/N0 and geometry along it.
+#
+# MODELLED: two-body orbit, a representative (not measured) transmit pattern, a stated simple medium (docs/SSV.md).
+
+kind = "gnss-ssv"
+name = "GTO 250 x 35,786 km, 27 deg: signals and geometry along one revolution"
+
+[constellations]
+include = ["gps", "glonass", "galileo", "bds"]
+bands = ["l1", "l5"]
+
+[transmit]
+pattern = "parametric"
+
+[receiver]
+cn0_min_dbhz = 20.0
+
+[atmosphere]
+
+[trajectory]
+duration_periods = 1.0
+step_min = 5.0
+antennas = ["booklet-high-gain-nadir", "booklet-patch-zenith"]
+series_every_min = 30.0
+
+[trajectory.orbit]
+a_km = 24396.0
+e = 0.7283
+i_deg = 27.0
+raan_deg = 0.0
+argp_deg = 0.0
+true_anomaly_deg = 0.0

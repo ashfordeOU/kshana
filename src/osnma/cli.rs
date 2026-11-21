@@ -381,6 +381,9 @@ pub fn run(args: &[String]) -> i32 {
         println!("{advisory}\n\n{}", usage());
         return 0;
     }
+    if args.first().map(String::as_str) == Some("scenario") {
+        return scenario_cli(&args[1..], &advisory);
+    }
     if args.first().map(String::as_str) != Some("verify") {
         eprintln!("{advisory}\n\n{}", usage());
         return 2;
@@ -572,4 +575,155 @@ fn print_text(a: &Analysis, o: &Options) {
         }
         println!("\n{}", super::pksos_sentence(overall, sats));
     }
+}
+
+/// `kshana osnma scenario run <scenario.json> [--json]` and `kshana osnma scenario template`.
+fn scenario_cli(args: &[String], advisory: &str) -> i32 {
+    use super::scenario;
+    let usage = || crate::t!("osnma-scenario-usage");
+    match args.first().map(String::as_str) {
+        Some("template") if args.len() == 1 => {
+            match serde_json::to_string_pretty(&scenario::template()) {
+                Ok(t) => {
+                    println!("{t}");
+                    0
+                }
+                Err(e) => {
+                    eprintln!("{e}");
+                    2
+                }
+            }
+        }
+        Some("run") => {
+            let mut path = None;
+            let mut json = false;
+            for a in &args[1..] {
+                match a.as_str() {
+                    "--json" => json = true,
+                    s if !s.starts_with('-') && path.is_none() => path = Some(s.to_string()),
+                    _ => {
+                        eprintln!(
+                            "{}\n\n{}",
+                            crate::terr!("e-osnma-scenario-unknown-option", option = a),
+                            usage()
+                        );
+                        return 2;
+                    }
+                }
+            }
+            let Some(path) = path else {
+                eprintln!("{}", usage());
+                return 2;
+            };
+            let text = match std::fs::read_to_string(&path) {
+                Ok(t) => t,
+                Err(e) => {
+                    eprintln!(
+                        "{}",
+                        crate::terr!("e-osnma-scenario-cannot-read", path = path, e = e)
+                    );
+                    return 2;
+                }
+            };
+            let report = match scenario::Scenario::from_json(&text).and_then(|s| scenario::run(&s))
+            {
+                Ok(r) => r,
+                Err(e) => {
+                    eprintln!("{}", crate::terr!("e-osnma-scenario-bad", e = e));
+                    return 2;
+                }
+            };
+            if json {
+                match serde_json::to_string_pretty(&report) {
+                    Ok(t) => println!("{t}"),
+                    Err(e) => {
+                        eprintln!("{e}");
+                        return 2;
+                    }
+                }
+            } else {
+                print_scenario_report(&report, advisory);
+            }
+            if report.all_met {
+                0
+            } else {
+                1
+            }
+        }
+        Some("--help" | "-h") => {
+            println!("{advisory}\n\n{}", usage());
+            0
+        }
+        _ => {
+            eprintln!("{advisory}\n\n{}", usage());
+            2
+        }
+    }
+}
+
+fn print_scenario_report(r: &super::scenario::Report, advisory: &str) {
+    println!("{advisory}\n");
+    println!(
+        "{}",
+        crate::t!(
+            "osnma-scenario-report-head",
+            name = r.scenario.clone(),
+            subframes = r.subframes,
+            pages = r.pages
+        )
+    );
+    let join = |m: &std::collections::BTreeMap<String, usize>| {
+        m.iter()
+            .map(|(k, v)| format!("{k} {v}"))
+            .collect::<Vec<_>>()
+            .join(", ")
+    };
+    println!(
+        "{}",
+        crate::t!("osnma-scenario-report-tags", list = join(&r.tags))
+    );
+    if !r.tag_reasons.is_empty() {
+        println!(
+            "{}",
+            crate::t!("osnma-scenario-report-reasons", list = join(&r.tag_reasons))
+        );
+    }
+    println!(
+        "{}",
+        crate::t!("osnma-scenario-report-events", list = join(&r.events))
+    );
+    for (sat, st) in &r.status {
+        println!(
+            "{}",
+            crate::t!(
+                "osnma-scenario-report-status",
+                sat = sat.clone(),
+                status = st.clone()
+            )
+        );
+    }
+    println!(
+        "{}",
+        crate::t!("osnma-scenario-report-overall", status = r.overall.clone())
+    );
+    for c in &r.checks {
+        let (what, expected, observed) = (c.what.clone(), c.expected.clone(), c.observed.clone());
+        let line = if c.met {
+            crate::t!(
+                "osnma-scenario-report-check-met",
+                what = what,
+                expected = expected,
+                observed = observed
+            )
+        } else {
+            crate::t!(
+                "osnma-scenario-report-check-not-met",
+                what = what,
+                expected = expected,
+                observed = observed
+            )
+        };
+        println!("{line}");
+    }
+    println!("{}", r.provenance);
 }

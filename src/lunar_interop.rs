@@ -9,8 +9,12 @@
 //! lunar context:
 //!
 //! - [`export_lunar_oem`] emits a CCSDS Orbit Ephemeris Message whose `REF_FRAME` is the
-//!   lunar body frame (`MOON_ME` / `MOON_PA`, the IAU 2015 WGCCRE mean-Earth / principal-axis
-//!   lunar frames) and whose `TIME_SYSTEM` is the lunar time scale (`LTC` / `TCL` / `UTC`).
+//!   lunar body frame under its SANA-registered name (`MOON_ME`, or `MOON_PA440` for the DE440
+//!   principal axes) and whose `TIME_SYSTEM` is `TDB` by default (`UTC` too; the unregistered
+//!   lunar tokens `LTC` / `TCL` only on explicit request, with a `COMMENT` saying so). The
+//!   scenario's sample states are rotated from Moon-centred inertial axes into the named body
+//!   frame with the DE440 orientation ([`crate::lunar_oem`]). Files with the older unversioned
+//!   `MOON_PA` are still read.
 //!   The state grid carries lunar-centred positions (m) and velocities (m/s) per epoch.
 //! - [`export_lunar_time_metadata`] emits a small LunaNet/IOAG-aligned lunar-time descriptor
 //!   (scale id, secular rate µs/day, published reference band, reference surface) that
@@ -50,30 +54,80 @@ pub const LUNAR_HONESTY_LABEL: &str = "MODELLED";
 /// A 3-vector (m or m/s, depending on field).
 pub type Vec3 = [f64; 3];
 
-/// The lunar body reference frame an artifact is expressed in. The string forms are the
-/// IAU 2015 WGCCRE lunar frame identifiers used as CCSDS `REF_FRAME` / LunaNet frame tags.
+/// The lunar body reference frame an artifact is expressed in. The string forms are values of
+/// the SANA "Celestial Body Reference Frames" registry that CCSDS 502.0-B-3 points `REF_FRAME`
+/// to: `MOON_ME` and `MOON_PAxxx` (the principal-axis frame of a named JPL DE; written here as
+/// `MOON_PA440` for DE440, the separator-free spelling being our reading, to confirm). See
+/// docs/LUNAR-OEM.md.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub enum LunarFrameId {
-    /// Mean-Earth / polar-axis lunar frame (`MOON_ME`).
+    /// Moon-centred, ICRF axes (`ICRF` with `CENTER_NAME = MOON`): the inertial frame the sample
+    /// states are computed in, written unrotated. The default, because it needs no epoch.
+    Icrf,
+    /// Mean-Earth / polar-axis lunar frame (`MOON_ME`), realised from DE440 as NAIF
+    /// `MOON_ME_DE440_ME421`.
     MoonMe,
-    /// Principal-axis lunar frame (`MOON_PA`).
+    /// DE440 principal-axis lunar frame (`MOON_PA440`).
     MoonPa,
 }
 
 impl LunarFrameId {
-    /// The CCSDS / LunaNet `REF_FRAME` token for this frame.
+    /// The CCSDS `REF_FRAME` token written for this frame.
     pub fn as_ccsds_str(self) -> &'static str {
         match self {
+            LunarFrameId::Icrf => "ICRF",
             LunarFrameId::MoonMe => "MOON_ME",
-            LunarFrameId::MoonPa => "MOON_PA",
+            LunarFrameId::MoonPa => "MOON_PA440",
+        }
+    }
+
+    /// Read a `REF_FRAME` token, including the older unversioned `MOON_PA` this module wrote
+    /// before it used registered names (read as DE440 PA) and the NAIF names.
+    pub fn parse(token: &str) -> Option<LunarFrameId> {
+        match token.trim().to_ascii_uppercase().as_str() {
+            "ICRF" => Some(LunarFrameId::Icrf),
+            "MOON_ME" | "MOON_ME_DE440_ME421" => Some(LunarFrameId::MoonMe),
+            "MOON_PA" | "MOON_PA440" | "MOON_PA_DE440" => Some(LunarFrameId::MoonPa),
+            _ => None,
+        }
+    }
+
+    /// The `COMMENT` that states how the frame is realised.
+    fn realisation(self) -> &'static str {
+        match self {
+            LunarFrameId::Icrf => {
+                "REF_FRAME ICRF: Moon-centred, ICRF axes; the inertial states, not rotated into a body frame"
+            }
+            LunarFrameId::MoonMe => {
+                "REF_FRAME MOON_ME realised as NAIF MOON_ME_DE440_ME421 (DE440 PA with the constant offset of moon_de440_220930.tf)"
+            }
+            LunarFrameId::MoonPa => "REF_FRAME MOON_PA440: the DE440 principal-axis frame",
+        }
+    }
+
+    /// Whether the frame turns with the Moon, so that inertial states need an absolute epoch
+    /// to be rotated into it.
+    pub fn is_body_fixed(self) -> bool {
+        !matches!(self, LunarFrameId::Icrf)
+    }
+
+    fn oem_frame(self) -> crate::lunar_oem::Frame {
+        match self {
+            LunarFrameId::Icrf => crate::lunar_oem::Frame::Icrf,
+            LunarFrameId::MoonMe => crate::lunar_oem::Frame::MoonMe,
+            LunarFrameId::MoonPa => crate::lunar_oem::Frame::MoonPa440,
         }
     }
 }
 
-/// The lunar time scale an artifact's epochs are tagged with. The string forms are the
-/// CCSDS `TIME_SYSTEM` / LunaNet time-scale tags.
+/// The time scale an artifact's epochs are tagged with: the CCSDS `TIME_SYSTEM` token. The
+/// SANA "Time Systems" registry lists no lunar time scale, so the default is `TDB`; `LTC` and
+/// `TCL` are written only when asked for explicitly, with a `COMMENT` saying the value is not
+/// registered.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub enum LunarTimeId {
+    /// Barycentric Dynamical Time (`TDB`), SANA-registered; the default.
+    Tdb,
     /// Lunar Coordinate Time (`LTC`).
     Ltc,
     /// Lunar coordinate time scale, barycentric-style label (`TCL`).
@@ -86,9 +140,26 @@ impl LunarTimeId {
     /// The CCSDS / LunaNet `TIME_SYSTEM` token for this time scale.
     pub fn as_ccsds_str(self) -> &'static str {
         match self {
+            LunarTimeId::Tdb => "TDB",
             LunarTimeId::Ltc => "LTC",
             LunarTimeId::Tcl => "TCL",
             LunarTimeId::Utc => "UTC",
+        }
+    }
+
+    /// Whether the token is a value of the SANA "Time Systems" registry (read 21 November 2026).
+    pub fn sana_registered(self) -> bool {
+        matches!(self, LunarTimeId::Tdb | LunarTimeId::Utc)
+    }
+
+    /// Read a `TIME_SYSTEM` token.
+    pub fn parse(token: &str) -> Option<LunarTimeId> {
+        match token.trim().to_ascii_uppercase().as_str() {
+            "TDB" => Some(LunarTimeId::Tdb),
+            "LTC" => Some(LunarTimeId::Ltc),
+            "TCL" => Some(LunarTimeId::Tcl),
+            "UTC" => Some(LunarTimeId::Utc),
+            _ => None,
         }
     }
 }
@@ -115,14 +186,12 @@ const OEM_EPOCH: EpochUtc = EpochUtc {
     second: 0.0,
 };
 
-/// Build the calendar epoch `OEM_EPOCH + offset_s` using the same small-magnitude
-/// seconds-of-day arithmetic as [`crate::oem::OemFile::from_propagators`] so a clean grid
-/// stays clean (the JD is only used for the integer-day rollover).
-fn epoch_at(offset_s: f64) -> EpochUtc {
-    let day_jd0 =
-        crate::timescales::julian_date(OEM_EPOCH.year, OEM_EPOCH.month, OEM_EPOCH.day, 0, 0, 0.0);
-    let base_sod =
-        OEM_EPOCH.hour as f64 * 3600.0 + OEM_EPOCH.minute as f64 * 60.0 + OEM_EPOCH.second;
+/// The calendar epoch `base + offset_s`, using the same small-magnitude seconds-of-day
+/// arithmetic as [`crate::oem::OemFile::from_propagators`] so a clean grid stays clean (the
+/// JD is only used for the integer-day rollover).
+fn epoch_from(base: &EpochUtc, offset_s: f64) -> EpochUtc {
+    let day_jd0 = crate::timescales::julian_date(base.year, base.month, base.day, 0, 0, 0.0);
+    let base_sod = base.hour as f64 * 3600.0 + base.minute as f64 * 60.0 + base.second;
     let total = base_sod + offset_s;
     let day_add = (total / 86_400.0).floor();
     let mut sod = total - day_add * 86_400.0;
@@ -143,8 +212,11 @@ fn epoch_at(offset_s: f64) -> EpochUtc {
 
 /// Export a lunar ephemeris as a CCSDS OEM 2.0 (KVN) message in the lunar body frame.
 ///
-/// The OEM header `REF_FRAME` is set to the lunar frame token (`MOON_ME` / `MOON_PA`) and
-/// `TIME_SYSTEM` to the lunar time token (`LTC` / `TCL` / `UTC`); `CENTER_NAME` is `MOON`.
+/// The OEM header `REF_FRAME` is set to the SANA-registered lunar frame token (`MOON_ME` /
+/// `MOON_PA440`) and `TIME_SYSTEM` to the time token (`TDB` by default, `UTC`, or on explicit
+/// request the unregistered `LTC` / `TCL`); `CENTER_NAME` is `MOON`. `COMMENT` lines at the
+/// start of the metadata state the frame's realisation and, for `LTC` / `TCL`, that the value
+/// is not SANA-registered. The states must already be in the named frame.
 /// The state grid is written in km / km·s⁻¹ (the OEM unit convention) from the supplied
 /// `states` (m / m·s⁻¹). The `CREATION_DATE` is a fixed deterministic epoch (never
 /// wall-clock) so the same inputs produce byte-identical output.
@@ -157,6 +229,19 @@ pub fn export_lunar_oem(
     time_system: LunarTimeId,
     states: &[EphemState],
 ) -> String {
+    export_lunar_oem_at(object, frame, time_system, states, &OEM_EPOCH)
+}
+
+/// [`export_lunar_oem`] on a grid that starts at `start` (`start + t_s` for each state) instead
+/// of the fixed 2030-01-01T00:00:00 label: the epoch a scenario's `epoch_tdb` anchors.
+pub fn export_lunar_oem_at(
+    object: &str,
+    frame: LunarFrameId,
+    time_system: LunarTimeId,
+    states: &[EphemState],
+    start: &EpochUtc,
+) -> String {
+    let epoch_at = |t: f64| epoch_from(start, t);
     let oem_states: Vec<OemStateLine> = states
         .iter()
         .map(|s| OemStateLine {
@@ -194,7 +279,26 @@ pub fn export_lunar_oem(
             states: oem_states,
         }],
     };
-    file.to_oem_string()
+    let mut comments = vec![frame.realisation().to_string()];
+    if !time_system.sana_registered() {
+        comments.push(format!(
+            "TIME_SYSTEM {} is not a SANA-registered value (the SANA Time Systems registry lists no lunar time scale); written on explicit request",
+            time_system.as_ccsds_str()
+        ));
+    }
+    let text = file.to_oem_string();
+    let mut out = String::with_capacity(text.len() + 256);
+    for line in text.split_inclusive('\n') {
+        out.push_str(line);
+        if line.trim_end() == "META_START" {
+            for c in &comments {
+                out.push_str("COMMENT ");
+                out.push_str(c);
+                out.push('\n');
+            }
+        }
+    }
+    out
 }
 
 /// A LunaNet/IOAG-aligned lunar-time descriptor: the scale identifier, its secular rate
@@ -249,9 +353,9 @@ pub fn parse_lunar_time_metadata(json: &str) -> Option<LunarTimeMeta> {
 pub struct LunarInteropArtifacts {
     /// CCSDS OEM 2.0 (KVN) ephemeris text.
     pub oem: String,
-    /// The lunar body frame token (`MOON_ME` / `MOON_PA`).
+    /// The lunar body frame token (`MOON_ME` / `MOON_PA440`).
     pub frame: String,
-    /// The lunar time-scale token (`LTC` / `TCL` / `UTC`).
+    /// The time-scale token (`TDB` / `UTC`, or on request `LTC` / `TCL`).
     pub time_system: String,
     /// The LunaNet/IOAG-aligned lunar-time descriptor.
     pub time_metadata: LunarTimeMeta,
@@ -272,8 +376,27 @@ pub fn export_kif_lunar(
     states: &[EphemState],
     time_metadata: &LunarTimeMeta,
 ) -> String {
+    export_kif_lunar_at(
+        object,
+        frame,
+        time_system,
+        states,
+        time_metadata,
+        &OEM_EPOCH,
+    )
+}
+
+/// [`export_kif_lunar`] with the OEM grid starting at `start` ([`export_lunar_oem_at`]).
+pub fn export_kif_lunar_at(
+    object: &str,
+    frame: LunarFrameId,
+    time_system: LunarTimeId,
+    states: &[EphemState],
+    time_metadata: &LunarTimeMeta,
+    start: &EpochUtc,
+) -> String {
     let artifacts = LunarInteropArtifacts {
-        oem: export_lunar_oem(object, frame, time_system, states),
+        oem: export_lunar_oem_at(object, frame, time_system, states, start),
         frame: frame.as_ccsds_str().to_string(),
         time_system: time_system.as_ccsds_str().to_string(),
         time_metadata: time_metadata.clone(),
@@ -330,8 +453,9 @@ const REQUIRED_OEM_FIELDS: &[&str] = &[
 /// This is the **field-conformance** oracle used alongside the full
 /// [`crate::oem::parse_oem`] round-trip: even when the parser would accept a message, this
 /// reports a structured pass / field list so a broken export (e.g. a dropped `TIME_SYSTEM`)
-/// is caught and named. `pass` requires every required field present, a lunar `REF_FRAME`
-/// token (`MOON_*`), a non-empty `TIME_SYSTEM`, and ≥ 1 data line.
+/// is caught and named. `pass` requires every required field present, a `REF_FRAME` the lunar
+/// interchange writes or reads (`ICRF`, `MOON_ME`, `MOON_PA440` and the older spellings,
+/// [`LunarFrameId::parse`]), a non-empty `TIME_SYSTEM`, and ≥ 1 data line.
 pub fn oem_conformance(oem: &str) -> OemConformance {
     let mut present = Vec::new();
     let mut missing = Vec::new();
@@ -385,7 +509,7 @@ pub fn oem_conformance(oem: &str) -> OemConformance {
 
     let frame_is_lunar = ref_frame
         .as_deref()
-        .map(|f| f.starts_with("MOON_"))
+        .map(|f| LunarFrameId::parse(f).is_some())
         .unwrap_or(false);
     let time_present = time_system
         .as_deref()
@@ -435,15 +559,52 @@ fn sample_lunar_states(n: usize, step_s: f64) -> Vec<EphemState> {
         .collect()
 }
 
+/// Moon-centred inertial states (ICRF axes) in the frame `frame`, the state at `t_s` being taken
+/// at the TDB epoch `start_tdb + t_s`. For [`LunarFrameId::Icrf`] the states are returned as
+/// they are. For a body frame each state is rotated with [`crate::lunar_oem::convert_state`]
+/// (the DE440 orientation), and an epoch outside the orientation series (2014 to 2030) is an
+/// error: before 0.42 such a state kept its inertial values under the body-frame label.
+pub fn in_frame(
+    states: &[EphemState],
+    frame: LunarFrameId,
+    start_tdb: &EpochUtc,
+) -> Result<Vec<EphemState>, String> {
+    if !frame.is_body_fixed() {
+        return Ok(states.to_vec());
+    }
+    states
+        .iter()
+        .map(|s| {
+            let e = epoch_from(start_tdb, s.t_s);
+            let jd =
+                crate::timescales::julian_date(e.year, e.month, e.day, e.hour, e.minute, e.second);
+            let r = [s.pos_m[0] / 1e3, s.pos_m[1] / 1e3, s.pos_m[2] / 1e3];
+            let v = [s.vel_m_s[0] / 1e3, s.vel_m_s[1] / 1e3, s.vel_m_s[2] / 1e3];
+            let (r, v) = crate::lunar_oem::convert_state(
+                crate::lunar_oem::Frame::Icrf,
+                frame.oem_frame(),
+                jd,
+                r,
+                v,
+            )?;
+            Ok(EphemState {
+                t_s: s.t_s,
+                pos_m: [r[0] * 1e3, r[1] * 1e3, r[2] * 1e3],
+                vel_m_s: [v[0] * 1e3, v[1] * 1e3, v[2] * 1e3],
+            })
+        })
+        .collect()
+}
+
 // ---------------------------------------------------------------------------
 // Scenario
 // ---------------------------------------------------------------------------
 
 fn d_frame() -> String {
-    "MOON_ME".to_string()
+    "ICRF".to_string()
 }
 fn d_time_system() -> String {
-    "LTC".to_string()
+    "TDB".to_string()
 }
 fn d_n_states() -> usize {
     9
@@ -466,12 +627,24 @@ fn d_object() -> String {
 /// interoperability conformance test; no agency affiliation/endorsement/heritage/TRL claimed.
 #[derive(Clone, Debug, Deserialize)]
 pub struct LunarInteropScenario {
-    /// Lunar body frame: `MOON_ME` (mean-Earth) or `MOON_PA` (principal-axis).
+    /// Frame: `ICRF` (default: Moon-centred, ICRF axes, the sample states as computed), or a
+    /// lunar body frame, `MOON_ME` (mean-Earth) or `MOON_PA440` (DE440 principal axes; `MOON_PA`
+    /// is read as `MOON_PA440`), which needs `epoch_tdb`.
     #[serde(default = "d_frame")]
     pub frame: String,
-    /// Lunar time scale: `LTC`, `TCL` or `UTC`.
+    /// The TDB epoch of the first state, `YYYY-MM-DDTHH:MM:SS`. It anchors the grid
+    /// (`epoch_tdb + t`, written with `TIME_SYSTEM = TDB`) and is required to rotate the
+    /// inertial states into a body frame. Without it the grid is the fixed label
+    /// 2030-01-01T00:00:00 + t and only `ICRF` is written.
+    #[serde(default)]
+    pub epoch_tdb: Option<String>,
+    /// Time scale: `TDB` (default) or `UTC`; `LTC` or `TCL` only with
+    /// `allow_unregistered_time_system = true`, as they are not SANA-registered.
     #[serde(default = "d_time_system")]
     pub time_system: String,
+    /// Opt in to writing the unregistered lunar time tokens `LTC` / `TCL`.
+    #[serde(default)]
+    pub allow_unregistered_time_system: bool,
     /// Number of ephemeris states to emit.
     #[serde(default = "d_n_states")]
     pub n_states: usize,
@@ -491,7 +664,9 @@ impl Default for LunarInteropScenario {
     fn default() -> Self {
         Self {
             frame: d_frame(),
+            epoch_tdb: None,
             time_system: d_time_system(),
+            allow_unregistered_time_system: false,
             n_states: d_n_states(),
             epoch: String::new(),
             step_min: d_step_min(),
@@ -566,32 +741,100 @@ pub struct LunarInteropReport {
 }
 
 impl LunarInteropScenario {
-    /// Resolve the configured frame token to a [`LunarFrameId`] (defaults to `MOON_ME`).
+    /// Check the frame and time tokens: a known frame, a known time scale, and `LTC` / `TCL`
+    /// only with the opt-in.
+    pub fn validate(&self) -> Result<(), String> {
+        if LunarFrameId::parse(&self.frame).is_none() {
+            return Err(crate::terr!(
+                "e-lunar-interop-unknown-frame",
+                frame = self.frame.clone()
+            ));
+        }
+        match LunarTimeId::parse(&self.time_system) {
+            None => Err(crate::terr!(
+                "e-lunar-interop-unknown-time-system",
+                time_system = self.time_system.clone()
+            )),
+            Some(t) if !t.sana_registered() && !self.allow_unregistered_time_system => {
+                Err(crate::terr!(
+                    "e-lunar-interop-unregistered-time-system",
+                    time_system = self.time_system.clone()
+                ))
+            }
+            Some(_) => Ok(()),
+        }?;
+        let last_s = (self.n_states.max(1) - 1) as f64 * self.step_min * 60.0;
+        if !last_s.is_finite() || last_s < 0.0 {
+            return Err(crate::terr!(
+                "e-lunar-interop-bad-step",
+                step = self.step_min
+            ));
+        }
+        let start = self.start_tdb()?;
+        let frame = self.frame_id();
+        if frame.is_body_fixed() {
+            // A body frame turns with the Moon: the inertial states can be rotated into it only
+            // at an absolute epoch, and only inside the DE440 orientation series.
+            let Some(start) = start else {
+                return Err(crate::terr!(
+                    "e-lunar-interop-body-frame-needs-epoch",
+                    frame = frame.as_ccsds_str()
+                ));
+            };
+            for t in [0.0, last_s] {
+                let e = epoch_from(&start, t);
+                let jd = crate::timescales::julian_date(
+                    e.year, e.month, e.day, e.hour, e.minute, e.second,
+                );
+                crate::lunar_frame::try_icrf_to_moon_pa_de440(jd).map_err(|e| e.to_string())?;
+            }
+        }
+        if start.is_some() && self.time_id() != LunarTimeId::Tdb {
+            return Err(crate::terr!(
+                "e-lunar-interop-epoch-needs-tdb",
+                time_system = self.time_system.clone()
+            ));
+        }
+        Ok(())
+    }
+
+    /// The parsed `epoch_tdb`, if given.
+    fn start_tdb(&self) -> Result<Option<EpochUtc>, String> {
+        match &self.epoch_tdb {
+            None => Ok(None),
+            Some(s) => crate::sil_obs::parse_epoch(s)
+                .map(Some)
+                .ok_or_else(|| crate::terr!("e-lunar-interop-bad-epoch", epoch = s.clone())),
+        }
+    }
+
+    /// Resolve the configured frame token to a [`LunarFrameId`] (defaults to `ICRF`).
     fn frame_id(&self) -> LunarFrameId {
-        match self.frame.to_uppercase().as_str() {
-            "MOON_PA" => LunarFrameId::MoonPa,
-            _ => LunarFrameId::MoonMe,
-        }
+        LunarFrameId::parse(&self.frame).unwrap_or(LunarFrameId::Icrf)
     }
 
-    /// Resolve the configured time-scale token to a [`LunarTimeId`] (defaults to `LTC`).
+    /// Resolve the configured time-scale token to a [`LunarTimeId`] (defaults to `TDB`; `LTC`
+    /// and `TCL` fall back to `TDB` unless opted in, which [`Self::validate`] reports).
     fn time_id(&self) -> LunarTimeId {
-        match self.time_system.to_uppercase().as_str() {
-            "TCL" => LunarTimeId::Tcl,
-            "UTC" => LunarTimeId::Utc,
-            _ => LunarTimeId::Ltc,
+        match LunarTimeId::parse(&self.time_system) {
+            Some(t) if t.sana_registered() || self.allow_unregistered_time_system => t,
+            _ => LunarTimeId::Tdb,
         }
     }
 
-    /// Run the export, returning a structured [`LunarInteropReport`].
-    pub fn run(&self) -> LunarInteropReport {
+    /// Run the export, returning a structured [`LunarInteropReport`]. The scenario is
+    /// validated first ([`Self::validate`]): a body frame without `epoch_tdb`, or an epoch
+    /// outside the orientation series, is an error, never a silently unrotated file.
+    pub fn run(&self) -> Result<LunarInteropReport, String> {
+        self.validate()?;
         let frame = self.frame_id();
         let time_system = self.time_id();
         let n = self.n_states.max(1);
         let step_s = self.step_min * 60.0;
-        let states = sample_lunar_states(n, step_s);
+        let start = self.start_tdb()?.unwrap_or(OEM_EPOCH);
+        let states = in_frame(&sample_lunar_states(n, step_s), frame, &start)?;
 
-        let oem = export_lunar_oem(&self.object, frame, time_system, &states);
+        let oem = export_lunar_oem_at(&self.object, frame, time_system, &states, &start);
         let conformance = oem_conformance(&oem);
 
         // OEM round-trip: parse the emitted message and check the lunar frame/time and
@@ -620,9 +863,9 @@ impl LunarInteropScenario {
         let time_metadata_roundtrip_ok =
             parse_lunar_time_metadata(&meta_json) == Some(meta.clone());
 
-        let kif = export_kif_lunar(&self.object, frame, time_system, &states, &meta);
+        let kif = export_kif_lunar_at(&self.object, frame, time_system, &states, &meta, &start);
 
-        LunarInteropReport {
+        Ok(LunarInteropReport {
             frame: frame.as_ccsds_str().to_string(),
             time_system: time_system.as_ccsds_str().to_string(),
             artifacts_emitted: vec![
@@ -637,7 +880,7 @@ impl LunarInteropScenario {
             time_metadata_roundtrip_ok,
             kif_bytes: kif.len(),
             honesty: LUNAR_HONESTY_LABEL.to_string(),
-        }
+        })
     }
 }
 
@@ -818,12 +1061,14 @@ mod tests {
     #[test]
     fn scenario_runs_through_dispatch_shape() {
         let scn = LunarInteropScenario::default();
-        let report = scn.run();
+        let report = scn.run().unwrap();
         assert!(report.conformance.pass);
         assert!(report.oem_roundtrip_ok);
         assert!(report.time_metadata_roundtrip_ok);
-        assert_eq!(report.frame, "MOON_ME");
-        assert_eq!(report.time_system, "LTC");
+        // The default frame is the states' own inertial frame, which needs no epoch.
+        assert_eq!(report.frame, "ICRF");
+        // The default time system is the SANA-registered TDB.
+        assert_eq!(report.time_system, "TDB");
         assert_eq!(report.honesty, LUNAR_HONESTY_LABEL);
         assert!(report.kif_bytes > 0);
         assert_eq!(report.artifacts_emitted.len(), 3);
@@ -831,6 +1076,212 @@ mod tests {
         let json = serde_json::to_string(&report).unwrap();
         assert!(json.starts_with('{'));
         assert!(lunar_interop_svg(&report).starts_with("<svg"));
+    }
+
+    #[test]
+    fn registered_names_by_default_and_lunar_time_only_on_request() {
+        let st = sample_lunar_states(3, 600.0);
+        let pa = export_lunar_oem("X", LunarFrameId::MoonPa, LunarTimeId::Tdb, &st);
+        assert!(pa.contains("REF_FRAME = MOON_PA440"));
+        assert!(pa.contains("TIME_SYSTEM = TDB"));
+        assert!(pa.contains("COMMENT REF_FRAME MOON_PA440: the DE440 principal-axis frame"));
+        assert!(!pa.contains("not a SANA-registered"));
+        let ltc = export_lunar_oem("X", LunarFrameId::MoonMe, LunarTimeId::Ltc, &st);
+        assert!(ltc.contains("TIME_SYSTEM = LTC"));
+        assert!(ltc.contains("COMMENT TIME_SYSTEM LTC is not a SANA-registered value"));
+        // The comments sit at the start of the metadata and the file still parses.
+        assert!(crate::oem::parse_oem(&ltc).is_ok());
+        assert!(oem_conformance(&ltc).pass);
+        // The scenario refuses LTC/TCL unless opted in, and unknown tokens.
+        let mut scn = LunarInteropScenario {
+            time_system: "LTC".into(),
+            ..LunarInteropScenario::default()
+        };
+        assert!(scn.validate().is_err());
+        scn.allow_unregistered_time_system = true;
+        assert!(scn.validate().is_ok());
+        assert_eq!(scn.run().unwrap().time_system, "LTC");
+        scn.frame = "MOON_XX".into();
+        assert!(scn.validate().is_err());
+        let late = LunarInteropScenario {
+            frame: "MOON_ME".into(),
+            epoch_tdb: Some("2030-01-01T00:00:00".into()),
+            n_states: 100,
+            step_min: 10_000.0,
+            ..LunarInteropScenario::default()
+        };
+        assert!(
+            late.validate().is_err(),
+            "past the DE440 orientation series"
+        );
+    }
+
+    #[test]
+    fn the_written_states_are_in_the_stated_frame() {
+        // End to end: the OEM the scenario writes, read back and converted from its stated
+        // REF_FRAME to ICRF by the independent conversion path (crate::lunar_oem, which reads
+        // the frame from the file), equals the inertial sample to the OEM's printed precision.
+        let inertial = sample_lunar_states(5, 1800.0);
+        for frame in [LunarFrameId::MoonMe, LunarFrameId::MoonPa] {
+            let oem = export_lunar_oem(
+                "X",
+                frame,
+                LunarTimeId::Tdb,
+                &in_frame(&inertial, frame, &OEM_EPOCH).unwrap(),
+            );
+            let parsed = crate::oem::parse_oem(&oem).unwrap();
+            let back = crate::lunar_oem::convert(&parsed, crate::lunar_oem::Frame::Icrf).unwrap();
+            for (got, want) in back.oem.segments[0].states.iter().zip(&inertial) {
+                for k in 0..3 {
+                    assert!(
+                        (got.pos_km[k] - want.pos_m[k] / 1e3).abs() < 2e-6,
+                        "{frame:?}"
+                    );
+                    assert!(
+                        (got.vel_km_s[k] - want.vel_m_s[k] / 1e3).abs() < 3e-9,
+                        "{frame:?}"
+                    );
+                }
+            }
+            // Labelled as inertial data (no rotation), the file would be off by kilometres.
+            let wrong = export_lunar_oem("X", frame, LunarTimeId::Tdb, &inertial);
+            let back = crate::lunar_oem::convert(
+                &crate::oem::parse_oem(&wrong).unwrap(),
+                crate::lunar_oem::Frame::Icrf,
+            )
+            .unwrap();
+            let d = back.oem.segments[0].states[0].pos_km[0] - inertial[0].pos_m[0] / 1e3;
+            let e = back.oem.segments[0].states[0].pos_km[1] - inertial[0].pos_m[1] / 1e3;
+            assert!(d.hypot(e) > 1.0, "{frame:?}: {d} {e}");
+        }
+    }
+
+    #[test]
+    fn without_an_epoch_the_states_are_written_as_the_inertial_frame_they_are_in() {
+        // PIN-SCOPE:    the frame label and the state values of an export with no epoch_tdb.
+        // PIN-EXCLUDES: the state values' accuracy (an illustrative ephemeris).
+        let scn = LunarInteropScenario::default();
+        assert!(scn.epoch_tdb.is_none());
+        let n = scn.n_states;
+        let inertial = sample_lunar_states(n, scn.step_min * 60.0);
+        let states = in_frame(&inertial, LunarFrameId::Icrf, &OEM_EPOCH).unwrap();
+        assert_eq!(states, inertial, "ICRF is not rotated");
+        let oem = export_lunar_oem("X", LunarFrameId::Icrf, LunarTimeId::Tdb, &states);
+        let f = crate::oem::parse_oem(&oem).unwrap();
+        assert_eq!(f.segments[0].meta.ref_frame, "ICRF");
+        assert_eq!(f.segments[0].meta.center_name, "MOON");
+        assert!(oem.contains("COMMENT REF_FRAME ICRF: Moon-centred, ICRF axes"));
+        for (l, s) in f.segments[0].states.iter().zip(&inertial) {
+            for k in 0..3 {
+                assert!((l.pos_km[k] - s.pos_m[k] / 1e3).abs() < 1e-6);
+            }
+        }
+        // A body frame without an epoch is refused, not written unrotated.
+        for frame in ["MOON_ME", "MOON_PA440"] {
+            let s = LunarInteropScenario {
+                frame: frame.into(),
+                ..LunarInteropScenario::default()
+            };
+            let e = s.validate().unwrap_err();
+            assert!(e.contains("epoch_tdb"), "{e}");
+            assert!(s.run().is_err());
+        }
+    }
+
+    #[test]
+    fn with_an_epoch_the_states_are_rotated_into_the_body_frame_at_that_epoch() {
+        let epoch = "2026-06-01T12:00:00";
+        let scn = LunarInteropScenario {
+            frame: "MOON_PA440".into(),
+            epoch_tdb: Some(epoch.into()),
+            ..LunarInteropScenario::default()
+        };
+        let r = scn.run().unwrap();
+        assert_eq!(r.frame, "MOON_PA440");
+        assert!(r.conformance.pass && r.oem_roundtrip_ok);
+        // The grid starts at the epoch, and the file converts back to the inertial states
+        // through the independent path that reads the frame and the epochs from the file.
+        let start = crate::sil_obs::parse_epoch(epoch).unwrap();
+        let inertial = sample_lunar_states(scn.n_states, scn.step_min * 60.0);
+        let body = in_frame(&inertial, LunarFrameId::MoonPa, &start).unwrap();
+        let oem = export_lunar_oem_at("X", LunarFrameId::MoonPa, LunarTimeId::Tdb, &body, &start);
+        let parsed = crate::oem::parse_oem(&oem).unwrap();
+        let first = &parsed.segments[0].states[0].epoch;
+        assert_eq!(
+            (first.year, first.month, first.day, first.hour),
+            (2026, 6, 1, 12)
+        );
+        let back = crate::lunar_oem::convert(&parsed, crate::lunar_oem::Frame::Icrf).unwrap();
+        for (got, want) in back.oem.segments[0].states.iter().zip(&inertial) {
+            for k in 0..3 {
+                assert!((got.pos_km[k] - want.pos_m[k] / 1e3).abs() < 2e-6);
+            }
+        }
+        // The same states rotated at another epoch differ: the epoch matters.
+        let other = in_frame(&inertial, LunarFrameId::MoonPa, &OEM_EPOCH).unwrap();
+        assert!((other[0].pos_m[0] - body[0].pos_m[0]).abs() > 1.0);
+        // An epoch outside the DE440 orientation series is refused, at validation and in
+        // in_frame (no state is kept inertial under the body label).
+        let out = LunarInteropScenario {
+            epoch_tdb: Some("2040-01-01T00:00:00".into()),
+            ..scn.clone()
+        };
+        assert!(out.validate().is_err());
+        let far = crate::sil_obs::parse_epoch("2040-01-01T00:00:00").unwrap();
+        assert!(in_frame(&inertial, LunarFrameId::MoonPa, &far).is_err());
+        // An epoch is TDB: another time system with it is refused, as is a bad date.
+        let utc = LunarInteropScenario {
+            time_system: "UTC".into(),
+            ..scn.clone()
+        };
+        assert!(utc.validate().is_err());
+        let bad = LunarInteropScenario {
+            epoch_tdb: Some("June 2026".into()),
+            ..scn
+        };
+        assert!(bad.validate().is_err());
+    }
+
+    #[test]
+    fn old_tokens_are_still_read() {
+        assert_eq!(LunarFrameId::parse("MOON_PA"), Some(LunarFrameId::MoonPa));
+        assert_eq!(
+            LunarFrameId::parse("moon_pa_de440"),
+            Some(LunarFrameId::MoonPa)
+        );
+        assert_eq!(LunarFrameId::parse("MOON_ME"), Some(LunarFrameId::MoonMe));
+        assert_eq!(LunarTimeId::parse("tcl"), Some(LunarTimeId::Tcl));
+        assert!(!LunarTimeId::Ltc.sana_registered());
+        assert!(LunarTimeId::Utc.sana_registered());
+    }
+
+    #[test]
+    fn sample_states_are_rotated_into_the_body_frame() {
+        // The inertial sample and the exported state differ by the lunar orientation, keep
+        // the radius, and convert back to the inertial state.
+        let st = sample_lunar_states(2, 600.0);
+        for f in [LunarFrameId::MoonMe, LunarFrameId::MoonPa] {
+            let b = in_frame(&st, f, &OEM_EPOCH).unwrap();
+            let norm = |v: Vec3| (v[0] * v[0] + v[1] * v[1] + v[2] * v[2]).sqrt();
+            assert!((norm(b[0].pos_m) - norm(st[0].pos_m)).abs() < 1e-6);
+            assert!((b[0].pos_m[0] - st[0].pos_m[0]).abs() > 1.0);
+            let e = epoch_from(&OEM_EPOCH, 0.0);
+            let jd = crate::timescales::julian_date(e.year, e.month, e.day, 0, 0, 0.0);
+            let r = b[0].pos_m.map(|x| x / 1e3);
+            let v = b[0].vel_m_s.map(|x| x / 1e3);
+            let (ri, vi) = crate::lunar_oem::convert_state(
+                f.oem_frame(),
+                crate::lunar_oem::Frame::Icrf,
+                jd,
+                r,
+                v,
+            )
+            .unwrap();
+            for k in 0..3 {
+                assert!((ri[k] * 1e3 - st[0].pos_m[k]).abs() < 1e-6);
+                assert!((vi[k] * 1e3 - st[0].vel_m_s[k]).abs() < 1e-9);
+            }
+        }
     }
 
     #[test]
