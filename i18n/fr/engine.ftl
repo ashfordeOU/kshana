@@ -10916,7 +10916,7 @@ engine-main-usage =
     { "   " }ou : kshana afs-interop <study|ue-register> ... (kshana afs-interop --help)
     { "   " }ou : kshana timing-stack <tai|ts2phc|pps|shm|ntpq|nts> ... (kshana timing-stack --help)
     { "   " }ou : kshana time-vectors [--json] [<vectors.json|dir> ...]
-    { "   " }ou : kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
+    { "   " }ou : kshana corrections <decode --format <has|b2b|l6|l1s|qznma> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }ou : kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
     { "   " }ou : kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
     { "   " }ou : kshana orbit-data <check|convert|gp-compare|gp-audit|cov> ... (kshana orbit-data --help)
@@ -11856,11 +11856,11 @@ engine-e-interference-incidents-source-url-required = --source-url est obligatoi
 
 ## Correction decoders (src/corrections/)
 engine-e-corrections-bad-hex = pas une trame hexadécimale : { $line }
-engine-e-corrections-unknown-decoder = décodeur inconnu { $decoder } (has, b2b, l6)
+engine-e-corrections-unknown-decoder = décodeur inconnu { $decoder } (has, b2b, l6, l1s, qznma)
 engine-e-corrections-bad-vector = il manque au vecteur { $id } des trames hexadécimales ou un objet expect
 engine-e-corrections-bad-file = { $file } n'est pas un document { $format } (balise de format et tableau vectors)
 engine-corrections-summary = { $n } vecteurs : { $passed } réussis, { $failed } échoués
-engine-corrections-usage = utilisation : kshana corrections decode --format <has|b2b|l6> <frames.txt | -> | kshana corrections vectors [--json] [<vectors.json | dir> ...]  (une trame par ligne en hexadécimal; docs/CORRECTION-DECODERS.md)
+engine-corrections-usage = utilisation : kshana corrections decode --format <has|b2b|l6|l1s|qznma> <frames.txt | -> | kshana corrections vectors [--json] [<vectors.json | dir> ...]  (une trame par ligne en hexadécimal; docs/CORRECTION-DECODERS.md)
 
 ## src/space_weather_pnt/
 

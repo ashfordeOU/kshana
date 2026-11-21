@@ -10510,7 +10510,7 @@ engine-main-usage =
     { "   " }tai: kshana afs-interop <study|ue-register> ... (kshana afs-interop --help)
     { "   " }tai: kshana timing-stack <tai|ts2phc|pps|shm|ntpq|nts> ... (kshana timing-stack --help)
     { "   " }tai: kshana time-vectors [--json] [<vectors.json|dir> ...]
-    { "   " }tai: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
+    { "   " }tai: kshana corrections <decode --format <has|b2b|l6|l1s|qznma> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }tai: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
     { "   " }tai: kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
     { "   " }tai: kshana orbit-data <check|convert|gp-compare|gp-audit|cov> ... (kshana orbit-data --help)
@@ -11449,11 +11449,11 @@ engine-e-interference-incidents-source-url-required = --source-url on pakollinen
 
 ## Correction decoders (src/corrections/)
 engine-e-corrections-bad-hex = ei heksadesimaalinen kehys: { $line }
-engine-e-corrections-unknown-decoder = tuntematon dekooderi { $decoder } (has, b2b, l6)
+engine-e-corrections-unknown-decoder = tuntematon dekooderi { $decoder } (has, b2b, l6, l1s, qznma)
 engine-e-corrections-bad-vector = vektorista { $id } puuttuvat heksadesimaaliset kehykset tai expect-objekti
 engine-e-corrections-bad-file = { $file } ei ole { $format }-dokumentti (muototunniste ja vectors-taulukko)
 engine-corrections-summary = { $n } vektoria: { $passed } läpäisi, { $failed } epäonnistui
-engine-corrections-usage = käyttö: kshana corrections decode --format <has|b2b|l6> <frames.txt | -> | kshana corrections vectors [--json] [<vectors.json | dir> ...]  (yksi kehys riviä kohden heksadesimaalina; docs/CORRECTION-DECODERS.md)
+engine-corrections-usage = käyttö: kshana corrections decode --format <has|b2b|l6|l1s|qznma> <frames.txt | -> | kshana corrections vectors [--json] [<vectors.json | dir> ...]  (yksi kehys riviä kohden heksadesimaalina; docs/CORRECTION-DECODERS.md)
 
 ## src/space_weather_pnt/
 

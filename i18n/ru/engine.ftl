@@ -10991,7 +10991,7 @@ engine-main-usage =
     { "   " }или: kshana afs-interop <study|ue-register> ... (kshana afs-interop --help)
     { "   " }или: kshana timing-stack <tai|ts2phc|pps|shm|ntpq|nts> ... (kshana timing-stack --help)
     { "   " }или: kshana time-vectors [--json] [<vectors.json|dir> ...]
-    { "   " }или: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
+    { "   " }или: kshana corrections <decode --format <has|b2b|l6|l1s|qznma> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }или: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
     { "   " }или: kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
     { "   " }или: kshana orbit-data <check|convert|gp-compare|gp-audit|cov> ... (kshana orbit-data --help)
@@ -11935,11 +11935,11 @@ engine-e-interference-incidents-source-url-required = --source-url обязат�
 
 ## Correction decoders (src/corrections/)
 engine-e-corrections-bad-hex = не шестнадцатеричный кадр: { $line }
-engine-e-corrections-unknown-decoder = неизвестный декодер { $decoder } (has, b2b, l6)
+engine-e-corrections-unknown-decoder = неизвестный декодер { $decoder } (has, b2b, l6, l1s, qznma)
 engine-e-corrections-bad-vector = у вектора { $id } нет шестнадцатеричных кадров или объекта expect
 engine-e-corrections-bad-file = { $file } не является документом { $format } (метка формата и массив vectors)
 engine-corrections-summary = векторов: { $n }; пройдено: { $passed }, не пройдено: { $failed }
-engine-corrections-usage = использование: kshana corrections decode --format <has|b2b|l6> <frames.txt | -> | kshana corrections vectors [--json] [<vectors.json | dir> ...]  (один кадр на строку в шестнадцатеричном виде; docs/CORRECTION-DECODERS.md)
+engine-corrections-usage = использование: kshana corrections decode --format <has|b2b|l6|l1s|qznma> <frames.txt | -> | kshana corrections vectors [--json] [<vectors.json | dir> ...]  (один кадр на строку в шестнадцатеричном виде; docs/CORRECTION-DECODERS.md)
 
 ## src/space_weather_pnt/
 

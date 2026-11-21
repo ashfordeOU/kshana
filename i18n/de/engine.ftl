@@ -10786,7 +10786,7 @@ engine-main-usage =
     { "   " }oder: kshana afs-interop <study|ue-register> ... (kshana afs-interop --help)
     { "   " }oder: kshana timing-stack <tai|ts2phc|pps|shm|ntpq|nts> ... (kshana timing-stack --help)
     { "   " }oder: kshana time-vectors [--json] [<vectors.json|dir> ...]
-    { "   " }oder: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
+    { "   " }oder: kshana corrections <decode --format <has|b2b|l6|l1s|qznma> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }oder: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
     { "   " }oder: kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
     { "   " }oder: kshana orbit-data <check|convert|gp-compare|gp-audit|cov> ... (kshana orbit-data --help)
@@ -11727,11 +11727,11 @@ engine-e-interference-incidents-source-url-required = --source-url ist erforderl
 
 ## Correction decoders (src/corrections/)
 engine-e-corrections-bad-hex = kein hexadezimaler Rahmen: { $line }
-engine-e-corrections-unknown-decoder = unbekannter Decoder { $decoder } (has, b2b, l6)
+engine-e-corrections-unknown-decoder = unbekannter Decoder { $decoder } (has, b2b, l6, l1s, qznma)
 engine-e-corrections-bad-vector = dem Vektor { $id } fehlen hexadezimale Rahmen oder ein expect-Objekt
 engine-e-corrections-bad-file = { $file } ist kein { $format }-Dokument (Format-Kennung und ein vectors-Array)
 engine-corrections-summary = { $n } Vektoren: { $passed } bestanden, { $failed } fehlgeschlagen
-engine-corrections-usage = Aufruf: kshana corrections decode --format <has|b2b|l6> <frames.txt | -> | kshana corrections vectors [--json] [<vectors.json | dir> ...]  (ein Rahmen pro Zeile, hexadezimal; docs/CORRECTION-DECODERS.md)
+engine-corrections-usage = Aufruf: kshana corrections decode --format <has|b2b|l6|l1s|qznma> <frames.txt | -> | kshana corrections vectors [--json] [<vectors.json | dir> ...]  (ein Rahmen pro Zeile, hexadezimal; docs/CORRECTION-DECODERS.md)
 
 ## src/space_weather_pnt/
 
