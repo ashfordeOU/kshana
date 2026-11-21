@@ -124,8 +124,11 @@ fn ionex_label(line: &str) -> &str {
 /// the numbers are discarded.
 fn nums_before_label(line: &str) -> Vec<f64> {
     let body = line.get(..line.len().min(60)).unwrap_or(line);
+    // A non-finite token (`NaN`, `inf`) is not a number here: dropped, it leaves the map's value
+    // count short and the map is refused.
     body.split_whitespace()
-        .filter_map(|t| t.parse().ok())
+        .filter_map(|t| t.parse::<f64>().ok())
+        .filter(|v| v.is_finite())
         .collect()
 }
 
@@ -161,8 +164,10 @@ fn grid_dims(
 /// `START OF TEC MAP … END OF TEC MAP` block, normalising the latitude rows to increasing
 /// order so the resulting [`TecGrid`] keeps positive steps (IONEX lists latitude north-to-south
 /// with a negative `DLAT`). Vertical-TEC values are whitespace-separated and scaled by
-/// `10^EXPONENT` to TECU. Returns `None` on a malformed header or a map whose value count does
-/// not match the grid.
+/// `10^EXPONENT` to TECU, the map's own `EXPONENT` record overriding the header's for that
+/// map. The no-value marker `9999` is stored as NaN, so an interpolation that touches it is NaN
+/// rather than 999.9 TECU. Returns `None` on a malformed header or a map whose value count does
+/// not match the grid. [`parse_ionex_file`] is the strict reader that counts missing values.
 pub fn parse_ionex(text: &str) -> Option<Vec<IonexMap>> {
     let mut lat1 = None;
     let mut lat2 = None;
@@ -203,12 +208,20 @@ pub fn parse_ionex(text: &str) -> Option<Vec<IonexMap>> {
     let mut in_band = false;
     let mut epoch_sod = 0.0;
     let mut vals: Vec<f64> = Vec::new();
+    let mut map_scale = scale;
+    // `9999` is IONEX's "no value" (before scaling); it is never a TEC.
+    let value = |t: f64, scale: f64| if t == 9999.0 { f64::NAN } else { t * scale };
     for line in lines {
         match ionex_label(line) {
             "START OF TEC MAP" => {
                 in_map = true;
                 in_band = false;
                 vals.clear();
+                map_scale = scale;
+            }
+            "EXPONENT" if in_map => {
+                map_scale =
+                    10f64.ppowi(nums_before_label(line).first().copied().unwrap_or(0.0) as i32);
             }
             "EPOCH OF CURRENT MAP" => {
                 let e = nums_before_label(line);
@@ -229,7 +242,7 @@ pub fn parse_ionex(text: &str) -> Option<Vec<IonexMap>> {
             }
             "" if in_map && in_band => {
                 for t in nums_before_label(line) {
-                    vals.push(t * scale);
+                    vals.push(value(t, map_scale));
                 }
             }
             // A full value record (16 I5 fields) fills columns 1-80, so its column-61
@@ -240,8 +253,9 @@ pub fn parse_ionex(text: &str) -> Option<Vec<IonexMap>> {
                 for t in line
                     .split_whitespace()
                     .filter_map(|t| t.parse::<f64>().ok())
+                    .filter(|v| v.is_finite())
                 {
-                    vals.push(t * scale);
+                    vals.push(value(t, map_scale));
                 }
             }
             _ => {}

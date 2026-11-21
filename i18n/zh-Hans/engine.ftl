@@ -5314,6 +5314,7 @@ engine-e-orbit-rinex-block-parsed-but-contained = RINEX 块已解析，但不含
 engine-e-orbit-user-site-lat-deg-must = user_site：lat_deg 必须在 [-90, 90] 内，且每个字段均为有限值
 
 engine-e-orbit-no-satellites-to-export = 没有可导出的卫星
+engine-e-orbit-too-many-satellites-for-sp3 = { $n } 颗卫星无法放入 SP3-c 文件（最多 { $max } 颗）；请减少导出数量，或使用 OEM 导出
 
 engine-e-orbit-time-step-must-be-positive = 导出 SP3 时 time.step_s 必须为正
 
