@@ -1000,6 +1000,14 @@ fn claim_check_datasets() {
 }
 
 #[test]
+fn afs_interop_register() {
+    let seeds = vec![head("data/lunar/ue-register-template.json", 100)];
+    fuzz("afs-interop ue register", &seeds, None, |b| {
+        let _ = kshana::afs_interop::check_register(&String::from_utf8_lossy(b));
+    });
+}
+
+#[test]
 fn ais_integrity_inputs() {
     let csv = vec![
         head("tests/fixtures/ais_integrity/patterns.csv", 60),
