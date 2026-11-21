@@ -10727,7 +10727,7 @@ engine-main-usage =
     { "   " }або: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }або: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }або: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
-    { "   " }або: kshana feed <pack|verify|send|spectrum|leaderboard> ... (kshana feed --help)
+    { "   " }або: kshana feed <pack|verify|send|spectrum|leaderboard|watch> ... (kshana feed --help)
     { "   " }або: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }або: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
     { "   " }або: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
@@ -11862,7 +11862,10 @@ engine-e-oscillator-unknown-clock = невідома передустановк�
 engine-e-oscillator-field = { $field } поза допустимим діапазоном: { $value }
 
 ## Feeder clients (src/feeder.rs, docs/FEEDER.md)
-engine-feed-usage = використання: kshana feed pack <file.obs.jsonl|dir>... --key <keyfile> [--privacy public|exact] [--grid-deg <deg>] [--created <time>] [--include-open] [--out <bundle.json>] | verify <bundle.json> [--pubkey <hex>] [--json] | send <bundle.json> --url <http://host:port/path> [--token-file <file>] | spectrum <capture> --format cu8|ci8|ci16_le --rate <Hz> --centre <Hz> --station <station.toml> [--front-end <name>] [--nfft <n>] [--bins <n>] [--max-samples <n>] [--time <label>] [--out <file.obs.jsonl>] | leaderboard <bundle.json>... [--json]  (docs/FEEDER.md)
+engine-feed-usage = використання: kshana feed pack <file.obs.jsonl|dir>... --key <keyfile> [--privacy public|exact] [--grid-deg <deg>] [--created <time>] [--include-open] [--out <bundle.json>] | verify <bundle.json> [--pubkey <hex>] [--json] | send <bundle.json> --url <http://host:port/path> [--token-file <file>] | spectrum <capture> --format cu8|ci8|ci16_le --rate <Hz> --centre <Hz> --station <station.toml> [--front-end <name>] [--nfft <n>] [--bins <n>] [--max-samples <n>] [--time <label>] [--out <file.obs.jsonl>] | leaderboard <bundle.json>... [--json] | watch <dir|file>... --key <keyfile> --spool <dir> [--url <http://host:port/path>] [--token-file <file>] [--interval-s <s>] [--privacy public|exact] [--grid-deg <deg>] [--include-open] [--once]  (docs/FEEDER.md)
+engine-e-feed-bad-spool = { $path }: не стан kshana.feed-spool/1 ({ $e })
+engine-e-feed-http-only = { $url }: підтримуються лише адреси http:// (рушій не має клієнта TLS; поставте TLS-тунель перед збирачем)
+engine-feed-watch-cycle = feed watch: { $files } файлів запаковано в { $bundles } пакетів, { $sent } надіслано, { $rejected } відхилено, { $pending } очікує
 engine-feed-packed = { $out }: пакет станції { $station }, файлів: { $files }, епох: { $epochs }, приватність { $mode }
 engine-feed-verified = { $path }: підпис дійсний (підписант { $key }); станція { $station }, файлів: { $files }, епох: { $epochs }, кожен файл — коректний kshana.obs/1
 engine-feed-sent = надіслано на { $url }: HTTP { $code }

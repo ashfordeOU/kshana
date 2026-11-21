@@ -298,6 +298,7 @@ const UNLABELLED_WRITERS: &[(&str, &str)] = &[
     ("src/soapy.rs", "writes only an IQ capture as SigMF (`connect sdr-capture`, `soapy` feature): the samples as received from the radio, data rather than a result of the engine"),
     ("src/connect_live.rs", "writes only the live check's own scratch log, which the directory-watch replay reads back and removes; no result file"),
     ("src/feeder.rs", "writes the feeder's own observations as a signed kshana.feed/1 bundle (privacy-coarsened kshana.obs/1 payloads) and an SDR capture's spectrum snapshot as kshana.obs/1; data packaged for upload, not a result figure or table of the engine"),
+    ("src/feeder_watch.rs", "writes the feeder's spool: signed kshana.feed/1 bundles packed from its own observations and the kshana.feed-spool/1 send queue; data packaged for upload, not a result figure or table of the engine"),
     ("src/station.rs", "writes the receiver's observations as kshana.obs/1 files, the stream recorded as received; data, not a result of the engine"),
     ("src/data_pack.rs", "writes synthetic training data and its labels: the manifest states it is synthetic; data, not a result of the engine"),
     ("src/interference_map/live.rs", "writes a receiver's reports as rows of the documented input CSV: an input file, read back by locate"),
