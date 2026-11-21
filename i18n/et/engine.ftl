@@ -10543,6 +10543,15 @@ engine-e-ais-integrity-cannot-read = faili { $path } ei saa lugeda: { $e }
 engine-e-ais-integrity-cannot-write = faili { $path } ei saa kirjutada: { $e }
 engine-e-ais-integrity-bad-place = kohtade loendi rida ei ole name,lat,lon,radius_m kehtiva asukoha ja positiivse raadiusega: { $row }
 
+## Register entries against packs, published revocations and versions (src/register_products.rs)
+engine-register-products-usage = kasutus: kshana register-products verify <register.json> [--packs <dir>] [--pack-key <hex>] [--pin <hex>] [--json] | show <register.json> [--revocations <file.jsonl|url>] [--date <YYYY-MM-DD>] [--pin <hex>] [--json] | diff <older.json> <newer.json> [--pin <hex>]  (docs/PRODUCT-REGISTER.md)
+engine-e-register-products-missing-value = { $option } vajab väärtust
+engine-e-register-products-unknown-option = tundmatu valik { $option } (valikud loetleb kshana register-products --help)
+engine-e-register-products-cannot-read = faili { $path } ei saa lugeda: { $e }
+engine-e-register-products-bad-revocation = tühistusloendi rida { $line } vajab välju serial, revoked_at (YYYY-MM-DD) ja reason
+engine-e-register-products-cannot-fetch = { $url } ei saa alla laadida: { $e }
+engine-e-register-products-bad-key = võti ei ole 32 baiti kuueteistkümnendkujul
+
 engine-main-usage =
     kasutus: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }või: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10574,6 +10583,7 @@ engine-main-usage =
     { "   " }või: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }või: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
     { "   " }või: kshana ais-integrity <tracks.csv|tracks.nmea> [--format csv|nmea] [--land <land.geojson>] [--places <places.csv>] [--out <flags.jsonl>]
+    { "   " }või: kshana register-products <verify|show|diff> ... (kshana register-products --help)
     { "   " }või: kshana register <check|crl-check|view|sign> ... (kshana register --help)
     { "   " }või: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }või: kshana corrections <decode --format <has|b2b|l6> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...]>
