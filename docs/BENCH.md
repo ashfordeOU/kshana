@@ -30,11 +30,15 @@ and a score describes a log or a corpus, never a product. Kshana results are adv
 | (d) out-of-distribution optimism gap | one synthetic case | `impairment-eval` corpus, in and out of distribution | AUC out, and the gap |
 | (f) spacecraft telemetry anomaly detection (spec 2.2.0) | one OPS-SAT housekeeping segment | OPSSAT-AD, fetched by `scripts/fetch_opssat_ad.sh` (CC-BY-4.0, never vendored) | AUC, and average precision |
 | (g) smartphone positioning accuracy (spec 2.2.0) | one epoch of one phone trace | GSDC-layout traces the user downloads (Kaggle rules, never redistributed) | mean over traces of (P50 + P95) / 2, m |
+| (h) urban positioning accuracy (spec 2.3.0) | one epoch of one receiver on one UrbanNav Hong Kong sequence | fetched by `scripts/fetch_urbannav.sh` (MIT, every file's SHA-256 checked, never vendored) | as (g) |
 
 Task (e) is described in [`guides/BENCHMARK-CLASSES.md`](guides/BENCHMARK-CLASSES.md). Task (f) bars and first scores:
 [`xval/bench-f/PREREGISTRATION.md`](../xval/bench-f/PREREGISTRATION.md) and [`RESULTS.md`](../xval/bench-f/RESULTS.md)
 (F1 to F3 MET: test AUC 0.858 for `feature-z-max`, 0.852 for `diff2-var-z`; MODELLED). Task (g) has no published
 baseline number yet: no copy of the data has been scored here.
+Task (h): [`xval/bench-h/PREREGISTRATION.md`](../xval/bench-h/PREREGISTRATION.md) and
+[`RESULTS.md`](../xval/bench-h/RESULTS.md); test `gsdc_score_m` 31.98 m for the receivers' own NMEA fixes and 59.12 m
+for the engine's single-frequency code SPP (MODELLED; bar H1 NOT MET, explained there).
 
 ## Commands
 
@@ -62,6 +66,9 @@ kshana bench holdout truth --task f --data ~/private/opssat-holdout.csv --out ~/
 kshana bench holdout register --truth ~/private/f/truth.json             # owner: the entry to commit (hash only)
 KSHANA_BENCH_HOLDOUT_F=~/private/f/truth.json kshana bench holdout score --task f --predictions preds.json --out r.json
 scripts/score_gsdc_local.sh ~/data/gsdc2023/train ~/bench-out              # task (g) baselines on your own GSDC copy
+scripts/fetch_urbannav.sh ~/data/urbannav                                # task (h) data, every file's SHA-256 checked
+kshana bench baseline --task h --split test --data ~/data/urbannav --out results/
+kshana bench positions --task h --split test --csv submission.csv --name my-filter --out preds.json   # tripId = <sequence>/<receiver>
 ```
 
 ## Datasets, frozen files and citation ids
@@ -102,6 +109,9 @@ predictions, and the metrics. Results of different major spec versions are never
   "scored on the private holdout". No private holdout is registered yet. What it protects against: tuning on
   the evaluation cases. What it does not: a leak by whoever holds the file, or the owner's choice of cases.
   `tests/bench_holdout.rs` checks that no file in the tree has a registered hash.
+- Task (h) uses public ground truth, so it has no holdout split (`--split holdout` is refused); its splits are
+  drawn per sequence so a sequence's two receivers never sit in different splits. Its baselines fill an epoch
+  without a fix of their own by the nearest fix in time, so a tunnel or a receiver outage shows up in the P95.
 - Task (g) has no published baseline number because no copy of the GSDC data has been scored here.
   `scripts/score_gsdc_local.sh` scores the baselines on a copy you download from Kaggle yourself, writing only
   outside the repository.

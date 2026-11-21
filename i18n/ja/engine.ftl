@@ -7622,7 +7622,7 @@ engine-kind-lunar-differential-pnt-description = モデル化した月の差動 
 
 engine-kind-lunar-station-coverage-description = モデル化した月の基準局のカバレッジ：月南極域のユーザーグリッドと 一日分のエポックにわたる、月の差動 PNT モデルのモンテカルロ・スイープ。既知の南極域の地点にある差動基準局が、指定した信号空間誤差、測量誤差、補正の遅延、リンクの量子化を持つ、指定のコンステレーション（例示的なケプラー軌道または表形式のエフェメリス）を補正します。地点ごと、および領域全体について、補正後と補正なしの位置誤差（3 次元、水平、垂直）のパーセンタイル、可用性、指定したしきい値に対するカバレッジ、DO-229E の保護レベル、方位角ごとのカバレッジ半径、および基準局と最悪地点での補正リンクバジェットを報告します。実在のいかなるシステムの性能についての記述でもなく、いかなる機関とも提携しておらず、いかなる機関からも承認されていません。MODELLED。
 
-engine-kind-lunar-interop-export-description = モデル化した月の相互運用性エクスポート：月の座標系、月の時間スケール、月のエフェメリスを、ラウンドトリップ / フィールド適合性付きで、LunaNet/IOAG 準拠の CCSDS ベースの交換形式で出力します。月の文脈用にタグを付け直した、クレートの CCSDS OEM 2.0 エミッター + パーサー（crate::oem）を再利用します — OEM の REF_FRAME には IAU 2015 WGCCRE の月天体座標系（MOON_ME / MOON_PA）、TIME_SYSTEM には月の時間スケール（LTC / TCL / UTC）、CENTER_NAME = MOON を入れ、例示的な LCNS クラスのエフェメリス（位置は crate::lunar_service から、速度は有限差分による）のサンプルを対象とします。あわせて、serde_json でラウンドトリップする LunaNet/IOAG 準拠の月時刻記述子（スケール ID、crate::lunar_time による永年レート µs/day、公表されている範囲、基準面）を出力し、これらの成果物を、MODELLED の正直さを示すラベル付きで、既存の KIF エンベロープ（crate::interchange）に包みます。出力した成果物、OEM の行数、フィールド適合性の合否と存在する・欠落しているフィールドの一覧、OEM のラウンドトリップの成否、時刻メタデータのラウンドトリップの成否、KIF のバイトサイズを報告します。MODELLED — 決定論的なラウンドトリップと、公表されている CCSDS OEM + LunaNet/IOAG のフィールド意味論に対するフィールド名の適合性がオラクルです；認証済みの相互運用性適合性試験ではありません；例示的で公開情報に基づくエフェメリスであり、ESA とは無関係です；TRL・実績・機関による承認はありません。
+engine-kind-lunar-interop-export-description = モデル化した月の相互運用性エクスポート：月の座標系、月の時間スケール、月のエフェメリスを、ラウンドトリップ / フィールド適合性付きで、LunaNet/IOAG 準拠の CCSDS ベースの交換形式で出力します。月の文脈用にタグを付け直した、クレートの CCSDS OEM 2.0 エミッター + パーサー（crate::oem）を再利用します — OEM の REF_FRAME には SANA 登録名による月天体座標系（MOON_ME、または DE440 主軸用の MOON_PA440）を入れ、TIME_SYSTEM は既定で TDB とし（UTC も可。未登録の月時間トークン LTC / TCL は allow_unregistered_time_system = true の場合のみで、その際は COMMENT にその旨を記載）、CENTER_NAME = MOON を入れ、月中心慣性軸から DE440 の向きで指定座標系へ回転した、例示的な LCNS クラスのエフェメリス（位置は crate::lunar_service から、速度は有限差分による）のサンプルを対象とします。あわせて、serde_json でラウンドトリップする LunaNet/IOAG 準拠の月時刻記述子（スケール ID、crate::lunar_time による永年レート µs/day、公表されている範囲、基準面）を出力し、これらの成果物を、MODELLED の正直さを示すラベル付きで、既存の KIF エンベロープ（crate::interchange）に包みます。出力した成果物、OEM の行数、フィールド適合性の合否と存在する・欠落しているフィールドの一覧、OEM のラウンドトリップの成否、時刻メタデータのラウンドトリップの成否、KIF のバイトサイズを報告します。MODELLED — 決定論的なラウンドトリップと、公表されている CCSDS OEM + LunaNet/IOAG のフィールド意味論に対するフィールド名の適合性がオラクルです；認証済みの相互運用性適合性試験ではありません；例示的で公開情報に基づくエフェメリスであり、ESA とは無関係です；TRL・実績・機関による承認はありません。
 
 engine-kind-timetransfer-description = 光と RF の双方向の時刻・周波数比較。
 
@@ -9792,12 +9792,12 @@ engine-e-sil-obs-unknown-system = 不明なシステム { $value } (G または 
 engine-e-sil-obs-bad-canyon = キャニオンには正の幅、通りの内側のアンテナ位置、1 dB 以上の反射損失、有限の値が必要です
 
 ## Interference model library (src/interference_lib.rs)
-engine-interference-lib-usage = 使い方：kshana interference-lib models | generate --class <none|cw|narrowband|wideband|chirp|pulsed> [--centre-hz <f>] [--bandwidth-hz <b>] [--period-s <t>] [--pulse-width-s <w>] [--jnr-db <j>] [--drift-hz-per-s <r>] [--triangle] [--fs <hz>] [--samples <n>] [--seed <s>] --out <base> | fit <recording.sigmf-meta> [--out <fit.json>] | bench [--per-class <n>] [--seed <s>] [--predictions <ids.csv>] [--out <bench.json>] | cases [--per-class <n>] [--seed <s>] [--out <cases.csv>]  (docs/INTERFERENCE-LIB.md)
+engine-interference-lib-usage = 使い方：kshana interference-lib models | generate --class <none|cw|narrowband|wideband|chirp|pulsed|multitone|fm_tone> [--centre-hz <f>] [--bandwidth-hz <b>] [--period-s <t>] [--pulse-width-s <w>] [--jnr-db <j>] [--drift-hz-per-s <r>] [--triangle] [--tones-hz <f1,f2,...>] [--deviation-hz <d>] [--mod-freq-hz <m>] [--fs <hz>] [--samples <n>] [--seed <s>] --out <base> | fit <recording.sigmf-meta> [--out <fit.json>] | bench [--per-class <n>] [--seed <s>] [--predictions <ids.csv>] [--out <bench.json>] | cases [--per-class <n>] [--seed <s>] [--out <cases.csv>]  (docs/INTERFERENCE-LIB.md)
 engine-interference-lib-written = { $path } を書き込みました ({ $n } サンプル、MODELLED 合成干渉)
 engine-e-interference-lib-missing-value = { $option } には値が必要です
 engine-e-interference-lib-unknown-option = 不明なオプション { $option }（kshana interference-lib --help でオプションを一覧表示）
 engine-e-interference-lib-bad-number = { $option } には有限の数値が必要です ({ $value } ではありません)
-engine-e-interference-lib-unknown-class = 不明な干渉クラス { $value } (none、cw、narrowband、wideband、chirp、pulsed のいずれか)
+engine-e-interference-lib-unknown-class = 不明な干渉クラス { $value } (none、cw、narrowband、wideband、chirp、pulsed、multitone、fm_tone のいずれか)
 engine-e-interference-lib-bad-size = サンプルレートは正、記録長は 1024 から 16777216 サンプルの 2 のべき乗でなければなりません (bench: クラスあたり 1 から 1000 ケース)
 engine-e-interference-lib-cannot-read = { $path } を読み込めません：{ $e }
 engine-e-interference-lib-cannot-write = { $path } に書き込めません：{ $e }
@@ -9957,6 +9957,39 @@ engine-e-sil-obsgen-cannot-read = { $path } を読み込めません：{ $e }
 engine-e-sil-obsgen-cannot-write = { $path } に書き込めません：{ $e }
 engine-e-sil-obsgen-bad-scenario = 任意の [urban] と [rinex] テーブルを持つ gnss-sim シナリオではありません：{ $e }
 
+## OSNMA scenario files and the reference-model runner (src/osnma/scenario.rs)
+engine-osnma-scenario-usage = 使い方：kshana osnma scenario run <scenario.json> [--json] | template   (kshana.osnma-scenario/1: a synthetic stream from the reference model with test keys, run in memory through the verifier; exit 0 all expectations met, 1 one not met, 2 input error; docs/OSNMA-SCENARIOS.md)
+engine-e-osnma-scenario-unknown-option = 不明なオプション { $option }（kshana osnma scenario --help でオプションを一覧表示）
+engine-e-osnma-scenario-cannot-read = { $path } を読み込めません：{ $e }
+engine-e-osnma-scenario-bad = kshana.osnma-scenario/1 ファイルではありません：{ $e }
+
+## OSNMA scenario run report and field checks (src/osnma/scenario.rs, src/osnma/cli.rs)
+engine-e-osnma-scenario-field = { $field } は範囲外か不明です（許容値：{ $allowed }）
+engine-osnma-scenario-report-head = シナリオ { $name }：サブフレーム { $subframes }、ページ { $pages }
+engine-osnma-scenario-report-tags = タグ：{ $list }
+engine-osnma-scenario-report-reasons = 理由：{ $list }
+engine-osnma-scenario-report-events = イベント：{ $list }
+engine-osnma-scenario-report-status = 状態 { $sat }：{ $status }
+engine-osnma-scenario-report-overall = 全体：{ $status }
+engine-osnma-scenario-report-check-met = チェック { $what }：期待値 { $expected }、観測値 { $observed }：満たす
+engine-osnma-scenario-report-check-not-met = チェック { $what }：期待値 { $expected }、観測値 { $observed }：満たさない (NOT MET)
+
+## Lunar OEM frame conversion (src/lunar_oem.rs)
+engine-lunar-oem-usage = 使い方：kshana lunar-oem convert <in.oem> --to ICRF|MOON_PA440|MOON_ME [--out <file>] | frames   (Moon-centred CCSDS OEM, positions and velocities, DE440 lunar orientation 2014 to 2030; docs/LUNAR-OEM.md)
+engine-e-lunar-oem-missing-value = { $option } には値が必要です
+engine-e-lunar-oem-unknown-option = 不明なオプション { $option }（kshana lunar-oem --help でオプションを一覧表示）
+engine-e-lunar-oem-cannot-read = { $path } を読み込めません：{ $e }
+engine-e-lunar-oem-cannot-write = { $path } に書き込めません：{ $e }
+engine-e-lunar-oem-time-system = TIME_SYSTEM { $time_system } は月の姿勢のために TDB へ変換できません（TDB、TT、TAI、GPS、UTC のいずれか）
+engine-e-lunar-oem-not-moon-centred = CENTER_NAME は { $center } です。変換できるのは月中心の OEM（CENTER_NAME = MOON）だけです
+engine-e-lunar-oem-unknown-frame = REF_FRAME { $frame } はここでは変換しません（ICRF、MOON_PA440、MOON_ME。読み込みは MOON_PA_DE440、MOON_ME_DE440_ME421、MOON_PA も可。EME2000 と J2000 は ICRF とフレームバイアス分異なり、それは適用しません）
+
+## Lunar interop export: SANA-registered names (src/lunar_interop.rs)
+engine-e-lunar-interop-unknown-frame = 不明な月面座標系 { $frame }（MOON_ME または MOON_PA440。MOON_PA は MOON_PA440 として読みます）
+engine-e-lunar-interop-unknown-time-system = 不明な時刻系 { $time_system }（TDB、UTC、または allow_unregistered_time_system = true のとき LTC か TCL）
+engine-e-lunar-interop-unregistered-time-system = TIME_SYSTEM { $time_system } は CCSDS OEM が用いる SANA Time Systems レジストリにありません。それでも書くには allow_unregistered_time_system = true を設定してください（COMMENT でその旨を記します）。または TDB を使ってください
+engine-e-lunar-interop-bad-step = step_min は有限で負でない分数でなければなりません（{ $step } は不可）
+
 engine-main-usage =
     使い方：kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }または：kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10002,6 +10035,9 @@ engine-main-usage =
     { "   " }または：kshana afs-interop <study|ue-register> ... (kshana afs-interop --help)
     { "   " }または：kshana timing-stack <tai|ts2phc|pps|shm|ntpq|nts> ... (kshana timing-stack --help)
     { "   " }または：kshana sil-obsgen <scenario.toml> --out <obs.rnx> [--truth <truth.json>]
+    { "   " }または：kshana osnma scenario run <scenario.json> [--json] | template (kshana osnma scenario --help)
+    { "   " }または：kshana lunar-oem convert <in.oem> --to ICRF|MOON_PA440|MOON_ME [--out <file>] | frames (kshana lunar-oem --help)
+    { "   " }または：kshana leo-sparse <study.toml>
     { "   " }または：kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }または：kshana corrections <decode --format <has|b2b|l6|l1s|qznma> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...] | qznma-verify [--frames <frames.txt>] [--nav <nav.txt>] --pubkey <key.der> ...>
     { "   " }または：kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
@@ -10131,14 +10167,15 @@ engine-bench-cli-usage =
     使い方：kshana bench spec
     { "   " }または：kshana bench truth --task a --data <extracted JammerTest 2024 dir> --split <dev|test|holdout|all> --out <truth.json>
     { "   " }または：kshana bench truth --task g --data <GSDC-layout train dir> --split <dev|test|holdout> --out <truth.json>
+    { "   " }または：kshana bench truth --task h --data <scripts/fetch_urbannav.sh dir> --split <dev|test> --out <truth.json>
     { "   " }または：kshana bench cases --task <c|d|f> --split <dev|test|holdout> --out <dir> [--data <dataset.csv>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
     { "   " }または：kshana bench score --truth <truth.json> --predictions <predictions.json> [--threshold <x>] [--out <result.json>]
-    { "   " }または：kshana bench baseline --task <a|b|c|d|e|f|g> --split <dev|test|holdout> --out <dir> [--data <dir>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
+    { "   " }または：kshana bench baseline --task <a|b|c|d|e|f|g|h> --split <dev|test|holdout> --out <dir> [--data <dir>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
     { "   " }または：kshana bench seal --task <a|b|c|d> --seed-file <file> [--new]
     { "   " }または：kshana bench reveal-check --task <a|b|c|d> --seed-file <file> --commitment <hex>
     { "   " }または：kshana bench manifest --task a --data <extracted dir> [--archive <tar.gz>] --out <manifest.json>
     { "   " }または：kshana bench verify-manifest <manifest.json> --root <dir>
-    { "   " }または：kshana bench positions --task g --split <dev|test|holdout> --csv <submission.csv> --name <system> [--version <v>] --out <predictions.json>
+    { "   " }または：kshana bench positions --task <g|h> --split <dev|test|holdout> --csv <submission.csv> --name <system> [--version <v>] --out <predictions.json>
     { "   " }または：kshana bench datasets [--json | --check [--root <repo>]]
     { "   " }または：kshana bench cite <result.json>...
     { "   " }または：kshana bench golden [--root <repo>] (--out <GOLDEN.json> | --check <GOLDEN.json>)
@@ -11182,6 +11219,7 @@ engine-bench-task-has-no-holdout = タスク ({ $task }) にはホールドア�
 engine-bench-unknown-baseline = 不明なベースライン `{ $name }`
 
 engine-bench-g-no-traces = { $root } の下に <drive>/<phone>/ground_truth.csv がありません
+engine-bench-h-no-sequences = { $root } の下に <sequence>/ground_truth.txt がありません
 
 engine-bench-g-no-object = トレースの `{ $key }` オブジェクトがありません
 
@@ -11189,7 +11227,7 @@ engine-bench-g-bad-epoch = トレース `{ $id }`：各エポックは [UnixTime
 
 engine-bench-f-dataset-mismatch = { $path }：SHA-256 { $got } はタスク (f) の固定された dataset.csv ではありません。scripts/fetch_opssat_ad.sh で取得してください
 
-engine-bench-cli-unknown-task-g = 不明なタスク `{ $t }`（a から g）
+engine-bench-cli-unknown-task-h = 不明なタスク `{ $t }`（a から h）
 
 engine-bench-cli-wrote-predictions = { $path } を書き込みました（{ $traces } トレース）
 
@@ -11291,3 +11329,10 @@ engine-leo-od-plan-usage = 使い方：kshana leo-od-plan <plan.toml>  (docs/LEO
 engine-e-leo-od-plan-bad-plan = 計画の数値が範囲外です：アーク、ステップ、雑音、マスクは正の有限値、ステップ数は最大 100000、マスクは ±90 度以内、半ビーム幅は 0 から 90 度、LEO ウォーカー配置は面数が衛星数を割り切ること
 engine-e-leo-od-plan-cannot-read = { $path } を読み込めません：{ $e }
 engine-e-leo-od-plan-bad-file = { $path } は計画ファイルではありません：{ $e }
+
+## Sparse-geometry LEO-PNT study (src/leo_sparse.rs, docs/LEO-SPARSE.md)
+engine-leo-sparse-usage = 使い方：kshana leo-sparse <study.toml>  (docs/LEO-SPARSE.md; MODELLED, a planning study)
+engine-e-leo-sparse-bad-study = 検討の数値が範囲外です：有効な利用者位置、面数が衛星数を割り切る 3000 km 未満の LEO ウォーカー配置、0 から 90 度のマスク、max_in_view は 1 または 2、正の雑音・事前値・目標値、ステップ数は最大 200000、報告間隔はステップ以上であること
+engine-e-leo-sparse-singular = 事前値を加えても情報行列を逆行列にできません
+engine-e-leo-sparse-cannot-read = { $path } を読み込めません：{ $e }
+engine-e-leo-sparse-bad-file = { $path } は検討ファイルではありません：{ $e }

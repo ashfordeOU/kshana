@@ -8116,7 +8116,7 @@ engine-kind-lunar-differential-pnt-description = Mallinnettu Kuun DIFFERENTIAALI
 
 engine-kind-lunar-station-coverage-description = Mallinnettu Kuun vertailuaseman kattavuus: Monte Carlo -pyyhkäisy Kuun differentiaalisen PNT-mallin yli etelänapa-alueen käyttäjäruudukolla ja yhden vuorokauden epookeilla. Tunnetulla etelänapa-paikalla oleva differentiaalinen vertailuasema korjaa ilmoitetun tähdistön (havainnollinen Keplerin tai taulukoitu efemeridi) ilmoitetulla signaalin avaruudessa -virheellä, mittausvirheellä, korjausviiveellä ja linkin kvantisoinnilla; pisteittäin ja alueen yli se raportoi korjatun ja korjaamattoman paikkavirheen persentiilin (3D, vaaka, pysty), saatavuuden, kattavuuden ilmoitettua kynnystä vasten, DO-229E-suojaustasot, kattavuussäteen atsimuuttia kohti sekä korjauslinkin linkkibudjetin asemalla ja huonoimmassa pisteessä. Ei väite minkään todellisen järjestelmän suorituskyvystä; ei sidoksissa mihinkään virastoon eikä sen hyväksymä. MODELLED.
 
-engine-kind-lunar-interop-export-description = Mallinnettu Kuun yhteentoimivuusvienti: tuottaa Kuun koordinaatiston, Kuun aika-asteikon ja Kuun efemeridin LunaNet/IOAG-linjatuissa, CCSDS-pohjaisissa vaihtomuodoissa edestakaisella kierrolla / kenttävastaavuudella. KÄYTTÄÄ UUDELLEEN crate-kirjaston CCSDS OEM 2.0 -tuottajaa ja jäsennintä (crate::oem), jotka on uudelleenmerkitty Kuun kontekstiin — OEM:n REF_FRAME kantaa IAU 2015 WGCCRE -Kuun kappalekoordinaatiston (MOON_ME / MOON_PA), TIME_SYSTEM Kuun aika-asteikon (LTC / TCL / UTC), CENTER_NAME = MOON — havainnollisen LCNS-luokan efemeridin näytteen yli (paikat crate::lunar_service-moduulista, nopeus differenssimenetelmällä). Tuottaa myös LunaNet/IOAG-linjatun Kuun aikakuvaajan (asteikon tunniste, maailmanaikainen muutosnopeus µs/vrk moduulista crate::lunar_time, julkaistu kaista, vertailupinta), joka kiertää edestakaisin serde_jsonin kautta, ja kääri artefaktit olemassa olevaan KIF-kehykseen (crate::interchange) MODELLED-rehellisyysmerkinnällä. Raportoi tuotetut artefaktit, OEM-rivimäärän, kenttävastaavuuden läpäisyn sekä läsnä olevien/puuttuvien kenttien luettelon, OEM:n edestakaisen kierron onnistumisen, aikametatietojen edestakaisen kierron onnistumisen ja KIF-tavukoon. MODELLED — deterministinen edestakainen kierto + kentännimivastaavuus vs. julkaistu CCSDS OEM + LunaNet/IOAG-kenttäsemantiikka on oraakkeli; EI sertifioitu yhteentoimivuuden vastaavuustesti; havainnollinen julkisiin lähteisiin perustuva efemeridi, ei sidoksissa ESA:an; ei TRL-/perintö-/virastohyväksyntää.
+engine-kind-lunar-interop-export-description = Mallinnettu Kuun yhteentoimivuusvienti: tuottaa Kuun koordinaatiston, Kuun aika-asteikon ja Kuun efemeridin LunaNet/IOAG-linjatuissa, CCSDS-pohjaisissa vaihtomuodoissa edestakaisella kierrolla / kenttävastaavuudella. KÄYTTÄÄ UUDELLEEN crate-kirjaston CCSDS OEM 2.0 -tuottajaa ja jäsennintä (crate::oem), jotka on uudelleenmerkitty Kuun kontekstiin — OEM:n REF_FRAME kantaa Kuun kappalekoordinaatiston sen SANA-rekisteröidyllä nimellä (MOON_ME tai DE440:n pääakseleille MOON_PA440), TIME_SYSTEM on oletuksena TDB (myös UTC; rekisteröimättömät Kuun tunnukset LTC / TCL vain asetuksella allow_unregistered_time_system = true, jolloin COMMENT kertoo siitä), CENTER_NAME = MOON — havainnollisen LCNS-luokan efemeridin näytteen yli (paikat crate::lunar_service-moduulista, nopeus differenssimenetelmällä), kierrettynä Kuu-keskisistä inertiaaliakseleista nimettyyn koordinaatistoon DE440-orientaatiolla. Tuottaa myös LunaNet/IOAG-linjatun Kuun aikakuvaajan (asteikon tunniste, maailmanaikainen muutosnopeus µs/vrk moduulista crate::lunar_time, julkaistu kaista, vertailupinta), joka kiertää edestakaisin serde_jsonin kautta, ja kääri artefaktit olemassa olevaan KIF-kehykseen (crate::interchange) MODELLED-rehellisyysmerkinnällä. Raportoi tuotetut artefaktit, OEM-rivimäärän, kenttävastaavuuden läpäisyn sekä läsnä olevien/puuttuvien kenttien luettelon, OEM:n edestakaisen kierron onnistumisen, aikametatietojen edestakaisen kierron onnistumisen ja KIF-tavukoon. MODELLED — deterministinen edestakainen kierto + kentännimivastaavuus vs. julkaistu CCSDS OEM + LunaNet/IOAG-kenttäsemantiikka on oraakkeli; EI sertifioitu yhteentoimivuuden vastaavuustesti; havainnollinen julkisiin lähteisiin perustuva efemeridi, ei sidoksissa ESA:an; ei TRL-/perintö-/virastohyväksyntää.
 
 engine-kind-timetransfer-description = Optinen vs. RF kaksisuuntainen ajan- ja taajuudensiirto.
 
@@ -10318,12 +10318,12 @@ engine-e-sil-obs-unknown-system = tuntematon järjestelmä { $value } (G tai E)
 engine-e-sil-obs-bad-canyon = kanjonilla on oltava positiivinen leveys, antennin siirtymä kadun sisällä, vähintään 1 dB:n heijastushäviö ja äärelliset arvot
 
 ## Interference model library (src/interference_lib.rs)
-engine-interference-lib-usage = käyttö: kshana interference-lib models | generate --class <none|cw|narrowband|wideband|chirp|pulsed> [--centre-hz <f>] [--bandwidth-hz <b>] [--period-s <t>] [--pulse-width-s <w>] [--jnr-db <j>] [--drift-hz-per-s <r>] [--triangle] [--fs <hz>] [--samples <n>] [--seed <s>] --out <base> | fit <recording.sigmf-meta> [--out <fit.json>] | bench [--per-class <n>] [--seed <s>] [--predictions <ids.csv>] [--out <bench.json>] | cases [--per-class <n>] [--seed <s>] [--out <cases.csv>]  (docs/INTERFERENCE-LIB.md)
+engine-interference-lib-usage = käyttö: kshana interference-lib models | generate --class <none|cw|narrowband|wideband|chirp|pulsed|multitone|fm_tone> [--centre-hz <f>] [--bandwidth-hz <b>] [--period-s <t>] [--pulse-width-s <w>] [--jnr-db <j>] [--drift-hz-per-s <r>] [--triangle] [--tones-hz <f1,f2,...>] [--deviation-hz <d>] [--mod-freq-hz <m>] [--fs <hz>] [--samples <n>] [--seed <s>] --out <base> | fit <recording.sigmf-meta> [--out <fit.json>] | bench [--per-class <n>] [--seed <s>] [--predictions <ids.csv>] [--out <bench.json>] | cases [--per-class <n>] [--seed <s>] [--out <cases.csv>]  (docs/INTERFERENCE-LIB.md)
 engine-interference-lib-written = kirjoitettu { $path } ({ $n } näytettä, MODELLED synteettinen häiriö)
 engine-e-interference-lib-missing-value = { $option } tarvitsee arvon
 engine-e-interference-lib-unknown-option = tuntematon valitsin { $option } (kshana interference-lib --help luettelee valitsimet)
 engine-e-interference-lib-bad-number = { $option } tarvitsee äärellisen luvun, ei { $value }
-engine-e-interference-lib-unknown-class = tuntematon häiriöluokka { $value } (none, cw, narrowband, wideband, chirp tai pulsed)
+engine-e-interference-lib-unknown-class = tuntematon häiriöluokka { $value } (none, cw, narrowband, wideband, chirp, pulsed, multitone tai fm_tone)
 engine-e-interference-lib-bad-size = näytteenottotaajuuden on oltava positiivinen ja tallenteen kahden potenssi 1024–16777216 näytettä (bench: 1–1000 tapausta luokkaa kohden)
 engine-e-interference-lib-cannot-read = tiedostoa { $path } ei voi lukea: { $e }
 engine-e-interference-lib-cannot-write = tiedostoon { $path } ei voi kirjoittaa: { $e }
@@ -10483,6 +10483,39 @@ engine-e-sil-obsgen-cannot-read = tiedostoa { $path } ei voi lukea: { $e }
 engine-e-sil-obsgen-cannot-write = tiedostoon { $path } ei voi kirjoittaa: { $e }
 engine-e-sil-obsgen-bad-scenario = ei ole gnss-sim-skenaario, jossa on valinnaiset taulukot [urban] ja [rinex]: { $e }
 
+## OSNMA scenario files and the reference-model runner (src/osnma/scenario.rs)
+engine-osnma-scenario-usage = käyttö: kshana osnma scenario run <scenario.json> [--json] | template   (kshana.osnma-scenario/1: a synthetic stream from the reference model with test keys, run in memory through the verifier; exit 0 all expectations met, 1 one not met, 2 input error; docs/OSNMA-SCENARIOS.md)
+engine-e-osnma-scenario-unknown-option = tuntematon valitsin { $option } (kshana osnma scenario --help luettelee valitsimet)
+engine-e-osnma-scenario-cannot-read = tiedostoa { $path } ei voi lukea: { $e }
+engine-e-osnma-scenario-bad = ei ole kshana.osnma-scenario/1-tiedosto: { $e }
+
+## OSNMA scenario run report and field checks (src/osnma/scenario.rs, src/osnma/cli.rs)
+engine-e-osnma-scenario-field = { $field } on sallitun alueen ulkopuolella tai tuntematon (sallittu: { $allowed })
+engine-osnma-scenario-report-head = skenaario { $name }: { $subframes } alikehystä, { $pages } sivua
+engine-osnma-scenario-report-tags = tagit: { $list }
+engine-osnma-scenario-report-reasons = syyt: { $list }
+engine-osnma-scenario-report-events = tapahtumat: { $list }
+engine-osnma-scenario-report-status = tila { $sat }: { $status }
+engine-osnma-scenario-report-overall = kokonaisuus: { $status }
+engine-osnma-scenario-report-check-met = tarkistus { $what }: odotettu { $expected }, havaittu { $observed }: täyttyi
+engine-osnma-scenario-report-check-not-met = tarkistus { $what }: odotettu { $expected }, havaittu { $observed }: EI TÄYTTYNYT (NOT MET)
+
+## Lunar OEM frame conversion (src/lunar_oem.rs)
+engine-lunar-oem-usage = käyttö: kshana lunar-oem convert <in.oem> --to ICRF|MOON_PA440|MOON_ME [--out <file>] | frames   (Moon-centred CCSDS OEM, positions and velocities, DE440 lunar orientation 2014 to 2030; docs/LUNAR-OEM.md)
+engine-e-lunar-oem-missing-value = { $option } tarvitsee arvon
+engine-e-lunar-oem-unknown-option = tuntematon valitsin { $option } (kshana lunar-oem --help luettelee valitsimet)
+engine-e-lunar-oem-cannot-read = tiedostoa { $path } ei voi lukea: { $e }
+engine-e-lunar-oem-cannot-write = tiedostoon { $path } ei voi kirjoittaa: { $e }
+engine-e-lunar-oem-time-system = TIME_SYSTEM { $time_system } ei muunnu TDB:ksi Kuun asentoa varten (TDB, TT, TAI, GPS tai UTC)
+engine-e-lunar-oem-not-moon-centred = CENTER_NAME on { $center }; vain Kuu-keskisiä OEM-tiedostoja (CENTER_NAME = MOON) muunnetaan
+engine-e-lunar-oem-unknown-frame = REF_FRAME { $frame } ei muunnu tässä (ICRF, MOON_PA440, MOON_ME; luetaan myös MOON_PA_DE440, MOON_ME_DE440_ME421, MOON_PA; EME2000 ja J2000 eroavat ICRF:stä frame biasin verran, jota ei sovelleta)
+
+## Lunar interop export: SANA-registered names (src/lunar_interop.rs)
+engine-e-lunar-interop-unknown-frame = tuntematon Kuun koordinaatisto { $frame } (MOON_ME tai MOON_PA440; MOON_PA luetaan muodossa MOON_PA440)
+engine-e-lunar-interop-unknown-time-system = tuntematon aikajärjestelmä { $time_system } (TDB, UTC tai asetuksella allow_unregistered_time_system = true LTC tai TCL)
+engine-e-lunar-interop-unregistered-time-system = TIME_SYSTEM { $time_system } ei ole SANA Time Systems -rekisterissä, jota CCSDS OEM käyttää; aseta allow_unregistered_time_system = true kirjoittaaksesi sen silti (COMMENT kertoo siitä) tai käytä TDB:tä
+engine-e-lunar-interop-bad-step = step_min on oltava äärellinen, ei-negatiivinen minuuttimäärä, ei { $step }
+
 engine-main-usage =
     käyttö: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }tai: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10528,6 +10561,9 @@ engine-main-usage =
     { "   " }tai: kshana afs-interop <study|ue-register> ... (kshana afs-interop --help)
     { "   " }tai: kshana timing-stack <tai|ts2phc|pps|shm|ntpq|nts> ... (kshana timing-stack --help)
     { "   " }tai: kshana sil-obsgen <scenario.toml> --out <obs.rnx> [--truth <truth.json>]
+    { "   " }tai: kshana osnma scenario run <scenario.json> [--json] | template (kshana osnma scenario --help)
+    { "   " }tai: kshana lunar-oem convert <in.oem> --to ICRF|MOON_PA440|MOON_ME [--out <file>] | frames (kshana lunar-oem --help)
+    { "   " }tai: kshana leo-sparse <study.toml>
     { "   " }tai: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }tai: kshana corrections <decode --format <has|b2b|l6|l1s|qznma> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...] | qznma-verify [--frames <frames.txt>] [--nav <nav.txt>] --pubkey <key.der> ...>
     { "   " }tai: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
@@ -10673,14 +10709,15 @@ engine-bench-cli-usage =
     käyttö: kshana bench spec
     { "   " }tai: kshana bench truth --task a --data <extracted JammerTest 2024 dir> --split <dev|test|holdout|all> --out <truth.json>
     { "   " }tai: kshana bench truth --task g --data <GSDC-layout train dir> --split <dev|test|holdout> --out <truth.json>
+    { "   " }tai: kshana bench truth --task h --data <scripts/fetch_urbannav.sh dir> --split <dev|test> --out <truth.json>
     { "   " }tai: kshana bench cases --task <c|d|f> --split <dev|test|holdout> --out <dir> [--data <dataset.csv>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
     { "   " }tai: kshana bench score --truth <truth.json> --predictions <predictions.json> [--threshold <x>] [--out <result.json>]
-    { "   " }tai: kshana bench baseline --task <a|b|c|d|e|f|g> --split <dev|test|holdout> --out <dir> [--data <dir>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
+    { "   " }tai: kshana bench baseline --task <a|b|c|d|e|f|g|h> --split <dev|test|holdout> --out <dir> [--data <dir>] [--clocks <clocks.txt>] [--scale <0..1>] [--seed-file <file>]
     { "   " }tai: kshana bench seal --task <a|b|c|d> --seed-file <file> [--new]
     { "   " }tai: kshana bench reveal-check --task <a|b|c|d> --seed-file <file> --commitment <hex>
     { "   " }tai: kshana bench manifest --task a --data <extracted dir> [--archive <tar.gz>] --out <manifest.json>
     { "   " }tai: kshana bench verify-manifest <manifest.json> --root <dir>
-    { "   " }tai: kshana bench positions --task g --split <dev|test|holdout> --csv <submission.csv> --name <system> [--version <v>] --out <predictions.json>
+    { "   " }tai: kshana bench positions --task <g|h> --split <dev|test|holdout> --csv <submission.csv> --name <system> [--version <v>] --out <predictions.json>
     { "   " }tai: kshana bench datasets [--json | --check [--root <repo>]]
     { "   " }tai: kshana bench cite <result.json>...
     { "   " }tai: kshana bench golden [--root <repo>] (--out <GOLDEN.json> | --check <GOLDEN.json>)
@@ -11701,6 +11738,7 @@ engine-bench-task-has-no-holdout = tehtävällä ({ $task }) ei ole holdout-jako
 engine-bench-unknown-baseline = tuntematon perustaso `{ $name }`
 
 engine-bench-g-no-traces = ei tiedostoa <drive>/<phone>/ground_truth.csv hakemistossa { $root }
+engine-bench-h-no-sequences = ei tiedostoa <sequence>/ground_truth.txt hakemistossa { $root }
 
 engine-bench-g-no-object = ei jälkien `{ $key }`-objektia
 
@@ -11708,7 +11746,7 @@ engine-bench-g-bad-epoch = jälki `{ $id }`: jokaisen epookin on oltava [UnixTim
 
 engine-bench-f-dataset-mismatch = { $path }: SHA-256 { $got } ei ole tehtävän (f) kiinnitetty dataset.csv; hae se skriptillä scripts/fetch_opssat_ad.sh
 
-engine-bench-cli-unknown-task-g = tuntematon tehtävä `{ $t }` (a–g)
+engine-bench-cli-unknown-task-h = tuntematon tehtävä `{ $t }` (a–h)
 
 engine-bench-cli-wrote-predictions = kirjoitettu { $path } ({ $traces } jälkeä)
 
@@ -11810,3 +11848,10 @@ engine-leo-od-plan-usage = käyttö: kshana leo-od-plan <plan.toml>  (docs/LEO-O
 engine-e-leo-od-plan-bad-plan = suunnitelman arvot ovat sallitun alueen ulkopuolella: kaari, askel, kohinat ja maskit positiivisia ja äärellisiä, enintään 100000 askelta, maskit ±90 asteen sisällä, puolikeilanleveys 0–90 astetta ja LEO-Walker-kuvio, jonka tasot jakavat satelliittien määrän
 engine-e-leo-od-plan-cannot-read = tiedostoa { $path } ei voi lukea: { $e }
 engine-e-leo-od-plan-bad-file = { $path } ei ole suunnitelma: { $e }
+
+## Sparse-geometry LEO-PNT study (src/leo_sparse.rs, docs/LEO-SPARSE.md)
+engine-leo-sparse-usage = käyttö: kshana leo-sparse <study.toml>  (docs/LEO-SPARSE.md; MODELLED, a planning study)
+engine-e-leo-sparse-bad-study = tutkimuksen arvot ovat sallitun alueen ulkopuolella: kelvollinen käyttäjän sijainti, alle 3000 km:n LEO-Walker-kuvio, jonka tasot jakavat satelliittien määrän, maski 0–90 astetta, max_in_view 1 tai 2, positiiviset kohinat, a priori -arvot ja tavoitteet, enintään 200000 askelta ja raportointiväli vähintään askeleen pituinen
+engine-e-leo-sparse-singular = informaatiomatriisia ei voi kääntää edes a priori -arvojen kanssa
+engine-e-leo-sparse-cannot-read = tiedostoa { $path } ei voi lukea: { $e }
+engine-e-leo-sparse-bad-file = { $path } ei ole tutkimus: { $e }

@@ -1,0 +1,18 @@
+{
+ "format": "kshana.osnma-scenario/1",
+ "name": "flipped-key-bit",
+ "description": "One bit of the TESLA key E02 sends in sub-frame 3 is flipped; the key does not lead back to the chain and is rejected.",
+ "subframes": 18,
+ "changes": [
+  {
+   "kind": "flip_key_bit",
+   "subframe": 3,
+   "bit": 64
+  }
+ ],
+ "expect": {
+  "events": {
+   "key_rejected": true
+  }
+ }
+}
