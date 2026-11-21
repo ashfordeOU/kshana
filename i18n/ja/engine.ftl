@@ -9957,6 +9957,9 @@ engine-e-sil-obsgen-cannot-read = { $path } を読み込めません：{ $e }
 engine-e-sil-obsgen-cannot-write = { $path } に書き込めません：{ $e }
 engine-e-sil-obsgen-bad-scenario = 任意の [urban] と [rinex] テーブルを持つ gnss-sim シナリオではありません：{ $e }
 
+## leo-pass leap-second epoch
+engine-e-leo-pass-epoch-is-a-leap-second = エポック { $s } はうるう秒で、通常の UTC ユリウス日がありません。GPS 時刻または TAI で指定するか、前後 1 秒の時刻を指定してください
+
 engine-main-usage =
     使い方：kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }または：kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]

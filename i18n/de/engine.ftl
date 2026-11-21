@@ -10759,6 +10759,9 @@ engine-e-sil-obsgen-cannot-read = { $path } kann nicht gelesen werden: { $e }
 engine-e-sil-obsgen-cannot-write = { $path } kann nicht geschrieben werden: { $e }
 engine-e-sil-obsgen-bad-scenario = kein gnss-sim-Szenario mit optionalen Tabellen [urban] und [rinex]: { $e }
 
+## leo-pass leap-second epoch
+engine-e-leo-pass-epoch-is-a-leap-second = die Epoche { $s } ist eine Schaltsekunde, für die es kein einfaches julianisches UTC-Datum gibt; geben Sie die Epoche in GPS- oder TAI-Zeit oder eine Sekunde davor oder danach an
+
 engine-main-usage =
     Aufruf: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }oder: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]

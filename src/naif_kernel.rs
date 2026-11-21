@@ -817,8 +817,9 @@ const DELTET_M1: f64 = 1.990_968_71e-7;
 /// day's start (a `.5` value) and `utc_seconds_of_day` the seconds into that day, so whole-hour
 /// epochs stay exact. Leap seconds from [`crate::timescales::tai_minus_utc`].
 pub fn naif_et_from_utc(jd_utc_day: f64, utc_seconds_of_day: f64) -> (f64, f64) {
-    let tai_minus_utc =
-        crate::timescales::tai_minus_utc(jd_utc_day + utc_seconds_of_day / 86_400.0);
+    // TAI − UTC of the UTC day (looked up at its noon): a leap second's 23:59:60.x is
+    // `utc_seconds_of_day` in [86 400, 86 401) and keeps the day's count, so TAI is continuous.
+    let tai_minus_utc = crate::timescales::tai_minus_utc(jd_utc_day + 0.5);
     // Whole UTC seconds plus the integral leap-second count in `hi` (exact for whole-second
     // epochs); the 32.184 s offset and the periodic term in `lo`.
     let days = jd_utc_day - crate::timescales::JD_J2000; // exact: both are x.0 or x.5
@@ -874,6 +875,19 @@ mod tests {
             b.extend_from_slice(&w.to_le_bytes());
         }
         b
+    }
+
+    #[test]
+    fn a_leap_second_keeps_its_days_count() {
+        // 2016-12-31 starts at JD 2457753.5; 23:59:60.5 is second 86 400.5 of that day and one
+        // second before 2017-01-01T00:00:00.5 in ET.
+        let (h1, l1) = naif_et_from_utc(2_457_753.5, 86_400.5);
+        let (h2, l2) = naif_et_from_utc(2_457_754.5, 0.5);
+        assert!(
+            ((h2 + l2) - (h1 + l1) - 1.0).abs() < 1e-6,
+            "{}",
+            (h2 + l2) - (h1 + l1)
+        );
     }
 
     #[test]

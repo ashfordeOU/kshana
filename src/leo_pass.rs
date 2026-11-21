@@ -1126,8 +1126,14 @@ pub fn parse_epoch_jd(s: &str) -> Result<f64, String> {
     } else {
         0.0
     };
-    if !(1..=12).contains(&mo) || !(1..=31).contains(&da) || hh > 23 || mi > 59 || ss >= 61.0 {
+    // A real UTC date and time. A leap second (23:59:60.x of a day that ends in one) is a valid
+    // UTC time but has no plain UTC Julian date (the day's 86 400 s are already used), so it is
+    // refused here rather than aliased onto the next day's 00:00:00.
+    if crate::jd2::Jd2::from_utc_calendar(y, mo, da, hh, mi, ss).is_err() {
         return Err(crate::terr!("e-leo-pass-epoch-is-out-of-range", s = s));
+    }
+    if ss >= 60.0 {
+        return Err(crate::terr!("e-leo-pass-epoch-is-a-leap-second", s = s));
     }
     Ok(crate::timescales::julian_date(y, mo, da, hh, mi, ss))
 }
@@ -3613,6 +3619,15 @@ mod tests {
     fn run(src: &str) -> LeoPassReport {
         let scn: LeoPassScenario = toml::from_str(src).expect("toml");
         scn.compute().expect("compute")
+    }
+
+    #[test]
+    fn epochs_are_range_checked_and_a_leap_second_is_refused_not_aliased() {
+        assert!(parse_epoch_jd("2016-12-31T23:59:59.5Z").is_ok());
+        assert!(parse_epoch_jd("2016-12-31T23:59:60.5Z").is_err());
+        assert!(parse_epoch_jd("2026-01-01T12:30:60Z").is_err());
+        assert!(parse_epoch_jd("2023-02-31T00:00:00Z").is_err());
+        assert!(parse_epoch_jd("2024-02-29T00:00:00Z").is_ok());
     }
 
     #[test]
