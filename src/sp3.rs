@@ -71,7 +71,8 @@ impl Sp3SatState {
 /// All satellite states at one epoch.
 #[derive(Clone, Debug, Serialize)]
 pub struct Sp3Epoch {
-    /// Epoch time (the SP3 calendar time, GPS time scale).
+    /// Epoch time (the SP3 calendar time, in the file's `%c` time system: GPS when the line
+    /// is absent, UTC in the files this crate writes).
     pub time: EpochUtc,
     /// Per-satellite states recorded at this epoch.
     pub sats: Vec<Sp3SatState>,
@@ -194,7 +195,8 @@ impl Sp3File {
     }
 
     /// Serialise to SP3-c position-record text. The output round-trips through
-    /// [`parse_sp3`]: header line, the `+` satellite list, one `*` epoch header
+    /// [`parse_sp3`]: header line, the `+` satellite list, the two `%c` lines (time system
+    /// `UTC`, the scale the epochs are written in), one `*` epoch header
     /// per epoch with its `P` records (ECEF m → km, clock µs), and an `EOF`
     /// trailer. Velocity records are not emitted (positions only).
     pub fn to_sp3_string(&self) -> String {
@@ -218,6 +220,19 @@ impl Sp3File {
         }
         out.push_str(&plus);
         out.push('\n');
+        // The two `%c` lines of SP3-c: file type (columns 4-5) and time system (columns 10-12).
+        // The epochs are UTC (the engine dates every instant as UTC, UT1 taken equal to UTC), so
+        // the time system is `UTC`, which SP3-c allows; without the line a reader assumes GPS
+        // time and places every epoch 18 s late.
+        let file_type = if self.header.sat_ids.iter().all(|id| id.starts_with('G')) {
+            'G'
+        } else {
+            'M'
+        };
+        out.push_str(&format!(
+            "%c {file_type}  cc UTC ccc cccc cccc cccc cccc ccccc ccccc ccccc ccccc\n"
+        ));
+        out.push_str("%c cc cc ccc ccc cccc cccc cccc cccc ccccc ccccc ccccc ccccc\n");
         // Epoch blocks.
         for epoch in &self.epochs {
             let t = &epoch.time;
