@@ -10816,6 +10816,32 @@ engine-e-lunar-afs-kit-bad-registry = реєстр не є списком при
 engine-e-lunar-afs-kit-bad-vectors = це не файл kshana.afs-vectors/1: { $e }
 engine-e-lunar-afs-kit-bad-message = рядок не є повідомленням kshana.lunar-pnt-output/1 з епохою, системою відліку та положенням
 
+## ADS-B interference indicators (src/adsb_indicators.rs)
+engine-adsb-indicators-usage = використання: kshana adsb-indicators <adsb.csv> [--cell-deg <d>] [--out <indicators.json>]  (docs/ADSB-INDICATORS.md)
+engine-adsb-indicators-summary = позначено опублікованих комірок: { $n } (MODELLED; причина не називається)
+engine-e-adsb-indicators-missing-value = { $option } потребує значення
+engine-e-adsb-indicators-unknown-option = невідомий параметр { $option } (параметри перелічує kshana adsb-indicators --help)
+engine-e-adsb-indicators-bad-cell = розмір комірки має бути від 0,01 до 10 градусів, а не { $value }
+engine-e-adsb-indicators-cannot-read = не вдалося прочитати { $path }: { $e }
+engine-e-adsb-indicators-cannot-write = не вдалося записати { $path }: { $e }
+engine-e-adsb-indicators-missing-column = у CSV ADS-B немає стовпця { $name }
+
+## Interference atlas and station C/N0 layer (src/interference_atlas.rs)
+engine-interference-atlas-usage = використання: kshana interference-atlas build <day.geojson>... [--previous <atlas.json>] [--out <atlas.json>] | verify <atlas.json> | cors <today.obs> --baseline <earlier.obs> [--adsb-day <day.geojson>] [--station <lat,lon>] [--out <layer.json>]  (docs/INTERFERENCE-ATLAS.md)
+engine-interference-atlas-built = комірок: { $n_cells }, зон: { $n_zones }; версія { $version } (MODELLED)
+engine-interference-atlas-verified = { $path }: версія відповідає вмісту
+engine-e-interference-atlas-missing-value = { $option } потребує значення
+engine-e-interference-atlas-unknown-option = невідомий параметр { $option } (параметри перелічує kshana interference-atlas --help)
+engine-e-interference-atlas-cannot-read = не вдалося прочитати { $path }: { $e }
+engine-e-interference-atlas-cannot-write = не вдалося записати { $path }: { $e }
+engine-e-interference-atlas-not-a-product = { $path } не є ні добовим продуктом карти завад, ні атласом
+engine-e-interference-atlas-mixed = добові продукти змішують сітки або джерела
+engine-e-interference-atlas-empty = не задано жодного добового продукту
+engine-e-interference-atlas-changed = { $path }: версія не відповідає вмісту (атлас змінено)
+engine-e-interference-atlas-bad-obs = { $path } не є файлом спостережень RINEX: { $e }
+engine-e-interference-atlas-no-cn0 = у двох файлах спостережень немає спільного супутника GPS із C/N0 через один повтор траси
+engine-e-interference-atlas-bad-station = станції потрібні lat,lon у градусах (або приблизне положення в заголовку спостережень), а не { $value }
+
 engine-main-usage =
     використання: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }або: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10868,6 +10894,8 @@ engine-main-usage =
     { "   " }або: kshana antenna-cal <lint|spread|compare|group-delay|js-margin> ... (kshana antenna-cal --help)
     { "   " }або: kshana quantum-bench <protocol|simulate|score> ... (kshana quantum-bench --help)
     { "   " }або: kshana soop-clock <lte|cp|synth-lte> ... (kshana soop-clock --help)
+    { "   " }або: kshana adsb-indicators <adsb.csv> [--cell-deg <d>] [--out <indicators.json>]
+    { "   " }або: kshana interference-atlas <build|verify|cors> ... (kshana interference-atlas --help)
     { "   " }або: kshana kinds [--json]
     { "   " }або: kshana example [<name>]
     { "   " }або: kshana --help | --version
