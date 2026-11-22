@@ -657,17 +657,36 @@ fn baseline(args: &[String]) -> Result<i32, BenchError> {
             )?;
             for b in anomaly::F_BASELINES {
                 let scores = en(|| anomaly::f_baseline_scores(b, &segs, split))?;
-                let doc = en_ok(|| {
-                    let mut d = tasks::scores_doc(
-                        "f",
-                        split.name(),
-                        &crate::t!("bench-tasks-kshana-bench-baseline", baseline = b),
-                        &scores,
-                    );
-                    d["system"]["version"] = json!(anomaly::SPEC_VERSION_FG);
-                    d
-                });
-                emit(&out, &format!("f-{}-{b}", split.name()), &truth_text, &doc)?;
+                let threshold = en(|| anomaly::f_dev_threshold(b, &segs))?;
+                // The frozen files of PREREGISTRATION.md, then the operating-point files of
+                // PREREGISTRATION-2.md (same scores, the dev-frozen threshold declared).
+                for (variant, thr) in [
+                    (b.to_string(), None),
+                    (format!("{b}-dev-op"), Some(threshold)),
+                ] {
+                    let doc = en_ok(|| {
+                        let mut d = tasks::scores_doc(
+                            "f",
+                            split.name(),
+                            &crate::t!(
+                                "bench-tasks-kshana-bench-baseline",
+                                baseline = variant.as_str()
+                            ),
+                            &scores,
+                        );
+                        d["system"]["version"] = json!(anomaly::SPEC_VERSION_FG);
+                        if let Some(t) = thr {
+                            d["threshold"] = json!(t);
+                        }
+                        d
+                    });
+                    emit(
+                        &out,
+                        &format!("f-{}-{variant}", split.name()),
+                        &truth_text,
+                        &doc,
+                    )?;
+                }
             }
         }
         "g" => {

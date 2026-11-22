@@ -243,11 +243,25 @@ impl OemFile {
     }
 }
 
-/// Format an epoch as the CCSDS calendar time `yyyy-mm-ddTHH:MM:SS.ffffff`.
+/// Format an epoch as the CCSDS calendar time `yyyy-mm-ddTHH:MM:SS.ffffff`, rounded to the
+/// printed microsecond with the carry taken through the minute, hour and day, so 59.9999996 s
+/// prints as the next minute rather than as second 60.
 fn iso8601(e: &EpochUtc) -> String {
+    let us_of_day =
+        ((e.hour as f64 * 3600.0 + e.minute as f64 * 60.0 + e.second) * 1e6).round() as i64;
+    let days = crate::gnss_time::days_from_civil(e.year as i64, e.month, e.day)
+        + us_of_day.div_euclid(86_400_000_000);
+    let us = us_of_day.rem_euclid(86_400_000_000);
+    let (y, m, d) = crate::gnss_time::civil_from_days(days);
     format!(
-        "{:04}-{:02}-{:02}T{:02}:{:02}:{:09.6}",
-        e.year, e.month, e.day, e.hour, e.minute, e.second
+        "{:04}-{:02}-{:02}T{:02}:{:02}:{:02}.{:06}",
+        y,
+        m,
+        d,
+        us / 3_600_000_000,
+        us / 60_000_000 % 60,
+        us / 1_000_000 % 60,
+        us % 1_000_000
     )
 }
 
@@ -456,15 +470,27 @@ pub fn parse_oem(text: &str) -> Result<OemFile, String> {
             }
             let mut vals = [0.0f64; 6];
             for (k, t) in toks[1..7].iter().enumerate() {
-                vals[k] = t.parse::<f64>().map_err(|_| {
-                    crate::terr!("e-oem-non-numeric-oem-state-value", t = t, line = line)
-                })?;
+                // `NaN` and `inf` parse as f64 but are not state values.
+                vals[k] = t
+                    .parse::<f64>()
+                    .ok()
+                    .filter(|v| v.is_finite())
+                    .ok_or_else(|| {
+                        crate::terr!("e-oem-non-numeric-oem-state-value", t = t, line = line)
+                    })?;
             }
             states.push(OemStateLine {
                 epoch,
                 pos_km: [vals[0], vals[1], vals[2]],
                 vel_km_s: [vals[3], vals[4], vals[5]],
             });
+        }
+        if in_cov {
+            // An unclosed covariance block would have swallowed every state line after it.
+            return Err(crate::terr!(
+                "e-oem-unclosed-covariance",
+                object = meta.object_name.as_str()
+            ));
         }
         segments.push(OemSegment { meta, states });
     }
@@ -773,10 +799,13 @@ pub fn parse_covariance_block(text: &str) -> Result<Covariance6, String> {
             continue;
         }
         for tok in line.split_whitespace() {
-            vals.push(
-                tok.parse::<f64>()
-                    .map_err(|e| crate::terr!("e-oem-bad-covariance-value", tok = tok, e = e))?,
-            );
+            let v = tok
+                .parse::<f64>()
+                .map_err(|e| crate::terr!("e-oem-bad-covariance-value", tok = tok, e = e))?;
+            if !v.is_finite() {
+                return Err(crate::terr!("e-ccsds-not-finite", t = tok));
+            }
+            vals.push(v);
         }
     }
     if vals.len() != 21 {
@@ -829,6 +858,27 @@ mod tests {
             }
         }
         c
+    }
+
+    #[test]
+    fn iso8601_carries_a_rounded_second_into_the_minute_and_day() {
+        let e = |h, mi, sec| EpochUtc {
+            year: 2024,
+            month: 12,
+            day: 31,
+            hour: h,
+            minute: mi,
+            second: sec,
+        };
+        assert_eq!(
+            iso8601(&e(12, 30, 59.999_999_6)),
+            "2024-12-31T12:31:00.000000"
+        );
+        assert_eq!(
+            iso8601(&e(23, 59, 59.999_999_7)),
+            "2025-01-01T00:00:00.000000"
+        );
+        assert_eq!(iso8601(&e(1, 2, 3.25)), "2024-12-31T01:02:03.250000");
     }
 
     #[test]

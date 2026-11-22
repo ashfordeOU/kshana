@@ -91,6 +91,32 @@ pub struct CivilTime {
     pub second: f64,
 }
 
+/// The civil time `secs` seconds after `start`, computed in seconds of day with an integer day
+/// carry (no Julian Date round trip, whose ~40 µs floor makes a clean grid read
+/// `00:14:59.99998659`), the seconds rounded to `decimals` places before the split so the
+/// result never reads second 60 or hour 24. Days are 86 400 s (no leap second inside).
+pub fn civil_after(start: CivilTime, secs: f64, decimals: i32) -> CivilTime {
+    let scale = 10f64.powi(decimals);
+    let sod = start.hour as f64 * 3600.0 + start.minute as f64 * 60.0 + start.second + secs;
+    let sod = (sod * scale).round() / scale;
+    let day_off = (sod / 86_400.0).floor();
+    let rem = ((sod - day_off * 86_400.0) * scale).round() / scale;
+    let days = crate::gnss_time::days_from_civil(start.year as i64, start.month, start.day)
+        + day_off as i64;
+    let (y, m, d) = crate::gnss_time::civil_from_days(days);
+    let hour = (rem / 3600.0).floor();
+    let minute = ((rem - hour * 3600.0) / 60.0).floor();
+    let second = ((rem - hour * 3600.0 - minute * 60.0) * scale).round() / scale;
+    CivilTime {
+        year: y as i32,
+        month: m,
+        day: d,
+        hour: hour as u32,
+        minute: minute as u32,
+        second,
+    }
+}
+
 /// Inverse of [`julian_date`]: recover the Gregorian civil date/time from a
 /// Julian Date (Meeus ch. 7). The returned fields are in the same scale as the
 /// input JD.
@@ -221,6 +247,68 @@ pub fn tai_minus_utc_on_date(year: i32, month: u32, day: u32, fd: f64) -> f64 {
     };
     let mjd = julian_date(year, month, day, 0, 0, 0.0) - MJD_OFFSET;
     delat + (mjd + fd - mjd_ref) * rate
+}
+
+/// The TAI Julian date of a UTC calendar time, leap seconds included: `23:59:60.x` is valid in
+/// the last minute of a day that ends in a leap second (from the leap-second table) and lies on
+/// that day, one second before the next day's `00:00:00` in TAI, so TAI is continuous across the
+/// leap. Every other field is range-checked against the calendar. Through the SOFA conventions of
+/// [`crate::jd2::Jd2::from_utc_calendar`] and [`crate::jd2::utc_to_tai`].
+pub fn utc_calendar_to_tai(
+    year: i32,
+    month: u32,
+    day: u32,
+    hour: u32,
+    minute: u32,
+    second: f64,
+) -> Result<f64, String> {
+    let utc = crate::jd2::Jd2::from_utc_calendar(year, month, day, hour, minute, second)?;
+    Ok(crate::jd2::utc_to_tai(utc).total())
+}
+
+/// Check a calendar time on a scale without leap seconds (TAI, GPS, TT, TDB): a real date, an
+/// hour under 24, a minute under 60 and a second in `[0, 60)`.
+pub fn check_uniform_calendar(
+    year: i32,
+    month: u32,
+    day: u32,
+    hour: u32,
+    minute: u32,
+    second: f64,
+) -> Result<(), String> {
+    if !(0.0..60.0).contains(&second) {
+        return Err(crate::terr!(
+            "e-jd2-utc-second-out-of-range",
+            second = second,
+            hour = hour,
+            minute = minute
+        ));
+    }
+    crate::jd2::Jd2::from_utc_calendar(year, month, day, hour, minute, second).map(|_| ())
+}
+
+/// GPS time minus the time scale `system` (seconds) at about the Julian date `jd`, for the
+/// time-system identifiers of RINEX and SP3 files: `GPS`, `GAL` (GST is steered to GPS time),
+/// `QZS` (QZSST) and `IRN` (IRNWT) are GPS time; `BDT` is 14 s behind; `GLO` (UTC(SU) as RINEX
+/// writes it) and `UTC` are UTC, `(TAI − UTC) − 19 s` behind; `TAI` is 19 s ahead. `None` for
+/// an identifier not in that list.
+pub fn gps_minus_scale_s(system: &str, jd: f64) -> Option<f64> {
+    match system.trim().to_ascii_uppercase().as_str() {
+        "GPS" | "GAL" | "QZS" | "IRN" => Some(0.0),
+        "BDT" | "BDS" => Some(14.0),
+        "GLO" | "UTC" => Some(tai_minus_utc(jd) - 19.0),
+        "TAI" => Some(-19.0),
+        _ => None,
+    }
+}
+
+/// A Julian date on the time scale `system` (see [`gps_minus_scale_s`]) as a UTC Julian date:
+/// moved to GPS time, then to UTC with TAI − UTC looked up at the UTC instant (refined once, as
+/// leap steps are whole seconds). `None` for an unknown scale.
+pub fn scale_jd_to_utc(jd: f64, system: &str) -> Option<f64> {
+    let jd_gps = jd + gps_minus_scale_s(system, jd)? / SECONDS_PER_DAY;
+    let guess = jd_gps - (tai_minus_utc(jd_gps) - 19.0) / SECONDS_PER_DAY;
+    Some(jd_gps - (tai_minus_utc(guess) - 19.0) / SECONDS_PER_DAY)
 }
 
 /// TAI − UTC (seconds) at a given instant expressed as a JD in UTC. Returns the
@@ -425,9 +513,86 @@ pub fn tdb_to_tt(jd_tdb: f64) -> f64 {
 
 #[cfg(test)]
 mod tests {
+    #[test]
+    fn file_time_systems_move_to_utc() {
+        let jd = julian_date(2021, 6, 1, 12, 0, 0.0);
+        let behind = |ts: &str| (jd - scale_jd_to_utc(jd, ts).unwrap()) * 86_400.0;
+        for (ts, s) in [
+            ("GPS", 18.0),
+            ("gal", 18.0),
+            ("QZS", 18.0),
+            ("IRN", 18.0),
+            ("BDT", 4.0),
+            ("GLO", 0.0),
+            ("UTC", 0.0),
+            ("TAI", 37.0),
+        ] {
+            assert!((behind(ts) - s).abs() < 1e-4, "{ts}: {}", behind(ts));
+        }
+        assert_eq!(scale_jd_to_utc(jd, "XYZ"), None);
+        // 2017-01-01 00:00:10 GPS time is 2016-12-31 23:59:53 UTC: GPS − UTC was 17 s
+        // before the leap second ending 2016 and 18 s after it, looked up at the UTC instant
+        // (not at the GPS date, which is already past the step).
+        let g = julian_date(2017, 1, 1, 0, 0, 10.0);
+        let u = scale_jd_to_utc(g, "GPS").unwrap();
+        assert!(((g - u) * 86_400.0 - 17.0).abs() < 1e-4);
+        let g = julian_date(2017, 1, 1, 0, 0, 20.0);
+        let u = scale_jd_to_utc(g, "GPS").unwrap();
+        assert!(((g - u) * 86_400.0 - 18.0).abs() < 1e-4);
+    }
+
     use super::*;
 
     const EPS_JD: f64 = 1e-9; // ~1e-4 s
+
+    #[test]
+    fn civil_after_keeps_a_clean_grid_clean_and_carries_days() {
+        let start = CivilTime {
+            year: 2023,
+            month: 1,
+            day: 1,
+            hour: 0,
+            minute: 0,
+            second: 0.0,
+        };
+        for k in 0..96 {
+            let c = civil_after(start, k as f64 * 900.0, 8);
+            assert_eq!(c.second, 0.0, "epoch {k}: {c:?}");
+            assert_eq!(c.minute % 15, 0);
+        }
+        let c = civil_after(start, 366.0 * 86_400.0 - 1e-9, 8);
+        assert_eq!(
+            (c.year, c.month, c.day, c.hour, c.minute, c.second),
+            (2024, 1, 2, 0, 0, 0.0)
+        );
+        let late = CivilTime {
+            year: 2024,
+            month: 2,
+            day: 28,
+            hour: 23,
+            minute: 59,
+            second: 30.0,
+        };
+        let c = civil_after(late, 30.0, 8);
+        assert_eq!((c.month, c.day, c.hour), (2, 29, 0));
+    }
+
+    #[test]
+    fn a_leap_second_lies_on_its_day_and_tai_is_continuous() {
+        let leap = utc_calendar_to_tai(2016, 12, 31, 23, 59, 60.5).unwrap();
+        let next = utc_calendar_to_tai(2017, 1, 1, 0, 0, 0.5).unwrap();
+        let before = utc_calendar_to_tai(2016, 12, 31, 23, 59, 59.5).unwrap();
+        assert!(((next - leap) * 86_400.0 - 1.0).abs() < 1e-4);
+        assert!(((leap - before) * 86_400.0 - 1.0).abs() < 1e-4);
+        // Second 60 only at 23:59 of a day that ends in a leap second.
+        assert!(utc_calendar_to_tai(2017, 12, 31, 23, 59, 60.5).is_err());
+        assert!(utc_calendar_to_tai(2016, 12, 31, 12, 30, 60.0).is_err());
+        assert!(utc_calendar_to_tai(2023, 2, 31, 0, 0, 0.0).is_err());
+        // Scales without leap seconds refuse second 60 everywhere.
+        assert!(check_uniform_calendar(2016, 12, 31, 23, 59, 60.5).is_err());
+        assert!(check_uniform_calendar(2024, 2, 29, 23, 59, 59.9).is_ok());
+        assert!(check_uniform_calendar(2023, 13, 1, 0, 0, 0.0).is_err());
+    }
 
     #[test]
     fn j2000_epoch_is_2451545() {

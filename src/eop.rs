@@ -249,7 +249,9 @@ impl EopSeries {
     }
 
     /// Linearly interpolate `(UT1−UTC [s], x_p [arcsec], y_p [arcsec])` at a UTC MJD,
-    /// clamping to the endpoints outside the tabulated span.
+    /// clamping to the endpoints outside the tabulated span. UT1−UTC jumps by one second at a
+    /// leap second, so it is interpolated as UT1−TAI (continuous; each row's TAI−UTC from the
+    /// leap-second table at that row's 0h UTC) and turned back with TAI−UTC at `mjd_utc`.
     pub fn interp_utc_mjd(&self, mjd_utc: f64) -> (f64, f64, f64) {
         let r = &self.records;
         let tuple = |e: &EopRecord| (e.ut1_utc_s, e.xp_arcsec, e.yp_arcsec);
@@ -268,8 +270,10 @@ impl EopSeries {
                 let (lo, hi) = (&r[i - 1], &r[i]);
                 let f = (mjd_utc - lo.mjd) / (hi.mjd - lo.mjd);
                 let lerp = |a: f64, b: f64| a + f * (b - a);
+                let leap = |mjd: f64| tai_minus_utc(mjd + MJD_OFFSET);
+                let ut1_tai = lerp(lo.ut1_utc_s - leap(lo.mjd), hi.ut1_utc_s - leap(hi.mjd));
                 (
-                    lerp(lo.ut1_utc_s, hi.ut1_utc_s),
+                    ut1_tai + leap(mjd_utc),
                     lerp(lo.xp_arcsec, hi.xp_arcsec),
                     lerp(lo.yp_arcsec, hi.yp_arcsec),
                 )
@@ -301,7 +305,7 @@ impl EopSeries {
     }
 
     /// TT Julian Date to UTC Julian Date through TAI and the leap-second table.
-    fn jd_tt_to_jd_utc(jd_tt: f64) -> f64 {
+    pub fn jd_tt_to_jd_utc(jd_tt: f64) -> f64 {
         let jd_tai = jd_tt - TT_MINUS_TAI / SECONDS_PER_DAY;
         // Leap seconds are piecewise-constant; one refinement step lands the argument
         // squarely inside the correct UTC day (TAI leads UTC by ~37 s).
@@ -333,6 +337,26 @@ mod tests {
 
     fn two_day_series() -> EopSeries {
         EopSeries::from_finals2000a(&format!("{ROW_59579}\n{ROW_59580}\n"))
+    }
+
+    #[test]
+    fn interp_does_not_smear_a_leap_second() {
+        // The 2016-12-31 leap second: UT1−UTC is -0.408 s at MJD 57753 (TAI−UTC 36 s) and
+        // +0.592 s at MJD 57754 (TAI−UTC 37 s): UT1−TAI is -36.408 s on both days. At noon on
+        // 2016-12-31 UT1−UTC is -0.408 s, not the +0.092 s a straight interpolation gives.
+        let rec = |mjd: f64, d: f64| EopRecord {
+            mjd,
+            ut1_utc_s: d,
+            xp_arcsec: 0.0,
+            yp_arcsec: 0.0,
+            lod_ms: 0.0,
+        };
+        let s = EopSeries {
+            records: vec![rec(57753.0, -0.408), rec(57754.0, 0.592)],
+        };
+        assert!((s.interp_utc_mjd(57753.5).0 + 0.408).abs() < 1e-12);
+        assert!((s.interp_utc_mjd(57753.999).0 + 0.408).abs() < 1e-12);
+        assert!((s.interp_utc_mjd(57754.0).0 - 0.592).abs() < 1e-12);
     }
 
     #[test]

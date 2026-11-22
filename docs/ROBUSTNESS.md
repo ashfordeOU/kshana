@@ -63,6 +63,28 @@ voyages, Celestrak TLE sets) or short synthetic samples written in the test.
 | `n2k` | the same in the candump data field | non-ASCII data is not a frame |
 | `realdata::llr_crd` | a 7-field normal-point record indexed the optional 8th field | optional fields read with `get` |
 
+## Beyond panics: what a reader returns
+
+Not panicking is the floor. A reader can also return data that is wrong without saying so: a
+record dropped with no count, `NaN` or `inf` accepted (Rust's float parser takes `NaN`, `inf`,
+`infinity`, and an overflowing `1.0D+400` becomes infinite), a header field written but ignored on
+read, or a count in the file trusted over the records that follow. Each reader family gets a test
+file of such cases and a seeded fuzz that writes `NaN`, `inf`, overflowing exponents and `*`
+overflow fields into numeric columns of real files and checks that every value returned is finite.
+
+| Reader | Defect | Now |
+|---|---|---|
+| `rinex_obs::parse_obs` | an event record (epoch flag 2-5) was read as satellites: its header or comment lines became satellites such as `"  A"`, and the event an epoch | the lines are stepped over, no epoch is returned, and `skipped.event_records` counts it |
+| `rinex_obs::parse_obs` | a satellite count larger than the records took the next `>` epoch header as a satellite and lost that epoch | an error naming the epoch and both counts |
+| `rinex_obs::parse_obs` | records beyond the count, unreadable values (`**************`, `NaN`), satellites of a system with no `SYS / # / OBS TYPES`, a cut last epoch: all silent | counted in `skipped` (`stray_lines`, `unreadable_values`, `undeclared_system_records`, `truncated_epochs`) |
+| `rinex_obs::parse_obs` | an unreadable epoch flag read as 0 (observations); a COMMENT naming a label (`... INTERVAL after decimation`) overwrote that header field in RINEX 2/3 | the flag must be 0-6, else an error; labels are matched in columns 61-80 in every version |
+| `rinex_obs::parse_obs` | the `TIME OF FIRST OBS` time system was never read | `header.time_system` (`GPS`, `BDT`, `GLO`, ...); epochs stay as written, in that system |
+| `rinex::parse_d` (navigation, observation, epochs) | `NaN`, `inf` and overflowing exponents were values | an error |
+| `rinex::parse_nav` | a RINEX 2 file returned no ephemerides and no error (its records carry no system letter) | an error naming the version |
+| `precise_products::parse_clock_rinex*`, `realdata::clk`, `clock_log` | clock 3.04 labels sit in columns 66-85 (to confirm against the 3.04 text); read at column 61 only, such a file was all header and returned no records; a missing `END OF HEADER` returned nothing; `NaN` clock values were kept | labels found at either column; a missing `END OF HEADER` and non-finite values are errors |
+
+Tests: `tests/rinex_reader_robustness.rs`.
+
 ## Run
 
 ```sh
@@ -74,6 +96,22 @@ The default run takes about a minute in a debug build. The longer soak is the on
 release or after touching a parser. When a target fails, the report prints the failing input; copy it
 into a unit test next to the parser when fixing it.
 
+## SP3, IONEX and ANTEX: what the reader returns and the writer emits
+
+Beyond not panicking: values that are wrong without saying so. Tests:
+`tests/sp3_ionex_antex_reader_robustness.rs`, including a seeded fuzz that writes `NaN`, `inf`,
+overflowing exponents and `*` fields into the fixtures and checks every value returned is finite.
+
+| Reader / writer | Defect | Now |
+|---|---|---|
+| `Sp3File::to_sp3_string` | the header start second was written with the language's decimal mark (`0,00000000` in German, French, Russian, ...), which the crate's own reader and other tools refuse | `.` in every language |
+| `Sp3File::from_propagators` | epoch labels came from a Julian Date near 2.45e6 (~40 µs resolution), so a 900 s grid was written as `0 14 59.99998659`, `0 30  0.00001341` | labels advance in seconds of day with a day carry (`timescales::civil_after`): exactly on the grid |
+| `Sp3File::to_sp3_string`, orbit SP3 export | every id on one `+` line: past 17 ids not SP3-c, and at 100 satellites the count pushed the ids a column right (the reader found none) and `PG100` was read as `G10` | five `+` records of 17 ids padded with `  0` (SP3-c); an export of more than 85 satellites is refused |
+| `Sp3File::interpolator` | the (0, 0, 0) bad-position sentinel was an interpolation node, pulling nearby positions toward the geocentre; a repeated epoch made the Lagrange weights divide by zero | both are left out as nodes (`Sp3SatState::position_is_bad`) |
+| `parse_sp3` | `NaN` / `inf` positions and clocks were accepted; a `V` record with no `P`, a repeated epoch, a missing `EOF`, fewer epochs than the header declares and the `+` count were silent | non-finite values are an error; the rest is reported in `Sp3File::read` and `missing_epochs()` |
+| `ionex::parse_ionex` | the no-value marker `9999` was a value (999.9 TECU at `EXPONENT -1`); a map's own `EXPONENT` was ignored; a `NaN` token was a value | `9999` is NaN; the map's exponent applies to it; a non-finite token leaves the map short and refused (`parse_ionex_file`, the strict reader, already did this) |
+| `ppp_real::parse_antex_receiver` | `NOAZI` rows split on blanks, so an unreadable value was dropped and every later value moved to the wrong zenith angle; a row off the `ZEN1 / ZEN2 / DZEN` grid was used as is; a `NaN` offset was accepted | rows read as F8.2 columns; a row with an unreadable value or the wrong length is left out and counted in `dropped_tables`; non-finite offsets are not read |
+
 ## Adding a parser
 
 Add a `fuzz("name", &seeds, generator, |bytes| { let _ = my_parser(...); })` call to the right test
@@ -82,6 +120,25 @@ exists. For a framed binary protocol, add a generator that writes valid frames w
 (see `gen_ubx`, `gen_sbf`, `gen_rtcm3`). For a parser whose input sizes an allocation, bound the
 allocation by the input (lines or bytes left) or by a documented maximum, and return an error beyond
 it.
+
+## CCSDS messages: what the reader returns and the writer emits
+
+Beyond not panicking: values that are wrong without saying so. Tests:
+`tests/ccsds_reader_robustness.rs`, including a seeded fuzz that writes `NaN`, `inf` and
+overflowing exponents into the OEM and TDM fixtures and checks every value returned is finite.
+
+| Reader / writer | Defect | Now |
+|---|---|---|
+| `orbit-data convert --to cdm` | the KVN writer labels each value with the standard's unit, so `MISS_DISTANCE = 0.5 [km]` (or XML `units="km"`) was written as `0.5 [m]`, a 1000x error | a value in any other unit is refused, naming the keyword and both units |
+| `OmmFile::to_omm_kvn` | `MEAN_MOTION`, `RA_OF_ASC_NODE`, `ARG_OF_PERICENTER` and `MEAN_ANOMALY` were written with the language's decimal mark (`15,50000000` in German) beside `ECCENTRICITY = 0.0006000` | `.` in every language |
+| `oem::parse_oem`, `parse_covariance_block` | `NaN` / `inf` state and covariance values were accepted; an unclosed `COVARIANCE_START` skipped every later state line of the segment with no error | both are errors |
+| `orbit_data::convert::oem_to_ocm` | every segment was stamped with the first segment's `TIME_SYSTEM` (a UTC then TAI file shifted the second segment by 37 s) | segments in different time systems are refused |
+| `ccsds_tdm::TdmFile::parse` | `NaN` / `inf` values were accepted, a third token on a data line was dropped, and a data line between `DATA_STOP` and the next `META_START` was ignored | all three are errors |
+| `odm::Section::num` (OPM, OMM, OCM values) | `NaN` / `inf` were numbers | an error |
+
+Not changed: the OPM/OMM KVN reader drops bracketed units without checking them against the
+standard's (`X = 6678137.0 [m]` reads as km). There is no OPM/OMM unit table in the crate yet; one
+needs the CCSDS 502.0 tables transcribed, so it is a separate change.
 
 ## Limits (honest)
 

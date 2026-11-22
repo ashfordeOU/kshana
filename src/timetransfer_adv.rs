@@ -42,23 +42,33 @@ type Vec3 = [f64; 3];
 // 1. TWSTFT — Two-Way Satellite Time and Frequency Transfer
 // ───────────────────────────────────────────────────────────────────────────
 
-/// Equatorial-projected signed area (m²) of the triangle `(a, b, c)`.
-fn equatorial_triangle_area(a: Vec3, b: Vec3, c: Vec3) -> f64 {
-    0.5 * ((b[0] - a[0]) * (c[1] - a[1]) - (c[0] - a[0]) * (b[1] - a[1]))
+/// Equatorial-projected signed area (m²) of the polygon through `pts` in order (shoelace).
+fn equatorial_polygon_area(pts: &[Vec3]) -> f64 {
+    let n = pts.len();
+    0.5 * (0..n)
+        .map(|i| {
+            let (p, q) = (pts[i], pts[(i + 1) % n]);
+            p[0] * q[1] - q[0] * p[1]
+        })
+        .sum::<f64>()
 }
 
-/// TWSTFT Sagnac correction (s) for the closed loop ground-A → satellite → ground-B → A:
-/// the sum of the three one-way Sagnac terms. This equals the BIPM closed form
-/// `Δt = 2·A·ω_E/c²` exactly, where `A` is the equatorial-projected area of the triangle
-/// (`r_a`, `r_s`, `r_b`) — see [`twstft_sagnac_bipm`].
+/// TWSTFT Sagnac correction (s) of the path ground-A → satellite → ground-B: the sum of the
+/// two one-way Sagnac terms of the legs the signal travels. In the two-way equation the term
+/// enters as `½[S(A→S→B) − S(B→S→A)]`, which by antisymmetry is this sum. It equals the
+/// ITU-R TF.1153 closed form `Δt = 2·A·ω_E/c²` where `A` is the area of the projection onto
+/// the equatorial plane of the quadrilateral formed by the Earth's centre, station A, the
+/// satellite and station B — see [`twstft_sagnac_bipm`]. (There is no ground leg B → A: closing
+/// the triangle A, S, B would add the Sagnac term of a path the signal never takes.)
 pub fn twstft_sagnac(r_a: Vec3, r_s: Vec3, r_b: Vec3) -> f64 {
-    sagnac_correction(r_a, r_s) + sagnac_correction(r_s, r_b) + sagnac_correction(r_b, r_a)
+    sagnac_correction(r_a, r_s) + sagnac_correction(r_s, r_b)
 }
 
-/// The BIPM closed form `Δt = 2·A·ω_E/c²` for the same loop, computed independently from
-/// the triangle area. Provided so callers (and tests) can cross-check [`twstft_sagnac`].
+/// The ITU-R TF.1153 (BIPM) closed form `Δt = 2·A·ω_E/c²` for the same path, computed
+/// independently from the equatorial-projected area of the quadrilateral (Earth's centre,
+/// `r_a`, `r_s`, `r_b`). Provided so callers (and tests) can cross-check [`twstft_sagnac`].
 pub fn twstft_sagnac_bipm(r_a: Vec3, r_s: Vec3, r_b: Vec3) -> f64 {
-    let area = equatorial_triangle_area(r_a, r_s, r_b);
+    let area = equatorial_polygon_area(&[[0.0; 3], r_a, r_s, r_b]);
     2.0 * area * OMEGA_EARTH / (C_M_PER_S * C_M_PER_S)
 }
 
@@ -457,6 +467,26 @@ mod tests {
         let bipm = twstft_sagnac_bipm(a, s, b);
         assert!(bipm.abs() > 1e-9, "Sagnac should be tens of ns: {bipm}");
         assert!((loop_sum - bipm).abs() / bipm.abs() < 0.05);
+    }
+
+    #[test]
+    fn twstft_sagnac_has_no_ground_leg() {
+        // Stations A and B on the equator 60° apart under a GEO at 30°: the two-way term is the
+        // area of the quadrilateral (centre, A, S, B), computed here by hand from the corner
+        // coordinates, not the triangle (A, S, B), which differs by the B → A leg.
+        let (c60, s60) = (0.5_f64, 0.866_025_403_784_438_6_f64);
+        let (c30, s30) = (0.866_025_403_784_438_6_f64, 0.5_f64);
+        let a = [RE, 0.0, 0.0];
+        let s = [GEO * c30, GEO * s30, 0.0];
+        let b = [RE * c60, RE * s60, 0.0];
+        // Quadrilateral O, A, S, B: triangles (O, A, S) and (O, S, B), each ½·r1·r2·sin 30°.
+        let area = 0.5 * RE * GEO * 0.5 + 0.5 * GEO * RE * 0.5;
+        let want = 2.0 * area * OMEGA_EARTH / (C_M_PER_S * C_M_PER_S);
+        let got = twstft_sagnac(a, s, b);
+        assert!((got - want).abs() < 1e-18, "{got} vs {want}");
+        // The triangle closure would add S(B → A) = −(ω/c²)·RE²·sin 60°, about −29 ns here.
+        let ground_leg = sagnac_correction(b, a);
+        assert!((ground_leg + 28.58e-9).abs() < 0.05e-9, "{ground_leg}");
     }
 
     #[test]

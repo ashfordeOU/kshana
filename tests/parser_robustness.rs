@@ -1498,6 +1498,7 @@ fn leo_verify_inputs() {
         r#"{"cases":[{"id":"x","carriers":[{"id":"A","f_mhz":1575.42,"code_sigma_m":0.3,"phase_sigma_m":0.003},{"id":"B","f_mhz":1227.6,"code_sigma_m":0.3,"phase_sigma_m":0.003}],"stages":[["A","B"],["A"]]}]}"#,
         r#"{"signals":[{"id":"a","f_mhz":1575.42,"received_power_dbw":-158.5,"chip_rate_mcps":1.023,"threshold_dbhz":28}],"jammer_eirp_dbw":[0]}"#,
         r#"{"site":{"lat_deg":60,"lon_deg":10},"shells":[{"altitude_km":550,"inclination_deg":53,"planes":6,"sats_per_plane":8}],"window_s":60,"step_s":5,"sigma_mps":0.2,"horizontal_alert_limit_m":100,"fault":{"bias_mps":1}}"#,
+        r#"{"systems":[{"name":"a","altitude_km":1080,"inclination_deg":97,"orbit_source":"s","claims":[{"id":"p","check":{"orbital_period_min":{"stated":106.7}},"tolerance":{"abs":0.1},"source":"s"},{"id":"q","check":{"power_advantage":{"stated_ratio":100,"system_dbw":[-148.2,-139.1],"reference_dbw":[-158.5,-153.0],"powers_source":"s"}},"source":"s"}]}]}"#,
     ]
     .iter()
     .map(|s| s.as_bytes().to_vec())

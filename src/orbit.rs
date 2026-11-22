@@ -256,6 +256,18 @@ pub enum Propagator {
     Sp3Precise(Box<crate::sp3::Sp3Interpolator>),
 }
 
+/// How far (s) from its `Toe` a broadcast ephemeris is evaluated. The IS-GPS-200 user algorithm
+/// folds the time from `Toe` into half a week either side, so beyond half a week it would place
+/// the satellite a week away from where the date says while the Earth rotation follows the date.
+/// Past this reach the propagator fails like a decayed SGP4 satellite (the geocentre, which the
+/// geometry checks treat as not visible). Within it the broadcast model is extrapolated as before;
+/// its fit interval (a few hours) is the accuracy limit, not this one.
+pub const RINEX_MAX_REACH_S: f64 = 302_400.0;
+
+fn rinex_in_reach(t: f64) -> bool {
+    t.abs() < RINEX_MAX_REACH_S
+}
+
 /// Time step (s) used to finite-difference a [`Propagator::Rinex`] position into
 /// a velocity: the broadcast ephemeris gives position only. A one-second central
 /// difference resolves the ~3.9 km/s orbital velocity to better than a mm/s.
@@ -301,7 +313,12 @@ impl Propagator {
                 Ok((r_km, _v)) => [r_km[0] * 1000.0, r_km[1] * 1000.0, r_km[2] * 1000.0],
                 Err(_) => [0.0, 0.0, 0.0],
             },
-            Propagator::Rinex(e) => e.sv_position_teme(e.toe + t),
+            Propagator::Rinex(e) => {
+                if !rinex_in_reach(t) {
+                    return [0.0, 0.0, 0.0];
+                }
+                e.sv_position_teme(e.toe + t)
+            }
             Propagator::Glonass(e) => e.position_teme(t),
             Propagator::Sp3Precise(e) => e.position_teme(t),
         }
@@ -320,6 +337,9 @@ impl Propagator {
                 Err(_) => [0.0, 0.0, 0.0],
             },
             Propagator::Rinex(e) => {
+                if !rinex_in_reach(t) {
+                    return [0.0, 0.0, 0.0];
+                }
                 let ahead = e.sv_position_teme(e.toe + t + RINEX_VEL_DT_S);
                 let behind = e.sv_position_teme(e.toe + t - RINEX_VEL_DT_S);
                 [
@@ -718,7 +738,7 @@ pub fn cofactor_from_los(los: &[Vec3], clock: &[usize], n_clocks: usize) -> Opti
 
 /// Invert a square matrix by Gauss-Jordan elimination with partial pivoting, the algorithm
 /// of `invert4` for any size. `None` if it is singular.
-fn invert_square(mut a: Vec<Vec<f64>>) -> Option<Vec<Vec<f64>>> {
+pub(crate) fn invert_square(mut a: Vec<Vec<f64>>) -> Option<Vec<Vec<f64>>> {
     let n = a.len();
     let mut inv = vec![vec![0.0; n]; n];
     for (i, row) in inv.iter_mut().enumerate() {
@@ -950,24 +970,28 @@ impl ConstellationCfg {
             let keplerian = crate::rinex::parse_nav(text)?;
             let mut sats: Vec<Propagator> = Vec::new();
             // Reference epoch for the snapshot: the earliest Toe in the file,
-            // i.e. the file's own start. Each satellite then contributes the
-            // record whose Toe is nearest it, by the same nearest-Toe rule the
-            // PVT solver already uses. A satellite with no record inside that
-            // fit window has no valid ephemeris at the reference epoch and is
-            // left out rather than propagated from an arbitrary later record.
-            let ref_tow = keplerian
-                .iter()
-                .map(|e| e.toe)
-                .fold(f64::INFINITY, f64::min);
+            // i.e. the file's own start, found by absolute GPS time (week and
+            // Toe, a BeiDou record's BDT week and Toe moved to GPS time), not
+            // by the time of week alone, which for a file crossing Saturday to
+            // Sunday would pick a Sunday Toe near 0 at its end. Each satellite
+            // then contributes the record whose Toe is nearest it, by the same
+            // nearest-Toe rule the PVT solver already uses (a BeiDou record on
+            // its own BDT scale). A satellite with no record inside that fit
+            // window has no valid ephemeris at the reference epoch and is left
+            // out rather than propagated from an arbitrary later record.
+            let ref_tow = snapshot_reference_tow(&keplerian);
             let mut seen: Vec<(char, u8)> = Vec::new();
             for e in &keplerian {
                 if seen.contains(&(e.system, e.prn)) {
                     continue;
                 }
                 seen.push((e.system, e.prn));
-                if let Some(best) =
-                    crate::pvt::select_ephemeris(&keplerian, e.system, e.prn, ref_tow)
-                {
+                let tow = if e.system == 'C' {
+                    (ref_tow - crate::rinex::BDT_MINUS_GPS_S).rem_euclid(604_800.0)
+                } else {
+                    ref_tow
+                };
+                if let Some(best) = crate::pvt::select_ephemeris(&keplerian, e.system, e.prn, tow) {
                     sats.push(Propagator::from(*best));
                 }
             }
@@ -1639,6 +1663,15 @@ impl OrbitClockScenario {
         if sats.is_empty() {
             return Err(crate::terr!("e-orbit-no-satellites-to-export"));
         }
+        if sats.len() > crate::sp3::MAX_SP3C_SATELLITES {
+            // SP3-c lists at most 85 satellites (five `+` records of 17), and positional ids
+            // past G99 would not be three characters.
+            return Err(crate::terr!(
+                "e-orbit-too-many-satellites-for-sp3",
+                n = sats.len(),
+                max = crate::sp3::MAX_SP3C_SATELLITES
+            ));
+        }
         let ids: Vec<String> = (1..=sats.len()).map(|i| format!("G{i:02}")).collect();
         let start = self.export_start(&sats);
         let start_jd_ut1 = crate::timescales::julian_date(
@@ -1758,10 +1791,76 @@ impl OrbitClockScenario {
     }
 }
 
+/// The GPS time of week of the earliest broadcast record of a navigation file, by absolute GPS
+/// time (week and Toe; a BeiDou record's BDT week and Toe moved to GPS time), not by the time of
+/// week alone: for a file crossing Saturday to Sunday the smallest Toe is a Sunday record at its
+/// end.
+pub(crate) fn snapshot_reference_tow(ephs: &[crate::rinex::RinexEphemeris]) -> f64 {
+    ephs.iter()
+        .map(|e| {
+            let (week, toe) = if e.system == 'C' {
+                (
+                    e.gps_week + crate::rinex::BDT_MINUS_GPS_WEEKS,
+                    e.toe + crate::rinex::BDT_MINUS_GPS_S,
+                )
+            } else {
+                (e.gps_week, e.toe)
+            };
+            week * 604_800.0 + toe
+        })
+        .fold(f64::INFINITY, f64::min)
+        .rem_euclid(604_800.0)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
     use std::f64::consts::{FRAC_PI_2, PI};
+
+    #[test]
+    fn the_snapshot_reference_is_the_earliest_record_across_the_week() {
+        let base = crate::rinex::parse_nav(include_str!(
+            "../tests/fixtures/rinex_sp3_interop/brdc_multignss_slice.rnx"
+        ))
+        .unwrap()
+        .into_iter()
+        .find(|e| e.system == 'G')
+        .unwrap();
+        let rec = |week: f64, toe: f64, system: char| {
+            let mut e = base;
+            e.gps_week = week;
+            e.toe = toe;
+            e.system = system;
+            e
+        };
+        // Saturday 22:00 (week 2300, Toe 597 600 s) and the next Sunday 02:00 (week 2301,
+        // Toe 7 200 s): the earliest is Saturday's, not the smallest Toe.
+        let ephs = [rec(2300.0, 597_600.0, 'G'), rec(2301.0, 7_200.0, 'G')];
+        assert_eq!(snapshot_reference_tow(&ephs), 597_600.0);
+        // A BeiDou record at BDT week 944 (GPS 2300), Toe 597 500 s BDT = 597 514 s GPS, is
+        // earlier than the GPS one at 597 600 s.
+        let ephs = [rec(2300.0, 597_600.0, 'G'), rec(944.0, 597_500.0, 'C')];
+        assert_eq!(snapshot_reference_tow(&ephs), 597_514.0);
+    }
+
+    #[test]
+    fn a_broadcast_ephemeris_is_not_evaluated_past_half_a_week() {
+        let e = crate::rinex::parse_nav(include_str!(
+            "../tests/fixtures/rinex_sp3_interop/brdc_multignss_slice.rnx"
+        ))
+        .unwrap()
+        .into_iter()
+        .find(|e| e.system == 'G')
+        .unwrap();
+        let p = Propagator::from(e);
+        let r = p.position_eci(3_600.0);
+        assert!((r[0] * r[0] + r[1] * r[1] + r[2] * r[2]).sqrt() > 2.0e7);
+        // Four days from Toe the IS-GPS-200 fold would place the satellite a week away from the
+        // date; the propagator fails instead (the geocentre: not visible).
+        assert_eq!(p.position_eci(4.0 * 86_400.0), [0.0, 0.0, 0.0]);
+        assert_eq!(p.position_eci(-4.0 * 86_400.0), [0.0, 0.0, 0.0]);
+        assert_eq!(p.velocity_eci(4.0 * 86_400.0), [0.0, 0.0, 0.0]);
+    }
 
     #[test]
     fn period_matches_mean_motion() {

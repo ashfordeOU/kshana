@@ -72,8 +72,14 @@ pub struct ReceiverAntenna {
     pub zen1: f64,
     /// Zenith-angle step of the variation table (deg).
     pub dzen: f64,
+    /// Last zenith angle of the variation table (deg).
+    pub zen2: f64,
     /// Per frequency: (offset north/east/up in m, variation in m from `zen1`).
     pub freqs: HashMap<String, ([f64; 3], Vec<f64>)>,
+    /// Variation tables left out because a value was unreadable or their length did not
+    /// match the `ZEN1 / ZEN2 / DZEN` grid (the offset of that frequency is kept). A table read
+    /// with a value missing would put every later value at the wrong zenith angle.
+    pub dropped_tables: usize,
 }
 
 impl ReceiverAntenna {
@@ -126,10 +132,12 @@ pub fn parse_antex_receiver(text: &str, name: &str) -> Option<ReceiverAntenna> {
             "ZEN1 / ZEN2 / DZEN" => {
                 let v: Vec<f64> = line[..60]
                     .split_whitespace()
-                    .filter_map(|s| s.parse().ok())
+                    .filter_map(|s| s.parse::<f64>().ok())
+                    .filter(|v| v.is_finite())
                     .collect();
                 if v.len() == 3 {
                     ant.zen1 = v[0];
+                    ant.zen2 = v[1];
                     ant.dzen = v[2];
                 }
             }
@@ -138,7 +146,8 @@ pub fn parse_antex_receiver(text: &str, name: &str) -> Option<ReceiverAntenna> {
             "NORTH / EAST / UP" => {
                 let v: Vec<f64> = line[..30]
                     .split_whitespace()
-                    .filter_map(|s| s.parse().ok())
+                    .filter_map(|s| s.parse::<f64>().ok())
+                    .filter(|v| v.is_finite())
                     .collect();
                 if let (Some(f), 3) = (&freq, v.len()) {
                     ant.freqs.entry(f.clone()).or_default().0 =
@@ -148,15 +157,39 @@ pub fn parse_antex_receiver(text: &str, name: &str) -> Option<ReceiverAntenna> {
             _ => {
                 if let Some(f) = &freq {
                     if line.get(3..8) == Some("NOAZI") {
-                        let v: Vec<f64> = line[8..]
-                            .split_whitespace()
-                            .filter_map(|s| s.parse::<f64>().ok())
-                            .map(|x| x * 1e-3)
-                            .collect();
-                        ant.freqs.entry(f.clone()).or_default().1 = v;
+                        // ANTEX writes the row as F8.2 fields from column 9: read them by
+                        // column, so two values that abut are not one token. An unreadable
+                        // field leaves the row empty (dropped below) rather than shifting the
+                        // values after it.
+                        let body = line[8..].trim_end();
+                        let mut v = Vec::with_capacity(body.len() / 8 + 1);
+                        let mut ok = true;
+                        for k in (0..body.len()).step_by(8) {
+                            match body
+                                .get(k..(k + 8).min(body.len()))
+                                .and_then(|t| t.trim().parse::<f64>().ok())
+                                .filter(|x| x.is_finite())
+                            {
+                                Some(x) => v.push(x * 1e-3),
+                                None => ok = false,
+                            }
+                        }
+                        ant.freqs.entry(f.clone()).or_default().1 = if ok { v } else { Vec::new() };
+                        if !ok {
+                            ant.dropped_tables += 1;
+                        }
                     }
                 }
             }
+        }
+    }
+    // A table must match its grid: ZEN1 to ZEN2 in steps of DZEN.
+    let want = (ant.dzen > 0.0 && ant.zen2 >= ant.zen1)
+        .then(|| ((ant.zen2 - ant.zen1) / ant.dzen).round() as usize + 1);
+    for (_, pcv) in ant.freqs.values_mut() {
+        if !pcv.is_empty() && Some(pcv.len()) != want {
+            pcv.clear();
+            ant.dropped_tables += 1;
         }
     }
     found.then_some(ant)
@@ -379,7 +412,9 @@ pub fn run_ppp(obs: &RinexObs, prod: &PreciseProducts, cfg: &PppConfig) -> PppRe
         if epoch.flag > 1 {
             continue;
         }
-        let t_rx = epoch.time.seconds_from_gps_epoch();
+        let t_rx = obs
+            .epoch_gps_seconds(ei)
+            .unwrap_or_else(|| epoch.time.seconds_from_gps_epoch());
         // Gather the satellite data.
         struct Sv {
             sat: String,

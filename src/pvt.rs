@@ -389,6 +389,46 @@ pub fn select_ephemeris(
     best.map(|(e, _)| e)
 }
 
+/// [`select_ephemeris`] at an absolute instant: `t_gps_s` is seconds from the GPS epoch
+/// (1980-01-06), and each record's own week and `Toe` (a BeiDou record's BDT week and `Toe` moved
+/// to GPS time) give its absolute reference time. Unlike the time-of-week form, two records with
+/// the same `Toe` in consecutive weeks do not tie: the one of the right week is chosen, and one a
+/// week away is outside the fit window.
+pub fn select_ephemeris_at(
+    ephs: &[RinexEphemeris],
+    system: char,
+    prn: u8,
+    t_gps_s: f64,
+) -> Option<&RinexEphemeris> {
+    let mut best: Option<(&RinexEphemeris, f64)> = None;
+    for e in ephs {
+        if e.system != system || e.prn != prn || record_unhealthy(e) {
+            continue;
+        }
+        let d = (record_gps_s(e) - t_gps_s).abs();
+        if d > MAX_EPH_AGE_S {
+            continue;
+        }
+        if best.is_none_or(|(_, bd)| d < bd) {
+            best = Some((e, d));
+        }
+    }
+    best.map(|(e, _)| e)
+}
+
+/// A broadcast record's reference time `Toe` as seconds from the GPS epoch, on GPS time.
+fn record_gps_s(e: &RinexEphemeris) -> f64 {
+    let (week, toe) = if e.system == 'C' {
+        (
+            e.gps_week + crate::rinex::BDT_MINUS_GPS_WEEKS,
+            e.toe + crate::rinex::BDT_MINUS_GPS_S,
+        )
+    } else {
+        (e.gps_week, e.toe)
+    };
+    week * 604_800.0 + toe
+}
+
 /// The first available code pseudorange for `sat` at epoch `epoch_idx`, trying the
 /// given `codes` in order.
 fn pseudorange(obs: &RinexObs, epoch_idx: usize, sat: &str, codes: &[&str]) -> Option<f64> {
@@ -456,7 +496,10 @@ pub fn assemble_epoch(
         Some(e) => e,
         None => return Vec::new(),
     };
-    let tow = epoch.time.gps_time_of_week();
+    let t_gps = obs
+        .epoch_gps_seconds(epoch_idx)
+        .unwrap_or_else(|| epoch.time.seconds_from_gps_epoch());
+    let tow = t_gps.rem_euclid(604_800.0);
     let gps_sod = tow.rem_euclid(86_400.0);
     let doy = day_of_year(epoch.time.year, epoch.time.month, epoch.time.day);
     let station = ecef_to_geodetic(apriori);
@@ -483,7 +526,7 @@ pub fn assemble_epoch(
             'C' => tow - crate::rinex::BDT_MINUS_GPS_S,
             _ => tow,
         };
-        let eph = match select_ephemeris(ephs, system, prn, tow_sys) {
+        let eph = match select_ephemeris_at(ephs, system, prn, t_gps) {
             Some(e) => e,
             None => continue,
         };
@@ -646,7 +689,9 @@ fn assemble_epoch_precise_inner(
         Some(e) => e,
         None => return Vec::new(),
     };
-    let t_rx = epoch.time.seconds_from_gps_epoch();
+    let t_rx = obs
+        .epoch_gps_seconds(epoch_idx)
+        .unwrap_or_else(|| epoch.time.seconds_from_gps_epoch());
     let doy = day_of_year(epoch.time.year, epoch.time.month, epoch.time.day);
     let station = ecef_to_geodetic(apriori);
     let mut out = Vec::new();
@@ -1503,6 +1548,37 @@ G01 2023 01 01 00 00 00 4.567890123456D-04 1.136868377216D-12 0.000000000000D+00
     }
 
     #[test]
+    fn select_ephemeris_at_does_not_tie_records_a_week_apart() {
+        // The same Toe (Tuesday 00:00) in weeks 2300 and 2301 of a multi-week file: by time of
+        // week alone they tie and the first in the file wins, a week stale; by absolute time the
+        // record of the right week is chosen and the other is a week outside the fit window.
+        let base = parse_nav(NAV_SAMPLE).unwrap()[0];
+        let mut w0 = base;
+        w0.gps_week = 2300.0;
+        w0.toe = 172_800.0;
+        let mut w1 = base;
+        w1.gps_week = 2301.0;
+        w1.toe = 172_800.0;
+        let ephs = vec![w0, w1];
+        assert_eq!(
+            select_ephemeris(&ephs, 'G', 1, 173_000.0).unwrap().gps_week,
+            2300.0
+        );
+        let t = 2301.0 * 604_800.0 + 173_000.0;
+        assert_eq!(
+            select_ephemeris_at(&ephs, 'G', 1, t).unwrap().gps_week,
+            2301.0
+        );
+        assert!(select_ephemeris_at(&[w0], 'G', 1, t).is_none());
+        // A BeiDou record at BDT week 945 (GPS week 2301), Toe 172 786 s BDT = 172 800 s GPS.
+        let mut c = base;
+        c.system = 'C';
+        c.gps_week = 945.0;
+        c.toe = 172_786.0;
+        assert!(select_ephemeris_at(&[c], 'C', 1, 2301.0 * 604_800.0 + 172_800.0).is_some());
+    }
+
+    #[test]
     fn select_ephemeris_skips_unhealthy_records() {
         // B5 v3 (ENGINE-FINDING-HEALTH.md): a nearer record marked unhealthy is passed over for a
         // healthy one, and a satellite with only unhealthy records in the window gives None.
@@ -1613,6 +1689,8 @@ G01 2023 01 01 00 00 00 4.567890123456D-04 1.136868377216D-12 0.000000000000D+00
         let mut eph = parse_nav(NAV_SAMPLE).unwrap()[0];
         eph.system = 'C';
         eph.prn = 8; // a MEO PRN; the GEO block C01-C05 is not decoded
+                     // The record's week is the observation's (2023-01-03: GPS week 2243, BDT week 887).
+        eph.gps_week = 2243.0 - crate::rinex::BDT_MINUS_GPS_WEEKS;
         let tow_gps = 172_800.0;
         let tow_bdt = tow_gps - crate::rinex::BDT_MINUS_GPS_S;
         // 14 s of orbital motion is the size of the error being removed.
@@ -1642,6 +1720,7 @@ G01 2023 01 01 00 00 00 4.567890123456D-04 1.136868377216D-12 0.000000000000D+00
                 approx_xyz: Some(rx),
                 interval_s: Some(30.0),
                 time_of_first_obs: Some(epoch_time),
+                time_system: None,
             },
             epochs: vec![ObsEpoch {
                 time: epoch_time,
@@ -1655,6 +1734,7 @@ G01 2023 01 01 00 00 00 4.567890123456D-04 1.136868377216D-12 0.000000000000D+00
                     })],
                 }],
             }],
+            skipped: Default::default(),
         };
         let m = assemble_epoch(&obs, 0, &[eph], rx, &AtmosModel::default(), 5.0, false);
         assert_eq!(m.len(), 1, "one visible BeiDou satellite");
@@ -1680,7 +1760,9 @@ G01 2023 01 01 00 00 00 4.567890123456D-04 1.136868377216D-12 0.000000000000D+00
 
     #[test]
     fn assemble_epoch_extracts_pseudorange_position_and_clock() {
-        let eph = parse_nav(NAV_SAMPLE).unwrap()[0];
+        let mut eph = parse_nav(NAV_SAMPLE).unwrap()[0];
+        // The record's week is the observation's (2023-01-03: GPS week 2243).
+        eph.gps_week = 2243.0;
         // GPS time-of-week 172 800 s = the ephemeris reference time (Toe).
         let tow = 172_800.0;
         let approx_tx = eph.sv_position_ecef(tow - 0.075);
@@ -1707,6 +1789,7 @@ G01 2023 01 01 00 00 00 4.567890123456D-04 1.136868377216D-12 0.000000000000D+00
                 approx_xyz: Some(rx),
                 interval_s: Some(30.0),
                 time_of_first_obs: Some(epoch_time),
+                time_system: None,
             },
             epochs: vec![ObsEpoch {
                 time: epoch_time,
@@ -1720,6 +1803,7 @@ G01 2023 01 01 00 00 00 4.567890123456D-04 1.136868377216D-12 0.000000000000D+00
                     })],
                 }],
             }],
+            skipped: Default::default(),
         };
         let m = assemble_epoch(&obs, 0, &[eph], rx, &AtmosModel::default(), 5.0, true);
         assert_eq!(m.len(), 1, "one visible satellite");
@@ -1742,12 +1826,83 @@ G01 2023 01 01 00 00 00 4.567890123456D-04 1.136868377216D-12 0.000000000000D+00
     }
 
     #[test]
+    fn assemble_epoch_reads_the_epoch_on_the_files_time_system() {
+        // The same instant, 2023-01-03 00:00:00 GPS time (TOW 172 800 s), written as the
+        // epoch of a GPS file, of a BeiDou-time file (14 s behind) and of a GLONASS file
+        // (UTC, 18 s behind in 2023). Each must give the same satellite position; read as
+        // GPS time, the BDT and GLO epochs would put the satellite 14 s and 18 s early.
+        // The record is given the observation's week (2243), as ephemerides are chosen by
+        // absolute time (`select_ephemeris_at`).
+        let mut eph = parse_nav(NAV_SAMPLE).unwrap()[0];
+        eph.gps_week = 2243.0;
+        let tow = 172_800.0;
+        let approx_tx = eph.sv_position_ecef(tow - 0.075);
+        let rx = {
+            let u = norm(approx_tx);
+            [u[0] * 6_371_000.0, u[1] * 6_371_000.0, u[2] * 6_371_000.0]
+        };
+        let rho = dist(rx, approx_tx);
+        let file = |day: u32, hour: u32, minute: u32, second: f64, ts: Option<&str>| {
+            let t = EpochUtc {
+                year: 2023,
+                month: 1,
+                day,
+                hour,
+                minute,
+                second,
+            };
+            RinexObs {
+                header: ObsHeader {
+                    version: 3.04,
+                    system: 'M',
+                    obs_types: vec![('G', vec!["C1C".to_string()])],
+                    approx_xyz: Some(rx),
+                    interval_s: Some(30.0),
+                    time_of_first_obs: Some(t),
+                    time_system: ts.map(str::to_string),
+                },
+                epochs: vec![ObsEpoch {
+                    time: t,
+                    flag: 0,
+                    sats: vec![SatObs {
+                        sat: "G01".to_string(),
+                        obs: vec![Some(Observation {
+                            value: rho,
+                            lli: None,
+                            ssi: None,
+                        })],
+                    }],
+                }],
+                skipped: Default::default(),
+            }
+        };
+        let sat = |obs: &RinexObs| {
+            let m = assemble_epoch(obs, 0, &[eph], rx, &AtmosModel::default(), 5.0, true);
+            assert_eq!(m.len(), 1);
+            m[0].1.sat_ecef
+        };
+        let gps = sat(&file(3, 0, 0, 0.0, Some("GPS")));
+        let undeclared = sat(&file(3, 0, 0, 0.0, None));
+        let bdt = sat(&file(2, 23, 59, 46.0, Some("BDT")));
+        let glo = sat(&file(2, 23, 59, 42.0, Some("GLO")));
+        for (name, p) in [("none", undeclared), ("BDT", bdt), ("GLO", glo)] {
+            let d = dist(p, gps);
+            assert!(
+                d < 1e-3,
+                "{name} file: satellite {d} m from the GPS-file position"
+            );
+        }
+    }
+
+    #[test]
     fn assemble_then_solve_recovers_receiver() {
         // Six satellites spread across the sky by varying the node and mean
         // anomaly of one broadcast record, then a forward simulation of the
         // physical pseudorange (geometry + Sagnac + satellite clock + Klobuchar +
         // troposphere), and finally assemble + solve must recover the receiver.
-        let base = parse_nav(NAV_SAMPLE).unwrap()[0];
+        let mut base = parse_nav(NAV_SAMPLE).unwrap()[0];
+        // The record's week is the observations' (2023-01-03: GPS week 2243).
+        base.gps_week = 2243.0;
         let tow = 172_800.0;
         // One satellite at zenith plus a ring of eight around it (small node /
         // mean-anomaly offsets keep them within view), for a well-conditioned solve.
@@ -1826,6 +1981,7 @@ G01 2023 01 01 00 00 00 4.567890123456D-04 1.136868377216D-12 0.000000000000D+00
                 approx_xyz: Some(rx),
                 interval_s: Some(30.0),
                 time_of_first_obs: Some(epoch_time),
+                time_system: None,
             },
             epochs: vec![ObsEpoch {
                 time: epoch_time,
@@ -1842,6 +1998,7 @@ G01 2023 01 01 00 00 00 4.567890123456D-04 1.136868377216D-12 0.000000000000D+00
                     })
                     .collect(),
             }],
+            skipped: Default::default(),
         };
         let meas: Vec<_> = assemble_epoch(&obs, 0, &ephs, rx, &atmos, 5.0, true)
             .into_iter()

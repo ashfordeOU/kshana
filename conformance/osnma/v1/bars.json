@@ -1,0 +1,457 @@
+{
+  "bars": {
+    "A01-alert-message": {
+      "alert": true,
+      "events_present": [
+        {
+          "kind": "alert_message",
+          "verified": true
+        }
+      ],
+      "exit": 0,
+      "overall": "unavailable",
+      "satellites": {
+        "E02": "unavailable",
+        "E05": "unavailable"
+      }
+    },
+    "C01-bad-crc": {
+      "event_counts": [
+        {
+          "match": {
+            "kind": "bad_crc"
+          },
+          "max": 2,
+          "min": 2
+        }
+      ],
+      "exit": 0,
+      "overall": "authenticated",
+      "tags": {
+        "failed_max": 0
+      }
+    },
+    "C02-truncated-subframes": {
+      "exit": 0,
+      "overall": "authenticated",
+      "tags": {
+        "failed_max": 0
+      }
+    },
+    "C03-corrupt-kroot": {
+      "events_absent": [
+        {
+          "kind": "kroot_verified"
+        }
+      ],
+      "events_present": [
+        {
+          "kind": "kroot_rejected"
+        }
+      ],
+      "exit": 0,
+      "overall": "unavailable",
+      "tags": {
+        "authenticated_max": 0
+      }
+    },
+    "C04-corrupt-pkr": {
+      "events_absent": [
+        {
+          "kind": "public_key_verified"
+        },
+        {
+          "kind": "kroot_verified"
+        }
+      ],
+      "events_present": [
+        {
+          "kind": "public_key_rejected"
+        }
+      ],
+      "exit": 0,
+      "overall": "unavailable",
+      "tags": {
+        "authenticated_max": 0
+      }
+    },
+    "K01-flipped-key-bit": {
+      "events_present": [
+        {
+          "kind": "kroot_verified"
+        },
+        {
+          "kind": "key_rejected",
+          "reason": "key_chain_mismatch"
+        }
+      ]
+    },
+    "K02-key-conflict": {
+      "events_present": [
+        {
+          "kind": "key_rejected",
+          "reason": "key_conflict"
+        }
+      ],
+      "tags": {
+        "authenticated_min": 1
+      }
+    },
+    "K03-wrong-public-key": {
+      "events_absent": [
+        {
+          "kind": "kroot_verified"
+        }
+      ],
+      "events_present": [
+        {
+          "kind": "kroot_rejected",
+          "reason": "Signature"
+        }
+      ],
+      "exit": 0,
+      "overall": "unavailable",
+      "tags": {
+        "authenticated_max": 0
+      }
+    },
+    "K04-unknown-key-id": {
+      "events_absent": [
+        {
+          "kind": "kroot_verified"
+        }
+      ],
+      "events_present": [
+        {
+          "kind": "kroot_rejected",
+          "reason": "NoPublicKey"
+        }
+      ],
+      "exit": 0,
+      "overall": "unavailable",
+      "tags": {
+        "authenticated_max": 0
+      }
+    },
+    "K05-stale-kroot-replay": {
+      "events_present": [
+        {
+          "kind": "kroot_rejected",
+          "reason": "Stale"
+        }
+      ],
+      "exit": 0,
+      "overall": "authenticated",
+      "satellites": {
+        "E02": "authenticated",
+        "E05": "authenticated"
+      },
+      "tags": {
+        "failed_max": 0
+      }
+    },
+    "R01-chain-renewal": {
+      "events_present": [
+        {
+          "cid": 3,
+          "kind": "kroot_verified"
+        },
+        {
+          "cid": 1,
+          "kind": "kroot_verified"
+        }
+      ],
+      "exit": 0,
+      "overall": "authenticated",
+      "satellites": {
+        "E02": "authenticated",
+        "E05": "authenticated"
+      },
+      "tags": {
+        "authenticated_min": 20,
+        "failed_max": 0
+      }
+    },
+    "R02-chain-revocation": {
+      "events_present": [
+        {
+          "cid": 3,
+          "kind": "chain_revoked"
+        },
+        {
+          "kind": "kroot_rejected",
+          "reason": "Revoked"
+        }
+      ],
+      "exit": 0,
+      "overall": "unavailable",
+      "tags": {
+        "failed_max": 0
+      }
+    },
+    "R03-public-key-renewal": {
+      "events_present": [
+        {
+          "kind": "public_key_verified",
+          "pkid": 2
+        },
+        {
+          "kind": "kroot_verified",
+          "pkid": 1
+        },
+        {
+          "kind": "kroot_verified",
+          "pkid": 2
+        }
+      ],
+      "exit": 0,
+      "overall": "authenticated",
+      "satellites": {
+        "E02": "authenticated",
+        "E05": "authenticated"
+      },
+      "tags": {
+        "failed_max": 0
+      }
+    },
+    "R04-public-key-revocation": {
+      "events_absent": [
+        {
+          "kind": "public_key_revoked",
+          "pkid": 2
+        },
+        {
+          "cid": 1,
+          "kind": "chain_revoked"
+        }
+      ],
+      "events_present": [
+        {
+          "cid": 3,
+          "kind": "kroot_verified",
+          "pkid": 1
+        },
+        {
+          "cid": 1,
+          "kind": "kroot_verified",
+          "pkid": 2
+        },
+        {
+          "kind": "public_key_revoked",
+          "pkid": 1
+        },
+        {
+          "cid": 3,
+          "kind": "chain_revoked"
+        }
+      ],
+      "exit": 0,
+      "overall": "unavailable",
+      "tags": {
+        "failed_max": 0
+      }
+    },
+    "S01-dont-use-confirmed": {
+      "exit": 0,
+      "nma_status": 3,
+      "overall": "unavailable",
+      "pending_reasons": [
+        "service_not_usable"
+      ],
+      "tags": {
+        "failed_max": 0
+      }
+    },
+    "S02-dont-use-single": {
+      "exit": 0,
+      "overall": "authenticated",
+      "tags": {
+        "failed_max": 0
+      }
+    },
+    "T01-flipped-nav-bit": {
+      "exit": 3,
+      "fail_reasons": [
+        "tag_mismatch"
+      ],
+      "overall": "failed",
+      "satellites": {
+        "E02": "failed",
+        "E05": "failed"
+      },
+      "tags": {
+        "failed_min": 1
+      }
+    },
+    "T02-replayed-tags": {
+      "exit": 3,
+      "fail_reasons": [
+        "tag_mismatch"
+      ],
+      "overall": "failed",
+      "tags": {
+        "failed_min": 1
+      }
+    },
+    "T03-macseq-mismatch": {
+      "exit": 3,
+      "fail_reasons": [
+        "macseq_mismatch"
+      ],
+      "overall": "failed",
+      "satellites": {
+        "E02": "failed"
+      },
+      "satellites_not": {
+        "E05": "failed"
+      }
+    },
+    "T04-header-other-chain": {
+      "pending_reasons": [
+        "chain_mismatch"
+      ],
+      "tags": {
+        "failed_max": 0
+      }
+    },
+    "V01-nominal": {
+      "adkd_authenticated": [
+        0,
+        4,
+        12
+      ],
+      "alert": false,
+      "events_absent": [
+        {
+          "kind": "key_rejected"
+        },
+        {
+          "kind": "kroot_rejected"
+        }
+      ],
+      "events_present": [
+        {
+          "cid": 3,
+          "hash": "Sha256",
+          "kind": "kroot_verified",
+          "mac": "HmacSha256",
+          "pkid": 1
+        },
+        {
+          "kind": "key_verified"
+        }
+      ],
+      "exit": 0,
+      "nma_status": 2,
+      "overall": "authenticated",
+      "satellites": {
+        "E02": "authenticated",
+        "E05": "authenticated"
+      },
+      "tags": {
+        "authenticated_min": 20,
+        "failed_max": 0
+      }
+    },
+    "V02-cmac-sha3-p521": {
+      "adkd_authenticated": [
+        0
+      ],
+      "events_present": [
+        {
+          "hash": "Sha3_256",
+          "kind": "kroot_verified",
+          "mac": "CmacAes",
+          "pkid": 1
+        }
+      ],
+      "exit": 0,
+      "overall": "authenticated",
+      "satellites": {
+        "E02": "authenticated",
+        "E05": "authenticated"
+      },
+      "tags": {
+        "authenticated_min": 10,
+        "failed_max": 0
+      }
+    },
+    "V03-pkr-merkle": {
+      "events_absent": [
+        {
+          "kind": "public_key_rejected"
+        }
+      ],
+      "events_present": [
+        {
+          "kind": "public_key_verified",
+          "pkid": 1
+        },
+        {
+          "kind": "kroot_verified",
+          "pkid": 1
+        }
+      ],
+      "exit": 0,
+      "overall": "authenticated",
+      "satellites": {
+        "E02": "authenticated",
+        "E05": "authenticated"
+      },
+      "tags": {
+        "authenticated_min": 5,
+        "failed_max": 0
+      }
+    },
+    "V04-dummy-tags": {
+      "exit": 0,
+      "overall": "authenticated",
+      "satellites": {
+        "E02": "authenticated"
+      },
+      "satellites_not": {
+        "E05": "authenticated"
+      },
+      "tags": {
+        "failed_max": 0
+      }
+    },
+    "X01-reference-time-far": {
+      "events_present": [
+        {
+          "kind": "time_rejected"
+        }
+      ],
+      "exit": 0,
+      "freshness_enforced": true,
+      "overall": "unavailable",
+      "tags": {
+        "authenticated_max": 0
+      }
+    },
+    "X02-shifted-stamps": {
+      "events_present": [
+        {
+          "kind": "key_rejected",
+          "reason": "key_chain_mismatch"
+        }
+      ],
+      "tags": {
+        "authenticated_max": 0
+      }
+    },
+    "X03-far-future-spoof": {
+      "exit": 3,
+      "fail_reasons": [
+        "tag_mismatch"
+      ],
+      "overall": "failed",
+      "satellites": {
+        "E05": "failed"
+      }
+    }
+  },
+  "format": "kshana-osnma-bars/1",
+  "set": "kshana-osnma-synthetic",
+  "set_version": "1.0.0"
+}

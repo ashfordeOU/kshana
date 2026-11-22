@@ -250,7 +250,10 @@ pub fn generate(s: &SilScenario) -> Result<Generated, String> {
     let res = run_gnss_sim_sky(&s.sim, None)?;
     let lambda = C / L1_HZ;
     let t0 = crate::walker::walker_epoch_jd();
-    let cal = |t: f64| crate::timescales::civil_from_jd(t0 + t / 86_400.0);
+    // Epoch labels in seconds of day from the start (7 decimals, as RINEX writes them), not
+    // through a Julian Date, whose ~40 µs floor puts a clean grid at 14:59.9999866.
+    let start_civil = crate::timescales::civil_from_jd(t0);
+    let cal = |t: f64| crate::timescales::civil_after(start_civil, t, 7);
     let st = &s.sim.receiver;
     let ecef = crate::frames::geodetic_to_ecef(crate::frames::Geodetic {
         lat_rad: st.lat_deg.to_radians(),
