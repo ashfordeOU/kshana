@@ -236,7 +236,7 @@ fn b_new_merkle_tree() -> Built {
     let tree_a = tree_for(std::slice::from_ref(&p1));
     let pkr_a = tree_a.dsm_pkr(0, &super::gen::key_leaf(&p1));
     let p2 = sk2().public(PK2);
-    let tree_b = tree_for(&[p2.clone()]);
+    let tree_b = tree_for(std::slice::from_ref(&p2));
     let pkr_b = tree_b.dsm_pkr(0, &super::gen::key_leaf(&p2));
     let kroot = dsm_kroot(&ctx, &chain[0], &sk1(), ctx.header(1), PK1);
     let mut frames = |n: u32, gst: u32| Frame {
