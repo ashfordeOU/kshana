@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 # Hardware safety: what Kshana does with hardware, and what it never does
 
-**Status: owner legal review pending.** The legal notes below are the maintainers' reading of
+**Status: legal review pending.** The legal notes below are the maintainers' reading of
 public sources, written so a user knows where the limits are. They are not legal advice, they
 have not been reviewed by counsel, and the law differs by country. Read them as a reason to ask
 a lawyer, not as a permission.
@@ -30,7 +30,7 @@ in the README.
 Each stage names what Kshana does, what hardware is involved, who emits RF (if anyone), and the
 gate that must hold before Kshana will treat the result as evidence.
 
-| Stage | Kshana's role | Hardware | RF emission | Gate | State in 0.38 |
+| Stage | Kshana's role | Hardware | RF emission | Gate | State in 0.41 |
 |---|---|---|---|---|---|
 | **0** | Files: replay logs, IQ, bench exports, live NMEA or UBX over stdin, TCP or UDP | none | none | none | shipped |
 | **1** | Passive receive: receivers read-only; timing logs (linuxptp, chrony, TICC); IMU CSV; `iq monitor --follow` on a growing SigMF file; `iq record` | the user's receivers, grandmaster, SDR in receive | **none** | any configuration write to a receiver needs an explicit `--configure`; the default is read-only | partly shipped: timing-log formats, `holdover-test`, `iq monitor --follow`, `iq record` (samples from a capture tool's output; the radio is configured by that tool, never by Kshana), `obs live` (receiver logs over a serial device, TCP or a pipe, read only) |
@@ -55,7 +55,7 @@ used with any partner, laboratory or authority; none has.
 6. Wording: a result is "measured against the mask" or "supports evidence for" a requirement.
    Kshana does not say that a device meets a standard, and nobody has rated or approved it.
 
-## Legal notes (owner legal review pending)
+## Legal notes (legal review pending)
 
 Receiving GNSS signals is legal almost everywhere. Transmitting in GNSS bands is not.
 
@@ -94,7 +94,7 @@ statement = "No emission outside the enclosure or cable path."   # required, fre
 signature = "ed25519:..."                             # optional: the operator's own detached signature, recorded as given
 ```
 
-What is implemented in 0.38:
+What is implemented in 0.41:
 
 - `kshana receiver-trust evidence ... --lab-attestation <file.toml>` validates the file and records
   the attestation in the pack's `manifest.json`. The manifest is covered by the pack's Ed25519
@@ -108,7 +108,7 @@ What is implemented in 0.38:
   over-the-air setup is not accepted as a lab run), is refused and no pack is made.
 
 What is **not** implemented yet: the stage 2 rule that Kshana refuses to *score* a lab run that has no
-attestation. No command takes a lab-run flag in 0.38, so there is nothing to refuse; the rule arrives with
+attestation. No command takes a lab-run flag in 0.41, so there is nothing to refuse; the rule arrives with
 the lab orchestration commands. An attestation records the operator's statement of a safeguard. It does not
 make any emission lawful and it does not change a result's label: a scored lab run is MODELLED unless an
 external oracle agrees.
