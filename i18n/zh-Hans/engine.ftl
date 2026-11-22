@@ -7101,7 +7101,7 @@ engine-altpnt-terrain-combined-fused = 组合（融合）
 
 engine-api-chart-provenance-footer = Kshana v{ $version } · 场景 { $hash } · kshana.dev
 
-engine-attack-surface-chart-title = 月面信号安全攻击面（P1）
+engine-attack-surface-chart-title = 月面信号安全攻击面
 
 engine-body-pnt-chart-relays-in-view = 可见中继
 
@@ -7145,7 +7145,7 @@ engine-cislunar-arc-recovery-chart-monte-carlo-rms = 蒙特卡罗 RMS 位置恢�
 
 engine-cislunar-arc-recovery-chart-noise-free-worst-ratio = 无噪声最差恢复比（最终误差 / 位移）
 
-engine-cislunar-observability-chart-title = 跟踪弧段上的地月空间可观测性（P6）
+engine-cislunar-observability-chart-title = 跟踪弧段上的地月空间可观测性
 
 engine-cislunar-observability-chart-subtitle = 秩与弧长（仅测距单链路） · 格拉姆矩阵特征谱 · 微分修正 DRO 初值 + SRIF 交叉验证 · { $modelled } 设计，{ $validated } 秩/STM/闭合
 
@@ -7790,11 +7790,11 @@ engine-kind-lunar-time-budget-description = MODELLED 的端到端协调月球时
 
 engine-kind-hybrid-optical-rf-description = MODELLED 的异构光学 + 射频 PNT 联合品质因数：组合 1550 nm 双向光链路预算（光子受限的双向测距 CRLB σ_τ/√N 以及衍射足迹 λ/D·距离）、跨模态解分离 RAIM 保护级（位置与授时），它融合协方差各异的松耦合射频解与紧耦合光学解、N 站光学晴空可用性（独立并集 1−Π(1−a_i) 以及空间相关变体）、光学↔射频状态/协方差交接（均值经证明按位连续，即无跳变，并带 NEES χ² 一致性门），以及含相关性处理的联合 P(可用 AND 精密级 AND 完好性有保证) 得分。VALIDATED 的闭式：测距 CRLB、衍射足迹、χ² 保护级分位数、并集组合计数、交接均值连续性 + NEES 门，以及联合独立乘积。MODELLED：光学损耗分配、射频/光学 σ 量值、云气候输入、相关性和 P_HMI 预算。不是经认证的可用性/完好性产品。
 
-engine-kind-cislunar-observability-description = MODELLED 的平面地月空间星座可观测性（P6）：跟踪一个由四颗航天器组成的差分修正平面 DRO 星座，使用星间测距，并报告该弧段使航天器四状态 [x,y,ẋ,ẏ] 中有多少可观测。输出（1）单条纯测距链路的秩与弧长表：瞬时秩为 1，随弧段延长而增长至完整的四状态（P6 表 1）；（2）该弧段上的可观测性格拉姆矩阵特征谱 + 条件数；（3）纯测距与测距 + 距离变化率的瞬时秩对比（多普勒设计杠杆），以及纯测距奇异 / 测距 + 变化率有定义的 GDOP 报告；（4）独立的 SRIF 交叉验证，其后验协方差恰好在可观测秩达到四的弧段处变为有限且良态。VALIDATED 的核心：可观测秩是揭示秩的奇异值阈值，并与格拉姆矩阵特征秩交叉核对；特征谱服从谱不变量（trace=Σλ，det=Πλ，Frobenius²=Σλ²）；变分 STM 是经有限差分验证的 CR3BP STM；测距/距离变化率的雅可比各行是经有限差分验证的解析偏导数（并与本 crate 的3-D 距离变化率观测量交叉核对）；四个初始条件是差分修正的平面 DRO，收敛到很紧的周期性残差且为逆行；秩的跃迁对照本 crate 的平方根信息滤波器做了交叉验证（后验协方差恰好在满秩时有限，cond(P)=cond(OᵀO)）；秩亏的快照被标记为 GDOP 无定义（fim condition=inf），绝不给出虚假的有限值：这与 pvt::solve_spp 采用的奇异几何保护相同。MODELLED：星座设计（DRO 近月点幅度和相位）及其产生的具体秩进展。不是经认证的导航性能产品。
+engine-kind-cislunar-observability-description = MODELLED 的平面地月空间星座可观测性：跟踪一个由四颗航天器组成的差分修正平面 DRO 星座，使用星间测距，并报告该弧段使航天器四状态 [x,y,ẋ,ẏ] 中有多少可观测。输出（1）单条纯测距链路的秩与弧长表：瞬时秩为 1，随弧段延长而增长至完整的四状态（P6 表 1）；（2）该弧段上的可观测性格拉姆矩阵特征谱 + 条件数；（3）纯测距与测距 + 距离变化率的瞬时秩对比（多普勒设计杠杆），以及纯测距奇异 / 测距 + 变化率有定义的 GDOP 报告；（4）独立的 SRIF 交叉验证，其后验协方差恰好在可观测秩达到四的弧段处变为有限且良态。VALIDATED 的核心：可观测秩是揭示秩的奇异值阈值，并与格拉姆矩阵特征秩交叉核对；特征谱服从谱不变量（trace=Σλ，det=Πλ，Frobenius²=Σλ²）；变分 STM 是经有限差分验证的 CR3BP STM；测距/距离变化率的雅可比各行是经有限差分验证的解析偏导数（并与本 crate 的3-D 距离变化率观测量交叉核对）；四个初始条件是差分修正的平面 DRO，收敛到很紧的周期性残差且为逆行；秩的跃迁对照本 crate 的平方根信息滤波器做了交叉验证（后验协方差恰好在满秩时有限，cond(P)=cond(OᵀO)）；秩亏的快照被标记为 GDOP 无定义（fim condition=inf），绝不给出虚假的有限值：这与 pvt::solve_spp 采用的奇异几何保护相同。MODELLED：星座设计（DRO 近月点幅度和相位）及其产生的具体秩进展。不是经认证的导航性能产品。
 
 engine-kind-conflict-resilience-description = MODELLED 的分层 PNT 冲突韧性：处于对抗环境中的用户部署若干 PNT 层（开放服务 GNSS、宽带 GNSS、经鉴权的星座、增强中继），各层具有基础可用性、1σ 精度，以及对共享压制干扰/欺骗干扰威胁的各攻击向量脆弱性。一次按强度扫描、带随机种子的蒙特卡罗，以概率 clamp(vulnerability·intensity·vector_weight,0,1) 使各层失效，用闭式逆方差规则 σ_fused=(Σ 1/σ_i²)^(−1/2) 融合幸存层，并报告总丢失概率（所有层均失效）、融合误差中位数，以及各层随强度变化的可用/失效统计。核心的韧性比（单层与分层的总丢失概率之比）在独立性假设下约为 7x；随后的单因子高斯 copula 相关失效扫描显示，随着失效相关性上升，该约 7x 会塌缩趋近于 1（相关性使分层失去作用）。先验敏感性部分通过 mcda 龙卷风图 + Dirichlet 威胁投入再分配 + 百分位置信区间，在有出处的脆弱性先验范围内考察该核心结果。VALIDATED 的核心：蒙特卡罗总丢失概率收敛到闭式独立乘积 Π_i p_deny_i（在固定随机种子且 N 很大时落在蒙特卡罗标准误差之内）；逆方差融合是闭式恒等式；ρ=0 时 copula 退化为独立模型，且任何 ρ 都保持各层的边际失效率。MODELLED：各层的脆弱性/可用性/精度量值是有出处但属 Modelled 的输入（JammerTest 2024、TEXBAT、EASA SIB、RTCA DO-229、LunaNet/IOAG，见 conflict_threat_params），具体的约 7x 量值以及比值随相关性变化的曲线形状均由该参数化得出。其后第 4.2 节的各向量存活分解把共享射频威胁拆分为四个命名向量（压制干扰/欺骗干扰/动能/网络），并报告每个向量的可用 PNT 平缓退化曲线 S_v(x)=1-Prod_i(1-a_i(1-clamp(susceptibility_i,v·x,0,1)))，VALIDATED：带随机种子的各层蒙特卡罗收敛到该闭式；对相关射频基线而言，压制干扰是最尖锐的向量，而不受射频影响的惯性层是决定性的幸存者。不是经认证的导航可用性产品。
 
-engine-kind-lunar-attack-surface-description = 月面导航信号安全攻击面（P1）：把公开的信号安全分析组合成一次可由二进制程序运行的分析。报告（1）AFS 接收功率及其相对地面 GPS 参考的功率盈余，以及 12-18 dB 敏感性范围，作为对链路输入（参考电平 x EIRP x 斜距）的真正多轴扫描，并给出 25x 取整 / 28x 未取整线性因子的核对。已修订（规则 R4）：此前报告的是 { $lit_15_6 } dB 功率不足和 32x/36x 因子，直至把 GPS 参考从 -125 / -{ $lit_128_5 }（这是 dBm 数值）更正为 -155 / -{ $lit_158_5 } dBW，即干扰模块一直沿用的 ICD-GPS-200 数值。符号随之反转：经建模的月球 AFS 信号比地面 GPS L1 C/A 强 { $lit_14_4 } dB，而不是更弱。接收功率本身一位都没有变，线性因子是旧值除以恰好 1000，这恰好是 dBm 到 dBW 的 30 dB 偏移；（2）在每个对峙距离上欺骗（J/S = 3 dB）和压制（J/S = 30 dB）所需的攻击者发射功率，即 J/S 链路的逆；（3）在真实均匀孔径天线方向图（Airy [2 J1(x)/x]^2）下的轨道捕获足迹，这是一个受高度限制的次半球帽，其边缘 NOT 被捕获；（4）计算得到的跟踪环欺骗捕获牵入结果（在给定功率优势和码偏移下，匹配码的欺骗者是否真的能牵引 DLL/PLL），而不是断言的 3 dB 门限；（5）抬高的地表发射机在无大气天体上的几何地平线覆盖范围；以及（6）OSNMA/TESLA 认证预算（20 bit/s 开销 = 50 bit/s AFS 导航电文的约 40 %，密钥披露延迟，2^-40 伪造概率）。空请求体可复现 P1 基线；所有输入均有默认值且可覆盖。VALIDATED 的子结果带有其来源模块的参考基准（闭式 dB 辐射测量；逆 J/S 往返；Airy 方向图对照 A&S 贝塞尔函数和球冠几何；DLL/PLL 牵入对照 Kaplan & Hegarty；球面切线地平线恒等式对照 eo_payload；OSNMA SIS-ICD 字段尺寸）。MODELLED：具有代表性的几何/功率量值以及具体的捕获图单元格数值。不是经认证的安全产品。
+engine-kind-lunar-attack-surface-description = 月面导航信号安全攻击面：把公开的信号安全分析组合成一次可由二进制程序运行的分析。报告（1）AFS 接收功率及其相对地面 GPS 参考的功率盈余，以及 12-18 dB 敏感性范围，作为对链路输入（参考电平 x EIRP x 斜距）的真正多轴扫描，并给出 25x 取整 / 28x 未取整线性因子的核对。已修订（规则 R4）：此前报告的是 { $lit_15_6 } dB 功率不足和 32x/36x 因子，直至把 GPS 参考从 -125 / -{ $lit_128_5 }（这是 dBm 数值）更正为 -155 / -{ $lit_158_5 } dBW，即干扰模块一直沿用的 ICD-GPS-200 数值。符号随之反转：经建模的月球 AFS 信号比地面 GPS L1 C/A 强 { $lit_14_4 } dB，而不是更弱。接收功率本身一位都没有变，线性因子是旧值除以恰好 1000，这恰好是 dBm 到 dBW 的 30 dB 偏移；（2）在每个对峙距离上欺骗（J/S = 3 dB）和压制（J/S = 30 dB）所需的攻击者发射功率，即 J/S 链路的逆；（3）在真实均匀孔径天线方向图（Airy [2 J1(x)/x]^2）下的轨道捕获足迹，这是一个受高度限制的次半球帽，其边缘 NOT 被捕获；（4）计算得到的跟踪环欺骗捕获牵入结果（在给定功率优势和码偏移下，匹配码的欺骗者是否真的能牵引 DLL/PLL），而不是断言的 3 dB 门限；（5）抬高的地表发射机在无大气天体上的几何地平线覆盖范围；以及（6）OSNMA/TESLA 认证预算（20 bit/s 开销 = 50 bit/s AFS 导航电文的约 40 %，密钥披露延迟，2^-40 伪造概率）。空请求体可复现 P1 基线；所有输入均有默认值且可覆盖。VALIDATED 的子结果带有其来源模块的参考基准（闭式 dB 辐射测量；逆 J/S 往返；Airy 方向图对照 A&S 贝塞尔函数和球冠几何；DLL/PLL 牵入对照 Kaplan & Hegarty；球面切线地平线恒等式对照 eo_payload；OSNMA SIS-ICD 字段尺寸）。MODELLED：具有代表性的几何/功率量值以及具体的捕获图单元格数值。不是经认证的安全产品。
 
 engine-kind-realtime-frame-eop-description = 实时月球框架 / 地球定向预测预算：P4 表 1（框架误差一致性检查：事后处理的约 { $lit_0_27 } m ↔ 约 { $lit_0_010 } ms，实时的约 15 m ↔ 约 { $lit_0_5 } ms，每个框架位置都通过 L19 杠杆臂 Δr = D_EM·ω⊕·ΔUT1 表示为等效的 UT1 误差）和表 2（实测的 UT1 预测误差与预测时长的关系：L18 曲线直接取自真实的 IERS finals2000A 序列，即 Bulletin A − Bulletin B 的最终下限和多日持续性预测器误差，每项都经 L19 映射为月球框架位置），另有 L21 方和根实时框架误差预算（EOP + 星历 + 实现下限）。VALIDATED 的闭式（L19 杠杆臂，ω⊕ 与 CIO 地球自转角交叉核对）和 VALIDATED 的真实数据（取自真实 finals2000A 各行的 L18 曲线）；MODELLED 的是月球中继定轨协方差量值和框架实现下限（具有代表性的分配）以及持续性预测器（不是 IERS 的运行 Bulletin A 算法）。不是经认证的实时框架产品。
 

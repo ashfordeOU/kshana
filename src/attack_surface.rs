@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-only
-//! Lunar surface-navigation **attack-surface** scenario (P1): the binary-reachable
+//! Lunar surface-navigation **attack-surface** scenario: the binary-reachable
 //! (`run_toml` / CLI / Python / MCP) face that composes the open signal-security analyses
 //! into one run. `kind = "lunar-attack-surface"`.
 //!
