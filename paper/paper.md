@@ -130,7 +130,7 @@ closed forms — never against its own output. The headline checks are:
 Across the packs, the same machinery yields the resilience figures that motivate the
 tool: inertial dead-reckoning of ~41 m on a cold-atom accelerometer versus kilometre-scale
 drift on a navigation-grade unit over the same 350 s outage (\autoref{fig:deadreckoning}),
-and optical two-way time transfer of ~0.3 mm equivalent ranging versus ~150 mm for an RF
+and optical two-way time transfer of ~0.3 mm equivalent ranging versus ~341 mm for an RF
 (TWSTFT) link [@giorgetta2013; @deschenes2016]. Quantum clock and inertial coefficients
 trace to the strontium optical-lattice and cold-atom-interferometer literature
 [@origlia2015; @templier2022].
