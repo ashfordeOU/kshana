@@ -69,34 +69,38 @@ const UNITS: &[crate::field_schema::FieldUnit] = {
             unit: "dB",
             provenance: ClosedForm,
             definition: "how far the AFS received power sits below the terrestrial GPS \
-                         reference level: gps_reference_dbw - afs_received_dbw",
+                         reference level: gps_reference_dbw - afs_received_dbw; a negative \
+                         value is a surplus (the default run is negative, about -14.4 dB: the \
+                         AFS signal is the stronger)",
         },
         FieldUnit {
             path: "deficit_band_lo_db",
             unit: "dB",
             provenance: Computed,
             definition: "smallest deficit found over the reference-level x EIRP x slant-range \
-                         sensitivity sweep",
+                         sensitivity sweep (negative is a surplus)",
         },
         FieldUnit {
             path: "deficit_band_hi_db",
             unit: "dB",
             provenance: Computed,
-            definition: "largest deficit found over that same sweep",
+            definition: "largest deficit found over that same sweep (negative is a surplus)",
         },
         FieldUnit {
             path: "deficit_factor_unrounded",
             unit: "1",
             provenance: ClosedForm,
             definition: "the nominal deficit expressed as a linear power ratio at full \
-                         precision, 10^(nominal_deficit_db/10) — the ~36x figure",
+                         precision, 10^(nominal_deficit_db/10); below 1 is a surplus (the \
+                         default is about 0.036, whose reciprocal is the ~28x surplus figure)",
         },
         FieldUnit {
             path: "deficit_factor_rounded",
             unit: "1",
             provenance: ClosedForm,
             definition: "the same linear power ratio with the deficit first truncated to a \
-                         whole dB, 10^(trunc(nominal_deficit_db)/10) — the ~32x figure",
+                         whole dB, 10^(trunc(nominal_deficit_db)/10); below 1 is a surplus \
+                         (the default is about 0.040, whose reciprocal is the ~25x figure)",
         },
         FieldUnit {
             path: "standoff_curve[].standoff_m",

@@ -25,8 +25,9 @@
 //!
 //! ## Labels, per body
 //!
-//! A planet position is **VALIDATED** where it was checked against JPL Horizons within twice
-//! the Standish page's nominal error (`tests/solar_system_horizons_reference.rs`): Mercury to
+//! A planet position is **VALIDATED** where its RMS error against JPL Horizons is at most 1.0
+//! times the Explanatory Supplement Table 8.10.1 figure, a pre-registered bar (worst 0.778;
+//! `tests/solar_system_standish_preregistered.rs`): Mercury to
 //! Saturn, the Earth and the Earth-Moon barycentre from Table 1, all eight planets from
 //! Tables 2a/2b. Uranus and Neptune from Table 1 (which exceed the page's figures against
 //! DE441), Pluto, the Moon and the seven moons are **MODELLED**: measured against Horizons
@@ -647,7 +648,8 @@ impl SolarSystemScenario {
 
         Ok(SolarSystemReport {
             label: "MIXED: each body carries its own label. Planet positions are VALIDATED \
-                    against JPL Horizons within twice the Standish nominal error (Mercury to \
+                    against JPL Horizons, RMS at most 1.0 times the Explanatory Supplement \
+                    Table 8.10.1 errors (worst 0.778; Mercury to \
                     Saturn and the Earth from Table 1; all eight planets from Tables 2a/2b); \
                     Uranus and Neptune from Table 1, Pluto, the Moon and the seven moons are \
                     MODELLED. Light times are Newtonian, from the same positions."

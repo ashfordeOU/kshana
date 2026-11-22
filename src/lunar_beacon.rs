@@ -570,7 +570,7 @@ fn beacon_summary(r: &LunarBeaconReport) -> String {
     s.push_str(
         "  MODELLED: the constellation, the beacon placement and the error budget are \
          illustrative inputs.\n  The DOP kernel underneath is the gnss_lib_py-validated one \
-         and the beacon horizon is the L01 closed form.\n",
+         and the beacon horizon is the airless-Moon two-height closed form.\n",
     );
     s
 }

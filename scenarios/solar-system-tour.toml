@@ -19,10 +19,10 @@
 #
 # WHAT IS VALIDATED, AND WHAT IS NOT
 # Each body carries its own label. Mercury to Saturn and the Earth are VALIDATED against
-# JPL Horizons (Development Ephemeris DE441) within twice the Standish page's nominal
-# error. Uranus and Neptune from Table 1 exceed the page's figures against DE441 (by 2.0
+# JPL Horizons (Development Ephemeris DE441): per planet and component an RMS of at most
+# 1.0 times the Explanatory Supplement Table 8.10.1 errors (worst 0.778), a pre-registered bar. Uranus and Neptune from Table 1 exceed the page's figures against DE441 (by 2.0
 # and 5.2 times) and are MODELLED; so are Pluto, the Moon and the seven moons, which
-# were measured against Horizons but have no published bound. See tests/solar_system_horizons_reference.rs.
+# were measured against Horizons but have no published bound. See tests/solar_system_standish_preregistered.rs.
 #
 # The three links below add the Mars-to-Jupiter, Saturn-to-Earth and Europa-to-Jupiter
 # light times: interplanetary relay geometry, a ringed-planet downlink and a moon-to-planet

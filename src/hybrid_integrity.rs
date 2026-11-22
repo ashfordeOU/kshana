@@ -93,7 +93,8 @@ use serde::{Deserialize, Serialize};
 
 /// The honesty label carried on the result document.
 const LABEL: &str = "Heterogeneous optical + RF PNT joint availability / precision / \
-integrity figure of merit. VALIDATED closed form: the photon-limited ranging CRLB \
+integrity figure of merit. Checked closed form (the kind stays MODELLED): the \
+photon-limited ranging CRLB \
 (σ_τ/√N) and diffraction footprint (λ/D·range), the χ² cross-modality protection-level \
 quantile, the N-station independent-union availability (1 − Π(1−a_i)), the optical↔RF \
 handoff mean-continuity (bit-for-bit no-jump) invariant and NEES χ² gate, and the joint-FoM \

@@ -252,7 +252,7 @@ def kind_page(k: dict, info: dict, rows: list[dict], files: list[Path], ex: Path
     if items and ex is not None:
         L += [f"The example `scenarios/{ex.name}` sets, among others:", "", "| Field | Value | Unit |", "|---|---|---|"]
         for it in items[:12]:
-            L.append(f"| `{it['path']}` | {cut(it.get('display', fmt_value(it.get('value'))), 60).replace('|', '/')} | {it.get('unit') or ''} |")
+            L.append(f"| `{it['path']}` | {cut(it.get('display', fmt_value(it.get('value'))), 60).replace('|', chr(92) + '|')} | {it.get('unit') or ''} |")
         L.append("")
     L += ["## Run it", ""]
     if ex is None:
@@ -364,7 +364,7 @@ def build(exe: str) -> dict[str, bytes]:
               f'<img src="../figures/kinds/sheet-{sl}.svg" alt="Contact sheet of the charts the engine writes for the kinds of the family {esc(fam)}" width="900">', "",
               "| Kind | What it does | Ledger |", "|---|---|---|"]
         for n in ks:
-            fl.append(f"| [`{n}`](by-kind/{n}.md) | {first_sentence(kinds[n]['description'], 200).replace('|', '/')} | {labels[n]} |")
+            fl.append(f"| [`{n}`](by-kind/{n}.md) | {first_sentence(kinds[n]['description'], 200).replace('|', chr(92) + '|')} | {labels[n]} |")
         fl.append("")
         for n in ks:
             fl.append(kind_section(kinds[n], infos[n], rows_of[n], by_kind.get(n, []), exs[n], docs_pages(n)))

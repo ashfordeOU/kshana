@@ -24,10 +24,10 @@
 //!
 //! ## Label
 //!
-//! MODELLED. The bandwidth-to-bound step is a textbook closed form, checked here against
-//! numerical integration of the spectra and hand-evaluated values; that is an internal
-//! consistency check, not a published worked figure, so it is not labelled VALIDATED. The
-//! positioning accuracy is a bound, not an achieved accuracy: the channel is free of
+//! VALIDATED for the bounds: the single-SSB bounds of NR NTN against the published worked
+//! values of Bachl, Lei and Nabeel (2026), the BPSK-R RMS bandwidths against Betz (2001), and
+//! the fix covariances against numpy (see the verification matrix). MODELLED for the
+//! positioning accuracy, which is a bound, not an achieved accuracy: the channel is free of
 //! multipath, the network is assumed synchronised to the stated range error, and the
 //! constellation, C/N0 envelope and integration time are inputs.
 
@@ -433,9 +433,9 @@ impl NtnScenario {
             None => None,
         };
         Ok(NtnReport {
-            label: "MODELLED positioning from Cramér-Rao bounds: the bandwidth-to-bound step is a \
-                    textbook closed form (checked against numerical integration, not against a \
-                    published worked figure); the accuracy is a bound on a multipath-free channel \
+            label: "Positioning from Cramér-Rao bounds: the bounds are VALIDATED against published \
+                    worked values (Bachl et al. 2026, single-SSB NR NTN bounds) and the fix \
+                    covariances against numpy; the positioning accuracy is MODELLED: the accuracy is a bound on a multipath-free channel \
                     with a stated synchronisation error, not an achieved result"
                 .into(),
             carrier_hz: carrier,
