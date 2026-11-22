@@ -246,7 +246,7 @@ Each completed epoch writes one JSON line on stdout:
 the edges in the session's `[score]` table); `score` is absent while calibrating; `deductions`
 list which checks took points off and how many, largest first.
 
-### JSON-lines schema (version 1.1)
+### JSON-lines schema (version 1.3)
 
 One JSON object per completed epoch, keys in this order:
 
@@ -382,7 +382,7 @@ What the gate does not do, and what to know before using it:
   receiver's time, which is what a spoofer controls (for a replay there is only the receiver's time).
 * It can **withhold a good fix** (a false alarm) as well as pass a spoofed one (a miss). The
   monitors check a fix against a ship's physics and its other sensors; a counterfeit that is
-  consistent with all of them is not seen (see the limits below).
+  consistent with all of them is not seen (see the limits above).
 * It expects a **pure NMEA 0183 text stream**. Binary frames mixed into the stream are forwarded
   unchanged, but a `$PKSHT` can then land between the bytes of a frame.
 * It is **not type-approved** and nothing in it has been assessed against IEC 61108 or IEC 61162.
