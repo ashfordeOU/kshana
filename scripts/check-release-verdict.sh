@@ -28,10 +28,9 @@
 #
 # WHERE IT RUNS
 #   First step of every job that holds a registry credential or pushes an image: the
-#   `gates` job of publish.yml, the `image` job of mcp-publish.yml and the `publish` job
-#   of jetbrains-plugin.yml. On the normal path those workflows are called by release.yml
-#   AFTER its `verify` job, so this check restates a guarantee the `needs:` edge already
-#   gives. It is what holds the manual-retry path (workflow_dispatch on a tag), where no
+#   `gates` job of publish.yml and the `image` job of mcp-publish.yml. On the normal path
+#   those workflows are called by release.yml AFTER its `verify` job, so this check
+#   restates a guarantee the `needs:` edge already gives. It is what holds the manual-retry path (workflow_dispatch on a tag), where no
 #   `needs:` edge exists.
 set -euo pipefail
 

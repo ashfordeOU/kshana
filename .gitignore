@@ -85,14 +85,6 @@ __pycache__/
 /mcp/kshana-mcp/target
 /capi/kshana-capi/target
 
-# JetBrains plugin (Gradle): build output + caches (incl. the downloaded IntelliJ SDK
-# sandbox under .intellijPlatform). Source + the Gradle wrapper (gradlew, gradle/wrapper/*)
-# ARE committed.
-/ide/jetbrains/.gradle
-/ide/jetbrains/.intellijPlatform
-/ide/jetbrains/.kotlin
-/ide/jetbrains/build
-
 # Full-gate receipt written by scripts/gate.sh and checked by scripts/check-gate-receipt.sh
 # before every push. Machine state about one run on one machine — which commit was tested,
 # how long it took, how many binaries ran — not repository content, and meaningless on any

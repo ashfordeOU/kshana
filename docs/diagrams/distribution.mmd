@@ -2,7 +2,6 @@ flowchart LR
     subgraph repo["One repository"]
       core["kshana core<br/>library and CLI"]
       mcp["mcp/kshana-mcp<br/>MCP server (excluded crate)"]
-      ide["ide/jetbrains<br/>Kotlin IDE plugin"]
       subgraph xval["xval cross-checks (excluded)"]
         anise["anise-frames · lunar-od<br/>mars-od · service-geometry<br/>Rust ANISE / SPICE DE440"]
         orekit["orekit-passes<br/>Java Orekit"]
@@ -17,6 +16,5 @@ flowchart LR
     mcp --> crates
     mcp --> ghcr["ghcr.io — OCI image"]
     mcp --> reg["official MCP registry"]
-    ide --> jb["JetBrains Marketplace"]
     anise -. validates .-> core
     orekit -. validates .-> core
