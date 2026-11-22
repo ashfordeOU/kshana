@@ -1,4 +1,4 @@
-> Esta es una traducción automática de README.md en la versión v0.40.0 que ningún hablante nativo ha revisado todavía; el README en inglés es la referencia. [English](README.md)
+> Esta es una traducción automática de README.md en la versión v0.41.0 que ningún hablante nativo ha revisado todavía; el README en inglés es la referencia. [English](README.md)
 
 <!-- The images under docs/assets/readme/ are generated from real engine runs by
      tools/gen_readme_assets.py (light and dark variants); regenerate them with
@@ -24,7 +24,7 @@
   <a href="docs/COVERAGE.md"><img src="https://img.shields.io/badge/coverage-~95%25-377D0C?style=flat-square&labelColor=0A1226" height="18" alt="Cobertura de líneas cercana al 95 % de src/, medida en docs/COVERAGE.md y exigida al 85 % en la integración continua"></a>
   <a href="#evidence"><img src="https://img.shields.io/badge/validated-176%2F413-377D0C?style=flat-square&labelColor=0A1226" height="18" alt="176 de 413 capacidades VALIDATED frente a una referencia externa independiente, según la matriz de verificación"></a>
   <a href="https://sonarcloud.io/summary/overall?id=ashfordeOU_kshana"><img src="https://img.shields.io/sonar/quality_gate/ashfordeOU_kshana?server=https%3A%2F%2Fsonarcloud.io&label=quality&style=flat-square&labelColor=0A1226" height="18" alt="Estado del umbral de calidad de SonarQube Cloud"></a>
-  <a href="https://github.com/ashfordeOU/kshana/releases"><img src="https://img.shields.io/badge/release-v0.40.0-066A86?style=flat-square&labelColor=0A1226" height="18" alt="Versión v0.40.0"></a>
+  <a href="https://github.com/ashfordeOU/kshana/releases"><img src="https://img.shields.io/badge/release-v0.41.0-066A86?style=flat-square&labelColor=0A1226" height="18" alt="Versión v0.41.0"></a>
   <a href="docs/i18n.md"><img src="https://img.shields.io/badge/languages-English%20%2B%2017-3F4B67?style=flat-square&labelColor=0A1226" height="18" alt="Inglés y 17 idiomas más, con traducción automática"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/licence-AGPL--3.0-3F4B67?style=flat-square&labelColor=0A1226" height="18" alt="Licencia: AGPL-3.0-only"></a>
   <br>
@@ -73,14 +73,14 @@
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/hero-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/hero-light.svg">
-  <img src="docs/assets/readme/hero-light.svg" alt="Ensaye el minuto en que el GNSS se apaga. La consola de misión de Kshana, dibujada a partir de una ejecución real del motor v0.40.0: la campaña encadenada campaign-jam-spoof-holdover-integrity (semilla 20260928, 6 fases, 18 ejecuciones miembro a lo largo de T+01:16:10) y los 102 satélites de GPS, Galileo, BeiDou y GLONASS de constellation-multi-gnss-coverage, cada uno dibujado en la órbita circular de dos cuerpos recuperada de la traza en tierra del motor, con los radios comprimidos para la visualización. El error de tiempo del reloj alcanza un máximo de 62.7 ns frente a un margen de 50 ns, la densidad portadora-ruido cae a -12.2 dB-Hz frente a un mínimo de 25 dB-Hz y el nivel de protección vertical llega a 135.4 m frente a un límite de alerta de 50 m." width="100%">
+  <img src="docs/assets/readme/hero-light.svg" alt="Ensaye el minuto en que el GNSS se apaga. La consola de misión de Kshana, dibujada a partir de una ejecución real del motor v0.41.0: la campaña encadenada campaign-jam-spoof-holdover-integrity (semilla 20260928, 6 fases, 18 ejecuciones miembro a lo largo de T+01:16:10) y los 102 satélites de GPS, Galileo, BeiDou y GLONASS de constellation-multi-gnss-coverage, cada uno dibujado en la órbita circular de dos cuerpos recuperada de la traza en tierra del motor, con los radios comprimidos para la visualización. El error de tiempo del reloj alcanza un máximo de 62.7 ns frente a un margen de 50 ns, la densidad portadora-ruido cae a -12.2 dB-Hz frente a un mínimo de 25 dB-Hz y el nivel de protección vertical llega a 135.4 m frente a un límite de alerta de 50 m." width="100%">
 </picture>
 
 <details>
 <summary><strong>Contenido</strong></summary>
 
 - [Ensaye el minuto en que el GNSS se apaga](#rehearse-the-minute-gnss-goes-dark)
-- [Novedades de 0.40](#whats-new-in-040), [Novedades de 0.39](#whats-new-in-039), [Novedades de 0.38](#whats-new-in-038) y [0.38 en profundidad](#038-in-depth): puntuación de Jammertest, los indicadores propios del receptor, entradas de máquina, temporización y holdover, paquetes de normas, LunaNet AFS, el viaje de ida y vuelta al laboratorio, kshana-bench, el observatorio, exportadores, óptica, [navegación de usuarios espaciales](#space-user-navigation-gnss-ssv) e [infraestructura lunar](#lunar-infrastructure-lunar-infrastructure)
+- [Novedades de 0.41](#whats-new-in-041), [Novedades de 0.40](#whats-new-in-040), [Novedades de 0.39](#whats-new-in-039), [Novedades de 0.38](#whats-new-in-038) y [0.38 en profundidad](#038-in-depth): puntuación de Jammertest, los indicadores propios del receptor, entradas de máquina, temporización y holdover, paquetes de normas, LunaNet AFS, el viaje de ida y vuelta al laboratorio, kshana-bench, el observatorio, exportadores, óptica, [navegación de usuarios espaciales](#space-user-navigation-gnss-ssv) e [infraestructura lunar](#lunar-infrastructure-lunar-infrastructure)
 - [Kshana Studio](#kshana-studio) y cada página del Studio
 - [Capacidades](#capabilities): la tabla de áreas, [cada tipo de escenario por familia](#every-scenario-kind-by-family), [cada comando](#every-command), [cada superficie](#every-surface)
 - [Cómo funciona una ejecución](#how-a-run-works), [Misiones](#missions)
@@ -105,25 +105,65 @@ Cada capacidad lleva una de tres etiquetas en un registro comprobado automática
 referencia externa independiente coincide), **MODELLED** (internamente coherente, y así se declara abiertamente)
 o **PARTNER** (la responsabilidad es de un socio de hardware).
 
-> **Estado: v0.40.0.** Un sustrato de simulación validado y reproducible para la resiliencia PNT.
-> La temporización y el holdover van primero, porque ese dominio es el mejor validado. Kshana es un
-> instrumento de estudio y de análisis de compromisos: no es hardware generador de señales de radiofrecuencia (RF) (no
-> controla ninguna radio y no transmite nada; su salida a nivel de señal son archivos de muestras IQ en banda base
-> para receptores por software), no es un receptor GNSS de hardware ni certificado (su receptor por software
-> es una herramienta de análisis) y no es un producto de vuelo. ¿Es nuevo en el campo? Empiece por la
+> **Status: v0.41.0.** Un sustrato de simulación reproducible para la resiliencia PNT, en el que cada capacidad
+> está etiquetada según su evidencia. La temporización y el mantenimiento (holdover) van primero, porque ese dominio tiene más filas VALIDATED.
+> Kshana es un instrumento de estudio y de compromiso: no es hardware generador de señales de radiofrecuencia (RF) (no
+> controla ninguna radio ni transmite nada; su salida a nivel de señal son archivos de muestras IQ en banda base
+> para receptores software), ni un receptor GNSS de hardware o certificado (su receptor software
+> es una herramienta de análisis), ni un producto de vuelo. ¿Nuevo en el campo? Empiece por la
 > [introducción en lenguaje sencillo](docs/CONCEPTS.md) y el [glosario](docs/GLOSSARY.md).
 
 <a id="whats-new-in-040"></a>
+## Novedades de 0.41
+
+La 0.41 puntúa las filas de evidencia comprometidas para ella, cada una una sola vez frente a umbrales fijados antes de los datos, y publica cada resultado
+tal como salió (la repetición C2 v2 no se ejecutó). Añade un estado de confianza por zona con un
+control de fallos de satélite, un planificador de redes de vigilancia, un localizador de interferencias por TDOA, decisiones sobre buques oscuros e integridad AIS,
+el banco de pruebas de suplantación TEXBAT, exportaciones de dinámica de vuelo y un lector de RTCM SSR. El registro tiene ahora 413 filas: 176
+VALIDATED, 233 MODELLED, 4 PARTNER. Ninguna fila se ha promovido a VALIDATED, y cada incumplimiento indicado abajo está fijado por una prueba.
+
+- **Confianza de zona (`kshana area-trust`, B5).** Un estado de confianza para una zona a partir de varias estaciones de referencia. La versión 3
+  señala un satélite cuya eliminación despeja las alarmas de varias estaciones a la vez y recalcula sus soluciones sin
+  él; una simple pérdida de enganche ya no degrada una estación. En 26 días-zona de datos IGS (Goddard y Wettzell, mayo de 2026)
+  emitió 1 alerta (umbral ≤ 1 por día-zona) y **cumple** T4; con fallos sintéticos **no cumple** T2 (123 de 127
+  fallos despejados; 4 en los que la geometría restante es débil, y 2 de 67 épocas con dos satélites explicadas por uno). T3
+  (latencia de alerta) se cumple. B5 v3 es **NOT MET** ([resultados](docs/design/evidence/b5-area-trust/RESULTS-v3.md)). El diagnóstico también
+  halló que el motor usaba registros de difusión marcados como no sanos; los registros GPS y QZSS así marcados ahora se omiten.
+- **Banco de pruebas de suplantación (TEXBAT, E5).** Puntuado una sola vez en las diez grabaciones TEXBAT con reglas fijadas antes de leer
+  ningún archivo: la puntuación de potencia y distorsión **cumple** E5-PD (AUC 0.7410, umbral 0.70); la puntuación IQ de referencia **no cumple** E5 v2
+  (AUC 0.6941). Solo se publican las puntuaciones, nunca las grabaciones ([resultados](docs/design/evidence/b4a-benchmark-classes/RESULTS-E5-v2.md)).
+- **Planificador de redes de vigilancia (`kshana planner`, B1a).** Mapas de detección y de precisión TDOA, y ubicación de estaciones.
+  La búsqueda de ubicación de la versión 3 supera al mejor de 1 000 subconjuntos aleatorios (0.4408 frente a 0.4105) y **cumple** P4;
+  la parte 1 se cumple en Linux, con la comprobación en macOS y Windows pendiente ([resultados](docs/design/evidence/b1a-planner/RESULTS-v3.md)).
+- **Localización de interferencias.** El localizador por diferencia de potencia (B3a) **no cumple** su criterio sintético en v1 y v2; el nuevo localizador
+  TDOA (B3b, `locate_tdoa`) **tampoco cumple** el suyo (cobertura 0.044 frente a 0.90: su refinamiento del pico se equivoca hasta
+  en media muestra frente a una σ declarada de 28 ns). Ambas filas se detienen; no se hace ninguna ejecución real con ninguno de los dos métodos
+  ([resultados de B3b](docs/design/evidence/b3b-tdoa-locator/RESULTS.md)).
+- **Buques oscuros e integridad AIS (M4).** La versión 3 **cumple** la exhaustividad para buques oscuros (0.994) y todos los demás umbrales salvo
+  los desplazamientos de posición, que **no cumple** (0.489 a 5 km frente a 0.85) ([resultados](docs/design/evidence/m4-dark-vessel-ais-integrity/RESULTS-v3.md)).
+  Cada salida describe la coherencia de los datos, nunca una intención.
+- **También puntuados.** M1 y las filas C5a, C3 y B8 **cumplen** sus umbrales; la verificación cruzada de M2 de las cifras de revisita publicadas
+  **no es coherente** con ellas; M5 v2 (localización híbrida desde la órbita), D8b fila
+  8 v2 y D8a fila 6 v2 **no cumplen** los suyos ([Changelog](CHANGELOG.md)).
+- **Dinámica de vuelo y correcciones.** `kshana ephem-export` escribe una tabla de JPL Horizons como CCSDS OEM u OPM o como
+  núcleo SPK y la vuelve a leer; Orekit, Basilisk y ANISE leen los archivos con los bits escritos. Se añaden un lector de RTCM SSR (IGS SSR),
+  un lector de Bias-SINEX y la marea terrestre sólida de IERS 2010.
+- **Comprobaciones de datos orbitales.** `kshana orbit-data` comprueba los mensajes de datos de conjunción CCSDS (508.0-B-1) y las efemérides OEM y OCM
+  (502.0-B-3) y dice válido o no válido frente a la sección que cita, convierte OEM en OCM y viceversa
+  conservando la procedencia, compara y audita conjuntos de elementos de dos líneas, y comprueba y propaga covarianzas (MODELLED). En los
+  propios ejemplos CDM de la norma encuentra una covarianza que no es definida positiva y dos errores de sintaxis
+  ([Datos orbitales](docs/ORBIT-DATA.md)).
+
 ## Novedades de 0.40
 
 0.40 añade un presupuesto de error a nivel de misión, etiqueta cada figura y cada tabla con su nivel de evidencia, lee registros de reloj medidos,
 comprueba los envíos de socios de datos, estima dónde puede estar un emisor de interferencias y habla diecisiete idiomas además del inglés.
-El registro tiene ahora 412 filas: 176 VALIDATED, 232 MODELLED, 4 PARTNER. Ninguna fila se ha promovido a VALIDATED, y cada incumplimiento indicado abajo está
+Ninguna fila se ha promovido a VALIDATED, y cada incumplimiento indicado abajo está
 fijado por una prueba.
 
 - **Hilo de misión.** El tipo `mission-thread` encadena fases desde el lanzamiento hasta la entrada (`launch-ascent`, `leo-rendezvous`,
   `tli-and-cruise`, `entry` y cuatro tipos lunares) con reglas de traspaso declaradas, un margen frente a requisitos declarados y el eslabón
-  más débil; un ejemplo de extremo a extremo de clase Artemis a lo largo de 11 fases (segmentos terrestre y lunar), 92 tipos de escenario en total. Cada número es MODELLED. La propagación cislunar frente a la trayectoria pública de Artemis I
+  más débil; un ejemplo de extremo a extremo de clase Artemis a lo largo de 11 fases (segmentos terrestre y lunar). Cada número es MODELLED. La propagación cislunar frente a la trayectoria pública de Artemis I
   **no alcanza** su umbral preregistrado (45.3 km y 0.25 m/s frente a 5 km y 0.05 m/s; la causa son pequeñas maniobras que el modelo no incluye), y el propagador lunar frente a la órbita de CAPSTONE
   **no alcanza** el suyo (136.8 km frente a 25 km al final de una revolución); la comparación con LRO sí se cumple. Las filas siguen siendo MODELLED
   ([Hilo de misión](docs/MISSION-THREAD.md), [segmento lunar](docs/MISSION-THREAD-LUNAR.md)). En el Studio el hilo se consulta en `/studio/mission-thread/`.
@@ -207,7 +247,7 @@ kshana jammertest score session.toml --catalog ../jammertest-plan/testcatalog202
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/jammertest-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/jammertest-light.svg">
-  <img src="docs/figures/0.38/jammertest-light.svg" alt="Puntuación de un registro sintético de receptor frente a un calendario de tres pruebas, a partir de una ejecución real del motor v0.40.0 (`kshana jammertest score`). El registro es inventado: 1800 s de NMEA con una caída de C/N0 de 20 dB en dos intervalos. El calendario enumera tres franjas; la franja central no tiene inhibidor en el registro. La puntuación marca 2 de 3 pruebas detectadas (latencia mediana 0 s) y 1 omitida, con 0 rachas de falsas alarmas en 0.25 h de tiempo limpio. Nada de esto dice algo sobre un receptor real. Software de carácter consultivo, no un equipo de navegación homologado (IEC 61108, IEC 61162): el operador sigue siendo responsable de la navegación del buque.">
+  <img src="docs/figures/0.38/jammertest-light.svg" alt="Puntuación de un registro sintético de receptor frente a un calendario de tres pruebas, a partir de una ejecución real del motor v0.41.0 (`kshana jammertest score`). El registro es inventado: 1800 s de NMEA con una caída de C/N0 de 20 dB en dos intervalos. El calendario enumera tres franjas; la franja central no tiene inhibidor en el registro. La puntuación marca 2 de 3 pruebas detectadas (latencia mediana 0 s) y 1 omitida, con 0 rachas de falsas alarmas en 0.25 h de tiempo limpio. Nada de esto dice algo sobre un receptor real. Software de carácter consultivo, no un equipo de navegación homologado (IEC 61108, IEC 61162): el operador sigue siendo responsable de la navegación del buque.">
 </picture>
 
 **Estado en el registro: MODELLED.** Los umbrales se fijaron antes de cualquier ejecución puntuada; con los datos de JammerTest 2024
@@ -228,7 +268,7 @@ kshana receiver-trust session.toml     # [log] format = "ubx", path = "receiver.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/receiver-flags-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/receiver-flags-light.svg">
-  <img src="docs/figures/0.38/receiver-flags-light.svg" alt="El indicador de spoofing propio del receptor frente a las alarmas de Kshana, a partir de una ejecución real del motor v0.40.0 sobre un registro UBX inventado (200 épocas a 1 Hz). La C/N0 cae 20 dB entre 80 y 90 s y entre 120 y 130 s; el receptor marca de 120 a 130 s y de 160 a 165 s. De 140 épocas comparadas tras la calibración, en 11 marcaron ambos, en 6 solo el receptor, en 11 solo Kshana y en 112 ninguno. Ninguna de las dos partes es la verdad de referencia y la concordancia no es una validación. Carácter consultivo: resultado de análisis de una herramienta de investigación e ingeniería, no un equipo de navegación homologado ni un servicio de seguridad de la vida humana.">
+  <img src="docs/figures/0.38/receiver-flags-light.svg" alt="El indicador de spoofing propio del receptor frente a las alarmas de Kshana, a partir de una ejecución real del motor v0.41.0 sobre un registro UBX inventado (200 épocas a 1 Hz). La C/N0 cae 20 dB entre 80 y 90 s y entre 120 y 130 s; el receptor marca de 120 a 130 s y de 160 a 165 s. De 140 épocas comparadas tras la calibración, en 11 marcaron ambos, en 6 solo el receptor, en 11 solo Kshana y en 112 ninguno. Ninguna de las dos partes es la verdad de referencia y la concordancia no es una validación. Carácter consultivo: resultado de análisis de una herramienta de investigación e ingeniería, no un equipo de navegación homologado ni un servicio de seguridad de la vida humana.">
 </picture>
 
 **Estado en el registro: MODELLED.** La concordancia entre el detector de un receptor y el de Kshana no es una
@@ -248,7 +288,7 @@ kshana imu-fit still.csv --format csv --axis x --expected-mean 0 --id bench-imu
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/machine-inputs-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/machine-inputs-light.svg">
-  <img src="docs/figures/0.38/machine-inputs-light.svg" alt="Lo que `kshana imu-fit` lee de un registro de IMU estacionaria, a partir de una ejecución real del motor v0.40.0 sobre un registro inventado (20,000 muestras a 100 Hz, 200 s): el paseo aleatorio de velocidad del acelerómetro q_va = 4.02e-06, el paseo aleatorio de ángulo del giróscopo q_arw = 9e-08, la inestabilidad del sesgo 0.00296 y las pendientes de Allan iniciales (-0.51 y -0.49; alrededor de -0.5 donde domina el ruido blanco). La tabla de al lado es el TOML que imprime el comando. El estimador solo se ha comprobado con registros sintéticos. Carácter consultivo: resultado de análisis de una herramienta de investigación e ingeniería, no un equipo de navegación homologado ni un servicio de seguridad de la vida humana.">
+  <img src="docs/figures/0.38/machine-inputs-light.svg" alt="Lo que `kshana imu-fit` lee de un registro de IMU estacionaria, a partir de una ejecución real del motor v0.41.0 sobre un registro inventado (20,000 muestras a 100 Hz, 200 s): el paseo aleatorio de velocidad del acelerómetro q_va = 4.02e-06, el paseo aleatorio de ángulo del giróscopo q_arw = 9e-08, la inestabilidad del sesgo 0.00296 y las pendientes de Allan iniciales (-0.51 y -0.49; alrededor de -0.5 donde domina el ruido blanco). La tabla de al lado es el TOML que imprime el comando. El estimador solo se ha comprobado con registros sintéticos. Carácter consultivo: resultado de análisis de una herramienta de investigación e ingeniería, no un equipo de navegación homologado ni un servicio de seguridad de la vida humana.">
 </picture>
 
 **Estado en el registro: MODELLED.** Solo datos de prueba de elaboración propia; no se leyó ninguna captura de un receptor real, IMU,
@@ -268,7 +308,7 @@ kshana scenarios/holdover-test-example.toml
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/timing-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/timing-light.svg">
-  <img src="docs/figures/0.38/timing-light.svg" alt="Una prueba de holdover puntuada a partir de un registro de error de tiempo, a partir de una ejecución real del motor v0.40.0 sobre scenarios/holdover-test-example.toml (601 muestras cada 5 s). El operador retira el GNSS a los 600 s y lo restablece a los 2400 s; el error de tiempo deriva hasta 299 ns al final del holdover, supera el presupuesto de 100 ns tras 675 s y vuelve dentro de la banda de 100 ns 70 s después del restablecimiento. Veredictos: máscaras de línea base PASS, máscaras de holdover FAIL, envolvente de holdover FAIL, recuperación RECOVERED. Medido frente a la máscara, no una aprobación. Los tiempos son la declaración del operador, no verificados por Kshana. Carácter consultivo: resultado de análisis de una herramienta de investigación e ingeniería, no un equipo de navegación homologado ni un servicio de seguridad de la vida humana.">
+  <img src="docs/figures/0.38/timing-light.svg" alt="Una prueba de holdover puntuada a partir de un registro de error de tiempo, a partir de una ejecución real del motor v0.41.0 sobre scenarios/holdover-test-example.toml (601 muestras cada 5 s). El operador retira el GNSS a los 600 s y lo restablece a los 2400 s; el error de tiempo deriva hasta 299 ns al final del holdover, supera el presupuesto de 100 ns tras 675 s y vuelve dentro de la banda de 100 ns 70 s después del restablecimiento. Veredictos: máscaras de línea base PASS, máscaras de holdover FAIL, envolvente de holdover FAIL, recuperación RECOVERED. Medido frente a la máscara, no una aprobación. Los tiempos son la declaración del operador, no verificados por Kshana. Carácter consultivo: resultado de análisis de una herramienta de investigación e ingeniería, no un equipo de navegación homologado ni un servicio de seguridad de la vida humana.">
 </picture>
 
 **Estado en el registro: MODELLED.** Los momentos en que se retiró y se restableció el GNSS son la declaración del operador,
@@ -289,7 +329,7 @@ kshana standards-pack run imo-circ-1575
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/standards-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/standards-light.svg">
-  <img src="docs/figures/0.38/standards-light.svg" alt="Todas las pruebas de los tres paquetes de normas puntuados, a partir de ejecuciones reales del motor v0.40.0 (`kshana standards-pack run`): dhs-rpcf: 6 cumplidas, 1 no cumplida, 2 necesitan una entrada; imo-circ-1575: 1 cumplida, 4 no cumplidas, 2 necesitan una entrada; icao-doc9849-appf: 6 cumplidas, 0 no cumplidas, 2 necesitan una entrada. En total, 13 cumplidas, 5 no cumplidas y 6 necesitan una entrada que el motor no tiene (un registro de receptor o documentación del equipo). Cada umbral se declaró antes de la ejecución; un incumplimiento se mantiene como incumplimiento. Un umbral cumplido dice que un escenario modelado cumplió un umbral declarado, nada sobre un producto. Los paquetes aportan evidencia para las filas que citan; no son una evaluación. Carácter consultivo: resultado de análisis de una herramienta de investigación e ingeniería, no un equipo de navegación homologado ni un servicio de seguridad de la vida humana; no debe ser la única base de ninguna decisión de navegación o de seguridad.">
+  <img src="docs/figures/0.38/standards-light.svg" alt="Todas las pruebas de los tres paquetes de normas puntuados, a partir de ejecuciones reales del motor v0.41.0 (`kshana standards-pack run`): dhs-rpcf: 6 cumplidas, 1 no cumplida, 2 necesitan una entrada; imo-circ-1575: 1 cumplida, 4 no cumplidas, 2 necesitan una entrada; icao-doc9849-appf: 6 cumplidas, 0 no cumplidas, 2 necesitan una entrada. En total, 13 cumplidas, 5 no cumplidas y 6 necesitan una entrada que el motor no tiene (un registro de receptor o documentación del equipo). Cada umbral se declaró antes de la ejecución; un incumplimiento se mantiene como incumplimiento. Un umbral cumplido dice que un escenario modelado cumplió un umbral declarado, nada sobre un producto. Los paquetes aportan evidencia para las filas que citan; no son una evaluación. Carácter consultivo: resultado de análisis de una herramienta de investigación e ingeniería, no un equipo de navegación homologado ni un servicio de seguridad de la vida humana; no debe ser la única base de ninguna decisión de navegación o de seguridad.">
 </picture>
 
 **Estado en el registro: MODELLED.** Un umbral cumplido dice que un escenario modelado cumplió un umbral declarado, nada sobre un
@@ -310,7 +350,7 @@ kshana lunanet-afs-check symbols afs.sym
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/lunanet-afs-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/lunanet-afs-light.svg">
-  <img src="docs/figures/0.38/lunanet-afs-light.svg" alt="El generador de códigos de LunaNet AFS comprobado frente a las columnas impresas de la especificación, a partir de una ejecución real del motor v0.40.0 (`kshana lunanet-afs-check spec`, fijado a LNIS V5, AD1 Volume A (LSIS-AFS) V1.0, 29 de enero de 2025; el documento marca sus tablas de códigos como {LSIS-TBC}). Se cumplen 9 de 10 comprobaciones; B4 está en NOT MET (420 de 421 coincidentes). Comprueba un flujo de símbolos frente a una edición de una especificación publicada y no dice nada sobre ningún nodo o servicio de LunaNet. Carácter consultivo: resultado de análisis de una herramienta de investigación e ingeniería, no un equipo de navegación homologado ni un servicio de seguridad de la vida humana. Comprueba un flujo de símbolos frente a una edición de una especificación publicada y no dice nada sobre ningún nodo o servicio de LunaNet.">
+  <img src="docs/figures/0.38/lunanet-afs-light.svg" alt="El generador de códigos de LunaNet AFS comprobado frente a las columnas impresas de la especificación, a partir de una ejecución real del motor v0.41.0 (`kshana lunanet-afs-check spec`, fijado a LNIS V5, AD1 Volume A (LSIS-AFS) V1.0, 29 de enero de 2025; el documento marca sus tablas de códigos como {LSIS-TBC}). Se cumplen 9 de 10 comprobaciones; B4 está en NOT MET (420 de 421 coincidentes). Comprueba un flujo de símbolos frente a una edición de una especificación publicada y no dice nada sobre ningún nodo o servicio de LunaNet. Carácter consultivo: resultado de análisis de una herramienta de investigación e ingeniería, no un equipo de navegación homologado ni un servicio de seguridad de la vida humana. Comprueba un flujo de símbolos frente a una edición de una especificación publicada y no dice nada sobre ningún nodo o servicio de LunaNet.">
 </picture>
 
 **Estado en el registro: VALIDATED** para las comprobaciones de código y de sincronización, frente a los valores que la
@@ -352,7 +392,7 @@ kshana bench baseline --task d --split test --out results/
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/bench-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/bench-light.svg">
-  <img src="docs/figures/0.38/bench-light.svg" alt="Las líneas base integradas de la tarea D de kshana-bench (la brecha de optimismo) en la partición de test, a partir de una ejecución real del motor v0.40.0 (`kshana bench baseline`). Cada par de barras es el área bajo la curva ROC en los casos dentro de la distribución y en los casos desplazados; la diferencia entre ellas es la brecha de optimismo, frente a una tolerancia de 0.05. fused-max-z: 0.998 y 0.983 (brecha 0.015); sqm-imbalance: 0.882 y 0.882 (brecha 0.001); agc-excess: 0.848 y 0.819 (brecha 0.030); raim-parity: 0.682 y 0.672 (brecha 0.010); energy-cn0-drop: 0.595 y 0.565 (brecha 0.030). Las etiquetas son etiquetas de un modelo generativo sobre un corpus sintético, nunca datos de campo: MODELLED. Carácter consultivo: modelado o medido frente a referencias declaradas, no una aprobación, una certificación ni una declaración de conformidad. Una puntuación describe un registro o un corpus, nunca un producto.">
+  <img src="docs/figures/0.38/bench-light.svg" alt="Las líneas base integradas de la tarea D de kshana-bench (la brecha de optimismo) en la partición de test, a partir de una ejecución real del motor v0.41.0 (`kshana bench baseline`). Cada par de barras es el área bajo la curva ROC en los casos dentro de la distribución y en los casos desplazados; la diferencia entre ellas es la brecha de optimismo, frente a una tolerancia de 0.05. fused-max-z: 0.998 y 0.983 (brecha 0.015); sqm-imbalance: 0.882 y 0.882 (brecha 0.001); agc-excess: 0.848 y 0.819 (brecha 0.030); raim-parity: 0.682 y 0.672 (brecha 0.010); energy-cn0-drop: 0.595 y 0.565 (brecha 0.030). Las etiquetas son etiquetas de un modelo generativo sobre un corpus sintético, nunca datos de campo: MODELLED. Carácter consultivo: modelado o medido frente a referencias declaradas, no una aprobación, una certificación ni una declaración de conformidad. Una puntuación describe un registro o un corpus, nunca un producto.">
 </picture>
 
 **Estado en el registro:** ninguna fila propia en el registro; las líneas base se etiquetan como MODELLED en los archivos de resultados.
@@ -395,7 +435,7 @@ kshana trust-telemetry --result session.result.json --print-syslog --format cef
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/exporters-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/exporters-light.svg">
-  <img src="docs/figures/0.38/exporters-light.svg" alt="Un resultado de confianza en tres formatos de exportación, a partir de ejecuciones reales del motor v0.40.0 (`kshana trust-telemetry`) sobre examples/maritime-trust: la exposición en texto de Prometheus (la última puntuación de confianza es 5.9 y la banda no fiable es la activa), y los últimos mensajes CEF y LEEF. El comando no publica nada si no se le da un destino, no guarda credenciales y no transmite ninguna señal de radio. Software de carácter consultivo, no un equipo de navegación homologado (IEC 61108, IEC 61162): el operador sigue siendo responsable de la navegación del buque.">
+  <img src="docs/figures/0.38/exporters-light.svg" alt="Un resultado de confianza en tres formatos de exportación, a partir de ejecuciones reales del motor v0.41.0 (`kshana trust-telemetry`) sobre examples/maritime-trust: la exposición en texto de Prometheus (la última puntuación de confianza es 5.9 y la banda no fiable es la activa), y los últimos mensajes CEF y LEEF. El comando no publica nada si no se le da un destino, no guarda credenciales y no transmite ninguna señal de radio. Software de carácter consultivo, no un equipo de navegación homologado (IEC 61108, IEC 61162): el operador sigue siendo responsable de la navegación del buque.">
 </picture>
 
 **Estado en el registro: MODELLED.** [Telemetría de confianza](docs/TRUST-TELEMETRY.md).
@@ -413,18 +453,20 @@ kshana scenarios/optical-atmosphere-network.toml
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/optical-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/optical-light.svg">
-  <img src="docs/figures/0.38/optical-light.svg" alt="Una realización con semilla del margen de enlace del emplazamiento 'northern' a lo largo de 336 h, a partir de una ejecución real del motor v0.40.0 sobre scenarios/optical-atmosphere-network.toml (semilla 37, paso de 600 s). El margen cae por debajo de cero durante los episodios de nubes; en esta extracción el enlace está activo el 40.5 % del tiempo, con 27 cortes y un corte más largo de 30.7 h. Las entradas son ilustrativas, la serie es una extracción del modelo y no el clima, y difiere de la disponibilidad estadística (37.8 %) por el error de muestreo de la extracción. Solo análisis consultivo: no es un producto certificado de disponibilidad, integridad o navegación, ni una predicción para ningún emplazamiento real salvo que sus entradas climáticas procedan de un conjunto de datos declarado.">
+  <img src="docs/figures/0.38/optical-light.svg" alt="Una realización con semilla del margen de enlace del emplazamiento 'northern' a lo largo de 336 h, a partir de una ejecución real del motor v0.41.0 sobre scenarios/optical-atmosphere-network.toml (semilla 37, paso de 600 s). El margen cae por debajo de cero durante los episodios de nubes; en esta extracción el enlace está activo el 40.5 % del tiempo, con 27 cortes y un corte más largo de 30.7 h. Las entradas son ilustrativas, la serie es una extracción del modelo y no el clima, y difiere de la disponibilidad estadística (37.8 %) por el error de muestreo de la extracción. Solo análisis consultivo: no es un producto certificado de disponibilidad, integridad o navegación, ni una predicción para ningún emplazamiento real salvo que sus entradas climáticas procedan de un conjunto de datos declarado.">
 </picture>
 
 **Estado en el registro: MODELLED.** Una extracción del modelo, no el clima. [Atmósfera óptica](docs/OPTICAL-ATMOSPHERE.md).
 
 ### Nuevas vistas del Studio
 
-[kshana.dev/studio](https://kshana.dev/studio/) incorpora una repetición Bridge (dos ejecuciones lado a lado sobre un mismo
-reloj de misión, en [`/studio/replay/`](https://kshana.dev/studio/replay/)), una página Optical PNT
-(`/studio/optical/`), una página de prueba de holdover (`/studio/holdover/`) y un visor del observatorio
+[kshana.dev/studio](https://kshana.dev/studio/) gana una repetición de puente (dos ejecuciones lado a lado en un mismo
+reloj de misión, en [`/studio/replay/`](https://kshana.dev/studio/replay/)), una página de PNT óptico
+(`/studio/optical/`), una página de prueba de mantenimiento (`/studio/holdover/`) y un visor del observatorio
 (`/studio/observatory/`). Ejecutan el mismo motor en el navegador, no se sube nada y llevan
-la misma declaración de carácter consultivo. Las imágenes anteriores las dibuja un script a partir de la salida del propio motor;
+la misma declaración de carácter consultivo. Solo en Kshana Desktop (disponible en [kshana.dev](https://kshana.dev)), una vista de grabaciones IQ (`/studio/iq/`) lee una grabación del
+disco y muestra su potencia en el tiempo, una cascada y el espectro en un cursor; solo lee muestras recibidas y
+no tiene ningún control que escriba, transmita o genere una señal. Las imágenes anteriores las dibuja un script a partir de la salida del motor;
 no son capturas de pantalla de estas páginas.
 
 <a id="space-user-navigation-gnss-ssv"></a>
@@ -450,25 +492,25 @@ kshana scenarios/gnss-ssv-formation-heo.toml    # formation: relative navigation
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/ssv-shell-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/ssv-shell-light.svg">
-  <img src="docs/figures/0.38/ssv-shell-light.svg" alt="Disponibilidad de señales para un usuario en una esfera a 36000 km de altitud con una antena hemisférica, a partir de una ejecución real del motor v0.40.0 sobre scenarios/gnss-ssv-shell.toml (una ejecución reducida: 162 usuarios, 3 días, pasos de 10 min), con un umbral de 20 dB-Hz. Para cada constelación y banda, dos barras: la proporción de pares (usuario, época) con al menos una señal y con al menos cuatro. Combinado, L1: 99.4 % al menos una, 73.2 % al menos cuatro, corte más largo por debajo de cuatro señales 160 min. Combinado, L5: 100.0 % al menos una, 99.9 % al menos cuatro, corte más largo por debajo de cuatro señales 20 min. MODELLED: un estudio modelado a partir de entradas declaradas, no una medición ni una afirmación sobre el volumen de servicio de ningún sistema. El tamaño reducido no es la comparación con el folleto. Carácter consultivo: resultado de análisis de una herramienta de investigación e ingeniería, no un equipo de navegación homologado ni un servicio de seguridad de la vida humana.">
+  <img src="docs/figures/0.38/ssv-shell-light.svg" alt="Disponibilidad de señales para un usuario en una esfera a 36000 km de altitud con una antena hemisférica, a partir de una ejecución real del motor v0.41.0 sobre scenarios/gnss-ssv-shell.toml (una ejecución reducida: 162 usuarios, 3 días, pasos de 10 min), con un umbral de 20 dB-Hz. Para cada constelación y banda, dos barras: la proporción de pares (usuario, época) con al menos una señal y con al menos cuatro. Combinado, L1: 99.4 % al menos una, 73.2 % al menos cuatro, corte más largo por debajo de cuatro señales 160 min. Combinado, L5: 100.0 % al menos una, 99.9 % al menos cuatro, corte más largo por debajo de cuatro señales 20 min. MODELLED: un estudio modelado a partir de entradas declaradas, no una medición ni una afirmación sobre el volumen de servicio de ningún sistema. El tamaño reducido no es la comparación con el folleto. Carácter consultivo: resultado de análisis de una herramienta de investigación e ingeniería, no un equipo de navegación homologado ni un servicio de seguridad de la vida humana.">
 </picture>
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/ssv-heo-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/ssv-heo-light.svg">
-  <img src="docs/figures/0.38/ssv-heo-light.svg" alt="Señales a lo largo de una órbita terrestre alta (perigeo 497 km, apogeo 58622 km, periodo 18.8 h), a partir de una ejecución real del motor v0.40.0 sobre scenarios/gnss-ssv-heo.toml, banda L1. Arriba: la mejor densidad portadora-ruido entre las señales visibles, frente al umbral de 20 dB-Hz. En medio: el número de señales visibles de todas las constelaciones, de 4 a 55 a lo largo de los puntos muestreados. De los enlaces recibidos, 2252 llegaron por un lóbulo principal y 696 por lóbulos secundarios, usando un patrón paramétrico sustitutivo etiquetado, no el patrón medido de ningún sistema. PDOP mediano 67, percentil 95 358. MODELLED: un estudio modelado a partir de entradas declaradas, no una medición ni una afirmación sobre el volumen de servicio de ningún sistema. Carácter consultivo: resultado de análisis de una herramienta de investigación e ingeniería, no un equipo de navegación homologado ni un servicio de seguridad de la vida humana.">
+  <img src="docs/figures/0.38/ssv-heo-light.svg" alt="Señales a lo largo de una órbita terrestre alta (perigeo 497 km, apogeo 58622 km, periodo 18.8 h), a partir de una ejecución real del motor v0.41.0 sobre scenarios/gnss-ssv-heo.toml, banda L1. Arriba: la mejor densidad portadora-ruido entre las señales visibles, frente al umbral de 20 dB-Hz. En medio: el número de señales visibles de todas las constelaciones, de 4 a 55 a lo largo de los puntos muestreados. De los enlaces recibidos, 2252 llegaron por un lóbulo principal y 696 por lóbulos secundarios, usando un patrón paramétrico sustitutivo etiquetado, no el patrón medido de ningún sistema. PDOP mediano 67, percentil 95 358. MODELLED: un estudio modelado a partir de entradas declaradas, no una medición ni una afirmación sobre el volumen de servicio de ningún sistema. Carácter consultivo: resultado de análisis de una herramienta de investigación e ingeniería, no un equipo de navegación homologado ni un servicio de seguridad de la vida humana.">
 </picture>
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/ssv-nav-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/ssv-nav-light.svg">
-  <img src="docs/figures/0.38/ssv-nav-light.svg" alt="Un filtro de nueve estados a bordo en una transferencia desde una órbita baja hacia la Luna, a partir de una ejecución real del motor v0.40.0 sobre scenarios/gnss-ssv-nav-lunar.toml (289 épocas, 13 puntos dibujados). En un eje logarítmico, el error de posición real y la cota de una sigma del propio filtro frente al tiempo desde el inicio. Dentro de las órbitas GNSS el RMS de posición es de 1.4 m; por encima de ellas es de 90 m, con un error final de 184 m a 193,330 km de altitud con 1 medición. El error de estimación cuadrático normalizado medio en toda la ejecución es 4.4 (alrededor de 3 para un bloque de posición coherente). La verdad y el filtro comparten sus sustitutos del Sol y de la Luna. MODELLED: un estudio modelado a partir de entradas declaradas, no una medición ni una afirmación sobre el volumen de servicio de ningún sistema. Carácter consultivo: resultado de análisis de una herramienta de investigación e ingeniería, no un equipo de navegación homologado ni un servicio de seguridad de la vida humana.">
+  <img src="docs/figures/0.38/ssv-nav-light.svg" alt="Un filtro de nueve estados a bordo en una transferencia desde una órbita baja hacia la Luna, a partir de una ejecución real del motor v0.41.0 sobre scenarios/gnss-ssv-nav-lunar.toml (289 épocas, 13 puntos dibujados). En un eje logarítmico, el error de posición real y la cota de una sigma del propio filtro frente al tiempo desde el inicio. Dentro de las órbitas GNSS el RMS de posición es de 1.4 m; por encima de ellas es de 90 m, con un error final de 184 m a 199,330 km de altitud con 1 medición. El error de estimación cuadrático normalizado medio en toda la ejecución es 4.4 (alrededor de 3 para un bloque de posición coherente). La verdad y el filtro comparten sus sustitutos del Sol y de la Luna. MODELLED: un estudio modelado a partir de entradas declaradas, no una medición ni una afirmación sobre el volumen de servicio de ningún sistema. Carácter consultivo: resultado de análisis de una herramienta de investigación e ingeniería, no un equipo de navegación homologado ni un servicio de seguridad de la vida humana.">
 </picture>
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/ssv-formation-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/ssv-formation-light.svg">
-  <img src="docs/figures/0.38/ssv-formation-light.svg" alt="Navegación relativa de 2 satélites secundarios alrededor de uno principal en una órbita alta, a partir de una ejecución real del motor v0.40.0 sobre scenarios/gnss-ssv-formation-heo.toml (401 épocas). Para cada satélite secundario, dos barras: el RMS de la posición relativa obtenido restando las dos estimaciones absolutas independientes, y el del filtro relativo sobre pseudodistancias de diferencias simples. Línea base de 0.8 km: 5.1 m y 1.2 m. Línea base de 2.0 km: 4.1 m y 2.1 m. El filtro absoluto no es coherente aquí: error de estimación cuadrático normalizado medio de 187 frente a alrededor de 3 para un filtro coherente, así que su incertidumbre declarada es demasiado pequeña. MODELLED: un estudio modelado a partir de entradas declaradas, no una medición ni una afirmación sobre el volumen de servicio de ningún sistema. Carácter consultivo: resultado de análisis de una herramienta de investigación e ingeniería, no un equipo de navegación homologado ni un servicio de seguridad de la vida humana.">
+  <img src="docs/figures/0.38/ssv-formation-light.svg" alt="Navegación relativa de 2 satélites secundarios alrededor de uno principal en una órbita alta, a partir de una ejecución real del motor v0.41.0 sobre scenarios/gnss-ssv-formation-heo.toml (401 épocas). Para cada satélite secundario, dos barras: el RMS de la posición relativa obtenido restando las dos estimaciones absolutas independientes, y el del filtro relativo sobre pseudodistancias de diferencias simples. Línea base de 0.8 km: 5.1 m y 1.2 m. Línea base de 2.0 km: 4.1 m y 2.1 m. El filtro absoluto no es coherente aquí: error de estimación cuadrático normalizado medio de 187 frente a alrededor de 3 para un filtro coherente, así que su incertidumbre declarada es demasiado pequeña. MODELLED: un estudio modelado a partir de entradas declaradas, no una medición ni una afirmación sobre el volumen de servicio de ningún sistema. Carácter consultivo: resultado de análisis de una herramienta de investigación e ingeniería, no un equipo de navegación homologado ni un servicio de seguridad de la vida humana.">
 </picture>
 
 **Estado en el registro: MODELLED, y la comparación con el folleto no alcanza los umbrales en su mayor parte.** Los umbrales se fijaron antes de
@@ -484,7 +526,7 @@ muy por encima del valor de alrededor de 3 que da un filtro coherente).
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/ssv-booklet-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/ssv-booklet-light.svg">
-  <img src="docs/figures/0.38/ssv-booklet-light.svg" alt="La comparación registrada del modelo de disponibilidad para usuarios espaciales con el folleto público Space Service Volume, a partir de los resultados incluidos de la ejecución preregistrada (xval/gnss-ssv/results-run1.json, escrito por el ejemplo ssv_booklet_check del motor v0.40.0). Barra a barra, las celdas dentro de la tolerancia: S0 13 de 13 (MET); S1 43 de 52 (NOT MET); S2 48 de 52 (NOT MET); S3 122 de 155 (NOT MET); S4 132 de 156 (NOT MET); S5 18 de 26 (NOT MET); S6 26 de 26 (MET); S7 0 de 20 patrones de panel (NOT MET). Solo S0 y S6 se cumplen según la lectura preregistrada. Una variante de diagnóstico que usa los otros ángulos de GLONASS del folleto lleva S1, S2 y S4 a todas las celdas, pero no sustituye a la ejecución de referencia. Ninguna fila del registro es VALIDATED. Carácter consultivo: resultado de análisis de una herramienta de investigación e ingeniería, no un equipo de navegación homologado ni un servicio de seguridad de la vida humana.">
+  <img src="docs/figures/0.38/ssv-booklet-light.svg" alt="La comparación registrada del modelo de disponibilidad para usuarios espaciales con el folleto público Space Service Volume, a partir de los resultados incluidos de la ejecución preregistrada (xval/gnss-ssv/results-run1.json, escrito por el ejemplo ssv_booklet_check del motor v0.41.0). Barra a barra, las celdas dentro de la tolerancia: S0 13 de 13 (MET); S1 43 de 52 (NOT MET); S2 48 de 52 (NOT MET); S3 122 de 155 (NOT MET); S4 132 de 156 (NOT MET); S5 18 de 26 (NOT MET); S6 26 de 26 (MET); S7 0 de 20 patrones de panel (NOT MET). Solo S0 y S6 se cumplen según la lectura preregistrada. Una variante de diagnóstico que usa los otros ángulos de GLONASS del folleto lleva S1, S2 y S4 a todas las celdas, pero no sustituye a la ejecución de referencia. Ninguna fila del registro es VALIDATED. Carácter consultivo: resultado de análisis de una herramienta de investigación e ingeniería, no un equipo de navegación homologado ni un servicio de seguridad de la vida humana.">
 </picture>
 
 [Navegación de usuarios espaciales](docs/SSV.md), [lo que muestra la comparación](docs/SSV.md#what-the-comparison-with-the-booklet-shows).
@@ -512,31 +554,31 @@ kshana scenarios/lunar-infrastructure-geodesy-sensitivity.toml
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/lunar-od-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/lunar-od-light.svg">
-  <img src="docs/figures/0.38/lunar-od-light.svg" alt="Coherencia de una determinación de órbita a bordo con GNSS terrestre en una órbita halo casi rectilínea con una determinación de órbita independiente en tierra, a partir de ejecuciones reales del motor v0.40.0 sobre scenarios/lunar-infrastructure-od-consistency.toml y la variante con error de modelo (400 ensayos cada una). La diferencia normalizada media q es 5.81 sin error de modelo y 5.95 con un error de aceleración inyectado de 3e-10 m/s2, frente a 6 esperado: las dos soluciones de órbita son coherentes (umbral C1 MET). La proporción de ensayos por encima del punto del 95 % es 0.040 y 0.052; el umbral para detectar el error inyectado era al menos 0.5, así que está en NOT MET (C3): la solución a bordo se conoce con una precisión de unos 352 m frente a 23 m para la de tierra, así que un desplazamiento de diez metros se oculta dentro de su covarianza. MODELLED: un modelo de tres cuerpos restringido con simplificaciones declaradas y entradas ilustrativas, no una medición de ninguna magnitud lunar. Carácter consultivo: resultado de análisis de una herramienta de investigación e ingeniería, no un equipo de navegación homologado ni un servicio de seguridad de la vida humana.">
+  <img src="docs/figures/0.38/lunar-od-light.svg" alt="Coherencia de una determinación de órbita a bordo con GNSS terrestre en una órbita halo casi rectilínea con una determinación de órbita independiente en tierra, a partir de ejecuciones reales del motor v0.41.0 sobre scenarios/lunar-infrastructure-od-consistency.toml y la variante con error de modelo (400 ensayos cada una). La diferencia normalizada media q es 5.81 sin error de modelo y 5.95 con un error de aceleración inyectado de 3e-10 m/s2, frente a 6 esperado: las dos soluciones de órbita son coherentes (umbral C1 MET). La proporción de ensayos por encima del punto del 95 % es 0.040 y 0.052; el umbral para detectar el error inyectado era al menos 0.5, así que está en NOT MET (C3): la solución a bordo se conoce con una precisión de unos 352 m frente a 23 m para la de tierra, así que un desplazamiento de diez metros se oculta dentro de su covarianza. MODELLED: un modelo de tres cuerpos restringido con simplificaciones declaradas y entradas ilustrativas, no una medición de ninguna magnitud lunar. Carácter consultivo: resultado de análisis de una herramienta de investigación e ingeniería, no un equipo de navegación homologado ni un servicio de seguridad de la vida humana.">
 </picture>
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/lunar-carrier-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/lunar-carrier-light.svg">
-  <img src="docs/figures/0.38/lunar-carrier-light.svg" alt="Resolución de ambigüedades enteras de fase de portadora entre estaciones de la superficie lunar y un orbitador, a partir del resultado incluido de la ejecución puntuada del motor v0.40.0 (tests/fixtures/lunar_infra/phase_full_run.json: 3 longitudes de arco, un Monte Carlo de 401 extracciones cada una, escrito por scenarios/carrier-phase-scored.toml). 1 día: éxito 1.0 % (error estándar 0.5 %), 134 ambigüedades, sigma de posición del orbitador 45.6 m flotante y 18.5 m fija; 2 días: éxito 0.5 % (error estándar 0.4 %), 259 ambigüedades, sigma de posición del orbitador 21.5 m flotante y 8.7 m fija; 3 días: éxito 2.8 % (error estándar 0.8 %), 375 ambigüedades, sigma de posición del orbitador 6.3 m flotante y 2.1 m fija. No se logra la resolución entera: el éxito se mantiene entre el 1 % y el 3 % a 25 dBi, y con los 12 dBi registrados el problema no puede plantearse. MODELLED: un modelo de tres cuerpos restringido con simplificaciones declaradas y entradas ilustrativas, no una medición de ninguna magnitud lunar. Carácter consultivo: resultado de análisis de una herramienta de investigación e ingeniería, no un equipo de navegación homologado ni un servicio de seguridad de la vida humana.">
+  <img src="docs/figures/0.38/lunar-carrier-light.svg" alt="Resolución de ambigüedades enteras de fase de portadora entre estaciones de la superficie lunar y un orbitador, a partir del resultado incluido de la ejecución puntuada del motor v0.41.0 (tests/fixtures/lunar_infra/phase_full_run.json: 3 longitudes de arco, un Monte Carlo de 401 extracciones cada una, escrito por scenarios/carrier-phase-scored.toml). 1 día: éxito 1.0 % (error estándar 0.5 %), 134 ambigüedades, sigma de posición del orbitador 45.6 m flotante y 18.5 m fija; 2 días: éxito 0.5 % (error estándar 0.4 %), 259 ambigüedades, sigma de posición del orbitador 21.5 m flotante y 8.7 m fija; 3 días: éxito 2.8 % (error estándar 0.8 %), 375 ambigüedades, sigma de posición del orbitador 6.3 m flotante y 2.1 m fija. No se logra la resolución entera: el éxito se mantiene entre el 1 % y el 3 % a 25 dBi, y con los 12 dBi registrados el problema no puede plantearse. MODELLED: un modelo de tres cuerpos restringido con simplificaciones declaradas y entradas ilustrativas, no una medición de ninguna magnitud lunar. Carácter consultivo: resultado de análisis de una herramienta de investigación e ingeniería, no un equipo de navegación homologado ni un servicio de seguridad de la vida humana.">
 </picture>
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/lunar-frame-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/lunar-frame-light.svg">
-  <img src="docs/figures/0.38/lunar-frame-light.svg" alt="Precisión del datum lunar de siete parámetros (tres traslaciones, una escala y tres rotaciones) a partir de mediciones de distancia desde estaciones terrestres, con y sin distancias entre el orbitador y las estaciones de superficie, a partir de una ejecución real del motor v0.40.0 sobre scenarios/lunar-infrastructure-frame-coestimation.toml. La sigma de Cramer-Rao de las traslaciones y las rotaciones disminuye con los enlaces del orbitador (por ejemplo t_z de 0.98 m a 0.046 m); el menor autovalor de información aumenta 111 veces y la traza de la CRLB cae al 1.0 % (umbral F3 MET). Esto supone que la órbita se conoce en los ejes lunares, con su error recogido por la sigma de distancia del orbitador de 1 m. MODELLED: un modelo de tres cuerpos restringido con simplificaciones declaradas y entradas ilustrativas, no una medición de ninguna magnitud lunar. Carácter consultivo: resultado de análisis de una herramienta de investigación e ingeniería, no un equipo de navegación homologado ni un servicio de seguridad de la vida humana.">
+  <img src="docs/figures/0.38/lunar-frame-light.svg" alt="Precisión del datum lunar de siete parámetros (tres traslaciones, una escala y tres rotaciones) a partir de mediciones de distancia desde estaciones terrestres, con y sin distancias entre el orbitador y las estaciones de superficie, a partir de una ejecución real del motor v0.41.0 sobre scenarios/lunar-infrastructure-frame-coestimation.toml. La sigma de Cramer-Rao de las traslaciones y las rotaciones disminuye con los enlaces del orbitador (por ejemplo t_z de 0.98 m a 0.046 m); el menor autovalor de información aumenta 111 veces y la traza de la CRLB cae al 1.0 % (umbral F3 MET). Esto supone que la órbita se conoce en los ejes lunares, con su error recogido por la sigma de distancia del orbitador de 1 m. MODELLED: un modelo de tres cuerpos restringido con simplificaciones declaradas y entradas ilustrativas, no una medición de ninguna magnitud lunar. Carácter consultivo: resultado de análisis de una herramienta de investigación e ingeniería, no un equipo de navegación homologado ni un servicio de seguridad de la vida humana.">
 </picture>
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/lunar-tie-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/lunar-tie-light.svg">
-  <img src="docs/figures/0.38/lunar-tie-light.svg" alt="Precisión de los desplazamientos entre las posiciones de telemetría láser, VLBI y GNSS de una misma nave, frente al error del enlace local en tierra, a partir de una ejecución real del motor v0.40.0 sobre scenarios/lunar-infrastructure-space-tie.toml (un arco de 6.56 días, sigmas de las técnicas GNSS 10 m, VLBI 1 m, láser 0.1 m). Con un enlace local de 1 mm a 1 m, la sigma de la traslación láser menos GNSS se mantiene cerca de 1.04 m hasta que el enlace alcanza 1 m: está limitada por el ruido de medición de las técnicas, no por el enlace local. El mínimo fijado solo por el enlace es la raíz cuadrada de dos veces su sigma. MODELLED: un modelo de tres cuerpos restringido con simplificaciones declaradas y entradas ilustrativas, no una medición de ninguna magnitud lunar. Carácter consultivo: resultado de análisis de una herramienta de investigación e ingeniería, no un equipo de navegación homologado ni un servicio de seguridad de la vida humana.">
+  <img src="docs/figures/0.38/lunar-tie-light.svg" alt="Precisión de los desplazamientos entre las posiciones de telemetría láser, VLBI y GNSS de una misma nave, frente al error del enlace local en tierra, a partir de una ejecución real del motor v0.41.0 sobre scenarios/lunar-infrastructure-space-tie.toml (un arco de 6.56 días, sigmas de las técnicas GNSS 10 m, VLBI 1 m, láser 0.1 m). Con un enlace local de 1 mm a 1 m, la sigma de la traslación láser menos GNSS se mantiene cerca de 1.04 m hasta que el enlace alcanza 1 m: está limitada por el ruido de medición de las técnicas, no por el enlace local. El mínimo fijado solo por el enlace es la raíz cuadrada de dos veces su sigma. MODELLED: un modelo de tres cuerpos restringido con simplificaciones declaradas y entradas ilustrativas, no una medición de ninguna magnitud lunar. Carácter consultivo: resultado de análisis de una herramienta de investigación e ingeniería, no un equipo de navegación homologado ni un servicio de seguridad de la vida humana.">
 </picture>
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/lunar-geodesy-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/lunar-geodesy-light.svg">
-  <img src="docs/figures/0.38/lunar-geodesy-light.svg" alt="Qué familia de observables es sensible a los números de Love lunares h2, k2 y l2, a partir de una ejecución real del motor v0.40.0 sobre scenarios/lunar-infrastructure-geodesy-sensitivity.toml. Cada celda es la derivada parcial RMS de las observaciones de una familia con respecto a un parámetro, en las unidades propias de esa familia (así que las celdas se comparan a lo largo de una fila, no de una columna); un guion significa que la familia no tiene sensibilidad. telemetría láser: h2 7.6, k2 ninguna, l2 9.8. seguimiento del orbitador: h2 ninguna, k2 0.00086, l2 ninguna. gravímetro de superficie: h2 2.9e+03, k2 4.3e+03, l2 ninguna. reloj de superficie: h2 2.8e-17, k2 2.8e-17, l2 ninguna. Con las cuatro familias, la sigma de Cramer-Rao es el 0.36 % del h2 nominal, el 0.52 % de k2 y el 1.16 % de l2. Añadir una familia nunca redujo el menor autovalor (28 de 28 adiciones), pero la traza de la pseudoinversa no fue mayor solo en 16 de 28: esa mitad del umbral G3 está en NOT MET. La familia del orbitador ve la integral a lo largo de la línea de visión de la aceleración de k2, una cifra del extremo superior. MODELLED: un modelo de tres cuerpos restringido con simplificaciones declaradas y entradas ilustrativas, no una medición de ninguna magnitud lunar. Carácter consultivo: resultado de análisis de una herramienta de investigación e ingeniería, no un equipo de navegación homologado ni un servicio de seguridad de la vida humana.">
+  <img src="docs/figures/0.38/lunar-geodesy-light.svg" alt="Qué familia de observables es sensible a los números de Love lunares h2, k2 y l2, a partir de una ejecución real del motor v0.41.0 sobre scenarios/lunar-infrastructure-geodesy-sensitivity.toml. Cada celda es la derivada parcial RMS de las observaciones de una familia con respecto a un parámetro, en las unidades propias de esa familia (así que las celdas se comparan a lo largo de una fila, no de una columna); un guion significa que la familia no tiene sensibilidad. telemetría láser: h2 7.6, k2 ninguna, l2 9.8. seguimiento del orbitador: h2 ninguna, k2 0.00086, l2 ninguna. gravímetro de superficie: h2 2.9e+03, k2 4.3e+03, l2 ninguna. reloj de superficie: h2 2.8e-17, k2 2.8e-17, l2 ninguna. Con las cuatro familias, la sigma de Cramer-Rao es el 0.36 % del h2 nominal, el 0.52 % de k2 y el 1.16 % de l2. Añadir una familia nunca redujo el menor autovalor (28 de 28 adiciones), pero la traza de la pseudoinversa no fue mayor solo en 16 de 28: esa mitad del umbral G3 está en NOT MET. La familia del orbitador ve la integral a lo largo de la línea de visión de la aceleración de k2, una cifra del extremo superior. MODELLED: un modelo de tres cuerpos restringido con simplificaciones declaradas y entradas ilustrativas, no una medición de ninguna magnitud lunar. Carácter consultivo: resultado de análisis de una herramienta de investigación e ingeniería, no un equipo de navegación homologado ni un servicio de seguridad de la vida humana.">
 </picture>
 
 **Estado en el registro: MODELLED, y tres umbrales están en NOT MET.** Los cálculos numéricos se comprueban frente a programas independientes
@@ -569,7 +611,7 @@ el archivo de escenario, el código para ejecutarlo desde Python y la cita.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/studio/studio-task-dark.jpg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/studio/studio-task-light.jpg">
-  <img src="docs/assets/readme/studio/studio-task-light.jpg" alt="Kshana Studio, vista simple, con el escenario incluido integrity-raim, motor v0.40.0 ejecutándose localmente. La pregunta: ¿cumple la geometría los límites de alerta (nivel de protección horizontal y vertical)? Primero la respuesta, marcada como Resultado en vivo: Sí, en su mayor parte: durante el 95.3 % de las 12 h. La cota de error del receptor se mantuvo por debajo de los límites de alerta (40 m horizontal y 50 m vertical) en 344 de 361 comprobaciones, y ninguna posición fue engañosa. Cifras clave: tiempo en que se puede confiar en la posición 95.3 %, mayor intervalo sin servicio 10 min, cota de error típica 6.5 / 13 m, posiciones engañosas 0. Al lado, Pruebe otros ajustes con cinco de ellos (el error de distancia, los dos límites de alerta, la duración y la máscara de elevación) y Ejecutar de nuevo, y después las secciones plegadas Ajustes avanzados (13 más), Cómo se calcula esto (8 validados, 6 modelados) y Para investigadores. Debajo, las vistas de este resultado y los niveles de protección representados frente al límite de alerta." width="100%">
+  <img src="docs/assets/readme/studio/studio-task-light.jpg" alt="Kshana Studio, vista simple, con el escenario incluido integrity-raim, motor v0.39.0 ejecutándose localmente. La pregunta: ¿cumple la geometría los límites de alerta (nivel de protección horizontal y vertical)? Primero la respuesta, marcada como Resultado en vivo: Sí, en su mayor parte: durante el 95.3 % de las 12 h. La cota de error del receptor se mantuvo por debajo de los límites de alerta (40 m horizontal y 50 m vertical) en 344 de 361 comprobaciones, y ninguna posición fue engañosa. Cifras clave: tiempo en que se puede confiar en la posición 95.3 %, mayor intervalo sin servicio 10 min, cota de error típica 6.5 / 13 m, posiciones engañosas 0. Al lado, Pruebe otros ajustes con cinco de ellos (el error de distancia, los dos límites de alerta, la duración y la máscara de elevación) y Ejecutar de nuevo, y después las secciones plegadas Ajustes avanzados (13 más), Cómo se calcula esto (8 validados, 6 modelados) y Para investigadores. Debajo, las vistas de este resultado y los niveles de protección representados frente al límite de alerta." width="100%">
 </picture>
 
 **La vista avanzada** es el panel completo: la biblioteca de escenarios, cinco pasos numerados
@@ -586,13 +628,13 @@ y puede fijar hasta cuatro ejecuciones y compararlas lado a lado.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/studio/studio-home-dark.jpg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/studio/studio-home-light.jpg">
-  <img src="docs/assets/readme/studio/studio-home-light.jpg" alt="Kshana Studio, vista simple, pantalla inicial, titulada ¿Qué le gustaría averiguar?, con el motor v0.40.0 en vivo y, en la barra superior, tres enlaces: Informe de formación, Mapa de interferencias y Confianza en el receptor. Cuatro preguntas: cuántos satélites puedo ver en cualquier lugar de la Tierra, puedo confiar en mi posición, cuánto tiempo puede un reloj mantener la hora sin satélites y qué le hace un inhibidor a mi receptor. Debajo de la primera, su resultado registrado: al menos 22 satélites visibles en todos los lugares y 31 de media con GPS, Galileo, BeiDou y GLONASS juntos, una posición posible en el 100 % de los lugares y momentos, sobre un mapa mundial de satélites visibles, con un botón Abrir este resultado. Al lado, Todo lo que puede hacer Kshana: 16 áreas y 139 escenarios listos para ejecutar, cada tesela con un pequeño gráfico de una ejecución registrada y su proporción de métodos validados, y las 173 de 350 capacidades validadas del registro." width="100%">
+  <img src="docs/assets/readme/studio/studio-home-light.jpg" alt="Kshana Studio, vista simple, pantalla inicial, titulada ¿Qué le gustaría averiguar?, con el motor v0.39.0 en vivo y, en la barra superior, tres enlaces: Informe de formación, Mapa de interferencias y Confianza en el receptor. Cuatro preguntas: cuántos satélites puedo ver en cualquier lugar de la Tierra, puedo confiar en mi posición, cuánto tiempo puede un reloj mantener la hora sin satélites y qué le hace un inhibidor a mi receptor. Debajo de la primera, su resultado registrado: al menos 22 satélites visibles en todos los lugares y 31 de media con GPS, Galileo, BeiDou y GLONASS juntos, una posición posible en el 100 % de los lugares y momentos, sobre un mapa mundial de satélites visibles, con un botón Abrir este resultado. Al lado, Todo lo que puede hacer Kshana: 16 áreas y 139 escenarios listos para ejecutar, cada tesela con un pequeño gráfico de una ejecución registrada y su proporción de métodos validados, y las 173 de 350 capacidades validadas del registro." width="100%">
 </picture>
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/studio/studio-advanced-dark.jpg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/studio/studio-advanced-light.jpg">
-  <img src="docs/assets/readme/studio/studio-advanced-light.jpg" alt="Kshana Studio, vista avanzada, tras una ejecución del escenario incluido constellation-multi-gnss-coverage (Cuatro constelaciones GNSS, un mapa), motor v0.40.0 ejecutándose localmente. A la izquierda la biblioteca de escenarios, 139 escenarios en 16 dominios. Los cinco pasos Elegir, Configurar, Ejecutar, Leer resultados y Compartir o exportar, con el paso 4 activo. Cifras clave: 102 satélites, disponibilidad 100 % (PASS), dilución de la precisión de la posición (PDOP) mediana 0.95 (PASS), PDOP percentil 95 1.105 (PASS), 31.03 satélites visibles de media y 22 como mínimo. Debajo, la fila de paneles con Cobertura seleccionada, la barra de repetición, un mapa mundial del PDOP medio de 0.831 a 1.0853 con todos los satélites dibujados, y las cifras de cobertura global." width="100%">
+  <img src="docs/assets/readme/studio/studio-advanced-light.jpg" alt="Kshana Studio, vista avanzada, tras una ejecución del escenario incluido constellation-multi-gnss-coverage (Cuatro constelaciones GNSS, un mapa), motor v0.39.0 ejecutándose localmente. A la izquierda la biblioteca de escenarios, 139 escenarios en 16 dominios. Los cinco pasos Elegir, Configurar, Ejecutar, Leer resultados y Compartir o exportar, con el paso 4 activo. Cifras clave: 102 satélites, disponibilidad 100 % (PASS), dilución de la precisión de la posición (PDOP) mediana 0.95 (PASS), PDOP percentil 95 1.105 (PASS), 31.03 satélites visibles de media y 22 como mínimo. Debajo, la fila de paneles con Cobertura seleccionada, la barra de repetición, un mapa mundial del PDOP medio de 0.831 a 1.0853 con todos los satélites dibujados, y las cifras de cobertura global." width="100%">
 </picture>
 
 </details>
@@ -608,23 +650,25 @@ ediciones.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/site/site-strip-dark.jpg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/site/site-strip-light.jpg">
-  <img src="docs/assets/readme/site/site-strip-light.jpg" alt="Tres páginas de kshana.dev lado a lado. La cabecera de Inicio: la línea del nombre Kshana · क्षण · el instante preciso sobre el titular Ensaye el minuto en que el GNSS se apaga, con la consola de misión de una ejecución real del motor v0.40.0 (un globo y tres gráficos en vivo: error de tiempo del reloj, densidad portadora-ruido y nivel de protección). Evidencias, Investigación publicada: los seis artículos de arXiv basados en el motor abierto, el más reciente con una figura del motor. Ediciones, Kshana Pro, el mismo motor, ampliado: Free ejecuta un escenario, Pro responde a la pregunta del programa." width="100%">
+  <img src="docs/assets/readme/site/site-strip-light.jpg" alt="Tres páginas de kshana.dev lado a lado. La cabecera de Inicio: la línea del nombre Kshana · क्षण · el instante preciso sobre el titular Ensaye el minuto en que el GNSS se apaga, con la consola de misión de una ejecución real del motor v0.39.0 (un globo y tres gráficos en vivo: error de tiempo del reloj, densidad portadora-ruido y nivel de protección). Evidencias, Investigación publicada: los seis artículos de arXiv basados en el motor abierto, el más reciente con una figura del motor. Ediciones, Kshana Pro, el mismo motor, ampliado: Free ejecuta un escenario, Pro responde a la pregunta del programa." width="100%">
 </picture>
 
 <a id="capabilities"></a>
 ## Capacidades
 
 Un único motor cubre toda la cadena de fallos, desde el primer satélite perturbado hasta el último
-nanosegundo de holdover del reloj. El motor tiene 92 tipos de escenario; `kshana kinds` los
+nanosegundo de holdover del reloj. El motor tiene 93 tipos de escenario; `kshana kinds` los
 enumera y [`docs/SCENARIOS.md`](docs/SCENARIOS.md) documenta cada campo.
 
 | Capacidad | Qué responde |
 |---|---|
 | [Espectro](docs/SPECTRUM.md) | cómo un inhibidor ocupa la banda L de GNSS, banda a banda, segundo a segundo |
 | [Relojes y temporización](docs/TELECOM-TIMING.md) | cuánto tiempo mantiene la hora cada reloj tras perder el GNSS |
+| [Osciladores](docs/OSCILLATOR.md) | qué significan las cifras de la hoja de datos de un oscilador para el seguimiento bajo vibración, el mantenimiento ante cambios de temperatura y golpes, y RAIM |
 | [Constelaciones alrededor de cualquier cuerpo](docs/CONSTELLATION-DESIGN.md) | cobertura, dilución de la precisión y disponibilidad alrededor de la Tierra, la Luna o Marte |
 | [Sistema solar](docs/SOLAR-SYSTEM.md) | dónde está cada planeta y el tiempo de luz de cualquier enlace |
 | [Navegación en órbita terrestre baja](docs/LEO-PNT.md) | un paso, un enlace, un mensaje de navegación y una posición fusionada, etapa a etapa |
+| [Verificación LEO-PNT](docs/LEO-VERIFY.md) | qué entregaría un servicio LEO de tiempo o de posicionamiento: temporización por ráfagas, TDEV de mantenimiento, coste frente a interrupciones, pérdidas en interiores y por lluvia, resolución de ambigüedades, afirmaciones sobre interferencias e integridad solo con Doppler |
 | [Campañas](docs/CAMPAIGNS.md) | una misión encadenada, un barrido o un conjunto de Monte Carlo en un solo escenario |
 | [Animación](docs/ANIMATION.md) | la serie temporal de una ejecución como dibujo animado, reproductor o fotogramas |
 | [Informes](docs/REPORTS.md) | cada cifra con su unidad y su etiqueta, en HTML (HyperText Markup Language) y JSON (JavaScript Object Notation) |
@@ -660,7 +704,7 @@ SigMF es el Signal Metadata Format.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/lband-waterfall-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/lband-waterfall-light.svg">
-  <img src="docs/assets/readme/lband-waterfall-light.svg" alt="La banda L de GNSS como una densidad espectral de potencia a lo largo de 60 s, a partir de una ejecución real del tipo spectrum (l-band-waterfall-jamming.toml, semilla 7, motor v0.40.0): la frecuencia en horizontal, el tiempo hacia abajo, el color para la potencia por encima del ruido de fondo de -202.0 dBW/Hz. Inhibidores: dispositivo de privacidad de barrido (chirp, activo a los 10 s, inactivo a los 40 s); tono CW en L1 (cw, activo a los 30 s); ruido de banda estrecha en L2 (narrowband, activo a los 45 s). Peor banda GPS L1 C/A: C/N0 efectiva mínima de 3.2 dB-Hz a los 31 s frente a un mínimo de seguimiento de 25 dB-Hz. GPS L1 C/A mínimo 3.2 dB-Hz; Galileo E1 mínimo 4.7 dB-Hz; GPS L2C mínimo 36.9 dB-Hz; GPS L5 mínimo 44.1 dB-Hz; Galileo E5a mínimo 47.0 dB-Hz." width="100%">
+  <img src="docs/assets/readme/lband-waterfall-light.svg" alt="La banda L de GNSS como una densidad espectral de potencia a lo largo de 60 s, a partir de una ejecución real del tipo spectrum (l-band-waterfall-jamming.toml, semilla 7, motor v0.41.0): la frecuencia en horizontal, el tiempo hacia abajo, el color para la potencia por encima del ruido de fondo de -202.0 dBW/Hz. Inhibidores: dispositivo de privacidad de barrido (chirp, activo a los 10 s, inactivo a los 40 s); tono CW en L1 (cw, activo a los 30 s); ruido de banda estrecha en L2 (narrowband, activo a los 45 s). Peor banda GPS L1 C/A: C/N0 efectiva mínima de 3.2 dB-Hz a los 31 s frente a un mínimo de seguimiento de 25 dB-Hz. GPS L1 C/A mínimo 3.2 dB-Hz; Galileo E1 mínimo 4.7 dB-Hz; GPS L2C mínimo 36.9 dB-Hz; GPS L5 mínimo 44.1 dB-Hz; Galileo E5a mínimo 47.0 dB-Hz." width="100%">
 </picture>
 
 <picture>
@@ -695,7 +739,7 @@ y `leo-pass-iridium`.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/trust-timeline-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/trust-timeline-light.svg">
-  <img src="docs/assets/readme/trust-timeline-light.svg" alt="Puntuación de confianza a lo largo de una travesía sintética, a partir de una ejecución real del motor v0.40.0 sobre examples/maritime-trust (un registro NMEA inventado de un ferri en una ruta de Tallin a Helsinki, 3001 épocas a 1 Hz). Tres carriles comparten un mismo eje temporal. Arriba: la distancia entre la posición que informa el receptor y la posición real del buque, que se mantiene dentro de unos pocos metros hasta alrededor de 1576 s, cuando el arrastre de posición programado en el registro la aleja, mientras el receptor sigue informando de una posición válida. En medio: la puntuación de confianza de 0 a 100, no calculada durante los primeros 300 s de calibración, en la banda nominal (al menos 90) hasta el arrastre, y después cayendo a través de la banda degradada (al menos 55) hasta la banda no fiable. Abajo: la banda de cada época como una cinta coloreada con su nombre. La puntuación es consultiva. Software de carácter consultivo, no un equipo de navegación homologado (IEC 61108, IEC 61162): el operador sigue siendo responsable de la navegación del buque. El registro es inventado para mostrar el formato y los monitores; no es una medición y no dice nada sobre cómo se comportaría ningún receptor." width="100%">
+  <img src="docs/assets/readme/trust-timeline-light.svg" alt="Puntuación de confianza a lo largo de una travesía sintética, a partir de una ejecución real del motor v0.41.0 sobre examples/maritime-trust (un registro NMEA inventado de un ferri en una ruta de Tallin a Helsinki, 3001 épocas a 1 Hz). Tres carriles comparten un mismo eje temporal. Arriba: la distancia entre la posición que informa el receptor y la posición real del buque, que se mantiene dentro de unos pocos metros hasta alrededor de 1576 s, cuando el arrastre de posición programado en el registro la aleja, mientras el receptor sigue informando de una posición válida. En medio: la puntuación de confianza de 0 a 100, no calculada durante los primeros 300 s de calibración, en la banda nominal (al menos 90) hasta el arrastre, y después cayendo a través de la banda degradada (al menos 55) hasta la banda no fiable. Abajo: la banda de cada época como una cinta coloreada con su nombre. La puntuación es consultiva. Software de carácter consultivo, no un equipo de navegación homologado (IEC 61108, IEC 61162): el operador sigue siendo responsable de la navegación del buque. El registro es inventado para mostrar el formato y los monitores; no es una medición y no dice nada sobre cómo se comportaría ningún receptor." width="100%">
 </picture>
 
 <picture>
@@ -707,7 +751,7 @@ y `leo-pass-iridium`.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/training-track-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/training-track-light.svg">
-  <img src="docs/assets/readme/training-track-light.svg" alt="Flujo de formación del escenario coastal-drag-off (motor v0.40.0, semilla 22, 25 minutos a una posición cada 10 s del registro del instructor). Un mapa muestra la derrota real del buque y la derrota que informa el receptor: coinciden hasta que comienza un arrastre de posición programado a los 421 s; la derrota informada se aleja entonces de la real mientras el receptor mantiene una posición válida, y vuelve cuando el evento termina a los 1140 s. Al lado, la distancia entre las dos derrotas a lo largo del tiempo y la densidad portadora-ruido media que informa el receptor, que sube a un nivel elevado mientras dura el evento. Datos de formación sintéticos generados por Kshana. Solo para formación y pruebas: nunca introduzca este flujo en los sistemas de navegación en vivo de un buque. Consultivo, no un equipo de navegación homologado. Software de carácter consultivo, no un equipo de navegación homologado (IEC 61108, IEC 61162): el operador sigue siendo responsable de la navegación del buque. Las posiciones, fechas y derrotas son inventadas." width="100%">
+  <img src="docs/assets/readme/training-track-light.svg" alt="Flujo de formación del escenario coastal-drag-off (motor v0.41.0, semilla 22, 25 minutos a una posición cada 10 s del registro del instructor). Un mapa muestra la derrota real del buque y la derrota que informa el receptor: coinciden hasta que comienza un arrastre de posición programado a los 421 s; la derrota informada se aleja entonces de la real mientras el receptor mantiene una posición válida, y vuelve cuando el evento termina a los 1140 s. Al lado, la distancia entre las dos derrotas a lo largo del tiempo y la densidad portadora-ruido media que informa el receptor, que sube a un nivel elevado mientras dura el evento. Datos de formación sintéticos generados por Kshana. Solo para formación y pruebas: nunca introduzca este flujo en los sistemas de navegación en vivo de un buque. Consultivo, no un equipo de navegación homologado. Software de carácter consultivo, no un equipo de navegación homologado (IEC 61108, IEC 61162): el operador sigue siendo responsable de la navegación del buque. Las posiciones, fechas y derrotas son inventadas." width="100%">
 </picture>
 
 <picture>
@@ -778,7 +822,7 @@ interrupción GNSS de ~1.8 h. Las cifras son reproducibles (`scenario + seed + v
 
 <p align="center">
   <img src="docs/assets/figures/scenario-fom.png" alt="Lo que aportan los sensores cuánticos cuando el GNSS desaparece, escenario de holdover del reloj: el cuántico mantiene 6600 s de autonomía frente a 2610 s el clásico, un error de temporización mucho menor y una disponibilidad del 100% frente al 95.6%" width="88%">
-  <br><sub>Lo que aportan los sensores cuánticos cuando el GNSS desaparece — <code>clock-holdover</code> · semilla 42 · dibujado con el motor 0.40.0, y cada cifra anterior se vuelve a comprobar frente al motor actual en cada compilación mediante <code>tests/published_figures_still_reproduce.rs</code> · <a href="docs/assets/figures/scenario-fom.svg">SVG</a></sub>
+  <br><sub>Lo que aportan los sensores cuánticos cuando el GNSS desaparece — <code>clock-holdover</code> · semilla 42 · dibujado con el motor 0.41.0, y cada cifra anterior se vuelve a comprobar frente al motor actual en cada compilación mediante <code>tests/published_figures_still_reproduce.rs</code> · <a href="docs/assets/figures/scenario-fom.svg">SVG</a></sub>
 </p>
 
 La ventaja **depende de la duración de la interrupción y de las vibraciones**, con un punto de equilibrio explícito en el que gana lo clásico, mostrado con honestidad a lo largo de la escala de madurez tecnológica (las cifras del reloj óptico son objetivos de demostradores en tierra; ningún reloj óptico de estroncio ha volado):
@@ -801,7 +845,7 @@ La ventaja **depende de la duración de la interrupción y de las vibraciones**,
 |------|----------|---------|-----------|
 | **1 — Holdover del reloj** | `clock-holdover.toml` (especificación de 20 ns) | el reloj óptico aguanta toda la interrupción | el CSAC incumple la especificación a mitad de la interrupción |
 | **2 — Navegación inercial a estima** | `imu-deadreckoning.toml` (especificación de 100 m) | átomos fríos: **~41 m**, aguanta toda la interrupción | grado de navegación: incumple en **~350 s** → decenas de km |
-| **3 — Transferencia de tiempo** (enlace óptico entre satélites) | `timetransfer.toml` | óptico: medición de distancia de **~0.3 mm** | RF (TWSTFT): medición de distancia de **~150 mm** |
+| **3 — Transferencia de tiempo** (enlace óptico entre satélites) | `timetransfer.toml` | óptico: medición de distancia de **~0.3 mm** | RF (TWSTFT): medición de distancia de **~341 mm** |
 | **4 — Fusión híbrida** (culminación) | `hybrid-pnt.toml` | posición + temporización completas durante toda la interrupción | **limitado en posición a los ~350 s** |
 
 La culminación muestra la tesis de la fusión: la transferencia óptica de tiempo entre satélites mantiene enganchado incluso
@@ -821,7 +865,7 @@ GNSS se propaga frente a una constelación Walker similar a GPS, y el número de
 (línea de visión, ocultación por la Tierra, máscara de elevación) fija el estado de la posición en cada
 paso. A lo largo de un día el usuario tiene posición solo ~59% del tiempo; el reloj cuántico mantiene una
 solución de temporización de 5 ns en todos los intervalos sin servicio (disponibilidad **1.0**), el reloj a escala de chip
-solo **~0.83**.
+solo **~0.73**.
 
 <p align="center">
   <img src="docs/assets/orbit-gnss-challenged.svg" alt="Órbita con GNSS limitado: error de temporización del reloj a lo largo de un día para una nave espacial dentro de la capa GNSS, donde los huecos de cobertura se derivan de la geometría orbital; el reloj óptico se mantiene dentro de la especificación de 5 ns en todos los huecos mientras que el reloj a escala de chip la incumple" width="80%">
@@ -931,6 +975,7 @@ hoja de contactos de esos gráficos; [`docs/KINDS.md`](docs/KINDS.md) los indexa
 | **[Análisis de misión, enlaces y operaciones espaciales](docs/kinds/mission-analysis-links-and-space-operations.md)** | lanzamiento, ascenso, entrada, actitud, enlaces, planificación de contactos y formatos de archivo | [`launch-window`](docs/kinds/by-kind/launch-window.md), [`ascent-losses`](docs/kinds/by-kind/ascent-losses.md), [`reentry`](docs/kinds/by-kind/reentry.md), [`entry-heating`](docs/kinds/by-kind/entry-heating.md), [`eo-coverage`](docs/kinds/by-kind/eo-coverage.md), [`eo-radiometry`](docs/kinds/by-kind/eo-radiometry.md), [`attitude-budget`](docs/kinds/by-kind/attitude-budget.md), [`aocs`](docs/kinds/by-kind/aocs.md), [`link-budget`](docs/kinds/by-kind/link-budget.md), [`acm-link`](docs/kinds/by-kind/acm-link.md), [`contact-schedule`](docs/kinds/by-kind/contact-schedule.md), [`aperture-duty-cycle`](docs/kinds/by-kind/aperture-duty-cycle.md), [`space-packet`](docs/kinds/by-kind/space-packet.md), [`oem-interop`](docs/kinds/by-kind/oem-interop.md) | `kshana scenarios/launch-window.toml` |
 | **[Hilos de misión](docs/kinds/mission-threads.md)** | el presupuesto de error de navegación y temporización de una cadena de fases desde el lanzamiento hasta la entrada | [`mission-thread`](docs/kinds/by-kind/mission-thread.md) | `kshana scenarios/mission-thread-artemis-class.toml` |
 | **[Campañas](docs/kinds/campaigns.md)** | misiones encadenadas, barridos y conjuntos construidos a partir de los demás tipos | [`campaign`](docs/kinds/by-kind/campaign.md) | `kshana scenarios/campaign-jam-spoof-holdover-integrity.toml` |
+| **[Vigilancia RF desde el espacio](docs/kinds/space-rf-survey.md)** | con qué frecuencia una vigilancia RF de área amplia vuelve a observar una zona marítima y con qué rapidez puede indicar una toma óptica | [`tip-and-cue`](docs/kinds/by-kind/tip-and-cue.md) | `kshana scenarios/tip-and-cue-baltic-m2.toml` |
 <!-- /generated:kind-families -->
 
 <a id="every-command"></a>
@@ -950,11 +995,11 @@ de todos ellos. Los comandos son `--study`, `--validate`, `kinds`, `example`, `r
 ### Cada superficie
 
 Un motor, los mismos resultados en todas partes: la línea de comandos, la biblioteca de Rust, Python, JavaScript y WebAssembly,
-el servidor MCP con sus comandos de plugin y sus skills, Kshana Studio (cada página se ejecuta en el navegador, sin instalación, sin subir nada), las
-integraciones con ROS 2, Signal K, OpenCPN, GNSS-SDR y `gnss_lib_py`, los kits de despliegue de systemd, Docker y Grafana, y el
-plugin de JetBrains. [`docs/ALL-SURFACES.md`](docs/ALL-SURFACES.md) los enumera con cómo obtener cada uno y los nombres de todos
-los comandos de plugin, skills y páginas del Studio; [`docs/SURFACES.md`](docs/SURFACES.md) indica, para cada comando y tipo,
-qué superficie lo incluye y cuáles no, con el motivo.
+el servidor MCP con sus comandos de plugin y sus habilidades, Kshana Studio (cada página se ejecuta en el navegador, sin instalación, sin subir nada), las
+integraciones de ROS 2, Signal K, OpenCPN, GNSS-SDR y `gnss_lib_py`, los kits de despliegue de systemd, Docker y Grafana, y el
+plugin de JetBrains y Kshana Desktop, disponibles en [kshana.dev](https://kshana.dev). [`docs/ALL-SURFACES.md`](docs/ALL-SURFACES.md) los enumera con la forma de obtener cada uno y los nombres de todos
+los comandos de plugin, habilidades y páginas del Studio; [`docs/SURFACES.md`](docs/SURFACES.md) indica, para cada comando y tipo,
+qué superficie lo ofrece y cuáles no, con el motivo.
 
 <a id="how-a-run-works"></a>
 ## Cómo funciona una ejecución
@@ -966,7 +1011,7 @@ las exportaciones que usted pida.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/flow-pipeline-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/flow-pipeline-light.svg">
-  <img src="docs/assets/readme/flow-pipeline-light.svg" alt="Cómo fluye una ejecución. Un archivo TOML de escenario (un tipo, una semilla y sus parámetros) entra en el motor, kshana 0.40.0, a través del despacho api::run_toml sobre 92 tipos de escenario, determinista a partir del escenario, la semilla y la versión del motor. El motor escribe result.json, chart.svg, report.html y report.json, un table.csv para los tipos que lo definen y, a petición, exportaciones SP3, CCSDS OMM y OEM, CZML, KML, GeoJSON, STK y SigMF; una suite escribe study.json y study.html. Esos archivos alimentan Kshana Studio en el navegador, un asistente de IA a través del servidor kshana-mcp y la integración continua." width="100%">
+  <img src="docs/assets/readme/flow-pipeline-light.svg" alt="Cómo fluye una ejecución. Un archivo TOML de escenario (un tipo, una semilla y sus parámetros) entra en el motor, kshana 0.41.0, a través del despacho api::run_toml sobre 93 tipos de escenario, determinista a partir del escenario, la semilla y la versión del motor. El motor escribe result.json, chart.svg, report.html y report.json, un table.csv para los tipos que lo definen y, a petición, exportaciones SP3, CCSDS OMM y OEM, CZML, KML, GeoJSON, STK y SigMF; una suite escribe study.json y study.html. Esos archivos alimentan Kshana Studio en el navegador, un asistente de IA a través del servidor kshana-mcp y la integración continua." width="100%">
 </picture>
 
 Este escenario incluido dura 2 h: 10 min de GNSS y después unas 1.8 h sin GNSS. Pregunta
@@ -1051,8 +1096,7 @@ imposible calificar una capacidad de VALIDATED sin una referencia externa indepe
 Algunas de las comprobaciones: los 666 vectores SGP4 (Simplified General Perturbations 4) de AIAA (American Institute of Aeronautics and Astronautics)
 2006-6753 hasta 4.12 mm; el modelo de fuerzas de Cowell
 hasta 0.08 m frente a Orekit 12.2; Galileo hasta 0.61 m y Swarm-A hasta 0.10 m frente a efemérides precisas
-reales de la Agencia Espacial Europea (ESA). Las pruebas mantienen una cobertura de líneas cercana al 95 % de
-`src/`, exigida al 85 % en la CI. El registro es
+reales de la Agencia Espacial Europea (ESA). En la última medición (motor 0.29.0, [`docs/COVERAGE.md`](docs/COVERAGE.md)) las pruebas cubrían cerca del 95 % de las líneas de `src/`, y la CI falla por debajo del 85 %. El registro es
 [`docs/VERIFICATION-MATRIX.md`](docs/VERIFICATION-MATRIX.md), generado a partir de
 `src/verification.rs`: la [matriz completa de 413 filas](docs/VERIFICATION-MATRIX.md), y por qué cada
 fila Modelled no tiene referencia externa en [`docs/MODELLED-RATIONALE.md`](docs/MODELLED-RATIONALE.md).
@@ -1062,7 +1106,7 @@ fila Modelled no tiene referencia externa en [`docs/MODELLED-RATIONALE.md`](docs
 
 ### Validación, reproducibilidad y honestidad
 
-- Cada término de ruido está calibrado con una cifra **publicada y citada** y validado
+- Cada término de ruido está calibrado con una cifra **publicada y citada** y comprobado
   frente a la relación estándar (desviación de Allan para los relojes; el crecimiento del error de navegación a estima
   de Groves para lo inercial; la conversión temporización→distancia para la transferencia de tiempo). El estado
   de cada término se sigue en [`docs/VALIDATION.md`](docs/VALIDATION.md) como `validated` o
@@ -1117,7 +1161,7 @@ La columna **Estado** indica el *tipo* de evidencia, de acuerdo con la escala de
 | **MODELLED** | OD de Marte en espacio profundo (SRIF de dinámica reducida) | **≈ 0.2 m** LMO de Marte (FoM de simulación, *no* de una misión real) | OD sintética en lazo cerrado: validación de la maquinaria del estimador |
 | **MODELLED** | Dinámica de Marte con el Sol como cuerpo central frente a JPL DE440 | **137 m con un arco de 1 día** (crece con el arco = n cuerpos no modelados) | JPL DE440 mediante ANISE (`xval/anise-mars-od`, condicionado al núcleo) (comparado con esta referencia; ninguna fila de la matriz de verificación la nombra como referencia externa, así que no se etiqueta como VALIDATED) |
 | **VALIDATED** | Posicionamiento de punto simple frente a una coordenada del IGS topografiada (observaciones reales) | **5.7 m** RMS 3-D / **1.1 m** horizontal, SPP de código libre de ionosfera en doble frecuencia | levantamiento de la estación ABMF del IGS + efemérides radiodifundidas GPS, 2018-05-13 (`tests/pvt_abmf.rs`) |
-| **MODELLED** | UKF GNSS/INS fuertemente acoplado | **0.77 m RMS** en un paso LEO de 30 min con una interrupción de 120 s | navegación libre con modelo de fuerzas, derivada a mano |
+| **MODELLED** | Filtro de Kalman sin aroma GNSS/INS (`hybrid-ukf`, 17 estados) | NIS y NEES dentro de sus bandas χ²; **0.36 m** con ayuda, **7.7 m** tras 120 s a estima | autoconsistencia del filtro, no exactitud (`scenarios/hybrid-ukf.toml`) |
 | **MODELLED** | Navegación con mapas de gravedad sin GPS | deriva INS de ~70 km → **~145 m** recuperados | objetivo *Quantum Wayfarer* del ESA NAVISP |
 | **MODELLED** | Navegación referenciada al terreno (TERCOM/SITAN) | deriva de 70 km → **< 500 m** (mínimo por resolución de la rejilla ~140 m) | DEM SRTM `.hgt`; deriva inyectada a mano (comprobación no circular) |
 | **MODELLED** | Campo principal IGRF-14 (grado/orden 13) | polo ~80.7°N, dipolo ~29.7 µT, banda física de 22–67 µT | IAGA (International Association of Geomagnetism and Aeronomy) `igrf14coeffs.txt` (semi-normalizado de Schmidt) |
@@ -1136,7 +1180,7 @@ La columna **Estado** indica el *tipo* de evidencia, de acuerdo con la escala de
 | **MODELLED** | Puntuación de resiliencia PNT + inestabilidad de la decisión | 35 pruebas con referencia derivada a mano; artefacto de estudio determinista byte a byte (semilla fija) | correspondencia con DHS RPCF v2.0 + formas cerradas de Dirichlet / Kendall-τ / Hill-N2: arquitecturas sintéticas, no una certificación |
 | **MODELLED** | Estudio de la brecha de optimismo de deterioros de RF (leyes de escala + predictor por exclusión de uno) | significación frente a la hipótesis nula por permutación; artefacto determinista byte a byte (5 semillas) | corpus sintético fundamentado en parámetros: las *métricas* de evaluación son VALIDATED frente a scikit-learn (arriba); el estudio es MODELLED |
 | CI | Reproducibilidad multiplataforma | entradas idénticas bit a bit + referencias de forma en 3 OS (sistemas operativos) | matriz de CI Linux / macOS / Windows, referencias SHA-256 |
-| CI | Cobertura de pruebas | **~95 % de líneas** en `src/` excluidos `src/*_data.rs` y `src/main.rs`, exigida ≥ 85 % | cargo-tarpaulin (motor LLVM) |
+| CI | Cobertura de pruebas | **~95 % de líneas** (última medición en 0.29.0) en `src/` excluidos `src/*_data.rs` y `src/main.rs`, exigida ≥ 85 % | cargo-tarpaulin (motor LLVM) |
 
 <p align="center">
   <img src="docs/assets/diagrams/validation-provenance.png" alt="Cómo obtiene una capacidad su etiqueta: el requisito se asigna a un módulo en src, a una prueba en tests, a una referencia externa (conjunto de datos real, implementación de referencia independiente o vectores publicados) y a un estado, con una salvaguarda impuesta por la CI de que ninguna capacidad puede ser Validated sin una referencia externa. Recuentos en vivo: 176 Validated, 233 Modelled, 4 Partner, 413 en total" width="900">
@@ -1175,7 +1219,7 @@ La tabla completa, dominio a dominio con cada capacidad y su etiqueta, está en 
 ## Instalación
 
 Una línea instala la herramienta de línea de comandos: **`cargo install kshana`**. Todos los canales distribuyen
-v0.40.0 desde el mismo commit etiquetado.
+v0.41.0 desde el mismo commit etiquetado.
 
 <!-- channels:begin -->
 | Canal | Instalación | Guía |
@@ -1187,12 +1231,12 @@ v0.40.0 desde el mismo commit etiquetado.
 | JavaScript y WebAssembly | `npm install kshana` | [Guía de npm y WebAssembly](https://kshana.dev/docs/npm.html) |
 | Asistente de IA (servidor MCP, cargo) | `cargo install kshana-mcp` | [Guía del servidor MCP](https://kshana.dev/docs/mcp.html) |
 | Imagen de Docker | `docker run --rm -i ghcr.io/ashfordeou/kshana-mcp` | [Guía del servidor MCP: Docker](https://kshana.dev/docs/mcp.html#install) |
-| Extensión de Claude Desktop | haga doble clic en el `.mcpb` de su sistema: [macOS (Apple silicon)](https://github.com/ashfordeOU/kshana/releases/download/v0.40.0/kshana-mcp-aarch64-apple-darwin.mcpb) · [macOS (Intel)](https://github.com/ashfordeOU/kshana/releases/download/v0.40.0/kshana-mcp-x86_64-apple-darwin.mcpb) · [Windows](https://github.com/ashfordeOU/kshana/releases/download/v0.40.0/kshana-mcp-x86_64-pc-windows-msvc.mcpb) · [Linux (x86-64)](https://github.com/ashfordeOU/kshana/releases/download/v0.40.0/kshana-mcp-x86_64-unknown-linux-gnu.mcpb) · [Linux (Arm)](https://github.com/ashfordeOU/kshana/releases/download/v0.40.0/kshana-mcp-aarch64-unknown-linux-gnu.mcpb) | [Todos los fragmentos de instalación de MCP](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
-| Cursor (un clic) | [Añadir a Cursor (npx)](https://cursor.com/en/install-mcp?name=kshana&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsImtzaGFuYS1tY3BAMC40MC4wIl19) · [Añadir a Cursor (Docker)](https://cursor.com/en/install-mcp?name=kshana&config=eyJjb21tYW5kIjoiZG9ja2VyIiwiYXJncyI6WyJydW4iLCItaSIsIi0tcm0iLCJnaGNyLmlvL2FzaGZvcmRlb3Uva3NoYW5hLW1jcDowLjQwLjAiXX0%3D) · `npx -y kshana-mcp@0.40.0` | [Todos los fragmentos de instalación de MCP](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
-| VS Code (un clic) | [Instalar en VS Code (npx)](https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522npx%2522%252C%2522args%2522%253A%255B%2522-y%2522%252C%2522kshana-mcp%25400.40.0%2522%255D%257D) · [Instalar en VS Code (Docker)](https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522docker%2522%252C%2522args%2522%253A%255B%2522run%2522%252C%2522-i%2522%252C%2522--rm%2522%252C%2522ghcr.io%252Fashfordeou%252Fkshana-mcp%253A0.40.0%2522%255D%257D) · `npx -y kshana-mcp@0.40.0` | [Todos los fragmentos de instalación de MCP](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
-| Claude Code | `claude mcp add kshana -- npx -y kshana-mcp@0.40.0` | [Todos los fragmentos de instalación de MCP](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
-| npx | `npx -y kshana-mcp@0.40.0` | [Todos los fragmentos de instalación de MCP](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
-| uvx / pipx | `uvx kshana-mcp==0.40.0` | [Todos los fragmentos de instalación de MCP](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
+| Extensión de Claude Desktop | haga doble clic en el `.mcpb` de su sistema: [macOS (Apple silicon)](https://github.com/ashfordeOU/kshana/releases/download/v0.41.0/kshana-mcp-aarch64-apple-darwin.mcpb) · [macOS (Intel)](https://github.com/ashfordeOU/kshana/releases/download/v0.41.0/kshana-mcp-x86_64-apple-darwin.mcpb) · [Windows](https://github.com/ashfordeOU/kshana/releases/download/v0.41.0/kshana-mcp-x86_64-pc-windows-msvc.mcpb) · [Linux (x86-64)](https://github.com/ashfordeOU/kshana/releases/download/v0.41.0/kshana-mcp-x86_64-unknown-linux-gnu.mcpb) · [Linux (Arm)](https://github.com/ashfordeOU/kshana/releases/download/v0.41.0/kshana-mcp-aarch64-unknown-linux-gnu.mcpb) | [Todos los fragmentos de instalación de MCP](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
+| Cursor (un clic) | [Añadir a Cursor (npx)](https://cursor.com/en/install-mcp?name=kshana&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsImtzaGFuYS1tY3BAMC40MS4wIl19) · [Añadir a Cursor (Docker)](https://cursor.com/en/install-mcp?name=kshana&config=eyJjb21tYW5kIjoiZG9ja2VyIiwiYXJncyI6WyJydW4iLCItaSIsIi0tcm0iLCJnaGNyLmlvL2FzaGZvcmRlb3Uva3NoYW5hLW1jcDowLjQxLjAiXX0%3D) · `npx -y kshana-mcp@0.41.0` | [Todos los fragmentos de instalación de MCP](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
+| VS Code (un clic) | [Instalar en VS Code (npx)](https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522npx%2522%252C%2522args%2522%253A%255B%2522-y%2522%252C%2522kshana-mcp%25400.41.0%2522%255D%257D) · [Instalar en VS Code (Docker)](https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522docker%2522%252C%2522args%2522%253A%255B%2522run%2522%252C%2522-i%2522%252C%2522--rm%2522%252C%2522ghcr.io%252Fashfordeou%252Fkshana-mcp%253A0.41.0%2522%255D%257D) · `npx -y kshana-mcp@0.41.0` | [Todos los fragmentos de instalación de MCP](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
+| Claude Code | `claude mcp add kshana -- npx -y kshana-mcp@0.41.0` | [Todos los fragmentos de instalación de MCP](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
+| npx | `npx -y kshana-mcp@0.41.0` | [Todos los fragmentos de instalación de MCP](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
+| uvx / pipx | `uvx kshana-mcp==0.41.0` | [Todos los fragmentos de instalación de MCP](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
 | Homebrew | `brew install ashfordeOU/tap/kshana-mcp` | [Todos los fragmentos de instalación de MCP](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
 | Scoop | `scoop bucket add ashforde https://github.com/ashfordeOU/scoop-bucket && scoop install kshana-mcp` | [Todos los fragmentos de instalación de MCP](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
 | winget | `winget install AshfordeOU.KshanaMcp` | [Todos los fragmentos de instalación de MCP](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
@@ -1209,8 +1253,8 @@ v0.40.0 desde el mismo commit etiquetado.
 
 <p><a href="https://plugins.jetbrains.com/plugin/32181-kshana--pnt-simulator"><img src="https://img.shields.io/badge/JetBrains-Marketplace-066A86?style=flat-square&labelColor=0A1226" alt="Kshana en el JetBrains Marketplace"></a> <a href="Cargo.toml"><img src="https://img.shields.io/badge/rust-1.88%2B-3F4B67?style=flat-square&labelColor=0A1226" alt="Se compila con Rust 1.88 o posterior, la rust-version de Cargo.toml"></a></p>
 
-MCP es el Model Context Protocol. Fije una versión con `cargo install kshana --version 0.40.0`,
-`pip install kshana==0.40.0` o `npm install kshana@0.40.0`. Para compilar desde el código fuente, véase
+MCP es el Model Context Protocol. Fije una versión con `cargo install kshana --version 0.41.0`,
+`pip install kshana==0.41.0` o `npm install kshana@0.41.0`. Para compilar desde el código fuente, véase
 [Instalación y compilación](#install--build) en Referencia.
 
 <details>
@@ -1224,7 +1268,7 @@ import json, kshana
 toml = open("clock-holdover.toml").read()
 result = json.loads(kshana.run(toml))
 print(kshana.version(), result["quantum"]["fom"]["holdover_s"], result["classical"]["fom"]["holdover_s"])
-# 0.40.0 6600.0 2610.0
+# 0.41.0 6600.0 2610.0
 ```
 
 Además de `run`, el módulo expone `run_full` (JSON, SVG y el resumen de una línea a la vez),
@@ -1245,7 +1289,7 @@ initSync({ module: readFileSync(wasm) });
 const toml = readFileSync("clock-holdover.toml", "utf8");
 const result = JSON.parse(run(toml));
 console.log(version(), result.quantum.fom.holdover_s, result.classical.fom.holdover_s);
-// 0.40.0 6600 2610
+// 0.41.0 6600 2610
 console.log(summary(toml));
 ```
 
@@ -1254,15 +1298,15 @@ console.log(summary(toml));
 <a id="architecture"></a>
 ## Arquitectura
 
-Un motor abierto ocupa el centro, y todas las superficies lo ejecutan: la línea de comandos, la biblioteca
-de Rust, Python, WebAssembly y Kshana Studio, el servidor MCP, la imagen de Docker y el
-plugin de JetBrains. El mismo archivo de escenario da los mismos bytes en cada una. Kshana Pro se sitúa
-encima como una capa separada que depende del motor y nunca lo bifurca.
+Un motor abierto está en el centro, y cada superficie lo ejecuta: la línea de comandos, la biblioteca de Rust,
+Python, WebAssembly y Kshana Studio, el servidor MCP, la imagen de Docker y el
+plugin de JetBrains. El mismo archivo de escenario da los mismos bytes en cada una. Kshana Pro, la edición
+profesional, se basa en el mismo motor y nunca lo bifurca.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/architecture-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/architecture-light.svg">
-  <img src="docs/assets/readme/architecture-light.svg" alt="La arquitectura de Kshana: un motor abierto en el centro, kshana 0.40.0 bajo la AGPL-3.0, con api::run_toml, un despacho tipado sobre todos los tipos, y el registro de verificación de 413 capacidades (176 VALIDATED, 233 MODELLED, 4 PARTNER). A su alrededor, todas las superficies ejecutan el mismo motor: línea de comandos (cargo install kshana); biblioteca de Rust (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); servidor MCP (cargo install kshana-mcp); imagen de Docker (ghcr.io/ashfordeou/kshana-mcp); plugin de JetBrains (Marketplace: &quot;Kshana&quot;). Debajo, Kshana Pro, una capa propietaria que depende del motor abierto como biblioteca y nunca lo bifurca, y que no añade ningún modelo físico." width="100%">
+  <img src="docs/assets/readme/architecture-light.svg" alt="La arquitectura de Kshana: un motor abierto en el centro, kshana 0.41.0 bajo la AGPL-3.0, con api::run_toml, un despacho tipado sobre todos los tipos, y el registro de verificación de 413 capacidades (176 VALIDATED, 233 MODELLED, 4 PARTNER). A su alrededor, todas las superficies ejecutan el mismo motor: línea de comandos (cargo install kshana); biblioteca de Rust (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); servidor MCP (cargo install kshana-mcp); imagen de Docker (ghcr.io/ashfordeou/kshana-mcp); plugin de JetBrains (Marketplace: &quot;Kshana&quot;). Debajo, Kshana Pro, la edición profesional, que depende del motor abierto como biblioteca, nunca lo bifurca y nunca cambia sus modelos físicos; los modelos propios de Pro llevan sus propias etiquetas de evidencia." width="100%">
 </picture>
 
 <details>
@@ -1296,8 +1340,8 @@ Dos crates independientes y **excluidos del workspace** se sitúan junto al núc
 (el servidor MCP, construido sobre el SDK `rmcp` de la edición 2024) y `xval/anise-frames` (la
 comprobación cruzada de marcos con ANISE/SPICE, que incorpora dependencias MPL-2.0 (Mozilla Public License 2.0)), mantenidos fuera del grafo
 de dependencias del crate publicado, de `Cargo.lock`, de la comprobación de licencias y de la compilación MSRV (versión mínima de Rust compatible) mediante la lista
-`exclude` del `Cargo.toml` raíz. El plugin de JetBrains (`ide/jetbrains`) es un proyecto
-Kotlin separado. Véase [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) para el conjunto completo de diagramas.
+`exclude` del `Cargo.toml` raíz. El plugin de JetBrains es un producto aparte, disponible en
+[kshana.dev](https://kshana.dev/docs/jetbrains.html). Véase [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) para el conjunto completo de diagramas.
 
 Los diagramas renderizados (flujo del motor, mapa de módulos, distribución) están en [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
 
@@ -1377,20 +1421,20 @@ Claude Code, Cursor, VS Code, Windsurf, Zed, Goose, Codex CLI, Gemini CLI y Cont
 <!-- mcp-install:begin -->
 | Canal | Comando o botón | Requisitos | Forma fijada |
 |---|---|---|---|
-| Extensión de Claude Desktop | haga doble clic en el `.mcpb` de su sistema: [macOS (Apple silicon)](https://github.com/ashfordeOU/kshana/releases/download/v0.40.0/kshana-mcp-aarch64-apple-darwin.mcpb) · [macOS (Intel)](https://github.com/ashfordeOU/kshana/releases/download/v0.40.0/kshana-mcp-x86_64-apple-darwin.mcpb) · [Windows](https://github.com/ashfordeOU/kshana/releases/download/v0.40.0/kshana-mcp-x86_64-pc-windows-msvc.mcpb) | ninguno | `kshana-mcp-<target>.mcpb` de v0.40.0 |
-| Cursor (un clic) | [npx (Node)](https://cursor.com/en/install-mcp?name=kshana&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsImtzaGFuYS1tY3BAMC40MC4wIl19) · [Docker](https://cursor.com/en/install-mcp?name=kshana&config=eyJjb21tYW5kIjoiZG9ja2VyIiwiYXJncyI6WyJydW4iLCItaSIsIi0tcm0iLCJnaGNyLmlvL2FzaGZvcmRlb3Uva3NoYW5hLW1jcDowLjQwLjAiXX0%3D) | Node, o Docker | `kshana-mcp@0.40.0` / `ghcr.io/ashfordeou/kshana-mcp:0.40.0` |
-| VS Code (un clic) | [npx (Node)](https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522npx%2522%252C%2522args%2522%253A%255B%2522-y%2522%252C%2522kshana-mcp%25400.40.0%2522%255D%257D) · [Docker](https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522docker%2522%252C%2522args%2522%253A%255B%2522run%2522%252C%2522-i%2522%252C%2522--rm%2522%252C%2522ghcr.io%252Fashfordeou%252Fkshana-mcp%253A0.40.0%2522%255D%257D) · [Insiders (npx)](https://insiders.vscode.dev/redirect?url=vscode-insiders%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522npx%2522%252C%2522args%2522%253A%255B%2522-y%2522%252C%2522kshana-mcp%25400.40.0%2522%255D%257D) | Node, o Docker | `kshana-mcp@0.40.0` / `ghcr.io/ashfordeou/kshana-mcp:0.40.0` |
-| Claude Code | `claude mcp add kshana -- npx -y kshana-mcp@0.40.0` · plugin: `/plugin marketplace add ashfordeOU/kshana` y después `/plugin install kshana@ashforde` | Node (o Docker) | `kshana-mcp@0.40.0` |
-| npx | `npx -y kshana-mcp@0.40.0` | Node 18+ | `kshana-mcp@0.40.0` |
-| uvx / pipx | `uvx kshana-mcp==0.40.0` · `pipx run kshana-mcp==0.40.0` | Python 3.9+ con uv o pipx | `kshana-mcp==0.40.0` |
-| Docker | `docker run -i --rm ghcr.io/ashfordeou/kshana-mcp:0.40.0` | Docker | `ghcr.io/ashfordeou/kshana-mcp:0.40.0` |
-| Homebrew | `brew install ashfordeOU/tap/kshana-mcp` | brew | fórmula para v0.40.0 |
-| Scoop | `scoop bucket add ashforde https://github.com/ashfordeOU/scoop-bucket` y después `scoop install kshana-mcp` | Scoop (Windows) | manifiesto para v0.40.0 |
-| winget | `winget install AshfordeOU.KshanaMcp` | winget (Windows) | `--version 0.40.0` |
-| cargo | `cargo install kshana-mcp --version 0.40.0` | Rust 1.88+ | `kshana-mcp 0.40.0` |
-| Binario precompilado | [la página de la versión](https://github.com/ashfordeOU/kshana/releases/tag/v0.40.0): `kshana-mcp` (Linux x86-64), `kshana-mcp-<target>[.exe]`, comprobados con `SHA256SUMS` y `gh attestation verify` | ninguno | v0.40.0 |
-| Registro de MCP | `io.github.ashfordeOU/kshana-mcp` (lo encuentran los clientes compatibles con el registro) | un cliente compatible con el registro | `0.40.0` |
-| Remoto (HTTP en streaming) | `kshana-mcp --http 127.0.0.1:8080`, autoalojado: véase [docs/deploy/mcp-http.md](docs/deploy/mcp-http.md) | su propio servidor | v0.40.0 |
+| Extensión de Claude Desktop | haga doble clic en el `.mcpb` de su sistema: [macOS (Apple silicon)](https://github.com/ashfordeOU/kshana/releases/download/v0.41.0/kshana-mcp-aarch64-apple-darwin.mcpb) · [macOS (Intel)](https://github.com/ashfordeOU/kshana/releases/download/v0.41.0/kshana-mcp-x86_64-apple-darwin.mcpb) · [Windows](https://github.com/ashfordeOU/kshana/releases/download/v0.41.0/kshana-mcp-x86_64-pc-windows-msvc.mcpb) | ninguno | `kshana-mcp-<target>.mcpb` de v0.41.0 |
+| Cursor (un clic) | [npx (Node)](https://cursor.com/en/install-mcp?name=kshana&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsImtzaGFuYS1tY3BAMC40MS4wIl19) · [Docker](https://cursor.com/en/install-mcp?name=kshana&config=eyJjb21tYW5kIjoiZG9ja2VyIiwiYXJncyI6WyJydW4iLCItaSIsIi0tcm0iLCJnaGNyLmlvL2FzaGZvcmRlb3Uva3NoYW5hLW1jcDowLjQxLjAiXX0%3D) | Node, o Docker | `kshana-mcp@0.41.0` / `ghcr.io/ashfordeou/kshana-mcp:0.41.0` |
+| VS Code (un clic) | [npx (Node)](https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522npx%2522%252C%2522args%2522%253A%255B%2522-y%2522%252C%2522kshana-mcp%25400.41.0%2522%255D%257D) · [Docker](https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522docker%2522%252C%2522args%2522%253A%255B%2522run%2522%252C%2522-i%2522%252C%2522--rm%2522%252C%2522ghcr.io%252Fashfordeou%252Fkshana-mcp%253A0.41.0%2522%255D%257D) · [Insiders (npx)](https://insiders.vscode.dev/redirect?url=vscode-insiders%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522npx%2522%252C%2522args%2522%253A%255B%2522-y%2522%252C%2522kshana-mcp%25400.41.0%2522%255D%257D) | Node, o Docker | `kshana-mcp@0.41.0` / `ghcr.io/ashfordeou/kshana-mcp:0.41.0` |
+| Claude Code | `claude mcp add kshana -- npx -y kshana-mcp@0.41.0` · plugin: `/plugin marketplace add ashfordeOU/kshana` y después `/plugin install kshana@ashforde` | Node (o Docker) | `kshana-mcp@0.41.0` |
+| npx | `npx -y kshana-mcp@0.41.0` | Node 18+ | `kshana-mcp@0.41.0` |
+| uvx / pipx | `uvx kshana-mcp==0.41.0` · `pipx run kshana-mcp==0.41.0` | Python 3.9+ con uv o pipx | `kshana-mcp==0.41.0` |
+| Docker | `docker run -i --rm ghcr.io/ashfordeou/kshana-mcp:0.41.0` | Docker | `ghcr.io/ashfordeou/kshana-mcp:0.41.0` |
+| Homebrew | `brew install ashfordeOU/tap/kshana-mcp` | brew | fórmula para v0.41.0 |
+| Scoop | `scoop bucket add ashforde https://github.com/ashfordeOU/scoop-bucket` y después `scoop install kshana-mcp` | Scoop (Windows) | manifiesto para v0.41.0 |
+| winget | `winget install AshfordeOU.KshanaMcp` | winget (Windows) | `--version 0.41.0` |
+| cargo | `cargo install kshana-mcp --version 0.41.0` | Rust 1.88+ | `kshana-mcp 0.41.0` |
+| Binario precompilado | [la página de la versión](https://github.com/ashfordeOU/kshana/releases/tag/v0.41.0): `kshana-mcp` (Linux x86-64), `kshana-mcp-<target>[.exe]`, comprobados con `SHA256SUMS` y `gh attestation verify` | ninguno | v0.41.0 |
+| Registro de MCP | `io.github.ashfordeOU/kshana-mcp` (lo encuentran los clientes compatibles con el registro) | un cliente compatible con el registro | `0.41.0` |
+| Remoto (HTTP en streaming) | `kshana-mcp --http 127.0.0.1:8080`, autoalojado: véase [docs/deploy/mcp-http.md](docs/deploy/mcp-http.md) | su propio servidor | v0.41.0 |
 <!-- mcp-install:end -->
 
 <p><a href="https://glama.ai/mcp/servers/ashfordeOU/kshana"><img src="https://glama.ai/mcp/servers/ashfordeOU/kshana/badges/score.svg" alt="kshana-mcp en Glama, la puntuación de calidad de su servidor MCP"></a></p>
@@ -1415,7 +1459,7 @@ en el registro oficial de MCP como `io.github.ashfordeOU/kshana-mcp`.
 | Herramienta | Qué hace |
 |---|---|
 | `run_scenario` | Ejecuta un escenario a partir de una definición TOML (Tom's Obvious, Minimal Language) |
-| `list_scenario_kinds` | Los 92 tipos de escenario integrados con descripciones + campos obligatorios/opcionales, para que el agente pueda construir un escenario válido |
+| `list_scenario_kinds` | Los 93 tipos de escenario integrados con descripciones + campos obligatorios/opcionales, para que el agente pueda construir un escenario válido |
 | `validate_scenario` | Comprobación previa: analiza el TOML y detecta su tipo, sin ejecutarlo |
 | `list_example_scenarios` | Los escenarios de referencia incluidos, como JSON |
 | `get_example_scenario` | El texto TOML de un escenario de referencia incluido, byte a byte el archivo bajo `scenarios/` |
@@ -1498,111 +1542,72 @@ en el registro oficial de MCP como `io.github.ashfordeOU/kshana-mcp`.
 <a id="editions"></a>
 ## Ediciones
 
-Todo el motor es gratuito. Kshana Pro y los estudios a medida son para programas que necesitan más,
-y toda vía de pago empieza con un mensaje: aquí no hay precios.
+El motor completo es gratuito. Kshana Pro es la edición profesional para equipos que tienen que tomar una
+decisión y defenderla, y un estudio a medida es el mismo trabajo hecho para usted. Toda vía de pago
+empieza con un mensaje: aquí no hay precios.
 
-| | Free | Kshana Pro | Estudio a medida |
+| | Gratis | Kshana Pro | Estudio a medida |
 |---|---|---|---|
-| Qué es | todo el motor abierto, los 92 tipos de escenario, sin funciones restringidas | una capa propietaria sobre el mismo motor, bajo contrato | un estudio MODELLED de resiliencia PNT de su sistema, hecho para usted |
-| Licencia | AGPL-3.0 (GNU Affero General Public License, versión 3), o una licencia comercial | propietaria | contrato |
-| Cómo empezar | [instale](#install) o abra [kshana.dev](https://kshana.dev) | [solicite una evaluación de Pro](mailto:contact@ashforde.org?subject=Kshana%20Pro%20evaluation) | [solicite un estudio](mailto:contact@ashforde.org?subject=Kshana%20custom%20study) |
+| Qué es | el motor abierto completo, los 93 tipos de escenario, sin restricciones de funciones | la edición profesional: el mismo motor y los mismos archivos de escenario, con las herramientas que un programa necesita para decidir, verificar y entregar | un estudio MODELLED de la resiliencia PNT de su sistema, hecho para usted por Ashforde® OÜ |
+| Para quién | investigadores, estudiantes, ingenieros y cualquiera que quiera probar una pregunta | equipos de misión y de programa, ingenieros de sistemas, fabricantes de receptores, relojes y cargas útiles, diseñadores de señales y operadores | equipos que quieren una respuesta sin realizar el estudio ellos mismos |
+| Soporte | la comunidad: issues y pull requests en GitHub | soporte directo del equipo que construye el motor | incluido |
+| Licencia | AGPL-3.0 (GNU Affero General Public License, versión 3), o una licencia comercial | propietaria, bajo contrato | contrato |
+| Cómo empezar | [instalar](#install) o abrir [kshana.dev](https://kshana.dev) | [solicitar una evaluación de Pro](mailto:contact@ashforde.org?subject=Kshana%20Pro%20evaluation) | [solicitar un estudio](mailto:contact@ashforde.org?subject=Kshana%20custom%20study) |
 
-Qué es Pro, en palabras de [`docs/PRO.md`](docs/PRO.md):
+**Qué puede hacer con Kshana Pro.** El motor gratuito le dice lo que da un escenario. Pro
+responde a las preguntas que un programa hace a continuación:
 
-> **Un superconjunto estricto de Kshana abierto.** Pro depende del motor abierto como biblioteca y
-> nunca lo bifurca. Todos los tipos de escenario abiertos se ejecutan en Pro sin cambios, y un escenario abierto se ejecuta
-> en Pro sin ninguna licencia.
->
-> **Ninguna física nueva.** Pro no añade ningún modelo físico ni cambia ninguno. Cada cifra de Pro procede
-> de ejecuciones del motor abierto, así que una cifra de Pro es tan fiable como el tipo de escenario abierto
-> del que procede, y nunca más.
+- **Elegir el diseño que volará.** Indique un espacio de diseño, sus restricciones y sus objetivos, y
+  obtenga los mejores compromisos en todo el espacio, cada candidato como un archivo de escenario que el
+  motor gratuito ejecuta.
+- **Saber qué tan segura es la respuesta.** Bandas de confianza, la probabilidad de cumplir un límite, y
+  qué entradas determinan el resultado.
+- **Demostrar que la misión cumple sus requisitos.** Importe requisitos (CSV, ReqIF o
+  texto SysML v2), compruébelos con ejecuciones y obtenga una matriz de verificación, un informe de impacto
+  de cambios y un dosier de misión (PDF, HTML y JSON) que un comité de revisión puede comprobar.
+- **Comparar arquitecturas con evidencia.** Ordene las opciones según las cifras que importan, con un
+  paquete de evidencia detrás de cada número.
+- **Detectar una regresión antes de publicar.** Nombre las cifras que le importan; su canalización falla
+  cuando un cambio en un escenario, un modelo o el motor empeora alguna.
+- **Comprobar la coexistencia espectral.** Pruebe planes de señal candidatos frente a las señales GNSS abiertas,
+  en ambos sentidos, y ordénelos.
+- **Gemelos de sus relojes.** Un gemelo digital de un reloj, comprobado frente a su estabilidad
+  publicada; el gemelo de su propio dispositivo se construye con usted, bajo contrato.
+- **Ejecutarlo en su propia red.** Un servicio local y una cola de trabajos, con un registro de
+  qué resultado se entregó para qué solicitud.
+- **Entregar evidencia firmada.** Pro firma sus paquetes de evidencia y sus dosieres, y quien los reciba
+  puede comprobarlos sin licencia de Pro.
 
-Pro responde a las siguientes preguntas de un programa: qué diseño volar (un optimizador de diseño y su
-frente de Pareto), qué seguridad tiene la respuesta (incertidumbre y sensibilidad) y si la misión
-cumple sus requisitos (un dosier de misión, trazabilidad de requisitos, estudios de compromisos, una
-comprobación de regresión de escenarios, gemelos digitales de relojes, un dosier de estudio y un servicio
-local). También vigila una campaña de cifras y hace fallar un pipeline cuando una empeora,
-prueba planes de señal candidatos frente a las señales abiertas de navegación por satélite en ambos
-sentidos (coexistencia espectral) y pone en cola estudios en un servicio de trabajos local con un
-registro de entregas encadenado por hashes. Cada uno se describe, con lo que produce y lo que no hace, en
-[`docs/PRO.md`](docs/PRO.md). Nada de lo que produce Pro es una certificación, y un estudio a medida es
-tampoco una certificación.
+**Con qué puede contar.** Cada escenario abierto se ejecuta en Pro sin cambios, y Pro nunca cambia un
+modelo físico del motor abierto. Cada cifra conserva la etiqueta de evidencia que le da el registro
+(VALIDATED, MODELLED o PARTNER) y nunca una superior; los modelos propios de Pro llevan sus propias
+etiquetas. Un entregable de Pro enumera los archivos de escenario que ejecutó, de modo que cualquiera con Kshana abierto puede
+volver a ejecutarlos y obtener las mismas cifras. Nada de lo que produce Pro es una certificación, y un estudio a medida
+tampoco lo es. La descripción completa está en [`docs/PRO.md`](docs/PRO.md).
 
 <details>
-<summary>Qué lee Kshana Pro del motor abierto, y el soporte de Ashforde® OÜ</summary>
+<summary>Soporte y servicios profesionales de Ashforde® OÜ</summary>
 
-<br>
-
-**En qué se basa Kshana Pro.** Cada parte de Pro trabaja a partir del motor abierto y lo deja
-sin cambios:
-
-- **El optimizador de diseño, el estudio de incertidumbre y el dosier de misión** ejecutan escenarios
-  del motor abierto a través de la interfaz pública del motor y calculan cada cifra a partir de los resultados
-  de las ejecuciones. Cada salida conserva el nivel VALIDATED, MODELLED o PARTNER que el motor abierto dio a
-  cada cifra, nunca uno superior.
-- **Los gemelos digitales de relojes** usan el modelo de reloj del motor abierto y su estimador de
-  desviación de Allan: un gemelo se calibra con el presupuesto de Allan publicado del dispositivo y después se comprueba
-  estimando la desviación de Allan del gemelo con el estimador abierto.
-- **Los estudios de compromisos** ejecutan cada opción de arquitectura como un escenario del motor abierto, sin cambios,
-  y clasifican las opciones según una cifra de mérito leída del resultado de cada ejecución.
-- **La vigilancia de campañas** lee sus cifras de los resultados de ejecuciones del motor abierto de los
-  escenarios de un paquete, y las compara con la ejecución anterior aprobada.
-- **La coexistencia espectral** lee cada cifra física de ejecuciones del motor abierto de los tipos
-  `leo-signal` y `constellation-design`, y añade solo la suma sobre los satélites
-  visibles y la clasificación de los planes.
-- **El servicio de trabajos local** ejecuta escenarios abiertos y de Pro a través del mismo motor y
-  almacena cada resultado tal como lo devolvió la ejecución.
-- **Los paquetes de evidencias** registran, para cada ejecución, el hash del escenario que el motor abierto estampa en
-  su resultado, de modo que una cifra de un paquete puede reproducirse volviendo a ejecutar su escenario.
-- **Herramientas de ingeniería de sistemas y de programa.** Las herramientas de ingeniería de
-  sistemas basada en modelos (MBSE) y de programa de Kshana Pro comprueban los requisitos de un programa
-  frente a ejecuciones del motor abierto: importan requisitos como valores separados por comas
-  (CSV), o como un subconjunto documentado del Requirements Interchange Format (ReqIF) o del
-  texto de Systems Modeling Language versión 2 (SysML v2), evalúan cada criterio de
-  aceptación, con su unidad, frente a los valores que escribió una ejecución, y producen una matriz de
-  referencias cruzadas de verificación (VCRM), un modelo SysML v2, un informe de impacto de cambios y un paquete de
-  evidencias sin conexión. No vuelven a ejecutar ni a recalcular nada, y leen solo lo que publica el motor abierto:
-  el `result.json` de cada ejecución (los campos que nombra un criterio, sus unidades, el
-  sello de reproducibilidad de hash del escenario, semilla, versión del motor y versión del esquema, y
-  la etiqueta de la ejecución y los niveles de sus cifras), su `report.json` (tipo, registro de reproducibilidad y
-  etiquetas de capacidad), el archivo de escenario (su hash, tipo, semilla y parámetros), el
-  esquema de unidades de campos (la unidad, la procedencia y el nivel de evidencia de cada campo) y la
-  matriz de verificación (la etiqueta VALIDATED, MODELLED o PARTNER de cada capacidad).
-
-<a id="support--professional-services"></a>
 ### Soporte y servicios profesionales
 
-Kshana es gratuito y de código abierto bajo la AGPL-3.0, y está **desarrollado y
-mantenido profesionalmente por Ashforde® OÜ** (Estonia). El motor abierto está completo y es utilizable por
-sí solo. Para las organizaciones que necesitan más, Ashforde® OÜ ofrece:
+Kshana es gratuito y de código abierto bajo la AGPL-3.0, y **lo desarrolla y mantiene profesionalmente
+Ashforde® OÜ** (Estonia). El motor abierto es completo y utilizable por sí solo.
+Para organizaciones que necesitan más, Ashforde® OÜ ofrece:
 
-- **Soporte comercial e integración**: incorporación de Kshana a su cadena de herramientas, escenarios
+- **Kshana Pro**: la edición profesional descrita arriba, con soporte directo.
+- **Soporte comercial e integración**: integrar Kshana en su cadena de herramientas, escenarios
   a medida y correcciones prioritarias.
-- **Modelos de sensores a medida**: calibrados con su hardware, incluidos modelos de resiliencia
-  sensibles a la exportación mantenidos en una capa privada.
-- **Kshana Pro**: herramientas propietarias de ingeniería de sistemas basada en modelos (MBSE) y de programa
-  que comprueban los requisitos de un programa frente a ejecuciones del motor abierto y
-  producen una matriz de referencias cruzadas de verificación (VCRM), un modelo Systems Modeling Language
-  versión 2 (SysML v2), un informe de impacto de cambios y un paquete de evidencias sin conexión. No
-  vuelven a ejecutar nada y leen solo las salidas publicadas del motor: el `result.json`
-  y el `report.json` de cada ejecución, el archivo de escenario, el esquema de unidades de campos y las etiquetas de la
-  matriz de verificación (la lista completa está en [Ediciones](#editions)).
-- **Herramientas de diseño, incertidumbre y misión de Kshana Pro**: el frente de Pareto de un espacio
-  de diseño, incertidumbre y sensibilidad sobre miles de ejecuciones, y un dosier de misión
-  con un solo comando con una matriz de verificación y un PDF; véase [`docs/PRO.md`](docs/PRO.md).
-- **Vigilancia de campañas, coexistencia espectral y servicio de trabajos de Kshana Pro**: un pipeline que
-  falla cuando una cifra vigilada empeora, planes de señal probados frente a las señales abiertas de
-  navegación por satélite en ambos sentidos, y una cola de trabajos local con un
-  registro de entregas encadenado por hashes; véase [`docs/PRO.md`](docs/PRO.md).
-- **Formación y consultoría** sobre análisis de prestaciones PNT cuánticas/clásicas.
+- **Modelos de sensores a medida**: calibrados con su hardware, bajo contrato; el trabajo sensible
+  a la exportación solo se realiza con la habilitación adecuada y un acuerdo de confidencialidad.
+- **Estudios a medida**: un estudio MODELLED de la resiliencia PNT de su sistema, hecho para usted.
+- **Formación y consultoría** sobre resiliencia PNT y el rendimiento de sensores cuánticos y clásicos.
 
-Este es el modelo open core: el motor tiene, y mantiene, una licencia abierta; el negocio
-que lo sostiene es la experiencia, el soporte y las extensiones propietarias, no las tarifas de licencia.
-Contacto: **contact@ashforde.org** · [ashforde.org](https://ashforde.org).
+Es el modelo de núcleo abierto: el motor tiene, y mantiene, una licencia abierta; el negocio que
+lo sostiene son Kshana Pro, el soporte y la experiencia.
+Contacto **contact@ashforde.org** · [ashforde.org](https://ashforde.org).
 
 </details>
 
-<a id="research"></a>
 ## Investigación
 
 Los estudios basados en el motor abierto se publican en arXiv. Cada uno nombra el comando del motor
@@ -1864,7 +1869,7 @@ el conjunto lunar **modelado**; no cambian el recuento de la matriz comprobada a
 <a id="scenario-format"></a>
 ### Formato de escenario
 
-Los escenarios son TOML declarativo. Un `kind` de nivel superior selecciona el paquete, **cincuenta** en
+Los escenarios son TOML declarativo. Un `kind` de nivel superior selecciona el paquete, **93** en
 total (`clock` es el predeterminado si se omite): `inertial`, `timetransfer`, `hybrid`, `hybrid-ukf`, `fusion`,
 `gnss-ins`, `orbit`, `ephemeris`, `gnss-sim`, `integrity`, `lunar-integrity`, `lunar-time-offset`, `spoof`,
 `spoof-detect`, `jamming`, `sweep`, `sweep-nd`, `gravity-map`, `terrain-nav`, `terrain-slam`,
@@ -2112,7 +2117,7 @@ reloj de papel lunar). **MODELLED**: la cifra principal *depende de la referenci
 frente a selenoide lunar, ventana de promediado), por lo que se informa de una banda y no de un único número
 certificado (`scenarios/lunar-time-offset.toml`).
 
-Véase `scenarios/` para al menos un ejemplo práctico de cada tipo (92 tipos, 193 archivos `.toml`
+Véase `scenarios/` para al menos un ejemplo práctico de cada tipo (93 tipos, 199 archivos `.toml`
 de escenario + 1 manifiesto de suite; varios tipos incluyen más de un ejemplo). No todos los
 tipos tienen un archivo con su nombre: `lunar-integrity` → `scenarios/lunanet-araim.toml` y
 `gravity-map` → `scenarios/gps-denied-gravity-nav.toml` son dos de varios casos así.
@@ -2213,7 +2218,6 @@ kshana/
 │   └── bin/crossover_study.rs · bin/validation_report.rs  # crossover-study artifact generator · release validation-summary HTML
 │
 ├── mcp/kshana-mcp/        # standalone, workspace-EXCLUDED crate — the MCP server (+ Dockerfile, server.json)
-├── ide/jetbrains/         # standalone Kotlin/Gradle IntelliJ-Platform plugin
 ├── xval/                  # standalone, workspace-EXCLUDED external cross-checks: anise-{frames,lunar-od,mars-od,service-geometry} (Rust ANISE/SPICE DE440) + orekit-passes (Java Orekit)
 │
 ├── examples/            # reproducible study generators: tpl_jammertest · resilience_report · optimism_study + real-data probes (jammertest_probe · yunnan_probe · satgrid_probe · texbat_probe · ingest_realdata)
@@ -2223,7 +2227,7 @@ kshana/
 ├── docs/                 # CONCEPTS, ARCHITECTURE, CAPABILITY, VALIDATION, PROVENANCE, GLOSSARY, …
 ├── web/                  # the WebAssembly playground + kshana.dev site
 ├── tools/                # table generators (EGM2008 · IGRF · nutation · CIO) + fetch_tles.sh
-├── .github/workflows/    # ci · release · publish · wheels · pages · mcp-publish · jetbrains-plugin · frame-xval
+├── .github/workflows/    # ci · release · publish · wheels · pages · mcp-publish · frame-xval
 ├── pyproject.toml        # Python packaging (maturin)
 ├── CHANGELOG.md          # Keep a Changelog + SemVer
 └── CITATION.cff · ROADMAP.md · CONTRIBUTING.md · SECURITY.md
@@ -2245,7 +2249,7 @@ No. Es un *simulador* de prestaciones. La fidelidad del hardware cuántico proce
 publicados, no de esta herramienta. Véase [Qué es / qué no es](#what-it-is--is-not).
 
 **¿Son realistas los resultados cuánticos, o son marketing?**
-Cada parámetro se cita con una hoja de datos o un artículo, cada modelo se valida frente a una
+Cada parámetro se cita con una hoja de datos o un artículo, cada modelo se comprueba frente a una
 relación de manual, y la madurez se etiqueta con honestidad en
 [VALIDATION.md](docs/VALIDATION.md), incluido que ningún reloj óptico de estroncio ha
 volado. El motor es neutral: lo cuántico y lo clásico son el mismo código con distintas
@@ -2317,13 +2321,13 @@ después el pipeline comprueba que cada registro sirve realmente la nueva versi�
 
 | Canal | Instalación / obtención | Contenido |
 |---------|---------------|----------|
-| [crates.io](https://crates.io/crates/kshana) | `cargo install kshana` · `kshana = "0.35"` | biblioteca de Rust + CLI |
+| [crates.io](https://crates.io/crates/kshana) | `cargo install kshana` · `kshana = "0.41"` | biblioteca de Rust + CLI |
 | [crates.io](https://crates.io/crates/kshana-mcp) | `cargo install kshana-mcp` | el servidor MCP |
 | [PyPI (Python Package Index)](https://pypi.org/project/kshana/) | `pip install kshana` | wheels abi3 (Linux/macOS/Windows) + sdist (distribución del código fuente) |
 | [npm](https://www.npmjs.com/package/kshana) | `npm install kshana` | módulo WebAssembly + envoltorio JS |
 | [ghcr.io](https://github.com/ashfordeOU/kshana/pkgs/container/kshana-mcp) | `docker run -i ghcr.io/ashfordeou/kshana-mcp` | imagen OCI (Open Container Initiative) multiarquitectura, sin necesidad de cadena de herramientas |
-| [npm](https://www.npmjs.com/package/kshana-mcp) | `npx -y kshana-mcp@0.40.0` | lanzador: descarga el binario de la versión, verifica `SHA256SUMS` y lo ejecuta |
-| [PyPI](https://pypi.org/project/kshana-mcp/) | `uvx kshana-mcp==0.40.0` · `pipx run kshana-mcp==0.40.0` | el mismo lanzador para Python |
+| [npm](https://www.npmjs.com/package/kshana-mcp) | `npx -y kshana-mcp@0.41.0` | lanzador: descarga el binario de la versión, verifica `SHA256SUMS` y lo ejecuta |
+| [PyPI](https://pypi.org/project/kshana-mcp/) | `uvx kshana-mcp==0.41.0` · `pipx run kshana-mcp==0.41.0` | el mismo lanzador para Python |
 | Homebrew · Scoop · winget | `brew install ashfordeOU/tap/kshana-mcp` · `scoop install kshana-mcp` · `winget install AshfordeOU.KshanaMcp` | el binario `kshana-mcp`, generado a partir del `SHA256SUMS` de cada versión |
 | Claude Desktop | haga doble clic en `kshana-mcp-<target>.mcpb` de la versión publicada | la extensión, con el binario dentro |
 | registro oficial de MCP | descubierto automáticamente por los clientes MCP | `io.github.ashfordeOU/kshana-mcp` (imagen OCI, paquetes de npm y PyPI) |
@@ -2354,7 +2358,7 @@ cadena completa GCRS↔ITRS IAU 2006/2000A basada en el CIO (movimiento del polo
 validada bit a bit frente a SOFA/ERFA y comprobada de forma cruzada e independiente frente a ANISE
 (SPICE en Rust puro) hasta ≤ 3.6 m en la órbita GNSS. Los elementos a corto plazo incluyen la fusión fuertemente acoplada con fase de portadora y la extensión
 del navegador GNSS/INS débil/fuertemente acoplado a más paquetes; el motor de **navegación radiométrica
-de espacio profundo / Marte** llegó en v0.17.0 (validado por simulación). La
+de espacio profundo / Marte** llegó en v0.17.0 (MODELLED: comprobado en simulación, no con datos de misión). La
 **capa de física cuántica** es un elemento **P2**: el acelerómetro CAI se simula ahora desde
 primeros principios (fase de Mach–Zehnder, ruido de proyección, decaimiento del contraste, acoplamiento
 de vibraciones), mientras que los sensores de reloj/transferencia de tiempo siguen basándose en coeficientes
@@ -2409,7 +2413,7 @@ para cada cambio visible para el usuario. La participación se rige por nuestro
 | [Reproducibilidad y procedencia](docs/REPRODUCIBILITY.md) | revisores / empaquetadores | garantías de determinismo, fijación de referencias, SBOM (lista de materiales de software), procedencia de compilación |
 | [Etiquetas de plataforma de las wheels](docs/WHEEL_TAGS.md) | empaquetadores | la matriz de wheels de Python abi3: qué etiqueta de plataforma resuelve `pip install kshana` |
 | [Posicionamiento](docs/POSITIONING.md) | evaluadores | dónde se sitúa Kshana frente a RTKLIB/gLAB (complementario), y el nivel en el navegador sin instalación |
-| [Kshana Pro](docs/PRO.md) | evaluadores / gestores de programas | qué añade la capa propietaria Pro sobre el mismo motor: optimizador de diseño, incertidumbre y sensibilidad, dosier de misión, vigilancia de campañas, coexistencia espectral, servicio de trabajos local, trazabilidad de requisitos; qué produce cada uno y qué no hace |
+| [Kshana Pro](docs/PRO.md) | evaluadores / gestores de programas | la edición profesional: para quién es, qué pueden hacer los equipos con ella, qué obtienen, el soporte y cómo empezar una evaluación |
 | [Informe técnico](paper/kshana-technical-report.md) · [Artículo para JOSS](paper/paper.md) | revisores / quienes citan / evaluadores | el artículo de investigación ampliado completo (arquitectura, modelos por dominio, validación, casos de estudio y limitaciones) más el envío conciso a JOSS (Journal of Open Source Software) |
 | [Validación de SGP4](docs/SGP4-VALIDATION.md) | revisores / quienes citan | concordancia con la referencia de AIAA 2006-6753 (666 estados, ~4 mm) **y** una comparación directa con el crate independiente `sgp4` (concuerdan por debajo de la micra / 4.12 mm) |
 | [Validación del modelo de fuerzas](docs/AGENCY-ORBIT-VALIDATION.md) | revisores / quienes citan | el motor de fuerzas completo (`src/precise_od.rs`) ajustado a efemérides de agencias: metodología y residuos validados |
@@ -2435,7 +2439,7 @@ para cada cambio visible para el usuario. La participación se rige por nuestro
 | [API de Python](docs/PYTHON_API.md) | usuarios de Python | la superficie del enlace PyO3: llamar al motor, los tipos de escenario/resultado y ejemplos |
 | [Afirmaciones frente a realidad](docs/CLAIMS-VS-REALITY.md) | revisores | el registro de cierre de afirmaciones excesivas + la salvaguarda de CI (`tests/no_overclaims.rs`) que lo mantiene resuelto |
 | [Hoja de ruta](ROADMAP.md) | todo el mundo | la hoja de ruta por fases: qué se ha distribuido y qué viene después |
-| [Servidor MCP](mcp/kshana-mcp/README.md) · [Plugin de JetBrains](ide/jetbrains/README.md) | agentes / usuarios de IDE | ejecutar Kshana desde un asistente de IA o un IDE de JetBrains |
+| [Servidor MCP](mcp/kshana-mcp/README.md) · [Plugin de JetBrains](https://kshana.dev/docs/jetbrains.html) | agentes / usuarios de IDE | ejecutar Kshana desde un asistente de IA o un IDE de JetBrains |
 | [Guía para agentes](docs/AGENTS.md) · [Superficies](docs/SURFACES.md) | agentes / integradores | qué herramienta responde a qué pregunta, qué conservar con cada respuesta; dónde es accesible cada capacidad (CLI, Rust, Python, WASM, MCP, plugin, JetBrains, cuadernos) y por qué una celda es N/A |
 | [Registro de cambios](CHANGELOG.md) | todo el mundo | historial de versiones publicadas (Keep a Changelog + SemVer, Semantic Versioning) |
 | [Contribuir](CONTRIBUTING.md) | colaboradores | compilación, salvaguardas, disciplina de pruebas/citas, DCO (Developer Certificate of Origin) |

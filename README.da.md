@@ -1,4 +1,4 @@
-> Dette er en maskinoversættelse af README.md i v0.40.0, som endnu ikke er gennemgået af en modersmålstalende; den engelske README er referencen. [English](README.md)
+> Dette er en maskinoversættelse af README.md i v0.41.0, som endnu ikke er gennemgået af en modersmålstalende; den engelske README er referencen. [English](README.md)
 
 <!-- The images under docs/assets/readme/ are generated from real engine runs by
      tools/gen_readme_assets.py (light and dark variants); regenerate them with
@@ -24,7 +24,7 @@
   <a href="docs/COVERAGE.md"><img src="https://img.shields.io/badge/coverage-~95%25-377D0C?style=flat-square&labelColor=0A1226" height="18" alt="Linjedækning på næsten 95 % af src/, målt i docs/COVERAGE.md og med en grænse på 85 % i kontinuerlig integration"></a>
   <a href="#evidence"><img src="https://img.shields.io/badge/validated-176%2F413-377D0C?style=flat-square&labelColor=0A1226" height="18" alt="176 af 413 funktioner VALIDATED mod en uafhængig ekstern reference, ifølge verifikationsmatricen"></a>
   <a href="https://sonarcloud.io/summary/overall?id=ashfordeOU_kshana"><img src="https://img.shields.io/sonar/quality_gate/ashfordeOU_kshana?server=https%3A%2F%2Fsonarcloud.io&label=quality&style=flat-square&labelColor=0A1226" height="18" alt="Status for SonarQube Cloud quality gate"></a>
-  <a href="https://github.com/ashfordeOU/kshana/releases"><img src="https://img.shields.io/badge/release-v0.40.0-066A86?style=flat-square&labelColor=0A1226" height="18" alt="Udgivelse v0.40.0"></a>
+  <a href="https://github.com/ashfordeOU/kshana/releases"><img src="https://img.shields.io/badge/release-v0.41.0-066A86?style=flat-square&labelColor=0A1226" height="18" alt="Udgivelse v0.41.0"></a>
   <a href="docs/i18n.md"><img src="https://img.shields.io/badge/languages-English%20%2B%2017-3F4B67?style=flat-square&labelColor=0A1226" height="18" alt="Engelsk og 17 andre sprog, maskinoversat"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/licence-AGPL--3.0-3F4B67?style=flat-square&labelColor=0A1226" height="18" alt="Licens: AGPL-3.0-only"></a>
   <br>
@@ -73,14 +73,14 @@
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/hero-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/hero-light.svg">
-  <img src="docs/assets/readme/hero-light.svg" alt="Øv det minut, hvor GNSS går i sort. Kshanas missionskonsol, tegnet ud fra en rigtig kørsel af motoren v0.40.0: den kædede kampagne campaign-jam-spoof-holdover-integrity (seed 20260928, 6 faser, 18 medlemskørsler over T+01:16:10) og de 102 satellitter fra GPS, Galileo, BeiDou og GLONASS fra constellation-multi-gnss-coverage, hver tegnet på den cirkulære tolegemebane, der er genskabt ud fra motorens jordspor, med radier komprimeret af hensyn til visningen. Urets tidsfejl topper ved 62.7 ns mod en grænse på 50 ns, bærebølge-til-støj-tætheden falder til -12.2 dB-Hz mod et gulv på 25 dB-Hz, og det vertikale beskyttelsesniveau når 135.4 m mod en alarmgrænse på 50 m." width="100%">
+  <img src="docs/assets/readme/hero-light.svg" alt="Øv det minut, hvor GNSS går i sort. Kshanas missionskonsol, tegnet ud fra en rigtig kørsel af motoren v0.41.0: den kædede kampagne campaign-jam-spoof-holdover-integrity (seed 20260928, 6 faser, 18 medlemskørsler over T+01:16:10) og de 102 satellitter fra GPS, Galileo, BeiDou og GLONASS fra constellation-multi-gnss-coverage, hver tegnet på den cirkulære tolegemebane, der er genskabt ud fra motorens jordspor, med radier komprimeret af hensyn til visningen. Urets tidsfejl topper ved 62.7 ns mod en grænse på 50 ns, bærebølge-til-støj-tætheden falder til -12.2 dB-Hz mod et gulv på 25 dB-Hz, og det vertikale beskyttelsesniveau når 135.4 m mod en alarmgrænse på 50 m." width="100%">
 </picture>
 
 <details>
 <summary><strong>Indhold</strong></summary>
 
 - [Øv det minut, hvor GNSS går i sort](#rehearse-the-minute-gnss-goes-dark)
-- [Nyt i 0.40](#whats-new-in-040), [Nyt i 0.39](#whats-new-in-039), [Nyt i 0.38](#whats-new-in-038) og [0.38 i dybden](#038-in-depth): jammertest-scoring, modtagerens egne flag, maskininput, tidssynkronisering og holdover, standardpakker, LunaNet AFS, laboratoriets rundtur, kshana-bench, observatoriet, eksportører, optisk, [navigation for rumbrugere](#space-user-navigation-gnss-ssv) og [måneinfrastruktur](#lunar-infrastructure-lunar-infrastructure)
+- [Nyt i 0.41](#whats-new-in-041), [Nyt i 0.40](#whats-new-in-040), [Nyt i 0.39](#whats-new-in-039), [Nyt i 0.38](#whats-new-in-038) og [0.38 i dybden](#038-in-depth): jammertest-scoring, modtagerens egne flag, maskininput, tidssynkronisering og holdover, standardpakker, LunaNet AFS, laboratoriets rundtur, kshana-bench, observatoriet, eksportører, optisk, [navigation for rumbrugere](#space-user-navigation-gnss-ssv) og [måneinfrastruktur](#lunar-infrastructure-lunar-infrastructure)
 - [Kshana Studio](#kshana-studio) og alle Studio-sider
 - [Funktioner](#capabilities): oversigten over områder, [alle scenarietyper efter familie](#every-scenario-kind-by-family), [alle kommandoer](#every-command), [alle flader](#every-surface)
 - [Sådan forløber en kørsel](#how-a-run-works), [Missioner](#missions)
@@ -105,25 +105,65 @@ Hver funktion bærer én af tre betegnelser i et maskinkontrolleret register: **
 uafhængig ekstern reference er enig), **MODELLED** (internt konsistent, og det siges højt)
 eller **PARTNER** (en hardwarepartner ejer den).
 
-> **Status: v0.40.0.** Et valideret, reproducerbart simuleringsgrundlag for PNT-robusthed.
-> Tidssynkronisering og holdover kommer først, fordi det domæne er det bedst validerede. Kshana er et
-> instrument til studier og afvejninger: ikke hardware til radiofrekvens-signalgenerering (RF) (den
-> styrer ingen radio og udsender intet; dens output på signalniveau er IQ-sampelfiler i basisbånd
-> til softwaremodtagere), ikke en hardware- eller certificeret GNSS-modtager (dens softwaremodtager
-> er et analyseværktøj) og ikke et produkt til flyvning. Ny på området? Start med
+> **Status: v0.41.0.** Et reproducerbart simuleringsgrundlag for PNT-modstandsdygtighed, hvor hver funktion
+> er mærket med sin evidens. Timing og holdover kommer først, fordi det domæne har flest VALIDATED-rækker.
+> Kshana er et instrument til studier og afvejninger: ikke hardware, der genererer radiofrekvenssignaler (RF) (det
+> styrer ingen radio og udsender intet; dets output på signalniveau er IQ-samplefiler i basisbånd
+> til softwaremodtagere), ikke en hardware- eller certificeret GNSS-modtager (dets softwaremodtager
+> er et analyseværktøj) og ikke et flyveprodukt. Ny på området? Start med
 > [introduktionen i almindeligt sprog](docs/CONCEPTS.md) og [ordlisten](docs/GLOSSARY.md).
 
 <a id="whats-new-in-040"></a>
+## Nyt i 0.41
+
+0.41 scorer de evidensrækker, der blev forpligtet til den, hver én gang mod tærskler fastsat før dataene, og offentliggør hvert resultat
+som det faldt ud (genkørslen C2 v2 blev ikke kørt). Den tilføjer en tillidstilstand for et område med en
+kontrol for satellitfejl, en planlægger til overvågningsnetværk, en TDOA-lokalisator for jammere, beslutninger om mørke skibe og AIS-integritet,
+TEXBAT-benchmarken for spoofing, eksporter til flyvedynamik og en RTCM SSR-læser. Registret har nu 413 rækker: 176
+VALIDATED, 233 MODELLED, 4 PARTNER. Ingen række blev forfremmet til VALIDATED, og hver forfejlelse nedenfor er låst fast af en test.
+
+- **Områdetillid (`kshana area-trust`, B5).** Én tillidstilstand for et område ud fra flere referencestationer. Version 3
+  markerer en satellit, hvis fjernelse rydder alarmerne på flere stationer på én gang, og genberegner deres løsninger uden
+  den; tab af lås alene nedgraderer ikke længere en station. På 26 områdedage med IGS-data (Goddard og Wettzell, maj 2026)
+  gav den 1 alarm (tærskel ≤ 1 pr. områdedag) og **opfylder** T4; på syntetiske fejl **forfejler** den T2 (123 af 127
+  fejl ryddet; 4 hvor den resterende geometri er svag, og 2 af 67 epoker med to satellitter forklaret af én). T3
+  (alarmforsinkelse) er opfyldt. B5 v3 er **NOT MET** ([resultater](docs/design/evidence/b5-area-trust/RESULTS-v3.md)). Diagnosen viste også,
+  at motoren brugte broadcastposter markeret som usunde; GPS- og QZSS-poster markeret sådan springes nu over.
+- **Spoofing-benchmark (TEXBAT, E5).** Scoret én gang på alle ti TEXBAT-optagelser med regler fastsat, før nogen fil
+  blev læst: effekt- og forvrængningsscoren **opfylder** E5-PD (AUC 0.7410, tærskel 0.70); IQ-basisscoren **forfejler** E5 v2
+  (AUC 0.6941). Kun scorer offentliggøres, aldrig optagelserne ([resultater](docs/design/evidence/b4a-benchmark-classes/RESULTS-E5-v2.md)).
+- **Planlægger til overvågningsnetværk (`kshana planner`, B1a).** Kort over detektion og TDOA-nøjagtighed samt placering af stationer.
+  Placeringssøgningen i version 3 slår den bedste af 1 000 tilfældige delmængder (0.4408 mod 0.4105) og **opfylder** P4;
+  del 1 er opfyldt på Linux, mens kontrollen på macOS og Windows udestår ([resultater](docs/design/evidence/b1a-planner/RESULTS-v3.md)).
+- **Lokalisering af jammere.** Lokalisatoren ud fra effektforskel (B3a) **forfejler** sit syntetiske kriterium i v1 og v2; den nye TDOA-lokalisator
+  (B3b, `locate_tdoa`) **forfejler** også sit (dækning 0.044 mod 0.90: dens forfining af toppen tager fejl med op til
+  en halv sample mod en angivet σ på 28 ns). Begge rækker stopper her; der laves ingen rigtig kørsel med nogen af metoderne
+  ([B3b-resultater](docs/design/evidence/b3b-tdoa-locator/RESULTS.md)).
+- **Mørke skibe og AIS-integritet (M4).** Version 3 **opfylder** genkaldelsen for mørke skibe (0.994) og alle andre tærskler undtagen
+  positionsforskydninger, som den **forfejler** (0.489 ved 5 km mod 0.85) ([resultater](docs/design/evidence/m4-dark-vessel-ais-integrity/RESULTS-v3.md)).
+  Hvert output beskriver datakonsistens, aldrig hensigt.
+- **Også scoret.** M1 og rækkerne C5a, C3 og B8 **opfylder** deres tærskler; M2's krydstjek af offentliggjorte genbesøgstal
+  er **ikke konsistent** med dem; M5 v2 (hybrid lokalisering fra kredsløb), D8b række
+  8 v2 og D8a række 6 v2 **forfejler** deres ([Changelog](CHANGELOG.md)).
+- **Flyvedynamik og korrektioner.** `kshana ephem-export` skriver en JPL Horizons-tabel som CCSDS OEM eller OPM eller som en
+  SPK-kerne og læser den tilbage; Orekit, Basilisk og ANISE læser filerne med de skrevne bits. En RTCM SSR-læser (IGS SSR),
+  en Bias-SINEX-læser og IERS 2010's faste jordtidevand er tilføjet.
+- **Kontrol af banedata.** `kshana orbit-data` kontrollerer CCSDS-konjunktionsdatameddelelser (508.0-B-1) og OEM- og OCM-
+  efemerider (502.0-B-3) og siger gyldig eller ugyldig mod det afsnit, den citerer, konverterer OEM til OCM og tilbage med
+  bevaret herkomst, sammenligner og reviderer tolinjede elementsæt, og kontrollerer og propagerer kovarianser (MODELLED). På
+  standardens egne CDM-eksempler finder den en kovarians, der ikke er positivt definit, og to syntaksfejl
+  ([Banedata](docs/ORBIT-DATA.md)).
+
 ## Nyt i 0.40
 
 0.40 tilføjer et fejlbudget på missionsniveau, mærker hver figur og tabel med sit evidensniveau, læser målte urlogs,
 kontrollerer indsendelser fra datapartnere, estimerer hvor en interferenskilde kan befinde sig og taler sytten sprog ud over engelsk.
-Registret har nu 412 rækker: 176 VALIDATED, 232 MODELLED, 4 PARTNER. Ingen række blev forfremmet til VALIDATED, og hver forfejlelse nedenfor er
+Ingen række blev forfremmet til VALIDATED, og hver forfejlelse nedenfor er
 fastlåst af en test.
 
 - **Missionstråd.** Typen `mission-thread` kæder faser sammen fra opsendelse til indtræden (`launch-ascent`, `leo-rendezvous`,
   `tli-and-cruise`, `entry` og fire månetyper) med angivne overdragelsesregler, en margin mod angivne krav og det svageste
-  led; et Artemis-lignende eksempel fra ende til ende over 11 faser (Jord- og månesegmenter), 92 scenarietyper i alt. Hvert tal er MODELLED. Den cislunare propagering mod den offentlige Artemis I-bane
+  led; et Artemis-lignende eksempel fra ende til ende over 11 faser (Jord- og månesegmenter). Hvert tal er MODELLED. Den cislunare propagering mod den offentlige Artemis I-bane
   **misser** sin præregistrerede tærskel (45.3 km og 0.25 m/s mod 5 km og 0.05 m/s; årsagen er små manøvrer, som modellen ikke medtager), og månepropagatoren mod CAPSTONE-
   banen **misser** (136.8 km mod 25 km ved slutningen af ét omløb); LRO-sammenligningen er opfyldt. Rækkerne forbliver MODELLED
   ([Missionstråd](docs/MISSION-THREAD.md), [månesegment](docs/MISSION-THREAD-LUNAR.md)). I Studio læses tråden på `/studio/mission-thread/`.
@@ -207,7 +247,7 @@ kshana jammertest score session.toml --catalog ../jammertest-plan/testcatalog202
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/jammertest-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/jammertest-light.svg">
-  <img src="docs/figures/0.38/jammertest-light.svg" alt="Scoring af én syntetisk modtagerlog mod en plan med tre tests, fra en rigtig kørsel af motoren v0.40.0 (`kshana jammertest score`). Loggen er opdigtet: 1800 s NMEA med et fald i C/N0 på 20 dB over to intervaller. Planen oplister tre tidsrum; i det midterste tidsrum er der ingen jammer i loggen. Scoren markerer 2 af 3 tests som detekteret (median forsinkelse 0 s) og 1 som misset, med 0 forløb med falsk alarm over 0.25 h ren tid. Intet her siger noget om en rigtig modtager. Vejledende software, ikke typegodkendt navigationsudstyr (IEC 61108, IEC 61162): operatøren er fortsat ansvarlig for fartøjets navigation.">
+  <img src="docs/figures/0.38/jammertest-light.svg" alt="Scoring af én syntetisk modtagerlog mod en plan med tre tests, fra en rigtig kørsel af motoren v0.41.0 (`kshana jammertest score`). Loggen er opdigtet: 1800 s NMEA med et fald i C/N0 på 20 dB over to intervaller. Planen oplister tre tidsrum; i det midterste tidsrum er der ingen jammer i loggen. Scoren markerer 2 af 3 tests som detekteret (median forsinkelse 0 s) og 1 som misset, med 0 forløb med falsk alarm over 0.25 h ren tid. Intet her siger noget om en rigtig modtager. Vejledende software, ikke typegodkendt navigationsudstyr (IEC 61108, IEC 61162): operatøren er fortsat ansvarlig for fartøjets navigation.">
 </picture>
 
 **Registerstatus: MODELLED.** Tærsklerne blev fastlagt før nogen scoret kørsel; på JammerTest 2024-dataene
@@ -228,7 +268,7 @@ kshana receiver-trust session.toml     # [log] format = "ubx", path = "receiver.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/receiver-flags-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/receiver-flags-light.svg">
-  <img src="docs/figures/0.38/receiver-flags-light.svg" alt="Modtagerens eget spoofing-flag stillet op mod Kshanas alarmer, fra en rigtig kørsel af motoren v0.40.0 på en opdigtet UBX-log (200 epoker ved 1 Hz). C/N0 falder 20 dB ved 80 til 90 s og 120 til 130 s; modtageren flager 120 til 130 s og 160 til 165 s. Af 140 epoker sammenlignet efter kalibrering havde 11 flag fra begge, 6 kun fra modtageren, 11 kun fra Kshana og 112 fra ingen. Ingen af siderne er den sande tilstand, og enighed er ikke validering. Vejledende: analyseoutput fra et forsknings- og ingeniørværktøj, ikke typegodkendt navigationsudstyr og ikke en sikkerhedskritisk tjeneste (safety-of-life).">
+  <img src="docs/figures/0.38/receiver-flags-light.svg" alt="Modtagerens eget spoofing-flag stillet op mod Kshanas alarmer, fra en rigtig kørsel af motoren v0.41.0 på en opdigtet UBX-log (200 epoker ved 1 Hz). C/N0 falder 20 dB ved 80 til 90 s og 120 til 130 s; modtageren flager 120 til 130 s og 160 til 165 s. Af 140 epoker sammenlignet efter kalibrering havde 11 flag fra begge, 6 kun fra modtageren, 11 kun fra Kshana og 112 fra ingen. Ingen af siderne er den sande tilstand, og enighed er ikke validering. Vejledende: analyseoutput fra et forsknings- og ingeniørværktøj, ikke typegodkendt navigationsudstyr og ikke en sikkerhedskritisk tjeneste (safety-of-life).">
 </picture>
 
 **Registerstatus: MODELLED.** Enighed mellem en modtagers detektor og Kshanas er ikke
@@ -248,7 +288,7 @@ kshana imu-fit still.csv --format csv --axis x --expected-mean 0 --id bench-imu
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/machine-inputs-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/machine-inputs-light.svg">
-  <img src="docs/figures/0.38/machine-inputs-light.svg" alt="Hvad `kshana imu-fit` aflæser fra en stationær IMU-log, fra en rigtig kørsel af motoren v0.40.0 på en opdigtet log (20,000 samples ved 100 Hz, 200 s): accelerometerets hastigheds-random-walk q_va = 4.02e-06, gyroens vinkel-random-walk q_arw = 9e-08, biasinstabiliteten 0.00296 og de tidlige Allan-hældninger (-0.51 og -0.49; omkring -0.5 hvor hvid støj dominerer). Tabellen ved siden af er den TOML, kommandoen udskriver. Estimatoren er kun kontrolleret på syntetiske logs. Vejledende: analyseoutput fra et forsknings- og ingeniørværktøj, ikke typegodkendt navigationsudstyr og ikke en sikkerhedskritisk tjeneste (safety-of-life).">
+  <img src="docs/figures/0.38/machine-inputs-light.svg" alt="Hvad `kshana imu-fit` aflæser fra en stationær IMU-log, fra en rigtig kørsel af motoren v0.41.0 på en opdigtet log (20,000 samples ved 100 Hz, 200 s): accelerometerets hastigheds-random-walk q_va = 4.02e-06, gyroens vinkel-random-walk q_arw = 9e-08, biasinstabiliteten 0.00296 og de tidlige Allan-hældninger (-0.51 og -0.49; omkring -0.5 hvor hvid støj dominerer). Tabellen ved siden af er den TOML, kommandoen udskriver. Estimatoren er kun kontrolleret på syntetiske logs. Vejledende: analyseoutput fra et forsknings- og ingeniørværktøj, ikke typegodkendt navigationsudstyr og ikke en sikkerhedskritisk tjeneste (safety-of-life).">
 </picture>
 
 **Registerstatus: MODELLED.** Kun selvskrevne testdata; ingen optagelse fra en rigtig modtager, IMU,
@@ -268,7 +308,7 @@ kshana scenarios/holdover-test-example.toml
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/timing-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/timing-light.svg">
-  <img src="docs/figures/0.38/timing-light.svg" alt="En holdover-test scoret ud fra en tidsfejlsoptegnelse, fra en rigtig kørsel af motoren v0.40.0 på scenarios/holdover-test-example.toml (601 samples hvert 5. s). GNSS fjernes af operatøren ved 600 s og genetableres ved 2400 s; tidsfejlen driver til 299 ns ved slutningen af holdover, over budgettet på 100 ns efter 675 s, og vender tilbage inden for båndet på 100 ns 70 s efter genetableringen. Afgørelser: baseline-masker PASS, holdover-masker FAIL, holdover-kurve FAIL, genopretning RECOVERED. Målt mod masken, ikke en godkendelse. Tidspunkterne er operatørens udsagn, ikke verificeret af Kshana. Vejledende: analyseoutput fra et forsknings- og ingeniørværktøj, ikke typegodkendt navigationsudstyr og ikke en sikkerhedskritisk tjeneste (safety-of-life).">
+  <img src="docs/figures/0.38/timing-light.svg" alt="En holdover-test scoret ud fra en tidsfejlsoptegnelse, fra en rigtig kørsel af motoren v0.41.0 på scenarios/holdover-test-example.toml (601 samples hvert 5. s). GNSS fjernes af operatøren ved 600 s og genetableres ved 2400 s; tidsfejlen driver til 299 ns ved slutningen af holdover, over budgettet på 100 ns efter 675 s, og vender tilbage inden for båndet på 100 ns 70 s efter genetableringen. Afgørelser: baseline-masker PASS, holdover-masker FAIL, holdover-kurve FAIL, genopretning RECOVERED. Målt mod masken, ikke en godkendelse. Tidspunkterne er operatørens udsagn, ikke verificeret af Kshana. Vejledende: analyseoutput fra et forsknings- og ingeniørværktøj, ikke typegodkendt navigationsudstyr og ikke en sikkerhedskritisk tjeneste (safety-of-life).">
 </picture>
 
 **Registerstatus: MODELLED.** Tidspunkterne, hvor GNSS blev fjernet og genetableret, er operatørens udsagn,
@@ -289,7 +329,7 @@ kshana standards-pack run imo-circ-1575
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/standards-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/standards-light.svg">
-  <img src="docs/figures/0.38/standards-light.svg" alt="Hver test i de tre scorede standardpakker, fra rigtige kørsler af motoren v0.40.0 (`kshana standards-pack run`): dhs-rpcf: 6 opfyldt, 1 ikke opfyldt, 2 mangler et input; imo-circ-1575: 1 opfyldt, 4 ikke opfyldt, 2 mangler et input; icao-doc9849-appf: 6 opfyldt, 0 ikke opfyldt, 2 mangler et input. I alt 13 opfyldt, 5 ikke opfyldt og 6 mangler et input, som motoren ikke har (en modtagerlog eller udstyrsdokumentation). Hver tærskel blev angivet før kørslen; en forfejlelse bevares som en forfejlelse. En opfyldt tærskel siger, at et modelleret scenarie opfyldte en angivet tærskel, intet om et produkt. Pakkerne understøtter evidens for de rækker, de citerer; de er ikke en vurdering. Vejledende: analyseoutput fra et forsknings- og ingeniørværktøj, ikke typegodkendt navigationsudstyr og ikke en sikkerhedskritisk tjeneste (safety-of-life); det må ikke være det eneste grundlag for nogen navigations- eller sikkerhedsbeslutning.">
+  <img src="docs/figures/0.38/standards-light.svg" alt="Hver test i de tre scorede standardpakker, fra rigtige kørsler af motoren v0.41.0 (`kshana standards-pack run`): dhs-rpcf: 6 opfyldt, 1 ikke opfyldt, 2 mangler et input; imo-circ-1575: 1 opfyldt, 4 ikke opfyldt, 2 mangler et input; icao-doc9849-appf: 6 opfyldt, 0 ikke opfyldt, 2 mangler et input. I alt 13 opfyldt, 5 ikke opfyldt og 6 mangler et input, som motoren ikke har (en modtagerlog eller udstyrsdokumentation). Hver tærskel blev angivet før kørslen; en forfejlelse bevares som en forfejlelse. En opfyldt tærskel siger, at et modelleret scenarie opfyldte en angivet tærskel, intet om et produkt. Pakkerne understøtter evidens for de rækker, de citerer; de er ikke en vurdering. Vejledende: analyseoutput fra et forsknings- og ingeniørværktøj, ikke typegodkendt navigationsudstyr og ikke en sikkerhedskritisk tjeneste (safety-of-life); det må ikke være det eneste grundlag for nogen navigations- eller sikkerhedsbeslutning.">
 </picture>
 
 **Registerstatus: MODELLED.** En opfyldt tærskel siger, at et modelleret scenarie opfyldte en angivet tærskel, intet om et
@@ -310,7 +350,7 @@ kshana lunanet-afs-check symbols afs.sym
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/lunanet-afs-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/lunanet-afs-light.svg">
-  <img src="docs/figures/0.38/lunanet-afs-light.svg" alt="Kodegeneratoren til LunaNet AFS kontrolleret mod specifikationens trykte kolonner, fra en rigtig kørsel af motoren v0.40.0 (`kshana lunanet-afs-check spec`, fastlåst til LNIS V5, AD1 Volume A (LSIS-AFS) V1.0, 29. januar 2025; dokumentet markerer sine kodetabeller {LSIS-TBC}). 9 af 10 kontroller er opfyldt; B4 er NOT MET (420 af 421 stemte overens). Den kontrollerer en symbolstrøm mod én udgave af en offentliggjort specifikation og siger intet om nogen LunaNet-knude eller -tjeneste. Vejledende: analyseoutput fra et forsknings- og ingeniørværktøj, ikke typegodkendt navigationsudstyr og ikke en sikkerhedskritisk tjeneste (safety-of-life). Den kontrollerer en symbolstrøm mod én udgave af en offentliggjort specifikation og siger intet om nogen LunaNet-knude eller -tjeneste.">
+  <img src="docs/figures/0.38/lunanet-afs-light.svg" alt="Kodegeneratoren til LunaNet AFS kontrolleret mod specifikationens trykte kolonner, fra en rigtig kørsel af motoren v0.41.0 (`kshana lunanet-afs-check spec`, fastlåst til LNIS V5, AD1 Volume A (LSIS-AFS) V1.0, 29. januar 2025; dokumentet markerer sine kodetabeller {LSIS-TBC}). 9 af 10 kontroller er opfyldt; B4 er NOT MET (420 af 421 stemte overens). Den kontrollerer en symbolstrøm mod én udgave af en offentliggjort specifikation og siger intet om nogen LunaNet-knude eller -tjeneste. Vejledende: analyseoutput fra et forsknings- og ingeniørværktøj, ikke typegodkendt navigationsudstyr og ikke en sikkerhedskritisk tjeneste (safety-of-life). Den kontrollerer en symbolstrøm mod én udgave af en offentliggjort specifikation og siger intet om nogen LunaNet-knude eller -tjeneste.">
 </picture>
 
 **Registerstatus: VALIDATED** for kode- og synkroniseringskontrollerne, mod de værdier, som
@@ -352,7 +392,7 @@ kshana bench baseline --task d --split test --out results/
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/bench-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/bench-light.svg">
-  <img src="docs/figures/0.38/bench-light.svg" alt="De indbyggede baselines for kshana-bench opgave D (optimismegabet) på testopdelingen, fra en rigtig kørsel af motoren v0.40.0 (`kshana bench baseline`). Hvert søjlepar er arealet under ROC-kurven på tilfældene inden for fordelingen og på de forskudte tilfælde; afstanden mellem dem er optimismegabet, mod en tolerance på 0.05. fused-max-z: 0.998 og 0.983 (gab 0.015); sqm-imbalance: 0.882 og 0.882 (gab 0.001); agc-excess: 0.848 og 0.819 (gab 0.030); raim-parity: 0.682 og 0.672 (gab 0.010); energy-cn0-drop: 0.595 og 0.565 (gab 0.030). Mærkerne er mærker fra en generativ model over et syntetisk korpus, aldrig feltdata: MODELLED. Vejledende: modelleret eller målt mod angivne referencer, ikke en godkendelse, certificering eller overensstemmelseserklæring. En score beskriver en log eller et korpus, aldrig et produkt.">
+  <img src="docs/figures/0.38/bench-light.svg" alt="De indbyggede baselines for kshana-bench opgave D (optimismegabet) på testopdelingen, fra en rigtig kørsel af motoren v0.41.0 (`kshana bench baseline`). Hvert søjlepar er arealet under ROC-kurven på tilfældene inden for fordelingen og på de forskudte tilfælde; afstanden mellem dem er optimismegabet, mod en tolerance på 0.05. fused-max-z: 0.998 og 0.983 (gab 0.015); sqm-imbalance: 0.882 og 0.882 (gab 0.001); agc-excess: 0.848 og 0.819 (gab 0.030); raim-parity: 0.682 og 0.672 (gab 0.010); energy-cn0-drop: 0.595 og 0.565 (gab 0.030). Mærkerne er mærker fra en generativ model over et syntetisk korpus, aldrig feltdata: MODELLED. Vejledende: modelleret eller målt mod angivne referencer, ikke en godkendelse, certificering eller overensstemmelseserklæring. En score beskriver en log eller et korpus, aldrig et produkt.">
 </picture>
 
 **Registerstatus:** ingen egen registerrække; baselines er mærket MODELLED i resultatfilerne.
@@ -395,7 +435,7 @@ kshana trust-telemetry --result session.result.json --print-syslog --format cef
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/exporters-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/exporters-light.svg">
-  <img src="docs/figures/0.38/exporters-light.svg" alt="Ét tillidsresultat i tre eksportformater, fra rigtige kørsler af motoren v0.40.0 (`kshana trust-telemetry`) på examples/maritime-trust: Prometheus-teksteksponering (den seneste tillidsscore er 5.9, og båndet for ikke-tillid er det, der er sat) samt de sidste CEF- og LEEF-meddelelser. Kommandoen udgiver intet, medmindre den får en destination, indeholder ingen legitimationsoplysninger og udsender intet radiosignal. Vejledende software, ikke typegodkendt navigationsudstyr (IEC 61108, IEC 61162): operatøren er fortsat ansvarlig for fartøjets navigation.">
+  <img src="docs/figures/0.38/exporters-light.svg" alt="Ét tillidsresultat i tre eksportformater, fra rigtige kørsler af motoren v0.41.0 (`kshana trust-telemetry`) på examples/maritime-trust: Prometheus-teksteksponering (den seneste tillidsscore er 5.9, og båndet for ikke-tillid er det, der er sat) samt de sidste CEF- og LEEF-meddelelser. Kommandoen udgiver intet, medmindre den får en destination, indeholder ingen legitimationsoplysninger og udsender intet radiosignal. Vejledende software, ikke typegodkendt navigationsudstyr (IEC 61108, IEC 61162): operatøren er fortsat ansvarlig for fartøjets navigation.">
 </picture>
 
 **Registerstatus: MODELLED.** [Tillidstelemetri](docs/TRUST-TELEMETRY.md).
@@ -413,18 +453,20 @@ kshana scenarios/optical-atmosphere-network.toml
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/optical-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/optical-light.svg">
-  <img src="docs/figures/0.38/optical-light.svg" alt="Én seedet realisering af linkmarginen for stedet 'northern' over 336 h, fra en rigtig kørsel af motoren v0.40.0 på scenarios/optical-atmosphere-network.toml (seed 37, et trin på 600 s). Marginen falder under nul under skyepisoder; i denne trækning er linket oppe 40.5 % af tiden, med 27 udfald og et længste udfald på 30.7 h. Inputtene er illustrative, serien er én trækning fra modellen og ikke klimaet, og den afviger fra den statistiske tilgængelighed (37.8 %) med trækningens stikprøvefejl. Kun vejledende analyse: ikke et certificeret produkt for tilgængelighed, integritet eller navigation og ikke en forudsigelse for noget rigtigt sted, medmindre dets klimainput kommer fra et angivet datasæt.">
+  <img src="docs/figures/0.38/optical-light.svg" alt="Én seedet realisering af linkmarginen for stedet 'northern' over 336 h, fra en rigtig kørsel af motoren v0.41.0 på scenarios/optical-atmosphere-network.toml (seed 37, et trin på 600 s). Marginen falder under nul under skyepisoder; i denne trækning er linket oppe 40.5 % af tiden, med 27 udfald og et længste udfald på 30.7 h. Inputtene er illustrative, serien er én trækning fra modellen og ikke klimaet, og den afviger fra den statistiske tilgængelighed (37.8 %) med trækningens stikprøvefejl. Kun vejledende analyse: ikke et certificeret produkt for tilgængelighed, integritet eller navigation og ikke en forudsigelse for noget rigtigt sted, medmindre dets klimainput kommer fra et angivet datasæt.">
 </picture>
 
 **Registerstatus: MODELLED.** Én trækning fra modellen, ikke klimaet. [Optisk atmosfære](docs/OPTICAL-ATMOSPHERE.md).
 
 ### Nye Studio-visninger
 
-[kshana.dev/studio](https://kshana.dev/studio/) får en Bridge-genafspilning (to kørsler side om side på ét
-missionsur, på [`/studio/replay/`](https://kshana.dev/studio/replay/)), en side for Optisk PNT
-(`/studio/optical/`), en side for holdover-test (`/studio/holdover/`) og en observatorieviser
+[kshana.dev/studio](https://kshana.dev/studio/) får en broafspilning (to kørsler side om side på ét
+missionsur, på [`/studio/replay/`](https://kshana.dev/studio/replay/)), en side til optisk PNT
+(`/studio/optical/`), en side til holdover-test (`/studio/holdover/`) og en fremviser til observatoriet
 (`/studio/observatory/`). De kører den samme motor i browseren, intet uploades, og de bærer
-den samme vejledende erklæring. Billederne ovenfor er tegnet ud fra motorens eget output af et script;
+den samme vejledende erklæring. Kun i Kshana Desktop (fås via [kshana.dev](https://kshana.dev)) læser en visning af IQ-optagelser (`/studio/iq/`) en optagelse fra
+disken og viser dens effekt over tid, et vandfaldsdiagram og spektret ved en markør; den læser kun modtagne samples og
+har ingen kontrol, der skriver, udsender eller laver et signal. Billederne ovenfor er tegnet af et script ud fra motorens output;
 de er ikke skærmbilleder af disse sider.
 
 <a id="space-user-navigation-gnss-ssv"></a>
@@ -450,25 +492,25 @@ kshana scenarios/gnss-ssv-formation-heo.toml    # formation: relative navigation
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/ssv-shell-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/ssv-shell-light.svg">
-  <img src="docs/figures/0.38/ssv-shell-light.svg" alt="Signaltilgængelighed for en bruger på en kugleskal i 36000 km højde med en halvkugleantenne, fra en rigtig kørsel af motoren v0.40.0 på scenarios/gnss-ssv-shell.toml (en reduceret kørsel: 162 brugere, 3 døgn, trin på 10 min), ved en tærskel på 20 dB-Hz. For hver konstellation og hvert bånd to søjler: andelen af par (bruger, epoke) med mindst ét signal og med mindst fire. Samlet, L1: 99.4 % mindst ét, 73.2 % mindst fire, længste udfald under fire signaler 160 min. Samlet, L5: 100.0 % mindst ét, 99.9 % mindst fire, længste udfald under fire signaler 20 min. MODELLED: et modelleret studie ud fra angivne input, ikke en måling og ikke en påstand om servicevolumen for noget system. Den reducerede størrelse er ikke sammenligningen med hæftet. Vejledende: analyseoutput fra et forsknings- og ingeniørværktøj, ikke typegodkendt navigationsudstyr og ikke en sikkerhedskritisk tjeneste (safety-of-life).">
+  <img src="docs/figures/0.38/ssv-shell-light.svg" alt="Signaltilgængelighed for en bruger på en kugleskal i 36000 km højde med en halvkugleantenne, fra en rigtig kørsel af motoren v0.41.0 på scenarios/gnss-ssv-shell.toml (en reduceret kørsel: 162 brugere, 3 døgn, trin på 10 min), ved en tærskel på 20 dB-Hz. For hver konstellation og hvert bånd to søjler: andelen af par (bruger, epoke) med mindst ét signal og med mindst fire. Samlet, L1: 99.4 % mindst ét, 73.2 % mindst fire, længste udfald under fire signaler 160 min. Samlet, L5: 100.0 % mindst ét, 99.9 % mindst fire, længste udfald under fire signaler 20 min. MODELLED: et modelleret studie ud fra angivne input, ikke en måling og ikke en påstand om servicevolumen for noget system. Den reducerede størrelse er ikke sammenligningen med hæftet. Vejledende: analyseoutput fra et forsknings- og ingeniørværktøj, ikke typegodkendt navigationsudstyr og ikke en sikkerhedskritisk tjeneste (safety-of-life).">
 </picture>
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/ssv-heo-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/ssv-heo-light.svg">
-  <img src="docs/figures/0.38/ssv-heo-light.svg" alt="Signaler langs én høj jordbane (perigæum 497 km, apogæum 58622 km, periode 18.8 h), fra en rigtig kørsel af motoren v0.40.0 på scenarios/gnss-ssv-heo.toml, bånd L1. Øverst: den bedste bærebølge-til-støj-tæthed blandt de synlige signaler, mod tærsklen på 20 dB-Hz. I midten: antallet af synlige signaler fra alle konstellationer, fra 4 til 55 langs de samplede punkter. Af de modtagne forbindelser kom 2252 gennem en hovedlap og 696 gennem sidelapper, med et mærket parametrisk stedfortræderdiagram, ikke noget systems målte diagram. Median PDOP 67, 95. percentil 358. MODELLED: et modelleret studie ud fra angivne input, ikke en måling og ikke en påstand om servicevolumen for noget system. Vejledende: analyseoutput fra et forsknings- og ingeniørværktøj, ikke typegodkendt navigationsudstyr og ikke en sikkerhedskritisk tjeneste (safety-of-life).">
+  <img src="docs/figures/0.38/ssv-heo-light.svg" alt="Signaler langs én høj jordbane (perigæum 497 km, apogæum 58622 km, periode 18.8 h), fra en rigtig kørsel af motoren v0.41.0 på scenarios/gnss-ssv-heo.toml, bånd L1. Øverst: den bedste bærebølge-til-støj-tæthed blandt de synlige signaler, mod tærsklen på 20 dB-Hz. I midten: antallet af synlige signaler fra alle konstellationer, fra 4 til 55 langs de samplede punkter. Af de modtagne forbindelser kom 2252 gennem en hovedlap og 696 gennem sidelapper, med et mærket parametrisk stedfortræderdiagram, ikke noget systems målte diagram. Median PDOP 67, 95. percentil 358. MODELLED: et modelleret studie ud fra angivne input, ikke en måling og ikke en påstand om servicevolumen for noget system. Vejledende: analyseoutput fra et forsknings- og ingeniørværktøj, ikke typegodkendt navigationsudstyr og ikke en sikkerhedskritisk tjeneste (safety-of-life).">
 </picture>
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/ssv-nav-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/ssv-nav-light.svg">
-  <img src="docs/figures/0.38/ssv-nav-light.svg" alt="Et filter om bord med ni tilstande på en overførsel fra lav bane mod Månen, fra en rigtig kørsel af motoren v0.40.0 på scenarios/gnss-ssv-nav-lunar.toml (289 epoker, 13 punkter tegnet). På en logaritmisk akse den sande positionsfejl og filterets egen én-sigma-grænse mod tiden siden start. Inden for GNSS-banerne er positionens RMS 1.4 m; over dem er den 90 m, med en slutfejl på 184 m i 193,330 km højde med 1 måling. Middelværdien af den normaliserede kvadrerede estimeringsfejl over hele kørslen er 4.4 (omkring 3 for en konsistent positionsblok). Sandhed og filter deler deres stedfortrædere for Sol og Måne. MODELLED: et modelleret studie ud fra angivne input, ikke en måling og ikke en påstand om servicevolumen for noget system. Vejledende: analyseoutput fra et forsknings- og ingeniørværktøj, ikke typegodkendt navigationsudstyr og ikke en sikkerhedskritisk tjeneste (safety-of-life).">
+  <img src="docs/figures/0.38/ssv-nav-light.svg" alt="Et filter om bord med ni tilstande på en overførsel fra lav bane mod Månen, fra en rigtig kørsel af motoren v0.41.0 på scenarios/gnss-ssv-nav-lunar.toml (289 epoker, 13 punkter tegnet). På en logaritmisk akse den sande positionsfejl og filterets egen én-sigma-grænse mod tiden siden start. Inden for GNSS-banerne er positionens RMS 1.4 m; over dem er den 90 m, med en slutfejl på 184 m i 199,330 km højde med 1 måling. Middelværdien af den normaliserede kvadrerede estimeringsfejl over hele kørslen er 4.4 (omkring 3 for en konsistent positionsblok). Sandhed og filter deler deres stedfortrædere for Sol og Måne. MODELLED: et modelleret studie ud fra angivne input, ikke en måling og ikke en påstand om servicevolumen for noget system. Vejledende: analyseoutput fra et forsknings- og ingeniørværktøj, ikke typegodkendt navigationsudstyr og ikke en sikkerhedskritisk tjeneste (safety-of-life).">
 </picture>
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/ssv-formation-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/ssv-formation-light.svg">
-  <img src="docs/figures/0.38/ssv-formation-light.svg" alt="Relativ navigation af 2 følgefartøjer omkring et hovedfartøj i en høj bane, fra en rigtig kørsel af motoren v0.40.0 på scenarios/gnss-ssv-formation-heo.toml (401 epoker). For hvert følgefartøj to søjler: RMS for den relative position ved at trække de to uafhængige absolutte estimater fra hinanden, og fra det relative filter på enkeltdifferentierede pseudoafstande. Basislinje 0.8 km: 5.1 m og 1.2 m. Basislinje 2.0 km: 4.1 m og 2.1 m. Det absolutte filter er ikke konsistent her: middelværdien af den normaliserede kvadrerede estimeringsfejl er 187 mod omkring 3 for et konsistent filter, så dets angivne usikkerhed er alt for lille. MODELLED: et modelleret studie ud fra angivne input, ikke en måling og ikke en påstand om servicevolumen for noget system. Vejledende: analyseoutput fra et forsknings- og ingeniørværktøj, ikke typegodkendt navigationsudstyr og ikke en sikkerhedskritisk tjeneste (safety-of-life).">
+  <img src="docs/figures/0.38/ssv-formation-light.svg" alt="Relativ navigation af 2 følgefartøjer omkring et hovedfartøj i en høj bane, fra en rigtig kørsel af motoren v0.41.0 på scenarios/gnss-ssv-formation-heo.toml (401 epoker). For hvert følgefartøj to søjler: RMS for den relative position ved at trække de to uafhængige absolutte estimater fra hinanden, og fra det relative filter på enkeltdifferentierede pseudoafstande. Basislinje 0.8 km: 5.1 m og 1.2 m. Basislinje 2.0 km: 4.1 m og 2.1 m. Det absolutte filter er ikke konsistent her: middelværdien af den normaliserede kvadrerede estimeringsfejl er 187 mod omkring 3 for et konsistent filter, så dets angivne usikkerhed er alt for lille. MODELLED: et modelleret studie ud fra angivne input, ikke en måling og ikke en påstand om servicevolumen for noget system. Vejledende: analyseoutput fra et forsknings- og ingeniørværktøj, ikke typegodkendt navigationsudstyr og ikke en sikkerhedskritisk tjeneste (safety-of-life).">
 </picture>
 
 **Registerstatus: MODELLED, og sammenligningen med hæftet misser for det meste.** Tærsklerne blev fastlagt før
@@ -484,7 +526,7 @@ langt over værdien på omkring 3, som et konsistent filter giver).
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/ssv-booklet-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/ssv-booklet-light.svg">
-  <img src="docs/figures/0.38/ssv-booklet-light.svg" alt="Den registrerede sammenligning af tilgængelighedsmodellen for rumbrugere med det offentlige hæfte om Space Service Volume, fra de indcheckede resultater af den præregistrerede kørsel (xval/gnss-ssv/results-run1.json, skrevet af eksemplet ssv_booklet_check i motoren v0.40.0). Søjle for søjle, cellerne inden for tolerancen: S0 13 af 13 (MET); S1 43 af 52 (NOT MET); S2 48 af 52 (NOT MET); S3 122 af 155 (NOT MET); S4 132 af 156 (NOT MET); S5 18 af 26 (NOT MET); S6 26 af 26 (MET); S7 0 af 20 paneldiagrammer (NOT MET). Kun S0 og S6 er opfyldt under den præregistrerede læsning. En diagnostisk variant, der bruger hæftets andre GLONASS-vinkler, bringer S1, S2 og S4 op på alle celler, men erstatter ikke den officielle kørsel. Ingen registerrække er VALIDATED. Vejledende: analyseoutput fra et forsknings- og ingeniørværktøj, ikke typegodkendt navigationsudstyr og ikke en sikkerhedskritisk tjeneste (safety-of-life).">
+  <img src="docs/figures/0.38/ssv-booklet-light.svg" alt="Den registrerede sammenligning af tilgængelighedsmodellen for rumbrugere med det offentlige hæfte om Space Service Volume, fra de indcheckede resultater af den præregistrerede kørsel (xval/gnss-ssv/results-run1.json, skrevet af eksemplet ssv_booklet_check i motoren v0.41.0). Søjle for søjle, cellerne inden for tolerancen: S0 13 af 13 (MET); S1 43 af 52 (NOT MET); S2 48 af 52 (NOT MET); S3 122 af 155 (NOT MET); S4 132 af 156 (NOT MET); S5 18 af 26 (NOT MET); S6 26 af 26 (MET); S7 0 af 20 paneldiagrammer (NOT MET). Kun S0 og S6 er opfyldt under den præregistrerede læsning. En diagnostisk variant, der bruger hæftets andre GLONASS-vinkler, bringer S1, S2 og S4 op på alle celler, men erstatter ikke den officielle kørsel. Ingen registerrække er VALIDATED. Vejledende: analyseoutput fra et forsknings- og ingeniørværktøj, ikke typegodkendt navigationsudstyr og ikke en sikkerhedskritisk tjeneste (safety-of-life).">
 </picture>
 
 [Navigation for rumbrugere](docs/SSV.md), [hvad sammenligningen viser](docs/SSV.md#what-the-comparison-with-the-booklet-shows).
@@ -512,31 +554,31 @@ kshana scenarios/lunar-infrastructure-geodesy-sensitivity.toml
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/lunar-od-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/lunar-od-light.svg">
-  <img src="docs/figures/0.38/lunar-od-light.svg" alt="Konsistens mellem en banebestemmelse om bord med Jord-GNSS i en næsten retlinet halobane og en uafhængig banebestemmelse fra jorden, fra rigtige kørsler af motoren v0.40.0 på scenarios/lunar-infrastructure-od-consistency.toml og varianten med modelfejl (400 forsøg hver). Den gennemsnitlige normaliserede forskel q er 5.81 uden modelfejl og 5.95 med en indført accelerationsfejl på 3e-10 m/s2, mod forventet 6: de to baneløsninger er konsistente (tærskel C1 MET). Andelen af forsøg over 95 %-punktet er 0.040 og 0.052; tærsklen for at detektere den indførte fejl var mindst 0.5, så den er NOT MET (C3): løsningen om bord kendes til omkring 352 m mod 23 m for den fra jorden, så en forskydning på ti meter skjuler sig i dens kovarians. MODELLED: en begrænset trelegememodel med angivne forenklinger og illustrative input, ikke en måling af nogen månestørrelse. Vejledende: analyseoutput fra et forsknings- og ingeniørværktøj, ikke typegodkendt navigationsudstyr og ikke en sikkerhedskritisk tjeneste (safety-of-life).">
+  <img src="docs/figures/0.38/lunar-od-light.svg" alt="Konsistens mellem en banebestemmelse om bord med Jord-GNSS i en næsten retlinet halobane og en uafhængig banebestemmelse fra jorden, fra rigtige kørsler af motoren v0.41.0 på scenarios/lunar-infrastructure-od-consistency.toml og varianten med modelfejl (400 forsøg hver). Den gennemsnitlige normaliserede forskel q er 5.81 uden modelfejl og 5.95 med en indført accelerationsfejl på 3e-10 m/s2, mod forventet 6: de to baneløsninger er konsistente (tærskel C1 MET). Andelen af forsøg over 95 %-punktet er 0.040 og 0.052; tærsklen for at detektere den indførte fejl var mindst 0.5, så den er NOT MET (C3): løsningen om bord kendes til omkring 352 m mod 23 m for den fra jorden, så en forskydning på ti meter skjuler sig i dens kovarians. MODELLED: en begrænset trelegememodel med angivne forenklinger og illustrative input, ikke en måling af nogen månestørrelse. Vejledende: analyseoutput fra et forsknings- og ingeniørværktøj, ikke typegodkendt navigationsudstyr og ikke en sikkerhedskritisk tjeneste (safety-of-life).">
 </picture>
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/lunar-carrier-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/lunar-carrier-light.svg">
-  <img src="docs/figures/0.38/lunar-carrier-light.svg" alt="Fastlæggelse af heltalsmultiplicitet i bærebølgefasen mellem overfladestationer på Månen og en orbiter, fra det indcheckede resultat af den scorede kørsel af motoren v0.40.0 (tests/fixtures/lunar_infra/phase_full_run.json: 3 buelængder, en Monte Carlo med 401 trækninger hver, skrevet af scenarios/carrier-phase-scored.toml). 1 døgn: succes 1.0 % (standardfejl 0.5 %), 134 multipliciteter, orbiterens positionssigma 45.6 m flydende og 18.5 m fastlagt; 2 døgn: succes 0.5 % (standardfejl 0.4 %), 259 multipliciteter, orbiterens positionssigma 21.5 m flydende og 8.7 m fastlagt; 3 døgn: succes 2.8 % (standardfejl 0.8 %), 375 multipliciteter, orbiterens positionssigma 6.3 m flydende og 2.1 m fastlagt. Heltalsfastlæggelse opnås ikke: succesen ligger mellem 1 % og 3 % ved 25 dBi, og ved de registrerede 12 dBi kan problemet ikke opstilles. MODELLED: en begrænset trelegememodel med angivne forenklinger og illustrative input, ikke en måling af nogen månestørrelse. Vejledende: analyseoutput fra et forsknings- og ingeniørværktøj, ikke typegodkendt navigationsudstyr og ikke en sikkerhedskritisk tjeneste (safety-of-life).">
+  <img src="docs/figures/0.38/lunar-carrier-light.svg" alt="Fastlæggelse af heltalsmultiplicitet i bærebølgefasen mellem overfladestationer på Månen og en orbiter, fra det indcheckede resultat af den scorede kørsel af motoren v0.41.0 (tests/fixtures/lunar_infra/phase_full_run.json: 3 buelængder, en Monte Carlo med 401 trækninger hver, skrevet af scenarios/carrier-phase-scored.toml). 1 døgn: succes 1.0 % (standardfejl 0.5 %), 134 multipliciteter, orbiterens positionssigma 45.6 m flydende og 18.5 m fastlagt; 2 døgn: succes 0.5 % (standardfejl 0.4 %), 259 multipliciteter, orbiterens positionssigma 21.5 m flydende og 8.7 m fastlagt; 3 døgn: succes 2.8 % (standardfejl 0.8 %), 375 multipliciteter, orbiterens positionssigma 6.3 m flydende og 2.1 m fastlagt. Heltalsfastlæggelse opnås ikke: succesen ligger mellem 1 % og 3 % ved 25 dBi, og ved de registrerede 12 dBi kan problemet ikke opstilles. MODELLED: en begrænset trelegememodel med angivne forenklinger og illustrative input, ikke en måling af nogen månestørrelse. Vejledende: analyseoutput fra et forsknings- og ingeniørværktøj, ikke typegodkendt navigationsudstyr og ikke en sikkerhedskritisk tjeneste (safety-of-life).">
 </picture>
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/lunar-frame-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/lunar-frame-light.svg">
-  <img src="docs/figures/0.38/lunar-frame-light.svg" alt="Præcisionen af månedatummet med syv parametre (tre translationer, en skala og tre rotationer) ud fra afstandsmåling fra jordstationer, med og uden afstande fra orbiter til overfladestation, fra en rigtig kørsel af motoren v0.40.0 på scenarios/lunar-infrastructure-frame-coestimation.toml. Cramer-Rao-sigmaen for translationerne og rotationerne falder med orbiterforbindelserne (for eksempel t_z fra 0.98 m til 0.046 m); den mindste informationsegenværdi stiger 111 gange, og CRLB-sporet falder til 1.0 % (tærskel F3 MET). Dette forudsætter, at banen er kendt i måneakserne, med dens fejl båret af orbiterens afstandssigma på 1 m. MODELLED: en begrænset trelegememodel med angivne forenklinger og illustrative input, ikke en måling af nogen månestørrelse. Vejledende: analyseoutput fra et forsknings- og ingeniørværktøj, ikke typegodkendt navigationsudstyr og ikke en sikkerhedskritisk tjeneste (safety-of-life).">
+  <img src="docs/figures/0.38/lunar-frame-light.svg" alt="Præcisionen af månedatummet med syv parametre (tre translationer, en skala og tre rotationer) ud fra afstandsmåling fra jordstationer, med og uden afstande fra orbiter til overfladestation, fra en rigtig kørsel af motoren v0.41.0 på scenarios/lunar-infrastructure-frame-coestimation.toml. Cramer-Rao-sigmaen for translationerne og rotationerne falder med orbiterforbindelserne (for eksempel t_z fra 0.98 m til 0.046 m); den mindste informationsegenværdi stiger 111 gange, og CRLB-sporet falder til 1.0 % (tærskel F3 MET). Dette forudsætter, at banen er kendt i måneakserne, med dens fejl båret af orbiterens afstandssigma på 1 m. MODELLED: en begrænset trelegememodel med angivne forenklinger og illustrative input, ikke en måling af nogen månestørrelse. Vejledende: analyseoutput fra et forsknings- og ingeniørværktøj, ikke typegodkendt navigationsudstyr og ikke en sikkerhedskritisk tjeneste (safety-of-life).">
 </picture>
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/lunar-tie-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/lunar-tie-light.svg">
-  <img src="docs/figures/0.38/lunar-tie-light.svg" alt="Præcisionen af forskydningerne mellem laserafstandsmåling, VLBI og GNSS-positioner for ét rumfartøj, mod fejlen i den lokale binding på jorden, fra en rigtig kørsel af motoren v0.40.0 på scenarios/lunar-infrastructure-space-tie.toml (én bue på 6.56 døgn, teknikkernes sigma GNSS 10 m, VLBI 1 m, laser 0.1 m). Med en lokal binding fra 1 mm til 1 m forbliver sigmaen for translationen laser minus GNSS nær 1.04 m, indtil bindingen når 1 m: den er begrænset af teknikkernes målestøj, ikke af den lokale binding. Gulvet, der sættes af bindingen alene, er kvadratroden af to gange dens sigma. MODELLED: en begrænset trelegememodel med angivne forenklinger og illustrative input, ikke en måling af nogen månestørrelse. Vejledende: analyseoutput fra et forsknings- og ingeniørværktøj, ikke typegodkendt navigationsudstyr og ikke en sikkerhedskritisk tjeneste (safety-of-life).">
+  <img src="docs/figures/0.38/lunar-tie-light.svg" alt="Præcisionen af forskydningerne mellem laserafstandsmåling, VLBI og GNSS-positioner for ét rumfartøj, mod fejlen i den lokale binding på jorden, fra en rigtig kørsel af motoren v0.41.0 på scenarios/lunar-infrastructure-space-tie.toml (én bue på 6.56 døgn, teknikkernes sigma GNSS 10 m, VLBI 1 m, laser 0.1 m). Med en lokal binding fra 1 mm til 1 m forbliver sigmaen for translationen laser minus GNSS nær 1.04 m, indtil bindingen når 1 m: den er begrænset af teknikkernes målestøj, ikke af den lokale binding. Gulvet, der sættes af bindingen alene, er kvadratroden af to gange dens sigma. MODELLED: en begrænset trelegememodel med angivne forenklinger og illustrative input, ikke en måling af nogen månestørrelse. Vejledende: analyseoutput fra et forsknings- og ingeniørværktøj, ikke typegodkendt navigationsudstyr og ikke en sikkerhedskritisk tjeneste (safety-of-life).">
 </picture>
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/lunar-geodesy-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/lunar-geodesy-light.svg">
-  <img src="docs/figures/0.38/lunar-geodesy-light.svg" alt="Hvilken observabelfamilie der er følsom over for Månens Love-tal h2, k2 og l2, fra en rigtig kørsel af motoren v0.40.0 på scenarios/lunar-infrastructure-geodesy-sensitivity.toml. Hver celle er RMS af den partielle afledte af en families observationer med hensyn til en parameter, i familiens egne enheder (så celler sammenlignes langs en række, ikke ned ad en kolonne); en tankestreg betyder, at familien ikke har nogen følsomhed. laserafstandsmåling: h2 7.6, k2 ingen, l2 9.8. orbitersporing: h2 ingen, k2 0.00086, l2 ingen. overfladegravimeter: h2 2.9e+03, k2 4.3e+03, l2 ingen. overfladeur: h2 2.8e-17, k2 2.8e-17, l2 ingen. Med alle fire familier er Cramer-Rao-sigmaen 0.36 % af nominel h2, 0.52 % af k2 og 1.16 % af l2. At tilføje en familie sænkede aldrig den mindste egenværdi (28 af 28 tilføjelser), men sporet af pseudo-inversen var kun ikke større i 16 af 28: den halvdel af tærskel G3 er NOT MET. Orbiterfamilien ser sigtelinjeintegralet af k2-accelerationen, et tal i den høje ende. MODELLED: en begrænset trelegememodel med angivne forenklinger og illustrative input, ikke en måling af nogen månestørrelse. Vejledende: analyseoutput fra et forsknings- og ingeniørværktøj, ikke typegodkendt navigationsudstyr og ikke en sikkerhedskritisk tjeneste (safety-of-life).">
+  <img src="docs/figures/0.38/lunar-geodesy-light.svg" alt="Hvilken observabelfamilie der er følsom over for Månens Love-tal h2, k2 og l2, fra en rigtig kørsel af motoren v0.41.0 på scenarios/lunar-infrastructure-geodesy-sensitivity.toml. Hver celle er RMS af den partielle afledte af en families observationer med hensyn til en parameter, i familiens egne enheder (så celler sammenlignes langs en række, ikke ned ad en kolonne); en tankestreg betyder, at familien ikke har nogen følsomhed. laserafstandsmåling: h2 7.6, k2 ingen, l2 9.8. orbitersporing: h2 ingen, k2 0.00086, l2 ingen. overfladegravimeter: h2 2.9e+03, k2 4.3e+03, l2 ingen. overfladeur: h2 2.8e-17, k2 2.8e-17, l2 ingen. Med alle fire familier er Cramer-Rao-sigmaen 0.36 % af nominel h2, 0.52 % af k2 og 1.16 % af l2. At tilføje en familie sænkede aldrig den mindste egenværdi (28 af 28 tilføjelser), men sporet af pseudo-inversen var kun ikke større i 16 af 28: den halvdel af tærskel G3 er NOT MET. Orbiterfamilien ser sigtelinjeintegralet af k2-accelerationen, et tal i den høje ende. MODELLED: en begrænset trelegememodel med angivne forenklinger og illustrative input, ikke en måling af nogen månestørrelse. Vejledende: analyseoutput fra et forsknings- og ingeniørværktøj, ikke typegodkendt navigationsudstyr og ikke en sikkerhedskritisk tjeneste (safety-of-life).">
 </picture>
 
 **Registerstatus: MODELLED, og tre tærskler er NOT MET.** Numerikken kontrolleres mod uafhængige
@@ -569,7 +611,7 @@ tal, scenariefilen, koden til at køre det fra Python og citationen.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/studio/studio-task-dark.jpg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/studio/studio-task-light.jpg">
-  <img src="docs/assets/readme/studio/studio-task-light.jpg" alt="Kshana Studio, enkel visning, på det medfølgende scenarie integrity-raim, motoren v0.40.0 kører lokalt. Spørgsmålet: opfylder geometrien alarmgrænserne (horisontalt og vertikalt beskyttelsesniveau)? Svaret først, markeret Live-resultat: Ja, for det meste: i 95.3 % af de 12 h. Modtagerens fejlgrænse holdt sig under alarmgrænserne (40 m horisontalt og 50 m vertikalt) ved 344 af 361 kontroller, og ingen positionsbestemmelse var vildledende. Nøgletal: tid hvor positionsbestemmelsen kan stoles på 95.3 %, længste hul 10 min, typisk fejlgrænse 6.5 / 13 m, vildledende positionsbestemmelser 0. Ved siden af Prøv andre indstillinger med fem af dem (afstandsfejlen, de to alarmgrænser, varigheden og elevationsmasken) og Kør igen, derefter de sammenfoldede afsnit Avancerede indstillinger (13 flere), Sådan beregnes dette (8 validerede, 6 modellerede) og For forskere. Nedenfor visningerne af dette resultat og beskyttelsesniveauerne plottet mod alarmgrænsen." width="100%">
+  <img src="docs/assets/readme/studio/studio-task-light.jpg" alt="Kshana Studio, enkel visning, på det medfølgende scenarie integrity-raim, motoren v0.39.0 kører lokalt. Spørgsmålet: opfylder geometrien alarmgrænserne (horisontalt og vertikalt beskyttelsesniveau)? Svaret først, markeret Live-resultat: Ja, for det meste: i 95.3 % af de 12 h. Modtagerens fejlgrænse holdt sig under alarmgrænserne (40 m horisontalt og 50 m vertikalt) ved 344 af 361 kontroller, og ingen positionsbestemmelse var vildledende. Nøgletal: tid hvor positionsbestemmelsen kan stoles på 95.3 %, længste hul 10 min, typisk fejlgrænse 6.5 / 13 m, vildledende positionsbestemmelser 0. Ved siden af Prøv andre indstillinger med fem af dem (afstandsfejlen, de to alarmgrænser, varigheden og elevationsmasken) og Kør igen, derefter de sammenfoldede afsnit Avancerede indstillinger (13 flere), Sådan beregnes dette (8 validerede, 6 modellerede) og For forskere. Nedenfor visningerne af dette resultat og beskyttelsesniveauerne plottet mod alarmgrænsen." width="100%">
 </picture>
 
 **Den avancerede visning** er det fulde dashboard: scenariebiblioteket, fem nummererede trin
@@ -586,13 +628,13 @@ dem, og du kan fastgøre op til fire kørsler og sammenligne dem side om side.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/studio/studio-home-dark.jpg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/studio/studio-home-light.jpg">
-  <img src="docs/assets/readme/studio/studio-home-light.jpg" alt="Kshana Studio, enkel visning, startskærm med titlen Hvad vil du gerne finde ud af?, med motoren v0.40.0 live og i topbjælken tre links: Træningsdebriefing, Interferenskort og Modtagertillid. Fire spørgsmål: hvor mange satellitter kan jeg se overalt på Jorden, kan jeg stole på min positionsbestemmelse, hvor længe kan et ur holde tiden uden satellitter, og hvad gør en jammer ved min modtager. Under det første dets optagede resultat: mindst 22 synlige satellitter alle steder og 31 i gennemsnit med GPS, Galileo, BeiDou og GLONASS tilsammen, en positionsbestemmelse mulig 100 % af stederne og tiderne, på et verdenskort over synlige satellitter, med en knap Åbn dette resultat. Ved siden af Alt hvad Kshana kan: 16 områder og 139 kørselsklare scenarier, hver flise med et lille diagram fra en optaget kørsel og dens andel af validerede metoder, og registrets 173 af 350 funktioner valideret." width="100%">
+  <img src="docs/assets/readme/studio/studio-home-light.jpg" alt="Kshana Studio, enkel visning, startskærm med titlen Hvad vil du gerne finde ud af?, med motoren v0.39.0 live og i topbjælken tre links: Træningsdebriefing, Interferenskort og Modtagertillid. Fire spørgsmål: hvor mange satellitter kan jeg se overalt på Jorden, kan jeg stole på min positionsbestemmelse, hvor længe kan et ur holde tiden uden satellitter, og hvad gør en jammer ved min modtager. Under det første dets optagede resultat: mindst 22 synlige satellitter alle steder og 31 i gennemsnit med GPS, Galileo, BeiDou og GLONASS tilsammen, en positionsbestemmelse mulig 100 % af stederne og tiderne, på et verdenskort over synlige satellitter, med en knap Åbn dette resultat. Ved siden af Alt hvad Kshana kan: 16 områder og 139 kørselsklare scenarier, hver flise med et lille diagram fra en optaget kørsel og dens andel af validerede metoder, og registrets 173 af 350 funktioner valideret." width="100%">
 </picture>
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/studio/studio-advanced-dark.jpg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/studio/studio-advanced-light.jpg">
-  <img src="docs/assets/readme/studio/studio-advanced-light.jpg" alt="Kshana Studio, avanceret visning, efter en kørsel af det medfølgende scenarie constellation-multi-gnss-coverage (Fire GNSS-konstellationer, ét kort), motoren v0.40.0 kører lokalt. Til venstre scenariebiblioteket, 139 scenarier i 16 domæner. De fem trin Vælg, Indstil, Kør, Læs resultater og Del eller eksportér, med trin 4 aktivt. Nøgletal: 102 satellitter, tilgængelighed 100 % (PASS), median præcisionsforringelse for position (PDOP) 0.95 (PASS), PDOP 95. percentil 1.105 (PASS), 31.03 synlige satellitter i gennemsnit og 22 som det mindste. Nedenfor panelrækken med Dækning valgt, genafspilningsbjælken, et verdenskort over middel-PDOP fra 0.831 til 1.0853 med hver satellit tegnet og de globale dækningstal." width="100%">
+  <img src="docs/assets/readme/studio/studio-advanced-light.jpg" alt="Kshana Studio, avanceret visning, efter en kørsel af det medfølgende scenarie constellation-multi-gnss-coverage (Fire GNSS-konstellationer, ét kort), motoren v0.39.0 kører lokalt. Til venstre scenariebiblioteket, 139 scenarier i 16 domæner. De fem trin Vælg, Indstil, Kør, Læs resultater og Del eller eksportér, med trin 4 aktivt. Nøgletal: 102 satellitter, tilgængelighed 100 % (PASS), median præcisionsforringelse for position (PDOP) 0.95 (PASS), PDOP 95. percentil 1.105 (PASS), 31.03 synlige satellitter i gennemsnit og 22 som det mindste. Nedenfor panelrækken med Dækning valgt, genafspilningsbjælken, et verdenskort over middel-PDOP fra 0.831 til 1.0853 med hver satellit tegnet og de globale dækningstal." width="100%">
 </picture>
 
 </details>
@@ -608,23 +650,25 @@ udgaverne.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/site/site-strip-dark.jpg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/site/site-strip-light.jpg">
-  <img src="docs/assets/readme/site/site-strip-light.jpg" alt="Tre sider af kshana.dev side om side. Forsidens hero: navnelinjen Kshana · क्षण · det præcise øjeblik over overskriften Øv det minut, hvor GNSS går i sort, med missionskonsollen fra en rigtig kørsel af motoren v0.40.0 (en globus og tre live-diagrammer: urets tidsfejl, bærebølge-til-støj-tæthed og beskyttelsesniveau). Evidens, Offentliggjort forskning: de seks arXiv-artikler bygget på den åbne motor, den nyeste med en figur fra motoren. Udgaver, Kshana Pro, den samme motor, forstærket: Free kører ét scenarie, Pro besvarer programmets spørgsmål." width="100%">
+  <img src="docs/assets/readme/site/site-strip-light.jpg" alt="Tre sider af kshana.dev side om side. Forsidens hero: navnelinjen Kshana · क्षण · det præcise øjeblik over overskriften Øv det minut, hvor GNSS går i sort, med missionskonsollen fra en rigtig kørsel af motoren v0.39.0 (en globus og tre live-diagrammer: urets tidsfejl, bærebølge-til-støj-tæthed og beskyttelsesniveau). Evidens, Offentliggjort forskning: de seks arXiv-artikler bygget på den åbne motor, den nyeste med en figur fra motoren. Udgaver, Kshana Pro, den samme motor, forstærket: Free kører ét scenarie, Pro besvarer programmets spørgsmål." width="100%">
 </picture>
 
 <a id="capabilities"></a>
 ## Funktioner
 
 Én motor dækker hele fejlkæden, fra den første jammede satellit til det sidste
-nanosekund af ur-holdover. Motoren har 92 scenarietyper; `kshana kinds` oplister
+nanosekund af ur-holdover. Motoren har 93 scenarietyper; `kshana kinds` oplister
 dem, og [`docs/SCENARIOS.md`](docs/SCENARIOS.md) dokumenterer hvert felt.
 
 | Funktion | Hvad den besvarer |
 |---|---|
 | [Spektrum](docs/SPECTRUM.md) | hvordan en jammer indtager GNSS' L-bånd, bånd for bånd, sekund for sekund |
 | [Ure og tidssynkronisering](docs/TELECOM-TIMING.md) | hvor længe hvert ur holder tiden, efter at GNSS er tabt |
+| [Oscillatorer](docs/OSCILLATOR.md) | hvad en oscillators databladstal betyder for sporing under vibration, holdover gennem temperaturændringer og stød, og RAIM |
 | [Konstellationer omkring ethvert legeme](docs/CONSTELLATION-DESIGN.md) | dækning, præcisionsforringelse og tilgængelighed omkring Jorden, Månen eller Mars |
 | [Solsystemet](docs/SOLAR-SYSTEM.md) | hvor hver planet er, og lystiden for enhver forbindelse |
 | [Navigation i lav jordbane](docs/LEO-PNT.md) | en passage, en forbindelse, en navigationsmeddelelse og en fusioneret positionsbestemmelse, trin for trin |
+| [LEO-PNT-verifikation](docs/LEO-VERIFY.md) | hvad en LEO-tjeneste til tid eller positionering ville levere: burst-timing, holdover-TDEV, omkostning mod udfald, tab indendørs og i regn, løsning af tvetydigheder, påstande om jamming og integritet alene fra Doppler |
 | [Kampagner](docs/CAMPAIGNS.md) | en kædet mission, en parametergennemløb eller et Monte Carlo-ensemble i ét scenarie |
 | [Animation](docs/ANIMATION.md) | en kørsels tidsserie som en animeret tegning, en afspiller eller enkeltbilleder |
 | [Rapporter](docs/REPORTS.md) | hvert tal med sin enhed og sin betegnelse, i HTML (HyperText Markup Language) og JSON (JavaScript Object Notation) |
@@ -660,7 +704,7 @@ SigMF er Signal Metadata Format.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/lband-waterfall-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/lband-waterfall-light.svg">
-  <img src="docs/assets/readme/lband-waterfall-light.svg" alt="GNSS' L-bånd som én effektspektraltæthed over 60 s, fra en rigtig kørsel af typen spectrum (l-band-waterfall-jamming.toml, seed 7, motoren v0.40.0): frekvens på tværs, tid nedad, farve for effekt over støjgulvet på -202.0 dBW/Hz. Jammere: chirp-privatlivsenhed (chirp, tændt ved 10 s, slukket ved 40 s); CW-tone på L1 (cw, tændt ved 30 s); smalbåndsstøj på L2 (narrowband, tændt ved 45 s). Værste bånd GPS L1 C/A: minimal effektiv C/N0 3.2 dB-Hz ved 31 s mod et sporingsgulv på 25 dB-Hz. GPS L1 C/A minimum 3.2 dB-Hz; Galileo E1 minimum 4.7 dB-Hz; GPS L2C minimum 36.9 dB-Hz; GPS L5 minimum 44.1 dB-Hz; Galileo E5a minimum 47.0 dB-Hz." width="100%">
+  <img src="docs/assets/readme/lband-waterfall-light.svg" alt="GNSS' L-bånd som én effektspektraltæthed over 60 s, fra en rigtig kørsel af typen spectrum (l-band-waterfall-jamming.toml, seed 7, motoren v0.41.0): frekvens på tværs, tid nedad, farve for effekt over støjgulvet på -202.0 dBW/Hz. Jammere: chirp-privatlivsenhed (chirp, tændt ved 10 s, slukket ved 40 s); CW-tone på L1 (cw, tændt ved 30 s); smalbåndsstøj på L2 (narrowband, tændt ved 45 s). Værste bånd GPS L1 C/A: minimal effektiv C/N0 3.2 dB-Hz ved 31 s mod et sporingsgulv på 25 dB-Hz. GPS L1 C/A minimum 3.2 dB-Hz; Galileo E1 minimum 4.7 dB-Hz; GPS L2C minimum 36.9 dB-Hz; GPS L5 minimum 44.1 dB-Hz; Galileo E5a minimum 47.0 dB-Hz." width="100%">
 </picture>
 
 <picture>
@@ -695,7 +739,7 @@ og `leo-pass-iridium`.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/trust-timeline-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/trust-timeline-light.svg">
-  <img src="docs/assets/readme/trust-timeline-light.svg" alt="Tillidsscore over én syntetisk overfart, fra en rigtig kørsel af motoren v0.40.0 på examples/maritime-trust (en opdigtet NMEA-log fra en færge på en rute fra Tallinn til Helsinki, 3001 epoker ved 1 Hz). Tre baner deler én tidsakse. Øverst: afstanden mellem den position, modtageren rapporterer, og fartøjets virkelige position, som holder sig inden for få meter indtil omkring 1576 s, hvor loggens scriptede positionsforskydning trækker den væk, mens modtageren fortsat rapporterer en gyldig positionsbestemmelse. I midten: tillidsscoren fra 0 til 100, ikke beregnet i de første 300 s med kalibrering, i det nominelle bånd (mindst 90) indtil forskydningen, derefter faldende gennem det forringede bånd (mindst 55) ind i båndet for ikke-tillid. Nederst: hver epokes bånd som et farvet bånd med sit navn. Scoren er vejledende. Vejledende software, ikke typegodkendt navigationsudstyr (IEC 61108, IEC 61162): operatøren er fortsat ansvarlig for fartøjets navigation. Loggen er opdigtet for at vise formatet og monitorerne; den er ikke en måling og siger intet om, hvordan nogen modtager ville præstere." width="100%">
+  <img src="docs/assets/readme/trust-timeline-light.svg" alt="Tillidsscore over én syntetisk overfart, fra en rigtig kørsel af motoren v0.41.0 på examples/maritime-trust (en opdigtet NMEA-log fra en færge på en rute fra Tallinn til Helsinki, 3001 epoker ved 1 Hz). Tre baner deler én tidsakse. Øverst: afstanden mellem den position, modtageren rapporterer, og fartøjets virkelige position, som holder sig inden for få meter indtil omkring 1576 s, hvor loggens scriptede positionsforskydning trækker den væk, mens modtageren fortsat rapporterer en gyldig positionsbestemmelse. I midten: tillidsscoren fra 0 til 100, ikke beregnet i de første 300 s med kalibrering, i det nominelle bånd (mindst 90) indtil forskydningen, derefter faldende gennem det forringede bånd (mindst 55) ind i båndet for ikke-tillid. Nederst: hver epokes bånd som et farvet bånd med sit navn. Scoren er vejledende. Vejledende software, ikke typegodkendt navigationsudstyr (IEC 61108, IEC 61162): operatøren er fortsat ansvarlig for fartøjets navigation. Loggen er opdigtet for at vise formatet og monitorerne; den er ikke en måling og siger intet om, hvordan nogen modtager ville præstere." width="100%">
 </picture>
 
 <picture>
@@ -707,7 +751,7 @@ og `leo-pass-iridium`.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/training-track-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/training-track-light.svg">
-  <img src="docs/assets/readme/training-track-light.svg" alt="Træningsstrøm fra scenariet coastal-drag-off (motoren v0.40.0, seed 22, 25 minutter med én positionsbestemmelse pr. 10 s i instruktørloggen). Et kort viser fartøjets sande spor og det spor, modtageren rapporterer: de stemmer overens, indtil en scriptet positionsforskydning begynder ved 421 s, hvorefter det rapporterede spor vandrer væk fra det sande, mens modtageren bevarer en gyldig positionsbestemmelse, og det springer tilbage, når hændelsen slutter ved 1140 s. Ved siden af afstanden mellem de to spor over tid og den gennemsnitlige bærebølge-til-støj-tæthed, modtageren rapporterer, som stiger til ét forhøjet niveau, mens hændelsen varer. Syntetiske træningsdata genereret af Kshana. Kun til træning og test: før aldrig denne strøm ind i et fartøjs aktive navigationssystemer. Vejledende, ikke typegodkendt navigationsudstyr. Vejledende software, ikke typegodkendt navigationsudstyr (IEC 61108, IEC 61162): operatøren er fortsat ansvarlig for fartøjets navigation. Positioner, datoer og spor er opdigtede." width="100%">
+  <img src="docs/assets/readme/training-track-light.svg" alt="Træningsstrøm fra scenariet coastal-drag-off (motoren v0.41.0, seed 22, 25 minutter med én positionsbestemmelse pr. 10 s i instruktørloggen). Et kort viser fartøjets sande spor og det spor, modtageren rapporterer: de stemmer overens, indtil en scriptet positionsforskydning begynder ved 421 s, hvorefter det rapporterede spor vandrer væk fra det sande, mens modtageren bevarer en gyldig positionsbestemmelse, og det springer tilbage, når hændelsen slutter ved 1140 s. Ved siden af afstanden mellem de to spor over tid og den gennemsnitlige bærebølge-til-støj-tæthed, modtageren rapporterer, som stiger til ét forhøjet niveau, mens hændelsen varer. Syntetiske træningsdata genereret af Kshana. Kun til træning og test: før aldrig denne strøm ind i et fartøjs aktive navigationssystemer. Vejledende, ikke typegodkendt navigationsudstyr. Vejledende software, ikke typegodkendt navigationsudstyr (IEC 61108, IEC 61162): operatøren er fortsat ansvarlig for fartøjets navigation. Positioner, datoer og spor er opdigtede." width="100%">
 </picture>
 
 <picture>
@@ -778,7 +822,7 @@ GNSS-udfald på ~1.8 h. Tallene kan gengives (`scenario + seed + version`).
 
 <p align="center">
   <img src="docs/assets/figures/scenario-fom.png" alt="Hvad kvantesensorer giver, når GNSS er væk, scenarie for ur-holdover: kvante holder 6600 s autonomi mod 2610 s klassisk, langt lavere tidsfejl og 100% mod 95.6% tilgængelighed" width="88%">
-  <br><sub>Hvad kvantesensorer giver, når GNSS er væk — <code>clock-holdover</code> · seed 42 · tegnet med motoren 0.40.0, og hvert tal ovenfor genkontrolleres mod den aktuelle motor ved hvert byg af <code>tests/published_figures_still_reproduce.rs</code> · <a href="docs/assets/figures/scenario-fom.svg">SVG</a></sub>
+  <br><sub>Hvad kvantesensorer giver, når GNSS er væk — <code>clock-holdover</code> · seed 42 · tegnet med motoren 0.41.0, og hvert tal ovenfor genkontrolleres mod den aktuelle motor ved hvert byg af <code>tests/published_figures_still_reproduce.rs</code> · <a href="docs/assets/figures/scenario-fom.svg">SVG</a></sub>
 </p>
 
 Fordelen **afhænger af udfald og vibration**, med et eksplicit break-even-punkt, hvor klassisk vinder — vist ærligt på tværs af stigen for teknologisk modenhed (tal for optiske ure er mål for demonstratorer på jorden; intet optisk strontiumur har fløjet):
@@ -801,7 +845,7 @@ Fordelen **afhænger af udfald og vibration**, med et eksplicit break-even-punkt
 |------|----------|---------|-----------|
 | **1 — Ur-holdover** | `clock-holdover.toml` (specifikation 20 ns) | optisk ur holder hele udfaldet | CSAC overskrider specifikationen midt i udfaldet |
 | **2 — Inertiel dødregning** | `imu-deadreckoning.toml` (specifikation 100 m) | koldatom: **~41 m**, holder hele udfaldet | navigationsklasse: overskrider efter **~350 s** → titusinder af km |
-| **3 — Tidsoverførsel** (optisk forbindelse mellem satellitter) | `timetransfer.toml` | optisk: **~0.3 mm** afstandsmåling | RF (TWSTFT): **~150 mm** afstandsmåling |
+| **3 — Tidsoverførsel** (optisk forbindelse mellem satellitter) | `timetransfer.toml` | optisk: **~0.3 mm** afstandsmåling | RF (TWSTFT): **~341 mm** afstandsmåling |
 | **4 — Hybrid fusion** (afsluttende) | `hybrid-pnt.toml` | fuld position+tid for hele udfaldet | **positionsbegrænset ved ~350 s** |
 
 Det afsluttende scenarie viser fusionstesen: optisk tidsoverførsel mellem satellitter holder selv
@@ -821,7 +865,7 @@ skallen propageres mod en GPS-lignende Walker-konstellation, og antallet af synl
 (fri sigtelinje, jordokkultation, elevationsmaske) bestemmer positionsbestemmelsens tilstand ved hvert
 trin. Over et døgn har brugeren kun positionsbestemmelse ~59% af tiden; kvanteuret holder en
 tidsløsning på 5 ns gennem hvert hul (tilgængelighed **1.0**), uret i chipstørrelse
-kun **~0.83**.
+kun **~0.73**.
 
 <p align="center">
   <img src="docs/assets/orbit-gnss-challenged.svg" alt="Bane med udfordret GNSS: urets tidsfejl over et døgn for et rumfartøj inden for GNSS-skallen, hvor dækningshullerne er udledt af banegeometrien — det optiske ur holder sig inden for specifikationen på 5 ns gennem hullerne, mens uret i chipstørrelse overskrider den" width="80%">
@@ -931,6 +975,7 @@ kontaktark over disse diagrammer; [`docs/KINDS.md`](docs/KINDS.md) indekserer de
 | **[Missionsanalyse, forbindelser og rumoperationer](docs/kinds/mission-analysis-links-and-space-operations.md)** | opsendelse, opstigning, indtræden, attitude, forbindelser, kontaktplanlægning og filformater | [`launch-window`](docs/kinds/by-kind/launch-window.md), [`ascent-losses`](docs/kinds/by-kind/ascent-losses.md), [`reentry`](docs/kinds/by-kind/reentry.md), [`entry-heating`](docs/kinds/by-kind/entry-heating.md), [`eo-coverage`](docs/kinds/by-kind/eo-coverage.md), [`eo-radiometry`](docs/kinds/by-kind/eo-radiometry.md), [`attitude-budget`](docs/kinds/by-kind/attitude-budget.md), [`aocs`](docs/kinds/by-kind/aocs.md), [`link-budget`](docs/kinds/by-kind/link-budget.md), [`acm-link`](docs/kinds/by-kind/acm-link.md), [`contact-schedule`](docs/kinds/by-kind/contact-schedule.md), [`aperture-duty-cycle`](docs/kinds/by-kind/aperture-duty-cycle.md), [`space-packet`](docs/kinds/by-kind/space-packet.md), [`oem-interop`](docs/kinds/by-kind/oem-interop.md) | `kshana scenarios/launch-window.toml` |
 | **[Missionstråde](docs/kinds/mission-threads.md)** | fejlbudgettet for navigation og tidssynkronisering i en kæde af faser fra opsendelse til indtræden | [`mission-thread`](docs/kinds/by-kind/mission-thread.md) | `kshana scenarios/mission-thread-artemis-class.toml` |
 | **[Kampagner](docs/kinds/campaigns.md)** | kædede missioner, gennemløb og ensembler bygget ud fra de andre typer | [`campaign`](docs/kinds/by-kind/campaign.md) | `kshana scenarios/campaign-jam-spoof-holdover-integrity.toml` |
+| **[RF-overvågning fra rummet](docs/kinds/space-rf-survey.md)** | hvor ofte en RF-overvågning over et stort område besøger et havområde igen, og hvor hurtigt den kan udløse en optisk optagelse | [`tip-and-cue`](docs/kinds/by-kind/tip-and-cue.md) | `kshana scenarios/tip-and-cue-baltic-m2.toml` |
 <!-- /generated:kind-families -->
 
 <a id="every-command"></a>
@@ -952,9 +997,9 @@ af dem alle. Kommandoerne er `--study`, `--validate`, `kinds`, `example`, `recei
 Én motor, de samme resultater overalt: kommandolinjen, Rust-biblioteket, Python, JavaScript og WebAssembly,
 MCP-serveren med dens plugin-kommandoer og skills, Kshana Studio (hver side kører i browseren, ingen installation, intet uploades),
 integrationerne til ROS 2, Signal K, OpenCPN, GNSS-SDR og `gnss_lib_py`, udrulningssættene til systemd, Docker og Grafana samt
-JetBrains-pluginet. [`docs/ALL-SURFACES.md`](docs/ALL-SURFACES.md) oplister dem med, hvordan man får hver enkelt, og navnene på alle
-plugin-kommandoer, skills og Studio-sider; [`docs/SURFACES.md`](docs/SURFACES.md) angiver for hver kommando og type,
-hvilken flade der bærer den, og hvilke der ikke gør, med begrundelsen.
+JetBrains-pluginet og Kshana Desktop, der fås via [kshana.dev](https://kshana.dev). [`docs/ALL-SURFACES.md`](docs/ALL-SURFACES.md) oplister dem med, hvordan man får hver enkelt, og navnene på alle
+plugin-kommandoer, skills og Studio-sider; [`docs/SURFACES.md`](docs/SURFACES.md) siger for hver kommando og type,
+hvilken flade der har den, og hvilke der ikke har, med begrundelsen.
 
 <a id="how-a-run-works"></a>
 ## Sådan forløber en kørsel
@@ -966,7 +1011,7 @@ de eksporter, du beder om.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/flow-pipeline-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/flow-pipeline-light.svg">
-  <img src="docs/assets/readme/flow-pipeline-light.svg" alt="Sådan forløber en kørsel. En scenarie-TOML-fil (en type, et seed og dens parametre) går ind i motoren, kshana 0.40.0, gennem api::run_toml-fordelingen over 92 scenarietyper, deterministisk ud fra scenarie, seed og motorversion. Motoren skriver result.json, chart.svg, report.html og report.json, en table.csv for de typer, der definerer en, og efter anmodning SP3-, CCSDS OMM- og OEM-, CZML-, KML-, GeoJSON-, STK- og SigMF-eksporter; en suite skriver study.json og study.html. Disse filer fodrer Kshana Studio i browseren, en AI-assistent gennem kshana-mcp-serveren og kontinuerlig integration." width="100%">
+  <img src="docs/assets/readme/flow-pipeline-light.svg" alt="Sådan forløber en kørsel. En scenarie-TOML-fil (en type, et seed og dens parametre) går ind i motoren, kshana 0.41.0, gennem api::run_toml-fordelingen over 93 scenarietyper, deterministisk ud fra scenarie, seed og motorversion. Motoren skriver result.json, chart.svg, report.html og report.json, en table.csv for de typer, der definerer en, og efter anmodning SP3-, CCSDS OMM- og OEM-, CZML-, KML-, GeoJSON-, STK- og SigMF-eksporter; en suite skriver study.json og study.html. Disse filer fodrer Kshana Studio i browseren, en AI-assistent gennem kshana-mcp-serveren og kontinuerlig integration." width="100%">
 </picture>
 
 Dette medfølgende scenarie kører 2 h: 10 min med GNSS, derefter omkring 1.8 h uden GNSS. Det spørger,
@@ -1051,8 +1096,7 @@ det umuligt at kalde en funktion VALIDATED uden en uafhængig ekstern reference.
 Nogle af kontrollerne: alle 666 AIAA-vektorer (American Institute of Aeronautics and Astronautics)
 2006-6753 for SGP4 (Simplified General Perturbations 4) til 4.12 mm; Cowell-kraft-
 modellen til 0.08 m mod Orekit 12.2; Galileo til 0.61 m og Swarm-A til 0.10 m mod rigtige
-præcise efemerider fra Den Europæiske Rumorganisation (ESA). Tests holder linjedækningen nær 95 % af
-`src/`, med en grænse på 85 % i CI. Registret er
+præcise efemerider fra Den Europæiske Rumorganisation (ESA). Ved den seneste måling (motor 0.29.0, [`docs/COVERAGE.md`](docs/COVERAGE.md)) dækkede testene næsten 95 % af linjerne i `src/`, og CI fejler under 85 %. Registret er
 [`docs/VERIFICATION-MATRIX.md`](docs/VERIFICATION-MATRIX.md), genereret ud fra
 `src/verification.rs`: den [fulde matrix med 413 rækker](docs/VERIFICATION-MATRIX.md), og hvorfor hver
 Modelled-række ikke har nogen ekstern reference i [`docs/MODELLED-RATIONALE.md`](docs/MODELLED-RATIONALE.md).
@@ -1062,7 +1106,7 @@ Modelled-række ikke har nogen ekstern reference i [`docs/MODELLED-RATIONALE.md`
 
 ### Validering, reproducerbarhed og ærlighed
 
-- Hvert støjled er kalibreret til et **offentliggjort, citeret** tal og valideret
+- Hvert støjled er kalibreret til et **offentliggjort, citeret** tal og kontrolleret
   mod den standardrelation (Allan-afvigelse for ure; Groves' vækst i dødregnings-
   fejl for inertial; omregningen tid→afstand for tidsoverførsel). Status
   pr. led spores i [`docs/VALIDATION.md`](docs/VALIDATION.md) som `validated` eller
@@ -1117,7 +1161,7 @@ Kolonnen **Status** angiver evidensens *art*, i overensstemmelse med validerings
 | **MODELLED** | Mars-OD i det dybe rum (reduceret-dynamisk SRIF) | **≈ 0.2 m** Mars-LMO (simulerings-FoM, *ikke* rigtig mission) | syntetisk OD i lukket sløjfe — validering af estimatormaskineriet |
 | **MODELLED** | Solcentreret Mars-dynamik mod JPL DE440 | **137 m ved en bue på 1 døgn** (vokser med buen = umodelleret n-legeme) | JPL DE440 via ANISE (`xval/anise-mars-od`, kernebetinget) (sammenlignet mod denne reference; ingen række i verifikationsmatricen nævner den som ekstern reference, så den er ikke mærket VALIDATED) |
 | **VALIDATED** | Enkeltpunktspositionering mod en opmålt IGS-koordinat (rigtige observationer) | **5.7 m** 3-D RMS / **1.1 m** horisontalt, ionosfærefri tofrekvens-kode-SPP | IGS-stationen ABMF's opmåling + GPS-udsendt efemeride, 2018-05-13 (`tests/pvt_abmf.rs`) |
-| **MODELLED** | Tæt koblet GNSS/INS-UKF | **0.77 m RMS** over en 30-min LEO-passage inkl. et udfald på 120 s | kraftmodelglidning, håndudledt |
+| **MODELLED** | GNSS/INS unscented-filter (`hybrid-ukf`, 17 tilstande) | NIS og NEES inden for deres χ²-bånd; **0.36 m** støttet, **7.7 m** efter 120 s dødregning | filterets selvkonsistens, ikke nøjagtighed (`scenarios/hybrid-ukf.toml`) |
 | **MODELLED** | Tyngdekortnavigation uden GPS | ~70 km INS-drift → **~145 m** genskabt | ESA NAVISP *Quantum Wayfarer*-mål |
 | **MODELLED** | Terrænrefereret navigation (TERCOM/SITAN) | 70 km drift → **< 500 m** (gitteropløsningsgulv ~140 m) | SRTM `.hgt` DEM; håndindført drift (ikke-cirkulær kontrol) |
 | **MODELLED** | IGRF-14-hovedfelt (grad/orden 13) | pol ~80.7°N, dipol ~29.7 µT, fysisk bånd 22–67 µT | IAGA (International Association of Geomagnetism and Aeronomy) `igrf14coeffs.txt` (Schmidt-seminormaliseret) |
@@ -1136,7 +1180,7 @@ Kolonnen **Status** angiver evidensens *art*, i overensstemmelse med validerings
 | **MODELLED** | Scoring af PNT-robusthed + beslutningsustabilitet | 35 håndudledte referencetests; byte-deterministisk studieartefakt (fast seed) | DHS RPCF v2.0-afbildning + Dirichlet / Kendall-τ / Hill-N2 på lukket form — syntetiske arkitekturer, ikke en certificering |
 | **MODELLED** | Studie af optimismegabet for RF-forringelser (skaleringslove + leave-one-out-forudsiger) | signifikans mod permutations-nulhypotese; byte-deterministisk artefakt (5 seeds) | syntetisk parameterforankret korpus — evaluerings*målene* er VALIDATED mod scikit-learn (ovenfor); studiet er MODELLED |
 | CI | Reproducerbarhed på tværs af platforme | bit-identiske input + formguldstandarder på 3 OS'er (styresystemer) | CI-matrix for Linux / macOS / Windows, SHA-256-guldstandarder |
-| CI | Testdækning | **~95 % linjer** på `src/` eksklusive `src/*_data.rs` og `src/main.rs`, med grænse ≥ 85 % | cargo-tarpaulin (LLVM-motor) |
+| CI | Testdækning | **~95 % linjer** (senest målt ved 0.29.0) på `src/` eksklusive `src/*_data.rs` og `src/main.rs`, med grænse ≥ 85 % | cargo-tarpaulin (LLVM-motor) |
 
 <p align="center">
   <img src="docs/assets/diagrams/validation-provenance.png" alt="Hvordan en funktion opnår sin betegnelse: Krav afbildes til et modul i src, til en test i tests, til en ekstern reference (rigtigt datasæt, uafhængig referenceimplementering eller offentliggjorte vektorer), til en status — med et værn håndhævet af CI om, at ingen funktion kan være Validated uden en ekstern reference. Aktuelle antal: 176 Validated, 233 Modelled, 4 Partner, 413 i alt" width="900">
@@ -1175,7 +1219,7 @@ Den fulde tabel, domæne for domæne med hver funktion og dens betegnelse, er [`
 ## Installation
 
 Én linje giver kommandolinjeværktøjet: **`cargo install kshana`**. Hver kanal leverer
-v0.40.0 fra det samme taggede commit.
+v0.41.0 fra det samme taggede commit.
 
 <!-- channels:begin -->
 | Kanal | Installation | Vejledning |
@@ -1187,12 +1231,12 @@ v0.40.0 fra det samme taggede commit.
 | JavaScript og WebAssembly | `npm install kshana` | [Vejledning til npm og WebAssembly](https://kshana.dev/docs/npm.html) |
 | AI-assistent (MCP-server, cargo) | `cargo install kshana-mcp` | [Vejledning til MCP-server](https://kshana.dev/docs/mcp.html) |
 | Docker-image | `docker run --rm -i ghcr.io/ashfordeou/kshana-mcp` | [Vejledning til MCP-server: Docker](https://kshana.dev/docs/mcp.html#install) |
-| Claude Desktop-udvidelse | dobbeltklik på `.mcpb` for dit system: [macOS (Apple silicon)](https://github.com/ashfordeOU/kshana/releases/download/v0.40.0/kshana-mcp-aarch64-apple-darwin.mcpb) · [macOS (Intel)](https://github.com/ashfordeOU/kshana/releases/download/v0.40.0/kshana-mcp-x86_64-apple-darwin.mcpb) · [Windows](https://github.com/ashfordeOU/kshana/releases/download/v0.40.0/kshana-mcp-x86_64-pc-windows-msvc.mcpb) · [Linux (x86-64)](https://github.com/ashfordeOU/kshana/releases/download/v0.40.0/kshana-mcp-x86_64-unknown-linux-gnu.mcpb) · [Linux (Arm)](https://github.com/ashfordeOU/kshana/releases/download/v0.40.0/kshana-mcp-aarch64-unknown-linux-gnu.mcpb) | [Alle MCP-installationsuddrag](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
-| Cursor (ét klik) | [Tilføj til Cursor (npx)](https://cursor.com/en/install-mcp?name=kshana&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsImtzaGFuYS1tY3BAMC40MC4wIl19) · [Tilføj til Cursor (Docker)](https://cursor.com/en/install-mcp?name=kshana&config=eyJjb21tYW5kIjoiZG9ja2VyIiwiYXJncyI6WyJydW4iLCItaSIsIi0tcm0iLCJnaGNyLmlvL2FzaGZvcmRlb3Uva3NoYW5hLW1jcDowLjQwLjAiXX0%3D) · `npx -y kshana-mcp@0.40.0` | [Alle MCP-installationsuddrag](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
-| VS Code (ét klik) | [Installér i VS Code (npx)](https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522npx%2522%252C%2522args%2522%253A%255B%2522-y%2522%252C%2522kshana-mcp%25400.40.0%2522%255D%257D) · [Installér i VS Code (Docker)](https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522docker%2522%252C%2522args%2522%253A%255B%2522run%2522%252C%2522-i%2522%252C%2522--rm%2522%252C%2522ghcr.io%252Fashfordeou%252Fkshana-mcp%253A0.40.0%2522%255D%257D) · `npx -y kshana-mcp@0.40.0` | [Alle MCP-installationsuddrag](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
-| Claude Code | `claude mcp add kshana -- npx -y kshana-mcp@0.40.0` | [Alle MCP-installationsuddrag](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
-| npx | `npx -y kshana-mcp@0.40.0` | [Alle MCP-installationsuddrag](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
-| uvx / pipx | `uvx kshana-mcp==0.40.0` | [Alle MCP-installationsuddrag](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
+| Claude Desktop-udvidelse | dobbeltklik på `.mcpb` for dit system: [macOS (Apple silicon)](https://github.com/ashfordeOU/kshana/releases/download/v0.41.0/kshana-mcp-aarch64-apple-darwin.mcpb) · [macOS (Intel)](https://github.com/ashfordeOU/kshana/releases/download/v0.41.0/kshana-mcp-x86_64-apple-darwin.mcpb) · [Windows](https://github.com/ashfordeOU/kshana/releases/download/v0.41.0/kshana-mcp-x86_64-pc-windows-msvc.mcpb) · [Linux (x86-64)](https://github.com/ashfordeOU/kshana/releases/download/v0.41.0/kshana-mcp-x86_64-unknown-linux-gnu.mcpb) · [Linux (Arm)](https://github.com/ashfordeOU/kshana/releases/download/v0.41.0/kshana-mcp-aarch64-unknown-linux-gnu.mcpb) | [Alle MCP-installationsuddrag](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
+| Cursor (ét klik) | [Tilføj til Cursor (npx)](https://cursor.com/en/install-mcp?name=kshana&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsImtzaGFuYS1tY3BAMC40MS4wIl19) · [Tilføj til Cursor (Docker)](https://cursor.com/en/install-mcp?name=kshana&config=eyJjb21tYW5kIjoiZG9ja2VyIiwiYXJncyI6WyJydW4iLCItaSIsIi0tcm0iLCJnaGNyLmlvL2FzaGZvcmRlb3Uva3NoYW5hLW1jcDowLjQxLjAiXX0%3D) · `npx -y kshana-mcp@0.41.0` | [Alle MCP-installationsuddrag](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
+| VS Code (ét klik) | [Installér i VS Code (npx)](https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522npx%2522%252C%2522args%2522%253A%255B%2522-y%2522%252C%2522kshana-mcp%25400.41.0%2522%255D%257D) · [Installér i VS Code (Docker)](https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522docker%2522%252C%2522args%2522%253A%255B%2522run%2522%252C%2522-i%2522%252C%2522--rm%2522%252C%2522ghcr.io%252Fashfordeou%252Fkshana-mcp%253A0.41.0%2522%255D%257D) · `npx -y kshana-mcp@0.41.0` | [Alle MCP-installationsuddrag](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
+| Claude Code | `claude mcp add kshana -- npx -y kshana-mcp@0.41.0` | [Alle MCP-installationsuddrag](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
+| npx | `npx -y kshana-mcp@0.41.0` | [Alle MCP-installationsuddrag](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
+| uvx / pipx | `uvx kshana-mcp==0.41.0` | [Alle MCP-installationsuddrag](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
 | Homebrew | `brew install ashfordeOU/tap/kshana-mcp` | [Alle MCP-installationsuddrag](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
 | Scoop | `scoop bucket add ashforde https://github.com/ashfordeOU/scoop-bucket && scoop install kshana-mcp` | [Alle MCP-installationsuddrag](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
 | winget | `winget install AshfordeOU.KshanaMcp` | [Alle MCP-installationsuddrag](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
@@ -1209,8 +1253,8 @@ v0.40.0 fra det samme taggede commit.
 
 <p><a href="https://plugins.jetbrains.com/plugin/32181-kshana--pnt-simulator"><img src="https://img.shields.io/badge/JetBrains-Marketplace-066A86?style=flat-square&labelColor=0A1226" alt="Kshana på JetBrains Marketplace"></a> <a href="Cargo.toml"><img src="https://img.shields.io/badge/rust-1.88%2B-3F4B67?style=flat-square&labelColor=0A1226" alt="Bygger med Rust 1.88 eller nyere, rust-version i Cargo.toml"></a></p>
 
-MCP er Model Context Protocol. Fastlås en udgivelse med `cargo install kshana --version 0.40.0`,
-`pip install kshana==0.40.0` eller `npm install kshana@0.40.0`. For at bygge fra kildekode, se
+MCP er Model Context Protocol. Fastlås en udgivelse med `cargo install kshana --version 0.41.0`,
+`pip install kshana==0.41.0` eller `npm install kshana@0.41.0`. For at bygge fra kildekode, se
 [Installation og bygning](#install--build) under Reference.
 
 <details>
@@ -1224,7 +1268,7 @@ import json, kshana
 toml = open("clock-holdover.toml").read()
 result = json.loads(kshana.run(toml))
 print(kshana.version(), result["quantum"]["fom"]["holdover_s"], result["classical"]["fom"]["holdover_s"])
-# 0.40.0 6600.0 2610.0
+# 0.41.0 6600.0 2610.0
 ```
 
 Ud over `run` udstiller modulet `run_full` (JSON, SVG og resuméet på én linje på én gang),
@@ -1245,7 +1289,7 @@ initSync({ module: readFileSync(wasm) });
 const toml = readFileSync("clock-holdover.toml", "utf8");
 const result = JSON.parse(run(toml));
 console.log(version(), result.quantum.fom.holdover_s, result.classical.fom.holdover_s);
-// 0.40.0 6600 2610
+// 0.41.0 6600 2610
 console.log(summary(toml));
 ```
 
@@ -1254,15 +1298,15 @@ console.log(summary(toml));
 <a id="architecture"></a>
 ## Arkitektur
 
-Én åben motor står i centrum, og hver flade kører den: kommandolinjen, Rust-
-biblioteket, Python, WebAssembly og Kshana Studio, MCP-serveren, Docker-imaget og
-JetBrains-pluginet. Den samme scenariefil giver de samme bytes på hver af dem. Kshana Pro ligger
-ovenpå som et separat lag, der afhænger af motoren og aldrig forgrener den.
+Én åben motor står i midten, og hver flade kører den: kommandolinjen, Rust-biblioteket,
+Python, WebAssembly og Kshana Studio, MCP-serveren, Docker-imaget og
+JetBrains-pluginet. Den samme scenariefil giver de samme bytes på hver af dem. Kshana Pro, den
+professionelle udgave, bygger på den samme motor og forgrener den aldrig.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/architecture-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/architecture-light.svg">
-  <img src="docs/assets/readme/architecture-light.svg" alt="Kshanas arkitektur: én åben motor i centrum, kshana 0.40.0 under AGPL-3.0, med api::run_toml, en typet fordeling over hver type, og verifikationsregistret med 413 funktioner (176 VALIDATED, 233 MODELLED, 4 PARTNER). Omkring den kører hver flade den samme motor: Kommandolinje (cargo install kshana); Rust-bibliotek (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); MCP-server (cargo install kshana-mcp); Docker-image (ghcr.io/ashfordeou/kshana-mcp); JetBrains-plugin (Marketplace: &quot;Kshana&quot;). Under den Kshana Pro, et proprietært lag, der afhænger af den åbne motor som et bibliotek og aldrig forgrener den, og som ikke tilføjer nogen fysisk model." width="100%">
+  <img src="docs/assets/readme/architecture-light.svg" alt="Kshanas arkitektur: én åben motor i centrum, kshana 0.41.0 under AGPL-3.0, med api::run_toml, en typet fordeling over hver type, og verifikationsregistret med 413 funktioner (176 VALIDATED, 233 MODELLED, 4 PARTNER). Omkring den kører hver flade den samme motor: Kommandolinje (cargo install kshana); Rust-bibliotek (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); MCP-server (cargo install kshana-mcp); Docker-image (ghcr.io/ashfordeou/kshana-mcp); JetBrains-plugin (Marketplace: &quot;Kshana&quot;). Under den Kshana Pro, den professionelle udgave, som afhænger af den åbne motor som et bibliotek, aldrig forgrener den og aldrig ændrer dens fysiske modeller; Pros egne modeller bærer deres egne evidensmærker." width="100%">
 </picture>
 
 <details>
@@ -1296,8 +1340,8 @@ To selvstændige crates, **udeladt af workspacet**, står ved siden af kernen �
 (MCP-serveren, bygget på `rmcp`-SDK'et i edition 2024) og `xval/anise-frames` (krydskontrollen
 af ANISE/SPICE-referencesystemer, som trækker MPL-2.0-afhængigheder (Mozilla Public License 2.0) ind) — holdt uden for den udgivne
 crates afhængighedsgraf, `Cargo.lock`, licensværn og MSRV-bygning (mindste understøttede Rust-version) af rodens
-`Cargo.toml` `exclude`-liste. JetBrains-pluginet (`ide/jetbrains`) er et separat Kotlin-
-projekt. Se [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) for det fulde sæt diagrammer.
+`Cargo.toml` `exclude`-liste. JetBrains-pluginet er et selvstændigt produkt, der fås via
+[kshana.dev](https://kshana.dev/docs/jetbrains.html). Se [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) for det fulde sæt diagrammer.
 
 De gengivne diagrammer (motorens flow, modulkort, distribution) står i [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
 
@@ -1377,20 +1421,20 @@ Claude Code, Cursor, VS Code, Windsurf, Zed, Goose, Codex CLI, Gemini CLI og Con
 <!-- mcp-install:begin -->
 | Kanal | Kommando eller knap | Kræver | Fastlåst form |
 |---|---|---|---|
-| Claude Desktop-udvidelse | dobbeltklik på `.mcpb` for dit system: [macOS (Apple silicon)](https://github.com/ashfordeOU/kshana/releases/download/v0.40.0/kshana-mcp-aarch64-apple-darwin.mcpb) · [macOS (Intel)](https://github.com/ashfordeOU/kshana/releases/download/v0.40.0/kshana-mcp-x86_64-apple-darwin.mcpb) · [Windows](https://github.com/ashfordeOU/kshana/releases/download/v0.40.0/kshana-mcp-x86_64-pc-windows-msvc.mcpb) | intet | `kshana-mcp-<target>.mcpb` af v0.40.0 |
-| Cursor (ét klik) | [npx (Node)](https://cursor.com/en/install-mcp?name=kshana&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsImtzaGFuYS1tY3BAMC40MC4wIl19) · [Docker](https://cursor.com/en/install-mcp?name=kshana&config=eyJjb21tYW5kIjoiZG9ja2VyIiwiYXJncyI6WyJydW4iLCItaSIsIi0tcm0iLCJnaGNyLmlvL2FzaGZvcmRlb3Uva3NoYW5hLW1jcDowLjQwLjAiXX0%3D) | Node eller Docker | `kshana-mcp@0.40.0` / `ghcr.io/ashfordeou/kshana-mcp:0.40.0` |
-| VS Code (ét klik) | [npx (Node)](https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522npx%2522%252C%2522args%2522%253A%255B%2522-y%2522%252C%2522kshana-mcp%25400.40.0%2522%255D%257D) · [Docker](https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522docker%2522%252C%2522args%2522%253A%255B%2522run%2522%252C%2522-i%2522%252C%2522--rm%2522%252C%2522ghcr.io%252Fashfordeou%252Fkshana-mcp%253A0.40.0%2522%255D%257D) · [Insiders (npx)](https://insiders.vscode.dev/redirect?url=vscode-insiders%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522npx%2522%252C%2522args%2522%253A%255B%2522-y%2522%252C%2522kshana-mcp%25400.40.0%2522%255D%257D) | Node eller Docker | `kshana-mcp@0.40.0` / `ghcr.io/ashfordeou/kshana-mcp:0.40.0` |
-| Claude Code | `claude mcp add kshana -- npx -y kshana-mcp@0.40.0` · plugin: `/plugin marketplace add ashfordeOU/kshana` og derefter `/plugin install kshana@ashforde` | Node (eller Docker) | `kshana-mcp@0.40.0` |
-| npx | `npx -y kshana-mcp@0.40.0` | Node 18+ | `kshana-mcp@0.40.0` |
-| uvx / pipx | `uvx kshana-mcp==0.40.0` · `pipx run kshana-mcp==0.40.0` | Python 3.9+ med uv eller pipx | `kshana-mcp==0.40.0` |
-| Docker | `docker run -i --rm ghcr.io/ashfordeou/kshana-mcp:0.40.0` | Docker | `ghcr.io/ashfordeou/kshana-mcp:0.40.0` |
-| Homebrew | `brew install ashfordeOU/tap/kshana-mcp` | brew | formel for v0.40.0 |
-| Scoop | `scoop bucket add ashforde https://github.com/ashfordeOU/scoop-bucket` og derefter `scoop install kshana-mcp` | Scoop (Windows) | manifest for v0.40.0 |
-| winget | `winget install AshfordeOU.KshanaMcp` | winget (Windows) | `--version 0.40.0` |
-| cargo | `cargo install kshana-mcp --version 0.40.0` | Rust 1.88+ | `kshana-mcp 0.40.0` |
-| Forudbygget binærfil | [udgivelsessiden](https://github.com/ashfordeOU/kshana/releases/tag/v0.40.0): `kshana-mcp` (Linux x86-64), `kshana-mcp-<target>[.exe]`, kontrolleret med `SHA256SUMS` og `gh attestation verify` | intet | v0.40.0 |
-| MCP-register | `io.github.ashfordeOU/kshana-mcp` (findes af registerbevidste klienter) | en registerbevidst klient | `0.40.0` |
-| Fjern (streamable HTTP) | `kshana-mcp --http 127.0.0.1:8080`, selvhostet: se [docs/deploy/mcp-http.md](docs/deploy/mcp-http.md) | din egen vært | v0.40.0 |
+| Claude Desktop-udvidelse | dobbeltklik på `.mcpb` for dit system: [macOS (Apple silicon)](https://github.com/ashfordeOU/kshana/releases/download/v0.41.0/kshana-mcp-aarch64-apple-darwin.mcpb) · [macOS (Intel)](https://github.com/ashfordeOU/kshana/releases/download/v0.41.0/kshana-mcp-x86_64-apple-darwin.mcpb) · [Windows](https://github.com/ashfordeOU/kshana/releases/download/v0.41.0/kshana-mcp-x86_64-pc-windows-msvc.mcpb) | intet | `kshana-mcp-<target>.mcpb` af v0.41.0 |
+| Cursor (ét klik) | [npx (Node)](https://cursor.com/en/install-mcp?name=kshana&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsImtzaGFuYS1tY3BAMC40MS4wIl19) · [Docker](https://cursor.com/en/install-mcp?name=kshana&config=eyJjb21tYW5kIjoiZG9ja2VyIiwiYXJncyI6WyJydW4iLCItaSIsIi0tcm0iLCJnaGNyLmlvL2FzaGZvcmRlb3Uva3NoYW5hLW1jcDowLjQxLjAiXX0%3D) | Node eller Docker | `kshana-mcp@0.41.0` / `ghcr.io/ashfordeou/kshana-mcp:0.41.0` |
+| VS Code (ét klik) | [npx (Node)](https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522npx%2522%252C%2522args%2522%253A%255B%2522-y%2522%252C%2522kshana-mcp%25400.41.0%2522%255D%257D) · [Docker](https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522docker%2522%252C%2522args%2522%253A%255B%2522run%2522%252C%2522-i%2522%252C%2522--rm%2522%252C%2522ghcr.io%252Fashfordeou%252Fkshana-mcp%253A0.41.0%2522%255D%257D) · [Insiders (npx)](https://insiders.vscode.dev/redirect?url=vscode-insiders%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522npx%2522%252C%2522args%2522%253A%255B%2522-y%2522%252C%2522kshana-mcp%25400.41.0%2522%255D%257D) | Node eller Docker | `kshana-mcp@0.41.0` / `ghcr.io/ashfordeou/kshana-mcp:0.41.0` |
+| Claude Code | `claude mcp add kshana -- npx -y kshana-mcp@0.41.0` · plugin: `/plugin marketplace add ashfordeOU/kshana` og derefter `/plugin install kshana@ashforde` | Node (eller Docker) | `kshana-mcp@0.41.0` |
+| npx | `npx -y kshana-mcp@0.41.0` | Node 18+ | `kshana-mcp@0.41.0` |
+| uvx / pipx | `uvx kshana-mcp==0.41.0` · `pipx run kshana-mcp==0.41.0` | Python 3.9+ med uv eller pipx | `kshana-mcp==0.41.0` |
+| Docker | `docker run -i --rm ghcr.io/ashfordeou/kshana-mcp:0.41.0` | Docker | `ghcr.io/ashfordeou/kshana-mcp:0.41.0` |
+| Homebrew | `brew install ashfordeOU/tap/kshana-mcp` | brew | formel for v0.41.0 |
+| Scoop | `scoop bucket add ashforde https://github.com/ashfordeOU/scoop-bucket` og derefter `scoop install kshana-mcp` | Scoop (Windows) | manifest for v0.41.0 |
+| winget | `winget install AshfordeOU.KshanaMcp` | winget (Windows) | `--version 0.41.0` |
+| cargo | `cargo install kshana-mcp --version 0.41.0` | Rust 1.88+ | `kshana-mcp 0.41.0` |
+| Forudbygget binærfil | [udgivelsessiden](https://github.com/ashfordeOU/kshana/releases/tag/v0.41.0): `kshana-mcp` (Linux x86-64), `kshana-mcp-<target>[.exe]`, kontrolleret med `SHA256SUMS` og `gh attestation verify` | intet | v0.41.0 |
+| MCP-register | `io.github.ashfordeOU/kshana-mcp` (findes af registerbevidste klienter) | en registerbevidst klient | `0.41.0` |
+| Fjern (streamable HTTP) | `kshana-mcp --http 127.0.0.1:8080`, selvhostet: se [docs/deploy/mcp-http.md](docs/deploy/mcp-http.md) | din egen vært | v0.41.0 |
 <!-- mcp-install:end -->
 
 <p><a href="https://glama.ai/mcp/servers/ashfordeOU/kshana"><img src="https://glama.ai/mcp/servers/ashfordeOU/kshana/badges/score.svg" alt="kshana-mcp på Glama, kvalitetsscoren for dens MCP-server"></a></p>
@@ -1415,7 +1459,7 @@ i det officielle MCP-register som `io.github.ashfordeOU/kshana-mcp`.
 | Værktøj | Hvad det gør |
 |---|---|
 | `run_scenario` | Kør et scenarie ud fra en TOML-definition (Tom's Obvious, Minimal Language) |
-| `list_scenario_kinds` | De 92 indbyggede scenarietyper med beskrivelser + påkrævede/valgfri felter — så agenten kan opbygge et gyldigt scenarie |
+| `list_scenario_kinds` | De 93 indbyggede scenarietyper med beskrivelser + påkrævede/valgfri felter — så agenten kan opbygge et gyldigt scenarie |
 | `validate_scenario` | Forudgående kontrol: parse TOML'en og afgør dens type, uden at køre |
 | `list_example_scenarios` | De medfølgende referencescenarier som JSON |
 | `get_example_scenario` | TOML-teksten for ét medfølgende referencescenarie, byte for byte filen under `scenarios/` |
@@ -1498,111 +1542,72 @@ i det officielle MCP-register som `io.github.ashfordeOU/kshana-mcp`.
 <a id="editions"></a>
 ## Udgaver
 
-Hele motoren er gratis. Kshana Pro og skræddersyede studier er til programmer, der har brug for mere,
-og hver betalt vej starter med en besked: der er ingen priser her.
+Hele motoren er gratis. Kshana Pro er den professionelle udgave til teams, der skal træffe en beslutning
+og forsvare den, og et skræddersyet studie er det samme arbejde udført for dig. Hver betalt vej
+starter med en besked: der er ingen priser her.
 
-| | Free | Kshana Pro | Skræddersyet studie |
+| | Gratis | Kshana Pro | Skræddersyet studie |
 |---|---|---|---|
-| Hvad det er | hele den åbne motor, alle 92 scenarietyper, ingen funktionsspærre | et proprietært lag oven på den samme motor, under kontrakt | et MODELLED studie af PNT-robusthed for dit system, udført for dig |
-| Licens | AGPL-3.0 (GNU Affero General Public License, version 3) eller en kommerciel licens | proprietær | kontrakt |
-| Sådan kommer du i gang | [installér](#install) eller åbn [kshana.dev](https://kshana.dev) | [anmod om en Pro-evaluering](mailto:contact@ashforde.org?subject=Kshana%20Pro%20evaluation) | [anmod om et studie](mailto:contact@ashforde.org?subject=Kshana%20custom%20study) |
+| Hvad det er | hele den åbne motor, alle 93 scenarietyper, ingen funktionsspærre | den professionelle udgave: samme motor og samme scenariefiler, med de værktøjer et program har brug for til at beslutte, verificere og levere | et MODELLED studie af dit systems PNT-modstandsdygtighed, udført for dig af Ashforde® OÜ |
+| Til hvem | forskere, studerende, ingeniører og alle, der vil afprøve et spørgsmål | missions- og programteams, systemingeniører, producenter af modtagere, ure og nyttelaster, signaldesignere og operatører | teams, der vil have et svar uden selv at udføre studiet |
+| Support | fællesskabet: issues og pull requests på GitHub | direkte support fra teamet, der bygger motoren | inkluderet |
+| Licens | AGPL-3.0 (GNU Affero General Public License, version 3) eller en kommerciel licens | proprietær, under kontrakt | kontrakt |
+| Sådan starter du | [installér](#install) eller åbn [kshana.dev](https://kshana.dev) | [anmod om en Pro-evaluering](mailto:contact@ashforde.org?subject=Kshana%20Pro%20evaluation) | [anmod om et studie](mailto:contact@ashforde.org?subject=Kshana%20custom%20study) |
 
-Hvad Pro er, med ordene fra [`docs/PRO.md`](docs/PRO.md):
+**Hvad du kan gøre med Kshana Pro.** Den gratis motor fortæller dig, hvad ét scenarie giver. Pro
+besvarer de spørgsmål, et program stiller bagefter:
 
-> **En streng overmængde af åben Kshana.** Pro afhænger af den åbne motor som et bibliotek og
-> forgrener den aldrig. Hver åben scenarietype kører uændret i Pro, og et åbent scenarie kører
-> i Pro helt uden licens.
->
-> **Ingen ny fysik.** Pro tilføjer ingen fysisk model og ændrer ingen. Hvert Pro-tal kommer
-> fra kørsler af den åbne motor, så et Pro-tal er lige så troværdigt som den åbne scenarietype,
-> det kom fra, og aldrig mere.
+- **Vælg det design, der skal flyve.** Angiv et designrum, dets begrænsninger og dine mål, og
+  få de bedste afvejninger over hele rummet, hver kandidat som en scenariefil, som den
+  gratis motor kører.
+- **Vid, hvor sikkert svaret er.** Konfidensbånd, sandsynligheden for at overholde en grænse, og
+  hvilke input der driver resultatet.
+- **Vis, at missionen opfylder sine krav.** Importér krav (CSV, ReqIF eller
+  SysML v2-tekst), kontrollér dem mod kørsler, og få en verifikationsmatrix, en rapport om konsekvenser
+  af ændringer og et missionsdossier (PDF, HTML og JSON), som et reviewpanel kan efterprøve.
+- **Afvej arkitekturer på evidens.** Rangordn mulighederne efter de tal, der betyder noget, med en
+  evidenspakke bag hvert tal.
+- **Fang en forringelse, før den leveres.** Navngiv de tal, du holder øje med; din pipeline fejler,
+  når en ændring af et scenarie, en model eller motoren gør et af dem værre.
+- **Kontrollér spektrumsameksistens.** Test kandidater til signalplaner mod de åbne GNSS-signaler,
+  i begge retninger, og rangordn dem.
+- **Lav tvillinger af dine ure.** En digital tvilling af et ur, kontrolleret mod dets offentliggjorte
+  stabilitet; en tvilling af din egen enhed bygges sammen med dig under kontrakt.
+- **Kør det på dit eget netværk.** En lokal tjeneste og en jobkø med en registrering af,
+  hvilket resultat der blev leveret for hvilken anmodning.
+- **Aflevér signeret evidens.** Pro signerer sine evidenspakker og dossierer, og modtageren
+  kan kontrollere dem uden en Pro-licens.
 
-Pro besvarer et programs næste spørgsmål: hvilket design der skal flyves (en designoptimering og dens
-Pareto-front), hvor sikkert svaret er (usikkerhed og følsomhed), og om missionen
-opfylder sine krav (et missionsdossier, sporbarhed af krav, afvejningsstudier, en
-regressionskontrol af scenarier, digitale tvillinger af ure, et studiedossier og en lokal
-tjeneste). Den overvåger også en kampagne af tal og får en pipeline til at fejle, når ét bliver dårligere,
-tester kandidatsignalplaner mod de åbne satellitnavigationssignaler i begge
-retninger (spektral sameksistens) og sætter studier i kø i en lokal jobtjeneste med et
-hashkædet leveringsregister. Hver er beskrevet, med hvad den producerer, og hvad den ikke gør, i
-[`docs/PRO.md`](docs/PRO.md). Intet, Pro producerer, er en certificering, og et skræddersyet studie er
-heller ikke en certificering.
+**Hvad du kan regne med.** Hvert åbent scenarie kører uændret i Pro, og Pro ændrer aldrig en
+fysisk model i den åbne motor. Hvert tal beholder det evidensmærke, registret giver det
+(VALIDATED, MODELLED eller PARTNER), aldrig et højere; Pros egne modeller bærer deres egne
+mærker. En Pro-leverance oplister de scenariefiler, den kørte, så alle med åben Kshana kan
+køre dem igen og få de samme tal. Intet, Pro producerer, er en certificering, og et skræddersyet studie
+er det heller ikke. Den fulde beskrivelse står i [`docs/PRO.md`](docs/PRO.md).
 
 <details>
-<summary>Hvad Kshana Pro læser fra den åbne motor, og support fra Ashforde® OÜ</summary>
+<summary>Support og professionelle tjenester fra Ashforde® OÜ</summary>
 
-<br>
-
-**Hvad Kshana Pro bygger på.** Hver del af Pro arbejder ud fra den åbne motor og lader
-den være uændret:
-
-- **Designoptimeringen, usikkerhedsstudiet og missionsdossieret** kører scenarier i den åbne
-  motor gennem motorens offentlige grænseflade og beregner hvert tal ud fra kørslernes
-  resultater. Hvert output bevarer det VALIDATED-, MODELLED- eller PARTNER-niveau, som den åbne motor gav
-  hvert tal, aldrig et højere.
-- **Digitale tvillinger af ure** bruger den åbne motors urmodel og dens Allan-afvigelses-
-  estimator: en tvilling kalibreres til enhedens offentliggjorte Allan-budget og kontrolleres derefter ved
-  at estimere tvillingens Allan-afvigelse med den åbne estimator.
-- **Afvejningsstudier** kører hver arkitekturmulighed som et scenarie i den åbne motor, uændret,
-  og rangordner mulighederne efter et kvalitetsmål læst fra hver kørsels resultat.
-- **Kampagneovervågning** læser sine tal fra resultaterne af kørsler i den åbne motor af
-  scenarierne i en pakke og sammenligner dem med den forrige beståede kørsel.
-- **Spektral sameksistens** læser hvert fysisk tal fra kørsler i den åbne motor af typerne
-  `leo-signal` og `constellation-design` og tilføjer kun summen over de synlige
-  satellitter og rangordningen af planerne.
-- **Den lokale jobtjeneste** kører åbne scenarier og Pro-scenarier gennem den samme motor og
-  gemmer hvert resultat, som kørslen returnerede det.
-- **Bevispakker** registrerer for hver kørsel den scenariehash, som den åbne motor stempler på
-  sit resultat, så et tal i en pakke kan gengives ved at køre dets scenarie igen.
-- **Systemudviklings- og programværktøjer.** Kshana Pros værktøjer til modelbaseret
-  systemudvikling (MBSE) og programmer kontrollerer et programs krav
-  mod kørsler af den åbne motor: de importerer krav som kommaseparerede værdier
-  (CSV) eller som en dokumenteret delmængde af Requirements Interchange Format (ReqIF) eller af
-  tekst i Systems Modeling Language version 2 (SysML v2), evaluerer hvert accept-
-  kriterium, med dets enhed, mod de værdier, en kørsel skrev, og producerer en verifikations-
-  krydsreferencematrix (VCRM), en SysML v2-model, en rapport om ændringspåvirkning og en offline-
-  bevispakke. De kører intet igen og genberegner intet og læser kun det, den åbne motor
-  offentliggør: hver kørsels `result.json` (de felter, et kriterium nævner, deres enheder,
-  reproducerbarhedsstemplet med scenariehash, seed, motorversion og skemaversion samt
-  kørslens betegnelse og tallenes niveauer), dens `report.json` (type, reproducerbarhedsoptegnelse og
-  funktionsbetegnelser), scenariefilen (dens hash, type, seed og parametre),
-  feltenhedsskemaet (hvert felts enhed, proveniens og evidensniveau) og
-  verifikationsmatricen (hver funktions VALIDATED-, MODELLED- eller PARTNER-betegnelse).
-
-<a id="support--professional-services"></a>
 ### Support og professionelle tjenester
 
-Kshana er gratis og open source under AGPL-3.0 og **professionelt udviklet og
-vedligeholdt af Ashforde® OÜ** (Estland). Den åbne motor er komplet og brugbar i sig
-selv. Til organisationer, der har brug for mere, tilbyder Ashforde® OÜ:
+Kshana er gratis og open source under AGPL-3.0 og **udvikles og vedligeholdes professionelt
+af Ashforde® OÜ** (Estland). Den åbne motor er komplet og kan bruges alene.
+For organisationer, der har brug for mere, tilbyder Ashforde® OÜ:
 
-- **Kommerciel support og integration** — indlejring af Kshana i din værktøjskæde, skræddersyede
+- **Kshana Pro**: den professionelle udgave beskrevet ovenfor, med direkte support.
+- **Kommerciel support og integration**: Kshana indlejret i din værktøjskæde, skræddersyede
   scenarier og prioriterede rettelser.
-- **Skræddersyede sensormodeller** — kalibreret til din hardware, inklusive eksportfølsomme
-  robusthedsmodeller vedligeholdt i et privat lag.
-- **Kshana Pro** — proprietære værktøjer til modelbaseret systemudvikling (MBSE) og programmer,
-  der kontrollerer et programs krav mod kørsler af den åbne motor og
-  producerer en verifikationskrydsreferencematrix (VCRM), en model i Systems Modeling Language
-  version 2 (SysML v2), en rapport om ændringspåvirkning og en offline-bevispakke. De
-  kører intet igen og læser kun motorens offentliggjorte output: hver kørsels `result.json`
-  og `report.json`, scenariefilen, feltenhedsskemaet og verifikations-
-  matricens betegnelser (den fulde liste står under [Udgaver](#editions)).
-- **Kshana Pros værktøjer til design, usikkerhed og missioner** — Pareto-fronten for et design-
-  rum, usikkerhed og følsomhed over tusindvis af kørsler og et missionsdossier med én kommando
-  med en verifikationsmatrix og en PDF; se [`docs/PRO.md`](docs/PRO.md).
-- **Kshana Pros kampagneovervågning, spektrale sameksistens og jobtjeneste** — en pipeline, der
-  fejler, når et overvåget tal bliver dårligere, signalplaner testet mod de åbne
-  satellitnavigationssignaler i begge retninger og en lokal jobkø med et
-  hashkædet leveringsregister; se [`docs/PRO.md`](docs/PRO.md).
-- **Træning og rådgivning** i ydelsesanalyse af kvante-/klassisk PNT.
+- **Skræddersyede sensormodeller**: kalibreret til din hardware under kontrakt; eksportfølsomt
+  arbejde udføres kun med den rette sikkerhedsgodkendelse og en fortrolighedsaftale.
+- **Skræddersyede studier**: et MODELLED studie af dit systems PNT-modstandsdygtighed, udført for dig.
+- **Træning og rådgivning** om PNT-modstandsdygtighed og ydeevnen af kvante- og klassiske sensorer.
 
-Dette er open core-modellen: motoren er, og forbliver, åbent licenseret; den bærende
-forretning er ekspertise, support og de proprietære udvidelser — ikke licensgebyrer.
+Det er open core-modellen: motoren er, og forbliver, åbent licenseret; den forretning, der
+bærer den, er Kshana Pro, support og ekspertise.
 Kontakt **contact@ashforde.org** · [ashforde.org](https://ashforde.org).
 
 </details>
 
-<a id="research"></a>
 ## Forskning
 
 Studier bygget på den åbne motor offentliggøres på arXiv. Hvert nævner den motorkommando,
@@ -1864,7 +1869,7 @@ den **modellerede** månepakke; de ændrer ikke antallet i den maskinkontrollere
 <a id="scenario-format"></a>
 ### Scenarieformat
 
-Scenarier er deklarativ TOML. En `kind` på øverste niveau vælger pakken — **halvtreds** i
+Scenarier er deklarativ TOML. En `kind` på øverste niveau vælger pakken — **93** i
 alt (`clock` er standard, hvis den udelades): `inertial`, `timetransfer`, `hybrid`, `hybrid-ukf`, `fusion`,
 `gnss-ins`, `orbit`, `ephemeris`, `gnss-sim`, `integrity`, `lunar-integrity`, `lunar-time-offset`, `spoof`,
 `spoof-detect`, `jamming`, `sweep`, `sweep-nd`, `gravity-map`, `terrain-nav`, `terrain-slam`,
@@ -2112,7 +2117,7 @@ papirur). **MODELLED** — hovedtallet er *referenceafhængigt* (Jordens geoide
 mod Månens selenoide, midlingsvindue), hvilket er grunden til, at der rapporteres et bånd, ikke et enkelt certificeret
 tal (`scenarios/lunar-time-offset.toml`).
 
-Se `scenarios/` for mindst ét gennemarbejdet eksempel på hver type (92 typer, 193 scenarie-
+Se `scenarios/` for mindst ét gennemarbejdet eksempel på hver type (93 typer, 199 scenarie-
 `.toml`-filer + 1 suitemanifest — flere typer leveres med mere end ét eksempel). Ikke hver
 type har en fil opkaldt efter sig: `lunar-integrity` → `scenarios/lunanet-araim.toml` og
 `gravity-map` → `scenarios/gps-denied-gravity-nav.toml` er to af flere sådanne.
@@ -2213,7 +2218,6 @@ kshana/
 │   └── bin/crossover_study.rs · bin/validation_report.rs  # crossover-study artifact generator · release validation-summary HTML
 │
 ├── mcp/kshana-mcp/        # standalone, workspace-EXCLUDED crate — the MCP server (+ Dockerfile, server.json)
-├── ide/jetbrains/         # standalone Kotlin/Gradle IntelliJ-Platform plugin
 ├── xval/                  # standalone, workspace-EXCLUDED external cross-checks: anise-{frames,lunar-od,mars-od,service-geometry} (Rust ANISE/SPICE DE440) + orekit-passes (Java Orekit)
 │
 ├── examples/            # reproducible study generators: tpl_jammertest · resilience_report · optimism_study + real-data probes (jammertest_probe · yunnan_probe · satgrid_probe · texbat_probe · ingest_realdata)
@@ -2223,7 +2227,7 @@ kshana/
 ├── docs/                 # CONCEPTS, ARCHITECTURE, CAPABILITY, VALIDATION, PROVENANCE, GLOSSARY, …
 ├── web/                  # the WebAssembly playground + kshana.dev site
 ├── tools/                # table generators (EGM2008 · IGRF · nutation · CIO) + fetch_tles.sh
-├── .github/workflows/    # ci · release · publish · wheels · pages · mcp-publish · jetbrains-plugin · frame-xval
+├── .github/workflows/    # ci · release · publish · wheels · pages · mcp-publish · frame-xval
 ├── pyproject.toml        # Python packaging (maturin)
 ├── CHANGELOG.md          # Keep a Changelog + SemVer
 └── CITATION.cff · ROADMAP.md · CONTRIBUTING.md · SECURITY.md
@@ -2245,7 +2249,7 @@ Nej. Det er en ydelses*simulator*. Kvantehardwarens nøjagtighed kommer fra offe
 fejlmodeller, ikke fra dette værktøj. Se [Hvad det er / ikke er](#what-it-is--is-not).
 
 **Er kvanteresultaterne realistiske, eller er det markedsføring?**
-Hver parameter er citeret fra et datablad eller en artikel, hver model er valideret mod en
+Hver parameter er citeret fra et datablad eller en artikel, hver model er kontrolleret mod en
 lærebogsrelation, og modenheden er ærligt mærket i
 [VALIDATION.md](docs/VALIDATION.md) — inklusive at intet optisk strontiumur har
 fløjet. Motoren er neutral: kvante og klassisk er den samme kode med forskellige
@@ -2317,13 +2321,13 @@ bagefter kontrollerer pipelinen, at hvert register faktisk leverer den nye versi
 
 | Kanal | Installation / hentning | Indhold |
 |---------|---------------|----------|
-| [crates.io](https://crates.io/crates/kshana) | `cargo install kshana` · `kshana = "0.35"` | Rust-bibliotek + CLI |
+| [crates.io](https://crates.io/crates/kshana) | `cargo install kshana` · `kshana = "0.41"` | Rust-bibliotek + CLI |
 | [crates.io](https://crates.io/crates/kshana-mcp) | `cargo install kshana-mcp` | MCP-serveren |
 | [PyPI (Python Package Index)](https://pypi.org/project/kshana/) | `pip install kshana` | abi3-wheels (Linux/macOS/Windows) + sdist (kildedistribution) |
 | [npm](https://www.npmjs.com/package/kshana) | `npm install kshana` | WebAssembly-modul + JS-indpakning |
 | [ghcr.io](https://github.com/ashfordeOU/kshana/pkgs/container/kshana-mcp) | `docker run -i ghcr.io/ashfordeou/kshana-mcp` | OCI-image til flere arkitekturer (Open Container Initiative) — ingen værktøjskæde nødvendig |
-| [npm](https://www.npmjs.com/package/kshana-mcp) | `npx -y kshana-mcp@0.40.0` | starter: henter udgivelsens binærfil, verificerer `SHA256SUMS`, kører den |
-| [PyPI](https://pypi.org/project/kshana-mcp/) | `uvx kshana-mcp==0.40.0` · `pipx run kshana-mcp==0.40.0` | den samme starter til Python |
+| [npm](https://www.npmjs.com/package/kshana-mcp) | `npx -y kshana-mcp@0.41.0` | starter: henter udgivelsens binærfil, verificerer `SHA256SUMS`, kører den |
+| [PyPI](https://pypi.org/project/kshana-mcp/) | `uvx kshana-mcp==0.41.0` · `pipx run kshana-mcp==0.41.0` | den samme starter til Python |
 | Homebrew · Scoop · winget | `brew install ashfordeOU/tap/kshana-mcp` · `scoop install kshana-mcp` · `winget install AshfordeOU.KshanaMcp` | `kshana-mcp`-binærfilen, genereret ud fra hver udgivelses `SHA256SUMS` |
 | Claude Desktop | dobbeltklik på `kshana-mcp-<target>.mcpb` fra udgivelsen | udvidelsen, med binærfilen indeni |
 | officielt MCP-register | opdages automatisk af MCP-klienter | `io.github.ashfordeOU/kshana-mcp` (OCI-image, npm- og PyPI-pakker) |
@@ -2354,7 +2358,7 @@ fulde CIO-baserede IAU 2006/2000A GCRS↔ITRS-kæde (polbevægelse + nutation un
 valideret bit for bit mod SOFA/ERFA og uafhængigt krydskontrolleret mod ANISE
 (ren Rust SPICE) til ≤ 3.6 m i GNSS-bane. Punkter på kort sigt omfatter tæt koblet bærebølgefasefusion og at gøre den
 løst/tæt koblede GNSS/INS-navigator tilgængelig i flere pakker; motoren til **radiometrisk navigation i det dybe rum / ved Mars**
-kom med i v0.17.0 (simuleringsvalideret).
+kom med i v0.17.0 (MODELLED: kontrolleret i simulering, ikke på missionsdata).
 **Kvantefysiklaget** er et **P2**-punkt: CAI-accelerometeret simuleres nu ud fra
 grundprincipper (Mach–Zehnder-fase, projektionsstøj, kontrastforfald, vibrations-
 kobling), mens ur-/tidsoverførselssensorerne stadig drives af offentliggjorte
@@ -2409,7 +2413,7 @@ post for hver ændring, der er synlig for brugeren. Deltagelse er underlagt vore
 | [Reproducerbarhed og proveniens](docs/REPRODUCIBILITY.md) | bedømmere / pakkere | garantier for determinisme, fastlåsning af guldstandarder, SBOM (software bill of materials), byggeproveniens |
 | [Platformstags for wheels](docs/WHEEL_TAGS.md) | pakkere | abi3-matricen for Python-wheels — hvilket platformstag `pip install kshana` opløser |
 | [Positionering](docs/POSITIONING.md) | evaluatorer | hvor Kshana står i forhold til RTKLIB/gLAB (komplementært), og browserniveauet uden installation |
-| [Kshana Pro](docs/PRO.md) | evaluatorer / programledere | hvad det proprietære Pro-lag tilføjer oven på den samme motor: designoptimering, usikkerhed og følsomhed, missionsdossier, kampagneovervågning, spektral sameksistens, lokal jobtjeneste, sporbarhed af krav; hvad hver producerer, og hvad den ikke gør |
+| [Kshana Pro](docs/PRO.md) | evaluatorer / programledere | den professionelle udgave: hvem den er til, hvad teams kan gøre med den, hvad de får, support og hvordan man starter en evaluering |
 | [Teknisk rapport](paper/kshana-technical-report.md) · [JOSS-artikel](paper/paper.md) | bedømmere / citerende / evaluatorer | den fulde udvidede forskningsartikel — arkitektur, modeller pr. domæne, validering, casestudier og begrænsninger — plus den koncise indsendelse til JOSS (Journal of Open Source Software) |
 | [SGP4-validering](docs/SGP4-VALIDATION.md) | bedømmere / citerende | overensstemmelse med AIAA 2006-6753-referencen (666 tilstande, ~4 mm) **og** en direkte sammenligning mod den uafhængige `sgp4`-crate (enige til under en mikrometer / 4.12 mm) |
 | [Validering af kraftmodel](docs/AGENCY-ORBIT-VALIDATION.md) | bedømmere / citerende | motoren med fulde kræfter (`src/precise_od.rs`) tilpasset agenturers efemerider — metode og validerede residualer |
@@ -2435,7 +2439,7 @@ post for hver ændring, der er synlig for brugeren. Deltagelse er underlagt vore
 | [Python-API](docs/PYTHON_API.md) | Python-brugere | PyO3-bindingens flade — kald af motoren, scenarie-/resultattyperne og eksempler |
 | [Påstande mod virkelighed](docs/CLAIMS-VS-REALITY.md) | bedømmere | registret over lukkede overdrevne påstande + CI-værnet (`tests/no_overclaims.rs`), der holder det løst |
 | [Køreplan](ROADMAP.md) | alle | den faseopdelte køreplan — hvad der er leveret, og hvad der kommer næste |
-| [MCP-server](mcp/kshana-mcp/README.md) · [JetBrains-plugin](ide/jetbrains/README.md) | agenter / IDE-brugere | kør Kshana fra en AI-assistent eller en JetBrains-IDE |
+| [MCP-server](mcp/kshana-mcp/README.md) · [JetBrains-plugin](https://kshana.dev/docs/jetbrains.html) | agenter / IDE-brugere | kør Kshana fra en AI-assistent eller en JetBrains-IDE |
 | [Agentvejledning](docs/AGENTS.md) · [Flader](docs/SURFACES.md) | agenter / integratorer | hvilket værktøj der besvarer hvilket spørgsmål, hvad der skal bevares med hvert svar; hvor hver funktion kan nås (CLI, Rust, Python, WASM, MCP, plugin, JetBrains, notebooks), og hvorfor en celle er N/A |
 | [Ændringslog](CHANGELOG.md) | alle | udgivet historik (Keep a Changelog + SemVer, Semantic Versioning) |
 | [Bidrag](CONTRIBUTING.md) | bidragydere | bygning, værn, disciplin for test/citation, DCO (Developer Certificate of Origin) |
