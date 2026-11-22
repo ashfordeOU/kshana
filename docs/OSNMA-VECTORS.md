@@ -14,8 +14,8 @@ data, with one fixed pass bar per vector, and the command that runs them through
 ## Running
 
 ```text
-kshana osnma vectors run                         # the built-in set, generated in memory
-kshana osnma vectors run conformance/osnma/v1    # a set directory
+kshana osnma vectors run                         # the built-in set (latest, 2.0.0), generated in memory
+kshana osnma vectors run conformance/osnma/v2    # a set directory (v1 stays, byte for byte)
 kshana osnma vectors run conformance/osnma/v1 --only R02-chain-revocation --json
 kshana osnma vectors generate --out <dir>        # write the built-in set
 ```
@@ -27,6 +27,17 @@ error or a set that fails its own integrity check (format, bar hash).
 
 Each vector's input is a plain page file that `kshana osnma verify` reads directly; the manifest
 gives the exact command line (`command`), so the same input can be fed to any other verifier.
+
+## Versions
+
+| Version | Directory | Vectors | Bar hash pinned as |
+|---|---|---|---|
+| 1.0.0 | `conformance/osnma/v1` | 27 | `BARS_SHA256_V1` |
+| 2.0.0 | `conformance/osnma/v2` | 43: the 27 of 1.0.0, unchanged (inputs and bars), plus 16 | `BARS_SHA256_V2` |
+
+The built-in set (`kshana osnma vectors run` and `generate` without a directory) is the latest
+version. Version 1.0.0 is kept as published; both directories are checked against the generator
+(`tests/osnma_vectors.rs`).
 
 ## What the set covers (version 1.0.0, 27 vectors)
 
@@ -41,6 +52,27 @@ gives the exact command line (`command`), so the same input can be fed to any ot
 | alert | A01 alert message; S01 "don't use" confirmed by two satellites; S02 "don't use" from one satellite only |
 | corruption | C01 pages failing their CRC; C02 sub-frames cut short; C03 corrupted DSM-KROOT block; C04 corrupted DSM-PKR |
 | time | X01 a reference time a day away; X02 pages stamped 60 s late; X03 far-future sub-frames after a failure |
+
+### Added in version 2.0.0 (16 vectors)
+
+Version 2.0.0 adds the cases of the SIS ICD Issue 1.1 and the Receiver Guidelines Issue 1.3 that
+can be generated without the Galileo private keys (all keys are throwaway synthetic keys) and
+that version 1.0.0 did not cover:
+
+| Category | Vectors |
+|---|---|
+| valid | V05 256-bit TESLA keys with look-up entry 40 (four tags per MACK, a 9-block KROOT); V06 look-up entry 33 (no flexible slot); V07 a P-521 public key through a 16-block DSM-PKR and the Merkle tree, then the P-521 KROOT it signed |
+| maclt | M01 a fixed slot carrying an ADKD other than the table's (discarded unchecked); M02 a reserved ADKD in a flexible slot under a correct MACSEQ (discarded unchecked); M03 a look-up entry the receiver has no table for (keys verify, no tag decided) |
+| corruption | C05 a DSM-KROOT whose padding does not match (refused before the signature check) |
+| mack-tags | T05 Tag0 with a flipped bit (charged to the transmitter only); T06 a slow-MAC (ADKD 12) tag with a flipped bit; T07 a sub-frame of navigation data not received (tags undecided, never failed); S04 the header's NMA status changed after the tags were made (the tags bind it and fail) |
+| key-chain | K06 six sub-frames lost: the next key verifies back to the last verified one over the gap |
+| alert | S03 NMA status "test": reported, and the tags that bind it authenticate (the set takes no position on how a receiver uses test-status data) |
+| renewal-revocation | R05 chain renewal announced with CPKS "end of chain"; R06 public-key renewal announced with CPKS "new public key"; R07 CPKS "new Merkle tree": a key from a tree whose root the receiver does not hold is refused and the chain in force goes on |
+
+Not covered, because it needs what this repository does not have: the Galileo private keys and
+live-signal recordings (the official vectors and `tests/osnma_live_pkid2.rs` cover those, opt-in),
+tag accumulation with tags shorter than 40 bits, and the cold-start retrieval of a new Merkle root
+from the service provider.
 
 Every vector cites the ICD and Receiver Guidelines sections it exercises (`refs`). The citations
 point to the documents; no text, table, worked example or vector of them is reproduced.
@@ -75,7 +107,8 @@ inputs/<id>.txt    the pages of each vector, plain page format (docs/OSNMA.md, I
 | `satellites` / `satellites_not` | each named satellite has / does not have the status (a satellite the report does not list has no status) |
 | `tags` | `authenticated_min`, `authenticated_max`, `failed_min`, `failed_max` on the tag counts |
 | `adkd_authenticated` | at least one tag of each listed ADKD authenticated |
-| `fail_reasons`, `pending_reasons` | a tag failed / is pending with each listed reason |
+| `fail_reasons`, `pending_reasons`, `discard_reasons` | a tag failed / is pending / was discarded with each listed reason (`discard_reasons` from version 2.0.0) |
+| `fail_reasons_absent` | no tag failed with any listed reason (from version 2.0.0) |
 | `events_present`, `events_absent` | an event matching each object exists / none does (every field equal; a string also matches a value that starts with it and `(`) |
 | `event_counts` | the number of matching events lies between `min` and `max` |
 
@@ -87,10 +120,10 @@ its expected and observed value.
 
 ## The bars are fixed and pre-hashed
 
-* One bar per vector, written by hand in `src/osnma/vectors/set_v1.rs` from the documented
-  behaviour, never derived from a run of the verifier.
+* One bar per vector, written by hand in `src/osnma/vectors/set_v1.rs` and `set_v2.rs` from the
+  documented behaviour, never derived from a run of the verifier.
 * The SHA-256 of `bars.json` is in the manifest, and for the built-in set it is also pinned in the
-  source (`BARS_SHA256_V1`). The runner checks it before running anything and refuses a bar file
+  source (`BARS_SHA256_V1`, `BARS_SHA256_V2`). The runner checks it before running anything and refuses a bar file
   that differs. Changing a bar means a new set version.
 * Nothing adapts: no test policy depends on earlier results, nothing is bound into the stimulus,
   and every run is reported on its own; results are not pooled across runs, units or users.
@@ -107,6 +140,13 @@ over a header other than the one it was sent under. One runner rule was settled:
 the report does not list counts as "not authenticated" (V04). The pinned hash is that of the
 corrected bars; version 1.0.0 is the first published version.
 
+**Version 2.0.0, revision before publication.** The bars of the added vectors were written and
+their hash pinned before the first run. The dry run (22 Nov 2026) met 41 of 43 bars: M01 and M02
+missed `overall` because their streams (22 sub-frames) crossed an IODnav boundary just before they
+ended, the same generator fault V02 had in version 1. The streams were cut to 20 sub-frames; no bar
+changed, so the pinned hash is the one registered before the run. A runner older than 2.0.0
+does not know the two new bar keys and fails those vectors rather than skipping them.
+
 ## Generating
 
 The generator (`src/osnma/vectors/gen.rs`) uses throwaway ECDSA keys made from a repeated byte,
@@ -115,7 +155,7 @@ It uses no random numbers, so the same files come out every time;
 `tests/osnma_vectors.rs` fails if the committed files differ from what it makes. Regenerate with
 
 ```text
-KSHANA_WRITE_OSNMA_VECTORS=1 cargo test --test osnma_vectors the_committed_set_is_current
+KSHANA_WRITE_OSNMA_VECTORS=1 cargo test --test osnma_vectors committed_set
 ```
 
 The keys authenticate nothing real.
