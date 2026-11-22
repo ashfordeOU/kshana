@@ -169,7 +169,7 @@ The metric of the Google Smartphone Decimeter Challenge, continued on data laid 
   better; the pooled P50 and P95.
 - **Splits:** the section 4 rule over traces, one stratum.
 - **Baseline:** `provided-wls`, the weighted-least-squares fix each trace's `device_gnss.csv` already carries, at the
-  nearest epoch. No baseline number is published: no copy of the data has been scored here.
+  nearest epoch; a row whose fix is not within 100 km of the Earth's surface (all zeros or diverged) is skipped. No baseline number is published: no copy of the data has been scored here.
 
 ### Task (h): urban positioning accuracy (added in 2.3.0)
 
