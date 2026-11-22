@@ -140,7 +140,7 @@ locations, not a per-snapshot guarantee.
   while its protection levels are recorded as measured discrepancies (VPL Δ
   0.0171 m, HPL Δ 0.0842 m, EMT Δ 0.4806 m) and excluded from the acceptance
   figure. The check is reachable as the `araim-reference-check` scenario kind.
-- **Honest residual (external / founder-gated):** the 15–25 % availability figure
+- **Honest residual (external):** the 15–25 % availability figure
   against a **version-locked real Celestrak TLE (two-line element set) snapshot**, and depositing the
   ARAIM test fixtures as a citable **Zenodo** record. The reference check above
   covers `N_fault,max = 1` (single-satellite and single-constellation fault modes)
