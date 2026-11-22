@@ -104,9 +104,9 @@ and never vendored; the test `tests/jammertest_score_2024.rs` pins the recorded 
 ## The 2025 SimulaMet NMEA dataset
 
 The SimulaMet Jammertest 2025 NMEA-derived dataset (IEEE DataPort, DOI 10.21227/a7v4-xw11) is **not**
-adapted in 0.38. Its page states no licence and says "This dataset requires an IEEE DataPort
+adapted. Its page states no licence and says "This dataset requires an IEEE DataPort
 Subscription to access": the terms do not clearly allow redistribution or an automated fetch, so no
-adapter or fetch script was written. Using it needs the owner's decision and, ideally, the authors'
+adapter or fetch script was written. Using it would need terms that allow it and, ideally, the authors'
 written agreement.
 
 ## Surfaces

@@ -61,8 +61,8 @@ default `from_elements` uses WGS84 (World Geodetic System 1984), which differs f
 | deep-space resonance (½-day) | 8.1e-9 km | 7.7e-9 km | **2.2e-9 km** |
 | deep-space resonance (1-day) | 8.2e-9 km | 7.8e-9 km | **2.2e-9 km** |
 
-Two independent implementations agree to **sub-micron** on near-earth and
-resonant orbits and to **4.12 mm worst-case** across all regimes — the same
+Two independent implementations agree to **sub-micron** on near-earth orbits, to
+**a few micrometres** on resonant orbits, and to **4.12 mm worst-case** across all regimes — the same
 4.12 mm that is Kshana's own deviation from the reference, i.e. the disagreement
 *is* that one deep-space case, with the crate sitting between Kshana and the
 table. The full table (with per-regime row counts and the four pathological cases
@@ -74,5 +74,5 @@ regenerated via `KSHANA_REGEN_FIXTURES=1 cargo test --test sgp4_crate_comparison
 
 The cross-validation itself is complete and in-tree. Submitting the result to
 external venues (a community catalogue, a short note, a DOI-archived (DOI: digital object identifier) record) is a
-maintainer action tracked separately on the roadmap; this document is the
-in-repository record those submissions would point to.
+step that has not been taken; this document is the in-repository record those
+submissions would point to.
