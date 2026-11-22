@@ -270,7 +270,7 @@ posts OTLP/HTTP JSON (`kshana.trust.score`, `kshana.trust.band`, `kshana.trust.e
 input. It adds no dependency and has no TLS: send to a collector on the same host or a
 trusted segment, which forwards onwards over TLS. `https://` endpoints are refused.
 
-## Incident, chat, log-index, SNMP and threat-sharing outputs (0.42 I5)
+## Incident, chat, log-index, SNMP and threat-sharing outputs
 
 `kshana connect alert <trust.jsonl|-> --form <form>` builds one payload per band change after
 calibration (`--all` for every epoch), from the same live-stream lines `trust-telemetry` reads. It
@@ -317,9 +317,8 @@ against the OASIS STIX 2.1 JSON schemas when they are present (`scripts/fetch_04
 `_total` suffix in `# HELP` and `# TYPE`, closing `# EOF`); others get the Prometheus 0.0.4 text as
 before.
 
-**Not built.** Kafka in and out: the crate has no Kafka client and no optional path for one, so it
-remains open (A2 remainder); bridge the JSON outputs with a Kafka producer of your choice. A Grafana
-dashboard per segment is not part of this wave.
+**Not built.** Kafka in and out: the crate has no Kafka client and no optional path for one; bridge the JSON
+outputs with a Kafka producer of your choice. A Grafana dashboard per segment is not built either.
 
 `tests/connect_042_w2.rs` checks each payload for the fields its service requires, the trap by
 decoding it, the TAXII client against a local fake server, and the OpenMetrics form.
