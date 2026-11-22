@@ -334,12 +334,16 @@
    "reason": "machine-input: the header comment of a generated synthetic page file"
   },
   "src/osnma/vectors/mod.rs": {
-   "count": 52,
-   "reason": "machine-document: the manifest, bar file and result document of the open OSNMA vector set (English by design, like `kshana osnma verify --json`), and the set scope statement"
+   "count": 53,
+   "reason": "machine-document: the manifest, bar file and result document of the open OSNMA vector set (English by design, like `kshana osnma verify --json`), and the set scope statement (53: the bar key `fail_reasons_absent` of set version 2.0.0)"
   },
   "src/osnma/vectors/set_v1.rs": {
    "count": 174,
    "reason": "data: vector ids, titles, ICD/Receiver Guidelines citations and bar keys of the published machine-readable vector set"
+  },
+  "src/osnma/vectors/set_v2.rs": {
+   "count": 121,
+   "reason": "data: vector ids, titles, ICD/Receiver Guidelines citations and bar keys of version 2.0.0 of the published machine-readable vector set"
   },
   "src/product_register.rs": {
    "count": 7,
