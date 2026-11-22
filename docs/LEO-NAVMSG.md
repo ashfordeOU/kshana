@@ -458,13 +458,13 @@ runs without it, and the README's scenario-file count still counts the withheld 
 | SISRE weights | VALIDATED | Montenbruck et al. 2018 table (GPS, GLONASS, Galileo, BeiDou, geostationary) |
 | Galileo ICD user algorithm | VALIDATED | RTKLIB `eph2pos` on four real Galileo broadcast ephemerides, 1 mm per axis (`tests/leo_navmsg_reference.rs`) |
 | CRC-24Q | VALIDATED | catalogue check value `0xCDE703`; RTCM 10403 1005 example frame |
-| Fitter and SISRE trade | MODELLED | two-body truth recovered to 1 mm; corrected J2–J6 fit to 1 mm; monotonic growth with interval |
+| Fitter and SISRE trade | VALIDATED (16-parameter fit and its orbit-only SISRE; integrated truth orbit) | TU Graz ITSG precise orbits fitted by the 16-parameter set against Liu et al. 2025, every ratio inside 1.5x; the integrated truth orbit against Orekit 12.2 within 4.55 mm over 6 h. The correction polynomials, the clock fit and the update-period trade stay MODELLED |
 | Mid-pass continuity | MODELLED | jump identity; closed-form cone bound against sampling |
 | Binary format and budget | MODELLED | round trips; every field's half step under 1 mm |
 | RINEX-style and CSV | MODELLED | round trips |
 | Liu et al. 2025 22-parameter model and fit | VALIDATED | TU Graz ITSG precise orbits of four satellites against the paper's Tables 4, 5, 6 and 8: along, cross, radial and SISRE ratios 0.755 to 1.138 on the paper days and 0.683 to 1.186 on eight held-out days, inside 1.5x (`tests/leo_navmsg_fit_real_orbit_oracle.rs`) |
 | ATOMIC zero-clock polynomial and the five-altitude table | MODELLED | ATOMIC facts from InsideGNSS; the published Liu table printed beside Kshana's integrated-orbit fit, not pinned |
-| Ionosphere and UTC | MODELLED | ICD closed forms; the RTKLIB-checked Klobuchar model |
+| Ionosphere and UTC | VALIDATED | GNSSTk 15.3.1 (Klobuchar at L1, L2 and L5, NeQuick-G `Az`, UTC drift) and ERFA via pyerfa (the three ICD leap-second cases), on real IGS broadcast coefficients. The NeQuick electron-density integration is not implemented |
 
 ## Limitations
 

@@ -87,7 +87,7 @@ expected outputs after a reviewed change. CI runs the folder (`tests/connect_con
 Every new adapter comes with its vector.
 
 Not in this version: Parquet and HDF5 inputs (they need large dependencies; a conversion to CSV
-or JSON Lines is the route for now) and live inputs (A3a).
+or JSON Lines is the route for now). Live inputs are described below.
 
 ## Live: watching a directory (library)
 
@@ -221,7 +221,7 @@ quality. That needs a schema minor version. It is checked against a stream from 
 A binary sensor is first decoded by a device file (`kshana.device/1`, [DEVICES.md](DEVICES.md)) into JSON
 Lines, which a mapping file then reads like any other JSON Lines export.
 
-## Tracks: AIS, ADS-B, ASTERIX, MAVLink, ULog, NMEA 2000 (`kshana connect decode`, 0.42)
+## Tracks: AIS, ADS-B, ASTERIX, MAVLink, ULog, NMEA 2000 (`kshana connect decode`, after 0.41.0)
 
 `kshana connect decode <input> --format <f>` reads vessel, aircraft and drone position reports (AIS
 from NMEA 0183, canboat NMEA 2000 JSON, ASTERIX CAT010/021/048/062, Beast and AVR Mode S, OpenSky-style
@@ -232,7 +232,7 @@ readers for observation files (`reader = "mavlink-tlog"`, `"ulog"`, `"canboat"`)
 can name a track decoder instead of a mapping or a reader: `decode = "<format>"`, with an `[options]`
 table (`day`, `start`, `radar`, and `to` for the output form). See [TRACKS.md](TRACKS.md).
 
-## Timing systems and receiver streams (0.42)
+## Timing systems and receiver streams (after 0.41.0)
 
 PTP management (linuxptp `pmc`), SNMP polling of grandmasters, chrony and ntpd status, and NTP mode 6
 are read by `kshana connect timing|snmp|ntp`: see [TIMING-SYSTEMS.md](TIMING-SYSTEMS.md). Swift SBP,
@@ -240,7 +240,7 @@ Javad GREIS and Unicore N4 logs are built-in readers (`reader = "sbp"`, `"greis"
 `kshana connect decode rtcm3` prints RTCM 3 observations and station messages: see
 [RECEIVER-PROTOCOLS.md](RECEIVER-PROTOCOLS.md).
 
-## Industrial control, ops outputs, mission control and simulators (0.42 wave 2)
+## Industrial control, ops outputs, mission control and simulators (after 0.41.0)
 
 - `kshana connect modbus|dnp3|opcua` read Modbus TCP registers, DNP3 class 0 points and OPC UA
   values, read only: see [INDUSTRIAL.md](INDUSTRIAL.md).

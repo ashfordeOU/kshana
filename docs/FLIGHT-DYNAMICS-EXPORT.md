@@ -9,10 +9,10 @@
 | `opm` | CCSDS Orbit Parameter Message 3.0, KVN: one state (`--index`, default the first) | Orekit, GMAT |
 | `spk` | NAIF SPICE SPK kernel, type 13 (Hermite, default) or type 9 (Lagrange), one segment | SPICE and the tools built on it (Basilisk, GMAT) |
 
-This is step 1 of roadmap item C7 (adapters and notebooks for flight-dynamics tools;
-[pre-registration](design/evidence/c7-flight-dynamics-adapters/PREREGISTRATION.md)). The adapters and
-notebooks that load these files into the tools themselves are in
-[`integrations/flight-dynamics/`](../integrations/flight-dynamics/README.md): Orekit, Basilisk and ANISE so far.
+The adapters and notebooks that load these files into the tools themselves
+([pre-registration](design/evidence/c7-flight-dynamics-adapters/PREREGISTRATION.md)) are in
+[`integrations/flight-dynamics/`](../integrations/flight-dynamics/README.md): Orekit, Basilisk, ANISE and
+GMAT (GMAT with a recorded finding; see that README).
 
 ## Input
 
@@ -23,7 +23,8 @@ and their NAIF ids (`Target body name: CAPSTONE (spacecraft) (-1176)`, `Center b
 the frame (`Reference frame : ICRF`) and the request time come from the table's header. A table in
 other units or another time scale is refused, not converted.
 
-The mission thread's CAPSTONE table is in the repository:
+The CAPSTONE table of the lunar mission thread ([MISSION-THREAD-LUNAR.md](MISSION-THREAD-LUNAR.md)) is in
+the repository:
 `tests/fixtures/capstone_horizons/capstone_2023-03_moon_icrf.txt` (4,321 states, 1 to 31 March 2023,
 every 10 minutes, Moon-centred, ICRF).
 
@@ -82,4 +83,4 @@ at the nodes is within 1.5e-11 km and 5.0e-15 km/s.
 - The OEM carries no covariance and no interpolation hint (`INTERPOLATION` is not written); the
   reading tool chooses its own interpolation.
 - The frame is written as the table names it. ICRF is not rotated to EME2000 for tools that only
-  accept EME2000; the C7 adapters state what each tool accepts.
+  accept EME2000; the adapters in `integrations/flight-dynamics/` state what each tool accepts.
