@@ -57,7 +57,7 @@ everything = out.series()                  # every record series, keyed by path
 | `assess_vessel_log` | `(session_toml, log) -> dict` | a vessel's NMEA log as a batch run: the score model and every epoch's score with its deductions (advisory) |
 | `jammertest_import` | `(catalog_json, plans, log_start_utc, location=None, local_offset_h=2.0, year=None) -> dict` | the published Jammertest catalogue and plan as scheduled-truth events (`events_toml`, `events`); planned slots, not recorded on-air times |
 | `jammertest_score` | `(session_toml, log, catalog_json, plans, location=None, local_offset_h=2.0, log_start_utc=None, year=None, recover_hold_s=10.0, guard_s=60.0) -> dict` | a receiver log scored against that schedule: per-test latency, missed, time to recover, false alarms (MODELLED; a signed pack needs the command line) |
-| `evidence_create` | `(session_toml, log, from_s, to_s, title=None, created_utc=None, seed_hex=None) -> dict` | a signed evidence pack for a window of the log, in memory: `files`, `public_key`, `seed_hex` (keep it private); a technical record, not a legal opinion |
+| `evidence_create` | `(session_toml, log, from_s, to_s, title=None, created_utc=None, seed_hex=None, lab_attestation=None) -> dict` | a signed evidence pack for a window of the log, in memory: `files`, `public_key`, `seed_hex` (keep it private); `lab_attestation` is the TOML text of an operator's lab attestation ([`HARDWARE-SAFETY.md`](HARDWARE-SAFETY.md)); a technical record, not a legal opinion |
 | `evidence_verify` | `(files, public_key=None, full_log=None, require_timestamp=False) -> dict` | verify a pack: hashes, chain, signature, optionally the trusted signer, the full log and a timestamp; `verdict` is `verified`, `intact-signer-not-pinned` (no public key given: intact, signer not established) or `failed` |
 | `export_sp3`, `export_omm`, `export_oem` | `(toml) -> str` | the CLI's `--export-sp3/-omm/-oem` artifacts as text |
 | `export_formats` | `(toml) -> list[dict]` | which interoperability formats apply to a scenario, without running it |
@@ -105,6 +105,15 @@ everything = out.series()                  # every record series, keyed by path
 | `iq_test_conditions` | `(conditions) -> dict` | validate a lab test-condition file (`kshana.test-conditions/1`, TOML or JSON, a path or text) and return it resolved, with its `hash` |
 | `iq_campaign` | `(campaign, out_dir, workers=0, resume=True, max_cells=None, dry_run=False) -> dict` | run a lab-replay campaign (`kshana.campaign/1`) into `out_dir` as `kshana iq campaign` does; finished cells are skipped; returns the cell counts, failures and the `digest` once every cell is done |
 | `iq_campaign_report` | `(out_dir) -> dict` | rebuild a campaign's scorecards, HTML report and digest from its cells: the cell and row counts, the rows failing a bar and the `digest` |
+| `run_human` | `(toml, lang) -> tuple[str, str]` | run a scenario once in `lang` and return `(summary, svg)`; the result document and CSV are the English run's (`run_typed`) |
+| `error_info` | `(toml, lang=None) -> dict \| None` | why a scenario fails: `None` when it runs, else `{kind, code, message}`; the message is in `lang`, the `code` (`E-...`) is the same in every language |
+| `referee_location_score` | `(truth_json, reports_json) -> str` | location metrics of reported emitter positions against a truth file (`kshana jammertest locate-score`), as JSON text |
+| `env_baseline` | `(site_hours_json) -> str` | the environmental baseline for a list of site-hours (`kshana env-baseline`), as JSON text |
+| `planner` | `(kind, spec_json) -> str` | the monitoring-network planner (`kshana planner`): `kind` is `"map"` or `"place"`; JSON text |
+| `area_trust_timeline` | `(stations_json) -> str` | one trust state for an area from several reference stations (`kshana area-trust`), as JSON Lines |
+| `connect_map` | `(mapping, station, text) -> str` | apply a `kshana.connect/1` mapping to a log's text (`kshana connect map`) and return `kshana.obs/1` records as JSON Lines; nothing touches disk |
+| `imu_fit` | `(log, format="csv", axis="x", expected_mean=0.0, id="imu-fit") -> str` | fit the accelerometer and gyro parameters of a stationary IMU log (`kshana imu-fit`), with a ready-to-paste `[accel_classical]` table; MODELLED |
+| `ephem_export` | `(table, format="oem", index=0, spk_type=13, degree=7, creation_date=None, object_id=None) -> str` | a JPL Horizons vector table written as CCSDS OEM, OPM or an SPK kernel and read back (`kshana ephem-export`), as JSON text |
 
 ### GNSS IQ and receiver-trust signatures
 
@@ -126,7 +135,7 @@ def jammertest_score(session_toml: str, log: str | bytes, catalog_json: str, pla
                      recover_hold_s: float = 10.0, guard_s: float = 60.0) -> dict: ...
 def evidence_create(session_toml: str, log: str | bytes, from_s: float, to_s: float,
                     title: str | None = None, created_utc: str | None = None,
-                    seed_hex: str | None = None) -> dict: ...
+                    seed_hex: str | None = None, lab_attestation: str | None = None) -> dict: ...
 def evidence_verify(files: dict[str, str | bytes], public_key: str | None = None,
                     full_log: str | bytes | None = None,
                     require_timestamp: bool = False) -> dict: ...
@@ -362,9 +371,10 @@ names: "list[ScenarioKind]" = [k["name"] for k in kshana.scenario_kinds()]
 
 ### The reproducibility table
 
-`realtime-frame-eop`, `lunar-time-budget`, `lunar-jamming`, `telecom-timing` and
+`realtime-frame-eop`, `lunar-time-budget`, `lunar-jamming`, `lunar-surface`, `telecom-timing` and
 `leo-navmsg` always publish a table; `moonlight-service-volume` publishes one when an
-export site (`export_site_lat_deg` + `export_site_lon_deg`) is configured. Every other kind returns `csv = None`. The text is
+export site (`export_site_lat_deg` + `export_site_lon_deg`) is configured, and `gnss-ssv` when it
+runs a `trajectory`. Every other kind returns `csv = None`. The text is
 the same bytes the CLI (command-line interface) writes as `<scenario>.table.csv`, so a reviewer reproducing a
 published table from the wheel never has to drop to the command line:
 
