@@ -1653,7 +1653,7 @@ seg-facafec08ae3 = Measurement-domain GNSS simulation: pseudoranges with ionosph
 seg-879b02ba5afb = <c1/><a1>gnss-sim-container-terminal-skyline</a1><a2>gnss-sim-raim</a2>
 
 # attr:title, text
-seg-4725f2524e57 = Machine-learning RF-impairment detection evaluation testbed (ESA AO/1-13494 demonstrator).
+seg-963fba35ea37 = Machine-learning RF-impairment detection evaluation testbed.
 
 # text
 # c1: impairment-eval
@@ -2534,7 +2534,7 @@ seg-f005b07bd5d3 = Trusted quantum timing — end-to-end time-transfer chain, se
 seg-c9b18cd44d6f = <c1/><a1>quantum-time-transfer</a1>
 
 # attr:title, text
-seg-66e430c55836 = Quantum-vs-classical PNT trade with measured-ADEV ingestion (ESA AO/1-13503 demonstrator).
+seg-34fd00a5833c = Quantum-vs-classical PNT trade with measured-ADEV ingestion.
 
 # text
 # c1: quantum-trade

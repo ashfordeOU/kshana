@@ -13,7 +13,7 @@ seg-830c574e871b = <c1/> (scenario kind)
 seg-72ad48275ebe = Scenario kind of the engine v{ $version }, family <a1>Optical PNT</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
 
 # text
-seg-a32f61602487 = MODELLED heterogeneous optical + RF PNT joint figure of merit: composes the { "1550" } nm two-way optical link budget (photon-limited two-way ranging CRLB σ_τ/√N and diffraction footprint λ/D·range), a cross-modality solution-separation RAIM protection level (position AND timing) that fuses the loose RF and tight optical solutions with disparate covariances, the N-station optical clear-sky availability (independent-union { "1" }−Π({ "1" }−a_i) and a spatially-correlated variant), an optical↔RF state/covariance handoff with a PROVEN bit-continuous (no-jump) mean and a NEES χ² consistency gate, and a joint P(available AND precision-grade AND integrity-assured) score with correlation handling. VALIDATED closed form: the ranging CRLB, diffraction footprint, χ² protection-level quantile, union combinatorics, handoff mean-continuity + NEES gate, and the joint independent product. MODELLED: the optical loss allocations, RF/optical σ magnitudes, cloud-climatology inputs, correlations, and P_HMI budget. Not a certified availability/integrity product.
+seg-013ee3c695c5 = MODELLED heterogeneous optical + RF PNT joint figure of merit: composes the { "1550" } nm two-way optical link budget (photon-limited two-way ranging CRLB σ_τ/√N and diffraction footprint λ/D·range), a cross-modality solution-separation RAIM protection level (position AND timing) that fuses the loose RF and tight optical solutions with disparate covariances, the N-station optical clear-sky availability (independent-union { "1" }−Π({ "1" }−a_i) and a spatially-correlated variant), an optical↔RF state/covariance handoff with a PROVEN bit-continuous (no-jump) mean and a NEES χ² consistency gate, and a joint P(available AND precision-grade AND integrity-assured) score with correlation handling. Checked closed form (the kind stays MODELLED): the ranging CRLB, diffraction footprint, χ² protection-level quantile, union combinatorics, handoff mean-continuity + NEES gate, and the joint independent product. MODELLED: the optical loss allocations, RF/optical σ magnitudes, cloud-climatology inputs, correlations, and P_HMI budget. Not a certified availability/integrity product.
 
 # text
 # c1: scenarios/hybrid-optical-rf.toml
@@ -79,7 +79,7 @@ seg-98151954f217 = false
 seg-debc2f07db78 = true
 
 # text
-seg-e223de7ccd5f = Result label (the engine's): Heterogeneous optical + RF PNT joint availability / precision / integrity figure of merit. VALIDATED closed form: the photon-limited ranging CRLB (σ_τ/√N) and diffraction footprint (λ/D·range), the χ² cross-modality protection-level quantile, the N-station independent-union availability ({ "1" } −…
+seg-f37cf655a246 = Result label (the engine's): Heterogeneous optical + RF PNT joint availability / precision / integrity figure of merit. Checked closed form (the kind stays MODELLED): the photon-limited ranging CRLB (σ_τ/√N) and diffraction footprint (λ/D·range), the χ² cross-modality protection-level quantile, the N-station independent-union…
 
 # attr:alt
 seg-5cea5229815e = The chart the engine writes for scenarios/hybrid-optical-rf.toml, kind hybrid-optical-rf
@@ -102,11 +102,15 @@ seg-7a60705df23a = <b>MODELLED</b> The hybrid-optical-rf report states what the 
 
 # text
 # c1: label
-seg-d7a5d69a8c0d = Heterogeneous optical + RF PNT joint availability / precision / integrity figure of merit. VALIDATED closed form: the photon-limited ranging CRLB (σ_τ/√N) and diffraction footprint (λ/D·range), the χ² cross-modality protection-level quantile, the N-station independent-union availability ({ "1" } − Π({ "1" }−a_i)), the optical↔RF handoff mean-continuity (bit-for-bit no-jump) invariant and NEES χ² gate, and the joint-FoM… (result <c1/>)
+seg-96ac1418b726 = Heterogeneous optical + RF PNT joint availability / precision / integrity figure of merit. Checked closed form (the kind stays MODELLED): the photon-limited ranging CRLB (σ_τ/√N) and diffraction footprint (λ/D·range), the χ² cross-modality protection-level quantile, the N-station independent-union availability ({ "1" } − Π({ "1" }−a_i)), the optical↔RF handoff mean-continuity (bit-for-bit no-jump) invariant and NEES χ² gate… (result <c1/>)
 
 # text
 # c1: kshana kinds --json
 seg-e0d929a44963 = MODELLED heterogeneous optical + RF PNT joint figure of merit: composes the { "1550" } nm two-way optical link budget (photon-limited two-way ranging CRLB σ_τ/√N and diffraction footprint λ/D·range), a cross-modality solution-separation RAIM protection level (position AND timing) that fuses the loose RF and tight optical solutions with disparate covariances, the N-station optical clear-sky availability (independent-union… (kind catalogue (<c1/>))
+
+# text
+# c1: kshana kinds --json
+seg-bd92ce7e35b5 = Checked closed form (the kind stays MODELLED): the ranging CRLB, diffraction footprint, χ² protection-level quantile, union combinatorics, handoff mean-continuity + NEES gate, and the joint independent product. (kind catalogue (<c1/>))
 
 # text
 # c1: kshana kinds --json
@@ -120,9 +124,6 @@ seg-43ffd5043172 = --- bias / ramp fault injection against the cross-modality mo
 
 # text
 seg-ae04d8f681c3 = --- post-handover coast: process noise and the alert-limit crossing --- Random walk on the existing 4-state (east, north, up, clock) handoff filter. The alert limits are the ones already declared above; only the process noise and the coverage factor are new. Both PSDs are MODELLED representative inputs and the crossing times scale directly with them. (scenario file comment, lines { "63" } to { "67" })
-
-# text
-seg-9fb4240fb0ef = Hybrid optical/RF report self-description is MODELLED, not validated: checked against its own closed-form / analytic identity — catches transcription and coefficient errors, but is not an external oracle. (verification matrix (docs/MODELLED-RATIONALE.md))
 
 # text
 seg-a97755cb13eb = Family page: <a1>Optical PNT</a1>

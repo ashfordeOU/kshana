@@ -1,8 +1,8 @@
-# Lunar-VLBI station-coordinate covariance from an explicit observing schedule (G8, paper D3).
+# Lunar-VLBI station-coordinate covariance from an explicit observing schedule.
 #
-# D3's published chain goes from a per-observation delay precision to a station coordinate
+# A published lunar-VLBI error chain goes from a per-observation delay precision to a station coordinate
 # uncertainty through an assumed ISOTROPIC equipartition factor g = 3. That step is the one
-# the paper's own abstract calls modelled rather than measured. This scenario removes it:
+# the source's own abstract calls modelled rather than measured. This scenario removes it:
 # the lunar-VLBI delay partials are accumulated over a real schedule of (baseline x epoch)
 # pairs into a Fisher information matrix, inverted, and reported as the station coordinate
 # covariance — so the station sigma is an engine output.

@@ -31,15 +31,14 @@ seg-efd15cff3d32 = MODELLED (result label)
 seg-152394289dff = MODELLED revisit and tip-and-cue latency of a two-layer maritime survey over the Baltic Sea: an RF survey layer and an optical layer, each a Walker star pattern of { "550" } km sun-synchronous orbits propagated with the secular J2 drift on a spherical Earth, with an elevation mask for the RF layer and an off-nadir field of regard (and optionally daylight) for the optical layer. Reports R, the area-weighted mean gap between RF accesses per point; F, the mean wait until every sea point has been in view; and Q, the mean wait from an RF access to an optical look, each with its median, 95th percentile and largest value. Geometry and timing only: no detection, weather or tasking latency. A cross-check of published simulation figures, never a validation.
 
 # text
-# c1: kind
-# c2: title
-# c3: seed
-# c4: area
-# c5: step_s
-# c6: span_days
-# c7: m2
-# c8: cases
-seg-b74e7cc663b5 = Required fields: none. Optional: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>.
+# c1: title
+# c2: seed
+# c3: area
+# c4: step_s
+# c5: span_days
+# c6: m2
+# c7: cases
+seg-9a01dc3dc5f1 = Required fields: none. Optional: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>.
 
 # text
 seg-5935d851cd51 = <b>Ledger:</b> no matrix row names this kind; the engine labels its own result. Full page, with the inputs, results, evidence and limitations: <a1>tip-and-cue</a1>.

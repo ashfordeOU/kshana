@@ -15,6 +15,22 @@ seg-bbc8f38627f1 = The format is based on <a1>Keep a Changelog</a1>, and this pr
 seg-985f7b4c001a = Unreleased
 
 # text
+# c1: conformance/osnma/v2
+# c2: src/osnma/vectors/set_v2.rs
+# c3: conformance/osnma/v1
+# c4: BARS_SHA256_V2
+# c5: discard_reasons
+# c6: fail_reasons_absent
+# c7: gen::Ctx
+# c8: tests/osnma_vectors.rs
+seg-b38094fc2fd8 = <b>Open OSNMA vector set version { "2.0.0" }: SIS ICD Issue { "1.1" } and Receiver Guidelines Issue { "1.3" } cases</b> (<c1/>, <c2/>, <a1>docs/OSNMA-VECTORS.md</a1>). { "43" } synthetic vectors: the { "27" } of version { "1.0.0" } unchanged (<c3/> kept as published) plus { "16" }: 256-bit keys with look-up entry { "40" }, entry { "33" }, a P-521 public key through a 16-block DSM-PKR, an ADKD not in the look-up table, a reserved ADKD, an unknown look-up entry, a KROOT padding mismatch, Tag0 and slow-MAC tag failures, missing navigation data, a key-chain gap, the test status, a forged status, and chain renewal, public-key renewal and new-Merkle-tree announcements under their CPKS values. All keys are throwaway synthetic keys; a pass shows consistency with Kshana's reading of the documents, not conformance or certification. Bars written by hand and pinned (<c4/>) before the first run; the dry run met { "41" } of { "43" }, and two generator streams were shortened past an IODnav boundary without changing a bar. The built-in set is now { "2.0.0" }; new bar keys <c5/> and <c6/>; the generator takes the key size, tag size and look-up entry per vector (<c7/>). Tests: <c8/>.
+
+# text
+# c1: .github/workflows/release.yml
+# c2: .github/workflows/ci.yml
+seg-d4f0452a6fb9 = <b>Kshana Desktop and the JetBrains plugin are distributed as products from kshana.dev and their stores</b> (<c1/>, <c2/>, <a1>docs/RELEASING.md</a1>, <a2>docs/SURFACES.md</a2>). Their source, their desktop string catalogues and their build, signing and store workflows are no longer in this repository; the engine library, command line, WebAssembly, PyPI, npm, MCP and container releases are unchanged.
+
+# text
 # c1: .github/workflows/attribution-footers.yml
 # c2: scripts/strip-attribution-footers.py
 # c3: scripts/check-no-attribution.sh
@@ -1523,6 +1539,9 @@ seg-05bb5345cd4d = <c1/> writes gps-sdr-sim <c2/>/<c3/> motion at { "10" } Hz; <
 # text
 # c1: tools/egm2008_to70.gfc
 seg-136b16722edf = <c1/> is left out of the published crate (two unit tests read it from a checkout).
+
+# text
+seg-309ac85ff498 = [{ $version }] - 2026-11-12
 
 # text
 # c1: kshana.obs/1

@@ -56,7 +56,7 @@ seg-7400f24ec992 = MODELLED { "1" } · VALIDATED { "2" }: the <a1>verification m
 seg-798a7e5526a0 = <b>VALIDATED</b> AUC (Mann-Whitney, ties ½), confusion matrix at threshold, P_d/P_md/P_fa/precision/accuracy/F1 Tests: <a1>eval_metrics_reference.rs</a1>.
 
 # text
-seg-ceedc14c623a = <b>VALIDATED</b> ROC AUC + bootstrap CI separating real labelled anomalies; transparent detector (reproduces-labels) Tests: <a1>opssat_ad_reference.rs</a1>.
+seg-ac787a8869d2 = <b>VALIDATED</b> ROC AUC (and full operating-point confusion) on real labelled anomalies, using a transparent single-feature detector (peak count) and a diagonal-Mahalanobis score; the bootstrap CI is checked internally only (it brackets the point AUC) Tests: <a1>opssat_ad_reference.rs</a1>.
 
 # text
 seg-0ee5b31cfd09 = <b>MODELLED</b> Labelled synthetic impairment corpus + detector-agnostic ROC/AUC/confusion/Pfa-Pmd harness; leakage guard, stratified split, distribution-shift (in- vs out-of-regime) optimism report.

@@ -31,12 +31,11 @@ seg-1ec485468daa = MODELLED navigation and timing error budget of a stated chain
 # c1: epoch_utc
 # c2: entry
 # c3: phase
-# c4: kind
-# c5: title
-# c6: seed
-# c7: moon_kernel_path
-# c8: ground_network
-seg-d5bb1d2b159f = Required fields: <c1/>, <c2/>, <c3/>. Optional: <c4/>, <c5/>, <c6/>, <c7/>, <c8/>.
+# c4: title
+# c5: seed
+# c6: moon_kernel_path
+# c7: ground_network
+seg-554c5e6386ea = Required fields: <c1/>, <c2/>, <c3/>. Optional: <c4/>, <c5/>, <c6/>, <c7/>.
 
 # text
 seg-6317cff84287 = <b>Ledger:</b> MODELLED. Full page, with the inputs, results, evidence and limitations: <a1>mission-thread</a1>.

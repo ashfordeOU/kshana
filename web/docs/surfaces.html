@@ -102,7 +102,7 @@ Python, WebAssembly and MCP entry points for the 0.35 capabilities are thin wrap
 <th>Studio</th>
 </tr>
 </thead><tbody><tr>
-<td>Kshana Desktop (0.41, L2a): the Studio in a native window; runs, charts, tables, the kind list, the examples and the CCSDS/SP3 exports run natively, the tool pages keep the WebAssembly engine, a recording of any size is probed and read in blocks, and (L2b) the trust page scores a live receiver read only from a serial port, a TCP stream or a growing file (Kshana Desktop, downloaded from kshana.dev)</td>
+<td>Kshana Desktop (0.41): the Studio in a native window; runs, charts, tables, the kind list, the examples and the CCSDS/SP3 exports run natively, the tool pages keep the WebAssembly engine, a recording of any size is probed and read in blocks, and the trust page scores a live receiver read only from a serial port, a TCP stream or a growing file. A product distributed from kshana.dev and the app stores; its source is not in this repository</td>
 <td><strong>N/A</strong> (an application)</td>
 <td><code>kshana::api</code> (the bridge calls it)</td>
 <td><strong>N/A</strong></td>
@@ -186,7 +186,7 @@ Python, WebAssembly and MCP entry points for the 0.35 capabilities are thin wrap
 <td><strong>pending</strong>: a Tools card for the command line (the Studio strip and views are WS-A&#39;s)</td>
 </tr>
 <tr>
-<td>Referee location metrics (0.41, B2): where a network said an emitter was, scored against truth (error, region coverage and size, time to first location, time to locate, false locations per hour); checked against an independent oracle</td>
+<td>Referee location metrics (0.41): where a network said an emitter was, scored against truth (error, region coverage and size, time to first location, time to locate, false locations per hour); checked against an independent oracle</td>
 <td><code>jammertest locate-score</code></td>
 <td><code>jammertest::location</code>, <code>surface::referee_location_score_json</code>, <code>geodesic::distance_m</code></td>
 <td><code>referee_location_score</code></td>
@@ -198,7 +198,7 @@ Python, WebAssembly and MCP entry points for the 0.35 capabilities are thin wrap
 <td>N/A</td>
 </tr>
 <tr>
-<td>Area trust (0.41, B5): one state for an area from several reference stations (<code>UNKNOWN</code>, <code>TRUSTED</code>, <code>DEGRADED</code>, <code>UNTRUSTED</code>), per second, with the stale rule, hysteresis and alerts; checked against an independent oracle</td>
+<td>Area trust (0.41): one state for an area from several reference stations (<code>UNKNOWN</code>, <code>TRUSTED</code>, <code>DEGRADED</code>, <code>UNTRUSTED</code>), per second, with the stale rule, hysteresis and alerts; checked against an independent oracle</td>
 <td><code>area-trust</code></td>
 <td><code>area_trust::timeline</code>, <code>area_trust::timeline_jsonl</code></td>
 <td><code>area_trust_timeline</code></td>
@@ -210,7 +210,7 @@ Python, WebAssembly and MCP entry points for the 0.35 capabilities are thin wrap
 <td>N/A</td>
 </tr>
 <tr>
-<td>Monitoring-network planner (0.41, B1a): detection and TDOA location-accuracy maps over a site, station placement (MODELLED; free space)</td>
+<td>Monitoring-network planner (0.41): detection and TDOA location-accuracy maps over a site, station placement (MODELLED; free space)</td>
 <td><code>planner map</code>, <code>planner place</code></td>
 <td><code>planner::map</code>, <code>planner::place</code>, <code>planner::run_json</code></td>
 <td><code>planner</code></td>
@@ -222,7 +222,7 @@ Python, WebAssembly and MCP entry points for the 0.35 capabilities are thin wrap
 <td>N/A</td>
 </tr>
 <tr>
-<td>Environmental baseline (0.41, B8): expected ionospheric disturbance per site and hour from Kp and F10.7 (MODELLED)</td>
+<td>Environmental baseline (0.41): expected ionospheric disturbance per site and hour from Kp and F10.7 (MODELLED)</td>
 <td><code>env-baseline</code></td>
 <td><code>env_baseline::baseline</code>, <code>env_baseline::baseline_json</code></td>
 <td><code>env_baseline</code></td>
@@ -234,7 +234,7 @@ Python, WebAssembly and MCP entry points for the 0.35 capabilities are thin wrap
 <td>N/A</td>
 </tr>
 <tr>
-<td>Kshana Station (0.41, L3): the headless receiver service (receiver streams to rotated <code>kshana.obs/1</code> files, local status port, fleet report, service files for systemd, launchd and Windows)</td>
+<td>Kshana Station (0.41): the headless receiver service (receiver streams to rotated <code>kshana.obs/1</code> files, local status port, fleet report, service files for systemd, launchd and Windows)</td>
 <td><code>station run</code>, <code>station check</code>, <code>station service</code></td>
 <td><code>station::start</code>, <code>station::load</code>, <code>station::service_text</code></td>
 <td><strong>N/A</strong> (a running service)</td>
@@ -366,7 +366,7 @@ Python, WebAssembly and MCP entry points for the 0.35 capabilities are thin wrap
 <td><strong>N/A</strong> (Studio&#39;s scenario editor takes the pasted table)</td>
 </tr>
 <tr>
-<td>Flight-dynamics export (0.41, C7): a JPL Horizons state table written as a CCSDS OEM, a CCSDS OPM or an SPK kernel (type 13 or 9), then read back state for state (docs/FLIGHT-DYNAMICS-EXPORT.md)</td>
+<td>Flight-dynamics export (0.41): a JPL Horizons state table written as a CCSDS OEM, a CCSDS OPM or an SPK kernel (type 13 or 9), then read back state for state (docs/FLIGHT-DYNAMICS-EXPORT.md)</td>
 <td><code>ephem-export</code></td>
 <td><code>ephem_export</code>, <code>surface::ephem_export</code></td>
 <td><code>ephem_export</code></td>
@@ -446,7 +446,7 @@ Python, WebAssembly and MCP entry points for the 0.35 capabilities are thin wrap
 <td><code>interference_emitter_regions</code></td>
 <td><strong>N/A</strong></td>
 <td><strong>N/A</strong></td>
-<td><strong>N/A</strong> (publishing emitter regions in the public observatory is a separate owner decision and is off)</td>
+<td><strong>N/A</strong> (emitter regions are not published in the public observatory)</td>
 <td></td>
 </tr>
 <tr>
@@ -1030,7 +1030,7 @@ last column. JetBrains actions run the command line, so an <strong>N/A</strong> 
 <td><strong>N/A</strong> (terminal; needs files)</td>
 <td></td>
 <td>—</td>
-<td>Location metrics (row B2): the same JSON bytes from the CLI, Python and WASM; MCP returns the same values with the advisory notice, inputs capped at 4 MiB</td>
+<td>Location metrics: the same JSON bytes from the CLI, Python and WASM; MCP returns the same values with the advisory notice, inputs capped at 4 MiB</td>
 </tr>
 <tr>
 <td><code>area-trust</code></td>
@@ -1041,7 +1041,7 @@ last column. JetBrains actions run the command line, so an <strong>N/A</strong> 
 <td><strong>N/A</strong> (terminal; needs files)</td>
 <td></td>
 <td>—</td>
-<td>Area trust (row B5): the same JSON Lines bytes from the CLI, Python and WASM, equal to the independent oracle&#39;s</td>
+<td>Area trust: the same JSON Lines bytes from the CLI, Python and WASM, equal to the independent oracle&#39;s</td>
 </tr>
 <tr>
 <td><code>planner map</code>, <code>planner place</code></td>
@@ -1052,7 +1052,7 @@ last column. JetBrains actions run the command line, so an <strong>N/A</strong> 
 <td><strong>N/A</strong> (terminal; needs files)</td>
 <td></td>
 <td>—</td>
-<td>Planner (row B1a): the same JSON bytes from the CLI, Python and WASM</td>
+<td>Planner: the same JSON bytes from the CLI, Python and WASM</td>
 </tr>
 <tr>
 <td><code>env-baseline</code></td>
@@ -1063,7 +1063,7 @@ last column. JetBrains actions run the command line, so an <strong>N/A</strong> 
 <td><strong>N/A</strong> (terminal; needs files)</td>
 <td></td>
 <td>—</td>
-<td>Environmental baseline (row B8): the same JSON bytes from the CLI, Python and WASM</td>
+<td>Environmental baseline: the same JSON bytes from the CLI, Python and WASM</td>
 </tr>
 <tr>
 <td><code>evidence round-trip</code></td>

@@ -666,7 +666,7 @@ seg-4798bca2d7a7 = MODELLED: the <a1>verification matrix</a1> rows that name thi
 seg-6338a873ee85 = The rows the run itself exercised, with the oracle the matrix gives each (the public sources are named there):
 
 # text
-seg-fe24dcc6971f = <b>MODELLED</b> Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): SBOM conformance to the official CycloneDX { "1.5" } JSON Schema (+ valid SPDX identifiers) — an external published standard, zero validation errors over the full dependency graph; the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
+seg-cfe46433e30e = <b>MODELLED</b> Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): Official CycloneDX { "1.5" } JSON Schema (+ SPDX identifier list): every atomic licence id is a valid SPDX id, and the document has zero schema errors once compound expressions are moved to expression (the generator's raw output has { "133" } compound-id errors); the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
 
 # text
 seg-1fc08d2f0209 = What the run's own report says is not modelled or not validated:

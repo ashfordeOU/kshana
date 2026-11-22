@@ -72,7 +72,10 @@ seg-ca883df783ee = Navigation-grade quartz accelerometer…
 seg-c8a1c797f4b1 = The chart the engine writes for scenarios/fusion-pnt.toml, kind fusion
 
 # text
-seg-67fb8ac75f36 = MODELLED { "1" } · VALIDATED { "1" }: the <a1>verification matrix</a1> rows that name this kind.
+seg-7400f24ec992 = MODELLED { "1" } · VALIDATED { "2" }: the <a1>verification matrix</a1> rows that name this kind.
+
+# text
+seg-46c0903ff7b5 = <b>VALIDATED</b> Recover an epoch state [r,v] from ground-station ranges via a Gauss–Newton batch differential corrector and a sequential filter, over a two-body+J2 force model Tests: <a1>batch_sequential_orbit_determination_reference.rs</a1>.
 
 # text
 seg-d75dc0ad61ac = <b>MODELLED</b> One stacked Kalman filter over position, velocity, clock phase and frequency fed pseudoranges that couple position and clock (Joseph-form updates carrying the cross-covariance); a 1-DOF variant augmented with a constant accelerometer-bias… Tests: <a1>fusion_coupled_filters.rs</a1>.
@@ -81,19 +84,19 @@ seg-d75dc0ad61ac = <b>MODELLED</b> One stacked Kalman filter over position, velo
 seg-a7296c3ef31f = <b>VALIDATED</b> 15-state error-state EKF, loosely coupled (validated on a real IMU/GNSS drive against NaveGo); a tightly coupled pseudorange/Doppler UKF and a coupled clock+position filter (consistency-only, outside the validated claim) Tests: <a1>gnss_ins_sensor_fusion_reference.rs</a1>.
 
 # text
-seg-f70076ea4a77 = <b>VALIDATED</b> Allan/modified/Hadamard deviation + power-law noise ID with χ² CIs. Oracle (ExternalDataset): NIST SP { "1065" } (Riley) / Stable32 reference deviations on NBS14
+seg-5db68bbcfcf8 = <b>VALIDATED</b> Overlapping Allan, modified Allan, time and overlapping Hadamard deviation (noise identification and χ² confidence intervals are not covered by this oracle). Oracle (ExternalDataset): NIST SP { "1065" } (Riley) / Stable32 reference deviations on NBS14
 
 # text
 seg-5278ccdaf16f = <b>MODELLED</b> Closed-form coast-error growth + holdover-to-threshold; quantum-clock classes. Oracle (ReferenceImpl): Multi-step clock_state covariance recursion (same-codebase cross-check); the underlying coast-variance & holdover-inversion kernel is externally validated vs scipy (see 'Clock-holdover coast-variance & threshold inversion'). The per-class red-noise-floor holdover figures stay MODELLED
 
 # text
-seg-6a72328557d3 = <b>MODELLED</b> 3-state (phase/freq/drift) van-Loan Kalman clock, Joseph-stabilised. Oracle (ReferenceImpl): filterpy { "1.4.5" } KalmanFilter (R. Labbe, MIT), with F via scipy.linalg.expm and Q via the Van-Loan { "1978" } block-matrix — an independent reference implementation reproducing kshana's full filter trajectory. Cross-implementation consistency: the clock physics / Allan calibration are not externally validated, so this stays MODELLED. { "0.30" } external comparison, a finding (stays MODELLED): on IGS final { "30" } s clocks of { "11" } GPS…
+seg-c62ff8618c81 = <b>MODELLED</b> 3-state (phase/freq/drift) van-Loan Kalman clock, Joseph-stabilised. Oracle (ReferenceImpl): filterpy { "1.4.5" } KalmanFilter (R. Labbe, MIT), with F via scipy.linalg.expm and Q via the Van-Loan { "1978" } block-matrix — an independent reference implementation reproducing Kshana's full filter trajectory. Cross-implementation consistency: the clock physics / Allan calibration are not externally validated, so this stays MODELLED. { "0.30" } external comparison, a finding (stays MODELLED): on IGS final { "30" } s clocks of { "11" } GPS…
 
 # text
-seg-832de3ea2047 = <b>MODELLED</b> Cold-atom interferometer accelerometer from first principles (k_eff·T², QPN). Oracle (ExternalDataset): Published CAI primary-paper numeric vectors (Cheinet { "2008" } transfer function; Peters/Freier sensitivity): k_eff·T² matched exactly, shot-noise ASD a one-sided floor within ~{ "2" }× of each published instrument (real devices carry technical noise above the quantum floor). A bracket, not parity. { "0.30" } round { "2" } (pre-registered e7de532a), a finding (stays MODELLED): the QPN-only rotation noise against the measured Gauguet et…
+seg-0d8dbd4b5d85 = <b>MODELLED</b> Cold-atom interferometer accelerometer from first principles (k_eff·T², QPN). Oracle (ExternalDataset): Published CAI primary-paper numeric vectors (Cheinet { "2008" } transfer function; Peters/Freier sensitivity): k_eff·T² matched exactly, shot-noise ASD a one-sided floor within ~{ "2" }× of each published instrument (real devices carry technical noise above the quantum floor). A bracket, not parity. Version { "0.30" } (pre-registered e7de532a), a finding (stays MODELLED): the QPN-only rotation noise against the measured Gauguet et…
 
 # text
-seg-7e95210bcc48 = <b>MODELLED</b> Composed bias + scale-factor + VRW + stability-decay position budget over holdover. Oracle (ReferenceImpl): Independent numpy Monte-Carlo SDE integration of double-integrated white-acceleration noise (validates the analytic VRW variance by a genuinely independent algorithm) + a Groves { "2013" } published-value anchor for the bias/scale-factor terms; the CAI device numbers quantify partner hardware and stay MODELLED
+seg-f85dffbc855a = <b>MODELLED</b> Composed bias + scale-factor + VRW + stability-decay position budget over holdover. Oracle (ReferenceImpl): Independent numpy Monte-Carlo SDE integration of double-integrated white-acceleration noise (validates the analytic VRW variance by a genuinely independent algorithm) + the Groves { "2013" } closed-form error-propagation identities for the bias/scale-factor terms; the CAI device numbers quantify partner hardware and stay MODELLED
 
 # text
 seg-e12f672ae71d = GNSS-denied clock holdover is MODELLED, not validated: checked against a separate implementation in this same codebase — independent of the unit under test, but not externally authoritative. (verification matrix (docs/MODELLED-RATIONALE.md))

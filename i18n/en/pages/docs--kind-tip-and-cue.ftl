@@ -20,15 +20,14 @@ seg-152394289dff = MODELLED revisit and tip-and-cue latency of a two-layer marit
 seg-034a3e37a63b = One run of <c1/> summarises as: tip-and-cue: { "1" } cases over { "996" } area points (minutes) rf-16-optical-16: revisit { "25.8" }, full-area refresh { "15.3" }, RF-to-optical reaction { "22.6" }
 
 # text
-# c1: kind
-# c2: title
-# c3: seed
-# c4: area
-# c5: step_s
-# c6: span_days
-# c7: m2
-# c8: cases
-seg-0e8efa3171c3 = Optional fields: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>
+# c1: title
+# c2: seed
+# c3: area
+# c4: step_s
+# c5: span_days
+# c6: m2
+# c7: cases
+seg-de633f7313e9 = Optional fields: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>
 
 # text
 # c1: scenarios/tip-and-cue-short.toml

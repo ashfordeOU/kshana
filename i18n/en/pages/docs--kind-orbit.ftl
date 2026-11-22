@@ -82,7 +82,7 @@ seg-f7b9e9b33c9c = <b>VALIDATED</b> skyline + frames::look_angles + geometry::sk
 seg-be831b52a339 = and { "4" } more in the matrix.
 
 # text
-seg-f70076ea4a77 = <b>VALIDATED</b> Allan/modified/Hadamard deviation + power-law noise ID with χ² CIs. Oracle (ExternalDataset): NIST SP { "1065" } (Riley) / Stable32 reference deviations on NBS14
+seg-5db68bbcfcf8 = <b>VALIDATED</b> Overlapping Allan, modified Allan, time and overlapping Hadamard deviation (noise identification and χ² confidence intervals are not covered by this oracle). Oracle (ExternalDataset): NIST SP { "1065" } (Riley) / Stable32 reference deviations on NBS14
 
 # text
 seg-277205e56d73 = <b>VALIDATED</b> GDOP/PDOP/HDOP/VDOP/TDOP from line-of-sight geometry via Q=(HᵀH)⁻¹ with a local ENU split. Oracle (ExternalDataset): gnss_lib_py { "1.0.4" } (Stanford NAV Lab) DOP — independent library, matched to { "1e-6" } relative
@@ -91,7 +91,7 @@ seg-277205e56d73 = <b>VALIDATED</b> GDOP/PDOP/HDOP/VDOP/TDOP from line-of-sight 
 seg-5278ccdaf16f = <b>MODELLED</b> Closed-form coast-error growth + holdover-to-threshold; quantum-clock classes. Oracle (ReferenceImpl): Multi-step clock_state covariance recursion (same-codebase cross-check); the underlying coast-variance & holdover-inversion kernel is externally validated vs scipy (see 'Clock-holdover coast-variance & threshold inversion'). The per-class red-noise-floor holdover figures stay MODELLED
 
 # text
-seg-6a72328557d3 = <b>MODELLED</b> 3-state (phase/freq/drift) van-Loan Kalman clock, Joseph-stabilised. Oracle (ReferenceImpl): filterpy { "1.4.5" } KalmanFilter (R. Labbe, MIT), with F via scipy.linalg.expm and Q via the Van-Loan { "1978" } block-matrix — an independent reference implementation reproducing kshana's full filter trajectory. Cross-implementation consistency: the clock physics / Allan calibration are not externally validated, so this stays MODELLED. { "0.30" } external comparison, a finding (stays MODELLED): on IGS final { "30" } s clocks of { "11" } GPS…
+seg-c62ff8618c81 = <b>MODELLED</b> 3-state (phase/freq/drift) van-Loan Kalman clock, Joseph-stabilised. Oracle (ReferenceImpl): filterpy { "1.4.5" } KalmanFilter (R. Labbe, MIT), with F via scipy.linalg.expm and Q via the Van-Loan { "1978" } block-matrix — an independent reference implementation reproducing Kshana's full filter trajectory. Cross-implementation consistency: the clock physics / Allan calibration are not externally validated, so this stays MODELLED. { "0.30" } external comparison, a finding (stays MODELLED): on IGS final { "30" } s clocks of { "11" } GPS…
 
 # text
 seg-ee0dd327955b = <b>MODELLED</b> Clock-aided χ², RAIM, AGC, SQM fused per-epoch security FoM. Oracle (ExternalDataset): TEXBAT scenario parameters (Humphreys { "2012" }) — characterisation, not pinned vectors. { "0.30" } external comparison, a finding (stays MODELLED): on JammerTest { "2024" } (Bleik; GPL-3.0 data) the observable-level monitors (clock-aided chi-square, RAIM, solve failure) raised no alarm within { "10" } s of any of the { "8" } evaluable published spoofing onsets (where the pre-onset window was clean, the first alarm came { "10.2" } to { "39" } s after the…
