@@ -19,7 +19,7 @@ equipment and not a safety-of-life service.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="figures/0.38/lunanet-afs-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="figures/0.38/lunanet-afs-light.svg">
-  <img src="figures/0.38/lunanet-afs-light.svg" alt="The LunaNet AFS code generator checked against the printed columns of the specification, from a real run of engine v0.41.0 (`kshana lunanet-afs-check spec`, pinned to LNIS V5, AD1 Volume A (LSIS-AFS) V1.0, 29 January 2025; the document marks its code tables {LSIS-TBC}). 9 of 10 checks are met; B4 is NOT MET (420 of 421 matched). It checks a symbol stream against one edition of a published specification and says nothing about any LunaNet node or service. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. It checks a symbol stream against one edition of a published specification and says nothing about any LunaNet node or service.">
+  <img src="figures/0.38/lunanet-afs-light.svg" alt="The LunaNet AFS code generator checked against the printed columns of the specification, from a real run of engine v0.41.0 (`kshana lunanet-afs-check spec`, pinned to LNIS V5, AD1 Volume A (LSIS-AFS) V1.0, 29 January 2025; the document marks its code tables {LSIS-TBC}). 9 of 10 checks are met; B4 is NOT MET (420 of 421 matched). It checks a symbol stream against one edition of a published specification and says nothing about any LunaNet node or service. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service.">
 </picture>
 
 ## What is implemented
@@ -96,6 +96,6 @@ Bars stated in `xval/lunanet-afs/PREREGISTRATION.md` before the generator existe
 | B9 | interleave then de-interleave | **MET** (a property, MODELLED) |
 | B10 | synchronisation pattern | **MET** (68 symbols; a transcription check) |
 
-B1 to B4 are VALIDATED against the printed tables of the cited edition, which the document marks
-{LSIS-TBC}. A scene-to-acquire-to-track round trip of both components passes the same bars as the
+B1 to B3 are VALIDATED against the printed tables of the cited edition, which the document marks
+{LSIS-TBC}. B4 (NOT MET) and the message-layer bars B5 to B10 are in a MODELLED row of the verification matrix. A scene-to-acquire-to-track round trip of both components passes the same bars as the
 other signals (`tests/iq_signal_matrix.rs`).

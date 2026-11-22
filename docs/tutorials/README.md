@@ -2,8 +2,8 @@
 
 Hands-on, worked examples that take you from “run a shipped scenario” to
 “quantify and defend a result.” Every number quoted in the three tutorials is a real
-engine output, anchored to an external (non-circular) authoritative oracle, and
-**pinned by an integration test** (`tests/tutorials.rs`), so a tutorial can never
+engine output, checked against a non-circular reference (a closed form, a published
+value or an independent computation), and **pinned by an integration test** (`tests/tutorials.rs`), so a tutorial can never
 silently drift from what the engine actually does. If a tutorial says the optical
 clock holds 6600 s, the test fails the build the day that stops being true.
 
