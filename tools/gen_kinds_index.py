@@ -51,6 +51,18 @@ def find_engine(arg):
     sys.exit("gen_kinds_index: no kshana binary; pass --kshana, set KSHANA_BIN or `cargo build --release`")
 
 
+def cut(text, n: int) -> str:
+    """At most n characters, cut at a word boundary and marked with an ellipsis (never mid-word)."""
+    t = str(text)
+    if len(t) <= n:
+        return t
+    t = t[: n - 1]
+    sp = t.rfind(" ")
+    if sp > n // 2:
+        t = t[:sp]
+    return t.rstrip(" ,;:(—-") + "…"
+
+
 def scenario_kind(p: Path) -> str:
     m = re.search(r'^kind\s*=\s*"([^"]+)"', p.read_text(), re.M)
     return m.group(1) if m else "clock"  # a scenario with no `kind` is a clock-holdover scenario
@@ -67,8 +79,8 @@ def pick_example(kind: str, files: list[Path]) -> Path:
 def ledger(kind: str, rows: list[dict]) -> list[dict]:
     """Rows whose capability text names the kind in backticks, or whose module field names it (as `lunar-vlbi` or `lunar_vlbi`)."""
     toks = [kind, kind.replace("-", "_")]
-    cap = re.compile("|".join(r"`[^`\n]*(?<![\w-])" + re.escape(t) + r"(?![\w-])[^`\n]*`" for t in toks))
-    mod = re.compile("|".join(r"(?<![\w-])" + re.escape(t) + r"(?![\w-])" for t in toks))
+    cap = re.compile("|".join(r"`" + re.escape(t) + r"`" for t in toks))
+    mod = re.compile("|".join(r"(?<![\w:-])" + re.escape(t) + r"(?![\w-]|::)" for t in toks))
     return [r for r in rows if cap.search(str(r.get("capability", ""))) or mod.search(str(r.get("module", "")))]
 
 
@@ -193,7 +205,7 @@ def contact_sheet(family: str, tiles: list[tuple[str, str, bytes | None]], reaso
 
 
 def first_sentence(text: str, cap: int = 200) -> str:
-    return re.split(r"(?<=\.)\s", text, maxsplit=1)[0][:cap]
+    return cut(re.split(r"(?<=\.)\s", text, maxsplit=1)[0], cap)
 
 
 def kind_section(k: dict, info: dict, rows: list[dict], files: list[Path], ex: Path | None, pages: list[str]) -> str:
@@ -240,7 +252,7 @@ def kind_page(k: dict, info: dict, rows: list[dict], files: list[Path], ex: Path
     if items and ex is not None:
         L += [f"The example `scenarios/{ex.name}` sets, among others:", "", "| Field | Value | Unit |", "|---|---|---|"]
         for it in items[:12]:
-            L.append(f"| `{it['path']}` | {str(it.get('display', fmt_value(it.get('value'))))[:60].replace('|', '/')} | {it.get('unit') or ''} |")
+            L.append(f"| `{it['path']}` | {cut(it.get('display', fmt_value(it.get('value'))), 60).replace('|', '/')} | {it.get('unit') or ''} |")
         L.append("")
     L += ["## Run it", ""]
     if ex is None:
@@ -248,20 +260,20 @@ def kind_page(k: dict, info: dict, rows: list[dict], files: list[Path], ex: Path
     else:
         L += [f"```sh\nkshana scenarios/{ex.name}\n```", ""]
         if len(files) > 1:
-            L += [f"{len(files)} bundled scenarios use this kind; the others are in [`scenarios/`](../../../scenarios/).", ""]
+            L += [f"{len(files)} scenario files in [`scenarios/`](../../../scenarios/) use this kind.", ""]
     L += ["## What it gives", ""]
     scal = ((rep.get("results") or {}).get("scalars") or {}).get("items") or []
     if scal:
         L += ["The scalar results of that run, with the units the engine states:", "", "| Result | Value | Unit |", "|---|---|---|"]
         for it in scal[:10]:
-            L.append(f"| `{it['path']}` | {str(it.get('display', fmt_value(it.get('value'))))[:40]} | {it.get('unit') or ''} |")
+            L.append(f"| `{it['path']}` | {cut(it.get('display', fmt_value(it.get('value'))), 40)} | {it.get('unit') or ''} |")
         L.append("")
     lab = info["result"].get("label") or ""
     if isinstance(lab, dict):  # the mission-thread report states its label as {tier, row_id}
         lab = str(lab.get("tier") or "").upper()
     label = lab.strip().splitlines()
     if label:
-        L += [f"Result label (the engine's): {label[0][:300]}", ""]
+        L += [f"Result label (the engine's): {cut(label[0], 300)}", ""]
     if info["chart"] is not None and info["ok"]:
         L += [f'<img src="../../figures/kinds/{n}.svg" alt="The chart the engine writes for scenarios/{ex.name}, kind {n}" width="640">', ""]
     else:
@@ -282,14 +294,14 @@ def kind_page(k: dict, info: dict, rows: list[dict], files: list[Path], ex: Path
     if caprows:
         L += ["The rows the run itself exercised, with the oracle the matrix gives each (the public sources are named there):", ""]
         for r in caprows[:5]:
-            L.append(f"- **{r.get('label')}** {r.get('capability', '')[:160]}. Oracle ({r.get('oracle_kind')}): {str(r.get('oracle', ''))[:420]}")
+            L.append(f"- **{r.get('label')}** {cut(r.get('capability', ''), 160)}. Oracle ({r.get('oracle_kind')}): {cut(r.get('oracle', ''), 420)}")
         L.append("")
     L += ["## Limitations", ""]
     nm = (rep.get("not_modelled") or {}).get("items") or []
     if nm:
         L += ["What the run's own report says is not modelled or not validated:", ""]
         for it in nm[:8]:
-            L.append(f"- {it['text'][:420]} ({it.get('source', 'report')})")
+            L.append(f"- {cut(it['text'], 420)} ({it.get('source', 'report')})")
         L.append("")
     else:
         L += ["The run's report lists no further limitation; the label above is the claim.", ""]
@@ -308,6 +320,8 @@ def build(exe: str) -> dict[str, bytes]:
         sys.exit(f"gen_kinds_index: kinds not filed under a family: {sorted(set(kinds) - set(filed))}; filed but not dispatched: {sorted(set(filed) - set(kinds))}")
     by_kind: dict[str, list[Path]] = {}
     for p in sorted((ROOT / "scenarios").glob("*.toml")):
+        if p.name.endswith(".suite.toml"):  # a study suite lists scenarios; it is not one of a kind
+            continue
         by_kind.setdefault(scenario_kind(p), []).append(p)
     matrix = json.loads((ROOT / "web" / "data" / "verification-matrix.json").read_text())["rows"]
     out: dict[str, bytes] = {}

@@ -18,7 +18,7 @@ Topic pages: [QUANTUM-MODELS](../QUANTUM-MODELS.md), [QUANTUM](../QUANTUM.md), [
 | [`ins-trn-coast`](by-kind/ins-trn-coast.md) | INS/TRN coasting error model: position error against coast duration, built from IMU coefficients rather than swept as an assumed drift rate. | VALIDATED |
 | [`quantum-gnss-free-nav`](by-kind/quantum-gnss-free-nav.md) | MODELLED GNSS-free quantum navigation: during a GNSS outage, a quantum (cold-atom interferometer) inertial budget vs a classical navigation-grade INS — position-error growth over the coast, holdover t | MODELLED (result label) |
 | [`quantum-anomaly-detect`](by-kind/quantum-anomaly-detect.md) | MODELLED fault/anomaly detection for quantum PNT systems: a labelled fault catalog (clock frequency-jump/drift/lock-loss; sensor bias-step/dropout), a detection-statistic ROC AUC (with a bootstrap CI  | MODELLED (result label) |
-| [`quantum-trade`](by-kind/quantum-trade.md) | Quantum-vs-classical PNT trade (13503): timing-holdover + inertial-holdover benefit of a candidate clock (a measured-ADEV curve — the defensibility hinge — or a quantum clock class) vs a classical bas | MODELLED 1 · VALIDATED 2 |
+| [`quantum-trade`](by-kind/quantum-trade.md) | Quantum-vs-classical PNT trade: timing-holdover + inertial-holdover benefit of a candidate clock (a measured-ADEV curve — the defensibility hinge — or a quantum clock class) vs a classical bas | MODELLED 1 · VALIDATED 2 |
 
 ### `inertial`
 
@@ -134,7 +134,7 @@ kshana scenarios/quantum-anomaly-detect.toml
 
 ### `quantum-trade`
 
-Quantum-vs-classical PNT trade (13503): timing-holdover + inertial-holdover benefit of a candidate clock (a measured-ADEV curve — the defensibility hinge — or a quantum clock class) vs a classical baseline class, with the long-tau floor-assumption caveat carried on the artifact, plus a GNSS-denied resilience-vs-time envelope. MODELLED; quantifies (never validates) a partner device. The candidate clock is a measured curve (`candidate_adev_taus` + `candidate_adev_values`, equal length, at least 2 points; it wins when both forms are given) or a `candidate_clock_class`.
+Quantum-vs-classical PNT trade: timing-holdover + inertial-holdover benefit of a candidate clock (a measured-ADEV curve — the defensibility hinge — or a quantum clock class) vs a classical baseline class, with the long-tau floor-assumption caveat carried on the artifact, plus a GNSS-denied resilience-vs-time envelope. MODELLED; quantifies (never validates) a partner device. The candidate clock is a measured curve (`candidate_adev_taus` + `candidate_adev_values`, equal length, at least 2 points; it wins when both forms are given) or a `candidate_clock_class`.
 
 Required fields: `timing_threshold_s`, `position_threshold_m`, `baseline_clock_class`, `candidate_adev_taus+candidate_adev_values|candidate_clock_class`. Optional: `baseline_ins`, `candidate_ins`, `resilience_times_s`, `alt_pnt_bound_m`.
 

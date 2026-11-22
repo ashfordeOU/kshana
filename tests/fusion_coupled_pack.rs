@@ -10,7 +10,7 @@
 //!               scenarios fusion-pnt and hybrid-pnt as `api::run_toml` produces them.
 //! PIN-EXCLUDES: the engine version string, in the JSON and the chart (it moves every release; the
 //!               chart pins were taken with it written out and re-based when it was blanked, 0.36.0
-//!               version bump, docs/revisions/STUDIO15-pins-0.36.0-version.md); any scenario with a
+//!               version bump, docs/revisions/pins-0.36.0-version.md); any scenario with a
 //!               `[coupled]` table.
 
 use sha2::{Digest, Sha256};

@@ -32,7 +32,7 @@ fn a_fully_observed_schedule_emits_neither_field() {
 fn an_unobserved_beacon_is_named_and_the_others_keep_their_sigmas() {
     for (datum, translation, observed_sigma) in [
         ("fixed", 10.021467977424644, true),
-        // 0.36 portable maths (docs/revisions/STUDIO15-batch4-rebaseline.md): was
+        // 0.36 portable maths (docs/revisions/batch4-rebaseline.md): was
         // 632.3769172997296 on host maths.
         ("estimated-anchor-first", 632.3772338224321, false),
     ] {

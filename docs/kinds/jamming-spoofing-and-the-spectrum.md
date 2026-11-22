@@ -15,7 +15,7 @@ Topic pages: [SPECTRUM](../SPECTRUM.md), [DECEIVED-TIME](../DECEIVED-TIME.md), [
 | [`spoof-detect`](by-kind/spoof-detect.md) | Combined RF/measurement spoof detector (multi-SV RAIM-consistency + AGC + SQM, fused) vs a parameterised attack (power advantage, carrier-phase alignment, time/position push; TEXBAT-style). | MODELLED |
 | [`tracking-loop`](by-kind/tracking-loop.md) | Tracking-loop loss of lock: C/N0 -> lock/unlock WITH HYSTERESIS, the time it takes to lose lock, and spoof pull-in as a function of code and carrier offset RATE. | MODELLED |
 | [`spectrum`](by-kind/spectrum.md) | L-band spectrum model and waterfall: the whole GNSS L band as one power spectral density (PSD), frequency across, time down, over a scripted jammer timeline. | MODELLED 3 · VALIDATED 2 |
-| [`impairment-eval`](by-kind/impairment-eval.md) | AI/ML RF-impairment detection evaluation testbed (13494): generate a labelled, parameter-grounded SYNTHETIC corpus (nominal/jamming/spoof-time/spoof-position/multipath), score a detector (energy/agc/s | MODELLED 1 · VALIDATED 2 |
+| [`impairment-eval`](by-kind/impairment-eval.md) | AI/ML RF-impairment detection evaluation testbed: generate a labelled, parameter-grounded SYNTHETIC corpus (nominal/jamming/spoof-time/spoof-position/multipath), score a detector (energy/agc/s | MODELLED 1 · VALIDATED 2 |
 
 ### `jamming`
 
@@ -89,7 +89,7 @@ kshana scenarios/l-band-waterfall-jamming.toml
 
 ### `impairment-eval`
 
-AI/ML RF-impairment detection evaluation testbed (13494): generate a labelled, parameter-grounded SYNTHETIC corpus (nominal/jamming/spoof-time/spoof-position/multipath), score a detector (energy|agc|sqm|parity|fused) with the detector-agnostic harness, and report AUC/ROC/confusion + per-class Pd at a target Pfa, plus the in- vs out-of-distribution optimism gap. MODELLED operating characteristics only — never field/IQ, no good/bad verdict.
+AI/ML RF-impairment detection evaluation testbed: generate a labelled, parameter-grounded SYNTHETIC corpus (nominal/jamming/spoof-time/spoof-position/multipath), score a detector (energy|agc|sqm|parity|fused) with the detector-agnostic harness, and report AUC/ROC/confusion + per-class Pd at a target Pfa, plus the in- vs out-of-distribution optimism gap. MODELLED operating characteristics only — never field/IQ, no good/bad verdict.
 
 Required fields: none. Optional: `seed`, `n_per_class`, `nominal_cn0_dbhz`, `meas_noise`, `detector`, `target_pfa`, `shift_severity_scale`, `optimism_tol`.
 

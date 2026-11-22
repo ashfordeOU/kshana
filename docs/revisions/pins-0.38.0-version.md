@@ -1,6 +1,6 @@
 # Pins that carry the engine version, re-blessed at the 0.38.0 bump
 
-Date: 2026-10-19. Companion to `STUDIO15-pins-0.37.0-version.md`. Bars, tolerances and scenarios: unchanged.
+Date: 2026-10-19. Companion to `pins-0.37.0-version.md`. Bars, tolerances and scenarios: unchanged.
 
 The version bump (d6ed9f07) was run through the pin-bearing tests (`cargo test --release`). Four test files
 hold values that depend on the engine version string. Between the integration merge of the six 0.38

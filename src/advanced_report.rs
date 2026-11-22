@@ -82,7 +82,7 @@ pub const KIND_CAPABILITIES: &[(&str, &[&str])] = &[
     ("quantum-anomaly-detect", &["Fault/anomaly detection for quantum PNT systems", "Detection statistics — Gaussian AUC & minimum detectable fault", "Quantum-vs-classical trade evidence (common shape)", "Quantum payload hardware design & maturation"]),
     ("hybrid", &["GNSS-denied clock holdover", "Quantum inertial sensor performance", "Time-transfer error budgeting"]),
     ("fusion", &["GNSS/INS sensor fusion", "GNSS-denied clock holdover", "Quantum inertial sensor performance"]),
-    ("hybrid-ukf", &["GNSS/INS sensor fusion", "Quantum inertial sensor performance", "CAI cited error-model parameter sheet (13503)"]),
+    ("hybrid-ukf", &["GNSS/INS sensor fusion", "Quantum inertial sensor performance", "CAI cited error-model parameter sheet"]),
     ("gnss-ins", &["GNSS/INS sensor fusion", "Quantum inertial sensor performance"]),
     ("gnss-sim", &["Broadcast ionosphere model (Klobuchar, IS-GPS-200)", "Integrity (RAIM/ARAIM/SBAS)", "RAIM/ARAIM integrity statistical kernel (χ² / non-central χ² / normal laws)", "GNSS geometry / dilution of precision (DOP)"]),
     ("jamming", &["GNSS-denied jamming resilience", "Navigation RF payload & antenna hardware design"]),
@@ -112,8 +112,8 @@ pub const KIND_CAPABILITIES: &[(&str, &[&str])] = &[
     ("combined-altpnt", &["Alternative / complementary PNT"]),
     ("pvt", &["Broadcast-ephemeris satellite position (multi-GNSS RINEX)"]),
     ("mars-pnt", &["Batch & sequential orbit determination", "Onboard clock state estimation"]),
-    ("impairment-eval", &["AI/ML RF-impairment detection evaluation (13494)", "ML detector-evaluation metrics (ROC/AUC/confusion/Pfa-Pmd)"]),
-    ("quantum-trade", &["Quantum-vs-classical PNT trade & GNSS-denied resilience (13503)", "Quantum-trade numerical kernels (NNLS / χ² bands / van-Loan Q)", "Quantum payload hardware design & maturation"]),
+    ("impairment-eval", &["AI/ML RF-impairment detection evaluation", "ML detector-evaluation metrics (ROC/AUC/confusion/Pfa-Pmd)"]),
+    ("quantum-trade", &["Quantum-vs-classical PNT trade & GNSS-denied resilience", "Quantum-trade numerical kernels (NNLS / χ² bands / van-Loan Q)", "Quantum payload hardware design & maturation"]),
     ("space-weather", &["Space-weather environment & activity-driven thermospheric density"]),
     ("oem-interop", &["CCSDS OEM interoperability (GMAT/Orekit/STK ephemeris import)"]),
     ("launch-window", &["Launch-window & ascent geometry (mission analysis)"]),
@@ -927,7 +927,15 @@ pub fn shell_quote(arg: &str) -> String {
 /// The unit a field-name suffix states, by the crate's naming convention (`_s`, `_ns`,
 /// `_m`, `_deg`, `_dbw`, …). `None` when the name carries no recognised suffix.
 pub fn unit_from_suffix(name: &str) -> Option<&'static str> {
+    // Rates first (`_m_per_s` is metres per second, not seconds), and a calendar day of the month
+    // (`epoch_day`) carries no unit.
     const SUFFIXES: &[(&str, &str)] = &[
+        ("_ns_per_s", "ns/s"),
+        ("_m_per_s", "m/s"),
+        ("_s_per_s", "s/s"),
+        ("_rad_per_s", "rad/s"),
+        ("_rad_s", "rad/s"),
+        ("_seconds_of_day", "s"),
         ("_dbhz", "dB-Hz"),
         ("_db_hz", "dB-Hz"),
         ("_dbw", "dBW"),
@@ -970,6 +978,9 @@ pub fn unit_from_suffix(name: &str) -> Option<&'static str> {
         ("_pct", "%"),
     ];
     let lower = name.to_ascii_lowercase();
+    if lower == "epoch_day" {
+        return None;
+    }
     SUFFIXES
         .iter()
         .find(|(suf, _)| lower.ends_with(suf) && lower.len() > suf.len())
@@ -3947,6 +3958,12 @@ mod tests {
         assert_eq!(unit_from_suffix("alt_m"), Some("m"));
         assert_eq!(unit_from_suffix("q_wf"), None);
         assert_eq!(unit_from_suffix("_s"), None);
+        assert_eq!(unit_from_suffix("drift_band_lo_m_per_s"), Some("m/s"));
+        assert_eq!(unit_from_suffix("sigma_drift_s_per_s"), Some("s/s"));
+        assert_eq!(unit_from_suffix("rate_ns_per_s"), Some("ns/s"));
+        assert_eq!(unit_from_suffix("omega0_rad_s"), Some("rad/s"));
+        assert_eq!(unit_from_suffix("gps_seconds_of_day"), Some("s"));
+        assert_eq!(unit_from_suffix("epoch_day"), None);
         assert_eq!(
             shell_quote("scenarios/clock-holdover.toml"),
             "scenarios/clock-holdover.toml"

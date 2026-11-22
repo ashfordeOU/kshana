@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: CC-BY-4.0 -->
 # STUDIO-15 — re-record of the lunar joint OD numpy oracle (2026-10-13)
 
-Part of [`STUDIO15-portable-math-rebaseline.md`](STUDIO15-portable-math-rebaseline.md). The owner approved
+Part of [`portable-math-rebaseline.md`](portable-math-rebaseline.md). The owner approved
 re-recording the fixtures of `tests/lunar_joint_od_numpy_oracle.rs`, the evidence test of the VALIDATED
 ledger row "Lunar joint multi-technique OD + clock".
 

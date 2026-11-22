@@ -1131,8 +1131,9 @@ impl SpacePacketScenario {
             "kind": "space-packet",
             "label": "CCSDS 133.0-B Space Packet primary-header framing — exact, \
                       deterministic bit layout, encode↔decode round-trip verified; \
-                      NOT a conformance certification (no secondary header / CRC / \
-                      segmentation logic beyond the flags)",
+                      NOT a conformance certification; the scenario frames primary \
+                      headers only (the secondary header, CRC-16 and segmentation \
+                      are in the library)",
             "units": crate::field_schema::units_block(UNITS),
             "apid": self.apid,
             "type": if self.telecommand { "TC" } else { "TM" },

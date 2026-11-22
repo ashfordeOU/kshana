@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 //! **Joint availability / precision / integrity figure of merit** for a heterogeneous
-//! optical + RF PNT service (P5), plus the `hybrid-optical-rf` scenario that drives it
+//! optical + RF PNT service, plus the `hybrid-optical-rf` scenario that drives it
 //! end-to-end.
 //!
 //! [`crate::hybrid`]`::pnt_availability` already fuses *availability × precision*
@@ -93,7 +93,7 @@ use serde::{Deserialize, Serialize};
 
 /// The honesty label carried on the result document.
 const LABEL: &str = "Heterogeneous optical + RF PNT joint availability / precision / \
-integrity figure of merit (P5). VALIDATED closed form: the photon-limited ranging CRLB \
+integrity figure of merit. VALIDATED closed form: the photon-limited ranging CRLB \
 (σ_τ/√N) and diffraction footprint (λ/D·range), the χ² cross-modality protection-level \
 quantile, the N-station independent-union availability (1 − Π(1−a_i)), the optical↔RF \
 handoff mean-continuity (bit-for-bit no-jump) invariant and NEES χ² gate, and the joint-FoM \
@@ -3383,7 +3383,7 @@ mod tests {
 
     /// The report states the configuration it ran at, defaults included.
     ///
-    /// G16. P5 had to quote the carrier wavelength and transmit aperture from the source
+    /// A reader had to quote the carrier wavelength and transmit aperture from the source
     /// defaults because the report never echoed them. A paper that reads a number out of
     /// an implementation instead of a result is not reproducible from the result.
     #[test]

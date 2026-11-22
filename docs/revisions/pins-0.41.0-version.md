@@ -1,6 +1,6 @@
 # Pins that carry the engine version, re-blessed at the 0.41.0 bump
 
-Date: 2026-11-12. Companion to `STUDIO15-pins-0.40.0-version.md`. Bars, tolerances and scenarios: unchanged. The re-bless
+Date: 2026-11-12. Companion to `pins-0.40.0-version.md`. Bars, tolerances and scenarios: unchanged. The re-bless
 follows the owner's release order for 0.41 ("Release 0.41 with all of it", 11 Nov 2026), relayed by the release coordination,
 on the same condition as at 0.40.0: nothing may move for a reason other than the version string.
 

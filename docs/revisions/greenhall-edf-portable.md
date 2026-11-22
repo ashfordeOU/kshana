@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: CC-BY-4.0 -->
 # STUDIO-15 — Greenhall exact edf on portable maths, and the re-based Bar 5 guard (2026-10-15)
 
-Part of [`STUDIO15-portable-math-rebaseline.md`](STUDIO15-portable-math-rebaseline.md). Concerns the
+Part of [`portable-math-rebaseline.md`](portable-math-rebaseline.md). Concerns the
 VALIDATED ledger row "Greenhall and Riley exact equivalent degrees of freedom of the Allan, modified Allan
 and Hadamard variances" and its pre-registration
 [`xval/greenhall-edf/PREREGISTRATION.md`](../../xval/greenhall-edf/PREREGISTRATION.md). No bar was changed,

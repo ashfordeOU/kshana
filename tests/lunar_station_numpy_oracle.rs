@@ -18,7 +18,7 @@ const RANGE_TOL_M: f64 = 1e-9;
 /// about two units in the last place of a 1e7 m satellite range (2^-29 m each). The
 /// pre-registered bar (RANGE_TOL_M) was missed; this is the recorded finding, not a new bar.
 // STUDIO-15 (0.36 portable maths): was 3.725_297_403_889_272e-9 on the host's maths; the fixtures were
-// re-exported and numpy re-run (docs/revisions/STUDIO15-lunar-station-observability-oracles.md).
+// re-exported and numpy re-run (docs/revisions/lunar-station-observability-oracles.md).
 const RANGE_OBSERVED_M: f64 = 3.725_290_298_461_914e-9;
 const POSITION_TOL_M: f64 = 1e-6;
 

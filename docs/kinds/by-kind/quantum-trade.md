@@ -6,7 +6,7 @@ Scenario kind of the engine v0.41.0, family [Inertial, fusion and quantum sensor
 
 ## What it does
 
-Quantum-vs-classical PNT trade (13503): timing-holdover + inertial-holdover benefit of a candidate clock (a measured-ADEV curve — the defensibility hinge — or a quantum clock class) vs a classical baseline class, with the long-tau floor-assumption caveat carried on the artifact, plus a GNSS-denied resilience-vs-time envelope. MODELLED; quantifies (never validates) a partner device. The candidate clock is a measured curve (`candidate_adev_taus` + `candidate_adev_values`, equal length, at least 2 points; it wins when both forms are given) or a `candidate_clock_class`.
+Quantum-vs-classical PNT trade: timing-holdover + inertial-holdover benefit of a candidate clock (a measured-ADEV curve — the defensibility hinge — or a quantum clock class) vs a classical baseline class, with the long-tau floor-assumption caveat carried on the artifact, plus a GNSS-denied resilience-vs-time envelope. MODELLED; quantifies (never validates) a partner device. The candidate clock is a measured curve (`candidate_adev_taus` + `candidate_adev_values`, equal length, at least 2 points; it wins when both forms are given) or a `candidate_clock_class`.
 
 One run of `scenarios/quantum-trade.toml` summarises as: quantum-trade | candidate measured-ADEV | timing holdover 2621947s vs 203s (12943.62x) | inertial 14108s vs 378s (37.34x) | resilience coast 14108s | MODELLED [floor-assumed caveat]
 
@@ -76,12 +76,12 @@ The rows the run itself exercised, with the oracle the matrix gives each (the pu
 What the run's own report says is not modelled or not validated:
 
 - MODELLED — quantifies (never validates) a partner clock/sensor; not flight-demonstrated (result `label`)
-- Quantum-vs-classical PNT trade (13503): timing-holdover + inertial-holdover benefit of a candidate clock (a measured-ADEV curve — the defensibility hinge — or a quantum clock class) vs a classical baseline class, with the long-tau floor-assumption caveat carried on the artifact, plus a GNSS-denied resilience-vs-time envelope. (kind catalogue (`kshana kinds --json`))
+- Quantum-vs-classical PNT trade: timing-holdover + inertial-holdover benefit of a candidate clock (a measured-ADEV curve — the defensibility hinge — or a quantum clock class) vs a classical baseline class, with the long-tau floor-assumption caveat carried on the artifact, plus a GNSS-denied resilience-vs-time envelope. (kind catalogue (`kshana kinds --json`))
 - MODELLED; quantifies (never validates) a partner device. (kind catalogue (`kshana kinds --json`))
 - Computes the timing-holdover and inertial-holdover benefit of a CANDIDATE clock over a CLASSICAL baseline, plus a GNSS-denied resilience-vs-time envelope. The candidate floor is driven by a partner clock's MEASURED overlapping-ADEV curve (the defensibility hinge) fitted by non-negative least squares — so the holdover budget rests on real data, not an assumed long-tau floor. (scenario file comment, lines 3 to 7)
 - HONEST SCOPE: MODELLED — it QUANTIFIES a partner's quantum-clock benefit; it does NOT validate the device, and never borrows the SGP4/Allan/IGS validation islands. When any row's floor is an assumed class default, a floor caveat renders on the artifact. Run: kshana scenarios/quantum-trade.toml (scenario file comment, lines 9 to 12)
 - Reproducibility & software assurance is MODELLED, not validated: a sub-claim is externally checked, but the whole capability composes modelled pieces, so the capability stays Modelled. (verification matrix (docs/MODELLED-RATIONALE.md))
-- Quantum-vs-classical PNT trade & GNSS-denied resilience (13503) is MODELLED, not validated: a sub-claim is externally checked, but the whole capability composes modelled pieces, so the capability stays Modelled. (verification matrix (docs/MODELLED-RATIONALE.md))
+- Quantum-vs-classical PNT trade & GNSS-denied resilience is MODELLED, not validated: a sub-claim is externally checked, but the whole capability composes modelled pieces, so the capability stays Modelled. (verification matrix (docs/MODELLED-RATIONALE.md))
 
 ## See also
 

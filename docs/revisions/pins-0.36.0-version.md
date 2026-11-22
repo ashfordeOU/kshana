@@ -1,6 +1,6 @@
 # STUDIO-15: three more pins that carry the engine version, re-blessed at the 0.36.0 bump
 
-Date: 2026-10-16. Companion to `STUDIO15-skyline-baseline-0.36.0.md`. Bars, tolerances and scenarios: unchanged.
+Date: 2026-10-16. Companion to `skyline-baseline-0.36.0.md`. Bars, tolerances and scenarios: unchanged.
 
 The skyline baseline was the first pin the full CI run reported after the version bump. A debug run of the
 other tests that pin hashes of whole outputs, at 0.36.0, found three more that hold for one engine version.

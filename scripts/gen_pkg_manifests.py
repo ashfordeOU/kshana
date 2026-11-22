@@ -22,7 +22,7 @@ from pathlib import Path
 
 REPO = "ashfordeOU/kshana"
 DESC = "Kshana PNT-resilience simulator as an MCP server (advisory, not type-approved navigation equipment)"
-LONG = ("Run the validated Kshana PNT-resilience simulator from an MCP client: orbits, GNSS availability, receiver trust, "
+LONG = ("Run the Kshana PNT-resilience simulator from an MCP client: orbits, GNSS availability, receiver trust, "
         "interference maps and more. Advisory, not type-approved navigation equipment: the operator remains responsible for navigation.")
 
 # (formula section, asset)

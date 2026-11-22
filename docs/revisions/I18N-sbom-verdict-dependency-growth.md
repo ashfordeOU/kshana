@@ -50,7 +50,7 @@ The generator needs the Python `jsonschema` library (4.26.0 here). The test pass
 The procedure above was re-run against the final `Cargo.lock` (0.40.0, all 0.40 branches merged). `component_count` stays 127 and
 every other value is unchanged; only `sbom_sha256` moved, to `7b90839a5ab454a67f0b60b23d4e1bee481137173c828ecdab107c7faeb18076`,
 because the SBOM names the `kshana` component's own version. The fixture was re-generated and the test passes (1 of 1); the
-record is in `STUDIO15-pins-0.40.0-version.md`.
+record is in `pins-0.40.0-version.md`.
 
 ## 2026-10-28: re-generated again for RUSTSEC-2026-0387 (crypto-bigint 0.5.5)
 
@@ -90,4 +90,4 @@ graph the verdict records. No re-bless was needed.
 ## Re-generated at the 0.41.0 bump (12 November 2026)
 
 The procedure above was re-run against the `Cargo.lock` of the 0.41.0 bump. Only `sbom_sha256` moved
-(`bd7ba406…` to `0374f23e…`); every count and identifier list is unchanged. Values and reasons: `STUDIO15-pins-0.41.0-version.md`, section 5.
+(`bd7ba406…` to `0374f23e…`); every count and identifier list is unchanged. Values and reasons: `pins-0.41.0-version.md`, section 5.

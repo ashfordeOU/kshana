@@ -9,9 +9,10 @@
 #
 # HONEST SCOPE: MODELLED. The Kp<->ap conversion is the definitional IAGA table and
 # the exospheric temperature is validated against published solar-min/mean/max
-# magnitudes, but the density correction is a CALIBRATED FIRST-ORDER scale-height
-# coupling — it captures the right sign, monotonicity and order of magnitude, NOT
-# the absolute accuracy of a data-validated (NRLMSISE-00) atmosphere.
+# magnitudes, and the density is the Jacchia-1971 thermospheric neutral density at the
+# diurnal-mean exospheric temperature: it agrees with accelerometer-derived densities
+# (TOLEOS CHAMP and GRACE) within a factor 2 at solar maximum but is about 1.7x too dense
+# in the 2008 solar minimum; it is not a data-validated (NRLMSISE-00) atmosphere.
 # Run:  kshana scenarios/space-weather.toml
 kind = "space-weather"
 

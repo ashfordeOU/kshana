@@ -94,7 +94,7 @@
     "Detection statistics \u2014 Gaussian AUC & minimum detectable fault"
   ],
   "Quantum-vs-classical resilience crossover map": [
-    "Quantum-vs-classical PNT trade & GNSS-denied resilience (13503)",
+    "Quantum-vs-classical PNT trade & GNSS-denied resilience",
     "Quantum-trade numerical kernels (NNLS / \u03c7\u00b2 bands / van-Loan Q)"
   ],
   "Conditional Timing Protection Level": [

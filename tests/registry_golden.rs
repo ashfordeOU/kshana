@@ -421,7 +421,7 @@ fn golden_cislunar_observability() {
         // tests/cislunar_arc_recovery_reference.rs both now strip `units` back off and
         // re-hash against the constants frozen BEFORE it existed, and both are unchanged.
         // STUDIO-15 (0.36 portable maths): was 0x2cb0_2851_850e_09c1 on the host's maths; the document moved only in
-        // round-off-floor quantities (docs/revisions/STUDIO15-portable-math-rebaseline.md).
+        // round-off-floor quantities (docs/revisions/portable-math-rebaseline.md).
         expect_fnv_canonical: 0x274d_1075_bfa4_b6f8,
         expect_fnv_raw_linux_x64: None,
     });

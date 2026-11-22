@@ -138,7 +138,7 @@ fn l1ca_45() -> Vec<EpochOutput> {
 //               epochs of that one run on the unmodified channel
 // PIN-EXCLUDES: every other output and every other scene
 const NWPR_BASELINE_EPOCHS: usize = 5999;
-// 0.36 portable re-pin (STUDIO-15, docs/revisions/STUDIO15-portable-math-rebaseline.md): the
+// 0.36 portable re-pin (STUDIO-15, docs/revisions/portable-math-rebaseline.md): the
 // scene generator of this file and the engine both run on portable maths now. Host-maths value
 // at 0.35.0: 0x05b3caf744da2a2d.
 const NWPR_BASELINE_CHECKSUM: u64 = 0x1e19e42071eec6ad;

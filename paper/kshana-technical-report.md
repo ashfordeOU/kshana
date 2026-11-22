@@ -569,7 +569,7 @@ report publishes moved in their last digits; neither changes a figure, a table, 
   `tests/registry_golden.rs` and `tests/cislunar_arc_recovery_reference.rs` were re-pinned.
 
 Every value that moved is listed old to new in
-`docs/revisions/STUDIO15-portable-math-rebaseline.md`, which is the record of this change.
+`docs/revisions/portable-math-rebaseline.md`, which is the record of this change.
 
 # Acknowledgements
 

@@ -10,12 +10,12 @@
 //! are byte-identical as they stand. `tests/geometry_corpus_identity.rs` does the same for every
 //! committed vessel NMEA corpus, GPS-only open sky included.
 //!
-//! Re-based by STUDIO-15 (docs/revisions/STUDIO15-portable-math-rebaseline.md): the hashes that moved are
+//! Re-based by STUDIO-15 (docs/revisions/portable-math-rebaseline.md): the hashes that moved are
 //! now the "0.36 portable" ones (engine on portable maths); the 0.35.0 values they replaced are in
 //! `tests/fixtures/geometry_trust/pins_0.35.0.txt` (pinned by hash in `geometry_corpus_identity.rs`).
 //!
 //! The telemetry exporters (Prometheus, CEF, LEEF) write the engine version, so their pins hold for one
-//! version: the 0.36.0 version bump re-blessed them (docs/revisions/STUDIO15-pins-0.36.0-version.md); the
+//! version: the 0.36.0 version bump re-blessed them (docs/revisions/pins-0.36.0-version.md); the
 //! result, CSV, SVG, verdict and `$PKSHT` pins carry no version and did not move.
 //!
 //! The 0.35.0 hashes were taken by running this file on the 0.35.0 release commit, checked out

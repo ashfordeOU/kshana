@@ -189,7 +189,7 @@ maths library decided it, so the same scenario printed 0.719 and 86.147 m on Lin
 85.800 m on macOS arm64 for the two "with the Earth range" figures. Since 0.36 every transcendental
 is computed by the portable maths library, the epoch resolves one way on every platform (native and
 WebAssembly give the same bytes), and the figures are 0.713 and 86.499 m
-([`docs/revisions/STUDIO15-portable-math-rebaseline.md`](revisions/STUDIO15-portable-math-rebaseline.md)).
+([`docs/revisions/portable-math-rebaseline.md`](revisions/portable-math-rebaseline.md)).
 Around Europa the Earth range lifts availability from 0.480 to
 0.713 of epochs. Where the Earth never clears the limb the link adds nothing: a lander at
 89.5 deg S on the Moon under a 12-satellite, 5000 km relay shell has the Earth in view at 0

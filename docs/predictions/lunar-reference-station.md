@@ -122,7 +122,7 @@ latency beyond the line-of-sight re-projection.
 
 Nothing above is changed: the frozen TOMLs, the frozen results and their hashes are the record of
 the pre-registration. They were produced by the 0.35 engine on the host's maths library, and the
-0.36 engine (STUDIO-15, [`docs/revisions/STUDIO15-portable-math-rebaseline.md`](../revisions/STUDIO15-portable-math-rebaseline.md))
+0.36 engine (the 0.36 portable-maths change, [`docs/revisions/portable-math-rebaseline.md`](../revisions/portable-math-rebaseline.md))
 computes with portable maths, so it no longer reproduces those bytes. The frozen result files are
 therefore historical: `tests/prediction_frozen.rs` checks that they have not moved, by SHA-256.
 

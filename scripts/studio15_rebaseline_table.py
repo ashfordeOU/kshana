@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # SPDX-License-Identifier: AGPL-3.0-only
-"""Generate the numbers in docs/revisions/STUDIO15-portable-math-rebaseline.md.
+"""Generate the numbers in docs/revisions/portable-math-rebaseline.md.
 
 Inputs (all produced by running the engine, none typed in):
   --old DIR    <scenario>.json for every bundled scenario, from the host-maths engine
