@@ -69,7 +69,7 @@ part is a worst case. Every term is non-negative and non-decreasing in `t`, so
 |---|---|---|---|
 | Class default | `oscillator.class` | one cited one-second ADEV and a red-noise floor synthesised two and four decades below it | MODELLED: the answer for a stable clock is governed by the assumed floor |
 | Datasheet preset | `oscillator.preset` | the telecom-timing presets (`ocxo`, `rubidium`, `caesium`, `csac`), each a named Microchip datasheet | MODELLED: an envelope of datasheet maxima |
-| Inline datasheet | `oscillator.datasheet` | the customer's own ADEV table, ageing and temperature coefficient | MODELLED: an envelope of the maxima given |
+| Inline datasheet | `oscillator.datasheet` | the user's own ADEV table, ageing and temperature coefficient | MODELLED: an envelope of the maxima given |
 | Measured record | `oscillator.record` | a phase record; its overlapping ADEV is fitted by weighted least squares | the inversion is VALIDATED on a held-out real record (below) |
 
 The three classes added in 0.28.0 each cite one public datasheet:

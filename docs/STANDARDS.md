@@ -86,7 +86,7 @@ SI (International System of Units) units per sample: `jd_utc`, `teme_r_m` / `tem
   which export applies to every bundled scenario.
 - The CCSDS/IGS field mapping above is documentation, not a statement that any
   standard is met; formal assessment against those standards (and registration in the ESA (European Space Agency) ESSR (European Space Software Repository) / NASA (National Aeronautics and Space Administration) open
-  catalogue) is tracked separately and is founder-gated.
+  catalogue) has not been done.
 - The independent SPICE/ANISE (SPICE: Spacecraft, Planet, Instrument, C-matrix, Events; ANISE: Attitude, Navigation, Instrument, Spacecraft, Ephemeris — a pure-Rust planetary-geometry toolkit) numerical cross-check of the frame reduction is
   delivered in the standalone, workspace-excluded crate `xval/anise-frames/`:
   `gcrs_to_itrs_matrix` against ANISE's GCRF (Geocentric Celestial Reference Frame) → ITRF93 (International Terrestrial Reference Frame 1993) rotation over eight epochs
