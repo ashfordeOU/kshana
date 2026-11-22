@@ -357,8 +357,16 @@ pub fn score_g(truth: &Value, preds: &Value) -> Result<(Value, String), BenchErr
     ))
 }
 
+/// Lowest geocentric radius (m) accepted for a `provided-wls` fix: 100 km below the Earth's
+/// polar radius, so a zero or diverged row is never taken as a position.
+pub const WLS_MIN_RADIUS_M: f64 = 6_256_752.0;
+/// Highest geocentric radius (m) accepted for a `provided-wls` fix: 100 km above the Earth's
+/// equatorial radius.
+pub const WLS_MAX_RADIUS_M: f64 = 6_478_137.0;
+
 /// The `provided-wls` baseline of one trace: for every truth epoch, the weighted-least-squares
 /// fix of `device_gnss.csv` (ECEF, m) nearest in time, converted to latitude and longitude.
+/// Rows whose fix is not within 100 km of the Earth's surface are skipped.
 pub fn g_wls_positions(file: &str, text: &str, epochs: &[Fix]) -> Result<Vec<Fix>, BenchError> {
     let c = Csv::parse(file, text)?;
     let (t, x, y, z) = (
@@ -372,6 +380,12 @@ pub fn g_wls_positions(file: &str, text: &str, epochs: &[Fix]) -> Result<Vec<Fix
         if let (Some(ms), Some(a), Some(b), Some(d)) =
             (c.num(r, t), c.num(r, x), c.num(r, y), c.num(r, z))
         {
+            // A row whose fix is not near the Earth's surface (all zeros, or a diverged
+            // solution) is not a fix: skip it, so the nearest valid epoch is used instead.
+            let radius = (a * a + b * b + d * d).sqrt();
+            if !(WLS_MIN_RADIUS_M..=WLS_MAX_RADIUS_M).contains(&radius) {
+                continue;
+            }
             fixes.entry(ms as i64).or_insert([a, b, d]);
         }
     }
@@ -501,6 +515,32 @@ mod tests {
         let w = g_wls_positions("device_gnss.csv", &dev, &[(1000, 0.0, 0.0)]).unwrap();
         assert!(haversine_m(w[0].1, w[0].2, 37.5, -122.1) < 1e-3);
         assert!(g_wls_positions("x", "utcTimeMillis\n1\n", &[]).is_err());
+    }
+
+    #[test]
+    fn a_wls_row_at_the_earths_centre_or_diverged_is_not_taken_as_a_fix() {
+        let g = crate::frames::Geodetic {
+            lat_rad: 37.4_f64.to_radians(),
+            lon_rad: (-122.1_f64).to_radians(),
+            alt_m: 30.0,
+        };
+        let r = crate::frames::geodetic_to_ecef(g);
+        let dev = format!(
+            "utcTimeMillis,WlsPositionXEcefMeters,WlsPositionYEcefMeters,WlsPositionZEcefMeters\n1000,0,0,0\n2000,{},{},{}\n3000,1e9,0,0\n",
+            r[0], r[1], r[2]
+        );
+        let w = g_wls_positions(
+            "device_gnss.csv",
+            &dev,
+            &[(1000, 0.0, 0.0), (3000, 0.0, 0.0)],
+        )
+        .unwrap();
+        for (_, lat, lon) in w {
+            assert!(
+                (lat - 37.4).abs() < 1e-6 && (lon + 122.1).abs() < 1e-6,
+                "{lat} {lon}"
+            );
+        }
     }
 
     #[test]
