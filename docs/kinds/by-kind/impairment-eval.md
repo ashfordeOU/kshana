@@ -6,7 +6,7 @@ Scenario kind of the engine v0.41.0, family [Jamming, spoofing and the spectrum]
 
 ## What it does
 
-AI/ML RF-impairment detection evaluation testbed (13494): generate a labelled, parameter-grounded SYNTHETIC corpus (nominal/jamming/spoof-time/spoof-position/multipath), score a detector (energy|agc|sqm|parity|fused) with the detector-agnostic harness, and report AUC/ROC/confusion + per-class Pd at a target Pfa, plus the in- vs out-of-distribution optimism gap. MODELLED operating characteristics only — never field/IQ, no good/bad verdict.
+AI/ML RF-impairment detection evaluation testbed: generate a labelled, parameter-grounded SYNTHETIC corpus (nominal/jamming/spoof-time/spoof-position/multipath), score a detector (energy|agc|sqm|parity|fused) with the detector-agnostic harness, and report AUC/ROC/confusion + per-class Pd at a target Pfa, plus the in- vs out-of-distribution optimism gap. MODELLED operating characteristics only — never field/IQ, no good/bad verdict.
 
 One run of `scenarios/impairment-eval.toml` summarises as: impairment-eval | detector fused(max-z) | AUC 0.998 in / 0.981 out (gap 0.017) | Pd 0.99 Pfa 0.05 @ target 0.05 | 1000 cases | MODELLED synthetic
 
@@ -80,7 +80,7 @@ What the run's own report says is not modelled or not validated:
 - MODELLED operating characteristics only — never field/IQ, no good/bad verdict. (kind catalogue (`kshana kinds --json`))
 - HONEST SCOPE: MODELLED operating characteristics only. The corpus is synthetic and parameter-grounded (composed from Kshana's jamming/AGC/SQM/parity models) — never field captures or raw IQ. The harness is a referee; it reports characteristics, it does not pass a good/bad verdict. Run: kshana scenarios/impairment-eval.toml (scenario file comment, lines 9 to 12)
 - Reproducibility & software assurance is MODELLED, not validated: a sub-claim is externally checked, but the whole capability composes modelled pieces, so the capability stays Modelled. (verification matrix (docs/MODELLED-RATIONALE.md))
-- AI/ML RF-impairment detection evaluation (13494) is MODELLED, not validated: checked against its own closed-form / analytic identity — catches transcription and coefficient errors, but is not an external oracle. (verification matrix (docs/MODELLED-RATIONALE.md))
+- AI/ML RF-impairment detection evaluation is MODELLED, not validated: checked against its own closed-form / analytic identity — catches transcription and coefficient errors, but is not an external oracle. (verification matrix (docs/MODELLED-RATIONALE.md))
 
 ## See also
 

@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: CC-BY-4.0 -->
 # STUDIO-15 — gps-sdr-sim test-bench oracle re-run on the 0.36 portable exports (2026-10-15)
 
-Part of [`STUDIO15-portable-math-rebaseline.md`](STUDIO15-portable-math-rebaseline.md). Concerns the
+Part of [`portable-math-rebaseline.md`](portable-math-rebaseline.md). Concerns the
 VALIDATED ledger row "Test-bench export read by a simulator's motion-file readers (gps-sdr-sim)" and
 [`xval/testbench-gpssdrsim/PREREGISTRATION.md`](../../xval/testbench-gpssdrsim/PREREGISTRATION.md).
 Approved by the owner on 2026-10-15 ("re-run against the moved NMEA export, bar unchanged").

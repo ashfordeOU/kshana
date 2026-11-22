@@ -10,7 +10,7 @@
 //! From 0.36 the engine computes every transcendental with portable maths (STUDIO-15), which
 //! moves 3 746 of the 274 280 values by at most a relative 1.6e-12, so the guard compares
 //! against the named baseline "0.36 portable" ([`PORTABLE_0_36_DUMP_SHA256`], printed by this
-//! test). Old -> new and the comparison: docs/revisions/STUDIO15-greenhall-edf-portable.md.
+//! test). Old -> new and the comparison: docs/revisions/greenhall-edf-portable.md.
 use kshana::assurance::uncertainty::{edf, NoiseType, VarType};
 use sha2::{Digest, Sha256};
 

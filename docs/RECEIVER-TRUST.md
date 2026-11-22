@@ -346,7 +346,7 @@ configured), `max_azimuth_gap_deg`, `age_s`, `reported_hdop`, `reported_derived_
 deduction, and at the end `geometry_model` (thresholds, hold, the cap and floor in force,
 provenance, class rules) and `geometry_summary` (epochs by status, by label and by deduction
 class, and the epochs with a stated-HDOP mismatch); `score_model.weights` is as in 0.35. Two tests hold this to the bytes of the "0.36 portable" baseline
-once those keys are removed (the 0.35.0 hashes, re-based when the engine moved to portable maths and kept in the tests as the record of what 0.35.0 released: `docs/revisions/STUDIO15-portable-math-rebaseline.md`). `tests/geometry_trust_no_change.rs` holds every output of both example
+once those keys are removed (the 0.35.0 hashes, re-based when the engine moved to portable maths and kept in the tests as the record of what 0.35.0 released: `docs/revisions/portable-math-rebaseline.md`). `tests/geometry_trust_no_change.rs` holds every output of both example
 sessions (result JSON, CSV, SVG, verdict, replayed live lines, `$PKSHT`, Prometheus, CEF, LEEF).
 `tests/geometry_corpus_identity.rs` holds the batch result, summary, live lines and `$PKSHT` of
 every committed vessel NMEA corpus (the demo and the maritime reference fixtures, each also as

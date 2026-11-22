@@ -2,7 +2,7 @@
 
 How often a wide-area RF survey from low Earth orbit revisits each point of a sea area, how long it
 takes to see the whole area, and how long it takes from an RF access to an optical look by a second
-layer of satellites (roadmap row M2).
+layer of satellites. The pre-registered study on this page is called M2; its nine cases, its bars and its results are below.
 
 ```sh
 kshana scenarios/tip-and-cue-baltic-m2.toml

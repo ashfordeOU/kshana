@@ -2,7 +2,7 @@
 //! The two FutureNAV demonstrator scenario kinds — 13494 `impairment-eval` and 13503
 //! `quantum-trade` — must be reachable from the engine, reproducible in process, and
 //! HONEST: MODELLED-labelled, never claiming validation, with the distribution-shift
-//! optimism gap (13494) and the assumed-floor caveat (13503) always surfaced. These
+//! optimism gap and the assumed-floor caveat always surfaced. These
 //! are the no-overclaim guards for the bid-facing demonstrators.
 
 use kshana::api::run_toml;

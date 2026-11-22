@@ -806,7 +806,7 @@ statement is unchanged: Kshana is advisory software, not type-approved navigatio
   and B4 is 0.523 km (were 12, 0.362 and 0.527). Every verdict is unchanged; B2 stays NOT MET and the row stays MODELLED. The
   data-gated test was missed by the 0.36 re-baseline. See `docs/revisions/CAP30-run2-portable-math-rebaseline.md`.
 - Version-bearing pins re-blessed at 0.41.0 (21 telemetry hashes, 38 skyline rows, two `iq_campaign` digests, three README demo
-  charts, the SBOM fixture hash): `docs/revisions/STUDIO15-pins-0.41.0-version.md`. No claim changed.
+  charts, the SBOM fixture hash): `docs/revisions/pins-0.41.0-version.md`. No claim changed.
 
 ### Evidence
 
@@ -981,8 +981,7 @@ equipment and not a certification; the operator remains responsible.
   statements) and reads the data with the engine's own clock-log or IMU readers. It scores nothing and validates nothing. A synthetic
   example is in `examples/partner-submission/`.
 - `docs/PARTNER-DATA.md`: which MODELLED ledger rows measured data could promote, the formats accepted, how a submission is checked,
-  scored against a pre-registered bar and credited, and what PARTNER and VALIDATED each mean; a draft outreach note for the owner in
-  `docs/drafts/PARTNER-OUTREACH.md` (nothing is sent).
+  scored against a pre-registered bar and credited, and what PARTNER and VALIDATED each mean.
 - **Second campaigns for the `gnss-ssv` and `lunar-infrastructure` bars not met**, run as pre-registered
   ([`xval/gnss-ssv/PREREGISTRATION-v2.md`](xval/gnss-ssv/PREREGISTRATION-v2.md),
   [`xval/lunar-infra/PREREGISTRATION-v2.md`](xval/lunar-infra/PREREGISTRATION-v2.md); signed off before any run). Every original
@@ -1003,7 +1002,7 @@ equipment and not a certification; the operator remains responsible.
   unchanged). `tests/evidence_labels_doc_sync.rs` fails if a figure has no label, a label disagrees with the matrix or a
   new file writer is neither labelled nor listed with a reason. Outputs that carry none are listed in
   `docs/SURFACES.md`. The three README demo charts were re-rendered with the label (stripping it restores the old
-  bytes; `docs/revisions/STUDIO15-evidence-label-0.40.md`). No claim changed.
+  bytes; `docs/revisions/evidence-label-0.40.md`). No claim changed.
 - The `mission-thread` scenario kind (`scenarios/mission-thread-artemis-class.toml`, `docs/MISSION-THREAD.md`): the
   navigation and timing error budget of a chain of phases from launch to entry, every number MODELLED and every input stated.
   Eight phase kinds: `launch-ascent`, `leo-rendezvous` (Clohessy-Wiltshire relative covariance over sensor legs, docking
@@ -1395,7 +1394,7 @@ One dependency update in the shipped library (the first entry), the rest in the 
     noise gain and effective C/N0 against an independent numpy recomputation within 1e-9 dB;
     MVDR tends to the null at high JNR.
   - Not met: the MVDR jammer gain on 194 of 456 links on the 0.36 portable maths (202 on host
-    maths; `docs/revisions/STUDIO15-batch4-rebaseline.md`) (worst 1.7e-6 dB). The residuals of −100
+    maths; `docs/revisions/batch4-rebaseline.md`) (worst 1.7e-6 dB). The residuals of −100
     to −188 dB are below float64's resolution at that bar, and numpy disagrees with itself
     by the same order.
   - MODELLED; ledger row "CRPA antenna gains in the jamming kind against an independent numpy
@@ -1916,7 +1915,7 @@ One dependency update in the shipped library (the first entry), the rest in the 
   `iq::cli` (to `iq::scene::synthetic` and `iq::signals::by_name`) so both builds share them; the
   command line's output is unchanged. The native test and `web/smoke.mjs` compare the same request
   against one golden (`tests/fixtures/iq_short_golden.json`), byte for byte: since the portable-maths change
-  (STUDIO-15, below) the browser build and the native build give the same bits.
+  (the 0.36 portable-maths change, below) the browser build and the native build give the same bits.
 - **Typed Python and TypeScript APIs** (CAP-34): `kshana.pyi` types the closed
   vocabularies (`ScenarioKind`, every kind name; `ErrorKind`; `ProvenanceClass`) and the
   `KindMeta` and `FieldUnit` dictionaries; `scenario_kinds()` and `error_kind()` return
@@ -2397,7 +2396,7 @@ One dependency update in the shipped library (the first entry), the rest in the 
   last bits of results computed with the host's maths library moved: 98 of the 141 bundled scenarios
   changed, 43 did not; 5 changed by more than 1e-3 in their largest field, and the rest by less. Every
   moved value is listed old -> new in
-  [`docs/revisions/STUDIO15-portable-math-rebaseline.md`](docs/revisions/STUDIO15-portable-math-rebaseline.md)
+  [`docs/revisions/portable-math-rebaseline.md`](docs/revisions/portable-math-rebaseline.md)
   (with a CSV of all 136,127 moved numbers); no bar, tolerance or threshold changed. Published numbers
   that changed: `europa-surface-pnt` availability with the Earth range 0.719 -> 0.713 and RMS error
   86.147 -> 86.499 m (one epoch on the availability edge now resolves the same way everywhere; it
@@ -2412,16 +2411,16 @@ One dependency update in the shipped library (the first entry), the rest in the 
   (`docs/predictions/*.portable-0.36.json`). `tests/lunar_joint_od_numpy_oracle.rs` (the validated lunar
   joint OD row): fixtures re-exported and the numpy comparison re-run with numpy 2.4.6, the registered
   version, script and bar unchanged; all six networks pass
-  ([`docs/revisions/STUDIO15-lunar-joint-od-oracle-rerecord.md`](docs/revisions/STUDIO15-lunar-joint-od-oracle-rerecord.md)).
+  ([`docs/revisions/lunar-joint-od-oracle-rerecord.md`](docs/revisions/lunar-joint-od-oracle-rerecord.md)).
   The batch 2-3 work merged after STUDIO-15 is on portable maths too (457 call sites in 62 files); what
-  that moved is in [`docs/revisions/STUDIO15-batch4-rebaseline.md`](docs/revisions/STUDIO15-batch4-rebaseline.md):
+  that moved is in [`docs/revisions/batch4-rebaseline.md`](docs/revisions/batch4-rebaseline.md):
   12 bundled scenarios (largest relative change 5.2e-8, no printed figure moves), 28 skyline guard rows
   re-blessed, the `iq_campaign` M2M4 digest, the legacy `gnss-ins` truth hashes, the unobserved-beacon
   datum sigma (632.3769 -> 632.3772 m), and two recorded findings (CR3BP DRO closures; CRPA A3, 194 of 456
   links). The Greenhall exact edf keeps its validated bar with a double-double logarithm in its kernel
-  ([`docs/revisions/STUDIO15-greenhall-edf-portable.md`](docs/revisions/STUDIO15-greenhall-edf-portable.md)),
+  ([`docs/revisions/greenhall-edf-portable.md`](docs/revisions/greenhall-edf-portable.md)),
   and the gps-sdr-sim test-bench oracle was re-run on the moved NMEA exports, every bar holding
-  ([`docs/revisions/STUDIO15-testbench-gpssdrsim-rerun.md`](docs/revisions/STUDIO15-testbench-gpssdrsim-rerun.md)).
+  ([`docs/revisions/testbench-gpssdrsim-rerun.md`](docs/revisions/testbench-gpssdrsim-rerun.md)).
 - README: the lunar suite row states each piece's evidence tier (it said all were MODELLED).
 - `realdata::clk::rinex_clock_series` returns `RinexClockSeries` (series, gridding log, time system,
   whether it was declared, record type) instead of a `(PhaseSeries, GriddingLog)` tuple. It now

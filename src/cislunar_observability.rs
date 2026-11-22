@@ -2045,7 +2045,7 @@ mod tests {
         assert_eq!(
             fnv1a64(&json),
             // STUDIO-15 (0.36 portable maths): was 0xe249_22aa_5af8_8194 on the host's maths; see
-            // docs/revisions/STUDIO15-portable-math-rebaseline.md (erratum for the released document).
+            // docs/revisions/portable-math-rebaseline.md (erratum for the released document).
             0x2718_2e19_31db_4e20,
             "released result-JSON byte drift"
         );

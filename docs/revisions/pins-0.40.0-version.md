@@ -1,6 +1,6 @@
 # Pins that carry the engine version, re-blessed at the 0.40.0 bump
 
-Date: 2026-10-28. Companion to `STUDIO15-pins-0.39.0-version.md`. Bars, tolerances and scenarios: unchanged. The owner approved
+Date: 2026-10-28. Companion to `pins-0.39.0-version.md`. Bars, tolerances and scenarios: unchanged. The owner approved
 this re-bless on 27 Oct 2026 ("I re-bless (Recommended)"), at the version bump and after the final merges, on the condition that
 nothing moves for a reason other than the version string or the dependency list.
 

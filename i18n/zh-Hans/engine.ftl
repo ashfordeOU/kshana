@@ -7157,7 +7157,7 @@ engine-cislunar-observability-chart-gramian-eigenvalues = 格拉姆矩阵特征�
 
 engine-cislunar-observability-chart-condition = 条件数 κ = { $condition }
 
-engine-conflict-resilience-chart-title = 分层 PNT 冲突韧性（P7）
+engine-conflict-resilience-chart-title = 分层 PNT 冲突韧性
 
 engine-conflict-resilience-chart-subtitle = 总丧失概率与威胁强度（蒙特卡罗与闭式解） · 韧性比与拒止相关性 · { $modelled } 先验，{ $validated } 蒙特卡罗->闭式解 / copula 边缘分布
 
@@ -7764,9 +7764,9 @@ engine-kind-pvt-description = 真实观测的单点定位：根据 RINEX 3 观�
 
 engine-kind-mars-pnt-description = 深空火星 PNT：一个仿真的 MARCONI 中继星座（静止于火星的中继星 + 倾斜轨道中继星，广播单向信号，并向深空测站转发双向信号）通过联合单向/双向无线电测量融合估计器，为一个参考用户（transfer | lmo | surface）导航。报告每个历元的几何/可见性、相对真值取得的 RMS，以及形式协方差（1σ / 3σ 位置）：这是如实的仿真品质因数，NOT 经认证的保护级。
 
-engine-kind-impairment-eval-description = AI/ML 射频损伤检测评估试验台（13494）：生成带标签、参数有依据的 SYNTHETIC 语料（标称/压制干扰/时间欺骗干扰/位置欺骗干扰/多路径），用与检测器无关的测试框架对检测器（energy|agc|sqm|parity|fused）评分，并报告 AUC/ROC/混淆矩阵 + 目标 Pfa 下的各类别 Pd，以及分布内与分布外的乐观差距。仅为 MODELLED 的工作特性：绝不是现场/IQ 数据，不给出好坏结论。
+engine-kind-impairment-eval-description = AI/ML 射频损伤检测评估试验台：生成带标签、参数有依据的 SYNTHETIC 语料（标称/压制干扰/时间欺骗干扰/位置欺骗干扰/多路径），用与检测器无关的测试框架对检测器（energy|agc|sqm|parity|fused）评分，并报告 AUC/ROC/混淆矩阵 + 目标 Pfa 下的各类别 Pd，以及分布内与分布外的乐观差距。仅为 MODELLED 的工作特性：绝不是现场/IQ 数据，不给出好坏结论。
 
-engine-kind-quantum-trade-description = 量子与经典 PNT 的权衡（13503）：候选时钟（实测 ADEV 曲线，即可辩护性的关键；或某个量子时钟类别）相对经典基线类别的授时守时 + 惯性守时收益，附在产物上的长 tau 下限假设注意事项，以及 GNSS 拒止下的韧性与时间包络。MODELLED；量化（而绝不验证）合作方器件。候选时钟是一条实测曲线（`candidate_adev_taus` + `candidate_adev_values`，长度相等，至少 2 个点；两种形式同时给出时以它为准）或一个 `candidate_clock_class`。
+engine-kind-quantum-trade-description = 量子与经典 PNT 的权衡：候选时钟（实测 ADEV 曲线，即可辩护性的关键；或某个量子时钟类别）相对经典基线类别的授时守时 + 惯性守时收益，附在产物上的长 tau 下限假设注意事项，以及 GNSS 拒止下的韧性与时间包络。MODELLED；量化（而绝不验证）合作方器件。候选时钟是一条实测曲线（`candidate_adev_taus` + `candidate_adev_values`，长度相等，至少 2 个点；两种形式同时给出时以它为准）或一个 `candidate_clock_class`。
 
 engine-kind-space-weather-description = 空间天气环境模型：太阳（F10.7/F10.7a）和地磁（Kp，附定义性的 Kp↔ap 表）活动指数，由其驱动的 Jacchia-1971 外逸层温度（已对照已发布的太阳极小/平均/极大值验证），以及在一组高度上、按日平均外逸层温度计算的 Jacchia-1971 热层中性密度与无活动静态剖面的对比：即静态大气所忽略的密度随太阳周变化的依赖关系。MODELLED：该密度在太阳极大期与由加速度计导出的密度（TOLEOS CHAMP 和 GRACE）相符，误差在 2 倍以内，但在 2008 年太阳极小期约偏高 { $lit_1_7 } 倍。
 
@@ -7778,7 +7778,7 @@ engine-kind-reentry-description = Allen-Eggers 弹道再入走廊：峰值减速
 
 engine-kind-eo-coverage-description = 对地观测载荷足迹与覆盖几何（SMAD 空间三角形）：对给定的轨道高度、倾角（默认太阳同步）和传感器 FOV/IFOV，给出地球角半径、幅宽、星下点地面采样距离、最大离轴观测范围、圆轨道周期、J2 节点周期以及赤道地面轨迹间距，并带连续覆盖标志。MODELLED 的球形地球几何（无辐射测量/MTF/大气/抖动/耀光）；节点间距为 R_e·(ω − Ω̇)·T_nodal，采用一阶 J2 长期速率。
 
-engine-kind-space-packet-description = CCSDS 133.0-B 空间包协议封装：对合成的 TM/TC 包流编码（6 字节主头 + 数据字段），并报告每个包的头解码、总字节数以及精确的编码↔解码往返。确定性的精确位布局封装：即机构包格式的互操作层；NOT 符合性认证（除标志位外，无副头/CRC/分段逻辑）。
+engine-kind-space-packet-description = CCSDS 133.0-B 空间包协议封装：对合成的 TM/TC 包流编码（6 字节主头 + 数据字段），并报告每个包的头解码、总字节数以及精确的编码↔解码往返。确定性的精确位布局封装：即机构包格式的互操作层；NOT 符合性认证；该场景只封装主头（副头、CRC-16 和分段在库中）。
 
 engine-kind-attitude-budget-description = 3 自由度姿态与指向误差预算：最坏情况的重力梯度干扰力矩（(3/2)(μ/R³)ΔI），以及对已命名的 1σ 贡献项（传感器噪声、反作用轮抖动、热、对准）的方和根指向误差预算，并给出主导项，针对某个轨道高度 + 本体惯量差。MODELLED 的标量 AOCS 预算：Basilisk/42 的硬件前补充，不是控制回路/6 自由度/柔性模态仿真。
 
@@ -7788,11 +7788,11 @@ engine-kind-link-budget-description = 基于 CCSDS 401 / DSN 810-005 链路方�
 
 engine-kind-lunar-time-budget-description = MODELLED 的端到端协调月球时（LTC）时间误差预算：把七个 LTC 误差项在整个平均时间网格上组装为时间误差曲线 x_i(τ)，按方和根合成 x_Σ(τ)，并给出时钟与框架的交叉 τ，即不断增长的时钟项在此处超过恒定的实时框架实现项（低于它时预算受框架限制，高于它时受时钟限制）：这是对单一 τ 产物的如实回答。τ 斜率为闭式，可解析验证（时钟 τ^{ "{" }+1/2{ "}" }/τ^{ "{" }+1{ "}" }，下限 τ^0，测量 τ^{ "{" }-1/2{ "}" }），时钟各行复现已发布的一天时钟规格（crate::clock_specs）；射频/光链路、框架实现、相对论残差和星历下限的量值是 Modelled 预算分配（有文档的默认值，调用方可覆盖），不是测量值。其贡献在于可复现的交叉 τ，而不是经认证的逐项数值；不是经认证的可用于运行授时的产品。
 
-engine-kind-hybrid-optical-rf-description = MODELLED 的异构光学 + 射频 PNT 联合品质因数（P5）：组合 1550 nm 双向光链路预算（光子受限的双向测距 CRLB σ_τ/√N 以及衍射足迹 λ/D·距离）、跨模态解分离 RAIM 保护级（位置与授时），它融合协方差各异的松耦合射频解与紧耦合光学解、N 站光学晴空可用性（独立并集 1−Π(1−a_i) 以及空间相关变体）、光学↔射频状态/协方差交接（均值经证明按位连续，即无跳变，并带 NEES χ² 一致性门），以及含相关性处理的联合 P(可用 AND 精密级 AND 完好性有保证) 得分。VALIDATED 的闭式：测距 CRLB、衍射足迹、χ² 保护级分位数、并集组合计数、交接均值连续性 + NEES 门，以及联合独立乘积。MODELLED：光学损耗分配、射频/光学 σ 量值、云气候输入、相关性和 P_HMI 预算。不是经认证的可用性/完好性产品。
+engine-kind-hybrid-optical-rf-description = MODELLED 的异构光学 + 射频 PNT 联合品质因数：组合 1550 nm 双向光链路预算（光子受限的双向测距 CRLB σ_τ/√N 以及衍射足迹 λ/D·距离）、跨模态解分离 RAIM 保护级（位置与授时），它融合协方差各异的松耦合射频解与紧耦合光学解、N 站光学晴空可用性（独立并集 1−Π(1−a_i) 以及空间相关变体）、光学↔射频状态/协方差交接（均值经证明按位连续，即无跳变，并带 NEES χ² 一致性门），以及含相关性处理的联合 P(可用 AND 精密级 AND 完好性有保证) 得分。VALIDATED 的闭式：测距 CRLB、衍射足迹、χ² 保护级分位数、并集组合计数、交接均值连续性 + NEES 门，以及联合独立乘积。MODELLED：光学损耗分配、射频/光学 σ 量值、云气候输入、相关性和 P_HMI 预算。不是经认证的可用性/完好性产品。
 
 engine-kind-cislunar-observability-description = MODELLED 的平面地月空间星座可观测性（P6）：跟踪一个由四颗航天器组成的差分修正平面 DRO 星座，使用星间测距，并报告该弧段使航天器四状态 [x,y,ẋ,ẏ] 中有多少可观测。输出（1）单条纯测距链路的秩与弧长表：瞬时秩为 1，随弧段延长而增长至完整的四状态（P6 表 1）；（2）该弧段上的可观测性格拉姆矩阵特征谱 + 条件数；（3）纯测距与测距 + 距离变化率的瞬时秩对比（多普勒设计杠杆），以及纯测距奇异 / 测距 + 变化率有定义的 GDOP 报告；（4）独立的 SRIF 交叉验证，其后验协方差恰好在可观测秩达到四的弧段处变为有限且良态。VALIDATED 的核心：可观测秩是揭示秩的奇异值阈值，并与格拉姆矩阵特征秩交叉核对；特征谱服从谱不变量（trace=Σλ，det=Πλ，Frobenius²=Σλ²）；变分 STM 是经有限差分验证的 CR3BP STM；测距/距离变化率的雅可比各行是经有限差分验证的解析偏导数（并与本 crate 的3-D 距离变化率观测量交叉核对）；四个初始条件是差分修正的平面 DRO，收敛到很紧的周期性残差且为逆行；秩的跃迁对照本 crate 的平方根信息滤波器做了交叉验证（后验协方差恰好在满秩时有限，cond(P)=cond(OᵀO)）；秩亏的快照被标记为 GDOP 无定义（fim condition=inf），绝不给出虚假的有限值：这与 pvt::solve_spp 采用的奇异几何保护相同。MODELLED：星座设计（DRO 近月点幅度和相位）及其产生的具体秩进展。不是经认证的导航性能产品。
 
-engine-kind-conflict-resilience-description = MODELLED 的分层 PNT 冲突韧性（P7）：处于对抗环境中的用户部署若干 PNT 层（开放服务 GNSS、宽带 GNSS、经鉴权的星座、增强中继），各层具有基础可用性、1σ 精度，以及对共享压制干扰/欺骗干扰威胁的各攻击向量脆弱性。一次按强度扫描、带随机种子的蒙特卡罗，以概率 clamp(vulnerability·intensity·vector_weight,0,1) 使各层失效，用闭式逆方差规则 σ_fused=(Σ 1/σ_i²)^(−1/2) 融合幸存层，并报告总丢失概率（所有层均失效）、融合误差中位数，以及各层随强度变化的可用/失效统计。核心的韧性比（单层与分层的总丢失概率之比）在独立性假设下约为 7x；随后的单因子高斯 copula 相关失效扫描显示，随着失效相关性上升，该约 7x 会塌缩趋近于 1（相关性使分层失去作用）。先验敏感性部分通过 mcda 龙卷风图 + Dirichlet 威胁投入再分配 + 百分位置信区间，在有出处的脆弱性先验范围内考察该核心结果。VALIDATED 的核心：蒙特卡罗总丢失概率收敛到闭式独立乘积 Π_i p_deny_i（在固定随机种子且 N 很大时落在蒙特卡罗标准误差之内）；逆方差融合是闭式恒等式；ρ=0 时 copula 退化为独立模型，且任何 ρ 都保持各层的边际失效率。MODELLED：各层的脆弱性/可用性/精度量值是有出处但属 Modelled 的输入（JammerTest 2024、TEXBAT、EASA SIB、RTCA DO-229、LunaNet/IOAG，见 conflict_threat_params），具体的约 7x 量值以及比值随相关性变化的曲线形状均由该参数化得出。其后第 4.2 节的各向量存活分解把共享射频威胁拆分为四个命名向量（压制干扰/欺骗干扰/动能/网络），并报告每个向量的可用 PNT 平缓退化曲线 S_v(x)=1-Prod_i(1-a_i(1-clamp(susceptibility_i,v·x,0,1)))，VALIDATED：带随机种子的各层蒙特卡罗收敛到该闭式；对相关射频基线而言，压制干扰是最尖锐的向量，而不受射频影响的惯性层是决定性的幸存者。不是经认证的导航可用性产品。
+engine-kind-conflict-resilience-description = MODELLED 的分层 PNT 冲突韧性：处于对抗环境中的用户部署若干 PNT 层（开放服务 GNSS、宽带 GNSS、经鉴权的星座、增强中继），各层具有基础可用性、1σ 精度，以及对共享压制干扰/欺骗干扰威胁的各攻击向量脆弱性。一次按强度扫描、带随机种子的蒙特卡罗，以概率 clamp(vulnerability·intensity·vector_weight,0,1) 使各层失效，用闭式逆方差规则 σ_fused=(Σ 1/σ_i²)^(−1/2) 融合幸存层，并报告总丢失概率（所有层均失效）、融合误差中位数，以及各层随强度变化的可用/失效统计。核心的韧性比（单层与分层的总丢失概率之比）在独立性假设下约为 7x；随后的单因子高斯 copula 相关失效扫描显示，随着失效相关性上升，该约 7x 会塌缩趋近于 1（相关性使分层失去作用）。先验敏感性部分通过 mcda 龙卷风图 + Dirichlet 威胁投入再分配 + 百分位置信区间，在有出处的脆弱性先验范围内考察该核心结果。VALIDATED 的核心：蒙特卡罗总丢失概率收敛到闭式独立乘积 Π_i p_deny_i（在固定随机种子且 N 很大时落在蒙特卡罗标准误差之内）；逆方差融合是闭式恒等式；ρ=0 时 copula 退化为独立模型，且任何 ρ 都保持各层的边际失效率。MODELLED：各层的脆弱性/可用性/精度量值是有出处但属 Modelled 的输入（JammerTest 2024、TEXBAT、EASA SIB、RTCA DO-229、LunaNet/IOAG，见 conflict_threat_params），具体的约 7x 量值以及比值随相关性变化的曲线形状均由该参数化得出。其后第 4.2 节的各向量存活分解把共享射频威胁拆分为四个命名向量（压制干扰/欺骗干扰/动能/网络），并报告每个向量的可用 PNT 平缓退化曲线 S_v(x)=1-Prod_i(1-a_i(1-clamp(susceptibility_i,v·x,0,1)))，VALIDATED：带随机种子的各层蒙特卡罗收敛到该闭式；对相关射频基线而言，压制干扰是最尖锐的向量，而不受射频影响的惯性层是决定性的幸存者。不是经认证的导航可用性产品。
 
 engine-kind-lunar-attack-surface-description = 月面导航信号安全攻击面（P1）：把公开的信号安全分析组合成一次可由二进制程序运行的分析。报告（1）AFS 接收功率及其相对地面 GPS 参考的功率盈余，以及 12-18 dB 敏感性范围，作为对链路输入（参考电平 x EIRP x 斜距）的真正多轴扫描，并给出 25x 取整 / 28x 未取整线性因子的核对。已修订（规则 R4）：此前报告的是 { $lit_15_6 } dB 功率不足和 32x/36x 因子，直至把 GPS 参考从 -125 / -{ $lit_128_5 }（这是 dBm 数值）更正为 -155 / -{ $lit_158_5 } dBW，即干扰模块一直沿用的 ICD-GPS-200 数值。符号随之反转：经建模的月球 AFS 信号比地面 GPS L1 C/A 强 { $lit_14_4 } dB，而不是更弱。接收功率本身一位都没有变，线性因子是旧值除以恰好 1000，这恰好是 dBm 到 dBW 的 30 dB 偏移；（2）在每个对峙距离上欺骗（J/S = 3 dB）和压制（J/S = 30 dB）所需的攻击者发射功率，即 J/S 链路的逆；（3）在真实均匀孔径天线方向图（Airy [2 J1(x)/x]^2）下的轨道捕获足迹，这是一个受高度限制的次半球帽，其边缘 NOT 被捕获；（4）计算得到的跟踪环欺骗捕获牵入结果（在给定功率优势和码偏移下，匹配码的欺骗者是否真的能牵引 DLL/PLL），而不是断言的 3 dB 门限；（5）抬高的地表发射机在无大气天体上的几何地平线覆盖范围；以及（6）OSNMA/TESLA 认证预算（20 bit/s 开销 = 50 bit/s AFS 导航电文的约 40 %，密钥披露延迟，2^-40 伪造概率）。空请求体可复现 P1 基线；所有输入均有默认值且可覆盖。VALIDATED 的子结果带有其来源模块的参考基准（闭式 dB 辐射测量；逆 J/S 往返；Airy 方向图对照 A&S 贝塞尔函数和球冠几何；DLL/PLL 牵入对照 Kaplan & Hegarty；球面切线地平线恒等式对照 eo_payload；OSNMA SIS-ICD 字段尺寸）。MODELLED：具有代表性的几何/功率量值以及具体的捕获图单元格数值。不是经认证的安全产品。
 

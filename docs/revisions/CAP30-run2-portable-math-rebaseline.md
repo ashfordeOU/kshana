@@ -8,7 +8,7 @@ no verdict, bar, tolerance or threshold changes.
 
 The monthly real-data job (`.github/workflows/realdata-mro-od.yml`) ran for the first time since run 2 was
 pinned, on 4 November 2026, and failed on the iteration-count pin. The STUDIO-15 batch-4 re-baseline
-([`STUDIO15-batch4-rebaseline.md`](STUDIO15-batch4-rebaseline.md)) did not list this test. It is data-gated:
+([`batch4-rebaseline.md`](batch4-rebaseline.md)) did not list this test. It is data-gated:
 without the fetched MRO inputs it prints a skip notice and passes, so the full-suite run behind that
 re-baseline never executed it.
 

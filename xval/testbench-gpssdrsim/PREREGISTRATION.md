@@ -124,4 +124,4 @@ Not a new registration: the NMEA bytes of `gnss-ins-maritime`, `gnss-ins-rail` a
 moved with the 0.36 portable maths, so `run.sh` was run again at the same gps-sdr-sim commit with the
 bars unchanged. Only those three `nmea_sha256` values changed; every count and difference is identical
 and every bar holds as before. Record:
-[`docs/revisions/STUDIO15-testbench-gpssdrsim-rerun.md`](../../docs/revisions/STUDIO15-testbench-gpssdrsim-rerun.md).
+[`docs/revisions/testbench-gpssdrsim-rerun.md`](../../docs/revisions/testbench-gpssdrsim-rerun.md).

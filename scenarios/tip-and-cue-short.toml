@@ -1,4 +1,4 @@
-# A short tip-and-cue run: the M2 primary 16-satellite RF layer cueing its optical layer over the
+# A short tip-and-cue run: the primary 16-satellite RF layer of the pre-registered study (M2) cueing its optical layer over the
 # Baltic Sea for 2 days at a 60 s step (fast; for the full pre-registered run see
 # tip-and-cue-baltic-m2.toml). Geometry and timing only; MODELLED.
 kind = "tip-and-cue"

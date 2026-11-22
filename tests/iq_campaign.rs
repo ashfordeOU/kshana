@@ -968,11 +968,11 @@ fn the_pre_registered_pin_holds_with_the_event_stating_q_1() {
 // `false_lock_per_hour` (0 -> 426.29 fll-pll, 437.69 pll-only). Before: M2M4 89c76e01...,
 // NWPR 79696147....
 // Re-pinned for the 0.36 portable maths of the batch 2-3 IQ code (STUDIO-15 rule; record
-// docs/revisions/STUDIO15-batch4-rebaseline.md). Before: M2M4 c7e11580...; NWPR unchanged.
+// docs/revisions/batch4-rebaseline.md). Before: M2M4 c7e11580...; NWPR unchanged.
 // Re-pinned at the 0.36.0 version bump: every cell file names the engine version, so both digests hold for
 // one version. The same source at 0.35.0 reproduced the previous pair exactly (M2M4 8adacb22..., NWPR
 // f34be6e2...), which is the evidence that nothing but the version moved
-// (docs/revisions/STUDIO15-pins-0.36.0-version.md).
+// (docs/revisions/pins-0.36.0-version.md).
 const DIGEST_M2M4: &str = "68f7ba0f561b838f19dd4c3147a2dbd375516baec823c03488bd5b5e9d1dc67e";
 const DIGEST_NWPR: &str = "a740a6b5609d76930ed6c85f13089e7ce937b50258b7160810d691e5edcf0531";
 

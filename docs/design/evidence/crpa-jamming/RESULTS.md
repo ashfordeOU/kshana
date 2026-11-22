@@ -71,9 +71,9 @@ A1: build the release binary at 716de66a and at this commit, run every scenario 
 
 ## 0.36 portable maths (2026-10-15)
 
-With the engine on portable maths (STUDIO-15, batch 4) the same comparison against the committed
+With the engine on portable maths (the 0.36 portable-maths change, batch 4) the same comparison against the committed
 `expected.json` gives: MVDR jammer gain over 1e-9 dB on **194 of 456** links (was 202), worst 1.730e-6 dB;
 MVDR noise gain worst 1.2e-14 dB, MVDR effective C/N0 2.8e-14 dB, null-steering noise gain 2.1e-14 dB and
 effective C/N0 2.1e-14 dB, null-steering jammer null below -200 dB on every link. A3 stays NOT MET on the
 MVDR jammer gain only (finding F1); the bar is unchanged and `tests/jamming_crpa.rs` asserts the new count.
-Record: [`docs/revisions/STUDIO15-batch4-rebaseline.md`](../../../revisions/STUDIO15-batch4-rebaseline.md).
+Record: [`docs/revisions/batch4-rebaseline.md`](../../../revisions/batch4-rebaseline.md).

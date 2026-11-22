@@ -1,6 +1,6 @@
 # Pins that carry the engine version, re-blessed at the 0.37.0 bump
 
-Date: 2026-10-18. Companion to `STUDIO15-pins-0.36.0-version.md` and `STUDIO15-skyline-baseline-0.36.0.md`.
+Date: 2026-10-18. Companion to `pins-0.36.0-version.md` and `skyline-baseline-0.36.0.md`.
 Bars, tolerances and scenarios: unchanged.
 
 The full suite (`cargo test --release --all --no-fail-fast`, release symbols stripped to fit the disk), run

@@ -8,7 +8,7 @@
 //! the first 30 s of the short logs), as a batch run and as a replayed live stream; with the keys
 //! 0.36 appends removed, every output is byte-identical to what 0.35.0 wrote.
 //!
-//! Re-based by STUDIO-15 (docs/revisions/STUDIO15-portable-math-rebaseline.md): the pins below are the
+//! Re-based by STUDIO-15 (docs/revisions/portable-math-rebaseline.md): the pins below are the
 //! "0.36 portable" baseline, taken with the engine on portable maths. The 0.35.0 (host-maths) values
 //! they replaced are kept in `tests/fixtures/geometry_trust/pins_0.35.0.txt`, pinned by hash below.
 //!
