@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-only
-//! `cislunar-observability` scenario — planar cislunar constellation observability (P6).
+//! `cislunar-observability` scenario — planar cislunar constellation observability.
 //!
 //! A small planar four-spacecraft cislunar constellation near the Moon is tracked by
 //! inter-satellite ranging. The scenario answers the single question a batch estimator
@@ -404,7 +404,7 @@ fn family_members(family: OrbitFamily, mu: f64, n: usize) -> Result<Vec<FamilyMe
 }
 
 /// The honesty label carried on the result document.
-const LABEL: &str = "MODELLED planar cislunar constellation observability (P6). VALIDATED \
+const LABEL: &str = "MODELLED planar cislunar constellation observability. VALIDATED \
 core: the observable RANK is a rank-revealing singular-value threshold cross-checked \
 against the Gramian eigen-rank; the Gramian eigen-spectrum obeys the spectral invariants \
 (trace = sum eig, det = prod eig, Frobenius^2 = sum eig^2); the variational STM is the \
