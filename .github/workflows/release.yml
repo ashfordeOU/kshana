@@ -13,8 +13,7 @@
 #             them back down and check them. The last four are built by
 #             release-artefacts.yml (`artefacts`).
 #   publish   crates.io, PyPI, npm (publish.yml), then the ghcr.io image and the MCP
-#             registry (mcp-publish.yml) and the JetBrains Marketplace
-#             (jetbrains-plugin.yml), the reference-build image on ghcr.io
+#             registry (mcp-publish.yml), the reference-build image on ghcr.io
 #             (reference-image.yml) and, only when the founder has switched it on, the Signal K
 #             plugin on npm (signalk-publish.yml). Each is a reusable workflow called from here, so
 #             `needs: verify` holds them: before this, they were separate workflows on
@@ -657,26 +656,10 @@ jobs:
       publish_registry: true
     secrets: inherit
 
-  jetbrains:
-    needs: [verify, publish]
-    if: github.event_name == 'push'
-    permissions:
-      contents: read
-      actions: read
-    uses: ./.github/workflows/jetbrains-plugin.yml
-    secrets: inherit
-
   # Dry-run-only checks of the other shipped surfaces, so a dry run covers every channel the
-  # release publishes. Neither publishes anything. (A real release builds the JetBrains plugin
-  # in `jetbrains` below, and ci.yml runs `mcp-deny` on main.)
-  dry-jetbrains:
-    name: JetBrains plugin build + test (dry run)
-    if: ${{ inputs.dry_run }}
-    permissions:
-      contents: read
-      actions: read
-    uses: ./.github/workflows/jetbrains-plugin.yml
-
+  # release publishes. It publishes nothing. (ci.yml runs `mcp-deny` on main.) Kshana Desktop
+  # and the JetBrains plugin are products distributed from kshana.dev and their stores; they are
+  # not built or published here.
   dry-marine:
     name: marine integrations (dry run)
     if: ${{ inputs.dry_run }}

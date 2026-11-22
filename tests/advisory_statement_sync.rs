@@ -63,16 +63,6 @@ fn the_wasm_exports_carry_the_full_statement() {
 }
 
 #[test]
-fn the_jetbrains_listing_and_readme_carry_the_full_statement() {
-    for p in [
-        "ide/jetbrains/src/main/resources/META-INF/plugin.xml",
-        "ide/jetbrains/README.md",
-    ] {
-        assert!(flat(p).contains(ADVISORY), "{p}");
-    }
-}
-
-#[test]
 fn the_osnma_surfaces_carry_the_full_statement() {
     use kshana::osnma::ADVISORY as OSNMA;
     let py = flat("src/python.rs");
