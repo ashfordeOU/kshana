@@ -7,7 +7,7 @@
 //! relative cost — plus the additive combination rule for their information. The
 //! budget-constrained *design optimizer* that consumes this menu (greedy / exact
 //! subset selection and the cost/degeneracy trade frontier) is a commercial
-//! (kshana-pro) capability and is not part of this open crate.
+//! (Kshana Pro) capability and is not part of this open crate.
 //!
 //! All beacon locations, orbiter geometry, per-technique precisions, and relative
 //! costs are representative choices, not mission values (see

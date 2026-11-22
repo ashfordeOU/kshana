@@ -1,0 +1,57 @@
+# Repository rule: no text on this repository names an AI assistant as an author
+# (CONTRIBUTING.md, "No authorship attribution"; scripts/check-no-attribution.sh enforces it
+# for files and commit messages). Some tools append an authorship footer to pull-request
+# descriptions, issues, comments and reviews; this workflow deletes those footer lines as
+# soon as the text is posted or edited, and a daily sweep cleans anything missed.
+#
+# Safety: pull_request_target runs this repository's default-branch copy of the script, never
+# code from the pull request; the job checks out the default branch only and runs no build.
+# Edits made with GITHUB_TOKEN do not trigger workflows, so there is no loop.
+name: Attribution footers
+on:
+  pull_request_target:
+    types: [opened, edited, reopened]
+  issues:
+    types: [opened, edited]
+  issue_comment:
+    types: [created, edited]
+  pull_request_review_comment:
+    types: [created, edited]
+  pull_request_review:
+    types: [submitted, edited]
+  schedule:
+    - cron: "17 3 * * *"
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/attribution-footers.yml
+      - scripts/strip-attribution-footers.py
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+concurrency:
+  group: attribution-footers-${{ github.event_name }}-${{ github.event.pull_request.number || github.event.issue.number || github.run_id }}
+  cancel-in-progress: false
+jobs:
+  strip:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          persist-credentials: false
+      - name: Self-test
+        run: python3 scripts/strip-attribution-footers.py --self-test
+      - name: Clean the posted text
+        if: github.event_name != 'schedule' && github.event_name != 'workflow_dispatch' && github.event_name != 'push'
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python3 scripts/strip-attribution-footers.py --event
+      - name: Sweep every pull request, issue, comment and review
+        if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' || github.event_name == 'push'
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python3 scripts/strip-attribution-footers.py --sweep

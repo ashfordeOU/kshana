@@ -23,7 +23,7 @@ Needs `pip install fluent.syntax`.
   `out/<lang>-legal.ftl`, drops `engine-telemetry-syslog-cef-gnss-trust` (machine output, stays English). `assemble9.py LANG` (de fr es pt-BR
   pt-PT nl da sv nb) layers the plural overrides and the delta chunks `out/<lang>-NN.ftl` (NN >= 16) onto the existing file.
 - `guides/<lang>.md`: terms, register, plural categories, case notes, forbidden renderings and advisory sentences per language, generated
-  from the glossaries (the `i18n/glossary/` folder of the site branch in kshana-pro).
+  from the glossaries (the private glossaries).
 
 ## Recipe for messages added to the engine catalogue later
 1. Merge the engine branch. `python3 tools/i18n/w58/delta.py 17 tools/i18n/w58/done-ids-f94e0c59.txt` (new ids for the first eight

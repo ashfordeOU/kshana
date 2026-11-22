@@ -1,4 +1,4 @@
-> See on faili README.md (v0.40.0) masintõlge, mida emakeelne kõneleja pole veel üle vaadanud. Võrdlusallikaks on ingliskeelne README. [English](README.md)
+> See on faili README.md (v0.41.0) masintõlge, mida emakeelne kõneleja pole veel üle vaadanud. Võrdlusallikaks on ingliskeelne README. [English](README.md)
 
 <!-- The images under docs/assets/readme/ are generated from real engine runs by
      tools/gen_readme_assets.py (light and dark variants); regenerate them with
@@ -24,7 +24,7 @@
   <a href="docs/COVERAGE.md"><img src="https://img.shields.io/badge/coverage-~95%25-377D0C?style=flat-square&labelColor=0A1226" height="18" alt="Ridade kaetus ligikaudu 95 % kataloogist src/, mõõdetud failis docs/COVERAGE.md ja pidevas integratsioonis nõutud vähemalt 85 %"></a>
   <a href="#evidence"><img src="https://img.shields.io/badge/validated-176%2F413-377D0C?style=flat-square&labelColor=0A1226" height="18" alt="413 võimekusest 176 on VALIDATED sõltumatu välise oraakli vastu, kontrollimaatriksi järgi"></a>
   <a href="https://sonarcloud.io/summary/overall?id=ashfordeOU_kshana"><img src="https://img.shields.io/sonar/quality_gate/ashfordeOU_kshana?server=https%3A%2F%2Fsonarcloud.io&label=quality&style=flat-square&labelColor=0A1226" height="18" alt="SonarQube Cloudi kvaliteedivärava olek"></a>
-  <a href="https://github.com/ashfordeOU/kshana/releases"><img src="https://img.shields.io/badge/release-v0.40.0-066A86?style=flat-square&labelColor=0A1226" height="18" alt="Väljalase v0.40.0"></a>
+  <a href="https://github.com/ashfordeOU/kshana/releases"><img src="https://img.shields.io/badge/release-v0.41.0-066A86?style=flat-square&labelColor=0A1226" height="18" alt="Väljalase v0.41.0"></a>
   <a href="docs/i18n.md"><img src="https://img.shields.io/badge/languages-English%20%2B%2017-3F4B67?style=flat-square&labelColor=0A1226" height="18" alt="Inglise keel ja veel 17 keelt, masintõlkena"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/licence-AGPL--3.0-3F4B67?style=flat-square&labelColor=0A1226" height="18" alt="Litsents: AGPL-3.0-only"></a>
   <br>
@@ -73,14 +73,14 @@
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/hero-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/hero-light.svg">
-  <img src="docs/assets/readme/hero-light.svg" alt="Harjuta minutit, mil GNSS kustub. Kshana missioonikonsool, joonistatud mootori v0.40.0 tegelikust käivitusest: aheldatud kampaania campaign-jam-spoof-holdover-integrity (seeme 20260928, 6 faasi, 18 liikmeskäivitust ajavahemikus T+01:16:10) ning stsenaariumi constellation-multi-gnss-coverage 102 GPS-i, Galileo, BeiDou ja GLONASSi satelliiti, igaüks joonistatud mootori maapealsest jäljest taastatud ringikujulisele kahe keha orbiidile, raadiused kuvamiseks kokku surutud. Kella ajaviga tõuseb kuni 62.7 ns 50 ns kaitsepiiri vastu, kandja ja müra tiheduse suhe langeb -12.2 dB-Hz-ni 25 dB-Hz alampiiri vastu ning vertikaalne kaitsetase ulatub 135.4 m-ni 50 m häirepiiri vastu." width="100%">
+  <img src="docs/assets/readme/hero-light.svg" alt="Harjuta minutit, mil GNSS kustub. Kshana missioonikonsool, joonistatud mootori v0.41.0 tegelikust käivitusest: aheldatud kampaania campaign-jam-spoof-holdover-integrity (seeme 20260928, 6 faasi, 18 liikmeskäivitust ajavahemikus T+01:16:10) ning stsenaariumi constellation-multi-gnss-coverage 102 GPS-i, Galileo, BeiDou ja GLONASSi satelliiti, igaüks joonistatud mootori maapealsest jäljest taastatud ringikujulisele kahe keha orbiidile, raadiused kuvamiseks kokku surutud. Kella ajaviga tõuseb kuni 62.7 ns 50 ns kaitsepiiri vastu, kandja ja müra tiheduse suhe langeb -12.2 dB-Hz-ni 25 dB-Hz alampiiri vastu ning vertikaalne kaitsetase ulatub 135.4 m-ni 50 m häirepiiri vastu." width="100%">
 </picture>
 
 <details>
 <summary><strong>Sisukord</strong></summary>
 
 - [Harjuta minutit, mil GNSS kustub](#rehearse-the-minute-gnss-goes-dark)
-- [Mis on uut versioonis 0.40](#whats-new-in-040), [Mis on uut versioonis 0.39](#whats-new-in-039), [Mis on uut versioonis 0.38](#whats-new-in-038) ja [0.38 põhjalikumalt](#038-in-depth): Jammertesti hindamine, vastuvõtja enda lipud, masinsisendid, ajastus ja holdover, standardipaketid, LunaNet AFS, laborite ringreis, kshana-bench, observatoorium, eksportijad, optika, [kosmosekasutaja navigeerimine](#space-user-navigation-gnss-ssv) ja [Kuu infrastruktuur](#lunar-infrastructure-lunar-infrastructure)
+- [Mis on uut versioonis 0.41](#whats-new-in-041), [Mis on uut versioonis 0.40](#whats-new-in-040), [Mis on uut versioonis 0.39](#whats-new-in-039), [Mis on uut versioonis 0.38](#whats-new-in-038) ja [0.38 põhjalikumalt](#038-in-depth): Jammertesti hindamine, vastuvõtja enda lipud, masinsisendid, ajastus ja holdover, standardipaketid, LunaNet AFS, laborite ringreis, kshana-bench, observatoorium, eksportijad, optika, [kosmosekasutaja navigeerimine](#space-user-navigation-gnss-ssv) ja [Kuu infrastruktuur](#lunar-infrastructure-lunar-infrastructure)
 - [Kshana Studio](#kshana-studio) ja iga Studio leht
 - [Võimekused](#capabilities): valdkondade tabel, [iga stsenaariumiliik perekonniti](#every-scenario-kind-by-family), [iga käsk](#every-command), [iga liides](#every-surface)
 - [Kuidas käivitus toimib](#how-a-run-works), [Missioonid](#missions)
@@ -105,25 +105,65 @@ Igal võimekusel on masinkontrollitud registris üks kolmest sildist: **VALIDATE
 väline oraakel on nõus), **MODELLED** (sisemiselt järjepidev, ja see öeldakse välja)
 või **PARTNER** (selle omanik on riistvarapartner).
 
-> **Olek: v0.40.0.** Valideeritud, reprodutseeritav simulatsioonialus PNT vastupidavuse jaoks.
-> Ajastus ja holdover on esikohal, sest see valdkond on kõige paremini valideeritud. Kshana on
-> uurimis- ja kompromissianalüüsi instrument: mitte raadiosagedusliku (RF) signaaligeneraatori
-> riistvara (see ei juhi ühtegi raadiot ega edasta midagi; selle signaalitaseme väljund on
-> baasriba IQ-näidisfailid tarkvaravastuvõtjatele), mitte riistvaraline ega sertifitseeritud
-> GNSS-vastuvõtja (selle tarkvaravastuvõtja on analüüsitööriist) ega lennutoode. Valdkonnas uus?
-> Alusta [lihtsas keeles sissejuhatusest](docs/CONCEPTS.md) ja [sõnastikust](docs/GLOSSARY.md).
+> **Status: v0.41.0.** Reprodutseeritav simulatsioonialus PNT vastupidavuse jaoks, milles iga võimekus
+> on märgistatud oma tõendite järgi. Ajastus ja holdover tulevad esimesena, sest selles valdkonnas on kõige rohkem VALIDATED-ridu.
+> Kshana on uuringute ja kompromisside tööriist: see ei ole raadiosagedussignaale (RF) tekitav riistvara (see
+> ei juhi ühtegi raadiot ega edasta midagi; selle signaalitaseme väljund on põhiriba IQ-proovide failid
+> tarkvaralistele vastuvõtjatele), see ei ole riistvaraline ega sertifitseeritud GNSS-vastuvõtja (selle tarkvaraline vastuvõtja
+> on analüüsitööriist) ega lennutoode. Uus selles valdkonnas? Alusta
+> [lihtsas keeles sissejuhatusest](docs/CONCEPTS.md) ja [sõnastikust](docs/GLOSSARY.md).
 
 <a id="whats-new-in-040"></a>
+## Mis on uut versioonis 0.41
+
+Versioon 0.41 hindab selle jaoks kokku lepitud tõendiridu, igaüht üks kord enne andmeid paika pandud lävendite vastu, ja avaldab iga tulemuse
+sellisena, nagu see välja tuli (kordusjooksu C2 v2 ei tehtud). Lisandub piirkonna usaldusolek koos
+satelliidirikete kontrolliga, seirevõrgu planeerija, TDOA-põhine segaja asukoha määraja, otsused varjatud laevade ja AIS-i terviklikkuse kohta,
+TEXBAT-i võltsimise võrdlustest, lennudünaamika ekspordid ja RTCM SSR-i lugeja. Registris on nüüd 413 rida: 176
+VALIDATED, 233 MODELLED, 4 PARTNER. Ühtegi rida ei tõstetud tasemele VALIDATED ja iga allpool toodud möödalask on testiga kinnitatud.
+
+- **Piirkonna usaldus (`kshana area-trust`, B5).** Üks usaldusolek piirkonnale mitme tugijaama põhjal. Versioon 3
+  märgib satelliidi, mille eemaldamine tühistab häired mitmes jaamas korraga, ja arvutab nende lahendused ilma
+  selleta ümber; pelk lukustuse kadu ei alanda enam jaama olekut. 26 piirkonnapäeval IGS-i andmetega (Goddard ja Wettzell, mai 2026)
+  tekitas see 1 hoiatuse (lävend ≤ 1 piirkonnapäeva kohta) ja **täidab** T4; sünteetiliste rikete korral **ei täida** see T2 (127-st
+  rikkest tühistati 123; 4 juhul on järelejäänud geomeetria nõrk ja 67-st kahe satelliidiga epohhist 2 seletati ühega). T3
+  (hoiatuse latentsus) on täidetud. B5 v3 on **NOT MET** ([tulemused](docs/design/evidence/b5-area-trust/RESULTS-v3.md)). Diagnoos näitas ka,
+  et mootor kasutas ebatervaks märgitud levikirjeid; nii märgitud GPS-i ja QZSS-i kirjed jäetakse nüüd vahele.
+- **Võltsimise võrdlustest (TEXBAT, E5).** Hinnatud üks kord kõigil kümnel TEXBAT-i salvestusel reeglitega, mis pandi paika enne ühegi faili
+  lugemist: võimsuse ja moonutuse skoor **täidab** E5-PD (AUC 0.7410, lävend 0.70); IQ baasskoor **ei täida** E5 v2
+  (AUC 0.6941). Avaldatakse ainult skoorid, mitte kunagi salvestusi ([tulemused](docs/design/evidence/b4a-benchmark-classes/RESULTS-E5-v2.md)).
+- **Seirevõrgu planeerija (`kshana planner`, B1a).** Tuvastuse ja TDOA täpsuse kaardid ning jaamade paigutus.
+  Versiooni 3 paigutusotsing edestab parimat 1 000 juhuslikust alamhulgast (0.4408 vs 0.4105) ja **täidab** P4;
+  osa 1 on Linuxis täidetud, macOS-i ja Windowsi kontroll on veel ees ([tulemused](docs/design/evidence/b1a-planner/RESULTS-v3.md)).
+- **Segaja asukoha määramine.** Võimsuste vahe põhine määraja (B3a) **ei täida** oma sünteetilist kriteeriumi v1-s ja v2-s; uus TDOA-määraja
+  (B3b, `locate_tdoa`) **ei täida** ka enda oma (katvus 0.044 vs 0.90: tipu täpsustus eksib kuni
+  poole proovi võrra, kui deklareeritud σ on 28 ns). Mõlemad read peatuvad siin; kummagi meetodiga päris jooksu ei tehta
+  ([B3b tulemused](docs/design/evidence/b3b-tdoa-locator/RESULTS.md)).
+- **Varjatud laevad ja AIS-i terviklikkus (M4).** Versioon 3 **täidab** varjatud laevade tabavuse (0.994) ja kõik muud lävendid peale
+  asukohanihete, mida see **ei täida** (0.489 5 km juures vs 0.85) ([tulemused](docs/design/evidence/m4-dark-vessel-ais-integrity/RESULTS-v3.md)).
+  Iga väljund kirjeldab andmete järjepidevust, mitte kunagi kavatsust.
+- **Hinnati ka.** M1 ning read C5a, C3 ja B8 **täidavad** oma lävendid; M2 ristkontroll avaldatud kordusülelendude arvude kohta
+  **ei ole** nendega **kooskõlas**; M5 v2 (hübriidne asukoht orbiidilt), D8b rida
+  8 v2 ja D8a rida 6 v2 **ei täida** enda omi ([Changelog](CHANGELOG.md)).
+- **Lennudünaamika ja parandused.** `kshana ephem-export` kirjutab JPL Horizonsi tabeli CCSDS OEM-i või OPM-ina või
+  SPK-tuumana ja loeb selle tagasi; Orekit, Basilisk ja ANISE loevad faile kirjutatud bittidega. Lisandusid RTCM SSR-i (IGS SSR) lugeja,
+  Bias-SINEX-i lugeja ja IERS 2010 tahke Maa looded.
+- **Orbiidiandmete kontrollid.** `kshana orbit-data` kontrollib CCSDS-i lähenemisandmete sõnumeid (508.0-B-1) ning OEM- ja OCM-
+  efemeriide (502.0-B-3) ja ütleb tsiteeritud jaotise suhtes kehtiv või kehtetu, teisendab OEM-i OCM-iks ja tagasi
+  päritolu säilitades, võrdleb ja auditeerib kaherealisi elemendikomplekte ning kontrollib ja levitab kovariatsioone (MODELLED). Standardi
+  enda CDM-näidetest leiab see kovariatsiooni, mis ei ole positiivselt määratud, ja kaks süntaksiviga
+  ([Orbiidiandmed](docs/ORBIT-DATA.md)).
+
 ## Mis on uut versioonis 0.40
 
 0.40 lisab missioonitaseme veaeelarve, märgistab iga joonise ja tabeli selle tõendustasemega, loeb mõõdetud kellalogisid,
 kontrollib andmepartnerite esitusi, hindab, kus häireallikas võib asuda, ning räägib inglise keele kõrval seitseteist keelt.
-Registris on nüüd 412 rida: 176 VALIDATED, 232 MODELLED, 4 PARTNER. Ühtegi rida ei tõstetud tasemele VALIDATED ja iga allpool
+Ühtegi rida ei tõstetud tasemele VALIDATED ja iga allpool
 nimetatud möödalask on testiga fikseeritud.
 
 - **Missiooni lõng.** Liik `mission-thread` aheldab faasid stardist sisenemiseni (`launch-ascent`, `leo-rendezvous`,
   `tli-and-cruise`, `entry` ja neli Kuu liiki) koos sõnastatud üleandmisreeglite, varuga sõnastatud nõuete suhtes ja nõrgima
-  lüliga; otsast lõpuni Artemis-klassi näide üle 11 faasi (Maa ja Kuu segmendid), kokku 92 stsenaariumiliiki. Iga arv on MODELLED. Tsislunaarne levitamine avaliku Artemis I trajektoori vastu
+  lüliga; otsast lõpuni Artemis-klassi näide üle 11 faasi (Maa ja Kuu segmendid). Iga arv on MODELLED. Tsislunaarne levitamine avaliku Artemis I trajektoori vastu
   **jääb alla** oma eelregistreeritud lävele (45.3 km ja 0.25 m/s vs 5 km ja 0.05 m/s; põhjuseks on väikesed manöövrid, mida mudel ei sisalda), ning Kuu levitaja CAPSTONE'i
   orbiidi vastu **jääb alla** (136.8 km vs 25 km ühe tiiru lõpus); LRO võrdlus on täidetud. Read jäävad MODELLED
   ([Missiooni lõng](docs/MISSION-THREAD.md), [Kuu segment](docs/MISSION-THREAD-LUNAR.md)). Studios loetakse lõnga aadressil `/studio/mission-thread/`.
@@ -207,7 +247,7 @@ kshana jammertest score session.toml --catalog ../jammertest-plan/testcatalog202
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/jammertest-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/jammertest-light.svg">
-  <img src="docs/figures/0.38/jammertest-light.svg" alt="Ühe sünteetilise vastuvõtjalogi hindamine kolmetestilise ajakava vastu, mootori v0.40.0 tegelikust käivitusest (`kshana jammertest score`). Logi on väljamõeldud: 1800 s NMEA-d 20 dB C/N0 langusega kahel intervallil. Ajakava loetleb kolm ajapilu; keskmises ajapilus logis segajat ei ole. Hinne märgib 2 testi 3-st tuvastatuks (mediaanlatentsus 0 s) ja 1 vahele jäänuks, 0 valehäirejadaga 0.25 h puhta aja jooksul. Miski siin ei ütle midagi päris vastuvõtja kohta. Nõuandev tarkvara, mitte tüübikinnitust omav navigatsiooniseade (IEC 61108, IEC 61162): laeva navigeerimise eest vastutab jätkuvalt operaator.">
+  <img src="docs/figures/0.38/jammertest-light.svg" alt="Ühe sünteetilise vastuvõtjalogi hindamine kolmetestilise ajakava vastu, mootori v0.41.0 tegelikust käivitusest (`kshana jammertest score`). Logi on väljamõeldud: 1800 s NMEA-d 20 dB C/N0 langusega kahel intervallil. Ajakava loetleb kolm ajapilu; keskmises ajapilus logis segajat ei ole. Hinne märgib 2 testi 3-st tuvastatuks (mediaanlatentsus 0 s) ja 1 vahele jäänuks, 0 valehäirejadaga 0.25 h puhta aja jooksul. Miski siin ei ütle midagi päris vastuvõtja kohta. Nõuandev tarkvara, mitte tüübikinnitust omav navigatsiooniseade (IEC 61108, IEC 61162): laeva navigeerimise eest vastutab jätkuvalt operaator.">
 </picture>
 
 **Registri olek: MODELLED.** Läved fikseeriti enne ühtegi hinnatud käivitust; JammerTest 2024 andmetel
@@ -228,7 +268,7 @@ kshana receiver-trust session.toml     # [log] format = "ubx", path = "receiver.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/receiver-flags-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/receiver-flags-light.svg">
-  <img src="docs/figures/0.38/receiver-flags-light.svg" alt="Vastuvõtja enda spuufimislipp Kshana häirete kõrval, mootori v0.40.0 tegelikust käivitusest väljamõeldud UBX logil (200 epohhi sagedusega 1 Hz). C/N0 langeb 20 dB ajavahemikel 80 kuni 90 s ja 120 kuni 130 s; vastuvõtja märgib lipuga 120 kuni 130 s ja 160 kuni 165 s. Pärast kalibreerimist võrreldud 140 epohhist märkisid 11 lipuga mõlemad, 6 ainult vastuvõtja, 11 ainult Kshana ja 112 kumbki mitte. Kumbki pool ei ole tõetaust ja kokkulangevus ei ole valideerimine. Nõuandev: uurimis- ja insenertööriista analüüsiväljund, mitte tüübikinnitust omav navigatsiooniseade ega elutähtis ohutusteenus.">
+  <img src="docs/figures/0.38/receiver-flags-light.svg" alt="Vastuvõtja enda spuufimislipp Kshana häirete kõrval, mootori v0.41.0 tegelikust käivitusest väljamõeldud UBX logil (200 epohhi sagedusega 1 Hz). C/N0 langeb 20 dB ajavahemikel 80 kuni 90 s ja 120 kuni 130 s; vastuvõtja märgib lipuga 120 kuni 130 s ja 160 kuni 165 s. Pärast kalibreerimist võrreldud 140 epohhist märkisid 11 lipuga mõlemad, 6 ainult vastuvõtja, 11 ainult Kshana ja 112 kumbki mitte. Kumbki pool ei ole tõetaust ja kokkulangevus ei ole valideerimine. Nõuandev: uurimis- ja insenertööriista analüüsiväljund, mitte tüübikinnitust omav navigatsiooniseade ega elutähtis ohutusteenus.">
 </picture>
 
 **Registri olek: MODELLED.** Vastuvõtja detektori ja Kshana detektori kokkulangevus ei ole
@@ -248,7 +288,7 @@ kshana imu-fit still.csv --format csv --axis x --expected-mean 0 --id bench-imu
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/machine-inputs-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/machine-inputs-light.svg">
-  <img src="docs/figures/0.38/machine-inputs-light.svg" alt="Mida `kshana imu-fit` loeb paigalseisva IMU logist, mootori v0.40.0 tegelikust käivitusest väljamõeldud logil (20,000 näidist sagedusega 100 Hz, 200 s): kiirendusmõõturi kiiruse juhuslik ekslemine q_va = 4.02e-06, güroskoobi nurga juhuslik ekslemine q_arw = 9e-08, nihke ebastabiilsus 0.00296 ning varased Allani tõusud (-0.51 ja -0.49; umbes -0.5 seal, kus domineerib valge müra). Kõrvalolev tabel on TOML, mille käsk välja trükib. Hindajat on kontrollitud ainult sünteetilistel logidel. Nõuandev: uurimis- ja insenertööriista analüüsiväljund, mitte tüübikinnitust omav navigatsiooniseade ega elutähtis ohutusteenus.">
+  <img src="docs/figures/0.38/machine-inputs-light.svg" alt="Mida `kshana imu-fit` loeb paigalseisva IMU logist, mootori v0.41.0 tegelikust käivitusest väljamõeldud logil (20,000 näidist sagedusega 100 Hz, 200 s): kiirendusmõõturi kiiruse juhuslik ekslemine q_va = 4.02e-06, güroskoobi nurga juhuslik ekslemine q_arw = 9e-08, nihke ebastabiilsus 0.00296 ning varased Allani tõusud (-0.51 ja -0.49; umbes -0.5 seal, kus domineerib valge müra). Kõrvalolev tabel on TOML, mille käsk välja trükib. Hindajat on kontrollitud ainult sünteetilistel logidel. Nõuandev: uurimis- ja insenertööriista analüüsiväljund, mitte tüübikinnitust omav navigatsiooniseade ega elutähtis ohutusteenus.">
 </picture>
 
 **Registri olek: MODELLED.** Ainult ise kirjutatud testiandmed; ühtegi päris vastuvõtja, IMU,
@@ -268,7 +308,7 @@ kshana scenarios/holdover-test-example.toml
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/timing-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/timing-light.svg">
-  <img src="docs/figures/0.38/timing-light.svg" alt="Ajaveasalvestusest hinnatud holdover-test, mootori v0.40.0 tegelikust käivitusest stsenaariumil scenarios/holdover-test-example.toml (601 näidist iga 5 s järel). Operaator eemaldab GNSS-i ajal 600 s ja taastab selle ajal 2400 s; ajaviga triivib holdoveri lõpuks 299 ns-ni, ületab 100 ns eelarve 675 s järel ja naaseb 100 ns ribasse 70 s pärast taastamist. Otsused: lähtetaseme maskid PASS, holdoveri maskid FAIL, holdoveri ümbrik FAIL, taastumine RECOVERED. Mõõdetud maski vastu, mitte heakskiit. Ajad on operaatori väide, Kshana neid ei kontrolli. Nõuandev: uurimis- ja insenertööriista analüüsiväljund, mitte tüübikinnitust omav navigatsiooniseade ega elutähtis ohutusteenus.">
+  <img src="docs/figures/0.38/timing-light.svg" alt="Ajaveasalvestusest hinnatud holdover-test, mootori v0.41.0 tegelikust käivitusest stsenaariumil scenarios/holdover-test-example.toml (601 näidist iga 5 s järel). Operaator eemaldab GNSS-i ajal 600 s ja taastab selle ajal 2400 s; ajaviga triivib holdoveri lõpuks 299 ns-ni, ületab 100 ns eelarve 675 s järel ja naaseb 100 ns ribasse 70 s pärast taastamist. Otsused: lähtetaseme maskid PASS, holdoveri maskid FAIL, holdoveri ümbrik FAIL, taastumine RECOVERED. Mõõdetud maski vastu, mitte heakskiit. Ajad on operaatori väide, Kshana neid ei kontrolli. Nõuandev: uurimis- ja insenertööriista analüüsiväljund, mitte tüübikinnitust omav navigatsiooniseade ega elutähtis ohutusteenus.">
 </picture>
 
 **Registri olek: MODELLED.** Ajad, mil GNSS eemaldati ja taastati, on operaatori väide,
@@ -289,7 +329,7 @@ kshana standards-pack run imo-circ-1575
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/standards-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/standards-light.svg">
-  <img src="docs/figures/0.38/standards-light.svg" alt="Kolme hinnatud standardipaketi kõik testid, mootori v0.40.0 tegelikest käivitustest (`kshana standards-pack run`): dhs-rpcf: 6 täidetud, 1 täitmata, 2 vajavad sisendit; imo-circ-1575: 1 täidetud, 4 täitmata, 2 vajavad sisendit; icao-doc9849-appf: 6 täidetud, 0 täitmata, 2 vajavad sisendit. Kokku 13 täidetud, 5 täitmata ja 6 vajavad sisendit, mida mootoril ei ole (vastuvõtja logi või seadme dokumentatsioon). Iga lävi sõnastati enne käivitust; möödalask jäetakse möödalasuks. Täidetud lävi ütleb, et modelleeritud stsenaarium täitis sõnastatud läve, ega midagi toote kohta. Paketid toetavad tõendeid ridadele, millele nad viitavad; need ei ole hindamine. Nõuandev: uurimis- ja insenertööriista analüüsiväljund, mitte tüübikinnitust omav navigatsiooniseade ega elutähtis ohutusteenus; see ei tohi olla ainus alus ühegi navigatsiooni- ega ohutusotsuse tegemisel.">
+  <img src="docs/figures/0.38/standards-light.svg" alt="Kolme hinnatud standardipaketi kõik testid, mootori v0.41.0 tegelikest käivitustest (`kshana standards-pack run`): dhs-rpcf: 6 täidetud, 1 täitmata, 2 vajavad sisendit; imo-circ-1575: 1 täidetud, 4 täitmata, 2 vajavad sisendit; icao-doc9849-appf: 6 täidetud, 0 täitmata, 2 vajavad sisendit. Kokku 13 täidetud, 5 täitmata ja 6 vajavad sisendit, mida mootoril ei ole (vastuvõtja logi või seadme dokumentatsioon). Iga lävi sõnastati enne käivitust; möödalask jäetakse möödalasuks. Täidetud lävi ütleb, et modelleeritud stsenaarium täitis sõnastatud läve, ega midagi toote kohta. Paketid toetavad tõendeid ridadele, millele nad viitavad; need ei ole hindamine. Nõuandev: uurimis- ja insenertööriista analüüsiväljund, mitte tüübikinnitust omav navigatsiooniseade ega elutähtis ohutusteenus; see ei tohi olla ainus alus ühegi navigatsiooni- ega ohutusotsuse tegemisel.">
 </picture>
 
 **Registri olek: MODELLED.** Täidetud lävi ütleb, et modelleeritud stsenaarium täitis sõnastatud läve, ega midagi
@@ -310,7 +350,7 @@ kshana lunanet-afs-check symbols afs.sym
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/lunanet-afs-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/lunanet-afs-light.svg">
-  <img src="docs/figures/0.38/lunanet-afs-light.svg" alt="LunaNet AFS koodigeneraator kontrollituna spetsifikatsiooni trükitud veergude vastu, mootori v0.40.0 tegelikust käivitusest (`kshana lunanet-afs-check spec`, kinnitatud LNIS V5, AD1 Volume A (LSIS-AFS) V1.0, 29. jaanuar 2025 külge; dokument märgib oma koodtabelid {LSIS-TBC}). 10 kontrollist 9 on täidetud; B4 on NOT MET (421-st sobis 420). See kontrollib sümbolivoogu avaldatud spetsifikatsiooni ühe väljaande vastu ega ütle midagi ühegi LunaNeti sõlme ega teenuse kohta. Nõuandev: uurimis- ja insenertööriista analüüsiväljund, mitte tüübikinnitust omav navigatsiooniseade ega elutähtis ohutusteenus. See kontrollib sümbolivoogu avaldatud spetsifikatsiooni ühe väljaande vastu ega ütle midagi ühegi LunaNeti sõlme ega teenuse kohta.">
+  <img src="docs/figures/0.38/lunanet-afs-light.svg" alt="LunaNet AFS koodigeneraator kontrollituna spetsifikatsiooni trükitud veergude vastu, mootori v0.41.0 tegelikust käivitusest (`kshana lunanet-afs-check spec`, kinnitatud LNIS V5, AD1 Volume A (LSIS-AFS) V1.0, 29. jaanuar 2025 külge; dokument märgib oma koodtabelid {LSIS-TBC}). 10 kontrollist 9 on täidetud; B4 on NOT MET (421-st sobis 420). See kontrollib sümbolivoogu avaldatud spetsifikatsiooni ühe väljaande vastu ega ütle midagi ühegi LunaNeti sõlme ega teenuse kohta. Nõuandev: uurimis- ja insenertööriista analüüsiväljund, mitte tüübikinnitust omav navigatsiooniseade ega elutähtis ohutusteenus. See kontrollib sümbolivoogu avaldatud spetsifikatsiooni ühe väljaande vastu ega ütle midagi ühegi LunaNeti sõlme ega teenuse kohta.">
 </picture>
 
 **Registri olek: VALIDATED** koodi- ja sünkroniseerimiskontrollide puhul, väärtuste vastu, mille
@@ -352,7 +392,7 @@ kshana bench baseline --task d --split test --out results/
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/bench-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/bench-light.svg">
-  <img src="docs/figures/0.38/bench-light.svg" alt="kshana-bench ülesande D (optimismilõhe) sisseehitatud lähtetasemed testijaotusel, mootori v0.40.0 tegelikust käivitusest (`kshana bench baseline`). Iga tulbapaar on ROC-kõvera alune pindala jaotusesisestel juhtudel ja nihutatud juhtudel; nendevaheline lõhe on optimismilõhe, tolerantsi 0.05 vastu. fused-max-z: 0.998 ja 0.983 (lõhe 0.015); sqm-imbalance: 0.882 ja 0.882 (lõhe 0.001); agc-excess: 0.848 ja 0.819 (lõhe 0.030); raim-parity: 0.682 ja 0.672 (lõhe 0.010); energy-cn0-drop: 0.595 ja 0.565 (lõhe 0.030). Sildid on sünteetilise korpuse generatiivse mudeli sildid, mitte kunagi väliandmed: MODELLED. Nõuandev: modelleeritud või mõõdetud sõnastatud etalonide vastu, mitte heakskiit, sertifitseerimine ega vastavusavaldus. Hinne kirjeldab logi või korpust, mitte kunagi toodet.">
+  <img src="docs/figures/0.38/bench-light.svg" alt="kshana-bench ülesande D (optimismilõhe) sisseehitatud lähtetasemed testijaotusel, mootori v0.41.0 tegelikust käivitusest (`kshana bench baseline`). Iga tulbapaar on ROC-kõvera alune pindala jaotusesisestel juhtudel ja nihutatud juhtudel; nendevaheline lõhe on optimismilõhe, tolerantsi 0.05 vastu. fused-max-z: 0.998 ja 0.983 (lõhe 0.015); sqm-imbalance: 0.882 ja 0.882 (lõhe 0.001); agc-excess: 0.848 ja 0.819 (lõhe 0.030); raim-parity: 0.682 ja 0.672 (lõhe 0.010); energy-cn0-drop: 0.595 ja 0.565 (lõhe 0.030). Sildid on sünteetilise korpuse generatiivse mudeli sildid, mitte kunagi väliandmed: MODELLED. Nõuandev: modelleeritud või mõõdetud sõnastatud etalonide vastu, mitte heakskiit, sertifitseerimine ega vastavusavaldus. Hinne kirjeldab logi või korpust, mitte kunagi toodet.">
 </picture>
 
 **Registri olek:** oma registririda ei ole; lähtetasemed on tulemusfailides märgitud MODELLED.
@@ -395,7 +435,7 @@ kshana trust-telemetry --result session.result.json --print-syslog --format cef
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/exporters-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/exporters-light.svg">
-  <img src="docs/figures/0.38/exporters-light.svg" alt="Üks usaldustulemus kolmes ekspordivormingus, mootori v0.40.0 tegelikest käivitustest (`kshana trust-telemetry`) näitel examples/maritime-trust: Prometheuse tekstiväljund (viimane usaldusskoor on 5.9 ja seatud on mitteusaldatav vahemik) ning viimased CEF- ja LEEF-sõnumid. Käsk ei avalda midagi, kui sihtkohta ei anta, ei hoia mandaate ega edasta raadiosignaali. Nõuandev tarkvara, mitte tüübikinnitust omav navigatsiooniseade (IEC 61108, IEC 61162): laeva navigeerimise eest vastutab jätkuvalt operaator.">
+  <img src="docs/figures/0.38/exporters-light.svg" alt="Üks usaldustulemus kolmes ekspordivormingus, mootori v0.41.0 tegelikest käivitustest (`kshana trust-telemetry`) näitel examples/maritime-trust: Prometheuse tekstiväljund (viimane usaldusskoor on 5.9 ja seatud on mitteusaldatav vahemik) ning viimased CEF- ja LEEF-sõnumid. Käsk ei avalda midagi, kui sihtkohta ei anta, ei hoia mandaate ega edasta raadiosignaali. Nõuandev tarkvara, mitte tüübikinnitust omav navigatsiooniseade (IEC 61108, IEC 61162): laeva navigeerimise eest vastutab jätkuvalt operaator.">
 </picture>
 
 **Registri olek: MODELLED.** [Usaldustelemeetria](docs/TRUST-TELEMETRY.md).
@@ -413,19 +453,21 @@ kshana scenarios/optical-atmosphere-network.toml
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/optical-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/optical-light.svg">
-  <img src="docs/figures/0.38/optical-light.svg" alt="Asukoha 'northern' lingivaru üks seemnega realisatsioon 336 h jooksul, mootori v0.40.0 tegelikust käivitusest stsenaariumil scenarios/optical-atmosphere-network.toml (seeme 37, samm 600 s). Varu langeb pilveepisoodide ajal alla nulli; selles valimis on link üleval 40.5 % ajast, 27 katkestusega ja pikim katkestus kestab 30.7 h. Sisendid on illustratiivsed, aegrida on üks valim mudelist, mitte kliima, ning see erineb statistilisest käideldavusest (37.8 %) valimi juhusliku vea võrra. Ainult nõuandev analüüs: mitte sertifitseeritud käideldavuse, terviklikkuse ega navigatsiooni produkt ega ennustus ühegi päris asukoha kohta, kui selle kliimasisendid ei pärine sõnastatud andmekogumist.">
+  <img src="docs/figures/0.38/optical-light.svg" alt="Asukoha 'northern' lingivaru üks seemnega realisatsioon 336 h jooksul, mootori v0.41.0 tegelikust käivitusest stsenaariumil scenarios/optical-atmosphere-network.toml (seeme 37, samm 600 s). Varu langeb pilveepisoodide ajal alla nulli; selles valimis on link üleval 40.5 % ajast, 27 katkestusega ja pikim katkestus kestab 30.7 h. Sisendid on illustratiivsed, aegrida on üks valim mudelist, mitte kliima, ning see erineb statistilisest käideldavusest (37.8 %) valimi juhusliku vea võrra. Ainult nõuandev analüüs: mitte sertifitseeritud käideldavuse, terviklikkuse ega navigatsiooni produkt ega ennustus ühegi päris asukoha kohta, kui selle kliimasisendid ei pärine sõnastatud andmekogumist.">
 </picture>
 
 **Registri olek: MODELLED.** Üks valim mudelist, mitte kliima. [Optiline atmosfäär](docs/OPTICAL-ATMOSPHERE.md).
 
 ### Uued Studio vaated
 
-[kshana.dev/studio](https://kshana.dev/studio/) saab juurde silla taasesituse (kaks käivitust kõrvuti ühel
+[kshana.dev/studio](https://kshana.dev/studio/) saab sillakorduse (kaks jooksu kõrvuti ühel
 missioonikellal, aadressil [`/studio/replay/`](https://kshana.dev/studio/replay/)), optilise PNT lehe
 (`/studio/optical/`), holdover-testi lehe (`/studio/holdover/`) ja observatooriumi vaaturi
 (`/studio/observatory/`). Need käitavad brauseris sama mootorit, midagi ei laadita üles ja need kannavad
-sama nõuandvat märkust. Ülaltoodud pildid on skripti abil joonistatud mootori enda väljundist;
-need ei ole nende lehtede ekraanipildid.
+sama nõuandvat märkust. Ainult Kshana Desktopis (saadaval aadressil [kshana.dev](https://kshana.dev)) loeb IQ-salvestuste vaade (`/studio/iq/`) salvestuse
+kettalt ja näitab selle võimsust ajas, kosediagrammi ja spektrit kursori kohal; see loeb ainult vastuvõetud proove ja
+sellel pole ühtegi juhtelementi, mis signaali kirjutaks, edastaks või tekitaks. Ülaltoodud pildid joonistab skript mootori väljundist;
+need ei ole nende lehtede kuvatõmmised.
 
 <a id="space-user-navigation-gnss-ssv"></a>
 ### Kosmosekasutaja navigeerimine (`gnss-ssv`)
@@ -450,25 +492,25 @@ kshana scenarios/gnss-ssv-formation-heo.toml    # formation: relative navigation
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/ssv-shell-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/ssv-shell-light.svg">
-  <img src="docs/figures/0.38/ssv-shell-light.svg" alt="Signaalide käideldavus kasutajale 36000 km kõrgusel sfääril poolsfääri antenniga, mootori v0.40.0 tegelikust käivitusest stsenaariumil scenarios/gnss-ssv-shell.toml (vähendatud käivitus: 162 kasutajat, 3 päeva, 10 min sammud), läve 20 dB-Hz juures. Iga konstellatsiooni ja sagedusala kohta kaks tulpa: (kasutaja, epohh) paaride osakaal vähemalt ühe signaaliga ja vähemalt neljaga. Kombineeritult, L1: 99.4 % vähemalt üks, 73.2 % vähemalt neli, pikim katkestus alla nelja signaali 160 min. Kombineeritult, L5: 100.0 % vähemalt üks, 99.9 % vähemalt neli, pikim katkestus alla nelja signaali 20 min. MODELLED: modelleeritud uuring sõnastatud sisenditest, mitte mõõtmine ega teenindusruumi väide ühegi süsteemi kohta. Vähendatud suurus ei ole brošüüriga võrdlus. Nõuandev: uurimis- ja insenertööriista analüüsiväljund, mitte tüübikinnitust omav navigatsiooniseade ega elutähtis ohutusteenus.">
+  <img src="docs/figures/0.38/ssv-shell-light.svg" alt="Signaalide käideldavus kasutajale 36000 km kõrgusel sfääril poolsfääri antenniga, mootori v0.41.0 tegelikust käivitusest stsenaariumil scenarios/gnss-ssv-shell.toml (vähendatud käivitus: 162 kasutajat, 3 päeva, 10 min sammud), läve 20 dB-Hz juures. Iga konstellatsiooni ja sagedusala kohta kaks tulpa: (kasutaja, epohh) paaride osakaal vähemalt ühe signaaliga ja vähemalt neljaga. Kombineeritult, L1: 99.4 % vähemalt üks, 73.2 % vähemalt neli, pikim katkestus alla nelja signaali 160 min. Kombineeritult, L5: 100.0 % vähemalt üks, 99.9 % vähemalt neli, pikim katkestus alla nelja signaali 20 min. MODELLED: modelleeritud uuring sõnastatud sisenditest, mitte mõõtmine ega teenindusruumi väide ühegi süsteemi kohta. Vähendatud suurus ei ole brošüüriga võrdlus. Nõuandev: uurimis- ja insenertööriista analüüsiväljund, mitte tüübikinnitust omav navigatsiooniseade ega elutähtis ohutusteenus.">
 </picture>
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/ssv-heo-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/ssv-heo-light.svg">
-  <img src="docs/figures/0.38/ssv-heo-light.svg" alt="Signaalid piki ühte kõrget Maa orbiiti (perigee 497 km, apogee 58622 km, periood 18.8 h), mootori v0.40.0 tegelikust käivitusest stsenaariumil scenarios/gnss-ssv-heo.toml, sagedusala L1. Ülal: parim kandja ja müra tiheduse suhe nähtavate signaalide seas 20 dB-Hz läve vastu. Keskel: kõigi konstellatsioonide nähtavate signaalide arv, 4 kuni 55 valimipunktide lõikes. Vastu võetud linkidest tuli 2252 läbi peakiire ja 696 läbi külgkiirte, kasutades märgistatud parameetrilist asendusmustrit, mitte ühegi süsteemi mõõdetud mustrit. PDOP mediaan 67, 95. protsentiil 358. MODELLED: modelleeritud uuring sõnastatud sisenditest, mitte mõõtmine ega teenindusruumi väide ühegi süsteemi kohta. Nõuandev: uurimis- ja insenertööriista analüüsiväljund, mitte tüübikinnitust omav navigatsiooniseade ega elutähtis ohutusteenus.">
+  <img src="docs/figures/0.38/ssv-heo-light.svg" alt="Signaalid piki ühte kõrget Maa orbiiti (perigee 497 km, apogee 58622 km, periood 18.8 h), mootori v0.41.0 tegelikust käivitusest stsenaariumil scenarios/gnss-ssv-heo.toml, sagedusala L1. Ülal: parim kandja ja müra tiheduse suhe nähtavate signaalide seas 20 dB-Hz läve vastu. Keskel: kõigi konstellatsioonide nähtavate signaalide arv, 4 kuni 55 valimipunktide lõikes. Vastu võetud linkidest tuli 2252 läbi peakiire ja 696 läbi külgkiirte, kasutades märgistatud parameetrilist asendusmustrit, mitte ühegi süsteemi mõõdetud mustrit. PDOP mediaan 67, 95. protsentiil 358. MODELLED: modelleeritud uuring sõnastatud sisenditest, mitte mõõtmine ega teenindusruumi väide ühegi süsteemi kohta. Nõuandev: uurimis- ja insenertööriista analüüsiväljund, mitte tüübikinnitust omav navigatsiooniseade ega elutähtis ohutusteenus.">
 </picture>
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/ssv-nav-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/ssv-nav-light.svg">
-  <img src="docs/figures/0.38/ssv-nav-light.svg" alt="Üheksaolekuline pardafilter üleminekul madalalt orbiidilt Kuu suunas, mootori v0.40.0 tegelikust käivitusest stsenaariumil scenarios/gnss-ssv-nav-lunar.toml (289 epohhi, joonistatud 13 punkti). Logaritmteljel tegelik asukohaviga ja filtri enda ühe sigma piir ajas alates algusest. GNSS-orbiitide sees on asukoha RMS 1.4 m; nende kohal 90 m, lõplik viga 184 m kõrgusel 193,330 km 1 mõõtmisega. Keskmine normeeritud hindamisvea ruut üle kogu käivituse on 4.4 (järjepideva asukohaploki puhul umbes 3). Tõde ja filter jagavad oma Päikese ja Kuu asendusmudeleid. MODELLED: modelleeritud uuring sõnastatud sisenditest, mitte mõõtmine ega teenindusruumi väide ühegi süsteemi kohta. Nõuandev: uurimis- ja insenertööriista analüüsiväljund, mitte tüübikinnitust omav navigatsiooniseade ega elutähtis ohutusteenus.">
+  <img src="docs/figures/0.38/ssv-nav-light.svg" alt="Üheksaolekuline pardafilter üleminekul madalalt orbiidilt Kuu suunas, mootori v0.41.0 tegelikust käivitusest stsenaariumil scenarios/gnss-ssv-nav-lunar.toml (289 epohhi, joonistatud 13 punkti). Logaritmteljel tegelik asukohaviga ja filtri enda ühe sigma piir ajas alates algusest. GNSS-orbiitide sees on asukoha RMS 1.4 m; nende kohal 90 m, lõplik viga 184 m kõrgusel 199,330 km 1 mõõtmisega. Keskmine normeeritud hindamisvea ruut üle kogu käivituse on 4.4 (järjepideva asukohaploki puhul umbes 3). Tõde ja filter jagavad oma Päikese ja Kuu asendusmudeleid. MODELLED: modelleeritud uuring sõnastatud sisenditest, mitte mõõtmine ega teenindusruumi väide ühegi süsteemi kohta. Nõuandev: uurimis- ja insenertööriista analüüsiväljund, mitte tüübikinnitust omav navigatsiooniseade ega elutähtis ohutusteenus.">
 </picture>
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/ssv-formation-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/ssv-formation-light.svg">
-  <img src="docs/figures/0.38/ssv-formation-light.svg" alt="2 abilaeva suhteline navigeerimine juhtsatelliidi ümber kõrgel orbiidil, mootori v0.40.0 tegelikust käivitusest stsenaariumil scenarios/gnss-ssv-formation-heo.toml (401 epohhi). Iga abilaeva kohta kaks tulpa: suhtelise asukoha RMS kahe sõltumatu absoluutse hinnangu lahutamisel ja suhtelisest filtrist ühekordselt diferentseeritud pseudokaugustel. Baas 0.8 km: 5.1 m ja 1.2 m. Baas 2.0 km: 4.1 m ja 2.1 m. Absoluutne filter ei ole siin järjepidev: keskmine normeeritud hindamisvea ruut 187 vs umbes 3 järjepideva filtri puhul, seega on selle esitatud määramatus kaugelt liiga väike. MODELLED: modelleeritud uuring sõnastatud sisenditest, mitte mõõtmine ega teenindusruumi väide ühegi süsteemi kohta. Nõuandev: uurimis- ja insenertööriista analüüsiväljund, mitte tüübikinnitust omav navigatsiooniseade ega elutähtis ohutusteenus.">
+  <img src="docs/figures/0.38/ssv-formation-light.svg" alt="2 abilaeva suhteline navigeerimine juhtsatelliidi ümber kõrgel orbiidil, mootori v0.41.0 tegelikust käivitusest stsenaariumil scenarios/gnss-ssv-formation-heo.toml (401 epohhi). Iga abilaeva kohta kaks tulpa: suhtelise asukoha RMS kahe sõltumatu absoluutse hinnangu lahutamisel ja suhtelisest filtrist ühekordselt diferentseeritud pseudokaugustel. Baas 0.8 km: 5.1 m ja 1.2 m. Baas 2.0 km: 4.1 m ja 2.1 m. Absoluutne filter ei ole siin järjepidev: keskmine normeeritud hindamisvea ruut 187 vs umbes 3 järjepideva filtri puhul, seega on selle esitatud määramatus kaugelt liiga väike. MODELLED: modelleeritud uuring sõnastatud sisenditest, mitte mõõtmine ega teenindusruumi väide ühegi süsteemi kohta. Nõuandev: uurimis- ja insenertööriista analüüsiväljund, mitte tüübikinnitust omav navigatsiooniseade ega elutähtis ohutusteenus.">
 </picture>
 
 **Registri olek: MODELLED ning võrdlus brošüüriga jääb enamasti alla.** Läved fikseeriti enne
@@ -484,7 +526,7 @@ tunduvalt üle väärtuse umbes 3, mille järjepidev filter annab).
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/ssv-booklet-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/ssv-booklet-light.svg">
-  <img src="docs/figures/0.38/ssv-booklet-light.svg" alt="Kosmosekasutaja käideldavusmudeli salvestatud võrdlus avaliku Space Service Volume'i brošüüriga, eelregistreeritud käivituse lisatud tulemustest (xval/gnss-ssv/results-run1.json, kirjutatud mootori v0.40.0 näitega ssv_booklet_check). Tulp tulba haaval tolerantsi piires olevad lahtrid: S0 13-st 13 (MET); S1 52-st 43 (NOT MET); S2 52-st 48 (NOT MET); S3 155-st 122 (NOT MET); S4 156-st 132 (NOT MET); S5 26-st 18 (NOT MET); S6 26-st 26 (MET); S7 20 paneelimustrist 0 (NOT MET). Eelregistreeritud tõlgenduse järgi on täidetud ainult S0 ja S6. Diagnostiline variant, mis kasutab brošüüri teisi GLONASSi nurki, viib S1, S2 ja S4 kõigis lahtrites täitmiseni, kuid ei asenda ametlikku käivitust. Ükski registririda ei ole VALIDATED. Nõuandev: uurimis- ja insenertööriista analüüsiväljund, mitte tüübikinnitust omav navigatsiooniseade ega elutähtis ohutusteenus.">
+  <img src="docs/figures/0.38/ssv-booklet-light.svg" alt="Kosmosekasutaja käideldavusmudeli salvestatud võrdlus avaliku Space Service Volume'i brošüüriga, eelregistreeritud käivituse lisatud tulemustest (xval/gnss-ssv/results-run1.json, kirjutatud mootori v0.41.0 näitega ssv_booklet_check). Tulp tulba haaval tolerantsi piires olevad lahtrid: S0 13-st 13 (MET); S1 52-st 43 (NOT MET); S2 52-st 48 (NOT MET); S3 155-st 122 (NOT MET); S4 156-st 132 (NOT MET); S5 26-st 18 (NOT MET); S6 26-st 26 (MET); S7 20 paneelimustrist 0 (NOT MET). Eelregistreeritud tõlgenduse järgi on täidetud ainult S0 ja S6. Diagnostiline variant, mis kasutab brošüüri teisi GLONASSi nurki, viib S1, S2 ja S4 kõigis lahtrites täitmiseni, kuid ei asenda ametlikku käivitust. Ükski registririda ei ole VALIDATED. Nõuandev: uurimis- ja insenertööriista analüüsiväljund, mitte tüübikinnitust omav navigatsiooniseade ega elutähtis ohutusteenus.">
 </picture>
 
 [Kosmosekasutaja navigeerimine](docs/SSV.md), [mida võrdlus näitab](docs/SSV.md#what-the-comparison-with-the-booklet-shows).
@@ -512,31 +554,31 @@ kshana scenarios/lunar-infrastructure-geodesy-sensitivity.toml
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/lunar-od-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/lunar-od-light.svg">
-  <img src="docs/figures/0.38/lunar-od-light.svg" alt="Pardal tehtava Maa GNSS-il põhineva orbiidi määramise järjepidevus peaaegu sirgjoonelisel haloorbiidil sõltumatu maapealse orbiidi määramisega, mootori v0.40.0 tegelikest käivitustest stsenaariumil scenarios/lunar-infrastructure-od-consistency.toml ja mudeliveaga variandil (kumbki 400 katset). Keskmine normeeritud erinevus q on 5.81 ilma mudeliveata ja 5.95 sisestatud kiirendusveaga 3e-10 m/s2, oodatava 6 vastu: kaks orbiidilahendit on järjepidevad (lävi C1 MET). 95 % punktist kõrgemate katsete osakaal on 0.040 ja 0.052; sisestatud vea tuvastamise lävi oli vähemalt 0.5, seega on see NOT MET (C3): pardalahend on teada umbes 352 m täpsusega maapealse 23 m vastu, nii et kümnemeetrine nihe peitub selle kovariatsiooni sisse. MODELLED: piiratud kolme keha mudel sõnastatud lihtsustuste ja illustratiivsete sisenditega, mitte ühegi Kuu suuruse mõõtmine. Nõuandev: uurimis- ja insenertööriista analüüsiväljund, mitte tüübikinnitust omav navigatsiooniseade ega elutähtis ohutusteenus.">
+  <img src="docs/figures/0.38/lunar-od-light.svg" alt="Pardal tehtava Maa GNSS-il põhineva orbiidi määramise järjepidevus peaaegu sirgjoonelisel haloorbiidil sõltumatu maapealse orbiidi määramisega, mootori v0.41.0 tegelikest käivitustest stsenaariumil scenarios/lunar-infrastructure-od-consistency.toml ja mudeliveaga variandil (kumbki 400 katset). Keskmine normeeritud erinevus q on 5.81 ilma mudeliveata ja 5.95 sisestatud kiirendusveaga 3e-10 m/s2, oodatava 6 vastu: kaks orbiidilahendit on järjepidevad (lävi C1 MET). 95 % punktist kõrgemate katsete osakaal on 0.040 ja 0.052; sisestatud vea tuvastamise lävi oli vähemalt 0.5, seega on see NOT MET (C3): pardalahend on teada umbes 352 m täpsusega maapealse 23 m vastu, nii et kümnemeetrine nihe peitub selle kovariatsiooni sisse. MODELLED: piiratud kolme keha mudel sõnastatud lihtsustuste ja illustratiivsete sisenditega, mitte ühegi Kuu suuruse mõõtmine. Nõuandev: uurimis- ja insenertööriista analüüsiväljund, mitte tüübikinnitust omav navigatsiooniseade ega elutähtis ohutusteenus.">
 </picture>
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/lunar-carrier-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/lunar-carrier-light.svg">
-  <img src="docs/figures/0.38/lunar-carrier-light.svg" alt="Kandelaine faasi täisarvulise mitmetähenduslikkuse fikseerimine Kuu pinnajaamade ja orbiiteri vahel, mootori v0.40.0 hinnatud käivituse lisatud tulemusest (tests/fixtures/lunar_infra/phase_full_run.json: 3 kaare pikkust, igaühel 401 valimiga Monte Carlo, kirjutatud stsenaariumiga scenarios/carrier-phase-scored.toml). 1 päev: edukus 1.0 % (standardviga 0.5 %), 134 mitmetähenduslikkust, orbiteri asukoha sigma 45.6 m ujuvana ja 18.5 m fikseerituna; 2 päeva: edukus 0.5 % (standardviga 0.4 %), 259 mitmetähenduslikkust, orbiteri asukoha sigma 21.5 m ujuvana ja 8.7 m fikseerituna; 3 päeva: edukus 2.8 % (standardviga 0.8 %), 375 mitmetähenduslikkust, orbiteri asukoha sigma 6.3 m ujuvana ja 2.1 m fikseerituna. Täisarvulist fikseerimist ei saavutata: edukus jääb 25 dBi juures 1 % ja 3 % vahele ning registreeritud 12 dBi juures ei saa ülesannet moodustada. MODELLED: piiratud kolme keha mudel sõnastatud lihtsustuste ja illustratiivsete sisenditega, mitte ühegi Kuu suuruse mõõtmine. Nõuandev: uurimis- ja insenertööriista analüüsiväljund, mitte tüübikinnitust omav navigatsiooniseade ega elutähtis ohutusteenus.">
+  <img src="docs/figures/0.38/lunar-carrier-light.svg" alt="Kandelaine faasi täisarvulise mitmetähenduslikkuse fikseerimine Kuu pinnajaamade ja orbiiteri vahel, mootori v0.41.0 hinnatud käivituse lisatud tulemusest (tests/fixtures/lunar_infra/phase_full_run.json: 3 kaare pikkust, igaühel 401 valimiga Monte Carlo, kirjutatud stsenaariumiga scenarios/carrier-phase-scored.toml). 1 päev: edukus 1.0 % (standardviga 0.5 %), 134 mitmetähenduslikkust, orbiteri asukoha sigma 45.6 m ujuvana ja 18.5 m fikseerituna; 2 päeva: edukus 0.5 % (standardviga 0.4 %), 259 mitmetähenduslikkust, orbiteri asukoha sigma 21.5 m ujuvana ja 8.7 m fikseerituna; 3 päeva: edukus 2.8 % (standardviga 0.8 %), 375 mitmetähenduslikkust, orbiteri asukoha sigma 6.3 m ujuvana ja 2.1 m fikseerituna. Täisarvulist fikseerimist ei saavutata: edukus jääb 25 dBi juures 1 % ja 3 % vahele ning registreeritud 12 dBi juures ei saa ülesannet moodustada. MODELLED: piiratud kolme keha mudel sõnastatud lihtsustuste ja illustratiivsete sisenditega, mitte ühegi Kuu suuruse mõõtmine. Nõuandev: uurimis- ja insenertööriista analüüsiväljund, mitte tüübikinnitust omav navigatsiooniseade ega elutähtis ohutusteenus.">
 </picture>
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/lunar-frame-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/lunar-frame-light.svg">
-  <img src="docs/figures/0.38/lunar-frame-light.svg" alt="Seitsmeparameetrilise Kuu daatumi (kolm nihet, mastaap ja kolm pööret) täpsus Maa jaamade kaugusmõõtmisest, orbiteri ja pinnajaama vaheliste kaugustega ja ilma, mootori v0.40.0 tegelikust käivitusest stsenaariumil scenarios/lunar-infrastructure-frame-coestimation.toml. Nihete ja pöörete Cramer-Rao sigma langeb orbiteri linkidega (näiteks t_z 0.98 m-lt 0.046 m-le); väikseim informatsiooni omaväärtus tõuseb 111-kordselt ja CRLB jälg langeb 1.0 %-ni (lävi F3 MET). See eeldab, et orbiit on Kuu telgedes teada, selle viga kantud orbiteri kauguse sigmaga 1 m. MODELLED: piiratud kolme keha mudel sõnastatud lihtsustuste ja illustratiivsete sisenditega, mitte ühegi Kuu suuruse mõõtmine. Nõuandev: uurimis- ja insenertööriista analüüsiväljund, mitte tüübikinnitust omav navigatsiooniseade ega elutähtis ohutusteenus.">
+  <img src="docs/figures/0.38/lunar-frame-light.svg" alt="Seitsmeparameetrilise Kuu daatumi (kolm nihet, mastaap ja kolm pööret) täpsus Maa jaamade kaugusmõõtmisest, orbiteri ja pinnajaama vaheliste kaugustega ja ilma, mootori v0.41.0 tegelikust käivitusest stsenaariumil scenarios/lunar-infrastructure-frame-coestimation.toml. Nihete ja pöörete Cramer-Rao sigma langeb orbiteri linkidega (näiteks t_z 0.98 m-lt 0.046 m-le); väikseim informatsiooni omaväärtus tõuseb 111-kordselt ja CRLB jälg langeb 1.0 %-ni (lävi F3 MET). See eeldab, et orbiit on Kuu telgedes teada, selle viga kantud orbiteri kauguse sigmaga 1 m. MODELLED: piiratud kolme keha mudel sõnastatud lihtsustuste ja illustratiivsete sisenditega, mitte ühegi Kuu suuruse mõõtmine. Nõuandev: uurimis- ja insenertööriista analüüsiväljund, mitte tüübikinnitust omav navigatsiooniseade ega elutähtis ohutusteenus.">
 </picture>
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/lunar-tie-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/lunar-tie-light.svg">
-  <img src="docs/figures/0.38/lunar-tie-light.svg" alt="Ühe kosmoselaeva laserkaugusmõõtmise, VLBI ja GNSS-i asukohtade vaheliste nihete täpsus maapealse kohaliku seose vea suhtes, mootori v0.40.0 tegelikust käivitusest stsenaariumil scenarios/lunar-infrastructure-space-tie.toml (üks 6.56-päevane kaar, meetodite sigmad GNSS 10 m, VLBI 1 m, laser 0.1 m). Kohaliku seosega 1 mm kuni 1 m jääb laser-miinus-GNSS nihke sigma umbes 1.04 m juurde, kuni seos jõuab 1 m-ni: seda piirab meetodite mõõtemüra, mitte kohalik seos. Ainuüksi seose seatud alampiir on ruutjuur kahest korda selle sigma. MODELLED: piiratud kolme keha mudel sõnastatud lihtsustuste ja illustratiivsete sisenditega, mitte ühegi Kuu suuruse mõõtmine. Nõuandev: uurimis- ja insenertööriista analüüsiväljund, mitte tüübikinnitust omav navigatsiooniseade ega elutähtis ohutusteenus.">
+  <img src="docs/figures/0.38/lunar-tie-light.svg" alt="Ühe kosmoselaeva laserkaugusmõõtmise, VLBI ja GNSS-i asukohtade vaheliste nihete täpsus maapealse kohaliku seose vea suhtes, mootori v0.41.0 tegelikust käivitusest stsenaariumil scenarios/lunar-infrastructure-space-tie.toml (üks 6.56-päevane kaar, meetodite sigmad GNSS 10 m, VLBI 1 m, laser 0.1 m). Kohaliku seosega 1 mm kuni 1 m jääb laser-miinus-GNSS nihke sigma umbes 1.04 m juurde, kuni seos jõuab 1 m-ni: seda piirab meetodite mõõtemüra, mitte kohalik seos. Ainuüksi seose seatud alampiir on ruutjuur kahest korda selle sigma. MODELLED: piiratud kolme keha mudel sõnastatud lihtsustuste ja illustratiivsete sisenditega, mitte ühegi Kuu suuruse mõõtmine. Nõuandev: uurimis- ja insenertööriista analüüsiväljund, mitte tüübikinnitust omav navigatsiooniseade ega elutähtis ohutusteenus.">
 </picture>
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/lunar-geodesy-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/lunar-geodesy-light.svg">
-  <img src="docs/figures/0.38/lunar-geodesy-light.svg" alt="Milline vaadeldavate perekond on tundlik Kuu Love'i arvude h2, k2 ja l2 suhtes, mootori v0.40.0 tegelikust käivitusest stsenaariumil scenarios/lunar-infrastructure-geodesy-sensitivity.toml. Iga lahter on perekonna vaatluste RMS osatuletis parameetri järgi, selle perekonna enda ühikutes (seega võrreldakse lahtreid piki rida, mitte piki veergu); kriips tähendab, et perekonnal tundlikkus puudub. laserkaugusmõõtmine: h2 7.6, k2 puudub, l2 9.8. orbiteri jälgimine: h2 puudub, k2 0.00086, l2 puudub. pinnagravimeeter: h2 2.9e+03, k2 4.3e+03, l2 puudub. pinnakell: h2 2.8e-17, k2 2.8e-17, l2 puudub. Kõigi nelja perekonnaga on Cramer-Rao sigma 0.36 % nominaalsest h2-st, 0.52 % k2-st ja 1.16 % l2-st. Perekonna lisamine ei vähendanud kunagi väikseimat omaväärtust (28 lisamist 28-st), kuid pseudopöördmaatriksi jälg ei olnud suurem ainult 16 juhul 28-st: läve G3 see pool on NOT MET. Orbiteri perekond näeb k2 kiirenduse vaatesihi integraali, ülemise otsa arvu. MODELLED: piiratud kolme keha mudel sõnastatud lihtsustuste ja illustratiivsete sisenditega, mitte ühegi Kuu suuruse mõõtmine. Nõuandev: uurimis- ja insenertööriista analüüsiväljund, mitte tüübikinnitust omav navigatsiooniseade ega elutähtis ohutusteenus.">
+  <img src="docs/figures/0.38/lunar-geodesy-light.svg" alt="Milline vaadeldavate perekond on tundlik Kuu Love'i arvude h2, k2 ja l2 suhtes, mootori v0.41.0 tegelikust käivitusest stsenaariumil scenarios/lunar-infrastructure-geodesy-sensitivity.toml. Iga lahter on perekonna vaatluste RMS osatuletis parameetri järgi, selle perekonna enda ühikutes (seega võrreldakse lahtreid piki rida, mitte piki veergu); kriips tähendab, et perekonnal tundlikkus puudub. laserkaugusmõõtmine: h2 7.6, k2 puudub, l2 9.8. orbiteri jälgimine: h2 puudub, k2 0.00086, l2 puudub. pinnagravimeeter: h2 2.9e+03, k2 4.3e+03, l2 puudub. pinnakell: h2 2.8e-17, k2 2.8e-17, l2 puudub. Kõigi nelja perekonnaga on Cramer-Rao sigma 0.36 % nominaalsest h2-st, 0.52 % k2-st ja 1.16 % l2-st. Perekonna lisamine ei vähendanud kunagi väikseimat omaväärtust (28 lisamist 28-st), kuid pseudopöördmaatriksi jälg ei olnud suurem ainult 16 juhul 28-st: läve G3 see pool on NOT MET. Orbiteri perekond näeb k2 kiirenduse vaatesihi integraali, ülemise otsa arvu. MODELLED: piiratud kolme keha mudel sõnastatud lihtsustuste ja illustratiivsete sisenditega, mitte ühegi Kuu suuruse mõõtmine. Nõuandev: uurimis- ja insenertööriista analüüsiväljund, mitte tüübikinnitust omav navigatsiooniseade ega elutähtis ohutusteenus.">
 </picture>
 
 **Registri olek: MODELLED ning kolm läve on NOT MET.** Numbrilisi tulemusi kontrollitakse sõltumatute
@@ -569,7 +611,7 @@ arvud, stsenaariumifaili, koodi selle Pythonist käivitamiseks ja viite.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/studio/studio-task-dark.jpg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/studio/studio-task-light.jpg">
-  <img src="docs/assets/readme/studio/studio-task-light.jpg" alt="Kshana Studio, lihtne vaade, kaasasoleval stsenaariumil integrity-raim, mootor v0.40.0 töötab kohapeal. Küsimus: kas geomeetria täidab häirepiire (horisontaalne ja vertikaalne kaitsetase)? Kõigepealt vastus, märgitud Reaalajas tulemus: Jah, enamasti: 95.3 % ajast 12 h jooksul. Vastuvõtja veapiir püsis häirepiiridest (40 m horisontaalne ja 50 m vertikaalne) allpool 344 kontrollil 361-st ja ükski fiks ei olnud eksitav. Põhinäitajad: aeg, mil fiksi saab usaldada, 95.3 %, pikim lünk 10 min, tüüpiline veapiir 6.5 / 13 m, eksitavad fiksid 0. Kõrval Proovi teisi seadeid viiega neist (kaugusviga, kaks häirepiiri, kestus ja kõrgusmask) ning Käivita uuesti, seejärel kokku volditud jaotised Täpsemad seaded (13 veel), Kuidas see arvutatakse (8 valideeritud, 6 modelleeritud) ja Teadlastele. Allpool selle tulemuse vaated ja kaitsetasemed joonistatuna häirepiiri suhtes." width="100%">
+  <img src="docs/assets/readme/studio/studio-task-light.jpg" alt="Kshana Studio, lihtne vaade, kaasasoleval stsenaariumil integrity-raim, mootor v0.39.0 töötab kohapeal. Küsimus: kas geomeetria täidab häirepiire (horisontaalne ja vertikaalne kaitsetase)? Kõigepealt vastus, märgitud Reaalajas tulemus: Jah, enamasti: 95.3 % ajast 12 h jooksul. Vastuvõtja veapiir püsis häirepiiridest (40 m horisontaalne ja 50 m vertikaalne) allpool 344 kontrollil 361-st ja ükski fiks ei olnud eksitav. Põhinäitajad: aeg, mil fiksi saab usaldada, 95.3 %, pikim lünk 10 min, tüüpiline veapiir 6.5 / 13 m, eksitavad fiksid 0. Kõrval Proovi teisi seadeid viiega neist (kaugusviga, kaks häirepiiri, kestus ja kõrgusmask) ning Käivita uuesti, seejärel kokku volditud jaotised Täpsemad seaded (13 veel), Kuidas see arvutatakse (8 valideeritud, 6 modelleeritud) ja Teadlastele. Allpool selle tulemuse vaated ja kaitsetasemed joonistatuna häirepiiri suhtes." width="100%">
 </picture>
 
 **Täpsem vaade** on täielik juhtpaneel: stsenaariumiteek, viis nummerdatud sammu
@@ -586,13 +628,13 @@ väljadeni ning sa saad kinnitada kuni neli käivitust ja neid kõrvuti võrreld
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/studio/studio-home-dark.jpg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/studio/studio-home-light.jpg">
-  <img src="docs/assets/readme/studio/studio-home-light.jpg" alt="Kshana Studio, lihtne vaade, avakuva pealkirjaga Mida soovid teada saada?, mootor v0.40.0 töötab ning ülemisel ribal kolm linki: Treeningu järelanalüüs, Häirekaart ja Vastuvõtja usaldus. Neli küsimust: mitu satelliiti näen ma kõikjal Maal, kas ma saan oma asukohafiksi usaldada, kui kaua suudab kell ilma satelliitideta aega hoida ja mida teeb segaja mu vastuvõtjaga. Esimese all selle salvestatud tulemus: vähemalt 22 satelliiti nähtaval igas kohas ja keskmiselt 31 GPS-i, Galileo, BeiDou ja GLONASSiga koos, fiks võimalik 100 % kohtades ja aegadel, nähtavate satelliitide maailmakaardil, nupuga Ava see tulemus. Kõrval Kõik, mida Kshana suudab: 16 valdkonda ja 139 käivitusvalmis stsenaariumi, igal paanil väike graafik salvestatud käivitusest ja selle valideeritud meetodite osakaal, ning registri 350 võimekusest 173 valideeritud." width="100%">
+  <img src="docs/assets/readme/studio/studio-home-light.jpg" alt="Kshana Studio, lihtne vaade, avakuva pealkirjaga Mida soovid teada saada?, mootor v0.39.0 töötab ning ülemisel ribal kolm linki: Treeningu järelanalüüs, Häirekaart ja Vastuvõtja usaldus. Neli küsimust: mitu satelliiti näen ma kõikjal Maal, kas ma saan oma asukohafiksi usaldada, kui kaua suudab kell ilma satelliitideta aega hoida ja mida teeb segaja mu vastuvõtjaga. Esimese all selle salvestatud tulemus: vähemalt 22 satelliiti nähtaval igas kohas ja keskmiselt 31 GPS-i, Galileo, BeiDou ja GLONASSiga koos, fiks võimalik 100 % kohtades ja aegadel, nähtavate satelliitide maailmakaardil, nupuga Ava see tulemus. Kõrval Kõik, mida Kshana suudab: 16 valdkonda ja 139 käivitusvalmis stsenaariumi, igal paanil väike graafik salvestatud käivitusest ja selle valideeritud meetodite osakaal, ning registri 350 võimekusest 173 valideeritud." width="100%">
 </picture>
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/studio/studio-advanced-dark.jpg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/studio/studio-advanced-light.jpg">
-  <img src="docs/assets/readme/studio/studio-advanced-light.jpg" alt="Kshana Studio, täpsem vaade, pärast kaasasoleva stsenaariumi constellation-multi-gnss-coverage käivitust (Neli GNSS-konstellatsiooni, üks kaart), mootor v0.40.0 töötab kohapeal. Vasakul stsenaariumiteek, 139 stsenaariumi 16 valdkonnas. Viis sammu Vali, Seadista, Käivita, Loe tulemusi ja Jaga või ekspordi, praegu samm 4. Põhinäitajad: 102 satelliiti, käideldavus 100 % (PASS), asukoha täpsuse lahjenemise (PDOP) mediaan 0.95 (PASS), PDOP 95. protsentiil 1.105 (PASS), keskmiselt 31.03 nähtavat satelliiti ja vähemalt 22. Allpool paneelirida, kus on valitud Katvus, taasesitusriba, keskmise PDOP maailmakaart vahemikus 0.831 kuni 1.0853 kõigi satelliitidega joonistatult ja globaalse katvuse arvud." width="100%">
+  <img src="docs/assets/readme/studio/studio-advanced-light.jpg" alt="Kshana Studio, täpsem vaade, pärast kaasasoleva stsenaariumi constellation-multi-gnss-coverage käivitust (Neli GNSS-konstellatsiooni, üks kaart), mootor v0.39.0 töötab kohapeal. Vasakul stsenaariumiteek, 139 stsenaariumi 16 valdkonnas. Viis sammu Vali, Seadista, Käivita, Loe tulemusi ja Jaga või ekspordi, praegu samm 4. Põhinäitajad: 102 satelliiti, käideldavus 100 % (PASS), asukoha täpsuse lahjenemise (PDOP) mediaan 0.95 (PASS), PDOP 95. protsentiil 1.105 (PASS), keskmiselt 31.03 nähtavat satelliiti ja vähemalt 22. Allpool paneelirida, kus on valitud Katvus, taasesitusriba, keskmise PDOP maailmakaart vahemikus 0.831 kuni 1.0853 kõigi satelliitidega joonistatult ja globaalse katvuse arvud." width="100%">
 </picture>
 
 </details>
@@ -608,23 +650,25 @@ väljaanded.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/site/site-strip-dark.jpg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/site/site-strip-light.jpg">
-  <img src="docs/assets/readme/site/site-strip-light.jpg" alt="Kolm kshana.dev lehte kõrvuti. Avalehe päis: nimerida Kshana · क्षण · täpne hetk pealkirja Harjuta minutit, mil GNSS kustub, kohal, koos mootori v0.40.0 tegeliku käivituse missioonikonsooliga (gloobus ja kolm reaalajas graafikut: kella ajaviga, kandja ja müra tiheduse suhe ning kaitsetase). Tõendid, Avaldatud uurimistöö: kuus avatud mootorile tuginevat arXivi artiklit, uusim mootori joonisega. Väljaanded, Kshana Pro, sama mootor, võimendatud: Free käivitab ühe stsenaariumi, Pro vastab programmi küsimusele." width="100%">
+  <img src="docs/assets/readme/site/site-strip-light.jpg" alt="Kolm kshana.dev lehte kõrvuti. Avalehe päis: nimerida Kshana · क्षण · täpne hetk pealkirja Harjuta minutit, mil GNSS kustub, kohal, koos mootori v0.39.0 tegeliku käivituse missioonikonsooliga (gloobus ja kolm reaalajas graafikut: kella ajaviga, kandja ja müra tiheduse suhe ning kaitsetase). Tõendid, Avaldatud uurimistöö: kuus avatud mootorile tuginevat arXivi artiklit, uusim mootori joonisega. Väljaanded, Kshana Pro, sama mootor, võimendatud: Free käivitab ühe stsenaariumi, Pro vastab programmi küsimusele." width="100%">
 </picture>
 
 <a id="capabilities"></a>
 ## Võimekused
 
 Üks mootor katab kogu rikkeahela, alates esimesest segatud satelliidist kuni kella holdoveri viimase
-nanosekundini. Mootoril on 92 stsenaariumiliiki; `kshana kinds` loetleb
+nanosekundini. Mootoril on 93 stsenaariumiliiki; `kshana kinds` loetleb
 need ja [`docs/SCENARIOS.md`](docs/SCENARIOS.md) dokumenteerib iga välja.
 
 | Võimekus | Millele see vastab |
 |---|---|
 | [Spekter](docs/SPECTRUM.md) | kuidas segaja võtab üle GNSS-i L-sagedusala, ala alalt, sekund sekundilt |
 | [Kellad ja ajastus](docs/TELECOM-TIMING.md) | kui kaua iga kell hoiab aega pärast GNSS-i kadumist |
+| [Ostsillaatorid](docs/OSCILLATOR.md) | mida ostsillaatori andmelehe väärtused tähendavad jälgimisele vibratsiooni korral, holdoverile temperatuurimuutuste ja löökide korral ning RAIM-ile |
 | [Konstellatsioonid mis tahes keha ümber](docs/CONSTELLATION-DESIGN.md) | katvus, täpsuse lahjenemine ja käideldavus Maa, Kuu või Marsi ümber |
 | [Päikesesüsteem](docs/SOLAR-SYSTEM.md) | kus iga planeet asub ja mis tahes lingi valguse levimisaeg |
 | [Madala Maa orbiidi navigeerimine](docs/LEO-PNT.md) | ülelend, link, navigatsioonisõnum ja ühendatud fiks, etapp etapi haaval |
+| [LEO-PNT kontroll](docs/LEO-VERIFY.md) | mida LEO aja- või positsioneerimisteenus annaks: ajastus pursetena, holdoveri TDEV, kulu katkestuste vastu, kaod siseruumides ja vihmas, mitmesuse lahendamine, väited segamise kohta ja terviklikkus ainult Doppleri põhjal |
 | [Kampaaniad](docs/CAMPAIGNS.md) | aheldatud missioon, pühkimine või Monte Carlo ansambel ühes stsenaariumis |
 | [Animatsioon](docs/ANIMATION.md) | käivituse aegread animeeritud joonisena, mängijana või kaadritena |
 | [Aruanded](docs/REPORTS.md) | iga arv koos ühiku ja sildiga, HTML-is (HyperText Markup Language) ja JSON-is (JavaScript Object Notation) |
@@ -659,7 +703,7 @@ STK on Systems Tool Kit; SigMF on Signal Metadata Format.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/lband-waterfall-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/lband-waterfall-light.svg">
-  <img src="docs/assets/readme/lband-waterfall-light.svg" alt="GNSS-i L-sagedusala ühe võimsusspektri tihedusena 60 s jooksul, spektri liigi tegelikust käivitusest (l-band-waterfall-jamming.toml, seeme 7, mootor v0.40.0): sagedus horisontaalselt, aeg allapoole, värv näitab võimsust üle -202.0 dBW/Hz mürapõranda. Segajad: chirp-privaatsusseade (chirp, sisse 10 s, välja 40 s); CW-toon L1-l (cw, sisse 30 s); L2 kitsasribamüra (narrowband, sisse 45 s). Halvim sagedusala GPS L1 C/A: minimaalne efektiivne C/N0 3.2 dB-Hz ajal 31 s 25 dB-Hz jälgimispõranda vastu. GPS L1 C/A miinimum 3.2 dB-Hz; Galileo E1 miinimum 4.7 dB-Hz; GPS L2C miinimum 36.9 dB-Hz; GPS L5 miinimum 44.1 dB-Hz; Galileo E5a miinimum 47.0 dB-Hz." width="100%">
+  <img src="docs/assets/readme/lband-waterfall-light.svg" alt="GNSS-i L-sagedusala ühe võimsusspektri tihedusena 60 s jooksul, spektri liigi tegelikust käivitusest (l-band-waterfall-jamming.toml, seeme 7, mootor v0.41.0): sagedus horisontaalselt, aeg allapoole, värv näitab võimsust üle -202.0 dBW/Hz mürapõranda. Segajad: chirp-privaatsusseade (chirp, sisse 10 s, välja 40 s); CW-toon L1-l (cw, sisse 30 s); L2 kitsasribamüra (narrowband, sisse 45 s). Halvim sagedusala GPS L1 C/A: minimaalne efektiivne C/N0 3.2 dB-Hz ajal 31 s 25 dB-Hz jälgimispõranda vastu. GPS L1 C/A miinimum 3.2 dB-Hz; Galileo E1 miinimum 4.7 dB-Hz; GPS L2C miinimum 36.9 dB-Hz; GPS L5 miinimum 44.1 dB-Hz; Galileo E5a miinimum 47.0 dB-Hz." width="100%">
 </picture>
 
 <picture>
@@ -694,7 +738,7 @@ ja `leo-pass-iridium`.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/trust-timeline-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/trust-timeline-light.svg">
-  <img src="docs/assets/readme/trust-timeline-light.svg" alt="Usaldusskoor ühe sünteetilise reisi jooksul, mootori v0.40.0 tegelikust käivitusest näitel examples/maritime-trust (väljamõeldud NMEA logi parvlaevast Tallinna–Helsingi liinil, 3001 epohhi sagedusega 1 Hz). Kolm rada jagavad ühte ajatelge. Ülal: kaugus vastuvõtja teatatud asukoha ja laeva tegeliku asukoha vahel, mis püsib mõne meetri piires umbes 1576 s-ni, mil logi skriptitud asukoha äravedu selle eemale tõmbab, samal ajal kui vastuvõtja jätkab kehtiva fiksi teatamist. Keskel: usaldusskoor 0 kuni 100, mida esimese 300 s kalibreerimise ajal ei arvutata, nominaalses vahemikus (vähemalt 90) kuni äraveoni, seejärel langedes läbi halvenenud vahemiku (vähemalt 55) mitteusaldatavasse vahemikku. All: iga epohhi vahemik värvilise lindina koos nimega. Skoor on nõuandev. Nõuandev tarkvara, mitte tüübikinnitust omav navigatsiooniseade (IEC 61108, IEC 61162): laeva navigeerimise eest vastutab jätkuvalt operaator. Logi on välja mõeldud vormingu ja monitoride näitamiseks; see ei ole mõõtmine ega ütle midagi selle kohta, kuidas mõni vastuvõtja toimiks." width="100%">
+  <img src="docs/assets/readme/trust-timeline-light.svg" alt="Usaldusskoor ühe sünteetilise reisi jooksul, mootori v0.41.0 tegelikust käivitusest näitel examples/maritime-trust (väljamõeldud NMEA logi parvlaevast Tallinna–Helsingi liinil, 3001 epohhi sagedusega 1 Hz). Kolm rada jagavad ühte ajatelge. Ülal: kaugus vastuvõtja teatatud asukoha ja laeva tegeliku asukoha vahel, mis püsib mõne meetri piires umbes 1576 s-ni, mil logi skriptitud asukoha äravedu selle eemale tõmbab, samal ajal kui vastuvõtja jätkab kehtiva fiksi teatamist. Keskel: usaldusskoor 0 kuni 100, mida esimese 300 s kalibreerimise ajal ei arvutata, nominaalses vahemikus (vähemalt 90) kuni äraveoni, seejärel langedes läbi halvenenud vahemiku (vähemalt 55) mitteusaldatavasse vahemikku. All: iga epohhi vahemik värvilise lindina koos nimega. Skoor on nõuandev. Nõuandev tarkvara, mitte tüübikinnitust omav navigatsiooniseade (IEC 61108, IEC 61162): laeva navigeerimise eest vastutab jätkuvalt operaator. Logi on välja mõeldud vormingu ja monitoride näitamiseks; see ei ole mõõtmine ega ütle midagi selle kohta, kuidas mõni vastuvõtja toimiks." width="100%">
 </picture>
 
 <picture>
@@ -706,7 +750,7 @@ ja `leo-pass-iridium`.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/training-track-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/training-track-light.svg">
-  <img src="docs/assets/readme/training-track-light.svg" alt="Treeningvoog stsenaariumist coastal-drag-off (mootor v0.40.0, seeme 22, 25 minutit, üks fiks 10 s kohta instruktori logist). Kaart näitab laeva tegelikku rada ja rada, mida vastuvõtja teatab: need ühtivad, kuni skriptitud asukoha äravedu algab ajal 421 s, seejärel eemaldub teatatud rada tegelikust, samal ajal kui vastuvõtja hoiab kehtivat fiksi, ning naaseb, kui sündmus lõpeb ajal 1140 s. Kõrval kahe raja vaheline kaugus ajas ja vastuvõtja teatatud keskmine kandja ja müra tiheduse suhe, mis tõuseb sündmuse ajaks ühele kõrgemale tasemele. Kshana genereeritud sünteetilised treeningandmed. Ainult väljaõppeks ja testimiseks: ära kunagi suuna seda voogu laeva reaalajas navigatsioonisüsteemidesse. Nõuandev, mitte tüübikinnitust omav navigatsiooniseade. Nõuandev tarkvara, mitte tüübikinnitust omav navigatsiooniseade (IEC 61108, IEC 61162): laeva navigeerimise eest vastutab jätkuvalt operaator. Asukohad, kuupäevad ja rajad on välja mõeldud." width="100%">
+  <img src="docs/assets/readme/training-track-light.svg" alt="Treeningvoog stsenaariumist coastal-drag-off (mootor v0.41.0, seeme 22, 25 minutit, üks fiks 10 s kohta instruktori logist). Kaart näitab laeva tegelikku rada ja rada, mida vastuvõtja teatab: need ühtivad, kuni skriptitud asukoha äravedu algab ajal 421 s, seejärel eemaldub teatatud rada tegelikust, samal ajal kui vastuvõtja hoiab kehtivat fiksi, ning naaseb, kui sündmus lõpeb ajal 1140 s. Kõrval kahe raja vaheline kaugus ajas ja vastuvõtja teatatud keskmine kandja ja müra tiheduse suhe, mis tõuseb sündmuse ajaks ühele kõrgemale tasemele. Kshana genereeritud sünteetilised treeningandmed. Ainult väljaõppeks ja testimiseks: ära kunagi suuna seda voogu laeva reaalajas navigatsioonisüsteemidesse. Nõuandev, mitte tüübikinnitust omav navigatsiooniseade. Nõuandev tarkvara, mitte tüübikinnitust omav navigatsiooniseade (IEC 61108, IEC 61162): laeva navigeerimise eest vastutab jätkuvalt operaator. Asukohad, kuupäevad ja rajad on välja mõeldud." width="100%">
 </picture>
 
 <picture>
@@ -777,7 +821,7 @@ Iga stsenaarium võrdleb kvantandurit selle klassikalise vastega
 
 <p align="center">
   <img src="docs/assets/figures/scenario-fom.png" alt="Mida kvantandurid annavad, kui GNSS on kadunud, kella holdoveri stsenaarium: kvant hoiab 6600 s autonoomiat vs klassikalise 2610 s, palju väiksem ajastusviga ning käideldavus 100% vs 95.6%" width="88%">
-  <br><sub>Mida kvantandurid annavad, kui GNSS on kadunud — <code>clock-holdover</code> · seeme 42 · joonistatud mootoriga 0.40.0 ning iga ülaltoodud arv kontrollitakse igal ehitusel praeguse mootori vastu uuesti testiga <code>tests/published_figures_still_reproduce.rs</code> · <a href="docs/assets/figures/scenario-fom.svg">SVG</a></sub>
+  <br><sub>Mida kvantandurid annavad, kui GNSS on kadunud — <code>clock-holdover</code> · seeme 42 · joonistatud mootoriga 0.41.0 ning iga ülaltoodud arv kontrollitakse igal ehitusel praeguse mootori vastu uuesti testiga <code>tests/published_figures_still_reproduce.rs</code> · <a href="docs/assets/figures/scenario-fom.svg">SVG</a></sub>
 </p>
 
 Eelis **sõltub katkestusest ja vibratsioonist**, selgesõnalise tasuvuspunktiga, kus klassikaline võidab — näidatud ausalt kogu tehnoloogilise valmiduse redeli ulatuses (optilise kella arvud on maapealse demonstraatori sihtväärtused; ükski strontsiumi optiline kell ei ole lennanud):
@@ -800,7 +844,7 @@ Eelis **sõltub katkestusest ja vibratsioonist**, selgesõnalise tasuvuspunktiga
 |------|----------|---------|-----------|
 | **1 — Kella holdover** | `clock-holdover.toml` (20 ns spetsifikatsioon) | optiline kell peab vastu kogu katkestuse | CSAC ületab spetsifikatsiooni katkestuse keskel |
 | **2 — Inertsiaalne surnud arvestus** | `imu-deadreckoning.toml` (100 m spetsifikatsioon) | külm aatom: **~41 m**, peab vastu kogu katkestuse | navigatsiooniklass: ületab **~350 s** järel → kümned km |
-| **3 — Ajaülekanne** (optiline satelliitidevaheline link) | `timetransfer.toml` | optiline: **~0.3 mm** kaugusmõõtmine | RF (TWSTFT): **~150 mm** kaugusmõõtmine |
+| **3 — Ajaülekanne** (optiline satelliitidevaheline link) | `timetransfer.toml` | optiline: **~0.3 mm** kaugusmõõtmine | RF (TWSTFT): **~341 mm** kaugusmõõtmine |
 | **4 — Hübriidfusioon** (kokkuvõttev) | `hybrid-pnt.toml` | täielik asukoht + ajastus kogu katkestuse vältel | **asukohaga piiratud ~350 s juures** |
 
 Kokkuvõttev pakett näitab fusiooni teesi: optiline satelliitidevaheline ajaülekanne hoiab isegi
@@ -820,7 +864,7 @@ kosmoselaeva levitatakse GPS-i sarnase Walkeri konstellatsiooni suhtes ning näh
 arv (otsenähtavus, Maa varjutus, kõrgusmask) määrab igal sammul fiksi oleku.
 Ööpäeva jooksul on kasutajal fiks ainult ~59% ajast; kvantkell hoiab
 5 ns ajastuslahendit läbi iga lünga (käideldavus **1.0**), kiibimõõdus kell
-ainult **~0.83**.
+ainult **~0.73**.
 
 <p align="center">
   <img src="docs/assets/orbit-gnss-challenged.svg" alt="GNSS-i suhtes raskendatud orbiit: kella ajastusviga ööpäeva jooksul GNSS-i kesta sees olevale kosmoselaevale, kus katvuse lüngad on tuletatud orbitaalgeomeetriast — optiline kell püsib lünkade ajal 5 ns spetsifikatsiooni piires, samal ajal kui kiibimõõdus kell selle ületab" width="80%">
@@ -930,6 +974,7 @@ nende graafikute kontaktleht; [`docs/KINDS.md`](docs/KINDS.md) indekseerib need 
 | **[Missioonianalüüs, lingid ja kosmoseoperatsioonid](docs/kinds/mission-analysis-links-and-space-operations.md)** | start, tõus, sisenemine, asend, lingid, kontaktide planeerimine ja failivormingud | [`launch-window`](docs/kinds/by-kind/launch-window.md), [`ascent-losses`](docs/kinds/by-kind/ascent-losses.md), [`reentry`](docs/kinds/by-kind/reentry.md), [`entry-heating`](docs/kinds/by-kind/entry-heating.md), [`eo-coverage`](docs/kinds/by-kind/eo-coverage.md), [`eo-radiometry`](docs/kinds/by-kind/eo-radiometry.md), [`attitude-budget`](docs/kinds/by-kind/attitude-budget.md), [`aocs`](docs/kinds/by-kind/aocs.md), [`link-budget`](docs/kinds/by-kind/link-budget.md), [`acm-link`](docs/kinds/by-kind/acm-link.md), [`contact-schedule`](docs/kinds/by-kind/contact-schedule.md), [`aperture-duty-cycle`](docs/kinds/by-kind/aperture-duty-cycle.md), [`space-packet`](docs/kinds/by-kind/space-packet.md), [`oem-interop`](docs/kinds/by-kind/oem-interop.md) | `kshana scenarios/launch-window.toml` |
 | **[Missiooni lõngad](docs/kinds/mission-threads.md)** | stardist sisenemiseni ulatuva faasiahela navigatsiooni- ja ajastuse veaeelarve | [`mission-thread`](docs/kinds/by-kind/mission-thread.md) | `kshana scenarios/mission-thread-artemis-class.toml` |
 | **[Kampaaniad](docs/kinds/campaigns.md)** | aheldatud missioonid, pühkimised ja ansamblid, ehitatud teistest liikidest | [`campaign`](docs/kinds/by-kind/campaign.md) | `kshana scenarios/campaign-jam-spoof-holdover-integrity.toml` |
+| **[RF-seire kosmosest](docs/kinds/space-rf-survey.md)** | kui sageli laiaalaline RF-seire mereala uuesti katab ja kui kiiresti see saab suunata optilise vaatluse | [`tip-and-cue`](docs/kinds/by-kind/tip-and-cue.md) | `kshana scenarios/tip-and-cue-baltic-m2.toml` |
 <!-- /generated:kind-families -->
 
 <a id="every-command"></a>
@@ -948,12 +993,12 @@ kõigi nende kasutuse. Käsud on `--study`, `--validate`, `kinds`, `example`, `r
 <a id="every-surface"></a>
 ### Iga liides
 
-Üks mootor, samad tulemused kõikjal: käsurida, Rusti teek, Python, JavaScript ja WebAssembly,
-MCP server koos oma pistikprogrammi käskude ja oskustega, Kshana Studio (iga leht töötab brauseris, paigaldust pole vaja, midagi ei laadita üles),
-ROS 2, Signal K, OpenCPN, GNSS-SDR ja `gnss_lib_py` integratsioonid, systemd, Docker ja Grafana juurutuskomplektid ning
-JetBrainsi pistikprogramm. [`docs/ALL-SURFACES.md`](docs/ALL-SURFACES.md) loetleb need koos sellega, kuidas igaüht hankida, ning kõigi
-pistikprogrammi käskude, oskuste ja Studio lehtede nimed; [`docs/SURFACES.md`](docs/SURFACES.md) ütleb iga käsu ja liigi kohta,
-milline liides seda kannab ja milline mitte, koos põhjusega.
+Üks mootor, kõikjal samad tulemused: käsurida, Rusti teek, Python, JavaScript ja WebAssembly,
+MCP-server oma pistikprogrammi käskude ja oskustega, Kshana Studio (iga leht töötab brauseris, ilma paigalduseta, midagi ei laadita üles),
+ROS 2, Signal K, OpenCPN-i, GNSS-SDR-i ja `gnss_lib_py` integratsioonid, systemd, Dockeri ja Grafana juurutuskomplektid ning
+JetBrainsi pistikprogramm ja Kshana Desktop, mis on saadaval aadressil [kshana.dev](https://kshana.dev). [`docs/ALL-SURFACES.md`](docs/ALL-SURFACES.md) loetleb need koos iga hankimise viisi ja kõigi
+pistikprogrammi käskude, oskuste ja Studio lehtede nimedega; [`docs/SURFACES.md`](docs/SURFACES.md) ütleb iga käsu ja liigi kohta,
+milline liides seda pakub ja milline mitte, koos põhjusega.
 
 <a id="how-a-run-works"></a>
 ## Kuidas käivitus toimib
@@ -965,7 +1010,7 @@ sinu soovitud ekspordid.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/flow-pipeline-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/flow-pipeline-light.svg">
-  <img src="docs/assets/readme/flow-pipeline-light.svg" alt="Kuidas käivitus kulgeb. Stsenaariumi TOML-fail (liik, seeme ja selle parameetrid) läheb mootorisse kshana 0.40.0, läbi api::run_toml jaotuse 92 stsenaariumiliigi vahel, deterministlik stsenaariumist, seemnest ja mootori versioonist. Mootor kirjutab failid result.json, chart.svg, report.html ja report.json, table.csv nende liikide puhul, mis selle määratlevad, ning soovi korral SP3, CCSDS OMM ja OEM, CZML, KML, GeoJSON, STK ja SigMF ekspordid; komplekt kirjutab study.json ja study.html. Need failid toidavad Kshana Studiot brauseris, AI-assistenti kshana-mcp serveri kaudu ja pidevat integratsiooni." width="100%">
+  <img src="docs/assets/readme/flow-pipeline-light.svg" alt="Kuidas käivitus kulgeb. Stsenaariumi TOML-fail (liik, seeme ja selle parameetrid) läheb mootorisse kshana 0.41.0, läbi api::run_toml jaotuse 93 stsenaariumiliigi vahel, deterministlik stsenaariumist, seemnest ja mootori versioonist. Mootor kirjutab failid result.json, chart.svg, report.html ja report.json, table.csv nende liikide puhul, mis selle määratlevad, ning soovi korral SP3, CCSDS OMM ja OEM, CZML, KML, GeoJSON, STK ja SigMF ekspordid; komplekt kirjutab study.json ja study.html. Need failid toidavad Kshana Studiot brauseris, AI-assistenti kshana-mcp serveri kaudu ja pidevat integratsiooni." width="100%">
 </picture>
 
 See kaasasolev stsenaarium kestab 2 h: 10 min GNSS-iga, seejärel umbes 1.8 h ilma GNSS-ita. See küsib,
@@ -1050,8 +1095,7 @@ võimatuks nimetada võimekust VALIDATED ilma sõltumatu välise oraaklita.
 Mõned kontrollid: kõik 666 AIAA (American Institute of Aeronautics and Astronautics)
 2006-6753 SGP4 (Simplified General Perturbations 4) vektorit 4.12 mm täpsusega; Cowelli jõumudel
 0.08 m täpsusega Orekit 12.2 vastu; Galileo 0.61 m ja Swarm-A 0.10 m täpsusega Euroopa Kosmoseagentuuri (ESA)
-päris täppisefemeriidide vastu. Testid hoiavad kataloogi `src/` ridade kaetust ligikaudu 95 % juures,
-CI-s nõutud vähemalt 85 %. Register on
+päris täppisefemeriidide vastu. Viimasel mõõtmisel (mootor 0.29.0, [`docs/COVERAGE.md`](docs/COVERAGE.md)) katsid testid ligikaudu 95 % kataloogi `src/` ridadest ja CI ebaõnnestub alla 85 %. Register on
 [`docs/VERIFICATION-MATRIX.md`](docs/VERIFICATION-MATRIX.md), genereeritud failist
 `src/verification.rs`: [täielik 413-realine maatriks](docs/VERIFICATION-MATRIX.md) ning see, miks igal
 modelleeritud real puudub väline oraakel, failis [`docs/MODELLED-RATIONALE.md`](docs/MODELLED-RATIONALE.md).
@@ -1061,7 +1105,7 @@ modelleeritud real puudub väline oraakel, failis [`docs/MODELLED-RATIONALE.md`]
 
 ### Valideerimine, reprodutseeritavus ja ausus
 
-- Iga müraliige on kalibreeritud **avaldatud, viidatud** arvule ja valideeritud
+- Iga müraliige on kalibreeritud **avaldatud, viidatud** arvule ja kontrollitud
   standardse seose vastu (kellade puhul Allani hälve; inertsiaalse puhul Grovesi surnud arvestuse
   vea kasv; ajaülekande puhul ajastus→kaugus teisendus). Liikmepõhist olekut
   jälgitakse failis [`docs/VALIDATION.md`](docs/VALIDATION.md) kui `validated` või
@@ -1116,7 +1160,7 @@ Veerg **Olek** esitab tõendi *liigi*, vastavalt ülaltoodud valideerimisredelil
 | **MODELLED** | Süvakosmose Marsi OD (taandatud dünaamikaga SRIF) | **≈ 0.2 m** Marsi LMO (simulatsiooni FoM, *mitte* päris missioon) | sünteetiline suletud ahela OD — hindaja masinavärgi valideerimine |
 | **MODELLED** | Päikese-keskne Marsi dünaamika vs JPL DE440 | **137 m 1-päevase kaare juures** (kasvab kaarega = modelleerimata n-keha) | JPL DE440 läbi ANISE (`xval/anise-mars-od`, tuumast sõltuv) (võrreldud selle etaloniga; ükski kontrollimaatriksi rida ei nimeta seda välise oraaklina, seega ei ole see märgitud VALIDATED) |
 | **VALIDATED** | Üksikpunkt-positsioneerimine vs mõõdistatud IGS-i koordinaat (päris vaatlused) | **5.7 m** 3-D RMS / **1.1 m** horisontaalselt, kahesageduslik ionosfäärivaba koodi SPP | IGS-i jaama ABMF mõõdistus + GPS-i edastatav efemeriid, 2018-05-13 (`tests/pvt_abmf.rs`) |
-| **MODELLED** | Tihedalt seotud GNSS/INS UKF | **0.77 m RMS** 30-min LEO ülelennul, sh 120 s katkestus | jõumudeli inertsiperiood, käsitsi tuletatud |
+| **MODELLED** | GNSS/INS unscented-filter (`hybrid-ukf`, 17 olekut) | NIS ja NEES oma χ²-ribades; **0.36 m** toetatuna, **7.7 m** pärast 120 s surnud arvestust | filtri sisemine järjepidevus, mitte täpsus (`scenarios/hybrid-ukf.toml`) |
 | **MODELLED** | GPS-ita gravitatsioonikaardi navigeerimine | ~70 km INS-i triiv → taastatud **~145 m** | ESA NAVISP *Quantum Wayfarer* siht |
 | **MODELLED** | Maastikupõhine navigeerimine (TERCOM/SITAN) | 70 km triiv → **< 500 m** (võrgustiku lahutuse põrand ~140 m) | SRTM `.hgt` DEM; käsitsi sisestatud triiv (mitteringne kontroll) |
 | **MODELLED** | IGRF-14 peaväli (aste/järk 13) | poolus ~80.7°N, dipool ~29.7 µT, füüsikaline 22–67 µT vahemik | IAGA (International Association of Geomagnetism and Aeronomy) `igrf14coeffs.txt` (Schmidti poolnormaliseeritud) |
@@ -1135,7 +1179,7 @@ Veerg **Olek** esitab tõendi *liigi*, vastavalt ülaltoodud valideerimisredelil
 | **MODELLED** | PNT vastupidavuse hindamine + otsuse ebastabiilsus | 35 käsitsi tuletatud oraaklitesti; baidikaupa deterministlik uuringu artefakt (fikseeritud seeme) | DHS RPCF v2.0 vastavus + Dirichlet' / Kendalli τ / Hill-N2 kinnised kujud — sünteetilised arhitektuurid, mitte sertifitseerimine |
 | **MODELLED** | RF-häiringute optimismilõhe uuring (skaleerumisseadused + jäta-üks-välja ennustaja) | permutatsioonilise nullhüpoteesi olulisus; baidikaupa deterministlik artefakt (5 seemet) | sünteetiline parameetritel põhinev korpus — hindamise *mõõdikud* on VALIDATED scikit-learni vastu (ülal); uuring on MODELLED |
 | CI | Platvormideülene reprodutseeritavus | bititäpselt identne sisend + kuju võrdlusväärtused 3 OS-il (operatsioonisüsteemil) | Linux / macOS / Windows CI maatriks, SHA-256 võrdlusväärtused |
-| CI | Testide kaetus | **~95 % ridadest** kataloogis `src/`, välja arvatud `src/*_data.rs` ja `src/main.rs`, nõutud ≥ 85 % | cargo-tarpaulin (LLVM mootor) |
+| CI | Testide kaetus | **~95 % ridadest** (viimati mõõdetud versioonis 0.29.0) kataloogis `src/`, välja arvatud `src/*_data.rs` ja `src/main.rs`, nõutud ≥ 85 % | cargo-tarpaulin (LLVM mootor) |
 
 <p align="center">
   <img src="docs/assets/diagrams/validation-provenance.png" alt="Kuidas võimekus oma sildi välja teenib: nõue seotakse mooduliga kataloogis src, testiga kataloogis tests, välise oraakliga (päris andmekogum, sõltumatu etalonteostus või avaldatud vektorid) ja olekuga — CI-s jõustatud kaitsega, et ükski võimekus ei saa olla valideeritud ilma välise oraaklita. Reaalajas arvud: 176 valideeritud, 233 modelleeritud, 4 partneri, kokku 413" width="900">
@@ -1174,7 +1218,7 @@ Täielik tabel, valdkond valdkonna haaval iga võimekuse ja selle sildiga, on fa
 ## Paigaldamine
 
 Üks rida annab käsurea tööriista: **`cargo install kshana`**. Iga kanal tarnib
-v0.40.0 samast sildistatud commit'ist.
+v0.41.0 samast sildistatud commit'ist.
 
 <!-- channels:begin -->
 | Kanal | Paigaldamine | Juhend |
@@ -1186,12 +1230,12 @@ v0.40.0 samast sildistatud commit'ist.
 | JavaScript ja WebAssembly | `npm install kshana` | [npm-i ja WebAssembly juhend](https://kshana.dev/docs/npm.html) |
 | AI-assistent (MCP server, cargo) | `cargo install kshana-mcp` | [MCP serveri juhend](https://kshana.dev/docs/mcp.html) |
 | Docker-tõmmis | `docker run --rm -i ghcr.io/ashfordeou/kshana-mcp` | [MCP serveri juhend: Docker](https://kshana.dev/docs/mcp.html#install) |
-| Claude Desktopi laiendus | tee topeltklõps oma süsteemi `.mcpb` failil: [macOS (Apple silicon)](https://github.com/ashfordeOU/kshana/releases/download/v0.40.0/kshana-mcp-aarch64-apple-darwin.mcpb) · [macOS (Intel)](https://github.com/ashfordeOU/kshana/releases/download/v0.40.0/kshana-mcp-x86_64-apple-darwin.mcpb) · [Windows](https://github.com/ashfordeOU/kshana/releases/download/v0.40.0/kshana-mcp-x86_64-pc-windows-msvc.mcpb) · [Linux (x86-64)](https://github.com/ashfordeOU/kshana/releases/download/v0.40.0/kshana-mcp-x86_64-unknown-linux-gnu.mcpb) · [Linux (Arm)](https://github.com/ashfordeOU/kshana/releases/download/v0.40.0/kshana-mcp-aarch64-unknown-linux-gnu.mcpb) | [Kõik MCP paigaldusnäited](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
-| Cursor (üks klõps) | [Lisa Cursorisse (npx)](https://cursor.com/en/install-mcp?name=kshana&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsImtzaGFuYS1tY3BAMC40MC4wIl19) · [Lisa Cursorisse (Docker)](https://cursor.com/en/install-mcp?name=kshana&config=eyJjb21tYW5kIjoiZG9ja2VyIiwiYXJncyI6WyJydW4iLCItaSIsIi0tcm0iLCJnaGNyLmlvL2FzaGZvcmRlb3Uva3NoYW5hLW1jcDowLjQwLjAiXX0%3D) · `npx -y kshana-mcp@0.40.0` | [Kõik MCP paigaldusnäited](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
-| VS Code (üks klõps) | [Paigalda VS Code'i (npx)](https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522npx%2522%252C%2522args%2522%253A%255B%2522-y%2522%252C%2522kshana-mcp%25400.40.0%2522%255D%257D) · [Paigalda VS Code'i (Docker)](https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522docker%2522%252C%2522args%2522%253A%255B%2522run%2522%252C%2522-i%2522%252C%2522--rm%2522%252C%2522ghcr.io%252Fashfordeou%252Fkshana-mcp%253A0.40.0%2522%255D%257D) · `npx -y kshana-mcp@0.40.0` | [Kõik MCP paigaldusnäited](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
-| Claude Code | `claude mcp add kshana -- npx -y kshana-mcp@0.40.0` | [Kõik MCP paigaldusnäited](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
-| npx | `npx -y kshana-mcp@0.40.0` | [Kõik MCP paigaldusnäited](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
-| uvx / pipx | `uvx kshana-mcp==0.40.0` | [Kõik MCP paigaldusnäited](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
+| Claude Desktopi laiendus | tee topeltklõps oma süsteemi `.mcpb` failil: [macOS (Apple silicon)](https://github.com/ashfordeOU/kshana/releases/download/v0.41.0/kshana-mcp-aarch64-apple-darwin.mcpb) · [macOS (Intel)](https://github.com/ashfordeOU/kshana/releases/download/v0.41.0/kshana-mcp-x86_64-apple-darwin.mcpb) · [Windows](https://github.com/ashfordeOU/kshana/releases/download/v0.41.0/kshana-mcp-x86_64-pc-windows-msvc.mcpb) · [Linux (x86-64)](https://github.com/ashfordeOU/kshana/releases/download/v0.41.0/kshana-mcp-x86_64-unknown-linux-gnu.mcpb) · [Linux (Arm)](https://github.com/ashfordeOU/kshana/releases/download/v0.41.0/kshana-mcp-aarch64-unknown-linux-gnu.mcpb) | [Kõik MCP paigaldusnäited](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
+| Cursor (üks klõps) | [Lisa Cursorisse (npx)](https://cursor.com/en/install-mcp?name=kshana&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsImtzaGFuYS1tY3BAMC40MS4wIl19) · [Lisa Cursorisse (Docker)](https://cursor.com/en/install-mcp?name=kshana&config=eyJjb21tYW5kIjoiZG9ja2VyIiwiYXJncyI6WyJydW4iLCItaSIsIi0tcm0iLCJnaGNyLmlvL2FzaGZvcmRlb3Uva3NoYW5hLW1jcDowLjQxLjAiXX0%3D) · `npx -y kshana-mcp@0.41.0` | [Kõik MCP paigaldusnäited](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
+| VS Code (üks klõps) | [Paigalda VS Code'i (npx)](https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522npx%2522%252C%2522args%2522%253A%255B%2522-y%2522%252C%2522kshana-mcp%25400.41.0%2522%255D%257D) · [Paigalda VS Code'i (Docker)](https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522docker%2522%252C%2522args%2522%253A%255B%2522run%2522%252C%2522-i%2522%252C%2522--rm%2522%252C%2522ghcr.io%252Fashfordeou%252Fkshana-mcp%253A0.41.0%2522%255D%257D) · `npx -y kshana-mcp@0.41.0` | [Kõik MCP paigaldusnäited](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
+| Claude Code | `claude mcp add kshana -- npx -y kshana-mcp@0.41.0` | [Kõik MCP paigaldusnäited](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
+| npx | `npx -y kshana-mcp@0.41.0` | [Kõik MCP paigaldusnäited](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
+| uvx / pipx | `uvx kshana-mcp==0.41.0` | [Kõik MCP paigaldusnäited](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
 | Homebrew | `brew install ashfordeOU/tap/kshana-mcp` | [Kõik MCP paigaldusnäited](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
 | Scoop | `scoop bucket add ashforde https://github.com/ashfordeOU/scoop-bucket && scoop install kshana-mcp` | [Kõik MCP paigaldusnäited](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
 | winget | `winget install AshfordeOU.KshanaMcp` | [Kõik MCP paigaldusnäited](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
@@ -1208,8 +1252,8 @@ v0.40.0 samast sildistatud commit'ist.
 
 <p><a href="https://plugins.jetbrains.com/plugin/32181-kshana--pnt-simulator"><img src="https://img.shields.io/badge/JetBrains-Marketplace-066A86?style=flat-square&labelColor=0A1226" alt="Kshana JetBrains Marketplace'is"></a> <a href="Cargo.toml"><img src="https://img.shields.io/badge/rust-1.88%2B-3F4B67?style=flat-square&labelColor=0A1226" alt="Ehitub Rust 1.88 või uuemaga, rust-version failis Cargo.toml"></a></p>
 
-MCP on Model Context Protocol. Kinnita väljalase käsuga `cargo install kshana --version 0.40.0`,
-`pip install kshana==0.40.0` või `npm install kshana@0.40.0`. Lähtekoodist ehitamiseks vt
+MCP on Model Context Protocol. Kinnita väljalase käsuga `cargo install kshana --version 0.41.0`,
+`pip install kshana==0.41.0` või `npm install kshana@0.41.0`. Lähtekoodist ehitamiseks vt
 jaotist [Paigaldamine ja ehitamine](#install--build) Teatmiku all.
 
 <details>
@@ -1223,7 +1267,7 @@ import json, kshana
 toml = open("clock-holdover.toml").read()
 result = json.loads(kshana.run(toml))
 print(kshana.version(), result["quantum"]["fom"]["holdover_s"], result["classical"]["fom"]["holdover_s"])
-# 0.40.0 6600.0 2610.0
+# 0.41.0 6600.0 2610.0
 ```
 
 Lisaks funktsioonile `run` pakub moodul funktsioone `run_full` (JSON, SVG ja üherealine kokkuvõte korraga),
@@ -1244,7 +1288,7 @@ initSync({ module: readFileSync(wasm) });
 const toml = readFileSync("clock-holdover.toml", "utf8");
 const result = JSON.parse(run(toml));
 console.log(version(), result.quantum.fom.holdover_s, result.classical.fom.holdover_s);
-// 0.40.0 6600 2610
+// 0.41.0 6600 2610
 console.log(summary(toml));
 ```
 
@@ -1253,15 +1297,15 @@ console.log(summary(toml));
 <a id="architecture"></a>
 ## Arhitektuur
 
-Keskel asub üks avatud mootor ja iga liides käitab seda: käsurida, Rusti
-teek, Python, WebAssembly ja Kshana Studio, MCP server, Docker-tõmmis ja
-JetBrainsi pistikprogramm. Sama stsenaariumifail annab igaühel samad baidid. Kshana Pro asub
-peal eraldi kihina, mis sõltub mootorist ega hargne sellest kunagi.
+Keskel on üks avatud mootor ja iga liides käitab seda: käsurida, Rusti teek,
+Python, WebAssembly ja Kshana Studio, MCP-server, Dockeri tõmmis ja
+JetBrainsi pistikprogramm. Sama stsenaariumifail annab igal neist samad baidid. Kshana Pro,
+professionaalne väljaanne, tugineb samale mootorile ega hargne sellest kunagi.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/architecture-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/architecture-light.svg">
-  <img src="docs/assets/readme/architecture-light.svg" alt="Kshana arhitektuur: keskel üks avatud mootor, kshana 0.40.0 litsentsi AGPL-3.0 all, koos api::run_toml-iga, tüübitud jaotusega iga liigi üle, ja 413 võimekuse kontrolliregistriga (176 VALIDATED, 233 MODELLED, 4 PARTNER). Selle ümber käitab iga liides sama mootorit: Käsurida (cargo install kshana); Rusti teek (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); MCP server (cargo install kshana-mcp); Docker-tõmmis (ghcr.io/ashfordeou/kshana-mcp); JetBrainsi pistikprogramm (Marketplace: &quot;Kshana&quot;). Selle all Kshana Pro, omandkiht, mis sõltub avatud mootorist teegina ega hargne sellest kunagi ning ei lisa ühtegi füüsikalist mudelit." width="100%">
+  <img src="docs/assets/readme/architecture-light.svg" alt="Kshana arhitektuur: keskel üks avatud mootor, kshana 0.41.0 litsentsi AGPL-3.0 all, koos api::run_toml-iga, tüübitud jaotusega iga liigi üle, ja 413 võimekuse kontrolliregistriga (176 VALIDATED, 233 MODELLED, 4 PARTNER). Selle ümber käitab iga liides sama mootorit: Käsurida (cargo install kshana); Rusti teek (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); MCP server (cargo install kshana-mcp); Docker-tõmmis (ghcr.io/ashfordeou/kshana-mcp); JetBrainsi pistikprogramm (Marketplace: &quot;Kshana&quot;). Selle all Kshana Pro, professionaalne väljaanne, mis sõltub avatud mootorist teegina, ei hargne sellest kunagi ega muuda kunagi selle füüsikalisi mudeleid; Pro enda mudelitel on oma tõendimärgised." width="100%">
 </picture>
 
 <details>
@@ -1295,8 +1339,8 @@ Tuuma kõrval on kaks iseseisvat, **tööruumist välja jäetud** crate'i — `m
 (MCP server, ehitatud edition-2024 `rmcp` SDK-le) ja `xval/anise-frames`
 (ANISE/SPICE tugisüsteemide ristkontroll, mis toob kaasa MPL-2.0 (Mozilla Public License 2.0) sõltuvused) — hoitud avaldatud
 crate'i sõltuvusgraafist, `Cargo.lock`-ist, litsentsiväravast ja MSRV (minimaalne toetatud Rusti versioon) ehitusest eemal juurfaili
-`Cargo.toml` `exclude` loendiga. JetBrainsi pistikprogramm (`ide/jetbrains`) on eraldi Kotlini
-projekt. Täieliku diagrammide komplekti leiad failist [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
+`Cargo.toml` `exclude` loendiga. JetBrainsi pistikprogramm on eraldi toode, mis on saadaval aadressil
+[kshana.dev](https://kshana.dev/docs/jetbrains.html). Täieliku diagrammide komplekti leiad failist [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
 
 Renderdatud diagrammid (mootori voog, moodulite kaart, levitamine) on failis [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
 
@@ -1376,20 +1420,20 @@ Claude Code'i, Cursori, VS Code'i, Windsurfi, Zedi, Goose'i, Codex CLI, Gemini C
 <!-- mcp-install:begin -->
 | Kanal | Käsk või nupp | Nõuab | Kinnitatud vorm |
 |---|---|---|---|
-| Claude Desktopi laiendus | tee topeltklõps oma süsteemi `.mcpb` failil: [macOS (Apple silicon)](https://github.com/ashfordeOU/kshana/releases/download/v0.40.0/kshana-mcp-aarch64-apple-darwin.mcpb) · [macOS (Intel)](https://github.com/ashfordeOU/kshana/releases/download/v0.40.0/kshana-mcp-x86_64-apple-darwin.mcpb) · [Windows](https://github.com/ashfordeOU/kshana/releases/download/v0.40.0/kshana-mcp-x86_64-pc-windows-msvc.mcpb) | mitte midagi | v0.40.0 `kshana-mcp-<target>.mcpb` |
-| Cursor (üks klõps) | [npx (Node)](https://cursor.com/en/install-mcp?name=kshana&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsImtzaGFuYS1tY3BAMC40MC4wIl19) · [Docker](https://cursor.com/en/install-mcp?name=kshana&config=eyJjb21tYW5kIjoiZG9ja2VyIiwiYXJncyI6WyJydW4iLCItaSIsIi0tcm0iLCJnaGNyLmlvL2FzaGZvcmRlb3Uva3NoYW5hLW1jcDowLjQwLjAiXX0%3D) | Node või Docker | `kshana-mcp@0.40.0` / `ghcr.io/ashfordeou/kshana-mcp:0.40.0` |
-| VS Code (üks klõps) | [npx (Node)](https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522npx%2522%252C%2522args%2522%253A%255B%2522-y%2522%252C%2522kshana-mcp%25400.40.0%2522%255D%257D) · [Docker](https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522docker%2522%252C%2522args%2522%253A%255B%2522run%2522%252C%2522-i%2522%252C%2522--rm%2522%252C%2522ghcr.io%252Fashfordeou%252Fkshana-mcp%253A0.40.0%2522%255D%257D) · [Insiders (npx)](https://insiders.vscode.dev/redirect?url=vscode-insiders%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522npx%2522%252C%2522args%2522%253A%255B%2522-y%2522%252C%2522kshana-mcp%25400.40.0%2522%255D%257D) | Node või Docker | `kshana-mcp@0.40.0` / `ghcr.io/ashfordeou/kshana-mcp:0.40.0` |
-| Claude Code | `claude mcp add kshana -- npx -y kshana-mcp@0.40.0` · pistikprogramm: `/plugin marketplace add ashfordeOU/kshana`, seejärel `/plugin install kshana@ashforde` | Node (või Docker) | `kshana-mcp@0.40.0` |
-| npx | `npx -y kshana-mcp@0.40.0` | Node 18+ | `kshana-mcp@0.40.0` |
-| uvx / pipx | `uvx kshana-mcp==0.40.0` · `pipx run kshana-mcp==0.40.0` | Python 3.9+ koos uv või pipx-iga | `kshana-mcp==0.40.0` |
-| Docker | `docker run -i --rm ghcr.io/ashfordeou/kshana-mcp:0.40.0` | Docker | `ghcr.io/ashfordeou/kshana-mcp:0.40.0` |
-| Homebrew | `brew install ashfordeOU/tap/kshana-mcp` | brew | valem versioonile v0.40.0 |
-| Scoop | `scoop bucket add ashforde https://github.com/ashfordeOU/scoop-bucket`, seejärel `scoop install kshana-mcp` | Scoop (Windows) | manifest versioonile v0.40.0 |
-| winget | `winget install AshfordeOU.KshanaMcp` | winget (Windows) | `--version 0.40.0` |
-| cargo | `cargo install kshana-mcp --version 0.40.0` | Rust 1.88+ | `kshana-mcp 0.40.0` |
-| Eelehitatud binaarfail | [väljalaske leht](https://github.com/ashfordeOU/kshana/releases/tag/v0.40.0): `kshana-mcp` (Linux x86-64), `kshana-mcp-<target>[.exe]`, kontrollitud `SHA256SUMS`-i ja `gh attestation verify` abil | mitte midagi | v0.40.0 |
-| MCP register | `io.github.ashfordeOU/kshana-mcp` (leiavad registrit tundvad kliendid) | registrit tundev klient | `0.40.0` |
-| Kaug (voogedastatav HTTP) | `kshana-mcp --http 127.0.0.1:8080`, isehostitud: vt [docs/deploy/mcp-http.md](docs/deploy/mcp-http.md) | sinu enda host | v0.40.0 |
+| Claude Desktopi laiendus | tee topeltklõps oma süsteemi `.mcpb` failil: [macOS (Apple silicon)](https://github.com/ashfordeOU/kshana/releases/download/v0.41.0/kshana-mcp-aarch64-apple-darwin.mcpb) · [macOS (Intel)](https://github.com/ashfordeOU/kshana/releases/download/v0.41.0/kshana-mcp-x86_64-apple-darwin.mcpb) · [Windows](https://github.com/ashfordeOU/kshana/releases/download/v0.41.0/kshana-mcp-x86_64-pc-windows-msvc.mcpb) | mitte midagi | v0.41.0 `kshana-mcp-<target>.mcpb` |
+| Cursor (üks klõps) | [npx (Node)](https://cursor.com/en/install-mcp?name=kshana&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsImtzaGFuYS1tY3BAMC40MS4wIl19) · [Docker](https://cursor.com/en/install-mcp?name=kshana&config=eyJjb21tYW5kIjoiZG9ja2VyIiwiYXJncyI6WyJydW4iLCItaSIsIi0tcm0iLCJnaGNyLmlvL2FzaGZvcmRlb3Uva3NoYW5hLW1jcDowLjQxLjAiXX0%3D) | Node või Docker | `kshana-mcp@0.41.0` / `ghcr.io/ashfordeou/kshana-mcp:0.41.0` |
+| VS Code (üks klõps) | [npx (Node)](https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522npx%2522%252C%2522args%2522%253A%255B%2522-y%2522%252C%2522kshana-mcp%25400.41.0%2522%255D%257D) · [Docker](https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522docker%2522%252C%2522args%2522%253A%255B%2522run%2522%252C%2522-i%2522%252C%2522--rm%2522%252C%2522ghcr.io%252Fashfordeou%252Fkshana-mcp%253A0.41.0%2522%255D%257D) · [Insiders (npx)](https://insiders.vscode.dev/redirect?url=vscode-insiders%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522npx%2522%252C%2522args%2522%253A%255B%2522-y%2522%252C%2522kshana-mcp%25400.41.0%2522%255D%257D) | Node või Docker | `kshana-mcp@0.41.0` / `ghcr.io/ashfordeou/kshana-mcp:0.41.0` |
+| Claude Code | `claude mcp add kshana -- npx -y kshana-mcp@0.41.0` · pistikprogramm: `/plugin marketplace add ashfordeOU/kshana`, seejärel `/plugin install kshana@ashforde` | Node (või Docker) | `kshana-mcp@0.41.0` |
+| npx | `npx -y kshana-mcp@0.41.0` | Node 18+ | `kshana-mcp@0.41.0` |
+| uvx / pipx | `uvx kshana-mcp==0.41.0` · `pipx run kshana-mcp==0.41.0` | Python 3.9+ koos uv või pipx-iga | `kshana-mcp==0.41.0` |
+| Docker | `docker run -i --rm ghcr.io/ashfordeou/kshana-mcp:0.41.0` | Docker | `ghcr.io/ashfordeou/kshana-mcp:0.41.0` |
+| Homebrew | `brew install ashfordeOU/tap/kshana-mcp` | brew | valem versioonile v0.41.0 |
+| Scoop | `scoop bucket add ashforde https://github.com/ashfordeOU/scoop-bucket`, seejärel `scoop install kshana-mcp` | Scoop (Windows) | manifest versioonile v0.41.0 |
+| winget | `winget install AshfordeOU.KshanaMcp` | winget (Windows) | `--version 0.41.0` |
+| cargo | `cargo install kshana-mcp --version 0.41.0` | Rust 1.88+ | `kshana-mcp 0.41.0` |
+| Eelehitatud binaarfail | [väljalaske leht](https://github.com/ashfordeOU/kshana/releases/tag/v0.41.0): `kshana-mcp` (Linux x86-64), `kshana-mcp-<target>[.exe]`, kontrollitud `SHA256SUMS`-i ja `gh attestation verify` abil | mitte midagi | v0.41.0 |
+| MCP register | `io.github.ashfordeOU/kshana-mcp` (leiavad registrit tundvad kliendid) | registrit tundev klient | `0.41.0` |
+| Kaug (voogedastatav HTTP) | `kshana-mcp --http 127.0.0.1:8080`, isehostitud: vt [docs/deploy/mcp-http.md](docs/deploy/mcp-http.md) | sinu enda host | v0.41.0 |
 <!-- mcp-install:end -->
 
 <p><a href="https://glama.ai/mcp/servers/ashfordeOU/kshana"><img src="https://glama.ai/mcp/servers/ashfordeOU/kshana/badges/score.svg" alt="kshana-mcp Glamas, selle MCP serveri kvaliteediskoor"></a></p>
@@ -1414,7 +1458,7 @@ ametlikus MCP registris kui `io.github.ashfordeOU/kshana-mcp`.
 | Tööriist | Mida see teeb |
 |---|---|
 | `run_scenario` | Käivita stsenaarium TOML (Tom's Obvious, Minimal Language) definitsioonist |
-| `list_scenario_kinds` | 92 sisseehitatud stsenaariumiliiki koos kirjelduste + kohustuslike/valikuliste väljadega — et agent saaks koostada kehtiva stsenaariumi |
+| `list_scenario_kinds` | 93 sisseehitatud stsenaariumiliiki koos kirjelduste + kohustuslike/valikuliste väljadega — et agent saaks koostada kehtiva stsenaariumi |
 | `validate_scenario` | Eelkontroll: parsi TOML ja tuvasta selle liik, ilma käivitamata |
 | `list_example_scenarios` | Kaasasolevad etalonstsenaariumid JSON-ina |
 | `get_example_scenario` | Ühe kaasasoleva etalonstsenaariumi TOML-tekst, baidi haaval kataloogis `scenarios/` olev fail |
@@ -1497,111 +1541,72 @@ ametlikus MCP registris kui `io.github.ashfordeOU/kshana-mcp`.
 <a id="editions"></a>
 ## Väljaanded
 
-Kogu mootor on tasuta. Kshana Pro ja eritellimusel uuringud on programmidele, mis vajavad rohkem,
-ja iga tasuline tee algab sõnumiga: siin hindu ei ole.
+Kogu mootor on tasuta. Kshana Pro on professionaalne väljaanne meeskondadele, kes peavad otsuse tegema
+ja seda kaitsma, ning tellimusuuring on sama töö, mis tehakse sinu eest. Iga tasuline tee
+algab sõnumiga: hindu siin ei ole.
 
-| | Tasuta | Kshana Pro | Eritellimusel uuring |
+| | Tasuta | Kshana Pro | Tellimusuuring |
 |---|---|---|---|
-| Mis see on | kogu avatud mootor, kõik 92 stsenaariumiliiki, ilma funktsioonipiiranguteta | omandkiht sama mootori peal, lepingu alusel | sinu süsteemi MODELLED PNT vastupidavuse uuring, sinu eest tehtud |
-| Litsents | AGPL-3.0 (GNU Affero General Public License, versioon 3) või kommertslitsents | omandlitsents | leping |
-| Kuidas alustada | [paigalda](#install) või ava [kshana.dev](https://kshana.dev) | [taotle Pro hindamisversiooni](mailto:contact@ashforde.org?subject=Kshana%20Pro%20evaluation) | [taotle uuringut](mailto:contact@ashforde.org?subject=Kshana%20custom%20study) |
+| Mis see on | kogu avatud mootor, kõik 93 stsenaariumiliiki, ilma funktsioonipiiranguta | professionaalne väljaanne: sama mootor ja samad stsenaariumifailid koos tööriistadega, mida programm vajab otsustamiseks, kontrollimiseks ja üleandmiseks | sinu süsteemi PNT vastupidavuse MODELLED-uuring, mille teeb sinu eest Ashforde® OÜ |
+| Kellele | teadlased, üliõpilased, insenerid ja kõik, kes tahavad küsimust proovida | missiooni- ja programmimeeskonnad, süsteemiinsenerid, vastuvõtjate, kellade ja kasulike koormuste tootjad, signaalide kavandajad ja operaatorid | meeskonnad, kes tahavad vastust ilma uuringut ise tegemata |
+| Tugi | kogukond: issue'd ja pull request'id GitHubis | otsene tugi mootorit ehitavalt meeskonnalt | sisaldub |
+| Litsents | AGPL-3.0 (GNU Affero General Public License, versioon 3) või äriline litsents | omandiõiguslik, lepingu alusel | leping |
+| Kuidas alustada | [paigalda](#install) või ava [kshana.dev](https://kshana.dev) | [taotle Pro hindamist](mailto:contact@ashforde.org?subject=Kshana%20Pro%20evaluation) | [taotle uuringut](mailto:contact@ashforde.org?subject=Kshana%20custom%20study) |
 
-Mis on Pro, faili [`docs/PRO.md`](docs/PRO.md) sõnadega:
+**Mida saad Kshana Proga teha.** Tasuta mootor ütleb, mida üks stsenaarium annab. Pro
+vastab küsimustele, mida programm küsib järgmisena:
 
-> **Avatud Kshana range ülemhulk.** Pro sõltub avatud mootorist kui teegist ega
-> hargne sellest kunagi. Iga avatud stsenaariumiliik töötab Pros muutmata kujul ning avatud stsenaarium töötab
-> Pros üldse ilma litsentsita.
->
-> **Uut füüsikat ei ole.** Pro ei lisa ühtegi füüsikalist mudelit ega muuda ühtegi. Iga Pro arv pärineb
-> avatud mootori käivitustest, nii et Pro arv on täpselt sama usaldusväärne kui avatud stsenaariumiliik,
-> millest see pärineb, ja mitte kunagi rohkem.
+- **Vali kavand, mis lendab.** Määra kavandiruum, selle piirangud ja oma eesmärgid ning
+  saa parimad kompromissid kogu ruumis, iga kandidaat stsenaariumifailina, mida
+  tasuta mootor käitab.
+- **Tea, kui kindel vastus on.** Usaldusribad, piiri täitmise tõenäosus ja
+  see, millised sisendid tulemust määravad.
+- **Näita, et missioon täidab oma nõuded.** Impordi nõuded (CSV, ReqIF või
+  SysML v2 tekst), kontrolli neid jooksude vastu ja saa kontrollimaatriks, muudatuste mõju
+  aruanne ja missioonitoimik (PDF, HTML ja JSON), mida hindamiskomisjon saab kontrollida.
+- **Kaalu arhitektuure tõendite põhjal.** Järjesta valikud olulisemate näitajate järgi, iga
+  arvu taga tõendipakett.
+- **Püüa halvenemine kinni enne väljaandmist.** Nimeta näitajad, mis sulle olulised on; sinu konveier ebaõnnestub,
+  kui stsenaariumi, mudeli või mootori muudatus teeb mõne neist halvemaks.
+- **Kontrolli spektri kooseksisteerimist.** Testi kandidaatsignaaliplaane avatud GNSS-signaalide vastu
+  mõlemas suunas ja järjesta need.
+- **Loo oma kelladele kaksikud.** Kella digitaalne kaksik, mida kontrollitakse selle avaldatud
+  stabiilsuse vastu; sinu enda seadme kaksik ehitatakse koos sinuga lepingu alusel.
+- **Käita seda oma võrgus.** Kohalik teenus ja tööde järjekord koos kirjega selle kohta,
+  milline tulemus millisele päringule tarniti.
+- **Anna üle allkirjastatud tõendid.** Pro allkirjastab oma tõendipaketid ja toimikud ning saaja
+  saab neid kontrollida ilma Pro litsentsita.
 
-Pro vastab programmi järgmistele küsimustele: millise disainiga lennata (disainioptimeerija ja selle
-Pareto front), kui kindel on vastus (määramatus ja tundlikkus) ning kas missioon
-täidab oma nõudeid (missiooni toimik, nõuete jälgitavus, kompromissuuringud,
-stsenaariumide regressioonikontroll, kellade digitaalsed kaksikud, uuringu toimik ja kohapealne
-teenus). See jälgib ka arvude kampaaniat ja nurjab konveieri, kui mõni neist halveneb,
-testib kandidaatsignaaliplaane avatud satelliitnavigatsiooni signaalide vastu mõlemas
-suunas (spektri kooseksisteerimine) ning paneb uuringud järjekorda kohapealses tööteenuses
-räsiahelaga tarneregistriga. Igaüht on kirjeldatud koos sellega, mida see toodab ja mida see ei tee, failis
-[`docs/PRO.md`](docs/PRO.md). Miski, mida Pro toodab, ei ole sertifitseerimine, ja eritellimusel uuring ei ole
-samuti sertifitseerimine.
+**Millele saad loota.** Iga avatud stsenaarium töötab Pros muutmata kujul ja Pro ei muuda kunagi
+avatud mootori füüsikalist mudelit. Iga arv säilitab tõendimärgise, mille register talle annab
+(VALIDATED, MODELLED või PARTNER), mitte kunagi kõrgema; Pro enda mudelitel on oma
+märgised. Pro väljund loetleb käitatud stsenaariumifailid, nii et igaüks avatud Kshanaga saab
+need uuesti käitada ja samad arvud saada. Miski, mida Pro toodab, ei ole sertifikaat, ja tellimusuuring
+ei ole seda samuti. Täielik kirjeldus on failis [`docs/PRO.md`](docs/PRO.md).
 
 <details>
-<summary>Mida Kshana Pro avatud mootorist loeb ja tugi ettevõttelt Ashforde® OÜ</summary>
+<summary>Ashforde® OÜ tugi ja professionaalsed teenused</summary>
 
-<br>
-
-**Millele Kshana Pro tugineb.** Iga Pro osa töötab avatud mootorist ja jätab
-selle muutmata:
-
-- **Disainioptimeerija, määramatuse uuring ja missiooni toimik** käivitavad avatud mootori
-  stsenaariume mootori avaliku liidese kaudu ja arvutavad iga arvu käivituste
-  tulemustest. Iga väljund säilitab VALIDATED, MODELLED või PARTNER tõendustaseme, mille avatud mootor
-  igale arvule andis, mitte kunagi kõrgemat.
-- **Kellade digitaalsed kaksikud** kasutavad avatud mootori kellamudelit ja selle Allani hälbe
-  hindajat: kaksik kalibreeritakse seadme avaldatud Allani eelarvele ja seejärel kontrollitakse,
-  hinnates kaksiku Allani hälvet avatud hindajaga.
-- **Kompromissuuringud** käivitavad iga arhitektuurivaliku avatud mootori stsenaariumina, muutmata kujul,
-  ja järjestavad valikud kvaliteedinäitaja järgi, mis loetakse iga käivituse tulemusest.
-- **Kampaania jälgimine** loeb oma arvud paketi stsenaariumide avatud mootori käivituste tulemustest
-  ja võrdleb neid eelmise läbinud käivitusega.
-- **Spektri kooseksisteerimine** loeb iga füüsikalise arvu avatud mootori käivitustest
-  liikidega `leo-signal` ja `constellation-design` ning lisab ainult summa nähtavate satelliitide
-  üle ja plaanide järjestuse.
-- **Kohapealne tööteenus** käivitab avatud ja Pro stsenaariumid läbi sama mootori ja
-  salvestab iga tulemuse nii, nagu käivitus selle tagastas.
-- **Tõendipaketid** registreerivad iga käivituse kohta stsenaariumi räsi, mille avatud mootor
-  oma tulemusele templiks lööb, nii et paketis olevat arvu saab reprodutseerida selle stsenaariumi uuesti käivitamisega.
-- **Süsteemitehnika ja programmi tööriistad.** Kshana Pro mudelipõhise
-  süsteemitehnika (MBSE) ja programmi tööriistad kontrollivad programmi nõudeid
-  avatud mootori käivituste vastu: need impordivad nõuded komaga eraldatud väärtustena
-  (CSV) või Requirements Interchange Formati (ReqIF) või
-  Systems Modeling Language versioon 2 (SysML v2) teksti dokumenteeritud alamhulgana, hindavad iga
-  vastuvõtukriteeriumi koos selle ühikuga väärtuste vastu, mille käivitus kirjutas, ning toodavad kontrolli
-  ristviidete maatriksi (VCRM), SysML v2 mudeli, muudatuse mõju aruande ja võrguühenduseta
-  tõendipaketi. Need ei käivita ega arvuta midagi uuesti ning loevad ainult seda, mida avatud mootor
-  avaldab: iga käivituse `result.json` (väljad, mida kriteerium nimetab, nende ühikud,
-  stsenaariumi räsi, seemne, mootori versiooni ja skeemi versiooni reprodutseeritavuse tempel ning
-  käivituse silt ja arvude tõendustasemed), selle `report.json` (liik, reprodutseeritavuse kirje ja
-  võimekuste sildid), stsenaariumifail (selle räsi, liik, seeme ja parameetrid),
-  väljade ühikute skeem (iga välja ühik, päritolu ja tõendustase) ning
-  kontrollimaatriks (iga võimekuse VALIDATED, MODELLED või PARTNER silt).
-
-<a id="support--professional-services"></a>
 ### Tugi ja professionaalsed teenused
 
-Kshana on tasuta ja avatud lähtekoodiga litsentsi AGPL-3.0 all ning **professionaalselt arendatud ja
-hooldatud ettevõtte Ashforde® OÜ** (Eesti) poolt. Avatud mootor on täielik ja iseseisvalt
-kasutatav. Organisatsioonidele, kes vajavad rohkem, pakub Ashforde® OÜ:
+Kshana on tasuta ja avatud lähtekoodiga AGPL-3.0 litsentsi all ning seda **arendab ja hooldab professionaalselt
+Ashforde® OÜ** (Eesti). Avatud mootor on terviklik ja iseseisvalt kasutatav.
+Organisatsioonidele, kes vajavad rohkem, pakub Ashforde® OÜ:
 
-- **Kommertstugi ja integreerimine** — Kshana põimimine sinu tööriistaahelasse, eritellimusel
-  stsenaariumid ja prioriteetsed parandused.
-- **Eritellimusel andurimudelid** — kalibreeritud sinu riistvarale, sealhulgas ekspordi suhtes tundlikud
-  vastupidavusmudelid, mida hoitakse privaatses kihis.
-- **Kshana Pro** — omandlikud mudelipõhise süsteemitehnika (MBSE) ja programmi
-  tööriistad, mis kontrollivad programmi nõudeid avatud mootori käivituste vastu ning
-  toodavad kontrolli ristviidete maatriksi (VCRM), Systems Modeling Language
-  versioon 2 (SysML v2) mudeli, muudatuse mõju aruande ja võrguühenduseta tõendipaketi. Need
-  ei käivita midagi uuesti ja loevad ainult mootori avaldatud väljundeid: iga käivituse `result.json`
-  ja `report.json`, stsenaariumifaili, väljade ühikute skeemi ja kontrollimaatriksi
-  silte (täielik loend on jaotises [Väljaanded](#editions)).
-- **Kshana Pro disaini-, määramatuse- ja missioonitööriistad** — disainiruumi Pareto front,
-  määramatus ja tundlikkus tuhandete käivituste üle ning ühe käsuga missiooni
-  toimik koos kontrollimaatriksi ja PDF-iga; vt [`docs/PRO.md`](docs/PRO.md).
-- **Kshana Pro kampaania jälgimine, spektri kooseksisteerimine ja tööteenus** — konveier, mis
-  nurjub, kui jälgitav arv halveneb, signaaliplaanid, mida testitakse avatud
-  satelliitnavigatsiooni signaalide vastu mõlemas suunas, ning kohapealne tööjärjekord
-  räsiahelaga tarneregistriga; vt [`docs/PRO.md`](docs/PRO.md).
-- **Koolitus ja nõustamine** kvant-/klassikalise PNT jõudlusanalüüsi alal.
+- **Kshana Pro**: ülal kirjeldatud professionaalne väljaanne koos otsese toega.
+- **Äriline tugi ja integratsioon**: Kshana lõimimine sinu tööriistaahelasse, tellimuspõhised
+  stsenaariumid ja eelisjärjekorras parandused.
+- **Tellimuspõhised andurimudelid**: kalibreeritud sinu riistvarale lepingu alusel; ekspordi seisukohalt
+  tundlikku tööd tehakse ainult sobiva julgeolekukontrolli ja konfidentsiaalsuslepinguga.
+- **Tellimusuuringud**: sinu süsteemi PNT vastupidavuse MODELLED-uuring, mis tehakse sinu eest.
+- **Koolitus ja nõustamine** PNT vastupidavuse ning kvant- ja klassikaliste andurite jõudluse teemal.
 
-See on avatud tuuma mudel: mootor on avatud litsentsiga ja jääb selleks; äri
-toetavad asjatundlikkus, tugi ja omandlikud laiendused — mitte litsentsitasud.
+See on avatud tuuma mudel: mootor on ja jääb avatud litsentsi alla; äri, mis seda
+ülal hoiab, on Kshana Pro, tugi ja asjatundlikkus.
 Kontakt **contact@ashforde.org** · [ashforde.org](https://ashforde.org).
 
 </details>
 
-<a id="research"></a>
 ## Uurimistöö
 
 Avatud mootorile tuginevad uuringud avaldatakse arXivis. Igaüks nimetab selle taga oleva mootori käsu,
@@ -1863,7 +1868,7 @@ NASA/JPL Three-Body Periodic Orbit Database). Need on täiendavad regressiooniko
 <a id="scenario-format"></a>
 ### Stsenaariumi vorming
 
-Stsenaariumid on deklaratiivne TOML. Ülemise taseme `kind` valib paketi — kokku **viiskümmend**
+Stsenaariumid on deklaratiivne TOML. Ülemise taseme `kind` valib paketi — kokku **93**
 (`clock` on vaikimisi, kui see puudub): `inertial`, `timetransfer`, `hybrid`, `hybrid-ukf`, `fusion`,
 `gnss-ins`, `orbit`, `ephemeris`, `gnss-sim`, `integrity`, `lunar-integrity`, `lunar-time-offset`, `spoof`,
 `spoof-detect`, `jamming`, `sweep`, `sweep-nd`, `gravity-map`, `terrain-nav`, `terrain-slam`,
@@ -2111,7 +2116,7 @@ paberkell). **MODELLED** — peamine arv on *etalonist sõltuv* (Maa geoid
 vs Kuu selenoid, keskmistamisaken), mistõttu esitatakse vahemik, mitte üksik sertifitseeritud
 arv (`scenarios/lunar-time-offset.toml`).
 
-Vaata kataloogi `scenarios/`, kus on vähemalt üks läbitöötatud näide igast liigist (92 liiki, 193 stsenaariumi
+Vaata kataloogi `scenarios/`, kus on vähemalt üks läbitöötatud näide igast liigist (93 liiki, 199 stsenaariumi
 `.toml` faili + 1 komplekti manifest — mitu liiki tarnivad rohkem kui ühe näite). Mitte igal
 liigil pole selle järgi nimetatud faili: `lunar-integrity` → `scenarios/lunanet-araim.toml` ja
 `gravity-map` → `scenarios/gps-denied-gravity-nav.toml` on kaks mitmest sellisest.
@@ -2211,7 +2216,6 @@ kshana/
 │   └── bin/crossover_study.rs · bin/validation_report.rs  # crossover-study artifact generator · release validation-summary HTML
 │
 ├── mcp/kshana-mcp/        # standalone, workspace-EXCLUDED crate — the MCP server (+ Dockerfile, server.json)
-├── ide/jetbrains/         # standalone Kotlin/Gradle IntelliJ-Platform plugin
 ├── xval/                  # standalone, workspace-EXCLUDED external cross-checks: anise-{frames,lunar-od,mars-od,service-geometry} (Rust ANISE/SPICE DE440) + orekit-passes (Java Orekit)
 │
 ├── examples/            # reproducible study generators: tpl_jammertest · resilience_report · optimism_study + real-data probes (jammertest_probe · yunnan_probe · satgrid_probe · texbat_probe · ingest_realdata)
@@ -2221,7 +2225,7 @@ kshana/
 ├── docs/                 # CONCEPTS, ARCHITECTURE, CAPABILITY, VALIDATION, PROVENANCE, GLOSSARY, …
 ├── web/                  # the WebAssembly playground + kshana.dev site
 ├── tools/                # table generators (EGM2008 · IGRF · nutation · CIO) + fetch_tles.sh
-├── .github/workflows/    # ci · release · publish · wheels · pages · mcp-publish · jetbrains-plugin · frame-xval
+├── .github/workflows/    # ci · release · publish · wheels · pages · mcp-publish · frame-xval
 ├── pyproject.toml        # Python packaging (maturin)
 ├── CHANGELOG.md          # Keep a Changelog + SemVer
 └── CITATION.cff · ROADMAP.md · CONTRIBUTING.md · SECURITY.md
@@ -2243,7 +2247,7 @@ Ei. See on jõudluse *simulaator*. Kvantriistvara tõetruudus pärineb avaldatud
 veamudelitest, mitte sellest tööriistast. Vt [Mis see on / ei ole](#what-it-is--is-not).
 
 **Kas kvanttulemused on realistlikud või turundus?**
-Iga parameeter on viidatud andmelehele või artiklile, iga mudel on valideeritud
+Iga parameeter on viidatud andmelehele või artiklile, iga mudel on kontrollitud
 õpikuseose vastu ning küpsus on ausalt märgistatud failis
 [VALIDATION.md](docs/VALIDATION.md) — sealhulgas see, et ükski strontsiumi optiline kell ei ole
 lennanud. Mootor on neutraalne: kvant ja klassikaline on sama kood erinevate
@@ -2315,13 +2319,13 @@ seejärel kontrollib konveier, et iga register tõesti serveerib uut versiooni
 
 | Kanal | Paigalda / hangi | Sisu |
 |---------|---------------|----------|
-| [crates.io](https://crates.io/crates/kshana) | `cargo install kshana` · `kshana = "0.35"` | Rusti teek + CLI |
+| [crates.io](https://crates.io/crates/kshana) | `cargo install kshana` · `kshana = "0.41"` | Rusti teek + CLI |
 | [crates.io](https://crates.io/crates/kshana-mcp) | `cargo install kshana-mcp` | MCP server |
 | [PyPI (Python Package Index)](https://pypi.org/project/kshana/) | `pip install kshana` | abi3 wheel'id (Linux/macOS/Windows) + sdist (lähtekoodi distributsioon) |
 | [npm](https://www.npmjs.com/package/kshana) | `npm install kshana` | WebAssembly moodul + JS-ümbris |
 | [ghcr.io](https://github.com/ashfordeOU/kshana/pkgs/container/kshana-mcp) | `docker run -i ghcr.io/ashfordeou/kshana-mcp` | mitme arhitektuuri OCI (Open Container Initiative) tõmmis — tööriistaahelat pole vaja |
-| [npm](https://www.npmjs.com/package/kshana-mcp) | `npx -y kshana-mcp@0.40.0` | käivitaja: laadib alla väljalaske binaarfaili, kontrollib `SHA256SUMS`-i, käivitab selle |
-| [PyPI](https://pypi.org/project/kshana-mcp/) | `uvx kshana-mcp==0.40.0` · `pipx run kshana-mcp==0.40.0` | sama käivitaja Pythoni jaoks |
+| [npm](https://www.npmjs.com/package/kshana-mcp) | `npx -y kshana-mcp@0.41.0` | käivitaja: laadib alla väljalaske binaarfaili, kontrollib `SHA256SUMS`-i, käivitab selle |
+| [PyPI](https://pypi.org/project/kshana-mcp/) | `uvx kshana-mcp==0.41.0` · `pipx run kshana-mcp==0.41.0` | sama käivitaja Pythoni jaoks |
 | Homebrew · Scoop · winget | `brew install ashfordeOU/tap/kshana-mcp` · `scoop install kshana-mcp` · `winget install AshfordeOU.KshanaMcp` | `kshana-mcp` binaarfail, genereeritud iga väljalaske `SHA256SUMS`-ist |
 | Claude Desktop | tee topeltklõps väljalaske failil `kshana-mcp-<target>.mcpb` | laiendus, binaarfail sees |
 | ametlik MCP register | MCP kliendid avastavad automaatselt | `io.github.ashfordeOU/kshana-mcp` (OCI tõmmis, npm- ja PyPI-paketid) |
@@ -2352,7 +2356,7 @@ täielik CIO-põhine IAU 2006/2000A GCRS↔ITRS ahel (poolusenihe + alla kaarese
 valideeritud bitt-biti haaval SOFA/ERFA vastu ja sõltumatult ristkontrollitud ANISE
 (puhas Rusti SPICE) vastu ≤ 3.6 m täpsusega GNSS-orbiidil. Lähiaja punktide hulka kuuluvad tihedalt seotud kandelaine faasi fusioon ning
 lõdvalt/tihedalt seotud GNSS/INS navigaatori toomine rohkematesse pakettidesse; **süvakosmose / Marsi
-radiomeetrilise navigeerimise** mootor saabus versioonis v0.17.0 (simulatsiooniga valideeritud).
+radiomeetrilise navigeerimise** mootor saabus versioonis v0.17.0 (MODELLED: kontrollitud simulatsioonis, mitte missiooniandmetel).
 **Kvantfüüsika kiht** on **P2** punkt: CAI kiirendusmõõturit simuleeritakse nüüd
 esimestest põhimõtetest (Mach–Zehnderi faas, projektsioonimüra, kontrasti hääbumine, vibratsiooni
 sidestus), samal ajal kui kella/ajaülekande andureid juhivad endiselt avaldatud
@@ -2407,7 +2411,7 @@ kirje iga kasutajale nähtava muudatuse kohta. Osalemist reguleerib meie
 | [Reprodutseeritavus ja päritolu](docs/REPRODUCIBILITY.md) | ülevaatajad / pakendajad | determinismi garantiid, võrdlusväärtuste kinnitamine, SBOM (tarkvara komponentide loend), ehituse päritolu |
 | [Wheel'i platvormisildid](docs/WHEEL_TAGS.md) | pakendajad | abi3 Pythoni wheel'ide maatriks — milline platvormisilt `pip install kshana` lahendab |
 | [Positsioneerimine](docs/POSITIONING.md) | hindajad | kus Kshana asub RTKLIB-i/gLAB-i suhtes (täiendav) ja paigalduseta brauseritase |
-| [Kshana Pro](docs/PRO.md) | hindajad / programmijuhid | mida omandlik Pro kiht sama mootori peale lisab: disainioptimeerija, määramatus ja tundlikkus, missiooni toimik, kampaania jälgimine, spektri kooseksisteerimine, kohapealne tööteenus, nõuete jälgitavus; mida igaüks toodab ja mida see ei tee |
+| [Kshana Pro](docs/PRO.md) | hindajad / programmijuhid | professionaalne väljaanne: kellele see on mõeldud, mida meeskonnad sellega teha saavad, mida nad saavad, tugi ja kuidas hindamist alustada |
 | [Tehniline aruanne](paper/kshana-technical-report.md) · [JOSS-i artikkel](paper/paper.md) | ülevaatajad / viitajad / hindajad | täielik laiendatud uurimisartikkel — arhitektuur, valdkonnapõhised mudelid, valideerimine, juhtumiuuringud ja piirangud — pluss lühike JOSS (Journal of Open Source Software) esitus |
 | [SGP4 valideerimine](docs/SGP4-VALIDATION.md) | ülevaatajad / viitajad | kokkulangevus AIAA 2006-6753 etaloniga (666 olekut, ~4 mm) **ja** otsevõrdlus sõltumatu `sgp4` crate'iga (ühtivad alla mikroni / 4.12 mm) |
 | [Jõumudeli valideerimine](docs/AGENCY-ORBIT-VALIDATION.md) | ülevaatajad / viitajad | täisjõudude mootori (`src/precise_od.rs`) sobitus agentuuride efemeriididele — metoodika ja valideeritud jäägid |
@@ -2433,7 +2437,7 @@ kirje iga kasutajale nähtava muudatuse kohta. Osalemist reguleerib meie
 | [Pythoni API](docs/PYTHON_API.md) | Pythoni kasutajad | PyO3 sidumi liides — mootori kutsumine, stsenaariumi/tulemuse tüübid ja näited |
 | [Väited vs tegelikkus](docs/CLAIMS-VS-REALITY.md) | ülevaatajad | liialdatud väidete sulgemise register + CI kaitse (`tests/no_overclaims.rs`), mis hoiab selle lahendatuna |
 | [Teekaart](ROADMAP.md) | kõigile | etapiviisiline teekaart — mis on tarnitud ja mis tuleb järgmisena |
-| [MCP server](mcp/kshana-mcp/README.md) · [JetBrainsi pistikprogramm](ide/jetbrains/README.md) | agendid / IDE kasutajad | käivita Kshana AI-assistendist või JetBrainsi IDE-st |
+| [MCP server](mcp/kshana-mcp/README.md) · [JetBrainsi pistikprogramm](https://kshana.dev/docs/jetbrains.html) | agendid / IDE kasutajad | käivita Kshana AI-assistendist või JetBrainsi IDE-st |
 | [Agendi juhend](docs/AGENTS.md) · [Liidesed](docs/SURFACES.md) | agendid / integraatorid | milline tööriist vastab millisele küsimusele, mida iga vastusega kaasas hoida; kus iga võimekus on kättesaadav (CLI, Rust, Python, WASM, MCP, pistikprogramm, JetBrains, märkmikud) ja miks lahter on N/A |
 | [Muudatuste logi](CHANGELOG.md) | kõigile | avaldatud ajalugu (Keep a Changelog + SemVer, semantiline versioonimine) |
 | [Kaasaaitamine](CONTRIBUTING.md) | kaasaaitajad | ehitus, kaitsed, testimise/viitamise distsipliin, DCO (Developer Certificate of Origin) |

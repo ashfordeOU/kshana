@@ -1,4 +1,4 @@
-> この文書は README.md（v0.40.0）の機械翻訳であり、ネイティブスピーカーによる確認はまだ行われていません。英語版の README が基準です。[English](README.md)
+> この文書は README.md（v0.41.0）の機械翻訳であり、ネイティブスピーカーによる確認はまだ行われていません。英語版の README が基準です。[English](README.md)
 
 <!-- docs/assets/readme/ 以下の画像は、tools/gen_readme_assets.py によって実際のエンジン実行から生成されます
      （ライト版とダーク版）。再生成は
@@ -24,7 +24,7 @@
   <a href="docs/COVERAGE.md"><img src="https://img.shields.io/badge/coverage-~95%25-377D0C?style=flat-square&labelColor=0A1226" height="18" alt="src/ の行カバレッジは約 95 %。docs/COVERAGE.md で測定し、継続的インテグレーションで 85 % をゲートとしています"></a>
   <a href="#evidence"><img src="https://img.shields.io/badge/validated-176%2F413-377D0C?style=flat-square&labelColor=0A1226" height="18" alt="413 の機能のうち 176 が独立した外部のオラクルに対して VALIDATED（検証マトリクスより）"></a>
   <a href="https://sonarcloud.io/summary/overall?id=ashfordeOU_kshana"><img src="https://img.shields.io/sonar/quality_gate/ashfordeOU_kshana?server=https%3A%2F%2Fsonarcloud.io&label=quality&style=flat-square&labelColor=0A1226" height="18" alt="SonarQube Cloud の品質ゲートの状態"></a>
-  <a href="https://github.com/ashfordeOU/kshana/releases"><img src="https://img.shields.io/badge/release-v0.40.0-066A86?style=flat-square&labelColor=0A1226" height="18" alt="リリース v0.40.0"></a>
+  <a href="https://github.com/ashfordeOU/kshana/releases"><img src="https://img.shields.io/badge/release-v0.41.0-066A86?style=flat-square&labelColor=0A1226" height="18" alt="リリース v0.41.0"></a>
   <a href="docs/i18n.md"><img src="https://img.shields.io/badge/languages-English%20%2B%2017-3F4B67?style=flat-square&labelColor=0A1226" height="18" alt="英語とさらに 17 言語（機械翻訳）"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/licence-AGPL--3.0-3F4B67?style=flat-square&labelColor=0A1226" height="18" alt="ライセンス：AGPL-3.0-only"></a>
   <br>
@@ -73,14 +73,14 @@
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/hero-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/hero-light.svg">
-  <img src="docs/assets/readme/hero-light.svg" alt="GNSS が途絶える 1 分間をリハーサルする。エンジン v0.40.0 の実際の実行から描いた Kshana のミッションコンソール：連鎖キャンペーン campaign-jam-spoof-holdover-integrity（シード 20260928、6 フェーズ、T+01:16:10 にわたる 18 のメンバー実行）と、constellation-multi-gnss-coverage の GPS、Galileo、BeiDou、GLONASS の 102 機の衛星。各衛星はエンジンの地上軌跡から復元した円形の二体軌道上に描かれ、半径は表示用に圧縮されています。時計の時刻誤差は 50 ns のガードに対して 62.7 ns でピークに達し、搬送波対雑音密度は 25 dB-Hz の下限に対して -12.2 dB-Hz まで低下し、垂直保護レベルは 50 m のアラートリミットに対して 135.4 m に達します。" width="100%">
+  <img src="docs/assets/readme/hero-light.svg" alt="GNSS が途絶える 1 分間をリハーサルする。エンジン v0.41.0 の実際の実行から描いた Kshana のミッションコンソール：連鎖キャンペーン campaign-jam-spoof-holdover-integrity（シード 20260928、6 フェーズ、T+01:16:10 にわたる 18 のメンバー実行）と、constellation-multi-gnss-coverage の GPS、Galileo、BeiDou、GLONASS の 102 機の衛星。各衛星はエンジンの地上軌跡から復元した円形の二体軌道上に描かれ、半径は表示用に圧縮されています。時計の時刻誤差は 50 ns のガードに対して 62.7 ns でピークに達し、搬送波対雑音密度は 25 dB-Hz の下限に対して -12.2 dB-Hz まで低下し、垂直保護レベルは 50 m のアラートリミットに対して 135.4 m に達します。" width="100%">
 </picture>
 
 <details>
 <summary><strong>目次</strong></summary>
 
 - [GNSS が途絶える 1 分間をリハーサルする](#rehearse-the-minute-gnss-goes-dark)
-- [0.40 の新機能](#whats-new-in-040)、[0.39 の新機能](#whats-new-in-039)、[0.38 の新機能](#whats-new-in-038)、[0.38 の詳細](#038-in-depth)：Jammertest のスコアリング、受信機自身のフラグ、機器からの入力、タイミングとホールドオーバー、標準パック、LunaNet AFS、ラボのラウンドトリップ、kshana-bench、オブザーバトリー、エクスポーター、光通信、[宇宙利用者の航法](#space-user-navigation-gnss-ssv)、[月面インフラ](#lunar-infrastructure-lunar-infrastructure)
+- [0.41 の新機能](#whats-new-in-041), [0.40 の新機能](#whats-new-in-040)、[0.39 の新機能](#whats-new-in-039)、[0.38 の新機能](#whats-new-in-038)、[0.38 の詳細](#038-in-depth)：Jammertest のスコアリング、受信機自身のフラグ、機器からの入力、タイミングとホールドオーバー、標準パック、LunaNet AFS、ラボのラウンドトリップ、kshana-bench、オブザーバトリー、エクスポーター、光通信、[宇宙利用者の航法](#space-user-navigation-gnss-ssv)、[月面インフラ](#lunar-infrastructure-lunar-infrastructure)
 - [Kshana Studio](#kshana-studio) と Studio の全ページ
 - [機能](#capabilities)：分野の表、[ファミリー別の全シナリオ種別](#every-scenario-kind-by-family)、[全コマンド](#every-command)、[全サーフェス](#every-surface)
 - [実行の仕組み](#how-a-run-works)、[ミッション](#missions)
@@ -105,25 +105,65 @@ AI（人工知能）アシスタント、
 外部のオラクルと一致する）、**MODELLED**（内部的に整合しており、そのことを明言している）
 または **PARTNER**（ハードウェアパートナーが担当する）。
 
-> **ステータス：v0.40.0。** PNT のレジリエンスのための、検証済みで再現可能なシミュレーション基盤です。
-> 最も検証が進んでいる分野であるため、タイミングとホールドオーバーを最優先としています。Kshana は
-> 検討とトレードオフのための道具です。無線周波数（RF）信号発生器のハードウェアではなく（無線機を
-> 駆動せず、何も送信しません。信号レベルの出力は、ソフトウェア受信機向けのベースバンド IQ サンプルファイルです）、
-> ハードウェア受信機や認証済みの GNSS 受信機でもなく（そのソフトウェア受信機は
-> 解析ツールです）、フライト製品でもありません。この分野が初めての方は、
+> **Status: v0.41.0.** PNT のレジリエンスのための再現可能なシミュレーション基盤で、すべての機能が
+> そのエビデンスによってラベル付けされています。タイミングとホールドオーバーを最優先しているのは、その領域に VALIDATED の行が最も多いからです。
+> Kshana は検討とトレードオフのための道具であり、無線周波数（RF）の信号発生器ハードウェアではなく（
+> 無線機を駆動せず何も送信しません。信号レベルの出力はソフトウェア受信機向けのベースバンド IQ サンプルファイルです）、
+> ハードウェアの GNSS 受信機でも認証された GNSS 受信機でもなく（そのソフトウェア受信機は
+> 解析用の道具です）、飛行用の製品でもありません。この分野は初めてですか？
 > [平易な言葉による入門](docs/CONCEPTS.md)と[用語集](docs/GLOSSARY.md)から始めてください。
 
 <a id="whats-new-in-040"></a>
+## 0.41 の新機能
+
+0.41 は、このリリースのために確約したエビデンスの行を、データより前に定めた基準に対してそれぞれ一度だけ採点し、各結果を
+出たとおりに公表します（C2 v2 の再実行は行っていません）。追加されたのは、衛星故障の判定を備えたエリアの信頼状態、
+監視ネットワークの計画ツール、TDOA による妨害源の位置推定、ダークベッセルと AIS 完全性の判定、
+TEXBAT のなりすましベンチマーク、飛行力学向けのエクスポート、RTCM SSR リーダーです。台帳は 413 行になりました：VALIDATED
+176、MODELLED 233、PARTNER 4。VALIDATED に昇格した行はなく、以下のすべての未達はテストで固定されています。
+
+- **エリアの信頼（`kshana area-trust`、B5）。** 複数の基準局から求める、エリアの一つの信頼状態です。バージョン 3 は、
+  取り除くと複数の局のアラームが同時に解消する衛星に印を付け、その衛星を除いて各局の解を
+  再計算します。追尾の喪失だけでは、もう局の状態を下げません。IGS データの 26 エリア日（Goddard と Wettzell、2026 年 5 月）で
+  警報は 1 回（基準は 1 エリア日あたり ≤ 1）で、T4 を**満たします**。合成故障では T2 を**満たしません**（127 件中 123 件の
+  故障を解消。残る幾何が弱い 4 件と、2 衛星のエポック 67 件中 2 件が 1 衛星で説明されたもの）。T3
+  （警報の遅れ）は満たします。B5 v3 は **NOT MET** です（[結果](docs/design/evidence/b5-area-trust/RESULTS-v3.md)）。診断では、
+  エンジンが不健全と印の付いた放送暦レコードを使っていたことも判明し、そのように印の付いた GPS と QZSS のレコードは現在スキップします。
+- **なりすましベンチマーク（TEXBAT、E5）。** どのファイルも読む前に定めた規則で、TEXBAT の 10 本の録音すべてに対し
+  一度だけ採点しました。電力と歪みのスコアは E5-PD を**満たし**（AUC 0.7410、基準 0.70）、ベースラインの IQ スコアは E5 v2 を**満たしません**
+  （AUC 0.6941）。公表するのはスコアだけで、録音そのものは公表しません（[結果](docs/design/evidence/b4a-benchmark-classes/RESULTS-E5-v2.md)）。
+- **監視ネットワークの計画ツール（`kshana planner`、B1a）。** 検出と TDOA 精度の地図、および局の配置。
+  バージョン 3 の配置探索は 1 000 個のランダムな部分集合の最良を上回り（0.4408 対 0.4105）、P4 を**満たします**。
+  パート 1 は Linux で満たしており、macOS と Windows での確認は未了です（[結果](docs/design/evidence/b1a-planner/RESULTS-v3.md)）。
+- **妨害源の位置推定。** 電力差による位置推定（B3a）は v1 と v2 で合成データの基準を**満たしません**。新しい TDOA による位置推定
+  （B3b、`locate_tdoa`）も基準を**満たしません**（カバレッジ 0.044 対 0.90。ピークの精密化が、表明した σ 28 ns に対して
+  最大で半サンプルずれます）。どちらの行もここで止まり、いずれの手法でも実データでの実行は行いません
+  （[B3b の結果](docs/design/evidence/b3b-tdoa-locator/RESULTS.md)）。
+- **ダークベッセルと AIS 完全性（M4）。** バージョン 3 はダークベッセルの再現率（0.994）と、位置オフセットを除くすべての基準を
+  **満たし**、位置オフセットは**満たしません**（5 km で 0.489 対 0.85）（[結果](docs/design/evidence/m4-dark-vessel-ais-integrity/RESULTS-v3.md)）。
+  出力はすべてデータの整合性を述べるもので、意図を述べることはありません。
+- **その他の採点。** M1 と C5a、C3、B8 の各行は基準を**満たします**。公表された再訪数値に対する M2 の照合は
+  それらと**整合しません**。M5 v2（軌道からのハイブリッド位置推定）、D8b の行
+  8 v2、D8a の行 6 v2 は基準を**満たしません**（[Changelog](CHANGELOG.md)）。
+- **飛行力学と補正。** `kshana ephem-export` は JPL Horizons の表を CCSDS OEM または OPM、あるいは
+  SPK カーネルとして書き出し、読み戻します。Orekit、Basilisk、ANISE は書き出したビットのままファイルを読みます。RTCM SSR（IGS SSR）リーダー、
+  Bias-SINEX リーダー、IERS 2010 の固体地球潮汐を追加しました。
+- **軌道データの検査。** `kshana orbit-data` は CCSDS の接近データメッセージ（508.0-B-1）と OEM および OCM の
+  エフェメリス（502.0-B-3）を検査し、引用する節に照らして有効か無効かを示し、出所を保ったまま OEM と OCM を
+  相互に変換し、2 行軌道要素を比較・監査し、共分散を検査・伝搬します（MODELLED）。規格自身の
+  CDM の例では、正定値でない共分散と 2 つの構文の誤りを見つけます
+  （[軌道データ](docs/ORBIT-DATA.md)）。
+
 ## 0.40 の新機能
 
 0.40 では、ミッションレベルの誤差バジェットを追加し、すべての図と表にエビデンスのティアを付け、実測の時計ログを読み込み、
 データパートナーの提出物を検査し、干渉源が存在しうる場所を推定し、英語に加えて 17 の言語に対応しました。
-台帳は 412 行になりました：VALIDATED 176、MODELLED 232、PARTNER 4。VALIDATED に昇格した行はなく、以下のすべての未達は
+VALIDATED に昇格した行はなく、以下のすべての未達は
 テストで固定されています。
 
 - **ミッションスレッド。** `mission-thread` 種別は、打ち上げから突入までのフェーズ（`launch-ascent`、`leo-rendezvous`、
   `tli-and-cruise`、`entry` と 4 つの月面種別）を、明示した引き継ぎ規則、明示した要求に対するマージン、最も弱い
-  リンクとともに連鎖させます。11 フェーズ（地球と月のセグメント）にわたる Artemis 級のエンドツーエンドの例があり、シナリオ種別は全部で 92 です。すべての数値は MODELLED です。公開されている Artemis I の軌道に対する月周辺空間（シスルナ）の伝搬は、
+  リンクとともに連鎖させます。11 フェーズ（地球と月のセグメント）にわたる Artemis 級のエンドツーエンドの例があります。すべての数値は MODELLED です。公開されている Artemis I の軌道に対する月周辺空間（シスルナ）の伝搬は、
   事前登録した合格基準に**届きません**（5 km と 0.05 m/s に対して 45.3 km と 0.25 m/s。原因はモデルに含まれない小さなマヌーバです）。CAPSTONE の
   軌道に対する月の伝搬器も**届きません**（1 周回の終了時点で 25 km に対して 136.8 km）。LRO との比較は合格基準を満たします。これらの行は MODELLED のままです
   （[ミッションスレッド](docs/MISSION-THREAD.md)、[月セグメント](docs/MISSION-THREAD-LUNAR.md)）。Studio では、スレッドは `/studio/mission-thread/` で読めます。
@@ -207,7 +247,7 @@ kshana jammertest score session.toml --catalog ../jammertest-plan/testcatalog202
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/jammertest-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/jammertest-light.svg">
-  <img src="docs/figures/0.38/jammertest-light.svg" alt="3 つの試験からなるスケジュールに対する 1 つの合成受信機ログのスコアリング。エンジン v0.40.0 の実際の実行（`kshana jammertest score`）から。ログは架空のもので、2 つの区間で C/N0 が 20 dB 低下する 1800 s の NMEA です。スケジュールには 3 つのスロットがあり、中央のスロットにはログ中にジャマーがありません。スコアは 3 試験中 2 試験を検出（遅延の中央値 0 s）、1 試験を見逃しとし、0.25 h のクリーンな時間における誤警報の連続は 0 です。ここには実際の受信機について何も述べていません。助言用ソフトウェアであり、型式承認を受けた航法装置（IEC 61108、IEC 61162）ではありません。船舶の航行の責任は引き続き運用者にあります。">
+  <img src="docs/figures/0.38/jammertest-light.svg" alt="3 つの試験からなるスケジュールに対する 1 つの合成受信機ログのスコアリング。エンジン v0.41.0 の実際の実行（`kshana jammertest score`）から。ログは架空のもので、2 つの区間で C/N0 が 20 dB 低下する 1800 s の NMEA です。スケジュールには 3 つのスロットがあり、中央のスロットにはログ中にジャマーがありません。スコアは 3 試験中 2 試験を検出（遅延の中央値 0 s）、1 試験を見逃しとし、0.25 h のクリーンな時間における誤警報の連続は 0 です。ここには実際の受信機について何も述べていません。助言用ソフトウェアであり、型式承認を受けた航法装置（IEC 61108、IEC 61162）ではありません。船舶の航行の責任は引き続き運用者にあります。">
 </picture>
 
 **台帳のステータス：MODELLED。** 合格基準はスコアリングした実行より前に固定しました。JammerTest 2024 のデータでは
@@ -228,7 +268,7 @@ kshana receiver-trust session.toml     # [log] format = "ubx", path = "receiver.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/receiver-flags-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/receiver-flags-light.svg">
-  <img src="docs/figures/0.38/receiver-flags-light.svg" alt="受信機自身のスプーフィングフラグと Kshana の警報の比較。架空の UBX ログ（1 Hz で 200 エポック）に対するエンジン v0.40.0 の実際の実行から。C/N0 は 80 から 90 s と 120 から 130 s で 20 dB 低下し、受信機は 120 から 130 s と 160 から 165 s にフラグを立てます。キャリブレーション後に比較した 140 エポックのうち、両方がフラグを立てたのは 11、受信機のみが 6、Kshana のみが 11、どちらでもないのが 112 でした。どちらの側も真値ではなく、一致は検証ではありません。助言：研究・エンジニアリング用ツールによる解析出力であり、型式承認を受けた航法装置ではなく、セーフティ・オブ・ライフのサービスでもありません。">
+  <img src="docs/figures/0.38/receiver-flags-light.svg" alt="受信機自身のスプーフィングフラグと Kshana の警報の比較。架空の UBX ログ（1 Hz で 200 エポック）に対するエンジン v0.41.0 の実際の実行から。C/N0 は 80 から 90 s と 120 から 130 s で 20 dB 低下し、受信機は 120 から 130 s と 160 から 165 s にフラグを立てます。キャリブレーション後に比較した 140 エポックのうち、両方がフラグを立てたのは 11、受信機のみが 6、Kshana のみが 11、どちらでもないのが 112 でした。どちらの側も真値ではなく、一致は検証ではありません。助言：研究・エンジニアリング用ツールによる解析出力であり、型式承認を受けた航法装置ではなく、セーフティ・オブ・ライフのサービスでもありません。">
 </picture>
 
 **台帳のステータス：MODELLED。** 受信機の検出器と Kshana の検出器の一致は
@@ -248,7 +288,7 @@ kshana imu-fit still.csv --format csv --axis x --expected-mean 0 --id bench-imu
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/machine-inputs-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/machine-inputs-light.svg">
-  <img src="docs/figures/0.38/machine-inputs-light.svg" alt="`kshana imu-fit` が静止状態の IMU ログから読み取る内容。架空のログ（100 Hz で 20,000 サンプル、200 s）に対するエンジン v0.40.0 の実際の実行から：加速度計の速度ランダムウォーク q_va = 4.02e-06、ジャイロの角度ランダムウォーク q_arw = 9e-08、バイアス不安定性 0.00296、初期の Allan 傾き（-0.51 と -0.49。白色雑音が支配的な領域では約 -0.5）。横の表はコマンドが出力する TOML です。推定器は合成ログでのみ確認しています。助言：研究・エンジニアリング用ツールによる解析出力であり、型式承認を受けた航法装置ではなく、セーフティ・オブ・ライフのサービスでもありません。">
+  <img src="docs/figures/0.38/machine-inputs-light.svg" alt="`kshana imu-fit` が静止状態の IMU ログから読み取る内容。架空のログ（100 Hz で 20,000 サンプル、200 s）に対するエンジン v0.41.0 の実際の実行から：加速度計の速度ランダムウォーク q_va = 4.02e-06、ジャイロの角度ランダムウォーク q_arw = 9e-08、バイアス不安定性 0.00296、初期の Allan 傾き（-0.51 と -0.49。白色雑音が支配的な領域では約 -0.5）。横の表はコマンドが出力する TOML です。推定器は合成ログでのみ確認しています。助言：研究・エンジニアリング用ツールによる解析出力であり、型式承認を受けた航法装置ではなく、セーフティ・オブ・ライフのサービスでもありません。">
 </picture>
 
 **台帳のステータス：MODELLED。** 自作のフィクスチャのみです。実際の受信機、IMU、
@@ -268,7 +308,7 @@ kshana scenarios/holdover-test-example.toml
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/timing-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/timing-light.svg">
-  <img src="docs/figures/0.38/timing-light.svg" alt="時刻誤差の記録からスコアリングしたホールドオーバー試験。scenarios/holdover-test-example.toml（5 s ごとに 601 サンプル）に対するエンジン v0.40.0 の実際の実行から。GNSS は 600 s に運用者によって除去され、2400 s に復旧します。時刻誤差はホールドオーバーの終了時に 299 ns までドリフトし、675 s 後に 100 ns のバジェットを超え、復旧の 70 s 後に 100 ns の帯域内に戻ります。判定：ベースラインのマスク PASS、ホールドオーバーのマスク FAIL、ホールドオーバーのエンベロープ FAIL、復帰 RECOVERED。マスクに対する測定であり、承認ではありません。時刻は運用者の申告であり、Kshana は検証していません。助言：研究・エンジニアリング用ツールによる解析出力であり、型式承認を受けた航法装置ではなく、セーフティ・オブ・ライフのサービスでもありません。">
+  <img src="docs/figures/0.38/timing-light.svg" alt="時刻誤差の記録からスコアリングしたホールドオーバー試験。scenarios/holdover-test-example.toml（5 s ごとに 601 サンプル）に対するエンジン v0.41.0 の実際の実行から。GNSS は 600 s に運用者によって除去され、2400 s に復旧します。時刻誤差はホールドオーバーの終了時に 299 ns までドリフトし、675 s 後に 100 ns のバジェットを超え、復旧の 70 s 後に 100 ns の帯域内に戻ります。判定：ベースラインのマスク PASS、ホールドオーバーのマスク FAIL、ホールドオーバーのエンベロープ FAIL、復帰 RECOVERED。マスクに対する測定であり、承認ではありません。時刻は運用者の申告であり、Kshana は検証していません。助言：研究・エンジニアリング用ツールによる解析出力であり、型式承認を受けた航法装置ではなく、セーフティ・オブ・ライフのサービスでもありません。">
 </picture>
 
 **台帳のステータス：MODELLED。** GNSS を除去した時刻と復旧した時刻は運用者の申告であり、
@@ -289,7 +329,7 @@ kshana standards-pack run imo-circ-1575
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/standards-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/standards-light.svg">
-  <img src="docs/figures/0.38/standards-light.svg" alt="スコアリングされた 3 つの標準パックの全試験。エンジン v0.40.0 の実際の実行（`kshana standards-pack run`）から：dhs-rpcf：6 件が基準を満たし、1 件が満たさず、2 件は入力が必要。imo-circ-1575：1 件が満たし、4 件が満たさず、2 件は入力が必要。icao-doc9849-appf：6 件が満たし、0 件が満たさず、2 件は入力が必要。全体で 13 件が満たし、5 件が満たさず、6 件はエンジンが持たない入力（受信機ログまたは機器の文書）を必要とします。各合格基準は実行前に明示しました。未達は未達のまま残します。基準を満たしたということは、モデル化したシナリオが明示した基準を満たしたことを示すだけで、製品については何も示しません。パックは引用している行の証拠を裏付けるものであり、評価ではありません。助言：研究・エンジニアリング用ツールによる解析出力であり、型式承認を受けた航法装置ではなく、セーフティ・オブ・ライフのサービスでもありません。航法や安全に関するいかなる判断の唯一の根拠にもしてはなりません。">
+  <img src="docs/figures/0.38/standards-light.svg" alt="スコアリングされた 3 つの標準パックの全試験。エンジン v0.41.0 の実際の実行（`kshana standards-pack run`）から：dhs-rpcf：6 件が基準を満たし、1 件が満たさず、2 件は入力が必要。imo-circ-1575：1 件が満たし、4 件が満たさず、2 件は入力が必要。icao-doc9849-appf：6 件が満たし、0 件が満たさず、2 件は入力が必要。全体で 13 件が満たし、5 件が満たさず、6 件はエンジンが持たない入力（受信機ログまたは機器の文書）を必要とします。各合格基準は実行前に明示しました。未達は未達のまま残します。基準を満たしたということは、モデル化したシナリオが明示した基準を満たしたことを示すだけで、製品については何も示しません。パックは引用している行の証拠を裏付けるものであり、評価ではありません。助言：研究・エンジニアリング用ツールによる解析出力であり、型式承認を受けた航法装置ではなく、セーフティ・オブ・ライフのサービスでもありません。航法や安全に関するいかなる判断の唯一の根拠にもしてはなりません。">
 </picture>
 
 **台帳のステータス：MODELLED。** 基準を満たしたということは、モデル化したシナリオが明示した基準を満たしたことを示すだけで、
@@ -310,7 +350,7 @@ kshana lunanet-afs-check symbols afs.sym
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/lunanet-afs-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/lunanet-afs-light.svg">
-  <img src="docs/figures/0.38/lunanet-afs-light.svg" alt="仕様書に印刷された列に対して確認した LunaNet AFS のコード生成器。エンジン v0.40.0 の実際の実行（`kshana lunanet-afs-check spec`、LNIS V5, AD1 Volume A (LSIS-AFS) V1.0, 29 January 2025 に固定。この文書はコード表に {LSIS-TBC} と記しています）から。10 件のチェックのうち 9 件が基準を満たし、B4 は NOT MET です（421 件中 420 件が一致）。これは公開された仕様書の 1 つの版に対してシンボルストリームを確認するものであり、LunaNet のいかなるノードやサービスについても何も述べていません。助言：研究・エンジニアリング用ツールによる解析出力であり、型式承認を受けた航法装置ではなく、セーフティ・オブ・ライフのサービスでもありません。これは公開された仕様書の 1 つの版に対してシンボルストリームを確認するものであり、LunaNet のいかなるノードやサービスについても何も述べていません。">
+  <img src="docs/figures/0.38/lunanet-afs-light.svg" alt="仕様書に印刷された列に対して確認した LunaNet AFS のコード生成器。エンジン v0.41.0 の実際の実行（`kshana lunanet-afs-check spec`、LNIS V5, AD1 Volume A (LSIS-AFS) V1.0, 29 January 2025 に固定。この文書はコード表に {LSIS-TBC} と記しています）から。10 件のチェックのうち 9 件が基準を満たし、B4 は NOT MET です（421 件中 420 件が一致）。これは公開された仕様書の 1 つの版に対してシンボルストリームを確認するものであり、LunaNet のいかなるノードやサービスについても何も述べていません。助言：研究・エンジニアリング用ツールによる解析出力であり、型式承認を受けた航法装置ではなく、セーフティ・オブ・ライフのサービスでもありません。これは公開された仕様書の 1 つの版に対してシンボルストリームを確認するものであり、LunaNet のいかなるノードやサービスについても何も述べていません。">
 </picture>
 
 **台帳のステータス：VALIDATED**（コードと同期のチェックについて、仕様書が印刷している値に対して。仕様書はそれらを
@@ -352,7 +392,7 @@ kshana bench baseline --task d --split test --out results/
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/bench-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/bench-light.svg">
-  <img src="docs/figures/0.38/bench-light.svg" alt="テスト分割における kshana-bench タスク D（楽観ギャップ）の組み込みベースライン。エンジン v0.40.0 の実際の実行（`kshana bench baseline`）から。各棒の組は、分布内のケースとシフトしたケースにおける ROC 曲線下面積であり、その差が楽観ギャップで、許容値は 0.05 です。fused-max-z：0.998 と 0.983（ギャップ 0.015）、sqm-imbalance：0.882 と 0.882（ギャップ 0.001）、agc-excess：0.848 と 0.819（ギャップ 0.030）、raim-parity：0.682 と 0.672（ギャップ 0.010）、energy-cn0-drop：0.595 と 0.565（ギャップ 0.030）。ラベルは合成コーパスの生成モデルによるラベルであり、フィールドデータではありません：MODELLED。助言：明示した参照に対してモデル化または測定したものであり、承認、認証、適合の表明ではありません。スコアはログやコーパスを記述するものであり、製品を記述するものではありません。">
+  <img src="docs/figures/0.38/bench-light.svg" alt="テスト分割における kshana-bench タスク D（楽観ギャップ）の組み込みベースライン。エンジン v0.41.0 の実際の実行（`kshana bench baseline`）から。各棒の組は、分布内のケースとシフトしたケースにおける ROC 曲線下面積であり、その差が楽観ギャップで、許容値は 0.05 です。fused-max-z：0.998 と 0.983（ギャップ 0.015）、sqm-imbalance：0.882 と 0.882（ギャップ 0.001）、agc-excess：0.848 と 0.819（ギャップ 0.030）、raim-parity：0.682 と 0.672（ギャップ 0.010）、energy-cn0-drop：0.595 と 0.565（ギャップ 0.030）。ラベルは合成コーパスの生成モデルによるラベルであり、フィールドデータではありません：MODELLED。助言：明示した参照に対してモデル化または測定したものであり、承認、認証、適合の表明ではありません。スコアはログやコーパスを記述するものであり、製品を記述するものではありません。">
 </picture>
 
 **台帳のステータス：** 独自の台帳行はありません。ベースラインは結果ファイル中で MODELLED とラベル付けされています。
@@ -395,7 +435,7 @@ kshana trust-telemetry --result session.result.json --print-syslog --format cef
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/exporters-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/exporters-light.svg">
-  <img src="docs/figures/0.38/exporters-light.svg" alt="3 つのエクスポート形式による 1 つの信頼結果。examples/maritime-trust に対するエンジン v0.40.0 の実際の実行（`kshana trust-telemetry`）から：Prometheus のテキスト表現（最新の信頼スコアは 5.9 で、設定されているのは untrusted の帯域）と、最後の CEF と LEEF のメッセージ。このコマンドは宛先を与えない限り何も発行せず、認証情報を保持せず、無線信号を送信しません。助言用ソフトウェアであり、型式承認を受けた航法装置（IEC 61108、IEC 61162）ではありません。船舶の航行の責任は引き続き運用者にあります。">
+  <img src="docs/figures/0.38/exporters-light.svg" alt="3 つのエクスポート形式による 1 つの信頼結果。examples/maritime-trust に対するエンジン v0.41.0 の実際の実行（`kshana trust-telemetry`）から：Prometheus のテキスト表現（最新の信頼スコアは 5.9 で、設定されているのは untrusted の帯域）と、最後の CEF と LEEF のメッセージ。このコマンドは宛先を与えない限り何も発行せず、認証情報を保持せず、無線信号を送信しません。助言用ソフトウェアであり、型式承認を受けた航法装置（IEC 61108、IEC 61162）ではありません。船舶の航行の責任は引き続き運用者にあります。">
 </picture>
 
 **台帳のステータス：MODELLED。** [信頼テレメトリー](docs/TRUST-TELEMETRY.md)。
@@ -413,18 +453,20 @@ kshana scenarios/optical-atmosphere-network.toml
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/optical-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/optical-light.svg">
-  <img src="docs/figures/0.38/optical-light.svg" alt="サイト 'northern' の 336 h にわたるリンクマージンの 1 つのシード付き実現。scenarios/optical-atmosphere-network.toml（シード 37、ステップ 600 s）に対するエンジン v0.40.0 の実際の実行から。マージンは雲のエピソード中にゼロを下回ります。この抽出では、リンクは時間の 40.5 % で確立しており、途絶は 27 回、最長の途絶は 30.7 h です。入力は例示用であり、系列はモデルからの 1 回の抽出であって気候そのものではなく、統計的な可用性（37.8 %）とは抽出のサンプリング誤差の分だけ異なります。助言用の解析のみ：認証された可用性、インテグリティ、航法のプロダクトではなく、気候の入力が明示されたデータセットに由来しない限り、実在するいかなるサイトの予測でもありません。">
+  <img src="docs/figures/0.38/optical-light.svg" alt="サイト 'northern' の 336 h にわたるリンクマージンの 1 つのシード付き実現。scenarios/optical-atmosphere-network.toml（シード 37、ステップ 600 s）に対するエンジン v0.41.0 の実際の実行から。マージンは雲のエピソード中にゼロを下回ります。この抽出では、リンクは時間の 40.5 % で確立しており、途絶は 27 回、最長の途絶は 30.7 h です。入力は例示用であり、系列はモデルからの 1 回の抽出であって気候そのものではなく、統計的な可用性（37.8 %）とは抽出のサンプリング誤差の分だけ異なります。助言用の解析のみ：認証された可用性、インテグリティ、航法のプロダクトではなく、気候の入力が明示されたデータセットに由来しない限り、実在するいかなるサイトの予測でもありません。">
 </picture>
 
 **台帳のステータス：MODELLED。** モデルからの 1 回の抽出であり、気候そのものではありません。[光大気](docs/OPTICAL-ATMOSPHERE.md)。
 
 ### Studio の新しいビュー
 
-[kshana.dev/studio](https://kshana.dev/studio/) に、Bridge リプレイ（1 つのミッション時計上で 2 つの実行を並べて表示、
-[`/studio/replay/`](https://kshana.dev/studio/replay/)）、光 PNT のページ
-（`/studio/optical/`）、ホールドオーバー試験のページ（`/studio/holdover/`）、オブザーバトリーのビューアー
-（`/studio/observatory/`）が加わりました。これらはブラウザー内で同じエンジンを実行し、何もアップロードせず、
-同じ助言の記載を伴います。上の図はスクリプトがエンジン自身の出力から描いたものであり、
+[kshana.dev/studio](https://kshana.dev/studio/) には、ブリッジのリプレイ（一つのミッション時計上で二つの実行を並べて表示、
+[`/studio/replay/`](https://kshana.dev/studio/replay/)）、光学 PNT のページ
+（`/studio/optical/`）、ホールドオーバー試験のページ（`/studio/holdover/`）、観測所のビューア
+（`/studio/observatory/`）が加わります。いずれもブラウザで同じエンジンを動かし、何もアップロードせず、
+同じ助言的な声明を掲げています。Kshana Desktop（[kshana.dev](https://kshana.dev) で入手できます）でのみ、IQ 録音のビュー（`/studio/iq/`）がディスクから
+録音を読み込み、その電力の時間変化、ウォーターフォール、カーソル位置のスペクトルを表示します。受信したサンプルを読むだけで、
+信号を書き込む、送信する、生成する操作は一つもありません。上の図はスクリプトがエンジンの出力から描いたもので、
 これらのページのスクリーンショットではありません。
 
 <a id="space-user-navigation-gnss-ssv"></a>
@@ -449,25 +491,25 @@ kshana scenarios/gnss-ssv-formation-heo.toml    # formation: relative navigation
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/ssv-shell-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/ssv-shell-light.svg">
-  <img src="docs/figures/0.38/ssv-shell-light.svg" alt="半球アンテナを持ち、高度 36000 km の球面上にいる利用者の信号可用性。scenarios/gnss-ssv-shell.toml に対するエンジン v0.40.0 の実際の実行（縮小した実行：利用者 162、3 日、10 分ステップ）から、閾値 20 dB-Hz で。コンステレーションと帯域ごとに 2 本の棒：少なくとも 1 つの信号、および少なくとも 4 つの信号が得られる（利用者、エポック）の組の割合。全体、L1：少なくとも 1 つ 99.4 %、少なくとも 4 つ 73.2 %、4 信号未満の最長の途絶 160 min。全体、L5：少なくとも 1 つ 100.0 %、少なくとも 4 つ 99.9 %、4 信号未満の最長の途絶 20 min。MODELLED：明示した入力からのモデル化した検討であり、測定ではなく、いかなるシステムのサービスボリュームの主張でもありません。縮小したサイズは冊子との比較ではありません。助言：研究・エンジニアリング用ツールによる解析出力であり、型式承認を受けた航法装置ではなく、セーフティ・オブ・ライフのサービスでもありません。">
+  <img src="docs/figures/0.38/ssv-shell-light.svg" alt="半球アンテナを持ち、高度 36000 km の球面上にいる利用者の信号可用性。scenarios/gnss-ssv-shell.toml に対するエンジン v0.41.0 の実際の実行（縮小した実行：利用者 162、3 日、10 分ステップ）から、閾値 20 dB-Hz で。コンステレーションと帯域ごとに 2 本の棒：少なくとも 1 つの信号、および少なくとも 4 つの信号が得られる（利用者、エポック）の組の割合。全体、L1：少なくとも 1 つ 99.4 %、少なくとも 4 つ 73.2 %、4 信号未満の最長の途絶 160 min。全体、L5：少なくとも 1 つ 100.0 %、少なくとも 4 つ 99.9 %、4 信号未満の最長の途絶 20 min。MODELLED：明示した入力からのモデル化した検討であり、測定ではなく、いかなるシステムのサービスボリュームの主張でもありません。縮小したサイズは冊子との比較ではありません。助言：研究・エンジニアリング用ツールによる解析出力であり、型式承認を受けた航法装置ではなく、セーフティ・オブ・ライフのサービスでもありません。">
 </picture>
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/ssv-heo-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/ssv-heo-light.svg">
-  <img src="docs/figures/0.38/ssv-heo-light.svg" alt="1 つの高地球軌道（近地点 497 km、遠地点 58622 km、周期 18.8 h）に沿った信号。scenarios/gnss-ssv-heo.toml に対するエンジン v0.40.0 の実際の実行から、帯域 L1。上段：可視の信号のうち最良の搬送波対雑音密度と、20 dB-Hz の閾値。中段：全コンステレーションから可視の信号の数で、サンプリングした点に沿って 4 から 55。受信したリンクのうち、2252 はメインローブを、696 はサイドローブを経由しました。ラベル付きのパラメトリックな代替パターンを使っており、いかなるシステムの実測パターンでもありません。PDOP の中央値 67、95 パーセンタイル 358。MODELLED：明示した入力からのモデル化した検討であり、測定ではなく、いかなるシステムのサービスボリュームの主張でもありません。助言：研究・エンジニアリング用ツールによる解析出力であり、型式承認を受けた航法装置ではなく、セーフティ・オブ・ライフのサービスでもありません。">
+  <img src="docs/figures/0.38/ssv-heo-light.svg" alt="1 つの高地球軌道（近地点 497 km、遠地点 58622 km、周期 18.8 h）に沿った信号。scenarios/gnss-ssv-heo.toml に対するエンジン v0.41.0 の実際の実行から、帯域 L1。上段：可視の信号のうち最良の搬送波対雑音密度と、20 dB-Hz の閾値。中段：全コンステレーションから可視の信号の数で、サンプリングした点に沿って 4 から 55。受信したリンクのうち、2252 はメインローブを、696 はサイドローブを経由しました。ラベル付きのパラメトリックな代替パターンを使っており、いかなるシステムの実測パターンでもありません。PDOP の中央値 67、95 パーセンタイル 358。MODELLED：明示した入力からのモデル化した検討であり、測定ではなく、いかなるシステムのサービスボリュームの主張でもありません。助言：研究・エンジニアリング用ツールによる解析出力であり、型式承認を受けた航法装置ではなく、セーフティ・オブ・ライフのサービスでもありません。">
 </picture>
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/ssv-nav-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/ssv-nav-light.svg">
-  <img src="docs/figures/0.38/ssv-nav-light.svg" alt="低軌道から月へ向かう遷移軌道上の 9 状態の搭載フィルター。scenarios/gnss-ssv-nav-lunar.toml に対するエンジン v0.40.0 の実際の実行（289 エポック、描画は 13 点）から。対数軸上に、真の位置誤差とフィルター自身の 1 シグマ境界を開始からの時間に対して示します。GNSS の軌道の内側では位置の RMS は 1.4 m、その上空では 90 m であり、最終誤差は高度 193,330 km、測定 1 つで 184 m です。実行全体での正規化推定誤差二乗の平均は 4.4 です（整合した位置ブロックでは約 3）。真値とフィルターは太陽と月の代替モデルを共有しています。MODELLED：明示した入力からのモデル化した検討であり、測定ではなく、いかなるシステムのサービスボリュームの主張でもありません。助言：研究・エンジニアリング用ツールによる解析出力であり、型式承認を受けた航法装置ではなく、セーフティ・オブ・ライフのサービスでもありません。">
+  <img src="docs/figures/0.38/ssv-nav-light.svg" alt="低軌道から月へ向かう遷移軌道上の 9 状態の搭載フィルター。scenarios/gnss-ssv-nav-lunar.toml に対するエンジン v0.41.0 の実際の実行（289 エポック、描画は 13 点）から。対数軸上に、真の位置誤差とフィルター自身の 1 シグマ境界を開始からの時間に対して示します。GNSS の軌道の内側では位置の RMS は 1.4 m、その上空では 90 m であり、最終誤差は高度 199,330 km、測定 1 つで 184 m です。実行全体での正規化推定誤差二乗の平均は 4.4 です（整合した位置ブロックでは約 3）。真値とフィルターは太陽と月の代替モデルを共有しています。MODELLED：明示した入力からのモデル化した検討であり、測定ではなく、いかなるシステムのサービスボリュームの主張でもありません。助言：研究・エンジニアリング用ツールによる解析出力であり、型式承認を受けた航法装置ではなく、セーフティ・オブ・ライフのサービスでもありません。">
 </picture>
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/ssv-formation-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/ssv-formation-light.svg">
-  <img src="docs/figures/0.38/ssv-formation-light.svg" alt="高軌道上のチーフの周りの 2 機のデピュティの相対航法。scenarios/gnss-ssv-formation-heo.toml に対するエンジン v0.40.0 の実際の実行（401 エポック）から。各デピュティについて 2 本の棒：2 つの独立した絶対推定値の差から得た相対位置の RMS と、一重差の擬似距離に基づく相対フィルターから得た相対位置の RMS。基線 0.8 km：5.1 m と 1.2 m。基線 2.0 km：4.1 m と 2.1 m。ここでは絶対フィルターは整合していません：正規化推定誤差二乗の平均は、整合したフィルターの約 3 に対して 187 であり、表明された不確かさは小さすぎます。MODELLED：明示した入力からのモデル化した検討であり、測定ではなく、いかなるシステムのサービスボリュームの主張でもありません。助言：研究・エンジニアリング用ツールによる解析出力であり、型式承認を受けた航法装置ではなく、セーフティ・オブ・ライフのサービスでもありません。">
+  <img src="docs/figures/0.38/ssv-formation-light.svg" alt="高軌道上のチーフの周りの 2 機のデピュティの相対航法。scenarios/gnss-ssv-formation-heo.toml に対するエンジン v0.41.0 の実際の実行（401 エポック）から。各デピュティについて 2 本の棒：2 つの独立した絶対推定値の差から得た相対位置の RMS と、一重差の擬似距離に基づく相対フィルターから得た相対位置の RMS。基線 0.8 km：5.1 m と 1.2 m。基線 2.0 km：4.1 m と 2.1 m。ここでは絶対フィルターは整合していません：正規化推定誤差二乗の平均は、整合したフィルターの約 3 に対して 187 であり、表明された不確かさは小さすぎます。MODELLED：明示した入力からのモデル化した検討であり、測定ではなく、いかなるシステムのサービスボリュームの主張でもありません。助言：研究・エンジニアリング用ツールによる解析出力であり、型式承認を受けた航法装置ではなく、セーフティ・オブ・ライフのサービスでもありません。">
 </picture>
 
 **台帳のステータス：MODELLED。冊子との比較はほとんどが未達です。** 合格基準は
@@ -483,7 +525,7 @@ VALIDATED ではありません。フォーメーションの実行の絶対フ�
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/ssv-booklet-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/ssv-booklet-light.svg">
-  <img src="docs/figures/0.38/ssv-booklet-light.svg" alt="宇宙利用者の可用性モデルと公開された Space Service Volume の冊子との、記録された比較。事前登録した実行のコミット済みの結果（xval/gnss-ssv/results-run1.json、エンジン v0.40.0 の ssv_booklet_check の例が書き出したもの）から。棒ごとに、許容範囲内のセル：S0 13 中 13（MET）、S1 52 中 43（NOT MET）、S2 52 中 48（NOT MET）、S3 155 中 122（NOT MET）、S4 156 中 132（NOT MET）、S5 26 中 18（NOT MET）、S6 26 中 26（MET）、S7 パネルパターン 20 中 0（NOT MET）。事前登録した解釈の下で基準を満たすのは S0 と S6 だけです。冊子のもう一方の GLONASS の角度を使う診断用の変種では S1、S2、S4 がすべてのセルで合格しますが、正式な記録としての実行を置き換えるものではありません。VALIDATED の台帳行はありません。助言：研究・エンジニアリング用ツールによる解析出力であり、型式承認を受けた航法装置ではなく、セーフティ・オブ・ライフのサービスでもありません。">
+  <img src="docs/figures/0.38/ssv-booklet-light.svg" alt="宇宙利用者の可用性モデルと公開された Space Service Volume の冊子との、記録された比較。事前登録した実行のコミット済みの結果（xval/gnss-ssv/results-run1.json、エンジン v0.41.0 の ssv_booklet_check の例が書き出したもの）から。棒ごとに、許容範囲内のセル：S0 13 中 13（MET）、S1 52 中 43（NOT MET）、S2 52 中 48（NOT MET）、S3 155 中 122（NOT MET）、S4 156 中 132（NOT MET）、S5 26 中 18（NOT MET）、S6 26 中 26（MET）、S7 パネルパターン 20 中 0（NOT MET）。事前登録した解釈の下で基準を満たすのは S0 と S6 だけです。冊子のもう一方の GLONASS の角度を使う診断用の変種では S1、S2、S4 がすべてのセルで合格しますが、正式な記録としての実行を置き換えるものではありません。VALIDATED の台帳行はありません。助言：研究・エンジニアリング用ツールによる解析出力であり、型式承認を受けた航法装置ではなく、セーフティ・オブ・ライフのサービスでもありません。">
 </picture>
 
 [宇宙利用者の航法](docs/SSV.md)、[比較が示すもの](docs/SSV.md#what-the-comparison-with-the-booklet-shows)。
@@ -510,31 +552,31 @@ kshana scenarios/lunar-infrastructure-geodesy-sensitivity.toml
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/lunar-od-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/lunar-od-light.svg">
-  <img src="docs/figures/0.38/lunar-od-light.svg" alt="準直線ハロー軌道における搭載の地球 GNSS 軌道決定と、独立した地上の軌道決定との整合性。scenarios/lunar-infrastructure-od-consistency.toml とモデル誤差の変種（各 400 試行）に対するエンジン v0.40.0 の実際の実行から。正規化差 q の平均は、モデル誤差なしで 5.81、3e-10 m/s2 の加速度誤差を注入して 5.95 であり、期待値は 6 です：2 つの軌道解は整合しています（合格基準 C1 MET）。95 % 点を上回る試行の割合は 0.040 と 0.052 です。注入した誤差を検出するための合格基準は 0.5 以上であったため、NOT MET です（C3）：搭載の解は約 352 m の精度でしかわからず、地上の解の 23 m と比べて大きいため、10 メートルの変位はその共分散の中に隠れてしまいます。MODELLED：明示した簡略化と例示用の入力を持つ制限三体モデルであり、いかなる月の量の測定でもありません。助言：研究・エンジニアリング用ツールによる解析出力であり、型式承認を受けた航法装置ではなく、セーフティ・オブ・ライフのサービスでもありません。">
+  <img src="docs/figures/0.38/lunar-od-light.svg" alt="準直線ハロー軌道における搭載の地球 GNSS 軌道決定と、独立した地上の軌道決定との整合性。scenarios/lunar-infrastructure-od-consistency.toml とモデル誤差の変種（各 400 試行）に対するエンジン v0.41.0 の実際の実行から。正規化差 q の平均は、モデル誤差なしで 5.81、3e-10 m/s2 の加速度誤差を注入して 5.95 であり、期待値は 6 です：2 つの軌道解は整合しています（合格基準 C1 MET）。95 % 点を上回る試行の割合は 0.040 と 0.052 です。注入した誤差を検出するための合格基準は 0.5 以上であったため、NOT MET です（C3）：搭載の解は約 352 m の精度でしかわからず、地上の解の 23 m と比べて大きいため、10 メートルの変位はその共分散の中に隠れてしまいます。MODELLED：明示した簡略化と例示用の入力を持つ制限三体モデルであり、いかなる月の量の測定でもありません。助言：研究・エンジニアリング用ツールによる解析出力であり、型式承認を受けた航法装置ではなく、セーフティ・オブ・ライフのサービスでもありません。">
 </picture>
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/lunar-carrier-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/lunar-carrier-light.svg">
-  <img src="docs/figures/0.38/lunar-carrier-light.svg" alt="月面局とオービターの間の搬送波位相の整数アンビギュイティの決定。エンジン v0.40.0 のスコアリングした実行のコミット済みの結果（tests/fixtures/lunar_infra/phase_full_run.json：3 つのアーク長、それぞれ 401 回の抽出によるモンテカルロ、scenarios/carrier-phase-scored.toml が書き出したもの）から。1 日：成功率 1.0 %（標準誤差 0.5 %）、アンビギュイティ 134、オービター位置のシグマはフロート 45.6 m、フィックス 18.5 m。2 日：成功率 0.5 %（標準誤差 0.4 %）、アンビギュイティ 259、オービター位置のシグマはフロート 21.5 m、フィックス 8.7 m。3 日：成功率 2.8 %（標準誤差 0.8 %）、アンビギュイティ 375、オービター位置のシグマはフロート 6.3 m、フィックス 2.1 m。整数の決定は達成されません：成功率は 25 dBi で 1 % から 3 % にとどまり、登録した 12 dBi ではこの問題を構成できません。MODELLED：明示した簡略化と例示用の入力を持つ制限三体モデルであり、いかなる月の量の測定でもありません。助言：研究・エンジニアリング用ツールによる解析出力であり、型式承認を受けた航法装置ではなく、セーフティ・オブ・ライフのサービスでもありません。">
+  <img src="docs/figures/0.38/lunar-carrier-light.svg" alt="月面局とオービターの間の搬送波位相の整数アンビギュイティの決定。エンジン v0.41.0 のスコアリングした実行のコミット済みの結果（tests/fixtures/lunar_infra/phase_full_run.json：3 つのアーク長、それぞれ 401 回の抽出によるモンテカルロ、scenarios/carrier-phase-scored.toml が書き出したもの）から。1 日：成功率 1.0 %（標準誤差 0.5 %）、アンビギュイティ 134、オービター位置のシグマはフロート 45.6 m、フィックス 18.5 m。2 日：成功率 0.5 %（標準誤差 0.4 %）、アンビギュイティ 259、オービター位置のシグマはフロート 21.5 m、フィックス 8.7 m。3 日：成功率 2.8 %（標準誤差 0.8 %）、アンビギュイティ 375、オービター位置のシグマはフロート 6.3 m、フィックス 2.1 m。整数の決定は達成されません：成功率は 25 dBi で 1 % から 3 % にとどまり、登録した 12 dBi ではこの問題を構成できません。MODELLED：明示した簡略化と例示用の入力を持つ制限三体モデルであり、いかなる月の量の測定でもありません。助言：研究・エンジニアリング用ツールによる解析出力であり、型式承認を受けた航法装置ではなく、セーフティ・オブ・ライフのサービスでもありません。">
 </picture>
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/lunar-frame-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/lunar-frame-light.svg">
-  <img src="docs/figures/0.38/lunar-frame-light.svg" alt="地球局の測距による 7 パラメーターの月の測地原子（3 つの並進、1 つのスケール、3 つの回転）の精度。オービターから表面局への測距の有無による比較。scenarios/lunar-infrastructure-frame-coestimation.toml に対するエンジン v0.40.0 の実際の実行から。並進と回転の Cramer-Rao シグマはオービターのリンクによって小さくなります（例えば t_z は 0.98 m から 0.046 m へ）。最小の情報固有値は 111 倍に上昇し、CRLB のトレースは 1.0 % まで低下します（合格基準 F3 MET）。これは、軌道が月の軸で既知であり、その誤差がオービターの測距シグマ 1 m に含まれていることを前提としています。MODELLED：明示した簡略化と例示用の入力を持つ制限三体モデルであり、いかなる月の量の測定でもありません。助言：研究・エンジニアリング用ツールによる解析出力であり、型式承認を受けた航法装置ではなく、セーフティ・オブ・ライフのサービスでもありません。">
+  <img src="docs/figures/0.38/lunar-frame-light.svg" alt="地球局の測距による 7 パラメーターの月の測地原子（3 つの並進、1 つのスケール、3 つの回転）の精度。オービターから表面局への測距の有無による比較。scenarios/lunar-infrastructure-frame-coestimation.toml に対するエンジン v0.41.0 の実際の実行から。並進と回転の Cramer-Rao シグマはオービターのリンクによって小さくなります（例えば t_z は 0.98 m から 0.046 m へ）。最小の情報固有値は 111 倍に上昇し、CRLB のトレースは 1.0 % まで低下します（合格基準 F3 MET）。これは、軌道が月の軸で既知であり、その誤差がオービターの測距シグマ 1 m に含まれていることを前提としています。MODELLED：明示した簡略化と例示用の入力を持つ制限三体モデルであり、いかなる月の量の測定でもありません。助言：研究・エンジニアリング用ツールによる解析出力であり、型式承認を受けた航法装置ではなく、セーフティ・オブ・ライフのサービスでもありません。">
 </picture>
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/lunar-tie-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/lunar-tie-light.svg">
-  <img src="docs/figures/0.38/lunar-tie-light.svg" alt="1 機の宇宙機のレーザー測距、VLBI、GNSS の位置の間のオフセットの精度と、地上のローカルタイの誤差との関係。scenarios/lunar-infrastructure-space-tie.toml に対するエンジン v0.40.0 の実際の実行（6.56 日のアーク 1 つ、手法ごとのシグマは GNSS 10 m、VLBI 1 m、レーザー 0.1 m）から。ローカルタイが 1 mm から 1 m の範囲では、レーザーから GNSS を引いた並進のシグマは、タイが 1 m に達するまで約 1.04 m にとどまります：これはローカルタイではなく、各手法の測定雑音によって制限されています。タイだけで決まる下限は、そのシグマの 2 の平方根倍です。MODELLED：明示した簡略化と例示用の入力を持つ制限三体モデルであり、いかなる月の量の測定でもありません。助言：研究・エンジニアリング用ツールによる解析出力であり、型式承認を受けた航法装置ではなく、セーフティ・オブ・ライフのサービスでもありません。">
+  <img src="docs/figures/0.38/lunar-tie-light.svg" alt="1 機の宇宙機のレーザー測距、VLBI、GNSS の位置の間のオフセットの精度と、地上のローカルタイの誤差との関係。scenarios/lunar-infrastructure-space-tie.toml に対するエンジン v0.41.0 の実際の実行（6.56 日のアーク 1 つ、手法ごとのシグマは GNSS 10 m、VLBI 1 m、レーザー 0.1 m）から。ローカルタイが 1 mm から 1 m の範囲では、レーザーから GNSS を引いた並進のシグマは、タイが 1 m に達するまで約 1.04 m にとどまります：これはローカルタイではなく、各手法の測定雑音によって制限されています。タイだけで決まる下限は、そのシグマの 2 の平方根倍です。MODELLED：明示した簡略化と例示用の入力を持つ制限三体モデルであり、いかなる月の量の測定でもありません。助言：研究・エンジニアリング用ツールによる解析出力であり、型式承認を受けた航法装置ではなく、セーフティ・オブ・ライフのサービスでもありません。">
 </picture>
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/lunar-geodesy-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/lunar-geodesy-light.svg">
-  <img src="docs/figures/0.38/lunar-geodesy-light.svg" alt="どの観測量のファミリーが月のラブ数 h2、k2、l2 に感度を持つか。scenarios/lunar-infrastructure-geodesy-sensitivity.toml に対するエンジン v0.40.0 の実際の実行から。各セルは、あるファミリーの観測量のパラメーターに関する偏微分の RMS であり、そのファミリー自身の単位で表されます（そのため、セルは列方向ではなく行方向で比較します）。ダッシュは、そのファミリーが感度を持たないことを意味します。レーザー測距：h2 7.6、k2 なし、l2 9.8。オービター追跡：h2 なし、k2 0.00086、l2 なし。表面重力計：h2 2.9e+03、k2 4.3e+03、l2 なし。表面時計：h2 2.8e-17、k2 2.8e-17、l2 なし。4 つのファミリーすべてを使うと、Cramer-Rao シグマは公称値に対して h2 で 0.36 %、k2 で 0.52 %、l2 で 1.16 % です。ファミリーを追加しても最小固有値が下がることはありませんでした（28 回の追加中 28 回）が、擬似逆行列のトレースが大きくならなかったのは 28 回中 16 回だけでした：合格基準 G3 のこの半分は NOT MET です。オービターのファミリーは k2 加速度の視線方向の積分を捉えており、これは上限側の数値です。MODELLED：明示した簡略化と例示用の入力を持つ制限三体モデルであり、いかなる月の量の測定でもありません。助言：研究・エンジニアリング用ツールによる解析出力であり、型式承認を受けた航法装置ではなく、セーフティ・オブ・ライフのサービスでもありません。">
+  <img src="docs/figures/0.38/lunar-geodesy-light.svg" alt="どの観測量のファミリーが月のラブ数 h2、k2、l2 に感度を持つか。scenarios/lunar-infrastructure-geodesy-sensitivity.toml に対するエンジン v0.41.0 の実際の実行から。各セルは、あるファミリーの観測量のパラメーターに関する偏微分の RMS であり、そのファミリー自身の単位で表されます（そのため、セルは列方向ではなく行方向で比較します）。ダッシュは、そのファミリーが感度を持たないことを意味します。レーザー測距：h2 7.6、k2 なし、l2 9.8。オービター追跡：h2 なし、k2 0.00086、l2 なし。表面重力計：h2 2.9e+03、k2 4.3e+03、l2 なし。表面時計：h2 2.8e-17、k2 2.8e-17、l2 なし。4 つのファミリーすべてを使うと、Cramer-Rao シグマは公称値に対して h2 で 0.36 %、k2 で 0.52 %、l2 で 1.16 % です。ファミリーを追加しても最小固有値が下がることはありませんでした（28 回の追加中 28 回）が、擬似逆行列のトレースが大きくならなかったのは 28 回中 16 回だけでした：合格基準 G3 のこの半分は NOT MET です。オービターのファミリーは k2 加速度の視線方向の積分を捉えており、これは上限側の数値です。MODELLED：明示した簡略化と例示用の入力を持つ制限三体モデルであり、いかなる月の量の測定でもありません。助言：研究・エンジニアリング用ツールによる解析出力であり、型式承認を受けた航法装置ではなく、セーフティ・オブ・ライフのサービスでもありません。">
 </picture>
 
 **台帳のステータス：MODELLED。3 つの合格基準が NOT MET です。** 数値計算は独立した
@@ -566,7 +608,7 @@ VALIDATED ではありません。基準を満たしたもの：2 つの軌道�
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/studio/studio-task-dark.jpg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/studio/studio-task-light.jpg">
-  <img src="docs/assets/readme/studio/studio-task-light.jpg" alt="Kshana Studio のシンプルビュー。同梱のシナリオ integrity-raim で、エンジン v0.40.0 がローカルで動作しています。問い：幾何配置はアラートリミット（水平および垂直の保護レベル）を満たすか。まず答えが Live result の印とともに表示されます：はい、ほぼ：12 h のうち 95.3 %。受信機の誤差境界は 361 回のチェックのうち 344 回でアラートリミット（水平 40 m、垂直 50 m）を下回り、誤誘導となる測位はありませんでした。主要な数値：測位を信頼できる時間 95.3 %、最長のギャップ 10 min、典型的な誤差境界 6.5 / 13 m、誤誘導の測位 0。その横に、5 つの設定（距離誤差、2 つのアラートリミット、期間、仰角マスク）を持つ「他の設定を試す」と「再実行」、続いて折りたたまれたセクション「詳細設定」（さらに 13）、「計算方法」（検証済み 8、モデル化 6）、「研究者向け」。その下に、この結果のビューと、アラートリミットに対してプロットした保護レベル。" width="100%">
+  <img src="docs/assets/readme/studio/studio-task-light.jpg" alt="Kshana Studio のシンプルビュー。同梱のシナリオ integrity-raim で、エンジン v0.39.0 がローカルで動作しています。問い：幾何配置はアラートリミット（水平および垂直の保護レベル）を満たすか。まず答えが Live result の印とともに表示されます：はい、ほぼ：12 h のうち 95.3 %。受信機の誤差境界は 361 回のチェックのうち 344 回でアラートリミット（水平 40 m、垂直 50 m）を下回り、誤誘導となる測位はありませんでした。主要な数値：測位を信頼できる時間 95.3 %、最長のギャップ 10 min、典型的な誤差境界 6.5 / 13 m、誤誘導の測位 0。その横に、5 つの設定（距離誤差、2 つのアラートリミット、期間、仰角マスク）を持つ「他の設定を試す」と「再実行」、続いて折りたたまれたセクション「詳細設定」（さらに 13）、「計算方法」（検証済み 8、モデル化 6）、「研究者向け」。その下に、この結果のビューと、アラートリミットに対してプロットした保護レベル。" width="100%">
 </picture>
 
 **詳細ビュー**は完全なダッシュボードです：シナリオライブラリ、番号付きの 5 つのステップ
@@ -583,13 +625,13 @@ VALIDATED ではありません。基準を満たしたもの：2 つの軌道�
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/studio/studio-home-dark.jpg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/studio/studio-home-light.jpg">
-  <img src="docs/assets/readme/studio/studio-home-light.jpg" alt="Kshana Studio のシンプルビューの最初の画面。タイトルは「何を知りたいですか？」で、エンジン v0.40.0 が動作中。上部のバーには 3 つのリンク：訓練のデブリーフ、干渉マップ、受信機の信頼性。4 つの問い：地球上のどこでも何機の衛星が見えるか、位置の測位を信頼できるか、衛星なしで時計はどれだけの時間時刻を保てるか、ジャマーは受信機に何をするか。最初の問いの下に、その記録された結果：GPS、Galileo、BeiDou、GLONASS を合わせて、すべての場所で少なくとも 22 機、平均 31 機の衛星が可視で、すべての場所と時刻の 100 % で測位が可能。可視衛星数の世界地図と、「この結果を開く」ボタン。その横に「Kshana にできることのすべて」：16 の分野と、すぐに実行できる 139 のシナリオ。各タイルには記録された実行からの小さなチャートと検証済みの手法の割合があり、台帳では 350 の機能のうち 173 が検証済み。" width="100%">
+  <img src="docs/assets/readme/studio/studio-home-light.jpg" alt="Kshana Studio のシンプルビューの最初の画面。タイトルは「何を知りたいですか？」で、エンジン v0.39.0 が動作中。上部のバーには 3 つのリンク：訓練のデブリーフ、干渉マップ、受信機の信頼性。4 つの問い：地球上のどこでも何機の衛星が見えるか、位置の測位を信頼できるか、衛星なしで時計はどれだけの時間時刻を保てるか、ジャマーは受信機に何をするか。最初の問いの下に、その記録された結果：GPS、Galileo、BeiDou、GLONASS を合わせて、すべての場所で少なくとも 22 機、平均 31 機の衛星が可視で、すべての場所と時刻の 100 % で測位が可能。可視衛星数の世界地図と、「この結果を開く」ボタン。その横に「Kshana にできることのすべて」：16 の分野と、すぐに実行できる 139 のシナリオ。各タイルには記録された実行からの小さなチャートと検証済みの手法の割合があり、台帳では 350 の機能のうち 173 が検証済み。" width="100%">
 </picture>
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/studio/studio-advanced-dark.jpg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/studio/studio-advanced-light.jpg">
-  <img src="docs/assets/readme/studio/studio-advanced-light.jpg" alt="Kshana Studio の詳細ビュー。同梱のシナリオ constellation-multi-gnss-coverage（4 つの GNSS コンステレーション、1 つのマップ）の実行後で、エンジン v0.40.0 がローカルで動作しています。左にはシナリオライブラリ、16 ドメインの 139 シナリオ。5 つのステップ「選択」「設定」「実行」「結果を読む」「共有またはエクスポート」で、現在はステップ 4。主要な数値：衛星 102 機、可用性 100 %（PASS）、位置精度低下率（PDOP）の中央値 0.95（PASS）、PDOP の 95 パーセンタイル 1.105（PASS）、平均可視衛星数 31.03、最少 22。その下に、Coverage が選択されたパネル行、リプレイバー、全衛星を描いた 0.831 から 1.0853 までの平均 PDOP の世界地図、全球のカバレッジの数値。" width="100%">
+  <img src="docs/assets/readme/studio/studio-advanced-light.jpg" alt="Kshana Studio の詳細ビュー。同梱のシナリオ constellation-multi-gnss-coverage（4 つの GNSS コンステレーション、1 つのマップ）の実行後で、エンジン v0.39.0 がローカルで動作しています。左にはシナリオライブラリ、16 ドメインの 139 シナリオ。5 つのステップ「選択」「設定」「実行」「結果を読む」「共有またはエクスポート」で、現在はステップ 4。主要な数値：衛星 102 機、可用性 100 %（PASS）、位置精度低下率（PDOP）の中央値 0.95（PASS）、PDOP の 95 パーセンタイル 1.105（PASS）、平均可視衛星数 31.03、最少 22。その下に、Coverage が選択されたパネル行、リプレイバー、全衛星を描いた 0.831 から 1.0853 までの平均 PDOP の世界地図、全球のカバレッジの数値。" width="100%">
 </picture>
 
 </details>
@@ -605,23 +647,25 @@ Studio のソースとビルドの手順は [`web/README.md`](web/README.md) に
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/site/site-strip-dark.jpg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/site/site-strip-light.jpg">
-  <img src="docs/assets/readme/site/site-strip-light.jpg" alt="kshana.dev の 3 つのページを並べたもの。ホームのヒーロー：名前の行 Kshana · क्षण · 正確な瞬間 の下に見出し「GNSS が途絶える 1 分間をリハーサルする」があり、エンジン v0.40.0 の実際の実行のミッションコンソール（地球儀と 3 つのライブチャート：時計の時刻誤差、搬送波対雑音密度、保護レベル）。エビデンスの「公開された研究」：オープンなエンジンに基づく 6 本の arXiv 論文で、最新のものにはエンジンの図があります。エディションの「Kshana Pro、同じエンジンをさらに強化」：Free は 1 つのシナリオを実行し、Pro はプログラムの問いに答えます。" width="100%">
+  <img src="docs/assets/readme/site/site-strip-light.jpg" alt="kshana.dev の 3 つのページを並べたもの。ホームのヒーロー：名前の行 Kshana · क्षण · 正確な瞬間 の下に見出し「GNSS が途絶える 1 分間をリハーサルする」があり、エンジン v0.39.0 の実際の実行のミッションコンソール（地球儀と 3 つのライブチャート：時計の時刻誤差、搬送波対雑音密度、保護レベル）。エビデンスの「公開された研究」：オープンなエンジンに基づく 6 本の arXiv 論文で、最新のものにはエンジンの図があります。エディションの「Kshana Pro、同じエンジンをさらに強化」：Free は 1 つのシナリオを実行し、Pro はプログラムの問いに答えます。" width="100%">
 </picture>
 
 <a id="capabilities"></a>
 ## 機能
 
 1 つのエンジンが、最初にジャミングを受けた衛星から、時計のホールドオーバーの最後の
-ナノ秒まで、障害の連鎖全体をカバーします。エンジンには 92 のシナリオ種別があります。`kshana kinds` で
+ナノ秒まで、障害の連鎖全体をカバーします。エンジンには 93 のシナリオ種別があります。`kshana kinds` で
 一覧を表示でき、[`docs/SCENARIOS.md`](docs/SCENARIOS.md) にすべてのフィールドが記載されています。
 
 | 機能 | 答える問い |
 |---|---|
 | [スペクトル](docs/SPECTRUM.md) | ジャマーが GNSS の L バンドを、帯域ごと、秒ごとにどのように占有するか |
 | [時計とタイミング](docs/TELECOM-TIMING.md) | GNSS が失われた後、各時計がどれだけの時間時刻を保てるか |
+| [発振器](docs/OSCILLATOR.md) | 発振器のデータシートの数値が、振動下の追尾、温度変化や衝撃を通じたホールドオーバー、RAIM にとって何を意味するか |
 | [任意の天体を周回するコンステレーション](docs/CONSTELLATION-DESIGN.md) | 地球、月、火星の周りのカバレッジ、精度低下率、可用性 |
 | [太陽系](docs/SOLAR-SYSTEM.md) | 各惑星がどこにあるか、そして任意のリンクの光時間 |
 | [低軌道の航法](docs/LEO-PNT.md) | パス、リンク、航法メッセージ、融合した測位を段階ごとに |
+| [LEO-PNT の検証](docs/LEO-VERIFY.md) | LEO の時刻・測位サービスが何を提供するか：バーストタイミング、ホールドオーバーの TDEV、停止に対するコスト、屋内と降雨による損失、アンビギュイティ決定、妨害に関する主張、ドップラーのみによる完全性 |
 | [キャンペーン](docs/CAMPAIGNS.md) | 連鎖したミッション、スイープ、モンテカルロのアンサンブルを 1 つのシナリオで |
 | [アニメーション](docs/ANIMATION.md) | 実行の時系列を、アニメーションの図、プレーヤー、またはフレームとして |
 | [レポート](docs/REPORTS.md) | すべての数値を単位とラベル付きで、HTML（HyperText Markup Language）と JSON（JavaScript Object Notation）で |
@@ -657,7 +701,7 @@ SigMF は Signal Metadata Format です。
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/lband-waterfall-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/lband-waterfall-light.svg">
-  <img src="docs/assets/readme/lband-waterfall-light.svg" alt="60 s にわたる 1 つの電力スペクトル密度として描いた GNSS の L バンド。spectrum 種別の実際の実行（l-band-waterfall-jamming.toml、シード 7、エンジン v0.40.0）から：横軸が周波数、下方向が時間、色は -202.0 dBW/Hz の雑音レベルを上回る電力を表します。ジャマー：チャープ式プライバシー装置（chirp、10 s にオン、40 s にオフ）、L1 上の CW トーン（cw、30 s にオン）、L2 の狭帯域雑音（narrowband、45 s にオン）。最悪の帯域は GPS L1 C/A：25 dB-Hz の追尾下限に対して、31 s で最小の実効 C/N0 3.2 dB-Hz。GPS L1 C/A 最小 3.2 dB-Hz、Galileo E1 最小 4.7 dB-Hz、GPS L2C 最小 36.9 dB-Hz、GPS L5 最小 44.1 dB-Hz、Galileo E5a 最小 47.0 dB-Hz。" width="100%">
+  <img src="docs/assets/readme/lband-waterfall-light.svg" alt="60 s にわたる 1 つの電力スペクトル密度として描いた GNSS の L バンド。spectrum 種別の実際の実行（l-band-waterfall-jamming.toml、シード 7、エンジン v0.41.0）から：横軸が周波数、下方向が時間、色は -202.0 dBW/Hz の雑音レベルを上回る電力を表します。ジャマー：チャープ式プライバシー装置（chirp、10 s にオン、40 s にオフ）、L1 上の CW トーン（cw、30 s にオン）、L2 の狭帯域雑音（narrowband、45 s にオン）。最悪の帯域は GPS L1 C/A：25 dB-Hz の追尾下限に対して、31 s で最小の実効 C/N0 3.2 dB-Hz。GPS L1 C/A 最小 3.2 dB-Hz、Galileo E1 最小 4.7 dB-Hz、GPS L2C 最小 36.9 dB-Hz、GPS L5 最小 44.1 dB-Hz、Galileo E5a 最小 47.0 dB-Hz。" width="100%">
 </picture>
 
 <picture>
@@ -692,7 +736,7 @@ SigMF は Signal Metadata Format です。
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/trust-timeline-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/trust-timeline-light.svg">
-  <img src="docs/assets/readme/trust-timeline-light.svg" alt="1 回の合成の航海における信頼スコア。examples/maritime-trust（タリンからヘルシンキへのルートを航行するフェリーの架空の NMEA ログ、1 Hz で 3001 エポック）に対するエンジン v0.40.0 の実際の実行から。3 つのレーンが 1 つの時間軸を共有します。上段：受信機が報告する位置と船舶の実際の位置との距離。約 1576 s まで数メートル以内にとどまり、その時点でログにスクリプト化された位置のドラッグオフが位置を引き離しますが、受信機は有効な測位を報告し続けます。中段：0 から 100 の信頼スコア。最初の 300 s のキャリブレーション中は計算されず、ドラッグオフまでは nominal の帯域（90 以上）にあり、その後 degraded の帯域（55 以上）を通過して untrusted の帯域に落ちます。下段：各エポックの帯域を、名前付きの色のリボンで示します。スコアは助言用です。助言用ソフトウェアであり、型式承認を受けた航法装置（IEC 61108、IEC 61162）ではありません。船舶の航行の責任は引き続き運用者にあります。ログは形式とモニターを示すために作られた架空のものであり、測定ではなく、いかなる受信機の性能についても何も述べていません。" width="100%">
+  <img src="docs/assets/readme/trust-timeline-light.svg" alt="1 回の合成の航海における信頼スコア。examples/maritime-trust（タリンからヘルシンキへのルートを航行するフェリーの架空の NMEA ログ、1 Hz で 3001 エポック）に対するエンジン v0.41.0 の実際の実行から。3 つのレーンが 1 つの時間軸を共有します。上段：受信機が報告する位置と船舶の実際の位置との距離。約 1576 s まで数メートル以内にとどまり、その時点でログにスクリプト化された位置のドラッグオフが位置を引き離しますが、受信機は有効な測位を報告し続けます。中段：0 から 100 の信頼スコア。最初の 300 s のキャリブレーション中は計算されず、ドラッグオフまでは nominal の帯域（90 以上）にあり、その後 degraded の帯域（55 以上）を通過して untrusted の帯域に落ちます。下段：各エポックの帯域を、名前付きの色のリボンで示します。スコアは助言用です。助言用ソフトウェアであり、型式承認を受けた航法装置（IEC 61108、IEC 61162）ではありません。船舶の航行の責任は引き続き運用者にあります。ログは形式とモニターを示すために作られた架空のものであり、測定ではなく、いかなる受信機の性能についても何も述べていません。" width="100%">
 </picture>
 
 <picture>
@@ -704,7 +748,7 @@ SigMF は Signal Metadata Format です。
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/training-track-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/training-track-light.svg">
-  <img src="docs/assets/readme/training-track-light.svg" alt="シナリオ coastal-drag-off からの訓練用ストリーム（エンジン v0.40.0、シード 22、教官用ログの 10 s ごとに 1 測位で 25 分）。地図は船舶の真の航跡と受信機が報告する航跡を示します：両者は 421 s にスクリプト化された位置のドラッグオフが始まるまで一致し、その後、受信機が有効な測位を保ったまま報告される航跡は真の航跡から離れていき、イベントが 1140 s に終わると元に戻ります。その横に、2 つの航跡間の距離の時間変化と、受信機が報告する平均搬送波対雑音密度があり、後者はイベントの間、1 つの高いレベルに上昇します。Kshana が生成した合成の訓練データです。訓練と試験専用：このストリームを船舶のライブの航法システムに決して入力しないでください。助言用であり、型式承認を受けた航法装置ではありません。助言用ソフトウェアであり、型式承認を受けた航法装置（IEC 61108、IEC 61162）ではありません。船舶の航行の責任は引き続き運用者にあります。位置、日付、航跡は架空のものです。" width="100%">
+  <img src="docs/assets/readme/training-track-light.svg" alt="シナリオ coastal-drag-off からの訓練用ストリーム（エンジン v0.41.0、シード 22、教官用ログの 10 s ごとに 1 測位で 25 分）。地図は船舶の真の航跡と受信機が報告する航跡を示します：両者は 421 s にスクリプト化された位置のドラッグオフが始まるまで一致し、その後、受信機が有効な測位を保ったまま報告される航跡は真の航跡から離れていき、イベントが 1140 s に終わると元に戻ります。その横に、2 つの航跡間の距離の時間変化と、受信機が報告する平均搬送波対雑音密度があり、後者はイベントの間、1 つの高いレベルに上昇します。Kshana が生成した合成の訓練データです。訓練と試験専用：このストリームを船舶のライブの航法システムに決して入力しないでください。助言用であり、型式承認を受けた航法装置ではありません。助言用ソフトウェアであり、型式承認を受けた航法装置（IEC 61108、IEC 61162）ではありません。船舶の航行の責任は引き続き運用者にあります。位置、日付、航跡は架空のものです。" width="100%">
 </picture>
 
 <picture>
@@ -775,7 +819,7 @@ SigMF は Signal Metadata Format です。
 
 <p align="center">
   <img src="docs/assets/figures/scenario-fom.png" alt="GNSS が失われたときに量子センサーがもたらすもの、時計ホールドオーバーのシナリオ：量子は 6600 s の自律性を保ち、古典は 2610 s。タイミング誤差ははるかに小さく、可用性は 100% 対 95.6%" width="88%">
-  <br><sub>GNSS が失われたときに量子センサーがもたらすもの — <code>clock-holdover</code> · シード 42 · エンジン 0.40.0 で描画。上のすべての数値は、ビルドごとに <code>tests/published_figures_still_reproduce.rs</code> によって現在のエンジンに対して再確認されます · <a href="docs/assets/figures/scenario-fom.svg">SVG</a></sub>
+  <br><sub>GNSS が失われたときに量子センサーがもたらすもの — <code>clock-holdover</code> · シード 42 · エンジン 0.41.0 で描画。上のすべての数値は、ビルドごとに <code>tests/published_figures_still_reproduce.rs</code> によって現在のエンジンに対して再確認されます · <a href="docs/assets/figures/scenario-fom.svg">SVG</a></sub>
 </p>
 
 この優位性は **途絶の長さと振動に依存** し、古典が勝る明示的な損益分岐点があります — 技術成熟度のはしごにわたって正直に示しています（光時計の数値は地上デモンストレーターの目標値であり、ストロンチウム光時計が飛行したことはありません）：
@@ -798,7 +842,7 @@ SigMF は Signal Metadata Format です。
 |------|----------|---------|-----------|
 | **1 — 時計のホールドオーバー** | `clock-holdover.toml`（20 ns の仕様） | 光時計は途絶の全期間を保持 | CSAC は途絶の途中で仕様を超過 |
 | **2 — 慣性による推測航法** | `imu-deadreckoning.toml`（100 m の仕様） | 冷却原子：**約 41 m**、途絶の全期間を保持 | 航法グレード：**約 350 s** で超過 → 数十 km |
-| **3 — 時刻転送**（光衛星間リンク） | `timetransfer.toml` | 光：**約 0.3 mm** の測距 | RF（TWSTFT）：**約 150 mm** の測距 |
+| **3 — 時刻転送**（光衛星間リンク） | `timetransfer.toml` | 光：**約 0.3 mm** の測距 | RF（TWSTFT）：**約 341 mm** の測距 |
 | **4 — ハイブリッド融合**（総仕上げ） | `hybrid-pnt.toml` | 途絶の全期間で位置とタイミングを完全に維持 | **約 350 s で位置が制約される** |
 
 総仕上げのパックは融合の主張を示します：光衛星間の時刻転送は古典的な *時計* さえも
@@ -817,7 +861,7 @@ SigMF は Signal Metadata Format です。
 Walker コンステレーションに対して伝搬し、可視衛星数（見通し線、地球による掩蔽、
 仰角マスク）が各ステップの測位状態を決めます。1 日を通して利用者が測位できているのは時間の約 59% だけです。量子時計は
 すべてのギャップを通じて 5 ns のタイミング解を保ち（可用性 **1.0**）、チップスケール時計は
-**約 0.83** にとどまります。
+**約 0.73** にとどまります。
 
 <p align="center">
   <img src="docs/assets/orbit-gnss-challenged.svg" alt="GNSS 条件の厳しい軌道：GNSS のシェルの内側にある宇宙機の 1 日にわたる時計のタイミング誤差。カバレッジのギャップは軌道の幾何配置から導出 — 光時計はギャップをまたいで 5 ns の仕様内にとどまり、チップスケール時計は仕様を超過します" width="80%">
@@ -925,6 +969,7 @@ P2 のロードマップを参照し、協力のために[お問い合わせく�
 | **[ミッション解析、リンク、宇宙運用](docs/kinds/mission-analysis-links-and-space-operations.md)** | 打ち上げ、上昇、突入、姿勢、リンク、コンタクト計画、ファイル形式 | [`launch-window`](docs/kinds/by-kind/launch-window.md), [`ascent-losses`](docs/kinds/by-kind/ascent-losses.md), [`reentry`](docs/kinds/by-kind/reentry.md), [`entry-heating`](docs/kinds/by-kind/entry-heating.md), [`eo-coverage`](docs/kinds/by-kind/eo-coverage.md), [`eo-radiometry`](docs/kinds/by-kind/eo-radiometry.md), [`attitude-budget`](docs/kinds/by-kind/attitude-budget.md), [`aocs`](docs/kinds/by-kind/aocs.md), [`link-budget`](docs/kinds/by-kind/link-budget.md), [`acm-link`](docs/kinds/by-kind/acm-link.md), [`contact-schedule`](docs/kinds/by-kind/contact-schedule.md), [`aperture-duty-cycle`](docs/kinds/by-kind/aperture-duty-cycle.md), [`space-packet`](docs/kinds/by-kind/space-packet.md), [`oem-interop`](docs/kinds/by-kind/oem-interop.md) | `kshana scenarios/launch-window.toml` |
 | **[ミッションスレッド](docs/kinds/mission-threads.md)** | 打ち上げから突入までの一連のフェーズにおける航法とタイミングの誤差バジェット | [`mission-thread`](docs/kinds/by-kind/mission-thread.md) | `kshana scenarios/mission-thread-artemis-class.toml` |
 | **[キャンペーン](docs/kinds/campaigns.md)** | 他の種別から構築した連鎖ミッション、スイープ、アンサンブル | [`campaign`](docs/kinds/by-kind/campaign.md) | `kshana scenarios/campaign-jam-spoof-holdover-integrity.toml` |
+| **[宇宙からの RF 調査](docs/kinds/space-rf-survey.md)** | 広域の RF 調査がある海域をどれくらいの頻度で再訪し、光学観測をどれだけ早く指示できるか | [`tip-and-cue`](docs/kinds/by-kind/tip-and-cue.md) | `kshana scenarios/tip-and-cue-baltic-m2.toml` |
 <!-- /generated:kind-families -->
 
 <a id="every-command"></a>
@@ -943,12 +988,12 @@ P2 のロードマップを参照し、協力のために[お問い合わせく�
 <a id="every-surface"></a>
 ### 全サーフェス
 
-1 つのエンジンで、どこでも同じ結果が得られます：コマンドライン、Rust ライブラリ、Python、JavaScript と WebAssembly、
-プラグインのコマンドとスキルを備えた MCP サーバー、Kshana Studio（すべてのページがブラウザー内で動作し、インストール不要、何もアップロードされません）、
-ROS 2、Signal K、OpenCPN、GNSS-SDR、`gnss_lib_py` との統合、systemd、Docker、Grafana のデプロイキット、そして
-JetBrains プラグイン。[`docs/ALL-SURFACES.md`](docs/ALL-SURFACES.md) に、それぞれの入手方法と、すべての
-プラグインコマンド、スキル、Studio のページの名前を記載しています。[`docs/SURFACES.md`](docs/SURFACES.md) には、すべてのコマンドと種別について、
-どのサーフェスが対応し、どれが対応していないかを理由とともに記載しています。
+一つのエンジン、どこでも同じ結果：コマンドライン、Rust ライブラリ、Python、JavaScript と WebAssembly、
+プラグインのコマンドとスキルを備えた MCP サーバー、Kshana Studio（どのページもブラウザで動き、インストール不要で、何もアップロードしません）、
+ROS 2、Signal K、OpenCPN、GNSS-SDR、`gnss_lib_py` との連携、systemd、Docker、Grafana のデプロイキット、そして
+[kshana.dev](https://kshana.dev) で入手できる JetBrains プラグインと Kshana Desktop です。[`docs/ALL-SURFACES.md`](docs/ALL-SURFACES.md) はそれぞれの入手方法と、すべての
+プラグインのコマンド、スキル、Studio のページの名前を挙げています。[`docs/SURFACES.md`](docs/SURFACES.md) は、各コマンドと種別について、
+どのサーフェスが対応し、どれが対応しないかを理由とともに示します。
 
 <a id="how-a-run-works"></a>
 ## 実行の仕組み
@@ -960,7 +1005,7 @@ JetBrains プラグイン。[`docs/ALL-SURFACES.md`](docs/ALL-SURFACES.md) に�
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/flow-pipeline-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/flow-pipeline-light.svg">
-  <img src="docs/assets/readme/flow-pipeline-light.svg" alt="実行の流れ。シナリオの TOML ファイル（種別、シード、そのパラメーター）がエンジン kshana 0.40.0 に入り、92 のシナリオ種別にわたる api::run_toml のディスパッチを通ります。結果はシナリオ、シード、エンジンのバージョンから決定論的に決まります。エンジンは result.json、chart.svg、report.html、report.json を書き出し、表を定義する種別では table.csv を、要求に応じて SP3、CCSDS OMM と OEM、CZML、KML、GeoJSON、STK、SigMF のエクスポートを書き出します。スイートは study.json と study.html を書き出します。これらのファイルは、ブラウザー内の Kshana Studio、kshana-mcp サーバーを介した AI アシスタント、継続的インテグレーションに入力されます。" width="100%">
+  <img src="docs/assets/readme/flow-pipeline-light.svg" alt="実行の流れ。シナリオの TOML ファイル（種別、シード、そのパラメーター）がエンジン kshana 0.41.0 に入り、93 のシナリオ種別にわたる api::run_toml のディスパッチを通ります。結果はシナリオ、シード、エンジンのバージョンから決定論的に決まります。エンジンは result.json、chart.svg、report.html、report.json を書き出し、表を定義する種別では table.csv を、要求に応じて SP3、CCSDS OMM と OEM、CZML、KML、GeoJSON、STK、SigMF のエクスポートを書き出します。スイートは study.json と study.html を書き出します。これらのファイルは、ブラウザー内の Kshana Studio、kshana-mcp サーバーを介した AI アシスタント、継続的インテグレーションに入力されます。" width="100%">
 </picture>
 
 この同梱のシナリオは 2 h 実行します：10 min の GNSS の後、約 1.8 h の GNSS 拒否です。
@@ -1045,8 +1090,7 @@ wrote clock-holdover.result.json, clock-holdover.chart.svg, clock-holdover.repor
 確認の例：AIAA（American Institute of Aeronautics and Astronautics）2006-6753 の
 SGP4（Simplified General Perturbations 4）の全 666 ベクトルを 4.12 mm まで。Cowell の力学
 モデルを Orekit 12.2 に対して 0.08 m まで。欧州宇宙機関（ESA）の実際の精密エフェメリスに対して
-Galileo を 0.61 m、Swarm-A を 0.10 m まで。テストは
-`src/` の行カバレッジを約 95 % に保ち、CI では 85 % をゲートとしています。台帳は
+Galileo を 0.61 m、Swarm-A を 0.10 m まで。最後の計測（エンジン 0.29.0、[`docs/COVERAGE.md`](docs/COVERAGE.md)）では、テストは `src/` の行の約 95 % をカバーしており、CI は 85 % を下回ると失敗します。台帳は
 `src/verification.rs` から生成される [`docs/VERIFICATION-MATRIX.md`](docs/VERIFICATION-MATRIX.md) です：
 [413 行の完全なマトリクス](docs/VERIFICATION-MATRIX.md)。各 Modelled の行に外部のオラクルがない理由は
 [`docs/MODELLED-RATIONALE.md`](docs/MODELLED-RATIONALE.md) にあります。
@@ -1058,7 +1102,7 @@ Galileo を 0.61 m、Swarm-A を 0.10 m まで。テストは
 
 - すべての雑音項は **公表され、引用された** 数値にキャリブレーションし、
   標準的な関係式（時計には Allan 偏差、慣性には Groves の推測航法の
-  誤差増大、時刻転送にはタイミング→測距の変換）に対して検証しています。項ごとの
+  誤差増大、時刻転送にはタイミング→測距の変換）と照合しています。項ごとの
   ステータスは [`docs/VALIDATION.md`](docs/VALIDATION.md) で `validated` または
   `not modeled` として管理しています — 検証されていないものを検証済みとして示すことはありません。
 - **構造的に再現可能：** `scenario + seed + engine version → identical
@@ -1111,7 +1155,7 @@ Levels for Software Artifacts — による証明付き）にあります。
 | **MODELLED** | 深宇宙の火星 OD（縮約動力学の SRIF） | 火星低軌道で **≈ 0.2 m**（シミュレーションの FoM であり、実際のミッションでは *ありません*） | 合成の閉ループ OD — 推定器の仕組みの検証 |
 | **MODELLED** | JPL DE440 に対する太陽中心の火星の力学 | **1 日のアークで 137 m**（アークとともに増大 = モデル化していない n 体） | ANISE を介した JPL DE440（`xval/anise-mars-od`、カーネル依存）（この参照と比較していますが、検証マトリクスのどの行も外部のオラクルとして名指ししていないため、VALIDATED とはラベル付けしていません） |
 | **VALIDATED** | 測量済みの IGS 座標に対する単独測位（実際の観測） | 3 次元 RMS **5.7 m** / 水平 **1.1 m**、2 周波電離圏フリーのコード SPP | IGS 局 ABMF の測量値 + GPS 放送エフェメリス、2018-05-13（`tests/pvt_abmf.rs`） |
-| **MODELLED** | 密結合の GNSS/INS UKF | 120 s の途絶を含む 30 分間の LEO のパスで **0.77 m RMS** | 力学モデルによるコースト、手で導出 |
+| **MODELLED** | GNSS/INS アンセンテッドフィルター（`hybrid-ukf`、17 状態） | NIS と NEES がそれぞれの χ² 帯の内側。支援ありで **0.36 m**、120 s の推測航法後に **7.7 m** | フィルターの自己整合性であり、精度ではない（`scenarios/hybrid-ukf.toml`） |
 | **MODELLED** | GPS 拒否下の重力地図航法 | 約 70 km の INS ドリフト → **約 145 m** まで復元 | ESA NAVISP *Quantum Wayfarer* の目標 |
 | **MODELLED** | 地形参照航法（TERCOM/SITAN） | 70 km のドリフト → **< 500 m**（グリッド解像度の下限は約 140 m） | SRTM `.hgt` DEM。手で注入したドリフト（循環論法にならない確認） |
 | **MODELLED** | IGRF-14 の主磁場（次数/位数 13） | 極は約 80.7°N、双極子は約 29.7 µT、物理的な 22–67 µT の帯域 | IAGA（International Association of Geomagnetism and Aeronomy）`igrf14coeffs.txt`（Schmidt 準正規化） |
@@ -1130,7 +1174,7 @@ Levels for Software Artifacts — による証明付き）にあります。
 | **MODELLED** | PNT レジリエンスのスコアリング + 判断の不安定性 | 手で導いたオラクルによるテスト 35 件。バイト単位で決定論的な検討成果物（固定シード） | DHS RPCF v2.0 との対応付け + Dirichlet / Kendall-τ / Hill-N2 の閉形式 — 合成アーキテクチャであり、認証ではありません |
 | **MODELLED** | RF 障害の楽観ギャップの検討（スケーリング則 + leave-one-out の予測器） | 並べ替えによる帰無分布での有意性。バイト単位で決定論的な成果物（5 シード） | パラメーターに基づく合成コーパス — 評価 *指標* は scikit-learn に対して VALIDATED（上記）であり、検討は MODELLED です |
 | CI | クロスプラットフォームの再現性 | 3 つの OS（オペレーティングシステム）で入力と形状のゴールデンがビット単位で一致 | Linux / macOS / Windows の CI マトリクス、SHA-256 のゴールデン |
-| CI | テストカバレッジ | `src/*_data.rs` と `src/main.rs` を除く `src/` で **行カバレッジ約 95 %**、≥ 85 % をゲート | cargo-tarpaulin（LLVM エンジン） |
+| CI | テストカバレッジ | `src/*_data.rs` と `src/main.rs` を除く `src/` で **行カバレッジ約 95 %** （最終計測は 0.29.0）、≥ 85 % をゲート | cargo-tarpaulin（LLVM エンジン） |
 
 <p align="center">
   <img src="docs/assets/diagrams/validation-provenance.png" alt="機能がラベルを獲得する方法：要求は src 内のモジュールに、tests 内のテストに、外部のオラクル（実データセット、独立した参照実装、または公表されたベクトル）に、そしてステータスに対応付けられます — 外部のオラクルなしにはどの機能も Validated にできないという、CI で強制されるガード付き。現在の件数：Validated 176、Modelled 233、Partner 4、合計 413" width="900">
@@ -1169,7 +1213,7 @@ Studio の「すべての地図」が読み込むのと同じファイルです�
 ## インストール
 
 1 行でコマンドラインツールが手に入ります：**`cargo install kshana`**。すべてのチャネルが、同じタグ付きコミットから
-v0.40.0 を提供します。
+v0.41.0 を提供します。
 
 <!-- channels:begin -->
 | チャネル | インストール | ガイド |
@@ -1181,12 +1225,12 @@ v0.40.0 を提供します。
 | JavaScript と WebAssembly | `npm install kshana` | [npm と WebAssembly のガイド](https://kshana.dev/docs/npm.html) |
 | AI アシスタント（MCP サーバー、cargo） | `cargo install kshana-mcp` | [MCP サーバーのガイド](https://kshana.dev/docs/mcp.html) |
 | Docker イメージ | `docker run --rm -i ghcr.io/ashfordeou/kshana-mcp` | [MCP サーバーのガイド：Docker](https://kshana.dev/docs/mcp.html#install) |
-| Claude Desktop 拡張機能 | お使いのシステム用の `.mcpb` をダブルクリック：[macOS（Apple シリコン）](https://github.com/ashfordeOU/kshana/releases/download/v0.40.0/kshana-mcp-aarch64-apple-darwin.mcpb) · [macOS（Intel）](https://github.com/ashfordeOU/kshana/releases/download/v0.40.0/kshana-mcp-x86_64-apple-darwin.mcpb) · [Windows](https://github.com/ashfordeOU/kshana/releases/download/v0.40.0/kshana-mcp-x86_64-pc-windows-msvc.mcpb) · [Linux（x86-64）](https://github.com/ashfordeOU/kshana/releases/download/v0.40.0/kshana-mcp-x86_64-unknown-linux-gnu.mcpb) · [Linux（Arm）](https://github.com/ashfordeOU/kshana/releases/download/v0.40.0/kshana-mcp-aarch64-unknown-linux-gnu.mcpb) | [すべての MCP インストール用スニペット](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
-| Cursor（ワンクリック） | [Cursor に追加（npx）](https://cursor.com/en/install-mcp?name=kshana&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsImtzaGFuYS1tY3BAMC40MC4wIl19) · [Cursor に追加（Docker）](https://cursor.com/en/install-mcp?name=kshana&config=eyJjb21tYW5kIjoiZG9ja2VyIiwiYXJncyI6WyJydW4iLCItaSIsIi0tcm0iLCJnaGNyLmlvL2FzaGZvcmRlb3Uva3NoYW5hLW1jcDowLjQwLjAiXX0%3D) · `npx -y kshana-mcp@0.40.0` | [すべての MCP インストール用スニペット](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
-| VS Code（ワンクリック） | [VS Code にインストール（npx）](https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522npx%2522%252C%2522args%2522%253A%255B%2522-y%2522%252C%2522kshana-mcp%25400.40.0%2522%255D%257D) · [VS Code にインストール（Docker）](https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522docker%2522%252C%2522args%2522%253A%255B%2522run%2522%252C%2522-i%2522%252C%2522--rm%2522%252C%2522ghcr.io%252Fashfordeou%252Fkshana-mcp%253A0.40.0%2522%255D%257D) · `npx -y kshana-mcp@0.40.0` | [すべての MCP インストール用スニペット](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
-| Claude Code | `claude mcp add kshana -- npx -y kshana-mcp@0.40.0` | [すべての MCP インストール用スニペット](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
-| npx | `npx -y kshana-mcp@0.40.0` | [すべての MCP インストール用スニペット](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
-| uvx / pipx | `uvx kshana-mcp==0.40.0` | [すべての MCP インストール用スニペット](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
+| Claude Desktop 拡張機能 | お使いのシステム用の `.mcpb` をダブルクリック：[macOS（Apple シリコン）](https://github.com/ashfordeOU/kshana/releases/download/v0.41.0/kshana-mcp-aarch64-apple-darwin.mcpb) · [macOS（Intel）](https://github.com/ashfordeOU/kshana/releases/download/v0.41.0/kshana-mcp-x86_64-apple-darwin.mcpb) · [Windows](https://github.com/ashfordeOU/kshana/releases/download/v0.41.0/kshana-mcp-x86_64-pc-windows-msvc.mcpb) · [Linux（x86-64）](https://github.com/ashfordeOU/kshana/releases/download/v0.41.0/kshana-mcp-x86_64-unknown-linux-gnu.mcpb) · [Linux（Arm）](https://github.com/ashfordeOU/kshana/releases/download/v0.41.0/kshana-mcp-aarch64-unknown-linux-gnu.mcpb) | [すべての MCP インストール用スニペット](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
+| Cursor（ワンクリック） | [Cursor に追加（npx）](https://cursor.com/en/install-mcp?name=kshana&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsImtzaGFuYS1tY3BAMC40MS4wIl19) · [Cursor に追加（Docker）](https://cursor.com/en/install-mcp?name=kshana&config=eyJjb21tYW5kIjoiZG9ja2VyIiwiYXJncyI6WyJydW4iLCItaSIsIi0tcm0iLCJnaGNyLmlvL2FzaGZvcmRlb3Uva3NoYW5hLW1jcDowLjQxLjAiXX0%3D) · `npx -y kshana-mcp@0.41.0` | [すべての MCP インストール用スニペット](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
+| VS Code（ワンクリック） | [VS Code にインストール（npx）](https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522npx%2522%252C%2522args%2522%253A%255B%2522-y%2522%252C%2522kshana-mcp%25400.41.0%2522%255D%257D) · [VS Code にインストール（Docker）](https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522docker%2522%252C%2522args%2522%253A%255B%2522run%2522%252C%2522-i%2522%252C%2522--rm%2522%252C%2522ghcr.io%252Fashfordeou%252Fkshana-mcp%253A0.41.0%2522%255D%257D) · `npx -y kshana-mcp@0.41.0` | [すべての MCP インストール用スニペット](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
+| Claude Code | `claude mcp add kshana -- npx -y kshana-mcp@0.41.0` | [すべての MCP インストール用スニペット](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
+| npx | `npx -y kshana-mcp@0.41.0` | [すべての MCP インストール用スニペット](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
+| uvx / pipx | `uvx kshana-mcp==0.41.0` | [すべての MCP インストール用スニペット](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
 | Homebrew | `brew install ashfordeOU/tap/kshana-mcp` | [すべての MCP インストール用スニペット](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
 | Scoop | `scoop bucket add ashforde https://github.com/ashfordeOU/scoop-bucket && scoop install kshana-mcp` | [すべての MCP インストール用スニペット](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
 | winget | `winget install AshfordeOU.KshanaMcp` | [すべての MCP インストール用スニペット](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
@@ -1203,8 +1247,8 @@ v0.40.0 を提供します。
 
 <p><a href="https://plugins.jetbrains.com/plugin/32181-kshana--pnt-simulator"><img src="https://img.shields.io/badge/JetBrains-Marketplace-066A86?style=flat-square&labelColor=0A1226" alt="JetBrains Marketplace 上の Kshana"></a> <a href="Cargo.toml"><img src="https://img.shields.io/badge/rust-1.88%2B-3F4B67?style=flat-square&labelColor=0A1226" alt="Rust 1.88 以降でビルド可能（Cargo.toml の rust-version）"></a></p>
 
-MCP は Model Context Protocol です。リリースを固定するには `cargo install kshana --version 0.40.0`、
-`pip install kshana==0.40.0`、または `npm install kshana@0.40.0` を使います。ソースからビルドするには、リファレンスの
+MCP は Model Context Protocol です。リリースを固定するには `cargo install kshana --version 0.41.0`、
+`pip install kshana==0.41.0`、または `npm install kshana@0.41.0` を使います。ソースからビルドするには、リファレンスの
 [インストールとビルド](#install--build)を参照してください。
 
 <details>
@@ -1218,7 +1262,7 @@ import json, kshana
 toml = open("clock-holdover.toml").read()
 result = json.loads(kshana.run(toml))
 print(kshana.version(), result["quantum"]["fom"]["holdover_s"], result["classical"]["fom"]["holdover_s"])
-# 0.40.0 6600.0 2610.0
+# 0.41.0 6600.0 2610.0
 ```
 
 `run` のほかに、モジュールは `run_full`（JSON、SVG、1 行のサマリーを一度に）、
@@ -1239,7 +1283,7 @@ initSync({ module: readFileSync(wasm) });
 const toml = readFileSync("clock-holdover.toml", "utf8");
 const result = JSON.parse(run(toml));
 console.log(version(), result.quantum.fom.holdover_s, result.classical.fom.holdover_s);
-// 0.40.0 6600 2610
+// 0.41.0 6600 2610
 console.log(summary(toml));
 ```
 
@@ -1248,15 +1292,15 @@ console.log(summary(toml));
 <a id="architecture"></a>
 ## アーキテクチャ
 
-1 つのオープンなエンジンが中心にあり、すべてのサーフェスがそれを実行します：コマンドライン、Rust
-ライブラリ、Python、WebAssembly と Kshana Studio、MCP サーバー、Docker イメージ、
-JetBrains プラグイン。同じシナリオファイルは、どのサーフェスでも同じバイト列を返します。Kshana Pro は
-その上に別のオーバーレイとして位置し、エンジンに依存しますが、決してフォークしません。
+中心には一つのオープンなエンジンがあり、すべてのサーフェスがそれを動かします：コマンドライン、Rust ライブラリ、
+Python、WebAssembly と Kshana Studio、MCP サーバー、Docker イメージ、そして
+JetBrains プラグインです。同じシナリオファイルはどのサーフェスでも同じバイトを生みます。プロフェッショナル版である
+Kshana Pro は同じエンジンの上に築かれ、決してフォークしません。
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/architecture-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/architecture-light.svg">
-  <img src="docs/assets/readme/architecture-light.svg" alt="Kshana のアーキテクチャ：中心に 1 つのオープンなエンジン、AGPL-3.0 の kshana 0.40.0 があり、api::run_toml、すべての種別にわたる型付きのディスパッチ、そして 413 の機能の検証台帳（VALIDATED 176、MODELLED 233、PARTNER 4）を備えます。その周りで、すべてのサーフェスが同じエンジンを実行します：コマンドライン（cargo install kshana）、Rust ライブラリ（cargo add kshana）、Python（pip install kshana）、WebAssembly + Kshana Studio（npm install kshana）、MCP サーバー（cargo install kshana-mcp）、Docker イメージ（ghcr.io/ashfordeou/kshana-mcp）、JetBrains プラグイン（Marketplace：&quot;Kshana&quot;）。その下に Kshana Pro があり、これはオープンなエンジンにライブラリとして依存し、決してフォークせず、物理モデルを追加しないプロプライエタリなオーバーレイです。" width="100%">
+  <img src="docs/assets/readme/architecture-light.svg" alt="Kshana のアーキテクチャ：中心に 1 つのオープンなエンジン、AGPL-3.0 の kshana 0.41.0 があり、api::run_toml、すべての種別にわたる型付きのディスパッチ、そして 413 の機能の検証台帳（VALIDATED 176、MODELLED 233、PARTNER 4）を備えます。その周りで、すべてのサーフェスが同じエンジンを実行します：コマンドライン（cargo install kshana）、Rust ライブラリ（cargo add kshana）、Python（pip install kshana）、WebAssembly + Kshana Studio（npm install kshana）、MCP サーバー（cargo install kshana-mcp）、Docker イメージ（ghcr.io/ashfordeou/kshana-mcp）、JetBrains プラグイン（Marketplace：&quot;Kshana&quot;）。その下にプロフェッショナル版の Kshana Pro があり、オープンなエンジンにライブラリとして依存し、決してフォークせず、その物理モデルを決して変更しません。Pro 独自のモデルには独自のエビデンスラベルが付きます。" width="100%">
 </picture>
 
 <details>
@@ -1289,8 +1333,8 @@ CLI、Python 拡張、ブラウザー内の WebAssembly モジュール、AI エ
 （MCP サーバー、edition-2024 の `rmcp` SDK で構築）と `xval/anise-frames`（
 ANISE/SPICE の座標系のクロスチェックで、MPL-2.0（Mozilla Public License 2.0）の依存関係を取り込みます）— これらはルートの
 `Cargo.toml` の `exclude` リストによって、公開クレートの依存関係グラフ、`Cargo.lock`、ライセンスのゲート、MSRV（サポートする最小の Rust バージョン）のビルドから
-除外されています。JetBrains プラグイン（`ide/jetbrains`）は別の Kotlin
-プロジェクトです。図の全体は [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) を参照してください。
+除外されています。JetBrains プラグインは別の製品で、
+[kshana.dev](https://kshana.dev/docs/jetbrains.html) で入手できます。図の全体は [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) を参照してください。
 
 描画済みの図（エンジンの流れ、モジュールマップ、配布）は [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) にあります。
 
@@ -1370,20 +1414,20 @@ Claude Code、Cursor、VS Code、Windsurf、Zed、Goose、Codex CLI、Gemini CLI
 <!-- mcp-install:begin -->
 | チャネル | コマンドまたはボタン | 必要なもの | 固定した形式 |
 |---|---|---|---|
-| Claude Desktop 拡張機能 | お使いのシステム用の `.mcpb` をダブルクリック：[macOS（Apple シリコン）](https://github.com/ashfordeOU/kshana/releases/download/v0.40.0/kshana-mcp-aarch64-apple-darwin.mcpb) · [macOS（Intel）](https://github.com/ashfordeOU/kshana/releases/download/v0.40.0/kshana-mcp-x86_64-apple-darwin.mcpb) · [Windows](https://github.com/ashfordeOU/kshana/releases/download/v0.40.0/kshana-mcp-x86_64-pc-windows-msvc.mcpb) | なし | v0.40.0 の `kshana-mcp-<target>.mcpb` |
-| Cursor（ワンクリック） | [npx（Node）](https://cursor.com/en/install-mcp?name=kshana&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsImtzaGFuYS1tY3BAMC40MC4wIl19) · [Docker](https://cursor.com/en/install-mcp?name=kshana&config=eyJjb21tYW5kIjoiZG9ja2VyIiwiYXJncyI6WyJydW4iLCItaSIsIi0tcm0iLCJnaGNyLmlvL2FzaGZvcmRlb3Uva3NoYW5hLW1jcDowLjQwLjAiXX0%3D) | Node または Docker | `kshana-mcp@0.40.0` / `ghcr.io/ashfordeou/kshana-mcp:0.40.0` |
-| VS Code（ワンクリック） | [npx（Node）](https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522npx%2522%252C%2522args%2522%253A%255B%2522-y%2522%252C%2522kshana-mcp%25400.40.0%2522%255D%257D) · [Docker](https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522docker%2522%252C%2522args%2522%253A%255B%2522run%2522%252C%2522-i%2522%252C%2522--rm%2522%252C%2522ghcr.io%252Fashfordeou%252Fkshana-mcp%253A0.40.0%2522%255D%257D) · [Insiders（npx）](https://insiders.vscode.dev/redirect?url=vscode-insiders%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522npx%2522%252C%2522args%2522%253A%255B%2522-y%2522%252C%2522kshana-mcp%25400.40.0%2522%255D%257D) | Node または Docker | `kshana-mcp@0.40.0` / `ghcr.io/ashfordeou/kshana-mcp:0.40.0` |
-| Claude Code | `claude mcp add kshana -- npx -y kshana-mcp@0.40.0` · プラグイン：`/plugin marketplace add ashfordeOU/kshana` の後に `/plugin install kshana@ashforde` | Node（または Docker） | `kshana-mcp@0.40.0` |
-| npx | `npx -y kshana-mcp@0.40.0` | Node 18+ | `kshana-mcp@0.40.0` |
-| uvx / pipx | `uvx kshana-mcp==0.40.0` · `pipx run kshana-mcp==0.40.0` | uv または pipx を備えた Python 3.9+ | `kshana-mcp==0.40.0` |
-| Docker | `docker run -i --rm ghcr.io/ashfordeou/kshana-mcp:0.40.0` | Docker | `ghcr.io/ashfordeou/kshana-mcp:0.40.0` |
-| Homebrew | `brew install ashfordeOU/tap/kshana-mcp` | brew | v0.40.0 の formula |
-| Scoop | `scoop bucket add ashforde https://github.com/ashfordeOU/scoop-bucket` の後に `scoop install kshana-mcp` | Scoop（Windows） | v0.40.0 のマニフェスト |
-| winget | `winget install AshfordeOU.KshanaMcp` | winget（Windows） | `--version 0.40.0` |
-| cargo | `cargo install kshana-mcp --version 0.40.0` | Rust 1.88+ | `kshana-mcp 0.40.0` |
-| ビルド済みバイナリ | [リリースページ](https://github.com/ashfordeOU/kshana/releases/tag/v0.40.0)：`kshana-mcp`（Linux x86-64）、`kshana-mcp-<target>[.exe]`。`SHA256SUMS` と `gh attestation verify` で確認 | なし | v0.40.0 |
-| MCP レジストリ | `io.github.ashfordeOU/kshana-mcp`（レジストリ対応のクライアントが検出） | レジストリ対応のクライアント | `0.40.0` |
-| リモート（streamable HTTP） | `kshana-mcp --http 127.0.0.1:8080`、セルフホスト：[docs/deploy/mcp-http.md](docs/deploy/mcp-http.md) を参照 | 自前のホスト | v0.40.0 |
+| Claude Desktop 拡張機能 | お使いのシステム用の `.mcpb` をダブルクリック：[macOS（Apple シリコン）](https://github.com/ashfordeOU/kshana/releases/download/v0.41.0/kshana-mcp-aarch64-apple-darwin.mcpb) · [macOS（Intel）](https://github.com/ashfordeOU/kshana/releases/download/v0.41.0/kshana-mcp-x86_64-apple-darwin.mcpb) · [Windows](https://github.com/ashfordeOU/kshana/releases/download/v0.41.0/kshana-mcp-x86_64-pc-windows-msvc.mcpb) | なし | v0.41.0 の `kshana-mcp-<target>.mcpb` |
+| Cursor（ワンクリック） | [npx（Node）](https://cursor.com/en/install-mcp?name=kshana&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsImtzaGFuYS1tY3BAMC40MS4wIl19) · [Docker](https://cursor.com/en/install-mcp?name=kshana&config=eyJjb21tYW5kIjoiZG9ja2VyIiwiYXJncyI6WyJydW4iLCItaSIsIi0tcm0iLCJnaGNyLmlvL2FzaGZvcmRlb3Uva3NoYW5hLW1jcDowLjQxLjAiXX0%3D) | Node または Docker | `kshana-mcp@0.41.0` / `ghcr.io/ashfordeou/kshana-mcp:0.41.0` |
+| VS Code（ワンクリック） | [npx（Node）](https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522npx%2522%252C%2522args%2522%253A%255B%2522-y%2522%252C%2522kshana-mcp%25400.41.0%2522%255D%257D) · [Docker](https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522docker%2522%252C%2522args%2522%253A%255B%2522run%2522%252C%2522-i%2522%252C%2522--rm%2522%252C%2522ghcr.io%252Fashfordeou%252Fkshana-mcp%253A0.41.0%2522%255D%257D) · [Insiders（npx）](https://insiders.vscode.dev/redirect?url=vscode-insiders%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522npx%2522%252C%2522args%2522%253A%255B%2522-y%2522%252C%2522kshana-mcp%25400.41.0%2522%255D%257D) | Node または Docker | `kshana-mcp@0.41.0` / `ghcr.io/ashfordeou/kshana-mcp:0.41.0` |
+| Claude Code | `claude mcp add kshana -- npx -y kshana-mcp@0.41.0` · プラグイン：`/plugin marketplace add ashfordeOU/kshana` の後に `/plugin install kshana@ashforde` | Node（または Docker） | `kshana-mcp@0.41.0` |
+| npx | `npx -y kshana-mcp@0.41.0` | Node 18+ | `kshana-mcp@0.41.0` |
+| uvx / pipx | `uvx kshana-mcp==0.41.0` · `pipx run kshana-mcp==0.41.0` | uv または pipx を備えた Python 3.9+ | `kshana-mcp==0.41.0` |
+| Docker | `docker run -i --rm ghcr.io/ashfordeou/kshana-mcp:0.41.0` | Docker | `ghcr.io/ashfordeou/kshana-mcp:0.41.0` |
+| Homebrew | `brew install ashfordeOU/tap/kshana-mcp` | brew | v0.41.0 の formula |
+| Scoop | `scoop bucket add ashforde https://github.com/ashfordeOU/scoop-bucket` の後に `scoop install kshana-mcp` | Scoop（Windows） | v0.41.0 のマニフェスト |
+| winget | `winget install AshfordeOU.KshanaMcp` | winget（Windows） | `--version 0.41.0` |
+| cargo | `cargo install kshana-mcp --version 0.41.0` | Rust 1.88+ | `kshana-mcp 0.41.0` |
+| ビルド済みバイナリ | [リリースページ](https://github.com/ashfordeOU/kshana/releases/tag/v0.41.0)：`kshana-mcp`（Linux x86-64）、`kshana-mcp-<target>[.exe]`。`SHA256SUMS` と `gh attestation verify` で確認 | なし | v0.41.0 |
+| MCP レジストリ | `io.github.ashfordeOU/kshana-mcp`（レジストリ対応のクライアントが検出） | レジストリ対応のクライアント | `0.41.0` |
+| リモート（streamable HTTP） | `kshana-mcp --http 127.0.0.1:8080`、セルフホスト：[docs/deploy/mcp-http.md](docs/deploy/mcp-http.md) を参照 | 自前のホスト | v0.41.0 |
 <!-- mcp-install:end -->
 
 <p><a href="https://glama.ai/mcp/servers/ashfordeOU/kshana"><img src="https://glama.ai/mcp/servers/ashfordeOU/kshana/badges/score.svg" alt="Glama 上の kshana-mcp とその MCP サーバーの品質スコア"></a></p>
@@ -1408,7 +1452,7 @@ OpenCPN の統合に入力されます：[`docs/MARINE-INTEGRATIONS.md`](docs/MA
 | ツール | 機能 |
 |---|---|
 | `run_scenario` | TOML（Tom's Obvious, Minimal Language）の定義からシナリオを実行 |
-| `list_scenario_kinds` | 92 の組み込みシナリオ種別を、説明 + 必須/任意のフィールドとともに返す — エージェントが有効なシナリオを構築できるように |
+| `list_scenario_kinds` | 93 の組み込みシナリオ種別を、説明 + 必須/任意のフィールドとともに返す — エージェントが有効なシナリオを構築できるように |
 | `validate_scenario` | 事前チェック：実行せずに TOML を解析し、その種別を検出 |
 | `list_example_scenarios` | 同梱の参照シナリオを JSON で返す |
 | `get_example_scenario` | 同梱の参照シナリオ 1 つの TOML テキストを、`scenarios/` 以下のファイルとバイト単位で同一のまま返す |
@@ -1491,109 +1535,70 @@ OpenCPN の統合に入力されます：[`docs/MARINE-INTEGRATIONS.md`](docs/MA
 <a id="editions"></a>
 ## エディション
 
-エンジン全体は無料です。Kshana Pro とカスタムの検討は、それ以上を必要とするプログラムのためのものであり、
-有料の道はすべてメッセージから始まります：ここに価格は掲載していません。
+エンジン全体は無料です。Kshana Pro は、決定を下しそれを説明しなければならないチームのためのプロフェッショナル版で、
+カスタムスタディは同じ作業を代わりに行うものです。有料の経路はすべてメッセージから始まります。ここに価格はありません。
 
-| | Free | Kshana Pro | カスタムの検討 |
+| | 無料 | Kshana Pro | カスタムスタディ |
 |---|---|---|---|
-| 内容 | オープンなエンジン全体、92 のシナリオ種別すべて、機能の制限なし | 同じエンジンの上のプロプライエタリなオーバーレイ、契約に基づく | お客様のシステムの MODELLED な PNT レジリエンスの検討を、こちらで実施 |
-| ライセンス | AGPL-3.0（GNU Affero General Public License、バージョン 3）、または商用ライセンス | プロプライエタリ | 契約 |
-| 始め方 | [インストール](#install)するか [kshana.dev](https://kshana.dev) を開く | [Pro の評価を依頼](mailto:contact@ashforde.org?subject=Kshana%20Pro%20evaluation) | [検討を依頼](mailto:contact@ashforde.org?subject=Kshana%20custom%20study) |
+| 内容 | オープンなエンジン全体、93 のシナリオ種別すべて、機能制限なし | プロフェッショナル版：同じエンジンと同じシナリオファイルに、プログラムが決定し、検証し、納品するための道具を加えたもの | お客様のシステムの PNT レジリエンスに関する MODELLED のスタディを、Ashforde® OÜ が代わりに実施 |
+| 対象 | 研究者、学生、技術者、そして問いを試してみたいすべての人 | ミッションとプログラムのチーム、システムエンジニア、受信機・時計・ペイロードのメーカー、信号設計者、運用者 | スタディを自ら実施せずに答えを得たいチーム |
+| サポート | コミュニティ：GitHub の issue と pull request | エンジンを開発しているチームによる直接サポート | 含む |
+| ライセンス | AGPL-3.0（GNU Affero General Public License バージョン 3）、または商用ライセンス | プロプライエタリ、契約による | 契約 |
+| 始め方 | [インストール](#install)するか [kshana.dev](https://kshana.dev) を開く | [Pro の評価を依頼する](mailto:contact@ashforde.org?subject=Kshana%20Pro%20evaluation) | [スタディを依頼する](mailto:contact@ashforde.org?subject=Kshana%20custom%20study) |
 
-Pro とは何か、[`docs/PRO.md`](docs/PRO.md) の言葉で：
+**Kshana Pro でできること。** 無料のエンジンは一つのシナリオが何を与えるかを教えてくれます。Pro は
+プログラムが次に問う質問に答えます：
 
-> **オープンな Kshana の厳密な上位集合。** Pro はオープンなエンジンにライブラリとして依存し、
-> 決してフォークしません。オープンなシナリオ種別はすべて Pro でそのまま動作し、オープンなシナリオは
-> ライセンスなしで Pro で動作します。
->
-> **新しい物理はありません。** Pro は物理モデルを追加せず、変更もしません。Pro のすべての数値は
-> オープンなエンジンの実行から得られるため、Pro の数値の信頼性は、それが由来するオープンなシナリオ種別と同じであり、
-> それを上回ることは決してありません。
+- **飛ばす設計を選ぶ。** 設計空間、その制約、目的を示すと、空間全体での最良のトレードオフが得られ、
+  各候補は無料のエンジンで動くシナリオファイルとして出力されます。
+- **答えがどれほど確かかを知る。** 信頼区間の帯、限界を満たす確率、
+  そして結果を左右する入力。
+- **ミッションが要求を満たすことを示す。** 要求（CSV、ReqIF、または
+  SysML v2 のテキスト）を取り込み、実行結果と照合し、検証マトリクス、変更影響レポート、
+  そしてレビュー委員会が確認できるミッションドシエ（PDF、HTML、JSON）を得られます。
+- **エビデンスに基づいてアーキテクチャを比較する。** 重要な数値で選択肢を順位付けし、
+  すべての数値の裏にエビデンスパックがあります。
+- **出荷前に劣化を捉える。** 気にかけている数値を指定すると、シナリオ、モデル、エンジンの変更で
+  そのどれかが悪化したときにパイプラインが失敗します。
+- **スペクトルの共存を確認する。** 候補の信号計画をオープンな GNSS 信号に対して
+  双方向に試験し、順位付けします。
+- **自社の時計のツインを作る。** 公表された安定度と照合した時計のデジタルツイン。
+  お客様自身の機器のツインは、契約のもとでお客様と一緒に構築します。
+- **自社のネットワークで動かす。** オンプレミスのサービスとジョブキューで、
+  どの要求にどの結果を納品したかの記録が残ります。
+- **署名付きのエビデンスを引き渡す。** Pro はエビデンスパックとドシエに署名し、受け取った側は
+  Pro のライセンスなしにそれを確認できます。
 
-Pro は、プログラムの次の問いに答えます：どの設計で飛ばすか（設計最適化器とその
-パレートフロント）、答えがどれだけ確かか（不確かさと感度）、そしてミッションが
-要求を満たすかどうか（ミッションドシエ、要求のトレーサビリティ、トレードスタディ、
-シナリオの回帰チェック、時計のデジタルツイン、検討ドシエ、オンプレミスの
-サービス）。また、一連の数値のキャンペーンを監視して、いずれかが悪化した場合にパイプラインを失敗させ、
-候補の信号計画をオープンな衛星航法信号に対して双方向で試験し（スペクトルの共存）、
-ハッシュチェーンの納品台帳を備えたオンプレミスのジョブサービスに検討をキューイングします。それぞれについて、何を生成し、何をしないかを
-[`docs/PRO.md`](docs/PRO.md) に記載しています。Pro が生成するものはいずれも認証ではなく、カスタムの検討も
-認証ではありません。
+**信頼できる点。** すべてのオープンなシナリオは Pro でそのまま動き、Pro がオープンなエンジンの
+物理モデルを変更することはありません。すべての数値は台帳が与えるエビデンスラベル
+（VALIDATED、MODELLED、PARTNER）を保ち、それより高くなることはありません。Pro 独自のモデルには独自の
+ラベルが付きます。Pro の納品物は実行したシナリオファイルを列挙するので、オープンな Kshana があれば誰でも
+再実行して同じ数値を得られます。Pro が生み出すものは認証ではなく、カスタムスタディも
+認証ではありません。詳しい説明は [`docs/PRO.md`](docs/PRO.md) にあります。
 
 <details>
-<summary>Kshana Pro がオープンなエンジンから読み取るもの、そして Ashforde® OÜ によるサポート</summary>
+<summary>Ashforde® OÜ によるサポートとプロフェッショナルサービス</summary>
 
-<br>
-
-**Kshana Pro の土台。** Pro のすべての部分はオープンなエンジンを基に動作し、
-エンジンを変更しません：
-
-- **設計最適化器、不確かさの検討、ミッションドシエ** は、オープンなエンジンの
-  シナリオをエンジンの公開インターフェースを通じて実行し、すべての数値を実行の
-  結果から計算します。各出力は、オープンなエンジンが各数値に与えた VALIDATED、MODELLED、PARTNER の
-  ティアを保持し、それより高いティアを付けることは決してありません。
-- **時計のデジタルツイン** は、オープンなエンジンの時計モデルとその Allan 偏差の
-  推定器を使います：ツインは機器の公表された Allan のバジェットにキャリブレーションされ、その後
-  オープンな推定器でツインの Allan 偏差を推定して確認されます。
-- **トレードスタディ** は、各アーキテクチャの選択肢をオープンなエンジンのシナリオとして変更せずに実行し、
-  各実行の結果から読み取った性能指標で選択肢を順位付けします。
-- **キャンペーンの監視** は、パック内のシナリオのオープンなエンジンによる実行の結果から
-  数値を読み取り、前回合格した実行と比較します。
-- **スペクトルの共存** は、すべての物理的な数値を `leo-signal` と `constellation-design` の
-  種別のオープンなエンジンによる実行から読み取り、可視衛星にわたる総和と
-  計画の順位付けだけを加えます。
-- **オンプレミスのジョブサービス** は、オープンと Pro のシナリオを同じエンジンで実行し、
-  各結果を実行が返したとおりに保存します。
-- **エビデンスパック** は、各実行について、オープンなエンジンが結果に刻むシナリオのハッシュを
-  記録するため、パック内の数値はそのシナリオを再実行して再現できます。
-- **システムズエンジニアリングとプログラムのツール。** Kshana Pro のモデルベース
-  システムズエンジニアリング（MBSE）とプログラムのツールは、プログラムの要求を
-  オープンなエンジンの実行に対して確認します：要求をカンマ区切り値（CSV）として、
-  あるいは Requirements Interchange Format（ReqIF）または
-  Systems Modeling Language バージョン 2（SysML v2）のテキストの文書化されたサブセットとして取り込み、各受け入れ
-  基準を、その単位とともに、実行が書き出した値に対して評価し、検証相互参照
-  マトリクス（VCRM）、SysML v2 モデル、変更影響レポート、オフラインの
-  エビデンスパックを生成します。何も再実行・再計算せず、オープンなエンジンが
-  公開するものだけを読み取ります：各実行の `result.json`（基準が名指しするフィールド、その単位、
-  シナリオのハッシュ、シード、エンジンのバージョン、スキーマのバージョンからなる再現性のスタンプ、そして
-  実行のラベルと数値のティア）、`report.json`（種別、再現性の記録、
-  機能のラベル）、シナリオファイル（そのハッシュ、種別、シード、パラメーター）、
-  フィールド単位のスキーマ（各フィールドの単位、来歴、エビデンスのティア）、そして
-  検証マトリクス（各機能の VALIDATED、MODELLED、PARTNER のラベル）。
-
-<a id="support--professional-services"></a>
 ### サポートとプロフェッショナルサービス
 
-Kshana は AGPL-3.0 の下で無料のオープンソースであり、**Ashforde® OÜ**（エストニア）**が専門的に開発・
-保守しています**。オープンなエンジンはそれだけで完結しており、単独で使えます。
-それ以上を必要とする組織向けに、Ashforde® OÜ は次のものを提供しています：
+Kshana は AGPL-3.0 のもとで無料かつオープンソースであり、**Ashforde® OÜ**（エストニア）が**専門的に開発・保守**しています。
+オープンなエンジンは完全で、それだけで使えます。
+さらに必要とする組織に向けて、Ashforde® OÜ は次を提供します：
 
-- **商用サポートと統合** — お客様のツールチェーンへの Kshana の組み込み、カスタムの
+- **Kshana Pro**：上で説明したプロフェッショナル版、直接サポート付き。
+- **商用サポートと統合**：お客様のツールチェーンへの Kshana の組み込み、カスタム
   シナリオ、優先的な修正。
-- **カスタムのセンサーモデル** — お客様のハードウェアにキャリブレーションしたもので、プライベートなオーバーレイで
-  保守する輸出規制に関わるレジリエンスのモデルを含みます。
-- **Kshana Pro** — プロプライエタリなモデルベースシステムズエンジニアリング（MBSE）とプログラムの
-  ツールで、プログラムの要求をオープンなエンジンの実行に対して確認し、
-  検証相互参照マトリクス（VCRM）、Systems Modeling Language
-  バージョン 2（SysML v2）のモデル、変更影響レポート、オフラインのエビデンスパックを生成します。
-  何も再実行せず、エンジンが公開する出力だけを読み取ります：各実行の `result.json`
-  と `report.json`、シナリオファイル、フィールド単位のスキーマ、検証
-  マトリクスのラベル（完全な一覧は[エディション](#editions)にあります）。
-- **Kshana Pro の設計、不確かさ、ミッションのツール** — 設計空間のパレートフロント、
-  数千回の実行にわたる不確かさと感度、検証マトリクスと PDF を備えた 1 コマンドのミッション
-  ドシエ。[`docs/PRO.md`](docs/PRO.md) を参照。
-- **Kshana Pro のキャンペーン監視、スペクトルの共存、ジョブサービス** — 監視している数値が悪化すると
-  失敗するパイプライン、オープンな衛星航法信号に対して双方向で試験する信号計画、
-  ハッシュチェーンの納品台帳を備えたオンプレミスのジョブキュー。[`docs/PRO.md`](docs/PRO.md) を参照。
-- 量子/古典の PNT 性能解析に関する**トレーニングとコンサルティング**。
+- **カスタムのセンサーモデル**：契約のもとでお客様のハードウェアに合わせて較正。輸出管理上
+  機微な作業は、適切な許可と秘密保持契約のもとでのみ行います。
+- **カスタムスタディ**：お客様のシステムの PNT レジリエンスに関する MODELLED のスタディを代わりに実施。
+- **トレーニングとコンサルティング**：PNT レジリエンスと、量子センサーおよび古典的センサーの性能について。
 
-これはオープンコアのモデルです：エンジンはオープンなライセンスであり、今後もそうあり続けます。事業を支えるのは
-専門知識、サポート、プロプライエタリな拡張であり、ライセンス料ではありません。
+これはオープンコアのモデルです。エンジンはオープンなライセンスであり、これからもそうです。それを
+支える事業は Kshana Pro、サポート、そして専門知識です。
 連絡先 **contact@ashforde.org** · [ashforde.org](https://ashforde.org)。
 
 </details>
 
-<a id="research"></a>
 ## 研究
 
 オープンなエンジンに基づく検討は arXiv で公開しています。それぞれが背後にあるエンジンのコマンドを示しているため、
@@ -1852,7 +1857,7 @@ NASA/JPL Three-Body Periodic Orbit Database）に対して独立にクロスチ�
 <a id="scenario-format"></a>
 ### シナリオ形式
 
-シナリオは宣言的な TOML です。トップレベルの `kind` がパックを選択します — 全部で **50**
+シナリオは宣言的な TOML です。トップレベルの `kind` がパックを選択します — 全部で **93**
 （省略した場合は `clock` が既定）：`inertial`、`timetransfer`、`hybrid`、`hybrid-ukf`、`fusion`、
 `gnss-ins`、`orbit`、`ephemeris`、`gnss-sim`、`integrity`、`lunar-integrity`、`lunar-time-offset`、`spoof`、
 `spoof-detect`、`jamming`、`sweep`、`sweep-nd`、`gravity-map`、`terrain-nav`、`terrain-slam`、
@@ -2100,7 +2105,7 @@ phasing_f = 1.0
 対 月のセレノイド、平均化ウィンドウ）。そのため、認証された単一の
 数値ではなく帯域を報告しています（`scenarios/lunar-time-offset.toml`）。
 
-すべての種別について少なくとも 1 つの実例が `scenarios/` にあります（92 の種別、193 のシナリオ
+すべての種別について少なくとも 1 つの実例が `scenarios/` にあります（93 の種別、199 のシナリオ
 `.toml` ファイル + 1 つのスイートのマニフェスト — いくつかの種別は複数の例を同梱しています）。すべての
 種別に、その名前を付けたファイルがあるわけではありません：`lunar-integrity` → `scenarios/lunanet-araim.toml` と
 `gravity-map` → `scenarios/gps-denied-gravity-nav.toml` は、そうした例のうちの 2 つです。
@@ -2201,7 +2206,6 @@ kshana/
 │   └── bin/crossover_study.rs · bin/validation_report.rs  # crossover-study artifact generator · release validation-summary HTML
 │
 ├── mcp/kshana-mcp/        # standalone, workspace-EXCLUDED crate — the MCP server (+ Dockerfile, server.json)
-├── ide/jetbrains/         # standalone Kotlin/Gradle IntelliJ-Platform plugin
 ├── xval/                  # standalone, workspace-EXCLUDED external cross-checks: anise-{frames,lunar-od,mars-od,service-geometry} (Rust ANISE/SPICE DE440) + orekit-passes (Java Orekit)
 │
 ├── examples/            # reproducible study generators: tpl_jammertest · resilience_report · optimism_study + real-data probes (jammertest_probe · yunnan_probe · satgrid_probe · texbat_probe · ingest_realdata)
@@ -2211,7 +2215,7 @@ kshana/
 ├── docs/                 # CONCEPTS, ARCHITECTURE, CAPABILITY, VALIDATION, PROVENANCE, GLOSSARY, …
 ├── web/                  # the WebAssembly playground + kshana.dev site
 ├── tools/                # table generators (EGM2008 · IGRF · nutation · CIO) + fetch_tles.sh
-├── .github/workflows/    # ci · release · publish · wheels · pages · mcp-publish · jetbrains-plugin · frame-xval
+├── .github/workflows/    # ci · release · publish · wheels · pages · mcp-publish · frame-xval
 ├── pyproject.toml        # Python packaging (maturin)
 ├── CHANGELOG.md          # Keep a Changelog + SemVer
 └── CITATION.cff · ROADMAP.md · CONTRIBUTING.md · SECURITY.md
@@ -2234,7 +2238,7 @@ kshana/
 
 **量子の結果は現実的ですか、それともマーケティングですか？**
 すべてのパラメーターはデータシートまたは論文を引用しており、すべてのモデルは
-教科書の関係式に対して検証しており、成熟度は
+教科書の関係式と照合しており、成熟度は
 [VALIDATION.md](docs/VALIDATION.md) で正直にラベル付けしています — ストロンチウム光時計が
 飛行したことはないという点も含めてです。エンジンは中立です：量子と古典は同じコードであり、異なるのは
 公表された数値だけです。
@@ -2305,13 +2309,13 @@ Kshana は [Semantic Versioning](https://semver.org) に従います。1.0 以�
 
 | チャネル | インストール / 入手 | 内容 |
 |---------|---------------|----------|
-| [crates.io](https://crates.io/crates/kshana) | `cargo install kshana` · `kshana = "0.35"` | Rust ライブラリ + CLI |
+| [crates.io](https://crates.io/crates/kshana) | `cargo install kshana` · `kshana = "0.41"` | Rust ライブラリ + CLI |
 | [crates.io](https://crates.io/crates/kshana-mcp) | `cargo install kshana-mcp` | MCP サーバー |
 | [PyPI（Python Package Index）](https://pypi.org/project/kshana/) | `pip install kshana` | abi3 の wheel（Linux/macOS/Windows）+ sdist（ソース配布物） |
 | [npm](https://www.npmjs.com/package/kshana) | `npm install kshana` | WebAssembly モジュール + JS のラッパー |
 | [ghcr.io](https://github.com/ashfordeOU/kshana/pkgs/container/kshana-mcp) | `docker run -i ghcr.io/ashfordeou/kshana-mcp` | マルチアーキテクチャの OCI（Open Container Initiative）イメージ — ツールチェーン不要 |
-| [npm](https://www.npmjs.com/package/kshana-mcp) | `npx -y kshana-mcp@0.40.0` | ランチャー：リリースのバイナリをダウンロードし、`SHA256SUMS` を検証して実行 |
-| [PyPI](https://pypi.org/project/kshana-mcp/) | `uvx kshana-mcp==0.40.0` · `pipx run kshana-mcp==0.40.0` | Python 向けの同じランチャー |
+| [npm](https://www.npmjs.com/package/kshana-mcp) | `npx -y kshana-mcp@0.41.0` | ランチャー：リリースのバイナリをダウンロードし、`SHA256SUMS` を検証して実行 |
+| [PyPI](https://pypi.org/project/kshana-mcp/) | `uvx kshana-mcp==0.41.0` · `pipx run kshana-mcp==0.41.0` | Python 向けの同じランチャー |
 | Homebrew · Scoop · winget | `brew install ashfordeOU/tap/kshana-mcp` · `scoop install kshana-mcp` · `winget install AshfordeOU.KshanaMcp` | 各リリースの `SHA256SUMS` から生成した `kshana-mcp` のバイナリ |
 | Claude Desktop | リリースの `kshana-mcp-<target>.mcpb` をダブルクリック | バイナリを内包した拡張機能 |
 | 公式 MCP レジストリ | MCP クライアントが自動検出 | `io.github.ashfordeOU/kshana-mcp`（OCI イメージ、npm と PyPI のパッケージ） |
@@ -2341,7 +2345,7 @@ CIO ベースの完全な IAU 2006/2000A GCRS↔ITRS のチェーン（極運動
 SOFA/ERFA に対してビット単位で検証し、ANISE
 （純粋な Rust の SPICE）に対して GNSS 軌道で ≤ 3.6 m まで独立にクロスチェックしています。短期的な項目には、密結合の搬送波位相の融合と、
 疎結合/密結合の GNSS/INS 航法装置をより多くのパックで利用可能にすることが含まれます。**深宇宙 / 火星の
-電波航法** のエンジンは v0.17.0 で導入されました（シミュレーションで検証済み）。
+電波航法** のエンジンは v0.17.0 で導入されました（MODELLED：シミュレーションで確認、ミッションデータでは未確認）。
 **量子物理の層** は **P2** の項目です：CAI 加速度計は現在、第一原理
 （Mach–Zehnder 位相、射影雑音、コントラストの減衰、振動の
 結合）からシミュレーションしていますが、時計/時刻転送のセンサーは依然として公表された
@@ -2396,7 +2400,7 @@ TLE による実際のコンステレーションの幾何配置、HTML のス�
 | [再現性と来歴](docs/REPRODUCIBILITY.md) | レビュアー / パッケージャー | 決定論性の保証、ゴールデンによる固定、SBOM（ソフトウェア部品表）、ビルドの来歴 |
 | [Wheel のプラットフォームタグ](docs/WHEEL_TAGS.md) | パッケージャー | abi3 の Python の wheel のマトリクス — `pip install kshana` がどのプラットフォームタグに解決されるか |
 | [位置付け](docs/POSITIONING.md) | 評価者 | RTKLIB/gLAB に対する Kshana の位置付け（相補的）と、インストール不要のブラウザーの層 |
-| [Kshana Pro](docs/PRO.md) | 評価者 / プログラムマネージャー | プロプライエタリな Pro のオーバーレイが同じエンジンに加えるもの：設計最適化器、不確かさと感度、ミッションドシエ、キャンペーンの監視、スペクトルの共存、オンプレミスのジョブサービス、要求のトレーサビリティ。それぞれが何を生成し、何をしないか |
+| [Kshana Pro](docs/PRO.md) | 評価者 / プログラムマネージャー | プロフェッショナル版：誰のためのものか、チームが何をできるか、何が得られるか、サポート、評価の始め方 |
 | [技術報告書](paper/kshana-technical-report.md) · [JOSS 論文](paper/paper.md) | レビュアー / 引用者 / 評価者 | 完全な拡張版の研究論文 — アーキテクチャ、ドメインごとのモデル、検証、ケーススタディ、限界 — と、簡潔な JOSS（Journal of Open Source Software）への投稿 |
 | [SGP4 の検証](docs/SGP4-VALIDATION.md) | レビュアー / 引用者 | AIAA 2006-6753 の参照との一致（666 の状態、約 4 mm）**と**、独立した `sgp4` クレートとの直接比較（マイクロメートル未満 / 4.12 mm で一致） |
 | [力学モデルの検証](docs/AGENCY-ORBIT-VALIDATION.md) | レビュアー / 引用者 | 機関のエフェメリスにフィットしたフルフォースのエンジン（`src/precise_od.rs`）— 方法論と検証済みの残差 |
@@ -2422,7 +2426,7 @@ TLE による実際のコンステレーションの幾何配置、HTML のス�
 | [Python API](docs/PYTHON_API.md) | Python の利用者 | PyO3 のバインディングの範囲 — エンジンの呼び出し、シナリオ/結果の型、例 |
 | [主張と実態](docs/CLAIMS-VS-REALITY.md) | レビュアー | 過剰な主張を解消するための台帳 + それを解消済みに保つ CI のガード（`tests/no_overclaims.rs`） |
 | [ロードマップ](ROADMAP.md) | すべての人 | 段階的なロードマップ — 何が提供済みで、次は何か |
-| [MCP サーバー](mcp/kshana-mcp/README.md) · [JetBrains プラグイン](ide/jetbrains/README.md) | エージェント / IDE の利用者 | AI アシスタントや JetBrains IDE から Kshana を実行 |
+| [MCP サーバー](mcp/kshana-mcp/README.md) · [JetBrains プラグイン](https://kshana.dev/docs/jetbrains.html) | エージェント / IDE の利用者 | AI アシスタントや JetBrains IDE から Kshana を実行 |
 | [エージェントのガイド](docs/AGENTS.md) · [サーフェス](docs/SURFACES.md) | エージェント / インテグレーター | どのツールがどの問いに答えるか、各回答とともに何を保持すべきか。各機能がどこから利用できるか（CLI、Rust、Python、WASM、MCP、プラグイン、JetBrains、ノートブック）と、セルが N/A である理由 |
 | [変更履歴](CHANGELOG.md) | すべての人 | リリース済みの履歴（Keep a Changelog + SemVer、Semantic Versioning） |
 | [コントリビューション](CONTRIBUTING.md) | コントリビューター | ビルド、ガード、テスト/引用の規律、DCO（Developer Certificate of Origin） |

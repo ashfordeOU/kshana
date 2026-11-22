@@ -45,13 +45,13 @@ def check(en_path,out_path):
 if __name__=='__main__':
     cmd=sys.argv[1]
     if cmd=='split':
-        en=parse('i18n/en/engine.ftl'); n=int(sys.argv[2]); os.makedirs('/tmp/claude-0/i18n/batches',exist_ok=True)
+        en=parse('i18n/en/engine.ftl'); n=int(sys.argv[2]); os.makedirs('/tmp/i18n-work/batches',exist_ok=True)
         for i in range(0,len(en),n):
             chunk=en[i:i+n]; out=[]; last=None
             for e in chunk:
                 if e['sect']!=last: out.append(e['sect'] or ''); out.append(''); last=e['sect']
                 out.append(body(e)); out.append('')
-            open(f'/tmp/claude-0/i18n/batches/en_{i//n:02d}.ftl','w',encoding='utf-8').write('\n'.join(out))
+            open(f'/tmp/i18n-work/batches/en_{i//n:02d}.ftl','w',encoding='utf-8').write('\n'.join(out))
         print(len(en),'messages',(len(en)+n-1)//n,'batches')
     elif cmd=='check':
         e=check(sys.argv[2],sys.argv[3]); print('\n'.join(e[:40])); print('OK' if not e else f'{len(e)} problems'); sys.exit(1 if e else 0)

@@ -232,9 +232,9 @@
         }
       ],
       "input_files": {
-        "examples/interference-map/output/adsb-custom-2026-03-01.geojson": "354dbb943b39be904f40525d51c0432233ff7301af28ed70e1157ee4aec3805e",
+        "examples/interference-map/output/adsb-custom-2026-03-01.geojson": "d93f4574914d6460cf01a8ccb84c1c944a3f2e8ea6ebda519a1c60aa8c4a2d86",
         "examples/interference-map/input/route-adsb.geojson": "563bbb1386f74514140ae40a33a3b67496bb943064c377e6ca7a5dc335807980",
-        "examples/interference-map/output/ais-custom-2026-03-01.geojson": "0f870dec322bf70a5a1e79a2242cdefa95ebeda7aea9ea5894d70824aa8bd97b",
+        "examples/interference-map/output/ais-custom-2026-03-01.geojson": "7269f48195956ab20ad9b44a48150ebf854d3ba97a9431c2da31785ee2c7d3d6",
         "examples/interference-map/input/route-ais.geojson": "ab6d8a1fdfe5098d0dbf47a9a3a99acdddc0f63933c7ee15172e421932f0603c"
       }
     },

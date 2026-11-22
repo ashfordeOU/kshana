@@ -5,7 +5,7 @@
 //! ## What this pins and what it does NOT
 //! The paper's headline before/after magnitudes (median GDOP 16.2 -> 1.6, and the
 //! 24-sat comparison 3.4) are outputs of a **specific illustrative geometry +ARE
-//! budget assembled in the kshana-pro packaging harness** (per the paper program,
+//! budget assembled in the Kshana Pro packaging harness** (per the paper program,
 //! the paper's tables/figures are generated there, not in this public repo). Those
 //! exact element/beacon choices are NOT present in the public engine, so this test
 //! does NOT and CANNOT reproduce the literal 16.2 / 1.6 / 3.4 numbers from public
