@@ -1090,7 +1090,6 @@ seg-0cc84aedee42 = kontrollert mot sin egen lukkede form / analytiske identitet 
 
 seg-b19cbd364dea = src/benchmark/scorecard.rs::tests (referanse-PL absorberer; ødelagt PL uabsorbert-aldri-oppdaget; dom om påvisbar dekning; ærlighetsegenskapen at ingen dom om dekning/påvisning kan nås for et scenario som ikke kan påvises)
 
-seg-350aaf43f349 = kontrollert mot sin egen lukkede formel / analytiske identitet — fanger transkripsjons- og koeffisientfeil, men er ikke en uavhengig ekstern referanse — Ingen ekstern uavhengig referanse finnes, og ingen er mulig: dette er selvbeskrivelse, ikke en måling. Den er registrert fordi fraværet av den var en feil -- P5 måtte sitere bærebølgelengden og sendeaperturen fra kildens standardverdier, og slutte at en naken <c1/> var i kvadratmeter ut fra en intern konsistenssjekk. Slutningen var riktig, og det er nettopp derfor det var viktig: ingenting ville ha fanget det om den hadde vært feil
 
 seg-6d963d838eed = hybrid_integrity::tests (den løste konfigurasjonen gjengis for standardverdier og for overstyringer, uten å sende bølgelengden en runde via meter; hver units-oppføring har både en enhet og en proveniensklasse; hvert felt units-blokken nevner blir faktisk sendt ut, slik at den ikke kan dokumentere et spøkelsesfelt)
 

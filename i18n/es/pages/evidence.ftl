@@ -1429,7 +1429,6 @@ seg-2a5e48b558e1 = El informe hybrid-optical-rf declara la configuración de enl
 
 # text
 # c1: variance
-seg-23f0c10237f4 = Sin referencia independiente externa, y no es posible ninguna: esto es autodescripción, no una medición. Se registra porque su ausencia era un defecto: P5 tuvo que citar la longitud de onda de portadora y la apertura de transmisión a partir de valores por defecto del código fuente, e inferir que un <c1/> sin más estaba en metros cuadrados a partir de una comprobación de coherencia interna. La inferencia era correcta, y precisamente por eso importaba: nada habría detectado que fuera errónea
 
 # text
 seg-0691f3dee8cb = Disponibilidad del enlace híbrido óptico/RF en el lado de RF

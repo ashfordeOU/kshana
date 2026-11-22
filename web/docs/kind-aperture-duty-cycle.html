@@ -209,7 +209,7 @@
 </tr>
 <tr>
 <td><code>evidence.id_rule</code></td>
-<td>the stable id of the matrix row (the ID</td>
+<td>the stable id of the matrix row (the…</td>
 <td>text</td>
 </tr>
 <tr>
@@ -223,25 +223,25 @@
 <td>text</td>
 </tr>
 </tbody></table></div>
-<p>Result label (the engine&#39;s): MODELLED — aperture scheduling arithmetic over a supplied contact plan: an exact interval sweep of navigation-versus-communications time-share and per-session contention loss under a named arbitration policy. No slew / retune / changeover time is charged when an aperture changes service or session, </p>
+<p>Result label (the engine&#39;s): MODELLED — aperture scheduling arithmetic over a supplied contact plan: an exact interval sweep of navigation-versus-communications time-share and per-session contention loss under a named arbitration policy. No slew / retune / changeover time is charged when an aperture changes service or…</p>
 <img src="data:image/svg+xml;charset=utf-8,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%221180%22 height=%2256%22 font-family=%22Geist, ui-sans-serif, system-ui, sans-serif%22 font-size=%2212%22 fill=%22%23EAF0FF%22%3E%3Crect width=%221180%22 height=%2240%22 fill=%22%23060A14%22/%3E%3Ctext x=%2210%22 y=%2224%22%3Eaperture-duty-cycle: 6 session(s) on 2 aperture(s) under navigation-priority -%26gt; navigation duty 0.1167, communications duty 0.2667, idle 0.6167; 0 s of 6900 s requested lost to contention (MODELLED)%3C/text%3E%3Ctext x=%221172%22 y=%2234%22 text-anchor=%22end%22 fill=%22%238190B0%22 font-size=%2210%22 font-family=%22Geist, ui-sans-serif, system-ui, sans-serif%22%3EKshana v0.41.0 · scenario c71e1867cb44 · kshana.dev%3C/text%3E%3Cmetadata id=%22kshana-evidence%22 data-tier=%22MODELLED%22 data-rows=%22VM-cf3cdcd3;VM-c58f1105%22%3EVM-cf3cdcd3 MODELLED Reproducibility %26amp; software assurance %7C VM-c58f1105 MODELLED Aperture navigation-versus-communications duty cycle%3C/metadata%3E%3Crect x=%220%22 y=%2240%22 width=%221180%22 height=%2216%22 fill=%22%23060A14%22/%3E%3Ctext x=%228%22 y=%2251%22 fill=%22%238190B0%22 font-size=%2210%22 font-family=%22Geist, ui-sans-serif, system-ui, sans-serif%22%3EEvidence: MODELLED · 2 ledger rows VM-cf3cdcd3 VM-c58f1105%3C/text%3E%3C/svg%3E" alt="The chart the engine writes for scenarios/aperture-duty-cycle.toml, kind aperture-duty-cycle" width="640" loading="lazy">
 
 <h2 id="evidence">Evidence<a class="anchor" href="#evidence" aria-label="Link to this section">#</a></h2>
 <p>MODELLED: the <a href="/docs/verification-matrix">verification matrix</a> rows that name this kind.</p>
 <ul>
-<li><strong>MODELLED</strong> One run takes a contact plan (a list of aos_s/los_s windows, each asking the aperture for navigation or communications — the same window vocabulary <code>passes::predict_passes</code> emits, converted by <code>aperture_duty::windows_from_passes</code>), an apert</li>
+<li><strong>MODELLED</strong> One run takes a contact plan (a list of aos_s/los_s windows, each asking the aperture for navigation or communications — the same window vocabulary <code>passes::predict_passes</code> emits, converted by <code>aperture_duty::windows_from_passes</code>), an…</li>
 </ul>
 <p>The rows the run itself exercised, with the oracle the matrix gives each (the public sources are named there):</p>
 <ul>
 <li><strong>MODELLED</strong> Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): SBOM conformance to the official CycloneDX 1.5 JSON Schema (+ valid SPDX identifiers) — an external published standard, zero validation errors over the full dependency graph; the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED</li>
-<li><strong>MODELLED</strong> One run takes a contact plan (a list of aos_s/los_s windows, each asking the aperture for navigation or communications — the same window vocabulary `passes::pre. Oracle (InternalConsistency): Internal consistency, from three quantities computed by different expressions in the same sweep and then required to close. Navigation aperture-seconds, communications aperture-seconds and idle aperture-seconds are accumulated separately — idle from (apertures − |served|) per elementary interval, never as a remainder — and their sum is asserted against apertures × horizon_s, which a mis-bracketed boundary, a double-c</li>
+<li><strong>MODELLED</strong> One run takes a contact plan (a list of aos_s/los_s windows, each asking the aperture for navigation or communications — the same window vocabulary…. Oracle (InternalConsistency): Internal consistency, from three quantities computed by different expressions in the same sweep and then required to close. Navigation aperture-seconds, communications aperture-seconds and idle aperture-seconds are accumulated separately — idle from (apertures − |served|) per elementary interval, never as a remainder — and their sum is asserted against apertures × horizon_s, which a mis-bracketed boundary, a…</li>
 </ul>
 <h2 id="limitations">Limitations<a class="anchor" href="#limitations" aria-label="Link to this section">#</a></h2>
 <p>What the run&#39;s own report says is not modelled or not validated:</p>
 <ul>
-<li>MODELLED — aperture scheduling arithmetic over a supplied contact plan: an exact interval sweep of navigation-versus-communications time-share and per-session contention loss under a named arbitration policy. No slew / retune / changeover time is charged when an aperture changes service or session, no data volume, buffer state, energy budget or link closure enters the decision, and the contact windows are inputs — th (result <code>label</code>)</li>
+<li>MODELLED — aperture scheduling arithmetic over a supplied contact plan: an exact interval sweep of navigation-versus-communications time-share and per-session contention loss under a named arbitration policy. No slew / retune / changeover time is charged when an aperture changes service or session, no data volume, buffer state, energy budget or link closure enters the decision, and the contact windows are inputs… (result <code>label</code>)</li>
 <li>MODELLED scheduling arithmetic: no slew / retune / changeover time is charged when an aperture changes service or session, no data volume, buffer state, energy budget or link closure enters the decision, and the contact windows are inputs — their geometry is whatever produced them. (kind catalogue (<code>kshana kinds --json</code>))</li>
-<li>HONEST SCOPE: MODELLED scheduling arithmetic over the supplied windows. No slew / retune / changeover time is charged when an aperture changes service or session; no data volume, buffer state, energy budget or link closure enters the decision; and the contact windows are inputs -- their geometry is whatever produced them (the <code>passes</code> scenario emits the same aos_s / los_s vocabulary). Not a ground-segment scheduling  (scenario file comment, lines 18 to 24)</li>
+<li>HONEST SCOPE: MODELLED scheduling arithmetic over the supplied windows. No slew / retune / changeover time is charged when an aperture changes service or session; no data volume, buffer state, energy budget or link closure enters the decision; and the contact windows are inputs -- their geometry is whatever produced them (the <code>passes</code> scenario emits the same aos_s / los_s vocabulary). Not a ground-segment… (scenario file comment, lines 18 to 24)</li>
 <li>Reproducibility &amp; software assurance is MODELLED, not validated: a sub-claim is externally checked, but the whole capability composes modelled pieces, so the capability stays Modelled. (verification matrix (docs/MODELLED-RATIONALE.md))</li>
 <li>Aperture navigation-versus-communications duty cycle is MODELLED, not validated: checked against its own closed-form / analytic identity — catches transcription and coefficient errors, but is not an external oracle. (verification matrix (docs/MODELLED-RATIONALE.md))</li>
 </ul>

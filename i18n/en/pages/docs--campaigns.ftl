@@ -316,7 +316,7 @@ seg-ed182d15151d = <c1/>: several scenarios under shared conditions
 
 # text
 # c1: scenarios/campaign-shared-jammer-sea-road.toml
-seg-26fab14de534 = Named shared values (a number or an array of numbers, with a unit) are written into each member at the keys it binds them to, so the members cannot disagree about the shared condition. Every member runs, and for each metric the combined summary gives the smallest, largest and mean value across the members, naming the best and worst. <c1/> puts one { "8" } dBW jammer between a ship in the Gulf of Finland (about { "30" } km away) and a car on a Helsinki coast road (about { "50" } km): the ship loses every satellite (mean jammer-to-signal ratio { "39.0" } dB) while the car keeps at least four ({ "34.6" } dB).
+seg-67d61a1b1d0c = Named shared values (a number or an array of numbers, with a unit) are written into each member at the keys it binds them to, so the members cannot disagree about the shared condition. Every member runs, and for each metric the combined summary gives the smallest, largest and mean value across the members, naming the best and worst. <c1/> puts one { "8" } dBW jammer between a ship in the Gulf of Finland (about { "30" } km away) and a car on a Helsinki coast road (about { "50" } km): the ship falls below four tracked satellites at every epoch, down to one (availability { "0" }, mean jammer-to-signal ratio { "39.0" } dB), while the car keeps at least seven ({ "34.6" } dB).
 
 # text
 # c1: [optimize]
@@ -407,7 +407,7 @@ seg-0ba270495309 = A format none of the members can describe is refused with tha
 seg-c20904c9d3b5 = LEO-PNT campaigns
 
 # text
-seg-a598e2c06f51 = Fifteen bundled campaigns frame low Earth orbit (LEO) positioning, navigation and timing (PNT) questions; <a1>LEO-PNT.md</a1> describes what each one shows. What each runs, as the command line summarises it:
+seg-cb48ba38e900 = Sixteen bundled campaigns frame low Earth orbit (LEO) positioning, navigation and timing (PNT) questions; <a1>LEO-PNT.md</a1> describes what each one shows. What each runs, as the command line summarises it:
 
 # text
 seg-cae10fb9bff8 = Scenario
@@ -556,7 +556,7 @@ seg-61b54a16243f = <b>The spectrum-driven chain</b> reads the stand-alone number
 seg-5ebc02a24ce1 = <b>The chain</b> hands state on as documented: the spoofing phase lasts exactly the spoof run's detection time, the holdover carries exactly the spoof run's offset at detection, recovery carries nothing, and the alarm is up wherever the protection level is missing or exceeds the alert limit.
 
 # text
-seg-153e28bcb38a = These check that composing changes nothing it should not. They do not validate a chained mission against a measured one, which is why the three campaign rows in <a1>VERIFICATION-MATRIX.md</a1> are MODELLED.
+seg-2109b678154c = These check that composing changes nothing it should not. They do not validate a chained mission against a measured one, which is why the four campaign rows in <a1>VERIFICATION-MATRIX.md</a1> are MODELLED.
 
 # text
 seg-e82860f2d902 = <s1>Previous</s1>Using real TLEs

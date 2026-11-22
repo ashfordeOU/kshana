@@ -49,7 +49,7 @@ seg-621a18c07044 = The chart the engine writes for scenarios/sweep-nd-inertial.t
 seg-619127334cf3 = No matrix row names this kind by name; the label on its result is the engine's own, above.
 
 # text
-seg-8a41c18ca3fe = <b>MODELLED</b> Cold-atom interferometer accelerometer from first principles (k_eff·T², QPN). Oracle (ExternalDataset): Published CAI primary-paper numeric vectors (Cheinet { "2008" } transfer function; Peters/Freier sensitivity): k_eff·T² matched exactly, shot-noise ASD a one-sided floor within ~{ "2" }× of each published instrument (real devices carry technical noise above the quantum floor). A bracket, not parity. { "0.30" } round { "2" } (pre-registered e7de532a), a finding (stays MODELLED): the QPN-only rotation noise against the measured Gauguet et al.
+seg-832de3ea2047 = <b>MODELLED</b> Cold-atom interferometer accelerometer from first principles (k_eff·T², QPN). Oracle (ExternalDataset): Published CAI primary-paper numeric vectors (Cheinet { "2008" } transfer function; Peters/Freier sensitivity): k_eff·T² matched exactly, shot-noise ASD a one-sided floor within ~{ "2" }× of each published instrument (real devices carry technical noise above the quantum floor). A bracket, not parity. { "0.30" } round { "2" } (pre-registered e7de532a), a finding (stays MODELLED): the QPN-only rotation noise against the measured Gauguet et…
 
 # text
 seg-7e95210bcc48 = <b>MODELLED</b> Composed bias + scale-factor + VRW + stability-decay position budget over holdover. Oracle (ReferenceImpl): Independent numpy Monte-Carlo SDE integration of double-integrated white-acceleration noise (validates the analytic VRW variance by a genuinely independent algorithm) + a Groves { "2013" } published-value anchor for the bias/scale-factor terms; the CAI device numbers quantify partner hardware and stay MODELLED
@@ -59,7 +59,7 @@ seg-bb07c8ee153f = <b>PARTNER</b> Not provided — performance models only; cold
 
 # text
 # c1: campaign
-seg-fa3ad6babe54 = <b>MODELLED</b> The <c1/> kind's sweep (one to three dotted keys of any kind, on the generic sweep's axis values, optionally an ensemble at every node) and monte_carlo sec. Oracle (InternalConsistency): The closed form of the phase random walk under white frequency noise, variance q_wf tau (NIST Technical Note { "1337" }), for the statistics machinery, and byte equality with the stand-alone runs for the seeding. It checks the ensemble arithmetic on the engine's own clock model, not an external dataset
+seg-1d682ccfe48a = <b>MODELLED</b> The <c1/> kind's sweep (one to three dotted keys of any kind, on the generic sweep's axis values, optionally an ensemble at every node) and monte_carlo…. Oracle (InternalConsistency): The closed form of the phase random walk under white frequency noise, variance q_wf tau (NIST Technical Note { "1337" }), for the statistics machinery, and byte equality with the stand-alone runs for the seeding. It checks the ensemble arithmetic on the engine's own clock model, not an external dataset
 
 # text
 seg-9955b1b1c018 = Quantum inertial sensor performance is MODELLED, not validated: a sub-claim is externally checked, but the whole capability composes modelled pieces, so the capability stays Modelled. (verification matrix (docs/MODELLED-RATIONALE.md))

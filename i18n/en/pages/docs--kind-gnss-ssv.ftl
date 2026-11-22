@@ -16,8 +16,8 @@ seg-d07af7221334 = Scenario kind of the engine v{ $version }, family <a1>Space-u
 seg-d6d7bca305dc = MODELLED GNSS availability and link strength in the Space Service Volume and beyond: for a user on a sphere (the ICG booklet's global shell) or on a Keplerian trajectory (LEO to lunar transfer) it counts, per constellation (GPS, GLONASS, Galileo, BDS, QZSS, NavIC) and for all together, the signals usable above a C/N0 threshold - availability of at least one and of four signals, maximum outage duration, received C/N0, dilution of precision, main-lobe against sidelobe links - with a booklet, parametric or user-supplied transmit pattern, optional limb-ray ionosphere, plasmasphere and atmosphere effects and an optional weak-signal receiver design; also an onboard GNSS extended Kalman filter for HEO and lunar-transfer craft (orbital dynamics, solar radiation pressure, third bodies, clock) and relative navigation of a multi-craft formation by single-differenced pseudoranges. Checked against the ICG SSV booklet tables under a pre-registration (xval/gnss-ssv)
 
 # text
-# c1: scenarios/gnss-ssv-heo.toml
-seg-d739ae994bf0 = One run of <c1/> summarises as: gnss-ssv trajectory { "497" } to { "58622" } km altitude: l1 combined { "1" }+ { "100.0" }% { "4" }+ { "97.4" }% (max outage { "0" } min); l5 combined { "1" }+ { "100.0" }% { "4" }+ { "100.0" }% (max outage { "0" } min)
+# c1: scenarios/gnss-ssv-geo.toml
+seg-f0e531315e6d = One run of <c1/> summarises as: gnss-ssv trajectory { "35786" } to { "35786" } km altitude: l1 combined { "1" }+ { "100.0" }% { "4" }+ { "100.0" }% (max outage { "0" } min); l5 combined { "1" }+ { "100.0" }% { "4" }+ { "100.0" }% (max outage { "0" } min)
 
 # text
 # c1: shell|trajectory|navigation
@@ -33,8 +33,8 @@ seg-79d2e350ed73 = Required fields: <c1/>
 seg-7fc75803140d = Optional fields: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>
 
 # text
-# c1: scenarios/gnss-ssv-heo.toml
-seg-cebc76420d69 = The example <c1/> sets, among others:
+# c1: scenarios/gnss-ssv-geo.toml
+seg-aec56b482194 = The example <c1/> sets, among others:
 
 # text
 seg-ce3b64e8c1f4 = [l1, l5]
@@ -43,67 +43,70 @@ seg-ce3b64e8c1f4 = [l1, l5]
 seg-8b8f5598c9d7 = [gps, glonass, galileo, bds]
 
 # text
-seg-b02a3ef32d54 = HEO, high-gain nadir and patch zenith antennas, parametric s
+seg-88537dfc6a2a = GEO, high-gain nadir and patch zenith antennas, parametric…
 
 # text
 seg-666a68730eaa = [booklet-high-gain-nadir, booklet-patch-zenith]
 
 # text
-seg-3421a66993bd = heo
+seg-834408a40783 = min
 
 # text
-seg-834408a40783 = min
+seg-a6945e66e7f5 = geo
 
 # text
 seg-8974ff39f695 = parametric
 
 # text
 # c1: scenarios/
-seg-1d65b71c5de0 = { "5" } bundled scenarios use this kind; the others are in <a1><c1/></a1>.
+seg-f2aebedba642 = { "8" } scenario files in <a1><c1/></a1> use this kind.
 
 # text
-seg-8ac8f00f6c77 = 1/m^{ "3" }
+seg-aa2579386fbb = trajectory
 
 # text
-seg-15ca016a7a4f = Result label (the engine's): MODELLED: a geometric and link-budget sweep. The booklet pattern is a constant-power main lobe, the parametric pattern a representative stand-in, and the limb-ray medium a simple stated model; nothing here is a measurement of a signal in space. The availability and outage figures follow the method o
+seg-901c3d88972b = GEO, high-gain nadir and patch zenith…
+
+# text
+seg-9fa0a56b5040 = Result label (the engine's): MODELLED: a geometric and link-budget sweep. The booklet pattern is a constant-power main lobe, the parametric pattern a representative stand-in, and the limb-ray medium a simple stated model; nothing here is a measurement of a signal in space. The availability and outage figures follow the method…
 
 # attr:alt
-seg-7dae5e291c8b = The chart the engine writes for scenarios/gnss-ssv-heo.toml, kind gnss-ssv
+seg-11a425fe9366 = The chart the engine writes for scenarios/gnss-ssv-geo.toml, kind gnss-ssv
 
 # text
 # c1: gnss-ssv
-seg-0aae0574c5e6 = <b>MODELLED</b> The <c1/> kind's availability sweeps: per constellation (GPS, GLONASS, Galileo, BDS, QZSS, NavIC) and combined, the share of (user, epoch) pairs with at least one and at least four signals and the longest outage, for a user on a sphere
+seg-8d20566e079f = <b>MODELLED</b> The <c1/> kind's availability sweeps: per constellation (GPS, GLONASS, Galileo, BDS, QZSS, NavIC) and combined, the share of (user, epoch) pairs with at least one and at least four signals and the longest outage, for a user on a…
 
 # text
 # c1: gnss-ssv
 # c2: [navigation]
-seg-07c94d5ad15c = <b>MODELLED</b> The <c1/> kind's <c2/> mode: a nine-state extended Kalman filter (position, velocity, receiver clock bias and drift, a solar-radiation-pressure scale) on pseudoranges whose availability, noise and C/N0 come from the same link
+seg-7b29bd4810c0 = <b>MODELLED</b> The <c1/> kind's <c2/> mode: a nine-state extended Kalman filter (position, velocity, receiver clock bias and drift, a solar-radiation-pressure scale) on pseudoranges whose availability, noise and C/N0 come from the same…
 
 # text
 # c1: gnss-ssv
 # c2: [formation]
-seg-41bfe74c6f6f = <b>MODELLED</b> The <c1/> kind's <c2/> mode: a chief and deputies each run the absolute filter; the deputy's position relative to the chief is estimated by subtracting the absolute estimates and by a relative filter on single-differenced pseud
+seg-12f52bb21a69 = <b>MODELLED</b> The <c1/> kind's <c2/> mode: a chief and deputies each run the absolute filter; the deputy's position relative to the chief is estimated by subtracting the absolute estimates and by a relative filter on single-differenced…
 
 # text
 # c1: tli-and-cruise
-seg-795e0409fa5a = <b>MODELLED</b> The <c1/> phase: the mean state by the engine's Cowell propagator (Earth point mass and J2, the Sun and Moon as third bodies, the Moon from the thread's DE440 kernel where it covers the segment and the Sun from the analytic serie
+seg-2e2b4945d6f0 = <b>MODELLED</b> The <c1/> phase: the mean state by the engine's Cowell propagator (Earth point mass and J2, the Sun and Moon as third bodies, the Moon from the thread's DE440 kernel where it covers the segment and the Sun from the analytic…
 
 # text
 # c1: gnss-ssv
-seg-de9a2a5b5f04 = <b>MODELLED</b> The <c1/> kind's availability sweeps: per constellation (GPS, GLONASS, Galileo, BDS, QZSS, NavIC) and combined, the share of (user, epoch) pairs with at le. Oracle (ExternalDataset): The ICG Space Service Volume booklet (UN OOSA ST/SPACE/75, { "2018" }), itself a simulation, compared under a pre-registration committed before the run (xval/gnss-ssv/PREREGISTRATION.md; results in xval/gnss-ssv/RESULTS.md, pinned by tests/ssv_booklet_results.rs, misses included). Run { "1" } on the pre-registered reading: the minimum-radiated-power constants and the lunar bar agree (S0, S6 met); the upper and lower SSV, RF-thre
+seg-945dd522f298 = <b>MODELLED</b> The <c1/> kind's availability sweeps: per constellation (GPS, GLONASS, Galileo, BDS, QZSS, NavIC) and combined, the share of (user, epoch) pairs with at…. Oracle (ExternalDataset): The ICG Space Service Volume booklet (UN OOSA ST/SPACE/75, { "2018" }), itself a simulation, compared under a pre-registration committed before the run (xval/gnss-ssv/PREREGISTRATION.md; results in xval/gnss-ssv/RESULTS.md, pinned by tests/ssv_booklet_results.rs, misses included). Run { "1" } on the pre-registered reading: the minimum-radiated-power constants and the lunar bar agree (S0, S6 met); the upper and lower SSV…
 
 # text
-seg-f0b778c4922a = <b>MODELLED</b> A Chapman ionosphere, a Gallagher-type plasmasphere and a neutral atmosphere (refractivity bending, oxygen absorption, defocusing) integrated along the straight. Oracle (InternalConsistency): Closed forms and published magnitudes in the tests (a Chapman layer's peak and the bending of the surface limb, a few TECU of plasmasphere on a GPS-to-GEO ray); the receiver design reuses the acquisition and tracking-loop models and their tests. No measured limb-sounding or weak-signal reception data is compared with it
+seg-7bbad2399b83 = <b>MODELLED</b> A Chapman ionosphere, a Gallagher-type plasmasphere and a neutral atmosphere (refractivity bending, oxygen absorption, defocusing) integrated along the…. Oracle (InternalConsistency): Closed forms and published magnitudes in the tests (a Chapman layer's peak and the bending of the surface limb, a few TECU of plasmasphere on a GPS-to-GEO ray); the receiver design reuses the acquisition and tracking-loop models and their tests. No measured limb-sounding or weak-signal reception data is compared with it
 
 # text
 # c1: gnss-ssv
 # c2: [navigation]
-seg-77cef183420e = <b>MODELLED</b> The <c1/> kind's <c2/> mode: a nine-state extended Kalman filter (position, velocity, receiver clock bias and drift, a solar-radiation-pressure sc. Oracle (InternalConsistency): Simulated truth against the filter's own estimate (a consistent filter's mean normalised estimation error squared is about { "3" } for the position) and determinism for a fixed seed. No flight or recorded high-orbit GNSS data is compared; the Sun and Moon are low-precision circular stand-ins
+seg-75074a6996bc = <b>MODELLED</b> The <c1/> kind's <c2/> mode: a nine-state extended Kalman filter (position, velocity, receiver clock bias and drift, a solar-radiation-pressure…. Oracle (InternalConsistency): Simulated truth against the filter's own estimate (a consistent filter's mean normalised estimation error squared is about { "3" } for the position) and determinism for a fixed seed. No flight or recorded high-orbit GNSS data is compared; the Sun and Moon are low-precision circular stand-ins
 
 # text
 # c1: gnss-ssv
 # c2: [formation]
-seg-429e154cd691 = <b>MODELLED</b> The <c1/> kind's <c2/> mode: a chief and deputies each run the absolute filter; the deputy's position relative to the chief is estimated by subtrac. Oracle (InternalConsistency): The same simulated truth as the absolute filter: the relative filter's error against the true relative state, and the check that it does at least as well as subtracting two independent absolute fixes. No flight formation data is compared
+seg-79b616f7955a = <b>MODELLED</b> The <c1/> kind's <c2/> mode: a chief and deputies each run the absolute filter; the deputy's position relative to the chief is estimated by…. Oracle (InternalConsistency): The same simulated truth as the absolute filter: the relative filter's error against the true relative state, and the check that it does at least as well as subtracting two independent absolute fixes. No flight formation data is compared
 
 # text
 # c1: label
@@ -111,10 +114,10 @@ seg-1dd1beb01075 = MODELLED: a geometric and link-budget sweep. The booklet patt
 
 # text
 # c1: kshana kinds --json
-seg-e9c2dedbc971 = MODELLED GNSS availability and link strength in the Space Service Volume and beyond: for a user on a sphere (the ICG booklet's global shell) or on a Keplerian trajectory (LEO to lunar transfer) it counts, per constellation (GPS, GLONASS, Galileo, BDS, QZSS, NavIC) and for all together, the signals usable above a C/N0 threshold - availability of at least one and of four signals, maximum outage duration, received C/N0, (kind catalogue (<c1/>))
+seg-742d31c95324 = MODELLED GNSS availability and link strength in the Space Service Volume and beyond: for a user on a sphere (the ICG booklet's global shell) or on a Keplerian trajectory (LEO to lunar transfer) it counts, per constellation (GPS, GLONASS, Galileo, BDS, QZSS, NavIC) and for all together, the signals usable above a C/N0 threshold - availability of at least one and of four signals, maximum outage duration, received… (kind catalogue (<c1/>))
 
 # text
-seg-3add0e744c54 = MODELLED: the pattern is representative, not measured; the medium is a stated simple model (docs/SSV.md). (scenario file comment, line { "14" })
+seg-790aea08351d = MODELLED: two-body orbits, a representative (not measured) transmit pattern, booklet antennas (docs/SSV.md). (scenario file comment, line { "11" })
 
 # text
 seg-6b4655dd5270 = GNSS signal availability in the Space Service Volume and beyond, compared with the ICG SSV booklet is MODELLED, not validated: a sub-claim is externally checked, but the whole capability composes modelled pieces, so the capability stays Modelled. (verification matrix (docs/MODELLED-RATIONALE.md))
@@ -136,7 +139,7 @@ seg-4881f925ea7f = Family page: <a1>Space-user navigation</a1>
 seg-4b72df59b3f9 = Topic page: <a1>SSV.md</a1>
 
 # text
-seg-6a26b9ab59fe = Topic page: <a1>MISSION-THREAD.md</a1>
+seg-cfcd03d0cfd9 = Topic page: <a1>SPACE-RECEIVER.md</a1>
 
 # text
 seg-c9ac9a99bcbb = <s1>Previous</s1>gnss-sim

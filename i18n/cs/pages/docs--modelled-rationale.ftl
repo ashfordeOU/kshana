@@ -1398,7 +1398,6 @@ seg-0cc84aedee42 = ověřeno proti vlastní uzavřené / analytické identitě �
 
 seg-b19cbd364dea = src/benchmark/scorecard.rs::tests (referenční PL pohlcuje; porušené PL nepohlcené a nikdy nezjištěné; verdikt pokrytí zjistitelných; vlastnost poctivosti, že pro nezjistitelný scénář není dosažitelný žádný verdikt pokrytí / detekce)
 
-seg-350aaf43f349 = ověřeno proti vlastní uzavřené / analytické identitě — zachytí chyby při přepisu a v koeficientech, ale není to vnější orákulum — Žádné vnější orákulum a žádné není možné: jde o sebepopis, nikoli o měření. Je zaznamenán, protože jeho absence byla vadou -- P5 musel citovat vlnovou délku nosné a clonu vysílače z výchozích hodnot ve zdroji a z kontroly vnitřní konzistence usuzovat, že holé <c1/> je ve čtverečních metrech. Úsudek byl správný, a právě proto na tom záleželo: nic by nezachytilo, kdyby byl chybný
 
 seg-6d963d838eed = hybrid_integrity::tests (vyřešená konfigurace se vrací pro výchozí hodnoty i přepsání, aniž by se vlnová délka převáděla přes metry tam a zpět; každý záznam jednotek nese jednotku i třídu původu; každé pole, které blok jednotek jmenuje, se skutečně vydává, takže nemůže dokumentovat neexistující pole)
 

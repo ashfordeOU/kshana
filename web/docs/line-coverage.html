@@ -119,14 +119,17 @@ all of them together or none.</p>
 </tr>
 <tr>
 <td>Floor</td>
-<td>the same job fails below <strong>85 %</strong> (<code>--fail-under 85</code>) — the floor is enforced on every push; the figure above is a record, not a gate</td>
+<td>the <code>coverage</code> job fails below <strong>85 %</strong> (<code>--fail-under 85</code>, applied to the merged shards) — the floor is enforced on every push; the figure above is a record, not a gate</td>
 </tr>
 </tbody></table></div>
-<p>The command, verbatim from <code>.github/workflows/ci.yml</code>:</p>
+<p>The commands, from <code>.github/workflows/ci.yml</code>. The <code>coverage-shard</code> job runs tarpaulin once
+per shard (<code>scripts/coverage-shard.py</code> picks the test targets, and every integration test lands
+in exactly one shard); the <code>coverage</code> job then merges the shards and applies the floor:</p>
 <pre data-lang="shell"><code class="hljs language-bash">cargo tarpaulin --engine llvm --out Lcov --output-dir coverage \
   --exclude-files <span class="hljs-string">&#x27;src/*_data.rs&#x27;</span> --exclude-files <span class="hljs-string">&#x27;src/main.rs&#x27;</span> \
   --exclude-files <span class="hljs-string">&#x27;tests/*&#x27;</span> --exclude-files <span class="hljs-string">&#x27;web/*&#x27;</span> \
-  --<span class="hljs-built_in">timeout</span> 3600 --fail-under 85</code></pre>
+  --<span class="hljs-built_in">timeout</span> 3600 $(python3 scripts/coverage-shard.py &lt;shard args&gt;)
+python3 scripts/coverage-merge.py --fail-under 85 --out coverage/lcov.info shards/*/lcov.info</code></pre>
 <h2 id="re-measuring">Re-measuring<a class="anchor" href="#re-measuring" aria-label="Link to this section">#</a></h2>
 <p>Every push to <code>main</code> re-runs the job and attaches a fresh <code>lcov.info</code>. To move the
 published figure, download the artifact from a green run and sum it:</p>

@@ -30,7 +30,7 @@ seg-c0e69524f05d = <b>MODELLED</b> Delskårer per dimensjon over Kshanas egne sy
 
 seg-2ca37a78e899 = MODELLED layered-PNT conflict resilience (P7). VALIDATED core: the Monte-Carlo total-loss probability converges to the closed-form independent product Pi_i p_deny_i (asserted within Monte-Carlo standard error at a fixed seed and large N); the inverse-variance position fuse sigma_fused = (sum_i 1/sigma_i^{ "2" })^(-1/2) is a closed-form identity; at correlation rho={ "0" } the Gaussian copula reduces exactly to the independent mo (resultat <c1/>)
 
-seg-d0d834e377ee = MODELLED robusthet for lagdelt PNT i konflikt (P7): en bruker i et omstridt miljø har flere PNT-lag (åpen GNSS-tjeneste, bredbånds-GNSS, en autentisert konstellasjon, et augmentasjonsrelé), hver med en basistilgjengelighet, en 1σ-nøyaktighet og en sårbarhet for avvisning per vektor mot den felles jamming-/spoofing-trusselen. (typekatalog (<c1/>))
+seg-a6619df36cf9 = MODELLED robusthet for lagdelt PNT i konflikt: en bruker i et omstridt miljø har flere PNT-lag (åpen GNSS-tjeneste, bredbånds-GNSS, en autentisert konstellasjon, et augmentasjonsrelé), hver med en basistilgjengelighet, en 1σ-nøyaktighet og en sårbarhet for avvisning per vektor mot den felles jamming-/spoofing-trusselen. (typekatalog (<c1/>))
 
 seg-3ca12700b54c = Hovedforholdet for robusthet (sannsynlighet for totaltap med ett lag mot lagdelt) havner på ~7x under ANTAKELSEN OM UAVHENGIGHET; et énfaktors gaussisk copula-sveip med korrelert avvisning viser deretter at ~7x kollapser mot { "1" } når korrelasjonen i avvisning stiger (korrelasjon slår ut lagdeling). (typekatalog (<c1/>))
 

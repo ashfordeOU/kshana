@@ -45,7 +45,7 @@ seg-45a4ed476311 = The example <c1/> sets, among others:
 seg-c39a26aa1f1e = bundled fixture finals2000A_20260930
 
 # text
-seg-9ef8a2b4c144 = Result label (the engine's): Real-time lunar frame / Earth-orientation prediction budget. VALIDATED closed form: the L19 lever arm ({ "1" } ms ↔ { "28.03" } m ↔ { "93.5" } ns), ω⊕ cross-checked against the CIO Earth-rotation angle. VALIDATED real data: the L18 UT1 and polar-motion prediction-error curves read directly off the real IERS finals200
+seg-8bc5b75007df = Result label (the engine's): Real-time lunar frame / Earth-orientation prediction budget. VALIDATED closed form: the L19 lever arm ({ "1" } ms ↔ { "28.03" } m ↔ { "93.5" } ns), ω⊕ cross-checked against the CIO Earth-rotation angle. VALIDATED real data: the L18 UT1 and polar-motion prediction-error curves read directly off the real IERS…
 
 # attr:alt
 seg-2721ed7727bb = The chart the engine writes for scenarios/realtime-frame-eop.toml, kind realtime-frame-eop
@@ -58,31 +58,31 @@ seg-72a1fc2f5c90 = <b>VALIDATED</b> One table reports the UT1 prediction error, 
 
 # text
 # c1: realtime-frame-eop
-seg-b1d90bf98ac3 = <b>VALIDATED</b> The <c1/> runtime default is the library own embedded copy of a verbatim IERS finals2000A extract (tools/finals2000A_20260930.txt: { "174" } consecutive daily rows, MJD 61224-61397, cut from the finals2000A.all of 2026-09-30) carry Tests: <a1>operational_eop_predictor_reference.rs</a1>.
+seg-9688a9146f1c = <b>VALIDATED</b> The <c1/> runtime default is the library own embedded copy of a verbatim IERS finals2000A extract (tools/finals2000A_20260930.txt: { "174" } consecutive daily rows, MJD 61224-61397, cut from the finals2000A.all of 2026-09-30)… Tests: <a1>operational_eop_predictor_reference.rs</a1>.
 
 # text
-seg-0298bd40d72f = <b>MODELLED</b> A least-squares bias-plus-rate fit over a trailing window plus the principal periodic terms — annual, semi-annual and the two principal zonal tides for UT1; Chandler, annual and semi-annual for the pole — extrapolated with the last in-windo Tests: <a1>operational_eop_predictor_reference.rs</a1>.
+seg-fdb31fc065ad = <b>MODELLED</b> A least-squares bias-plus-rate fit over a trailing window plus the principal periodic terms — annual, semi-annual and the two principal zonal tides for UT1; Chandler, annual and semi-annual for the pole — extrapolated with the last… Tests: <a1>operational_eop_predictor_reference.rs</a1>.
 
 # text
-seg-9f5a4880aca8 = <b>VALIDATED</b> One table reports the UT1 prediction error, the polar-motion pole error and their quadrature combination at the Moon over an IDENTICAL epoch set per horizon, em. Oracle (ExternalDataset): astropy { "8.0.1" } utils.iers (BSD-3) reading the IERS finals2000A product with its own Bulletin-B-else-A rule, and pyerfa { "2.0.1.5" } (SOFA) full celestial-to-terrestrial rotations (c2i06a, sp00, pom00, c2tcio; the Earth rotation angle per IERS { "2010" } eq. { "5.15" } in exact arithmetic), run as separate programs on verbatim rows of the frozen 2026-09-30 finals2000A.all; pre-registered (3d43ba52) with amendments A1 and A2 fixing only
+seg-7018b648847c = <b>VALIDATED</b> One table reports the UT1 prediction error, the polar-motion pole error and their quadrature combination at the Moon over an IDENTICAL epoch set per horizon…. Oracle (ExternalDataset): astropy { "8.0.1" } utils.iers (BSD-3) reading the IERS finals2000A product with its own Bulletin-B-else-A rule, and pyerfa { "2.0.1.5" } (SOFA) full celestial-to-terrestrial rotations (c2i06a, sp00, pom00, c2tcio; the Earth rotation angle per IERS { "2010" } eq. { "5.15" } in exact arithmetic), run as separate programs on verbatim rows of the frozen 2026-09-30 finals2000A.all; pre-registered (3d43ba52) with amendments A1 and A2 fixing…
 
 # text
 # c1: realtime-frame-eop
-seg-bda3cf0b998e = <b>VALIDATED</b> The <c1/> runtime default is the library own embedded copy of a verbatim IERS finals2000A extract (tools/finals2000A_20260930.txt: { "174" } consecutiv. Oracle (ExternalDataset): astropy { "8.0.1" } astropy.utils.iers.IERS_A (BSD-3-Clause), reading the same bytes with its own reader, and the IERS Bulletin A Vol. XXXIX No. { "039" } table, copied number for number; pre-registered (74b3c1a0) with six exact criteria before astropy was run. All six hold: { "30" } final, { "54" } rapid and { "90" } predicted rows with equal MJD lists, every predicted row flag P, the default-run census equal, and the predictions equal to Bullet
+seg-065c3430c654 = <b>VALIDATED</b> The <c1/> runtime default is the library own embedded copy of a verbatim IERS finals2000A extract (tools/finals2000A_20260930.txt: { "174" }…. Oracle (ExternalDataset): astropy { "8.0.1" } astropy.utils.iers.IERS_A (BSD-3-Clause), reading the same bytes with its own reader, and the IERS Bulletin A Vol. XXXIX No. { "039" } table, copied number for number; pre-registered (74b3c1a0) with six exact criteria before astropy was run. All six hold: { "30" } final, { "54" } rapid and { "90" } predicted rows with equal MJD lists, every predicted row flag P, the default-run census equal, and the predictions equal to…
 
 # text
-seg-530c87bbff78 = <b>MODELLED</b> A least-squares bias-plus-rate fit over a trailing window plus the principal periodic terms — annual, semi-annual and the two principal zonal tides for UT1; Cha. Oracle (ReferenceImpl): Three independent routes, none of them a published prediction-accuracy figure. ({ "1" }) An analytic signal with known coefficients — the only way to exercise the periodic machinery, since no committed series is long enough to admit an annual term. ({ "2" }) The textbook closed-form least-squares solution, different algebra from the matrix solve under test, on real rows. ({ "3" }) The genuine archived Bulletin A prediction rows the re
+seg-d535a3f50abd = <b>MODELLED</b> A least-squares bias-plus-rate fit over a trailing window plus the principal periodic terms — annual, semi-annual and the two principal zonal tides for UT1…. Oracle (ReferenceImpl): Three independent routes, none of them a published prediction-accuracy figure. ({ "1" }) An analytic signal with known coefficients — the only way to exercise the periodic machinery, since no committed series is long enough to admit an annual term. ({ "2" }) The textbook closed-form least-squares solution, different algebra from the matrix solve under test, on real rows. ({ "3" }) The genuine archived Bulletin A prediction rows the…
 
 # text
 # c1: label
-seg-a233df86be95 = Real-time lunar frame / Earth-orientation prediction budget. VALIDATED closed form: the L19 lever arm ({ "1" } ms ↔ { "28.03" } m ↔ { "93.5" } ns), ω⊕ cross-checked against the CIO Earth-rotation angle. VALIDATED real data: the L18 UT1 and polar-motion prediction-error curves read directly off the real IERS finals2000A series (Bulletin A rapid vs Bulletin B final, and multi-day persistence over the real daily rows). DERIVED: the frame (result <c1/>)
+seg-47a0937c88b3 = Real-time lunar frame / Earth-orientation prediction budget. VALIDATED closed form: the L19 lever arm ({ "1" } ms ↔ { "28.03" } m ↔ { "93.5" } ns), ω⊕ cross-checked against the CIO Earth-rotation angle. VALIDATED real data: the L18 UT1 and polar-motion prediction-error curves read directly off the real IERS finals2000A series (Bulletin A rapid vs Bulletin B final, and multi-day persistence over the real daily rows). DERIVED: the… (result <c1/>)
 
 # text
 # c1: kshana kinds --json
 seg-60e7ee7e6e3e = VALIDATED closed form (the L19 lever arm, ω⊕ cross-checked against the CIO Earth-rotation angle) and VALIDATED real data (the L18 curve off the real finals2000A rows); MODELLED are the lunar-relay OD covariance magnitudes and frame-realisation floor (representative allocations) and the persistence predictor (not IERS's operational Bulletin A algorithm). (kind catalogue (<c1/>))
 
 # text
-seg-ddf4702f78e5 = Honesty: VALIDATED closed form (the L19 lever arm, omega_earth cross-checked against the CIO Earth-rotation angle) and VALIDATED real data (the L18 UT1 and polar-motion curves off the real finals2000A rows). DERIVED frame-realisation floor (the Helmert post-fit residual). MODELLED are the lunar-relay OD covariance magnitudes ({ "0.27" } m post-processed, ~{ "14.4" } m real-time at one-hour latency — a round, not back-solved, all (scenario file comment, lines { "27" } to { "32" })
+seg-d5698832f1a0 = Honesty: VALIDATED closed form (the L19 lever arm, omega_earth cross-checked against the CIO Earth-rotation angle) and VALIDATED real data (the L18 UT1 and polar-motion curves off the real finals2000A rows). DERIVED frame-realisation floor (the Helmert post-fit residual). MODELLED are the lunar-relay OD covariance magnitudes ({ "0.27" } m post-processed, ~{ "14.4" } m real-time at one-hour latency — a round, not back-solved… (scenario file comment, lines { "27" } to { "32" })
 
 # text
 seg-bc51b666d070 = Operational-style Earth-orientation prediction error, measured predicted-versus-final is MODELLED, not validated: checked against a separate implementation in this same codebase — independent of the unit under test, but not externally authoritative. (verification matrix (docs/MODELLED-RATIONALE.md))

@@ -54,16 +54,16 @@ seg-ffb002276b21 = um
 seg-1c15591babed = px
 
 # text
-seg-e94f9ad9e6c4 = Result label (the engine's): MODELLED — nadir imager radiometry (Lambertian scene, camera equation, shot/dark/read/quantisation noise), system MTF at Nyquist (diffraction x detector x smear x jitter), relative edge response, Q = lambda F/p and GIQE { "4" } NIIRS with no MTF compensation; the NIIRS is an empirical regression on modell
+seg-13adf8e47bd6 = Result label (the engine's): MODELLED — nadir imager radiometry (Lambertian scene, camera equation, shot/dark/read/quantisation noise), system MTF at Nyquist (diffraction x detector x smear x jitter), relative edge response, Q = lambda F/p and GIQE { "4" } NIIRS with no MTF compensation; the NIIRS is an empirical regression on…
 
 # attr:alt
 seg-bf7b52f7a01e = The chart the engine writes for scenarios/eo-radiometry.toml, kind eo-radiometry
 
 # text
-seg-562a7cf2859c = <b>MODELLED</b> Nadir imager signal-to-noise budget (Lambertian scene radiance, camera equation, shot, dark, read and quantisation noise), the system MTF at Nyquist as the product of unobscured-aperture diffraction, detector aperture, linear smear and Gaus
+seg-2f4317ae0bee = <b>MODELLED</b> Nadir imager signal-to-noise budget (Lambertian scene radiance, camera equation, shot, dark, read and quantisation noise), the system MTF at Nyquist as the product of unobscured-aperture diffraction, detector aperture, linear smear and…
 
 # text
-seg-dadea618d757 = <b>MODELLED</b> Nadir imager signal-to-noise budget (Lambertian scene radiance, camera equation, shot, dark, read and quantisation noise), the system MTF at Nyquist as the prod. Oracle (InternalConsistency): Closed forms: the diffraction MTF at half cutoff, the one-pixel ramp edge of a pure detector aperture (RER { "1" }), the normal-CDF edge of a Gaussian blur (RER = erf(0.5/(sigma sqrt { "2" }))), shot-noise scaling, and the GIQE { "4" } coefficients as published (Leachtenauer et al., Applied Optics { "36" }({ "32" }), { "1997" }). WHAT IS NOT: no external imager, measured MTF or rated image has been compared; the GIQE is an empirical regression with its
+seg-3d5856168ae1 = <b>MODELLED</b> Nadir imager signal-to-noise budget (Lambertian scene radiance, camera equation, shot, dark, read and quantisation noise), the system MTF at Nyquist as the…. Oracle (InternalConsistency): Closed forms: the diffraction MTF at half cutoff, the one-pixel ramp edge of a pure detector aperture (RER { "1" }), the normal-CDF edge of a Gaussian blur (RER = erf(0.5/(sigma sqrt { "2" }))), shot-noise scaling, and the GIQE { "4" } coefficients as published (Leachtenauer et al., Applied Optics { "36" }({ "32" }), { "1997" }). WHAT IS NOT: no external imager, measured MTF or rated image has been compared; the GIQE is an empirical regression with…
 
 # text
 # c1: label
@@ -74,7 +74,7 @@ seg-5182b4b0f8d6 = MODELLED — nadir imager radiometry (Lambertian scene, camer
 seg-cd04f5662884 = MODELLED. (kind catalogue (<c1/>))
 
 # text
-seg-b2f1e6466c2c = Nadir imager radiometry and image quality for an ILLUSTRATIVE small Earth-observation camera (no operator's design): { "0.40" } m aperture, { "3.6" } m focal length (F/9), { "5.5" } um pixels, from { "500" } km. The run gives the signal-to-noise budget of a { "15" } % reflectance scene, the system MTF at Nyquist, the relative edge response and the GIQE version { "4" } NIIRS. MODELLED: the NIIRS is an empirical regression evaluated on modelled inputs, n (scenario file comment, lines { "1" } to { "5" })
+seg-4861cbab7668 = Nadir imager radiometry and image quality for an ILLUSTRATIVE small Earth-observation camera (no operator's design): { "0.40" } m aperture, { "3.6" } m focal length (F/9), { "5.5" } um pixels, from { "500" } km. The run gives the signal-to-noise budget of a { "15" } % reflectance scene, the system MTF at Nyquist, the relative edge response and the GIQE version { "4" } NIIRS. MODELLED: the NIIRS is an empirical regression evaluated on modelled inputs… (scenario file comment, lines { "1" } to { "5" })
 
 # text
 seg-aaf9ed3b0899 = Electro-optical imager radiometry, MTF, relative edge response and GIQE { "4" } NIIRS is MODELLED, not validated: checked against its own closed-form / analytic identity — catches transcription and coefficient errors, but is not an external oracle. (verification matrix (docs/MODELLED-RATIONALE.md))

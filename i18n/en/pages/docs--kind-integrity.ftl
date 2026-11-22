@@ -47,16 +47,13 @@ seg-581a5231b230 = The example <c1/> sets, among others:
 
 # text
 # c1: scenarios/
-seg-3bc1761c76ab = { "3" } bundled scenarios use this kind; the others are in <a1><c1/></a1>.
+seg-7f43b9951654 = { "3" } scenario files in <a1><c1/></a1> use this kind.
 
 # attr:alt
 seg-ce7f6130ddee = The chart the engine writes for scenarios/integrity-raim.toml, kind integrity
 
 # text
-seg-c8c38ffbb63f = MODELLED { "6" } · VALIDATED { "4" }: the <a1>verification matrix</a1> rows that name this kind.
-
-# text
-seg-5b3dbe0aed82 = <b>MODELLED</b> The optional [integrity] section of the clock kind (clock_integrity::run): from a stated site and constellation presets (geometry::sky_geometry), at every integrity epoch while the GNSS timeline is not denied, snapshot RAIM (raim::snapshot_ Tests: <a1>clock_integrity.rs</a1>.
+seg-68f8dd464acc = MODELLED { "5" } · VALIDATED { "4" }: the <a1>verification matrix</a1> rows that name this kind.
 
 # text
 seg-dff469738ec3 = <b>VALIDATED</b> Scalar-time solution-separation TPL over heterogeneous sources; PL driven by worst-exclusion subset noise + UTC(k) bias
@@ -68,16 +65,19 @@ seg-33a94111e9d9 = <b>MODELLED</b> PL(τ)=max(TPL_handover,HPL(τ)); lower-semic
 seg-4787b0b565df = <b>VALIDATED</b> Running-max envelope overbound-covers (zero-piercing) a real metrological series at every tested lag tau>=90d on a disjoint segment; short-tau (<=30d) is a disclosed Modelled boundary Tests: <a1>cti_holdover_coverage_reference.rs</a1>.
 
 # text
-seg-090415eca3b7 = and { "6" } more in the matrix.
+seg-c73e446c0b3c = <b>MODELLED</b> No finite worst-case holdover (Brownian sup diverges); IR-allocated HPL consistent with Hartman-Wintner envelope as IR→{ "0" }
 
 # text
-seg-aca090565d1a = <b>VALIDATED</b> ARAIM multiple-hypothesis solution separation per the ARAIM Airborne Design Document (ADD) v4.2 (araim_reference::add_v42_protection_levels and add_v42_protecti. Oracle (ExternalDataset): Three independent tools, pre-registered (ba7a01a7) before any fixture or oracle output existed, tolerances fixed then. ({ "1" }) ARAIM: Stanford MAAST for ARAIM { "2" } (commit ab70e2a3, BSD-3) mhss_raim_baseline_v5.m, run as a separate program under GNU Octave { "8.4" } with a driver-side unique() compatibility shim (disclosed, no algorithm change), at the ADD TOL_PL of { "0.05" } m: the Rust reproduces the ADD reference implementation on
+seg-e34f60d56cf7 = and { "5" } more in the matrix.
+
+# text
+seg-311a6fa69468 = <b>VALIDATED</b> ARAIM multiple-hypothesis solution separation per the ARAIM Airborne Design Document (ADD) v4.2 (araim_reference::add_v42_protection_levels and…. Oracle (ExternalDataset): Three independent tools, pre-registered (ba7a01a7) before any fixture or oracle output existed, tolerances fixed then. ({ "1" }) ARAIM: Stanford MAAST for ARAIM { "2" } (commit ab70e2a3, BSD-3) mhss_raim_baseline_v5.m, run as a separate program under GNU Octave { "8.4" } with a driver-side unique() compatibility shim (disclosed, no algorithm change), at the ADD TOL_PL of { "0.05" } m: the Rust reproduces the ADD reference implementation…
 
 # text
 seg-277205e56d73 = <b>VALIDATED</b> GDOP/PDOP/HDOP/VDOP/TDOP from line-of-sight geometry via Q=(HᵀH)⁻¹ with a local ENU split. Oracle (ExternalDataset): gnss_lib_py { "1.0.4" } (Stanford NAV Lab) DOP — independent library, matched to { "1e-6" } relative
 
 # text
-seg-78ff7db5ad3d = <b>VALIDATED</b> The distributional core every protection level rests on: the snapshot fault-detection threshold χ²₁₋ₚfₐ(dof), the missed-detection non-centrality pbias=√λ, and . Oracle (ExternalDataset): SciPy { "1.17.0" } (scipy.stats.chi2/.norm/.ncx2 + optimize.brentq) — independent library (Cephes/Boost), a different algorithm from Kshana's incomplete-gamma series; matched to ≤{ "1e-6" } rel. Kernel only. The ARAIM MHSS P_HMI budget <em>allocation</em> is no longer without a published numeric oracle — the WG-C ARAIM Technical Subgroup's own worked example now backs the separate 'ARAIM MHSS protection levels against published referen
+seg-cf097db6ffa2 = <b>VALIDATED</b> The distributional core every protection level rests on: the snapshot fault-detection threshold χ²₁₋ₚfₐ(dof), the missed-detection non-centrality pbias=√λ…. Oracle (ExternalDataset): SciPy { "1.17.0" } (scipy.stats.chi2/.norm/.ncx2 + optimize.brentq) — independent library (Cephes/Boost), a different algorithm from Kshana's incomplete-gamma series; matched to ≤{ "1e-6" } rel. Kernel only. The ARAIM MHSS P_HMI budget <em>allocation</em> is no longer without a published numeric oracle — the WG-C ARAIM Technical Subgroup's own worked example now backs the separate 'ARAIM MHSS protection levels against published…
 
 # text
 seg-f6b7ca020692 = Family page: <a1>GNSS measurements, positioning and integrity</a1>

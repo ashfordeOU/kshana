@@ -786,7 +786,6 @@ seg-8adbbd2cdb74 = Samoopis raportu hybrydowego optycznego/RF
 
 seg-2a5e48b558e1 = Raport hybrid-optical-rf podaje konfigurację łącza, z którą faktycznie został uruchomiony (długość fali nośnej, apertura nadawcza i odbiorcza, odległość, szerokość impulsu, czas całkowania, sprawności i straty, rozstrzygnięte wartości domyślne) i zawiera blok jednostek podający jednostkę i klasę pochodzenia każdej wielkości, którą artykuł prawdopodobnie przytoczy, w tym ślady kowariancji przekazania w metrach kwadratowych
 
-seg-23f0c10237f4 = Brak zewnętrznej wyroczni i żadna nie jest możliwa: to jest samoopis, a nie pomiar. Jest zapisany, ponieważ jego brak był wadą -- P5 musiał przytaczać długość fali nośnej i aperturę nadawczą z domyślnych wartości w kodzie źródłowym oraz wnioskować, że gołe <c1/> jest w metrach kwadratowych, z kontroli spójności wewnętrznej. Wniosek był poprawny, i właśnie dlatego miał znaczenie: nic nie wychwyciłoby, gdyby był błędny
 
 seg-0691f3dee8cb = Dostępność łącza hybrydowego optycznego/RF po stronie RF
 

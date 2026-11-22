@@ -1715,7 +1715,6 @@ seg-b19cbd364dea = src/benchmark/scorecard.rs::tests (el PL de referencia absorb
 
 # text
 # c1: variance
-seg-350aaf43f349 = comprobada frente a su propia identidad analítica o de forma cerrada: detecta errores de transcripción y de coeficientes, pero no es una referencia independiente externa. Sin referencia independiente externa, y no es posible ninguna: esto es una autodescripción, no una medición. Se registra porque su ausencia era un defecto: P5 tuvo que citar la longitud de onda de portadora y la apertura de transmisión a partir de valores por defecto del código fuente, e inferir que un <c1/> sin más estaba en metros cuadrados a partir de una comprobación de consistencia interna. La inferencia era correcta, y precisamente por eso importaba: nada habría detectado que fuera errónea
 
 # text
 seg-6d963d838eed = hybrid_integrity::tests (la configuración resuelta se repite tanto para los valores por defecto como para las sustituciones, sin hacer pasar la longitud de onda por metros en una ida y vuelta; cada entrada de unidades lleva una unidad y una clase de procedencia; todo campo que nombra el bloque de unidades se emite de verdad, de modo que no puede documentar un campo fantasma)

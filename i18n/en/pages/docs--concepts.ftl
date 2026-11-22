@@ -161,7 +161,7 @@ seg-8fc6db9faf83 = The relations Kshana implements and tests (full detail and to
 # c1: q_wf
 # c2: q_rw
 # c3: σ_y(τ)
-seg-ea61f869c266 = <b>Clock holdover.</b> Two-state phase/frequency model with white frequency modulation (white FM, power spectral density <c1/>), random-walk FM (<c2/>), flicker FM (a sum of log-spaced Ornstein–Uhlenbeck processes calibrated to a flat Allan floor), and deterministic aging. Validated by overlapping Allan deviation against the published <c3/> (Riley, NIST (National Institute of Standards and Technology) SP (Special Publication) { "1065" }).
+seg-e62554486937 = <b>Clock holdover.</b> Two-state phase/frequency model with white frequency modulation (white FM, power spectral density <c1/>), random-walk FM (<c2/>), flicker FM (a sum of log-spaced Ornstein–Uhlenbeck processes calibrated to a flat Allan floor), and deterministic aging. Checked by overlapping Allan deviation against the published <c3/> (Riley, NIST (National Institute of Standards and Technology) SP (Special Publication) { "1065" }).
 
 # text
 # c1: ½·b·T²

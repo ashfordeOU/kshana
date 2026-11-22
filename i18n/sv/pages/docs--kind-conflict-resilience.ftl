@@ -30,7 +30,7 @@ seg-c0e69524f05d = <b>MODELLED</b> Delpoäng per dimension över Kshanas egna sj
 
 seg-2ca37a78e899 = MODELLED resiliens i lagrad PNT under konflikt (P7). VALIDATED kärna: sannolikheten för total förlust i Monte Carlo konvergerar mot den slutna oberoende produkten Pi_i p_deny_i (kontrollerat inom Monte Carlo-standardfelet vid ett fast frö och stort N); den inversvariansvägda positionssammanslagningen sigma_fused = (sum_i 1/sigma_i^{ "2" })^(-1/2) är en sluten identitet; vid korrelation rho={ "0" } reduceras den gaussiska copulan exakt till den oberoende mo (resultat <c1/>)
 
-seg-d0d834e377ee = MODELLED resiliens i lagrad PNT under konflikt (P7): en användare i en omstridd miljö har flera PNT-lager (GNSS med öppen tjänst, bredbands-GNSS, en autentiserad konstellation, ett förstärkningsrelä), vart och ett med en grundtillgänglighet, en noggrannhet på 1σ och en sårbarhet för nekande per vektor mot det gemensamma jamming-/spoofing-hotet. (typkatalog (<c1/>))
+seg-a6619df36cf9 = MODELLED resiliens i lagrad PNT under konflikt: en användare i en omstridd miljö har flera PNT-lager (GNSS med öppen tjänst, bredbands-GNSS, en autentiserad konstellation, ett förstärkningsrelä), vart och ett med en grundtillgänglighet, en noggrannhet på 1σ och en sårbarhet för nekande per vektor mot det gemensamma jamming-/spoofing-hotet. (typkatalog (<c1/>))
 
 seg-3ca12700b54c = Det övergripande resiliensförhållandet (sannolikhet för total förlust med ett lager mot lagrad) hamnar på ~7x under ANTAGANDET OM OBEROENDE; ett envariabelt Gauss-copula-svep med korrelerat nekande visar sedan hur de ~7x kollapsar mot { "1" } när korrelationen i nekande ökar (korrelation slår ut lagring). (typkatalog (<c1/>))
 

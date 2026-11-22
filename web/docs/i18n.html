@@ -157,10 +157,10 @@ language, for the summary, the chart and <code>report.html</code>. English is on
 cislunar-arc-recovery 7.8 -&gt; 14.1, lunar-station-coverage 7.8 -&gt; 15.0, clock-ensemble 5.8 -&gt; 11.6,
 leo-navmsg-model-comparison 5.1 -&gt; 10.5, leo-ppp-convergence 2.8 -&gt; 6.2; every other bundled scenario is under
 4 s; the 173 scenarios bundled when this was measured took 64 s in English together. The cost is exactly twice for another language. WebAssembly
-was not measured (no wasm-bindgen here); at the browser factor of about 4 it is a minute for the slowest kind.</p>
+was not measured; at the browser factor of about 4 it is a minute for the slowest kind.</p>
 <p>A page avoids the wait by showing the English result at once and calling <code>run_human(toml, lang)</code> afterwards: that
 is the second run alone, it returns <code>{summary, svg}</code>, and the Studio can say &quot;translating...&quot; until it arrives.</p>
-<p><strong>0.41 item: one run.</strong> Render both from a record of <code>(message id, arguments)</code>. It was judged and not built:
+<p><strong>Considered and not built: one run.</strong> Render both from a record of <code>(message id, arguments)</code>. It was not built because
 <code>t!</code> results are inspected, measured and hashed after they are made (chart text widths, provenance hashes over
 output text), and <code>num()</code> formats at the call site, so a record would put placeholder tokens into machine files
 and make their bytes depend on the replay. It needs token-returning <code>t!</code>/<code>num</code>, a finaliser at every writer, and a
@@ -170,7 +170,7 @@ byte-identity proof per writer.</p>
 fetches <code>i18n/&lt;lang&gt;/engine.ftl</code> on a language choice and calls <code>register_catalogue(tag, text)</code>; if the fetch or
 the registration fails the page stays in English. Native, the command line and the Python wheel embed all 18.</p>
 <p>Size, unoptimised <code>.wasm</code> from <code>cargo build --release --target wasm32-unknown-unknown --features wasm --lib</code>
-(before wasm-bindgen and wasm-opt), base 68e8632b against this branch: 18.71 MB -&gt; 19.88 MB raw, 5.43 MB -&gt;
+(before wasm-bindgen and wasm-opt), commit 68e8632b against the change that added localisation: 18.71 MB -&gt; 19.88 MB raw, 5.43 MB -&gt;
 5.79 MB gzip, +357 kB gzip. The English catalogue is 521 kB raw, 153 kB gzip of it; the rest is <code>fluent-bundle</code>
 and its dependencies. This is accepted as measured.</p>
 <h2 id="the-catalogue">The catalogue<a class="anchor" href="#the-catalogue" aria-label="Link to this section">#</a></h2>
@@ -194,8 +194,7 @@ transitive crates: <code>fluent-syntax</code> and <code>fluent-langneg</code> (A
 Apache-2.0 alternative is the one used, which <code>deny.toml</code> allows), <code>tinystr</code> and <code>zerovec</code> (Unicode-3.0),
 <code>rustc-hash</code>, <code>smallvec</code>, <code>thiserror</code>, <code>displaydoc</code> (MIT OR Apache-2.0). Every one is permissive under the
 <code>allow</code> list of <code>deny.toml</code>; <code>thiserror</code> appears in two versions (1 and 2), which <code>multiple-versions = &quot;warn&quot;</code> only
-reports. The licence list was read from <code>cargo metadata</code>; <code>cargo deny check</code> is not installed in the authoring
-environment and runs in the integration CI.</p>
+reports. The licence list was read from <code>cargo metadata</code>; <code>cargo deny check</code> runs in CI.</p>
 </div>
     <nav class="docs-pn" aria-label="Previous and next"><a class="prev" href="/docs/glossary"><small>Previous</small>Glossary</a><a class="next" href="/docs/studio"><small>Next</small>Studio guide</a></nav>
   </article>

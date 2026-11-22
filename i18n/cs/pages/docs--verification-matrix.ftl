@@ -649,7 +649,6 @@ seg-8adbbd2cdb74 = Sebepopis zprávy hybridního optického/RF spoje
 seg-2a5e48b558e1 = Zpráva hybrid-optical-rf uvádí konfiguraci spoje, při které skutečně běžela (vlnová délka nosné, vysílací a přijímací apertura, vzdálenost, šířka pulzu, doba integrace, účinnosti a ztráty, rozřešené výchozí hodnoty), a nese blok jednotek, který udává jednotku a třídu původu každé veličiny, kterou je pravděpodobné, že článek citoval, včetně stop kovariance předání v metrech čtverečních
 
 # c1: variance
-seg-23f0c10237f4 = Žádné vnější orákulum a žádné není možné: jde o sebepopis, nikoli o měření. Je zaznamenán, protože jeho absence byla vadou – P5 musel citovat vlnovou délku nosné a vysílací aperturu z výchozích hodnot ve zdroji a z kontroly vnitřní konzistence usuzovat, že holé <c1/> bylo v metrech čtverečních. Úsudek byl správný, a právě proto to mělo význam: nic by nezachytilo, kdyby byl chybný
 
 seg-0691f3dee8cb = Dostupnost hybridního optického/RF spoje na straně RF
 

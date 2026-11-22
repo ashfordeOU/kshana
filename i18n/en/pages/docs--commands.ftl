@@ -56,7 +56,7 @@ seg-5da0a7d40d05 = Signed directories
 
 # text
 # c1: locate-score
-seg-3e67f792cbb7 = reads the published Jammertest plan and scores a log against it; <c1/> scores reported emitter locations against truth (row B2)
+seg-77735cad1344 = reads the published Jammertest plan and scores a log against it; <c1/> scores reported emitter locations against truth (pre-registered row B2)
 
 # text
 seg-fe1abd564200 = Jammertest
@@ -276,7 +276,7 @@ seg-c81fc74b32eb = Data packs
 seg-a8bf970e3677 = environmental baseline per site and hour from Kp and F10.7: score { "0" } to { "1" } and quiet, elevated or disturbed (MODELLED)
 
 # text
-seg-b2e7ecf33e6e = B8 pre-registration
+seg-1019d437812e = Environmental-baseline pre-registration
 
 # text
 seg-ba01806735f9 = space weather for PNT and drag: recorded storm library (GFZ indices) with the density response, DGNSS/RTK outage forecaster and work windows, 4D ionosphere for GNSS slant TEC and LF skywave, density-model scorecard against accelerometer densities, orbit lifetime with density uncertainty (MODELLED; the scorecard is a measured comparison)

@@ -22,7 +22,7 @@ seg-c20786d0eec5 = Contact sheet of the charts the engine writes for the kinds o
 seg-4e31c8daf798 = Ledger
 
 # text
-seg-418bf19bd2dc = MODELLED GNSS availability and link strength in the Space Service Volume and beyond: for a user on a sphere (the ICG booklet's global shell) or on a Keplerian trajectory (LEO to lunar transfer) it cou
+seg-2573acd0f757 = MODELLED GNSS availability and link strength in the Space Service Volume and beyond: for a user on a sphere (the ICG booklet's global shell) or on a Keplerian trajectory (LEO to lunar transfer) it…
 
 # text
 seg-d6d7bca305dc = MODELLED GNSS availability and link strength in the Space Service Volume and beyond: for a user on a sphere (the ICG booklet's global shell) or on a Keplerian trajectory (LEO to lunar transfer) it counts, per constellation (GPS, GLONASS, Galileo, BDS, QZSS, NavIC) and for all together, the signals usable above a C/N0 threshold - availability of at least one and of four signals, maximum outage duration, received C/N0, dilution of precision, main-lobe against sidelobe links - with a booklet, parametric or user-supplied transmit pattern, optional limb-ray ionosphere, plasmasphere and atmosphere effects and an optional weak-signal receiver design; also an onboard GNSS extended Kalman filter for HEO and lunar-transfer craft (orbital dynamics, solar radiation pressure, third bodies, clock) and relative navigation of a multi-craft formation by single-differenced pseudoranges. Checked against the ICG SSV booklet tables under a pre-registration (xval/gnss-ssv)
@@ -41,7 +41,7 @@ seg-67dedb3beedd = Required fields: <c1/>. Optional: <c2/>, <c3/>, <c4/>, <c5/>,
 seg-099d82cb0689 = <b>Ledger:</b> MODELLED. Full page, with the inputs, results, evidence and limitations: <a1>gnss-ssv</a1>.
 
 # attr:alt
-seg-7dae5e291c8b = The chart the engine writes for scenarios/gnss-ssv-heo.toml, kind gnss-ssv
+seg-11a425fe9366 = The chart the engine writes for scenarios/gnss-ssv-geo.toml, kind gnss-ssv
 
 # text
 seg-57f715216741 = <s1>Previous</s1>Space rf survey

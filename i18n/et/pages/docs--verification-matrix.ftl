@@ -1202,7 +1202,6 @@ seg-2a5e48b558e1 = Hybrid-optical-rf aruanne esitab lingi konfiguratsiooni, mill
 
 # text
 # c1: variance
-seg-23f0c10237f4 = Välist sõltumatut etaloni pole ja see ei ole võimalik: see on enesekirjeldus, mitte mõõtmine. See on registreeritud, sest selle puudumine oli defekt -- P5 pidi kandelaine pikkust ja saateava lähteväärtustest tsiteerima ning tuletama sisemisest kooskõlakontrollist, et paljas <c1/> oli ruutmeetrites. Tuletus oli õige, mis on täpselt see, miks see loeb: miski poleks tabanud, kui see oleks olnud vale
 
 # text
 seg-0691f3dee8cb = Hübriidse optilise/RF lingi kättesaadavus RF poolel

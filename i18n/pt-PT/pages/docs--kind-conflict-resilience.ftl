@@ -58,7 +58,7 @@ seg-2ca37a78e899 = Resiliência a conflitos MODELLED de PNT em camadas (P7). Nú
 
 # text
 # c1: kshana kinds --json
-seg-d0d834e377ee = Resiliência a conflitos MODELLED de PNT em camadas (P7): um utilizador em ambiente contestado dispõe de várias camadas de PNT (GNSS de serviço aberto, GNSS de banda larga, uma constelação autenticada, um relé de aumentação), cada uma com uma disponibilidade-base, uma exatidão de 1σ e uma vulnerabilidade de negação por vetor à ameaça partilhada de jamming/spoofing. (catálogo de tipos de cenário (<c1/>))
+seg-a6619df36cf9 = Resiliência a conflitos MODELLED de PNT em camadas: um utilizador em ambiente contestado dispõe de várias camadas de PNT (GNSS de serviço aberto, GNSS de banda larga, uma constelação autenticada, um relé de aumentação), cada uma com uma disponibilidade-base, uma exatidão de 1σ e uma vulnerabilidade de negação por vetor à ameaça partilhada de jamming/spoofing. (catálogo de tipos de cenário (<c1/>))
 
 # text
 # c1: kshana kinds --json

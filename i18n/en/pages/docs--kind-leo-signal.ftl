@@ -48,7 +48,7 @@ seg-a3697ad561db = Hz
 
 # text
 # c1: scenarios/
-seg-3bc1761c76ab = { "3" } bundled scenarios use this kind; the others are in <a1><c1/></a1>.
+seg-7f43b9951654 = { "3" } scenario files in <a1><c1/></a1> use this kind.
 
 # text
 seg-d12bc1d2b815 = coherent
@@ -57,7 +57,7 @@ seg-d12bc1d2b815 = coherent
 seg-37d16b499bc5 = dB
 
 # text
-seg-0f29946fe4fb = Result label (the engine's): MODELLED: parameterised low Earth orbit (LEO) positioning, navigation and timing (PNT) signal designs, band-limited to their transmit bandwidth. The closed forms underneath are VALIDATED (BPSK power in band and Gabor bandwidth, the band-limited early-late code-tracking jitter reducing to the textboo
+seg-934f47f13136 = Result label (the engine's): MODELLED: parameterised low Earth orbit (LEO) positioning, navigation and timing (PNT) signal designs, band-limited to their transmit bandwidth. The closed forms underneath are VALIDATED (BPSK power in band and Gabor bandwidth, the band-limited early-late code-tracking jitter reducing to the…
 
 # attr:alt
 seg-8bf45b6989d1 = The chart the engine writes for scenarios/leo-band-trade.toml, kind leo-signal
@@ -66,29 +66,29 @@ seg-8bf45b6989d1 = The chart the engine writes for scenarios/leo-band-trade.toml
 seg-58413589a025 = MODELLED { "2" } · VALIDATED { "2" }: the <a1>verification matrix</a1> rows that name this kind.
 
 # text
-seg-0c30354c18f6 = <b>VALIDATED</b> navsignal: the sine integral (sine_integral), the BPSK-R fraction of power inside a double-sided band in closed form (bpsk_power_in_band_closed_form), the band-limited BPSK Gabor bandwidth in closed form (bpsk_gabor_bandwidth_closed_form_hz
+seg-185b66fa7225 = <b>VALIDATED</b> navsignal: the sine integral (sine_integral), the BPSK-R fraction of power inside a double-sided band in closed form (bpsk_power_in_band_closed_form), the band-limited BPSK Gabor bandwidth in closed form…
 
 # text
 # c1: leo-signal
-seg-09cb975b430d = <b>VALIDATED</b> leo_signal::max_doppler_hz: the largest satellite Doppler on an overhead pass at the elevation mask for a circular orbit, v R_E cos(el) / (R_E + h) times f / c, from each preset's own carrier and orbit altitude; the <c1/> kind adds o
+seg-0ada16f005e3 = <b>VALIDATED</b> leo_signal::max_doppler_hz: the largest satellite Doppler on an overhead pass at the elevation mask for a circular orbit, v R_E cos(el) / (R_E + h) times f / c, from each preset's own carrier and orbit altitude; the <c1/> kind adds…
 
 # text
 # c1: leo-signal
-seg-e0a4f53c5a96 = <b>MODELLED</b> The <c1/> kind: parameterised signal designs (band, transmit bandwidth, ITU allocation; acquisition, data and pilot components with BPSK(n), BOC(m,n), MBOC or flat spectra, power shares, FDMA sub-carriers, code lengths and data rates Tests: <a1>leo_signal_reference.rs</a1>.
+seg-fa4a0abcf151 = <b>MODELLED</b> The <c1/> kind: parameterised signal designs (band, transmit bandwidth, ITU allocation; acquisition, data and pilot components with BPSK(n), BOC(m,n), MBOC or flat spectra, power shares, FDMA sub-carriers, code lengths and data… Tests: <a1>leo_signal_reference.rs</a1>.
 
 # text
 # c1: spectrum
-seg-9ca82c79430e = <b>MODELLED</b> The <c1/> kind extended beyond the L band: bands given as a preset signal design (drawn with every component, band-limited to the transmit bandwidth, C/N0 and J/S referred to the tracked component) or as a custom carrier and modulation Tests: <a1>leo_signal_reference.rs</a1>.
+seg-09d5830571bc = <b>MODELLED</b> The <c1/> kind extended beyond the L band: bands given as a preset signal design (drawn with every component, band-limited to the transmit bandwidth, C/N0 and J/S referred to the tracked component) or as a custom carrier and… Tests: <a1>leo_signal_reference.rs</a1>.
 
 # text
-seg-59b976838ef1 = <b>VALIDATED</b> navsignal: the sine integral (sine_integral), the BPSK-R fraction of power inside a double-sided band in closed form (bpsk_power_in_band_closed_form), the band-. Oracle (ExternalDataset): Externally pinned: { "90.3" } per cent main-lobe power, the coherent early-late jitter at the stated operating point, the sine-integral table values, and the BPSK self spectral separation coefficient 2/({ "3" } R_c) at zero offset. Internal cross-checks only, not external validation: the band-limited BPSK Gabor-bandwidth closed form and its asymptote, and the offset BPSK spectral separation coefficient at non-zero offsets, both
+seg-81a9856e3f37 = <b>VALIDATED</b> navsignal: the sine integral (sine_integral), the BPSK-R fraction of power inside a double-sided band in closed form (bpsk_power_in_band_closed_form), the…. Oracle (ExternalDataset): Externally pinned: { "90.3" } per cent main-lobe power, the coherent early-late jitter at the stated operating point, the sine-integral table values, and the BPSK self spectral separation coefficient 2/({ "3" } R_c) at zero offset. Internal cross-checks only, not external validation: the band-limited BPSK Gabor-bandwidth closed form and its asymptote, and the offset BPSK spectral separation coefficient at non-zero offsets…
 
 # text
-seg-eb0a671fe1da = <b>VALIDATED</b> leo_signal::max_doppler_hz: the largest satellite Doppler on an overhead pass at the elevation mask for a circular orbit, v R_E cos(el) / (R_E + h) times f / c,. Oracle (ExternalDataset): Published figures: Xona Pulsar X1 maximum Doppler { "32" } to { "34" } kHz (Leclère, Marathe & Reid, ION GNSS+ { "2025" }, <a1>https://arxiv.org/abs/2509.19551</a1>); Iridium Doppler up to +/-36 kHz (Resilient Navigation and Timing Foundation, Recent PNT Improvements and Test Results Based on Low Earth Orbit Satellites). Earth rotation is left out, which moves the figure by up to about { "2.3" } kHz; both published figures are met without it.
+seg-8c4fe5590e46 = <b>VALIDATED</b> leo_signal::max_doppler_hz: the largest satellite Doppler on an overhead pass at the elevation mask for a circular orbit, v R_E cos(el) / (R_E + h) times f /…. Oracle (ExternalDataset): Published figures: Xona Pulsar X1 maximum Doppler { "32" } to { "34" } kHz (Leclère, Marathe & Reid, ION GNSS+ { "2025" }, <a1>https://arxiv.org/abs/2509.19551</a1>); Iridium Doppler up to +/-36 kHz (Resilient Navigation and Timing Foundation, Recent PNT Improvements and Test Results Based on Low Earth Orbit Satellites). Earth rotation is left out, which moves the figure by up to about { "2.3" } kHz; both published figures are met without it.
 
 # text
 # c1: leo-signal
-seg-faf2775f3003 = <b>MODELLED</b> The <c1/> kind: parameterised signal designs (band, transmit bandwidth, ITU allocation; acquisition, data and pilot components with BPSK(n), BOC(m,n), MB. Oracle (InternalConsistency): The validated closed forms of the two rows above, the square-law false-alarm identity P_d(snr = { "0" }) = P_fa and Holmes's mean acquisition time, and reduction to the spectrum kind's own SSC chain (the same Jammer::ssc code). The designs themselves are inputs: presets marked REPRESENTATIVE or WORKSHOP are not published specifications, enhanced Feher QPSK, code shift keying and OFDM spectra are approximated, and the shape
+seg-5c30d846af29 = <b>MODELLED</b> The <c1/> kind: parameterised signal designs (band, transmit bandwidth, ITU allocation; acquisition, data and pilot components with BPSK(n), BOC(m,n)…. Oracle (InternalConsistency): The validated closed forms of the two rows above, the square-law false-alarm identity P_d(snr = { "0" }) = P_fa and Holmes's mean acquisition time, and reduction to the spectrum kind's own SSC chain (the same Jammer::ssc code). The designs themselves are inputs: presets marked REPRESENTATIVE or WORKSHOP are not published specifications, enhanced Feher QPSK, code shift keying and OFDM spectra are approximated, and the…
 
 # text
 # c1: not_modelled[0]

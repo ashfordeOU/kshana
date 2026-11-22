@@ -110,7 +110,7 @@
 <tr>
 <td><code>entry.sigma_drift_s_per_s</code></td>
 <td>1.0000e-12</td>
-<td>s</td>
+<td>s/s</td>
 </tr>
 <tr>
 <td><code>entry.sigma_pos_m</code></td>
@@ -165,7 +165,7 @@
 </tbody></table></div>
 <h2 id="run-it">Run it<a class="anchor" href="#run-it" aria-label="Link to this section">#</a></h2>
 <pre data-lang="shell"><code class="hljs language-bash">kshana scenarios/mission-thread-short.toml</code></pre>
-<p>2 bundled scenarios use this kind; the others are in <a href="https://github.com/ashfordeOU/kshana/blob/main/scenarios"><code>scenarios/</code></a>.</p>
+<p>2 scenario files in <a href="https://github.com/ashfordeOU/kshana/blob/main/scenarios"><code>scenarios/</code></a> use this kind.</p>
 <h2 id="what-it-gives">What it gives<a class="anchor" href="#what-it-gives" aria-label="Link to this section">#</a></h2>
 <p>The scalar results of that run, with the units the engine states:</p>
 <div class="tbl"><table><thead><tr>
@@ -180,7 +180,7 @@
 </tr>
 <tr>
 <td><code>evidence.id_rule</code></td>
-<td>the stable id of the matrix row (the ID</td>
+<td>the stable id of the matrix row (the…</td>
 <td>text</td>
 </tr>
 <tr>
@@ -205,7 +205,7 @@
 </tr>
 <tr>
 <td><code>weakest_link.basis</code></td>
-<td>smallest margin against a stated require</td>
+<td>smallest margin against a stated…</td>
 <td>text</td>
 </tr>
 <tr>
@@ -230,19 +230,15 @@
 <h2 id="evidence">Evidence<a class="anchor" href="#evidence" aria-label="Link to this section">#</a></h2>
 <p>MODELLED: the <a href="/docs/verification-matrix">verification matrix</a> rows that name this kind.</p>
 <ul>
-<li><strong>MODELLED</strong> The <code>mission-thread</code> kind: a document of phases, each one of eight registered kinds, run in order with the 6x6 covariance, the clock and the frame handed on under a stated rule (<code>carry</code>; <code>inflate</code>, white acceleration noise over a stated gap Tests: <a href="https://github.com/ashfordeOU/kshana/blob/main/tests/field_units_global.rs">field_units_global.rs</a>.</li>
-<li><strong>MODELLED</strong> The <code>launch-ascent</code> phase: a constant-velocity position and velocity covariance with white acceleration noise (the dead-reckoning grade), a GNSS fix of stated accuracy applied after the acquisition time and outside stated fades, a bias-and-</li>
-<li><strong>MODELLED</strong> The <code>leo-rendezvous</code> phase: the relative state in the target&#39;s LVLH axes with the closed-form Clohessy-Wiltshire transition, a 6x6 Kalman covariance with white acceleration noise and position updates whose variance is the sensor&#39;s at the cu</li>
-<li><strong>MODELLED</strong> The <code>tli-and-cruise</code> phase: the mean state by the engine&#39;s Cowell propagator (Earth point mass and J2, the Sun and Moon as third bodies, the Moon from the thread&#39;s DE440 kernel where it covers the segment and the Sun from the analytic serie</li>
-<li>and 5 more in the matrix.</li>
+<li><strong>MODELLED</strong> The <code>mission-thread</code> kind: a document of phases, each one of eight registered kinds, run in order with the 6x6 covariance, the clock and the frame handed on under a stated rule (<code>carry</code>; <code>inflate</code>, white acceleration noise over a stated… Tests: <a href="https://github.com/ashfordeOU/kshana/blob/main/tests/field_units_global.rs">field_units_global.rs</a>.</li>
 </ul>
 <p>The rows the run itself exercised, with the oracle the matrix gives each (the public sources are named there):</p>
 <ul>
 <li><strong>MODELLED</strong> Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): SBOM conformance to the official CycloneDX 1.5 JSON Schema (+ valid SPDX identifiers) — an external published standard, zero validation errors over the full dependency graph; the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED</li>
-<li><strong>MODELLED</strong> The <code>mission-thread</code> kind: a document of phases, each one of eight registered kinds, run in order with the 6x6 covariance, the clock and the frame handed on und. Oracle (InternalConsistency): Hand calculations in the tests (the straight-line covariance growth, the mean sidereal rotation, the secular lunar clock rate) and, for the Moon&#39;s state only, the committed DE440 kernel cuts against pinned JPL Horizons values (worst 2.6 m and 7e-6 m/s). No mission data is compared with the chain; its phases are rows of their own. The document is a stated chain with ILLUSTRATIVE inputs, public sources only and no agen</li>
-<li><strong>MODELLED</strong> The <code>launch-ascent</code> phase: a constant-velocity position and velocity covariance with white acceleration noise (the dead-reckoning grade), a GNSS fix of stated a. Oracle (InternalConsistency): The Riccati steady state and the hand calculation of the prediction in the tests. Nothing here models a launch vehicle or a receiver; every number is a stated input</li>
-<li><strong>MODELLED</strong> The <code>leo-rendezvous</code> phase: the relative state in the target&#39;s LVLH axes with the closed-form Clohessy-Wiltshire transition, a 6x6 Kalman covariance with white . Oracle (InternalConsistency): A one-axis hand calculation of the predict and update in the test; the Clohessy-Wiltshire transition is the one cw_dynamics checks against an independent numerical integration. The sensors are ILLUSTRATIVE and no real rendezvous is compared</li>
-<li><strong>MODELLED</strong> The <code>tli-and-cruise</code> phase: the mean state by the engine&#39;s Cowell propagator (Earth point mass and J2, the Sun and Moon as third bodies, the Moon from the threa. Oracle (InternalConsistency): Liouville&#39;s theorem (the determinant of the state-transition matrix of the conservative part is one) and a finer difference in the tests; the mean state is compared with a public trajectory in the row below, which it misses. The burn error, the updates and the covariance are not compared with anything</li>
+<li><strong>MODELLED</strong> The <code>mission-thread</code> kind: a document of phases, each one of eight registered kinds, run in order with the 6x6 covariance, the clock and the frame handed on…. Oracle (InternalConsistency): Hand calculations in the tests (the straight-line covariance growth, the mean sidereal rotation, the secular lunar clock rate) and, for the Moon&#39;s state only, the committed DE440 kernel cuts against pinned JPL Horizons values (worst 2.6 m and 7e-6 m/s). No mission data is compared with the chain; its phases are rows of their own. The document is a stated chain with ILLUSTRATIVE inputs, public sources only and no…</li>
+<li><strong>MODELLED</strong> The <code>launch-ascent</code> phase: a constant-velocity position and velocity covariance with white acceleration noise (the dead-reckoning grade), a GNSS fix of stated…. Oracle (InternalConsistency): The Riccati steady state and the hand calculation of the prediction in the tests. Nothing here models a launch vehicle or a receiver; every number is a stated input</li>
+<li><strong>MODELLED</strong> The <code>leo-rendezvous</code> phase: the relative state in the target&#39;s LVLH axes with the closed-form Clohessy-Wiltshire transition, a 6x6 Kalman covariance with…. Oracle (InternalConsistency): A one-axis hand calculation of the predict and update in the test; the Clohessy-Wiltshire transition is the one cw_dynamics checks against an independent numerical integration. The sensors are ILLUSTRATIVE and no real rendezvous is compared</li>
+<li><strong>MODELLED</strong> The <code>tli-and-cruise</code> phase: the mean state by the engine&#39;s Cowell propagator (Earth point mass and J2, the Sun and Moon as third bodies, the Moon from the…. Oracle (InternalConsistency): Liouville&#39;s theorem (the determinant of the state-transition matrix of the conservative part is one) and a finer difference in the tests; the mean state is compared with a public trajectory in the row below, which it misses. The burn error, the updates and the covariance are not compared with anything</li>
 </ul>
 <h2 id="limitations">Limitations<a class="anchor" href="#limitations" aria-label="Link to this section">#</a></h2>
 <p>What the run&#39;s own report says is not modelled or not validated:</p>

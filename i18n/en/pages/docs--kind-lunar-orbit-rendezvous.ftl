@@ -56,10 +56,10 @@ seg-60bd49f09fbc = llo
 
 # text
 # c1: scenarios/
-seg-51362910dcb7 = { "2" } bundled scenarios use this kind; the others are in <a1><c1/></a1>.
+seg-2224c257616c = { "2" } scenario files in <a1><c1/></a1> use this kind.
 
 # text
-seg-bf92597fdba4 = Advisory software, not certified navigat
+seg-bbbc9d05aa45 = Advisory software, not certified…
 
 # text
 seg-4466fb6f4043 = batch Gauss-Newton over the arc
@@ -72,14 +72,14 @@ seg-d97b2505ac72 = The chart the engine writes for scenarios/lunar-orbit-rendezv
 
 # text
 # c1: lunar-orbit-rendezvous
-seg-a75f04745ae2 = <b>MODELLED</b> The <c1/> kind and phase: a joint two-vehicle batch Gauss-Newton estimate over the arc (twenty-one parameters: both states and persistent signal-in-space position biases, common and independent), grown over a quarter, a h Tests: <a1>mission_thread_lunar_oracles.rs</a1>.
+seg-786d991ae6b0 = <b>MODELLED</b> The <c1/> kind and phase: a joint two-vehicle batch Gauss-Newton estimate over the arc (twenty-one parameters: both states and persistent signal-in-space position biases, common and independent), grown over a quarter, a… Tests: <a1>mission_thread_lunar_oracles.rs</a1>.
 
 # text
 # c1: lunar-orbit-rendezvous
-seg-826fd7fd44b9 = <b>MODELLED</b> The <c1/> kind and phase: a joint two-vehicle batch Gauss-Newton estimate over the arc (twenty-one parameters: both states and persistent sig. Oracle (InternalConsistency): Self-consistency under a pre-registration (xval/mission-thread-lunar/PREREGISTRATION.md, results and the estimator history in RESULTS.md): the mean NEES of the relative state is { "5.85" } to { "5.93" } against the band { "5.2" } to { "6.8" } in four configurations, MET on the fourth estimator design after three sequential-filter designs missed; the truth and the estimator share one force model, so this says nothing about model error. The p
+seg-8231280437ac = <b>MODELLED</b> The <c1/> kind and phase: a joint two-vehicle batch Gauss-Newton estimate over the arc (twenty-one parameters: both states and persistent…. Oracle (InternalConsistency): Self-consistency under a pre-registration (xval/mission-thread-lunar/PREREGISTRATION.md, results and the estimator history in RESULTS.md): the mean NEES of the relative state is { "5.85" } to { "5.93" } against the band { "5.2" } to { "6.8" } in four configurations, MET on the fourth estimator design after three sequential-filter designs missed; the truth and the estimator share one force model, so this says nothing about model error. The…
 
 # text
-seg-8732ad9f7e07 = <b>MODELLED</b> The propagator the lunar kinds share (GRAIL GL0660B degree and order { "150" }, Earth and Sun third bodies, relativity, DE440 lunar orientation) compared with the pub. Oracle (ExternalDataset): JPL Horizons spacecraft ephemerides for LRO and CAPSTONE, against bars pre-registered in xval/mission-thread-lunar/PREREGISTRATION.md (Amendments { "1" } to { "6" }). LRO: MET, { "33" } m largest 3-D difference and { "2.4" } m RMS radial against { "500" } m and { "60" } m. CAPSTONE: NOT MET, a { "136.8" } km end-position difference against { "25" } km and a { "28.4" } km periapsis difference against { "10" } km, the causes not isolated. The row is Modelled because the CAPSTON
+seg-d84cb57b8bf7 = <b>MODELLED</b> The propagator the lunar kinds share (GRAIL GL0660B degree and order { "150" }, Earth and Sun third bodies, relativity, DE440 lunar orientation) compared with the…. Oracle (ExternalDataset): JPL Horizons spacecraft ephemerides for LRO and CAPSTONE, against bars pre-registered in xval/mission-thread-lunar/PREREGISTRATION.md (Amendments { "1" } to { "6" }). LRO: MET, { "33" } m largest 3-D difference and { "2.4" } m RMS radial against { "500" } m and { "60" } m. CAPSTONE: NOT MET, a { "136.8" } km end-position difference against { "25" } km and a { "28.4" } km periapsis difference against { "10" } km, the causes not isolated. The row is Modelled because the…
 
 # text
 # c1: label
@@ -94,7 +94,7 @@ seg-b2f273ea732d = MODELLED relative navigation for an Orion-lander style dockin
 seg-9d4f99557cc5 = MODELLED: illustrative relay set, error budget and priors; the truth and the estimator share one force model, so the NEES checks self-consistency and not model error. (kind catalogue (<c1/>))
 
 # text
-seg-158e44d47c0b = HONESTY: MODELLED. The relay set, the signal-in-space error, the common-mode fraction and the priors are ILLUSTRATIVE inputs, not measurements; the truth and the estimator share the force model (a built-in central term, J2 and C22). The pre-registered consistency check B1 (mean NEES in [{ "5.2" }, { "6.8" }]) is met in all four configurations on the batch design: see xval/mission-thread-lunar/RESULTS.md. No agreement with any re (scenario file comment, lines { "10" } to { "14" })
+seg-88f21c92b70c = HONESTY: MODELLED. The relay set, the signal-in-space error, the common-mode fraction and the priors are ILLUSTRATIVE inputs, not measurements; the truth and the estimator share the force model (a built-in central term, J2 and C22). The pre-registered consistency check B1 (mean NEES in [{ "5.2" }, { "6.8" }]) is met in all four configurations on the batch design: see xval/mission-thread-lunar/RESULTS.md. No agreement with any… (scenario file comment, lines { "10" } to { "14" })
 
 # text
 # c1: lunar-orbit-rendezvous

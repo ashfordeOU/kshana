@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Hardware safety · Kshana docs</title>
-<meta name="description" content="Status: owner legal review pending. The legal notes below are the maintainers&#x27; reading of public sources, written so a user knows where the limits are.">
+<meta name="description" content="Status: legal review pending. The legal notes below are the maintainers&#x27; reading of public sources, written so a user knows where the limits are.">
 <meta name="color-scheme" content="light dark">
 <meta name="theme-color" content="#E8ECF3" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#060A14" media="(prefers-color-scheme: dark)">
@@ -25,7 +25,7 @@
 <meta property="og:locale" content="en_GB">
 <meta property="og:url" content="https://kshana.dev/docs/hardware-safety">
 <meta property="og:title" content="Hardware safety · Kshana docs">
-<meta property="og:description" content="Status: owner legal review pending. The legal notes below are the maintainers&#x27; reading of public sources, written so a user knows where the limits are.">
+<meta property="og:description" content="Status: legal review pending. The legal notes below are the maintainers&#x27; reading of public sources, written so a user knows where the limits are.">
 <meta property="og:image" content="https://kshana.dev/og-card.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -33,7 +33,7 @@
 <meta property="og:image:alt" content="Kshana, a PNT (positioning, navigation and timing) resilience simulator. 176 of 413 capabilities validated against external oracles.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Hardware safety · Kshana docs">
-<meta name="twitter:description" content="Status: owner legal review pending. The legal notes below are the maintainers&#x27; reading of public sources, written so a user knows where the limits are.">
+<meta name="twitter:description" content="Status: legal review pending. The legal notes below are the maintainers&#x27; reading of public sources, written so a user knows where the limits are.">
 <meta name="twitter:image" content="https://kshana.dev/og-card.png">
 <meta name="twitter:image:alt" content="Kshana, a PNT (positioning, navigation and timing) resilience simulator. 176 of 413 capabilities validated against external oracles.">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://kshana.dev/"}, {"@type": "ListItem", "position": 2, "name": "Docs", "item": "https://kshana.dev/docs/"}, {"@type": "ListItem", "position": 3, "name": "Hardware safety: what Kshana does with hardware, and what it never does", "item": "https://kshana.dev/docs/hardware-safety"}]}</script>
@@ -85,7 +85,7 @@
     <div class="docs-meta"><span>Timing</span><a href="https://github.com/ashfordeOU/kshana/blob/main/docs/HARDWARE-SAFETY.md">Edit on GitHub</a><span>Source: <code>docs/HARDWARE-SAFETY.md</code></span></div>
     <div class="prose"><!-- SPDX-License-Identifier: AGPL-3.0-only -->
 <h1 id="hardware-safety-what-kshana-does-with-hardware-and-what-it-never-does">Hardware safety: what Kshana does with hardware, and what it never does</h1>
-<p><strong>Status: owner legal review pending.</strong> The legal notes below are the maintainers&#39; reading of
+<p><strong>Status: legal review pending.</strong> The legal notes below are the maintainers&#39; reading of
 public sources, written so a user knows where the limits are. They are not legal advice, they
 have not been reviewed by counsel, and the law differs by country. Read them as a reason to ask
 a lawyer, not as a permission.</p>
@@ -115,7 +115,7 @@ gate that must hold before Kshana will treat the result as evidence.</p>
 <th>Hardware</th>
 <th>RF emission</th>
 <th>Gate</th>
-<th>State in 0.38</th>
+<th>State in 0.41</th>
 </tr>
 </thead><tbody><tr>
 <td><strong>0</strong></td>
@@ -174,7 +174,7 @@ as data sources (patterns, logs, published stability curves), not as devices Ksh
 <li>Wording: a result is &quot;measured against the mask&quot; or &quot;supports evidence for&quot; a requirement.
 Kshana does not say that a device meets a standard, and nobody has rated or approved it.</li>
 </ol>
-<h2 id="legal-notes-owner-legal-review-pending">Legal notes (owner legal review pending)<a class="anchor" href="#legal-notes-owner-legal-review-pending" aria-label="Link to this section">#</a></h2>
+<h2 id="legal-notes-legal-review-pending">Legal notes (legal review pending)<a class="anchor" href="#legal-notes-legal-review-pending" aria-label="Link to this section">#</a></h2>
 <p>Receiving GNSS signals is legal almost everywhere. Transmitting in GNSS bands is not.</p>
 <ul>
 <li><strong>United States.</strong> Wilful interference with radio communications is barred under 47 U.S.C.
@@ -207,7 +207,7 @@ operator, not a measurement, and Kshana does not verify it.</p>
 <span class="hljs-attr">emitter</span> = <span class="hljs-string">&quot;laboratory-owned simulator, model&quot;</span>         <span class="hljs-comment"># required: what produced any RF</span>
 <span class="hljs-attr">statement</span> = <span class="hljs-string">&quot;No emission outside the enclosure or cable path.&quot;</span>   <span class="hljs-comment"># required, free text</span>
 <span class="hljs-attr">signature</span> = <span class="hljs-string">&quot;ed25519:...&quot;</span>                             <span class="hljs-comment"># optional: the operator&#x27;s own detached signature, recorded as given</span></code></pre>
-<p>What is implemented in 0.38:</p>
+<p>What is implemented in 0.41:</p>
 <ul>
 <li><code>kshana receiver-trust evidence ... --lab-attestation &lt;file.toml&gt;</code> validates the file and records
 the attestation in the pack&#39;s <code>manifest.json</code>. The manifest is covered by the pack&#39;s Ed25519
@@ -221,7 +221,7 @@ verified by Kshana&quot;.</li>
 over-the-air setup is not accepted as a lab run), is refused and no pack is made.</li>
 </ul>
 <p>What is <strong>not</strong> implemented yet: the stage 2 rule that Kshana refuses to <em>score</em> a lab run that has no
-attestation. No command takes a lab-run flag in 0.38, so there is nothing to refuse; the rule arrives with
+attestation. No command takes a lab-run flag in 0.41, so there is nothing to refuse; the rule arrives with
 the lab orchestration commands. An attestation records the operator&#39;s statement of a safeguard. It does not
 make any emission lawful and it does not change a result&#39;s label: a scored lab run is MODELLED unless an
 external oracle agrees.</p>
@@ -238,7 +238,7 @@ file.</li>
 </div>
     <nav class="docs-pn" aria-label="Previous and next"><a class="prev" href="/docs/clock-log-formats"><small>Previous</small>Clock log formats</a><a class="next" href="/docs/integrity"><small>Next</small>Integrity and security</a></nav>
   </article>
-  <nav class="docs-toc" aria-label="On this page"><h2>On this page</h2><a class="l2" href="#the-rule">The rule</a><a class="l2" href="#stages">Stages</a><a class="l2" href="#principles">Principles</a><a class="l2" href="#legal-notes-owner-legal-review-pending">Legal notes (owner legal review pending)</a><a class="l2" href="#the-lab-attestation-field">The lab-attestation field</a><a class="l2" href="#what-this-means-for-a-contributor">What this means for a contributor</a></nav>
+  <nav class="docs-toc" aria-label="On this page"><h2>On this page</h2><a class="l2" href="#the-rule">The rule</a><a class="l2" href="#stages">Stages</a><a class="l2" href="#principles">Principles</a><a class="l2" href="#legal-notes-legal-review-pending">Legal notes (legal review pending)</a><a class="l2" href="#the-lab-attestation-field">The lab-attestation field</a><a class="l2" href="#what-this-means-for-a-contributor">What this means for a contributor</a></nav>
 </div>
 </main>
 

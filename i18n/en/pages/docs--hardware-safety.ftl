@@ -9,7 +9,7 @@ seg-2015f437e669 = Source: <c1/>
 seg-10c7eaab58c5 = Hardware safety: what Kshana does with hardware, and what it never does
 
 # text
-seg-fe4873962140 = <b>Status: owner legal review pending.</b> The legal notes below are the maintainers' reading of public sources, written so a user knows where the limits are. They are not legal advice, they have not been reviewed by counsel, and the law differs by country. Read them as a reason to ask a lawyer, not as a permission.
+seg-bb7e63395707 = <b>Status: legal review pending.</b> The legal notes below are the maintainers' reading of public sources, written so a user knows where the limits are. They are not legal advice, they have not been reviewed by counsel, and the law differs by country. Read them as a reason to ask a lawyer, not as a permission.
 
 # text
 seg-bd2fbb355834 = Kshana is advisory software for research, simulation and test. It is not type-approved equipment and does not rate or approve a receiver, a clock or a laboratory. See the advisory statement in the README.
@@ -54,7 +54,7 @@ seg-92ab27525ed1 = RF emission
 seg-c822f981cfcf = Gate
 
 # text
-seg-00727bb577f9 = State in { "0.38" }
+seg-345b078def50 = State in { "0.41" }
 
 # text
 seg-1c566ec98a03 = Files: replay logs, IQ, bench exports, live NMEA or UBX over stdin, TCP or UDP
@@ -155,7 +155,7 @@ seg-d8e445427d02 = Antennas with controlled patterns, inertial units and chip-sc
 seg-7a22a9591fa3 = Wording: a result is "measured against the mask" or "supports evidence for" a requirement. Kshana does not say that a device meets a standard, and nobody has rated or approved it.
 
 # text
-seg-913509e5d6b2 = Legal notes (owner legal review pending)
+seg-eceb84e35a51 = Legal notes (legal review pending)
 
 # text
 seg-c18b68936406 = Receiving GNSS signals is legal almost everywhere. Transmitting in GNSS bands is not.
@@ -188,7 +188,7 @@ seg-81091020e648 = The <c1/> field
 seg-64918fd6895d = For stage { "2" } and above, a run that involved lab equipment carries a <c1/> object, recorded in the evidence pack beside the hashes of the inputs. It is a statement by a named operator, not a measurement, and Kshana does not verify it.
 
 # text
-seg-3bf153c63fa3 = What is implemented in { "0.38" }:
+seg-5bf2b8fe50bd = What is implemented in { "0.41" }:
 
 # text
 # c1: kshana receiver-trust evidence ... --lab-attestation <file.toml>
@@ -213,7 +213,7 @@ seg-4360b8fbdafb = <c1/> reports the attestation and says it is "attested by the
 seg-438bbe788314 = An attestation that is incomplete, or whose <c1/> is neither <c2/> nor <c3/> (an over-the-air setup is not accepted as a lab run), is refused and no pack is made.
 
 # text
-seg-c8c40ed88dde = What is <b>not</b> implemented yet: the stage { "2" } rule that Kshana refuses to <em>score</em> a lab run that has no attestation. No command takes a lab-run flag in { "0.38" }, so there is nothing to refuse; the rule arrives with the lab orchestration commands. An attestation records the operator's statement of a safeguard. It does not make any emission lawful and it does not change a result's label: a scored lab run is MODELLED unless an external oracle agrees.
+seg-69bc38eed039 = What is <b>not</b> implemented yet: the stage { "2" } rule that Kshana refuses to <em>score</em> a lab run that has no attestation. No command takes a lab-run flag in { "0.41" }, so there is nothing to refuse; the rule arrives with the lab orchestration commands. An attestation records the operator's statement of a safeguard. It does not make any emission lawful and it does not change a result's label: a scored lab run is MODELLED unless an external oracle agrees.
 
 # text
 seg-b0db377bce58 = What this means for a contributor

@@ -980,7 +980,10 @@ seg-ecec254e8219 = catalogue check value <c1/>; RTCM { "10403" } { "1005" } exam
 seg-388633e4e785 = Fitter and SISRE trade
 
 # text
-seg-8b85c3277e66 = two-body truth recovered to { "1" } mm; corrected J2–J6 fit to { "1" } mm; monotonic growth with interval
+seg-5d24cf861601 = VALIDATED (16-parameter fit and its orbit-only SISRE; integrated truth orbit)
+
+# text
+seg-9f88833cefa3 = TU Graz ITSG precise orbits fitted by the 16-parameter set against Liu et al. { "2025" }, every ratio inside 1.5x; the integrated truth orbit against Orekit { "12.2" } within { "4.55" } mm over { "6" } h. The correction polynomials, the clock fit and the update-period trade stay MODELLED
 
 # text
 seg-4de7f2b173c5 = Mid-pass continuity
@@ -1014,7 +1017,8 @@ seg-94066142a642 = ATOMIC zero-clock polynomial and the five-altitude table
 seg-205cdc6a3696 = ATOMIC facts from InsideGNSS; the published Liu table printed beside Kshana's integrated-orbit fit, not pinned
 
 # text
-seg-8c00ed11609c = ICD closed forms; the RTKLIB-checked Klobuchar model
+# c1: Az
+seg-44c246122acb = GNSSTk { "15.3.1" } (Klobuchar at L1, L2 and L5, NeQuick-G <c1/>, UTC drift) and ERFA via pyerfa (the three ICD leap-second cases), on real IGS broadcast coefficients. The NeQuick electron-density integration is not implemented
 
 # text
 seg-d5653e0958b5 = SISRE is representation error only: no orbit determination or prediction error.

@@ -16,7 +16,7 @@ seg-7b2721b7588d = Scenario kind of the engine v{ $version }, family <a1>Inertia
 # c1: candidate_adev_taus
 # c2: candidate_adev_values
 # c3: candidate_clock_class
-seg-eb55d253dd11 = Quantum-vs-classical PNT trade ({ "13503" }): timing-holdover + inertial-holdover benefit of a candidate clock (a measured-ADEV curve — the defensibility hinge — or a quantum clock class) vs a classical baseline class, with the long-tau floor-assumption caveat carried on the artifact, plus a GNSS-denied resilience-vs-time envelope. MODELLED; quantifies (never validates) a partner device. The candidate clock is a measured curve (<c1/> + <c2/>, equal length, at least { "2" } points; it wins when both forms are given) or a <c3/>.
+seg-d27be9784876 = Quantum-vs-classical PNT trade: timing-holdover + inertial-holdover benefit of a candidate clock (a measured-ADEV curve — the defensibility hinge — or a quantum clock class) vs a classical baseline class, with the long-tau floor-assumption caveat carried on the artifact, plus a GNSS-denied resilience-vs-time envelope. MODELLED; quantifies (never validates) a partner device. The candidate clock is a measured curve (<c1/> + <c2/>, equal length, at least { "2" } points; it wins when both forms are given) or a <c3/>.
 
 # text
 # c1: scenarios/quantum-trade.toml
@@ -62,7 +62,7 @@ seg-c74c63ffd859 = The chart the engine writes for scenarios/quantum-trade.toml,
 seg-7400f24ec992 = MODELLED { "1" } · VALIDATED { "2" }: the <a1>verification matrix</a1> rows that name this kind.
 
 # text
-seg-93310aaa6ead = <b>VALIDATED</b> Power-law (white-FM + red-noise-floor) NNLS recovery from a published measured ⁸⁸Sr optical-clock-transition Allan deviation — reproducing σ_y(τ) and the headline 4.7e-16/√τ short-τ scaling with a genuine measured long-τ floor, rather than Tests: <a1>optical_clock_adev_reference.rs</a1>.
+seg-a8741d55bb09 = <b>VALIDATED</b> Power-law (white-FM + red-noise-floor) NNLS recovery from a published measured ⁸⁸Sr optical-clock-transition Allan deviation — reproducing σ_y(τ) and the headline 4.7e-16/√τ short-τ scaling with a genuine measured long-τ floor, rather… Tests: <a1>optical_clock_adev_reference.rs</a1>.
 
 # text
 seg-fc46e95688ba = <b>VALIDATED</b> Measured-ADEV NNLS fit, NEES/NIS χ² consistency bands, and the clock van-Loan discrete process-noise (holdover-coast) covariance — the trade engine's computational spine Tests: <a1>scipy_reference.rs</a1>.
@@ -71,10 +71,10 @@ seg-fc46e95688ba = <b>VALIDATED</b> Measured-ADEV NNLS fit, NEES/NIS χ² consis
 seg-6e2b62136cef = <b>MODELLED</b> Measured-ADEV ingestion (NNLS), trade table (timing/inertial holdover + benefit), resilience-vs-time envelope; floor caveat carried on the artifact.
 
 # text
-seg-b577b8464cf7 = <b>VALIDATED</b> Measured-ADEV NNLS fit, NEES/NIS χ² consistency bands, and the clock van-Loan discrete process-noise (holdover-coast) covariance — the trade engine's computatio. Oracle (ExternalDataset): scipy { "1.17.1" } — optimize.nnls / stats.chi2.ppf / linalg.expm; NNLS+Q exact, χ² <{ "5e-4" } at operating dof. Kernels only — device-performance numbers stay Modelled (next row)
+seg-fb51579e1b4b = <b>VALIDATED</b> Measured-ADEV NNLS fit, NEES/NIS χ² consistency bands, and the clock van-Loan discrete process-noise (holdover-coast) covariance — the trade engine's…. Oracle (ExternalDataset): scipy { "1.17.1" } — optimize.nnls / stats.chi2.ppf / linalg.expm; NNLS+Q exact, χ² <{ "5e-4" } at operating dof. Kernels only — device-performance numbers stay Modelled (next row)
 
 # text
-seg-6b8aa8cd6d3e = <b>MODELLED</b> Measured-ADEV ingestion (NNLS), trade table (timing/inertial holdover + benefit), resilience-vs-time envelope; floor caveat carried on the artifact. Runnable fr. Oracle (ExternalDataset): The measured-ADEV→PSD fit (NNLS) kernel is matched to scipy.optimize.nnls (tests/scipy_reference.rs / tests/quantum_vs_classical_pnt_trade_reference.rs) — an independent external kernel; but the trade NUMBERS quantify (never validate) a partner clock/CAI, so the trade itself stays MODELLED, no validation halo
+seg-2cbda454db17 = <b>MODELLED</b> Measured-ADEV ingestion (NNLS), trade table (timing/inertial holdover + benefit), resilience-vs-time envelope; floor caveat carried on the artifact. Runnable…. Oracle (ExternalDataset): The measured-ADEV→PSD fit (NNLS) kernel is matched to scipy.optimize.nnls (tests/scipy_reference.rs / tests/quantum_vs_classical_pnt_trade_reference.rs) — an independent external kernel; but the trade NUMBERS quantify (never validate) a partner clock/CAI, so the trade itself stays MODELLED, no validation halo
 
 # text
 seg-bb07c8ee153f = <b>PARTNER</b> Not provided — performance models only; cold-atom/clock hardware is a partner's. Oracle (NoneKind): none: a partner-owned discipline, with no module and no test by design
@@ -85,7 +85,7 @@ seg-3d678f64e41c = MODELLED — quantifies (never validates) a partner clock/sen
 
 # text
 # c1: kshana kinds --json
-seg-20ba66ae9518 = Quantum-vs-classical PNT trade ({ "13503" }): timing-holdover + inertial-holdover benefit of a candidate clock (a measured-ADEV curve — the defensibility hinge — or a quantum clock class) vs a classical baseline class, with the long-tau floor-assumption caveat carried on the artifact, plus a GNSS-denied resilience-vs-time envelope. (kind catalogue (<c1/>))
+seg-71bf5c958213 = Quantum-vs-classical PNT trade: timing-holdover + inertial-holdover benefit of a candidate clock (a measured-ADEV curve — the defensibility hinge — or a quantum clock class) vs a classical baseline class, with the long-tau floor-assumption caveat carried on the artifact, plus a GNSS-denied resilience-vs-time envelope. (kind catalogue (<c1/>))
 
 # text
 # c1: kshana kinds --json
@@ -98,7 +98,7 @@ seg-15275d27252a = Computes the timing-holdover and inertial-holdover benefit of
 seg-ecbdbc9b163e = HONEST SCOPE: MODELLED — it QUANTIFIES a partner's quantum-clock benefit; it does NOT validate the device, and never borrows the SGP4/Allan/IGS validation islands. When any row's floor is an assumed class default, a floor caveat renders on the artifact. Run: kshana scenarios/quantum-trade.toml (scenario file comment, lines { "9" } to { "12" })
 
 # text
-seg-4b59ac409819 = Quantum-vs-classical PNT trade & GNSS-denied resilience ({ "13503" }) is MODELLED, not validated: a sub-claim is externally checked, but the whole capability composes modelled pieces, so the capability stays Modelled. (verification matrix (docs/MODELLED-RATIONALE.md))
+seg-168a48b7c740 = Quantum-vs-classical PNT trade & GNSS-denied resilience is MODELLED, not validated: a sub-claim is externally checked, but the whole capability composes modelled pieces, so the capability stays Modelled. (verification matrix (docs/MODELLED-RATIONALE.md))
 
 # text
 seg-f7f12029e0ec = Family page: <a1>Inertial, fusion and quantum sensors</a1>

@@ -53,7 +53,7 @@ seg-f68b536b93c0 = A commercial licence removes the copyleft obligations for you
 seg-55f1a2f687d9 = Why dual-license this way
 
 # text
-seg-42c1ce05ca5c = The goal is to be <b>publicly verifiable</b> (so any reviewer can run and audit the engine) <b>without</b> letting a well-resourced competitor fork the validated engine, close it, and ship a proprietary competitor that gives nothing back. AGPL's network copyleft achieves that: a closed or hosted derivative must come back to open source — or take a commercial licence from us. Public credibility and a defended core, at the same time.
+seg-9843a53d8a2b = The goal is to be <b>publicly verifiable</b> (so any reviewer can run and audit the engine) <b>without</b> letting a well-resourced competitor fork the engine, close it, and ship a proprietary competitor that gives nothing back. AGPL's network copyleft achieves that: a closed or hosted derivative must come back to open source — or take a commercial licence from us. Public credibility and a defended core, at the same time.
 
 # text
 seg-32b1d38914fe = What is <b>not</b> covered by this dual-license

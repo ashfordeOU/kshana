@@ -58,7 +58,7 @@ seg-2ca37a78e899 = Résilience MODELLED de PNT en couches face aux conflits (P7)
 
 # text
 # c1: kshana kinds --json
-seg-d0d834e377ee = Résilience MODELLED de PNT en couches face aux conflits (P7) : un utilisateur en environnement contesté dispose de plusieurs couches PNT (GNSS à service ouvert, GNSS à large bande, une constellation authentifiée, un relais d'augmentation), chacune avec une disponibilité de base, une précision à 1σ et une vulnérabilité de refus par vecteur face à la menace commune de brouillage/leurrage. (catalogue des types de scénario (<c1/>))
+seg-a6619df36cf9 = Résilience MODELLED de PNT en couches face aux conflits : un utilisateur en environnement contesté dispose de plusieurs couches PNT (GNSS à service ouvert, GNSS à large bande, une constellation authentifiée, un relais d'augmentation), chacune avec une disponibilité de base, une précision à 1σ et une vulnérabilité de refus par vecteur face à la menace commune de brouillage/leurrage. (catalogue des types de scénario (<c1/>))
 
 # text
 # c1: kshana kinds --json

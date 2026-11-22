@@ -36,7 +36,7 @@ seg-a349aa76b0ed = PARTNER
 seg-8a45367544a0 = a discipline the run relies on that a hardware partner owns and Kshana does not provide, for example the figures that describe a partner's own clock or interferometer. Kshana models what such a device would do to a navigation or timing chain; it does not vouch for the device
 
 # text
-seg-553a1db0e11d = A submission can move a row to VALIDATED only for the claim the data actually tests, and only if the comparison meets its bar. It cannot make a device's own figures Kshana's to vouch for: those stay the partner's (PARTNER). Whether a row's label changes is the owner's decision, recorded in the commit that changes it, with the oracle text saying exactly what was compared with what.
+seg-aa0e000cdddc = A submission can move a row to VALIDATED only for the claim the data actually tests, and only if the comparison meets its bar. It cannot make a device's own figures Kshana's to vouch for: those stay the partner's (PARTNER). Whether a row's label changes is the maintainers' decision, recorded in the commit that changes it, with the oracle text saying exactly what was compared with what.
 
 # text
 seg-bac61cc47097 = Rows a partner's data could promote
@@ -177,7 +177,7 @@ seg-7dd95552a6fb = <b>A pre-registration, before any scored run.</b> For each ro
 seg-10dc9f8cf394 = <b>One scored run.</b> The result, every number and every miss included, is published with the command and the commit, and a test pins it. A miss is a finding, not a failure to hide: the row stays MODELLED and the page says so.
 
 # text
-seg-e5704c43a6b8 = <b>The ledger decision is the owner's</b>, in writing, in the commit that changes the row. The oracle text of a promoted row names the dataset, its licence and credit, what was compared and what was not.
+seg-35d1de744b48 = <b>The ledger decision is the maintainers'</b>, in writing, in the commit that changes the row. The oracle text of a promoted row names the dataset, its licence and credit, what was compared and what was not.
 
 # text
 seg-6d467ffb4199 = Credit and rights
@@ -199,13 +199,6 @@ seg-6c9ed423e51d = You can withdraw a submission before its result is published.
 
 # text
 seg-2cc3c091ba0f = Kshana transmits nothing and drives no hardware. A submission is files in, a report out.
-
-# text
-seg-01b0ee9973dc = Outreach
-
-# text
-# c1: docs/drafts/PARTNER-OUTREACH.md
-seg-f6953886c333 = A one-page note for a laboratory is drafted for the owner in <a1><c1/></a1>. It is a draft: nothing is sent, and nobody is contacted, until the owner decides.
 
 # text
 seg-83b30e1ca261 = <s1>Previous</s1>Evidence packs

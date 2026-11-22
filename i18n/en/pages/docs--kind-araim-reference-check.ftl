@@ -32,7 +32,7 @@ seg-3f181d41edb5 = The example <c1/> sets, among others:
 seg-debc2f07db78 = true
 
 # text
-seg-9de6e1b3352d = Result label (the engine's): EXTERNALLY CHECKED — the engine's ARAIM protection levels run against the published worked numerical examples of the EU-U.S. Working Group C ARAIM Technical Subgroup reference airborne algorithm, at the tolerance (TOL_PL) those documents themselves state. Every published figure carries its source UR
+seg-fa67f66fd5f5 = Result label (the engine's): EXTERNALLY CHECKED — the engine's ARAIM protection levels run against the published worked numerical examples of the EU-U.S. Working Group C ARAIM Technical Subgroup reference airborne algorithm, at the tolerance (TOL_PL) those documents themselves state. Every published figure carries its source…
 
 # attr:alt
 seg-693c823c85d1 = The chart the engine writes for scenarios/araim-reference-check.toml, kind araim-reference-check
@@ -41,10 +41,10 @@ seg-693c823c85d1 = The chart the engine writes for scenarios/araim-reference-che
 seg-3068552e4ab4 = VALIDATED: the <a1>verification matrix</a1> rows that name this kind.
 
 # text
-seg-c5c966ec3c6a = <b>VALIDATED</b> The multiple-hypothesis solution-separation protection-level equation itself: all-in-view and per-fault-mode weighted least squares on an East/North/Up geometry with one clock state per constellation, the sub-solution sigmas, solution-separ Tests: <a1>araim_reference_vectors.rs</a1>.
+seg-10e89e3bc279 = <b>VALIDATED</b> The multiple-hypothesis solution-separation protection-level equation itself: all-in-view and per-fault-mode weighted least squares on an East/North/Up geometry with one clock state per constellation, the sub-solution sigmas… Tests: <a1>araim_reference_vectors.rs</a1>.
 
 # text
-seg-a99b9cf4c6e8 = <b>VALIDATED</b> The multiple-hypothesis solution-separation protection-level equation itself: all-in-view and per-fault-mode weighted least squares on an East/North/Up geometry. Oracle (ExternalDataset): EU-U.S. Working Group C ARAIM Technical Subgroup, Reference Airborne Algorithm Description Document v3.1 ({ "20" } June { "2019" }), Appendix D worked numerical example — published INPUTS (10-satellite 2-constellation geometry matrix, C_int/C_acc diagonals, b_nom, P_sat, P_const, LPV-200 constants) and published OUTPUTS (VPL { "18.3" } m, HPL { "13.45" } m, EMT { "7.2998" } m, σ_v_acc { "1.3694" } m, K_fa_3 { "5.1083" }, and six constellation-fault intermedi
+seg-29c3d92fa5d1 = <b>VALIDATED</b> The multiple-hypothesis solution-separation protection-level equation itself: all-in-view and per-fault-mode weighted least squares on an East/North/Up…. Oracle (ExternalDataset): EU-U.S. Working Group C ARAIM Technical Subgroup, Reference Airborne Algorithm Description Document v3.1 ({ "20" } June { "2019" }), Appendix D worked numerical example — published INPUTS (10-satellite 2-constellation geometry matrix, C_int/C_acc diagonals, b_nom, P_sat, P_const, LPV-200 constants) and published OUTPUTS (VPL { "18.3" } m, HPL { "13.45" } m, EMT { "7.2998" } m, σ_v_acc { "1.3694" } m, K_fa_3 { "5.1083" }, and six constellation-fault…
 
 # text
 seg-f6b7ca020692 = Family page: <a1>GNSS measurements, positioning and integrity</a1>

@@ -114,7 +114,7 @@ seg-680fa4eea3f4 = Direct serial and USB input (<c1/>)
 seg-38fcf7d91b6e = Unix only. It opens the device for reading, sets the <b>local</b> line to raw mode at <c1/> (default { "4800" }, the NMEA { "0183" } rate), and reads NMEA lines like any other source. It never writes to the receiver. <c2/> is refused with an explanation: Kshana does not configure receivers; set the receiver to output NMEA with the maker's own tool, then read it. The feed is NMEA, as for every <c3/> source (UBX and SBF are read from files). A device that goes away ends the command as a fault (exit { "1" }), for a supervisor to restart; the layer does not reconnect. Tested on a pseudo-terminal loopback (<c4/>), including that the master side receives no byte from the command.
 
 # text
-seg-489b2effa559 = Readers added in { "0.42" } (I3): SBP, GREIS, Unicore, and RTCM { "3" } observations
+seg-f1bb549d0a56 = Readers added after release { $version }: SBP, GREIS, Unicore, and RTCM { "3" } observations
 
 # text
 # c1: kshana obs convert --format <f>
@@ -194,7 +194,7 @@ seg-c6eaf9c87b1d = Unicore <em>Reference Commands Manual for N4 High Precision P
 # c4: AGC
 # c5: JAMSTATUS
 # c6: FREQJAMSTATUS
-seg-38820eab8fa9 = header <c1/> ({ "24" } bytes), the 32-bit CRC NovAtel also uses; <c2/> ({ "2118" }: status { "0" } only, height = MSL + undulation, satellites used); <c3/> ({ "12" }: C/N0 × { "100" } per signal, system and signal type from the tracking status word); since E17 <c4/>, <c5/>, <c6/>, binary or ASCII (below)
+seg-676aa1b0cc9e = header <c1/> ({ "24" } bytes), the 32-bit CRC NovAtel also uses; <c2/> ({ "2118" }: status { "0" } only, height = MSL + undulation, satellites used); <c3/> ({ "12" }: C/N0 × { "100" } per signal, system and signal type from the tracking status word); also <c4/>, <c5/>, <c6/>, binary or ASCII (below)
 
 # text
 # c1: AA 44 12
@@ -213,7 +213,7 @@ seg-c94846ca7a25 = other ASCII logs, other messages; Unicore receivers that use 
 seg-fecc6692bed0 = <b>RTCM { "3" } observations and stations (library and <c1/>).</b> The <c2/> reader of { "0.38" } reads the C/N0 of MSM4 and MSM7. <c3/> decodes the rest of those messages and the station messages, and <c4/> prints them as JSON: per cell the full pseudorange and phase range (metres), the phase-range rate (MSM7, m/s), the lock-time indicator, the half-cycle flag, the CNR and the RINEX code of the signal; per MSM7 satellite the extended information (GLONASS frequency channel + { "7" }); and 1005/1006 (station id, ITRF year field, service indicators, ECEF of the antenna reference point at { "0.1" } mm, antenna height). Invalid-value markers become <c5/>. The phase is left in metres: turning it into cycles needs the carrier frequency, which is not assumed here. Field widths and tables follow the open decoders RTKLIB (<c6/>, BSD 2-Clause) and pyrtcm (BSD 3-Clause); the RTCM standard itself was not consulted, so check against RTCM { "10403.3" } before relying on this beyond monitoring. Vector: <c7/> (a { "1006" } and an MSM7 with invalid markers); round trip: <c8/> (MSM4 and MSM7 encoded and decoded within their resolutions).
 
 # text
-seg-76aaa13598b7 = Receiver formats added in E17: Unicore interference logs, RTCM { "3" } MSM1 to MSM7
+seg-4f9b4e1c33ad = Receiver formats added after release { $version }: Unicore interference logs, RTCM { "3" } MSM1 to MSM7
 
 # text
 # c1: unicore
@@ -271,7 +271,7 @@ seg-7ca32346f209 = The vector inputs are written by <c1/>.
 seg-56c87689d646 = <b>Not built, and why.</b> ComNav, Hi-Target, CHC and Allystar raw formats: no public protocol document for them could be read (ComNav's OEM board reference manual is behind a sign-in; the others publish none), and these readers are built only from public documents. A receiver of these makers that outputs NMEA or RTCM { "3" } is read with <c1/> or <c2/>. UBX-SEC-SIG (jamming and spoofing states) has been read since { "0.38" }, see the top of this page.
 
 # text
-seg-49a9145f0117 = <b>What exists from earlier releases.</b> u-blox UBX (NAV-PVT, NAV-SAT, MON-RF, NAV-TIMEGPS, NAV-STATUS, SEC-SIG), Septentrio SBF (PVTGeodetic, MeasEpoch, RFStatus), NovAtel OEM7 (BESTPOS, RANGE, RXSTATUS, ASCII and binary) and RTCM { "3" } MSM4/MSM7 C/N0 are read as before; { "0.42" } adds no second implementation of any of them.
+seg-e4f05be0cd8d = <b>What exists from earlier releases.</b> u-blox UBX (NAV-PVT, NAV-SAT, MON-RF, NAV-TIMEGPS, NAV-STATUS, SEC-SIG), Septentrio SBF (PVTGeodetic, MeasEpoch, RFStatus), NovAtel OEM7 (BESTPOS, RANGE, RXSTATUS, ASCII and binary) and RTCM { "3" } MSM4/MSM7 C/N0 are read as before; the readers above add no second implementation of any of them.
 
 # text
 seg-97e1ea47c2be = <s1>Previous</s1>Machine and sensor inputs

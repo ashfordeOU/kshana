@@ -346,7 +346,7 @@ multiplexer) and pipe or forward it. Direct serial input can come later.</p>
 <p><code>state</code> is <code>calibrating</code>, <code>nominal</code>, <code>degraded</code> or <code>untrusted</code> (the band of the score, with
 the edges in the session&#39;s <code>[score]</code> table); <code>score</code> is absent while calibrating; <code>deductions</code>
 list which checks took points off and how many, largest first.</p>
-<h3 id="json-lines-schema-version-11">JSON-lines schema (version 1.1)<a class="anchor" href="#json-lines-schema-version-11" aria-label="Link to this section">#</a></h3>
+<h3 id="json-lines-schema-version-13">JSON-lines schema (version 1.3)<a class="anchor" href="#json-lines-schema-version-13" aria-label="Link to this section">#</a></h3>
 <p>One JSON object per completed epoch, keys in this order:</p>
 <div class="tbl"><table><thead><tr>
 <th>Key</th>
@@ -529,7 +529,7 @@ carries a <code>note</code>, and is withheld; the release hold is timed on this 
 receiver&#39;s time, which is what a spoofer controls (for a replay there is only the receiver&#39;s time).</li>
 <li>It can <strong>withhold a good fix</strong> (a false alarm) as well as pass a spoofed one (a miss). The
 monitors check a fix against a ship&#39;s physics and its other sensors; a counterfeit that is
-consistent with all of them is not seen (see the limits below).</li>
+consistent with all of them is not seen (see the limits above).</li>
 <li>It expects a <strong>pure NMEA 0183 text stream</strong>. Binary frames mixed into the stream are forwarded
 unchanged, but a <code>$PKSHT</code> can then land between the bytes of a frame.</li>
 <li>It is <strong>not type-approved</strong> and nothing in it has been assessed against IEC 61108 or IEC 61162.
@@ -538,7 +538,7 @@ The operator remains responsible for the navigation of the vessel.</li>
 </div>
     <nav class="docs-pn" aria-label="Previous and next"><a class="prev" href="/docs/receiver-trust"><small>Previous</small>Receiver trust</a><a class="next" href="/docs/nmea-training"><small>Next</small>NMEA training streams</a></nav>
   </article>
-  <nav class="docs-toc" aria-label="On this page"><h2>On this page</h2><a class="l2" href="#what-it-reads">What it reads</a><a class="l2" href="#what-each-check-catches-and-what-it-cannot">What each check catches, and what it cannot</a><a class="l2" href="#trust-score">Trust score</a><a class="l2" href="#a-synthetic-demo">A synthetic demo</a><a class="l2" href="#studio-view-specification">Studio view specification</a><a class="l2" href="#from-code">From code</a><a class="l2" href="#run-it-live">Run it live</a><a class="l3" href="#json-lines-schema-version-11">JSON-lines schema (version 1.1)</a><a class="l3" href="#authentication-input">Authentication input</a><a class="l2" href="#pksht-the-proprietary-sentence">$PKSHT: the proprietary sentence</a><a class="l2" href="#gate-mode">Gate mode</a></nav>
+  <nav class="docs-toc" aria-label="On this page"><h2>On this page</h2><a class="l2" href="#what-it-reads">What it reads</a><a class="l2" href="#what-each-check-catches-and-what-it-cannot">What each check catches, and what it cannot</a><a class="l2" href="#trust-score">Trust score</a><a class="l2" href="#a-synthetic-demo">A synthetic demo</a><a class="l2" href="#studio-view-specification">Studio view specification</a><a class="l2" href="#from-code">From code</a><a class="l2" href="#run-it-live">Run it live</a><a class="l3" href="#json-lines-schema-version-13">JSON-lines schema (version 1.3)</a><a class="l3" href="#authentication-input">Authentication input</a><a class="l2" href="#pksht-the-proprietary-sentence">$PKSHT: the proprietary sentence</a><a class="l2" href="#gate-mode">Gate mode</a></nav>
 </div>
 </main>
 

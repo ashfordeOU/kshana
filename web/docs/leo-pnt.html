@@ -160,12 +160,12 @@ name it). This page gives none of its numbers.</p>
 <tr>
 <td><code>leo-navmsg</code></td>
 <td>the broadcast ephemeris and clock message: fitter, signal-in-space range error (SISRE) against fit interval and update period, mid-pass update continuity, user algorithm, binary frame with a 24-bit cyclic redundancy check (CRC-24Q), exports in the style of RINEX 4 (Receiver Independent Exchange Format) and as comma-separated values (CSV)</td>
-<td>user algorithm, weights and CRC VALIDATED, fits MODELLED</td>
+<td>user algorithm, weights, CRC, ionosphere and UTC services, and the Keplerian fits on real precise orbits VALIDATED; correction polynomials, clock fit and formats MODELLED</td>
 </tr>
 <tr>
 <td><code>leo-pvt</code></td>
 <td>Doppler positioning, joint GNSS + LEO pseudorange fixes with inter-system biases, polar and Arctic geometry, time transfer to Coordinated Universal Time (UTC), with an optional per-epoch time-error trace</td>
-<td>maximum Doppler VALIDATED, rest MODELLED</td>
+<td>maximum Doppler and polar geometry VALIDATED, rest MODELLED</td>
 </tr>
 <tr>
 <td><code>leo-ppp</code></td>
@@ -175,7 +175,7 @@ name it). This page gives none of its numbers.</p>
 <tr>
 <td><code>ntn-positioning</code></td>
 <td>5G NTN positioning accuracy from the downlink bandwidth (Cramér-Rao bound)</td>
-<td>MODELLED</td>
+<td>bounds and fix covariances VALIDATED</td>
 </tr>
 <tr>
 <td><code>leo-pnt-chain</code></td>
@@ -369,7 +369,7 @@ export is a documented Kshana extension (prior art: <a href="https://arxiv.org/a
 <tr>
 <td><code>leo-resilience-gnss-jammed-leo-carries</code></td>
 <td><code>campaign</code> chain (<code>spectrum</code>, <code>integrity</code>)</td>
-<td>GNSS jammed for 15 minutes (GPS L1 coarse/acquisition (C/A) code to about 10 dB-Hz, E5a to 17.4 dB-Hz against a 25 dB-Hz floor) while the S- and C-band LEO signals hold 49.2 and 47.4 dB-Hz; receiver autonomous integrity monitoring (RAIM) on the LEO layer alone forms a protection level at every epoch, under the 50 m vertical alert limit at 28 of 30 grid times, with the alarm raised at the other two; nominal and recovery phases 5.4 to 15.6 m</td>
+<td>GNSS jammed for 15 minutes (GPS L1 coarse/acquisition (C/A) code to about 10 dB-Hz, E5a to 17.2 dB-Hz against a 25 dB-Hz floor) while the S- and C-band LEO signals hold 49.2 and 47.4 dB-Hz; receiver autonomous integrity monitoring (RAIM) on the LEO layer alone forms a protection level at every epoch, under the 50 m vertical alert limit at 28 of 30 grid times, with the alarm raised at the other two; nominal and recovery phases 5.4 to 15.6 m</td>
 </tr>
 </tbody></table></div>
 <p>The spoofing monitors, their statistics and their limits are on
@@ -450,7 +450,7 @@ system-agnostic scenario:</p>
 <tr>
 <td>Railway and maritime</td>
 <td><code>leo-vertical-rail-maritime</code></td>
-<td>the bundled <code>maritime-strait-jamming</code> ship loses every GNSS satellite (12.1 dB-Hz) while its S- and C-band LEO pass reaches 44.2 and 38.1 dB-Hz; the bundled <code>rail-tunnel-coast</code> train reaches 2 m of inertial error 35.8 s into the tunnel; in the open its LEO pass gives 35 to 50 dB-Hz in L</td>
+<td>the bundled <code>maritime-strait-jamming</code> ship loses every GNSS satellite (mean C/N0 15.1 to 15.3 dB-Hz against the 25 dB-Hz floor) while its S- and C-band LEO pass reaches 44.2 and 38.1 dB-Hz; the bundled <code>rail-tunnel-coast</code> train reaches 2 m of inertial error 35.8 s into the tunnel; in the open its LEO pass gives 35 to 50 dB-Hz in L</td>
 </tr>
 <tr>
 <td>Critical infrastructure</td>
@@ -481,14 +481,18 @@ figure within a stated tolerance; everything else is MODELLED with its rationale
 <ul>
 <li>closed-form band-limited signal power and early-late code-tracking jitter at published operating points (Betz and Kolodziejski 2009), with the Gabor bandwidth and SSC cross-checked;</li>
 <li>the maximum Doppler of a LEO navigation satellite (Xona Pulsar X1 32–34 kHz, Iridium ±36 kHz), and the static-user Doppler envelope against arXiv 2509.19551 Table 1;</li>
+<li>satellites in view and DOP against latitude (the <code>leo-pvt</code> polar mode) against Orekit;</li>
+<li>the 5G NTN time-of-arrival and frequency Cramér-Rao bounds against published worked values, and the fix covariances against NumPy;</li>
 <li>ITU-R P.838-3 rain coefficients, P.618-14 rain attenuation and tropospheric scintillation, and P.2109-2 building entry loss against the ITU-R Study Group 3 validation data;</li>
 <li>the first-order ionospheric delay scaling and free-space loss (IS-GPS-200 group-delay ratio, the Friis form);</li>
-<li>the global-average SISRE weights (Montenbruck et al. 2018), the Galileo ICD user algorithm against RTKLIB on real broadcast ephemerides, and CRC-24Q against its catalogue check value.</li>
+<li>the global-average SISRE weights (Montenbruck et al. 2018), the Galileo ICD user algorithm against RTKLIB on real broadcast ephemerides, and CRC-24Q against its catalogue check value;</li>
+<li>the 16-parameter Keplerian fit and its orbit-only SISRE on real precise orbits, and the Liu et al. 2025 22-parameter model fit, both against the statistics Liu et al. 2025 publish, with the integrated truth orbit against Orekit;</li>
+<li>the message&#39;s Klobuchar, NeQuick-G and system-time-to-UTC services against GNSSTk and ERFA.</li>
 </ul>
 <p>MODELLED LEO-PNT rows: every signal design and band trade, the multi-band waterfall, every
-pass and link budget as a whole, the presets, low-energy fixes, the message fitter and
-formats, Doppler and joint positioning, PPP convergence, NTN positioning, time transfer,
-polar coverage, the end-to-end chain, the spoofing monitors and ionosphere sounding, and
+pass and link budget as a whole, the presets, low-energy fixes, the message&#39;s correction
+polynomials, clock fit, update-period trade and formats, Doppler and joint positioning, PPP
+convergence, time transfer, the end-to-end chain, the spoofing monitors and ionosphere sounding, and
 every campaign (a campaign composes kinds and adds no physics; its composition identities
 are tested, <a href="/docs/campaigns">CAMPAIGNS.md</a>). No LEO C/N0, ranging error or positioning figure
 is compared with a measurement of any satellite.</p>

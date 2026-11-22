@@ -41,7 +41,7 @@ seg-c95b4d285cbd = The example <c1/> sets, among others:
 
 # text
 # c1: scenarios/
-seg-3bc1761c76ab = { "3" } bundled scenarios use this kind; the others are in <a1><c1/></a1>.
+seg-7f43b9951654 = { "3" } scenario files in <a1><c1/></a1> use this kind.
 
 # text
 seg-a7d59ba6e225 = rad
@@ -53,7 +53,7 @@ seg-49baab4910f3 = ppb
 seg-37a77f49f048 = ps
 
 # text
-seg-b5c1e8681164 = Result label (the engine's): Lunar frame datum from a REAL observing campaign. The schedule, the observation count and every observation weight come from archived ILRS lunar laser ranging normal points (measured); the station coordinates come from IERS ITRF2020 and the retroreflector coordinates from JPL DE430 Table { "7" } (publishe
+seg-7eb7f584b5ec = Result label (the engine's): Lunar frame datum from a REAL observing campaign. The schedule, the observation count and every observation weight come from archived ILRS lunar laser ranging normal points (measured); the station coordinates come from IERS ITRF2020 and the retroreflector coordinates from JPL DE430 Table { "7" }…
 
 # attr:alt
 seg-e4da113cbe18 = The chart the engine writes for scenarios/lunar-llr-datum.toml, kind lunar-llr-datum
@@ -62,17 +62,17 @@ seg-e4da113cbe18 = The chart the engine writes for scenarios/lunar-llr-datum.tom
 seg-3068552e4ab4 = VALIDATED: the <a1>verification matrix</a1> rows that name this kind.
 
 # text
-seg-fd34d760edb1 = <b>VALIDATED</b> The seven-parameter Helmert datum covariance, with its two simulated inputs replaced by measured ones: the schedule is the ground-transmit epochs of { "337" } archived ILRS lunar laser-ranging normal points (2015-04-08 to 2015-06-27, Grasse MeO { "7" } Tests: <a1>lunar_llr_real_data.rs</a1>.
+seg-8dd6ff8c24ff = <b>VALIDATED</b> The seven-parameter Helmert datum covariance, with its two simulated inputs replaced by measured ones: the schedule is the ground-transmit epochs of { "337" } archived ILRS lunar laser-ranging normal points (2015-04-08 to 2015-06-27, Grasse MeO… Tests: <a1>lunar_llr_real_data.rs</a1>.
 
 # text
-seg-764e54be97a0 = <b>VALIDATED</b> The lunar-llr-datum seven-parameter Helmert datum covariance from archived ILRS normal points and their measured weights, on the kernel path: the geocentric Moon centre is read from JPL DE440 by the engine's own kernel reader (planetary_ker Tests: <a1>validate_llr_datum_kernel_moon.rs</a1>.
+seg-892ab50c0e75 = <b>VALIDATED</b> The lunar-llr-datum seven-parameter Helmert datum covariance from archived ILRS normal points and their measured weights, on the kernel path: the geocentric Moon centre is read from JPL DE440 by the engine's own kernel reader… Tests: <a1>validate_llr_datum_kernel_moon.rs</a1>.
 
 # text
-seg-cae262db0e46 = <b>VALIDATED</b> The seven-parameter Helmert datum covariance, with its two simulated inputs replaced by measured ones: the schedule is the ground-transmit epochs of { "337" } archive. Oracle (ExternalDataset): Closed-form identities, an independent in-repo route and, since { "0.36" }, an independent SPICE and NumPy library oracle on fresh measured data (below); no published lunar-LLR datum-covariance pair exists to check against, so no accuracy is claimed. The only new derivative — the range partial with respect to the reflector's body-fixed position — is re-derived by central finite difference of the two-way light time it diffe
+seg-6942fd9c7112 = <b>VALIDATED</b> The seven-parameter Helmert datum covariance, with its two simulated inputs replaced by measured ones: the schedule is the ground-transmit epochs of { "337" }…. Oracle (ExternalDataset): Closed-form identities, an independent in-repo route and, since { "0.36" }, an independent SPICE and NumPy library oracle on fresh measured data (below); no published lunar-LLR datum-covariance pair exists to check against, so no accuracy is claimed. The only new derivative — the range partial with respect to the reflector's body-fixed position — is re-derived by central finite difference of the two-way light time it…
 
 # text
 # c1: label
-seg-61ac3609406a = Lunar frame datum from a REAL observing campaign. The schedule, the observation count and every observation weight come from archived ILRS lunar laser ranging normal points (measured); the station coordinates come from IERS ITRF2020 and the retroreflector coordinates from JPL DE430 Table { "7" } (published). The Moon-centre ephemeris, the IAU { "2015" } WGCCRE body orientation, and the absence of troposphere, tides, station ecce (result <c1/>)
+seg-fbd758cbeaa1 = Lunar frame datum from a REAL observing campaign. The schedule, the observation count and every observation weight come from archived ILRS lunar laser ranging normal points (measured); the station coordinates come from IERS ITRF2020 and the retroreflector coordinates from JPL DE430 Table { "7" } (published). The Moon-centre ephemeris, the IAU { "2015" } WGCCRE body orientation, and the absence of troposphere, tides, station… (result <c1/>)
 
 # text
 # c1: kshana kinds --json
@@ -90,7 +90,7 @@ seg-d38710f3ce4a = MODELLED: the seven-parameter figures are a Cramer-Rao bound 
 seg-a19e2b1fcaf1 = the epochs are the ground-transmit times of archived ILRS Consolidated Laser Ranging Data normal points; * the observations are the laser ranges really fired at the five retroreflector arrays on the Moon; * every observation weight is that normal point's OWN archived precision, bin_rms/sqrt(n_raw), read out of the file rather than assumed. (scenario file comment, lines { "7" } to { "12" })
 
 # text
-seg-5ed6b83c01da = WHICH LINKS ARE MEASURED AND WHICH ARE MODELLED IS THE REPORT, NOT A FOOTNOTE. The Moon-centre ephemeris and the IAU body orientation stay modelled, and their combined size is emitted as the observed-minus-computed one-way range residual over every point used; troposphere, solid-body tides, station eccentricity, polar motion, UT1-UTC, relativistic delay and station clocks are absent and sit inside that residual. Beca (scenario file comment, lines { "18" } to { "26" })
+seg-c5a132b267d1 = WHICH LINKS ARE MEASURED AND WHICH ARE MODELLED IS THE REPORT, NOT A FOOTNOTE. The Moon-centre ephemeris and the IAU body orientation stay modelled, and their combined size is emitted as the observed-minus-computed one-way range residual over every point used; troposphere, solid-body tides, station eccentricity, polar motion, UT1-UTC, relativistic delay and station clocks are absent and sit inside that residual.… (scenario file comment, lines { "18" } to { "26" })
 
 # text
 seg-7e7ff3ce4971 = Inter-array correlation is MEASURED at exactly zero rather than assumed, because a laser range touches one array. A record the catalogues cannot place — a station with no published ITRF position — is SKIPPED AND COUNTED, never given a substituted coordinate. The simulated campaign's own figures are RUN and printed beside the measured ones. (scenario file comment, lines { "28" } to { "31" })

@@ -56,7 +56,7 @@ seg-8784979d6569 = dBW
 
 # text
 # c1: scenarios/
-seg-3bc1761c76ab = { "3" } bundled scenarios use this kind; the others are in <a1><c1/></a1>.
+seg-7f43b9951654 = { "3" } scenario files in <a1><c1/></a1> use this kind.
 
 # text
 seg-a349aa76b0ed = PARTNER
@@ -74,20 +74,19 @@ seg-42d46b928d09 = The chart the engine writes for scenarios/jamming-demo.toml, 
 seg-4d946761b93f = <b>MODELLED</b> Geometry J/S link budget, anti-jam C/N₀, per-satellite loss-of-lock Tests: <a1>gnss_denied_jamming_resilience_reference.rs</a1>.
 
 # text
-seg-4f5e697dfaeb = <b>MODELLED</b> The hybrid-optical-rf report states an RF link availability, composed from quantities the engine already computes rather than from an imported climatology, and states the composition as a named rule: A_rf = I_closure * I_track, where I_clos
+seg-3e01fa57c2b1 = <b>MODELLED</b> The hybrid-optical-rf report states an RF link availability, composed from quantities the engine already computes rather than from an imported climatology, and states the composition as a named rule: A_rf = I_closure * I_track, where…
 
 # text
 seg-cec5c06d38af = <b>MODELLED</b> Lunar-native jammer-to-signal ratio, effective C/N₀ and loss of lock for a selenographic surface user under a lunar surface (or raised) jammer, over the illustrative public-source Moonlight/LCNS-class constellation.
 
 # text
-# c1: lunar-jamming
-seg-edcd55ccc993 = <b>MODELLED</b> The <c1/> report no longer rests its denial contour on one scalar.
+seg-51bc165bc72c = <b>MODELLED</b> Loss of lock computed from loop dynamics instead of a power ratio: carrier (Costas) and code (non-coherent early/late) 1σ thermal jitter against C/N₀ with the squaring loss, against the stated rules 3σ_PLL + θ_e ≤ { "45" }° and 3σ_DLL + ramp…
 
 # text
-seg-e34f60d56cf7 = and { "5" } more in the matrix.
+seg-be831b52a339 = and { "4" } more in the matrix.
 
 # text
-seg-41199b108c60 = <b>MODELLED</b> Geometry J/S link budget, anti-jam C/N₀, per-satellite loss-of-lock. Oracle (InternalConsistency): Anti-jam C/N₀ link-budget equation cross-checked against an independent numpy re-derivation (shares the same closed form → InternalConsistency) plus a real-JammerTest-2024 C/N₀ degradation characterisation. { "0.30" } round { "2" }, blocked (stays MODELLED): the measured JammerTest { "2024" } C/N0 drop against a link-budget prediction (pre-registered 6b2f6240, within { "3" } dB) was not run because the F8.1 antenna position and pointing at
+seg-11b6feb393e9 = <b>MODELLED</b> Geometry J/S link budget, anti-jam C/N₀, per-satellite loss-of-lock. Oracle (InternalConsistency): Anti-jam C/N₀ link-budget equation cross-checked against an independent numpy re-derivation (shares the same closed form → InternalConsistency) plus a real-JammerTest-2024 C/N₀ degradation characterisation. { "0.30" } round { "2" }, blocked (stays MODELLED): the measured JammerTest { "2024" } C/N0 drop against a link-budget prediction (pre-registered 6b2f6240, within { "3" } dB) was not run because the F8.1 antenna position and pointing…
 
 # text
 seg-59afd80736c5 = <b>PARTNER</b> Not provided — Kshana models signal performance, not payload/antenna hardware. Oracle (NoneKind): none: a partner-owned discipline, with no module and no test by design

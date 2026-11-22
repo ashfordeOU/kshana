@@ -56,7 +56,7 @@ seg-195347c63a8a = m/s^{ "2" }
 
 # text
 # c1: scenarios/
-seg-3bc1761c76ab = { "3" } bundled scenarios use this kind; the others are in <a1><c1/></a1>.
+seg-7f43b9951654 = { "3" } scenario files in <a1><c1/></a1> use this kind.
 
 # text
 seg-5868f641c089 = ug
@@ -65,7 +65,7 @@ seg-5868f641c089 = ug
 seg-1918189ac2bf = ppm
 
 # text
-seg-7eba4c5ee1e4 = Result label (the engine's): MODELLED INS/TRN coasting error budget. Each contribution is propagated through a nine-state local-level inertial error model with Schuler feedback (level platform heading north at a stated site, free-inertial including the unstable vertical channel); its short-coast leading-order laws (bias t^{ "2" }, gy
+seg-99f2e1d23a91 = Result label (the engine's): MODELLED INS/TRN coasting error budget. Each contribution is propagated through a nine-state local-level inertial error model with Schuler feedback (level platform heading north at a stated site, free-inertial including the unstable vertical channel); its short-coast leading-order laws (bias t^{ "2" }…
 
 # attr:alt
 seg-134a4c91da3a = The chart the engine writes for scenarios/ins-trn-coast.toml, kind ins-trn-coast
@@ -74,14 +74,14 @@ seg-134a4c91da3a = The chart the engine writes for scenarios/ins-trn-coast.toml,
 seg-3068552e4ab4 = VALIDATED: the <a1>verification matrix</a1> rows that name this kind.
 
 # text
-seg-7bb77ec86a0a = <b>VALIDATED</b> Position-error-vs-coast-duration budget built from IMU coefficients, each error source (accelerometer bias, gyro bias, velocity random walk, angle random walk, scale factor cruising and under sustained specific force) propagated through a n
+seg-024315ad32ca = <b>VALIDATED</b> Position-error-vs-coast-duration budget built from IMU coefficients, each error source (accelerometer bias, gyro bias, velocity random walk, angle random walk, scale factor cruising and under sustained specific force) propagated through a…
 
 # text
-seg-d69247df315f = <b>VALIDATED</b> Position-error-vs-coast-duration budget built from IMU coefficients, each error source (accelerometer bias, gyro bias, velocity random walk, angle random walk, . Oracle (ExternalDataset): NaveGo v1.4 (commit 24d9488, LGPL-3.0), run as a separate program under GNU Octave { "8.4.0" }: free-inertial coast runs with the same IMU error profile, with one corrected numerical dead band in its quaternion update (qua_update.m: the guard on a rate below { "1e-8" } rad/s replaced by wnorm == { "0" }, applied to a run-time copy and asserted to match once; with the guard in place a slowly drifting platform attitude froze and cut the
+seg-78169d8134bf = <b>VALIDATED</b> Position-error-vs-coast-duration budget built from IMU coefficients, each error source (accelerometer bias, gyro bias, velocity random walk, angle random…. Oracle (ExternalDataset): NaveGo v1.4 (commit 24d9488, LGPL-3.0), run as a separate program under GNU Octave { "8.4.0" }: free-inertial coast runs with the same IMU error profile, with one corrected numerical dead band in its quaternion update (qua_update.m: the guard on a rate below { "1e-8" } rad/s replaced by wnorm == { "0" }, applied to a run-time copy and asserted to match once; with the guard in place a slowly drifting platform attitude froze and cut…
 
 # text
 # c1: label
-seg-498cb2f96fa7 = MODELLED INS/TRN coasting error budget. Each contribution is propagated through a nine-state local-level inertial error model with Schuler feedback (level platform heading north at a stated site, free-inertial including the unstable vertical channel); its short-coast leading-order laws (bias t^{ "2" }, gyro-bias tilt t^{ "3" }, velocity random walk t^{ "1.5" }, angle random walk t^{ "2.5" }, scale factor x travelled distance) are cross-chec (result <c1/>)
+seg-f6b15ccf42d0 = MODELLED INS/TRN coasting error budget. Each contribution is propagated through a nine-state local-level inertial error model with Schuler feedback (level platform heading north at a stated site, free-inertial including the unstable vertical channel); its short-coast leading-order laws (bias t^{ "2" }, gyro-bias tilt t^{ "3" }, velocity random walk t^{ "1.5" }, angle random walk t^{ "2.5" }, scale factor x travelled distance) are… (result <c1/>)
 
 # text
 # c1: kshana kinds --json
@@ -92,7 +92,7 @@ seg-63c221a546f7 = INS/TRN coasting error model: position error against coast du
 seg-164504645f4a = MODELLED: the IMU class coefficients are representative band figures, not a datasheet, and the terrain-fix residual is an input. (kind catalogue (<c1/>))
 
 # text
-seg-ee0281a1f401 = The question this answers: when a GNSS (or aperture-duty-cycled) study says "assume a dead-reckoning drift of { "0.001" }–{ "0.050" } m/s", where does that number come from? It comes from the IMU, and this scenario computes it instead of sweeping it. Five growth terms — accelerometer bias (t^{ "2" }), gyro-bias tilt through gravity (t^{ "3" }), velocity random walk (t^{ "1.5" }), angle random walk (t^{ "2.5" }) and scale factor times the travelled dist (scenario file comment, lines { "4" } to { "11" })
+seg-b91a31f6e331 = The question this answers: when a GNSS (or aperture-duty-cycled) study says "assume a dead-reckoning drift of { "0.001" }–{ "0.050" } m/s", where does that number come from? It comes from the IMU, and this scenario computes it instead of sweeping it. Five growth terms — accelerometer bias (t^{ "2" }), gyro-bias tilt through gravity (t^{ "3" }), velocity random walk (t^{ "1.5" }), angle random walk (t^{ "2.5" }) and scale factor times the travelled… (scenario file comment, lines { "4" } to { "11" })
 
 # text
 seg-f7f12029e0ec = Family page: <a1>Inertial, fusion and quantum sensors</a1>

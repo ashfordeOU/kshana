@@ -259,7 +259,7 @@ seg-ff443e9cbd20 = The format is settled as <c1/>, <c2/>. A change that removes 
 # c4: data_window
 # c5: first_report_utc
 # c6: last_report_utc
-seg-5fd4f7af61c1 = <b>Confidence and data window ({ "0.42" }, additive).</b> Every published cell carries a <c1/> object (<c2/>), and every file's <c3/> block a <c4/> (<c5/>, <c6/>, truncated to the minute). The confidence statement describes how much a call rests on; it changes nothing about the call.
+seg-09e6df18fe31 = <b>Confidence and data window (added after { $version }, additive).</b> Every published cell carries a <c1/> object (<c2/>), and every file's <c3/> block a <c4/> (<c5/>, <c6/>, truncated to the minute). The confidence statement describes how much a call rests on; it changes nothing about the call.
 
 # text
 # c1: high
@@ -326,7 +326,8 @@ seg-e33f63fe5c0a = <c1/> turns one UTC day of ADS-B reports into the observatory
 seg-31ce42fc05dc = Studio map page specification
 
 # text
-seg-a9aca2e2d390 = For the Studio's map page, which loads a GeoJSON file the user provides (the page is built in the Studio source, not in this repository). Nothing is uploaded: the file is read in the browser, and the page makes no request to any data source.
+# c1: web/studio/interference/
+seg-7ea6bfdc2edb = For the Studio's map page, which loads a GeoJSON file the user provides (the page is <c1/> in this repository). Nothing is uploaded: the file is read in the browser, and the page makes no request to any data source.
 
 # text
 # c1: kshana_interference_map.schema
@@ -484,7 +485,7 @@ seg-e3949a1e6082 = Emitter region (<c1/>)
 # c1: kshana interference-map locate
 # c2: VM-bc70cb57
 # c3: emitter-region/PREREGISTRATION.md
-seg-78f09b1a960d = <c1/> estimates <b>where an interference source can be</b> from the same open ADS-B or AIS reports: a region at stated confidence levels, a centroid with an uncertainty ellipse, and the sessions in time. It never returns a bare point. <b>MODELLED</b> (ledger row <c2/>): the physics is textbook radio line of sight, the credibility of the regions is conditional on the model, and the only external check is the Jammertest comparison pre-registered in <a1><c3/></a1>. Publishing emitter regions in the public observatory is a separate owner decision and is <b>off</b>: the observatory does not read this module, and a test pins that.
+seg-7f71ede885e9 = <c1/> estimates <b>where an interference source can be</b> from the same open ADS-B or AIS reports: a region at stated confidence levels, a centroid with an uncertainty ellipse, and the sessions in time. It never returns a bare point. <b>MODELLED</b> (ledger row <c2/>): the physics is textbook radio line of sight, the credibility of the regions is conditional on the model, and the only external check is the Jammertest comparison pre-registered in <a1><c3/></a1>. Publishing emitter regions in the public observatory is <b>off</b>: the observatory does not read this module, and a test pins that.
 
 # text
 # c1: --levels 0.5,0.9,0.95

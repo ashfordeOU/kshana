@@ -52,7 +52,7 @@ seg-f4d857403ae0 = descending
 
 # text
 # c1: scenarios/
-seg-08bc462d676c = { "8" } bundled scenarios use this kind; the others are in <a1><c1/></a1>.
+seg-f2aebedba642 = { "8" } scenario files in <a1><c1/></a1> use this kind.
 
 # text
 seg-ad20a7bebf23 = STL
@@ -70,32 +70,32 @@ seg-02ae51cfada6 = The chart the engine writes for scenarios/leo-pass-iridium.to
 seg-65c8e3e5b1bc = MODELLED { "7" } · VALIDATED { "5" }: the <a1>verification matrix</a1> rows that name this kind.
 
 # text
-seg-69ed19957592 = <b>VALIDATED</b> ITU-R (International Telecommunication Union, Radiocommunication Sector) P.838-3 equations ({ "1" }) to ({ "5" }): k_H, alpha_H, k_V, alpha_V from the Tables { "1" } to { "4" } curve fits, the path- and polarisation-dependent (k, alpha) and the specific attenuatio Tests: <a1>leo_link_reference.rs</a1>.
+seg-925947cc3ecf = <b>VALIDATED</b> ITU-R (International Telecommunication Union, Radiocommunication Sector) P.838-3 equations ({ "1" }) to ({ "5" }): k_H, alpha_H, k_V, alpha_V from the Tables { "1" } to { "4" } curve fits, the path- and polarisation-dependent (k, alpha) and the specific… Tests: <a1>leo_link_reference.rs</a1>.
 
 # text
-seg-56948e163406 = <b>VALIDATED</b> ITU-R P.618-14 section { "2.2.1.1" } steps { "2" } to { "10" } (slant and horizontal path below the rain height, horizontal reduction and vertical adjustment factors, A0.01 and its scaling to { "0.001" } % to { "5" } % of an average year), with the rain height (P.839) a Tests: <a1>leo_link_reference.rs</a1>.
+seg-0800b5c1690d = <b>VALIDATED</b> ITU-R P.618-14 section { "2.2.1.1" } steps { "2" } to { "10" } (slant and horizontal path below the rain height, horizontal reduction and vertical adjustment factors, A0.01 and its scaling to { "0.001" } % to { "5" } % of an average year), with the rain height (P.839)… Tests: <a1>leo_link_reference.rs</a1>.
 
 # text
-seg-c4720302b980 = <b>VALIDATED</b> ITU-R P.618-14 section { "2.4.1" } steps { "3" } to { "9" } (reference sigma from N_wet, effective path length, antenna averaging factor, fade depth for { "0.01" } % to { "50" } % of the time), with N_wet an input or computed from temperature, humidity and pressure by t Tests: <a1>leo_link_reference.rs</a1>.
+seg-db31d8588406 = <b>VALIDATED</b> ITU-R P.618-14 section { "2.4.1" } steps { "3" } to { "9" } (reference sigma from N_wet, effective path length, antenna averaging factor, fade depth for { "0.01" } % to { "50" } % of the time), with N_wet an input or computed from temperature, humidity and pressure by… Tests: <a1>leo_link_reference.rs</a1>.
 
 # text
-seg-7e52290d354c = <b>VALIDATED</b> ITU-R P.2109-2 Annex { "1" } equations ({ "1" }) to ({ "10" }) with Table { "1" }: the loss not exceeded with probability P for traditional and thermally-efficient buildings at the elevation of the path at the facade, { "80" } MHz to { "100" } GHz; applied per band and epoch Tests: <a1>leo_link_reference.rs</a1>.
+seg-f2bdfa291ee6 = <b>VALIDATED</b> ITU-R P.2109-2 Annex { "1" } equations ({ "1" }) to ({ "10" }) with Table { "1" }: the loss not exceeded with probability P for traditional and thermally-efficient buildings at the elevation of the path at the facade, { "80" } MHz to { "100" } GHz; applied per band and… Tests: <a1>leo_link_reference.rs</a1>.
 
 # text
 seg-ac1927b760d5 = and { "8" } more in the matrix.
 
 # text
-seg-771484572fa7 = <b>VALIDATED</b> ITU-R P.618-14 section { "2.4.1" } steps { "3" } to { "9" } (reference sigma from N_wet, effective path length, antenna averaging factor, fade depth for { "0.01" } % to { "50" } % of the tim. Oracle (ExternalDataset): ITU-R Study Group { "3" } validation examples (CG-3M3J-13-ValEx-Rev8.3.0) for P.618-14 scintillation, with each site's P.453-14 N_wet from the same examples; committed in tests/fixtures/leo_link/p618_14_scintillation.csv with the URLs and retrieval date. The wet-refractivity expression from temperature and humidity is not covered by this row
+seg-3a340f51ed51 = <b>VALIDATED</b> ITU-R P.618-14 section { "2.4.1" } steps { "3" } to { "9" } (reference sigma from N_wet, effective path length, antenna averaging factor, fade depth for { "0.01" } % to { "50" } % of the…. Oracle (ExternalDataset): ITU-R Study Group { "3" } validation examples (CG-3M3J-13-ValEx-Rev8.3.0) for P.618-14 scintillation, with each site's P.453-14 N_wet from the same examples; committed in tests/fixtures/leo_link/p618_14_scintillation.csv with the URLs and retrieval date. The wet-refractivity expression from temperature and humidity is not covered by this row
 
 # text
-seg-ab58ab4e7dc6 = <b>VALIDATED</b> Group delay { "40.3" } STEC/f^{ "2" } per band; the ionosphere-free coefficients f1^2/(f1^{ "2" } - f2^{ "2" }) and -f2^2/(f1^{ "2" } - f2^{ "2" }) and the noise amplification sqrt(a1^{ "2" } s1^{ "2" } + a2^. Oracle (ExternalDataset): IS-GPS-200 section { "20.3.3.3.3.2" }, which states the L1/L2 group-delay ratio gamma = (77/60)^{ "2" } that follows from first-order 1/f^{ "2" } scaling, and the Friis transmission formula (Proc. IRE, { "1946" }). Validates the scaling laws, not a slant TEC
+seg-05c64cc47ccf = <b>VALIDATED</b> Group delay { "40.3" } STEC/f^{ "2" } per band; the ionosphere-free coefficients f1^2/(f1^{ "2" } - f2^{ "2" }) and -f2^2/(f1^{ "2" } - f2^{ "2" }) and the noise amplification sqrt(a1^{ "2" } s1^{ "2" } +…. Oracle (ExternalDataset): IS-GPS-200 section { "20.3.3.3.3.2" }, which states the L1/L2 group-delay ratio gamma = (77/60)^{ "2" } that follows from first-order 1/f^{ "2" } scaling, and the Friis transmission formula (Proc. IRE, { "1946" }). Validates the scaling laws, not a slant TEC
 
 # text
-seg-67fdbce3503c = <b>VALIDATED</b> leo_link::geometry::max_static_user_range_rate: a search over every orbit position and every user on the satellite's horizon of a circular orbit, with the Earth. Oracle (ExternalDataset): Leclere, Marathe and Reid, Insights into Xona Pulsar LEO PNT: Constellation, Signals, and Receiver Design, ION GNSS+ { "2025" }, arXiv { "2509.19551" }, Table { "1" } (static receiver on a { "6371" } km sphere, Earth rotation the only other effect): { "37751.7" } / { "33628.5" } / { "31813.4" } / { "4018.4" } Hz on L1. Covers circular two-body orbits
+seg-41341d35fe36 = <b>VALIDATED</b> leo_link::geometry::max_static_user_range_rate: a search over every orbit position and every user on the satellite's horizon of a circular orbit, with the…. Oracle (ExternalDataset): Leclere, Marathe and Reid, Insights into Xona Pulsar LEO PNT: Constellation, Signals, and Receiver Design, ION GNSS+ { "2025" }, arXiv { "2509.19551" }, Table { "1" } (static receiver on a { "6371" } km sphere, Earth rotation the only other effect): { "37751.7" } / { "33628.5" } / { "31813.4" } / { "4018.4" } Hz on L1. Covers circular two-body orbits
 
 # text
 # c1: leo-pass
-seg-b952b2928bbe = <b>MODELLED</b> The <c1/> kind: satellites from a designed pass, elements, a TLE through SGP4 or a Walker constellation from constellation-design; per band and epoch the l. Oracle (InternalConsistency): Closed forms and self-consistency: the range-rate and range-acceleration identities against numerical derivatives, the isoflux gain cancelling the range growth, the textbook polarisation-loss limits, the qualitative LEO-versus-GNSS observation (a bell-shaped pass of minutes peaking several dB above flat 44-51 dB-Hz GNSS carriers). The EIRPs and patterns are published received powers turned into an EIRP or representat
+seg-bbcdc08fd0b5 = <b>MODELLED</b> The <c1/> kind: satellites from a designed pass, elements, a TLE through SGP4 or a Walker constellation from constellation-design; per band and epoch the…. Oracle (InternalConsistency): Closed forms and self-consistency: the range-rate and range-acceleration identities against numerical derivatives, the isoflux gain cancelling the range growth, the textbook polarisation-loss limits, the qualitative LEO-versus-GNSS observation (a bell-shaped pass of minutes peaking several dB above flat 44-51 dB-Hz GNSS carriers). The EIRPs and patterns are published received powers turned into an EIRP or…
 
 # text
 # c1: label
@@ -107,7 +107,7 @@ seg-8b3ffb30c23c = An optional [iot] section gives time to first fix, energy per
 
 # text
 # c1: kshana kinds --json
-seg-597be3a6eb96 = An optional [spoofer] section counterfeits the signals of a claimed position that jumps or is pushed from the true one after an onset and runs two monitors with stated false-alarm and missed-detection probabilities: Doppler and pass-geometry consistency (measured range rates against those predicted from the orbits and an independent prior position and velocity, a generalised least-squares chi-square test over a windo (kind catalogue (<c1/>))
+seg-7de14dd909b9 = An optional [spoofer] section counterfeits the signals of a claimed position that jumps or is pushed from the true one after an onset and runs two monitors with stated false-alarm and missed-detection probabilities: Doppler and pass-geometry consistency (measured range rates against those predicted from the orbits and an independent prior position and velocity, a generalised least-squares chi-square test over a… (kind catalogue (<c1/>))
 
 # text
 # c1: kshana kinds --json

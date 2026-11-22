@@ -96,9 +96,9 @@ capability change). &quot;Zero code = zero claim.&quot;</li>
 <li><strong>Superseded</strong> — the real capability was subsequently built and tested, so the strong
 claim became <em>accurate</em>.</li>
 </ul>
-<p>A regression guard (<code>tests/no_overclaims.rs</code>) scans the live public surfaces (<code>README.md</code>,
-<code>docs/CAPABILITY.md</code>, <code>docs/GLOSSARY.md</code>, <code>web/capabilities.json</code>, <code>web/index.html</code>,
-<code>web/README.md</code>, and the crates.io, PyPI (Python Package Index) and npm front pages
+<p>A regression guard (<code>tests/no_overclaims.rs</code>) scans the live public surfaces listed in the test (among them <code>README.md</code>,
+<code>docs/CAPABILITY.md</code>, <code>docs/GLOSSARY.md</code>, the <code>docs/compliance/</code> pages, <code>web/capabilities.json</code>,
+<code>web/index.html</code>, <code>web/README.md</code>, and the crates.io, PyPI (Python Package Index) and npm front pages
 <code>README.crates.md</code>, <code>README.pypi.md</code>, <code>README.npm.md</code>) on every CI (continuous integration) run and fails if any of the retired bare overclaim phrases reappears uncaveated —
 so a row cannot silently regress from GREEN.</p>
 <p>All fourteen rows are <strong>GREEN</strong>.</p>
@@ -128,7 +128,7 @@ so a row cannot silently regress from GREEN.</p>
 <td>&quot;jamming demonstrator&quot; with no jamming code behind it</td>
 <td><strong>Superseded</strong> — a link-budget jamming model J/S → effective C/N₀ → loss-of-lock was built</td>
 <td align="center">🟢</td>
-<td><code>src/jamming.rs</code> (10 tests); README &quot;Resilience&quot; row</td>
+<td><code>src/jamming.rs</code> (12 tests); README &quot;Resilience&quot; row</td>
 </tr>
 <tr>
 <td>OC-3</td>
@@ -163,14 +163,14 @@ so a row cannot silently regress from GREEN.</p>
 <td>&quot;hybrid quantum-classical PNT simulator&quot; implied first-principles quantum physics</td>
 <td><strong>De-claimed → Superseded</strong> — re-framed as a PNT-resilience simulator using quantum-sensor performance models; first-principles Mach–Zehnder CAI physics then landed</td>
 <td align="center">🟢</td>
-<td><code>src/inertial/quantum_imu.rs</code> (26 tests — Mach–Zehnder phase, projection noise <code>1/√(N·C²·T²)</code>, vibration transfer function, Coriolis + AC-Stark (AC: alternating-current) systematics); <code>docs/QUANTUM.md</code></td>
+<td><code>src/inertial/quantum_imu.rs</code> (27 tests — Mach–Zehnder phase, projection noise <code>1/√(N·C²·T²)</code>, vibration transfer function, Coriolis + AC-Stark (AC: alternating-current) systematics); <code>docs/QUANTUM.md</code></td>
 </tr>
 <tr>
 <td>OC-8</td>
 <td>&quot;Integrity Performance&quot; FoM implied aviation HPL/VPL/RAIM integrity</td>
 <td><strong>De-claimed + Superseded (layered)</strong> — the per-run scenario FoM is honestly labelled <em>filter self-consistency</em> (<strong>not</strong> aviation integrity); the real ARAIM HPL/VPL is surfaced <em>separately</em> so the two are never conflated</td>
 <td align="center">🟢</td>
-<td><code>src/fom.rs:80</code> (<code>integrity</code>: self-consistency, caveated); <code>src/raim.rs</code> + <code>docs/INTEGRITY.md</code> (real ARAIM)</td>
+<td><code>src/fom.rs:81</code> (<code>integrity</code>: self-consistency, caveated); <code>src/raim.rs</code> + <code>docs/INTEGRITY.md</code> (real ARAIM)</td>
 </tr>
 <tr>
 <td>OC-9</td>

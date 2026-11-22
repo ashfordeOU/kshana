@@ -52,14 +52,14 @@ seg-af9aaf95d4f8 = <b>VALIDATED</b> Analytic binormal ROC AUC = Φ(μ/(σ√{ "2
 seg-bb07c8ee153f = <b>PARTNER</b> Not provided — performance models only; cold-atom/clock hardware is a partner's. Oracle (NoneKind): none: a partner-owned discipline, with no module and no test by design
 
 # text
-seg-c37642bb24fe = <b>MODELLED</b> One reproducible TradeEvidence object (fixed frame: scenario+seed+engine; common per-FoM quantum-vs-classical values with polarity-correct benefit, optional { "95" }%. Oracle (InternalConsistency): Closed-form benefit/winner identities + faithful wrap of the existing quantum_trade::TradeResult; honesty tied to the representativeness ledger and verification labels
+seg-cd5ceb1db049 = <b>MODELLED</b> One reproducible TradeEvidence object (fixed frame: scenario+seed+engine; common per-FoM quantum-vs-classical values with polarity-correct benefit, optional…. Oracle (InternalConsistency): Closed-form benefit/winner identities + faithful wrap of the existing quantum_trade::TradeResult; honesty tied to the representativeness ledger and verification labels
 
 # text
-seg-b854cedc8a51 = <b>MODELLED</b> Labelled quantum-fault catalog (clock frequency-jump/drift/lock-loss; sensor bias-step/dropout), a detection-statistic ROC AUC with a bootstrap CI, and a minimu. Oracle (InternalConsistency): Closed-form Gaussian AUC = Phi(mu/(sigma*sqrt2)) cross-checked against the externally-validated eval_stats::bootstrap_auc_ci (vs scikit-learn) + detection analytic thresholds
+seg-84b3b0de5c47 = <b>MODELLED</b> Labelled quantum-fault catalog (clock frequency-jump/drift/lock-loss; sensor bias-step/dropout), a detection-statistic ROC AUC with a bootstrap CI, and a…. Oracle (InternalConsistency): Closed-form Gaussian AUC = Phi(mu/(sigma*sqrt2)) cross-checked against the externally-validated eval_stats::bootstrap_auc_ci (vs scikit-learn) + detection analytic thresholds
 
 # text
 # c1: kshana kinds --json
-seg-7b465c2bb7cf = MODELLED fault/anomaly detection for quantum PNT systems: a labelled fault catalog (clock frequency-jump/drift/lock-loss; sensor bias-step/dropout), a detection-statistic ROC AUC (with a bootstrap CI from the externally-validated eval_stats) and a minimum-detectable-fault at a fixed false-alarm rate, with the quantum-clock-aided monitor (lower noise) detecting smaller faults — as honest TradeEvidence + representative (kind catalogue (<c1/>))
+seg-01216afa9d5d = MODELLED fault/anomaly detection for quantum PNT systems: a labelled fault catalog (clock frequency-jump/drift/lock-loss; sensor bias-step/dropout), a detection-statistic ROC AUC (with a bootstrap CI from the externally-validated eval_stats) and a minimum-detectable-fault at a fixed false-alarm rate, with the quantum-clock-aided monitor (lower noise) detecting smaller faults — as honest TradeEvidence +… (kind catalogue (<c1/>))
 
 # text
 seg-7f43972b246d = Fault/anomaly detection for quantum PNT systems — labelled fault catalog + ROC AUC + minimum-detectable fault, quantum-clock-aided vs classical monitor. MODELLED; illustrative public-source params; models the class, no TRL/flight claim. (scenario file comment, lines { "1" } to { "3" })

@@ -71,27 +71,23 @@ seg-b054c73f22e5 = no value
 seg-773fff0feaf7 = bracketed
 
 # text
-seg-23f3aa5c2064 = Result label (the engine's): MIXED — VALIDATED loop closed forms, MODELLED loop configuration. The carrier and code thermal-jitter expressions, the loop-filter reduction sqrt({ "2" }<em>B_n</em>T) and the first-order ramp lag are cross-checked against the engine's own sdr correlator stepped forward on seeded synthetic IF (a different route
+seg-a22504ca1a91 = Result label (the engine's): MIXED — VALIDATED loop closed forms, MODELLED loop configuration. The carrier and code thermal-jitter expressions, the loop-filter reduction sqrt({ "2" }<em>B_n</em>T) and the first-order ramp lag are cross-checked against the engine's own sdr correlator stepped forward on seeded synthetic IF (a different…
 
 # attr:alt
 seg-72182c1aecd9 = The chart the engine writes for scenarios/tracking-loop.toml, kind tracking-loop
 
 # text
-# c1: lunar-jamming
-seg-edcd55ccc993 = <b>MODELLED</b> The <c1/> report no longer rests its denial contour on one scalar.
-
-# text
-seg-346594a654f2 = <b>MODELLED</b> Loss of lock computed from loop dynamics instead of a power ratio: carrier (Costas) and code (non-coherent early/late) 1σ thermal jitter against C/N₀ with the squaring loss, against the stated rules 3σ_PLL + θ_e ≤ { "45" }° and 3σ_DLL + ramp lag
+seg-51bc165bc72c = <b>MODELLED</b> Loss of lock computed from loop dynamics instead of a power ratio: carrier (Costas) and code (non-coherent early/late) 1σ thermal jitter against C/N₀ with the squaring loss, against the stated rules 3σ_PLL + θ_e ≤ { "45" }° and 3σ_DLL + ramp…
 
 # text
 seg-59afd80736c5 = <b>PARTNER</b> Not provided — Kshana models signal performance, not payload/antenna hardware. Oracle (NoneKind): none: a partner-owned discipline, with no module and no test by design
 
 # text
-seg-3aa7f9748dc2 = <b>MODELLED</b> Loss of lock computed from loop dynamics instead of a power ratio: carrier (Costas) and code (non-coherent early/late) 1σ thermal jitter against C/N₀ with the s. Oracle (ReferenceImpl): The engine's own sdr correlator (sdr::correlate / synth_if / CaCode) stepped forward on seeded synthetic IF at a calibrated C/N₀ — a separate code path reaching the same numbers by numerical correlation of sampled IQ rather than by an algebraic jitter expression, so it is a different route and not a restatement — plus standard tabulated modified-Bessel I₀ values for the cycle-slip term. Loop theory per Kaplan & Hegar
+seg-8535cde57da4 = <b>MODELLED</b> Loss of lock computed from loop dynamics instead of a power ratio: carrier (Costas) and code (non-coherent early/late) 1σ thermal jitter against C/N₀ with the…. Oracle (ReferenceImpl): The engine's own sdr correlator (sdr::correlate / synth_if / CaCode) stepped forward on seeded synthetic IF at a calibrated C/N₀ — a separate code path reaching the same numbers by numerical correlation of sampled IQ rather than by an algebraic jitter expression, so it is a different route and not a restatement — plus standard tabulated modified-Bessel I₀ values for the cycle-slip term. Loop theory per Kaplan &…
 
 # text
 # c1: label
-seg-de048f9cf1f6 = MIXED — VALIDATED loop closed forms, MODELLED loop configuration. The carrier and code thermal-jitter expressions, the loop-filter reduction sqrt({ "2" }<em>B_n</em>T) and the first-order ramp lag are cross-checked against the engine's own sdr correlator stepped forward on seeded synthetic IF (a different route to the same numbers), and the modified Bessel I0 against standard tabulated values. MODELLED: the loop bandwidths, integ (result <c1/>)
+seg-b625dbf08fe8 = MIXED — VALIDATED loop closed forms, MODELLED loop configuration. The carrier and code thermal-jitter expressions, the loop-filter reduction sqrt({ "2" }<em>B_n</em>T) and the first-order ramp lag are cross-checked against the engine's own sdr correlator stepped forward on seeded synthetic IF (a different route to the same numbers), and the modified Bessel I0 against standard tabulated values. MODELLED: the loop bandwidths… (result <c1/>)
 
 # text
 # c1: kshana kinds --json

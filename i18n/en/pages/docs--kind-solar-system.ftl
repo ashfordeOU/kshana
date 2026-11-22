@@ -55,13 +55,13 @@ seg-e6e209ad07e0 = Europa
 seg-4d208b6c0eb8 = day
 
 # text
-seg-c4b64eb26210 = ICRF (equatorial J2000), heliocentric; m
+seg-f61f71e07a3d = ICRF (equatorial J2000), heliocentric…
 
 # text
 seg-6096a0ab243b = Standish Table { "1" } ({ "1800" } AD to { "2050" } AD)
 
 # text
-seg-5c9a8d4716f5 = Result label (the engine's): MIXED: each body carries its own label. Planet positions are VALIDATED against JPL Horizons within twice the Standish nominal error (Mercury to Saturn and the Earth from Table { "1" }; all eight planets from Tables 2a/2b); Uranus and Neptune from Table { "1" }, Pluto, the Moon and the seven moons are MODELLED.
+seg-6ee2c7cb13cc = Result label (the engine's): MIXED: each body carries its own label. Planet positions are VALIDATED against JPL Horizons within twice the Standish nominal error (Mercury to Saturn and the Earth from Table { "1" }; all eight planets from Tables 2a/2b); Uranus and Neptune from Table { "1" }, Pluto, the Moon and the seven moons are…
 
 # attr:alt
 seg-537aa8010e50 = The chart the engine writes for scenarios/solar-system-tour.toml, kind solar-system
@@ -71,32 +71,32 @@ seg-fbac1cbb2422 = MODELLED { "2" } · VALIDATED { "3" }: the <a1>verification m
 
 # text
 # c1: solar-system
-seg-7432155d5fec = <b>VALIDATED</b> The <c1/> kind with planetary_kernel_path: each reported body whose own NAIF code the SPK holds takes its heliocentric J2000 position and velocity from the kernel through the engine's own reader (label KERNEL), a link whose two end
+seg-b244127c120d = <b>VALIDATED</b> The <c1/> kind with planetary_kernel_path: each reported body whose own NAIF code the SPK holds takes its heliocentric J2000 position and velocity from the kernel through the engine's own reader (label KERNEL), a link whose two…
 
 # text
-seg-84ce0dd8daef = <b>VALIDATED</b> Heliocentric positions of Mercury, Venus, the Earth-Moon barycentre, the Earth, Mars, Jupiter and Saturn from Standish Table { "1" } ({ "1800" } AD to { "2050" } AD), and of all eight planets from Tables 2a/2b ({ "3000" } BC to { "3000" } AD, with the b, c, s, f mean-an Tests: <a1>solar_system_standish_earth_icrf_preregistered.rs</a1>.
+seg-61a7786719e3 = <b>VALIDATED</b> Heliocentric positions of Mercury, Venus, the Earth-Moon barycentre, the Earth, Mars, Jupiter and Saturn from Standish Table { "1" } ({ "1800" } AD to { "2050" } AD), and of all eight planets from Tables 2a/2b ({ "3000" } BC to { "3000" } AD, with the b, c, s, f… Tests: <a1>solar_system_standish_earth_icrf_preregistered.rs</a1>.
 
 # text
-seg-dae4184bb004 = <b>VALIDATED</b> The Newtonian one-way light time from any body to any other, received at an epoch, solved by the radiometric fixed-point light-time solver (radiometric::light_time_solution, transmitter at its retarded position) through solar_system::link_o Tests: <a1>solar_system_light_time_preregistered.rs</a1>.
+seg-6f250564498f = <b>VALIDATED</b> The Newtonian one-way light time from any body to any other, received at an epoch, solved by the radiometric fixed-point light-time solver (radiometric::light_time_solution, transmitter at its retarded position) through… Tests: <a1>solar_system_light_time_preregistered.rs</a1>.
 
 # text
-seg-cc5bd76ec542 = <b>MODELLED</b> Positions of Uranus and Neptune from Standish Table { "1" } (the default inside { "1800" } AD to { "2050" } AD), Pluto from the { "1992" } Table { "1" } row the current JPL page no longer lists, and the heliocentric velocity of every planet: the two-body derivative with Tests: <a1>solar_system_horizons_reference.rs</a1>.
+seg-4102da6d7ae5 = <b>MODELLED</b> Positions of Uranus and Neptune from Standish Table { "1" } (the default inside { "1800" } AD to { "2050" } AD), Pluto from the { "1992" } Table { "1" } row the current JPL page no longer lists, and the heliocentric velocity of every planet: the two-body derivative… Tests: <a1>solar_system_horizons_reference.rs</a1>.
 
 # text
 seg-3319b18ac61f = and { "1" } more in the matrix.
 
 # text
 # c1: solar-system
-seg-a123d070c596 = <b>VALIDATED</b> The <c1/> kind with planetary_kernel_path: each reported body whose own NAIF code the SPK holds takes its heliocentric J2000 position and velocity from. Oracle (ExternalDataset): NAIF SPICE Toolkit (CSPICE N0067 through spiceypy { "8.3.0" }) spkezr heliocentric states on the full de440s.bsp, a separate program that calls no Kshana code (tests/fixtures/solar_system_kernel/, NOTICE.md); the engine reads bit-for-bit de440s cuts. Pre-registered f4a6297a. A Library check of the wiring: DE440 itself and the analytic bodies are not validated here. Results: docs/design/evidence/cap31-solar-system-kernel/RE
+seg-9fec72809b4a = <b>VALIDATED</b> The <c1/> kind with planetary_kernel_path: each reported body whose own NAIF code the SPK holds takes its heliocentric J2000 position and velocity…. Oracle (ExternalDataset): NAIF SPICE Toolkit (CSPICE N0067 through spiceypy { "8.3.0" }) spkezr heliocentric states on the full de440s.bsp, a separate program that calls no Kshana code (tests/fixtures/solar_system_kernel/, NOTICE.md); the engine reads bit-for-bit de440s cuts. Pre-registered f4a6297a. A Library check of the wiring: DE440 itself and the analytic bodies are not validated here. Results…
 
 # text
-seg-b47beef133e9 = <b>VALIDATED</b> Heliocentric positions of Mercury, Venus, the Earth-Moon barycentre, the Earth, Mars, Jupiter and Saturn from Standish Table { "1" } ({ "1800" } AD to { "2050" } AD), and of all . Oracle (ExternalDataset): JPL Horizons DE441 geometric heliocentric vectors (ecliptic and ICRF), fetched after the pre-registration commits e5423015, 59dac98b and 7b218df5. Bar: per planet and component, RMS at most 1.0x the approximate errors of the Explanatory Supplement 3rd ed. Table { "8.10.1" } (the EMB row for the Earth); the Earth-EMB split is checked directly against DE441 { "399" } minus { "3" }, at most { "0.3" } deg and { "8.1" } km at every epoch 1950-2050 (th
+seg-90a5911161ad = <b>VALIDATED</b> Heliocentric positions of Mercury, Venus, the Earth-Moon barycentre, the Earth, Mars, Jupiter and Saturn from Standish Table { "1" } ({ "1800" } AD to { "2050" } AD), and of…. Oracle (ExternalDataset): JPL Horizons DE441 geometric heliocentric vectors (ecliptic and ICRF), fetched after the pre-registration commits e5423015, 59dac98b and 7b218df5. Bar: per planet and component, RMS at most 1.0x the approximate errors of the Explanatory Supplement 3rd ed. Table { "8.10.1" } (the EMB row for the Earth); the Earth-EMB split is checked directly against DE441 { "399" } minus { "3" }, at most { "0.3" } deg and { "8.1" } km at every epoch 1950-2050…
 
 # text
-seg-c99db1c84334 = <b>VALIDATED</b> The Newtonian one-way light time from any body to any other, received at an epoch, solved by the radiometric fixed-point light-time solver (radiometric::light_t. Oracle (ExternalDataset): JPL Horizons DE441 one-way down-leg Newtonian light time LT (VEC_CORR=LT, observer the Earth centre), pre-registered (876f8edc, amendment 35d22bad changing only the interpolation node spacing after the first fetch failed its { "10" } m interpolation precondition, before any light time was compared) with a bar of { "1e-6" } s per light time, the solver fed DE441 barycentric positions so the retarded-transmitter iteration is visib
+seg-bf62827ae751 = <b>VALIDATED</b> The Newtonian one-way light time from any body to any other, received at an epoch, solved by the radiometric fixed-point light-time solver…. Oracle (ExternalDataset): JPL Horizons DE441 one-way down-leg Newtonian light time LT (VEC_CORR=LT, observer the Earth centre), pre-registered (876f8edc, amendment 35d22bad changing only the interpolation node spacing after the first fetch failed its { "10" } m interpolation precondition, before any light time was compared) with a bar of { "1e-6" } s per light time, the solver fed DE441 barycentric positions so the retarded-transmitter iteration is…
 
 # text
-seg-5a2e745828ea = <b>MODELLED</b> Positions of Uranus and Neptune from Standish Table { "1" } (the default inside { "1800" } AD to { "2050" } AD), Pluto from the { "1992" } Table { "1" } row the current JPL page no longer li. Oracle (ExternalDataset): Measured against JPL Horizons DE441 (the same committed fixtures), but not validated: Table { "1" }'s stated figures for Uranus and Neptune are exceeded by up to { "2.0" } and { "5.2" } times against DE441 heliocentric positions (Neptune meets them against barycentric positions, which suggests the fit was not heliocentric), the page states no error for Pluto, and no published bound exists for the velocities. Tables 2a/2b meet their ow
+seg-de0c78774148 = <b>MODELLED</b> Positions of Uranus and Neptune from Standish Table { "1" } (the default inside { "1800" } AD to { "2050" } AD), Pluto from the { "1992" } Table { "1" } row the current JPL page no longer…. Oracle (ExternalDataset): Measured against JPL Horizons DE441 (the same committed fixtures), but not validated: Table { "1" }'s stated figures for Uranus and Neptune are exceeded by up to { "2.0" } and { "5.2" } times against DE441 heliocentric positions (Neptune meets them against barycentric positions, which suggests the fit was not heliocentric), the page states no error for Pluto, and no published bound exists for the velocities. Tables 2a/2b meet their…
 
 # text
 # c1: label
@@ -107,7 +107,7 @@ seg-0131b082906b = MIXED: each body carries its own label. Planet positions are 
 seg-3e24f0bf9ccd = MODELLED, each row labelled: Uranus and Neptune from Table { "1" } ({ "2.0" } and { "5.2" } times the nominal error against DE441), Pluto (the { "1992" } row; no stated error), the Moon and the seven moons (measured against Horizons, no published bound). (kind catalogue (<c1/>))
 
 # text
-seg-62b2e925233a = WHAT IS VALIDATED, AND WHAT IS NOT Each body carries its own label. Mercury to Saturn and the Earth are VALIDATED against JPL Horizons (Development Ephemeris DE441) within twice the Standish page's nominal error. Uranus and Neptune from Table { "1" } exceed the page's figures against DE441 (by { "2.0" } and { "5.2" } times) and are MODELLED; so are Pluto, the Moon and the seven moons, which were measured against Horizons but have no p (scenario file comment, lines { "20" } to { "25" })
+seg-595cf822f180 = WHAT IS VALIDATED, AND WHAT IS NOT Each body carries its own label. Mercury to Saturn and the Earth are VALIDATED against JPL Horizons (Development Ephemeris DE441) within twice the Standish page's nominal error. Uranus and Neptune from Table { "1" } exceed the page's figures against DE441 (by { "2.0" } and { "5.2" } times) and are MODELLED; so are Pluto, the Moon and the seven moons, which were measured against Horizons but have no… (scenario file comment, lines { "20" } to { "25" })
 
 # text
 seg-2b36ac40e457 = Uranus and Neptune from Standish Table { "1" }, Pluto, and planetary velocities is MODELLED, not validated: a sub-claim is externally checked, but the whole capability composes modelled pieces, so the capability stays Modelled. (verification matrix (docs/MODELLED-RATIONALE.md))

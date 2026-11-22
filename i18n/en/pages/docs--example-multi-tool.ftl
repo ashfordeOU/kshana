@@ -84,7 +84,7 @@ seg-4b5bdadf3e7e = { "5" }. Hand the result back (exports)
 # c7: spectrum
 # c8: --export list
 # c9: lunar-interop-export
-seg-f4a438636ea8 = The same CLI writes standard files for the next tool. On an <c1/> scenario, <c2/> writes a CCSDS OEM { "2.0" } ephemeris with velocity (the file GMAT, Orekit and STK read), <c3/> an SP3 (Standard Product { "3" }) precise ephemeris and <c4/> a CCSDS Orbit Mean-Elements Message catalogue. <c5/> covers the viewers: CZML (Cesium Language), KML (Keyhole Markup Language, for Google Earth), GeoJSON, STK ephemeris files (<c6/>, one per satellite plus the user), and SigMF (Signal Metadata Format) recordings from the <c7/> kind. <c8/> says which apply to a scenario. For the Moon, the <c9/> kind emits the lunar frame, time scale and ephemeris as a CCSDS OEM with a conformance check. See <a1>INTEROP.md</a1>.
+seg-b23663bf7913 = The same CLI writes standard files for the next tool. On an <c1/> scenario, <c2/> writes a CCSDS OEM { "2.0" } ephemeris with velocity (the file GMAT, Orekit and STK read), <c3/> an SP3 (Standard Product { "3" }) precise ephemeris and <c4/> a CCSDS Orbit Mean-Elements Message catalogue. <c5/> covers the viewers: CZML (Cesium Language), KML (Keyhole Markup Language, for Google Earth), GeoJSON, STK ephemeris files (<c6/>, one per satellite plus the user), and SigMF (Signal Metadata Format) recordings from the <c7/> kind. <c8/> says which apply to a scenario. For the Moon, the <c9/> kind emits the lunar frame, time scale and ephemeris as a CCSDS OEM with round-trip and field-name checks. See <a1>INTEROP.md</a1>.
 
 # text
 seg-5293e6d761a8 = Why this is the glue, not a competitor

@@ -58,7 +58,7 @@ seg-2ca37a78e899 = MODELLED kihilise PNT konfliktivastupidavus (P7). VALIDATED t
 
 # text
 # c1: kshana kinds --json
-seg-d0d834e377ee = MODELLED kihilise PNT konfliktivastupidavus (P7): vaidlustatud keskkonna kasutaja kasutab mitut PNT kihti (avatud teenuse GNSS, lairiba-GNSS, autenditud konstellatsioon, täiendusrelee), millest igaühel on baaskättesaadavus, 1σ täpsus ja vektorikohane keelamise haavatavus jagatud segamise/spuufimise ohu suhtes. (liikide kataloog (<c1/>))
+seg-a6619df36cf9 = MODELLED kihilise PNT konfliktivastupidavus: vaidlustatud keskkonna kasutaja kasutab mitut PNT kihti (avatud teenuse GNSS, lairiba-GNSS, autenditud konstellatsioon, täiendusrelee), millest igaühel on baaskättesaadavus, 1σ täpsus ja vektorikohane keelamise haavatavus jagatud segamise/spuufimise ohu suhtes. (liikide kataloog (<c1/>))
 
 # text
 # c1: kshana kinds --json

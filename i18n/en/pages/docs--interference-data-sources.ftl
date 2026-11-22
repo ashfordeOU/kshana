@@ -9,7 +9,7 @@ seg-1b5caa50249a = Source: <c1/>
 seg-26767db43a37 = Interference map: data source licence review
 
 # text
-seg-b8bed6fd232d = Status: <b>APPROVED by the coordinator on 2026-10-09 with the decisions recorded at the end.</b> Reviewed 2026-10-09 from the publishers' own pages where reachable. This is an engineering review, not legal advice; items marked <em>unverified</em> must be confirmed against the live licence text before any ingest helper is written.
+seg-63bd40402fee = Status: <b>Decided on 2026-10-09; the decisions are recorded at the end.</b> Reviewed 2026-10-09 from the publishers' own pages where reachable. This is an engineering review, not legal advice; items marked <em>unverified</em> must be confirmed against the live licence text before any ingest helper is written.
 
 # text
 seg-b9a33b7662e9 = Test applied
@@ -73,7 +73,7 @@ seg-cf905a64012e = ODbL notice: credit adsb.lol as source and link the licence; 
 seg-5c27e5a3aa53 = None stated for the GitHub release downloads
 
 # text
-seg-be1c9daba172 = <b>Conditional pass.</b> Needs a coordinator decision on the share-alike condition (see Open questions)
+seg-7fddfa5badf8 = <b>Conditional pass.</b> The share-alike condition is settled by decision { "1" } (see Decisions)
 
 # text
 seg-97d07226dfa5 = OpenSky Network (historical and live)
@@ -241,16 +241,16 @@ seg-889028e6aed4 = LGPL (underlying sources public domain), notice requested for
 seg-7c841fd3a8b8 = Not needed
 
 # text
-seg-0999730760b6 = Natural Earth { "1" }:10m is coarse (nominal accuracy of the order of a kilometre). The on-land detector must therefore use a stated coastal buffer (a position counts as on land only when it lies more than the buffer inland). That is a method decision recorded in the method document, not a licence matter. The land polygons would be vendored only if the coordinator approves the size; otherwise the CLI takes a user-supplied file.
+seg-4412cb99ff7a = Natural Earth { "1" }:10m is coarse (nominal accuracy of the order of a kilometre). The on-land detector must therefore use a stated coastal buffer (a position counts as on land only when it lies more than the buffer inland). That is a method decision recorded in the method document, not a licence matter. The land polygons are not vendored (decision { "4" }); the CLI takes a user-supplied file.
 
 # text
 seg-918a302a4ebc = Rate limits and fetch helpers
 
 # text
-seg-b60bf087599d = None of the passing sources states a rate limit on bulk files. Default tests use only synthetic fixtures and no network. Optional fetch helpers, if approved, sit behind an explicit flag, send an identifying User-Agent, and download one file at a time.
+seg-b86d8e38fe82 = None of the passing sources states a rate limit on bulk files. Default tests use only synthetic fixtures and no network. Optional fetch helpers sit behind an explicit flag, send an identifying User-Agent, and download one file at a time.
 
 # text
-seg-c02dd9cc5640 = Open questions for the coordinator
+seg-6526cb99f122 = Questions that were decided
 
 # text
 seg-b44414247e17 = <b>ODbL share-alike (adsb.lol).</b> Published per-cell day files are probably a Derived Database. Options: (a) approve, and release interference-map GeoJSON that uses adsb.lol under ODbL { "1.0" } (the embedded attribution and licence field would say so; Kshana's own code stays AGPL); (b) restrict public outputs to rendered images (Produced Works); (c) drop adsb.lol, leaving no ADS-B source. Recommended: (a), as the outputs are aggregate data that we want others to reuse. Commercial editions would need to carry the same ODbL notice on any such file.
@@ -259,10 +259,10 @@ seg-b44414247e17 = <b>ODbL share-alike (adsb.lol).</b> Published per-cell day fi
 seg-40ccc6e27c8f = <b>Mixed-source outputs.</b> ADS-B days (ODbL) and AIS days (public domain / NLOD) must stay in separate files, each carrying its own licence, so that the ODbL does not attach to the AIS layer.
 
 # text
-seg-b5bb632d7017 = <b>Sources marked "pending".</b> Do you want me to chase airplanes.live, the Danish authority and Digitraffic (read live terms or contact the publisher), or leave them out of { "0.35.0" }? Recommended: leave out.
+seg-5d2d6b4eda89 = <b>Sources marked "pending".</b> Pursue airplanes.live, the Danish authority and Digitraffic (read live terms or contact the publisher), or leave them out of { "0.35.0" }? Recommended: leave out.
 
 # text
-seg-020198db0951 = <b>Coastline file.</b> Vendor Natural Earth { "1" }:10m land polygons (about { "10" } MB as GeoJSON, so I would simplify to the area needed), or take it as user input only?
+seg-71a05593c5fc = <b>Coastline file.</b> Vendor Natural Earth { "1" }:10m land polygons (about { "10" } MB as GeoJSON, to be simplified to the area needed), or take it as user input only?
 
 # text
 seg-c054ec59d79f = <b>Identifiers.</b> Confirm that readers may parse MMSI and ICAO hex in memory for "distinct aircraft or vessel" counting but must never write or log them. Counting uses a per-run salted hash that is not persisted.
@@ -283,7 +283,7 @@ seg-58252a879ae0 = Coastline: Natural Earth.
 seg-e797e4dab0ad = Excluded: OpenSky, ADS-B Exchange, commercial AIS vendors; pending: airplanes.live, Danish Maritime Authority, Digitraffic.
 
 # text
-seg-57f9c5b1e44d = Decisions (coordinator, 2026-10-09)
+seg-a5aeaae78f00 = Decisions (2026-10-09)
 
 # text
 seg-34526eaad1f9 = adsb.lol approved. Published per-cell ADS-B GeoJSON is released under ODbL { "1.0" } with the licence and attribution embedded in the file; Kshana code stays AGPL; commercial editions carry the same notice on such files.

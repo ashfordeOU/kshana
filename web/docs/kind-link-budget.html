@@ -179,7 +179,7 @@
 </tr>
 <tr>
 <td><code>evidence.id_rule</code></td>
-<td>the stable id of the matrix row (the ID</td>
+<td>the stable id of the matrix row (the…</td>
 <td>text</td>
 </tr>
 <tr>
@@ -207,16 +207,15 @@
 <img src="data:image/svg+xml;charset=utf-8,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%221180%22 height=%2256%22 font-family=%22Geist, ui-sans-serif, system-ui, sans-serif%22 font-size=%2212%22 fill=%22%23EAF0FF%22%3E%3Crect width=%221180%22 height=%2240%22 fill=%22%23060A14%22/%3E%3Ctext x=%2210%22 y=%2224%22%3Elink-budget: x-band, 2000 km, 1000000 bit/s -%26gt; FSPL 177.0 dB, Eb/N0 96.6 dB, margin 92.1 dB (closes)%3C/text%3E%3Ctext x=%221172%22 y=%2234%22 text-anchor=%22end%22 fill=%22%238190B0%22 font-size=%2210%22 font-family=%22Geist, ui-sans-serif, system-ui, sans-serif%22%3EKshana v0.41.0 · scenario 1c75d05b9fc5 · kshana.dev%3C/text%3E%3Cmetadata id=%22kshana-evidence%22 data-tier=%22MODELLED%22 data-rows=%22VM-cf3cdcd3;VM-082eb065;VM-0117d857%22%3EVM-cf3cdcd3 MODELLED Reproducibility %26amp; software assurance %7C VM-082eb065 VALIDATED One-way link budget (comms / link design) %7C VM-0117d857 MODELLED Link-budget report self-description%3C/metadata%3E%3Crect x=%220%22 y=%2240%22 width=%221180%22 height=%2216%22 fill=%22%23060A14%22/%3E%3Ctext x=%228%22 y=%2251%22 fill=%22%238190B0%22 font-size=%2210%22 font-family=%22Geist, ui-sans-serif, system-ui, sans-serif%22%3EEvidence: MODELLED · 3 ledger rows VM-cf3cdcd3 VM-082eb065 VM-0117d857%3C/text%3E%3C/svg%3E" alt="The chart the engine writes for scenarios/link-budget.toml, kind link-budget" width="640" loading="lazy">
 
 <h2 id="evidence">Evidence<a class="anchor" href="#evidence" aria-label="Link to this section">#</a></h2>
-<p>MODELLED 1 · VALIDATED 1: the <a href="/docs/verification-matrix">verification matrix</a> rows that name this kind.</p>
+<p>VALIDATED: the <a href="/docs/verification-matrix">verification matrix</a> rows that name this kind.</p>
 <ul>
 <li><strong>VALIDATED</strong> Free-space path loss, C/N₀, Eb/N₀, margin and closure over the CCSDS 401 / DSN 810-005 link equation for EIRP/G·T/range/rate/band against a required Eb/N₀. Tests: <a href="https://github.com/ashfordeOU/kshana/blob/main/tests/one_way_link_budget_reference.rs">one_way_link_budget_reference.rs</a>.</li>
-<li><strong>MODELLED</strong> Lunar-native jammer-to-signal ratio, effective C/N₀ and loss of lock for a selenographic surface user under a lunar surface (or raised) jammer, over the illustrative public-source Moonlight/LCNS-class constellation.</li>
 </ul>
 <p>The rows the run itself exercised, with the oracle the matrix gives each (the public sources are named there):</p>
 <ul>
 <li><strong>MODELLED</strong> Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): SBOM conformance to the official CycloneDX 1.5 JSON Schema (+ valid SPDX identifiers) — an external published standard, zero validation errors over the full dependency graph; the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED</li>
-<li><strong>VALIDATED</strong> Free-space path loss, C/N₀, Eb/N₀, margin and closure over the CCSDS 401 / DSN 810-005 link equation for EIRP/G·T/range/rate/band against a required Eb/N₀. Runn. Oracle (ExternalDataset): Published deep-space telecom design-control table as pinned numeric vectors: DESCANSO / J. H. Yuen (ed.), Deep Space Telecommunications Systems Engineering, JPL Pub 82-76, Table 1-1 (Galileo X-band) — kshana reassembles the table line-items and reproduces its published end-to-end L_fs 290.54 dB and Pr/N0 54.6 dB-Hz; free-space loss also checked vs ITU-R P.525</li>
-<li><strong>MODELLED</strong> The link-budget report states every absolute constant its own margin was computed from -- the carrier frequency the free-space loss used, the EIRP, the figure o. Oracle (InternalConsistency): No external oracle: this is self-description over an equation already validated against a published design-control table (see the one-way link budget row). It is recorded because the absence of it was a measured defect -- reproducing the released d1_rate_gain_beamwidth.csv required back-solving one effective constant to 0.0034 dB from all thirty rows, and the engine now both names that combination and proves, by test</li>
+<li><strong>VALIDATED</strong> Free-space path loss, C/N₀, Eb/N₀, margin and closure over the CCSDS 401 / DSN 810-005 link equation for EIRP/G·T/range/rate/band against a required Eb/N₀.…. Oracle (ExternalDataset): Published deep-space telecom design-control table as pinned numeric vectors: DESCANSO / J. H. Yuen (ed.), Deep Space Telecommunications Systems Engineering, JPL Pub 82-76, Table 1-1 (Galileo X-band) — kshana reassembles the table line-items and reproduces its published end-to-end L_fs 290.54 dB and Pr/N0 54.6 dB-Hz; free-space loss also checked vs ITU-R P.525</li>
+<li><strong>MODELLED</strong> The link-budget report states every absolute constant its own margin was computed from -- the carrier frequency the free-space loss used, the EIRP, the figure…. Oracle (InternalConsistency): No external oracle: this is self-description over an equation already validated against a published design-control table (see the one-way link budget row). It is recorded because the absence of it was a measured defect -- reproducing the released d1_rate_gain_beamwidth.csv required back-solving one effective constant to 0.0034 dB from all thirty rows, and the engine now both names that combination and proves, by…</li>
 </ul>
 <h2 id="limitations">Limitations<a class="anchor" href="#limitations" aria-label="Link to this section">#</a></h2>
 <p>What the run&#39;s own report says is not modelled or not validated:</p>

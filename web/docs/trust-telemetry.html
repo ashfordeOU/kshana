@@ -518,7 +518,7 @@ posts OTLP/HTTP JSON (<code>kshana.trust.score</code>, <code>kshana.trust.band</
 <code>kshana.geometry.label</code> (attribute <code>label</code>) and <code>kshana.geometry.vdop</code>; the cumulative sums carry <code>startTimeUnixNano</code>) every <code>--otlp-every</code> epochs (default 10) and at end of
 input. It adds no dependency and has no TLS: send to a collector on the same host or a
 trusted segment, which forwards onwards over TLS. <code>https://</code> endpoints are refused.</p>
-<h2 id="incident-chat-log-index-snmp-and-threat-sharing-outputs-042-i5">Incident, chat, log-index, SNMP and threat-sharing outputs (0.42 I5)<a class="anchor" href="#incident-chat-log-index-snmp-and-threat-sharing-outputs-042-i5" aria-label="Link to this section">#</a></h2>
+<h2 id="incident-chat-log-index-snmp-and-threat-sharing-outputs">Incident, chat, log-index, SNMP and threat-sharing outputs<a class="anchor" href="#incident-chat-log-index-snmp-and-threat-sharing-outputs" aria-label="Link to this section">#</a></h2>
 <p><code>kshana connect alert &lt;trust.jsonl|-&gt; --form &lt;form&gt;</code> builds one payload per band change after
 calibration (<code>--all</code> for every epoch), from the same live-stream lines <code>trust-telemetry</code> reads. It
 prints the payloads, or POSTs each one with <code>--post http://host:port/path</code>.</p>
@@ -593,15 +593,14 @@ against the OASIS STIX 2.1 JSON schemas when they are present (<code>scripts/fet
 <code>application/openmetrics-text</code> with the OpenMetrics 1.0 form (counter families named without their
 <code>_total</code> suffix in <code># HELP</code> and <code># TYPE</code>, closing <code># EOF</code>); others get the Prometheus 0.0.4 text as
 before.</p>
-<p><strong>Not built.</strong> Kafka in and out: the crate has no Kafka client and no optional path for one, so it
-remains open (A2 remainder); bridge the JSON outputs with a Kafka producer of your choice. A Grafana
-dashboard per segment is not part of this wave.</p>
+<p><strong>Not built.</strong> Kafka in and out: the crate has no Kafka client and no optional path for one; bridge the JSON
+outputs with a Kafka producer of your choice. A Grafana dashboard per segment is not built either.</p>
 <p><code>tests/connect_042_w2.rs</code> checks each payload for the fields its service requires, the trap by
 decoding it, the TAXII client against a local fake server, and the OpenMetrics form.</p>
 </div>
     <nav class="docs-pn" aria-label="Previous and next"><a class="prev" href="/docs/skyline"><small>Previous</small>Sky geometry and skylines</a><a class="next" href="/docs/osnma"><small>Next</small>Galileo OSNMA verification</a></nav>
   </article>
-  <nav class="docs-toc" aria-label="On this page"><h2>On this page</h2><a class="l2" href="#run-it">Run it</a><a class="l2" href="#home-assistant-and-ntp-appliances-mqtt">Home Assistant and NTP appliances (MQTT)</a><a class="l2" href="#from-python-webassembly-and-mcp">From Python, WebAssembly and MCP</a><a class="l2" href="#delivery-never-stalls-the-assessment">Delivery never stalls the assessment</a><a class="l2" href="#prometheus-metrics">Prometheus metrics</a><a class="l2" href="#syslog-cef-and-leef">Syslog: CEF and LEEF</a><a class="l2" href="#common-alerting-protocol-cap-12">Common Alerting Protocol (CAP 1.2)</a><a class="l2" href="#signed-webhooks">Signed webhooks</a><a class="l2" href="#opentelemetry-off-by-default">OpenTelemetry (off by default)</a><a class="l2" href="#incident-chat-log-index-snmp-and-threat-sharing-outputs-042-i5">Incident, chat, log-index, SNMP and threat-sharing outputs (0.42 I5)</a></nav>
+  <nav class="docs-toc" aria-label="On this page"><h2>On this page</h2><a class="l2" href="#run-it">Run it</a><a class="l2" href="#home-assistant-and-ntp-appliances-mqtt">Home Assistant and NTP appliances (MQTT)</a><a class="l2" href="#from-python-webassembly-and-mcp">From Python, WebAssembly and MCP</a><a class="l2" href="#delivery-never-stalls-the-assessment">Delivery never stalls the assessment</a><a class="l2" href="#prometheus-metrics">Prometheus metrics</a><a class="l2" href="#syslog-cef-and-leef">Syslog: CEF and LEEF</a><a class="l2" href="#common-alerting-protocol-cap-12">Common Alerting Protocol (CAP 1.2)</a><a class="l2" href="#signed-webhooks">Signed webhooks</a><a class="l2" href="#opentelemetry-off-by-default">OpenTelemetry (off by default)</a><a class="l2" href="#incident-chat-log-index-snmp-and-threat-sharing-outputs">Incident, chat, log-index, SNMP and threat-sharing outputs</a></nav>
 </div>
 </main>
 

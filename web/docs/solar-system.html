@@ -168,9 +168,11 @@ Io 0.40, Europa 1.63, Ganymede 0.22, Callisto 0.27, Titan 3.31. The geocentric M
 </ul>
 <p>The Moon and the seven moons are measured with pinned bars, but no published bound exists
 to validate them against, so they are MODELLED.</p>
-<p>The analytic ephemerides need no kernel file. A JPL Development Ephemeris kernel
-(DE-grade positions) is read only by the separate cross-validation crates under <code>xval/</code>,
-through the same <code>EphemerisProvider</code> trait; the main crate does not depend on them.</p>
+<p>The analytic ephemerides need no kernel file and are the default. A JPL Development
+Ephemeris kernel (SPK, DE-grade positions) is read only where a scenario names one: the
+<code>solar-system</code> kind&#39;s optional <code>planetary_kernel_path</code> (below) uses the main crate&#39;s own
+kernel reader (<code>src/naif_kernel.rs</code>) through the same <code>EphemerisProvider</code> trait, and the
+separate cross-validation crates under <code>xval/</code> read kernels for their own checks.</p>
 <h2 id="solar-system"><code>solar-system</code><a class="anchor" href="#solar-system" aria-label="Link to this section">#</a></h2>
 <pre data-lang="toml"><code class="hljs language-ini"><span class="hljs-attr">kind</span> = <span class="hljs-string">&quot;solar-system&quot;</span>
 <span class="hljs-attr">epoch</span> = <span class="hljs-string">&quot;2030-01-01T00:00:00&quot;</span>
@@ -190,7 +192,11 @@ through the same <code>EphemerisProvider</code> trait; the main crate does not d
   link Europa -&gt; Earth: one-way 2993.281 s, two-way 5986.612 s, Shapiro 33.7 us, Sun 50.0 deg</code></pre>
 <p>Inputs: <code>epoch</code> (default 2026-01-01T00:00:00) or <code>epoch_jd_tdb</code>; <code>bodies</code> (default all
 eighteen); <code>observer</code> (default the Earth); <code>track_points</code> per orbit (8 to 2000, default
-120); <code>table</code>; and any number of <code>[[links]]</code>, each received at the epoch.</p>
+120); <code>table</code>; any number of <code>[[links]]</code>, each received at the epoch; and
+<code>planetary_kernel_path</code>, an optional JPL SPK (for example <code>de440s.bsp</code>): each body whose own
+NAIF code the kernel holds then takes its heliocentric state from it (label <code>KERNEL</code>), a link
+whose two ends are both in the kernel is computed on it, every other body stays analytic, and
+the report carries a <code>kernel</code> block with the file&#39;s SHA-256.</p>
 <p>Per body the result gives its class and parent, the NASA Navigation and Ancillary
 Information Facility (NAIF) identifier, the heliocentric position and velocity in the
 International Celestial Reference Frame (ICRF, equatorial J2000) in metres and metres per
@@ -312,7 +318,7 @@ deep-space link adds.</p>
 </tbody></table></div>
 <p><code>raan_deg</code> is the right ascension of the ascending node in the body&#39;s equatorial frame and
 <code>u0_deg</code> the argument of latitude at the epoch.</p>
-<p>The two bundled scenarios, as they run with kshana 0.36 (portable maths, the same on every platform):</p>
+<p>The two bundled scenarios, as they run with kshana 0.41.0 (portable maths since 0.36, the same on every platform):</p>
 <div class="tbl"><table><thead><tr>
 <th></th>
 <th><code>scenarios/mars-orbit-pnt.toml</code></th>
@@ -370,7 +376,7 @@ maths library decided it, so the same scenario printed 0.719 and 86.147 m on Lin
 85.800 m on macOS arm64 for the two &quot;with the Earth range&quot; figures. Since 0.36 every transcendental
 is computed by the portable maths library, the epoch resolves one way on every platform (native and
 WebAssembly give the same bytes), and the figures are 0.713 and 86.499 m
-(<a href="https://github.com/ashfordeOU/kshana/blob/main/docs/revisions/STUDIO15-portable-math-rebaseline.md"><code>docs/revisions/STUDIO15-portable-math-rebaseline.md</code></a>).
+(<span class="not-pushed" title="In the repository branch these docs come from; not yet on GitHub"><code>docs/revisions/portable-math-rebaseline.md</code></span>).
 Around Europa the Earth range lifts availability from 0.480 to
 0.713 of epochs. Where the Earth never clears the limb the link adds nothing: a lander at
 89.5 deg S on the Moon under a 12-satellite, 5000 km relay shell has the Earth in view at 0
@@ -398,8 +404,9 @@ scenario 0d4dd01b3160 | sgp4 (TLE) | 559 samples | alt 419–434 km | |lat| ≤ 
 <ul>
 <li>Relativistic light-time terms beyond the separately reported Shapiro delay, and the solar
 plasma delay.</li>
-<li>Positions better than the Standish and mean-element accuracy stated above; there is no
-kernel reader in the main crate.</li>
+<li>Positions better than the Standish and mean-element accuracy stated above, unless a
+<code>solar-system</code> run names a planetary kernel; <code>body-pnt</code> always uses the analytic
+ephemerides.</li>
 <li>Third-body perturbations on <code>body-pnt</code> relays and on <code>constellation-design</code> orbits.</li>
 <li>Terrain on any body: a body is its mean sphere.</li>
 <li>Interoperability exports: CZML, KML and GeoJSON describe positions about the Earth, so

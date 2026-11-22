@@ -22,10 +22,10 @@ seg-b8f937411028 = Contact sheet of the charts the engine writes for the kinds o
 seg-4e31c8daf798 = Ledger
 
 # text
-seg-76131e6805e5 = MODELLED optical PNT through the atmosphere: for an optical link and a set of ground sites with stated cloud climates it reports the wavelength- and elevation-dependent clear-air loss (Kim visibility
+seg-f269c3bac3e9 = MODELLED optical PNT through the atmosphere: for an optical link and a set of ground sites with stated cloud climates it reports the wavelength- and elevation-dependent clear-air loss (Kim…
 
 # text
-seg-55725043f48e = MODELLED heterogeneous optical + RF PNT joint figure of merit (P5): composes the { "1550" } nm two-way optical link budget (photon-limited two-way ranging CRLB σ_τ/√N and diffraction footprint λ/D·range), a
+seg-0e5169daa34c = MODELLED heterogeneous optical + RF PNT joint figure of merit: composes the { "1550" } nm two-way optical link budget (photon-limited two-way ranging CRLB σ_τ/√N and diffraction footprint λ/D·range), a…
 
 # text
 seg-5e658f01d9f4 = HETEROGENEOUS (result label)
@@ -53,7 +53,7 @@ seg-9e3ce423c0b9 = <b>Ledger:</b> MODELLED. Full page, with the inputs, results,
 seg-4e2b759aff17 = The chart the engine writes for scenarios/optical-atmosphere-network.toml, kind optical-atmosphere
 
 # text
-seg-e6839b50b560 = MODELLED heterogeneous optical + RF PNT joint figure of merit (P5): composes the { "1550" } nm two-way optical link budget (photon-limited two-way ranging CRLB σ_τ/√N and diffraction footprint λ/D·range), a cross-modality solution-separation RAIM protection level (position AND timing) that fuses the loose RF and tight optical solutions with disparate covariances, the N-station optical clear-sky availability (independent-union { "1" }−Π({ "1" }−a_i) and a spatially-correlated variant), an optical↔RF state/covariance handoff with a PROVEN bit-continuous (no-jump) mean and a NEES χ² consistency gate, and a joint P(available AND precision-grade AND integrity-assured) score with correlation handling. VALIDATED closed form: the ranging CRLB, diffraction footprint, χ² protection-level quantile, union combinatorics, handoff mean-continuity + NEES gate, and the joint independent product. MODELLED: the optical loss allocations, RF/optical σ magnitudes, cloud-climatology inputs, correlations, and P_HMI budget. Not a certified availability/integrity product.
+seg-a32f61602487 = MODELLED heterogeneous optical + RF PNT joint figure of merit: composes the { "1550" } nm two-way optical link budget (photon-limited two-way ranging CRLB σ_τ/√N and diffraction footprint λ/D·range), a cross-modality solution-separation RAIM protection level (position AND timing) that fuses the loose RF and tight optical solutions with disparate covariances, the N-station optical clear-sky availability (independent-union { "1" }−Π({ "1" }−a_i) and a spatially-correlated variant), an optical↔RF state/covariance handoff with a PROVEN bit-continuous (no-jump) mean and a NEES χ² consistency gate, and a joint P(available AND precision-grade AND integrity-assured) score with correlation handling. VALIDATED closed form: the ranging CRLB, diffraction footprint, χ² protection-level quantile, union combinatorics, handoff mean-continuity + NEES gate, and the joint independent product. MODELLED: the optical loss allocations, RF/optical σ magnitudes, cloud-climatology inputs, correlations, and P_HMI budget. Not a certified availability/integrity product.
 
 # text
 # c1: wavelength_nm

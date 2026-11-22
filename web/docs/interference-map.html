@@ -304,7 +304,7 @@ adding a field does not, so a reader must ignore fields it does not know. A coun
                            ADS-B: aircraft_observed, aircraft_sampled|null, aircraft_affected|null,
                                   affected_share|null
                            AIS:   vessels_observed, vessels_flagged{detector: n|null}, detectors[]</code></pre>
-<p><strong>Confidence and data window (0.42, additive).</strong> Every published cell carries a <code>confidence</code> object
+<p><strong>Confidence and data window (added after 0.41.0, additive).</strong> Every published cell carries a <code>confidence</code> object
 (<code>statement: &quot;kshana-interference-map/confidence/v1&quot;</code>), and every file&#39;s <code>day</code> block a <code>data_window</code>
 (<code>first_report_utc</code>, <code>last_report_utc</code>, truncated to the minute). The confidence statement describes how much a
 call rests on; it changes nothing about the call.</p>
@@ -352,8 +352,8 @@ OpenSky data. The method note, the file formats and the limits are in
 <a href="/docs/observatory-method"><code>observatory/METHOD.md</code></a>. A regional run (<code>--bbox south,west,north,east</code>) reads
 only the box&#39;s reports and says so in the file.</p>
 <h2 id="studio-map-page-specification">Studio map page specification<a class="anchor" href="#studio-map-page-specification" aria-label="Link to this section">#</a></h2>
-<p>For the Studio&#39;s map page, which loads a GeoJSON file the user provides (the page is built
-in the Studio source, not in this repository). Nothing is uploaded: the file is read in the
+<p>For the Studio&#39;s map page, which loads a GeoJSON file the user provides (the page is
+<code>web/studio/interference/</code> in this repository). Nothing is uploaded: the file is read in the
 browser, and the page makes no request to any data source.</p>
 <p><strong>Reading a file.</strong> Accept a file only if <code>kshana_interference_map.schema</code> starts with
 <code>kshana-interference-map/</code> and <code>format_version</code> is a number the page supports; otherwise say
@@ -450,7 +450,7 @@ AIS reports: a region at stated confidence levels, a centroid with an uncertaint
 time. It never returns a bare point. <strong>MODELLED</strong> (ledger row <code>VM-bc70cb57</code>): the physics is textbook radio
 line of sight, the credibility of the regions is conditional on the model, and the only external check is the
 Jammertest comparison pre-registered in <a href="https://github.com/ashfordeOU/kshana/blob/main/docs/emitter-region/PREREGISTRATION.md"><code>emitter-region/PREREGISTRATION.md</code></a>.
-Publishing emitter regions in the public observatory is a separate owner decision and is <strong>off</strong>: the observatory
+Publishing emitter regions in the public observatory is <strong>off</strong>: the observatory
 does not read this module, and a test pins that.</p>
 <pre data-lang="text"><code class="hljs">kshana interference-map locate input.csv --source adsb --dataset adsb-lol --out regions/
 kshana interference-map locate day-dir/  --source adsb --dataset adsb-lol --out regions/     # readsb traces

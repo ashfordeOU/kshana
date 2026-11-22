@@ -1938,7 +1938,6 @@ seg-2a5e48b558e1 = O relatório hybrid-optical-rf indica a configuração de lig
 
 # text
 # c1: variance
-seg-23f0c10237f4 = Sem referência independente externa, e nenhuma é possível: isto é autodescrição, não uma medição. Fica registado porque a sua ausência era um defeito -- o P5 teve de citar o comprimento de onda da portadora e a abertura de transmissão a partir de predefinições do código-fonte, e de inferir que um <c1/> nu estava em metros quadrados a partir de uma verificação de consistência interna. A inferência estava correta, o que é precisamente a razão por que importava: nada teria detetado que estivesse errada
 
 # text
 seg-0691f3dee8cb = Disponibilidade da ligação híbrida ótica/RF no lado RF

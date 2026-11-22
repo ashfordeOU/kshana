@@ -107,7 +107,7 @@ octave averaging factors. It needs <code>runs = 1</code>. The simulated holdover
 <pre data-lang="toml"><code class="hljs language-ini"><span class="hljs-section">[clock_log]</span>                 <span class="hljs-comment"># or [series.clock_log] in a telecom-timing scenario</span>
 <span class="hljs-attr">format</span> = <span class="hljs-string">&quot;ticc&quot;</span>             <span class="hljs-comment"># &quot;rinex-clk&quot;, &quot;timelab&quot;, &quot;ticc&quot;, &quot;ptp4l&quot;, &quot;phc2sys&quot;, &quot;ts2phc&quot;,</span>
                             <span class="hljs-comment"># &quot;chrony-tracking&quot;, &quot;chrony-statistics&quot;, &quot;ntp-loopstats&quot;,</span>
-                            <span class="hljs-comment"># &quot;ntp-peerstats&quot; or &quot;wr-stat&quot;</span>
+                            <span class="hljs-comment"># &quot;ntp-peerstats&quot;, &quot;wr-stat&quot;, &quot;pps-assert&quot; or &quot;cggtts&quot;</span>
 <span class="hljs-attr">path</span> = <span class="hljs-string">&quot;logs/ticc.txt&quot;</span>      <span class="hljs-comment"># or text = &quot;...&quot; inline (the only choice in WebAssembly)</span>
 <span class="hljs-attr">channel</span> = <span class="hljs-string">&quot;chA&quot;</span>             <span class="hljs-comment"># TICC: needed when the log holds more than one channel</span>
 <span class="hljs-attr">gaps</span> = <span class="hljs-string">&quot;linear&quot;</span>             <span class="hljs-comment"># &quot;refuse&quot; (default), &quot;longest&quot; or &quot;linear&quot;</span>
@@ -391,7 +391,7 @@ linuxptp and chrony formats the fixtures in <code>tests/fixtures/clock_log/linux
 <code>tests/fixtures/clock_log/PREREGISTRATION.md</code>: three seeded synthetic logs, one per format,
 read back by an independent reader written from this page by the same author, with the
 ADEV, TDEV and MTIE checked against allantools 2024.6; that comparison covers the first three
-formats only, and the linuxptp and chrony readers have parser tests but no oracle comparison. The logs of that comparison are synthetic, so nothing
+formats only, and the other readers have parser tests but no allantools comparison. The logs of that comparison are synthetic, so nothing
 there describes a real clock or counter; the comparison on measured series is described below.</p>
 <h3 id="on-measured-data">On measured data<a class="anchor" href="#on-measured-data" aria-label="Link to this section">#</a></h3>
 <p><code>tests/clock_log_real_allantools.rs</code> runs the comparison pre-registered in

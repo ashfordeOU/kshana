@@ -115,7 +115,7 @@ seg-d4735b581cbf = GNSS-SDR Monitor and PVT-monitor streams as JSON lines
 seg-053235d67fb3 = per-channel C/N0, fix, satellites used, HDOP, azimuth and elevation; made by <c1/>
 
 # text
-seg-de63921ab608 = Swift Navigation SBP binary ({ "0.42" }, read only)
+seg-669bf38f378b = Swift Navigation SBP binary (added after { $version }, read only)
 
 # text
 # c1: MSG_POS_LLH
@@ -126,7 +126,7 @@ seg-de63921ab608 = Swift Navigation SBP binary ({ "0.42" }, read only)
 seg-6088036cb0b2 = <c1/> position, <c2/>, <c3/> and <c4/> C/N0 per signal, <c5/> week; see <a1>RECEIVER-PROTOCOLS.md</a1>
 
 # text
-seg-91eaace7a555 = Javad GREIS binary messages ({ "0.42" }, read only)
+seg-f205a3e84e7a = Javad GREIS binary messages (added after { $version }, read only)
 
 # text
 # c1: [PG]
@@ -141,7 +141,7 @@ seg-91eaace7a555 = Javad GREIS binary messages ({ "0.42" }, read only)
 seg-b34c2d74510b = <c1/> position, <c2/> DOP, <c3/>/<c4/> satellite index with <c5/> GLONASS slots, <c6/>/<c7/> C/N0 per signal slot, <c8/>/<c9/> time
 
 # text
-seg-61fad3c5ad6c = Unicore N4 binary logs ({ "0.42" }, read only)
+seg-596088a458d5 = Unicore N4 binary logs (added after { $version }, read only)
 
 # text
 # c1: BESTNAV
@@ -456,11 +456,10 @@ seg-9902ca062070 = The band edges follow from the weights: the lightest monitor 
 seg-6f620668ee85 = Geometry: natural degradation apart from attack-like inconsistency
 
 # text
-# c1: docs/design/2026-10-12-geometry-and-skyline-design.md
-# c2: geometry
-# c3: environment
-# c4: inconsistency
-seg-93257d87e0d4 = A receiver beside a quay crane, in a lock or under a high hull loses satellites and its fix gets worse for a reason that is not an attack. From { "0.36" }, following the geometry design note (<c1/>, section { "4" }), every epoch carries its <b>satellite geometry</b>, a vessel's score has a <b>geometry monitor</b>, and every deduction carries a <b>class</b>: <c2/> (the sky), <c3/> (the signal environment) or <c4/> (attack-like evidence).
+# c1: geometry
+# c2: environment
+# c3: inconsistency
+seg-23a02a4f574c = A receiver beside a quay crane, in a lock or under a high hull loses satellites and its fix gets worse for a reason that is not an attack. From { "0.36" }, every epoch carries its <b>satellite geometry</b>, a vessel's score has a <b>geometry monitor</b>, and every deduction carries a <b>class</b>: <c1/> (the sky), <c2/> (the signal environment) or <c3/> (attack-like evidence).
 
 # text
 # c1: orbit::dop
@@ -584,7 +583,7 @@ seg-0f218d21843b = <c1/> key
 # text
 # c1: sigma_uere_m
 # c2: kin_pos_tol_m
-seg-e5ec84abd61b = chosen (design note { "4.2" }): at <c1/> { "1.5" } m, HDOP { "4" } is a 2drms of { "12" } m, the kinematic check's <c2/>. IEC 61108-1 is commonly cited as stating its accuracy requirements for HDOP ≤ { "4" } (or PDOP ≤ { "6" }): recalled from secondary GNSS receiver literature, no specific secondary source consulted and the standard not read; to be checked against the standard's text
+seg-6fe2957b1c9a = chosen: at <c1/> { "1.5" } m, HDOP { "4" } is a 2drms of { "12" } m, the kinematic check's <c2/>. IEC 61108-1 is commonly cited as stating its accuracy requirements for HDOP ≤ { "4" } (or PDOP ≤ { "6" }): recalled from secondary GNSS receiver literature, no specific secondary source consulted and the standard not read; to be checked against the standard's text
 
 # text
 # c1: scenarios/polar-arctic-leo-coverage.toml
@@ -602,19 +601,20 @@ seg-7dc0baed2bc4 = a stated input for the 2drms link of <c1/>; set the receiver'
 seg-7b5778d93d40 = { "1.0" } HDOP
 
 # text
-seg-093cff5d1150 = chosen (design note { "4.2" }): the absolute part of the tolerance; a disagreement beyond the tolerance is not geometry
+seg-6e1dbee47669 = chosen: the absolute part of the tolerance; a disagreement beyond the tolerance is not geometry
 
 # text
 seg-be5c3aefd942 = REPRESENTATIVE engineering choice: the relative part, for receivers with per-constellation clocks or subset solutions
 
 # text
-seg-e71c6876114b = design note { "4.3" }: satellites lost below it are lost to the sky; a skyline ({ "0.36" } item { "1" }) will extend this
+# c1: [skyline]
+seg-462116819d78 = chosen: satellites lost below it are lost to the sky; a stated <c1/> extends this
 
 # text
 seg-bebe291ca1c0 = geometric, informational: every satellite in one half of the horizon
 
 # text
-seg-06519582227b = design note { "4.2" }: geometry alone moves the score from nominal into degraded and never to untrusted; deducted only when the geometry is poor (founder decision B1, { "0.36" })
+seg-b56f515c5ec8 = chosen ({ "0.36" }): geometry alone moves the score from nominal into degraded and never to untrusted; deducted only when the geometry is poor
 
 # text
 # c1: full_ratio
@@ -665,7 +665,7 @@ seg-7e7f17d36ea4 = REPRESENTATIVE, the label only: one more than <c1/>, so a sin
 # c20: geometry_model
 # c21: geometry_summary
 # c22: score_model.weights
-# c23: docs/revisions/STUDIO15-portable-math-rebaseline.md
+# c23: docs/revisions/portable-math-rebaseline.md
 # c24: tests/geometry_trust_no_change.rs
 # c25: $PKSHT
 # c26: tests/geometry_corpus_identity.rs
@@ -675,7 +675,7 @@ seg-7e7f17d36ea4 = REPRESENTATIVE, the label only: one more than <c1/>, so a sin
 # c30: environment
 # c31: geometry
 # c32: inconsistency
-seg-ef7a4c24e870 = <b>What changed in the outputs, and what did not.</b> No score changes unless the geometry is poor; the label is always reported. Appended keys: <c1/> (<c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/> rounded to { "0.001" }, <c9/> (null until a skyline is configured), <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/> (satellites listed above <c16/>), <c17/>, <c18/>), <c19/> on every deduction, and at the end <c20/> (thresholds, hold, the cap and floor in force, provenance, class rules) and <c21/> (epochs by status, by label and by deduction class, and the epochs with a stated-HDOP mismatch); <c22/> is as in { "0.35" }. Two tests hold this to the bytes of the "{ "0.36" } portable" baseline once those keys are removed (the { "0.35.0" } hashes, re-based when the engine moved to portable maths and kept in the tests as the record of what { "0.35.0" } released: <c23/>). <c24/> holds every output of both example sessions (result JSON, CSV, SVG, verdict, replayed live lines, <c25/>, Prometheus, CEF, LEEF). <c26/> holds the batch result, summary, live lines and <c27/> of every committed vessel NMEA corpus (the demo and the maritime reference fixtures, each also as GPS-only open sky with { "8" } satellites, and the crew-training scenarios generated from their seeds); in the two training scenarios whose jamming makes the geometry poor, every epoch that is not poor is identical and every poor one differs by the geometry deduction alone. A log whose geometry is poor loses up to { "15" } points it did not lose in { "0.35" }; that is the intended change. On the demo the drag-off reads <c28/>; <c29/> edits the log to mask the western sky (fair: labelled, not scored), to mask it and two eastern satellites (poor: geometry deductions, loss of lock <c30/> because high satellites went too), to lose only satellites below { "15" }° (loss of lock <c31/>), and to state an HDOP the sky does not explain (the poor-geometry deduction becomes <c32/>). The thresholds are MODELLED: chosen, not fitted to any log; nothing here asserts how often natural degradation and attacks are told apart on real data.
+seg-080d4c1dc3a4 = <b>What changed in the outputs, and what did not.</b> No score changes unless the geometry is poor; the label is always reported. Appended keys: <c1/> (<c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/> rounded to { "0.001" }, <c9/> (null until a skyline is configured), <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/> (satellites listed above <c16/>), <c17/>, <c18/>), <c19/> on every deduction, and at the end <c20/> (thresholds, hold, the cap and floor in force, provenance, class rules) and <c21/> (epochs by status, by label and by deduction class, and the epochs with a stated-HDOP mismatch); <c22/> is as in { "0.35" }. Two tests hold this to the bytes of the "{ "0.36" } portable" baseline once those keys are removed (the { "0.35.0" } hashes, re-based when the engine moved to portable maths and kept in the tests as the record of what { "0.35.0" } released: <c23/>). <c24/> holds every output of both example sessions (result JSON, CSV, SVG, verdict, replayed live lines, <c25/>, Prometheus, CEF, LEEF). <c26/> holds the batch result, summary, live lines and <c27/> of every committed vessel NMEA corpus (the demo and the maritime reference fixtures, each also as GPS-only open sky with { "8" } satellites, and the crew-training scenarios generated from their seeds); in the two training scenarios whose jamming makes the geometry poor, every epoch that is not poor is identical and every poor one differs by the geometry deduction alone. A log whose geometry is poor loses up to { "15" } points it did not lose in { "0.35" }; that is the intended change. On the demo the drag-off reads <c28/>; <c29/> edits the log to mask the western sky (fair: labelled, not scored), to mask it and two eastern satellites (poor: geometry deductions, loss of lock <c30/> because high satellites went too), to lose only satellites below { "15" }° (loss of lock <c31/>), and to state an HDOP the sky does not explain (the poor-geometry deduction becomes <c32/>). The thresholds are MODELLED: chosen, not fitted to any log; nothing here asserts how often natural degradation and attacks are told apart on real data.
 
 # text
 seg-8ddaf82ba00b = Stating events and predictions

@@ -30,7 +30,7 @@ seg-c0e69524f05d = <b>MODELLED</b> Osadimensiokohtaiset osapisteet Kshana-ohjelm
 
 seg-2ca37a78e899 = MODELLED kerrostetun PNT:n konfliktinkestävyys (P7). VALIDATED ydin: Monte Carlo -kokonaismenetyksen todennäköisyys suppenee suljetun muodon riippumattomaan tuloon Pi_i p_deny_i (varmistettu MC-keskivirheen sisällä kiinteällä siemenluvulla ja suurella N:llä); käänteisvarianssipaikkayhdistys sigma_fused = (sum_i 1/sigma_i^{ "2" })^(-1/2) on suljetun muodon identiteetti; kun korrelaatio rho={ "0" }, Gaussin kopula redusoituu täsmälleen riippumattomaan mo (tulos <c1/>)
 
-seg-d0d834e377ee = MODELLED kerrostetun PNT:n konfliktinkestävyys (P7): kiistellyssä ympäristössä toimiva käyttäjä käyttää useita PNT-kerroksia (avoimen palvelun GNSS, laajakaista-GNSS, autentikoitu tähdistö, täydennysrele), joilla kullakin on perusasaatavuus, tarkkuus (1σ) ja vektorikohtainen estoalttius yhteiselle häirintä-/harhautusuhalle. (tyyppiluettelo (<c1/>))
+seg-a6619df36cf9 = MODELLED kerrostetun PNT:n konfliktinkestävyys: kiistellyssä ympäristössä toimiva käyttäjä käyttää useita PNT-kerroksia (avoimen palvelun GNSS, laajakaista-GNSS, autentikoitu tähdistö, täydennysrele), joilla kullakin on perusasaatavuus, tarkkuus (1σ) ja vektorikohtainen estoalttius yhteiselle häirintä-/harhautusuhalle. (tyyppiluettelo (<c1/>))
 
 seg-3ca12700b54c = Keskeinen kestävyyssuhde (yksikerroksisen ja kerrostetun kokonaismenetyksen todennäköisyys) asettuu noin ~7x RIIPPUMATTOMUUSoletuksella; yksitekijäinen Gaussin kopulan korreloitu estopyyhkäisy osoittaa sitten, että tämä ~7x romahtaa kohti arvoa { "1" }, kun eston korrelaatio kasvaa (korrelaatio kumoaa kerrostamisen). (tyyppiluettelo (<c1/>))
 

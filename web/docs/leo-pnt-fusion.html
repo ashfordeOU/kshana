@@ -331,14 +331,17 @@ fused-fix and PPP stages of the <code>leo-pnt-chain</code> kind. Their results a
 <td>MODELLED comparison</td>
 </tr>
 </tbody></table></div>
-<p>Everything else is MODELLED with its rationale in the verification matrix
-(<code>docs/VERIFICATION-MATRIX.md</code>): the DOP is checked against a hand-derived four-satellite
-case, the fixes against their covariance, the Doppler model against the range-acceleration
-identity, the PPP filter against the chi-square NEES band, and the bounds against quadrature.</p>
+<p>Two more rows are VALIDATED in the verification matrix (<code>docs/VERIFICATION-MATRIX.md</code>): the
+polar geometry (satellites in view and DOP against latitude) against Orekit, and the NTN
+Cramér-Rao bounds against published worked values, with the fix covariances against NumPy.
+Everything else is MODELLED with its rationale in the matrix: the DOP is checked against a
+hand-derived four-satellite case, the fixes against their covariance, the Doppler model
+against the range-acceleration identity, and the PPP filter against the chi-square NEES band.</p>
 <h2 id="limits-stated-plainly">Limits, stated plainly<a class="anchor" href="#limits-stated-plainly" aria-label="Link to this section">#</a></h2>
 <ul>
-<li>Two-body orbits with the secular drift from J2, the Earth&#39;s second zonal harmonic; no broadcast-ephemeris fit error beyond the
-SISRE one-sigma, no satellite antenna pattern.</li>
+<li>Two-body orbits with the secular drift from J2, the Earth&#39;s second zonal harmonic (the polar mode propagates
+SGP4/SDP4 element sets instead); no broadcast-ephemeris fit error beyond the SISRE one-sigma, no satellite
+antenna pattern.</li>
 <li>No ionospheric or tropospheric delay in <code>leo-pvt</code> (the PPP filter carries a wet delay
 state; its ionosphere-free combination removes the first-order ionosphere), no
 scintillation, multipath, cycle slips or integer ambiguity resolution.</li>

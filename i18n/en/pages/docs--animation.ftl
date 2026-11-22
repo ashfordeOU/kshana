@@ -200,7 +200,8 @@ seg-0857a94a948e = Limits
 
 # text
 # c1: animate_scenario
-seg-02f0f03af2fb = The Python wheel and the WebAssembly module do not expose the exporter yet; it is reachable from the command line, the Rust library and the Model Context Protocol (MCP) server's <c1/> tool (which returns at most { "120" } frames in one reply).
+# c2: animate_scenario
+seg-f142b58922ac = The exporter is reachable from the command line, the Rust library, the Python wheel and the WebAssembly module (<c1/>), and the Model Context Protocol (MCP) server's <c2/> tool. The Python, WebAssembly and MCP surfaces return at most { "120" } frames in one reply and write nothing.
 
 # text
 seg-cd3ec7b403ba = Axes are linear. A series spanning many decades (a clock's error growth from { "0.1" } ns to a microsecond) reads as flat until late in the run.

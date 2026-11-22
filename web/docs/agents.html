@@ -88,7 +88,7 @@
 tools will and will not do, and what to keep with every answer. Surfaces and the cells that are
 not available on a given surface: <a href="/docs/surfaces"><code>SURFACES.md</code></a>.</p>
 <h2 id="connect">Connect<a class="anchor" href="#connect" aria-label="Link to this section">#</a></h2>
-<pre data-lang="shell"><code class="hljs language-bash">npx -y kshana-mcp@0.37.0            <span class="hljs-comment"># or: uvx kshana-mcp==0.37.0, brew, scoop, winget, cargo, docker</span></code></pre>
+<pre data-lang="shell"><code class="hljs language-bash">npx -y kshana-mcp@0.41.0            <span class="hljs-comment"># or: uvx kshana-mcp==0.41.0, brew, scoop, winget, cargo, docker</span></code></pre>
 <p class="omitted">A passage naming third-party AI clients is left out here; it is in <a href="https://github.com/ashfordeOU/kshana/blob/main/docs/AGENTS.md">docs/AGENTS.md</a> on GitHub.</p>
 <h2 id="the-rule-for-every-answer">The rule for every answer<a class="anchor" href="#the-rule-for-every-answer" aria-label="Link to this section">#</a></h2>
 <p>Run the engine; do not guess the numbers. Report what a tool returned with its unit and its
@@ -148,17 +148,22 @@ engine version, so the run can be repeated. Keep each result&#39;s own caveats w
 <tr>
 <td>Run a scored standards pack (DHS RPCF test profiles, IMO MSC.1/Circ.1575, ICAO Doc 9849 Appendix F) against bars stated before the run?</td>
 <td><code>list_standards_packs</code>, <code>run_standards_pack</code> (give the report to <code>compliance_report</code> for the rows)</td>
-<td></td>
+<td><code>/kshana-standards-pack</code></td>
 </tr>
 <tr>
 <td>Check the LunaNet Augmented Forward Signal (codes, SB1, frame format) against LNIS V5 / LSIS-AFS V1.0, or check a symbol stream?</td>
 <td><code>lunanet_afs_check</code> (<code>mode</code> spec, symbols or generate); LDPC and CRC-24Q of subframes 2 to 4 are not verified</td>
-<td></td>
+<td><code>/kshana-lunanet-afs-check</code></td>
 </tr>
 <tr>
 <td>Link a laboratory run (scenario, stated test conditions, receiver log, score) in one signed pack?</td>
 <td><code>create_round_trip_pack</code> after <code>export_test_bench</code> (<code>docs/spec/TEST-CONDITIONS.md</code>)</td>
-<td></td>
+<td>—</td>
+</tr>
+<tr>
+<td>Fit the noise parameters of the <code>hybrid</code> and <code>fusion</code> scenarios from a stationary IMU log</td>
+<td><code>fit_imu_log</code></td>
+<td><code>/kshana-fit-imu</code></td>
 </tr>
 <tr>
 <td>Score a detection or holdover submission against a kshana-bench truth file, or render result files as the leaderboard page?</td>
@@ -186,8 +191,8 @@ engine version, so the run can be repeated. Keep each result&#39;s own caveats w
 <td><code>/kshana-iq</code></td>
 </tr>
 </tbody></table></div>
-<p>The skills <code>vessel-receiver-trust</code>, <code>training-nmea-scenario</code>, <code>trust-telemetry</code>, <code>compliance-mapping</code>, <code>test-bench-export</code>, <code>gnss-iq</code> and <code>interference-map-route-exposure</code>
-carry the rules below for agents that load skills.</p>
+<p>The skills <code>vessel-receiver-trust</code>, <code>training-nmea-scenario</code>, <code>trust-telemetry</code>, <code>compliance-mapping</code>, <code>test-bench-export</code>, <code>gnss-iq</code>, <code>interference-map-route-exposure</code>,
+<code>jammertest</code>, <code>evidence-pack</code> and <code>marine-integrations</code> carry the rules below for agents that load skills.</p>
 <h2 id="what-each-tool-will-not-do">What each tool will not do<a class="anchor" href="#what-each-tool-will-not-do" aria-label="Link to this section">#</a></h2>
 <ul>
 <li><strong>Read or write files.</strong> Content is inline: inputs are text in the request, capped at 4 MiB, and

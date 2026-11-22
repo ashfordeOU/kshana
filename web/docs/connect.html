@@ -158,7 +158,7 @@ all and exits 1 on any byte difference, naming the first differing line; <code>-
 expected outputs after a reviewed change. CI runs the folder (<code>tests/connect_conformance.rs</code>).
 Every new adapter comes with its vector.</p>
 <p>Not in this version: Parquet and HDF5 inputs (they need large dependencies; a conversion to CSV
-or JSON Lines is the route for now) and live inputs (A3a).</p>
+or JSON Lines is the route for now). Live inputs are described below.</p>
 <h2 id="live-watching-a-directory-library">Live: watching a directory (library)<a class="anchor" href="#live-watching-a-directory-library" aria-label="Link to this section">#</a></h2>
 <p><code>kshana::connect_watch::step</code> follows the files a logger writes or rotates into a directory and returns
 the <code>kshana.obs/1</code> records that became complete since the last step, through the same mapping file.</p>
@@ -287,7 +287,7 @@ quality. That needs a schema minor version. It is checked against a stream from 
 (<code>tests/c37118.rs</code>); no public PMU capture has been checked yet.</p>
 <p>A binary sensor is first decoded by a device file (<code>kshana.device/1</code>, <a href="https://github.com/ashfordeOU/kshana/blob/main/docs/DEVICES.md">DEVICES.md</a>) into JSON
 Lines, which a mapping file then reads like any other JSON Lines export.</p>
-<h2 id="tracks-ais-ads-b-asterix-mavlink-ulog-nmea-2000-kshana-connect-decode-042">Tracks: AIS, ADS-B, ASTERIX, MAVLink, ULog, NMEA 2000 (<code>kshana connect decode</code>, 0.42)<a class="anchor" href="#tracks-ais-ads-b-asterix-mavlink-ulog-nmea-2000-kshana-connect-decode-042" aria-label="Link to this section">#</a></h2>
+<h2 id="tracks-ais-ads-b-asterix-mavlink-ulog-nmea-2000-kshana-connect-decode-after-0410">Tracks: AIS, ADS-B, ASTERIX, MAVLink, ULog, NMEA 2000 (<code>kshana connect decode</code>, after 0.41.0)<a class="anchor" href="#tracks-ais-ads-b-asterix-mavlink-ulog-nmea-2000-kshana-connect-decode-after-0410" aria-label="Link to this section">#</a></h2>
 <p><code>kshana connect decode &lt;input&gt; --format &lt;f&gt;</code> reads vessel, aircraft and drone position reports (AIS
 from NMEA 0183, canboat NMEA 2000 JSON, ASTERIX CAT010/021/048/062, Beast and AVR Mode S, OpenSky-style
 state vectors, MAVLink <code>.tlog</code>, PX4 ULog) with their accuracy and integrity fields, and writes JSON
@@ -296,13 +296,13 @@ listens for MAVLink on a UDP port, read only. MAVLink <code>.tlog</code>, ULog a
 readers for observation files (<code>reader = &quot;mavlink-tlog&quot;</code>, <code>&quot;ulog&quot;</code>, <code>&quot;canboat&quot;</code>). A conformance vector
 can name a track decoder instead of a mapping or a reader: <code>decode = &quot;&lt;format&gt;&quot;</code>, with an <code>[options]</code>
 table (<code>day</code>, <code>start</code>, <code>radar</code>, and <code>to</code> for the output form). See <a href="https://github.com/ashfordeOU/kshana/blob/main/docs/TRACKS.md">TRACKS.md</a>.</p>
-<h2 id="timing-systems-and-receiver-streams-042">Timing systems and receiver streams (0.42)<a class="anchor" href="#timing-systems-and-receiver-streams-042" aria-label="Link to this section">#</a></h2>
+<h2 id="timing-systems-and-receiver-streams-after-0410">Timing systems and receiver streams (after 0.41.0)<a class="anchor" href="#timing-systems-and-receiver-streams-after-0410" aria-label="Link to this section">#</a></h2>
 <p>PTP management (linuxptp <code>pmc</code>), SNMP polling of grandmasters, chrony and ntpd status, and NTP mode 6
 are read by <code>kshana connect timing|snmp|ntp</code>: see <a href="https://github.com/ashfordeOU/kshana/blob/main/docs/TIMING-SYSTEMS.md">TIMING-SYSTEMS.md</a>. Swift SBP,
 Javad GREIS and Unicore N4 logs are built-in readers (<code>reader = &quot;sbp&quot;</code>, <code>&quot;greis&quot;</code>, <code>&quot;unicore&quot;</code>), and
 <code>kshana connect decode rtcm3</code> prints RTCM 3 observations and station messages: see
 <a href="/docs/receiver-protocols">RECEIVER-PROTOCOLS.md</a>.</p>
-<h2 id="industrial-control-ops-outputs-mission-control-and-simulators-042-wave-2">Industrial control, ops outputs, mission control and simulators (0.42 wave 2)<a class="anchor" href="#industrial-control-ops-outputs-mission-control-and-simulators-042-wave-2" aria-label="Link to this section">#</a></h2>
+<h2 id="industrial-control-ops-outputs-mission-control-and-simulators-after-0410">Industrial control, ops outputs, mission control and simulators (after 0.41.0)<a class="anchor" href="#industrial-control-ops-outputs-mission-control-and-simulators-after-0410" aria-label="Link to this section">#</a></h2>
 <ul>
 <li><code>kshana connect modbus|dnp3|opcua</code> read Modbus TCP registers, DNP3 class 0 points and OPC UA
 values, read only: see <a href="https://github.com/ashfordeOU/kshana/blob/main/docs/INDUSTRIAL.md">INDUSTRIAL.md</a>.</li>
@@ -317,7 +317,7 @@ SoapySDR (optional feature): see <a href="https://github.com/ashfordeOU/kshana/b
 </div>
     <nav class="docs-pn" aria-label="Previous and next"><a class="prev" href="/docs/station"><small>Previous</small>Kshana Station</a><a class="next" href="/docs/adapters"><small>Next</small>Adapter registry</a></nav>
   </article>
-  <nav class="docs-toc" aria-label="On this page"><h2>On this page</h2><a class="l2" href="#the-file">The file</a><a class="l2" href="#rules">Rules</a><a class="l2" href="#conformance-vectors">Conformance vectors</a><a class="l2" href="#live-watching-a-directory-library">Live: watching a directory (library)</a><a class="l2" href="#live-mqtt-subscription-kshanaconnect_mqtt">Live MQTT subscription (kshana::connect_mqtt)</a><a class="l2" href="#live-nats-input-kshanaconnect_nats">Live NATS input (kshana::connect_nats)</a><a class="l2" href="#live-websocket-input-kshanaconnect_ws">Live WebSocket input (kshana::connect_ws)</a><a class="l2" href="#load-test-kshana-connect-load-test">Load test (kshana connect load-test)</a><a class="l2" href="#live-conformance-kit-kshana-connect-check-live">Live conformance kit (kshana connect check-live)</a><a class="l2" href="#grid-timing-ieee-c371182-pmu-streams-library-modelled">Grid timing: IEEE C37.118.2 PMU streams (library, MODELLED)</a><a class="l2" href="#tracks-ais-ads-b-asterix-mavlink-ulog-nmea-2000-kshana-connect-decode-042">Tracks: AIS, ADS-B, ASTERIX, MAVLink, ULog, NMEA 2000 (kshana connect decode, 0.42)</a><a class="l2" href="#timing-systems-and-receiver-streams-042">Timing systems and receiver streams (0.42)</a><a class="l2" href="#industrial-control-ops-outputs-mission-control-and-simulators-042-wave-2">Industrial control, ops outputs, mission control and simulators (0.42 wave 2)</a></nav>
+  <nav class="docs-toc" aria-label="On this page"><h2>On this page</h2><a class="l2" href="#the-file">The file</a><a class="l2" href="#rules">Rules</a><a class="l2" href="#conformance-vectors">Conformance vectors</a><a class="l2" href="#live-watching-a-directory-library">Live: watching a directory (library)</a><a class="l2" href="#live-mqtt-subscription-kshanaconnect_mqtt">Live MQTT subscription (kshana::connect_mqtt)</a><a class="l2" href="#live-nats-input-kshanaconnect_nats">Live NATS input (kshana::connect_nats)</a><a class="l2" href="#live-websocket-input-kshanaconnect_ws">Live WebSocket input (kshana::connect_ws)</a><a class="l2" href="#load-test-kshana-connect-load-test">Load test (kshana connect load-test)</a><a class="l2" href="#live-conformance-kit-kshana-connect-check-live">Live conformance kit (kshana connect check-live)</a><a class="l2" href="#grid-timing-ieee-c371182-pmu-streams-library-modelled">Grid timing: IEEE C37.118.2 PMU streams (library, MODELLED)</a><a class="l2" href="#tracks-ais-ads-b-asterix-mavlink-ulog-nmea-2000-kshana-connect-decode-after-0410">Tracks: AIS, ADS-B, ASTERIX, MAVLink, ULog, NMEA 2000 (kshana connect decode, after 0.41.0)</a><a class="l2" href="#timing-systems-and-receiver-streams-after-0410">Timing systems and receiver streams (after 0.41.0)</a><a class="l2" href="#industrial-control-ops-outputs-mission-control-and-simulators-after-0410">Industrial control, ops outputs, mission control and simulators (after 0.41.0)</a></nav>
 </div>
 </main>
 

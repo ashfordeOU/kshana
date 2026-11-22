@@ -55,23 +55,23 @@ seg-8461cb5b7863 = MODELLED { "2" } · VALIDATED { "1" }: the <a1>verification m
 
 # text
 # c1: slot-timing
-seg-e84e4b49fee0 = <b>VALIDATED</b> The <c1/> kind's measured-record path: the overlapping Allan deviation of a phase record fitted by edf-weighted non-negative least squares in the white-phase and IEEE Std { "1139" } frequency-modulation basis (slot_timing::fit_weighted), Tests: <a1>slot_timing_cs5071a_holdout.rs</a1>.
+seg-45645c8307a8 = <b>VALIDATED</b> The <c1/> kind's measured-record path: the overlapping Allan deviation of a phase record fitted by edf-weighted non-negative least squares in the white-phase and IEEE Std { "1139" } frequency-modulation basis… Tests: <a1>slot_timing_cs5071a_holdout.rs</a1>.
 
 # text
 # c1: slot-timing
-seg-26ccdbd07a46 = <b>MODELLED</b> The <c1/> kind: the predicted error E(t) = k·√(σ₀² + σ_x²(t)) + (|y₀| + |c_T·ΔT|)·t + ½|D|t² inverted for the breach, the time left, the resynchronisation interval net of the fix latency and fixes per day, each term itemised with th Tests: <a1>slot_timing_igs_holdout.rs</a1>.
+seg-a7de475da28f = <b>MODELLED</b> The <c1/> kind: the predicted error E(t) = k·√(σ₀² + σ_x²(t)) + (|y₀| + |c_T·ΔT|)·t + ½|D|t² inverted for the breach, the time left, the resynchronisation interval net of the fix latency and fixes per day, each term itemised with… Tests: <a1>slot_timing_igs_holdout.rs</a1>.
 
 # text
 # c1: slot-timing
-seg-35ac4dddc39f = <b>MODELLED</b> orbital_timing::orbital_timing, reachable as the <c1/> kind's spoofing section: circular-orbit speed and period, the longest time a ground spoofer can reach the satellite per pass, the clock-aided monitor floor and CUSUM detection l
+seg-8bee1ca91578 = <b>MODELLED</b> orbital_timing::orbital_timing, reachable as the <c1/> kind's spoofing section: circular-orbit speed and period, the longest time a ground spoofer can reach the satellite per pass, the clock-aided monitor floor and CUSUM detection…
 
 # text
 # c1: slot-timing
-seg-8dbc28c3398f = <b>MODELLED</b> The <c1/> kind: the predicted error E(t) = k·√(σ₀² + σ_x²(t)) + (|y₀| + |c_T·ΔT|)·t + ½|D|t² inverted for the breach, the time left, the resynchronisati. Oracle (InternalConsistency): Closed forms for each term alone and the independent holdover::holdover_seconds root-find; the datasheet figures are the named documents (docs/SLOT-TIMING.md). A class default rests on an assumed red-noise floor and a datasheet source is an envelope of maxima, so neither is a measurement of any unit
+seg-9d5d3063383c = <b>MODELLED</b> The <c1/> kind: the predicted error E(t) = k·√(σ₀² + σ_x²(t)) + (|y₀| + |c_T·ΔT|)·t + ½|D|t² inverted for the breach, the time left, the…. Oracle (InternalConsistency): Closed forms for each term alone and the independent holdover::holdover_seconds root-find; the datasheet figures are the named documents (docs/SLOT-TIMING.md). A class default rests on an assumed red-noise floor and a datasheet source is an envelope of maxima, so neither is a measurement of any unit
 
 # text
 # c1: slot-timing
-seg-fabde8dddf68 = <b>MODELLED</b> orbital_timing::orbital_timing, reachable as the <c1/> kind's spoofing section: circular-orbit speed and period, the longest time a ground spoofer can r. Oracle (InternalConsistency): Reduction to the existing timing protection level and the circular-orbit and spherical-Earth visibility closed forms. Conditional on detection, one terrestrial spoofer at a stated ramp rate, an overhead pass on a non-rotating Earth; not validated on a spoofed receiver in orbit
+seg-8f48870d3e68 = <b>MODELLED</b> orbital_timing::orbital_timing, reachable as the <c1/> kind's spoofing section: circular-orbit speed and period, the longest time a ground spoofer can…. Oracle (InternalConsistency): Reduction to the existing timing protection level and the circular-orbit and spherical-Earth visibility closed forms. Conditional on detection, one terrestrial spoofer at a stated ramp rate, an overhead pass on a non-rotating Earth; not validated on a spoofed receiver in orbit
 
 # text
 # c1: not_modelled[0]
@@ -95,7 +95,7 @@ seg-b101457241f2 = MODELLED — time until a free-running clock leaves a routing
 
 # text
 # c1: kshana kinds --json
-seg-8e3d910f22ed = The oscillator is a CLASS default (csac, uso, dsac, tcxo, ocxo or rafs: one cited one-second Allan deviation and an assumed red-noise floor), a telecom-timing DATASHEET PRESET or an inline DATASHEET (Allan-deviation maxima fitted as an envelope, plus ageing and a temperature coefficient), or an inline MEASURED PHASE RECORD (its overlapping Allan deviation fitted by weighted least squares in the white-phase and IEEE S (kind catalogue (<c1/>))
+seg-0fa1b7a8ee18 = The oscillator is a CLASS default (csac, uso, dsac, tcxo, ocxo or rafs: one cited one-second Allan deviation and an assumed red-noise floor), a telecom-timing DATASHEET PRESET or an inline DATASHEET (Allan-deviation maxima fitted as an envelope, plus ageing and a temperature coefficient), or an inline MEASURED PHASE RECORD (its overlapping Allan deviation fitted by weighted least squares in the white-phase and IEEE… (kind catalogue (<c1/>))
 
 # text
 # c1: kshana kinds --json

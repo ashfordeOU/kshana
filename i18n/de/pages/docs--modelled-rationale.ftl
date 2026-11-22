@@ -1727,7 +1727,6 @@ seg-b19cbd364dea = src/benchmark/scorecard.rs::tests (Referenz-PL absorbiert; de
 
 # text
 # c1: variance
-seg-350aaf43f349 = gegen die eigene geschlossene Form bzw. analytische Identität geprüft — fängt Übertragungs- und Koeffizientenfehler ab, ist aber keine externe unabhängige Referenz — Keine externe unabhängige Referenz, und keine ist möglich: Dies ist Selbstbeschreibung, keine Messung. Sie ist erfasst, weil ihr Fehlen ein Mangel war -- P5 musste die Trägerwellenlänge und die Sendeapertur aus Quellvorgaben zitieren und aus einer Prüfung der internen Konsistenz schließen, dass ein nacktes <c1/> in Quadratmetern angegeben war. Der Schluss war richtig, und genau deshalb war es wichtig: Nichts hätte aufgefangen, wenn er falsch gewesen wäre
 
 # text
 seg-6d963d838eed = hybrid_integrity::tests (die aufgelöste Konfiguration wird für Vorgaben und für Überschreibungen zurückgegeben, ohne die Wellenlänge über Meter hin und zurück zu führen; jeder Eintrag zu Einheiten trägt sowohl eine Einheit als auch eine Herkunftsklasse; jedes vom Einheitenblock genannte Feld wird tatsächlich ausgegeben, sodass es kein Geisterfeld dokumentieren kann)

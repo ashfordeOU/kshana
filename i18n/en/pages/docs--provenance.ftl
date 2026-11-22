@@ -565,6 +565,9 @@ seg-9148986e8610 = 22-parameter ephemeris model
 seg-5b82ad0bd2c9 = Liu et al. ({ "2025" }), <em>Remote Sensing</em> { "17" }({ "16" }):{ "2894" }
 
 # text
+seg-55c91fd2f868 = VALIDATED (fit on real precise orbits); the synthetic five-altitude comparison table MODELLED
+
+# text
 seg-2080b4fc31a8 = Chart provenance footer
 
 # text

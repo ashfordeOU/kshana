@@ -44,7 +44,7 @@ seg-cd29f08ef235 = <b>VALIDATED</b> CCSDS { "502.0" } OEM importer (parse_oem), 
 
 # text
 # c1: oem
-seg-20071a16b316 = <b>VALIDATED</b> CCSDS { "502.0" } OEM importer (parse_oem), tolerant of COMMENT lines / extra metadata keywords / covariance blocks and the exact inverse of the writer; round-trip + . Oracle (ExternalDataset): Independent third-party CCSDS-502 parser <c1/> { "0.4.5" } (MIT, <a1>https://pypi.org/project/oem/</a1>) — a separate codebase that decodes kshana's emitted EME2000/UTC OEM byte-identically ({ "24" } states across { "2" } fixtures, pos/vel Δ = { "0" }) and whose strict reader confirms the metadata tokens; kshana's parser likewise agrees with it on a vendored external OEM. Two honest interop findings (the oem library rejects kshana's per-satellite mu
+seg-c402285fa091 = <b>VALIDATED</b> CCSDS { "502.0" } OEM importer (parse_oem), tolerant of COMMENT lines / extra metadata keywords / covariance blocks and the exact inverse of the writer; round-trip…. Oracle (ExternalDataset): Independent third-party CCSDS-502 parser <c1/> { "0.4.5" } (MIT, <a1>https://pypi.org/project/oem/</a1>) — a separate codebase that decodes kshana's emitted EME2000/UTC OEM byte-identically ({ "24" } states across { "2" } fixtures, pos/vel Δ = { "0" }) and whose strict reader confirms the metadata tokens; kshana's parser likewise agrees with it on a vendored external OEM. Two honest interop findings (the oem library rejects kshana's per-satellite…
 
 # text
 # c1: label

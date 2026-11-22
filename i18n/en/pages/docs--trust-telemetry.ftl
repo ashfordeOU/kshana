@@ -551,7 +551,7 @@ seg-a3b77e9593eb = OpenTelemetry (off by default)
 seg-396c34d29783 = Build with <c1/> and pass <c2/>. The exporter posts OTLP/HTTP JSON (<c3/>, <c4/>, <c5/>, <c6/>, and for schema { "1.3" } inputs <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/> and, from inputs that carry the label ({ "0.36" }), <c13/> (attribute <c14/>) and <c15/>; the cumulative sums carry <c16/>) every <c17/> epochs (default { "10" }) and at end of input. It adds no dependency and has no TLS: send to a collector on the same host or a trusted segment, which forwards onwards over TLS. <c18/> endpoints are refused.
 
 # text
-seg-62ff45923e5f = Incident, chat, log-index, SNMP and threat-sharing outputs ({ "0.42" } I5)
+seg-ee619f882cd3 = Incident, chat, log-index, SNMP and threat-sharing outputs
 
 # text
 # c1: kshana connect alert <trust.jsonl|-> --form <form>
@@ -688,7 +688,7 @@ seg-05f5d350b58b = <b>STIX { "2.1" } and TAXII { "2.1" }.</b> Each band change b
 seg-347f46c28819 = <b>OpenMetrics.</b> The <c1/> endpoint answers a scraper that asks for <c2/> with the OpenMetrics { "1.0" } form (counter families named without their <c3/> suffix in <c4/> and <c5/>, closing <c6/>); others get the Prometheus { "0.0.4" } text as before.
 
 # text
-seg-21881a612799 = <b>Not built.</b> Kafka in and out: the crate has no Kafka client and no optional path for one, so it remains open (A2 remainder); bridge the JSON outputs with a Kafka producer of your choice. A Grafana dashboard per segment is not part of this wave.
+seg-a477da7cbb43 = <b>Not built.</b> Kafka in and out: the crate has no Kafka client and no optional path for one; bridge the JSON outputs with a Kafka producer of your choice. A Grafana dashboard per segment is not built either.
 
 # text
 # c1: tests/connect_042_w2.rs

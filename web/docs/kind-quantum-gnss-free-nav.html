@@ -149,7 +149,7 @@
 </tr>
 <tr>
 <td><code>evidence.id_rule</code></td>
-<td>the stable id of the matrix row (the ID</td>
+<td>the stable id of the matrix row (the…</td>
 <td>text</td>
 </tr>
 <tr>
@@ -194,11 +194,11 @@
 <p>No matrix row names this kind by name; the label on its result is the engine&#39;s own, above.</p>
 <p>The rows the run itself exercised, with the oracle the matrix gives each (the public sources are named there):</p>
 <ul>
-<li><strong>MODELLED</strong> Cold-atom interferometer accelerometer from first principles (k_eff·T², QPN). Oracle (ExternalDataset): Published CAI primary-paper numeric vectors (Cheinet 2008 transfer function; Peters/Freier sensitivity): k_eff·T² matched exactly, shot-noise ASD a one-sided floor within ~2× of each published instrument (real devices carry technical noise above the quantum floor). A bracket, not parity. 0.30 round 2 (pre-registered e7de532a), a finding (stays MODELLED): the QPN-only rotation noise against the measured Gauguet et al.</li>
+<li><strong>MODELLED</strong> Cold-atom interferometer accelerometer from first principles (k_eff·T², QPN). Oracle (ExternalDataset): Published CAI primary-paper numeric vectors (Cheinet 2008 transfer function; Peters/Freier sensitivity): k_eff·T² matched exactly, shot-noise ASD a one-sided floor within ~2× of each published instrument (real devices carry technical noise above the quantum floor). A bracket, not parity. 0.30 round 2 (pre-registered e7de532a), a finding (stays MODELLED): the QPN-only rotation noise against the measured Gauguet et…</li>
 <li><strong>MODELLED</strong> Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): SBOM conformance to the official CycloneDX 1.5 JSON Schema (+ valid SPDX identifiers) — an external published standard, zero validation errors over the full dependency graph; the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED</li>
 <li><strong>PARTNER</strong> Not provided — performance models only; cold-atom/clock hardware is a partner&#39;s. Oracle (NoneKind): none: a partner-owned discipline, with no module and no test by design</li>
-<li><strong>MODELLED</strong> One reproducible TradeEvidence object (fixed frame: scenario+seed+engine; common per-FoM quantum-vs-classical values with polarity-correct benefit, optional 95%. Oracle (InternalConsistency): Closed-form benefit/winner identities + faithful wrap of the existing quantum_trade::TradeResult; honesty tied to the representativeness ledger and verification labels</li>
-<li><strong>MODELLED</strong> Quantum (cold-atom interferometer) vs classical navigation-grade INS dead-reckoning over a GNSS outage: position-error growth, holdover to a position threshold,. Oracle (InternalConsistency): Reused inertial budgets cross-checked against an independent Octave double-integration of the same dead-reckoning ODE (different runtime, shared model → ReferenceImpl) plus the Freier-2016 published short-term noise as a one-sided anchor; the quantum-vs-classical composite stays MODELLED</li>
+<li><strong>MODELLED</strong> One reproducible TradeEvidence object (fixed frame: scenario+seed+engine; common per-FoM quantum-vs-classical values with polarity-correct benefit, optional…. Oracle (InternalConsistency): Closed-form benefit/winner identities + faithful wrap of the existing quantum_trade::TradeResult; honesty tied to the representativeness ledger and verification labels</li>
+<li><strong>MODELLED</strong> Quantum (cold-atom interferometer) vs classical navigation-grade INS dead-reckoning over a GNSS outage: position-error growth, holdover to a position…. Oracle (InternalConsistency): Reused inertial budgets cross-checked against an independent Octave double-integration of the same dead-reckoning ODE (different runtime, shared model → ReferenceImpl) plus the Freier-2016 published short-term noise as a one-sided anchor; the quantum-vs-classical composite stays MODELLED</li>
 </ul>
 <h2 id="limitations">Limitations<a class="anchor" href="#limitations" aria-label="Link to this section">#</a></h2>
 <p>What the run&#39;s own report says is not modelled or not validated:</p>

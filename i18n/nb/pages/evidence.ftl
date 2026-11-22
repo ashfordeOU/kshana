@@ -940,7 +940,6 @@ seg-8adbbd2cdb74 = Selvbeskrivelse i hybridrapporten for optisk/RF
 
 seg-2a5e48b558e1 = Rapporten hybrid-optical-rf oppgir linkkonfigurasjonen den faktisk ble kjørt med (bærebølgelengde, sende- og mottaksåpning, avstand, pulsbredde, integrasjonstid, virkningsgrader og tap, standardverdier løst opp) og bærer en enhetsblokk som gir enhet og opphavsklasse for hver størrelse en artikkel sannsynligvis siterer, inkludert sporene av overleveringskovariansen i kvadratmeter
 
-seg-23f0c10237f4 = Ingen uavhengig ekstern referanse, og ingen er mulig: dette er selvbeskrivelse, ikke en måling. Den er registrert fordi fraværet var en mangel -- P5 måtte sitere bærebølgelengden og sendeåpningen fra kildens standardverdier, og slutte at en bar <c1/> var i kvadratmeter ut fra en intern konsistenskontroll. Slutningen var riktig, og nettopp derfor betydde det noe: ingenting ville ha fanget at den var feil
 
 seg-0691f3dee8cb = Tilgjengelighet for hybrid optisk/RF-link på RF-siden
 

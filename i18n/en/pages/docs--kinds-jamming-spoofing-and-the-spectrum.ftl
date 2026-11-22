@@ -40,7 +40,7 @@ seg-e37f1e071b2c = L-band spectrum model and waterfall: the whole GNSS L band as
 seg-02706b96f8fa = MODELLED { "3" } · VALIDATED { "2" }
 
 # text
-seg-8887d666b4fc = Machine-learning RF-impairment detection evaluation testbed ({ "13494" }): generate a labelled, parameter-grounded SYNTHETIC corpus (nominal/jamming/spoof-time/spoof-position/multipath), score a detector (energy/agc/s
+seg-6b96b681d8b0 = Machine-learning RF-impairment detection evaluation testbed: generate a labelled, parameter-grounded SYNTHETIC corpus (nominal/jamming/spoof-time/spoof-position/multipath), score a detector…
 
 # text
 seg-d1c67e3dd12e = MODELLED { "1" } · VALIDATED { "2" }
@@ -156,7 +156,7 @@ seg-a73f44c04565 = <b>Ledger:</b> MODELLED { "3" } · VALIDATED { "2" }. Full pa
 seg-ea1678eb9e84 = The chart the engine writes for scenarios/l-band-waterfall-jamming.toml, kind spectrum
 
 # text
-seg-98e740d32860 = Machine-learning RF-impairment detection evaluation testbed ({ "13494" }): generate a labelled, parameter-grounded SYNTHETIC corpus (nominal/jamming/spoof-time/spoof-position/multipath), score a detector (energy|agc|sqm|parity|fused) with the detector-agnostic harness, and report AUC/ROC/confusion + per-class Pd at a target Pfa, plus the in- vs out-of-distribution optimism gap. MODELLED operating characteristics only — never field/IQ, no good/bad verdict.
+seg-76a75c821a5d = Machine-learning RF-impairment detection evaluation testbed: generate a labelled, parameter-grounded SYNTHETIC corpus (nominal/jamming/spoof-time/spoof-position/multipath), score a detector (energy|agc|sqm|parity|fused) with the detector-agnostic harness, and report AUC/ROC/confusion + per-class Pd at a target Pfa, plus the in- vs out-of-distribution optimism gap. MODELLED operating characteristics only — never field/IQ, no good/bad verdict.
 
 # text
 # c1: seed

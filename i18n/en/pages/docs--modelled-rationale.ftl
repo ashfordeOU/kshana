@@ -553,7 +553,7 @@ seg-4bcb7eeb020a = report, scenario; CI (golden/determinism/SBOM)
 seg-3667ebf0582a = tests/golden.rs, tests/determinism.rs, tests/cross_platform_golden.rs; tests/reproducibility_software_assurance_reference.rs (the generated SBOM validates with zero errors against the official CycloneDX { "1.5" } JSON Schema over the full 66-component shipped graph: default + python + wasm features, dev-dependencies excluded)
 
 # text
-seg-a014f82f28b0 = Machine-learning RF-impairment detection evaluation ({ "13494" })
+seg-11a0bdd471f2 = Machine-learning RF-impairment detection evaluation
 
 # text
 # c1: impairment-eval
@@ -582,7 +582,7 @@ seg-28583cba1c55 = impairment_study, impairment_ml, eval_stats
 seg-b30ce36e7afb = impairment_study::tests (per-class oracle AUC≈{ "1" }, learned optimism gap>{ "0" }, grid shape + bootstrap CI brackets the mean + positive scaling trend, ID features finite, gap predictor beats predict-the-mean under BOTH leave-one-detector-out and leave-one-class-out CV + deterministic); impairment_ml::tests (logreg separates + deterministic + loss↓, MLP solves XOR a linear model cannot + seeded); eval_stats::tests (bootstrap/DeLong/Spearman/ridge vs closed forms)
 
 # text
-seg-fd6424213d1f = Quantum-vs-classical PNT trade & GNSS-denied resilience ({ "13503" })
+seg-4e0187443f7f = Quantum-vs-classical PNT trade & GNSS-denied resilience
 
 # text
 # c1: quantum-trade
@@ -699,7 +699,7 @@ seg-412105b0f541 = integrity_impact (over raim)
 seg-35bc1db56d2a = integrity_impact::tests (same miss flips Available→MI→HMI as the context tightens; conservative-PL→Unavailable; per-axis HMI; input guards)
 
 # text
-seg-37d43b5b918a = CAI cited error-model parameter sheet ({ "13503" })
+seg-c4318a0c27d3 = CAI cited error-model parameter sheet
 
 # text
 seg-0b6a901f5ad2 = Bracketed (best/nominal/conservative) cold-atom-interferometer performance — bias instability, velocity/angle random walk, scale-factor stability, interrogation-limited sample rate, fringe-ambiguity dynamic range — each citation-traceable; feeds QuantumNavBudget without modelling hardware
@@ -769,7 +769,7 @@ seg-2a5e48b558e1 = The hybrid-optical-rf report states the link configuration it
 
 # text
 # c1: variance
-seg-350aaf43f349 = checked against its own closed-form / analytic identity — catches transcription and coefficient errors, but is not an external oracle — No external oracle, and none is possible: this is self-description, not a measurement. It is recorded because the absence of it was a defect -- P5 had to quote the carrier wavelength and transmit aperture from source defaults, and to infer that a bare <c1/> was in square metres from an internal consistency check. The inference was correct, which is precisely why it mattered: nothing would have caught it being wrong
+seg-e70a88684c57 = checked against its own closed-form / analytic identity — catches transcription and coefficient errors, but is not an external oracle — No external oracle, and none is possible: this is self-description, not a measurement. It is recorded because the absence of it was a defect: a reader had to quote the carrier wavelength and transmit aperture from source defaults, and to infer that a bare <c1/> was in square metres from an internal consistency check. The inference was correct, which is precisely why it mattered: nothing would have caught it being wrong
 
 # text
 seg-6d963d838eed = hybrid_integrity::tests (the resolved configuration is echoed for defaults and for overrides, without round-tripping the wavelength through metres; every units entry carries both a unit and a provenance class; every field the units block names is actually emitted, so it cannot document a ghost)
@@ -1006,7 +1006,7 @@ seg-e4ec41d0f5e1 = Lunar absolute-station observability (datum defect)
 seg-b3e4160042d2 = Fisher-information observability of the joint lunar solve: without Earth baselines the absolute-frame datum lies in the null space of HᵀWH (station position unobservable); ≥{ "3" } baselines restore full rank and bound the station Cramér–Rao error, which the estimator attains
 
 # text
-seg-8607dd8e1c2c = checked against its own closed-form / analytic identity — catches transcription and coefficient errors, but is not an external oracle — Analytic datum-defect structure — the unobservable absolute-frame mode lies in the null space of the Fisher information (closed-form), the rank threshold matches the published 3-station design rationale, and the estimator attains the resulting CRLB in Monte-Carlo. The lunar geometry itself is a representative network (not a flown ephemeris), so the row stays MODELLED; the underlying FIM/CRLB engine is checked against the Kay ({ "1993" }) closed forms separately. { "0.30" } round { "2" } (pre-registered e4134aa7), blocked (stays MODELLED): NumPy/SciPy recompute the rank and defect at the stated { "1e-9" } threshold, the station axes share of the null space (within { "8.4e-10" }) and the station CRLB (within { "1.2e-10" }) on { "17" } committed Kshana-generated configurations (P2). Not promoted: the claim that the estimator attains the bound (Monte Carlo efficiency about { "0.98" }) has no oracle, and the scoping that would leave it MODELLED awaits an owner decision
+seg-0ead7763f3ff = checked against its own closed-form / analytic identity — catches transcription and coefficient errors, but is not an external oracle — Analytic datum-defect structure — the unobservable absolute-frame mode lies in the null space of the Fisher information (closed-form), the rank threshold matches the published 3-station design rationale, and the estimator attains the resulting CRLB in Monte-Carlo. The lunar geometry itself is a representative network (not a flown ephemeris), so the row stays MODELLED; the underlying FIM/CRLB engine is checked against the Kay ({ "1993" }) closed forms separately. { "0.30" } round { "2" } (pre-registered e4134aa7), blocked (stays MODELLED): NumPy/SciPy recompute the rank and defect at the stated { "1e-9" } threshold, the station axes share of the null space (within { "8.4e-10" }) and the station CRLB (within { "1.2e-10" }) on { "17" } committed Kshana-generated configurations. Not promoted: the claim that the estimator attains the bound (Monte Carlo efficiency about { "0.98" }) has no oracle, and the scoping that would leave it MODELLED awaits an owner decision
 
 # text
 seg-4f3b4fe41736 = lunar_combination (lunar_observability) + fim
@@ -3185,7 +3185,7 @@ seg-259d201c2ff8 = CRPA antenna gains in the jamming kind against an independent
 seg-192144c57783 = The jamming kind's optional [crpa] section: a per-channel beam toward each satellite (null-steering with the jammer as the null, or MVDR on sigma^{ "2" } I + P_j a_j a_j^H), scaling each link's noise by ||w||^{ "2" } and the jammer by |w^H a_j|^{ "2" } before the existing anti-jam C/N0 equation.
 
 # text
-seg-2da33a3d5c4a = checked against a separate implementation in this same codebase — independent of the unit under test, but not externally authoritative — An independent numpy recomputation (xval/crpa-jamming/oracle.py, no shared code: numpy steering vectors, numpy.linalg.solve and inv) of every link of the jamming-demo geometry with a 4-element square array, under both weightings. Bars pre-registered at 716de66a. MET: A1 (all { "150" } scenario results byte-identical without the section, after a fix: the first build added the crpa units to every jamming run's units table), A2 (one element equals no array to { "1e-12" } dB), A3 on the array noise gain and effective C/N0 ({ "912" } link-weightings within { "1e-9" } dB, worst { "2.1e-14" } dB) and on the null-steering jammer null (below -200 dB on both sides), A4 (MVDR within { "0.1" } dB of null-steering at a JNR of { "80" } dB). NOT MET: A3 on the MVDR jammer gain, { "194" } of { "456" } links over { "1e-9" } dB on { "0.36" } portable maths ({ "202" } on host maths; docs/revisions/STUDIO15-batch4-rebaseline.md) (worst { "1.7e-6" } dB) on residuals of -100 to -188 dB, where float64 cancellation limits both implementations (numpy's inv and solve disagree with each other on { "169" } links, worst { "7.9e-7" } dB); the effective C/N0 these feed is unaffected. WHAT IS NOT CHECKED: mutual coupling, element mismatch, wideband processing, multiple jammers, any antenna hardware. A recomputation of the same equations, not an external oracle; the row stays MODELLED.
+seg-8c479191e281 = checked against a separate implementation in this same codebase — independent of the unit under test, but not externally authoritative — An independent numpy recomputation (xval/crpa-jamming/oracle.py, no shared code: numpy steering vectors, numpy.linalg.solve and inv) of every link of the jamming-demo geometry with a 4-element square array, under both weightings. Bars pre-registered at 716de66a. MET: A1 (all { "150" } scenario results byte-identical without the section, after a fix: the first build added the crpa units to every jamming run's units table), A2 (one element equals no array to { "1e-12" } dB), A3 on the array noise gain and effective C/N0 ({ "912" } link-weightings within { "1e-9" } dB, worst { "2.1e-14" } dB) and on the null-steering jammer null (below -200 dB on both sides), A4 (MVDR within { "0.1" } dB of null-steering at a JNR of { "80" } dB). NOT MET: A3 on the MVDR jammer gain, { "194" } of { "456" } links over { "1e-9" } dB on { "0.36" } portable maths ({ "202" } on host maths; docs/revisions/batch4-rebaseline.md) (worst { "1.7e-6" } dB) on residuals of -100 to -188 dB, where float64 cancellation limits both implementations (numpy's inv and solve disagree with each other on { "169" } links, worst { "7.9e-7" } dB); the effective C/N0 these feed is unaffected. WHAT IS NOT CHECKED: mutual coupling, element mismatch, wideband processing, multiple jammers, any antenna hardware. A recomputation of the same equations, not an external oracle; the row stays MODELLED.
 
 # text
 seg-6c01cedc4ca7 = jamming (CrpaCfg, crpa_weights, run_jamming); crpa (null_steering_weights, mvdr_weights, covariance)

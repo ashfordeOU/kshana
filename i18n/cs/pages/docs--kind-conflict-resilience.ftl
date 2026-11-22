@@ -30,7 +30,7 @@ seg-c0e69524f05d = <b>MODELLED</b> Dílčí skóre podle dimenzí nad sedmi vlas
 
 seg-2ca37a78e899 = MODELLED odolnost vrstveného PNT v konfliktu (P7). VALIDATED jádro: pravděpodobnost celkové ztráty z Monte Carlo konverguje k uzavřenému tvaru nezávislého součinu Pi_i p_deny_i (ověřeno v rámci standardní chyby Monte Carlo při pevném seedu a velkém N); sloučení polohy podle inverzního rozptylu sigma_fused = (sum_i 1/sigma_i^{ "2" })^(-1/2) je identita v uzavřeném tvaru; při korelaci rho={ "0" } se gaussovská kopule přesně redukuje na nezávislý mo (výsledek <c1/>)
 
-seg-d0d834e377ee = MODELLED odolnost vrstveného PNT v konfliktu (P7): uživatel ve sporném prostředí disponuje několika vrstvami PNT (GNSS s otevřenou službou, širokopásmové GNSS, autentizovaná konstelace, augmentační relé), z nichž každá má základní dostupnost, přesnost 1σ a zranitelnost vůči odepření podle jednotlivých vektorů sdílené hrozbě rušení/spoofingu. (katalog druhů (<c1/>))
+seg-a6619df36cf9 = MODELLED odolnost vrstveného PNT v konfliktu: uživatel ve sporném prostředí disponuje několika vrstvami PNT (GNSS s otevřenou službou, širokopásmové GNSS, autentizovaná konstelace, augmentační relé), z nichž každá má základní dostupnost, přesnost 1σ a zranitelnost vůči odepření podle jednotlivých vektorů sdílené hrozbě rušení/spoofingu. (katalog druhů (<c1/>))
 
 seg-3ca12700b54c = Hlavní poměr odolnosti (pravděpodobnost celkové ztráty u jedné vrstvy oproti vrstvené) vychází na ~7x za předpokladu NEZÁVISLOSTI; průchod korelovaným odepřením s jednofaktorovou gaussovskou kopulí pak ukazuje, jak se těch ~7x zhroutí směrem k { "1" } s rostoucí korelací odepření (korelace maří vrstvení). (katalog druhů (<c1/>))
 

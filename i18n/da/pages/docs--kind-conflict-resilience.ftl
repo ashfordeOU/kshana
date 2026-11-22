@@ -30,7 +30,7 @@ seg-c0e69524f05d = <b>MODELLED</b> Delscorer pr. dimension over Kshanas egne syv
 
 seg-2ca37a78e899 = MODELLED modstandsdygtighed for lagdelt PNT i konflikt (P7). VALIDATED kerne: Monte Carlo-sandsynligheden for totalt tab konvergerer mod den lukkede uafhængige produktform Pi_i p_deny_i (påstået inden for Monte Carlo-standardfejlen ved et fast seed og stort N); inversvarians-positionssammenlægningen sigma_fused = (sum_i 1/sigma_i^{ "2" })^(-1/2) er en lukket identitet; ved korrelation rho={ "0" } reduceres den gaussiske copula præcist til den uafhængige mo (resultat <c1/>)
 
-seg-d0d834e377ee = MODELLED modstandsdygtighed for lagdelt PNT i konflikt (P7): en bruger i et bestridt miljø råder over flere PNT-lag (åbent GNSS, bredbånds-GNSS, en autentificeret konstellation, et augmentations-relæ), hvert med en grundtilgængelighed, en 1σ-nøjagtighed og en sårbarhed over for nægtelse pr. vektor over for den fælles jamming-/spoofing-trussel. (typekatalog (<c1/>))
+seg-a6619df36cf9 = MODELLED modstandsdygtighed for lagdelt PNT i konflikt: en bruger i et bestridt miljø råder over flere PNT-lag (åbent GNSS, bredbånds-GNSS, en autentificeret konstellation, et augmentations-relæ), hvert med en grundtilgængelighed, en 1σ-nøjagtighed og en sårbarhed over for nægtelse pr. vektor over for den fælles jamming-/spoofing-trussel. (typekatalog (<c1/>))
 
 seg-3ca12700b54c = Det overordnede modstandsdygtighedsforhold (sandsynlighed for totalt tab for ét lag mod lagdelt) lander på ~7x under UAFHÆNGIGHEDSANTAGELSEN; et sweep med korreleret nægtelse via én-faktor-gaussisk copula viser derefter, at dette ~7x falder mod { "1" }, når nægtelseskorrelationen stiger (korrelation underminerer lagdeling). (typekatalog (<c1/>))
 

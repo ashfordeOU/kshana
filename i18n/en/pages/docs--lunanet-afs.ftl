@@ -20,7 +20,7 @@ seg-e9bd99bbddb5 = <b>Pin.</b> LunaNet Interoperability Specification (LNIS) <b>
 seg-6845e671bf24 = Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service.
 
 # attr:alt
-seg-69a98d01f489 = The LunaNet AFS code generator checked against the printed columns of the specification, from a real run of engine v{ $version } (`kshana lunanet-afs-check spec`, pinned to LNIS V5, AD1 Volume A (LSIS-AFS) V1.0, { "29" } January { "2025" }; the document marks its code tables { "{" }LSIS-TBC{ "}" }). { "9" } of { "10" } checks are met; B4 is NOT MET ({ "420" } of { "421" } matched). It checks a symbol stream against one edition of a published specification and says nothing about any LunaNet node or service. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. It checks a symbol stream against one edition of a published specification and says nothing about any LunaNet node or service.
+seg-a4bc9ff09d7e = The LunaNet AFS code generator checked against the printed columns of the specification, from a real run of engine v{ $version } (`kshana lunanet-afs-check spec`, pinned to LNIS V5, AD1 Volume A (LSIS-AFS) V1.0, { "29" } January { "2025" }; the document marks its code tables { "{" }LSIS-TBC{ "}" }). { "9" } of { "10" } checks are met; B4 is NOT MET ({ "420" } of { "421" } matched). It checks a symbol stream against one edition of a published specification and says nothing about any LunaNet node or service. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service.
 
 # text
 seg-4c3f77d97294 = What is implemented
@@ -207,7 +207,7 @@ seg-215913f74706 = <b>MET</b> ({ "68" } symbols; a transcription check)
 
 # text
 # c1: tests/iq_signal_matrix.rs
-seg-3b51bd143c19 = B1 to B4 are VALIDATED against the printed tables of the cited edition, which the document marks { "{" }LSIS-TBC{ "}" }. A scene-to-acquire-to-track round trip of both components passes the same bars as the other signals (<c1/>).
+seg-25b4e481e6be = B1 to B3 are VALIDATED against the printed tables of the cited edition, which the document marks { "{" }LSIS-TBC{ "}" }. B4 (NOT MET) and the message-layer bars B5 to B10 are in a MODELLED row of the verification matrix. A scene-to-acquire-to-track round trip of both components passes the same bars as the other signals (<c1/>).
 
 # text
 seg-9edb6e5771ca = <s1>Previous</s1>Galileo OSNMA verification

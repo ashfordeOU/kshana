@@ -42,10 +42,10 @@ seg-139800576fb7 = Optional fields: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c
 seg-40773fa1ab5f = The example <c1/> sets, among others:
 
 # text
-seg-5e9c8b22ed24 = Cold-atom (Rb-87 D2) interferometric accelerometer; brackete
+seg-4fe6af9ff5a7 = Cold-atom (Rb-87 D2) interferometric accelerometer…
 
 # text
-seg-4c8e2caeba5b = Ultra-stable/optical onboard oscillator class, white-FM sigm
+seg-a7e1a7c0c7df = Ultra-stable/optical onboard oscillator class, white-FM…
 
 # text
 seg-debc2f07db78 = true
@@ -57,13 +57,13 @@ seg-2968660fa880 = The chart the engine writes for scenarios/hybrid-ukf.toml, ki
 seg-619127334cf3 = No matrix row names this kind by name; the label on its result is the engine's own, above.
 
 # text
-seg-8a41c18ca3fe = <b>MODELLED</b> Cold-atom interferometer accelerometer from first principles (k_eff·T², QPN). Oracle (ExternalDataset): Published CAI primary-paper numeric vectors (Cheinet { "2008" } transfer function; Peters/Freier sensitivity): k_eff·T² matched exactly, shot-noise ASD a one-sided floor within ~{ "2" }× of each published instrument (real devices carry technical noise above the quantum floor). A bracket, not parity. { "0.30" } round { "2" } (pre-registered e7de532a), a finding (stays MODELLED): the QPN-only rotation noise against the measured Gauguet et al.
+seg-832de3ea2047 = <b>MODELLED</b> Cold-atom interferometer accelerometer from first principles (k_eff·T², QPN). Oracle (ExternalDataset): Published CAI primary-paper numeric vectors (Cheinet { "2008" } transfer function; Peters/Freier sensitivity): k_eff·T² matched exactly, shot-noise ASD a one-sided floor within ~{ "2" }× of each published instrument (real devices carry technical noise above the quantum floor). A bracket, not parity. { "0.30" } round { "2" } (pre-registered e7de532a), a finding (stays MODELLED): the QPN-only rotation noise against the measured Gauguet et…
 
 # text
-seg-ea4498cc0324 = <b>VALIDATED</b> 15-state error-state EKF, loosely coupled (validated on a real IMU/GNSS drive against NaveGo); a tightly coupled pseudorange/Doppler UKF and a coupled clock+pos. Oracle (ExternalDataset): NaveGo v1.4 (R. Gonzalez, LGPL-3.0, run as a tool under GNU Octave, never linked): its loosely coupled ins_gnss on its own real Ekinox IMU/GNSS land-vehicle drive, both solutions scored against the Ekinox reference trajectory. Both filters read the same { "20" } Hz float32 input, and Kshana's configuration is mapped mechanically from the dataset's published parameters. Kshana's horizontal and vertical position RMS and its
+seg-dfcaf9b4b9b6 = <b>VALIDATED</b> 15-state error-state EKF, loosely coupled (validated on a real IMU/GNSS drive against NaveGo); a tightly coupled pseudorange/Doppler UKF and a coupled…. Oracle (ExternalDataset): NaveGo v1.4 (R. Gonzalez, LGPL-3.0, run as a tool under GNU Octave, never linked): its loosely coupled ins_gnss on its own real Ekinox IMU/GNSS land-vehicle drive, both solutions scored against the Ekinox reference trajectory. Both filters read the same { "20" } Hz float32 input, and Kshana's configuration is mapped mechanically from the dataset's published parameters. Kshana's horizontal and vertical position RMS and…
 
 # text
-seg-5719161d0b2a = <b>MODELLED</b> Bracketed (best/nominal/conservative) cold-atom-interferometer performance — bias instability, velocity/angle random walk, scale-factor stability, interrogation. Oracle (InternalConsistency): Internal consistency: the cited VRW bracket cross-checked against CaiAccelerometer::accel_asd physics + raw dynamic range computed from the fringe-ambiguity limit; numbers are MODELLED literature-survey brackets (needs_source_confirmation), no device validated, no validation halo
+seg-86378236d9be = <b>MODELLED</b> Bracketed (best/nominal/conservative) cold-atom-interferometer performance — bias instability, velocity/angle random walk, scale-factor stability…. Oracle (InternalConsistency): Internal consistency: the cited VRW bracket cross-checked against CaiAccelerometer::accel_asd physics + raw dynamic range computed from the fringe-ambiguity limit; numbers are MODELLED literature-survey brackets (needs_source_confirmation), no device validated, no validation halo
 
 # text
 # c1: modelled_note
@@ -80,10 +80,10 @@ seg-b06538ca3a8c = 17-state hybrid quantum + classical tightly-coupled GNSS/INS 
 seg-b5fc96916b4e = FIGURE OF MERIT — filter self-consistency (NEES + innovation-whiteness), the only thing a simulation can honestly assert about an estimator. Over a Monte-Carlo ensemble whose truth is generated from exactly the noise the filter assumes, the pooled NIS (whiteness) and NEES means must land inside their { "95" }% chi-squared bands. This is a SELF-CONSISTENCY statement, NOT a real-world accuracy guarantee. (scenario file comment, lines { "21" } to { "25" })
 
 # text
-seg-91afdc2d3ee2 = HONESTY: everything here is MODELLED / SIMULATION. The CAI and clock inputs are bracketed, literature-representative values, not measured hardware; the CAI hardware and its Key-Person stay partner-owned. No TRL>{ "3" }, no flight heritage, no external validation. (scenario file comment, lines { "27" } to { "29" })
+seg-3845270d9430 = HONESTY: everything here is MODELLED / SIMULATION. The CAI and clock inputs are bracketed, literature-representative values, not measured hardware; the CAI hardware stays partner-owned. No TRL>{ "3" }, no flight heritage, no external validation. (scenario file comment, lines { "27" } to { "29" })
 
 # text
-seg-9b94bd3ce7df = Monte-Carlo seeds the consistency oracle pools over, and the filter mistuning multipliers. { "24" } seeds give run-based chi-squared NEES bands ({ "8" }*{ "24" } DOF) tight enough to discriminate a matched from a mistuned filter while keeping the run cheap. Set q_factor / r_factor away from { "1.0" } to mistune the filter and watch the consistency gate reject it (q_factor scales the assumed process noise, r_factor the assumed measurement no (scenario file comment, lines { "44" } to { "48" })
+seg-f79778d65136 = Monte-Carlo seeds the consistency oracle pools over, and the filter mistuning multipliers. { "24" } seeds give run-based chi-squared NEES bands ({ "8" }*{ "24" } DOF) tight enough to discriminate a matched from a mistuned filter while keeping the run cheap. Set q_factor / r_factor away from { "1.0" } to mistune the filter and watch the consistency gate reject it (q_factor scales the assumed process noise, r_factor the assumed measurement… (scenario file comment, lines { "44" } to { "48" })
 
 # text
 seg-9955b1b1c018 = Quantum inertial sensor performance is MODELLED, not validated: a sub-claim is externally checked, but the whole capability composes modelled pieces, so the capability stays Modelled. (verification matrix (docs/MODELLED-RATIONALE.md))

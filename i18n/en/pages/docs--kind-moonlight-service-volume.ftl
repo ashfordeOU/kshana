@@ -58,20 +58,20 @@ seg-edb738273a3a = The chart the engine writes for scenarios/moonlight-service-v
 # text
 # c1: lunar-surface
 # c2: moonlight-service-volume
-seg-25040e105bf7 = <b>MODELLED</b> The <c1/> kind and phase: relay availability and PDOP, Earth and Sun visibility and a disciplined surface clock for each site and season, with the terrain skyline of <c2/>; a single-site run equals that kind's
+seg-4a0780179ddd = <b>MODELLED</b> The <c1/> kind and phase: relay availability and PDOP, Earth and Sun visibility and a disciplined surface clock for each site and season, with the terrain skyline of <c2/>; a single-site run equals that…
 
 # text
 seg-1974d1d64c9c = <b>VALIDATED</b> Moonlight-class lunar DOP / coverage / availability + generalised lunar ARAIM protection levels over a service volume. Oracle (ExternalDataset): Independent third-party authority ANISE { "0.10.2" } astro::Orbit Keplerian propagator (Nyx Space, MPL-2.0) — an equinoctial two-body code path distinct from kshana's Newton-Raphson Kepler; per-satellite MCI position agrees to <{ "1e-3" } m and the derived visible-satellite count/set matches exactly at every grid point. The DOP kernel is gnss_lib_py-validated; integrity uses published LunaNet/LCNS parameters
 
 # text
-seg-47f496c1d603 = <b>VALIDATED</b> Per-satellite topocentric look angles (azimuth clockwise from north, elevation) and slant range at a named selenographic site, given the satellite in the site's. Oracle (ExternalDataset): ANISE { "0.10.2" } (Nyx Space, MPL-2.0, run as a tool from xval/anise-service-geometry, binary lunar-look-angles-xval, which calls no Kshana code): ANISE's own azimuth, elevation and range routine (azimuth_elevation_range_sez) from sites built by its latitude-longitude-altitude constructor on the pck00011 Moon (sphere { "1737.4" } km), with the satellites rotated into MOON_PA_DE440 through moon_pa_de440_200625.bpc. { "768" } samples o
+seg-3bbcac80bbcc = <b>VALIDATED</b> Per-satellite topocentric look angles (azimuth clockwise from north, elevation) and slant range at a named selenographic site, given the satellite in the…. Oracle (ExternalDataset): ANISE { "0.10.2" } (Nyx Space, MPL-2.0, run as a tool from xval/anise-service-geometry, binary lunar-look-angles-xval, which calls no Kshana code): ANISE's own azimuth, elevation and range routine (azimuth_elevation_range_sez) from sites built by its latitude-longitude-altitude constructor on the pck00011 Moon (sphere { "1737.4" } km), with the satellites rotated into MOON_PA_DE440 through moon_pa_de440_200625.bpc. { "768" } samples…
 
 # text
 # c1: kshana kinds --json
 seg-1f12671176ad = MODELLED composition: a circular-/elliptical-Keplerian relay set (not the real differential-corrected LCNS/NRHO ephemeris), a mean-rotation Moon (no libration/precessing pole). (kind catalogue (<c1/>))
 
 # text
-seg-2ff91fe31123 = HONESTY: MODELLED composition. The DOP geometry is validated BY REUSE of the validated kernel; the coverage / availability / integrity composition is MODELLED — a circular-/ elliptical-Keplerian relay set (not a differential-corrected LCNS / { "9" }:{ "2" } NRHO ephemeris), a mean-rotation Moon (no physical libration / precessing pole), and published LunaNet LNIS integrity parameters. This demonstrates the lunar service-volume M (scenario file comment, lines { "27" } to { "32" })
+seg-c1b79eab5713 = HONESTY: MODELLED composition. The DOP geometry is validated BY REUSE of the validated kernel; the coverage / availability / integrity composition is MODELLED — a circular-/ elliptical-Keplerian relay set (not a differential-corrected LCNS / { "9" }:{ "2" } NRHO ephemeris), a mean-rotation Moon (no physical libration / precessing pole), and published LunaNet LNIS integrity parameters. This demonstrates the lunar service-volume… (scenario file comment, lines { "27" } to { "32" })
 
 # text
 seg-1c1eeb2dcaa0 = Family page: <a1>Lunar and cislunar</a1>

@@ -115,12 +115,12 @@
 <tr>
 <td><code>drift_band_hi_m_per_s</code></td>
 <td>0.05</td>
-<td>s</td>
+<td>m/s</td>
 </tr>
 <tr>
 <td><code>drift_band_lo_m_per_s</code></td>
 <td>0.001</td>
-<td>s</td>
+<td>m/s</td>
 </tr>
 <tr>
 <td><code>imu_grade</code></td>
@@ -165,7 +165,7 @@
 </tbody></table></div>
 <h2 id="run-it">Run it<a class="anchor" href="#run-it" aria-label="Link to this section">#</a></h2>
 <pre data-lang="shell"><code class="hljs language-bash">kshana scenarios/ins-trn-coast.toml</code></pre>
-<p>3 bundled scenarios use this kind; the others are in <a href="https://github.com/ashfordeOU/kshana/blob/main/scenarios"><code>scenarios/</code></a>.</p>
+<p>3 scenario files in <a href="https://github.com/ashfordeOU/kshana/blob/main/scenarios"><code>scenarios/</code></a> use this kind.</p>
 <h2 id="what-it-gives">What it gives<a class="anchor" href="#what-it-gives" aria-label="Link to this section">#</a></h2>
 <p>The scalar results of that run, with the units the engine states:</p>
 <div class="tbl"><table><thead><tr>
@@ -180,7 +180,7 @@
 </tr>
 <tr>
 <td><code>evidence.id_rule</code></td>
-<td>the stable id of the matrix row (the ID</td>
+<td>the stable id of the matrix row (the…</td>
 <td>text</td>
 </tr>
 <tr>
@@ -224,26 +224,26 @@
 <td>text</td>
 </tr>
 </tbody></table></div>
-<p>Result label (the engine&#39;s): MODELLED INS/TRN coasting error budget. Each contribution is propagated through a nine-state local-level inertial error model with Schuler feedback (level platform heading north at a stated site, free-inertial including the unstable vertical channel); its short-coast leading-order laws (bias t^2, gy</p>
+<p>Result label (the engine&#39;s): MODELLED INS/TRN coasting error budget. Each contribution is propagated through a nine-state local-level inertial error model with Schuler feedback (level platform heading north at a stated site, free-inertial including the unstable vertical channel); its short-coast leading-order laws (bias t^2…</p>
 <img src="data:image/svg+xml;charset=utf-8,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%221180%22 height=%2256%22 font-family=%22Geist, ui-sans-serif, system-ui, sans-serif%22 font-size=%2212%22 fill=%22%23EAF0FF%22%3E%3Crect width=%221180%22 height=%2240%22 fill=%22%23060A14%22/%3E%3Ctext x=%2210%22 y=%2224%22%3Eins-trn-coast %7C navigation IMU, 250 m/s, combination rss %7C 10 m at 251.0 s (accel_bias) %7C 50 m at 608.8 s (accel_bias) %7C TRN position-only peak 44.7 m over 1200 s%3C/text%3E%3Ctext x=%221172%22 y=%2234%22 text-anchor=%22end%22 fill=%22%238190B0%22 font-size=%2210%22 font-family=%22Geist, ui-sans-serif, system-ui, sans-serif%22%3EKshana v0.41.0 · scenario fdd28c2f6fc1 · kshana.dev%3C/text%3E%3Cmetadata id=%22kshana-evidence%22 data-tier=%22MODELLED%22 data-rows=%22VM-cf3cdcd3;VM-2c655ce6%22%3EVM-cf3cdcd3 MODELLED Reproducibility %26amp; software assurance %7C VM-2c655ce6 VALIDATED INS/TRN coasting error growth %26amp; threshold crossings%3C/metadata%3E%3Crect x=%220%22 y=%2240%22 width=%221180%22 height=%2216%22 fill=%22%23060A14%22/%3E%3Ctext x=%228%22 y=%2251%22 fill=%22%238190B0%22 font-size=%2210%22 font-family=%22Geist, ui-sans-serif, system-ui, sans-serif%22%3EEvidence: MODELLED · 2 ledger rows VM-cf3cdcd3 VM-2c655ce6%3C/text%3E%3C/svg%3E" alt="The chart the engine writes for scenarios/ins-trn-coast.toml, kind ins-trn-coast" width="640" loading="lazy">
 
 <h2 id="evidence">Evidence<a class="anchor" href="#evidence" aria-label="Link to this section">#</a></h2>
 <p>VALIDATED: the <a href="/docs/verification-matrix">verification matrix</a> rows that name this kind.</p>
 <ul>
-<li><strong>VALIDATED</strong> Position-error-vs-coast-duration budget built from IMU coefficients, each error source (accelerometer bias, gyro bias, velocity random walk, angle random walk, scale factor cruising and under sustained specific force) propagated through a n</li>
+<li><strong>VALIDATED</strong> Position-error-vs-coast-duration budget built from IMU coefficients, each error source (accelerometer bias, gyro bias, velocity random walk, angle random walk, scale factor cruising and under sustained specific force) propagated through a…</li>
 </ul>
 <p>The rows the run itself exercised, with the oracle the matrix gives each (the public sources are named there):</p>
 <ul>
 <li><strong>MODELLED</strong> Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): SBOM conformance to the official CycloneDX 1.5 JSON Schema (+ valid SPDX identifiers) — an external published standard, zero validation errors over the full dependency graph; the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED</li>
-<li><strong>VALIDATED</strong> Position-error-vs-coast-duration budget built from IMU coefficients, each error source (accelerometer bias, gyro bias, velocity random walk, angle random walk, . Oracle (ExternalDataset): NaveGo v1.4 (commit 24d9488, LGPL-3.0), run as a separate program under GNU Octave 8.4.0: free-inertial coast runs with the same IMU error profile, with one corrected numerical dead band in its quaternion update (qua_update.m: the guard on a rate below 1e-8 rad/s replaced by wnorm == 0, applied to a run-time copy and asserted to match once; with the guard in place a slowly drifting platform attitude froze and cut the</li>
+<li><strong>VALIDATED</strong> Position-error-vs-coast-duration budget built from IMU coefficients, each error source (accelerometer bias, gyro bias, velocity random walk, angle random…. Oracle (ExternalDataset): NaveGo v1.4 (commit 24d9488, LGPL-3.0), run as a separate program under GNU Octave 8.4.0: free-inertial coast runs with the same IMU error profile, with one corrected numerical dead band in its quaternion update (qua_update.m: the guard on a rate below 1e-8 rad/s replaced by wnorm == 0, applied to a run-time copy and asserted to match once; with the guard in place a slowly drifting platform attitude froze and cut…</li>
 </ul>
 <h2 id="limitations">Limitations<a class="anchor" href="#limitations" aria-label="Link to this section">#</a></h2>
 <p>What the run&#39;s own report says is not modelled or not validated:</p>
 <ul>
-<li>MODELLED INS/TRN coasting error budget. Each contribution is propagated through a nine-state local-level inertial error model with Schuler feedback (level platform heading north at a stated site, free-inertial including the unstable vertical channel); its short-coast leading-order laws (bias t^2, gyro-bias tilt t^3, velocity random walk t^1.5, angle random walk t^2.5, scale factor x travelled distance) are cross-chec (result <code>label</code>)</li>
+<li>MODELLED INS/TRN coasting error budget. Each contribution is propagated through a nine-state local-level inertial error model with Schuler feedback (level platform heading north at a stated site, free-inertial including the unstable vertical channel); its short-coast leading-order laws (bias t^2, gyro-bias tilt t^3, velocity random walk t^1.5, angle random walk t^2.5, scale factor x travelled distance) are… (result <code>label</code>)</li>
 <li>INS/TRN coasting error model: position error against coast duration, built from IMU coefficients rather than swept as an assumed drift rate. (kind catalogue (<code>kshana kinds --json</code>))</li>
 <li>MODELLED: the IMU class coefficients are representative band figures, not a datasheet, and the terrain-fix residual is an input. (kind catalogue (<code>kshana kinds --json</code>))</li>
-<li>The question this answers: when a GNSS (or aperture-duty-cycled) study says &quot;assume a dead-reckoning drift of 0.001–0.050 m/s&quot;, where does that number come from? It comes from the IMU, and this scenario computes it instead of sweeping it. Five growth terms — accelerometer bias (t^2), gyro-bias tilt through gravity (t^3), velocity random walk (t^1.5), angle random walk (t^2.5) and scale factor times the travelled dist (scenario file comment, lines 4 to 11)</li>
+<li>The question this answers: when a GNSS (or aperture-duty-cycled) study says &quot;assume a dead-reckoning drift of 0.001–0.050 m/s&quot;, where does that number come from? It comes from the IMU, and this scenario computes it instead of sweeping it. Five growth terms — accelerometer bias (t^2), gyro-bias tilt through gravity (t^3), velocity random walk (t^1.5), angle random walk (t^2.5) and scale factor times the travelled… (scenario file comment, lines 4 to 11)</li>
 <li>Reproducibility &amp; software assurance is MODELLED, not validated: a sub-claim is externally checked, but the whole capability composes modelled pieces, so the capability stays Modelled. (verification matrix (docs/MODELLED-RATIONALE.md))</li>
 </ul>
 <h2 id="see-also">See also<a class="anchor" href="#see-also" aria-label="Link to this section">#</a></h2>

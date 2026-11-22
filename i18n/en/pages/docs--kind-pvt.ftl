@@ -39,10 +39,10 @@ seg-4f02bdcbc7c7 = The example <c1/> sets, among others:
 seg-debc2f07db78 = true
 
 # text
-seg-e94743033275 = { "3.03" } N: GNSS NAV DATA M: MIXED
+seg-7860aecc3835 = { "3.03" } N: GNSS NAV DATA M: MIXED…
 
 # text
-seg-e0415c4dab88 = { "3.02" } OBSERVATION DATA M
+seg-a7dda65c46f5 = { "3.02" } OBSERVATION DATA M…
 
 # text
 seg-22ad318a2d61 = [{ "2.9198e6" }, -5.3837e6, { "1.7746e6" }]
@@ -54,7 +54,7 @@ seg-d76d59644d84 = The chart the engine writes for scenarios/pvt-abmf.toml, kind
 seg-e6f678eeb384 = <b>MODELLED</b> Divergence-free Hatch filter (ionosphere-free code carried by the ionosphere-free carrier, window N epochs, restart on loss of lock, geometry-free jump or gap) in the precise single-point positioning assembly
 
 # text
-seg-af0bb84bda32 = <b>MODELLED</b> dop_error_mc::run_geometry and check: a seeded Monte Carlo (N = { "20,000" } epochs per geometry, sigma = { "1.5" } m, ChaCha8 seed { "36" } + i) of the engine's own iterated least-squares fix (pvt::solve_spp, unit weights, solved from the true position) on Tests: <a1>uere_dop_monte_carlo.rs</a1>.
+seg-6144e6446b83 = <b>MODELLED</b> dop_error_mc::run_geometry and check: a seeded Monte Carlo (N = { "20,000" } epochs per geometry, sigma = { "1.5" } m, ChaCha8 seed { "36" } + i) of the engine's own iterated least-squares fix (pvt::solve_spp, unit weights, solved from the true position)… Tests: <a1>uere_dop_monte_carlo.rs</a1>.
 
 # text
 seg-5a42823318a8 = <b>VALIDATED</b> IS-GPS-200 / Galileo-OS / BeiDou-OS broadcast-ephemeris Keplerian → ECEF satellite position from a parsed RINEX-3 navigation record. Oracle (ExternalDataset): RTKLIB v2.4.2-p13 eph2pos() compiled from C source (T. Takasu, BSD-2-Clause) — an independent IS-GPS-200/SIS-ICD implementation, fed the identical RINEX-3 nav records; satellite ECEF position matched to ~{ "62" } nm. (SP3 precise-ephemeris interpolation is validated separately — see 'SP3 precise-ephemeris interpolation')
@@ -66,7 +66,7 @@ seg-f6b7ca020692 = Family page: <a1>GNSS measurements, positioning and integrity
 seg-51cac2f918e0 = Topic page: <a1>POSITIONING.md</a1>
 
 # text
-seg-f4cf8b629797 = Topic page: <a1>INTEGRITY.md</a1>
+seg-98b016bccf66 = Topic page: <a1>SIL-OBS.md</a1>
 
 # text
 seg-8ea056f1d7e0 = <s1>Previous</s1>passes

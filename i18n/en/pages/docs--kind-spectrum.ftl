@@ -40,7 +40,7 @@ seg-f85a85f0c7e4 = MHz
 
 # text
 # c1: scenarios/
-seg-3bc1761c76ab = { "3" } bundled scenarios use this kind; the others are in <a1><c1/></a1>.
+seg-7f43b9951654 = { "3" } scenario files in <a1><c1/></a1> use this kind.
 
 # text
 seg-a349aa76b0ed = PARTNER
@@ -52,7 +52,7 @@ seg-a3697ad561db = Hz
 seg-37d16b499bc5 = dB
 
 # text
-seg-df78607f9cdb = Result label (the engine's): MODELLED: an L-band power spectral density built from closed-form signal spectra (VALIDATED against the textbook main-lobe widths and spectral separation coefficients), jammer spectra and a kT noise floor, reduced to J/S and effective C/N0 by the spectral separation coefficient. The jammer powers, t
+seg-03fd85a77e6a = Result label (the engine's): MODELLED: an L-band power spectral density built from closed-form signal spectra (VALIDATED against the textbook main-lobe widths and spectral separation coefficients), jammer spectra and a kT noise floor, reduced to J/S and effective C/N0 by the spectral separation coefficient. The jammer powers…
 
 # attr:alt
 seg-ea1678eb9e84 = The chart the engine writes for scenarios/l-band-waterfall-jamming.toml, kind spectrum
@@ -61,18 +61,18 @@ seg-ea1678eb9e84 = The chart the engine writes for scenarios/l-band-waterfall-ja
 seg-57cd9c415e31 = MODELLED { "3" } · VALIDATED { "2" }: the <a1>verification matrix</a1> rows that name this kind.
 
 # text
-seg-ce0afea7b030 = <b>VALIDATED</b> Unit-area power spectral densities of GPS L1 C/A and L2C (BPSK({ "1" })), GPS L5 and Galileo E5a (BPSK({ "10" })), sine-BOC({ "1,1" }) and Galileo E1 MBOC(6,1,1/11) (navsignal::Modulation::psd, with an MBOC variant added), their numerically located nulls and
+seg-4c58f4be10b8 = <b>VALIDATED</b> Unit-area power spectral densities of GPS L1 C/A and L2C (BPSK({ "1" })), GPS L5 and Galileo E5a (BPSK({ "10" })), sine-BOC({ "1,1" }) and Galileo E1 MBOC(6,1,1/11) (navsignal::Modulation::psd, with an MBOC variant added), their numerically located nulls…
 
 # text
 # c1: spectrum
-seg-7e315c5675d0 = <b>MODELLED</b> The <c1/> kind: a frequency-by-time grid of the L-band power spectral density (thermal floor k T_sys with T_sys = T_ant + { "290" } K (F - { "1" }), the signals at their interface-specification minimum received powers, and continuous-wave, narrowb
+seg-cf8ddd905a9d = <b>MODELLED</b> The <c1/> kind: a frequency-by-time grid of the L-band power spectral density (thermal floor k T_sys with T_sys = T_ant + { "290" } K (F - { "1" }), the signals at their interface-specification minimum received powers, and continuous-wave…
 
 # text
-seg-7871f9f54ef4 = <b>VALIDATED</b> sigmf: read and write Signal Metadata Format recordings (JSON .sigmf-meta with the core global, captures and annotations fields; raw .sigmf-data as cf32_le, ci16_le or ci8, the integer decoders shared with realdata::iqif::load_iq), all on s
+seg-455f6d9c632c = <b>VALIDATED</b> sigmf: read and write Signal Metadata Format recordings (JSON .sigmf-meta with the core global, captures and annotations fields; raw .sigmf-data as cf32_le, ci16_le or ci8, the integer decoders shared with realdata::iqif::load_iq), all on…
 
 # text
 # c1: spectrum
-seg-9ca82c79430e = <b>MODELLED</b> The <c1/> kind extended beyond the L band: bands given as a preset signal design (drawn with every component, band-limited to the transmit bandwidth, C/N0 and J/S referred to the tracked component) or as a custom carrier and modulation Tests: <a1>leo_signal_reference.rs</a1>.
+seg-09d5830571bc = <b>MODELLED</b> The <c1/> kind extended beyond the L band: bands given as a preset signal design (drawn with every component, band-limited to the transmit bandwidth, C/N0 and J/S referred to the tracked component) or as a custom carrier and… Tests: <a1>leo_signal_reference.rs</a1>.
 
 # text
 seg-3319b18ac61f = and { "1" } more in the matrix.
@@ -81,15 +81,15 @@ seg-3319b18ac61f = and { "1" } more in the matrix.
 seg-59afd80736c5 = <b>PARTNER</b> Not provided — Kshana models signal performance, not payload/antenna hardware. Oracle (NoneKind): none: a partner-owned discipline, with no module and no test by design
 
 # text
-seg-4e35cc861b15 = <b>VALIDATED</b> Unit-area power spectral densities of GPS L1 C/A and L2C (BPSK({ "1" })), GPS L5 and Galileo E5a (BPSK({ "10" })), sine-BOC({ "1,1" }) and Galileo E1 MBOC(6,1,1/11) (navsignal::M. Oracle (ExternalDataset): Published textbook values: the BPSK(n) main lobe of 2n x { "1.023" } MHz null to null and the anti-jam coefficients Q = { "1" } for a narrowband (CW) jammer and Q = { "1.5" } for a spread-spectrum jammer matched to C/A (Kaplan & Hegarty, Understanding GPS/GNSS, 3rd ed., section { "9.4" }); the BOC(m,n) main lobes centred at plus or minus m x { "1.023" } MHz (Betz, Binary Offset Carrier Modulations for Radionavigation, NAVIGATION { "48" }({ "4" }), { "2001" }); the
+seg-fd256e77d25f = <b>VALIDATED</b> Unit-area power spectral densities of GPS L1 C/A and L2C (BPSK({ "1" })), GPS L5 and Galileo E5a (BPSK({ "10" })), sine-BOC({ "1,1" }) and Galileo E1 MBOC(6,1,1/11)…. Oracle (ExternalDataset): Published textbook values: the BPSK(n) main lobe of 2n x { "1.023" } MHz null to null and the anti-jam coefficients Q = { "1" } for a narrowband (CW) jammer and Q = { "1.5" } for a spread-spectrum jammer matched to C/A (Kaplan & Hegarty, Understanding GPS/GNSS, 3rd ed., section { "9.4" }); the BOC(m,n) main lobes centred at plus or minus m x { "1.023" } MHz (Betz, Binary Offset Carrier Modulations for Radionavigation, NAVIGATION { "48" }({ "4" }), { "2001" })…
 
 # text
 # c1: spectrum
 # c2: jamming
-seg-287de49e90a8 = <b>MODELLED</b> The <c1/> kind: a frequency-by-time grid of the L-band power spectral density (thermal floor k T_sys with T_sys = T_ant + { "290" } K (F - { "1" }), the signals at the. Oracle (InternalConsistency): Reduction to the existing <c2/> kind's anti-jam equation and link budget (the same code, called on the same inputs), and the k T0 F noise-floor closed form. The signal spectra underneath are the validated row above; the jammer powers, timeline and front-end bandwidths are scenario inputs, the spectra are continuous (no spreading-code lines), and no automatic gain control, blanking or antenna pattern acts on the j
+seg-b0090f5d2ea8 = <b>MODELLED</b> The <c1/> kind: a frequency-by-time grid of the L-band power spectral density (thermal floor k T_sys with T_sys = T_ant + { "290" } K (F - { "1" }), the signals at…. Oracle (InternalConsistency): Reduction to the existing <c2/> kind's anti-jam equation and link budget (the same code, called on the same inputs), and the k T0 F noise-floor closed form. The signal spectra underneath are the validated row above; the jammer powers, timeline and front-end bandwidths are scenario inputs, the spectra are continuous (no spreading-code lines), and no automatic gain control, blanking or antenna pattern acts on the…
 
 # text
-seg-4eca77cc59c4 = <b>VALIDATED</b> sigmf: read and write Signal Metadata Format recordings (JSON .sigmf-meta with the core global, captures and annotations fields; raw .sigmf-data as cf32_le, ci1. Oracle (ExternalDataset): scipy { "1.18.1" } scipy.signal.welch (BSD-3-Clause) with the same periodic Hann window, overlap, density scaling, no detrend and two-sided mean average: every bin within { "1e-12" } relative (observed { "6.0e-14" }) over { "27" } cases, with segment counts taken from scipy's own spectrogram. sigmf-python { "1.13.0" } (LGPL-3.0, run as a tool) writes five third-party recordings (cf32_le, ci16_le, ci8, two captures with annotations, a non-zero fir
+seg-b296b1ed2f60 = <b>VALIDATED</b> sigmf: read and write Signal Metadata Format recordings (JSON .sigmf-meta with the core global, captures and annotations fields; raw .sigmf-data as cf32_le…. Oracle (ExternalDataset): scipy { "1.18.1" } scipy.signal.welch (BSD-3-Clause) with the same periodic Hann window, overlap, density scaling, no detrend and two-sided mean average: every bin within { "1e-12" } relative (observed { "6.0e-14" }) over { "27" } cases, with segment counts taken from scipy's own spectrogram. sigmf-python { "1.13.0" } (LGPL-3.0, run as a tool) writes five third-party recordings (cf32_le, ci16_le, ci8, two captures with annotations, a non-zero…
 
 # text
 # c1: not_modelled[0]

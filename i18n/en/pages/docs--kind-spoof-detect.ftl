@@ -46,7 +46,7 @@ seg-7707c45d1d30 = dBm
 
 # text
 # c1: scenarios/
-seg-51362910dcb7 = { "2" } bundled scenarios use this kind; the others are in <a1><c1/></a1>.
+seg-2224c257616c = { "2" } scenario files in <a1><c1/></a1> use this kind.
 
 # text
 seg-debc2f07db78 = true
@@ -58,7 +58,7 @@ seg-268ebf4cba99 = The chart the engine writes for scenarios/spoof-detect.toml, 
 seg-03d8dc3de7ca = <b>MODELLED</b> Clock-aided χ², RAIM, AGC, SQM fused per-epoch security FoM Tests: <a1>spoof_texbat_validation.rs</a1>.
 
 # text
-seg-b9174c70772f = <b>MODELLED</b> Clock-aided χ², RAIM, AGC, SQM fused per-epoch security FoM. Oracle (ExternalDataset): TEXBAT scenario parameters (Humphreys { "2012" }) — characterisation, not pinned vectors. { "0.30" } external comparison, a finding (stays MODELLED): on JammerTest { "2024" } (Bleik; GPL-3.0 data) the observable-level monitors (clock-aided chi-square, RAIM, solve failure) raised no alarm within { "10" } s of any of the { "8" } evaluable published spoofing onsets (where the pre-onset window was clean, the first alarm came { "10.2" } to { "39" } s after the pu
+seg-ee0dd327955b = <b>MODELLED</b> Clock-aided χ², RAIM, AGC, SQM fused per-epoch security FoM. Oracle (ExternalDataset): TEXBAT scenario parameters (Humphreys { "2012" }) — characterisation, not pinned vectors. { "0.30" } external comparison, a finding (stays MODELLED): on JammerTest { "2024" } (Bleik; GPL-3.0 data) the observable-level monitors (clock-aided chi-square, RAIM, solve failure) raised no alarm within { "10" } s of any of the { "8" } evaluable published spoofing onsets (where the pre-onset window was clean, the first alarm came { "10.2" } to { "39" } s after the…
 
 # text
 seg-59afd80736c5 = <b>PARTNER</b> Not provided — Kshana models signal performance, not payload/antenna hardware. Oracle (NoneKind): none: a partner-owned discipline, with no module and no test by design

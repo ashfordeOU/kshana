@@ -37,10 +37,10 @@ seg-2b8d8159bdaf = Optional fields: <c1/>
 seg-73c2e732b0c1 = The example <c1/> sets, among others:
 
 # text
-seg-f8a627a78bdb = Microchip SA.45s CSAC datasheet sigma_y(1s)={ "3e-10" }; q_wf is s
+seg-9a7f2e81fee7 = Microchip SA.45s CSAC datasheet sigma_y(1s)={ "3e-10" }; q_wf is…
 
 # text
-seg-a8d92406e428 = Strontium optical lattice clock, space-oriented goal sigma_y
+seg-964ddf738291 = Strontium optical lattice clock, space-oriented goal…
 
 # text
 seg-8b701f465117 = log
@@ -49,28 +49,19 @@ seg-8b701f465117 = log
 seg-c784b8f22f12 = The chart the engine writes for scenarios/sweep-clock-stability.toml, kind sweep
 
 # text
-# c1: passes::predict_passes
-# c2: aperture_duty::windows_from_passes
-seg-4636d450ef60 = <b>MODELLED</b> One run takes a contact plan (a list of aos_s/los_s windows, each asking the aperture for navigation or communications — the same window vocabulary <c1/> emits, converted by <c2/>), an apert
-
-# text
 # c1: gnss-ssv
-seg-0aae0574c5e6 = <b>MODELLED</b> The <c1/> kind's availability sweeps: per constellation (GPS, GLONASS, Galileo, BDS, QZSS, NavIC) and combined, the share of (user, epoch) pairs with at least one and at least four signals and the longest outage, for a user on a sphere
-
-# text
-# c1: tli-and-cruise
-seg-795e0409fa5a = <b>MODELLED</b> The <c1/> phase: the mean state by the engine's Cowell propagator (Earth point mass and J2, the Sun and Moon as third bodies, the Moon from the thread's DE440 kernel where it covers the segment and the Sun from the analytic serie
+seg-8d20566e079f = <b>MODELLED</b> The <c1/> kind's availability sweeps: per constellation (GPS, GLONASS, Galileo, BDS, QZSS, NavIC) and combined, the share of (user, epoch) pairs with at least one and at least four signals and the longest outage, for a user on a…
 
 # text
 # c1: campaign
-seg-cb00aca0268d = <b>MODELLED</b> The <c1/> kind's sweep (one to three dotted keys of any kind, on the generic sweep's axis values, optionally an ensemble at every node) and monte_carlo sections: realisation k runs at base_seed + k; each metric reports mean, standard d Tests: <a1>campaign_composition_reference.rs</a1>.
+seg-5a74819c0ceb = <b>MODELLED</b> The <c1/> kind's sweep (one to three dotted keys of any kind, on the generic sweep's axis values, optionally an ensemble at every node) and monte_carlo sections: realisation k runs at base_seed + k; each metric reports mean, standard… Tests: <a1>campaign_composition_reference.rs</a1>.
 
 # text
 seg-5278ccdaf16f = <b>MODELLED</b> Closed-form coast-error growth + holdover-to-threshold; quantum-clock classes. Oracle (ReferenceImpl): Multi-step clock_state covariance recursion (same-codebase cross-check); the underlying coast-variance & holdover-inversion kernel is externally validated vs scipy (see 'Clock-holdover coast-variance & threshold inversion'). The per-class red-noise-floor holdover figures stay MODELLED
 
 # text
 # c1: campaign
-seg-fa3ad6babe54 = <b>MODELLED</b> The <c1/> kind's sweep (one to three dotted keys of any kind, on the generic sweep's axis values, optionally an ensemble at every node) and monte_carlo sec. Oracle (InternalConsistency): The closed form of the phase random walk under white frequency noise, variance q_wf tau (NIST Technical Note { "1337" }), for the statistics machinery, and byte equality with the stand-alone runs for the seeding. It checks the ensemble arithmetic on the engine's own clock model, not an external dataset
+seg-1d682ccfe48a = <b>MODELLED</b> The <c1/> kind's sweep (one to three dotted keys of any kind, on the generic sweep's axis values, optionally an ensemble at every node) and monte_carlo…. Oracle (InternalConsistency): The closed form of the phase random walk under white frequency noise, variance q_wf tau (NIST Technical Note { "1337" }), for the statistics machinery, and byte equality with the stand-alone runs for the seeding. It checks the ensemble arithmetic on the engine's own clock model, not an external dataset
 
 # text
 seg-e12f672ae71d = GNSS-denied clock holdover is MODELLED, not validated: checked against a separate implementation in this same codebase — independent of the unit under test, but not externally authoritative. (verification matrix (docs/MODELLED-RATIONALE.md))

@@ -25,7 +25,7 @@ seg-4e31c8daf798 = Ledger
 seg-eb7e0c2feb2b = Snapshot / solution-separation / ARAIM RAIM with HPL/VPL and a Stanford diagram.
 
 # text
-seg-045ecd7c036f = MODELLED { "6" } · VALIDATED { "4" }
+seg-6242e58d109e = MODELLED { "5" } · VALIDATED { "4" }
 
 # text
 seg-2ffccc9c1eff = Measurement-domain pseudorange simulation (Klobuchar iono, Saastamoinen/Niell tropo) + RAIM.
@@ -34,16 +34,16 @@ seg-2ffccc9c1eff = Measurement-domain pseudorange simulation (Klobuchar iono, Sa
 seg-6e0cb6acc073 = VALIDATED
 
 # text
-seg-6698e12e148b = Real-observation single-point positioning: solve a receiver's position from a RINEX { "3" } observation file and a broadcast-navigation file (code pseudoranges, broadcast ephemeris, Klobuchar iono, Saastamo
+seg-d89646994ff2 = Real-observation single-point positioning: solve a receiver's position from a RINEX { "3" } observation file and a broadcast-navigation file (code pseudoranges, broadcast ephemeris, Klobuchar iono…
 
 # text
-seg-da89c260b1a3 = Published ARAIM certification reference vectors: the engine's ARAIM horizontal and vertical protection levels run against the WG-C ARAIM Technical Subgroup's OWN worked numerical examples, at the tole
+seg-20122b66f02f = Published ARAIM certification reference vectors: the engine's ARAIM horizontal and vertical protection levels run against the WG-C ARAIM Technical Subgroup's OWN worked numerical examples, at the…
 
 # text
-seg-7a750a89c9c4 = Space-weather environment model: solar (F10.7/F10.7a) and geomagnetic (Kp, with the definitional Kp↔ap table) activity indices, the Jacchia-1971 exospheric temperature they drive (validated vs publish
+seg-3f7ea57d5d45 = Space-weather environment model: solar (F10.7/F10.7a) and geomagnetic (Kp, with the definitional Kp↔ap table) activity indices, the Jacchia-1971 exospheric temperature they drive (validated vs…
 
 # text
-seg-d79d4d58275b = Real-time lunar frame / Earth-orientation prediction budget: P4 Table { "1" } (the frame-error consistency check — post-processed ~{ "0.27" } m ↔ ~{ "0.010" } ms and real-time ~{ "15" } m ↔ ~{ "0.5" } ms, each frame position expre
+seg-cc32ab05542c = Real-time lunar frame / Earth-orientation prediction budget: P4 Table { "1" } (the frame-error consistency check — post-processed ~{ "0.27" } m ↔ ~{ "0.010" } ms and real-time ~{ "15" } m ↔ ~{ "0.5" } ms, each frame position…
 
 # text
 seg-d1c67e3dd12e = MODELLED { "1" } · VALIDATED { "2" }
@@ -68,7 +68,7 @@ seg-d1c67e3dd12e = MODELLED { "1" } · VALIDATED { "2" }
 seg-dc783268156c = Required fields: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>. Optional: <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>.
 
 # text
-seg-7b110aacdb27 = <b>Ledger:</b> MODELLED { "6" } · VALIDATED { "4" }. Full page, with the inputs, results, evidence and limitations: <a1>integrity</a1>.
+seg-3b21d5691604 = <b>Ledger:</b> MODELLED { "5" } · VALIDATED { "4" }. Full page, with the inputs, results, evidence and limitations: <a1>integrity</a1>.
 
 # attr:alt
 seg-ce7f6130ddee = The chart the engine writes for scenarios/integrity-raim.toml, kind integrity
@@ -90,7 +90,9 @@ seg-ce7f6130ddee = The chart the engine writes for scenarios/integrity-raim.toml
 # c14: alert_limit_h_m
 # c15: alert_limit_v_m
 # c16: skyline
-seg-d444fb35cae9 = Required fields: <c1/>, <c2/>, <c3/>, <c4/>. Optional: <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>.
+# c17: slot_sets
+# c18: slots
+seg-168b23e4a494 = Required fields: <c1/>, <c2/>, <c3/>, <c4/>. Optional: <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/>.
 
 # text
 seg-b651ec58bcba = <b>Ledger:</b> VALIDATED. Full page, with the inputs, results, evidence and limitations: <a1>gnss-sim</a1>.

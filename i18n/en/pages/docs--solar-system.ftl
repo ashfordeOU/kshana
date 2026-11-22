@@ -127,9 +127,12 @@ seg-24d36a3ce8d4 = Planet velocities: worst relative error { "3.72e-3" } of the 
 seg-0bae9b8d09ea = The Moon and the seven moons are measured with pinned bars, but no published bound exists to validate them against, so they are MODELLED.
 
 # text
-# c1: xval/
-# c2: EphemerisProvider
-seg-2cf791a940ea = The analytic ephemerides need no kernel file. A JPL Development Ephemeris kernel (DE-grade positions) is read only by the separate cross-validation crates under <c1/>, through the same <c2/> trait; the main crate does not depend on them.
+# c1: solar-system
+# c2: planetary_kernel_path
+# c3: src/naif_kernel.rs
+# c4: EphemerisProvider
+# c5: xval/
+seg-9b392968411c = The analytic ephemerides need no kernel file and are the default. A JPL Development Ephemeris kernel (SPK, DE-grade positions) is read only where a scenario names one: the <c1/> kind's optional <c2/> (below) uses the main crate's own kernel reader (<c3/>) through the same <c4/> trait, and the separate cross-validation crates under <c5/> read kernels for their own checks.
 
 # text
 # c1: epoch
@@ -139,7 +142,11 @@ seg-2cf791a940ea = The analytic ephemerides need no kernel file. A JPL Developme
 # c5: track_points
 # c6: table
 # c7: [[links]]
-seg-5bff2c54125b = Inputs: <c1/> (default 2026-01-01T00:{ "00" }:{ "00" }) or <c2/>; <c3/> (default all eighteen); <c4/> (default the Earth); <c5/> per orbit ({ "8" } to { "2000" }, default { "120" }); <c6/>; and any number of <c7/>, each received at the epoch.
+# c8: planetary_kernel_path
+# c9: de440s.bsp
+# c10: KERNEL
+# c11: kernel
+seg-3ead9a9a538c = Inputs: <c1/> (default 2026-01-01T00:{ "00" }:{ "00" }) or <c2/>; <c3/> (default all eighteen); <c4/> (default the Earth); <c5/> per orbit ({ "8" } to { "2000" }, default { "120" }); <c6/>; any number of <c7/>, each received at the epoch; and <c8/>, an optional JPL SPK (for example <c9/>): each body whose own NAIF code the kernel holds then takes its heliocentric state from it (label <c10/>), a link whose two ends are both in the kernel is computed on it, every other body stays analytic, and the report carries a <c11/> block with the file's SHA-256.
 
 # text
 seg-5787ece2c791 = Per body the result gives its class and parent, the NASA Navigation and Ancillary Information Facility (NAIF) identifier, the heliocentric position and velocity in the International Celestial Reference Frame (ICRF, equatorial J2000) in metres and metres per second, the ecliptic longitude, latitude and distance, the position relative to its parent, the orbital period, the constants above, the pole and the prime meridian at the epoch, the Standish nominal error where one exists, its label and method string, and an orbit track over one revolution (heliocentric for a planet, centred on the parent for a moon; a single point for the Sun). The link from the observer, and each extra link, gives:
@@ -243,7 +250,7 @@ seg-498493929023 = true, { "1" } m
 seg-18e477dc7f02 = <c1/> is the right ascension of the ascending node in the body's equatorial frame and <c2/> the argument of latitude at the epoch.
 
 # text
-seg-a743b0b5e668 = The two bundled scenarios, as they run with kshana { "0.36" } (portable maths, the same on every platform):
+seg-c2b023a8f4c6 = The two bundled scenarios, as they run with kshana { $version } (portable maths since { "0.36" }, the same on every platform):
 
 # text
 seg-b24010bdb302 = User
@@ -311,9 +318,12 @@ seg-536757d9f141 = { "1.375" } m / { "1.304" } m
 # text
 seg-14d7b5dc82e8 = { "5.360" } m / { "4.239" } m
 
+# attr:title
+seg-34bdcfd66ded = In the repository branch these docs come from; not yet on GitHub
+
 # text
-# c1: docs/revisions/STUDIO15-portable-math-rebaseline.md
-seg-67d3d30060ad = (RMS: root mean square.) One Europa epoch (t = { "16 200" } s) sits on the availability edge, where the last bit of a computed radius decides whether its Earth-range fix is made. Before { "0.36" } the host's maths library decided it, so the same scenario printed { "0.719" } and { "86.147" } m on Linux x86-64 and { "0.725" } and { "85.800" } m on macOS arm64 for the two "with the Earth range" figures. Since { "0.36" } every transcendental is computed by the portable maths library, the epoch resolves one way on every platform (native and WebAssembly give the same bytes), and the figures are { "0.713" } and { "86.499" } m (<a1><c1/></a1>). Around Europa the Earth range lifts availability from { "0.480" } to { "0.713" } of epochs. Where the Earth never clears the limb the link adds nothing: a lander at { "89.5" } deg S on the Moon under a 12-satellite, { "5000" } km relay shell has the Earth in view at { "0" } of { "145" } epochs, and its errors are the same with and without the link.
+# c1: docs/revisions/portable-math-rebaseline.md
+seg-8ee177c78946 = (RMS: root mean square.) One Europa epoch (t = { "16 200" } s) sits on the availability edge, where the last bit of a computed radius decides whether its Earth-range fix is made. Before { "0.36" } the host's maths library decided it, so the same scenario printed { "0.719" } and { "86.147" } m on Linux x86-64 and { "0.725" } and { "85.800" } m on macOS arm64 for the two "with the Earth range" figures. Since { "0.36" } every transcendental is computed by the portable maths library, the epoch resolves one way on every platform (native and WebAssembly give the same bytes), and the figures are { "0.713" } and { "86.499" } m (<s1><c1/></s1>). Around Europa the Earth range lifts availability from { "0.480" } to { "0.713" } of epochs. Where the Earth never clears the limb the link adds nothing: a lander at { "89.5" } deg S on the Moon under a 12-satellite, { "5000" } km relay shell has the Earth in view at { "0" } of { "145" } epochs, and its errors are the same with and without the link.
 
 # text
 seg-41507568efb8 = <b>MODELLED.</b> The relay orbits ignore third bodies (Jupiter's pull on relays around Europa is not modelled), the noise is Gaussian at the stated levels and the measurement model is instantaneous, not light-time retarded. What is checked: the relay period against Kepler's third law for the body, an orbiter keeping its radius and a lander on the surface, the Earth range never worsening the formal uncertainty, the seeded fix errors agreeing with the formal sigma (root mean square of error over sigma in [{ "0.6" }, { "1.5" }]), and a deterministic run. None of this is a mission's navigation data.
@@ -336,7 +346,9 @@ seg-430edd66bda0 = Not modelled
 seg-1babcba7b4ba = Relativistic light-time terms beyond the separately reported Shapiro delay, and the solar plasma delay.
 
 # text
-seg-0c49dfc777ca = Positions better than the Standish and mean-element accuracy stated above; there is no kernel reader in the main crate.
+# c1: solar-system
+# c2: body-pnt
+seg-7d06f637e670 = Positions better than the Standish and mean-element accuracy stated above, unless a <c1/> run names a planetary kernel; <c2/> always uses the analytic ephemerides.
 
 # text
 # c1: body-pnt

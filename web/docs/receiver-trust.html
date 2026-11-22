@@ -156,17 +156,17 @@ package (<code>receiver_trust(toml)</code>, with the log inline) and from the Mo
 </tr>
 <tr>
 <td><code>sbp</code></td>
-<td>Swift Navigation SBP binary (0.42, read only)</td>
+<td>Swift Navigation SBP binary (added after 0.41.0, read only)</td>
 <td><code>MSG_POS_LLH</code> position, <code>MSG_DOPS</code>, <code>MSG_OBS</code> and <code>MSG_MEASUREMENT_STATE</code> C/N0 per signal, <code>MSG_GPS_TIME</code> week; see <a href="/docs/receiver-protocols">RECEIVER-PROTOCOLS.md</a></td>
 </tr>
 <tr>
 <td><code>greis</code></td>
-<td>Javad GREIS binary messages (0.42, read only)</td>
+<td>Javad GREIS binary messages (added after 0.41.0, read only)</td>
 <td><code>[PG]</code> position, <code>[DP]</code> DOP, <code>[SX]</code>/<code>[SI]</code> satellite index with <code>[NN]</code> GLONASS slots, <code>[E*]</code>/<code>[*E]</code> C/N0 per signal slot, <code>[~~]</code>/<code>[RD]</code> time</td>
 </tr>
 <tr>
 <td><code>unicore</code></td>
-<td>Unicore N4 binary logs (0.42, read only)</td>
+<td>Unicore N4 binary logs (added after 0.41.0, read only)</td>
 <td><code>BESTNAV</code> position, <code>OBSVM</code> C/N0 per satellite and signal</td>
 </tr>
 </tbody></table></div>
@@ -428,8 +428,7 @@ untrusted band alone (several together can). The result records the score model
 ratios and their points. For a vessel the epoch&#39;s state is the band of its score.</p>
 <h2 id="geometry-natural-degradation-apart-from-attack-like-inconsistency">Geometry: natural degradation apart from attack-like inconsistency<a class="anchor" href="#geometry-natural-degradation-apart-from-attack-like-inconsistency" aria-label="Link to this section">#</a></h2>
 <p>A receiver beside a quay crane, in a lock or under a high hull loses satellites and its fix gets
-worse for a reason that is not an attack. From 0.36, following the geometry design note
-(<code>docs/design/2026-10-12-geometry-and-skyline-design.md</code>, section 4), every epoch carries its
+worse for a reason that is not an attack. From 0.36, every epoch carries its
 <strong>satellite geometry</strong>, a vessel&#39;s score has a <strong>geometry monitor</strong>, and every deduction carries a
 <strong>class</strong>: <code>geometry</code> (the sky), <code>environment</code> (the signal environment) or <code>inconsistency</code>
 (attack-like evidence).</p>
@@ -541,7 +540,7 @@ give no stated DOP.</p>
 </thead><tbody><tr>
 <td><code>hdop_max</code></td>
 <td>4</td>
-<td>chosen (design note 4.2): at <code>sigma_uere_m</code> 1.5 m, HDOP 4 is a 2drms of 12 m, the kinematic check&#39;s <code>kin_pos_tol_m</code>. IEC 61108-1 is commonly cited as stating its accuracy requirements for HDOP ≤ 4 (or PDOP ≤ 6): recalled from secondary GNSS receiver literature, no specific secondary source consulted and the standard not read; to be checked against the standard&#39;s text</td>
+<td>chosen: at <code>sigma_uere_m</code> 1.5 m, HDOP 4 is a 2drms of 12 m, the kinematic check&#39;s <code>kin_pos_tol_m</code>. IEC 61108-1 is commonly cited as stating its accuracy requirements for HDOP ≤ 4 (or PDOP ≤ 6): recalled from secondary GNSS receiver literature, no specific secondary source consulted and the standard not read; to be checked against the standard&#39;s text</td>
 </tr>
 <tr>
 <td><code>pdop_max</code></td>
@@ -561,7 +560,7 @@ give no stated DOP.</p>
 <tr>
 <td><code>reported_vs_derived_tol</code></td>
 <td>1.0 HDOP</td>
-<td>chosen (design note 4.2): the absolute part of the tolerance; a disagreement beyond the tolerance is not geometry</td>
+<td>chosen: the absolute part of the tolerance; a disagreement beyond the tolerance is not geometry</td>
 </tr>
 <tr>
 <td><code>reported_vs_derived_rel</code></td>
@@ -571,7 +570,7 @@ give no stated DOP.</p>
 <tr>
 <td><code>low_elev_deg</code></td>
 <td>15</td>
-<td>design note 4.3: satellites lost below it are lost to the sky; a skyline (0.36 item 1) will extend this</td>
+<td>chosen: satellites lost below it are lost to the sky; a stated <code>[skyline]</code> extends this</td>
 </tr>
 <tr>
 <td><code>azimuth_gap_deg</code></td>
@@ -581,7 +580,7 @@ give no stated DOP.</p>
 <tr>
 <td><code>cap_points</code></td>
 <td>15</td>
-<td>design note 4.2: geometry alone moves the score from nominal into degraded and never to untrusted; deducted only when the geometry is poor (founder decision B1, 0.36)</td>
+<td>chosen (0.36): geometry alone moves the score from nominal into degraded and never to untrusted; deducted only when the geometry is poor</td>
 </tr>
 <tr>
 <td><code>full_ratio</code></td>
@@ -617,7 +616,7 @@ configured), <code>max_azimuth_gap_deg</code>, <code>age_s</code>, <code>reporte
 deduction, and at the end <code>geometry_model</code> (thresholds, hold, the cap and floor in force,
 provenance, class rules) and <code>geometry_summary</code> (epochs by status, by label and by deduction
 class, and the epochs with a stated-HDOP mismatch); <code>score_model.weights</code> is as in 0.35. Two tests hold this to the bytes of the &quot;0.36 portable&quot; baseline
-once those keys are removed (the 0.35.0 hashes, re-based when the engine moved to portable maths and kept in the tests as the record of what 0.35.0 released: <code>docs/revisions/STUDIO15-portable-math-rebaseline.md</code>). <code>tests/geometry_trust_no_change.rs</code> holds every output of both example
+once those keys are removed (the 0.35.0 hashes, re-based when the engine moved to portable maths and kept in the tests as the record of what 0.35.0 released: <code>docs/revisions/portable-math-rebaseline.md</code>). <code>tests/geometry_trust_no_change.rs</code> holds every output of both example
 sessions (result JSON, CSV, SVG, verdict, replayed live lines, <code>$PKSHT</code>, Prometheus, CEF, LEEF).
 <code>tests/geometry_corpus_identity.rs</code> holds the batch result, summary, live lines and <code>$PKSHT</code> of
 every committed vessel NMEA corpus (the demo and the maritime reference fixtures, each also as
