@@ -64,9 +64,11 @@ by `cargo test --test solar_system_horizons_reference -- --nocapture`:
 The Moon and the seven moons are measured with pinned bars, but no published bound exists
 to validate them against, so they are MODELLED.
 
-The analytic ephemerides need no kernel file. A JPL Development Ephemeris kernel
-(DE-grade positions) is read only by the separate cross-validation crates under `xval/`,
-through the same `EphemerisProvider` trait; the main crate does not depend on them.
+The analytic ephemerides need no kernel file and are the default. A JPL Development
+Ephemeris kernel (SPK, DE-grade positions) is read only where a scenario names one: the
+`solar-system` kind's optional `planetary_kernel_path` (below) uses the main crate's own
+kernel reader (`src/naif_kernel.rs`) through the same `EphemerisProvider` trait, and the
+separate cross-validation crates under `xval/` read kernels for their own checks.
 
 ## `solar-system`
 
@@ -94,7 +96,11 @@ Solar system at 2030-01-01T00:00:00 (JD 2462502.50080 TDB), 5 bodies, observer M
 
 Inputs: `epoch` (default 2026-01-01T00:00:00) or `epoch_jd_tdb`; `bodies` (default all
 eighteen); `observer` (default the Earth); `track_points` per orbit (8 to 2000, default
-120); `table`; and any number of `[[links]]`, each received at the epoch.
+120); `table`; any number of `[[links]]`, each received at the epoch; and
+`planetary_kernel_path`, an optional JPL SPK (for example `de440s.bsp`): each body whose own
+NAIF code the kernel holds then takes its heliocentric state from it (label `KERNEL`), a link
+whose two ends are both in the kernel is computed on it, every other body stays analytic, and
+the report carries a `kernel` block with the file's SHA-256.
 
 Per body the result gives its class and parent, the NASA Navigation and Ancillary
 Information Facility (NAIF) identifier, the heliocentric position and velocity in the
@@ -163,7 +169,7 @@ deep-space link adds.
 `raan_deg` is the right ascension of the ascending node in the body's equatorial frame and
 `u0_deg` the argument of latitude at the epoch.
 
-The two bundled scenarios, as they run with kshana 0.36 (portable maths, the same on every platform):
+The two bundled scenarios, as they run with kshana 0.41.0 (portable maths since 0.36, the same on every platform):
 
 | | `scenarios/mars-orbit-pnt.toml` | `scenarios/europa-surface-pnt.toml` |
 |---|---|---|
@@ -218,8 +224,9 @@ scenario 0d4dd01b3160 | sgp4 (TLE) | 559 samples | alt 419–434 km | |lat| ≤ 
 
 - Relativistic light-time terms beyond the separately reported Shapiro delay, and the solar
   plasma delay.
-- Positions better than the Standish and mean-element accuracy stated above; there is no
-  kernel reader in the main crate.
+- Positions better than the Standish and mean-element accuracy stated above, unless a
+  `solar-system` run names a planetary kernel; `body-pnt` always uses the analytic
+  ephemerides.
 - Third-body perturbations on `body-pnt` relays and on `constellation-design` orbits.
 - Terrain on any body: a body is its mean sphere.
 - Interoperability exports: CZML, KML and GeoJSON describe positions about the Earth, so

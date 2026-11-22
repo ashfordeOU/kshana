@@ -18,7 +18,7 @@ by anyone. Advisory only: Kshana is a study instrument, not type-approved naviga
 
 A submission can move a row to VALIDATED only for the claim the data actually tests, and only if the comparison meets its
 bar. It cannot make a device's own figures Kshana's to vouch for: those stay the partner's (PARTNER). Whether a row's label
-changes is the owner's decision, recorded in the commit that changes it, with the oracle text saying exactly what was
+changes is the maintainers' decision, recorded in the commit that changes it, with the oracle text saying exactly what was
 compared with what.
 
 ## Rows a partner's data could promote
@@ -93,7 +93,7 @@ description), anything under export control or restricted by agreement, and any 
    run.
 3. **One scored run.** The result, every number and every miss included, is published with the command and the commit,
    and a test pins it. A miss is a finding, not a failure to hide: the row stays MODELLED and the page says so.
-4. **The ledger decision is the owner's**, in writing, in the commit that changes the row. The oracle text of a promoted
+4. **The ledger decision is the maintainers'**, in writing, in the commit that changes the row. The oracle text of a promoted
    row names the dataset, its licence and credit, what was compared and what was not.
 
 ## Credit and rights
@@ -105,8 +105,3 @@ description), anything under export control or restricted by agreement, and any 
 - You can withdraw a submission before its result is published. After that the result stays as recorded; if you withdraw
   the data licence, the file is removed from the repository and the hash and the scores remain.
 - Kshana transmits nothing and drives no hardware. A submission is files in, a report out.
-
-## Outreach
-
-A one-page note for a laboratory is drafted for the owner in [`docs/drafts/PARTNER-OUTREACH.md`](drafts/PARTNER-OUTREACH.md).
-It is a draft: nothing is sent, and nobody is contacted, until the owner decides.
