@@ -80,7 +80,7 @@ pub const KIND_DESCRIPTION_IDS: &[(&str, &str, &[KindNumber])] = &[
     ("telecom-timing", "kind-telecom-timing-description", &[("lit_1_5", 1.5_f64, 1)]),
     ("slot-timing", "kind-slot-timing-description", &[]),
     ("spectrum", "kind-spectrum-description", &[("lit_1_023", 1.023_f64, 3), ("lit_1_5", 1.5_f64, 1)]),
-    ("solar-system", "kind-solar-system-description", &[("lit_1_87", 1.87_f64, 2), ("lit_1_71", 1.71_f64, 2), ("lit_2_0", 2.0_f64, 1), ("lit_5_2", 5.2_f64, 1)]),
+    ("solar-system", "kind-solar-system-description", &[("lit_1_0", 1.0_f64, 1), ("lit_0_778", 0.778_f64, 3), ("lit_3_83", 3.83_f64, 2), ("lit_2_0", 2.0_f64, 1), ("lit_5_2", 5.2_f64, 1)]),
     ("body-pnt", "kind-body-pnt-description", &[]),
     ("constellation-design", "kind-constellation-design-description", &[("lit_110_5", 110.5_f64, 1), ("lit_64_8", 64.8_f64, 1), ("lit_0_94", 0.94_f64, 2), ("lit_1_25", 1.25_f64, 2), ("lit_0_96", 0.96_f64, 2), ("lit_0_03", 0.03_f64, 2)]),
     ("campaign", "kind-campaign-description", &[]),

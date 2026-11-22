@@ -8966,21 +8966,7 @@ Initial release.
 - `CITATION.cff` so the software can be cited.
 
 [Unreleased]: https://github.com/ashfordeOU/kshana/compare/v0.41.0...HEAD
-[0.41.0]: https://github.com/ashfordeOU/kshana/compare/v0.40.0...v0.41.0
-[0.40.0]: https://github.com/ashfordeOU/kshana/compare/v0.39.0...v0.40.0
-[0.39.0]: https://github.com/ashfordeOU/kshana/compare/v0.38.0...v0.39.0
-[0.38.0]: https://github.com/ashfordeOU/kshana/compare/v0.37.0...v0.38.0
-[0.37.0]: https://github.com/ashfordeOU/kshana/compare/v0.36.0...v0.37.0
-[0.36.0]: https://github.com/ashfordeOU/kshana/compare/v0.35.0...v0.36.0
-[0.35.0]: https://github.com/ashfordeOU/kshana/compare/v0.34.1...v0.35.0
-[0.34.1]: https://github.com/ashfordeOU/kshana/compare/v0.34.0...v0.34.1
-[0.34.0]: https://github.com/ashfordeOU/kshana/compare/v0.33.1...v0.34.0
-[0.33.1]: https://github.com/ashfordeOU/kshana/compare/v0.33.0...v0.33.1
-[0.33.0]: https://github.com/ashfordeOU/kshana/compare/v0.32.0...v0.33.0
-[0.32.0]: https://github.com/ashfordeOU/kshana/compare/v0.31.0...v0.32.0
-[0.31.0]: https://github.com/ashfordeOU/kshana/compare/v0.30.0...v0.31.0
-[0.30.0]: https://github.com/ashfordeOU/kshana/compare/v0.29.3...v0.30.0
-[0.29.3]: https://github.com/ashfordeOU/kshana/compare/v0.29.2...v0.29.3
+[0.30.0]: https://github.com/AshfordeOU/kshana/compare/v0.29.3...v0.30.0
 [0.29.2]: https://github.com/AshfordeOU/kshana/compare/v0.29.1...v0.29.2
 [0.29.1]: https://github.com/AshfordeOU/kshana/compare/v0.29.0...v0.29.1
 [0.29.0]: https://github.com/AshfordeOU/kshana/compare/v0.28.0...v0.29.0

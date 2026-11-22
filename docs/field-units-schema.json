@@ -2252,7 +2252,7 @@
       "fields_described": 54,
       "fields_total": 54,
       "fields_without_units": [],
-      "label": "MODELLED cislunar arc-length recovery test (independent-estimator corroboration of the P6 observability threshold). VALIDATED core: the estimator is the crate's pre-existing weighted Gauss-Newton batch corrector (crate::batch_ls), whose design matrix is a CENTRAL FINITE DIFFERENCE of the composed forward model - it calls no analytic measurement Jacobian row, no variational state-transition matrix, no singular-value or eigen decomposition, no rank tolerance and no square-root information filter, so its verdict does not restate the observability Gramian's; the verdict itself is a direct state RECOVERY ERROR against a known truth, in km and mm/s, not a predicted covariance; the initial conditions are the same differential-corrected periodic orbits the Gramian path uses, and the dynamics are the same RK4 CR3BP flow - both shared deliberately and named here, because two analyses of one physical problem must share the physics to be comparable at all. MODELLED: the constellation design, the epoch grid, the single tracked link, the displacement magnitude of the a-priori error, the measurement sigma, and the two stated bounds (recovery_factor and error_bound_km), each of which is swept so its arbitrariness is visible. Not a certified navigation-performance product.",
+      "label": "MODELLED cislunar arc-length recovery test (independent-estimator corroboration of the Gramian rank observability threshold). Checked core (the kind stays MODELLED): the estimator is the crate's pre-existing weighted Gauss-Newton batch corrector (crate::batch_ls), whose design matrix is a CENTRAL FINITE DIFFERENCE of the composed forward model - it calls no analytic measurement Jacobian row, no variational state-transition matrix, no singular-value or eigen decomposition, no rank tolerance and no square-root information filter, so its verdict does not restate the observability Gramian's; the verdict itself is a direct state RECOVERY ERROR against a known truth, in km and mm/s, not a predicted covariance; the initial conditions are the same differential-corrected periodic orbits the Gramian path uses, and the dynamics are the same RK4 CR3BP flow - both shared deliberately and named here, because two analyses of one physical problem must share the physics to be comparable at all. MODELLED: the constellation design, the epoch grid, the single tracked link, the displacement magnitude of the a-priori error, the measurement sigma, and the two stated bounds (recovery_factor and error_bound_km), each of which is swept so its arbitrariness is visible. Not a certified navigation-performance product.",
       "source": "defaults"
     },
     "cislunar-observability": {
@@ -2508,7 +2508,7 @@
       "fields_described": 41,
       "fields_total": 41,
       "fields_without_units": [],
-      "label": "MODELLED planar cislunar constellation observability. VALIDATED core: the observable RANK is a rank-revealing singular-value threshold cross-checked against the Gramian eigen-rank; the Gramian eigen-spectrum obeys the spectral invariants (trace = sum eig, det = prod eig, Frobenius^2 = sum eig^2); the variational STM is the finite-difference-validated CR3BP STM (crate::cr3bp); the range / range-rate Jacobian rows are finite-difference-validated analytic partials (cross-checked against the crate's 3-D range-rate observable); the four-spacecraft initial conditions are differential-corrected planar DROs (crate::dro) that close to a tight periodicity residual and are retrograde; and the rank transition is cross-validated against an independent square-root information filter (crate::cislunar_srif) whose posterior covariance turns finite exactly at full observable rank. MODELLED: the constellation design (which DRO perilune amplitudes and phases) and the specific rank-vs-arc progression it produces. Not a certified navigation-performance product.",
+      "label": "MODELLED planar cislunar constellation observability. Checked core (the kind stays MODELLED): the observable RANK is a rank-revealing singular-value threshold cross-checked against the Gramian eigen-rank; the Gramian eigen-spectrum obeys the spectral invariants (trace = sum eig, det = prod eig, Frobenius^2 = sum eig^2); the variational STM is the finite-difference-validated CR3BP STM (crate::cr3bp); the range / range-rate Jacobian rows are finite-difference-validated analytic partials (cross-checked against the crate's 3-D range-rate observable); the four-spacecraft initial conditions are differential-corrected planar DROs (crate::dro) that close to a tight periodicity residual and are retrograde; and the rank transition is cross-validated against an independent square-root information filter (crate::cislunar_srif) whose posterior covariance turns finite exactly at full observable rank. MODELLED: the constellation design (which DRO perilune amplitudes and phases) and the specific rank-vs-arc progression it produces. Not a certified navigation-performance product.",
       "source": "defaults"
     },
     "clock": {
@@ -3156,7 +3156,7 @@
       "fields_described": 46,
       "fields_total": 46,
       "fields_without_units": [],
-      "label": "MODELLED layered-PNT conflict resilience. VALIDATED core: the Monte-Carlo total-loss probability converges to the closed-form independent product Pi_i p_deny_i (asserted within Monte-Carlo standard error at a fixed seed and large N); the inverse-variance position fuse sigma_fused = (sum_i 1/sigma_i^2)^(-1/2) is a closed-form identity; at correlation rho=0 the Gaussian copula reduces exactly to the independent model (agreeing within MC error for the same seed) and preserves each layer's marginal denial rate at every rho. MODELLED: the per-layer vulnerability / availability / accuracy magnitudes are sourced-but-Modelled inputs (see crate::conflict_threat_params — JammerTest 2024, TEXBAT, EASA SIB, LunaNet/IOAG); the ~7x headline resilience ratio and the ratio-vs-correlation curve shape are properties of that Modelled parameterisation, not certified figures. Not a certified navigation-availability product.",
+      "label": "MODELLED layered-PNT conflict resilience. Checked core (the kind stays MODELLED): the Monte-Carlo total-loss probability converges to the closed-form independent product Pi_i p_deny_i (asserted within Monte-Carlo standard error at a fixed seed and large N); the inverse-variance position fuse sigma_fused = (sum_i 1/sigma_i^2)^(-1/2) is a closed-form identity; at correlation rho=0 the Gaussian copula reduces exactly to the independent model (agreeing within MC error for the same seed) and preserves each layer's marginal denial rate at every rho. MODELLED: the per-layer vulnerability / availability / accuracy magnitudes are sourced-but-Modelled inputs (see crate::conflict_threat_params — JammerTest 2024, TEXBAT, EASA SIB, LunaNet/IOAG); the ~7x headline resilience ratio and the ratio-vs-correlation curve shape are properties of that Modelled parameterisation, not certified figures. Not a certified navigation-availability product.",
       "source": "defaults"
     },
     "constellation-design": {
@@ -7518,7 +7518,7 @@
       "fields_described": 171,
       "fields_total": 171,
       "fields_without_units": [],
-      "label": "Heterogeneous optical + RF PNT joint availability / precision / integrity figure of merit. VALIDATED closed form: the photon-limited ranging CRLB (σ_τ/√N) and diffraction footprint (λ/D·range), the χ² cross-modality protection-level quantile, the N-station independent-union availability (1 − Π(1−a_i)), the optical↔RF handoff mean-continuity (bit-for-bit no-jump) invariant and NEES χ² gate, and the joint-FoM independent product. MODELLED: the optical loss allocations, the RF/optical 1σ magnitudes, the cloud-climatology inputs and spatial correlation, the FoM correlation, and the integrity-risk budget P_HMI are representative inputs. Not a certified availability/integrity product.",
+      "label": "Heterogeneous optical + RF PNT joint availability / precision / integrity figure of merit. Checked closed form (the kind stays MODELLED): the photon-limited ranging CRLB (σ_τ/√N) and diffraction footprint (λ/D·range), the χ² cross-modality protection-level quantile, the N-station independent-union availability (1 − Π(1−a_i)), the optical↔RF handoff mean-continuity (bit-for-bit no-jump) invariant and NEES χ² gate, and the joint-FoM independent product. MODELLED: the optical loss allocations, the RF/optical 1σ magnitudes, the cloud-climatology inputs and spatial correlation, the FoM correlation, and the integrity-risk budget P_HMI are representative inputs. Not a certified availability/integrity product.",
       "source": "defaults"
     },
     "hybrid-ukf": {
@@ -11346,31 +11346,31 @@
           "unit": "dBW"
         },
         "deficit_band_hi_db": {
-          "definition": "largest deficit found over that same sweep",
+          "definition": "largest deficit found over that same sweep (negative is a surplus)",
           "evidence_tier": "inherits-scenario-label",
           "provenance": "computed",
           "unit": "dB"
         },
         "deficit_band_lo_db": {
-          "definition": "smallest deficit found over the reference-level x EIRP x slant-range sensitivity sweep",
+          "definition": "smallest deficit found over the reference-level x EIRP x slant-range sensitivity sweep (negative is a surplus)",
           "evidence_tier": "inherits-scenario-label",
           "provenance": "computed",
           "unit": "dB"
         },
         "deficit_db": {
-          "definition": "how far the AFS received power sits below the terrestrial GPS reference level: gps_reference_dbw - afs_received_dbw",
+          "definition": "how far the AFS received power sits below the terrestrial GPS reference level: gps_reference_dbw - afs_received_dbw; a negative value is a surplus (the default run is negative, about -14.4 dB: the AFS signal is the stronger)",
           "evidence_tier": "validated",
           "provenance": "closed-form",
           "unit": "dB"
         },
         "deficit_factor_rounded": {
-          "definition": "the same linear power ratio with the deficit first truncated to a whole dB, 10^(trunc(nominal_deficit_db)/10) — the ~32x figure",
+          "definition": "the same linear power ratio with the deficit first truncated to a whole dB, 10^(trunc(nominal_deficit_db)/10); below 1 is a surplus (the default is about 0.040, whose reciprocal is the ~25x figure)",
           "evidence_tier": "validated",
           "provenance": "closed-form",
           "unit": "1"
         },
         "deficit_factor_unrounded": {
-          "definition": "the nominal deficit expressed as a linear power ratio at full precision, 10^(nominal_deficit_db/10) — the ~36x figure",
+          "definition": "the nominal deficit expressed as a linear power ratio at full precision, 10^(nominal_deficit_db/10); below 1 is a surplus (the default is about 0.036, whose reciprocal is the ~28x surplus figure)",
           "evidence_tier": "validated",
           "provenance": "closed-form",
           "unit": "1"
@@ -16544,7 +16544,7 @@
       "fields_described": 22,
       "fields_total": 22,
       "fields_without_units": [],
-      "label": "MODELLED positioning from Cramér-Rao bounds: the bandwidth-to-bound step is a textbook closed form (checked against numerical integration, not against a published worked figure); the accuracy is a bound on a multipath-free channel with a stated synchronisation error, not an achieved result",
+      "label": "Positioning from Cramér-Rao bounds: the bounds are VALIDATED against published worked values (Bachl et al. 2026, single-SSB NR NTN bounds) and the fix covariances against numpy; the positioning accuracy is MODELLED: the accuracy is a bound on a multipath-free channel with a stated synchronisation error, not an achieved result",
       "source": "scenarios/ntn-5g-positioning.toml"
     },
     "oem-interop": {
@@ -17983,7 +17983,7 @@
           "unit": "s"
         },
         "lever_arm_m_per_s": {
-          "definition": "D_EM * omega_earth (L19)",
+          "definition": "D_EM * omega_earth (the Earth-Moon lever arm)",
           "evidence_tier": "validated",
           "provenance": "constant",
           "unit": "m/s"
@@ -18067,7 +18067,7 @@
           "unit": "m"
         },
         "operational_predictor_model.published_bulletin_a_agreement.ut1_rms_position_m": {
-          "definition": "the UT1 agreement at the Moon through the L19 lever arm",
+          "definition": "the UT1 agreement at the Moon through the Earth-Moon lever arm",
           "evidence_tier": "inherits-scenario-label",
           "provenance": "computed",
           "unit": "m"
@@ -18277,7 +18277,7 @@
           "unit": "ns"
         },
         "table1_consistency[].ut1_equiv_ms": {
-          "definition": "L19 image of the position",
+          "definition": "lever-arm image of the position",
           "evidence_tier": "inherits-scenario-label",
           "provenance": "computed",
           "unit": "ms"
@@ -18619,7 +18619,7 @@
         },
         "table5_operational_vs_persistence.rows[].combined.operational.rms_position_m": {
           "declared_as": "table5_operational_vs_persistence.rows[].*.operational.rms_position_m",
-          "definition": "the RMS residual at the Moon through the L19 lever arm",
+          "definition": "the RMS residual at the Moon through the Earth-Moon lever arm",
           "evidence_tier": "inherits-scenario-label",
           "provenance": "computed",
           "unit": "m"
@@ -18675,7 +18675,7 @@
         },
         "table5_operational_vs_persistence.rows[].combined.persistence.rms_position_m": {
           "declared_as": "table5_operational_vs_persistence.rows[].*.persistence.rms_position_m",
-          "definition": "the RMS residual at the Moon through the L19 lever arm",
+          "definition": "the RMS residual at the Moon through the Earth-Moon lever arm",
           "evidence_tier": "inherits-scenario-label",
           "provenance": "computed",
           "unit": "m"
@@ -18775,7 +18775,7 @@
         },
         "table5_operational_vs_persistence.rows[].polar_motion.operational.rms_position_m": {
           "declared_as": "table5_operational_vs_persistence.rows[].*.operational.rms_position_m",
-          "definition": "the RMS residual at the Moon through the L19 lever arm",
+          "definition": "the RMS residual at the Moon through the Earth-Moon lever arm",
           "evidence_tier": "inherits-scenario-label",
           "provenance": "computed",
           "unit": "m"
@@ -18831,7 +18831,7 @@
         },
         "table5_operational_vs_persistence.rows[].polar_motion.persistence.rms_position_m": {
           "declared_as": "table5_operational_vs_persistence.rows[].*.persistence.rms_position_m",
-          "definition": "the RMS residual at the Moon through the L19 lever arm",
+          "definition": "the RMS residual at the Moon through the Earth-Moon lever arm",
           "evidence_tier": "inherits-scenario-label",
           "provenance": "computed",
           "unit": "m"
@@ -18901,7 +18901,7 @@
         },
         "table5_operational_vs_persistence.rows[].ut1.operational.rms_position_m": {
           "declared_as": "table5_operational_vs_persistence.rows[].*.operational.rms_position_m",
-          "definition": "the RMS residual at the Moon through the L19 lever arm",
+          "definition": "the RMS residual at the Moon through the Earth-Moon lever arm",
           "evidence_tier": "inherits-scenario-label",
           "provenance": "computed",
           "unit": "m"
@@ -18957,7 +18957,7 @@
         },
         "table5_operational_vs_persistence.rows[].ut1.persistence.rms_position_m": {
           "declared_as": "table5_operational_vs_persistence.rows[].*.persistence.rms_position_m",
-          "definition": "the RMS residual at the Moon through the L19 lever arm",
+          "definition": "the RMS residual at the Moon through the Earth-Moon lever arm",
           "evidence_tier": "inherits-scenario-label",
           "provenance": "computed",
           "unit": "m"
@@ -19530,7 +19530,7 @@
       "fields_described": 37,
       "fields_total": 37,
       "fields_without_units": [],
-      "label": "MIXED: each body carries its own label. Planet positions are VALIDATED against JPL Horizons within twice the Standish nominal error (Mercury to Saturn and the Earth from Table 1; all eight planets from Tables 2a/2b); Uranus and Neptune from Table 1, Pluto, the Moon and the seven moons are MODELLED. Light times are Newtonian, from the same positions.",
+      "label": "MIXED: each body carries its own label. Planet positions are VALIDATED against JPL Horizons, RMS at most 1.0 times the Explanatory Supplement Table 8.10.1 errors (worst 0.778; Mercury to Saturn and the Earth from Table 1; all eight planets from Tables 2a/2b); Uranus and Neptune from Table 1, Pluto, the Moon and the seven moons are MODELLED. Light times are Newtonian, from the same positions.",
       "source": "scenarios/solar-system-tour.toml"
     },
     "space-packet": {
