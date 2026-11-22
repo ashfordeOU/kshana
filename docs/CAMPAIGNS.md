@@ -142,8 +142,8 @@ condition. Every member runs, and for each metric the combined summary gives the
 largest and mean value across the members, naming the best and worst.
 `scenarios/campaign-shared-jammer-sea-road.toml` puts one 8 dBW jammer between a ship in
 the Gulf of Finland (about 30 km away) and a car on a Helsinki coast road (about 50 km):
-the ship loses every satellite (mean jammer-to-signal ratio 39.0 dB) while the car keeps
-at least four (34.6 dB).
+the ship falls below four tracked satellites at every epoch, down to one (availability 0,
+mean jammer-to-signal ratio 39.0 dB), while the car keeps at least seven (34.6 dB).
 
 ## `[optimize]`: the best value of one metric
 
