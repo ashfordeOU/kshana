@@ -6030,6 +6030,7 @@ engine-e-orbit-rinex-block-parsed-but-contained = RINEX-blokken blev læst, men 
 engine-e-orbit-user-site-lat-deg-must = user_site: lat_deg skal ligge i [-90, 90], og alle felter skal være endelige
 
 engine-e-orbit-no-satellites-to-export = ingen satellitter at eksportere
+engine-e-orbit-too-many-satellites-for-sp3 = { $n } satellitter passer ikke i en SP3-c-fil (højst { $max }); eksportér færre, eller brug OEM-eksporten
 
 engine-e-orbit-time-step-must-be-positive = time.step_s skal være positiv ved SP3-eksport
 
@@ -6771,6 +6772,10 @@ engine-e-rinex-obs-bad = ugyldig { $what }: { $s }
 engine-e-rinex-obs-rinex-observation-file-has-no = RINEX-observationsfilen har ingen END OF HEADER
 
 engine-e-rinex-obs-rinex-observation-file-contained-no = RINEX-observationsfilen indeholdt ingen epokeposter
+engine-e-rinex-not-finite = { $s } er ikke et endeligt tal
+engine-e-rinex-nav-version-unsupported = RINEX { $version }-navigationsfil: kun RINEX 3- og 4-navigationsfiler læses
+engine-e-rinex-obs-epoch-overrun = epoken { $line } angiver { $n } poster, men den næste epokeoverskrift følger efter { $got }
+engine-e-precise-products-clock-no-end-of-header = RINEX-urfilen har intet END OF HEADER
 
 ## src/scenario.rs
 
@@ -8896,7 +8901,7 @@ engine-kind-lunar-differential-pnt-description = Modelleret lunar DIFFERENTIEL P
 
 engine-kind-lunar-station-coverage-description = Modelleret lunar referencestationsdækning: et Monte Carlo-sweep af den lunare differentielle PNT-model over et sydpolart brugergitter og et døgns epoker. En differentiel referencestation på et kendt sydpolart sted korrigerer en angivet konstellation (illustrativ Kepler eller en tabuleret efemeride) med en angivet signal-i-rummet-fejl, opmålingsfejl, korrektionslatens og linkkvantisering; pr. punkt og over regionen rapporterer den den korrigerede og ukorrigerede positionsfejl som percentil (3-D, horisontal, vertikal), tilgængelighed, dækning mod en angivet tærskel, DO-229E-beskyttelsesniveauer, dækningsradius pr. azimut og korrektionslinkets budget ved stationen og i det værste punkt. Ikke en udtalelse om ydeevnen af noget reelt system; ikke tilknyttet eller støttet af nogen myndighed. MODELLED.
 
-engine-kind-lunar-interop-export-description = Modelleret lunar interoperabilitetseksport: udsender det lunare referencesystem, den lunare tidsskala og den lunare efemeride i LunaNet/IOAG-afstemte, CCSDS-baserede udvekslingsformer med rundtur-/feltkontrol. GENBRUGER cratens CCSDS OEM 2.0-udsender+parser (crate::oem), gentaget for den lunare kontekst — OEM-feltet REF_FRAME bærer det lunare legemssystem under dets SANA-registrerede navn (MOON_ME, eller MOON_PA440 for DE440-hovedakserne), TIME_SYSTEM er som standard TDB (også UTC; de uregistrerede lunare tokens LTC / TCL kun med allow_unregistered_time_system = true, og en COMMENT angiver det så), CENTER_NAME = MOON — over en illustrativ eksempelefemeride af LCNS-klassen (positioner fra crate::lunar_service, hastighed ved endelig differens) roteret fra månecentrerede inertialakser til det navngivne system med DE440-orienteringen. Udsender også en LunaNet/IOAG-afstemt lunar tidsbeskrivelse (skala-id, sekulær rate µs/dag fra crate::lunar_time, offentliggjort bånd, referenceoverflade), der går rundtur via serde_json, og pakker artefakterne ind i den eksisterende KIF-kuvert (crate::interchange) med den MODELLED ærlighedsmærkat. Rapporterer udsendte artefakter, OEM-linjeantal, bestået feltkontrol + liste over til stede værende/manglende felter, OEM-rundtur ok, rundtur for tidsmetadata ok og KIF-bytestørrelse. MODELLED — deterministisk rundtur + kontrol af feltnavne mod offentliggjort CCSDS OEM + LunaNet/IOAG-feltsemantik er den uafhængige reference; IKKE en certificeret test af interoperabilitet; illustrativ efemeride fra offentlige kilder, ikke tilknyttet ESA; ingen TRL/heritage/opbakning fra nogen myndighed.
+engine-kind-lunar-interop-export-description = Modelleret lunar interoperabilitetseksport: udsender det lunare referencesystem, den lunare tidsskala og den lunare efemeride i LunaNet/IOAG-afstemte, CCSDS-baserede udvekslingsformer med rundtur-/feltkontrol. GENBRUGER cratens CCSDS OEM 2.0-udsender+parser (crate::oem), gentaget for den lunare kontekst — OEM-feltet REF_FRAME bærer det lunare legemssystem under dets SANA-registrerede navn (MOON_ME, eller MOON_PA440 for DE440-hovedakserne) når epoch_tdb er angivet, ellers REF_FRAME = ICRF med tilstandene uroterede, TIME_SYSTEM er som standard TDB (også UTC; de uregistrerede lunare tokens LTC / TCL kun med allow_unregistered_time_system = true, og en COMMENT angiver det så), CENTER_NAME = MOON — over en illustrativ eksempelefemeride af LCNS-klassen (positioner fra crate::lunar_service, hastighed ved endelig differens) roteret fra månecentrerede inertialakser til det navngivne system med DE440-orienteringen. Udsender også en LunaNet/IOAG-afstemt lunar tidsbeskrivelse (skala-id, sekulær rate µs/dag fra crate::lunar_time, offentliggjort bånd, referenceoverflade), der går rundtur via serde_json, og pakker artefakterne ind i den eksisterende KIF-kuvert (crate::interchange) med den MODELLED ærlighedsmærkat. Rapporterer udsendte artefakter, OEM-linjeantal, bestået feltkontrol + liste over til stede værende/manglende felter, OEM-rundtur ok, rundtur for tidsmetadata ok og KIF-bytestørrelse. MODELLED — deterministisk rundtur + kontrol af feltnavne mod offentliggjort CCSDS OEM + LunaNet/IOAG-feltsemantik er den uafhængige reference; IKKE en certificeret test af interoperabilitet; illustrativ efemeride fra offentlige kilder, ikke tilknyttet ESA; ingen TRL/heritage/opbakning fra nogen myndighed.
 
 engine-kind-timetransfer-description = Optisk mod RF tovejs tids-/frekvensoverførsel.
 
@@ -10774,7 +10779,10 @@ engine-e-lunar-oem-not-moon-centred = CENTER_NAME er { $center }; kun månecentr
 engine-e-lunar-oem-unknown-frame = REF_FRAME { $frame } omregnes ikke her (ICRF, MOON_PA440, MOON_ME; læses også: MOON_PA_DE440, MOON_ME_DE440_ME421, MOON_PA; EME2000 og J2000 afviger fra ICRF med frame bias, som ikke anvendes)
 
 ## Lunar interop export: SANA-registered names (src/lunar_interop.rs)
-engine-e-lunar-interop-unknown-frame = ukendt månereferencesystem { $frame } (MOON_ME eller MOON_PA440; MOON_PA læses som MOON_PA440)
+engine-e-lunar-interop-unknown-frame = ukendt månereferencesystem { $frame } (ICRF, MOON_ME eller MOON_PA440; MOON_PA læses som MOON_PA440)
+engine-e-lunar-interop-body-frame-needs-epoch = REF_FRAME { $frame } drejer med Månen: de inertielle tilstande kan kun roteres ind i det ved en absolut epoke; angiv epoch_tdb, eller skriv ICRF (tilstandenes eget system)
+engine-e-lunar-interop-epoch-needs-tdb = epoch_tdb forankrer gitteret i TDB: angiv time_system = TDB, ikke { $time_system }
+engine-e-lunar-interop-bad-epoch = epoch_tdb { $epoch } er ikke en dato på formen YYYY-MM-DDTHH:MM:SS
 engine-e-lunar-interop-unknown-time-system = ukendt tidssystem { $time_system } (TDB, UTC eller med allow_unregistered_time_system = true LTC eller TCL)
 engine-e-lunar-interop-unregistered-time-system = TIME_SYSTEM { $time_system } er ikke i SANA-registret Time Systems, som CCSDS OEM bruger; sæt allow_unregistered_time_system = true for alligevel at skrive den (en COMMENT siger det så), eller brug TDB
 engine-e-lunar-interop-bad-step = step_min skal være et endeligt, ikke-negativt antal minutter, ikke { $step }
@@ -10846,6 +10854,12 @@ engine-e-evidence-dir-bad-field = signature.json: { $field } mangler eller har f
 ## space-receiver od-vs-tle time system
 engine-e-space-receiver-oem-time-system = OEM-tidssystemet { $ts } kan denne sammenligning ikke læse (UTC, GPS, TAI eller TT)
 
+## leo-pass leap-second epoch
+engine-e-leo-pass-epoch-is-a-leap-second = epoken { $s } er et skudsekund, som ikke har en almindelig UTC-juliansk dato; angiv epoken i GPS- eller TAI-tid eller et sekund før eller efter
+
+## connect: GPS week guard
+engine-e-connect-week-not-full = linje { $line }: GPS-uge { $week } er ikke en fuld uge (en 10-bit udsendt uge ruller over hver 1024. uge); angiv den fulde uge talt fra 1980-01-06
+
 engine-main-usage =
     brug: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }eller: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10873,6 +10887,7 @@ engine-main-usage =
     { "   " }eller: kshana obs <convert <log> --format <format> --station <station.toml> [--out <file>] | check <file.obs.jsonl> [--json]>
     { "   " }eller: kshana connect <map <input> --mapping <connect.toml> --station <station.toml> [--out <file.obs.jsonl>] | check <vector.toml|dir> [--bless] | watch <dir> --mapping <connect.toml> --station <station.toml> [--suffix <.csv>] [--interval <s>] [--once] | mqtt <host:port> --topic <filter> --mapping <connect.toml> --station <station.toml> [--header <row>] [--qos 0|1] [--user <name> --password-env <VAR>] [--client-id <id>] [--max-messages <n>] [--per-topic] | nats <host:port> --subject <s> --mapping <connect.toml> --station <station.toml> [--header <row>] [--per-topic] [--user <name> --password-env <VAR> | --token-env <VAR>] [--max-messages <n>] | ws <ws://host:port/path> --mapping <connect.toml> --station <station.toml> [--header <row>] [--max-messages <n>] | check-live <vector.toml|dir> [--json] | load-test [--stations <n>] [--rate <Hz>] [--seconds <s>] [--via memory|mqtt] [--json] | adapters <list|check> [<dir>] [--json]>
     { "   " }eller: kshana osnma verify <pages|vectors.csv|stream.ubx> [--merkle-root <hex>] [--public-key <id:type:hex>] [--reference-time <gst-s>] [--json] (kshana osnma --help)
+    { "   " }eller: kshana osnma vectors run [<set-dir>] [--json] (åbent syntetisk OSNMA-vektorsæt; kshana osnma vectors --help)
     { "   " }eller: kshana iq <scene|acquire|track|sweep|labfit|campaign|conditions|frontend|monitor|diagnose|gnss-sdr-conf|inventory|info|extract|convert|decimate> ... (kshana iq --help)
     { "   " }eller: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }eller: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
@@ -10902,7 +10917,7 @@ engine-main-usage =
     { "   " }eller: kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
     { "   " }eller: kshana orbit-data <check|convert|gp-compare|gp-audit|cov> ... (kshana orbit-data --help)
     { "   " }eller: kshana drone <prearm|prearm-calibrate|estimator-cases|dr-budget|quad-loss|failover|zonotope-pl> ... (kshana drone --help)
-    { "   " }eller: kshana leo-verify <burst-timing|holdover-tdev|cost|indoor|rain-fade|rtk-ar|jam-claim|doppler-integrity> <input.json>
+    { "   " }eller: kshana leo-verify <burst-timing|holdover-tdev|cost|indoor|rain-fade|rtk-ar|jam-claim|doppler-integrity|signal-claims> <input.json>
     { "   " }eller: kshana sil-obs <generate|compare> ... (kshana sil-obs --help)
     { "   " }eller: kshana interference-lib <models|generate|fit|bench|cases> ... (kshana interference-lib --help)
     { "   " }eller: kshana antenna-cal <lint|spread|compare|group-delay|js-margin> ... (kshana antenna-cal --help)
@@ -11075,6 +11090,7 @@ engine-bench-cli-mismatch-line = MISMATCH: { $rel }
 
 engine-osnma-cli-usage =
     brug: kshana osnma verify <input> [options]
+    { "   " }eller: kshana osnma vectors <generate|run> ... (kshana osnma vectors --help)
 
     { "  " }<input>                    I/NAV-sider: det almindelige format (se docs/OSNMA.md) eller
     { "                             " }CSV-layoutet for de offentliggjorte testvektorer
@@ -12074,7 +12090,7 @@ engine-e-oscillator-field = { $field } er uden for området: { $value }
 
 ## src/leo_verify/mod.rs
 
-engine-leo-verify-usage = brug: kshana leo-verify <burst-timing|holdover-tdev|cost|indoor|rain-fade|rtk-ar|jam-claim|doppler-integrity> <input.json> (docs/LEO-VERIFY.md)
+engine-leo-verify-usage = brug: kshana leo-verify <burst-timing|holdover-tdev|cost|indoor|rain-fade|rtk-ar|jam-claim|doppler-integrity|signal-claims> <input.json> (docs/LEO-VERIFY.md)
 
 engine-e-leo-verify-input = { $part }-input er ikke gyldigt: { $e }
 
@@ -12219,3 +12235,11 @@ engine-e-leo-sparse-bad-study = undersøgelsens tal er uden for området: en gyl
 engine-e-leo-sparse-singular = informationsmatricen kan ikke inverteres, heller ikke med a priori-værdierne
 engine-e-leo-sparse-cannot-read = kan ikke læse { $path }: { $e }
 engine-e-leo-sparse-bad-file = { $path } er ikke en undersøgelse: { $e }
+engine-e-ccsds-not-finite = { $t } er ikke et endeligt tal
+engine-e-oem-unclosed-covariance = segmentet for { $object } åbner COVARIANCE_START og lukker det aldrig med COVARIANCE_STOP
+engine-e-orbit-data-convert-time-system-changes = segmenterne deler ikke ét TIME_SYSTEM ({ $first }, derefter { $other }); en OCM bærer ét, så konverteringen afvises
+engine-e-ccsds-tdm-data-outside-block = datalinje uden for en DATA_START til DATA_STOP-blok: { $line }
+
+engine-amateur-od-bad-record = linje { $line }: { $what }-posten kan ikke læses
+engine-amateur-od-bad-json = SatNOGS-observation: feltet { $field } mangler eller er ikke et tal
+engine-amateur-od-unknown-site = Doppler-posten angiver station { $site }, som ikke er i stationslisten

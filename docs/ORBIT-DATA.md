@@ -236,3 +236,5 @@ The cases compare the 2D computation, including the slow GEO cases where the met
 (`gen_selfmade_tles.py`, placeholder catalogue numbers 90001 to 90014; the consistent pair is built with the SGP4
 secular rates written out in Python from Hoots and Roehrich, Spacetrack Report No. 3, so the engine's SGP4 carries one
 onto the other to within 50 m).
+
+See also [Amateur-RF orbit determination](AMATEUR-RF-OD.md): Doppler and GPS-fix orbit determination for small satellites, and identification of an unknown object against candidate element sets.

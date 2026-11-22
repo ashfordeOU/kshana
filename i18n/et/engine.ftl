@@ -5733,6 +5733,7 @@ engine-e-orbit-rinex-block-parsed-but-contained = RINEX plokk parsiti, kuid see 
 engine-e-orbit-user-site-lat-deg-must = user_site: lat_deg peab olema vahemikus [-90, 90] ja iga väli lõplik
 
 engine-e-orbit-no-satellites-to-export = eksportimiseks pole satelliite
+engine-e-orbit-too-many-satellites-for-sp3 = { $n } satelliiti ei mahu SP3-c-faili (kõige rohkem { $max }); eksportige vähem või kasutage OEM-eksporti
 
 engine-e-orbit-time-step-must-be-positive = time.step_s peab SP3 ekspordi jaoks olema positiivne
 
@@ -6352,6 +6353,10 @@ engine-e-rinex-obs-bad = vigane { $what }: { $s }
 engine-e-rinex-obs-rinex-observation-file-has-no = RINEX vaatlusfailis puudub END OF HEADER
 
 engine-e-rinex-obs-rinex-observation-file-contained-no = RINEX vaatlusfail ei sisaldanud ühtegi epohhikirjet
+engine-e-rinex-not-finite = { $s } ei ole lõplik arv
+engine-e-rinex-nav-version-unsupported = RINEX { $version } navigatsioonifail: loetakse ainult RINEX 3 ja 4 navigatsioonifaile
+engine-e-rinex-obs-epoch-overrun = epohh { $line } deklareerib { $n } kirjet, kuid järgmine epohhi päis tuleb juba { $got } järel
+engine-e-precise-products-clock-no-end-of-header = RINEX-kellafailil puudub END OF HEADER
 
 ## src/scenario.rs
 
@@ -8403,7 +8408,7 @@ engine-kind-lunar-differential-pnt-description = Modelleeritud Kuu DIFERENTSIAAL
 
 engine-kind-lunar-station-coverage-description = Modelleeritud Kuu tugijaama katvus: Kuu diferentsiaal-PNT mudeli Monte Carlo pühkimine üle lõunapolaarse kasutajaruudustiku ja ühe päeva epohhide. Teadaolevas lõunapolaarses asukohas olev diferentsiaaltugijaam korrigeerib nimetatud konstellatsiooni (illustratiivne Kepleri või tabuleeritud efemeriid) nimetatud signaali ruumis levimise vea, mõõdistusvea, parandusviivituse ja lingi kvantimisega; punkti kohta ja piirkonna ulatuses esitab see protsentiilina korrigeeritud ja korrigeerimata asukohavea (3-D, horisontaalne, vertikaalne), kättesaadavuse, katvuse nimetatud läve suhtes, DO-229E kaitsetasemed, katvusraadiuse asimuudi kohta ning paranduslingi eelarve jaamas ja halvimas punktis. Mitte väide ühegi reaalse süsteemi toimivuse kohta; ühegi asutusega sidumata ega ühegi asutuse poolt heaks kiitmata. MODELLED.
 
-engine-kind-lunar-interop-export-description = Modelleeritud Kuu koostalitlusvõime eksport: väljastab Kuu tugisüsteemi, Kuu ajaskaala ja Kuu efemeriidi LunaNet/IOAG-ga joondatud CCSDS-põhistes vahetusvormingutes koos edasi-tagasi teisenduse / väljade vastavuse kontrolliga. KASUTAB UUESTI paketi CCSDS OEM 2.0 väljastajat+parserit (crate::oem), mis on Kuu konteksti jaoks ümber märgistatud — OEM-i REF_FRAME kannab Kuu kehatugisüsteemi selle SANA-s registreeritud nime all (MOON_ME või DE440 peatelgede jaoks MOON_PA440), TIME_SYSTEM on vaikimisi TDB (ka UTC; registreerimata Kuu märgendid LTC / TCL ainult koos allow_unregistered_time_system = true, ja siis märgib seda COMMENT), CENTER_NAME = MOON — näidisena illustratiivse LCNS-klassi efemeriidi kohal (asukohad crate::lunar_service-ist, kiirus lõplike vahede abil), mis on DE440 orientatsiooniga pööratud Kuu-kesksetelt inertsiaaltelgedelt nimetatud tugisüsteemi. Väljastab ka LunaNet/IOAG-ga joondatud Kuu aja kirjeldaja (skaala id, sekulaarne kiirus µs/day crate::lunar_time-ist, avaldatud riba, tugipind), mis teeb serde_json kaudu edasi-tagasi teisenduse, ning mähib artefaktid olemasolevasse KIF ümbrisesse (crate::interchange) koos MODELLED ausameelsussildiga. Esitab väljastatud artefaktid, OEM-i ridade arvu, väljade vastavuse läbimise + olemasolevate/puuduvate väljade loendi, OEM-i edasi-tagasi teisenduse korras, ajametaandmete edasi-tagasi teisenduse korras ja KIF-i baidimahu. MODELLED — deterministlik edasi-tagasi teisendus + väljanimede vastavus võrreldes avaldatud CCSDS OEM-i + LunaNet/IOAG väljasemantikaga on oraakel; EI OLE sertifitseeritud koostalitlusvõime vastavustest; illustratiivne avaliku allika efemeriid, ESA-ga sidumata; ei mingit TRL-i/pärandi/asutuse heakskiitu.
+engine-kind-lunar-interop-export-description = Modelleeritud Kuu koostalitlusvõime eksport: väljastab Kuu tugisüsteemi, Kuu ajaskaala ja Kuu efemeriidi LunaNet/IOAG-ga joondatud CCSDS-põhistes vahetusvormingutes koos edasi-tagasi teisenduse / väljade vastavuse kontrolliga. KASUTAB UUESTI paketi CCSDS OEM 2.0 väljastajat+parserit (crate::oem), mis on Kuu konteksti jaoks ümber märgistatud — OEM-i REF_FRAME kannab Kuu kehatugisüsteemi selle SANA-s registreeritud nime all (MOON_ME või DE440 peatelgede jaoks MOON_PA440), kui epoch_tdb on antud; muidu REF_FRAME = ICRF pööramata olekutega, TIME_SYSTEM on vaikimisi TDB (ka UTC; registreerimata Kuu märgendid LTC / TCL ainult koos allow_unregistered_time_system = true, ja siis märgib seda COMMENT), CENTER_NAME = MOON — näidisena illustratiivse LCNS-klassi efemeriidi kohal (asukohad crate::lunar_service-ist, kiirus lõplike vahede abil), mis on DE440 orientatsiooniga pööratud Kuu-kesksetelt inertsiaaltelgedelt nimetatud tugisüsteemi. Väljastab ka LunaNet/IOAG-ga joondatud Kuu aja kirjeldaja (skaala id, sekulaarne kiirus µs/day crate::lunar_time-ist, avaldatud riba, tugipind), mis teeb serde_json kaudu edasi-tagasi teisenduse, ning mähib artefaktid olemasolevasse KIF ümbrisesse (crate::interchange) koos MODELLED ausameelsussildiga. Esitab väljastatud artefaktid, OEM-i ridade arvu, väljade vastavuse läbimise + olemasolevate/puuduvate väljade loendi, OEM-i edasi-tagasi teisenduse korras, ajametaandmete edasi-tagasi teisenduse korras ja KIF-i baidimahu. MODELLED — deterministlik edasi-tagasi teisendus + väljanimede vastavus võrreldes avaldatud CCSDS OEM-i + LunaNet/IOAG väljasemantikaga on oraakel; EI OLE sertifitseeritud koostalitlusvõime vastavustest; illustratiivne avaliku allika efemeriid, ESA-ga sidumata; ei mingit TRL-i/pärandi/asutuse heakskiitu.
 
 engine-kind-timetransfer-description = Optiline vs RF kahesuunaline aja/sageduse edastamine.
 
@@ -10774,7 +10779,10 @@ engine-e-lunar-oem-not-moon-centred = CENTER_NAME on { $center }; teisendatakse 
 engine-e-lunar-oem-unknown-frame = REF_FRAME { $frame } siin ei teisendata (ICRF, MOON_PA440, MOON_ME; loetakse ka MOON_PA_DE440, MOON_ME_DE440_ME421, MOON_PA; EME2000 ja J2000 erinevad ICRF-ist frame bias'i võrra, mida ei rakendata)
 
 ## Lunar interop export: SANA-registered names (src/lunar_interop.rs)
-engine-e-lunar-interop-unknown-frame = tundmatu Kuu taustsüsteem { $frame } (MOON_ME või MOON_PA440; MOON_PA loetakse kui MOON_PA440)
+engine-e-lunar-interop-unknown-frame = tundmatu Kuu taustsüsteem { $frame } (ICRF, MOON_ME või MOON_PA440; MOON_PA loetakse kui MOON_PA440)
+engine-e-lunar-interop-body-frame-needs-epoch = REF_FRAME { $frame } pöörleb koos Kuuga: inertsiaalseid olekuid saab sinna pöörata ainult absoluutsel epohhil; määrake epoch_tdb või kirjutage ICRF (olekute oma süsteem)
+engine-e-lunar-interop-epoch-needs-tdb = epoch_tdb ankurdab võrgu TDB-s: määrake time_system = TDB, mitte { $time_system }
+engine-e-lunar-interop-bad-epoch = epoch_tdb { $epoch } ei ole kuupäev kujul YYYY-MM-DDTHH:MM:SS
 engine-e-lunar-interop-unknown-time-system = tundmatu ajasüsteem { $time_system } (TDB, UTC või allow_unregistered_time_system = true korral LTC või TCL)
 engine-e-lunar-interop-unregistered-time-system = TIME_SYSTEM { $time_system } ei ole SANA Time Systems registris, mida CCSDS OEM kasutab; seadke allow_unregistered_time_system = true, et see siiski kirjutada (COMMENT ütleb seda), või kasutage TDB-d
 engine-e-lunar-interop-bad-step = step_min peab olema lõplik mittenegatiivne minutite arv, mitte { $step }
@@ -10846,6 +10854,12 @@ engine-e-evidence-dir-bad-field = signature.json: { $field } puudub või on vale
 ## space-receiver od-vs-tle time system
 engine-e-space-receiver-oem-time-system = see võrdlus ei loe OEM-i ajasüsteemi { $ts } (UTC, GPS, TAI või TT)
 
+## leo-pass leap-second epoch
+engine-e-leo-pass-epoch-is-a-leap-second = epohh { $s } on liigsekund, millel pole tavalist UTC Juliuse kuupäeva; andke epohh GPS- või TAI-ajas või sekund varem või hiljem
+
+## connect: GPS week guard
+engine-e-connect-week-not-full = rida { $line }: GPS-nädal { $week } pole täisnädal (10-bitine levinädal pöördub iga 1024 nädala järel); andke täisnädal, loetuna alates 1980-01-06
+
 engine-main-usage =
     kasutus: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }või: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10873,6 +10887,7 @@ engine-main-usage =
     { "   " }või: kshana obs <convert <log> --format <format> --station <station.toml> [--out <file>] | check <file.obs.jsonl> [--json]>
     { "   " }või: kshana connect <map <input> --mapping <connect.toml> --station <station.toml> [--out <file.obs.jsonl>] | check <vector.toml|dir> [--bless] | watch <dir> --mapping <connect.toml> --station <station.toml> [--suffix <.csv>] [--interval <s>] [--once] | mqtt <host:port> --topic <filter> --mapping <connect.toml> --station <station.toml> [--header <row>] [--qos 0|1] [--user <name> --password-env <VAR>] [--client-id <id>] [--max-messages <n>] [--per-topic] | nats <host:port> --subject <s> --mapping <connect.toml> --station <station.toml> [--header <row>] [--per-topic] [--user <name> --password-env <VAR> | --token-env <VAR>] [--max-messages <n>] | ws <ws://host:port/path> --mapping <connect.toml> --station <station.toml> [--header <row>] [--max-messages <n>] | check-live <vector.toml|dir> [--json] | load-test [--stations <n>] [--rate <Hz>] [--seconds <s>] [--via memory|mqtt] [--json] | adapters <list|check> [<dir>] [--json]>
     { "   " }või: kshana osnma verify <pages|vectors.csv|stream.ubx> [--merkle-root <hex>] [--public-key <id:type:hex>] [--reference-time <gst-s>] [--json] (kshana osnma --help)
+    { "   " }või: kshana osnma vectors run [<set-dir>] [--json] (avatud sünteetiline OSNMA vektorikomplekt; kshana osnma vectors --help)
     { "   " }või: kshana iq <scene|acquire|track|sweep|labfit|campaign|conditions|frontend|monitor|diagnose|gnss-sdr-conf|inventory|info|extract|convert|decimate> ... (kshana iq --help)
     { "   " }või: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }või: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
@@ -10902,7 +10917,7 @@ engine-main-usage =
     { "   " }või: kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
     { "   " }või: kshana orbit-data <check|convert|gp-compare|gp-audit|cov> ... (kshana orbit-data --help)
     { "   " }või: kshana drone <prearm|prearm-calibrate|estimator-cases|dr-budget|quad-loss|failover|zonotope-pl> ... (kshana drone --help)
-    { "   " }või: kshana leo-verify <burst-timing|holdover-tdev|cost|indoor|rain-fade|rtk-ar|jam-claim|doppler-integrity> <input.json>
+    { "   " }või: kshana leo-verify <burst-timing|holdover-tdev|cost|indoor|rain-fade|rtk-ar|jam-claim|doppler-integrity|signal-claims> <input.json>
     { "   " }või: kshana sil-obs <generate|compare> ... (kshana sil-obs --help)
     { "   " }või: kshana interference-lib <models|generate|fit|bench|cases> ... (kshana interference-lib --help)
     { "   " }või: kshana antenna-cal <lint|spread|compare|group-delay|js-margin> ... (kshana antenna-cal --help)
@@ -11072,6 +11087,7 @@ engine-bench-cli-mismatch-line = MISMATCH: { $rel }
 
 engine-osnma-cli-usage =
     kasutus: kshana osnma verify <input> [options]
+    { "   " }või: kshana osnma vectors <generate|run> ... (kshana osnma vectors --help)
 
     { "  " }<input>                    I/NAV leheküljed: lihtvorming (vt docs/OSNMA.md) või
     { "                             " }avaldatud testvektorite CSV-paigutus
@@ -12044,7 +12060,7 @@ engine-e-oscillator-field = { $field } on väljaspool vahemikku: { $value }
 
 ## src/leo_verify/mod.rs
 
-engine-leo-verify-usage = kasutus: kshana leo-verify <burst-timing|holdover-tdev|cost|indoor|rain-fade|rtk-ar|jam-claim|doppler-integrity> <input.json> (docs/LEO-VERIFY.md)
+engine-leo-verify-usage = kasutus: kshana leo-verify <burst-timing|holdover-tdev|cost|indoor|rain-fade|rtk-ar|jam-claim|doppler-integrity|signal-claims> <input.json> (docs/LEO-VERIFY.md)
 
 engine-e-leo-verify-input = { $part } sisend ei ole kehtiv: { $e }
 
@@ -12189,3 +12205,11 @@ engine-e-leo-sparse-bad-study = uuringu väärtused on lubatud vahemikust välja
 engine-e-leo-sparse-singular = infomaatriksit ei saa pöörata isegi eelväärtustega
 engine-e-leo-sparse-cannot-read = faili { $path } ei saa lugeda: { $e }
 engine-e-leo-sparse-bad-file = { $path } ei ole uuring: { $e }
+engine-e-ccsds-not-finite = { $t } ei ole lõplik arv
+engine-e-oem-unclosed-covariance = objekti { $object } segment avab COVARIANCE_START, kuid ei sulge seda kunagi COVARIANCE_STOP-iga
+engine-e-orbit-data-convert-time-system-changes = segmentidel ei ole ühist TIME_SYSTEM-i ({ $first }, siis { $other }); OCM kannab ainult üht, seega teisendus keeldutakse
+engine-e-ccsds-tdm-data-outside-block = andmerida väljaspool DATA_START kuni DATA_STOP plokki: { $line }
+
+engine-amateur-od-bad-record = rida { $line }: kirjet { $what } ei saa lugeda
+engine-amateur-od-bad-json = SatNOGS-i vaatlus: väli { $field } puudub või ei ole arv
+engine-amateur-od-unknown-site = Doppleri kirje nimetab jaama { $site }, mida jaamade loendis ei ole

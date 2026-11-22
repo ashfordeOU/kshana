@@ -333,7 +333,7 @@ fn score_folder_v2(root: &Path, dir: &Path, opt: &ScoreOptions) -> FolderScore {
                                     date = date
                                 )
                             })?;
-                    Some(day + tow.rem_euclid(86_400.0) - GPS_MINUS_UTC_S)
+                    Some(start_on_utc_date(day, tow))
                 }
                 None => None,
             };
@@ -499,4 +499,29 @@ fn report_from(folders: Vec<FolderScore>) -> Result<DatasetReport, String> {
         bars,
         label: super::score::SCORE_LABEL,
     })
+}
+/// The UTC start (Unix seconds) of a log that states only its GPS time of week, on the UTC date
+/// whose midnight is `utc_day_s`: the UTC time of day is the GPS time of day less GPS − UTC,
+/// taken modulo the day, so a start in the last 18 s of the UTC day (GPS time already past
+/// midnight) stays on that date instead of falling a day early.
+fn start_on_utc_date(utc_day_s: f64, tow_s: f64) -> f64 {
+    utc_day_s + (tow_s - GPS_MINUS_UTC_S).rem_euclid(86_400.0)
+}
+
+#[cfg(test)]
+mod start_tests {
+    use super::start_on_utc_date;
+
+    #[test]
+    fn a_start_late_in_the_utc_day_stays_on_its_date() {
+        let day = 1_726_617_600.0; // 2024-09-18T00:00:00Z
+                                   // UTC 23:59:50 is GPS 00:00:08 of the next GPS day (TOW 3 d + 8 s on a Wednesday).
+        let tow = 3.0 * 86_400.0 + 8.0;
+        assert_eq!(start_on_utc_date(day, tow), day + 86_390.0);
+        // UTC 12:00:00 is GPS 12:00:18.
+        assert_eq!(
+            start_on_utc_date(day, 2.0 * 86_400.0 + 43_218.0),
+            day + 43_200.0
+        );
+    }
 }

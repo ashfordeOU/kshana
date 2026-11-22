@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 # SPDX-License-Identifier: AGPL-3.0-only
-"""Independent oracle for kshana-bench task (f) (PREREGISTRATION.md, bar F1).
+"""Independent oracle for kshana-bench task (f) (PREREGISTRATION.md bar F1, PREREGISTRATION-2.md bar F4).
 
-Reads OPS-SAT-AD dataset.csv, computes the two baselines and the test-split AUC and average precision with
-the standard library only, and prints them as JSON. Usage: python3 oracle.py <dataset.csv>
+Reads OPS-SAT-AD dataset.csv, computes the two baselines, the test-split AUC and average precision, and the
+operating point frozen on dev (contamination 0.2) with precision, recall, F1, MCC and accuracy at it, with the
+standard library only, and prints them as JSON. Usage: python3 oracle.py <dataset.csv>
 """
 import csv
 import json
@@ -60,33 +61,51 @@ def average_precision(labeled):
     return ap / npos
 
 
+def score(name, r, dev_nom):
+    ref = [x for x in dev_nom if x["channel"] == r["channel"]]
+    if len(ref) < 10:
+        ref = dev_nom
+    if name == "feature-z-max":
+        best = 0.0
+        for f in FEATURES:
+            m, s = robust([float(x[f]) for x in ref])
+            if s > 0:
+                best = max(best, abs((float(r[f]) - m) / s))
+        return best
+    g = lambda x: math.log10(float(x["diff2_var"]) + 1e-30)
+    m, s = robust([g(x) for x in ref])
+    return abs((g(r) - m) / s) if s > 0 else 0.0
+
+
+def at_threshold(labeled, t):
+    tp = sum(1 for p, s in labeled if p and s >= t)
+    fp = sum(1 for p, s in labeled if not p and s >= t)
+    fn = sum(1 for p, s in labeled if p and s < t)
+    tn = sum(1 for p, s in labeled if not p and s < t)
+    den = math.sqrt((tp + fp) * (tp + fn) * (tn + fp) * (tn + fn))
+    return {
+        "threshold": t,
+        "precision": tp / (tp + fp) if tp + fp else float("nan"),
+        "recall": tp / (tp + fn),
+        "f1": 2 * tp / (2 * tp + fp + fn),
+        "mcc": (tp * tn - fp * fn) / den if den else float("nan"),
+        "accuracy": (tp + tn) / (tp + fp + tn + fn),
+    }
+
+
 def main(path):
     rows = list(csv.DictReader(open(path, newline="")))
     dev_nom = [r for r in rows if r["train"] == "1" and r["anomaly"] == "0"]
     out = {}
     for name in ["feature-z-max", "diff2-var-z"]:
-        labeled = []
-        for r in rows:
-            if r["train"] != "0":
-                continue
-            ref = [x for x in dev_nom if x["channel"] == r["channel"]]
-            if len(ref) < 10:
-                ref = dev_nom
-            if name == "feature-z-max":
-                best = 0.0
-                for f in FEATURES:
-                    m, s = robust([float(x[f]) for x in ref])
-                    if s > 0:
-                        best = max(best, abs((float(r[f]) - m) / s))
-                score = best
-            else:
-                g = lambda x: math.log10(float(x["diff2_var"]) + 1e-30)
-                m, s = robust([g(x) for x in ref])
-                score = abs((g(r) - m) / s) if s > 0 else 0.0
-            labeled.append((r["anomaly"] == "1", score))
+        labeled = [(r["anomaly"] == "1", score(name, r, dev_nom)) for r in rows if r["train"] == "0"]
         pos = [s for p, s in labeled if p]
         neg = [s for p, s in labeled if not p]
-        out[name] = {"auc": auc(pos, neg), "average_precision": average_precision(labeled)}
+        # Operating point (PREREGISTRATION-2.md): the k-th largest dev score, k = floor(0.2 * n_dev).
+        dev = sorted((score(name, r, dev_nom) for r in rows if r["train"] == "1"), reverse=True)
+        t = dev[int(math.floor(0.2 * len(dev))) - 1]
+        out[name] = {"auc": auc(pos, neg), "average_precision": average_precision(labeled),
+                     "test_at_dev_threshold": at_threshold(labeled, t)}
     print(json.dumps(out, indent=2))
 
 

@@ -236,7 +236,7 @@
       "threat_class": null,
       "tasks": [],
       "reference": "10.5281/zenodo.12528696",
-      "publisher_licence": "no licence in the Zenodo record metadata as read on 2026-11-20",
+      "publisher_licence": "no licence in the Zenodo record metadata as read on 2026-11-20 and again on 2026-11-21 (also none on the later version 10.5281/zenodo.15237121); the MIT licence of github.com/kplabs-pl/ESA-ADB covers its code, not the data",
       "spdx": null,
       "redistribution": "not-stated",
       "in_repository": false,

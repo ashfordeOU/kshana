@@ -5314,6 +5314,7 @@ engine-e-orbit-rinex-block-parsed-but-contained = RINEX 块已解析，但不含
 engine-e-orbit-user-site-lat-deg-must = user_site：lat_deg 必须在 [-90, 90] 内，且每个字段均为有限值
 
 engine-e-orbit-no-satellites-to-export = 没有可导出的卫星
+engine-e-orbit-too-many-satellites-for-sp3 = { $n } 颗卫星无法放入 SP3-c 文件（最多 { $max } 颗）；请减少导出数量，或使用 OEM 导出
 
 engine-e-orbit-time-step-must-be-positive = 导出 SP3 时 time.step_s 必须为正
 
@@ -5867,6 +5868,10 @@ engine-e-rinex-obs-bad = 无效的 { $what }：{ $s }
 engine-e-rinex-obs-rinex-observation-file-has-no = RINEX 观测文件没有 END OF HEADER
 
 engine-e-rinex-obs-rinex-observation-file-contained-no = RINEX 观测文件不含历元记录
+engine-e-rinex-not-finite = { $s } 不是有限数值
+engine-e-rinex-nav-version-unsupported = RINEX { $version } 导航文件：仅读取 RINEX 3 和 4 导航文件
+engine-e-rinex-obs-epoch-overrun = 历元 { $line } 声明了 { $n } 条记录，但在 { $got } 条之后就出现了下一个历元头
+engine-e-precise-products-clock-no-end-of-header = RINEX 钟差文件没有 END OF HEADER
 
 engine-e-scenario-time-step-must-be-finite = time.step_s 必须为有限值且 > 0（实际为 { $step_s }）
 
@@ -7717,7 +7722,7 @@ engine-kind-lunar-differential-pnt-description = 经建模的月球差分 PNT（
 
 engine-kind-lunar-station-coverage-description = 经建模的月球参考站覆盖：对月球差分 PNT 模型在南极用户网格和一天历元上做蒙特卡罗扫描。位于已知南极站点的差分参考站修正一个给定的星座（说明性开普勒星座或表格化星历），给定空间信号误差、测量误差、修正延迟和链路量化；对每个点以及整个区域，报告修正后与未修正的位置误差百分位（3-D、水平、垂直）、可用性、对照给定阈值的覆盖率、DO-229E 保护级、每个方位角的覆盖半径，以及测站处和最差点处的修正链路预算。不代表任何真实系统的性能；与任何机构无隶属关系，亦未获其背书。MODELLED。
 
-engine-kind-lunar-interop-export-description = 经建模的月球互操作性导出：以与 LunaNet/IOAG 对齐、基于 CCSDS 的交换格式输出月球参考框架、月球时标和月球星历，并附往返 / 字段符合性检查。复用本 crate 的 CCSDS OEM 2.0 生成器与解析器（crate::oem），为月球场景重新标注：OEM 的 REF_FRAME 采用月球天体框架在 SANA 注册的名称（MOON_ME，或 DE440 主轴对应的 MOON_PA440），TIME_SYSTEM 默认为 TDB（也可为 UTC；未注册的月球时标标记 LTC / TCL 仅在 allow_unregistered_time_system = true 时使用，此时会有 COMMENT 说明），CENTER_NAME = MOON，基于一份说明性的 LCNS 级星历样本（位置来自 crate::lunar_service，速度由有限差分得到），并以 DE440 定向从月心惯性轴旋转到所指定的框架。同时输出与 LunaNet/IOAG 对齐的月球时间描述符（时标标识、来自 crate::lunar_time 的长期速率 µs/day、已发布范围、参考面），该描述符可经 serde_json 往返，并把这些产物封装进现有的 KIF 信封（crate::interchange），附 MODELLED 诚实标签。报告输出的产物、OEM 行数、字段符合性通过情况 + 存在/缺失字段列表、OEM 往返是否正常、时间元数据往返是否正常以及 KIF 字节数。MODELLED：确定性往返 + 对照已发布的 CCSDS OEM 及 LunaNet/IOAG 字段语义的字段名符合性是参考基准（oracle）；不是经认证的互操作性符合性测试；说明性的公开资料星历，与 ESA 无隶属关系；无 TRL/飞行传承/机构背书。
+engine-kind-lunar-interop-export-description = 经建模的月球互操作性导出：以与 LunaNet/IOAG 对齐、基于 CCSDS 的交换格式输出月球参考框架、月球时标和月球星历，并附往返 / 字段符合性检查。复用本 crate 的 CCSDS OEM 2.0 生成器与解析器（crate::oem），为月球场景重新标注：OEM 的 REF_FRAME 采用月球天体框架在 SANA 注册的名称（MOON_ME，或 DE440 主轴对应的 MOON_PA440）（仅在给出 epoch_tdb 时；否则 REF_FRAME = ICRF，状态不旋转），TIME_SYSTEM 默认为 TDB（也可为 UTC；未注册的月球时标标记 LTC / TCL 仅在 allow_unregistered_time_system = true 时使用，此时会有 COMMENT 说明），CENTER_NAME = MOON，基于一份说明性的 LCNS 级星历样本（位置来自 crate::lunar_service，速度由有限差分得到），并以 DE440 定向从月心惯性轴旋转到所指定的框架。同时输出与 LunaNet/IOAG 对齐的月球时间描述符（时标标识、来自 crate::lunar_time 的长期速率 µs/day、已发布范围、参考面），该描述符可经 serde_json 往返，并把这些产物封装进现有的 KIF 信封（crate::interchange），附 MODELLED 诚实标签。报告输出的产物、OEM 行数、字段符合性通过情况 + 存在/缺失字段列表、OEM 往返是否正常、时间元数据往返是否正常以及 KIF 字节数。MODELLED：确定性往返 + 对照已发布的 CCSDS OEM 及 LunaNet/IOAG 字段语义的字段名符合性是参考基准（oracle）；不是经认证的互操作性符合性测试；说明性的公开资料星历，与 ESA 无隶属关系；无 TRL/飞行传承/机构背书。
 
 engine-kind-timetransfer-description = 光学与射频双向时间/频率传递对比。
 
@@ -10057,7 +10062,10 @@ engine-e-lunar-oem-not-moon-centred = CENTER_NAME 为 { $center }；只转换以
 engine-e-lunar-oem-unknown-frame = 此处不转换 REF_FRAME { $frame }（ICRF、MOON_PA440、MOON_ME；也可读取 MOON_PA_DE440、MOON_ME_DE440_ME421、MOON_PA；EME2000 和 J2000 与 ICRF 相差框架偏差，此处不应用）
 
 ## Lunar interop export: SANA-registered names (src/lunar_interop.rs)
-engine-e-lunar-interop-unknown-frame = 未知的月球坐标系 { $frame }（MOON_ME 或 MOON_PA440；MOON_PA 按 MOON_PA440 读取）
+engine-e-lunar-interop-unknown-frame = 未知的月球坐标系 { $frame }（ICRF, MOON_ME 或 MOON_PA440；MOON_PA 按 MOON_PA440 读取）
+engine-e-lunar-interop-body-frame-needs-epoch = REF_FRAME { $frame } 随月球转动：惯性状态只能在绝对历元下旋转到该坐标系；请设置 epoch_tdb，或写为 ICRF（状态本身的坐标系）
+engine-e-lunar-interop-epoch-needs-tdb = epoch_tdb 将网格锚定在 TDB：请设置 time_system = TDB，而不是 { $time_system }
+engine-e-lunar-interop-bad-epoch = epoch_tdb { $epoch } 不是 YYYY-MM-DDTHH:MM:SS 格式的日期
 engine-e-lunar-interop-unknown-time-system = 未知的时间系统 { $time_system }（TDB、UTC，或在 allow_unregistered_time_system = true 时用 LTC 或 TCL）
 engine-e-lunar-interop-unregistered-time-system = TIME_SYSTEM { $time_system } 不在 CCSDS OEM 所用的 SANA Time Systems 注册表中；如仍要写入，请设 allow_unregistered_time_system = true（届时以 COMMENT 注明），或改用 TDB
 engine-e-lunar-interop-bad-step = step_min 必须是有限的非负分钟数，而不是 { $step }
@@ -10129,6 +10137,12 @@ engine-e-evidence-dir-bad-field = signature.json：{ $field } 缺失或格式错
 ## space-receiver od-vs-tle time system
 engine-e-space-receiver-oem-time-system = 此比较不读取 OEM 时间系统 { $ts }（UTC、GPS、TAI 或 TT）
 
+## leo-pass leap-second epoch
+engine-e-leo-pass-epoch-is-a-leap-second = 历元 { $s } 是闰秒，没有普通的 UTC 儒略日；请用 GPS 或 TAI 时间给出历元，或前后各差一秒的时刻
+
+## connect: GPS week guard
+engine-e-connect-week-not-full = 第 { $line } 行：GPS 周 { $week } 不是完整周数（10 位广播周数每 1024 周翻转一次）；请给出从 1980-01-06 起算的完整周数
+
 engine-main-usage =
     用法：kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }或：kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10156,6 +10170,7 @@ engine-main-usage =
     { "   " }或：kshana obs <convert <log> --format <format> --station <station.toml> [--out <file>] | check <file.obs.jsonl> [--json]>
     { "   " }或：kshana connect <map <input> --mapping <connect.toml> --station <station.toml> [--out <file.obs.jsonl>] | check <vector.toml|dir> [--bless] | watch <dir> --mapping <connect.toml> --station <station.toml> [--suffix <.csv>] [--interval <s>] [--once] | mqtt <host:port> --topic <filter> --mapping <connect.toml> --station <station.toml> [--header <row>] [--qos 0|1] [--user <name> --password-env <VAR>] [--client-id <id>] [--max-messages <n>] [--per-topic] | nats <host:port> --subject <s> --mapping <connect.toml> --station <station.toml> [--header <row>] [--per-topic] [--user <name> --password-env <VAR> | --token-env <VAR>] [--max-messages <n>] | ws <ws://host:port/path> --mapping <connect.toml> --station <station.toml> [--header <row>] [--max-messages <n>] | check-live <vector.toml|dir> [--json] | load-test [--stations <n>] [--rate <Hz>] [--seconds <s>] [--via memory|mqtt] [--json] | adapters <list|check> [<dir>] [--json]>
     { "   " }或：kshana osnma verify <pages|vectors.csv|stream.ubx> [--merkle-root <hex>] [--public-key <id:type:hex>] [--reference-time <gst-s>] [--json] (kshana osnma --help)
+    { "   " }或：kshana osnma vectors run [<set-dir>] [--json] (公开的合成 OSNMA 向量集； kshana osnma vectors --help)
     { "   " }或：kshana iq <scene|acquire|track|sweep|labfit|campaign|conditions|frontend|monitor|diagnose|gnss-sdr-conf|inventory|info|extract|convert|decimate> ... (kshana iq --help)
     { "   " }或：kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }或：kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
@@ -10185,7 +10200,7 @@ engine-main-usage =
     { "   " }或：kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
     { "   " }或：kshana orbit-data <check|convert|gp-compare|gp-audit|cov> ... (kshana orbit-data --help)
     { "   " }或：kshana drone <prearm|prearm-calibrate|estimator-cases|dr-budget|quad-loss|failover|zonotope-pl> ... (kshana drone --help)
-    { "   " }或：kshana leo-verify <burst-timing|holdover-tdev|cost|indoor|rain-fade|rtk-ar|jam-claim|doppler-integrity> <input.json>
+    { "   " }或：kshana leo-verify <burst-timing|holdover-tdev|cost|indoor|rain-fade|rtk-ar|jam-claim|doppler-integrity|signal-claims> <input.json>
     { "   " }或：kshana sil-obs <generate|compare> ... (kshana sil-obs --help)
     { "   " }或：kshana interference-lib <models|generate|fit|bench|cases> ... (kshana interference-lib --help)
     { "   " }或：kshana antenna-cal <lint|spread|compare|group-delay|js-margin> ... (kshana antenna-cal --help)
@@ -10355,6 +10370,7 @@ engine-bench-cli-mismatch-line = MISMATCH：{ $rel }
 
 engine-osnma-cli-usage =
     用法：kshana osnma verify <input> [options]
+    { "   " }或：kshana osnma vectors <generate|run> ... (kshana osnma vectors --help)
 
     { "  " }<input>                    I/NAV 页：纯文本格式（见 docs/OSNMA.md），或
     { "                             " }已发布测试向量的 CSV 布局
@@ -11324,7 +11340,7 @@ engine-e-oscillator-field = { $field } 超出范围：{ $value }
 
 ## src/leo_verify/mod.rs
 
-engine-leo-verify-usage = 用法：kshana leo-verify <burst-timing|holdover-tdev|cost|indoor|rain-fade|rtk-ar|jam-claim|doppler-integrity> <input.json>（docs/LEO-VERIFY.md）
+engine-leo-verify-usage = 用法：kshana leo-verify <burst-timing|holdover-tdev|cost|indoor|rain-fade|rtk-ar|jam-claim|doppler-integrity|signal-claims> <input.json>（docs/LEO-VERIFY.md）
 
 engine-e-leo-verify-input = { $part } 输入无效：{ $e }
 
@@ -11469,3 +11485,11 @@ engine-e-leo-sparse-bad-study = 研究参数超出范围：有效的用户位置
 engine-e-leo-sparse-singular = 即使加上先验值，信息矩阵也无法求逆
 engine-e-leo-sparse-cannot-read = 无法读取 { $path }：{ $e }
 engine-e-leo-sparse-bad-file = { $path } 不是研究文件：{ $e }
+engine-e-ccsds-not-finite = { $t } 不是有限数值
+engine-e-oem-unclosed-covariance = { $object } 的段打开了 COVARIANCE_START，却始终没有用 COVARIANCE_STOP 关闭
+engine-e-orbit-data-convert-time-system-changes = 各段的 TIME_SYSTEM 不一致（先是 { $first }，后是 { $other }）；OCM 只能携带一个，因此拒绝转换
+engine-e-ccsds-tdm-data-outside-block = 数据行位于 DATA_START 至 DATA_STOP 块之外：{ $line }
+
+engine-amateur-od-bad-record = 第 { $line } 行：无法读取 { $what } 记录
+engine-amateur-od-bad-json = SatNOGS 观测：字段 { $field } 缺失或不是数字
+engine-amateur-od-unknown-site = 多普勒记录指向站点 { $site }，但它不在站点列表中

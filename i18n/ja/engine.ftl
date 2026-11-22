@@ -5176,6 +5176,7 @@ engine-e-orbit-rinex-block-parsed-but-contained = rinex ブロックは解析さ
 engine-e-orbit-user-site-lat-deg-must = user_site：lat_deg は [-90, 90] の範囲で、すべてのフィールドが有限でなければなりません
 
 engine-e-orbit-no-satellites-to-export = エクスポートする衛星がありません
+engine-e-orbit-too-many-satellites-for-sp3 = { $n } 機の衛星は SP3-c ファイルに収まりません（最大 { $max }）。数を減らすか OEM エクスポートを使ってください
 
 engine-e-orbit-time-step-must-be-positive = SP3 のエクスポートでは time.step_s は正の値でなければなりません
 
@@ -5729,6 +5730,10 @@ engine-e-rinex-obs-bad = 不正な { $what }：{ $s }
 engine-e-rinex-obs-rinex-observation-file-has-no = RINEX 観測ファイルに END OF HEADER がありません
 
 engine-e-rinex-obs-rinex-observation-file-contained-no = RINEX 観測ファイルにエポックレコードがありませんでした
+engine-e-rinex-not-finite = { $s } は有限の数値ではありません
+engine-e-rinex-nav-version-unsupported = RINEX { $version } 航法ファイル: 読み込めるのは RINEX 3 と 4 の航法ファイルのみです
+engine-e-rinex-obs-epoch-overrun = エポック { $line } は { $n } 件のレコードを宣言していますが、{ $got } 件の後に次のエポックヘッダーが現れます
+engine-e-precise-products-clock-no-end-of-header = RINEX クロックファイルに END OF HEADER がありません
 
 engine-e-scenario-time-step-must-be-finite = time.step_s は有限かつ 0 より大きくなければなりません（実際の値 { $step_s }）
 
@@ -7623,7 +7628,7 @@ engine-kind-lunar-differential-pnt-description = モデル化した月の差動 
 
 engine-kind-lunar-station-coverage-description = モデル化した月の基準局のカバレッジ：月南極域のユーザーグリッドと 一日分のエポックにわたる、月の差動 PNT モデルのモンテカルロ・スイープ。既知の南極域の地点にある差動基準局が、指定した信号空間誤差、測量誤差、補正の遅延、リンクの量子化を持つ、指定のコンステレーション（例示的なケプラー軌道または表形式のエフェメリス）を補正します。地点ごと、および領域全体について、補正後と補正なしの位置誤差（3 次元、水平、垂直）のパーセンタイル、可用性、指定したしきい値に対するカバレッジ、DO-229E の保護レベル、方位角ごとのカバレッジ半径、および基準局と最悪地点での補正リンクバジェットを報告します。実在のいかなるシステムの性能についての記述でもなく、いかなる機関とも提携しておらず、いかなる機関からも承認されていません。MODELLED。
 
-engine-kind-lunar-interop-export-description = モデル化した月の相互運用性エクスポート：月の座標系、月の時間スケール、月のエフェメリスを、ラウンドトリップ / フィールド適合性付きで、LunaNet/IOAG 準拠の CCSDS ベースの交換形式で出力します。月の文脈用にタグを付け直した、クレートの CCSDS OEM 2.0 エミッター + パーサー（crate::oem）を再利用します — OEM の REF_FRAME には SANA 登録名による月天体座標系（MOON_ME、または DE440 主軸用の MOON_PA440）を入れ、TIME_SYSTEM は既定で TDB とし（UTC も可。未登録の月時間トークン LTC / TCL は allow_unregistered_time_system = true の場合のみで、その際は COMMENT にその旨を記載）、CENTER_NAME = MOON を入れ、月中心慣性軸から DE440 の向きで指定座標系へ回転した、例示的な LCNS クラスのエフェメリス（位置は crate::lunar_service から、速度は有限差分による）のサンプルを対象とします。あわせて、serde_json でラウンドトリップする LunaNet/IOAG 準拠の月時刻記述子（スケール ID、crate::lunar_time による永年レート µs/day、公表されている範囲、基準面）を出力し、これらの成果物を、MODELLED の正直さを示すラベル付きで、既存の KIF エンベロープ（crate::interchange）に包みます。出力した成果物、OEM の行数、フィールド適合性の合否と存在する・欠落しているフィールドの一覧、OEM のラウンドトリップの成否、時刻メタデータのラウンドトリップの成否、KIF のバイトサイズを報告します。MODELLED — 決定論的なラウンドトリップと、公表されている CCSDS OEM + LunaNet/IOAG のフィールド意味論に対するフィールド名の適合性がオラクルです；認証済みの相互運用性適合性試験ではありません；例示的で公開情報に基づくエフェメリスであり、ESA とは無関係です；TRL・実績・機関による承認はありません。
+engine-kind-lunar-interop-export-description = モデル化した月の相互運用性エクスポート：月の座標系、月の時間スケール、月のエフェメリスを、ラウンドトリップ / フィールド適合性付きで、LunaNet/IOAG 準拠の CCSDS ベースの交換形式で出力します。月の文脈用にタグを付け直した、クレートの CCSDS OEM 2.0 エミッター + パーサー（crate::oem）を再利用します — OEM の REF_FRAME には SANA 登録名による月天体座標系（MOON_ME、または DE440 主軸用の MOON_PA440）（epoch_tdb 指定時のみ。未指定なら REF_FRAME = ICRF で状態は回転しない）を入れ、TIME_SYSTEM は既定で TDB とし（UTC も可。未登録の月時間トークン LTC / TCL は allow_unregistered_time_system = true の場合のみで、その際は COMMENT にその旨を記載）、CENTER_NAME = MOON を入れ、月中心慣性軸から DE440 の向きで指定座標系へ回転した、例示的な LCNS クラスのエフェメリス（位置は crate::lunar_service から、速度は有限差分による）のサンプルを対象とします。あわせて、serde_json でラウンドトリップする LunaNet/IOAG 準拠の月時刻記述子（スケール ID、crate::lunar_time による永年レート µs/day、公表されている範囲、基準面）を出力し、これらの成果物を、MODELLED の正直さを示すラベル付きで、既存の KIF エンベロープ（crate::interchange）に包みます。出力した成果物、OEM の行数、フィールド適合性の合否と存在する・欠落しているフィールドの一覧、OEM のラウンドトリップの成否、時刻メタデータのラウンドトリップの成否、KIF のバイトサイズを報告します。MODELLED — 決定論的なラウンドトリップと、公表されている CCSDS OEM + LunaNet/IOAG のフィールド意味論に対するフィールド名の適合性がオラクルです；認証済みの相互運用性適合性試験ではありません；例示的で公開情報に基づくエフェメリスであり、ESA とは無関係です；TRL・実績・機関による承認はありません。
 
 engine-kind-timetransfer-description = 光と RF の双方向の時刻・周波数比較。
 
@@ -9990,7 +9995,10 @@ engine-e-lunar-oem-not-moon-centred = CENTER_NAME は { $center } です。変�
 engine-e-lunar-oem-unknown-frame = REF_FRAME { $frame } はここでは変換しません（ICRF、MOON_PA440、MOON_ME。読み込みは MOON_PA_DE440、MOON_ME_DE440_ME421、MOON_PA も可。EME2000 と J2000 は ICRF とフレームバイアス分異なり、それは適用しません）
 
 ## Lunar interop export: SANA-registered names (src/lunar_interop.rs)
-engine-e-lunar-interop-unknown-frame = 不明な月面座標系 { $frame }（MOON_ME または MOON_PA440。MOON_PA は MOON_PA440 として読みます）
+engine-e-lunar-interop-unknown-frame = 不明な月面座標系 { $frame }（ICRF, MOON_ME または MOON_PA440。MOON_PA は MOON_PA440 として読みます）
+engine-e-lunar-interop-body-frame-needs-epoch = REF_FRAME { $frame } は月とともに回転します。慣性系の状態は絶対エポックでのみ回転できます。epoch_tdb を設定するか、ICRF（状態本来の座標系）で書き出してください
+engine-e-lunar-interop-epoch-needs-tdb = epoch_tdb はグリッドを TDB に固定します。time_system = TDB を設定してください（{ $time_system } ではなく）
+engine-e-lunar-interop-bad-epoch = epoch_tdb { $epoch } は YYYY-MM-DDTHH:MM:SS 形式の日付ではありません
 engine-e-lunar-interop-unknown-time-system = 不明な時刻系 { $time_system }（TDB、UTC、または allow_unregistered_time_system = true のとき LTC か TCL）
 engine-e-lunar-interop-unregistered-time-system = TIME_SYSTEM { $time_system } は CCSDS OEM が用いる SANA Time Systems レジストリにありません。それでも書くには allow_unregistered_time_system = true を設定してください（COMMENT でその旨を記します）。または TDB を使ってください
 engine-e-lunar-interop-bad-step = step_min は有限で負でない分数でなければなりません（{ $step } は不可）
@@ -10062,6 +10070,12 @@ engine-e-evidence-dir-bad-field = signature.json：{ $field } がないか形式
 ## space-receiver od-vs-tle time system
 engine-e-space-receiver-oem-time-system = この比較は OEM の時刻系 { $ts } を読み取りません（UTC、GPS、TAI、TT のいずれか）
 
+## leo-pass leap-second epoch
+engine-e-leo-pass-epoch-is-a-leap-second = エポック { $s } はうるう秒で、通常の UTC ユリウス日がありません。GPS 時刻または TAI で指定するか、前後 1 秒の時刻を指定してください
+
+## connect: GPS week guard
+engine-e-connect-week-not-full = { $line } 行目：GPS 週 { $week } は完全な週番号ではありません（10 ビットの放送週番号は 1024 週ごとに折り返します）。1980-01-06 から数えた完全な週番号を指定してください
+
 engine-main-usage =
     使い方：kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
     { "   " }または：kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
@@ -10089,6 +10103,7 @@ engine-main-usage =
     { "   " }または：kshana obs <convert <log> --format <format> --station <station.toml> [--out <file>] | check <file.obs.jsonl> [--json]>
     { "   " }または：kshana connect <map <input> --mapping <connect.toml> --station <station.toml> [--out <file.obs.jsonl>] | check <vector.toml|dir> [--bless] | watch <dir> --mapping <connect.toml> --station <station.toml> [--suffix <.csv>] [--interval <s>] [--once] | mqtt <host:port> --topic <filter> --mapping <connect.toml> --station <station.toml> [--header <row>] [--qos 0|1] [--user <name> --password-env <VAR>] [--client-id <id>] [--max-messages <n>] [--per-topic] | nats <host:port> --subject <s> --mapping <connect.toml> --station <station.toml> [--header <row>] [--per-topic] [--user <name> --password-env <VAR> | --token-env <VAR>] [--max-messages <n>] | ws <ws://host:port/path> --mapping <connect.toml> --station <station.toml> [--header <row>] [--max-messages <n>] | check-live <vector.toml|dir> [--json] | load-test [--stations <n>] [--rate <Hz>] [--seconds <s>] [--via memory|mqtt] [--json] | adapters <list|check> [<dir>] [--json]>
     { "   " }または：kshana osnma verify <pages|vectors.csv|stream.ubx> [--merkle-root <hex>] [--public-key <id:type:hex>] [--reference-time <gst-s>] [--json] (kshana osnma --help)
+    { "   " }または：kshana osnma vectors run [<set-dir>] [--json] (公開の合成 OSNMA ベクトルセット； kshana osnma vectors --help)
     { "   " }または：kshana iq <scene|acquire|track|sweep|labfit|campaign|conditions|frontend|monitor|diagnose|gnss-sdr-conf|inventory|info|extract|convert|decimate> ... (kshana iq --help)
     { "   " }または：kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
     { "   " }または：kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
@@ -10118,7 +10133,7 @@ engine-main-usage =
     { "   " }または：kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
     { "   " }または：kshana orbit-data <check|convert|gp-compare|gp-audit|cov> ... (kshana orbit-data --help)
     { "   " }または：kshana drone <prearm|prearm-calibrate|estimator-cases|dr-budget|quad-loss|failover|zonotope-pl> ... (kshana drone --help)
-    { "   " }または：kshana leo-verify <burst-timing|holdover-tdev|cost|indoor|rain-fade|rtk-ar|jam-claim|doppler-integrity> <input.json>
+    { "   " }または：kshana leo-verify <burst-timing|holdover-tdev|cost|indoor|rain-fade|rtk-ar|jam-claim|doppler-integrity|signal-claims> <input.json>
     { "   " }または：kshana sil-obs <generate|compare> ... (kshana sil-obs --help)
     { "   " }または：kshana interference-lib <models|generate|fit|bench|cases> ... (kshana interference-lib --help)
     { "   " }または：kshana antenna-cal <lint|spread|compare|group-delay|js-margin> ... (kshana antenna-cal --help)
@@ -10482,6 +10497,7 @@ engine-evidence-cli-usage =
 
 engine-osnma-cli-usage =
     使い方：kshana osnma verify <input> [options]
+    { "   " }または：kshana osnma vectors <generate|run> ... (kshana osnma vectors --help)
 
     { "  " }<input>                    I/NAV ページ：プレーン形式（docs/OSNMA.md を参照）、または
     { "                             " }公開されているテストベクトルの CSV レイアウト
@@ -11269,7 +11285,7 @@ engine-e-oscillator-field = { $field } が範囲外です: { $value }
 
 ## src/leo_verify/mod.rs
 
-engine-leo-verify-usage = 使い方: kshana leo-verify <burst-timing|holdover-tdev|cost|indoor|rain-fade|rtk-ar|jam-claim|doppler-integrity> <input.json>（docs/LEO-VERIFY.md）
+engine-leo-verify-usage = 使い方: kshana leo-verify <burst-timing|holdover-tdev|cost|indoor|rain-fade|rtk-ar|jam-claim|doppler-integrity|signal-claims> <input.json>（docs/LEO-VERIFY.md）
 
 engine-e-leo-verify-input = { $part } の入力が無効です: { $e }
 
@@ -11414,3 +11430,11 @@ engine-e-leo-sparse-bad-study = 検討の数値が範囲外です：有効な利
 engine-e-leo-sparse-singular = 事前値を加えても情報行列を逆行列にできません
 engine-e-leo-sparse-cannot-read = { $path } を読み込めません：{ $e }
 engine-e-leo-sparse-bad-file = { $path } は検討ファイルではありません：{ $e }
+engine-e-ccsds-not-finite = { $t } は有限の数値ではありません
+engine-e-oem-unclosed-covariance = { $object } のセグメントは COVARIANCE_START を開いたまま COVARIANCE_STOP で閉じていません
+engine-e-orbit-data-convert-time-system-changes = セグメント間で TIME_SYSTEM が一致しません（{ $first } の後に { $other }）。OCM は 1 つしか持てないため変換を拒否します
+engine-e-ccsds-tdm-data-outside-block = DATA_START から DATA_STOP までのブロックの外にあるデータ行: { $line }
+
+engine-amateur-od-bad-record = { $line } 行目：{ $what } レコードを読み取れません
+engine-amateur-od-bad-json = SatNOGS 観測：フィールド { $field } がないか数値ではありません
+engine-amateur-od-unknown-site = ドップラーレコードが局 { $site } を指していますが、局リストにありません

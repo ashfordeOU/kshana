@@ -1,0 +1,31 @@
+{
+  "label": "MODELLED: truth is the anomaly label assigned by the OPS-SAT-AD authors to each housekeeping telemetry segment; a score describes this dataset, never a spacecraft or a product",
+  "metrics": {
+    "accuracy_at_declared": 0.8324968632371392,
+    "auc": 0.8031705711481941,
+    "average_precision": 0.633591538885124,
+    "declared_threshold": 1.776968716146357,
+    "f1_at_declared": 0.5821596244131455,
+    "mcc_at_declared": 0.4774237825698118,
+    "n_negative": 1273,
+    "n_positive": 321,
+    "pd_at_pfa_cap": 0.17133956386292834,
+    "pd_at_pfa_cap_note": "empirical threshold chosen on the scored split itself: an upper bound, not a deployable operating point",
+    "pfa_achieved_at_cap": 0.009426551453260016,
+    "pfa_cap": 0.01,
+    "precision_at_declared": 0.5849056603773585,
+    "recall_at_declared": 0.5794392523364486
+  },
+  "notice": "Advisory: modelled or measured against stated references, not an approval, certification or statement of conformance. A score describes a log or corpus, never a product.",
+  "predictions_sha256": "496416a666686d7377af89c0e352f280fe6eada48ec75a655ad566442d08c134",
+  "provenance": "scored",
+  "schema": "kshana-bench-result/1",
+  "spec_version": "kshana-bench/2.2.0",
+  "split": "dev",
+  "system": {
+    "name": "kshana-bench baseline: diff2-var-z-dev-op",
+    "version": "kshana-bench/2.2.0"
+  },
+  "task": "f",
+  "truth_sha256": "b88053eadc0c3c4c32803aa108ab8ef88c89d784b940045a68d86b1978f1cd00"
+}
