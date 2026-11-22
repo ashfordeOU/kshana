@@ -7,9 +7,10 @@ computed on real data. Bars may be tightened later, never loosened; a miss is re
 
 Google Smartphone Decimeter Challenge 2023 (GSDC 2023), the competition's `train` folder, downloaded from Kaggle by
 the maintainer under the competition's rules to a local disk. Nothing of it is redistributed or committed: no GSDC
-row, position or truth file enters this repository. Only result files (`kshana-bench-result/1`: metrics and the
-SHA-256 of the truth and predictions, no positions) are published. Scored on the maintainer's own machine with
-`scripts/score_gsdc_local.sh`, never in a hosted environment.
+row, position or truth file enters this repository. The rules state non-commercial use (CC BY-NC-SA 3.0 IGO);
+result files (`kshana-bench-result/1`: metrics and the SHA-256 of the truth and predictions, no positions) are
+published here only if the maintainer confirms the licence allows it, otherwise they stay private. Scored on the
+maintainer's own machine with `scripts/score_gsdc_local.sh`, never in a hosted environment.
 
 ## What was seen before this was written (disclosed)
 
@@ -35,5 +36,5 @@ traces, one stratum (`dev`, `test`).
   time or coordinate alignment fault in the reader, not that the phones are poor.
 - **G2 (files):** every result file passes `kshana bench validate`, and `kshana bench cite` prints one citation id
   per result file.
-- No accuracy bar is set: the first run is descriptive. Results will be written to `xval/bench-g/RESULTS.md`,
+- No accuracy bar is set: the first run is descriptive. Results (if published) go to `xval/bench-g/RESULTS.md`,
   labelled MODELLED, with the per-split scores as they come out.
