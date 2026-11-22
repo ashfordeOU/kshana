@@ -332,7 +332,7 @@ python = ["dep:pyo3", "bundled-scenarios", "otlp"]
 wasm = ["dep:wasm-bindgen", "bundled-scenarios", "otlp"]
 # The feature-limited WebAssembly module (`src/wasm_slim.rs`): `version`, `run` and `export_sp3`
 # over four kinds only (constellation-design, gnss-sim, orbit, pvt), for an embedder with a download
-# budget (the embedder). Built with scripts/build-wasm-slim.sh. No bundled scenarios, no OTLP. With `wasm`
+# budget. Built with scripts/build-wasm-slim.sh. No bundled scenarios, no OTLP. With `wasm`
 # also on, only the full module is compiled.
 wasm-slim = ["dep:wasm-bindgen"]
 # The bundled reference scenarios (`kshana example`) as a library module,

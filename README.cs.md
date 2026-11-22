@@ -1,4 +1,4 @@
-> Toto je strojový překlad souboru README.md ve verzi v0.40.0, který dosud nezkontroloval žádný rodilý mluvčí; referenční je anglický README. [English](README.md)
+> Toto je strojový překlad souboru README.md ve verzi v0.41.0, který dosud nezkontroloval žádný rodilý mluvčí; referenční je anglický README. [English](README.md)
 
 <!-- The images under docs/assets/readme/ are generated from real engine runs by
      tools/gen_readme_assets.py (light and dark variants); regenerate them with
@@ -24,7 +24,7 @@
   <a href="docs/COVERAGE.md"><img src="https://img.shields.io/badge/coverage-~95%25-377D0C?style=flat-square&labelColor=0A1226" height="18" alt="Řádkové pokrytí blízko 95 % adresáře src/, měřené v docs/COVERAGE.md a v průběžné integraci hlídané na 85 %"></a>
   <a href="#evidence"><img src="https://img.shields.io/badge/validated-176%2F413-377D0C?style=flat-square&labelColor=0A1226" height="18" alt="176 ze 413 schopností VALIDATED proti nezávislému vnějšímu orákulu, podle verifikační matice"></a>
   <a href="https://sonarcloud.io/summary/overall?id=ashfordeOU_kshana"><img src="https://img.shields.io/sonar/quality_gate/ashfordeOU_kshana?server=https%3A%2F%2Fsonarcloud.io&label=quality&style=flat-square&labelColor=0A1226" height="18" alt="Stav brány kvality SonarQube Cloud"></a>
-  <a href="https://github.com/ashfordeOU/kshana/releases"><img src="https://img.shields.io/badge/release-v0.40.0-066A86?style=flat-square&labelColor=0A1226" height="18" alt="Vydání v0.40.0"></a>
+  <a href="https://github.com/ashfordeOU/kshana/releases"><img src="https://img.shields.io/badge/release-v0.41.0-066A86?style=flat-square&labelColor=0A1226" height="18" alt="Vydání v0.41.0"></a>
   <a href="docs/i18n.md"><img src="https://img.shields.io/badge/languages-English%20%2B%2017-3F4B67?style=flat-square&labelColor=0A1226" height="18" alt="Angličtina a 17 dalších jazyků, strojově přeloženo"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/licence-AGPL--3.0-3F4B67?style=flat-square&labelColor=0A1226" height="18" alt="Licence: AGPL-3.0-only"></a>
   <br>
@@ -73,14 +73,14 @@
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/hero-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/hero-light.svg">
-  <img src="docs/assets/readme/hero-light.svg" alt="Nacvičte minutu, kdy GNSS zhasne. Misijní konzole Kshana, vykreslená ze skutečného běhu enginu v0.40.0: řetězená kampaň campaign-jam-spoof-holdover-integrity (seed 20260928, 6 fází, 18 členských běhů během T+01:16:10) a 102 družic systémů GPS, Galileo, BeiDou a GLONASS ze scénáře constellation-multi-gnss-coverage, každá vykreslená na kruhové dráze problému dvou těles získané z pozemní stopy enginu, s poloměry zmenšenými pro zobrazení. Časová chyba hodin vrcholí na 62.7 ns proti ochranné mezi 50 ns, hustota poměru nosné k šumu klesá na -12.2 dB-Hz proti spodní mezi 25 dB-Hz a vertikální ochranná úroveň dosahuje 135.4 m proti výstražné mezi 50 m." width="100%">
+  <img src="docs/assets/readme/hero-light.svg" alt="Nacvičte minutu, kdy GNSS zhasne. Misijní konzole Kshana, vykreslená ze skutečného běhu enginu v0.41.0: řetězená kampaň campaign-jam-spoof-holdover-integrity (seed 20260928, 6 fází, 18 členských běhů během T+01:16:10) a 102 družic systémů GPS, Galileo, BeiDou a GLONASS ze scénáře constellation-multi-gnss-coverage, každá vykreslená na kruhové dráze problému dvou těles získané z pozemní stopy enginu, s poloměry zmenšenými pro zobrazení. Časová chyba hodin vrcholí na 62.7 ns proti ochranné mezi 50 ns, hustota poměru nosné k šumu klesá na -12.2 dB-Hz proti spodní mezi 25 dB-Hz a vertikální ochranná úroveň dosahuje 135.4 m proti výstražné mezi 50 m." width="100%">
 </picture>
 
 <details>
 <summary><strong>Obsah</strong></summary>
 
 - [Nacvičte minutu, kdy GNSS zhasne](#rehearse-the-minute-gnss-goes-dark)
-- [Co je nového v 0.40](#whats-new-in-040), [Co je nového v 0.39](#whats-new-in-039), [Co je nového v 0.38](#whats-new-in-038) a [0.38 podrobně](#038-in-depth): hodnocení Jammertest, vlastní příznaky přijímače, strojové vstupy, časování a holdover, balíčky norem, LunaNet AFS, laboratorní okruh tam a zpět, kshana-bench, observatoř, exportéry, optika, [navigace kosmických uživatelů](#space-user-navigation-gnss-ssv) a [lunární infrastruktura](#lunar-infrastructure-lunar-infrastructure)
+- [Co je nového v 0.41](#whats-new-in-041), [Co je nového v 0.40](#whats-new-in-040), [Co je nového v 0.39](#whats-new-in-039), [Co je nového v 0.38](#whats-new-in-038) a [0.38 podrobně](#038-in-depth): hodnocení Jammertest, vlastní příznaky přijímače, strojové vstupy, časování a holdover, balíčky norem, LunaNet AFS, laboratorní okruh tam a zpět, kshana-bench, observatoř, exportéry, optika, [navigace kosmických uživatelů](#space-user-navigation-gnss-ssv) a [lunární infrastruktura](#lunar-infrastructure-lunar-infrastructure)
 - [Kshana Studio](#kshana-studio) a každá stránka Studia
 - [Schopnosti](#capabilities): tabulka oblastí, [každý druh scénáře podle rodiny](#every-scenario-kind-by-family), [každý příkaz](#every-command), [každé rozhraní](#every-surface)
 - [Jak probíhá běh](#how-a-run-works), [Mise](#missions)
@@ -105,25 +105,65 @@ Každá schopnost nese v strojově kontrolovaném registru (ledger) jedno ze tř
 nezávislé vnější orákulum), **MODELLED** (vnitřně konzistentní, a to otevřeně řečeno)
 nebo **PARTNER** (vlastní ji hardwarový partner).
 
-> **Stav: v0.40.0.** Ověřený, reprodukovatelný simulační substrát pro odolnost PNT.
-> Časování a holdover jsou na prvním místě, protože tato doména je ověřena nejlépe. Kshana je
-> nástroj pro studie a hledání kompromisů: není hardwarovým generátorem rádiového (RF) signálu (nebudí
-> žádné rádio a nic nevysílá; jejím výstupem na úrovni signálu jsou soubory vzorků IQ v základním pásmu
-> pro softwarové přijímače), není hardwarovým ani certifikovaným přijímačem GNSS (její softwarový přijímač
-> je analytický nástroj) a není letovým produktem. Jste v oboru noví? Začněte
-> [úvodem v běžném jazyce](docs/CONCEPTS.md) a [slovníkem pojmů](docs/GLOSSARY.md).
+> **Status: v0.41.0.** Reprodukovatelný simulační základ pro odolnost PNT, v němž je každá schopnost
+> označena podle svých důkazů. Časování a holdover jsou na prvním místě, protože tato oblast má nejvíce řádků VALIDATED.
+> Kshana je nástroj pro studie a kompromisy: není to hardware generující radiofrekvenční (RF) signály (neřídí
+> žádné rádio a nic nevysílá; jeho výstupem na úrovni signálu jsou soubory vzorků IQ v základním pásmu
+> pro softwarové přijímače), není to hardwarový ani certifikovaný přijímač GNSS (jeho softwarový přijímač
+> je analytický nástroj) a není to letový produkt. Jste v oboru noví? Začněte
+> [úvodem v běžném jazyce](docs/CONCEPTS.md) a [glosářem](docs/GLOSSARY.md).
 
 <a id="whats-new-in-040"></a>
+## Co je nového v 0.41
+
+Verze 0.41 boduje řádky důkazů, které pro ni byly závazně stanoveny, každý jednou proti hranicím pevně daným před daty, a každý výsledek zveřejňuje
+tak, jak vyšel (opakovaný běh C2 v2 nebyl proveden). Přidává stav důvěry pro oblast s
+kontrolou poruch družic, plánovač monitorovacích sítí, lokátor rušiček metodou TDOA, rozhodování o temných plavidlech a integritě AIS,
+benchmark falšování TEXBAT, exporty pro letovou dynamiku a čtečku RTCM SSR. Registr má nyní 413 řádků: 176
+VALIDATED, 233 MODELLED, 4 PARTNER. Žádný řádek nebyl povýšen na VALIDATED a každé selhání níže je zafixováno testem.
+
+- **Důvěra v oblasti (`kshana area-trust`, B5).** Jeden stav důvěry pro oblast z několika referenčních stanic. Verze 3
+  označí družici, jejíž odebrání zruší alarmy na několika stanicích najednou, a přepočítá jejich řešení bez
+  ní; samotná ztráta zámku už stanici nesnižuje. Na 26 dnech oblastí s daty IGS (Goddard a Wettzell, květen 2026)
+  vydala 1 výstrahu (hranice ≤ 1 na den oblasti) a **splňuje** T4; na syntetických poruchách **nesplňuje** T2 (123 ze 127
+  poruch zrušeno; 4 tam, kde je zbývající geometrie slabá, a 2 ze 67 epoch se dvěma družicemi vysvětleny jednou). T3
+  (latence výstrahy) je splněno. B5 v3 je **NOT MET** ([výsledky](docs/design/evidence/b5-area-trust/RESULTS-v3.md)). Diagnóza také
+  zjistila, že engine používal vysílané záznamy označené jako nezdravé; takto označené záznamy GPS a QZSS se nyní přeskakují.
+- **Benchmark falšování (TEXBAT, E5).** Bodováno jednou na všech deseti nahrávkách TEXBAT podle pravidel stanovených dříve, než byl
+  přečten jakýkoli soubor: skóre výkonu a zkreslení **splňuje** E5-PD (AUC 0.7410, hranice 0.70); základní skóre IQ **nesplňuje** E5 v2
+  (AUC 0.6941). Zveřejňují se jen skóre, nikdy nahrávky ([výsledky](docs/design/evidence/b4a-benchmark-classes/RESULTS-E5-v2.md)).
+- **Plánovač monitorovacích sítí (`kshana planner`, B1a).** Mapy detekce a přesnosti TDOA a rozmístění stanic.
+  Hledání rozmístění ve verzi 3 překonává nejlepší z 1 000 náhodných podmnožin (0.4408 proti 0.4105) a **splňuje** P4;
+  část 1 je splněna v Linuxu, kontrola v macOS a Windows teprve čeká ([výsledky](docs/design/evidence/b1a-planner/RESULTS-v3.md)).
+- **Lokalizace rušiček.** Lokátor podle rozdílu výkonu (B3a) **nesplňuje** své syntetické kritérium ve v1 ani ve v2; nový lokátor TDOA
+  (B3b, `locate_tdoa`) **nesplňuje** to své také (pokrytí 0.044 proti 0.90: jeho zpřesnění vrcholu se mýlí až o
+  polovinu vzorku proti uvedené σ 28 ns). Oba řádky zde končí; s žádnou z metod se neprovádí skutečný běh
+  ([výsledky B3b](docs/design/evidence/b3b-tdoa-locator/RESULTS.md)).
+- **Temná plavidla a integrita AIS (M4).** Verze 3 **splňuje** záchyt temných plavidel (0.994) a všechny ostatní hranice kromě
+  posunů polohy, které **nesplňuje** (0.489 při 5 km proti 0.85) ([výsledky](docs/design/evidence/m4-dark-vessel-ais-integrity/RESULTS-v3.md)).
+  Každý výstup popisuje konzistenci dat, nikdy úmysl.
+- **Také bodováno.** M1 a řádky C5a, C3 a B8 **splňují** své hranice; křížová kontrola zveřejněných údajů o opakovaných přeletech v M2
+  s nimi **není konzistentní**; M5 v2 (hybridní určení polohy z oběžné dráhy), D8b řádek
+  8 v2 a D8a řádek 6 v2 ty své **nesplňují** ([Changelog](CHANGELOG.md)).
+- **Letová dynamika a korekce.** `kshana ephem-export` zapíše tabulku JPL Horizons jako CCSDS OEM nebo OPM nebo jako
+  jádro SPK a přečte ji zpět; Orekit, Basilisk a ANISE soubory čtou se zapsanými bity. Přibývá čtečka RTCM SSR (IGS SSR),
+  čtečka Bias-SINEX a slapy pevné Země podle IERS 2010.
+- **Kontroly dat o drahách.** `kshana orbit-data` kontroluje zprávy CCSDS s daty o konjunkcích (508.0-B-1) a efemeridy OEM a OCM
+  (502.0-B-3) a říká platné nebo neplatné vůči oddílu, který cituje, převádí OEM na OCM a zpět se
+  zachovaným původem, porovnává a prověřuje dvouřádkové sady elementů a kontroluje a propaguje kovariance (MODELLED). Na
+  vlastních příkladech CDM normy najde kovarianci, která není pozitivně definitní, a dvě syntaktické chyby
+  ([Data o drahách](docs/ORBIT-DATA.md)).
+
 ## Co je nového v 0.40
 
 0.40 přidává rozpočet chyb na úrovni mise, označuje každý obrázek a tabulku jeho úrovní důkazů, čte naměřené logy hodin,
 kontroluje příspěvky datových partnerů, odhaduje, kde se může nacházet zdroj interference, a mluví sedmnácti jazyky vedle angličtiny.
-Registr má nyní 412 řádků: 176 VALIDATED, 232 MODELLED, 4 PARTNER. Žádný řádek nebyl povýšen na VALIDATED a každé selhání níže je
+Žádný řádek nebyl povýšen na VALIDATED a každé selhání níže je
 zafixováno testem.
 
 - **Misijní vlákno.** Druh `mission-thread` řetězí fáze od startu po vstup do atmosféry (`launch-ascent`, `leo-rendezvous`,
   `tli-and-cruise`, `entry` a čtyři lunární druhy) s uvedenými pravidly předávání, rezervou proti uvedeným požadavkům a nejslabším
-  článkem; komplexní příklad třídy Artemis přes 11 fází (pozemský a lunární segment), celkem 92 druhů scénářů. Každé číslo je MODELLED. Šíření cislunární dráhy proti veřejné trajektorii Artemis I
+  článkem; komplexní příklad třídy Artemis přes 11 fází (pozemský a lunární segment). Každé číslo je MODELLED. Šíření cislunární dráhy proti veřejné trajektorii Artemis I
   **nedosahuje** svého předregistrovaného prahu (45.3 km a 0.25 m/s proti 5 km a 0.05 m/s; příčinou jsou malé manévry, které model nezahrnuje), a lunární propagátor proti dráze CAPSTONE
   **nedosahuje** prahu (136.8 km proti 25 km na konci jednoho oběhu); srovnání s LRO je splněno. Řádky zůstávají MODELLED
   ([Misijní vlákno](docs/MISSION-THREAD.md), [lunární segment](docs/MISSION-THREAD-LUNAR.md)). Ve Studiu se vlákno čte na `/studio/mission-thread/`.
@@ -207,7 +247,7 @@ kshana jammertest score session.toml --catalog ../jammertest-plan/testcatalog202
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/jammertest-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/jammertest-light.svg">
-  <img src="docs/figures/0.38/jammertest-light.svg" alt="Bodování jednoho syntetického logu přijímače proti plánu tří testů, ze skutečného běhu enginu v0.40.0 (`kshana jammertest score`). Log je vymyšlený: 1800 s NMEA s poklesem C/N0 o 20 dB ve dvou intervalech. Plán uvádí tři sloty; prostřední slot nemá v logu žádnou rušičku. Skóre označuje 2 ze 3 testů jako detekované (mediánová latence 0 s) a 1 jako zmeškaný, s 0 sériemi falešných poplachů za 0.25 h čistého času. Nic zde neříká nic o skutečném přijímači. Software pouze poradního charakteru, nikoli typově schválené navigační zařízení (IEC 61108, IEC 61162): za navigaci plavidla zůstává odpovědný provozovatel.">
+  <img src="docs/figures/0.38/jammertest-light.svg" alt="Bodování jednoho syntetického logu přijímače proti plánu tří testů, ze skutečného běhu enginu v0.41.0 (`kshana jammertest score`). Log je vymyšlený: 1800 s NMEA s poklesem C/N0 o 20 dB ve dvou intervalech. Plán uvádí tři sloty; prostřední slot nemá v logu žádnou rušičku. Skóre označuje 2 ze 3 testů jako detekované (mediánová latence 0 s) a 1 jako zmeškaný, s 0 sériemi falešných poplachů za 0.25 h čistého času. Nic zde neříká nic o skutečném přijímači. Software pouze poradního charakteru, nikoli typově schválené navigační zařízení (IEC 61108, IEC 61162): za navigaci plavidla zůstává odpovědný provozovatel.">
 </picture>
 
 **Stav v registru: MODELLED.** Prahy byly stanoveny před jakýmkoli bodovaným během; na datech JammerTest 2024
@@ -228,7 +268,7 @@ kshana receiver-trust session.toml     # [log] format = "ubx", path = "receiver.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/receiver-flags-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/receiver-flags-light.svg">
-  <img src="docs/figures/0.38/receiver-flags-light.svg" alt="Vlastní příznak spoofingu přijímače postavený proti poplachům Kshana, ze skutečného běhu enginu v0.40.0 na vymyšleném logu UBX (200 epoch při 1 Hz). C/N0 klesá o 20 dB v 80 až 90 s a 120 až 130 s; přijímač hlásí příznak v 120 až 130 s a 160 až 165 s. Ze 140 epoch porovnaných po kalibraci mělo 11 příznak u obou, 6 jen u přijímače, 11 jen u Kshana a 112 u žádného. Žádná ze stran není základní pravda a shoda není validace. Pouze poradní charakter: analytický výstup výzkumného a inženýrského nástroje, nikoli typově schválené navigační zařízení a nikoli služba pro bezpečnost života (safety-of-life).">
+  <img src="docs/figures/0.38/receiver-flags-light.svg" alt="Vlastní příznak spoofingu přijímače postavený proti poplachům Kshana, ze skutečného běhu enginu v0.41.0 na vymyšleném logu UBX (200 epoch při 1 Hz). C/N0 klesá o 20 dB v 80 až 90 s a 120 až 130 s; přijímač hlásí příznak v 120 až 130 s a 160 až 165 s. Ze 140 epoch porovnaných po kalibraci mělo 11 příznak u obou, 6 jen u přijímače, 11 jen u Kshana a 112 u žádného. Žádná ze stran není základní pravda a shoda není validace. Pouze poradní charakter: analytický výstup výzkumného a inženýrského nástroje, nikoli typově schválené navigační zařízení a nikoli služba pro bezpečnost života (safety-of-life).">
 </picture>
 
 **Stav v registru: MODELLED.** Shoda mezi detektorem přijímače a detektorem Kshana není
@@ -248,7 +288,7 @@ kshana imu-fit still.csv --format csv --axis x --expected-mean 0 --id bench-imu
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/machine-inputs-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/machine-inputs-light.svg">
-  <img src="docs/figures/0.38/machine-inputs-light.svg" alt="Co `kshana imu-fit` čte ze stacionárního logu IMU, ze skutečného běhu enginu v0.40.0 na vymyšleném logu (20,000 vzorků při 100 Hz, 200 s): náhodná procházka rychlosti akcelerometru q_va = 4.02e-06, náhodná procházka úhlu gyroskopu q_arw = 9e-08, nestabilita biasu 0.00296 a počáteční Allanovy sklony (-0.51 a -0.49; zhruba -0.5 tam, kde převládá bílý šum). Tabulka vedle je TOML, který příkaz vypíše. Odhadovač je kontrolován pouze na syntetických lozích. Pouze poradní charakter: analytický výstup výzkumného a inženýrského nástroje, nikoli typově schválené navigační zařízení a nikoli služba pro bezpečnost života (safety-of-life).">
+  <img src="docs/figures/0.38/machine-inputs-light.svg" alt="Co `kshana imu-fit` čte ze stacionárního logu IMU, ze skutečného běhu enginu v0.41.0 na vymyšleném logu (20,000 vzorků při 100 Hz, 200 s): náhodná procházka rychlosti akcelerometru q_va = 4.02e-06, náhodná procházka úhlu gyroskopu q_arw = 9e-08, nestabilita biasu 0.00296 a počáteční Allanovy sklony (-0.51 a -0.49; zhruba -0.5 tam, kde převládá bílý šum). Tabulka vedle je TOML, který příkaz vypíše. Odhadovač je kontrolován pouze na syntetických lozích. Pouze poradní charakter: analytický výstup výzkumného a inženýrského nástroje, nikoli typově schválené navigační zařízení a nikoli služba pro bezpečnost života (safety-of-life).">
 </picture>
 
 **Stav v registru: MODELLED.** Pouze vlastnoručně napsané testovací přípravky; nebyl načten žádný záznam ze skutečného přijímače, IMU,
@@ -268,7 +308,7 @@ kshana scenarios/holdover-test-example.toml
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/timing-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/timing-light.svg">
-  <img src="docs/figures/0.38/timing-light.svg" alt="Test holdoveru bodovaný ze záznamu časové chyby, ze skutečného běhu enginu v0.40.0 na scenarios/holdover-test-example.toml (601 vzorků každých 5 s). GNSS je operátorem odebráno v 600 s a obnoveno ve 2400 s; časová chyba se na konci holdoveru odchýlí na 299 ns, rozpočet 100 ns překročí po 675 s a do pásma 100 ns se vrátí 70 s po obnovení. Verdikty: masky základu PASS, masky holdoveru FAIL, obálka holdoveru FAIL, zotavení RECOVERED. Měřeno proti masce, nikoli schválení. Časy jsou prohlášením operátora, Kshana je neověřuje. Pouze poradní charakter: analytický výstup výzkumného a inženýrského nástroje, nikoli typově schválené navigační zařízení a nikoli služba pro bezpečnost života (safety-of-life).">
+  <img src="docs/figures/0.38/timing-light.svg" alt="Test holdoveru bodovaný ze záznamu časové chyby, ze skutečného běhu enginu v0.41.0 na scenarios/holdover-test-example.toml (601 vzorků každých 5 s). GNSS je operátorem odebráno v 600 s a obnoveno ve 2400 s; časová chyba se na konci holdoveru odchýlí na 299 ns, rozpočet 100 ns překročí po 675 s a do pásma 100 ns se vrátí 70 s po obnovení. Verdikty: masky základu PASS, masky holdoveru FAIL, obálka holdoveru FAIL, zotavení RECOVERED. Měřeno proti masce, nikoli schválení. Časy jsou prohlášením operátora, Kshana je neověřuje. Pouze poradní charakter: analytický výstup výzkumného a inženýrského nástroje, nikoli typově schválené navigační zařízení a nikoli služba pro bezpečnost života (safety-of-life).">
 </picture>
 
 **Stav v registru: MODELLED.** Časy, kdy bylo GNSS odebráno a obnoveno, jsou prohlášením operátora,
@@ -289,7 +329,7 @@ kshana standards-pack run imo-circ-1575
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/standards-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/standards-light.svg">
-  <img src="docs/figures/0.38/standards-light.svg" alt="Každý test tří bodovaných balíčků norem, ze skutečných běhů enginu v0.40.0 (`kshana standards-pack run`): dhs-rpcf: 6 splněno, 1 nesplněno, 2 potřebují vstup; imo-circ-1575: 1 splněno, 4 nesplněny, 2 potřebují vstup; icao-doc9849-appf: 6 splněno, 0 nesplněno, 2 potřebují vstup. Celkem 13 splněno, 5 nesplněno a 6 potřebuje vstup, který engine nemá (log přijímače nebo dokumentaci zařízení). Každý práh byl uveden před během; nesplnění se ponechává jako nesplnění. Splněný práh říká, že modelovaný scénář splnil uvedený práh, nic o produktu. Balíčky podporují důkazy pro řádky, které citují; nejsou posouzením. Pouze poradní charakter: analytický výstup výzkumného a inženýrského nástroje, nikoli typově schválené navigační zařízení a nikoli služba pro bezpečnost života (safety-of-life); nesmí být jediným podkladem pro žádné navigační ani bezpečnostní rozhodnutí.">
+  <img src="docs/figures/0.38/standards-light.svg" alt="Každý test tří bodovaných balíčků norem, ze skutečných běhů enginu v0.41.0 (`kshana standards-pack run`): dhs-rpcf: 6 splněno, 1 nesplněno, 2 potřebují vstup; imo-circ-1575: 1 splněno, 4 nesplněny, 2 potřebují vstup; icao-doc9849-appf: 6 splněno, 0 nesplněno, 2 potřebují vstup. Celkem 13 splněno, 5 nesplněno a 6 potřebuje vstup, který engine nemá (log přijímače nebo dokumentaci zařízení). Každý práh byl uveden před během; nesplnění se ponechává jako nesplnění. Splněný práh říká, že modelovaný scénář splnil uvedený práh, nic o produktu. Balíčky podporují důkazy pro řádky, které citují; nejsou posouzením. Pouze poradní charakter: analytický výstup výzkumného a inženýrského nástroje, nikoli typově schválené navigační zařízení a nikoli služba pro bezpečnost života (safety-of-life); nesmí být jediným podkladem pro žádné navigační ani bezpečnostní rozhodnutí.">
 </picture>
 
 **Stav v registru: MODELLED.** Splněný práh říká, že modelovaný scénář splnil uvedený práh, nic o
@@ -310,7 +350,7 @@ kshana lunanet-afs-check symbols afs.sym
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/lunanet-afs-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/lunanet-afs-light.svg">
-  <img src="docs/figures/0.38/lunanet-afs-light.svg" alt="Generátor kódů LunaNet AFS zkontrolovaný proti tištěným sloupcům specifikace, ze skutečného běhu enginu v0.40.0 (`kshana lunanet-afs-check spec`, připnuto k LNIS V5, AD1 Volume A (LSIS-AFS) V1.0, 29. ledna 2025; dokument označuje své tabulky kódů {LSIS-TBC}). 9 z 10 kontrol je splněno; B4 je NOT MET (420 ze 421 shodných). Kontroluje proud symbolů proti jednomu vydání zveřejněné specifikace a neříká nic o žádném uzlu ani službě LunaNet. Pouze poradní charakter: analytický výstup výzkumného a inženýrského nástroje, nikoli typově schválené navigační zařízení a nikoli služba pro bezpečnost života (safety-of-life). Kontroluje proud symbolů proti jednomu vydání zveřejněné specifikace a neříká nic o žádném uzlu ani službě LunaNet.">
+  <img src="docs/figures/0.38/lunanet-afs-light.svg" alt="Generátor kódů LunaNet AFS zkontrolovaný proti tištěným sloupcům specifikace, ze skutečného běhu enginu v0.41.0 (`kshana lunanet-afs-check spec`, připnuto k LNIS V5, AD1 Volume A (LSIS-AFS) V1.0, 29. ledna 2025; dokument označuje své tabulky kódů {LSIS-TBC}). 9 z 10 kontrol je splněno; B4 je NOT MET (420 ze 421 shodných). Kontroluje proud symbolů proti jednomu vydání zveřejněné specifikace a neříká nic o žádném uzlu ani službě LunaNet. Pouze poradní charakter: analytický výstup výzkumného a inženýrského nástroje, nikoli typově schválené navigační zařízení a nikoli služba pro bezpečnost života (safety-of-life). Kontroluje proud symbolů proti jednomu vydání zveřejněné specifikace a neříká nic o žádném uzlu ani službě LunaNet.">
 </picture>
 
 **Stav v registru: VALIDATED** pro kontroly kódů a synchronizace, proti hodnotám, které
@@ -352,7 +392,7 @@ kshana bench baseline --task d --split test --out results/
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/bench-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/bench-light.svg">
-  <img src="docs/figures/0.38/bench-light.svg" alt="Vestavěné základy úlohy D kshana-bench (mezera optimismu) na testovacím rozdělení, ze skutečného běhu enginu v0.40.0 (`kshana bench baseline`). Každá dvojice sloupců je plocha pod křivkou ROC na případech uvnitř rozdělení a na posunutých případech; rozdíl mezi nimi je mezera optimismu, proti toleranci 0.05. fused-max-z: 0.998 a 0.983 (mezera 0.015); sqm-imbalance: 0.882 a 0.882 (mezera 0.001); agc-excess: 0.848 a 0.819 (mezera 0.030); raim-parity: 0.682 a 0.672 (mezera 0.010); energy-cn0-drop: 0.595 a 0.565 (mezera 0.030). Štítky jsou štítky generativního modelu syntetického korpusu, nikdy terénní data: MODELLED. Pouze poradní charakter: modelováno nebo měřeno proti uvedeným referencím, nikoli schválení, certifikace ani prohlášení o shodě. Skóre popisuje log nebo korpus, nikdy produkt.">
+  <img src="docs/figures/0.38/bench-light.svg" alt="Vestavěné základy úlohy D kshana-bench (mezera optimismu) na testovacím rozdělení, ze skutečného běhu enginu v0.41.0 (`kshana bench baseline`). Každá dvojice sloupců je plocha pod křivkou ROC na případech uvnitř rozdělení a na posunutých případech; rozdíl mezi nimi je mezera optimismu, proti toleranci 0.05. fused-max-z: 0.998 a 0.983 (mezera 0.015); sqm-imbalance: 0.882 a 0.882 (mezera 0.001); agc-excess: 0.848 a 0.819 (mezera 0.030); raim-parity: 0.682 a 0.672 (mezera 0.010); energy-cn0-drop: 0.595 a 0.565 (mezera 0.030). Štítky jsou štítky generativního modelu syntetického korpusu, nikdy terénní data: MODELLED. Pouze poradní charakter: modelováno nebo měřeno proti uvedeným referencím, nikoli schválení, certifikace ani prohlášení o shodě. Skóre popisuje log nebo korpus, nikdy produkt.">
 </picture>
 
 **Stav v registru:** žádný vlastní řádek registru; základy jsou ve výsledkových souborech označeny MODELLED.
@@ -395,7 +435,7 @@ kshana trust-telemetry --result session.result.json --print-syslog --format cef
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/exporters-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/exporters-light.svg">
-  <img src="docs/figures/0.38/exporters-light.svg" alt="Jeden výsledek důvěry ve třech exportních formátech, ze skutečných běhů enginu v0.40.0 (`kshana trust-telemetry`) na examples/maritime-trust: textová expozice Prometheus (poslední skóre důvěryhodnosti je 5.9 a nastavené je pásmo nedůvěryhodné) a poslední zprávy CEF a LEEF. Příkaz nic nepublikuje, pokud nedostane cíl, neuchovává žádné přihlašovací údaje a nevysílá žádný rádiový signál. Software pouze poradního charakteru, nikoli typově schválené navigační zařízení (IEC 61108, IEC 61162): za navigaci plavidla zůstává odpovědný provozovatel.">
+  <img src="docs/figures/0.38/exporters-light.svg" alt="Jeden výsledek důvěry ve třech exportních formátech, ze skutečných běhů enginu v0.41.0 (`kshana trust-telemetry`) na examples/maritime-trust: textová expozice Prometheus (poslední skóre důvěryhodnosti je 5.9 a nastavené je pásmo nedůvěryhodné) a poslední zprávy CEF a LEEF. Příkaz nic nepublikuje, pokud nedostane cíl, neuchovává žádné přihlašovací údaje a nevysílá žádný rádiový signál. Software pouze poradního charakteru, nikoli typově schválené navigační zařízení (IEC 61108, IEC 61162): za navigaci plavidla zůstává odpovědný provozovatel.">
 </picture>
 
 **Stav v registru: MODELLED.** [Telemetrie důvěry](docs/TRUST-TELEMETRY.md).
@@ -413,18 +453,20 @@ kshana scenarios/optical-atmosphere-network.toml
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/optical-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/optical-light.svg">
-  <img src="docs/figures/0.38/optical-light.svg" alt="Jedna realizace rezervy spoje lokality 'northern' se seedem během 336 h, ze skutečného běhu enginu v0.40.0 na scenarios/optical-atmosphere-network.toml (seed 37, krok 600 s). Rezerva klesá pod nulu během epizod oblačnosti; v tomto losování je spoj v provozu 40.5 % času, s 27 výpadky a nejdelším výpadkem 30.7 h. Vstupy jsou ilustrativní, řada je jedním losováním z modelu, nikoli klimatem, a od statistické dostupnosti (37.8 %) se liší o výběrovou chybu losování. Pouze poradní analýza: nejde o certifikovaný produkt dostupnosti, integrity ani navigace a nejde o předpověď pro žádnou skutečnou lokalitu, pokud její klimatické vstupy nepocházejí z uvedené datové sady.">
+  <img src="docs/figures/0.38/optical-light.svg" alt="Jedna realizace rezervy spoje lokality 'northern' se seedem během 336 h, ze skutečného běhu enginu v0.41.0 na scenarios/optical-atmosphere-network.toml (seed 37, krok 600 s). Rezerva klesá pod nulu během epizod oblačnosti; v tomto losování je spoj v provozu 40.5 % času, s 27 výpadky a nejdelším výpadkem 30.7 h. Vstupy jsou ilustrativní, řada je jedním losováním z modelu, nikoli klimatem, a od statistické dostupnosti (37.8 %) se liší o výběrovou chybu losování. Pouze poradní analýza: nejde o certifikovaný produkt dostupnosti, integrity ani navigace a nejde o předpověď pro žádnou skutečnou lokalitu, pokud její klimatické vstupy nepocházejí z uvedené datové sady.">
 </picture>
 
 **Stav v registru: MODELLED.** Jedno losování z modelu, nikoli klima. [Optická atmosféra](docs/OPTICAL-ATMOSPHERE.md).
 
 ### Nová zobrazení ve Studiu
 
-[kshana.dev/studio](https://kshana.dev/studio/) získává přehrávání Bridge (dva běhy vedle sebe na jednom
-misijním čase, na [`/studio/replay/`](https://kshana.dev/studio/replay/)), stránku Optical PNT
+[kshana.dev/studio](https://kshana.dev/studio/) získává přehrávání z můstku (dva běhy vedle sebe na jedněch
+misijních hodinách, na [`/studio/replay/`](https://kshana.dev/studio/replay/)), stránku optického PNT
 (`/studio/optical/`), stránku testu holdoveru (`/studio/holdover/`) a prohlížeč observatoře
 (`/studio/observatory/`). Spouštějí stejný engine v prohlížeči, nic se nenahrává a nesou
-stejné poradní prohlášení. Obrázky výše vykresluje skript z vlastního výstupu enginu;
+stejné poradní prohlášení. Pouze v Kshana Desktop (k dispozici na [kshana.dev](https://kshana.dev)) čte zobrazení nahrávek IQ (`/studio/iq/`) nahrávku z
+disku a ukazuje její výkon v čase, vodopádový diagram a spektrum u kurzoru; čte jen přijaté vzorky a
+nemá žádný ovládací prvek, který by signál zapisoval, vysílal nebo vytvářel. Obrázky výše vykresluje skript z výstupu enginu;
 nejsou to snímky obrazovky těchto stránek.
 
 <a id="space-user-navigation-gnss-ssv"></a>
@@ -450,25 +492,25 @@ kshana scenarios/gnss-ssv-formation-heo.toml    # formation: relative navigation
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/ssv-shell-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/ssv-shell-light.svg">
-  <img src="docs/figures/0.38/ssv-shell-light.svg" alt="Dostupnost signálu pro uživatele na sféře ve výšce 36000 km s polokulovou anténou, ze skutečného běhu enginu v0.40.0 na scenarios/gnss-ssv-shell.toml (zmenšený běh: 162 uživatelů, 3 dny, kroky 10 min), při prahu 20 dB-Hz. Pro každou konstelaci a pásmo dva sloupce: podíl dvojic (uživatel, epocha) s alespoň jedním signálem a s alespoň čtyřmi. Kombinovaně, L1: 99.4 % alespoň jeden, 73.2 % alespoň čtyři, nejdelší výpadek pod čtyřmi signály 160 min. Kombinovaně, L5: 100.0 % alespoň jeden, 99.9 % alespoň čtyři, nejdelší výpadek pod čtyřmi signály 20 min. MODELLED: modelovaná studie z uvedených vstupů, nikoli měření a nikoli tvrzení o objemu služby pro jakýkoli systém. Zmenšená velikost není srovnáním s brožurou. Pouze poradní charakter: analytický výstup výzkumného a inženýrského nástroje, nikoli typově schválené navigační zařízení a nikoli služba pro bezpečnost života (safety-of-life).">
+  <img src="docs/figures/0.38/ssv-shell-light.svg" alt="Dostupnost signálu pro uživatele na sféře ve výšce 36000 km s polokulovou anténou, ze skutečného běhu enginu v0.41.0 na scenarios/gnss-ssv-shell.toml (zmenšený běh: 162 uživatelů, 3 dny, kroky 10 min), při prahu 20 dB-Hz. Pro každou konstelaci a pásmo dva sloupce: podíl dvojic (uživatel, epocha) s alespoň jedním signálem a s alespoň čtyřmi. Kombinovaně, L1: 99.4 % alespoň jeden, 73.2 % alespoň čtyři, nejdelší výpadek pod čtyřmi signály 160 min. Kombinovaně, L5: 100.0 % alespoň jeden, 99.9 % alespoň čtyři, nejdelší výpadek pod čtyřmi signály 20 min. MODELLED: modelovaná studie z uvedených vstupů, nikoli měření a nikoli tvrzení o objemu služby pro jakýkoli systém. Zmenšená velikost není srovnáním s brožurou. Pouze poradní charakter: analytický výstup výzkumného a inženýrského nástroje, nikoli typově schválené navigační zařízení a nikoli služba pro bezpečnost života (safety-of-life).">
 </picture>
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/ssv-heo-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/ssv-heo-light.svg">
-  <img src="docs/figures/0.38/ssv-heo-light.svg" alt="Signály podél jedné vysoké oběžné dráhy Země (perigeum 497 km, apogeum 58622 km, perioda 18.8 h), ze skutečného běhu enginu v0.40.0 na scenarios/gnss-ssv-heo.toml, pásmo L1. Nahoře: nejlepší hustota poměru nosné k šumu mezi viditelnými signály, proti prahu 20 dB-Hz. Uprostřed: počet viditelných signálů ze všech konstelací, od 4 do 55 podél vzorkovaných bodů. Z přijatých spojů jich 2252 přišlo hlavním lalokem a 696 postranními laloky, s použitím označeného parametrického náhradního diagramu, nikoli naměřeného diagramu žádného systému. Mediánové PDOP 67, 95. percentil 358. MODELLED: modelovaná studie z uvedených vstupů, nikoli měření a nikoli tvrzení o objemu služby pro jakýkoli systém. Pouze poradní charakter: analytický výstup výzkumného a inženýrského nástroje, nikoli typově schválené navigační zařízení a nikoli služba pro bezpečnost života (safety-of-life).">
+  <img src="docs/figures/0.38/ssv-heo-light.svg" alt="Signály podél jedné vysoké oběžné dráhy Země (perigeum 497 km, apogeum 58622 km, perioda 18.8 h), ze skutečného běhu enginu v0.41.0 na scenarios/gnss-ssv-heo.toml, pásmo L1. Nahoře: nejlepší hustota poměru nosné k šumu mezi viditelnými signály, proti prahu 20 dB-Hz. Uprostřed: počet viditelných signálů ze všech konstelací, od 4 do 55 podél vzorkovaných bodů. Z přijatých spojů jich 2252 přišlo hlavním lalokem a 696 postranními laloky, s použitím označeného parametrického náhradního diagramu, nikoli naměřeného diagramu žádného systému. Mediánové PDOP 67, 95. percentil 358. MODELLED: modelovaná studie z uvedených vstupů, nikoli měření a nikoli tvrzení o objemu služby pro jakýkoli systém. Pouze poradní charakter: analytický výstup výzkumného a inženýrského nástroje, nikoli typově schválené navigační zařízení a nikoli služba pro bezpečnost života (safety-of-life).">
 </picture>
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/ssv-nav-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/ssv-nav-light.svg">
-  <img src="docs/figures/0.38/ssv-nav-light.svg" alt="Palubní devítistavový filtr na přeletu z nízké dráhy směrem k Měsíci, ze skutečného běhu enginu v0.40.0 na scenarios/gnss-ssv-nav-lunar.toml (289 epoch, vykresleno 13 bodů). Na logaritmické ose skutečná chyba polohy a vlastní jednosigmová mez filtru v závislosti na čase od začátku. Uvnitř drah GNSS je RMS polohy 1.4 m; nad nimi je 90 m, s konečnou chybou 184 m ve výšce 193,330 km s 1 měřením. Střední normalizovaná kvadratická chyba odhadu za celý běh je 4.4 (zhruba 3 pro konzistentní blok polohy). Pravda i filtr sdílejí své náhrady Slunce a Měsíce. MODELLED: modelovaná studie z uvedených vstupů, nikoli měření a nikoli tvrzení o objemu služby pro jakýkoli systém. Pouze poradní charakter: analytický výstup výzkumného a inženýrského nástroje, nikoli typově schválené navigační zařízení a nikoli služba pro bezpečnost života (safety-of-life).">
+  <img src="docs/figures/0.38/ssv-nav-light.svg" alt="Palubní devítistavový filtr na přeletu z nízké dráhy směrem k Měsíci, ze skutečného běhu enginu v0.41.0 na scenarios/gnss-ssv-nav-lunar.toml (289 epoch, vykresleno 13 bodů). Na logaritmické ose skutečná chyba polohy a vlastní jednosigmová mez filtru v závislosti na čase od začátku. Uvnitř drah GNSS je RMS polohy 1.4 m; nad nimi je 90 m, s konečnou chybou 184 m ve výšce 199,330 km s 1 měřením. Střední normalizovaná kvadratická chyba odhadu za celý běh je 4.4 (zhruba 3 pro konzistentní blok polohy). Pravda i filtr sdílejí své náhrady Slunce a Měsíce. MODELLED: modelovaná studie z uvedených vstupů, nikoli měření a nikoli tvrzení o objemu služby pro jakýkoli systém. Pouze poradní charakter: analytický výstup výzkumného a inženýrského nástroje, nikoli typově schválené navigační zařízení a nikoli služba pro bezpečnost života (safety-of-life).">
 </picture>
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/ssv-formation-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/ssv-formation-light.svg">
-  <img src="docs/figures/0.38/ssv-formation-light.svg" alt="Relativní navigace 2 podřízených lodí kolem hlavní na vysoké dráze, ze skutečného běhu enginu v0.40.0 na scenarios/gnss-ssv-formation-heo.toml (401 epoch). Pro každou podřízenou loď dva sloupce: RMS relativní polohy z odečtení dvou nezávislých absolutních odhadů a z relativního filtru na jednoduše diferencovaných pseudovzdálenostech. Základna 0.8 km: 5.1 m a 1.2 m. Základna 2.0 km: 4.1 m a 2.1 m. Absolutní filtr zde není konzistentní: střední normalizovaná kvadratická chyba odhadu 187 proti zhruba 3 pro konzistentní filtr, takže jeho uváděná nejistota je příliš malá. MODELLED: modelovaná studie z uvedených vstupů, nikoli měření a nikoli tvrzení o objemu služby pro jakýkoli systém. Pouze poradní charakter: analytický výstup výzkumného a inženýrského nástroje, nikoli typově schválené navigační zařízení a nikoli služba pro bezpečnost života (safety-of-life).">
+  <img src="docs/figures/0.38/ssv-formation-light.svg" alt="Relativní navigace 2 podřízených lodí kolem hlavní na vysoké dráze, ze skutečného běhu enginu v0.41.0 na scenarios/gnss-ssv-formation-heo.toml (401 epoch). Pro každou podřízenou loď dva sloupce: RMS relativní polohy z odečtení dvou nezávislých absolutních odhadů a z relativního filtru na jednoduše diferencovaných pseudovzdálenostech. Základna 0.8 km: 5.1 m a 1.2 m. Základna 2.0 km: 4.1 m a 2.1 m. Absolutní filtr zde není konzistentní: střední normalizovaná kvadratická chyba odhadu 187 proti zhruba 3 pro konzistentní filtr, takže jeho uváděná nejistota je příliš malá. MODELLED: modelovaná studie z uvedených vstupů, nikoli měření a nikoli tvrzení o objemu služby pro jakýkoli systém. Pouze poradní charakter: analytický výstup výzkumného a inženýrského nástroje, nikoli typově schválené navigační zařízení a nikoli služba pro bezpečnost života (safety-of-life).">
 </picture>
 
 **Stav v registru: MODELLED a srovnání s brožurou většinou nedosahuje prahů.** Prahy byly stanoveny před
@@ -484,7 +526,7 @@ výrazně nad hodnotou zhruba 3, kterou dává konzistentní filtr).
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/ssv-booklet-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/ssv-booklet-light.svg">
-  <img src="docs/figures/0.38/ssv-booklet-light.svg" alt="Zaznamenané srovnání modelu dostupnosti pro kosmické uživatele s veřejnou brožurou Space Service Volume, z uložených výsledků předregistrovaného běhu (xval/gnss-ssv/results-run1.json, zapsáno příkladem ssv_booklet_check enginu v0.40.0). Sloupec po sloupci buňky v toleranci: S0 13 ze 13 (MET); S1 43 z 52 (NOT MET); S2 48 z 52 (NOT MET); S3 122 ze 155 (NOT MET); S4 132 ze 156 (NOT MET); S5 18 z 26 (NOT MET); S6 26 z 26 (MET); S7 0 z 20 diagramů panelů (NOT MET). Při předregistrovaném čtení jsou splněny jen S0 a S6. Diagnostická varianta, která používá jiné úhly GLONASS z brožury, dovede S1, S2 a S4 ke každé buňce, ale nenahrazuje oficiální běh. Žádný řádek registru není VALIDATED. Pouze poradní charakter: analytický výstup výzkumného a inženýrského nástroje, nikoli typově schválené navigační zařízení a nikoli služba pro bezpečnost života (safety-of-life).">
+  <img src="docs/figures/0.38/ssv-booklet-light.svg" alt="Zaznamenané srovnání modelu dostupnosti pro kosmické uživatele s veřejnou brožurou Space Service Volume, z uložených výsledků předregistrovaného běhu (xval/gnss-ssv/results-run1.json, zapsáno příkladem ssv_booklet_check enginu v0.41.0). Sloupec po sloupci buňky v toleranci: S0 13 ze 13 (MET); S1 43 z 52 (NOT MET); S2 48 z 52 (NOT MET); S3 122 ze 155 (NOT MET); S4 132 ze 156 (NOT MET); S5 18 z 26 (NOT MET); S6 26 z 26 (MET); S7 0 z 20 diagramů panelů (NOT MET). Při předregistrovaném čtení jsou splněny jen S0 a S6. Diagnostická varianta, která používá jiné úhly GLONASS z brožury, dovede S1, S2 a S4 ke každé buňce, ale nenahrazuje oficiální běh. Žádný řádek registru není VALIDATED. Pouze poradní charakter: analytický výstup výzkumného a inženýrského nástroje, nikoli typově schválené navigační zařízení a nikoli služba pro bezpečnost života (safety-of-life).">
 </picture>
 
 [Navigace kosmických uživatelů](docs/SSV.md), [co srovnání ukazuje](docs/SSV.md#what-the-comparison-with-the-booklet-shows).
@@ -512,31 +554,31 @@ kshana scenarios/lunar-infrastructure-geodesy-sensitivity.toml
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/lunar-od-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/lunar-od-light.svg">
-  <img src="docs/figures/0.38/lunar-od-light.svg" alt="Konzistence palubního určování oběžné dráhy z pozemského GNSS na téměř přímočaré halo dráze s nezávislým pozemním určováním oběžné dráhy, ze skutečných běhů enginu v0.40.0 na scenarios/lunar-infrastructure-od-consistency.toml a varianty s chybou modelu (každý 400 pokusů). Střední normalizovaný rozdíl q je 5.81 bez chyby modelu a 5.95 s vnesenou chybou zrychlení 3e-10 m/s2, proti očekávaným 6: obě řešení dráhy jsou konzistentní (práh C1 MET). Podíl pokusů nad bodem 95 % je 0.040 a 0.052; práh pro detekci vnesené chyby byl alespoň 0.5, takže je NOT MET (C3): palubní řešení je známo zhruba na 352 m proti 23 m u pozemního, takže posun o deset metrů se skryje v jeho kovarianci. MODELLED: omezený model tří těles s uvedenými zjednodušeními a ilustrativními vstupy, nikoli měření žádné lunární veličiny. Pouze poradní charakter: analytický výstup výzkumného a inženýrského nástroje, nikoli typově schválené navigační zařízení a nikoli služba pro bezpečnost života (safety-of-life).">
+  <img src="docs/figures/0.38/lunar-od-light.svg" alt="Konzistence palubního určování oběžné dráhy z pozemského GNSS na téměř přímočaré halo dráze s nezávislým pozemním určováním oběžné dráhy, ze skutečných běhů enginu v0.41.0 na scenarios/lunar-infrastructure-od-consistency.toml a varianty s chybou modelu (každý 400 pokusů). Střední normalizovaný rozdíl q je 5.81 bez chyby modelu a 5.95 s vnesenou chybou zrychlení 3e-10 m/s2, proti očekávaným 6: obě řešení dráhy jsou konzistentní (práh C1 MET). Podíl pokusů nad bodem 95 % je 0.040 a 0.052; práh pro detekci vnesené chyby byl alespoň 0.5, takže je NOT MET (C3): palubní řešení je známo zhruba na 352 m proti 23 m u pozemního, takže posun o deset metrů se skryje v jeho kovarianci. MODELLED: omezený model tří těles s uvedenými zjednodušeními a ilustrativními vstupy, nikoli měření žádné lunární veličiny. Pouze poradní charakter: analytický výstup výzkumného a inženýrského nástroje, nikoli typově schválené navigační zařízení a nikoli služba pro bezpečnost života (safety-of-life).">
 </picture>
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/lunar-carrier-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/lunar-carrier-light.svg">
-  <img src="docs/figures/0.38/lunar-carrier-light.svg" alt="Fixace celočíselné nejednoznačnosti fáze nosné mezi lunárními povrchovými stanicemi a orbiterem, z uloženého výsledku bodovaného běhu enginu v0.40.0 (tests/fixtures/lunar_infra/phase_full_run.json: 3 délky oblouku, Monte Carlo po 401 losováních, zapsáno scénářem scenarios/carrier-phase-scored.toml). 1 den: úspěšnost 1.0 % (směrodatná chyba 0.5 %), 134 nejednoznačností, sigma polohy orbiteru 45.6 m plovoucí a 18.5 m fixovaná; 2 dny: úspěšnost 0.5 % (směrodatná chyba 0.4 %), 259 nejednoznačností, sigma polohy orbiteru 21.5 m plovoucí a 8.7 m fixovaná; 3 dny: úspěšnost 2.8 % (směrodatná chyba 0.8 %), 375 nejednoznačností, sigma polohy orbiteru 6.3 m plovoucí a 2.1 m fixovaná. Celočíselné fixace se nedosahuje: úspěšnost zůstává mezi 1 % a 3 % při 25 dBi a při registrovaných 12 dBi nelze úlohu sestavit. MODELLED: omezený model tří těles s uvedenými zjednodušeními a ilustrativními vstupy, nikoli měření žádné lunární veličiny. Pouze poradní charakter: analytický výstup výzkumného a inženýrského nástroje, nikoli typově schválené navigační zařízení a nikoli služba pro bezpečnost života (safety-of-life).">
+  <img src="docs/figures/0.38/lunar-carrier-light.svg" alt="Fixace celočíselné nejednoznačnosti fáze nosné mezi lunárními povrchovými stanicemi a orbiterem, z uloženého výsledku bodovaného běhu enginu v0.41.0 (tests/fixtures/lunar_infra/phase_full_run.json: 3 délky oblouku, Monte Carlo po 401 losováních, zapsáno scénářem scenarios/carrier-phase-scored.toml). 1 den: úspěšnost 1.0 % (směrodatná chyba 0.5 %), 134 nejednoznačností, sigma polohy orbiteru 45.6 m plovoucí a 18.5 m fixovaná; 2 dny: úspěšnost 0.5 % (směrodatná chyba 0.4 %), 259 nejednoznačností, sigma polohy orbiteru 21.5 m plovoucí a 8.7 m fixovaná; 3 dny: úspěšnost 2.8 % (směrodatná chyba 0.8 %), 375 nejednoznačností, sigma polohy orbiteru 6.3 m plovoucí a 2.1 m fixovaná. Celočíselné fixace se nedosahuje: úspěšnost zůstává mezi 1 % a 3 % při 25 dBi a při registrovaných 12 dBi nelze úlohu sestavit. MODELLED: omezený model tří těles s uvedenými zjednodušeními a ilustrativními vstupy, nikoli měření žádné lunární veličiny. Pouze poradní charakter: analytický výstup výzkumného a inženýrského nástroje, nikoli typově schválené navigační zařízení a nikoli služba pro bezpečnost života (safety-of-life).">
 </picture>
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/lunar-frame-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/lunar-frame-light.svg">
-  <img src="docs/figures/0.38/lunar-frame-light.svg" alt="Přesnost sedmiparametrového lunárního datumu (tři posuny, měřítko a tři rotace) z měření vzdálenosti pozemními stanicemi, s měřeními vzdálenosti mezi orbiterem a povrchovými stanicemi a bez nich, ze skutečného běhu enginu v0.40.0 na scenarios/lunar-infrastructure-frame-coestimation.toml. Cramérova-Raova sigma posunů a rotací s orbiterovými spoji klesá (například t_z z 0.98 m na 0.046 m); nejmenší vlastní číslo informační matice vzroste 111krát a stopa CRLB klesne na 1.0 % (práh F3 MET). Předpokládá se, že dráha je známa v lunárních osách a její chybu nese sigma vzdálenosti orbiteru 1 m. MODELLED: omezený model tří těles s uvedenými zjednodušeními a ilustrativními vstupy, nikoli měření žádné lunární veličiny. Pouze poradní charakter: analytický výstup výzkumného a inženýrského nástroje, nikoli typově schválené navigační zařízení a nikoli služba pro bezpečnost života (safety-of-life).">
+  <img src="docs/figures/0.38/lunar-frame-light.svg" alt="Přesnost sedmiparametrového lunárního datumu (tři posuny, měřítko a tři rotace) z měření vzdálenosti pozemními stanicemi, s měřeními vzdálenosti mezi orbiterem a povrchovými stanicemi a bez nich, ze skutečného běhu enginu v0.41.0 na scenarios/lunar-infrastructure-frame-coestimation.toml. Cramérova-Raova sigma posunů a rotací s orbiterovými spoji klesá (například t_z z 0.98 m na 0.046 m); nejmenší vlastní číslo informační matice vzroste 111krát a stopa CRLB klesne na 1.0 % (práh F3 MET). Předpokládá se, že dráha je známa v lunárních osách a její chybu nese sigma vzdálenosti orbiteru 1 m. MODELLED: omezený model tří těles s uvedenými zjednodušeními a ilustrativními vstupy, nikoli měření žádné lunární veličiny. Pouze poradní charakter: analytický výstup výzkumného a inženýrského nástroje, nikoli typově schválené navigační zařízení a nikoli služba pro bezpečnost života (safety-of-life).">
 </picture>
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/lunar-tie-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/lunar-tie-light.svg">
-  <img src="docs/figures/0.38/lunar-tie-light.svg" alt="Přesnost offsetů mezi polohami z laserového měření vzdálenosti, VLBI a GNSS jedné kosmické lodi, proti chybě pozemní lokální vazby, ze skutečného běhu enginu v0.40.0 na scenarios/lunar-infrastructure-space-tie.toml (jeden oblouk 6.56 dne, sigmy technik GNSS 10 m, VLBI 1 m, laser 0.1 m). S lokální vazbou od 1 mm do 1 m zůstává sigma posunu laser minus GNSS kolem 1.04 m, dokud vazba nedosáhne 1 m: je omezena šumem měření technik, nikoli lokální vazbou. Spodní mez daná samotnou vazbou je odmocnina ze dvou krát její sigma. MODELLED: omezený model tří těles s uvedenými zjednodušeními a ilustrativními vstupy, nikoli měření žádné lunární veličiny. Pouze poradní charakter: analytický výstup výzkumného a inženýrského nástroje, nikoli typově schválené navigační zařízení a nikoli služba pro bezpečnost života (safety-of-life).">
+  <img src="docs/figures/0.38/lunar-tie-light.svg" alt="Přesnost offsetů mezi polohami z laserového měření vzdálenosti, VLBI a GNSS jedné kosmické lodi, proti chybě pozemní lokální vazby, ze skutečného běhu enginu v0.41.0 na scenarios/lunar-infrastructure-space-tie.toml (jeden oblouk 6.56 dne, sigmy technik GNSS 10 m, VLBI 1 m, laser 0.1 m). S lokální vazbou od 1 mm do 1 m zůstává sigma posunu laser minus GNSS kolem 1.04 m, dokud vazba nedosáhne 1 m: je omezena šumem měření technik, nikoli lokální vazbou. Spodní mez daná samotnou vazbou je odmocnina ze dvou krát její sigma. MODELLED: omezený model tří těles s uvedenými zjednodušeními a ilustrativními vstupy, nikoli měření žádné lunární veličiny. Pouze poradní charakter: analytický výstup výzkumného a inženýrského nástroje, nikoli typově schválené navigační zařízení a nikoli služba pro bezpečnost života (safety-of-life).">
 </picture>
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/lunar-geodesy-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/lunar-geodesy-light.svg">
-  <img src="docs/figures/0.38/lunar-geodesy-light.svg" alt="Která rodina pozorování je citlivá na lunární Loveova čísla h2, k2 a l2, ze skutečného běhu enginu v0.40.0 na scenarios/lunar-infrastructure-geodesy-sensitivity.toml. Každá buňka je RMS parciální derivace pozorování dané rodiny podle parametru, ve vlastních jednotkách této rodiny (buňky se tedy porovnávají v rámci řádku, ne sloupce); pomlčka znamená, že rodina nemá žádnou citlivost. laserové měření vzdálenosti: h2 7.6, k2 žádná, l2 9.8. sledování orbiteru: h2 žádná, k2 0.00086, l2 žádná. povrchový gravimetr: h2 2.9e+03, k2 4.3e+03, l2 žádná. povrchové hodiny: h2 2.8e-17, k2 2.8e-17, l2 žádná. Se všemi čtyřmi rodinami je Cramérova-Raova sigma 0.36 % nominálního h2, 0.52 % k2 a 1.16 % l2. Přidání rodiny nikdy nesnížilo nejmenší vlastní číslo (28 z 28 přidání), ale stopa pseudoinverze nebyla větší jen v 16 z 28: tato polovina prahu G3 je NOT MET. Rodina orbiteru vidí integrál zrychlení k2 podél směru pohledu, což je údaj z horní části rozsahu. MODELLED: omezený model tří těles s uvedenými zjednodušeními a ilustrativními vstupy, nikoli měření žádné lunární veličiny. Pouze poradní charakter: analytický výstup výzkumného a inženýrského nástroje, nikoli typově schválené navigační zařízení a nikoli služba pro bezpečnost života (safety-of-life).">
+  <img src="docs/figures/0.38/lunar-geodesy-light.svg" alt="Která rodina pozorování je citlivá na lunární Loveova čísla h2, k2 a l2, ze skutečného běhu enginu v0.41.0 na scenarios/lunar-infrastructure-geodesy-sensitivity.toml. Každá buňka je RMS parciální derivace pozorování dané rodiny podle parametru, ve vlastních jednotkách této rodiny (buňky se tedy porovnávají v rámci řádku, ne sloupce); pomlčka znamená, že rodina nemá žádnou citlivost. laserové měření vzdálenosti: h2 7.6, k2 žádná, l2 9.8. sledování orbiteru: h2 žádná, k2 0.00086, l2 žádná. povrchový gravimetr: h2 2.9e+03, k2 4.3e+03, l2 žádná. povrchové hodiny: h2 2.8e-17, k2 2.8e-17, l2 žádná. Se všemi čtyřmi rodinami je Cramérova-Raova sigma 0.36 % nominálního h2, 0.52 % k2 a 1.16 % l2. Přidání rodiny nikdy nesnížilo nejmenší vlastní číslo (28 z 28 přidání), ale stopa pseudoinverze nebyla větší jen v 16 z 28: tato polovina prahu G3 je NOT MET. Rodina orbiteru vidí integrál zrychlení k2 podél směru pohledu, což je údaj z horní části rozsahu. MODELLED: omezený model tří těles s uvedenými zjednodušeními a ilustrativními vstupy, nikoli měření žádné lunární veličiny. Pouze poradní charakter: analytický výstup výzkumného a inženýrského nástroje, nikoli typově schválené navigační zařízení a nikoli služba pro bezpečnost života (safety-of-life).">
 </picture>
 
 **Stav v registru: MODELLED a tři prahy jsou NOT MET.** Numerika je kontrolována proti nezávislým
@@ -569,7 +611,7 @@ soubor scénáře, kód pro jeho spuštění z Pythonu a citaci.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/studio/studio-task-dark.jpg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/studio/studio-task-light.jpg">
-  <img src="docs/assets/readme/studio/studio-task-light.jpg" alt="Kshana Studio, jednoduché zobrazení, na přibaleném scénáři integrity-raim, engine v0.40.0 běží lokálně. Otázka: splňuje geometrie výstražné meze (horizontální a vertikální ochranná úroveň)? Nejprve odpověď, označená Živý výsledek: Ano, většinou: po 95.3 % z 12 h. Mez chyby přijímače zůstala pod výstražnými mezemi (40 m horizontálně a 50 m vertikálně) při 344 z 361 kontrol a žádné určení polohy nebylo zavádějící. Klíčová čísla: doba, po kterou lze určení polohy věřit 95.3 %, nejdelší mezera 10 min, typická mez chyby 6.5 / 13 m, zavádějící určení polohy 0. Vedle Zkuste jiná nastavení s pěti z nich (chyba vzdálenosti, dvě výstražné meze, doba trvání a elevační maska) a Spustit znovu, poté sbalené sekce Pokročilá nastavení (13 dalších), Jak se to počítá (8 ověřených, 6 modelovaných) a Pro výzkumníky. Níže zobrazení tohoto výsledku a ochranné úrovně vynesené proti výstražné mezi." width="100%">
+  <img src="docs/assets/readme/studio/studio-task-light.jpg" alt="Kshana Studio, jednoduché zobrazení, na přibaleném scénáři integrity-raim, engine v0.39.0 běží lokálně. Otázka: splňuje geometrie výstražné meze (horizontální a vertikální ochranná úroveň)? Nejprve odpověď, označená Živý výsledek: Ano, většinou: po 95.3 % z 12 h. Mez chyby přijímače zůstala pod výstražnými mezemi (40 m horizontálně a 50 m vertikálně) při 344 z 361 kontrol a žádné určení polohy nebylo zavádějící. Klíčová čísla: doba, po kterou lze určení polohy věřit 95.3 %, nejdelší mezera 10 min, typická mez chyby 6.5 / 13 m, zavádějící určení polohy 0. Vedle Zkuste jiná nastavení s pěti z nich (chyba vzdálenosti, dvě výstražné meze, doba trvání a elevační maska) a Spustit znovu, poté sbalené sekce Pokročilá nastavení (13 dalších), Jak se to počítá (8 ověřených, 6 modelovaných) a Pro výzkumníky. Níže zobrazení tohoto výsledku a ochranné úrovně vynesené proti výstražné mezi." width="100%">
 </picture>
 
 **Pokročilé zobrazení** je úplný dashboard: knihovna scénářů, pět číslovaných kroků
@@ -586,13 +628,13 @@ nich a můžete připnout až čtyři běhy a porovnat je vedle sebe.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/studio/studio-home-dark.jpg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/studio/studio-home-light.jpg">
-  <img src="docs/assets/readme/studio/studio-home-light.jpg" alt="Kshana Studio, jednoduché zobrazení, úvodní obrazovka s nadpisem Co byste chtěli zjistit?, s živým enginem v0.40.0 a v horní liště třemi odkazy: Rozbor výcviku, Mapa interference a Důvěra v přijímač. Čtyři otázky: kolik družic vidím kdekoli na Zemi, mohu věřit svému určení polohy, jak dlouho udrží hodiny čas bez družic a co dělá rušička s mým přijímačem. Pod první z nich její zaznamenaný výsledek: alespoň 22 viditelných družic na každém místě a v průměru 31 s GPS, Galileo, BeiDou a GLONASS dohromady, určení polohy možné ve 100 % míst a časů, na mapě světa s viditelnými družicemi, s tlačítkem Otevřít tento výsledek. Vedle Vše, co Kshana umí: 16 oblastí a 139 scénářů připravených ke spuštění, každá dlaždice s malým grafem ze zaznamenaného běhu a podílem ověřených metod, a 173 ze 350 schopností registru ověřeno." width="100%">
+  <img src="docs/assets/readme/studio/studio-home-light.jpg" alt="Kshana Studio, jednoduché zobrazení, úvodní obrazovka s nadpisem Co byste chtěli zjistit?, s živým enginem v0.39.0 a v horní liště třemi odkazy: Rozbor výcviku, Mapa interference a Důvěra v přijímač. Čtyři otázky: kolik družic vidím kdekoli na Zemi, mohu věřit svému určení polohy, jak dlouho udrží hodiny čas bez družic a co dělá rušička s mým přijímačem. Pod první z nich její zaznamenaný výsledek: alespoň 22 viditelných družic na každém místě a v průměru 31 s GPS, Galileo, BeiDou a GLONASS dohromady, určení polohy možné ve 100 % míst a časů, na mapě světa s viditelnými družicemi, s tlačítkem Otevřít tento výsledek. Vedle Vše, co Kshana umí: 16 oblastí a 139 scénářů připravených ke spuštění, každá dlaždice s malým grafem ze zaznamenaného běhu a podílem ověřených metod, a 173 ze 350 schopností registru ověřeno." width="100%">
 </picture>
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/studio/studio-advanced-dark.jpg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/studio/studio-advanced-light.jpg">
-  <img src="docs/assets/readme/studio/studio-advanced-light.jpg" alt="Kshana Studio, pokročilé zobrazení, po běhu přibaleného scénáře constellation-multi-gnss-coverage (Čtyři konstelace GNSS, jedna mapa), engine v0.40.0 běží lokálně. Vlevo knihovna scénářů, 139 scénářů v 16 doménách. Pět kroků Vybrat, Nastavit, Spustit, Číst výsledky a Sdílet nebo exportovat, aktuální je krok 4. Klíčová čísla: 102 družic, dostupnost 100 % (PASS), mediánové snížení přesnosti polohy (PDOP) 0.95 (PASS), 95. percentil PDOP 1.105 (PASS), v průměru 31.03 viditelných družic a nejméně 22. Níže řada panelů s vybraným Pokrytím, lišta přehrávání, mapa světa se středním PDOP od 0.831 do 1.0853 s vykreslenou každou družicí a globální údaje o pokrytí." width="100%">
+  <img src="docs/assets/readme/studio/studio-advanced-light.jpg" alt="Kshana Studio, pokročilé zobrazení, po běhu přibaleného scénáře constellation-multi-gnss-coverage (Čtyři konstelace GNSS, jedna mapa), engine v0.39.0 běží lokálně. Vlevo knihovna scénářů, 139 scénářů v 16 doménách. Pět kroků Vybrat, Nastavit, Spustit, Číst výsledky a Sdílet nebo exportovat, aktuální je krok 4. Klíčová čísla: 102 družic, dostupnost 100 % (PASS), mediánové snížení přesnosti polohy (PDOP) 0.95 (PASS), 95. percentil PDOP 1.105 (PASS), v průměru 31.03 viditelných družic a nejméně 22. Níže řada panelů s vybraným Pokrytím, lišta přehrávání, mapa světa se středním PDOP od 0.831 do 1.0853 s vykreslenou každou družicí a globální údaje o pokrytí." width="100%">
 </picture>
 
 </details>
@@ -608,23 +650,25 @@ edice.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/site/site-strip-dark.jpg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/site/site-strip-light.jpg">
-  <img src="docs/assets/readme/site/site-strip-light.jpg" alt="Tři stránky kshana.dev vedle sebe. Úvodní část domovské stránky: řádek se jménem Kshana · क्षण · přesný okamžik nad titulkem Nacvičte minutu, kdy GNSS zhasne, s misijní konzolí skutečného běhu enginu v0.40.0 (glóbus a tři živé grafy: časová chyba hodin, hustota poměru nosné k šumu a ochranná úroveň). Důkazy, Zveřejněný výzkum: šest článků na arXiv postavených na otevřeném enginu, nejnovější s obrázkem z enginu. Edice, Kshana Pro, stejný engine, zesílený: Free spustí jeden scénář, Pro odpovídá na otázku programu." width="100%">
+  <img src="docs/assets/readme/site/site-strip-light.jpg" alt="Tři stránky kshana.dev vedle sebe. Úvodní část domovské stránky: řádek se jménem Kshana · क्षण · přesný okamžik nad titulkem Nacvičte minutu, kdy GNSS zhasne, s misijní konzolí skutečného běhu enginu v0.39.0 (glóbus a tři živé grafy: časová chyba hodin, hustota poměru nosné k šumu a ochranná úroveň). Důkazy, Zveřejněný výzkum: šest článků na arXiv postavených na otevřeném enginu, nejnovější s obrázkem z enginu. Edice, Kshana Pro, stejný engine, zesílený: Free spustí jeden scénář, Pro odpovídá na otázku programu." width="100%">
 </picture>
 
 <a id="capabilities"></a>
 ## Schopnosti
 
 Jeden engine pokrývá celý řetězec selhání, od první rušené družice po poslední
-nanosekundu holdoveru hodin. Engine má 92 druhů scénářů; `kshana kinds` je vypíše
+nanosekundu holdoveru hodin. Engine má 93 druhů scénářů; `kshana kinds` je vypíše
 a [`docs/SCENARIOS.md`](docs/SCENARIOS.md) dokumentuje každé pole.
 
 | Schopnost | Na co odpovídá |
 |---|---|
 | [Spektrum](docs/SPECTRUM.md) | jak rušička zabírá pásmo L GNSS, pásmo po pásmu, sekundu po sekundě |
 | [Hodiny a časování](docs/TELECOM-TIMING.md) | jak dlouho které hodiny udrží čas po ztrátě GNSS |
+| [Oscilátory](docs/OSCILLATOR.md) | co údaje z katalogového listu oscilátoru znamenají pro sledování signálu při vibracích, holdover při změnách teploty a rázech a pro RAIM |
 | [Konstelace kolem libovolného tělesa](docs/CONSTELLATION-DESIGN.md) | pokrytí, snížení přesnosti a dostupnost kolem Země, Měsíce nebo Marsu |
 | [Sluneční soustava](docs/SOLAR-SYSTEM.md) | kde je každá planeta a doba šíření světla na libovolném spoji |
 | [Navigace na nízké oběžné dráze](docs/LEO-PNT.md) | přelet, spoj, navigační zpráva a fúzované určení polohy, stupeň po stupni |
+| [Ověření LEO-PNT](docs/LEO-VERIFY.md) | co by služba času nebo určování polohy z LEO poskytla: časování v dávkách, TDEV holdoveru, náklady proti výpadkům, ztráty v budovách a za deště, řešení nejednoznačností, tvrzení o rušení a integritu jen z Dopplerova posuvu |
 | [Kampaně](docs/CAMPAIGNS.md) | řetězená mise, procházení parametrů nebo soubor Monte Carlo v jednom scénáři |
 | [Animace](docs/ANIMATION.md) | časové řady běhu jako animovaná kresba, přehrávač nebo snímky |
 | [Zprávy](docs/REPORTS.md) | každé číslo s jednotkou a označením, v HTML (HyperText Markup Language) a JSON (JavaScript Object Notation) |
@@ -660,7 +704,7 @@ SigMF je Signal Metadata Format.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/lband-waterfall-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/lband-waterfall-light.svg">
-  <img src="docs/assets/readme/lband-waterfall-light.svg" alt="Pásmo L GNSS jako jedna spektrální hustota výkonu během 60 s, ze skutečného běhu druhu spectrum (l-band-waterfall-jamming.toml, seed 7, engine v0.40.0): frekvence vodorovně, čas svisle dolů, barva pro výkon nad šumovým dnem -202.0 dBW/Hz. Rušičky: chirpové zařízení typu privacy (chirp, zapnuto v 10 s, vypnuto ve 40 s); CW tón na L1 (cw, zapnuto ve 30 s); úzkopásmový šum na L2 (narrowband, zapnuto ve 45 s). Nejhorší pásmo GPS L1 C/A: minimální efektivní C/N0 3.2 dB-Hz ve 31 s proti spodní mezi sledování 25 dB-Hz. GPS L1 C/A minimum 3.2 dB-Hz; Galileo E1 minimum 4.7 dB-Hz; GPS L2C minimum 36.9 dB-Hz; GPS L5 minimum 44.1 dB-Hz; Galileo E5a minimum 47.0 dB-Hz." width="100%">
+  <img src="docs/assets/readme/lband-waterfall-light.svg" alt="Pásmo L GNSS jako jedna spektrální hustota výkonu během 60 s, ze skutečného běhu druhu spectrum (l-band-waterfall-jamming.toml, seed 7, engine v0.41.0): frekvence vodorovně, čas svisle dolů, barva pro výkon nad šumovým dnem -202.0 dBW/Hz. Rušičky: chirpové zařízení typu privacy (chirp, zapnuto v 10 s, vypnuto ve 40 s); CW tón na L1 (cw, zapnuto ve 30 s); úzkopásmový šum na L2 (narrowband, zapnuto ve 45 s). Nejhorší pásmo GPS L1 C/A: minimální efektivní C/N0 3.2 dB-Hz ve 31 s proti spodní mezi sledování 25 dB-Hz. GPS L1 C/A minimum 3.2 dB-Hz; Galileo E1 minimum 4.7 dB-Hz; GPS L2C minimum 36.9 dB-Hz; GPS L5 minimum 44.1 dB-Hz; Galileo E5a minimum 47.0 dB-Hz." width="100%">
 </picture>
 
 <picture>
@@ -695,7 +739,7 @@ a `leo-pass-iridium`.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/trust-timeline-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/trust-timeline-light.svg">
-  <img src="docs/assets/readme/trust-timeline-light.svg" alt="Skóre důvěryhodnosti během jedné syntetické plavby, ze skutečného běhu enginu v0.40.0 na examples/maritime-trust (vymyšlený log NMEA trajektu na trase Tallinn–Helsinky, 3001 epoch při 1 Hz). Tři pruhy sdílejí jednu časovou osu. Nahoře: vzdálenost mezi polohou, kterou hlásí přijímač, a skutečnou polohou plavidla, která zůstává v řádu několika metrů zhruba do 1576 s, kdy ji skriptovaný odtah polohy v logu odtáhne pryč, zatímco přijímač dál hlásí platné určení polohy. Uprostřed: skóre důvěryhodnosti od 0 do 100, nepočítané během prvních 300 s kalibrace, v nominálním pásmu (alespoň 90) až do odtahu, pak klesající přes degradované pásmo (alespoň 55) do nedůvěryhodného pásma. Dole: pásmo každé epochy jako barevná stuha s názvem. Skóre má poradní charakter. Software pouze poradního charakteru, nikoli typově schválené navigační zařízení (IEC 61108, IEC 61162): za navigaci plavidla zůstává odpovědný provozovatel. Log je vymyšlený, aby ukázal formát a monitory; nejde o měření a neříká nic o tom, jak by si vedl jakýkoli přijímač." width="100%">
+  <img src="docs/assets/readme/trust-timeline-light.svg" alt="Skóre důvěryhodnosti během jedné syntetické plavby, ze skutečného běhu enginu v0.41.0 na examples/maritime-trust (vymyšlený log NMEA trajektu na trase Tallinn–Helsinky, 3001 epoch při 1 Hz). Tři pruhy sdílejí jednu časovou osu. Nahoře: vzdálenost mezi polohou, kterou hlásí přijímač, a skutečnou polohou plavidla, která zůstává v řádu několika metrů zhruba do 1576 s, kdy ji skriptovaný odtah polohy v logu odtáhne pryč, zatímco přijímač dál hlásí platné určení polohy. Uprostřed: skóre důvěryhodnosti od 0 do 100, nepočítané během prvních 300 s kalibrace, v nominálním pásmu (alespoň 90) až do odtahu, pak klesající přes degradované pásmo (alespoň 55) do nedůvěryhodného pásma. Dole: pásmo každé epochy jako barevná stuha s názvem. Skóre má poradní charakter. Software pouze poradního charakteru, nikoli typově schválené navigační zařízení (IEC 61108, IEC 61162): za navigaci plavidla zůstává odpovědný provozovatel. Log je vymyšlený, aby ukázal formát a monitory; nejde o měření a neříká nic o tom, jak by si vedl jakýkoli přijímač." width="100%">
 </picture>
 
 <picture>
@@ -707,7 +751,7 @@ a `leo-pass-iridium`.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/training-track-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/training-track-light.svg">
-  <img src="docs/assets/readme/training-track-light.svg" alt="Výcvikový proud ze scénáře coastal-drag-off (engine v0.40.0, seed 22, 25 minut při jednom určení polohy na 10 s logu instruktora). Mapa ukazuje skutečnou trasu plavidla a trasu, kterou hlásí přijímač: shodují se, dokud ve 421 s nezačne skriptovaný odtah polohy, hlášená trasa se pak vzdaluje od skutečné, zatímco přijímač udržuje platné určení polohy, a vrátí se zpět, když událost skončí v 1140 s. Vedle vzdálenost mezi oběma trasami v čase a střední hustota poměru nosné k šumu hlášená přijímačem, která po dobu události vzroste na jednu zvýšenou úroveň. Syntetická výcviková data vytvořená Kshana. Pouze pro výcvik a testování: tento proud nikdy nepřivádějte do živých navigačních systémů plavidla. Pouze poradní charakter, nikoli typově schválené navigační zařízení. Software pouze poradního charakteru, nikoli typově schválené navigační zařízení (IEC 61108, IEC 61162): za navigaci plavidla zůstává odpovědný provozovatel. Polohy, data a trasy jsou vymyšlené." width="100%">
+  <img src="docs/assets/readme/training-track-light.svg" alt="Výcvikový proud ze scénáře coastal-drag-off (engine v0.41.0, seed 22, 25 minut při jednom určení polohy na 10 s logu instruktora). Mapa ukazuje skutečnou trasu plavidla a trasu, kterou hlásí přijímač: shodují se, dokud ve 421 s nezačne skriptovaný odtah polohy, hlášená trasa se pak vzdaluje od skutečné, zatímco přijímač udržuje platné určení polohy, a vrátí se zpět, když událost skončí v 1140 s. Vedle vzdálenost mezi oběma trasami v čase a střední hustota poměru nosné k šumu hlášená přijímačem, která po dobu události vzroste na jednu zvýšenou úroveň. Syntetická výcviková data vytvořená Kshana. Pouze pro výcvik a testování: tento proud nikdy nepřivádějte do živých navigačních systémů plavidla. Pouze poradní charakter, nikoli typově schválené navigační zařízení. Software pouze poradního charakteru, nikoli typově schválené navigační zařízení (IEC 61108, IEC 61162): za navigaci plavidla zůstává odpovědný provozovatel. Polohy, data a trasy jsou vymyšlené." width="100%">
 </picture>
 
 <picture>
@@ -778,7 +822,7 @@ Každý scénář porovnává kvantový senzor s jeho klasickým protějškem b�
 
 <p align="center">
   <img src="docs/assets/figures/scenario-fom.png" alt="Co přinášejí kvantové senzory, když GNSS zmizí, scénář holdoveru hodin: kvantové hodiny udrží 6600 s autonomie proti 2610 s u klasických, s mnohem nižší časovou chybou a dostupností 100% proti 95.6%" width="88%">
-  <br><sub>Co přinášejí kvantové senzory, když GNSS zmizí — <code>clock-holdover</code> · seed 42 · vykresleno enginem 0.40.0 a každé číslo výše při každém sestavení znovu zkontrolováno proti aktuálnímu enginu testem <code>tests/published_figures_still_reproduce.rs</code> · <a href="docs/assets/figures/scenario-fom.svg">SVG</a></sub>
+  <br><sub>Co přinášejí kvantové senzory, když GNSS zmizí — <code>clock-holdover</code> · seed 42 · vykresleno enginem 0.41.0 a každé číslo výše při každém sestavení znovu zkontrolováno proti aktuálnímu enginu testem <code>tests/published_figures_still_reproduce.rs</code> · <a href="docs/assets/figures/scenario-fom.svg">SVG</a></sub>
 </p>
 
 Výhoda **závisí na výpadku a vibracích**, s explicitním bodem zvratu, kde vítězí klasický senzor — poctivě ukázáno napříč žebříčkem technologické připravenosti (údaje optických hodin jsou cíle pozemních demonstrátorů; žádné stronciové optické hodiny dosud neletěly):
@@ -801,7 +845,7 @@ Výhoda **závisí na výpadku a vibracích**, s explicitním bodem zvratu, kde 
 |------|----------|---------|-----------|
 | **1 — Holdover hodin** | `clock-holdover.toml` (specifikace 20 ns) | optické hodiny vydrží celý výpadek | CSAC překročí specifikaci v polovině výpadku |
 | **2 — Inerciální výpočetní navigace** | `imu-deadreckoning.toml` (specifikace 100 m) | se studenými atomy: **~41 m**, vydrží celý výpadek | navigační třída: překročí za **~350 s** → desítky km |
-| **3 — Přenos času** (optický mezidružicový spoj) | `timetransfer.toml` | optický: měření vzdálenosti **~0.3 mm** | RF (TWSTFT): měření vzdálenosti **~150 mm** |
+| **3 — Přenos času** (optický mezidružicový spoj) | `timetransfer.toml` | optický: měření vzdálenosti **~0.3 mm** | RF (TWSTFT): měření vzdálenosti **~341 mm** |
 | **4 — Hybridní fúze** (vrcholný) | `hybrid-pnt.toml` | úplná poloha+časování po celý výpadek | **omezení polohou při ~350 s** |
 
 Vrcholný scénář ukazuje tezi fúze: optický mezidružicový přenos času udrží zamčené i
@@ -821,7 +865,7 @@ se šíří proti konstelaci Walker podobné GPS a počet viditelných družic
 (přímá viditelnost, zákryt Zemí, elevační maska) určuje stav určení polohy v každém
 kroku. Během dne má uživatel určení polohy jen ~59% času; kvantové hodiny udrží
 časové řešení 5 ns přes každou mezeru (dostupnost **1.0**), hodiny v čipovém měřítku
-jen **~0.83**.
+jen **~0.73**.
 
 <p align="center">
   <img src="docs/assets/orbit-gnss-challenged.svg" alt="Dráha se ztíženým GNSS: časová chyba hodin během dne pro kosmickou loď uvnitř slupky GNSS, kde jsou mezery v pokrytí odvozeny z orbitální geometrie — optické hodiny zůstávají ve specifikaci 5 ns přes mezery, zatímco hodiny v čipovém měřítku ji překročí" width="80%">
@@ -931,6 +975,7 @@ přehledový arch těchto grafů; [`docs/KINDS.md`](docs/KINDS.md) je všechny i
 | **[Analýza mise, spoje a kosmický provoz](docs/kinds/mission-analysis-links-and-space-operations.md)** | start, výstup, vstup do atmosféry, orientace, spoje, plánování kontaktů a formáty souborů | [`launch-window`](docs/kinds/by-kind/launch-window.md), [`ascent-losses`](docs/kinds/by-kind/ascent-losses.md), [`reentry`](docs/kinds/by-kind/reentry.md), [`entry-heating`](docs/kinds/by-kind/entry-heating.md), [`eo-coverage`](docs/kinds/by-kind/eo-coverage.md), [`eo-radiometry`](docs/kinds/by-kind/eo-radiometry.md), [`attitude-budget`](docs/kinds/by-kind/attitude-budget.md), [`aocs`](docs/kinds/by-kind/aocs.md), [`link-budget`](docs/kinds/by-kind/link-budget.md), [`acm-link`](docs/kinds/by-kind/acm-link.md), [`contact-schedule`](docs/kinds/by-kind/contact-schedule.md), [`aperture-duty-cycle`](docs/kinds/by-kind/aperture-duty-cycle.md), [`space-packet`](docs/kinds/by-kind/space-packet.md), [`oem-interop`](docs/kinds/by-kind/oem-interop.md) | `kshana scenarios/launch-window.toml` |
 | **[Misijní vlákna](docs/kinds/mission-threads.md)** | rozpočet chyb navigace a časování řetězce fází od startu po vstup do atmosféry | [`mission-thread`](docs/kinds/by-kind/mission-thread.md) | `kshana scenarios/mission-thread-artemis-class.toml` |
 | **[Kampaně](docs/kinds/campaigns.md)** | řetězené mise, procházení parametrů a soubory sestavené z ostatních druhů | [`campaign`](docs/kinds/by-kind/campaign.md) | `kshana scenarios/campaign-jam-spoof-holdover-integrity.toml` |
+| **[Průzkum RF z vesmíru](docs/kinds/space-rf-survey.md)** | jak často průzkum RF velké oblasti znovu pokryje mořskou oblast a jak rychle může vyvolat optické snímání | [`tip-and-cue`](docs/kinds/by-kind/tip-and-cue.md) | `kshana scenarios/tip-and-cue-baltic-m2.toml` |
 <!-- /generated:kind-families -->
 
 <a id="every-command"></a>
@@ -949,12 +994,12 @@ všech z nich. Příkazy jsou `--study`, `--validate`, `kinds`, `example`, `rece
 <a id="every-surface"></a>
 ### Každé rozhraní
 
-Jeden engine, stejné výsledky všude: příkazový řádek, knihovna Rust, Python, JavaScript a WebAssembly,
-server MCP s příkazy a dovednostmi pluginu, Kshana Studio (každá stránka běží v prohlížeči, bez instalace, nic se nenahrává),
-integrace ROS 2, Signal K, OpenCPN, GNSS-SDR a `gnss_lib_py`, nasazovací sady systemd, Docker a Grafana a
-plugin pro JetBrains. [`docs/ALL-SURFACES.md`](docs/ALL-SURFACES.md) je uvádí i s tím, jak každé získat, a s názvy všech
-příkazů a dovedností pluginu a stránek Studia; [`docs/SURFACES.md`](docs/SURFACES.md) pro každý příkaz a druh uvádí,
-které rozhraní jej nese a která ne, i s důvodem.
+Jeden engine, všude stejné výsledky: příkazový řádek, knihovna pro Rust, Python, JavaScript a WebAssembly,
+server MCP s příkazy pluginu a dovednostmi, Kshana Studio (každá stránka běží v prohlížeči, bez instalace, nic se nenahrává),
+integrace pro ROS 2, Signal K, OpenCPN, GNSS-SDR a `gnss_lib_py`, nasazovací sady pro systemd, Docker a Grafana a
+plugin pro JetBrains a Kshana Desktop, k dispozici na [kshana.dev](https://kshana.dev). [`docs/ALL-SURFACES.md`](docs/ALL-SURFACES.md) je vypisuje i s tím, jak každou získat, a s názvy všech
+příkazů pluginu, dovedností a stránek Studia; [`docs/SURFACES.md`](docs/SURFACES.md) uvádí pro každý příkaz a druh,
+které rozhraní jej nabízí a která ne, i s důvodem.
 
 <a id="how-a-run-works"></a>
 ## Jak probíhá běh
@@ -966,7 +1011,7 @@ exporty, o které požádáte.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/flow-pipeline-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/flow-pipeline-light.svg">
-  <img src="docs/assets/readme/flow-pipeline-light.svg" alt="Jak probíhá běh. Soubor scénáře TOML (druh, seed a jeho parametry) vstupuje do enginu kshana 0.40.0 přes rozcestník api::run_toml nad 92 druhy scénářů, deterministicky ze scénáře, seedu a verze enginu. Engine zapíše result.json, chart.svg, report.html a report.json, table.csv u druhů, které ji definují, a na požádání exporty SP3, CCSDS OMM a OEM, CZML, KML, GeoJSON, STK a SigMF; sada zapíše study.json a study.html. Tyto soubory napájejí Kshana Studio v prohlížeči, AI asistenta přes server kshana-mcp a průběžnou integraci." width="100%">
+  <img src="docs/assets/readme/flow-pipeline-light.svg" alt="Jak probíhá běh. Soubor scénáře TOML (druh, seed a jeho parametry) vstupuje do enginu kshana 0.41.0 přes rozcestník api::run_toml nad 93 druhy scénářů, deterministicky ze scénáře, seedu a verze enginu. Engine zapíše result.json, chart.svg, report.html a report.json, table.csv u druhů, které ji definují, a na požádání exporty SP3, CCSDS OMM a OEM, CZML, KML, GeoJSON, STK a SigMF; sada zapíše study.json a study.html. Tyto soubory napájejí Kshana Studio v prohlížeči, AI asistenta přes server kshana-mcp a průběžnou integraci." width="100%">
 </picture>
 
 Tento přibalený scénář běží 2 h: 10 min s GNSS, pak zhruba 1.8 h s odepřeným GNSS. Ptá se,
@@ -1051,8 +1096,7 @@ označit schopnost jako VALIDATED bez nezávislého vnějšího orákula.
 Několik z kontrol: všech 666 vektorů AIAA (American Institute of Aeronautics and Astronautics)
 2006-6753 SGP4 (Simplified General Perturbations 4) na 4.12 mm; Cowellův silový
 model na 0.08 m proti Orekit 12.2; Galileo na 0.61 m a Swarm-A na 0.10 m proti skutečným
-přesným efemeridám Evropské kosmické agentury (ESA). Testy drží řádkové pokrytí `src/` blízko 95 %,
-v CI hlídané na 85 %. Registrem je
+přesným efemeridám Evropské kosmické agentury (ESA). Při posledním měření (engine 0.29.0, [`docs/COVERAGE.md`](docs/COVERAGE.md)) pokrývaly testy téměř 95 % řádků `src/` a CI selže pod 85 %. Registrem je
 [`docs/VERIFICATION-MATRIX.md`](docs/VERIFICATION-MATRIX.md), generovaný ze
 `src/verification.rs`: [úplná matice o 413 řádcích](docs/VERIFICATION-MATRIX.md) a proč každý
 řádek Modelled nemá vnější orákulum, viz [`docs/MODELLED-RATIONALE.md`](docs/MODELLED-RATIONALE.md).
@@ -1062,7 +1106,7 @@ v CI hlídané na 85 %. Registrem je
 
 ### Validace, reprodukovatelnost a poctivost
 
-- Každý šumový člen je kalibrován na **zveřejněný, citovaný** údaj a ověřen
+- Každý šumový člen je kalibrován na **zveřejněný, citovaný** údaj a zkontrolován
   proti standardnímu vztahu (Allanova deviace pro hodiny; Grovesův růst chyby
   výpočetní navigace pro inerciální navigaci; převod časování→vzdálenost pro přenos času). Stav
   každého členu se sleduje v [`docs/VALIDATION.md`](docs/VALIDATION.md) jako `validated` nebo
@@ -1117,7 +1161,7 @@ Sloupec **Stav** uvádí *druh* důkazu, v souladu s žebříčkem validace vý�
 | **MODELLED** | Hlubokovesmírné OD u Marsu (SRIF se sníženou dynamikou) | **≈ 0.2 m** Mars-LMO (simulační FoM, *nikoli* skutečná mise) | syntetické OD v uzavřené smyčce — validace aparátu odhadovače |
 | **MODELLED** | Dynamika Marsu s centrálním Sluncem proti JPL DE440 | **137 m @ 1denní oblouk** (roste s obloukem = nemodelovaná n-tělesa) | JPL DE440 přes ANISE (`xval/anise-mars-od`, podmíněno kernelem) (porovnáno s touto referencí; žádný řádek verifikační matice ji nejmenuje jako vnější orákulum, proto není označeno VALIDATED) |
 | **VALIDATED** | Určování polohy jednoho bodu proti zaměřené souřadnici IGS (skutečná pozorování) | **5.7 m** 3-D RMS / **1.1 m** horizontálně, dvoufrekvenční bezionosférické kódové SPP | zaměření stanice IGS ABMF + vysílané efemeridy GPS, 2018-05-13 (`tests/pvt_abmf.rs`) |
-| **MODELLED** | Těsně vázaný UKF GNSS/INS | **0.77 m RMS** během 30min přeletu LEO vč. 120 s výpadku | setrvačný let se silovým modelem, ručně odvozeno |
+| **MODELLED** | Unscented filtr GNSS/INS (`hybrid-ukf`, 17 stavů) | NIS a NEES uvnitř svých pásem χ²; **0.36 m** s podporou, **7.7 m** po 120 s výpočtu navigace bez podpory | vnitřní konzistence filtru, nikoli přesnost (`scenarios/hybrid-ukf.toml`) |
 | **MODELLED** | Navigace bez GPS podle gravitační mapy | drift INS ~70 km → obnoveno na **~145 m** | cíl ESA NAVISP *Quantum Wayfarer* |
 | **MODELLED** | Navigace s referencí terénu (TERCOM/SITAN) | drift 70 km → **< 500 m** (spodní mez rozlišení mřížky ~140 m) | SRTM `.hgt` DEM; ručně vnesený drift (nekruhová kontrola) |
 | **MODELLED** | Hlavní pole IGRF-14 (stupeň/řád 13) | pól ~80.7°N, dipól ~29.7 µT, fyzikální pásmo 22–67 µT | IAGA (International Association of Geomagnetism and Aeronomy) `igrf14coeffs.txt` (Schmidtova seminormalizace) |
@@ -1136,7 +1180,7 @@ Sloupec **Stav** uvádí *druh* důkazu, v souladu s žebříčkem validace vý�
 | **MODELLED** | Hodnocení odolnosti PNT + nestabilita rozhodnutí | 35 ručně odvozených testů s orákulem; bajtově deterministický artefakt studie (pevný seed) | mapování DHS RPCF v2.0 + uzavřené tvary Dirichlet / Kendall-τ / Hill-N2 — syntetické architektury, nikoli certifikace |
 | **MODELLED** | Studie mezery optimismu u RF poruch (škálovací zákony + prediktor leave-one-out) | významnost proti permutační nulové hypotéze; bajtově deterministický artefakt (5 seedů) | syntetický parametricky podložený korpus — hodnoticí *metriky* jsou VALIDATED proti scikit-learn (výše); studie je MODELLED |
 | CI | Reprodukovatelnost napříč platformami | bitově identické zlaté vzory vstupu + tvaru na 3 OS (operačních systémech) | matice CI Linux / macOS / Windows, zlaté vzory SHA-256 |
-| CI | Pokrytí testy | **~95 % řádků** na `src/` bez `src/*_data.rs` a `src/main.rs`, hlídáno na ≥ 85 % | cargo-tarpaulin (engine LLVM) |
+| CI | Pokrytí testy | **~95 % řádků** (naposledy měřeno ve verzi 0.29.0) na `src/` bez `src/*_data.rs` a `src/main.rs`, hlídáno na ≥ 85 % | cargo-tarpaulin (engine LLVM) |
 
 <p align="center">
   <img src="docs/assets/diagrams/validation-provenance.png" alt="Jak schopnost získává své označení: požadavek se mapuje na modul v src, na test v tests, na vnější orákulum (skutečná datová sada, nezávislá referenční implementace nebo zveřejněné vektory), na stav — s pojistkou vynucenou v CI, že žádná schopnost nemůže být Validated bez vnějšího orákula. Aktuální počty: 176 Validated, 233 Modelled, 4 Partner, celkem 413" width="900">
@@ -1175,7 +1219,7 @@ Každá schopnost veřejné mapy, podle domény, s označením z registru. Tabul
 ## Instalace
 
 Nástroj příkazového řádku získáte jedním řádkem: **`cargo install kshana`**. Každý kanál dodává
-v0.40.0 ze stejného označeného commitu.
+v0.41.0 ze stejného označeného commitu.
 
 <!-- channels:begin -->
 | Kanál | Instalace | Průvodce |
@@ -1187,12 +1231,12 @@ v0.40.0 ze stejného označeného commitu.
 | JavaScript a WebAssembly | `npm install kshana` | [Průvodce npm a WebAssembly](https://kshana.dev/docs/npm.html) |
 | AI asistent (server MCP, cargo) | `cargo install kshana-mcp` | [Průvodce serverem MCP](https://kshana.dev/docs/mcp.html) |
 | Obraz Docker | `docker run --rm -i ghcr.io/ashfordeou/kshana-mcp` | [Průvodce serverem MCP: Docker](https://kshana.dev/docs/mcp.html#install) |
-| Rozšíření Claude Desktop | dvakrát klikněte na `.mcpb` pro váš systém: [macOS (Apple silicon)](https://github.com/ashfordeOU/kshana/releases/download/v0.40.0/kshana-mcp-aarch64-apple-darwin.mcpb) · [macOS (Intel)](https://github.com/ashfordeOU/kshana/releases/download/v0.40.0/kshana-mcp-x86_64-apple-darwin.mcpb) · [Windows](https://github.com/ashfordeOU/kshana/releases/download/v0.40.0/kshana-mcp-x86_64-pc-windows-msvc.mcpb) · [Linux (x86-64)](https://github.com/ashfordeOU/kshana/releases/download/v0.40.0/kshana-mcp-x86_64-unknown-linux-gnu.mcpb) · [Linux (Arm)](https://github.com/ashfordeOU/kshana/releases/download/v0.40.0/kshana-mcp-aarch64-unknown-linux-gnu.mcpb) | [Všechny instalační úryvky MCP](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
-| Cursor (jedním kliknutím) | [Přidat do Cursoru (npx)](https://cursor.com/en/install-mcp?name=kshana&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsImtzaGFuYS1tY3BAMC40MC4wIl19) · [Přidat do Cursoru (Docker)](https://cursor.com/en/install-mcp?name=kshana&config=eyJjb21tYW5kIjoiZG9ja2VyIiwiYXJncyI6WyJydW4iLCItaSIsIi0tcm0iLCJnaGNyLmlvL2FzaGZvcmRlb3Uva3NoYW5hLW1jcDowLjQwLjAiXX0%3D) · `npx -y kshana-mcp@0.40.0` | [Všechny instalační úryvky MCP](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
-| VS Code (jedním kliknutím) | [Instalovat ve VS Code (npx)](https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522npx%2522%252C%2522args%2522%253A%255B%2522-y%2522%252C%2522kshana-mcp%25400.40.0%2522%255D%257D) · [Instalovat ve VS Code (Docker)](https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522docker%2522%252C%2522args%2522%253A%255B%2522run%2522%252C%2522-i%2522%252C%2522--rm%2522%252C%2522ghcr.io%252Fashfordeou%252Fkshana-mcp%253A0.40.0%2522%255D%257D) · `npx -y kshana-mcp@0.40.0` | [Všechny instalační úryvky MCP](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
-| Claude Code | `claude mcp add kshana -- npx -y kshana-mcp@0.40.0` | [Všechny instalační úryvky MCP](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
-| npx | `npx -y kshana-mcp@0.40.0` | [Všechny instalační úryvky MCP](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
-| uvx / pipx | `uvx kshana-mcp==0.40.0` | [Všechny instalační úryvky MCP](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
+| Rozšíření Claude Desktop | dvakrát klikněte na `.mcpb` pro váš systém: [macOS (Apple silicon)](https://github.com/ashfordeOU/kshana/releases/download/v0.41.0/kshana-mcp-aarch64-apple-darwin.mcpb) · [macOS (Intel)](https://github.com/ashfordeOU/kshana/releases/download/v0.41.0/kshana-mcp-x86_64-apple-darwin.mcpb) · [Windows](https://github.com/ashfordeOU/kshana/releases/download/v0.41.0/kshana-mcp-x86_64-pc-windows-msvc.mcpb) · [Linux (x86-64)](https://github.com/ashfordeOU/kshana/releases/download/v0.41.0/kshana-mcp-x86_64-unknown-linux-gnu.mcpb) · [Linux (Arm)](https://github.com/ashfordeOU/kshana/releases/download/v0.41.0/kshana-mcp-aarch64-unknown-linux-gnu.mcpb) | [Všechny instalační úryvky MCP](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
+| Cursor (jedním kliknutím) | [Přidat do Cursoru (npx)](https://cursor.com/en/install-mcp?name=kshana&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsImtzaGFuYS1tY3BAMC40MS4wIl19) · [Přidat do Cursoru (Docker)](https://cursor.com/en/install-mcp?name=kshana&config=eyJjb21tYW5kIjoiZG9ja2VyIiwiYXJncyI6WyJydW4iLCItaSIsIi0tcm0iLCJnaGNyLmlvL2FzaGZvcmRlb3Uva3NoYW5hLW1jcDowLjQxLjAiXX0%3D) · `npx -y kshana-mcp@0.41.0` | [Všechny instalační úryvky MCP](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
+| VS Code (jedním kliknutím) | [Instalovat ve VS Code (npx)](https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522npx%2522%252C%2522args%2522%253A%255B%2522-y%2522%252C%2522kshana-mcp%25400.41.0%2522%255D%257D) · [Instalovat ve VS Code (Docker)](https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522docker%2522%252C%2522args%2522%253A%255B%2522run%2522%252C%2522-i%2522%252C%2522--rm%2522%252C%2522ghcr.io%252Fashfordeou%252Fkshana-mcp%253A0.41.0%2522%255D%257D) · `npx -y kshana-mcp@0.41.0` | [Všechny instalační úryvky MCP](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
+| Claude Code | `claude mcp add kshana -- npx -y kshana-mcp@0.41.0` | [Všechny instalační úryvky MCP](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
+| npx | `npx -y kshana-mcp@0.41.0` | [Všechny instalační úryvky MCP](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
+| uvx / pipx | `uvx kshana-mcp==0.41.0` | [Všechny instalační úryvky MCP](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
 | Homebrew | `brew install ashfordeOU/tap/kshana-mcp` | [Všechny instalační úryvky MCP](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
 | Scoop | `scoop bucket add ashforde https://github.com/ashfordeOU/scoop-bucket && scoop install kshana-mcp` | [Všechny instalační úryvky MCP](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
 | winget | `winget install AshfordeOU.KshanaMcp` | [Všechny instalační úryvky MCP](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
@@ -1209,8 +1253,8 @@ v0.40.0 ze stejného označeného commitu.
 
 <p><a href="https://plugins.jetbrains.com/plugin/32181-kshana--pnt-simulator"><img src="https://img.shields.io/badge/JetBrains-Marketplace-066A86?style=flat-square&labelColor=0A1226" alt="Kshana na JetBrains Marketplace"></a> <a href="Cargo.toml"><img src="https://img.shields.io/badge/rust-1.88%2B-3F4B67?style=flat-square&labelColor=0A1226" alt="Sestavuje se s Rustem 1.88 nebo novějším, rust-version v Cargo.toml"></a></p>
 
-MCP je Model Context Protocol. Vydání připnete příkazem `cargo install kshana --version 0.40.0`,
-`pip install kshana==0.40.0` nebo `npm install kshana@0.40.0`. Sestavení ze zdrojového kódu viz
+MCP je Model Context Protocol. Vydání připnete příkazem `cargo install kshana --version 0.41.0`,
+`pip install kshana==0.41.0` nebo `npm install kshana@0.41.0`. Sestavení ze zdrojového kódu viz
 [Instalace a sestavení](#install--build) v části Reference.
 
 <details>
@@ -1224,7 +1268,7 @@ import json, kshana
 toml = open("clock-holdover.toml").read()
 result = json.loads(kshana.run(toml))
 print(kshana.version(), result["quantum"]["fom"]["holdover_s"], result["classical"]["fom"]["holdover_s"])
-# 0.40.0 6600.0 2610.0
+# 0.41.0 6600.0 2610.0
 ```
 
 Kromě `run` modul zpřístupňuje `run_full` (JSON, SVG a jednořádkový souhrn najednou),
@@ -1245,7 +1289,7 @@ initSync({ module: readFileSync(wasm) });
 const toml = readFileSync("clock-holdover.toml", "utf8");
 const result = JSON.parse(run(toml));
 console.log(version(), result.quantum.fom.holdover_s, result.classical.fom.holdover_s);
-// 0.40.0 6600 2610
+// 0.41.0 6600 2610
 console.log(summary(toml));
 ```
 
@@ -1254,15 +1298,15 @@ console.log(summary(toml));
 <a id="architecture"></a>
 ## Architektura
 
-Uprostřed stojí jeden otevřený engine a každé rozhraní jej spouští: příkazový řádek, knihovna
-Rust, Python, WebAssembly a Kshana Studio, server MCP, obraz Docker a
-plugin pro JetBrains. Stejný soubor scénáře dává na každém z nich stejné bajty. Kshana Pro stojí
-navrchu jako samostatná nadstavba, která na enginu závisí a nikdy jej neforkuje.
+Uprostřed je jeden otevřený engine a každé rozhraní ho spouští: příkazový řádek, knihovna pro Rust,
+Python, WebAssembly a Kshana Studio, server MCP, image Dockeru a
+plugin pro JetBrains. Stejný soubor scénáře dává na každém z nich stejné bajty. Kshana Pro,
+profesionální edice, staví na stejném enginu a nikdy jej neforkuje.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/architecture-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/architecture-light.svg">
-  <img src="docs/assets/readme/architecture-light.svg" alt="Architektura Kshana: uprostřed jeden otevřený engine, kshana 0.40.0 pod AGPL-3.0, s api::run_toml, typovaným rozcestníkem nad každým druhem, a verifikačním registrem 413 schopností (176 VALIDATED, 233 MODELLED, 4 PARTNER). Kolem něj každé rozhraní spouští stejný engine: Příkazový řádek (cargo install kshana); Knihovna Rust (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); Server MCP (cargo install kshana-mcp); Obraz Docker (ghcr.io/ashfordeou/kshana-mcp); Plugin pro JetBrains (Marketplace: &quot;Kshana&quot;). Pod ním Kshana Pro, proprietární nadstavba, která na otevřeném enginu závisí jako na knihovně a nikdy jej neforkuje, a nepřidává žádný fyzikální model." width="100%">
+  <img src="docs/assets/readme/architecture-light.svg" alt="Architektura Kshana: uprostřed jeden otevřený engine, kshana 0.41.0 pod AGPL-3.0, s api::run_toml, typovaným rozcestníkem nad každým druhem, a verifikačním registrem 413 schopností (176 VALIDATED, 233 MODELLED, 4 PARTNER). Kolem něj každé rozhraní spouští stejný engine: Příkazový řádek (cargo install kshana); Knihovna Rust (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); Server MCP (cargo install kshana-mcp); Obraz Docker (ghcr.io/ashfordeou/kshana-mcp); Plugin pro JetBrains (Marketplace: &quot;Kshana&quot;). Pod ním Kshana Pro, profesionální edice, která na otevřeném enginu závisí jako na knihovně, nikdy jej neforkuje a nikdy nemění jeho fyzikální modely; vlastní modely Pro nesou vlastní označení důkazů." width="100%">
 </picture>
 
 <details>
@@ -1296,8 +1340,8 @@ Vedle jádra stojí dva samostatné crate **vyloučené z workspace** — `mcp/k
 (server MCP, postavený na SDK `rmcp` edice 2024) a `xval/anise-frames` (křížová
 kontrola soustav ANISE/SPICE, která stahuje závislosti pod MPL-2.0 (Mozilla Public License 2.0)) — držené mimo graf závislostí
 zveřejněného crate, `Cargo.lock`, licenční bránu a sestavení MSRV (minimální podporovaná verze Rustu) seznamem `exclude`
-v kořenovém `Cargo.toml`. Plugin pro JetBrains (`ide/jetbrains`) je samostatný projekt
-v Kotlinu. Úplnou sadu diagramů viz [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
+v kořenovém `Cargo.toml`. Plugin pro JetBrains je samostatný produkt, k dispozici na
+[kshana.dev](https://kshana.dev/docs/jetbrains.html). Úplnou sadu diagramů viz [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
 
 Vykreslené diagramy (tok enginu, mapa modulů, distribuce) jsou v [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
 
@@ -1377,20 +1421,20 @@ Claude Code, Cursor, VS Code, Windsurf, Zed, Goose, Codex CLI, Gemini CLI a Cont
 <!-- mcp-install:begin -->
 | Kanál | Příkaz nebo tlačítko | Vyžaduje | Připnutá podoba |
 |---|---|---|---|
-| Rozšíření Claude Desktop | dvakrát klikněte na `.mcpb` pro váš systém: [macOS (Apple silicon)](https://github.com/ashfordeOU/kshana/releases/download/v0.40.0/kshana-mcp-aarch64-apple-darwin.mcpb) · [macOS (Intel)](https://github.com/ashfordeOU/kshana/releases/download/v0.40.0/kshana-mcp-x86_64-apple-darwin.mcpb) · [Windows](https://github.com/ashfordeOU/kshana/releases/download/v0.40.0/kshana-mcp-x86_64-pc-windows-msvc.mcpb) | nic | `kshana-mcp-<target>.mcpb` z v0.40.0 |
-| Cursor (jedním kliknutím) | [npx (Node)](https://cursor.com/en/install-mcp?name=kshana&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsImtzaGFuYS1tY3BAMC40MC4wIl19) · [Docker](https://cursor.com/en/install-mcp?name=kshana&config=eyJjb21tYW5kIjoiZG9ja2VyIiwiYXJncyI6WyJydW4iLCItaSIsIi0tcm0iLCJnaGNyLmlvL2FzaGZvcmRlb3Uva3NoYW5hLW1jcDowLjQwLjAiXX0%3D) | Node nebo Docker | `kshana-mcp@0.40.0` / `ghcr.io/ashfordeou/kshana-mcp:0.40.0` |
-| VS Code (jedním kliknutím) | [npx (Node)](https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522npx%2522%252C%2522args%2522%253A%255B%2522-y%2522%252C%2522kshana-mcp%25400.40.0%2522%255D%257D) · [Docker](https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522docker%2522%252C%2522args%2522%253A%255B%2522run%2522%252C%2522-i%2522%252C%2522--rm%2522%252C%2522ghcr.io%252Fashfordeou%252Fkshana-mcp%253A0.40.0%2522%255D%257D) · [Insiders (npx)](https://insiders.vscode.dev/redirect?url=vscode-insiders%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522npx%2522%252C%2522args%2522%253A%255B%2522-y%2522%252C%2522kshana-mcp%25400.40.0%2522%255D%257D) | Node nebo Docker | `kshana-mcp@0.40.0` / `ghcr.io/ashfordeou/kshana-mcp:0.40.0` |
-| Claude Code | `claude mcp add kshana -- npx -y kshana-mcp@0.40.0` · plugin: `/plugin marketplace add ashfordeOU/kshana` a pak `/plugin install kshana@ashforde` | Node (nebo Docker) | `kshana-mcp@0.40.0` |
-| npx | `npx -y kshana-mcp@0.40.0` | Node 18+ | `kshana-mcp@0.40.0` |
-| uvx / pipx | `uvx kshana-mcp==0.40.0` · `pipx run kshana-mcp==0.40.0` | Python 3.9+ s uv nebo pipx | `kshana-mcp==0.40.0` |
-| Docker | `docker run -i --rm ghcr.io/ashfordeou/kshana-mcp:0.40.0` | Docker | `ghcr.io/ashfordeou/kshana-mcp:0.40.0` |
-| Homebrew | `brew install ashfordeOU/tap/kshana-mcp` | brew | formule pro v0.40.0 |
-| Scoop | `scoop bucket add ashforde https://github.com/ashfordeOU/scoop-bucket` a pak `scoop install kshana-mcp` | Scoop (Windows) | manifest pro v0.40.0 |
-| winget | `winget install AshfordeOU.KshanaMcp` | winget (Windows) | `--version 0.40.0` |
-| cargo | `cargo install kshana-mcp --version 0.40.0` | Rust 1.88+ | `kshana-mcp 0.40.0` |
-| Předsestavená binárka | [stránka vydání](https://github.com/ashfordeOU/kshana/releases/tag/v0.40.0): `kshana-mcp` (Linux x86-64), `kshana-mcp-<target>[.exe]`, kontrolované pomocí `SHA256SUMS` a `gh attestation verify` | nic | v0.40.0 |
-| Registr MCP | `io.github.ashfordeOU/kshana-mcp` (najdou jej klienti podporující registr) | klient podporující registr | `0.40.0` |
-| Vzdálený (streamable HTTP) | `kshana-mcp --http 127.0.0.1:8080`, vlastní hosting: viz [docs/deploy/mcp-http.md](docs/deploy/mcp-http.md) | váš vlastní hostitel | v0.40.0 |
+| Rozšíření Claude Desktop | dvakrát klikněte na `.mcpb` pro váš systém: [macOS (Apple silicon)](https://github.com/ashfordeOU/kshana/releases/download/v0.41.0/kshana-mcp-aarch64-apple-darwin.mcpb) · [macOS (Intel)](https://github.com/ashfordeOU/kshana/releases/download/v0.41.0/kshana-mcp-x86_64-apple-darwin.mcpb) · [Windows](https://github.com/ashfordeOU/kshana/releases/download/v0.41.0/kshana-mcp-x86_64-pc-windows-msvc.mcpb) | nic | `kshana-mcp-<target>.mcpb` z v0.41.0 |
+| Cursor (jedním kliknutím) | [npx (Node)](https://cursor.com/en/install-mcp?name=kshana&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsImtzaGFuYS1tY3BAMC40MS4wIl19) · [Docker](https://cursor.com/en/install-mcp?name=kshana&config=eyJjb21tYW5kIjoiZG9ja2VyIiwiYXJncyI6WyJydW4iLCItaSIsIi0tcm0iLCJnaGNyLmlvL2FzaGZvcmRlb3Uva3NoYW5hLW1jcDowLjQxLjAiXX0%3D) | Node nebo Docker | `kshana-mcp@0.41.0` / `ghcr.io/ashfordeou/kshana-mcp:0.41.0` |
+| VS Code (jedním kliknutím) | [npx (Node)](https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522npx%2522%252C%2522args%2522%253A%255B%2522-y%2522%252C%2522kshana-mcp%25400.41.0%2522%255D%257D) · [Docker](https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522docker%2522%252C%2522args%2522%253A%255B%2522run%2522%252C%2522-i%2522%252C%2522--rm%2522%252C%2522ghcr.io%252Fashfordeou%252Fkshana-mcp%253A0.41.0%2522%255D%257D) · [Insiders (npx)](https://insiders.vscode.dev/redirect?url=vscode-insiders%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522npx%2522%252C%2522args%2522%253A%255B%2522-y%2522%252C%2522kshana-mcp%25400.41.0%2522%255D%257D) | Node nebo Docker | `kshana-mcp@0.41.0` / `ghcr.io/ashfordeou/kshana-mcp:0.41.0` |
+| Claude Code | `claude mcp add kshana -- npx -y kshana-mcp@0.41.0` · plugin: `/plugin marketplace add ashfordeOU/kshana` a pak `/plugin install kshana@ashforde` | Node (nebo Docker) | `kshana-mcp@0.41.0` |
+| npx | `npx -y kshana-mcp@0.41.0` | Node 18+ | `kshana-mcp@0.41.0` |
+| uvx / pipx | `uvx kshana-mcp==0.41.0` · `pipx run kshana-mcp==0.41.0` | Python 3.9+ s uv nebo pipx | `kshana-mcp==0.41.0` |
+| Docker | `docker run -i --rm ghcr.io/ashfordeou/kshana-mcp:0.41.0` | Docker | `ghcr.io/ashfordeou/kshana-mcp:0.41.0` |
+| Homebrew | `brew install ashfordeOU/tap/kshana-mcp` | brew | formule pro v0.41.0 |
+| Scoop | `scoop bucket add ashforde https://github.com/ashfordeOU/scoop-bucket` a pak `scoop install kshana-mcp` | Scoop (Windows) | manifest pro v0.41.0 |
+| winget | `winget install AshfordeOU.KshanaMcp` | winget (Windows) | `--version 0.41.0` |
+| cargo | `cargo install kshana-mcp --version 0.41.0` | Rust 1.88+ | `kshana-mcp 0.41.0` |
+| Předsestavená binárka | [stránka vydání](https://github.com/ashfordeOU/kshana/releases/tag/v0.41.0): `kshana-mcp` (Linux x86-64), `kshana-mcp-<target>[.exe]`, kontrolované pomocí `SHA256SUMS` a `gh attestation verify` | nic | v0.41.0 |
+| Registr MCP | `io.github.ashfordeOU/kshana-mcp` (najdou jej klienti podporující registr) | klient podporující registr | `0.41.0` |
+| Vzdálený (streamable HTTP) | `kshana-mcp --http 127.0.0.1:8080`, vlastní hosting: viz [docs/deploy/mcp-http.md](docs/deploy/mcp-http.md) | váš vlastní hostitel | v0.41.0 |
 <!-- mcp-install:end -->
 
 <p><a href="https://glama.ai/mcp/servers/ashfordeOU/kshana"><img src="https://glama.ai/mcp/servers/ashfordeOU/kshana/badges/score.svg" alt="kshana-mcp na Glama, skóre kvality jeho serveru MCP"></a></p>
@@ -1415,7 +1459,7 @@ v oficiálním registru MCP jako `io.github.ashfordeOU/kshana-mcp`.
 | Nástroj | Co dělá |
 |---|---|
 | `run_scenario` | Spustí scénář z definice TOML (Tom's Obvious, Minimal Language) |
-| `list_scenario_kinds` | 92 vestavěných druhů scénářů s popisy + povinnými/volitelnými poli — aby agent mohl sestavit platný scénář |
+| `list_scenario_kinds` | 93 vestavěných druhů scénářů s popisy + povinnými/volitelnými poli — aby agent mohl sestavit platný scénář |
 | `validate_scenario` | Předběžná kontrola: rozparsuje TOML a zjistí jeho druh, bez spuštění |
 | `list_example_scenarios` | Přibalené referenční scénáře jako JSON |
 | `get_example_scenario` | Text TOML jednoho přibaleného referenčního scénáře, bajt po bajtu soubor pod `scenarios/` |
@@ -1498,111 +1542,72 @@ v oficiálním registru MCP jako `io.github.ashfordeOU/kshana-mcp`.
 <a id="editions"></a>
 ## Edice
 
-Celý engine je zdarma. Kshana Pro a studie na zakázku jsou pro programy, které potřebují víc,
-a každá placená cesta začíná zprávou: žádné ceny zde nejsou.
+Celý engine je zdarma. Kshana Pro je profesionální edice pro týmy, které musí přijmout rozhodnutí
+a obhájit ho, a studie na zakázku je tatáž práce provedená za vás. Každá placená cesta
+začíná zprávou: ceny zde nejsou.
 
-| | Free | Kshana Pro | Studie na zakázku |
+| | Zdarma | Kshana Pro | Studie na zakázku |
 |---|---|---|---|
-| Co to je | celý otevřený engine, všech 92 druhů scénářů, žádné omezení funkcí | proprietární nadstavba nad stejným enginem, na základě smlouvy | studie odolnosti PNT vašeho systému na úrovni MODELLED, provedená za vás |
-| Licence | AGPL-3.0 (GNU Affero General Public License, verze 3) nebo komerční licence | proprietární | smlouva |
-| Jak začít | [instalace](#install) nebo otevřete [kshana.dev](https://kshana.dev) | [požádat o zkušební verzi Pro](mailto:contact@ashforde.org?subject=Kshana%20Pro%20evaluation) | [požádat o studii](mailto:contact@ashforde.org?subject=Kshana%20custom%20study) |
+| Co to je | celý otevřený engine, všech 93 druhů scénářů, bez omezení funkcí | profesionální edice: stejný engine a stejné soubory scénářů s nástroji, které program potřebuje k rozhodování, ověřování a předávání | studie MODELLED odolnosti PNT vašeho systému, kterou pro vás zpracuje Ashforde® OÜ |
+| Pro koho | výzkumníci, studenti, inženýři a každý, kdo si chce vyzkoušet otázku | týmy misí a programů, systémoví inženýři, výrobci přijímačů, hodin a užitečných zátěží, návrháři signálů a provozovatelé | týmy, které chtějí odpověď, aniž by studii prováděly samy |
+| Podpora | komunita: issues a pull requesty na GitHubu | přímá podpora od týmu, který engine vyvíjí | v ceně |
+| Licence | AGPL-3.0 (GNU Affero General Public License, verze 3) nebo komerční licence | proprietární, na základě smlouvy | smlouva |
+| Jak začít | [nainstalovat](#install) nebo otevřít [kshana.dev](https://kshana.dev) | [požádat o hodnocení Pro](mailto:contact@ashforde.org?subject=Kshana%20Pro%20evaluation) | [požádat o studii](mailto:contact@ashforde.org?subject=Kshana%20custom%20study) |
 
-Co je Pro, slovy [`docs/PRO.md`](docs/PRO.md):
+**Co můžete s Kshana Pro dělat.** Bezplatný engine vám řekne, co dává jeden scénář. Pro
+odpovídá na otázky, které program klade potom:
 
-> **Striktní nadmnožina otevřené Kshana.** Pro závisí na otevřeném enginu jako na knihovně a
-> nikdy jej neforkuje. Každý otevřený druh scénáře běží v Pro beze změny a otevřený scénář běží
-> v Pro zcela bez licence.
->
-> **Žádná nová fyzika.** Pro nepřidává žádný fyzikální model a žádný nemění. Každé číslo Pro pochází
-> z běhů otevřeného enginu, takže údaj Pro je stejně důvěryhodný jako otevřený druh scénáře,
-> ze kterého pochází, a nikdy víc.
+- **Vyberte návrh, který poletí.** Zadejte prostor návrhů, jeho omezení a své cíle a
+  získejte nejlepší kompromisy v celém prostoru, každého kandidáta jako soubor scénáře, který
+  bezplatný engine spustí.
+- **Vězte, jak jistá je odpověď.** Pásma spolehlivosti, pravděpodobnost dodržení limitu a
+  to, které vstupy výsledek určují.
+- **Ukažte, že mise splňuje své požadavky.** Importujte požadavky (CSV, ReqIF nebo
+  text SysML v2), zkontrolujte je proti během a získejte ověřovací matici, zprávu o dopadu
+  změn a dosiér mise (PDF, HTML a JSON), který může zkontrolovat posuzovací komise.
+- **Porovnávejte architektury na základě důkazů.** Seřaďte možnosti podle údajů, na kterých záleží, s
+  balíčkem důkazů za každým číslem.
+- **Zachyťte zhoršení dřív, než se dostane ven.** Pojmenujte údaje, na kterých vám záleží; vaše pipeline selže,
+  když změna scénáře, modelu nebo enginu některý z nich zhorší.
+- **Zkontrolujte spektrální koexistenci.** Otestujte kandidátní plány signálů proti otevřeným signálům GNSS
+  v obou směrech a seřaďte je.
+- **Vytvořte dvojčata svých hodin.** Digitální dvojče hodin zkontrolované proti jejich zveřejněné
+  stabilitě; dvojče vašeho vlastního zařízení se vytváří s vámi na základě smlouvy.
+- **Provozujte ho ve vlastní síti.** Místní služba a fronta úloh se záznamem o tom,
+  který výsledek byl doručen pro který požadavek.
+- **Předávejte podepsané důkazy.** Pro podepisuje své balíčky důkazů a dosiéry a příjemce
+  je může zkontrolovat bez licence Pro.
 
-Pro odpovídá na další otázky programu: který návrh poslat do letu (optimalizátor návrhu a jeho
-Paretova fronta), jak jistá je odpověď (nejistota a citlivost) a zda mise
-splňuje své požadavky (misijní dokumentace, sledovatelnost požadavků, studie kompromisů, regresní
-kontrola scénářů, digitální dvojčata hodin, dokumentace studie a služba
-on-premises). Také hlídá kampaň údajů a nechá selhat pipeline, když se některý zhorší,
-testuje kandidátní plány signálů proti otevřeným signálům družicové navigace v obou
-směrech (koexistence ve spektru) a řadí studie do fronty ve službě úloh on-premises s
-registrem doručení řetězeným hašem. Každá část je popsána, včetně toho, co vytváří a co nedělá, v
-[`docs/PRO.md`](docs/PRO.md). Nic, co Pro vytvoří, není certifikací, a ani studie na zakázku
-není certifikací.
+**Na co se můžete spolehnout.** Každý otevřený scénář běží v Pro beze změny a Pro nikdy nemění
+fyzikální model otevřeného enginu. Každé číslo si ponechá označení důkazů, které mu dává registr
+(VALIDATED, MODELLED nebo PARTNER), nikdy vyšší; vlastní modely Pro nesou vlastní
+označení. Výstup Pro uvádí soubory scénářů, které spustil, takže kdokoli s otevřenou Kshanou je může
+spustit znovu a získat stejná čísla. Nic z toho, co Pro vytvoří, není certifikace, a ani studie na zakázku
+certifikací není. Úplný popis je v [`docs/PRO.md`](docs/PRO.md).
 
 <details>
-<summary>Co Kshana Pro čte z otevřeného enginu a podpora od Ashforde® OÜ</summary>
+<summary>Podpora a profesionální služby od Ashforde® OÜ</summary>
 
-<br>
-
-**Na čem Kshana Pro staví.** Každá část Pro pracuje z otevřeného enginu a ponechává
-jej beze změny:
-
-- **Optimalizátor návrhu, studie nejistoty a misijní dokumentace** spouštějí scénáře
-  otevřeného enginu přes veřejné rozhraní enginu a každé číslo počítají z výsledků
-  běhů. Každý výstup si ponechává úroveň VALIDATED, MODELLED nebo PARTNER, kterou otevřený engine dal
-  každému údaji, nikdy vyšší.
-- **Digitální dvojčata hodin** používají model hodin otevřeného enginu a jeho odhadovač
-  Allanovy deviace: dvojče je kalibrováno na zveřejněný Allanův rozpočet zařízení a pak zkontrolováno
-  odhadem Allanovy deviace dvojčete otevřeným odhadovačem.
-- **Studie kompromisů** spouštějí každou variantu architektury jako scénář otevřeného enginu, beze změny,
-  a řadí varianty podle ukazatele kvality načteného z výsledku každého běhu.
-- **Hlídání kampaně** čte své údaje z výsledků běhů otevřeného enginu nad
-  scénáři v balíčku a porovnává je s předchozím úspěšným během.
-- **Koexistence ve spektru** čte každé fyzikální číslo z běhů otevřeného enginu
-  druhů `leo-signal` a `constellation-design` a přidává jen součet přes viditelné družice
-  a pořadí plánů.
-- **Služba úloh on-premises** spouští otevřené scénáře i scénáře Pro stejným enginem a
-  ukládá každý výsledek tak, jak jej běh vrátil.
-- **Balíčky důkazů** zaznamenávají pro každý běh haš scénáře, který otevřený engine razí na
-  svůj výsledek, takže údaj v balíčku lze reprodukovat opětovným spuštěním jeho scénáře.
-- **Nástroje systémového inženýrství a řízení programu.** Nástroje Kshana Pro pro modelově
-  orientované systémové inženýrství (MBSE) a řízení programu kontrolují požadavky programu
-  proti běhům otevřeného enginu: importují požadavky jako hodnoty oddělené čárkami
-  (CSV) nebo jako zdokumentovanou podmnožinu Requirements Interchange Format (ReqIF) či
-  textu Systems Modeling Language verze 2 (SysML v2), vyhodnocují každé kritérium
-  přijetí, s jeho jednotkou, proti hodnotám, které běh zapsal, a vytvářejí verifikační
-  matici křížových odkazů (VCRM), model SysML v2, zprávu o dopadu změn a offline
-  balíček důkazů. Nic znovu nespouštějí ani nepřepočítávají a čtou jen to, co otevřený engine
-  zveřejňuje: `result.json` každého běhu (pole, která kritérium jmenuje, jejich jednotky,
-  razítko reprodukovatelnosti z haše scénáře, seedu, verze enginu a verze schématu a
-  označení běhu a úrovně údajů), jeho `report.json` (druh, záznam reprodukovatelnosti a
-  označení schopností), soubor scénáře (jeho haš, druh, seed a parametry),
-  schéma jednotek polí (jednotka, původ a úroveň důkazů každého pole) a
-  verifikační matici (označení VALIDATED, MODELLED nebo PARTNER každé schopnosti).
-
-<a id="support--professional-services"></a>
 ### Podpora a profesionální služby
 
-Kshana je zdarma a open source pod AGPL-3.0 a je **profesionálně vyvíjena a
-udržována společností Ashforde® OÜ** (Estonsko). Otevřený engine je úplný a použitelný
-sám o sobě. Pro organizace, které potřebují víc, nabízí Ashforde® OÜ:
+Kshana je zdarma a open source pod licencí AGPL-3.0 a **profesionálně ji vyvíjí a udržuje
+Ashforde® OÜ** (Estonsko). Otevřený engine je úplný a použitelný samostatně.
+Organizacím, které potřebují víc, nabízí Ashforde® OÜ:
 
-- **Komerční podporu a integraci** — začlenění Kshana do vašeho řetězce nástrojů, scénáře
-  na zakázku a prioritní opravy.
-- **Modely senzorů na zakázku** — kalibrované na váš hardware, včetně modelů odolnosti
-  citlivých z hlediska exportu udržovaných v soukromé nadstavbě.
-- **Kshana Pro** — proprietární nástroje pro modelově orientované systémové inženýrství (MBSE) a řízení
-  programu, které kontrolují požadavky programu proti běhům otevřeného enginu a
-  vytvářejí verifikační matici křížových odkazů (VCRM), model Systems Modeling Language
-  verze 2 (SysML v2), zprávu o dopadu změn a offline balíček důkazů. Nic
-  znovu nespouštějí a čtou jen zveřejněné výstupy enginu: `result.json`
-  a `report.json` každého běhu, soubor scénáře, schéma jednotek polí a označení verifikační
-  matice (úplný seznam je v části [Edice](#editions)).
-- **Nástroje Kshana Pro pro návrh, nejistotu a mise** — Paretova fronta prostoru
-  návrhů, nejistota a citlivost přes tisíce běhů a misijní dokumentace jedním příkazem
-  s verifikační maticí a PDF; viz [`docs/PRO.md`](docs/PRO.md).
-- **Hlídání kampaně, koexistence ve spektru a služba úloh v Kshana Pro** — pipeline, která
-  selže, když se hlídaný údaj zhorší, plány signálů testované proti otevřeným
-  signálům družicové navigace v obou směrech a fronta úloh on-premises s
-  registrem doručení řetězeným hašem; viz [`docs/PRO.md`](docs/PRO.md).
-- **Školení a konzultace** k analýze výkonnosti kvantového/klasického PNT.
+- **Kshana Pro**: profesionální edici popsanou výše s přímou podporou.
+- **Komerční podporu a integraci**: začlenění Kshany do vašeho řetězce nástrojů, scénáře
+  na zakázku a přednostní opravy.
+- **Modely senzorů na zakázku**: kalibrované na váš hardware na základě smlouvy; práce citlivé
+  z hlediska vývozu se provádějí jen s příslušnou prověrkou a dohodou o mlčenlivosti.
+- **Studie na zakázku**: studii MODELLED odolnosti PNT vašeho systému, zpracovanou za vás.
+- **Školení a konzultace** k odolnosti PNT a výkonu kvantových a klasických senzorů.
 
-Jde o model open-core: engine je a zůstane pod otevřenou licencí; udržitelným
-byznysem jsou odbornost, podpora a proprietární rozšíření — nikoli licenční poplatky.
+Toto je model open core: engine je a zůstane otevřeně licencován; podnikání, které ho
+udržuje, tvoří Kshana Pro, podpora a odbornost.
 Kontakt **contact@ashforde.org** · [ashforde.org](https://ashforde.org).
 
 </details>
 
-<a id="research"></a>
 ## Výzkum
 
 Studie postavené na otevřeném enginu se zveřejňují na arXiv. Každá jmenuje příkaz enginu,
@@ -1864,7 +1869,7 @@ NASA/JPL Three-Body Periodic Orbit Database). Jde o dodatečné regresní kontro
 <a id="scenario-format"></a>
 ### Formát scénáře
 
-Scénáře jsou deklarativní TOML. Pole `kind` na nejvyšší úrovni vybírá balíček — celkem **padesát**
+Scénáře jsou deklarativní TOML. Pole `kind` na nejvyšší úrovni vybírá balíček — celkem **93**
 (`clock` je výchozí, pokud je vynecháno): `inertial`, `timetransfer`, `hybrid`, `hybrid-ukf`, `fusion`,
 `gnss-ins`, `orbit`, `ephemeris`, `gnss-sim`, `integrity`, `lunar-integrity`, `lunar-time-offset`, `spoof`,
 `spoof-detect`, `jamming`, `sweep`, `sweep-nd`, `gravity-map`, `terrain-nav`, `terrain-slam`,
@@ -2112,7 +2117,7 @@ papírové hodiny). **MODELLED** — hlavní údaj je *závislý na referenci* (
 proti selenoidu Měsíce, průměrovací okno), a proto se hlásí pásmo, nikoli jediné certifikované
 číslo (`scenarios/lunar-time-offset.toml`).
 
-V `scenarios/` najdete alespoň jeden zpracovaný příklad každého druhu (92 druhů, 193 souborů scénářů
+V `scenarios/` najdete alespoň jeden zpracovaný příklad každého druhu (93 druhů, 199 souborů scénářů
 `.toml` + 1 manifest sady — několik druhů dodává více než jeden příklad). Ne každý
 druh má soubor pojmenovaný po sobě: `lunar-integrity` → `scenarios/lunanet-araim.toml` a
 `gravity-map` → `scenarios/gps-denied-gravity-nav.toml` jsou dva z několika takových.
@@ -2213,7 +2218,6 @@ kshana/
 │   └── bin/crossover_study.rs · bin/validation_report.rs  # crossover-study artifact generator · release validation-summary HTML
 │
 ├── mcp/kshana-mcp/        # standalone, workspace-EXCLUDED crate — the MCP server (+ Dockerfile, server.json)
-├── ide/jetbrains/         # standalone Kotlin/Gradle IntelliJ-Platform plugin
 ├── xval/                  # standalone, workspace-EXCLUDED external cross-checks: anise-{frames,lunar-od,mars-od,service-geometry} (Rust ANISE/SPICE DE440) + orekit-passes (Java Orekit)
 │
 ├── examples/            # reproducible study generators: tpl_jammertest · resilience_report · optimism_study + real-data probes (jammertest_probe · yunnan_probe · satgrid_probe · texbat_probe · ingest_realdata)
@@ -2223,7 +2227,7 @@ kshana/
 ├── docs/                 # CONCEPTS, ARCHITECTURE, CAPABILITY, VALIDATION, PROVENANCE, GLOSSARY, …
 ├── web/                  # the WebAssembly playground + kshana.dev site
 ├── tools/                # table generators (EGM2008 · IGRF · nutation · CIO) + fetch_tles.sh
-├── .github/workflows/    # ci · release · publish · wheels · pages · mcp-publish · jetbrains-plugin · frame-xval
+├── .github/workflows/    # ci · release · publish · wheels · pages · mcp-publish · frame-xval
 ├── pyproject.toml        # Python packaging (maturin)
 ├── CHANGELOG.md          # Keep a Changelog + SemVer
 └── CITATION.cff · ROADMAP.md · CONTRIBUTING.md · SECURITY.md
@@ -2245,7 +2249,7 @@ Ne. Jde o výkonový *simulátor*. Věrnost kvantového hardwaru pochází ze zv
 modelů chyb, ne z tohoto nástroje. Viz [Co to je / není](#what-it-is--is-not).
 
 **Jsou kvantové výsledky realistické, nebo jde o marketing?**
-Každý parametr je citován z katalogového listu nebo článku, každý model je ověřen proti
+Každý parametr je citován z katalogového listu nebo článku, každý model je zkontrolován proti
 učebnicovému vztahu a vyspělost je poctivě označena v
 [VALIDATION.md](docs/VALIDATION.md) — včetně toho, že žádné stronciové optické hodiny dosud
 neletěly. Engine je neutrální: kvantové a klasické jsou stejný kód s jinými
@@ -2317,13 +2321,13 @@ poté pipeline kontroluje, že každý registr skutečně nabízí novou verzi
 
 | Kanál | Instalace / získání | Obsah |
 |---------|---------------|----------|
-| [crates.io](https://crates.io/crates/kshana) | `cargo install kshana` · `kshana = "0.35"` | knihovna Rust + CLI |
+| [crates.io](https://crates.io/crates/kshana) | `cargo install kshana` · `kshana = "0.41"` | knihovna Rust + CLI |
 | [crates.io](https://crates.io/crates/kshana-mcp) | `cargo install kshana-mcp` | server MCP |
 | [PyPI (Python Package Index)](https://pypi.org/project/kshana/) | `pip install kshana` | wheely abi3 (Linux/macOS/Windows) + sdist (zdrojová distribuce) |
 | [npm](https://www.npmjs.com/package/kshana) | `npm install kshana` | modul WebAssembly + obal v JS |
 | [ghcr.io](https://github.com/ashfordeOU/kshana/pkgs/container/kshana-mcp) | `docker run -i ghcr.io/ashfordeou/kshana-mcp` | multiarchitekturní obraz OCI (Open Container Initiative) — není potřeba žádná sada nástrojů |
-| [npm](https://www.npmjs.com/package/kshana-mcp) | `npx -y kshana-mcp@0.40.0` | spouštěč: stáhne binárku vydání, ověří `SHA256SUMS` a spustí ji |
-| [PyPI](https://pypi.org/project/kshana-mcp/) | `uvx kshana-mcp==0.40.0` · `pipx run kshana-mcp==0.40.0` | stejný spouštěč pro Python |
+| [npm](https://www.npmjs.com/package/kshana-mcp) | `npx -y kshana-mcp@0.41.0` | spouštěč: stáhne binárku vydání, ověří `SHA256SUMS` a spustí ji |
+| [PyPI](https://pypi.org/project/kshana-mcp/) | `uvx kshana-mcp==0.41.0` · `pipx run kshana-mcp==0.41.0` | stejný spouštěč pro Python |
 | Homebrew · Scoop · winget | `brew install ashfordeOU/tap/kshana-mcp` · `scoop install kshana-mcp` · `winget install AshfordeOU.KshanaMcp` | binárka `kshana-mcp`, generovaná z `SHA256SUMS` každého vydání |
 | Claude Desktop | dvakrát klikněte na `kshana-mcp-<target>.mcpb` z vydání | rozšíření s binárkou uvnitř |
 | oficiální registr MCP | automaticky objeveno klienty MCP | `io.github.ashfordeOU/kshana-mcp` (obraz OCI, balíčky npm a PyPI) |
@@ -2354,7 +2358,7 @@ proti klasickému** (výsledky označené MODELLED, dokud je nepovýší naměř
 ověřený bit po bitu proti SOFA/ERFA a nezávisle křížově zkontrolovaný proti ANISE
 (SPICE v čistém Rustu) na ≤ 3.6 m na dráze GNSS. Mezi krátkodobé položky patří těsně vázaná fúze fáze nosné a zpřístupnění
 volně/těsně vázaného navigátoru GNSS/INS ve více balíčcích; engine **hlubokovesmírné / marsovské
-radiometrické navigace** dorazil ve v0.17.0 (ověřeno simulací).
+radiometrické navigace** dorazil ve v0.17.0 (MODELLED: zkontrolováno v simulaci, ne na datech z mise).
 **Vrstva kvantové fyziky** je položkou **P2**: akcelerometr CAI je nyní simulován z
 prvních principů (fáze Mach–Zehnder, projekční šum, pokles kontrastu, vazba na
 vibrace), zatímco senzory hodin/přenosu času jsou stále řízeny zveřejněnými
@@ -2409,7 +2413,7 @@ pro každou změnu viditelnou uživateli. Účast se řídí naším
 | [Reprodukovatelnost a původ](docs/REPRODUCIBILITY.md) | recenzenti / balíčkovatelé | záruky determinismu, fixace zlatých vzorů, SBOM (softwarový kusovník), provenance sestavení |
 | [Platformní tagy wheelů](docs/WHEEL_TAGS.md) | balíčkovatelé | matice wheelů abi3 pro Python — který platformní tag `pip install kshana` rozřeší |
 | [Pozicování](docs/POSITIONING.md) | hodnotitelé | kde Kshana stojí vůči RTKLIB/gLAB (doplňkově) a úroveň v prohlížeči bez instalace |
-| [Kshana Pro](docs/PRO.md) | hodnotitelé / manažeři programů | co proprietární nadstavba Pro přidává nad stejným enginem: optimalizátor návrhu, nejistota a citlivost, misijní dokumentace, hlídání kampaně, koexistence ve spektru, služba úloh on-premises, sledovatelnost požadavků; co každá část vytváří a co nedělá |
+| [Kshana Pro](docs/PRO.md) | hodnotitelé / manažeři programů | profesionální edice: pro koho je, co s ní týmy mohou dělat, co dostanou, podpora a jak začít hodnocení |
 | [Technická zpráva](paper/kshana-technical-report.md) · [Článek pro JOSS](paper/paper.md) | recenzenti / citující / hodnotitelé | úplný rozšířený výzkumný článek — architektura, modely jednotlivých domén, validace, případové studie a omezení — plus stručné podání do JOSS (Journal of Open Source Software) |
 | [Validace SGP4](docs/SGP4-VALIDATION.md) | recenzenti / citující | shoda s referencí AIAA 2006-6753 (666 stavů, ~4 mm) **a** přímé srovnání s nezávislým crate `sgp4` (shoda pod mikron / 4.12 mm) |
 | [Validace silového modelu](docs/AGENCY-ORBIT-VALIDATION.md) | recenzenti / citující | engine s úplnými silami (`src/precise_od.rs`) proložený efemeridami agentur — metodika a ověřená rezidua |
@@ -2435,7 +2439,7 @@ pro každou změnu viditelnou uživateli. Účast se řídí naším
 | [API pro Python](docs/PYTHON_API.md) | uživatelé Pythonu | rozhraní vazby PyO3 — volání enginu, typy scénáře/výsledku a příklady |
 | [Tvrzení vs. realita](docs/CLAIMS-VS-REALITY.md) | recenzenti | registr uzavírání nadsazených tvrzení + pojistka v CI (`tests/no_overclaims.rs`), která jej udržuje vyřešený |
 | [Plán vývoje](ROADMAP.md) | všichni | plán vývoje po fázích — co bylo dodáno a co následuje |
-| [Server MCP](mcp/kshana-mcp/README.md) · [Plugin pro JetBrains](ide/jetbrains/README.md) | agenti / uživatelé IDE | spuštění Kshana z AI asistenta nebo z JetBrains IDE |
+| [Server MCP](mcp/kshana-mcp/README.md) · [Plugin pro JetBrains](https://kshana.dev/docs/jetbrains.html) | agenti / uživatelé IDE | spuštění Kshana z AI asistenta nebo z JetBrains IDE |
 | [Průvodce pro agenty](docs/AGENTS.md) · [Rozhraní](docs/SURFACES.md) | agenti / integrátoři | který nástroj odpovídá na kterou otázku, co si u každé odpovědi ponechat; kde je každá schopnost dostupná (CLI, Rust, Python, WASM, MCP, plugin, JetBrains, notebooky) a proč je buňka N/A |
 | [Seznam změn](CHANGELOG.md) | všichni | historie vydání (Keep a Changelog + SemVer, sémantické verzování) |
 | [Přispívání](CONTRIBUTING.md) | přispěvatelé | sestavení, pojistky, disciplína testů/citací, DCO (Developer Certificate of Origin) |

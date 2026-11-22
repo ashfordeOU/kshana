@@ -1,4 +1,4 @@
-> Tämä on konekäännös tiedostosta README.md versiossa v0.40.0, eikä äidinkielinen puhuja ole vielä tarkistanut sitä. Viitteenä on englanninkielinen README. [English](README.md)
+> Tämä on konekäännös tiedostosta README.md versiossa v0.41.0, eikä äidinkielinen puhuja ole vielä tarkistanut sitä. Viitteenä on englanninkielinen README. [English](README.md)
 
 <!-- The images under docs/assets/readme/ are generated from real engine runs by
      tools/gen_readme_assets.py (light and dark variants); regenerate them with
@@ -24,7 +24,7 @@
   <a href="docs/COVERAGE.md"><img src="https://img.shields.io/badge/coverage-~95%25-377D0C?style=flat-square&labelColor=0A1226" height="18" alt="Rivikattavuus lähes 95 % hakemistosta src/, mitattu tiedostossa docs/COVERAGE.md ja vaadittu vähintään 85 % jatkuvassa integraatiossa"></a>
   <a href="#evidence"><img src="https://img.shields.io/badge/validated-176%2F413-377D0C?style=flat-square&labelColor=0A1226" height="18" alt="176 / 413 ominaisuutta VALIDATED riippumatonta ulkoista oraakkelia vasten, varmennusmatriisin mukaan"></a>
   <a href="https://sonarcloud.io/summary/overall?id=ashfordeOU_kshana"><img src="https://img.shields.io/sonar/quality_gate/ashfordeOU_kshana?server=https%3A%2F%2Fsonarcloud.io&label=quality&style=flat-square&labelColor=0A1226" height="18" alt="SonarQube Cloudin laatuportin tila"></a>
-  <a href="https://github.com/ashfordeOU/kshana/releases"><img src="https://img.shields.io/badge/release-v0.40.0-066A86?style=flat-square&labelColor=0A1226" height="18" alt="Julkaisu v0.40.0"></a>
+  <a href="https://github.com/ashfordeOU/kshana/releases"><img src="https://img.shields.io/badge/release-v0.41.0-066A86?style=flat-square&labelColor=0A1226" height="18" alt="Julkaisu v0.41.0"></a>
   <a href="docs/i18n.md"><img src="https://img.shields.io/badge/languages-English%20%2B%2017-3F4B67?style=flat-square&labelColor=0A1226" height="18" alt="Englanti ja 17 muuta kieltä konekäännöksinä"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/licence-AGPL--3.0-3F4B67?style=flat-square&labelColor=0A1226" height="18" alt="Lisenssi: AGPL-3.0-only"></a>
   <br>
@@ -73,14 +73,14 @@
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/hero-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/hero-light.svg">
-  <img src="docs/assets/readme/hero-light.svg" alt="Harjoittele minuuttia, jona GNSS pimenee. Kshanan tehtäväkonsoli, piirretty moottorin v0.40.0 todellisesta ajosta: ketjutettu kampanja campaign-jam-spoof-holdover-integrity (siemen 20260928, 6 vaihetta, 18 jäsenajoa ajassa T+01:16:10) sekä skenaarion constellation-multi-gnss-coverage GPS-, Galileo-, BeiDou- ja GLONASS-järjestelmien 102 satelliittia, kukin piirrettynä moottorin maajäljestä palautetulle ympyränmuotoiselle kahden kappaleen radalle, säteet näyttöä varten tiivistettyinä. Kellon aikavirhe huipentuu arvoon 62.7 ns 50 ns:n suojarajaa vasten, kantoaalto-kohinatiheys laskee arvoon -12.2 dB-Hz 25 dB-Hz:n alarajaa vasten, ja pystysuuntainen suojaustaso nousee arvoon 135.4 m 50 m:n hälytysrajaa vasten." width="100%">
+  <img src="docs/assets/readme/hero-light.svg" alt="Harjoittele minuuttia, jona GNSS pimenee. Kshanan tehtäväkonsoli, piirretty moottorin v0.41.0 todellisesta ajosta: ketjutettu kampanja campaign-jam-spoof-holdover-integrity (siemen 20260928, 6 vaihetta, 18 jäsenajoa ajassa T+01:16:10) sekä skenaarion constellation-multi-gnss-coverage GPS-, Galileo-, BeiDou- ja GLONASS-järjestelmien 102 satelliittia, kukin piirrettynä moottorin maajäljestä palautetulle ympyränmuotoiselle kahden kappaleen radalle, säteet näyttöä varten tiivistettyinä. Kellon aikavirhe huipentuu arvoon 62.7 ns 50 ns:n suojarajaa vasten, kantoaalto-kohinatiheys laskee arvoon -12.2 dB-Hz 25 dB-Hz:n alarajaa vasten, ja pystysuuntainen suojaustaso nousee arvoon 135.4 m 50 m:n hälytysrajaa vasten." width="100%">
 </picture>
 
 <details>
 <summary><strong>Sisältö</strong></summary>
 
 - [Harjoittele minuuttia, jona GNSS pimenee](#rehearse-the-minute-gnss-goes-dark)
-- [Uutta versiossa 0.40](#whats-new-in-040), [Uutta versiossa 0.39](#whats-new-in-039), [Uutta versiossa 0.38](#whats-new-in-038) ja [0.38 syvemmin](#038-in-depth): Jammertest-pisteytys, vastaanottimen omat liput, konesyötteet, ajoitus ja holdover, standardipaketit, LunaNet AFS, laboratorion edestakainen kierros, kshana-bench, observatorio, viejät, optiikka, [avaruuskäyttäjän navigointi](#space-user-navigation-gnss-ssv) ja [kuun infrastruktuuri](#lunar-infrastructure-lunar-infrastructure)
+- [Uutta versiossa 0.41](#whats-new-in-041), [Uutta versiossa 0.40](#whats-new-in-040), [Uutta versiossa 0.39](#whats-new-in-039), [Uutta versiossa 0.38](#whats-new-in-038) ja [0.38 syvemmin](#038-in-depth): Jammertest-pisteytys, vastaanottimen omat liput, konesyötteet, ajoitus ja holdover, standardipaketit, LunaNet AFS, laboratorion edestakainen kierros, kshana-bench, observatorio, viejät, optiikka, [avaruuskäyttäjän navigointi](#space-user-navigation-gnss-ssv) ja [kuun infrastruktuuri](#lunar-infrastructure-lunar-infrastructure)
 - [Kshana Studio](#kshana-studio) ja jokainen Studion sivu
 - [Ominaisuudet](#capabilities): alueiden taulukko, [jokainen skenaariolaji perheittäin](#every-scenario-kind-by-family), [jokainen komento](#every-command), [jokainen rajapinta](#every-surface)
 - [Miten ajo toimii](#how-a-run-works), [Tehtävät](#missions)
@@ -105,25 +105,65 @@ Jokaisella ominaisuudella on yksi kolmesta merkinnästä koneellisesti tarkistet
 ulkoinen oraakkeli on samaa mieltä), **MODELLED** (sisäisesti johdonmukainen, ja tämä sanotaan ääneen)
 tai **PARTNER** (laitteistokumppani vastaa siitä).
 
-> **Tila: v0.40.0.** Validoitu, toistettava simulointialusta PNT-järjestelmien häiriönsietokyvylle.
-> Ajoitus ja holdover ovat etusijalla, koska se alue on parhaiten validoitu. Kshana on
-> tutkimus- ja kompromissianalyysin väline: ei radiotaajuista (RF) signaaligeneraattorilaitteistoa (se
-> ei ohjaa radiota eikä lähetä mitään; sen signaalitason tuloste on kantataajuisia IQ-näytetiedostoja
-> ohjelmistovastaanottimille), ei laitteisto- eikä sertifioitu GNSS-vastaanotin (sen ohjelmistovastaanotin
-> on analyysityökalu) eikä lentotuote. Onko ala uusi? Aloita
+> **Status: v0.41.0.** Toistettava simulaatioperusta PNT-sietokyvylle, jossa jokainen ominaisuus
+> on merkitty näyttönsä mukaan. Ajoitus ja holdover tulevat ensin, koska tällä alueella on eniten VALIDATED-rivejä.
+> Kshana on tutkimusten ja vaihtoehtojen punninnan väline: se ei ole radiotaajuisia (RF) signaaleja tuottavaa laitteistoa (se
+> ei ohjaa mitään radiota eikä lähetä mitään; sen signaalitason tuloste on kantataajuisia IQ-näytetiedostoja
+> ohjelmistovastaanottimille), se ei ole laitteisto- eikä sertifioitu GNSS-vastaanotin (sen ohjelmistovastaanotin
+> on analyysityökalu) eikä lentotuote. Uusi alalla? Aloita
 > [selkokielisestä johdannosta](docs/CONCEPTS.md) ja [sanastosta](docs/GLOSSARY.md).
 
 <a id="whats-new-in-040"></a>
+## Uutta versiossa 0.41
+
+Versio 0.41 pisteyttää sille sitoumuksena asetetut näyttörivit, kunkin kerran ennen dataa kiinnitettyjä rajoja vasten, ja julkaisee jokaisen tuloksen
+sellaisenaan (C2 v2 -uusinta-ajoa ei tehty). Se lisää alueen luottamustilan ja
+satelliittivikojen tarkistuksen, valvontaverkon suunnittelijan, TDOA-pohjaisen häirintälähteen paikantimen, päätökset pimeistä aluksista ja AIS-eheydestä,
+TEXBAT-harhautusvertailun, lentodynamiikan viennit ja RTCM SSR -lukijan. Kirjanpidossa on nyt 413 riviä: 176
+VALIDATED, 233 MODELLED, 4 PARTNER. Yhtäkään riviä ei nostettu tasolle VALIDATED, ja jokainen alla mainittu ohilyönti on lukittu testillä.
+
+- **Alueen luottamus (`kshana area-trust`, B5).** Yksi luottamustila alueelle useiden referenssiasemien perusteella. Versio 3
+  merkitsee satelliitin, jonka poistaminen poistaa hälytykset useilta asemilta kerralla, ja laskee niiden ratkaisut uudelleen ilman
+  sitä; pelkkä lukituksen menetys ei enää alenna aseman tilaa. 26 aluepäivän IGS-datalla (Goddard ja Wettzell, toukokuu 2026)
+  se antoi 1 hälytyksen (raja ≤ 1 aluepäivää kohden) ja **täyttää** T4:n; synteettisillä vioilla se **ei täytä** T2:ta (123 / 127
+  vikaa poistettu; 4, joissa jäljelle jäävä geometria on heikko, ja 2 / 67 kahden satelliitin epookkia selitetty yhdellä). T3
+  (hälytysviive) täyttyy. B5 v3 on **NOT MET** ([tulokset](docs/design/evidence/b5-area-trust/RESULTS-v3.md)). Diagnoosi paljasti myös,
+  että moottori käytti epäterveiksi merkittyjä yleislähetystietueita; näin merkityt GPS- ja QZSS-tietueet ohitetaan nyt.
+- **Harhautusvertailu (TEXBAT, E5).** Pisteytetty kerran kaikilla kymmenellä TEXBAT-tallenteella säännöillä, jotka kiinnitettiin ennen kuin yhtäkään tiedostoa
+  luettiin: teho- ja vääristymäpistemäärä **täyttää** E5-PD:n (AUC 0.7410, raja 0.70); IQ-peruspistemäärä **ei täytä** E5 v2:ta
+  (AUC 0.6941). Vain pistemäärät julkaistaan, ei koskaan tallenteita ([tulokset](docs/design/evidence/b4a-benchmark-classes/RESULTS-E5-v2.md)).
+- **Valvontaverkon suunnittelija (`kshana planner`, B1a).** Havaitsemisen ja TDOA-tarkkuuden kartat sekä asemien sijoittelu.
+  Version 3 sijoitteluhaku voittaa parhaan 1 000 satunnaisesta osajoukosta (0.4408 vs. 0.4105) ja **täyttää** P4:n;
+  osa 1 täyttyy Linuxissa, ja macOS- ja Windows-tarkistus on vielä tekemättä ([tulokset](docs/design/evidence/b1a-planner/RESULTS-v3.md)).
+- **Häirintälähteen paikannus.** Tehoeroon perustuva paikannin (B3a) **ei täytä** synteettistä kriteeriään v1:ssä eikä v2:ssa; uusi TDOA-paikannin
+  (B3b, `locate_tdoa`) **ei täytä** omaansakaan (kattavuus 0.044 vs. 0.90: sen huipun tarkennus erehtyy enintään
+  puolen näytteen verran, kun ilmoitettu σ on 28 ns). Molemmat rivit pysähtyvät tähän; kummallakaan menetelmällä ei tehdä todellista ajoa
+  ([B3b-tulokset](docs/design/evidence/b3b-tdoa-locator/RESULTS.md)).
+- **Pimeät alukset ja AIS-eheys (M4).** Versio 3 **täyttää** pimeiden alusten saannin (0.994) ja kaikki muut rajat paitsi
+  sijaintisiirtymät, joita se **ei täytä** (0.489 5 km:n kohdalla vs. 0.85) ([tulokset](docs/design/evidence/m4-dark-vessel-ais-integrity/RESULTS-v3.md)).
+  Jokainen tuloste kuvaa datan johdonmukaisuutta, ei koskaan aikomusta.
+- **Pisteytetty myös.** M1 sekä rivit C5a, C3 ja B8 **täyttävät** rajansa; M2:n ristitarkistus julkaistuista uudelleenkäyntiluvuista
+  **ei ole johdonmukainen** niiden kanssa; M5 v2 (hybridipaikannus kiertoradalta), D8b rivi
+  8 v2 ja D8a rivi 6 v2 **eivät täytä** omiaan ([Changelog](CHANGELOG.md)).
+- **Lentodynamiikka ja korjaukset.** `kshana ephem-export` kirjoittaa JPL Horizons -taulukon CCSDS OEM- tai OPM-muodossa tai
+  SPK-ytimenä ja lukee sen takaisin; Orekit, Basilisk ja ANISE lukevat tiedostot kirjoitetuin bitein. Lisätty RTCM SSR (IGS SSR) -lukija,
+  Bias-SINEX-lukija ja IERS 2010:n kiinteän maan vuorovesi.
+- **Ratatietojen tarkistukset.** `kshana orbit-data` tarkistaa CCSDS-lähestymistietosanomat (508.0-B-1) sekä OEM- ja OCM-
+  efemeridit (502.0-B-3) ja kertoo kelvollinen tai kelvoton viittaamaansa kohtaan nähden, muuntaa OEM:n OCM:ksi ja takaisin
+  alkuperän säilyttäen, vertaa ja tarkastaa kaksirivisiä elementtijoukkoja sekä tarkistaa ja propagoi kovariansseja (MODELLED). Standardin
+  omista CDM-esimerkeistä se löytää kovarianssin, joka ei ole positiivisesti definiitti, ja kaksi syntaksivirhettä
+  ([Ratatiedot](docs/ORBIT-DATA.md)).
+
 ## Uutta versiossa 0.40
 
 0.40 lisää tehtävätason virhebudjetin, merkitsee jokaisen kuvan ja taulukon todistetasollaan, lukee mitattuja kellolokeja,
 tarkistaa datakumppanien toimitukset, arvioi, missä häiriölähde voi olla, ja puhuu englannin lisäksi seitsemäätoista kieltä.
-Kirjanpidossa on nyt 412 riviä: 176 VALIDATED, 232 MODELLED, 4 PARTNER. Yhtäkään riviä ei nostettu tasolle VALIDATED, ja jokainen alla mainittu
+Yhtäkään riviä ei nostettu tasolle VALIDATED, ja jokainen alla mainittu
 kynnyksen alitus on kiinnitetty testillä.
 
 - **Tehtäväketju.** Laji `mission-thread` ketjuttaa vaiheet laukaisusta paluuseen (`launch-ascent`, `leo-rendezvous`,
   `tli-and-cruise`, `entry` ja neljä kuulajia) määritellyin luovutussäännöin, marginaalilla määriteltyjä vaatimuksia vasten ja heikoimmalla
-  lenkillä; päästä päähän -esimerkki Artemis-luokan tehtävästä 11 vaiheessa (Maan ja Kuun segmentit), yhteensä 92 skenaariolajia. Jokainen luku on MODELLED. Cislunaarinen eteneminen julkista Artemis I -rataa vasten
+  lenkillä; päästä päähän -esimerkki Artemis-luokan tehtävästä 11 vaiheessa (Maan ja Kuun segmentit). Jokainen luku on MODELLED. Cislunaarinen eteneminen julkista Artemis I -rataa vasten
   **alittaa** ennalta asetetun kynnyksensä (45.3 km ja 0.25 m/s, kun kynnys on 5 km ja 0.05 m/s; syynä ovat pienet ratamuutokset, joita malli ei sisällä), ja kuun ratapropagaattori CAPSTONE-rataa
   vasten **alittaa** kynnyksen (136.8 km, kun kynnys on 25 km yhden kierroksen lopussa); LRO-vertailu saavuttaa kynnyksen. Rivit pysyvät tasolla MODELLED
   ([Tehtäväketju](docs/MISSION-THREAD.md), [kuun segmentti](docs/MISSION-THREAD-LUNAR.md)). Studiossa ketju luetaan osoitteessa `/studio/mission-thread/`.
@@ -207,7 +247,7 @@ kshana jammertest score session.toml --catalog ../jammertest-plan/testcatalog202
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/jammertest-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/jammertest-light.svg">
-  <img src="docs/figures/0.38/jammertest-light.svg" alt="Yhden synteettisen vastaanotinlokin pisteytys kolmen testin aikataulua vasten, moottorin v0.40.0 todellisesta ajosta (`kshana jammertest score`). Loki on keksitty: 1800 s NMEA-dataa, jossa C/N0 putoaa 20 dB kahdella välillä. Aikataulussa on kolme aikaväliä; keskimmäisessä ei lokissa ole häiritsintä. Pisteytys merkitsee 2 / 3 testiä havaituiksi (mediaaniviive 0 s) ja 1 puuttuneeksi, 0 väärän hälytyksen jaksoa 0.25 h:n puhtaana aikana. Mikään tässä ei kerro mitään todellisesta vastaanottimesta. Ohjeellinen ohjelmisto, ei tyyppihyväksytty navigointilaite (IEC 61108, IEC 61162): käyttäjä vastaa edelleen aluksen navigoinnista.">
+  <img src="docs/figures/0.38/jammertest-light.svg" alt="Yhden synteettisen vastaanotinlokin pisteytys kolmen testin aikataulua vasten, moottorin v0.41.0 todellisesta ajosta (`kshana jammertest score`). Loki on keksitty: 1800 s NMEA-dataa, jossa C/N0 putoaa 20 dB kahdella välillä. Aikataulussa on kolme aikaväliä; keskimmäisessä ei lokissa ole häiritsintä. Pisteytys merkitsee 2 / 3 testiä havaituiksi (mediaaniviive 0 s) ja 1 puuttuneeksi, 0 väärän hälytyksen jaksoa 0.25 h:n puhtaana aikana. Mikään tässä ei kerro mitään todellisesta vastaanottimesta. Ohjeellinen ohjelmisto, ei tyyppihyväksytty navigointilaite (IEC 61108, IEC 61162): käyttäjä vastaa edelleen aluksen navigoinnista.">
 </picture>
 
 **Tila kirjanpidossa: MODELLED.** Kynnykset kiinnitettiin ennen yhtäkään pisteytettyä ajoa; JammerTest 2024 -datalla
@@ -228,7 +268,7 @@ kshana receiver-trust session.toml     # [log] format = "ubx", path = "receiver.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/receiver-flags-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/receiver-flags-light.svg">
-  <img src="docs/figures/0.38/receiver-flags-light.svg" alt="Vastaanottimen oma harhautuslippu Kshanan hälytysten rinnalla, moottorin v0.40.0 todellisesta ajosta keksityllä UBX-lokilla (200 epookkia taajuudella 1 Hz). C/N0 putoaa 20 dB välillä 80–90 s ja 120–130 s; vastaanotin liputtaa välit 120–130 s ja 160–165 s. Kalibroinnin jälkeen verratuista 140 epookista 11:ssä liputtivat molemmat, 6:ssa vain vastaanotin, 11:ssä vain Kshana ja 112:ssa ei kumpikaan. Kumpikaan puoli ei ole todellinen totuus, eikä yksimielisyys ole validointia. Ohjeellinen: tutkimus- ja suunnittelutyökalun analyysituloste, ei tyyppihyväksytty navigointilaite eikä turvallisuuskriittinen (safety-of-life) palvelu.">
+  <img src="docs/figures/0.38/receiver-flags-light.svg" alt="Vastaanottimen oma harhautuslippu Kshanan hälytysten rinnalla, moottorin v0.41.0 todellisesta ajosta keksityllä UBX-lokilla (200 epookkia taajuudella 1 Hz). C/N0 putoaa 20 dB välillä 80–90 s ja 120–130 s; vastaanotin liputtaa välit 120–130 s ja 160–165 s. Kalibroinnin jälkeen verratuista 140 epookista 11:ssä liputtivat molemmat, 6:ssa vain vastaanotin, 11:ssä vain Kshana ja 112:ssa ei kumpikaan. Kumpikaan puoli ei ole todellinen totuus, eikä yksimielisyys ole validointia. Ohjeellinen: tutkimus- ja suunnittelutyökalun analyysituloste, ei tyyppihyväksytty navigointilaite eikä turvallisuuskriittinen (safety-of-life) palvelu.">
 </picture>
 
 **Tila kirjanpidossa: MODELLED.** Vastaanottimen ilmaisimen ja Kshanan välinen yksimielisyys ei ole
@@ -248,7 +288,7 @@ kshana imu-fit still.csv --format csv --axis x --expected-mean 0 --id bench-imu
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/machine-inputs-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/machine-inputs-light.svg">
-  <img src="docs/figures/0.38/machine-inputs-light.svg" alt="Mitä `kshana imu-fit` lukee paikallaan olevan IMU:n lokista, moottorin v0.40.0 todellisesta ajosta keksityllä lokilla (20,000 näytettä taajuudella 100 Hz, 200 s): kiihtyvyysanturin nopeuden satunnaiskulku q_va = 4.02e-06, gyroskoopin kulman satunnaiskulku q_arw = 9e-08, biaksen epävakaus 0.00296 ja varhaiset Allan-kulmakertoimet (-0.51 ja -0.49; noin -0.5, kun valkoinen kohina hallitsee). Vieressä oleva taulukko on komennon tulostama TOML. Estimaattori on tarkistettu vain synteettisillä lokeilla. Ohjeellinen: tutkimus- ja suunnittelutyökalun analyysituloste, ei tyyppihyväksytty navigointilaite eikä turvallisuuskriittinen (safety-of-life) palvelu.">
+  <img src="docs/figures/0.38/machine-inputs-light.svg" alt="Mitä `kshana imu-fit` lukee paikallaan olevan IMU:n lokista, moottorin v0.41.0 todellisesta ajosta keksityllä lokilla (20,000 näytettä taajuudella 100 Hz, 200 s): kiihtyvyysanturin nopeuden satunnaiskulku q_va = 4.02e-06, gyroskoopin kulman satunnaiskulku q_arw = 9e-08, biaksen epävakaus 0.00296 ja varhaiset Allan-kulmakertoimet (-0.51 ja -0.49; noin -0.5, kun valkoinen kohina hallitsee). Vieressä oleva taulukko on komennon tulostama TOML. Estimaattori on tarkistettu vain synteettisillä lokeilla. Ohjeellinen: tutkimus- ja suunnittelutyökalun analyysituloste, ei tyyppihyväksytty navigointilaite eikä turvallisuuskriittinen (safety-of-life) palvelu.">
 </picture>
 
 **Tila kirjanpidossa: MODELLED.** Vain itse kirjoitettuja testiaineistoja; yhtäkään tallennetta todellisesta vastaanottimesta, IMU:sta,
@@ -268,7 +308,7 @@ kshana scenarios/holdover-test-example.toml
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/timing-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/timing-light.svg">
-  <img src="docs/figures/0.38/timing-light.svg" alt="Aikavirhetietueesta pisteytetty holdover-testi, moottorin v0.40.0 todellisesta ajosta skenaariolla scenarios/holdover-test-example.toml (601 näytettä 5 s:n välein). Operaattori poistaa GNSS:n hetkellä 600 s ja palauttaa sen hetkellä 2400 s; aikavirhe ajautuu arvoon 299 ns holdoverin lopussa, ylittää 100 ns:n budjetin 675 s:n jälkeen ja palaa 100 ns:n kaistan sisään 70 s palautuksen jälkeen. Tuomiot: lähtötason maskit PASS, holdover-maskit FAIL, holdover-verhokäyrä FAIL, palautuminen RECOVERED. Mitattu maskia vasten, ei hyväksyntä. Ajat ovat operaattorin ilmoitus, Kshana ei ole varmentanut niitä. Ohjeellinen: tutkimus- ja suunnittelutyökalun analyysituloste, ei tyyppihyväksytty navigointilaite eikä turvallisuuskriittinen (safety-of-life) palvelu.">
+  <img src="docs/figures/0.38/timing-light.svg" alt="Aikavirhetietueesta pisteytetty holdover-testi, moottorin v0.41.0 todellisesta ajosta skenaariolla scenarios/holdover-test-example.toml (601 näytettä 5 s:n välein). Operaattori poistaa GNSS:n hetkellä 600 s ja palauttaa sen hetkellä 2400 s; aikavirhe ajautuu arvoon 299 ns holdoverin lopussa, ylittää 100 ns:n budjetin 675 s:n jälkeen ja palaa 100 ns:n kaistan sisään 70 s palautuksen jälkeen. Tuomiot: lähtötason maskit PASS, holdover-maskit FAIL, holdover-verhokäyrä FAIL, palautuminen RECOVERED. Mitattu maskia vasten, ei hyväksyntä. Ajat ovat operaattorin ilmoitus, Kshana ei ole varmentanut niitä. Ohjeellinen: tutkimus- ja suunnittelutyökalun analyysituloste, ei tyyppihyväksytty navigointilaite eikä turvallisuuskriittinen (safety-of-life) palvelu.">
 </picture>
 
 **Tila kirjanpidossa: MODELLED.** Ajat, jolloin GNSS poistettiin ja palautettiin, ovat operaattorin ilmoitus,
@@ -289,7 +329,7 @@ kshana standards-pack run imo-circ-1575
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/standards-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/standards-light.svg">
-  <img src="docs/figures/0.38/standards-light.svg" alt="Kolmen pisteytetyn standardipaketin jokainen testi, moottorin v0.40.0 todellisista ajoista (`kshana standards-pack run`): dhs-rpcf: 6 saavutettu, 1 ei saavutettu, 2 tarvitsee syötteen; imo-circ-1575: 1 saavutettu, 4 ei saavutettu, 2 tarvitsee syötteen; icao-doc9849-appf: 6 saavutettu, 0 ei saavutettu, 2 tarvitsee syötteen. Yhteensä 13 saavutettu, 5 ei saavutettu ja 6 tarvitsee syötteen, jota moottorilla ei ole (vastaanotinloki tai laitteiston dokumentaatio). Jokainen kynnys ilmoitettiin ennen ajoa; alitus säilytetään alituksena. Saavutettu kynnys kertoo, että mallinnettu skenaario saavutti ilmoitetun kynnyksen, ei mitään tuotteesta. Paketit tukevat todisteita riveille, joihin ne viittaavat; ne eivät ole arviointi. Ohjeellinen: tutkimus- ja suunnittelutyökalun analyysituloste, ei tyyppihyväksytty navigointilaite eikä turvallisuuskriittinen (safety-of-life) palvelu; sitä ei saa käyttää minkään navigointi- tai turvallisuuspäätöksen ainoana perustana.">
+  <img src="docs/figures/0.38/standards-light.svg" alt="Kolmen pisteytetyn standardipaketin jokainen testi, moottorin v0.41.0 todellisista ajoista (`kshana standards-pack run`): dhs-rpcf: 6 saavutettu, 1 ei saavutettu, 2 tarvitsee syötteen; imo-circ-1575: 1 saavutettu, 4 ei saavutettu, 2 tarvitsee syötteen; icao-doc9849-appf: 6 saavutettu, 0 ei saavutettu, 2 tarvitsee syötteen. Yhteensä 13 saavutettu, 5 ei saavutettu ja 6 tarvitsee syötteen, jota moottorilla ei ole (vastaanotinloki tai laitteiston dokumentaatio). Jokainen kynnys ilmoitettiin ennen ajoa; alitus säilytetään alituksena. Saavutettu kynnys kertoo, että mallinnettu skenaario saavutti ilmoitetun kynnyksen, ei mitään tuotteesta. Paketit tukevat todisteita riveille, joihin ne viittaavat; ne eivät ole arviointi. Ohjeellinen: tutkimus- ja suunnittelutyökalun analyysituloste, ei tyyppihyväksytty navigointilaite eikä turvallisuuskriittinen (safety-of-life) palvelu; sitä ei saa käyttää minkään navigointi- tai turvallisuuspäätöksen ainoana perustana.">
 </picture>
 
 **Tila kirjanpidossa: MODELLED.** Saavutettu kynnys kertoo, että mallinnettu skenaario saavutti ilmoitetun kynnyksen, ei mitään
@@ -309,7 +349,7 @@ kshana lunanet-afs-check symbols afs.sym
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/lunanet-afs-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/lunanet-afs-light.svg">
-  <img src="docs/figures/0.38/lunanet-afs-light.svg" alt="LunaNet AFS -koodigeneraattori tarkistettuna spesifikaation painettuja sarakkeita vasten, moottorin v0.40.0 todellisesta ajosta (`kshana lunanet-afs-check spec`, kiinnitetty versioon LNIS V5, AD1 Volume A (LSIS-AFS) V1.0, 29. tammikuuta 2025; asiakirja merkitsee kooditaulukkonsa {LSIS-TBC}). 9 / 10 tarkistusta saavutetaan; B4 on NOT MET (420 / 421 täsmäsi). Se tarkistaa symbolivirran julkaistun spesifikaation yhtä painosta vasten eikä sano mitään yhdestäkään LunaNet-solmusta tai -palvelusta. Ohjeellinen: tutkimus- ja suunnittelutyökalun analyysituloste, ei tyyppihyväksytty navigointilaite eikä turvallisuuskriittinen (safety-of-life) palvelu. Se tarkistaa symbolivirran julkaistun spesifikaation yhtä painosta vasten eikä sano mitään yhdestäkään LunaNet-solmusta tai -palvelusta.">
+  <img src="docs/figures/0.38/lunanet-afs-light.svg" alt="LunaNet AFS -koodigeneraattori tarkistettuna spesifikaation painettuja sarakkeita vasten, moottorin v0.41.0 todellisesta ajosta (`kshana lunanet-afs-check spec`, kiinnitetty versioon LNIS V5, AD1 Volume A (LSIS-AFS) V1.0, 29. tammikuuta 2025; asiakirja merkitsee kooditaulukkonsa {LSIS-TBC}). 9 / 10 tarkistusta saavutetaan; B4 on NOT MET (420 / 421 täsmäsi). Se tarkistaa symbolivirran julkaistun spesifikaation yhtä painosta vasten eikä sano mitään yhdestäkään LunaNet-solmusta tai -palvelusta. Ohjeellinen: tutkimus- ja suunnittelutyökalun analyysituloste, ei tyyppihyväksytty navigointilaite eikä turvallisuuskriittinen (safety-of-life) palvelu. Se tarkistaa symbolivirran julkaistun spesifikaation yhtä painosta vasten eikä sano mitään yhdestäkään LunaNet-solmusta tai -palvelusta.">
 </picture>
 
 **Tila kirjanpidossa: VALIDATED** koodi- ja synkronointitarkistuksille, spesifikaation painamia arvoja vasten
@@ -351,7 +391,7 @@ kshana bench baseline --task d --split test --out results/
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/bench-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/bench-light.svg">
-  <img src="docs/figures/0.38/bench-light.svg" alt="kshana-benchin tehtävän D (optimismivaje) sisäänrakennetut lähtötasot testijaolla, moottorin v0.40.0 todellisesta ajosta (`kshana bench baseline`). Kukin palkkipari on ROC-käyrän alle jäävä pinta-ala jakauman sisäisillä tapauksilla ja siirretyillä tapauksilla; niiden välinen ero on optimismivaje, toleranssina 0.05. fused-max-z: 0.998 ja 0.983 (ero 0.015); sqm-imbalance: 0.882 ja 0.882 (ero 0.001); agc-excess: 0.848 ja 0.819 (ero 0.030); raim-parity: 0.682 ja 0.672 (ero 0.010); energy-cn0-drop: 0.595 ja 0.565 (ero 0.030). Merkinnät ovat synteettisen aineiston generatiivisen mallin merkintöjä, eivät koskaan kenttädataa: MODELLED. Ohjeellinen: mallinnettu tai mitattu ilmoitettuja viitteitä vasten, ei hyväksyntä, sertifiointi eikä vaatimustenmukaisuuslausunto. Pisteet kuvaavat lokia tai aineistoa, eivät koskaan tuotetta.">
+  <img src="docs/figures/0.38/bench-light.svg" alt="kshana-benchin tehtävän D (optimismivaje) sisäänrakennetut lähtötasot testijaolla, moottorin v0.41.0 todellisesta ajosta (`kshana bench baseline`). Kukin palkkipari on ROC-käyrän alle jäävä pinta-ala jakauman sisäisillä tapauksilla ja siirretyillä tapauksilla; niiden välinen ero on optimismivaje, toleranssina 0.05. fused-max-z: 0.998 ja 0.983 (ero 0.015); sqm-imbalance: 0.882 ja 0.882 (ero 0.001); agc-excess: 0.848 ja 0.819 (ero 0.030); raim-parity: 0.682 ja 0.672 (ero 0.010); energy-cn0-drop: 0.595 ja 0.565 (ero 0.030). Merkinnät ovat synteettisen aineiston generatiivisen mallin merkintöjä, eivät koskaan kenttädataa: MODELLED. Ohjeellinen: mallinnettu tai mitattu ilmoitettuja viitteitä vasten, ei hyväksyntä, sertifiointi eikä vaatimustenmukaisuuslausunto. Pisteet kuvaavat lokia tai aineistoa, eivät koskaan tuotetta.">
 </picture>
 
 **Tila kirjanpidossa:** ei omaa kirjanpidon riviä; lähtötasot on merkitty tulostiedostoissa MODELLED.
@@ -394,7 +434,7 @@ kshana trust-telemetry --result session.result.json --print-syslog --format cef
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/exporters-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/exporters-light.svg">
-  <img src="docs/figures/0.38/exporters-light.svg" alt="Yksi luottamustulos kolmessa vientiformaatissa, moottorin v0.40.0 todellisista ajoista (`kshana trust-telemetry`) aineistolla examples/maritime-trust: Prometheuksen tekstiesitys (viimeisin luottamuspistemäärä on 5.9, ja epäluotettava kaista on asetettu), sekä viimeiset CEF- ja LEEF-viestit. Komento ei julkaise mitään ilman kohdetta, ei säilytä tunnuksia eikä lähetä radiosignaalia. Ohjeellinen ohjelmisto, ei tyyppihyväksytty navigointilaite (IEC 61108, IEC 61162): käyttäjä vastaa edelleen aluksen navigoinnista.">
+  <img src="docs/figures/0.38/exporters-light.svg" alt="Yksi luottamustulos kolmessa vientiformaatissa, moottorin v0.41.0 todellisista ajoista (`kshana trust-telemetry`) aineistolla examples/maritime-trust: Prometheuksen tekstiesitys (viimeisin luottamuspistemäärä on 5.9, ja epäluotettava kaista on asetettu), sekä viimeiset CEF- ja LEEF-viestit. Komento ei julkaise mitään ilman kohdetta, ei säilytä tunnuksia eikä lähetä radiosignaalia. Ohjeellinen ohjelmisto, ei tyyppihyväksytty navigointilaite (IEC 61108, IEC 61162): käyttäjä vastaa edelleen aluksen navigoinnista.">
 </picture>
 
 **Tila kirjanpidossa: MODELLED.** [Luottamustelemetria](docs/TRUST-TELEMETRY.md).
@@ -412,19 +452,21 @@ kshana scenarios/optical-atmosphere-network.toml
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/optical-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/optical-light.svg">
-  <img src="docs/figures/0.38/optical-light.svg" alt="Yksi siemennetty toteutuma paikan 'northern' linkkimarginaalista 336 h:n ajalta, moottorin v0.40.0 todellisesta ajosta skenaariolla scenarios/optical-atmosphere-network.toml (siemen 37, askel 600 s). Marginaali putoaa alle nollan pilvijaksojen aikana; tässä otoksessa linkki on käytössä 40.5 % ajasta, 27 katkoa ja pisin katko 30.7 h. Syötteet ovat havainnollistavia, sarja on yksi otos mallista eikä ilmasto, ja se poikkeaa tilastollisesta käytettävyydestä (37.8 %) otoksen otantavirheen verran. Vain ohjeellinen analyysi: ei sertifioitu käytettävyys-, eheys- tai navigointituote eikä ennuste millekään todelliselle paikalle, ellei sen ilmastosyötteet tule ilmoitetusta aineistosta.">
+  <img src="docs/figures/0.38/optical-light.svg" alt="Yksi siemennetty toteutuma paikan 'northern' linkkimarginaalista 336 h:n ajalta, moottorin v0.41.0 todellisesta ajosta skenaariolla scenarios/optical-atmosphere-network.toml (siemen 37, askel 600 s). Marginaali putoaa alle nollan pilvijaksojen aikana; tässä otoksessa linkki on käytössä 40.5 % ajasta, 27 katkoa ja pisin katko 30.7 h. Syötteet ovat havainnollistavia, sarja on yksi otos mallista eikä ilmasto, ja se poikkeaa tilastollisesta käytettävyydestä (37.8 %) otoksen otantavirheen verran. Vain ohjeellinen analyysi: ei sertifioitu käytettävyys-, eheys- tai navigointituote eikä ennuste millekään todelliselle paikalle, ellei sen ilmastosyötteet tule ilmoitetusta aineistosta.">
 </picture>
 
 **Tila kirjanpidossa: MODELLED.** Yksi otos mallista, ei ilmasto. [Optinen ilmakehä](docs/OPTICAL-ATMOSPHERE.md).
 
 ### Uudet Studio-näkymät
 
-[kshana.dev/studio](https://kshana.dev/studio/) saa Bridge-toiston (kaksi ajoa rinnakkain yhdellä
-tehtäväkellolla, osoitteessa [`/studio/replay/`](https://kshana.dev/studio/replay/)), Optinen PNT -sivun
-(`/studio/optical/`), Holdover-testisivun (`/studio/holdover/`) ja observatorion katseluohjelman
+[kshana.dev/studio](https://kshana.dev/studio/) saa komentosillan toiston (kaksi ajoa rinnakkain samalla
+tehtäväkellolla, osoitteessa [`/studio/replay/`](https://kshana.dev/studio/replay/)), optisen PNT:n sivun
+(`/studio/optical/`), holdover-testin sivun (`/studio/holdover/`) ja observatorion katselimen
 (`/studio/observatory/`). Ne ajavat samaa moottoria selaimessa, mitään ei ladata palvelimelle, ja niissä on
-sama ohjeellisuuslausuma. Yllä olevat kuvat on piirretty skriptillä moottorin omasta tulosteesta;
-ne eivät ole kuvakaappauksia näistä sivuista.
+sama ohjeellisuuslausuma. Vain Kshana Desktopissa (saatavilla osoitteesta [kshana.dev](https://kshana.dev)) IQ-tallenteiden näkymä (`/studio/iq/`) lukee tallenteen
+levyltä ja näyttää sen tehon ajan funktiona, vesiputouskaavion ja spektrin kohdistimen kohdalla; se lukee vain vastaanotettuja näytteitä eikä
+siinä ole yhtään säädintä, joka kirjoittaisi, lähettäisi tai tuottaisi signaalin. Yllä olevat kuvat piirtää skripti moottorin tulosteesta;
+ne eivät ole näyttökuvia näistä sivuista.
 
 <a id="space-user-navigation-gnss-ssv"></a>
 ### Avaruuskäyttäjän navigointi (`gnss-ssv`)
@@ -449,25 +491,25 @@ kshana scenarios/gnss-ssv-formation-heo.toml    # formation: relative navigation
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/ssv-shell-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/ssv-shell-light.svg">
-  <img src="docs/figures/0.38/ssv-shell-light.svg" alt="Signaalien käytettävyys käyttäjälle pallopinnalla 36000 km:n korkeudessa puolipallo-antennilla, moottorin v0.40.0 todellisesta ajosta skenaariolla scenarios/gnss-ssv-shell.toml (supistettu ajo: 162 käyttäjää, 3 vuorokautta, 10 min:n askeleet), 20 dB-Hz:n kynnyksellä. Kullekin konstellaatiolle ja kaistalle kaksi palkkia: niiden (käyttäjä, epookki) -parien osuus, joilla on vähintään yksi signaali ja vähintään neljä. Yhdistetty, L1: 99.4 % vähintään yksi, 73.2 % vähintään neljä, pisin alle neljän signaalin katko 160 min. Yhdistetty, L5: 100.0 % vähintään yksi, 99.9 % vähintään neljä, pisin alle neljän signaalin katko 20 min. MODELLED: mallinnettu tutkimus ilmoitetuista syötteistä, ei mittaus eikä palvelutilavuusväite mistään järjestelmästä. Supistettu koko ei ole kirjasvertailu. Ohjeellinen: tutkimus- ja suunnittelutyökalun analyysituloste, ei tyyppihyväksytty navigointilaite eikä turvallisuuskriittinen (safety-of-life) palvelu.">
+  <img src="docs/figures/0.38/ssv-shell-light.svg" alt="Signaalien käytettävyys käyttäjälle pallopinnalla 36000 km:n korkeudessa puolipallo-antennilla, moottorin v0.41.0 todellisesta ajosta skenaariolla scenarios/gnss-ssv-shell.toml (supistettu ajo: 162 käyttäjää, 3 vuorokautta, 10 min:n askeleet), 20 dB-Hz:n kynnyksellä. Kullekin konstellaatiolle ja kaistalle kaksi palkkia: niiden (käyttäjä, epookki) -parien osuus, joilla on vähintään yksi signaali ja vähintään neljä. Yhdistetty, L1: 99.4 % vähintään yksi, 73.2 % vähintään neljä, pisin alle neljän signaalin katko 160 min. Yhdistetty, L5: 100.0 % vähintään yksi, 99.9 % vähintään neljä, pisin alle neljän signaalin katko 20 min. MODELLED: mallinnettu tutkimus ilmoitetuista syötteistä, ei mittaus eikä palvelutilavuusväite mistään järjestelmästä. Supistettu koko ei ole kirjasvertailu. Ohjeellinen: tutkimus- ja suunnittelutyökalun analyysituloste, ei tyyppihyväksytty navigointilaite eikä turvallisuuskriittinen (safety-of-life) palvelu.">
 </picture>
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/ssv-heo-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/ssv-heo-light.svg">
-  <img src="docs/figures/0.38/ssv-heo-light.svg" alt="Signaalit yhden korkean Maan kiertoradan varrella (perigeum 497 km, apogeum 58622 km, jakso 18.8 h), moottorin v0.40.0 todellisesta ajosta skenaariolla scenarios/gnss-ssv-heo.toml, kaista L1. Ylhäällä: näkyvissä olevien signaalien paras kantoaalto-kohinatiheys 20 dB-Hz:n kynnystä vasten. Keskellä: näkyvissä olevien signaalien määrä kaikista konstellaatioista, 4–55 näytepisteiden varrella. Vastaanotetuista linkeistä 2252 tuli pääkeilan kautta ja 696 sivukeilojen kautta, käyttäen merkittyä parametrista sijaiskuviota, ei minkään järjestelmän mitattua kuviota. PDOP:n mediaani 67, 95. persentiili 358. MODELLED: mallinnettu tutkimus ilmoitetuista syötteistä, ei mittaus eikä palvelutilavuusväite mistään järjestelmästä. Ohjeellinen: tutkimus- ja suunnittelutyökalun analyysituloste, ei tyyppihyväksytty navigointilaite eikä turvallisuuskriittinen (safety-of-life) palvelu.">
+  <img src="docs/figures/0.38/ssv-heo-light.svg" alt="Signaalit yhden korkean Maan kiertoradan varrella (perigeum 497 km, apogeum 58622 km, jakso 18.8 h), moottorin v0.41.0 todellisesta ajosta skenaariolla scenarios/gnss-ssv-heo.toml, kaista L1. Ylhäällä: näkyvissä olevien signaalien paras kantoaalto-kohinatiheys 20 dB-Hz:n kynnystä vasten. Keskellä: näkyvissä olevien signaalien määrä kaikista konstellaatioista, 4–55 näytepisteiden varrella. Vastaanotetuista linkeistä 2252 tuli pääkeilan kautta ja 696 sivukeilojen kautta, käyttäen merkittyä parametrista sijaiskuviota, ei minkään järjestelmän mitattua kuviota. PDOP:n mediaani 67, 95. persentiili 358. MODELLED: mallinnettu tutkimus ilmoitetuista syötteistä, ei mittaus eikä palvelutilavuusväite mistään järjestelmästä. Ohjeellinen: tutkimus- ja suunnittelutyökalun analyysituloste, ei tyyppihyväksytty navigointilaite eikä turvallisuuskriittinen (safety-of-life) palvelu.">
 </picture>
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/ssv-nav-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/ssv-nav-light.svg">
-  <img src="docs/figures/0.38/ssv-nav-light.svg" alt="Aluksen oma yhdeksän tilan suodatin siirtoradalla matalalta radalta kohti Kuuta, moottorin v0.40.0 todellisesta ajosta skenaariolla scenarios/gnss-ssv-nav-lunar.toml (289 epookkia, 13 pistettä piirretty). Logaritmisella akselilla todellinen paikkavirhe ja suodattimen oma yhden sigman raja alusta kuluneen ajan funktiona. GNSS-ratojen sisäpuolella paikan RMS on 1.4 m; niiden yläpuolella se on 90 m, ja lopullinen virhe on 184 m 193,330 km:n korkeudessa 1 mittauksella. Normalisoidun estimointivirheen neliön keskiarvo koko ajon yli on 4.4 (noin 3 johdonmukaiselle paikkalohkolle). Totuus ja suodatin käyttävät samoja Auringon ja Kuun sijaismalleja. MODELLED: mallinnettu tutkimus ilmoitetuista syötteistä, ei mittaus eikä palvelutilavuusväite mistään järjestelmästä. Ohjeellinen: tutkimus- ja suunnittelutyökalun analyysituloste, ei tyyppihyväksytty navigointilaite eikä turvallisuuskriittinen (safety-of-life) palvelu.">
+  <img src="docs/figures/0.38/ssv-nav-light.svg" alt="Aluksen oma yhdeksän tilan suodatin siirtoradalla matalalta radalta kohti Kuuta, moottorin v0.41.0 todellisesta ajosta skenaariolla scenarios/gnss-ssv-nav-lunar.toml (289 epookkia, 13 pistettä piirretty). Logaritmisella akselilla todellinen paikkavirhe ja suodattimen oma yhden sigman raja alusta kuluneen ajan funktiona. GNSS-ratojen sisäpuolella paikan RMS on 1.4 m; niiden yläpuolella se on 90 m, ja lopullinen virhe on 184 m 199,330 km:n korkeudessa 1 mittauksella. Normalisoidun estimointivirheen neliön keskiarvo koko ajon yli on 4.4 (noin 3 johdonmukaiselle paikkalohkolle). Totuus ja suodatin käyttävät samoja Auringon ja Kuun sijaismalleja. MODELLED: mallinnettu tutkimus ilmoitetuista syötteistä, ei mittaus eikä palvelutilavuusväite mistään järjestelmästä. Ohjeellinen: tutkimus- ja suunnittelutyökalun analyysituloste, ei tyyppihyväksytty navigointilaite eikä turvallisuuskriittinen (safety-of-life) palvelu.">
 </picture>
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/ssv-formation-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/ssv-formation-light.svg">
-  <img src="docs/figures/0.38/ssv-formation-light.svg" alt="2 sivualuksen suhteellinen navigointi pääaluksen ympärillä korkealla radalla, moottorin v0.40.0 todellisesta ajosta skenaariolla scenarios/gnss-ssv-formation-heo.toml (401 epookkia). Kullekin sivualukselle kaksi palkkia: suhteellisen paikan RMS kahden riippumattoman absoluuttisen estimaatin erotuksesta sekä suhteellisesta suodattimesta yksinkertaisesti differoiduilla pseudoetäisyyksillä. Perusviiva 0.8 km: 5.1 m ja 1.2 m. Perusviiva 2.0 km: 4.1 m ja 2.1 m. Absoluuttinen suodatin ei ole tässä johdonmukainen: normalisoidun estimointivirheen neliön keskiarvo 187, kun johdonmukaisella suodattimella se on noin 3, joten sen ilmoittama epävarmuus on aivan liian pieni. MODELLED: mallinnettu tutkimus ilmoitetuista syötteistä, ei mittaus eikä palvelutilavuusväite mistään järjestelmästä. Ohjeellinen: tutkimus- ja suunnittelutyökalun analyysituloste, ei tyyppihyväksytty navigointilaite eikä turvallisuuskriittinen (safety-of-life) palvelu.">
+  <img src="docs/figures/0.38/ssv-formation-light.svg" alt="2 sivualuksen suhteellinen navigointi pääaluksen ympärillä korkealla radalla, moottorin v0.41.0 todellisesta ajosta skenaariolla scenarios/gnss-ssv-formation-heo.toml (401 epookkia). Kullekin sivualukselle kaksi palkkia: suhteellisen paikan RMS kahden riippumattoman absoluuttisen estimaatin erotuksesta sekä suhteellisesta suodattimesta yksinkertaisesti differoiduilla pseudoetäisyyksillä. Perusviiva 0.8 km: 5.1 m ja 1.2 m. Perusviiva 2.0 km: 4.1 m ja 2.1 m. Absoluuttinen suodatin ei ole tässä johdonmukainen: normalisoidun estimointivirheen neliön keskiarvo 187, kun johdonmukaisella suodattimella se on noin 3, joten sen ilmoittama epävarmuus on aivan liian pieni. MODELLED: mallinnettu tutkimus ilmoitetuista syötteistä, ei mittaus eikä palvelutilavuusväite mistään järjestelmästä. Ohjeellinen: tutkimus- ja suunnittelutyökalun analyysituloste, ei tyyppihyväksytty navigointilaite eikä turvallisuuskriittinen (safety-of-life) palvelu.">
 </picture>
 
 **Tila kirjanpidossa: MODELLED, ja vertailu kirjaseen jää enimmäkseen kynnyksen alle.** Kynnykset kiinnitettiin ennen
@@ -483,7 +525,7 @@ selvästi yli sen noin 3:n arvon, jonka johdonmukainen suodatin antaa).
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/ssv-booklet-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/ssv-booklet-light.svg">
-  <img src="docs/figures/0.38/ssv-booklet-light.svg" alt="Avaruuskäyttäjän käytettävyysmallin tallennettu vertailu julkiseen Space Service Volume -kirjaseen, ennakkorekisteröidyn ajon tietovarastoon tallennetuista tuloksista (xval/gnss-ssv/results-run1.json, kirjoittanut moottorin v0.40.0 esimerkki ssv_booklet_check). Palkki palkilta toleranssin sisällä olevat solut: S0 13 / 13 (MET); S1 43 / 52 (NOT MET); S2 48 / 52 (NOT MET); S3 122 / 155 (NOT MET); S4 132 / 156 (NOT MET); S5 18 / 26 (NOT MET); S6 26 / 26 (MET); S7 0 / 20 paneelikuviota (NOT MET). Vain S0 ja S6 saavutetaan ennakkorekisteröidyllä tulkinnalla. Diagnostinen muunnelma, joka käyttää kirjasen toisia GLONASS-kulmia, vie S1:n, S2:n ja S4:n jokaiseen soluun, mutta ei korvaa virallista ajoa. Yksikään kirjanpidon rivi ei ole VALIDATED. Ohjeellinen: tutkimus- ja suunnittelutyökalun analyysituloste, ei tyyppihyväksytty navigointilaite eikä turvallisuuskriittinen (safety-of-life) palvelu.">
+  <img src="docs/figures/0.38/ssv-booklet-light.svg" alt="Avaruuskäyttäjän käytettävyysmallin tallennettu vertailu julkiseen Space Service Volume -kirjaseen, ennakkorekisteröidyn ajon tietovarastoon tallennetuista tuloksista (xval/gnss-ssv/results-run1.json, kirjoittanut moottorin v0.41.0 esimerkki ssv_booklet_check). Palkki palkilta toleranssin sisällä olevat solut: S0 13 / 13 (MET); S1 43 / 52 (NOT MET); S2 48 / 52 (NOT MET); S3 122 / 155 (NOT MET); S4 132 / 156 (NOT MET); S5 18 / 26 (NOT MET); S6 26 / 26 (MET); S7 0 / 20 paneelikuviota (NOT MET). Vain S0 ja S6 saavutetaan ennakkorekisteröidyllä tulkinnalla. Diagnostinen muunnelma, joka käyttää kirjasen toisia GLONASS-kulmia, vie S1:n, S2:n ja S4:n jokaiseen soluun, mutta ei korvaa virallista ajoa. Yksikään kirjanpidon rivi ei ole VALIDATED. Ohjeellinen: tutkimus- ja suunnittelutyökalun analyysituloste, ei tyyppihyväksytty navigointilaite eikä turvallisuuskriittinen (safety-of-life) palvelu.">
 </picture>
 
 [Avaruuskäyttäjän navigointi](docs/SSV.md), [mitä vertailu osoittaa](docs/SSV.md#what-the-comparison-with-the-booklet-shows).
@@ -511,31 +553,31 @@ kshana scenarios/lunar-infrastructure-geodesy-sensitivity.toml
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/lunar-od-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/lunar-od-light.svg">
-  <img src="docs/figures/0.38/lunar-od-light.svg" alt="Aluksen oman Maan GNSS:ään perustuvan radanmäärityksen johdonmukaisuus lähes suoraviivaisella halo-radalla verrattuna riippumattomaan maa-asemien radanmääritykseen, moottorin v0.40.0 todellisista ajoista skenaariolla scenarios/lunar-infrastructure-od-consistency.toml ja mallivirhemuunnelmalla (kumpikin 400 koetta). Normalisoidun erotuksen q keskiarvo on 5.81 ilman mallivirhettä ja 5.95 lisätyllä kiihtyvyysvirheellä 3e-10 m/s2, kun odotusarvo on 6: kaksi ratkaisua ovat johdonmukaisia (kynnys C1 MET). 95 %:n pisteen ylittävien kokeiden osuus on 0.040 ja 0.052; lisätyn virheen havaitsemisen kynnys oli vähintään 0.5, joten se on NOT MET (C3): aluksen oma ratkaisu tunnetaan noin 352 m:n tarkkuudella ja maa-asemien ratkaisu 23 m:n, joten kymmenen metrin siirtymä piiloutuu sen kovarianssiin. MODELLED: rajoitettu kolmen kappaleen malli ilmoitetuin yksinkertaistuksin ja havainnollistavin syöttein, ei minkään kuusuureen mittaus. Ohjeellinen: tutkimus- ja suunnittelutyökalun analyysituloste, ei tyyppihyväksytty navigointilaite eikä turvallisuuskriittinen (safety-of-life) palvelu.">
+  <img src="docs/figures/0.38/lunar-od-light.svg" alt="Aluksen oman Maan GNSS:ään perustuvan radanmäärityksen johdonmukaisuus lähes suoraviivaisella halo-radalla verrattuna riippumattomaan maa-asemien radanmääritykseen, moottorin v0.41.0 todellisista ajoista skenaariolla scenarios/lunar-infrastructure-od-consistency.toml ja mallivirhemuunnelmalla (kumpikin 400 koetta). Normalisoidun erotuksen q keskiarvo on 5.81 ilman mallivirhettä ja 5.95 lisätyllä kiihtyvyysvirheellä 3e-10 m/s2, kun odotusarvo on 6: kaksi ratkaisua ovat johdonmukaisia (kynnys C1 MET). 95 %:n pisteen ylittävien kokeiden osuus on 0.040 ja 0.052; lisätyn virheen havaitsemisen kynnys oli vähintään 0.5, joten se on NOT MET (C3): aluksen oma ratkaisu tunnetaan noin 352 m:n tarkkuudella ja maa-asemien ratkaisu 23 m:n, joten kymmenen metrin siirtymä piiloutuu sen kovarianssiin. MODELLED: rajoitettu kolmen kappaleen malli ilmoitetuin yksinkertaistuksin ja havainnollistavin syöttein, ei minkään kuusuureen mittaus. Ohjeellinen: tutkimus- ja suunnittelutyökalun analyysituloste, ei tyyppihyväksytty navigointilaite eikä turvallisuuskriittinen (safety-of-life) palvelu.">
 </picture>
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/lunar-carrier-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/lunar-carrier-light.svg">
-  <img src="docs/figures/0.38/lunar-carrier-light.svg" alt="Kantoaallon vaiheen kokonaislukuepävarmuuden ratkaisu kuun pinta-asemien ja kiertolaisen välillä, moottorin v0.40.0 pisteytetyn ajon tietovarastoon tallennetusta tuloksesta (tests/fixtures/lunar_infra/phase_full_run.json: 3 kaaren pituutta, kullekin 401 otoksen Monte Carlo, kirjoittanut scenarios/carrier-phase-scored.toml). 1 vrk: onnistuminen 1.0 % (keskivirhe 0.5 %), 134 epävarmuutta, kiertolaisen paikan sigma 45.6 m liukuluku- ja 18.5 m kiinnitetyssä ratkaisussa; 2 vrk: onnistuminen 0.5 % (keskivirhe 0.4 %), 259 epävarmuutta, kiertolaisen paikan sigma 21.5 m liukuluku- ja 8.7 m kiinnitetyssä ratkaisussa; 3 vrk: onnistuminen 2.8 % (keskivirhe 0.8 %), 375 epävarmuutta, kiertolaisen paikan sigma 6.3 m liukuluku- ja 2.1 m kiinnitetyssä ratkaisussa. Kokonaislukujen kiinnitystä ei saavuteta: onnistuminen pysyy välillä 1 % – 3 % arvolla 25 dBi, ja rekisteröidyllä arvolla 12 dBi ongelmaa ei voida muodostaa. MODELLED: rajoitettu kolmen kappaleen malli ilmoitetuin yksinkertaistuksin ja havainnollistavin syöttein, ei minkään kuusuureen mittaus. Ohjeellinen: tutkimus- ja suunnittelutyökalun analyysituloste, ei tyyppihyväksytty navigointilaite eikä turvallisuuskriittinen (safety-of-life) palvelu.">
+  <img src="docs/figures/0.38/lunar-carrier-light.svg" alt="Kantoaallon vaiheen kokonaislukuepävarmuuden ratkaisu kuun pinta-asemien ja kiertolaisen välillä, moottorin v0.41.0 pisteytetyn ajon tietovarastoon tallennetusta tuloksesta (tests/fixtures/lunar_infra/phase_full_run.json: 3 kaaren pituutta, kullekin 401 otoksen Monte Carlo, kirjoittanut scenarios/carrier-phase-scored.toml). 1 vrk: onnistuminen 1.0 % (keskivirhe 0.5 %), 134 epävarmuutta, kiertolaisen paikan sigma 45.6 m liukuluku- ja 18.5 m kiinnitetyssä ratkaisussa; 2 vrk: onnistuminen 0.5 % (keskivirhe 0.4 %), 259 epävarmuutta, kiertolaisen paikan sigma 21.5 m liukuluku- ja 8.7 m kiinnitetyssä ratkaisussa; 3 vrk: onnistuminen 2.8 % (keskivirhe 0.8 %), 375 epävarmuutta, kiertolaisen paikan sigma 6.3 m liukuluku- ja 2.1 m kiinnitetyssä ratkaisussa. Kokonaislukujen kiinnitystä ei saavuteta: onnistuminen pysyy välillä 1 % – 3 % arvolla 25 dBi, ja rekisteröidyllä arvolla 12 dBi ongelmaa ei voida muodostaa. MODELLED: rajoitettu kolmen kappaleen malli ilmoitetuin yksinkertaistuksin ja havainnollistavin syöttein, ei minkään kuusuureen mittaus. Ohjeellinen: tutkimus- ja suunnittelutyökalun analyysituloste, ei tyyppihyväksytty navigointilaite eikä turvallisuuskriittinen (safety-of-life) palvelu.">
 </picture>
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/lunar-frame-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/lunar-frame-light.svg">
-  <img src="docs/figures/0.38/lunar-frame-light.svg" alt="Seitsemän parametrin kuun datumin (kolme siirtoa, mittakaava ja kolme kiertoa) tarkkuus maa-asemien etäisyysmittauksista, kiertolaisen ja pinta-asemien välisten etäisyyksien kanssa ja ilman, moottorin v0.40.0 todellisesta ajosta skenaariolla scenarios/lunar-infrastructure-frame-coestimation.toml. Siirtojen ja kiertojen Cramer-Rao-sigma pienenee kiertolaisen linkkien myötä (esimerkiksi t_z arvosta 0.98 m arvoon 0.046 m); pienin informaation ominaisarvo kasvaa 111-kertaiseksi ja CRLB:n jälki putoaa 1.0 %:iin (kynnys F3 MET). Tämä olettaa, että rata tunnetaan kuun akseleissa ja sen virhe sisältyy kiertolaisen etäisyyden 1 m:n sigmaan. MODELLED: rajoitettu kolmen kappaleen malli ilmoitetuin yksinkertaistuksin ja havainnollistavin syöttein, ei minkään kuusuureen mittaus. Ohjeellinen: tutkimus- ja suunnittelutyökalun analyysituloste, ei tyyppihyväksytty navigointilaite eikä turvallisuuskriittinen (safety-of-life) palvelu.">
+  <img src="docs/figures/0.38/lunar-frame-light.svg" alt="Seitsemän parametrin kuun datumin (kolme siirtoa, mittakaava ja kolme kiertoa) tarkkuus maa-asemien etäisyysmittauksista, kiertolaisen ja pinta-asemien välisten etäisyyksien kanssa ja ilman, moottorin v0.41.0 todellisesta ajosta skenaariolla scenarios/lunar-infrastructure-frame-coestimation.toml. Siirtojen ja kiertojen Cramer-Rao-sigma pienenee kiertolaisen linkkien myötä (esimerkiksi t_z arvosta 0.98 m arvoon 0.046 m); pienin informaation ominaisarvo kasvaa 111-kertaiseksi ja CRLB:n jälki putoaa 1.0 %:iin (kynnys F3 MET). Tämä olettaa, että rata tunnetaan kuun akseleissa ja sen virhe sisältyy kiertolaisen etäisyyden 1 m:n sigmaan. MODELLED: rajoitettu kolmen kappaleen malli ilmoitetuin yksinkertaistuksin ja havainnollistavin syöttein, ei minkään kuusuureen mittaus. Ohjeellinen: tutkimus- ja suunnittelutyökalun analyysituloste, ei tyyppihyväksytty navigointilaite eikä turvallisuuskriittinen (safety-of-life) palvelu.">
 </picture>
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/lunar-tie-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/lunar-tie-light.svg">
-  <img src="docs/figures/0.38/lunar-tie-light.svg" alt="Yhden avaruusaluksen laseretäisyysmittaus-, VLBI- ja GNSS-paikkojen välisten poikkeamien tarkkuus maassa tehdyn paikallisen sidoksen virhettä vasten, moottorin v0.40.0 todellisesta ajosta skenaariolla scenarios/lunar-infrastructure-space-tie.toml (yksi 6.56 vuorokauden kaari, tekniikoiden sigmat GNSS 10 m, VLBI 1 m, laser 0.1 m). Paikallisen sidoksen ollessa 1 mm – 1 m laser miinus GNSS -siirron sigma pysyy lähellä arvoa 1.04 m, kunnes sidos saavuttaa 1 m: sitä rajoittaa tekniikoiden mittauskohina, ei paikallinen sidos. Pelkän sidoksen asettama alaraja on kahden neliöjuuri kertaa sen sigma. MODELLED: rajoitettu kolmen kappaleen malli ilmoitetuin yksinkertaistuksin ja havainnollistavin syöttein, ei minkään kuusuureen mittaus. Ohjeellinen: tutkimus- ja suunnittelutyökalun analyysituloste, ei tyyppihyväksytty navigointilaite eikä turvallisuuskriittinen (safety-of-life) palvelu.">
+  <img src="docs/figures/0.38/lunar-tie-light.svg" alt="Yhden avaruusaluksen laseretäisyysmittaus-, VLBI- ja GNSS-paikkojen välisten poikkeamien tarkkuus maassa tehdyn paikallisen sidoksen virhettä vasten, moottorin v0.41.0 todellisesta ajosta skenaariolla scenarios/lunar-infrastructure-space-tie.toml (yksi 6.56 vuorokauden kaari, tekniikoiden sigmat GNSS 10 m, VLBI 1 m, laser 0.1 m). Paikallisen sidoksen ollessa 1 mm – 1 m laser miinus GNSS -siirron sigma pysyy lähellä arvoa 1.04 m, kunnes sidos saavuttaa 1 m: sitä rajoittaa tekniikoiden mittauskohina, ei paikallinen sidos. Pelkän sidoksen asettama alaraja on kahden neliöjuuri kertaa sen sigma. MODELLED: rajoitettu kolmen kappaleen malli ilmoitetuin yksinkertaistuksin ja havainnollistavin syöttein, ei minkään kuusuureen mittaus. Ohjeellinen: tutkimus- ja suunnittelutyökalun analyysituloste, ei tyyppihyväksytty navigointilaite eikä turvallisuuskriittinen (safety-of-life) palvelu.">
 </picture>
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/lunar-geodesy-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/lunar-geodesy-light.svg">
-  <img src="docs/figures/0.38/lunar-geodesy-light.svg" alt="Mikä havaintosuureperhe on herkkä kuun Love-luvuille h2, k2 ja l2, moottorin v0.40.0 todellisesta ajosta skenaariolla scenarios/lunar-infrastructure-geodesy-sensitivity.toml. Kukin solu on perheen havaintojen osittaisderivaatan RMS parametrin suhteen, perheen omissa yksiköissä (joten soluja verrataan rivin suuntaisesti, ei sarakkeen); viiva tarkoittaa, ettei perheellä ole herkkyyttä. laseretäisyysmittaus: h2 7.6, k2 ei mitään, l2 9.8. kiertolaisen seuranta: h2 ei mitään, k2 0.00086, l2 ei mitään. pintagravimetri: h2 2.9e+03, k2 4.3e+03, l2 ei mitään. pintakello: h2 2.8e-17, k2 2.8e-17, l2 ei mitään. Kaikilla neljällä perheellä Cramer-Rao-sigma on 0.36 % nimellisestä h2:sta, 0.52 % k2:sta ja 1.16 % l2:sta. Perheen lisääminen ei koskaan pienentänyt pienintä ominaisarvoa (28 / 28 lisäystä), mutta pseudoinverssin jälki ei kasvanut vain 16:ssa 28:sta: tämä kynnyksen G3 puolisko on NOT MET. Kiertolaisperhe näkee k2-kiihtyvyyden näkösäteen suuntaisen integraalin, yläpään arvio. MODELLED: rajoitettu kolmen kappaleen malli ilmoitetuin yksinkertaistuksin ja havainnollistavin syöttein, ei minkään kuusuureen mittaus. Ohjeellinen: tutkimus- ja suunnittelutyökalun analyysituloste, ei tyyppihyväksytty navigointilaite eikä turvallisuuskriittinen (safety-of-life) palvelu.">
+  <img src="docs/figures/0.38/lunar-geodesy-light.svg" alt="Mikä havaintosuureperhe on herkkä kuun Love-luvuille h2, k2 ja l2, moottorin v0.41.0 todellisesta ajosta skenaariolla scenarios/lunar-infrastructure-geodesy-sensitivity.toml. Kukin solu on perheen havaintojen osittaisderivaatan RMS parametrin suhteen, perheen omissa yksiköissä (joten soluja verrataan rivin suuntaisesti, ei sarakkeen); viiva tarkoittaa, ettei perheellä ole herkkyyttä. laseretäisyysmittaus: h2 7.6, k2 ei mitään, l2 9.8. kiertolaisen seuranta: h2 ei mitään, k2 0.00086, l2 ei mitään. pintagravimetri: h2 2.9e+03, k2 4.3e+03, l2 ei mitään. pintakello: h2 2.8e-17, k2 2.8e-17, l2 ei mitään. Kaikilla neljällä perheellä Cramer-Rao-sigma on 0.36 % nimellisestä h2:sta, 0.52 % k2:sta ja 1.16 % l2:sta. Perheen lisääminen ei koskaan pienentänyt pienintä ominaisarvoa (28 / 28 lisäystä), mutta pseudoinverssin jälki ei kasvanut vain 16:ssa 28:sta: tämä kynnyksen G3 puolisko on NOT MET. Kiertolaisperhe näkee k2-kiihtyvyyden näkösäteen suuntaisen integraalin, yläpään arvio. MODELLED: rajoitettu kolmen kappaleen malli ilmoitetuin yksinkertaistuksin ja havainnollistavin syöttein, ei minkään kuusuureen mittaus. Ohjeellinen: tutkimus- ja suunnittelutyökalun analyysituloste, ei tyyppihyväksytty navigointilaite eikä turvallisuuskriittinen (safety-of-life) palvelu.">
 </picture>
 
 **Tila kirjanpidossa: MODELLED, ja kolme kynnystä on NOT MET.** Numeriikka on tarkistettu riippumattomia
@@ -568,7 +610,7 @@ luvut, skenaariotiedoston, koodin sen ajamiseen Pythonista ja viittauksen.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/studio/studio-task-dark.jpg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/studio/studio-task-light.jpg">
-  <img src="docs/assets/readme/studio/studio-task-light.jpg" alt="Kshana Studio, Yksinkertainen näkymä, mukana tulevalla skenaariolla integrity-raim, moottori v0.40.0 toimii paikallisesti. Kysymys: täyttääkö geometria hälytysrajat (vaakasuuntainen ja pystysuuntainen suojaustaso)? Vastaus ensin, merkittynä Live-tulos: Kyllä, enimmäkseen: 95.3 %:lle 12 h:sta. Vastaanottimen virheraja pysyi hälytysrajojen alla (40 m vaaka ja 50 m pysty) 344:ssä 361 tarkistuksesta, eikä yksikään paikannus ollut harhaanjohtava. Keskeiset luvut: aika, jolloin paikannukseen voi luottaa 95.3 %, pisin aukko 10 min, tyypillinen virheraja 6.5 / 13 m, harhaanjohtavat paikannukset 0. Vieressä Kokeile muita asetuksia, joista viisi (etäisyysvirhe, kaksi hälytysrajaa, kesto ja korkeuskulmamaski), ja Aja uudelleen, sitten taitetut osiot Lisäasetukset (13 lisää), Miten tämä lasketaan (8 validoitua, 6 mallinnettua) ja Tutkijoille. Alla tämän tuloksen näkymät ja suojaustasot piirrettynä hälytysrajaa vasten." width="100%">
+  <img src="docs/assets/readme/studio/studio-task-light.jpg" alt="Kshana Studio, Yksinkertainen näkymä, mukana tulevalla skenaariolla integrity-raim, moottori v0.39.0 toimii paikallisesti. Kysymys: täyttääkö geometria hälytysrajat (vaakasuuntainen ja pystysuuntainen suojaustaso)? Vastaus ensin, merkittynä Live-tulos: Kyllä, enimmäkseen: 95.3 %:lle 12 h:sta. Vastaanottimen virheraja pysyi hälytysrajojen alla (40 m vaaka ja 50 m pysty) 344:ssä 361 tarkistuksesta, eikä yksikään paikannus ollut harhaanjohtava. Keskeiset luvut: aika, jolloin paikannukseen voi luottaa 95.3 %, pisin aukko 10 min, tyypillinen virheraja 6.5 / 13 m, harhaanjohtavat paikannukset 0. Vieressä Kokeile muita asetuksia, joista viisi (etäisyysvirhe, kaksi hälytysrajaa, kesto ja korkeuskulmamaski), ja Aja uudelleen, sitten taitetut osiot Lisäasetukset (13 lisää), Miten tämä lasketaan (8 validoitua, 6 mallinnettua) ja Tutkijoille. Alla tämän tuloksen näkymät ja suojaustasot piirrettynä hälytysrajaa vasten." width="100%">
 </picture>
 
 **Edistynyt näkymä** on täysi kojelauta: skenaariokirjasto, viisi numeroitua vaihetta
@@ -585,13 +627,13 @@ kentät, ja voit kiinnittää enintään neljä ajoa ja verrata niitä rinnakkai
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/studio/studio-home-dark.jpg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/studio/studio-home-light.jpg">
-  <img src="docs/assets/readme/studio/studio-home-light.jpg" alt="Kshana Studio, Yksinkertainen näkymä, aloitusnäyttö otsikolla Mitä haluaisit selvittää?, moottori v0.40.0 käynnissä ja yläpalkissa kolme linkkiä: Koulutuksen jälkipuinti, Häiriökartta ja Vastaanottimen luotettavuus. Neljä kysymystä: kuinka monta satelliittia näen missä tahansa Maan päällä, voinko luottaa paikannukseeni, kuinka kauan kello pitää ajan ilman satelliitteja ja mitä häiritsin tekee vastaanottimelleni. Ensimmäisen alla sen tallennettu tulos: vähintään 22 satelliittia näkyvissä joka paikassa ja keskimäärin 31, kun GPS, Galileo, BeiDou ja GLONASS ovat yhdessä, paikannus mahdollinen 100 %:ssa paikoista ja ajoista, maailmankartalla näkyvissä olevista satelliiteista, ja painike Avaa tämä tulos. Vieressä Kaikki, mitä Kshana osaa: 16 aluetta ja 139 valmista skenaariota, kussakin ruudussa pieni kaavio tallennetusta ajosta ja sen osuus validoiduista menetelmistä, sekä kirjanpidon 173 / 350 validoitua ominaisuutta." width="100%">
+  <img src="docs/assets/readme/studio/studio-home-light.jpg" alt="Kshana Studio, Yksinkertainen näkymä, aloitusnäyttö otsikolla Mitä haluaisit selvittää?, moottori v0.39.0 käynnissä ja yläpalkissa kolme linkkiä: Koulutuksen jälkipuinti, Häiriökartta ja Vastaanottimen luotettavuus. Neljä kysymystä: kuinka monta satelliittia näen missä tahansa Maan päällä, voinko luottaa paikannukseeni, kuinka kauan kello pitää ajan ilman satelliitteja ja mitä häiritsin tekee vastaanottimelleni. Ensimmäisen alla sen tallennettu tulos: vähintään 22 satelliittia näkyvissä joka paikassa ja keskimäärin 31, kun GPS, Galileo, BeiDou ja GLONASS ovat yhdessä, paikannus mahdollinen 100 %:ssa paikoista ja ajoista, maailmankartalla näkyvissä olevista satelliiteista, ja painike Avaa tämä tulos. Vieressä Kaikki, mitä Kshana osaa: 16 aluetta ja 139 valmista skenaariota, kussakin ruudussa pieni kaavio tallennetusta ajosta ja sen osuus validoiduista menetelmistä, sekä kirjanpidon 173 / 350 validoitua ominaisuutta." width="100%">
 </picture>
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/studio/studio-advanced-dark.jpg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/studio/studio-advanced-light.jpg">
-  <img src="docs/assets/readme/studio/studio-advanced-light.jpg" alt="Kshana Studio, Edistynyt näkymä, mukana tulevan skenaarion constellation-multi-gnss-coverage (Neljä GNSS-konstellaatiota, yksi kartta) ajon jälkeen, moottori v0.40.0 toimii paikallisesti. Vasemmalla skenaariokirjasto, 139 skenaariota 16 alueella. Viisi vaihetta Valitse, Aseta, Aja, Lue tulokset ja Jaa tai vie, vaihe 4 nykyisenä. Keskeiset luvut: 102 satelliittia, käytettävyys 100 % (PASS), paikan tarkkuuden heikkenemiskertoimen (PDOP) mediaani 0.95 (PASS), PDOP:n 95. persentiili 1.105 (PASS), keskimäärin 31.03 satelliittia näkyvissä ja vähimmillään 22. Alla paneelirivi, jossa Kattavuus on valittuna, toistopalkki, maailmankartta keskimääräisestä PDOP:sta välillä 0.831–1.0853 kaikki satelliitit piirrettyinä sekä maailmanlaajuiset kattavuusluvut." width="100%">
+  <img src="docs/assets/readme/studio/studio-advanced-light.jpg" alt="Kshana Studio, Edistynyt näkymä, mukana tulevan skenaarion constellation-multi-gnss-coverage (Neljä GNSS-konstellaatiota, yksi kartta) ajon jälkeen, moottori v0.39.0 toimii paikallisesti. Vasemmalla skenaariokirjasto, 139 skenaariota 16 alueella. Viisi vaihetta Valitse, Aseta, Aja, Lue tulokset ja Jaa tai vie, vaihe 4 nykyisenä. Keskeiset luvut: 102 satelliittia, käytettävyys 100 % (PASS), paikan tarkkuuden heikkenemiskertoimen (PDOP) mediaani 0.95 (PASS), PDOP:n 95. persentiili 1.105 (PASS), keskimäärin 31.03 satelliittia näkyvissä ja vähimmillään 22. Alla paneelirivi, jossa Kattavuus on valittuna, toistopalkki, maailmankartta keskimääräisestä PDOP:sta välillä 0.831–1.0853 kaikki satelliitit piirrettyinä sekä maailmanlaajuiset kattavuusluvut." width="100%">
 </picture>
 
 </details>
@@ -607,23 +649,25 @@ versiot.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/site/site-strip-dark.jpg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/site/site-strip-light.jpg">
-  <img src="docs/assets/readme/site/site-strip-light.jpg" alt="Kolme kshana.dev-sivuston sivua rinnakkain. Etusivun pääosio: nimirivi Kshana · क्षण · täsmällinen hetki otsikon Harjoittele minuuttia, jona GNSS pimenee yläpuolella, moottorin v0.40.0 todellisen ajon tehtäväkonsolilla (maapallo ja kolme live-kaaviota: kellon aikavirhe, kantoaalto-kohinatiheys ja suojaustaso). Todisteet, Julkaistu tutkimus: kuusi avoimeen moottoriin perustuvaa arXiv-artikkelia, uusin moottorin kuvan kera. Versiot, Kshana Pro, sama moottori vahvistettuna: Free ajaa yhden skenaarion, Pro vastaa ohjelman kysymykseen." width="100%">
+  <img src="docs/assets/readme/site/site-strip-light.jpg" alt="Kolme kshana.dev-sivuston sivua rinnakkain. Etusivun pääosio: nimirivi Kshana · क्षण · täsmällinen hetki otsikon Harjoittele minuuttia, jona GNSS pimenee yläpuolella, moottorin v0.39.0 todellisen ajon tehtäväkonsolilla (maapallo ja kolme live-kaaviota: kellon aikavirhe, kantoaalto-kohinatiheys ja suojaustaso). Todisteet, Julkaistu tutkimus: kuusi avoimeen moottoriin perustuvaa arXiv-artikkelia, uusin moottorin kuvan kera. Versiot, Kshana Pro, sama moottori vahvistettuna: Free ajaa yhden skenaarion, Pro vastaa ohjelman kysymykseen." width="100%">
 </picture>
 
 <a id="capabilities"></a>
 ## Ominaisuudet
 
 Yksi moottori kattaa koko vikaketjun ensimmäisestä häiritystä satelliitista kellon holdoverin viimeiseen
-nanosekuntiin. Moottorissa on 92 skenaariolajia; `kshana kinds` luettelee
+nanosekuntiin. Moottorissa on 93 skenaariolajia; `kshana kinds` luettelee
 ne, ja [`docs/SCENARIOS.md`](docs/SCENARIOS.md) dokumentoi jokaisen kentän.
 
 | Ominaisuus | Mihin se vastaa |
 |---|---|
 | [Spektri](docs/SPECTRUM.md) | miten häiritsin valtaa GNSS:n L-kaistan, kaista kaistalta, sekunti sekunnilta |
 | [Kellot ja ajoitus](docs/TELECOM-TIMING.md) | kuinka kauan kukin kello pitää ajan GNSS:n menettämisen jälkeen |
+| [Oskillaattorit](docs/OSCILLATOR.md) | mitä oskillaattorin datalehden luvut merkitsevät seurannalle tärinässä, holdoverille lämpötilan muutoksissa ja iskuissa sekä RAIM:lle |
 | [Konstellaatiot minkä tahansa kappaleen ympärillä](docs/CONSTELLATION-DESIGN.md) | kattavuus, tarkkuuden heikkenemiskerroin ja käytettävyys Maan, Kuun tai Marsin ympärillä |
 | [Aurinkokunta](docs/SOLAR-SYSTEM.md) | missä kukin planeetta on, ja minkä tahansa linkin valon kulkuaika |
 | [Matalan Maan kiertoradan navigointi](docs/LEO-PNT.md) | ylilento, linkki, navigointiviesti ja yhdistetty paikannus, vaihe vaiheelta |
+| [LEO-PNT-varmennus](docs/LEO-VERIFY.md) | mitä LEO-aika- tai paikannuspalvelu tuottaisi: purskeajoitus, holdoverin TDEV, kustannus katkoksia vastaan, häviöt sisätiloissa ja sateessa, monikäsitteisyyksien ratkaisu, väitteet häirinnästä ja eheys pelkästä Dopplerista |
 | [Kampanjat](docs/CAMPAIGNS.md) | ketjutettu tehtävä, parametripyyhkäisy tai Monte Carlo -joukko yhdessä skenaariossa |
 | [Animaatio](docs/ANIMATION.md) | ajon aikasarja animoituna piirroksena, soittimena tai kehyksinä |
 | [Raportit](docs/REPORTS.md) | jokainen luku yksikköineen ja merkintöineen, HTML- (HyperText Markup Language) ja JSON-muodossa (JavaScript Object Notation) |
@@ -658,7 +702,7 @@ STK on Systems Tool Kit; SigMF on Signal Metadata Format.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/lband-waterfall-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/lband-waterfall-light.svg">
-  <img src="docs/assets/readme/lband-waterfall-light.svg" alt="GNSS:n L-kaista yhtenä tehospektritiheytenä 60 s:n ajalta, spektrilajin todellisesta ajosta (l-band-waterfall-jamming.toml, siemen 7, moottori v0.40.0): taajuus vaakasuunnassa, aika alaspäin, väri teholle -202.0 dBW/Hz:n kohinatason yläpuolella. Häiritsimet: chirp-yksityisyyslaite (chirp, päälle 10 s, pois 40 s); CW-sävy L1:llä (cw, päälle 30 s); L2:n kapeakaistainen kohina (narrowband, päälle 45 s). Pahin kaista GPS L1 C/A: pienin efektiivinen C/N0 3.2 dB-Hz hetkellä 31 s, kun seurannan alaraja on 25 dB-Hz. GPS L1 C/A minimi 3.2 dB-Hz; Galileo E1 minimi 4.7 dB-Hz; GPS L2C minimi 36.9 dB-Hz; GPS L5 minimi 44.1 dB-Hz; Galileo E5a minimi 47.0 dB-Hz." width="100%">
+  <img src="docs/assets/readme/lband-waterfall-light.svg" alt="GNSS:n L-kaista yhtenä tehospektritiheytenä 60 s:n ajalta, spektrilajin todellisesta ajosta (l-band-waterfall-jamming.toml, siemen 7, moottori v0.41.0): taajuus vaakasuunnassa, aika alaspäin, väri teholle -202.0 dBW/Hz:n kohinatason yläpuolella. Häiritsimet: chirp-yksityisyyslaite (chirp, päälle 10 s, pois 40 s); CW-sävy L1:llä (cw, päälle 30 s); L2:n kapeakaistainen kohina (narrowband, päälle 45 s). Pahin kaista GPS L1 C/A: pienin efektiivinen C/N0 3.2 dB-Hz hetkellä 31 s, kun seurannan alaraja on 25 dB-Hz. GPS L1 C/A minimi 3.2 dB-Hz; Galileo E1 minimi 4.7 dB-Hz; GPS L2C minimi 36.9 dB-Hz; GPS L5 minimi 44.1 dB-Hz; Galileo E5a minimi 47.0 dB-Hz." width="100%">
 </picture>
 
 <picture>
@@ -693,7 +737,7 @@ ja `leo-pass-iridium`.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/trust-timeline-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/trust-timeline-light.svg">
-  <img src="docs/assets/readme/trust-timeline-light.svg" alt="Luottamuspistemäärä yhden synteettisen matkan aikana, moottorin v0.40.0 todellisesta ajosta aineistolla examples/maritime-trust (keksitty NMEA-loki lautasta reitillä Tallinna–Helsinki, 3001 epookkia taajuudella 1 Hz). Kolme kaistaa jakaa yhden aika-akselin. Ylhäällä: vastaanottimen ilmoittaman paikan ja aluksen todellisen paikan välinen etäisyys, joka pysyy muutaman metrin sisällä noin hetkeen 1576 s asti, jolloin lokin käsikirjoitettu paikan poisveto (drag-off) vetää sen sivuun samalla, kun vastaanotin ilmoittaa edelleen kelvollisen paikannuksen. Keskellä: luottamuspistemäärä 0–100, jota ei lasketa kalibroinnin ensimmäisten 300 s:n aikana, normaalilla kaistalla (vähintään 90) poisvetoon asti, sitten laskien heikentyneen kaistan (vähintään 55) läpi epäluotettavalle kaistalle. Alhaalla: kunkin epookin kaista värillisenä nauhana nimineen. Pistemäärä on ohjeellinen. Ohjeellinen ohjelmisto, ei tyyppihyväksytty navigointilaite (IEC 61108, IEC 61162): käyttäjä vastaa edelleen aluksen navigoinnista. Loki on keksitty formaatin ja valvontojen esittelyyn; se ei ole mittaus eikä kerro mitään siitä, miten mikään vastaanotin toimisi." width="100%">
+  <img src="docs/assets/readme/trust-timeline-light.svg" alt="Luottamuspistemäärä yhden synteettisen matkan aikana, moottorin v0.41.0 todellisesta ajosta aineistolla examples/maritime-trust (keksitty NMEA-loki lautasta reitillä Tallinna–Helsinki, 3001 epookkia taajuudella 1 Hz). Kolme kaistaa jakaa yhden aika-akselin. Ylhäällä: vastaanottimen ilmoittaman paikan ja aluksen todellisen paikan välinen etäisyys, joka pysyy muutaman metrin sisällä noin hetkeen 1576 s asti, jolloin lokin käsikirjoitettu paikan poisveto (drag-off) vetää sen sivuun samalla, kun vastaanotin ilmoittaa edelleen kelvollisen paikannuksen. Keskellä: luottamuspistemäärä 0–100, jota ei lasketa kalibroinnin ensimmäisten 300 s:n aikana, normaalilla kaistalla (vähintään 90) poisvetoon asti, sitten laskien heikentyneen kaistan (vähintään 55) läpi epäluotettavalle kaistalle. Alhaalla: kunkin epookin kaista värillisenä nauhana nimineen. Pistemäärä on ohjeellinen. Ohjeellinen ohjelmisto, ei tyyppihyväksytty navigointilaite (IEC 61108, IEC 61162): käyttäjä vastaa edelleen aluksen navigoinnista. Loki on keksitty formaatin ja valvontojen esittelyyn; se ei ole mittaus eikä kerro mitään siitä, miten mikään vastaanotin toimisi." width="100%">
 </picture>
 
 <picture>
@@ -705,7 +749,7 @@ ja `leo-pass-iridium`.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/training-track-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/training-track-light.svg">
-  <img src="docs/assets/readme/training-track-light.svg" alt="Koulutusvirta skenaariosta coastal-drag-off (moottori v0.40.0, siemen 22, 25 minuuttia, kouluttajan lokissa yksi paikannus 10 s:n välein). Kartta näyttää aluksen todellisen reitin ja vastaanottimen ilmoittaman reitin: ne ovat yhtäpitäviä, kunnes käsikirjoitettu paikan poisveto alkaa hetkellä 421 s, jolloin ilmoitettu reitti erkanee todellisesta samalla, kun vastaanottimella on edelleen kelvollinen paikannus, ja se palaa takaisin tapahtuman päättyessä hetkellä 1140 s. Vieressä kahden reitin välinen etäisyys ajan funktiona sekä vastaanottimen ilmoittama keskimääräinen kantoaalto-kohinatiheys, joka nousee yhdelle korotetulle tasolle tapahtuman ajaksi. Kshanan tuottamaa synteettistä koulutusdataa. Vain koulutukseen ja testaukseen: älä koskaan syötä tätä virtaa aluksen käytössä oleviin navigointijärjestelmiin. Ohjeellinen, ei tyyppihyväksytty navigointilaite. Ohjeellinen ohjelmisto, ei tyyppihyväksytty navigointilaite (IEC 61108, IEC 61162): käyttäjä vastaa edelleen aluksen navigoinnista. Paikat, päivämäärät ja reitit ovat keksittyjä." width="100%">
+  <img src="docs/assets/readme/training-track-light.svg" alt="Koulutusvirta skenaariosta coastal-drag-off (moottori v0.41.0, siemen 22, 25 minuuttia, kouluttajan lokissa yksi paikannus 10 s:n välein). Kartta näyttää aluksen todellisen reitin ja vastaanottimen ilmoittaman reitin: ne ovat yhtäpitäviä, kunnes käsikirjoitettu paikan poisveto alkaa hetkellä 421 s, jolloin ilmoitettu reitti erkanee todellisesta samalla, kun vastaanottimella on edelleen kelvollinen paikannus, ja se palaa takaisin tapahtuman päättyessä hetkellä 1140 s. Vieressä kahden reitin välinen etäisyys ajan funktiona sekä vastaanottimen ilmoittama keskimääräinen kantoaalto-kohinatiheys, joka nousee yhdelle korotetulle tasolle tapahtuman ajaksi. Kshanan tuottamaa synteettistä koulutusdataa. Vain koulutukseen ja testaukseen: älä koskaan syötä tätä virtaa aluksen käytössä oleviin navigointijärjestelmiin. Ohjeellinen, ei tyyppihyväksytty navigointilaite. Ohjeellinen ohjelmisto, ei tyyppihyväksytty navigointilaite (IEC 61108, IEC 61162): käyttäjä vastaa edelleen aluksen navigoinnista. Paikat, päivämäärät ja reitit ovat keksittyjä." width="100%">
 </picture>
 
 <picture>
@@ -776,7 +820,7 @@ Kukin skenaario vertaa kvanttianturia sen klassiseen vastineeseen
 
 <p align="center">
   <img src="docs/assets/figures/scenario-fom.png" alt="Mitä kvanttianturit tuovat, kun GNSS on poissa, kellon holdover -skenaario: kvantti pitää 6600 s autonomiaa vs 2610 s klassinen, paljon pienempi ajoitusvirhe sekä käytettävyys 100% vs 95.6%" width="88%">
-  <br><sub>Mitä kvanttianturit tuovat, kun GNSS on poissa — <code>clock-holdover</code> · siemen 42 · piirretty moottorilla 0.40.0, ja jokainen yllä oleva luku tarkistetaan uudelleen nykyistä moottoria vasten jokaisessa käännöksessä testillä <code>tests/published_figures_still_reproduce.rs</code> · <a href="docs/assets/figures/scenario-fom.svg">SVG</a></sub>
+  <br><sub>Mitä kvanttianturit tuovat, kun GNSS on poissa — <code>clock-holdover</code> · siemen 42 · piirretty moottorilla 0.41.0, ja jokainen yllä oleva luku tarkistetaan uudelleen nykyistä moottoria vasten jokaisessa käännöksessä testillä <code>tests/published_figures_still_reproduce.rs</code> · <a href="docs/assets/figures/scenario-fom.svg">SVG</a></sub>
 </p>
 
 Etu **riippuu katkosta ja värähtelystä**, ja siinä on eksplisiittinen tasapistee, jossa klassinen voittaa — esitetty rehellisesti koko teknologisen valmiuden portaikon yli (optisen kellon luvut ovat maassa toimivien demonstraattoreiden tavoitteita; yksikään strontium-optinen kello ei ole lentänyt):
@@ -799,7 +843,7 @@ Etu **riippuu katkosta ja värähtelystä**, ja siinä on eksplisiittinen tasapi
 |------|----------|---------|-----------|
 | **1 — Kellon holdover** | `clock-holdover.toml` (20 ns:n spesifikaatio) | optinen kello kestää koko katkon | CSAC ylittää spesifikaation kesken katkon |
 | **2 — Inertiaalinen merkintälasku** | `imu-deadreckoning.toml` (100 m:n spesifikaatio) | kylmät atomit: **~41 m**, kestää koko katkon | navigointiluokka: ylittää **~350 s:ssa** → kymmeniä km |
-| **3 — Aikasiirto** (optinen satelliittien välinen linkki) | `timetransfer.toml` | optinen: **~0.3 mm** etäisyysmittaus | RF (TWSTFT): **~150 mm** etäisyysmittaus |
+| **3 — Aikasiirto** (optinen satelliittien välinen linkki) | `timetransfer.toml` | optinen: **~0.3 mm** etäisyysmittaus | RF (TWSTFT): **~341 mm** etäisyysmittaus |
 | **4 — Hybridifuusio** (huipennus) | `hybrid-pnt.toml` | täysi paikka+ajoitus koko katkon ajan | **paikka rajoittuu ~350 s:ssa** |
 
 Huipennus osoittaa fuusiotesin: optinen satelliittien välinen aikasiirto pitää jopa
@@ -819,7 +863,7 @@ avaruusalus propagoidaan GPS:n kaltaista Walker-konstellaatiota vasten, ja näky
 määrä (näköyhteys, Maan peittävyys, korkeuskulmamaski) määrää paikannuksen tilan kullakin
 askeleella. Vuorokauden aikana käyttäjällä on paikannus vain ~59% ajasta; kvanttikello pitää
 5 ns:n ajoitusratkaisun jokaisen aukon yli (käytettävyys **1.0**), sirukokoinen kello
-vain **~0.83**.
+vain **~0.73**.
 
 <p align="center">
   <img src="docs/assets/orbit-gnss-challenged.svg" alt="GNSS-haasteellinen rata: kellon ajoitusvirhe vuorokauden aikana GNSS-kuoren sisällä olevalle avaruusalukselle, jossa kattavuusaukot johdetaan ratageometriasta — optinen kello pysyy 5 ns:n spesifikaation sisällä aukkojen yli, kun taas sirukokoinen kello ylittää sen" width="80%">
@@ -929,6 +973,7 @@ näiden kaavioiden kuva-arkki; [`docs/KINDS.md`](docs/KINDS.md) luetteloi ne kai
 | **[Tehtäväanalyysi, linkit ja avaruusoperaatiot](docs/kinds/mission-analysis-links-and-space-operations.md)** | laukaisu, nousu, paluu, asento, linkit, yhteyksien suunnittelu ja tiedostoformaatit | [`launch-window`](docs/kinds/by-kind/launch-window.md), [`ascent-losses`](docs/kinds/by-kind/ascent-losses.md), [`reentry`](docs/kinds/by-kind/reentry.md), [`entry-heating`](docs/kinds/by-kind/entry-heating.md), [`eo-coverage`](docs/kinds/by-kind/eo-coverage.md), [`eo-radiometry`](docs/kinds/by-kind/eo-radiometry.md), [`attitude-budget`](docs/kinds/by-kind/attitude-budget.md), [`aocs`](docs/kinds/by-kind/aocs.md), [`link-budget`](docs/kinds/by-kind/link-budget.md), [`acm-link`](docs/kinds/by-kind/acm-link.md), [`contact-schedule`](docs/kinds/by-kind/contact-schedule.md), [`aperture-duty-cycle`](docs/kinds/by-kind/aperture-duty-cycle.md), [`space-packet`](docs/kinds/by-kind/space-packet.md), [`oem-interop`](docs/kinds/by-kind/oem-interop.md) | `kshana scenarios/launch-window.toml` |
 | **[Tehtäväketjut](docs/kinds/mission-threads.md)** | vaiheketjun navigointi- ja ajoitusvirhebudjetti laukaisusta paluuseen | [`mission-thread`](docs/kinds/by-kind/mission-thread.md) | `kshana scenarios/mission-thread-artemis-class.toml` |
 | **[Kampanjat](docs/kinds/campaigns.md)** | muista lajeista rakennetut ketjutetut tehtävät, pyyhkäisyt ja joukot | [`campaign`](docs/kinds/by-kind/campaign.md) | `kshana scenarios/campaign-jam-spoof-holdover-integrity.toml` |
+| **[RF-tiedustelu avaruudesta](docs/kinds/space-rf-survey.md)** | kuinka usein laaja-alainen RF-tiedustelu käy merialueella uudelleen ja kuinka nopeasti se voi ohjata optisen kuvauksen | [`tip-and-cue`](docs/kinds/by-kind/tip-and-cue.md) | `kshana scenarios/tip-and-cue-baltic-m2.toml` |
 <!-- /generated:kind-families -->
 
 <a id="every-command"></a>
@@ -948,11 +993,11 @@ niiden kaikkien käyttöohjeen. Komennot ovat `--study`, `--validate`, `kinds`, 
 ### Jokainen rajapinta
 
 Yksi moottori, samat tulokset kaikkialla: komentorivi, Rust-kirjasto, Python, JavaScript ja WebAssembly,
-MCP-palvelin liitännäiskomentoineen ja taitoineen, Kshana Studio (jokainen sivu toimii selaimessa, ei asennusta, mitään ei ladata palvelimelle),
+MCP-palvelin liitännäiskomentoineen ja taitoineen, Kshana Studio (jokainen sivu toimii selaimessa, ilman asennusta, mitään ei ladata palvelimelle),
 ROS 2-, Signal K-, OpenCPN-, GNSS-SDR- ja `gnss_lib_py`-integraatiot, systemd-, Docker- ja Grafana-käyttöönottopaketit sekä
-JetBrains-liitännäinen. [`docs/ALL-SURFACES.md`](docs/ALL-SURFACES.md) luettelee ne ja kertoo, miten kunkin saa, sekä kaikkien
-liitännäiskomentojen, taitojen ja Studio-sivujen nimet; [`docs/SURFACES.md`](docs/SURFACES.md) kertoo jokaisen komennon ja lajin osalta,
-mikä rajapinta sen sisältää ja mitkä eivät, syineen.
+JetBrains-liitännäinen ja Kshana Desktop, jotka ovat saatavilla osoitteesta [kshana.dev](https://kshana.dev). [`docs/ALL-SURFACES.md`](docs/ALL-SURFACES.md) luettelee ne ja kertoo, miten kunkin saa, sekä kaikkien
+liitännäiskomentojen, taitojen ja Studion sivujen nimet; [`docs/SURFACES.md`](docs/SURFACES.md) kertoo jokaisesta komennosta ja lajista,
+mikä rajapinta sen tarjoaa ja mikä ei, perusteluineen.
 
 <a id="how-a-run-works"></a>
 ## Miten ajo toimii
@@ -964,7 +1009,7 @@ pyytämäsi viennit.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/flow-pipeline-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/flow-pipeline-light.svg">
-  <img src="docs/assets/readme/flow-pipeline-light.svg" alt="Miten ajo etenee. Skenaarion TOML-tiedosto (laji, siemen ja sen parametrit) menee moottoriin, kshana 0.40.0, api::run_toml-välityksen kautta 92 skenaariolajin yli, deterministisesti skenaariosta, siemenestä ja moottorin versiosta. Moottori kirjoittaa tiedostot result.json, chart.svg, report.html ja report.json, table.csv:n niille lajeille, jotka sellaisen määrittelevät, sekä pyynnöstä SP3-, CCSDS OMM- ja OEM-, CZML-, KML-, GeoJSON-, STK- ja SigMF-viennit; sarja kirjoittaa tiedostot study.json ja study.html. Nämä tiedostot syöttävät Kshana Studiota selaimessa, tekoälyavustajaa kshana-mcp-palvelimen kautta sekä jatkuvaa integraatiota." width="100%">
+  <img src="docs/assets/readme/flow-pipeline-light.svg" alt="Miten ajo etenee. Skenaarion TOML-tiedosto (laji, siemen ja sen parametrit) menee moottoriin, kshana 0.41.0, api::run_toml-välityksen kautta 93 skenaariolajin yli, deterministisesti skenaariosta, siemenestä ja moottorin versiosta. Moottori kirjoittaa tiedostot result.json, chart.svg, report.html ja report.json, table.csv:n niille lajeille, jotka sellaisen määrittelevät, sekä pyynnöstä SP3-, CCSDS OMM- ja OEM-, CZML-, KML-, GeoJSON-, STK- ja SigMF-viennit; sarja kirjoittaa tiedostot study.json ja study.html. Nämä tiedostot syöttävät Kshana Studiota selaimessa, tekoälyavustajaa kshana-mcp-palvelimen kautta sekä jatkuvaa integraatiota." width="100%">
 </picture>
 
 Tämä mukana tuleva skenaario kestää 2 h: 10 min GNSS:ää, sitten noin 1.8 h ilman GNSS:ää. Se kysyy,
@@ -1049,8 +1094,7 @@ mahdottomaksi kutsua ominaisuutta VALIDATED ilman riippumatonta ulkoista oraakke
 Muutama tarkistuksista: kaikki 666 AIAA:n (American Institute of Aeronautics and Astronautics)
 2006-6753 SGP4 (Simplified General Perturbations 4) -vektoria 4.12 mm:n tarkkuuteen; Cowellin voima-
 malli 0.08 m:n tarkkuuteen Orekit 12.2:ta vasten; Galileo 0.61 m:n ja Swarm-A 0.10 m:n tarkkuuteen Euroopan avaruusjärjestön (ESA)
-todellisia tarkkoja efemeridejä vasten. Testit pitävät rivikattavuuden lähellä 95 %:a hakemistossa
-`src/`, ja CI vaatii vähintään 85 %. Kirjanpito on
+todellisia tarkkoja efemeridejä vasten. Viimeisimmässä mittauksessa (moottori 0.29.0, [`docs/COVERAGE.md`](docs/COVERAGE.md)) testit kattoivat lähes 95 % hakemiston `src/` riveistä, ja CI epäonnistuu alle 85 %:n. Kirjanpito on
 [`docs/VERIFICATION-MATRIX.md`](docs/VERIFICATION-MATRIX.md), joka tuotetaan tiedostosta
 `src/verification.rs`: [koko 413 rivin matriisi](docs/VERIFICATION-MATRIX.md), ja syy, miksi kullakin
 Modelled-rivillä ei ole ulkoista oraakkelia, on tiedostossa [`docs/MODELLED-RATIONALE.md`](docs/MODELLED-RATIONALE.md).
@@ -1060,7 +1104,7 @@ Modelled-rivillä ei ole ulkoista oraakkelia, on tiedostossa [`docs/MODELLED-RAT
 
 ### Validointi, toistettavuus ja rehellisyys
 
-- Jokainen kohinatermi on kalibroitu **julkaistuun, lähteeseen viitattuun** lukuun ja validoitu
+- Jokainen kohinatermi on kalibroitu **julkaistuun, lähteeseen viitattuun** lukuun ja tarkistettu
   vakiorelaatiota vasten (Allan-hajonta kelloille; Grovesin merkintälaskun
   virheen kasvu inertialle; ajoitus→etäisyys-muunnos aikasiirrolle). Kunkin termin tila
   seurataan tiedostossa [`docs/VALIDATION.md`](docs/VALIDATION.md) arvona `validated` tai
@@ -1115,7 +1159,7 @@ Levels for Software Artifacts).
 | **MODELLED** | Syvän avaruuden Mars-OD (reduced-dynamic SRIF) | **≈ 0.2 m** Mars-LMO (simulaation FoM, *ei* todellinen tehtävä) | synteettinen suljetun silmukan OD — estimaattorikoneiston validointi |
 | **MODELLED** | Aurinko-keskinen Marsin dynamiikka vs JPL DE440 | **137 m @ 1 vrk:n kaari** (kasvaa kaaren mukana = mallintamaton n-kappaleen vaikutus) | JPL DE440 ANISEn kautta (`xval/anise-mars-od`, kernelistä riippuvainen) (verrattu tähän viitteeseen; mikään varmennusmatriisin rivi ei nimeä sitä ulkoiseksi oraakkeliksi, joten sitä ei merkitä VALIDATED) |
 | **VALIDATED** | Yhden pisteen paikannus vs mitattu IGS-koordinaatti (todelliset havainnot) | **5.7 m** 3-D RMS / **1.1 m** vaaka, kaksitaajuinen ionosfäärivapaa koodi-SPP | IGS-aseman ABMF mittaus + GPS-yleislähetysefemeridi, 2018-05-13 (`tests/pvt_abmf.rs`) |
-| **MODELLED** | Tiukasti kytketty GNSS/INS-UKF | **0.77 m RMS** 30 min:n LEO-ylilennolla, sis. 120 s:n katkon | voimamallipohjainen kulku, käsin johdettu |
+| **MODELLED** | GNSS/INS unscented-suodin (`hybrid-ukf`, 17 tilaa) | NIS ja NEES χ²-kaistojensa sisällä; **0.36 m** tuettuna, **7.7 m** 120 s merkintälaskun jälkeen | suotimen sisäinen johdonmukaisuus, ei tarkkuus (`scenarios/hybrid-ukf.toml`) |
 | **MODELLED** | GPS-vapaa painovoimakarttanavigointi | ~70 km:n INS-ryömintä → **~145 m** palautettuna | ESA NAVISP *Quantum Wayfarer* -tavoite |
 | **MODELLED** | Maastoviitteinen navigointi (TERCOM/SITAN) | 70 km:n ryömintä → **< 500 m** (ruudukon resoluution alaraja ~140 m) | SRTM `.hgt` DEM; käsin lisätty ryömintä (ei-kehämäinen tarkistus) |
 | **MODELLED** | IGRF-14-päämagneettikenttä (aste/kertaluku 13) | napa ~80.7°N, dipoli ~29.7 µT, fysikaalinen 22–67 µT -kaista | IAGA (International Association of Geomagnetism and Aeronomy) `igrf14coeffs.txt` (Schmidt-puolinormalisoitu) |
@@ -1134,7 +1178,7 @@ Levels for Software Artifacts).
 | **MODELLED** | PNT-häiriönsietokyvyn pisteytys + päätösepävakaus | 35 käsin johdettua oraakkelitestiä; tavutasolla deterministinen tutkimusartefakti (kiinteä siemen) | DHS RPCF v2.0 -vastaavuus + Dirichlet / Kendall-τ / Hill-N2 -suljetut muodot — synteettiset arkkitehtuurit, ei sertifiointi |
 | **MODELLED** | RF-heikennysten optimismivajetutkimus (skaalauslait + leave-one-out-ennustin) | permutaationollahypoteesin merkitsevyys; tavutasolla deterministinen artefakti (5 siementä) | synteettinen parametreihin perustuva aineisto — arvioinnin *mittarit* ovat VALIDATED scikit-learnia vasten (yllä); tutkimus on MODELLED |
 | CI | Alustariippumaton toistettavuus | bitti-identtiset syöte- + muotoreferenssit 3 käyttöjärjestelmällä (OS) | Linux / macOS / Windows CI-matriisi, SHA-256-referenssit |
-| CI | Testikattavuus | **~95 % riveistä** hakemistossa `src/` pois lukien `src/*_data.rs` ja `src/main.rs`, vaatimus ≥ 85 % | cargo-tarpaulin (LLVM-moottori) |
+| CI | Testikattavuus | **~95 % riveistä** (mitattu viimeksi versiossa 0.29.0) hakemistossa `src/` pois lukien `src/*_data.rs` ja `src/main.rs`, vaatimus ≥ 85 % | cargo-tarpaulin (LLVM-moottori) |
 
 <p align="center">
   <img src="docs/assets/diagrams/validation-provenance.png" alt="Miten ominaisuus ansaitsee merkintänsä: Vaatimus kuvautuu moduuliksi hakemistossa src, testiksi hakemistossa tests, ulkoiseksi oraakkeliksi (todellinen aineisto, riippumaton viitetoteutus tai julkaistut vektorit) ja tilaksi — CI:n valvomalla vartijalla, jonka mukaan mikään ominaisuus ei voi olla Validated ilman ulkoista oraakkelia. Ajantasaiset määrät: 176 Validated, 233 Modelled, 4 Partner, yhteensä 413" width="900">
@@ -1173,7 +1217,7 @@ Koko taulukko alue alueelta jokaisen ominaisuuden ja sen merkinnän kera on tied
 ## Asennus
 
 Yksi rivi tuo komentorivityökalun: **`cargo install kshana`**. Jokainen kanava toimittaa
-version v0.40.0 samasta tagatusta commitista.
+version v0.41.0 samasta tagatusta commitista.
 
 <!-- channels:begin -->
 | Kanava | Asennus | Opas |
@@ -1185,12 +1229,12 @@ version v0.40.0 samasta tagatusta commitista.
 | JavaScript ja WebAssembly | `npm install kshana` | [npm- ja WebAssembly-opas](https://kshana.dev/docs/npm.html) |
 | Tekoälyavustaja (MCP-palvelin, cargo) | `cargo install kshana-mcp` | [MCP-palvelimen opas](https://kshana.dev/docs/mcp.html) |
 | Docker-levykuva | `docker run --rm -i ghcr.io/ashfordeou/kshana-mcp` | [MCP-palvelimen opas: Docker](https://kshana.dev/docs/mcp.html#install) |
-| Claude Desktop -laajennus | kaksoisnapsauta järjestelmäsi `.mcpb`-tiedostoa: [macOS (Apple silicon)](https://github.com/ashfordeOU/kshana/releases/download/v0.40.0/kshana-mcp-aarch64-apple-darwin.mcpb) · [macOS (Intel)](https://github.com/ashfordeOU/kshana/releases/download/v0.40.0/kshana-mcp-x86_64-apple-darwin.mcpb) · [Windows](https://github.com/ashfordeOU/kshana/releases/download/v0.40.0/kshana-mcp-x86_64-pc-windows-msvc.mcpb) · [Linux (x86-64)](https://github.com/ashfordeOU/kshana/releases/download/v0.40.0/kshana-mcp-x86_64-unknown-linux-gnu.mcpb) · [Linux (Arm)](https://github.com/ashfordeOU/kshana/releases/download/v0.40.0/kshana-mcp-aarch64-unknown-linux-gnu.mcpb) | [Kaikki MCP-asennuskatkelmat](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
-| Cursor (yhdellä napsautuksella) | [Lisää Cursoriin (npx)](https://cursor.com/en/install-mcp?name=kshana&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsImtzaGFuYS1tY3BAMC40MC4wIl19) · [Lisää Cursoriin (Docker)](https://cursor.com/en/install-mcp?name=kshana&config=eyJjb21tYW5kIjoiZG9ja2VyIiwiYXJncyI6WyJydW4iLCItaSIsIi0tcm0iLCJnaGNyLmlvL2FzaGZvcmRlb3Uva3NoYW5hLW1jcDowLjQwLjAiXX0%3D) · `npx -y kshana-mcp@0.40.0` | [Kaikki MCP-asennuskatkelmat](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
-| VS Code (yhdellä napsautuksella) | [Asenna VS Codeen (npx)](https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522npx%2522%252C%2522args%2522%253A%255B%2522-y%2522%252C%2522kshana-mcp%25400.40.0%2522%255D%257D) · [Asenna VS Codeen (Docker)](https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522docker%2522%252C%2522args%2522%253A%255B%2522run%2522%252C%2522-i%2522%252C%2522--rm%2522%252C%2522ghcr.io%252Fashfordeou%252Fkshana-mcp%253A0.40.0%2522%255D%257D) · `npx -y kshana-mcp@0.40.0` | [Kaikki MCP-asennuskatkelmat](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
-| Claude Code | `claude mcp add kshana -- npx -y kshana-mcp@0.40.0` | [Kaikki MCP-asennuskatkelmat](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
-| npx | `npx -y kshana-mcp@0.40.0` | [Kaikki MCP-asennuskatkelmat](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
-| uvx / pipx | `uvx kshana-mcp==0.40.0` | [Kaikki MCP-asennuskatkelmat](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
+| Claude Desktop -laajennus | kaksoisnapsauta järjestelmäsi `.mcpb`-tiedostoa: [macOS (Apple silicon)](https://github.com/ashfordeOU/kshana/releases/download/v0.41.0/kshana-mcp-aarch64-apple-darwin.mcpb) · [macOS (Intel)](https://github.com/ashfordeOU/kshana/releases/download/v0.41.0/kshana-mcp-x86_64-apple-darwin.mcpb) · [Windows](https://github.com/ashfordeOU/kshana/releases/download/v0.41.0/kshana-mcp-x86_64-pc-windows-msvc.mcpb) · [Linux (x86-64)](https://github.com/ashfordeOU/kshana/releases/download/v0.41.0/kshana-mcp-x86_64-unknown-linux-gnu.mcpb) · [Linux (Arm)](https://github.com/ashfordeOU/kshana/releases/download/v0.41.0/kshana-mcp-aarch64-unknown-linux-gnu.mcpb) | [Kaikki MCP-asennuskatkelmat](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
+| Cursor (yhdellä napsautuksella) | [Lisää Cursoriin (npx)](https://cursor.com/en/install-mcp?name=kshana&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsImtzaGFuYS1tY3BAMC40MS4wIl19) · [Lisää Cursoriin (Docker)](https://cursor.com/en/install-mcp?name=kshana&config=eyJjb21tYW5kIjoiZG9ja2VyIiwiYXJncyI6WyJydW4iLCItaSIsIi0tcm0iLCJnaGNyLmlvL2FzaGZvcmRlb3Uva3NoYW5hLW1jcDowLjQxLjAiXX0%3D) · `npx -y kshana-mcp@0.41.0` | [Kaikki MCP-asennuskatkelmat](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
+| VS Code (yhdellä napsautuksella) | [Asenna VS Codeen (npx)](https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522npx%2522%252C%2522args%2522%253A%255B%2522-y%2522%252C%2522kshana-mcp%25400.41.0%2522%255D%257D) · [Asenna VS Codeen (Docker)](https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522docker%2522%252C%2522args%2522%253A%255B%2522run%2522%252C%2522-i%2522%252C%2522--rm%2522%252C%2522ghcr.io%252Fashfordeou%252Fkshana-mcp%253A0.41.0%2522%255D%257D) · `npx -y kshana-mcp@0.41.0` | [Kaikki MCP-asennuskatkelmat](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
+| Claude Code | `claude mcp add kshana -- npx -y kshana-mcp@0.41.0` | [Kaikki MCP-asennuskatkelmat](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
+| npx | `npx -y kshana-mcp@0.41.0` | [Kaikki MCP-asennuskatkelmat](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
+| uvx / pipx | `uvx kshana-mcp==0.41.0` | [Kaikki MCP-asennuskatkelmat](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
 | Homebrew | `brew install ashfordeOU/tap/kshana-mcp` | [Kaikki MCP-asennuskatkelmat](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
 | Scoop | `scoop bucket add ashforde https://github.com/ashfordeOU/scoop-bucket && scoop install kshana-mcp` | [Kaikki MCP-asennuskatkelmat](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
 | winget | `winget install AshfordeOU.KshanaMcp` | [Kaikki MCP-asennuskatkelmat](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
@@ -1207,8 +1251,8 @@ version v0.40.0 samasta tagatusta commitista.
 
 <p><a href="https://plugins.jetbrains.com/plugin/32181-kshana--pnt-simulator"><img src="https://img.shields.io/badge/JetBrains-Marketplace-066A86?style=flat-square&labelColor=0A1226" alt="Kshana JetBrains Marketplacessa"></a> <a href="Cargo.toml"><img src="https://img.shields.io/badge/rust-1.88%2B-3F4B67?style=flat-square&labelColor=0A1226" alt="Kääntyy Rust 1.88:lla tai uudemmalla, tiedoston Cargo.toml rust-version"></a></p>
 
-MCP on Model Context Protocol. Kiinnitä julkaisu komennolla `cargo install kshana --version 0.40.0`,
-`pip install kshana==0.40.0` tai `npm install kshana@0.40.0`. Lähdekoodista kääntäminen: katso
+MCP on Model Context Protocol. Kiinnitä julkaisu komennolla `cargo install kshana --version 0.41.0`,
+`pip install kshana==0.41.0` tai `npm install kshana@0.41.0`. Lähdekoodista kääntäminen: katso
 [Asennus ja kääntäminen](#install--build) Viiteosassa.
 
 <details>
@@ -1222,7 +1266,7 @@ import json, kshana
 toml = open("clock-holdover.toml").read()
 result = json.loads(kshana.run(toml))
 print(kshana.version(), result["quantum"]["fom"]["holdover_s"], result["classical"]["fom"]["holdover_s"])
-# 0.40.0 6600.0 2610.0
+# 0.41.0 6600.0 2610.0
 ```
 
 `run`-funktion lisäksi moduuli tarjoaa funktiot `run_full` (JSON, SVG ja yhden rivin yhteenveto kerralla),
@@ -1243,7 +1287,7 @@ initSync({ module: readFileSync(wasm) });
 const toml = readFileSync("clock-holdover.toml", "utf8");
 const result = JSON.parse(run(toml));
 console.log(version(), result.quantum.fom.holdover_s, result.classical.fom.holdover_s);
-// 0.40.0 6600 2610
+// 0.41.0 6600 2610
 console.log(summary(toml));
 ```
 
@@ -1252,15 +1296,15 @@ console.log(summary(toml));
 <a id="architecture"></a>
 ## Arkkitehtuuri
 
-Keskellä on yksi avoin moottori, ja jokainen rajapinta ajaa sitä: komentorivi, Rust-
-kirjasto, Python, WebAssembly ja Kshana Studio, MCP-palvelin, Docker-levykuva ja
-JetBrains-liitännäinen. Sama skenaariotiedosto tuottaa samat tavut kaikissa. Kshana Pro on
-päällä erillisenä kerroksena, joka riippuu moottorista eikä koskaan haaroita sitä.
+Keskellä on yksi avoin moottori, ja jokainen rajapinta ajaa sitä: komentorivi, Rust-kirjasto,
+Python, WebAssembly ja Kshana Studio, MCP-palvelin, Docker-kuva ja
+JetBrains-liitännäinen. Sama skenaariotiedosto tuottaa jokaisessa samat tavut. Kshana Pro,
+ammattiversio, rakentuu samalle moottorille eikä koskaan haaroita sitä.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/architecture-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/architecture-light.svg">
-  <img src="docs/assets/readme/architecture-light.svg" alt="Kshanan arkkitehtuuri: keskellä yksi avoin moottori, kshana 0.40.0 AGPL-3.0-lisenssillä, jossa api::run_toml, tyypitetty välitys jokaisen lajin yli, sekä 413 ominaisuuden varmennuskirjanpito (176 VALIDATED, 233 MODELLED, 4 PARTNER). Sen ympärillä jokainen rajapinta ajaa samaa moottoria: Komentorivi (cargo install kshana); Rust-kirjasto (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); MCP-palvelin (cargo install kshana-mcp); Docker-levykuva (ghcr.io/ashfordeou/kshana-mcp); JetBrains-liitännäinen (Marketplace: &quot;Kshana&quot;). Sen alla Kshana Pro, suljettu kerros, joka riippuu avoimesta moottorista kirjastona eikä koskaan haaroita sitä, eikä lisää yhtään fysikaalista mallia." width="100%">
+  <img src="docs/assets/readme/architecture-light.svg" alt="Kshanan arkkitehtuuri: keskellä yksi avoin moottori, kshana 0.41.0 AGPL-3.0-lisenssillä, jossa api::run_toml, tyypitetty välitys jokaisen lajin yli, sekä 413 ominaisuuden varmennuskirjanpito (176 VALIDATED, 233 MODELLED, 4 PARTNER). Sen ympärillä jokainen rajapinta ajaa samaa moottoria: Komentorivi (cargo install kshana); Rust-kirjasto (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); MCP-palvelin (cargo install kshana-mcp); Docker-levykuva (ghcr.io/ashfordeou/kshana-mcp); JetBrains-liitännäinen (Marketplace: &quot;Kshana&quot;). Sen alla Kshana Pro, ammattiversio, joka riippuu avoimesta moottorista kirjastona, ei koskaan haaroita sitä eikä koskaan muuta sen fysikaalisia malleja; Pron omilla malleilla on omat näyttömerkintänsä." width="100%">
 </picture>
 
 <details>
@@ -1294,8 +1338,8 @@ Kaksi erillistä, **työtilasta poissuljettua** cratea on ytimen rinnalla — `m
 (MCP-palvelin, rakennettu edition-2024 `rmcp` SDK:n päälle) ja `xval/anise-frames`
 (ANISE/SPICE-koordinaatistojen ristiintarkistus, joka tuo MPL-2.0-lisensoituja (Mozilla Public License 2.0) riippuvuuksia) — ja ne pidetään julkaistun
 craten riippuvuusgraafin, `Cargo.lock`-tiedoston, lisenssiportin ja MSRV-käännöksen (pienin tuettu Rust-versio) ulkopuolella juuren
-`Cargo.toml`-tiedoston `exclude`-listalla. JetBrains-liitännäinen (`ide/jetbrains`) on erillinen Kotlin-
-projekti. Katso kaikki kaaviot tiedostosta [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
+`Cargo.toml`-tiedoston `exclude`-listalla. JetBrains-liitännäinen on erillinen tuote, joka on saatavilla osoitteesta
+[kshana.dev](https://kshana.dev/docs/jetbrains.html). Katso kaikki kaaviot tiedostosta [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
 
 Renderöidyt kaaviot (moottorin kulku, moduulikartta, jakelu) ovat tiedostossa [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
 
@@ -1375,20 +1419,20 @@ Claude Code, Cursor, VS Code, Windsurf, Zed, Goose, Codex CLI, Gemini CLI ja Con
 <!-- mcp-install:begin -->
 | Kanava | Komento tai painike | Vaatii | Kiinnitetty muoto |
 |---|---|---|---|
-| Claude Desktop -laajennus | kaksoisnapsauta järjestelmäsi `.mcpb`-tiedostoa: [macOS (Apple silicon)](https://github.com/ashfordeOU/kshana/releases/download/v0.40.0/kshana-mcp-aarch64-apple-darwin.mcpb) · [macOS (Intel)](https://github.com/ashfordeOU/kshana/releases/download/v0.40.0/kshana-mcp-x86_64-apple-darwin.mcpb) · [Windows](https://github.com/ashfordeOU/kshana/releases/download/v0.40.0/kshana-mcp-x86_64-pc-windows-msvc.mcpb) | ei mitään | version v0.40.0 `kshana-mcp-<target>.mcpb` |
-| Cursor (yhdellä napsautuksella) | [npx (Node)](https://cursor.com/en/install-mcp?name=kshana&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsImtzaGFuYS1tY3BAMC40MC4wIl19) · [Docker](https://cursor.com/en/install-mcp?name=kshana&config=eyJjb21tYW5kIjoiZG9ja2VyIiwiYXJncyI6WyJydW4iLCItaSIsIi0tcm0iLCJnaGNyLmlvL2FzaGZvcmRlb3Uva3NoYW5hLW1jcDowLjQwLjAiXX0%3D) | Node tai Docker | `kshana-mcp@0.40.0` / `ghcr.io/ashfordeou/kshana-mcp:0.40.0` |
-| VS Code (yhdellä napsautuksella) | [npx (Node)](https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522npx%2522%252C%2522args%2522%253A%255B%2522-y%2522%252C%2522kshana-mcp%25400.40.0%2522%255D%257D) · [Docker](https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522docker%2522%252C%2522args%2522%253A%255B%2522run%2522%252C%2522-i%2522%252C%2522--rm%2522%252C%2522ghcr.io%252Fashfordeou%252Fkshana-mcp%253A0.40.0%2522%255D%257D) · [Insiders (npx)](https://insiders.vscode.dev/redirect?url=vscode-insiders%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522npx%2522%252C%2522args%2522%253A%255B%2522-y%2522%252C%2522kshana-mcp%25400.40.0%2522%255D%257D) | Node tai Docker | `kshana-mcp@0.40.0` / `ghcr.io/ashfordeou/kshana-mcp:0.40.0` |
-| Claude Code | `claude mcp add kshana -- npx -y kshana-mcp@0.40.0` · liitännäinen: `/plugin marketplace add ashfordeOU/kshana` ja sitten `/plugin install kshana@ashforde` | Node (tai Docker) | `kshana-mcp@0.40.0` |
-| npx | `npx -y kshana-mcp@0.40.0` | Node 18+ | `kshana-mcp@0.40.0` |
-| uvx / pipx | `uvx kshana-mcp==0.40.0` · `pipx run kshana-mcp==0.40.0` | Python 3.9+ ja uv tai pipx | `kshana-mcp==0.40.0` |
-| Docker | `docker run -i --rm ghcr.io/ashfordeou/kshana-mcp:0.40.0` | Docker | `ghcr.io/ashfordeou/kshana-mcp:0.40.0` |
-| Homebrew | `brew install ashfordeOU/tap/kshana-mcp` | brew | formula versiolle v0.40.0 |
-| Scoop | `scoop bucket add ashforde https://github.com/ashfordeOU/scoop-bucket` ja sitten `scoop install kshana-mcp` | Scoop (Windows) | manifesti versiolle v0.40.0 |
-| winget | `winget install AshfordeOU.KshanaMcp` | winget (Windows) | `--version 0.40.0` |
-| cargo | `cargo install kshana-mcp --version 0.40.0` | Rust 1.88+ | `kshana-mcp 0.40.0` |
-| Valmiiksi käännetty binääri | [julkaisusivu](https://github.com/ashfordeOU/kshana/releases/tag/v0.40.0): `kshana-mcp` (Linux x86-64), `kshana-mcp-<target>[.exe]`, tarkistettuna tiedostolla `SHA256SUMS` ja komennolla `gh attestation verify` | ei mitään | v0.40.0 |
-| MCP-rekisteri | `io.github.ashfordeOU/kshana-mcp` (rekisteriä tukevat asiakasohjelmat löytävät sen) | rekisteriä tukeva asiakasohjelma | `0.40.0` |
-| Etä (streamable HTTP) | `kshana-mcp --http 127.0.0.1:8080`, itse ylläpidetty: katso [docs/deploy/mcp-http.md](docs/deploy/mcp-http.md) | oma palvelimesi | v0.40.0 |
+| Claude Desktop -laajennus | kaksoisnapsauta järjestelmäsi `.mcpb`-tiedostoa: [macOS (Apple silicon)](https://github.com/ashfordeOU/kshana/releases/download/v0.41.0/kshana-mcp-aarch64-apple-darwin.mcpb) · [macOS (Intel)](https://github.com/ashfordeOU/kshana/releases/download/v0.41.0/kshana-mcp-x86_64-apple-darwin.mcpb) · [Windows](https://github.com/ashfordeOU/kshana/releases/download/v0.41.0/kshana-mcp-x86_64-pc-windows-msvc.mcpb) | ei mitään | version v0.41.0 `kshana-mcp-<target>.mcpb` |
+| Cursor (yhdellä napsautuksella) | [npx (Node)](https://cursor.com/en/install-mcp?name=kshana&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsImtzaGFuYS1tY3BAMC40MS4wIl19) · [Docker](https://cursor.com/en/install-mcp?name=kshana&config=eyJjb21tYW5kIjoiZG9ja2VyIiwiYXJncyI6WyJydW4iLCItaSIsIi0tcm0iLCJnaGNyLmlvL2FzaGZvcmRlb3Uva3NoYW5hLW1jcDowLjQxLjAiXX0%3D) | Node tai Docker | `kshana-mcp@0.41.0` / `ghcr.io/ashfordeou/kshana-mcp:0.41.0` |
+| VS Code (yhdellä napsautuksella) | [npx (Node)](https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522npx%2522%252C%2522args%2522%253A%255B%2522-y%2522%252C%2522kshana-mcp%25400.41.0%2522%255D%257D) · [Docker](https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522docker%2522%252C%2522args%2522%253A%255B%2522run%2522%252C%2522-i%2522%252C%2522--rm%2522%252C%2522ghcr.io%252Fashfordeou%252Fkshana-mcp%253A0.41.0%2522%255D%257D) · [Insiders (npx)](https://insiders.vscode.dev/redirect?url=vscode-insiders%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522npx%2522%252C%2522args%2522%253A%255B%2522-y%2522%252C%2522kshana-mcp%25400.41.0%2522%255D%257D) | Node tai Docker | `kshana-mcp@0.41.0` / `ghcr.io/ashfordeou/kshana-mcp:0.41.0` |
+| Claude Code | `claude mcp add kshana -- npx -y kshana-mcp@0.41.0` · liitännäinen: `/plugin marketplace add ashfordeOU/kshana` ja sitten `/plugin install kshana@ashforde` | Node (tai Docker) | `kshana-mcp@0.41.0` |
+| npx | `npx -y kshana-mcp@0.41.0` | Node 18+ | `kshana-mcp@0.41.0` |
+| uvx / pipx | `uvx kshana-mcp==0.41.0` · `pipx run kshana-mcp==0.41.0` | Python 3.9+ ja uv tai pipx | `kshana-mcp==0.41.0` |
+| Docker | `docker run -i --rm ghcr.io/ashfordeou/kshana-mcp:0.41.0` | Docker | `ghcr.io/ashfordeou/kshana-mcp:0.41.0` |
+| Homebrew | `brew install ashfordeOU/tap/kshana-mcp` | brew | formula versiolle v0.41.0 |
+| Scoop | `scoop bucket add ashforde https://github.com/ashfordeOU/scoop-bucket` ja sitten `scoop install kshana-mcp` | Scoop (Windows) | manifesti versiolle v0.41.0 |
+| winget | `winget install AshfordeOU.KshanaMcp` | winget (Windows) | `--version 0.41.0` |
+| cargo | `cargo install kshana-mcp --version 0.41.0` | Rust 1.88+ | `kshana-mcp 0.41.0` |
+| Valmiiksi käännetty binääri | [julkaisusivu](https://github.com/ashfordeOU/kshana/releases/tag/v0.41.0): `kshana-mcp` (Linux x86-64), `kshana-mcp-<target>[.exe]`, tarkistettuna tiedostolla `SHA256SUMS` ja komennolla `gh attestation verify` | ei mitään | v0.41.0 |
+| MCP-rekisteri | `io.github.ashfordeOU/kshana-mcp` (rekisteriä tukevat asiakasohjelmat löytävät sen) | rekisteriä tukeva asiakasohjelma | `0.41.0` |
+| Etä (streamable HTTP) | `kshana-mcp --http 127.0.0.1:8080`, itse ylläpidetty: katso [docs/deploy/mcp-http.md](docs/deploy/mcp-http.md) | oma palvelimesi | v0.41.0 |
 <!-- mcp-install:end -->
 
 <p><a href="https://glama.ai/mcp/servers/ashfordeOU/kshana"><img src="https://glama.ai/mcp/servers/ashfordeOU/kshana/badges/score.svg" alt="kshana-mcp Glamassa, sen MCP-palvelimen laatupistemäärä"></a></p>
@@ -1413,7 +1457,7 @@ virallisessa MCP-rekisterissä nimellä `io.github.ashfordeOU/kshana-mcp`.
 | Työkalu | Mitä se tekee |
 |---|---|
 | `run_scenario` | Ajaa skenaarion TOML-määrittelystä (Tom's Obvious, Minimal Language) |
-| `list_scenario_kinds` | 92 sisäänrakennettua skenaariolajia kuvauksineen + pakolliset/valinnaiset kentät — jotta agentti voi rakentaa kelvollisen skenaarion |
+| `list_scenario_kinds` | 93 sisäänrakennettua skenaariolajia kuvauksineen + pakolliset/valinnaiset kentät — jotta agentti voi rakentaa kelvollisen skenaarion |
 | `validate_scenario` | Ennakkotarkistus: jäsentää TOML:n ja tunnistaa sen lajin ajamatta |
 | `list_example_scenarios` | Mukana tulevat viiteskenaariot JSON-muodossa |
 | `get_example_scenario` | Yhden mukana tulevan viiteskenaarion TOML-teksti, tavu tavulta hakemiston `scenarios/` tiedosto |
@@ -1496,110 +1540,72 @@ virallisessa MCP-rekisterissä nimellä `io.github.ashfordeOU/kshana-mcp`.
 <a id="editions"></a>
 ## Versiot
 
-Koko moottori on ilmainen. Kshana Pro ja räätälöidyt tutkimukset ovat ohjelmille, jotka tarvitsevat enemmän,
-ja jokainen maksullinen reitti alkaa viestillä: hintoja ei ole tässä.
-| | Free | Kshana Pro | Räätälöity tutkimus |
+Koko moottori on ilmainen. Kshana Pro on ammattiversio tiimeille, joiden on tehtävä päätös
+ja puolustettava sitä, ja tilaustutkimus on sama työ tehtynä puolestasi. Jokainen maksullinen reitti
+alkaa viestillä: hintoja ei ole tässä.
+
+| | Ilmainen | Kshana Pro | Tilaustutkimus |
 |---|---|---|---|
-| Mikä se on | koko avoin moottori, kaikki 92 skenaariolajia, ei ominaisuusrajoituksia | suljettu kerros saman moottorin päällä, sopimuksella | järjestelmäsi MODELLED-tason PNT-häiriönsietokyvyn tutkimus, tehtynä puolestasi |
-| Lisenssi | AGPL-3.0 (GNU Affero General Public License, versio 3) tai kaupallinen lisenssi | suljettu | sopimus |
-| Miten aloittaa | [asenna](#install) tai avaa [kshana.dev](https://kshana.dev) | [pyydä Pro-arviointia](mailto:contact@ashforde.org?subject=Kshana%20Pro%20evaluation) | [pyydä tutkimusta](mailto:contact@ashforde.org?subject=Kshana%20custom%20study) |
+| Mikä se on | koko avoin moottori, kaikki 93 skenaariolajia, ei ominaisuusrajoituksia | ammattiversio: sama moottori ja samat skenaariotiedostot sekä työkalut, joita ohjelma tarvitsee päättämiseen, varmentamiseen ja toimittamiseen | MODELLED-tutkimus järjestelmäsi PNT-sietokyvystä, Ashforde® OÜ:n tekemänä puolestasi |
+| Kenelle | tutkijat, opiskelijat, insinöörit ja kaikki, jotka haluavat kokeilla kysymystä | tehtävä- ja ohjelmatiimit, järjestelmäinsinöörit, vastaanottimien, kellojen ja hyötykuormien valmistajat, signaalisuunnittelijat ja operaattorit | tiimit, jotka haluavat vastauksen tekemättä tutkimusta itse |
+| Tuki | yhteisö: issuet ja pull requestit GitHubissa | suora tuki moottoria rakentavalta tiimiltä | sisältyy |
+| Lisenssi | AGPL-3.0 (GNU Affero General Public License, versio 3) tai kaupallinen lisenssi | suljettu, sopimuksella | sopimus |
+| Näin aloitat | [asenna](#install) tai avaa [kshana.dev](https://kshana.dev) | [pyydä Pro-arviointia](mailto:contact@ashforde.org?subject=Kshana%20Pro%20evaluation) | [pyydä tutkimusta](mailto:contact@ashforde.org?subject=Kshana%20custom%20study) |
 
-Mikä Pro on, tiedoston [`docs/PRO.md`](docs/PRO.md) sanoin:
+**Mitä voit tehdä Kshana Prolla.** Ilmainen moottori kertoo, mitä yksi skenaario antaa. Pro
+vastaa kysymyksiin, joita ohjelma kysyy seuraavaksi:
 
-> **Avoimen Kshanan tiukka ylijoukko.** Pro riippuu avoimesta moottorista kirjastona eikä
-> koskaan haaroita sitä. Jokainen avoin skenaariolaji toimii Prossa muuttamattomana, ja avoin skenaario toimii
-> Prossa ilman lisenssiä lainkaan.
->
-> **Ei uutta fysiikkaa.** Pro ei lisää yhtään fysikaalista mallia eikä muuta yhtäkään. Jokainen Pron luku tulee
-> avoimen moottorin ajoista, joten Pron luku on yhtä luotettava kuin se avoin skenaariolaji,
-> josta se tuli, eikä koskaan enempää.
+- **Valitse lentävä suunnitelma.** Määritä suunnitteluavaruus, sen rajoitteet ja tavoitteesi ja
+  saat parhaat kompromissit koko avaruudesta, jokaisen ehdokkaan skenaariotiedostona, jota
+  ilmainen moottori ajaa.
+- **Tiedä, kuinka varma vastaus on.** Luottamusvälit, todennäköisyys pysyä rajan sisällä ja
+  se, mitkä syötteet määräävät tuloksen.
+- **Osoita, että tehtävä täyttää vaatimuksensa.** Tuo vaatimukset (CSV, ReqIF tai
+  SysML v2 -teksti), tarkista ne ajoja vasten ja saat varmennusmatriisin, muutosten vaikutusraportin
+  ja tehtävädossierin (PDF, HTML ja JSON), jonka arviointiryhmä voi tarkistaa.
+- **Punnitse arkkitehtuureja näytön perusteella.** Järjestä vaihtoehdot tärkeiden lukujen mukaan, ja jokaisen
+  luvun takana on näyttöpaketti.
+- **Nappaa heikentyminen ennen julkaisua.** Nimeä sinulle tärkeät luvut; putkesi epäonnistuu,
+  kun skenaarion, mallin tai moottorin muutos heikentää jotakin niistä.
+- **Tarkista spektrin rinnakkaiselo.** Testaa ehdokkaina olevia signaalisuunnitelmia avoimia GNSS-signaaleja vastaan
+  molempiin suuntiin ja järjestä ne.
+- **Tee kelloistasi kaksoset.** Kellon digitaalinen kaksonen, joka tarkistetaan sen julkaistua
+  stabiiliutta vastaan; oman laitteesi kaksonen rakennetaan kanssasi sopimuksella.
+- **Aja sitä omassa verkossasi.** Paikallinen palvelu ja työjono sekä kirjaus siitä,
+  mikä tulos toimitettiin mihinkin pyyntöön.
+- **Luovuta allekirjoitettua näyttöä.** Pro allekirjoittaa näyttöpakettinsa ja dossierinsa, ja vastaanottaja
+  voi tarkistaa ne ilman Pro-lisenssiä.
 
-Pro vastaa ohjelman seuraaviin kysymyksiin: minkä suunnitelman kanssa lentää (suunnitteluoptimoija ja sen
-Pareto-rintama), kuinka varma vastaus on (epävarmuus ja herkkyys) ja täyttääkö tehtävä
-vaatimuksensa (tehtäväasiakirja, vaatimusten jäljitettävyys, kompromissitutkimukset,
-skenaarioiden regressiotarkistus, kellojen digitaaliset kaksoset, tutkimusasiakirja ja paikallisesti ylläpidetty
-palvelu). Se myös valvoo lukujen kampanjaa ja hylkää putken, kun jokin luku huononee,
-testaa ehdokassignaalisuunnitelmia avoimia satelliittinavigointisignaaleja vasten molempiin
-suuntiin (spektrin yhteiselo) ja jonouttaa tutkimuksia paikallisesti ylläpidettyyn työpalveluun
-tiivisteketjutetun toimituskirjanpidon kera. Kukin kuvataan, sen tuotoksineen ja sen kera, mitä se ei tee, tiedostossa
-[`docs/PRO.md`](docs/PRO.md). Mikään Pron tuottama ei ole sertifiointi, eikä räätälöity tutkimus
-ole myöskään sertifiointi.
+**Mihin voit luottaa.** Jokainen avoin skenaario toimii Prossa muuttumattomana, eikä Pro koskaan muuta
+avoimen moottorin fysikaalista mallia. Jokainen luku säilyttää näyttömerkinnän, jonka kirjanpito sille antaa
+(VALIDATED, MODELLED tai PARTNER), ei koskaan korkeampaa; Pron omilla malleilla on omat
+merkintänsä. Pro-toimitus luettelee ajamansa skenaariotiedostot, joten kuka tahansa avoimen Kshanan käyttäjä voi
+ajaa ne uudelleen ja saada samat luvut. Mikään Pron tuottama ei ole sertifiointi, eikä tilaustutkimuskaan
+ole sellainen. Täydellinen kuvaus on tiedostossa [`docs/PRO.md`](docs/PRO.md).
 
 <details>
-<summary>Mitä Kshana Pro lukee avoimesta moottorista, ja tuki Ashforde® OÜ:lta</summary>
+<summary>Ashforde® OÜ:n tuki ja ammattipalvelut</summary>
 
-<br>
-
-**Minkä varaan Kshana Pro rakentuu.** Jokainen Pron osa toimii avoimesta moottorista ja jättää
-sen muuttamattomaksi:
-
-- **Suunnitteluoptimoija, epävarmuustutkimus ja tehtäväasiakirja** ajavat avoimen moottorin
-  skenaarioita moottorin julkisen rajapinnan kautta ja laskevat jokaisen luvun ajojen
-  tuloksista. Kukin tuotos säilyttää sen VALIDATED-, MODELLED- tai PARTNER-tason, jonka avoin moottori antoi
-  kullekin luvulle, eikä koskaan korkeampaa.
-- **Kellojen digitaaliset kaksoset** käyttävät avoimen moottorin kellomallia ja sen Allan-hajonnan
-  estimaattoria: kaksonen kalibroidaan laitteen julkaistuun Allan-budjettiin ja tarkistetaan sitten
-  estimoimalla kaksosen Allan-hajonta avoimella estimaattorilla.
-- **Kompromissitutkimukset** ajavat jokaisen arkkitehtuurivaihtoehdon avoimen moottorin skenaariona muuttamattomana
-  ja asettavat vaihtoehdot järjestykseen kunkin ajon tuloksesta luetun hyvyysluvun perusteella.
-- **Kampanjan valvonta** lukee lukunsa paketin skenaarioiden avoimen moottorin ajojen
-  tuloksista ja vertaa niitä edelliseen hyväksyttyyn ajoon.
-- **Spektrin yhteiselo** lukee jokaisen fysikaalisen luvun lajien `leo-signal` ja
-  `constellation-design` avoimen moottorin ajoista ja lisää vain summan näkyvissä olevien satelliittien
-  yli sekä suunnitelmien järjestyksen.
-- **Paikallisesti ylläpidetty työpalvelu** ajaa avoimia ja Pro-skenaarioita saman moottorin läpi ja
-  tallentaa kunkin tuloksen sellaisena kuin ajo sen palautti.
-- **Todistepaketit** tallentavat kustakin ajosta skenaarion tiivisteen, jonka avoin moottori leimaa
-  tulokseensa, joten paketin luku voidaan toistaa ajamalla sen skenaario uudelleen.
-- **Järjestelmäsuunnittelun ja ohjelman työkalut.** Kshana Pron mallipohjaisen
-  järjestelmäsuunnittelun (MBSE) ja ohjelman työkalut tarkistavat ohjelman vaatimukset
-  avoimen moottorin ajoja vasten: ne tuovat vaatimukset pilkuin erotettuina arvoina
-  (CSV) tai Requirements Interchange Formatin (ReqIF) tai
-  Systems Modeling Language -version 2 (SysML v2) tekstin dokumentoituna osajoukkona, arvioivat kunkin hyväksymis-
-  kriteerin yksikköineen ajon kirjoittamia arvoja vasten ja tuottavat varmennuksen
-  ristiviittausmatriisin (VCRM), SysML v2 -mallin, muutosvaikutusraportin ja offline-
-  todistepaketin. Ne eivät aja uudelleen eivätkä laske uudelleen mitään, ja ne lukevat vain sen, mitä avoin moottori
-  julkaisee: kunkin ajon `result.json`-tiedoston (kriteerin nimeämät kentät, niiden yksiköt,
-  skenaarion tiivisteen, siemenen, moottorin version ja skeemaversion toistettavuusleiman sekä
-  ajon merkinnän ja lukujen tasot), sen `report.json`-tiedoston (laji, toistettavuustietue ja
-  ominaisuusmerkinnät), skenaariotiedoston (sen tiiviste, laji, siemen ja parametrit),
-  kenttäyksikköjen skeeman (kunkin kentän yksikkö, alkuperä ja todistetaso) sekä
-  varmennusmatriisin (kunkin ominaisuuden VALIDATED-, MODELLED- tai PARTNER-merkintä).
-
-<a id="support--professional-services"></a>
 ### Tuki ja ammattipalvelut
 
-Kshana on ilmainen ja avointa lähdekoodia AGPL-3.0-lisenssillä, ja sen **ammattimaisesti kehittää ja
-ylläpitää Ashforde® OÜ** (Viro). Avoin moottori on täydellinen ja käyttökelpoinen
-sellaisenaan. Organisaatioille, jotka tarvitsevat enemmän, Ashforde® OÜ tarjoaa:
+Kshana on ilmainen ja avointa lähdekoodia AGPL-3.0-lisenssillä, ja sitä **kehittää ja ylläpitää ammattimaisesti
+Ashforde® OÜ** (Viro). Avoin moottori on täydellinen ja käyttökelpoinen sellaisenaan.
+Organisaatioille, jotka tarvitsevat enemmän, Ashforde® OÜ tarjoaa:
 
-- **Kaupallinen tuki ja integrointi** — Kshanan upottaminen työkaluketjuusi, räätälöidyt
-  skenaariot ja etusijaiset korjaukset.
-- **Räätälöidyt anturimallit** — kalibroituina laitteistoosi, mukaan lukien vientirajoitusten alaiset
-  häiriönsietokyvyn mallit, joita ylläpidetään yksityisessä kerroksessa.
-- **Kshana Pro** — suljetut mallipohjaisen järjestelmäsuunnittelun (MBSE) ja ohjelman
-  työkalut, jotka tarkistavat ohjelman vaatimukset avoimen moottorin ajoja vasten ja
-  tuottavat varmennuksen ristiviittausmatriisin (VCRM), Systems Modeling Language
-  -version 2 (SysML v2) mallin, muutosvaikutusraportin ja offline-todistepaketin. Ne
-  eivät aja mitään uudelleen ja lukevat vain moottorin julkaisemat tulosteet: kunkin ajon `result.json`-
-  ja `report.json`-tiedostot, skenaariotiedoston, kenttäyksikköjen skeeman ja varmennus-
-  matriisin merkinnät (koko luettelo on kohdassa [Versiot](#editions)).
-- **Kshana Pron suunnittelu-, epävarmuus- ja tehtävätyökalut** — suunnitteluavaruuden Pareto-rintama,
-  epävarmuus ja herkkyys tuhansien ajojen yli sekä yhdellä komennolla tuotettava tehtävä-
-  asiakirja varmennusmatriiseineen ja PDF:ineen; katso [`docs/PRO.md`](docs/PRO.md).
-- **Kshana Pron kampanjan valvonta, spektrin yhteiselo ja työpalvelu** — putki, joka
-  epäonnistuu, kun valvottu luku huononee, signaalisuunnitelmat testattuina avoimia
-  satelliittinavigointisignaaleja vasten molempiin suuntiin sekä paikallisesti ylläpidetty työjono
-  tiivisteketjutetun toimituskirjanpidon kera; katso [`docs/PRO.md`](docs/PRO.md).
-- **Koulutus ja konsultointi** kvantti-/klassisen PNT:n suorituskykyanalyysissa.
+- **Kshana Pron**: yllä kuvatun ammattiversion suoralla tuella.
+- **Kaupallista tukea ja integrointia**: Kshanan upottaminen työkaluketjuusi, räätälöidyt
+  skenaariot ja etusijalla tehtävät korjaukset.
+- **Räätälöityjä anturimalleja**: kalibroituna laitteistoosi sopimuksella; vientivalvonnan kannalta
+  arkaluonteinen työ tehdään vain asianmukaisella turvallisuusselvityksellä ja salassapitosopimuksella.
+- **Tilaustutkimuksia**: MODELLED-tutkimus järjestelmäsi PNT-sietokyvystä, tehtynä puolestasi.
+- **Koulutusta ja konsultointia** PNT-sietokyvystä sekä kvantti- ja klassisten antureiden suorituskyvystä.
 
-Tämä on open-core-malli: moottori on ja pysyy avoimesti lisensoituna; liiketoimintaa
-ylläpitävät asiantuntemus, tuki ja suljetut laajennukset — eivät lisenssimaksut.
+Tämä on avoimen ytimen malli: moottori on ja pysyy avoimesti lisensoituna; liiketoiminta, joka sitä
+ylläpitää, on Kshana Pro, tuki ja asiantuntemus.
 Yhteystiedot **contact@ashforde.org** · [ashforde.org](https://ashforde.org).
 
 </details>
 
-<a id="research"></a>
 ## Tutkimus
 
 Avoimen moottorin varaan rakennetut tutkimukset julkaistaan arXivissa. Kukin nimeää taustalla olevan moottorin
@@ -1860,7 +1866,7 @@ NASA/JPL:n Three-Body Periodic Orbit Database). Nämä ovat lisäregressiotarkis
 
 <a id="scenario-format"></a>
 ### Skenaarioformaatti
-Skenaariot ovat deklaratiivista TOML:ää. Ylimmän tason `kind` valitsee paketin — yhteensä **viisikymmentä**
+Skenaariot ovat deklaratiivista TOML:ää. Ylimmän tason `kind` valitsee paketin — yhteensä **93**
 (`clock` on oletus, jos se jätetään pois): `inertial`, `timetransfer`, `hybrid`, `hybrid-ukf`, `fusion`,
 `gnss-ins`, `orbit`, `ephemeris`, `gnss-sim`, `integrity`, `lunar-integrity`, `lunar-time-offset`, `spoof`,
 `spoof-detect`, `jamming`, `sweep`, `sweep-nd`, `gravity-map`, `terrain-nav`, `terrain-slam`,
@@ -2108,7 +2114,7 @@ paperikello). **MODELLED** — pääluku on *viitteestä riippuvainen* (Maan geo
 vs kuun selenoidi, keskiarvostusikkuna), minkä vuoksi raportoidaan kaista eikä yksittäinen sertifioitu
 luku (`scenarios/lunar-time-offset.toml`).
 
-Hakemistossa `scenarios/` on vähintään yksi työstetty esimerkki jokaisesta lajista (92 lajia, 193 skenaarion
+Hakemistossa `scenarios/` on vähintään yksi työstetty esimerkki jokaisesta lajista (93 lajia, 199 skenaarion
 `.toml`-tiedostoa + 1 sarjan manifesti — useilla lajeilla on enemmän kuin yksi esimerkki). Jokaisella
 lajilla ei ole sen mukaan nimettyä tiedostoa: `lunar-integrity` → `scenarios/lunanet-araim.toml` ja
 `gravity-map` → `scenarios/gps-denied-gravity-nav.toml` ovat kaksi useista tällaisista.
@@ -2209,7 +2215,6 @@ kshana/
 │   └── bin/crossover_study.rs · bin/validation_report.rs  # crossover-study artifact generator · release validation-summary HTML
 │
 ├── mcp/kshana-mcp/        # standalone, workspace-EXCLUDED crate — the MCP server (+ Dockerfile, server.json)
-├── ide/jetbrains/         # standalone Kotlin/Gradle IntelliJ-Platform plugin
 ├── xval/                  # standalone, workspace-EXCLUDED external cross-checks: anise-{frames,lunar-od,mars-od,service-geometry} (Rust ANISE/SPICE DE440) + orekit-passes (Java Orekit)
 │
 ├── examples/            # reproducible study generators: tpl_jammertest · resilience_report · optimism_study + real-data probes (jammertest_probe · yunnan_probe · satgrid_probe · texbat_probe · ingest_realdata)
@@ -2219,7 +2224,7 @@ kshana/
 ├── docs/                 # CONCEPTS, ARCHITECTURE, CAPABILITY, VALIDATION, PROVENANCE, GLOSSARY, …
 ├── web/                  # the WebAssembly playground + kshana.dev site
 ├── tools/                # table generators (EGM2008 · IGRF · nutation · CIO) + fetch_tles.sh
-├── .github/workflows/    # ci · release · publish · wheels · pages · mcp-publish · jetbrains-plugin · frame-xval
+├── .github/workflows/    # ci · release · publish · wheels · pages · mcp-publish · frame-xval
 ├── pyproject.toml        # Python packaging (maturin)
 ├── CHANGELOG.md          # Keep a Changelog + SemVer
 └── CITATION.cff · ROADMAP.md · CONTRIBUTING.md · SECURITY.md
@@ -2241,7 +2246,7 @@ Ei. Se on suorituskyvyn *simulaattori*. Kvanttilaitteiston tarkkuus tulee julkai
 virhemalleista, ei tästä työkalusta. Katso [Mitä se on / mitä se ei ole](#what-it-is--is-not).
 
 **Ovatko kvanttitulokset realistisia vai markkinointia?**
-Jokainen parametri on viitattu datalehteen tai artikkeliin, jokainen malli on validoitu
+Jokainen parametri on viitattu datalehteen tai artikkeliin, jokainen malli on tarkistettu
 oppikirjan relaatiota vasten, ja kypsyys on merkitty rehellisesti tiedostossa
 [VALIDATION.md](docs/VALIDATION.md) — mukaan lukien se, ettei yksikään strontium-optinen kello ole
 lentänyt. Moottori on puolueeton: kvantti ja klassinen ovat samaa koodia eri
@@ -2313,13 +2318,13 @@ sen jälkeen putki tarkistaa, että kukin rekisteri todella tarjoaa uuden versio
 
 | Kanava | Asennus / nouto | Sisältö |
 |---------|---------------|----------|
-| [crates.io](https://crates.io/crates/kshana) | `cargo install kshana` · `kshana = "0.35"` | Rust-kirjasto + CLI |
+| [crates.io](https://crates.io/crates/kshana) | `cargo install kshana` · `kshana = "0.41"` | Rust-kirjasto + CLI |
 | [crates.io](https://crates.io/crates/kshana-mcp) | `cargo install kshana-mcp` | MCP-palvelin |
 | [PyPI (Python Package Index)](https://pypi.org/project/kshana/) | `pip install kshana` | abi3-wheelit (Linux/macOS/Windows) + sdist (lähdejakelu) |
 | [npm](https://www.npmjs.com/package/kshana) | `npm install kshana` | WebAssembly-moduuli + JS-kääre |
 | [ghcr.io](https://github.com/ashfordeOU/kshana/pkgs/container/kshana-mcp) | `docker run -i ghcr.io/ashfordeou/kshana-mcp` | moniarkkitehtuurinen OCI-levykuva (Open Container Initiative) — työkaluketjua ei tarvita |
-| [npm](https://www.npmjs.com/package/kshana-mcp) | `npx -y kshana-mcp@0.40.0` | käynnistin: lataa julkaisun binäärin, varmentaa `SHA256SUMS`-tiedoston ja ajaa sen |
-| [PyPI](https://pypi.org/project/kshana-mcp/) | `uvx kshana-mcp==0.40.0` · `pipx run kshana-mcp==0.40.0` | sama käynnistin Pythonille |
+| [npm](https://www.npmjs.com/package/kshana-mcp) | `npx -y kshana-mcp@0.41.0` | käynnistin: lataa julkaisun binäärin, varmentaa `SHA256SUMS`-tiedoston ja ajaa sen |
+| [PyPI](https://pypi.org/project/kshana-mcp/) | `uvx kshana-mcp==0.41.0` · `pipx run kshana-mcp==0.41.0` | sama käynnistin Pythonille |
 | Homebrew · Scoop · winget | `brew install ashfordeOU/tap/kshana-mcp` · `scoop install kshana-mcp` · `winget install AshfordeOU.KshanaMcp` | `kshana-mcp`-binääri, tuotettu kunkin julkaisun `SHA256SUMS`-tiedostosta |
 | Claude Desktop | kaksoisnapsauta julkaisun `kshana-mcp-<target>.mcpb`-tiedostoa | laajennus, binääri sisällä |
 | virallinen MCP-rekisteri | MCP-asiakasohjelmat löytävät automaattisesti | `io.github.ashfordeOU/kshana-mcp` (OCI-levykuva, npm- ja PyPI-paketit) |
@@ -2349,7 +2354,7 @@ CIO-pohjainen IAU 2006/2000A GCRS↔ITRS -ketju (napaliike + alle kaarisekunnin 
 validoitu bitti bitiltä SOFA/ERFAa vasten ja riippumattomasti ristiintarkistettu ANISEa
 (puhdas Rust SPICE) vasten tarkkuuteen ≤ 3.6 m GNSS-radalla. Lähiajan kohteita ovat tiukasti kytketty kantoaallon vaiheen fuusio ja
 löyhästi/tiukasti kytketyn GNSS/INS-navigaattorin tuominen useampiin paketteihin; **syvän avaruuden / Marsin
-radiometrisen navigoinnin** moottori tuli versiossa v0.17.0 (simulaatiolla validoitu).
+radiometrisen navigoinnin** moottori tuli versiossa v0.17.0 (MODELLED: tarkistettu simulaatiossa, ei tehtävädatalla).
 **Kvanttifysiikan kerros** on **P2**-kohde: CAI-kiihtyvyysanturi simuloidaan nyt
 ensimmäisistä periaatteista (Mach–Zehnder-vaihe, projektiokohina, kontrastin heikkeneminen, värähtely-
 kytkentä), kun taas kello-/aikasiirtoanturit ovat edelleen julkaistujen
@@ -2404,7 +2409,7 @@ merkintä jokaisesta käyttäjälle näkyvästä muutoksesta. Osallistumista ohj
 | [Toistettavuus ja alkuperä](docs/REPRODUCIBILITY.md) | arvioijat / paketoijat | determinismitakuut, referenssien kiinnitys, SBOM (ohjelmiston osaluettelo), käännösalkuperä |
 | [Wheel-alustatagit](docs/WHEEL_TAGS.md) | paketoijat | abi3-Python-wheel-matriisi — mihin alustatagiin `pip install kshana` ratkeaa |
 | [Asemointi](docs/POSITIONING.md) | arvioijat | missä Kshana on suhteessa RTKLIBiin/gLABiin (täydentävä), ja asennukseton selaintaso |
-| [Kshana Pro](docs/PRO.md) | arvioijat / ohjelmapäälliköt | mitä suljettu Pro-kerros lisää saman moottorin päälle: suunnitteluoptimoija, epävarmuus ja herkkyys, tehtäväasiakirja, kampanjan valvonta, spektrin yhteiselo, paikallinen työpalvelu, vaatimusten jäljitettävyys; mitä kukin tuottaa ja mitä se ei tee |
+| [Kshana Pro](docs/PRO.md) | arvioijat / ohjelmapäälliköt | ammattiversio: kenelle se on tarkoitettu, mitä tiimit voivat sillä tehdä, mitä ne saavat, tuki ja miten arviointi aloitetaan |
 | [Tekninen raportti](paper/kshana-technical-report.md) · [JOSS-artikkeli](paper/paper.md) | arvioijat / viittaajat / arvioitsijat | koko laajennettu tutkimusartikkeli — arkkitehtuuri, aluekohtaiset mallit, validointi, tapaustutkimukset ja rajoitukset — sekä tiivis JOSS-lähetys (Journal of Open Source Software) |
 | [SGP4-validointi](docs/SGP4-VALIDATION.md) | arvioijat / viittaajat | yhtäpitävyys AIAA 2006-6753 -viitteen kanssa (666 tilaa, ~4 mm) **ja** suora vertailu riippumattomaan `sgp4`-crateen (yhtäpitävä alle mikronin / 4.12 mm) |
 | [Voimamallin validointi](docs/AGENCY-ORBIT-VALIDATION.md) | arvioijat / viittaajat | täyden voimamallin moottori (`src/precise_od.rs`) sovitettuna virastojen efemerideihin — menetelmä ja validoidut jäännökset |
@@ -2430,7 +2435,7 @@ merkintä jokaisesta käyttäjälle näkyvästä muutoksesta. Osallistumista ohj
 | [Python API](docs/PYTHON_API.md) | Python-käyttäjät | PyO3-sidontarajapinta — moottorin kutsuminen, skenaario-/tulostyypit ja esimerkit |
 | [Väitteet vs todellisuus](docs/CLAIMS-VS-REALITY.md) | arvioijat | liioiteltujen väitteiden sulkemiskirjanpito + CI-vartija (`tests/no_overclaims.rs`), joka pitää sen ratkaistuna |
 | [Tiekartta](ROADMAP.md) | kaikille | vaiheistettu tiekartta — mitä on toimitettu ja mitä on tulossa |
-| [MCP-palvelin](mcp/kshana-mcp/README.md) · [JetBrains-liitännäinen](ide/jetbrains/README.md) | agentit / IDE-käyttäjät | Kshanan ajaminen tekoälyavustajasta tai JetBrains IDE:stä |
+| [MCP-palvelin](mcp/kshana-mcp/README.md) · [JetBrains-liitännäinen](https://kshana.dev/docs/jetbrains.html) | agentit / IDE-käyttäjät | Kshanan ajaminen tekoälyavustajasta tai JetBrains IDE:stä |
 | [Agenttiopas](docs/AGENTS.md) · [Rajapinnat](docs/SURFACES.md) | agentit / integroijat | mikä työkalu vastaa mihinkin kysymykseen, mitä kunkin vastauksen kanssa säilytetään; missä kukin ominaisuus on saatavilla (CLI, Rust, Python, WASM, MCP, liitännäinen, JetBrains, muistikirjat) ja miksi solu on N/A |
 | [Muutosloki](CHANGELOG.md) | kaikille | julkaisuhistoria (Keep a Changelog + SemVer, semanttinen versiointi) |
 | [Osallistuminen](CONTRIBUTING.md) | osallistujat | käännös, vartijat, testi-/viittauskuri, DCO (Developer Certificate of Origin) |

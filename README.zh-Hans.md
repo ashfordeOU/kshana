@@ -1,4 +1,4 @@
-> 本文是 v0.40.0 版 README.md 的机器翻译，尚未经母语人士审校；以英文版 README 为准。[English](README.md)
+> 本文是 v0.41.0 版 README.md 的机器翻译，尚未经母语人士审校；以英文版 README 为准。[English](README.md)
 
 <!-- The images under docs/assets/readme/ are generated from real engine runs by
      tools/gen_readme_assets.py (light and dark variants); regenerate them with
@@ -24,7 +24,7 @@
   <a href="docs/COVERAGE.md"><img src="https://img.shields.io/badge/coverage-~95%25-377D0C?style=flat-square&labelColor=0A1226" height="18" alt="src/ 的行覆盖率接近 95 %，测量见 docs/COVERAGE.md，持续集成中的门槛为 85 %"></a>
   <a href="#evidence"><img src="https://img.shields.io/badge/validated-176%2F413-377D0C?style=flat-square&labelColor=0A1226" height="18" alt="413 项能力中有 176 项与独立的外部参考基准核对为 VALIDATED，数据来自验证矩阵"></a>
   <a href="https://sonarcloud.io/summary/overall?id=ashfordeOU_kshana"><img src="https://img.shields.io/sonar/quality_gate/ashfordeOU_kshana?server=https%3A%2F%2Fsonarcloud.io&label=quality&style=flat-square&labelColor=0A1226" height="18" alt="SonarQube Cloud 质量门状态"></a>
-  <a href="https://github.com/ashfordeOU/kshana/releases"><img src="https://img.shields.io/badge/release-v0.40.0-066A86?style=flat-square&labelColor=0A1226" height="18" alt="发布版本 v0.40.0"></a>
+  <a href="https://github.com/ashfordeOU/kshana/releases"><img src="https://img.shields.io/badge/release-v0.41.0-066A86?style=flat-square&labelColor=0A1226" height="18" alt="发布版本 v0.41.0"></a>
   <a href="docs/i18n.md"><img src="https://img.shields.io/badge/languages-English%20%2B%2017-3F4B67?style=flat-square&labelColor=0A1226" height="18" alt="英语及另外 17 种语言，均为机器翻译"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/licence-AGPL--3.0-3F4B67?style=flat-square&labelColor=0A1226" height="18" alt="许可证：AGPL-3.0-only"></a>
   <br>
@@ -73,14 +73,14 @@
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/hero-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/hero-light.svg">
-  <img src="docs/assets/readme/hero-light.svg" alt="演练 GNSS 失效的那一分钟。Kshana 的任务控制台，绘自引擎 v0.40.0 的一次真实运行：链式战役 campaign-jam-spoof-holdover-integrity（随机种子 20260928，6 个阶段，18 次成员运行，历时 T+01:16:10），以及来自 constellation-multi-gnss-coverage 的 GPS、Galileo、BeiDou 和 GLONASS 共 102 颗卫星，每颗卫星均绘制在由引擎星下点轨迹反推出的圆形二体轨道上，半径为显示而压缩。时钟时间误差峰值为 62.7 ns，防护门限为 50 ns；载噪比降至 -12.2 dB-Hz，下限为 25 dB-Hz；垂直保护级达到 135.4 m，告警限值为 50 m。" width="100%">
+  <img src="docs/assets/readme/hero-light.svg" alt="演练 GNSS 失效的那一分钟。Kshana 的任务控制台，绘自引擎 v0.41.0 的一次真实运行：链式战役 campaign-jam-spoof-holdover-integrity（随机种子 20260928，6 个阶段，18 次成员运行，历时 T+01:16:10），以及来自 constellation-multi-gnss-coverage 的 GPS、Galileo、BeiDou 和 GLONASS 共 102 颗卫星，每颗卫星均绘制在由引擎星下点轨迹反推出的圆形二体轨道上，半径为显示而压缩。时钟时间误差峰值为 62.7 ns，防护门限为 50 ns；载噪比降至 -12.2 dB-Hz，下限为 25 dB-Hz；垂直保护级达到 135.4 m，告警限值为 50 m。" width="100%">
 </picture>
 
 <details>
 <summary><strong>目录</strong></summary>
 
 - [演练 GNSS 失效的那一分钟](#rehearse-the-minute-gnss-goes-dark)
-- [0.40 新增内容](#whats-new-in-040)、[0.39 新增内容](#whats-new-in-039)、[0.38 新增内容](#whats-new-in-038)，以及 [0.38 详解](#038-in-depth)：jammertest 评分、接收机自身的标志、机器输入、授时与守时、标准包、LunaNet AFS、实验室往返、kshana-bench、观测站、导出器、光学、[空间用户导航](#space-user-navigation-gnss-ssv) 和 [月球基础设施](#lunar-infrastructure-lunar-infrastructure)
+- [0.41 新增内容](#whats-new-in-041), [0.40 新增内容](#whats-new-in-040)、[0.39 新增内容](#whats-new-in-039)、[0.38 新增内容](#whats-new-in-038)，以及 [0.38 详解](#038-in-depth)：jammertest 评分、接收机自身的标志、机器输入、授时与守时、标准包、LunaNet AFS、实验室往返、kshana-bench、观测站、导出器、光学、[空间用户导航](#space-user-navigation-gnss-ssv) 和 [月球基础设施](#lunar-infrastructure-lunar-infrastructure)
 - [Kshana Studio](#kshana-studio) 及 Studio 的每个页面
 - [能力](#capabilities)：领域表、[按族划分的每种场景类型](#every-scenario-kind-by-family)、[每条命令](#every-command)、[每种接口](#every-surface)
 - [一次运行如何进行](#how-a-run-works)、[任务](#missions)
@@ -104,25 +104,65 @@
 与之一致）、**MODELLED**（内部自洽，并明确说明这一点）
 或 **PARTNER**（由硬件合作方负责）。
 
-> **状态：v0.40.0。** 一个经过验证、可复现的 PNT 韧性仿真基础。
-> 授时与守时优先，因为这是验证最充分的领域。Kshana 是一个
-> 研究和权衡工具：不是射频（RF）信号发生器硬件（它
-> 不驱动任何无线电，也不发射任何信号；其信号级输出为供软件接收机使用的基带 IQ 采样文件），
-> 不是硬件或经认证的 GNSS 接收机（其软件接收机
-> 是一款分析工具），也不是飞行产品。初次接触这一领域？请从
-> [通俗入门](docs/CONCEPTS.md) 和 [术语表](docs/GLOSSARY.md) 开始。
+> **Status: v0.41.0.** 一个可复现的 PNT 韧性仿真底座，其中每项能力
+> 都按其证据加以标注。授时与守时（holdover）放在首位，因为这一领域的 VALIDATED 行最多。
+> Kshana 是一种研究与权衡工具：它不是射频（RF）信号发生器硬件（它
+> 不驱动任何无线电，也不发射任何东西；它在信号层面的输出是供软件接收机使用的基带 IQ 采样文件），
+> 不是硬件或经认证的 GNSS 接收机（它的软件接收机
+> 是一种分析工具），也不是飞行产品。初次接触这一领域？请从
+> [通俗入门](docs/CONCEPTS.md)和[术语表](docs/GLOSSARY.md)开始。
 
 <a id="whats-new-in-040"></a>
+## 0.41 新增内容
+
+0.41 对为其承诺的证据行逐一评分，每行只评一次，所依据的门槛在拿到数据之前就已确定，并按实际结果公布每一项
+（C2 v2 的重跑没有执行）。新增内容包括：带卫星故障甄别的区域信任状态、
+监测网络规划器、TDOA 干扰源定位器、关于暗船和 AIS 完整性的判定、
+TEXBAT 欺骗基准、飞行动力学导出以及 RTCM SSR 读取器。台账现有 413 行：176 行
+VALIDATED、233 行 MODELLED、4 行 PARTNER。没有任何一行被提升为 VALIDATED，下面每一项未达标都由测试固定。
+
+- **区域信任（`kshana area-trust`，B5）。** 根据多个参考站得出一个区域的信任状态。第 3 版
+  会标记这样一颗卫星：去掉它就能同时消除多个站的告警，并在不含它的情况下重新计算这些站的解；
+  仅仅失锁不再降低某个站的状态。在 26 个区域日的 IGS 数据上（Goddard 和 Wettzell，2026 年 5 月），
+  它发出 1 次告警（门槛为每区域日 ≤ 1），**达到** T4；在合成故障上**未达到** T2（127 个故障中
+  消除了 123 个；4 个是剩余几何较弱的情况，另有 67 个双卫星历元中的 2 个被归因于一颗卫星）。T3
+  （告警延迟）达到。B5 v3 为 **NOT MET**（[结果](docs/design/evidence/b5-area-trust/RESULTS-v3.md)）。诊断还
+  发现引擎使用了被标记为不健康的广播记录；如此标记的 GPS 和 QZSS 记录现在会被跳过。
+- **欺骗基准（TEXBAT，E5）。** 在读取任何文件之前就定好规则，在全部十段 TEXBAT 录音上
+  只评分一次：功率与畸变评分**达到** E5-PD（AUC 0.7410，门槛 0.70）；基线 IQ 评分**未达到** E5 v2
+  （AUC 0.6941）。只公布评分，从不公布录音（[结果](docs/design/evidence/b4a-benchmark-classes/RESULTS-E5-v2.md)）。
+- **监测网络规划器（`kshana planner`，B1a）。** 检测与 TDOA 精度地图，以及站点布设。
+  第 3 版的布设搜索胜过 1 000 个随机子集中的最佳者（0.4408 对 0.4105），**达到** P4；
+  第 1 部分在 Linux 上达到，macOS 和 Windows 上的检查尚待完成（[结果](docs/design/evidence/b1a-planner/RESULTS-v3.md)）。
+- **干扰源定位。** 功率差定位器（B3a）在 v1 和 v2 中都**未达到**其合成门槛；新的 TDOA 定位器
+  （B3b，`locate_tdoa`）也**未达到**（覆盖率 0.044 对 0.90：其峰值细化的误差最多可达
+  半个采样，而声明的 σ 为 28 ns）。两行到此为止；两种方法都不会在真实数据上运行
+  （[B3b 结果](docs/design/evidence/b3b-tdoa-locator/RESULTS.md)）。
+- **暗船与 AIS 完整性（M4）。** 第 3 版**达到**暗船召回率（0.994）以及除位置偏移之外的所有其他门槛，
+  位置偏移**未达到**（5 km 处 0.489 对 0.85）（[结果](docs/design/evidence/m4-dark-vessel-ais-integrity/RESULTS-v3.md)）。
+  每项输出描述的都是数据的一致性，从不涉及意图。
+- **其他评分。** M1 以及 C5a、C3 和 B8 各行**达到**其门槛；M2 对已公布重访数据的交叉核对
+  与这些数据**不一致**；M5 v2（基于轨道的混合定位）、D8b 第
+  8 行 v2 和 D8a 第 6 行 v2 **未达到**各自门槛（[Changelog](CHANGELOG.md)）。
+- **飞行动力学与改正。** `kshana ephem-export` 将 JPL Horizons 表写成 CCSDS OEM 或 OPM，或写成
+  SPK 内核，并读回；Orekit、Basilisk 和 ANISE 按写入的比特读取这些文件。新增 RTCM SSR（IGS SSR）读取器、
+  Bias-SINEX 读取器和 IERS 2010 固体地球潮汐。
+- **轨道数据检查。** `kshana orbit-data` 检查 CCSDS 交会数据报文（508.0-B-1）以及 OEM 和 OCM
+  星历（502.0-B-3），并对照其引用的章节给出有效或无效，在保留来源的前提下将 OEM 与 OCM
+  相互转换，比较并审核两行根数，检查并传播协方差（MODELLED）。在该标准
+  自带的 CDM 示例中，它发现一个非正定的协方差和两处语法错误
+  （[轨道数据](docs/ORBIT-DATA.md)）。
+
 ## 0.40 新增内容
 
 0.40 新增了任务级误差预算，为每张图和每个表标注其证据等级，可读取实测时钟日志，
 检查数据合作方提交的数据，估计干扰发射源可能所在的区域，并在英语之外支持十七种语言。
-台账现有 412 行：176 行 VALIDATED、232 行 MODELLED、4 行 PARTNER。没有任何一行被提升为 VALIDATED，下面每一项未达标
+没有任何一行被提升为 VALIDATED，下面每一项未达标
 都由一项测试固定下来。
 
 - **任务链。** `mission-thread` 类型将从发射到再入的各阶段串联起来（`launch-ascent`、`leo-rendezvous`、
   `tli-and-cruise`、`entry` 以及四种月球类型），带有明确规定的交接规则、相对明确规定的需求的余量以及最薄弱
-  环节；一个端到端的 Artemis 级示例，共 11 个阶段（地球段和月球段），总计 92 种场景类型。每个数字均为 MODELLED。地月空间传播与公开的 Artemis I 轨迹相比
+  环节；一个端到端的 Artemis 级示例，共 11 个阶段（地球段和月球段）。每个数字均为 MODELLED。地月空间传播与公开的 Artemis I 轨迹相比
   **未达到**其预先登记的判据（45.3 km 和 0.25 m/s，判据为 5 km 和 0.05 m/s；原因是模型未包含的小型机动），月球传播器与 CAPSTONE
   轨道相比**未达到**判据（一圈结束时为 136.8 km，判据为 25 km）；与 LRO 的比较达到判据。这些行仍为 MODELLED
   （[任务链](docs/MISSION-THREAD.md)、[月球段](docs/MISSION-THREAD-LUNAR.md)）。在 Studio 中，任务链在 `/studio/mission-thread/` 查看。
@@ -206,7 +246,7 @@ kshana jammertest score session.toml --catalog ../jammertest-plan/testcatalog202
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/jammertest-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/jammertest-light.svg">
-  <img src="docs/figures/0.38/jammertest-light.svg" alt="对照包含三项测试的时间表为一份合成接收机日志评分，绘自引擎 v0.40.0 的一次真实运行（`kshana jammertest score`）。日志是虚构的：1800 s 的 NMEA，在两个时间段内 C/N0 下降 20 dB。时间表列出三个时段；中间时段在日志中没有干扰源。评分结果为 3 项测试中检测到 2 项（中位延迟 0 s）、漏检 1 项，在 0.25 h 的无干扰时间内虚警次数为 0。这里的任何内容都不涉及真实接收机。仅供参考的软件，不是经型式认可的导航设备（IEC 61108、IEC 61162）：船舶航行的责任仍由操作人员承担。">
+  <img src="docs/figures/0.38/jammertest-light.svg" alt="对照包含三项测试的时间表为一份合成接收机日志评分，绘自引擎 v0.41.0 的一次真实运行（`kshana jammertest score`）。日志是虚构的：1800 s 的 NMEA，在两个时间段内 C/N0 下降 20 dB。时间表列出三个时段；中间时段在日志中没有干扰源。评分结果为 3 项测试中检测到 2 项（中位延迟 0 s）、漏检 1 项，在 0.25 h 的无干扰时间内虚警次数为 0。这里的任何内容都不涉及真实接收机。仅供参考的软件，不是经型式认可的导航设备（IEC 61108、IEC 61162）：船舶航行的责任仍由操作人员承担。">
 </picture>
 
 **台账状态：MODELLED。** 判据在任何评分运行之前已固定；在 JammerTest 2024 数据上，
@@ -227,7 +267,7 @@ kshana receiver-trust session.toml     # [log] format = "ubx", path = "receiver.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/receiver-flags-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/receiver-flags-light.svg">
-  <img src="docs/figures/0.38/receiver-flags-light.svg" alt="接收机自身的欺骗标志与 Kshana 的告警并列比较，绘自引擎 v0.40.0 在一份虚构 UBX 日志（200 个历元，1 Hz）上的一次真实运行。C/N0 在 80 至 90 s 和 120 至 130 s 下降 20 dB；接收机在 120 至 130 s 和 160 至 165 s 发出标志。校准后比较的 140 个历元中，11 个两者都报，6 个仅接收机报，11 个仅 Kshana 报，112 个都不报。任何一方都不是真值，一致也不构成验证。仅供参考：研究与工程工具的分析输出，不是经型式认可的导航设备，也不是生命安全服务。">
+  <img src="docs/figures/0.38/receiver-flags-light.svg" alt="接收机自身的欺骗标志与 Kshana 的告警并列比较，绘自引擎 v0.41.0 在一份虚构 UBX 日志（200 个历元，1 Hz）上的一次真实运行。C/N0 在 80 至 90 s 和 120 至 130 s 下降 20 dB；接收机在 120 至 130 s 和 160 至 165 s 发出标志。校准后比较的 140 个历元中，11 个两者都报，6 个仅接收机报，11 个仅 Kshana 报，112 个都不报。任何一方都不是真值，一致也不构成验证。仅供参考：研究与工程工具的分析输出，不是经型式认可的导航设备，也不是生命安全服务。">
 </picture>
 
 **台账状态：MODELLED。** 接收机的检测器与 Kshana 的检测器一致并不构成
@@ -247,7 +287,7 @@ kshana imu-fit still.csv --format csv --axis x --expected-mean 0 --id bench-imu
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/machine-inputs-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/machine-inputs-light.svg">
-  <img src="docs/figures/0.38/machine-inputs-light.svg" alt="`kshana imu-fit` 从一份静止 IMU 日志中读出的内容，绘自引擎 v0.40.0 在一份虚构日志（20,000 个采样，100 Hz，200 s）上的一次真实运行：加速度计速度随机游走 q_va = 4.02e-06，陀螺仪角度随机游走 q_arw = 9e-08，零偏不稳定性 0.00296，以及早期 Allan 斜率（-0.51 和 -0.49；在白噪声占主导处约为 -0.5）。旁边的表是该命令打印的 TOML。该估计器仅在合成日志上检查过。仅供参考：研究与工程工具的分析输出，不是经型式认可的导航设备，也不是生命安全服务。">
+  <img src="docs/figures/0.38/machine-inputs-light.svg" alt="`kshana imu-fit` 从一份静止 IMU 日志中读出的内容，绘自引擎 v0.41.0 在一份虚构日志（20,000 个采样，100 Hz，200 s）上的一次真实运行：加速度计速度随机游走 q_va = 4.02e-06，陀螺仪角度随机游走 q_arw = 9e-08，零偏不稳定性 0.00296，以及早期 Allan 斜率（-0.51 和 -0.49；在白噪声占主导处约为 -0.5）。旁边的表是该命令打印的 TOML。该估计器仅在合成日志上检查过。仅供参考：研究与工程工具的分析输出，不是经型式认可的导航设备，也不是生命安全服务。">
 </picture>
 
 **台账状态：MODELLED。** 仅使用自行编写的测试数据；没有读取过来自真实接收机、IMU、
@@ -267,7 +307,7 @@ kshana scenarios/holdover-test-example.toml
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/timing-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/timing-light.svg">
-  <img src="docs/figures/0.38/timing-light.svg" alt="根据时间误差记录评分的一次守时测试，绘自引擎 v0.40.0 在 scenarios/holdover-test-example.toml 上的一次真实运行（601 个采样，每 5 s 一个）。操作人员在 600 s 移除 GNSS，在 2400 s 恢复；时间误差在守时结束时漂移到 299 ns，在 675 s 后超出 100 ns 预算，并在恢复后 70 s 回到 100 ns 范围内。判定：基线模板 PASS，守时模板 FAIL，守时包络 FAIL，恢复 RECOVERED。对照模板测量，不是认可。时间是操作人员的陈述，未经 Kshana 核实。仅供参考：研究与工程工具的分析输出，不是经型式认可的导航设备，也不是生命安全服务。">
+  <img src="docs/figures/0.38/timing-light.svg" alt="根据时间误差记录评分的一次守时测试，绘自引擎 v0.41.0 在 scenarios/holdover-test-example.toml 上的一次真实运行（601 个采样，每 5 s 一个）。操作人员在 600 s 移除 GNSS，在 2400 s 恢复；时间误差在守时结束时漂移到 299 ns，在 675 s 后超出 100 ns 预算，并在恢复后 70 s 回到 100 ns 范围内。判定：基线模板 PASS，守时模板 FAIL，守时包络 FAIL，恢复 RECOVERED。对照模板测量，不是认可。时间是操作人员的陈述，未经 Kshana 核实。仅供参考：研究与工程工具的分析输出，不是经型式认可的导航设备，也不是生命安全服务。">
 </picture>
 
 **台账状态：MODELLED。** 移除和恢复 GNSS 的时间是操作人员的陈述，
@@ -288,7 +328,7 @@ kshana standards-pack run imo-circ-1575
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/standards-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/standards-light.svg">
-  <img src="docs/figures/0.38/standards-light.svg" alt="三个评分标准包的每项测试，绘自引擎 v0.40.0 的真实运行（`kshana standards-pack run`）：dhs-rpcf：6 项达到，1 项未达到，2 项需要输入；imo-circ-1575：1 项达到，4 项未达到，2 项需要输入；icao-doc9849-appf：6 项达到，0 项未达到，2 项需要输入。总计 13 项达到，5 项未达到，6 项需要引擎所没有的输入（接收机日志或设备文档）。每项判据都在运行前已说明；未达到就记为未达到。达到判据只说明一个建模场景达到了一项已说明的判据，并不涉及任何产品。这些包为其引用的行提供支持证据；它们不是评估。仅供参考：研究与工程工具的分析输出，不是经型式认可的导航设备，也不是生命安全服务；不得将其作为任何导航或安全决策的唯一依据。">
+  <img src="docs/figures/0.38/standards-light.svg" alt="三个评分标准包的每项测试，绘自引擎 v0.41.0 的真实运行（`kshana standards-pack run`）：dhs-rpcf：6 项达到，1 项未达到，2 项需要输入；imo-circ-1575：1 项达到，4 项未达到，2 项需要输入；icao-doc9849-appf：6 项达到，0 项未达到，2 项需要输入。总计 13 项达到，5 项未达到，6 项需要引擎所没有的输入（接收机日志或设备文档）。每项判据都在运行前已说明；未达到就记为未达到。达到判据只说明一个建模场景达到了一项已说明的判据，并不涉及任何产品。这些包为其引用的行提供支持证据；它们不是评估。仅供参考：研究与工程工具的分析输出，不是经型式认可的导航设备，也不是生命安全服务；不得将其作为任何导航或安全决策的唯一依据。">
 </picture>
 
 **台账状态：MODELLED。** 达到判据只说明一个建模场景达到了一项已说明的判据，并不涉及任何
@@ -309,7 +349,7 @@ kshana lunanet-afs-check symbols afs.sym
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/lunanet-afs-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/lunanet-afs-light.svg">
-  <img src="docs/figures/0.38/lunanet-afs-light.svg" alt="对照规范印出的各列检查 LunaNet AFS 码生成器，绘自引擎 v0.40.0 的一次真实运行（`kshana lunanet-afs-check spec`，固定对应 LNIS V5、AD1 Volume A (LSIS-AFS) V1.0，2025 年 1 月 29 日；该文档将其码表标为 {LSIS-TBC}）。10 项检查中 9 项达到；B4 为 NOT MET（421 项中 420 项匹配）。它对照已公布规范的一个版本检查符号流，不涉及任何 LunaNet 节点或服务。仅供参考：研究与工程工具的分析输出，不是经型式认可的导航设备，也不是生命安全服务。它对照已公布规范的一个版本检查符号流，不涉及任何 LunaNet 节点或服务。">
+  <img src="docs/figures/0.38/lunanet-afs-light.svg" alt="对照规范印出的各列检查 LunaNet AFS 码生成器，绘自引擎 v0.41.0 的一次真实运行（`kshana lunanet-afs-check spec`，固定对应 LNIS V5、AD1 Volume A (LSIS-AFS) V1.0，2025 年 1 月 29 日；该文档将其码表标为 {LSIS-TBC}）。10 项检查中 9 项达到；B4 为 NOT MET（421 项中 420 项匹配）。它对照已公布规范的一个版本检查符号流，不涉及任何 LunaNet 节点或服务。仅供参考：研究与工程工具的分析输出，不是经型式认可的导航设备，也不是生命安全服务。它对照已公布规范的一个版本检查符号流，不涉及任何 LunaNet 节点或服务。">
 </picture>
 
 **台账状态：VALIDATED**，适用于码和同步检查，对照的是
@@ -351,7 +391,7 @@ kshana bench baseline --task d --split test --out results/
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/bench-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/bench-light.svg">
-  <img src="docs/figures/0.38/bench-light.svg" alt="kshana-bench 任务 D（乐观偏差）在测试划分上的内置基线，绘自引擎 v0.40.0 的一次真实运行（`kshana bench baseline`）。每对柱为分布内样本和偏移样本上的 ROC 曲线下面积；两者之差即乐观偏差，容差为 0.05。fused-max-z：0.998 和 0.983（差距 0.015）；sqm-imbalance：0.882 和 0.882（差距 0.001）；agc-excess：0.848 和 0.819（差距 0.030）；raim-parity：0.682 和 0.672（差距 0.010）；energy-cn0-drop：0.595 和 0.565（差距 0.030）。标签是一个合成语料库的生成模型标签，从不是实地数据：MODELLED。仅供参考：经建模或对照已说明的参考测量，不是认可、认证或符合性声明。评分描述的是日志或语料库，从不是产品。">
+  <img src="docs/figures/0.38/bench-light.svg" alt="kshana-bench 任务 D（乐观偏差）在测试划分上的内置基线，绘自引擎 v0.41.0 的一次真实运行（`kshana bench baseline`）。每对柱为分布内样本和偏移样本上的 ROC 曲线下面积；两者之差即乐观偏差，容差为 0.05。fused-max-z：0.998 和 0.983（差距 0.015）；sqm-imbalance：0.882 和 0.882（差距 0.001）；agc-excess：0.848 和 0.819（差距 0.030）；raim-parity：0.682 和 0.672（差距 0.010）；energy-cn0-drop：0.595 和 0.565（差距 0.030）。标签是一个合成语料库的生成模型标签，从不是实地数据：MODELLED。仅供参考：经建模或对照已说明的参考测量，不是认可、认证或符合性声明。评分描述的是日志或语料库，从不是产品。">
 </picture>
 
 **台账状态：** 没有自己的台账行；基线在结果文件中标为 MODELLED。
@@ -394,7 +434,7 @@ kshana trust-telemetry --result session.result.json --print-syslog --format cef
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/exporters-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/exporters-light.svg">
-  <img src="docs/figures/0.38/exporters-light.svg" alt="以三种导出格式表示的一个信任度结果，绘自引擎 v0.40.0 在 examples/maritime-trust 上的真实运行（`kshana trust-telemetry`）：Prometheus 文本暴露格式（最新的信任度为 5.9，被置位的是不可信区间），以及最后的 CEF 和 LEEF 消息。除非指定目的地，否则该命令不发布任何内容，不持有任何凭据，也不发射任何无线电信号。仅供参考的软件，不是经型式认可的导航设备（IEC 61108、IEC 61162）：船舶航行的责任仍由操作人员承担。">
+  <img src="docs/figures/0.38/exporters-light.svg" alt="以三种导出格式表示的一个信任度结果，绘自引擎 v0.41.0 在 examples/maritime-trust 上的真实运行（`kshana trust-telemetry`）：Prometheus 文本暴露格式（最新的信任度为 5.9，被置位的是不可信区间），以及最后的 CEF 和 LEEF 消息。除非指定目的地，否则该命令不发布任何内容，不持有任何凭据，也不发射任何无线电信号。仅供参考的软件，不是经型式认可的导航设备（IEC 61108、IEC 61162）：船舶航行的责任仍由操作人员承担。">
 </picture>
 
 **台账状态：MODELLED。** [信任遥测](docs/TRUST-TELEMETRY.md)。
@@ -412,18 +452,20 @@ kshana scenarios/optical-atmosphere-network.toml
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/optical-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/optical-light.svg">
-  <img src="docs/figures/0.38/optical-light.svg" alt="站点“northern”在 336 h 内链路余量的一次带种子的实现，绘自引擎 v0.40.0 在 scenarios/optical-atmosphere-network.toml 上的一次真实运行（随机种子 37，步长 600 s）。余量在云层时段降至零以下；在这次抽样中，链路有 40.5 % 的时间可用，中断 27 次，最长一次中断为 30.7 h。输入仅为示意，该序列是模型的一次抽样而不是气候，它与统计可用性（37.8 %）之差为此次抽样的抽样误差。仅供参考的分析：不是经认证的可用性、完好性或导航产品，除非其气候输入来自已说明的数据集，否则也不是对任何真实站点的预测。">
+  <img src="docs/figures/0.38/optical-light.svg" alt="站点“northern”在 336 h 内链路余量的一次带种子的实现，绘自引擎 v0.41.0 在 scenarios/optical-atmosphere-network.toml 上的一次真实运行（随机种子 37，步长 600 s）。余量在云层时段降至零以下；在这次抽样中，链路有 40.5 % 的时间可用，中断 27 次，最长一次中断为 30.7 h。输入仅为示意，该序列是模型的一次抽样而不是气候，它与统计可用性（37.8 %）之差为此次抽样的抽样误差。仅供参考的分析：不是经认证的可用性、完好性或导航产品，除非其气候输入来自已说明的数据集，否则也不是对任何真实站点的预测。">
 </picture>
 
 **台账状态：MODELLED。** 模型的一次抽样，不是气候。[光学大气](docs/OPTICAL-ATMOSPHERE.md)。
 
 ### 新的 Studio 视图
 
-[kshana.dev/studio](https://kshana.dev/studio/) 新增了驾驶台回放（Bridge replay）（在同一任务时钟上并排显示两次运行，
+[kshana.dev/studio](https://kshana.dev/studio/) 新增驾驶台回放（在同一个任务时钟上并排显示两次运行，
 位于 [`/studio/replay/`](https://kshana.dev/studio/replay/)）、光学 PNT 页面
 （`/studio/optical/`）、守时测试页面（`/studio/holdover/`）和观测站查看器
 （`/studio/observatory/`）。它们在浏览器中运行同一个引擎，不上传任何内容，并带有
-相同的“仅供参考”声明。上面的图是由脚本根据引擎自身的输出绘制的；
+相同的咨询性声明。仅在 Kshana Desktop（可从 [kshana.dev](https://kshana.dev) 获取）中，IQ 录音视图（`/studio/iq/`）会从磁盘读取录音，
+显示其功率随时间的变化、瀑布图以及光标处的频谱；它只读取接收到的采样，
+没有任何写入、发射或生成信号的控件。上面的图片由脚本根据引擎自身的输出绘制；
 它们不是这些页面的截图。
 
 <a id="space-user-navigation-gnss-ssv"></a>
@@ -449,25 +491,25 @@ kshana scenarios/gnss-ssv-formation-heo.toml    # formation: relative navigation
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/ssv-shell-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/ssv-shell-light.svg">
-  <img src="docs/figures/0.38/ssv-shell-light.svg" alt="高度 36000 km 球面上使用半球天线的用户的信号可用性，绘自引擎 v0.40.0 在 scenarios/gnss-ssv-shell.toml 上的一次真实运行（缩减规模的运行：162 个用户、3 天、10 min 步长），门限为 20 dB-Hz。每个星座和频段有两根柱：（用户，历元）对中至少有一个信号和至少有四个信号的比例。组合，L1：至少一个为 99.4 %，至少四个为 73.2 %，少于四个信号的最长中断为 160 min。组合，L5：至少一个为 100.0 %，至少四个为 99.9 %，少于四个信号的最长中断为 20 min。MODELLED：基于已说明输入的建模研究，不是测量，也不是对任何系统的服务体积声明。缩减规模的运行不是与手册的比较。仅供参考：研究与工程工具的分析输出，不是经型式认可的导航设备，也不是生命安全服务。">
+  <img src="docs/figures/0.38/ssv-shell-light.svg" alt="高度 36000 km 球面上使用半球天线的用户的信号可用性，绘自引擎 v0.41.0 在 scenarios/gnss-ssv-shell.toml 上的一次真实运行（缩减规模的运行：162 个用户、3 天、10 min 步长），门限为 20 dB-Hz。每个星座和频段有两根柱：（用户，历元）对中至少有一个信号和至少有四个信号的比例。组合，L1：至少一个为 99.4 %，至少四个为 73.2 %，少于四个信号的最长中断为 160 min。组合，L5：至少一个为 100.0 %，至少四个为 99.9 %，少于四个信号的最长中断为 20 min。MODELLED：基于已说明输入的建模研究，不是测量，也不是对任何系统的服务体积声明。缩减规模的运行不是与手册的比较。仅供参考：研究与工程工具的分析输出，不是经型式认可的导航设备，也不是生命安全服务。">
 </picture>
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/ssv-heo-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/ssv-heo-light.svg">
-  <img src="docs/figures/0.38/ssv-heo-light.svg" alt="沿一条高地球轨道（近地点 497 km，远地点 58622 km，周期 18.8 h）的信号，绘自引擎 v0.40.0 在 scenarios/gnss-ssv-heo.toml 上的一次真实运行，频段 L1。上：可见信号中最佳的载噪比，对照 20 dB-Hz 门限。中：所有星座的可见信号数量，在各采样点上为 4 至 55 个。在接收到的链路中，2252 条通过主瓣，696 条通过旁瓣，使用的是一个已标明的参数化替代方向图，不是任何系统的实测方向图。PDOP 中位数为 67，第 95 百分位为 358。MODELLED：基于已说明输入的建模研究，不是测量，也不是对任何系统的服务体积声明。仅供参考：研究与工程工具的分析输出，不是经型式认可的导航设备，也不是生命安全服务。">
+  <img src="docs/figures/0.38/ssv-heo-light.svg" alt="沿一条高地球轨道（近地点 497 km，远地点 58622 km，周期 18.8 h）的信号，绘自引擎 v0.41.0 在 scenarios/gnss-ssv-heo.toml 上的一次真实运行，频段 L1。上：可见信号中最佳的载噪比，对照 20 dB-Hz 门限。中：所有星座的可见信号数量，在各采样点上为 4 至 55 个。在接收到的链路中，2252 条通过主瓣，696 条通过旁瓣，使用的是一个已标明的参数化替代方向图，不是任何系统的实测方向图。PDOP 中位数为 67，第 95 百分位为 358。MODELLED：基于已说明输入的建模研究，不是测量，也不是对任何系统的服务体积声明。仅供参考：研究与工程工具的分析输出，不是经型式认可的导航设备，也不是生命安全服务。">
 </picture>
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/ssv-nav-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/ssv-nav-light.svg">
-  <img src="docs/figures/0.38/ssv-nav-light.svg" alt="从低轨道飞往月球的转移过程中的星载九状态滤波器，绘自引擎 v0.40.0 在 scenarios/gnss-ssv-nav-lunar.toml 上的一次真实运行（289 个历元，绘出 13 个点）。在对数坐标轴上，显示真实位置误差和滤波器自身的一西格玛界随自起始以来时间的变化。在 GNSS 轨道以内，位置 RMS 为 1.4 m；在其以上为 90 m，最终误差在 193,330 km 高度、仅有 1 个测量值时为 184 m。整个运行的平均归一化估计误差平方为 4.4（对一致的位置块约为 3）。真值和滤波器共用相同的太阳和月球替代模型。MODELLED：基于已说明输入的建模研究，不是测量，也不是对任何系统的服务体积声明。仅供参考：研究与工程工具的分析输出，不是经型式认可的导航设备，也不是生命安全服务。">
+  <img src="docs/figures/0.38/ssv-nav-light.svg" alt="从低轨道飞往月球的转移过程中的星载九状态滤波器，绘自引擎 v0.41.0 在 scenarios/gnss-ssv-nav-lunar.toml 上的一次真实运行（289 个历元，绘出 13 个点）。在对数坐标轴上，显示真实位置误差和滤波器自身的一西格玛界随自起始以来时间的变化。在 GNSS 轨道以内，位置 RMS 为 1.4 m；在其以上为 90 m，最终误差在 199,330 km 高度、仅有 1 个测量值时为 184 m。整个运行的平均归一化估计误差平方为 4.4（对一致的位置块约为 3）。真值和滤波器共用相同的太阳和月球替代模型。MODELLED：基于已说明输入的建模研究，不是测量，也不是对任何系统的服务体积声明。仅供参考：研究与工程工具的分析输出，不是经型式认可的导航设备，也不是生命安全服务。">
 </picture>
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/ssv-formation-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/ssv-formation-light.svg">
-  <img src="docs/figures/0.38/ssv-formation-light.svg" alt="高轨道上 2 颗从星围绕一颗主星的相对导航，绘自引擎 v0.40.0 在 scenarios/gnss-ssv-formation-heo.toml 上的一次真实运行（401 个历元）。每颗从星有两根柱：两个独立绝对估计相减得到的相对位置 RMS，以及基于单差伪距的相对滤波器得到的相对位置 RMS。基线 0.8 km：5.1 m 和 1.2 m。基线 2.0 km：4.1 m 和 2.1 m。绝对滤波器在此处不一致：平均归一化估计误差平方为 187，而一致的滤波器约为 3，因此其声称的不确定度远远偏小。MODELLED：基于已说明输入的建模研究，不是测量，也不是对任何系统的服务体积声明。仅供参考：研究与工程工具的分析输出，不是经型式认可的导航设备，也不是生命安全服务。">
+  <img src="docs/figures/0.38/ssv-formation-light.svg" alt="高轨道上 2 颗从星围绕一颗主星的相对导航，绘自引擎 v0.41.0 在 scenarios/gnss-ssv-formation-heo.toml 上的一次真实运行（401 个历元）。每颗从星有两根柱：两个独立绝对估计相减得到的相对位置 RMS，以及基于单差伪距的相对滤波器得到的相对位置 RMS。基线 0.8 km：5.1 m 和 1.2 m。基线 2.0 km：4.1 m 和 2.1 m。绝对滤波器在此处不一致：平均归一化估计误差平方为 187，而一致的滤波器约为 3，因此其声称的不确定度远远偏小。MODELLED：基于已说明输入的建模研究，不是测量，也不是对任何系统的服务体积声明。仅供参考：研究与工程工具的分析输出，不是经型式认可的导航设备，也不是生命安全服务。">
 </picture>
 
 **台账状态：MODELLED，与手册的比较大多未达到判据。** 判据在运行之前
@@ -483,7 +525,7 @@ GLONASS，而手册为它印出了两个不同的参考角；使用
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/ssv-booklet-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/ssv-booklet-light.svg">
-  <img src="docs/figures/0.38/ssv-booklet-light.svg" alt="空间用户可用性模型与公开的空间服务体积手册的已记录比较，取自预先登记运行的已提交结果（xval/gnss-ssv/results-run1.json，由引擎 v0.40.0 的 ssv_booklet_check 示例写出）。逐柱列出在容差范围内的单元：S0 13 个中 13 个（MET）；S1 52 个中 43 个（NOT MET）；S2 52 个中 48 个（NOT MET）；S3 155 个中 122 个（NOT MET）；S4 156 个中 132 个（NOT MET）；S5 26 个中 18 个（NOT MET）；S6 26 个中 26 个（MET）；S7 20 个面板方向图中 0 个（NOT MET）。按预先登记的解读，只有 S0 和 S6 达到。使用手册另一组 GLONASS 角度的诊断变体使 S1、S2 和 S4 的每个单元都达到，但不取代正式记录的运行。没有任何台账行为 VALIDATED。仅供参考：研究与工程工具的分析输出，不是经型式认可的导航设备，也不是生命安全服务。">
+  <img src="docs/figures/0.38/ssv-booklet-light.svg" alt="空间用户可用性模型与公开的空间服务体积手册的已记录比较，取自预先登记运行的已提交结果（xval/gnss-ssv/results-run1.json，由引擎 v0.41.0 的 ssv_booklet_check 示例写出）。逐柱列出在容差范围内的单元：S0 13 个中 13 个（MET）；S1 52 个中 43 个（NOT MET）；S2 52 个中 48 个（NOT MET）；S3 155 个中 122 个（NOT MET）；S4 156 个中 132 个（NOT MET）；S5 26 个中 18 个（NOT MET）；S6 26 个中 26 个（MET）；S7 20 个面板方向图中 0 个（NOT MET）。按预先登记的解读，只有 S0 和 S6 达到。使用手册另一组 GLONASS 角度的诊断变体使 S1、S2 和 S4 的每个单元都达到，但不取代正式记录的运行。没有任何台账行为 VALIDATED。仅供参考：研究与工程工具的分析输出，不是经型式认可的导航设备，也不是生命安全服务。">
 </picture>
 
 [空间用户导航](docs/SSV.md)、[比较显示了什么](docs/SSV.md#what-the-comparison-with-the-booklet-shows)。
@@ -511,31 +553,31 @@ kshana scenarios/lunar-infrastructure-geodesy-sensitivity.toml
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/lunar-od-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/lunar-od-light.svg">
-  <img src="docs/figures/0.38/lunar-od-light.svg" alt="近直线晕轨道中的星载地球 GNSS 定轨与独立地面定轨的一致性，绘自引擎 v0.40.0 在 scenarios/lunar-infrastructure-od-consistency.toml 及其模型误差变体上的真实运行（各 400 次试验）。平均归一化差值 q 在无模型误差时为 5.81，在注入 3e-10 m/s2 加速度误差时为 5.95，期望值为 6：两个轨道解是一致的（判据 C1 MET）。超过 95 % 分位点的试验比例为 0.040 和 0.052；检测出注入误差的判据为至少 0.5，因此为 NOT MET（C3）：星载解的已知精度约为 352 m，而地面解为 23 m，因此十米的位移隐藏在其协方差之内。MODELLED：带有明确简化和示意性输入的限制性三体模型，不是对任何月球量的测量。仅供参考：研究与工程工具的分析输出，不是经型式认可的导航设备，也不是生命安全服务。">
+  <img src="docs/figures/0.38/lunar-od-light.svg" alt="近直线晕轨道中的星载地球 GNSS 定轨与独立地面定轨的一致性，绘自引擎 v0.41.0 在 scenarios/lunar-infrastructure-od-consistency.toml 及其模型误差变体上的真实运行（各 400 次试验）。平均归一化差值 q 在无模型误差时为 5.81，在注入 3e-10 m/s2 加速度误差时为 5.95，期望值为 6：两个轨道解是一致的（判据 C1 MET）。超过 95 % 分位点的试验比例为 0.040 和 0.052；检测出注入误差的判据为至少 0.5，因此为 NOT MET（C3）：星载解的已知精度约为 352 m，而地面解为 23 m，因此十米的位移隐藏在其协方差之内。MODELLED：带有明确简化和示意性输入的限制性三体模型，不是对任何月球量的测量。仅供参考：研究与工程工具的分析输出，不是经型式认可的导航设备，也不是生命安全服务。">
 </picture>
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/lunar-carrier-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/lunar-carrier-light.svg">
-  <img src="docs/figures/0.38/lunar-carrier-light.svg" alt="月面站与轨道器之间的载波相位整周模糊度固定，取自引擎 v0.40.0 评分运行的已提交结果（tests/fixtures/lunar_infra/phase_full_run.json：3 种弧长，每种进行 401 次抽样的蒙特卡洛，由 scenarios/carrier-phase-scored.toml 写出）。1 天：成功率 1.0 %（标准误差 0.5 %），134 个模糊度，轨道器位置 sigma 浮点解 45.6 m、固定解 18.5 m；2 天：成功率 0.5 %（标准误差 0.4 %），259 个模糊度，轨道器位置 sigma 浮点解 21.5 m、固定解 8.7 m；3 天：成功率 2.8 %（标准误差 0.8 %），375 个模糊度，轨道器位置 sigma 浮点解 6.3 m、固定解 2.1 m。未能实现整周固定：在 25 dBi 下成功率始终在 1 % 至 3 % 之间，而在登记的 12 dBi 下无法构建该问题。MODELLED：带有明确简化和示意性输入的限制性三体模型，不是对任何月球量的测量。仅供参考：研究与工程工具的分析输出，不是经型式认可的导航设备，也不是生命安全服务。">
+  <img src="docs/figures/0.38/lunar-carrier-light.svg" alt="月面站与轨道器之间的载波相位整周模糊度固定，取自引擎 v0.41.0 评分运行的已提交结果（tests/fixtures/lunar_infra/phase_full_run.json：3 种弧长，每种进行 401 次抽样的蒙特卡洛，由 scenarios/carrier-phase-scored.toml 写出）。1 天：成功率 1.0 %（标准误差 0.5 %），134 个模糊度，轨道器位置 sigma 浮点解 45.6 m、固定解 18.5 m；2 天：成功率 0.5 %（标准误差 0.4 %），259 个模糊度，轨道器位置 sigma 浮点解 21.5 m、固定解 8.7 m；3 天：成功率 2.8 %（标准误差 0.8 %），375 个模糊度，轨道器位置 sigma 浮点解 6.3 m、固定解 2.1 m。未能实现整周固定：在 25 dBi 下成功率始终在 1 % 至 3 % 之间，而在登记的 12 dBi 下无法构建该问题。MODELLED：带有明确简化和示意性输入的限制性三体模型，不是对任何月球量的测量。仅供参考：研究与工程工具的分析输出，不是经型式认可的导航设备，也不是生命安全服务。">
 </picture>
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/lunar-frame-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/lunar-frame-light.svg">
-  <img src="docs/figures/0.38/lunar-frame-light.svg" alt="利用地面站测距、有无轨道器到月面站测距两种情况下七参数月球基准（三个平移、一个尺度和三个旋转）的精度，绘自引擎 v0.40.0 在 scenarios/lunar-infrastructure-frame-coestimation.toml 上的一次真实运行。加入轨道器链路后，平移和旋转的 Cramer-Rao sigma 下降（例如 t_z 从 0.98 m 降至 0.046 m）；最小信息特征值增大 111 倍，CRLB 迹降至 1.0 %（判据 F3 MET）。这里假设轨道在月球坐标轴中已知，其误差由 1 m 的轨道器测距 sigma 承载。MODELLED：带有明确简化和示意性输入的限制性三体模型，不是对任何月球量的测量。仅供参考：研究与工程工具的分析输出，不是经型式认可的导航设备，也不是生命安全服务。">
+  <img src="docs/figures/0.38/lunar-frame-light.svg" alt="利用地面站测距、有无轨道器到月面站测距两种情况下七参数月球基准（三个平移、一个尺度和三个旋转）的精度，绘自引擎 v0.41.0 在 scenarios/lunar-infrastructure-frame-coestimation.toml 上的一次真实运行。加入轨道器链路后，平移和旋转的 Cramer-Rao sigma 下降（例如 t_z 从 0.98 m 降至 0.046 m）；最小信息特征值增大 111 倍，CRLB 迹降至 1.0 %（判据 F3 MET）。这里假设轨道在月球坐标轴中已知，其误差由 1 m 的轨道器测距 sigma 承载。MODELLED：带有明确简化和示意性输入的限制性三体模型，不是对任何月球量的测量。仅供参考：研究与工程工具的分析输出，不是经型式认可的导航设备，也不是生命安全服务。">
 </picture>
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/lunar-tie-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/lunar-tie-light.svg">
-  <img src="docs/figures/0.38/lunar-tie-light.svg" alt="同一航天器的激光测距、VLBI 和 GNSS 位置之间偏移量的精度与地面局部连接误差的关系，绘自引擎 v0.40.0 在 scenarios/lunar-infrastructure-space-tie.toml 上的一次真实运行（一段 6.56 天的弧段，各技术 sigma：GNSS 10 m，VLBI 1 m，激光 0.1 m）。局部连接从 1 mm 到 1 m 变化时，激光减 GNSS 平移 sigma 一直保持在 1.04 m 附近，直到连接达到 1 m：它受限于各技术的测量噪声，而不是局部连接。仅由连接决定的下限是其 sigma 的二的平方根倍。MODELLED：带有明确简化和示意性输入的限制性三体模型，不是对任何月球量的测量。仅供参考：研究与工程工具的分析输出，不是经型式认可的导航设备，也不是生命安全服务。">
+  <img src="docs/figures/0.38/lunar-tie-light.svg" alt="同一航天器的激光测距、VLBI 和 GNSS 位置之间偏移量的精度与地面局部连接误差的关系，绘自引擎 v0.41.0 在 scenarios/lunar-infrastructure-space-tie.toml 上的一次真实运行（一段 6.56 天的弧段，各技术 sigma：GNSS 10 m，VLBI 1 m，激光 0.1 m）。局部连接从 1 mm 到 1 m 变化时，激光减 GNSS 平移 sigma 一直保持在 1.04 m 附近，直到连接达到 1 m：它受限于各技术的测量噪声，而不是局部连接。仅由连接决定的下限是其 sigma 的二的平方根倍。MODELLED：带有明确简化和示意性输入的限制性三体模型，不是对任何月球量的测量。仅供参考：研究与工程工具的分析输出，不是经型式认可的导航设备，也不是生命安全服务。">
 </picture>
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/lunar-geodesy-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/lunar-geodesy-light.svg">
-  <img src="docs/figures/0.38/lunar-geodesy-light.svg" alt="哪一类观测量对月球勒夫数 h2、k2 和 l2 敏感，绘自引擎 v0.40.0 在 scenarios/lunar-infrastructure-geodesy-sensitivity.toml 上的一次真实运行。每个单元是某类观测量对某个参数的 RMS 偏导数，以该类观测量自身的单位表示（因此单元应沿行比较，而不是沿列比较）；短横线表示该类观测量没有敏感性。激光测距：h2 7.6，k2 无，l2 9.8。轨道器跟踪：h2 无，k2 0.00086，l2 无。月面重力仪：h2 2.9e+03，k2 4.3e+03，l2 无。月面时钟：h2 2.8e-17，k2 2.8e-17，l2 无。使用全部四类观测量时，Cramer-Rao sigma 为 h2 标称值的 0.36 %、k2 的 0.52 % 和 l2 的 1.16 %。加入一类观测量从未降低最小特征值（28 次加入中 28 次），但伪逆的迹仅在 28 次中的 16 次中没有增大：判据 G3 的这一半为 NOT MET。轨道器类观测量感知的是 k2 加速度的视线积分，这是一个偏上限的数值。MODELLED：带有明确简化和示意性输入的限制性三体模型，不是对任何月球量的测量。仅供参考：研究与工程工具的分析输出，不是经型式认可的导航设备，也不是生命安全服务。">
+  <img src="docs/figures/0.38/lunar-geodesy-light.svg" alt="哪一类观测量对月球勒夫数 h2、k2 和 l2 敏感，绘自引擎 v0.41.0 在 scenarios/lunar-infrastructure-geodesy-sensitivity.toml 上的一次真实运行。每个单元是某类观测量对某个参数的 RMS 偏导数，以该类观测量自身的单位表示（因此单元应沿行比较，而不是沿列比较）；短横线表示该类观测量没有敏感性。激光测距：h2 7.6，k2 无，l2 9.8。轨道器跟踪：h2 无，k2 0.00086，l2 无。月面重力仪：h2 2.9e+03，k2 4.3e+03，l2 无。月面时钟：h2 2.8e-17，k2 2.8e-17，l2 无。使用全部四类观测量时，Cramer-Rao sigma 为 h2 标称值的 0.36 %、k2 的 0.52 % 和 l2 的 1.16 %。加入一类观测量从未降低最小特征值（28 次加入中 28 次），但伪逆的迹仅在 28 次中的 16 次中没有增大：判据 G3 的这一半为 NOT MET。轨道器类观测量感知的是 k2 加速度的视线积分，这是一个偏上限的数值。MODELLED：带有明确简化和示意性输入的限制性三体模型，不是对任何月球量的测量。仅供参考：研究与工程工具的分析输出，不是经型式认可的导航设备，也不是生命安全服务。">
 </picture>
 
 **台账状态：MODELLED，有三项判据为 NOT MET。** 数值计算已对照独立的
@@ -568,7 +610,7 @@ VALIDATED。达到的：两个轨道解是一致的（平均 q 为 5.81，期望
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/studio/studio-task-dark.jpg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/studio/studio-task-light.jpg">
-  <img src="docs/assets/readme/studio/studio-task-light.jpg" alt="Kshana Studio 简单视图，运行随附场景 integrity-raim，引擎 v0.40.0 在本地运行。问题：几何构型是否满足告警限值（水平和垂直保护级）？首先给出答案，标为实时结果：是，大部分时间满足：12 h 中的 95.3 %。在 361 次检查中有 344 次，接收机的误差界保持在告警限值（水平 40 m，垂直 50 m）以下，且没有任何定位是误导性的。关键数字：定位可信的时间 95.3 %，最长间隔 10 min，典型误差界 6.5 / 13 m，误导性定位 0。旁边是“尝试其他设置”，其中有五项（测距误差、两个告警限值、持续时间和高度截止角）以及“再次运行”，然后是折叠的部分：高级设置（另有 13 项）、这是如何计算的（8 项经验证，6 项经建模）以及供研究人员使用。下方是此结果的各视图，以及对照告警限值绘制的保护级。" width="100%">
+  <img src="docs/assets/readme/studio/studio-task-light.jpg" alt="Kshana Studio 简单视图，运行随附场景 integrity-raim，引擎 v0.39.0 在本地运行。问题：几何构型是否满足告警限值（水平和垂直保护级）？首先给出答案，标为实时结果：是，大部分时间满足：12 h 中的 95.3 %。在 361 次检查中有 344 次，接收机的误差界保持在告警限值（水平 40 m，垂直 50 m）以下，且没有任何定位是误导性的。关键数字：定位可信的时间 95.3 %，最长间隔 10 min，典型误差界 6.5 / 13 m，误导性定位 0。旁边是“尝试其他设置”，其中有五项（测距误差、两个告警限值、持续时间和高度截止角）以及“再次运行”，然后是折叠的部分：高级设置（另有 13 项）、这是如何计算的（8 项经验证，6 项经建模）以及供研究人员使用。下方是此结果的各视图，以及对照告警限值绘制的保护级。" width="100%">
 </picture>
 
 **高级视图**是完整的仪表板：场景库、五个编号步骤
@@ -585,13 +627,13 @@ VALIDATED。达到的：两个轨道解是一致的（平均 q 为 5.81，期望
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/studio/studio-home-dark.jpg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/studio/studio-home-light.jpg">
-  <img src="docs/assets/readme/studio/studio-home-light.jpg" alt="Kshana Studio 简单视图的起始界面，标题为“您想了解什么？”，引擎 v0.40.0 处于运行状态，顶栏中有三个链接：训练复盘、干扰地图和接收机信任度。四个问题：我在地球上任何地方能看到多少颗卫星，我能否信任我的定位，没有卫星时时钟能保持时间多久，以及干扰源会对我的接收机造成什么影响。第一个问题下方是其已记录的结果：在 GPS、Galileo、BeiDou 和 GLONASS 共同作用下，每个地点至少可见 22 颗卫星，平均 31 颗，在 100 % 的地点和时间都能定位，显示在一张可见卫星的世界地图上，并带有“打开此结果”按钮。旁边是“Kshana 能做的一切”：16 个领域和 139 个可直接运行的场景，每个图块都带有一张来自已记录运行的小图表及其经验证方法的比例，以及台账中 350 项能力中有 173 项经验证。" width="100%">
+  <img src="docs/assets/readme/studio/studio-home-light.jpg" alt="Kshana Studio 简单视图的起始界面，标题为“您想了解什么？”，引擎 v0.39.0 处于运行状态，顶栏中有三个链接：训练复盘、干扰地图和接收机信任度。四个问题：我在地球上任何地方能看到多少颗卫星，我能否信任我的定位，没有卫星时时钟能保持时间多久，以及干扰源会对我的接收机造成什么影响。第一个问题下方是其已记录的结果：在 GPS、Galileo、BeiDou 和 GLONASS 共同作用下，每个地点至少可见 22 颗卫星，平均 31 颗，在 100 % 的地点和时间都能定位，显示在一张可见卫星的世界地图上，并带有“打开此结果”按钮。旁边是“Kshana 能做的一切”：16 个领域和 139 个可直接运行的场景，每个图块都带有一张来自已记录运行的小图表及其经验证方法的比例，以及台账中 350 项能力中有 173 项经验证。" width="100%">
 </picture>
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/studio/studio-advanced-dark.jpg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/studio/studio-advanced-light.jpg">
-  <img src="docs/assets/readme/studio/studio-advanced-light.jpg" alt="Kshana Studio 高级视图，运行随附场景 constellation-multi-gnss-coverage（四个 GNSS 星座，一张地图）之后，引擎 v0.40.0 在本地运行。左侧是场景库，16 个领域中的 139 个场景。五个步骤：选择、设置、运行、阅读结果、分享或导出，当前为第 4 步。关键数字：102 颗卫星，可用性 100 %（PASS），位置精度因子（PDOP）中位数 0.95（PASS），PDOP 第 95 百分位 1.105（PASS），平均可见 31.03 颗卫星，最少 22 颗。下方是面板行，选中的是“覆盖”，然后是回放条、一张平均 PDOP 从 0.831 到 1.0853 并绘出每颗卫星的世界地图，以及全球覆盖数字。" width="100%">
+  <img src="docs/assets/readme/studio/studio-advanced-light.jpg" alt="Kshana Studio 高级视图，运行随附场景 constellation-multi-gnss-coverage（四个 GNSS 星座，一张地图）之后，引擎 v0.39.0 在本地运行。左侧是场景库，16 个领域中的 139 个场景。五个步骤：选择、设置、运行、阅读结果、分享或导出，当前为第 4 步。关键数字：102 颗卫星，可用性 100 %（PASS），位置精度因子（PDOP）中位数 0.95（PASS），PDOP 第 95 百分位 1.105（PASS），平均可见 31.03 颗卫星，最少 22 颗。下方是面板行，选中的是“覆盖”，然后是回放条、一张平均 PDOP 从 0.831 到 1.0853 并绘出每颗卫星的世界地图，以及全球覆盖数字。" width="100%">
 </picture>
 
 </details>
@@ -607,23 +649,25 @@ Studio 的源代码及其构建说明见 [`web/README.md`](web/README.md)。
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/site/site-strip-dark.jpg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/site/site-strip-light.jpg">
-  <img src="docs/assets/readme/site/site-strip-light.jpg" alt="kshana.dev 的三个页面并排显示。首页主视觉：名称行 Kshana · क्षण · 精确的瞬间，位于标题“演练 GNSS 失效的那一分钟”之上，下方是引擎 v0.40.0 一次真实运行的任务控制台（一个地球仪和三张实时图表：时钟时间误差、载噪比和保护级）。证据页的已发表研究：基于这个开源引擎的六篇 arXiv 论文，最新的一篇带有一张引擎图。版本页的 Kshana Pro，同一个引擎，功能放大：免费版运行一个场景，Pro 回答项目层面的问题。" width="100%">
+  <img src="docs/assets/readme/site/site-strip-light.jpg" alt="kshana.dev 的三个页面并排显示。首页主视觉：名称行 Kshana · क्षण · 精确的瞬间，位于标题“演练 GNSS 失效的那一分钟”之上，下方是引擎 v0.39.0 一次真实运行的任务控制台（一个地球仪和三张实时图表：时钟时间误差、载噪比和保护级）。证据页的已发表研究：基于这个开源引擎的六篇 arXiv 论文，最新的一篇带有一张引擎图。版本页的 Kshana Pro，同一个引擎，功能放大：免费版运行一个场景，Pro 回答项目层面的问题。" width="100%">
 </picture>
 
 <a id="capabilities"></a>
 ## 能力
 
 一个引擎覆盖整条失效链，从第一颗受干扰的卫星到时钟守时的最后
-一纳秒。引擎有 92 种场景类型；`kshana kinds` 列出
+一纳秒。引擎有 93 种场景类型；`kshana kinds` 列出
 它们，[`docs/SCENARIOS.md`](docs/SCENARIOS.md) 记录了每个字段。
 
 | 能力 | 它回答什么问题 |
 |---|---|
 | [频谱](docs/SPECTRUM.md) | 干扰源如何逐频段、逐秒地占据 GNSS L 频段 |
 | [时钟与授时](docs/TELECOM-TIMING.md) | 失去 GNSS 后每种时钟能保持时间多久 |
+| [振荡器](docs/OSCILLATOR.md) | 振荡器数据手册中的数字，对振动下的跟踪、经历温度变化和冲击时的守时以及 RAIM 意味着什么 |
 | [围绕任意天体的星座](docs/CONSTELLATION-DESIGN.md) | 地球、月球或火星周围的覆盖、精度因子和可用性 |
 | [太阳系](docs/SOLAR-SYSTEM.md) | 每颗行星在哪里，以及任一链路的光行时 |
 | [低地球轨道导航](docs/LEO-PNT.md) | 一次过境、一条链路、一条导航电文和一个融合定位，逐阶段呈现 |
+| [LEO-PNT 验证](docs/LEO-VERIFY.md) | 一项 LEO 授时或定位服务能提供什么：突发授时、守时 TDEV、相对中断的成本、室内与降雨损耗、模糊度解算、关于干扰的说法，以及仅凭多普勒的完整性 |
 | [战役](docs/CAMPAIGNS.md) | 在一个场景中运行链式任务、参数扫描或蒙特卡洛集合 |
 | [动画](docs/ANIMATION.md) | 将一次运行的时间序列呈现为动画图、播放器或帧序列 |
 | [报告](docs/REPORTS.md) | 每个数字都带有单位和标签，以 HTML（超文本标记语言）和 JSON（JavaScript 对象表示法）输出 |
@@ -659,7 +703,7 @@ SigMF 是信号元数据格式（Signal Metadata Format）。
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/lband-waterfall-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/lband-waterfall-light.svg">
-  <img src="docs/assets/readme/lband-waterfall-light.svg" alt="60 s 内 GNSS L 频段的功率谱密度，绘自 spectrum 类型的一次真实运行（l-band-waterfall-jamming.toml，随机种子 7，引擎 v0.40.0）：横轴为频率，纵轴向下为时间，颜色表示高于 -202.0 dBW/Hz 噪声底的功率。干扰源：线性调频隐私设备（chirp，10 s 开启，40 s 关闭）；L1 上的连续波单音（cw，30 s 开启）；L2 窄带噪声（narrowband，45 s 开启）。最差频段 GPS L1 C/A：最小有效 C/N0 在 31 s 时为 3.2 dB-Hz，跟踪下限为 25 dB-Hz。GPS L1 C/A 最小 3.2 dB-Hz；Galileo E1 最小 4.7 dB-Hz；GPS L2C 最小 36.9 dB-Hz；GPS L5 最小 44.1 dB-Hz；Galileo E5a 最小 47.0 dB-Hz。" width="100%">
+  <img src="docs/assets/readme/lband-waterfall-light.svg" alt="60 s 内 GNSS L 频段的功率谱密度，绘自 spectrum 类型的一次真实运行（l-band-waterfall-jamming.toml，随机种子 7，引擎 v0.41.0）：横轴为频率，纵轴向下为时间，颜色表示高于 -202.0 dBW/Hz 噪声底的功率。干扰源：线性调频隐私设备（chirp，10 s 开启，40 s 关闭）；L1 上的连续波单音（cw，30 s 开启）；L2 窄带噪声（narrowband，45 s 开启）。最差频段 GPS L1 C/A：最小有效 C/N0 在 31 s 时为 3.2 dB-Hz，跟踪下限为 25 dB-Hz。GPS L1 C/A 最小 3.2 dB-Hz；Galileo E1 最小 4.7 dB-Hz；GPS L2C 最小 36.9 dB-Hz；GPS L5 最小 44.1 dB-Hz；Galileo E5a 最小 47.0 dB-Hz。" width="100%">
 </picture>
 
 <picture>
@@ -694,7 +738,7 @@ SigMF 是信号元数据格式（Signal Metadata Format）。
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/trust-timeline-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/trust-timeline-light.svg">
-  <img src="docs/assets/readme/trust-timeline-light.svg" alt="一次合成航程中的信任度，绘自引擎 v0.40.0 在 examples/maritime-trust 上的一次真实运行（一艘渡轮在塔林至赫尔辛基航线上的虚构 NMEA 日志，3001 个历元，1 Hz）。三条通道共用一条时间轴。上：接收机报告的位置与船舶真实位置之间的距离，在约 1576 s 之前一直保持在几米以内，之后日志中脚本化的位置拖离将其拉开，而接收机仍在报告有效定位。中：0 至 100 的信任度，在前 300 s 校准期间不计算，在拖离之前处于标称区间（至少 90），然后穿过劣化区间（至少 55）落入不可信区间。下：每个历元的区间，显示为带名称的彩色条带。该分数仅供参考。仅供参考的软件，不是经型式认可的导航设备（IEC 61108、IEC 61162）：船舶航行的责任仍由操作人员承担。该日志是为展示格式和监测器而虚构的；它不是测量，也不涉及任何接收机的实际表现。" width="100%">
+  <img src="docs/assets/readme/trust-timeline-light.svg" alt="一次合成航程中的信任度，绘自引擎 v0.41.0 在 examples/maritime-trust 上的一次真实运行（一艘渡轮在塔林至赫尔辛基航线上的虚构 NMEA 日志，3001 个历元，1 Hz）。三条通道共用一条时间轴。上：接收机报告的位置与船舶真实位置之间的距离，在约 1576 s 之前一直保持在几米以内，之后日志中脚本化的位置拖离将其拉开，而接收机仍在报告有效定位。中：0 至 100 的信任度，在前 300 s 校准期间不计算，在拖离之前处于标称区间（至少 90），然后穿过劣化区间（至少 55）落入不可信区间。下：每个历元的区间，显示为带名称的彩色条带。该分数仅供参考。仅供参考的软件，不是经型式认可的导航设备（IEC 61108、IEC 61162）：船舶航行的责任仍由操作人员承担。该日志是为展示格式和监测器而虚构的；它不是测量，也不涉及任何接收机的实际表现。" width="100%">
 </picture>
 
 <picture>
@@ -706,7 +750,7 @@ SigMF 是信号元数据格式（Signal Metadata Format）。
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/training-track-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/training-track-light.svg">
-  <img src="docs/assets/readme/training-track-light.svg" alt="来自场景 coastal-drag-off 的训练数据流（引擎 v0.40.0，随机种子 22，25 分钟，教员日志每 10 s 一个定位）。一张地图显示船舶的真实航迹和接收机报告的航迹：在 421 s 脚本化的位置拖离开始之前两者一致，之后报告的航迹逐渐偏离真实航迹，而接收机保持有效定位，事件在 1140 s 结束时航迹跳回。旁边是两条航迹之间距离随时间的变化，以及接收机报告的平均载噪比，事件持续期间它升高到一个较高的水平。由 Kshana 生成的合成训练数据。仅用于训练和测试：绝不可将此数据流输入船舶的实时导航系统。仅供参考，不是经型式认可的导航设备。仅供参考的软件，不是经型式认可的导航设备（IEC 61108、IEC 61162）：船舶航行的责任仍由操作人员承担。位置、日期和航迹均为虚构。" width="100%">
+  <img src="docs/assets/readme/training-track-light.svg" alt="来自场景 coastal-drag-off 的训练数据流（引擎 v0.41.0，随机种子 22，25 分钟，教员日志每 10 s 一个定位）。一张地图显示船舶的真实航迹和接收机报告的航迹：在 421 s 脚本化的位置拖离开始之前两者一致，之后报告的航迹逐渐偏离真实航迹，而接收机保持有效定位，事件在 1140 s 结束时航迹跳回。旁边是两条航迹之间距离随时间的变化，以及接收机报告的平均载噪比，事件持续期间它升高到一个较高的水平。由 Kshana 生成的合成训练数据。仅用于训练和测试：绝不可将此数据流输入船舶的实时导航系统。仅供参考，不是经型式认可的导航设备。仅供参考的软件，不是经型式认可的导航设备（IEC 61108、IEC 61162）：船舶航行的责任仍由操作人员承担。位置、日期和航迹均为虚构。" width="100%">
 </picture>
 
 <picture>
@@ -777,7 +821,7 @@ SigMF 是信号元数据格式（Signal Metadata Format）。
 
 <p align="center">
   <img src="docs/assets/figures/scenario-fom.png" alt="GNSS 失效时量子传感器能带来什么，时钟守时场景：量子方案保持 6600 s 的自主时间，经典方案为 2610 s，授时误差低得多，可用性为 100% 对比 95.6%" width="88%">
-  <br><sub>GNSS 失效时量子传感器能带来什么——<code>clock-holdover</code> · 随机种子 42 · 绘于引擎 0.40.0，上面的每个数字在每次构建时都由 <code>tests/published_figures_still_reproduce.rs</code> 对照当前引擎重新检查 · <a href="docs/assets/figures/scenario-fom.svg">SVG</a></sub>
+  <br><sub>GNSS 失效时量子传感器能带来什么——<code>clock-holdover</code> · 随机种子 42 · 绘于引擎 0.41.0，上面的每个数字在每次构建时都由 <code>tests/published_figures_still_reproduce.rs</code> 对照当前引擎重新检查 · <a href="docs/assets/figures/scenario-fom.svg">SVG</a></sub>
 </p>
 
 这一优势**取决于中断时长和振动**，存在一个明确的盈亏平衡点，超过该点则经典方案胜出——在整个技术成熟度阶梯上如实展示（光钟数字是地面演示器目标；还没有任何锶光钟飞上太空）：
@@ -800,7 +844,7 @@ SigMF 是信号元数据格式（Signal Metadata Format）。
 |------|----------|---------|-----------|
 | **1 — 时钟守时** | `clock-holdover.toml`（20 ns 指标） | 光钟在整个中断期间保持指标 | CSAC 在中断中途超出指标 |
 | **2 — 惯性航位推算** | `imu-deadreckoning.toml`（100 m 指标） | 冷原子：**约 41 m**，在整个中断期间保持 | 导航级：在**约 350 s** 时超出 → 数十公里 |
-| **3 — 时间传递**（光学星间链路） | `timetransfer.toml` | 光学：测距 **约 0.3 mm** | 射频（TWSTFT）：测距 **约 150 mm** |
+| **3 — 时间传递**（光学星间链路） | `timetransfer.toml` | 光学：测距 **约 0.3 mm** | 射频（TWSTFT）：测距 **约 341 mm** |
 | **4 — 混合融合**（综合） | `hybrid-pnt.toml` | 整个中断期间完整的位置 + 授时 | **在约 350 s 时受位置限制** |
 
 综合场景展示了融合的论点：光学星间时间传递甚至能让经典*时钟*
@@ -820,7 +864,7 @@ SigMF 是信号元数据格式（Signal Metadata Format）。
 数量（视线、地球遮挡、高度截止角）决定每一步的定位状态。
 在一天中，用户仅约 59% 的时间处于定位状态；量子时钟在每个间隙中都保持
 5 ns 的授时解（可用性 **1.0**），芯片级时钟
-仅为 **约 0.83**。
+仅为 **约 0.73**。
 
 <p align="center">
   <img src="docs/assets/orbit-gnss-challenged.svg" alt="轨道 GNSS 受限：位于 GNSS 壳层内的航天器一天内的时钟授时误差，覆盖间隙由轨道几何推导——光钟在各间隙中保持在 5 ns 指标以内，而芯片级时钟超出指标" width="80%">
@@ -929,6 +973,7 @@ P2 路线图并[与我们联系](#support--professional-services)开展合作。
 | **[任务分析、链路与空间运行](docs/kinds/mission-analysis-links-and-space-operations.md)** | 发射、上升、再入、姿态、链路、测控计划和文件格式 | [`launch-window`](docs/kinds/by-kind/launch-window.md), [`ascent-losses`](docs/kinds/by-kind/ascent-losses.md), [`reentry`](docs/kinds/by-kind/reentry.md), [`entry-heating`](docs/kinds/by-kind/entry-heating.md), [`eo-coverage`](docs/kinds/by-kind/eo-coverage.md), [`eo-radiometry`](docs/kinds/by-kind/eo-radiometry.md), [`attitude-budget`](docs/kinds/by-kind/attitude-budget.md), [`aocs`](docs/kinds/by-kind/aocs.md), [`link-budget`](docs/kinds/by-kind/link-budget.md), [`acm-link`](docs/kinds/by-kind/acm-link.md), [`contact-schedule`](docs/kinds/by-kind/contact-schedule.md), [`aperture-duty-cycle`](docs/kinds/by-kind/aperture-duty-cycle.md), [`space-packet`](docs/kinds/by-kind/space-packet.md), [`oem-interop`](docs/kinds/by-kind/oem-interop.md) | `kshana scenarios/launch-window.toml` |
 | **[任务链](docs/kinds/mission-threads.md)** | 从发射到再入的一系列阶段的导航与授时误差预算 | [`mission-thread`](docs/kinds/by-kind/mission-thread.md) | `kshana scenarios/mission-thread-artemis-class.toml` |
 | **[战役](docs/kinds/campaigns.md)** | 由其他类型构建的链式任务、参数扫描和集合 | [`campaign`](docs/kinds/by-kind/campaign.md) | `kshana scenarios/campaign-jam-spoof-holdover-integrity.toml` |
+| **[天基射频普查](docs/kinds/space-rf-survey.md)** | 广域射频普查多久重访一次某片海域，以及能多快引导一次光学观测 | [`tip-and-cue`](docs/kinds/by-kind/tip-and-cue.md) | `kshana scenarios/tip-and-cue-baltic-m2.toml` |
 <!-- /generated:kind-families -->
 
 <a id="every-command"></a>
@@ -947,12 +992,12 @@ P2 路线图并[与我们联系](#support--professional-services)开展合作。
 <a id="every-surface"></a>
 ### 每种接口
 
-一个引擎，处处得到相同的结果：命令行、Rust 库、Python、JavaScript 和 WebAssembly、
-带插件命令和技能的 MCP 服务器、Kshana Studio（每个页面都在浏览器中运行，无需安装，不上传任何内容）、
+一个引擎，处处结果相同：命令行、Rust 库、Python、JavaScript 和 WebAssembly、
+带有插件命令和技能的 MCP 服务器、Kshana Studio（每个页面都在浏览器中运行，无需安装，不上传任何内容）、
 ROS 2、Signal K、OpenCPN、GNSS-SDR 和 `gnss_lib_py` 集成、systemd、Docker 和 Grafana 部署套件，以及
-JetBrains 插件。[`docs/ALL-SURFACES.md`](docs/ALL-SURFACES.md) 列出了它们、各自的获取方式，以及全部
-插件命令、技能和 Studio 页面的名称；[`docs/SURFACES.md`](docs/SURFACES.md) 针对每条命令和每种类型，
-说明哪些接口提供它、哪些不提供，以及原因。
+可从 [kshana.dev](https://kshana.dev) 获取的 JetBrains 插件和 Kshana Desktop。[`docs/ALL-SURFACES.md`](docs/ALL-SURFACES.md) 列出了它们及各自的获取方式，以及所有
+插件命令、技能和 Studio 页面的名称；[`docs/SURFACES.md`](docs/SURFACES.md) 针对每条命令和每种类型说明
+哪些界面提供它、哪些不提供，并给出原因。
 
 <a id="how-a-run-works"></a>
 ## 一次运行如何进行
@@ -964,7 +1009,7 @@ JetBrains 插件。[`docs/ALL-SURFACES.md`](docs/ALL-SURFACES.md) 列出了它�
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/flow-pipeline-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/flow-pipeline-light.svg">
-  <img src="docs/assets/readme/flow-pipeline-light.svg" alt="一次运行的流程。场景 TOML 文件（一种类型、一个随机种子及其参数）进入引擎 kshana 0.40.0，经由 api::run_toml 在 92 种场景类型之间分派，结果由场景、随机种子和引擎版本确定。引擎写出 result.json、chart.svg、report.html 和 report.json，对定义了表格的类型写出 table.csv，并按要求输出 SP3、CCSDS OMM 和 OEM、CZML、KML、GeoJSON、STK 和 SigMF 导出文件；一个套件写出 study.json 和 study.html。这些文件供浏览器中的 Kshana Studio、通过 kshana-mcp 服务器的 AI 助手以及持续集成使用。" width="100%">
+  <img src="docs/assets/readme/flow-pipeline-light.svg" alt="一次运行的流程。场景 TOML 文件（一种类型、一个随机种子及其参数）进入引擎 kshana 0.41.0，经由 api::run_toml 在 93 种场景类型之间分派，结果由场景、随机种子和引擎版本确定。引擎写出 result.json、chart.svg、report.html 和 report.json，对定义了表格的类型写出 table.csv，并按要求输出 SP3、CCSDS OMM 和 OEM、CZML、KML、GeoJSON、STK 和 SigMF 导出文件；一个套件写出 study.json 和 study.html。这些文件供浏览器中的 Kshana Studio、通过 kshana-mcp 服务器的 AI 助手以及持续集成使用。" width="100%">
 </picture>
 
 这个随附场景运行 2 h：10 min 有 GNSS，然后约 1.8 h 没有 GNSS。它要问的是
@@ -1049,8 +1094,7 @@ wrote clock-holdover.result.json, clock-holdover.chart.svg, clock-holdover.repor
 部分检查：全部 666 个 AIAA（美国航空航天学会）
 2006-6753 SGP4（简化一般摄动模型 4）向量，误差 4.12 mm；Cowell 力
 模型对照 Orekit 12.2 误差 0.08 m；Galileo 对照欧洲航天局（ESA）的真实精密星历误差 0.61 m，Swarm-A 误差 0.10 m。
-测试使 `src/` 的行覆盖率保持在 95 % 左右，
-CI 中的门槛为 85 %。台账为
+在最近一次测量中（引擎 0.29.0，[`docs/COVERAGE.md`](docs/COVERAGE.md)），测试覆盖了 `src/` 约 95 % 的行，低于 85 % 时 CI 会失败。台账为
 [`docs/VERIFICATION-MATRIX.md`](docs/VERIFICATION-MATRIX.md)，由
 `src/verification.rs` 生成：[完整的 413 行矩阵](docs/VERIFICATION-MATRIX.md)，以及每个
 Modelled 行为何没有外部参考基准，见 [`docs/MODELLED-RATIONALE.md`](docs/MODELLED-RATIONALE.md)。
@@ -1061,7 +1105,7 @@ Modelled 行为何没有外部参考基准，见 [`docs/MODELLED-RATIONALE.md`](
 ### 验证、可复现性与诚实性
 
 - 每个噪声项都按一个**已发表、有引用**的数字校准，并对照
-  标准关系验证（时钟用 Allan 偏差；惯性用 Groves 航位推算
+  标准关系核对（时钟用 Allan 偏差；惯性用 Groves 航位推算
   误差增长；时间传递用授时→测距换算）。每一项的状态
   记录在 [`docs/VALIDATION.md`](docs/VALIDATION.md) 中，为 `validated` 或
   `not modeled`——没有任何未经验证的内容被表述为已验证。
@@ -1115,7 +1159,7 @@ Levels for Software Artifacts，软件制品供应链等级）。
 | **MODELLED** | 深空火星定轨（简化动力学 SRIF） | 火星 LMO **≈ 0.2 m**（仿真品质因数，*不是*真实任务） | 合成闭环定轨——估计器机制验证 |
 | **MODELLED** | 以太阳为中心的火星动力学对比 JPL DE440 | **1 天弧段 137 m**（随弧段增长 = 未建模的 n 体效应） | 通过 ANISE 使用 JPL DE440（`xval/anise-mars-od`，依赖内核）（已对照此参考比较；没有任何验证矩阵行将其列为外部参考基准，因此不标为 VALIDATED） |
 | **VALIDATED** | 单点定位对比经测量的 IGS 坐标（真实观测） | **5.7 m** 3-D RMS / 水平 **1.1 m**，双频无电离层码 SPP | IGS 站 ABMF 测量坐标 + GPS 广播星历，2018-05-13（`tests/pvt_abmf.rs`） |
-| **MODELLED** | 紧耦合 GNSS/INS UKF | 30 min LEO 过境（含 120 s 中断）内 **0.77 m RMS** | 力模型外推，手工推导 |
+| **MODELLED** | GNSS/INS 无迹滤波器（`hybrid-ukf`，17 个状态） | NIS 和 NEES 均在各自的 χ² 带内；有辅助时 **0.36 m**，120 s 航位推算后 **7.7 m** | 滤波器的自洽性，而非精度（`scenarios/hybrid-ukf.toml`） |
 | **MODELLED** | 无 GPS 重力地图导航 | 约 70 km INS 漂移 → 恢复到 **约 145 m** | ESA NAVISP *Quantum Wayfarer* 目标 |
 | **MODELLED** | 地形参考导航（TERCOM/SITAN） | 70 km 漂移 → **< 500 m**（网格分辨率下限约 140 m） | SRTM `.hgt` DEM；手工注入漂移（非循环检查） |
 | **MODELLED** | IGRF-14 主磁场（阶/次 13） | 磁极约北纬 80.7°，偶极子约 29.7 µT，物理范围 22–67 µT | IAGA（国际地磁与高层大气物理协会）`igrf14coeffs.txt`（Schmidt 半归一化） |
@@ -1134,7 +1178,7 @@ Levels for Software Artifacts，软件制品供应链等级）。
 | **MODELLED** | PNT 韧性评分 + 决策不稳定性 | 35 个手工推导的参考基准测试；逐字节确定的研究产物（固定随机种子） | DHS RPCF v2.0 映射 + Dirichlet / Kendall-τ / Hill-N2 闭式解——合成架构，不是认证 |
 | **MODELLED** | 射频损伤乐观偏差研究（缩放规律 + 留一法预测器） | 置换零假设显著性；逐字节确定的产物（5 个随机种子） | 以参数为依据的合成语料库——评估*指标*对照 scikit-learn 为 VALIDATED（见上）；该研究为 MODELLED |
 | CI | 跨平台可复现性 | 在 3 种 OS（操作系统）上输入逐位一致 + 形状基准一致 | Linux / macOS / Windows CI 矩阵，SHA-256 基准 |
-| CI | 测试覆盖率 | `src/` 上**约 95 % 行覆盖率**（不含 `src/*_data.rs` 和 `src/main.rs`），门槛 ≥ 85 % | cargo-tarpaulin（LLVM 引擎） |
+| CI | 测试覆盖率 | `src/` 上**约 95 % 行覆盖率** （最近一次测量于 0.29.0）（不含 `src/*_data.rs` 和 `src/main.rs`），门槛 ≥ 85 % | cargo-tarpaulin（LLVM 引擎） |
 
 <p align="center">
   <img src="docs/assets/diagrams/validation-provenance.png" alt="一项能力如何获得其标签：需求映射到 src 中的一个模块，再到 tests 中的一个测试，再到一个外部参考基准（真实数据集、独立参考实现或已公布的向量），再到一个状态——并有一个由 CI 强制执行的防护：没有外部参考基准的能力不能被标为 Validated。实时计数：176 Validated、233 Modelled、4 Partner，共 413" width="900">
@@ -1173,7 +1217,7 @@ Studio 的全能力地图读取的也是同一个文件。
 ## 安装
 
 一行命令即可获得命令行工具：**`cargo install kshana`**。每个渠道发布的都是
-来自同一个带标签提交的 v0.40.0。
+来自同一个带标签提交的 v0.41.0。
 
 <!-- channels:begin -->
 | 渠道 | 安装 | 指南 |
@@ -1185,12 +1229,12 @@ Studio 的全能力地图读取的也是同一个文件。
 | JavaScript 和 WebAssembly | `npm install kshana` | [npm 与 WebAssembly 指南](https://kshana.dev/docs/npm.html) |
 | AI 助手（MCP 服务器，cargo） | `cargo install kshana-mcp` | [MCP 服务器指南](https://kshana.dev/docs/mcp.html) |
 | Docker 镜像 | `docker run --rm -i ghcr.io/ashfordeou/kshana-mcp` | [MCP 服务器指南：Docker](https://kshana.dev/docs/mcp.html#install) |
-| Claude Desktop 扩展 | 双击适用于你系统的 `.mcpb`：[macOS（Apple 芯片）](https://github.com/ashfordeOU/kshana/releases/download/v0.40.0/kshana-mcp-aarch64-apple-darwin.mcpb) · [macOS（Intel）](https://github.com/ashfordeOU/kshana/releases/download/v0.40.0/kshana-mcp-x86_64-apple-darwin.mcpb) · [Windows](https://github.com/ashfordeOU/kshana/releases/download/v0.40.0/kshana-mcp-x86_64-pc-windows-msvc.mcpb) · [Linux（x86-64）](https://github.com/ashfordeOU/kshana/releases/download/v0.40.0/kshana-mcp-x86_64-unknown-linux-gnu.mcpb) · [Linux（Arm）](https://github.com/ashfordeOU/kshana/releases/download/v0.40.0/kshana-mcp-aarch64-unknown-linux-gnu.mcpb) | [所有 MCP 安装片段](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
-| Cursor（一键安装） | [添加到 Cursor（npx）](https://cursor.com/en/install-mcp?name=kshana&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsImtzaGFuYS1tY3BAMC40MC4wIl19) · [添加到 Cursor（Docker）](https://cursor.com/en/install-mcp?name=kshana&config=eyJjb21tYW5kIjoiZG9ja2VyIiwiYXJncyI6WyJydW4iLCItaSIsIi0tcm0iLCJnaGNyLmlvL2FzaGZvcmRlb3Uva3NoYW5hLW1jcDowLjQwLjAiXX0%3D) · `npx -y kshana-mcp@0.40.0` | [所有 MCP 安装片段](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
-| VS Code（一键安装） | [在 VS Code 中安装（npx）](https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522npx%2522%252C%2522args%2522%253A%255B%2522-y%2522%252C%2522kshana-mcp%25400.40.0%2522%255D%257D) · [在 VS Code 中安装（Docker）](https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522docker%2522%252C%2522args%2522%253A%255B%2522run%2522%252C%2522-i%2522%252C%2522--rm%2522%252C%2522ghcr.io%252Fashfordeou%252Fkshana-mcp%253A0.40.0%2522%255D%257D) · `npx -y kshana-mcp@0.40.0` | [所有 MCP 安装片段](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
-| Claude Code | `claude mcp add kshana -- npx -y kshana-mcp@0.40.0` | [所有 MCP 安装片段](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
-| npx | `npx -y kshana-mcp@0.40.0` | [所有 MCP 安装片段](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
-| uvx / pipx | `uvx kshana-mcp==0.40.0` | [所有 MCP 安装片段](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
+| Claude Desktop 扩展 | 双击适用于你系统的 `.mcpb`：[macOS（Apple 芯片）](https://github.com/ashfordeOU/kshana/releases/download/v0.41.0/kshana-mcp-aarch64-apple-darwin.mcpb) · [macOS（Intel）](https://github.com/ashfordeOU/kshana/releases/download/v0.41.0/kshana-mcp-x86_64-apple-darwin.mcpb) · [Windows](https://github.com/ashfordeOU/kshana/releases/download/v0.41.0/kshana-mcp-x86_64-pc-windows-msvc.mcpb) · [Linux（x86-64）](https://github.com/ashfordeOU/kshana/releases/download/v0.41.0/kshana-mcp-x86_64-unknown-linux-gnu.mcpb) · [Linux（Arm）](https://github.com/ashfordeOU/kshana/releases/download/v0.41.0/kshana-mcp-aarch64-unknown-linux-gnu.mcpb) | [所有 MCP 安装片段](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
+| Cursor（一键安装） | [添加到 Cursor（npx）](https://cursor.com/en/install-mcp?name=kshana&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsImtzaGFuYS1tY3BAMC40MS4wIl19) · [添加到 Cursor（Docker）](https://cursor.com/en/install-mcp?name=kshana&config=eyJjb21tYW5kIjoiZG9ja2VyIiwiYXJncyI6WyJydW4iLCItaSIsIi0tcm0iLCJnaGNyLmlvL2FzaGZvcmRlb3Uva3NoYW5hLW1jcDowLjQxLjAiXX0%3D) · `npx -y kshana-mcp@0.41.0` | [所有 MCP 安装片段](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
+| VS Code（一键安装） | [在 VS Code 中安装（npx）](https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522npx%2522%252C%2522args%2522%253A%255B%2522-y%2522%252C%2522kshana-mcp%25400.41.0%2522%255D%257D) · [在 VS Code 中安装（Docker）](https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522docker%2522%252C%2522args%2522%253A%255B%2522run%2522%252C%2522-i%2522%252C%2522--rm%2522%252C%2522ghcr.io%252Fashfordeou%252Fkshana-mcp%253A0.41.0%2522%255D%257D) · `npx -y kshana-mcp@0.41.0` | [所有 MCP 安装片段](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
+| Claude Code | `claude mcp add kshana -- npx -y kshana-mcp@0.41.0` | [所有 MCP 安装片段](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
+| npx | `npx -y kshana-mcp@0.41.0` | [所有 MCP 安装片段](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
+| uvx / pipx | `uvx kshana-mcp==0.41.0` | [所有 MCP 安装片段](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
 | Homebrew | `brew install ashfordeOU/tap/kshana-mcp` | [所有 MCP 安装片段](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
 | Scoop | `scoop bucket add ashforde https://github.com/ashfordeOU/scoop-bucket && scoop install kshana-mcp` | [所有 MCP 安装片段](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
 | winget | `winget install AshfordeOU.KshanaMcp` | [所有 MCP 安装片段](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
@@ -1207,8 +1251,8 @@ Studio 的全能力地图读取的也是同一个文件。
 
 <p><a href="https://plugins.jetbrains.com/plugin/32181-kshana--pnt-simulator"><img src="https://img.shields.io/badge/JetBrains-Marketplace-066A86?style=flat-square&labelColor=0A1226" alt="JetBrains Marketplace 上的 Kshana"></a> <a href="Cargo.toml"><img src="https://img.shields.io/badge/rust-1.88%2B-3F4B67?style=flat-square&labelColor=0A1226" alt="可用 Rust 1.88 或更新版本构建，即 Cargo.toml 中的 rust-version"></a></p>
 
-MCP 是模型上下文协议（Model Context Protocol）。用 `cargo install kshana --version 0.40.0`、
-`pip install kshana==0.40.0` 或 `npm install kshana@0.40.0` 固定一个发布版本。要从源代码构建，见
+MCP 是模型上下文协议（Model Context Protocol）。用 `cargo install kshana --version 0.41.0`、
+`pip install kshana==0.41.0` 或 `npm install kshana@0.41.0` 固定一个发布版本。要从源代码构建，见
 “参考”下的[安装与构建](#install--build)。
 
 <details>
@@ -1222,7 +1266,7 @@ import json, kshana
 toml = open("clock-holdover.toml").read()
 result = json.loads(kshana.run(toml))
 print(kshana.version(), result["quantum"]["fom"]["holdover_s"], result["classical"]["fom"]["holdover_s"])
-# 0.40.0 6600.0 2610.0
+# 0.41.0 6600.0 2610.0
 ```
 
 除 `run` 之外，该模块还提供 `run_full`（一次返回 JSON、SVG 和单行摘要）、
@@ -1243,7 +1287,7 @@ initSync({ module: readFileSync(wasm) });
 const toml = readFileSync("clock-holdover.toml", "utf8");
 const result = JSON.parse(run(toml));
 console.log(version(), result.quantum.fom.holdover_s, result.classical.fom.holdover_s);
-// 0.40.0 6600 2610
+// 0.41.0 6600 2610
 console.log(summary(toml));
 ```
 
@@ -1252,15 +1296,15 @@ console.log(summary(toml));
 <a id="architecture"></a>
 ## 架构
 
-一个开源引擎位于中心，每种接口都运行它：命令行、Rust
-库、Python、WebAssembly 和 Kshana Studio、MCP 服务器、Docker 镜像以及
-JetBrains 插件。同一个场景文件在每种接口上都给出相同的字节。Kshana Pro 作为
-独立的叠加层位于其上，它依赖引擎，从不分叉引擎。
+一个开源引擎位于中心，每个界面都运行它：命令行、Rust 库、
+Python、WebAssembly 和 Kshana Studio、MCP 服务器、Docker 镜像以及
+JetBrains 插件。同一个场景文件在每个界面上都得到相同的字节。专业版
+Kshana Pro 建立在同一个引擎之上，从不分叉它。
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/architecture-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/architecture-light.svg">
-  <img src="docs/assets/readme/architecture-light.svg" alt="Kshana 的架构：一个开源引擎位于中心，即采用 AGPL-3.0 的 kshana 0.40.0，带有 api::run_toml（对每种类型的类型化分派）以及包含 413 项能力的验证台账（176 项 VALIDATED、233 项 MODELLED、4 项 PARTNER）。在其周围，每种接口都运行同一个引擎：命令行（cargo install kshana）；Rust 库（cargo add kshana）；Python（pip install kshana）；WebAssembly + Kshana Studio（npm install kshana）；MCP 服务器（cargo install kshana-mcp）；Docker 镜像（ghcr.io/ashfordeou/kshana-mcp）；JetBrains 插件（Marketplace：&quot;Kshana&quot;）。在其下方是 Kshana Pro，一个专有叠加层，它将开源引擎作为库来依赖，从不分叉它，也不添加任何物理模型。" width="100%">
+  <img src="docs/assets/readme/architecture-light.svg" alt="Kshana 的架构：一个开源引擎位于中心，即采用 AGPL-3.0 的 kshana 0.41.0，带有 api::run_toml（对每种类型的类型化分派）以及包含 413 项能力的验证台账（176 项 VALIDATED、233 项 MODELLED、4 项 PARTNER）。在其周围，每种接口都运行同一个引擎：命令行（cargo install kshana）；Rust 库（cargo add kshana）；Python（pip install kshana）；WebAssembly + Kshana Studio（npm install kshana）；MCP 服务器（cargo install kshana-mcp）；Docker 镜像（ghcr.io/ashfordeou/kshana-mcp）；JetBrains 插件（Marketplace：&quot;Kshana&quot;）。在其下方是专业版 Kshana Pro，它将开源引擎作为库来依赖，从不分叉它，也从不改变其物理模型；Pro 自有的模型带有各自的证据标签。" width="100%">
 </picture>
 
 <details>
@@ -1294,8 +1338,8 @@ EGM2008/摄动力模型的数值 Cowell 传播器、机动设计以及定轨）�
 （MCP 服务器，基于 edition-2024 的 `rmcp` SDK 构建）和 `xval/anise-frames`（
 ANISE/SPICE 坐标系交叉检查，它会引入 MPL-2.0（Mozilla Public License 2.0）依赖）——通过根目录
 `Cargo.toml` 的 `exclude` 列表，它们被排除在已发布 crate 的依赖图、`Cargo.lock`、许可证门禁和 MSRV（最低支持 Rust 版本）构建之外。
-JetBrains 插件（`ide/jetbrains`）是一个独立的 Kotlin
-项目。完整的图示集见 [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md)。
+JetBrains 插件是一个独立的产品，可从
+[kshana.dev](https://kshana.dev/docs/jetbrains.html) 获取。完整的图示集见 [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md)。
 
 渲染后的图示（引擎流程、模块地图、分发）见 [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md)。
 
@@ -1375,20 +1419,20 @@ Claude Code、Cursor、VS Code、Windsurf、Zed、Goose、Codex CLI、Gemini CLI
 <!-- mcp-install:begin -->
 | 渠道 | 命令或按钮 | 需要 | 固定版本形式 |
 |---|---|---|---|
-| Claude Desktop 扩展 | 双击适用于你系统的 `.mcpb`：[macOS（Apple 芯片）](https://github.com/ashfordeOU/kshana/releases/download/v0.40.0/kshana-mcp-aarch64-apple-darwin.mcpb) · [macOS（Intel）](https://github.com/ashfordeOU/kshana/releases/download/v0.40.0/kshana-mcp-x86_64-apple-darwin.mcpb) · [Windows](https://github.com/ashfordeOU/kshana/releases/download/v0.40.0/kshana-mcp-x86_64-pc-windows-msvc.mcpb) | 无 | v0.40.0 的 `kshana-mcp-<target>.mcpb` |
-| Cursor（一键安装） | [npx（Node）](https://cursor.com/en/install-mcp?name=kshana&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsImtzaGFuYS1tY3BAMC40MC4wIl19) · [Docker](https://cursor.com/en/install-mcp?name=kshana&config=eyJjb21tYW5kIjoiZG9ja2VyIiwiYXJncyI6WyJydW4iLCItaSIsIi0tcm0iLCJnaGNyLmlvL2FzaGZvcmRlb3Uva3NoYW5hLW1jcDowLjQwLjAiXX0%3D) | Node 或 Docker | `kshana-mcp@0.40.0` / `ghcr.io/ashfordeou/kshana-mcp:0.40.0` |
-| VS Code（一键安装） | [npx（Node）](https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522npx%2522%252C%2522args%2522%253A%255B%2522-y%2522%252C%2522kshana-mcp%25400.40.0%2522%255D%257D) · [Docker](https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522docker%2522%252C%2522args%2522%253A%255B%2522run%2522%252C%2522-i%2522%252C%2522--rm%2522%252C%2522ghcr.io%252Fashfordeou%252Fkshana-mcp%253A0.40.0%2522%255D%257D) · [Insiders（npx）](https://insiders.vscode.dev/redirect?url=vscode-insiders%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522npx%2522%252C%2522args%2522%253A%255B%2522-y%2522%252C%2522kshana-mcp%25400.40.0%2522%255D%257D) | Node 或 Docker | `kshana-mcp@0.40.0` / `ghcr.io/ashfordeou/kshana-mcp:0.40.0` |
-| Claude Code | `claude mcp add kshana -- npx -y kshana-mcp@0.40.0` · 插件：先 `/plugin marketplace add ashfordeOU/kshana`，然后 `/plugin install kshana@ashforde` | Node（或 Docker） | `kshana-mcp@0.40.0` |
-| npx | `npx -y kshana-mcp@0.40.0` | Node 18+ | `kshana-mcp@0.40.0` |
-| uvx / pipx | `uvx kshana-mcp==0.40.0` · `pipx run kshana-mcp==0.40.0` | 带 uv 或 pipx 的 Python 3.9+ | `kshana-mcp==0.40.0` |
-| Docker | `docker run -i --rm ghcr.io/ashfordeou/kshana-mcp:0.40.0` | Docker | `ghcr.io/ashfordeou/kshana-mcp:0.40.0` |
-| Homebrew | `brew install ashfordeOU/tap/kshana-mcp` | brew | v0.40.0 的 formula |
-| Scoop | 先 `scoop bucket add ashforde https://github.com/ashfordeOU/scoop-bucket`，然后 `scoop install kshana-mcp` | Scoop（Windows） | v0.40.0 的清单 |
-| winget | `winget install AshfordeOU.KshanaMcp` | winget（Windows） | `--version 0.40.0` |
-| cargo | `cargo install kshana-mcp --version 0.40.0` | Rust 1.88+ | `kshana-mcp 0.40.0` |
-| 预编译二进制文件 | [发布页面](https://github.com/ashfordeOU/kshana/releases/tag/v0.40.0)：`kshana-mcp`（Linux x86-64）、`kshana-mcp-<target>[.exe]`，用 `SHA256SUMS` 和 `gh attestation verify` 检查 | 无 | v0.40.0 |
-| MCP 注册表 | `io.github.ashfordeOU/kshana-mcp`（可由支持注册表的客户端找到） | 支持注册表的客户端 | `0.40.0` |
-| 远程（可流式 HTTP） | `kshana-mcp --http 127.0.0.1:8080`，自托管：见 [docs/deploy/mcp-http.md](docs/deploy/mcp-http.md) | 你自己的主机 | v0.40.0 |
+| Claude Desktop 扩展 | 双击适用于你系统的 `.mcpb`：[macOS（Apple 芯片）](https://github.com/ashfordeOU/kshana/releases/download/v0.41.0/kshana-mcp-aarch64-apple-darwin.mcpb) · [macOS（Intel）](https://github.com/ashfordeOU/kshana/releases/download/v0.41.0/kshana-mcp-x86_64-apple-darwin.mcpb) · [Windows](https://github.com/ashfordeOU/kshana/releases/download/v0.41.0/kshana-mcp-x86_64-pc-windows-msvc.mcpb) | 无 | v0.41.0 的 `kshana-mcp-<target>.mcpb` |
+| Cursor（一键安装） | [npx（Node）](https://cursor.com/en/install-mcp?name=kshana&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsImtzaGFuYS1tY3BAMC40MS4wIl19) · [Docker](https://cursor.com/en/install-mcp?name=kshana&config=eyJjb21tYW5kIjoiZG9ja2VyIiwiYXJncyI6WyJydW4iLCItaSIsIi0tcm0iLCJnaGNyLmlvL2FzaGZvcmRlb3Uva3NoYW5hLW1jcDowLjQxLjAiXX0%3D) | Node 或 Docker | `kshana-mcp@0.41.0` / `ghcr.io/ashfordeou/kshana-mcp:0.41.0` |
+| VS Code（一键安装） | [npx（Node）](https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522npx%2522%252C%2522args%2522%253A%255B%2522-y%2522%252C%2522kshana-mcp%25400.41.0%2522%255D%257D) · [Docker](https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522docker%2522%252C%2522args%2522%253A%255B%2522run%2522%252C%2522-i%2522%252C%2522--rm%2522%252C%2522ghcr.io%252Fashfordeou%252Fkshana-mcp%253A0.41.0%2522%255D%257D) · [Insiders（npx）](https://insiders.vscode.dev/redirect?url=vscode-insiders%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522npx%2522%252C%2522args%2522%253A%255B%2522-y%2522%252C%2522kshana-mcp%25400.41.0%2522%255D%257D) | Node 或 Docker | `kshana-mcp@0.41.0` / `ghcr.io/ashfordeou/kshana-mcp:0.41.0` |
+| Claude Code | `claude mcp add kshana -- npx -y kshana-mcp@0.41.0` · 插件：先 `/plugin marketplace add ashfordeOU/kshana`，然后 `/plugin install kshana@ashforde` | Node（或 Docker） | `kshana-mcp@0.41.0` |
+| npx | `npx -y kshana-mcp@0.41.0` | Node 18+ | `kshana-mcp@0.41.0` |
+| uvx / pipx | `uvx kshana-mcp==0.41.0` · `pipx run kshana-mcp==0.41.0` | 带 uv 或 pipx 的 Python 3.9+ | `kshana-mcp==0.41.0` |
+| Docker | `docker run -i --rm ghcr.io/ashfordeou/kshana-mcp:0.41.0` | Docker | `ghcr.io/ashfordeou/kshana-mcp:0.41.0` |
+| Homebrew | `brew install ashfordeOU/tap/kshana-mcp` | brew | v0.41.0 的 formula |
+| Scoop | 先 `scoop bucket add ashforde https://github.com/ashfordeOU/scoop-bucket`，然后 `scoop install kshana-mcp` | Scoop（Windows） | v0.41.0 的清单 |
+| winget | `winget install AshfordeOU.KshanaMcp` | winget（Windows） | `--version 0.41.0` |
+| cargo | `cargo install kshana-mcp --version 0.41.0` | Rust 1.88+ | `kshana-mcp 0.41.0` |
+| 预编译二进制文件 | [发布页面](https://github.com/ashfordeOU/kshana/releases/tag/v0.41.0)：`kshana-mcp`（Linux x86-64）、`kshana-mcp-<target>[.exe]`，用 `SHA256SUMS` 和 `gh attestation verify` 检查 | 无 | v0.41.0 |
+| MCP 注册表 | `io.github.ashfordeOU/kshana-mcp`（可由支持注册表的客户端找到） | 支持注册表的客户端 | `0.41.0` |
+| 远程（可流式 HTTP） | `kshana-mcp --http 127.0.0.1:8080`，自托管：见 [docs/deploy/mcp-http.md](docs/deploy/mcp-http.md) | 你自己的主机 | v0.41.0 |
 <!-- mcp-install:end -->
 
 <p><a href="https://glama.ai/mcp/servers/ashfordeOU/kshana"><img src="https://glama.ai/mcp/servers/ashfordeOU/kshana/badges/score.svg" alt="Glama 上的 kshana-mcp，其 MCP 服务器质量评分"></a></p>
@@ -1413,7 +1457,7 @@ OpenCPN 集成提供数据：[`docs/MARINE-INTEGRATIONS.md`](docs/MARINE-INTEGRA
 | 工具 | 它做什么 |
 |---|---|
 | `run_scenario` | 根据 TOML（Tom's Obvious, Minimal Language）定义运行场景 |
-| `list_scenario_kinds` | 92 种内置场景类型，附描述 + 必需/可选字段——使代理能够构造有效的场景 |
+| `list_scenario_kinds` | 93 种内置场景类型，附描述 + 必需/可选字段——使代理能够构造有效的场景 |
 | `validate_scenario` | 预检：解析 TOML 并检测其类型，不运行 |
 | `list_example_scenarios` | 以 JSON 形式给出随附的参考场景 |
 | `get_example_scenario` | 一个随附参考场景的 TOML 文本，与 `scenarios/` 下的文件逐字节一致 |
@@ -1496,108 +1540,70 @@ OpenCPN 集成提供数据：[`docs/MARINE-INTEGRATIONS.md`](docs/MARINE-INTEGRA
 <a id="editions"></a>
 ## 版本
 
-整个引擎是免费的。Kshana Pro 和定制研究面向有更多需求的项目，
-每条付费途径都从一条消息开始：这里不列价格。
+整个引擎都是免费的。Kshana Pro 是面向必须做出决定并为之辩护的团队的专业版，
+定制研究则是替您完成同样的工作。所有付费途径都从一封消息开始：这里不列价格。
 
-| | 免费版 | Kshana Pro | 定制研究 |
+| | 免费 | Kshana Pro | 定制研究 |
 |---|---|---|---|
-| 它是什么 | 整个开源引擎，全部 92 种场景类型，没有功能限制 | 同一引擎之上的专有叠加层，依合同提供 | 为你完成的、针对你的系统的 MODELLED PNT 韧性研究 |
-| 许可证 | AGPL-3.0（GNU Affero 通用公共许可证第 3 版），或商业许可证 | 专有 | 合同 |
+| 是什么 | 完整的开源引擎，全部 93 种场景类型，无功能限制 | 专业版：同一个引擎和同样的场景文件，外加一个项目为决策、验证和交付所需的工具 | 由 Ashforde® OÜ 替您完成的、关于您系统 PNT 韧性的 MODELLED 研究 |
+| 面向谁 | 研究人员、学生、工程师，以及任何想试一试某个问题的人 | 任务与项目团队、系统工程师、接收机、时钟和载荷制造商、信号设计者和运营方 | 想要答案、但不想自己开展研究的团队 |
+| 支持 | 社区：GitHub 上的 issue 和 pull request | 由开发引擎的团队直接提供支持 | 包含 |
+| 许可证 | AGPL-3.0（GNU Affero 通用公共许可证第 3 版），或商业许可证 | 专有，依合同提供 | 合同 |
 | 如何开始 | [安装](#install)或打开 [kshana.dev](https://kshana.dev) | [申请 Pro 评估](mailto:contact@ashforde.org?subject=Kshana%20Pro%20evaluation) | [申请研究](mailto:contact@ashforde.org?subject=Kshana%20custom%20study) |
 
-Pro 是什么，用 [`docs/PRO.md`](docs/PRO.md) 中的话来说：
+**用 Kshana Pro 可以做什么。** 免费引擎告诉您一个场景能得到什么。Pro
+回答项目接下来要问的问题：
 
-> **开源 Kshana 的严格超集。** Pro 将开源引擎作为库来依赖，
-> 从不分叉它。每种开源场景类型都能在 Pro 中原样运行，开源场景
-> 在 Pro 中运行完全不需要许可证。
->
-> **没有新的物理。** Pro 不添加也不改变任何物理模型。Pro 的每个数字都
-> 来自开源引擎的运行，因此 Pro 的数字与其所来源的开源场景类型一样可信，
-> 绝不会更可信。
+- **选出要飞的设计。** 给出设计空间、约束和目标，即可得到整个空间内最佳的权衡方案，
+  每个候选方案都是一个免费引擎可运行的场景文件。
+- **知道答案有多可靠。** 置信带、满足某一限值的概率，以及
+  哪些输入决定了结果。
+- **证明任务满足其需求。** 导入需求（CSV、ReqIF 或
+  SysML v2 文本），对照运行结果检查，得到验证矩阵、变更影响报告
+  和评审委员会可以核查的任务档案（PDF、HTML 和 JSON）。
+- **基于证据权衡架构。** 按重要的指标为各方案排序，
+  每个数字背后都有证据包。
+- **在发布之前发现退化。** 指定您关心的指标；当对场景、模型或引擎的改动
+  使其中任何一个变差时，您的流水线就会失败。
+- **检查频谱共存。** 将候选信号方案与开放的 GNSS 信号进行
+  双向测试，并为其排序。
+- **为您的时钟建立孪生。** 对照其公布的稳定度核对过的时钟数字孪生；
+  您自己设备的孪生在合同下与您共同构建。
+- **在您自己的网络上运行。** 本地服务和作业队列，并记录
+  哪个结果交付给了哪个请求。
+- **交付带签名的证据。** Pro 会为其证据包和档案签名，接收方
+  无需 Pro 许可证即可核查。
 
-Pro 回答项目的下一步问题：飞哪种设计（设计优化器及其
-帕累托前沿），答案有多确定（不确定性与敏感性），以及任务
-是否满足其需求（任务档案、需求可追溯性、权衡研究、
-场景回归检查、时钟数字孪生、研究档案以及本地部署
-服务）。它还监视一组战役数字，当某个数字变差时使流水线失败，
-在两个方向上对照开放的卫星导航信号测试候选信号计划
-（频谱共存），并在带哈希链交付台账的本地作业服务中
-排队执行研究。每一项及其产出和不做的事情，都在
-[`docs/PRO.md`](docs/PRO.md) 中说明。Pro 产出的任何内容都不是认证，定制研究
-也不是认证。
+**您可以依赖的是什么。** 每个开源场景在 Pro 中原样运行，Pro 从不改变开源引擎的
+物理模型。每个数字都保留台账给出的证据标签
+（VALIDATED、MODELLED 或 PARTNER），绝不会更高；Pro 自有的模型带有各自的
+标签。Pro 的交付物会列出它运行过的场景文件，因此任何拥有开源 Kshana 的人都可以
+重新运行并得到相同的数字。Pro 产出的任何东西都不是认证，定制研究
+也不是。完整说明见 [`docs/PRO.md`](docs/PRO.md)。
 
 <details>
-<summary>Kshana Pro 从开源引擎读取什么，以及来自 Ashforde® OÜ 的支持</summary>
+<summary>Ashforde® OÜ 提供的支持与专业服务</summary>
 
-<br>
-
-**Kshana Pro 建立在什么之上。** Pro 的每个部分都基于开源引擎工作，并保持
-引擎不变：
-
-- **设计优化器、不确定性研究和任务档案**通过引擎的公共接口运行开源引擎
-  场景，并根据运行结果计算每个数字。每项输出都保留开源引擎为
-  每个数字给出的 VALIDATED、MODELLED 或 PARTNER 等级，绝不会更高。
-- **时钟数字孪生**使用开源引擎的时钟模型及其 Allan 偏差
-  估计器：孪生体按器件已公布的 Allan 预算校准，然后用
-  开源估计器估计孪生体的 Allan 偏差来进行检查。
-- **权衡研究**将每个架构选项作为开源引擎场景原样运行，
-  并根据从每次运行结果中读取的品质因数对选项排序。
-- **战役监视**从包中各场景的开源引擎运行结果中读取其数字，
-  并与上一次通过的运行进行比较。
-- **频谱共存**从 `leo-signal` 和 `constellation-design` 类型的开源引擎运行中
-  读取每个物理数字，只添加对可见卫星的求和
-  以及对各计划的排序。
-- **本地作业服务**通过同一个引擎运行开源和 Pro 场景，
-  并按运行返回的原样存储每个结果。
-- **证据包**为每次运行记录开源引擎在其结果上标记的场景哈希，
-  因此包中的数字可以通过重新运行其场景来复现。
-- **系统工程与项目工具。** Kshana Pro 的基于模型的
-  系统工程（MBSE）与项目工具对照开源引擎的运行检查项目的需求：
-  它导入以逗号分隔值（CSV）形式表示的需求，或以需求交换格式（ReqIF）或
-  系统建模语言第 2 版（SysML v2）文本的一个有文档说明的子集表示的需求，
-  根据一次运行写出的值，带单位地评估每条验收
-  准则，并生成验证交叉引用矩阵（VCRM）、SysML v2 模型、变更影响报告和离线
-  证据包。它不重新运行也不重新计算任何内容，只读取开源引擎
-  发布的内容：每次运行的 `result.json`（准则所指的字段、其单位、
-  由场景哈希、随机种子、引擎版本和模式版本组成的可复现性标记，以及
-  该运行的标签和数字等级）、其 `report.json`（类型、可复现性记录和
-  能力标签）、场景文件（其哈希、类型、随机种子和参数）、
-  字段单位模式（每个字段的单位、来源和证据等级）以及
-  验证矩阵（每项能力的 VALIDATED、MODELLED 或 PARTNER 标签）。
-
-<a id="support--professional-services"></a>
 ### 支持与专业服务
 
-Kshana 采用 AGPL-3.0 免费开源，**由 Ashforde® OÜ**（爱沙尼亚）**专业开发和
-维护**。开源引擎本身是完整且可用的。
-对于有更多需求的组织，Ashforde® OÜ 提供：
+Kshana 依 AGPL-3.0 免费开源，由 **Ashforde® OÜ**（爱沙尼亚）**专业开发和维护**。
+开源引擎是完整的，可单独使用。
+对于需要更多的组织，Ashforde® OÜ 提供：
 
-- **商业支持与集成**——将 Kshana 嵌入你的工具链、定制
+- **Kshana Pro**：上文所述的专业版，提供直接支持。
+- **商业支持与集成**：将 Kshana 嵌入您的工具链、定制
   场景以及优先修复。
-- **定制传感器模型**——按你的硬件校准，包括在私有叠加层中维护的
-  出口敏感韧性模型。
-- **Kshana Pro**——专有的基于模型的系统工程（MBSE）与项目
-  工具，对照开源引擎的运行检查项目的需求，并
-  生成验证交叉引用矩阵（VCRM）、系统建模语言
-  第 2 版（SysML v2）模型、变更影响报告和离线证据包。它
-  不重新运行任何内容，只读取引擎发布的输出：每次运行的 `result.json`
-  和 `report.json`、场景文件、字段单位模式以及验证
-  矩阵的标签（完整列表见[版本](#editions)）。
-- **Kshana Pro 设计、不确定性与任务工具**——设计空间的帕累托前沿、
-  数千次运行上的不确定性与敏感性，以及带验证矩阵和 PDF 的
-  一条命令生成的任务档案；见 [`docs/PRO.md`](docs/PRO.md)。
-- **Kshana Pro 战役监视、频谱共存与作业服务**——当被监视的数字变差时
-  失败的流水线、在两个方向上对照开放卫星导航信号测试的信号计划，
-  以及带哈希链交付台账的本地作业队列；见 [`docs/PRO.md`](docs/PRO.md)。
-- 关于量子/经典 PNT 性能分析的**培训与咨询**。
+- **定制传感器模型**：依合同针对您的硬件校准；涉及出口
+  敏感的工作仅在具备相应许可和保密协议的情况下进行。
+- **定制研究**：替您完成的、关于您系统 PNT 韧性的 MODELLED 研究。
+- **培训与咨询**：关于 PNT 韧性以及量子与经典传感器的性能。
 
-这是开放核心模式：引擎采用开放许可，并将一直如此；维持
-业务的是专业知识、支持和专有扩展——而不是许可费。
+这就是开放核心模式：引擎现在是、将来也是开放许可；支撑它的
+业务是 Kshana Pro、支持和专业知识。
 联系 **contact@ashforde.org** · [ashforde.org](https://ashforde.org)。
 
 </details>
 
-<a id="research"></a>
 ## 研究
 
 基于开源引擎的研究发表在 arXiv 上。每篇都列出其背后的引擎命令，
@@ -1858,7 +1864,7 @@ NASA/JPL 三体周期轨道数据库）。这些是针对 **modelled** 月球套
 <a id="scenario-format"></a>
 ### 场景格式
 
-场景是声明式的 TOML。顶层的 `kind` 选择所用的包——共**五十**个
+场景是声明式的 TOML。顶层的 `kind` 选择所用的包——共**93**个
 （省略时默认为 `clock`）：`inertial`、`timetransfer`、`hybrid`、`hybrid-ukf`、`fusion`、
 `gnss-ins`、`orbit`、`ephemeris`、`gnss-sim`、`integrity`、`lunar-integrity`、`lunar-time-offset`、`spoof`、
 `spoof-detect`、`jamming`、`sweep`、`sweep-nd`、`gravity-map`、`terrain-nav`、`terrain-slam`、
@@ -2105,7 +2111,7 @@ phasing_f = 1.0
 与月球月面水准面、平均窗口），这正是报告一个区间而不是单一经认证
 数字的原因（`scenarios/lunar-time-offset.toml`）。
 
-每种类型至少有一个实例见 `scenarios/`（92 种类型，193 个场景
+每种类型至少有一个实例见 `scenarios/`（93 种类型，199 个场景
 `.toml` 文件 + 1 个套件清单——若干类型附带不止一个示例）。并非每种
 类型都有以其命名的文件：`lunar-integrity` → `scenarios/lunanet-araim.toml` 和
 `gravity-map` → `scenarios/gps-denied-gravity-nav.toml` 是其中两个例子。
@@ -2205,7 +2211,6 @@ kshana/
 │   └── bin/crossover_study.rs · bin/validation_report.rs  # crossover-study artifact generator · release validation-summary HTML
 │
 ├── mcp/kshana-mcp/        # standalone, workspace-EXCLUDED crate — the MCP server (+ Dockerfile, server.json)
-├── ide/jetbrains/         # standalone Kotlin/Gradle IntelliJ-Platform plugin
 ├── xval/                  # standalone, workspace-EXCLUDED external cross-checks: anise-{frames,lunar-od,mars-od,service-geometry} (Rust ANISE/SPICE DE440) + orekit-passes (Java Orekit)
 │
 ├── examples/            # reproducible study generators: tpl_jammertest · resilience_report · optimism_study + real-data probes (jammertest_probe · yunnan_probe · satgrid_probe · texbat_probe · ingest_realdata)
@@ -2215,7 +2220,7 @@ kshana/
 ├── docs/                 # CONCEPTS, ARCHITECTURE, CAPABILITY, VALIDATION, PROVENANCE, GLOSSARY, …
 ├── web/                  # the WebAssembly playground + kshana.dev site
 ├── tools/                # table generators (EGM2008 · IGRF · nutation · CIO) + fetch_tles.sh
-├── .github/workflows/    # ci · release · publish · wheels · pages · mcp-publish · jetbrains-plugin · frame-xval
+├── .github/workflows/    # ci · release · publish · wheels · pages · mcp-publish · frame-xval
 ├── pyproject.toml        # Python packaging (maturin)
 ├── CHANGELOG.md          # Keep a Changelog + SemVer
 └── CITATION.cff · ROADMAP.md · CONTRIBUTING.md · SECURITY.md
@@ -2238,7 +2243,7 @@ kshana/
 
 **量子结果是现实的，还是营销？**
 每个参数都引用了数据手册或论文，每个模型都对照
-教科书关系进行了验证，成熟度在
+教科书关系进行了核对，成熟度在
 [VALIDATION.md](docs/VALIDATION.md) 中如实标注——包括还没有任何锶光钟
 上过天这一点。引擎是中立的：量子和经典是同一套代码，只是使用不同的
 已发表数字。
@@ -2309,13 +2314,13 @@ Kshana 遵循[语义化版本](https://semver.org)。在 1.0 之前，公开的
 
 | 渠道 | 安装 / 获取 | 内容 |
 |---------|---------------|----------|
-| [crates.io](https://crates.io/crates/kshana) | `cargo install kshana` · `kshana = "0.35"` | Rust 库 + CLI |
+| [crates.io](https://crates.io/crates/kshana) | `cargo install kshana` · `kshana = "0.41"` | Rust 库 + CLI |
 | [crates.io](https://crates.io/crates/kshana-mcp) | `cargo install kshana-mcp` | MCP 服务器 |
 | [PyPI（Python 软件包索引）](https://pypi.org/project/kshana/) | `pip install kshana` | abi3 wheel（Linux/macOS/Windows）+ sdist（源代码分发包） |
 | [npm](https://www.npmjs.com/package/kshana) | `npm install kshana` | WebAssembly 模块 + JS 封装 |
 | [ghcr.io](https://github.com/ashfordeOU/kshana/pkgs/container/kshana-mcp) | `docker run -i ghcr.io/ashfordeou/kshana-mcp` | 多架构 OCI（开放容器倡议）镜像——无需工具链 |
-| [npm](https://www.npmjs.com/package/kshana-mcp) | `npx -y kshana-mcp@0.40.0` | 启动器：下载发布的二进制文件，验证 `SHA256SUMS`，然后运行 |
-| [PyPI](https://pypi.org/project/kshana-mcp/) | `uvx kshana-mcp==0.40.0` · `pipx run kshana-mcp==0.40.0` | 面向 Python 的同一启动器 |
+| [npm](https://www.npmjs.com/package/kshana-mcp) | `npx -y kshana-mcp@0.41.0` | 启动器：下载发布的二进制文件，验证 `SHA256SUMS`，然后运行 |
+| [PyPI](https://pypi.org/project/kshana-mcp/) | `uvx kshana-mcp==0.41.0` · `pipx run kshana-mcp==0.41.0` | 面向 Python 的同一启动器 |
 | Homebrew · Scoop · winget | `brew install ashfordeOU/tap/kshana-mcp` · `scoop install kshana-mcp` · `winget install AshfordeOU.KshanaMcp` | `kshana-mcp` 二进制文件，根据每个发布版本的 `SHA256SUMS` 生成 |
 | Claude Desktop | 双击发布页中的 `kshana-mcp-<target>.mcpb` | 扩展，内含二进制文件 |
 | 官方 MCP 注册表 | 由 MCP 客户端自动发现 | `io.github.ashfordeOU/kshana-mcp`（OCI 镜像、npm 和 PyPI 软件包） |
@@ -2345,7 +2350,7 @@ MCP 服务器的 crate / 镜像 / 注册表版本跟随引擎（它捆绑了
 对照 SOFA/ERFA 逐位验证，并独立对照 ANISE
 （纯 Rust SPICE）交叉检查到 GNSS 轨道处 ≤ 3.6 m。近期事项包括紧耦合载波相位融合，以及在更多包中提供
 松耦合/紧耦合 GNSS/INS 导航器；**深空 / 火星
-无线电测量导航**引擎已在 v0.17.0 中落地（经仿真验证）。
+无线电测量导航**引擎已在 v0.17.0 中落地（MODELLED：在仿真中核对，未用任务数据）。
 **量子物理层**是 **P2** 事项：CAI 加速度计现在已按
 第一性原理仿真（Mach–Zehnder 相位、投影噪声、对比度衰减、振动
 耦合），而时钟/时间传递传感器仍由已发表的
@@ -2400,7 +2405,7 @@ IMU 误差预算、两个独立的（时钟 + 位置）卡尔曼估计器（以
 | [可复现性与来源](docs/REPRODUCIBILITY.md) | 审阅者 / 打包者 | 确定性保证、基准固定、SBOM（软件物料清单）、构建来源证明 |
 | [Wheel 平台标签](docs/WHEEL_TAGS.md) | 打包者 | abi3 Python wheel 矩阵——`pip install kshana` 解析到哪个平台标签 |
 | [定位](docs/POSITIONING.md) | 评估者 | Kshana 相对于 RTKLIB/gLAB 的位置（互补），以及无需安装的浏览器层 |
-| [Kshana Pro](docs/PRO.md) | 评估者 / 项目经理 | 专有的 Pro 叠加层在同一引擎之上增加了什么：设计优化器、不确定性与敏感性、任务档案、战役监视、频谱共存、本地作业服务、需求可追溯性；每项产出什么以及不做什么 |
+| [Kshana Pro](docs/PRO.md) | 评估者 / 项目经理 | 专业版：面向谁、团队能用它做什么、能得到什么、支持服务，以及如何开始评估 |
 | [技术报告](paper/kshana-technical-report.md) · [JOSS 论文](paper/paper.md) | 审阅者 / 引用者 / 评估者 | 完整的扩展研究论文——架构、各领域模型、验证、案例研究和局限——以及简洁的 JOSS（Journal of Open Source Software）投稿 |
 | [SGP4 验证](docs/SGP4-VALIDATION.md) | 审阅者 / 引用者 | 与 AIAA 2006-6753 参考的一致性（666 个状态，约 4 mm）**以及**与独立的 `sgp4` crate 的直接对比（一致到亚微米 / 4.12 mm） |
 | [力模型验证](docs/AGENCY-ORBIT-VALIDATION.md) | 审阅者 / 引用者 | 全力模型引擎（`src/precise_od.rs`）对机构星历的拟合——方法和经验证的残差 |
@@ -2426,7 +2431,7 @@ IMU 误差预算、两个独立的（时钟 + 位置）卡尔曼估计器（以
 | [Python API](docs/PYTHON_API.md) | Python 用户 | PyO3 绑定接口——调用引擎、场景/结果类型以及示例 |
 | [声明与现实](docs/CLAIMS-VS-REALITY.md) | 审阅者 | 过度声明清理台账 + 保持其已解决状态的 CI 防护（`tests/no_overclaims.rs`） |
 | [路线图](ROADMAP.md) | 所有人 | 分阶段路线图——已发布的内容和接下来的内容 |
-| [MCP 服务器](mcp/kshana-mcp/README.md) · [JetBrains 插件](ide/jetbrains/README.md) | 代理 / IDE 用户 | 从 AI 助手或 JetBrains IDE 运行 Kshana |
+| [MCP 服务器](mcp/kshana-mcp/README.md) · [JetBrains 插件](https://kshana.dev/docs/jetbrains.html) | 代理 / IDE 用户 | 从 AI 助手或 JetBrains IDE 运行 Kshana |
 | [代理指南](docs/AGENTS.md) · [接口](docs/SURFACES.md) | 代理 / 集成者 | 哪个工具回答哪个问题，每个答案应附带保留什么；每项能力可以从哪里使用（CLI、Rust、Python、WASM、MCP、插件、JetBrains、笔记本），以及某个单元格为何为 N/A |
 | [变更日志](CHANGELOG.md) | 所有人 | 已发布的历史（Keep a Changelog + SemVer，语义化版本） |
 | [贡献](CONTRIBUTING.md) | 贡献者 | 构建、防护、测试/引用规范、DCO（开发者原创证书） |
