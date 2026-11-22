@@ -54,9 +54,9 @@ package (`receiver_trust(toml)`, with the log inline) and from the Model Context
 | `rtklib-pos` | RTKLIB solution file (`.pos`) | time, position (latitude/longitude or ECEF, converted) and satellites used per epoch; degrees-minutes-seconds files are refused with a message |
 | `novatel` | NovAtel OEM7 ASCII or binary logs | `BESTPOS` position (solution computed only), `RANGE` C/No per satellite and signal; `RXSTATUS` jammer flags become the epoch's `self_report` (jamming state 2 when the receiver flags a jammer, 1 when not; no spoofing flag exists in RXSTATUS), set against Kshana's alarms by the `receiver-self-report` comparison |
 | `gnss-sdr` | GNSS-SDR Monitor and PVT-monitor streams as JSON lines | per-channel C/N0, fix, satellites used, HDOP, azimuth and elevation; made by `integrations/gnss-sdr/relay.py` |
-| `sbp` | Swift Navigation SBP binary (0.42, read only) | `MSG_POS_LLH` position, `MSG_DOPS`, `MSG_OBS` and `MSG_MEASUREMENT_STATE` C/N0 per signal, `MSG_GPS_TIME` week; see [RECEIVER-PROTOCOLS.md](RECEIVER-PROTOCOLS.md) |
-| `greis` | Javad GREIS binary messages (0.42, read only) | `[PG]` position, `[DP]` DOP, `[SX]`/`[SI]` satellite index with `[NN]` GLONASS slots, `[E*]`/`[*E]` C/N0 per signal slot, `[~~]`/`[RD]` time |
-| `unicore` | Unicore N4 binary logs (0.42, read only) | `BESTNAV` position, `OBSVM` C/N0 per satellite and signal |
+| `sbp` | Swift Navigation SBP binary (added after 0.41.0, read only) | `MSG_POS_LLH` position, `MSG_DOPS`, `MSG_OBS` and `MSG_MEASUREMENT_STATE` C/N0 per signal, `MSG_GPS_TIME` week; see [RECEIVER-PROTOCOLS.md](RECEIVER-PROTOCOLS.md) |
+| `greis` | Javad GREIS binary messages (added after 0.41.0, read only) | `[PG]` position, `[DP]` DOP, `[SX]`/`[SI]` satellite index with `[NN]` GLONASS slots, `[E*]`/`[*E]` C/N0 per signal slot, `[~~]`/`[RD]` time |
+| `unicore` | Unicore N4 binary logs (added after 0.41.0, read only) | `BESTNAV` position, `OBSVM` C/N0 per satellite and signal |
 
 Details, sources and limits of these three: [`MACHINE-INPUTS.md`](MACHINE-INPUTS.md).
 
@@ -231,8 +231,7 @@ ratios and their points. For a vessel the epoch's state is the band of its score
 ## Geometry: natural degradation apart from attack-like inconsistency
 
 A receiver beside a quay crane, in a lock or under a high hull loses satellites and its fix gets
-worse for a reason that is not an attack. From 0.36, following the geometry design note
-(`docs/design/2026-10-12-geometry-and-skyline-design.md`, section 4), every epoch carries its
+worse for a reason that is not an attack. From 0.36, every epoch carries its
 **satellite geometry**, a vessel's score has a **geometry monitor**, and every deduction carries a
 **class**: `geometry` (the sky), `environment` (the signal environment) or `inconsistency`
 (attack-like evidence).
@@ -324,15 +323,15 @@ give no stated DOP.
 
 | `[geometry]` key | Default | Provenance |
 |---|---|---|
-| `hdop_max` | 4 | chosen (design note 4.2): at `sigma_uere_m` 1.5 m, HDOP 4 is a 2drms of 12 m, the kinematic check's `kin_pos_tol_m`. IEC 61108-1 is commonly cited as stating its accuracy requirements for HDOP ≤ 4 (or PDOP ≤ 6): recalled from secondary GNSS receiver literature, no specific secondary source consulted and the standard not read; to be checked against the standard's text |
+| `hdop_max` | 4 | chosen: at `sigma_uere_m` 1.5 m, HDOP 4 is a 2drms of 12 m, the kinematic check's `kin_pos_tol_m`. IEC 61108-1 is commonly cited as stating its accuracy requirements for HDOP ≤ 4 (or PDOP ≤ 6): recalled from secondary GNSS receiver literature, no specific secondary source consulted and the standard not read; to be checked against the standard's text |
 | `pdop_max` | 6 | the PDOP availability threshold of `scenarios/polar-arctic-leo-coverage.toml`; GPS SPS Performance Standard, 5th ed. (2020), PDOP ≤ 6, as cited in `tests/constellation_availability_published_spec_oracle.rs`; to be checked against the standard's text |
 | `min_used` | 5 | one more than a fix needs, so a single loss does not end the fix; the fewest with one redundant measurement for RAIM |
 | `sigma_uere_m` | 1.5 | a stated input for the 2drms link of `hdop_max`; set the receiver's own figure |
-| `reported_vs_derived_tol` | 1.0 HDOP | chosen (design note 4.2): the absolute part of the tolerance; a disagreement beyond the tolerance is not geometry |
+| `reported_vs_derived_tol` | 1.0 HDOP | chosen: the absolute part of the tolerance; a disagreement beyond the tolerance is not geometry |
 | `reported_vs_derived_rel` | 0.25 | REPRESENTATIVE engineering choice: the relative part, for receivers with per-constellation clocks or subset solutions |
-| `low_elev_deg` | 15 | design note 4.3: satellites lost below it are lost to the sky; a skyline (0.36 item 1) will extend this |
+| `low_elev_deg` | 15 | chosen: satellites lost below it are lost to the sky; a stated `[skyline]` extends this |
 | `azimuth_gap_deg` | 180 | geometric, informational: every satellite in one half of the horizon |
-| `cap_points` | 15 | design note 4.2: geometry alone moves the score from nominal into degraded and never to untrusted; deducted only when the geometry is poor (founder decision B1, 0.36) |
+| `cap_points` | 15 | chosen (0.36): geometry alone moves the score from nominal into degraded and never to untrusted; deducted only when the geometry is poor |
 | `full_ratio` | 1.5 | the score's own `full_ratio`: the ramp reaches `cap_points` at 1.5 times the poor thresholds |
 | `floor` | the score's `degraded_min` (55) | geometry alone never reaches the untrusted band; the cap in force is `min(cap_points, 100 - floor)`; a floor below `degraded_min` is refused |
 | `hdop_good` | 2 | REPRESENTATIVE, the label only: half of `hdop_max` (the 0.35 score's onset ratio) |

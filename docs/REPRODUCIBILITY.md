@@ -53,8 +53,8 @@ the unit tests.
 The **build profile** matters in the same way, on one machine. An optimised build on
 macOS merges a sine and a cosine of one argument into a single call to the system's
 combined routine, whose sine differs from the lone `sin` in the last bit for 379 of
-200 000 arguments; an unoptimised build makes the two calls. Measured on aarch64 macOS
-over the 138 scenario files, a debug and a release build of one source give
+200 000 arguments; an unoptimised build makes the two calls. Measured at 0.29.0 on aarch64 macOS
+over the 138 scenario files of that release, a debug and a release build of one source give
 byte-identical result documents for 102. The other 36 differ in the last places: 28
 within 1e-6, one (`leo-ppp-convergence`) by 2.8e-6, and seven campaigns only in the
 digests of their member runs; none differs in a label, a count or a verdict. The
@@ -90,7 +90,8 @@ builds on a different OS. Instead:
 - **`scripts/check-reproducible.sh`** enforces byte-identical output across two
   runs *on the same machine* (the determinism guarantee).
 - **The `reproducibility-matrix` CI job** runs the four tests above
-  (`cross_platform_golden`, `golden`, `determinism`, `sgp4_verification`) on
+  (`cross_platform_golden`, `golden`, `determinism`, `sgp4_verification`), with
+  other determinism tests, on
   **ubuntu-latest, macos-latest, and windows-latest**, so cross-platform
   reproducibility is asserted on every push — the shape/input goldens exactly,
   the numerics to 1e-6, and the SGP4 (Simplified General Perturbations 4) states to 2e-5 km — rather than relying on a
@@ -116,7 +117,7 @@ package, which carries this same SBOM inside its tarball). Platform-conditional
 dependencies for every target are included, since the wheels ship for several
 operating systems and the npm package targets WebAssembly. One document covers
 all three artifacts, so for any single one it is a superset. It currently lists
-107 components; the count is pinned in
+148 components; the count is pinned in
 `tests/fixtures/reproducibility_software_assurance/`. The standalone
 `kshana-mcp` server has its own manifest and is not described by this SBOM.
 
