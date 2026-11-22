@@ -2,7 +2,7 @@
 
 An open set of tasks, splits and metrics for GNSS interference detection and timing holdover. The
 specification is [`bench/SPEC.md`](../bench/SPEC.md) (version 2.0.0; licence of the text and manifests:
-CC-BY-4.0 / CC0 proposed, owner decision pending). The dataset licence review is
+CC-BY-4.0 / CC0 proposed, not yet decided). The dataset licence review is
 [`bench/LICENCES.md`](../bench/LICENCES.md). The baselines' bars were fixed before the first scored run in
 [`xval/bench/PREREGISTRATION.md`](../xval/bench/PREREGISTRATION.md) and, for 2.0.0, [`PREREGISTRATION-v2.md`](../xval/bench/PREREGISTRATION-v2.md) and their results are in
 [`xval/bench/RESULTS-v2.md`](../xval/bench/RESULTS-v2.md).
@@ -108,7 +108,7 @@ predictions, and the metrics. Results of different major spec versions are never
 - Tasks (f) and (g) use their publishers' public data, so their public splits hide nothing: task (f)
   refuses `--split holdout` on the public file, and the holdout traces of task (g) under the public split rule
   are public like those of task (a).
-- **Private holdout of tasks (f) and (g)** (owner decision, 20 November 2026; spec section 4). The owner keeps
+- **Private holdout of tasks (f) and (g)** (decided 20 November 2026; spec section 4). The owner keeps
   a truth file of cases that are not public (further labelled housekeeping segments for (f), phone traces
   with ground truth for (g)) outside the repository. `kshana bench holdout truth` builds it (every case of the
   private data is holdout) and refuses to write inside a checkout; `register` prints the entry the owner

@@ -1,6 +1,6 @@
 # Interference map: data source licence review
 
-Status: **APPROVED by the coordinator on 2026-10-09 with the decisions recorded at the end.** Reviewed 2026-10-09 from the publishers' own pages where reachable. This is an
+Status: **Decided on 2026-10-09; the decisions are recorded at the end.** Reviewed 2026-10-09 from the publishers' own pages where reachable. This is an
 engineering review, not legal advice; items marked *unverified* must be confirmed
 against the live licence text before any ingest helper is written.
 
@@ -20,7 +20,7 @@ callsign, name). Aggregation is the only output form.
 
 | Source | Licence | Commercial use | Derived-map redistribution | Attribution | Rate limits | Verdict |
 |---|---|---|---|---|---|---|
-| adsb.lol daily history archives (`globe_history_YYYY`, readsb gzip JSON, GitHub releases) | ODbL 1.0 for the database; contributor feed data dedicated CC0 | Yes (ODbL permits commercial use) | Yes, with a condition: a *Produced Work* (a rendered map image) may carry any licence with attribution; a *Derived Database* (a published per-cell GeoJSON table) must be offered under ODbL | ODbL notice: credit adsb.lol as source and link the licence; suggested text below. The repository states no further format | None stated for the GitHub release downloads | **Conditional pass.** Needs a coordinator decision on the share-alike condition (see Open questions) |
+| adsb.lol daily history archives (`globe_history_YYYY`, readsb gzip JSON, GitHub releases) | ODbL 1.0 for the database; contributor feed data dedicated CC0 | Yes (ODbL permits commercial use) | Yes, with a condition: a *Produced Work* (a rendered map image) may carry any licence with attribution; a *Derived Database* (a published per-cell GeoJSON table) must be offered under ODbL | ODbL notice: credit adsb.lol as source and link the licence; suggested text below. The repository states no further format | None stated for the GitHub release downloads | **Conditional pass.** The share-alike condition is settled by decision 1 (see Decisions) |
 | OpenSky Network (historical and live) | OpenSky data licence agreement | No. Licence covers non-profit research, non-profit education, internal commercial testing and evaluation, and government purposes only | Not granted | n/a | Account tiers apply | **Excluded** (non-commercial) |
 | ADS-B Exchange (historical, API) | Proprietary terms | No for free access. Commercial use, including internal, needs a paid written agreement | No bulk redistribution without consent | n/a | Paid tiers | **Excluded** |
 | airplanes.live | Page returned HTTP 403 to the review, terms not read | *unverified* | *unverified* | *unverified* | *unverified* | **Excluded pending review** |
@@ -54,16 +54,16 @@ https://data.norge.no/nlod/en/2.0".
 Natural Earth 1:10m is coarse (nominal accuracy of the order of a kilometre). The
 on-land detector must therefore use a stated coastal buffer (a position counts as on land
 only when it lies more than the buffer inland). That is a method decision recorded in the
-method document, not a licence matter. The land polygons would be vendored only if the
-coordinator approves the size; otherwise the CLI takes a user-supplied file.
+method document, not a licence matter. The land polygons are not vendored (decision 4); the CLI takes a
+user-supplied file.
 
 ## Rate limits and fetch helpers
 
 None of the passing sources states a rate limit on bulk files. Default tests use only
-synthetic fixtures and no network. Optional fetch helpers, if approved, sit behind an
+synthetic fixtures and no network. Optional fetch helpers sit behind an
 explicit flag, send an identifying User-Agent, and download one file at a time.
 
-## Open questions for the coordinator
+## Questions that were decided
 
 1. **ODbL share-alike (adsb.lol).** Published per-cell day files are probably a Derived
    Database. Options: (a) approve, and release interference-map GeoJSON that uses adsb.lol
@@ -75,11 +75,11 @@ explicit flag, send an identifying User-Agent, and download one file at a time.
 2. **Mixed-source outputs.** ADS-B days (ODbL) and AIS days (public domain / NLOD) must
    stay in separate files, each carrying its own licence, so that the ODbL does not attach
    to the AIS layer.
-3. **Sources marked "pending".** Do you want me to chase airplanes.live, the Danish
-   authority and Digitraffic (read live terms or contact the publisher), or leave them out
-   of 0.35.0? Recommended: leave out.
+3. **Sources marked "pending".** Pursue airplanes.live, the Danish authority and
+   Digitraffic (read live terms or contact the publisher), or leave them out of 0.35.0?
+   Recommended: leave out.
 4. **Coastline file.** Vendor Natural Earth 1:10m land polygons (about 10 MB as
-   GeoJSON, so I would simplify to the area needed), or take it as user input only?
+   GeoJSON, to be simplified to the area needed), or take it as user input only?
 5. **Identifiers.** Confirm that readers may parse MMSI and ICAO hex in memory for
    "distinct aircraft or vessel" counting but must never write or log them. Counting uses
    a per-run salted hash that is not persisted.
@@ -92,7 +92,7 @@ explicit flag, send an identifying User-Agent, and download one file at a time.
 - Excluded: OpenSky, ADS-B Exchange, commercial AIS vendors; pending: airplanes.live,
   Danish Maritime Authority, Digitraffic.
 
-## Decisions (coordinator, 2026-10-09)
+## Decisions (2026-10-09)
 
 1. adsb.lol approved. Published per-cell ADS-B GeoJSON is released under ODbL 1.0 with the
    licence and attribution embedded in the file; Kshana code stays AGPL; commercial editions
