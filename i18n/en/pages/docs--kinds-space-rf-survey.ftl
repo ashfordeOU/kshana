@@ -22,7 +22,7 @@ seg-e4e2ee13862b = Contact sheet of the charts the engine writes for the kinds o
 seg-4e31c8daf798 = Ledger
 
 # text
-seg-e1856446a9cc = MODELLED revisit and tip-and-cue latency of a two-layer maritime survey over the Baltic Sea: an RF survey layer and an optical layer, each a Walker star pattern of { "550" } km sun-synchronous orbits propag
+seg-d12255a17fd0 = MODELLED revisit and tip-and-cue latency of a two-layer maritime survey over the Baltic Sea: an RF survey layer and an optical layer, each a Walker star pattern of { "550" } km sun-synchronous orbits…
 
 # text
 seg-efd15cff3d32 = MODELLED (result label)

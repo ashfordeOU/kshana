@@ -579,7 +579,8 @@ seg-7487c6f9ed18 = Every other abbreviation, A to Z
 
 # text
 # c1: docs/
-seg-56f6039bb38a = Every abbreviation used in the repository documentation (<c1/> and the four READMEs) that no section above defines, plus a few that one does, repeated for lookup. Each page also spells its abbreviations out at first use; this table is the one place to look them all up. A few entries are identifiers or names rather than abbreviations, and say so.
+# c2: README.md
+seg-e40a4894fa91 = Every abbreviation used in the repository documentation (<c1/> and the four English READMEs: <c2/> and the crates.io, PyPI and npm front pages) that no section above defines, plus a few that one does, repeated for lookup. Each page also spells its abbreviations out at first use; this table is the one place to look them all up. A few entries are identifiers or names rather than abbreviations, and say so.
 
 # text
 seg-5907283b71da = Abbreviation

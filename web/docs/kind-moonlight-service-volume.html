@@ -189,7 +189,7 @@
 </tr>
 <tr>
 <td><code>evidence.id_rule</code></td>
-<td>the stable id of the matrix row (the ID</td>
+<td>the stable id of the matrix row (the…</td>
 <td>text</td>
 </tr>
 <tr>
@@ -228,19 +228,19 @@
 <h2 id="evidence">Evidence<a class="anchor" href="#evidence" aria-label="Link to this section">#</a></h2>
 <p>MODELLED: the <a href="/docs/verification-matrix">verification matrix</a> rows that name this kind.</p>
 <ul>
-<li><strong>MODELLED</strong> The <code>lunar-surface</code> kind and phase: relay availability and PDOP, Earth and Sun visibility and a disciplined surface clock for each site and season, with the terrain skyline of <code>moonlight-service-volume</code>; a single-site run equals that kind&#39;s</li>
+<li><strong>MODELLED</strong> The <code>lunar-surface</code> kind and phase: relay availability and PDOP, Earth and Sun visibility and a disciplined surface clock for each site and season, with the terrain skyline of <code>moonlight-service-volume</code>; a single-site run equals that…</li>
 </ul>
 <p>The rows the run itself exercised, with the oracle the matrix gives each (the public sources are named there):</p>
 <ul>
 <li><strong>MODELLED</strong> Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): SBOM conformance to the official CycloneDX 1.5 JSON Schema (+ valid SPDX identifiers) — an external published standard, zero validation errors over the full dependency graph; the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED</li>
 <li><strong>VALIDATED</strong> Moonlight-class lunar DOP / coverage / availability + generalised lunar ARAIM protection levels over a service volume. Oracle (ExternalDataset): Independent third-party authority ANISE 0.10.2 astro::Orbit Keplerian propagator (Nyx Space, MPL-2.0) — an equinoctial two-body code path distinct from kshana&#39;s Newton-Raphson Kepler; per-satellite MCI position agrees to &lt;1e-3 m and the derived visible-satellite count/set matches exactly at every grid point. The DOP kernel is gnss_lib_py-validated; integrity uses published LunaNet/LCNS parameters</li>
-<li><strong>VALIDATED</strong> Per-satellite topocentric look angles (azimuth clockwise from north, elevation) and slant range at a named selenographic site, given the satellite in the site&#39;s. Oracle (ExternalDataset): ANISE 0.10.2 (Nyx Space, MPL-2.0, run as a tool from xval/anise-service-geometry, binary lunar-look-angles-xval, which calls no Kshana code): ANISE&#39;s own azimuth, elevation and range routine (azimuth_elevation_range_sez) from sites built by its latitude-longitude-altitude constructor on the pck00011 Moon (sphere 1737.4 km), with the satellites rotated into MOON_PA_DE440 through moon_pa_de440_200625.bpc. 768 samples o</li>
+<li><strong>VALIDATED</strong> Per-satellite topocentric look angles (azimuth clockwise from north, elevation) and slant range at a named selenographic site, given the satellite in the…. Oracle (ExternalDataset): ANISE 0.10.2 (Nyx Space, MPL-2.0, run as a tool from xval/anise-service-geometry, binary lunar-look-angles-xval, which calls no Kshana code): ANISE&#39;s own azimuth, elevation and range routine (azimuth_elevation_range_sez) from sites built by its latitude-longitude-altitude constructor on the pck00011 Moon (sphere 1737.4 km), with the satellites rotated into MOON_PA_DE440 through moon_pa_de440_200625.bpc. 768 samples…</li>
 </ul>
 <h2 id="limitations">Limitations<a class="anchor" href="#limitations" aria-label="Link to this section">#</a></h2>
 <p>What the run&#39;s own report says is not modelled or not validated:</p>
 <ul>
 <li>MODELLED composition: a circular-/elliptical-Keplerian relay set (not the real differential-corrected LCNS/NRHO ephemeris), a mean-rotation Moon (no libration/precessing pole). (kind catalogue (<code>kshana kinds --json</code>))</li>
-<li>HONESTY: MODELLED composition. The DOP geometry is validated BY REUSE of the validated kernel; the coverage / availability / integrity composition is MODELLED — a circular-/ elliptical-Keplerian relay set (not a differential-corrected LCNS / 9:2 NRHO ephemeris), a mean-rotation Moon (no physical libration / precessing pole), and published LunaNet LNIS integrity parameters. This demonstrates the lunar service-volume M (scenario file comment, lines 27 to 32)</li>
+<li>HONESTY: MODELLED composition. The DOP geometry is validated BY REUSE of the validated kernel; the coverage / availability / integrity composition is MODELLED — a circular-/ elliptical-Keplerian relay set (not a differential-corrected LCNS / 9:2 NRHO ephemeris), a mean-rotation Moon (no physical libration / precessing pole), and published LunaNet LNIS integrity parameters. This demonstrates the lunar service-volume… (scenario file comment, lines 27 to 32)</li>
 <li>Reproducibility &amp; software assurance is MODELLED, not validated: a sub-claim is externally checked, but the whole capability composes modelled pieces, so the capability stays Modelled. (verification matrix (docs/MODELLED-RATIONALE.md))</li>
 </ul>
 <h2 id="see-also">See also<a class="anchor" href="#see-also" aria-label="Link to this section">#</a></h2>

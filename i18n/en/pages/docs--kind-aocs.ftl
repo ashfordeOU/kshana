@@ -51,7 +51,7 @@ seg-8e4dea0df19e = kg m^{ "2" }
 
 # text
 # c1: scenarios/
-seg-51362910dcb7 = { "2" } bundled scenarios use this kind; the others are in <a1><c1/></a1>.
+seg-2224c257616c = { "2" } scenario files in <a1><c1/></a1> use this kind.
 
 # text
 seg-b054c73f22e5 = no value
@@ -66,16 +66,16 @@ seg-08c624d5324d = The chart the engine writes for scenarios/aocs-slew.toml, kin
 seg-67fb8ac75f36 = MODELLED { "1" } · VALIDATED { "1" }: the <a1>verification matrix</a1> rows that name this kind.
 
 # text
-seg-d69a588facf1 = <b>VALIDATED</b> Inertial-pointing attitude control of a rigid hub with three or more balanced reaction wheels: the MRP feedback law L_r = -K sigma_BR - P omega_BR (Schaub and Junkins), minimum-norm wheel motor torques G_s u = -L_r clipped to each wheel's l Tests: <a1>aocs_basilisk_oracle.rs</a1>.
+seg-38ea737c9502 = <b>VALIDATED</b> Inertial-pointing attitude control of a rigid hub with three or more balanced reaction wheels: the MRP feedback law L_r = -K sigma_BR - P omega_BR (Schaub and Junkins), minimum-norm wheel motor torques G_s u = -L_r clipped to each wheel's… Tests: <a1>aocs_basilisk_oracle.rs</a1>.
 
 # text
-seg-7bc495b05d9a = <b>MODELLED</b> The Lefferts-Markley-Shuster multiplicative EKF: body-frame attitude error and gyro bias states, propagation with the gyro rate less the bias estimate and Farrenkopf's discrete process noise (angle and rate random walk), star-tracker update
+seg-09304e2ce15a = <b>MODELLED</b> The Lefferts-Markley-Shuster multiplicative EKF: body-frame attitude error and gyro bias states, propagation with the gyro rate less the bias estimate and Farrenkopf's discrete process noise (angle and rate random walk), star-tracker…
 
 # text
-seg-7e3e0dcc936f = <b>VALIDATED</b> Inertial-pointing attitude control of a rigid hub with three or more balanced reaction wheels: the MRP feedback law L_r = -K sigma_BR - P omega_BR (Schaub and J. Oracle (ExternalDataset): Basilisk { "2.9.1" } (AVSLab, ISC; the bsk wheel run as a separate tool, never linked or vendored): spacecraft hub, reactionWheelStateEffector (BalancedWheels, torque limit on), simpleNav, inertial3D, attTrackingError, mrpFeedback (no integral term) and rwMotorTorque at dt = { "0.1" } s with its RK4, against Kshana's own implementation on three cases (three orthogonal wheels; a four-wheel pyramid; a saturating four-wheel case),
+seg-566ad30a16e3 = <b>VALIDATED</b> Inertial-pointing attitude control of a rigid hub with three or more balanced reaction wheels: the MRP feedback law L_r = -K sigma_BR - P omega_BR (Schaub and…. Oracle (ExternalDataset): Basilisk { "2.9.1" } (AVSLab, ISC; the bsk wheel run as a separate tool, never linked or vendored): spacecraft hub, reactionWheelStateEffector (BalancedWheels, torque limit on), simpleNav, inertial3D, attTrackingError, mrpFeedback (no integral term) and rwMotorTorque at dt = { "0.1" } s with its RK4, against Kshana's own implementation on three cases (three orthogonal wheels; a four-wheel pyramid; a saturating four-wheel…
 
 # text
-seg-d7889856073b = <b>MODELLED</b> The Lefferts-Markley-Shuster multiplicative EKF: body-frame attitude error and gyro bias states, propagation with the gyro rate less the bias estimate and Farre. Oracle (InternalConsistency): Internal consistency: the filter's normalised estimation error squared against truth simulated from the same sensor models over Monte Carlo seeds, and convergence of the attitude and bias estimates. WHAT IS NOT: no external estimator or flight data has been compared (Basilisk { "2.9.1" } has no MEKF module); the sensor models are the textbook ones, without misalignment, scale factor or star-tracker field-of-view effects.
+seg-00faffa81230 = <b>MODELLED</b> The Lefferts-Markley-Shuster multiplicative EKF: body-frame attitude error and gyro bias states, propagation with the gyro rate less the bias estimate and…. Oracle (InternalConsistency): Internal consistency: the filter's normalised estimation error squared against truth simulated from the same sensor models over Monte Carlo seeds, and convergence of the attitude and bias estimates. WHAT IS NOT: no external estimator or flight data has been compared (Basilisk { "2.9.1" } has no MEKF module); the sensor models are the textbook ones, without misalignment, scale factor or star-tracker field-of-view effects.
 
 # text
 # c1: kshana kinds --json

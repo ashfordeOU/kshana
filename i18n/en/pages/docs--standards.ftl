@@ -428,7 +428,7 @@ seg-014d1392018e = Honest scope
 seg-017c026df3d7 = OEM, TDM, Space Packet, KIF, SigMF and the LEO navigation-message text are <b>read and write</b>; OMM, CZML, KML and STK ephemeris are <b>writers</b> (an OMM reader and the XML serialization are follow-ons); GeoJSON is written and read back as a route; RINEX NAV, RINEX OBS, IONEX, the IERS EOP products and TLE are <b>readers</b>; the LunaNet/IOAG lunar export is a writer whose time metadata round-trips. <a1><c1/></a1> lists which export applies to every bundled scenario.
 
 # text
-seg-68b4f5116419 = The CCSDS/IGS field mapping above is documentation, not a statement that any standard is met; formal assessment against those standards (and registration in the ESA (European Space Agency) ESSR (European Space Software Repository) / NASA (National Aeronautics and Space Administration) open catalogue) is tracked separately and is pending review.
+seg-205b187d6992 = The CCSDS/IGS field mapping above is documentation, not a statement that any standard is met; formal assessment against those standards (and registration in the ESA (European Space Agency) ESSR (European Space Software Repository) / NASA (National Aeronautics and Space Administration) open catalogue) has not been done.
 
 # text
 # c1: xval/anise-frames/

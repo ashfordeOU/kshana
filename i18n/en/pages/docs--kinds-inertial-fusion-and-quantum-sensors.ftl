@@ -25,19 +25,16 @@ seg-4e31c8daf798 = Ledger
 seg-bdedf28adc48 = 1-DOF inertial dead-reckoning during a GNSS outage.
 
 # text
-seg-c2245de16d5f = MODELLED { "6" } · VALIDATED { "2" }
-
-# text
 seg-22cd963c7042 = Hybrid PNT capstone: clock + IMU + time-transfer aiding.
 
 # text
 seg-ec26df467b88 = Joint Kalman sensor-fusion PNT over the same hybrid inputs.
 
 # text
-seg-be0cfeeb1680 = MODELLED { "4" } · VALIDATED { "4" }
+seg-436e412d99fd = MODELLED { "1" } · VALIDATED { "1" }
 
 # text
-seg-084cf4eeccb5 = 17-state hybrid quantum+classical tightly-coupled GNSS/INS UKF (MODELLED): { "15" } INS error states + CAI-derived accel-bias correction + a 2-state (phase+frequency) clock from the q-parameter clock engine
+seg-4662c0475b3f = 17-state hybrid quantum+classical tightly-coupled GNSS/INS UKF (MODELLED): { "15" } INS error states + CAI-derived accel-bias correction + a 2-state (phase+frequency) clock from the q-parameter clock…
 
 # text
 seg-efd15cff3d32 = MODELLED (result label)
@@ -52,13 +49,13 @@ seg-a7d3c32b29b3 = INS/TRN coasting error model: position error against coast du
 seg-6e0cb6acc073 = VALIDATED
 
 # text
-seg-beb568dec44f = MODELLED GNSS-free quantum navigation: during a GNSS outage, a quantum (cold-atom interferometer) inertial budget vs a classical navigation-grade INS — position-error growth over the coast, holdover t
+seg-b9687e2d6957 = MODELLED GNSS-free quantum navigation: during a GNSS outage, a quantum (cold-atom interferometer) inertial budget vs a classical navigation-grade INS — position-error growth over the coast, holdover…
 
 # text
-seg-d948ea4d1f33 = MODELLED fault/anomaly detection for quantum PNT systems: a labelled fault catalog (clock frequency-jump/drift/lock-loss; sensor bias-step/dropout), a detection-statistic ROC AUC (with a bootstrap CI
+seg-b2750328d0ae = MODELLED fault/anomaly detection for quantum PNT systems: a labelled fault catalog (clock frequency-jump/drift/lock-loss; sensor bias-step/dropout), a detection-statistic ROC AUC (with a bootstrap…
 
 # text
-seg-48e72d451a50 = Quantum-vs-classical PNT trade ({ "13503" }): timing-holdover + inertial-holdover benefit of a candidate clock (a measured-ADEV curve — the defensibility hinge — or a quantum clock class) vs a classical bas
+seg-e0aebd173773 = Quantum-vs-classical PNT trade: timing-holdover + inertial-holdover benefit of a candidate clock (a measured-ADEV curve — the defensibility hinge — or a quantum clock class) vs a classical baseline…
 
 # text
 seg-d1c67e3dd12e = MODELLED { "1" } · VALIDATED { "2" }
@@ -74,7 +71,7 @@ seg-d1c67e3dd12e = MODELLED { "1" } · VALIDATED { "2" }
 seg-5330b47bc0b6 = Required fields: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>. Optional: <c7/>.
 
 # text
-seg-75867e8b4b4f = <b>Ledger:</b> MODELLED { "6" } · VALIDATED { "2" }. Full page, with the inputs, results, evidence and limitations: <a1>inertial</a1>.
+seg-a0e2441e8339 = <b>Ledger:</b> MODELLED. Full page, with the inputs, results, evidence and limitations: <a1>inertial</a1>.
 
 # attr:alt
 seg-873c402bb724 = The chart the engine writes for scenarios/imu-deadreckoning.toml, kind inertial
@@ -113,7 +110,7 @@ seg-52378a7b074c = The chart the engine writes for scenarios/hybrid-pnt.toml, ki
 seg-3246c9e1e0cb = Required fields: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>. Optional: <c11/>.
 
 # text
-seg-e2bd8fd0d9e5 = <b>Ledger:</b> MODELLED { "4" } · VALIDATED { "4" }. Full page, with the inputs, results, evidence and limitations: <a1>fusion</a1>.
+seg-d2e067ae4bc2 = <b>Ledger:</b> MODELLED { "1" } · VALIDATED { "1" }. Full page, with the inputs, results, evidence and limitations: <a1>fusion</a1>.
 
 # attr:alt
 seg-c8a1c797f4b1 = The chart the engine writes for scenarios/fusion-pnt.toml, kind fusion
@@ -235,7 +232,7 @@ seg-2f1d14239d1a = The chart the engine writes for scenarios/quantum-anomaly-det
 # c1: candidate_adev_taus
 # c2: candidate_adev_values
 # c3: candidate_clock_class
-seg-eb55d253dd11 = Quantum-vs-classical PNT trade ({ "13503" }): timing-holdover + inertial-holdover benefit of a candidate clock (a measured-ADEV curve — the defensibility hinge — or a quantum clock class) vs a classical baseline class, with the long-tau floor-assumption caveat carried on the artifact, plus a GNSS-denied resilience-vs-time envelope. MODELLED; quantifies (never validates) a partner device. The candidate clock is a measured curve (<c1/> + <c2/>, equal length, at least { "2" } points; it wins when both forms are given) or a <c3/>.
+seg-d27be9784876 = Quantum-vs-classical PNT trade: timing-holdover + inertial-holdover benefit of a candidate clock (a measured-ADEV curve — the defensibility hinge — or a quantum clock class) vs a classical baseline class, with the long-tau floor-assumption caveat carried on the artifact, plus a GNSS-denied resilience-vs-time envelope. MODELLED; quantifies (never validates) a partner device. The candidate clock is a measured curve (<c1/> + <c2/>, equal length, at least { "2" } points; it wins when both forms are given) or a <c3/>.
 
 # text
 # c1: timing_threshold_s

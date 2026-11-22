@@ -28,10 +28,10 @@ seg-fd2a12be04c2 = Lunar south-pole ARAIM protection-level pass vs a representat
 seg-efd15cff3d32 = MODELLED (result label)
 
 # text
-seg-240eb5858113 = Modelled relativistic Earth–Moon clock rate (Lunar Coordinate Time, LTC/TCL): the secular LTC−TT rate from the self-potential difference and the Moon's kinetic term, reported with the published { "56" }–{ "59" }
+seg-00e862cd97da = Modelled relativistic Earth–Moon clock rate (Lunar Coordinate Time, LTC/TCL): the secular LTC−TT rate from the self-potential difference and the Moon's kinetic term, reported with the published…
 
 # text
-seg-177bff8d753e = MODELLED end-to-end Coordinated Lunar Time (LTC) time-error budget: the seven LTC error terms assembled as time-error curves x_i(τ) over a whole averaging-time grid, root-summed into x_Σ(τ), and the c
+seg-01cacd87c7e8 = MODELLED end-to-end Coordinated Lunar Time (LTC) time-error budget: the seven LTC error terms assembled as time-error curves x_i(τ) over a whole averaging-time grid, root-summed into x_Σ(τ), and the…
 
 # text
 seg-3505720b0990 = MODELLED powered ascent from a south-polar surface site to the rendezvous orbit, and the position-velocity covariance it carries back to orbit (Artemis-class).
@@ -52,22 +52,22 @@ seg-df0437ef8324 = Modelled lunar geodetic VLBI delay observable: an Earth basel
 seg-528223b4d676 = MODELLED { "3" } · VALIDATED { "3" }
 
 # text
-seg-38254487fb7f = Lunar-VLBI station-coordinate covariance: the delay partials of the lunar-vlbi observable accumulated over an explicit SCHEDULE (baselines x epochs) into a Fisher information matrix, inverted, and rep
+seg-0429f4eb1924 = Lunar-VLBI station-coordinate covariance: the delay partials of the lunar-vlbi observable accumulated over an explicit SCHEDULE (baselines x epochs) into a Fisher information matrix, inverted, and…
 
 # text
 seg-02706b96f8fa = MODELLED { "3" } · VALIDATED { "2" }
 
 # text
-seg-23706714da99 = Modelled joint multi-technique lunar OD + clock batch estimator on a SIMULATED network: a Gauss-Newton snapshot fit that fuses Earth-baseline geodetic VLBI delays, lunar-local station↔satellite ranges
+seg-d7cb2516b3c3 = Modelled joint multi-technique lunar OD + clock batch estimator on a SIMULATED network: a Gauss-Newton snapshot fit that fuses Earth-baseline geodetic VLBI delays, lunar-local station↔satellite…
 
 # text
-seg-2359450b3967 = Modelled lunar reference-frame realisation: a 7-parameter Helmert (similarity) datum fit — { "3" } translation, { "3" } small-angle rotation, { "1" } scale — tying an estimated set of selenographic-derived MCMF point c
+seg-0cb122b22553 = Modelled lunar reference-frame realisation: a 7-parameter Helmert (similarity) datum fit — { "3" } translation, { "3" } small-angle rotation, { "1" } scale — tying an estimated set of selenographic-derived MCMF point…
 
 # text
 seg-2a5af9961e99 = Seven-parameter Helmert (similarity) frame datum driven by a SIMULATED OBSERVING CAMPAIGN rather than by an injected transform.
 
 # text
-seg-06f082922143 = MODELLED { "2" } · VALIDATED { "3" }
+seg-31820c06cc22 = MODELLED { "1" } · VALIDATED { "3" }
 
 # text
 seg-3615bea1ea75 = Seven-parameter Helmert lunar frame datum driven by a REAL, ARCHIVED observing campaign rather than a simulated one.
@@ -76,10 +76,10 @@ seg-3615bea1ea75 = Seven-parameter Helmert lunar frame datum driven by a REAL, A
 seg-6e0cb6acc073 = VALIDATED
 
 # text
-seg-5413116b8b42 = Modelled lunar navigation service-volume analysis from an ILLUSTRATIVE, public-source Moonlight/LCNS-class lunar-orbit constellation (not affiliated with ESA): sweeps a selenographic lat/lon grid over
+seg-44927933533f = Modelled lunar navigation service-volume analysis from an ILLUSTRATIVE, public-source Moonlight/LCNS-class lunar-orbit constellation (not affiliated with ESA): sweeps a selenographic lat/lon grid…
 
 # text
-seg-a0e202b3566c = Modelled lunar DIFFERENTIAL PNT (a lunar DGNSS/SBAS analogue): a NovaMoon-class reference station at a KNOWN selenographic location computes per-satellite differential corrections from an ILLUSTRATIVE
+seg-73157ee593aa = Modelled lunar DIFFERENTIAL PNT (a lunar DGNSS/SBAS analogue): a NovaMoon-class reference station at a KNOWN selenographic location computes per-satellite differential corrections from an…
 
 # text
 seg-ed4ec8b6378c = Modelled lunar reference-station coverage: a Monte Carlo sweep of the lunar differential-PNT model over a south-polar user grid and a day of epochs.
@@ -88,26 +88,26 @@ seg-ed4ec8b6378c = Modelled lunar reference-station coverage: a Monte Carlo swee
 seg-aeec32be6092 = Surface-beacon augmentation of a lunar orbital navigation service, as a runnable before/after table.
 
 # text
-seg-b28693368acd = Modelled lunar interoperability export: emits the lunar reference frame, lunar time scale and lunar ephemeris in LunaNet/IOAG-aligned, CCSDS-based interchange forms with round-trip / field conformance
+seg-cbb753ff27c6 = Modelled lunar interoperability export: emits the lunar reference frame, lunar time scale and lunar ephemeris in LunaNet/IOAG-aligned, CCSDS-based interchange forms with round-trip / field…
 
 # text
-seg-d88605893c05 = MODELLED planar cislunar constellation observability (P6): tracks a four-spacecraft differential-corrected planar-DRO constellation with inter-satellite ranging and reports how much of a spacecraft's
+seg-37bc2713bded = MODELLED planar cislunar constellation observability: tracks a four-spacecraft differential-corrected planar-DRO constellation with inter-satellite ranging and reports how much of a spacecraft's…
 
 # text
 seg-8eaec90d1df5 = MODELLED independent-estimator test of the cislunar arc-length observability threshold.
 
 # text
-seg-9619b3d699c6 = Lunar surface-navigation signal-security attack surface (P1): composes the open signal-security analyses into one binary-reachable run.
+seg-152509684148 = Lunar surface-navigation signal-security attack surface: composes the open signal-security analyses into one binary-reachable run.
 
 # text
-seg-64c78e211181 = Lunar-native RF jamming: per-satellite jammer-to-signal ratio, effective C/N₀ and loss of lock for a selenographic surface user under a lunar surface (or raised) jammer, over the illustrative public-s
+seg-ba41aa182668 = Lunar-native RF jamming: per-satellite jammer-to-signal ratio, effective C/N₀ and loss of lock for a selenographic surface user under a lunar surface (or raised) jammer, over the illustrative…
 
 # text
 seg-df68720ee7a5 = Earth-GNSS reception at lunar distance, the weak-signal layer the conflict-resilience paper names and the engine had no model for.
 
 # text
 # c1: study
-seg-e6475fe9f443 = MODELLED studies of the Moon's orbit and surface as navigation and geodetic infrastructure, five studies behind one kind selected by <c1/>: od-consistency (onboard Earth-GNSS orbit determination in
+seg-cf8354e93324 = MODELLED studies of the Moon's orbit and surface as navigation and geodetic infrastructure, five studies behind one kind selected by <c1/>: od-consistency (onboard Earth-GNSS orbit determination…
 
 # text
 seg-4b6daea39f5c = Lunar south-pole ARAIM protection-level pass vs a representative LunaNet relay set. sigma_ure_m exposes the signal-in-space ranging accuracy (protection levels scale linearly with it, so sweeping it answers what ranging accuracy an alert limit requires). Defaults to the historical LNIS-class south-pole case.
@@ -435,7 +435,7 @@ seg-55679aff66db = Seven-parameter Helmert (similarity) frame datum driven by a 
 seg-96efcb8d55d1 = Required fields: none. Optional: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>.
 
 # text
-seg-ce2f0f85dda4 = <b>Ledger:</b> MODELLED { "2" } · VALIDATED { "3" }. Full page, with the inputs, results, evidence and limitations: <a1>lunar-frame-campaign</a1>.
+seg-15b083455619 = <b>Ledger:</b> MODELLED { "1" } · VALIDATED { "3" }. Full page, with the inputs, results, evidence and limitations: <a1>lunar-frame-campaign</a1>.
 
 # attr:alt
 seg-883d94b321b4 = The chart the engine writes for scenarios/lunar-frame-campaign.toml, kind lunar-frame-campaign
@@ -606,13 +606,14 @@ seg-d3b6c5023bcc = Modelled lunar interoperability export: emits the lunar refer
 
 # text
 # c1: frame
-# c2: time_system
-# c3: allow_unregistered_time_system
-# c4: n_states
-# c5: epoch
-# c6: step_min
-# c7: object
-seg-32f4f64aeb3a = Required fields: none. Optional: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>.
+# c2: epoch_tdb
+# c3: time_system
+# c4: allow_unregistered_time_system
+# c5: n_states
+# c6: epoch
+# c7: step_min
+# c8: object
+seg-d4f0708db2a9 = Required fields: none. Optional: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>.
 
 # text
 seg-019ca0f1051e = <b>Ledger:</b> no matrix row names this kind; the engine labels its own result. Full page, with the inputs, results, evidence and limitations: <a1>lunar-interop-export</a1>.
@@ -621,7 +622,7 @@ seg-019ca0f1051e = <b>Ledger:</b> no matrix row names this kind; the engine labe
 seg-0e86ff364c17 = The chart the engine writes for scenarios/lunar-interop-export.toml, kind lunar-interop-export
 
 # text
-seg-7ccd0a3babb8 = MODELLED planar cislunar constellation observability (P6): tracks a four-spacecraft differential-corrected planar-DRO constellation with inter-satellite ranging and reports how much of a spacecraft's four-state [x,y,ẋ,ẏ] the arc makes observable. Emits ({ "1" }) the rank-vs-arc-length table for a single range-only link — instantaneously rank-1, growing toward the full four-state as the arc extends (P6 Table { "1" }); ({ "2" }) the observability-Gramian eigen-spectrum + condition number over the arc; ({ "3" }) the range-only-vs-range+range-rate instantaneous-rank comparison (the Doppler design lever) plus the range-only-singular / range+rate-defined GDOP reporting; and ({ "4" }) an independent SRIF cross-validation whose posterior covariance turns finite / well-conditioned exactly at the arc where the observable rank reaches four. VALIDATED core: the observable rank is a rank-revealing singular-value threshold cross-checked against the Gramian eigen-rank; the eigen-spectrum obeys the spectral invariants (trace=Σλ, det=Πλ, Frobenius²=Σλ²); the variational STM is the finite-difference-validated CR3BP STM; the range/range-rate Jacobian rows are finite-difference-validated analytic partials (cross-checked against the crate's 3-D range-rate observable); the four initial conditions are differential-corrected planar DROs that close to a tight periodicity residual and are retrograde; the rank transition is cross-validated against the crate's square-root information filter (posterior covariance finite exactly at full rank, cond(P)=cond(OᵀO)); a rank-deficient snapshot is flagged GDOP-undefined (fim condition=inf), never a bogus finite value — the same singular-geometry guard pvt::solve_spp applies. MODELLED: the constellation design (DRO perilune amplitudes and phases) and the specific rank progression it produces. Not a certified navigation-performance product.
+seg-96979a5d2316 = MODELLED planar cislunar constellation observability: tracks a four-spacecraft differential-corrected planar-DRO constellation with inter-satellite ranging and reports how much of a spacecraft's four-state [x,y,ẋ,ẏ] the arc makes observable. Emits ({ "1" }) the rank-vs-arc-length table for a single range-only link — instantaneously rank-1, growing toward the full four-state as the arc extends; ({ "2" }) the observability-Gramian eigen-spectrum + condition number over the arc; ({ "3" }) the range-only-vs-range+range-rate instantaneous-rank comparison (the Doppler design lever) plus the range-only-singular / range+rate-defined GDOP reporting; and ({ "4" }) an independent SRIF cross-validation whose posterior covariance turns finite / well-conditioned exactly at the arc where the observable rank reaches four. VALIDATED core: the observable rank is a rank-revealing singular-value threshold cross-checked against the Gramian eigen-rank; the eigen-spectrum obeys the spectral invariants (trace=Σλ, det=Πλ, Frobenius²=Σλ²); the variational STM is the finite-difference-validated CR3BP STM; the range/range-rate Jacobian rows are finite-difference-validated analytic partials (cross-checked against the crate's 3-D range-rate observable); the four initial conditions are differential-corrected planar DROs that close to a tight periodicity residual and are retrograde; the rank transition is cross-validated against the crate's square-root information filter (posterior covariance finite exactly at full rank, cond(P)=cond(OᵀO)); a rank-deficient snapshot is flagged GDOP-undefined (fim condition=inf), never a bogus finite value — the same singular-geometry guard pvt::solve_spp applies. MODELLED: the constellation design (DRO perilune amplitudes and phases) and the specific rank progression it produces. Not a certified navigation-performance product.
 
 # text
 # c1: mu
@@ -674,7 +675,7 @@ seg-5e7bd8bb1adf = <b>Ledger:</b> MODELLED. Full page, with the inputs, results,
 seg-2fe411ae2153 = The chart the engine writes for scenarios/cislunar-arc-recovery.toml, kind cislunar-arc-recovery
 
 # text
-seg-004c56ded47f = Lunar surface-navigation signal-security attack surface (P1): composes the open signal-security analyses into one binary-reachable run. Reports ({ "1" }) the AFS received power and its power SURPLUS versus a terrestrial GPS reference, plus the 12-18 dB sensitivity band as a genuine multi-axis sweep over the link inputs (reference level x EIRP x slant range) with the 25x-rounded / 28x-unrounded linear-factor reconciliation. REVISED (rule R4): this reported a { "15.6" } dB power DEFICIT and a 32x/36x factor until the GPS reference was corrected from -125 / -128.5 (which are the dBm figures) to -155 / -158.5 dBW, the ICD-GPS-200 values the jamming module has always carried. The sign inverts: the modelled lunar AFS signal is { "14.4" } dB STRONGER than terrestrial GPS L1 C/A, not weaker. The received power itself did not move by a bit, and the linear factor is the old one over exactly { "1000" }, which is exactly the { "30" } dB dBm-to-dBW offset; ({ "2" }) the required attacker transmit power to spoof (J/S = { "3" } dB) and to deny (J/S = { "30" } dB) at each standoff, the inverse of the J/S link; ({ "3" }) the orbital capture footprint under a real uniform-aperture antenna pattern (Airy [{ "2" } J1(x)/x]^{ "2" }), an altitude-limited sub-hemispheric cap whose limb is NOT captured; ({ "4" }) a computed tracking-loop spoof-capture pull-in outcome (does a matched-code spoofer at a given power advantage and code offset actually drag the DLL/PLL) rather than the asserted { "3" } dB threshold; ({ "5" }) the airless-body geometric horizon reach of a raised surface transmitter; and ({ "6" }) the OSNMA/TESLA authentication budget ({ "20" } bit/s overhead = ~{ "40" } % of a { "50" } bit/s AFS nav message, key-disclosure latency, { "2" }^-40 forgery). An empty body reproduces the P1 baseline; every input is defaulted and overridable. VALIDATED sub-results carry their source module's oracle (closed-form dB radiometry; inverse-J/S round trip; Airy pattern vs A&S Bessel and spherical-cap geometry; DLL/PLL pull-in vs Kaplan & Hegarty; spherical-tangent horizon identity vs eo_payload; OSNMA SIS-ICD field sizing). MODELLED: the representative geometry/power magnitudes and the specific capture-map cell values. Not a certified security product.
+seg-e7a073101b2f = Lunar surface-navigation signal-security attack surface: composes the open signal-security analyses into one binary-reachable run. Reports ({ "1" }) the AFS received power and its power SURPLUS versus a terrestrial GPS reference, plus the 12-18 dB sensitivity band as a genuine multi-axis sweep over the link inputs (reference level x EIRP x slant range) with the 25x-rounded / 28x-unrounded linear-factor reconciliation. REVISED (rule R4): this reported a { "15.6" } dB power DEFICIT and a 32x/36x factor until the GPS reference was corrected from -125 / -128.5 (which are the dBm figures) to -155 / -158.5 dBW, the ICD-GPS-200 values the jamming module has always carried. The sign inverts: the modelled lunar AFS signal is { "14.4" } dB STRONGER than terrestrial GPS L1 C/A, not weaker. The received power itself did not move by a bit, and the linear factor is the old one over exactly { "1000" }, which is exactly the { "30" } dB dBm-to-dBW offset; ({ "2" }) the required attacker transmit power to spoof (J/S = { "3" } dB) and to deny (J/S = { "30" } dB) at each standoff, the inverse of the J/S link; ({ "3" }) the orbital capture footprint under a real uniform-aperture antenna pattern (Airy [{ "2" } J1(x)/x]^{ "2" }), an altitude-limited sub-hemispheric cap whose limb is NOT captured; ({ "4" }) a computed tracking-loop spoof-capture pull-in outcome (does a matched-code spoofer at a given power advantage and code offset actually drag the DLL/PLL) rather than the asserted { "3" } dB threshold; ({ "5" }) the airless-body geometric horizon reach of a raised surface transmitter; and ({ "6" }) the OSNMA/TESLA authentication budget ({ "20" } bit/s overhead = ~{ "40" } % of a { "50" } bit/s AFS nav message, key-disclosure latency, { "2" }^-40 forgery). An empty body reproduces the P1 baseline; every input is defaulted and overridable. VALIDATED sub-results carry their source module's oracle (closed-form dB radiometry; inverse-J/S round trip; Airy pattern vs A&S Bessel and spherical-cap geometry; DLL/PLL pull-in vs Kaplan & Hegarty; spherical-tangent horizon identity vs eo_payload; OSNMA SIS-ICD field sizing). MODELLED: the representative geometry/power magnitudes and the specific capture-map cell values. Not a certified security product.
 
 # text
 # c1: afs_eirp_dbw

@@ -49,7 +49,7 @@ seg-c5e33c7122e2 = The chart the engine writes for scenarios/terrain-nav.toml, k
 
 # text
 # c1: lunar-descent
-seg-d5da9ee3c152 = <b>MODELLED</b> The <c1/> kind and phase: a five-state per-axis inertial error model (position, velocity, accelerometer bias, tilt, gyro bias) over a powered descent, aided by AFS fixes (standalone or differential, with the clock-aided three-rela
+seg-da539d8e468e = <b>MODELLED</b> The <c1/> kind and phase: a five-state per-axis inertial error model (position, velocity, accelerometer bias, tilt, gyro bias) over a powered descent, aided by AFS fixes (standalone or differential, with the clock-aided…
 
 # text
 seg-0df60ac6343f = <b>MODELLED</b> Gravity-map matching, terrain-referenced (TERCOM/SITAN), magnetic anomaly. Oracle (InternalConsistency): IGRF-14 coefficients; first-principles matched-filter CRLB. The real-field gravity benchmark's field is externally checked (row 'Gravity-anomaly synthesis from a spherical-harmonic model'), but its navigation outcome has no external oracle

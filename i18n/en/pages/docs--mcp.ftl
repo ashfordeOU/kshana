@@ -16,7 +16,7 @@ seg-3d5232472e42 = kshana-mcp: ask your AI assistant, and the engine answers
 seg-ef90bf1e0b51 = <c1/> is a <a1>Model Context Protocol</a1> (MCP) server for <b>Kshana</b>, the open-source simulator for PNT (positioning, navigation and timing) resilience. It lets an AI (artificial intelligence) assistant run the real engine and read back its JSON (JavaScript Object Notation), instead of guessing the maths. It speaks over stdio (standard input and output) to any MCP-compatible client, including Cursor and JetBrains AI Assistant / Junie.
 
 # text
-seg-1fddef4e9a49 = The maths Kshana is validated for is exactly where a language model guesses badly: SGP4 (Simplified General Perturbations { "4" }) orbit propagation, reference frames of the IAU (International Astronomical Union), Allan deviations, GNSS (Global Navigation Satellite System) availability and DOP (dilution of precision), ARAIM (advanced receiver autonomous integrity monitoring) protection levels, GNSS and INS (inertial navigation system) fusion, and quantum-sensor models. Ask a question; the assistant runs a real scenario and gets figures of merit with their provenance and their VALIDATED or MODELLED label.
+seg-7520eedaa769 = The maths Kshana checks against external oracles is exactly where a language model guesses badly: SGP4 (Simplified General Perturbations { "4" }) orbit propagation, reference frames of the IAU (International Astronomical Union), Allan deviations, GNSS (Global Navigation Satellite System) availability and DOP (dilution of precision), ARAIM (advanced receiver autonomous integrity monitoring) protection levels and loosely coupled GNSS and INS (inertial navigation system) fusion; its quantum-sensor models are labelled MODELLED. Ask a question; the assistant runs a real scenario and gets figures of merit with their provenance and their VALIDATED or MODELLED label.
 
 # attr:alt
 seg-d51681f30e8f = One open engine at the centre, with the MCP server as one of its surfaces beside the command line, the Rust library, Python, WebAssembly and Kshana Studio, the Docker image and the JetBrains plugin; every surface runs the same engine, and Kshana Pro depends on it without forking it
@@ -166,7 +166,7 @@ seg-23daf6121ca0 = Score a receiver log against that schedule (<c1/>): per test 
 
 # text
 # c1: kshana jammertest locate-score
-seg-8bd52882e62d = Score where a monitoring network said interference came from (<c1/>, row B2): per report the attributed event, the geodesic error and region containment and size; per event and pooled, error percentiles, coverage per level, time to first location and time to locate; false locations per hour. Checks arithmetic, not any locator's accuracy.
+seg-033ceb6555c2 = Score where a monitoring network said interference came from (<c1/>, pre-registered row B2): per report the attributed event, the geodesic error and region containment and size; per event and pooled, error percentiles, coverage per level, time to first location and time to locate; false locations per hour. Checks arithmetic, not any locator's accuracy.
 
 # text
 # c1: kshana receiver-trust evidence
@@ -297,11 +297,6 @@ seg-b6abad1f2c9d = A kshana-bench submission scored against a truth file, both J
 seg-c7a0d7981bfd = kshana-bench result files rendered as the static leaderboard page (HTML text), each validated first.
 
 # text
-# c1: receiver-trust
-# c2: kshana trust-telemetry
-seg-1ec7117c7825 = A trust stream (JSON lines) or <c1/> result rendered as Prometheus text, CEF or LEEF syslog lines or an OTLP JSON payload, with the <c2/> encoders. Text in the reply: nothing is sent or served and no clock is read. Advisory only.
-
-# text
 seg-0fc2e3928768 = The share of a route's length in degraded, not-degraded, unassessed and not-observed cells of one or more interference maps, optionally within a date range. Unobserved cells are not evidence of a clear route.
 
 # text
@@ -343,7 +338,7 @@ seg-8112428c6226 = A campaign output folder's progress: cells done and pending, 
 
 # text
 # c1: kshana
-seg-8bd76f017ae4 = Each tool is a thin, faithful wrapper over a public function of the <c1/> library — no new simulation logic lives here, so an agent runs exactly the validated engine.
+seg-7f0edf245c9d = Each tool is a thin, faithful wrapper over a public function of the <c1/> library — no new simulation logic lives here, so an agent runs exactly the same engine, with the same labels.
 
 # text
 seg-b37bbaf38900 = The GNSS IQ tools: files in, compact JSON out

@@ -39,17 +39,17 @@ seg-acfef3f325e4 = The example <c1/> sets, among others:
 seg-a53e353706f6 = The chart the engine writes for scenarios/lunar-beacon.toml, kind lunar-beacon
 
 # text
-seg-89e2f6bb2540 = <b>MODELLED</b> Beacon-augmented dilution of precision for a lunar surface user: the visible-satellite line-of-sight rows and the visible-surface-beacon ranging rows are concatenated into one design matrix and evaluated through the shared DOP kernel, and t Tests: <a1>validate_p2_beacon_before_after_table.rs</a1>.
+seg-99fa635552a9 = <b>MODELLED</b> Beacon-augmented dilution of precision for a lunar surface user: the visible-satellite line-of-sight rows and the visible-surface-beacon ranging rows are concatenated into one design matrix and evaluated through the shared DOP kernel, and… Tests: <a1>validate_p2_beacon_before_after_table.rs</a1>.
 
 # text
-seg-654a3554b1e3 = <b>MODELLED</b> Beacon-augmented dilution of precision for a lunar surface user: the visible-satellite line-of-sight rows and the visible-surface-beacon ranging rows are concat. Oracle (ReferenceImpl): The DOP arithmetic is the crate::orbit::dop kernel, separately externally validated against gnss_lib_py in tests/dop_reference.rs; this row does not re-borrow that row's status. The beacon-visibility horizon is the L01 closed form, and sigma = DOP x sigma_URE is the standard GNSS relation (Kaplan and Hegarty, Understanding GPS/GNSS, section { "7" }). Within this row the augmentation itself is checked against an independent
+seg-ef5c244ab058 = <b>MODELLED</b> Beacon-augmented dilution of precision for a lunar surface user: the visible-satellite line-of-sight rows and the visible-surface-beacon ranging rows are…. Oracle (ReferenceImpl): The DOP arithmetic is the crate::orbit::dop kernel, separately externally validated against gnss_lib_py in tests/dop_reference.rs; this row does not re-borrow that row's status. The beacon-visibility horizon is the L01 closed form, and sigma = DOP x sigma_URE is the standard GNSS relation (Kaplan and Hegarty, Understanding GPS/GNSS, section { "7" }). Within this row the augmentation itself is checked against an…
 
 # text
 # c1: kshana kinds --json
 seg-4d1fc06e907b = MODELLED: the constellation design, the beacon placement and every error-budget magnitude are illustrative inputs, not a fielded survey or a measured link; only the DOP arithmetic, the horizon closed form and the sigma = DOP x sigma_URE relation are externally anchored. (kind catalogue (<c1/>))
 
 # text
-seg-aaafed663400 = WHAT IS ANCHORED AND WHAT IS NOT Anchored: the DOP assembly is the kernel cross-checked against gnss_lib_py in tests/dop_reference.rs; beacon visibility is the airless-Moon two-height geometric horizon closed form (no atmosphere, so there is no refractive extension and the bound is exact); and sigma = DOP x sigma_URE is the standard relation (Kaplan & Hegarty, Understanding GPS/GNSS, section { "7" }). NOT anchored — MODELL (scenario file comment, lines { "40" } to { "49" })
+seg-526c3fe97b6a = WHAT IS ANCHORED AND WHAT IS NOT Anchored: the DOP assembly is the kernel cross-checked against gnss_lib_py in tests/dop_reference.rs; beacon visibility is the airless-Moon two-height geometric horizon closed form (no atmosphere, so there is no refractive extension and the bound is exact); and sigma = DOP x sigma_URE is the standard relation (Kaplan & Hegarty, Understanding GPS/GNSS, section { "7" }). NOT anchored… (scenario file comment, lines { "40" } to { "49" })
 
 # text
 seg-2516c4208769 = Lunar surface-beacon DOP augmentation is MODELLED, not validated: checked against a separate implementation in this same codebase — independent of the unit under test, but not externally authoritative. (verification matrix (docs/MODELLED-RATIONALE.md))

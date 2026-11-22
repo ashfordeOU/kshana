@@ -11,7 +11,7 @@ seg-5fcf52aba837 = Source: <c1/>
 # c3: xval/bench/PREREGISTRATION.md
 # c4: PREREGISTRATION-v2.md
 # c5: xval/bench/RESULTS-v2.md
-seg-d3c3517e3bb2 = An open set of tasks, splits and metrics for GNSS interference detection and timing holdover. The specification is <a1><c1/></a1> (version { "2.0.0" }; licence of the text and manifests: CC-BY-4.0 / CC0 proposed, owner decision pending). The dataset licence review is <a2><c2/></a2>. The baselines' bars were fixed before the first scored run in <a3><c3/></a3> and, for { "2.0.0" }, <a4><c4/></a4> and their results are in <a5><c5/></a5>.
+seg-ab0f75063c95 = An open set of tasks, splits and metrics for GNSS interference detection and timing holdover. The specification is <a1><c1/></a1> (version { "2.0.0" }; licence of the text and manifests: CC-BY-4.0 / CC0 proposed, not yet decided). The dataset licence review is <a2><c2/></a2>. The baselines' bars were fixed before the first scored run in <a3><c3/></a3> and, for { "2.0.0" }, <a4><c4/></a4> and their results are in <a5><c5/></a5>.
 
 # text
 # c1: agc_k_sigma
@@ -187,7 +187,7 @@ seg-697fecdb3de3 = Tasks (f) and (g) use their publishers' public data, so their
 # c7: KSHANA_BENCH_HOLDOUT_G
 # c8: holdout.private
 # c9: tests/bench_holdout.rs
-seg-2460012fa303 = <b>Private holdout of tasks (f) and (g)</b> (owner decision, { "20" } November { "2026" }; spec section { "4" }). The owner keeps a truth file of cases that are not public (further labelled housekeeping segments for (f), phone traces with ground truth for (g)) outside the repository. <c1/> builds it (every case of the private data is holdout) and refuses to write inside a checkout; <c2/> prints the entry the owner commits to <a1><c3/></a1>: task, SHA-256, number of cases, date, and nothing else. <c4/> reads the truth from <c5/> or <c6/> / <c7/> at run time, refuses a truth whose SHA-256 is not registered for that task, scores it with the public metric code and marks the result <c8/>. The leaderboard accepts a task (f) or (g) holdout row only when it is so marked and its truth hash is registered, and labels its provenance "scored on the private holdout". No private holdout is registered yet. What it protects against: tuning on the evaluation cases. What it does not: a leak by whoever holds the file, or the owner's choice of cases. <c9/> checks that no file in the tree has a registered hash.
+seg-33c20c2ba0f7 = <b>Private holdout of tasks (f) and (g)</b> (decided { "20" } November { "2026" }; spec section { "4" }). The owner keeps a truth file of cases that are not public (further labelled housekeeping segments for (f), phone traces with ground truth for (g)) outside the repository. <c1/> builds it (every case of the private data is holdout) and refuses to write inside a checkout; <c2/> prints the entry the owner commits to <a1><c3/></a1>: task, SHA-256, number of cases, date, and nothing else. <c4/> reads the truth from <c5/> or <c6/> / <c7/> at run time, refuses a truth whose SHA-256 is not registered for that task, scores it with the public metric code and marks the result <c8/>. The leaderboard accepts a task (f) or (g) holdout row only when it is so marked and its truth hash is registered, and labels its provenance "scored on the private holdout". No private holdout is registered yet. What it protects against: tuning on the evaluation cases. What it does not: a leak by whoever holds the file, or the owner's choice of cases. <c9/> checks that no file in the tree has a registered hash.
 
 # text
 # c1: --split holdout

@@ -147,7 +147,7 @@ output NMEA with the maker&#39;s own tool, then read it. The feed is NMEA, as fo
 and SBF are read from files). A device that goes away ends the command as a fault (exit 1), for a
 supervisor to restart; the layer does not reconnect. Tested on a pseudo-terminal loopback
 (<code>tests/receiver_trust_live_serial.rs</code>), including that the master side receives no byte from the command.</p>
-<h2 id="readers-added-in-042-i3-sbp-greis-unicore-and-rtcm-3-observations">Readers added in 0.42 (I3): SBP, GREIS, Unicore, and RTCM 3 observations<a class="anchor" href="#readers-added-in-042-i3-sbp-greis-unicore-and-rtcm-3-observations" aria-label="Link to this section">#</a></h2>
+<h2 id="readers-added-after-release-0410-sbp-greis-unicore-and-rtcm-3-observations">Readers added after release 0.41.0: SBP, GREIS, Unicore, and RTCM 3 observations<a class="anchor" href="#readers-added-after-release-0410-sbp-greis-unicore-and-rtcm-3-observations" aria-label="Link to this section">#</a></h2>
 <p>Read only, as above: none of these readers writes to a receiver. Each is a built-in reader of
 <code>kshana obs convert --format &lt;f&gt;</code> and of <code>receiver-trust</code> (<code>[log] format = &quot;&lt;f&gt;&quot;</code>), with a test
 vector in <code>conformance/connect/reader-&lt;f&gt;/</code> (input, expected <code>kshana.obs/1</code>, and <code>SOURCE.md</code> naming
@@ -176,7 +176,7 @@ public documents; no recorded receiver log is included. The values in them are i
 <tr>
 <td><code>unicore</code></td>
 <td>Unicore <em>Reference Commands Manual for N4 High Precision Products</em> V2 R1.13 (en.unicore.com)</td>
-<td>header <code>AA 44 B5</code> (24 bytes), the 32-bit CRC NovAtel also uses; <code>BESTNAV</code> (2118: status 0 only, height = MSL + undulation, satellites used); <code>OBSVM</code> (12: C/N0 × 100 per signal, system and signal type from the tracking status word); since E17 <code>AGC</code>, <code>JAMSTATUS</code>, <code>FREQJAMSTATUS</code>, binary or ASCII (below)</td>
+<td>header <code>AA 44 B5</code> (24 bytes), the 32-bit CRC NovAtel also uses; <code>BESTNAV</code> (2118: status 0 only, height = MSL + undulation, satellites used); <code>OBSVM</code> (12: C/N0 × 100 per signal, system and signal type from the tracking status word); also <code>AGC</code>, <code>JAMSTATUS</code>, <code>FREQJAMSTATUS</code>, binary or ASCII (below)</td>
 <td>other ASCII logs, other messages; Unicore receivers that use NovAtel headers (<code>AA 44 12</code>) are read with <code>novatel</code></td>
 </tr>
 </tbody></table></div>
@@ -193,7 +193,7 @@ RTKLIB (<code>rtcm3.c</code>, BSD 2-Clause) and pyrtcm (BSD 3-Clause); the RTCM 
 consulted, so check against RTCM 10403.3 before relying on this beyond monitoring. Vector:
 <code>conformance/timing/rtcm3-decode/</code> (a 1006 and an MSM7 with invalid markers); round trip:
 <code>rtcm_station_and_msm_round_trip</code> (MSM4 and MSM7 encoded and decoded within their resolutions).</p>
-<h2 id="receiver-formats-added-in-e17-unicore-interference-logs-rtcm-3-msm1-to-msm7">Receiver formats added in E17: Unicore interference logs, RTCM 3 MSM1 to MSM7<a class="anchor" href="#receiver-formats-added-in-e17-unicore-interference-logs-rtcm-3-msm1-to-msm7" aria-label="Link to this section">#</a></h2>
+<h2 id="receiver-formats-added-after-release-0410-unicore-interference-logs-rtcm-3-msm1-to-msm7">Receiver formats added after release 0.41.0: Unicore interference logs, RTCM 3 MSM1 to MSM7<a class="anchor" href="#receiver-formats-added-after-release-0410-unicore-interference-logs-rtcm-3-msm1-to-msm7" aria-label="Link to this section">#</a></h2>
 <p><strong>Unicore AGC and jamming flags.</strong> The <code>unicore</code> reader also reads three interference logs of the same
 manual (R1.13), binary or ASCII: <code>AGC</code> (message 220, §7.5.7, Table 7-55), <code>JAMSTATUS</code> (511, §7.5.49,
 Table 7-106) and <code>FREQJAMSTATUS</code> (519, §7.5.36, Table 7-91). The epoch&#39;s <code>agc</code> is the mean of the master
@@ -236,12 +236,12 @@ NMEA or RTCM 3 is read with <code>nmea</code> or <code>rtcm3</code>. UBX-SEC-SIG
 0.38, see the top of this page.</p>
 <p><strong>What exists from earlier releases.</strong> u-blox UBX (NAV-PVT, NAV-SAT, MON-RF, NAV-TIMEGPS, NAV-STATUS,
 SEC-SIG), Septentrio SBF (PVTGeodetic, MeasEpoch, RFStatus), NovAtel OEM7 (BESTPOS, RANGE,
-RXSTATUS, ASCII and binary) and RTCM 3 MSM4/MSM7 C/N0 are read as before; 0.42 adds no second
+RXSTATUS, ASCII and binary) and RTCM 3 MSM4/MSM7 C/N0 are read as before; the readers above add no second
 implementation of any of them.</p>
 </div>
     <nav class="docs-pn" aria-label="Previous and next"><a class="prev" href="/docs/machine-inputs"><small>Previous</small>Machine and sensor inputs</a><a class="next" href="/docs/station"><small>Next</small>Kshana Station</a></nav>
   </article>
-  <nav class="docs-toc" aria-label="On this page"><h2>On this page</h2><a class="l2" href="#the-receivers-own-spoofing-and-jamming-flags-ubx">The receiver's own spoofing and jamming flags (UBX)</a><a class="l3" href="#the-receiver-self-report-comparison">The receiver-self-report comparison</a><a class="l2" href="#septentrio-sbf-format--sbf">Septentrio SBF (format = &quot;sbf&quot;)</a><a class="l2" href="#direct-serial-and-usb-input-receiver-trust-live---serial">Direct serial and USB input (receiver-trust live --serial)</a><a class="l2" href="#readers-added-in-042-i3-sbp-greis-unicore-and-rtcm-3-observations">Readers added in 0.42 (I3): SBP, GREIS, Unicore, and RTCM 3 observations</a><a class="l2" href="#receiver-formats-added-in-e17-unicore-interference-logs-rtcm-3-msm1-to-msm7">Receiver formats added in E17: Unicore interference logs, RTCM 3 MSM1 to MSM7</a></nav>
+  <nav class="docs-toc" aria-label="On this page"><h2>On this page</h2><a class="l2" href="#the-receivers-own-spoofing-and-jamming-flags-ubx">The receiver's own spoofing and jamming flags (UBX)</a><a class="l3" href="#the-receiver-self-report-comparison">The receiver-self-report comparison</a><a class="l2" href="#septentrio-sbf-format--sbf">Septentrio SBF (format = &quot;sbf&quot;)</a><a class="l2" href="#direct-serial-and-usb-input-receiver-trust-live---serial">Direct serial and USB input (receiver-trust live --serial)</a><a class="l2" href="#readers-added-after-release-0410-sbp-greis-unicore-and-rtcm-3-observations">Readers added after release 0.41.0: SBP, GREIS, Unicore, and RTCM 3 observations</a><a class="l2" href="#receiver-formats-added-after-release-0410-unicore-interference-logs-rtcm-3-msm1-to-msm7">Receiver formats added after release 0.41.0: Unicore interference logs, RTCM 3 MSM1 to MSM7</a></nav>
 </div>
 </main>
 

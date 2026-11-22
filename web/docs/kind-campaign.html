@@ -165,7 +165,7 @@
 </tbody></table></div>
 <h2 id="run-it">Run it<a class="anchor" href="#run-it" aria-label="Link to this section">#</a></h2>
 <pre data-lang="shell"><code class="hljs language-bash">kshana scenarios/campaign-sweep-jammer-power.toml</code></pre>
-<p>22 bundled scenarios use this kind; the others are in <a href="https://github.com/ashfordeOU/kshana/blob/main/scenarios"><code>scenarios/</code></a>.</p>
+<p>22 scenario files in <a href="https://github.com/ashfordeOU/kshana/blob/main/scenarios"><code>scenarios/</code></a> use this kind.</p>
 <h2 id="what-it-gives">What it gives<a class="anchor" href="#what-it-gives" aria-label="Link to this section">#</a></h2>
 <p>The scalar results of that run, with the units the engine states:</p>
 <div class="tbl"><table><thead><tr>
@@ -175,7 +175,7 @@
 </tr>
 </thead><tbody><tr>
 <td><code>evidence.id_rule</code></td>
-<td>the stable id of the matrix row (the ID</td>
+<td>the stable id of the matrix row (the…</td>
 <td>text</td>
 </tr>
 <tr>
@@ -190,12 +190,12 @@
 </tr>
 <tr>
 <td><code>reproducibility.campaign_hash</code></td>
-<td>46aa07cb58fbfbd3784c2e1ef8d6070508ad5f5c</td>
+<td>46aa07cb58fbfbd3784c2e1ef8d6070508ad5f5…</td>
 <td>text</td>
 </tr>
 <tr>
 <td><code>reproducibility.run_digest</code></td>
-<td>b3ce53fee50eac3a52910de8b273eb6164a9d73e</td>
+<td>b3ce53fee50eac3a52910de8b273eb6164a9d73…</td>
 <td>text</td>
 </tr>
 <tr>
@@ -224,24 +224,24 @@
 <td>text</td>
 </tr>
 </tbody></table></div>
-<p>Result label (the engine&#39;s): MODELLED composition of existing scenario kinds. Every number is read from a real run of the named kind; the chaining (additive carry of a channel across a phase boundary, zero-order hold onto the timeline grid, a phase ended at a computed time) is a modelling choice, and each phase carries the labe</p>
+<p>Result label (the engine&#39;s): MODELLED composition of existing scenario kinds. Every number is read from a real run of the named kind; the chaining (additive carry of a channel across a phase boundary, zero-order hold onto the timeline grid, a phase ended at a computed time) is a modelling choice, and each phase carries the…</p>
 <img src="data:image/svg+xml;charset=utf-8,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%221100%22 height=%22312%22 font-family=%22Geist, ui-sans-serif, system-ui, sans-serif%22 font-size=%2212%22 fill=%22%23A7B4D2%22%3E%3Crect width=%221100%22 height=%22296%22 fill=%22%23060A14%22/%3E%3Ctext x=%2224%22 y=%2224%22 font-size=%2215%22 font-weight=%22bold%22%3EJammer power sweep: availability and J/S against transmit power%3C/text%3E%3Ctext x=%2224%22 y=%2240%22 font-size=%2211%22 fill=%22%238190B0%22%3Ecampaign 46aa07cb58fb %7C MODELLED composition; every value read from a real run of the named kind%3C/text%3E%3Ctext x=%2280%22 y=%2268%22 font-size=%2212%22 fill=%22%238190B0%22%3Esweep of %60jamming%60 over jammer_power (13 nodes; each line on its own range)%3C/text%3E%3Cline x1=%2280%22 y1=%2276%22 x2=%2280%22 y2=%22236%22 stroke=%22%23343F57%22/%3E%3Cline x1=%2280%22 y1=%22236%22 x2=%221076%22 y2=%22236%22 stroke=%22%23343F57%22/%3E%3Cpolyline fill=%22none%22 stroke=%22%233DDCF7%22 stroke-width=%221.6%22 points=%2280.0,76.0 163.0,76.0 246.0,76.0 329.0,76.0 412.0,76.0 495.0,76.0 578.0,236.0 661.0,236.0 744.0,236.0 827.0,236.0 910.0,236.0 993.0,236.0 1076.0,236.0%22/%3E%3Ctext x=%2288%22 y=%2290%22 font-size=%2211%22 fill=%22%233DDCF7%22%3Eavailability (1) : 0 .. 1.0%3C/text%3E%3Cpolyline fill=%22none%22 stroke=%22%23A8EE5E%22 stroke-width=%221.6%22 points=%2280.0,236.0 163.0,222.7 246.0,209.3 329.0,196.0 412.0,182.7 495.0,169.3 578.0,156.0 661.0,142.7 744.0,129.3 827.0,116.0 910.0,102.7 993.0,89.3 1076.0,76.0%22/%3E%3Ctext x=%2288%22 y=%22104%22 font-size=%2211%22 fill=%22%23A8EE5E%22%3Emean_js (dB) : 12.2 .. 72.2%3C/text%3E%3Cpolyline fill=%22none%22 stroke=%22%23FFB547%22 stroke-width=%221.6%22 points=%2280.0,76.0 163.0,76.0 246.0,76.0 329.0,76.0 412.0,76.0 495.0,121.7 578.0,236.0 661.0,236.0 744.0,236.0 827.0,236.0 910.0,236.0 993.0,236.0 1076.0,236.0%22/%3E%3Ctext x=%2288%22 y=%22118%22 font-size=%2211%22 fill=%22%23FFB547%22%3Emin_tracking (count) : 0 .. 7.0%3C/text%3E%3Ctext x=%2280%22 y=%22252%22 font-size=%2211%22%3E-50.0%3C/text%3E%3Ctext x=%221076%22 y=%22252%22 text-anchor=%22end%22 font-size=%2211%22%3E10.0 dBW (jammer.power_dbw)%3C/text%3E%3Ctext x=%221092%22 y=%22290%22 text-anchor=%22end%22 fill=%22%238190B0%22 font-size=%2210%22 font-family=%22Geist, ui-sans-serif, system-ui, sans-serif%22%3EKshana v0.41.0 · scenario 46aa07cb58fb · kshana.dev%3C/text%3E%3Cmetadata id=%22kshana-evidence%22 data-tier=%22PARTNER%22 data-rows=%22VM-4c656dcb;VM-cf3cdcd3;VM-4189e731;VM-badb561f%22%3EVM-4c656dcb MODELLED GNSS-denied jamming resilience %7C VM-cf3cdcd3 MODELLED Reproducibility %26amp; software assurance %7C VM-4189e731 PARTNER Navigation RF payload %26amp; antenna hardware design %7C VM-badb561f MODELLED Parameter sweeps and seeded Monte Carlo ensembles over any scenario kind%3C/metadata%3E%3Crect x=%220%22 y=%22296%22 width=%221100%22 height=%2216%22 fill=%22%23060A14%22/%3E%3Ctext x=%228%22 y=%22307%22 fill=%22%238190B0%22 font-size=%2210%22 font-family=%22Geist, ui-sans-serif, system-ui, sans-serif%22%3EEvidence: PARTNER · 4 ledger rows VM-4c656dcb VM-cf3cdcd3 VM-4189e731 +1 more%3C/text%3E%3C/svg%3E" alt="The chart the engine writes for scenarios/campaign-sweep-jammer-power.toml, kind campaign" width="640" loading="lazy">
 
 <h2 id="evidence">Evidence<a class="anchor" href="#evidence" aria-label="Link to this section">#</a></h2>
 <p>MODELLED: the <a href="/docs/verification-matrix">verification matrix</a> rows that name this kind.</p>
 <ul>
-<li><strong>MODELLED</strong> iq::campaign::detect and the campaign runner: an optional [monitors] table runs the IQ monitors on every cell in the runner&#39;s single pass. Tests: <a href="https://github.com/ashfordeOU/kshana/blob/main/tests/iq_campaign.rs">iq_campaign.rs</a>.</li>
-<li><strong>MODELLED</strong> iq::campaign::detect (windows, roc) and iq::campaign::report::rocs: each cell of a campaign with monitors keeps, per alarm kind and channel, the maximum of the monitor&#39;s own test statistic over each stated event window (positive) and over t</li>
-<li><strong>MODELLED</strong> iq::labfit (campaign, cn0, iqfit, iqreport) and <code>[input] campaign</code> on <code>kshana iq labfit</code>, Python <code>kshana.iq_labfit</code> and the MCP labfit tool (campaign folders inside its work directory only): reads a <code>kshana iq campaign</code> output folder by its Tests: <a href="https://github.com/ashfordeOU/kshana/blob/main/tests/iq_labfit_followup.rs">iq_labfit_followup.rs</a>.</li>
-<li><strong>MODELLED</strong> The <code>campaign</code> kind&#39;s phases: each phase runs one or more scenarios of existing kinds through run_toml, reads their outputs into named channels (clock time error and guard, mean effective carrier-to-noise density ratio and tracking floor, v Tests: <a href="https://github.com/ashfordeOU/kshana/blob/main/tests/campaign_composition_reference.rs">campaign_composition_reference.rs</a>.</li>
-<li>and 4 more in the matrix.</li>
+<li><strong>MODELLED</strong> iq::labfit (campaign, cn0, iqfit, iqreport) and <code>[input] campaign</code> on <code>kshana iq labfit</code>, Python <code>kshana.iq_labfit</code> and the MCP labfit tool (campaign folders inside its work directory only): reads a <code>kshana iq campaign</code> output folder by… Tests: <a href="https://github.com/ashfordeOU/kshana/blob/main/tests/iq_labfit_followup.rs">iq_labfit_followup.rs</a>.</li>
+<li><strong>MODELLED</strong> The <code>campaign</code> kind&#39;s phases: each phase runs one or more scenarios of existing kinds through run_toml, reads their outputs into named channels (clock time error and guard, mean effective carrier-to-noise density ratio and tracking floor… Tests: <a href="https://github.com/ashfordeOU/kshana/blob/main/tests/campaign_composition_reference.rs">campaign_composition_reference.rs</a>.</li>
+<li><strong>MODELLED</strong> The <code>campaign</code> kind&#39;s sweep (one to three dotted keys of any kind, on the generic sweep&#39;s axis values, optionally an ensemble at every node) and monte_carlo sections: realisation k runs at base_seed + k; each metric reports mean, standard… Tests: <a href="https://github.com/ashfordeOU/kshana/blob/main/tests/campaign_composition_reference.rs">campaign_composition_reference.rs</a>.</li>
+<li><strong>MODELLED</strong> The <code>campaign</code> kind&#39;s compose section: named shared values (for example one jammer&#39;s power and position) written into each member at the keys it binds them to, every member run, and per metric the smallest, largest and mean value across… Tests: <a href="https://github.com/ashfordeOU/kshana/blob/main/tests/campaign_composition_reference.rs">campaign_composition_reference.rs</a>.</li>
+<li>and 1 more in the matrix.</li>
 </ul>
 <p>The rows the run itself exercised, with the oracle the matrix gives each (the public sources are named there):</p>
 <ul>
-<li><strong>MODELLED</strong> Geometry J/S link budget, anti-jam C/N₀, per-satellite loss-of-lock. Oracle (InternalConsistency): Anti-jam C/N₀ link-budget equation cross-checked against an independent numpy re-derivation (shares the same closed form → InternalConsistency) plus a real-JammerTest-2024 C/N₀ degradation characterisation. 0.30 round 2, blocked (stays MODELLED): the measured JammerTest 2024 C/N0 drop against a link-budget prediction (pre-registered 6b2f6240, within 3 dB) was not run because the F8.1 antenna position and pointing at </li>
+<li><strong>MODELLED</strong> Geometry J/S link budget, anti-jam C/N₀, per-satellite loss-of-lock. Oracle (InternalConsistency): Anti-jam C/N₀ link-budget equation cross-checked against an independent numpy re-derivation (shares the same closed form → InternalConsistency) plus a real-JammerTest-2024 C/N₀ degradation characterisation. 0.30 round 2, blocked (stays MODELLED): the measured JammerTest 2024 C/N0 drop against a link-budget prediction (pre-registered 6b2f6240, within 3 dB) was not run because the F8.1 antenna position and pointing…</li>
 <li><strong>MODELLED</strong> Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): SBOM conformance to the official CycloneDX 1.5 JSON Schema (+ valid SPDX identifiers) — an external published standard, zero validation errors over the full dependency graph; the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED</li>
 <li><strong>PARTNER</strong> Not provided — Kshana models signal performance, not payload/antenna hardware. Oracle (NoneKind): none: a partner-owned discipline, with no module and no test by design</li>
-<li><strong>MODELLED</strong> The <code>campaign</code> kind&#39;s sweep (one to three dotted keys of any kind, on the generic sweep&#39;s axis values, optionally an ensemble at every node) and monte_carlo sec. Oracle (InternalConsistency): The closed form of the phase random walk under white frequency noise, variance q_wf tau (NIST Technical Note 1337), for the statistics machinery, and byte equality with the stand-alone runs for the seeding. It checks the ensemble arithmetic on the engine&#39;s own clock model, not an external dataset</li>
+<li><strong>MODELLED</strong> The <code>campaign</code> kind&#39;s sweep (one to three dotted keys of any kind, on the generic sweep&#39;s axis values, optionally an ensemble at every node) and monte_carlo…. Oracle (InternalConsistency): The closed form of the phase random walk under white frequency noise, variance q_wf tau (NIST Technical Note 1337), for the statistics machinery, and byte equality with the stand-alone runs for the seeding. It checks the ensemble arithmetic on the engine&#39;s own clock model, not an external dataset</li>
 </ul>
 <h2 id="limitations">Limitations<a class="anchor" href="#limitations" aria-label="Link to this section">#</a></h2>
 <p>What the run&#39;s own report says is not modelled or not validated:</p>

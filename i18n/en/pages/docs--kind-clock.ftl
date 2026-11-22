@@ -38,14 +38,14 @@ seg-80fe14eb5e79 = Optional fields: <c1/>, <c2/>
 seg-807e7c5a2565 = The example <c1/> sets, among others:
 
 # text
-seg-b0a5473bec67 = Microchip SA65 / SA.45s CSAC datasheet sigma_y(1s)={ "3e-10" }; q_
+seg-5b323bc8f9fc = Microchip SA65 / SA.45s CSAC datasheet sigma_y(1s)={ "3e-10" }…
 
 # text
-seg-a8d92406e428 = Strontium optical lattice clock, space-oriented goal sigma_y
+seg-964ddf738291 = Strontium optical lattice clock, space-oriented goal…
 
 # text
 # c1: scenarios/
-seg-d1beb62cf742 = { "6" } bundled scenarios use this kind; the others are in <a1><c1/></a1>.
+seg-30009e440c14 = { "5" } scenario files in <a1><c1/></a1> use this kind.
 
 # text
 seg-debc2f07db78 = true
@@ -54,22 +54,13 @@ seg-debc2f07db78 = true
 seg-cb0b7da83f5c = The chart the engine writes for scenarios/clock-ensemble.toml, kind clock
 
 # text
-seg-5b3dbe0aed82 = <b>MODELLED</b> The optional [integrity] section of the clock kind (clock_integrity::run): from a stated site and constellation presets (geometry::sky_geometry), at every integrity epoch while the GNSS timeline is not denied, snapshot RAIM (raim::snapshot_ Tests: <a1>clock_integrity.rs</a1>.
+seg-b78955dac8ff = <b>MODELLED</b> The optional [integrity] section of the clock kind (clock_integrity::run): from a stated site and constellation presets (geometry::sky_geometry), at every integrity epoch while the GNSS timeline is not denied, snapshot RAIM… Tests: <a1>clock_integrity.rs</a1>.
 
 # text
-seg-e1b9b2d674eb = <b>MODELLED</b> clock_log::read_input: one parser layer that turns a RINEX clock file (AS/AR records of one named clock, versions { "2" } and { "3.00" } to { "3.04" }), a TimeLab-style ASCII phase or frequency log, or a TAPR TICC timestamp or interval log into a uniform pha Tests: <a1>clock_log_allantools.rs</a1>.
+seg-19fedbb84e09 = <b>MODELLED</b> clock_log::read_input: one parser layer that turns a RINEX clock file (AS/AR records of one named clock, versions { "2" } and { "3.00" } to { "3.04" }), a TimeLab-style ASCII phase or frequency log, or a TAPR TICC timestamp or interval log into a uniform… Tests: <a1>clock_log_allantools.rs</a1>.
 
 # text
-seg-eddb613a2a2f = <b>MODELLED</b> clock_log::read_input with the formats ptp4l, phc2sys, ts2phc, chrony-tracking and chrony-statistics: the logged offset of a linuxptp servo line (ns, the line's own bracketed time stamp, readings before the servo first reports s2 left out a
-
-# text
-# c1: mission-thread
-# c2: carry
-# c3: inflate
-seg-936e96edf423 = <b>MODELLED</b> The <c1/> kind: a document of phases, each one of eight registered kinds, run in order with the 6x6 covariance, the clock and the frame handed on under a stated rule (<c2/>; <c3/>, white acceleration noise over a stated gap Tests: <a1>field_units_global.rs</a1>.
-
-# text
-seg-3319b18ac61f = and { "1" } more in the matrix.
+seg-f3b1e74aaa49 = <b>MODELLED</b> clock_log::read_input with the formats ptp4l, phc2sys, ts2phc, chrony-tracking and chrony-statistics: the logged offset of a linuxptp servo line (ns, the line's own bracketed time stamp, readings before the servo first reports s2 left out…
 
 # text
 seg-f70076ea4a77 = <b>VALIDATED</b> Allan/modified/Hadamard deviation + power-law noise ID with χ² CIs. Oracle (ExternalDataset): NIST SP { "1065" } (Riley) / Stable32 reference deviations on NBS14
@@ -78,10 +69,10 @@ seg-f70076ea4a77 = <b>VALIDATED</b> Allan/modified/Hadamard deviation + power-la
 seg-5278ccdaf16f = <b>MODELLED</b> Closed-form coast-error growth + holdover-to-threshold; quantum-clock classes. Oracle (ReferenceImpl): Multi-step clock_state covariance recursion (same-codebase cross-check); the underlying coast-variance & holdover-inversion kernel is externally validated vs scipy (see 'Clock-holdover coast-variance & threshold inversion'). The per-class red-noise-floor holdover figures stay MODELLED
 
 # text
-seg-3ea0aa9b3907 = <b>MODELLED</b> 3-state (phase/freq/drift) van-Loan Kalman clock, Joseph-stabilised. Oracle (ReferenceImpl): filterpy { "1.4.5" } KalmanFilter (R. Labbe, MIT), with F via scipy.linalg.expm and Q via the Van-Loan { "1978" } block-matrix — an independent reference implementation reproducing kshana's full filter trajectory. Cross-implementation consistency: the clock physics / Allan calibration are not externally validated, so this stays MODELLED. { "0.30" } external comparison, a finding (stays MODELLED): on IGS final { "30" } s clocks of { "11" } GPS Blo
+seg-6a72328557d3 = <b>MODELLED</b> 3-state (phase/freq/drift) van-Loan Kalman clock, Joseph-stabilised. Oracle (ReferenceImpl): filterpy { "1.4.5" } KalmanFilter (R. Labbe, MIT), with F via scipy.linalg.expm and Q via the Van-Loan { "1978" } block-matrix — an independent reference implementation reproducing kshana's full filter trajectory. Cross-implementation consistency: the clock physics / Allan calibration are not externally validated, so this stays MODELLED. { "0.30" } external comparison, a finding (stays MODELLED): on IGS final { "30" } s clocks of { "11" } GPS…
 
 # text
-seg-b9174c70772f = <b>MODELLED</b> Clock-aided χ², RAIM, AGC, SQM fused per-epoch security FoM. Oracle (ExternalDataset): TEXBAT scenario parameters (Humphreys { "2012" }) — characterisation, not pinned vectors. { "0.30" } external comparison, a finding (stays MODELLED): on JammerTest { "2024" } (Bleik; GPL-3.0 data) the observable-level monitors (clock-aided chi-square, RAIM, solve failure) raised no alarm within { "10" } s of any of the { "8" } evaluable published spoofing onsets (where the pre-onset window was clean, the first alarm came { "10.2" } to { "39" } s after the pu
+seg-ee0dd327955b = <b>MODELLED</b> Clock-aided χ², RAIM, AGC, SQM fused per-epoch security FoM. Oracle (ExternalDataset): TEXBAT scenario parameters (Humphreys { "2012" }) — characterisation, not pinned vectors. { "0.30" } external comparison, a finding (stays MODELLED): on JammerTest { "2024" } (Bleik; GPL-3.0 data) the observable-level monitors (clock-aided chi-square, RAIM, solve failure) raised no alarm within { "10" } s of any of the { "8" } evaluable published spoofing onsets (where the pre-onset window was clean, the first alarm came { "10.2" } to { "39" } s after the…
 
 # text
 seg-e12f672ae71d = GNSS-denied clock holdover is MODELLED, not validated: checked against a separate implementation in this same codebase — independent of the unit under test, but not externally authoritative. (verification matrix (docs/MODELLED-RATIONALE.md))

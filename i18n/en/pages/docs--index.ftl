@@ -74,10 +74,10 @@ seg-b57457566406 = <s1>Animation export</s1><s2>--animate turns a run's time ser
 seg-6e9c30a894e9 = <s1>Interoperability exports and imports</s1><s2>A run writes a result document, a chart and a report. --export also writes the scenario's geometry, or its…</s2>
 
 # text
-seg-7df65c76c8ca = <s1>Flight-dynamics export: OEM, OPM and SPK</s1><s2>This is step { "1" } of roadmap item C7 (adapters and notebooks for flight-dynamics tools; pre-registration).</s2>
+seg-ce0b6585080f = <s1>Flight-dynamics export: OEM, OPM and SPK</s1><s2>The adapters and notebooks that load these files into the tools themselves (pre-registration) are in…</s2>
 
 # text
-seg-7a6af2c42575 = <s1>Flight-dynamics tools reading Kshana's files</s1><s2>Roadmap item C7. Kshana writes a trajectory as a CCSDS OEM, a CCSDS OPM or a SPICE SPK kernel (kshana…</s2>
+seg-0dc081266e50 = <s1>Flight-dynamics tools reading Kshana's files</s1><s2>Kshana writes a trajectory as a CCSDS OEM, a CCSDS OPM or a SPICE SPK kernel (kshana ephem-export…</s2>
 
 # text
 seg-ea5f09561b29 = <s1>Validation status</s1><s2>On tolerances. "Validated" below means a calibration test asserts the simulated statistic matches the…</s2>

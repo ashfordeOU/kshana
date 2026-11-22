@@ -67,14 +67,14 @@ seg-04f59a1e2ec2 = <b>MODELLED</b> Earth-GNSS reception at lunar distance: the w
 seg-59afd80736c5 = <b>PARTNER</b> Not provided — Kshana models signal performance, not payload/antenna hardware. Oracle (NoneKind): none: a partner-owned discipline, with no module and no test by design
 
 # text
-seg-9531f6b14fc8 = <b>MODELLED</b> Earth-GNSS reception at lunar distance: the weak-signal layer P7 Table { "1" } names and the engine had no model for. Per satellite and per epoch it computes the off-. Oracle (InternalConsistency): Closed-form identities and internal consistency; NO external oracle is claimed. The limb half angle is checked against asin(R_earth/r_orbit) and the geometry against it; the free-space loss, the DOP kernel and the SGP4 propagation this composes are each externally validated in their own rows and this row does not borrow their status. WHY MODELLED, and it is the transmit pattern: the gain at angle is a uniformly illum
+seg-8be76a621d43 = <b>MODELLED</b> Earth-GNSS reception at lunar distance: the weak-signal layer P7 Table { "1" } names and the engine had no model for. Per satellite and per epoch it computes the…. Oracle (InternalConsistency): Closed-form identities and internal consistency; NO external oracle is claimed. The limb half angle is checked against asin(R_earth/r_orbit) and the geometry against it; the free-space loss, the DOP kernel and the SGP4 propagation this composes are each externally validated in their own rows and this row does not borrow their status. WHY MODELLED, and it is the transmit pattern: the gain at angle is a uniformly…
 
 # text
 # c1: kshana kinds --json
 seg-6dfc5503f58f = MODELLED, and the transmit pattern is the reason: the gain at angle is a uniform circular aperture (Airy), while a real GPS L1 antenna is a twelve-element helical array with a shaped main lobe and non-Airy sidelobes. (kind catalogue (<c1/>))
 
 # text
-seg-c40d3fd8c12e = WHAT IS MODELLED, AND WHY IT IS NOT VALIDATED The transmit gain at angle is a uniformly illuminated circular aperture — an Airy pattern. A real GPS L1 antenna is a twelve-element helical array whose measured pattern has a shaped main lobe, deliberately peaked off-boresight to even out power across the Earth disc, and sidelobes that are not Airy at all. Measured patterns are published; they are not vendored in this re (scenario file comment, lines { "29" } to { "35" })
+seg-b8964f530ddf = WHAT IS MODELLED, AND WHY IT IS NOT VALIDATED The transmit gain at angle is a uniformly illuminated circular aperture — an Airy pattern. A real GPS L1 antenna is a twelve-element helical array whose measured pattern has a shaped main lobe, deliberately peaked off-boresight to even out power across the Earth disc, and sidelobes that are not Airy at all. Measured patterns are published; they are not vendored in this… (scenario file comment, lines { "29" } to { "35" })
 
 # text
 seg-01fa469abd95 = Earth-GNSS at lunar distance is MODELLED, not validated: checked against its own closed-form / analytic identity — catches transcription and coefficient errors, but is not an external oracle. (verification matrix (docs/MODELLED-RATIONALE.md))

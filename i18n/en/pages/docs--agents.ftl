@@ -110,6 +110,11 @@ seg-86c207c3996e = Link a laboratory run (scenario, stated test conditions, rece
 seg-25bb29e6aa3d = <c1/> after <c2/> (<c3/>)
 
 # text
+# c1: hybrid
+# c2: fusion
+seg-2f7e43b1fa23 = Fit the noise parameters of the <c1/> and <c2/> scenarios from a stationary IMU log
+
+# text
 seg-3856b38bb9d2 = Score a detection or holdover submission against a kshana-bench truth file, or render result files as the leaderboard page?
 
 # text
@@ -152,7 +157,10 @@ seg-5569efd18c6b = <c1/> first, then the <c2/> tools
 # c5: test-bench-export
 # c6: gnss-iq
 # c7: interference-map-route-exposure
-seg-d44650438742 = The skills <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/> and <c7/> carry the rules below for agents that load skills.
+# c8: jammertest
+# c9: evidence-pack
+# c10: marine-integrations
+seg-333870592669 = The skills <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/> and <c10/> carry the rules below for agents that load skills.
 
 # text
 seg-a4de5a40b743 = What each tool will not do

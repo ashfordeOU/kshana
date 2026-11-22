@@ -10,7 +10,7 @@ seg-1704b402c692 = Flight-dynamics tools: Kshana's trajectories read back by the
 
 # text
 # c1: kshana ephem-export
-seg-8a8237fc081c = Roadmap item C7. Kshana writes a trajectory as a CCSDS OEM, a CCSDS OPM or a SPICE SPK kernel (<c1/>, <a1>docs/FLIGHT-DYNAMICS-EXPORT.md</a1>). For each tool, an adapter here loads those files into the tool, and a notebook compares every state the tool reads back with the state written. The test is <a2>pre-registered</a2> with no bar: the data either comes through or it does not.
+seg-a9d8c70b11e9 = Kshana writes a trajectory as a CCSDS OEM, a CCSDS OPM or a SPICE SPK kernel (<c1/>, <a1>docs/FLIGHT-DYNAMICS-EXPORT.md</a1>). For each tool, an adapter here loads those files into the tool, and a notebook compares every state the tool reads back with the state written. The test is <a2>pre-registered</a2> with no bar: the data either comes through or it does not.
 
 # text
 seg-b88a2a9497c2 = Tool

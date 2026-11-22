@@ -36,7 +36,7 @@ seg-07d0745f670e = The example <c1/> sets, among others:
 
 # text
 # c1: scenarios/
-seg-51362910dcb7 = { "2" } bundled scenarios use this kind; the others are in <a1><c1/></a1>.
+seg-2224c257616c = { "2" } scenario files in <a1><c1/></a1> use this kind.
 
 # text
 seg-7fe10ebb5356 = baltic
@@ -45,7 +45,7 @@ seg-7fe10ebb5356 = baltic
 seg-756bb2d591bb = 2025-01-01T00:{ "00" }:00Z
 
 # text
-seg-4d66c02dfec1 = Result label (the engine's): MODELLED: revisit, full-area refresh and RF-to-optical reaction of a two-layer survey from stated Walker star layers on { "550" } km sun-synchronous orbits (secular J2), spherical Earth, stated fields of regard; geometry and timing only, no detection, weather or tasking latency; a cross-check of published
+seg-4c5ee452f7dc = Result label (the engine's): MODELLED: revisit, full-area refresh and RF-to-optical reaction of a two-layer survey from stated Walker star layers on { "550" } km sun-synchronous orbits (secular J2), spherical Earth, stated fields of regard; geometry and timing only, no detection, weather or tasking latency; a cross-check of…
 
 # attr:alt
 seg-8fd21bd07bf2 = The chart the engine writes for scenarios/tip-and-cue-short.toml, kind tip-and-cue
@@ -55,7 +55,7 @@ seg-619127334cf3 = No matrix row names this kind by name; the label on its resul
 
 # text
 # c1: constellation-design
-seg-0c64f22330d2 = <b>VALIDATED</b> The <c1/> kind's generators: Walker delta and star patterns in the T/P/F convention (node spacing 360/P or 180/P, in-plane spacing { "360" }·P/T, int. Oracle (ExternalDataset): Published agency documents: Galileo Open Service Service Definition Document issue { "1.1" } (European GNSS Service Centre) Tables { "1" } and { "23" }, the reference constellation at 2016-11-21 { "00" }:{ "00" } UTC; GLONASS Interface Control Document edition { "5.1" } ({ "2008" }) section { "5.2" }, the slot formula for node longitude and argument of latitude; GPS Standard Positioning Service Performance Standard 5th edition (April { "2020" }) Tables 3.2-1, 3.2-2 and
+seg-5f35c0957a71 = <b>VALIDATED</b> The <c1/> kind's generators: Walker delta and star patterns in the T/P/F convention (node spacing 360/P or 180/P, in-plane spacing { "360" }·P/T…. Oracle (ExternalDataset): Published agency documents: Galileo Open Service Service Definition Document issue { "1.1" } (European GNSS Service Centre) Tables { "1" } and { "23" }, the reference constellation at 2016-11-21 { "00" }:{ "00" } UTC; GLONASS Interface Control Document edition { "5.1" } ({ "2008" }) section { "5.2" }, the slot formula for node longitude and argument of latitude; GPS Standard Positioning Service Performance Standard 5th edition (April { "2020" }) Tables 3.2-1, 3.2-2…
 
 # text
 # c1: label
@@ -66,7 +66,7 @@ seg-55a1161c2054 = MODELLED: revisit, full-area refresh and RF-to-optical reacti
 seg-81be0fd81a7d = MODELLED revisit and tip-and-cue latency of a two-layer maritime survey over the Baltic Sea: an RF survey layer and an optical layer, each a Walker star pattern of { "550" } km sun-synchronous orbits propagated with the secular J2 drift on a spherical Earth, with an elevation mask for the RF layer and an off-nadir field of regard (and optionally daylight) for the optical layer. (kind catalogue (<c1/>))
 
 # text
-seg-e71ee40a1fa1 = A short tip-and-cue run: the M2 primary 16-satellite RF layer cueing its optical layer over the Baltic Sea for { "2" } days at a { "60" } s step (fast; for the full pre-registered run see tip-and-cue-baltic-m2.toml). Geometry and timing only; MODELLED. (scenario file comment, lines { "1" } to { "3" })
+seg-b694e74fc7fa = A short tip-and-cue run: the primary 16-satellite RF layer of the pre-registered study (M2) cueing its optical layer over the Baltic Sea for { "2" } days at a { "60" } s step (fast; for the full pre-registered run see tip-and-cue-baltic-m2.toml). Geometry and timing only; MODELLED. (scenario file comment, lines { "1" } to { "3" })
 
 # text
 seg-2f05637d51fb = Family page: <a1>Space RF survey</a1>

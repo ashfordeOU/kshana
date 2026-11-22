@@ -67,7 +67,7 @@ seg-495f8e4c27a0 = Conformance vectors
 seg-85fb430b6cec = <c1/> holds one folder per adapter with a <c2/> (input, mapping file or built-in reader, station, expected output). <c3/> runs them all and exits { "1" } on any byte difference, naming the first differing line; <c4/> records the expected outputs after a reviewed change. CI runs the folder (<c5/>). Every new adapter comes with its vector.
 
 # text
-seg-eb6761807c2a = Not in this version: Parquet and HDF5 inputs (they need large dependencies; a conversion to CSV or JSON Lines is the route for now) and live inputs (A3a).
+seg-9fd3f18feb11 = Not in this version: Parquet and HDF5 inputs (they need large dependencies; a conversion to CSV or JSON Lines is the route for now). Live inputs are described below.
 
 # text
 seg-7ed0c3b69a7d = Live: watching a directory (library)
@@ -305,7 +305,7 @@ seg-e8462989fd05 = A binary sensor is first decoded by a device file (<c1/>, <a1
 
 # text
 # c1: kshana connect decode
-seg-78792dc7f3df = Tracks: AIS, ADS-B, ASTERIX, MAVLink, ULog, NMEA { "2000" } (<c1/>, { "0.42" })
+seg-22fb5642f859 = Tracks: AIS, ADS-B, ASTERIX, MAVLink, ULog, NMEA { "2000" } (<c1/>, after { $version })
 
 # text
 # c1: kshana connect decode <input> --format <f>
@@ -324,7 +324,7 @@ seg-78792dc7f3df = Tracks: AIS, ADS-B, ASTERIX, MAVLink, ULog, NMEA { "2000" } (
 seg-cb24720fb918 = <c1/> reads vessel, aircraft and drone position reports (AIS from NMEA { "0183" }, canboat NMEA { "2000" } JSON, ASTERIX CAT010/021/048/062, Beast and AVR Mode S, OpenSky-style state vectors, MAVLink <c2/>, PX4 ULog) with their accuracy and integrity fields, and writes JSON Lines, the interference map's CSV files, or GeoJSON, KML and CZML tracks. <c3/> listens for MAVLink on a UDP port, read only. MAVLink <c4/>, ULog and canboat logs are also built-in readers for observation files (<c5/>, <c6/>, <c7/>). A conformance vector can name a track decoder instead of a mapping or a reader: <c8/>, with an <c9/> table (<c10/>, <c11/>, <c12/>, and <c13/> for the output form). See <a1>TRACKS.md</a1>.
 
 # text
-seg-a693195fac0d = Timing systems and receiver streams ({ "0.42" })
+seg-128fe8991f62 = Timing systems and receiver streams (after { $version })
 
 # text
 # c1: pmc
@@ -336,7 +336,7 @@ seg-a693195fac0d = Timing systems and receiver streams ({ "0.42" })
 seg-afd3c1edf101 = PTP management (linuxptp <c1/>), SNMP polling of grandmasters, chrony and ntpd status, and NTP mode { "6" } are read by <c2/>: see <a1>TIMING-SYSTEMS.md</a1>. Swift SBP, Javad GREIS and Unicore N4 logs are built-in readers (<c3/>, <c4/>, <c5/>), and <c6/> prints RTCM { "3" } observations and station messages: see <a2>RECEIVER-PROTOCOLS.md</a2>.
 
 # text
-seg-cc49982a33a7 = Industrial control, ops outputs, mission control and simulators ({ "0.42" } wave { "2" })
+seg-088faad53074 = Industrial control, ops outputs, mission control and simulators (after { $version })
 
 # text
 # c1: kshana connect modbus|dnp3|opcua
@@ -376,4 +376,4 @@ seg-bbad46253362 = Load test (kshana connect load-test)
 seg-d9a3379aaee5 = Live conformance kit (kshana connect check-live)
 
 # text
-seg-ca92fc72b899 = Tracks: AIS, ADS-B, ASTERIX, MAVLink, ULog, NMEA { "2000" } (kshana connect decode, { "0.42" })
+seg-600e7c6f0c7c = Tracks: AIS, ADS-B, ASTERIX, MAVLink, ULog, NMEA { "2000" } (kshana connect decode, after { $version })

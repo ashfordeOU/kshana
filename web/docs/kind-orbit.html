@@ -109,7 +109,7 @@
 </tr>
 <tr>
 <td><code>clock_classical.provenance</code></td>
-<td>Microchip SA.45s / SA65 chip-scale atomic clock, sigma_y(1s)</td>
+<td>Microchip SA.45s / SA65 chip-scale atomic clock…</td>
 <td>text</td>
 </tr>
 <tr>
@@ -134,7 +134,7 @@
 </tr>
 <tr>
 <td><code>clock_quantum.provenance</code></td>
-<td>Strontium optical lattice clock, space-oriented goal sigma_y</td>
+<td>Strontium optical lattice clock, space-oriented goal…</td>
 <td>text</td>
 </tr>
 <tr>
@@ -154,7 +154,7 @@
 </tr>
 <tr>
 <td><code>constellation.rinex</code></td>
-<td>3.04           N: GNSS NAV DATA    G: GPS</td>
+<td>3.04           N: GNSS NAV DATA    G: GPS…</td>
 <td>text</td>
 </tr>
 <tr>
@@ -165,7 +165,7 @@
 </tbody></table></div>
 <h2 id="run-it">Run it<a class="anchor" href="#run-it" aria-label="Link to this section">#</a></h2>
 <pre data-lang="shell"><code class="hljs language-bash">kshana scenarios/orbit-rinex.toml</code></pre>
-<p>7 bundled scenarios use this kind; the others are in <a href="https://github.com/ashfordeOU/kshana/blob/main/scenarios"><code>scenarios/</code></a>.</p>
+<p>7 scenario files in <a href="https://github.com/ashfordeOU/kshana/blob/main/scenarios"><code>scenarios/</code></a> use this kind.</p>
 <h2 id="what-it-gives">What it gives<a class="anchor" href="#what-it-gives" aria-label="Link to this section">#</a></h2>
 <p>The scalar results of that run, with the units the engine states:</p>
 <div class="tbl"><table><thead><tr>
@@ -229,10 +229,10 @@
 <h2 id="evidence">Evidence<a class="anchor" href="#evidence" aria-label="Link to this section">#</a></h2>
 <p>MODELLED 4 · VALIDATED 4: the <a href="/docs/verification-matrix">verification matrix</a> rows that name this kind.</p>
 <ul>
-<li><strong>VALIDATED</strong> Earth rotation from a two-part UT1 Julian date on the orbit path, so the Earth-fixed position keeps the microsecond a single-f64 date loses (about 3e-9 rad near 2020): jd2::gmst82 (IAU 1982 GMST, the TEME convention, on the two parts), cio:</li>
+<li><strong>VALIDATED</strong> Earth rotation from a two-part UT1 Julian date on the orbit path, so the Earth-fixed position keeps the microsecond a single-f64 date loses (about 3e-9 rad near 2020): jd2::gmst82 (IAU 1982 GMST, the TEME convention, on the two parts)…</li>
 <li><strong>VALIDATED</strong> GDOP/PDOP/HDOP/VDOP/TDOP from line-of-sight geometry via Q=(HᵀH)⁻¹ with a local ENU split Tests: <a href="https://github.com/ashfordeOU/kshana/blob/main/tests/dop_reference.rs">dop_reference.rs</a>.</li>
-<li><strong>MODELLED</strong> dop_error_mc::run_geometry and check: a seeded Monte Carlo (N = 20,000 epochs per geometry, sigma = 1.5 m, ChaCha8 seed 36 + i) of the engine&#39;s own iterated least-squares fix (pvt::solve_spp, unit weights, solved from the true position) on  Tests: <a href="https://github.com/ashfordeOU/kshana/blob/main/tests/uere_dop_monte_carlo.rs">uere_dop_monte_carlo.rs</a>.</li>
-<li><strong>VALIDATED</strong> skyline + frames::look_angles + geometry::sky_geometry: the geodetic (WGS-84) azimuth and elevation of a satellite from a ground site, an azimuth/elevation mask table linearly interpolated in azimuth with wrap at 360 deg, the visible set el Tests: <a href="https://github.com/ashfordeOU/kshana/blob/main/tests/skyline_orekit_oracle.rs">skyline_orekit_oracle.rs</a>.</li>
+<li><strong>MODELLED</strong> dop_error_mc::run_geometry and check: a seeded Monte Carlo (N = 20,000 epochs per geometry, sigma = 1.5 m, ChaCha8 seed 36 + i) of the engine&#39;s own iterated least-squares fix (pvt::solve_spp, unit weights, solved from the true position)… Tests: <a href="https://github.com/ashfordeOU/kshana/blob/main/tests/uere_dop_monte_carlo.rs">uere_dop_monte_carlo.rs</a>.</li>
+<li><strong>VALIDATED</strong> skyline + frames::look_angles + geometry::sky_geometry: the geodetic (WGS-84) azimuth and elevation of a satellite from a ground site, an azimuth/elevation mask table linearly interpolated in azimuth with wrap at 360 deg, the visible set… Tests: <a href="https://github.com/ashfordeOU/kshana/blob/main/tests/skyline_orekit_oracle.rs">skyline_orekit_oracle.rs</a>.</li>
 <li>and 4 more in the matrix.</li>
 </ul>
 <p>The rows the run itself exercised, with the oracle the matrix gives each (the public sources are named there):</p>
@@ -240,8 +240,8 @@
 <li><strong>VALIDATED</strong> Allan/modified/Hadamard deviation + power-law noise ID with χ² CIs. Oracle (ExternalDataset): NIST SP 1065 (Riley) / Stable32 reference deviations on NBS14</li>
 <li><strong>VALIDATED</strong> GDOP/PDOP/HDOP/VDOP/TDOP from line-of-sight geometry via Q=(HᵀH)⁻¹ with a local ENU split. Oracle (ExternalDataset): gnss_lib_py 1.0.4 (Stanford NAV Lab) DOP — independent library, matched to 1e-6 relative</li>
 <li><strong>MODELLED</strong> Closed-form coast-error growth + holdover-to-threshold; quantum-clock classes. Oracle (ReferenceImpl): Multi-step clock_state covariance recursion (same-codebase cross-check); the underlying coast-variance &amp; holdover-inversion kernel is externally validated vs scipy (see &#39;Clock-holdover coast-variance &amp; threshold inversion&#39;). The per-class red-noise-floor holdover figures stay MODELLED</li>
-<li><strong>MODELLED</strong> 3-state (phase/freq/drift) van-Loan Kalman clock, Joseph-stabilised. Oracle (ReferenceImpl): filterpy 1.4.5 KalmanFilter (R. Labbe, MIT), with F via scipy.linalg.expm and Q via the Van-Loan 1978 block-matrix — an independent reference implementation reproducing kshana&#39;s full filter trajectory. Cross-implementation consistency: the clock physics / Allan calibration are not externally validated, so this stays MODELLED. 0.30 external comparison, a finding (stays MODELLED): on IGS final 30 s clocks of 11 GPS Blo</li>
-<li><strong>MODELLED</strong> Clock-aided χ², RAIM, AGC, SQM fused per-epoch security FoM. Oracle (ExternalDataset): TEXBAT scenario parameters (Humphreys 2012) — characterisation, not pinned vectors. 0.30 external comparison, a finding (stays MODELLED): on JammerTest 2024 (Bleik; GPL-3.0 data) the observable-level monitors (clock-aided chi-square, RAIM, solve failure) raised no alarm within 10 s of any of the 8 evaluable published spoofing onsets (where the pre-onset window was clean, the first alarm came 10.2 to 39 s after the pu</li>
+<li><strong>MODELLED</strong> 3-state (phase/freq/drift) van-Loan Kalman clock, Joseph-stabilised. Oracle (ReferenceImpl): filterpy 1.4.5 KalmanFilter (R. Labbe, MIT), with F via scipy.linalg.expm and Q via the Van-Loan 1978 block-matrix — an independent reference implementation reproducing kshana&#39;s full filter trajectory. Cross-implementation consistency: the clock physics / Allan calibration are not externally validated, so this stays MODELLED. 0.30 external comparison, a finding (stays MODELLED): on IGS final 30 s clocks of 11 GPS…</li>
+<li><strong>MODELLED</strong> Clock-aided χ², RAIM, AGC, SQM fused per-epoch security FoM. Oracle (ExternalDataset): TEXBAT scenario parameters (Humphreys 2012) — characterisation, not pinned vectors. 0.30 external comparison, a finding (stays MODELLED): on JammerTest 2024 (Bleik; GPL-3.0 data) the observable-level monitors (clock-aided chi-square, RAIM, solve failure) raised no alarm within 10 s of any of the 8 evaluable published spoofing onsets (where the pre-onset window was clean, the first alarm came 10.2 to 39 s after the…</li>
 </ul>
 <h2 id="limitations">Limitations<a class="anchor" href="#limitations" aria-label="Link to this section">#</a></h2>
 <p>What the run&#39;s own report says is not modelled or not validated:</p>

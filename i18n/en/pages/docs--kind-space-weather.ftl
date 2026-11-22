@@ -43,10 +43,10 @@ seg-d245f215f331 = Result label (the engine's): MODELLED — solar/geomagnetic i
 seg-c1c6f2f73fb5 = The chart the engine writes for scenarios/space-weather.toml, kind space-weather
 
 # text
-seg-15587da59e8e = <b>MODELLED</b> Solar/geomagnetic indices (definitional Kp↔ap table), the Jacchia-1971 exospheric temperature, and the Jacchia { "1971" } thermospheric density (SAO Special Report { "332" }: static diffusion profiles reproducing its Table { "7" }, with the diurnal, geomagne
+seg-99cc0ba7f70f = <b>MODELLED</b> Solar/geomagnetic indices (definitional Kp↔ap table), the Jacchia-1971 exospheric temperature, and the Jacchia { "1971" } thermospheric density (SAO Special Report { "332" }: static diffusion profiles reproducing its Table { "7" }, with the diurnal…
 
 # text
-seg-f8eef6eabfb2 = <b>MODELLED</b> Solar/geomagnetic indices (definitional Kp↔ap table), the Jacchia-1971 exospheric temperature, and the Jacchia { "1971" } thermospheric density (SAO Special Report { "33" }. Oracle (ExternalDataset): Definitional Kp↔ap table + Jacchia-1971 exospheric-temperature closed form (matched to <{ "1" } K vs the published anchors, tests/space_weather_reference.rs); the density is characterised against pymsis NRLMSISE-00 (an independent NRL model): the { "800" } km solar-cycle swing is 10.4x against NRLMSISE-00 13.6x. { "0.30" } revision: the calibrated first-order activity factor was replaced by Jacchia { "1971" } (default scenario density at { "40" }
+seg-5fd943c73ffb = <b>MODELLED</b> Solar/geomagnetic indices (definitional Kp↔ap table), the Jacchia-1971 exospheric temperature, and the Jacchia { "1971" } thermospheric density (SAO Special Report…. Oracle (ExternalDataset): Definitional Kp↔ap table + Jacchia-1971 exospheric-temperature closed form (matched to <{ "1" } K vs the published anchors, tests/space_weather_reference.rs); the density is characterised against pymsis NRLMSISE-00 (an independent NRL model): the { "800" } km solar-cycle swing is 10.4x against NRLMSISE-00 13.6x. { "0.30" } revision: the calibrated first-order activity factor was replaced by Jacchia { "1971" } (default scenario density at…
 
 # text
 # c1: label
@@ -57,13 +57,16 @@ seg-72979b637644 = MODELLED — solar/geomagnetic indices, Jacchia-71 exospheric
 seg-0306ee022298 = MODELLED: the density agrees with accelerometer-derived densities (TOLEOS CHAMP and GRACE) within a factor { "2" } at solar maximum but is about 1.7x too dense in the { "2008" } solar minimum. (kind catalogue (<c1/>))
 
 # text
-seg-b86a312077b5 = HONEST SCOPE: MODELLED. The Kp<->ap conversion is the definitional IAGA table and the exospheric temperature is validated against published solar-min/mean/max magnitudes, but the density correction is a CALIBRATED FIRST-ORDER scale-height coupling — it captures the right sign, monotonicity and order of magnitude, NOT the absolute accuracy of a data-validated (NRLMSISE-00) atmosphere. Run: kshana scenarios/space-weath (scenario file comment, lines { "10" } to { "15" })
+seg-27d94027c95d = HONEST SCOPE: MODELLED. The Kp<->ap conversion is the definitional IAGA table and the exospheric temperature is validated against published solar-min/mean/max magnitudes, and the density is the Jacchia-1971 thermospheric neutral density at the diurnal-mean exospheric temperature: it agrees with accelerometer-derived densities (TOLEOS CHAMP and GRACE) within a factor { "2" } at solar maximum but is about 1.7x too dense in… (scenario file comment, lines { "10" } to { "16" })
 
 # text
 seg-10cf16c12a2a = Space-weather environment & activity-driven thermospheric density is MODELLED, not validated: a sub-claim is externally checked, but the whole capability composes modelled pieces, so the capability stays Modelled. (verification matrix (docs/MODELLED-RATIONALE.md))
 
 # text
 seg-f6b7ca020692 = Family page: <a1>GNSS measurements, positioning and integrity</a1>
+
+# text
+seg-dd3938a64303 = Topic page: <a1>SPACE-WEATHER-PNT.md</a1>
 
 # text
 seg-3dd29f8fba14 = <s1>Previous</s1>space-packet

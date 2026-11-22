@@ -1050,7 +1050,7 @@ seg-09d18cf767a7 = Open core, Kshana Pro, custom study
 seg-302606971c35 = Free for everyone. Pro when the answer has to stand up in a review.
 
 # text
-seg-dbbd9e935086 = Kshana Pro is the commercial edition: built on the open core, never a fork of it, and available under contract. No prices on a web page: every paid route starts with a message to <a1>contact@ashforde.org</a1>.
+seg-c21b0369391d = Kshana Pro is the professional edition: built on the open core, never a fork of it, and available under contract. No prices on a web page: every paid route starts with a message to <a1>contact@ashforde.org</a1>.
 
 # text
 seg-43ceda17e71c = Open core · free · AGPL-3.0
@@ -1089,7 +1089,7 @@ seg-9fbb95ff3eee = Confidence and risk: confidence bands, and the inputs that ma
 seg-180956c126ee = Mission dossiers: requirements checked against runs, with a verification matrix and a PDF (Portable Document Format) report.
 
 # text
-seg-60caa1dcfc0e = Requirements traceability, regression watch, spectrum coexistence, trade studies, clock digital twins and an on-premises service, with support and a commercial licence.
+seg-cebb408b3a66 = Requirements traceability, regression watch, spectrum coexistence, trade studies, clock digital twins, technical notes, signed evidence and an on-premises service, with support, licensed under contract.
 
 # text
 seg-6d3d0f8c9b7c = Request a Pro evaluation

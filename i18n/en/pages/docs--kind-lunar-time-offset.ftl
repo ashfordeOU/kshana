@@ -46,7 +46,7 @@ seg-619127334cf3 = No matrix row names this kind by name; the label on its resul
 seg-982426693747 = <b>VALIDATED</b> Relativistic Earth-Moon clock-rate (LTC/TCL) + TT/TAI/UTC chaining + ensemble. Oracle (ExternalDataset): Ashby & Patla { "2024" }, 'A Relativistic Framework to Estimate Clock Rates on the Moon', Astronomical Journal { "167" }:{ "149" } (NIST; basis for the IAU/IAG LunaNet LTC): Moon-surface self-potential L_m = { "3.13881e-11" } and secular total { "56.02" } µs/day matched as published numeric values; geocentric Moon speed cross-checked vs JPL DE440 (de440s.bsp via SPICE)
 
 # text
-seg-96b65f604cc2 = Honesty: MODELLED, not certified. The headline us/day figure is reference-dependent (Earth geoid W0 vs a lunar selenoid, the time-averaging window, neglected sub-us/day centrifugal/J2 corrections) -> a band, not a single number, is the honest output. Nothing here is validated to sub-nanosecond absolute accuracy or certified for operational timekeeping. The report also gives the accumulated LTC-TT offset over the hori (scenario file comment, lines { "11" } to { "16" })
+seg-ae833a8b6f8e = Honesty: MODELLED, not certified. The headline us/day figure is reference-dependent (Earth geoid W0 vs a lunar selenoid, the time-averaging window, neglected sub-us/day centrifugal/J2 corrections) -> a band, not a single number, is the honest output. Nothing here is validated to sub-nanosecond absolute accuracy or certified for operational timekeeping. The report also gives the accumulated LTC-TT offset over the… (scenario file comment, lines { "11" } to { "16" })
 
 # text
 seg-1c1eeb2dcaa0 = Family page: <a1>Lunar and cislunar</a1>

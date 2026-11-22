@@ -42,7 +42,7 @@ seg-c3acd9787a93 = SPICE and the tools built on it (Basilisk, GMAT)
 
 # text
 # c1: integrations/flight-dynamics/
-seg-3a63ea85ed08 = This is step { "1" } of roadmap item C7 (adapters and notebooks for flight-dynamics tools; <a1>pre-registration</a1>). The adapters and notebooks that load these files into the tools themselves are in <a2><c1/></a2>: Orekit, Basilisk and ANISE so far.
+seg-7cccfee1c98e = The adapters and notebooks that load these files into the tools themselves (<a1>pre-registration</a1>) are in <a2><c1/></a2>: Orekit, Basilisk, ANISE and GMAT (GMAT with a recorded finding; see that README).
 
 # text
 seg-94058315dfe4 = Input
@@ -60,7 +60,7 @@ seg-0ab733f1cae7 = A JPL Horizons vector table as Horizons writes it: <c1/>, <c2
 
 # text
 # c1: tests/fixtures/capstone_horizons/capstone_2023-03_moon_icrf.txt
-seg-b8c04678578b = The mission thread's CAPSTONE table is in the repository: <c1/> ({ "4,321" } states, { "1" } to { "31" } March { "2023" }, every { "10" } minutes, Moon-centred, ICRF).
+seg-95cc17633c8f = The CAPSTONE table of the lunar mission thread (<a1>MISSION-THREAD-LUNAR.md</a1>) is in the repository: <c1/> ({ "4,321" } states, { "1" } to { "31" } March { "2023" }, every { "10" } minutes, Moon-centred, ICRF).
 
 # text
 seg-32b620b3574e = Use
@@ -135,7 +135,8 @@ seg-47cebe953abc = Horizons vector tables only, in km and km/s on TDB. Other sta
 seg-101dad28de33 = The OEM carries no covariance and no interpolation hint (<c1/> is not written); the reading tool chooses its own interpolation.
 
 # text
-seg-2a434206ddeb = The frame is written as the table names it. ICRF is not rotated to EME2000 for tools that only accept EME2000; the C7 adapters state what each tool accepts.
+# c1: integrations/flight-dynamics/
+seg-3f52d13fb76c = The frame is written as the table names it. ICRF is not rotated to EME2000 for tools that only accept EME2000; the adapters in <c1/> state what each tool accepts.
 
 # text
 seg-a353a63661de = <s1>Previous</s1>Interoperability exports and imports

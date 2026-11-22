@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Interference map: data source licence review · Kshana docs</title>
-<meta name="description" content="Status: APPROVED by the coordinator on 2026-10-09 with the decisions recorded at the end.">
+<meta name="description" content="Status: Decided on 2026-10-09; the decisions are recorded at the end. Reviewed 2026-10-09 from the publishers&#x27; own pages where reachable.">
 <meta name="color-scheme" content="light dark">
 <meta name="theme-color" content="#E8ECF3" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#060A14" media="(prefers-color-scheme: dark)">
@@ -25,7 +25,7 @@
 <meta property="og:locale" content="en_GB">
 <meta property="og:url" content="https://kshana.dev/docs/interference-data-sources">
 <meta property="og:title" content="Interference map: data source licence review · Kshana docs">
-<meta property="og:description" content="Status: APPROVED by the coordinator on 2026-10-09 with the decisions recorded at the end.">
+<meta property="og:description" content="Status: Decided on 2026-10-09; the decisions are recorded at the end. Reviewed 2026-10-09 from the publishers&#x27; own pages where reachable.">
 <meta property="og:image" content="https://kshana.dev/og-card.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -33,7 +33,7 @@
 <meta property="og:image:alt" content="Kshana, a PNT (positioning, navigation and timing) resilience simulator. 176 of 413 capabilities validated against external oracles.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Interference map: data source licence review · Kshana docs">
-<meta name="twitter:description" content="Status: APPROVED by the coordinator on 2026-10-09 with the decisions recorded at the end.">
+<meta name="twitter:description" content="Status: Decided on 2026-10-09; the decisions are recorded at the end. Reviewed 2026-10-09 from the publishers&#x27; own pages where reachable.">
 <meta name="twitter:image" content="https://kshana.dev/og-card.png">
 <meta name="twitter:image:alt" content="Kshana, a PNT (positioning, navigation and timing) resilience simulator. 176 of 413 capabilities validated against external oracles.">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://kshana.dev/"}, {"@type": "ListItem", "position": 2, "name": "Docs", "item": "https://kshana.dev/docs/"}, {"@type": "ListItem", "position": 3, "name": "Interference map: data source licence review", "item": "https://kshana.dev/docs/interference-data-sources"}]}</script>
@@ -84,7 +84,7 @@
   <article class="docs-main">
     <div class="docs-meta"><span>Receiver trust and maritime</span><a href="https://github.com/ashfordeOU/kshana/blob/main/docs/data/INTERFERENCE-DATA-SOURCES.md">Edit on GitHub</a><span>Source: <code>docs/data/INTERFERENCE-DATA-SOURCES.md</code></span></div>
     <div class="prose"><h1 id="interference-map-data-source-licence-review">Interference map: data source licence review</h1>
-<p>Status: <strong>APPROVED by the coordinator on 2026-10-09 with the decisions recorded at the end.</strong> Reviewed 2026-10-09 from the publishers&#39; own pages where reachable. This is an
+<p>Status: <strong>Decided on 2026-10-09; the decisions are recorded at the end.</strong> Reviewed 2026-10-09 from the publishers&#39; own pages where reachable. This is an
 engineering review, not legal advice; items marked <em>unverified</em> must be confirmed
 against the live licence text before any ingest helper is written.</p>
 <h2 id="test-applied">Test applied<a class="anchor" href="#test-applied" aria-label="Link to this section">#</a></h2>
@@ -114,7 +114,7 @@ callsign, name). Aggregation is the only output form.</p>
 <td>Yes, with a condition: a <em>Produced Work</em> (a rendered map image) may carry any licence with attribution; a <em>Derived Database</em> (a published per-cell GeoJSON table) must be offered under ODbL</td>
 <td>ODbL notice: credit adsb.lol as source and link the licence; suggested text below. The repository states no further format</td>
 <td>None stated for the GitHub release downloads</td>
-<td><strong>Conditional pass.</strong> Needs a coordinator decision on the share-alike condition (see Open questions)</td>
+<td><strong>Conditional pass.</strong> The share-alike condition is settled by decision 1 (see Decisions)</td>
 </tr>
 <tr>
 <td>OpenSky Network (historical and live)</td>
@@ -239,13 +239,13 @@ Government Data (NLOD) made available by the Norwegian Coastal Administration,
 <p>Natural Earth 1:10m is coarse (nominal accuracy of the order of a kilometre). The
 on-land detector must therefore use a stated coastal buffer (a position counts as on land
 only when it lies more than the buffer inland). That is a method decision recorded in the
-method document, not a licence matter. The land polygons would be vendored only if the
-coordinator approves the size; otherwise the CLI takes a user-supplied file.</p>
+method document, not a licence matter. The land polygons are not vendored (decision 4); the CLI takes a
+user-supplied file.</p>
 <h2 id="rate-limits-and-fetch-helpers">Rate limits and fetch helpers<a class="anchor" href="#rate-limits-and-fetch-helpers" aria-label="Link to this section">#</a></h2>
 <p>None of the passing sources states a rate limit on bulk files. Default tests use only
-synthetic fixtures and no network. Optional fetch helpers, if approved, sit behind an
+synthetic fixtures and no network. Optional fetch helpers sit behind an
 explicit flag, send an identifying User-Agent, and download one file at a time.</p>
-<h2 id="open-questions-for-the-coordinator">Open questions for the coordinator<a class="anchor" href="#open-questions-for-the-coordinator" aria-label="Link to this section">#</a></h2>
+<h2 id="questions-that-were-decided">Questions that were decided<a class="anchor" href="#questions-that-were-decided" aria-label="Link to this section">#</a></h2>
 <ol>
 <li><strong>ODbL share-alike (adsb.lol).</strong> Published per-cell day files are probably a Derived
 Database. Options: (a) approve, and release interference-map GeoJSON that uses adsb.lol
@@ -257,11 +257,11 @@ the same ODbL notice on any such file.</li>
 <li><strong>Mixed-source outputs.</strong> ADS-B days (ODbL) and AIS days (public domain / NLOD) must
 stay in separate files, each carrying its own licence, so that the ODbL does not attach
 to the AIS layer.</li>
-<li><strong>Sources marked &quot;pending&quot;.</strong> Do you want me to chase airplanes.live, the Danish
-authority and Digitraffic (read live terms or contact the publisher), or leave them out
-of 0.35.0? Recommended: leave out.</li>
+<li><strong>Sources marked &quot;pending&quot;.</strong> Pursue airplanes.live, the Danish authority and
+Digitraffic (read live terms or contact the publisher), or leave them out of 0.35.0?
+Recommended: leave out.</li>
 <li><strong>Coastline file.</strong> Vendor Natural Earth 1:10m land polygons (about 10 MB as
-GeoJSON, so I would simplify to the area needed), or take it as user input only?</li>
+GeoJSON, to be simplified to the area needed), or take it as user input only?</li>
 <li><strong>Identifiers.</strong> Confirm that readers may parse MMSI and ICAO hex in memory for
 &quot;distinct aircraft or vessel&quot; counting but must never write or log them. Counting uses
 a per-run salted hash that is not persisted.</li>
@@ -274,7 +274,7 @@ a per-run salted hash that is not persisted.</li>
 <li>Excluded: OpenSky, ADS-B Exchange, commercial AIS vendors; pending: airplanes.live,
 Danish Maritime Authority, Digitraffic.</li>
 </ul>
-<h2 id="decisions-coordinator-2026-10-09">Decisions (coordinator, 2026-10-09)<a class="anchor" href="#decisions-coordinator-2026-10-09" aria-label="Link to this section">#</a></h2>
+<h2 id="decisions-2026-10-09">Decisions (2026-10-09)<a class="anchor" href="#decisions-2026-10-09" aria-label="Link to this section">#</a></h2>
 <ol>
 <li>adsb.lol approved. Published per-cell ADS-B GeoJSON is released under ODbL 1.0 with the
 licence and attribution embedded in the file; Kshana code stays AGPL; commercial editions
@@ -293,7 +293,7 @@ file; an opt-in helper (<code>interference-map fetch-land --allow-network</code>
 </div>
     <nav class="docs-pn" aria-label="Previous and next"><a class="prev" href="/docs/interference-map"><small>Previous</small>Interference map and route exposure</a><a class="next" href="/docs/marine-integrations"><small>Next</small>Marine integrations</a></nav>
   </article>
-  <nav class="docs-toc" aria-label="On this page"><h2>On this page</h2><a class="l2" href="#test-applied">Test applied</a><a class="l2" href="#ads-b-candidates">ADS-B candidates</a><a class="l2" href="#ais-candidates">AIS candidates</a><a class="l2" href="#coastline-for-the-on-land-detector">Coastline for the on-land detector</a><a class="l2" href="#rate-limits-and-fetch-helpers">Rate limits and fetch helpers</a><a class="l2" href="#open-questions-for-the-coordinator">Open questions for the coordinator</a><a class="l2" href="#verdict-summary">Verdict summary</a><a class="l2" href="#decisions-coordinator-2026-10-09">Decisions (coordinator, 2026-10-09)</a></nav>
+  <nav class="docs-toc" aria-label="On this page"><h2>On this page</h2><a class="l2" href="#test-applied">Test applied</a><a class="l2" href="#ads-b-candidates">ADS-B candidates</a><a class="l2" href="#ais-candidates">AIS candidates</a><a class="l2" href="#coastline-for-the-on-land-detector">Coastline for the on-land detector</a><a class="l2" href="#rate-limits-and-fetch-helpers">Rate limits and fetch helpers</a><a class="l2" href="#questions-that-were-decided">Questions that were decided</a><a class="l2" href="#verdict-summary">Verdict summary</a><a class="l2" href="#decisions-2026-10-09">Decisions (2026-10-09)</a></nav>
 </div>
 </main>
 

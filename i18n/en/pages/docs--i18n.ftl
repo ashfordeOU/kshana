@@ -169,7 +169,7 @@ seg-204df30d9ca2 = A machine file must not depend on the language. A run in anot
 
 # text
 # c1: --lang de
-seg-b7447d4cd5a8 = Measured, native, release build, English then <c1/> (seconds): leo-navmsg-fit-interval-trade { "9.2" } -> { "17.9" }, cislunar-arc-recovery { "7.8" } -> { "14.1" }, lunar-station-coverage { "7.8" } -> { "15.0" }, clock-ensemble { "5.8" } -> { "11.6" }, leo-navmsg-model-comparison { "5.1" } -> { "10.5" }, leo-ppp-convergence { "2.8" } -> { "6.2" }; every other bundled scenario is under { "4" } s; the { "173" } scenarios bundled when this was measured took { "64" } s in English together. The cost is exactly twice for another language. WebAssembly was not measured (no wasm-bindgen here); at the browser factor of about { "4" } it is a minute for the slowest kind.
+seg-742871f0adbd = Measured, native, release build, English then <c1/> (seconds): leo-navmsg-fit-interval-trade { "9.2" } -> { "17.9" }, cislunar-arc-recovery { "7.8" } -> { "14.1" }, lunar-station-coverage { "7.8" } -> { "15.0" }, clock-ensemble { "5.8" } -> { "11.6" }, leo-navmsg-model-comparison { "5.1" } -> { "10.5" }, leo-ppp-convergence { "2.8" } -> { "6.2" }; every other bundled scenario is under { "4" } s; the { "173" } scenarios bundled when this was measured took { "64" } s in English together. The cost is exactly twice for another language. WebAssembly was not measured; at the browser factor of about { "4" } it is a minute for the slowest kind.
 
 # text
 # c1: run_human(toml, lang)
@@ -182,7 +182,7 @@ seg-cc148fdec7a2 = A page avoids the wait by showing the English result at once 
 # c3: num()
 # c4: t!
 # c5: num
-seg-cd0360ad624d = <b>{ "0.41" } item: one run.</b> Render both from a record of <c1/>. It was judged and not built: <c2/> results are inspected, measured and hashed after they are made (chart text widths, provenance hashes over output text), and <c3/> formats at the call site, so a record would put placeholder tokens into machine files and make their bytes depend on the replay. It needs token-returning <c4/>/<c5/>, a finaliser at every writer, and a byte-identity proof per writer.
+seg-51736c4a81bf = <b>Considered and not built: one run.</b> Render both from a record of <c1/>. It was not built because <c2/> results are inspected, measured and hashed after they are made (chart text widths, provenance hashes over output text), and <c3/> formats at the call site, so a record would put placeholder tokens into machine files and make their bytes depend on the replay. It needs token-returning <c4/>/<c5/>, a finaliser at every writer, and a byte-identity proof per writer.
 
 # text
 seg-257c477dc510 = WebAssembly
@@ -196,7 +196,7 @@ seg-67e04a43cea8 = The wasm build embeds the English catalogue only. The other s
 # c1: .wasm
 # c2: cargo build --release --target wasm32-unknown-unknown --features wasm --lib
 # c3: fluent-bundle
-seg-f3d5605e3ac1 = Size, unoptimised <c1/> from <c2/> (before wasm-bindgen and wasm-opt), base 68e8632b against this branch: { "18.71" } MB -> { "19.88" } MB raw, { "5.43" } MB -> { "5.79" } MB gzip, +{ "357" } kB gzip. The English catalogue is { "521" } kB raw, { "153" } kB gzip of it; the rest is <c3/> and its dependencies. This is accepted as measured.
+seg-281a17546065 = Size, unoptimised <c1/> from <c2/> (before wasm-bindgen and wasm-opt), commit 68e8632b against the change that added localisation: { "18.71" } MB -> { "19.88" } MB raw, { "5.43" } MB -> { "5.79" } MB gzip, +{ "357" } kB gzip. The English catalogue is { "521" } kB raw, { "153" } kB gzip of it; the rest is <c3/> and its dependencies. This is accepted as measured.
 
 # text
 seg-3ce9aab4916e = The catalogue
@@ -253,7 +253,7 @@ seg-48c3c0ca063d = Dependencies and licences
 # c19: multiple-versions = "warn"
 # c20: cargo metadata
 # c21: cargo deny check
-seg-b6c2f08c9a46 = The framework adds <c1/> { "0.16" } (Apache-2.0 OR MIT) and <c2/> { "0.9" } (MIT OR Apache-2.0), with their transitive crates: <c3/> and <c4/> (Apache-2.0 OR MIT), <c5/> (Apache-2.0 OR MIT), <c6/> (Apache-2.0/MIT), <c7/> (MIT/Apache-2.0), <c8/> (Apache-2.0 OR GPL-2.0-only: the Apache-2.0 alternative is the one used, which <c9/> allows), <c10/> and <c11/> (Unicode-3.0), <c12/>, <c13/>, <c14/>, <c15/> (MIT OR Apache-2.0). Every one is permissive under the <c16/> list of <c17/>; <c18/> appears in two versions ({ "1" } and { "2" }), which <c19/> only reports. The licence list was read from <c20/>; <c21/> is not installed in the authoring environment and runs in the integration CI.
+seg-4a63a7bfe6c9 = The framework adds <c1/> { "0.16" } (Apache-2.0 OR MIT) and <c2/> { "0.9" } (MIT OR Apache-2.0), with their transitive crates: <c3/> and <c4/> (Apache-2.0 OR MIT), <c5/> (Apache-2.0 OR MIT), <c6/> (Apache-2.0/MIT), <c7/> (MIT/Apache-2.0), <c8/> (Apache-2.0 OR GPL-2.0-only: the Apache-2.0 alternative is the one used, which <c9/> allows), <c10/> and <c11/> (Unicode-3.0), <c12/>, <c13/>, <c14/>, <c15/> (MIT OR Apache-2.0). Every one is permissive under the <c16/> list of <c17/>; <c18/> appears in two versions ({ "1" } and { "2" }), which <c19/> only reports. The licence list was read from <c20/>; <c21/> runs in CI.
 
 # text
 seg-6aa2e78078ae = <s1>Previous</s1>Glossary

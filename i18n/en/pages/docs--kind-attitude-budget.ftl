@@ -55,10 +55,10 @@ seg-ad0e72e3b688 = The chart the engine writes for scenarios/attitude-budget.tom
 seg-3068552e4ab4 = VALIDATED: the <a1>verification matrix</a1> rows that name this kind.
 
 # text
-seg-95b159fb5e68 = <b>VALIDATED</b> Gravity-gradient worst-case disturbance torque ((3/2)(μ/R³)ΔI) as the peak over attitude (the validated claim), plus an RSS pointing-error budget over named 1σ contributors with the dominant term (a quadrature sum of caller-supplied numbers Tests: <a1>attitude_gg_torque_reference.rs</a1>.
+seg-1d3d943c8c0f = <b>VALIDATED</b> Gravity-gradient worst-case disturbance torque ((3/2)(μ/R³)ΔI) as the peak over attitude (the validated claim), plus an RSS pointing-error budget over named 1σ contributors with the dominant term (a quadrature sum of caller-supplied… Tests: <a1>attitude_gg_torque_reference.rs</a1>.
 
 # text
-seg-f7c8d8994896 = <b>VALIDATED</b> Gravity-gradient worst-case disturbance torque ((3/2)(μ/R³)ΔI) as the peak over attitude (the validated claim), plus an RSS pointing-error budget over named 1σ . Oracle (ExternalDataset): Basilisk { "2.9.1" } GravityGradientEffector (AVSLab, ISC), an independent C++ implementation of the full-tensor gravity-gradient torque: Kshana's peak (3/2)(μ/R³)ΔI equals Basilisk's torque at the { "45" } deg attitude within { "1e-12" } relative (worst { "2.1e-15" }) over { "5" } altitudes and { "8" } inertia tensors, and bounds Basilisk's torque over { "2000" } random attitudes per case; tolerance fixed before the comparison. Validated claim: the gravity-
+seg-1257b49f5341 = <b>VALIDATED</b> Gravity-gradient worst-case disturbance torque ((3/2)(μ/R³)ΔI) as the peak over attitude (the validated claim), plus an RSS pointing-error budget over named…. Oracle (ExternalDataset): Basilisk { "2.9.1" } GravityGradientEffector (AVSLab, ISC), an independent C++ implementation of the full-tensor gravity-gradient torque: Kshana's peak (3/2)(μ/R³)ΔI equals Basilisk's torque at the { "45" } deg attitude within { "1e-12" } relative (worst { "2.1e-15" }) over { "5" } altitudes and { "8" } inertia tensors, and bounds Basilisk's torque over { "2000" } random attitudes per case; tolerance fixed before the comparison. Validated claim: the…
 
 # text
 seg-d2a6cf813e95 = <b>PARTNER</b> Not provided — Kshana is a navigation-performance simulator, not a bus house. Oracle (NoneKind): none: a partner-owned discipline, with no module and no test by design

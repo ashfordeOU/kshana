@@ -42,10 +42,10 @@ seg-58d26f083b8f = Result label (the engine's): MODELLED — two-body spherical-
 seg-9696283a95ae = The chart the engine writes for scenarios/launch-window.toml, kind launch-window
 
 # text
-seg-38175030f689 = <b>MODELLED</b> Two-body launch azimuth(s) (sin Az = cos i / cos lat), minimum reachable inclination, circular velocity, Earth-rotation eastward bonus, dogleg plane-change Δv and daily opportunities, and, given an epoch and IERS finals2000A rows, the site
+seg-199e47f2e14b = <b>MODELLED</b> Two-body launch azimuth(s) (sin Az = cos i / cos lat), minimum reachable inclination, circular velocity, Earth-rotation eastward bonus, dogleg plane-change Δv and daily opportunities, and, given an epoch and IERS finals2000A rows, the…
 
 # text
-seg-53bc589c7ed6 = <b>MODELLED</b> Two-body launch azimuth(s) (sin Az = cos i / cos lat), minimum reachable inclination, circular velocity, Earth-rotation eastward bonus, dogleg plane-change Δv a. Oracle (InternalConsistency): Closed-form spherical-trig launch geometry vs published worked-example anchors (Vallado, Fundamentals of Astrodynamics 4th ed., Algorithm { "37" } launch-azimuth + Ch.6 plane-change; tests/launch_window_ascent_geometry_reference.rs). These re-use the same closed form kshana implements (a published-value parity / transcription check, InternalConsistency); MODELLED two-body, no rotating-Earth velocity-triangle / ascent / dra
+seg-f83aee0b4e54 = <b>MODELLED</b> Two-body launch azimuth(s) (sin Az = cos i / cos lat), minimum reachable inclination, circular velocity, Earth-rotation eastward bonus, dogleg plane-change Δv…. Oracle (InternalConsistency): Closed-form spherical-trig launch geometry vs published worked-example anchors (Vallado, Fundamentals of Astrodynamics 4th ed., Algorithm { "37" } launch-azimuth + Ch.6 plane-change; tests/launch_window_ascent_geometry_reference.rs). These re-use the same closed form kshana implements (a published-value parity / transcription check, InternalConsistency); MODELLED two-body, no rotating-Earth velocity-triangle / ascent /…
 
 # text
 # c1: label

@@ -10,7 +10,7 @@ seg-87910a33b87b = Force-model validation by ephemeris fitting — methodology &
 
 # text
 # c1: src/precise_od.rs
-seg-09a1b1b673fb = Kshana's full-force engine (<c1/>) fit to <b>real agency precise-orbit products</b>, with honest, citable, commit-hash-stamped residuals. This is the validation record for roadmap milestone P4 ("Precise astrodynamics: high-order gravity, SRP (solar-radiation pressure), validation vs agency datasets").
+seg-e70441afce20 = Kshana's full-force engine (<c1/>) fit to <b>real agency precise-orbit products</b>, with honest, citable, commit-hash-stamped residuals. This is the validation record for precise astrodynamics: high-order gravity, SRP (solar-radiation pressure), and validation against agency datasets.
 
 # text
 seg-90f366667f78 = What a validated residual means here
@@ -140,7 +140,7 @@ seg-b3a99e7a6724 = { "0.276" }, { "0.381" }, { "0.390" } m
 # text
 # c1: xval/s2-air-tide-fix/
 # c2: workflow_dispatch
-seg-95879df86618 = The CI-fixture numbers above were re-recorded in { "0.36" } after the S2 air-tide fix (<c1/>): Galileo Tier { "1" } moved { "0.132" } → { "0.133" } m (C_R { "1.1744" } → { "1.1743" }), Swarm-A N components by { "1" }–{ "2" } mm; the full-arc dispatch figures were not re-run. † <b>Pre-fix:</b> the full-arc dispatch figure was recorded before the { "0.36" } S2 air-tide fix and has not been re-run on the fixed code (the full-day products are fetched by the dispatch workflow, not available in the session that made the fix). On the CI fixtures the fix moved the Galileo 3-D RMS by under { "1" } mm and the Swarm-A components by { "1" }–{ "2" } mm, so a change of the same order is expected; the next <c2/> run re-records it.
+seg-529955e47f4a = The CI-fixture numbers above were re-recorded in { "0.36" } after the S2 air-tide fix (<c1/>): Galileo Tier { "1" } moved { "0.132" } → { "0.133" } m (C_R { "1.1744" } → { "1.1743" }), Swarm-A N components by { "1" }–{ "2" } mm; the full-arc dispatch figures were not re-run. † <b>Pre-fix:</b> the full-arc dispatch figure was recorded before the { "0.36" } S2 air-tide fix and has not been re-run on the fixed code (the full-day products are fetched only by the dispatch workflow, not by the CI fixtures). On the CI fixtures the fix moved the Galileo 3-D RMS by under { "1" } mm and the Swarm-A components by { "1" }–{ "2" } mm, so a change of the same order is expected; the next <c2/> run re-records it.
 
 # text
 seg-5141c1811e35 = The MEO field is gravity-converged by degree { "8" } (the { "8" } h Tier-1 result is identical at d/o { "8" }, { "10" }, and { "12" } to the millimetre), so the CI fixture's d/o-12 truncation is negligible; the dispatch job runs the full d/o-70. The { "8" } h fit reaches <b>{ "13" } cm</b> pure-force and <b>{ "7" } cm</b> with the empirical tier; the full { "24" } h arc (more SRP/eclipse stress, longer dynamic span) is <b>{ "61" } cm</b> — all far inside the { "5" } m bar.
@@ -200,10 +200,10 @@ seg-82a3e25da2bf = empirical absorbs the drag
 # text
 # c1: swarm_full_arc_dispatch
 # c2: KSHANA_SWARM_SP3
-seg-ff834d33ae70 = The dynamic fit clears the { "5" } m bar with the residual almost entirely along-track — the textbook drag signature at ~{ "430" } km. The empirical tier absorbs that along-track error ({ "2.52" } → { "0.09" } m), giving a <b>~{ "10" } cm</b> reduced-dynamic fit against ESA's own ~{ "2" } cm orbit. The full-day, full-degree run is the ignored <c1/> (the dissemination server serves the product through its file-browser session, so the founder downloads the day's SP3 and points <c2/> at it). NRLMSISE-00 (NRLMSISE: Naval Research Laboratory Mass Spectrometer and Incoherent Scatter Radar Extended atmosphere model) with space-weather drivers is the noted upgrade that would tighten the <em>dynamic</em> tier further.
+seg-12a486e75733 = The dynamic fit clears the { "5" } m bar with the residual almost entirely along-track — the textbook drag signature at ~{ "430" } km. The empirical tier absorbs that along-track error ({ "2.52" } → { "0.09" } m), giving a <b>~{ "10" } cm</b> reduced-dynamic fit against ESA's own ~{ "2" } cm orbit. The full-day, full-degree run is the ignored <c1/> (the dissemination server serves the product through its file-browser session, so a maintainer downloads the day's SP3 and points <c2/> at it). NRLMSISE-00 (NRLMSISE: Naval Research Laboratory Mass Spectrometer and Incoherent Scatter Radar Extended atmosphere model) with space-weather drivers is the noted upgrade that would tighten the <em>dynamic</em> tier further.
 
 # text
-seg-e8f5c385de62 = LRO lunar — validated, <b>above</b> the { "5" } m bar (honest) (P4 W4b)
+seg-3f274c8104c4 = LRO lunar — validated, <b>above</b> the { "5" } m bar (honest)
 
 # text
 seg-8a22ef5d3765 = <b>Dataset:</b> the real NASA/JPL (NASA: National Aeronautics and Space Administration; JPL: Jet Propulsion Laboratory) <b>Lunar Reconnaissance Orbiter</b> (LRO; NAIF (Navigation and Ancillary Information Facility) −{ "85" }) reconstructed trajectory from JPL Horizons, geometric Moon-centred state vectors in the ICRF (International Celestial Reference Frame), 2022-01-01, ~{ "98" } km altitude, 1-minute sampling ({ "241" } epochs, { "4" } h, ~{ "2" } revolutions). Using Horizons text vectors needs <b>no SPK/SPICE (SPK: planetary ephemeris kernel; SPICE: Spacecraft, Planet, Instrument, C-matrix, Events) reader</b>.
@@ -308,7 +308,7 @@ seg-f70309824f25 = reduced-dynamic ({ "1" }+2/rev)
 seg-b8ada0c5fab3 = { "6.65" } m
 
 # text
-seg-b6d3daff2f23 = <b>{ "0.36" } note: most of the dynamic-tier gain below was the offset error, not the DE-grade inputs.</b> With the ME→PA offset corrected, the analytic stack gives { "39.9" } m raw, { "12.05" } m dynamic and { "6.67" } m reduced-dynamic, against the DE-grade { "41.5" }, { "12.0" } and { "6.67" } m: the analytic and DE-grade fits now agree on every tier. The { "0.30" } reading of the table below follows, kept as it was written.
+seg-0016a7cc9313 = <b>{ "0.36" } note: most of the dynamic-tier gain below was the offset error, not the DE-grade inputs.</b> With the ME→PA offset corrected, the analytic stack gives { "39.9" } m raw, { "12.05" } m dynamic and { "6.67" } m reduced-dynamic, against the DE-grade { "41.5" }, { "12.0" } and { "6.67" } m: the analytic and DE-grade fits now agree on every tier. The { "0.30" } reading of the table above follows, kept as it was written.
 
 # text
 # c1: atol
@@ -342,4 +342,4 @@ seg-36a3b8105d4b = Galileo medium Earth orbit — GREEN (< { "5" } m bar)
 seg-b6f96cf0d55a = Swarm-A LEO — GREEN (< { "5" } m bar)
 
 # text
-seg-9e739bda7f20 = LRO lunar — validated, above the { "5" } m bar (honest) (P4 W4b)
+seg-3b5d69aa5ea7 = LRO lunar — validated, above the { "5" } m bar (honest)

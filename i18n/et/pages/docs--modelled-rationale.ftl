@@ -1727,7 +1727,6 @@ seg-b19cbd364dea = src/benchmark/scorecard.rs::tests (etalon-PL neelab; rikutud 
 
 # text
 # c1: variance
-seg-350aaf43f349 = kontrollitud oma suletud kujul / analüütilise samasuse vastu — tabab ülekirjutus- ja koefitsiendivigu, kuid ei ole väline sõltumatu etalon — Sõltumatut etaloni pole ega saagi olla: see on enesekirjeldus, mitte mõõtmine. See on kirja pandud, sest selle puudumine oli viga -- P5 pidi tsiteerima kandelaine pikkust ja saateava lähtevaikeväärtustest ning järeldama sisemise kooskõla kontrollist, et paljas <c1/> on ruutmeetrites. Järeldus oli õige, mis just tegigi selle oluliseks: miski poleks tabanud, kui see oleks olnud vale
 
 # text
 seg-6d963d838eed = hybrid_integrity::tests (lahendatud konfiguratsioon kajastatakse nii vaikeväärtuste kui ka ülekirjutuste puhul, ilma lainepikkust meetrite kaudu edasi-tagasi teisendamata; iga ühikute kirje kannab nii ühikut kui ka päritoluklassi; iga väli, mille ühikute plokk nimetab, tegelikult väljastatakse, seega ei saa see dokumenteerida kummitust)

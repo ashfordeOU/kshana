@@ -64,13 +64,17 @@ seg-1d6c540fd916 = <c1/> (<c2/>, { "290" } source files) attached to that run
 seg-17f916216c92 = Floor
 
 # text
-# c1: 85 %
-# c2: --fail-under 85
-seg-32861ca47b0c = the same job fails below <c1/> (<c2/>) — the floor is enforced on every push; the figure above is a record, not a gate
+# c1: coverage
+# c2: 85 %
+# c3: --fail-under 85
+seg-59d41082fa00 = the <c1/> job fails below <c2/> (<c3/>, applied to the merged shards) — the floor is enforced on every push; the figure above is a record, not a gate
 
 # text
 # c1: .github/workflows/ci.yml
-seg-63b9b152cde7 = The command, verbatim from <c1/>:
+# c2: coverage-shard
+# c3: scripts/coverage-shard.py
+# c4: coverage
+seg-e661efe847e2 = The commands, from <c1/>. The <c2/> job runs tarpaulin once per shard (<c3/> picks the test targets, and every integration test lands in exactly one shard); the <c4/> job then merges the shards and applies the floor:
 
 # text
 # c1: main

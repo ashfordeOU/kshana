@@ -63,7 +63,7 @@ seg-0c3460704315 = The example <c1/> sets, among others:
 
 # text
 # c1: scenarios/
-seg-3bc1761c76ab = { "3" } bundled scenarios use this kind; the others are in <a1><c1/></a1>.
+seg-7f43b9951654 = { "3" } scenario files in <a1><c1/></a1> use this kind.
 
 # text
 seg-9feefecdcf67 = rafs
@@ -76,17 +76,17 @@ seg-922b8656fcae = The chart the engine writes for scenarios/lunar-station-cover
 
 # text
 # c1: lunar-station-coverage
-seg-4f5941f12127 = <b>MODELLED</b> Monte Carlo sweep of the lunar differential-PNT model over a south-polar user grid and a day of epochs (the <c1/> kind): for a differential reference station at a known south-polar site, per point and over the region, the Tests: <a1>lunar_station_coverage_reference.rs</a1>.
+seg-bc38e84cc29d = <b>MODELLED</b> Monte Carlo sweep of the lunar differential-PNT model over a south-polar user grid and a day of epochs (the <c1/> kind): for a differential reference station at a known south-polar site, per point and over the region… Tests: <a1>lunar_station_coverage_reference.rs</a1>.
 
 # text
 seg-6f4246bd8f6f = <b>MODELLED</b> NovaMoon-class differential reference station: common-mode cancellation + baseline-growing residual + DGNSS protection levels. Oracle (InternalConsistency): Differential error-cancellation identity + reuse of the DO-229E SBAS PL machinery; the single-difference + WLS solve is additionally cross-checked against RTKLIB's lsq()/matinv() (Takasu, BSD-2-Clause, compiled C) — independent solver code, but the same first-order LOS-difference algebra, so still InternalConsistency
 
 # text
-seg-8d02b1426187 = <b>MODELLED</b> The three terms a differential correction picks up between the epoch it is computed at and the epoch it is used at, each previously left as unmodelled headroom:. Oracle (InternalConsistency): Closed-form identities and self-consistency: the uniform-quantizer step²/12 variance, the exact (GᵀG)⁻¹GᵀRG(GᵀG)⁻¹ covariance propagation collapsing to σ·PDOP for equal σ, the survey term's { "1" }:{ "1" } transfer as a consequence of û_user ≈ û_ref, and switching-off quadrature closure. The PDOP cross-check against orbit::dop shares the [−û, { "1" }] normal matrix, so it is a consistency check and is labelled as one rather than an in
+seg-cc46ca257c18 = <b>MODELLED</b> The three terms a differential correction picks up between the epoch it is computed at and the epoch it is used at, each previously left as unmodelled…. Oracle (InternalConsistency): Closed-form identities and self-consistency: the uniform-quantizer step²/12 variance, the exact (GᵀG)⁻¹GᵀRG(GᵀG)⁻¹ covariance propagation collapsing to σ·PDOP for equal σ, the survey term's { "1" }:{ "1" } transfer as a consequence of û_user ≈ û_ref, and switching-off quadrature closure. The PDOP cross-check against orbit::dop shares the [−û, { "1" }] normal matrix, so it is a consistency check and is labelled as one rather than an…
 
 # text
 # c1: lunar-station-coverage
-seg-c9ea7d1dac7a = <b>MODELLED</b> Monte Carlo sweep of the lunar differential-PNT model over a south-polar user grid and a day of epochs (the <c1/> kind): for a differential r. Oracle (InternalConsistency): Arithmetic re-computed by an independent numpy script on exported cases (scripts/gen_lunar_station_ref.py, numpy { "2.5.4" }; pre-registered in tests/fixtures/lunar_station/PREREGISTRATION.md, committed alone in 2d43d3d5 before the first run): on { "20" } cases with every error term on, the visible sets and status are identical, the raw range errors agree to { "1.4e-14" } m, the position-error vectors and magnitudes to { "1.4e-9" } m agains
+seg-0939d5551046 = <b>MODELLED</b> Monte Carlo sweep of the lunar differential-PNT model over a south-polar user grid and a day of epochs (the <c1/> kind): for a differential…. Oracle (InternalConsistency): Arithmetic re-computed by an independent numpy script on exported cases (scripts/gen_lunar_station_ref.py, numpy { "2.5.4" }; pre-registered in tests/fixtures/lunar_station/PREREGISTRATION.md, committed alone in 2d43d3d5 before the first run): on { "20" } cases with every error term on, the visible sets and status are identical, the raw range errors agree to { "1.4e-14" } m, the position-error vectors and magnitudes to { "1.4e-9" } m…
 
 # text
 # c1: label

@@ -364,10 +364,11 @@ seg-00b9fc226c06 = <b>CCSDS Attitude Data Messages</b> (<c1/>, with <c2/>): AEM 
 seg-b8aa23f78f9e = <b>SPICE SPK</b> (<c1/>): writers and readers of NAIF SPK segments of types { "9" } and { "13" } (with the export of a CCSDS OEM to an SPK kernel) and types { "3" } and { "21" } (Chebyshev polynomials and extended difference lines), checked against the NAIF SPICE toolkit's own readers, down to byte identity. Kshana writes the segments from records it is given: it does not fit Chebyshev coefficients or produce difference lines.
 
 # text
-seg-bb97cbb1ab9f = The CCSDS OEM importer and writer, and the OEM covariance block, are older and are described under the imports above and in the matrix.
+# c1: oem-interop
+seg-46490bed6350 = The CCSDS OEM importer and writer, and the OEM covariance block, are older; they are reached through the <c1/> kind and described in the matrix.
 
 # text
-seg-75bacf29672f = Observed tracks ({ "0.42" })
+seg-7f18692db3a9 = Observed tracks (after { $version })
 
 # text
 # c1: kshana connect decode --to geojson|kml|czml

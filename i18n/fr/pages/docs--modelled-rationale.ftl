@@ -1721,7 +1721,6 @@ seg-b19cbd364dea = src/benchmark/scorecard.rs::tests (la PL de référence absor
 
 # text
 # c1: variance
-seg-350aaf43f349 = vérifié par rapport à sa propre identité analytique (en forme close) — détecte les erreurs de transcription et de coefficients, mais n'est pas une référence externe indépendante — Aucune référence externe indépendante, et aucune n'est possible : il s'agit d'une auto-description, non d'une mesure. Elle est consignée parce que son absence était un défaut -- P5 a dû citer la longueur d'onde de la porteuse et l'ouverture d'émission à partir des valeurs par défaut du code source, et déduire, par un contrôle de cohérence interne, qu'un simple <c1/> était en mètres carrés. La déduction était correcte, et c'est précisément pour cela qu'elle importait : rien n'aurait détecté qu'elle soit fausse
 
 # text
 seg-6d963d838eed = hybrid_integrity::tests (la configuration résolue est renvoyée en écho pour les valeurs par défaut et pour les surcharges, sans passer la longueur d'onde par un aller-retour en mètres ; chaque entrée d'unités porte à la fois une unité et une classe de provenance ; chaque champ que le bloc d'unités nomme est effectivement émis, de sorte qu'il ne peut pas documenter un champ fantôme)

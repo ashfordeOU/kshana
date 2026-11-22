@@ -1935,7 +1935,6 @@ seg-2a5e48b558e1 = Le rapport hybrid-optical-rf énonce la configuration de liai
 
 # text
 # c1: variance
-seg-23f0c10237f4 = Aucune référence externe, et aucune n'est possible : il s'agit d'auto-description, non d'une mesure. Elle est consignée parce que son absence était un défaut -- P5 a dû citer la longueur d'onde de la porteuse et l'ouverture d'émission à partir des valeurs par défaut du source, et déduire qu'un <c1/> nu était en mètres carrés à partir d'une vérification de cohérence interne. La déduction était correcte, ce qui est précisément la raison pour laquelle cela importait : rien n'aurait détecté qu'elle était fausse
 
 # text
 seg-0691f3dee8cb = Disponibilité de la liaison hybride optique/RF côté RF

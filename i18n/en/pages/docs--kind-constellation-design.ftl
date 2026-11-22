@@ -52,7 +52,7 @@ seg-6411970ba342 = delta
 
 # text
 # c1: scenarios/
-seg-3bc1761c76ab = { "3" } bundled scenarios use this kind; the others are in <a1><c1/></a1>.
+seg-7f43b9951654 = { "3" } scenario files in <a1><c1/></a1> use this kind.
 
 # text
 seg-0a6f7f6c66c4 = km^3/s^{ "2" }
@@ -61,7 +61,7 @@ seg-0a6f7f6c66c4 = km^3/s^{ "2" }
 seg-e27476e37522 = Earth
 
 # text
-seg-ab9b72b9ffce = Result label (the engine's): MODELLED - two-body Keplerian orbits (optional secular J2) around a spherical body, geometric visibility above an elevation mask, all-in-view dilution of precision with one receiver clock per constellation unless clock = "common"; no signal power, health or terrain. The Walker geometry and the publi
+seg-a6cc1f7100f6 = Result label (the engine's): MODELLED - two-body Keplerian orbits (optional secular J2) around a spherical body, geometric visibility above an elevation mask, all-in-view dilution of precision with one receiver clock per constellation unless clock = "common"; no signal power, health or terrain. The Walker geometry and the…
 
 # attr:alt
 seg-899e728ad9bd = The chart the engine writes for scenarios/leo-pnt-mega-shell.toml, kind constellation-design
@@ -71,38 +71,38 @@ seg-7400f24ec992 = MODELLED { "1" } · VALIDATED { "2" }: the <a1>verification m
 
 # text
 # c1: constellation-design
-seg-602493ac6987 = <b>VALIDATED</b> The <c1/> kind's generators: Walker delta and star patterns in the T/P/F convention (node spacing 360/P or 180/P, in-plane spacing { "360" }·P/T, inter-plane phase offset { "360" }·F/T), and the GPS baseline and expandable 24-slot, Gal
+seg-10174d451b83 = <b>VALIDATED</b> The <c1/> kind's generators: Walker delta and star patterns in the T/P/F convention (node spacing 360/P or 180/P, in-plane spacing { "360" }·P/T, inter-plane phase offset { "360" }·F/T), and the GPS baseline and expandable 24-slot…
 
 # text
 # c1: constellation-design
-seg-bdc81f37ad16 = <b>VALIDATED</b> The <c1/> coverage engine on the GPS baseline 24-slot preset under the GPS Standard Positioning Service Performance Standard (SPS PS) Appendix B conditions (one sidereal day, { "287" } five-minute steps, a { "4" } x { "4" } deg global grid w
+seg-bf0bef3d09fd = <b>VALIDATED</b> The <c1/> coverage engine on the GPS baseline 24-slot preset under the GPS Standard Positioning Service Performance Standard (SPS PS) Appendix B conditions (one sidereal day, { "287" } five-minute steps, a { "4" } x { "4" } deg global grid…
 
 # text
 # c1: constellation-design
-seg-1272200ad4f2 = <b>MODELLED</b> The <c1/> kind beyond the two pinned cases: explicit and multi-shell designs, several constellations per run with one receiver clock per constellation, the Earth, the Moon and Mars from the body constants, the BeiDou preset Tests: <a1>coverage_dop_gnss_lib_py_oracle.rs</a1>.
+seg-dce8182dbb42 = <b>MODELLED</b> The <c1/> kind beyond the two pinned cases: explicit and multi-shell designs, several constellations per run with one receiver clock per constellation, the Earth, the Moon and Mars from the body constants, the BeiDou… Tests: <a1>coverage_dop_gnss_lib_py_oracle.rs</a1>.
 
 # text
 # c1: constellation-design
-seg-0c64f22330d2 = <b>VALIDATED</b> The <c1/> kind's generators: Walker delta and star patterns in the T/P/F convention (node spacing 360/P or 180/P, in-plane spacing { "360" }·P/T, int. Oracle (ExternalDataset): Published agency documents: Galileo Open Service Service Definition Document issue { "1.1" } (European GNSS Service Centre) Tables { "1" } and { "23" }, the reference constellation at 2016-11-21 { "00" }:{ "00" } UTC; GLONASS Interface Control Document edition { "5.1" } ({ "2008" }) section { "5.2" }, the slot formula for node longitude and argument of latitude; GPS Standard Positioning Service Performance Standard 5th edition (April { "2020" }) Tables 3.2-1, 3.2-2 and
+seg-5f35c0957a71 = <b>VALIDATED</b> The <c1/> kind's generators: Walker delta and star patterns in the T/P/F convention (node spacing 360/P or 180/P, in-plane spacing { "360" }·P/T…. Oracle (ExternalDataset): Published agency documents: Galileo Open Service Service Definition Document issue { "1.1" } (European GNSS Service Centre) Tables { "1" } and { "23" }, the reference constellation at 2016-11-21 { "00" }:{ "00" } UTC; GLONASS Interface Control Document edition { "5.1" } ({ "2008" }) section { "5.2" }, the slot formula for node longitude and argument of latitude; GPS Standard Positioning Service Performance Standard 5th edition (April { "2020" }) Tables 3.2-1, 3.2-2…
 
 # text
 # c1: constellation-design
-seg-87c4e19dc780 = <b>VALIDATED</b> The <c1/> coverage engine on the GPS baseline 24-slot preset under the GPS Standard Positioning Service Performance Standard (SPS PS) Appendix . Oracle (ExternalDataset): GPS SPS PS 5th edition (April { "2020" }) Appendix B sections B.3.2.2 and B.3.2.3, the published global-average HDOP distribution of the fully occupied baseline 24-slot constellation (median { "0.94" }, { "90" } % { "1.16" }, { "95" } % { "1.25" }, { "98" } % { "1.37" }, mean { "0.96" }), Table 3.8-1 (PDOP availability) and Table B.3-1 (ensemble PDOP of a degraded constellation, used only as an upper bound), plus a hand-derived closed form for one epoch. The VDOP and PD
+seg-dabbbf79e941 = <b>VALIDATED</b> The <c1/> coverage engine on the GPS baseline 24-slot preset under the GPS Standard Positioning Service Performance Standard (SPS PS)…. Oracle (ExternalDataset): GPS SPS PS 5th edition (April { "2020" }) Appendix B sections B.3.2.2 and B.3.2.3, the published global-average HDOP distribution of the fully occupied baseline 24-slot constellation (median { "0.94" }, { "90" } % { "1.16" }, { "95" } % { "1.25" }, { "98" } % { "1.37" }, mean { "0.96" }), Table 3.8-1 (PDOP availability) and Table B.3-1 (ensemble PDOP of a degraded constellation, used only as an upper bound), plus a hand-derived closed form for one epoch. The VDOP and…
 
 # text
 # c1: constellation-design
-seg-04289f7252cd = <b>MODELLED</b> The <c1/> kind beyond the two pinned cases: explicit and multi-shell designs, several constellations per run with one receiver clock per conste. Oracle (InternalConsistency): Internal consistency: the brute-force elevation scan, the hand-computed and orbit::dop reductions, and the closed-form Walker and geosynchronous geometry. Two-body orbits with an optional secular J2, a spherical body with the local vertical along the radius, geometric visibility only (no signal power, satellite health, terrain or third-body perturbation), and the relative phase between systems taken from different re
+seg-8463e0a3c9ea = <b>MODELLED</b> The <c1/> kind beyond the two pinned cases: explicit and multi-shell designs, several constellations per run with one receiver clock per…. Oracle (InternalConsistency): Internal consistency: the brute-force elevation scan, the hand-computed and orbit::dop reductions, and the closed-form Walker and geosynchronous geometry. Two-body orbits with an optional secular J2, a spherical body with the local vertical along the radius, geometric visibility only (no signal power, satellite health, terrain or third-body perturbation), and the relative phase between systems taken from different…
 
 # text
 # c1: label
-seg-00fa65d44cbd = MODELLED - two-body Keplerian orbits (optional secular J2) around a spherical body, geometric visibility above an elevation mask, all-in-view dilution of precision with one receiver clock per constellation unless clock = "common"; no signal power, health or terrain. The Walker geometry and the published presets are checked against the Galileo OS SDD, the GLONASS ICD and the GPS SPS Performance Standard slot tables, a (result <c1/>)
+seg-dc67224e40ce = MODELLED - two-body Keplerian orbits (optional secular J2) around a spherical body, geometric visibility above an elevation mask, all-in-view dilution of precision with one receiver clock per constellation unless clock = "common"; no signal power, health or terrain. The Walker geometry and the published presets are checked against the Galileo OS SDD, the GLONASS ICD and the GPS SPS Performance Standard slot tables… (result <c1/>)
 
 # text
 # c1: kshana kinds --json
 seg-62f0fc16a247 = MODELLED: two-body orbits with optional secular J2, a spherical body, geometric visibility only (no signal power, health or terrain), and the relative phase between different systems, which is not a snapshot of any real date. (kind catalogue (<c1/>))
 
 # text
-seg-3ef4276dd40b = What the run answers: satellites in view, PDOP/HDOP/VDOP/GDOP per { "10" } deg cell, and the share of time with PDOP at or below { "3" } above a { "20" } deg mask over two hours. The weak spot the map shows is the polar caps: no shell reaches above about { "82" } deg latitude, so a user near a pole sees every satellite on one side of the sky and the vertical geometry degrades. MODELLED: an illustrative design, two-body orbits with J2, a sph (scenario file comment, lines { "17" } to { "21" })
+seg-5d2d64e4d64e = What the run answers: satellites in view, PDOP/HDOP/VDOP/GDOP per { "10" } deg cell, and the share of time with PDOP at or below { "3" } above a { "20" } deg mask over two hours. The weak spot the map shows is the polar caps: no shell reaches above about { "82" } deg latitude, so a user near a pole sees every satellite on one side of the sky and the vertical geometry degrades. MODELLED: an illustrative design, two-body orbits with J2, a… (scenario file comment, lines { "17" } to { "21" })
 
 # text
 seg-c333d3fe22cd = Coverage and dilution-of-precision maps for arbitrary multi-constellation designs at scale, around any central body is MODELLED, not validated: checked against its own closed-form / analytic identity — catches transcription and coefficient errors, but is not an external oracle. (verification matrix (docs/MODELLED-RATIONALE.md))

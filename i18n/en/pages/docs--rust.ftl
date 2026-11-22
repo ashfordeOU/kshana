@@ -192,14 +192,12 @@ seg-35965c7df95f = A run dispatches on the scenario's <c1/> and writes <c2/>, <c
 seg-fc13b487ccc5 = From a clone of the repository the same commands take the files under <c1/> directly, including the multi-scenario study (<c2/>) and <c3/>, the one scenario that reads real laser-ranging data shipped with the repository only.
 
 # text
-seg-12a295fba8a5 = Every capability in the verification matrix is labelled <b>validated</b> (checked against an independent external oracle), <b>modelled</b> or <b>partner-owned</b>; optical-clock figures are space goals on ground hardware (no strontium optical clock has flown). Maturity is <em>not</em> uniform across domains — Earth PNT is validated against real data; deep-space and Mars navigation is modelled, with only its building blocks (light time, planet positions) validated against external oracles; real-mission deep-space OD (orbit determination) is on the roadmap.
+seg-1a2bb7f69c1a = Every capability in the verification matrix is labelled <b>validated</b> (checked against an independent external oracle), <b>modelled</b> or <b>partner-owned</b>; optical-clock figures are space goals on ground hardware (no strontium optical clock has flown). Maturity is <em>not</em> uniform across domains — most VALIDATED rows are in Earth PNT, several against real data; deep-space and Mars navigation is modelled, with only its building blocks (light time, planet positions) validated against external oracles; real-mission deep-space OD (orbit determination) is on the roadmap.
 
 # text
 # c1: kshana kinds
-# c2: gnss-ssv
-# c3: lunar-infrastructure
-# c4: holdover-test
-seg-80e5f0aa2831 = The engine has { "93" } scenario kinds; <c1/> lists them with their fields. New in { "0.38.0" }: <c2/> (GNSS signals for spacecraft above, around and past the GNSS orbits) and <c3/> (lunar orbit and surface as navigation and geodetic infrastructure), both MODELLED, and <c4/> (a time-error record against the ITU-T masks).
+# c2: tip-and-cue
+seg-d4340a3a2fa2 = The engine has { "93" } scenario kinds; <c1/> lists them with their fields. New in { $version }: <c2/> (how often a wide-area RF survey revisits a sea area and how soon it can cue an optical look), MODELLED.
 
 # text
 seg-68ed88ec0b32 = <b>Spectrum</b>: how a jammer takes the GNSS L band, band by band.
@@ -250,7 +248,7 @@ seg-1944d0fada06 = <b>Test bench and compliance mapping</b> (<c1/>, <c2/>): a sc
 seg-68274ce67506 = <b>GNSS IQ lab</b> (<c1/>): scenes, acquisition, tracking, monitors and campaigns on recorded and synthetic IQ.
 
 # attr:alt
-seg-6b43a8c3031e = One open engine at the centre, kshana { $version }, with a typed dispatch over { "75" } kinds; around it the command line, the Rust library, Python, WebAssembly and Kshana Studio, the MCP server, the Docker image and the JetBrains plugin; below it Kshana Pro, a proprietary overlay that depends on the open engine and never forks it
+seg-dfe7de9cb1dd = One open engine at the centre, kshana { $version }, with a typed dispatch over { "93" } kinds; around it the command line, the Rust library, Python, WebAssembly and Kshana Studio, the MCP server, the Docker image and the JetBrains plugin; below it Kshana Pro, the professional edition, which depends on the open engine, never forks it and never changes its physical models
 
 # text
 # c1: kshana-mcp
@@ -260,7 +258,7 @@ seg-ea6f46d62e7b = The same scenario file gives the same bytes on every surface.
 seg-f51b0a8cd30e = Six papers on arXiv are built on the open engine, each with the command behind it: <a1>arXiv:{ "2606.22054" }</a1> (the optimism gap of interference detectors), <a2>arXiv:{ "2606.24210" }</a2> (a conditional timing protection level), <a3>arXiv:{ "2607.05415" }</a3> (how stable a PNT resilience score is), <a4>arXiv:{ "2607.02566" }</a4> (lunar surface station observability with very-long-baseline interferometry), <a5>arXiv:{ "2607.06212" }</a5> (lunar south-polar geometry and surface beacons) and <a6>arXiv:{ "2610.23871" }</a6> (cislunar navigation as an observability problem: arc length, Gramian conditioning and the Doppler lever). See <a7>Research</a7>.
 
 # text
-seg-dad7832bf2d2 = The whole engine is free under the AGPL-3.0. Kshana Pro, a proprietary overlay that depends on the open engine and never forks it, and custom studies are available under contract from Ashforde® OÜ: <a1>contact@ashforde.org</a1>. There are no prices; see <a2>docs/PRO.md</a2>.
+seg-4d56c8bae71b = The whole engine is free under the AGPL-3.0. <b>Kshana Pro</b> is the professional edition for teams that have to decide and deliver: design-space studies, uncertainty and sensitivity, requirements traceability and mission dossiers, regression watch for CI pipelines, spectrum coexistence, an on-premises service, signed evidence packs and direct support. It runs the same engine and the same scenario files. Pro and custom studies are available under contract from Ashforde® OÜ: <a1>contact@ashforde.org</a1>. There are no prices; see <a2>docs/PRO.md</a2>.
 
 # text
 seg-d217f23af0c2 = Learn more

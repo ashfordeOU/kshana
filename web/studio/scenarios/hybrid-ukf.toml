@@ -25,8 +25,8 @@
 # NOT a real-world accuracy guarantee.
 #
 # HONESTY: everything here is MODELLED / SIMULATION. The CAI and clock inputs are bracketed,
-# literature-representative values, not measured hardware; the CAI hardware and its Key-Person
-# stay partner-owned. No TRL>3, no flight heritage, no external validation.
+# literature-representative values, not measured hardware; the CAI hardware
+# stays partner-owned. No TRL>3, no flight heritage, no external validation.
 kind = "hybrid-ukf"
 seed = 1771
 

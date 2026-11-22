@@ -28,34 +28,34 @@ seg-1e724b481e67 = LEO-PNT signal designs: parameterised low Earth orbit (LEO) p
 seg-23f3c33445d1 = MODELLED { "2" } · VALIDATED { "2" }
 
 # text
-seg-82ad7da67939 = LEO pass and link budget, band by band, for LEO-PNT (positioning, navigation and timing from low Earth orbit), system-agnostic: a user (ground, maritime, air or indoor, static or moving) and one or mo
+seg-e7c82eacbbfb = LEO pass and link budget, band by band, for LEO-PNT (positioning, navigation and timing from low Earth orbit), system-agnostic: a user (ground, maritime, air or indoor, static or moving) and one or…
 
 # text
 seg-3f28c23605a4 = MODELLED { "7" } · VALIDATED { "5" }
 
 # text
-seg-c20a76308fb3 = LEO navigation message: the broadcast ephemeris and clock of a low Earth orbit (LEO) positioning, navigation and timing satellite, for any orbit, carrier and model, with optional named presets (Xona P
+seg-ccf1ad14a682 = LEO navigation message: the broadcast ephemeris and clock of a low Earth orbit (LEO) positioning, navigation and timing satellite, for any orbit, carrier and model, with optional named presets (Xona…
 
 # text
-seg-04fdaadf1cba = MODELLED { "5" } · VALIDATED { "6" }
+seg-2e2966bb3012 = MODELLED { "3" } · VALIDATED { "1" }
 
 # text
-seg-06236b581684 = Fused medium-Earth-orbit (MEO) and low-Earth-orbit (LEO) positioning, navigation and timing (PNT) over ANY constellations: each [[system]] is a GNSS preset of the constellation-design kind, a LEO pres
+seg-e11cac949f4f = Fused medium-Earth-orbit (MEO) and low-Earth-orbit (LEO) positioning, navigation and timing (PNT) over ANY constellations: each [[system]] is a GNSS preset of the constellation-design kind, a LEO…
 
 # text
 seg-02706b96f8fa = MODELLED { "3" } · VALIDATED { "2" }
 
 # text
-seg-d9e5f4726bbb = Precise point positioning (PPP) convergence with GNSS only and with LEO augmentation: a float extended Kalman filter on ionosphere-free code and carrier phase with the static station coordinates, a wh
+seg-2492fd2fcaea = Precise point positioning (PPP) convergence with GNSS only and with LEO augmentation: a float extended Kalman filter on ionosphere-free code and carrier phase with the static station coordinates, a…
 
 # text
-seg-44f4148f4a5f = Positioning from a 5G non-terrestrial network (NTN) downlink in the mobile-satellite service (MSS) S band (3GPP band n256, downlink { "2170" } to { "2200" } MHz; default carrier { "2172.5" } MHz): the Cramér-Rao bound
+seg-817ac1c5b85d = Positioning from a 5G non-terrestrial network (NTN) downlink in the mobile-satellite service (MSS) S band (3GPP band n256, downlink { "2170" } to { "2200" } MHz; default carrier { "2172.5" } MHz): the Cramér-Rao…
 
 # text
 seg-6e0cb6acc073 = VALIDATED
 
 # text
-seg-1ee838a551ef = One LEO-PNT (positioning, navigation and timing from low Earth orbit) system end to end, for any constellation and signal: the leo-signal design named by signal_design (a public preset or an inline [s
+seg-2a41d8014a8b = One LEO-PNT (positioning, navigation and timing from low Earth orbit) system end to end, for any constellation and signal: the leo-signal design named by signal_design (a public preset or an inline…
 
 # text
 seg-97b8d07150d4 = LEO-PNT signal designs: parameterised low Earth orbit (LEO) positioning, navigation and timing (PNT) signals for any system, band and structure. A SIGNAL is a band (centre frequency, transmit bandwidth, ITU allocation RNSS/RDSS/MSS/EESS/non-RNSS/other) and components (acquisition, data, pilot; any subset), each with a modulation (BPSK(n) with fractional n, BOC(m,n), MBOC({ "6,1" },p) or a flat OFDM-like band), a power share, optional FDMA sub-carrier offsets, a code length and a data rate. Signals come from compiled-in public preset files (xona-pulsar, iridium-stl, starlink-soo, centispace, generic-c-band, generic-bands; each with its source URL and every unpublished value labelled REPRESENTATIVE) or are written inline. PER SIGNAL: the band-limited power spectral density and the fraction of each component's power the transmit band passes (BPSK closed form beside the numeric value), the RMS (Gabor) bandwidth, the delay-lock-loop code-tracking thermal-noise jitter against C/N0 and early-late spacing from the band-limited coherent (or non-coherent) early-late formula of Betz & Kolodziejski { "2009" } with its unlimited-band textbook form and its vanishing-spacing Gabor bound, the ranging accuracy in metres, the acquisition search space (Doppler bins from the orbit's maximum Doppler plus oscillator and user terms, times code bins), square-law detection probability and the mean serial and code-parallel acquisition time, the spectral separation coefficient of the signal into GPS L1 C/A, Galileo E1, GPS L5, Galileo E5a, E5b and E5 AltBOC and of each into the signal with the C/N0 degradation, and the CW, wideband and matched J/S the tracked component tolerates, from the spectrum kind's own SSC machinery. A BAND TRADE: first-order ionospheric delay ({ "40.3" } TEC/f^{ "2" }), free-space loss, ranging accuracy at equal C/N0 and at equal EIRP, and jammer tolerance. Optional SHAPE CHECKS hold a design's spectrum against a described measurement (MODELLED consistency). VALIDATED: the BPSK power-in-band ({ "90.3" } % in the main lobe) and Gabor-bandwidth closed forms, the band-limited jitter reducing to the textbook coherent early-late form and to its Gabor bound, the offset BPSK spectral separation coefficient against its Parseval closed form, the AltBOC spectrum's unit area, and the maximum LEO Doppler against the published Xona Pulsar (32-34 kHz) and Iridium ({ "36" } kHz) figures. MODELLED: every design, power split, C/N0 and jammer level; EFQPSK, CSK and OFDM spectra are approximated.
@@ -122,7 +122,7 @@ seg-867f3e41b5ab = LEO navigation message: the broadcast ephemeris and clock of 
 seg-cba2c7f7050a = Required fields: none. Optional: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>.
 
 # text
-seg-7ba3e667487d = <b>Ledger:</b> MODELLED { "5" } · VALIDATED { "6" }. Full page, with the inputs, results, evidence and limitations: <a1>leo-navmsg</a1>.
+seg-cea12ffb698c = <b>Ledger:</b> MODELLED { "3" } · VALIDATED { "1" }. Full page, with the inputs, results, evidence and limitations: <a1>leo-navmsg</a1>.
 
 # attr:alt
 seg-35e92abc6a23 = The chart the engine writes for scenarios/leo-navmsg-celeste-iod.toml, kind leo-navmsg

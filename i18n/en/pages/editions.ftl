@@ -128,7 +128,7 @@ seg-e6d424c47b13 = Ask about a commercial licence
 seg-3260efe6fdd6 = Commercial · the same engine, amplified
 
 # text
-seg-5f2b975569f1 = The commercial edition: everything in the open core, plus the tools a programme needs to decide and to defend the decision. Available under contract.
+seg-ddf7c93deaff = The professional edition: everything in the open core, plus the tools a programme needs to decide and to defend the decision. Available under contract.
 
 # text
 seg-d997b6a5a416 = Why Pro, even more
@@ -155,10 +155,10 @@ seg-1130c4820875 = <a1>Confidence and risk</a1>: confidence bands, the probabili
 seg-d407a4316287 = <a1>Mission dossiers</a1> in one command, with a verification matrix and a PDF (Portable Document Format) report
 
 # text
-seg-8f45ebee33f6 = <a1>Also</a1>: requirements traceability, regression watch, spectrum coexistence, trade studies, clock digital twins and an on-premises service
+seg-88d59582f220 = <a1>Also</a1>: requirements traceability, regression watch, spectrum coexistence, trade studies, clock digital twins, technical notes, signed evidence and an on-premises service
 
 # text
-seg-e6213b4f98a8 = Support from the team that builds the engine, and a commercial licence
+seg-7db6c10a3905 = Support from the team that builds the engine, licensed under contract
 
 # text
 seg-e5e5821f2070 = Kshana Pro is available under contract. It is built on the open core and never forks it, so nothing is taken out of the free engine.
@@ -246,13 +246,13 @@ seg-6574581cd2d4 = Get warranty, indemnity or support terms the AGPL disclaims
 seg-2cbf39df6210 = Kshana Pro and the other proprietary overlays are separate products under their own contract, not part of either licence. <a1>What the commercial licence covers</a1>
 
 # text
-seg-6a032e125cf7 = Kshana Pro · the commercial edition
+seg-4945c1c72698 = Kshana Pro · the professional edition
 
 # text
 seg-bbf84d10fc4a = From a simulation to a decision you can defend.
 
 # text
-seg-2a727a3a2e97 = Kshana Pro is the commercial edition of Kshana, for teams that have to choose a design, say how sure they are and hand the evidence to a review board. It runs on the same open engine and the same scenario files, adds the tools a programme needs on top, and comes with support and a commercial licence under contract.
+seg-0f61d5ea7699 = Kshana Pro is the professional edition of Kshana, for teams that have to choose a design, say how sure they are and hand the evidence to a review board. It runs on the same open engine and the same scenario files, adds the tools a programme needs on top, and comes with support and licensing under contract.
 
 # text
 seg-0d0f679cd8fe = <b>Mission and system architects</b> who choose between designs and have to show why one was picked.
@@ -339,7 +339,16 @@ seg-94167c05dd70 = Clock digital twins
 seg-1f4410fb4a27 = How will our own clock hold time?
 
 # text
-seg-54f36cf13204 = A digital twin of your own clock, built from your device's data under contract and a non-disclosure agreement, for holdover and timing studies.
+seg-84b4596359b2 = A digital twin of a clock that behaves like the device's published stability, checked before it is used. A twin of your own device is built with you, from your data, under contract and a non-disclosure agreement.
+
+# text
+seg-0ab25634d4c2 = Technical notes
+
+# text
+seg-04757233dbf6 = Can one run become a document we can share?
+
+# text
+seg-5605d3fc401c = One scenario becomes a reproducible technical note in HTML (HyperText Markup Language) and JSON (JavaScript Object Notation): scope, method, results with an evidence label on every figure, limitations and the exact scenario run.
 
 # text
 seg-ebef72dee226 = On-premises service
@@ -349,6 +358,15 @@ seg-4b78e7ede44b = Can the team queue studies on its own network?
 
 # text
 seg-614f6b16cecf = Run Kshana Pro as a service inside your network: the team queues studies, they run unattended, and you can show afterwards which result was delivered for which request.
+
+# text
+seg-1394d0d0f91f = Signed evidence
+
+# text
+seg-9d6b243d7bc8 = Can the receiver trust what we hand over?
+
+# text
+seg-8d48a130cd40 = Kshana Pro signs its evidence packs and dossiers. Whoever receives one can check that nothing changed since it was signed, and with which key, without a Pro licence.
 
 # text
 seg-2b900e902e3c = Why teams choose Kshana Pro
@@ -363,7 +381,7 @@ seg-7ef48916a520 = The free engine answers one scenario at a time. Kshana Pro an
 seg-d74eb21cbd2b = Evidence a reviewer can check.
 
 # text
-seg-701148596b70 = Every figure keeps the label the open engine gave it (Validated, Modelled or Partner), and every result can be re-run with the free engine.
+seg-bf00c586e831 = Every figure keeps the label the open engine gave it (Validated, Modelled or Partner), deliverables are signed, and every result can be re-run with the free engine.
 
 # text
 seg-590f8a089c4e = Support from the team that builds the engine.
@@ -372,10 +390,10 @@ seg-590f8a089c4e = Support from the team that builds the engine.
 seg-3e9b605d46d7 = Onboarding, help with your scenarios and attention to the issues that block your programme, on the terms of your contract.
 
 # text
-seg-bc5e37b2ce45 = A commercial licence.
+seg-54bcd7e83fc9 = Licensed under contract.
 
 # text
-seg-850a2a906726 = Kshana Pro is licensed under contract, with the warranty, indemnity and support terms agreed there.
+seg-d60cf1a229b2 = Kshana Pro comes with the warranty, indemnity and support terms agreed in your contract.
 
 # text
 seg-760cfc5fcd00 = Runs where your data is.

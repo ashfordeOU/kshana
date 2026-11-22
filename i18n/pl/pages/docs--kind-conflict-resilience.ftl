@@ -30,7 +30,7 @@ seg-c0e69524f05d = <b>MODELLED</b> Podwyniki dla poszczególnych wymiarów w sie
 
 seg-2ca37a78e899 = MODELLED odporność warstwowego PNT w konflikcie (P7). Rdzeń VALIDATED: prawdopodobieństwo całkowitej utraty Monte Carlo zbiega do zamkniętego iloczynu niezależnego Pi_i p_deny_i (sprawdzone w granicach błędu standardowego Monte Carlo przy stałym ziarnie i dużym N); połączenie pozycji odwrotnej wariancji sigma_fused = (sum_i 1/sigma_i^{ "2" })^(-1/2) jest tożsamością w postaci zamkniętej; przy korelacji rho={ "0" } kopuła Gaussa redukuje się dokładnie do niezależnego mo (wynik <c1/>)
 
-seg-d0d834e377ee = Odporność warstwowego PNT w konflikcie MODELLED (P7): użytkownik w środowisku spornym dysponuje kilkoma warstwami PNT (GNSS usługi otwartej, szerokopasmowy GNSS, uwierzytelniona konstelacja, przekaźnik augmentacji), każda z bazową dostępnością, dokładnością 1σ i podatnością na odmowę dla każdego wektora wspólnego zagrożenia zagłuszaniem/spoofingiem. (katalog rodzajów (<c1/>))
+seg-a6619df36cf9 = Odporność warstwowego PNT w konflikcie MODELLED: użytkownik w środowisku spornym dysponuje kilkoma warstwami PNT (GNSS usługi otwartej, szerokopasmowy GNSS, uwierzytelniona konstelacja, przekaźnik augmentacji), każda z bazową dostępnością, dokładnością 1σ i podatnością na odmowę dla każdego wektora wspólnego zagrożenia zagłuszaniem/spoofingiem. (katalog rodzajów (<c1/>))
 
 seg-3ca12700b54c = Główny współczynnik odporności (prawdopodobieństwo całkowitej utraty dla pojedynczej warstwy wobec warstwowego) wynosi ~7x przy założeniu NIEZALEŻNOŚCI; jednoczynnikowy przegląd skorelowanej odmowy z kopułą Gaussa pokazuje następnie, że to ~7x zapada się ku { "1" } w miarę wzrostu korelacji odmowy (korelacja pokonuje warstwowanie). (katalog rodzajów (<c1/>))
 

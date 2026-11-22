@@ -336,7 +336,7 @@ ICD: RFC 4231 (HMAC-SHA-256), RFC 4493 (CMAC-AES-128), FIPS 197 (AES), FIPS 202
 (SHA3-256) and RFC 6979 (ECDSA P-256). P-521 signatures are checked for encoding and
 hash selection with a throwaway key made in the test; the curve arithmetic is the
 library&#39;s.</p>
-<p>Conformance is checked by <code>tests/osnma_official_vectors.rs</code>, which is opt-in: it reads a
+<p>Agreement with the official test vectors is checked by <code>tests/osnma_official_vectors.rs</code>, which is opt-in: it reads a
 copy of the official test-vector archive that you download yourself, from the
 directory named by <code>KSHANA_OSNMA_VECTORS</code>, and does nothing when the variable is unset.
 It stores and redistributes nothing, and default test runs use no network.

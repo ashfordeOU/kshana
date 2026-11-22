@@ -24,7 +24,7 @@ seg-d331a1cfc60b = Roles
 
 # text
 # c1: contact@ashforde.org
-seg-88bb2a831125 = <b>Maintainer.</b> Kshana is currently maintained by its founder, Ashforde OÜ (contact: <c1/>). The maintainer is the final decision-maker on scope, design, releases, and what is merged. This is a benevolent-maintainer model, stated plainly rather than dressed up as a committee that does not exist.
+seg-0c268eae5545 = <b>Maintainer.</b> Kshana is currently maintained by Ashforde OÜ (contact: <c1/>). The maintainer is the final decision-maker on scope, design, releases, and what is merged. This is a benevolent-maintainer model, stated plainly rather than dressed up as a committee that does not exist.
 
 # text
 # c1: CONTRIBUTING.md

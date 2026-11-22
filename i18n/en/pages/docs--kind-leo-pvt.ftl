@@ -49,7 +49,7 @@ seg-7f5ad6ab8c23 = GPS
 
 # text
 # c1: scenarios/
-seg-99a3c57c7926 = { "7" } bundled scenarios use this kind; the others are in <a1><c1/></a1>.
+seg-08f00c7015c8 = { "7" } scenario files in <a1><c1/></a1> use this kind.
 
 # text
 seg-b054c73f22e5 = no value
@@ -64,25 +64,25 @@ seg-90361a6f4e3c = The chart the engine writes for scenarios/leo-pvt-fjord-skyli
 seg-57cd9c415e31 = MODELLED { "3" } · VALIDATED { "2" }: the <a1>verification matrix</a1> rows that name this kind.
 
 # text
-seg-68aa305e05a4 = <b>VALIDATED</b> Exact range rate of a satellite whose Earth-fixed position and velocity come from a two-body orbit with the secular J2 drift and the Earth's rotation (leo_fusion::geom::EarthOrbit::state, velocity the exact time derivative of the position), Tests: <a1>leo_doppler_reference.rs</a1>.
+seg-c67f158e2a8d = <b>VALIDATED</b> Exact range rate of a satellite whose Earth-fixed position and velocity come from a two-body orbit with the secular J2 drift and the Earth's rotation (leo_fusion::geom::EarthOrbit::state, velocity the exact time derivative of the… Tests: <a1>leo_doppler_reference.rs</a1>.
 
 # text
-seg-c3ef3e0163f2 = <b>MODELLED</b> Batch Gauss-Newton positioning from range rate with analytic partials (d rho_dot / d r = -(I - u u^T)(v_s - v_u)/rho, d/dv = -u, d/d drift = { "1" }), a constant user velocity as an option, a height pseudo-measurement for a surface user, damped s Tests: <a1>leo_fusion_scenarios.rs</a1>.
+seg-bef108883568 = <b>MODELLED</b> Batch Gauss-Newton positioning from range rate with analytic partials (d rho_dot / d r = -(I - u u^T)(v_s - v_u)/rho, d/dv = -u, d/d drift = { "1" }), a constant user velocity as an option, a height pseudo-measurement for a surface user, damped… Tests: <a1>leo_fusion_scenarios.rs</a1>.
 
 # text
-seg-a4e0166269ea = <b>MODELLED</b> Weighted least-squares Gauss-Newton fixes over any mix of systems, one receiver clock per system (the inter-system bias estimated with the position) or a known broadcast offset on the reference time scale; per-measurement sigmas supplied by Tests: <a1>leo_fusion_scenarios.rs</a1>.
+seg-c487974c5e57 = <b>MODELLED</b> Weighted least-squares Gauss-Newton fixes over any mix of systems, one receiver clock per system (the inter-system bias estimated with the position) or a known broadcast offset on the reference time scale; per-measurement sigmas supplied… Tests: <a1>leo_fusion_scenarios.rs</a1>.
 
 # text
-seg-5c9f826efbc8 = <b>MODELLED</b> Clock measurements from every LEO satellite in view at a known position, combined by inverse variance from the pseudorange noise model, filtered by a two-state (phase, frequency) Kalman filter whose process noise is the oscillator class's w Tests: <a1>leo_fusion_scenarios.rs</a1>.
+seg-f2b8c8899089 = <b>MODELLED</b> Clock measurements from every LEO satellite in view at a known position, combined by inverse variance from the pseudorange noise model, filtered by a two-state (phase, frequency) Kalman filter whose process noise is the oscillator class's… Tests: <a1>leo_fusion_scenarios.rs</a1>.
 
 # text
 seg-3319b18ac61f = and { "1" } more in the matrix.
 
 # text
-seg-f6bd93155e41 = <b>MODELLED</b> Weighted least-squares Gauss-Newton fixes over any mix of systems, one receiver clock per system (the inter-system bias estimated with the position) or a known . Oracle (InternalConsistency): A hand-derived four-satellite DOP (one satellite at the zenith and three on the horizon { "120" } deg apart, whose normal matrix inverts by hand), the structural identity that a system with its own clock and one satellite adds no geometry, noise-free recovery of position, clock and bias, and seeded errors against the covariance. Internal checks only; not compared with a receiver's output. { "0.30" } external comparison, a findin
+seg-5972add0b4c6 = <b>MODELLED</b> Weighted least-squares Gauss-Newton fixes over any mix of systems, one receiver clock per system (the inter-system bias estimated with the position) or a…. Oracle (InternalConsistency): A hand-derived four-satellite DOP (one satellite at the zenith and three on the horizon { "120" } deg apart, whose normal matrix inverts by hand), the structural identity that a system with its own clock and one satellite adds no geometry, noise-free recovery of position, clock and bias, and seeded errors against the covariance. Internal checks only; not compared with a receiver's output. { "0.30" } external comparison, a…
 
 # text
-seg-4056b0470099 = <b>MODELLED</b> System-agnostic inputs: every system is Walker shells, explicit elements or a GNSS preset, a signal (carrier, chip rate, bandwidth, received power or C/N0 range. Oracle (InternalConsistency): Transcription of the cited public values, checked for structure (every public source has a URL, Walker patterns divide evenly, the C/N0 from received power over kT at { "290" } K), not against an external oracle. Representative values are named in each preset and are illustrative
+seg-cf922318d7e5 = <b>MODELLED</b> System-agnostic inputs: every system is Walker shells, explicit elements or a GNSS preset, a signal (carrier, chip rate, bandwidth, received power or C/N0…. Oracle (InternalConsistency): Transcription of the cited public values, checked for structure (every public source has a URL, Walker patterns divide evenly, the C/N0 from received power over kT at { "290" } K), not against an external oracle. Representative values are named in each preset and are illustrative
 
 # text
 # c1: label

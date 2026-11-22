@@ -120,7 +120,7 @@ seg-1604a8087643 = <b>What the observatory does instead.</b> The question the al
 
 # text
 # c1: kshana::interference_map::almanac_hdop
-seg-a74caf601a7a = <b>What was built ({ "0.41" }, D18).</b> An almanac-HDOP scorer, <c1/>, built from public material only and labelled as Kshana's own method; it does not reproduce the paper above. For each report:
+seg-88a17631dcee = <b>What was built ({ "0.41" }).</b> An almanac-HDOP scorer, <c1/>, built from public material only and labelled as Kshana's own method; it does not reproduce the paper above. For each report:
 
 # text
 seg-8c55525969f3 = HDOP at the report's position and time, from the GPS almanac of the day in the YUMA format published by the U.S. Coast Guard Navigation Center (<a1>https://www.navcen.uscg.gov/</a1>). Satellites are propagated with the almanac equations of IS-GPS-200, with an elevation mask stated by the caller (geodetic horizon).

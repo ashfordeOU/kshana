@@ -63,7 +63,7 @@ seg-ebc18c9bcbac = differential
 
 # text
 # c1: scenarios/
-seg-51362910dcb7 = { "2" } bundled scenarios use this kind; the others are in <a1><c1/></a1>.
+seg-2224c257616c = { "2" } scenario files in <a1><c1/></a1> use this kind.
 
 # text
 seg-98151954f217 = false
@@ -76,11 +76,11 @@ seg-8073ece4c900 = The chart the engine writes for scenarios/lunar-descent.toml,
 
 # text
 # c1: lunar-descent
-seg-d5da9ee3c152 = <b>MODELLED</b> The <c1/> kind and phase: a five-state per-axis inertial error model (position, velocity, accelerometer bias, tilt, gyro bias) over a powered descent, aided by AFS fixes (standalone or differential, with the clock-aided three-rela
+seg-da539d8e468e = <b>MODELLED</b> The <c1/> kind and phase: a five-state per-axis inertial error model (position, velocity, accelerometer bias, tilt, gyro bias) over a powered descent, aided by AFS fixes (standalone or differential, with the clock-aided…
 
 # text
 # c1: lunar-descent
-seg-bfe4c0a04288 = <b>MODELLED</b> The <c1/> kind and phase: a five-state per-axis inertial error model (position, velocity, accelerometer bias, tilt, gyro bias) over a powered descent,. Oracle (InternalConsistency): The closed-form inertial drift, the reused kinds' own results and the calibration of the 3-sigma ellipse (the fraction inside agrees with its expectation) in the tests. No flown or tested landing is compared
+seg-4b166c63ac05 = <b>MODELLED</b> The <c1/> kind and phase: a five-state per-axis inertial error model (position, velocity, accelerometer bias, tilt, gyro bias) over a powered…. Oracle (InternalConsistency): The closed-form inertial drift, the reused kinds' own results and the calibration of the 3-sigma ellipse (the fraction inside agrees with its expectation) in the tests. No flown or tested landing is compared
 
 # text
 # c1: label
@@ -95,7 +95,7 @@ seg-ed286f215c96 = MODELLED landing-dispersion budget for a powered descent to a
 seg-c1bd92ba429b = MODELLED: illustrative IMU class, relay set, descent profile and guidance term; terrain-nav uses a synthetic relief on an Earth metre scale; AFS availability is one epoch on a flat mask. (kind catalogue (<c1/>))
 
 # text
-seg-85714bc3cf2a = HONESTY: MODELLED. The IMU class, the descent profile, the relay set, the signal-in-space error and the guidance term are ILLUSTRATIVE inputs, not measurements. The terrain-nav mode uses the self-contained synthetic relief and an Earth metre scale, so the terrain term here is the matcher's behaviour on a stand-in, not a statement about south-polar relief: the lola-crlb variant (lunar-descent-lola.toml) uses the real (scenario file comment, lines { "14" } to { "20" })
+seg-5d1823305906 = HONESTY: MODELLED. The IMU class, the descent profile, the relay set, the signal-in-space error and the guidance term are ILLUSTRATIVE inputs, not measurements. The terrain-nav mode uses the self-contained synthetic relief and an Earth metre scale, so the terrain term here is the matcher's behaviour on a stand-in, not a statement about south-polar relief: the lola-crlb variant (lunar-descent-lola.toml) uses the… (scenario file comment, lines { "14" } to { "20" })
 
 # text
 # c1: lunar-descent

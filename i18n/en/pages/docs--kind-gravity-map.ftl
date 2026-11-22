@@ -51,7 +51,7 @@ seg-5dfee3a0cc22 = The example <c1/> sets, among others:
 
 # text
 # c1: scenarios/
-seg-0cd8dc81045c = { "4" } bundled scenarios use this kind; the others are in <a1><c1/></a1>.
+seg-3e71e55e8db4 = { "4" } scenario files in <a1><c1/></a1> use this kind.
 
 # text
 seg-df8d5e07e737 = mGal

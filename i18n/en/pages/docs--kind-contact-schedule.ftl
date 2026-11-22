@@ -47,29 +47,29 @@ seg-dfe78b9d0811 = GHz
 seg-37d16b499bc5 = dB
 
 # text
-seg-cade59b5a371 = Result label (the engine's): MODELLED — multi-satellite, multi-station contact plan: apparent access windows (SGP4, IAU 2006/2000A, ITU-R P.834 refraction, light time), DVB-S2 ACM data volume per pass from a clear-sky link budget (ETSI EN { "302" } 307-1 Table { "13" } thresholds), and conflict resolution (one satellite per antenna with tu
+seg-2900f9bdfd95 = Result label (the engine's): MODELLED — multi-satellite, multi-station contact plan: apparent access windows (SGP4, IAU 2006/2000A, ITU-R P.834 refraction, light time), DVB-S2 ACM data volume per pass from a clear-sky link budget (ETSI EN { "302" } 307-1 Table { "13" } thresholds), and conflict resolution (one satellite per antenna with…
 
 # attr:alt
 seg-e26b549579e2 = The chart the engine writes for scenarios/contact-schedule.toml, kind contact-schedule
 
 # text
-seg-0f4c2ab525ac = <b>MODELLED</b> Downlink Es/N0 along each pass of one satellite over one station (EIRP, free-space loss, cosecant-law atmospheric loss, other losses, G/T, Boltzmann's constant, symbol rate), the most efficient DVB-S2 MODCOD that clears its ETSI EN { "302" } 307-
+seg-08fc7a0f75e8 = <b>MODELLED</b> Downlink Es/N0 along each pass of one satellite over one station (EIRP, free-space loss, cosecant-law atmospheric loss, other losses, G/T, Boltzmann's constant, symbol rate), the most efficient DVB-S2 MODCOD that clears its ETSI EN { "302" }…
 
 # text
-seg-036b708ed2b9 = <b>MODELLED</b> Candidate contacts from every satellite-station pass with its ACM data volume; conflicts where one antenna would serve two satellites inside its turnaround or one satellite would downlink to two stations at once; a priority-weighted deliver
+seg-74c05a7df391 = <b>MODELLED</b> Candidate contacts from every satellite-station pass with its ACM data volume; conflicts where one antenna would serve two satellites inside its turnaround or one satellite would downlink to two stations at once; a priority-weighted…
 
 # text
-seg-c246881f6fd4 = <b>VALIDATED</b> Visibility passes (AOS, TCA, LOS, maximum apparent elevation, duration) of an SGP4 element set over a WGS-84 station on the validated Earth-orbit path (IAU { "2006" }. Oracle (ExternalDataset): Orekit { "13.1.8" } (CS GROUP, Apache-2.0) with Hipparchus { "4.0.3" }: TLEPropagator on the same element sets in a TEME Orekit builds to the stated definition (its IERS { "2010" } TOD rotated by GAST - GMST), ElevationDetector and ElevationExtremumDetector with and without ITURP834AtmosphericRefraction, and AngularAzEl with AngularRadioRefractionModifier for the light-time case, crossings and maximum solved by Hipparchus; { "60" } cases (f
+seg-3d5bf5ddf866 = <b>VALIDATED</b> Visibility passes (AOS, TCA, LOS, maximum apparent elevation, duration) of an SGP4 element set over a WGS-84 station on the validated Earth-orbit path (IAU…. Oracle (ExternalDataset): Orekit { "13.1.8" } (CS GROUP, Apache-2.0) with Hipparchus { "4.0.3" }: TLEPropagator on the same element sets in a TEME Orekit builds to the stated definition (its IERS { "2010" } TOD rotated by GAST - GMST), ElevationDetector and ElevationExtremumDetector with and without ITURP834AtmosphericRefraction, and AngularAzEl with AngularRadioRefractionModifier for the light-time case, crossings and maximum solved by Hipparchus; { "60" } cases…
 
 # text
-seg-35588ca8e9bb = <b>MODELLED</b> Downlink Es/N0 along each pass of one satellite over one station (EIRP, free-space loss, cosecant-law atmospheric loss, other losses, G/T, Boltzmann's constant,. Oracle (InternalConsistency): Internal consistency: the spectral efficiency computed in closed form from Table 5a K_bch and the frame lengths agrees with the efficiencies Table { "13" } prints (a transcription check on the threshold table); the link-budget pieces agree with their closed forms; the selection is monotone in Es/N0 and honours the margin; ACM moves at least the constant-coding volume. The pass geometry comes from the separately VALIDATED a
+seg-928000bd5bf5 = <b>MODELLED</b> Downlink Es/N0 along each pass of one satellite over one station (EIRP, free-space loss, cosecant-law atmospheric loss, other losses, G/T, Boltzmann's…. Oracle (InternalConsistency): Internal consistency: the spectral efficiency computed in closed form from Table 5a K_bch and the frame lengths agrees with the efficiencies Table { "13" } prints (a transcription check on the threshold table); the link-budget pieces agree with their closed forms; the selection is monotone in Es/N0 and honours the margin; ACM moves at least the constant-coding volume. The pass geometry comes from the separately VALIDATED…
 
 # text
-seg-60431931082a = <b>MODELLED</b> Candidate contacts from every satellite-station pass with its ACM data volume; conflicts where one antenna would serve two satellites inside its turnaround or o. Oracle (InternalConsistency): Internal consistency: the exact branch and bound agrees with brute-force enumeration on small random sets, every plan is checked feasible against the conflict rules, and the greedy never beats the exact optimum. WHAT IS NOT: no external scheduler or operational plan has been compared; contacts are taken whole (no splitting), the backlog is fixed at the window start, slew time beyond the fixed turnaround and onboard s
+seg-02f73f6b621c = <b>MODELLED</b> Candidate contacts from every satellite-station pass with its ACM data volume; conflicts where one antenna would serve two satellites inside its turnaround or…. Oracle (InternalConsistency): Internal consistency: the exact branch and bound agrees with brute-force enumeration on small random sets, every plan is checked feasible against the conflict rules, and the greedy never beats the exact optimum. WHAT IS NOT: no external scheduler or operational plan has been compared; contacts are taken whole (no splitting), the backlog is fixed at the window start, slew time beyond the fixed turnaround and onboard…
 
 # text
 # c1: label
-seg-9941b9f6d4a8 = MODELLED — multi-satellite, multi-station contact plan: apparent access windows (SGP4, IAU 2006/2000A, ITU-R P.834 refraction, light time), DVB-S2 ACM data volume per pass from a clear-sky link budget (ETSI EN { "302" } 307-1 Table { "13" } thresholds), and conflict resolution (one satellite per antenna with turnaround, one station per satellite) by a marginal-value greedy checked against an exact branch and bound; no rain fade, (result <c1/>)
+seg-514360c75c87 = MODELLED — multi-satellite, multi-station contact plan: apparent access windows (SGP4, IAU 2006/2000A, ITU-R P.834 refraction, light time), DVB-S2 ACM data volume per pass from a clear-sky link budget (ETSI EN { "302" } 307-1 Table { "13" } thresholds), and conflict resolution (one satellite per antenna with turnaround, one station per satellite) by a marginal-value greedy checked against an exact branch and bound; no rain… (result <c1/>)
 
 # text
 # c1: kshana kinds --json

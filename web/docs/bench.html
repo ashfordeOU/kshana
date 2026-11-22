@@ -86,7 +86,7 @@
     <div class="prose"><h1 id="kshana-bench">kshana-bench</h1>
 <p>An open set of tasks, splits and metrics for GNSS interference detection and timing holdover. The
 specification is <a href="https://github.com/ashfordeOU/kshana/blob/main/bench/SPEC.md"><code>bench/SPEC.md</code></a> (version 2.0.0; licence of the text and manifests:
-CC-BY-4.0 / CC0 proposed, owner decision pending). The dataset licence review is
+CC-BY-4.0 / CC0 proposed, not yet decided). The dataset licence review is
 <a href="https://github.com/ashfordeOU/kshana/blob/main/bench/LICENCES.md"><code>bench/LICENCES.md</code></a>. The baselines&#39; bars were fixed before the first scored run in
 <a href="https://github.com/ashfordeOU/kshana/blob/main/xval/bench/PREREGISTRATION.md"><code>xval/bench/PREREGISTRATION.md</code></a> and, for 2.0.0, <a href="https://github.com/ashfordeOU/kshana/blob/main/xval/bench/PREREGISTRATION-v2.md"><code>PREREGISTRATION-v2.md</code></a> and their results are in
 <a href="https://github.com/ashfordeOU/kshana/blob/main/xval/bench/RESULTS-v2.md"><code>xval/bench/RESULTS-v2.md</code></a>.</p>
@@ -215,7 +215,7 @@ predictions, and the metrics. Results of different major spec versions are never
 refuses <code>--split holdout</code> on the public file, and the holdout traces of task (g) under the public split rule
 are public like those of task (a).</p>
 </li>
-<li><p><strong>Private holdout of tasks (f) and (g)</strong> (owner decision, 20 November 2026; spec section 4). The owner keeps
+<li><p><strong>Private holdout of tasks (f) and (g)</strong> (decided 20 November 2026; spec section 4). The owner keeps
 a truth file of cases that are not public (further labelled housekeeping segments for (f), phone traces
 with ground truth for (g)) outside the repository. <code>kshana bench holdout truth</code> builds it (every case of the
 private data is holdout) and refuses to write inside a checkout; <code>register</code> prints the entry the owner

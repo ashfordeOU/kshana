@@ -53,19 +53,19 @@ seg-b77b8420b4f5 = Mbit
 seg-eeaa777e4301 = 8PSK 3/4
 
 # text
-seg-d62795b9fdc0 = Result label (the engine's): MODELLED — DVB-S2 adaptive coding and modulation over the passes of one satellite at one station: clear-sky Es/N0 along each apparent pass, the most efficient MODCOD clearing its ETSI EN { "302" } 307-1 Table { "13" } threshold plus a margin, against the constant-coding MODCOD that closes at the mask; no rain f
+seg-f1861d293fe9 = Result label (the engine's): MODELLED — DVB-S2 adaptive coding and modulation over the passes of one satellite at one station: clear-sky Es/N0 along each apparent pass, the most efficient MODCOD clearing its ETSI EN { "302" } 307-1 Table { "13" } threshold plus a margin, against the constant-coding MODCOD that closes at the mask; no rain…
 
 # attr:alt
 seg-046f69293874 = The chart the engine writes for scenarios/acm-link.toml, kind acm-link
 
 # text
-seg-0f4c2ab525ac = <b>MODELLED</b> Downlink Es/N0 along each pass of one satellite over one station (EIRP, free-space loss, cosecant-law atmospheric loss, other losses, G/T, Boltzmann's constant, symbol rate), the most efficient DVB-S2 MODCOD that clears its ETSI EN { "302" } 307-
+seg-08fc7a0f75e8 = <b>MODELLED</b> Downlink Es/N0 along each pass of one satellite over one station (EIRP, free-space loss, cosecant-law atmospheric loss, other losses, G/T, Boltzmann's constant, symbol rate), the most efficient DVB-S2 MODCOD that clears its ETSI EN { "302" }…
 
 # text
-seg-c246881f6fd4 = <b>VALIDATED</b> Visibility passes (AOS, TCA, LOS, maximum apparent elevation, duration) of an SGP4 element set over a WGS-84 station on the validated Earth-orbit path (IAU { "2006" }. Oracle (ExternalDataset): Orekit { "13.1.8" } (CS GROUP, Apache-2.0) with Hipparchus { "4.0.3" }: TLEPropagator on the same element sets in a TEME Orekit builds to the stated definition (its IERS { "2010" } TOD rotated by GAST - GMST), ElevationDetector and ElevationExtremumDetector with and without ITURP834AtmosphericRefraction, and AngularAzEl with AngularRadioRefractionModifier for the light-time case, crossings and maximum solved by Hipparchus; { "60" } cases (f
+seg-3d5bf5ddf866 = <b>VALIDATED</b> Visibility passes (AOS, TCA, LOS, maximum apparent elevation, duration) of an SGP4 element set over a WGS-84 station on the validated Earth-orbit path (IAU…. Oracle (ExternalDataset): Orekit { "13.1.8" } (CS GROUP, Apache-2.0) with Hipparchus { "4.0.3" }: TLEPropagator on the same element sets in a TEME Orekit builds to the stated definition (its IERS { "2010" } TOD rotated by GAST - GMST), ElevationDetector and ElevationExtremumDetector with and without ITURP834AtmosphericRefraction, and AngularAzEl with AngularRadioRefractionModifier for the light-time case, crossings and maximum solved by Hipparchus; { "60" } cases…
 
 # text
-seg-35588ca8e9bb = <b>MODELLED</b> Downlink Es/N0 along each pass of one satellite over one station (EIRP, free-space loss, cosecant-law atmospheric loss, other losses, G/T, Boltzmann's constant,. Oracle (InternalConsistency): Internal consistency: the spectral efficiency computed in closed form from Table 5a K_bch and the frame lengths agrees with the efficiencies Table { "13" } prints (a transcription check on the threshold table); the link-budget pieces agree with their closed forms; the selection is monotone in Es/N0 and honours the margin; ACM moves at least the constant-coding volume. The pass geometry comes from the separately VALIDATED a
+seg-928000bd5bf5 = <b>MODELLED</b> Downlink Es/N0 along each pass of one satellite over one station (EIRP, free-space loss, cosecant-law atmospheric loss, other losses, G/T, Boltzmann's…. Oracle (InternalConsistency): Internal consistency: the spectral efficiency computed in closed form from Table 5a K_bch and the frame lengths agrees with the efficiencies Table { "13" } prints (a transcription check on the threshold table); the link-budget pieces agree with their closed forms; the selection is monotone in Es/N0 and honours the margin; ACM moves at least the constant-coding volume. The pass geometry comes from the separately VALIDATED…
 
 # text
 # c1: label

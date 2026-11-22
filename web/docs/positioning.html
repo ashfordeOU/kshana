@@ -255,15 +255,13 @@ user the wrong-tool disappointment.</p>
 <tr>
 <td>Install</td>
 <td>zero — runs in a browser tab (WebAssembly)</td>
-<td>native build / toolchain</td>
+<td>a native install</td>
 </tr>
 </tbody></table></div>
 <h2 id="complementary-not-competing--rtklib-and-glab">Complementary, not competing — RTKLIB and gLAB<a class="anchor" href="#complementary-not-competing--rtklib-and-glab" aria-label="Link to this section">#</a></h2>
 <p><a href="https://github.com/tomojitakasu/RTKLIB">RTKLIB</a> and <a href="https://gage.upc.edu/en/learning-materials/software-tools/glab-tool-suite">gLAB</a>
 are mature, widely used GNSS processing suites. They take real measurements and
-produce a positioning solution (SPP/PPP/RTK; gLAB is also a superb teaching
-tool with strong heritage at the European Space Agency (ESA) and the European
-Geostationary Navigation Overlay Service (EGNOS)). Kshana does <strong>not</strong> replace them and does
+produce a positioning solution (SPP/PPP/RTK; gLAB is also a teaching tool). Kshana does <strong>not</strong> replace them and does
 not try to. Its observation path is narrow: code single-point positioning (<code>pvt</code>), and, as
 checked library code, short-baseline RTK with LAMBDA integer fixing and a static float PPP
 filter on real dual-frequency observations, each VALIDATED against IGS station data (the PPP
@@ -284,9 +282,8 @@ If you need a carrier-phase positioning service — kinematic PPP or RTK, long b
 network ambiguity resolution — use RTKLIB or gLAB; if you need reproducible, labelled evidence about resilience and holdover,
 that is the job Kshana is built for.</p>
 <h2 id="a-zero-install-browser-tier">A zero-install browser tier<a class="anchor" href="#a-zero-install-browser-tier" aria-label="Link to this section">#</a></h2>
-<p>Most simulation tools in this space (RTKLIB, gLAB, the General Mission Analysis Tool
-(GMAT), Orekit, STK) require a native install or a licence, and a learning curve before
-the first result. Kshana compiles to WebAssembly and runs <strong>entirely in the browser</strong> —
+<p>Most tools in this space (RTKLIB, gLAB, the General Mission Analysis Tool (GMAT),
+Orekit, STK) are installed on the user&#39;s machine before the first result. Kshana compiles to WebAssembly and runs <strong>entirely in the browser</strong> —
 the <a href="/docs/studio">playground</a> loads a worked scenario, runs the real engine
 client-side (nothing is uploaded), and shows the result in seconds. Guided
 sliders and one-click scenarios mean the first useful result needs no TOML (Tom&#39;s

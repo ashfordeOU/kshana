@@ -30,7 +30,7 @@ seg-c0e69524f05d = <b>MODELLED</b> Deelscores per dimensie over de zeven eigen v
 
 seg-2ca37a78e899 = MODELLED conflictveerkracht van gelaagde PNT (P7). VALIDATED kern: de kans op totaal verlies uit Monte-Carlo convergeert naar het gesloten-vorm-onafhankelijke product Pi_i p_deny_i (getoetst binnen de Monte-Carlo-standaardfout bij vaste seed en grote N); de inverse-variantiepositiefusie sigma_fused = (sum_i 1/sigma_i^{ "2" })^(-1/2) is een gesloten-vorm-identiteit; bij correlatie rho={ "0" } reduceert de gaussiaanse copula exact tot het onafhankelijke mo (resultaat <c1/>)
 
-seg-d0d834e377ee = MODELLED conflictveerkracht van gelaagde PNT (P7): een gebruiker in een betwiste omgeving zet meerdere PNT-lagen in (open-service-GNSS, breedband-GNSS, een geauthenticeerde constellatie, een augmentatierelay), elk met een basisbeschikbaarheid, een 1σ-nauwkeurigheid en een kwetsbaarheid voor uitval per vector voor de gedeelde jamming-/spoofingdreiging. (kindcatalogus (<c1/>))
+seg-a6619df36cf9 = MODELLED conflictveerkracht van gelaagde PNT: een gebruiker in een betwiste omgeving zet meerdere PNT-lagen in (open-service-GNSS, breedband-GNSS, een geauthenticeerde constellatie, een augmentatierelay), elk met een basisbeschikbaarheid, een 1σ-nauwkeurigheid en een kwetsbaarheid voor uitval per vector voor de gedeelde jamming-/spoofingdreiging. (kindcatalogus (<c1/>))
 
 seg-3ca12700b54c = De kopveerkrachtverhouding (kans op totaal verlies bij één laag tegenover gelaagd) komt uit op ~7x onder de aanname van ONAFHANKELIJKHEID; een gaussiaanse-copula-sweep met één factor en gecorreleerde uitval toont daarna dat die ~7x naar { "1" } instort naarmate de uitvalcorrelatie toeneemt (correlatie ondermijnt gelaagdheid). (kindcatalogus (<c1/>))
 

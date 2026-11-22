@@ -257,8 +257,9 @@ correction-link budget block does not include the receiver terms.</li>
 1-sigma <code>rate x latency / sqrt(3)</code>), on top of the frozen-error re-projection; linear growth is
 the first-order term of a propagated state error (checked to 1 % at 600 s against the in-tree
 two-body propagation). What remains: no public source gives a lunar growth rate (ILLUSTRATIVE);
-no along-track/radial structure; the correction-link budget block uses the frozen model. The K5
-addendum (<code>tests/fixtures/lunar_station_published/ADDENDUM-LRS03.md</code>, pre-registered alone) runs
+no along-track/radial structure; the correction-link budget block uses the frozen model. An
+addendum for bar K5 of the <a href="#comparison-against-published-claims">comparison against published claims</a>
+(<code>tests/fixtures/lunar_station_published/ADDENDUM-LRS03.md</code>, pre-registered alone) runs
 K5 at 0.001, 0.01 and 0.1 m/s: it fails in every case (369.8 m, 2315 m, 22797 m against a 1.5 m
 bar), as stated before the run.</li>
 <li><strong>Solution style (filter, height constraint, three satellites): an opt-in in 0.36, with limits.</strong>
@@ -269,8 +270,8 @@ epochs&#39; errors as independent, so it averages down faster than errors correl
 it is static-user only; there is no dynamic filter, carrier phase or ambiguity resolution; the
 case trace (<code>trace_case</code>) shows the snapshot arithmetic. The published-claims addendum with this
 mode is <code>tests/fixtures/lunar_station_published/ADDENDUM-LRS06.md</code> (pre-registered alone). With a
-1 m height constraint, three satellites and a 6-epoch window (ILLUSTRATIVE settings), the R300
-corrected p95 3-D error falls from 280.6 m to 2.11 m (horizontal 0.90 m, not scored); K1 to K5
+1 m height constraint, three satellites and a 6-epoch window (ILLUSTRATIVE settings), the
+corrected p95 3-D error over the 300 km circle (case R300) falls from 280.6 m to 2.11 m (horizontal 0.90 m, not scored); K1 to K5
 still fail and K6 passes, 1 of 6 as in the recorded run. The window&#39;s independence assumption
 favours it.</li>
 </ol>

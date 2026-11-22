@@ -86,8 +86,8 @@
     <div class="prose"><h1 id="force-model-validation-by-ephemeris-fitting--methodology--validated-residuals">Force-model validation by ephemeris fitting — methodology &amp; validated residuals</h1>
 <p>Kshana&#39;s full-force engine (<code>src/precise_od.rs</code>) fit to
 <strong>real agency precise-orbit products</strong>, with honest, citable, commit-hash-stamped
-residuals. This is the validation record for roadmap milestone P4 (&quot;Precise
-astrodynamics: high-order gravity, SRP (solar-radiation pressure), validation vs agency datasets&quot;).</p>
+residuals. This is the validation record for precise astrodynamics: high-order gravity, SRP
+(solar-radiation pressure), and validation against agency datasets.</p>
 <h2 id="what-a-validated-residual-means-here">What a validated residual means here<a class="anchor" href="#what-a-validated-residual-means-here" aria-label="Link to this section">#</a></h2>
 <p>A residual is reported only when all of the following hold (design
 <code>docs/design/2026-06-09-precise-astrodynamics-design.md</code>):</p>
@@ -173,7 +173,7 @@ satellite <strong>E11</strong> (GSAT0101, Galileo In-Orbit Validation (IOV), nom
 <td><code>workflow_dispatch</code></td>
 </tr>
 </tbody></table></div>
-<p>The CI-fixture numbers above were re-recorded in 0.36 after the S2 air-tide fix (<code>xval/s2-air-tide-fix/</code>): Galileo Tier 1 moved 0.132 → 0.133 m (C_R 1.1744 → 1.1743), Swarm-A N components by 1–2 mm; the full-arc dispatch figures were not re-run. † <strong>Pre-fix:</strong> the full-arc dispatch figure was recorded before the 0.36 S2 air-tide fix and has not been re-run on the fixed code (the full-day products are fetched by the dispatch workflow, not available in the session that made the fix). On the CI fixtures the fix moved the Galileo 3-D RMS by under 1 mm and the Swarm-A components by 1–2 mm, so a change of the same order is expected; the next <code>workflow_dispatch</code> run re-records it.</p>
+<p>The CI-fixture numbers above were re-recorded in 0.36 after the S2 air-tide fix (<code>xval/s2-air-tide-fix/</code>): Galileo Tier 1 moved 0.132 → 0.133 m (C_R 1.1744 → 1.1743), Swarm-A N components by 1–2 mm; the full-arc dispatch figures were not re-run. † <strong>Pre-fix:</strong> the full-arc dispatch figure was recorded before the 0.36 S2 air-tide fix and has not been re-run on the fixed code (the full-day products are fetched only by the dispatch workflow, not by the CI fixtures). On the CI fixtures the fix moved the Galileo 3-D RMS by under 1 mm and the Swarm-A components by 1–2 mm, so a change of the same order is expected; the next <code>workflow_dispatch</code> run re-records it.</p>
 <p>The MEO field is gravity-converged by degree 8 (the 8 h Tier-1 result is identical at d/o
 8, 10, and 12 to the millimetre), so the CI fixture&#39;s d/o-12 truncation is negligible; the
 dispatch job runs the full d/o-70. The 8 h fit reaches <strong>13 cm</strong> pure-force and <strong>7 cm</strong>
@@ -228,10 +228,10 @@ meaningful LEO orbit.</p>
 textbook drag signature at ~430 km. The empirical tier absorbs that along-track error
 (2.52 → 0.09 m), giving a <strong>~10 cm</strong> reduced-dynamic fit against ESA&#39;s own ~2 cm orbit. The
 full-day, full-degree run is the ignored <code>swarm_full_arc_dispatch</code> (the dissemination
-server serves the product through its file-browser session, so the founder downloads the
+server serves the product through its file-browser session, so a maintainer downloads the
 day&#39;s SP3 and points <code>KSHANA_SWARM_SP3</code> at it). NRLMSISE-00 (NRLMSISE: Naval Research Laboratory Mass Spectrometer and Incoherent Scatter Radar Extended atmosphere model) with space-weather drivers is
 the noted upgrade that would tighten the <em>dynamic</em> tier further.</p>
-<h3 id="lro-lunar--validated-above-the-5-m-bar-honest-p4-w4b">LRO lunar — validated, <strong>above</strong> the 5 m bar (honest) (P4 W4b)<a class="anchor" href="#lro-lunar--validated-above-the-5-m-bar-honest-p4-w4b" aria-label="Link to this section">#</a></h3>
+<h3 id="lro-lunar--validated-above-the-5-m-bar-honest">LRO lunar — validated, <strong>above</strong> the 5 m bar (honest)<a class="anchor" href="#lro-lunar--validated-above-the-5-m-bar-honest" aria-label="Link to this section">#</a></h3>
 <ul>
 <li><strong>Dataset:</strong> the real NASA/JPL (NASA: National Aeronautics and Space Administration; JPL: Jet Propulsion Laboratory) <strong>Lunar Reconnaissance Orbiter</strong> (LRO; NAIF (Navigation and Ancillary Information Facility) −85) reconstructed
 trajectory from JPL Horizons, geometric Moon-centred state vectors in the ICRF (International Celestial Reference Frame), 2022-01-01,
@@ -319,7 +319,7 @@ read through ANISE (Attitude, Navigation, Instrument, Spacecraft, Ephemeris — 
 <p><strong>0.36 note: most of the dynamic-tier gain below was the offset error, not the DE-grade inputs.</strong>
 With the ME→PA offset corrected, the analytic stack gives 39.9 m raw, 12.05 m dynamic and 6.67 m
 reduced-dynamic, against the DE-grade 41.5, 12.0 and 6.67 m: the analytic and DE-grade fits now
-agree on every tier. The 0.30 reading of the table below follows, kept as it was written.</p>
+agree on every tier. The 0.30 reading of the table above follows, kept as it was written.</p>
 <p><strong>The hypothesis is only half right, and the headline claim needed correcting.</strong> DE-grade
 orientation and ephemeris <em>do</em> improve the raw overlap (53.8 → 41.5 m) and the <strong>dynamic</strong> fit
 (12.6 → 12.0 m) — so the analytic orientation/ephemeris error is real and does limit those tiers.
@@ -355,7 +355,7 @@ same separation holds for the MEO empirical/pure-force tiers.</li>
 </div>
     <nav class="docs-pn" aria-label="Previous and next"><a class="prev" href="/docs/sgp4-validation"><small>Previous</small>SGP4 validation</a><a class="next" href="/docs/solar-system"><small>Next</small>Solar system and other bodies</a></nav>
   </article>
-  <nav class="docs-toc" aria-label="On this page"><h2>On this page</h2><a class="l2" href="#what-a-validated-residual-means-here">What a validated residual means here</a><a class="l2" href="#method-per-dataset">Method, per dataset</a><a class="l2" href="#results">Results</a><a class="l3" href="#galileo-medium-earth-orbit--green--5-m-bar">Galileo medium Earth orbit — GREEN (&lt; 5 m bar)</a><a class="l3" href="#swarm-a-leo--green--5-m-bar">Swarm-A LEO — GREEN (&lt; 5 m bar)</a><a class="l3" href="#lro-lunar--validated-above-the-5-m-bar-honest-p4-w4b">LRO lunar — validated, above the 5 m bar (honest) (P4 W4b)</a><a class="l2" href="#honesty-contract">Honesty contract</a></nav>
+  <nav class="docs-toc" aria-label="On this page"><h2>On this page</h2><a class="l2" href="#what-a-validated-residual-means-here">What a validated residual means here</a><a class="l2" href="#method-per-dataset">Method, per dataset</a><a class="l2" href="#results">Results</a><a class="l3" href="#galileo-medium-earth-orbit--green--5-m-bar">Galileo medium Earth orbit — GREEN (&lt; 5 m bar)</a><a class="l3" href="#swarm-a-leo--green--5-m-bar">Swarm-A LEO — GREEN (&lt; 5 m bar)</a><a class="l3" href="#lro-lunar--validated-above-the-5-m-bar-honest">LRO lunar — validated, above the 5 m bar (honest)</a><a class="l2" href="#honesty-contract">Honesty contract</a></nav>
 </div>
 </main>
 

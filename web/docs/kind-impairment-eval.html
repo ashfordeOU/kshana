@@ -88,7 +88,7 @@
 <h1 id="impairment-eval"><code>impairment-eval</code> (scenario kind)</h1>
 <p>Scenario kind of the engine v0.41.0, family <a href="/docs/kinds-jamming-spoofing-and-the-spectrum">Jamming, spoofing and the spectrum</a>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine&#39;s or the verification matrix&#39;s; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README&#39;s Evidence section).</p>
 <h2 id="what-it-does">What it does<a class="anchor" href="#what-it-does" aria-label="Link to this section">#</a></h2>
-<p>Machine-learning RF-impairment detection evaluation testbed (13494): generate a labelled, parameter-grounded SYNTHETIC corpus (nominal/jamming/spoof-time/spoof-position/multipath), score a detector (energy|agc|sqm|parity|fused) with the detector-agnostic harness, and report AUC/ROC/confusion + per-class Pd at a target Pfa, plus the in- vs out-of-distribution optimism gap. MODELLED operating characteristics only — never field/IQ, no good/bad verdict.</p>
+<p>Machine-learning RF-impairment detection evaluation testbed: generate a labelled, parameter-grounded SYNTHETIC corpus (nominal/jamming/spoof-time/spoof-position/multipath), score a detector (energy|agc|sqm|parity|fused) with the detector-agnostic harness, and report AUC/ROC/confusion + per-class Pd at a target Pfa, plus the in- vs out-of-distribution optimism gap. MODELLED operating characteristics only — never field/IQ, no good/bad verdict.</p>
 <p>One run of <code>scenarios/impairment-eval.toml</code> summarises as: impairment-eval | detector fused(max-z) | AUC 0.998 in / 0.981 out (gap 0.017) | Pd 0.99 Pfa 0.05 @ target 0.05 | 1000 cases | MODELLED synthetic</p>
 <h2 id="inputs">Inputs<a class="anchor" href="#inputs" aria-label="Link to this section">#</a></h2>
 <p>From the schema (<code>kshana kinds --json</code>):</p>
@@ -189,7 +189,7 @@
 </tr>
 <tr>
 <td><code>distribution_shift.note</code></td>
-<td>auc_out uses a subtler out-of-tuning-reg</td>
+<td>auc_out uses a subtler…</td>
 <td>text</td>
 </tr>
 <tr>
@@ -209,7 +209,7 @@
 </tr>
 </tbody></table></div>
 <p>Result label (the engine&#39;s): MODELLED — synthetic parameter-grounded corpus (never field/IQ); operating characteristics only, no good/bad verdict</p>
-<img src="data:image/svg+xml;charset=utf-8,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%221180%22 height=%2256%22 font-family=%22Geist, ui-sans-serif, system-ui, sans-serif%22 font-size=%2212%22 fill=%22%23EAF0FF%22%3E%3Crect width=%221180%22 height=%2240%22 fill=%22%23060A14%22/%3E%3Ctext x=%2210%22 y=%2224%22%3Eimpairment-eval %7C detector fused(max-z) %7C AUC 0.998 in / 0.981 out (gap 0.017) %7C Pd 0.99 Pfa 0.05 @ target 0.05 %7C 1000 cases %7C MODELLED synthetic%3C/text%3E%3Ctext x=%221172%22 y=%2234%22 text-anchor=%22end%22 fill=%22%238190B0%22 font-size=%2210%22 font-family=%22Geist, ui-sans-serif, system-ui, sans-serif%22%3EKshana v0.41.0 · scenario bf4c64fe8bfb · kshana.dev%3C/text%3E%3Cmetadata id=%22kshana-evidence%22 data-tier=%22MODELLED%22 data-rows=%22VM-216727c9;VM-cf3cdcd3;VM-77f12e71%22%3EVM-216727c9 VALIDATED ML detector-evaluation metrics (ROC/AUC/confusion/Pfa-Pmd) %7C VM-cf3cdcd3 MODELLED Reproducibility %26amp; software assurance %7C VM-77f12e71 MODELLED AI/ML RF-impairment detection evaluation (13494)%3C/metadata%3E%3Crect x=%220%22 y=%2240%22 width=%221180%22 height=%2216%22 fill=%22%23060A14%22/%3E%3Ctext x=%228%22 y=%2251%22 fill=%22%238190B0%22 font-size=%2210%22 font-family=%22Geist, ui-sans-serif, system-ui, sans-serif%22%3EEvidence: MODELLED · 3 ledger rows VM-216727c9 VM-cf3cdcd3 VM-77f12e71%3C/text%3E%3C/svg%3E" alt="The chart the engine writes for scenarios/impairment-eval.toml, kind impairment-eval" width="640" loading="lazy">
+<img src="data:image/svg+xml;charset=utf-8,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%221180%22 height=%2256%22 font-family=%22Geist, ui-sans-serif, system-ui, sans-serif%22 font-size=%2212%22 fill=%22%23EAF0FF%22%3E%3Crect width=%221180%22 height=%2240%22 fill=%22%23060A14%22/%3E%3Ctext x=%2210%22 y=%2224%22%3Eimpairment-eval %7C detector fused(max-z) %7C AUC 0.998 in / 0.981 out (gap 0.017) %7C Pd 0.99 Pfa 0.05 @ target 0.05 %7C 1000 cases %7C MODELLED synthetic%3C/text%3E%3Ctext x=%221172%22 y=%2234%22 text-anchor=%22end%22 fill=%22%238190B0%22 font-size=%2210%22 font-family=%22Geist, ui-sans-serif, system-ui, sans-serif%22%3EKshana v0.41.0 · scenario bf4c64fe8bfb · kshana.dev%3C/text%3E%3Cmetadata id=%22kshana-evidence%22 data-tier=%22MODELLED%22 data-rows=%22VM-216727c9;VM-cf3cdcd3;VM-77f12e71%22%3EVM-216727c9 VALIDATED ML detector-evaluation metrics (ROC/AUC/confusion/Pfa-Pmd) %7C VM-cf3cdcd3 MODELLED Reproducibility %26amp; software assurance %7C VM-77f12e71 MODELLED AI/ML RF-impairment detection evaluation%3C/metadata%3E%3Crect x=%220%22 y=%2240%22 width=%221180%22 height=%2216%22 fill=%22%23060A14%22/%3E%3Ctext x=%228%22 y=%2251%22 fill=%22%238190B0%22 font-size=%2210%22 font-family=%22Geist, ui-sans-serif, system-ui, sans-serif%22%3EEvidence: MODELLED · 3 ledger rows VM-216727c9 VM-cf3cdcd3 VM-77f12e71%3C/text%3E%3C/svg%3E" alt="The chart the engine writes for scenarios/impairment-eval.toml, kind impairment-eval" width="640" loading="lazy">
 
 <h2 id="evidence">Evidence<a class="anchor" href="#evidence" aria-label="Link to this section">#</a></h2>
 <p>MODELLED 1 · VALIDATED 2: the <a href="/docs/verification-matrix">verification matrix</a> rows that name this kind.</p>
@@ -222,7 +222,7 @@
 <ul>
 <li><strong>VALIDATED</strong> AUC (Mann-Whitney, ties ½), confusion matrix at threshold, P_d/P_md/P_fa/precision/accuracy/F1. Oracle (ExternalDataset): scikit-learn 1.9.0 (Pedregosa et al., JMLR 2011) — independent library, exact match</li>
 <li><strong>MODELLED</strong> Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): SBOM conformance to the official CycloneDX 1.5 JSON Schema (+ valid SPDX identifiers) — an external published standard, zero validation errors over the full dependency graph; the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED</li>
-<li><strong>MODELLED</strong> Labelled synthetic impairment corpus + detector-agnostic ROC/AUC/confusion/Pfa-Pmd harness; leakage guard, stratified split, distribution-shift (in- vs out-of-r. Oracle (InternalConsistency): Closed-form AUC bounds (Mann–Whitney) + a perfect-oracle detector; corpus is SYNTHETIC (parameter-grounded, not field/IQ)</li>
+<li><strong>MODELLED</strong> Labelled synthetic impairment corpus + detector-agnostic ROC/AUC/confusion/Pfa-Pmd harness; leakage guard, stratified split, distribution-shift (in- vs…. Oracle (InternalConsistency): Closed-form AUC bounds (Mann–Whitney) + a perfect-oracle detector; corpus is SYNTHETIC (parameter-grounded, not field/IQ)</li>
 </ul>
 <h2 id="limitations">Limitations<a class="anchor" href="#limitations" aria-label="Link to this section">#</a></h2>
 <p>What the run&#39;s own report says is not modelled or not validated:</p>
@@ -231,7 +231,7 @@
 <li>MODELLED operating characteristics only — never field/IQ, no good/bad verdict. (kind catalogue (<code>kshana kinds --json</code>))</li>
 <li>HONEST SCOPE: MODELLED operating characteristics only. The corpus is synthetic and parameter-grounded (composed from Kshana&#39;s jamming/AGC/SQM/parity models) — never field captures or raw IQ. The harness is a referee; it reports characteristics, it does not pass a good/bad verdict. Run: kshana scenarios/impairment-eval.toml (scenario file comment, lines 9 to 12)</li>
 <li>Reproducibility &amp; software assurance is MODELLED, not validated: a sub-claim is externally checked, but the whole capability composes modelled pieces, so the capability stays Modelled. (verification matrix (docs/MODELLED-RATIONALE.md))</li>
-<li>Machine-learning RF-impairment detection evaluation (13494) is MODELLED, not validated: checked against its own closed-form / analytic identity — catches transcription and coefficient errors, but is not an external oracle. (verification matrix (docs/MODELLED-RATIONALE.md))</li>
+<li>Machine-learning RF-impairment detection evaluation is MODELLED, not validated: checked against its own closed-form / analytic identity — catches transcription and coefficient errors, but is not an external oracle. (verification matrix (docs/MODELLED-RATIONALE.md))</li>
 </ul>
 <h2 id="see-also">See also<a class="anchor" href="#see-also" aria-label="Link to this section">#</a></h2>
 <ul>

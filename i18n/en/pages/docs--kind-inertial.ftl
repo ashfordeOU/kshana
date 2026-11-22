@@ -40,7 +40,7 @@ seg-bd021b5dff80 = The example <c1/> sets, among others:
 seg-195347c63a8a = m/s^{ "2" }
 
 # text
-seg-7bebd09c614b = Navigation-grade quartz accelerometer (Honeywell QA-2000 / G
+seg-cf1feee320e2 = Navigation-grade quartz accelerometer (Honeywell QA-2000 /…
 
 # text
 seg-cc7a61264c3f = (m/s^{ "2" })^2/s
@@ -49,14 +49,14 @@ seg-cc7a61264c3f = (m/s^{ "2" })^2/s
 seg-3a1d8c59a4c9 = (m/s^{ "2" })^2/Hz
 
 # text
-seg-8a9e52e38b05 = Exail hybrid quantum accelerometer triad: bias stability 6e-
+seg-91e4da0bb2fd = Exail hybrid quantum accelerometer triad: bias stability…
 
 # text
 seg-ca448daf5ec7 = nominal
 
 # text
 # c1: scenarios/
-seg-51362910dcb7 = { "2" } bundled scenarios use this kind; the others are in <a1><c1/></a1>.
+seg-2224c257616c = { "2" } scenario files in <a1><c1/></a1> use this kind.
 
 # text
 seg-b054c73f22e5 = no value
@@ -68,25 +68,11 @@ seg-98151954f217 = false
 seg-873c402bb724 = The chart the engine writes for scenarios/imu-deadreckoning.toml, kind inertial
 
 # text
-seg-801740520370 = MODELLED { "6" } · VALIDATED { "2" }: the <a1>verification matrix</a1> rows that name this kind.
+# c1: campaign
+seg-5a74819c0ceb = <b>MODELLED</b> The <c1/> kind's sweep (one to three dotted keys of any kind, on the generic sweep's axis values, optionally an ensemble at every node) and monte_carlo sections: realisation k runs at base_seed + k; each metric reports mean, standard… Tests: <a1>campaign_composition_reference.rs</a1>.
 
 # text
-seg-41f3a20fadfb = <b>VALIDATED</b> Quaternion-attitude, WGS-84 NED strapdown inertial mechanization (coning/sculling-compensated) propagating a navigation state from (Δθ, Δv) increments Tests: <a1>classical_strapdown_ins_reference.rs</a1>.
-
-# text
-seg-102d2e51460e = <b>MODELLED</b> Cold-atom interferometer accelerometer from first principles (k_eff·T², QPN) Tests: <a1>quantum_inertial_sensor_reference.rs</a1>.
-
-# text
-seg-83fa50d4859a = <b>MODELLED</b> Mach–Zehnder fringe-ambiguity dynamic range: the 2π-periodic fringe readout sets a maximum unambiguous specific force a_max=π/(k_eff·T²), and the unambiguous range in resolution cells a_max/σ_a=π/σ_Φ is independent of the optical scale fact
-
-# text
-seg-89ec2e65cf4f = <b>MODELLED</b> Composed bias + scale-factor + VRW + stability-decay position budget over holdover Tests: <a1>quantum_inertial_dead_reckoning_reference.rs</a1>.
-
-# text
-seg-be831b52a339 = and { "4" } more in the matrix.
-
-# text
-seg-8a41c18ca3fe = <b>MODELLED</b> Cold-atom interferometer accelerometer from first principles (k_eff·T², QPN). Oracle (ExternalDataset): Published CAI primary-paper numeric vectors (Cheinet { "2008" } transfer function; Peters/Freier sensitivity): k_eff·T² matched exactly, shot-noise ASD a one-sided floor within ~{ "2" }× of each published instrument (real devices carry technical noise above the quantum floor). A bracket, not parity. { "0.30" } round { "2" } (pre-registered e7de532a), a finding (stays MODELLED): the QPN-only rotation noise against the measured Gauguet et al.
+seg-832de3ea2047 = <b>MODELLED</b> Cold-atom interferometer accelerometer from first principles (k_eff·T², QPN). Oracle (ExternalDataset): Published CAI primary-paper numeric vectors (Cheinet { "2008" } transfer function; Peters/Freier sensitivity): k_eff·T² matched exactly, shot-noise ASD a one-sided floor within ~{ "2" }× of each published instrument (real devices carry technical noise above the quantum floor). A bracket, not parity. { "0.30" } round { "2" } (pre-registered e7de532a), a finding (stays MODELLED): the QPN-only rotation noise against the measured Gauguet et…
 
 # text
 seg-7e95210bcc48 = <b>MODELLED</b> Composed bias + scale-factor + VRW + stability-decay position budget over holdover. Oracle (ReferenceImpl): Independent numpy Monte-Carlo SDE integration of double-integrated white-acceleration noise (validates the analytic VRW variance by a genuinely independent algorithm) + a Groves { "2013" } published-value anchor for the bias/scale-factor terms; the CAI device numbers quantify partner hardware and stay MODELLED

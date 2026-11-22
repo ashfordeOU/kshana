@@ -145,7 +145,7 @@ skipped. See <a href="/docs/receiver-trust"><code>RECEIVER-TRUST.md</code></a> f
 <pre data-lang="shell"><code class="hljs language-bash">my-imu-to-csv /dev/ttyUSB1 | kshana sensor-live --kind imu --format csv --from - --heading0 90
 ros2 topic <span class="hljs-built_in">echo</span> /imu/data sensor_msgs/msg/Imu --csv | kshana sensor-live --kind imu --format ros2-csv --from -
 kshana sensor-live --kind imu --format euroc --from imu0/data.csv --follow</code></pre>
-<p><code>sensor-live</code> reads the same two layouts a line at a time, from standard input, <code>tcp:host:port</code> or a
+<p><code>sensor-live</code> reads the same three layouts a line at a time, from standard input, <code>tcp:host:port</code> or a
 file (<code>--follow</code> waits for more lines), and prints one JSON line per sample: <code>t_s</code>, <code>gyro</code>, <code>accel</code> and
 <code>heading_deg</code>, the gyro heading integrated from <code>--heading0</code> (default 0; <code>--z-up</code> for a body z axis
 pointing up). The line reader is the one <code>[log.imu]</code> uses, and the heading is summed in the same order as
@@ -200,10 +200,10 @@ base whatever their own clocks report.</p>
 Each condition is reported once when it starts and once when it clears. A gap is marked, never filled: no
 reading is made up for it. <code>--sensor &lt;name&gt;</code> names the sensor in events. <code>tests/clock_live.rs</code> checks a
 TCP source dropped and brought back (the gap reported, the readings on both sides equal to the replay),
-and the frozen and range events. What needs the bench (L8): two sensors on one PPS agreeing within a
+and the frozen and range events. What still needs a bench test: two sensors on one PPS agreeing within a
 pre-registered skew, and a real unplug and replug.</p>
 <h2 id="imu-into-the-hybrid-and-fusion-scenarios-kshana-imu-fit">IMU into the hybrid and fusion scenarios (<code>kshana imu-fit</code>)<a class="anchor" href="#imu-into-the-hybrid-and-fusion-scenarios-kshana-imu-fit" aria-label="Link to this section">#</a></h2>
-<p>The <code>hybrid</code> and <code>fusion</code> (17-state UKF) scenarios are simulations: they take sensor noise
+<p>The <code>hybrid</code> and <code>fusion</code> scenarios are simulations: they take sensor noise
 parameters (<code>[accel_quantum]</code>, <code>[accel_classical]</code>: <code>bias</code>, <code>q_va</code>, <code>gyro_bias</code>, <code>q_arw</code>,
 <code>bias_instability</code>), not a measured series. <code>imu-fit</code> reads those parameters off a stationary IMU
 log, so a scenario can be run with the sensor you actually have:</p>
@@ -228,8 +228,8 @@ signal cell (MSM4: 6 bits, dB-Hz; MSM7: 10 bits, 1/16 dB-Hz), which is what the 
 Pseudorange and phase fields are stepped over, not used, so RTCM gives the trust monitors
 C/N0 and nothing else; there is no position in MSM. Frames with a bad CRC-24Q are skipped and counted.</p>
 <p><strong>Where the layout comes from.</strong> Not from the RTCM standard (a paid document, not consulted): from
-the open-source decoder pyrtcm 1.2.0, BSD 3-Clause, whose licence and notice are in <code>NOTICE</code>
-(owner decision of 18 Oct 2026: &quot;use open decoders&quot;). pyrtcm states that its tables follow
+the open-source decoder pyrtcm 1.2.0, BSD 3-Clause, whose licence and notice are in <code>NOTICE</code>.
+pyrtcm states that its tables follow
 RTCM 10403.3; Kshana relies on the published tables under pyrtcm&#39;s licence and makes no claim
 about the standard. Time: MSM carries no week, so labels read <code>GPS TOW &lt;s&gt;</code>; GLONASS epochs
 (Moscow time) are moved to GPS time with GPS-UTC = 18 s (the value since 2017-01-01).</p>

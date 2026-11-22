@@ -56,7 +56,7 @@ seg-28b34c8ae7c5 = galileo
 
 # text
 # c1: scenarios/
-seg-3bc1761c76ab = { "3" } bundled scenarios use this kind; the others are in <a1><c1/></a1>.
+seg-7f43b9951654 = { "3" } scenario files in <a1><c1/></a1> use this kind.
 
 # text
 seg-0093705edf63 = Result label (the engine's): MODELLED — the chain hands each stage's output to the next; the stages keep their own labels (leo-signal, leo-pass, leo-navmsg, leo-pvt and leo-ppp rows of the verification matrix).
@@ -66,20 +66,20 @@ seg-abe0599498c9 = The chart the engine writes for scenarios/leo-pnt-end-to-end.
 
 # text
 # c1: leo-pnt-chain
-seg-d8b7c2c82566 = <b>MODELLED</b> The <c1/> kind: a leo-signal design (public preset or inline) sets a leo-pass band's centre, bandwidth, chip rate and EIRP split; the pass gives the tracked-component C/N0 and band-limited code jitter per epoch; a least-squares C/ Tests: <a1>leo_pnt_chain.rs</a1>.
+seg-db30c1b593f3 = <b>MODELLED</b> The <c1/> kind: a leo-signal design (public preset or inline) sets a leo-pass band's centre, bandwidth, chip rate and EIRP split; the pass gives the tracked-component C/N0 and band-limited code jitter per epoch; a least-squares… Tests: <a1>leo_pnt_chain.rs</a1>.
 
 # text
-seg-59b976838ef1 = <b>VALIDATED</b> navsignal: the sine integral (sine_integral), the BPSK-R fraction of power inside a double-sided band in closed form (bpsk_power_in_band_closed_form), the band-. Oracle (ExternalDataset): Externally pinned: { "90.3" } per cent main-lobe power, the coherent early-late jitter at the stated operating point, the sine-integral table values, and the BPSK self spectral separation coefficient 2/({ "3" } R_c) at zero offset. Internal cross-checks only, not external validation: the band-limited BPSK Gabor-bandwidth closed form and its asymptote, and the offset BPSK spectral separation coefficient at non-zero offsets, both
+seg-81a9856e3f37 = <b>VALIDATED</b> navsignal: the sine integral (sine_integral), the BPSK-R fraction of power inside a double-sided band in closed form (bpsk_power_in_band_closed_form), the…. Oracle (ExternalDataset): Externally pinned: { "90.3" } per cent main-lobe power, the coherent early-late jitter at the stated operating point, the sine-integral table values, and the BPSK self spectral separation coefficient 2/({ "3" } R_c) at zero offset. Internal cross-checks only, not external validation: the band-limited BPSK Gabor-bandwidth closed form and its asymptote, and the offset BPSK spectral separation coefficient at non-zero offsets…
 
 # text
 # c1: leo-signal
-seg-faf2775f3003 = <b>MODELLED</b> The <c1/> kind: parameterised signal designs (band, transmit bandwidth, ITU allocation; acquisition, data and pilot components with BPSK(n), BOC(m,n), MB. Oracle (InternalConsistency): The validated closed forms of the two rows above, the square-law false-alarm identity P_d(snr = { "0" }) = P_fa and Holmes's mean acquisition time, and reduction to the spectrum kind's own SSC chain (the same Jammer::ssc code). The designs themselves are inputs: presets marked REPRESENTATIVE or WORKSHOP are not published specifications, enhanced Feher QPSK, code shift keying and OFDM spectra are approximated, and the shape
+seg-5c30d846af29 = <b>MODELLED</b> The <c1/> kind: parameterised signal designs (band, transmit bandwidth, ITU allocation; acquisition, data and pilot components with BPSK(n), BOC(m,n)…. Oracle (InternalConsistency): The validated closed forms of the two rows above, the square-law false-alarm identity P_d(snr = { "0" }) = P_fa and Holmes's mean acquisition time, and reduction to the spectrum kind's own SSC chain (the same Jammer::ssc code). The designs themselves are inputs: presets marked REPRESENTATIVE or WORKSHOP are not published specifications, enhanced Feher QPSK, code shift keying and OFDM spectra are approximated, and the…
 
 # text
-seg-771484572fa7 = <b>VALIDATED</b> ITU-R P.618-14 section { "2.4.1" } steps { "3" } to { "9" } (reference sigma from N_wet, effective path length, antenna averaging factor, fade depth for { "0.01" } % to { "50" } % of the tim. Oracle (ExternalDataset): ITU-R Study Group { "3" } validation examples (CG-3M3J-13-ValEx-Rev8.3.0) for P.618-14 scintillation, with each site's P.453-14 N_wet from the same examples; committed in tests/fixtures/leo_link/p618_14_scintillation.csv with the URLs and retrieval date. The wet-refractivity expression from temperature and humidity is not covered by this row
+seg-3a340f51ed51 = <b>VALIDATED</b> ITU-R P.618-14 section { "2.4.1" } steps { "3" } to { "9" } (reference sigma from N_wet, effective path length, antenna averaging factor, fade depth for { "0.01" } % to { "50" } % of the…. Oracle (ExternalDataset): ITU-R Study Group { "3" } validation examples (CG-3M3J-13-ValEx-Rev8.3.0) for P.618-14 scintillation, with each site's P.453-14 N_wet from the same examples; committed in tests/fixtures/leo_link/p618_14_scintillation.csv with the URLs and retrieval date. The wet-refractivity expression from temperature and humidity is not covered by this row
 
 # text
-seg-ab58ab4e7dc6 = <b>VALIDATED</b> Group delay { "40.3" } STEC/f^{ "2" } per band; the ionosphere-free coefficients f1^2/(f1^{ "2" } - f2^{ "2" }) and -f2^2/(f1^{ "2" } - f2^{ "2" }) and the noise amplification sqrt(a1^{ "2" } s1^{ "2" } + a2^. Oracle (ExternalDataset): IS-GPS-200 section { "20.3.3.3.3.2" }, which states the L1/L2 group-delay ratio gamma = (77/60)^{ "2" } that follows from first-order 1/f^{ "2" } scaling, and the Friis transmission formula (Proc. IRE, { "1946" }). Validates the scaling laws, not a slant TEC
+seg-05c64cc47ccf = <b>VALIDATED</b> Group delay { "40.3" } STEC/f^{ "2" } per band; the ionosphere-free coefficients f1^2/(f1^{ "2" } - f2^{ "2" }) and -f2^2/(f1^{ "2" } - f2^{ "2" }) and the noise amplification sqrt(a1^{ "2" } s1^{ "2" } +…. Oracle (ExternalDataset): IS-GPS-200 section { "20.3.3.3.3.2" }, which states the L1/L2 group-delay ratio gamma = (77/60)^{ "2" } that follows from first-order 1/f^{ "2" } scaling, and the Friis transmission formula (Proc. IRE, { "1946" }). Validates the scaling laws, not a slant TEC
 
 # text
 # c1: limitations[0]

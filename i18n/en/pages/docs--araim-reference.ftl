@@ -182,7 +182,7 @@ seg-633bf11af170 = <b>External oracle — the published WG-C worked example:</b>
 
 # text
 # c1: N_fault,max = 1
-seg-6d79f9836abd = <b>Honest residual (external / pending review):</b> the { "15" }–{ "25" } % availability figure against a <b>version-locked real Celestrak TLE (two-line element set) snapshot</b>, and depositing the ARAIM test fixtures as a citable <b>Zenodo</b> record. The reference check above covers <c1/> (single-satellite and single-constellation fault modes) only; simultaneous multi-event fault subsets, fault exclusion, the χ² consistency check and the double-counting re-allocation step of the reference algorithm are not implemented, and a case whose priors would need them is refused rather than truncated.
+seg-24ddc6e899d5 = <b>Honest residual (external):</b> the { "15" }–{ "25" } % availability figure against a <b>version-locked real Celestrak TLE (two-line element set) snapshot</b>, and depositing the ARAIM test fixtures as a citable <b>Zenodo</b> record. The reference check above covers <c1/> (single-satellite and single-constellation fault modes) only; simultaneous multi-event fault subsets, fault exclusion, the χ² consistency check and the double-counting re-allocation step of the reference algorithm are not implemented, and a case whose priors would need them is refused rather than truncated.
 
 # text
 # c1: integrity

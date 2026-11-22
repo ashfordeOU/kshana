@@ -898,7 +898,6 @@ seg-bdda05057c91 = rinex_obs (parse_obs)
 
 seg-b19cbd364dea = src/benchmark/scorecard.rs::tests (referencyjny PL pochłania; uszkodzony PL niepochłonięty-nigdy-niewykryty; werdykt pokrycia wykrywalnego; właściwość rzetelności, że dla scenariusza niewykrywalnego nie da się uzyskać żadnego werdyktu pokrycia ani detekcji)
 
-seg-350aaf43f349 = sprawdzone względem własnej tożsamości w postaci zamkniętej / analitycznej — wychwytuje błędy przepisania i współczynników, ale nie jest zewnętrzną wyrocznią — Brak zewnętrznej wyroczni i żadna nie jest możliwa: to jest samoopis, a nie pomiar. Zapisano go, ponieważ jego brak był defektem -- P5 musiało przytaczać długość fali nośnej i aperturę nadawczą z domyślnych wartości w kodzie źródłowym oraz wnioskować na podstawie wewnętrznej kontroli spójności, że goła <c1/> jest w metrach kwadratowych. Wniosek był poprawny, i właśnie dlatego miało to znaczenie: nic nie wychwyciłoby pomyłki
 
 seg-6d963d838eed = hybrid_integrity::tests (rozwiązana konfiguracja jest zwracana echem zarówno dla wartości domyślnych, jak i dla nadpisań, bez przepuszczania długości fali tam i z powrotem przez metry; każdy wpis jednostek zawiera zarówno jednostkę, jak i klasę pochodzenia; każde pole, które wymienia blok jednostek, jest faktycznie emitowane, więc nie może dokumentować pola-widma)
 

@@ -214,9 +214,10 @@ std::fs::<span class="hljs-title function_ invoke__">write</span>(<span class="h
 <code>extract_timeline</code> returns what would be drawn without rendering it.</p>
 <h2 id="limits">Limits<a class="anchor" href="#limits" aria-label="Link to this section">#</a></h2>
 <ul>
-<li>The Python wheel and the WebAssembly module do not expose the exporter yet; it is
-reachable from the command line, the Rust library and the Model Context Protocol (MCP)
-server&#39;s <code>animate_scenario</code> tool (which returns at most 120 frames in one reply).</li>
+<li>The exporter is reachable from the command line, the Rust library, the Python wheel and
+the WebAssembly module (<code>animate_scenario</code>), and the Model Context Protocol (MCP) server&#39;s
+<code>animate_scenario</code> tool. The Python, WebAssembly and MCP surfaces return at most 120
+frames in one reply and write nothing.</li>
 <li>Axes are linear. A series spanning many decades (a clock&#39;s error growth from 0.1 ns to
 a microsecond) reads as flat until late in the run.</li>
 <li>The animated SVG relies on CSS animation of a clip rectangle; current Chromium, Firefox

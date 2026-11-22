@@ -94,7 +94,7 @@
 <p>From the schema (<code>kshana kinds --json</code>):</p>
 <ul>
 <li>Required fields: <code>seed</code>, <code>time</code>, <code>receiver</code>, <code>constellation</code></li>
-<li>Optional fields: <code>iono</code>, <code>tropo</code>, <code>mask_deg</code>, <code>noise_sigma_m</code>, <code>multipath_m</code>, <code>sat_clock_rms_m</code>, <code>uere_m</code>, <code>p_fa</code>, <code>p_md</code>, <code>alert_limit_h_m</code>, <code>alert_limit_v_m</code>, <code>skyline</code></li>
+<li>Optional fields: <code>iono</code>, <code>tropo</code>, <code>mask_deg</code>, <code>noise_sigma_m</code>, <code>multipath_m</code>, <code>sat_clock_rms_m</code>, <code>uere_m</code>, <code>p_fa</code>, <code>p_md</code>, <code>alert_limit_h_m</code>, <code>alert_limit_v_m</code>, <code>skyline</code>, <code>slot_sets</code>, <code>slots</code></li>
 </ul>
 <p>The example <code>scenarios/gnss-sim-raim.toml</code> sets, among others:</p>
 <div class="tbl"><table><thead><tr>
@@ -150,7 +150,7 @@
 <tr>
 <td><code>iono.gps_seconds_of_day</code></td>
 <td>50400</td>
-<td>d</td>
+<td>s</td>
 </tr>
 <tr>
 <td><code>kind</code></td>
@@ -165,7 +165,7 @@
 </tbody></table></div>
 <h2 id="run-it">Run it<a class="anchor" href="#run-it" aria-label="Link to this section">#</a></h2>
 <pre data-lang="shell"><code class="hljs language-bash">kshana scenarios/gnss-sim-raim.toml</code></pre>
-<p>2 bundled scenarios use this kind; the others are in <a href="https://github.com/ashfordeOU/kshana/blob/main/scenarios"><code>scenarios/</code></a>.</p>
+<p>3 scenario files in <a href="https://github.com/ashfordeOU/kshana/blob/main/scenarios"><code>scenarios/</code></a> use this kind.</p>
 <h2 id="what-it-gives">What it gives<a class="anchor" href="#what-it-gives" aria-label="Link to this section">#</a></h2>
 <p>The scalar results of that run, with the units the engine states:</p>
 <div class="tbl"><table><thead><tr>
@@ -175,7 +175,7 @@
 </tr>
 </thead><tbody><tr>
 <td><code>evidence.id_rule</code></td>
-<td>the stable id of the matrix row (the ID</td>
+<td>the stable id of the matrix row (the…</td>
 <td>text</td>
 </tr>
 <tr>
@@ -233,10 +233,10 @@
 </ul>
 <p>The rows the run itself exercised, with the oracle the matrix gives each (the public sources are named there):</p>
 <ul>
-<li><strong>VALIDATED</strong> ARAIM multiple-hypothesis solution separation per the ARAIM Airborne Design Document (ADD) v4.2 (araim_reference::add_v42_protection_levels and add_v42_protecti. Oracle (ExternalDataset): Three independent tools, pre-registered (ba7a01a7) before any fixture or oracle output existed, tolerances fixed then. (1) ARAIM: Stanford MAAST for ARAIM 2 (commit ab70e2a3, BSD-3) mhss_raim_baseline_v5.m, run as a separate program under GNU Octave 8.4 with a driver-side unique() compatibility shim (disclosed, no algorithm change), at the ADD TOL_PL of 0.05 m: the Rust reproduces the ADD reference implementation on </li>
+<li><strong>VALIDATED</strong> ARAIM multiple-hypothesis solution separation per the ARAIM Airborne Design Document (ADD) v4.2 (araim_reference::add_v42_protection_levels and…. Oracle (ExternalDataset): Three independent tools, pre-registered (ba7a01a7) before any fixture or oracle output existed, tolerances fixed then. (1) ARAIM: Stanford MAAST for ARAIM 2 (commit ab70e2a3, BSD-3) mhss_raim_baseline_v5.m, run as a separate program under GNU Octave 8.4 with a driver-side unique() compatibility shim (disclosed, no algorithm change), at the ADD TOL_PL of 0.05 m: the Rust reproduces the ADD reference implementation…</li>
 <li><strong>VALIDATED</strong> GDOP/PDOP/HDOP/VDOP/TDOP from line-of-sight geometry via Q=(HᵀH)⁻¹ with a local ENU split. Oracle (ExternalDataset): gnss_lib_py 1.0.4 (Stanford NAV Lab) DOP — independent library, matched to 1e-6 relative</li>
 <li><strong>VALIDATED</strong> Klobuchar single-frequency L1 slant ionospheric group delay from the eight broadcast α/β coefficients. Oracle (ExternalDataset): RTKLIB ionmodel (tomojitakasu/RTKLIB, src/rtkcmn.c) — independent reference implementation compiled from source; matched to &lt; 1e-4 m</li>
-<li><strong>VALIDATED</strong> The distributional core every protection level rests on: the snapshot fault-detection threshold χ²₁₋ₚfₐ(dof), the missed-detection non-centrality pbias=√λ, and . Oracle (ExternalDataset): SciPy 1.17.0 (scipy.stats.chi2/.norm/.ncx2 + optimize.brentq) — independent library (Cephes/Boost), a different algorithm from Kshana&#39;s incomplete-gamma series; matched to ≤1e-6 rel. Kernel only. The ARAIM MHSS P_HMI budget <em>allocation</em> is no longer without a published numeric oracle — the WG-C ARAIM Technical Subgroup&#39;s own worked example now backs the separate &#39;ARAIM MHSS protection levels against published referen</li>
+<li><strong>VALIDATED</strong> The distributional core every protection level rests on: the snapshot fault-detection threshold χ²₁₋ₚfₐ(dof), the missed-detection non-centrality pbias=√λ…. Oracle (ExternalDataset): SciPy 1.17.0 (scipy.stats.chi2/.norm/.ncx2 + optimize.brentq) — independent library (Cephes/Boost), a different algorithm from Kshana&#39;s incomplete-gamma series; matched to ≤1e-6 rel. Kernel only. The ARAIM MHSS P_HMI budget <em>allocation</em> is no longer without a published numeric oracle — the WG-C ARAIM Technical Subgroup&#39;s own worked example now backs the separate &#39;ARAIM MHSS protection levels against published…</li>
 <li><strong>MODELLED</strong> Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): SBOM conformance to the official CycloneDX 1.5 JSON Schema (+ valid SPDX identifiers) — an external published standard, zero validation errors over the full dependency graph; the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED</li>
 </ul>
 <h2 id="limitations">Limitations<a class="anchor" href="#limitations" aria-label="Link to this section">#</a></h2>
@@ -248,8 +248,8 @@
 <ul>
 <li>Family page: <a href="/docs/kinds-gnss-measurements-positioning-and-integrity#gnss-sim">GNSS measurements, positioning and integrity</a></li>
 <li>All kinds: <a href="/docs/kinds">KINDS.md</a></li>
-<li>Topic page: <a href="/docs/real-tle-guide">REAL_TLE_GUIDE.md</a></li>
-<li>Topic page: <a href="/docs/skyline">SKYLINE.md</a></li>
+<li>Topic page: <a href="https://github.com/ashfordeOU/kshana/blob/main/docs/GNSS-SLOTS.md">GNSS-SLOTS.md</a></li>
+<li>Topic page: <a href="https://github.com/ashfordeOU/kshana/blob/main/docs/SIL-OBSGEN.md">SIL-OBSGEN.md</a></li>
 </ul>
 </div>
     <nav class="docs-pn" aria-label="Previous and next"><a class="prev" href="/docs/kind-gnss-ins"><small>Previous</small>gnss-ins</a><a class="next" href="/docs/kind-gnss-ssv"><small>Next</small>gnss-ssv</a></nav>

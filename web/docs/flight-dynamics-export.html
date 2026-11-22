@@ -107,10 +107,10 @@
 <td>SPICE and the tools built on it (Basilisk, GMAT)</td>
 </tr>
 </tbody></table></div>
-<p>This is step 1 of roadmap item C7 (adapters and notebooks for flight-dynamics tools;
-<a href="https://github.com/ashfordeOU/kshana/blob/main/docs/design/evidence/c7-flight-dynamics-adapters/PREREGISTRATION.md">pre-registration</a>). The adapters and
-notebooks that load these files into the tools themselves are in
-<a href="/docs/flight-dynamics-tools"><code>integrations/flight-dynamics/</code></a>: Orekit, Basilisk and ANISE so far.</p>
+<p>The adapters and notebooks that load these files into the tools themselves
+(<a href="https://github.com/ashfordeOU/kshana/blob/main/docs/design/evidence/c7-flight-dynamics-adapters/PREREGISTRATION.md">pre-registration</a>) are in
+<a href="/docs/flight-dynamics-tools"><code>integrations/flight-dynamics/</code></a>: Orekit, Basilisk, ANISE and
+GMAT (GMAT with a recorded finding; see that README).</p>
 <h2 id="input">Input<a class="anchor" href="#input" aria-label="Link to this section">#</a></h2>
 <p>A JPL Horizons vector table as Horizons writes it: <code>Output type: GEOMETRIC cartesian states</code>,
 <code>Output format: 2</code> (position and velocity), <code>Output units: KM-S</code>, a TDB time scale, and the CSV form
@@ -118,7 +118,8 @@ between <code>$$SOE</code> and <code>$$EOE</code> (Julian date, calendar date, X
 and their NAIF ids (<code>Target body name: CAPSTONE (spacecraft) (-1176)</code>, <code>Center body name: Moon (301)</code>),
 the frame (<code>Reference frame : ICRF</code>) and the request time come from the table&#39;s header. A table in
 other units or another time scale is refused, not converted.</p>
-<p>The mission thread&#39;s CAPSTONE table is in the repository:
+<p>The CAPSTONE table of the lunar mission thread (<a href="/docs/mission-thread-lunar">MISSION-THREAD-LUNAR.md</a>) is in
+the repository:
 <code>tests/fixtures/capstone_horizons/capstone_2023-03_moon_icrf.txt</code> (4,321 states, 1 to 31 March 2023,
 every 10 minutes, Moon-centred, ICRF).</p>
 <h2 id="use">Use<a class="anchor" href="#use" aria-label="Link to this section">#</a></h2>
@@ -166,7 +167,7 @@ at the nodes is within 1.5e-11 km and 5.0e-15 km/s.</p>
 <li>The OEM carries no covariance and no interpolation hint (<code>INTERPOLATION</code> is not written); the
 reading tool chooses its own interpolation.</li>
 <li>The frame is written as the table names it. ICRF is not rotated to EME2000 for tools that only
-accept EME2000; the C7 adapters state what each tool accepts.</li>
+accept EME2000; the adapters in <code>integrations/flight-dynamics/</code> state what each tool accepts.</li>
 </ul>
 </div>
     <nav class="docs-pn" aria-label="Previous and next"><a class="prev" href="/docs/interop"><small>Previous</small>Interoperability exports and imports</a><a class="next" href="/docs/flight-dynamics-tools"><small>Next</small>Flight-dynamics tools reading Kshana's files</a></nav>

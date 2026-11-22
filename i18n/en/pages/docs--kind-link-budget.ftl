@@ -50,19 +50,16 @@ seg-ebb923e1a3b5 = Result label (the engine's): One-way link budget over the CCS
 seg-bd375631bc7e = The chart the engine writes for scenarios/link-budget.toml, kind link-budget
 
 # text
-seg-67fb8ac75f36 = MODELLED { "1" } · VALIDATED { "1" }: the <a1>verification matrix</a1> rows that name this kind.
+seg-3068552e4ab4 = VALIDATED: the <a1>verification matrix</a1> rows that name this kind.
 
 # text
 seg-4f92669c3946 = <b>VALIDATED</b> Free-space path loss, C/N₀, Eb/N₀, margin and closure over the CCSDS { "401" } / DSN 810-005 link equation for EIRP/G·T/range/rate/band against a required Eb/N₀. Tests: <a1>one_way_link_budget_reference.rs</a1>.
 
 # text
-seg-cec5c06d38af = <b>MODELLED</b> Lunar-native jammer-to-signal ratio, effective C/N₀ and loss of lock for a selenographic surface user under a lunar surface (or raised) jammer, over the illustrative public-source Moonlight/LCNS-class constellation.
+seg-02b5f3d8a06e = <b>VALIDATED</b> Free-space path loss, C/N₀, Eb/N₀, margin and closure over the CCSDS { "401" } / DSN 810-005 link equation for EIRP/G·T/range/rate/band against a required Eb/N₀.…. Oracle (ExternalDataset): Published deep-space telecom design-control table as pinned numeric vectors: DESCANSO / J. H. Yuen (ed.), Deep Space Telecommunications Systems Engineering, JPL Pub 82-76, Table 1-1 (Galileo X-band) — kshana reassembles the table line-items and reproduces its published end-to-end L_fs { "290.54" } dB and Pr/N0 { "54.6" } dB-Hz; free-space loss also checked vs ITU-R P.525
 
 # text
-seg-bfaeb6f1cc5a = <b>VALIDATED</b> Free-space path loss, C/N₀, Eb/N₀, margin and closure over the CCSDS { "401" } / DSN 810-005 link equation for EIRP/G·T/range/rate/band against a required Eb/N₀. Runn. Oracle (ExternalDataset): Published deep-space telecom design-control table as pinned numeric vectors: DESCANSO / J. H. Yuen (ed.), Deep Space Telecommunications Systems Engineering, JPL Pub 82-76, Table 1-1 (Galileo X-band) — kshana reassembles the table line-items and reproduces its published end-to-end L_fs { "290.54" } dB and Pr/N0 { "54.6" } dB-Hz; free-space loss also checked vs ITU-R P.525
-
-# text
-seg-2598c2360113 = <b>MODELLED</b> The link-budget report states every absolute constant its own margin was computed from -- the carrier frequency the free-space loss used, the EIRP, the figure o. Oracle (InternalConsistency): No external oracle: this is self-description over an equation already validated against a published design-control table (see the one-way link budget row). It is recorded because the absence of it was a measured defect -- reproducing the released d1_rate_gain_beamwidth.csv required back-solving one effective constant to { "0.0034" } dB from all thirty rows, and the engine now both names that combination and proves, by test
+seg-62b65a313da3 = <b>MODELLED</b> The link-budget report states every absolute constant its own margin was computed from -- the carrier frequency the free-space loss used, the EIRP, the figure…. Oracle (InternalConsistency): No external oracle: this is self-description over an equation already validated against a published design-control table (see the one-way link budget row). It is recorded because the absence of it was a measured defect -- reproducing the released d1_rate_gain_beamwidth.csv required back-solving one effective constant to { "0.0034" } dB from all thirty rows, and the engine now both names that combination and proves, by…
 
 # text
 seg-c779823e860c = Optional: the receive system noise temperature (K). It is NOT an input to the link equation -- that needs only the ratio G/T -- but stating it lets the report also give the receive antenna gain the figure of merit implies (G = G/T + { "10" }*log10(T_sys)). Left out, the gain split is absent from the report rather than assumed. tsys_k = { "300.0" } (scenario file comment, lines { "21" } to { "25" })

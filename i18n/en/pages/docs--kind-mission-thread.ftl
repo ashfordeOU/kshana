@@ -51,10 +51,10 @@ seg-fada0d3ffc8f = ascent
 
 # text
 # c1: scenarios/
-seg-51362910dcb7 = { "2" } bundled scenarios use this kind; the others are in <a1><c1/></a1>.
+seg-2224c257616c = { "2" } scenario files in <a1><c1/></a1> use this kind.
 
 # text
-seg-3be4934f4f4e = smallest margin against a stated require
+seg-1d7e19139163 = smallest margin against a stated…
 
 # text
 seg-590dd1b8bfc5 = inertial dead reckoning
@@ -69,38 +69,23 @@ seg-3610d8103360 = The chart the engine writes for scenarios/mission-thread-shor
 # c1: mission-thread
 # c2: carry
 # c3: inflate
-seg-936e96edf423 = <b>MODELLED</b> The <c1/> kind: a document of phases, each one of eight registered kinds, run in order with the 6x6 covariance, the clock and the frame handed on under a stated rule (<c2/>; <c3/>, white acceleration noise over a stated gap Tests: <a1>field_units_global.rs</a1>.
-
-# text
-# c1: launch-ascent
-seg-423ce11b54cd = <b>MODELLED</b> The <c1/> phase: a constant-velocity position and velocity covariance with white acceleration noise (the dead-reckoning grade), a GNSS fix of stated accuracy applied after the acquisition time and outside stated fades, a bias-and-
-
-# text
-# c1: leo-rendezvous
-seg-f393e01ac642 = <b>MODELLED</b> The <c1/> phase: the relative state in the target's LVLH axes with the closed-form Clohessy-Wiltshire transition, a 6x6 Kalman covariance with white acceleration noise and position updates whose variance is the sensor's at the cu
-
-# text
-# c1: tli-and-cruise
-seg-795e0409fa5a = <b>MODELLED</b> The <c1/> phase: the mean state by the engine's Cowell propagator (Earth point mass and J2, the Sun and Moon as third bodies, the Moon from the thread's DE440 kernel where it covers the segment and the Sun from the analytic serie
-
-# text
-seg-e34f60d56cf7 = and { "5" } more in the matrix.
+seg-8710c08ab443 = <b>MODELLED</b> The <c1/> kind: a document of phases, each one of eight registered kinds, run in order with the 6x6 covariance, the clock and the frame handed on under a stated rule (<c2/>; <c3/>, white acceleration noise over a stated… Tests: <a1>field_units_global.rs</a1>.
 
 # text
 # c1: mission-thread
-seg-c9ff01a17f3f = <b>MODELLED</b> The <c1/> kind: a document of phases, each one of eight registered kinds, run in order with the 6x6 covariance, the clock and the frame handed on und. Oracle (InternalConsistency): Hand calculations in the tests (the straight-line covariance growth, the mean sidereal rotation, the secular lunar clock rate) and, for the Moon's state only, the committed DE440 kernel cuts against pinned JPL Horizons values (worst { "2.6" } m and { "7e-6" } m/s). No mission data is compared with the chain; its phases are rows of their own. The document is a stated chain with ILLUSTRATIVE inputs, public sources only and no agen
+seg-eb1da018e78a = <b>MODELLED</b> The <c1/> kind: a document of phases, each one of eight registered kinds, run in order with the 6x6 covariance, the clock and the frame handed on…. Oracle (InternalConsistency): Hand calculations in the tests (the straight-line covariance growth, the mean sidereal rotation, the secular lunar clock rate) and, for the Moon's state only, the committed DE440 kernel cuts against pinned JPL Horizons values (worst { "2.6" } m and { "7e-6" } m/s). No mission data is compared with the chain; its phases are rows of their own. The document is a stated chain with ILLUSTRATIVE inputs, public sources only and no…
 
 # text
 # c1: launch-ascent
-seg-529c9f8e8363 = <b>MODELLED</b> The <c1/> phase: a constant-velocity position and velocity covariance with white acceleration noise (the dead-reckoning grade), a GNSS fix of stated a. Oracle (InternalConsistency): The Riccati steady state and the hand calculation of the prediction in the tests. Nothing here models a launch vehicle or a receiver; every number is a stated input
+seg-c82a28f3a966 = <b>MODELLED</b> The <c1/> phase: a constant-velocity position and velocity covariance with white acceleration noise (the dead-reckoning grade), a GNSS fix of stated…. Oracle (InternalConsistency): The Riccati steady state and the hand calculation of the prediction in the tests. Nothing here models a launch vehicle or a receiver; every number is a stated input
 
 # text
 # c1: leo-rendezvous
-seg-01ef16f03f02 = <b>MODELLED</b> The <c1/> phase: the relative state in the target's LVLH axes with the closed-form Clohessy-Wiltshire transition, a 6x6 Kalman covariance with white . Oracle (InternalConsistency): A one-axis hand calculation of the predict and update in the test; the Clohessy-Wiltshire transition is the one cw_dynamics checks against an independent numerical integration. The sensors are ILLUSTRATIVE and no real rendezvous is compared
+seg-1e1db655194e = <b>MODELLED</b> The <c1/> phase: the relative state in the target's LVLH axes with the closed-form Clohessy-Wiltshire transition, a 6x6 Kalman covariance with…. Oracle (InternalConsistency): A one-axis hand calculation of the predict and update in the test; the Clohessy-Wiltshire transition is the one cw_dynamics checks against an independent numerical integration. The sensors are ILLUSTRATIVE and no real rendezvous is compared
 
 # text
 # c1: tli-and-cruise
-seg-1e77eae03d2c = <b>MODELLED</b> The <c1/> phase: the mean state by the engine's Cowell propagator (Earth point mass and J2, the Sun and Moon as third bodies, the Moon from the threa. Oracle (InternalConsistency): Liouville's theorem (the determinant of the state-transition matrix of the conservative part is one) and a finer difference in the tests; the mean state is compared with a public trajectory in the row below, which it misses. The burn error, the updates and the covariance are not compared with anything
+seg-83b9c33cc3a7 = <b>MODELLED</b> The <c1/> phase: the mean state by the engine's Cowell propagator (Earth point mass and J2, the Sun and Moon as third bodies, the Moon from the…. Oracle (InternalConsistency): Liouville's theorem (the determinant of the state-transition matrix of the conservative part is one) and a finer difference in the tests; the mean state is compared with a public trajectory in the row below, which it misses. The burn error, the updates and the covariance are not compared with anything
 
 # text
 # c1: kshana kinds --json

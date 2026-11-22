@@ -1308,8 +1308,8 @@ runs without it, and the README&#39;s scenario-file count still counts the withh
 </tr>
 <tr>
 <td>Fitter and SISRE trade</td>
-<td>MODELLED</td>
-<td>two-body truth recovered to 1 mm; corrected J2–J6 fit to 1 mm; monotonic growth with interval</td>
+<td>VALIDATED (16-parameter fit and its orbit-only SISRE; integrated truth orbit)</td>
+<td>TU Graz ITSG precise orbits fitted by the 16-parameter set against Liu et al. 2025, every ratio inside 1.5x; the integrated truth orbit against Orekit 12.2 within 4.55 mm over 6 h. The correction polynomials, the clock fit and the update-period trade stay MODELLED</td>
 </tr>
 <tr>
 <td>Mid-pass continuity</td>
@@ -1338,8 +1338,8 @@ runs without it, and the README&#39;s scenario-file count still counts the withh
 </tr>
 <tr>
 <td>Ionosphere and UTC</td>
-<td>MODELLED</td>
-<td>ICD closed forms; the RTKLIB-checked Klobuchar model</td>
+<td>VALIDATED</td>
+<td>GNSSTk 15.3.1 (Klobuchar at L1, L2 and L5, NeQuick-G <code>Az</code>, UTC drift) and ERFA via pyerfa (the three ICD leap-second cases), on real IGS broadcast coefficients. The NeQuick electron-density integration is not implemented</td>
 </tr>
 </tbody></table></div>
 <h2 id="limitations">Limitations<a class="anchor" href="#limitations" aria-label="Link to this section">#</a></h2>
