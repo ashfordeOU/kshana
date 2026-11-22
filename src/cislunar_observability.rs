@@ -404,8 +404,8 @@ fn family_members(family: OrbitFamily, mu: f64, n: usize) -> Result<Vec<FamilyMe
 }
 
 /// The honesty label carried on the result document.
-const LABEL: &str = "MODELLED planar cislunar constellation observability. VALIDATED \
-core: the observable RANK is a rank-revealing singular-value threshold cross-checked \
+const LABEL: &str = "MODELLED planar cislunar constellation observability. Checked core \
+(the kind stays MODELLED): the observable RANK is a rank-revealing singular-value threshold cross-checked \
 against the Gramian eigen-rank; the Gramian eigen-spectrum obeys the spectral invariants \
 (trace = sum eig, det = prod eig, Frobenius^2 = sum eig^2); the variational STM is the \
 finite-difference-validated CR3BP STM (crate::cr3bp); the range / range-rate Jacobian rows \

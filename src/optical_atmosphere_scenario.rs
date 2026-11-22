@@ -293,6 +293,7 @@ pub const UNITS: &[FieldUnit] = &[
     FieldUnit { path: "inputs.elevation_deg", unit: "deg", provenance: Input, definition: "elevation of the slant path" },
     FieldUnit { path: "inputs.zenith_deg", unit: "deg", provenance: Computed, definition: "zenith angle, 90 degrees minus the elevation" },
     FieldUnit { path: "inputs.correlation_length_km", unit: "km", provenance: ModelledInput, definition: "weather decorrelation length of the site-diversity model" },
+    FieldUnit { path: "atmosphere.hv_wind_ms", unit: "m/s", provenance: ModelledInput, definition: "Hufnagel-Valley RMS wind speed (metres per second, not milliseconds)" },
     FieldUnit { path: "link.footprint_m", unit: "m", provenance: ClosedForm, definition: "diffraction footprint (lambda/D) x range" },
     FieldUnit { path: "link.geometric_loss_db", unit: "dB", provenance: ClosedForm, definition: "far-field geometric capture loss" },
     FieldUnit { path: "link.received_power_no_atmosphere_dbm", unit: "dBm", provenance: Computed, definition: "received power with no atmospheric loss" },

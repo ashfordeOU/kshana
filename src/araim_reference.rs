@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-only
-//! Published ARAIM certification reference vectors — the WG-C ARAIM Technical
+//! Published ARAIM reference vectors — the WG-C ARAIM Technical
 //! Subgroup's **own worked numerical examples**, run through this engine.
 //!
 //! Every other ARAIM surface in this crate is checked against itself: the MHSS
