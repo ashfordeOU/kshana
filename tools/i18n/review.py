@@ -6,7 +6,7 @@ and automatic flags computed from the English and the translation.
 import re, sys, os
 sys.path.insert(0, os.path.dirname(__file__))
 import tools
-WORK = os.environ.get('I18N_WORK', '/tmp/claude-0/i18n')
+WORK = os.environ.get('I18N_WORK', '/tmp/i18n-work')
 lang = sys.argv[1]
 en = {e['id']: tools.body(e) for e in tools.parse('i18n/en/engine.ftl')}
 tr = {e['id']: tools.body(e) for e in tools.parse(f'i18n/{lang}/engine.ftl')}
@@ -37,6 +37,6 @@ out += ['', f'## 5. Messages built from placeables whose content is unknown ({le
 out += [f'- `{i}`' for i in unk[:80]] + ([f'- ... and {len(unk)-80} more'] if len(unk) > 80 else [])
 out += ['', f'## 6. Messages identical to the English apart from placeables ({len(same)}): intended (code, CSS, machine lines) or missed', '']
 out += [f'- `{i}`' for i in same[:80]] + ([f'- ... and {len(same)-80} more'] if len(same) > 80 else [])
-out += ['', '## 7. Terms to confirm', '', 'See `i18n/<lang>/glossary.ftl` once it exists (or the glossary JSON in kshana-pro `site/i18n-0.40/i18n/glossary/<lang>.json`).', '']
+out += ['', '## 7. Terms to confirm', '', 'See `i18n/<lang>/glossary.ftl` once it exists.', '']
 open(f'i18n/{lang}/REVIEW.md', 'w', encoding='utf-8').write('\n'.join(out))
 print(lang, len(legal), len(notes), len(gloss), len(neg), len(unk), len(same))

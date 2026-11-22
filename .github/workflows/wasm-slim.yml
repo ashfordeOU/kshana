@@ -1,6 +1,6 @@
 # The feature-limited WebAssembly module (`--features wasm-slim`, src/wasm_slim.rs): build it on
 # every push, check it is under the size limit, that it is reproducible (two builds in two
-# directories give the same bytes), and that it answers Arksa's recorded engine calls with the same
+# directories give the same bytes), and that it answers an embedder's recorded engine calls with the same
 # bytes as the full module (scripts/wasm-slim-parity.mjs). The built module is kept as a workflow
 # artifact with its SHA256SUMS; nothing is published.
 name: wasm-slim
@@ -19,7 +19,7 @@ env:
   # the one binaryen publishes beside it (binaryen-version_117-x86_64-linux.tar.gz.sha256).
   BINARYEN_URL: https://github.com/WebAssembly/binaryen/releases/download/version_117/binaryen-version_117-x86_64-linux.tar.gz
   BINARYEN_SHA256: 3dc677006555b355ea2da5e82602065a161d5e83eaefd3f759afa00b96e83212
-  # Arksa's WebAssembly budget, gzip level 9, kB of 1024 bytes (Arksa .github/scripts/bundle-report.mjs).
+  # The embedder's WebAssembly budget, gzip level 9, kB of 1024 bytes.
   KSHANA_SLIM_GZIP_LIMIT_KB: "2800"
 jobs:
   wasm-slim:
@@ -59,7 +59,7 @@ jobs:
       - name: Build the full module for the parity check
         # --no-opt as in ci.yml's test-wasm-bindings job; the optimiser does not change results.
         run: wasm-pack build --target web --out-dir target/wasm-full/pkg --release --no-opt -- --locked --features wasm
-      - name: Parity with the full module on Arksa's recorded engine calls
+      - name: Parity with the full module on the recorded engine calls
         run: node scripts/wasm-slim-parity.mjs target/wasm-full/pkg target/wasm-slim/pkg
       - name: Keep the built module
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4

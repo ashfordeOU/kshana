@@ -156,7 +156,7 @@ jobs:
             [ -f "site/$f" ] || { echo "::error::the staged site is missing $f"; exit 1; }
           done
       - name: Translations (shared images, language trees, language switcher, sitemaps, size cap)
-        # Design: kshana-pro docs/design/i18n-0.40-design.md (v2). The language trees are generated here from the English
+        # Design: the i18n 0.40 design note (v2, private). The language trees are generated here from the English
         # tree plus i18n/ and never committed. A language is built only when its catalogue covers 25 % of the English
         # segments; the switcher offers exactly the languages built.
         run: |

@@ -2055,8 +2055,8 @@ def architecture(t: dict, n_kinds: int, summary: dict, n_tools: int, version: st
             f"typed dispatch over {n_kinds} kinds, and the verification ledger of {summary['total']} capabilities "
             f"({summary['validated']} VALIDATED, {summary['modelled']} MODELLED, {summary['partner_owned']} PARTNER). Around it, every "
             "surface runs the same engine: " + "; ".join(f"{b} ({c})" for _, b, c, _, _ in left + right)
-            + ". Below it, Kshana Pro, a proprietary overlay that depends on the open engine as a library and never forks it, "
-            "and adds no physical model.")
+            + ". Below it, Kshana Pro, the professional edition, which depends on the open engine as a library, never forks it "
+            "and never changes its physical models; Pro's own models carry their own evidence labels.")
     s = Svg(W, H, "Architecture: one open engine, every surface around it, Pro on top", desc)
     card(s, t)
     eyebrow(s, t, 40, 50, "Architecture")
@@ -2119,11 +2119,11 @@ def architecture(t: dict, n_kinds: int, summary: dict, n_tools: int, version: st
     glass(s, t, px0, py0, px1 - px0, ph, r=16, fill=soft(t, "magenta", t["panel"], 0.05))
     s.rect(px0, py0, px1 - px0, ph, stroke=t["magenta"], sw=1.2, r=16, extra='stroke-dasharray="6 5"')
     s.rect(px0 + 18, py0 + 19, 8, 8, fill=t["magenta"], r=2)
-    s.text("Proprietary overlay · under contract", px0 + 34, py0 + 27, 10.5, t["ink3"], "mono", 500, ls=0.12, upper=True)
+    s.text("Professional edition · under contract", px0 + 34, py0 + 27, 10.5, t["ink3"], "mono", 500, ls=0.12, upper=True)
     s.text("Kshana Pro: the same engine, amplified", px0 + 18, py0 + 60, 20, t["ink"], "sans", 600, ls=-0.02)
     pro = [("Depends on the open engine", "as a library; never forks it"),
-           ("No new physics", "adds no physical model, changes none"),
-           ("Re-derivable", "every Pro number from open runs")]
+           ("Open physics unchanged", "Pro models carry their own labels"),
+           ("Reproducible", "lists the open scenarios it ran")]
     cw3 = (px1 - px0 - 36 - 24) / 3
     for i, (a, b) in enumerate(pro):
         bx = px0 + 18 + i * (cw3 + 12)
