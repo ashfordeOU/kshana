@@ -4,10 +4,10 @@
 //   node scripts/wasm-slim-parity.mjs <full-pkg-dir> <slim-pkg-dir> [calls.jsonl]
 //
 // Both directories are `wasm-pack build --target web` outputs (kshana.js + kshana_bg.wasm). The
-// calls file (default tests/fixtures/wasm_slim/arksa_calls.jsonl) holds one JSON object per line,
-// {"fn": "run" | "export_sp3", "toml": "..."}: every engine call Arksa's eight Kshana validation
-// cases make (the four Galileo DOP cases, Klobuchar, the RINEX navigation import and the ABMF and
-// KOUR single-point fixes; 57 calls), recorded from Arksa's validation run against kshana@0.41.0.
+// calls file (default tests/fixtures/wasm_slim/embedder_calls.jsonl) holds one JSON object per line,
+// {"fn": "run" | "export_sp3", "toml": "..."}: a recorded set of engine calls from an embedder's
+// validation cases (Galileo DOP, Klobuchar, a RINEX navigation import and two single-point fixes;
+// 57 calls), recorded against kshana@0.41.0.
 //
 // It fails unless:
 //   1. the slim module exports exactly version, run and export_sp3 (plus wasm-bindgen's own glue);
@@ -25,7 +25,7 @@ if (!fullDir || !slimDir) {
   process.exit(2);
 }
 const here = new URL('..', import.meta.url);
-const callsPath = callsArg ?? new URL('tests/fixtures/wasm_slim/arksa_calls.jsonl', here);
+const callsPath = callsArg ?? new URL('tests/fixtures/wasm_slim/embedder_calls.jsonl', here);
 
 async function load(dir) {
   const mod = await import(pathToFileURL(resolve(dir, 'kshana.js')).href);

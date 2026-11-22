@@ -1,7 +1,7 @@
 # i18n catalogues
 
 Project Fluent (`.ftl`) catalogues for the site, the docs, the Studio and the engine. English is the source and the fallback.
-Design: kshana-pro `docs/design/i18n-0.40-design.md` (v2).
+Design: the i18n 0.40 design note (v2, private).
 
 ```
 i18n/en/ui.ftl         site chrome, notices, switcher, Studio shell      (by hand)  ids site-*, notice-*, studio-*
