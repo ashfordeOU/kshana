@@ -209,7 +209,7 @@ table is in [INTEROP.md](INTEROP.md).
 
 ## LEO-PNT campaigns
 
-Fifteen bundled campaigns frame low Earth orbit (LEO) positioning, navigation and timing
+Sixteen bundled campaigns frame low Earth orbit (LEO) positioning, navigation and timing
 (PNT) questions; [LEO-PNT.md](LEO-PNT.md) describes what each one shows. What each runs,
 as the command line summarises it:
 
@@ -266,5 +266,5 @@ networks.
   exceeds the alert limit.
 
 These check that composing changes nothing it should not. They do not validate a chained
-mission against a measured one, which is why the three campaign rows in
+mission against a measured one, which is why the four campaign rows in
 [VERIFICATION-MATRIX.md](VERIFICATION-MATRIX.md) are MODELLED.
