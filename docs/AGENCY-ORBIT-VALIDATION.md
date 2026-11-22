@@ -2,8 +2,8 @@
 
 Kshana's full-force engine (`src/precise_od.rs`) fit to
 **real agency precise-orbit products**, with honest, citable, commit-hash-stamped
-residuals. This is the validation record for roadmap milestone P4 ("Precise
-astrodynamics: high-order gravity, SRP (solar-radiation pressure), validation vs agency datasets").
+residuals. This is the validation record for precise astrodynamics: high-order gravity, SRP
+(solar-radiation pressure), and validation against agency datasets.
 
 ## What a validated residual means here
 
@@ -57,7 +57,7 @@ A residual is reported only when all of the following hold (design
 | CI fixture, Tier 2 (+ empirical CPR) | 8 h | 12 | 97 | **0.070 m** | 0.048, 0.044, 0.027 m | — | halves the residual |
 | Full-arc dispatch, Tier 1 (pre-fix†) | 24 h | 12 | 289 | **0.611 m** | 0.276, 0.381, 0.390 m | 1.244 | `workflow_dispatch` |
 
-The CI-fixture numbers above were re-recorded in 0.36 after the S2 air-tide fix (`xval/s2-air-tide-fix/`): Galileo Tier 1 moved 0.132 → 0.133 m (C_R 1.1744 → 1.1743), Swarm-A N components by 1–2 mm; the full-arc dispatch figures were not re-run. † **Pre-fix:** the full-arc dispatch figure was recorded before the 0.36 S2 air-tide fix and has not been re-run on the fixed code (the full-day products are fetched by the dispatch workflow, not available in the session that made the fix). On the CI fixtures the fix moved the Galileo 3-D RMS by under 1 mm and the Swarm-A components by 1–2 mm, so a change of the same order is expected; the next `workflow_dispatch` run re-records it.
+The CI-fixture numbers above were re-recorded in 0.36 after the S2 air-tide fix (`xval/s2-air-tide-fix/`): Galileo Tier 1 moved 0.132 → 0.133 m (C_R 1.1744 → 1.1743), Swarm-A N components by 1–2 mm; the full-arc dispatch figures were not re-run. † **Pre-fix:** the full-arc dispatch figure was recorded before the 0.36 S2 air-tide fix and has not been re-run on the fixed code (the full-day products are fetched only by the dispatch workflow, not by the CI fixtures). On the CI fixtures the fix moved the Galileo 3-D RMS by under 1 mm and the Swarm-A components by 1–2 mm, so a change of the same order is expected; the next `workflow_dispatch` run re-records it.
 
 The MEO field is gravity-converged by degree 8 (the 8 h Tier-1 result is identical at d/o
 8, 10, and 12 to the millimetre), so the CI fixture's d/o-12 truncation is negligible; the
@@ -92,11 +92,11 @@ The dynamic fit clears the 5 m bar with the residual almost entirely along-track
 textbook drag signature at ~430 km. The empirical tier absorbs that along-track error
 (2.52 → 0.09 m), giving a **~10 cm** reduced-dynamic fit against ESA's own ~2 cm orbit. The
 full-day, full-degree run is the ignored `swarm_full_arc_dispatch` (the dissemination
-server serves the product through its file-browser session, so the founder downloads the
+server serves the product through its file-browser session, so a maintainer downloads the
 day's SP3 and points `KSHANA_SWARM_SP3` at it). NRLMSISE-00 (NRLMSISE: Naval Research Laboratory Mass Spectrometer and Incoherent Scatter Radar Extended atmosphere model) with space-weather drivers is
 the noted upgrade that would tighten the *dynamic* tier further.
 
-### LRO lunar — validated, **above** the 5 m bar (honest) (P4 W4b)
+### LRO lunar — validated, **above** the 5 m bar (honest)
 
 - **Dataset:** the real NASA/JPL (NASA: National Aeronautics and Space Administration; JPL: Jet Propulsion Laboratory) **Lunar Reconnaissance Orbiter** (LRO; NAIF (Navigation and Ancillary Information Facility) −85) reconstructed
   trajectory from JPL Horizons, geometric Moon-centred state vectors in the ICRF (International Celestial Reference Frame), 2022-01-01,
@@ -151,7 +151,7 @@ read through ANISE (Attitude, Navigation, Instrument, Spacecraft, Ephemeris — 
 **0.36 note: most of the dynamic-tier gain below was the offset error, not the DE-grade inputs.**
 With the ME→PA offset corrected, the analytic stack gives 39.9 m raw, 12.05 m dynamic and 6.67 m
 reduced-dynamic, against the DE-grade 41.5, 12.0 and 6.67 m: the analytic and DE-grade fits now
-agree on every tier. The 0.30 reading of the table below follows, kept as it was written.
+agree on every tier. The 0.30 reading of the table above follows, kept as it was written.
 
 **The hypothesis is only half right, and the headline claim needed correcting.** DE-grade
 orientation and ephemeris *do* improve the raw overlap (53.8 → 41.5 m) and the **dynamic** fit

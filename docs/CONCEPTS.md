@@ -107,7 +107,7 @@ The relations Kshana implements and tests (full detail and tolerances in
 
 - **Clock holdover.** Two-state phase/frequency model with white frequency modulation
   (white FM, power spectral density `q_wf`), random-walk FM (`q_rw`), flicker FM (a sum of log-spaced Ornstein–Uhlenbeck processes
-  calibrated to a flat Allan floor), and deterministic aging. Validated by overlapping
+  calibrated to a flat Allan floor), and deterministic aging. Checked by overlapping
   Allan deviation against the published `σ_y(τ)` (Riley, NIST (National Institute of Standards and Technology) SP (Special Publication) 1065).
 - **Inertial dead-reckoning.** Residual accelerometer bias → `½·b·T²`; velocity random
   walk → `σ_x(T) = √(S_a·T³/3)`; optional gyro bias and angular random walk produce a
