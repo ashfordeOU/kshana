@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: AGPL-3.0-only
 # Translations (workstream J): the catalogues are valid, the English page catalogue matches the built site, and the
 # pseudo-locale build (accented, 35 % longer, bracketed) shows no hard-coded string and no overflow.
-# Design: kshana-pro docs/design/i18n-0.40-design.md (v2). Tools: tools/i18n.mjs.
+# Design: the i18n 0.40 design note (v2, private). Tools: tools/i18n.mjs.
 name: i18n
 
 on:

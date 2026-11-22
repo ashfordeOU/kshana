@@ -245,10 +245,10 @@
    "replaces": [
     {
      "model": "NRLMSISE-00",
-     "licence": "unclear (the embedder review: probably OK); port of the public-domain C version",
-     "review": "records/compliance/NRLMSISE00_LICENCE_REVIEW.md",
+     "licence": "unclear (review: probably OK); port of the public-domain C version",
+     "review": "private licence review",
      "used": "line-by-line port",
-     "native_replacement": "candidate: the same domain as the embedder atm-native; one physics source by head-to-head (D-K13)",
+     "native_replacement": "candidate: a native implementation; one physics source by head-to-head (D-K13)",
      "licence_verdict": "unclear"
     }
    ],

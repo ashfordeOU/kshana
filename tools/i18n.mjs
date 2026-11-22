@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// i18n tooling for kshana.dev, the docs, the Studio and the engine (design: kshana-pro docs/design/i18n-0.40-design.md, v2).
+// i18n tooling for kshana.dev, the docs, the Studio and the engine (design: the i18n 0.40 design note, v2, private).
 //
 //   node tools/i18n.mjs extract [--src web] [--out i18n/en/pages] [--shared-min 25] [--skip studio,playground]
 //
