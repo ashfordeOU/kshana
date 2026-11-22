@@ -279,7 +279,7 @@ ICD: RFC 4231 (HMAC-SHA-256), RFC 4493 (CMAC-AES-128), FIPS 197 (AES), FIPS 202
 hash selection with a throwaway key made in the test; the curve arithmetic is the
 library's.
 
-Conformance is checked by `tests/osnma_official_vectors.rs`, which is opt-in: it reads a
+Agreement with the official test vectors is checked by `tests/osnma_official_vectors.rs`, which is opt-in: it reads a
 copy of the official test-vector archive that you download yourself, from the
 directory named by `KSHANA_OSNMA_VECTORS`, and does nothing when the variable is unset.
 It stores and redistributes nothing, and default test runs use no network.
