@@ -30,9 +30,9 @@
 //! TOLERANCES (the residuals are the honest, reported fixed-step-RK4 /
 //! single-shooting / finite-grid-perilune gap, NOT loosened to force a pass):
 //!   - Jacobi C:           |dC|        <= 5e-4   (measured worst ~1.5e-5)
-//!   - Period T:           |dT|/T      <= 1e-3   (measured worst ~9.5e-5)
+//!   - Period T:           |dT|/T      <= 1e-3   (measured worst ~9.6e-5)
 //!   - IC components:      |dz0|,|dvy0|<= 1e-3   (measured worst ~1.4e-5)
-//!   - Perilune (JPL km):  |dperi|     <= 150 km (measured worst ~1.2 km)
+//!   - Perilune (JPL km):  |dperi|     <= 150 km (measured worst ~0.69 km)
 //!
 //! HONEST SCOPE: this validates the differential-correction CORE of
 //! `kshana::cr3bp` against the published JPL catalog. It does NOT validate an

@@ -68,7 +68,7 @@ pub struct RateFrameJacobian {
 /// The lunar self-potential model behind [`rate_frame_jacobian_with`]: a central mass with the
 /// second zonal harmonic, evaluated on the equator at `radius_m`, plus the rotation term of a
 /// clock co-rotating with the Moon. This is the closed form of Ashby and Patla (2024, The
-/// Astronomical Journal 167:149, Eq. (10)), `L_m = −Φ0m/c² = −Φ_m(θ = π/2)/c² + ω_m² a_m² / (2c²)`,
+/// Astronomical Journal 168:112, Eq. (10)), `L_m = −Φ0m/c² = −Φ_m(θ = π/2)/c² + ω_m² a_m² / (2c²)`,
 /// with the potential on the equator truncated at degree 2 (the paper evaluates a degree-350
 /// field; the zonal part beyond `J2` and the longitude-dependent sectoral terms are left out).
 #[derive(Clone, Copy, Debug, PartialEq)]
