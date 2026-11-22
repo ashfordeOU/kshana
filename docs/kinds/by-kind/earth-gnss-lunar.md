@@ -63,7 +63,7 @@ The scalar results of that run, with the units the engine states:
 | `best_cn0_dbhz` | no value | dB-Hz |
 | `dop` | no value | not stated |
 | `earth_limb_half_angle_deg` | 13.895839 | deg |
-| `evidence.id_rule` | the stable id of the matrix row (the ID  | text |
+| `evidence.id_rule` | the stable id of the matrix row (the… | text |
 | `evidence.matrix` | docs/VERIFICATION-MATRIX.md | text |
 | `evidence.tier` | PARTNER | text |
 | `los_cone_half_angle_deg` | no value | deg |
@@ -83,14 +83,14 @@ The rows the run itself exercised, with the oracle the matrix gives each (the pu
 
 - **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): SBOM conformance to the official CycloneDX 1.5 JSON Schema (+ valid SPDX identifiers) — an external published standard, zero validation errors over the full dependency graph; the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
 - **PARTNER** Not provided — Kshana models signal performance, not payload/antenna hardware. Oracle (NoneKind): none: a partner-owned discipline, with no module and no test by design
-- **MODELLED** Earth-GNSS reception at lunar distance: the weak-signal layer P7 Table 1 names and the engine had no model for. Per satellite and per epoch it computes the off-. Oracle (InternalConsistency): Closed-form identities and internal consistency; NO external oracle is claimed. The limb half angle is checked against asin(R_earth/r_orbit) and the geometry against it; the free-space loss, the DOP kernel and the SGP4 propagation this composes are each externally validated in their own rows and this row does not borrow their status. WHY MODELLED, and it is the transmit pattern: the gain at angle is a uniformly illum
+- **MODELLED** Earth-GNSS reception at lunar distance: the weak-signal layer P7 Table 1 names and the engine had no model for. Per satellite and per epoch it computes the…. Oracle (InternalConsistency): Closed-form identities and internal consistency; NO external oracle is claimed. The limb half angle is checked against asin(R_earth/r_orbit) and the geometry against it; the free-space loss, the DOP kernel and the SGP4 propagation this composes are each externally validated in their own rows and this row does not borrow their status. WHY MODELLED, and it is the transmit pattern: the gain at angle is a uniformly…
 
 ## Limitations
 
 What the run's own report says is not modelled or not validated:
 
 - MODELLED, and the transmit pattern is the reason: the gain at angle is a uniform circular aperture (Airy), while a real GPS L1 antenna is a twelve-element helical array with a shaped main lobe and non-Airy sidelobes. (kind catalogue (`kshana kinds --json`))
-- WHAT IS MODELLED, AND WHY IT IS NOT VALIDATED The transmit gain at angle is a uniformly illuminated circular aperture — an Airy pattern. A real GPS L1 antenna is a twelve-element helical array whose measured pattern has a shaped main lobe, deliberately peaked off-boresight to even out power across the Earth disc, and sidelobes that are not Airy at all. Measured patterns are published; they are not vendored in this re (scenario file comment, lines 29 to 35)
+- WHAT IS MODELLED, AND WHY IT IS NOT VALIDATED The transmit gain at angle is a uniformly illuminated circular aperture — an Airy pattern. A real GPS L1 antenna is a twelve-element helical array whose measured pattern has a shaped main lobe, deliberately peaked off-boresight to even out power across the Earth disc, and sidelobes that are not Airy at all. Measured patterns are published; they are not vendored in this… (scenario file comment, lines 29 to 35)
 - Reproducibility & software assurance is MODELLED, not validated: a sub-claim is externally checked, but the whole capability composes modelled pieces, so the capability stays Modelled. (verification matrix (docs/MODELLED-RATIONALE.md))
 - Earth-GNSS at lunar distance is MODELLED, not validated: checked against its own closed-form / analytic identity — catches transcription and coefficient errors, but is not an external oracle. (verification matrix (docs/MODELLED-RATIONALE.md))
 

@@ -14,11 +14,11 @@ Topic pages: [TELECOM-TIMING](../TELECOM-TIMING.md), [SLOT-TIMING](../SLOT-TIMIN
 | [`sweep`](by-kind/sweep.md) | 1-D trade-study sweep over a clock-pack parameter. | MODELLED |
 | [`sweep-nd`](by-kind/sweep-nd.md) | Generic N-D sweep over any pack via dotted TOML keys / JSON metric paths. | MODELLED (result label) |
 | [`telecom-timing`](by-kind/telecom-timing.md) | Telecom timing: time error, maximum time interval error (MTIE) and time deviation (TDEV) of a GNSS holdover, checked against ITU-T masks with a PASS or FAIL and a margin per mask. | MODELLED 5 · VALIDATED 1 |
-| [`slot-timing`](by-kind/slot-timing.md) | Slot timing: seconds until a free-running clock leaves the guard of a time-indexed routing or tasking slot (the largest absolute time error the slot tolerates), the contribution of every term at that  | MODELLED 2 · VALIDATED 1 |
+| [`slot-timing`](by-kind/slot-timing.md) | Slot timing: seconds until a free-running clock leaves the guard of a time-indexed routing or tasking slot (the largest absolute time error the slot tolerates), the contribution of every term at… | MODELLED 2 · VALIDATED 1 |
 | [`timetransfer`](by-kind/timetransfer.md) | Optical vs RF two-way time/frequency transfer. | MODELLED |
-| [`time-transfer-budget`](by-kind/time-transfer-budget.md) | Two-way satellite time and frequency transfer between two stations through a geostationary relay: the two-way equation solved for T_A - T_B with every non-reciprocal term (station equipment delays, Ku | MODELLED |
-| [`holdover-test`](by-kind/holdover-test.md) | MODELLED holdover test of a timing system, scored from a time-error record the OPERATOR supplies (a linuxptp ptp4l, phc2sys or ts2phc log, a chrony tracking or statistics log, a TICC, TimeLab or RINEX | MODELLED |
-| [`quantum-time-transfer`](by-kind/quantum-time-transfer.md) | MODELLED trusted-quantum-timing chain: an end-to-end quantum (optical-lattice clock + entanglement/single-photon link) vs classical (CSAC + RF two-way) time-transfer budget, a reused timing protection | MODELLED (result label) |
+| [`time-transfer-budget`](by-kind/time-transfer-budget.md) | Two-way satellite time and frequency transfer between two stations through a geostationary relay: the two-way equation solved for T_A - T_B with every non-reciprocal term (station equipment delays… | MODELLED |
+| [`holdover-test`](by-kind/holdover-test.md) | MODELLED holdover test of a timing system, scored from a time-error record the OPERATOR supplies (a linuxptp ptp4l, phc2sys or ts2phc log, a chrony tracking or statistics log, a TICC, TimeLab or… | MODELLED |
+| [`quantum-time-transfer`](by-kind/quantum-time-transfer.md) | MODELLED trusted-quantum-timing chain: an end-to-end quantum (optical-lattice clock + entanglement/single-photon link) vs classical (CSAC + RF two-way) time-transfer budget, a reused timing… | MODELLED (result label) |
 
 ### `clock`
 

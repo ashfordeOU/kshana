@@ -49,7 +49,7 @@ The scalar results of that run, with the units the engine states:
 | `altitude_km` | 600 | km |
 | `delta_inertia_kg_m2` | 40 | kg*m^2 |
 | `dominant_contributor` | reaction_wheel_jitter | text |
-| `evidence.id_rule` | the stable id of the matrix row (the ID  | text |
+| `evidence.id_rule` | the stable id of the matrix row (the… | text |
 | `evidence.matrix` | docs/VERIFICATION-MATRIX.md | text |
 | `evidence.tier` | PARTNER | text |
 | `gravity_gradient_torque_max_nm` | 7.0383e-5 | N*m |
@@ -63,12 +63,12 @@ Result label (the engine's): MODELLED — scalar 3-DOF AOCS error budget: gravit
 
 VALIDATED: the [verification matrix](../../VERIFICATION-MATRIX.md) rows that name this kind.
 
-- **VALIDATED** Gravity-gradient worst-case disturbance torque ((3/2)(μ/R³)ΔI) as the peak over attitude (the validated claim), plus an RSS pointing-error budget over named 1σ contributors with the dominant term (a quadrature sum of caller-supplied numbers Tests: [attitude_gg_torque_reference.rs](../../../tests/attitude_gg_torque_reference.rs).
+- **VALIDATED** Gravity-gradient worst-case disturbance torque ((3/2)(μ/R³)ΔI) as the peak over attitude (the validated claim), plus an RSS pointing-error budget over named 1σ contributors with the dominant term (a quadrature sum of caller-supplied… Tests: [attitude_gg_torque_reference.rs](../../../tests/attitude_gg_torque_reference.rs).
 
 The rows the run itself exercised, with the oracle the matrix gives each (the public sources are named there):
 
 - **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): SBOM conformance to the official CycloneDX 1.5 JSON Schema (+ valid SPDX identifiers) — an external published standard, zero validation errors over the full dependency graph; the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
-- **VALIDATED** Gravity-gradient worst-case disturbance torque ((3/2)(μ/R³)ΔI) as the peak over attitude (the validated claim), plus an RSS pointing-error budget over named 1σ . Oracle (ExternalDataset): Basilisk 2.9.1 GravityGradientEffector (AVSLab, ISC), an independent C++ implementation of the full-tensor gravity-gradient torque: Kshana's peak (3/2)(μ/R³)ΔI equals Basilisk's torque at the 45 deg attitude within 1e-12 relative (worst 2.1e-15) over 5 altitudes and 8 inertia tensors, and bounds Basilisk's torque over 2000 random attitudes per case; tolerance fixed before the comparison. Validated claim: the gravity-
+- **VALIDATED** Gravity-gradient worst-case disturbance torque ((3/2)(μ/R³)ΔI) as the peak over attitude (the validated claim), plus an RSS pointing-error budget over named…. Oracle (ExternalDataset): Basilisk 2.9.1 GravityGradientEffector (AVSLab, ISC), an independent C++ implementation of the full-tensor gravity-gradient torque: Kshana's peak (3/2)(μ/R³)ΔI equals Basilisk's torque at the 45 deg attitude within 1e-12 relative (worst 2.1e-15) over 5 altitudes and 8 inertia tensors, and bounds Basilisk's torque over 2000 random attitudes per case; tolerance fixed before the comparison. Validated claim: the…
 - **PARTNER** Not provided — Kshana is a navigation-performance simulator, not a bus house. Oracle (NoneKind): none: a partner-owned discipline, with no module and no test by design
 
 ## Limitations

@@ -52,7 +52,7 @@ The scalar results of that run, with the units the engine states:
 | `closed_form_check.altitude_at_peak_m` | 49780.760635 | m |
 | `closed_form_check.integrated_over_closed_form` | 0.589074 | 1 |
 | `closed_form_check.peak_deceleration_g` | 60.160557 | 1 |
-| `closed_form_check.reference` | NACA Report 1381 (1958) ballistic consta | text |
+| `closed_form_check.reference` | NACA Report 1381 (1958) ballistic… | text |
 | `closed_form_check.rho0_kg_m3` | 1.225 | kg/m^3 |
 | `closed_form_check.scale_height_m` | 7200 | m |
 | `energy_check.residual` | 9.5628e-13 | 1 |
@@ -63,16 +63,15 @@ Result label (the engine's): MODELLED — 3-DoF point-mass entry over a rotating
 
 ## Evidence
 
-MODELLED 1 · VALIDATED 1: the [verification matrix](../../VERIFICATION-MATRIX.md) rows that name this kind.
+VALIDATED: the [verification matrix](../../VERIFICATION-MATRIX.md) rows that name this kind.
 
-- **VALIDATED** A 3-DoF point-mass entry over a rotating spherical Earth through the US Standard Atmosphere 1976, integrated with RK4 from an inertial entry state, reporting the peak deceleration and its altitude; the planet-relative entry state from the i Tests: [entry_stardust_published.rs](../../../tests/entry_stardust_published.rs).
-- **MODELLED** Stagnation-point convective heat flux q = k sqrt(rho/R_n) V^3 with the Sutton-Graves constants for Earth air and the Mars atmosphere (NASA TR R-376, 1971), its peak and the integrated heat load along a 3-DoF entry, ballistic or lifting at c Tests: [entry_stardust_published.rs](../../../tests/entry_stardust_published.rs).
+- **VALIDATED** A 3-DoF point-mass entry over a rotating spherical Earth through the US Standard Atmosphere 1976, integrated with RK4 from an inertial entry state, reporting the peak deceleration and its altitude; the planet-relative entry state from the… Tests: [entry_stardust_published.rs](../../../tests/entry_stardust_published.rs).
 
 The rows the run itself exercised, with the oracle the matrix gives each (the public sources are named there):
 
 - **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): SBOM conformance to the official CycloneDX 1.5 JSON Schema (+ valid SPDX identifiers) — an external published standard, zero validation errors over the full dependency graph; the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
-- **VALIDATED** A 3-DoF point-mass entry over a rotating spherical Earth through the US Standard Atmosphere 1976, integrated with RK4 from an inertial entry state, reporting th. Oracle (ExternalDataset): The Stardust nominal of Desai, Mitcheltree and Cheatwood (1999, NASA NTRS 20050042027): maximum deceleration 33.4 g from 12.6 km/s planet-relative with the 45.8 kg launch mass, a 6-DoF POST trajectory with the full aerodynamic database; entry interface from Desai, Lyons, Tooley and Kangas (NTRS 20090004445): radius 6503.14 km, inertial 12.9 km/s at -8.2 deg. Bars pre-registered in xval/entry-stardust/PREREGISTRATION.
-- **MODELLED** Stagnation-point convective heat flux q = k sqrt(rho/R_n) V^3 with the Sutton-Graves constants for Earth air and the Mars atmosphere (NASA TR R-376, 1971), its . Oracle (InternalConsistency): Internal consistency: the relation and constants as printed in NASA TR R-376, a half-step convergence check, and the expected ordering of heating and deceleration peaks. WHAT IS NOT: no published heating value has been compared (the Stardust papers give a design limit and a convective-plus-radiative estimate of about 1200 W/cm2, which a convective-only relation cannot match); no radiative heating, wall-temperature or
+- **VALIDATED** A 3-DoF point-mass entry over a rotating spherical Earth through the US Standard Atmosphere 1976, integrated with RK4 from an inertial entry state, reporting…. Oracle (ExternalDataset): The Stardust nominal of Desai, Mitcheltree and Cheatwood (1999, NASA NTRS 20050042027): maximum deceleration 33.4 g from 12.6 km/s planet-relative with the 45.8 kg launch mass, a 6-DoF POST trajectory with the full aerodynamic database; entry interface from Desai, Lyons, Tooley and Kangas (NTRS 20090004445): radius 6503.14 km, inertial 12.9 km/s at -8.2 deg. Bars pre-registered in…
+- **MODELLED** Stagnation-point convective heat flux q = k sqrt(rho/R_n) V^3 with the Sutton-Graves constants for Earth air and the Mars atmosphere (NASA TR R-376, 1971)…. Oracle (InternalConsistency): Internal consistency: the relation and constants as printed in NASA TR R-376, a half-step convergence check, and the expected ordering of heating and deceleration peaks. WHAT IS NOT: no published heating value has been compared (the Stardust papers give a design limit and a convective-plus-radiative estimate of about 1200 W/cm2, which a convective-only relation cannot match); no radiative heating, wall-temperature…
 
 ## Limitations
 

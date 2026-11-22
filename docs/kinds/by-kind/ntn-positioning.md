@@ -58,7 +58,7 @@ The scalar results of that run, with the units the engine states:
 | `doppler_pass.satellite` | 255 | index |
 | `doppler_pass.sigma_range_rate_mps` | 0.001 | m/s |
 | `doppler_sigma_zenith_hz` | 0.001233 | Hz |
-| `evidence.id_rule` | the stable id of the matrix row (the ID  | text |
+| `evidence.id_rule` | the stable id of the matrix row (the… | text |
 | `evidence.matrix` | docs/VERIFICATION-MATRIX.md | text |
 
 Result label (the engine's): MODELLED positioning from Cramér-Rao bounds: the bandwidth-to-bound step is a textbook closed form (checked against numerical integration, not against a published worked figure); the accuracy is a bound on a multipath-free channel with a stated synchronisation error, not an achieved result
@@ -69,12 +69,12 @@ Result label (the engine's): MODELLED positioning from Cramér-Rao bounds: the b
 
 VALIDATED: the [verification matrix](../../VERIFICATION-MATRIX.md) rows that name this kind.
 
-- **VALIDATED** The Cramér-Rao bound on time of arrival from the root-mean-square (Gabor) bandwidth, c/(2 pi beta sqrt(2 (C/N0) T)), for a flat OFDM spectrum (beta = B/sqrt(12)), a band-limited BPSK spectrum (closed-form numerator) or any spectrum by quadr Tests: [leo_fusion_scenarios.rs](../../../tests/leo_fusion_scenarios.rs).
+- **VALIDATED** The Cramér-Rao bound on time of arrival from the root-mean-square (Gabor) bandwidth, c/(2 pi beta sqrt(2 (C/N0) T)), for a flat OFDM spectrum (beta = B/sqrt(12)), a band-limited BPSK spectrum (closed-form numerator) or any spectrum by… Tests: [leo_fusion_scenarios.rs](../../../tests/leo_fusion_scenarios.rs).
 
 The rows the run itself exercised, with the oracle the matrix gives each (the public sources are named there):
 
 - **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): SBOM conformance to the official CycloneDX 1.5 JSON Schema (+ valid SPDX identifiers) — an external published standard, zero validation errors over the full dependency graph; the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
-- **VALIDATED** The Cramér-Rao bound on time of arrival from the root-mean-square (Gabor) bandwidth, c/(2 pi beta sqrt(2 (C/N0) T)), for a flat OFDM spectrum (beta = B/sqrt(12). Oracle (ExternalDataset): Published worked values (P1): Bachl, Lei and Nabeel, arXiv:2608.10270 (2026), single-SSB bounds of NR NTN reproduced from the 3GPP TS 38.211 SSB map through Kshana own numeric functions (W_rms 1.9616 vs 1.96 MHz, sigma_t 38.755 vs 39 us, sigma_f 100.79/87.28 vs 101/87 Hz, sigma_rho 0.5970/0.5831 vs 0.60/0.58 m, each within half a unit of the printed last digit); Betz 2001 Table 1 BPSK-R RMS bandwidths (1.128/3.477 vs
+- **VALIDATED** The Cramér-Rao bound on time of arrival from the root-mean-square (Gabor) bandwidth, c/(2 pi beta sqrt(2 (C/N0) T)), for a flat OFDM spectrum (beta =…. Oracle (ExternalDataset): Published worked values (P1): Bachl, Lei and Nabeel, arXiv:2608.10270 (2026), single-SSB bounds of NR NTN reproduced from the 3GPP TS 38.211 SSB map through Kshana own numeric functions (W_rms 1.9616 vs 1.96 MHz, sigma_t 38.755 vs 39 us, sigma_f 100.79/87.28 vs 101/87 Hz, sigma_rho 0.5970/0.5831 vs 0.60/0.58 m, each within half a unit of the printed last digit); Betz 2001 Table 1 BPSK-R RMS bandwidths (1.128/3.477…
 
 ## Limitations
 

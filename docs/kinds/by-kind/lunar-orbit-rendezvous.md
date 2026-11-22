@@ -40,7 +40,7 @@ The example `scenarios/lunar-orbit-rendezvous.toml` sets, among others:
 kshana scenarios/lunar-orbit-rendezvous.toml
 ```
 
-2 bundled scenarios use this kind; the others are in [`scenarios/`](../../../scenarios/).
+2 scenario files in [`scenarios/`](../../../scenarios/) use this kind.
 
 ## What it gives
 
@@ -48,7 +48,7 @@ The scalar results of that run, with the units the engine states:
 
 | Result | Value | Unit |
 |---|---|---|
-| `advisory` | Advisory software, not certified navigat | text |
+| `advisory` | Advisory software, not certified… | text |
 | `arc_s` | 7200 | s |
 | `common_mode_fraction` | 0.9 | 1 |
 | `converged_at_s` | 2000 | s |
@@ -56,7 +56,7 @@ The scalar results of that run, with the units the engine states:
 | `cw_check.ratio_to_separation` | 0.020518 | 1 |
 | `cw_check.separation_m` | 2000 | m |
 | `estimator` | batch Gauss-Newton over the arc | text |
-| `evidence.id_rule` | the stable id of the matrix row (the ID  | text |
+| `evidence.id_rule` | the stable id of the matrix row (the… | text |
 | `evidence.matrix` | docs/VERIFICATION-MATRIX.md | text |
 
 Result label (the engine's): MODELLED
@@ -67,13 +67,13 @@ Result label (the engine's): MODELLED
 
 MODELLED: the [verification matrix](../../VERIFICATION-MATRIX.md) rows that name this kind.
 
-- **MODELLED** The `lunar-orbit-rendezvous` kind and phase: a joint two-vehicle batch Gauss-Newton estimate over the arc (twenty-one parameters: both states and persistent signal-in-space position biases, common and independent), grown over a quarter, a h Tests: [mission_thread_lunar_oracles.rs](../../../tests/mission_thread_lunar_oracles.rs).
+- **MODELLED** The `lunar-orbit-rendezvous` kind and phase: a joint two-vehicle batch Gauss-Newton estimate over the arc (twenty-one parameters: both states and persistent signal-in-space position biases, common and independent), grown over a quarter, a… Tests: [mission_thread_lunar_oracles.rs](../../../tests/mission_thread_lunar_oracles.rs).
 
 The rows the run itself exercised, with the oracle the matrix gives each (the public sources are named there):
 
 - **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): SBOM conformance to the official CycloneDX 1.5 JSON Schema (+ valid SPDX identifiers) — an external published standard, zero validation errors over the full dependency graph; the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
-- **MODELLED** The `lunar-orbit-rendezvous` kind and phase: a joint two-vehicle batch Gauss-Newton estimate over the arc (twenty-one parameters: both states and persistent sig. Oracle (InternalConsistency): Self-consistency under a pre-registration (xval/mission-thread-lunar/PREREGISTRATION.md, results and the estimator history in RESULTS.md): the mean NEES of the relative state is 5.85 to 5.93 against the band 5.2 to 6.8 in four configurations, MET on the fourth estimator design after three sequential-filter designs missed; the truth and the estimator share one force model, so this says nothing about model error. The p
-- **MODELLED** The propagator the lunar kinds share (GRAIL GL0660B degree and order 150, Earth and Sun third bodies, relativity, DE440 lunar orientation) compared with the pub. Oracle (ExternalDataset): JPL Horizons spacecraft ephemerides for LRO and CAPSTONE, against bars pre-registered in xval/mission-thread-lunar/PREREGISTRATION.md (Amendments 1 to 6). LRO: MET, 33 m largest 3-D difference and 2.4 m RMS radial against 500 m and 60 m. CAPSTONE: NOT MET, a 136.8 km end-position difference against 25 km and a 28.4 km periapsis difference against 10 km, the causes not isolated. The row is Modelled because the CAPSTON
+- **MODELLED** The `lunar-orbit-rendezvous` kind and phase: a joint two-vehicle batch Gauss-Newton estimate over the arc (twenty-one parameters: both states and persistent…. Oracle (InternalConsistency): Self-consistency under a pre-registration (xval/mission-thread-lunar/PREREGISTRATION.md, results and the estimator history in RESULTS.md): the mean NEES of the relative state is 5.85 to 5.93 against the band 5.2 to 6.8 in four configurations, MET on the fourth estimator design after three sequential-filter designs missed; the truth and the estimator share one force model, so this says nothing about model error. The…
+- **MODELLED** The propagator the lunar kinds share (GRAIL GL0660B degree and order 150, Earth and Sun third bodies, relativity, DE440 lunar orientation) compared with the…. Oracle (ExternalDataset): JPL Horizons spacecraft ephemerides for LRO and CAPSTONE, against bars pre-registered in xval/mission-thread-lunar/PREREGISTRATION.md (Amendments 1 to 6). LRO: MET, 33 m largest 3-D difference and 2.4 m RMS radial against 500 m and 60 m. CAPSTONE: NOT MET, a 136.8 km end-position difference against 25 km and a 28.4 km periapsis difference against 10 km, the causes not isolated. The row is Modelled because the…
 
 ## Limitations
 
@@ -82,7 +82,7 @@ What the run's own report says is not modelled or not validated:
 - MODELLED (result `label`)
 - MODELLED relative navigation for an Orion-lander style docking in a low lunar orbit or an elliptical polar orbit (Artemis-class). (kind catalogue (`kshana kinds --json`))
 - MODELLED: illustrative relay set, error budget and priors; the truth and the estimator share one force model, so the NEES checks self-consistency and not model error. (kind catalogue (`kshana kinds --json`))
-- HONESTY: MODELLED. The relay set, the signal-in-space error, the common-mode fraction and the priors are ILLUSTRATIVE inputs, not measurements; the truth and the estimator share the force model (a built-in central term, J2 and C22). The pre-registered consistency check B1 (mean NEES in [5.2, 6.8]) is met in all four configurations on the batch design: see xval/mission-thread-lunar/RESULTS.md. No agreement with any re (scenario file comment, lines 10 to 14)
+- HONESTY: MODELLED. The relay set, the signal-in-space error, the common-mode fraction and the priors are ILLUSTRATIVE inputs, not measurements; the truth and the estimator share the force model (a built-in central term, J2 and C22). The pre-registered consistency check B1 (mean NEES in [5.2, 6.8]) is met in all four configurations on the batch design: see xval/mission-thread-lunar/RESULTS.md. No agreement with any… (scenario file comment, lines 10 to 14)
 - Reproducibility & software assurance is MODELLED, not validated: a sub-claim is externally checked, but the whole capability composes modelled pieces, so the capability stays Modelled. (verification matrix (docs/MODELLED-RATIONALE.md))
 - Relative navigation to docking in a lunar orbit (`lunar-orbit-rendezvous`) is MODELLED, not validated: checked against its own closed-form / analytic identity — catches transcription and coefficient errors, but is not an external oracle. (verification matrix (docs/MODELLED-RATIONALE.md))
 - The lunar force model propagation against public reconstructed lunar-orbiter and cislunar trajectories is MODELLED, not validated: a sub-claim is externally checked, but the whole capability composes modelled pieces, so the capability stays Modelled. (verification matrix (docs/MODELLED-RATIONALE.md))

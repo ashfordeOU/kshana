@@ -43,7 +43,7 @@ The scalar results of that run, with the units the engine states:
 | `contiguous_equatorial_coverage` | false | flag |
 | `earth_angular_radius_deg` | 64.303554 | deg |
 | `equatorial_ground_track_spacing_km` | 2752.173944 | km |
-| `evidence.id_rule` | the stable id of the matrix row (the ID  | text |
+| `evidence.id_rule` | the stable id of the matrix row (the… | text |
 | `evidence.matrix` | docs/VERIFICATION-MATRIX.md | text |
 | `evidence.tier` | MODELLED | text |
 | `half_fov_deg` | 7.5 | deg |
@@ -58,12 +58,12 @@ Result label (the engine's): MODELLED — spherical-Earth space-triangle geometr
 
 VALIDATED: the [verification matrix](../../VERIFICATION-MATRIX.md) rows that name this kind.
 
-- **VALIDATED** SMAD space-triangle geometry: Earth angular radius, swath width, nadir GSD, maximum off-nadir access and circular period, plus the first-order J2 nodal period (eo_payload::j2_nodal_period) and the equatorial ground-track spacing R_e (omega_ Tests: [eo_payload_coverage_reference.rs](../../../tests/eo_payload_coverage_reference.rs).
+- **VALIDATED** SMAD space-triangle geometry: Earth angular radius, swath width, nadir GSD, maximum off-nadir access and circular period, plus the first-order J2 nodal period (eo_payload::j2_nodal_period) and the equatorial ground-track spacing R_e… Tests: [eo_payload_coverage_reference.rs](../../../tests/eo_payload_coverage_reference.rs).
 
 The rows the run itself exercised, with the oracle the matrix gives each (the public sources are named there):
 
 - **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): SBOM conformance to the official CycloneDX 1.5 JSON Schema (+ valid SPDX identifiers) — an external published standard, zero validation errors over the full dependency graph; the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
-- **VALIDATED** SMAD space-triangle geometry: Earth angular radius, swath width, nadir GSD, maximum off-nadir access and circular period, plus the first-order J2 nodal period (. Oracle (ExternalDataset): Orekit 12.2 (Apache-2.0) and GeographicLib 2.1 (MIT), both run as separate programs, pre-registered (80513191) before the engine change and any oracle run: sphere quantities within 1e-9 relative (worst: angular radius 5.4e-16, swath 7.0e-13, access 1.9e-14), period 1e-12 (1.6e-16), nadir GSD 1e-7 (2.9e-10), the J2 nodal period and node spacing within 0.1 % of an Orekit numerical J2 propagation with a node detector (1
+- **VALIDATED** SMAD space-triangle geometry: Earth angular radius, swath width, nadir GSD, maximum off-nadir access and circular period, plus the first-order J2 nodal period…. Oracle (ExternalDataset): Orekit 12.2 (Apache-2.0) and GeographicLib 2.1 (MIT), both run as separate programs, pre-registered (80513191) before the engine change and any oracle run: sphere quantities within 1e-9 relative (worst: angular radius 5.4e-16, swath 7.0e-13, access 1.9e-14), period 1e-12 (1.6e-16), nadir GSD 1e-7 (2.9e-10), the J2 nodal period and node spacing within 0.1 % of an Orekit numerical J2 propagation with a node detector…
 
 ## Limitations
 

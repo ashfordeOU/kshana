@@ -40,7 +40,7 @@ The example `scenarios/l-band-waterfall-jamming.toml` sets, among others:
 kshana scenarios/l-band-waterfall-jamming.toml
 ```
 
-3 bundled scenarios use this kind; the others are in [`scenarios/`](../../../scenarios/).
+3 scenario files in [`scenarios/`](../../../scenarios/) use this kind.
 
 ## What it gives
 
@@ -49,7 +49,7 @@ The scalar results of that run, with the units the engine states:
 | Result | Value | Unit |
 |---|---|---|
 | `duration_s` | 60 | s |
-| `evidence.id_rule` | the stable id of the matrix row (the ID  | text |
+| `evidence.id_rule` | the stable id of the matrix row (the… | text |
 | `evidence.matrix` | docs/VERIFICATION-MATRIX.md | text |
 | `evidence.tier` | PARTNER | text |
 | `iq.centre_hz` | 1575420000 | Hz |
@@ -59,7 +59,7 @@ The scalar results of that run, with the units the engine states:
 | `iq.comparison.median_difference_db` | -0.521006 | dB |
 | `iq.enbw_hz` | 30000 | Hz |
 
-Result label (the engine's): MODELLED: an L-band power spectral density built from closed-form signal spectra (VALIDATED against the textbook main-lobe widths and spectral separation coefficients), jammer spectra and a kT noise floor, reduced to J/S and effective C/N0 by the spectral separation coefficient. The jammer powers, t
+Result label (the engine's): MODELLED: an L-band power spectral density built from closed-form signal spectra (VALIDATED against the textbook main-lobe widths and spectral separation coefficients), jammer spectra and a kT noise floor, reduced to J/S and effective C/N0 by the spectral separation coefficient. The jammer powers…
 
 <img src="../../figures/kinds/spectrum.svg" alt="The chart the engine writes for scenarios/l-band-waterfall-jamming.toml, kind spectrum" width="640">
 
@@ -67,19 +67,19 @@ Result label (the engine's): MODELLED: an L-band power spectral density built fr
 
 MODELLED 3 · VALIDATED 2: the [verification matrix](../../VERIFICATION-MATRIX.md) rows that name this kind.
 
-- **VALIDATED** Unit-area power spectral densities of GPS L1 C/A and L2C (BPSK(1)), GPS L5 and Galileo E5a (BPSK(10)), sine-BOC(1,1) and Galileo E1 MBOC(6,1,1/11) (navsignal::Modulation::psd, with an MBOC variant added), their numerically located nulls and
-- **MODELLED** The `spectrum` kind: a frequency-by-time grid of the L-band power spectral density (thermal floor k T_sys with T_sys = T_ant + 290 K (F - 1), the signals at their interface-specification minimum received powers, and continuous-wave, narrowb
-- **VALIDATED** sigmf: read and write Signal Metadata Format recordings (JSON .sigmf-meta with the core global, captures and annotations fields; raw .sigmf-data as cf32_le, ci16_le or ci8, the integer decoders shared with realdata::iqif::load_iq), all on s
-- **MODELLED** The `spectrum` kind extended beyond the L band: bands given as a preset signal design (drawn with every component, band-limited to the transmit bandwidth, C/N0 and J/S referred to the tracked component) or as a custom carrier and modulation Tests: [leo_signal_reference.rs](../../../tests/leo_signal_reference.rs).
+- **VALIDATED** Unit-area power spectral densities of GPS L1 C/A and L2C (BPSK(1)), GPS L5 and Galileo E5a (BPSK(10)), sine-BOC(1,1) and Galileo E1 MBOC(6,1,1/11) (navsignal::Modulation::psd, with an MBOC variant added), their numerically located nulls…
+- **MODELLED** The `spectrum` kind: a frequency-by-time grid of the L-band power spectral density (thermal floor k T_sys with T_sys = T_ant + 290 K (F - 1), the signals at their interface-specification minimum received powers, and continuous-wave…
+- **VALIDATED** sigmf: read and write Signal Metadata Format recordings (JSON .sigmf-meta with the core global, captures and annotations fields; raw .sigmf-data as cf32_le, ci16_le or ci8, the integer decoders shared with realdata::iqif::load_iq), all on…
+- **MODELLED** The `spectrum` kind extended beyond the L band: bands given as a preset signal design (drawn with every component, band-limited to the transmit bandwidth, C/N0 and J/S referred to the tracked component) or as a custom carrier and… Tests: [leo_signal_reference.rs](../../../tests/leo_signal_reference.rs).
 - and 1 more in the matrix.
 
 The rows the run itself exercised, with the oracle the matrix gives each (the public sources are named there):
 
 - **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): SBOM conformance to the official CycloneDX 1.5 JSON Schema (+ valid SPDX identifiers) — an external published standard, zero validation errors over the full dependency graph; the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
 - **PARTNER** Not provided — Kshana models signal performance, not payload/antenna hardware. Oracle (NoneKind): none: a partner-owned discipline, with no module and no test by design
-- **VALIDATED** Unit-area power spectral densities of GPS L1 C/A and L2C (BPSK(1)), GPS L5 and Galileo E5a (BPSK(10)), sine-BOC(1,1) and Galileo E1 MBOC(6,1,1/11) (navsignal::M. Oracle (ExternalDataset): Published textbook values: the BPSK(n) main lobe of 2n x 1.023 MHz null to null and the anti-jam coefficients Q = 1 for a narrowband (CW) jammer and Q = 1.5 for a spread-spectrum jammer matched to C/A (Kaplan & Hegarty, Understanding GPS/GNSS, 3rd ed., section 9.4); the BOC(m,n) main lobes centred at plus or minus m x 1.023 MHz (Betz, Binary Offset Carrier Modulations for Radionavigation, NAVIGATION 48(4), 2001); the
-- **MODELLED** The `spectrum` kind: a frequency-by-time grid of the L-band power spectral density (thermal floor k T_sys with T_sys = T_ant + 290 K (F - 1), the signals at the. Oracle (InternalConsistency): Reduction to the existing `jamming` kind's anti-jam equation and link budget (the same code, called on the same inputs), and the k T0 F noise-floor closed form. The signal spectra underneath are the validated row above; the jammer powers, timeline and front-end bandwidths are scenario inputs, the spectra are continuous (no spreading-code lines), and no automatic gain control, blanking or antenna pattern acts on the j
-- **VALIDATED** sigmf: read and write Signal Metadata Format recordings (JSON .sigmf-meta with the core global, captures and annotations fields; raw .sigmf-data as cf32_le, ci1. Oracle (ExternalDataset): scipy 1.18.1 scipy.signal.welch (BSD-3-Clause) with the same periodic Hann window, overlap, density scaling, no detrend and two-sided mean average: every bin within 1e-12 relative (observed 6.0e-14) over 27 cases, with segment counts taken from scipy's own spectrogram. sigmf-python 1.13.0 (LGPL-3.0, run as a tool) writes five third-party recordings (cf32_le, ci16_le, ci8, two captures with annotations, a non-zero fir
+- **VALIDATED** Unit-area power spectral densities of GPS L1 C/A and L2C (BPSK(1)), GPS L5 and Galileo E5a (BPSK(10)), sine-BOC(1,1) and Galileo E1 MBOC(6,1,1/11)…. Oracle (ExternalDataset): Published textbook values: the BPSK(n) main lobe of 2n x 1.023 MHz null to null and the anti-jam coefficients Q = 1 for a narrowband (CW) jammer and Q = 1.5 for a spread-spectrum jammer matched to C/A (Kaplan & Hegarty, Understanding GPS/GNSS, 3rd ed., section 9.4); the BOC(m,n) main lobes centred at plus or minus m x 1.023 MHz (Betz, Binary Offset Carrier Modulations for Radionavigation, NAVIGATION 48(4), 2001)…
+- **MODELLED** The `spectrum` kind: a frequency-by-time grid of the L-band power spectral density (thermal floor k T_sys with T_sys = T_ant + 290 K (F - 1), the signals at…. Oracle (InternalConsistency): Reduction to the existing `jamming` kind's anti-jam equation and link budget (the same code, called on the same inputs), and the k T0 F noise-floor closed form. The signal spectra underneath are the validated row above; the jammer powers, timeline and front-end bandwidths are scenario inputs, the spectra are continuous (no spreading-code lines), and no automatic gain control, blanking or antenna pattern acts on the…
+- **VALIDATED** sigmf: read and write Signal Metadata Format recordings (JSON .sigmf-meta with the core global, captures and annotations fields; raw .sigmf-data as cf32_le…. Oracle (ExternalDataset): scipy 1.18.1 scipy.signal.welch (BSD-3-Clause) with the same periodic Hann window, overlap, density scaling, no detrend and two-sided mean average: every bin within 1e-12 relative (observed 6.0e-14) over 27 cases, with segment counts taken from scipy's own spectrogram. sigmf-python 1.13.0 (LGPL-3.0, run as a tool) writes five third-party recordings (cf32_le, ci16_le, ci8, two captures with annotations, a non-zero…
 
 ## Limitations
 

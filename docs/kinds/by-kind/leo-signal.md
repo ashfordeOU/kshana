@@ -40,7 +40,7 @@ The example `scenarios/leo-band-trade.toml` sets, among others:
 kshana scenarios/leo-band-trade.toml
 ```
 
-3 bundled scenarios use this kind; the others are in [`scenarios/`](../../../scenarios/).
+3 scenario files in [`scenarios/`](../../../scenarios/) use this kind.
 
 ## What it gives
 
@@ -48,7 +48,7 @@ The scalar results of that run, with the units the engine states:
 
 | Result | Value | Unit |
 |---|---|---|
-| `evidence.id_rule` | the stable id of the matrix row (the ID  | text |
+| `evidence.id_rule` | the stable id of the matrix row (the… | text |
 | `evidence.matrix` | docs/VERIFICATION-MATRIX.md | text |
 | `evidence.tier` | MODELLED | text |
 | `receiver.antenna_temp_k` | 290 | K |
@@ -59,7 +59,7 @@ The scalar results of that run, with the units the engine states:
 | `receiver.noise_figure_db` | 2 | dB |
 | `receiver.reference_cn0_dbhz` | 45 | dB-Hz |
 
-Result label (the engine's): MODELLED: parameterised low Earth orbit (LEO) positioning, navigation and timing (PNT) signal designs, band-limited to their transmit bandwidth. The closed forms underneath are VALIDATED (BPSK power in band and Gabor bandwidth, the band-limited early-late code-tracking jitter reducing to the textboo
+Result label (the engine's): MODELLED: parameterised low Earth orbit (LEO) positioning, navigation and timing (PNT) signal designs, band-limited to their transmit bandwidth. The closed forms underneath are VALIDATED (BPSK power in band and Gabor bandwidth, the band-limited early-late code-tracking jitter reducing to the…
 
 <img src="../../figures/kinds/leo-signal.svg" alt="The chart the engine writes for scenarios/leo-band-trade.toml, kind leo-signal" width="640">
 
@@ -67,17 +67,17 @@ Result label (the engine's): MODELLED: parameterised low Earth orbit (LEO) posit
 
 MODELLED 2 · VALIDATED 2: the [verification matrix](../../VERIFICATION-MATRIX.md) rows that name this kind.
 
-- **VALIDATED** navsignal: the sine integral (sine_integral), the BPSK-R fraction of power inside a double-sided band in closed form (bpsk_power_in_band_closed_form), the band-limited BPSK Gabor bandwidth in closed form (bpsk_gabor_bandwidth_closed_form_hz
-- **VALIDATED** leo_signal::max_doppler_hz: the largest satellite Doppler on an overhead pass at the elevation mask for a circular orbit, v R_E cos(el) / (R_E + h) times f / c, from each preset's own carrier and orbit altitude; the `leo-signal` kind adds o
-- **MODELLED** The `leo-signal` kind: parameterised signal designs (band, transmit bandwidth, ITU allocation; acquisition, data and pilot components with BPSK(n), BOC(m,n), MBOC or flat spectra, power shares, FDMA sub-carriers, code lengths and data rates Tests: [leo_signal_reference.rs](../../../tests/leo_signal_reference.rs).
-- **MODELLED** The `spectrum` kind extended beyond the L band: bands given as a preset signal design (drawn with every component, band-limited to the transmit bandwidth, C/N0 and J/S referred to the tracked component) or as a custom carrier and modulation Tests: [leo_signal_reference.rs](../../../tests/leo_signal_reference.rs).
+- **VALIDATED** navsignal: the sine integral (sine_integral), the BPSK-R fraction of power inside a double-sided band in closed form (bpsk_power_in_band_closed_form), the band-limited BPSK Gabor bandwidth in closed form…
+- **VALIDATED** leo_signal::max_doppler_hz: the largest satellite Doppler on an overhead pass at the elevation mask for a circular orbit, v R_E cos(el) / (R_E + h) times f / c, from each preset's own carrier and orbit altitude; the `leo-signal` kind adds…
+- **MODELLED** The `leo-signal` kind: parameterised signal designs (band, transmit bandwidth, ITU allocation; acquisition, data and pilot components with BPSK(n), BOC(m,n), MBOC or flat spectra, power shares, FDMA sub-carriers, code lengths and data… Tests: [leo_signal_reference.rs](../../../tests/leo_signal_reference.rs).
+- **MODELLED** The `spectrum` kind extended beyond the L band: bands given as a preset signal design (drawn with every component, band-limited to the transmit bandwidth, C/N0 and J/S referred to the tracked component) or as a custom carrier and… Tests: [leo_signal_reference.rs](../../../tests/leo_signal_reference.rs).
 
 The rows the run itself exercised, with the oracle the matrix gives each (the public sources are named there):
 
 - **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): SBOM conformance to the official CycloneDX 1.5 JSON Schema (+ valid SPDX identifiers) — an external published standard, zero validation errors over the full dependency graph; the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
-- **VALIDATED** navsignal: the sine integral (sine_integral), the BPSK-R fraction of power inside a double-sided band in closed form (bpsk_power_in_band_closed_form), the band-. Oracle (ExternalDataset): Externally pinned: 90.3 per cent main-lobe power, the coherent early-late jitter at the stated operating point, the sine-integral table values, and the BPSK self spectral separation coefficient 2/(3 R_c) at zero offset. Internal cross-checks only, not external validation: the band-limited BPSK Gabor-bandwidth closed form and its asymptote, and the offset BPSK spectral separation coefficient at non-zero offsets, both 
-- **VALIDATED** leo_signal::max_doppler_hz: the largest satellite Doppler on an overhead pass at the elevation mask for a circular orbit, v R_E cos(el) / (R_E + h) times f / c,. Oracle (ExternalDataset): Published figures: Xona Pulsar X1 maximum Doppler 32 to 34 kHz (Leclère, Marathe & Reid, ION GNSS+ 2025, https://arxiv.org/abs/2509.19551); Iridium Doppler up to +/-36 kHz (Resilient Navigation and Timing Foundation, Recent PNT Improvements and Test Results Based on Low Earth Orbit Satellites). Earth rotation is left out, which moves the figure by up to about 2.3 kHz; both published figures are met without it.
-- **MODELLED** The `leo-signal` kind: parameterised signal designs (band, transmit bandwidth, ITU allocation; acquisition, data and pilot components with BPSK(n), BOC(m,n), MB. Oracle (InternalConsistency): The validated closed forms of the two rows above, the square-law false-alarm identity P_d(snr = 0) = P_fa and Holmes's mean acquisition time, and reduction to the spectrum kind's own SSC chain (the same Jammer::ssc code). The designs themselves are inputs: presets marked REPRESENTATIVE or WORKSHOP are not published specifications, enhanced Feher QPSK, code shift keying and OFDM spectra are approximated, and the shape
+- **VALIDATED** navsignal: the sine integral (sine_integral), the BPSK-R fraction of power inside a double-sided band in closed form (bpsk_power_in_band_closed_form), the…. Oracle (ExternalDataset): Externally pinned: 90.3 per cent main-lobe power, the coherent early-late jitter at the stated operating point, the sine-integral table values, and the BPSK self spectral separation coefficient 2/(3 R_c) at zero offset. Internal cross-checks only, not external validation: the band-limited BPSK Gabor-bandwidth closed form and its asymptote, and the offset BPSK spectral separation coefficient at non-zero offsets…
+- **VALIDATED** leo_signal::max_doppler_hz: the largest satellite Doppler on an overhead pass at the elevation mask for a circular orbit, v R_E cos(el) / (R_E + h) times f /…. Oracle (ExternalDataset): Published figures: Xona Pulsar X1 maximum Doppler 32 to 34 kHz (Leclère, Marathe & Reid, ION GNSS+ 2025, https://arxiv.org/abs/2509.19551); Iridium Doppler up to +/-36 kHz (Resilient Navigation and Timing Foundation, Recent PNT Improvements and Test Results Based on Low Earth Orbit Satellites). Earth rotation is left out, which moves the figure by up to about 2.3 kHz; both published figures are met without it.
+- **MODELLED** The `leo-signal` kind: parameterised signal designs (band, transmit bandwidth, ITU allocation; acquisition, data and pilot components with BPSK(n), BOC(m,n)…. Oracle (InternalConsistency): The validated closed forms of the two rows above, the square-law false-alarm identity P_d(snr = 0) = P_fa and Holmes's mean acquisition time, and reduction to the spectrum kind's own SSC chain (the same Jammer::ssc code). The designs themselves are inputs: presets marked REPRESENTATIVE or WORKSHOP are not published specifications, enhanced Feher QPSK, code shift keying and OFDM spectra are approximated, and the…
 
 ## Limitations
 

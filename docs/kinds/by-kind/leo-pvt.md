@@ -48,7 +48,7 @@ The example `scenarios/leo-pvt-fjord-skyline.toml` sets, among others:
 kshana scenarios/leo-pvt-fjord-skyline.toml
 ```
 
-7 bundled scenarios use this kind; the others are in [`scenarios/`](../../../scenarios/).
+7 scenario files in [`scenarios/`](../../../scenarios/) use this kind.
 
 ## What it gives
 
@@ -58,7 +58,7 @@ The scalar results of that run, with the units the engine states:
 |---|---|---|
 | `doppler` | no value | not stated |
 | `duration_s` | 1800 | s |
-| `evidence.id_rule` | the stable id of the matrix row (the ID  | text |
+| `evidence.id_rule` | the stable id of the matrix row (the… | text |
 | `evidence.matrix` | docs/VERIFICATION-MATRIX.md | text |
 | `evidence.tier` | MODELLED | text |
 | `joint.fraction_epochs_with_leo` | 1 | 1 |
@@ -75,17 +75,17 @@ Result label (the engine's): MODELLED joint weighted least-squares pseudorange p
 
 MODELLED 3 · VALIDATED 2: the [verification matrix](../../VERIFICATION-MATRIX.md) rows that name this kind.
 
-- **VALIDATED** Exact range rate of a satellite whose Earth-fixed position and velocity come from a two-body orbit with the secular J2 drift and the Earth's rotation (leo_fusion::geom::EarthOrbit::state, velocity the exact time derivative of the position), Tests: [leo_doppler_reference.rs](../../../tests/leo_doppler_reference.rs).
-- **MODELLED** Batch Gauss-Newton positioning from range rate with analytic partials (d rho_dot / d r = -(I - u u^T)(v_s - v_u)/rho, d/dv = -u, d/d drift = 1), a constant user velocity as an option, a height pseudo-measurement for a surface user, damped s Tests: [leo_fusion_scenarios.rs](../../../tests/leo_fusion_scenarios.rs).
-- **MODELLED** Weighted least-squares Gauss-Newton fixes over any mix of systems, one receiver clock per system (the inter-system bias estimated with the position) or a known broadcast offset on the reference time scale; per-measurement sigmas supplied by Tests: [leo_fusion_scenarios.rs](../../../tests/leo_fusion_scenarios.rs).
-- **MODELLED** Clock measurements from every LEO satellite in view at a known position, combined by inverse variance from the pseudorange noise model, filtered by a two-state (phase, frequency) Kalman filter whose process noise is the oscillator class's w Tests: [leo_fusion_scenarios.rs](../../../tests/leo_fusion_scenarios.rs).
+- **VALIDATED** Exact range rate of a satellite whose Earth-fixed position and velocity come from a two-body orbit with the secular J2 drift and the Earth's rotation (leo_fusion::geom::EarthOrbit::state, velocity the exact time derivative of the… Tests: [leo_doppler_reference.rs](../../../tests/leo_doppler_reference.rs).
+- **MODELLED** Batch Gauss-Newton positioning from range rate with analytic partials (d rho_dot / d r = -(I - u u^T)(v_s - v_u)/rho, d/dv = -u, d/d drift = 1), a constant user velocity as an option, a height pseudo-measurement for a surface user, damped… Tests: [leo_fusion_scenarios.rs](../../../tests/leo_fusion_scenarios.rs).
+- **MODELLED** Weighted least-squares Gauss-Newton fixes over any mix of systems, one receiver clock per system (the inter-system bias estimated with the position) or a known broadcast offset on the reference time scale; per-measurement sigmas supplied… Tests: [leo_fusion_scenarios.rs](../../../tests/leo_fusion_scenarios.rs).
+- **MODELLED** Clock measurements from every LEO satellite in view at a known position, combined by inverse variance from the pseudorange noise model, filtered by a two-state (phase, frequency) Kalman filter whose process noise is the oscillator class's… Tests: [leo_fusion_scenarios.rs](../../../tests/leo_fusion_scenarios.rs).
 - and 1 more in the matrix.
 
 The rows the run itself exercised, with the oracle the matrix gives each (the public sources are named there):
 
 - **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): SBOM conformance to the official CycloneDX 1.5 JSON Schema (+ valid SPDX identifiers) — an external published standard, zero validation errors over the full dependency graph; the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
-- **MODELLED** Weighted least-squares Gauss-Newton fixes over any mix of systems, one receiver clock per system (the inter-system bias estimated with the position) or a known . Oracle (InternalConsistency): A hand-derived four-satellite DOP (one satellite at the zenith and three on the horizon 120 deg apart, whose normal matrix inverts by hand), the structural identity that a system with its own clock and one satellite adds no geometry, noise-free recovery of position, clock and bias, and seeded errors against the covariance. Internal checks only; not compared with a receiver's output. 0.30 external comparison, a findin
-- **MODELLED** System-agnostic inputs: every system is Walker shells, explicit elements or a GNSS preset, a signal (carrier, chip rate, bandwidth, received power or C/N0 range. Oracle (InternalConsistency): Transcription of the cited public values, checked for structure (every public source has a URL, Walker patterns divide evenly, the C/N0 from received power over kT at 290 K), not against an external oracle. Representative values are named in each preset and are illustrative
+- **MODELLED** Weighted least-squares Gauss-Newton fixes over any mix of systems, one receiver clock per system (the inter-system bias estimated with the position) or a…. Oracle (InternalConsistency): A hand-derived four-satellite DOP (one satellite at the zenith and three on the horizon 120 deg apart, whose normal matrix inverts by hand), the structural identity that a system with its own clock and one satellite adds no geometry, noise-free recovery of position, clock and bias, and seeded errors against the covariance. Internal checks only; not compared with a receiver's output. 0.30 external comparison, a…
+- **MODELLED** System-agnostic inputs: every system is Walker shells, explicit elements or a GNSS preset, a signal (carrier, chip rate, bandwidth, received power or C/N0…. Oracle (InternalConsistency): Transcription of the cited public values, checked for structure (every public source has a URL, Walker patterns divide evenly, the C/N0 from received power over kT at 290 K), not against an external oracle. Representative values are named in each preset and are illustrative
 
 ## Limitations
 

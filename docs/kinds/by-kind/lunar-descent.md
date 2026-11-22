@@ -40,7 +40,7 @@ The example `scenarios/lunar-descent.toml` sets, among others:
 kshana scenarios/lunar-descent.toml
 ```
 
-2 bundled scenarios use this kind; the others are in [`scenarios/`](../../../scenarios/).
+2 scenario files in [`scenarios/`](../../../scenarios/) use this kind.
 
 ## What it gives
 
@@ -67,12 +67,12 @@ Result label (the engine's): MODELLED
 
 MODELLED: the [verification matrix](../../VERIFICATION-MATRIX.md) rows that name this kind.
 
-- **MODELLED** The `lunar-descent` kind and phase: a five-state per-axis inertial error model (position, velocity, accelerometer bias, tilt, gyro bias) over a powered descent, aided by AFS fixes (standalone or differential, with the clock-aided three-rela
+- **MODELLED** The `lunar-descent` kind and phase: a five-state per-axis inertial error model (position, velocity, accelerometer bias, tilt, gyro bias) over a powered descent, aided by AFS fixes (standalone or differential, with the clock-aided…
 
 The rows the run itself exercised, with the oracle the matrix gives each (the public sources are named there):
 
 - **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): SBOM conformance to the official CycloneDX 1.5 JSON Schema (+ valid SPDX identifiers) — an external published standard, zero validation errors over the full dependency graph; the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
-- **MODELLED** The `lunar-descent` kind and phase: a five-state per-axis inertial error model (position, velocity, accelerometer bias, tilt, gyro bias) over a powered descent,. Oracle (InternalConsistency): The closed-form inertial drift, the reused kinds' own results and the calibration of the 3-sigma ellipse (the fraction inside agrees with its expectation) in the tests. No flown or tested landing is compared
+- **MODELLED** The `lunar-descent` kind and phase: a five-state per-axis inertial error model (position, velocity, accelerometer bias, tilt, gyro bias) over a powered…. Oracle (InternalConsistency): The closed-form inertial drift, the reused kinds' own results and the calibration of the 3-sigma ellipse (the fraction inside agrees with its expectation) in the tests. No flown or tested landing is compared
 
 ## Limitations
 
@@ -81,7 +81,7 @@ What the run's own report says is not modelled or not validated:
 - MODELLED (result `label`)
 - MODELLED landing-dispersion budget for a powered descent to a south-polar site (Artemis-class). (kind catalogue (`kshana kinds --json`))
 - MODELLED: illustrative IMU class, relay set, descent profile and guidance term; terrain-nav uses a synthetic relief on an Earth metre scale; AFS availability is one epoch on a flat mask. (kind catalogue (`kshana kinds --json`))
-- HONESTY: MODELLED. The IMU class, the descent profile, the relay set, the signal-in-space error and the guidance term are ILLUSTRATIVE inputs, not measurements. The terrain-nav mode uses the self-contained synthetic relief and an Earth metre scale, so the terrain term here is the matcher's behaviour on a stand-in, not a statement about south-polar relief: the lola-crlb variant (lunar-descent-lola.toml) uses the real  (scenario file comment, lines 14 to 20)
+- HONESTY: MODELLED. The IMU class, the descent profile, the relay set, the signal-in-space error and the guidance term are ILLUSTRATIVE inputs, not measurements. The terrain-nav mode uses the self-contained synthetic relief and an Earth metre scale, so the terrain term here is the matcher's behaviour on a stand-in, not a statement about south-polar relief: the lola-crlb variant (lunar-descent-lola.toml) uses the… (scenario file comment, lines 14 to 20)
 - Reproducibility & software assurance is MODELLED, not validated: a sub-claim is externally checked, but the whole capability composes modelled pieces, so the capability stays Modelled. (verification matrix (docs/MODELLED-RATIONALE.md))
 - Landing-dispersion budget at a lunar polar site (`lunar-descent`) is MODELLED, not validated: checked against its own closed-form / analytic identity — catches transcription and coefficient errors, but is not an external oracle. (verification matrix (docs/MODELLED-RATIONALE.md))
 

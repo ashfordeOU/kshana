@@ -24,7 +24,7 @@ The example `scenarios/holdover-test-ptp4l.toml` sets, among others:
 | `kind` | holdover-test | text |
 | `masks` | [prtc-a, eprtc-a-holdover] | not stated |
 | `series.clock_log.format` | ptp4l | text |
-| `series.clock_log.text` | ptp4l[1000.000]: master offset         -4 s2 freq +  1200 pa | text |
+| `series.clock_log.text` | ptp4l[1000.000]: master offset         -4 s2 freq +  1200… | text |
 | `test.gnss_removed_s` | 600 | s |
 | `test.gnss_restored_s` | 2400 | s |
 | `test.locked_duration_days` | 5 | d |
@@ -37,7 +37,7 @@ The example `scenarios/holdover-test-ptp4l.toml` sets, among others:
 kshana scenarios/holdover-test-ptp4l.toml
 ```
 
-2 bundled scenarios use this kind; the others are in [`scenarios/`](../../../scenarios/).
+2 scenario files in [`scenarios/`](../../../scenarios/) use this kind.
 
 ## What it gives
 
@@ -56,7 +56,7 @@ The scalar results of that run, with the units the engine states:
 | `clock_log.n_missing` | 0 | 1 |
 | `clock_log.n_off_grid` | 0 | 1 |
 
-Result label (the engine's): MODELLED — a holdover test scored from a time-error record the operator supplied. Every limit is transcribed from the named public ITU-T Recommendation and the result is measured against the mask; it says nothing about whether any clock or system meets a Recommendation, and nobody has rated or appro
+Result label (the engine's): MODELLED — a holdover test scored from a time-error record the operator supplied. Every limit is transcribed from the named public ITU-T Recommendation and the result is measured against the mask; it says nothing about whether any clock or system meets a Recommendation, and nobody has rated or…
 
 <img src="../../figures/kinds/holdover-test.svg" alt="The chart the engine writes for scenarios/holdover-test-ptp4l.toml, kind holdover-test" width="640">
 
@@ -64,20 +64,20 @@ Result label (the engine's): MODELLED — a holdover test scored from a time-err
 
 MODELLED: the [verification matrix](../../VERIFICATION-MATRIX.md) rows that name this kind.
 
-- **MODELLED** The `holdover-test` kind: a time-error record (a linuxptp, chrony, TICC, TimeLab or RINEX clock log, or time_s,time_error_ns pairs) is split at the two times the operator states for GNSS removal and restoration into a baseline, a holdover a
+- **MODELLED** The `holdover-test` kind: a time-error record (a linuxptp, chrony, TICC, TimeLab or RINEX clock log, or time_s,time_error_ns pairs) is split at the two times the operator states for GNSS removal and restoration into a baseline, a holdover…
 
 The rows the run itself exercised, with the oracle the matrix gives each (the public sources are named there):
 
 - **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): SBOM conformance to the official CycloneDX 1.5 JSON Schema (+ valid SPDX identifiers) — an external published standard, zero validation errors over the full dependency graph; the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
-- **VALIDATED** The maximum time interval error and time deviation the `telecom-timing` scenario kind reports, on a telecom-scale holdover record: an O(n) monotonic-queue slidi. Oracle (ExternalDataset): allantools 2024.06 — an independent third-party frequency-stability library — mtie() and tdev() on tests/fixtures/telecom_timing/holdover_te_series.csv, the series parsed from the same 17-significant-figure text on both sides; the reference records the series' SHA-256 and is regenerable offline via tests/fixtures/telecom_timing/generate_telecom_timing_reference.py. Validates the ESTIMATORS on this record, not the syn
-- **MODELLED** Transcribed limits of ITU-T G.8272 (07/2025) PRTC-A/B, G.8272.1 (2024) Amd. 1 (07/2025) ePRTC locked and ePRTC-A holdover (including the Table 3 time-error enve. Oracle (InternalConsistency): Transcription of the named Recommendations (freely downloadable from itu.int), each limit carrying its table or clause, listed with every unconfirmed or unimplemented item in docs/TELECOM-TIMING.md; the breakpoint-continuity identities the tables imply are checked in the tests. A standards transcription with internal consistency checks, not a conformance test and not an external validation. 0.30 round 2 (pre-register
-- **MODELLED** The `holdover-test` kind: a time-error record (a linuxptp, chrony, TICC, TimeLab or RINEX clock log, or time_s,time_error_ns pairs) is split at the two times th. Oracle (InternalConsistency): Hand computation on records built from formulas whose slope, step, extremum and recovery time are known before the run (the tests state them), and the masks, envelope and budgets of the telecom-timing rows above. No laboratory measurement of a real holdover was scored and no external oracle was compared, so the kind makes no claim about any clock or system; a timing-lab partner is needed before any per-clock-class fi
+- **VALIDATED** The maximum time interval error and time deviation the `telecom-timing` scenario kind reports, on a telecom-scale holdover record: an O(n) monotonic-queue…. Oracle (ExternalDataset): allantools 2024.06 — an independent third-party frequency-stability library — mtie() and tdev() on tests/fixtures/telecom_timing/holdover_te_series.csv, the series parsed from the same 17-significant-figure text on both sides; the reference records the series' SHA-256 and is regenerable offline via tests/fixtures/telecom_timing/generate_telecom_timing_reference.py. Validates the ESTIMATORS on this record, not the…
+- **MODELLED** Transcribed limits of ITU-T G.8272 (07/2025) PRTC-A/B, G.8272.1 (2024) Amd. 1 (07/2025) ePRTC locked and ePRTC-A holdover (including the Table 3 time-error…. Oracle (InternalConsistency): Transcription of the named Recommendations (freely downloadable from itu.int), each limit carrying its table or clause, listed with every unconfirmed or unimplemented item in docs/TELECOM-TIMING.md; the breakpoint-continuity identities the tables imply are checked in the tests. A standards transcription with internal consistency checks, not a conformance test and not an external validation. 0.30 round 2…
+- **MODELLED** The `holdover-test` kind: a time-error record (a linuxptp, chrony, TICC, TimeLab or RINEX clock log, or time_s,time_error_ns pairs) is split at the two times…. Oracle (InternalConsistency): Hand computation on records built from formulas whose slope, step, extremum and recovery time are known before the run (the tests state them), and the masks, envelope and budgets of the telecom-timing rows above. No laboratory measurement of a real holdover was scored and no external oracle was compared, so the kind makes no claim about any clock or system; a timing-lab partner is needed before any per-clock-class…
 
 ## Limitations
 
 What the run's own report says is not modelled or not validated:
 
-- MODELLED — a holdover test scored from a time-error record the operator supplied. Every limit is transcribed from the named public ITU-T Recommendation and the result is measured against the mask; it says nothing about whether any clock or system meets a Recommendation, and nobody has rated or approved it. The times at which GNSS was removed and restored are the operator's statement and are not verified. Advisory sof (result `label`)
+- MODELLED — a holdover test scored from a time-error record the operator supplied. Every limit is transcribed from the named public ITU-T Recommendation and the result is measured against the mask; it says nothing about whether any clock or system meets a Recommendation, and nobody has rated or approved it. The times at which GNSS was removed and restored are the operator's statement and are not verified. Advisory… (result `label`)
 - MODELLED holdover test of a timing system, scored from a time-error record the OPERATOR supplies (a linuxptp ptp4l, phc2sys or ts2phc log, a chrony tracking or statistics log, a TICC, TimeLab or RINEX clock log, or time_s,time_error_ns pairs). (kind catalogue (`kshana kinds --json`))
 - Reproducibility & software assurance is MODELLED, not validated: a sub-claim is externally checked, but the whole capability composes modelled pieces, so the capability stays Modelled. (verification matrix (docs/MODELLED-RATIONALE.md))
 - ITU-T telecom synchronisation masks with PASS/FAIL and margin is MODELLED, not validated: checked against its own closed-form / analytic identity — catches transcription and coefficient errors, but is not an external oracle. (verification matrix (docs/MODELLED-RATIONALE.md))

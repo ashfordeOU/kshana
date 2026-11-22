@@ -23,13 +23,13 @@ The example `scenarios/sweep-clock-stability.toml` sets, among others:
 |---|---|---|
 | `base.clock_classical.flicker_floor` | 2.0000e-11 | not stated |
 | `base.clock_classical.id` | csac-sa45s | text |
-| `base.clock_classical.provenance` | Microchip SA.45s CSAC datasheet sigma_y(1s)=3e-10; q_wf is s | text |
+| `base.clock_classical.provenance` | Microchip SA.45s CSAC datasheet sigma_y(1s)=3e-10; q_wf is… | text |
 | `base.clock_classical.q_rw` | 0 | not stated |
 | `base.clock_classical.q_wf` | 9.0000e-20 | not stated |
 | `base.clock_classical.y0` | 5.0000e-10 | not stated |
 | `base.clock_quantum.flicker_floor` | 1.0000e-16 | not stated |
 | `base.clock_quantum.id` | optical-sr-lattice | text |
-| `base.clock_quantum.provenance` | Strontium optical lattice clock, space-oriented goal sigma_y | text |
+| `base.clock_quantum.provenance` | Strontium optical lattice clock, space-oriented goal… | text |
 | `base.clock_quantum.q_rw` | 0 | not stated |
 | `base.clock_quantum.q_wf` | 1.0000e-30 | not stated |
 | `base.clock_quantum.y0` | 5.0000e-17 | not stated |
@@ -46,7 +46,7 @@ The scalar results of that run, with the units the engine states:
 
 | Result | Value | Unit |
 |---|---|---|
-| `evidence.id_rule` | the stable id of the matrix row (the ID  | text |
+| `evidence.id_rule` | the stable id of the matrix row (the… | text |
 | `evidence.matrix` | docs/VERIFICATION-MATRIX.md | text |
 | `evidence.tier` | MODELLED | text |
 | `metric` | holdover_s | text |
@@ -59,16 +59,14 @@ The scalar results of that run, with the units the engine states:
 
 MODELLED: the [verification matrix](../../VERIFICATION-MATRIX.md) rows that name this kind.
 
-- **MODELLED** One run takes a contact plan (a list of aos_s/los_s windows, each asking the aperture for navigation or communications — the same window vocabulary `passes::predict_passes` emits, converted by `aperture_duty::windows_from_passes`), an apert
-- **MODELLED** The `gnss-ssv` kind's availability sweeps: per constellation (GPS, GLONASS, Galileo, BDS, QZSS, NavIC) and combined, the share of (user, epoch) pairs with at least one and at least four signals and the longest outage, for a user on a sphere
-- **MODELLED** The `tli-and-cruise` phase: the mean state by the engine's Cowell propagator (Earth point mass and J2, the Sun and Moon as third bodies, the Moon from the thread's DE440 kernel where it covers the segment and the Sun from the analytic serie
-- **MODELLED** The `campaign` kind's sweep (one to three dotted keys of any kind, on the generic sweep's axis values, optionally an ensemble at every node) and monte_carlo sections: realisation k runs at base_seed + k; each metric reports mean, standard d Tests: [campaign_composition_reference.rs](../../../tests/campaign_composition_reference.rs).
+- **MODELLED** The `gnss-ssv` kind's availability sweeps: per constellation (GPS, GLONASS, Galileo, BDS, QZSS, NavIC) and combined, the share of (user, epoch) pairs with at least one and at least four signals and the longest outage, for a user on a…
+- **MODELLED** The `campaign` kind's sweep (one to three dotted keys of any kind, on the generic sweep's axis values, optionally an ensemble at every node) and monte_carlo sections: realisation k runs at base_seed + k; each metric reports mean, standard… Tests: [campaign_composition_reference.rs](../../../tests/campaign_composition_reference.rs).
 
 The rows the run itself exercised, with the oracle the matrix gives each (the public sources are named there):
 
 - **MODELLED** Closed-form coast-error growth + holdover-to-threshold; quantum-clock classes. Oracle (ReferenceImpl): Multi-step clock_state covariance recursion (same-codebase cross-check); the underlying coast-variance & holdover-inversion kernel is externally validated vs scipy (see 'Clock-holdover coast-variance & threshold inversion'). The per-class red-noise-floor holdover figures stay MODELLED
 - **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): SBOM conformance to the official CycloneDX 1.5 JSON Schema (+ valid SPDX identifiers) — an external published standard, zero validation errors over the full dependency graph; the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
-- **MODELLED** The `campaign` kind's sweep (one to three dotted keys of any kind, on the generic sweep's axis values, optionally an ensemble at every node) and monte_carlo sec. Oracle (InternalConsistency): The closed form of the phase random walk under white frequency noise, variance q_wf tau (NIST Technical Note 1337), for the statistics machinery, and byte equality with the stand-alone runs for the seeding. It checks the ensemble arithmetic on the engine's own clock model, not an external dataset
+- **MODELLED** The `campaign` kind's sweep (one to three dotted keys of any kind, on the generic sweep's axis values, optionally an ensemble at every node) and monte_carlo…. Oracle (InternalConsistency): The closed form of the phase random walk under white frequency noise, variance q_wf tau (NIST Technical Note 1337), for the statistics machinery, and byte equality with the stand-alone runs for the seeding. It checks the ensemble arithmetic on the engine's own clock model, not an external dataset
 
 ## Limitations
 

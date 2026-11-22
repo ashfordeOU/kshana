@@ -49,7 +49,7 @@ The scalar results of that run, with the units the engine states:
 | `altitude_km` | 550 | km |
 | `best_max_elevation_deg` | 70.081649 | deg |
 | `duration_hours` | 24 | hr |
-| `evidence.id_rule` | the stable id of the matrix row (the ID  | text |
+| `evidence.id_rule` | the stable id of the matrix row (the… | text |
 | `evidence.matrix` | docs/VERIFICATION-MATRIX.md | text |
 | `evidence.tier` | MODELLED | text |
 | `inclination_deg` | 97.6 | deg |
@@ -57,23 +57,21 @@ The scalar results of that run, with the units the engine states:
 | `mask_deg` | 10 | deg |
 | `pass_count` | 5 | count |
 
-Result label (the engine's): MODELLED — time-domain ground-station pass prediction; SGP4/SDP4 propagation, IAU 2006/2000A Earth-fixed frame (UT1 = UTC, no polar motion unless Earth orientation parameters are given), apparent elevation with ITU-R P.834-9 refraction and light time when switched on, crossings and culmination refin
+Result label (the engine's): MODELLED — time-domain ground-station pass prediction; SGP4/SDP4 propagation, IAU 2006/2000A Earth-fixed frame (UT1 = UTC, no polar motion unless Earth orientation parameters are given), apparent elevation with ITU-R P.834-9 refraction and light time when switched on, crossings and culmination…
 
 <img src="../../figures/kinds/passes.svg" alt="The chart the engine writes for scenarios/passes.toml, kind passes" width="640">
 
 ## Evidence
 
-MODELLED 2 · VALIDATED 2: the [verification matrix](../../VERIFICATION-MATRIX.md) rows that name this kind.
+VALIDATED: the [verification matrix](../../VERIFICATION-MATRIX.md) rows that name this kind.
 
-- **VALIDATED** Time-domain visibility passes (AOS/TCA/LOS, max elevation, duration) of an engine propagator over a station above an elevation mask, with interpolated rise/set crossings and total access: passes::predict_passes, the geometric scheduler (no  Tests: [ground_station_pass_prediction_reference.rs](../../../tests/ground_station_pass_prediction_reference.rs).
-- **VALIDATED** Visibility passes (AOS, TCA, LOS, maximum apparent elevation, duration) of an SGP4 element set over a WGS-84 station on the validated Earth-orbit path (IAU 2006/2000A, optional Earth orientation parameters), with ITU-R P.834-9 tropospheric  Tests: [pass_predictor_on_path_orekit_oracle.rs](../../../tests/pass_predictor_on_path_orekit_oracle.rs).
-- **MODELLED** Downlink Es/N0 along each pass of one satellite over one station (EIRP, free-space loss, cosecant-law atmospheric loss, other losses, G/T, Boltzmann's constant, symbol rate), the most efficient DVB-S2 MODCOD that clears its ETSI EN 302 307-
-- **MODELLED** One run takes a contact plan (a list of aos_s/los_s windows, each asking the aperture for navigation or communications — the same window vocabulary `passes::predict_passes` emits, converted by `aperture_duty::windows_from_passes`), an apert
+- **VALIDATED** Time-domain visibility passes (AOS/TCA/LOS, max elevation, duration) of an engine propagator over a station above an elevation mask, with interpolated rise/set crossings and total access: passes::predict_passes, the geometric scheduler… Tests: [ground_station_pass_prediction_reference.rs](../../../tests/ground_station_pass_prediction_reference.rs).
+- **VALIDATED** Visibility passes (AOS, TCA, LOS, maximum apparent elevation, duration) of an SGP4 element set over a WGS-84 station on the validated Earth-orbit path (IAU 2006/2000A, optional Earth orientation parameters), with ITU-R P.834-9… Tests: [pass_predictor_on_path_orekit_oracle.rs](../../../tests/pass_predictor_on_path_orekit_oracle.rs).
 
 The rows the run itself exercised, with the oracle the matrix gives each (the public sources are named there):
 
 - **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): SBOM conformance to the official CycloneDX 1.5 JSON Schema (+ valid SPDX identifiers) — an external published standard, zero validation errors over the full dependency graph; the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
-- **VALIDATED** Time-domain visibility passes (AOS/TCA/LOS, max elevation, duration) of an engine propagator over a station above an elevation mask, with interpolated rise/set . Oracle (ExternalDataset): Orekit 12.2 (CS GROUP, Apache-2.0) + Hipparchus 3.1 — an independent flight-dynamics library: ElevationDetector (Brent root-finder) + EventsLogger over an ITRF ephemeris, station as a WGS-84 TopocentricFrame. AOS/LOS/max-elevation/pass-count/total-access matched on identical orbit+station+mask+window (committed fixture; driver xval/orekit-passes)
+- **VALIDATED** Time-domain visibility passes (AOS/TCA/LOS, max elevation, duration) of an engine propagator over a station above an elevation mask, with interpolated…. Oracle (ExternalDataset): Orekit 12.2 (CS GROUP, Apache-2.0) + Hipparchus 3.1 — an independent flight-dynamics library: ElevationDetector (Brent root-finder) + EventsLogger over an ITRF ephemeris, station as a WGS-84 TopocentricFrame. AOS/LOS/max-elevation/pass-count/total-access matched on identical orbit+station+mask+window (committed fixture; driver xval/orekit-passes)
 
 ## Limitations
 
@@ -87,3 +85,4 @@ What the run's own report says is not modelled or not validated:
 - Family page: [Constellations, coverage and geometry](../constellations-coverage-and-geometry.md#passes)
 - All kinds: [KINDS.md](../../KINDS.md)
 - Topic page: [CONTACT-SCHEDULING.md](../../CONTACT-SCHEDULING.md)
+- Topic page: [TLOG.md](../../TLOG.md)

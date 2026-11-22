@@ -21,15 +21,15 @@ The example `scenarios/spoof-attack.toml` sets, among others:
 
 | Field | Value | Unit |
 |---|---|---|
-| `attack.rate_ns_per_s` | 0.1 | s |
+| `attack.rate_ns_per_s` | 0.1 | ns/s |
 | `attack.start_s` | 60 | s |
 | `clock_classical.id` | csac-sa45s | text |
-| `clock_classical.provenance` | Microchip SA65 / SA.45s CSAC datasheet sigma_y(1s)=3e-10; q_ | text |
+| `clock_classical.provenance` | Microchip SA65 / SA.45s CSAC datasheet sigma_y(1s)=3e-10… | text |
 | `clock_classical.q_rw` | 0 | not stated |
 | `clock_classical.q_wf` | 9.0000e-20 | not stated |
 | `clock_classical.y0` | 5.0000e-10 | not stated |
 | `clock_quantum.id` | optical-sr-lattice | text |
-| `clock_quantum.provenance` | Strontium optical lattice clock, space-oriented goal sigma_y | text |
+| `clock_quantum.provenance` | Strontium optical lattice clock, space-oriented goal… | text |
 | `clock_quantum.q_rw` | 0 | not stated |
 | `clock_quantum.q_wf` | 1.0000e-30 | not stated |
 | `clock_quantum.y0` | 5.0000e-17 | not stated |
@@ -40,7 +40,7 @@ The example `scenarios/spoof-attack.toml` sets, among others:
 kshana scenarios/spoof-attack.toml
 ```
 
-2 bundled scenarios use this kind; the others are in [`scenarios/`](../../../scenarios/).
+2 scenario files in [`scenarios/`](../../../scenarios/) use this kind.
 
 ## What it gives
 
@@ -66,12 +66,10 @@ The scalar results of that run, with the units the engine states:
 MODELLED: the [verification matrix](../../VERIFICATION-MATRIX.md) rows that name this kind.
 
 - **MODELLED** Clock-aided χ², RAIM, AGC, SQM fused per-epoch security FoM Tests: [spoof_texbat_validation.rs](../../../tests/spoof_texbat_validation.rs).
-- **MODELLED** The `leo-pass` kind's `[spoofer]` section: a spoofer counterfeits, self-consistently in range and range rate, the signals seen at a claimed position that jumps and/or is pushed from the true one after an onset (per LEO band and for the MEO  Tests: [leo_resilience_verticals.rs](../../../tests/leo_resilience_verticals.rs).
-- **MODELLED** For every LEO satellite and pair of ranging bands the `[spoofer]` section forms the geometry-free pseudorange combination, removes the receiver's ionospheric model and tests its epoch-to-epoch step against the two bands' code noise and a st Tests: [leo_resilience_verticals.rs](../../../tests/leo_resilience_verticals.rs).
 
 The rows the run itself exercised, with the oracle the matrix gives each (the public sources are named there):
 
-- **MODELLED** Clock-aided χ², RAIM, AGC, SQM fused per-epoch security FoM. Oracle (ExternalDataset): TEXBAT scenario parameters (Humphreys 2012) — characterisation, not pinned vectors. 0.30 external comparison, a finding (stays MODELLED): on JammerTest 2024 (Bleik; GPL-3.0 data) the observable-level monitors (clock-aided chi-square, RAIM, solve failure) raised no alarm within 10 s of any of the 8 evaluable published spoofing onsets (where the pre-onset window was clean, the first alarm came 10.2 to 39 s after the pu
+- **MODELLED** Clock-aided χ², RAIM, AGC, SQM fused per-epoch security FoM. Oracle (ExternalDataset): TEXBAT scenario parameters (Humphreys 2012) — characterisation, not pinned vectors. 0.30 external comparison, a finding (stays MODELLED): on JammerTest 2024 (Bleik; GPL-3.0 data) the observable-level monitors (clock-aided chi-square, RAIM, solve failure) raised no alarm within 10 s of any of the 8 evaluable published spoofing onsets (where the pre-onset window was clean, the first alarm came 10.2 to 39 s after the…
 - **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): SBOM conformance to the official CycloneDX 1.5 JSON Schema (+ valid SPDX identifiers) — an external published standard, zero validation errors over the full dependency graph; the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
 
 ## Limitations
@@ -86,4 +84,4 @@ What the run's own report says is not modelled or not validated:
 - Family page: [Jamming, spoofing and the spectrum](../jamming-spoofing-and-the-spectrum.md#spoof)
 - All kinds: [KINDS.md](../../KINDS.md)
 - Topic page: [CAMPAIGNS.md](../../CAMPAIGNS.md)
-- Topic page: [INTEGRITY.md](../../INTEGRITY.md)
+- Topic page: [DRONE-PNT.md](../../DRONE-PNT.md)

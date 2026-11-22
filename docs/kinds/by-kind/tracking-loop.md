@@ -57,7 +57,7 @@ The scalar results of that run, with the units the engine states:
 | `denial.denial_radius_delta_km` | -74.243845 | km |
 | `denial.denial_radius_loop_dynamics_km` | 53.169373 | km |
 
-Result label (the engine's): MIXED — VALIDATED loop closed forms, MODELLED loop configuration. The carrier and code thermal-jitter expressions, the loop-filter reduction sqrt(2*B_n*T) and the first-order ramp lag are cross-checked against the engine's own sdr correlator stepped forward on seeded synthetic IF (a different route 
+Result label (the engine's): MIXED — VALIDATED loop closed forms, MODELLED loop configuration. The carrier and code thermal-jitter expressions, the loop-filter reduction sqrt(2*B_n*T) and the first-order ramp lag are cross-checked against the engine's own sdr correlator stepped forward on seeded synthetic IF (a different…
 
 <img src="../../figures/kinds/tracking-loop.svg" alt="The chart the engine writes for scenarios/tracking-loop.toml, kind tracking-loop" width="640">
 
@@ -65,20 +65,19 @@ Result label (the engine's): MIXED — VALIDATED loop closed forms, MODELLED loo
 
 MODELLED: the [verification matrix](../../VERIFICATION-MATRIX.md) rows that name this kind.
 
-- **MODELLED** The `lunar-jamming` report no longer rests its denial contour on one scalar.
-- **MODELLED** Loss of lock computed from loop dynamics instead of a power ratio: carrier (Costas) and code (non-coherent early/late) 1σ thermal jitter against C/N₀ with the squaring loss, against the stated rules 3σ_PLL + θ_e ≤ 45° and 3σ_DLL + ramp lag 
+- **MODELLED** Loss of lock computed from loop dynamics instead of a power ratio: carrier (Costas) and code (non-coherent early/late) 1σ thermal jitter against C/N₀ with the squaring loss, against the stated rules 3σ_PLL + θ_e ≤ 45° and 3σ_DLL + ramp…
 
 The rows the run itself exercised, with the oracle the matrix gives each (the public sources are named there):
 
 - **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): SBOM conformance to the official CycloneDX 1.5 JSON Schema (+ valid SPDX identifiers) — an external published standard, zero validation errors over the full dependency graph; the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
 - **PARTNER** Not provided — Kshana models signal performance, not payload/antenna hardware. Oracle (NoneKind): none: a partner-owned discipline, with no module and no test by design
-- **MODELLED** Loss of lock computed from loop dynamics instead of a power ratio: carrier (Costas) and code (non-coherent early/late) 1σ thermal jitter against C/N₀ with the s. Oracle (ReferenceImpl): The engine's own sdr correlator (sdr::correlate / synth_if / CaCode) stepped forward on seeded synthetic IF at a calibrated C/N₀ — a separate code path reaching the same numbers by numerical correlation of sampled IQ rather than by an algebraic jitter expression, so it is a different route and not a restatement — plus standard tabulated modified-Bessel I₀ values for the cycle-slip term. Loop theory per Kaplan & Hegar
+- **MODELLED** Loss of lock computed from loop dynamics instead of a power ratio: carrier (Costas) and code (non-coherent early/late) 1σ thermal jitter against C/N₀ with the…. Oracle (ReferenceImpl): The engine's own sdr correlator (sdr::correlate / synth_if / CaCode) stepped forward on seeded synthetic IF at a calibrated C/N₀ — a separate code path reaching the same numbers by numerical correlation of sampled IQ rather than by an algebraic jitter expression, so it is a different route and not a restatement — plus standard tabulated modified-Bessel I₀ values for the cycle-slip term. Loop theory per Kaplan &…
 
 ## Limitations
 
 What the run's own report says is not modelled or not validated:
 
-- MIXED — VALIDATED loop closed forms, MODELLED loop configuration. The carrier and code thermal-jitter expressions, the loop-filter reduction sqrt(2*B_n*T) and the first-order ramp lag are cross-checked against the engine's own sdr correlator stepped forward on seeded synthetic IF (a different route to the same numbers), and the modified Bessel I0 against standard tabulated values. MODELLED: the loop bandwidths, integ (result `label`)
+- MIXED — VALIDATED loop closed forms, MODELLED loop configuration. The carrier and code thermal-jitter expressions, the loop-filter reduction sqrt(2*B_n*T) and the first-order ramp lag are cross-checked against the engine's own sdr correlator stepped forward on seeded synthetic IF (a different route to the same numbers), and the modified Bessel I0 against standard tabulated values. MODELLED: the loop bandwidths… (result `label`)
 - MODELLED: the loop bandwidths, integration time, correlator spacing, pull-in bandwidth ratio, confirmation dwells, jammer power and antenna gains are representative band figures, not a datasheet. (kind catalogue (`kshana kinds --json`))
 - NOT modelled: oscillator (Allan-deviation) and vibration jitter, front-end bandwidth limiting, multipath, AGC dynamics, data-bit-transition loss, external aiding, and any half-cycle correction to the Costas cycle-slip formula. (kind catalogue (`kshana kinds --json`))
 - Every loop parameter below is a MODELLED representative band figure, not a datasheet. (scenario file comment, line 22)

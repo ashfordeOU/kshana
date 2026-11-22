@@ -6,7 +6,7 @@ Scenario kind of the engine v0.41.0, family [Mission analysis, links and space o
 
 ## What it does
 
-CCSDS 133.0-B Space Packet Protocol framing: encode a synthetic TM/TC packet stream (6-octet primary header + data field) and report the per-packet header decode, total octets and an exact encode↔decode round trip. Deterministic exact bit-layout framing — the agency packet-format interop layer; NOT a conformance certification (no secondary-header/CRC/segmentation logic beyond the flags).
+CCSDS 133.0-B Space Packet Protocol framing: encode a synthetic TM/TC packet stream (6-octet primary header + data field) and report the per-packet header decode, total octets and an exact encode↔decode round trip. Deterministic exact bit-layout framing — the agency packet-format interop layer; NOT a conformance certification; the scenario frames primary headers only (the secondary header, CRC-16 and segmentation are in the library).
 
 One run of `scenarios/space-packet.toml` summarises as: space-packet: framed 4 CCSDS-133.0 TM packet(s) APID 100, 152 octets total, round-trip exact (true)
 
@@ -41,7 +41,7 @@ The scalar results of that run, with the units the engine states:
 |---|---|---|
 | `apid` | 100 | 1 |
 | `data_len_octets` | 32 | octet |
-| `evidence.id_rule` | the stable id of the matrix row (the ID  | text |
+| `evidence.id_rule` | the stable id of the matrix row (the… | text |
 | `evidence.matrix` | docs/VERIFICATION-MATRIX.md | text |
 | `evidence.tier` | MODELLED | text |
 | `first_packet.apid` | 100 | 1 |
@@ -50,7 +50,7 @@ The scalar results of that run, with the units the engine states:
 | `first_packet.primary_header_hex` | 00 64 40 00 00 1F | text |
 | `first_packet.sequence_count` | 0 | 1 |
 
-Result label (the engine's): CCSDS 133.0-B Space Packet primary-header framing — exact, deterministic bit layout, encode↔decode round-trip verified; NOT a conformance certification (no secondary header / CRC / segmentation logic beyond the flags)
+Result label (the engine's): CCSDS 133.0-B Space Packet primary-header framing — exact, deterministic bit layout, encode↔decode round-trip verified; NOT a conformance certification; the scenario frames primary headers only (the secondary header, CRC-16 and segmentation are in the library)
 
 <img src="../../figures/kinds/space-packet.svg" alt="The chart the engine writes for scenarios/space-packet.toml, kind space-packet" width="640">
 
@@ -59,12 +59,12 @@ Result label (the engine's): CCSDS 133.0-B Space Packet primary-header framing �
 VALIDATED: the [verification matrix](../../VERIFICATION-MATRIX.md) rows that name this kind.
 
 - **VALIDATED** CCSDS 133.0-B Space Packet primary-header encode/decode (version/type/sec-hdr/APID/seq-flags/count/data-length) + a framing scenario. Tests: [ccsds_space_packet_reference.rs](../../../tests/ccsds_space_packet_reference.rs).
-- **VALIDATED** CCSDS 133.0-B-2 Space Packet extensions beside the primary header: a secondary header carrying a CCSDS 301.0-B time code (CUC or CDS, explicit or implicit P-field) and ancillary data, the CRC-16 packet error control field, segmentation of a Tests: [space_packet_ext_oracle.rs](../../../tests/space_packet_ext_oracle.rs).
+- **VALIDATED** CCSDS 133.0-B-2 Space Packet extensions beside the primary header: a secondary header carrying a CCSDS 301.0-B time code (CUC or CDS, explicit or implicit P-field) and ancillary data, the CRC-16 packet error control field, segmentation of… Tests: [space_packet_ext_oracle.rs](../../../tests/space_packet_ext_oracle.rs).
 
 The rows the run itself exercised, with the oracle the matrix gives each (the public sources are named there):
 
 - **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): SBOM conformance to the official CycloneDX 1.5 JSON Schema (+ valid SPDX identifiers) — an external published standard, zero validation errors over the full dependency graph; the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
-- **VALIDATED** CCSDS 133.0-B Space Packet primary-header encode/decode (version/type/sec-hdr/APID/seq-flags/count/data-length) + a framing scenario. Runnable from the CLI/bind. Oracle (ExternalDataset): spacepackets 0.32.0 (us-irs/spacepackets-py, R. Mueller, Apache-2.0) — an independent third-party implementation of CCSDS 133.0-B-2; kshana's encode_packet/decode_packet matched byte-exact (the 6-octet primary header for 33 cases + the full encoded packet for 12)
+- **VALIDATED** CCSDS 133.0-B Space Packet primary-header encode/decode (version/type/sec-hdr/APID/seq-flags/count/data-length) + a framing scenario. Runnable from the…. Oracle (ExternalDataset): spacepackets 0.32.0 (us-irs/spacepackets-py, R. Mueller, Apache-2.0) — an independent third-party implementation of CCSDS 133.0-B-2; kshana's encode_packet/decode_packet matched byte-exact (the 6-octet primary header for 33 cases + the full encoded packet for 12)
 
 ## Limitations
 

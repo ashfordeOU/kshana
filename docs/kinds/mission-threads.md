@@ -10,7 +10,7 @@ Topic pages: [MISSION-THREAD](../MISSION-THREAD.md), [MISSION-THREAD-LUNAR](../M
 
 | Kind | What it does | Ledger |
 |---|---|---|
-| [`mission-thread`](by-kind/mission-thread.md) | MODELLED navigation and timing error budget of a stated chain of mission phases, from launch to entry: launch and ascent, low-Earth-orbit rendezvous and docking (repeatable), trans-lunar injection and | MODELLED |
+| [`mission-thread`](by-kind/mission-thread.md) | MODELLED navigation and timing error budget of a stated chain of mission phases, from launch to entry: launch and ascent, low-Earth-orbit rendezvous and docking (repeatable), trans-lunar injection… | MODELLED |
 
 ### `mission-thread`
 

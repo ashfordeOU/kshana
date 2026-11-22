@@ -41,7 +41,7 @@ The example `scenarios/tip-and-cue-short.toml` sets, among others:
 kshana scenarios/tip-and-cue-short.toml
 ```
 
-2 bundled scenarios use this kind; the others are in [`scenarios/`](../../../scenarios/).
+2 scenario files in [`scenarios/`](../../../scenarios/) use this kind.
 
 ## What it gives
 
@@ -49,7 +49,7 @@ The scalar results of that run, with the units the engine states:
 
 | Result | Value | Unit |
 |---|---|---|
-| `evidence.id_rule` | the stable id of the matrix row (the ID  | text |
+| `evidence.id_rule` | the stable id of the matrix row (the… | text |
 | `evidence.matrix` | docs/VERIFICATION-MATRIX.md | text |
 | `evidence.tier` | MODELLED | text |
 | `inputs.area` | baltic | text |
@@ -60,7 +60,7 @@ The scalar results of that run, with the units the engine states:
 | `inputs.span_s` | 172800 | s |
 | `inputs.step_s` | 60 | s |
 
-Result label (the engine's): MODELLED: revisit, full-area refresh and RF-to-optical reaction of a two-layer survey from stated Walker star layers on 550 km sun-synchronous orbits (secular J2), spherical Earth, stated fields of regard; geometry and timing only, no detection, weather or tasking latency; a cross-check of published
+Result label (the engine's): MODELLED: revisit, full-area refresh and RF-to-optical reaction of a two-layer survey from stated Walker star layers on 550 km sun-synchronous orbits (secular J2), spherical Earth, stated fields of regard; geometry and timing only, no detection, weather or tasking latency; a cross-check of…
 
 <img src="../../figures/kinds/tip-and-cue.svg" alt="The chart the engine writes for scenarios/tip-and-cue-short.toml, kind tip-and-cue" width="640">
 
@@ -71,7 +71,7 @@ No matrix row names this kind by name; the label on its result is the engine's o
 The rows the run itself exercised, with the oracle the matrix gives each (the public sources are named there):
 
 - **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): SBOM conformance to the official CycloneDX 1.5 JSON Schema (+ valid SPDX identifiers) — an external published standard, zero validation errors over the full dependency graph; the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
-- **VALIDATED** The `constellation-design` kind's generators: Walker delta and star patterns in the T/P/F convention (node spacing 360/P or 180/P, in-plane spacing 360·P/T, int. Oracle (ExternalDataset): Published agency documents: Galileo Open Service Service Definition Document issue 1.1 (European GNSS Service Centre) Tables 1 and 23, the reference constellation at 2016-11-21 00:00 UTC; GLONASS Interface Control Document edition 5.1 (2008) section 5.2, the slot formula for node longitude and argument of latitude; GPS Standard Positioning Service Performance Standard 5th edition (April 2020) Tables 3.2-1, 3.2-2 and 
+- **VALIDATED** The `constellation-design` kind's generators: Walker delta and star patterns in the T/P/F convention (node spacing 360/P or 180/P, in-plane spacing 360·P/T…. Oracle (ExternalDataset): Published agency documents: Galileo Open Service Service Definition Document issue 1.1 (European GNSS Service Centre) Tables 1 and 23, the reference constellation at 2016-11-21 00:00 UTC; GLONASS Interface Control Document edition 5.1 (2008) section 5.2, the slot formula for node longitude and argument of latitude; GPS Standard Positioning Service Performance Standard 5th edition (April 2020) Tables 3.2-1, 3.2-2…
 
 ## Limitations
 
@@ -79,7 +79,7 @@ What the run's own report says is not modelled or not validated:
 
 - MODELLED: revisit, full-area refresh and RF-to-optical reaction of a two-layer survey from stated Walker star layers on 550 km sun-synchronous orbits (secular J2), spherical Earth, stated fields of regard; geometry and timing only, no detection, weather or tasking latency; a cross-check of published simulation figures, never a validation (result `label`)
 - MODELLED revisit and tip-and-cue latency of a two-layer maritime survey over the Baltic Sea: an RF survey layer and an optical layer, each a Walker star pattern of 550 km sun-synchronous orbits propagated with the secular J2 drift on a spherical Earth, with an elevation mask for the RF layer and an off-nadir field of regard (and optionally daylight) for the optical layer. (kind catalogue (`kshana kinds --json`))
-- A short tip-and-cue run: the M2 primary 16-satellite RF layer cueing its optical layer over the Baltic Sea for 2 days at a 60 s step (fast; for the full pre-registered run see tip-and-cue-baltic-m2.toml). Geometry and timing only; MODELLED. (scenario file comment, lines 1 to 3)
+- A short tip-and-cue run: the primary 16-satellite RF layer of the pre-registered study (M2) cueing its optical layer over the Baltic Sea for 2 days at a 60 s step (fast; for the full pre-registered run see tip-and-cue-baltic-m2.toml). Geometry and timing only; MODELLED. (scenario file comment, lines 1 to 3)
 - Reproducibility & software assurance is MODELLED, not validated: a sub-claim is externally checked, but the whole capability composes modelled pieces, so the capability stays Modelled. (verification matrix (docs/MODELLED-RATIONALE.md))
 
 ## See also

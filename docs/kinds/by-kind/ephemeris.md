@@ -28,7 +28,7 @@ The example `scenarios/ephemeris.toml` sets, among others:
 | `station.lat_deg` | 49.8707 | deg |
 | `station.lon_deg` | 8.6217 | deg |
 | `step_s` | 30 | s |
-| `tle` | 1 25544U 98067A   20045.18587073  .00000950  00000-0  25302- | text |
+| `tle` | 1 25544U 98067A   20045.18587073  .00000950  00000-0… | text |
 | `xp_arcsec` | 0 | arcsec |
 | `yp_arcsec` | 0 | arcsec |
 
@@ -46,7 +46,7 @@ The scalar results of that run, with the units the engine states:
 |---|---|---|
 | `alt_max_km` | 433.646 | km |
 | `alt_min_km` | 419.45893 | km |
-| `evidence.id_rule` | the stable id of the matrix row (the ID  | text |
+| `evidence.id_rule` | the stable id of the matrix row (the… | text |
 | `evidence.matrix` | docs/VERIFICATION-MATRIX.md | text |
 | `evidence.tier` | MODELLED | text |
 | `jd_utc0` | 2.4589e6 | day |
@@ -61,7 +61,7 @@ The scalar results of that run, with the units the engine states:
 
 VALIDATED: the [verification matrix](../../VERIFICATION-MATRIX.md) rows that name this kind.
 
-- **VALIDATED** Earth rotation from a two-part UT1 Julian date on the orbit path, so the Earth-fixed position keeps the microsecond a single-f64 date loses (about 3e-9 rad near 2020): jd2::gmst82 (IAU 1982 GMST, the TEME convention, on the two parts), cio:
+- **VALIDATED** Earth rotation from a two-part UT1 Julian date on the orbit path, so the Earth-fixed position keeps the microsecond a single-f64 date loses (about 3e-9 rad near 2020): jd2::gmst82 (IAU 1982 GMST, the TEME convention, on the two parts)…
 
 The rows the run itself exercised, with the oracle the matrix gives each (the public sources are named there):
 

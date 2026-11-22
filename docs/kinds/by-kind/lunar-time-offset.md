@@ -21,7 +21,7 @@ The example `scenarios/lunar-time-offset.toml` sets, among others:
 
 | Field | Value | Unit |
 |---|---|---|
-| `epoch_day` | 1 | d |
+| `epoch_day` | 1 | not stated |
 | `epoch_month` | 1 | not stated |
 | `epoch_year` | 2000 | not stated |
 | `horizon_days` | 1 | day |
@@ -41,7 +41,7 @@ The scalar results of that run, with the units the engine states:
 |---|---|---|
 | `band_high` | 59 | us/day |
 | `band_low` | 56 | us/day |
-| `evidence.id_rule` | the stable id of the matrix row (the ID  | text |
+| `evidence.id_rule` | the stable id of the matrix row (the… | text |
 | `evidence.matrix` | docs/VERIFICATION-MATRIX.md | text |
 | `evidence.tier` | MODELLED | text |
 | `horizon_days` | 1 | day |
@@ -65,7 +65,7 @@ The rows the run itself exercised, with the oracle the matrix gives each (the pu
 
 What the run's own report says is not modelled or not validated:
 
-- Honesty: MODELLED, not certified. The headline us/day figure is reference-dependent (Earth geoid W0 vs a lunar selenoid, the time-averaging window, neglected sub-us/day centrifugal/J2 corrections) -> a band, not a single number, is the honest output. Nothing here is validated to sub-nanosecond absolute accuracy or certified for operational timekeeping. The report also gives the accumulated LTC-TT offset over the hori (scenario file comment, lines 11 to 16)
+- Honesty: MODELLED, not certified. The headline us/day figure is reference-dependent (Earth geoid W0 vs a lunar selenoid, the time-averaging window, neglected sub-us/day centrifugal/J2 corrections) -> a band, not a single number, is the honest output. Nothing here is validated to sub-nanosecond absolute accuracy or certified for operational timekeeping. The report also gives the accumulated LTC-TT offset over the… (scenario file comment, lines 11 to 16)
 - Reproducibility & software assurance is MODELLED, not validated: a sub-claim is externally checked, but the whole capability composes modelled pieces, so the capability stays Modelled. (verification matrix (docs/MODELLED-RATIONALE.md))
 
 ## See also

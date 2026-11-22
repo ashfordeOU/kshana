@@ -49,7 +49,7 @@ The scalar results of that run, with the units the engine states:
 | `candidate_contacts` | 31 | count |
 | `conflicting_pairs` | 5 | count |
 | `duration_hours` | 12 | h |
-| `evidence.id_rule` | the stable id of the matrix row (the ID  | text |
+| `evidence.id_rule` | the stable id of the matrix row (the… | text |
 | `evidence.matrix` | docs/VERIFICATION-MATRIX.md | text |
 | `evidence.tier` | MODELLED | text |
 | `light_time` | true | flag |
@@ -57,7 +57,7 @@ The scalar results of that run, with the units the engine states:
 | `link.eirp_dbw` | 7 | dBW |
 | `link.frequency_ghz` | 8.2 | GHz |
 
-Result label (the engine's): MODELLED — multi-satellite, multi-station contact plan: apparent access windows (SGP4, IAU 2006/2000A, ITU-R P.834 refraction, light time), DVB-S2 ACM data volume per pass from a clear-sky link budget (ETSI EN 302 307-1 Table 13 thresholds), and conflict resolution (one satellite per antenna with tu
+Result label (the engine's): MODELLED — multi-satellite, multi-station contact plan: apparent access windows (SGP4, IAU 2006/2000A, ITU-R P.834 refraction, light time), DVB-S2 ACM data volume per pass from a clear-sky link budget (ETSI EN 302 307-1 Table 13 thresholds), and conflict resolution (one satellite per antenna with…
 
 <img src="../../figures/kinds/contact-schedule.svg" alt="The chart the engine writes for scenarios/contact-schedule.toml, kind contact-schedule" width="640">
 
@@ -65,21 +65,21 @@ Result label (the engine's): MODELLED — multi-satellite, multi-station contact
 
 MODELLED: the [verification matrix](../../VERIFICATION-MATRIX.md) rows that name this kind.
 
-- **MODELLED** Downlink Es/N0 along each pass of one satellite over one station (EIRP, free-space loss, cosecant-law atmospheric loss, other losses, G/T, Boltzmann's constant, symbol rate), the most efficient DVB-S2 MODCOD that clears its ETSI EN 302 307-
-- **MODELLED** Candidate contacts from every satellite-station pass with its ACM data volume; conflicts where one antenna would serve two satellites inside its turnaround or one satellite would downlink to two stations at once; a priority-weighted deliver
+- **MODELLED** Downlink Es/N0 along each pass of one satellite over one station (EIRP, free-space loss, cosecant-law atmospheric loss, other losses, G/T, Boltzmann's constant, symbol rate), the most efficient DVB-S2 MODCOD that clears its ETSI EN 302…
+- **MODELLED** Candidate contacts from every satellite-station pass with its ACM data volume; conflicts where one antenna would serve two satellites inside its turnaround or one satellite would downlink to two stations at once; a priority-weighted…
 
 The rows the run itself exercised, with the oracle the matrix gives each (the public sources are named there):
 
 - **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): SBOM conformance to the official CycloneDX 1.5 JSON Schema (+ valid SPDX identifiers) — an external published standard, zero validation errors over the full dependency graph; the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
-- **VALIDATED** Visibility passes (AOS, TCA, LOS, maximum apparent elevation, duration) of an SGP4 element set over a WGS-84 station on the validated Earth-orbit path (IAU 2006. Oracle (ExternalDataset): Orekit 13.1.8 (CS GROUP, Apache-2.0) with Hipparchus 4.0.3: TLEPropagator on the same element sets in a TEME Orekit builds to the stated definition (its IERS 2010 TOD rotated by GAST - GMST), ElevationDetector and ElevationExtremumDetector with and without ITURP834AtmosphericRefraction, and AngularAzEl with AngularRadioRefractionModifier for the light-time case, crossings and maximum solved by Hipparchus; 60 cases (f
-- **MODELLED** Downlink Es/N0 along each pass of one satellite over one station (EIRP, free-space loss, cosecant-law atmospheric loss, other losses, G/T, Boltzmann's constant,. Oracle (InternalConsistency): Internal consistency: the spectral efficiency computed in closed form from Table 5a K_bch and the frame lengths agrees with the efficiencies Table 13 prints (a transcription check on the threshold table); the link-budget pieces agree with their closed forms; the selection is monotone in Es/N0 and honours the margin; ACM moves at least the constant-coding volume. The pass geometry comes from the separately VALIDATED a
-- **MODELLED** Candidate contacts from every satellite-station pass with its ACM data volume; conflicts where one antenna would serve two satellites inside its turnaround or o. Oracle (InternalConsistency): Internal consistency: the exact branch and bound agrees with brute-force enumeration on small random sets, every plan is checked feasible against the conflict rules, and the greedy never beats the exact optimum. WHAT IS NOT: no external scheduler or operational plan has been compared; contacts are taken whole (no splitting), the backlog is fixed at the window start, slew time beyond the fixed turnaround and onboard s
+- **VALIDATED** Visibility passes (AOS, TCA, LOS, maximum apparent elevation, duration) of an SGP4 element set over a WGS-84 station on the validated Earth-orbit path (IAU…. Oracle (ExternalDataset): Orekit 13.1.8 (CS GROUP, Apache-2.0) with Hipparchus 4.0.3: TLEPropagator on the same element sets in a TEME Orekit builds to the stated definition (its IERS 2010 TOD rotated by GAST - GMST), ElevationDetector and ElevationExtremumDetector with and without ITURP834AtmosphericRefraction, and AngularAzEl with AngularRadioRefractionModifier for the light-time case, crossings and maximum solved by Hipparchus; 60 cases…
+- **MODELLED** Downlink Es/N0 along each pass of one satellite over one station (EIRP, free-space loss, cosecant-law atmospheric loss, other losses, G/T, Boltzmann's…. Oracle (InternalConsistency): Internal consistency: the spectral efficiency computed in closed form from Table 5a K_bch and the frame lengths agrees with the efficiencies Table 13 prints (a transcription check on the threshold table); the link-budget pieces agree with their closed forms; the selection is monotone in Es/N0 and honours the margin; ACM moves at least the constant-coding volume. The pass geometry comes from the separately VALIDATED…
+- **MODELLED** Candidate contacts from every satellite-station pass with its ACM data volume; conflicts where one antenna would serve two satellites inside its turnaround or…. Oracle (InternalConsistency): Internal consistency: the exact branch and bound agrees with brute-force enumeration on small random sets, every plan is checked feasible against the conflict rules, and the greedy never beats the exact optimum. WHAT IS NOT: no external scheduler or operational plan has been compared; contacts are taken whole (no splitting), the backlog is fixed at the window start, slew time beyond the fixed turnaround and onboard…
 
 ## Limitations
 
 What the run's own report says is not modelled or not validated:
 
-- MODELLED — multi-satellite, multi-station contact plan: apparent access windows (SGP4, IAU 2006/2000A, ITU-R P.834 refraction, light time), DVB-S2 ACM data volume per pass from a clear-sky link budget (ETSI EN 302 307-1 Table 13 thresholds), and conflict resolution (one satellite per antenna with turnaround, one station per satellite) by a marginal-value greedy checked against an exact branch and bound; no rain fade, (result `label`)
+- MODELLED — multi-satellite, multi-station contact plan: apparent access windows (SGP4, IAU 2006/2000A, ITU-R P.834 refraction, light time), DVB-S2 ACM data volume per pass from a clear-sky link budget (ETSI EN 302 307-1 Table 13 thresholds), and conflict resolution (one satellite per antenna with turnaround, one station per satellite) by a marginal-value greedy checked against an exact branch and bound; no rain… (result `label`)
 - MODELLED. (kind catalogue (`kshana kinds --json`))
 - Every number below is ILLUSTRATIVE: no operator's orbits, stations or link budget. MODELLED: the scheduler is checked against its own exact solver, not an external tool. (scenario file comment, lines 11 to 12)
 - Reproducibility & software assurance is MODELLED, not validated: a sub-claim is externally checked, but the whole capability composes modelled pieces, so the capability stays Modelled. (verification matrix (docs/MODELLED-RATIONALE.md))

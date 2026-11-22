@@ -53,7 +53,7 @@ The scalar results of that run, with the units the engine states:
 | `end.downrange_m` | 1.5142e6 | m |
 | `end.flight_path_angle_deg` | 8.707144 | deg |
 | `end.speed_m_s` | 8931.555867 | m/s |
-| `evidence.id_rule` | the stable id of the matrix row (the ID  | text |
+| `evidence.id_rule` | the stable id of the matrix row (the… | text |
 | `evidence.matrix` | docs/VERIFICATION-MATRIX.md | text |
 | `evidence.tier` | MODELLED | text |
 
@@ -65,12 +65,12 @@ Result label (the engine's): MODELLED — planar gravity-turn ascent of a multi-
 
 MODELLED: the [verification matrix](../../VERIFICATION-MATRIX.md) rows that name this kind.
 
-- **MODELLED** Planar gravity-turn ascent of a multi-stage vehicle over a non-rotating spherical Earth through the US Standard Atmosphere 1976 (density and pressure), with a pitch kick, thrust reduced by the nozzle back-pressure, stage burnouts at exact s
+- **MODELLED** Planar gravity-turn ascent of a multi-stage vehicle over a non-rotating spherical Earth through the US Standard Atmosphere 1976 (density and pressure), with a pitch kick, thrust reduced by the nozzle back-pressure, stage burnouts at exact…
 
 The rows the run itself exercised, with the oracle the matrix gives each (the public sources are named there):
 
 - **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): SBOM conformance to the official CycloneDX 1.5 JSON Schema (+ valid SPDX identifiers) — an external published standard, zero validation errors over the full dependency graph; the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
-- **MODELLED** Planar gravity-turn ascent of a multi-stage vehicle over a non-rotating spherical Earth through the US Standard Atmosphere 1976 (density and pressure), with a p. Oracle (InternalConsistency): Internal consistency: the exact identity burnout speed = sum Isp g0 ln(m0/mf) minus the four integrated losses (residual below 1e-6 m/s), Tsiolkovsky's equation on a vertical vacuum burn with gravity the only loss, and the US76 sea-level and tropopause pressures. WHAT IS NOT: no published vehicle's losses have been compared; no Earth rotation, coast, throttling or guidance beyond the kick; constant C_D; not a traject
+- **MODELLED** Planar gravity-turn ascent of a multi-stage vehicle over a non-rotating spherical Earth through the US Standard Atmosphere 1976 (density and pressure), with a…. Oracle (InternalConsistency): Internal consistency: the exact identity burnout speed = sum Isp g0 ln(m0/mf) minus the four integrated losses (residual below 1e-6 m/s), Tsiolkovsky's equation on a vertical vacuum burn with gravity the only loss, and the US76 sea-level and tropopause pressures. WHAT IS NOT: no published vehicle's losses have been compared; no Earth rotation, coast, throttling or guidance beyond the kick; constant C_D; not a…
 
 ## Limitations
 

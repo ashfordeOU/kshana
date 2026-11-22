@@ -23,11 +23,11 @@ The example `scenarios/hybrid-pnt.toml` sets, among others:
 |---|---|---|
 | `accel_classical.bias` | 0.00157 | m/s^2 |
 | `accel_classical.id` | nav-grade-quartz | text |
-| `accel_classical.provenance` | Navigation-grade quartz accelerometer (Honeywell QA-2000 / G | text |
+| `accel_classical.provenance` | Navigation-grade quartz accelerometer (Honeywell QA-2000 /… | text |
 | `accel_classical.q_va` | 3.8416e-8 | (m/s^2)^2/Hz |
 | `accel_quantum.bias` | 5.8800e-7 | m/s^2 |
 | `accel_quantum.id` | cold-atom-quat | text |
-| `accel_quantum.provenance` | Exail hybrid quantum accelerometer triad, bias stability 5.8 | text |
+| `accel_quantum.provenance` | Exail hybrid quantum accelerometer triad, bias stability… | text |
 | `accel_quantum.q_va` | 4.6656e-8 | (m/s^2)^2/Hz |
 | `clock_classical.drift` | 0 | 1/s |
 | `clock_classical.id` | csac-sa45s | text |
@@ -54,7 +54,7 @@ The scalar results of that run, with the units the engine states:
 | `classical.accel_spec.params.q_aa` | 0 | (m/s^2)^2/s |
 | `classical.accel_spec.params.q_arw` | 0 | (rad/s)^2/Hz |
 | `classical.accel_spec.params.q_va` | 3.8416e-8 | (m/s^2)^2/Hz |
-| `classical.accel_spec.provenance` | Navigation-grade quartz accelerometer (H | text |
+| `classical.accel_spec.provenance` | Navigation-grade quartz accelerometer… | text |
 | `classical.clock_spec.id` | csac-sa45s | text |
 
 <img src="../../figures/kinds/hybrid.svg" alt="The chart the engine writes for scenarios/hybrid-pnt.toml, kind hybrid" width="640">
@@ -63,15 +63,15 @@ The scalar results of that run, with the units the engine states:
 
 MODELLED: the [verification matrix](../../VERIFICATION-MATRIX.md) rows that name this kind.
 
-- **MODELLED** One stacked Kalman filter over position, velocity, clock phase and frequency fed pseudoranges that couple position and clock (Joseph-form updates carrying the cross-covariance); a 1-DOF variant augmented with a constant accelerometer-bias s Tests: [fusion_coupled_filters.rs](../../../tests/fusion_coupled_filters.rs).
+- **MODELLED** One stacked Kalman filter over position, velocity, clock phase and frequency fed pseudoranges that couple position and clock (Joseph-form updates carrying the cross-covariance); a 1-DOF variant augmented with a constant accelerometer-bias… Tests: [fusion_coupled_filters.rs](../../../tests/fusion_coupled_filters.rs).
 
 The rows the run itself exercised, with the oracle the matrix gives each (the public sources are named there):
 
 - **VALIDATED** Allan/modified/Hadamard deviation + power-law noise ID with χ² CIs. Oracle (ExternalDataset): NIST SP 1065 (Riley) / Stable32 reference deviations on NBS14
 - **MODELLED** Closed-form coast-error growth + holdover-to-threshold; quantum-clock classes. Oracle (ReferenceImpl): Multi-step clock_state covariance recursion (same-codebase cross-check); the underlying coast-variance & holdover-inversion kernel is externally validated vs scipy (see 'Clock-holdover coast-variance & threshold inversion'). The per-class red-noise-floor holdover figures stay MODELLED
-- **MODELLED** 3-state (phase/freq/drift) van-Loan Kalman clock, Joseph-stabilised. Oracle (ReferenceImpl): filterpy 1.4.5 KalmanFilter (R. Labbe, MIT), with F via scipy.linalg.expm and Q via the Van-Loan 1978 block-matrix — an independent reference implementation reproducing kshana's full filter trajectory. Cross-implementation consistency: the clock physics / Allan calibration are not externally validated, so this stays MODELLED. 0.30 external comparison, a finding (stays MODELLED): on IGS final 30 s clocks of 11 GPS Blo
-- **MODELLED** Two-way/TWSTFT (Sagnac), GNSS common-view, PPP; link-jitter→range. Oracle (ExternalDataset): Sagnac magnitude checked against an authoritative PUBLISHED VALUE — N. Ashby, 'Relativity in the GPS', Living Reviews in Relativity 6:1 (2003), Eq. 1.29: an eastward equatorial circumnavigation accrues 207.4 ns (2ωA_E/c²); kshana reproduces 207.386 ns. Independently corroborated by RTKLIB 2.4.3 geodist() (Takasu, BSD-2-Clause), which carries the same 2Aω/c² geometry. The composite BIPM TWSTFT transponder/common-view/
-- **MODELLED** Cold-atom interferometer accelerometer from first principles (k_eff·T², QPN). Oracle (ExternalDataset): Published CAI primary-paper numeric vectors (Cheinet 2008 transfer function; Peters/Freier sensitivity): k_eff·T² matched exactly, shot-noise ASD a one-sided floor within ~2× of each published instrument (real devices carry technical noise above the quantum floor). A bracket, not parity. 0.30 round 2 (pre-registered e7de532a), a finding (stays MODELLED): the QPN-only rotation noise against the measured Gauguet et al.
+- **MODELLED** 3-state (phase/freq/drift) van-Loan Kalman clock, Joseph-stabilised. Oracle (ReferenceImpl): filterpy 1.4.5 KalmanFilter (R. Labbe, MIT), with F via scipy.linalg.expm and Q via the Van-Loan 1978 block-matrix — an independent reference implementation reproducing kshana's full filter trajectory. Cross-implementation consistency: the clock physics / Allan calibration are not externally validated, so this stays MODELLED. 0.30 external comparison, a finding (stays MODELLED): on IGS final 30 s clocks of 11 GPS…
+- **MODELLED** Two-way/TWSTFT (Sagnac), GNSS common-view, PPP; link-jitter→range. Oracle (ExternalDataset): Sagnac magnitude checked against an authoritative PUBLISHED VALUE — N. Ashby, 'Relativity in the GPS', Living Reviews in Relativity 6:1 (2003), Eq. 1.29: an eastward equatorial circumnavigation accrues 207.4 ns (2ωA_E/c²); kshana reproduces 207.386 ns. Independently corroborated by RTKLIB 2.4.3 geodist() (Takasu, BSD-2-Clause), which carries the same 2Aω/c² geometry. The composite BIPM TWSTFT…
+- **MODELLED** Cold-atom interferometer accelerometer from first principles (k_eff·T², QPN). Oracle (ExternalDataset): Published CAI primary-paper numeric vectors (Cheinet 2008 transfer function; Peters/Freier sensitivity): k_eff·T² matched exactly, shot-noise ASD a one-sided floor within ~2× of each published instrument (real devices carry technical noise above the quantum floor). A bracket, not parity. 0.30 round 2 (pre-registered e7de532a), a finding (stays MODELLED): the QPN-only rotation noise against the measured Gauguet et…
 
 ## Limitations
 
