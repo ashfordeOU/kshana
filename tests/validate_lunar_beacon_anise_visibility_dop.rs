@@ -17,7 +17,7 @@
 //!   and beacon counts (5 satellites, 1 of 3 beacons), and the two PDOP improvement factors
 //!   (2.355 and 4.002);
 //! * **near-boundary cases** added so that an exact match discriminates (the golden case
-//!   alone does not: its flanking beacons sit 333 km away against an 86 km horizon):
+//!   alone does not: its flanking beacons sit about 318 km away against the 86 km two-height horizon):
 //!   beacons placed at straight-line ranges of the exact two-height horizon sum plus and
 //!   minus 10 m, 100 m and 1 km, for user heights 2 m and 50 m and beacon heights 10 m and
 //!   2000 m (a horizon formula missing the `h^2` term is 24 m short at 2000 m and fails the

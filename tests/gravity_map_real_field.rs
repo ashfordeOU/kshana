@@ -30,7 +30,7 @@ fn egm2008_benchmark_records_the_preregistered_outcome() {
         matched >= 500.0,
         "B1 was recorded NOT MET at 3106 m; now {matched} m (update RESULTS.md)"
     );
-    // B2 MET (recorded 3105.5 m against 7060.7 m).
+    // B2 MET (recorded 3105.5 m against drift/10 = 7060.7 m; drift 70 607 m).
     assert!(
         matched < drift / 10.0,
         "B2 was recorded MET; now {matched} m against drift/10 = {} m",

@@ -6,7 +6,7 @@
 //!
 //! ORACLE A — **published vectors**: Ashby & Patla 2024, *A Relativistic
 //! Framework to Estimate Clock Rates on the Moon*, The Astronomical Journal
-//! 167:149 (2024), doi:10.3847/1538-3881/ad643a (arXiv:2402.11150) — the NIST
+//! 168:112 (2024), doi:10.3847/1538-3881/ad643a (arXiv:2402.11150) — the NIST
 //! relativistic basis feeding the IAU/IAG and LunaNet Lunar Coordinate Time.
 //! Their Table I and derived secular rates are transcribed verbatim. We check:
 //!   * the Earth-geoid (`L_G`) term `W0_EARTH/c² · 86400 · 1e6` vs published `L_G`,
