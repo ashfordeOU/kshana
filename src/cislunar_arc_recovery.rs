@@ -335,7 +335,7 @@ pub struct ClaimUnderTest {
 
 /// The honesty label carried on the result document.
 const LABEL: &str = "MODELLED cislunar arc-length recovery test (independent-estimator \
-corroboration of the P6 observability threshold). VALIDATED core: the estimator is the \
+corroboration of the Gramian rank observability threshold). Checked core (the kind stays MODELLED): the estimator is the \
 crate's pre-existing weighted Gauss-Newton batch corrector (crate::batch_ls), whose design \
 matrix is a CENTRAL FINITE DIFFERENCE of the composed forward model - it calls no analytic \
 measurement Jacobian row, no variational state-transition matrix, no singular-value or \

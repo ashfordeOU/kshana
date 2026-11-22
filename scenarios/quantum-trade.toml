@@ -3,7 +3,7 @@
 # Computes the timing-holdover and inertial-holdover benefit of a CANDIDATE clock
 # over a CLASSICAL baseline, plus a GNSS-denied resilience-vs-time envelope. The
 # candidate floor is driven by a partner clock's MEASURED overlapping-ADEV curve
-# (the defensibility hinge) fitted by non-negative least squares — so the holdover
+# fitted by non-negative least squares — so the holdover
 # budget rests on real data, not an assumed long-tau floor.
 #
 # HONEST SCOPE: MODELLED — it QUANTIFIES a partner's quantum-clock benefit; it does

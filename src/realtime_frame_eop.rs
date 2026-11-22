@@ -1011,7 +1011,7 @@ fn units_block() -> serde_json::Value {
         "lever_arm_m_per_s",
         "m/s",
         "constant",
-        "D_EM * omega_earth (L19)",
+        "D_EM * omega_earth (the Earth-Moon lever arm)",
     );
     put(
         "earth_moon_distance_m",
@@ -1025,7 +1025,7 @@ fn units_block() -> serde_json::Value {
         "table1_consistency[].ut1_equiv_ms",
         "ms",
         "computed",
-        "L19 image of the position",
+        "lever-arm image of the position",
     );
     put("table1_consistency[].light_time_ns", "ns", "computed", "");
     put("table2_error_vs_horizon[].horizon_days", "day", "input", "");
@@ -1355,7 +1355,7 @@ fn units_block() -> serde_json::Value {
         "operational_predictor_model.published_bulletin_a_agreement.ut1_rms_position_m",
         "m",
         "computed",
-        "the UT1 agreement at the Moon through the L19 lever arm",
+        "the UT1 agreement at the Moon through the Earth-Moon lever arm",
     );
     put(
         "operational_predictor_model.published_bulletin_a_agreement.pm_rms_arcsec",
@@ -1476,7 +1476,7 @@ fn units_block() -> serde_json::Value {
             &crate::t!("realtime-frame-eop-rows-rms-position", t5 = t5, p = p),
             "m",
             "computed",
-            "the RMS residual at the Moon through the L19 lever arm",
+            "the RMS residual at the Moon through the Earth-Moon lever arm",
         );
         put(
             &crate::t!("realtime-frame-eop-rows-p95-position", t5 = t5, p = p),
