@@ -1787,43 +1787,16 @@ js-site-palette-none = Sin resultados
 js-site-palette-results = { $count } resultados
 
 # src/js/pro-power.mjs:147
-js-site-pro-band-at = A los { $minutes } minutos: percentil 5 a 95
-
 # src/js/pro-power.mjs:147
-js-site-pro-band-range = { $lo } a { $hi } { $unit }
-
 # src/js/pro-power.mjs:148
-js-site-pro-band-runs-within = de { $n } ejecuciones dentro de ±{ $limit } { $unit }
-
 # src/js/pro-power.mjs:92
-js-site-pro-design-readout = { $sat } satélites, { $av } % de disponibilidad · { $planes } planos a { $alt } km, { $incl }°
-
 # src/js/pro-power.mjs:91
-js-site-pro-front-design = Diseño del frente { $id }
-
 # src/js/pro-power.mjs:91
-js-site-pro-front-design-knee = Diseño del frente { $id } · codo
-
 # src/js/pro-power.mjs:90
-js-site-pro-more-designs =
-    { $n ->
-        [one] (+{ $n } diseño más del frente en este punto)
-        [many] (+{ $n } de diseños más del frente en este punto)
-       *[other] (+{ $n } diseños más del frente en este punto)
-    }
-
 # src/js/pro-power.mjs:94
-js-site-pro-not-rerun = no se volvió a ejecutar
-
 # src/js/pro-power.mjs:93
-js-site-pro-rerun-free = volver a ejecutar en el motor gratuito:
-
 # src/js/pro-power.mjs:94
-js-site-pro-same-sha = mismo SHA-256 { $sha }…
-
 # src/js/pro-power.mjs:94
-js-site-pro-same-sha-index = mismo SHA-256 del resultado que el índice
-
 # src/site.js:41
 js-site-toast-copied = Copiado: { $text }
 

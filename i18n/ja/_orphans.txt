@@ -1226,3 +1226,1338 @@ seg-fbb78f11c0dc = { "78" } 件中、確認済み
 
 # tests/iq_campaign_monitors.rs: m1_power_test_false_alarm_rate_matches_the_closed_form ({ "73" } of { "5900" } blocks against the { "99" } % binomial interval [{ "40" }, { "80" }] of P_fa { "0.01" }), m2_sqm_false_alarm_fraction_is_within_a_factor_of_2_of_2q_k (delta { "0.0160" }, ratio { "0.0131" } against { "0.01" }), m4_cn0_false_alarms_stay_within_the_poisson_bound_of_arl0 ({ "0" } against { "0" }), the_monitors_table_parses_and_validates; m3_every_attenuation_is_detected_within_twice_the_arl1 (strict, ignored with the gap); iq::campaign::detect tests; iq::monitor::stats tests (gaussian_two_sided_tail_matches_known_values); tests/iq_campaign.rs (the pinned digests are unchanged without the table)
 seg-1663be50baf6 = tests/iq_campaign_monitors.rs: m1_power_test_false_alarm_rate_matches_the_closed_form（{ "5900" } ブロックのうち { "73" } 個、P_fa { "0.01" } の { "99" } % の二項区間 [{ "40" }, { "80" }] に対して）, m2_sqm_false_alarm_fraction_is_within_a_factor_of_2_of_2q_k（delta { "0.0160" }、比 { "0.0131" }、対 { "0.01" }）, m4_cn0_false_alarms_stay_within_the_poisson_bound_of_arl0（{ "0" } 対 { "0" }）, the_monitors_table_parses_and_validates; m3_every_attenuation_is_detected_within_twice_the_arl1（厳格、ギャップとともに無視）; iq::campaign::detect のテスト; iq::monitor::stats のテスト（gaussian_two_sided_tail_matches_known_values）; tests/iq_campaign.rs（固定したダイジェストは、表がなくても変わらない）
+
+# Marked where it builds on a capability: the design optimiser, uncertainty and sensitivity, the mission dossier, calibrated clock twins and ranked trade studies. <a1>What Pro adds</a1>
+seg-311e7a7d55dc = 次の機能を土台とする箇所には印を付けています：設計オプティマイザー、不確かさと感度、ミッションドシエ、較正済みのクロックツイン、順位付きトレードスタディ。<a1>Pro が追加するもの</a1>
+
+# Kshana Pro calibrates a <b>clock digital twin</b> to your device's published Allan budget, built on the <c1/> kind and the classes above. <a1>What Pro adds</a1>
+seg-0aa1e4562dac = Kshana Pro は、<c1/> kind と上記のクラスを土台として、お使いの機器が公表しているアランバジェットに合わせて<b>時計のデジタルツイン</b>を較正します。<a1>Pro が追加するもの</a1>
+
+# Kshana Pro calibrates a clock digital twin to a device's published Allan budget and checks it with the open engine's Allan-deviation estimator; a twin of your own device is built under contract. <a1>What Pro adds</a1>
+seg-b291c1ae1f5c = Kshana Pro は、機器が公表しているアランバジェットに合わせて時計のデジタルツインを較正し、オープンなエンジンのアラン偏差推定器で検査します。お使いの機器そのもののツインは、契約のもとで構築します。<a1>Pro が追加するもの</a1>
+
+# <b>With Pro:</b> the design optimiser returns the <b>Pareto front</b> of a whole constellation design space around the Earth, the Moon or Mars, each front design written out as a plain scenario file, and a <b>ranked trade study</b> compares architectures on a figure of merit. <a1>See a real front</a1>
+seg-e5f00e27b617 = <b>Pro では：</b>設計オプティマイザーが、地球、月、火星のまわりの衛星コンステレーション設計空間全体の<b>パレートフロント</b>を返し、フロント上の各設計を平易なシナリオファイルとして書き出します。<b>順位付きトレードスタディ</b>は、性能指標でアーキテクチャーを比較します。<a1>実際のフロントを見る</a1>
+
+# <b>With Pro:</b> stated input uncertainties give <b>confidence bands</b>, the probability of meeting a limit and a ranking of the inputs that drive the result, over thousands of runs that can be stopped and resumed. <a1>See a real band</a1>
+seg-dd2809ea9a6a = <b>Pro では：</b>入力の不確かさを指定すると、数千回の実行にわたって<b>信頼区間のバンド</b>、限度を満たす確率、結果を左右する入力の順位付けが得られます。実行は停止と再開が可能です。<a1>実際のバンドを見る</a1>
+
+# <b>Pro: calibrated clock twin</b> builds on <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>. <a1>See what it adds</a1>
+seg-ec1a22002e13 = <b>Pro：較正済みクロックツイン</b>は <c1/>、<c2/>、<c3/>、<c4/>、<c5/>、<c6/>、<c7/> を土台とします。<a1>追加されるものを見る</a1>
+
+# <b>Pro: ranked trade study</b> builds on <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>. <a1>See what it adds</a1>
+seg-cc88295c3e2e = <b>Pro：順位付きトレードスタディ</b>は <c1/>、<c2/>、<c3/>、<c4/>、<c5/>、<c6/> を土台とします。<a1>追加されるものを見る</a1>
+
+# <b>Pro: design optimiser</b> builds on <c1/>. <a1>See what it adds</a1>
+seg-8cec53de04c5 = <b>Pro：設計オプティマイザー</b>は <c1/> を土台とします。<a1>追加されるものを見る</a1>
+
+# <b>Pro: uncertainty and sensitivity</b> builds on <c1/>, <c2/>. <a1>See what it adds</a1>
+seg-4bdca619acb5 = <b>Pro：不確かさと感度</b>は <c1/>、<c2/> を土台とします。<a1>追加されるものを見る</a1>
+
+# <b>Pro: mission dossier</b> builds on <c1/>, <c2/>, <c3/>, <c4/>, <c5/>. <a1>See what it adds</a1>
+seg-35d8381e7605 = <b>Pro：ミッションドシエ</b>は <c1/>、<c2/>、<c3/>、<c4/>、<c5/> を土台とします。<a1>追加されるものを見る</a1>
+
+# <b>Pro: campaign watch</b> builds on <c1/>. <a1>See what it adds</a1>
+seg-08d3c155a74d = <b>Pro：キャンペーンウォッチ</b>は <c1/> を土台とします。<a1>追加されるものを見る</a1>
+
+# (not in the old English either)
+seg-d5c6110302e9 = Artemis級のミッションスレッド、すべての数値に付くエビデンスラベル、そして十七言語。
+
+# (not in the old English either)
+seg-8597c65432ed = 月ミッションの各フェーズを一つの航法・時刻誤差バジェットにつなぎ、劣化した位置報告の発生源がありうる場所を推定し、測定したクロックログを読み込み、実行が書き出すすべての数値のエビデンスのティアを確認し、コマンドライン、レポート、Studioを十七言語で使えます。どの機能にも台帳がその機能について保持するラベルが付き、ラベルが示すのは確認した範囲だけです。助言用ソフトウェアであり、型式承認を受けた航法装置ではありません。運用者が引き続き責任を負います。
+
+# (not in the old English either)
+seg-070972f642de = Artemis級のミッションスレッド：打ち上げから再突入までの航法・時刻誤差バジェット
+
+# (not in the old English either)
+seg-982a4a7cf0db = ミッションスレッド kind は、各フェーズ（打ち上げと上昇、低軌道でのランデブー、月遷移軌道投入と巡航、月のフェーズ、再突入）をつなぎ、各フェーズの位置・速度共分散を次のフェーズへ引き継ぎます。引き継ぎ規則、座標系と時刻系の変換、明記された要求に対する余裕、最も弱い部分は、それぞれバジェットの行として書かれます。
+
+# (not in the old English either)
+seg-17c9cc6c2d40 = 確認結果：Artemis I との比較は合格基準に届きませんでした（{ "5" } km に対して { "45.3" } km）。この行は MODELLED のままです
+
+# (not in the old English either)
+seg-946487626f87 = Kshana Studio のミッションスレッド表示
+
+# (not in the old English either)
+seg-4970f874d334 = 月のセグメント：ランデブー、降下、月面、上昇
+
+# (not in the old English either)
+seg-b6c35bf141e7 = 四つのシナリオ kind で、それぞれミッションスレッドのフェーズでもあります。月周回軌道でのドッキングまでの相対航法、南極域の着陸地点での着陸分散バジェット、地点と季節ごとの測位・時刻の可用性、そしてランデブー軌道への上昇です。
+
+# (not in the old English either)
+seg-ce097df855a9 = 確認結果：事前登録した合格基準のうち、一つは達成、一つは未達で、緩めたものはありません
+
+# (not in the old English either)
+seg-8ca6e2046901 = ADS-B または AIS の報告から推定した発信源領域
+
+# (not in the old English either)
+seg-ca6383e426f9 = 劣化した位置報告の発生源がありうる場所を、{ "50" }、{ "90" }、{ "95" } パーセントの領域として、重心とその不確かさ楕円を添えて示します。単独の点は示さず、時間方向のセッションも示します。
+
+# (not in the old English either)
+seg-27af464d0674 = 確認結果：事前登録済み。両方のデータ源とも評価不能のため、何も主張しません
+
+# (not in the old English either)
+seg-003a3b9b63ea = 測定したクロックログと、当てはめた系列で駆動するホールドオーバー
+
+# (not in the old English either)
+seg-f51fa2a40db8 = 測定したクロックログを八つの形式（RINEX clock、TimeLab、TICC、linuxptp、chrony）で読み込み、クロックおよび通信タイミングの kind 向けに一つの位相系列にします。また、測定した系列のノイズを当てはめて、ホールドオーバーを駆動します。
+
+# (not in the old English either)
+seg-6e9140563c53 = 確認結果：合格基準は事前登録済み。未達は明記し、固定しています
+
+# (not in the old English either)
+seg-448b11c86f48 = データパートナー：測定データで昇格しうる行
+
+# (not in the old English either)
+seg-56b0201d930c = パートナーが提供する測定データによって昇格しうる、モデル計算の台帳の行はどれか。受け付ける形式、提出物をどう検査し、事前登録した合格基準に照らして採点し、評価に反映するか。
+
+# (not in the old English either)
+seg-5858e5d1f7c5 = 実行が書き出すすべての数値と表のエビデンスラベル
+
+# (not in the old English either)
+seg-d1c4250b2a7e = 実行が書き出す各結果ファイル、チャート、表は、どのティアに基づくか（検証済み、モデル計算、パートナー担当のうち、その行の中で最も弱いもの）を示し、その背後にある検証マトリクスの行を挙げるようになりました。これは手入力ではなく、マトリクスから読み取ったものです。
+
+# (not in the old English either)
+seg-bd28ef5c376e = 英語に加えて十七言語
+
+# (not in the old English either)
+seg-1e4a6a5931d3 = コマンドライン、レポート、ドキュメントのページ、Studioは、英語に加えて十七言語で利用できます。
+
+# (not in the old English either)
+seg-7fae5de5ebf1 = kshana-bench：{ "0.40" } の再キャンペーン
+
+# (not in the old English either)
+seg-1e0afa852323 = 事前登録した四つの比較を、承認後に一度だけ実行し、いずれも合格基準を満たしました。すべてのスコアはモデル計算によるものです。
+
+# IntelliJ · PyCharm · CLion
+seg-8844d0844559 = IntelliJ · PyCharm · CLion
+
+# The "Kshana — PNT simulator" plugin: right-click any scenario <c1/>, choose Run Kshana Scenario, and read the figures of merit in a tool window.
+seg-6b24b242333a = 「Kshana — PNT simulator」プラグイン：任意のシナリオ <c1/> を右クリックして Run Kshana Scenario を選ぶと、性能指標をツールウィンドウで確認できます。
+
+# Every surface on this page is the free open core, under the AGPL-3.0 or a commercial licence for closed integration. Need it integrated into your toolchain, or a study done for you? <a1>Custom study</a1>. Evidence packs and calibrated models: <a2>Kshana Pro</a2>.
+seg-3a199156b86e = このページのすべての機能は、無料のオープンコアで、AGPL-3.0、またはクローズドな統合向けの商用ライセンスの下で提供されます。ツールチェーンへの統合や、スタディの代行が必要ですか？<a1>カスタムスタディ</a1>。エビデンスパックと較正済みモデルは <a2>Kshana Pro</a2> で提供します。
+
+# (not in the old English either)
+seg-51cd8d5f527b = これらの形のいずれも結果に含まない kind（リンクバジェット、単一エポックの幾何、統計のみのモンテカルロ要約、あるいは、結果が記録のハッシュは公開するが記録そのものは公開しない通信タイミングのホールドオーバー）は、<c1/>で拒否され、何も書き出されません。kshana { $version } では、実行可能な { "193" } 件のシナリオファイル（スタディスイートを除くすべてのファイル）のうち { "94" } 件がアニメーション化でき、{ "99" } 件が拒否されます。<c2/>は集計を出力します。
+
+# The core compiles unchanged to native, to a Python extension, and to WebAssembly. The Python (<c1/>, PyO3 abi3) and WebAssembly (<c2/>, wasm-bindgen) modules are optional, feature-gated dependencies (<c3/> / <c4/>): the default build and the test suite never compile them, while the dependency-audit gate (<c5/>) does inspect their dependency trees, because those crates ship inside the wheel and the npm package. Both call <c6/>, so every surface returns identical results. The WebAssembly module backs the browser playground in <c7/> and exports thirteen functions: <c8/>, <c9/> (one engine run returning result, chart, summary and table together), <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, the <c16/> / <c17/> shareable-URL (URL: web address) codec, and the three exporters <c18/> / <c19/> / <c20/> that back the playground's export menu. Two further front doors reach the same <c21/>: the <b>MCP (Model Context Protocol) server</b> (<c22/>, a workspace-excluded <c23/> crate exposing fifteen tools — <c24/>, <c25/>, <c26/>, <c27/>, <c28/>, <c29/>, <c30/>, <c31/>, <c32/>, <c33/>, <c34/>, <c35/>, <c36/>, <c37/>, <c38/>; the two example tools read the bundled scenarios through the library's off-by-default <c39/> feature, which only this server turns on) and the <b>JetBrains IDE (integrated development environment) plugin</b> (<c40/>, a Kotlin project that shells out to the <c41/> CLI rather than linking the library).
+seg-57fb29fdd9d9 = コアは、変更なしでネイティブ、Python 拡張、WebAssembly にコンパイルされます。Python（<c1/>、PyO3 abi3）と WebAssembly（<c2/>、wasm-bindgen）のモジュールは、フィーチャーで切り替えるオプションの依存関係（<c3/> / <c4/>）です。デフォルトのビルドとテストスイートはこれらをコンパイルしませんが、依存関係の監査ゲート（<c5/>）は、これらのクレートがホイールと npm パッケージに同梱されるため、依存関係ツリーを検査します。どちらも <c6/> を呼び出すので、どの面からでも同一の結果が返ります。WebAssembly モジュールは <c7/> のブラウザープレイグラウンドを支え、十三個の関数を公開しています。<c8/>、<c9/>（結果、グラフ、要約、表をまとめて返す 一回のエンジン実行）、<c10/>、<c11/>、<c12/>、<c13/>、<c14/>、<c15/>、<c16/> / <c17/> の共有可能な URL（ウェブアドレス）コーデック、そしてプレイグラウンドのエクスポートメニューを支える 三つのエクスポーター <c18/> / <c19/> / <c20/> です。同じ <c21/> に到達する窓口がさらに二つあります。<b>MCP（Model Context Protocol）サーバー</b>（<c22/>。ワークスペースから除外された <c23/> クレートで、十五個のツール <c24/>、<c25/>、<c26/>、<c27/>、<c28/>、<c29/>、<c30/>、<c31/>、<c32/>、<c33/>、<c34/>、<c35/>、<c36/>、<c37/>、<c38/> を公開します。二つのサンプルツールは、ライブラリのデフォルトでオフの <c39/> フィーチャー経由で同梱シナリオを読み込み、このフィーチャーを有効にするのはこのサーバーだけです）と、<b>JetBrains IDE（統合開発環境）プラグイン</b>（<c40/>。Kotlin プロジェクトで、ライブラリにリンクせず <c41/> CLI をシェル経由で呼び出します）です。
+
+# (not in the old English either)
+seg-f289c471e860 = 2026-10-29 にエンジン { $version } 向けに更新（シナリオ kind は { "93" } 種類、出典は<c1/>。{ $version } での新規：<c2/>、<c3/>、<c4/>、<c5/>、<c6/>）。2026-10-22：エンジン { "0.39.0" }、kind は { "87" } 種類で、新しい kind はありません。2026-10-19：エンジン { "0.38.0" }、kind は { "87" } 種類（{ "0.38.0" } での新規：<c7/>、<c8/>、<c9/>）。2026-10-18：kind は { "84" } 種類（{ "0.37" } での新規：<c10/>）。2026-10-16：kind は { "83" } 種類（{ "0.36" } での新規：<c11/>、<c12/>、<c13/>、<c14/>、<c15/>、<c16/>、<c17/>、<c18/>）。2026-10-10：エンジン { "0.35.0" }、kind は { "75" } 種類で、新しい kind はありません。2026-10-09 と 2026-10-08：以前の改訂。2026-10-04：Nav-signal の行に { "0.31.0" } の IQ 層を追記。2026-09-29：LEO-PNT、スペクトラム、太陽系・任意天体の PNT、キャンペーン、出力の各行を追加。それ以前：2026-06-02 の全体監査による 27 行の機能マトリクスに合わせて整合。深宇宙・火星 PNT の行を { "v0.17.0" } で追加。量子 PNT の追加分（GNSS が使えない状況でのクロックのホールドオーバー<c19/>、量子慣性推測航法を組み合わせたバジェット<c20/>、測距符号の設計トレードオフ<c21/>、機械で検査される検証マトリクス<c22/>）は、Timing、量子 PNT センサー、Nav-signal、V&V の各行に取り込み、それぞれの実際のオラクルに応じて、検証済みかモデル計算かのラベルを付けています。
+
+# (not in the old English either)
+seg-877f989ae75e = <c1/>の { "61" } 枚の機能カードと、それに続く検証マトリクスの全 { "412" } 行。
+
+# <b>JetBrains IDE plugin</b> (<c1/>). Right-click a scenario <c2/> → <b>Run Kshana Scenario</b>; figures of merit and result JSON stream into a Kshana tool window. Pure-platform Kotlin plugin, compatible with every JetBrains IDE { "2024.3" }+.
+seg-bd792f66363c = <b>JetBrains IDE プラグイン</b>（<c1/>）。シナリオの <c2/> を右クリックして <b>Run Kshana Scenario</b> を選ぶと、性能指標と結果の JSON が Kshana ツールウィンドウにストリーミングされます。プラットフォームのみで構成した Kotlin プラグインで、{ "2024.3" } 以降のすべての JetBrains IDE と互換性があります。
+
+# (not in the old English either)
+seg-0d4a740afedf = [{ $version }] - 2026-10-29
+
+# <b>LTC / TCL — Lunar Coordinate Time (Temps-Coordonnée Lunaire).</b> The proposed time scale for the Moon.
+seg-ea7eb1f34cae = <b>LTC / TCL — 月座標時（Lunar Coordinate Time、Temps-Coordonnée Lunaire）。</b>月のために提案されている時刻系です。
+
+# <s1>JetBrains plugin</s1><s2>A native plugin that runs the Kshana PNT-resilience simulator from inside any JetBrains IDE (IntelliJ IDEA…</s2>
+seg-1c59d26e3faf = <s1>JetBrains プラグイン</s1><s2>JetBrains の任意の IDE（IntelliJ IDEA…）の中から Kshana PNT レジリエンスシミュレーターを実行するネイティブプラグインです</s2>
+
+# (not in the old English either)
+seg-abe17fad0734 = <s1>検証マトリクス</s1><s2>機械で検査される完全なエビデンス台帳：{ "412" } 行 — VALIDATED が { "176" }、MODELLED が { "232" }、PARTNER が { "4" }。</s2>
+
+# (not in the old English either)
+seg-7fd385494ae0 = <s1>機能リファレンス</s1><s2>機能カードと、検証マトリクスの全 { "412" } 行。</s2>
+
+# Source: <c1/>
+seg-f8a0fe9968c4 = ソース：<c1/>
+
+# <a1><b>Kshana — PNT simulator</b> on the JetBrains Marketplace</a1> — or, in any JetBrains IDE, <em>Settings → Plugins → Marketplace → search "Kshana"</em>.
+seg-d7280bb554bf = <a1>JetBrains Marketplaceの<b>Kshana — PNT simulator</b></a1>。または、任意のJetBrains IDEで<em>Settings → Plugins → Marketplace → 「Kshana」を検索</em>してください。
+
+# A native plugin that runs the <b>Kshana</b> PNT-resilience simulator from inside any JetBrains IDE (IntelliJ IDEA, CLion, RustRover, PyCharm, …). Right-click a scenario <c1/> → <b>Run Kshana Scenario</b>; the figures of merit and result JSON stream into the <b>Kshana</b> tool window.
+seg-959ab829762c = 任意のJetBrains IDE（IntelliJ IDEA、CLion、RustRover、PyCharmなど）の中から<b>Kshana</b>のPNTレジリエンスシミュレーターを実行するネイティブプラグインです。シナリオの<c1/>を右クリックして<b>Run Kshana Scenario</b>を選ぶと、性能指標と結果JSONが<b>Kshana</b>ツールウィンドウにストリーム表示されます。
+
+# Complements the <a1>MCP server</a1> (which gives JetBrains <em>AI Assistant</em> access to Kshana): this plugin is the <em>human</em>, point-and-click path.
+seg-594199d2ce06 = <a1>MCPサーバー</a1>（JetBrainsの<em>AI Assistant</em>がKshanaを利用できるようにするもの）を補完します。このプラグインは、<em>人間</em>がポイント＆クリックで使う経路です。
+
+# <b>Run Kshana Scenario</b> action on any <c1/> (editor + project-view context menus) — runs <c2/> and shows the output in the Kshana tool window.
+seg-a356f2c30afb = 任意の<c1/>に対する<b>Run Kshana Scenario</b>アクション（エディターとプロジェクトビューのコンテキストメニュー）。<c2/>を実行し、出力をKshanaツールウィンドウに表示します。
+
+# <b>Assess Receiver Trust</b> on a <c1/> scenario <c2/> (<c3/>): the trust timeline, with a 0-100 score and reasons for a vessel. Advisory software, not type-approved navigation equipment (IEC { "61108" }, IEC { "61162" }): the operator remains responsible for the navigation of the vessel.
+seg-116d04ae5538 = <c1/>シナリオ<c2/>に対する<b>Assess Receiver Trust</b>（<c3/>）：船舶向けの、0〜100のスコアと理由を伴う信頼性タイムライン。助言用ソフトウェアであり、型式承認を受けた航法装置（IEC { "61108" }、IEC { "61162" }）ではありません。船舶の航行の責任は引き続き運用者にあります。
+
+# <b>Generate Training NMEA</b> on a <c1/> <c2/> (<c3/>): synthetic bridge NMEA and an instructor log, written next to the scenario. Text only; for training, never for a vessel's live navigation systems.
+seg-726d88d0dea7 = <c1/> <c2/>に対する<b>Generate Training NMEA</b>（<c3/>）：合成の船橋用NMEAと教官ログを、シナリオの隣に書き出します。テキストのみで、訓練用です。船舶の実際の航法システムには決して使用しないでください。
+
+# <b>Build Interference Map</b> on an ADS-B or AIS <c1/> (project view; asks which approved dataset it is) and <b>Route Exposure</b> on a route file (asks for the folder of maps). A degraded cell does not identify interference as the cause; not a forecast.
+seg-99510426a384 = ADS-BまたはAISの<c1/>に対する<b>Build Interference Map</b>（プロジェクトビュー。承認済みのどのデータセットかを尋ねます）、およびルートファイルに対する<b>Route Exposure</b>（マップのフォルダーを尋ねます）。劣化したセルは、干渉が原因であることを示すものではありません。予報でもありません。
+
+# <b>Export Test-Bench Files</b> on a scenario <c1/> (<c2/>): vehicle motion, NMEA and labelled events for a laboratory GNSS simulator, written next to the scenario. It writes no signal; run a simulator only where authorised.
+seg-8c50e6aeb5e2 = シナリオ<c1/>に対する<b>Export Test-Bench Files</b>（<c2/>）：実験室用GNSSシミュレーター向けの、機体の運動、NMEA、ラベル付きイベントを、シナリオの隣に書き出します。信号は書き出しません。シミュレーターは許可された場所でのみ動作させてください。
+
+# <b>Build Compliance Report</b> on a run result <c1/> (<c2/>) and <b>Tools → Show Compliance Mapping</b> (<c3/>): the public-framework mapping, shown with the engine's own statement word for word.
+seg-79c553c303c5 = 実行結果<c1/>に対する<b>Build Compliance Report</b>（<c2/>）、および<b>Tools → Show Compliance Mapping</b>（<c3/>）：公開フレームワークとの対応表を、エンジン自身の記述のとおりに一字一句そのまま表示します。
+
+# <b>Verify Evidence Pack</b> on an evidence-pack folder (project view; <c1/>): asks for the signer's public key ({ "64" } hex digits or a <c2/> file; always pinned, the plugin never accepts an unpinned signer) and optionally the full session log. Only a verified result reads as verified; an intact pack with an unpinned signer reads "NOT VERIFIED".
+seg-9b6ce5bbb523 = エビデンスパックのフォルダーに対する<b>Verify Evidence Pack</b>（プロジェクトビュー。<c1/>）：署名者の公開鍵（{ "64" }桁の 十六進数、または<c2/>ファイル。常にピン留めされ、プラグインは署名者がピン留めされていないものを受け付けません）と、任意で完全なセッションログを尋ねます。検証に成功した結果だけがverifiedと表示されます。署名者がピン留めされていない無傷のパックは「NOT VERIFIED」と表示されます。
+
+# <b>Render Trust Telemetry</b> on a <c1/> result <c2/> (<c3/>): Prometheus text, CEF/LEEF syslog events or Home Assistant MQTT lines printed to the Kshana window. Nothing is sent or served; the running exporters stay on the command line.
+seg-253d5b7f94ce = <c1/>の結果<c2/>に対する<b>Render Trust Telemetry</b>（<c3/>）：Prometheusテキスト、CEF/LEEFのsyslogイベント、またはHome AssistantのMQTT行を、Kshanaウィンドウに出力します。何も送信せず、何も提供しません。稼働し続けるエクスポーターはコマンドラインで扱います。
+
+# <b>Fit Sensor Parameters from IMU Log</b> on a stationary IMU <c1/> (<c2/>): the accelerometer and gyro parameters of the <c3/> and <c4/> scenarios fitted by Allan deviation, printed to the Kshana window as an <c5/> table. Nothing is written; the fit is MODELLED.
+seg-ce12ebcdccb5 = 静止状態のIMUの<c1/>に対する<b>Fit Sensor Parameters from IMU Log</b>（<c2/>）：<c3/>および<c4/>シナリオの加速度計とジャイロのパラメーターをアラン偏差でフィットし、<c5/>テーブルとしてKshanaウィンドウに出力します。何も書き込みません。このフィットはMODELLEDです。
+
+# <b>Validate Scenario</b> (<c1/>), <b>List Scenario Kinds</b> (Tools menu; <c2/>) and <b>Assess Receiver Stream</b> (a vessel session <c3/> plus a stored NMEA log you choose; <c4/>, scored once with no socket and no gate).
+seg-b81f27c51c22 = <b>Validate Scenario</b>（<c1/>）、<b>List Scenario Kinds</b>（Toolsメニュー。<c2/>）、<b>Assess Receiver Stream</b>（船舶セッション<c3/>と、選択した保存済みNMEAログ。<c4/>。ソケットもゲートもなしで 一回スコアリング）。
+
+# <b>Insert Example Scenario</b> (project view folder or Tools menu; <c1/>): pick a bundled scenario and it is written as a new <c2/> (never over a file). <b>Export Scenario</b> on a <c3/> (SP3, OMM, OEM, CZML, KML, GeoJSON, STK, SigMF; simulated output only), <b>Animate Scenario</b> (HTML or SVG, opened in the browser) and <b>Import Route</b> on a route <c4/> (asks which scenario).
+seg-38037d36639c = <b>Insert Example Scenario</b>（プロジェクトビューのフォルダーまたはToolsメニュー。<c1/>）：同梱のシナリオを選ぶと、新しい<c2/>として書き出されます（既存のファイルを上書きすることはありません）。<c3/>に対する<b>Export Scenario</b>（SP3、OMM、OEM、CZML、KML、GeoJSON、STK、SigMF。シミュレーションによる出力のみ）、<b>Animate Scenario</b>（HTMLまたはSVG。ブラウザーで開きます）、およびルートの<c4/>に対する<b>Import Route</b>（どのシナリオかを尋ねます）。
+
+# <b>Create Evidence Pack</b> on a receiver-trust session <c1/> (<c2/>): asks the window, a signing key file you already have, and the output folder. The plugin never makes, reads or stores a key (<c3/> stays on the command line). <b>Attach Timestamp</b> on a pack folder (<c4/>): Kshana does not check the timestamp authority's signature; run <c5/> yourself.
+seg-1f1b18f8e102 = receiver-trustセッション<c1/>に対する<b>Create Evidence Pack</b>（<c2/>）：ウィンドウ、すでにお持ちの署名鍵ファイル、出力フォルダーを尋ねます。プラグインは鍵の作成、読み取り、保存を一切行いません（<c3/>はコマンドラインのままです）。パックフォルダーに対する<b>Attach Timestamp</b>（<c4/>）：Kshanaはタイムスタンプ局の署名を確認しません。<c5/>はご自身で実行してください。
+
+# Still on the command line only: the IQ commands, <c1/> and <c2/>.
+seg-f4f6605d3db9 = 引き続きコマンドラインのみ：IQコマンド、<c1/>、<c2/>。
+
+# A bottom <b>Kshana</b> tool window hosting the run console.
+seg-63efd04104f1 = 実行コンソールを収容する、下部の<b>Kshana</b>ツールウィンドウ。
+
+# Not in the plugin: <c1/> (a long-running stream process with a gate and an optional TCP listener) and <c2/> stay on the command line, because an IDE action runs a command to completion and shows its output; see <c3/>.
+seg-decda07aa7eb = プラグインにないもの：<c1/>（ゲートと任意のTCPリスナーを備えた、長時間動作するストリームプロセス）と<c2/>は、IDEのアクションがコマンドを最後まで実行して出力を表示するものであるため、コマンドラインのままです。<c3/>を参照してください。
+
+# <b>Settings → Tools → Kshana</b> to point at the <c1/> binary (blank → resolved from <c2/>; install with <c3/>).
+seg-9c185454d0c0 = <b>Settings → Tools → Kshana</b>で<c1/>バイナリを指定します（空欄の場合は<c2/>から解決。インストールは<c3/>）。
+
+# The plugin is pure-platform (no language-specific dependencies), so it loads in every JetBrains IDE on build { "243" } ({ "2024.3" }) and newer.
+seg-44dfdd65bd0a = このプラグインはプラットフォームのみで構成され（言語固有の依存関係なし）、ビルド{ "243" }（{ "2024.3" }）以降のすべてのJetBrains IDEで読み込まれます。
+
+# Build & run
+seg-453bd42c23fa = ビルドと実行
+
+# Requires JDK { "17" }+ (the build pins JDK { "21" }) and the bundled Gradle wrapper.
+seg-b5328f8c7a8a = JDK { "17" }以上（ビルドはJDK { "21" }に固定）と、同梱のGradleラッパーが必要です。
+
+# <c1/> checks the since-build, { "2024.3" }, by default. To check other lines, list them as <c2/> (each IDE is a download of about { "1" } GB):
+seg-758124ceb1c7 = <c1/>は、既定ではsince-buildの{ "2024.3" }を検査します。他のラインを検査するには<c2/>として列挙します（各IDEは約{ "1" } GBのダウンロードです）：
+
+# The plugin uses no deprecated or scheduled-for-removal platform API on any of those; keep it that way (a choice dialog goes through <c1/>, not <c2/>).
+seg-15d175aaeb59 = このプラグインは、それらのいずれにおいても、非推奨または削除予定のプラットフォームAPIを使用していません。この状態を維持してください（選択ダイアログは<c2/>ではなく<c1/>を通します）。
+
+# Install the built zip via <b>Settings → Plugins → ⚙ → Install Plugin from Disk…</b>.
+seg-39cfd740d9b3 = ビルドしたzipは<b>Settings → Plugins → ⚙ → Install Plugin from Disk…</b>からインストールします。
+
+# Layout
+seg-87aff08f344c = 構成
+
+# Isolation
+seg-73b3f55b7208 = 分離
+
+# Like <c1/> and <c2/>, this is a standalone Gradle project, excluded from the published <c3/> crate (<c4/> in the package <c5/>); its build output is gitignored.
+seg-a14db8de576a = <c1/>や<c2/>と同様に、これは独立したGradleプロジェクトであり、公開される<c3/>クレートからは除外されています（パッケージの<c5/>内の<c4/>）。ビルド出力はgitignoreの対象です。
+
+# License: AGPL-3.0-only (or a commercial licence from Ashforde OÜ — see the repository's <c1/>).
+seg-b38914a430b9 = ライセンス：AGPL-3.0-only（またはAshforde OÜ の商用ライセンス。リポジトリの<c1/>を参照）。
+
+# One run of <c1/> summarises as: lunar-interop-export | REF_FRAME MOON_ME / TIME_SYSTEM LTC | { "9" } states, OEM { "23" } lines | conformance PASS ({ "9" } present / { "0" } missing) | OEM round-trip ok | time-meta round-trip ok | KIF { "1640" } bytes | MODELLED
+seg-1726861e444f = <c1/> の 一回の実行の要約：lunar-interop-export | REF_FRAME MOON_ME / TIME_SYSTEM LTC | 状態 { "9" } 個、OEM { "23" } 行 | 適合性 PASS（存在 { "9" } / 欠落 { "0" }）| OEM の往復 ok | 時刻メタの往復 ok | KIF { "1640" } バイト | MODELLED
+
+# Optional fields: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>
+seg-f8353e15aabd = 任意フィールド：<c1/>、<c2/>、<c3/>、<c4/>、<c5/>、<c6/>
+
+# LTC
+seg-3f36bd2ec5ea = LTC
+
+# WHAT src/lunar_interop.rs does: * export_lunar_oem — REUSES the crate's CCSDS OEM { "2.0" } emitter (crate::oem), re-tagged for the lunar context: REF_FRAME = the IAU { "2015" } WGCCRE lunar body frame (MOON_ME / MOON_PA), TIME_SYSTEM = the lunar time scale (LTC / TCL / UTC), CENTER_NAME = MOON, over a sample ILLUSTRATIVE LCNS-class ephemeris (positions from crate::lunar_service, velocity by central finite difference). * export_ (scenario file comment, lines { "6" } to { "19" })
+seg-11d0ccba5ee7 = src/lunar_interop.rs の処理内容：* export_lunar_oem — このクレートの CCSDS OEM { "2.0" } エミッター（crate::oem）を月面の文脈向けに付け替えて再利用します。REF_FRAME = IAU { "2015" } WGCCRE の月の天体座標系（MOON_ME / MOON_PA）、TIME_SYSTEM = 月の時刻系（LTC / TCL / UTC）、CENTER_NAME = MOON、ILLUSTRATIVEな LCNS クラスのエフェメリスのサンプル（位置は crate::lunar_service から、速度は中心有限差分による）に適用します。* export_（シナリオファイルのコメント、{ "6" } 行目から { "19" } 行目）
+
+# HONESTY: MODELLED. The field NAMES and units are aligned with PUBLIC standards (CCSDS 502.0-B OEM, IAU WGCCRE { "2015" } lunar frames, LunaNet Interoperability Specification / IOAG lunar architecture). The deterministic round-trip and the field-name conformance are the oracle. This is NOT a certified interoperability conformance test. The ephemeris is illustrative, public-source, NOT affiliated with ESA, and implies no TRL (scenario file comment, lines { "21" } to { "26" })
+seg-f730e8f789cf = 誠実な注記：MODELLED。フィールド名と単位は、PUBLICの標準（CCSDS 502.0-B OEM、IAU WGCCRE { "2015" } の月の座標系、LunaNet 相互運用性仕様 / IOAG の月面アーキテクチャ）に整合しています。決定論的な往復とフィールド名の適合性がオラクルです。これは認証済みの相互運用性適合試験ではありません。エフェメリスは例示的で公開情報に基づくものであり、ESA とは無関係で、TRL を示唆するものでもありません（シナリオファイルのコメント、{ "21" } 行目から { "26" } 行目）
+
+# Required fields: none. Optional: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>.
+seg-720d0bbeaf6e = 必須フィールド：なし。任意：<c1/>、<c2/>、<c3/>、<c4/>、<c5/>、<c6/>。
+
+# Where: <c1/> (Settings, Developer, Edit Config). Or double-click the <c2/> extension from the release: no config file.
+seg-439fac4928a0 = 場所：<c1/>（設定、開発者、設定を編集）。または、リリースの<c2/>拡張機能をダブルクリックします。設定ファイルは不要です。
+
+# (not in the old English either)
+seg-4ccbbc19fe86 = <b>npx (Node)</b>（Node { "18" }+ が必要）：<c1/>
+
+# (not in the old English either)
+seg-77230eb344ea = <b>Docker</b>（Docker が必要）：<c1/>
+
+# (not in the old English either)
+seg-3398eea8e332 = Cursor、npx (Node)：<a1>Web リンク</a1> · <c1/>
+
+# (not in the old English either)
+seg-67009baafb3b = Cursor、Docker：<a1>Web リンク</a1> · <c1/>
+
+# (not in the old English either)
+seg-6918cd89f776 = Goose、npx：<c1/>
+
+# Assess a real GNSS (global navigation satellite system) receiver log for trust. The TOML names the log's <c1/> (<c2/>, <c3/>, <c4/>, <c5/> or <c6/>) and gives its bytes inline as <c7/> or <c8/>; the tool runs the trust monitors (carrier-to-noise density drop, loss of lock, AGC (automatic gain control), jamming indicator, position jump and, with RINEX plus broadcast navigation, RAIM (receiver autonomous integrity monitoring) and a clock-aided monitor) and returns when and why the fix stopped being trustworthy. Optional <c9/> and <c10/> sections score stated events and predicted C/N0 drops against stated tolerances. A <c11/> table selects the maritime monitors and adds a 0-100 trust score per epoch with the monitors that deducted (advisory; MODELLED). The log goes inline as <c12/> or <c13/> (at most { "4" } MiB). Chart and per-epoch CSV on request. See <a1><c14/></a1>.
+seg-d6ed4e8d56e5 = 実際の GNSS（全球測位衛星システム）受信機のログの信頼性を評価します。TOML でログの<c1/>（<c2/>、<c3/>、<c4/>、<c5/>、<c6/>のいずれか）を指定し、そのバイト列を<c7/>または<c8/>としてインラインで渡します。ツールは信頼性モニター（搬送波電力対雑音密度の低下、ロックロス、AGC（自動利得制御）、ジャミング指標、位置のジャンプ、そして RINEX と放送航法データがあれば RAIM（受信機自律型インテグリティ監視）とクロック支援モニター）を実行し、測位解がいつ、なぜ信頼できなくなったかを返します。任意の<c9/>および<c10/>セクションは、明示されたイベントと予測された C/N0 の低下を、明示された許容差に照らして採点します。<c11/>テーブルは海事向けのモニターを選択し、エポックごとに 0-100 の信頼スコアと、減点したモニターを加えます（助言。MODELLED）。ログは<c12/>または<c13/>としてインラインで渡します（最大 { "4" } MiB）。グラフとエポックごとの CSV は要求に応じて返します。<a1><c14/></a1>を参照してください。
+
+# <c1/> puts <c2/> on your <c3/> (typically <c4/>). The server talks JSON-RPC (JSON remote procedure call) over stdio; logs go to stderr. Building from source needs a Rust toolchain ≥ { "1.88" } (the patched <c5/> { "2" }.x SDK needs it, and so does the <c6/> library); the Docker image needs none.
+seg-a4a0e399a31e = <c1/>は、<c2/>を<c3/>に置きます（通常は<c4/>）。サーバーは、stdio 上で JSON-RPC（JSON remote procedure call）で通信し、ログは stderr に出力されます。ソースからのビルドには、Rust ツールチェーン ≥ { "1.88" } が必要です（パッチ適用済みの<c5/> { "2" }.x SDK が必要とし、<c6/>ライブラリも必要とするため）。Docker イメージでは不要です。
+
+# The server is a <b>standalone, workspace-excluded crate</b> with its own <c1/>, so the official Rust MCP SDK (software development kit) <c2/> and its async runtime never enter the published <c3/> crate's dependency graph: a library or Python user does not compile a server they do not run. (It was first split out because <c4/> is <b>edition { "2024" }</b>, needing rustc ≥ { "1.85" }, while the main crate then promised { "1.75" }. The library and this server now both declare { "1.88" }, the floor of the security-patched <c5/> { "2" }.x and of the upgraded RustCrypto crates.) Continuous integration (CI) gates this crate on its own — tests and <c6/> against its lockfile. rmcp's licence tree is clean (Apache-2.0/MIT/BSD), so, unlike the <c7/> cross-validation crate it otherwise mirrors, the split is not about licensing.
+seg-0757e15070d4 = サーバーは、<b>独立した、ワークスペースから除外されたクレート</b>で、独自の<c1/>を持ちます。そのため、公式の Rust MCP SDK（ソフトウェア開発キット）<c2/>とその非同期ランタイムが、公開されている<c3/>クレートの依存グラフに入ることはありません。ライブラリや Python のユーザーは、実行しないサーバーをコンパイルする必要がありません。（最初に分離したのは、<c4/>が<b>エディション { "2024" }</b>であり、rustc ≥ { "1.85" } を必要とする一方、当時のメインクレートは { "1.75" } を約束していたためです。現在はライブラリもこのサーバーも { "1.88" } を宣言しており、これはセキュリティパッチ適用済みの<c5/> { "2" }.x と、アップグレードされた RustCrypto クレートの下限です。）継続的インテグレーション（CI）は、このクレートを単独で検査します。そのロックファイルに対するテストと<c6/>です。rmcp のライセンスツリーはクリーン（Apache-2.0/MIT/BSD）なので、ほかの点では同じ形をとる<c7/>クロスバリデーションのクレートとは異なり、この分離はライセンスのためではありません。
+
+# (not in the old English either)
+seg-474381d842e6 = { "232" } 件の機能に MODELLED のラベルを付けています。
+
+# (not in the old English either)
+seg-fd6daa52df11 = { "412" } 件の機能のうち { "176" } 件が、独立した外部のオラクルに対して確認済み
+
+# (not in the old English either)
+seg-4a3ebec6d011 = <b>{ "412" } 件の機能のうち { "176" } 件</b>が、独立した外部のオラクルに対して確認済みです。{ "232" } 件には正直にモデル計算のラベルを付け、{ "4" } 件はパートナーの所管です。各機能は、機械でチェックされる台帳の中で一つのラベルを持ちます。VALIDATED（独立した外部のオラクルが一致している：実データ、独立した実装、または公表された参照ベクトル）、MODELLED（内部で整合しており、その旨を明示している）、PARTNER（ハードウェアパートナーが所管）です。チェックの例：AIAA（American Institute of Aeronautics and Astronautics、米国航空宇宙学会）2006-6753 の { "666" } 個すべての SGP4（Simplified General Perturbations { "4" }）ベクトルに対して { "4.12" } mm まで、Cowell 力モデルは Orekit { "12.2" } に対して { "0.08" } m まで。
+
+# (not in the old English either)
+seg-d69651a71fbe = 機能がラベルを得る流れ：機能、オラクル、テスト、台帳のラベル。{ "412" } 件すべての機能にわたる検証状況：確認済み { "176" } 件、モデル計算 { "232" } 件、パートナー所管 { "4" } 件
+
+# Conformance is checked by <c1/>, which is opt-in: it reads a copy of the official test-vector archive that you download yourself, from the directory named by <c2/>, and does nothing when the variable is unset. It stores and redistributes nothing, and default test runs use no network. It gives the verifier only a Merkle root and the public keys of one tree, as a receiver would have, so chains are established from the signed DSM-KROOT in the stream and the whole path runs: Merkle, signature, key chain, MACSEQ and tags. It asserts, per vector set, a floor on the authenticated tags, none failed, which chains and keys the stream announces, authenticated tags of ADKD { "0" }, { "4" } and { "12" }, that authentication resumes after chain end, chain revocation, key revocation and new public key, that the alert message verifies and leaves nothing authenticated, and that every vector uses only HMAC-SHA-256, a SHA-256 chain, 128-bit keys, 40-bit tags and look-up entries { "33" } and { "34" }. Other algorithm and parameter choices of the ICD are therefore covered only by the known-answer and synthetic tests above.
+seg-82ee90adf7ed = 適合の検査は <c1/> が行います。これはオプトインで、自分でダウンロードした公式テストベクターアーカイブのコピーを <c2/> が指すディレクトリから読み取り、変数が未設定の場合は何もしません。何も保存も再配布もせず、既定のテスト実行ではネットワークを使いません。受信機と同じように、ベリファイアには一つのツリーの Merkle ルートと公開鍵だけを与えるため、チェーンはストリーム内の署名付き DSM-KROOT から確立され、Merkle、署名、鍵チェーン、MACSEQ、タグという経路全体が実行されます。ベクターセットごとに、認証されたタグの下限、失敗がないこと、ストリームが通知するチェーンと鍵、ADKD { "0" }、{ "4" }、{ "12" } の認証されたタグ、チェーンの終了、チェーンの失効、鍵の失効、新しい公開鍵の後に認証が再開すること、アラートメッセージが検証され何も認証済みのまま残さないこと、そしてすべてのベクターが HMAC-SHA-256、SHA-256 チェーン、128 ビット鍵、40 ビットタグ、ルックアップエントリ { "33" } と { "34" } だけを使うことを表明します。したがって、ICD のその他のアルゴリズムとパラメーターの選択は、上記の既知解テストと合成テストでのみカバーされます。
+
+# Two standalone, <b>workspace-excluded</b> crates sit beside the core — <c1/> (the MCP server, built on the edition-2024 <c2/> SDK) and <c3/> (the ANISE/SPICE frame cross-check, which pulls MPL-2.0 (Mozilla Public License { "2.0" }) deps) — kept out of the published crate's dependency graph, <c4/>, license gate, and MSRV (minimum supported Rust version) build by the root <c5/> <c6/> list. The JetBrains plugin (<c7/>) is a separate Kotlin project. See <a1><c8/></a1> for the full set of diagrams.
+seg-698b8f40212f = コアの横には、<b>ワークスペースから除外された</b>独立した二つのクレートがあります — <c1/>（MCP サーバー。edition-2024 の <c2/> SDK 上に構築）と <c3/>（ANISE/SPICE の座標系クロスチェック。MPL-2.0（Mozilla Public License { "2.0" }）の依存関係を引き込みます）— これらは、ルートの <c5/> の <c6/> リストによって、公開クレートの依存グラフ、<c4/>、ライセンスゲート、MSRV（サポートされる最小の Rust バージョン）のビルドの外に置かれています。JetBrains プラグイン（<c7/>）は別の Kotlin プロジェクトです。図の全体は <a1><c8/></a1> を参照してください。
+
+# <b>No new physics.</b> Pro adds no physical model and changes none. Every Pro number comes from runs of the open engine, so a Pro figure is as trustworthy as the open scenario kind it came from, and never more.
+seg-feece95f1d76 = <b>新しい物理はありません。</b>Pro は物理モデルを追加せず、変更もしません。Pro のすべての数値はオープンなエンジンの実行から得られるため、Pro の数値の信頼性は、その元になったオープンなシナリオ kind と同じであり、それを超えることはありません。
+
+# (not in the old English either)
+seg-20beca58d39e = <a1>Cursor に追加（npx）</a1> · <a2>Cursor に追加（Docker）</a2> · <c1/>
+
+# (not in the old English either)
+seg-aa6b62f0b484 = <a1>VS Code にインストール（npx）</a1> · <a2>VS Code にインストール（Docker）</a2> · <c1/>
+
+# (not in the old English either)
+seg-8e176aa32cd3 = MCP は Model Context Protocol です。リリースの固定には <c1/>、<c2/>、<c3/> を使います。ソースからビルドするには、Reference の <a1>Install and build</a1> を参照してください。
+
+# (not in the old English either)
+seg-467bb88ec415 = <a1>{ "0.40" } の新機能</a1>、<a2>{ "0.39" } の新機能</a2>、<a3>{ "0.38" } の新機能</a3>、そして <a4>{ "0.38" } の詳細</a4>：Jammertest のスコアリング、受信機自身のフラグ、機械入力、タイミングとホールドオーバー、標準パック、LunaNet AFS、ラボの往復、kshana-bench、オブザバトリー、エクスポーター、光学、<a5>宇宙ユーザーの航法</a5>、<a6>月のインフラ</a6>
+
+# (not in the old English either)
+seg-8391e467adf7 = <b>ミッションスレッド。</b><c1/> の種別は、打ち上げから再突入までのフェーズ（<c2/>、<c3/>、<c4/>、<c5/>、そして四つの月の種別）を、明示した引き継ぎ規則、明示した要求に対する余裕、最弱の連結とともに連鎖させます。{ "11" } フェーズ（地球のセグメントと月のセグメント）にわたる、エンドツーエンドのアルテミス級の例があり、シナリオ種別は全部で { "93" } 種類です。すべての数値は MODELLED です。公開されているアルテミス I の軌道に対する地球・月間空間（シスルナー）の伝播は、事前登録した合格基準に<b>届きません</b>（{ "45.3" } km と { "0.25" } m/s に対して基準は { "5" } km と { "0.05" } m/s。原因は、モデルに含まれていない小さな軌道変更です）。CAPSTONE の軌道に対する月の伝播器も<b>届きません</b>（一周の終わりで { "136.8" } km に対して基準は { "25" } km）。LRO との比較は満たされています。行は MODELLED のままです（<a1>ミッションスレッド</a1>、<a2>月のセグメント</a2>）。Studio では、このスレッドは <c6/> で読めます。
+
+# See <c1/> for at least one worked example of every kind ({ "93" } kinds, { "195" } scenario <c2/> files + { "1" } suite manifest — several kinds ship more than one example). Not every kind has a file named after it: <c3/> → <c4/> and <c5/> → <c6/> are two of several such. List the dispatchable kinds at any time with <c7/> errors, the Python <c8/>, or the MCP <c9/> tool.
+seg-5374f780c396 = すべての kind について、少なくとも一つの実例を <c1/> に用意しています（{ "93" } 種類の kind、{ "195" } 個のシナリオ <c2/> ファイル + { "1" } 個のスイートマニフェスト。いくつかの kind は複数の例を同梱しています）。すべての kind に、その名前のファイルがあるわけではありません。<c3/> → <c4/> と <c5/> → <c6/> は、そうした例のうちの二つです。ディスパッチ可能な kind は、いつでも <c7/> のエラー、Python の <c8/>、または MCP の <c9/> ツールで一覧できます。
+
+# (not in the old English either)
+seg-0933cb091687 = 検証マトリクスによる、{ "412" } 件の機能のうち { "176" } 件が、独立した外部のオラクルに対して VALIDATED
+
+# (not in the old English either)
+seg-d9cccff82185 = { "0.40" } では、ミッションレベルの誤差バジェットを追加し、すべての図と表にエビデンスの区分を付け、測定されたクロックログを読み込み、データパートナーの提出物をチェックし、干渉の発信源がありうる場所を推定し、英語に加えて十七の言語で表示します。台帳は { "412" } 行になりました：{ "176" } 行が VALIDATED、{ "232" } 行が MODELLED、{ "4" } 行が PARTNER です。VALIDATED に昇格した行はなく、以下の未達はすべてテストで固定されています。
+
+# (not in the old English either)
+seg-93dcede29907 = <b>{ "412" } 件中 { "176" } 件</b>の機能を、独立した外部のオラクルと照合して確認済み。{ "232" } 件は、率直にモデル計算と表示しています。検証マトリクスの各行は、機能、それを照合するオラクル、その照合を実行するテスト、そしてそれに付くラベルを示します。継続的インテグレーション（CI）により、独立した外部のオラクルなしに機能を VALIDATED と呼ぶことはできません。
+
+# (not in the old English either)
+seg-99d2c21b1f60 = 機能がラベルを得る仕組み。検証マトリクスの各行は、機能、それを照合するオラクル、継続的インテグレーションでその照合を実行するテスト、そしてそれに付くラベルを示します。行が VALIDATED になれるのは、独立した外部のオラクルがある場合に限られます。そうでなければ MODELLED となり、ハードウェアパートナーが所管する場合は PARTNER となります。例：SGP4/SDP4、Cowell 6-DOF + 摂動、バッチ/逐次 OD、オラクルは AIAA 2006-6753 の SGP4 検証ベクトル、テストは tests/sgp4_verification.rs、ラベルは VALIDATED。現在の件数：{ "412" } 行のうち VALIDATED が { "176" }、MODELLED が { "232" }、PARTNER が { "4" }。合計で、{ "176" } 件の機能が独立した外部のオラクルと照合して確認済みで、さらに { "232" } 件は率直に MODELLED と表示され、{ "4" } 件は PARTNER の所管です。
+
+# (not in the old English either)
+seg-7f933400c73d = 検査の一部：AIAA（American Institute of Aeronautics and Astronautics）2006-6753 の SGP4（Simplified General Perturbations { "4" }）ベクトルの全 { "666" } 個を { "4.12" } mm で、Cowell 力モデルを Orekit { "12.2" } に対して { "0.08" } m で、Galileo を { "0.61" } m、Swarm-A を { "0.10" } m で、欧州宇宙機関（ESA）の実際の精密エフェメリスに対して照合しました。テストは <c1/> のラインカバレッジ約 { "95" } % を保持し、CI では { "85" } % を下限としています。台帳は <a1><c2/></a1> で、<c3/> から生成されています。<a2>412 行すべてのマトリクス</a2>と、モデル計算の各行に外部オラクルがない理由は <a3><c4/></a3> にあります。
+
+# (not in the old English either)
+seg-df9b60a7dfe8 = すべての行は、CI の名前付きテストによって強制されます。この表は<b>厳選したハイライト</b>であり、機械検査される完全なマトリクスは <b>{ "412" } 行 — { "176" } が VALIDATED、{ "232" } が MODELLED、{ "4" } が PARTNER</b> です（<c1/>）。完全なエビデンス（そして、まだ確認されて<em>いない</em>ことを率直に記したもの）は <a1><c2/></a1> に、リリースごとの <a2><c3/></a2> 成果物（<c4/> で生成され、SLSA — Supply-chain Levels for Software Artifacts — の証明付き）にあります。
+
+# (not in the old English either)
+seg-d1700188b2cf = 機能がラベルを得る仕組み：要件は src のモジュールに、tests のテストに、外部オラクル（実データセット、独立した参照実装、または公表されたベクトル）に、そしてステータスに対応付けられます。外部オラクルなしにいかなる機能も確認済みにできないことを、CI が強制する防止策が保証します。現在の件数：確認済みが { "176" }、モデル計算が { "232" }、パートナー担当が { "4" }、合計 { "412" }
+
+# (not in the old English either)
+seg-903f40bceba8 = 全 { "412" } 件の機能にわたる検証ステータス：確認済み（外部オラクルと照合して確認）が { "176" }、モデル計算が { "232" }、パートナーの所管が { "4" }
+
+# (not in the old English either)
+seg-9bfd6ba56a18 = 確認済み { "176" } · モデル計算 { "232" } · パートナー担当 { "4" } — <a1>SVG</a1>
+
+# (not in the old English either)
+seg-74c21b004d86 = Kshana のアーキテクチャ：中心に一つのオープンなエンジンがあります。AGPL-3.0 の下の kshana { $version } で、api::run_toml、すべての kind に対する型付きディスパッチ、そして { "412" } 件の機能の検証台帳（{ "176" } が VALIDATED、{ "232" } が MODELLED、{ "4" } が PARTNER）を備えます。その周囲では、すべてのサーフェスが同じエンジンを実行します：コマンドライン（cargo install kshana）、Rust ライブラリ（cargo add kshana）、Python（pip install kshana）、WebAssembly + Kshana Studio（npm install kshana）、MCP サーバー（cargo install kshana-mcp）、Docker イメージ（ghcr.io/ashfordeou/kshana-mcp）、JetBrains プラグイン（Marketplace："Kshana"）。その下に Kshana Pro があります。これはオープンなエンジンをライブラリとして利用し、フォークすることはなく、物理モデルを一切追加しない独自のオーバーレイです。
+
+# (not in the old English either)
+seg-e6c6926110e6 = レイヤーで見た Kshana のアーキテクチャ。五つの入口（コマンドライン、Python、JavaScript と WebAssembly、MCP サーバー、JetBrains プラグイン）が、{ "93" } 種類の kind に対する型付きディスパッチである一つの api::run_toml に到達します。その下に八つのドメイン層（時刻と座標系、クロックとタイミング、慣性と融合、GNSS とインテグリティ、天体力学、LEO PNT、月・火星・深宇宙、ミッションとスタディ）が共有コアの上に置かれ、すべてが検証モジュール、つまりすべてのラベルの唯一の情報源である { "412" } 件の機能の機械検査されたマトリクスから相互参照されます。
+
+# Earth-fixed (ECEF) position + clock time series. Round-trip validated to < { "0.5" } m on a real <c1/> snapshot (<a1><c2/></a1>).
+seg-8d1089fbd59d = 地球固定（ECEF）の位置と時計の時系列。実際の <c1/> スナップショットで、ラウンドトリップが { "0.5" } m 未満で確認されています（<a1><c2/></a1>）。
+
+# <c1/> / <c2/> / <c3/> — the frame the propagators integrate in and the time scale of the epoch grid, not relabelled
+seg-4b338284e56a = <c1/> / <c2/> / <c3/>。伝播器が積分する座標系と、エポックグリッドの時間系であり、付け替えはしていません
+
+# ISO-8601 (ISO: International Organization for Standardization) calendar time, GPS time scale
+seg-410bd5a9ba14 = ISO-8601（ISO：国際標準化機構）の暦時刻、GPS 時間系
+
+# (not in the old English either)
+seg-db7a6ac0a47d = 機械検査される完全なエビデンスの台帳：<b>{ "412" } 行——{ "176" } 行が VALIDATED、{ "232" } 行が MODELLED、{ "4" } 行が PARTNER</b>。行が VALIDATED となれるのは、独立した外部オラクルがある場合だけです（マトリクスの不変条件のテストがこれを強制します）。同じデータは、各テスト、モジュール、コミット済みフィクスチャへの行ごとのクリック可能なリンク付きで、<a1>https://kshana.dev</a1> の<em>検証台帳</em>にあります。モデル計算の各行が外部で検証されていない理由は、<a2>MODELLED-RATIONALE.md</a2> を参照してください。
+
+# (not in the old English either)
+seg-1cc523709234 = { "412" } 行：外部で確認済みが { "176" }、モデル計算が { "232" }、パートナー担当が { "4" }。
+
+# Kshana Pro, amplified
+seg-2fdbe97136e7 = 増強された Kshana Pro
+
+# A proprietary overlay that depends on the open core and never forks it: a strict superset of open Kshana. Available under contract.
+seg-4b5028704ea5 = オープンコアに依存し、決してフォークしない独自のオーバーレイであり、オープンな Kshana の厳密な上位集合です。契約に基づいて提供します。
+
+# Programmes that must hand a mission dossier or an audit-grade evidence pack to a review or procurement board
+seg-1ea79eedb7a1 = ミッション資料または監査水準のエビデンスパックを、レビューまたは調達の委員会に提出しなければならないプログラム
+
+# Architects choosing a design from the Pareto front of a whole design space, or from trade studies ranked on a figure of merit
+seg-2217d28fd201 = 設計空間全体のパレートフロントから、または性能指標で順位付けしたトレードスタディから設計を選ぶアーキテクト
+
+# Timing and hardware teams who need a clock digital twin calibrated to their device
+seg-ee1b858bcc3f = 自社のデバイスに合わせて較正したクロックのデジタルツインを必要とするタイミングおよびハードウェアのチーム
+
+# <a1>A design optimiser</a1>: the Pareto front of a design space, with every front design as a scenario the free engine re-runs
+seg-4b436214a890 = <a1>設計オプティマイザー</a1>：設計空間のパレートフロント。フロント上の各設計は、無償のエンジンが再実行できるシナリオとして提供されます
+
+# <a1>Uncertainty and sensitivity</a1> over thousands of runs
+seg-d8d838542aa7 = 数千回の実行にわたる<a1>不確かさと感度</a1>
+
+# <a1>A one-command mission dossier</a1> with a verification matrix and a PDF (Portable Document Format) file
+seg-161db00fa35f = 検証マトリクスと PDF（Portable Document Format）ファイルを含む、<a1>ワンコマンドのミッション資料</a1>
+
+# Audit-grade, reproducible evidence packs, clock digital twins calibrated to a device's published Allan budget, and architecture trade studies ranked on a figure of merit
+seg-e142b435c273 = 監査水準で再現可能なエビデンスパック、デバイスの公表されたアラン誤差配分に合わせて較正したクロックのデジタルツイン、そして性能指標で順位付けしたアーキテクチャのトレードスタディ
+
+# Model-based systems-engineering (MBSE) and programme tooling that checks a programme's requirements against runs of the open engine, reading only the outputs the engine publishes
+seg-91da86f32a66 = モデルベースシステムズエンジニアリング（MBSE）およびプログラムのツール。プログラムの要求を、オープンなエンジンの実行に照らして確認し、エンジンが公開する出力だけを読み取ります
+
+# Kshana Pro is available under contract. It depends on the open core and never forks it, so nothing is taken out of the free engine.
+seg-65b886427270 = Kshana Pro は契約に基づいて提供します。オープンコアに依存し、決してフォークしないため、無償のエンジンから何かが取り除かれることはありません。
+
+# See it amplified
+seg-98f81c393a13 = 増強された姿を見る
+
+# Kshana Pro · the same engine, amplified
+seg-ef60d3a217a7 = Kshana Pro · 同じエンジンを増強
+
+# Free runs one scenario. Pro answers the programme's question.
+seg-0ca6598b5442 = 無償版は一つのシナリオを実行します。Pro はプログラムの問いに答えます。
+
+# Open Kshana runs one scenario and tells you what it gives. Kshana Pro answers the questions a programme asks next, over the same engine and the same scenario files: which design to fly, how sure the answer is, and whether the mission meets its requirements in a form a review board can check.
+seg-8a239e03a91c = オープンな Kshana は一つのシナリオを実行し、その結果が何を示すかを伝えます。Kshana Pro は、同じエンジンと同じシナリオファイルの上で、プログラムが次に問う質問に答えます。どの設計を飛ばすか、その答えはどれだけ確かか、そしてミッションが要求を満たすかを、レビュー委員会が確認できる形で示します。
+
+# A strict superset of open Kshana.
+seg-cdb7f8c917e7 = オープンな Kshana の厳密な上位集合です。
+
+# Every open scenario kind runs in Pro unchanged, and an open scenario runs in Pro with no licence at all.
+seg-5de71d884106 = オープンなシナリオの種類はすべて Pro でそのまま動作し、オープンなシナリオはライセンスなしで Pro 上で動作します。
+
+# No new physics.
+seg-9716f482b04d = 新しい物理はありません。
+
+# Every Pro number comes from runs of the open engine, so a Pro figure is as trustworthy as the open scenario kind it came from, and never more.
+seg-44fca9f49c50 = Pro の数値はすべてオープンなエンジンの実行から得られるため、Pro の数値の信頼性は、その元になったオープンなシナリオの種類と同じであり、それを超えることはありません。
+
+# Reproducible in the free engine.
+seg-a1b3e6c8e054 = 無償のエンジンで再現可能です。
+
+# Anyone with open Kshana can re-run one and get the same figure.
+seg-8b5fd4e4ea35 = オープンな Kshana があれば、誰でも再実行して同じ数値を得られます。
+
+# Honest labels carried through.
+seg-22c9d1934491 = 正直なラベルをそのまま引き継ぎます。
+
+# Every Pro result is labelled MODELLED. Every figure keeps the tier the open engine gave it (Validated, Modelled or Partner), never a higher one.
+seg-c0c9f2748dcd = Pro の結果はすべて MODELLED と表示されます。すべての数値は、オープンなエンジンが与えたティア（外部の参照と照合して確認済み、モデルから計算、またはパートナーの所管）を保持し、それより高いものになることはありません。
+
+# Design optimiser
+seg-fe62a7a81520 = 設計オプティマイザー
+
+# A free user scores one design they wrote by hand.
+seg-7574857f2e17 = 無償版のユーザーは、手で書いた一つの設計を評価します。
+
+# A Pro user states the design space (each variable a scenario setting with its allowed values), the constraints and two or three objectives, and gets the whole Pareto front: the designs that no other design beats on every objective at once.
+seg-5e92d8903fe2 = Pro のユーザーは、設計空間（各変数は許容される値を持つシナリオの設定）、制約、そして二つまたは三つの目的を指定し、パレートフロント全体を得ます。これは、すべての目的で同時に他のどの設計にも負けない設計の集合です。
+
+# The base scenario can be of any open kind, so the same tool designs a constellation around the Earth, the Moon or Mars, or trades a link budget. Every design is one run of the open engine. Each front design is written out as a plain open scenario file, with the Secure Hash Algorithm (SHA-256) hash of the result the free engine gives for it.
+seg-e44bf29e6bb4 = ベースのシナリオはどのオープンな種類でもよいため、同じツールで、地球、月、火星の周りのコンステレーションを設計したり、リンクバジェットのトレードを行ったりできます。各設計はオープンなエンジンの一回の実行です。フロント上の各設計は、無償のエンジンがそれに対して返す結果の SHA-256（Secure Hash Algorithm）ハッシュとともに、通常のオープンなシナリオファイルとして書き出されます。
+
+# <b>What it does not do.</b> It has no cost model, so a variable no objective penalises drifts to the edge of its range. Constellation studies score geometry only: no signal power, satellite health or terrain.
+seg-46ef48f5abb4 = <b>できないこと。</b>コストモデルがないため、どの目的でもペナルティが課されない変数は、範囲の端に寄っていきます。コンステレーションの調査は幾何だけを評価します。信号電力、衛星の健全性、地形は含みません。
+
+# Pareto front · <b>Lunar navigation constellation</b>
+seg-788b99e72541 = パレートフロント · <b>月面航法コンステレーション</b>
+
+# Kshana Pro output
+seg-dfa989332a6e = Kshana Pro の出力
+
+# Region scored
+seg-b4a240bb26ac = 評価した領域
+
+# Whole Moon
+seg-67e343533786 = 月全体
+
+# South polar cap
+seg-c5e32e8ff568 = 南極域
+
+# Lunar navigation constellation: fewest satellites against availability, whole Moon: { "608" } designs run, a Pareto front of { "12" } designs
+seg-f4eb65b9b27a = 月面航法コンステレーション：衛星数の最小化と可用性、月全体：{ "608" } 個の設計を実行、{ "12" } 個の設計からなるパレートフロント
+
+# Lunar navigation constellation: fewest satellites against availability, south polar cap: { "608" } designs run, a Pareto front of { "9" } designs
+seg-18af8f9e61be = 月面航法コンステレーション：衛星数の最小化と可用性、南極域：{ "608" } 個の設計を実行、{ "9" } 個の設計からなるパレートフロント
+
+# every design run
+seg-6eb3858a0c29 = 実行したすべての設計
+
+# Pareto front
+seg-f74688dc3bbe = パレートフロント
+
+# knee
+seg-fb2e6760d932 = 変曲点
+
+# reference: Bundled lunar relay design ({ "8" } + { "6" } satellites)
+seg-ae4439020c65 = 基準：同梱の月中継設計（{ "8" } + { "6" } 機）
+
+# <b>Front design { "004" } · knee</b> · { "16" } satellites, { "85.0404" } % availability · { "2" } planes at { "8,000" } km, { "45" }° · re-run in the free engine: <s1>same SHA-256 { "89882372" }…</s1>
+seg-5386841c8b96 = <b>フロント上の設計 { "004" } · 変曲点</b> · 衛星 { "16" } 機、可用性 { "85.0404" } % · 高度 { "8,000" } km の { "2" } 面、{ "45" }° · 無償のエンジンで再実行：<s1>同じ SHA-256 { "89882372" }…</s1>
+
+# { "608" } designs, all run (whole moon): a front of { "12" } designs at { "6" } points; { "12" } of { "12" } re-run in the free engine with the same result hash. MODELLED.
+seg-4dd825c7f3ea = { "608" } 個の設計をすべて実行（月全体）：{ "6" } 点にわたる { "12" } 個の設計からなるフロント。{ "12" } 個中 { "12" } 個が、無償のエンジンで同じ結果ハッシュで再実行されました。MODELLED。
+
+# { "608" } designs, all run (south polar cap): a front of { "9" } designs at { "4" } points; { "9" } of { "9" } re-run in the free engine with the same result hash. MODELLED.
+seg-76d450da2ee0 = { "608" } 個の設計をすべて実行（南極域）：{ "4" } 点にわたる { "9" } 個の設計からなるフロント。{ "9" } 個中 { "9" } 個が、無償のエンジンで同じ結果ハッシュで再実行されました。MODELLED。
+
+# Kshana Pro { "0.2.0" } on open engine { "0.29.0" } · <b>kshana-pro design</b> · { "609" } engine runs · run digest df81aad4…
+seg-9e8263ecf0a3 = Kshana Pro { "0.2.0" }（オープンエンジン { "0.29.0" } 上）· <b>kshana-pro design</b> · エンジンの実行 { "609" } 回 · 実行ダイジェスト df81aad4…
+
+# Uncertainty and sensitivity
+seg-db58e04e6f25 = 不確かさと感度
+
+# A free user gets one number, or a spread over random seeds.
+seg-eb18bf49ff99 = 無償版のユーザーが得るのは、一つの数値、またはランダムシードにわたるばらつきです。
+
+# A Pro user states how uncertain each input is and gets confidence bands, the probability of meeting a limit, and a ranking of the inputs that drive the result.
+seg-aaf8b7feaa9b = Pro のユーザーは、各入力がどれだけ不確かかを指定し、信頼区間、限界を満たす確率、結果を左右する入力の順位付けを得ます。
+
+# It works on any open scenario. Inputs are ranked by Sobol' sensitivity indices or by standardised regression coefficients, and a ranking that is not reliable is flagged as such. A long study can be stopped and resumed.
+seg-9176a44d9494 = 任意のオープンなシナリオで動作します。入力は Sobol' 感度指標または標準化回帰係数で順位付けされ、信頼できない順位付けはその旨が示されます。長い調査は中断して再開できます。
+
+# <b>What it does not do.</b> Inputs are treated as independent. More runs narrow the sampling error, not the model error: a MODELLED kind stays MODELLED.
+seg-c9050f66bedf = <b>できないこと。</b>入力は互いに独立として扱います。実行回数を増やしても減るのは標本誤差であり、モデル誤差ではありません。MODELLED の種類は MODELLED のままです。
+
+# Uncertainty views
+seg-02ef1c43f3d7 = 不確かさのビュー
+
+# Confidence band
+seg-e8fcb508e9a5 = 信頼区間
+
+# What drives the result
+seg-190c61b44b81 = 結果を左右するもの
+
+# Clock holdover with an uncertain noise level: the 5th to 95th percentile of { "2,000" } runs against the limit of { "20" } ns
+seg-049c503c23db = ノイズ水準が不確かなクロックのホールドオーバー：{ "2,000" } 回の実行の 5 パーセンタイルから 95 パーセンタイル、限界は { "20" } ns
+
+# 5th to 95th percentile of { "2,000" } runs
+seg-6dab3db2ad81 = { "2,000" } 回の実行の 5 パーセンタイルから 95 パーセンタイル
+
+# median
+seg-023d57ee95c8 = 中央値
+
+# base run
+seg-00e4c1f9bf78 = 基準の実行
+
+# share within the limit
+seg-419cbee4d7ce = 限界内に収まる割合
+
+# After { "60" } minutes: <b>{ "1,366" } of { "2,000" } runs</b> within ±{ "20" } ns, a probability of { "0.683" } ({ "95" } % interval { "0.6623" } to { "0.703" })
+seg-974fe80f65a4 = { "60" } 分後：<b>{ "2,000" } 回の実行のうち { "1,366" } 回</b>が ±{ "20" } ns 以内、確率は { "0.683" }（{ "95" } % 区間は { "0.6623" } から { "0.703" }）
+
+# Clock holdover with an uncertain noise level · input q_wf (the clock's white-frequency-noise level): uniform({ "4.5e-20" } to { "2.7e-19" }), ASSUMED · MODELLED · Kshana Pro { "0.2.0" } on open engine { "0.29.0" } · <b>kshana-pro uncertainty</b> · { "2,000" } engine runs · run digest abab765e…
+seg-9ff0ae72a9c7 = ノイズ水準が不確かなクロックのホールドオーバー · 入力 q_wf（クロックのホワイト周波数ノイズの水準）：一様分布（{ "4.5e-20" } から { "2.7e-19" }）、仮定値 · MODELLED · Kshana Pro { "0.2.0" }（オープンエンジン { "0.29.0" } 上）· <b>kshana-pro uncertainty</b> · エンジンの実行 { "2,000" } 回 · 実行ダイジェスト abab765e…
+
+# Fused position error, with the low-Earth-orbit layer
+seg-3b321556590c = 低軌道レイヤーを加えた、融合した位置誤差
+
+# Position error, GNSS alone
+seg-6f29c63748d0 = GNSS のみの位置誤差
+
+# Peak carrier-to-noise density of the pass
+seg-45e1ce6c1a7c = パスにおける搬送波電力対雑音密度比の最大値
+
+# What drives Fused position error, with the low-Earth-orbit layer: total Sobol' index of each input
+seg-9e66fcbda75a = 低軌道レイヤーを加えた、融合した位置誤差を左右するもの：各入力の Sobol' 全効果指標
+
+# Fused position error, with the low-Earth-orbit layer: mean { "0.4312" } m, 5th to 95th percentile { "0.2465" } to { "0.6041" } m · top driver <b>Low-Earth-orbit orbit and clock error</b>, total index { "0.99" }
+seg-12293e88a5ee = 低軌道レイヤーを加えた、融合した位置誤差：平均 { "0.4312" } m、5 パーセンタイルから 95 パーセンタイルは { "0.2465" } から { "0.6041" } m · 最大の要因は<b>低軌道の軌道・クロック誤差</b>、全効果指標 { "0.99" }
+
+# What drives Position error, GNSS alone: total Sobol' index of each input
+seg-52915e113de2 = GNSS のみの位置誤差を左右するもの：各入力の Sobol' 全効果指標
+
+# Position error, GNSS alone: mean { "1.6041" } m, 5th to 95th percentile { "1.5389" } to { "1.6739" } m · top driver <b>Global Positioning System (GPS) signal-in-space range error</b>, total index { "0.68" }
+seg-746012914df5 = GNSS のみの位置誤差：平均 { "1.6041" } m、5 パーセンタイルから 95 パーセンタイルは { "1.5389" } から { "1.6739" } m · 最大の要因は <b>GPS（全地球測位システム）の信号空間レンジ誤差</b>、全効果指標 { "0.68" }
+
+# What drives Peak carrier-to-noise density of the pass: total Sobol' index of each input
+seg-94329d8e11b8 = パスにおける搬送波電力対雑音密度比の最大値を左右するもの：各入力の Sobol' 全効果指標
+
+# Peak carrier-to-noise density of the pass: mean { "60.7336" } dB-Hz (decibel-hertz), 5th to 95th percentile { "59.0898" } to { "62.3719" } dB-Hz · top driver <b>Low-Earth-orbit transmit power</b>, total index { "1.01" }
+seg-7ee659a6c7e7 = パスにおける搬送波電力対雑音密度比の最大値：平均 { "60.7336" } dB-Hz（デシベルヘルツ）、5 パーセンタイルから 95 パーセンタイルは { "59.0898" } から { "62.3719" } dB-Hz · 最大の要因は<b>低軌道の送信電力</b>、全効果指標 { "1.01" }
+
+# Low-Earth-orbit (LEO) PNT chain: what drives the position error with and without the LEO layer · Sobol' indices, n * (k + { "2" }) = { "1024" } * ({ "4" } + { "2" }) = { "6144" } runs · { "4" } of { "4" } input uncertainties ASSUMED · MODELLED · Kshana Pro { "0.2.0" } on open engine { "0.29.0" } · <b>kshana-pro uncertainty</b> · { "6,144" } engine runs · run digest fb54eac6…
+seg-f04d1f94de26 = 低軌道（LEO）の PNT チェーン：LEO レイヤーがある場合とない場合で、位置誤差を左右するもの · Sobol' 指標、n * (k + { "2" }) = { "1024" } * ({ "4" } + { "2" }) = { "6144" } 回の実行 · 入力の不確かさ { "4" } 個中 { "4" } 個が仮定値 · MODELLED · Kshana Pro { "0.2.0" }（オープンエンジン { "0.29.0" } 上）· <b>kshana-pro uncertainty</b> · エンジンの実行 { "6,144" } 回 · 実行ダイジェスト fb54eac6…
+
+# A free user gets one report per run.
+seg-80a916e122e5 = 無償版のユーザーが得るのは、実行ごとに一つのレポートです。
+
+# A Pro user gets one mission dossier in one command: requirements checked against real runs, a verification matrix with its open items, and a PDF (Portable Document Format) in which every number can be re-derived with the free engine.
+seg-62e6a11bddd9 = Pro のユーザーは、一つのコマンドで一つのミッション資料を得ます。実際の実行に照らして確認した要求、未解決項目を伴う検証マトリクス、そしてすべての数値を無償のエンジンで再導出できる PDF（Portable Document Format）です。
+
+# A requirement met on a MODELLED or PARTNER basis is flagged. Requirements to be verified by test, inspection or demonstration stay open items however the run went.
+seg-abcdc63e7121 = MODELLED または PARTNER を根拠として満たされた要求には、その旨のフラグが付きます。試験、検査、実証によって検証すべき要求は、実行の結果にかかわらず未解決項目のままです。
+
+# <b>What it does not do.</b> Simulation evidence counts as analysis and does not replace a test, an inspection or a demonstration. A dossier is not a certification, a qualification or an acceptance by any authority.
+seg-6a0ace9c0245 = <b>できないこと。</b>シミュレーションのエビデンスは解析として扱われ、試験、検査、実証の代わりにはなりません。ミッション資料は、いかなる当局による認証、適格性確認、受入でもありません。
+
+# Mission dossier · <b>Navigation resilience programme: Earth, Moon and Mars</b>
+seg-ddffd3f4f0bb = ミッション資料 · <b>航法レジリエンスプログラム：地球、月、火星</b>
+
+# requirements
+seg-589480947799 = 要求
+
+# not met
+seg-7fbde256debf = 基準を満たさず
+
+# not verified
+seg-5405ea8fb6af = 未検証
+
+# open items
+seg-f6ccb7a322b3 = 未解決項目
+
+# Verification matrix: open a row for the check the dossier made
+seg-241bb8a5c188 = 検証マトリクス：行を開くと、ミッション資料が行った確認を表示
+
+# ppp.cases[{ "1" }].median_convergence_min <= { "10" } min
+seg-1771db524c39 = ppp.cases[{ "1" }].median_convergence_min <= { "10" } min
+
+# <s1>met</s1><s2>MODELLED</s2>
+seg-1ba2dfe597a5 = <s1>基準を満たした</s1><s2>MODELLED</s2>
+
+# With { "240" } low Earth orbit (LEO) satellites added, precise point positioning (PPP) shall converge within { "10" } minutes (median over the seeded runs).
+seg-21ef0770a07c = 低軌道（LEO）衛星を { "240" } 機追加した場合、精密単独測位（PPP）は { "10" } 分以内に収束すること（シード付きの実行の中央値）。
+
+# Method: analysis · run RUN-LEO · value read: { "7.5" } min
+seg-d739debd8759 = 手法：解析 · 実行 RUN-LEO · 読み取り値：{ "7.5" } min
+
+# Open item: MODELLED basis
+seg-1bea7f394d61 = 未解決項目：MODELLED を根拠とする
+
+# ppp.cases[{ "0" }].median_convergence_min <= { "10" } min
+seg-62352fb0b903 = ppp.cases[{ "0" }].median_convergence_min <= { "10" } min
+
+# <s1>not met</s1><s2>MODELLED</s2>
+seg-199d9de5b863 = <s1>基準を満たさず</s1><s2>MODELLED</s2>
+
+# With GPS and Galileo alone, precise point positioning (PPP) shall converge within { "10" } minutes (median over the seeded runs).
+seg-d25f22bab194 = GPS と Galileo のみの場合、精密単独測位（PPP）は { "10" } 分以内に収束すること（シード付きの実行の中央値）。
+
+# Method: analysis · run RUN-LEO · value read: { "11.5" } min
+seg-f7fbbb0396f8 = 手法：解析 · 実行 RUN-LEO · 読み取り値：{ "11.5" } min
+
+# Open item: not met
+seg-cd0df2627f00 = 未解決項目：基準を満たさず
+
+# fusion.fused.rms_error_3d_m <= { "0.5" } m
+seg-4f85cb208f09 = fusion.fused.rms_error_3d_m <= { "0.5" } m
+
+# With the LEO layer the fused three-dimensional position error shall be { "0.5" } m root mean square (RMS) or better.
+seg-2f64c266aaa9 = LEO レイヤーがある場合、融合した三次元の位置誤差は、二乗平均平方根（RMS）で { "0.5" } m 以下であること。
+
+# Method: test · run RUN-LEO · value read: { "0.4349" } m
+seg-ab3c35475bb8 = 手法：試験 · 実行 RUN-LEO · 読み取り値：{ "0.4349" } m
+
+# Open item: method, MODELLED basis
+seg-813bc2c7156f = 未解決項目：手法、MODELLED を根拠とする
+
+# global.availability_pct >= { "95" } %
+seg-00370d1ef747 = global.availability_pct >= { "95" } %
+
+# The lunar relay constellation shall give a position fix with a position dilution of precision (PDOP) of { "6" } or better over at least { "95" } % of the lunar surface and of the day.
+seg-f903fd8d8738 = 月の中継コンステレーションは、月面および一日の少なくとも { "95" } % において、位置 DOP（PDOP）が { "6" } 以下の測位解を与えること。
+
+# Method: analysis · run RUN-LUNAR · value read: { "21.3286" } %
+seg-304a072d0a55 = 手法：解析 · 実行 RUN-LUNAR · 読み取り値：{ "21.3286" } %
+
+# global.pdop.median <= { "6" }
+seg-03344a0f7614 = global.pdop.median <= { "6" }
+
+# Where the lunar relay constellation gives a fix, the median position dilution of precision (PDOP) shall be { "6" } or better.
+seg-9157dc0f0b69 = 月の中継コンステレーションが測位解を与える場所では、位置 DOP（PDOP）の中央値が { "6" } 以下であること。
+
+# Method: analysis · run RUN-LUNAR · value read: { "5.22" } { "1" }
+seg-8ce652866e44 = 手法：解析 · 実行 RUN-LUNAR · 読み取り値：{ "5.22" } { "1" }
+
+# timeline.bands[{ "3" }].min_cn0_dbhz >= { "25" } dB-Hz
+seg-394b87e99d4f = timeline.bands[{ "3" }].min_cn0_dbhz >= { "25" } dB-Hz
+
+# <s1>met</s1><s2>PARTNER</s2>
+seg-4bd7577834e9 = <s1>基準を満たした</s1><s2>PARTNER</s2>
+
+# Under the scripted L-band interference, the GPS L5 carrier-to-noise density ratio (C/N0) shall stay at or above { "25" } dB-Hz.
+seg-c3cd6e0b2c8a = 台本どおりの L バンド干渉の下で、GPS L5 の搬送波電力対雑音密度比（C/N0）は { "25" } dB-Hz 以上を保つこと。
+
+# Method: analysis · run RUN-SPECTRUM · value read: { "44.0752" } dB-Hz
+seg-c707f32aa460 = 手法：解析 · 実行 RUN-SPECTRUM · 読み取り値：{ "44.0752" } dB-Hz
+
+# Open item: PARTNER basis
+seg-917d0ea847c5 = 未解決項目：PARTNER を根拠とする
+
+# timeline.bands[{ "0" }].min_cn0_dbhz >= { "25" } dB-Hz
+seg-14ff8808abca = timeline.bands[{ "0" }].min_cn0_dbhz >= { "25" } dB-Hz
+
+# <s1>not met</s1><s2>PARTNER</s2>
+seg-b0ce1159ebab = <s1>基準を満たさず</s1><s2>PARTNER</s2>
+
+# Under the scripted L-band interference, the GPS L1 coarse/acquisition (C/A) carrier-to-noise density ratio (C/N0) shall stay at or above { "25" } dB-Hz.
+seg-fac48ac76f34 = 台本どおりの L バンド干渉の下で、GPS L1 のコース/捕捉（C/A）の搬送波電力対雑音密度比（C/N0）は { "25" } dB-Hz 以上を保つこと。
+
+# Method: analysis · run RUN-SPECTRUM · value read: { "3.2329" } dB-Hz
+seg-b2d1ec0d6dee = 手法：解析 · 実行 RUN-SPECTRUM · 読み取り値：{ "3.2329" } dB-Hz
+
+# timeline.channels.time_error_ns.values <= timeline.channels.guard_ns.values for all values
+seg-5ae7272d2099 = timeline.channels.time_error_ns.values <= timeline.channels.guard_ns.values for all values
+
+# In the chained jamming, spoofing and holdover mission the clock time error shall stay within its { "50" } ns guard at every timeline step.
+seg-ae1e65b11562 = ジャミング、スプーフィング、ホールドオーバーを連鎖させたミッションで、クロックの時刻誤差は、タイムラインのすべてのステップで { "50" } ns のガード以内に収まること。
+
+# Method: analysis · run RUN-CAMPAIGN · value read: { "51.7825" } ns
+seg-99c163a008d1 = 手法：解析 · 実行 RUN-CAMPAIGN · 読み取り値：{ "51.7825" } ns
+
+# min(timeline.events[].t_s) <= { "30" } min
+seg-b0cead50489e = min(timeline.events[].t_s) <= { "30" } min
+
+# In the chained mission a spoofing alarm shall be raised within { "30" } minutes of the start.
+seg-3a2678859ea3 = 連鎖させたミッションで、スプーフィングの警報は開始から { "30" } 分以内に発せられること。
+
+# Method: demonstration · run RUN-CAMPAIGN · value read: { "1,200" } s
+seg-fb11475464de = 手法：実証 · 実行 RUN-CAMPAIGN · 読み取り値：{ "1,200" } s
+
+# Open item: method, PARTNER basis
+seg-446c41fcb3ab = 未解決項目：手法、PARTNER を根拠とする
+
+# fom.rms_error_relays_m <= { "5" } m
+seg-b6177dbc98f7 = fom.rms_error_relays_m <= { "5" } m
+
+# Around Mars the constellation-only position error shall be { "5" } m root mean square (RMS) or better over one sol.
+seg-4ceaa0d03a24 = 火星周辺で、コンステレーションのみによる位置誤差は、一ソルにわたって二乗平均平方根（RMS）で { "5" } m 以下であること。
+
+# Method: analysis · run RUN-MARS · value read: { "1.8827" } m
+seg-5794fedf0f41 = 手法：解析 · 実行 RUN-MARS · 読み取り値：{ "1.8827" } m
+
+# fom.availability_relays >= { "99" } %
+seg-243a7ff0524b = fom.availability_relays >= { "99" } %
+
+# Around Mars the constellation shall give a position fix at { "99" } % of epochs or more.
+seg-576583ccb8f3 = 火星周辺で、コンステレーションはエポックの { "99" } % 以上で測位解を与えること。
+
+# Method: analysis · run RUN-MARS · value read: { "1" } { "1" }
+seg-32c406b96132 = 手法：解析 · 実行 RUN-MARS · 読み取り値：{ "1" } { "1" }
+
+# no machine-checkable criterion
+seg-532fe876e134 = 機械で確認できる基準なし
+
+# The receiver housing shall carry the programme's identification label.
+seg-9dd3f9575483 = 受信機の筐体には、プログラムの識別ラベルを付けること。
+
+# Method: inspection · run none · value read: no run traced
+seg-e1efc36871f9 = 手法：検査 · 実行 なし · 読み取り値：追跡できる実行なし
+
+# Open item: no evidence, manual verification
+seg-7368cd7b9fdf = 未解決項目：エビデンスなし、手動での検証
+
+# Page { "1" } of the generated dossier (PDF)
+seg-cf21103fdda2 = 生成されたミッション資料（PDF）の { "1" } ページ目
+
+# Page { "1" } of the generated mission dossier
+seg-1edae087e2ef = 生成されたミッション資料の { "1" } ページ目
+
+# Page { "2" } of the generated dossier (PDF)
+seg-bfc11601ca89 = 生成されたミッション資料（PDF）の { "2" } ページ目
+
+# Page { "2" } of the generated mission dossier
+seg-6cc250f43823 = 生成されたミッション資料の { "2" } ページ目
+
+# { "21" } pages, one command. <a1>Open the generated PDF</a1> (Portable Document Format)
+seg-dbb08e7c5575 = { "21" } ページ、一つのコマンド。<a1>生成された PDF を開く</a1>（Portable Document Format）
+
+# Kshana Pro { "0.2.0" } on open engine { "0.29.0" } · <b>kshana-pro mission build</b> · { "5" } runs and one trade study · { "7" } met, all on a MODELLED or PARTNER basis · dossier SHA-256 49df1e0e… · development build
+seg-277df27d9586 = Kshana Pro { "0.2.0" }（オープンエンジン { "0.29.0" } 上）· <b>kshana-pro mission build</b> · 実行 { "5" } 回とトレードスタディ一件 · 基準を満たしたもの { "7" } 件、すべて MODELLED または PARTNER を根拠とする · ミッション資料の SHA-256 49df1e0e… · 開発ビルド
+
+# More Kshana Pro answers
+seg-583ce9cabfb2 = Kshana Pro のその他の答え
+
+# Three more answers
+seg-62b6f3df413b = さらに三つの答え
+
+# Campaign watch
+seg-80f67e30b341 = キャンペーンウォッチ
+
+# On-premises job service
+seg-aed2198e0810 = オンプレミスのジョブサービス
+
+# A free user runs a campaign and reads the result.
+seg-64b7fd74a3e3 = 無償版のユーザーは、キャンペーンを実行して結果を読みます。
+
+# A Pro user names the figures that matter in a set of scenarios, says what worse means for each, and gets a pipeline that fails when a change to a scenario, a model or the engine makes one of them worse, or stops meeting its requirement.
+seg-3b9495ecb948 = Pro のユーザーは、一組のシナリオの中で重要な数値を指定し、それぞれについて何をもって悪化とするかを定めます。すると、シナリオ、モデル、エンジンの変更によってそのいずれかが悪化した場合、または要求を満たさなくなった場合に失敗するパイプラインが得られます。
+
+# It extends the scenario regression check. A Monte Carlo figure is judged with statistics instead of a tolerance, so a new set of random seeds is not called a regression and a doubled spread is. Every run is appended to a history in which each record carries the hash of the one before, and a check reports whether that chain is intact.
+seg-31f8c78ca95e = これはシナリオの回帰チェックを拡張したものです。モンテカルロの数値は許容差ではなく統計によって判定されるため、新しい一組のランダムシードは回帰とは見なされず、ばらつきが倍になった場合は回帰と見なされます。実行のたびに履歴に追記され、各レコードは直前のレコードのハッシュを持ち、チェックによってそのチェーンが損なわれていないかが報告されます。
+
+# <b>What it does not do.</b> A watch proves that a MODELLED figure stayed stable or moved; it does not prove the figure is true. A figure with no stated direction is reported and never fails a run.
+seg-01e316af4e6b = <b>できないこと。</b>ウォッチが証明するのは、MODELLED の数値が安定していたか変動したかであり、その数値が真であることではありません。方向が明示されていない数値は報告されますが、実行を失敗させることはありません。
+
+# Campaign watch · <b>six revisions, one history</b>
+seg-ca34b7fbd8a0 = キャンペーンウォッチ · <b>六つのリビジョン、一つの履歴</b>
+
+# Revision
+seg-35e2f3c6d5ee = リビジョン
+
+# Watched figure · revision
+seg-cc02f3327260 = 監視対象の数値 · リビジョン
+
+# Revision r1-published: pass, exit code { "0" }
+seg-722c55b5ca9d = リビジョン r1-published：合格、終了コード { "0" }
+
+# Revision r2-documentation: pass, exit code { "0" }
+seg-afebb6b7fe91 = リビジョン r2-documentation：合格、終了コード { "0" }
+
+# Revision r3-weaker-jammer: pass, exit code { "0" }
+seg-04be8823d1a4 = リビジョン r3-weaker-jammer：合格、終了コード { "0" }
+
+# Revision r4-stronger-jammer: fail, exit code { "1" }
+seg-358f8307eb64 = リビジョン r4-stronger-jammer：不合格、終了コード { "1" }
+
+# Revision r5-withdrawn: pass, exit code { "0" }
+seg-dedab67d8791 = リビジョン r5-withdrawn：合格、終了コード { "0" }
+
+# Revision r6-faster-spoofer: pass, exit code { "0" }
+seg-507fa1cd9725 = リビジョン r6-faster-spoofer：合格、終了コード { "0" }
+
+# Verdict of each watched figure at each revision
+seg-5f91b1908b7f = 各リビジョンでの、監視対象の各数値の判定
+
+# first run: becomes the baseline
+seg-e4e33a6fa3ba = 初回の実行：ベースラインになる
+
+# r1: first run: becomes the baseline
+seg-6c6055582596 = r1：初回の実行：ベースラインになる
+
+# carrier-to-noise density ratio (C/N0) at the end of the jamming phase
+seg-5733e7e1ed6d = ジャミング段階の終了時の搬送波電力対雑音密度比（C/N0）
+
+# unchanged
+seg-039e60fda167 = 変化なし
+
+# r2: unchanged
+seg-5d3ef8b30387 = r2：変化なし
+
+# improved
+seg-a668aec87232 = 改善
+
+# r3: improved
+seg-3a9107ada303 = r3：改善
+
+# regressed
+seg-b297d2fb39b8 = 悪化
+
+# r4: regressed
+seg-ef9e2f850cec = r4：悪化
+
+# r5: unchanged
+seg-80661be2216a = r5：変化なし
+
+# r6: unchanged
+seg-f1c94be68352 = r6：変化なし
+
+# largest time error on the mission timeline
+seg-9973d98d3f4a = ミッションのタイムラインにおける最大の時刻誤差
+
+# r3: unchanged
+seg-6ea2524c4af5 = r3：変化なし
+
+# r4: unchanged
+seg-46399b8584f9 = r4：変化なし
+
+# moved within its tolerance
+seg-92dee1b56602 = 許容差の範囲内で変動
+
+# r6: moved within its tolerance
+seg-00ce02720ce2 = r6：許容差の範囲内で変動
+
+# satellites tracking at the end of the jamming phase
+seg-1f5141270ec1 = ジャミング段階の終了時に追跡している衛星
+
+# share of the mission under alarm
+seg-eb59ecfd5267 = ミッションのうち警報が出ている割合
+
+# r6: improved
+seg-359a0cb57119 = r6：改善
+
+# spoofing detected (phase length)
+seg-07c171df971c = スプーフィングの検出（段階の長さ）
+
+# time error at the end of holdover
+seg-d01450760c7b = ホールドオーバー終了時の時刻誤差
+
+# <b>Revision r4-stronger-jammer</b> · jammer raised from -33 to -24 dBW (decibels relative to one watt): C/N0 at the end of the jamming phase { "30.60" } → { "21.82" } dB-Hz (decibel-hertz), below the { "25" } dB-Hz floor, requirement not met; satellites tracking { "8" } → { "0" }; three watches regressed · <s1>fail, exit code { "1" }</s1>
+seg-0cb385d09879 = <b>リビジョン r4-stronger-jammer</b> · ジャマーを -33 から -24 dBW（一ワットを基準としたデシベル）に引き上げ：ジャミング段階の終了時の C/N0 は { "30.60" } → { "21.82" } dB-Hz（デシベルヘルツ）で、{ "25" } dB-Hz の下限を下回り、要求を満たさず、追跡している衛星は { "8" } → { "0" }、三つのウォッチが悪化 · <s1>不合格、終了コード { "1" }</s1>
+
+# The bundled campaign pack, { "10" } watched figures over three open campaigns, run twice: pass both times, { "0" } of { "125" } figures moved, history of { "2" } records intact.
+seg-4b31c9074821 = 同梱のキャンペーンパック、三つのオープンなキャンペーンにわたる { "10" } 個の監視対象の数値を二回実行：どちらも合格、{ "125" } 個の数値のうち変動したものは { "0" } 個、{ "2" } 件のレコードの履歴は損なわれていません。
+
+# Kshana Pro { "0.2.0" } on open engine { "0.29.0" } · <b>kshana-pro ci</b> · demonstration revisions of <c1/> · history { "6" } records, chain intact, last hash bb2f10eb… · MODELLED
+seg-7a2d9c48a64e = Kshana Pro { "0.2.0" }（オープンエンジン { "0.29.0" } 上）· <b>kshana-pro ci</b> · <c1/> のデモ用リビジョン · 履歴 { "6" } 件のレコード、チェーンは損なわれておらず、最後のハッシュは bb2f10eb… · MODELLED
+
+# A free user checks one satellite's signal against one GNSS signal.
+seg-2556e9b037d6 = 無償版のユーザーは、一つの衛星の信号を一つの GNSS 信号に対して確認します。
+
+# A Pro user tests one or more candidate signal plans, each a signal design and a constellation, against every open-service GNSS signal the engine models, with every satellite of the plan in view at once, and gets a verdict per plan and signal against a limit the study states.
+seg-7116e3268891 = Pro のユーザーは、一つ以上の候補となる信号計画（それぞれ信号設計とコンステレーションの組）を、エンジンがモデル化するすべてのオープンサービスの GNSS 信号に対して、計画のすべての衛星を同時に可視として試験し、計画ごと、信号ごとに、調査が定める限界に対する判定を得ます。
+
+# Both directions are tested: the loss of C/N0 each plan causes to each GNSS signal, and the loss the GNSS signals cause to the plan. Pro adds only the sum over the satellites in view at each cell of a worldwide grid and the ranking of the plans. The limit and its source are inputs; no limit is built in.
+seg-06f88c6df63a = 両方向を試験します。各計画が各 GNSS 信号にもたらす C/N0 の損失と、GNSS 信号が計画にもたらす損失です。Pro が加えるのは、世界規模のグリッドの各セルで可視の衛星にわたる合計と、計画の順位付けだけです。限界とその出典は入力であり、限界は組み込まれていません。
+
+# <b>What it does not do.</b> The result is an upper bound: every satellite in view is taken at the maximum received power, with no power that varies with elevation and no receive-antenna pattern. It is not a coordination filing and not a regulatory finding.
+seg-6ed2560fa7cb = <b>できないこと。</b>結果は上界です。可視のすべての衛星が最大の受信電力で扱われ、仰角によって変わる電力も受信アンテナのパターンも考慮しません。これは調整の届出でも、規制上の判断でもありません。
+
+# Spectrum coexistence · <b>{ "4" } example signal plans</b>
+seg-60b335f177f1 = スペクトル共存 · <b>{ "4" } 個の信号計画の例</b>
+
+# View
+seg-1590505b1b83 = ビュー
+
+# Plans against signals
+seg-8de62dd3e1fe = 信号に対する計画
+
+# World map of the worst loss
+seg-ce57b941ae2a = 最悪の損失の世界地図
+
+# Loss each plan causes to each signal, against the limit
+seg-3eadc758676e = 各計画が各信号にもたらす損失と限界の比較
+
+# Plan · signal
+seg-7f94e08ffaf7 = 計画 · 信号
+
+# GPS L1 C/A
+seg-082f79d4da08 = GPS L1 C/A
+
+# Galileo E1
+seg-8136c1e5d8b9 = Galileo E1
+
+# GPS L5
+seg-ca7643f7c122 = GPS L5
+
+# Galileo E5a
+seg-cda934673aea = Galileo E5a
+
+# Galileo E5b
+seg-37166a721917 = Galileo E5b
+
+# Galileo E5 AltBOC
+seg-e35b90594226 = Galileo E5 AltBOC
+
+# L band, { "288" } satellites to GPS L1 C/A: no overlap in frequency
+seg-ecd0258691ec = L バンド、衛星 { "288" } 機から GPS L1 C/A へ：周波数の重なりなし
+
+# L band, { "288" } satellites
+seg-d409177fe15a = L バンド、衛星 { "288" } 機
+
+# no overlap
+seg-d85041c82618 = 重なりなし
+
+# L band, { "288" } satellites to Galileo E1: no overlap in frequency
+seg-c87416d18cdf = L バンド、衛星 { "288" } 機から Galileo E1 へ：周波数の重なりなし
+
+# L band, { "288" } satellites to GPS L5: within the limit
+seg-ae171f239741 = L バンド、衛星 { "288" } 機から GPS L5 へ：限界内
+
+# within limit
+seg-37e3dfebbbde = 限界内
+
+# L band, { "288" } satellites to Galileo E5a: within the limit
+seg-75bcd6c441eb = L バンド、衛星 { "288" } 機から Galileo E5a へ：限界内
+
+# L band, { "288" } satellites to Galileo E5b: within the limit
+seg-261a10fbac33 = L バンド、衛星 { "288" } 機から Galileo E5b へ：限界内
+
+# L band, { "288" } satellites to Galileo E5 AltBOC: within the limit
+seg-be215e26ecf7 = L バンド、衛星 { "288" } 機から Galileo E5 AltBOC へ：限界内
+
+# L band, { "144" } satellites to GPS L1 C/A: no overlap in frequency
+seg-d235b8128c0f = L バンド、衛星 { "144" } 機から GPS L1 C/A へ：周波数の重なりなし
+
+# L band, { "144" } satellites<em>ranked front</em>
+seg-d89797f95366 = L バンド、衛星 { "144" } 機<em>順位付けされたフロント</em>
+
+# L band, { "144" } satellites to Galileo E1: no overlap in frequency
+seg-c5637516dd73 = L バンド、衛星 { "144" } 機から Galileo E1 へ：周波数の重なりなし
+
+# L band, { "144" } satellites to GPS L5: within the limit
+seg-56419d057320 = L バンド、衛星 { "144" } 機から GPS L5 へ：限界内
+
+# L band, { "144" } satellites to Galileo E5a: within the limit
+seg-501c3b3cf978 = L バンド、衛星 { "144" } 機から Galileo E5a へ：限界内
+
+# L band, { "144" } satellites to Galileo E5b: within the limit
+seg-1eb5de9a6b98 = L バンド、衛星 { "144" } 機から Galileo E5b へ：限界内
+
+# L band, { "144" } satellites to Galileo E5 AltBOC: within the limit
+seg-511fb4592027 = L バンド、衛星 { "144" } 機から Galileo E5 AltBOC へ：限界内
+
+# C band, { "288" } satellites to GPS L1 C/A: no overlap in frequency
+seg-2ecb209d51e9 = C バンド、衛星 { "288" } 機から GPS L1 C/A へ：周波数の重なりなし
+
+# C band, { "288" } satellites
+seg-6f45606a5b3d = C バンド、衛星 { "288" } 機
+
+# C band, { "288" } satellites to Galileo E1: no overlap in frequency
+seg-f4ef2515fd58 = C バンド、衛星 { "288" } 機から Galileo E1 へ：周波数の重なりなし
+
+# C band, { "288" } satellites to GPS L5: no overlap in frequency
+seg-2fc04945b97b = C バンド、衛星 { "288" } 機から GPS L5 へ：周波数の重なりなし
+
+# C band, { "288" } satellites to Galileo E5a: no overlap in frequency
+seg-c3254aeb9110 = C バンド、衛星 { "288" } 機から Galileo E5a へ：周波数の重なりなし
+
+# C band, { "288" } satellites to Galileo E5b: no overlap in frequency
+seg-b2497f3af295 = C バンド、衛星 { "288" } 機から Galileo E5b へ：周波数の重なりなし
+
+# C band, { "288" } satellites to Galileo E5 AltBOC: no overlap in frequency
+seg-cbb0b39f5417 = C バンド、衛星 { "288" } 機から Galileo E5 AltBOC へ：周波数の重なりなし
+
+# Wide C band, { "288" } satellites to GPS L1 C/A: no overlap in frequency
+seg-2a329a17333c = 広帯域 C バンド、衛星 { "288" } 機から GPS L1 C/A へ：周波数の重なりなし
+
+# Wide C band, { "288" } satellites<em>ranked front</em>
+seg-7f67a52e23d7 = 広帯域 C バンド、衛星 { "288" } 機<em>順位付けされたフロント</em>
+
+# Wide C band, { "288" } satellites to Galileo E1: no overlap in frequency
+seg-5c53a07ea503 = 広帯域 C バンド、衛星 { "288" } 機から Galileo E1 へ：周波数の重なりなし
+
+# Wide C band, { "288" } satellites to GPS L5: no overlap in frequency
+seg-9afa24c2a22a = 広帯域 C バンド、衛星 { "288" } 機から GPS L5 へ：周波数の重なりなし
+
+# Wide C band, { "288" } satellites to Galileo E5a: no overlap in frequency
+seg-8d00d0e4e15b = 広帯域 C バンド、衛星 { "288" } 機から Galileo E5a へ：周波数の重なりなし
+
+# Wide C band, { "288" } satellites to Galileo E5b: no overlap in frequency
+seg-396bb70a5b21 = 広帯域 C バンド、衛星 { "288" } 機から Galileo E5b へ：周波数の重なりなし
+
+# Wide C band, { "288" } satellites to Galileo E5 AltBOC: no overlap in frequency
+seg-017f8d2a0d09 = 広帯域 C バンド、衛星 { "288" } 機から Galileo E5 AltBOC へ：周波数の重なりなし
+
+# <b>L band, { "288" } satellites → Galileo E5 AltBOC</b> · worst loss caused { "0.00544" } dB (decibel), at a cell with { "17" } of its satellites in view: a margin of { "0.0946" } dB to the { "0.1" } dB limit · <s1>compatible</s1>
+seg-893be5d86234 = <b>L バンド、衛星 { "288" } 機 → Galileo E5 AltBOC</b> · もたらす最悪の損失は { "0.00544" } dB（デシベル）、衛星 { "17" } 機が可視のセルで：{ "0.1" } dB の限界に対して { "0.0946" } dB の余裕 · <s1>両立可能</s1>
+
+# World map of the worst loss the plan L band, { "288" } satellites causes, per cell: every cell within the limit
+seg-bc132b0068fe = 計画 L バンド、衛星 { "288" } 機がセルごとにもたらす最悪の損失の世界地図：すべてのセルが限界内
+
+# { "0" } dB
+seg-ae759f574501 = { "0" } dB
+
+# { "0.00544" } dB, the worst cell · limit { "0.1" } dB
+seg-c73e052d7628 = { "0.00544" } dB、最悪のセル · 限界 { "0.1" } dB
+
+# Worst loss the plan <b>L band, { "288" } satellites</b> causes at each cell of the worldwide grid, over the signals it overlaps: an upper bound, every satellite in view at the maximum received power.
+seg-a55ab55d78eb = 計画 <b>L バンド、衛星 { "288" } 機</b>が、重なる信号について、世界規模のグリッドの各セルでもたらす最悪の損失：上界であり、可視のすべての衛星が最大の受信電力で扱われます。
+
+# <b>{ "4" } of { "4" }</b> plans compatible · the GNSS signals cost the L-band plans at most { "0.00908" } dB
+seg-5acfa8382eca = <b>{ "4" } 個中 { "4" } 個</b>の計画が両立可能 · GNSS 信号が L バンドの計画に与える損失は最大で { "0.00908" } dB
+
+# Kshana Pro { "0.2.0" } on open engine { "0.29.0" } · <b>kshana-pro coexist</b> · { "10" } engine runs (<c1/>, <c2/>) · scenario hash 479364bd… · MODELLED upper bound · the { "0.1" } dB limit was chosen for the example only, not a regulatory criterion · C/A: coarse/acquisition; AltBOC: alternative binary offset carrier
+seg-2acb5dfe6d2c = Kshana Pro { "0.2.0" }（オープンエンジン { "0.29.0" } 上）· <b>kshana-pro coexist</b> · エンジンの実行 { "10" } 回（<c1/>、<c2/>）· シナリオのハッシュ 479364bd… · MODELLED の上界 · { "0.1" } dB の限界は例示のためだけに選んだものであり、規制上の基準ではありません · C/A：コース/捕捉、AltBOC：代替バイナリオフセットキャリア
+
+# Can the team queue studies on its own network and prove what was delivered?
+seg-b5f4c3d893ed = チームは自前のネットワークで調査をキューに入れ、何が納品されたかを証明できるか。
+
+# A free user runs one scenario at a time on one machine.
+seg-b0252a650ea5 = 無償版のユーザーは、一台のマシンで一度に一つのシナリオを実行します。
+
+# A Pro team queues studies on its own network, lets them run while no one watches, and can show afterwards exactly which result was delivered for which request.
+seg-18d63112f063 = Pro のチームは、自前のネットワークで調査をキューに入れ、誰も見ていない間にも実行させ、その後で、どの依頼に対してどの結果が納品されたかを正確に示せます。
+
+# It extends the on-premises service: Pro can run as a small HTTP (Hypertext Transfer Protocol) service on your own network: it reports its health, its version and the kinds it can run, and runs a scenario posted to it. A job's identifier is the SHA-256 of the operation and the request, so the same request is the same job and is not run twice. After a stop or a crash, every unfinished job is queued again and no finished job is run again. Without a licence it serves the open engine only and refuses every Pro feature.
+seg-dc4ada18a8b6 = これはオンプレミスのサービスを拡張したものです。Pro は、自前のネットワーク上の小さな HTTP（Hypertext Transfer Protocol）サービスとして動作でき、その健全性、バージョン、実行できる種類を報告し、送られたシナリオを実行します。ジョブの識別子は操作とリクエストの SHA-256 であるため、同じリクエストは同じジョブであり、二度実行されません。停止やクラッシュの後は、未完了のジョブはすべてキューに戻され、完了したジョブが再実行されることはありません。ライセンスがなければ、オープンなエンジンのみを提供し、Pro の機能はすべて拒否します。
+
+# <b>What it does not do.</b> One request per connection, with no streaming: a client polls. One licence for the whole service and one shared access token, not user management. No cancellation, time limit, priority or retention policy.
+seg-c1af74cddda0 = <b>できないこと。</b>接続ごとにリクエストは一つで、ストリーミングはなく、クライアントはポーリングします。ライセンスはサービス全体で一つ、アクセストークンも共有の一つであり、ユーザー管理ではありません。キャンセル、時間制限、優先度、保持ポリシーはありません。
+
+# On-premises job service · <b>one recorded session</b>
+seg-a91c54eb4ba8 = オンプレミスのジョブサービス · <b>記録した一回のセッション</b>
+
+# Requests to the service and what it answered, in order
+seg-f584d334e551 = サービスへのリクエストと、その応答を順に表示
+
+# <b>POST /jobs</b> <em>a link-budget scenario</em>
+seg-a308bdf972fc = <b>POST /jobs</b> <em>リンクバジェットのシナリオ</em>
+
+# accepted and queued · job fb6e50ff…
+seg-1bea805079e5 = 受理されキューに入った · ジョブ fb6e50ff…
+
+# GET /jobs/{ "{" }id{ "}" }
+seg-ed66dc7a965c = GET /jobs/{ "{" }id{ "}" }
+
+# succeeded on its first attempt · kind <c1/>
+seg-e97b04c3927f = 最初の試行で成功 · 種類 <c1/>
+
+# <b>POST /jobs</b> <em>the same request again</em>
+seg-5c0fce7aca9c = <b>POST /jobs</b> <em>同じリクエストをもう一度</em>
+
+# the same job, already finished: nothing run twice
+seg-50000838f4cc = 同じジョブで、すでに完了済み：二度は実行されない
+
+# GET /ledger/verify
+seg-be3aa55c904e = GET /ledger/verify
+
+# verified, chain intact · { "3" } records · { "1" } delivered job · no mismatch
+seg-3fb12de9f868 = 検証済み、チェーンは損なわれていない · { "3" } 件のレコード · 納品されたジョブ { "1" } 件 · 不一致なし
+
+# GET /openapi.json
+seg-d05960312e08 = GET /openapi.json
+
+# OpenAPI { "3.1" } · { "13" } paths, from the service's own route table
+seg-4b360cf65b93 = OpenAPI { "3.1" } · サービス自身のルートテーブルから得た { "13" } 個のパス
+
+# <b>GET /</b> <em>the job board</em>
+seg-a976477641db = <b>GET /</b> <em>ジョブボード</em>
+
+# loads nothing from outside
+seg-4b68fe5ddf1c = 外部からは何も読み込まない
+
+# <b>restart</b> <em>then GET /jobs/{ "{" }id{ "}" }</em>
+seg-734560e175a9 = <b>再起動</b> <em>その後 GET /jobs/{ "{" }id{ "}" }</em>
+
+# the finished job still shows one attempt
+seg-7d53151be9e6 = 完了したジョブは、引き続き試行一回と表示される
+
+# <b>kill -9</b> <em>while a job runs, then restart</em>
+seg-d0683c37acc1 = <b>kill -9</b> <em>ジョブの実行中に、その後再起動</em>
+
+# the unfinished job ran again and succeeded; the finished job was not run again · ledger { "9" } records, { "3" } delivered jobs, verified
+seg-64ddf6a78d22 = 未完了だったジョブは再実行されて成功し、完了済みのジョブは再実行されなかった · 台帳は { "9" } 件のレコード、納品されたジョブ { "3" } 件、検証済み
+
+# <b>no licence: POST /jobs</b> <em>a Pro scenario</em>
+seg-fcbfbd231d61 = <b>ライセンスなし：POST /jobs</b> <em>Pro のシナリオ</em>
+
+# refused on submission: nothing queued
+seg-1911ae0879b8 = 投入時に拒否：キューには何も入らない
+
+# <b>no licence: POST /jobs</b> <em>an open scenario</em>
+seg-de7bb1084780 = <b>ライセンスなし：POST /jobs</b> <em>オープンなシナリオ</em>
+
+# accepted and queued
+seg-14edaf993a56 = 受理されキューに入った
+
+# Kshana Pro on open engine { "0.29.0" } · <b>kshana-pro serve --data-dir</b>, two workers (the restart test: one) · HTTP status codes as the service returned them · a local run on public scenario files with the development entitlement, not a customer deployment
+seg-af3f560b9a7f = Kshana Pro（オープンエンジン { "0.29.0" } 上）· <b>kshana-pro serve --data-dir</b>、二つのワーカー（再起動テストでは一つ）· HTTP ステータスコードはサービスが返したとおり · 公開シナリオファイルに対する、開発用の権限によるローカルでの実行であり、顧客の環境への展開ではありません
+
+# Also in Kshana Pro
+seg-935445590619 = Kshana Pro のその他の機能
+
+# Kshana Pro's model-based systems-engineering (MBSE) and programme tooling checks a programme's requirements against runs of the open engine: it imports requirements as comma-separated values (CSV), or as a documented subset of the Requirements Interchange Format (ReqIF) or of Systems Modeling Language version { "2" } (SysML v2) text, and produces a verification cross-reference matrix (VCRM), a SysML v2 model, a change-impact report and an offline evidence pack. It re-runs and recomputes nothing.
+seg-a9b4af1b1b07 = Kshana Pro のモデルベースシステムズエンジニアリング（MBSE）およびプログラムのツールは、プログラムの要求をオープンなエンジンの実行に照らして確認します。要求は、カンマ区切り値（CSV）、あるいは Requirements Interchange Format（ReqIF）または Systems Modeling Language バージョン { "2" }（SysML v2）テキストの文書化されたサブセットとして取り込み、検証クロスリファレンスマトリクス（VCRM）、SysML v2 モデル、変更影響レポート、オフラインのエビデンスパックを生成します。再実行も再計算も行いません。
+
+# The open engine's outputs it reads
+seg-0a662a644f5d = 読み取るオープンなエンジンの出力
+
+# the fields a criterion names, their units, the reproducibility stamp of scenario hash, seed, engine version and schema version, and the run's label and figure tiers
+seg-e91fe1056446 = 基準が指定するフィールド、その単位、シナリオのハッシュ・シード・エンジンのバージョン・スキーマのバージョンからなる再現性のスタンプ、そして実行のラベルと数値のティア
+
+# kind, reproducibility record and capability labels
+seg-c84c09a6dc24 = 種類、再現性の記録、機能のラベル
+
+# its hash, kind, seed and parameters
+seg-8fc1ffcf6847 = そのハッシュ、種類、シード、パラメーター
+
+# each field's unit, provenance and evidence tier
+seg-2e6b3bca199f = 各フィールドの単位、出所、エビデンスのティア
+
+# each capability's VALIDATED, MODELLED or PARTNER label
+seg-593a13692dc4 = 各機能の VALIDATED、MODELLED、PARTNER のラベル
+
+# A trade study runs every architecture option as an unchanged open-engine scenario, ranks the options on a figure of merit read from each run's result, and writes an evidence pack that records each option's scenario hash, so any figure in it can be reproduced by re-running that scenario.
+seg-26c07e74fdca = トレードスタディは、すべてのアーキテクチャの選択肢を、変更を加えないオープンなエンジンのシナリオとして実行し、各実行の結果から読み取った性能指標で選択肢を順位付けし、各選択肢のシナリオのハッシュを記録したエビデンスパックを書き出すため、その中のどの数値も、そのシナリオを再実行すれば再現できます。
+
+# Clock digital twin
+seg-05a421ea6ac7 = クロックのデジタルツイン
+
+# A clock twin is calibrated to a device's published Allan-deviation budget, then checked by estimating the twin's own Allan deviation with the open engine's estimator and comparing the two within a stated tolerance. A twin of your own device needs your characterisation data and is built under contract and a non-disclosure agreement.
+seg-06ca5084425c = クロックツインは、デバイスの公表されたアラン偏差の誤差配分に合わせて較正され、その後、オープンなエンジンの推定器でツイン自身のアラン偏差を推定して両者を比較し、明記した許容差の範囲内にあるかを確認します。お客様のデバイスのツインには、お客様の特性データが必要であり、契約と秘密保持契約の下で構築されます。
+
+# Study dossier
+seg-fca21deac438 = 調査資料
+
+# One scenario becomes a reproducible technical note in HTML (HyperText Markup Language) and JSON (JavaScript Object Notation): scope, method, results with a tier on every figure, limitations, and the exact scenario text run.
+seg-fef6a718bf86 = 一つのシナリオから、HTML（HyperText Markup Language）と JSON（JavaScript Object Notation）の再現可能な技術ノートが作成されます。内容は、範囲、手法、すべての数値にティアを付けた結果、制約事項、そして実行したシナリオのテキストそのものです。
+
+# <b>Pro needs a licence.</b> Without one, Pro runs open scenarios only and refuses every Pro feature with a message naming what is required.
+seg-4650cf680300 = <b>Pro にはライセンスが必要です。</b>ライセンスがない場合、Pro はオープンなシナリオのみを実行し、Pro の機能はすべて、必要なものを示すメッセージとともに拒否します。
+
+# <b>Some work needs a signed customer.</b> A twin of your own device needs your characterisation data and is built under contract and a non-disclosure agreement.
+seg-627687344e9e = <b>署名済みの顧客が必要な作業もあります。</b>お客様ご自身の機器のツインには、お客様の特性評価データが必要であり、契約と秘密保持契約（NDA）のもとで構築します。
+
+# <b>Nothing Pro produces is a certification.</b> Every result is modelled, and says so.
+seg-f15f652a7e77 = <b>Pro が生み出すものは、いずれも認証ではありません。</b>すべての結果はモデルから計算されたものであり、その旨を明示します。
+
+# Done as a custom study
+seg-ef76d9237977 = カスタムスタディとして実施
+
+# <b>Models of your hardware.</b> Sensor or resilience models calibrated to your hardware are built only under contract, with your data.
+seg-853667670c1f = <b>お客様のハードウェアのモデル。</b>お客様のハードウェアに合わせて較正したセンサーまたはレジリエンスのモデルは、契約のもとで、お客様のデータを用いてのみ構築します。
+
+# <b>Export-controlled resilience models are not publicly offered.</b> Such work is done only under the appropriate clearance and a non-disclosure agreement.
+seg-520654f215c5 = <b>輸出管理対象のレジリエンスモデルは、一般には提供していません。</b>この種の作業は、適切なクリアランスと秘密保持契約（NDA）のもとでのみ行います。
+
+# The charts in this section are drawn from the files the Pro commands wrote for the worked examples that ship with Pro: modelled results, not statements about any real mission. The wording is quoted from the public Kshana Pro page of the open repository.
+seg-8ea876b3c515 = このセクションのグラフは、Pro に同梱された実例のために Pro のコマンドが書き出したファイルから描画しています。これらはモデルから計算した結果であり、実在するいかなるミッションについての主張でもありません。文言は、オープンリポジトリの公開 Kshana Pro ページから引用しています。
+
+# The open engine at the centre: one mark per scenario kind ({ "93" }), filled where the kind has validated ledger rows, hollow where its rows are Modelled, a dash where no ledger module matches it by name. Kshana Pro and the custom study sit around it and connect to the kinds they build on.
+seg-0ab329c843b0 = 中心にあるオープンなエンジン：シナリオ kind ごとに一つのマーク（{ "93" } 個）。その kind に確認済みの台帳の行があれば塗りつぶし、その行がモデル計算であれば白抜き、名前で一致する台帳のモジュールがなければダッシュです。Kshana Pro とカスタムスタディはその周囲にあり、それぞれが土台とする kind につながっています。
+
+# Engine v{ $version } · { "93" } kinds from <c1/> · ledger status from <c2/> · what Pro and a study build on: the site's editions register · no scenario or seed
+seg-e507665bbe2c = エンジン v{ $version } · <c1/> による { "93" } 種類の kind · <c2/> による台帳のステータス · Pro とスタディが土台とするもの：サイトのエディション登録簿 · シナリオもシードもなし
+
+# (not in the old English either)
+seg-43711d15e734 = 完全な検証マトリクス：{ "412" } 件の機能のうち { "176" } 件を独立したオラクルと照合して確認済み、残りはモデル計算とラベル付け
+
+# Need this ledger as an audit-grade, reproducible evidence pack for a review board? <a1>Kshana Pro packages it</a1>.
+seg-41da0459d87a = この台帳を、審査委員会向けの監査グレードで再現可能なエビデンスパックとして必要ですか？<a1>Kshana Pro がパッケージ化します</a1>。
+
+# Kshana Pro packages the evidence a review or procurement board asks for, reproducibly. What it builds on: this ledger, where every capability names its oracle and its test, and the stamp every result carries. In one command, a mission dossier checks every requirement against real runs and writes a verification matrix with its open items and a PDF (Portable Document Format).
+seg-20582558a93f = Kshana Pro は、レビューや調達委員会が求めるエビデンスを、再現可能な形でパッケージ化します。その土台は、すべての機能がオラクルとテストを明示するこの台帳と、すべての結果に付くスタンプです。一つのコマンドで、ミッションドシエがすべての要件を実際の実行に照らして確認し、未解決項目を含む検証マトリクスと PDF（Portable Document Format）を書き出します。
+
+# See a real dossier
+seg-1c8effb9400a = 実際のドシエを見る
+
+# Packages the evidence into an audit-grade, reproducible evidence pack for a review board. <a1>See below</a1>
+seg-69df15091cab = 審査委員会向けに、エビデンスを監査に耐える再現可能なエビデンスパックにまとめます。<a1>下記を参照</a1>
+
+# <b>With Pro:</b> a <b>mission dossier</b> checks every requirement against real runs and keeps these labels in its verification matrix: a requirement met on a MODELLED or PARTNER basis is flagged. <a1>See a real dossier</a1>
+seg-5af3d58e83fa = <b>Pro では：</b><b>ミッションドシエ</b>が、すべての要件を実際の実行に照らして確認し、これらのラベルを検証マトリクスに保持します。MODELLED または PARTNER を根拠として満たされた要件には、フラグが付きます。<a1>実際のドシエを見る</a1>
+
+# (not in the old English either)
+seg-43f852e4bee8 = { "74" } 件中、確認済み
+
+# (not in the old English either)
+seg-0c637f4b6c88 = { "412" } 件の機能、それぞれに評価を付けています。<b>{ "176" } 件</b>は、独立した外部のオラクルと照合して確認済みです。<b>{ "232" } 件は、率直にモデル計算と表示しています。</b>{ "4" } 件はパートナーが担当します。切り上げは一切していません。
+
+# (not in the old English either)
+seg-c2c3179c1316 = 検証マトリクス。台帳の順に、機能ごとに一つのセル：確認済みが { "176" }（塗りつぶしの四角）、モデル計算が { "232" }（白抜きの四角）、パートナー担当が { "4" }（ひし形）。矢印キーでセル間を移動します。機能とそのオラクルは下に読み上げられます。
+
+# (not in the old English either)
+seg-a2cdd2df1b36 = エンジン v{ $version } · <c2/> から生成された <c1/> · { "412" } 行 · シナリオもシードもなし：エンジン自身の台帳
+
+# (not in the old English either)
+seg-b36352ff4d2a = エンジン v{ $version }、ビルド <c1/> · <c2/> · 決定論的、シードなし
+
+# (not in the old English either)
+seg-edd1aba6a08c = エンジン v{ $version }、ビルド <c1/> · <c2/> · 決定論的、シードなし
+
+# (not in the old English either)
+seg-90efc3759f07 = エンジン v{ $version }、ビルド <c1/> · <c2/> · 決定論的、シードなし
+
+# (not in the old English either)
+seg-094876c75564 = エンジン v{ $version } · <c1/> の残差表。二件の伝播器チェックはビルド <c2/> で再計算 · 決定論的、シードなし
+
+# (not in the old English either)
+seg-1c7e4b85e701 = エンジン v{ $version }、ビルド <c1/> · <c2/> · 決定論的、シードなし
+
+# (not in the old English either)
+seg-f42398e9711c = エンジン v{ $version }、ビルド <c1/> · <c2/> · 決定論的、シードなし
+
+# (not in the old English either)
+seg-07e8ef5a102f = { "176" }<s1>/{ "412" } 確認済み</s1>
+
+# (not in the old English either)
+seg-4873cd813b9a = 検証マトリクス：確認済みが { "176" }、モデル計算が { "232" }、パートナー担当が { "4" }、合計 { "412" }
+
+# (not in the old English either)
+seg-98b273ce8773 = { "412" } 行すべて、一行に一つずつ。
+
+# (not in the old English either)
+seg-c321a2dafd3e = すべて { "412" }
+
+# (not in the old English either)
+seg-bc4726a0baf1 = モデル計算 { "232" }
+
+# (not in the old English either)
+seg-40e80b22723c = 検証台帳、{ "412" } 行、スクロール可能
+
+# <s1>Kshana Pro</s1><c1/><s2>Same engine, amplified: { "608" } designs, one Pareto front</s2>
+seg-a92f77bd42cb = <s1>Kshana Pro</s1><c1/><s2>同じエンジンを増幅：{ "608" }件の設計、一つのパレートフロント</s2>
+
+# Kshana Pro is a proprietary overlay that depends on the open core and never forks it, available under contract. No prices on a web page: every paid route starts with a message to <a1>contact@ashforde.org</a1>.
+seg-27c12083529b = Kshana Pro は、オープンコアに依存し、それをフォークしない独自のオーバーレイで、契約に基づいて提供されます。ウェブページには価格を掲載していません。有償のあらゆる方法は、<a1>contact@ashforde.org</a1> へのメッセージから始まります。
+
+# The Pareto front of a design space, with every front design as a scenario the free engine re-runs.
+seg-298532756f74 = 設計空間のパレートフロント。フロント上のすべての設計は、無償のエンジンが再実行できるシナリオとして提供されます。
+
+# Uncertainty and sensitivity over thousands of runs.
+seg-a699256db841 = 数千回の実行にわたる不確かさと感度。
+
+# A one-command mission dossier with a verification matrix and a PDF (Portable Document Format) file.
+seg-665005551d84 = 検証マトリクスと PDF（Portable Document Format）ファイルを含む、一つのコマンドで作れるミッションドシエ。
+
+# Audit-grade, reproducible evidence packs; clock digital twins calibrated to your device's published Allan budget; architecture trade studies ranked on a figure of merit; model-based systems-engineering (MBSE) and programme tooling.
+seg-455cb5040f80 = 監査グレードで再現可能なエビデンスパック、お使いの機器の公開されたアラン分散のバジェットに較正したクロックのデジタルツイン、性能指標で順位付けしたアーキテクチャのトレードスタディ、モデルベースシステムズエンジニアリング（MBSE）とプログラム向けのツール。
+
+# Same engine, amplified: real Kshana Pro output
+seg-3303866fbf99 = 同じエンジンを増幅：Kshana Pro の実際の出力
+
+# <a1><s1><c1/>Design optimiser</s1></a1>
+seg-f5513a1750f1 = <a1><s1><c1/>設計オプティマイザー</s1></a1>
+
+# <b>{ "608" } designs</b>, all run: the Pareto front and its knee
+seg-2bbc6243b4b1 = <b>{ "608" }件の設計</b>をすべて実行：パレートフロントとその変曲点
+
+# <a1><s1><c1/>Uncertainty and sensitivity</s1></a1>
+seg-56e344605a3d = <a1><s1><c1/>不確かさと感度</s1></a1>
+
+# <b>{ "2,000" } runs</b>: a confidence band against a limit
+seg-a0b3c138f981 = <b>{ "2,000" }回の実行</b>：限界に対する信頼帯
+
+# <b>{ "12" } requirements</b> checked against real runs, 21-page PDF (Portable Document Format)
+seg-905e5eef45e5 = <b>{ "12" }件の要件</b>を実際の実行に照らして確認、21ページの PDF（Portable Document Format）
+
+# (not in the old English either)
+seg-b9961ed25282 = v{ $version } の新機能：ミッションスレッド、すべての図のエビデンスラベル、そして十七の言語
+
+# (not in the old English either)
+seg-237d8bd201d2 = <b>キャンペーン：</b>エンジン v{ $version }、ビルド <c1/> · <c2/> · シード{ "20260928" }
+
+# (not in the old English either)
+seg-98ebce268546 = <b>軌道：</b>エンジン v{ $version }、ビルド <c1/> · <c2/> · 決定論的、シードなし
+
+# (not in the old English either)
+seg-bb2975f5a7dd = エンジン v{ $version }、ビルド <c1/> · <c2/> · シード{ "20260928" }
+
+# (not in the old English either)
+seg-ee04b167d80a = { "412" } 件の機能のうち { "176" } 件が独立した外部のオラクルと一致しています。残りはモデル計算とラベル付けされ、その旨を明示しています。
+
+# <s1>Pro</s1> the Pareto front of a design space, uncertainty and sensitivity, and a one-command mission dossier
+seg-354162e88f07 = <s1>Pro</s1>設計空間のパレートフロント、不確かさと感度、一つのコマンドで作れるミッションドシエ
+
+# Pro: audit-grade, reproducible evidence packs for a review.
+seg-de3cc6d30b9c = Pro：レビューのための、監査グレードで再現可能なエビデンスパック。
+
+# Pro: architecture trade studies ranked on a figure of merit. Pro: clock digital twins calibrated to your device's published Allan budget.
+seg-7889feffa939 = Pro：性能指標で順位付けしたアーキテクチャのトレードスタディ。Pro：お使いの機器の公開されたアラン分散のバジェットに較正したクロックのデジタルツイン。
+
+# Pro: clock digital twins calibrated to your device's published Allan budget. Pro: architecture trade studies ranked on a figure of merit.
+seg-4a5542c69690 = Pro：お使いの機器の公開されたアラン分散のバジェットに較正したクロックのデジタルツイン。Pro：性能指標で順位付けしたアーキテクチャのトレードスタディ。
+
+# Pro: clock digital twins calibrated to your device's published Allan budget. Pro: audit-grade, reproducible evidence packs for a review.
+seg-cc45be91cd00 = Pro：お使いの機器の公開されたアラン分散のバジェットに較正したクロックのデジタルツイン。Pro：レビューのための、監査グレードで再現可能なエビデンスパック。
+
+# <b>With Pro:</b> the design optimiser runs a whole constellation design space around the Earth, the Moon or Mars through this engine and returns its <b>Pareto front</b>, each front design written out as a plain scenario file. <a1>See a real front</a1>
+seg-6c981f00d37d = <b>Pro では：</b>設計オプティマイザーが、地球、月、火星の周りのコンステレーション設計空間全体をこのエンジンで実行し、その<b>パレートフロント</b>を返します。フロント上の各設計は、通常のシナリオファイルとして書き出されます。<a1>実際のフロントを見る</a1>
+
+# <b>Free today:</b> everything in the open engine. Pro: architecture trade studies ranked on a figure of merit.
+seg-9601ecea0610 = <b>現在は無償：</b>オープンエンジンのすべて。Pro：性能指標で順位付けしたアーキテクチャのトレードスタディ。
+
+# <b>Free today:</b> everything in the open engine. Pro: audit-grade, reproducible evidence packs for a review.
+seg-081d06995ef0 = <b>現在は無償：</b>オープンエンジンのすべて。Pro：レビューのための、監査グレードで再現可能なエビデンスパック。
+
+# <b>Free today:</b> everything in the open engine. Pro: clock digital twins calibrated to your device's published Allan budget.
+seg-2abf4f5bd06e = <b>現在は無償：</b>オープンエンジンのすべて。Pro：お使いの機器の公開されたアラン分散のバジェットに較正したクロックのデジタルツイン。
+
+# (not in the old English either)
+seg-67a6c0107bcd = エンジン v{ $version }、ビルド <c1/> · <c2/> · 決定論的、シードなし

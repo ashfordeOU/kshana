@@ -61,8 +61,6 @@ seg-aa942198bb2e = <b>SP3-c (SP3: Standard Product { "3" }, tarkka ratamuoto) / 
 
 seg-4d4237e15ef1 = IGS Standard Product { "3" } (c/d)
 
-seg-8d1089fbd59d = Maahan sidottu (ECEF) paikka- ja kelloaikasarja. Edestakainen ajo validoitu tarkkuuteen < { "0.5" } m todellisella tilannekuvalla <c1/> (<a1><c2/></a1>).
-
 seg-761698fcf960 = <b>RINEX (Receiver Independent Exchange Format) { "3" }</b> (lähetetty navigointi)
 
 seg-897068cff342 = RINEX { "3" }.x NAV (IS-GPS-200, Galileo ICD (rajapintamäärittely), BeiDou ICD, GLONASS (Venäjän maailmanlaajuinen satelliittinavigointijärjestelmä) ICD)
@@ -199,13 +197,9 @@ seg-8b0593f67c7f = Arvo / yksikkö
 
 seg-d33eb162d179 = OEM-segmentin metatiedot
 
-seg-4b338284e56a = <c1/> / <c2/> / <c3/> — koordinaatisto, jossa propagaattorit integroivat, ja epookkiruudukon aika-asteikko, ei uudelleennimetty
-
 seg-e0a44af9aaf8 = OEM-tilan epookki
 
 seg-b0623bab9fcc = kunkin datarivin ensimmäinen sarake
-
-seg-410bd5a9ba14 = ISO-8601 (ISO: International Organization for Standardization) -kalenteriaika, GPS-aika-asteikko
 
 seg-a7c95802e01a = OEM:n paikka, nopeus
 

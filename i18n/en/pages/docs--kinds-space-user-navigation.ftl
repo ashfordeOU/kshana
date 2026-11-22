@@ -19,9 +19,6 @@ seg-0ff068a288b6 = Topic pages: <a1>SSV</a1>. Run one: <c1/>. All families: <a2>
 seg-c20786d0eec5 = Contact sheet of the charts the engine writes for the kinds of the family Space-user navigation
 
 # text
-seg-b03d56f501c3 = Kind
-
-# text
 seg-4e31c8daf798 = Ledger
 
 # text

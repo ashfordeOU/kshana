@@ -4071,5 +4071,3 @@ seg-b5c49044a7a1 = Una región factible para la ubicación de una fuente de info
 seg-953a8b4f9f41 = Ninguna externa todavía. Solo ejecuciones sintéticas de ida y vuelta directa e inversa, de un generador que comparte el modelo del estimador, por lo que comprueban el código y la calibración de los niveles indicados bajo ese modelo y nada sobre emisores reales. Una comprobación externa frente a los emplazamientos de transmisores publicados de Jammertest { "2025" } se preregistró (docs/emitter-region/PREREGISTRATION.md, aprobada por el propietario antes de cualquier ejecución puntuada) y se ejecutó una vez (docs/emitter-region/RESULTS.md): ADS-B NOT ASSESSABLE ({ "2" } sesiones programadas, menos del mínimo registrado de { "4" }) y AIS NOT ASSESSABLE (ninguna sesión publicada), de modo que no se probó ningún umbral y la fila sigue siendo MODELLED
 
 seg-d5a79853b72f = { "93" } de { "93" } tipos de escenario, { "3334" } de { "3334" } campos numéricos
-
-seg-877f989ae75e = Las { "61" } fichas de capacidades de <c1/>, y luego las { "412" } filas de la matriz de verificación.

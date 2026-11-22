@@ -60,8 +60,6 @@ seg-aa942198bb2e = <b>SP3-c (SP3: Standard Product { "3" }, formatet för precis
 
 seg-4d4237e15ef1 = IGS Standard Product { "3" } (c/d)
 
-seg-8d1089fbd59d = Jordfast (ECEF) position + klocktidsserie. Rundtur validerad till < { "0.5" } m på en verklig ögonblicksbild av <c1/> (<a1><c2/></a1>).
-
 seg-761698fcf960 = <b>RINEX (Receiver Independent Exchange Format) { "3" }</b> (sänd navigering)
 
 seg-897068cff342 = RINEX { "3" }.x NAV (IS-GPS-200, Galileo ICD (interface control document), BeiDou ICD, GLONASS (Rysslands globala satellitnavigeringssystem) ICD)
@@ -198,13 +196,9 @@ seg-8b0593f67c7f = Värde / enhet
 
 seg-d33eb162d179 = OEM-segmentmetadata
 
-seg-4b338284e56a = <c1/> / <c2/> / <c3/> — det system som propagatorerna integrerar i och tidsskalan för epokrastret, inte omdöpt
-
 seg-e0a44af9aaf8 = OEM-tillståndsepok
 
 seg-b0623bab9fcc = första kolumnen på varje datarad
-
-seg-410bd5a9ba14 = ISO-8601 (ISO: International Organization for Standardization) kalendertid, GPS-tidsskala
 
 seg-a7c95802e01a = OEM-position, hastighet
 

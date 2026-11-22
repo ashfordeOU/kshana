@@ -5413,7 +5413,3 @@ seg-f4b44b14d819 = tests/mission_thread_oracle.rs::the_stored_numbers_miss_the_r
 seg-67fdcdfdb635 = interference_map::emitter (estimate, sessions, build_units, profile, GaussianFix::from_tdoa), interference_map::emitter_out (locate), <c1/>
 
 seg-920b26e226ab = interference_map::emitter üksusetestid (projektsiooni edasi-tagasi ring, horisondi näitaja, sünteetilised otse- ja pöördringid: teadaolev kiirgaja jääb nimetatud piirkonda ligikaudu nimetatud sagedusega, äärejuhud, seansside rühmitamine, profiil, privaatsus ja sõnastus); tests/interference_map_cli.rs locate juhud
-
-seg-db7a6ac0a47d = Täielik, masinkontrollitud tõenduste register: <b>{ "412" } rida — { "176" } VALIDATED, { "232" } MODELLED, { "4" } PARTNER</b>. Rida võib olla VALIDATED ainult sõltumatu välise etaloniga (maatriksi invariantide testid jõustavad seda). Samad andmed koos klõpsatavate ridapõhiste linkidega igale testile, moodulile ja sisse viidud testandmestikule on <em>Valideerimisregister</em> aadressil <a1>https://kshana.dev</a1>. Vt <a2>MODELLED-RATIONALE.md</a2>, miks iga modelleeritud rida pole väliselt valideeritud.
-
-seg-1cc523709234 = { "412" } rida: { "176" } väliselt valideeritud, { "232" } modelleeritud, { "4" } partneri omanduses.

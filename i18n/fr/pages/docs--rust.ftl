@@ -269,9 +269,3 @@ seg-24fe823a994a = json sans l'étiquette de preuve ([crate::evidence_label]) ;
 seg-c0444d838311 = out avec l'étiquette de preuve retirée de son JSON, de son SVG et de son CSV, octet pour octet tel que l'exécution les produisait avant l'existence de l'étiquette ; une sortie sans étiquette est inchangée.
 
 seg-80e5f0aa2831 = Le moteur compte { "93" } types de scénario ; <c1/> les liste avec leurs champs. Nouveaux dans la version { "0.38.0" } : <c2/> (signaux GNSS pour des véhicules spatiaux au-dessus, autour et au-delà des orbites GNSS) et <c3/> (orbite et surface lunaires comme infrastructure de navigation et géodésique), tous deux MODELLED, et <c4/> (un enregistrement d'erreur de temps comparé aux masques de l'ITU-T).
-
-seg-fd6daa52df11 = { "176" } capacités sur { "412" } vérifiées par rapport à des références externes indépendantes
-
-seg-4a3ebec6d011 = <b>{ "176" } sur { "412" }</b> capacités vérifiées par rapport à des références externes indépendantes ; { "232" } honnêtement étiquetées modélisées, { "4" } détenues par un partenaire. Chaque capacité porte une étiquette dans un registre vérifié par machine : VALIDATED (une référence externe indépendante concorde : données réelles, implémentation indépendante ou vecteurs de référence publiés), MODELLED (cohérent en interne, et dit à voix haute) ou PARTNER (un partenaire matériel la détient). Parmi les vérifications : les { "666" } vecteurs SGP4 (Simplified General Perturbations { "4" }) de l'AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 à { "4.12" } mm, et le modèle de forces de Cowell à { "0.08" } m près par rapport à Orekit { "12.2" }.
-
-seg-d69651a71fbe = Comment une capacité obtient son étiquette : capacité, référence indépendante, test, étiquette du registre. L'état de vérification sur l'ensemble des { "412" } capacités : { "176" } vérifiées, { "232" } modélisées, { "4" } détenues par un partenaire

@@ -19,9 +19,6 @@ seg-0d3b170b9fbc = Topic pages: <a1>CAPABILITY</a1>, <a2>RESILIENCE-CROSSWALK</a
 seg-6dfd2dc2721a = Contact sheet of the charts the engine writes for the kinds of the family GPS-denied alternative PNT
 
 # text
-seg-b03d56f501c3 = Kind
-
-# text
 seg-4e31c8daf798 = Ledger
 
 # text

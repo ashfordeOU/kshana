@@ -3829,9 +3829,6 @@ seg-d5c32303297d = Lire le registre
 seg-f6112ab2dfdf = Le registre, les résultats, l'estampille de reproductibilité et les tests qui les sous-tendent se trouvent tous dans le moteur ouvert.
 
 # text
-seg-69df15091cab = Conditionne les preuves en un paquet de preuves reproductible de qualité audit pour une commission de revue. <a1>Voir ci-dessous</a1>
-
-# text
 seg-9906d9824f3e = Répond à votre propre question avec les mêmes étiquettes, et non une certification. <a1>Voir ci-dessous</a1>
 
 # text
@@ -5209,9 +5206,6 @@ seg-7091847e1c77 = Un modèle publié ou un choix de modélisation documenté, t
 # text
 seg-1d17589ad647 = Ingénierie de la plateforme du vaisseau spatial, charge utile de navigation et matériel d'antenne, matériel de charge utile quantique, et assurance produit du matériel de vol. Kshana n'en revendique aucun ; un partenaire en est responsable.
 
-# text
-seg-5af3d58e83fa = <b>Avec Pro :</b> un <b>dossier de mission</b> vérifie chaque exigence par rapport à de vraies exécutions et conserve ces étiquettes dans sa matrice de vérification : une exigence satisfaite sur une base MODELLED ou PARTNER est signalée. <a1>Voir un vrai dossier</a1>
-
 # attr:aria-label, text
 seg-400016e22379 = Registre de validation
 
@@ -5651,9 +5645,6 @@ seg-457a0bba7c77 = <s1>tests/receiver_trust_machines.rs (rtklib_pos_runs_as_a_re
 seg-17ab1aee875b = Généré à partir de la matrice de vérification du moteur et figé par un test. Faites défiler la liste, ou ouvrez une ligne pour voir sa capacité, sa référence indépendante et ses essais. Le tableau complet, toutes les colonnes à la fois, se trouve dans la documentation : <a1>Référence des capacités</a1>.
 
 # text
-seg-41da0459d87a = Besoin de ce registre sous forme de paquet de preuves reproductible, de qualité audit, pour un comité d'examen ? <a1>Kshana Pro le met en forme</a1>.
-
-# text
 seg-72a49f4a8a52 = Reproductible par défaut
 
 # text
@@ -5739,12 +5730,6 @@ seg-d2c76b1353a9 = Le moteur et tout ce qui précède restent gratuits. Deux voi
 
 # text
 seg-1e1e6d431868 = Kshana Pro : un dossier de mission et un paquet de preuves
-
-# text
-seg-20582558a93f = Kshana Pro met en forme, de façon reproductible, les éléments de preuve que demande un comité d'examen ou d'achat. Ce sur quoi il s'appuie : ce registre, où chaque capacité nomme sa référence indépendante et son essai, et l'estampille que porte chaque résultat. En une seule commande, un dossier de mission vérifie chaque exigence par rapport à de vraies exécutions et écrit une matrice de vérification avec ses points ouverts et un PDF (Portable Document Format).
-
-# text
-seg-1c8effb9400a = Voir un vrai dossier
 
 # text
 seg-c24f4ecd4d42 = Une étude sur mesure : votre question, traitée
@@ -6249,37 +6234,11 @@ seg-860ca782e2bf = La propagation de l'état moyen de la phase tli-and-cruise (C
 
 seg-7c7d72cc2036 = Une région admissible pour l'endroit où peut se trouver une source de rapports de navigation dégradés, à partir de l'ADS-B… · modélisé
 
-seg-43f852e4bee8 = sur { "74" } vérifiées
-
 seg-8fe12f6058c6 = sur { "26" } vérifiées
 
 seg-65122c2bb1fc = sur { "104" } vérifiées
 seg-2998c6fa20d6 = sur { "79" } vérifiées
 seg-4b3ab6095c65 = sur { "56" } validés
-
-seg-0c637f4b6c88 = { "412" } capacités, chacune notée. <b>{ "176" } vérifiées</b> par rapport à des références externes indépendantes. <b>{ "232" } honnêtement étiquetées modélisées.</b> { "4" } détenues par un partenaire. Rien n'est arrondi vers le haut.
-
-seg-c2c3179c1316 = Matrice de vérification, une cellule par capacité dans l'ordre du registre : { "176" } vérifiées (carrés pleins), { "232" } modélisées (carrés creux), { "4" } détenues par un partenaire (losanges). Les touches fléchées déplacent d'une cellule à l'autre ; la capacité et sa référence indépendante sont lues en dessous.
-
-seg-a2cdd2df1b36 = Moteur v{ $version } · <c1/>, généré à partir de <c2/> · { "412" } lignes · aucun scénario ni graine : le registre propre du moteur
-
-seg-b36352ff4d2a = Moteur v{ $version }, build <c1/> · <c2/> · déterministe, sans graine
-
-seg-edd1aba6a08c = Moteur v{ $version }, build <c1/> · <c2/> · déterministe, sans graine
-
-seg-90efc3759f07 = Moteur v{ $version }, build <c1/> · <c2/> · déterministe, sans graine
-
-seg-094876c75564 = Moteur v{ $version } · tables de résidus de <c1/>, avec les deux contrôles du propagateur recalculés au build <c2/> · déterministe, sans graine
-
-seg-1c7e4b85e701 = Moteur v{ $version }, build <c1/> · <c2/> · déterministe, sans graine
-
-seg-f42398e9711c = Moteur v{ $version }, build <c1/> · <c2/> · déterministe, sans graine
-
-seg-07e8ef5a102f = { "176" }<s1>sur { "412" } vérifiées</s1>
-
-seg-4873cd813b9a = Matrice de vérification : { "176" } vérifiées, { "232" } modélisées, { "4" } détenues par un partenaire, { "412" } au total
-
-seg-98b273ce8773 = Les { "412" } lignes, une ligne chacune.
 
 seg-7780d0588bd2 = sur { "20" } validés
 
@@ -6288,9 +6247,3 @@ seg-00d97be31745 = sur { "81" } validés
 seg-04cc15e9a93c = sur { "31" } validés
 
 seg-2de2a4f9f3f7 = sur { "57" } validés
-
-seg-c321a2dafd3e = Toutes { "412" }
-
-seg-bc4726a0baf1 = Modélisées { "232" }
-
-seg-40e80b22723c = Registre de validation, { "412" } lignes, défilable

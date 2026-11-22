@@ -1220,34 +1220,6 @@ js-site-palette-none = Žádné výsledky
 
 js-site-palette-results = výsledků: { $count }
 
-js-site-pro-band-at = Po { $minutes } minutách: 5. až 95. percentil
-
-js-site-pro-band-range = { $lo } až { $hi } { $unit }
-
-js-site-pro-band-runs-within = z běhů ({ $n }) v rozmezí ±{ $limit } { $unit }
-
-js-site-pro-design-readout = satelitů: { $sat }, dostupnost { $av } % · roviny: { $planes } ve výšce { $alt } km, { $incl }°
-
-js-site-pro-front-design = Návrh na frontě { $id }
-
-js-site-pro-front-design-knee = Návrh na frontě { $id } · koleno
-
-js-site-pro-more-designs =
-    { $n ->
-        [one] (+{ $n } další návrh na frontě v tomto bodě)
-        [few] (+{ $n } další návrhy na frontě v tomto bodě)
-        [many] (+{ $n } dalšího návrhu na frontě v tomto bodě)
-       *[other] (+{ $n } dalších návrhů na frontě v tomto bodě)
-    }
-
-js-site-pro-not-rerun = znovu nespuštěno
-
-js-site-pro-rerun-free = znovu spuštěno ve volném enginu:
-
-js-site-pro-same-sha = stejné SHA-256 { $sha }…
-
-js-site-pro-same-sha-index = stejné SHA-256 výsledku jako v indexu
-
 js-site-toast-copied = Zkopírováno: { $text }
 
 js-site-toast-data-failed = Datový soubor se nepodařilo načíst

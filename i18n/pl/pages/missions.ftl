@@ -186,8 +186,6 @@ seg-b388c2bac488 = Otwórz konsolę orbit
 
 seg-3d6af799cb19 = <s1>Darmowy rdzeń</s1> każdy scenariusz i wykres na tej stronie
 
-seg-354162e88f07 = <s1>Pro</s1> front Pareto przestrzeni projektowej, niepewność i czułość oraz dossier misji jednym poleceniem
-
 seg-83e0dd9b2617 = <s1>Badanie na zamówienie</s1> modele skalibrowane do sprzętu zamawiającego, wykonane za zamawiającego
 
 seg-5285d23ae95b = Macierz zagrożeń · pliki scenariuszy według sektora i awarii
@@ -282,8 +280,6 @@ seg-2d9d1994071f = Uruchom każdy plik scenariusza z tego sektora w Kshana Studi
 
 seg-731232b52b8f = Pro dodaje
 
-seg-de3cc6d30b9c = Pro: odtwarzalne pakiety dowodowe klasy audytowej na potrzeby przeglądu.
-
 seg-04d539c39f45 = Badanie na zamówienie dodaje
 
 seg-71d7ccb4c89a = Na zamówienie: prace nad odpornością objęte kontrolą eksportu, prowadzone w ramach odpowiedniego poświadczenia bezpieczeństwa i NDA (umowa o zachowaniu poufności).
@@ -368,8 +364,6 @@ seg-2918af222529 = Satelity w widoczności i PDOP (współczynnik rozmycia dokł
 
 seg-ef0cc5181857 = Użytkownik geostacjonarny: orbitę użytkownika ustawia się w scenariuszu rodzaju orbit, tak jak orbit-molniya ustawia silnie ekscentryczną.
 
-seg-7889feffa939 = Pro: studia kompromisów architektur uszeregowane według wskaźnika jakości. Pro: cyfrowe bliźniaki zegarów skalibrowane do opublikowanego budżetu Allana urządzenia.
-
 seg-bb0ceeb8db2a = Czy lądownik, łazik lub orbiter przy Księżycu, Marsie albo dalej uzyska wiarygodne położenie i czas oraz co lokalna skala czasu dodaje do budżetu błędów?
 
 seg-db11b1e64ac5 = Słabe sygnały na odległości księżycowej, rzadka geometria przekaźników, opóźnienie czasu światła, księżycowe przesunięcie czasu, zagłuszanie powierzchni
@@ -425,8 +419,6 @@ seg-25e1426d8341 = Odbiór Earth-GNSS na odległości księżycowej
 seg-96077751d4ce = Tempo czasu księżycowego wobec opublikowanego pasma oraz budżet błędu czasu od początku do końca
 
 seg-f1dfccfb9f89 = Błąd nawigacji przekaźnikowej na orbicie Marsa, na powierzchni i w transferze
-
-seg-4a5542c69690 = Pro: cyfrowe bliźniaki zegarów skalibrowane do opublikowanego budżetu Allana urządzenia. Pro: studia kompromisów architektur uszeregowane według wskaźnika jakości.
 
 seg-4cf1f8144ae2 = Jak długo po odebraniu GNSS przez zagłuszarkę UAS (bezzałogowy system powietrzny) mieści się w budżecie położenia i czy na trasie dostępna jest integralność?
 
@@ -574,8 +566,6 @@ seg-b6c48dca904a = Detekcja spoofingu czasu przez monitor integralności zegara
 
 seg-3db4a218354b = Sieć energetyczna i finanse: limit dokładności czasu w danym sektorze wprowadza się jako threshold_ns.
 
-seg-cc45be91cd00 = Pro: cyfrowe bliźniaki zegarów skalibrowane do opublikowanego budżetu Allana urządzenia. Pro: odtwarzalne pakiety dowodowe klasy audytowej na potrzeby przeglądu.
-
 seg-cb5e51c39a7f = Utrata odniesienia czasu GNSS w pierwotnym zegarze odniesienia czasu, spoofing czasu
 
 seg-c89c91bfd2ac = Błąd czasu wobec masek ITU-T
@@ -663,8 +653,6 @@ seg-8cc7ceade324 = t = { "0" } s
 seg-1bd3b0f6eb7e = Rzeczywisty przebieg silnika, odtworzony
 
 seg-f1313464b7c9 = Orbity: propagowane ponownie z własnych elementów przebiegu i sprawdzone względem śladów naziemnych silnika. Planety: zdjęcia NASA.
-
-seg-6c981f00d37d = <b>Z Pro:</b> optymalizator projektu przepuszcza przez ten silnik całą przestrzeń projektową konstelacji wokół Ziemi, Księżyca lub Marsa i zwraca jej <b>front Pareto</b>, przy czym każdy projekt z frontu jest zapisany jako zwykły plik scenariusza. <a1>Zobacz prawdziwy front</a1>
 
 seg-cdd1e1a6793d = Tryby awarii
 
@@ -778,8 +766,6 @@ seg-d2c741b188de = Zwymiaruj architekturę PNT i zobacz, gdzie się załamuje.
 
 seg-87adf34e62f8 = Zacznij od: <a1>Atlas możliwości</a1>
 
-seg-9601ecea0610 = <b>Za darmo już dziś:</b> wszystko w otwartym silniku. Pro: studia kompromisów architektur uszeregowane według wskaźnika jakości.
-
 seg-5ad7df11c031 = Specjalista PNT lub GNSS
 
 seg-8f2ceeab7a06 = Otwórz TOML, zmień fizykę, sprawdź ją względem rejestru (ledger).
@@ -793,8 +779,6 @@ seg-c0cabe8a1c21 = Kierownik testów i oceny
 seg-a5345bf50e9a = Przypnij scenariusze jako testy regresyjne i uruchom cały zestaw w jedno ostemplowane badanie.
 
 seg-57027baf4d52 = Zacznij od: <a1>Sposoby użycia</a1>
-
-seg-081d06995ef0 = <b>Za darmo już dziś:</b> wszystko w otwartym silniku. Pro: odtwarzalne pakiety dowodowe klasy audytowej na potrzeby przeglądu.
 
 seg-e453a0b9a72e = Recenzent zakupów lub programu
 
@@ -818,8 +802,6 @@ seg-4f23a0580efe = Sprawdź holdover względem masek ITU-T, zanim antena GNSS za
 
 seg-7bc4df13f4cb = Zacznij od: <a1>Ściana synchronizacji czasu</a1>
 
-seg-2abf4f5bd06e = <b>Za darmo już dziś:</b> wszystko w otwartym silniku. Pro: cyfrowe bliźniaki zegarów skalibrowane do opublikowanego budżetu Allana urządzenia.
-
 seg-907754b26f64 = Użytkownik asystenta AI
 
 seg-3cde4f0b352a = Pozwól asystentowi uruchamiać silnik sprawdzony względem niezależnych wzorców zamiast zgadywać matematykę.
@@ -837,5 +819,3 @@ seg-0e6be0d623f6 = <b>Za darmo już dziś:</b> wszystko w otwartym silniku. Lice
 seg-9b505908a6e2 = Kshana <b>nie steruje żadnym sprzętem radiowym i niczego nie nadaje</b>. Zawiera programowy odbiornik GNSS dla zarejestrowanych i wygenerowanych próbek IQ i może zapisywać syntetyczne pliki IQ w paśmie podstawowym, ale <b>nie jest sprzętowym generatorem sygnału RF</b> ani <b>sprzętowym lub certyfikowanym odbiornikiem GNSS</b>. Jest narzędziem do badań i analizy kompromisów: symuluje, co zagłuszanie, spoofing i utrata sygnału robią z rozwiązaniem nawigacyjnym i czasowym, i wskazuje, które z jego odpowiedzi zostały sprawdzone względem niezależnego wzorca. <b>To nie jest produkt lotniczy.</b>
 
 seg-ceb2de75e2f4 = <b>Za darmo już dziś:</b> wszystko w otwartym silniku. Za darmo: { "53" } narzędzi MCP, od run_scenario do export_oem.
-
-seg-67a6c0107bcd = Silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)

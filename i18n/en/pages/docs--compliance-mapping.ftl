@@ -112,7 +112,7 @@ seg-f1c508a908ad = Receiver-trust runs also contribute the counts they state (ev
 # text
 seg-d6476863f862 = Capability
 
-# attr:aria-label, text
+# text
 seg-6555ff9a6d8e = Output
 
 # text

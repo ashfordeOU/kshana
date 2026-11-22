@@ -254,11 +254,6 @@ seg-2acc9fa7212b = Die Testdaten sind synthetisch und werden vom eigenen Code un
 seg-4906b14a33a3 = Die Primitive werden gegen veröffentlichte Known-Answer-Tests geprüft, von denen keiner aus dem ICD stammt: RFC { "4231" } (HMAC-SHA-256), RFC { "4493" } (CMAC-AES-128), FIPS { "197" } (AES), FIPS { "202" } (SHA3-256) und RFC { "6979" } (ECDSA P-256). P-521-Signaturen werden auf Kodierung und Hash-Auswahl mit einem im Test erzeugten Wegwerfschlüssel geprüft; die Kurvenarithmetik stammt aus der Bibliothek.
 
 # text
-# c1: tests/osnma_official_vectors.rs
-# c2: KSHANA_OSNMA_VECTORS
-seg-82ee90adf7ed = Die Übereinstimmung mit den offiziellen Vektoren wird von <c1/> geprüft, das optional ist: Es liest eine Kopie des offiziellen Testvektor-Archivs, die Sie selbst herunterladen, aus dem Verzeichnis, das <c2/> nennt, und tut nichts, wenn die Variable nicht gesetzt ist. Es speichert und verbreitet nichts, und Standardtestläufe verwenden kein Netzwerk. Es gibt dem Verifizierer nur eine Merkle-Wurzel und die öffentlichen Schlüssel eines Baums, wie ein Empfänger sie hätte, sodass Ketten aus dem signierten DSM-KROOT im Strom aufgebaut werden und der ganze Weg läuft: Merkle, Signatur, Schlüsselkette, MACSEQ und Tags. Es stellt je Vektorsatz fest: eine Untergrenze für die authentifizierten Tags, keines fehlgeschlagen, welche Ketten und Schlüssel der Strom ankündigt, authentifizierte Tags von ADKD { "0" }, { "4" } und { "12" }, dass die Authentifizierung nach Kettenende, Kettenwiderruf, Schlüsselwiderruf und neuem öffentlichen Schlüssel wieder einsetzt, dass die Alarmnachricht verifiziert wird und nichts authentifiziert zurücklässt, und dass jeder Vektor nur HMAC-SHA-256, eine SHA-256-Kette, 128-Bit-Schlüssel, 40-Bit-Tags und die Nachschlageeinträge { "33" } und { "34" } verwendet. Andere Algorithmen- und Parameterwahlen des ICD sind daher nur von den obigen Known-Answer- und synthetischen Tests abgedeckt.
-
-# text
 seg-70bb026ce655 = Abhängigkeiten
 
 # text

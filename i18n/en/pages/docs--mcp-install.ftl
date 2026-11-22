@@ -198,11 +198,6 @@ seg-93d075d31cdd = npx (Node):
 seg-ae03b1ad65f1 = kshana-mcp on PATH:
 
 # text
-# c1: claude_desktop_config.json
-# c2: .mcpb
-seg-439fac4928a0 = Where: <c1/> (Settings, Developer, Edit Config). Or double-click the <c2/> extension from the release: no config file.
-
-# text
 seg-e998ab783248 = Cursor
 
 # text

@@ -41,21 +41,18 @@ seg-a613a7447e3f = Custom study
 seg-b366150de755 = Request a study
 
 # text
-seg-0ab329c843b0 = The open engine at the centre: one mark per scenario kind ({ "93" }), filled where the kind has validated ledger rows, hollow where its rows are Modelled, a dash where no ledger module matches it by name. Kshana Pro and the custom study sit around it and connect to the kinds they build on.
+seg-9672418f0ebd = The open engine at the centre: one mark per scenario kind ({ "93" }), filled where the kind has validated ledger rows, hollow where its rows are Modelled, a dash where no ledger module matches it by name. Kshana Pro and the custom study sit around it and connect to the kinds they add to.
 
 # text
 # c1: src/api.rs
 # c2: web/data/verification-matrix.json
-seg-e507665bbe2c = Engine v{ $version } · { "93" } kinds from <c1/> · ledger status from <c2/> · what Pro and a study build on: the site's editions register · no scenario or seed
+seg-704bd0fc2dac = Engine v{ $version } · { "93" } kinds from <c1/> · ledger status from <c2/> · what Pro and a study add to: the site's editions register · no scenario or seed
 
 # attr:aria-label, text
 seg-e1acd19a6ac6 = Compare the editions
 
 # text
 seg-352b6af14482 = Open core licence
-
-# text
-seg-2fdbe97136e7 = Kshana Pro, amplified
 
 # text
 seg-c3fa8434858a = How a study runs
@@ -131,7 +128,7 @@ seg-e6d424c47b13 = Ask about a commercial licence
 seg-3260efe6fdd6 = Commercial · the same engine, amplified
 
 # text
-seg-4b5028704ea5 = A proprietary overlay that depends on the open core and never forks it: a strict superset of open Kshana. Available under contract.
+seg-5f2b975569f1 = The commercial edition: everything in the open core, plus the tools a programme needs to decide and to defend the decision. Available under contract.
 
 # text
 seg-d997b6a5a416 = Why Pro, even more
@@ -140,34 +137,34 @@ seg-d997b6a5a416 = Why Pro, even more
 seg-dee07b261496 = Open Kshana runs one scenario and tells you what it gives. Kshana Pro answers the questions a programme asks next: which design to fly, how sure the answer is, and whether the mission meets its requirements in a form a review board can check.
 
 # text
-seg-1ea79eedb7a1 = Programmes that must hand a mission dossier or an audit-grade evidence pack to a review or procurement board
+seg-96fc980ce9ea = Mission and system architects who choose between designs and have to show why
 
 # text
-seg-2217d28fd201 = Architects choosing a design from the Pareto front of a whole design space, or from trade studies ranked on a figure of merit
+seg-5d7ffd94d4b3 = Programme and verification managers who report to a review, a customer or a procurement board
 
 # text
-seg-ee1b858bcc3f = Timing and hardware teams who need a clock digital twin calibrated to their device
+seg-6e1fbf4f487e = Timing, navigation and hardware teams who need models of their own devices
 
 # text
-seg-4b436214a890 = <a1>A design optimiser</a1>: the Pareto front of a design space, with every front design as a scenario the free engine re-runs
+seg-8c478b14f09f = <a1>Design exploration</a1>: the best trade-offs across a whole design space, every recommended design as a scenario the free engine re-runs
 
 # text
-seg-d8d838542aa7 = <a1>Uncertainty and sensitivity</a1> over thousands of runs
+seg-1130c4820875 = <a1>Confidence and risk</a1>: confidence bands, the probability of meeting each limit and the inputs that matter most
 
 # text
-seg-161db00fa35f = <a1>A one-command mission dossier</a1> with a verification matrix and a PDF (Portable Document Format) file
+seg-d407a4316287 = <a1>Mission dossiers</a1> in one command, with a verification matrix and a PDF (Portable Document Format) report
 
 # text
-seg-e142b435c273 = Audit-grade, reproducible evidence packs, clock digital twins calibrated to a device's published Allan budget, and architecture trade studies ranked on a figure of merit
+seg-8f45ebee33f6 = <a1>Also</a1>: requirements traceability, regression watch, spectrum coexistence, trade studies, clock digital twins and an on-premises service
 
 # text
-seg-91da86f32a66 = Model-based systems-engineering (MBSE) and programme tooling that checks a programme's requirements against runs of the open engine, reading only the outputs the engine publishes
+seg-e6213b4f98a8 = Support from the team that builds the engine, and a commercial licence
 
 # text
-seg-65b886427270 = Kshana Pro is available under contract. It depends on the open core and never forks it, so nothing is taken out of the free engine.
+seg-e5e5821f2070 = Kshana Pro is available under contract. It is built on the open core and never forks it, so nothing is taken out of the free engine.
 
 # text
-seg-98f81c393a13 = See it amplified
+seg-3e30593288a1 = What Pro includes
 
 # text
 seg-89520bff6699 = Paid work · done for you
@@ -249,187 +246,46 @@ seg-6574581cd2d4 = Get warranty, indemnity or support terms the AGPL disclaims
 seg-2cbf39df6210 = Kshana Pro and the other proprietary overlays are separate products under their own contract, not part of either licence. <a1>What the commercial licence covers</a1>
 
 # text
-seg-ef60d3a217a7 = Kshana Pro · the same engine, amplified
+seg-6a032e125cf7 = Kshana Pro · the commercial edition
 
 # text
-seg-0ca6598b5442 = Free runs one scenario. Pro answers the programme's question.
+seg-bbf84d10fc4a = From a simulation to a decision you can defend.
 
 # text
-seg-8a239e03a91c = Open Kshana runs one scenario and tells you what it gives. Kshana Pro answers the questions a programme asks next, over the same engine and the same scenario files: which design to fly, how sure the answer is, and whether the mission meets its requirements in a form a review board can check.
+seg-2a727a3a2e97 = Kshana Pro is the commercial edition of Kshana, for teams that have to choose a design, say how sure they are and hand the evidence to a review board. It runs on the same open engine and the same scenario files, adds the tools a programme needs on top, and comes with support and a commercial licence under contract.
 
 # text
-seg-cdb7f8c917e7 = A strict superset of open Kshana.
+seg-0d0f679cd8fe = <b>Mission and system architects</b> who choose between designs and have to show why one was picked.
 
 # text
-seg-5de71d884106 = Every open scenario kind runs in Pro unchanged, and an open scenario runs in Pro with no licence at all.
+seg-256007ed751e = <b>Programme and verification managers</b> who report to a review, a customer or a procurement board.
 
 # text
-seg-9716f482b04d = No new physics.
+seg-37ae7a712a65 = <b>Timing, navigation and hardware teams</b> who need models of their own devices and systems.
 
 # text
-seg-44fca9f49c50 = Every Pro number comes from runs of the open engine, so a Pro figure is as trustworthy as the open scenario kind it came from, and never more.
+seg-1556f9d1aa8a = <b>Engineering organisations</b> that keep their studies and their data on their own network.
 
 # text
-seg-a1b3e6c8e054 = Reproducible in the free engine.
+seg-ee3bba976c2d = What Kshana Pro does for you
 
 # text
-seg-8b5fd4e4ea35 = Anyone with open Kshana can re-run one and get the same figure.
-
-# text
-seg-22c9d1934491 = Honest labels carried through.
-
-# text
-seg-c0c9f2748dcd = Every Pro result is labelled MODELLED. Every figure keeps the tier the open engine gave it (Validated, Modelled or Partner), never a higher one.
-
-# text
-seg-fe62a7a81520 = Design optimiser
+seg-f4fba7c6915b = Design exploration
 
 # text
 seg-4ff013b472ff = Which design should we fly?
 
 # text
-seg-a91762c0aabe = Free
+seg-00a815a5ff90 = State the choices you have and the goals that matter. Kshana Pro explores the whole design space and shows the best trade-offs, so you can see what each extra satellite or plane buys. Every recommended design comes back as an ordinary scenario file that anyone can re-run with the free engine.
 
 # text
-seg-7574857f2e17 = A free user scores one design they wrote by hand.
-
-# text
-seg-ac7e1a5e344a = Pro
-
-# text
-seg-5e92d8903fe2 = A Pro user states the design space (each variable a scenario setting with its allowed values), the constraints and two or three objectives, and gets the whole Pareto front: the designs that no other design beats on every objective at once.
-
-# text
-seg-e44bf29e6bb4 = The base scenario can be of any open kind, so the same tool designs a constellation around the Earth, the Moon or Mars, or trades a link budget. Every design is one run of the open engine. Each front design is written out as a plain open scenario file, with the Secure Hash Algorithm (SHA-256) hash of the result the free engine gives for it.
-
-# text
-seg-46ef48f5abb4 = <b>What it does not do.</b> It has no cost model, so a variable no objective penalises drifts to the edge of its range. Constellation studies score geometry only: no signal power, satellite health or terrain.
-
-# text
-seg-788b99e72541 = Pareto front · <b>Lunar navigation constellation</b>
-
-# text
-seg-dfa989332a6e = Kshana Pro output
-
-# attr:aria-label
-seg-b4a240bb26ac = Region scored
-
-# text
-seg-67e343533786 = Whole Moon
-
-# text
-seg-c5e32e8ff568 = South polar cap
-
-# attr:aria-label
-seg-f4eb65b9b27a = Lunar navigation constellation: fewest satellites against availability, whole Moon: { "608" } designs run, a Pareto front of { "12" } designs
-
-# attr:aria-label
-seg-18af8f9e61be = Lunar navigation constellation: fewest satellites against availability, south polar cap: { "608" } designs run, a Pareto front of { "9" } designs
-
-# text
-seg-6eb3858a0c29 = every design run
-
-# text
-seg-f74688dc3bbe = Pareto front
-
-# text
-seg-fb2e6760d932 = knee
-
-# text
-seg-ae4439020c65 = reference: Bundled lunar relay design ({ "8" } + { "6" } satellites)
-
-# text
-seg-5386841c8b96 = <b>Front design { "004" } · knee</b> · { "16" } satellites, { "85.0404" } % availability · { "2" } planes at { "8,000" } km, { "45" }° · re-run in the free engine: <s1>same SHA-256 { "89882372" }…</s1>
-
-# text
-seg-4dd825c7f3ea = { "608" } designs, all run (whole moon): a front of { "12" } designs at { "6" } points; { "12" } of { "12" } re-run in the free engine with the same result hash. MODELLED.
-
-# text
-seg-76d450da2ee0 = { "608" } designs, all run (south polar cap): a front of { "9" } designs at { "4" } points; { "9" } of { "9" } re-run in the free engine with the same result hash. MODELLED.
-
-# text
-seg-9e8263ecf0a3 = Kshana Pro { "0.2.0" } on open engine { "0.29.0" } · <b>kshana-pro design</b> · { "609" } engine runs · run digest df81aad4…
-
-# text
-seg-db58e04e6f25 = Uncertainty and sensitivity
+seg-602f1b9c00d0 = Confidence and risk
 
 # text
 seg-c8ce2e4a6687 = How sure are we, and what drives the result?
 
 # text
-seg-eb18bf49ff99 = A free user gets one number, or a spread over random seeds.
-
-# text
-seg-aaf8b7feaa9b = A Pro user states how uncertain each input is and gets confidence bands, the probability of meeting a limit, and a ranking of the inputs that drive the result.
-
-# text
-seg-9176a44d9494 = It works on any open scenario. Inputs are ranked by Sobol' sensitivity indices or by standardised regression coefficients, and a ranking that is not reliable is flagged as such. A long study can be stopped and resumed.
-
-# text
-seg-c9050f66bedf = <b>What it does not do.</b> Inputs are treated as independent. More runs narrow the sampling error, not the model error: a MODELLED kind stays MODELLED.
-
-# attr:aria-label
-seg-02ef1c43f3d7 = Uncertainty views
-
-# text
-seg-e8fcb508e9a5 = Confidence band
-
-# text
-seg-190c61b44b81 = What drives the result
-
-# attr:aria-label
-seg-049c503c23db = Clock holdover with an uncertain noise level: the 5th to 95th percentile of { "2,000" } runs against the limit of { "20" } ns
-
-# text
-seg-6dab3db2ad81 = 5th to 95th percentile of { "2,000" } runs
-
-# text
-seg-023d57ee95c8 = median
-
-# text
-seg-00e4c1f9bf78 = base run
-
-# text
-seg-419cbee4d7ce = share within the limit
-
-# text
-seg-974fe80f65a4 = After { "60" } minutes: <b>{ "1,366" } of { "2,000" } runs</b> within ±{ "20" } ns, a probability of { "0.683" } ({ "95" } % interval { "0.6623" } to { "0.703" })
-
-# text
-seg-9ff0ae72a9c7 = Clock holdover with an uncertain noise level · input q_wf (the clock's white-frequency-noise level): uniform({ "4.5e-20" } to { "2.7e-19" }), ASSUMED · MODELLED · Kshana Pro { "0.2.0" } on open engine { "0.29.0" } · <b>kshana-pro uncertainty</b> · { "2,000" } engine runs · run digest abab765e…
-
-# attr:aria-label, text
-seg-6555ff9a6d8e = Output
-
-# text
-seg-3b321556590c = Fused position error, with the low-Earth-orbit layer
-
-# text
-seg-6f29c63748d0 = Position error, GNSS alone
-
-# text
-seg-45e1ce6c1a7c = Peak carrier-to-noise density of the pass
-
-# attr:aria-label
-seg-9e66fcbda75a = What drives Fused position error, with the low-Earth-orbit layer: total Sobol' index of each input
-
-# text
-seg-12293e88a5ee = Fused position error, with the low-Earth-orbit layer: mean { "0.4312" } m, 5th to 95th percentile { "0.2465" } to { "0.6041" } m · top driver <b>Low-Earth-orbit orbit and clock error</b>, total index { "0.99" }
-
-# attr:aria-label
-seg-52915e113de2 = What drives Position error, GNSS alone: total Sobol' index of each input
-
-# text
-seg-746012914df5 = Position error, GNSS alone: mean { "1.6041" } m, 5th to 95th percentile { "1.5389" } to { "1.6739" } m · top driver <b>Global Positioning System (GPS) signal-in-space range error</b>, total index { "0.68" }
-
-# attr:aria-label
-seg-94329d8e11b8 = What drives Peak carrier-to-noise density of the pass: total Sobol' index of each input
-
-# text
-seg-7ee659a6c7e7 = Peak carrier-to-noise density of the pass: mean { "60.7336" } dB-Hz (decibel-hertz), 5th to 95th percentile { "59.0898" } to { "62.3719" } dB-Hz · top driver <b>Low-Earth-orbit transmit power</b>, total index { "1.01" }
-
-# text
-seg-f04d1f94de26 = Low-Earth-orbit (LEO) PNT chain: what drives the position error with and without the LEO layer · Sobol' indices, n * (k + { "2" }) = { "1024" } * ({ "4" } + { "2" }) = { "6144" } runs · { "4" } of { "4" } input uncertainties ASSUMED · MODELLED · Kshana Pro { "0.2.0" } on open engine { "0.29.0" } · <b>kshana-pro uncertainty</b> · { "6,144" } engine runs · run digest fb54eac6…
+seg-0e0ca8eaebaa = Say how uncertain your inputs are. Kshana Pro gives confidence bands, the probability of meeting each limit and the inputs that matter most, so a review sees a range instead of one optimistic number.
 
 # text
 seg-55336e5ad0a8 = Mission dossier
@@ -438,653 +294,115 @@ seg-55336e5ad0a8 = Mission dossier
 seg-3dd37275b448 = Does the mission meet its requirements, and can we hand that over?
 
 # text
-seg-80a916e122e5 = A free user gets one report per run.
-
-# text
-seg-62e6a11bddd9 = A Pro user gets one mission dossier in one command: requirements checked against real runs, a verification matrix with its open items, and a PDF (Portable Document Format) in which every number can be re-derived with the free engine.
-
-# text
-seg-abcdc63e7121 = A requirement met on a MODELLED or PARTNER basis is flagged. Requirements to be verified by test, inspection or demonstration stay open items however the run went.
-
-# text
-seg-6a0ace9c0245 = <b>What it does not do.</b> Simulation evidence counts as analysis and does not replace a test, an inspection or a demonstration. A dossier is not a certification, a qualification or an acceptance by any authority.
-
-# text
-seg-ddffd3f4f0bb = Mission dossier · <b>Navigation resilience programme: Earth, Moon and Mars</b>
-
-# text
-seg-589480947799 = requirements
-
-# text
-seg-2192262e26c1 = met
-
-# text
-seg-7fbde256debf = not met
-
-# text
-seg-5405ea8fb6af = not verified
-
-# text
-seg-f6ccb7a322b3 = open items
-
-# attr:aria-label
-seg-241bb8a5c188 = Verification matrix: open a row for the check the dossier made
-
-# text
-seg-1771db524c39 = ppp.cases[{ "1" }].median_convergence_min <= { "10" } min
-
-# text
-seg-1ba2dfe597a5 = <s1>met</s1><s2>MODELLED</s2>
-
-# text
-seg-21ef0770a07c = With { "240" } low Earth orbit (LEO) satellites added, precise point positioning (PPP) shall converge within { "10" } minutes (median over the seeded runs).
-
-# text
-seg-d739debd8759 = Method: analysis · run RUN-LEO · value read: { "7.5" } min
-
-# text
-seg-1bea7f394d61 = Open item: MODELLED basis
-
-# text
-seg-62352fb0b903 = ppp.cases[{ "0" }].median_convergence_min <= { "10" } min
-
-# text
-seg-199d9de5b863 = <s1>not met</s1><s2>MODELLED</s2>
-
-# text
-seg-d25f22bab194 = With GPS and Galileo alone, precise point positioning (PPP) shall converge within { "10" } minutes (median over the seeded runs).
-
-# text
-seg-f7fbbb0396f8 = Method: analysis · run RUN-LEO · value read: { "11.5" } min
-
-# text
-seg-cd0df2627f00 = Open item: not met
-
-# text
-seg-4f85cb208f09 = fusion.fused.rms_error_3d_m <= { "0.5" } m
-
-# text
-seg-2f64c266aaa9 = With the LEO layer the fused three-dimensional position error shall be { "0.5" } m root mean square (RMS) or better.
-
-# text
-seg-ab3c35475bb8 = Method: test · run RUN-LEO · value read: { "0.4349" } m
-
-# text
-seg-813bc2c7156f = Open item: method, MODELLED basis
-
-# text
-seg-00370d1ef747 = global.availability_pct >= { "95" } %
-
-# text
-seg-f903fd8d8738 = The lunar relay constellation shall give a position fix with a position dilution of precision (PDOP) of { "6" } or better over at least { "95" } % of the lunar surface and of the day.
-
-# text
-seg-304a072d0a55 = Method: analysis · run RUN-LUNAR · value read: { "21.3286" } %
-
-# text
-seg-03344a0f7614 = global.pdop.median <= { "6" }
-
-# text
-seg-9157dc0f0b69 = Where the lunar relay constellation gives a fix, the median position dilution of precision (PDOP) shall be { "6" } or better.
-
-# text
-seg-8ce652866e44 = Method: analysis · run RUN-LUNAR · value read: { "5.22" } { "1" }
-
-# text
-seg-394b87e99d4f = timeline.bands[{ "3" }].min_cn0_dbhz >= { "25" } dB-Hz
-
-# text
-seg-4bd7577834e9 = <s1>met</s1><s2>PARTNER</s2>
-
-# text
-seg-c3cd6e0b2c8a = Under the scripted L-band interference, the GPS L5 carrier-to-noise density ratio (C/N0) shall stay at or above { "25" } dB-Hz.
-
-# text
-seg-c707f32aa460 = Method: analysis · run RUN-SPECTRUM · value read: { "44.0752" } dB-Hz
-
-# text
-seg-917d0ea847c5 = Open item: PARTNER basis
-
-# text
-seg-14ff8808abca = timeline.bands[{ "0" }].min_cn0_dbhz >= { "25" } dB-Hz
-
-# text
-seg-b0ce1159ebab = <s1>not met</s1><s2>PARTNER</s2>
-
-# text
-seg-fac48ac76f34 = Under the scripted L-band interference, the GPS L1 coarse/acquisition (C/A) carrier-to-noise density ratio (C/N0) shall stay at or above { "25" } dB-Hz.
-
-# text
-seg-b2d1ec0d6dee = Method: analysis · run RUN-SPECTRUM · value read: { "3.2329" } dB-Hz
-
-# text
-seg-5ae7272d2099 = timeline.channels.time_error_ns.values <= timeline.channels.guard_ns.values for all values
-
-# text
-seg-ae1e65b11562 = In the chained jamming, spoofing and holdover mission the clock time error shall stay within its { "50" } ns guard at every timeline step.
-
-# text
-seg-99c163a008d1 = Method: analysis · run RUN-CAMPAIGN · value read: { "51.7825" } ns
-
-# text
-seg-b0cead50489e = min(timeline.events[].t_s) <= { "30" } min
-
-# text
-seg-3a2678859ea3 = In the chained mission a spoofing alarm shall be raised within { "30" } minutes of the start.
-
-# text
-seg-fb11475464de = Method: demonstration · run RUN-CAMPAIGN · value read: { "1,200" } s
-
-# text
-seg-446c41fcb3ab = Open item: method, PARTNER basis
-
-# text
-seg-b6177dbc98f7 = fom.rms_error_relays_m <= { "5" } m
-
-# text
-seg-4ceaa0d03a24 = Around Mars the constellation-only position error shall be { "5" } m root mean square (RMS) or better over one sol.
-
-# text
-seg-5794fedf0f41 = Method: analysis · run RUN-MARS · value read: { "1.8827" } m
-
-# text
-seg-243a7ff0524b = fom.availability_relays >= { "99" } %
-
-# text
-seg-576583ccb8f3 = Around Mars the constellation shall give a position fix at { "99" } % of epochs or more.
-
-# text
-seg-32c406b96132 = Method: analysis · run RUN-MARS · value read: { "1" } { "1" }
-
-# text
-seg-532fe876e134 = no machine-checkable criterion
-
-# text
-seg-9dd3f9575483 = The receiver housing shall carry the programme's identification label.
-
-# text
-seg-e1efc36871f9 = Method: inspection · run none · value read: no run traced
-
-# text
-seg-7368cd7b9fdf = Open item: no evidence, manual verification
-
-# attr:aria-label
-seg-cf21103fdda2 = Page { "1" } of the generated dossier (PDF)
-
-# attr:alt
-seg-1edae087e2ef = Page { "1" } of the generated mission dossier
-
-# attr:aria-label
-seg-bfc11601ca89 = Page { "2" } of the generated dossier (PDF)
-
-# attr:alt
-seg-6cc250f43823 = Page { "2" } of the generated mission dossier
-
-# text
-seg-dbb08e7c5575 = { "21" } pages, one command. <a1>Open the generated PDF</a1> (Portable Document Format)
-
-# text
-seg-277df27d9586 = Kshana Pro { "0.2.0" } on open engine { "0.29.0" } · <b>kshana-pro mission build</b> · { "5" } runs and one trade study · { "7" } met, all on a MODELLED or PARTNER basis · dossier SHA-256 49df1e0e… · development build
-
-# attr:aria-label
-seg-583ce9cabfb2 = More Kshana Pro answers
-
-# text
-seg-62b6f3df413b = Three more answers
-
-# text
-seg-80f67e30b341 = Campaign watch
-
-# text
-seg-2715eb0a90fd = Spectrum coexistence
-
-# text
-seg-aed2198e0810 = On-premises job service
-
-# text
-seg-bc973ca31937 = Did the last change make a figure we care about worse?
-
-# text
-seg-64b7fd74a3e3 = A free user runs a campaign and reads the result.
-
-# text
-seg-3b9495ecb948 = A Pro user names the figures that matter in a set of scenarios, says what worse means for each, and gets a pipeline that fails when a change to a scenario, a model or the engine makes one of them worse, or stops meeting its requirement.
-
-# text
-seg-31f8c78ca95e = It extends the scenario regression check. A Monte Carlo figure is judged with statistics instead of a tolerance, so a new set of random seeds is not called a regression and a doubled spread is. Every run is appended to a history in which each record carries the hash of the one before, and a check reports whether that chain is intact.
-
-# text
-seg-01e316af4e6b = <b>What it does not do.</b> A watch proves that a MODELLED figure stayed stable or moved; it does not prove the figure is true. A figure with no stated direction is reported and never fails a run.
-
-# text
-seg-ca34b7fbd8a0 = Campaign watch · <b>six revisions, one history</b>
-
-# attr:aria-label
-seg-35e2f3c6d5ee = Revision
-
-# text
-seg-cc02f3327260 = Watched figure · revision
-
-# attr:aria-label
-seg-722c55b5ca9d = Revision r1-published: pass, exit code { "0" }
-
-# text
-seg-7a33a168b020 = pass
-
-# attr:aria-label
-seg-afebb6b7fe91 = Revision r2-documentation: pass, exit code { "0" }
-
-# attr:aria-label
-seg-04be8823d1a4 = Revision r3-weaker-jammer: pass, exit code { "0" }
-
-# attr:aria-label
-seg-358f8307eb64 = Revision r4-stronger-jammer: fail, exit code { "1" }
-
-# text
-seg-70a79ec95bf4 = fail
-
-# attr:aria-label
-seg-dedab67d8791 = Revision r5-withdrawn: pass, exit code { "0" }
-
-# attr:aria-label
-seg-507fa1cd9725 = Revision r6-faster-spoofer: pass, exit code { "0" }
-
-# attr:aria-label
-seg-5f91b1908b7f = Verdict of each watched figure at each revision
-
-# attr:title, text
-seg-e4e33a6fa3ba = first run: becomes the baseline
-
-# attr:aria-label
-seg-6c6055582596 = r1: first run: becomes the baseline
-
-# text
-seg-5733e7e1ed6d = carrier-to-noise density ratio (C/N0) at the end of the jamming phase
-
-# attr:title, text
-seg-039e60fda167 = unchanged
-
-# attr:aria-label
-seg-5d3ef8b30387 = r2: unchanged
-
-# attr:title, text
-seg-a668aec87232 = improved
-
-# attr:aria-label
-seg-3a9107ada303 = r3: improved
-
-# attr:title, text
-seg-b297d2fb39b8 = regressed
-
-# attr:aria-label
-seg-ef9e2f850cec = r4: regressed
-
-# attr:aria-label
-seg-80661be2216a = r5: unchanged
-
-# attr:aria-label
-seg-f1c94be68352 = r6: unchanged
-
-# text
-seg-9973d98d3f4a = largest time error on the mission timeline
-
-# attr:aria-label
-seg-6ea2524c4af5 = r3: unchanged
-
-# attr:aria-label
-seg-46399b8584f9 = r4: unchanged
-
-# attr:title, text
-seg-92dee1b56602 = moved within its tolerance
-
-# attr:aria-label
-seg-00ce02720ce2 = r6: moved within its tolerance
-
-# text
-seg-1f5141270ec1 = satellites tracking at the end of the jamming phase
-
-# text
-seg-eb59ecfd5267 = share of the mission under alarm
-
-# attr:aria-label
-seg-359a0cb57119 = r6: improved
-
-# text
-seg-07c171df971c = spoofing detected (phase length)
-
-# text
-seg-d01450760c7b = time error at the end of holdover
-
-# text
-seg-0cb385d09879 = <b>Revision r4-stronger-jammer</b> · jammer raised from -33 to -24 dBW (decibels relative to one watt): C/N0 at the end of the jamming phase { "30.60" } → { "21.82" } dB-Hz (decibel-hertz), below the { "25" } dB-Hz floor, requirement not met; satellites tracking { "8" } → { "0" }; three watches regressed · <s1>fail, exit code { "1" }</s1>
-
-# text
-seg-4b31c9074821 = The bundled campaign pack, { "10" } watched figures over three open campaigns, run twice: pass both times, { "0" } of { "125" } figures moved, history of { "2" } records intact.
-
-# text
-# c1: campaign-jam-spoof-holdover-integrity.toml
-seg-7a2d9c48a64e = Kshana Pro { "0.2.0" } on open engine { "0.29.0" } · <b>kshana-pro ci</b> · demonstration revisions of <c1/> · history { "6" } records, chain intact, last hash bb2f10eb… · MODELLED
-
-# text
-seg-9a86ef058d27 = Open in Kshana Studio
-
-# text
-seg-62e8bf260720 = Will our signal plan interfere with GNSS, or suffer from it?
-
-# text
-seg-2556e9b037d6 = A free user checks one satellite's signal against one GNSS signal.
-
-# text
-seg-7116e3268891 = A Pro user tests one or more candidate signal plans, each a signal design and a constellation, against every open-service GNSS signal the engine models, with every satellite of the plan in view at once, and gets a verdict per plan and signal against a limit the study states.
-
-# text
-seg-06f88c6df63a = Both directions are tested: the loss of C/N0 each plan causes to each GNSS signal, and the loss the GNSS signals cause to the plan. Pro adds only the sum over the satellites in view at each cell of a worldwide grid and the ranking of the plans. The limit and its source are inputs; no limit is built in.
-
-# text
-seg-6ed2560fa7cb = <b>What it does not do.</b> The result is an upper bound: every satellite in view is taken at the maximum received power, with no power that varies with elevation and no receive-antenna pattern. It is not a coordination filing and not a regulatory finding.
-
-# text
-seg-60b335f177f1 = Spectrum coexistence · <b>{ "4" } example signal plans</b>
-
-# attr:aria-label
-seg-1590505b1b83 = View
-
-# text
-seg-8de62dd3e1fe = Plans against signals
-
-# text
-seg-ce57b941ae2a = World map of the worst loss
-
-# attr:aria-label
-seg-3eadc758676e = Loss each plan causes to each signal, against the limit
-
-# text
-seg-7f94e08ffaf7 = Plan · signal
-
-# text
-seg-082f79d4da08 = GPS L1 C/A
-
-# text
-seg-8136c1e5d8b9 = Galileo E1
-
-# text
-seg-ca7643f7c122 = GPS L5
-
-# text
-seg-cda934673aea = Galileo E5a
-
-# text
-seg-37166a721917 = Galileo E5b
-
-# text
-seg-e35b90594226 = Galileo E5 AltBOC
-
-# attr:aria-label
-seg-ecd0258691ec = L band, { "288" } satellites to GPS L1 C/A: no overlap in frequency
-
-# text
-seg-d409177fe15a = L band, { "288" } satellites
-
-# text
-seg-d85041c82618 = no overlap
-
-# attr:aria-label
-seg-c87416d18cdf = L band, { "288" } satellites to Galileo E1: no overlap in frequency
-
-# attr:aria-label
-seg-ae171f239741 = L band, { "288" } satellites to GPS L5: within the limit
-
-# text
-seg-37e3dfebbbde = within limit
-
-# attr:aria-label
-seg-75bcd6c441eb = L band, { "288" } satellites to Galileo E5a: within the limit
-
-# attr:aria-label
-seg-261a10fbac33 = L band, { "288" } satellites to Galileo E5b: within the limit
-
-# attr:aria-label
-seg-be215e26ecf7 = L band, { "288" } satellites to Galileo E5 AltBOC: within the limit
-
-# attr:aria-label
-seg-d235b8128c0f = L band, { "144" } satellites to GPS L1 C/A: no overlap in frequency
-
-# text
-seg-d89797f95366 = L band, { "144" } satellites<em>ranked front</em>
-
-# attr:aria-label
-seg-c5637516dd73 = L band, { "144" } satellites to Galileo E1: no overlap in frequency
-
-# attr:aria-label
-seg-56419d057320 = L band, { "144" } satellites to GPS L5: within the limit
-
-# attr:aria-label
-seg-501c3b3cf978 = L band, { "144" } satellites to Galileo E5a: within the limit
-
-# attr:aria-label
-seg-1eb5de9a6b98 = L band, { "144" } satellites to Galileo E5b: within the limit
-
-# attr:aria-label
-seg-511fb4592027 = L band, { "144" } satellites to Galileo E5 AltBOC: within the limit
-
-# attr:aria-label
-seg-2ecb209d51e9 = C band, { "288" } satellites to GPS L1 C/A: no overlap in frequency
-
-# text
-seg-6f45606a5b3d = C band, { "288" } satellites
-
-# attr:aria-label
-seg-f4ef2515fd58 = C band, { "288" } satellites to Galileo E1: no overlap in frequency
-
-# attr:aria-label
-seg-2fc04945b97b = C band, { "288" } satellites to GPS L5: no overlap in frequency
-
-# attr:aria-label
-seg-c3254aeb9110 = C band, { "288" } satellites to Galileo E5a: no overlap in frequency
-
-# attr:aria-label
-seg-b2497f3af295 = C band, { "288" } satellites to Galileo E5b: no overlap in frequency
-
-# attr:aria-label
-seg-cbb0b39f5417 = C band, { "288" } satellites to Galileo E5 AltBOC: no overlap in frequency
-
-# attr:aria-label
-seg-2a329a17333c = Wide C band, { "288" } satellites to GPS L1 C/A: no overlap in frequency
-
-# text
-seg-7f67a52e23d7 = Wide C band, { "288" } satellites<em>ranked front</em>
-
-# attr:aria-label
-seg-5c53a07ea503 = Wide C band, { "288" } satellites to Galileo E1: no overlap in frequency
-
-# attr:aria-label
-seg-9afa24c2a22a = Wide C band, { "288" } satellites to GPS L5: no overlap in frequency
-
-# attr:aria-label
-seg-8d00d0e4e15b = Wide C band, { "288" } satellites to Galileo E5a: no overlap in frequency
-
-# attr:aria-label
-seg-396bb70a5b21 = Wide C band, { "288" } satellites to Galileo E5b: no overlap in frequency
-
-# attr:aria-label
-seg-017f8d2a0d09 = Wide C band, { "288" } satellites to Galileo E5 AltBOC: no overlap in frequency
-
-# text
-seg-893be5d86234 = <b>L band, { "288" } satellites → Galileo E5 AltBOC</b> · worst loss caused { "0.00544" } dB (decibel), at a cell with { "17" } of its satellites in view: a margin of { "0.0946" } dB to the { "0.1" } dB limit · <s1>compatible</s1>
-
-# attr:aria-label
-seg-bc132b0068fe = World map of the worst loss the plan L band, { "288" } satellites causes, per cell: every cell within the limit
-
-# text
-seg-ae759f574501 = { "0" } dB
-
-# text
-seg-c73e052d7628 = { "0.00544" } dB, the worst cell · limit { "0.1" } dB
-
-# text
-seg-a55ab55d78eb = Worst loss the plan <b>L band, { "288" } satellites</b> causes at each cell of the worldwide grid, over the signals it overlaps: an upper bound, every satellite in view at the maximum received power.
-
-# text
-seg-5acfa8382eca = <b>{ "4" } of { "4" }</b> plans compatible · the GNSS signals cost the L-band plans at most { "0.00908" } dB
-
-# text
-# c1: constellation-design
-# c2: leo-signal
-seg-2acb5dfe6d2c = Kshana Pro { "0.2.0" } on open engine { "0.29.0" } · <b>kshana-pro coexist</b> · { "10" } engine runs (<c1/>, <c2/>) · scenario hash 479364bd… · MODELLED upper bound · the { "0.1" } dB limit was chosen for the example only, not a regulatory criterion · C/A: coarse/acquisition; AltBOC: alternative binary offset carrier
-
-# text
-seg-b5f4c3d893ed = Can the team queue studies on its own network and prove what was delivered?
-
-# text
-seg-b0252a650ea5 = A free user runs one scenario at a time on one machine.
-
-# text
-seg-18d63112f063 = A Pro team queues studies on its own network, lets them run while no one watches, and can show afterwards exactly which result was delivered for which request.
-
-# text
-seg-dc4ada18a8b6 = It extends the on-premises service: Pro can run as a small HTTP (Hypertext Transfer Protocol) service on your own network: it reports its health, its version and the kinds it can run, and runs a scenario posted to it. A job's identifier is the SHA-256 of the operation and the request, so the same request is the same job and is not run twice. After a stop or a crash, every unfinished job is queued again and no finished job is run again. Without a licence it serves the open engine only and refuses every Pro feature.
-
-# text
-seg-c1af74cddda0 = <b>What it does not do.</b> One request per connection, with no streaming: a client polls. One licence for the whole service and one shared access token, not user management. No cancellation, time limit, priority or retention policy.
-
-# text
-seg-a91c54eb4ba8 = On-premises job service · <b>one recorded session</b>
-
-# attr:aria-label
-seg-f584d334e551 = Requests to the service and what it answered, in order
-
-# text
-seg-a308bdf972fc = <b>POST /jobs</b> <em>a link-budget scenario</em>
-
-# text
-seg-1bea805079e5 = accepted and queued · job fb6e50ff…
-
-# text
-seg-ed66dc7a965c = GET /jobs/{ "{" }id{ "}" }
-
-# text
-# c1: link-budget
-seg-e97b04c3927f = succeeded on its first attempt · kind <c1/>
-
-# text
-seg-5c0fce7aca9c = <b>POST /jobs</b> <em>the same request again</em>
-
-# text
-seg-50000838f4cc = the same job, already finished: nothing run twice
-
-# text
-seg-be3aa55c904e = GET /ledger/verify
-
-# text
-seg-3fb12de9f868 = verified, chain intact · { "3" } records · { "1" } delivered job · no mismatch
-
-# text
-seg-d05960312e08 = GET /openapi.json
-
-# text
-seg-4b360cf65b93 = OpenAPI { "3.1" } · { "13" } paths, from the service's own route table
-
-# text
-seg-a976477641db = <b>GET /</b> <em>the job board</em>
-
-# text
-seg-4b68fe5ddf1c = loads nothing from outside
-
-# text
-seg-734560e175a9 = <b>restart</b> <em>then GET /jobs/{ "{" }id{ "}" }</em>
-
-# text
-seg-7d53151be9e6 = the finished job still shows one attempt
-
-# text
-seg-d0683c37acc1 = <b>kill -9</b> <em>while a job runs, then restart</em>
-
-# text
-seg-64ddf6a78d22 = the unfinished job ran again and succeeded; the finished job was not run again · ledger { "9" } records, { "3" } delivered jobs, verified
-
-# text
-seg-fcbfbd231d61 = <b>no licence: POST /jobs</b> <em>a Pro scenario</em>
-
-# text
-seg-1911ae0879b8 = refused on submission: nothing queued
-
-# text
-seg-de7bb1084780 = <b>no licence: POST /jobs</b> <em>an open scenario</em>
-
-# text
-seg-14edaf993a56 = accepted and queued
-
-# text
-seg-af3f560b9a7f = Kshana Pro on open engine { "0.29.0" } · <b>kshana-pro serve --data-dir</b>, two workers (the restart test: one) · HTTP status codes as the service returned them · a local run on public scenario files with the development entitlement, not a customer deployment
-
-# text
-seg-935445590619 = Also in Kshana Pro
+seg-ff336249cd8d = One command checks a programme's requirements against engine runs and produces a mission dossier: a verification matrix with its open items and a PDF (Portable Document Format) report in which every number traces back to a run.
 
 # text
 seg-01e88950670a = Requirements and traceability
 
 # text
-seg-a9b4af1b1b07 = Kshana Pro's model-based systems-engineering (MBSE) and programme tooling checks a programme's requirements against runs of the open engine: it imports requirements as comma-separated values (CSV), or as a documented subset of the Requirements Interchange Format (ReqIF) or of Systems Modeling Language version { "2" } (SysML v2) text, and produces a verification cross-reference matrix (VCRM), a SysML v2 model, a change-impact report and an offline evidence pack. It re-runs and recomputes nothing.
+seg-23799ee58b00 = Which requirements does a change touch?
 
 # text
-seg-0a662a644f5d = The open engine's outputs it reads
+seg-a2296cbc76cf = Bring requirements in from your systems-engineering tools and get a verification cross-reference matrix (VCRM), a Systems Modeling Language version { "2" } (SysML v2) model, a change-impact report and an offline evidence pack.
 
 # text
-seg-e91fe1056446 = the fields a criterion names, their units, the reproducibility stamp of scenario hash, seed, engine version and schema version, and the run's label and figure tiers
+seg-3e05aa414fd5 = Regression watch
 
 # text
-seg-c84c09a6dc24 = kind, reproducibility record and capability labels
+seg-bc973ca31937 = Did the last change make a figure we care about worse?
 
 # text
-seg-8fc1ffcf6847 = its hash, kind, seed and parameters
+seg-3938501761bf = Name the figures that matter. Kshana Pro stops your pipeline when a change to a scenario, a model or the engine makes one of them worse, and keeps a tamper-evident history of every check.
 
 # text
-seg-2e6b3bca199f = each field's unit, provenance and evidence tier
+seg-2715eb0a90fd = Spectrum coexistence
 
 # text
-seg-593a13692dc4 = each capability's VALIDATED, MODELLED or PARTNER label
+seg-62e8bf260720 = Will our signal plan interfere with GNSS, or suffer from it?
+
+# text
+seg-d165104fddc3 = Screen candidate signal plans against the open-service GNSS signals in both directions and get a verdict for each plan and each signal against the limit your study sets.
 
 # text
 seg-112fbe923b39 = Trade studies
 
 # text
-seg-26c07e74fdca = A trade study runs every architecture option as an unchanged open-engine scenario, ranks the options on a figure of merit read from each run's result, and writes an evidence pack that records each option's scenario hash, so any figure in it can be reproduced by re-running that scenario.
+seg-251185d43120 = Which architecture is best on the measure we care about?
 
 # text
-seg-05a421ea6ac7 = Clock digital twin
+seg-cdd37d011f22 = Rank architecture options on the figure of merit you choose, with every option reproducible from its own scenario.
 
 # text
-seg-06ca5084425c = A clock twin is calibrated to a device's published Allan-deviation budget, then checked by estimating the twin's own Allan deviation with the open engine's estimator and comparing the two within a stated tolerance. A twin of your own device needs your characterisation data and is built under contract and a non-disclosure agreement.
+seg-94167c05dd70 = Clock digital twins
 
 # text
-seg-fca21deac438 = Study dossier
+seg-1f4410fb4a27 = How will our own clock hold time?
 
 # text
-seg-fef6a718bf86 = One scenario becomes a reproducible technical note in HTML (HyperText Markup Language) and JSON (JavaScript Object Notation): scope, method, results with a tier on every figure, limitations, and the exact scenario text run.
+seg-54f36cf13204 = A digital twin of your own clock, built from your device's data under contract and a non-disclosure agreement, for holdover and timing studies.
 
 # text
-seg-4650cf680300 = <b>Pro needs a licence.</b> Without one, Pro runs open scenarios only and refuses every Pro feature with a message naming what is required.
+seg-ebef72dee226 = On-premises service
 
 # text
-seg-627687344e9e = <b>Some work needs a signed customer.</b> A twin of your own device needs your characterisation data and is built under contract and a non-disclosure agreement.
+seg-4b78e7ede44b = Can the team queue studies on its own network?
 
 # text
-seg-f15f652a7e77 = <b>Nothing Pro produces is a certification.</b> Every result is modelled, and says so.
+seg-614f6b16cecf = Run Kshana Pro as a service inside your network: the team queues studies, they run unattended, and you can show afterwards which result was delivered for which request.
 
 # text
-seg-ef76d9237977 = Done as a custom study
+seg-2b900e902e3c = Why teams choose Kshana Pro
 
 # text
-seg-853667670c1f = <b>Models of your hardware.</b> Sensor or resilience models calibrated to your hardware are built only under contract, with your data.
+seg-f7bf1e53549a = Decisions, not single runs.
 
 # text
-seg-520654f215c5 = <b>Export-controlled resilience models are not publicly offered.</b> Such work is done only under the appropriate clearance and a non-disclosure agreement.
+seg-7ef48916a520 = The free engine answers one scenario at a time. Kshana Pro answers the questions a programme asks next.
+
+# text
+seg-d74eb21cbd2b = Evidence a reviewer can check.
+
+# text
+seg-701148596b70 = Every figure keeps the label the open engine gave it (Validated, Modelled or Partner), and every result can be re-run with the free engine.
+
+# text
+seg-590f8a089c4e = Support from the team that builds the engine.
+
+# text
+seg-3e9b605d46d7 = Onboarding, help with your scenarios and attention to the issues that block your programme, on the terms of your contract.
+
+# text
+seg-bc5e37b2ce45 = A commercial licence.
+
+# text
+seg-850a2a906726 = Kshana Pro is licensed under contract, with the warranty, indemnity and support terms agreed there.
+
+# text
+seg-760cfc5fcd00 = Runs where your data is.
+
+# text
+seg-c4fa273cf815 = On an engineer's workstation or on your own network; nothing has to be uploaded.
+
+# text
+seg-bf85dfcf48f4 = The open engine stays free.
+
+# text
+seg-96fcdbbc17b0 = Kshana Pro is built on the open core and never forks it, so nothing is taken out of the free engine.
+
+# text
+seg-25ab6c133479 = <b>A licence is required.</b> Without one, Kshana Pro runs open scenarios only.
+
+# text
+seg-85e8f07b8a11 = <b>Modelled, and labelled so.</b> Every Kshana Pro result is a modelled engineering result, not a certification, a qualification or an acceptance by any authority.
+
+# text
+seg-d3b28f860514 = <b>Your own devices, under contract.</b> Models of your own hardware are built only with your data, under contract and a non-disclosure agreement.
 
 # text
 seg-6d3d0f8c9b7c = Request a Pro evaluation
 
 # text
-seg-8ea876b3c515 = The charts in this section are drawn from the files the Pro commands wrote for the worked examples that ship with Pro: modelled results, not statements about any real mission. The wording is quoted from the public Kshana Pro page of the open repository.
+seg-109835beaa90 = To evaluate Kshana Pro, write to <a1>contact@ashforde.org</a1> with your programme and the decision it feeds. Evaluations run under contract; there are no prices on this site.
 
 # attr:aria-label
 seg-306d36fd66d5 = How a custom study runs

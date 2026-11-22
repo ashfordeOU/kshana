@@ -4527,9 +4527,6 @@ seg-7091847e1c77 = Avaldatud mudel või dokumenteeritud modelleerimisvalik, sise
 # text
 seg-1d17589ad647 = Kosmoselaeva platvormi inseneeria, navigatsiooni kasulik last ja antenniriistvara, kvant-kasuliku lasti riistvara ning lennuriistvara tootekvaliteedi tagamine. Kshana ei väida ühtegi neist; need kuuluvad partnerile.
 
-# text
-seg-5af3d58e83fa = <b>Pro-ga:</b> <b>missioonidossier</b> kontrollib iga nõuet tegelike jooksutuste vastu ja hoiab neid silte oma kontrollimaatriksis: nõue, mis on täidetud MODELLED või PARTNER alusel, märgitakse. <a1>Vaata tegelikku dossiee</a1>
-
 # attr:aria-label, text
 seg-400016e22379 = Valideerimise register (ledger)
 
@@ -5272,9 +5269,6 @@ seg-457a0bba7c77 = <s1>tests/receiver_trust_machines.rs (rtklib_pos_runs_as_a_re
 seg-17ab1aee875b = Genereeritud mootori kontrollimaatriksist ja kinnitatud testiga. Keri loendit või ava rida, et näha selle võimekust, sõltumatut etaloni ja teste. Täielik tabel, kõik veerud korraga, on dokumentatsioonis: <a1>Võimekuse viide</a1>.
 
 # text
-seg-41da0459d87a = Kas seda registrit (ledger) on vaja auditikvaliteediga reprodutseeritava tõendipaketina ülevaatuskomisjonile? <a1>Kshana Pro pakendab selle</a1>.
-
-# text
 seg-72a49f4a8a52 = Vaikimisi reprodutseeritav
 
 # text
@@ -5360,12 +5354,6 @@ seg-d2c76b1353a9 = Mootor ja kõik ülaltoodu jäävad tasuta. Kaks tasulist tee
 
 # text
 seg-1e1e6d431868 = Kshana Pro: missioonidossier ja tõendipakett
-
-# text
-seg-20582558a93f = Kshana Pro pakendab tõendid, mida ülevaatus- või hankekomisjon küsib, reprodutseeritavalt. Millele see toetub: see register (ledger), kus iga võimekus nimetab oma sõltumatu etaloni ja testi, ning tempel, mida kannab iga tulemus. Ühe käsuga kontrollib missioonidossier iga nõuet tegelike jooksutuste vastu ning kirjutab kontrollimaatriksi koos lahtiste punktide ja PDF-iga (Portable Document Format).
-
-# text
-seg-1c8effb9400a = Vaata tegelikku dossiee
 
 # text
 seg-c24f4ecd4d42 = Kohandatud uuring: teie küsimus, vastatud
@@ -5780,9 +5768,6 @@ seg-d5c32303297d = Loe registrit (ledger)
 
 # text
 seg-f6112ab2dfdf = Register (ledger), tulemused, reprodutseeritavuse tempel ja nende taga olevad testid on kõik avatud mootoris.
-
-# text
-seg-69df15091cab = Pakib tõendid auditikvaliteediga reprodutseeritavaks tõendipaketiks ülevaatuskomisjonile. <a1>Vt allpool</a1>
 
 # text
 seg-9906d9824f3e = Vastab teie enda küsimusele samade siltidega, mitte sertifitseerimine. <a1>Vt allpool</a1>
@@ -6249,37 +6234,11 @@ seg-860ca782e2bf = Faasi tli-and-cruise keskmise oleku propageerimine (Cowell, M
 
 seg-7c7d72cc2036 = Teostatav piirkond, kus võib asuda halvenenud navigatsiooniteadete allikas, ADS-B-st… · Modelleeritud
 
-seg-43f852e4bee8 = { "74" }-st valideeritud
-
 seg-8fe12f6058c6 = { "26" }-st valideeritud
 
 seg-65122c2bb1fc = { "104" }-st valideeritud
 seg-2998c6fa20d6 = { "79" }-st valideeritud
 seg-4b3ab6095c65 = { "56" }-st kontrollitud
-
-seg-0c637f4b6c88 = { "412" } võimekust, igaüks hinnatud. <b>{ "176" } valideeritud</b> sõltumatute väliste etalonide vastu. <b>{ "232" } ausalt märgitud modelleeritud.</b> { "4" } partneri omanduses. Midagi ei ümardata ülespoole.
-
-seg-c2c3179c1316 = Kontrollimaatriks, üks lahter võimekuse kohta registri järjekorras: { "176" } valideeritud (täidetud ruudud), { "232" } modelleeritud (õõnsad ruudud), { "4" } partneri omanduses (rombid). Nooleklahvid liigutavad lahtrite vahel; võimekus ja selle etalon loetakse allpool ette.
-
-seg-a2cdd2df1b36 = Mootor v{ $version } · <c1/>, genereeritud failist <c2/> · { "412" } rida · stsenaariumi ega algväärtust pole: mootori enda register
-
-seg-b36352ff4d2a = Mootor v{ $version }, järk <c1/> · <c2/> · deterministlik, algväärtust pole
-
-seg-edd1aba6a08c = Mootor v{ $version }, järk <c1/> · <c2/> · deterministlik, algväärtust pole
-
-seg-90efc3759f07 = Mootor v{ $version }, järk <c1/> · <c2/> · deterministlik, algväärtust pole
-
-seg-094876c75564 = Mootor v{ $version } · <c1/> jääktabelid, kahe propagaatorikontrolliga, mis on ehituse <c2/> juures uuesti arvutatud · deterministlik, algväärtust (seed) ei ole
-
-seg-1c7e4b85e701 = Mootor v{ $version }, järk <c1/> · <c2/> · deterministlik, algväärtust pole
-
-seg-f42398e9711c = Mootor v{ $version }, järk <c1/> · <c2/> · deterministlik, algväärtust pole
-
-seg-07e8ef5a102f = { "176" }<s1>{ "412" }-st valideeritud</s1>
-
-seg-4873cd813b9a = Kontrollimaatriks: { "176" } valideeritud, { "232" } modelleeritud, { "4" } partneri omanduses, kokku { "412" }
-
-seg-98b273ce8773 = Kõik { "412" } rida, igaüks ühel real.
 
 seg-7780d0588bd2 = { "20" }-st kontrollitud
 
@@ -6288,9 +6247,3 @@ seg-00d97be31745 = { "81" }-st kontrollitud
 seg-04cc15e9a93c = { "31" }-st kontrollitud
 
 seg-2de2a4f9f3f7 = { "57" }-st kontrollitud
-
-seg-c321a2dafd3e = Kõik { "412" }
-
-seg-bc4726a0baf1 = Modelleeritud { "232" }
-
-seg-40e80b22723c = Valideerimisregister, { "412" } rida, keritav

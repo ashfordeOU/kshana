@@ -148,13 +148,9 @@ seg-8b0593f67c7f = Hodnota / jednotka
 
 seg-d33eb162d179 = Metadata segmentu OEM
 
-seg-4b338284e56a = <c1/> / <c2/> / <c3/> — soustava, ve které propagátory integrují, a časová stupnice mřížky epoch, bez přejmenování
-
 seg-e0a44af9aaf8 = Epocha stavu OEM
 
 seg-b0623bab9fcc = první sloupec každého datového řádku
-
-seg-410bd5a9ba14 = kalendářní čas ISO-8601 (ISO: Mezinárodní organizace pro normalizaci), časová stupnice GPS
 
 seg-a7c95802e01a = Poloha a rychlost OEM
 
@@ -229,8 +225,6 @@ seg-ed9c8bdddd6d = Rámování primární hlavičky TM/TC (TM: telemetrie; TC: t
 seg-aa942198bb2e = <b>SP3-c (SP3: Standard Product { "3" }, formát přesných drah) / SP3-d</b> (přesné efemeridy)
 
 seg-4d4237e15ef1 = IGS Standard Product { "3" } (c/d)
-
-seg-8d1089fbd59d = Časová řada polohy v zemském pevném systému (ECEF) + času hodin. Zpáteční převod ověřen na < { "0.5" } m na skutečném snímku <c1/> (<a1><c2/></a1>).
 
 seg-761698fcf960 = <b>RINEX (Receiver Independent Exchange Format) { "3" }</b> (broadcast navigace)
 

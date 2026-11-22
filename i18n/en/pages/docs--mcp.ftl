@@ -122,17 +122,24 @@ seg-ab242cd0259c = Sky geometry under an azimuth-dependent skyline: from a site,
 # c2: ubx
 # c3: rinex
 # c4: android
-# c5: nmea
-# c6: sbf
-# c7: text
-# c8: base64
-# c9: [[events]]
-# c10: [compare]
-# c11: [platform] kind = "vessel"
-# c12: text
-# c13: base64
-# c14: docs/RECEIVER-TRUST.md
-seg-d6ed4e8d56e5 = Assess a real GNSS (global navigation satellite system) receiver log for trust. The TOML names the log's <c1/> (<c2/>, <c3/>, <c4/>, <c5/> or <c6/>) and gives its bytes inline as <c7/> or <c8/>; the tool runs the trust monitors (carrier-to-noise density drop, loss of lock, AGC (automatic gain control), jamming indicator, position jump and, with RINEX plus broadcast navigation, RAIM (receiver autonomous integrity monitoring) and a clock-aided monitor) and returns when and why the fix stopped being trustworthy. Optional <c9/> and <c10/> sections score stated events and predicted C/N0 drops against stated tolerances. A <c11/> table selects the maritime monitors and adds a 0-100 trust score per epoch with the monitors that deducted (advisory; MODELLED). The log goes inline as <c12/> or <c13/> (at most { "4" } MiB). Chart and per-epoch CSV on request. See <a1><c14/></a1>.
+# c5: sbf
+# c6: nmea
+# c7: rtklib-pos
+# c8: novatel
+# c9: rtcm3
+# c10: gnss-sdr
+# c11: sbp
+# c12: greis
+# c13: unicore
+# c14: text
+# c15: base64
+# c16: [[events]]
+# c17: [compare]
+# c18: [platform] kind = "vessel"
+# c19: text
+# c20: base64
+# c21: docs/RECEIVER-TRUST.md
+seg-301ec523a82d = Assess a real GNSS (global navigation satellite system) receiver log for trust. The TOML names the log's <c1/> (<c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/> or <c13/>: every receiver reader of the engine) and gives its bytes inline as <c14/> or <c15/>; the tool runs the trust monitors (carrier-to-noise density drop, loss of lock, AGC (automatic gain control), jamming indicator, position jump and, with RINEX plus broadcast navigation, RAIM (receiver autonomous integrity monitoring) and a clock-aided monitor) and returns when and why the fix stopped being trustworthy. Optional <c16/> and <c17/> sections score stated events and predicted C/N0 drops against stated tolerances. A <c18/> table selects the maritime monitors and adds a 0-100 trust score per epoch with the monitors that deducted (advisory; MODELLED). The log goes inline as <c19/> or <c20/> (at most { "4" } MiB). Chart and per-epoch CSV on request. See <a1><c21/></a1>.
 
 # text
 # c1: kshana receiver-trust live
@@ -571,7 +578,7 @@ seg-4f248ed3e597 = <c1/> serves the same tools over streamable HTTP at <c2/>. It
 # c4: ~/.cargo/bin/kshana-mcp
 # c5: rmcp
 # c6: kshana
-seg-a4a0e399a31e = <c1/> puts <c2/> on your <c3/> (typically <c4/>). The server talks JSON-RPC (JSON remote procedure call) over stdio; logs go to stderr. Building from source needs a Rust toolchain ≥ { "1.88" } (the patched <c5/> { "2" }.x SDK needs it, and so does the <c6/> library); the Docker image needs none.
+seg-58712c593684 = <c1/> puts <c2/> on your <c3/> (typically <c4/>). The server talks JSON-RPC (JSON remote procedure call) over stdio; logs go to stderr. Building from source needs a Rust toolchain ≥ { "1.88" } (the <c5/> { "3" }.x SDK needs it, and so does the <c6/> library); the Docker image needs none.
 
 # text
 seg-2f3216082425 = Register it with a client
@@ -670,7 +677,7 @@ seg-942dc8abe0ec = Design note — why a separate crate
 # c5: rmcp
 # c6: cargo deny
 # c7: xval/anise-frames
-seg-0757e15070d4 = The server is a <b>standalone, workspace-excluded crate</b> with its own <c1/>, so the official Rust MCP SDK (software development kit) <c2/> and its async runtime never enter the published <c3/> crate's dependency graph: a library or Python user does not compile a server they do not run. (It was first split out because <c4/> is <b>edition { "2024" }</b>, needing rustc ≥ { "1.85" }, while the main crate then promised { "1.75" }. The library and this server now both declare { "1.88" }, the floor of the security-patched <c5/> { "2" }.x and of the upgraded RustCrypto crates.) Continuous integration (CI) gates this crate on its own — tests and <c6/> against its lockfile. rmcp's licence tree is clean (Apache-2.0/MIT/BSD), so, unlike the <c7/> cross-validation crate it otherwise mirrors, the split is not about licensing.
+seg-937c76a88973 = The server is a <b>standalone, workspace-excluded crate</b> with its own <c1/>, so the official Rust MCP SDK (software development kit) <c2/> and its async runtime never enter the published <c3/> crate's dependency graph: a library or Python user does not compile a server they do not run. (It was first split out because <c4/> is <b>edition { "2024" }</b>, needing rustc ≥ { "1.85" }, while the main crate then promised { "1.75" }. The library and this server now both declare { "1.88" }, the floor of the <c5/> { "3" }.x SDK and of the upgraded RustCrypto crates.) Continuous integration (CI) gates this crate on its own — tests and <c6/> against its lockfile. rmcp's licence tree is clean (Apache-2.0/MIT/BSD), so, unlike the <c7/> cross-validation crate it otherwise mirrors, the split is not about licensing.
 
 # text
 seg-75bf2d74642d = License: AGPL-3.0-only, the GNU Affero General Public License version { "3" } only (or a commercial licence from Ashforde OÜ; see the repository's <a1>LICENSING.md</a1>).

@@ -1198,32 +1198,6 @@ js-site-palette-none = Ingen resultater
 
 js-site-palette-results = { $count } resultater
 
-js-site-pro-band-at = Ved { $minutes } minutter: 5. til 95. percentil
-
-js-site-pro-band-range = { $lo } til { $hi } { $unit }
-
-js-site-pro-band-runs-within = af { $n } kørsler inden for ±{ $limit } { $unit }
-
-js-site-pro-design-readout = { $sat } satellitter, { $av } % tilgængelighed · { $planes } planer på { $alt } km, { $incl }°
-
-js-site-pro-front-design = Frontudformning { $id }
-
-js-site-pro-front-design-knee = Frontudformning { $id } · knæ
-
-js-site-pro-more-designs =
-    { $n ->
-        [one] (+{ $n } frontudformning mere ved dette punkt)
-       *[other] (+{ $n } frontudformninger mere ved dette punkt)
-    }
-
-js-site-pro-not-rerun = ikke kørt igen
-
-js-site-pro-rerun-free = kørt igen i den gratis motor:
-
-js-site-pro-same-sha = samme SHA-256 { $sha }…
-
-js-site-pro-same-sha-index = samme resultat-SHA-256 som indekset
-
 js-site-toast-copied = Kopieret: { $text }
 
 js-site-toast-data-failed = Datafilen kunne ikke indlæses

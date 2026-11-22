@@ -19,9 +19,6 @@ seg-b4b8b72e060b = Topic pages: <a1>SPECTRUM</a1>, <a2>DECEIVED-TIME</a2>, <a3>I
 seg-cc031b964086 = Contact sheet of the charts the engine writes for the kinds of the family Jamming, spoofing and the spectrum
 
 # text
-seg-b03d56f501c3 = Kind
-
-# text
 seg-4e31c8daf798 = Ledger
 
 # text

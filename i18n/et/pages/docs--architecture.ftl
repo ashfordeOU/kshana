@@ -325,50 +325,6 @@ seg-da82c97ac5c8 = Täieliku TLE-na antud konstellatsiooni propageeritakse SGP4/
 seg-a47031620b54 = { "7" }. Sidemed
 
 # text
-# c1: python.rs
-# c2: wasm.rs
-# c3: --features python
-# c4: --features wasm
-# c5: cargo deny --all-features
-# c6: api::run_toml
-# c7: web/
-# c8: run
-# c9: run_all
-# c10: chart_svg
-# c11: summary
-# c12: table_csv
-# c13: list_kinds
-# c14: error_kind
-# c15: version
-# c16: encode_permalink
-# c17: decode_permalink
-# c18: export_sp3
-# c19: export_omm
-# c20: export_oem
-# c21: api
-# c22: mcp/kshana-mcp
-# c23: rmcp
-# c24: run_scenario
-# c25: list_scenario_kinds
-# c26: validate_scenario
-# c27: list_example_scenarios
-# c28: get_example_scenario
-# c29: report_scenario
-# c30: animate_scenario
-# c31: list_export_formats
-# c32: export_interop
-# c33: import_route
-# c34: export_sp3
-# c35: export_omm
-# c36: export_oem
-# c37: export_table_csv
-# c38: assess_receiver_log
-# c39: bundled-scenarios
-# c40: ide/jetbrains
-# c41: kshana
-seg-57fb29fdd9d9 = Tuum kompileerub muutmata natiivseks, Pythoni laiendiks ja WebAssembly-ks. Pythoni (<c1/>, PyO3 abi3) ja WebAssembly (<c2/>, wasm-bindgen) moodulid on valikulised, funktsiooniga lülitatavad sõltuvused (<c3/> / <c4/>): vaikeversioon ja testikomplekt ei kompileeri neid kunagi, samas kui sõltuvusauditi värav (<c5/>) kontrollib nende sõltuvuspuid, sest need kastid (crates) tarnitakse wheel-paketis ja npm-paketis. Mõlemad kutsuvad <c6/>, nii et iga pind tagastab identsed tulemused. WebAssembly moodul toetab brauseri mänguväljakut kaustas <c7/> ja ekspordib kolmteist funktsiooni: <c8/>, <c9/> (üks mootori käivitus, mis tagastab tulemuse, graafiku, kokkuvõtte ja tabeli koos), <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, jagatava URL-i (URL: veebiaadress) kodek <c16/> / <c17/> ja kolm eksportijat <c18/> / <c19/> / <c20/>, mis toetavad mänguväljaku eksporditavalikut. Kaks täiendavat sissepääsu viivad sama <c21/> juurde: <b>MCP (Model Context Protocol) server</b> (<c22/>, tööruumist välja jäetud <c23/> kast, mis pakub viisteist tööriista — <c24/>, <c25/>, <c26/>, <c27/>, <c28/>, <c29/>, <c30/>, <c31/>, <c32/>, <c33/>, <c34/>, <c35/>, <c36/>, <c37/>, <c38/>; kaks näitetööriista loevad komplekteeritud stsenaariume teegi vaikimisi väljalülitatud funktsiooni <c39/> kaudu, mille lülitab sisse ainult see server) ja <b>JetBrains IDE (integrated development environment) plugin</b> (<c40/>, Kotlini projekt, mis kutsub välja CLI <c41/>, mitte ei seo teeki).
-
-# text
 # c1: --features python
 # c2: --features wasm
 # c3: --features bundled-scenarios

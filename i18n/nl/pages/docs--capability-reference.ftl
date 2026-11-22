@@ -2715,5 +2715,3 @@ seg-b5c49044a7a1 = Een haalbaar gebied voor waar een bron van verslechterde navi
 seg-953a8b4f9f41 = Nog geen externe. Alleen synthetische voorwaarts-inverse rondritten, uit een generator die het model van de schatter deelt, dus ze controleren de code en de kalibratie van de vermelde niveaus onder dat model en niets over echte zenders. Een externe controle tegen de gepubliceerde zenderlocaties van Jammertest { "2025" } is vooraf vastgelegd (docs/emitter-region/PREREGISTRATION.md, door de eigenaar goedgekeurd vóór elke gescoorde run) en eenmaal uitgevoerd (docs/emitter-region/RESULTS.md): ADS-B NOT ASSESSABLE ({ "2" } geplande sessies, minder dan het vastgelegde minimum van { "4" }) en AIS NOT ASSESSABLE (geen gepubliceerde sessie), dus er is geen drempel getoetst en de rij blijft MODELLED
 
 seg-d5a79853b72f = { "93" } van { "93" } soorten, { "3334" } van { "3334" } numerieke velden
-
-seg-877f989ae75e = De { "61" } mogelijkheidskaarten uit <c1/>, daarna alle { "412" } rijen van de verificatiematrix.

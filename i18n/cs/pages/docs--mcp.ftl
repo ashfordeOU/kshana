@@ -120,8 +120,6 @@ seg-b0cf13e530b7 = Spustí scénář a vrátí jeho tabulku reprodukovatelnosti 
 
 seg-ab242cd0259c = Geometrie oblohy pod horizontem závislým na azimutu: z místa, času a předvoleb konstelací, dvouřádkových sad elementů (<c1/>, šířených podle SGP4 do UTC <c2/>) nebo družic zadaných azimutem a elevací či v ECEF, viditelné družice a družice skryté za horizontem, GDOP/PDOP/HDOP/VDOP/TDOP z jádra DOP ověřeného proti gnss_lib_py, kofaktor a kovariance v soustavě východ-sever-nahoru (jedny hodiny na systém, nebo jedny společné) a elipsa horizontální chyby; s <c3/> místo <c4/> REPRESENTATIVE předvolba s uvedením původu a s řezem po každém stupni. MODELLED; nese poradní upozornění; žádné Monte Carlo přes MCP. Viz <a1><c5/></a1>.
 
-seg-d6ed4e8d56e5 = Posoudí důvěryhodnost záznamu ze skutečného přijímače GNSS (globální družicový navigační systém). TOML uvádí <c1/> záznamu (<c2/>, <c3/>, <c4/>, <c5/> nebo <c6/>) a předává jeho bajty přímo jako <c7/> nebo <c8/>; nástroj spustí monitory důvěryhodnosti (pokles poměru nosné k hustotě šumu, ztráta zachycení, AGC (automatické řízení zesílení), indikátor rušení, skok polohy a, s RINEX spolu s vysílanou navigační zprávou, RAIM (autonomní monitorování integrity přijímačem) a monitor podporovaný hodinami) a vrátí, kdy a proč přestala být určená poloha důvěryhodná. Volitelné sekce <c9/> a <c10/> porovnávají uvedené události a předpovězené poklesy C/N0 s uvedenými tolerancemi. Tabulka <c11/> zvolí námořní monitory a přidá na každou epochu skóre důvěryhodnosti 0–100 s monitory, které skóre snížily (poradní; MODELLED). Záznam se předává přímo jako <c12/> nebo <c13/> (nejvýše { "4" } MiB). Na požádání graf a CSV po epochách. Viz <a1><c14/></a1>.
-
 seg-d1a967a443ea = Ohodnotí omezený úryvek NMEA { "0183" } (nejvýše { "2" } MiB a { "20,000" } epoch; musí obsahovat kalibrační okno) tak, jak jej hodnotí <c1/>: stav důvěryhodnosti a skóre 0–100 pro každou epochu s monitory, které skóre snížily, shrnutí a poslední <c2/>. Omezená podoba živého příkazu: neotevírá se žádný socket a nic se nezapisuje na port; brána, <c3/> a exportéry telemetrie (Prometheus, OTLP, syslog) jsou pouze v příkazové řádce. Pouze poradní; MODELLED. Viz <a1><c4/></a1>.
 
 seg-89e894d4b416 = Záznam NMEA { "0183" } plavidla (nejvýše { "4" } MiB) jako dávkový běh, s TOML relace uvádějícím limity plavidla: model skóre a skóre 0–100 každé epochy s jejími srážkami (odpověď si ponechává počty podle stavu a prvních { "200" } epoch ve stavu degraded nebo untrusted). Pouze poradní; MODELLED.
@@ -289,11 +287,5 @@ seg-75bf2d74642d = Licence: pouze AGPL-3.0, GNU Affero General Public License ve
 seg-490ebbefb561 = <s1>Předchozí</s1>Crate Rustu
 
 seg-350b6b914734 = <s1>Další</s1>Server MCP: každý instalační kanál
-
-# text
-seg-a4a0e399a31e = <c1/> umístí <c2/> do vaší <c3/> (typicky <c4/>). Server komunikuje JSON-RPC (JSON remote procedure call) přes stdio; logy jdou na stderr. Sestavení ze zdrojů vyžaduje toolchain Rustu ≥ { "1.88" } (vyžaduje jej opravené SDK <c5/> { "2" }.x, stejně jako knihovna <c6/>); obraz Dockeru nepotřebuje nic.
-
-# text
-seg-0757e15070d4 = Server je <b>samostatný crate vyňatý z workspace</b> s vlastním <c1/>, takže oficiální Rust MCP SDK (sada pro vývoj softwaru) <c2/> a jeho asynchronní runtime nikdy nevstoupí do grafu závislostí publikovaného crate <c3/>: uživatel knihovny nebo Pythonu nekompiluje server, který nespouští. (Původně byl oddělen proto, že <c4/> je <b>edice { "2024" }</b> a vyžaduje rustc ≥ { "1.85" }, zatímco hlavní crate tehdy slibovaly { "1.75" }. Knihovna i tento server nyní deklarují { "1.88" }, minimum bezpečnostně opraveného <c5/> { "2" }.x a aktualizovaných crate z RustCrypto.) Kontinuální integrace (CI) tento crate hlídá samostatně — testy a <c6/> proti jeho lockfile. Licenční strom rmcp je čistý (Apache-2.0/MIT/BSD), takže na rozdíl od křížově validačního crate <c7/>, který jinak kopíruje, oddělení nesouvisí s licencováním.
 
 seg-b873b39a4921 = { "93" } vestavěných druhů scénářů s popisy a povinnými/volitelnými poli, aby agent mohl sestavit platný scénář.

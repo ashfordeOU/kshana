@@ -302,7 +302,10 @@ seg-f466e9c87ba4 = <s1>Using Kshana from an agent</s1><s2>For an agent (or the p
 seg-ccfc820aac68 = <s1>Where each capability is reachable</s1><s2>Every capability is available on the surfaces where it makes sense; where one cannot carry a capability, the…</s2>
 
 # text
-seg-1c59d26e3faf = <s1>JetBrains plugin</s1><s2>A native plugin that runs the Kshana PNT-resilience simulator from inside any JetBrains IDE (IntelliJ IDEA…</s2>
+seg-97d6fcc6d6b1 = <s1>JetBrains plugin</s1><s2>Kshana for JetBrains IDEs runs the Kshana PNT-resilience simulator from inside any JetBrains IDE (IntelliJ…</s2>
+
+# text
+seg-a4f57f3171a6 = <s1>Kshana Desktop</s1><s2>Kshana Desktop is Kshana Studio in a native window: the same scenarios, runs, charts and tables as the…</s2>
 
 # text
 seg-4498f8a0377b = <s1>Where Kshana runs</s1><s2>A scope boundary, written down so that nobody discovers it as a commitment in a meeting.</s2>

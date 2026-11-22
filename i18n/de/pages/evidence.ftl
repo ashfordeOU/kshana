@@ -3499,9 +3499,6 @@ seg-d5c32303297d = Das Register lesen
 seg-f6112ab2dfdf = Das Register, die Ergebnisse, der Reproduzierbarkeitsstempel und die Tests dahinter liegen alle in der offenen Engine.
 
 # text
-seg-69df15091cab = Verpackt den Nachweis in ein reproduzierbares Nachweispaket in Auditqualität für ein Prüfgremium. <a1>Siehe unten</a1>
-
-# text
 seg-9906d9824f3e = Beantwortet Ihre eigene Frage mit denselben Kennzeichnungen, keine Zertifizierung. <a1>Siehe unten</a1>
 
 # text
@@ -5599,9 +5596,6 @@ seg-457a0bba7c77 = <s1>tests/receiver_trust_machines.rs (rtklib_pos_runs_as_a_re
 seg-17ab1aee875b = Aus der Verifikationsmatrix der Engine erzeugt und durch einen Test festgeschrieben. Scrollen Sie durch die Liste oder öffnen Sie eine Zeile für ihre Fähigkeit, ihre Referenz und ihre Tests. Die vollständige Tabelle, alle Spalten auf einmal, steht in der Dokumentation: <a1>Fähigkeitsreferenz</a1>.
 
 # text
-seg-41da0459d87a = Brauchen Sie dieses Register als revisionsfestes, reproduzierbares Nachweispaket für ein Prüfgremium? <a1>Kshana Pro packt es zusammen</a1>.
-
-# text
 seg-72a49f4a8a52 = Standardmäßig reproduzierbar
 
 # text
@@ -5687,12 +5681,6 @@ seg-d2c76b1353a9 = Die Engine und alles oben Genannte bleiben frei. Zwei kostenp
 
 # text
 seg-1e1e6d431868 = Kshana Pro: ein Missionsdossier und ein Nachweispaket
-
-# text
-seg-20582558a93f = Kshana Pro packt die Evidenz zusammen, die ein Prüf- oder Beschaffungsgremium verlangt, reproduzierbar. Worauf es aufbaut: dieses Register, in dem jede Fähigkeit ihre Referenz und ihren Test nennt, und der Stempel, den jedes Ergebnis trägt. Mit einem Befehl prüft ein Missionsdossier jede Anforderung gegen reale Läufe und schreibt eine Verifikationsmatrix mit ihren offenen Punkten und ein PDF (Portable Document Format).
-
-# text
-seg-1c8effb9400a = Ein echtes Dossier ansehen
 
 # text
 seg-c24f4ecd4d42 = Eine individuelle Studie: Ihre Frage, beantwortet
@@ -6055,9 +6043,6 @@ seg-24ff0a7466d6 = BibTeX
 seg-4d866b62d4f7 = Mengeninklusion: Das Verhältnis von Störer zu Signal geht als einheitlicher Dezibel-Versatz ein, sodass die erfasste Menge bei höherer Sendeleistung die Menge bei niedrigerer enthält und der Anteil nur steigen kann -- eine Eigenschaft, die das Airy-Muster in Strahlbreite oder Höhe NICHT liefert, wo die erfasste Region in Ringe zerfällt und der Anteil echt nicht monoton ist. Keine veröffentlichte Tabelle gibt den erfassten Scheibenanteil eines Mond-Orbitalsenders gegenüber Höhe und Strahlbreite an, daher gibt es nichts Externes, gegen das diese Zellen geprüft werden könnten; das darunterliegende Muster ist separat gegen veröffentlichte Bessel-Werte validiert und behält seine eigene Zeile
 
 # text
-seg-5af3d58e83fa = <b>Mit Pro:</b> ein <b>Missionsdossier</b> prüft jede Anforderung gegen echte Läufe und führt diese Bezeichnungen in seiner Verifikationsmatrix: Eine Anforderung, die auf der Basis MODELLED oder PARTNER erfüllt ist, wird markiert. <a1>Ein echtes Dossier ansehen</a1>
-
-# text
 seg-76da58fe670a = Keine externe Referenz: Das Paket verknüpft Hashes und eine Bewertung des Empfängerprotokolls (MODELLED), geprüft an synthetischen Daten (die exportierten NMEA-Daten eines mitgelieferten Szenarios, behandelt als Protokoll des Empfängers). Ein Laborlauf wird nicht behauptet
 
 # text
@@ -6236,37 +6221,11 @@ seg-860ca782e2bf = Die Mittelwertfortschreibung der Phase tli-and-cruise (Cowell
 
 seg-7c7d72cc2036 = Eine zulässige Region dafür, wo sich eine Quelle gestörter Navigationsmeldungen befinden kann, aus ADS-B… · Modelliert
 
-seg-43f852e4bee8 = von { "74" } validiert
-
 seg-8fe12f6058c6 = von { "26" } validiert
 
 seg-65122c2bb1fc = von { "104" } validiert
 seg-2998c6fa20d6 = von { "79" } validiert
 seg-4b3ab6095c65 = von { "56" } validiert
-
-seg-0c637f4b6c88 = { "412" } Fähigkeiten, jede benotet. <b>{ "176" } validiert</b> gegen unabhängige externe Referenzen. <b>{ "232" } ehrlich als modelliert gekennzeichnet.</b> { "4" } im Besitz von Partnern. Nichts wird aufgerundet.
-
-seg-c2c3179c1316 = Verifikationsmatrix, eine Zelle je Fähigkeit in Registerreihenfolge: { "176" } validiert (gefüllte Quadrate), { "232" } modelliert (hohle Quadrate), { "4" } im Besitz von Partnern (Rauten). Mit den Pfeiltasten wechseln Sie zwischen den Zellen; die Fähigkeit und ihre unabhängige Referenz werden darunter vorgelesen.
-
-seg-a2cdd2df1b36 = Engine v{ $version } · <c1/>, erzeugt aus <c2/> · { "412" } Zeilen · kein Szenario und kein Seed: das eigene Register der Engine
-
-seg-b36352ff4d2a = Engine v{ $version }, Build <c1/> · <c2/> · deterministisch, kein Seed
-
-seg-edd1aba6a08c = Engine v{ $version }, Build <c1/> · <c2/> · deterministisch, kein Seed
-
-seg-90efc3759f07 = Engine v{ $version }, Build <c1/> · <c2/> · deterministisch, kein Seed
-
-seg-094876c75564 = Engine v{ $version } · Residuentabellen aus <c1/>, wobei die beiden Propagatorprüfungen beim Build <c2/> neu berechnet wurden · deterministisch, kein Seed
-
-seg-1c7e4b85e701 = Engine v{ $version }, Build <c1/> · <c2/> · deterministisch, kein Seed
-
-seg-f42398e9711c = Engine v{ $version }, Build <c1/> · <c2/> · deterministisch, kein Seed
-
-seg-07e8ef5a102f = { "176" }<s1>von { "412" } validiert</s1>
-
-seg-4873cd813b9a = Verifikationsmatrix: { "176" } validiert, { "232" } modelliert, { "4" } im Besitz von Partnern, { "412" } insgesamt
-
-seg-98b273ce8773 = Alle { "412" } Zeilen, jede in einer eigenen Zeile.
 
 seg-7780d0588bd2 = von { "20" } validiert
 
@@ -6275,9 +6234,3 @@ seg-00d97be31745 = von { "81" } validiert
 seg-04cc15e9a93c = von { "31" } validiert
 
 seg-2de2a4f9f3f7 = von { "57" } validiert
-
-seg-c321a2dafd3e = Alle { "412" }
-
-seg-bc4726a0baf1 = Modelliert { "232" }
-
-seg-40e80b22723c = Validierungsregister, { "412" } Zeilen, scrollbar

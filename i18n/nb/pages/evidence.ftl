@@ -2260,8 +2260,6 @@ seg-d5c32303297d = Les registeret
 
 seg-f6112ab2dfdf = Registeret, resultatene, reproduserbarhetsstempelet og testene bak dem finnes alle i den åpne motoren.
 
-seg-69df15091cab = Pakker evidensen i en revisjonsklar, reproduserbar bevispakke for et gjennomgangsorgan. <a1>Se nedenfor</a1>
-
 seg-9906d9824f3e = Svarer på ditt eget spørsmål med de samme etikettene, ikke en sertifisering. <a1>Se nedenfor</a1>
 
 seg-f6a6cca2263c = Matrise
@@ -3174,8 +3172,6 @@ seg-7091847e1c77 = En publisert modell eller et dokumentert modelleringsvalg, in
 
 seg-1d17589ad647 = Konstruksjon av romfartøyplattform, navigasjonsnyttelast og antennemaskinvare, maskinvare for kvantenyttelast og produktsikring av flygemaskinvare. Kshana hevder ingen av dem; en partner eier dem.
 
-seg-5af3d58e83fa = <b>Med Pro:</b> et <b>oppdragsdossier</b> kontrollerer hvert krav mot virkelige kjøringer og beholder disse etikettene i sin verifikasjonsmatrise: et krav som er oppfylt på et MODELLED- eller PARTNER-grunnlag, blir flagget. <a1>Se et virkelig dossier</a1>
-
 seg-400016e22379 = Valideringsregister
 
 seg-20ec758fe328 = Hver rad navngir sitt krav, sin status og modulen som implementerer det. Åpne en rad for å se dens referanse og tester, eller velg et domene for å snevre inn.
@@ -3670,8 +3666,6 @@ seg-457a0bba7c77 = <s1>tests/receiver_trust_machines.rs (rtklib_pos_runs_as_a_re
 
 seg-17ab1aee875b = Generert fra motorens verifikasjonsmatrise og festet av en test. Bla i listen, eller åpne en rad for å se funksjonen, den uavhengige referansen og testene. Hele tabellen, med alle kolonner samtidig, finnes i dokumentasjonen: <a1>Funksjonsreferanse</a1>.
 
-seg-41da0459d87a = Trenger du dette registeret som en reproduserbar bevispakke på revisjonsnivå for et gjennomgangsorgan? <a1>Kshana Pro pakker det</a1>.
-
 seg-72a49f4a8a52 = Reproduserbar som standard
 
 seg-fa37e615f55e = Kjør den på nytt. Få de samme tallene.
@@ -3723,10 +3717,6 @@ seg-481e625b04be = Samme evidens, pakket eller gjort for deg.
 seg-d2c76b1353a9 = Motoren og alt ovenfor forblir gratis. To betalte veier bygger på dem, under kontrakt.
 
 seg-1e1e6d431868 = Kshana Pro: et oppdragsdossier og en bevispakke
-
-seg-20582558a93f = Kshana Pro pakker evidensen et gjennomgangs- eller innkjøpsorgan ber om, reproduserbart. Det bygger på dette registeret, der hver funksjon navngir sin uavhengige referanse og sin test, og på stempelet hvert resultat bærer. Med én kommando kontrollerer et oppdragsdossier hvert krav mot virkelige kjøringer og skriver en verifikasjonsmatrise med åpne punkter og en PDF (Portable Document Format).
-
-seg-1c8effb9400a = Se et virkelig dossier
 
 seg-c24f4ecd4d42 = En skreddersydd studie: spørsmålet ditt, besvart
 
@@ -4080,37 +4070,11 @@ seg-860ca782e2bf = Middeltilstandspropagering for fasen tli-and-cruise (Cowell, 
 
 seg-7c7d72cc2036 = Et mulig område for hvor en kilde til degraderte navigasjonsrapporter kan befinne seg, fra ADS-B… · Modellert
 
-seg-43f852e4bee8 = av { "74" } validert
-
 seg-8fe12f6058c6 = av { "26" } validert
 
 seg-65122c2bb1fc = av { "104" } validert
 seg-2998c6fa20d6 = av { "79" } validert
 seg-4b3ab6095c65 = av { "56" } validert
-
-seg-0c637f4b6c88 = { "412" } funksjoner, hver gradert. <b>{ "176" } validert</b> mot uavhengige eksterne referanser. <b>{ "232" } ærlig merket modellert.</b> { "4" } eid av partnere. Ingenting er rundet opp.
-
-seg-c2c3179c1316 = Verifikasjonsmatrise, én celle per funksjon i registerrekkefølge: { "176" } validert (fylte kvadrater), { "232" } modellert (hule kvadrater), { "4" } eid av partnere (rutere). Piltastene flytter mellom cellene; funksjonen og dens uavhengige referanse leses opp nedenfor.
-
-seg-a2cdd2df1b36 = Motor v{ $version } · <c1/>, generert fra <c2/> · { "412" } rader · ingen scenario eller seed: motorens eget register
-
-seg-b36352ff4d2a = Motor v{ $version }, bygg <c1/> · <c2/> · deterministisk, ingen seed
-
-seg-edd1aba6a08c = Motor v{ $version }, bygg <c1/> · <c2/> · deterministisk, ingen seed
-
-seg-90efc3759f07 = Motor v{ $version }, bygg <c1/> · <c2/> · deterministisk, ingen seed
-
-seg-094876c75564 = Motor v{ $version } · <c1/> restavviktabeller, med de to propagatorkontrollene beregnet på nytt ved bygg <c2/> · deterministisk, ingen seed
-
-seg-1c7e4b85e701 = Motor v{ $version }, bygg <c1/> · <c2/> · deterministisk, ingen seed
-
-seg-f42398e9711c = Motor v{ $version }, bygg <c1/> · <c2/> · deterministisk, ingen seed
-
-seg-07e8ef5a102f = { "176" }<s1>av { "412" } validert</s1>
-
-seg-4873cd813b9a = Verifikasjonsmatrise: { "176" } validert, { "232" } modellert, { "4" } eid av partnere, { "412" } totalt
-
-seg-98b273ce8773 = Alle { "412" } rader, én linje hver.
 
 seg-7780d0588bd2 = av { "20" } validert
 
@@ -4119,9 +4083,3 @@ seg-00d97be31745 = av { "81" } validert
 seg-04cc15e9a93c = av { "31" } validert
 
 seg-2de2a4f9f3f7 = av { "57" } validert
-
-seg-c321a2dafd3e = Alle { "412" }
-
-seg-bc4726a0baf1 = Modellert { "232" }
-
-seg-40e80b22723c = Valideringsregister, { "412" } rader, kan rulles

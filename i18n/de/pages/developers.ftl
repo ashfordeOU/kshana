@@ -1619,20 +1619,10 @@ seg-cc49e9b6404e = Jeder Lauf; MCP <c1/>
 seg-7994e9983f27 = Deterministisch aus Szenario, Seed und Engine-Version
 
 # text
-seg-8844d0844559 = IntelliJ · PyCharm · CLion
-
-# text
 seg-844c84c5252d = Lieber klicken?
 
 # text
-# c1: .toml
-seg-6b24b242333a = Das Plugin „Kshana — PNT simulator“: Klicken Sie mit der rechten Maustaste auf ein beliebiges Szenario-<c1/>, wählen Sie Run Kshana Scenario und lesen Sie die Gütemaße in einem Werkzeugfenster.
-
-# text
 seg-8b49f6477e8f = Offener Kern
-
-# text
-seg-3a199156b86e = Jede Oberfläche auf dieser Seite ist der freie offene Kern, unter der AGPL-3.0 oder einer kommerziellen Lizenz für geschlossene Integration. Brauchen Sie ihn in Ihre Werkzeugkette integriert oder eine Studie für Sie erledigt? <a1>Individuelle Studie</a1>. Nachweispakete und kalibrierte Modelle: <a2>Kshana Pro</a2>.
 
 # attr:aria-label
 seg-c9844e6afd41 = Den Benchmark ausführen

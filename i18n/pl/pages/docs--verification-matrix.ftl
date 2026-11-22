@@ -3552,7 +3552,3 @@ seg-f4b44b14d819 = tests/mission_thread_oracle.rs::the_stored_numbers_miss_the_r
 seg-67fdcdfdb635 = interference_map::emitter (estimate, sessions, build_units, profile, GaussianFix::from_tdoa), interference_map::emitter_out (locate), <c1/>
 
 seg-920b26e226ab = testy jednostkowe interference_map::emitter (cykl projekcji, wartość horyzontu, syntetyczne pełne cykle prosty i odwrotny: znany emiter leży wewnątrz podanego obszaru z mniej więcej podaną częstością, przypadki brzegowe, grupowanie sesji, profil, prywatność i sformułowania); przypadki locate w tests/interference_map_cli.rs
-
-seg-db7a6ac0a47d = Kompletny, sprawdzany maszynowo rejestr dowodów: <b>{ "412" } wierszy — { "176" } VALIDATED, { "232" } MODELLED, { "4" } PARTNER</b>. Wiersz może być VALIDATED tylko przy niezależnej zewnętrznej wyroczni (wymuszają to testy niezmienników macierzy). Te same dane, z klikalnymi odnośnikami wierszy do każdego testu, modułu i zatwierdzonego fixture, to <em>rejestr walidacji</em> na <a1>https://kshana.dev</a1>. W <a2>MODELLED-RATIONALE.md</a2> wyjaśniono, dlaczego każdy wiersz obliczony z modelu nie jest zewnętrznie sprawdzony.
-
-seg-1cc523709234 = { "412" } wierszy: { "176" } sprawdzonych zewnętrznie, { "232" } modelowanych, { "4" } należących do partnera.

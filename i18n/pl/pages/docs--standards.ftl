@@ -60,8 +60,6 @@ seg-aa942198bb2e = <b>SP3-c (SP3: Standard Product { "3" }, format dokładnych o
 
 seg-4d4237e15ef1 = IGS Standard Product { "3" } (c/d)
 
-seg-8d1089fbd59d = Szereg czasowy położenia w układzie związanym z Ziemią (ECEF) i czasu zegara. Przejście w obie strony sprawdzone względem niezależnego wzorca do < { "0.5" } m na rzeczywistej migawce <c1/> (<a1><c2/></a1>).
-
 seg-761698fcf960 = <b>RINEX (Receiver Independent Exchange Format) { "3" }</b> (nawigacyjne dane rozgłaszane)
 
 seg-897068cff342 = RINEX { "3" }.x NAV (IS-GPS-200, Galileo ICD (dokument kontroli interfejsu), BeiDou ICD, GLONASS (rosyjski Globalny System Nawigacji Satelitarnej) ICD)
@@ -198,13 +196,9 @@ seg-8b0593f67c7f = Wartość / jednostka
 
 seg-d33eb162d179 = Metadane segmentu OEM
 
-seg-4b338284e56a = <c1/> / <c2/> / <c3/> — układ, w którym całkują propagatory, i skala czasu siatki epok, bez zmiany etykiet
-
 seg-e0a44af9aaf8 = Epoka stanu OEM
 
 seg-b0623bab9fcc = pierwsza kolumna każdego wiersza danych
-
-seg-410bd5a9ba14 = czas kalendarzowy ISO-8601 (ISO: Międzynarodowa Organizacja Normalizacyjna), skala czasu GPS
 
 seg-a7c95802e01a = Położenie i prędkość OEM
 

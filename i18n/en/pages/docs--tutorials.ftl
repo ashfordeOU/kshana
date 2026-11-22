@@ -69,6 +69,14 @@ seg-1b39d4927602 = intermediate
 seg-ea37ac575235 = { "35" } min
 
 # text
+seg-c6ab87e9ab0e = Teaching kit (MATLAB, LabVIEW, Python)
+
+# text
+# c1: docs/teaching/
+# c2: ACADEMIC.md
+seg-4bf5deecdb3f = Three lab sheets with worked answers, for students who call the engine from MATLAB, LabVIEW or Python through the C library: first calls, a link-budget sweep, and mapping a receiver log. See <a1><c1/></a1>; for citing and reproducing results in academic work, see <a2><c2/></a2>.
+
+# text
 seg-e43910de5fd8 = Notebooks
 
 # text
@@ -167,9 +175,6 @@ seg-28e87f407a10 = Domain
 
 # text
 seg-871fcecc5ee1 = Teaching file
-
-# text
-seg-b03d56f501c3 = Kind
 
 # text
 seg-4e852a6a1581 = Derived from

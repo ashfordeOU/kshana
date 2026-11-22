@@ -1176,8 +1176,6 @@ seg-9ac1f9e2d1b1 = Inde i motoren: domænelagene og verifikationsregistret
 
 seg-4e894b853889 = <b>Én motor, mange indgange.</b> En enkelt Rust-kerne (<c1/>) kører hvert scenarie, nået gennem en CLI, en Python-udvidelse, et WebAssembly-modul i browseren, en <b>MCP-server</b> til AI-agenter og et <b>JetBrains IDE-plugin</b> — alle samlet i én <c2/>-fordeling. Indeni tilsluttes sensorpakkerne en fælles fejlmodelgrænseflade; ved siden af ligger et <b>referencesystemlag</b> (IAU 2006/2000A-præcession–nutation og den CIO-baserede GCRS↔ITRS-reduktion), et <b>astrodynamisk/numerisk lag</b> (analytisk SGP4/SDP4 <b>og</b> en numerisk Cowell-propagator med sin EGM2008/perturbationskraftmodel, manøvreudformning og banebestemmelse), et <b>integritets-/GNSS-lag</b> (RAIM/ARAIM, SBAS, måledomænet, jamming, cislunar), et <b>fusions-/alt-PNT-lag</b> (GNSS/INS-estimatorerne og tyngde-/terræn-/magnetkortmatcherne), et <b>lag for dybt rum og Månen</b> (radiometrisk Mars-PNT og Månens PNT-suite, med evidensniveau pr. del i matrixen — LTC-tid, VLBI, fælles OD+ur, realisering af referencesystem, servicevolumen, differentiel PNT, interoperabilitet), et <b>missionsanalyselag</b> (opsendelse / genindtrængning / dækning / pegning / passage / linkbudgetter og rumvejrmiljøet) og det åbne <b>studielag for robusthed og maskinlæring</b> (RPCF-robusthedsscoring, optimismegabet ved RF-forstyrrelser og den kvanteunderstøttede PNT-demonstrator), hvis reproducerbare artefakter bygger på de validerede kerner.
 
-seg-698b8f40212f = To selvstændige <b>workspace-ekskluderede</b> crates ligger ved siden af kernen — <c1/> (MCP-serveren, bygget på edition-2024-SDK'en <c2/>) og <c3/> (ANISE/SPICE-krydskontrollen af referencesystemer, som trækker MPL-2.0-afhængigheder (Mozilla Public License { "2.0" }) ind) — holdt uden for den publicerede crates afhængighedsgraf, <c4/>, licensport og MSRV-bygning (minimum supported Rust version) af rodens <c5/>-liste <c6/>. JetBrains-pluginnet (<c7/>) er et separat Kotlin-projekt. Se <a1><c8/></a1> for hele sættet af diagrammer.
-
 seg-59578c405ae3 = De gengivne diagrammer (motorflow, modulkort, distribution) findes i <a1><c1/></a1>.
 
 seg-e7a7a9f8a9ca = Diagrammer
@@ -1345,8 +1343,6 @@ seg-68340a1233ff = anmod om et studie
 seg-fedf4c64c70b = Hvad Pro er, med ordene fra <a1><c1/></a1>:
 
 seg-8e45f6fbb075 = <b>En streng overmængde af åbne Kshana.</b> Pro afhænger af den åbne motor som bibliotek og forgrener den aldrig. Hver åben scenariekind kører uændret i Pro, og et åbent scenarie kører i Pro helt uden licens.
-
-seg-feece95f1d76 = <b>Ingen ny fysik.</b> Pro tilføjer ingen fysisk model og ændrer ingen. Hvert Pro-tal kommer fra kørsler af den åbne motor, så et Pro-tal er lige så troværdigt som den åbne scenariekind, det stammer fra, og aldrig mere.
 
 seg-0aca4bbd4ed5 = Pro besvarer et programs næste spørgsmål: hvilken udformning der skal flyve (en udformningsoptimerer og dens Pareto-front), hvor sikkert svaret er (usikkerhed og følsomhed), og om missionen lever op til sine krav (et missionsdossier, sporbarhed af krav, afvejningsstudier, en regressionskontrol af scenarier, digitale tvillinger af ure, et studiedossier og en service i egne lokaler). Den holder også øje med en kampagne af tal og lader en pipeline fejle, når et tal bliver dårligere, afprøver kandidater til signalplaner mod de åbne satellitnavigationssignaler i begge retninger (spektrumkoeksistens) og sætter studier i kø i en jobservice i egne lokaler med et hashkædet leveringsregister. Hver af dem er beskrevet, med hvad den frembringer, og hvad den ikke gør, i <a1><c1/></a1>. Intet, Pro frembringer, er en certificering, og et skræddersyet studie er heller ikke en certificering.
 
@@ -1874,15 +1870,7 @@ seg-2658a9477dd9 = <s1>Næste</s1>Primer om begreber
 
 seg-90a95738b32d = Månens infrastruktur (lunar-infrastructure)
 
-seg-20beca58d39e = <a1>Føj til Cursor (npx)</a1> · <a2>Føj til Cursor (Docker)</a2> · <c1/>
-
-seg-aa6b62f0b484 = <a1>Installér i VS Code (npx)</a1> · <a2>Installér i VS Code (Docker)</a2> · <c1/>
-
-seg-8e176aa32cd3 = MCP er Model Context Protocol. Fastlås en udgivelse med <c1/>, <c2/> eller <c3/>. Hvis du vil bygge fra kildekode, se <a1>Installation og bygning</a1> under Reference.
-
 seg-57686575b81d = Partnerdata
-
-seg-467bb88ec415 = <a1>Nyt i { "0.40" }</a1>, <a2>Nyt i { "0.39" }</a2>, <a3>Nyt i { "0.38" }</a3> og <a4>{ "0.38" } i dybden</a4>: jammertest-scoring, modtagerens egne flag, maskininput, tidssynkronisering og holdover, standardpakker, LunaNet AFS, rundturen i laboratoriet, kshana-bench, observatoriet, eksportører, optik, <a5>navigation for rumbrugere</a5> og <a6>månens infrastruktur</a6>
 
 seg-cafc1c9c4d58 = Nyt i { "0.40" }
 
@@ -1934,8 +1922,6 @@ seg-48991660376d = Kræver en Rust-værktøjskæde (≥ { "1.88" }, <c1/> i Carg
 
 seg-dc95335b5131 = <b><c1/> fejler på en gammel værktøjskæde.</b> Kshana kræver Rust ≥ { "1.88" }. Opdatér med <c2/>.
 
-seg-8391e467adf7 = <b>Missionstråd.</b> Typen <c1/> kæder faser sammen fra opsendelse til indflyvning (<c2/>, <c3/>, <c4/>, <c5/> og fire månetyper) med angivne overdragelsesregler, en margin mod angivne krav og det svageste led; et Artemis-eksempel i hele forløbet over { "11" } faser (jord- og månesegmenter), i alt { "93" } scenarietyper. Hvert tal er MODELLED. Den cislunare propagering mod den offentlige bane for Artemis I <b>misser</b> sin præregistrerede tærskel ({ "45.3" } km og { "0.25" } m/s mod { "5" } km og { "0.05" } m/s; årsagen er små manøvrer, modellen ikke indeholder), og månepropagatoren mod CAPSTONE-banen <b>misser</b> ({ "136.8" } km mod { "25" } km ved slutningen af ét omløb); sammenligningen med LRO er nået. Rækkerne forbliver MODELLED (<a1>Missionstråd</a1>, <a2>månesegment</a2>). I Studio læses tråden på <c6/>.
-
 seg-a66ad1f69702 = Én motor dækker hele fejlkæden, fra den første jammede satellit til den sidste nanosekund af ur-holdover. Motoren har { "93" } scenarietyper; <c1/> viser dem, og <a1><c2/></a1> dokumenterer hvert felt.
 
 seg-43bd621a1f5b = Hvordan en kørsel forløber. En scenariofil i TOML (en type, et seed og dens parametre) går ind i motoren, kshana { $version }, gennem api::run_toml-fordelingen over { "93" } scenarietyper, deterministisk ud fra scenarie, seed og motorversion. Motoren skriver result.json, chart.svg, report.html og report.json, en table.csv for de typer, der definerer en, og på forlangende eksporter til SP3, CCSDS OMM og OEM, CZML, KML, GeoJSON, STK og SigMF; en suite skriver study.json og study.html. Disse filer fødes ind i Kshana Studio i browseren, en AI-assistent gennem serveren kshana-mcp og kontinuerlig integration.
@@ -1944,30 +1930,6 @@ seg-fb8bcc54a31d = De { "93" } indbyggede scenarietyper med beskrivelser + oblig
 
 seg-2f38fc515db6 = hele den åbne motor, alle { "93" } scenarietyper, ingen funktionsspærring
 
-seg-5374f780c396 = Se <c1/> for mindst ét udarbejdet eksempel på hver type ({ "93" } typer, { "195" } scenariefiler <c2/> + { "1" } suitemanifest — flere typer leveres med mere end ét eksempel). Ikke hver type har en fil opkaldt efter sig: <c3/> → <c4/> og <c5/> → <c6/> er to af flere sådanne. Vis de fordelbare typer når som helst med <c7/> fejl, Python-funktionen <c8/> eller MCP-værktøjet <c9/>.
-
 seg-d106dd5461ed = <a1><c1/></a1> er en MCP-server: din assistent kører den faktiske motor og læser dens JSON tilbage i stedet for at gætte på matematikken. Hvert af dens { "53" } værktøjer er en tynd indpakning om en offentlig funktion i <c2/>-biblioteket, så ingen simuleringslogik bor i serveren.
 
 seg-0920329ba390 = De { "53" } værktøjer
-
-seg-0933cb091687 = { "176" } af { "412" } funktioner VALIDATED mod en uafhængig ekstern reference, fra verifikationsmatricen
-
-seg-d9cccff82185 = { "0.40" } tilføjer et fejlbudget på missionsniveau, mærker hvert tal og hver tabel med dets evidensniveau, læser målte urlogs, kontrollerer indsendelser fra datapartnere, estimerer, hvor en interferenssender kan være, og taler sytten sprog ved siden af engelsk. Registeret er nu på { "412" } rækker: { "176" } VALIDATED, { "232" } MODELLED, { "4" } PARTNER. Ingen række blev opgraderet til VALIDATED, og hver miss nedenfor er fastholdt af en test.
-
-seg-93dcede29907 = <b>{ "176" } af { "412" }</b> funktioner valideret mod uafhængige eksterne referencer; { "232" } ærligt betegnet modelleret. Hver række i verifikationsmatricen nævner en funktion, den uafhængige reference, den kontrolleres mod, den test, der kører kontrollen, og den etiket, der følger. Kontinuerlig integration (CI) gør det umuligt at kalde en funktion VALIDATED uden en uafhængig ekstern reference.
-
-seg-99d2c21b1f60 = Hvordan en funktion opnår sin etiket. Hver række i verifikationsmatricen nævner en funktion, den uafhængige reference, den kontrolleres mod, den test, der kører kontrollen i kontinuerlig integration, og den etiket, der følger. En række kan kun være VALIDATED med en uafhængig ekstern reference; ellers er den MODELLED, eller PARTNER, når en hardwarepartner ejer den. Eksempel: SGP4/SDP4, Cowell 6-DOF + forstyrrelser, batch-/sekventiel banebestemmelse, reference AIAA 2006-6753 SGP4-verifikationsvektorer, test tests/sgp4_verification.rs, etiket VALIDATED. Aktuelle antal: { "176" } VALIDATED, { "232" } MODELLED, { "4" } PARTNER af { "412" } rækker. I alt { "176" } funktioner valideret mod uafhængige eksterne referencer; { "232" } flere er ærligt betegnet MODELLED, og { "4" } er ejet af PARTNER.
-
-seg-7f933400c73d = Nogle af kontrollerne: alle { "666" } AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 SGP4-vektorer (Simplified General Perturbations { "4" }) til { "4.12" } mm; Cowell-kraftmodellen til { "0.08" } m mod Orekit { "12.2" }; Galileo til { "0.61" } m og Swarm-A til { "0.10" } m mod virkelige præcise efemerider fra Den Europæiske Rumorganisation (ESA). Testene dækker omkring { "95" } % af linjerne i <c1/>, med en grænse på { "85" } % i CI. Registeret er <a1><c2/></a1>, genereret fra <c3/>: den <a2>fulde matrix med 412 rækker</a2> og hvorfor hver modellerede række ikke har nogen ekstern uafhængig reference i <a3><c4/></a3>.
-
-seg-df9b60a7dfe8 = Hver række håndhæves af en navngiven test i CI. Denne tabel er et <b>udvalgt højdepunkt</b>; den fulde maskinkontrollerede matrix er på <b>{ "412" } rækker — { "176" } VALIDATED, { "232" } MODELLED, { "4" } PARTNER</b> (<c1/>), med den komplette evidens (og hvad der ærligt talt <em>ikke</em> endnu er valideret) i <a1><c2/></a1> og artefaktet <a2><c3/></a2> for hver udgivelse (genereret af <c4/>, SLSA-attesteret — Supply-chain Levels for Software Artifacts).
-
-seg-d1700188b2cf = Hvordan en funktion opnår sin etiket: Krav kobles til et modul i src, til en test i tests, til en ekstern uafhængig reference (virkeligt datasæt, uafhængig referenceimplementering eller offentliggjorte vektorer), til en status — med en CI-håndhævet sikring, så ingen funktion kan være Valideret uden en ekstern uafhængig reference. Aktuelle antal: { "176" } Valideret, { "232" } Modelleret, { "4" } Partner, { "412" } i alt
-
-seg-903f40bceba8 = Verifikationsstatus på tværs af alle { "412" } funktioner: { "176" } Valideret (kontrolleret mod ekstern uafhængig reference), { "232" } Modelleret, { "4" } ejet af partnere
-
-seg-9bfd6ba56a18 = { "176" } Valideret · { "232" } Modelleret · { "4" } Partner — <a1>SVG</a1>
-
-seg-74c21b004d86 = Kshanas arkitektur: én åben motor i midten, kshana { $version } under AGPL-3.0, med api::run_toml, en typet fordeling over hver type, og verifikationsregisteret med { "412" } funktioner ({ "176" } VALIDATED, { "232" } MODELLED, { "4" } PARTNER). Rundt om den kører hver flade den samme motor: Kommandolinje (cargo install kshana); Rust-bibliotek (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); MCP-server (cargo install kshana-mcp); Docker-image (ghcr.io/ashfordeou/kshana-mcp); JetBrains-plugin (Marketplace: "Kshana"). Under den Kshana Pro, et proprietært overlay, der afhænger af den åbne motor som bibliotek og aldrig forker den, og som ikke tilføjer nogen fysisk model.
-
-seg-e6c6926110e6 = Kshanas arkitektur i lag. Fem indgange (kommandolinje, Python, JavaScript og WebAssembly, MCP-serveren og JetBrains-pluginet) når én api::run_toml, en typet fordeling over { "93" } typer. Nedenunder ligger otte domænelag: tid og referencesystemer, ure og tidssynkronisering, inertial og fusion, GNSS og integritet, astrodynamik, LEO-PNT, Månen, Mars og det dybe rum samt missioner og studier, på en fælles kerne, alle krydshenvist af verifikationsmodulet, den maskinkontrollerede matrix med { "412" } funktioner, der er eneste kilde til sandhed for hver etiket.

@@ -1187,31 +1187,6 @@ js-site-palette-none = 結果なし
 
 js-site-palette-results = { $count } 件の結果
 
-js-site-pro-band-at = { $minutes } 分時点：5～95 パーセンタイル
-
-js-site-pro-band-range = { $lo }～{ $hi } { $unit }
-
-js-site-pro-band-runs-within = { $n } 回の実行のうち ±{ $limit } { $unit } 以内
-
-js-site-pro-design-readout = 衛星 { $sat } 機、可用性 { $av } % · { $alt } km に { $planes } 軌道面、{ $incl }°
-
-js-site-pro-front-design = フロント設計 { $id }
-
-js-site-pro-front-design-knee = フロント設計 { $id } · 屈曲点
-
-js-site-pro-more-designs =
-    { $n ->
-       *[other] （この点にフロント設計がほかに +{ $n } 件）
-    }
-
-js-site-pro-not-rerun = 再実行なし
-
-js-site-pro-rerun-free = 無料エンジンで再実行：
-
-js-site-pro-same-sha = 同じ SHA-256 { $sha }…
-
-js-site-pro-same-sha-index = インデックスと同じ結果の SHA-256
-
 js-site-toast-copied = コピーしました：{ $text }
 
 js-site-toast-data-failed = データファイルを読み込めませんでした

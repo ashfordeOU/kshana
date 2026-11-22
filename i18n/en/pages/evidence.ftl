@@ -55,7 +55,7 @@ seg-f6112ab2dfdf = The ledger, the results, the reproducibility stamp and the te
 seg-ac7e1a5e344a = Pro
 
 # text
-seg-69df15091cab = Packages the evidence into an audit-grade, reproducible evidence pack for a review board. <a1>See below</a1>
+seg-49623ec3417c = Turns the evidence into a mission dossier and an evidence pack a review board can check. <a1>See below</a1>
 
 # text
 seg-a613a7447e3f = Custom study
@@ -1565,7 +1565,7 @@ seg-7091847e1c77 = A published model or a documented modelling choice, internall
 seg-1d17589ad647 = Spacecraft bus engineering, navigation payload and antenna hardware, quantum payload hardware, and flight-hardware product assurance. Kshana claims none of them; a partner owns them.
 
 # text
-seg-5af3d58e83fa = <b>With Pro:</b> a <b>mission dossier</b> checks every requirement against real runs and keeps these labels in its verification matrix: a requirement met on a MODELLED or PARTNER basis is flagged. <a1>See a real dossier</a1>
+seg-098609d5fdc7 = <b>With Pro:</b> a <b>mission dossier</b> checks every requirement against engine runs and keeps these labels in its verification matrix, so a reviewer sees which requirements rest on a Modelled or Partner basis. <a1>What Pro adds</a1>
 
 # attr:aria-label, text
 seg-400016e22379 = Validation ledger
@@ -6293,7 +6293,7 @@ seg-6cb4a75cb2f0 = Nothing matches that filter.
 seg-17ab1aee875b = Generated from the engine's verification matrix and pinned by a test. Scroll the list, or open a row for its capability, oracle and tests. The full table, every column at once, is in the docs: <a1>Capability reference</a1>.
 
 # text
-seg-41da0459d87a = Need this ledger as an audit-grade, reproducible evidence pack for a review board? <a1>Kshana Pro packages it</a1>.
+seg-9b3b0f2796e4 = Need this evidence as a dossier for a review board? <a1>Kshana Pro produces it</a1>.
 
 # text
 seg-72a49f4a8a52 = Reproducible by default
@@ -6582,13 +6582,13 @@ seg-d2c76b1353a9 = The engine and everything above stay free. Two paid routes bu
 seg-1e1e6d431868 = Kshana Pro: a mission dossier and an evidence pack
 
 # text
-seg-20582558a93f = Kshana Pro packages the evidence a review or procurement board asks for, reproducibly. What it builds on: this ledger, where every capability names its oracle and its test, and the stamp every result carries. In one command, a mission dossier checks every requirement against real runs and writes a verification matrix with its open items and a PDF (Portable Document Format).
+seg-b66aaf524278 = Kshana Pro turns engine runs into the evidence a review or procurement board asks for. In one command, a mission dossier checks a programme's requirements against engine runs and produces a verification matrix with its open items and a PDF (Portable Document Format) report, every figure carrying the label this ledger gives it.
 
 # text
 seg-6d3d0f8c9b7c = Request a Pro evaluation
 
 # text
-seg-1c8effb9400a = See a real dossier
+seg-3e30593288a1 = What Pro includes
 
 # text
 seg-c24f4ecd4d42 = A custom study: your question, answered

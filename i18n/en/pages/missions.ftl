@@ -35,7 +35,7 @@ seg-471aa43dbb88 = Editions on this page
 seg-3d6af799cb19 = <s1>Free core</s1> every scenario and chart on this page
 
 # text
-seg-354162e88f07 = <s1>Pro</s1> the Pareto front of a design space, uncertainty and sensitivity, and a one-command mission dossier
+seg-f5c5285643e2 = <s1>Pro</s1> design exploration, confidence and risk, and mission dossiers for a review board
 
 # text
 seg-83e0dd9b2617 = <s1>Custom study</s1> models calibrated to your hardware, done for you
@@ -297,7 +297,7 @@ seg-2d9d1994071f = Run every scenario file in this sector in Kshana Studio or fr
 seg-731232b52b8f = Pro adds
 
 # text
-seg-de3cc6d30b9c = Pro: audit-grade, reproducible evidence packs for a review.
+seg-bb37ebcab681 = Pro: reproducible evidence packs for a review board.
 
 # text
 seg-6d3d0f8c9b7c = Request a Pro evaluation
@@ -486,7 +486,7 @@ seg-2918af222529 = Satellites in view and PDOP (position dilution of precision) 
 seg-ef0cc5181857 = A geostationary user: set the user orbit in an orbit-kind scenario, the way orbit-molniya sets a highly eccentric one.
 
 # text
-seg-7889feffa939 = Pro: architecture trade studies ranked on a figure of merit. Pro: clock digital twins calibrated to your device's published Allan budget.
+seg-924fb00dcfab = Pro: architecture trade studies ranked on the measure you choose. Pro: clock digital twins of your own devices.
 
 # text
 seg-bb0ceeb8db2a = Will a lander, a rover or an orbiter at the Moon, at Mars or further out get a trustworthy position and time, and what does the local time scale add to the error budget?
@@ -622,7 +622,7 @@ seg-96077751d4ce = Lunar time rate against the published band, and the end-to-en
 seg-f1dfccfb9f89 = Relay-navigation error in Mars orbit, on the surface and in transfer
 
 # text
-seg-4a5542c69690 = Pro: clock digital twins calibrated to your device's published Allan budget. Pro: architecture trade studies ranked on a figure of merit.
+seg-56fd6c2b051d = Pro: clock digital twins of your own devices. Pro: architecture trade studies ranked on the measure you choose.
 
 # text
 seg-4cf1f8144ae2 = After a jammer takes GNSS away, how long does my UAS (uncrewed aircraft system) stay inside its position budget, and is integrity available on my route?
@@ -923,7 +923,7 @@ seg-b6c48dca904a = Time-spoof detection by the clock's integrity monitor
 seg-3db4a218354b = Power grid and finance: your sector's time-accuracy limit goes in as threshold_ns.
 
 # text
-seg-cc45be91cd00 = Pro: clock digital twins calibrated to your device's published Allan budget. Pro: audit-grade, reproducible evidence packs for a review.
+seg-12b1303211dd = Pro: clock digital twins of your own devices. Pro: reproducible evidence packs for a review board.
 
 # text
 seg-af94e7a93923 = If the GNSS time reference is lost, does my network clock stay inside the ITU-T masks, and for how long?
@@ -1140,7 +1140,10 @@ seg-a0ef302e2458 = Copy command
 seg-f1313464b7c9 = Orbits: re-propagated from the run's own elements and checked against the engine's ground tracks. Planets: NASA imagery.
 
 # text
-seg-6c981f00d37d = <b>With Pro:</b> the design optimiser runs a whole constellation design space around the Earth, the Moon or Mars through this engine and returns its <b>Pareto front</b>, each front design written out as a plain scenario file. <a1>See a real front</a1>
+seg-09d2014b8caf = With Pro:
+
+# text
+seg-5d5c1cb7c76b = <b>design exploration</b> shows the best trade-offs across a whole constellation design space around the Earth, the Moon or Mars, every recommended design as a plain scenario file. <a1>What Pro adds</a1>
 
 # text
 seg-cdd1e1a6793d = Failure modes
@@ -1374,7 +1377,7 @@ seg-87adf34e62f8 = Start at <a1>Capability atlas</a1>
 seg-fa37e351f6b4 = Copy
 
 # text
-seg-9601ecea0610 = <b>Free today:</b> everything in the open engine. Pro: architecture trade studies ranked on a figure of merit.
+seg-d1022c36f96e = <b>Free today:</b> everything in the open engine. Pro: architecture trade studies ranked on the measure you choose.
 
 # text
 seg-5ad7df11c031 = PNT or GNSS specialist
@@ -1398,7 +1401,7 @@ seg-a5345bf50e9a = Pin scenarios as regression tests and run a whole suite into 
 seg-57027baf4d52 = Start at <a1>Ways to use it</a1>
 
 # text
-seg-081d06995ef0 = <b>Free today:</b> everything in the open engine. Pro: audit-grade, reproducible evidence packs for a review.
+seg-9a4a581e8110 = <b>Free today:</b> everything in the open engine. Pro: reproducible evidence packs for a review board.
 
 # text
 seg-e453a0b9a72e = Procurement or programme reviewer
@@ -1434,7 +1437,7 @@ seg-4f23a0580efe = Check holdover against ITU-T masks before the GNSS antenna fa
 seg-7bc4df13f4cb = Start at <a1>Timing wall</a1>
 
 # text
-seg-2abf4f5bd06e = <b>Free today:</b> everything in the open engine. Pro: clock digital twins calibrated to your device's published Allan budget.
+seg-c6e0df201076 = <b>Free today:</b> everything in the open engine. Pro: clock digital twins of your own devices.
 
 # text
 seg-907754b26f64 = AI-assistant user

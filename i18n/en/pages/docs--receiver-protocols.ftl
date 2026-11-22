@@ -114,6 +114,166 @@ seg-680fa4eea3f4 = Direct serial and USB input (<c1/>)
 seg-38fcf7d91b6e = Unix only. It opens the device for reading, sets the <b>local</b> line to raw mode at <c1/> (default { "4800" }, the NMEA { "0183" } rate), and reads NMEA lines like any other source. It never writes to the receiver. <c2/> is refused with an explanation: Kshana does not configure receivers; set the receiver to output NMEA with the maker's own tool, then read it. The feed is NMEA, as for every <c3/> source (UBX and SBF are read from files). A device that goes away ends the command as a fault (exit { "1" }), for a supervisor to restart; the layer does not reconnect. Tested on a pseudo-terminal loopback (<c4/>), including that the master side receives no byte from the command.
 
 # text
+seg-489b2effa559 = Readers added in { "0.42" } (I3): SBP, GREIS, Unicore, and RTCM { "3" } observations
+
+# text
+# c1: kshana obs convert --format <f>
+# c2: receiver-trust
+# c3: [log] format = "<f>"
+# c4: conformance/connect/reader-<f>/
+# c5: kshana.obs/1
+# c6: SOURCE.md
+# c7: tests/connect_042_i2_i3.rs
+# c8: conformance/tools/gen_042_vectors.py
+seg-e178a14ceb73 = Read only, as above: none of these readers writes to a receiver. Each is a built-in reader of <c1/> and of <c2/> (<c3/>), with a test vector in <c4/> (input, expected <c5/>, and <c6/> naming where the layout came from) and a round-trip test in <c7/> (the crate's encoder writes frames, the reader reads them back). Every vector input is written by <c8/>, an encoder written separately from the Rust one, from the same public documents; no recorded receiver log is included. The values in them are invented.
+
+# text
+seg-d3c15ea2dbda = Source of the layout
+
+# text
+seg-e127f2f26824 = Read
+
+# text
+seg-98cde4d77a5b = Not read
+
+# text
+# c1: libsbp
+# c2: spec/yaml/swiftnav/sbp/*.yaml
+# c3: c/src/edc.c
+seg-db0675c36858 = Swift Navigation <c1/> specification (MIT; <c2/>, <c3/>)
+
+# text
+# c1: 0x55
+# c2: MSG_GPS_TIME
+# c3: _GNSS
+# c4: MSG_POS_LLH
+# c5: _GNSS
+# c6: MSG_DOPS
+# c7: MSG_OBS
+# c8: MSG_MEASUREMENT_STATE
+# c9: GnssSignal
+seg-750448eeb0d9 = frame <c1/>, CRC-16-CCITT; <c2/>(<c3/>) week; <c4/>(<c5/>) latitude, longitude, ellipsoidal height, satellites used (fix mode { "0" } gives no fix); <c6/> PDOP, HDOP, VDOP; <c7/> and <c8/> C/N0 ({ "0.25" } dB-Hz) per signal, with the <c9/> code table
+
+# text
+# c1: MSG_OBS
+seg-869bbadc6735 = pseudorange, phase and Doppler of <c1/>; GLONASS signals named only by frequency channel; auxiliary-antenna codes
+
+# text
+seg-0fb6597cae61 = Javad <em>GREIS</em> { "4.3.00" } (javad.com)
+
+# text
+# c1: IIHHH
+# c2: [~~]
+# c3: [::]
+# c4: [RD]
+# c5: GPST
+# c6: Z
+# c7: GLONASST
+# c8: [SX]
+# c9: [SI]
+# c10: [NN]
+# c11: [EC] [E1] [E2] [E3] [E5] [El]
+# c12: [PG]
+# c13: [DP]
+seg-b1f35dc894ed = <c1/> framing and the 8-bit checksum (appendix A.1.1); <c2/>, <c3/>, <c4/> (the label says <c5/> for GPS time, <c6/> for UTC, <c7/> for GLONASS time); <c8/>, <c9/>, <c10/>; <c11/> and the ×{ "4" } forms; <c12/> (solution type { "0" } gives no fix); <c13/> (PDOP formed as √(HDOP² + VDOP²))
+
+# text
+# c1: [R*]
+# c2: [P*]
+# c3: [D*]
+# c4: [NN]
+seg-97511f97dd06 = the measurements (<c1/>, <c2/>, <c3/>), navigation data, text messages; a GLONASS satellite with no <c4/> slot
+
+# text
+seg-c6eaf9c87b1d = Unicore <em>Reference Commands Manual for N4 High Precision Products</em> V2 R1.13 (en.unicore.com)
+
+# text
+# c1: AA 44 B5
+# c2: BESTNAV
+# c3: OBSVM
+# c4: AGC
+# c5: JAMSTATUS
+# c6: FREQJAMSTATUS
+seg-38820eab8fa9 = header <c1/> ({ "24" } bytes), the 32-bit CRC NovAtel also uses; <c2/> ({ "2118" }: status { "0" } only, height = MSL + undulation, satellites used); <c3/> ({ "12" }: C/N0 × { "100" } per signal, system and signal type from the tracking status word); since E17 <c4/>, <c5/>, <c6/>, binary or ASCII (below)
+
+# text
+# c1: AA 44 12
+# c2: novatel
+seg-c94846ca7a25 = other ASCII logs, other messages; Unicore receivers that use NovAtel headers (<c1/>) are read with <c2/>
+
+# text
+# c1: kshana connect decode rtcm3
+# c2: rtcm3
+# c3: receiver_trust::machines::rtcm3_obs
+# c4: kshana connect decode rtcm3 <file|->
+# c5: null
+# c6: rtcm3.c
+# c7: conformance/timing/rtcm3-decode/
+# c8: rtcm_station_and_msm_round_trip
+seg-fecc6692bed0 = <b>RTCM { "3" } observations and stations (library and <c1/>).</b> The <c2/> reader of { "0.38" } reads the C/N0 of MSM4 and MSM7. <c3/> decodes the rest of those messages and the station messages, and <c4/> prints them as JSON: per cell the full pseudorange and phase range (metres), the phase-range rate (MSM7, m/s), the lock-time indicator, the half-cycle flag, the CNR and the RINEX code of the signal; per MSM7 satellite the extended information (GLONASS frequency channel + { "7" }); and 1005/1006 (station id, ITRF year field, service indicators, ECEF of the antenna reference point at { "0.1" } mm, antenna height). Invalid-value markers become <c5/>. The phase is left in metres: turning it into cycles needs the carrier frequency, which is not assumed here. Field widths and tables follow the open decoders RTKLIB (<c6/>, BSD 2-Clause) and pyrtcm (BSD 3-Clause); the RTCM standard itself was not consulted, so check against RTCM { "10403.3" } before relying on this beyond monitoring. Vector: <c7/> (a { "1006" } and an MSM7 with invalid markers); round trip: <c8/> (MSM4 and MSM7 encoded and decoded within their resolutions).
+
+# text
+seg-76aaa13598b7 = Receiver formats added in E17: Unicore interference logs, RTCM { "3" } MSM1 to MSM7
+
+# text
+# c1: unicore
+# c2: AGC
+# c3: JAMSTATUS
+# c4: FREQJAMSTATUS
+# c5: agc
+# c6: CWFlag
+# c7: FREQJAMSTATUS
+# c8: self_report.jamming
+# c9: receiver-self-report
+# c10: CWRatio
+# c11: AGCA
+# c12: JAMSTATUSA
+# c13: FREQJAMSTATUSA
+# c14: #
+# c15: *
+seg-3055e32f3961 = <b>Unicore AGC and jamming flags.</b> The <c1/> reader also reads three interference logs of the same manual (R1.13), binary or ASCII: <c2/> (message { "220" }, §{ "7.5.7" }, Table 7-55), <c3/> ({ "511" }, §{ "7.5.49" }, Table 7-106) and <c4/> ({ "519" }, §{ "7.5.36" }, Table 7-91). The epoch's <c5/> is the mean of the master antenna's valid L1, L2 and L5 values on Unicore's own 0-119 scale (the manual: interference lowers it); the <c6/> (the highest band of <c7/>) becomes the receiver's own jamming state (<c8/>: flag { "0" } is state { "1" }, flag { "1" } state { "2" }, flag { "2" } state { "3" }), so it enters the <c9/> comparison above like a UBX-SEC-SIG flag. The <c10/> is not carried, and the logs have no spoofing flag. ASCII lines are read only for these three logs (<c11/>, <c12/>, <c13/>), each checked against its CRC (Table 7-46: the characters between <c14/> and <c15/>).
+
+# text
+seg-89d43a1d158b = Vector
+
+# text
+seg-f917e7fcac09 = What it is
+
+# text
+seg-0379642c00fc = document
+
+# text
+seg-1f64b3200e93 = the manual's own example output lines of the three logs, byte for byte with their CRCs
+
+# text
+# c1: OBSVM
+seg-7d8da50a8d16 = the three logs in binary with <c1/>, three epochs of a rising CW flag (invented values)
+
+# text
+seg-86c9e053f93f = RTCM { "3" } MSM1, MSM2, MSM3, MSM5 and MSM6.
+
+# text
+# c1: rtcm3_obs
+# c2: kshana connect decode rtcm3
+# c3: "modulo_1ms": true
+# c4: rtcm3
+# c5: conformance/timing/rtcm3-decode-msm/
+# c6: every_msm_type_round_trips_what_it_carries
+seg-bc1fe62a7768 = <c1/> (and so <c2/>) now decodes every MSM type: MSM1 the fine pseudorange, MSM2 the fine phase range with lock time and half-cycle flag, MSM3 both, MSM5 as MSM4 plus the extended information and the phase-range rates, MSM6 the high-resolution cells of MSM7 without the rates. MSM1 to MSM3 send no whole milliseconds, so their ranges are modulo one light-millisecond ({ "299 792.458" } m) and are marked <c3/>; a receiver needs its own approximate range to restore them. The <c4/> C/N0 reader reads MSM4 to MSM7 (MSM1 to MSM3 carry no C/N0). Same provenance as above (RTKLIB and pyrtcm field tables, not the standard's text). Vector: <c5/> (self-derived); round trip: <c6/> (each type encoded and decoded within its resolution).
+
+# text
+# c1: conformance/tools/gen_receiver_format_vectors.py
+seg-7ca32346f209 = The vector inputs are written by <c1/>.
+
+# text
+# c1: nmea
+# c2: rtcm3
+seg-56c87689d646 = <b>Not built, and why.</b> ComNav, Hi-Target, CHC and Allystar raw formats: no public protocol document for them could be read (ComNav's OEM board reference manual is behind a sign-in; the others publish none), and these readers are built only from public documents. A receiver of these makers that outputs NMEA or RTCM { "3" } is read with <c1/> or <c2/>. UBX-SEC-SIG (jamming and spoofing states) has been read since { "0.38" }, see the top of this page.
+
+# text
+seg-49a9145f0117 = <b>What exists from earlier releases.</b> u-blox UBX (NAV-PVT, NAV-SAT, MON-RF, NAV-TIMEGPS, NAV-STATUS, SEC-SIG), Septentrio SBF (PVTGeodetic, MeasEpoch, RFStatus), NovAtel OEM7 (BESTPOS, RANGE, RXSTATUS, ASCII and binary) and RTCM { "3" } MSM4/MSM7 C/N0 are read as before; { "0.42" } adds no second implementation of any of them.
+
+# text
 seg-97e1ea47c2be = <s1>Previous</s1>Machine and sensor inputs
 
 # text

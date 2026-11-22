@@ -60,8 +60,6 @@ seg-aa942198bb2e = <b>SP3-c（SP3：Standard Product { "3" }、精密軌道フ�
 
 seg-4d4237e15ef1 = IGS Standard Product { "3" }（c/d）
 
-seg-8d1089fbd59d = 地球固定（ECEF）の位置と時計の時系列。実際の <c1/> スナップショットで、ラウンドトリップが { "0.5" } m 未満で確認されています（<a1><c2/></a1>）。
-
 seg-761698fcf960 = <b>RINEX（Receiver Independent Exchange Format）{ "3" }</b>（放送航法）
 
 seg-897068cff342 = RINEX { "3" }.x NAV（IS-GPS-200、Galileo ICD（インターフェース制御文書）、BeiDou ICD、GLONASS（ロシアの全球航法衛星システム）ICD）
@@ -198,13 +196,9 @@ seg-8b0593f67c7f = 値・単位
 
 seg-d33eb162d179 = OEM セグメントのメタデータ
 
-seg-4b338284e56a = <c1/> / <c2/> / <c3/>。伝播器が積分する座標系と、エポックグリッドの時間系であり、付け替えはしていません
-
 seg-e0a44af9aaf8 = OEM 状態エポック
 
 seg-b0623bab9fcc = 各データ行の最初の列
-
-seg-410bd5a9ba14 = ISO-8601（ISO：国際標準化機構）の暦時刻、GPS 時間系
 
 seg-a7c95802e01a = OEM 位置、速度
 

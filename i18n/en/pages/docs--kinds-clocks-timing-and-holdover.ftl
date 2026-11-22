@@ -19,9 +19,6 @@ seg-59c2beac56b5 = Topic pages: <a1>TELECOM-TIMING</a1>, <a2>SLOT-TIMING</a2>, <
 seg-b333618375db = Contact sheet of the charts the engine writes for the kinds of the family Clocks, timing and holdover
 
 # text
-seg-b03d56f501c3 = Kind
-
-# text
 seg-4e31c8daf798 = Ledger
 
 # text

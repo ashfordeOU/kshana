@@ -352,8 +352,6 @@ seg-ac37217cda0d = <b>WGS-84 — 世界測地系 { "1984" }。</b>GPS が使用�
 
 seg-81bc73d1fde8 = UTC / TAI / TT / UT1 / TDB — 協定世界時 / 国際原子時 / 地球時 / 世界時 { "1" }（地球自転時） / 太陽系力学時。
 
-seg-ea7eb1f34cae = <b>LTC / TCL — 月座標時（Lunar Coordinate Time、Temps-Coordonnée Lunaire）。</b>月のために提案されている時刻系です。
-
 seg-c6e5976d9dff = <b>OD — 軌道決定（orbit determination）。</b>追跡測定から軌道を復元することです。
 
 seg-dcb9e011c868 = <b>CR3BP</b>、<b>NRHO</b>、<b>DRO</b> は、上の「軌道とシスルナー」で定義しています。

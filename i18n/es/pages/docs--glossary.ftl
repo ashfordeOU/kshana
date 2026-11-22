@@ -589,9 +589,6 @@ seg-ac37217cda0d = <b>WGS-84: World Geodetic System { "1984" }.</b> El elipsoide
 seg-81bc73d1fde8 = UTC / TAI / TT / UT1 / TDB: Tiempo Universal Coordinado / Tiempo Atómico Internacional / Tiempo Terrestre / Tiempo Universal { "1" } (tiempo de rotación terrestre) / Tiempo Dinámico Baricéntrico.
 
 # text
-seg-ea7eb1f34cae = <b>LTC / TCL: tiempo coordenado lunar (Temps-Coordonnée Lunaire).</b> La escala de tiempo propuesta para la Luna.
-
-# text
 seg-c6e5976d9dff = <b>OD: determinación de órbita.</b> Recuperar una órbita a partir de medidas de seguimiento.
 
 # text

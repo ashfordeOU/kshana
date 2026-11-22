@@ -1220,34 +1220,6 @@ js-site-palette-none = Немає результатів
 
 js-site-palette-results = Результатів: { $count }
 
-js-site-pro-band-at = Через { $minutes } хвилин: від 5-го до 95-го процентиля
-
-js-site-pro-band-range = від { $lo } до { $hi } { $unit }
-
-js-site-pro-band-runs-within = із прогонів ({ $n }) у межах ±{ $limit } { $unit }
-
-js-site-pro-design-readout = супутників: { $sat }, доступність { $av } % · площин: { $planes } на { $alt } km, { $incl }°
-
-js-site-pro-front-design = Проєкт із фронту { $id }
-
-js-site-pro-front-design-knee = Проєкт із фронту { $id } · точка згину
-
-js-site-pro-more-designs =
-    { $n ->
-        [one] (+{ $n } ще один проєкт із фронту в цій точці)
-        [few] (+{ $n } ще проєкти із фронту в цій точці)
-        [many] (+{ $n } ще проєктів із фронту в цій точці)
-       *[other] (+{ $n } ще проєкта із фронту в цій точці)
-    }
-
-js-site-pro-not-rerun = не перезапущено
-
-js-site-pro-rerun-free = перезапуск у безкоштовному рушії:
-
-js-site-pro-same-sha = той самий SHA-256 { $sha }…
-
-js-site-pro-same-sha-index = той самий SHA-256 результату, що й в індексі
-
 js-site-toast-copied = Скопійовано: { $text }
 
 js-site-toast-data-failed = Не вдалося завантажити файл даних

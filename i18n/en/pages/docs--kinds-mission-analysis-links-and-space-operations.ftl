@@ -19,9 +19,6 @@ seg-6481dabc9458 = Topic pages: <a1>ENTRY-EO-ASCENT</a1>, <a2>CONTACT-SCHEDULING
 seg-d6c5a581ffaf = Contact sheet of the charts the engine writes for the kinds of the family Mission analysis, links and space operations
 
 # text
-seg-b03d56f501c3 = Kind
-
-# text
 seg-4e31c8daf798 = Ledger
 
 # text

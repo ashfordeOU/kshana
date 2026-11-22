@@ -19,9 +19,6 @@ seg-6ec3ad751007 = Topic pages: <a1>QUANTUM-MODELS</a1>, <a2>QUANTUM</a2>, <a3>L
 seg-0e73a37b716b = Contact sheet of the charts the engine writes for the kinds of the family Inertial, fusion and quantum sensors
 
 # text
-seg-b03d56f501c3 = Kind
-
-# text
 seg-4e31c8daf798 = Ledger
 
 # text

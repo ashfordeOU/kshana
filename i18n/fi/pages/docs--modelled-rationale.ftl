@@ -2040,5 +2040,3 @@ seg-2630978c5675 = tarkistettu sen omaa suljetun muodon / analyyttistä identite
 seg-67fdcdfdb635 = interference_map::emitter (estimate, sessions, build_units, profile, GaussianFix::from_tdoa), interference_map::emitter_out (locate), <c1/>
 
 seg-920b26e226ab = interference_map::emitter unit tests (projection round trip, horizon figure, synthetic forward and inverse round trips: the known emitter lies inside the stated region at about the stated rate, edge cases, session clustering, profile, privacy and wording); tests/interference_map_cli.rs locate cases
-
-seg-474381d842e6 = { "232" } kyvykkyyttä merkitty MODELLED.

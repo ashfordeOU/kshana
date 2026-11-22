@@ -610,8 +610,6 @@ seg-ea7fba14ee58 = Gratis kern
 
 seg-b3f3fc0fd6ff = Alles wat op deze pagina wordt getoond: elke scenariosoort, elk scenariobestand, elke band, klok en elk hemellichaam draait in de open engine onder de AGPL-3.0 (GNU Affero General Public License, versie { "3" }), zonder functiebeperking.
 
-seg-311e7a7d55dc = Gemarkeerd waar het op een mogelijkheid voortbouwt: de ontwerpoptimalisator, onzekerheid en gevoeligheid, het missiedossier, gekalibreerde kloktweelingen en gerangschikte afwegingsstudies. <a1>Wat Pro toevoegt</a1>
-
 seg-a613a7447e3f = Studie op maat
 
 seg-3e6b00d51b99 = Wanneer het voor u gedaan moet worden: sensormodellen gekalibreerd op uw hardware, of een veerkrachtstudie die uit een model is berekend. <a1>Een studie aanvragen</a1>
@@ -982,8 +980,6 @@ seg-982938fe53bc = Klasse van ultrastabiele/optische oscillatoren aan boord, whi
 
 seg-2adc3374e996 = Elk model-id en zijn herkomst worden uit de scenariobestanden gelezen.
 
-seg-0aa1e4562dac = Kshana Pro kalibreert een <b>digitale klokdubbelganger</b> op het gepubliceerde Allan-budget van uw apparaat, voortbouwend op de soort <c1/> en de klassen hierboven. <a1>Wat Pro toevoegt</a1>
-
 seg-0d9353d25bc6 = GNSS verloren. Waar is elke klok na <s1>{ "10" } min</s1>?
 
 seg-55768eaf7218 = Tijd sinds het verlies van GNSS
@@ -1070,8 +1066,6 @@ seg-91e8a9dca129 = Verbeterde apparatuurklok voor synchroon Ethernet (eEEC), ver
 
 seg-f6f1b242019f = Beide tabellen worden gelezen uit <c1/>; de soort <c2/> toetst een klok aan elk masker.
 
-seg-b291c1ae1f5c = Kshana Pro kalibreert een digitale klokdubbelganger op het gepubliceerde Allan-budget van een apparaat en controleert hem met de Allan-deviatieschatter van de open engine; een dubbelganger van uw eigen apparaat wordt onder contract gebouwd. <a1>Wat Pro toevoegt</a1>
-
 seg-f65bf4f57e2f = Telecom-holdover: MTIE en TDEV van een Microchip 8040C, standaardprestaties <c1/>
 
 seg-a13eab564243 = MTIE
@@ -1145,8 +1139,6 @@ seg-1e21e701259e = Constellatieontwerpen
 seg-aa924d59476b = Kaartmaat
 
 seg-59a109b36eea = T+{ "00" }:{ "00" }
-
-seg-e5f00e27b617 = <b>Met Pro:</b> de ontwerpoptimalisator geeft het <b>Pareto-front</b> van een hele ontwerpruimte voor constellaties rond de Aarde, de Maan of Mars, elk ontwerp op het front als eenvoudig scenariobestand uitgeschreven, en een <b>gerangschikte afwegingsstudie</b> vergelijkt architecturen op een kwaliteitsmaat. <a1>Een echt front bekijken</a1>
 
 seg-2d6cfb3452e3 = Het zonnestelsel · soort solar-system
 
@@ -1341,8 +1333,6 @@ seg-19706b999108 = één oorzaak, veel leden
 seg-ff2823b929b3 = Gebeurtenissen van de geketende run
 
 seg-17c200a01fea = Kshana Studio speelt elke campagne in uw browser af; de opdracht en het scenariobestand reproduceren elke run, en het eigen rapport van de geketende run is gepubliceerd.
-
-seg-dd2809ea9a6a = <b>Met Pro:</b> vermelde onzekerheden in de invoer leveren <b>betrouwbaarheidsbanden</b> op, de kans dat een limiet wordt gehaald en een rangschikking van de invoer die het resultaat bepaalt, over duizenden runs die kunnen worden gestopt en hervat. <a1>Een echte band bekijken</a1>
 
 seg-2b2aa3298f26 = Maak het van u · Kshana Studio
 
@@ -2050,19 +2040,7 @@ seg-16cf26093bf0 = <c1/><a1>quantum-pnt-demonstrator.suite</a1>
 
 seg-6cb4a75cb2f0 = Niets komt overeen met dat filter.
 
-seg-ec1a22002e13 = <b>Pro: gekalibreerde kloktweeling</b> bouwt voort op <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>. <a1>Bekijk wat het toevoegt</a1>
-
-seg-cc88295c3e2e = <b>Pro: gerangschikte afwegingsstudie</b> bouwt voort op <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>. <a1>Bekijk wat het toevoegt</a1>
-
 seg-62942b0a2127 = <b>Studie op maat</b> bouwt voort op <c1/>. <a1>Bekijk wat het toevoegt</a1>
-
-seg-8cec53de04c5 = <b>Pro: ontwerpoptimalisator</b> bouwt voort op <c1/>. <a1>Bekijk wat het toevoegt</a1>
-
-seg-4bdca619acb5 = <b>Pro: onzekerheid en gevoeligheid</b> bouwt voort op <c1/>, <c2/>. <a1>Bekijk wat het toevoegt</a1>
-
-seg-35d8381e7605 = <b>Pro: missiedossier</b> bouwt voort op <c1/>, <c2/>, <c3/>, <c4/>, <c5/>. <a1>Bekijk wat het toevoegt</a1>
-
-seg-08d3c155a74d = <b>Pro: campagnebewaking</b> bouwt voort op <c1/>. <a1>Bekijk wat het toevoegt</a1>
 
 seg-ff9c1f190eb6 = <b>Pro: spectrumcoëxistentie</b> bouwt voort op <c1/>, <c2/>. <a1>Bekijk wat het toevoegt</a1>
 
@@ -2283,52 +2261,6 @@ seg-b39df358a1b0 = <c1/><s1>lunar-orbit-rendezvous</s1>
 seg-dc524d9636a3 = <c1/><s1>lunar-surface</s1>
 
 seg-0b3cd978cb6e = <c1/><s1>lunar-surface</s1>
-
-seg-d5c6110302e9 = Een missieketen in Artemis-klasse, een bewijslabel bij elk cijfer en zeventien talen.
-
-seg-8597c65432ed = Koppel de fasen van een maanmissie aan elkaar in één foutenbudget voor navigatie en tijdsynchronisatie, schat waar een bron van verslechterde positiemeldingen zich kan bevinden, lees gemeten klokloggen, zie het bewijsniveau bij elk cijfer dat een run schrijft, en gebruik de opdrachtregel, de rapporten en Studio in zeventien talen. Elke mogelijkheid draagt het label dat het register ervoor bijhoudt, en een label benoemt alleen wat is gecontroleerd. Adviserende software, geen typegoedgekeurde navigatieapparatuur: de exploitant blijft verantwoordelijk.
-
-seg-070972f642de = Een missieketen in Artemis-klasse: het foutenbudget voor navigatie en tijdsynchronisatie van lancering tot terugkeer
-
-seg-982a4a7cf0db = De soort missieketen koppelt fasen aan elkaar (lancering en opstijging, rendez-vous in een lage baan om de aarde, trans-lunaire injectie en vlucht, de maanfasen, terugkeer) en neemt de covariantie van positie en snelheid van elke fase mee naar de volgende, met de overdrachtsregels, de omzettingen van referentiestelsel en tijdschaal, de marge ten opzichte van de gestelde eisen en de zwakste schakel, elk als budgetrijen vastgelegd.
-
-seg-17c9cc6c2d40 = Gecontroleerd: de vergelijking met Artemis I haalde haar drempel niet ({ "45.3" } km tegenover { "5" } km); de rij blijft MODELLED
-
-seg-946487626f87 = Weergave van de missieketen in Kshana Studio
-
-seg-4970f874d334 = Het maansegment: rendez-vous, afdaling, oppervlak en opstijging
-
-seg-b6c35bf141e7 = Vier scenariosoorten, elk ook een fase van de missieketen: relatieve navigatie tot koppeling in een maanbaan, het budget voor de landingsspreiding op een locatie bij de zuidpool, beschikbaarheid van positiebepaling en tijdsynchronisatie per locatie en seizoen, en de opstijging terug naar de rendez-vousbaan.
-
-seg-ce097df855a9 = Gecontroleerd: vooraf vastgelegde drempels; één gehaald, één niet gehaald, geen enkele versoepeld
-
-seg-8ca6e2046901 = Een geschat zendergebied uit ADS-B- of AIS-meldingen
-
-seg-ca6383e426f9 = Waar een bron van verslechterde positiemeldingen zich kan bevinden, als gebieden van { "50" }, { "90" } en { "95" } procent met een zwaartepunt en zijn onzekerheidsellips, nooit als kaal punt, en sessies in de tijd.
-
-seg-27af464d0674 = Gecontroleerd: vooraf vastgelegd; beide bronnen niet te beoordelen, dus er wordt niets beweerd
-
-seg-003a3b9b63ea = Gemeten klokloggen, en een holdover aangestuurd door een gefitte reeks
-
-seg-f51fa2a40db8 = Lees een gemeten kloklog in acht formaten (RINEX clock, TimeLab, TICC, linuxptp, chrony) in tot één fasereeks voor de soorten klok en telecomtijdsynchronisatie, en fit de ruis van een gemeten reeks om een holdover aan te sturen.
-
-seg-6e9140563c53 = Gecontroleerd: drempels vooraf vastgelegd; missers vermeld en vastgezet
-
-seg-448b11c86f48 = Datapartners: welke rijen gemeten data kan bevorderen
-
-seg-56b0201d930c = Welke gemodelleerde registerrijen gemeten data van een partner kan bevorderen, welke formaten worden geaccepteerd, en hoe een inzending wordt gecontroleerd, gescoord tegen een vooraf vastgelegde drempel en toegekend.
-
-seg-5858e5d1f7c5 = Een bewijslabel bij elk cijfer en elke tabel die een run schrijft
-
-seg-d1c4250b2a7e = Elk resultaatbestand, elke grafiek en elke tabel die een run schrijft, vermeldt nu op welk niveau het berust (gevalideerd, gemodelleerd of partner, het zwakste van zijn rijen) en noemt de rijen van de verificatiematrix erachter, afgelezen uit de matrix en niet getypt.
-
-seg-bd28ef5c376e = Zeventien talen naast het Engels
-
-seg-1e4a6a5931d3 = De opdrachtregel, de rapporten, de documentatiepagina's en Studio zijn beschikbaar in zeventien talen naast het Engels.
-
-seg-7fae5de5ebf1 = kshana-bench: de herhaalcampagne van { "0.40" }
-
-seg-1e0afa852323 = Vier vooraf vastgelegde vergelijkingen zijn na de akkoordverklaring eenmaal uitgevoerd en haalden hun drempels, en elke score is gemodelleerd.
 
 seg-c381cfa99bb0 = Een klokscenario waarvan de klassieke klok de ruis van een gemeten log overneemt (`[clock_fit]`).
 

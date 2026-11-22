@@ -6797,11 +6797,6 @@ seg-74e8cab2f10e = <b>Invalidação de cache de <c1/></b>: as cadeias de consult
 seg-65949229eed7 = <b><c1/> — o Kshana como servidor Model Context Protocol (MCP)</b> (<c2/>). Um crate autónomo, excluído do workspace (o SDK <c3/> é edition { "2024" }) que expõe o motor validado a agentes e assistentes de IA — Cursor, JetBrains AI Assistant / Junie e qualquer cliente MCP — por stdio. Ferramentas: <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, cada uma um invólucro fino sobre <c9/>.
 
 # text
-# c1: ide/jetbrains/
-# c2: .toml
-seg-bd792f66363c = <b>Plugin para IDE JetBrains</b> (<c1/>). Clique com o botão direito num cenário <c2/> → <b>Run Kshana Scenario</b>; as figuras de mérito e o JSON de resultados chegam em fluxo a uma janela de ferramenta do Kshana. Plugin Kotlin de plataforma pura, compatível com todos os IDE JetBrains { "2024.3" }+.
-
-# text
 seg-755358390517 = <b>Distribuição pública + publicação automática por versão</b> para ambos:
 
 # text
@@ -8759,8 +8754,6 @@ seg-29d014d29790 = Uma atualização de dependência na biblioteca distribuída 
 seg-6b6a960ca7cf = <c1/>, <c2/> e <c3/> { "0.13" } para { "0.14" } (com <c4/> { "0.14.3" }, <c5/> { "0.17.0" } e <c6/> { "0.5.5" } para { "0.7.10" }; também a dependência direta <c7/>, agora { "0.7" }) resolvem RUSTSEC-2026-0387, uma variabilidade de tempo de execução em <c8/> { "0.5.5" }. O Kshana usa estes crates apenas para verificar assinaturas públicas (a chave raiz Galileo OSNMA e os tokens de carimbo temporal RFC { "3161" }) e só assina em testes com chaves descartáveis, pelo que a exposição prática era nula; a atualização remove o aviso sem uma entrada de exclusão. Os ficheiros de bloqueio da biblioteca e do MCP mudam ambos; nenhum resultado de verificação muda (os testes de vetores de OSNMA e de carimbo temporal passam sem alteração).
 
 seg-1a4cda9d1486 = A versão mínima suportada do Rust é agora { "1.88" } (exigida pela correção do RUSTSEC-2026-0387).
-
-seg-0d4a740afedf = [{ $version }] - 2026-10-29
 
 seg-2aa7197e4396 = <b>Cobertura de linhas: ~{ "96" } % → ~{ "95" } %.</b> A tarefa de cobertura voltou a medir o código da { "0.29.0" } publicada (commit <c1/>, execução de CI { "36809850252" }, 2026-10-01): <c2/>, { "55,970" } de { "58,697" } linhas de <c3/>. O valor publicado era { "95.63" } % ({ "37,697" } de { "39,419" } linhas), medido em <c4/> antes da { "0.28.0" }; arredondava para ~{ "96" } %. O novo valor arredonda para ~{ "95" } %, pelo que todas as superfícies que <c5/> fixa mudam em conjunto: <c6/>, o emblema do README, a linha de evidências e a tabela de CI, os emblemas do crates.io, do PyPI e do npm, o relatório técnico e a página de cobertura de kshana.dev. O mínimo de { "85" } % mantém-se.
 

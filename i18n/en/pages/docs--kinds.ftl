@@ -93,9 +93,6 @@ seg-e4e2ee13862b = Contact sheet of the charts the engine writes for the kinds o
 seg-3cedc38ae9d5 = Every kind
 
 # text
-seg-b03d56f501c3 = Kind
-
-# text
 seg-6339abe5314a = Family
 
 # text

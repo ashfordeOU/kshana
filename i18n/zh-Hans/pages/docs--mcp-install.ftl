@@ -108,8 +108,6 @@ seg-93d075d31cdd = npx（Node）：
 
 seg-ae03b1ad65f1 = PATH中的kshana-mcp：
 
-seg-439fac4928a0 = 位置：<c1/>（设置，开发者，编辑配置）。或双击发布版本中的<c2/>扩展：无需配置文件。
-
 seg-e998ab783248 = Cursor
 
 seg-1a35b243eeb1 = 位置：<c1/>（或项目中的<c2/>）。
@@ -149,13 +147,3 @@ seg-db567a4e1a61 = 对于无法运行本地进程的客户端，<c1/>通过strea
 seg-04c1f05fb027 = <s1>上一页</s1>MCP服务器
 
 seg-eba757f29814 = <s1>下一页</s1>MCP服务器：自行托管的HTTP模式
-
-seg-4ccbbc19fe86 = <b>npx（Node）</b>（需要Node { "18" }+）：<c1/>
-
-seg-77230eb344ea = <b>Docker</b>（需要Docker）：<c1/>
-
-seg-3398eea8e332 = Cursor，npx（Node）：<a1>网页链接</a1> · <c1/>
-
-seg-67009baafb3b = Cursor，Docker：<a1>网页链接</a1> · <c1/>
-
-seg-6918cd89f776 = Goose，npx：<c1/>

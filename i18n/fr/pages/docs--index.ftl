@@ -259,9 +259,6 @@ seg-f466e9c87ba4 = <s1>Utiliser Kshana depuis un agent</s1><s2>Pour un agent (ou
 seg-ccfc820aac68 = <s1>Où chaque capacité est accessible</s1><s2>Chaque capacité est disponible sur les surfaces où elle a du sens ; là où l'une ne peut pas porter une capacité, le…</s2>
 
 # text
-seg-1c59d26e3faf = <s1>Module d'extension JetBrains</s1><s2>Un module d'extension natif qui exécute le simulateur de résilience PNT Kshana depuis n'importe quel IDE JetBrains (IntelliJ IDEA…</s2>
-
-# text
 seg-4498f8a0377b = <s1>Où Kshana s'exécute</s1><s2>Une limite de périmètre, écrite pour que personne ne la découvre comme un engagement lors d'une réunion.</s2>
 
 # text
@@ -346,7 +343,3 @@ seg-5484fd345826 = <s1>Chaque type de scénario, par famille</s1><s2>Chaque type
 seg-b23a9bd3ccfa = <s1>Référence des scénarios</s1><s2>Chaque fichier de scénario fourni ({ "195" }), regroupé par type, avec ses principaux réglages.</s2>
 
 seg-a7dc2bc0a77d = { "93" } pages, une pour chaque type de scénario, accessibles depuis <a1>Chaque type de scénario, par famille</a1>.
-
-seg-abe17fad0734 = <s1>Matrice de vérification</s1><s2>Le registre de preuves complet, vérifié par machine : { "412" } lignes — { "176" } VALIDATED, { "232" } MODELLED, { "4" } PARTNER.</s2>
-
-seg-7fd385494ae0 = <s1>Référence des capacités</s1><s2>Les fiches de capacités et les { "412" } lignes de la matrice de vérification.</s2>

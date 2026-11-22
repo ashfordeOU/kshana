@@ -278,17 +278,9 @@ seg-d997b6a5a416 = Hvorfor Pro, enda mer
 
 seg-4ff013b472ff = Hvilken utforming skal vi fly?
 
-seg-f4eb65b9b27a = Lunar navigasjonskonstellasjon: færrest satellitter mot tilgjengelighet, hele Månen: { "608" } utforminger kjørt, en Pareto-front på { "12" } utforminger
-
 seg-c8ce2e4a6687 = Hvor sikre er vi, og hva driver resultatet?
 
-seg-049c503c23db = Klokkens holdover med usikkert støynivå: 5. til 95. persentil av { "2,000" } kjøringer mot grensen på { "20" } ns
-
 seg-3dd37275b448 = Innfrir oppdraget kravene sine, og kan vi levere det videre?
-
-seg-7fbde256debf = ikke oppfylt
-
-seg-f6ccb7a322b3 = åpne punkter
 
 seg-6d3d0f8c9b7c = Be om en Pro-evaluering
 
@@ -329,8 +321,6 @@ seg-8b095f7254ed = Kopier installasjonskommandoen: cargo install kshana
 seg-f0e9de10d9ef = cargo install kshana<s1>Kopier</s1>
 
 seg-ec3957c0f5f1 = Trykk <c1/> for å søke i sider, scenarioer og dokumentasjon
-
-seg-a92f77bd42cb = <s1>Kshana Pro</s1><c1/><s2>Samme motor, forsterket: { "608" } utforminger, én Pareto-front</s2>
 
 seg-b807a8887172 = Telemetri avspilt fra den lenkede kampanjekjøringen
 
@@ -646,8 +636,6 @@ seg-09d18cf767a7 = Åpen kjerne, Kshana Pro, skreddersydd studie
 
 seg-302606971c35 = Gratis for alle. Pro når svaret må holde i en gjennomgang.
 
-seg-27c12083529b = Kshana Pro er et proprietært lag som bygger på den åpne kjernen og aldri forker den, tilgjengelig under kontrakt. Ingen priser på en nettside: hver betalte vei starter med en melding til <a1>contact@ashforde.org</a1>.
-
 seg-43ceda17e71c = Åpen kjerne · gratis · AGPL-3.0
 
 seg-0230217b1110 = Alle som henter posisjon eller tid fra GNSS er utsatt: jamming, spoofing og signaltap rammer kjøretøy, nettverk, strømnett og romfartøy på samme måte.
@@ -657,14 +645,6 @@ seg-0af87a1caff4 = Den samme kjernen under en kommersiell lisens, for lukket int
 seg-f6406933eb77 = Installer motoren
 
 seg-6a74a165bfd0 = Kshana Pro · under kontrakt
-
-seg-298532756f74 = Pareto-fronten til et utformingsrom, med hver frontutforming som et scenario den gratis motoren kjører på nytt.
-
-seg-a699256db841 = Usikkerhet og sensitivitet over tusenvis av kjøringer.
-
-seg-665005551d84 = Et oppdragsdossier med én kommando, med en verifikasjonsmatrise og en PDF-fil (Portable Document Format).
-
-seg-455cb5040f80 = Bevispakker på revisjonsnivå som kan reproduseres; digitale tvillinger av klokker kalibrert mot enhetens publiserte Allan-budsjett; arkitekturavveininger rangert etter et kvalitetsmål; modellbasert systemutvikling (MBSE) og prosjektverktøy.
 
 seg-3e30593288a1 = Hva Pro inneholder
 
@@ -680,48 +660,10 @@ seg-57320238c0f4 = Eksportkontrollert arbeid under riktig klarering og NDA (taus
 
 seg-e36049d768ce = Integrasjon, opplæring og rådgivning.
 
-seg-3303866fbf99 = Samme motor, forsterket: virkelig Kshana Pro-utdata
-
-seg-f5513a1750f1 = <a1><s1><c1/>Utformingsoptimerer</s1></a1>
-
-seg-2bbc6243b4b1 = <b>{ "608" } utforminger</b>, alle kjørt: Pareto-fronten og knekkpunktet
-
-seg-56e344605a3d = <a1><s1><c1/>Usikkerhet og sensitivitet</s1></a1>
-
-seg-a0b3c138f981 = <b>{ "2,000" } kjøringer</b>: et konfidensbånd mot en grense
-
 seg-6de95aaa8ba4 = <a1><s1><c1/>Oppdragsdossier</s1></a1>
 
-seg-905e5eef45e5 = <b>{ "12" } krav</b> kontrollert mot virkelige kjøringer, PDF på 21 sider (Portable Document Format)
-
 seg-7d9ee2bfbb90 = Finn ut hvor tidssynkroniseringen din svikter, før den gjør det.
-
-seg-070972f642de = En oppdragstråd i Artemis-klassen: feilbudsjettet for navigasjon og tidssynkronisering fra oppskyting til gjeninntreden
-
-seg-4970f874d334 = Månesegmentet: rendezvous, nedstigning, overflate og oppstigning
-
-seg-8ca6e2046901 = En estimert senderregion fra ADS-B- eller AIS-rapporter
-
-seg-003a3b9b63ea = Målte klokkelogger, og en holdover drevet av en tilpasset serie
-
-seg-448b11c86f48 = Datapartnere: hvilke rader målte data kan oppgradere
-
-seg-5858e5d1f7c5 = En evidensetikett på hver figur og tabell en kjøring skriver
-
-seg-bd28ef5c376e = Sytten språk ved siden av engelsk
-
-seg-7fae5de5ebf1 = kshana-bench: den nye kampanjen for { "0.40" }
-
-seg-b9961ed25282 = Nytt i v{ $version }: en oppdragstråd, en bevismerkelapp på hvert tall og sytten språk
 
 seg-579d9b6f7afd = Alle { "93" } scenariotyper, gratis og uten funksjonsbegrensning, deterministiske ut fra scenario, seed og motorversjon.
 
 seg-56bf1281e330 = En registrert økt med kshana-mcp-serveren (Model Context Protocol, motor v{ $version }): assistenten lister de { "53" } verktøyene, validerer <c1/> (valid: detected scenario kind `clock`) og kjører den: scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity { "1.000" } security n/a (no attack).
-
-seg-237d8bd201d2 = <b>Kampanje:</b> Motor v{ $version }, bygg <c1/> · <c2/> · seed { "20260928" }
-
-seg-98ebce268546 = <b>Baner:</b> Motor v{ $version }, bygg <c1/> · <c2/> · deterministisk, ingen seed
-
-seg-bb2975f5a7dd = Motor v{ $version }, bygg <c1/> · <c2/> · seed { "20260928" }
-
-seg-ee04b167d80a = { "176" } av { "412" } funksjoner stemmer med uavhengige eksterne referanser; resten er merket modellert, høyt og tydelig.

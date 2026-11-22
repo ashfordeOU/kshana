@@ -149,7 +149,7 @@ seg-b484e9426ab0 = Also out of scope
 seg-7bcd90c9ef31 = Hard real-time guarantees (Kshana allocates and makes no worst-case execution-time claim); flight qualification of anything; and a synchronisation protocol, a controller or a routing stack. Kshana supplies the timing evidence those systems are designed against. It is not one of them.
 
 # text
-seg-542e51fbb35a = <s1>Previous</s1>JetBrains plugin
+seg-181b453a248a = <s1>Previous</s1>Kshana Desktop
 
 # text
 seg-52a455f4c409 = <s1>Next</s1>Architecture

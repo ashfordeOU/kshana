@@ -4138,5 +4138,3 @@ seg-b5c49044a7a1 = Uma região viável para onde pode estar uma fonte de relatos
 seg-953a8b4f9f41 = Nenhuma externa ainda. Apenas ciclos de ida e volta diretos-inversos sintéticos, de um gerador que partilha o modelo do estimador, de modo que verificam o código e a calibração dos níveis declarados sob esse modelo e nada sobre emissores reais. Uma verificação externa face aos locais de emissores publicados do Jammertest { "2025" } foi fixada antecipadamente (docs/emitter-region/PREREGISTRATION.md, assinada pelo responsável antes de qualquer execução pontuada) e executada uma vez (docs/emitter-region/RESULTS.md): ADS-B NOT ASSESSABLE ({ "2" } sessões programadas, menos do que o mínimo registado de { "4" }) e AIS NOT ASSESSABLE (nenhuma sessão publicada), portanto nenhum limiar foi testado e a linha permanece MODELLED
 
 seg-d5a79853b72f = { "93" } de { "93" } tipos de cenário, { "3334" } de { "3334" } campos numéricos
-
-seg-877f989ae75e = Os { "61" } cartões de capacidade de <c1/>, depois todas as { "412" } linhas da matriz de verificação.

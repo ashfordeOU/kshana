@@ -352,8 +352,6 @@ seg-ac37217cda0d = <b>WGS-84 — World Geodetic System { "1984" }.</b> Maan elli
 
 seg-81bc73d1fde8 = UTC / TAI / TT / UT1 / TDB — Coordinated Universal Time / International Atomic Time / Terrestrial Time / Universal Time { "1" } (Maan pyörimisaika) / Barycentric Dynamical Time.
 
-seg-ea7eb1f34cae = <b>LTC / TCL — Lunar Coordinate Time (Temps-Coordonnée Lunaire).</b> Ehdotettu Kuun aika-asteikko.
-
 seg-c6e5976d9dff = <b>OD — radanmääritys (orbit determination).</b> Radan palauttaminen seurantamittauksista.
 
 seg-dcb9e011c868 = <b>CR3BP</b>, <b>NRHO</b> ja <b>DRO</b> on määritelty kohdassa ”Radat ja Kuun läheisyys” yllä.

@@ -250,11 +250,6 @@ seg-2acc9fa7212b = Testidata on synteettistä, ja Kshanan oma koodi ja testit tu
 seg-4906b14a33a3 = Primitiivit tarkistetaan julkaistuja tunnettujen vastausten testejä vastaan, joista yksikään ei ole ICD:stä: RFC { "4231" } (HMAC-SHA-256), RFC { "4493" } (CMAC-AES-128), FIPS { "197" } (AES), FIPS { "202" } (SHA3-256) ja RFC { "6979" } (ECDSA P-256). P-521-allekirjoitukset tarkistetaan koodauksen ja tiivisteen valinnan osalta testissä tehdyllä kertakäyttöavaimella; käyrän aritmetiikka on kirjaston.
 
 # text
-# c1: tests/osnma_official_vectors.rs
-# c2: KSHANA_OSNMA_VECTORS
-seg-82ee90adf7ed = Vastaavuus virallisiin vektoreihin tarkistetaan testillä <c1/>, joka on vapaaehtoinen: se lukee kopion virallisesta testivektoriarkistosta, jonka lataat itse, muuttujan <c2/> nimeämästä hakemistosta, eikä tee mitään, kun muuttujaa ei ole asetettu. Se ei tallenna eikä jaa uudelleen mitään, eivätkä oletustestiajot käytä verkkoa. Se antaa varmentajalle vain Merkle-juuren ja yhden puun julkiset avaimet, kuten vastaanotin saisi, joten ketjut muodostetaan virran allekirjoitetusta DSM-KROOTista ja koko polku ajetaan: Merkle, allekirjoitus, avainketju, MACSEQ ja tagit. Se varmistaa vektorijoukkoa kohden todennettujen tagien alarajan, ettei yksikään epäonnistunut, mitkä ketjut ja avaimet virta ilmoittaa, ADKD { "0" }-, { "4" }- ja { "12" }-tagien todentumisen, että todennus jatkuu ketjun lopun, ketjun peruutuksen, avaimen peruutuksen ja uuden julkisen avaimen jälkeen, että hälytysviesti varmentuu eikä jätä mitään todennetuksi, ja että jokainen vektori käyttää vain HMAC-SHA-256:ta, SHA-256-ketjua, 128-bittisiä avaimia, 40-bittisiä tageja ja hakutaulukon merkintöjä { "33" } ja { "34" }. ICD:n muut algoritmi- ja parametrivalinnat katetaan siksi vain edellä mainituilla tunnettujen vastausten ja synteettisillä testeillä.
-
-# text
 seg-70bb026ce655 = Riippuvuudet
 
 # text

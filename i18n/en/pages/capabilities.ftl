@@ -144,7 +144,7 @@ seg-ea7fba14ee58 = Free core
 seg-b3f3fc0fd6ff = Everything shown on this page: every scenario kind, scenario file, band, clock and body runs in the open engine under the AGPL-3.0 (GNU Affero General Public License, version { "3" }), with no feature gate.
 
 # text
-seg-311e7a7d55dc = Marked where it builds on a capability: the design optimiser, uncertainty and sensitivity, the mission dossier, calibrated clock twins and ranked trade studies. <a1>What Pro adds</a1>
+seg-9b5808bfb76d = Marked where it adds to a capability: design exploration, regression watch, spectrum coexistence, clock digital twins and trade studies. <a1>What Pro adds</a1>
 
 # text
 seg-a613a7447e3f = Custom study
@@ -723,8 +723,7 @@ seg-982938fe53bc = Ultra-stable/optical onboard oscillator class, white-FM sigma
 seg-2adc3374e996 = Each model id and its provenance are read from the scenario files.
 
 # text
-# c1: clock
-seg-0aa1e4562dac = Kshana Pro calibrates a <b>clock digital twin</b> to your device's published Allan budget, built on the <c1/> kind and the classes above. <a1>What Pro adds</a1>
+seg-4394fb6fb52e = <b>With Pro:</b> a <b>clock digital twin</b> of your own device, built from its data under contract, for holdover and timing studies. <a1>What Pro adds</a1>
 
 # text
 seg-0d9353d25bc6 = GNSS lost. Where is each clock after <s1>{ "10" } min</s1>?
@@ -859,7 +858,7 @@ seg-91e8a9dca129 = Enhanced synchronous Ethernet equipment clock (eEEC), locked 
 seg-f6f1b242019f = Both tables are read from <c1/>; the <c2/> kind checks a clock against any mask.
 
 # text
-seg-b291c1ae1f5c = Kshana Pro calibrates a clock digital twin to a device's published Allan budget and checks it with the open engine's Allan-deviation estimator; a twin of your own device is built under contract. <a1>What Pro adds</a1>
+seg-e6cd97c7c3e4 = <b>With Pro:</b> a clock digital twin of your own device, built from its data under contract and a non-disclosure agreement. <a1>What Pro adds</a1>
 
 # text
 # c1: telecom-timing
@@ -980,7 +979,10 @@ seg-aa924d59476b = Map metric
 seg-59a109b36eea = T+{ "00" }:{ "00" }
 
 # text
-seg-e5f00e27b617 = <b>With Pro:</b> the design optimiser returns the <b>Pareto front</b> of a whole constellation design space around the Earth, the Moon or Mars, each front design written out as a plain scenario file, and a <b>ranked trade study</b> compares architectures on a figure of merit. <a1>See a real front</a1>
+seg-09d2014b8caf = With Pro:
+
+# text
+seg-701cf5a3b2d8 = <b>design exploration</b> shows the best trade-offs across a whole constellation design space around the Earth, the Moon or Mars, every recommended design as a plain scenario file, and <b>trade studies</b> rank architectures on the measure you choose. <a1>What Pro adds</a1>
 
 # text
 seg-2d6cfb3452e3 = The solar system · solar-system kind
@@ -1346,7 +1348,7 @@ seg-ff2823b929b3 = Events of the chained run
 seg-17c200a01fea = Kshana Studio plays each campaign back in your browser; the command and the scenario file reproduce each run, and the chained run's own report is published.
 
 # text
-seg-dd2809ea9a6a = <b>With Pro:</b> stated input uncertainties give <b>confidence bands</b>, the probability of meeting a limit and a ranking of the inputs that drive the result, over thousands of runs that can be stopped and resumed. <a1>See a real band</a1>
+seg-ab21be7f6bee = <b>With Pro:</b> say how uncertain your inputs are and get <b>confidence bands</b>, the probability of meeting each limit and the inputs that matter most. <a1>What Pro adds</a1>
 
 # text
 seg-2b2aa3298f26 = Make it yours · Kshana Studio
@@ -2636,7 +2638,7 @@ seg-6cb4a75cb2f0 = Nothing matches that filter.
 # c5: lunar-time-budget
 # c6: telecom-timing
 # c7: slot-timing
-seg-ec1a22002e13 = <b>Pro: calibrated clock twin</b> builds on <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>. <a1>See what it adds</a1>
+seg-f793cccd069e = <b>Pro: clock digital twins</b> builds on <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>. <a1>See what it adds</a1>
 
 # text
 # c1: sweep
@@ -2645,7 +2647,7 @@ seg-ec1a22002e13 = <b>Pro: calibrated clock twin</b> builds on <c1/>, <c2/>, <c3
 # c4: quantum-trade
 # c5: hybrid-optical-rf
 # c6: conflict-resilience
-seg-cc88295c3e2e = <b>Pro: ranked trade study</b> builds on <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>. <a1>See what it adds</a1>
+seg-44615e4a8187 = <b>Pro: trade studies</b> builds on <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>. <a1>See what it adds</a1>
 
 # text
 # c1: impairment-eval
@@ -2653,24 +2655,11 @@ seg-62942b0a2127 = <b>Custom study</b> builds on <c1/>. <a1>See what it adds</a1
 
 # text
 # c1: constellation-design
-seg-8cec53de04c5 = <b>Pro: design optimiser</b> builds on <c1/>. <a1>See what it adds</a1>
-
-# text
-# c1: clock
-# c2: leo-pnt-chain
-seg-4bdca619acb5 = <b>Pro: uncertainty and sensitivity</b> builds on <c1/>, <c2/>. <a1>See what it adds</a1>
-
-# text
-# c1: body-pnt
-# c2: campaign
-# c3: constellation-design
-# c4: leo-pnt-chain
-# c5: spectrum
-seg-35d8381e7605 = <b>Pro: mission dossier</b> builds on <c1/>, <c2/>, <c3/>, <c4/>, <c5/>. <a1>See what it adds</a1>
+seg-086c88cb3914 = <b>Pro: design exploration</b> builds on <c1/>. <a1>See what it adds</a1>
 
 # text
 # c1: campaign
-seg-08d3c155a74d = <b>Pro: campaign watch</b> builds on <c1/>. <a1>See what it adds</a1>
+seg-b54f30355ac9 = <b>Pro: regression watch</b> builds on <c1/>. <a1>See what it adds</a1>
 
 # text
 # c1: constellation-design

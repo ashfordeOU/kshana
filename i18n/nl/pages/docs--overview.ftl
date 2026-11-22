@@ -1176,8 +1176,6 @@ seg-9ac1f9e2d1b1 = In de engine: de domeinlagen en het verificatieregister
 
 seg-4e894b853889 = <b>Eén engine, veel toegangspoorten.</b> Eén Rust-kern (<c1/>) draait elk scenario, bereikt via een CLI, een Python-extensie, een WebAssembly-module in de browser, een <b>MCP-server</b> voor AI-agents en een <b>JetBrains-IDE-plugin</b> — allemaal samenkomend in één <c2/>-dispatch. Binnenin sluiten de sensorpakketten aan op een gemeenschappelijke foutmodelinterface; ernaast staan een <b>referentiestelsellaag</b> (IAU 2006/2000A-precessie–nutatie en de CIO-gebaseerde GCRS↔ITRS-reductie), een <b>astrodynamica-/numerieke laag</b> (analytische SGP4/SDP4 <b>en</b> een numerieke Cowell-propagator met zijn EGM2008-/verstoringskrachtmodel, manoeuvreontwerp en baanbepaling), een <b>integriteits-/GNSS-laag</b> (RAIM/ARAIM, SBAS, het meetdomein, jamming, cislunair), een <b>fusie- / alt-PNT-laag</b> (de GNSS/INS-schatters en de map-matchers voor zwaartekracht/terrein/magnetisme), een <b>diepe-ruimte- en maanlaag</b> (radiometrische Mars-PNT en de maan-PNT-suite, met per onderdeel het bewijsniveau in de matrix — LTC-tijd, VLBI, gezamenlijke OD+klok, realisatie van referentiestelsels, servicevolume, differentiële PNT, interoperabiliteit), een <b>missieanalyselaag</b> (lancering / terugkeer / dekking / richting / passage / verbindingsbudgetten en de ruimteweersomgeving) en de open <b>studielaag voor veerkracht en machine learning</b> (RPCF-veerkrachtscoring, de optimismekloof bij RF-verstoringen en de demonstrator voor kwantumgebaseerde PNT) waarvan de reproduceerbare artefacten op de getoetste kernels rusten.
 
-seg-698b8f40212f = Twee zelfstandige, <b>van de workspace uitgesloten</b> crates staan naast de kern — <c1/> (de MCP-server, gebouwd op de edition-2024-SDK <c2/>) en <c3/> (de ANISE/SPICE-controle van referentiestelsels, die MPL-2.0-afhankelijkheden (Mozilla Public License { "2.0" }) binnenhaalt) — buiten de afhankelijkheidsgraaf van de gepubliceerde crate, <c4/>, de licentiepoort en de MSRV-build (minimum supported Rust version) gehouden door de lijst <c6/> in de <c5/> in de root. De JetBrains-plugin (<c7/>) is een afzonderlijk Kotlin-project. Zie <a1><c8/></a1> voor de volledige set diagrammen.
-
 seg-59578c405ae3 = De gerenderde diagrammen (enginestroom, modulekaart, distributie) staan in <a1><c1/></a1>.
 
 seg-e7a7a9f8a9ca = Diagrammen
@@ -1345,8 +1343,6 @@ seg-68340a1233ff = een studie aanvragen
 seg-fedf4c64c70b = Wat Pro is, in de woorden van <a1><c1/></a1>:
 
 seg-8e45f6fbb075 = <b>Een strikte superset van open Kshana.</b> Pro hangt als bibliotheek van de open engine af en forkt hem nooit. Elke open scenariosoort draait ongewijzigd in Pro, en een open scenario draait in Pro zonder enige licentie.
-
-seg-feece95f1d76 = <b>Geen nieuwe fysica.</b> Pro voegt geen fysisch model toe en wijzigt er geen. Elk getal van Pro komt uit runs van de open engine, zodat een Pro-cijfer even betrouwbaar is als de open scenariosoort waaruit het komt, en nooit meer.
 
 seg-0aca4bbd4ed5 = Pro beantwoordt de volgende vragen van een programma: welk ontwerp te vliegen (een ontwerpoptimalisator en zijn Pareto-front), hoe zeker het antwoord is (onzekerheid en gevoeligheid) en of de missie aan haar eisen voldoet (een missiedossier, eistraceerbaarheid, afwegingsstudies, een regressiecontrole van scenario's, digitale klokketwins, een studiedossier en een on-premises dienst). Het bewaakt ook een campagne van cijfers en laat een pipeline falen wanneer er een slechter wordt, test kandidaat-signaalplannen in beide richtingen tegen de open satellietnavigatiesignalen (spectrumco-existentie) en zet studies in de wachtrij van een on-premises jobdienst met een door hashes geketend leveringsregister. Elk onderdeel wordt beschreven, met wat het oplevert en wat het niet doet, in <a1><c1/></a1>. Niets wat Pro produceert is een certificering, en een studie op maat is ook geen certificering.
 
@@ -1874,15 +1870,7 @@ seg-2658a9477dd9 = <s1>Volgende</s1>Conceptenoverzicht
 
 seg-90a95738b32d = Maaninfrastructuur (lunar-infrastructure)
 
-seg-20beca58d39e = <a1>Toevoegen aan Cursor (npx)</a1> · <a2>Toevoegen aan Cursor (Docker)</a2> · <c1/>
-
-seg-aa6b62f0b484 = <a1>Installeren in VS Code (npx)</a1> · <a2>Installeren in VS Code (Docker)</a2> · <c1/>
-
-seg-8e176aa32cd3 = MCP is het Model Context Protocol. Pin een release met <c1/>, <c2/> of <c3/>. Om vanuit de broncode te bouwen, zie <a1>Installeren en bouwen</a1> onder Naslag.
-
 seg-57686575b81d = Partnerdata
-
-seg-467bb88ec415 = <a1>Wat is er nieuw in { "0.40" }</a1>, <a2>Wat is er nieuw in { "0.39" }</a2>, <a3>Wat is er nieuw in { "0.38" }</a3> en <a4>{ "0.38" } in detail</a4>: jammertest-scoring, de eigen vlaggen van de ontvanger, machine-invoer, tijdsynchronisatie en holdover, standaardpakketten, LunaNet AFS, de roundtrip in het lab, kshana-bench, het observatorium, exporteurs, optisch, <a5>navigatie voor ruimtegebruikers</a5> en <a6>maaninfrastructuur</a6>
 
 seg-cafc1c9c4d58 = Wat is er nieuw in { "0.40" }
 
@@ -1934,8 +1922,6 @@ seg-48991660376d = Vereist een Rust-toolchain (≥ { "1.88" }, de <c1/> in Cargo
 
 seg-dc95335b5131 = <b><c1/> mislukt met een oude toolchain.</b> Kshana vereist Rust ≥ { "1.88" }. Werk bij met <c2/>.
 
-seg-8391e467adf7 = <b>Missieketen.</b> De soort <c1/> koppelt fasen van lancering tot terugkeer aan elkaar (<c2/>, <c3/>, <c4/>, <c5/> en vier maansoorten) met vermelde overdrachtsregels, een marge ten opzichte van vermelde eisen en de zwakste schakel; een doorlopend voorbeeld in Artemis-klasse over { "11" } fasen (aarde- en maansegmenten), in totaal { "93" } scenariosoorten. Elk getal is MODELLED. De cislunaire voortplanting tegen het openbare traject van Artemis I <b>mist</b> haar vooraf vastgelegde drempel ({ "45.3" } km en { "0.25" } m/s tegen { "5" } km en { "0.05" } m/s; de oorzaak zijn kleine manoeuvres die het model niet bevat), en de maanpropagator tegen de baan van CAPSTONE <b>mist</b> ({ "136.8" } km tegen { "25" } km aan het einde van één omloop); de vergelijking met LRO is gehaald. De rijen blijven MODELLED (<a1>Missieketen</a1>, <a2>maansegment</a2>). In de Studio wordt de keten gelezen op <c6/>.
-
 seg-a66ad1f69702 = Eén engine dekt de hele storingsketen, van de eerste gejamde satelliet tot de laatste nanoseconde van klokholdover. De engine heeft { "93" } scenariosoorten; <c1/> toont ze en <a1><c2/></a1> documenteert elk veld.
 
 seg-43bd621a1f5b = Hoe een run verloopt. Een scenario-TOML-bestand (een soort, een seed en zijn parameters) gaat de engine in, kshana { $version }, via de dispatch api::run_toml over { "93" } scenariosoorten, deterministisch uit scenario, seed en engineversie. De engine schrijft result.json, chart.svg, report.html en report.json, een table.csv voor de soorten die er een definiëren, en op verzoek exports in SP3, CCSDS OMM en OEM, CZML, KML, GeoJSON, STK en SigMF; een suite schrijft study.json en study.html. Die bestanden voeden Kshana Studio in de browser, een AI-assistent via de kshana-mcp-server, en continue integratie.
@@ -1944,30 +1930,6 @@ seg-fb8bcc54a31d = De { "93" } ingebouwde scenariosoorten met beschrijvingen + v
 
 seg-2f38fc515db6 = de hele open engine, alle { "93" } scenariosoorten, geen functiepoort
 
-seg-5374f780c396 = Zie <c1/> voor ten minste één uitgewerkt voorbeeld van elke soort ({ "93" } soorten, { "195" } scenario-<c2/>-bestanden + { "1" } suitemanifest — enkele soorten leveren meer dan één voorbeeld mee). Niet elke soort heeft een bestand dat naar haar is genoemd: <c3/> → <c4/> en <c5/> → <c6/> zijn twee van meerdere. Toon de uitvoerbare soorten op elk moment met <c7/>-fouten, de Python-functie <c8/>, of de MCP-tool <c9/>.
-
 seg-d106dd5461ed = <a1><c1/></a1> is een MCP-server: uw assistent draait de echte engine en leest diens JSON terug, in plaats van de wiskunde te raden. Elk van zijn { "53" } tools is een dunne wrapper om een publieke functie van de bibliotheek <c2/>, zodat er geen simulatielogica in de server zit.
 
 seg-0920329ba390 = De { "53" } tools
-
-seg-0933cb091687 = { "176" } van { "412" } mogelijkheden VALIDATED tegen een onafhankelijke externe referentie, uit de verificatiematrix
-
-seg-d9cccff82185 = { "0.40" } voegt een foutenbudget op missieniveau toe, labelt elk cijfer en elke tabel met zijn bewijsniveau, leest gemeten klokloggen, controleert inzendingen van datapartners, schat waar een interferentiezender zich kan bevinden, en spreekt zeventien talen naast het Engels. Het register telt nu { "412" } rijen: { "176" } VALIDATED, { "232" } MODELLED, { "4" } PARTNER. Geen enkele rij is bevorderd naar VALIDATED, en elke misser hieronder is door een test vastgezet.
-
-seg-93dcede29907 = <b>{ "176" } van { "412" }</b> mogelijkheden gevalideerd tegen onafhankelijke externe referenties; { "232" } eerlijk gelabeld als gemodelleerd. Elke rij van de verificatiematrix noemt een mogelijkheid, de onafhankelijke referentie waartegen ze wordt gecontroleerd, de test die de controle uitvoert en het label dat daaruit volgt. Continue integratie (CI) maakt het onmogelijk een mogelijkheid VALIDATED te noemen zonder een onafhankelijke externe referentie.
-
-seg-99d2c21b1f60 = Hoe een mogelijkheid haar label verdient. Elke rij van de verificatiematrix noemt een mogelijkheid, de onafhankelijke referentie waartegen ze wordt gecontroleerd, de test die de controle in continue integratie uitvoert en het label dat daaruit volgt. Een rij mag alleen VALIDATED zijn met een onafhankelijke externe referentie; anders is ze MODELLED, of PARTNER wanneer een hardwarepartner eigenaar is. Voorbeeld: SGP4/SDP4, Cowell 6-DOF + verstoringen, batch/sequentiële baanbepaling, onafhankelijke referentie AIAA 2006-6753 SGP4-verificatievectoren, test tests/sgp4_verification.rs, label VALIDATED. Actuele aantallen: { "176" } VALIDATED, { "232" } MODELLED, { "4" } PARTNER van { "412" } rijen. In totaal { "176" } mogelijkheden gevalideerd tegen onafhankelijke externe referenties; { "232" } meer zijn eerlijk gelabeld als MODELLED en { "4" } zijn eigendom van een partner (PARTNER).
-
-seg-7f933400c73d = Een paar van de controles: alle { "666" } vectoren van AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 voor SGP4 (Simplified General Perturbations { "4" }) tot { "4.12" } mm; het Cowell-krachtenmodel tot { "0.08" } m tegen Orekit { "12.2" }; Galileo tot { "0.61" } m en Swarm-A tot { "0.10" } m tegen echte precieze efemeriden van het Europees Ruimteagentschap (ESA). De tests dekken ongeveer { "95" } % van de regels van <c1/>, met een drempel van { "85" } % in CI. Het register is <a1><c2/></a1>, gegenereerd uit <c3/>: de <a2>volledige matrix van 412 rijen</a2>, en waarom elke gemodelleerde rij geen externe onafhankelijke referentie heeft in <a3><c4/></a3>.
-
-seg-df9b60a7dfe8 = Elke rij wordt in CI afgedwongen door een benoemde test. Deze tabel is een <b>geselecteerde uitlichting</b>; de volledige machinaal gecontroleerde matrix is <b>{ "412" } rijen — { "176" } VALIDATED, { "232" } MODELLED, { "4" } PARTNER</b> (<c1/>), met het volledige bewijs (en wat eerlijk gezegd nog <em>niet</em> is gevalideerd) in <a1><c2/></a1> en het artefact <a2><c3/></a2> per release (gegenereerd door <c4/>, SLSA-geattesteerd — Supply-chain Levels for Software Artifacts).
-
-seg-d1700188b2cf = Hoe een mogelijkheid haar label verdient: een eis verwijst naar een module in src, naar een test in tests, naar een externe onafhankelijke referentie (echte dataset, onafhankelijke referentie-implementatie of gepubliceerde vectoren), naar een status — met een door CI afgedwongen bewaking dat geen mogelijkheid Gevalideerd kan zijn zonder externe onafhankelijke referentie. Actuele aantallen: { "176" } Gevalideerd, { "232" } Gemodelleerd, { "4" } Partner, { "412" } in totaal
-
-seg-903f40bceba8 = Verificatiestatus over alle { "412" } mogelijkheden: { "176" } Gevalideerd (gecontroleerd tegen een externe onafhankelijke referentie), { "232" } Gemodelleerd, { "4" } in handen van een partner
-
-seg-9bfd6ba56a18 = { "176" } Gevalideerd · { "232" } Gemodelleerd · { "4" } Partner — <a1>SVG</a1>
-
-seg-74c21b004d86 = De architectuur van Kshana: één open engine in het midden, kshana { $version } onder de AGPL-3.0, met api::run_toml, een getypeerde dispatch over elke soort, en het verificatieregister van { "412" } mogelijkheden ({ "176" } VALIDATED, { "232" } MODELLED, { "4" } PARTNER). Eromheen draait elk oppervlak dezelfde engine: opdrachtregel (cargo install kshana); Rust-bibliotheek (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); MCP-server (cargo install kshana-mcp); Docker-image (ghcr.io/ashfordeou/kshana-mcp); JetBrains-plugin (Marketplace: "Kshana"). Eronder Kshana Pro, een propriëtaire overlay die de open engine als bibliotheek gebruikt en nooit forkt, en geen enkel fysisch model toevoegt.
-
-seg-e6c6926110e6 = De architectuur van Kshana in lagen. Vijf toegangspoorten (opdrachtregel, Python, JavaScript en WebAssembly, de MCP-server en de JetBrains-plugin) bereiken één api::run_toml, een getypeerde dispatch over { "93" } soorten. Daaronder liggen acht domeinlagen: tijd en referentiestelsels, klokken en tijdsynchronisatie, traagheid en fusie, GNSS en integriteit, astrodynamica, LEO-PNT, maan, Mars en diepe ruimte, en missies en studies, op een gedeelde kern, alle met elkaar verbonden door de verificatiemodule, de machinaal gecontroleerde matrix van { "412" } mogelijkheden die de enige bron van waarheid is voor elk label.

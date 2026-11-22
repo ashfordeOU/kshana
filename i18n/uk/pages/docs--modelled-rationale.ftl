@@ -2033,5 +2033,3 @@ seg-2630978c5675 = звірено з власною замкненою / ана�
 seg-67fdcdfdb635 = interference_map::emitter (estimate, sessions, build_units, profile, GaussianFix::from_tdoa), interference_map::emitter_out (locate), <c1/>
 
 seg-920b26e226ab = модульні тести interference_map::emitter (круговий цикл проєкції, показник горизонту, синтетичні прямо-зворотні цикли: відомий випромінювач лежить усередині заданого регіону приблизно із заданою частотою, граничні випадки, кластеризація сесій, профіль, приватність і формулювання); випадки locate у tests/interference_map_cli.rs
-
-seg-474381d842e6 = { "232" } можливостей позначено MODELLED.

@@ -2256,8 +2256,6 @@ seg-d5c32303297d = Läs registret
 
 seg-f6112ab2dfdf = Registret, resultaten, reproducerbarhetsstämpeln och testerna bakom dem finns alla i den öppna motorn.
 
-seg-69df15091cab = Paketerar evidensen i ett reproducerbart bevispaket av revisionskvalitet för en granskningsnämnd. <a1>Se nedan</a1>
-
 seg-9906d9824f3e = Besvarar din egen fråga med samma etiketter, ingen certifiering. <a1>Se nedan</a1>
 
 seg-f6a6cca2263c = Matris
@@ -3162,8 +3160,6 @@ seg-7091847e1c77 = En publicerad modell eller ett dokumenterat modelleringsval, 
 
 seg-1d17589ad647 = Konstruktion av rymdfarkostens plattform, navigationsnyttolast och antennhårdvara, kvantnyttolasthårdvara samt produktsäkring av flyghårdvara. Kshana gör anspråk på ingen av dem; en partner äger dem.
 
-seg-5af3d58e83fa = <b>Med Pro:</b> ett <b>uppdragsdossier</b> kontrollerar varje krav mot verkliga körningar och behåller dessa etiketter i sin verifieringsmatris: ett krav som uppfyllts på MODELLED- eller PARTNER-grund flaggas. <a1>Se ett verkligt dossier</a1>
-
 seg-400016e22379 = Valideringsregister
 
 seg-20ec758fe328 = Varje rad anger sitt krav, sin status och modulen som implementerar det. Öppna en rad för dess oberoende referens och tester, eller välj ett område för att begränsa urvalet.
@@ -3658,8 +3654,6 @@ seg-457a0bba7c77 = <s1>tests/receiver_trust_machines.rs (rtklib_pos_runs_as_a_re
 
 seg-17ab1aee875b = Genereras ur motorns verifieringsmatris och fastlåses av ett test. Rulla i listan, eller öppna en rad för dess förmåga, oberoende referens och tester. Hela tabellen, alla kolumner på en gång, finns i dokumentationen: <a1>Förmågereferens</a1>.
 
-seg-41da0459d87a = Behöver du det här registret som ett reproducerbart bevispaket av revisionsklass för en granskningsnämnd? <a1>Kshana Pro paketerar det</a1>.
-
 seg-72a49f4a8a52 = Reproducerbart som standard
 
 seg-fa37e615f55e = Kör om det. Få samma tal.
@@ -3711,10 +3705,6 @@ seg-481e625b04be = Samma evidens, paketerad eller utförd åt dig.
 seg-d2c76b1353a9 = Motorn och allt ovan förblir gratis. Två betalda vägar bygger på dem, under avtal.
 
 seg-1e1e6d431868 = Kshana Pro: ett uppdragsdossier och ett bevispaket
-
-seg-20582558a93f = Kshana Pro paketerar den evidens som en granskning eller upphandlingsnämnd begär, reproducerbart. Det bygger på detta register, där varje förmåga anger sin oberoende referens och sitt test, och på stämpeln som varje resultat bär. Med ett enda kommando kontrollerar ett uppdragsdossier varje krav mot verkliga körningar och skriver en verifieringsmatris med sina öppna punkter och en PDF (Portable Document Format).
-
-seg-1c8effb9400a = Se ett verkligt dossier
 
 seg-c24f4ecd4d42 = En skräddarsydd studie: din fråga, besvarad
 
@@ -4088,37 +4078,11 @@ seg-860ca782e2bf = Propageringen av medeltillståndet i fasen tli-and-cruise (Co
 
 seg-7c7d72cc2036 = Ett möjligt område för var en källa till försämrade navigeringsrapporter kan finnas, utifrån ADS-B… · Modellerad
 
-seg-43f852e4bee8 = av { "74" } validerade
-
 seg-8fe12f6058c6 = av { "26" } validerade
 
 seg-65122c2bb1fc = av { "104" } validerade
 seg-2998c6fa20d6 = av { "79" } validerade
 seg-4b3ab6095c65 = av { "56" } validerade
-
-seg-0c637f4b6c88 = { "412" } förmågor, var och en betygsatt. <b>{ "176" } validerade</b> mot oberoende externa referenser. <b>{ "232" } ärligt märkta som modellerade.</b> { "4" } ägda av partner. Ingenting avrundas uppåt.
-
-seg-c2c3179c1316 = Verifieringsmatris, en cell per förmåga i registerordning: { "176" } validerade (fyllda kvadrater), { "232" } modellerade (ihåliga kvadrater), { "4" } ägda av partner (romber). Piltangenterna flyttar mellan celler; förmågan och dess oberoende referens läses upp nedanför.
-
-seg-a2cdd2df1b36 = Motor v{ $version } · <c1/>, genererad från <c2/> · { "412" } rader · inget scenario eller frö: motorns eget register
-
-seg-b36352ff4d2a = Motor v{ $version }, bygge <c1/> · <c2/> · deterministisk, inget frö
-
-seg-edd1aba6a08c = Motor v{ $version }, bygge <c1/> · <c2/> · deterministisk, inget frö
-
-seg-90efc3759f07 = Motor v{ $version }, bygge <c1/> · <c2/> · deterministisk, inget frö
-
-seg-094876c75564 = Motor v{ $version } · <c1/> resttabeller, med de två propagatorkontrollerna omräknade vid bygge <c2/> · deterministiskt, inget frö
-
-seg-1c7e4b85e701 = Motor v{ $version }, bygge <c1/> · <c2/> · deterministisk, inget frö
-
-seg-f42398e9711c = Motor v{ $version }, bygge <c1/> · <c2/> · deterministisk, inget frö
-
-seg-07e8ef5a102f = { "176" }<s1>av { "412" } validerade</s1>
-
-seg-4873cd813b9a = Verifieringsmatris: { "176" } validerade, { "232" } modellerade, { "4" } ägda av partner, { "412" } totalt
-
-seg-98b273ce8773 = Alla { "412" } rader, en rad vardera.
 
 seg-7780d0588bd2 = av { "20" } validerade
 
@@ -4127,9 +4091,3 @@ seg-00d97be31745 = av { "81" } validerade
 seg-04cc15e9a93c = av { "31" } validerade
 
 seg-2de2a4f9f3f7 = av { "57" } validerade
-
-seg-c321a2dafd3e = Alla { "412" }
-
-seg-bc4726a0baf1 = Modellerade { "232" }
-
-seg-40e80b22723c = Valideringsregister, { "412" } rader, rullningsbart

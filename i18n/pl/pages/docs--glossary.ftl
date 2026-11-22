@@ -352,8 +352,6 @@ seg-ac37217cda0d = <b>WGS-84 — Światowy System Geodezyjny { "1984" }.</b> Eli
 
 seg-81bc73d1fde8 = UTC / TAI / TT / UT1 / TDB — uniwersalny czas koordynowany / międzynarodowy czas atomowy / czas ziemski / czas uniwersalny { "1" } (czas obrotu Ziemi) / barycentryczny czas dynamiczny.
 
-seg-ea7eb1f34cae = <b>LTC / TCL — księżycowy czas współrzędnych (Temps-Coordonnée Lunaire).</b> Proponowana skala czasu dla Księżyca.
-
 seg-c6e5976d9dff = <b>OD — wyznaczanie orbity.</b> Odtwarzanie orbity z pomiarów śledzenia.
 
 seg-dcb9e011c868 = <b>CR3BP</b>, <b>NRHO</b> i <b>DRO</b> są zdefiniowane powyżej w części „Orbity i przestrzeń cislunarna”.

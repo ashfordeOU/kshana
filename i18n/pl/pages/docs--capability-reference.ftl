@@ -2643,5 +2643,3 @@ seg-b5c49044a7a1 = Dopuszczalny obszar tego, gdzie może znajdować się źród�
 seg-953a8b4f9f41 = Na razie żadnego zewnętrznego. Tylko syntetyczne pełne cykle prosty-odwrotny z generatora, który współdzieli model estymatora, więc sprawdzają kod i kalibrację podanych poziomów w tym modelu i nic o rzeczywistych emiterach. Zewnętrzne sprawdzenie względem opublikowanych lokalizacji nadajników Jammertest { "2025" } zostało zarejestrowane wstępnie (docs/emitter-region/PREREGISTRATION.md, zatwierdzone przez właściciela przed jakimkolwiek ocenianym przebiegiem) i uruchomione raz (docs/emitter-region/RESULTS.md): ADS-B NOT ASSESSABLE ({ "2" } zaplanowane sesje, mniej niż zarejestrowane minimum { "4" }) i AIS NOT ASSESSABLE (brak opublikowanej sesji), więc żaden próg nie został przetestowany, a wiersz pozostaje MODELLED
 
 seg-d5a79853b72f = { "93" } z { "93" } rodzajów, { "3334" } z { "3334" } pól liczbowych
-
-seg-877f989ae75e = { "61" } kart możliwości z <c1/>, a następnie wszystkie { "412" } wierszy macierzy weryfikacji.

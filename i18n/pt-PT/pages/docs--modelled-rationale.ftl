@@ -3137,5 +3137,3 @@ seg-67fdcdfdb635 = interference_map::emitter (estimate, sessions, build_units, p
 
 # text
 seg-920b26e226ab = testes unitários de interference_map::emitter (ida e volta da projeção, figura do horizonte, ciclos diretos e inversos sintéticos: o emissor conhecido fica dentro da região declarada com cerca da taxa declarada, casos extremos, agrupamento de sessões, perfil, privacidade e formulação); casos de locate de tests/interference_map_cli.rs
-
-seg-474381d842e6 = { "232" } capacidades etiquetadas como MODELLED.

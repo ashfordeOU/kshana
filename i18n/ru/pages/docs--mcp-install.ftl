@@ -108,8 +108,6 @@ seg-93d075d31cdd = npx (Node):
 
 seg-ae03b1ad65f1 = kshana-mcp в PATH:
 
-seg-439fac4928a0 = Где: <c1/> (Settings, Developer, Edit Config). Или дважды щёлкните расширение <c2/> из выпуска: файл конфигурации не нужен.
-
 seg-e998ab783248 = Cursor
 
 seg-1a35b243eeb1 = Где: <c1/> (или <c2/> в проекте).
@@ -149,13 +147,3 @@ seg-db567a4e1a61 = <c1/> предоставляет те же инструмен
 seg-04c1f05fb027 = <s1>Назад</s1>Сервер MCP
 
 seg-eba757f29814 = <s1>Далее</s1>Сервер MCP: режим HTTP на собственном оборудовании
-
-seg-4ccbbc19fe86 = <b>npx (Node)</b> (нужен Node { "18" }+): <c1/>
-
-seg-77230eb344ea = <b>Docker</b> (нужен Docker): <c1/>
-
-seg-3398eea8e332 = Cursor, npx (Node): <a1>веб-ссылка</a1> · <c1/>
-
-seg-67009baafb3b = Cursor, Docker: <a1>веб-ссылка</a1> · <c1/>
-
-seg-6918cd89f776 = Goose, npx: <c1/>

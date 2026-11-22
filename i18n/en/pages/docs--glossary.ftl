@@ -494,7 +494,13 @@ seg-ac37217cda0d = <b>WGS-84 — World Geodetic System { "1984" }.</b> The Earth
 seg-81bc73d1fde8 = UTC / TAI / TT / UT1 / TDB — Coordinated Universal Time / International Atomic Time / Terrestrial Time / Universal Time { "1" } (Earth-rotation time) / Barycentric Dynamical Time.
 
 # text
-seg-ea7eb1f34cae = <b>LTC / TCL — Lunar Coordinate Time (Temps-Coordonnée Lunaire).</b> The proposed time scale for the Moon.
+seg-c2606358dfe7 = <b>TCL — Lunar Coordinate Time (Temps-Coordonnée Lunaire).</b> The coordinate time of the IAU { "2024" } lunar reference system, the lunar counterpart of TCG.
+
+# text
+# c1: src/lunar_time.rs
+# c2: kshana lunar-ref convert
+# c3: TIME_SYSTEM
+seg-2acefe20af77 = <b>LTC — a lunar-surface time scale.</b> In kshana, the lunar-surface time model of <c1/> (<c2/>); the label is proposed, not adopted. LTC and TCL are different scales. Neither is in the SANA "Time Systems" registry that CCSDS messages take <c3/> from.
 
 # text
 seg-c6e5976d9dff = <b>OD — orbit determination.</b> Recovering an orbit from tracking measurements.

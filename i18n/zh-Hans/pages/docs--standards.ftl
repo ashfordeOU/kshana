@@ -60,8 +60,6 @@ seg-aa942198bb2e = <b>SP3-c（SP3：标准产品{ "3" }，精密轨道格式）/
 
 seg-4d4237e15ef1 = IGS标准产品{ "3" }（c/d）
 
-seg-8d1089fbd59d = 地固系（ECEF）位置加钟差时间序列。在真实的<c1/>快照上，往返核验至< { "0.5" } m（<a1><c2/></a1>）。
-
 seg-761698fcf960 = <b>RINEX（接收机独立交换格式）{ "3" }</b>（广播导航）
 
 seg-897068cff342 = RINEX { "3" }.x NAV（IS-GPS-200、Galileo ICD（接口控制文件）、北斗ICD、GLONASS（俄罗斯全球导航卫星系统）ICD）
@@ -198,13 +196,9 @@ seg-8b0593f67c7f = 值 / 单位
 
 seg-d33eb162d179 = OEM段元数据
 
-seg-4b338284e56a = <c1/> / <c2/> / <c3/>：传播器所积分的坐标系以及历元网格的时标，不做重新标注
-
 seg-e0a44af9aaf8 = OEM状态历元
 
 seg-b0623bab9fcc = 每个数据行的第一列
-
-seg-410bd5a9ba14 = ISO-8601（ISO：国际标准化组织）日历时间，GPS时标
 
 seg-a7c95802e01a = OEM位置、速度
 

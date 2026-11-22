@@ -186,8 +186,6 @@ seg-b388c2bac488 = Åpne banekonsollen
 
 seg-3d6af799cb19 = <s1>Gratis kjerne</s1> hvert scenario og diagram på denne siden
 
-seg-354162e88f07 = <s1>Pro</s1> Pareto-fronten til et utformingsrom, usikkerhet og sensitivitet, og et oppdragsdossier med én kommando
-
 seg-83e0dd9b2617 = <s1>Skreddersydd studie</s1> modeller kalibrert mot maskinvaren din, gjort for deg
 
 seg-5285d23ae95b = Trusselmatrise · scenariofiler etter sektor og svikt
@@ -282,8 +280,6 @@ seg-2d9d1994071f = Kjør hver scenariofil i denne sektoren i Kshana Studio eller
 
 seg-731232b52b8f = Pro legger til
 
-seg-de3cc6d30b9c = Pro: bevispakker på revisjonsnivå som kan reproduseres, for en gjennomgang.
-
 seg-04d539c39f45 = Skreddersydd studie legger til
 
 seg-71d7ccb4c89a = Skreddersydd: eksportkontrollert robusthetsarbeid under riktig klarering og NDA (taushetserklæring).
@@ -368,8 +364,6 @@ seg-2918af222529 = Satellitter i sikte og PDOP (position dilution of precision) 
 
 seg-ef0cc5181857 = En geostasjonær bruker: sett brukerbanen i et scenario av typen orbit, slik orbit-molniya setter en sterkt eksentrisk.
 
-seg-7889feffa939 = Pro: arkitekturavveininger rangert etter et kvalitetsmål. Pro: digitale tvillinger av klokker kalibrert mot enhetens publiserte Allan-budsjett.
-
 seg-bb0ceeb8db2a = Vil en lander, en rover eller en orbiter ved Månen, ved Mars eller lenger ut få en pålitelig posisjon og tid, og hva tilfører den lokale tidsskalaen til feilbudsjettet?
 
 seg-db11b1e64ac5 = Svake signaler på månens avstand, sparsom relégeometri, lystidsforsinkelse, lunar tidsforskyvning, jamming på overflaten
@@ -425,8 +419,6 @@ seg-25e1426d8341 = Mottak av jordens GNSS på månens avstand
 seg-96077751d4ce = Lunar tidsrate mot det publiserte båndet, og tidsfeilbudsjettet fra ende til ende
 
 seg-f1dfccfb9f89 = Relénavigasjonsfeil i Mars-bane, på overflaten og i overføring
-
-seg-4a5542c69690 = Pro: digitale tvillinger av klokker kalibrert mot enhetens publiserte Allan-budsjett. Pro: arkitekturavveininger rangert etter et kvalitetsmål.
 
 seg-4cf1f8144ae2 = Etter at en jammer tar GNSS fra meg, hvor lenge holder UAS-en min (ubemannet luftfartøysystem) seg innenfor posisjonsbudsjettet, og er integritet tilgjengelig på ruten min?
 
@@ -574,8 +566,6 @@ seg-b6c48dca904a = Deteksjon av tidsspoofing med klokkens integritetsmonitor
 
 seg-3db4a218354b = Strømnett og finans: sektorens grense for tidsnøyaktighet legges inn som threshold_ns.
 
-seg-cc45be91cd00 = Pro: digitale tvillinger av klokker kalibrert mot enhetens publiserte Allan-budsjett. Pro: bevispakker på revisjonsnivå som kan reproduseres, for en gjennomgang.
-
 seg-cb5e51c39a7f = Tap av GNSS-tidsreferansen ved en primær referansetidsklokke, tidsspoofing
 
 seg-c89c91bfd2ac = Tidsfeil mot ITU-T-maskene
@@ -663,8 +653,6 @@ seg-8cc7ceade324 = t = { "0" } s
 seg-1bd3b0f6eb7e = Virkelig motorkjøring, avspilt
 
 seg-f1313464b7c9 = Baner: propagert på nytt fra kjøringens egne elementer og kontrollert mot motorens spor på bakken. Planeter: NASA-bilder.
-
-seg-6c981f00d37d = <b>Med Pro:</b> utformingsoptimereren kjører et helt konstellasjonsutformingsrom rundt jorden, Månen eller Mars gjennom denne motoren og returnerer sin <b>Pareto-front</b>, der hver frontutforming skrives ut som en vanlig scenariofil. <a1>Se en virkelig front</a1>
 
 seg-cdd1e1a6793d = Sviktmoduser
 
@@ -778,8 +766,6 @@ seg-d2c741b188de = Dimensjoner en PNT-arkitektur og se hvor den svikter.
 
 seg-87adf34e62f8 = Start ved <a1>Funksjonsatlas</a1>
 
-seg-9601ecea0610 = <b>Gratis i dag:</b> alt i den åpne motoren. Pro: arkitekturavveininger rangert etter et kvalitetsmål.
-
 seg-5ad7df11c031 = PNT- eller GNSS-spesialist
 
 seg-8f2ceeab7a06 = Åpne TOML-filen, endre fysikken, kontroller den mot registeret.
@@ -793,8 +779,6 @@ seg-c0cabe8a1c21 = Test- og evalueringsleder
 seg-a5345bf50e9a = Fest scenarioer som regresjonstester og kjør en hel suite til én stemplet studie.
 
 seg-57027baf4d52 = Start ved <a1>Måter å bruke den på</a1>
-
-seg-081d06995ef0 = <b>Gratis i dag:</b> alt i den åpne motoren. Pro: bevispakker på revisjonsnivå som kan reproduseres, for en gjennomgang.
 
 seg-e453a0b9a72e = Innkjøps- eller programgjennomgåer
 
@@ -818,8 +802,6 @@ seg-4f23a0580efe = Kontroller holdover mot ITU-T-masker før GNSS-antennen svikt
 
 seg-7bc4df13f4cb = Start ved <a1>Tidsveggen</a1>
 
-seg-2abf4f5bd06e = <b>Gratis i dag:</b> alt i den åpne motoren. Pro: digitale tvillinger av klokker kalibrert mot enhetens publiserte Allan-budsjett.
-
 seg-907754b26f64 = Bruker av AI-assistent
 
 seg-3cde4f0b352a = La assistenten din kjøre den validerte motoren i stedet for å gjette matematikken.
@@ -837,5 +819,3 @@ seg-0e6be0d623f6 = <b>Gratis i dag:</b> alt i den åpne motoren. Kommersiell lis
 seg-9b505908a6e2 = Kshana <b>styrer ingen radiomaskinvare og sender ingenting</b>. Den inneholder en programvare-GNSS-mottaker for innspilt og generert IQ, og kan skrive syntetiske IQ-filer i basebånd, men den er <b>ikke maskinvare for RF-signalgenerering</b> og <b>ikke en maskinvare- eller sertifisert GNSS-mottaker</b>. Den er et studie- og avveiningsinstrument: den simulerer hva jamming, spoofing og signaltap gjør med en navigasjons- og tidssynkroniseringsløsning, og forteller deg hvilke av svarene den har validert. <b>Ikke et flyprodukt.</b>
 
 seg-ceb2de75e2f4 = <b>Gratis i dag:</b> alt i den åpne motoren. Gratis: { "53" } MCP-verktøy, fra run_scenario til export_oem.
-
-seg-67a6c0107bcd = Motor v{ $version }, bygg <c1/> · <c2/> · deterministisk, ingen seed

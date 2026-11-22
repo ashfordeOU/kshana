@@ -184,6 +184,27 @@ seg-ad856ad710eb = Status
 seg-d3f8d695280e = <c1/> answers <c2/>. <c3/> answers <c4/>: the station, the engine version, uptime, and per source whether it is connected, its connections and gaps, bytes and epochs read, when the last epoch arrived, the last error and the current file; and the last fleet report's outcome.
 
 # text
+seg-f1b6ec00e27e = On Kubernetes, with Terraform, or on a Raspberry Pi
+
+# text
+# c1: deploy/helm/kshana-station
+seg-f3fcbd654457 = Helm chart: <a1><c1/></a1>.
+
+# text
+# c1: deploy/terraform/kshana-station
+seg-9ef7ca4669c1 = Terraform module (the same objects): <a1><c1/></a1>.
+
+# text
+# c1: linux/arm64
+# c2: linux/amd64
+# c3: deploy/edge
+seg-634eee842975 = Edge image for a Raspberry Pi (64-bit, <c1/>) or a small <c2/> box: <a1><c3/></a1>.
+
+# text
+# c1: 0.0.0.0:8470
+seg-83708cdd9d70 = All three run the Station on <c1/> with a bearer token, read-only root file system, as user { "10001" }; CI installs the chart on kind and runs the edge image against a replayed receiver.
+
+# text
 seg-192bdccb21ae = As a service
 
 # text
@@ -398,6 +419,9 @@ seg-bbb48f202e5a = The fleet report is plain HTTP; across a network put a TLS tu
 
 # text
 seg-76893b7381f3 = A source blocked on a device read stops only with the process.
+
+# text
+seg-c333bb77ffe9 = To share a Station's files as a feeder (signed, with privacy-safe defaults), see <a1>FEEDER.md</a1>.
 
 # text
 seg-d7ae0ccebe92 = One Station is open. Managing several from one place (fleet management) is part of Kshana Pro.

@@ -352,8 +352,6 @@ seg-ac37217cda0d = <b>WGS-84 — World Geodetic System { "1984" }.</b> Elipsoid 
 
 seg-81bc73d1fde8 = UTC / TAI / TT / UT1 / TDB — koordinovaný světový čas / mezinárodní atomový čas / pozemský čas / světový čas { "1" } (čas rotace Země) / barycentrický dynamický čas.
 
-seg-ea7eb1f34cae = <b>LTC / TCL — Lunar Coordinate Time (Temps-Coordonnée Lunaire; lunární souřadnicový čas).</b> Navrhovaná časová stupnice pro Měsíc.
-
 seg-c6e5976d9dff = <b>OD — určování oběžné dráhy.</b> Získání dráhy z měření sledování.
 
 seg-dcb9e011c868 = <b>CR3BP</b>, <b>NRHO</b> a <b>DRO</b> jsou definovány výše v části „Oběžné dráhy a cislunární prostor“.

@@ -474,23 +474,11 @@ seg-d997b6a5a416 = Miks Pro, veel enam
 # text
 seg-4ff013b472ff = Millist kujundust peaks lennutama?
 
-# attr:aria-label
-seg-f4eb65b9b27a = Kuu navigatsioonikonstellatsioon: vähim satelliite vs kättesaadavus, terve Kuu: { "608" } kujundust käivitatud, { "12" } kujunduse Pareto front
-
 # text
 seg-c8ce2e4a6687 = Kui kindlad me oleme ja mis tulemust juhib?
 
-# attr:aria-label
-seg-049c503c23db = Kella holdover ebakindla müratasemega: { "2,000" } jooksu 5. kuni 95. protsentiil vs piir { "20" } ns
-
 # text
 seg-3dd37275b448 = Kas missioon täidab oma nõuded ja kas seda saab üle anda?
-
-# text
-seg-7fbde256debf = täitmata
-
-# text
-seg-f6ccb7a322b3 = avatud punktid
 
 # text
 seg-6df96ca25c68 = Miks ja kellele see on mõeldud
@@ -543,10 +531,6 @@ seg-f0e9de10d9ef = cargo install kshana<s1>Kopeeri</s1>
 # text
 # c1: ⌘K
 seg-ec3957c0f5f1 = Vajuta <c1/>, et otsida lehti, stsenaariume ja dokumente
-
-# text
-# c1: 
-seg-a92f77bd42cb = <s1>Kshana Pro</s1><c1/><s2>Sama mootor võimendatuna: { "608" } kavandit, üks Pareto front</s2>
 
 # attr:aria-label
 seg-b807a8887172 = Telemeetria, mis on taasesitatud aheldatud kampaania jooksutusest
@@ -1038,9 +1022,6 @@ seg-09d18cf767a7 = Avatud tuum, Kshana Pro, eriuuring
 seg-302606971c35 = Tasuta kõigile. Pro, kui vastus peab ülevaatusel vastu pidama.
 
 # text
-seg-27c12083529b = Kshana Pro on omandiline pealiskiht, mis sõltub avatud tuumast ega hargne sellest kunagi, saadaval lepingu alusel. Hindu veebilehel ei ole: iga tasuline tee algab kirjaga aadressil <a1>contact@ashforde.org</a1>.
-
-# text
 seg-43ceda17e71c = Avatud tuum · tasuta · AGPL-3.0
 
 # text
@@ -1054,18 +1035,6 @@ seg-f6406933eb77 = Paigalda mootor
 
 # text
 seg-6a74a165bfd0 = Kshana Pro · lepingu alusel
-
-# text
-seg-298532756f74 = Disainiruumi Pareto rinne, kus iga rinde disain on stsenaarium, mille tasuta mootor uuesti jooksutab.
-
-# text
-seg-a699256db841 = Määramatus ja tundlikkus tuhandete jooksutuste üle.
-
-# text
-seg-665005551d84 = Ühe käsuga missioonidosjee kontrollimaatriksi ja PDF-failiga (Portable Document Format).
-
-# text
-seg-455cb5040f80 = Auditikvaliteediga reprodutseeritavad tõendipaketid; kella digitaalsed kaksikud, mis on kalibreeritud teie seadme avaldatud Alani bilansi järgi; arhitektuuri kompromissiuuringud, mis on järjestatud kvaliteedinäitaja alusel; mudelipõhine süsteemitehnika (MBSE) ja programmitööriistad.
 
 # text
 seg-3e30593288a1 = Mida Pro sisaldab
@@ -1089,58 +1058,12 @@ seg-57320238c0f4 = Ekspordikontrolli all olev töö sobiva juurdepääsuloa ja N
 seg-e36049d768ce = Integreerimine, koolitus ja konsulteerimine.
 
 # text
-seg-3303866fbf99 = Sama mootor, võimendatud: tegelik Kshana Pro väljund
-
-# text
-# c1: 
-seg-f5513a1750f1 = <a1><s1><c1/>Disaini optimeerija</s1></a1>
-
-# text
-seg-2bbc6243b4b1 = <b>{ "608" } disaini</b>, kõik jooksutatud: Pareto rinne ja selle põlv
-
-# text
-# c1: 
-seg-56e344605a3d = <a1><s1><c1/>Määramatus ja tundlikkus</s1></a1>
-
-# text
-seg-a0b3c138f981 = <b>{ "2,000" } jooksutust</b>: usaldusriba piiri vastu
-
-# text
 # c1: 
 seg-6de95aaa8ba4 = <a1><s1><c1/>Missioonidosjee</s1></a1>
 
 # text
-seg-905e5eef45e5 = <b>{ "12" } nõuet</b> kontrollitud tegelike jooksutuste vastu, 21-leheküljeline PDF (Portable Document Format)
-
-# text
 seg-7d9ee2bfbb90 = Leia, kus teie ajastus puruneb, enne kui see seda teeb.
-
-seg-070972f642de = Artemis-klassi missiooniahel: navigatsiooni- ja ajastusvea eelarve stardist sisenemiseni
-
-seg-4970f874d334 = Kuu lõik: kohtumine, laskumine, pind ja tõus
-
-seg-8ca6e2046901 = Hinnanguline kiirgusallika piirkond ADS-B või AIS teadete põhjal
-
-seg-003a3b9b63ea = Mõõdetud kellalogid ja sobitatud reaga käitatud holdover
-
-seg-448b11c86f48 = Andmepartnerid: milliseid ridu mõõdetud andmed võiksid edutada
-
-seg-5858e5d1f7c5 = Tõendimärgis igal arvul ja tabelil, mille käivitus kirjutab
-
-seg-bd28ef5c376e = Seitseteist keelt lisaks inglise keelele
-
-seg-7fae5de5ebf1 = kshana-bench: { "0.40" } korduskampaania
-
-seg-b9961ed25282 = Uut versioonis v{ $version }: missiooniahel, tõendussilt igal näitajal ja seitseteist keelt
 
 seg-579d9b6f7afd = Kõik { "93" } stsenaariumi liiki, tasuta ja ilma funktsioonipiiranguta, deterministlikud stsenaariumist, algväärtusest ja mootori versioonist.
 
 seg-56bf1281e330 = Salvestatud seanss kshana-mcp serveriga (Model Context Protocol, mootor v{ $version }): assistent loetleb { "53" } tööriista, valideerib faili <c1/> (kehtiv: tuvastatud stsenaariumi liik `clock`) ja käivitab selle: scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity { "1.000" } security n/a (no attack).
-
-seg-237d8bd201d2 = <b>Kampaania:</b> Mootor v{ $version }, järk <c1/> · <c2/> · algväärtus (seed) { "20260928" }
-
-seg-98ebce268546 = <b>Orbiidid:</b> Mootor v{ $version }, järk <c1/> · <c2/> · deterministlik, algväärtuseta (seed)
-
-seg-bb2975f5a7dd = Mootor v{ $version }, ehitus <c1/> · <c2/> · algväärtus (seed) { "20260928" }
-
-seg-ee04b167d80a = { "176" } võimekust { "412" }-st nõustub sõltumatute väliste etalonidega; ülejäänud on märgitud modelleeritud, valjusti öeldes.

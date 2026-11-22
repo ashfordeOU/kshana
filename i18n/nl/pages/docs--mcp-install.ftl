@@ -108,8 +108,6 @@ seg-93d075d31cdd = npx (Node):
 
 seg-ae03b1ad65f1 = kshana-mcp op PATH:
 
-seg-439fac4928a0 = Waar: <c1/> (Settings, Developer, Edit Config). Of dubbelklik op de extensie <c2/> uit de release: geen configuratiebestand.
-
 seg-e998ab783248 = Cursor
 
 seg-1a35b243eeb1 = Waar: <c1/> (of <c2/> in een project).
@@ -149,13 +147,3 @@ seg-db567a4e1a61 = <c1/> biedt dezelfde hulpmiddelen via streamable HTTP voor ee
 seg-04c1f05fb027 = <s1>Vorige</s1>MCP-server
 
 seg-eba757f29814 = <s1>Volgende</s1>MCP-server: zelf gehoste HTTP-modus
-
-seg-4ccbbc19fe86 = <b>npx (Node)</b> (vereist Node { "18" }+): <c1/>
-
-seg-77230eb344ea = <b>Docker</b> (vereist Docker): <c1/>
-
-seg-3398eea8e332 = Cursor, npx (Node): <a1>weblink</a1> · <c1/>
-
-seg-67009baafb3b = Cursor, Docker: <a1>weblink</a1> · <c1/>
-
-seg-6918cd89f776 = Goose, npx: <c1/>

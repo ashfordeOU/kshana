@@ -96,8 +96,6 @@ seg-ea7fba14ee58 = Wolny rdzeń
 
 seg-b3f3fc0fd6ff = Wszystko, co pokazano na tej stronie: każdy rodzaj scenariusza, plik scenariusza, pasmo, zegar i ciało, działa w otwartym silniku na licencji AGPL-3.0 (GNU Affero General Public License, wersja { "3" }), bez blokad funkcji.
 
-seg-311e7a7d55dc = Oznaczone tam, gdzie opiera się na jakiejś możliwości: optymalizator projektu, niepewność i czułość, dossier misji, skalibrowane bliźniaki zegarów i uszeregowane studia kompromisów. <a1>Co dodaje Pro</a1>
-
 seg-a613a7447e3f = Studium na zamówienie
 
 seg-3e6b00d51b99 = Gdy trzeba to wykonać za Ciebie: modele czujników skalibrowane do Twojego sprzętu lub studium odporności obliczone z modelu. <a1>Zamów studium</a1>
@@ -468,8 +466,6 @@ seg-982938fe53bc = Klasa ultrastabilnego/optycznego oscylatora pokładowego, whi
 
 seg-2adc3374e996 = Identyfikator każdego modelu i jego pochodzenie są odczytywane z plików scenariuszy.
 
-seg-0aa1e4562dac = Kshana Pro kalibruje <b>cyfrowego bliźniaka zegara</b> do opublikowanego budżetu Allana Twojego urządzenia, w oparciu o rodzaj <c1/> i powyższe klasy. <a1>Co dodaje Pro</a1>
-
 seg-0d9353d25bc6 = GNSS utracony. Gdzie jest każdy zegar po <s1>{ "10" } min</s1>?
 
 seg-55768eaf7218 = Czas od utraty GNSS
@@ -556,8 +552,6 @@ seg-91e8a9dca129 = Rozszerzony zegar urządzenia synchronicznego Ethernetu (eEEC
 
 seg-f6f1b242019f = Obie tabele są odczytywane z <c1/>; rodzaj <c2/> sprawdza zegar względem dowolnej maski.
 
-seg-b291c1ae1f5c = Kshana Pro kalibruje cyfrowego bliźniaka zegara do opublikowanego budżetu Allana urządzenia i sprawdza go estymatorem odchylenia Allana z otwartego silnika; bliźniak Twojego własnego urządzenia powstaje na zamówienie. <a1>Co dodaje Pro</a1>
-
 seg-f65bf4f57e2f = Holdover w telekomunikacji: MTIE i TDEV dla Microchip 8040C, standardowa wydajność <c1/>
 
 seg-a13eab564243 = MTIE
@@ -631,8 +625,6 @@ seg-1e21e701259e = Projekty konstelacji
 seg-aa924d59476b = Metryka mapy
 
 seg-59a109b36eea = T+{ "00" }:{ "00" }
-
-seg-e5f00e27b617 = <b>Z Pro:</b> optymalizator projektu zwraca <b>front Pareto</b> całej przestrzeni projektowej konstelacji wokół Ziemi, Księżyca lub Marsa, każdy projekt z frontu jest zapisany jako zwykły plik scenariusza, a <b>uszeregowane studium kompromisów</b> porównuje architektury według wskaźnika jakości. <a1>Zobacz rzeczywisty front</a1>
 
 seg-2d6cfb3452e3 = Układ Słoneczny · rodzaj solar-system
 
@@ -827,8 +819,6 @@ seg-19706b999108 = jedna przyczyna, wielu członków
 seg-ff2823b929b3 = Zdarzenia przebiegu łańcuchowego
 
 seg-17c200a01fea = Kshana Studio odtwarza każdą kampanię w Twojej przeglądarce; polecenie i plik scenariusza odtwarzają każdy przebieg, a raport samego przebiegu łańcuchowego jest opublikowany.
-
-seg-dd2809ea9a6a = <b>Z Pro:</b> podane niepewności wejść dają <b>pasma ufności</b>, prawdopodobieństwo spełnienia limitu i uszeregowanie wejść, które napędzają wynik, w tysiącach przebiegów, które można zatrzymać i wznowić. <a1>Zobacz rzeczywiste pasmo</a1>
 
 seg-2b2aa3298f26 = Dostosuj do siebie · Kshana Studio
 
@@ -1536,19 +1526,7 @@ seg-16cf26093bf0 = <c1/><a1>quantum-pnt-demonstrator.suite</a1>
 
 seg-6cb4a75cb2f0 = Nic nie pasuje do tego filtra.
 
-seg-ec1a22002e13 = <b>Pro: skalibrowany bliźniak zegara</b> opiera się na <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>. <a1>Zobacz, co dodaje</a1>
-
-seg-cc88295c3e2e = <b>Pro: uszeregowane studium kompromisów</b> opiera się na <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>. <a1>Zobacz, co dodaje</a1>
-
 seg-62942b0a2127 = <b>Studium na zamówienie</b> opiera się na <c1/>. <a1>Zobacz, co dodaje</a1>
-
-seg-8cec53de04c5 = <b>Pro: optymalizator projektu</b> opiera się na <c1/>. <a1>Zobacz, co dodaje</a1>
-
-seg-4bdca619acb5 = <b>Pro: niepewność i czułość</b> opiera się na <c1/>, <c2/>. <a1>Zobacz, co dodaje</a1>
-
-seg-35d8381e7605 = <b>Pro: dossier misji</b> opiera się na <c1/>, <c2/>, <c3/>, <c4/>, <c5/>. <a1>Zobacz, co dodaje</a1>
-
-seg-08d3c155a74d = <b>Pro: obserwacja kampanii</b> opiera się na <c1/>. <a1>Zobacz, co dodaje</a1>
 
 seg-ff9c1f190eb6 = <b>Pro: współistnienie widm</b> opiera się na <c1/>, <c2/>. <a1>Zobacz, co dodaje</a1>
 
@@ -2283,52 +2261,6 @@ seg-b39df358a1b0 = <c1/><s1>lunar-orbit-rendezvous</s1>
 seg-dc524d9636a3 = <c1/><s1>lunar-surface</s1>
 
 seg-0b3cd978cb6e = <c1/><s1>lunar-surface</s1>
-
-seg-d5c6110302e9 = Wątek misji klasy Artemis, etykieta dowodowa przy każdej wartości i siedemnaście języków.
-
-seg-8597c65432ed = Połącz fazy misji księżycowej w jeden budżet błędu nawigacji i czasu, oszacuj, gdzie może znajdować się źródło pogorszonych raportów pozycji, odczytuj zmierzone dzienniki zegara, zobacz poziom dowodowy przy każdej wartości zapisywanej przez przebieg i korzystaj z wiersza poleceń, raportów i Studio w siedemnastu językach. Każda możliwość nosi etykietę, jaką ma dla niej rejestr, a etykieta nazywa tylko to, co zostało sprawdzone. Oprogramowanie wyłącznie doradcze, nie jest to sprzęt nawigacyjny z zatwierdzeniem typu: za nawigację odpowiada nadal operator.
-
-seg-070972f642de = Wątek misji klasy Artemis: budżet błędu nawigacji i czasu od startu do wejścia w atmosferę
-
-seg-982a4a7cf0db = Rodzaj wątku misji łączy fazy (start i wznoszenie, spotkanie na niskiej orbicie okołoziemskiej, wtrysk translunarny i lot, fazy księżycowe, wejście w atmosferę) i przenosi kowariancję pozycji i prędkości z każdej fazy do następnej; zasady przekazania, konwersje układów odniesienia i skal czasu, margines względem podanych wymagań oraz najsłabsze ogniwo są zapisane jako wiersze budżetu.
-
-seg-17c9cc6c2d40 = Sprawdzono: porównanie z Artemis I nie osiągnęło progu ({ "45.3" } km wobec { "5" } km); wiersz pozostaje MODELLED
-
-seg-946487626f87 = Widok wątku misji w Kshana Studio
-
-seg-4970f874d334 = Segment księżycowy: spotkanie, lądowanie, powierzchnia i wznoszenie
-
-seg-b6c35bf141e7 = Cztery rodzaje scenariuszy, każdy także fazą wątku misji: nawigacja względna do połączenia na orbicie księżycowej, budżet rozrzutu lądowania w miejscu przy biegunie południowym, dostępność pozycjonowania i czasu według miejsca i pory roku oraz wznoszenie z powrotem na orbitę spotkania.
-
-seg-ce097df855a9 = Sprawdzono: progi zarejestrowane wstępnie; jeden spełniony, jeden niespełniony, żaden nie został poluzowany
-
-seg-8ca6e2046901 = Szacowany obszar emitera na podstawie raportów ADS-B lub AIS
-
-seg-ca6383e426f9 = Gdzie może znajdować się źródło pogorszonych raportów pozycji, jako obszary na poziomach { "50" }, { "90" } i { "95" } procent z centroidem i jego elipsą niepewności, nigdy jako goły punkt, oraz sesje w czasie.
-
-seg-27af464d0674 = Sprawdzono: zarejestrowane wstępnie; oba źródła niemożliwe do oceny, więc nic nie jest twierdzone
-
-seg-003a3b9b63ea = Zmierzone dzienniki zegara i holdover sterowany dopasowaną serią
-
-seg-f51fa2a40db8 = Odczytaj zmierzony dziennik zegara w ośmiu formatach (RINEX clock, TimeLab, TICC, linuxptp, chrony) do jednej serii fazy dla rodzajów zegara i synchronizacji telekomunikacyjnej oraz dopasuj szum zmierzonej serii, aby sterować holdover.
-
-seg-6e9140563c53 = Sprawdzono: progi zarejestrowane wstępnie; niespełnione podane wprost i przypięte
-
-seg-448b11c86f48 = Partnerzy danych: które wiersze mogłyby awansować dzięki zmierzonym danym
-
-seg-56b0201d930c = Które modelowane wiersze rejestru mogłyby awansować dzięki zmierzonym danym od partnera, jakie formaty są przyjmowane oraz jak zgłoszenie jest sprawdzane, oceniane względem progu zarejestrowanego wstępnie i zaliczane.
-
-seg-5858e5d1f7c5 = Etykieta dowodowa przy każdej wartości i tabeli zapisywanej przez przebieg
-
-seg-d1c4250b2a7e = Każdy plik wyników, wykres i tabela zapisywane przez przebieg mówią teraz, na jakim poziomie się opierają (sprawdzone względem wzorca, obliczone z modelu lub partnera, według najsłabszego z ich wierszy) i nazywają wiersze macierzy weryfikacji, które za nimi stoją, odczytane z macierzy, a nie wpisane ręcznie.
-
-seg-bd28ef5c376e = Siedemnaście języków obok angielskiego
-
-seg-1e4a6a5931d3 = Wiersz poleceń, raporty, strony dokumentacji i Studio są dostępne w siedemnastu językach obok angielskiego.
-
-seg-7fae5de5ebf1 = kshana-bench: ponowna kampania { "0.40" }
-
-seg-1e0afa852323 = Cztery porównania zarejestrowane wstępnie zostały uruchomione raz po zatwierdzeniu i osiągnęły swoje progi, a każdy wynik jest obliczony z modelu.
 
 seg-c381cfa99bb0 = Scenariusz zegara, w którym klasyczny zegar przyjmuje szum ze zmierzonego dziennika (`[clock_fit]`).
 

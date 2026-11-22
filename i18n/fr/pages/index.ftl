@@ -474,23 +474,11 @@ seg-d997b6a5a416 = Pourquoi Pro, encore plus
 # text
 seg-4ff013b472ff = Quelle conception devons-nous faire voler ?
 
-# attr:aria-label
-seg-f4eb65b9b27a = Constellation de navigation lunaire : moins de satellites contre disponibilité, toute la Lune : { "608" } conceptions exécutées, un front de Pareto de { "12" } conceptions
-
 # text
 seg-c8ce2e4a6687 = Avec quelle certitude, et qu'est-ce qui pilote le résultat ?
 
-# attr:aria-label
-seg-049c503c23db = Holdover d'horloge avec un niveau de bruit incertain : du 5e au 95e percentile de { "2,000" } exécutions contre la limite de { "20" } ns
-
 # text
 seg-3dd37275b448 = La mission satisfait-elle ses exigences, et pouvons-nous le démontrer ?
-
-# text
-seg-7fbde256debf = non atteintes
-
-# text
-seg-f6ccb7a322b3 = points ouverts
 
 # text
 seg-6d3d0f8c9b7c = Demander une évaluation de Pro
@@ -552,10 +540,6 @@ seg-f0e9de10d9ef = cargo install kshana<s1>Copier</s1>
 # text
 # c1: ⌘K
 seg-ec3957c0f5f1 = Appuyez sur <c1/> pour rechercher des pages, des scénarios et de la documentation
-
-# text
-# c1:
-seg-a92f77bd42cb = <s1>Kshana Pro</s1><c1/><s2>Même moteur, amplifié : { "608" } conceptions, un seul front de Pareto</s2>
 
 # attr:aria-label
 seg-b807a8887172 = Télémétrie rejouée à partir de l'exécution de campagne enchaînée
@@ -1038,9 +1022,6 @@ seg-09d18cf767a7 = Noyau ouvert, Kshana Pro, étude sur mesure
 seg-302606971c35 = Gratuit pour tous. Pro quand la réponse doit tenir devant un comité d'examen.
 
 # text
-seg-27c12083529b = Kshana Pro est une surcouche propriétaire qui dépend du noyau ouvert et ne le fourche jamais, disponible sous contrat. Aucun prix sur une page web : toute voie payante commence par un message à <a1>contact@ashforde.org</a1>.
-
-# text
 seg-43ceda17e71c = Noyau ouvert · gratuit · AGPL-3.0
 
 # text
@@ -1054,18 +1035,6 @@ seg-f6406933eb77 = Installer le moteur
 
 # text
 seg-6a74a165bfd0 = Kshana Pro · sous contrat
-
-# text
-seg-298532756f74 = Le front de Pareto d'un espace de conception, chaque conception du front étant un scénario que le moteur libre relance.
-
-# text
-seg-a699256db841 = Incertitude et sensibilité sur des milliers d'exécutions.
-
-# text
-seg-665005551d84 = Un dossier de mission en une commande avec une matrice de vérification et un fichier PDF (Portable Document Format).
-
-# text
-seg-455cb5040f80 = Paquets de preuves reproductibles de qualité audit ; jumeaux numériques d'horloge étalonnés sur le budget d'Allan publié de votre dispositif ; études de compromis d'architecture classées selon une figure de mérite ; outillage d'ingénierie système fondée sur les modèles (MBSE) et de programme.
 
 # text
 seg-3e30593288a1 = Ce que Pro comprend
@@ -1089,58 +1058,12 @@ seg-57320238c0f4 = Travaux soumis au contrôle des exportations sous l'habilitat
 seg-e36049d768ce = Intégration, formation et conseil.
 
 # text
-seg-3303866fbf99 = Même moteur, amplifié : de vraies sorties de Kshana Pro
-
-# text
-# c1:
-seg-f5513a1750f1 = <a1><s1><c1/>Optimiseur de conception</s1></a1>
-
-# text
-seg-2bbc6243b4b1 = <b>{ "608" } conceptions</b>, toutes exécutées : le front de Pareto et son coude
-
-# text
-# c1:
-seg-56e344605a3d = <a1><s1><c1/>Incertitude et sensibilité</s1></a1>
-
-# text
-seg-a0b3c138f981 = <b>{ "2,000" } exécutions</b> : une bande de confiance face à une limite
-
-# text
 # c1:
 seg-6de95aaa8ba4 = <a1><s1><c1/>Dossier de mission</s1></a1>
 
 # text
-seg-905e5eef45e5 = <b>{ "12" } exigences</b> vérifiées par rapport à de vraies exécutions, PDF de 21 pages (Portable Document Format)
-
-# text
 seg-7d9ee2bfbb90 = Trouvez où votre synchronisation temporelle casse, avant qu'elle ne casse.
-
-seg-070972f642de = Un fil de mission de classe Artemis : le budget d'erreur de navigation et de synchronisation du lancement à l'entrée
-
-seg-4970f874d334 = Le segment lunaire : rendez-vous, descente, surface et ascension
-
-seg-8ca6e2046901 = Une région d'émetteur estimée à partir de rapports ADS-B ou AIS
-
-seg-003a3b9b63ea = Journaux d'horloge mesurés, et holdover piloté par une série ajustée
-
-seg-448b11c86f48 = Partenaires de données : les lignes que des données mesurées pourraient promouvoir
-
-seg-5858e5d1f7c5 = Une étiquette de preuve sur chaque figure et chaque tableau qu'une exécution écrit
-
-seg-bd28ef5c376e = Dix-sept langues en plus de l'anglais
-
-seg-7fae5de5ebf1 = kshana-bench : la nouvelle campagne { "0.40" }
-
-seg-b9961ed25282 = Nouveau dans la v{ $version } : un fil de mission, une étiquette de preuve sur chaque figure et dix-sept langues
 
 seg-579d9b6f7afd = Les { "93" } types de scénario, gratuits et sans restriction de fonctionnalités, déterministes à partir du scénario, de la graine et de la version du moteur.
 
 seg-56bf1281e330 = Une session enregistrée avec le serveur kshana-mcp (Model Context Protocol, moteur v{ $version }) : l'assistant énumère les { "53" } outils, valide <c1/> (valide : type de scénario détecté `clock`) et l'exécute : scénario 5ba83a232b94 | holdover quantique 6600s p95 1.20e-4ns intégrité { "1.000" } sécurité n/a (aucune attaque) | holdover classique 2610s p95 19.7ns intégrité { "1.000" } sécurité n/a (aucune attaque).
-
-seg-237d8bd201d2 = <b>Campagne :</b> moteur v{ $version }, compilation <c1/> · <c2/> · graine { "20260928" }
-
-seg-98ebce268546 = <b>Orbites :</b> moteur v{ $version }, compilation <c1/> · <c2/> · déterministe, sans graine
-
-seg-bb2975f5a7dd = Moteur v{ $version }, compilation <c1/> · <c2/> · graine { "20260928" }
-
-seg-ee04b167d80a = { "176" } capacités sur { "412" } concordent avec des références externes indépendantes ; les autres sont étiquetées modélisées, à voix haute.

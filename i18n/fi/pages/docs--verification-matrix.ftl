@@ -3579,7 +3579,3 @@ seg-f4b44b14d819 = tests/mission_thread_oracle.rs::the_stored_numbers_miss_the_r
 seg-67fdcdfdb635 = interference_map::emitter (estimate, sessions, build_units, profile, GaussianFix::from_tdoa), interference_map::emitter_out (locate), <c1/>
 
 seg-920b26e226ab = interference_map::emitter unit tests (projection round trip, horizon figure, synthetic forward and inverse round trips: the known emitter lies inside the stated region at about the stated rate, edge cases, session clustering, profile, privacy and wording); tests/interference_map_cli.rs locate cases
-
-seg-db7a6ac0a47d = Täydellinen, koneellisesti tarkistettu todistekirjanpito (ledger): <b>{ "412" } riviä — { "176" } VALIDATED, { "232" } MODELLED, { "4" } PARTNER</b>. Rivi voi olla VALIDATED vain riippumattoman ulkoisen oraakkelin kanssa (matriisin invarianttitestit valvovat tätä). Samat tiedot, joissa on napsautettavat rivikohtaiset linkit jokaiseen testiin, moduuliin ja tallennettuun testiaineistoon, ovat <em>Validointikirjanpito</em> osoitteessa <a1>https://kshana.dev</a1>. Katso tiedosto <a2>MODELLED-RATIONALE.md</a2>, miksi jokaista mallinnettua riviä ei ole validoitu ulkoisesti.
-
-seg-1cc523709234 = { "412" } riviä: { "176" } validoitu ulkoisesti, { "232" } mallinnettu, { "4" } kumppanin omistama.

@@ -7216,11 +7216,6 @@ seg-74e8cab2f10e = <b>Cache-Busting für <c1/></b>: Die versionsgestempelten Que
 seg-65949229eed7 = <b><c1/> — Kshana als Server für das Model Context Protocol (MCP)</b> (<c2/>). Ein eigenständiges, vom Workspace ausgeschlossenes Crate (das SDK <c3/> ist edition { "2024" }), das die validierte Engine KI-Agenten und -Assistenten — Cursor, JetBrains AI Assistant / Junie und jedem MCP-Client — über stdio zugänglich macht. Werkzeuge: <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, jedes ein dünner Wrapper um <c9/>.
 
 # text
-# c1: ide/jetbrains/
-# c2: .toml
-seg-bd792f66363c = <b>JetBrains-IDE-Plugin</b> (<c1/>). Rechtsklick auf ein Szenario <c2/> → <b>Run Kshana Scenario</b>; Gütemaße und Ergebnis-JSON werden in ein Kshana-Werkzeugfenster gestreamt. Reines Plattform-Plugin in Kotlin, kompatibel mit jeder JetBrains-IDE { "2024.3" }+.
-
-# text
 seg-755358390517 = <b>Öffentliche Distribution + automatische Veröffentlichung je Release</b> für beide:
 
 # text
@@ -8642,8 +8637,6 @@ seg-29d014d29790 = Eine Abhängigkeitsaktualisierung in der ausgelieferten Bibli
 seg-6b6a960ca7cf = <c1/>, <c2/> und <c3/> { "0.13" } auf { "0.14" } (mit <c4/> { "0.14.3" }, <c5/> { "0.17.0" } und <c6/> { "0.5.5" } auf { "0.7.10" }; ebenso die direkte Abhängigkeit <c7/>, jetzt { "0.7" }) beheben RUSTSEC-2026-0387, eine Zeitvariabilität in <c8/> { "0.5.5" }. Kshana verwendet diese Crates nur zur Prüfung öffentlicher Signaturen (der Galileo-OSNMA-Wurzelschlüssel und RFC-{ "3161" }-Zeitstempeltoken) und signiert nur in Tests mit Wegwerfschlüsseln, daher war die praktische Gefährdung null; das Upgrade beseitigt die Warnung ohne Ignore-Eintrag. Die Lock-Dateien der Bibliothek und des MCP ändern sich beide; kein Verifikationsergebnis ändert sich (die Vektortests für OSNMA und Zeitstempel bestehen unverändert).
 
 seg-1a4cda9d1486 = Die minimal unterstützte Rust-Version ist jetzt { "1.88" } (erforderlich durch die Behebung von RUSTSEC-2026-0387).
-
-seg-0d4a740afedf = [{ $version }] - 2026-10-29
 
 seg-2aa7197e4396 = <b>Zeilenabdeckung: ~{ "96" } % → ~{ "95" } %.</b> Der Coverage-Job hat den freigegebenen Code von { "0.29.0" } neu gemessen (Commit <c1/>, CI-Lauf { "36809850252" }, 2026-10-01): <c2/>, { "55,970" } von { "58,697" } Zeilen in <c3/>. Die veröffentlichte Zahl war { "95.63" } % ({ "37,697" } von { "39,419" } Zeilen), gemessen auf <c4/> vor { "0.28.0" }; sie rundete auf ~{ "96" } %. Die neue Zahl rundet auf ~{ "95" } %, sodass sich jede Stelle, die <c5/> festhält, gemeinsam ändert: <c6/>, das README-Badge, die Evidence-Zeile und die CI-Tabelle, die Badges von crates.io, PyPI und npm, der technische Bericht und die Coverage-Seite auf kshana.dev. Die Untergrenze von { "85" } % bleibt unverändert.
 

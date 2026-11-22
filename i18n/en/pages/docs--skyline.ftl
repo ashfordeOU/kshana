@@ -143,9 +143,6 @@ seg-65b1b45c787f = In a scenario
 seg-e489759bbd65 = An optional <c1/> section, over the kind's own cut-off:
 
 # text
-seg-b03d56f501c3 = Kind
-
-# text
 seg-f98345079e70 = What the skyline changes
 
 # text

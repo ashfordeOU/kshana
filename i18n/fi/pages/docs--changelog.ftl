@@ -2628,8 +2628,6 @@ seg-74e8cab2f10e = <b><c1/>-välimuistin kiertäminen</b>: versioleimatut kysely
 
 seg-65949229eed7 = <b><c1/> – Kshana Model Context Protocol (MCP) -palvelimena</b> (<c2/>). Erillinen, työtilasta poissuljettu crate (SDK <c3/> on edition { "2024" }), joka tarjoaa validoidun moottorin tekoälyagenteille ja avustajille – Cursor, JetBrains AI Assistant / Junie ja mikä tahansa MCP-asiakas – stdion yli. Työkalut: <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, kukin ohut kääre rajapinnan <c9/> ympärillä.
 
-seg-bd792f66363c = <b>JetBrains IDE -liitännäinen</b> (<c1/>). Napsauta skenaariota <c2/> hiiren kakkospainikkeella → <b>Run Kshana Scenario</b>; laatumittarit ja tulos-JSON virtaavat Kshana-työkaluikkunaan. Puhdas alustan Kotlin-liitännäinen, yhteensopiva jokaisen JetBrains IDE:n kanssa { "2024.3" }+.
-
 seg-755358390517 = <b>Julkinen jakelu + julkaisukohtainen automaattijulkaisu</b> molemmille:
 
 seg-14fc2fd73553 = <c1/> <b>crates.io</b>-palveluun (<c2/>) työnkulun <c3/> kautta.
@@ -3158,8 +3156,6 @@ seg-6b6a960ca7cf = <c1/>, <c2/> ja <c3/> versiosta { "0.13" } versioon { "0.14" 
 
 # text
 seg-1a4cda9d1486 = Pienin tuettu Rust-versio on nyt { "1.88" } (vaaditaan RUSTSEC-2026-0387-korjauksessa).
-
-seg-0d4a740afedf = [{ $version }] - 2026-10-29
 
 seg-2aa7197e4396 = <b>Rivikattavuus: ~{ "96" } % → ~{ "95" } %.</b> Kattavuustyö mittasi julkaistun { "0.29.0" }-koodin uudelleen (commit <c1/>, CI-ajo { "36809850252" }, 2026-10-01): <c2/>, { "55,970" }/{ "58,697" } riviä hakemistossa <c3/>. Julkaistu luku oli { "95.63" } % ({ "37,697" }/{ "39,419" } riviä), mitattuna commitilla <c4/> ennen versiota { "0.28.0" }; se pyöristyi lukuun ~{ "96" } %. Uusi luku pyöristyy lukuun ~{ "95" } %, joten kaikki pinnat, jotka <c5/> kiinnittää, siirtyvät yhdessä: <c6/>, READMEn merkki, Evidence-rivi ja CI-taulukko, crates.io-, PyPI- ja npm-merkit, tekninen raportti ja kshana.devin kattavuussivu. { "85" } %:n lattia ei muutu.
 

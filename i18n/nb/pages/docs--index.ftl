@@ -172,8 +172,6 @@ seg-f466e9c87ba4 = <s1>Bruke Kshana fra en agent</s1><s2>For en agent (eller per
 
 seg-ccfc820aac68 = <s1>Hvor hver funksjon er tilgjengelig</s1><s2>Hver funksjon er tilgjengelig på flatene der den gir mening; der en flate ikke kan bære en funksjon, …</s2>
 
-seg-1c59d26e3faf = <s1>JetBrains-plugin</s1><s2>En innebygd plugin som kjører Kshana-simulatoren for PNT-robusthet fra innsiden av et hvilket som helst JetBrains-IDE (IntelliJ IDEA…</s2>
-
 seg-4498f8a0377b = <s1>Hvor Kshana kjører</s1><s2>En omfangsgrense, nedskrevet slik at ingen oppdager den som en forpliktelse i et møte.</s2>
 
 seg-059aecd59596 = <s1>Arkitektur</s1><s2>Kshana er én motor organisert i lag over en felles kjerne: sensorpakkene (klokke, treghet…</s2>
@@ -237,7 +235,3 @@ seg-5484fd345826 = <s1>Alle scenariotyper, etter familie</s1><s2>Alle scenarioty
 seg-b23a9bd3ccfa = <s1>Scenarioreferanse</s1><s2>Hver medfølgende scenariofil ({ "195" }), gruppert etter type, med nøkkelinnstillingene.</s2>
 
 seg-a7dc2bc0a77d = { "93" } sider, én for hver scenariotype, med lenker fra <a1>Alle scenariotyper, etter familie</a1>.
-
-seg-abe17fad0734 = <s1>Verifikasjonsmatrise</s1><s2>Det komplette, maskinkontrollerte evidensregisteret: { "412" } rader — { "176" } VALIDATED, { "232" } MODELLED, { "4" } PARTNER.</s2>
-
-seg-7fd385494ae0 = <s1>Funksjonsreferanse</s1><s2>Funksjonskortene og alle { "412" } radene i verifikasjonsmatrisen.</s2>

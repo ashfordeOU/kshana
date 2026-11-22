@@ -39,6 +39,33 @@ seg-6415f7f28e7e = with weight <c1/>, <c2/> (the UDRE (user differential range e
 seg-ea574448bda4 = Kshana computes <c1/> by inverting the { "4" }×{ "4" } normal matrix with the same routine the RAIM (receiver autonomous integrity monitoring) stack uses (<c2/>), and validates the result two ways (the covariance route <c3/> and the projection route <c4/> must agree) plus against an independent numpy <c5/> reference geometry.
 
 # text
+seg-ad86f949d90e = Multi-constellation receiver clock (MODELLED)
+
+# text
+# c1: sbas::sbas_protection_level_multi
+seg-5d6465c0333d = A mixed GPS + Galileo (or other mixed-system) solution has one receiver clock bias per system, because the system time scales differ by an inter-system offset (for GPS/Galileo, the GGTO). <a1><c1/></a1> takes a per-satellite system id and offers two clock models:
+
+# text
+# c1: SbasClockModel::PerSystem
+# c2: [E, N, U, b₁ … b_k]
+# c3: Gᵢ = [ −cos Elᵢ·sin Azᵢ, −cos Elᵢ·cos Azᵢ, −sin Elᵢ, 0 … 1 … 0 ]
+# c4: (3 + k)
+# c5: (GᵀWG)⁻¹
+# c6: sbas::wls_covariance_multi
+seg-f8bb3b64383c = <b><c1/></b> estimates one clock state per system present, so the state is <c2/> and each row is <c3/> with the one in its system's clock column. The covariance is the <c4/>-square <c5/> (<c6/>) and HPL/VPL use only its ENU block, exactly as above. This is the multi-constellation clock treatment of the EU-U.S. WG-C ARAIM Airborne Design Document (ADD v3.1 and later) and of Blanch, Walter, Enge et al., "Advanced RAIM user algorithm description: integrity support message processing, fault detection, exclusion, and protection level calculation", ION GNSS { "2012" }. Each extra clock state is a nuisance parameter, so the protection level can only rise relative to one clock.
+
+# text
+# c1: SbasClockModel::KnownOffset
+seg-550e24abf1f0 = <b><c1/></b> keeps one clock state: the caller has applied a known inter-system offset (e.g. the broadcast GGTO) to the pseudoranges and folds any residual offset error into each satellite's error budget. The result is the single-clock protection level.
+
+# text
+# c1: sbas_protection_level
+# c2: None
+# c3: 3 + k
+# c4: sbas::tests::two_system_five_satellite_hand_example
+seg-afa429c86da8 = With a single system present both models return the single-clock <c1/> result bit for bit. The per-system model refuses (returns <c2/>) when there are fewer satellites than the <c3/> unknowns, or when a system contributes a single satellite (its range only determines its own clock state, adding no position information or redundancy). The method is checked against a hand-derived two-system, five-satellite example (<c4/>); there is no external multi-constellation SBAS oracle, so this capability is MODELLED.
+
+# text
 seg-f65b1f2b4182 = Mode
 
 # text

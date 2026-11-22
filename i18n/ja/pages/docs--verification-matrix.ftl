@@ -3585,7 +3585,3 @@ seg-f4b44b14d819 = tests/mission_thread_oracle.rs::the_stored_numbers_miss_the_r
 seg-67fdcdfdb635 = interference_map::emitter (estimate, sessions, build_units, profile, GaussianFix::from_tdoa), interference_map::emitter_out (locate), <c1/>
 
 seg-920b26e226ab = interference_map::emitter の単体テスト（投影の往復、地平線の数値、合成の順方向・逆方向の往復：既知の発信源は、明示した領域の内側に、ほぼ明示した割合で入る。エッジケース、セッションのクラスタリング、プロファイル、プライバシーと文言）。tests/interference_map_cli.rs の locate のケース
-
-seg-db7a6ac0a47d = 機械検査される完全なエビデンスの台帳：<b>{ "412" } 行——{ "176" } 行が VALIDATED、{ "232" } 行が MODELLED、{ "4" } 行が PARTNER</b>。行が VALIDATED となれるのは、独立した外部オラクルがある場合だけです（マトリクスの不変条件のテストがこれを強制します）。同じデータは、各テスト、モジュール、コミット済みフィクスチャへの行ごとのクリック可能なリンク付きで、<a1>https://kshana.dev</a1> の<em>検証台帳</em>にあります。モデル計算の各行が外部で検証されていない理由は、<a2>MODELLED-RATIONALE.md</a2> を参照してください。
-
-seg-1cc523709234 = { "412" } 行：外部で確認済みが { "176" }、モデル計算が { "232" }、パートナー担当が { "4" }。

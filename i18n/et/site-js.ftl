@@ -1198,32 +1198,6 @@ js-site-palette-none = Tulemusi pole
 
 js-site-palette-results = { $count } tulemust
 
-js-site-pro-band-at = { $minutes } minuti juures: 5. kuni 95. protsentiil
-
-js-site-pro-band-range = { $lo } kuni { $hi } { $unit }
-
-js-site-pro-band-runs-within = { $n } käigust piirides ±{ $limit } { $unit }
-
-js-site-pro-design-readout = { $sat } satelliiti, { $av } % kättesaadavus · { $planes } tasandit kõrgusel { $alt } km, { $incl }°
-
-js-site-pro-front-design = Rindelahendus { $id }
-
-js-site-pro-front-design-knee = Rindelahendus { $id } · põlv
-
-js-site-pro-more-designs =
-    { $n ->
-        [one] (+{ $n } veel rindelahendus selles punktis)
-       *[other] (+{ $n } veel rindelahendust selles punktis)
-    }
-
-js-site-pro-not-rerun = pole uuesti käivitatud
-
-js-site-pro-rerun-free = uuesti käivitatud vabas mootoris:
-
-js-site-pro-same-sha = sama SHA-256 { $sha }…
-
-js-site-pro-same-sha-index = sama tulemuse SHA-256 mis indeksis
-
 js-site-toast-copied = Kopeeritud: { $text }
 
 js-site-toast-data-failed = Andmefaili ei saanud laadida

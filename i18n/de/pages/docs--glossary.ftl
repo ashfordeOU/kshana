@@ -586,9 +586,6 @@ seg-ac37217cda0d = <b>WGS-84 — World Geodetic System { "1984" }.</b> Das Erdel
 seg-81bc73d1fde8 = UTC / TAI / TT / UT1 / TDB — koordinierte Weltzeit / Internationale Atomzeit / Terrestrische Zeit / Universalzeit { "1" } (Erdrotationszeit) / baryzentrische dynamische Zeit.
 
 # text
-seg-ea7eb1f34cae = <b>LTC / TCL — Mond-Koordinatenzeit (Temps-Coordonnée Lunaire).</b> Die vorgeschlagene Zeitskala für den Mond.
-
-# text
 seg-c6e5976d9dff = <b>OD — Bahnbestimmung.</b> Eine Bahn aus Verfolgungsmessungen gewinnen.
 
 # text

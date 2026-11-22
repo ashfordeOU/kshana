@@ -254,11 +254,6 @@ seg-2acc9fa7212b = Les données de test sont synthétiques et générées par le
 seg-4906b14a33a3 = Les primitives sont vérifiées par rapport à des tests à réponse connue publiés, dont aucun n'est tiré de l'ICD : RFC { "4231" } (HMAC-SHA-256), RFC { "4493" } (CMAC-AES-128), FIPS { "197" } (AES), FIPS { "202" } (SHA3-256) et RFC { "6979" } (ECDSA P-256). Les signatures P-521 sont vérifiées pour l'encodage et le choix du hachage avec une clé jetable créée dans le test ; l'arithmétique de la courbe est celle de la bibliothèque.
 
 # text
-# c1: tests/osnma_official_vectors.rs
-# c2: KSHANA_OSNMA_VECTORS
-seg-82ee90adf7ed = L'accord avec les vecteurs officiels est vérifié par <c1/>, qui est facultatif : il lit une copie de l'archive officielle de vecteurs de test que vous téléchargez vous-même, depuis le répertoire désigné par <c2/>, et ne fait rien lorsque la variable n'est pas définie. Il ne stocke ni ne redistribue rien, et les exécutions de test par défaut n'utilisent aucun réseau. Il ne donne au vérificateur qu'une racine de Merkle et les clés publiques d'un seul arbre, comme en aurait un récepteur, de sorte que les chaînes sont établies à partir du DSM-KROOT signé dans le flux et que tout le chemin s'exécute : Merkle, signature, chaîne de clés, MACSEQ et étiquettes. Il affirme, par jeu de vecteurs, un plancher sur les étiquettes authentifiées, qu'aucune n'a échoué, quelles chaînes et clés le flux annonce, des étiquettes authentifiées d'ADKD { "0" }, { "4" } et { "12" }, que l'authentification reprend après la fin de chaîne, la révocation de chaîne, la révocation de clé et une nouvelle clé publique, que le message d'alerte est vérifié et ne laisse rien d'authentifié, et que chaque vecteur n'utilise que HMAC-SHA-256, une chaîne SHA-256, des clés de 128 bits, des étiquettes de 40 bits et les entrées de consultation { "33" } et { "34" }. Les autres choix d'algorithme et de paramètres de l'ICD ne sont donc couverts que par les tests à réponse connue et synthétiques ci-dessus.
-
-# text
 seg-70bb026ce655 = Dépendances
 
 # text

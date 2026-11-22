@@ -3549,7 +3549,3 @@ seg-f4b44b14d819 = tests/mission_thread_oracle.rs::the_stored_numbers_miss_the_r
 seg-67fdcdfdb635 = interference_map::emitter (estimate, sessions, build_units, profile, GaussianFix::from_tdoa), interference_map::emitter_out (locate), <c1/>
 
 seg-920b26e226ab = enhedstests af interference_map::emitter (projektion frem og tilbage, horisontfigur, syntetiske kørsler frem og tilbage: den kendte sender ligger inden for det angivne område med omtrent den angivne rate, grænsetilfælde, sessionsklyngedannelse, profil, privatliv og formulering); tests/interference_map_cli.rs locate-tilfælde
-
-seg-db7a6ac0a47d = Det komplette, maskinkontrollerede evidensregister: <b>{ "412" } rækker — { "176" } VALIDATED, { "232" } MODELLED, { "4" } PARTNER</b>. En række kan kun være VALIDATED med en uafhængig ekstern reference (matrixens invarianttests håndhæver dette). De samme data, med klikbare links pr. række til hver test, hvert modul og hver indlagt fixture, er <em>Validation ledger</em> på <a1>https://kshana.dev</a1>. Se <a2>MODELLED-RATIONALE.md</a2> for, hvorfor hver modelleret række ikke er valideret eksternt.
-
-seg-1cc523709234 = { "412" } rækker: { "176" } valideret eksternt, { "232" } modelleret, { "4" } ejet af partnere.

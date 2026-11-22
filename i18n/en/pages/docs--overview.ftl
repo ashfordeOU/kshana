@@ -100,12 +100,9 @@ seg-e3ca367dc345 = What's new in { "0.41" }
 # text
 seg-c25be195ef77 = { "0.41" } scores the evidence rows signed for it, each once against bars fixed before the data, and publishes each result as it came out (the C2 v2 rerun was not run). It adds an area trust state with a satellite-fault screen, a monitoring-network planner, a TDOA jammer locator, dark-vessel and AIS-integrity decisions, the TEXBAT spoofing benchmark, flight-dynamics exports and an RTCM SSR reader. The ledger is now { "413" } rows: { "176" } VALIDATED, { "233" } MODELLED, { "4" } PARTNER. No row was promoted to VALIDATED, and every miss below is pinned by a test.
 
-# attr:title
-seg-34bdcfd66ded = In the repository branch these docs come from; not yet on GitHub
-
 # text
 # c1: kshana area-trust
-seg-f964fda9114b = <b>Area trust (<c1/>, B5).</b> One trust state for an area from several reference stations. Version { "3" } flags a satellite whose removal clears the alarms at several stations at once and recomputes their fixes without it; loss of lock alone no longer degrades a station. On { "26" } area-days of IGS data (Goddard and Wettzell, May { "2026" }) it raised { "1" } alert (bar ≤ { "1" } per area-day) and <b>meets</b> T4; on synthetic faults it <b>misses</b> T2 ({ "123" } of { "127" } faults cleared; { "4" } where the remaining geometry is weak, and { "2" } of { "67" } two-satellite epochs explained by one). T3 (alert latency) is met. B5 v3 is <b>NOT MET</b> (<s1>results</s1>). The diagnosis also found the engine using broadcast records marked unhealthy; GPS and QZSS records so marked are now skipped.
+seg-7b0bd86e952d = <b>Area trust (<c1/>, B5).</b> One trust state for an area from several reference stations. Version { "3" } flags a satellite whose removal clears the alarms at several stations at once and recomputes their fixes without it; loss of lock alone no longer degrades a station. On { "26" } area-days of IGS data (Goddard and Wettzell, May { "2026" }) it raised { "1" } alert (bar ≤ { "1" } per area-day) and <b>meets</b> T4; on synthetic faults it <b>misses</b> T2 ({ "123" } of { "127" } faults cleared; { "4" } where the remaining geometry is weak, and { "2" } of { "67" } two-satellite epochs explained by one). T3 (alert latency) is met. B5 v3 is <b>NOT MET</b> (<a1>results</a1>). The diagnosis also found the engine using broadcast records marked unhealthy; GPS and QZSS records so marked are now skipped.
 
 # text
 seg-9363b4189416 = <b>Spoofing benchmark (TEXBAT, E5).</b> Scored once on all ten TEXBAT recordings with rules fixed before any file was read: the power-and-distortion score <b>meets</b> E5-PD (AUC { "0.7410" }, bar { "0.70" }); the baseline IQ score <b>misses</b> E5 v2 (AUC { "0.6941" }). Only scores are published, never the recordings (<a1>results</a1>).
@@ -116,7 +113,7 @@ seg-bde6242aafe7 = <b>Monitoring-network planner (<c1/>, B1a).</b> Detection and
 
 # text
 # c1: locate_tdoa
-seg-ca93de5aa4d2 = <b>Jammer location.</b> The power-difference locator (B3a) <b>misses</b> its synthetic gate in v1 and v2; the new TDOA locator (B3b, <c1/>) <b>misses</b> its gate too (coverage { "0.044" } against { "0.90" }: its peak refinement errs by up to half a sample against a { "28" } ns stated σ). Both rows stop; no real run is made with either method (<s1>B3b results</s1>).
+seg-0b1eb5489d51 = <b>Jammer location.</b> The power-difference locator (B3a) <b>misses</b> its synthetic gate in v1 and v2; the new TDOA locator (B3b, <c1/>) <b>misses</b> its gate too (coverage { "0.044" } against { "0.90" }: its peak refinement errs by up to half a sample against a { "28" } ns stated σ). Both rows stop; no real run is made with either method (<a1>B3b results</a1>).
 
 # text
 seg-7aa8be9c346a = <b>Dark vessels and AIS integrity (M4).</b> Version { "3" } <b>meets</b> dark-vessel recall ({ "0.994" }) and every other bar but position offsets, which it <b>misses</b> ({ "0.489" } at { "5" } km against { "0.85" }) (<a1>results</a1>). Every output describes data consistency, never intent.
@@ -130,6 +127,13 @@ seg-90f90c9314ee = Flight dynamics and corrections.
 # text
 # c1: kshana ephem-export
 seg-df18f9014509 = <c1/> writes a JPL Horizons table as a CCSDS OEM or OPM or an SPK kernel and reads it back; Orekit, Basilisk and ANISE read the files with the written bits. An RTCM SSR (IGS SSR) reader, a Bias-SINEX reader and the IERS { "2010" } solid Earth tide are added.
+
+# text
+seg-ab4de36a9147 = Orbit-data checks.
+
+# text
+# c1: kshana orbit-data
+seg-ab6368a9a8c6 = <c1/> checks CCSDS conjunction data messages (508.0-B-1) and OEM and OCM ephemerides (502.0-B-3) and says valid or invalid against the section it cites, converts OEM to OCM and back with provenance kept, compares and audits two-line element sets, and checks and propagates covariances (MODELLED). On the standard's own CDM examples it finds a covariance that is not positive definite and two syntax slips (<a1>Orbit data</a1>).
 
 # text
 seg-cafc1c9c4d58 = What's new in { "0.40" }
@@ -589,6 +593,12 @@ seg-abd931555717 = Clocks and timing
 seg-89c449a15775 = how long each clock holds time after GNSS is lost
 
 # text
+seg-e4d89473f03a = Oscillators
+
+# text
+seg-b05959fb775d = what an oscillator's datasheet figures mean for tracking under vibration, holdover through temperature changes and shocks, and RAIM
+
+# text
 seg-564133d6a0c4 = Constellations around any body
 
 # text
@@ -605,6 +615,12 @@ seg-fc23add4540b = Low-Earth-orbit navigation
 
 # text
 seg-b9649961757b = a pass, a link, a navigation message and a fused fix, stage by stage
+
+# text
+seg-8eb6e6407545 = LEO-PNT verification
+
+# text
+seg-5705650a3f5c = what a LEO timing or positioning service would deliver: burst timing, holdover TDEV, cost against outages, indoor and rain loss, ambiguity resolution, jamming claims and Doppler-only integrity
 
 # text
 seg-fa63198a0f80 = a chained mission, a sweep or a Monte Carlo ensemble in one scenario
@@ -2207,9 +2223,8 @@ seg-4e894b853889 = <b>One engine, many front doors.</b> A single Rust core (<c1/
 # c4: Cargo.lock
 # c5: Cargo.toml
 # c6: exclude
-# c7: ide/jetbrains
-# c8: docs/ARCHITECTURE.md
-seg-698b8f40212f = Two standalone, <b>workspace-excluded</b> crates sit beside the core — <c1/> (the MCP server, built on the edition-2024 <c2/> SDK) and <c3/> (the ANISE/SPICE frame cross-check, which pulls MPL-2.0 (Mozilla Public License { "2.0" }) deps) — kept out of the published crate's dependency graph, <c4/>, license gate, and MSRV (minimum supported Rust version) build by the root <c5/> <c6/> list. The JetBrains plugin (<c7/>) is a separate Kotlin project. See <a1><c8/></a1> for the full set of diagrams.
+# c7: docs/ARCHITECTURE.md
+seg-3a324f6ce094 = Two standalone, <b>workspace-excluded</b> crates sit beside the core — <c1/> (the MCP server, built on the edition-2024 <c2/> SDK) and <c3/> (the ANISE/SPICE frame cross-check, which pulls MPL-2.0 (Mozilla Public License { "2.0" }) deps) — kept out of the published crate's dependency graph, <c4/>, license gate, and MSRV (minimum supported Rust version) build by the root <c5/> <c6/> list. The JetBrains plugin is a separate product, installed from the JetBrains Marketplace. See <a1><c7/></a1> for the full set of diagrams.
 
 # text
 # c1: docs/ARCHITECTURE.md
@@ -2679,7 +2694,7 @@ seg-fedf4c64c70b = What Pro is, in the words of <a1><c1/></a1>:
 seg-8e45f6fbb075 = <b>A strict superset of open Kshana.</b> Pro depends on the open engine as a library and never forks it. Every open scenario kind runs in Pro unchanged, and an open scenario runs in Pro with no licence at all.
 
 # text
-seg-feece95f1d76 = <b>No new physics.</b> Pro adds no physical model and changes none. Every Pro number comes from runs of the open engine, so a Pro figure is as trustworthy as the open scenario kind it came from, and never more.
+seg-34d9a2f0b2f6 = <b>Open physics stays open; Pro physics is labelled.</b> Pro never changes a physical model of the open engine. Pro also carries physical models of its own that the open engine does not have (for example signal-level simulators). Each carries its own evidence label (VALIDATED only where an independent external reference backs it, MODELLED otherwise), and a Pro figure computed from an open scenario kind is as trustworthy as that kind, and never more.
 
 # text
 # c1: docs/PRO.md
@@ -2827,6 +2842,9 @@ seg-f4d1ec6fc464 = Cite
 # text
 # c1: CITATION.cff
 seg-8116ddf9a8e7 = If you use Kshana in academic or technical work, please cite the version you used, with the scenario and seed. <a1><c1/></a1> holds the machine-readable metadata, and GitHub shows a "Cite this repository" button from it. Every release is archived on Zenodo; the concept DOI (Digital Object Identifier) <a2>10.5281/zenodo.20528627</a2> always resolves to the latest version.
+
+# text
+seg-bce171c67089 = Teaching or researching with Kshana: <a1>academic use</a1> gathers the access routes (including MATLAB and LabVIEW over the C library), the <a2>teaching kit</a2> of lab sheets with worked answers, and how to cite and reproduce a result.
 
 # text
 seg-6721eda6b4d6 = Baweja, C. ({ "2026" }). <em>Kshana — a PNT-resilience simulator with quantum-sensor performance models</em>. <a1>Ashforde OÜ</a1>. <a2>https://doi.org/10.5281/zenodo.20528627</a2>
@@ -3194,9 +3212,9 @@ seg-9b33c9203ca2 = A <c1/> scenario reports the <b>relativistic Earth–Moon clo
 # c7: cargo run -- --validate <file>
 # c8: list_kinds()
 # c9: list_scenario_kinds
-seg-5374f780c396 = See <c1/> for at least one worked example of every kind ({ "93" } kinds, { "195" } scenario <c2/> files + { "1" } suite manifest — several kinds ship more than one example). Not every kind has a file named after it: <c3/> → <c4/> and <c5/> → <c6/> are two of several such. List the dispatchable kinds at any time with <c7/> errors, the Python <c8/>, or the MCP <c9/> tool.
+seg-8913be4d1cba = See <c1/> for at least one worked example of every kind ({ "93" } kinds, { "199" } scenario <c2/> files + { "1" } suite manifest — several kinds ship more than one example). Not every kind has a file named after it: <c3/> → <c4/> and <c5/> → <c6/> are two of several such. List the dispatchable kinds at any time with <c7/> errors, the Python <c8/>, or the MCP <c9/> tool.
 
-# attr:aria-label, text
+# text
 seg-6555ff9a6d8e = Output
 
 # text

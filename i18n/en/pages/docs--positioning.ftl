@@ -144,7 +144,7 @@ seg-4faa1de0ef70 = a scenario: sensor error models, outage windows, geometry —
 # text
 seg-ae60d0def8af = real GNSS observations (RINEX), ephemerides, corrections
 
-# attr:aria-label, text
+# text
 seg-6555ff9a6d8e = Output
 
 # text

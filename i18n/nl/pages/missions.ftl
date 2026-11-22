@@ -186,8 +186,6 @@ seg-b388c2bac488 = De baanconsole openen
 
 seg-3d6af799cb19 = <s1>Gratis kern</s1> elk scenario en elke grafiek op deze pagina
 
-seg-354162e88f07 = <s1>Pro</s1> het Pareto-front van een ontwerpruimte, onzekerheid en gevoeligheid, en een missiedossier met één opdracht
-
 seg-83e0dd9b2617 = <s1>Maatwerkstudie</s1> modellen gekalibreerd op uw hardware, voor u gedaan
 
 seg-5285d23ae95b = Dreigingsmatrix · scenariobestanden per sector en uitvalsvorm
@@ -282,8 +280,6 @@ seg-2d9d1994071f = Voer elk scenariobestand in deze sector uit in Kshana Studio 
 
 seg-731232b52b8f = Pro voegt toe
 
-seg-de3cc6d30b9c = Pro: reproduceerbare bewijspakketten van auditkwaliteit voor een beoordeling.
-
 seg-04d539c39f45 = Maatwerkstudie voegt toe
 
 seg-71d7ccb4c89a = Maatwerk: veerkrachtwerk onder exportbeperkingen, onder de passende vrijwaring en geheimhoudingsovereenkomst (NDA, non-disclosure agreement).
@@ -368,8 +364,6 @@ seg-2918af222529 = Satellieten in zicht en PDOP (position dilution of precision)
 
 seg-ef0cc5181857 = Een geostationaire gebruiker: stel de gebruikersbaan in een scenario van de soort orbit in, zoals orbit-molniya een sterk excentrische instelt.
 
-seg-7889feffa939 = Pro: architectuurafwegingen gerangschikt op een kwaliteitsmaat. Pro: digitale kloktweelingen gekalibreerd op het gepubliceerde Allan-budget van uw apparaat.
-
 seg-bb0ceeb8db2a = Krijgt een lander, een rover of een orbiter bij de maan, bij Mars of verder weg een betrouwbare positie en tijd, en wat voegt de lokale tijdschaal toe aan het foutenbudget?
 
 seg-db11b1e64ac5 = Zwakke signalen op maanafstand, schaarse relaisgeometrie, lichttijdvertraging, maantijdsverschil, jamming aan het oppervlak
@@ -425,8 +419,6 @@ seg-25e1426d8341 = Ontvangst van aards GNSS op maanafstand
 seg-96077751d4ce = Maantijdgang tegenover de gepubliceerde band, en het tijdfoutenbudget van begin tot eind
 
 seg-f1dfccfb9f89 = Relaisnavigatiefout in een Marsbaan, op het oppervlak en in transfer
-
-seg-4a5542c69690 = Pro: digitale kloktweelingen gekalibreerd op het gepubliceerde Allan-budget van uw apparaat. Pro: architectuurafwegingen gerangschikt op een kwaliteitsmaat.
 
 seg-4cf1f8144ae2 = Hoe lang blijft mijn UAS (uncrewed aircraft system) binnen zijn positiebudget nadat een jammer GNSS heeft weggenomen, en is integriteit beschikbaar op mijn route?
 
@@ -574,8 +566,6 @@ seg-b6c48dca904a = Detectie van tijdspoofing door de integriteitsmonitor van de 
 
 seg-3db4a218354b = Elektriciteitsnet en financiële sector: de tijdnauwkeurigheidsgrens van uw sector gaat erin als threshold_ns.
 
-seg-cc45be91cd00 = Pro: digitale kloktweelingen gekalibreerd op het gepubliceerde Allan-budget van uw apparaat. Pro: reproduceerbare bewijspakketten van auditkwaliteit voor een beoordeling.
-
 seg-cb5e51c39a7f = Verlies van de GNSS-tijdreferentie bij een primary reference time clock, tijdspoofing
 
 seg-c89c91bfd2ac = Tijdfout tegenover de ITU-T-maskers
@@ -663,8 +653,6 @@ seg-8cc7ceade324 = t = { "0" } s
 seg-1bd3b0f6eb7e = Echte enginerun, afgespeeld
 
 seg-f1313464b7c9 = Banen: opnieuw gepropageerd uit de eigen elementen van de run en gecontroleerd aan de hand van de grondsporen van de engine. Planeten: NASA-beelden.
-
-seg-6c981f00d37d = <b>Met Pro:</b> de ontwerpoptimalisatie voert een hele ontwerpruimte van constellaties rond de aarde, de maan of Mars door deze engine en geeft zijn <b>Pareto-front</b> terug, waarbij elk ontwerp op het front als gewoon scenariobestand wordt uitgeschreven. <a1>Bekijk een echt front</a1>
 
 seg-cdd1e1a6793d = Uitvalsvormen
 
@@ -778,8 +766,6 @@ seg-d2c741b188de = Dimensioneer een PNT-architectuur en zie waar die het begeeft
 
 seg-87adf34e62f8 = Begin bij <a1>Mogelijkhedenatlas</a1>
 
-seg-9601ecea0610 = <b>Nu gratis:</b> alles in de open engine. Pro: architectuurafwegingen gerangschikt op een kwaliteitsmaat.
-
 seg-5ad7df11c031 = PNT- of GNSS-specialist
 
 seg-8f2ceeab7a06 = Open de TOML, wijzig de fysica, controleer het aan de hand van het register.
@@ -793,8 +779,6 @@ seg-c0cabe8a1c21 = Test- en evaluatieleider
 seg-a5345bf50e9a = Zet scenario's vast als regressietests en voer een hele suite uit tot één gestempelde studie.
 
 seg-57027baf4d52 = Begin bij <a1>Manieren van gebruik</a1>
-
-seg-081d06995ef0 = <b>Nu gratis:</b> alles in de open engine. Pro: reproduceerbare bewijspakketten van auditkwaliteit voor een beoordeling.
 
 seg-e453a0b9a72e = Inkoop- of programmabeoordelaar
 
@@ -818,8 +802,6 @@ seg-4f23a0580efe = Controleer holdover tegen ITU-T-maskers voordat de GNSS-anten
 
 seg-7bc4df13f4cb = Begin bij <a1>Tijdwand</a1>
 
-seg-2abf4f5bd06e = <b>Nu gratis:</b> alles in de open engine. Pro: digitale kloktweelingen gekalibreerd op het gepubliceerde Allan-budget van uw apparaat.
-
 seg-907754b26f64 = Gebruiker van een AI-assistent
 
 seg-3cde4f0b352a = Laat uw assistent de getoetste engine uitvoeren in plaats van de wiskunde te raden.
@@ -837,5 +819,3 @@ seg-0e6be0d623f6 = <b>Nu gratis:</b> alles in de open engine. Commerciële licen
 seg-9b505908a6e2 = Kshana <b>stuurt geen radiohardware aan en zendt niets uit</b>. Het bevat een software-GNSS-ontvanger voor vastgelegde en gegenereerde IQ en kan synthetische basisband-IQ-bestanden schrijven, maar het is <b>geen RF-signaalgeneratorhardware</b> en <b>geen hardwarematige of gecertificeerde GNSS-ontvanger</b>. Het is een instrument voor studie en afweging: het simuleert wat jamming, spoofing en signaalverlies doen met een navigatie- en tijdsynchronisatieoplossing, en vertelt u welke van zijn antwoorden zijn getoetst aan een onafhankelijke externe referentie. <b>Geen vluchtproduct.</b>
 
 seg-ceb2de75e2f4 = <b>Nu gratis:</b> alles in de open engine. Gratis: { "53" } MCP-tools, van run_scenario tot export_oem.
-
-seg-67a6c0107bcd = Engine v{ $version }, build <c1/> · <c2/> · deterministisch, geen seed

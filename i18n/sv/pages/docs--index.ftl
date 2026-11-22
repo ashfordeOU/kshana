@@ -172,8 +172,6 @@ seg-f466e9c87ba4 = <s1>Använda Kshana från en agent</s1><s2>För en agent (ell
 
 seg-ccfc820aac68 = <s1>Var varje förmåga kan nås</s1><s2>Varje förmåga finns på de ytor där den är meningsfull; där en yta inte kan bära en förmåga, …</s2>
 
-seg-1c59d26e3faf = <s1>JetBrains-plugin</s1><s2>Ett inbyggt plugin som kör Kshanas PNT-resiliens-simulator inifrån vilken JetBrains-IDE som helst (IntelliJ IDEA…</s2>
-
 seg-4498f8a0377b = <s1>Var Kshana körs</s1><s2>En avgränsning av omfattningen, nedskriven så att ingen upptäcker den som ett åtagande på ett möte.</s2>
 
 seg-059aecd59596 = <s1>Arkitektur</s1><s2>Kshana är en motor organiserad i lager över en gemensam kärna: sensorpaketen (klocka, tröghet…</s2>
@@ -237,7 +235,3 @@ seg-5484fd345826 = <s1>Varje scenariotyp, efter familj</s1><s2>Varje scenariotyp
 seg-b23a9bd3ccfa = <s1>Scenarioreferens</s1><s2>Varje medföljande scenariofil ({ "195" }), grupperad efter typ, med dess viktigaste inställningar.</s2>
 
 seg-a7dc2bc0a77d = { "93" } sidor, en för varje scenariotyp, länkade från <a1>Varje scenariotyp, efter familj</a1>.
-
-seg-abe17fad0734 = <s1>Verifieringsmatris</s1><s2>Det fullständiga, maskinkontrollerade evidensregistret: { "412" } rader — { "176" } VALIDATED, { "232" } MODELLED, { "4" } PARTNER.</s2>
-
-seg-7fd385494ae0 = <s1>Förmågereferens</s1><s2>Förmågekorten och alla { "412" } rader i verifieringsmatrisen.</s2>

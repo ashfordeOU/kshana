@@ -108,8 +108,6 @@ seg-93d075d31cdd = npx (Node)：
 
 seg-ae03b1ad65f1 = PATH 上の kshana-mcp：
 
-seg-439fac4928a0 = 場所：<c1/>（設定、開発者、設定を編集）。または、リリースの<c2/>拡張機能をダブルクリックします。設定ファイルは不要です。
-
 seg-e998ab783248 = Cursor
 
 seg-1a35b243eeb1 = 場所：<c1/>（プロジェクトでは<c2/>）。
@@ -149,13 +147,3 @@ seg-db567a4e1a61 = <c1/>は、ローカルプロセスを実行できないク�
 seg-04c1f05fb027 = <s1>前へ</s1>MCP サーバー
 
 seg-eba757f29814 = <s1>次へ</s1>MCP サーバー：セルフホストの HTTP モード
-
-seg-4ccbbc19fe86 = <b>npx (Node)</b>（Node { "18" }+ が必要）：<c1/>
-
-seg-77230eb344ea = <b>Docker</b>（Docker が必要）：<c1/>
-
-seg-3398eea8e332 = Cursor、npx (Node)：<a1>Web リンク</a1> · <c1/>
-
-seg-67009baafb3b = Cursor、Docker：<a1>Web リンク</a1> · <c1/>
-
-seg-6918cd89f776 = Goose、npx：<c1/>

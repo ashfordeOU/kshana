@@ -2078,8 +2078,6 @@ seg-74e8cab2f10e = <b>Cache-busting voor <c1/></b>: de van een versiestempel voo
 
 seg-65949229eed7 = <b><c1/>: Kshana als Model Context Protocol-server (MCP)</b> (<c2/>). Een zelfstandige crate buiten de workspace (de <c3/>-SDK is edition { "2024" }) die de getoetste engine via stdio beschikbaar stelt aan AI-agents en -assistenten: Cursor, JetBrains AI Assistant / Junie en elke MCP-client. Tools: <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, elk een dunne wrapper om <c9/>.
 
-seg-bd792f66363c = <b>JetBrains IDE-plug-in</b> (<c1/>). Klik met de rechtermuisknop op een scenario <c2/> → <b>Run Kshana Scenario</b>; kwaliteitsmaten en resultaat-JSON stromen naar een Kshana-toolvenster. Een pure platform-Kotlin-plug-in, compatibel met elke JetBrains IDE { "2024.3" }+.
-
 seg-755358390517 = <b>Openbare distributie en automatische publicatie per release</b> voor beide:
 
 seg-14fc2fd73553 = <c1/> naar <b>crates.io</b> (<c2/>) via <c3/>.
@@ -3157,8 +3155,6 @@ seg-29d014d29790 = Eén afhankelijkheidsupdate in de meegeleverde bibliotheek (h
 seg-6b6a960ca7cf = <c1/>, <c2/> en <c3/> { "0.13" } naar { "0.14" } (met <c4/> { "0.14.3" }, <c5/> { "0.17.0" } en <c6/> { "0.5.5" } naar { "0.7.10" }; ook de directe afhankelijkheid <c7/>, nu { "0.7" }) verhelpen RUSTSEC-2026-0387, variatie in de uitvoeringstijd in <c8/> { "0.5.5" }. Kshana gebruikt deze crates alleen om openbare handtekeningen te verifiëren (de Galileo OSNMA-rootsleutel en RFC { "3161" }-tijdstempeltokens) en ondertekent alleen in tests met wegwerpsleutels, dus de praktische blootstelling was nihil; de upgrade verwijdert de RUSTSEC-melding zonder ignore-regel. De lockbestanden van de bibliotheek en van MCP verschuiven allebei; geen verificatieresultaat verandert (de OSNMA- en tijdstempelvectortests slagen ongewijzigd).
 
 seg-1a4cda9d1486 = Minimaal ondersteunde Rust is nu { "1.88" } (vereist door de fix voor RUSTSEC-2026-0387).
-
-seg-0d4a740afedf = [{ $version }] - 2026-10-29
 
 seg-2aa7197e4396 = <b>Regeldekking: ~{ "96" } % → ~{ "95" } %.</b> De dekkingsjob heeft de uitgebrachte { "0.29.0" }-code opnieuw gemeten (commit <c1/>, CI-run { "36809850252" }, 2026-10-01): <c2/>, { "55,970" } van { "58,697" } regels van <c3/>. Het gepubliceerde cijfer was { "95.63" } % ({ "37,697" } van { "39,419" } regels), gemeten op <c4/> vóór { "0.28.0" }; het rondde af op ~{ "96" } %. Het nieuwe cijfer rondt af op ~{ "95" } %, dus elk oppervlak dat <c5/> vastzet verschuift mee: <c6/>, de README-badge, de Evidence-regel en CI-tabel, de badges van crates.io, PyPI en npm, het technische rapport en de dekkingspagina van kshana.dev. De ondergrens van { "85" } % is ongewijzigd.
 

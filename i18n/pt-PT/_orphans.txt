@@ -1980,3 +1980,1900 @@ seg-fbb78f11c0dc = de { "78" } validadas
 # tests/iq_campaign_monitors.rs: m1_power_test_false_alarm_rate_matches_the_closed_form ({ "73" } of { "5900" } blocks against the { "99" } % binomial interval [{ "40" }, { "80" }] of P_fa { "0.01" }), m2_sqm_false_alarm_fraction_is_within_a_factor_of_2_of_2q_k (delta { "0.0160" }, ratio { "0.0131" } against { "0.01" }), m4_cn0_false_alarms_stay_within_the_poisson_bound_of_arl0 ({ "0" } against { "0" }), the_monitors_table_parses_and_validates; m3_every_attenuation_is_detected_within_twice_the_arl1 (strict, ignored with the gap); iq::campaign::detect tests; iq::monitor::stats tests (gaussian_two_sided_tail_matches_known_values); tests/iq_campaign.rs (the pinned digests are unchanged without the table)
 # text
 seg-1663be50baf6 = tests/iq_campaign_monitors.rs: m1_power_test_false_alarm_rate_matches_the_closed_form ({ "73" } de { "5900" } blocos face ao intervalo binomial a { "99" } % [{ "40" }, { "80" }] de P_fa { "0.01" }), m2_sqm_false_alarm_fraction_is_within_a_factor_of_2_of_2q_k (delta { "0.0160" }, razão { "0.0131" } face a { "0.01" }), m4_cn0_false_alarms_stay_within_the_poisson_bound_of_arl0 ({ "0" } face a { "0" }), the_monitors_table_parses_and_validates; m3_every_attenuation_is_detected_within_twice_the_arl1 (estrito, ignorado com a lacuna); testes de iq::campaign::detect; testes de iq::monitor::stats (gaussian_two_sided_tail_matches_known_values); tests/iq_campaign.rs (os resumos fixados ficam inalterados sem a tabela)
+
+# Marked where it builds on a capability: the design optimiser, uncertainty and sensitivity, the mission dossier, calibrated clock twins and ranked trade studies. <a1>What Pro adds</a1>
+# text
+seg-311e7a7d55dc = Assinalado onde assenta numa capacidade: o otimizador de projeto, a incerteza e a sensibilidade, o dossiê de missão, os gémeos de relógio calibrados e os estudos comparativos classificados. <a1>O que o Pro acrescenta</a1>
+
+# Kshana Pro calibrates a <b>clock digital twin</b> to your device's published Allan budget, built on the <c1/> kind and the classes above. <a1>What Pro adds</a1>
+# text
+# c1: clock
+seg-0aa1e4562dac = O Kshana Pro calibra um <b>gémeo digital de relógio</b> segundo o orçamento de Allan publicado do seu dispositivo, com base no tipo <c1/> e nas classes acima. <a1>O que o Pro acrescenta</a1>
+
+# Kshana Pro calibrates a clock digital twin to a device's published Allan budget and checks it with the open engine's Allan-deviation estimator; a twin of your own device is built under contract. <a1>What Pro adds</a1>
+# text
+seg-b291c1ae1f5c = O Kshana Pro calibra um gémeo digital de relógio segundo o orçamento de Allan publicado de um dispositivo e verifica-o com o estimador do desvio de Allan do motor aberto; um gémeo do seu próprio dispositivo é construído por contrato. <a1>O que o Pro acrescenta</a1>
+
+# <b>With Pro:</b> the design optimiser returns the <b>Pareto front</b> of a whole constellation design space around the Earth, the Moon or Mars, each front design written out as a plain scenario file, and a <b>ranked trade study</b> compares architectures on a figure of merit. <a1>See a real front</a1>
+# text
+seg-e5f00e27b617 = <b>Com o Pro:</b> o otimizador de projeto devolve a <b>frente de Pareto</b> de todo um espaço de projeto de constelações em torno da Terra, da Lua ou de Marte, cada projeto da frente escrito como um ficheiro de cenário simples, e um <b>estudo comparativo classificado</b> compara arquiteturas segundo uma figura de mérito. <a1>Ver uma frente real</a1>
+
+# <b>With Pro:</b> stated input uncertainties give <b>confidence bands</b>, the probability of meeting a limit and a ranking of the inputs that drive the result, over thousands of runs that can be stopped and resumed. <a1>See a real band</a1>
+# text
+seg-dd2809ea9a6a = <b>Com o Pro:</b> as incertezas de entrada declaradas dão <b>bandas de confiança</b>, a probabilidade de respeitar um limite e uma classificação das entradas que determinam o resultado, ao longo de milhares de execuções que podem ser interrompidas e retomadas. <a1>Ver uma banda real</a1>
+
+# <b>Pro: calibrated clock twin</b> builds on <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>. <a1>See what it adds</a1>
+# text
+# c1: clock
+# c2: lunar-time-offset
+# c3: timetransfer
+# c4: quantum-time-transfer
+# c5: lunar-time-budget
+# c6: telecom-timing
+# c7: slot-timing
+seg-ec1a22002e13 = <b>Pro: gémeo de relógio calibrado</b> assenta em <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>. <a1>Ver o que acrescenta</a1>
+
+# <b>Pro: ranked trade study</b> builds on <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>. <a1>See what it adds</a1>
+# text
+# c1: sweep
+# c2: sweep-nd
+# c3: combined-altpnt
+# c4: quantum-trade
+# c5: hybrid-optical-rf
+# c6: conflict-resilience
+seg-cc88295c3e2e = <b>Pro: estudo comparativo classificado</b> assenta em <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>. <a1>Ver o que acrescenta</a1>
+
+# <b>Pro: design optimiser</b> builds on <c1/>. <a1>See what it adds</a1>
+# text
+# c1: constellation-design
+seg-8cec53de04c5 = <b>Pro: otimizador de projeto</b> assenta em <c1/>. <a1>Ver o que acrescenta</a1>
+
+# <b>Pro: uncertainty and sensitivity</b> builds on <c1/>, <c2/>. <a1>See what it adds</a1>
+# text
+# c1: clock
+# c2: leo-pnt-chain
+seg-4bdca619acb5 = <b>Pro: incerteza e sensibilidade</b> assenta em <c1/>, <c2/>. <a1>Ver o que acrescenta</a1>
+
+# <b>Pro: mission dossier</b> builds on <c1/>, <c2/>, <c3/>, <c4/>, <c5/>. <a1>See what it adds</a1>
+# text
+# c1: body-pnt
+# c2: campaign
+# c3: constellation-design
+# c4: leo-pnt-chain
+# c5: spectrum
+seg-35d8381e7605 = <b>Pro: dossiê de missão</b> assenta em <c1/>, <c2/>, <c3/>, <c4/>, <c5/>. <a1>Ver o que acrescenta</a1>
+
+# <b>Pro: campaign watch</b> builds on <c1/>. <a1>See what it adds</a1>
+# text
+# c1: campaign
+seg-08d3c155a74d = <b>Pro: vigilância de campanhas</b> assenta em <c1/>. <a1>Ver o que acrescenta</a1>
+
+# (not in the old English either)
+# text
+seg-d5c6110302e9 = Uma cadeia da missão de classe Artemis, uma etiqueta de evidência em cada valor e dezassete idiomas.
+
+# (not in the old English either)
+# text
+seg-8597c65432ed = Encadeie as fases de uma missão lunar num único orçamento de erro de navegação e temporização, estime onde pode estar uma fonte de relatos de posição degradados, leia registos de relógio medidos, veja o nível de evidência em cada valor que uma execução escreve e use a linha de comandos, os relatórios e o Studio em dezassete idiomas. Cada capacidade traz a etiqueta que o registo mantém para ela, e uma etiqueta nomeia apenas o que foi verificado. Software de caráter consultivo, não um equipamento de navegação homologado: o operador continua a ser responsável.
+
+# (not in the old English either)
+# text
+seg-070972f642de = Uma cadeia da missão de classe Artemis: o orçamento de erro de navegação e temporização do lançamento à reentrada
+
+# (not in the old English either)
+# text
+seg-982a4a7cf0db = O tipo de cenário de cadeia da missão encadeia fases (lançamento e ascensão, encontro em órbita baixa da Terra, injeção trans-lunar e cruzeiro, as fases lunares, reentrada) e leva a covariância de posição e velocidade de cada fase à seguinte, com as regras de transferência, as conversões de referencial e de escala de tempo, a margem face aos requisitos declarados e o elo mais fraco, cada um escrito como linhas do orçamento.
+
+# (not in the old English either)
+# text
+seg-17c9cc6c2d40 = Verificado: a comparação com a Artemis I não atingiu o seu limiar ({ "45.3" } km contra { "5" } km); a linha permanece MODELLED
+
+# (not in the old English either)
+# text
+seg-946487626f87 = Visão da cadeia da missão no Kshana Studio
+
+# (not in the old English either)
+# text
+seg-4970f874d334 = O segmento lunar: encontro, descida, superfície e ascensão
+
+# (not in the old English either)
+# text
+seg-b6c35bf141e7 = Quatro tipos de cenário, cada um também uma fase da cadeia da missão: navegação relativa até à acoplagem em órbita lunar, o orçamento de dispersão de aterragem num local polar sul, disponibilidade de posicionamento e temporização por local e estação, e a ascensão de volta à órbita de encontro.
+
+# (not in the old English either)
+# text
+seg-ce097df855a9 = Verificado: limiares fixados antecipadamente; um atingido, um não atingido, nenhum relaxado
+
+# (not in the old English either)
+# text
+seg-8ca6e2046901 = Uma região estimada de emissor a partir de relatos ADS-B ou AIS
+
+# (not in the old English either)
+# text
+seg-ca6383e426f9 = Onde pode estar uma fonte de relatos de posição degradados, como regiões a { "50" }, { "90" } e { "95" } por cento com um centroide e a respetiva elipse de incerteza, nunca um ponto isolado, e sessões no tempo.
+
+# (not in the old English either)
+# text
+seg-27af464d0674 = Verificado: fixado antecipadamente; as duas fontes não avaliáveis, portanto nada é afirmado
+
+# (not in the old English either)
+# text
+seg-003a3b9b63ea = Registos de relógio medidos e um holdover conduzido por uma série ajustada
+
+# (not in the old English either)
+# text
+seg-f51fa2a40db8 = Leia um registo de relógio medido em oito formatos (RINEX clock, TimeLab, TICC, linuxptp, chrony) numa única série de fase para os tipos de cenário de relógio e de temporização de telecomunicações, e ajuste o ruído de uma série medida para conduzir um holdover.
+
+# (not in the old English either)
+# text
+seg-6e9140563c53 = Verificado: limiares fixados antecipadamente; falhas declaradas e mantidas
+
+# (not in the old English either)
+# text
+seg-448b11c86f48 = Parceiros de dados: que linhas os dados medidos poderiam promover
+
+# (not in the old English either)
+# text
+seg-56b0201d930c = Que linhas modeladas do registo poderiam ser promovidas por dados medidos de um parceiro, os formatos aceites e como um envio é verificado, pontuado face a um limiar fixado antecipadamente e creditado.
+
+# (not in the old English either)
+# text
+seg-5858e5d1f7c5 = Uma etiqueta de evidência em cada figura e tabela que uma execução escreve
+
+# (not in the old English either)
+# text
+seg-d1c4250b2a7e = Cada ficheiro de resultado, gráfico e tabela que uma execução escreve agora indica em que nível assenta (validado, modelado ou de parceiro, o mais fraco das suas linhas) e nomeia as linhas da matriz de verificação que estão por trás dela, lidas da matriz e não escritas à mão.
+
+# (not in the old English either)
+# text
+seg-bd28ef5c376e = Dezassete idiomas além do inglês
+
+# (not in the old English either)
+# text
+seg-1e4a6a5931d3 = A linha de comandos, os relatórios, as páginas de documentação e o Studio estão disponíveis em dezassete idiomas além do inglês.
+
+# (not in the old English either)
+# text
+seg-7fae5de5ebf1 = kshana-bench: a nova campanha da { "0.40" }
+
+# (not in the old English either)
+# text
+seg-1e0afa852323 = Quatro comparações com limiar fixado antecipadamente foram executadas uma vez depois de dado o visto final e atingiram os seus limiares, e todas as pontuações são modeladas.
+
+# IntelliJ · PyCharm · CLion
+# text
+seg-8844d0844559 = IntelliJ · PyCharm · CLion
+
+# The "Kshana — PNT simulator" plugin: right-click any scenario <c1/>, choose Run Kshana Scenario, and read the figures of merit in a tool window.
+# text
+# c1: .toml
+seg-6b24b242333a = A extensão "Kshana — PNT simulator": clique com o botão direito em qualquer cenário <c1/>, escolha Run Kshana Scenario e leia as figuras de mérito numa janela de ferramentas.
+
+# Every surface on this page is the free open core, under the AGPL-3.0 or a commercial licence for closed integration. Need it integrated into your toolchain, or a study done for you? <a1>Custom study</a1>. Evidence packs and calibrated models: <a2>Kshana Pro</a2>.
+# text
+seg-3a199156b86e = Todas as superfícies desta página são o núcleo aberto gratuito, sob a AGPL-3.0 ou uma licença comercial para integração fechada. Precisa dele integrado na sua cadeia de ferramentas, ou de um estudo feito por si? <a1>Estudo personalizado</a1>. Pacotes de evidências e modelos calibrados: <a2>Kshana Pro</a2>.
+
+# (not in the old English either)
+seg-51cd8d5f527b = Um tipo de cenário cujo resultado não contém nenhuma destas formas (um orçamento de enlace, uma geometria de época única, um resumo de Monte Carlo apenas estatístico, ou o holdover de telecomunicações, cujo resultado publica o hash do registo, mas não o registo) é recusado com <c1/>, e nada é escrito. Com o kshana { $version }, { "94" } dos { "193" } ficheiros de cenário executáveis (todos, exceto uma suíte de estudo) geram animação e { "99" } são recusados. <c2/> imprime a contagem.
+
+# The core compiles unchanged to native, to a Python extension, and to WebAssembly. The Python (<c1/>, PyO3 abi3) and WebAssembly (<c2/>, wasm-bindgen) modules are optional, feature-gated dependencies (<c3/> / <c4/>): the default build and the test suite never compile them, while the dependency-audit gate (<c5/>) does inspect their dependency trees, because those crates ship inside the wheel and the npm package. Both call <c6/>, so every surface returns identical results. The WebAssembly module backs the browser playground in <c7/> and exports thirteen functions: <c8/>, <c9/> (one engine run returning result, chart, summary and table together), <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, the <c16/> / <c17/> shareable-URL (URL: web address) codec, and the three exporters <c18/> / <c19/> / <c20/> that back the playground's export menu. Two further front doors reach the same <c21/>: the <b>MCP (Model Context Protocol) server</b> (<c22/>, a workspace-excluded <c23/> crate exposing fifteen tools — <c24/>, <c25/>, <c26/>, <c27/>, <c28/>, <c29/>, <c30/>, <c31/>, <c32/>, <c33/>, <c34/>, <c35/>, <c36/>, <c37/>, <c38/>; the two example tools read the bundled scenarios through the library's off-by-default <c39/> feature, which only this server turns on) and the <b>JetBrains IDE (integrated development environment) plugin</b> (<c40/>, a Kotlin project that shells out to the <c41/> CLI rather than linking the library).
+# text
+# c1: python.rs
+# c2: wasm.rs
+# c3: --features python
+# c4: --features wasm
+# c5: cargo deny --all-features
+# c6: api::run_toml
+# c7: web/
+# c8: run
+# c9: run_all
+# c10: chart_svg
+# c11: summary
+# c12: table_csv
+# c13: list_kinds
+# c14: error_kind
+# c15: version
+# c16: encode_permalink
+# c17: decode_permalink
+# c18: export_sp3
+# c19: export_omm
+# c20: export_oem
+# c21: api
+# c22: mcp/kshana-mcp
+# c23: rmcp
+# c24: run_scenario
+# c25: list_scenario_kinds
+# c26: validate_scenario
+# c27: list_example_scenarios
+# c28: get_example_scenario
+# c29: report_scenario
+# c30: animate_scenario
+# c31: list_export_formats
+# c32: export_interop
+# c33: import_route
+# c34: export_sp3
+# c35: export_omm
+# c36: export_oem
+# c37: export_table_csv
+# c38: assess_receiver_log
+# c39: bundled-scenarios
+# c40: ide/jetbrains
+# c41: kshana
+seg-57fb29fdd9d9 = O núcleo compila-se sem alterações para nativo, para uma extensão Python e para WebAssembly. Os módulos Python (<c1/>, PyO3 abi3) e WebAssembly (<c2/>, wasm-bindgen) são dependências opcionais, condicionadas por funcionalidades (<c3/> / <c4/>): a compilação predefinida e o conjunto de testes nunca os compilam, ao passo que a barreira de auditoria de dependências (<c5/>) inspeciona as suas árvores de dependências, porque essas crates seguem dentro do wheel e do pacote npm. Ambos chamam <c6/>, pelo que todas as superfícies devolvem resultados idênticos. O módulo WebAssembly suporta o playground do navegador em <c7/> e exporta treze funções: <c8/>, <c9/> (uma execução do motor que devolve em conjunto o resultado, o gráfico, o resumo e a tabela), <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, o codec de URL (URL: endereço web) partilhável <c16/> / <c17/> e os três exportadores <c18/> / <c19/> / <c20/> que suportam o menu de exportação do playground. Duas outras portas de entrada chegam à mesma <c21/>: o <b>servidor MCP (Model Context Protocol)</b> (<c22/>, uma crate <c23/> excluída do workspace que expõe quinze ferramentas — <c24/>, <c25/>, <c26/>, <c27/>, <c28/>, <c29/>, <c30/>, <c31/>, <c32/>, <c33/>, <c34/>, <c35/>, <c36/>, <c37/>, <c38/>; as duas ferramentas de exemplos leem os cenários incluídos através da funcionalidade <c39/> da biblioteca, desativada por predefinição, que só este servidor ativa) e o <b>plugin para o IDE (ambiente de desenvolvimento integrado) JetBrains</b> (<c40/>, um projeto Kotlin que invoca a CLI <c41/> em vez de ligar a biblioteca).
+
+# (not in the old English either)
+seg-f289c471e860 = Atualizado em 2026-10-29 para o motor { $version } ({ "93" } tipos de cenário, a partir de <c1/>; novos na { $version }: <c2/>, <c3/>, <c4/>, <c5/> e <c6/>). 2026-10-22: motor { "0.39.0" }, { "87" } tipos, nenhum tipo novo. 2026-10-19: motor { "0.38.0" }, { "87" } tipos (novos na { "0.38.0" }: <c7/>, <c8/> e <c9/>). 2026-10-18: { "84" } tipos (novo na { "0.37" }: <c10/>). 2026-10-16: { "83" } tipos (novos na { "0.36" }: <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/> e <c18/>). 2026-10-10: motor { "0.35.0" }, { "75" } tipos, nenhum tipo novo. 2026-10-09 e 2026-10-08: revisões anteriores. 2026-10-04: a linha Nav-signal anota a camada IQ da { "0.31.0" }. 2026-09-29: linhas de LEO-PNT, espectro, PNT do sistema solar / de qualquer corpo, campanha e saída adicionadas. Antes: alinhado à matriz de 27 linhas de capacidades da grande auditoria de 2026-06-02; linha de PNT de espaço profundo / Marte adicionada na { "v0.17.0" }. As adições de PNT quântico (holdover de relógio sem GNSS <c19/>, orçamento composto de navegação inercial-quântica por estima <c20/>, estudo de compromisso de projeto de códigos de alcance <c21/>, matriz de verificação verificada por máquina <c22/>) foram incorporadas às linhas de Temporização, sensor de PNT quântico, Nav-signal e V&V — cada uma etiquetada como validada ou modelada conforme a sua referência independente real.
+
+# (not in the old English either)
+seg-877f989ae75e = Os { "61" } cartões de capacidade de <c1/>, depois todas as { "412" } linhas da matriz de verificação.
+
+# <b>JetBrains IDE plugin</b> (<c1/>). Right-click a scenario <c2/> → <b>Run Kshana Scenario</b>; figures of merit and result JSON stream into a Kshana tool window. Pure-platform Kotlin plugin, compatible with every JetBrains IDE { "2024.3" }+.
+# text
+# c1: ide/jetbrains/
+# c2: .toml
+seg-bd792f66363c = <b>Plugin para IDE JetBrains</b> (<c1/>). Clique com o botão direito num cenário <c2/> → <b>Run Kshana Scenario</b>; as figuras de mérito e o JSON de resultados chegam em fluxo a uma janela de ferramenta do Kshana. Plugin Kotlin de plataforma pura, compatível com todos os IDE JetBrains { "2024.3" }+.
+
+# (not in the old English either)
+seg-0d4a740afedf = [{ $version }] - 2026-10-29
+
+# <b>LTC / TCL — Lunar Coordinate Time (Temps-Coordonnée Lunaire).</b> The proposed time scale for the Moon.
+# text
+seg-ea7eb1f34cae = <b>LTC / TCL — Lunar Coordinate Time (Temps-Coordonnée Lunaire).</b> A escala de tempo proposta para a Lua.
+
+# <s1>JetBrains plugin</s1><s2>A native plugin that runs the Kshana PNT-resilience simulator from inside any JetBrains IDE (IntelliJ IDEA…</s2>
+# text
+seg-1c59d26e3faf = <s1>Plugin JetBrains</s1><s2>Um plugin nativo que executa o simulador de resiliência PNT Kshana a partir de qualquer IDE JetBrains (IntelliJ IDEA…</s2>
+
+# (not in the old English either)
+seg-abe17fad0734 = <s1>Matriz de verificação</s1><s2>O registo de evidências completo, verificado por máquina: { "412" } linhas — { "176" } VALIDATED, { "232" } MODELLED, { "4" } PARTNER.</s2>
+
+# (not in the old English either)
+seg-7fd385494ae0 = <s1>Referência de capacidades</s1><s2>Os cartões de capacidade e todas as { "412" } linhas da matriz de verificação.</s2>
+
+# Source: <c1/>
+# text
+# c1: ide/jetbrains/README.md
+seg-f8a0fe9968c4 = Fonte: <c1/>
+
+# <a1><b>Kshana — PNT simulator</b> on the JetBrains Marketplace</a1> — or, in any JetBrains IDE, <em>Settings → Plugins → Marketplace → search "Kshana"</em>.
+# text
+seg-d7280bb554bf = <a1><b>Kshana — simulador PNT</b> no JetBrains Marketplace</a1> — ou, em qualquer IDE JetBrains, <em>Settings → Plugins → Marketplace → pesquisar "Kshana"</em>.
+
+# A native plugin that runs the <b>Kshana</b> PNT-resilience simulator from inside any JetBrains IDE (IntelliJ IDEA, CLion, RustRover, PyCharm, …). Right-click a scenario <c1/> → <b>Run Kshana Scenario</b>; the figures of merit and result JSON stream into the <b>Kshana</b> tool window.
+# text
+# c1: .toml
+seg-959ab829762c = Um plugin nativo que executa o simulador de resiliência PNT <b>Kshana</b> a partir de dentro de qualquer IDE JetBrains (IntelliJ IDEA, CLion, RustRover, PyCharm, …). Clique com o botão direito num cenário <c1/> → <b>Run Kshana Scenario</b>; as figuras de mérito e o JSON do resultado são enviados em fluxo para a janela de ferramentas <b>Kshana</b>.
+
+# Complements the <a1>MCP server</a1> (which gives JetBrains <em>AI Assistant</em> access to Kshana): this plugin is the <em>human</em>, point-and-click path.
+# text
+seg-594199d2ce06 = Complementa o <a1>servidor MCP</a1> (que dá ao <em>AI Assistant</em> da JetBrains acesso ao Kshana): este plugin é o caminho <em>humano</em>, de apontar e clicar.
+
+# <b>Run Kshana Scenario</b> action on any <c1/> (editor + project-view context menus) — runs <c2/> and shows the output in the Kshana tool window.
+# text
+# c1: .toml
+# c2: kshana <file>
+seg-a356f2c30afb = Ação <b>Run Kshana Scenario</b> em qualquer <c1/> (menus de contexto do editor e da vista de projeto) — executa <c2/> e mostra a saída na janela de ferramentas Kshana.
+
+# <b>Assess Receiver Trust</b> on a <c1/> scenario <c2/> (<c3/>): the trust timeline, with a 0-100 score and reasons for a vessel. Advisory software, not type-approved navigation equipment (IEC { "61108" }, IEC { "61162" }): the operator remains responsible for the navigation of the vessel.
+# text
+# c1: receiver-trust
+# c2: .toml
+# c3: kshana receiver-trust
+seg-116d04ae5538 = <b>Assess Receiver Trust</b> num cenário <c1/> <c2/> (<c3/>): a cronologia de confiança, com uma pontuação de 0-100 e motivos para uma embarcação. Software de caráter consultivo, não um equipamento de navegação homologado (IEC { "61108" }, IEC { "61162" }): o operador continua a ser responsável pela navegação da embarcação.
+
+# <b>Generate Training NMEA</b> on a <c1/> <c2/> (<c3/>): synthetic bridge NMEA and an instructor log, written next to the scenario. Text only; for training, never for a vessel's live navigation systems.
+# text
+# c1: nmea-scenario
+# c2: .toml
+# c3: kshana nmea-scenario
+seg-726d88d0dea7 = <b>Generate Training NMEA</b> num <c1/> <c2/> (<c3/>): NMEA de ponte sintético e um registo de instrutor, escritos junto do cenário. Apenas texto; para formação, nunca para os sistemas de navegação em funcionamento de uma embarcação.
+
+# <b>Build Interference Map</b> on an ADS-B or AIS <c1/> (project view; asks which approved dataset it is) and <b>Route Exposure</b> on a route file (asks for the folder of maps). A degraded cell does not identify interference as the cause; not a forecast.
+# text
+# c1: .csv
+seg-99510426a384 = <b>Build Interference Map</b> num <c1/> ADS-B ou AIS (vista de projeto; pergunta de que conjunto de dados aceite se trata) e <b>Route Exposure</b> num ficheiro de rota (pede a pasta de mapas). Uma célula degradada não identifica a interferência como causa; não é uma previsão.
+
+# <b>Export Test-Bench Files</b> on a scenario <c1/> (<c2/>): vehicle motion, NMEA and labelled events for a laboratory GNSS simulator, written next to the scenario. It writes no signal; run a simulator only where authorised.
+# text
+# c1: .toml
+# c2: kshana bench-export
+seg-8c50e6aeb5e2 = <b>Export Test-Bench Files</b> num cenário <c1/> (<c2/>): movimento do veículo, NMEA e eventos etiquetados para um simulador GNSS de laboratório, escritos junto do cenário. Não escreve nenhum sinal; utilize um simulador apenas com a devida autorização.
+
+# <b>Build Compliance Report</b> on a run result <c1/> (<c2/>) and <b>Tools → Show Compliance Mapping</b> (<c3/>): the public-framework mapping, shown with the engine's own statement word for word.
+# text
+# c1: .json
+# c2: kshana compliance-report
+# c3: kshana compliance-report --mapping
+seg-79c553c303c5 = <b>Build Compliance Report</b> num resultado de execução <c1/> (<c2/>) e <b>Tools → Show Compliance Mapping</b> (<c3/>): o mapeamento do quadro público, apresentado com a própria declaração do motor palavra por palavra.
+
+# <b>Verify Evidence Pack</b> on an evidence-pack folder (project view; <c1/>): asks for the signer's public key ({ "64" } hex digits or a <c2/> file; always pinned, the plugin never accepts an unpinned signer) and optionally the full session log. Only a verified result reads as verified; an intact pack with an unpinned signer reads "NOT VERIFIED".
+# text
+# c1: kshana evidence verify
+# c2: .pub
+seg-9b6ce5bbb523 = <b>Verify Evidence Pack</b> numa pasta de pacote de evidências (vista de projeto; <c1/>): pede a chave pública do signatário ({ "64" } dígitos hexadecimais ou um ficheiro <c2/>; sempre fixada, o plugin nunca aceita um signatário não fixado) e, opcionalmente, o registo completo da sessão. Apenas um resultado verificado surge como verificado; um pacote intacto com um signatário não fixado surge como "NOT VERIFIED".
+
+# <b>Render Trust Telemetry</b> on a <c1/> result <c2/> (<c3/>): Prometheus text, CEF/LEEF syslog events or Home Assistant MQTT lines printed to the Kshana window. Nothing is sent or served; the running exporters stay on the command line.
+# text
+# c1: receiver-trust
+# c2: .json
+# c3: kshana trust-telemetry --result
+seg-253d5b7f94ce = <b>Render Trust Telemetry</b> num resultado <c1/> <c2/> (<c3/>): texto Prometheus, eventos syslog CEF/LEEF ou linhas MQTT do Home Assistant impressos na janela do Kshana. Nada é enviado nem servido; os exportadores em execução permanecem na linha de comandos.
+
+# <b>Fit Sensor Parameters from IMU Log</b> on a stationary IMU <c1/> (<c2/>): the accelerometer and gyro parameters of the <c3/> and <c4/> scenarios fitted by Allan deviation, printed to the Kshana window as an <c5/> table. Nothing is written; the fit is MODELLED.
+# text
+# c1: .csv
+# c2: kshana imu-fit
+# c3: hybrid
+# c4: fusion
+# c5: [accel_classical]
+seg-ce12ebcdccb5 = <b>Fit Sensor Parameters from IMU Log</b> num <c1/> de IMU estacionária (<c2/>): os parâmetros do acelerómetro e do giroscópio dos cenários <c3/> e <c4/> ajustados por desvio de Allan, impressos na janela do Kshana como uma tabela <c5/>. Nada é escrito; o ajuste é MODELLED.
+
+# <b>Validate Scenario</b> (<c1/>), <b>List Scenario Kinds</b> (Tools menu; <c2/>) and <b>Assess Receiver Stream</b> (a vessel session <c3/> plus a stored NMEA log you choose; <c4/>, scored once with no socket and no gate).
+# text
+# c1: kshana --validate
+# c2: kshana kinds
+# c3: .toml
+# c4: kshana receiver-trust live --file
+seg-b81f27c51c22 = <b>Validate Scenario</b> (<c1/>), <b>List Scenario Kinds</b> (menu Tools; <c2/>) e <b>Assess Receiver Stream</b> (uma sessão de embarcação <c3/> mais um registo NMEA guardado à sua escolha; <c4/>, pontuado uma vez, sem socket e sem gate).
+
+# <b>Insert Example Scenario</b> (project view folder or Tools menu; <c1/>): pick a bundled scenario and it is written as a new <c2/> (never over a file). <b>Export Scenario</b> on a <c3/> (SP3, OMM, OEM, CZML, KML, GeoJSON, STK, SigMF; simulated output only), <b>Animate Scenario</b> (HTML or SVG, opened in the browser) and <b>Import Route</b> on a route <c4/> (asks which scenario).
+# text
+# c1: kshana example
+# c2: .toml
+# c3: .toml
+# c4: .geojson
+seg-38037d36639c = <b>Insert Example Scenario</b> (pasta da vista de projeto ou menu Tools; <c1/>): escolha um cenário incluído e é escrito como um novo <c2/> (nunca sobre um ficheiro). <b>Export Scenario</b> num <c3/> (SP3, OMM, OEM, CZML, KML, GeoJSON, STK, SigMF; apenas saída simulada), <b>Animate Scenario</b> (HTML ou SVG, aberto no navegador) e <b>Import Route</b> numa rota <c4/> (pergunta a que cenário).
+
+# <b>Create Evidence Pack</b> on a receiver-trust session <c1/> (<c2/>): asks the window, a signing key file you already have, and the output folder. The plugin never makes, reads or stores a key (<c3/> stays on the command line). <b>Attach Timestamp</b> on a pack folder (<c4/>): Kshana does not check the timestamp authority's signature; run <c5/> yourself.
+# text
+# c1: .toml
+# c2: kshana receiver-trust evidence
+# c3: kshana evidence keygen
+# c4: kshana evidence attach-timestamp
+# c5: openssl ts -verify
+seg-1f1b18f8e102 = <b>Create Evidence Pack</b> numa sessão receiver-trust <c1/> (<c2/>): pede a janela, um ficheiro de chave de assinatura que já tenha e a pasta de saída. O plugin nunca cria, lê nem guarda uma chave (<c3/> permanece na linha de comandos). <b>Attach Timestamp</b> numa pasta de pacote (<c4/>): o Kshana não verifica a assinatura da autoridade de marcação temporal; execute <c5/> por si.
+
+# Still on the command line only: the IQ commands, <c1/> and <c2/>.
+# text
+# c1: evidence keygen
+# c2: receiver-trust live
+seg-f4f6605d3db9 = Continuam apenas na linha de comandos: os comandos IQ, <c1/> e <c2/>.
+
+# A bottom <b>Kshana</b> tool window hosting the run console.
+# text
+seg-63efd04104f1 = Uma janela de ferramentas <b>Kshana</b> na parte inferior que aloja a consola de execução.
+
+# Not in the plugin: <c1/> (a long-running stream process with a gate and an optional TCP listener) and <c2/> stay on the command line, because an IDE action runs a command to completion and shows its output; see <c3/>.
+# text
+# c1: kshana receiver-trust live
+# c2: kshana trust-telemetry
+# c3: docs/MARITIME-TRUST.md
+seg-decda07aa7eb = Não está no plugin: <c1/> (um processo de fluxo de longa duração com um gate e um recetor TCP opcional) e <c2/> permanecem na linha de comandos, porque uma ação do IDE executa um comando até ao fim e mostra a sua saída; ver <c3/>.
+
+# <b>Settings → Tools → Kshana</b> to point at the <c1/> binary (blank → resolved from <c2/>; install with <c3/>).
+# text
+# c1: kshana
+# c2: PATH
+# c3: cargo install kshana
+seg-9c185454d0c0 = <b>Settings → Tools → Kshana</b> para apontar para o binário <c1/> (em branco → resolvido a partir de <c2/>; instale com <c3/>).
+
+# The plugin is pure-platform (no language-specific dependencies), so it loads in every JetBrains IDE on build { "243" } ({ "2024.3" }) and newer.
+# text
+seg-44dfdd65bd0a = O plugin é puramente de plataforma (sem dependências específicas de linguagem), pelo que carrega em todos os IDE JetBrains na compilação { "243" } ({ "2024.3" }) e posteriores.
+
+# Build & run
+# text
+seg-453bd42c23fa = Compilar e executar
+
+# Requires JDK { "17" }+ (the build pins JDK { "21" }) and the bundled Gradle wrapper.
+# text
+seg-b5328f8c7a8a = Requer JDK { "17" }+ (a compilação fixa o JDK { "21" }) e o wrapper Gradle incluído.
+
+# <c1/> checks the since-build, { "2024.3" }, by default. To check other lines, list them as <c2/> (each IDE is a download of about { "1" } GB):
+# text
+# c1: verifyPlugin
+# c2: TYPE:VERSION
+seg-758124ceb1c7 = <c1/> verifica por predefinição o since-build, { "2024.3" }. Para verificar outras linhas, enumere-as como <c2/> (cada IDE é uma descarga de cerca de { "1" } GB):
+
+# The plugin uses no deprecated or scheduled-for-removal platform API on any of those; keep it that way (a choice dialog goes through <c1/>, not <c2/>).
+# text
+# c1: KshanaChooser
+# c2: Messages.showChooseDialog
+seg-15d175aaeb59 = O plugin não usa nenhuma API de plataforma obsoleta ou prevista para remoção em nenhuma dessas versões; é para manter assim (uma caixa de diálogo de escolha passa por <c1/>, não por <c2/>).
+
+# Install the built zip via <b>Settings → Plugins → ⚙ → Install Plugin from Disk…</b>.
+# text
+seg-39cfd740d9b3 = Instale o zip compilado através de <b>Settings → Plugins → ⚙ → Install Plugin from Disk…</b>.
+
+# Layout
+# text
+seg-87aff08f344c = Estrutura
+
+# Isolation
+# text
+seg-73b3f55b7208 = Isolamento
+
+# Like <c1/> and <c2/>, this is a standalone Gradle project, excluded from the published <c3/> crate (<c4/> in the package <c5/>); its build output is gitignored.
+# text
+# c1: mcp/
+# c2: xval/
+# c3: kshana
+# c4: /ide
+# c5: exclude
+seg-a14db8de576a = Tal como <c1/> e <c2/>, este é um projeto Gradle autónomo, excluído do crate <c3/> publicado (<c4/> no <c5/> do pacote); o seu resultado de compilação é ignorado pelo git.
+
+# License: AGPL-3.0-only (or a commercial licence from Ashforde OÜ — see the repository's <c1/>).
+# text
+# c1: LICENSING.md
+seg-b38914a430b9 = Licença: AGPL-3.0-only (ou uma licença comercial da Ashforde OÜ — ver <c1/> do repositório).
+
+# One run of <c1/> summarises as: lunar-interop-export | REF_FRAME MOON_ME / TIME_SYSTEM LTC | { "9" } states, OEM { "23" } lines | conformance PASS ({ "9" } present / { "0" } missing) | OEM round-trip ok | time-meta round-trip ok | KIF { "1640" } bytes | MODELLED
+# text
+# c1: scenarios/lunar-interop-export.toml
+seg-1726861e444f = Uma execução de <c1/> resume-se assim: lunar-interop-export | REF_FRAME MOON_ME / TIME_SYSTEM LTC | { "9" } estados, OEM com { "23" } linhas | aderência à norma PASS ({ "9" } presentes / { "0" } em falta) | ida e volta do OEM correta | ida e volta dos metadados de tempo correta | KIF { "1640" } bytes | MODELLED
+
+# Optional fields: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>
+# text
+# c1: frame
+# c2: time_system
+# c3: n_states
+# c4: epoch
+# c5: step_min
+# c6: object
+seg-f8353e15aabd = Campos opcionais: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>
+
+# LTC
+# text
+seg-3f36bd2ec5ea = LTC
+
+# WHAT src/lunar_interop.rs does: * export_lunar_oem — REUSES the crate's CCSDS OEM { "2.0" } emitter (crate::oem), re-tagged for the lunar context: REF_FRAME = the IAU { "2015" } WGCCRE lunar body frame (MOON_ME / MOON_PA), TIME_SYSTEM = the lunar time scale (LTC / TCL / UTC), CENTER_NAME = MOON, over a sample ILLUSTRATIVE LCNS-class ephemeris (positions from crate::lunar_service, velocity by central finite difference). * export_ (scenario file comment, lines { "6" } to { "19" })
+# text
+seg-11d0ccba5ee7 = O QUE faz src/lunar_interop.rs: * export_lunar_oem — REAPROVEITA o emissor CCSDS OEM { "2.0" } da crate (crate::oem), reetiquetado para o contexto lunar: REF_FRAME = o referencial do corpo lunar segundo o WGCCRE da IAU de { "2015" } (MOON_ME / MOON_PA), TIME_SYSTEM = a escala de tempo lunar (LTC / TCL / UTC), CENTER_NAME = MOON, sobre umas efemérides de amostra ILLUSTRATIVE da classe LCNS (posições de crate::lunar_service, velocidade por diferença finita central). * export_ (comentário do ficheiro de cenário, linhas { "6" } a { "19" })
+
+# HONESTY: MODELLED. The field NAMES and units are aligned with PUBLIC standards (CCSDS 502.0-B OEM, IAU WGCCRE { "2015" } lunar frames, LunaNet Interoperability Specification / IOAG lunar architecture). The deterministic round-trip and the field-name conformance are the oracle. This is NOT a certified interoperability conformance test. The ephemeris is illustrative, public-source, NOT affiliated with ESA, and implies no TRL (scenario file comment, lines { "21" } to { "26" })
+# text
+seg-f730e8f789cf = HONESTIDADE: MODELLED. Os NOMES dos campos e as unidades estão alinhados com normas PUBLIC (CCSDS 502.0-B OEM, referenciais lunares do WGCCRE da IAU de { "2015" }, LunaNet Interoperability Specification / arquitetura lunar do IOAG). A ida e volta determinística e a aderência dos nomes de campos à norma são a referência independente. Isto NÃO é um ensaio certificado de aderência à norma de interoperabilidade. As efemérides são ilustrativas, de fontes públicas, SEM afiliação à ESA, e não implicam TRL (comentário do ficheiro de cenário, linhas { "21" } a { "26" })
+
+# Required fields: none. Optional: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>.
+# text
+# c1: frame
+# c2: time_system
+# c3: n_states
+# c4: epoch
+# c5: step_min
+# c6: object
+seg-720d0bbeaf6e = Campos obrigatórios: nenhum. Opcionais: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>.
+
+# Where: <c1/> (Settings, Developer, Edit Config). Or double-click the <c2/> extension from the release: no config file.
+# text
+# c1: claude_desktop_config.json
+# c2: .mcpb
+seg-439fac4928a0 = Onde: <c1/> (Settings, Developer, Edit Config). Ou faça duplo clique na extensão <c2/> da versão: sem ficheiro de configuração.
+
+# (not in the old English either)
+seg-4ccbbc19fe86 = <b>npx (Node)</b> (precisa de Node { "18" }+): <c1/>
+
+# (not in the old English either)
+seg-77230eb344ea = <b>Docker</b> (precisa de Docker): <c1/>
+
+# (not in the old English either)
+seg-3398eea8e332 = Cursor, npx (Node): <a1>ligação web</a1> · <c1/>
+
+# (not in the old English either)
+seg-67009baafb3b = Cursor, Docker: <a1>ligação web</a1> · <c1/>
+
+# (not in the old English either)
+seg-6918cd89f776 = Goose, npx: <c1/>
+
+# Assess a real GNSS (global navigation satellite system) receiver log for trust. The TOML names the log's <c1/> (<c2/>, <c3/>, <c4/>, <c5/> or <c6/>) and gives its bytes inline as <c7/> or <c8/>; the tool runs the trust monitors (carrier-to-noise density drop, loss of lock, AGC (automatic gain control), jamming indicator, position jump and, with RINEX plus broadcast navigation, RAIM (receiver autonomous integrity monitoring) and a clock-aided monitor) and returns when and why the fix stopped being trustworthy. Optional <c9/> and <c10/> sections score stated events and predicted C/N0 drops against stated tolerances. A <c11/> table selects the maritime monitors and adds a 0-100 trust score per epoch with the monitors that deducted (advisory; MODELLED). The log goes inline as <c12/> or <c13/> (at most { "4" } MiB). Chart and per-epoch CSV on request. See <a1><c14/></a1>.
+# text
+# c1: format
+# c2: ubx
+# c3: rinex
+# c4: android
+# c5: nmea
+# c6: sbf
+# c7: text
+# c8: base64
+# c9: [[events]]
+# c10: [compare]
+# c11: [platform] kind = "vessel"
+# c12: text
+# c13: base64
+# c14: docs/RECEIVER-TRUST.md
+seg-d6ed4e8d56e5 = Avalia a confiança num registo real de um recetor GNSS (global navigation satellite system). O TOML indica o <c1/> do registo (<c2/>, <c3/>, <c4/>, <c5/> ou <c6/>) e dá os seus bytes em linha como <c7/> ou <c8/>; a ferramenta executa os monitores de confiança (queda da densidade portadora-ruído, perda de bloqueio, AGC (controlo automático de ganho), indicador de jamming, salto de posição e, com RINEX mais navegação difundida, RAIM (receiver autonomous integrity monitoring) e um monitor assistido por relógio) e devolve quando e porquê a solução de posição deixou de ser fiável. As secções facultativas <c9/> e <c10/> pontuam eventos declarados e quedas de C/N0 previstas face a tolerâncias declaradas. Uma tabela <c11/> seleciona os monitores marítimos e acrescenta uma pontuação de confiança de 0-100 por época com os monitores que deduziram (consultivo; MODELLED). O registo vai em linha como <c12/> ou <c13/> (no máximo { "4" } MiB). Gráfico e CSV por época a pedido. Ver <a1><c14/></a1>.
+
+# <c1/> puts <c2/> on your <c3/> (typically <c4/>). The server talks JSON-RPC (JSON remote procedure call) over stdio; logs go to stderr. Building from source needs a Rust toolchain ≥ { "1.88" } (the patched <c5/> { "2" }.x SDK needs it, and so does the <c6/> library); the Docker image needs none.
+seg-a4a0e399a31e = <c1/> coloca <c2/> no seu <c3/> (tipicamente <c4/>). O servidor fala JSON-RPC (JSON remote procedure call) sobre stdio; os registos vão para o stderr. Compilar a partir do código-fonte exige uma cadeia de ferramentas Rust ≥ { "1.88" } (o SDK <c5/> { "2" }.x corrigido exige-o, tal como a biblioteca <c6/>); a imagem Docker não exige nenhuma.
+
+# The server is a <b>standalone, workspace-excluded crate</b> with its own <c1/>, so the official Rust MCP SDK (software development kit) <c2/> and its async runtime never enter the published <c3/> crate's dependency graph: a library or Python user does not compile a server they do not run. (It was first split out because <c4/> is <b>edition { "2024" }</b>, needing rustc ≥ { "1.85" }, while the main crate then promised { "1.75" }. The library and this server now both declare { "1.88" }, the floor of the security-patched <c5/> { "2" }.x and of the upgraded RustCrypto crates.) Continuous integration (CI) gates this crate on its own — tests and <c6/> against its lockfile. rmcp's licence tree is clean (Apache-2.0/MIT/BSD), so, unlike the <c7/> cross-validation crate it otherwise mirrors, the split is not about licensing.
+seg-0757e15070d4 = O servidor é um <b>crate autónomo, excluído do workspace</b>, com o seu próprio <c1/>, pelo que o SDK (software development kit) oficial de MCP para Rust, <c2/>, e o seu runtime assíncrono nunca entram no grafo de dependências do crate <c3/> publicado: quem usa a biblioteca ou Python não compila um servidor que não executa. (Foi separado primeiro porque <c4/> é <b>edition { "2024" }</b>, o que exige rustc ≥ { "1.85" }, enquanto o crate principal prometia então { "1.75" }. A biblioteca e este servidor declaram agora ambos { "1.88" }, o mínimo do <c5/> { "2" }.x corrigido em segurança e dos crates RustCrypto atualizados.) A integração contínua (CI) condiciona este crate por si só — testes e <c6/> face ao seu ficheiro de bloqueio. A árvore de licenças do rmcp está limpa (Apache-2.0/MIT/BSD), pelo que, ao contrário do crate de validação cruzada <c7/>, que de resto espelha, a separação não tem que ver com licenciamento.
+
+# (not in the old English either)
+seg-474381d842e6 = { "232" } capacidades etiquetadas como MODELLED.
+
+# (not in the old English either)
+seg-fd6daa52df11 = { "176" } de { "412" } capacidades validadas face a referências independentes externas
+
+# (not in the old English either)
+seg-4a3ebec6d011 = <b>{ "176" } de { "412" }</b> capacidades validadas face a referências independentes externas; { "232" } etiquetadas com honestidade como modeladas, { "4" } pertencentes a parceiros. Cada capacidade traz uma única etiqueta num registo verificado por máquina: VALIDATED (uma referência independente externa concorda: dados reais, uma implementação independente ou vetores de referência publicados), MODELLED (internamente consistente, e dito em voz alta) ou PARTNER (um parceiro de hardware é o responsável). Entre as verificações: todos os { "666" } vetores SGP4 (Simplified General Perturbations { "4" }) do AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 até { "4.12" } mm, e o modelo de forças de Cowell até { "0.08" } m face ao Orekit { "12.2" }.
+
+# (not in the old English either)
+seg-d69651a71fbe = Como uma capacidade obtém a sua etiqueta: capacidade, referência independente, teste, etiqueta no registo. O estado de verificação das { "412" } capacidades: { "176" } validadas, { "232" } modeladas, { "4" } pertencentes a parceiros
+
+# Conformance is checked by <c1/>, which is opt-in: it reads a copy of the official test-vector archive that you download yourself, from the directory named by <c2/>, and does nothing when the variable is unset. It stores and redistributes nothing, and default test runs use no network. It gives the verifier only a Merkle root and the public keys of one tree, as a receiver would have, so chains are established from the signed DSM-KROOT in the stream and the whole path runs: Merkle, signature, key chain, MACSEQ and tags. It asserts, per vector set, a floor on the authenticated tags, none failed, which chains and keys the stream announces, authenticated tags of ADKD { "0" }, { "4" } and { "12" }, that authentication resumes after chain end, chain revocation, key revocation and new public key, that the alert message verifies and leaves nothing authenticated, and that every vector uses only HMAC-SHA-256, a SHA-256 chain, 128-bit keys, 40-bit tags and look-up entries { "33" } and { "34" }. Other algorithm and parameter choices of the ICD are therefore covered only by the known-answer and synthetic tests above.
+# text
+# c1: tests/osnma_official_vectors.rs
+# c2: KSHANA_OSNMA_VECTORS
+seg-82ee90adf7ed = A aderência à norma é verificada por <c1/>, que é facultativo: lê uma cópia do arquivo oficial de vetores de teste que o próprio utilizador descarrega, a partir do diretório nomeado por <c2/>, e não faz nada quando a variável não está definida. Não guarda nem redistribui nada, e as execuções de testes predefinidas não utilizam rede. Dá ao verificador apenas uma raiz de Merkle e as chaves públicas de uma árvore, como um recetor teria, pelo que as cadeias são estabelecidas a partir da DSM-KROOT assinada no fluxo e todo o percurso é executado: Merkle, assinatura, cadeia de chaves, MACSEQ e etiquetas. Afirma, por conjunto de vetores, um mínimo de etiquetas autenticadas, nenhuma falhada, que cadeias e chaves o fluxo anuncia, etiquetas autenticadas de ADKD { "0" }, { "4" } e { "12" }, que a autenticação é retomada após fim de cadeia, revogação de cadeia, revogação de chave e nova chave pública, que a mensagem de alerta é verificada e não deixa nada autenticado, e que todos os vetores usam apenas HMAC-SHA-256, uma cadeia SHA-256, chaves de 128 bits, etiquetas de 40 bits e as entradas de consulta { "33" } e { "34" }. As outras escolhas de algoritmo e de parâmetros do ICD ficam, por isso, cobertas apenas pelos testes de resposta conhecida e sintéticos acima.
+
+# Two standalone, <b>workspace-excluded</b> crates sit beside the core — <c1/> (the MCP server, built on the edition-2024 <c2/> SDK) and <c3/> (the ANISE/SPICE frame cross-check, which pulls MPL-2.0 (Mozilla Public License { "2.0" }) deps) — kept out of the published crate's dependency graph, <c4/>, license gate, and MSRV (minimum supported Rust version) build by the root <c5/> <c6/> list. The JetBrains plugin (<c7/>) is a separate Kotlin project. See <a1><c8/></a1> for the full set of diagrams.
+# text
+# c1: mcp/kshana-mcp
+# c2: rmcp
+# c3: xval/anise-frames
+# c4: Cargo.lock
+# c5: Cargo.toml
+# c6: exclude
+# c7: ide/jetbrains
+# c8: docs/ARCHITECTURE.md
+seg-698b8f40212f = Dois crates autónomos, <b>excluídos do workspace</b>, situam-se junto ao núcleo — <c1/> (o servidor MCP, construído sobre o SDK <c2/> da edição 2024) e <c3/> (a verificação cruzada de referenciais ANISE/SPICE, que traz dependências MPL-2.0 (Mozilla Public License { "2.0" })) — mantidos fora do grafo de dependências do crate publicado, de <c4/>, da barreira de licenças e da compilação MSRV (versão mínima suportada do Rust) pela lista <c6/> do <c5/> da raiz. O plugin JetBrains (<c7/>) é um projeto Kotlin separado. Consulte <a1><c8/></a1> para o conjunto completo de diagramas.
+
+# <b>No new physics.</b> Pro adds no physical model and changes none. Every Pro number comes from runs of the open engine, so a Pro figure is as trustworthy as the open scenario kind it came from, and never more.
+# text
+seg-feece95f1d76 = <b>Sem física nova.</b> O Pro não acrescenta nenhum modelo físico e não altera nenhum. Todos os números do Pro provêm de execuções do motor aberto, pelo que um valor do Pro é tão fiável como o tipo de cenário aberto de onde veio, e nunca mais.
+
+# (not in the old English either)
+seg-20beca58d39e = <a1>Adicionar ao Cursor (npx)</a1> · <a2>Adicionar ao Cursor (Docker)</a2> · <c1/>
+
+# (not in the old English either)
+seg-aa6b62f0b484 = <a1>Instalar no VS Code (npx)</a1> · <a2>Instalar no VS Code (Docker)</a2> · <c1/>
+
+# (not in the old English either)
+seg-8e176aa32cd3 = MCP é o Model Context Protocol. Fixe uma versão com <c1/>, <c2/> ou <c3/>. Para compilar a partir do código-fonte, consulte <a1>Instalar e compilar</a1> em Referência.
+
+# (not in the old English either)
+# text
+seg-467bb88ec415 = <a1>Novidades da { "0.40" }</a1>, <a2>Novidades da { "0.39" }</a2>, <a3>Novidades da { "0.38" }</a3> e <a4>a { "0.38" } em detalhe</a4>: pontuação do jammertest, os próprios indicadores do recetor, entradas de máquina, temporização e holdover, pacotes de normas, LunaNet AFS, o ciclo de ida e volta no laboratório, kshana-bench, o observatório, exportadores, ótica, <a5>navegação de utilizadores no espaço</a5> e <a6>infraestrutura lunar</a6>
+
+# (not in the old English either)
+seg-8391e467adf7 = <b>Cadeia da missão.</b> O tipo de cenário <c1/> encadeia fases do lançamento à reentrada (<c2/>, <c3/>, <c4/>, <c5/> e quatro tipos lunares) com regras de transferência declaradas, uma margem face aos requisitos declarados e o elo mais fraco; um exemplo de ponta a ponta de classe Artemis em { "11" } fases (segmentos terrestre e lunar), { "93" } tipos de cenário no total. Todo número é MODELLED. A propagação cislunar face à trajetória pública da Artemis I <b>não atinge</b> o seu limiar fixado antecipadamente ({ "45.3" } km e { "0.25" } m/s contra { "5" } km e { "0.05" } m/s; a causa são pequenas manobras que o modelo não inclui), e o propagador lunar face à órbita do CAPSTONE <b>não atinge</b> ({ "136.8" } km contra { "25" } km ao fim de uma revolução); a comparação com o LRO é atingida. As linhas permanecem MODELLED (<a1>Cadeia da missão</a1>, <a2>segmento lunar</a2>). No Studio, a cadeia lê-se em <c6/>.
+
+# See <c1/> for at least one worked example of every kind ({ "93" } kinds, { "195" } scenario <c2/> files + { "1" } suite manifest — several kinds ship more than one example). Not every kind has a file named after it: <c3/> → <c4/> and <c5/> → <c6/> are two of several such. List the dispatchable kinds at any time with <c7/> errors, the Python <c8/>, or the MCP <c9/> tool.
+seg-5374f780c396 = Veja <c1/> para pelo menos um exemplo prático de cada tipo de cenário ({ "93" } tipos, { "195" } ficheiros <c2/> de cenário + { "1" } manifesto de suíte — vários tipos de cenário trazem mais de um exemplo). Nem todo tipo de cenário tem um ficheiro com o seu nome: <c3/> → <c4/> e <c5/> → <c6/> são dois de vários casos assim. Liste os tipos de cenário despacháveis a qualquer momento com os erros de <c7/>, o <c8/> do Python ou a ferramenta <c9/> do MCP.
+
+# (not in the old English either)
+seg-0933cb091687 = { "176" } de { "412" } capacidades VALIDATED face a uma referência independente externa, a partir da matriz de verificação
+
+# (not in the old English either)
+seg-d9cccff82185 = A { "0.40" } acrescenta um orçamento de erro em nível de missão, etiqueta cada figura e tabela com o seu nível de evidência, lê registos de relógio medidos, verifica envios de parceiros de dados, estima onde pode estar um emissor de interferência e está disponível em dezassete idiomas além do inglês. O registo agora tem { "412" } linhas: { "176" } VALIDATED, { "232" } MODELLED, { "4" } PARTNER. Nenhuma linha foi promovida a VALIDATED, e toda falha abaixo está fixada por um teste.
+
+# (not in the old English either)
+seg-93dcede29907 = <b>{ "176" } de { "412" }</b> capacidades validadas face a referências independentes externas; { "232" } etiquetadas com honestidade como modeladas. Cada linha da matriz de verificação nomeia uma capacidade, a referência independente com a qual ela é verificada, o teste que executa a verificação e a etiqueta que resulta. A integração contínua (CI) torna impossível chamar uma capacidade de VALIDATED sem uma referência independente externa.
+
+# (not in the old English either)
+seg-99d2c21b1f60 = Como uma capacidade obtém a sua etiqueta. Cada linha da matriz de verificação nomeia uma capacidade, a referência independente com a qual ela é verificada, o teste que executa a verificação na integração contínua e a etiqueta que resulta. Uma linha só pode ser VALIDATED com uma referência independente externa; caso contrário é MODELLED, ou PARTNER quando um parceiro de hardware é o responsável. Exemplo: SGP4/SDP4, Cowell 6-DOF + perturbações, DO em lote/sequencial, referência independente: vetores de verificação SGP4 do AIAA 2006-6753, teste tests/sgp4_verification.rs, etiqueta VALIDATED. Contagens ao vivo: { "176" } VALIDATED, { "232" } MODELLED, { "4" } PARTNER de { "412" } linhas. No total, { "176" } capacidades validadas face a referências independentes externas; outras { "232" } são etiquetadas com honestidade como MODELLED e { "4" } pertencem a PARTNER.
+
+# (not in the old English either)
+seg-7f933400c73d = Algumas das verificações: todos os { "666" } vetores SGP4 (Simplified General Perturbations { "4" }) do AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 até { "4.12" } mm; o modelo de forças de Cowell até { "0.08" } m face ao Orekit { "12.2" }; o Galileo até { "0.61" } m e o Swarm-A até { "0.10" } m face a efemérides precisas reais da Agência Espacial Europeia (ESA). Os testes mantêm cerca de { "95" } % de cobertura de linhas de <c1/>, com um mínimo de { "85" } % exigido na CI. O registo é <a1><c2/></a1>, gerado a partir de <c3/>: a <a2>matriz completa de 412 linhas</a2>, e por que cada linha modelada não tem referência independente externa em <a3><c4/></a3>.
+
+# (not in the old English either)
+seg-df9b60a7dfe8 = Cada linha é imposta por um teste nomeado na CI. Esta tabela é um <b>destaque selecionado</b>; a matriz completa, verificada por máquina, tem <b>{ "412" } linhas — { "176" } VALIDATED, { "232" } MODELLED, { "4" } PARTNER</b> (<c1/>), com as evidências completas (e o que honestamente <em>ainda não</em> é validado) em <a1><c2/></a1> e o artefacto <a2><c3/></a2> de cada versão (gerado por <c4/>, atestado pelo SLSA — Supply-chain Levels for Software Artifacts).
+
+# (not in the old English either)
+seg-d1700188b2cf = Como uma capacidade obtém a sua etiqueta: um requisito corresponde a um módulo em src, a um teste em tests, a uma referência independente externa (conjunto de dados real, implementação de referência independente ou vetores publicados), a um estado — com uma proteção imposta pela CI de que nenhuma capacidade pode ser validada sem uma referência independente externa. Contagens ao vivo: { "176" } validadas, { "232" } modeladas, { "4" } de parceiros, { "412" } no total
+
+# (not in the old English either)
+seg-903f40bceba8 = Estado de verificação das { "412" } capacidades: { "176" } validadas (verificadas face a uma referência independente externa), { "232" } modeladas, { "4" } pertencentes a parceiros
+
+# (not in the old English either)
+seg-9bfd6ba56a18 = { "176" } validadas · { "232" } modeladas · { "4" } de parceiros — <a1>SVG</a1>
+
+# (not in the old English either)
+seg-74c21b004d86 = A arquitetura do Kshana: um motor aberto no centro, kshana { $version } sob a AGPL-3.0, com api::run_toml, um despacho tipado sobre todos os tipos de cenário, e o registo de verificação de { "412" } capacidades ({ "176" } VALIDATED, { "232" } MODELLED, { "4" } PARTNER). Em torno, cada superfície executa o mesmo motor: linha de comandos (cargo install kshana); biblioteca Rust (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); servidor MCP (cargo install kshana-mcp); imagem Docker (ghcr.io/ashfordeou/kshana-mcp); plugin JetBrains (Marketplace: "Kshana"). Abaixo, o Kshana Pro, uma camada proprietária que depende do motor aberto como biblioteca, nunca o bifurca e não acrescenta nenhum modelo físico.
+
+# (not in the old English either)
+seg-e6c6926110e6 = A arquitetura do Kshana em camadas. Cinco portas de entrada (linha de comandos, Python, JavaScript e WebAssembly, o servidor MCP e o plugin JetBrains) chegam a um único api::run_toml, um despacho tipado sobre { "93" } tipos de cenário. Abaixo dele ficam oito camadas de domínio: tempo e referenciais, relógios e temporização, inercial e fusão, GNSS e integridade, astrodinâmica, PNT em LEO, Lua, Marte e espaço profundo, e missões e estudos, sobre um núcleo partilhado, todas referenciadas cruzadamente pelo módulo de verificação, a matriz de { "412" } capacidades verificada por máquina, que é a única fonte de verdade de cada etiqueta.
+
+# Earth-fixed (ECEF) position + clock time series. Round-trip validated to < { "0.5" } m on a real <c1/> snapshot (<a1><c2/></a1>).
+# text
+# c1: gps-ops
+# c2: tests/sp3_export_roundtrip.rs
+seg-8d1089fbd59d = Série temporal de posição fixa à Terra (ECEF) + tempo do relógio. Ida e volta validada a < { "0.5" } m num instantâneo real de <c1/> (<a1><c2/></a1>).
+
+# <c1/> / <c2/> / <c3/> — the frame the propagators integrate in and the time scale of the epoch grid, not relabelled
+# text
+# c1: EARTH
+# c2: TEME
+# c3: GPS
+seg-4b338284e56a = <c1/> / <c2/> / <c3/> — o referencial em que os propagadores integram e a escala de tempo da grelha de épocas, sem nova etiquetagem
+
+# ISO-8601 (ISO: International Organization for Standardization) calendar time, GPS time scale
+# text
+seg-410bd5a9ba14 = tempo de calendário ISO-8601 (ISO: International Organization for Standardization), escala de tempo GPS
+
+# (not in the old English either)
+seg-db7a6ac0a47d = O registo de evidências completo, verificado por máquina: <b>{ "412" } linhas — { "176" } VALIDATED, { "232" } MODELLED, { "4" } PARTNER</b>. Uma linha só pode ser VALIDATED com uma referência independente externa (os testes de invariantes da matriz impõem isso). Os mesmos dados, com ligações clicáveis por linha para cada teste, módulo e ficheiro de teste versionado, são o <em>Registo de validação</em> em <a1>https://kshana.dev</a1>. Veja <a2>MODELLED-RATIONALE.md</a2> para saber por que cada linha modelada não é validada externamente.
+
+# (not in the old English either)
+seg-1cc523709234 = { "412" } linhas: { "176" } validadas externamente, { "232" } modeladas, { "4" } pertencentes a parceiros.
+
+# Kshana Pro, amplified
+# text
+seg-2fdbe97136e7 = Kshana Pro, ampliado
+
+# A proprietary overlay that depends on the open core and never forks it: a strict superset of open Kshana. Available under contract.
+# text
+seg-4b5028704ea5 = Uma camada proprietária que depende do núcleo aberto e nunca o bifurca: um superconjunto estrito do Kshana aberto. Disponível sob contrato.
+
+# Programmes that must hand a mission dossier or an audit-grade evidence pack to a review or procurement board
+# text
+seg-1ea79eedb7a1 = Programas que têm de entregar um dossiê de missão ou um pacote de evidências de nível de auditoria a um comité de revisão ou de aquisições
+
+# Architects choosing a design from the Pareto front of a whole design space, or from trade studies ranked on a figure of merit
+# text
+seg-2217d28fd201 = Arquitetos que escolhem um projeto a partir da frente de Pareto de todo um espaço de projeto, ou de estudos comparativos classificados por uma figura de mérito
+
+# Timing and hardware teams who need a clock digital twin calibrated to their device
+# text
+seg-ee1b858bcc3f = Equipas de temporização e de equipamento que precisam de um gémeo digital do relógio calibrado para o seu dispositivo
+
+# <a1>A design optimiser</a1>: the Pareto front of a design space, with every front design as a scenario the free engine re-runs
+# text
+seg-4b436214a890 = <a1>Um otimizador de projeto</a1>: a frente de Pareto de um espaço de projeto, com cada projeto da frente como um cenário que o motor gratuito volta a executar
+
+# <a1>Uncertainty and sensitivity</a1> over thousands of runs
+# text
+seg-d8d838542aa7 = <a1>Incerteza e sensibilidade</a1> ao longo de milhares de execuções
+
+# <a1>A one-command mission dossier</a1> with a verification matrix and a PDF (Portable Document Format) file
+# text
+seg-161db00fa35f = <a1>Um dossiê de missão com um só comando</a1>, com uma matriz de verificação e um ficheiro PDF (Portable Document Format)
+
+# Audit-grade, reproducible evidence packs, clock digital twins calibrated to a device's published Allan budget, and architecture trade studies ranked on a figure of merit
+# text
+seg-e142b435c273 = Pacotes de evidências reproduzíveis de nível de auditoria, gémeos digitais de relógios calibrados para o orçamento de Allan publicado de um dispositivo, e estudos comparativos de arquitetura classificados por uma figura de mérito
+
+# Model-based systems-engineering (MBSE) and programme tooling that checks a programme's requirements against runs of the open engine, reading only the outputs the engine publishes
+# text
+seg-91da86f32a66 = Ferramentas de engenharia de sistemas baseada em modelos (MBSE) e de gestão de programas que verificam os requisitos de um programa face a execuções do motor aberto, lendo apenas as saídas que o motor publica
+
+# Kshana Pro is available under contract. It depends on the open core and never forks it, so nothing is taken out of the free engine.
+# text
+seg-65b886427270 = O Kshana Pro está disponível sob contrato. Depende do núcleo aberto e nunca o bifurca, pelo que nada é retirado ao motor gratuito.
+
+# See it amplified
+# text
+seg-98f81c393a13 = Ver a versão ampliada
+
+# Kshana Pro · the same engine, amplified
+# text
+seg-ef60d3a217a7 = Kshana Pro · o mesmo motor, ampliado
+
+# Free runs one scenario. Pro answers the programme's question.
+# text
+seg-0ca6598b5442 = O gratuito executa um cenário. O Pro responde à pergunta do programa.
+
+# Open Kshana runs one scenario and tells you what it gives. Kshana Pro answers the questions a programme asks next, over the same engine and the same scenario files: which design to fly, how sure the answer is, and whether the mission meets its requirements in a form a review board can check.
+# text
+seg-8a239e03a91c = O Kshana aberto executa um cenário e indica o que este fornece. O Kshana Pro responde às perguntas que um programa coloca a seguir, sobre o mesmo motor e os mesmos ficheiros de cenário: que projeto fazer voar, com que grau de certeza se responde, e se a missão satisfaz os seus requisitos de uma forma que um comité de revisão possa verificar.
+
+# A strict superset of open Kshana.
+# text
+seg-cdb7f8c917e7 = Um superconjunto estrito do Kshana aberto.
+
+# Every open scenario kind runs in Pro unchanged, and an open scenario runs in Pro with no licence at all.
+# text
+seg-5de71d884106 = Todos os tipos de cenário abertos funcionam no Pro sem alterações, e um cenário aberto funciona no Pro sem qualquer licença.
+
+# No new physics.
+# text
+seg-9716f482b04d = Sem física nova.
+
+# Every Pro number comes from runs of the open engine, so a Pro figure is as trustworthy as the open scenario kind it came from, and never more.
+# text
+seg-44fca9f49c50 = Todos os números do Pro provêm de execuções do motor aberto, pelo que um valor do Pro é tão fiável quanto o tipo de cenário aberto de onde veio, e nunca mais.
+
+# Reproducible in the free engine.
+# text
+seg-a1b3e6c8e054 = Reproduzível no motor gratuito.
+
+# Anyone with open Kshana can re-run one and get the same figure.
+# text
+seg-8b5fd4e4ea35 = Quem tiver o Kshana aberto pode voltar a executar um resultado e obter o mesmo valor.
+
+# Honest labels carried through.
+# text
+seg-22c9d1934491 = Rótulos honestos mantidos até ao fim.
+
+# Every Pro result is labelled MODELLED. Every figure keeps the tier the open engine gave it (Validated, Modelled or Partner), never a higher one.
+# text
+seg-c0c9f2748dcd = Todos os resultados do Pro são rotulados como MODELLED. Cada valor mantém o nível que o motor aberto lhe atribuiu (validado, modelado ou do parceiro), nunca um superior.
+
+# Design optimiser
+# text
+seg-fe62a7a81520 = Otimizador de projeto
+
+# A free user scores one design they wrote by hand.
+# text
+seg-7574857f2e17 = O utilizador da edição gratuita pontua um projeto que escreveu à mão.
+
+# A Pro user states the design space (each variable a scenario setting with its allowed values), the constraints and two or three objectives, and gets the whole Pareto front: the designs that no other design beats on every objective at once.
+# text
+seg-5e92d8903fe2 = O utilizador do Pro indica o espaço de projeto (cada variável é uma definição do cenário com os seus valores permitidos), as restrições e dois ou três objetivos, e obtém toda a frente de Pareto: os projetos que nenhum outro projeto supera em todos os objetivos em simultâneo.
+
+# The base scenario can be of any open kind, so the same tool designs a constellation around the Earth, the Moon or Mars, or trades a link budget. Every design is one run of the open engine. Each front design is written out as a plain open scenario file, with the Secure Hash Algorithm (SHA-256) hash of the result the free engine gives for it.
+# text
+seg-e44bf29e6bb4 = O cenário de base pode ser de qualquer tipo aberto, pelo que a mesma ferramenta projeta uma constelação em torno da Terra, da Lua ou de Marte, ou compara um orçamento de ligação. Cada projeto é uma execução do motor aberto. Cada projeto da frente é escrito como um simples ficheiro de cenário aberto, com o hash Secure Hash Algorithm (SHA-256) do resultado que o motor gratuito dá para ele.
+
+# <b>What it does not do.</b> It has no cost model, so a variable no objective penalises drifts to the edge of its range. Constellation studies score geometry only: no signal power, satellite health or terrain.
+# text
+seg-46ef48f5abb4 = <b>O que não faz.</b> Não tem modelo de custos, pelo que uma variável que nenhum objetivo penaliza desloca-se para o limite do seu intervalo. Os estudos de constelações pontuam apenas a geometria: sem potência de sinal, estado dos satélites nem terreno.
+
+# Pareto front · <b>Lunar navigation constellation</b>
+# text
+seg-788b99e72541 = Frente de Pareto · <b>Constelação de navegação lunar</b>
+
+# Kshana Pro output
+# text
+seg-dfa989332a6e = Saída do Kshana Pro
+
+# Region scored
+# attr:aria-label
+seg-b4a240bb26ac = Região pontuada
+
+# Whole Moon
+# text
+seg-67e343533786 = Lua inteira
+
+# South polar cap
+# text
+seg-c5e32e8ff568 = Calota polar sul
+
+# Lunar navigation constellation: fewest satellites against availability, whole Moon: { "608" } designs run, a Pareto front of { "12" } designs
+# attr:aria-label
+seg-f4eb65b9b27a = Constelação de navegação lunar: menor número de satélites face à disponibilidade, Lua inteira: { "608" } projetos executados, uma frente de Pareto de { "12" } projetos
+
+# Lunar navigation constellation: fewest satellites against availability, south polar cap: { "608" } designs run, a Pareto front of { "9" } designs
+# attr:aria-label
+seg-18af8f9e61be = Constelação de navegação lunar: menor número de satélites face à disponibilidade, calota polar sul: { "608" } projetos executados, uma frente de Pareto de { "9" } projetos
+
+# every design run
+# text
+seg-6eb3858a0c29 = todos os projetos executados
+
+# Pareto front
+# text
+seg-f74688dc3bbe = frente de Pareto
+
+# knee
+# text
+seg-fb2e6760d932 = joelho
+
+# reference: Bundled lunar relay design ({ "8" } + { "6" } satellites)
+# text
+seg-ae4439020c65 = referência: projeto de retransmissão lunar incluído ({ "8" } + { "6" } satélites)
+
+# <b>Front design { "004" } · knee</b> · { "16" } satellites, { "85.0404" } % availability · { "2" } planes at { "8,000" } km, { "45" }° · re-run in the free engine: <s1>same SHA-256 { "89882372" }…</s1>
+# text
+seg-5386841c8b96 = <b>Projeto da frente { "004" } · joelho</b> · { "16" } satélites, { "85.0404" } % de disponibilidade · { "2" } planos a { "8,000" } km, { "45" }° · reexecutado no motor gratuito: <s1>mesmo SHA-256 { "89882372" }…</s1>
+
+# { "608" } designs, all run (whole moon): a front of { "12" } designs at { "6" } points; { "12" } of { "12" } re-run in the free engine with the same result hash. MODELLED.
+# text
+seg-4dd825c7f3ea = { "608" } projetos, todos executados (Lua inteira): uma frente de { "12" } projetos em { "6" } pontos; { "12" } de { "12" } reexecutados no motor gratuito com o mesmo hash de resultado. MODELLED.
+
+# { "608" } designs, all run (south polar cap): a front of { "9" } designs at { "4" } points; { "9" } of { "9" } re-run in the free engine with the same result hash. MODELLED.
+# text
+seg-76d450da2ee0 = { "608" } projetos, todos executados (calota polar sul): uma frente de { "9" } projetos em { "4" } pontos; { "9" } de { "9" } reexecutados no motor gratuito com o mesmo hash de resultado. MODELLED.
+
+# Kshana Pro { "0.2.0" } on open engine { "0.29.0" } · <b>kshana-pro design</b> · { "609" } engine runs · run digest df81aad4…
+# text
+seg-9e8263ecf0a3 = Kshana Pro { "0.2.0" } sobre o motor aberto { "0.29.0" } · <b>kshana-pro design</b> · { "609" } execuções do motor · resumo da execução df81aad4…
+
+# Uncertainty and sensitivity
+# text
+seg-db58e04e6f25 = Incerteza e sensibilidade
+
+# A free user gets one number, or a spread over random seeds.
+# text
+seg-eb18bf49ff99 = O utilizador da edição gratuita obtém um só número, ou uma dispersão sobre sementes aleatórias.
+
+# A Pro user states how uncertain each input is and gets confidence bands, the probability of meeting a limit, and a ranking of the inputs that drive the result.
+# text
+seg-aaf8b7feaa9b = O utilizador do Pro indica o grau de incerteza de cada entrada e obtém bandas de confiança, a probabilidade de satisfazer um limite e uma classificação das entradas que determinam o resultado.
+
+# It works on any open scenario. Inputs are ranked by Sobol' sensitivity indices or by standardised regression coefficients, and a ranking that is not reliable is flagged as such. A long study can be stopped and resumed.
+# text
+seg-9176a44d9494 = Funciona com qualquer cenário aberto. As entradas são classificadas pelos índices de sensibilidade de Sobol' ou por coeficientes de regressão normalizados, e uma classificação que não é fiável é assinalada como tal. Um estudo longo pode ser interrompido e retomado.
+
+# <b>What it does not do.</b> Inputs are treated as independent. More runs narrow the sampling error, not the model error: a MODELLED kind stays MODELLED.
+# text
+seg-c9050f66bedf = <b>O que não faz.</b> As entradas são tratadas como independentes. Mais execuções reduzem o erro de amostragem, não o erro do modelo: um tipo MODELLED continua MODELLED.
+
+# Uncertainty views
+# attr:aria-label
+seg-02ef1c43f3d7 = Vistas de incerteza
+
+# Confidence band
+# text
+seg-e8fcb508e9a5 = Banda de confiança
+
+# What drives the result
+# text
+seg-190c61b44b81 = O que determina o resultado
+
+# Clock holdover with an uncertain noise level: the 5th to 95th percentile of { "2,000" } runs against the limit of { "20" } ns
+# attr:aria-label
+seg-049c503c23db = Holdover do relógio com um nível de ruído incerto: percentil 5 a 95 de { "2,000" } execuções face ao limite de { "20" } ns
+
+# 5th to 95th percentile of { "2,000" } runs
+# text
+seg-6dab3db2ad81 = percentil 5 a 95 de { "2,000" } execuções
+
+# median
+# text
+seg-023d57ee95c8 = mediana
+
+# base run
+# text
+seg-00e4c1f9bf78 = execução de base
+
+# share within the limit
+# text
+seg-419cbee4d7ce = fração dentro do limite
+
+# After { "60" } minutes: <b>{ "1,366" } of { "2,000" } runs</b> within ±{ "20" } ns, a probability of { "0.683" } ({ "95" } % interval { "0.6623" } to { "0.703" })
+# text
+seg-974fe80f65a4 = Após { "60" } minutos: <b>{ "1,366" } de { "2,000" } execuções</b> dentro de ±{ "20" } ns, uma probabilidade de { "0.683" } (intervalo de { "95" } % de { "0.6623" } a { "0.703" })
+
+# Clock holdover with an uncertain noise level · input q_wf (the clock's white-frequency-noise level): uniform({ "4.5e-20" } to { "2.7e-19" }), ASSUMED · MODELLED · Kshana Pro { "0.2.0" } on open engine { "0.29.0" } · <b>kshana-pro uncertainty</b> · { "2,000" } engine runs · run digest abab765e…
+# text
+seg-9ff0ae72a9c7 = Holdover do relógio com um nível de ruído incerto · entrada q_wf (o nível de ruído branco de frequência do relógio): uniforme({ "4.5e-20" } a { "2.7e-19" }), ASSUMED · MODELLED · Kshana Pro { "0.2.0" } sobre o motor aberto { "0.29.0" } · <b>kshana-pro uncertainty</b> · { "2,000" } execuções do motor · resumo da execução abab765e…
+
+# Fused position error, with the low-Earth-orbit layer
+# text
+seg-3b321556590c = Erro de posição fundido, com a camada de órbita terrestre baixa
+
+# Position error, GNSS alone
+# text
+seg-6f29c63748d0 = Erro de posição, só com GNSS
+
+# Peak carrier-to-noise density of the pass
+# text
+seg-45e1ce6c1a7c = Densidade portadora-ruído máxima da passagem
+
+# What drives Fused position error, with the low-Earth-orbit layer: total Sobol' index of each input
+# attr:aria-label
+seg-9e66fcbda75a = O que determina Erro de posição fundido, com a camada de órbita terrestre baixa: índice de Sobol' total de cada entrada
+
+# Fused position error, with the low-Earth-orbit layer: mean { "0.4312" } m, 5th to 95th percentile { "0.2465" } to { "0.6041" } m · top driver <b>Low-Earth-orbit orbit and clock error</b>, total index { "0.99" }
+# text
+seg-12293e88a5ee = Erro de posição fundido, com a camada de órbita terrestre baixa: média { "0.4312" } m, percentil 5 a 95 de { "0.2465" } a { "0.6041" } m · principal fator <b>Erro de órbita e de relógio em órbita terrestre baixa</b>, índice total { "0.99" }
+
+# What drives Position error, GNSS alone: total Sobol' index of each input
+# attr:aria-label
+seg-52915e113de2 = O que determina Erro de posição, só com GNSS: índice de Sobol' total de cada entrada
+
+# Position error, GNSS alone: mean { "1.6041" } m, 5th to 95th percentile { "1.5389" } to { "1.6739" } m · top driver <b>Global Positioning System (GPS) signal-in-space range error</b>, total index { "0.68" }
+# text
+seg-746012914df5 = Erro de posição, só com GNSS: média { "1.6041" } m, percentil 5 a 95 de { "1.5389" } a { "1.6739" } m · principal fator <b>Erro de distância do sinal no espaço do Global Positioning System (GPS)</b>, índice total { "0.68" }
+
+# What drives Peak carrier-to-noise density of the pass: total Sobol' index of each input
+# attr:aria-label
+seg-94329d8e11b8 = O que determina Densidade portadora-ruído máxima da passagem: índice de Sobol' total de cada entrada
+
+# Peak carrier-to-noise density of the pass: mean { "60.7336" } dB-Hz (decibel-hertz), 5th to 95th percentile { "59.0898" } to { "62.3719" } dB-Hz · top driver <b>Low-Earth-orbit transmit power</b>, total index { "1.01" }
+# text
+seg-7ee659a6c7e7 = Densidade portadora-ruído máxima da passagem: média { "60.7336" } dB-Hz (decibel-hertz), percentil 5 a 95 de { "59.0898" } a { "62.3719" } dB-Hz · principal fator <b>Potência de emissão em órbita terrestre baixa</b>, índice total { "1.01" }
+
+# Low-Earth-orbit (LEO) PNT chain: what drives the position error with and without the LEO layer · Sobol' indices, n * (k + { "2" }) = { "1024" } * ({ "4" } + { "2" }) = { "6144" } runs · { "4" } of { "4" } input uncertainties ASSUMED · MODELLED · Kshana Pro { "0.2.0" } on open engine { "0.29.0" } · <b>kshana-pro uncertainty</b> · { "6,144" } engine runs · run digest fb54eac6…
+# text
+seg-f04d1f94de26 = Cadeia PNT em órbita terrestre baixa (LEO): o que determina o erro de posição com e sem a camada LEO · índices de Sobol', n * (k + { "2" }) = { "1024" } * ({ "4" } + { "2" }) = { "6144" } execuções · { "4" } de { "4" } incertezas de entrada ASSUMED · MODELLED · Kshana Pro { "0.2.0" } sobre o motor aberto { "0.29.0" } · <b>kshana-pro uncertainty</b> · { "6,144" } execuções do motor · resumo da execução fb54eac6…
+
+# A free user gets one report per run.
+# text
+seg-80a916e122e5 = O utilizador da edição gratuita obtém um relatório por execução.
+
+# A Pro user gets one mission dossier in one command: requirements checked against real runs, a verification matrix with its open items, and a PDF (Portable Document Format) in which every number can be re-derived with the free engine.
+# text
+seg-62e6a11bddd9 = O utilizador do Pro obtém um dossiê de missão com um só comando: requisitos verificados face a execuções reais, uma matriz de verificação com os seus itens em aberto e um PDF (Portable Document Format) em que cada número pode ser rederivado com o motor gratuito.
+
+# A requirement met on a MODELLED or PARTNER basis is flagged. Requirements to be verified by test, inspection or demonstration stay open items however the run went.
+# text
+seg-abcdc63e7121 = Um requisito atingido numa base MODELLED ou PARTNER é assinalado. Os requisitos a verificar por ensaio, inspeção ou demonstração permanecem itens em aberto, independentemente do resultado da execução.
+
+# <b>What it does not do.</b> Simulation evidence counts as analysis and does not replace a test, an inspection or a demonstration. A dossier is not a certification, a qualification or an acceptance by any authority.
+# text
+seg-6a0ace9c0245 = <b>O que não faz.</b> A evidência de simulação conta como análise e não substitui um ensaio, uma inspeção ou uma demonstração. Um dossiê não é uma certificação, uma qualificação nem uma aceitação por parte de qualquer autoridade.
+
+# Mission dossier · <b>Navigation resilience programme: Earth, Moon and Mars</b>
+# text
+seg-ddffd3f4f0bb = Dossiê de missão · <b>Programa de resiliência da navegação: Terra, Lua e Marte</b>
+
+# requirements
+# text
+seg-589480947799 = requisitos
+
+# not met
+# text
+seg-7fbde256debf = não atingidos
+
+# not verified
+# text
+seg-5405ea8fb6af = não verificados
+
+# open items
+# text
+seg-f6ccb7a322b3 = itens em aberto
+
+# Verification matrix: open a row for the check the dossier made
+# attr:aria-label
+seg-241bb8a5c188 = Matriz de verificação: abra uma linha para ver a verificação que o dossiê fez
+
+# ppp.cases[{ "1" }].median_convergence_min <= { "10" } min
+# text
+seg-1771db524c39 = ppp.cases[{ "1" }].median_convergence_min <= { "10" } min
+
+# <s1>met</s1><s2>MODELLED</s2>
+# text
+seg-1ba2dfe597a5 = <s1>atingido</s1><s2>MODELLED</s2>
+
+# With { "240" } low Earth orbit (LEO) satellites added, precise point positioning (PPP) shall converge within { "10" } minutes (median over the seeded runs).
+# text
+seg-21ef0770a07c = Com { "240" } satélites em órbita terrestre baixa (LEO) adicionados, o posicionamento preciso de ponto (PPP) deve convergir em { "10" } minutos (mediana sobre as execuções com semente).
+
+# Method: analysis · run RUN-LEO · value read: { "7.5" } min
+# text
+seg-d739debd8759 = Método: análise · execução RUN-LEO · valor lido: { "7.5" } min
+
+# Open item: MODELLED basis
+# text
+seg-1bea7f394d61 = Item em aberto: base MODELLED
+
+# ppp.cases[{ "0" }].median_convergence_min <= { "10" } min
+# text
+seg-62352fb0b903 = ppp.cases[{ "0" }].median_convergence_min <= { "10" } min
+
+# <s1>not met</s1><s2>MODELLED</s2>
+# text
+seg-199d9de5b863 = <s1>não atingido</s1><s2>MODELLED</s2>
+
+# With GPS and Galileo alone, precise point positioning (PPP) shall converge within { "10" } minutes (median over the seeded runs).
+# text
+seg-d25f22bab194 = Só com GPS e Galileo, o posicionamento preciso de ponto (PPP) deve convergir em { "10" } minutos (mediana sobre as execuções com semente).
+
+# Method: analysis · run RUN-LEO · value read: { "11.5" } min
+# text
+seg-f7fbbb0396f8 = Método: análise · execução RUN-LEO · valor lido: { "11.5" } min
+
+# Open item: not met
+# text
+seg-cd0df2627f00 = Item em aberto: não atingido
+
+# fusion.fused.rms_error_3d_m <= { "0.5" } m
+# text
+seg-4f85cb208f09 = fusion.fused.rms_error_3d_m <= { "0.5" } m
+
+# With the LEO layer the fused three-dimensional position error shall be { "0.5" } m root mean square (RMS) or better.
+# text
+seg-2f64c266aaa9 = Com a camada LEO, o erro de posição tridimensional fundido deve ser de { "0.5" } m de valor quadrático médio (RMS) ou melhor.
+
+# Method: test · run RUN-LEO · value read: { "0.4349" } m
+# text
+seg-ab3c35475bb8 = Método: ensaio · execução RUN-LEO · valor lido: { "0.4349" } m
+
+# Open item: method, MODELLED basis
+# text
+seg-813bc2c7156f = Item em aberto: método, base MODELLED
+
+# global.availability_pct >= { "95" } %
+# text
+seg-00370d1ef747 = global.availability_pct >= { "95" } %
+
+# The lunar relay constellation shall give a position fix with a position dilution of precision (PDOP) of { "6" } or better over at least { "95" } % of the lunar surface and of the day.
+# text
+seg-f903fd8d8738 = A constelação de retransmissão lunar deve fornecer uma solução de posição com uma diluição da precisão de posição (PDOP) de { "6" } ou melhor em pelo menos { "95" } % da superfície lunar e do dia.
+
+# Method: analysis · run RUN-LUNAR · value read: { "21.3286" } %
+# text
+seg-304a072d0a55 = Método: análise · execução RUN-LUNAR · valor lido: { "21.3286" } %
+
+# global.pdop.median <= { "6" }
+# text
+seg-03344a0f7614 = global.pdop.median <= { "6" }
+
+# Where the lunar relay constellation gives a fix, the median position dilution of precision (PDOP) shall be { "6" } or better.
+# text
+seg-9157dc0f0b69 = Onde a constelação de retransmissão lunar fornece uma solução de posição, a mediana da diluição da precisão de posição (PDOP) deve ser de { "6" } ou melhor.
+
+# Method: analysis · run RUN-LUNAR · value read: { "5.22" } { "1" }
+# text
+seg-8ce652866e44 = Método: análise · execução RUN-LUNAR · valor lido: { "5.22" } { "1" }
+
+# timeline.bands[{ "3" }].min_cn0_dbhz >= { "25" } dB-Hz
+# text
+seg-394b87e99d4f = timeline.bands[{ "3" }].min_cn0_dbhz >= { "25" } dB-Hz
+
+# <s1>met</s1><s2>PARTNER</s2>
+# text
+seg-4bd7577834e9 = <s1>atingido</s1><s2>PARTNER</s2>
+
+# Under the scripted L-band interference, the GPS L5 carrier-to-noise density ratio (C/N0) shall stay at or above { "25" } dB-Hz.
+# text
+seg-c3cd6e0b2c8a = Sob a interferência em banda L programada, a relação portadora-ruído (C/N0) do GPS L5 deve manter-se igual ou superior a { "25" } dB-Hz.
+
+# Method: analysis · run RUN-SPECTRUM · value read: { "44.0752" } dB-Hz
+# text
+seg-c707f32aa460 = Método: análise · execução RUN-SPECTRUM · valor lido: { "44.0752" } dB-Hz
+
+# Open item: PARTNER basis
+# text
+seg-917d0ea847c5 = Item em aberto: base PARTNER
+
+# timeline.bands[{ "0" }].min_cn0_dbhz >= { "25" } dB-Hz
+# text
+seg-14ff8808abca = timeline.bands[{ "0" }].min_cn0_dbhz >= { "25" } dB-Hz
+
+# <s1>not met</s1><s2>PARTNER</s2>
+# text
+seg-b0ce1159ebab = <s1>não atingido</s1><s2>PARTNER</s2>
+
+# Under the scripted L-band interference, the GPS L1 coarse/acquisition (C/A) carrier-to-noise density ratio (C/N0) shall stay at or above { "25" } dB-Hz.
+# text
+seg-fac48ac76f34 = Sob a interferência em banda L programada, a relação portadora-ruído (C/N0) do GPS L1 coarse/acquisition (C/A) deve manter-se igual ou superior a { "25" } dB-Hz.
+
+# Method: analysis · run RUN-SPECTRUM · value read: { "3.2329" } dB-Hz
+# text
+seg-b2d1ec0d6dee = Método: análise · execução RUN-SPECTRUM · valor lido: { "3.2329" } dB-Hz
+
+# timeline.channels.time_error_ns.values <= timeline.channels.guard_ns.values for all values
+# text
+seg-5ae7272d2099 = timeline.channels.time_error_ns.values <= timeline.channels.guard_ns.values para todos os valores
+
+# In the chained jamming, spoofing and holdover mission the clock time error shall stay within its { "50" } ns guard at every timeline step.
+# text
+seg-ae1e65b11562 = Na missão encadeada de jamming, spoofing e holdover, o erro de tempo do relógio deve manter-se dentro da sua guarda de { "50" } ns em cada passo da cronologia.
+
+# Method: analysis · run RUN-CAMPAIGN · value read: { "51.7825" } ns
+# text
+seg-99c163a008d1 = Método: análise · execução RUN-CAMPAIGN · valor lido: { "51.7825" } ns
+
+# min(timeline.events[].t_s) <= { "30" } min
+# text
+seg-b0cead50489e = min(timeline.events[].t_s) <= { "30" } min
+
+# In the chained mission a spoofing alarm shall be raised within { "30" } minutes of the start.
+# text
+seg-3a2678859ea3 = Na missão encadeada, um alarme de spoofing deve ser emitido nos { "30" } minutos seguintes ao início.
+
+# Method: demonstration · run RUN-CAMPAIGN · value read: { "1,200" } s
+# text
+seg-fb11475464de = Método: demonstração · execução RUN-CAMPAIGN · valor lido: { "1,200" } s
+
+# Open item: method, PARTNER basis
+# text
+seg-446c41fcb3ab = Item em aberto: método, base PARTNER
+
+# fom.rms_error_relays_m <= { "5" } m
+# text
+seg-b6177dbc98f7 = fom.rms_error_relays_m <= { "5" } m
+
+# Around Mars the constellation-only position error shall be { "5" } m root mean square (RMS) or better over one sol.
+# text
+seg-4ceaa0d03a24 = Em torno de Marte, o erro de posição apenas com a constelação deve ser de { "5" } m de valor quadrático médio (RMS) ou melhor ao longo de um sol.
+
+# Method: analysis · run RUN-MARS · value read: { "1.8827" } m
+# text
+seg-5794fedf0f41 = Método: análise · execução RUN-MARS · valor lido: { "1.8827" } m
+
+# fom.availability_relays >= { "99" } %
+# text
+seg-243a7ff0524b = fom.availability_relays >= { "99" } %
+
+# Around Mars the constellation shall give a position fix at { "99" } % of epochs or more.
+# text
+seg-576583ccb8f3 = Em torno de Marte, a constelação deve fornecer uma solução de posição em { "99" } % das épocas ou mais.
+
+# Method: analysis · run RUN-MARS · value read: { "1" } { "1" }
+# text
+seg-32c406b96132 = Método: análise · execução RUN-MARS · valor lido: { "1" } { "1" }
+
+# no machine-checkable criterion
+# text
+seg-532fe876e134 = nenhum critério verificável por máquina
+
+# The receiver housing shall carry the programme's identification label.
+# text
+seg-9dd3f9575483 = A caixa do recetor deve ostentar a etiqueta de identificação do programa.
+
+# Method: inspection · run none · value read: no run traced
+# text
+seg-e1efc36871f9 = Método: inspeção · execução nenhuma · valor lido: nenhuma execução rastreada
+
+# Open item: no evidence, manual verification
+# text
+seg-7368cd7b9fdf = Item em aberto: sem evidência, verificação manual
+
+# Page { "1" } of the generated dossier (PDF)
+# attr:aria-label
+seg-cf21103fdda2 = Página { "1" } do dossiê gerado (PDF)
+
+# Page { "1" } of the generated mission dossier
+# attr:alt
+seg-1edae087e2ef = Página { "1" } do dossiê de missão gerado
+
+# Page { "2" } of the generated dossier (PDF)
+# attr:aria-label
+seg-bfc11601ca89 = Página { "2" } do dossiê gerado (PDF)
+
+# Page { "2" } of the generated mission dossier
+# attr:alt
+seg-6cc250f43823 = Página { "2" } do dossiê de missão gerado
+
+# { "21" } pages, one command. <a1>Open the generated PDF</a1> (Portable Document Format)
+# text
+seg-dbb08e7c5575 = { "21" } páginas, um comando. <a1>Abrir o PDF gerado</a1> (Portable Document Format)
+
+# Kshana Pro { "0.2.0" } on open engine { "0.29.0" } · <b>kshana-pro mission build</b> · { "5" } runs and one trade study · { "7" } met, all on a MODELLED or PARTNER basis · dossier SHA-256 49df1e0e… · development build
+# text
+seg-277df27d9586 = Kshana Pro { "0.2.0" } sobre o motor aberto { "0.29.0" } · <b>kshana-pro mission build</b> · { "5" } execuções e um estudo comparativo · { "7" } atingidos, todos numa base MODELLED ou PARTNER · SHA-256 do dossiê 49df1e0e… · compilação de desenvolvimento
+
+# More Kshana Pro answers
+# attr:aria-label
+seg-583ce9cabfb2 = Mais respostas do Kshana Pro
+
+# Three more answers
+# text
+seg-62b6f3df413b = Mais três respostas
+
+# Campaign watch
+# text
+seg-80f67e30b341 = Vigilância de campanhas
+
+# On-premises job service
+# text
+seg-aed2198e0810 = Serviço de tarefas nas instalações do cliente
+
+# A free user runs a campaign and reads the result.
+# text
+seg-64b7fd74a3e3 = O utilizador da edição gratuita executa uma campanha e lê o resultado.
+
+# A Pro user names the figures that matter in a set of scenarios, says what worse means for each, and gets a pipeline that fails when a change to a scenario, a model or the engine makes one of them worse, or stops meeting its requirement.
+# text
+seg-3b9495ecb948 = O utilizador do Pro nomeia os valores que importam num conjunto de cenários, indica o que significa pior para cada um e obtém uma cadeia de verificação que falha quando uma alteração a um cenário, a um modelo ou ao motor piora um deles, ou o faz deixar de satisfazer o seu requisito.
+
+# It extends the scenario regression check. A Monte Carlo figure is judged with statistics instead of a tolerance, so a new set of random seeds is not called a regression and a doubled spread is. Every run is appended to a history in which each record carries the hash of the one before, and a check reports whether that chain is intact.
+# text
+seg-31f8c78ca95e = Estende a verificação de regressão de cenários. Um valor de Monte Carlo é avaliado com estatística em vez de uma tolerância, pelo que um novo conjunto de sementes aleatórias não é considerado uma regressão e uma dispersão duplicada é. Cada execução é acrescentada a um histórico em que cada registo contém o hash do anterior, e uma verificação indica se essa cadeia está intacta.
+
+# <b>What it does not do.</b> A watch proves that a MODELLED figure stayed stable or moved; it does not prove the figure is true. A figure with no stated direction is reported and never fails a run.
+# text
+seg-01e316af4e6b = <b>O que não faz.</b> Uma vigilância prova que um valor MODELLED se manteve estável ou se deslocou; não prova que o valor seja verdadeiro. Um valor sem direção indicada é reportado e nunca faz falhar uma execução.
+
+# Campaign watch · <b>six revisions, one history</b>
+# text
+seg-ca34b7fbd8a0 = Vigilância de campanhas · <b>seis revisões, um histórico</b>
+
+# Revision
+# attr:aria-label
+seg-35e2f3c6d5ee = Revisão
+
+# Watched figure · revision
+# text
+seg-cc02f3327260 = Valor vigiado · revisão
+
+# Revision r1-published: pass, exit code { "0" }
+# attr:aria-label
+seg-722c55b5ca9d = Revisão r1-published: passou, código de saída { "0" }
+
+# Revision r2-documentation: pass, exit code { "0" }
+# attr:aria-label
+seg-afebb6b7fe91 = Revisão r2-documentation: passou, código de saída { "0" }
+
+# Revision r3-weaker-jammer: pass, exit code { "0" }
+# attr:aria-label
+seg-04be8823d1a4 = Revisão r3-weaker-jammer: passou, código de saída { "0" }
+
+# Revision r4-stronger-jammer: fail, exit code { "1" }
+# attr:aria-label
+seg-358f8307eb64 = Revisão r4-stronger-jammer: falhou, código de saída { "1" }
+
+# Revision r5-withdrawn: pass, exit code { "0" }
+# attr:aria-label
+seg-dedab67d8791 = Revisão r5-withdrawn: passou, código de saída { "0" }
+
+# Revision r6-faster-spoofer: pass, exit code { "0" }
+# attr:aria-label
+seg-507fa1cd9725 = Revisão r6-faster-spoofer: passou, código de saída { "0" }
+
+# Verdict of each watched figure at each revision
+# attr:aria-label
+seg-5f91b1908b7f = Veredicto de cada valor vigiado em cada revisão
+
+# first run: becomes the baseline
+# attr:title, text
+seg-e4e33a6fa3ba = primeira execução: passa a ser a linha de base
+
+# r1: first run: becomes the baseline
+# attr:aria-label
+seg-6c6055582596 = r1: primeira execução: passa a ser a linha de base
+
+# carrier-to-noise density ratio (C/N0) at the end of the jamming phase
+# text
+seg-5733e7e1ed6d = relação portadora-ruído (C/N0) no fim da fase de jamming
+
+# unchanged
+# attr:title, text
+seg-039e60fda167 = inalterado
+
+# r2: unchanged
+# attr:aria-label
+seg-5d3ef8b30387 = r2: inalterado
+
+# improved
+# attr:title, text
+seg-a668aec87232 = melhorou
+
+# r3: improved
+# attr:aria-label
+seg-3a9107ada303 = r3: melhorou
+
+# regressed
+# attr:title, text
+seg-b297d2fb39b8 = piorou
+
+# r4: regressed
+# attr:aria-label
+seg-ef9e2f850cec = r4: piorou
+
+# r5: unchanged
+# attr:aria-label
+seg-80661be2216a = r5: inalterado
+
+# r6: unchanged
+# attr:aria-label
+seg-f1c94be68352 = r6: inalterado
+
+# largest time error on the mission timeline
+# text
+seg-9973d98d3f4a = maior erro de tempo na cronologia da missão
+
+# r3: unchanged
+# attr:aria-label
+seg-6ea2524c4af5 = r3: inalterado
+
+# r4: unchanged
+# attr:aria-label
+seg-46399b8584f9 = r4: inalterado
+
+# moved within its tolerance
+# attr:title, text
+seg-92dee1b56602 = variou dentro da sua tolerância
+
+# r6: moved within its tolerance
+# attr:aria-label
+seg-00ce02720ce2 = r6: variou dentro da sua tolerância
+
+# satellites tracking at the end of the jamming phase
+# text
+seg-1f5141270ec1 = satélites em seguimento no fim da fase de jamming
+
+# share of the mission under alarm
+# text
+seg-eb59ecfd5267 = fração da missão em alarme
+
+# r6: improved
+# attr:aria-label
+seg-359a0cb57119 = r6: melhorou
+
+# spoofing detected (phase length)
+# text
+seg-07c171df971c = spoofing detetado (duração da fase)
+
+# time error at the end of holdover
+# text
+seg-d01450760c7b = erro de tempo no fim do holdover
+
+# <b>Revision r4-stronger-jammer</b> · jammer raised from -33 to -24 dBW (decibels relative to one watt): C/N0 at the end of the jamming phase { "30.60" } → { "21.82" } dB-Hz (decibel-hertz), below the { "25" } dB-Hz floor, requirement not met; satellites tracking { "8" } → { "0" }; three watches regressed · <s1>fail, exit code { "1" }</s1>
+# text
+seg-0cb385d09879 = <b>Revisão r4-stronger-jammer</b> · jammer aumentado de -33 para -24 dBW (decibéis relativos a um watt): C/N0 no fim da fase de jamming { "30.60" } → { "21.82" } dB-Hz (decibel-hertz), abaixo do piso de { "25" } dB-Hz, requisito não atingido; satélites em seguimento { "8" } → { "0" }; três vigilâncias pioraram · <s1>falhou, código de saída { "1" }</s1>
+
+# The bundled campaign pack, { "10" } watched figures over three open campaigns, run twice: pass both times, { "0" } of { "125" } figures moved, history of { "2" } records intact.
+# text
+seg-4b31c9074821 = O pacote de campanhas incluído, { "10" } valores vigiados em três campanhas abertas, executado duas vezes: passou em ambas, { "0" } de { "125" } valores variaram, histórico de { "2" } registos intacto.
+
+# Kshana Pro { "0.2.0" } on open engine { "0.29.0" } · <b>kshana-pro ci</b> · demonstration revisions of <c1/> · history { "6" } records, chain intact, last hash bb2f10eb… · MODELLED
+# text
+# c1: campaign-jam-spoof-holdover-integrity.toml
+seg-7a2d9c48a64e = Kshana Pro { "0.2.0" } sobre o motor aberto { "0.29.0" } · <b>kshana-pro ci</b> · revisões de demonstração de <c1/> · histórico de { "6" } registos, cadeia intacta, último hash bb2f10eb… · MODELLED
+
+# A free user checks one satellite's signal against one GNSS signal.
+# text
+seg-2556e9b037d6 = O utilizador da edição gratuita verifica o sinal de um satélite face a um sinal GNSS.
+
+# A Pro user tests one or more candidate signal plans, each a signal design and a constellation, against every open-service GNSS signal the engine models, with every satellite of the plan in view at once, and gets a verdict per plan and signal against a limit the study states.
+# text
+seg-7116e3268891 = O utilizador do Pro testa um ou mais planos de sinais candidatos, cada um composto por um projeto de sinal e uma constelação, face a todos os sinais GNSS de serviço aberto que o motor modela, com todos os satélites do plano à vista em simultâneo, e obtém um veredicto por plano e por sinal face a um limite que o estudo declara.
+
+# Both directions are tested: the loss of C/N0 each plan causes to each GNSS signal, and the loss the GNSS signals cause to the plan. Pro adds only the sum over the satellites in view at each cell of a worldwide grid and the ranking of the plans. The limit and its source are inputs; no limit is built in.
+# text
+seg-06f88c6df63a = Testam-se ambos os sentidos: a perda de C/N0 que cada plano causa a cada sinal GNSS, e a perda que os sinais GNSS causam ao plano. O Pro acrescenta apenas a soma sobre os satélites à vista em cada célula de uma grelha mundial e a classificação dos planos. O limite e a sua fonte são entradas; nenhum limite está incorporado.
+
+# <b>What it does not do.</b> The result is an upper bound: every satellite in view is taken at the maximum received power, with no power that varies with elevation and no receive-antenna pattern. It is not a coordination filing and not a regulatory finding.
+# text
+seg-6ed2560fa7cb = <b>O que não faz.</b> O resultado é um majorante: cada satélite à vista é tomado à potência recebida máxima, sem potência que varie com a elevação e sem diagrama de antena de receção. Não é um pedido de coordenação nem uma conclusão regulamentar.
+
+# Spectrum coexistence · <b>{ "4" } example signal plans</b>
+# text
+seg-60b335f177f1 = Coexistência espetral · <b>{ "4" } planos de sinais de exemplo</b>
+
+# View
+# attr:aria-label
+seg-1590505b1b83 = Vista
+
+# Plans against signals
+# text
+seg-8de62dd3e1fe = Planos face a sinais
+
+# World map of the worst loss
+# text
+seg-ce57b941ae2a = Mapa mundial da pior perda
+
+# Loss each plan causes to each signal, against the limit
+# attr:aria-label
+seg-3eadc758676e = Perda que cada plano causa a cada sinal, face ao limite
+
+# Plan · signal
+# text
+seg-7f94e08ffaf7 = Plano · sinal
+
+# GPS L1 C/A
+# text
+seg-082f79d4da08 = GPS L1 C/A
+
+# Galileo E1
+# text
+seg-8136c1e5d8b9 = Galileo E1
+
+# GPS L5
+# text
+seg-ca7643f7c122 = GPS L5
+
+# Galileo E5a
+# text
+seg-cda934673aea = Galileo E5a
+
+# Galileo E5b
+# text
+seg-37166a721917 = Galileo E5b
+
+# Galileo E5 AltBOC
+# text
+seg-e35b90594226 = Galileo E5 AltBOC
+
+# L band, { "288" } satellites to GPS L1 C/A: no overlap in frequency
+# attr:aria-label
+seg-ecd0258691ec = Banda L, { "288" } satélites para GPS L1 C/A: sem sobreposição em frequência
+
+# L band, { "288" } satellites
+# text
+seg-d409177fe15a = Banda L, { "288" } satélites
+
+# no overlap
+# text
+seg-d85041c82618 = sem sobreposição
+
+# L band, { "288" } satellites to Galileo E1: no overlap in frequency
+# attr:aria-label
+seg-c87416d18cdf = Banda L, { "288" } satélites para Galileo E1: sem sobreposição em frequência
+
+# L band, { "288" } satellites to GPS L5: within the limit
+# attr:aria-label
+seg-ae171f239741 = Banda L, { "288" } satélites para GPS L5: dentro do limite
+
+# within limit
+# text
+seg-37e3dfebbbde = dentro do limite
+
+# L band, { "288" } satellites to Galileo E5a: within the limit
+# attr:aria-label
+seg-75bcd6c441eb = Banda L, { "288" } satélites para Galileo E5a: dentro do limite
+
+# L band, { "288" } satellites to Galileo E5b: within the limit
+# attr:aria-label
+seg-261a10fbac33 = Banda L, { "288" } satélites para Galileo E5b: dentro do limite
+
+# L band, { "288" } satellites to Galileo E5 AltBOC: within the limit
+# attr:aria-label
+seg-be215e26ecf7 = Banda L, { "288" } satélites para Galileo E5 AltBOC: dentro do limite
+
+# L band, { "144" } satellites to GPS L1 C/A: no overlap in frequency
+# attr:aria-label
+seg-d235b8128c0f = Banda L, { "144" } satélites para GPS L1 C/A: sem sobreposição em frequência
+
+# L band, { "144" } satellites<em>ranked front</em>
+# text
+seg-d89797f95366 = Banda L, { "144" } satélites<em>frente classificada</em>
+
+# L band, { "144" } satellites to Galileo E1: no overlap in frequency
+# attr:aria-label
+seg-c5637516dd73 = Banda L, { "144" } satélites para Galileo E1: sem sobreposição em frequência
+
+# L band, { "144" } satellites to GPS L5: within the limit
+# attr:aria-label
+seg-56419d057320 = Banda L, { "144" } satélites para GPS L5: dentro do limite
+
+# L band, { "144" } satellites to Galileo E5a: within the limit
+# attr:aria-label
+seg-501c3b3cf978 = Banda L, { "144" } satélites para Galileo E5a: dentro do limite
+
+# L band, { "144" } satellites to Galileo E5b: within the limit
+# attr:aria-label
+seg-1eb5de9a6b98 = Banda L, { "144" } satélites para Galileo E5b: dentro do limite
+
+# L band, { "144" } satellites to Galileo E5 AltBOC: within the limit
+# attr:aria-label
+seg-511fb4592027 = Banda L, { "144" } satélites para Galileo E5 AltBOC: dentro do limite
+
+# C band, { "288" } satellites to GPS L1 C/A: no overlap in frequency
+# attr:aria-label
+seg-2ecb209d51e9 = Banda C, { "288" } satélites para GPS L1 C/A: sem sobreposição em frequência
+
+# C band, { "288" } satellites
+# text
+seg-6f45606a5b3d = Banda C, { "288" } satélites
+
+# C band, { "288" } satellites to Galileo E1: no overlap in frequency
+# attr:aria-label
+seg-f4ef2515fd58 = Banda C, { "288" } satélites para Galileo E1: sem sobreposição em frequência
+
+# C band, { "288" } satellites to GPS L5: no overlap in frequency
+# attr:aria-label
+seg-2fc04945b97b = Banda C, { "288" } satélites para GPS L5: sem sobreposição em frequência
+
+# C band, { "288" } satellites to Galileo E5a: no overlap in frequency
+# attr:aria-label
+seg-c3254aeb9110 = Banda C, { "288" } satélites para Galileo E5a: sem sobreposição em frequência
+
+# C band, { "288" } satellites to Galileo E5b: no overlap in frequency
+# attr:aria-label
+seg-b2497f3af295 = Banda C, { "288" } satélites para Galileo E5b: sem sobreposição em frequência
+
+# C band, { "288" } satellites to Galileo E5 AltBOC: no overlap in frequency
+# attr:aria-label
+seg-cbb0b39f5417 = Banda C, { "288" } satélites para Galileo E5 AltBOC: sem sobreposição em frequência
+
+# Wide C band, { "288" } satellites to GPS L1 C/A: no overlap in frequency
+# attr:aria-label
+seg-2a329a17333c = Banda C larga, { "288" } satélites para GPS L1 C/A: sem sobreposição em frequência
+
+# Wide C band, { "288" } satellites<em>ranked front</em>
+# text
+seg-7f67a52e23d7 = Banda C larga, { "288" } satélites<em>frente classificada</em>
+
+# Wide C band, { "288" } satellites to Galileo E1: no overlap in frequency
+# attr:aria-label
+seg-5c53a07ea503 = Banda C larga, { "288" } satélites para Galileo E1: sem sobreposição em frequência
+
+# Wide C band, { "288" } satellites to GPS L5: no overlap in frequency
+# attr:aria-label
+seg-9afa24c2a22a = Banda C larga, { "288" } satélites para GPS L5: sem sobreposição em frequência
+
+# Wide C band, { "288" } satellites to Galileo E5a: no overlap in frequency
+# attr:aria-label
+seg-8d00d0e4e15b = Banda C larga, { "288" } satélites para Galileo E5a: sem sobreposição em frequência
+
+# Wide C band, { "288" } satellites to Galileo E5b: no overlap in frequency
+# attr:aria-label
+seg-396bb70a5b21 = Banda C larga, { "288" } satélites para Galileo E5b: sem sobreposição em frequência
+
+# Wide C band, { "288" } satellites to Galileo E5 AltBOC: no overlap in frequency
+# attr:aria-label
+seg-017f8d2a0d09 = Banda C larga, { "288" } satélites para Galileo E5 AltBOC: sem sobreposição em frequência
+
+# <b>L band, { "288" } satellites → Galileo E5 AltBOC</b> · worst loss caused { "0.00544" } dB (decibel), at a cell with { "17" } of its satellites in view: a margin of { "0.0946" } dB to the { "0.1" } dB limit · <s1>compatible</s1>
+# text
+seg-893be5d86234 = <b>Banda L, { "288" } satélites → Galileo E5 AltBOC</b> · pior perda causada { "0.00544" } dB (decibel), numa célula com { "17" } dos seus satélites à vista: uma margem de { "0.0946" } dB até ao limite de { "0.1" } dB · <s1>compatível</s1>
+
+# World map of the worst loss the plan L band, { "288" } satellites causes, per cell: every cell within the limit
+# attr:aria-label
+seg-bc132b0068fe = Mapa mundial da pior perda que o plano Banda L, { "288" } satélites causa, por célula: todas as células dentro do limite
+
+# { "0" } dB
+# text
+seg-ae759f574501 = { "0" } dB
+
+# { "0.00544" } dB, the worst cell · limit { "0.1" } dB
+# text
+seg-c73e052d7628 = { "0.00544" } dB, a pior célula · limite { "0.1" } dB
+
+# Worst loss the plan <b>L band, { "288" } satellites</b> causes at each cell of the worldwide grid, over the signals it overlaps: an upper bound, every satellite in view at the maximum received power.
+# text
+seg-a55ab55d78eb = Pior perda que o plano <b>Banda L, { "288" } satélites</b> causa em cada célula da grelha mundial, sobre os sinais com que se sobrepõe: um majorante, com todos os satélites à vista à potência recebida máxima.
+
+# <b>{ "4" } of { "4" }</b> plans compatible · the GNSS signals cost the L-band plans at most { "0.00908" } dB
+# text
+seg-5acfa8382eca = <b>{ "4" } de { "4" }</b> planos compatíveis · os sinais GNSS custam aos planos de banda L, no máximo, { "0.00908" } dB
+
+# Kshana Pro { "0.2.0" } on open engine { "0.29.0" } · <b>kshana-pro coexist</b> · { "10" } engine runs (<c1/>, <c2/>) · scenario hash 479364bd… · MODELLED upper bound · the { "0.1" } dB limit was chosen for the example only, not a regulatory criterion · C/A: coarse/acquisition; AltBOC: alternative binary offset carrier
+# text
+# c1: constellation-design
+# c2: leo-signal
+seg-2acb5dfe6d2c = Kshana Pro { "0.2.0" } sobre o motor aberto { "0.29.0" } · <b>kshana-pro coexist</b> · { "10" } execuções do motor (<c1/>, <c2/>) · hash do cenário 479364bd… · majorante MODELLED · o limite de { "0.1" } dB foi escolhido apenas para o exemplo, não é um critério regulamentar · C/A: coarse/acquisition; AltBOC: alternative binary offset carrier
+
+# Can the team queue studies on its own network and prove what was delivered?
+# text
+seg-b5f4c3d893ed = A equipa consegue pôr estudos em fila na sua própria rede e provar o que foi entregue?
+
+# A free user runs one scenario at a time on one machine.
+# text
+seg-b0252a650ea5 = O utilizador da edição gratuita executa um cenário de cada vez numa só máquina.
+
+# A Pro team queues studies on its own network, lets them run while no one watches, and can show afterwards exactly which result was delivered for which request.
+# text
+seg-18d63112f063 = Uma equipa Pro põe estudos em fila na sua própria rede, deixa-os correr sem ninguém a vigiar e pode mostrar depois exatamente que resultado foi entregue para cada pedido.
+
+# It extends the on-premises service: Pro can run as a small HTTP (Hypertext Transfer Protocol) service on your own network: it reports its health, its version and the kinds it can run, and runs a scenario posted to it. A job's identifier is the SHA-256 of the operation and the request, so the same request is the same job and is not run twice. After a stop or a crash, every unfinished job is queued again and no finished job is run again. Without a licence it serves the open engine only and refuses every Pro feature.
+# text
+seg-dc4ada18a8b6 = Estende o serviço nas instalações do cliente: o Pro pode funcionar como um pequeno serviço HTTP (Hypertext Transfer Protocol) na sua própria rede: reporta o seu estado de saúde, a sua versão e os tipos que consegue executar, e executa um cenário que lhe seja enviado. O identificador de uma tarefa é o SHA-256 da operação e do pedido, pelo que o mesmo pedido é a mesma tarefa e não é executado duas vezes. Após uma paragem ou uma falha, todas as tarefas por concluir voltam a ser postas em fila e nenhuma tarefa concluída volta a ser executada. Sem licença, serve apenas o motor aberto e recusa todas as funcionalidades Pro.
+
+# <b>What it does not do.</b> One request per connection, with no streaming: a client polls. One licence for the whole service and one shared access token, not user management. No cancellation, time limit, priority or retention policy.
+# text
+seg-c1af74cddda0 = <b>O que não faz.</b> Um pedido por ligação, sem streaming: o cliente consulta periodicamente. Uma licença para todo o serviço e um token de acesso partilhado, não gestão de utilizadores. Sem cancelamento, limite de tempo, prioridade nem política de retenção.
+
+# On-premises job service · <b>one recorded session</b>
+# text
+seg-a91c54eb4ba8 = Serviço de tarefas nas instalações do cliente · <b>uma sessão gravada</b>
+
+# Requests to the service and what it answered, in order
+# attr:aria-label
+seg-f584d334e551 = Pedidos ao serviço e o que respondeu, por ordem
+
+# <b>POST /jobs</b> <em>a link-budget scenario</em>
+# text
+seg-a308bdf972fc = <b>POST /jobs</b> <em>um cenário de orçamento de ligação</em>
+
+# accepted and queued · job fb6e50ff…
+# text
+seg-1bea805079e5 = aceite e posto em fila · tarefa fb6e50ff…
+
+# GET /jobs/{ "{" }id{ "}" }
+# text
+seg-ed66dc7a965c = GET /jobs/{ "{" }id{ "}" }
+
+# succeeded on its first attempt · kind <c1/>
+# text
+# c1: link-budget
+seg-e97b04c3927f = concluída com êxito à primeira tentativa · tipo de cenário <c1/>
+
+# <b>POST /jobs</b> <em>the same request again</em>
+# text
+seg-5c0fce7aca9c = <b>POST /jobs</b> <em>o mesmo pedido outra vez</em>
+
+# the same job, already finished: nothing run twice
+# text
+seg-50000838f4cc = a mesma tarefa, já concluída: nada executado duas vezes
+
+# GET /ledger/verify
+# text
+seg-be3aa55c904e = GET /ledger/verify
+
+# verified, chain intact · { "3" } records · { "1" } delivered job · no mismatch
+# text
+seg-3fb12de9f868 = verificado, cadeia intacta · { "3" } registos · { "1" } tarefa entregue · sem discrepância
+
+# GET /openapi.json
+# text
+seg-d05960312e08 = GET /openapi.json
+
+# OpenAPI { "3.1" } · { "13" } paths, from the service's own route table
+# text
+seg-4b360cf65b93 = OpenAPI { "3.1" } · { "13" } caminhos, a partir da própria tabela de rotas do serviço
+
+# <b>GET /</b> <em>the job board</em>
+# text
+seg-a976477641db = <b>GET /</b> <em>o painel de tarefas</em>
+
+# loads nothing from outside
+# text
+seg-4b68fe5ddf1c = não carrega nada do exterior
+
+# <b>restart</b> <em>then GET /jobs/{ "{" }id{ "}" }</em>
+# text
+seg-734560e175a9 = <b>reinício</b> <em>depois GET /jobs/{ "{" }id{ "}" }</em>
+
+# the finished job still shows one attempt
+# text
+seg-7d53151be9e6 = a tarefa concluída continua a mostrar uma tentativa
+
+# <b>kill -9</b> <em>while a job runs, then restart</em>
+# text
+seg-d0683c37acc1 = <b>kill -9</b> <em>enquanto uma tarefa é executada, depois reinício</em>
+
+# the unfinished job ran again and succeeded; the finished job was not run again · ledger { "9" } records, { "3" } delivered jobs, verified
+# text
+seg-64ddf6a78d22 = a tarefa por concluir foi executada outra vez e teve êxito; a tarefa concluída não voltou a ser executada · registo com { "9" } registos, { "3" } tarefas entregues, verificado
+
+# <b>no licence: POST /jobs</b> <em>a Pro scenario</em>
+# text
+seg-fcbfbd231d61 = <b>sem licença: POST /jobs</b> <em>um cenário Pro</em>
+
+# refused on submission: nothing queued
+# text
+seg-1911ae0879b8 = recusado na submissão: nada posto em fila
+
+# <b>no licence: POST /jobs</b> <em>an open scenario</em>
+# text
+seg-de7bb1084780 = <b>sem licença: POST /jobs</b> <em>um cenário aberto</em>
+
+# accepted and queued
+# text
+seg-14edaf993a56 = aceite e posto em fila
+
+# Kshana Pro on open engine { "0.29.0" } · <b>kshana-pro serve --data-dir</b>, two workers (the restart test: one) · HTTP status codes as the service returned them · a local run on public scenario files with the development entitlement, not a customer deployment
+# text
+seg-af3f560b9a7f = Kshana Pro sobre o motor aberto { "0.29.0" } · <b>kshana-pro serve --data-dir</b>, dois processos de trabalho (o teste de reinício: um) · códigos de estado HTTP tal como o serviço os devolveu · uma execução local sobre ficheiros de cenário públicos com o direito de utilização de desenvolvimento, não uma instalação de cliente
+
+# Also in Kshana Pro
+# text
+seg-935445590619 = Também no Kshana Pro
+
+# Kshana Pro's model-based systems-engineering (MBSE) and programme tooling checks a programme's requirements against runs of the open engine: it imports requirements as comma-separated values (CSV), or as a documented subset of the Requirements Interchange Format (ReqIF) or of Systems Modeling Language version { "2" } (SysML v2) text, and produces a verification cross-reference matrix (VCRM), a SysML v2 model, a change-impact report and an offline evidence pack. It re-runs and recomputes nothing.
+# text
+seg-a9b4af1b1b07 = As ferramentas de engenharia de sistemas baseada em modelos (MBSE) e de gestão de programas do Kshana Pro verificam os requisitos de um programa face a execuções do motor aberto: importam requisitos como valores separados por vírgulas (CSV), ou como um subconjunto documentado do Requirements Interchange Format (ReqIF) ou de texto da Systems Modeling Language versão { "2" } (SysML v2), e produzem uma matriz de referência cruzada de verificação (VCRM), um modelo SysML v2, um relatório de impacto de alterações e um pacote de evidências offline. Não volta a executar nem a recalcular nada.
+
+# The open engine's outputs it reads
+# text
+seg-0a662a644f5d = As saídas do motor aberto que lê
+
+# the fields a criterion names, their units, the reproducibility stamp of scenario hash, seed, engine version and schema version, and the run's label and figure tiers
+# text
+seg-e91fe1056446 = os campos que um critério nomeia, as suas unidades, o carimbo de reprodutibilidade com o hash do cenário, a semente, a versão do motor e a versão do esquema, e o rótulo da execução e os níveis dos valores
+
+# kind, reproducibility record and capability labels
+# text
+seg-c84c09a6dc24 = tipo, registo de reprodutibilidade e rótulos de capacidade
+
+# its hash, kind, seed and parameters
+# text
+seg-8fc1ffcf6847 = o seu hash, tipo, semente e parâmetros
+
+# each field's unit, provenance and evidence tier
+# text
+seg-2e6b3bca199f = a unidade, a proveniência e o nível de evidência de cada campo
+
+# each capability's VALIDATED, MODELLED or PARTNER label
+# text
+seg-593a13692dc4 = o rótulo VALIDATED, MODELLED ou PARTNER de cada capacidade
+
+# A trade study runs every architecture option as an unchanged open-engine scenario, ranks the options on a figure of merit read from each run's result, and writes an evidence pack that records each option's scenario hash, so any figure in it can be reproduced by re-running that scenario.
+# text
+seg-26c07e74fdca = Um estudo comparativo executa cada opção de arquitetura como um cenário do motor aberto inalterado, classifica as opções por uma figura de mérito lida do resultado de cada execução e escreve um pacote de evidências que regista o hash do cenário de cada opção, de modo que qualquer valor nele contido possa ser reproduzido voltando a executar esse cenário.
+
+# Clock digital twin
+# text
+seg-05a421ea6ac7 = Gémeo digital do relógio
+
+# A clock twin is calibrated to a device's published Allan-deviation budget, then checked by estimating the twin's own Allan deviation with the open engine's estimator and comparing the two within a stated tolerance. A twin of your own device needs your characterisation data and is built under contract and a non-disclosure agreement.
+# text
+seg-06ca5084425c = Um gémeo de relógio é calibrado para o orçamento de desvio de Allan publicado de um dispositivo e depois verificado estimando o desvio de Allan do próprio gémeo com o estimador do motor aberto e comparando os dois dentro de uma tolerância declarada. Um gémeo do seu próprio dispositivo precisa dos seus dados de caracterização e é construído sob contrato e um acordo de confidencialidade.
+
+# Study dossier
+# text
+seg-fca21deac438 = Dossiê de estudo
+
+# One scenario becomes a reproducible technical note in HTML (HyperText Markup Language) and JSON (JavaScript Object Notation): scope, method, results with a tier on every figure, limitations, and the exact scenario text run.
+# text
+seg-fef6a718bf86 = Um cenário torna-se uma nota técnica reprodutível em HTML (HyperText Markup Language) e JSON (JavaScript Object Notation): âmbito, método, resultados com um nível em cada valor, limitações e o texto exato do cenário executado.
+
+# <b>Pro needs a licence.</b> Without one, Pro runs open scenarios only and refuses every Pro feature with a message naming what is required.
+# text
+seg-4650cf680300 = <b>O Pro precisa de uma licença.</b> Sem ela, o Pro executa apenas cenários abertos e recusa todas as funcionalidades Pro com uma mensagem que indica o que é necessário.
+
+# <b>Some work needs a signed customer.</b> A twin of your own device needs your characterisation data and is built under contract and a non-disclosure agreement.
+# text
+seg-627687344e9e = <b>Algum trabalho precisa de um cliente com contrato.</b> Um gémeo do seu próprio dispositivo precisa dos seus dados de caracterização e é construído sob contrato e um acordo de confidencialidade.
+
+# <b>Nothing Pro produces is a certification.</b> Every result is modelled, and says so.
+# text
+seg-f15f652a7e77 = <b>Nada do que o Pro produz é uma certificação.</b> Todos os resultados são modelados, e dizem-no.
+
+# Done as a custom study
+# text
+seg-ef76d9237977 = Feito como estudo à medida
+
+# <b>Models of your hardware.</b> Sensor or resilience models calibrated to your hardware are built only under contract, with your data.
+# text
+seg-853667670c1f = <b>Modelos do seu equipamento.</b> Os modelos de sensores ou de resiliência calibrados para o seu equipamento só são construídos sob contrato, com os seus dados.
+
+# <b>Export-controlled resilience models are not publicly offered.</b> Such work is done only under the appropriate clearance and a non-disclosure agreement.
+# text
+seg-520654f215c5 = <b>Os modelos de resiliência sujeitos a controlo de exportação não são oferecidos publicamente.</b> Esse trabalho só é feito sob a credenciação adequada e um acordo de confidencialidade.
+
+# The charts in this section are drawn from the files the Pro commands wrote for the worked examples that ship with Pro: modelled results, not statements about any real mission. The wording is quoted from the public Kshana Pro page of the open repository.
+# text
+seg-8ea876b3c515 = Os gráficos desta secção são desenhados a partir dos ficheiros que os comandos do Pro escreveram para os exemplos trabalhados que acompanham o Pro: resultados modelados, e não afirmações sobre qualquer missão real. O texto é citado da página pública do Kshana Pro do repositório aberto.
+
+# The open engine at the centre: one mark per scenario kind ({ "93" }), filled where the kind has validated ledger rows, hollow where its rows are Modelled, a dash where no ledger module matches it by name. Kshana Pro and the custom study sit around it and connect to the kinds they build on.
+seg-0ab329c843b0 = O motor aberto no centro: uma marca por tipo de cenário ({ "93" }), preenchida onde o tipo de cenário tem linhas validadas no registo, vazada onde as suas linhas são modeladas, um traço onde nenhum módulo do registo corresponde a ele pelo nome. O Kshana Pro e o estudo à medida ficam em volta e ligam-se aos tipos de cenário em que se baseiam.
+
+# Engine v{ $version } · { "93" } kinds from <c1/> · ledger status from <c2/> · what Pro and a study build on: the site's editions register · no scenario or seed
+seg-e507665bbe2c = Motor v{ $version } · { "93" } tipos de cenário de <c1/> · estado no registo de <c2/> · em que o Pro e um estudo se baseiam: o registo de edições do site · sem cenário nem semente
+
+# (not in the old English either)
+seg-43711d15e734 = A matriz de verificação completa: { "176" } de { "412" } capacidades validadas face a referências independentes, as demais etiquetadas como modeladas
+
+# Packages the evidence into an audit-grade, reproducible evidence pack for a review board. <a1>See below</a1>
+# text
+seg-69df15091cab = Empacota a evidência num pacote de evidências reproduzível, de nível de auditoria, para um comité de revisão. <a1>Ver abaixo</a1>
+
+# <b>With Pro:</b> a <b>mission dossier</b> checks every requirement against real runs and keeps these labels in its verification matrix: a requirement met on a MODELLED or PARTNER basis is flagged. <a1>See a real dossier</a1>
+# text
+seg-5af3d58e83fa = <b>Com o Pro:</b> um <b>dossiê de missão</b> verifica cada requisito face a execuções reais e mantém estas etiquetas na sua matriz de verificação: um requisito satisfeito numa base MODELLED ou PARTNER é assinalado. <a1>Ver um dossiê real</a1>
+
+# Need this ledger as an audit-grade, reproducible evidence pack for a review board? <a1>Kshana Pro packages it</a1>.
+# text
+seg-41da0459d87a = Precisa deste registo como um pacote de evidências reprodutível e de nível de auditoria para um conselho de revisão? <a1>O Kshana Pro empacota-o</a1>.
+
+# Kshana Pro packages the evidence a review or procurement board asks for, reproducibly. What it builds on: this ledger, where every capability names its oracle and its test, and the stamp every result carries. In one command, a mission dossier checks every requirement against real runs and writes a verification matrix with its open items and a PDF (Portable Document Format).
+# text
+seg-20582558a93f = O Kshana Pro empacota, de forma reprodutível, as evidências que uma revisão ou um comité de aquisições exige. Em que assenta: este registo, onde cada capacidade indica a sua referência independente e o seu teste, e o selo que cada resultado transporta. Com um único comando, um dossiê de missão verifica cada requisito com execuções reais e escreve uma matriz de verificação com os seus pontos em aberto e um PDF (Portable Document Format).
+
+# See a real dossier
+# text
+seg-1c8effb9400a = Ver um dossiê real
+
+# (not in the old English either)
+# text
+seg-43f852e4bee8 = de { "74" } validadas
+
+# (not in the old English either)
+seg-0c637f4b6c88 = { "412" } capacidades, cada uma avaliada. <b>{ "176" } validadas</b> face a referências independentes externas. <b>{ "232" } etiquetadas com honestidade como modeladas.</b> { "4" } pertencentes a parceiros. Nada é arredondado para cima.
+
+# (not in the old English either)
+seg-c2c3179c1316 = Matriz de verificação, uma célula por capacidade na ordem do registo: { "176" } validadas (quadrados preenchidos), { "232" } modeladas (quadrados vazados), { "4" } pertencentes a parceiros (losangos). As teclas de seta deslocam entre as células; a capacidade e a sua referência independente são lidas abaixo.
+
+# (not in the old English either)
+seg-a2cdd2df1b36 = Motor v{ $version } · <c1/>, gerada a partir de <c2/> · { "412" } linhas · sem cenário nem semente: o registo do próprio motor
+
+# (not in the old English either)
+seg-b36352ff4d2a = Motor v{ $version }, build <c1/> · <c2/> · determinístico, sem semente
+
+# (not in the old English either)
+seg-edd1aba6a08c = Motor v{ $version }, build <c1/> · <c2/> · determinístico, sem semente
+
+# (not in the old English either)
+seg-90efc3759f07 = Motor v{ $version }, build <c1/> · <c2/> · determinístico, sem semente
+
+# (not in the old English either)
+seg-094876c75564 = Motor v{ $version } · tabelas de resíduos de <c1/>, com as duas verificações do propagador recalculadas na compilação <c2/> · determinístico, sem semente
+
+# (not in the old English either)
+seg-1c7e4b85e701 = Motor v{ $version }, build <c1/> · <c2/> · determinístico, sem semente
+
+# (not in the old English either)
+seg-f42398e9711c = Motor v{ $version }, build <c1/> · <c2/> · determinístico, sem semente
+
+# (not in the old English either)
+seg-07e8ef5a102f = { "176" }<s1>de { "412" } validadas</s1>
+
+# (not in the old English either)
+seg-4873cd813b9a = Matriz de verificação: { "176" } validadas, { "232" } modeladas, { "4" } pertencentes a parceiros, { "412" } no total
+
+# (not in the old English either)
+seg-98b273ce8773 = Todas as { "412" } linhas, uma linha para cada.
+
+# (not in the old English either)
+seg-c321a2dafd3e = Todas { "412" }
+
+# (not in the old English either)
+seg-bc4726a0baf1 = Modeladas { "232" }
+
+# (not in the old English either)
+seg-40e80b22723c = Registo de validação, { "412" } linhas, rolável
+
+# <s1>Kshana Pro</s1><c1/><s2>Same engine, amplified: { "608" } designs, one Pareto front</s2>
+# text
+# c1:
+seg-a92f77bd42cb = <s1>Kshana Pro</s1><c1/><s2>O mesmo motor, ampliado: { "608" } projetos, uma só frente de Pareto</s2>
+
+# Kshana Pro is a proprietary overlay that depends on the open core and never forks it, available under contract. No prices on a web page: every paid route starts with a message to <a1>contact@ashforde.org</a1>.
+# text
+seg-27c12083529b = O Kshana Pro é uma camada proprietária que depende do núcleo aberto e nunca o bifurca, disponível sob contrato. Sem preços numa página web: toda a via paga começa com uma mensagem para <a1>contact@ashforde.org</a1>.
+
+# The Pareto front of a design space, with every front design as a scenario the free engine re-runs.
+# text
+seg-298532756f74 = A frente de Pareto de um espaço de projeto, com cada projeto da frente como um cenário que o motor gratuito volta a executar.
+
+# Uncertainty and sensitivity over thousands of runs.
+# text
+seg-a699256db841 = Incerteza e sensibilidade ao longo de milhares de execuções.
+
+# A one-command mission dossier with a verification matrix and a PDF (Portable Document Format) file.
+# text
+seg-665005551d84 = Um dossiê de missão com um só comando, com matriz de verificação e um ficheiro PDF (Portable Document Format).
+
+# Audit-grade, reproducible evidence packs; clock digital twins calibrated to your device's published Allan budget; architecture trade studies ranked on a figure of merit; model-based systems-engineering (MBSE) and programme tooling.
+# text
+seg-455cb5040f80 = Pacotes de evidências reprodutíveis e de qualidade de auditoria; gémeos digitais de relógios calibrados segundo o orçamento de Allan publicado do seu equipamento; estudos comparativos de arquiteturas ordenados por uma figura de mérito; ferramentas de engenharia de sistemas baseada em modelos (MBSE) e de gestão de programas.
+
+# Same engine, amplified: real Kshana Pro output
+# text
+seg-3303866fbf99 = O mesmo motor, ampliado: saída real do Kshana Pro
+
+# <a1><s1><c1/>Design optimiser</s1></a1>
+# text
+# c1:
+seg-f5513a1750f1 = <a1><s1><c1/>Otimizador de projeto</s1></a1>
+
+# <b>{ "608" } designs</b>, all run: the Pareto front and its knee
+# text
+seg-2bbc6243b4b1 = <b>{ "608" } projetos</b>, todos executados: a frente de Pareto e o seu ponto de inflexão
+
+# <a1><s1><c1/>Uncertainty and sensitivity</s1></a1>
+# text
+# c1:
+seg-56e344605a3d = <a1><s1><c1/>Incerteza e sensibilidade</s1></a1>
+
+# <b>{ "2,000" } runs</b>: a confidence band against a limit
+# text
+seg-a0b3c138f981 = <b>{ "2,000" } execuções</b>: uma banda de confiança face a um limite
+
+# <b>{ "12" } requirements</b> checked against real runs, 21-page PDF (Portable Document Format)
+# text
+seg-905e5eef45e5 = <b>{ "12" } requisitos</b> verificados com execuções reais, PDF (Portable Document Format) de 21 páginas
+
+# (not in the old English either)
+# text
+seg-b9961ed25282 = Novidades da v{ $version }: uma cadeia da missão, uma etiqueta de evidência em cada figura e dezassete idiomas
+
+# (not in the old English either)
+seg-237d8bd201d2 = <b>Campanha:</b> Motor v{ $version }, compilação <c1/> · <c2/> · semente { "20260928" }
+
+# (not in the old English either)
+seg-98ebce268546 = <b>Órbitas:</b> Motor v{ $version }, compilação <c1/> · <c2/> · determinista, sem semente
+
+# (not in the old English either)
+seg-bb2975f5a7dd = Motor v{ $version }, compilação <c1/> · <c2/> · semente { "20260928" }
+
+# (not in the old English either)
+seg-ee04b167d80a = { "176" } de { "412" } capacidades concordam com referências independentes externas; as demais são etiquetadas como modeladas, em voz alta.
+
+# <s1>Pro</s1> the Pareto front of a design space, uncertainty and sensitivity, and a one-command mission dossier
+# text
+seg-354162e88f07 = <s1>Pro</s1> a frente de Pareto de um espaço de projeto, incerteza e sensibilidade, e um dossiê de missão com um só comando
+
+# Pro: audit-grade, reproducible evidence packs for a review.
+# text
+seg-de3cc6d30b9c = Pro: pacotes de evidências reprodutíveis e de qualidade de auditoria para uma revisão.
+
+# Pro: architecture trade studies ranked on a figure of merit. Pro: clock digital twins calibrated to your device's published Allan budget.
+# text
+seg-7889feffa939 = Pro: estudos comparativos de arquiteturas ordenados por uma figura de mérito. Pro: gémeos digitais de relógios calibrados segundo o orçamento de Allan publicado do seu equipamento.
+
+# Pro: clock digital twins calibrated to your device's published Allan budget. Pro: architecture trade studies ranked on a figure of merit.
+# text
+seg-4a5542c69690 = Pro: gémeos digitais de relógios calibrados segundo o orçamento de Allan publicado do seu equipamento. Pro: estudos comparativos de arquiteturas ordenados por uma figura de mérito.
+
+# Pro: clock digital twins calibrated to your device's published Allan budget. Pro: audit-grade, reproducible evidence packs for a review.
+# text
+seg-cc45be91cd00 = Pro: gémeos digitais de relógios calibrados segundo o orçamento de Allan publicado do seu equipamento. Pro: pacotes de evidências reprodutíveis e de qualidade de auditoria para uma revisão.
+
+# <b>With Pro:</b> the design optimiser runs a whole constellation design space around the Earth, the Moon or Mars through this engine and returns its <b>Pareto front</b>, each front design written out as a plain scenario file. <a1>See a real front</a1>
+# text
+seg-6c981f00d37d = <b>Com o Pro:</b> o otimizador de projeto percorre todo um espaço de projeto de constelações em torno da Terra, da Lua ou de Marte através deste motor e devolve a sua <b>frente de Pareto</b>, com cada projeto da frente escrito como um ficheiro de cenário simples. <a1>Ver uma frente real</a1>
+
+# <b>Free today:</b> everything in the open engine. Pro: architecture trade studies ranked on a figure of merit.
+# text
+seg-9601ecea0610 = <b>Gratuito hoje:</b> tudo o que está no motor aberto. Pro: estudos comparativos de arquiteturas ordenados por uma figura de mérito.
+
+# <b>Free today:</b> everything in the open engine. Pro: audit-grade, reproducible evidence packs for a review.
+# text
+seg-081d06995ef0 = <b>Gratuito hoje:</b> tudo o que está no motor aberto. Pro: pacotes de evidências reprodutíveis e de qualidade de auditoria para uma revisão.
+
+# <b>Free today:</b> everything in the open engine. Pro: clock digital twins calibrated to your device's published Allan budget.
+# text
+seg-2abf4f5bd06e = <b>Gratuito hoje:</b> tudo o que está no motor aberto. Pro: gémeos digitais de relógios calibrados segundo o orçamento de Allan publicado do seu equipamento.
+
+# (not in the old English either)
+seg-67a6c0107bcd = Motor v{ $version }, build <c1/> · <c2/> · determinístico, sem semente

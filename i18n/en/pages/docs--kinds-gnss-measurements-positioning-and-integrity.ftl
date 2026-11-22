@@ -19,9 +19,6 @@ seg-33a602147cc2 = Topic pages: <a1>INTEGRITY</a1>, <a2>POSITIONING</a2>, <a3>AR
 seg-9c60c8803b6b = Contact sheet of the charts the engine writes for the kinds of the family GNSS measurements, positioning and integrity
 
 # text
-seg-b03d56f501c3 = Kind
-
-# text
 seg-4e31c8daf798 = Ledger
 
 # text

@@ -197,9 +197,6 @@ seg-4e36adba1c55 = The bundled scenarios below run the threat and recovery machi
 seg-44664e49d449 = Scenario (<c1/>)
 
 # text
-seg-b03d56f501c3 = Kind
-
-# text
 seg-f472e43c1100 = What it shows
 
 # text

@@ -776,17 +776,11 @@ seg-cc49e9b6404e = Každý běh; MCP <c1/>
 
 seg-7994e9983f27 = Deterministické podle scénáře, seedu a verze enginu
 
-seg-8844d0844559 = IntelliJ · PyCharm · CLion
-
 seg-844c84c5252d = Raději klikáte?
-
-seg-6b24b242333a = Zásuvný modul „Kshana — PNT simulator“: klikněte pravým tlačítkem na libovolný scénář <c1/>, zvolte Run Kshana Scenario a ukazatele kvality si přečtěte v okně nástroje.
 
 seg-65bab13d3eb4 = Otevřít v JetBrains Marketplace
 
 seg-8b49f6477e8f = Otevřené jádro
-
-seg-3a199156b86e = Každý povrch na této stránce je bezplatné otevřené jádro, pod licencí AGPL-3.0 nebo komerční licencí pro uzavřenou integraci. Potřebujete ho integrovat do svého řetězce nástrojů, nebo studii udělat za vás? <a1>Studie na míru</a1>. Balíčky důkazů a kalibrované modely: <a2>Kshana Pro</a2>.
 
 seg-c9844e6afd41 = Spustit benchmark
 

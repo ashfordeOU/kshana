@@ -43,8 +43,7 @@ seg-d78822583c64 = Notebook
 seg-334caeae9fba = Studio
 
 # text
-# c1: apps/desktop/
-seg-855939ca56b6 = Kshana Desktop ({ "0.41" }, L2a): the Studio in a native window; runs, charts, tables, the kind list, the examples and the CCSDS/SP3 exports run natively, the tool pages keep the WebAssembly engine, a recording of any size is probed and read in blocks, and (L2b) the trust page scores a live receiver read only from a serial port, a TCP stream or a growing file (<c1/>, unsigned builds)
+seg-3e72b0d4b653 = Kshana Desktop ({ "0.41" }, L2a): the Studio in a native window; runs, charts, tables, the kind list, the examples and the CCSDS/SP3 exports run natively, the tool pages keep the WebAssembly engine, a recording of any size is probed and read in blocks, and (L2b) the trust page scores a live receiver read only from a serial port, a TCP stream or a growing file (Kshana Desktop, downloaded from kshana.dev)
 
 # text
 seg-db9823876dc1 = <b>N/A</b> (an application)
@@ -1145,6 +1144,14 @@ seg-65a138a2d247 = Runs check vectors from a directory on disk, so it stays a co
 seg-099d8043182b = A network client that streams to a file or a pipe, so it stays a command; the Rust API (<c1/>) is the library surface
 
 # text
+# c1: rtk-qa
+seg-a7b831124817 = <c1/> (monitor, sources, base, fix, ppk, probe, caster, log-check, failover)
+
+# text
+# c1: kshana::rtk_qa
+seg-83eaba0b8136 = Network clients, a caster and file checks that run as commands; the Rust API (<c1/>) is the library surface
+
+# text
 # c1: kshana::clock_live
 # c2: docs/CLOCK-LOG-FORMATS.md
 seg-fde1a436ebde = Follows a log as it is written and prints JSON lines, so it stays a command; the Rust API (<c1/>) is the library surface. See <c2/>
@@ -1356,7 +1363,7 @@ seg-b1e4bcc2ac09 = Every figure and table a run writes carries its evidence tier
 # c2: tests/evidence_labels_doc_sync.rs
 seg-c66058f24f0e = These outputs carry no label, each for a stated reason (the list is <c1/> in <c2/>, which fails on a writer that is neither labelled nor listed):
 
-# attr:aria-label, text
+# text
 seg-6555ff9a6d8e = Output
 
 # text

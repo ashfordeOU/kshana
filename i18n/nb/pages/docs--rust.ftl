@@ -163,9 +163,3 @@ seg-24fe823a994a = json uten bevismerkelappen ([crate::evidence_label]); uendret
 seg-c0444d838311 = out med bevismerkelappen fjernet fra JSON, SVG og CSV, byte for byte slik kjøringen produserte dem før merkelappen fantes; en utdata uten merkelapp er uendret.
 
 seg-80e5f0aa2831 = Motoren har { "93" } scenariotyper; <c1/> lister dem med feltene deres. Nytt i { "0.38.0" }: <c2/> (GNSS-signaler for romfartøy over, rundt og forbi GNSS-banene) og <c3/> (månebane og -overflate som navigasjons- og geodetisk infrastruktur), begge MODELLED, og <c4/> (en tidsfeilregistrering mot ITU-T-maskene).
-
-seg-fd6daa52df11 = { "176" } av { "412" } funksjoner validert mot uavhengige eksterne referanser
-
-seg-4a3ebec6d011 = <b>{ "176" } av { "412" }</b> funksjoner validert mot uavhengige eksterne referanser; { "232" } ærlig merket som modellert, { "4" } eid av partnere. Hver funksjon har én merkelapp i et maskinkontrollert register: VALIDATED (en uavhengig ekstern referanse stemmer: reelle data, en uavhengig implementering eller publiserte referansevektorer), MODELLED (internt konsistent, og sagt høyt) eller PARTNER (en maskinvarepartner eier den). Blant kontrollene: alle { "666" } SGP4-vektorer (Simplified General Perturbations { "4" }) fra AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 til { "4.12" } mm, og Cowell-kraftmodellen til { "0.08" } m mot Orekit { "12.2" }.
-
-seg-d69651a71fbe = Hvordan en funksjon får sin merkelapp: funksjon, uavhengig referanse, test, registermerkelapp. Verifikasjonsstatusen for alle { "412" } funksjoner: { "176" } validert, { "232" } modellert, { "4" } eid av partnere

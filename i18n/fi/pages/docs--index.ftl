@@ -172,8 +172,6 @@ seg-f466e9c87ba4 = <s1>Kshanan käyttö agentista</s1><s2>Agentille (tai agentti
 
 seg-ccfc820aac68 = <s1>Mistä kukin ominaisuus on tavoitettavissa</s1><s2>Jokainen ominaisuus on käytettävissä pinnoilla, joilla se on järkevä; jos jokin pinta ei voi kantaa ominaisuutta…</s2>
 
-seg-1c59d26e3faf = <s1>JetBrains-liitännäinen</s1><s2>Natiivi liitännäinen, joka ajaa Kshana PNT-kestävyyssimulaattoria mistä tahansa JetBrains-IDE:stä (IntelliJ IDEA…</s2>
-
 seg-4498f8a0377b = <s1>Missä Kshana toimii</s1><s2>Laajuuden raja kirjattuna muistiin, jotta kukaan ei löydä sitä sitoumuksena kokouksessa.</s2>
 
 seg-059aecd59596 = <s1>Arkkitehtuuri</s1><s2>Kshana on yksi moottori, joka on jäsennelty kerroksiin yhteisen ytimen päälle: anturipaketit (kello, inertia…</s2>
@@ -237,7 +235,3 @@ seg-5484fd345826 = <s1>Jokainen skenaariotyyppi perheittäin</s1><s2>Jokainen sk
 seg-b23a9bd3ccfa = <s1>Skenaarioviite</s1><s2>Jokainen mukana toimitettu skenaariotiedosto ({ "195" }) tyypeittäin ryhmiteltynä, avainasetuksineen.</s2>
 
 seg-a7dc2bc0a77d = { "93" } sivua, yksi kutakin skenaariotyyppiä kohti, linkitettynä sivulta <a1>Jokainen skenaariotyyppi perheittäin</a1>.
-
-seg-abe17fad0734 = <s1>Varmennusmatriisi</s1><s2>Täydellinen, koneellisesti tarkistettu todistekirjanpito: { "412" } riviä — { "176" } VALIDATED, { "232" } MODELLED, { "4" } PARTNER.</s2>
-
-seg-7fd385494ae0 = <s1>Ominaisuusviite</s1><s2>Ominaisuuskortit ja varmennusmatriisin kaikki { "412" } riviä.</s2>

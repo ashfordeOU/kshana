@@ -2628,8 +2628,6 @@ seg-74e8cab2f10e = <b>Unieważnianie pamięci podręcznej <c1/></b>: opatrzone w
 
 seg-65949229eed7 = <b><c1/> — Kshana jako serwer Model Context Protocol (MCP)</b> (<c2/>). Samodzielny crate wyłączony z przestrzeni roboczej (SDK <c3/> ma edycję { "2024" }), który udostępnia sprawdzony silnik agentom AI i asystentom — Cursor, JetBrains AI Assistant / Junie i każdemu klientowi MCP — przez stdio. Narzędzia: <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, każde jako cienka nakładka na <c9/>.
 
-seg-bd792f66363c = <b>Wtyczka do IDE JetBrains</b> (<c1/>). Kliknij prawym przyciskiem scenariusz <c2/> → <b>Run Kshana Scenario</b>; wskaźniki jakości i JSON wyniku płyną do okna narzędzia Kshana. Czysta platformowa wtyczka w Kotlinie, zgodna z każdym IDE JetBrains { "2024.3" }+.
-
 seg-755358390517 = <b>Publiczna dystrybucja i automatyczna publikacja przy każdym wydaniu</b> dla obu:
 
 seg-14fc2fd73553 = <c1/> do <b>crates.io</b> (<c2/>) przez <c3/>.
@@ -3157,8 +3155,6 @@ seg-29d014d29790 = Jedna aktualizacja zależności w dostarczanej bibliotece (pi
 seg-6b6a960ca7cf = <c1/>, <c2/> i <c3/> z { "0.13" } do { "0.14" } (wraz z <c4/> { "0.14.3" }, <c5/> { "0.17.0" } i <c6/> z { "0.5.5" } do { "0.7.10" }; także bezpośrednia zależność <c7/>, obecnie { "0.7" }) usuwają RUSTSEC-2026-0387, zmienność czasu wykonania w <c8/> { "0.5.5" }. Kshana używa tych crate'ów wyłącznie do weryfikacji podpisów publicznych (klucz główny Galileo OSNMA i tokeny znaczników czasu RFC { "3161" }), a podpisuje tylko w testach jednorazowymi kluczami, więc praktyczne narażenie było zerowe; aktualizacja usuwa ostrzeżenie bez wpisu ignorowania. Pliki blokad biblioteki i MCP zmieniają się oba; żaden wynik weryfikacji się nie zmienia (testy wektorowe OSNMA i znaczników czasu przechodzą bez zmian).
 
 seg-1a4cda9d1486 = Minimalna obsługiwana wersja Rust to teraz { "1.88" } (wymagana przez poprawkę RUSTSEC-2026-0387).
-
-seg-0d4a740afedf = [{ $version }] - 2026-10-29
 
 seg-2aa7197e4396 = <b>Pokrycie wierszy: ~{ "96" } % → ~{ "95" } %.</b> Zadanie pokrycia ponownie zmierzyło kod wydania { "0.29.0" } (commit <c1/>, przebieg CI { "36809850252" }, 2026-10-01): <c2/>, { "55,970" } z { "58,697" } wierszy w <c3/>. Opublikowana wartość wynosiła { "95.63" } % ({ "37,697" } z { "39,419" } wierszy), zmierzona na <c4/> przed { "0.28.0" }; zaokrąglała się do ~{ "96" } %. Nowa wartość zaokrągla się do ~{ "95" } %, więc razem zmienia się każda powierzchnia, którą przypina <c5/>: <c6/>, plakietka README, wiersz Evidence i tabela CI, plakietki crates.io, PyPI i npm, raport techniczny oraz strona pokrycia na kshana.dev. Próg dolny { "85" } % pozostaje bez zmian.
 

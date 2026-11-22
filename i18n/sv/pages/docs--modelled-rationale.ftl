@@ -2017,5 +2017,3 @@ seg-2630978c5675 = kontrollerad mot sin egen identitet i sluten form / analytisk
 seg-67fdcdfdb635 = interference_map::emitter (estimate, sessions, build_units, profile, GaussianFix::from_tdoa), interference_map::emitter_out (locate), <c1/>
 
 seg-920b26e226ab = enhetstester för interference_map::emitter (rundtur för projektion, horisontsiffra, syntetiska rundturer framåt och bakåt: den kända sändaren ligger innanför det angivna området ungefär i den angivna andelen, gränsfall, sessionsklustring, profil, integritet och formulering); fall för locate i tests/interference_map_cli.rs
-
-seg-474381d842e6 = { "232" } förmågor märkta MODELLED.

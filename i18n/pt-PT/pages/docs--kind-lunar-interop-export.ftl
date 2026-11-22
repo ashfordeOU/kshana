@@ -28,26 +28,10 @@ seg-5a4dcb93a643 = Exportação de interoperabilidade lunar modelada: emite o re
 
 # text
 # c1: scenarios/lunar-interop-export.toml
-seg-1726861e444f = Uma execução de <c1/> resume-se assim: lunar-interop-export | REF_FRAME MOON_ME / TIME_SYSTEM LTC | { "9" } estados, OEM com { "23" } linhas | aderência à norma PASS ({ "9" } presentes / { "0" } em falta) | ida e volta do OEM correta | ida e volta dos metadados de tempo correta | KIF { "1640" } bytes | MODELLED
-
-# text
-# c1: frame
-# c2: time_system
-# c3: n_states
-# c4: epoch
-# c5: step_min
-# c6: object
-seg-f8353e15aabd = Campos opcionais: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>
-
-# text
-# c1: scenarios/lunar-interop-export.toml
 seg-169f9446e90d = O exemplo <c1/> define, entre outros:
 
 # text
 seg-b8135da5a99a = 2030-01-01T00:{ "00" }:{ "00" }
-
-# text
-seg-3f36bd2ec5ea = LTC
 
 # text
 seg-2ac27c1e55c0 = octeto
@@ -70,12 +54,6 @@ seg-633bcd62ce93 = Emite também um descritor de tempo lunar alinhado com LunaNe
 # text
 # c1: kshana kinds --json
 seg-0e91697e3036 = MODELLED — a referência independente é a ida e volta determinística e a aderência dos nomes de campos à norma face ao CCSDS OEM publicado e à semântica de campos do LunaNet/IOAG; NÃO é um ensaio certificado de aderência à norma de interoperabilidade; efemérides ilustrativas de fontes públicas, sem afiliação à ESA; sem TRL, herança de voo nem aval de agências. (catálogo de tipos de cenário (<c1/>))
-
-# text
-seg-11d0ccba5ee7 = O QUE faz src/lunar_interop.rs: * export_lunar_oem — REAPROVEITA o emissor CCSDS OEM { "2.0" } da crate (crate::oem), reetiquetado para o contexto lunar: REF_FRAME = o referencial do corpo lunar segundo o WGCCRE da IAU de { "2015" } (MOON_ME / MOON_PA), TIME_SYSTEM = a escala de tempo lunar (LTC / TCL / UTC), CENTER_NAME = MOON, sobre umas efemérides de amostra ILLUSTRATIVE da classe LCNS (posições de crate::lunar_service, velocidade por diferença finita central). * export_ (comentário do ficheiro de cenário, linhas { "6" } a { "19" })
-
-# text
-seg-f730e8f789cf = HONESTIDADE: MODELLED. Os NOMES dos campos e as unidades estão alinhados com normas PUBLIC (CCSDS 502.0-B OEM, referenciais lunares do WGCCRE da IAU de { "2015" }, LunaNet Interoperability Specification / arquitetura lunar do IOAG). A ida e volta determinística e a aderência dos nomes de campos à norma são a referência independente. Isto NÃO é um ensaio certificado de aderência à norma de interoperabilidade. As efemérides são ilustrativas, de fontes públicas, SEM afiliação à ESA, e não implicam TRL (comentário do ficheiro de cenário, linhas { "21" } a { "26" })
 
 # text
 seg-254d48fe58a5 = A exportação de interoperabilidade lunar é MODELLED, não validada: verificada face à sua própria identidade analítica de forma fechada, deteta erros de transcrição e de coeficientes, mas não é uma referência independente. (matriz de verificação (docs/MODELLED-RATIONALE.md))

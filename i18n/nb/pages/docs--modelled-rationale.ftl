@@ -2000,5 +2000,3 @@ seg-2630978c5675 = kontrollert mot sin egen lukkede/analytiske identitet – fan
 seg-67fdcdfdb635 = interference_map::emitter (estimate, sessions, build_units, profile, GaussianFix::from_tdoa), interference_map::emitter_out (locate), <c1/>
 
 seg-920b26e226ab = enhetstester for interference_map::emitter (projeksjon frem og tilbake, horisonttall, syntetiske runder mellom foroverproblemet og det inverse: den kjente senderen ligger innenfor den oppgitte regionen omtrent med den oppgitte hyppigheten, grensetilfeller, øktklynging, profil, personvern og ordlyd); tests/interference_map_cli.rs, locate-tilfeller
-
-seg-474381d842e6 = { "232" } funksjoner merket MODELLED.

@@ -2651,5 +2651,3 @@ seg-b5c49044a7a1 = Ett möjligt område för var en källa till försämrade nav
 seg-953a8b4f9f41 = Ännu ingen extern. Endast syntetiska rundturer framåt och bakåt, från en generator som delar skattarens modell, så de kontrollerar koden och kalibreringen av de angivna nivåerna under den modellen och ingenting om verkliga sändare. En extern kontroll mot de publicerade sändarplatserna i Jammertest { "2025" } förhandsregistrerades (docs/emitter-region/PREREGISTRATION.md, godkänd av ägaren före varje poängsatt körning) och kördes en gång (docs/emitter-region/RESULTS.md): ADS-B NOT ASSESSABLE ({ "2" } schemalagda sessioner, färre än det registrerade minimet på { "4" }) och AIS NOT ASSESSABLE (ingen publicerad session), så ingen tröskel testades och raden förblir MODELLED
 
 seg-d5a79853b72f = { "93" } av { "93" } typer, { "3334" } av { "3334" } numeriska fält
-
-seg-877f989ae75e = De { "61" } förmågekorten från <c1/>, därefter alla { "412" } rader i verifieringsmatrisen.
