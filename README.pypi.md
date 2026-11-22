@@ -133,14 +133,14 @@ one JSON string — kept as a string so existing callers do not break; call
 Every capability in the verification matrix is labelled **validated** (checked against
 an independent external oracle), **modelled** or **partner-owned**; optical-clock figures
 are space goals on ground hardware (no strontium optical clock has flown). Maturity is
-*not* uniform across domains — Earth PNT is validated against real data; deep-space and
+*not* uniform across domains — most VALIDATED rows are in Earth PNT, several against real data; deep-space and
 Mars navigation is modelled, with only its building blocks (light time, planet positions)
 validated against external oracles; real-mission deep-space OD (orbit determination) is
 on the roadmap.
 
 ## Capabilities
 
-The engine has 93 scenario kinds; `kshana kinds` lists them with their fields. New in 0.38.0: `gnss-ssv` (GNSS signals for spacecraft above, around and past the GNSS orbits) and `lunar-infrastructure` (lunar orbit and surface as navigation and geodetic infrastructure), both MODELLED, and `holdover-test` (a time-error record against the ITU-T masks).
+The engine has 93 scenario kinds; `kshana kinds` lists them with their fields. New in 0.41.0: `tip-and-cue` (how often a wide-area RF survey revisits a sea area and how soon it can cue an optical look), MODELLED.
 
 - **Spectrum**: how a jammer takes the GNSS L band, band by band.
 - **Clocks and timing**: holdover against a threshold, time transfer, and telecom holdover
@@ -193,7 +193,7 @@ The engine has 93 scenario kinds; `kshana kinds` lists them with their fields. N
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/AshfordeOU/kshana/main/docs/assets/readme/architecture-dark.svg">
-  <img src="https://raw.githubusercontent.com/AshfordeOU/kshana/main/docs/assets/readme/architecture-light.svg" alt="One open engine at the centre, kshana 0.41.0, with a typed dispatch over 75 kinds; around it the command line, the Rust library, Python, WebAssembly and Kshana Studio, the MCP server, the Docker image and the JetBrains plugin; below it Kshana Pro, a proprietary overlay that depends on the open engine and never forks it" width="100%">
+  <img src="https://raw.githubusercontent.com/AshfordeOU/kshana/main/docs/assets/readme/architecture-light.svg" alt="One open engine at the centre, kshana 0.41.0, with a typed dispatch over 93 kinds; around it the command line, the Rust library, Python, WebAssembly and Kshana Studio, the MCP server, the Docker image and the JetBrains plugin; below it Kshana Pro, the professional edition, which depends on the open engine, never forks it and never changes its physical models" width="100%">
 </picture>
 
 The same scenario file gives the same bytes on every surface. MCP is the Model Context
@@ -214,9 +214,12 @@ problem: arc length, Gramian conditioning and the Doppler lever). See [Research]
 
 ## Editions
 
-The whole engine is free under the AGPL-3.0. Kshana Pro, a proprietary overlay that depends
-on the open engine and never forks it, and custom studies are available under contract from
-Ashforde® OÜ: [contact@ashforde.org](mailto:contact@ashforde.org). There are no prices; see
+The whole engine is free under the AGPL-3.0. **Kshana Pro** is the professional edition for teams
+that have to decide and deliver: design-space studies, uncertainty and sensitivity, requirements
+traceability and mission dossiers, regression watch for CI pipelines, spectrum coexistence, an
+on-premises service, signed evidence packs and direct support. It runs the same engine and the same
+scenario files. Pro and custom studies are available under contract from Ashforde® OÜ:
+[contact@ashforde.org](mailto:contact@ashforde.org). There are no prices; see
 [docs/PRO.md](https://github.com/AshfordeOU/kshana/blob/main/docs/PRO.md).
 
 ## Learn more

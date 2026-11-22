@@ -31,7 +31,7 @@ scenario — a drift guard.
 Relationship to the paper's headline numbers
 ---------------------------------------------
 The paper P2 quotes specific magnitudes (median GDOP 16.2 -> 1.6 for the -80 deg
-user, 24-sat comparison 3.4) that are produced by the kshana-pro PACKAGING
+user, 24-sat comparison 3.4) that are produced by the Kshana Pro packaging
 HARNESS with a specific ELFO element set and beacon placement that are NOT part
 of this public repo. The public engine, run on the fully-specified public
 scenario recorded in these fixtures, produces its OWN before/after table (6-sat
