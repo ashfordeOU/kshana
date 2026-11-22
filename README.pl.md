@@ -1,4 +1,4 @@
-> To jest tłumaczenie maszynowe pliku README.md w wersji v0.40.0, którego żaden rodzimy użytkownik języka jeszcze nie zweryfikował; wzorcem jest angielskie README. [English](README.md)
+> To jest tłumaczenie maszynowe pliku README.md w wersji v0.41.0, którego żaden rodzimy użytkownik języka jeszcze nie zweryfikował; wzorcem jest angielskie README. [English](README.md)
 
 <!-- The images under docs/assets/readme/ are generated from real engine runs by
      tools/gen_readme_assets.py (light and dark variants); regenerate them with
@@ -24,7 +24,7 @@
   <a href="docs/COVERAGE.md"><img src="https://img.shields.io/badge/coverage-~95%25-377D0C?style=flat-square&labelColor=0A1226" height="18" alt="Pokrycie wierszy bliskie 95 % katalogu src/, zmierzone w docs/COVERAGE.md i wymagane na poziomie 85 % w ciągłej integracji"></a>
   <a href="#evidence"><img src="https://img.shields.io/badge/validated-176%2F413-377D0C?style=flat-square&labelColor=0A1226" height="18" alt="176 z 413 możliwości VALIDATED względem niezależnej zewnętrznej wyroczni, według macierzy weryfikacji"></a>
   <a href="https://sonarcloud.io/summary/overall?id=ashfordeOU_kshana"><img src="https://img.shields.io/sonar/quality_gate/ashfordeOU_kshana?server=https%3A%2F%2Fsonarcloud.io&label=quality&style=flat-square&labelColor=0A1226" height="18" alt="Stan bramki jakości SonarQube Cloud"></a>
-  <a href="https://github.com/ashfordeOU/kshana/releases"><img src="https://img.shields.io/badge/release-v0.40.0-066A86?style=flat-square&labelColor=0A1226" height="18" alt="Wydanie v0.40.0"></a>
+  <a href="https://github.com/ashfordeOU/kshana/releases"><img src="https://img.shields.io/badge/release-v0.41.0-066A86?style=flat-square&labelColor=0A1226" height="18" alt="Wydanie v0.41.0"></a>
   <a href="docs/i18n.md"><img src="https://img.shields.io/badge/languages-English%20%2B%2017-3F4B67?style=flat-square&labelColor=0A1226" height="18" alt="Angielski i 17 innych języków, tłumaczenie maszynowe"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/licence-AGPL--3.0-3F4B67?style=flat-square&labelColor=0A1226" height="18" alt="Licencja: AGPL-3.0-only"></a>
   <br>
@@ -73,14 +73,14 @@
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/hero-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/hero-light.svg">
-  <img src="docs/assets/readme/hero-light.svg" alt="Przećwicz minutę, w której GNSS gaśnie. Konsola misji Kshana, narysowana z prawdziwego przebiegu silnika v0.40.0: łańcuchowa kampania campaign-jam-spoof-holdover-integrity (ziarno 20260928, 6 faz, 18 przebiegów składowych w czasie T+01:16:10) oraz 102 satelity GPS, Galileo, BeiDou i GLONASS z constellation-multi-gnss-coverage, każdy narysowany na kołowej orbicie dwóch ciał odtworzonej ze śladu naziemnego silnika, z promieniami skompresowanymi do wyświetlenia. Błąd czasu zegara osiąga szczyt 62.7 ns wobec progu ochronnego 50 ns, gęstość stosunku nośnej do szumu spada do -12.2 dB-Hz wobec dolnej granicy 25 dB-Hz, a pionowy poziom ochrony osiąga 135.4 m wobec granicy alarmowej 50 m." width="100%">
+  <img src="docs/assets/readme/hero-light.svg" alt="Przećwicz minutę, w której GNSS gaśnie. Konsola misji Kshana, narysowana z prawdziwego przebiegu silnika v0.41.0: łańcuchowa kampania campaign-jam-spoof-holdover-integrity (ziarno 20260928, 6 faz, 18 przebiegów składowych w czasie T+01:16:10) oraz 102 satelity GPS, Galileo, BeiDou i GLONASS z constellation-multi-gnss-coverage, każdy narysowany na kołowej orbicie dwóch ciał odtworzonej ze śladu naziemnego silnika, z promieniami skompresowanymi do wyświetlenia. Błąd czasu zegara osiąga szczyt 62.7 ns wobec progu ochronnego 50 ns, gęstość stosunku nośnej do szumu spada do -12.2 dB-Hz wobec dolnej granicy 25 dB-Hz, a pionowy poziom ochrony osiąga 135.4 m wobec granicy alarmowej 50 m." width="100%">
 </picture>
 
 <details>
 <summary><strong>Spis treści</strong></summary>
 
 - [Przećwicz minutę, w której GNSS gaśnie](#rehearse-the-minute-gnss-goes-dark)
-- [Nowości w 0.40](#whats-new-in-040), [Nowości w 0.39](#whats-new-in-039), [Nowości w 0.38](#whats-new-in-038) oraz [0.38 szczegółowo](#038-in-depth): ocena Jammertest, własne flagi odbiornika, dane wejściowe z urządzeń, synchronizacja czasu i holdover, pakiety norm, LunaNet AFS, laboratoryjna pętla zwrotna, kshana-bench, obserwatorium, eksportery, optyka, [nawigacja użytkownika w przestrzeni kosmicznej](#space-user-navigation-gnss-ssv) i [infrastruktura księżycowa](#lunar-infrastructure-lunar-infrastructure)
+- [Nowości w 0.41](#whats-new-in-041), [Nowości w 0.40](#whats-new-in-040), [Nowości w 0.39](#whats-new-in-039), [Nowości w 0.38](#whats-new-in-038) oraz [0.38 szczegółowo](#038-in-depth): ocena Jammertest, własne flagi odbiornika, dane wejściowe z urządzeń, synchronizacja czasu i holdover, pakiety norm, LunaNet AFS, laboratoryjna pętla zwrotna, kshana-bench, obserwatorium, eksportery, optyka, [nawigacja użytkownika w przestrzeni kosmicznej](#space-user-navigation-gnss-ssv) i [infrastruktura księżycowa](#lunar-infrastructure-lunar-infrastructure)
 - [Kshana Studio](#kshana-studio) i każda strona Studio
 - [Możliwości](#capabilities): tabela obszarów, [każdy rodzaj scenariusza według rodziny](#every-scenario-kind-by-family), [każde polecenie](#every-command), [każdy interfejs](#every-surface)
 - [Jak działa przebieg](#how-a-run-works), [Misje](#missions)
@@ -105,25 +105,65 @@ Każda możliwość nosi jedną z trzech etykiet w rejestrze sprawdzanym maszyno
 zewnętrzna wyrocznia się zgadza), **MODELLED** (wewnętrznie spójne i powiedziane wprost)
 lub **PARTNER** (należy do partnera sprzętowego).
 
-> **Stan: v0.40.0.** Zwalidowane, odtwarzalne podłoże symulacyjne dla odporności PNT.
-> Synchronizacja czasu i holdover są na pierwszym miejscu, ponieważ ta domena jest zwalidowana najlepiej. Kshana jest
-> narzędziem do badań i analizy kompromisów: nie jest sprzętowym generatorem sygnałów radiowych (RF) (nie
-> steruje żadnym radiem i niczego nie nadaje; jej wyjście na poziomie sygnału to pliki próbek IQ w paśmie podstawowym
-> dla odbiorników programowych), nie jest sprzętowym ani certyfikowanym odbiornikiem GNSS (jej odbiornik programowy
+> **Status: v0.41.0.** Odtwarzalna podstawa symulacyjna dla odporności PNT, w której każda możliwość
+> jest oznaczona według swoich dowodów. Synchronizacja czasu i holdover są na pierwszym miejscu, bo ta dziedzina ma najwięcej wierszy VALIDATED.
+> Kshana to narzędzie do badań i kompromisów: nie jest sprzętem generującym sygnały radiowe (RF) (nie
+> steruje żadnym radiem i niczego nie nadaje; jego wyjściem na poziomie sygnału są pliki próbek IQ w paśmie podstawowym
+> dla odbiorników programowych), nie jest sprzętowym ani certyfikowanym odbiornikiem GNSS (jego odbiornik programowy
 > jest narzędziem analitycznym) i nie jest produktem lotnym. Nowy w tej dziedzinie? Zacznij od
-> [wprowadzenia prostym językiem](docs/CONCEPTS.md) i [słownika](docs/GLOSSARY.md).
+> [wprowadzenia prostym językiem](docs/CONCEPTS.md) i [słowniczka](docs/GLOSSARY.md).
 
 <a id="whats-new-in-040"></a>
+## Nowości w 0.41
+
+Wersja 0.41 ocenia wiersze dowodowe zobowiązane dla niej, każdy raz względem progów ustalonych przed danymi, i publikuje każdy wynik
+taki, jaki wyszedł (powtórny przebieg C2 v2 nie został wykonany). Dodaje stan zaufania dla obszaru z
+kontrolą awarii satelitów, planer sieci monitorujących, lokalizator zagłuszarek metodą TDOA, decyzje dotyczące statków ukrytych i integralności AIS,
+benchmark podszywania TEXBAT, eksporty dla dynamiki lotu i czytnik RTCM SSR. Rejestr liczy teraz 413 wierszy: 176
+VALIDATED, 233 MODELLED, 4 PARTNER. Żaden wiersz nie został podniesiony do VALIDATED, a każde chybienie poniżej jest utrwalone testem.
+
+- **Zaufanie dla obszaru (`kshana area-trust`, B5).** Jeden stan zaufania dla obszaru na podstawie kilku stacji referencyjnych. Wersja 3
+  oznacza satelitę, którego usunięcie znosi alarmy na kilku stacjach naraz, i przelicza ich rozwiązania bez
+  niego; sama utrata śledzenia nie obniża już stanu stacji. Na 26 dniach obszarowych danych IGS (Goddard i Wettzell, maj 2026)
+  zgłosił 1 alert (próg ≤ 1 na dzień obszarowy) i **spełnia** T4; na syntetycznych awariach **nie spełnia** T2 (123 ze 127
+  awarii zniesionych; 4 tam, gdzie pozostała geometria jest słaba, i 2 z 67 epok z dwoma satelitami wyjaśnione jednym). T3
+  (opóźnienie alertu) jest spełnione. B5 v3 to **NOT MET** ([wyniki](docs/design/evidence/b5-area-trust/RESULTS-v3.md)). Diagnoza wykazała też,
+  że silnik używał rekordów rozgłoszeniowych oznaczonych jako niesprawne; tak oznaczone rekordy GPS i QZSS są teraz pomijane.
+- **Benchmark podszywania (TEXBAT, E5).** Oceniony raz na wszystkich dziesięciu nagraniach TEXBAT według reguł ustalonych, zanim
+  odczytano jakikolwiek plik: wynik mocy i zniekształceń **spełnia** E5-PD (AUC 0.7410, próg 0.70); bazowy wynik IQ **nie spełnia** E5 v2
+  (AUC 0.6941). Publikowane są tylko wyniki, nigdy nagrania ([wyniki](docs/design/evidence/b4a-benchmark-classes/RESULTS-E5-v2.md)).
+- **Planer sieci monitorujących (`kshana planner`, B1a).** Mapy wykrywania i dokładności TDOA oraz rozmieszczenie stacji.
+  Wyszukiwanie rozmieszczenia w wersji 3 pokonuje najlepszy z 1 000 losowych podzbiorów (0.4408 wobec 0.4105) i **spełnia** P4;
+  część 1 jest spełniona w Linuksie, a sprawdzenie w macOS i Windows czeka ([wyniki](docs/design/evidence/b1a-planner/RESULTS-v3.md)).
+- **Lokalizacja zagłuszarek.** Lokalizator różnicy mocy (B3a) **nie spełnia** swojego kryterium syntetycznego w v1 i v2; nowy lokalizator
+  TDOA (B3b, `locate_tdoa`) również **nie spełnia** swojego (pokrycie 0.044 wobec 0.90: jego doprecyzowanie szczytu myli się o
+  nawet pół próbki wobec podanego σ 28 ns). Oba wiersze kończą się tutaj; żadną z metod nie wykonuje się rzeczywistego przebiegu
+  ([wyniki B3b](docs/design/evidence/b3b-tdoa-locator/RESULTS.md)).
+- **Statki ukryte i integralność AIS (M4).** Wersja 3 **spełnia** czułość wykrywania statków ukrytych (0.994) i każdy inny próg poza
+  przesunięciami pozycji, którego **nie spełnia** (0.489 przy 5 km wobec 0.85) ([wyniki](docs/design/evidence/m4-dark-vessel-ais-integrity/RESULTS-v3.md)).
+  Każde wyjście opisuje spójność danych, nigdy zamiar.
+- **Również ocenione.** M1 oraz wiersze C5a, C3 i B8 **spełniają** swoje progi; krzyżowe sprawdzenie przez M2 opublikowanych danych o ponownych przelotach
+  **nie jest spójne** z nimi; M5 v2 (hybrydowa lokalizacja z orbity), D8b wiersz
+  8 v2 i D8a wiersz 6 v2 **nie spełniają** swoich ([Changelog](CHANGELOG.md)).
+- **Dynamika lotu i poprawki.** `kshana ephem-export` zapisuje tabelę JPL Horizons jako CCSDS OEM lub OPM albo jako
+  jądro SPK i odczytuje ją z powrotem; Orekit, Basilisk i ANISE odczytują pliki z zapisanymi bitami. Dodano czytnik RTCM SSR (IGS SSR),
+  czytnik Bias-SINEX i pływy skorupy ziemskiej według IERS 2010.
+- **Kontrole danych orbitalnych.** `kshana orbit-data` sprawdza komunikaty CCSDS z danymi o koniunkcjach (508.0-B-1) oraz efemerydy OEM i OCM
+  (502.0-B-3) i podaje, czy są poprawne, względem cytowanej sekcji, konwertuje OEM na OCM i z powrotem z
+  zachowaniem pochodzenia, porównuje i audytuje dwuwierszowe zestawy elementów, a także sprawdza i propaguje kowariancje (MODELLED). Na
+  własnych przykładach CDM normy znajduje kowariancję, która nie jest dodatnio określona, i dwa błędy składni
+  ([Dane orbitalne](docs/ORBIT-DATA.md)).
+
 ## Nowości w 0.40
 
 0.40 dodaje budżet błędu na poziomie misji, oznacza każdy wykres i tabelę poziomem dowodowym, czyta zmierzone dzienniki zegarów,
 sprawdza zgłoszenia partnerów danych, szacuje, gdzie może znajdować się źródło zakłóceń, i mówi siedemnastoma językami obok angielskiego.
-Rejestr liczy teraz 412 wierszy: 176 VALIDATED, 232 MODELLED, 4 PARTNER. Żaden wiersz nie został podniesiony do VALIDATED, a każde chybienie poniżej jest
+Żaden wiersz nie został podniesiony do VALIDATED, a każde chybienie poniżej jest
 utrwalone testem.
 
 - **Wątek misji.** Rodzaj `mission-thread` łączy w łańcuch fazy od startu do wejścia w atmosferę (`launch-ascent`, `leo-rendezvous`,
   `tli-and-cruise`, `entry` i cztery rodzaje księżycowe) z podanymi regułami przekazania, zapasem względem podanych wymagań i najsłabszym
-  ogniwem; przykład end-to-end klasy Artemis obejmujący 11 faz (segmenty ziemski i księżycowy), łącznie 92 rodzaje scenariuszy. Każda liczba jest MODELLED. Propagacja cislunarna względem publicznej trajektorii Artemis I
+  ogniwem; przykład end-to-end klasy Artemis obejmujący 11 faz (segmenty ziemski i księżycowy). Każda liczba jest MODELLED. Propagacja cislunarna względem publicznej trajektorii Artemis I
   **nie osiąga** swojego progu ustalonego z góry (45.3 km i 0.25 m/s wobec 5 km i 0.05 m/s; przyczyną są małe manewry, których model nie uwzględnia), a propagator księżycowy względem orbity CAPSTONE
   **nie osiąga** progu (136.8 km wobec 25 km na końcu jednego obiegu); porównanie z LRO jest spełnione. Wiersze pozostają MODELLED
   ([Wątek misji](docs/MISSION-THREAD.md), [segment księżycowy](docs/MISSION-THREAD-LUNAR.md)). W Studio wątek jest czytany pod `/studio/mission-thread/`.
@@ -207,7 +247,7 @@ kshana jammertest score session.toml --catalog ../jammertest-plan/testcatalog202
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/jammertest-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/jammertest-light.svg">
-  <img src="docs/figures/0.38/jammertest-light.svg" alt="Ocena jednego syntetycznego dziennika odbiornika względem harmonogramu trzech testów, z prawdziwego przebiegu silnika v0.40.0 (`kshana jammertest score`). Dziennik jest zmyślony: 1800 s NMEA ze spadkiem C/N0 o 20 dB w dwóch przedziałach. Harmonogram wymienia trzy sloty; w środkowym slocie dziennik nie zawiera zagłuszarki. Ocena oznacza 2 z 3 testów jako wykryte (mediana opóźnienia 0 s) i 1 jako pominięty, z 0 seriami fałszywych alarmów w 0.25 h czystego czasu. Nic tutaj nie mówi niczego o prawdziwym odbiorniku. Oprogramowanie wyłącznie doradcze, nie jest to sprzęt nawigacyjny z zatwierdzeniem typu (IEC 61108, IEC 61162): za nawigację statku odpowiada nadal operator.">
+  <img src="docs/figures/0.38/jammertest-light.svg" alt="Ocena jednego syntetycznego dziennika odbiornika względem harmonogramu trzech testów, z prawdziwego przebiegu silnika v0.41.0 (`kshana jammertest score`). Dziennik jest zmyślony: 1800 s NMEA ze spadkiem C/N0 o 20 dB w dwóch przedziałach. Harmonogram wymienia trzy sloty; w środkowym slocie dziennik nie zawiera zagłuszarki. Ocena oznacza 2 z 3 testów jako wykryte (mediana opóźnienia 0 s) i 1 jako pominięty, z 0 seriami fałszywych alarmów w 0.25 h czystego czasu. Nic tutaj nie mówi niczego o prawdziwym odbiorniku. Oprogramowanie wyłącznie doradcze, nie jest to sprzęt nawigacyjny z zatwierdzeniem typu (IEC 61108, IEC 61162): za nawigację statku odpowiada nadal operator.">
 </picture>
 
 **Status w rejestrze: MODELLED.** Progi zostały ustalone przed jakimkolwiek ocenianym przebiegiem; na danych JammerTest 2024
@@ -228,7 +268,7 @@ kshana receiver-trust session.toml     # [log] format = "ubx", path = "receiver.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/receiver-flags-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/receiver-flags-light.svg">
-  <img src="docs/figures/0.38/receiver-flags-light.svg" alt="Własna flaga spoofingu odbiornika zestawiona z alarmami Kshana, z prawdziwego przebiegu silnika v0.40.0 na zmyślonym dzienniku UBX (200 epok przy 1 Hz). C/N0 spada o 20 dB w 80 do 90 s i 120 do 130 s; odbiornik zgłasza flagę w 120 do 130 s i 160 do 165 s. Spośród 140 epok porównanych po kalibracji w 11 flagę zgłosiły obie strony, w 6 tylko odbiornik, w 11 tylko Kshana, a w 112 żadna. Żadna ze stron nie jest prawdą odniesienia, a zgodność nie jest walidacją. Wyłącznie doradczo: wynik analizy z narzędzia badawczo-inżynierskiego, nie jest to sprzęt nawigacyjny z zatwierdzeniem typu ani usługa bezpieczeństwa życia (safety-of-life).">
+  <img src="docs/figures/0.38/receiver-flags-light.svg" alt="Własna flaga spoofingu odbiornika zestawiona z alarmami Kshana, z prawdziwego przebiegu silnika v0.41.0 na zmyślonym dzienniku UBX (200 epok przy 1 Hz). C/N0 spada o 20 dB w 80 do 90 s i 120 do 130 s; odbiornik zgłasza flagę w 120 do 130 s i 160 do 165 s. Spośród 140 epok porównanych po kalibracji w 11 flagę zgłosiły obie strony, w 6 tylko odbiornik, w 11 tylko Kshana, a w 112 żadna. Żadna ze stron nie jest prawdą odniesienia, a zgodność nie jest walidacją. Wyłącznie doradczo: wynik analizy z narzędzia badawczo-inżynierskiego, nie jest to sprzęt nawigacyjny z zatwierdzeniem typu ani usługa bezpieczeństwa życia (safety-of-life).">
 </picture>
 
 **Status w rejestrze: MODELLED.** Zgodność między detektorem odbiornika a detektorem Kshana nie jest
@@ -248,7 +288,7 @@ kshana imu-fit still.csv --format csv --axis x --expected-mean 0 --id bench-imu
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/machine-inputs-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/machine-inputs-light.svg">
-  <img src="docs/figures/0.38/machine-inputs-light.svg" alt="Co `kshana imu-fit` odczytuje z dziennika nieruchomego IMU, z prawdziwego przebiegu silnika v0.40.0 na zmyślonym dzienniku (20,000 próbek przy 100 Hz, 200 s): błądzenie losowe prędkości akcelerometru q_va = 4.02e-06, błądzenie losowe kąta żyroskopu q_arw = 9e-08, niestabilność biasu 0.00296 i początkowe nachylenia Allana (-0.51 i -0.49; około -0.5 tam, gdzie dominuje szum biały). Tabela obok to TOML wypisywany przez polecenie. Estymator jest sprawdzony wyłącznie na syntetycznych dziennikach. Wyłącznie doradczo: wynik analizy z narzędzia badawczo-inżynierskiego, nie jest to sprzęt nawigacyjny z zatwierdzeniem typu ani usługa bezpieczeństwa życia (safety-of-life).">
+  <img src="docs/figures/0.38/machine-inputs-light.svg" alt="Co `kshana imu-fit` odczytuje z dziennika nieruchomego IMU, z prawdziwego przebiegu silnika v0.41.0 na zmyślonym dzienniku (20,000 próbek przy 100 Hz, 200 s): błądzenie losowe prędkości akcelerometru q_va = 4.02e-06, błądzenie losowe kąta żyroskopu q_arw = 9e-08, niestabilność biasu 0.00296 i początkowe nachylenia Allana (-0.51 i -0.49; około -0.5 tam, gdzie dominuje szum biały). Tabela obok to TOML wypisywany przez polecenie. Estymator jest sprawdzony wyłącznie na syntetycznych dziennikach. Wyłącznie doradczo: wynik analizy z narzędzia badawczo-inżynierskiego, nie jest to sprzęt nawigacyjny z zatwierdzeniem typu ani usługa bezpieczeństwa życia (safety-of-life).">
 </picture>
 
 **Status w rejestrze: MODELLED.** Wyłącznie samodzielnie napisane dane testowe; nie wczytano żadnego zapisu z prawdziwego odbiornika, IMU,
@@ -268,7 +308,7 @@ kshana scenarios/holdover-test-example.toml
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/timing-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/timing-light.svg">
-  <img src="docs/figures/0.38/timing-light.svg" alt="Test holdover oceniony na podstawie zapisu błędu czasu, z prawdziwego przebiegu silnika v0.40.0 na scenarios/holdover-test-example.toml (601 próbek co 5 s). GNSS zostaje usunięty przez operatora w 600 s i przywrócony w 2400 s; błąd czasu dryfuje do 299 ns na końcu holdover, przekracza budżet 100 ns po 675 s i wraca do pasma 100 ns 70 s po przywróceniu. Werdykty: maski punktu odniesienia PASS, maski holdover FAIL, obwiednia holdover FAIL, powrót RECOVERED. Zmierzone względem maski, nie jest to zatwierdzenie. Czasy są oświadczeniem operatora, niezweryfikowanym przez Kshana. Wyłącznie doradczo: wynik analizy z narzędzia badawczo-inżynierskiego, nie jest to sprzęt nawigacyjny z zatwierdzeniem typu ani usługa bezpieczeństwa życia (safety-of-life).">
+  <img src="docs/figures/0.38/timing-light.svg" alt="Test holdover oceniony na podstawie zapisu błędu czasu, z prawdziwego przebiegu silnika v0.41.0 na scenarios/holdover-test-example.toml (601 próbek co 5 s). GNSS zostaje usunięty przez operatora w 600 s i przywrócony w 2400 s; błąd czasu dryfuje do 299 ns na końcu holdover, przekracza budżet 100 ns po 675 s i wraca do pasma 100 ns 70 s po przywróceniu. Werdykty: maski punktu odniesienia PASS, maski holdover FAIL, obwiednia holdover FAIL, powrót RECOVERED. Zmierzone względem maski, nie jest to zatwierdzenie. Czasy są oświadczeniem operatora, niezweryfikowanym przez Kshana. Wyłącznie doradczo: wynik analizy z narzędzia badawczo-inżynierskiego, nie jest to sprzęt nawigacyjny z zatwierdzeniem typu ani usługa bezpieczeństwa życia (safety-of-life).">
 </picture>
 
 **Status w rejestrze: MODELLED.** Czasy usunięcia i przywrócenia GNSS są oświadczeniem operatora,
@@ -289,7 +329,7 @@ kshana standards-pack run imo-circ-1575
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/standards-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/standards-light.svg">
-  <img src="docs/figures/0.38/standards-light.svg" alt="Każdy test trzech ocenianych pakietów norm, z prawdziwych przebiegów silnika v0.40.0 (`kshana standards-pack run`): dhs-rpcf: 6 spełnionych, 1 niespełniony, 2 wymagają danych wejściowych; imo-circ-1575: 1 spełniony, 4 niespełnione, 2 wymagają danych wejściowych; icao-doc9849-appf: 6 spełnionych, 0 niespełnionych, 2 wymagają danych wejściowych. Łącznie 13 spełnionych, 5 niespełnionych i 6 wymagających danych wejściowych, których silnik nie posiada (dziennika odbiornika lub dokumentacji urządzenia). Każdy próg został podany przed przebiegiem; chybienie pozostaje chybieniem. Spełniony próg mówi, że modelowany scenariusz spełnił podany próg, nic o produkcie. Pakiety dostarczają dowodów dla wierszy, które przywołują; nie są oceną zgodności. Wyłącznie doradczo: wynik analizy z narzędzia badawczo-inżynierskiego, nie jest to sprzęt nawigacyjny z zatwierdzeniem typu ani usługa bezpieczeństwa życia (safety-of-life); nie może być jedyną podstawą żadnej decyzji nawigacyjnej ani dotyczącej bezpieczeństwa.">
+  <img src="docs/figures/0.38/standards-light.svg" alt="Każdy test trzech ocenianych pakietów norm, z prawdziwych przebiegów silnika v0.41.0 (`kshana standards-pack run`): dhs-rpcf: 6 spełnionych, 1 niespełniony, 2 wymagają danych wejściowych; imo-circ-1575: 1 spełniony, 4 niespełnione, 2 wymagają danych wejściowych; icao-doc9849-appf: 6 spełnionych, 0 niespełnionych, 2 wymagają danych wejściowych. Łącznie 13 spełnionych, 5 niespełnionych i 6 wymagających danych wejściowych, których silnik nie posiada (dziennika odbiornika lub dokumentacji urządzenia). Każdy próg został podany przed przebiegiem; chybienie pozostaje chybieniem. Spełniony próg mówi, że modelowany scenariusz spełnił podany próg, nic o produkcie. Pakiety dostarczają dowodów dla wierszy, które przywołują; nie są oceną zgodności. Wyłącznie doradczo: wynik analizy z narzędzia badawczo-inżynierskiego, nie jest to sprzęt nawigacyjny z zatwierdzeniem typu ani usługa bezpieczeństwa życia (safety-of-life); nie może być jedyną podstawą żadnej decyzji nawigacyjnej ani dotyczącej bezpieczeństwa.">
 </picture>
 
 **Status w rejestrze: MODELLED.** Spełniony próg mówi, że modelowany scenariusz spełnił podany próg, nic o
@@ -310,7 +350,7 @@ kshana lunanet-afs-check symbols afs.sym
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/lunanet-afs-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/lunanet-afs-light.svg">
-  <img src="docs/figures/0.38/lunanet-afs-light.svg" alt="Generator kodów LunaNet AFS sprawdzony względem wydrukowanych kolumn specyfikacji, z prawdziwego przebiegu silnika v0.40.0 (`kshana lunanet-afs-check spec`, przypięty do LNIS V5, AD1 Volume A (LSIS-AFS) V1.0, 29 stycznia 2025; dokument oznacza swoje tabele kodów jako {LSIS-TBC}). 9 z 10 sprawdzeń jest spełnionych; B4 jest NOT MET (420 z 421 zgodnych). Sprawdza strumień symboli względem jednego wydania opublikowanej specyfikacji i nie mówi niczego o żadnym węźle ani usłudze LunaNet. Wyłącznie doradczo: wynik analizy z narzędzia badawczo-inżynierskiego, nie jest to sprzęt nawigacyjny z zatwierdzeniem typu ani usługa bezpieczeństwa życia (safety-of-life). Sprawdza strumień symboli względem jednego wydania opublikowanej specyfikacji i nie mówi niczego o żadnym węźle ani usłudze LunaNet.">
+  <img src="docs/figures/0.38/lunanet-afs-light.svg" alt="Generator kodów LunaNet AFS sprawdzony względem wydrukowanych kolumn specyfikacji, z prawdziwego przebiegu silnika v0.41.0 (`kshana lunanet-afs-check spec`, przypięty do LNIS V5, AD1 Volume A (LSIS-AFS) V1.0, 29 stycznia 2025; dokument oznacza swoje tabele kodów jako {LSIS-TBC}). 9 z 10 sprawdzeń jest spełnionych; B4 jest NOT MET (420 z 421 zgodnych). Sprawdza strumień symboli względem jednego wydania opublikowanej specyfikacji i nie mówi niczego o żadnym węźle ani usłudze LunaNet. Wyłącznie doradczo: wynik analizy z narzędzia badawczo-inżynierskiego, nie jest to sprzęt nawigacyjny z zatwierdzeniem typu ani usługa bezpieczeństwa życia (safety-of-life). Sprawdza strumień symboli względem jednego wydania opublikowanej specyfikacji i nie mówi niczego o żadnym węźle ani usłudze LunaNet.">
 </picture>
 
 **Status w rejestrze: VALIDATED** dla sprawdzeń kodów i synchronizacji, względem wartości, które
@@ -352,7 +392,7 @@ kshana bench baseline --task d --split test --out results/
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/bench-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/bench-light.svg">
-  <img src="docs/figures/0.38/bench-light.svg" alt="Wbudowane punkty odniesienia zadania D kshana-bench (luka optymizmu) na podziale testowym, z prawdziwego przebiegu silnika v0.40.0 (`kshana bench baseline`). Każda para słupków to pole pod krzywą ROC dla przypadków z rozkładu i dla przypadków przesuniętych; różnica między nimi to luka optymizmu, wobec tolerancji 0.05. fused-max-z: 0.998 i 0.983 (luka 0.015); sqm-imbalance: 0.882 i 0.882 (luka 0.001); agc-excess: 0.848 i 0.819 (luka 0.030); raim-parity: 0.682 i 0.672 (luka 0.010); energy-cn0-drop: 0.595 i 0.565 (luka 0.030). Etykiety są etykietami modelu generatywnego syntetycznego korpusu, nigdy danymi terenowymi: MODELLED. Wyłącznie doradczo: modelowane lub zmierzone względem podanych odniesień, nie jest to zatwierdzenie, certyfikacja ani deklaracja zgodności. Ocena opisuje dziennik lub korpus, nigdy produkt.">
+  <img src="docs/figures/0.38/bench-light.svg" alt="Wbudowane punkty odniesienia zadania D kshana-bench (luka optymizmu) na podziale testowym, z prawdziwego przebiegu silnika v0.41.0 (`kshana bench baseline`). Każda para słupków to pole pod krzywą ROC dla przypadków z rozkładu i dla przypadków przesuniętych; różnica między nimi to luka optymizmu, wobec tolerancji 0.05. fused-max-z: 0.998 i 0.983 (luka 0.015); sqm-imbalance: 0.882 i 0.882 (luka 0.001); agc-excess: 0.848 i 0.819 (luka 0.030); raim-parity: 0.682 i 0.672 (luka 0.010); energy-cn0-drop: 0.595 i 0.565 (luka 0.030). Etykiety są etykietami modelu generatywnego syntetycznego korpusu, nigdy danymi terenowymi: MODELLED. Wyłącznie doradczo: modelowane lub zmierzone względem podanych odniesień, nie jest to zatwierdzenie, certyfikacja ani deklaracja zgodności. Ocena opisuje dziennik lub korpus, nigdy produkt.">
 </picture>
 
 **Status w rejestrze:** brak własnego wiersza rejestru; punkty odniesienia są oznaczone jako MODELLED w plikach wyników.
@@ -395,7 +435,7 @@ kshana trust-telemetry --result session.result.json --print-syslog --format cef
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/exporters-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/exporters-light.svg">
-  <img src="docs/figures/0.38/exporters-light.svg" alt="Jeden wynik zaufania w trzech formatach eksportu, z prawdziwych przebiegów silnika v0.40.0 (`kshana trust-telemetry`) na examples/maritime-trust: ekspozycja tekstowa Prometheus (najnowszy wskaźnik zaufania wynosi 5.9, a ustawione jest pasmo braku zaufania) oraz ostatnie komunikaty CEF i LEEF. Polecenie niczego nie publikuje, jeśli nie podano miejsca docelowego, nie przechowuje danych uwierzytelniających i nie nadaje żadnego sygnału radiowego. Oprogramowanie wyłącznie doradcze, nie jest to sprzęt nawigacyjny z zatwierdzeniem typu (IEC 61108, IEC 61162): za nawigację statku odpowiada nadal operator.">
+  <img src="docs/figures/0.38/exporters-light.svg" alt="Jeden wynik zaufania w trzech formatach eksportu, z prawdziwych przebiegów silnika v0.41.0 (`kshana trust-telemetry`) na examples/maritime-trust: ekspozycja tekstowa Prometheus (najnowszy wskaźnik zaufania wynosi 5.9, a ustawione jest pasmo braku zaufania) oraz ostatnie komunikaty CEF i LEEF. Polecenie niczego nie publikuje, jeśli nie podano miejsca docelowego, nie przechowuje danych uwierzytelniających i nie nadaje żadnego sygnału radiowego. Oprogramowanie wyłącznie doradcze, nie jest to sprzęt nawigacyjny z zatwierdzeniem typu (IEC 61108, IEC 61162): za nawigację statku odpowiada nadal operator.">
 </picture>
 
 **Status w rejestrze: MODELLED.** [Telemetria zaufania](docs/TRUST-TELEMETRY.md).
@@ -413,19 +453,21 @@ kshana scenarios/optical-atmosphere-network.toml
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/optical-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/optical-light.svg">
-  <img src="docs/figures/0.38/optical-light.svg" alt="Jedna realizacja z ziarna zapasu łącza miejsca 'northern' w ciągu 336 h, z prawdziwego przebiegu silnika v0.40.0 na scenarios/optical-atmosphere-network.toml (ziarno 37, krok 600 s). Zapas spada poniżej zera w czasie epizodów zachmurzenia; w tym losowaniu łącze działa przez 40.5 % czasu, z 27 przerwami i najdłuższą przerwą 30.7 h. Dane wejściowe są ilustracyjne, szereg jest jednym losowaniem z modelu, a nie klimatem, i różni się od dostępności statystycznej (37.8 %) o błąd próbkowania losowania. Wyłącznie analiza doradcza: nie jest to certyfikowany produkt dostępności, integralności ani nawigacji i nie jest to prognoza dla żadnego prawdziwego miejsca, chyba że jego klimatyczne dane wejściowe pochodzą z podanego zbioru danych.">
+  <img src="docs/figures/0.38/optical-light.svg" alt="Jedna realizacja z ziarna zapasu łącza miejsca 'northern' w ciągu 336 h, z prawdziwego przebiegu silnika v0.41.0 na scenarios/optical-atmosphere-network.toml (ziarno 37, krok 600 s). Zapas spada poniżej zera w czasie epizodów zachmurzenia; w tym losowaniu łącze działa przez 40.5 % czasu, z 27 przerwami i najdłuższą przerwą 30.7 h. Dane wejściowe są ilustracyjne, szereg jest jednym losowaniem z modelu, a nie klimatem, i różni się od dostępności statystycznej (37.8 %) o błąd próbkowania losowania. Wyłącznie analiza doradcza: nie jest to certyfikowany produkt dostępności, integralności ani nawigacji i nie jest to prognoza dla żadnego prawdziwego miejsca, chyba że jego klimatyczne dane wejściowe pochodzą z podanego zbioru danych.">
 </picture>
 
 **Status w rejestrze: MODELLED.** Jedno losowanie z modelu, nie klimat. [Atmosfera optyczna](docs/OPTICAL-ATMOSPHERE.md).
 
 ### Nowe widoki Studio
 
-[kshana.dev/studio](https://kshana.dev/studio/) zyskuje odtwarzanie Bridge (dwa przebiegi obok siebie na jednym
-zegarze misji, pod [`/studio/replay/`](https://kshana.dev/studio/replay/)), stronę Optical PNT
+[kshana.dev/studio](https://kshana.dev/studio/) zyskuje odtwarzanie z mostka (dwa przebiegi obok siebie na jednym
+zegarze misji, pod [`/studio/replay/`](https://kshana.dev/studio/replay/)), stronę optycznego PNT
 (`/studio/optical/`), stronę testu holdover (`/studio/holdover/`) i przeglądarkę obserwatorium
-(`/studio/observatory/`). Uruchamiają ten sam silnik w przeglądarce, nic nie jest wysyłane, i niosą
-to samo oświadczenie doradcze. Powyższe obrazy są rysowane skryptem z własnego wyjścia silnika;
-nie są zrzutami ekranu tych stron.
+(`/studio/observatory/`). Uruchamiają ten sam silnik w przeglądarce, nic nie jest wysyłane i noszą
+to samo oświadczenie doradcze. Tylko w Kshana Desktop (dostępnym na [kshana.dev](https://kshana.dev)) widok nagrań IQ (`/studio/iq/`) odczytuje nagranie z
+dysku i pokazuje jego moc w czasie, wykres kaskadowy i widmo przy kursorze; odczytuje tylko odebrane próbki i
+nie ma żadnego elementu sterującego, który zapisuje, nadaje lub tworzy sygnał. Powyższe obrazy rysuje skrypt na podstawie wyjścia silnika;
+nie są to zrzuty ekranu tych stron.
 
 <a id="space-user-navigation-gnss-ssv"></a>
 ### Nawigacja użytkownika w przestrzeni kosmicznej (`gnss-ssv`)
@@ -450,25 +492,25 @@ kshana scenarios/gnss-ssv-formation-heo.toml    # formation: relative navigation
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/ssv-shell-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/ssv-shell-light.svg">
-  <img src="docs/figures/0.38/ssv-shell-light.svg" alt="Dostępność sygnału dla użytkownika na sferze na wysokości 36000 km z anteną półsferyczną, z prawdziwego przebiegu silnika v0.40.0 na scenarios/gnss-ssv-shell.toml (przebieg zredukowany: 162 użytkowników, 3 dni, kroki 10 min), przy progu 20 dB-Hz. Dla każdej konstelacji i pasma dwa słupki: udział par (użytkownik, epoka) z co najmniej jednym sygnałem i z co najmniej czterema. Łącznie, L1: 99.4 % co najmniej jeden, 73.2 % co najmniej cztery, najdłuższa przerwa poniżej czterech sygnałów 160 min. Łącznie, L5: 100.0 % co najmniej jeden, 99.9 % co najmniej cztery, najdłuższa przerwa poniżej czterech sygnałów 20 min. MODELLED: badanie modelowe na podstawie podanych danych wejściowych, nie jest to pomiar ani deklaracja przestrzeni usług dla żadnego systemu. Zredukowany rozmiar nie jest porównaniem z broszurą. Wyłącznie doradczo: wynik analizy z narzędzia badawczo-inżynierskiego, nie jest to sprzęt nawigacyjny z zatwierdzeniem typu ani usługa bezpieczeństwa życia (safety-of-life).">
+  <img src="docs/figures/0.38/ssv-shell-light.svg" alt="Dostępność sygnału dla użytkownika na sferze na wysokości 36000 km z anteną półsferyczną, z prawdziwego przebiegu silnika v0.41.0 na scenarios/gnss-ssv-shell.toml (przebieg zredukowany: 162 użytkowników, 3 dni, kroki 10 min), przy progu 20 dB-Hz. Dla każdej konstelacji i pasma dwa słupki: udział par (użytkownik, epoka) z co najmniej jednym sygnałem i z co najmniej czterema. Łącznie, L1: 99.4 % co najmniej jeden, 73.2 % co najmniej cztery, najdłuższa przerwa poniżej czterech sygnałów 160 min. Łącznie, L5: 100.0 % co najmniej jeden, 99.9 % co najmniej cztery, najdłuższa przerwa poniżej czterech sygnałów 20 min. MODELLED: badanie modelowe na podstawie podanych danych wejściowych, nie jest to pomiar ani deklaracja przestrzeni usług dla żadnego systemu. Zredukowany rozmiar nie jest porównaniem z broszurą. Wyłącznie doradczo: wynik analizy z narzędzia badawczo-inżynierskiego, nie jest to sprzęt nawigacyjny z zatwierdzeniem typu ani usługa bezpieczeństwa życia (safety-of-life).">
 </picture>
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/ssv-heo-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/ssv-heo-light.svg">
-  <img src="docs/figures/0.38/ssv-heo-light.svg" alt="Sygnały wzdłuż jednej wysokiej orbity okołoziemskiej (perygeum 497 km, apogeum 58622 km, okres 18.8 h), z prawdziwego przebiegu silnika v0.40.0 na scenarios/gnss-ssv-heo.toml, pasmo L1. U góry: najlepsza gęstość stosunku nośnej do szumu wśród widocznych sygnałów, wobec progu 20 dB-Hz. W środku: liczba widocznych sygnałów ze wszystkich konstelacji, od 4 do 55 w próbkowanych punktach. Spośród odebranych łączy 2252 przeszły przez listek główny, a 696 przez listki boczne, przy użyciu oznaczonej parametrycznej charakterystyki zastępczej, a nie zmierzonej charakterystyki jakiegokolwiek systemu. Mediana PDOP 67, 95. percentyl 358. MODELLED: badanie modelowe na podstawie podanych danych wejściowych, nie jest to pomiar ani deklaracja przestrzeni usług dla żadnego systemu. Wyłącznie doradczo: wynik analizy z narzędzia badawczo-inżynierskiego, nie jest to sprzęt nawigacyjny z zatwierdzeniem typu ani usługa bezpieczeństwa życia (safety-of-life).">
+  <img src="docs/figures/0.38/ssv-heo-light.svg" alt="Sygnały wzdłuż jednej wysokiej orbity okołoziemskiej (perygeum 497 km, apogeum 58622 km, okres 18.8 h), z prawdziwego przebiegu silnika v0.41.0 na scenarios/gnss-ssv-heo.toml, pasmo L1. U góry: najlepsza gęstość stosunku nośnej do szumu wśród widocznych sygnałów, wobec progu 20 dB-Hz. W środku: liczba widocznych sygnałów ze wszystkich konstelacji, od 4 do 55 w próbkowanych punktach. Spośród odebranych łączy 2252 przeszły przez listek główny, a 696 przez listki boczne, przy użyciu oznaczonej parametrycznej charakterystyki zastępczej, a nie zmierzonej charakterystyki jakiegokolwiek systemu. Mediana PDOP 67, 95. percentyl 358. MODELLED: badanie modelowe na podstawie podanych danych wejściowych, nie jest to pomiar ani deklaracja przestrzeni usług dla żadnego systemu. Wyłącznie doradczo: wynik analizy z narzędzia badawczo-inżynierskiego, nie jest to sprzęt nawigacyjny z zatwierdzeniem typu ani usługa bezpieczeństwa życia (safety-of-life).">
 </picture>
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/ssv-nav-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/ssv-nav-light.svg">
-  <img src="docs/figures/0.38/ssv-nav-light.svg" alt="Pokładowy filtr o dziewięciu stanach na przelocie z niskiej orbity w stronę Księżyca, z prawdziwego przebiegu silnika v0.40.0 na scenarios/gnss-ssv-nav-lunar.toml (289 epok, narysowano 13 punktów). Na osi logarytmicznej prawdziwy błąd pozycji i własna granica jednej sigmy filtra w funkcji czasu od startu. Wewnątrz orbit GNSS RMS pozycji wynosi 1.4 m; powyżej nich 90 m, przy końcowym błędzie 184 m na wysokości 193,330 km z 1 pomiarem. Średni kwadrat znormalizowanego błędu estymacji w całym przebiegu wynosi 4.4 (około 3 dla spójnego bloku pozycji). Prawda i filtr dzielą te same zastępcze modele Słońca i Księżyca. MODELLED: badanie modelowe na podstawie podanych danych wejściowych, nie jest to pomiar ani deklaracja przestrzeni usług dla żadnego systemu. Wyłącznie doradczo: wynik analizy z narzędzia badawczo-inżynierskiego, nie jest to sprzęt nawigacyjny z zatwierdzeniem typu ani usługa bezpieczeństwa życia (safety-of-life).">
+  <img src="docs/figures/0.38/ssv-nav-light.svg" alt="Pokładowy filtr o dziewięciu stanach na przelocie z niskiej orbity w stronę Księżyca, z prawdziwego przebiegu silnika v0.41.0 na scenarios/gnss-ssv-nav-lunar.toml (289 epok, narysowano 13 punktów). Na osi logarytmicznej prawdziwy błąd pozycji i własna granica jednej sigmy filtra w funkcji czasu od startu. Wewnątrz orbit GNSS RMS pozycji wynosi 1.4 m; powyżej nich 90 m, przy końcowym błędzie 184 m na wysokości 199,330 km z 1 pomiarem. Średni kwadrat znormalizowanego błędu estymacji w całym przebiegu wynosi 4.4 (około 3 dla spójnego bloku pozycji). Prawda i filtr dzielą te same zastępcze modele Słońca i Księżyca. MODELLED: badanie modelowe na podstawie podanych danych wejściowych, nie jest to pomiar ani deklaracja przestrzeni usług dla żadnego systemu. Wyłącznie doradczo: wynik analizy z narzędzia badawczo-inżynierskiego, nie jest to sprzęt nawigacyjny z zatwierdzeniem typu ani usługa bezpieczeństwa życia (safety-of-life).">
 </picture>
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/ssv-formation-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/ssv-formation-light.svg">
-  <img src="docs/figures/0.38/ssv-formation-light.svg" alt="Nawigacja względna 2 statków podrzędnych wokół statku wiodącego na wysokiej orbicie, z prawdziwego przebiegu silnika v0.40.0 na scenarios/gnss-ssv-formation-heo.toml (401 epok). Dla każdego statku podrzędnego dwa słupki: RMS pozycji względnej z odjęcia dwóch niezależnych estymat bezwzględnych oraz z filtra względnego na pojedynczo różnicowanych pseudoodległościach. Baza 0.8 km: 5.1 m i 1.2 m. Baza 2.0 km: 4.1 m i 2.1 m. Filtr bezwzględny nie jest tu spójny: średni kwadrat znormalizowanego błędu estymacji 187 wobec około 3 dla spójnego filtra, więc podawana przez niego niepewność jest zdecydowanie zbyt mała. MODELLED: badanie modelowe na podstawie podanych danych wejściowych, nie jest to pomiar ani deklaracja przestrzeni usług dla żadnego systemu. Wyłącznie doradczo: wynik analizy z narzędzia badawczo-inżynierskiego, nie jest to sprzęt nawigacyjny z zatwierdzeniem typu ani usługa bezpieczeństwa życia (safety-of-life).">
+  <img src="docs/figures/0.38/ssv-formation-light.svg" alt="Nawigacja względna 2 statków podrzędnych wokół statku wiodącego na wysokiej orbicie, z prawdziwego przebiegu silnika v0.41.0 na scenarios/gnss-ssv-formation-heo.toml (401 epok). Dla każdego statku podrzędnego dwa słupki: RMS pozycji względnej z odjęcia dwóch niezależnych estymat bezwzględnych oraz z filtra względnego na pojedynczo różnicowanych pseudoodległościach. Baza 0.8 km: 5.1 m i 1.2 m. Baza 2.0 km: 4.1 m i 2.1 m. Filtr bezwzględny nie jest tu spójny: średni kwadrat znormalizowanego błędu estymacji 187 wobec około 3 dla spójnego filtra, więc podawana przez niego niepewność jest zdecydowanie zbyt mała. MODELLED: badanie modelowe na podstawie podanych danych wejściowych, nie jest to pomiar ani deklaracja przestrzeni usług dla żadnego systemu. Wyłącznie doradczo: wynik analizy z narzędzia badawczo-inżynierskiego, nie jest to sprzęt nawigacyjny z zatwierdzeniem typu ani usługa bezpieczeństwa życia (safety-of-life).">
 </picture>
 
 **Status w rejestrze: MODELLED, a porównanie z broszurą w większości chybia.** Progi zostały ustalone przed
@@ -484,7 +526,7 @@ znacznie powyżej wartości około 3, jaką daje spójny filtr).
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/ssv-booklet-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/ssv-booklet-light.svg">
-  <img src="docs/figures/0.38/ssv-booklet-light.svg" alt="Zapisane porównanie modelu dostępności dla użytkownika w przestrzeni kosmicznej z publiczną broszurą Space Service Volume, z zatwierdzonych wyników wstępnie zarejestrowanego przebiegu (xval/gnss-ssv/results-run1.json, zapisanych przez przykład ssv_booklet_check silnika v0.40.0). Słupek po słupku, komórki w granicach tolerancji: S0 13 z 13 (MET); S1 43 z 52 (NOT MET); S2 48 z 52 (NOT MET); S3 122 z 155 (NOT MET); S4 132 z 156 (NOT MET); S5 18 z 26 (NOT MET); S6 26 z 26 (MET); S7 0 z 20 charakterystyk paneli (NOT MET). Przy odczycie ustalonym z góry spełnione są tylko S0 i S6. Wariant diagnostyczny, który używa drugich kątów GLONASS z broszury, doprowadza S1, S2 i S4 do zgodności w każdej komórce, ale nie zastępuje przebiegu rejestrowego. Żaden wiersz rejestru nie jest VALIDATED. Wyłącznie doradczo: wynik analizy z narzędzia badawczo-inżynierskiego, nie jest to sprzęt nawigacyjny z zatwierdzeniem typu ani usługa bezpieczeństwa życia (safety-of-life).">
+  <img src="docs/figures/0.38/ssv-booklet-light.svg" alt="Zapisane porównanie modelu dostępności dla użytkownika w przestrzeni kosmicznej z publiczną broszurą Space Service Volume, z zatwierdzonych wyników wstępnie zarejestrowanego przebiegu (xval/gnss-ssv/results-run1.json, zapisanych przez przykład ssv_booklet_check silnika v0.41.0). Słupek po słupku, komórki w granicach tolerancji: S0 13 z 13 (MET); S1 43 z 52 (NOT MET); S2 48 z 52 (NOT MET); S3 122 z 155 (NOT MET); S4 132 z 156 (NOT MET); S5 18 z 26 (NOT MET); S6 26 z 26 (MET); S7 0 z 20 charakterystyk paneli (NOT MET). Przy odczycie ustalonym z góry spełnione są tylko S0 i S6. Wariant diagnostyczny, który używa drugich kątów GLONASS z broszury, doprowadza S1, S2 i S4 do zgodności w każdej komórce, ale nie zastępuje przebiegu rejestrowego. Żaden wiersz rejestru nie jest VALIDATED. Wyłącznie doradczo: wynik analizy z narzędzia badawczo-inżynierskiego, nie jest to sprzęt nawigacyjny z zatwierdzeniem typu ani usługa bezpieczeństwa życia (safety-of-life).">
 </picture>
 
 [Nawigacja użytkownika w przestrzeni kosmicznej](docs/SSV.md), [co pokazuje porównanie](docs/SSV.md#what-the-comparison-with-the-booklet-shows).
@@ -512,31 +554,31 @@ kshana scenarios/lunar-infrastructure-geodesy-sensitivity.toml
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/lunar-od-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/lunar-od-light.svg">
-  <img src="docs/figures/0.38/lunar-od-light.svg" alt="Spójność pokładowego wyznaczania orbity z ziemskiego GNSS na prawie prostoliniowej orbicie halo z niezależnym naziemnym wyznaczaniem orbity, z prawdziwych przebiegów silnika v0.40.0 na scenarios/lunar-infrastructure-od-consistency.toml i wariancie z błędem modelu (po 400 prób). Średnia znormalizowana różnica q wynosi 5.81 bez błędu modelu i 5.95 z wprowadzonym błędem przyspieszenia 3e-10 m/s2, wobec oczekiwanych 6: oba rozwiązania orbity są spójne (próg C1 MET). Udział prób powyżej punktu 95 % wynosi 0.040 i 0.052; próg wykrycia wprowadzonego błędu wynosił co najmniej 0.5, więc jest NOT MET (C3): rozwiązanie pokładowe jest znane z dokładnością około 352 m wobec 23 m dla naziemnego, więc przesunięcie o dziesięć metrów chowa się w jego kowariancji. MODELLED: ograniczony model trzech ciał z podanymi uproszczeniami i ilustracyjnymi danymi wejściowymi, nie jest to pomiar żadnej wielkości księżycowej. Wyłącznie doradczo: wynik analizy z narzędzia badawczo-inżynierskiego, nie jest to sprzęt nawigacyjny z zatwierdzeniem typu ani usługa bezpieczeństwa życia (safety-of-life).">
+  <img src="docs/figures/0.38/lunar-od-light.svg" alt="Spójność pokładowego wyznaczania orbity z ziemskiego GNSS na prawie prostoliniowej orbicie halo z niezależnym naziemnym wyznaczaniem orbity, z prawdziwych przebiegów silnika v0.41.0 na scenarios/lunar-infrastructure-od-consistency.toml i wariancie z błędem modelu (po 400 prób). Średnia znormalizowana różnica q wynosi 5.81 bez błędu modelu i 5.95 z wprowadzonym błędem przyspieszenia 3e-10 m/s2, wobec oczekiwanych 6: oba rozwiązania orbity są spójne (próg C1 MET). Udział prób powyżej punktu 95 % wynosi 0.040 i 0.052; próg wykrycia wprowadzonego błędu wynosił co najmniej 0.5, więc jest NOT MET (C3): rozwiązanie pokładowe jest znane z dokładnością około 352 m wobec 23 m dla naziemnego, więc przesunięcie o dziesięć metrów chowa się w jego kowariancji. MODELLED: ograniczony model trzech ciał z podanymi uproszczeniami i ilustracyjnymi danymi wejściowymi, nie jest to pomiar żadnej wielkości księżycowej. Wyłącznie doradczo: wynik analizy z narzędzia badawczo-inżynierskiego, nie jest to sprzęt nawigacyjny z zatwierdzeniem typu ani usługa bezpieczeństwa życia (safety-of-life).">
 </picture>
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/lunar-carrier-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/lunar-carrier-light.svg">
-  <img src="docs/figures/0.38/lunar-carrier-light.svg" alt="Ustalanie całkowitoliczbowej niejednoznaczności fazy nośnej między księżycowymi stacjami powierzchniowymi a orbiterem, z zatwierdzonego wyniku ocenianego przebiegu silnika v0.40.0 (tests/fixtures/lunar_infra/phase_full_run.json: 3 długości łuku, Monte Carlo po 401 losowań, zapisany przez scenarios/carrier-phase-scored.toml). 1 dzień: powodzenie 1.0 % (błąd standardowy 0.5 %), 134 niejednoznaczności, sigma pozycji orbitera 45.6 m float i 18.5 m fixed; 2 dni: powodzenie 0.5 % (błąd standardowy 0.4 %), 259 niejednoznaczności, sigma pozycji orbitera 21.5 m float i 8.7 m fixed; 3 dni: powodzenie 2.8 % (błąd standardowy 0.8 %), 375 niejednoznaczności, sigma pozycji orbitera 6.3 m float i 2.1 m fixed. Ustalenie wartości całkowitych nie zostaje osiągnięte: powodzenie pozostaje między 1 % a 3 % przy 25 dBi, a przy zarejestrowanych 12 dBi problemu nie da się sformułować. MODELLED: ograniczony model trzech ciał z podanymi uproszczeniami i ilustracyjnymi danymi wejściowymi, nie jest to pomiar żadnej wielkości księżycowej. Wyłącznie doradczo: wynik analizy z narzędzia badawczo-inżynierskiego, nie jest to sprzęt nawigacyjny z zatwierdzeniem typu ani usługa bezpieczeństwa życia (safety-of-life).">
+  <img src="docs/figures/0.38/lunar-carrier-light.svg" alt="Ustalanie całkowitoliczbowej niejednoznaczności fazy nośnej między księżycowymi stacjami powierzchniowymi a orbiterem, z zatwierdzonego wyniku ocenianego przebiegu silnika v0.41.0 (tests/fixtures/lunar_infra/phase_full_run.json: 3 długości łuku, Monte Carlo po 401 losowań, zapisany przez scenarios/carrier-phase-scored.toml). 1 dzień: powodzenie 1.0 % (błąd standardowy 0.5 %), 134 niejednoznaczności, sigma pozycji orbitera 45.6 m float i 18.5 m fixed; 2 dni: powodzenie 0.5 % (błąd standardowy 0.4 %), 259 niejednoznaczności, sigma pozycji orbitera 21.5 m float i 8.7 m fixed; 3 dni: powodzenie 2.8 % (błąd standardowy 0.8 %), 375 niejednoznaczności, sigma pozycji orbitera 6.3 m float i 2.1 m fixed. Ustalenie wartości całkowitych nie zostaje osiągnięte: powodzenie pozostaje między 1 % a 3 % przy 25 dBi, a przy zarejestrowanych 12 dBi problemu nie da się sformułować. MODELLED: ograniczony model trzech ciał z podanymi uproszczeniami i ilustracyjnymi danymi wejściowymi, nie jest to pomiar żadnej wielkości księżycowej. Wyłącznie doradczo: wynik analizy z narzędzia badawczo-inżynierskiego, nie jest to sprzęt nawigacyjny z zatwierdzeniem typu ani usługa bezpieczeństwa życia (safety-of-life).">
 </picture>
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/lunar-frame-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/lunar-frame-light.svg">
-  <img src="docs/figures/0.38/lunar-frame-light.svg" alt="Precyzja siedmioparametrowego księżycowego układu odniesienia (datum) (trzy przesunięcia, skala i trzy obroty) z pomiarów odległości ze stacji ziemskich, z pomiarami odległości orbiter–stacja powierzchniowa i bez nich, z prawdziwego przebiegu silnika v0.40.0 na scenarios/lunar-infrastructure-frame-coestimation.toml. Sigma Craméra-Rao przesunięć i obrotów spada dzięki łączom orbitera (na przykład t_z z 0.98 m do 0.046 m); najmniejsza wartość własna macierzy informacji rośnie 111-krotnie, a ślad CRLB spada do 1.0 % (próg F3 MET). Zakłada się, że orbita jest znana w osiach księżycowych, a jej błąd jest przenoszony przez sigmę odległości orbitera wynoszącą 1 m. MODELLED: ograniczony model trzech ciał z podanymi uproszczeniami i ilustracyjnymi danymi wejściowymi, nie jest to pomiar żadnej wielkości księżycowej. Wyłącznie doradczo: wynik analizy z narzędzia badawczo-inżynierskiego, nie jest to sprzęt nawigacyjny z zatwierdzeniem typu ani usługa bezpieczeństwa życia (safety-of-life).">
+  <img src="docs/figures/0.38/lunar-frame-light.svg" alt="Precyzja siedmioparametrowego księżycowego układu odniesienia (datum) (trzy przesunięcia, skala i trzy obroty) z pomiarów odległości ze stacji ziemskich, z pomiarami odległości orbiter–stacja powierzchniowa i bez nich, z prawdziwego przebiegu silnika v0.41.0 na scenarios/lunar-infrastructure-frame-coestimation.toml. Sigma Craméra-Rao przesunięć i obrotów spada dzięki łączom orbitera (na przykład t_z z 0.98 m do 0.046 m); najmniejsza wartość własna macierzy informacji rośnie 111-krotnie, a ślad CRLB spada do 1.0 % (próg F3 MET). Zakłada się, że orbita jest znana w osiach księżycowych, a jej błąd jest przenoszony przez sigmę odległości orbitera wynoszącą 1 m. MODELLED: ograniczony model trzech ciał z podanymi uproszczeniami i ilustracyjnymi danymi wejściowymi, nie jest to pomiar żadnej wielkości księżycowej. Wyłącznie doradczo: wynik analizy z narzędzia badawczo-inżynierskiego, nie jest to sprzęt nawigacyjny z zatwierdzeniem typu ani usługa bezpieczeństwa życia (safety-of-life).">
 </picture>
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/lunar-tie-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/lunar-tie-light.svg">
-  <img src="docs/figures/0.38/lunar-tie-light.svg" alt="Precyzja przesunięć między pozycjami z pomiarów laserowych, VLBI i GNSS jednego statku kosmicznego, względem błędu naziemnego lokalnego powiązania (local tie), z prawdziwego przebiegu silnika v0.40.0 na scenarios/lunar-infrastructure-space-tie.toml (jeden łuk 6.56-dniowy, sigmy technik GNSS 10 m, VLBI 1 m, laser 0.1 m). Przy lokalnym powiązaniu od 1 mm do 1 m sigma przesunięcia laser minus GNSS pozostaje bliska 1.04 m, dopóki powiązanie nie osiągnie 1 m: jest ograniczona szumem pomiarowym technik, a nie lokalnym powiązaniem. Dolna granica wyznaczona przez samo powiązanie to pierwiastek z dwóch razy jego sigma. MODELLED: ograniczony model trzech ciał z podanymi uproszczeniami i ilustracyjnymi danymi wejściowymi, nie jest to pomiar żadnej wielkości księżycowej. Wyłącznie doradczo: wynik analizy z narzędzia badawczo-inżynierskiego, nie jest to sprzęt nawigacyjny z zatwierdzeniem typu ani usługa bezpieczeństwa życia (safety-of-life).">
+  <img src="docs/figures/0.38/lunar-tie-light.svg" alt="Precyzja przesunięć między pozycjami z pomiarów laserowych, VLBI i GNSS jednego statku kosmicznego, względem błędu naziemnego lokalnego powiązania (local tie), z prawdziwego przebiegu silnika v0.41.0 na scenarios/lunar-infrastructure-space-tie.toml (jeden łuk 6.56-dniowy, sigmy technik GNSS 10 m, VLBI 1 m, laser 0.1 m). Przy lokalnym powiązaniu od 1 mm do 1 m sigma przesunięcia laser minus GNSS pozostaje bliska 1.04 m, dopóki powiązanie nie osiągnie 1 m: jest ograniczona szumem pomiarowym technik, a nie lokalnym powiązaniem. Dolna granica wyznaczona przez samo powiązanie to pierwiastek z dwóch razy jego sigma. MODELLED: ograniczony model trzech ciał z podanymi uproszczeniami i ilustracyjnymi danymi wejściowymi, nie jest to pomiar żadnej wielkości księżycowej. Wyłącznie doradczo: wynik analizy z narzędzia badawczo-inżynierskiego, nie jest to sprzęt nawigacyjny z zatwierdzeniem typu ani usługa bezpieczeństwa życia (safety-of-life).">
 </picture>
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/0.38/lunar-geodesy-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/figures/0.38/lunar-geodesy-light.svg">
-  <img src="docs/figures/0.38/lunar-geodesy-light.svg" alt="Która rodzina obserwabli jest wrażliwa na księżycowe liczby Love'a h2, k2 i l2, z prawdziwego przebiegu silnika v0.40.0 na scenarios/lunar-infrastructure-geodesy-sensitivity.toml. Każda komórka to RMS pochodnej cząstkowej obserwacji danej rodziny względem parametru, w jednostkach tej rodziny (więc komórki porównuje się w obrębie wiersza, a nie kolumny); kreska oznacza, że rodzina nie ma wrażliwości. pomiary laserowe: h2 7.6, k2 brak, l2 9.8. śledzenie orbitera: h2 brak, k2 0.00086, l2 brak. grawimetr powierzchniowy: h2 2.9e+03, k2 4.3e+03, l2 brak. zegar powierzchniowy: h2 2.8e-17, k2 2.8e-17, l2 brak. Przy wszystkich czterech rodzinach sigma Craméra-Rao wynosi 0.36 % nominalnego h2, 0.52 % k2 i 1.16 % l2. Dodanie rodziny nigdy nie obniżyło najmniejszej wartości własnej (28 z 28 dodań), ale ślad pseudoodwrotności nie był większy tylko w 16 z 28: ta połowa progu G3 jest NOT MET. Rodzina orbitera widzi całkę przyspieszenia k2 wzdłuż linii widzenia, wartość z górnego zakresu. MODELLED: ograniczony model trzech ciał z podanymi uproszczeniami i ilustracyjnymi danymi wejściowymi, nie jest to pomiar żadnej wielkości księżycowej. Wyłącznie doradczo: wynik analizy z narzędzia badawczo-inżynierskiego, nie jest to sprzęt nawigacyjny z zatwierdzeniem typu ani usługa bezpieczeństwa życia (safety-of-life).">
+  <img src="docs/figures/0.38/lunar-geodesy-light.svg" alt="Która rodzina obserwabli jest wrażliwa na księżycowe liczby Love'a h2, k2 i l2, z prawdziwego przebiegu silnika v0.41.0 na scenarios/lunar-infrastructure-geodesy-sensitivity.toml. Każda komórka to RMS pochodnej cząstkowej obserwacji danej rodziny względem parametru, w jednostkach tej rodziny (więc komórki porównuje się w obrębie wiersza, a nie kolumny); kreska oznacza, że rodzina nie ma wrażliwości. pomiary laserowe: h2 7.6, k2 brak, l2 9.8. śledzenie orbitera: h2 brak, k2 0.00086, l2 brak. grawimetr powierzchniowy: h2 2.9e+03, k2 4.3e+03, l2 brak. zegar powierzchniowy: h2 2.8e-17, k2 2.8e-17, l2 brak. Przy wszystkich czterech rodzinach sigma Craméra-Rao wynosi 0.36 % nominalnego h2, 0.52 % k2 i 1.16 % l2. Dodanie rodziny nigdy nie obniżyło najmniejszej wartości własnej (28 z 28 dodań), ale ślad pseudoodwrotności nie był większy tylko w 16 z 28: ta połowa progu G3 jest NOT MET. Rodzina orbitera widzi całkę przyspieszenia k2 wzdłuż linii widzenia, wartość z górnego zakresu. MODELLED: ograniczony model trzech ciał z podanymi uproszczeniami i ilustracyjnymi danymi wejściowymi, nie jest to pomiar żadnej wielkości księżycowej. Wyłącznie doradczo: wynik analizy z narzędzia badawczo-inżynierskiego, nie jest to sprzęt nawigacyjny z zatwierdzeniem typu ani usługa bezpieczeństwa życia (safety-of-life).">
 </picture>
 
 **Status w rejestrze: MODELLED, a trzy progi są NOT MET.** Obliczenia numeryczne są sprawdzone względem niezależnych
@@ -569,7 +611,7 @@ plik scenariusza, kod do uruchomienia go z Pythona i cytowanie.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/studio/studio-task-dark.jpg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/studio/studio-task-light.jpg">
-  <img src="docs/assets/readme/studio/studio-task-light.jpg" alt="Kshana Studio, widok prosty, na dołączonym scenariuszu integrity-raim, silnik v0.40.0 działający lokalnie. Pytanie: czy geometria spełnia granice alarmowe (poziomy i pionowy poziom ochrony)? Najpierw odpowiedź, oznaczona jako wynik na żywo: Tak, w większości: przez 95.3 % z 12 h. Granica błędu odbiornika pozostała poniżej granic alarmowych (40 m w poziomie i 50 m w pionie) w 344 z 361 sprawdzeń i żadna pozycja nie była wprowadzająca w błąd. Kluczowe liczby: czas, w którym można ufać pozycji 95.3 %, najdłuższa przerwa 10 min, typowa granica błędu 6.5 / 13 m, pozycje wprowadzające w błąd 0. Obok Wypróbuj inne ustawienia z pięcioma z nich (błąd odległości, dwie granice alarmowe, czas trwania i maska elewacji) oraz Uruchom ponownie, następnie zwinięte sekcje Ustawienia zaawansowane (13 kolejnych), Jak to jest obliczane (8 zwalidowanych, 6 modelowanych) i Dla badaczy. Poniżej widoki tego wyniku i poziomy ochrony wykreślone względem granicy alarmowej." width="100%">
+  <img src="docs/assets/readme/studio/studio-task-light.jpg" alt="Kshana Studio, widok prosty, na dołączonym scenariuszu integrity-raim, silnik v0.39.0 działający lokalnie. Pytanie: czy geometria spełnia granice alarmowe (poziomy i pionowy poziom ochrony)? Najpierw odpowiedź, oznaczona jako wynik na żywo: Tak, w większości: przez 95.3 % z 12 h. Granica błędu odbiornika pozostała poniżej granic alarmowych (40 m w poziomie i 50 m w pionie) w 344 z 361 sprawdzeń i żadna pozycja nie była wprowadzająca w błąd. Kluczowe liczby: czas, w którym można ufać pozycji 95.3 %, najdłuższa przerwa 10 min, typowa granica błędu 6.5 / 13 m, pozycje wprowadzające w błąd 0. Obok Wypróbuj inne ustawienia z pięcioma z nich (błąd odległości, dwie granice alarmowe, czas trwania i maska elewacji) oraz Uruchom ponownie, następnie zwinięte sekcje Ustawienia zaawansowane (13 kolejnych), Jak to jest obliczane (8 zwalidowanych, 6 modelowanych) i Dla badaczy. Poniżej widoki tego wyniku i poziomy ochrony wykreślone względem granicy alarmowej." width="100%">
 </picture>
 
 **Widok zaawansowany** to pełny pulpit: biblioteka scenariuszy, pięć ponumerowanych kroków
@@ -586,13 +628,13 @@ nich, a do czterech przebiegów można przypiąć i porównać obok siebie.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/studio/studio-home-dark.jpg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/studio/studio-home-light.jpg">
-  <img src="docs/assets/readme/studio/studio-home-light.jpg" alt="Kshana Studio, widok prosty, ekran otwarcia zatytułowany Czego chcesz się dowiedzieć?, z działającym silnikiem v0.40.0 i trzema odnośnikami na górnym pasku: Omówienie szkolenia, Mapa zakłóceń i Zaufanie do odbiornika. Cztery pytania: ile satelitów widzę w dowolnym miejscu na Ziemi, czy mogę ufać swojej pozycji, jak długo zegar utrzymuje czas bez satelitów i co zagłuszarka robi z moim odbiornikiem. Pod pierwszym jego zapisany wynik: co najmniej 22 widoczne satelity w każdym miejscu i średnio 31 przy GPS, Galileo, BeiDou i GLONASS razem, pozycja możliwa w 100 % miejsc i czasów, na mapie świata widocznych satelitów, z przyciskiem Otwórz ten wynik. Obok Wszystko, co potrafi Kshana: 16 obszarów i 139 gotowych do uruchomienia scenariuszy, każdy kafelek z małym wykresem z zapisanego przebiegu i udziałem zwalidowanych metod, oraz 173 z 350 możliwości zwalidowanych w rejestrze." width="100%">
+  <img src="docs/assets/readme/studio/studio-home-light.jpg" alt="Kshana Studio, widok prosty, ekran otwarcia zatytułowany Czego chcesz się dowiedzieć?, z działającym silnikiem v0.39.0 i trzema odnośnikami na górnym pasku: Omówienie szkolenia, Mapa zakłóceń i Zaufanie do odbiornika. Cztery pytania: ile satelitów widzę w dowolnym miejscu na Ziemi, czy mogę ufać swojej pozycji, jak długo zegar utrzymuje czas bez satelitów i co zagłuszarka robi z moim odbiornikiem. Pod pierwszym jego zapisany wynik: co najmniej 22 widoczne satelity w każdym miejscu i średnio 31 przy GPS, Galileo, BeiDou i GLONASS razem, pozycja możliwa w 100 % miejsc i czasów, na mapie świata widocznych satelitów, z przyciskiem Otwórz ten wynik. Obok Wszystko, co potrafi Kshana: 16 obszarów i 139 gotowych do uruchomienia scenariuszy, każdy kafelek z małym wykresem z zapisanego przebiegu i udziałem zwalidowanych metod, oraz 173 z 350 możliwości zwalidowanych w rejestrze." width="100%">
 </picture>
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/studio/studio-advanced-dark.jpg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/studio/studio-advanced-light.jpg">
-  <img src="docs/assets/readme/studio/studio-advanced-light.jpg" alt="Kshana Studio, widok zaawansowany, po przebiegu dołączonego scenariusza constellation-multi-gnss-coverage (Cztery konstelacje GNSS, jedna mapa), silnik v0.40.0 działający lokalnie. Po lewej biblioteka scenariuszy, 139 scenariuszy w 16 domenach. Pięć kroków Wybierz, Ustaw, Uruchom, Odczytaj wyniki i Udostępnij lub eksportuj, z bieżącym krokiem 4. Kluczowe liczby: 102 satelity, dostępność 100 % (PASS), mediana rozmycia precyzji pozycji (PDOP) 0.95 (PASS), 95. percentyl PDOP 1.105 (PASS), średnio 31.03 widocznych satelitów i co najmniej 22. Poniżej rząd paneli z wybranym Pokryciem, pasek odtwarzania, mapa świata średniego PDOP od 0.831 do 1.0853 z narysowanym każdym satelitą oraz globalne liczby pokrycia." width="100%">
+  <img src="docs/assets/readme/studio/studio-advanced-light.jpg" alt="Kshana Studio, widok zaawansowany, po przebiegu dołączonego scenariusza constellation-multi-gnss-coverage (Cztery konstelacje GNSS, jedna mapa), silnik v0.39.0 działający lokalnie. Po lewej biblioteka scenariuszy, 139 scenariuszy w 16 domenach. Pięć kroków Wybierz, Ustaw, Uruchom, Odczytaj wyniki i Udostępnij lub eksportuj, z bieżącym krokiem 4. Kluczowe liczby: 102 satelity, dostępność 100 % (PASS), mediana rozmycia precyzji pozycji (PDOP) 0.95 (PASS), 95. percentyl PDOP 1.105 (PASS), średnio 31.03 widocznych satelitów i co najmniej 22. Poniżej rząd paneli z wybranym Pokryciem, pasek odtwarzania, mapa świata średniego PDOP od 0.831 do 1.0853 z narysowanym każdym satelitą oraz globalne liczby pokrycia." width="100%">
 </picture>
 
 </details>
@@ -608,23 +650,25 @@ edycje.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/site/site-strip-dark.jpg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/site/site-strip-light.jpg">
-  <img src="docs/assets/readme/site/site-strip-light.jpg" alt="Trzy strony kshana.dev obok siebie. Sekcja główna strony startowej: wiersz z nazwą Kshana · क्षण · dokładna chwila nad nagłówkiem Przećwicz minutę, w której GNSS gaśnie, z konsolą misji z prawdziwego przebiegu silnika v0.40.0 (globus i trzy wykresy na żywo: błąd czasu zegara, gęstość stosunku nośnej do szumu i poziom ochrony). Dowody, Opublikowane badania: sześć artykułów arXiv opartych na otwartym silniku, najnowszy z wykresem silnika. Edycje, Kshana Pro, ten sam silnik, wzmocniony: Free uruchamia jeden scenariusz, Pro odpowiada na pytanie programu." width="100%">
+  <img src="docs/assets/readme/site/site-strip-light.jpg" alt="Trzy strony kshana.dev obok siebie. Sekcja główna strony startowej: wiersz z nazwą Kshana · क्षण · dokładna chwila nad nagłówkiem Przećwicz minutę, w której GNSS gaśnie, z konsolą misji z prawdziwego przebiegu silnika v0.39.0 (globus i trzy wykresy na żywo: błąd czasu zegara, gęstość stosunku nośnej do szumu i poziom ochrony). Dowody, Opublikowane badania: sześć artykułów arXiv opartych na otwartym silniku, najnowszy z wykresem silnika. Edycje, Kshana Pro, ten sam silnik, wzmocniony: Free uruchamia jeden scenariusz, Pro odpowiada na pytanie programu." width="100%">
 </picture>
 
 <a id="capabilities"></a>
 ## Możliwości
 
 Jeden silnik obejmuje cały łańcuch awarii, od pierwszego zagłuszonego satelity do ostatniej
-nanosekundy holdover zegara. Silnik ma 92 rodzaje scenariuszy; `kshana kinds` je wymienia,
+nanosekundy holdover zegara. Silnik ma 93 rodzaje scenariuszy; `kshana kinds` je wymienia,
 a [`docs/SCENARIOS.md`](docs/SCENARIOS.md) dokumentuje każde pole.
 
 | Możliwość | Na co odpowiada |
 |---|---|
 | [Widmo](docs/SPECTRUM.md) | jak zagłuszarka zajmuje pasmo L GNSS, pasmo po paśmie, sekunda po sekundzie |
 | [Zegary i synchronizacja czasu](docs/TELECOM-TIMING.md) | jak długo każdy zegar utrzymuje czas po utracie GNSS |
+| [Oscylatory](docs/OSCILLATOR.md) | co dane z karty katalogowej oscylatora oznaczają dla śledzenia przy wibracjach, holdover przy zmianach temperatury i wstrząsach oraz RAIM |
 | [Konstelacje wokół dowolnego ciała](docs/CONSTELLATION-DESIGN.md) | pokrycie, rozmycie precyzji i dostępność wokół Ziemi, Księżyca lub Marsa |
 | [Układ Słoneczny](docs/SOLAR-SYSTEM.md) | gdzie jest każda planeta i jaki jest czas świetlny dowolnego łącza |
 | [Nawigacja na niskiej orbicie okołoziemskiej](docs/LEO-PNT.md) | przelot, łącze, komunikat nawigacyjny i fuzja pozycji, etap po etapie |
+| [Weryfikacja LEO-PNT](docs/LEO-VERIFY.md) | co dostarczyłaby usługa czasu lub pozycjonowania z LEO: synchronizacja impulsowa, TDEV w holdover, koszt wobec przerw, straty w budynkach i w deszczu, rozwiązywanie niejednoznaczności, deklaracje dotyczące zagłuszania i integralność wyłącznie z Dopplera |
 | [Kampanie](docs/CAMPAIGNS.md) | łańcuchowa misja, przegląd parametrów (sweep) lub zespół Monte Carlo w jednym scenariuszu |
 | [Animacja](docs/ANIMATION.md) | szereg czasowy przebiegu jako animowany rysunek, odtwarzacz lub klatki |
 | [Raporty](docs/REPORTS.md) | każda liczba z jednostką i etykietą, w HTML (HyperText Markup Language) i JSON (JavaScript Object Notation) |
@@ -660,7 +704,7 @@ SigMF to Signal Metadata Format.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/lband-waterfall-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/lband-waterfall-light.svg">
-  <img src="docs/assets/readme/lband-waterfall-light.svg" alt="Pasmo L GNSS jako jedna gęstość widmowa mocy w ciągu 60 s, z prawdziwego przebiegu rodzaju spectrum (l-band-waterfall-jamming.toml, ziarno 7, silnik v0.40.0): częstotliwość w poziomie, czas w dół, kolor dla mocy powyżej poziomu szumu -202.0 dBW/Hz. Zagłuszarki: urządzenie prywatności z sygnałem świergotowym (chirp, włączone w 10 s, wyłączone w 40 s); ton CW na L1 (cw, włączony w 30 s); szum wąskopasmowy L2 (narrowband, włączony w 45 s). Najgorsze pasmo GPS L1 C/A: minimalne efektywne C/N0 3.2 dB-Hz w 31 s wobec dolnej granicy śledzenia 25 dB-Hz. GPS L1 C/A minimum 3.2 dB-Hz; Galileo E1 minimum 4.7 dB-Hz; GPS L2C minimum 36.9 dB-Hz; GPS L5 minimum 44.1 dB-Hz; Galileo E5a minimum 47.0 dB-Hz." width="100%">
+  <img src="docs/assets/readme/lband-waterfall-light.svg" alt="Pasmo L GNSS jako jedna gęstość widmowa mocy w ciągu 60 s, z prawdziwego przebiegu rodzaju spectrum (l-band-waterfall-jamming.toml, ziarno 7, silnik v0.41.0): częstotliwość w poziomie, czas w dół, kolor dla mocy powyżej poziomu szumu -202.0 dBW/Hz. Zagłuszarki: urządzenie prywatności z sygnałem świergotowym (chirp, włączone w 10 s, wyłączone w 40 s); ton CW na L1 (cw, włączony w 30 s); szum wąskopasmowy L2 (narrowband, włączony w 45 s). Najgorsze pasmo GPS L1 C/A: minimalne efektywne C/N0 3.2 dB-Hz w 31 s wobec dolnej granicy śledzenia 25 dB-Hz. GPS L1 C/A minimum 3.2 dB-Hz; Galileo E1 minimum 4.7 dB-Hz; GPS L2C minimum 36.9 dB-Hz; GPS L5 minimum 44.1 dB-Hz; Galileo E5a minimum 47.0 dB-Hz." width="100%">
 </picture>
 
 <picture>
@@ -695,7 +739,7 @@ i `leo-pass-iridium`.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/trust-timeline-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/trust-timeline-light.svg">
-  <img src="docs/assets/readme/trust-timeline-light.svg" alt="Wskaźnik zaufania w czasie jednego syntetycznego rejsu, z prawdziwego przebiegu silnika v0.40.0 na examples/maritime-trust (zmyślony dziennik NMEA promu na trasie Tallinn–Helsinki, 3001 epok przy 1 Hz). Trzy tory dzielą jedną oś czasu. U góry: odległość między pozycją podawaną przez odbiornik a prawdziwą pozycją statku, która pozostaje w granicach kilku metrów do około 1576 s, kiedy skryptowe odciąganie pozycji w dzienniku ją przesuwa, podczas gdy odbiornik nadal podaje ważną pozycję. W środku: wskaźnik zaufania od 0 do 100, nieobliczany przez pierwsze 300 s kalibracji, w paśmie nominalnym (co najmniej 90) aż do odciągania, potem spadający przez pasmo zdegradowane (co najmniej 55) do pasma braku zaufania. U dołu: pasmo każdej epoki jako kolorowa wstęga z nazwą. Wskaźnik jest doradczy. Oprogramowanie wyłącznie doradcze, nie jest to sprzęt nawigacyjny z zatwierdzeniem typu (IEC 61108, IEC 61162): za nawigację statku odpowiada nadal operator. Dziennik jest zmyślony, aby pokazać format i monitory; nie jest pomiarem i nie mówi niczego o tym, jak działałby jakikolwiek odbiornik." width="100%">
+  <img src="docs/assets/readme/trust-timeline-light.svg" alt="Wskaźnik zaufania w czasie jednego syntetycznego rejsu, z prawdziwego przebiegu silnika v0.41.0 na examples/maritime-trust (zmyślony dziennik NMEA promu na trasie Tallinn–Helsinki, 3001 epok przy 1 Hz). Trzy tory dzielą jedną oś czasu. U góry: odległość między pozycją podawaną przez odbiornik a prawdziwą pozycją statku, która pozostaje w granicach kilku metrów do około 1576 s, kiedy skryptowe odciąganie pozycji w dzienniku ją przesuwa, podczas gdy odbiornik nadal podaje ważną pozycję. W środku: wskaźnik zaufania od 0 do 100, nieobliczany przez pierwsze 300 s kalibracji, w paśmie nominalnym (co najmniej 90) aż do odciągania, potem spadający przez pasmo zdegradowane (co najmniej 55) do pasma braku zaufania. U dołu: pasmo każdej epoki jako kolorowa wstęga z nazwą. Wskaźnik jest doradczy. Oprogramowanie wyłącznie doradcze, nie jest to sprzęt nawigacyjny z zatwierdzeniem typu (IEC 61108, IEC 61162): za nawigację statku odpowiada nadal operator. Dziennik jest zmyślony, aby pokazać format i monitory; nie jest pomiarem i nie mówi niczego o tym, jak działałby jakikolwiek odbiornik." width="100%">
 </picture>
 
 <picture>
@@ -707,7 +751,7 @@ i `leo-pass-iridium`.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/training-track-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/training-track-light.svg">
-  <img src="docs/assets/readme/training-track-light.svg" alt="Strumień szkoleniowy ze scenariusza coastal-drag-off (silnik v0.40.0, ziarno 22, 25 minut przy jednej pozycji na 10 s dziennika instruktora). Mapa pokazuje prawdziwy kurs statku i kurs podawany przez odbiornik: zgadzają się, dopóki w 421 s nie zaczyna się skryptowe odciąganie pozycji, potem podawany kurs oddala się od prawdziwego, podczas gdy odbiornik utrzymuje ważną pozycję, i wraca skokowo, gdy zdarzenie kończy się w 1140 s. Obok odległość między dwoma kursami w czasie oraz średnia gęstość stosunku nośnej do szumu podawana przez odbiornik, która rośnie do jednego podwyższonego poziomu na czas trwania zdarzenia. Syntetyczne dane szkoleniowe wygenerowane przez Kshana. Wyłącznie do szkolenia i testów: nigdy nie podawaj tego strumienia do działających systemów nawigacyjnych statku. Doradczo, nie jest to sprzęt nawigacyjny z zatwierdzeniem typu. Oprogramowanie wyłącznie doradcze, nie jest to sprzęt nawigacyjny z zatwierdzeniem typu (IEC 61108, IEC 61162): za nawigację statku odpowiada nadal operator. Pozycje, daty i kursy są wymyślone." width="100%">
+  <img src="docs/assets/readme/training-track-light.svg" alt="Strumień szkoleniowy ze scenariusza coastal-drag-off (silnik v0.41.0, ziarno 22, 25 minut przy jednej pozycji na 10 s dziennika instruktora). Mapa pokazuje prawdziwy kurs statku i kurs podawany przez odbiornik: zgadzają się, dopóki w 421 s nie zaczyna się skryptowe odciąganie pozycji, potem podawany kurs oddala się od prawdziwego, podczas gdy odbiornik utrzymuje ważną pozycję, i wraca skokowo, gdy zdarzenie kończy się w 1140 s. Obok odległość między dwoma kursami w czasie oraz średnia gęstość stosunku nośnej do szumu podawana przez odbiornik, która rośnie do jednego podwyższonego poziomu na czas trwania zdarzenia. Syntetyczne dane szkoleniowe wygenerowane przez Kshana. Wyłącznie do szkolenia i testów: nigdy nie podawaj tego strumienia do działających systemów nawigacyjnych statku. Doradczo, nie jest to sprzęt nawigacyjny z zatwierdzeniem typu. Oprogramowanie wyłącznie doradcze, nie jest to sprzęt nawigacyjny z zatwierdzeniem typu (IEC 61108, IEC 61162): za nawigację statku odpowiada nadal operator. Pozycje, daty i kursy są wymyślone." width="100%">
 </picture>
 
 <picture>
@@ -778,7 +822,7 @@ Każdy scenariusz porównuje czujnik kwantowy z jego klasycznym odpowiednikiem w
 
 <p align="center">
   <img src="docs/assets/figures/scenario-fom.png" alt="Co dają czujniki kwantowe, gdy GNSS zniknie, scenariusz holdover zegara: kwantowy utrzymuje 6600 s autonomii wobec 2610 s klasycznego, znacznie mniejszy błąd czasu oraz dostępność 100% wobec 95.6%" width="88%">
-  <br><sub>Co dają czujniki kwantowe, gdy GNSS zniknie — <code>clock-holdover</code> · ziarno 42 · narysowane w silniku 0.40.0, a każda powyższa liczba jest ponownie sprawdzana względem bieżącego silnika przy każdej kompilacji przez <code>tests/published_figures_still_reproduce.rs</code> · <a href="docs/assets/figures/scenario-fom.svg">SVG</a></sub>
+  <br><sub>Co dają czujniki kwantowe, gdy GNSS zniknie — <code>clock-holdover</code> · ziarno 42 · narysowane w silniku 0.41.0, a każda powyższa liczba jest ponownie sprawdzana względem bieżącego silnika przy każdej kompilacji przez <code>tests/published_figures_still_reproduce.rs</code> · <a href="docs/assets/figures/scenario-fom.svg">SVG</a></sub>
 </p>
 
 Przewaga **zależy od przerwy i wibracji**, z jawnym punktem równowagi, w którym wygrywa rozwiązanie klasyczne — pokazanym uczciwie na drabinie gotowości technologicznej (liczby dla zegara optycznego są celami demonstratora naziemnego; żaden strontowy zegar optyczny nie latał):
@@ -801,7 +845,7 @@ Przewaga **zależy od przerwy i wibracji**, z jawnym punktem równowagi, w któr
 |------|----------|---------|-----------|
 | **1 — Holdover zegara** | `clock-holdover.toml` (specyfikacja 20 ns) | zegar optyczny utrzymuje całą przerwę | CSAC przekracza specyfikację w połowie przerwy |
 | **2 — Inercjalne zliczanie drogi** | `imu-deadreckoning.toml` (specyfikacja 100 m) | zimne atomy: **~41 m**, utrzymuje całą przerwę | klasa nawigacyjna: przekracza po **~350 s** → dziesiątki km |
-| **3 — Transfer czasu** (optyczne łącze międzysatelitarne) | `timetransfer.toml` | optyczny: pomiar odległości **~0.3 mm** | RF (TWSTFT): pomiar odległości **~150 mm** |
+| **3 — Transfer czasu** (optyczne łącze międzysatelitarne) | `timetransfer.toml` | optyczny: pomiar odległości **~0.3 mm** | RF (TWSTFT): pomiar odległości **~341 mm** |
 | **4 — Fuzja hybrydowa** (zwieńczenie) | `hybrid-pnt.toml` | pełna pozycja+czas przez całą przerwę | **ograniczenie pozycji po ~350 s** |
 
 Zwieńczenie pokazuje tezę o fuzji: optyczny międzysatelitarny transfer czasu utrzymuje w synchronizacji nawet
@@ -821,7 +865,7 @@ jest propagowany względem konstelacji Walkera podobnej do GPS, a liczba widoczn
 (linia widzenia, zakrycie przez Ziemię, maska elewacji) wyznacza stan pozycji w każdym
 kroku. W ciągu doby użytkownik ma pozycję tylko przez ~59% czasu; zegar kwantowy utrzymuje
 rozwiązanie czasu 5 ns przez każdą lukę (dostępność **1.0**), zegar w skali chipu
-tylko **~0.83**.
+tylko **~0.73**.
 
 <p align="center">
   <img src="docs/assets/orbit-gnss-challenged.svg" alt="Orbita w trudnych warunkach GNSS: błąd czasu zegara w ciągu doby dla statku kosmicznego wewnątrz powłoki GNSS, gdzie luki w pokryciu są wyprowadzone z geometrii orbitalnej — zegar optyczny pozostaje w granicach specyfikacji 5 ns w lukach, podczas gdy zegar w skali chipu ją przekracza" width="80%">
@@ -931,6 +975,7 @@ arkusz zbiorczy tych wykresów; [`docs/KINDS.md`](docs/KINDS.md) indeksuje je ws
 | **[Analiza misji, łącza i operacje kosmiczne](docs/kinds/mission-analysis-links-and-space-operations.md)** | start, wznoszenie, wejście w atmosferę, orientacja, łącza, planowanie kontaktów i formaty plików | [`launch-window`](docs/kinds/by-kind/launch-window.md), [`ascent-losses`](docs/kinds/by-kind/ascent-losses.md), [`reentry`](docs/kinds/by-kind/reentry.md), [`entry-heating`](docs/kinds/by-kind/entry-heating.md), [`eo-coverage`](docs/kinds/by-kind/eo-coverage.md), [`eo-radiometry`](docs/kinds/by-kind/eo-radiometry.md), [`attitude-budget`](docs/kinds/by-kind/attitude-budget.md), [`aocs`](docs/kinds/by-kind/aocs.md), [`link-budget`](docs/kinds/by-kind/link-budget.md), [`acm-link`](docs/kinds/by-kind/acm-link.md), [`contact-schedule`](docs/kinds/by-kind/contact-schedule.md), [`aperture-duty-cycle`](docs/kinds/by-kind/aperture-duty-cycle.md), [`space-packet`](docs/kinds/by-kind/space-packet.md), [`oem-interop`](docs/kinds/by-kind/oem-interop.md) | `kshana scenarios/launch-window.toml` |
 | **[Wątki misji](docs/kinds/mission-threads.md)** | budżet błędu nawigacji i synchronizacji czasu łańcucha faz od startu do wejścia w atmosferę | [`mission-thread`](docs/kinds/by-kind/mission-thread.md) | `kshana scenarios/mission-thread-artemis-class.toml` |
 | **[Kampanie](docs/kinds/campaigns.md)** | łańcuchowe misje, przeglądy parametrów i zespoły zbudowane z innych rodzajów | [`campaign`](docs/kinds/by-kind/campaign.md) | `kshana scenarios/campaign-jam-spoof-holdover-integrity.toml` |
+| **[Rozpoznanie RF z kosmosu](docs/kinds/space-rf-survey.md)** | jak często rozpoznanie RF dużego obszaru ponownie obejmuje akwen i jak szybko może wskazać cel do obserwacji optycznej | [`tip-and-cue`](docs/kinds/by-kind/tip-and-cue.md) | `kshana scenarios/tip-and-cue-baltic-m2.toml` |
 <!-- /generated:kind-families -->
 
 <a id="every-command"></a>
@@ -949,12 +994,12 @@ wszystkich. Polecenia to `--study`, `--validate`, `kinds`, `example`, `receiver-
 <a id="every-surface"></a>
 ### Każdy interfejs
 
-Jeden silnik, te same wyniki wszędzie: wiersz poleceń, biblioteka Rust, Python, JavaScript i WebAssembly,
-serwer MCP z poleceniami i umiejętnościami (skills) wtyczki, Kshana Studio (każda strona działa w przeglądarce, bez instalacji, nic nie jest wysyłane),
-integracje ROS 2, Signal K, OpenCPN, GNSS-SDR i `gnss_lib_py`, zestawy wdrożeniowe systemd, Docker i Grafana oraz
-wtyczka JetBrains. [`docs/ALL-SURFACES.md`](docs/ALL-SURFACES.md) wymienia je wraz ze sposobem uzyskania każdego i nazwami wszystkich
-poleceń wtyczki, umiejętności i stron Studio; [`docs/SURFACES.md`](docs/SURFACES.md) mówi dla każdego polecenia i rodzaju,
-który interfejs je obsługuje, a który nie, wraz z powodem.
+Jeden silnik, wszędzie te same wyniki: wiersz poleceń, biblioteka Rust, Python, JavaScript i WebAssembly,
+serwer MCP z poleceniami wtyczki i umiejętnościami, Kshana Studio (każda strona działa w przeglądarce, bez instalacji, nic nie jest wysyłane),
+integracje z ROS 2, Signal K, OpenCPN, GNSS-SDR i `gnss_lib_py`, zestawy wdrożeniowe dla systemd, Docker i Grafana oraz
+wtyczka JetBrains i Kshana Desktop, dostępne na [kshana.dev](https://kshana.dev). [`docs/ALL-SURFACES.md`](docs/ALL-SURFACES.md) wymienia je wraz ze sposobem uzyskania każdego i nazwami wszystkich
+poleceń wtyczki, umiejętności i stron Studia; [`docs/SURFACES.md`](docs/SURFACES.md) podaje dla każdego polecenia i rodzaju,
+który interfejs go oferuje, a który nie, wraz z powodem.
 
 <a id="how-a-run-works"></a>
 ## Jak działa przebieg
@@ -966,7 +1011,7 @@ eksporty, o które poprosisz.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/flow-pipeline-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/flow-pipeline-light.svg">
-  <img src="docs/assets/readme/flow-pipeline-light.svg" alt="Jak przebiega przebieg. Plik scenariusza TOML (rodzaj, ziarno i jego parametry) trafia do silnika, kshana 0.40.0, przez rozdzielanie api::run_toml na 92 rodzaje scenariuszy, deterministycznie na podstawie scenariusza, ziarna i wersji silnika. Silnik zapisuje result.json, chart.svg, report.html i report.json, table.csv dla rodzajów, które ją definiują, oraz na żądanie eksporty SP3, CCSDS OMM i OEM, CZML, KML, GeoJSON, STK i SigMF; zestaw (suite) zapisuje study.json i study.html. Te pliki zasilają Kshana Studio w przeglądarce, asystenta AI przez serwer kshana-mcp oraz ciągłą integrację." width="100%">
+  <img src="docs/assets/readme/flow-pipeline-light.svg" alt="Jak przebiega przebieg. Plik scenariusza TOML (rodzaj, ziarno i jego parametry) trafia do silnika, kshana 0.41.0, przez rozdzielanie api::run_toml na 93 rodzaje scenariuszy, deterministycznie na podstawie scenariusza, ziarna i wersji silnika. Silnik zapisuje result.json, chart.svg, report.html i report.json, table.csv dla rodzajów, które ją definiują, oraz na żądanie eksporty SP3, CCSDS OMM i OEM, CZML, KML, GeoJSON, STK i SigMF; zestaw (suite) zapisuje study.json i study.html. Te pliki zasilają Kshana Studio w przeglądarce, asystenta AI przez serwer kshana-mcp oraz ciągłą integrację." width="100%">
 </picture>
 
 Ten dołączony scenariusz trwa 2 h: 10 min GNSS, a potem około 1.8 h bez GNSS. Pyta,
@@ -1051,8 +1096,7 @@ nazwanie możliwości VALIDATED bez niezależnej zewnętrznej wyroczni.
 Kilka ze sprawdzeń: wszystkie 666 wektorów SGP4 (Simplified General Perturbations 4) AIAA (American Institute of Aeronautics and Astronautics)
 2006-6753 do 4.12 mm; model sił Cowella
 do 0.08 m względem Orekit 12.2; Galileo do 0.61 m i Swarm-A do 0.10 m względem prawdziwych
-precyzyjnych efemeryd Europejskiej Agencji Kosmicznej (ESA). Testy utrzymują pokrycie wierszy bliskie 95 % katalogu
-`src/`, wymagane na poziomie 85 % w CI. Rejestrem jest
+precyzyjnych efemeryd Europejskiej Agencji Kosmicznej (ESA). Przy ostatnim pomiarze (silnik 0.29.0, [`docs/COVERAGE.md`](docs/COVERAGE.md)) testy pokrywały blisko 95 % wierszy `src/`, a CI zawodzi poniżej 85 %. Rejestrem jest
 [`docs/VERIFICATION-MATRIX.md`](docs/VERIFICATION-MATRIX.md), generowany z
 `src/verification.rs`: [pełna macierz 413 wierszy](docs/VERIFICATION-MATRIX.md), a dlaczego każdy
 wiersz Modelled nie ma zewnętrznej wyroczni, wyjaśnia [`docs/MODELLED-RATIONALE.md`](docs/MODELLED-RATIONALE.md).
@@ -1062,7 +1106,7 @@ wiersz Modelled nie ma zewnętrznej wyroczni, wyjaśnia [`docs/MODELLED-RATIONAL
 
 ### Walidacja, odtwarzalność i uczciwość
 
-- Każdy człon szumu jest skalibrowany do **opublikowanej, cytowanej** wartości i zwalidowany
+- Każdy człon szumu jest skalibrowany do **opublikowanej, cytowanej** wartości i sprawdzony
   względem standardowej zależności (odchylenie Allana dla zegarów; wzrost błędu zliczania drogi
   wg Grovesa dla nawigacji inercjalnej; przeliczenie czas→odległość dla transferu czasu). Status
   każdego członu jest śledzony w [`docs/VALIDATION.md`](docs/VALIDATION.md) jako `validated` lub
@@ -1117,7 +1161,7 @@ Kolumna **Status** podaje *rodzaj* dowodu, zgodnie z powyższą drabiną walidac
 | **MODELLED** | OD Marsa w dalekim kosmosie (SRIF o zredukowanej dynamice) | **≈ 0.2 m** Mars-LMO (FoM symulacji, *nie* prawdziwa misja) | syntetyczne OD w pętli zamkniętej — walidacja mechanizmu estymatora |
 | **MODELLED** | Dynamika Marsa wokół Słońca wobec JPL DE440 | **137 m przy łuku 1-dniowym** (rośnie z łukiem = niemodelowane n ciał) | JPL DE440 przez ANISE (`xval/anise-mars-od`, zależne od jądra) (porównane z tym odniesieniem; żaden wiersz macierzy weryfikacji nie wymienia go jako zewnętrznej wyroczni, więc nie jest oznaczone jako VALIDATED) |
 | **VALIDATED** | Pozycjonowanie pojedynczego punktu wobec pomierzonej współrzędnej IGS (prawdziwe obserwacje) | **5.7 m** RMS 3-D / **1.1 m** w poziomie, dwuczęstotliwościowe SPP kodowe wolne od jonosfery | pomiar stacji IGS ABMF + efemerydy rozgłoszeniowe GPS, 2018-05-13 (`tests/pvt_abmf.rs`) |
-| **MODELLED** | Ściśle sprzężony UKF GNSS/INS | **0.77 m RMS** w 30-minutowym przelocie LEO z 120-sekundową przerwą | lot bez korekt na modelu sił, wyprowadzone ręcznie |
+| **MODELLED** | Bezzapachowy filtr Kalmana GNSS/INS (`hybrid-ukf`, 17 stanów) | NIS i NEES w swoich pasmach χ²; **0.36 m** ze wspomaganiem, **7.7 m** po 120 s nawigacji zliczeniowej | wewnętrzna spójność filtra, nie dokładność (`scenarios/hybrid-ukf.toml`) |
 | **MODELLED** | Nawigacja z mapą grawitacyjną bez GPS | dryf INS ~70 km → odtworzone do **~145 m** | cel ESA NAVISP *Quantum Wayfarer* |
 | **MODELLED** | Nawigacja odniesiona do terenu (TERCOM/SITAN) | dryf 70 km → **< 500 m** (dolna granica rozdzielczości siatki ~140 m) | DEM SRTM `.hgt`; ręcznie wprowadzony dryf (sprawdzenie bez zamkniętego koła) |
 | **MODELLED** | Główne pole IGRF-14 (stopień/rząd 13) | biegun ~80.7°N, dipol ~29.7 µT, fizyczne pasmo 22–67 µT | IAGA (International Association of Geomagnetism and Aeronomy) `igrf14coeffs.txt` (półznormalizowane Schmidta) |
@@ -1136,7 +1180,7 @@ Kolumna **Status** podaje *rodzaj* dowodu, zgodnie z powyższą drabiną walidac
 | **MODELLED** | Ocena odporności PNT + niestabilność decyzji | 35 ręcznie wyprowadzonych testów wyroczni; artefakt badania deterministyczny bajtowo (ustalone ziarno) | mapowanie DHS RPCF v2.0 + postacie zamknięte Dirichleta / tau Kendalla / Hill-N2 — architektury syntetyczne, nie certyfikacja |
 | **MODELLED** | Badanie luki optymizmu zaburzeń RF (prawa skalowania + predyktor leave-one-out) | istotność względem permutacyjnej hipotezy zerowej; artefakt deterministyczny bajtowo (5 ziaren) | syntetyczny korpus oparty na parametrach — *metryki* ewaluacji są VALIDATED względem scikit-learn (powyżej); badanie jest MODELLED |
 | CI | Odtwarzalność międzyplatformowa | bitowo identyczne wejście + wzorce kształtu na 3 systemach operacyjnych | macierz CI Linux / macOS / Windows, wzorce SHA-256 |
-| CI | Pokrycie testami | **~95 % wierszy** w `src/` z wyłączeniem `src/*_data.rs` i `src/main.rs`, wymagane ≥ 85 % | cargo-tarpaulin (silnik LLVM) |
+| CI | Pokrycie testami | **~95 % wierszy** (ostatni pomiar w 0.29.0) w `src/` z wyłączeniem `src/*_data.rs` i `src/main.rs`, wymagane ≥ 85 % | cargo-tarpaulin (silnik LLVM) |
 
 <p align="center">
   <img src="docs/assets/diagrams/validation-provenance.png" alt="Jak możliwość zdobywa swoją etykietę: wymaganie odwzorowuje się na moduł w src, na test w tests, na zewnętrzną wyrocznię (prawdziwy zbiór danych, niezależną implementację referencyjną lub opublikowane wektory), na status — z wymuszanym w CI zabezpieczeniem, że żadna możliwość nie może być Validated bez zewnętrznej wyroczni. Bieżące liczby: 176 Validated, 233 Modelled, 4 Partner, łącznie 413" width="900">
@@ -1175,7 +1219,7 @@ Pełna tabela, domena po domenie z każdą możliwością i jej etykietą, to [`
 ## Instalacja
 
 Jeden wiersz instaluje narzędzie wiersza poleceń: **`cargo install kshana`**. Każdy kanał dostarcza
-v0.40.0 z tego samego otagowanego commita.
+v0.41.0 z tego samego otagowanego commita.
 
 <!-- channels:begin -->
 | Kanał | Instalacja | Przewodnik |
@@ -1187,12 +1231,12 @@ v0.40.0 z tego samego otagowanego commita.
 | JavaScript i WebAssembly | `npm install kshana` | [Przewodnik po npm i WebAssembly](https://kshana.dev/docs/npm.html) |
 | Asystent AI (serwer MCP, cargo) | `cargo install kshana-mcp` | [Przewodnik po serwerze MCP](https://kshana.dev/docs/mcp.html) |
 | Obraz Docker | `docker run --rm -i ghcr.io/ashfordeou/kshana-mcp` | [Przewodnik po serwerze MCP: Docker](https://kshana.dev/docs/mcp.html#install) |
-| Rozszerzenie Claude Desktop | kliknij dwukrotnie `.mcpb` dla swojego systemu: [macOS (Apple silicon)](https://github.com/ashfordeOU/kshana/releases/download/v0.40.0/kshana-mcp-aarch64-apple-darwin.mcpb) · [macOS (Intel)](https://github.com/ashfordeOU/kshana/releases/download/v0.40.0/kshana-mcp-x86_64-apple-darwin.mcpb) · [Windows](https://github.com/ashfordeOU/kshana/releases/download/v0.40.0/kshana-mcp-x86_64-pc-windows-msvc.mcpb) · [Linux (x86-64)](https://github.com/ashfordeOU/kshana/releases/download/v0.40.0/kshana-mcp-x86_64-unknown-linux-gnu.mcpb) · [Linux (Arm)](https://github.com/ashfordeOU/kshana/releases/download/v0.40.0/kshana-mcp-aarch64-unknown-linux-gnu.mcpb) | [Wszystkie fragmenty instalacji MCP](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
-| Cursor (jedno kliknięcie) | [Dodaj do Cursor (npx)](https://cursor.com/en/install-mcp?name=kshana&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsImtzaGFuYS1tY3BAMC40MC4wIl19) · [Dodaj do Cursor (Docker)](https://cursor.com/en/install-mcp?name=kshana&config=eyJjb21tYW5kIjoiZG9ja2VyIiwiYXJncyI6WyJydW4iLCItaSIsIi0tcm0iLCJnaGNyLmlvL2FzaGZvcmRlb3Uva3NoYW5hLW1jcDowLjQwLjAiXX0%3D) · `npx -y kshana-mcp@0.40.0` | [Wszystkie fragmenty instalacji MCP](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
-| VS Code (jedno kliknięcie) | [Zainstaluj w VS Code (npx)](https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522npx%2522%252C%2522args%2522%253A%255B%2522-y%2522%252C%2522kshana-mcp%25400.40.0%2522%255D%257D) · [Zainstaluj w VS Code (Docker)](https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522docker%2522%252C%2522args%2522%253A%255B%2522run%2522%252C%2522-i%2522%252C%2522--rm%2522%252C%2522ghcr.io%252Fashfordeou%252Fkshana-mcp%253A0.40.0%2522%255D%257D) · `npx -y kshana-mcp@0.40.0` | [Wszystkie fragmenty instalacji MCP](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
-| Claude Code | `claude mcp add kshana -- npx -y kshana-mcp@0.40.0` | [Wszystkie fragmenty instalacji MCP](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
-| npx | `npx -y kshana-mcp@0.40.0` | [Wszystkie fragmenty instalacji MCP](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
-| uvx / pipx | `uvx kshana-mcp==0.40.0` | [Wszystkie fragmenty instalacji MCP](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
+| Rozszerzenie Claude Desktop | kliknij dwukrotnie `.mcpb` dla swojego systemu: [macOS (Apple silicon)](https://github.com/ashfordeOU/kshana/releases/download/v0.41.0/kshana-mcp-aarch64-apple-darwin.mcpb) · [macOS (Intel)](https://github.com/ashfordeOU/kshana/releases/download/v0.41.0/kshana-mcp-x86_64-apple-darwin.mcpb) · [Windows](https://github.com/ashfordeOU/kshana/releases/download/v0.41.0/kshana-mcp-x86_64-pc-windows-msvc.mcpb) · [Linux (x86-64)](https://github.com/ashfordeOU/kshana/releases/download/v0.41.0/kshana-mcp-x86_64-unknown-linux-gnu.mcpb) · [Linux (Arm)](https://github.com/ashfordeOU/kshana/releases/download/v0.41.0/kshana-mcp-aarch64-unknown-linux-gnu.mcpb) | [Wszystkie fragmenty instalacji MCP](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
+| Cursor (jedno kliknięcie) | [Dodaj do Cursor (npx)](https://cursor.com/en/install-mcp?name=kshana&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsImtzaGFuYS1tY3BAMC40MS4wIl19) · [Dodaj do Cursor (Docker)](https://cursor.com/en/install-mcp?name=kshana&config=eyJjb21tYW5kIjoiZG9ja2VyIiwiYXJncyI6WyJydW4iLCItaSIsIi0tcm0iLCJnaGNyLmlvL2FzaGZvcmRlb3Uva3NoYW5hLW1jcDowLjQxLjAiXX0%3D) · `npx -y kshana-mcp@0.41.0` | [Wszystkie fragmenty instalacji MCP](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
+| VS Code (jedno kliknięcie) | [Zainstaluj w VS Code (npx)](https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522npx%2522%252C%2522args%2522%253A%255B%2522-y%2522%252C%2522kshana-mcp%25400.41.0%2522%255D%257D) · [Zainstaluj w VS Code (Docker)](https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522docker%2522%252C%2522args%2522%253A%255B%2522run%2522%252C%2522-i%2522%252C%2522--rm%2522%252C%2522ghcr.io%252Fashfordeou%252Fkshana-mcp%253A0.41.0%2522%255D%257D) · `npx -y kshana-mcp@0.41.0` | [Wszystkie fragmenty instalacji MCP](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
+| Claude Code | `claude mcp add kshana -- npx -y kshana-mcp@0.41.0` | [Wszystkie fragmenty instalacji MCP](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
+| npx | `npx -y kshana-mcp@0.41.0` | [Wszystkie fragmenty instalacji MCP](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
+| uvx / pipx | `uvx kshana-mcp==0.41.0` | [Wszystkie fragmenty instalacji MCP](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
 | Homebrew | `brew install ashfordeOU/tap/kshana-mcp` | [Wszystkie fragmenty instalacji MCP](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
 | Scoop | `scoop bucket add ashforde https://github.com/ashfordeOU/scoop-bucket && scoop install kshana-mcp` | [Wszystkie fragmenty instalacji MCP](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
 | winget | `winget install AshfordeOU.KshanaMcp` | [Wszystkie fragmenty instalacji MCP](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
@@ -1209,8 +1253,8 @@ v0.40.0 z tego samego otagowanego commita.
 
 <p><a href="https://plugins.jetbrains.com/plugin/32181-kshana--pnt-simulator"><img src="https://img.shields.io/badge/JetBrains-Marketplace-066A86?style=flat-square&labelColor=0A1226" alt="Kshana w JetBrains Marketplace"></a> <a href="Cargo.toml"><img src="https://img.shields.io/badge/rust-1.88%2B-3F4B67?style=flat-square&labelColor=0A1226" alt="Buduje się z Rust 1.88 lub nowszym, rust-version w Cargo.toml"></a></p>
 
-MCP to Model Context Protocol. Przypnij wydanie poleceniem `cargo install kshana --version 0.40.0`,
-`pip install kshana==0.40.0` lub `npm install kshana@0.40.0`. Aby zbudować ze źródeł, zob.
+MCP to Model Context Protocol. Przypnij wydanie poleceniem `cargo install kshana --version 0.41.0`,
+`pip install kshana==0.41.0` lub `npm install kshana@0.41.0`. Aby zbudować ze źródeł, zob.
 [Instalacja i budowanie](#install--build) w dokumentacji referencyjnej.
 
 <details>
@@ -1224,7 +1268,7 @@ import json, kshana
 toml = open("clock-holdover.toml").read()
 result = json.loads(kshana.run(toml))
 print(kshana.version(), result["quantum"]["fom"]["holdover_s"], result["classical"]["fom"]["holdover_s"])
-# 0.40.0 6600.0 2610.0
+# 0.41.0 6600.0 2610.0
 ```
 
 Oprócz `run` moduł udostępnia `run_full` (JSON, SVG i jednowierszowe podsumowanie naraz),
@@ -1245,7 +1289,7 @@ initSync({ module: readFileSync(wasm) });
 const toml = readFileSync("clock-holdover.toml", "utf8");
 const result = JSON.parse(run(toml));
 console.log(version(), result.quantum.fom.holdover_s, result.classical.fom.holdover_s);
-// 0.40.0 6600 2610
+// 0.41.0 6600 2610
 console.log(summary(toml));
 ```
 
@@ -1254,15 +1298,15 @@ console.log(summary(toml));
 <a id="architecture"></a>
 ## Architektura
 
-Jeden otwarty silnik znajduje się w centrum, a każdy interfejs go uruchamia: wiersz poleceń, biblioteka
-Rust, Python, WebAssembly i Kshana Studio, serwer MCP, obraz Docker i
-wtyczka JetBrains. Ten sam plik scenariusza daje te same bajty w każdym z nich. Kshana Pro znajduje się
-na wierzchu jako osobna nakładka, która zależy od silnika i nigdy go nie rozwidla.
+W centrum stoi jeden otwarty silnik i każdy interfejs go uruchamia: wiersz poleceń, biblioteka Rust,
+Python, WebAssembly i Kshana Studio, serwer MCP, obraz Dockera i
+wtyczka JetBrains. Ten sam plik scenariusza daje na każdym te same bajty. Kshana Pro, wydanie
+profesjonalne, opiera się na tym samym silniku i nigdy go nie rozwidla.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/architecture-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/architecture-light.svg">
-  <img src="docs/assets/readme/architecture-light.svg" alt="Architektura Kshana: jeden otwarty silnik w centrum, kshana 0.40.0 na licencji AGPL-3.0, z api::run_toml, typowanym rozdzielaniem na każdy rodzaj, oraz rejestrem weryfikacji 413 możliwości (176 VALIDATED, 233 MODELLED, 4 PARTNER). Wokół niego każdy interfejs uruchamia ten sam silnik: Wiersz poleceń (cargo install kshana); Biblioteka Rust (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); Serwer MCP (cargo install kshana-mcp); Obraz Docker (ghcr.io/ashfordeou/kshana-mcp); Wtyczka JetBrains (Marketplace: &quot;Kshana&quot;). Pod nim Kshana Pro, zastrzeżona nakładka, która zależy od otwartego silnika jako biblioteki i nigdy go nie rozwidla, i nie dodaje żadnego modelu fizycznego." width="100%">
+  <img src="docs/assets/readme/architecture-light.svg" alt="Architektura Kshana: jeden otwarty silnik w centrum, kshana 0.41.0 na licencji AGPL-3.0, z api::run_toml, typowanym rozdzielaniem na każdy rodzaj, oraz rejestrem weryfikacji 413 możliwości (176 VALIDATED, 233 MODELLED, 4 PARTNER). Wokół niego każdy interfejs uruchamia ten sam silnik: Wiersz poleceń (cargo install kshana); Biblioteka Rust (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); Serwer MCP (cargo install kshana-mcp); Obraz Docker (ghcr.io/ashfordeou/kshana-mcp); Wtyczka JetBrains (Marketplace: &quot;Kshana&quot;). Pod nim Kshana Pro, wydanie profesjonalne, które zależy od otwartego silnika jako biblioteki, nigdy go nie rozwidla i nigdy nie zmienia jego modeli fizycznych; własne modele Pro mają własne oznaczenia dowodów." width="100%">
 </picture>
 
 <details>
@@ -1296,8 +1340,8 @@ Dwa samodzielne crate'y **wyłączone z przestrzeni roboczej** znajdują się ob
 (serwer MCP, zbudowany na SDK `rmcp` w edycji 2024) i `xval/anise-frames`
 (kontrola krzyżowa układów ANISE/SPICE, która pobiera zależności MPL-2.0 (Mozilla Public License 2.0)) — trzymane poza grafem zależności publikowanego
 crate'a, `Cargo.lock`, bramką licencyjną i kompilacją MSRV (minimalnej obsługiwanej wersji Rust) przez listę `exclude`
-w głównym `Cargo.toml`. Wtyczka JetBrains (`ide/jetbrains`) to osobny projekt
-Kotlin. Pełny zestaw diagramów znajduje się w [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
+w głównym `Cargo.toml`. Wtyczka JetBrains to osobny produkt, dostępny na
+[kshana.dev](https://kshana.dev/docs/jetbrains.html). Pełny zestaw diagramów znajduje się w [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
 
 Wyrenderowane diagramy (przepływ silnika, mapa modułów, dystrybucja) znajdują się w [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
 
@@ -1377,20 +1421,20 @@ Claude Code, Cursor, VS Code, Windsurf, Zed, Goose, Codex CLI, Gemini CLI i Cont
 <!-- mcp-install:begin -->
 | Kanał | Polecenie lub przycisk | Wymaga | Przypięta postać |
 |---|---|---|---|
-| Rozszerzenie Claude Desktop | kliknij dwukrotnie `.mcpb` dla swojego systemu: [macOS (Apple silicon)](https://github.com/ashfordeOU/kshana/releases/download/v0.40.0/kshana-mcp-aarch64-apple-darwin.mcpb) · [macOS (Intel)](https://github.com/ashfordeOU/kshana/releases/download/v0.40.0/kshana-mcp-x86_64-apple-darwin.mcpb) · [Windows](https://github.com/ashfordeOU/kshana/releases/download/v0.40.0/kshana-mcp-x86_64-pc-windows-msvc.mcpb) | nic | `kshana-mcp-<target>.mcpb` z v0.40.0 |
-| Cursor (jedno kliknięcie) | [npx (Node)](https://cursor.com/en/install-mcp?name=kshana&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsImtzaGFuYS1tY3BAMC40MC4wIl19) · [Docker](https://cursor.com/en/install-mcp?name=kshana&config=eyJjb21tYW5kIjoiZG9ja2VyIiwiYXJncyI6WyJydW4iLCItaSIsIi0tcm0iLCJnaGNyLmlvL2FzaGZvcmRlb3Uva3NoYW5hLW1jcDowLjQwLjAiXX0%3D) | Node lub Docker | `kshana-mcp@0.40.0` / `ghcr.io/ashfordeou/kshana-mcp:0.40.0` |
-| VS Code (jedno kliknięcie) | [npx (Node)](https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522npx%2522%252C%2522args%2522%253A%255B%2522-y%2522%252C%2522kshana-mcp%25400.40.0%2522%255D%257D) · [Docker](https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522docker%2522%252C%2522args%2522%253A%255B%2522run%2522%252C%2522-i%2522%252C%2522--rm%2522%252C%2522ghcr.io%252Fashfordeou%252Fkshana-mcp%253A0.40.0%2522%255D%257D) · [Insiders (npx)](https://insiders.vscode.dev/redirect?url=vscode-insiders%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522npx%2522%252C%2522args%2522%253A%255B%2522-y%2522%252C%2522kshana-mcp%25400.40.0%2522%255D%257D) | Node lub Docker | `kshana-mcp@0.40.0` / `ghcr.io/ashfordeou/kshana-mcp:0.40.0` |
-| Claude Code | `claude mcp add kshana -- npx -y kshana-mcp@0.40.0` · wtyczka: `/plugin marketplace add ashfordeOU/kshana`, potem `/plugin install kshana@ashforde` | Node (lub Docker) | `kshana-mcp@0.40.0` |
-| npx | `npx -y kshana-mcp@0.40.0` | Node 18+ | `kshana-mcp@0.40.0` |
-| uvx / pipx | `uvx kshana-mcp==0.40.0` · `pipx run kshana-mcp==0.40.0` | Python 3.9+ z uv lub pipx | `kshana-mcp==0.40.0` |
-| Docker | `docker run -i --rm ghcr.io/ashfordeou/kshana-mcp:0.40.0` | Docker | `ghcr.io/ashfordeou/kshana-mcp:0.40.0` |
-| Homebrew | `brew install ashfordeOU/tap/kshana-mcp` | brew | formuła dla v0.40.0 |
-| Scoop | `scoop bucket add ashforde https://github.com/ashfordeOU/scoop-bucket`, potem `scoop install kshana-mcp` | Scoop (Windows) | manifest dla v0.40.0 |
-| winget | `winget install AshfordeOU.KshanaMcp` | winget (Windows) | `--version 0.40.0` |
-| cargo | `cargo install kshana-mcp --version 0.40.0` | Rust 1.88+ | `kshana-mcp 0.40.0` |
-| Gotowy plik binarny | [strona wydania](https://github.com/ashfordeOU/kshana/releases/tag/v0.40.0): `kshana-mcp` (Linux x86-64), `kshana-mcp-<target>[.exe]`, sprawdzane przez `SHA256SUMS` i `gh attestation verify` | nic | v0.40.0 |
-| Rejestr MCP | `io.github.ashfordeOU/kshana-mcp` (znajdowany przez klientów obsługujących rejestr) | klient obsługujący rejestr | `0.40.0` |
-| Zdalnie (streamable HTTP) | `kshana-mcp --http 127.0.0.1:8080`, samodzielny hosting: zob. [docs/deploy/mcp-http.md](docs/deploy/mcp-http.md) | własny host | v0.40.0 |
+| Rozszerzenie Claude Desktop | kliknij dwukrotnie `.mcpb` dla swojego systemu: [macOS (Apple silicon)](https://github.com/ashfordeOU/kshana/releases/download/v0.41.0/kshana-mcp-aarch64-apple-darwin.mcpb) · [macOS (Intel)](https://github.com/ashfordeOU/kshana/releases/download/v0.41.0/kshana-mcp-x86_64-apple-darwin.mcpb) · [Windows](https://github.com/ashfordeOU/kshana/releases/download/v0.41.0/kshana-mcp-x86_64-pc-windows-msvc.mcpb) | nic | `kshana-mcp-<target>.mcpb` z v0.41.0 |
+| Cursor (jedno kliknięcie) | [npx (Node)](https://cursor.com/en/install-mcp?name=kshana&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsImtzaGFuYS1tY3BAMC40MS4wIl19) · [Docker](https://cursor.com/en/install-mcp?name=kshana&config=eyJjb21tYW5kIjoiZG9ja2VyIiwiYXJncyI6WyJydW4iLCItaSIsIi0tcm0iLCJnaGNyLmlvL2FzaGZvcmRlb3Uva3NoYW5hLW1jcDowLjQxLjAiXX0%3D) | Node lub Docker | `kshana-mcp@0.41.0` / `ghcr.io/ashfordeou/kshana-mcp:0.41.0` |
+| VS Code (jedno kliknięcie) | [npx (Node)](https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522npx%2522%252C%2522args%2522%253A%255B%2522-y%2522%252C%2522kshana-mcp%25400.41.0%2522%255D%257D) · [Docker](https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522docker%2522%252C%2522args%2522%253A%255B%2522run%2522%252C%2522-i%2522%252C%2522--rm%2522%252C%2522ghcr.io%252Fashfordeou%252Fkshana-mcp%253A0.41.0%2522%255D%257D) · [Insiders (npx)](https://insiders.vscode.dev/redirect?url=vscode-insiders%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522npx%2522%252C%2522args%2522%253A%255B%2522-y%2522%252C%2522kshana-mcp%25400.41.0%2522%255D%257D) | Node lub Docker | `kshana-mcp@0.41.0` / `ghcr.io/ashfordeou/kshana-mcp:0.41.0` |
+| Claude Code | `claude mcp add kshana -- npx -y kshana-mcp@0.41.0` · wtyczka: `/plugin marketplace add ashfordeOU/kshana`, potem `/plugin install kshana@ashforde` | Node (lub Docker) | `kshana-mcp@0.41.0` |
+| npx | `npx -y kshana-mcp@0.41.0` | Node 18+ | `kshana-mcp@0.41.0` |
+| uvx / pipx | `uvx kshana-mcp==0.41.0` · `pipx run kshana-mcp==0.41.0` | Python 3.9+ z uv lub pipx | `kshana-mcp==0.41.0` |
+| Docker | `docker run -i --rm ghcr.io/ashfordeou/kshana-mcp:0.41.0` | Docker | `ghcr.io/ashfordeou/kshana-mcp:0.41.0` |
+| Homebrew | `brew install ashfordeOU/tap/kshana-mcp` | brew | formuła dla v0.41.0 |
+| Scoop | `scoop bucket add ashforde https://github.com/ashfordeOU/scoop-bucket`, potem `scoop install kshana-mcp` | Scoop (Windows) | manifest dla v0.41.0 |
+| winget | `winget install AshfordeOU.KshanaMcp` | winget (Windows) | `--version 0.41.0` |
+| cargo | `cargo install kshana-mcp --version 0.41.0` | Rust 1.88+ | `kshana-mcp 0.41.0` |
+| Gotowy plik binarny | [strona wydania](https://github.com/ashfordeOU/kshana/releases/tag/v0.41.0): `kshana-mcp` (Linux x86-64), `kshana-mcp-<target>[.exe]`, sprawdzane przez `SHA256SUMS` i `gh attestation verify` | nic | v0.41.0 |
+| Rejestr MCP | `io.github.ashfordeOU/kshana-mcp` (znajdowany przez klientów obsługujących rejestr) | klient obsługujący rejestr | `0.41.0` |
+| Zdalnie (streamable HTTP) | `kshana-mcp --http 127.0.0.1:8080`, samodzielny hosting: zob. [docs/deploy/mcp-http.md](docs/deploy/mcp-http.md) | własny host | v0.41.0 |
 <!-- mcp-install:end -->
 
 <p><a href="https://glama.ai/mcp/servers/ashfordeOU/kshana"><img src="https://glama.ai/mcp/servers/ashfordeOU/kshana/badges/score.svg" alt="kshana-mcp w Glama, ocena jakości serwera MCP"></a></p>
@@ -1415,7 +1459,7 @@ w oficjalnym rejestrze MCP jako `io.github.ashfordeOU/kshana-mcp`.
 | Narzędzie | Co robi |
 |---|---|
 | `run_scenario` | Uruchamia scenariusz z definicji TOML (Tom's Obvious, Minimal Language) |
-| `list_scenario_kinds` | 92 wbudowane rodzaje scenariuszy z opisami + polami wymaganymi/opcjonalnymi — aby agent mógł zbudować poprawny scenariusz |
+| `list_scenario_kinds` | 93 wbudowane rodzaje scenariuszy z opisami + polami wymaganymi/opcjonalnymi — aby agent mógł zbudować poprawny scenariusz |
 | `validate_scenario` | Sprawdzenie wstępne: parsuje TOML i wykrywa jego rodzaj, bez uruchamiania |
 | `list_example_scenarios` | Dołączone scenariusze referencyjne jako JSON |
 | `get_example_scenario` | Tekst TOML jednego dołączonego scenariusza referencyjnego, bajt w bajt plik z `scenarios/` |
@@ -1498,111 +1542,72 @@ w oficjalnym rejestrze MCP jako `io.github.ashfordeOU/kshana-mcp`.
 <a id="editions"></a>
 ## Edycje
 
-Cały silnik jest bezpłatny. Kshana Pro i badania na zamówienie są dla programów, które potrzebują więcej,
-a każda płatna ścieżka zaczyna się od wiadomości: nie ma tu cen.
+Cały silnik jest bezpłatny. Kshana Pro to wydanie profesjonalne dla zespołów, które muszą podjąć decyzję
+i jej bronić, a badanie na zamówienie to ta sama praca wykonana za Ciebie. Każda płatna droga
+zaczyna się od wiadomości: nie ma tu cen.
 
-| | Free | Kshana Pro | Badanie na zamówienie |
+| | Bezpłatnie | Kshana Pro | Badanie na zamówienie |
 |---|---|---|---|
-| Czym jest | cały otwarty silnik, wszystkie 92 rodzaje scenariuszy, bez blokad funkcji | zastrzeżona nakładka na ten sam silnik, na podstawie umowy | badanie odporności PNT Twojego systemu na poziomie MODELLED, wykonane dla Ciebie |
-| Licencja | AGPL-3.0 (GNU Affero General Public License, wersja 3) lub licencja komercyjna | zastrzeżona | umowa |
+| Co to jest | cały otwarty silnik, wszystkie 93 rodzaje scenariuszy, bez blokad funkcji | wydanie profesjonalne: ten sam silnik i te same pliki scenariuszy, z narzędziami, których program potrzebuje, by decydować, weryfikować i dostarczać | badanie MODELLED odporności PNT Twojego systemu, wykonane dla Ciebie przez Ashforde® OÜ |
+| Dla kogo | badacze, studenci, inżynierowie i każdy, kto chce sprawdzić pytanie | zespoły misji i programów, inżynierowie systemów, producenci odbiorników, zegarów i ładunków, projektanci sygnałów i operatorzy | zespoły, które chcą odpowiedzi bez samodzielnego prowadzenia badania |
+| Wsparcie | społeczność: issues i pull requesty na GitHubie | bezpośrednie wsparcie od zespołu, który tworzy silnik | w cenie |
+| Licencja | AGPL-3.0 (GNU Affero General Public License, wersja 3) lub licencja komercyjna | zastrzeżona, na podstawie umowy | umowa |
 | Jak zacząć | [zainstaluj](#install) lub otwórz [kshana.dev](https://kshana.dev) | [poproś o ocenę Pro](mailto:contact@ashforde.org?subject=Kshana%20Pro%20evaluation) | [poproś o badanie](mailto:contact@ashforde.org?subject=Kshana%20custom%20study) |
 
-Czym jest Pro, słowami [`docs/PRO.md`](docs/PRO.md):
+**Co możesz zrobić z Kshana Pro.** Bezpłatny silnik mówi, co daje jeden scenariusz. Pro
+odpowiada na pytania, które program zadaje potem:
 
-> **Ścisły nadzbiór otwartej Kshana.** Pro zależy od otwartego silnika jako biblioteki i
-> nigdy go nie rozwidla. Każdy otwarty rodzaj scenariusza działa w Pro bez zmian, a otwarty scenariusz działa
-> w Pro w ogóle bez licencji.
->
-> **Żadnej nowej fizyki.** Pro nie dodaje żadnego modelu fizycznego i żadnego nie zmienia. Każda liczba Pro pochodzi
-> z przebiegów otwartego silnika, więc liczba z Pro jest tak wiarygodna jak otwarty rodzaj scenariusza,
-> z którego pochodzi, i nigdy bardziej.
+- **Wybierz projekt, który poleci.** Podaj przestrzeń projektową, jej ograniczenia i swoje cele, a
+  otrzymasz najlepsze kompromisy w całej przestrzeni, każdego kandydata jako plik scenariusza, który
+  bezpłatny silnik uruchamia.
+- **Wiedz, jak pewna jest odpowiedź.** Pasma ufności, prawdopodobieństwo dotrzymania limitu i
+  to, które dane wejściowe decydują o wyniku.
+- **Pokaż, że misja spełnia swoje wymagania.** Zaimportuj wymagania (CSV, ReqIF lub
+  tekst SysML v2), sprawdź je względem przebiegów i otrzymaj macierz weryfikacji, raport o wpływie
+  zmian i dossier misji (PDF, HTML i JSON), które komisja przeglądowa może sprawdzić.
+- **Porównuj architektury na podstawie dowodów.** Uszereguj opcje według liczb, które mają znaczenie, z
+  pakietem dowodów za każdą liczbą.
+- **Wychwyć pogorszenie, zanim trafi do wydania.** Nazwij liczby, na których Ci zależy; Twój pipeline zawodzi,
+  gdy zmiana scenariusza, modelu lub silnika którąś z nich pogarsza.
+- **Sprawdź koegzystencję widmową.** Testuj kandydackie plany sygnałów względem otwartych sygnałów GNSS,
+  w obu kierunkach, i szereguj je.
+- **Twórz bliźniaki swoich zegarów.** Cyfrowy bliźniak zegara sprawdzony względem jego opublikowanej
+  stabilności; bliźniak Twojego własnego urządzenia powstaje razem z Tobą na podstawie umowy.
+- **Uruchamiaj go we własnej sieci.** Lokalna usługa i kolejka zadań z zapisem tego,
+  który wynik dostarczono na które żądanie.
+- **Przekazuj podpisane dowody.** Pro podpisuje swoje pakiety dowodów i dossier, a odbiorca
+  może je sprawdzić bez licencji Pro.
 
-Pro odpowiada na kolejne pytania programu: który projekt wysłać w lot (optymalizator projektu i jego
-front Pareto), na ile pewna jest odpowiedź (niepewność i wrażliwość) i czy misja
-spełnia wymagania (dossier misji, identyfikowalność wymagań, badania kompromisów, sprawdzenie
-regresji scenariuszy, cyfrowe bliźniaki zegarów, dossier badania i usługa
-lokalna (on-premises)). Obserwuje też kampanię liczb i przerywa potok, gdy któraś się pogorszy,
-testuje kandydujące plany sygnałów względem otwartych sygnałów nawigacji satelitarnej w obu
-kierunkach (współistnienie widmowe) i kolejkuje badania w lokalnej usłudze zadań z
-rejestrem dostaw łączonym skrótami. Każda z tych funkcji jest opisana, wraz z tym, co wytwarza i czego nie robi, w
-[`docs/PRO.md`](docs/PRO.md). Nic, co wytwarza Pro, nie jest certyfikacją, a badanie na zamówienie
-również nie jest certyfikacją.
+**Na czym możesz polegać.** Każdy otwarty scenariusz działa w Pro bez zmian, a Pro nigdy nie zmienia
+modelu fizycznego otwartego silnika. Każda liczba zachowuje oznaczenie dowodów nadane jej przez rejestr
+(VALIDATED, MODELLED lub PARTNER), nigdy wyższe; własne modele Pro mają własne
+oznaczenia. Wynik Pro wymienia pliki scenariuszy, które uruchomił, więc każdy z otwartą Kshaną może
+uruchomić je ponownie i otrzymać te same liczby. Nic, co wytwarza Pro, nie jest certyfikacją, a badanie na zamówienie
+też nią nie jest. Pełny opis znajduje się w [`docs/PRO.md`](docs/PRO.md).
 
 <details>
-<summary>Co Kshana Pro czyta z otwartego silnika oraz wsparcie od Ashforde® OÜ</summary>
+<summary>Wsparcie i usługi profesjonalne Ashforde® OÜ</summary>
 
-<br>
-
-**Na czym opiera się Kshana Pro.** Każda część Pro działa na otwartym silniku i pozostawia
-go bez zmian:
-
-- **Optymalizator projektu, badanie niepewności i dossier misji** uruchamiają scenariusze otwartego
-  silnika przez jego publiczny interfejs i obliczają każdą liczbę z wyników
-  przebiegów. Każde wyjście zachowuje poziom VALIDATED, MODELLED lub PARTNER, który otwarty silnik nadał
-  każdej liczbie, nigdy wyższy.
-- **Cyfrowe bliźniaki zegarów** używają modelu zegara otwartego silnika i jego estymatora
-  odchylenia Allana: bliźniak jest kalibrowany do opublikowanego budżetu Allana urządzenia, a następnie sprawdzany przez
-  estymację odchylenia Allana bliźniaka otwartym estymatorem.
-- **Badania kompromisów** uruchamiają każdą opcję architektury jako scenariusz otwartego silnika, bez zmian,
-  i szeregują opcje według wskaźnika jakości odczytanego z wyniku każdego przebiegu.
-- **Obserwacja kampanii** odczytuje swoje liczby z wyników przebiegów otwartego silnika dla
-  scenariuszy w pakiecie i porównuje je z poprzednim zaliczonym przebiegiem.
-- **Współistnienie widmowe** odczytuje każdą liczbę fizyczną z przebiegów otwartego silnika dla rodzajów
-  `leo-signal` i `constellation-design` i dodaje tylko sumę po widocznych satelitach
-  oraz ranking planów.
-- **Lokalna usługa zadań** uruchamia scenariusze otwarte i Pro przez ten sam silnik i
-  przechowuje każdy wynik tak, jak zwrócił go przebieg.
-- **Pakiety dowodowe** zapisują dla każdego przebiegu skrót scenariusza, który otwarty silnik umieszcza w
-  swoim wyniku, dzięki czemu liczbę w pakiecie można odtworzyć, uruchamiając ponownie jej scenariusz.
-- **Narzędzia inżynierii systemów i programów.** Narzędzia Kshana Pro do inżynierii systemów
-  opartej na modelach (MBSE) i programów sprawdzają wymagania programu
-  względem przebiegów otwartego silnika: importują wymagania jako wartości rozdzielane przecinkami
-  (CSV) lub jako udokumentowany podzbiór Requirements Interchange Format (ReqIF) albo
-  tekstu Systems Modeling Language w wersji 2 (SysML v2), oceniają każde kryterium
-  akceptacji, z jego jednostką, względem wartości zapisanych przez przebieg i wytwarzają macierz
-  weryfikacji wymagań (VCRM), model SysML v2, raport wpływu zmian i pakiet dowodowy
-  offline. Niczego nie uruchamiają ponownie ani nie przeliczają i czytają tylko to, co publikuje otwarty silnik:
-  `result.json` każdego przebiegu (pola wymienione w kryterium, ich jednostki,
-  znacznik odtwarzalności złożony ze skrótu scenariusza, ziarna, wersji silnika i wersji schematu oraz
-  etykietę przebiegu i poziomy liczb), jego `report.json` (rodzaj, zapis odtwarzalności i
-  etykiety możliwości), plik scenariusza (jego skrót, rodzaj, ziarno i parametry),
-  schemat jednostek pól (jednostka, pochodzenie i poziom dowodowy każdego pola) oraz
-  macierz weryfikacji (etykieta VALIDATED, MODELLED lub PARTNER każdej możliwości).
-
-<a id="support--professional-services"></a>
 ### Wsparcie i usługi profesjonalne
 
-Kshana jest bezpłatna i otwartoźródłowa na licencji AGPL-3.0 oraz **profesjonalnie rozwijana i
-utrzymywana przez Ashforde® OÜ** (Estonia). Otwarty silnik jest kompletny i użyteczny
-samodzielnie. Organizacjom, które potrzebują więcej, Ashforde® OÜ oferuje:
+Kshana jest bezpłatna i otwartoźródłowa na licencji AGPL-3.0 oraz **profesjonalnie rozwijana i utrzymywana
+przez Ashforde® OÜ** (Estonia). Otwarty silnik jest kompletny i użyteczny sam w sobie.
+Organizacjom, które potrzebują więcej, Ashforde® OÜ oferuje:
 
-- **Komercyjne wsparcie i integrację** — osadzenie Kshana w Twoim łańcuchu narzędzi, scenariusze
+- **Kshana Pro**: opisane wyżej wydanie profesjonalne z bezpośrednim wsparciem.
+- **Wsparcie komercyjne i integrację**: wbudowanie Kshany w Twój łańcuch narzędzi, scenariusze
   na zamówienie i priorytetowe poprawki.
-- **Modele czujników na zamówienie** — skalibrowane do Twojego sprzętu, w tym wrażliwe eksportowo
-  modele odporności utrzymywane w prywatnej nakładce.
-- **Kshana Pro** — zastrzeżone narzędzia inżynierii systemów opartej na modelach (MBSE) i programów,
-  które sprawdzają wymagania programu względem przebiegów otwartego silnika i
-  wytwarzają macierz weryfikacji wymagań (VCRM), model Systems Modeling Language
-  w wersji 2 (SysML v2), raport wpływu zmian i pakiet dowodowy offline. Niczego
-  nie uruchamiają ponownie i czytają tylko opublikowane wyjścia silnika: `result.json`
-  i `report.json` każdego przebiegu, plik scenariusza, schemat jednostek pól i etykiety
-  macierzy weryfikacji (pełna lista znajduje się w [Edycjach](#editions)).
-- **Narzędzia Kshana Pro do projektowania, niepewności i misji** — front Pareto przestrzeni
-  projektowej, niepewność i wrażliwość w tysiącach przebiegów oraz dossier misji
-  jednym poleceniem z macierzą weryfikacji i plikiem PDF; zob. [`docs/PRO.md`](docs/PRO.md).
-- **Obserwacja kampanii, współistnienie widmowe i usługa zadań Kshana Pro** — potok, który
-  przerywa się, gdy obserwowana liczba się pogorszy, plany sygnałów testowane względem otwartych
-  sygnałów nawigacji satelitarnej w obu kierunkach oraz lokalna kolejka zadań z
-  rejestrem dostaw łączonym skrótami; zob. [`docs/PRO.md`](docs/PRO.md).
-- **Szkolenia i doradztwo** w zakresie analizy osiągów PNT kwantowego/klasycznego.
+- **Modele czujników na zamówienie**: skalibrowane do Twojego sprzętu na podstawie umowy; prace wrażliwe
+  eksportowo są wykonywane tylko z odpowiednim poświadczeniem i umową o zachowaniu poufności.
+- **Badania na zamówienie**: badanie MODELLED odporności PNT Twojego systemu, wykonane dla Ciebie.
+- **Szkolenia i doradztwo** w zakresie odporności PNT i wydajności czujników kwantowych i klasycznych.
 
-To model open-core: silnik jest i pozostanie na otwartej licencji; działalność, która go utrzymuje,
-to wiedza ekspercka, wsparcie i zastrzeżone rozszerzenia — a nie opłaty licencyjne.
+To model open core: silnik jest i pozostanie na otwartej licencji; działalność, która go
+utrzymuje, to Kshana Pro, wsparcie i wiedza ekspercka.
 Kontakt **contact@ashforde.org** · [ashforde.org](https://ashforde.org).
 
 </details>
 
-<a id="research"></a>
 ## Badania
 
 Badania oparte na otwartym silniku są publikowane w arXiv. Każde wymienia polecenie silnika,
@@ -1864,7 +1869,7 @@ NASA/JPL Three-Body Periodic Orbit Database). Są to dodatkowe sprawdzenia regre
 <a id="scenario-format"></a>
 ### Format scenariusza
 
-Scenariusze to deklaratywny TOML. `kind` na najwyższym poziomie wybiera pakiet — łącznie **pięćdziesiąt**
+Scenariusze to deklaratywny TOML. `kind` na najwyższym poziomie wybiera pakiet — łącznie **93**
 (`clock` jest domyślny, jeśli pominięto): `inertial`, `timetransfer`, `hybrid`, `hybrid-ukf`, `fusion`,
 `gnss-ins`, `orbit`, `ephemeris`, `gnss-sim`, `integrity`, `lunar-integrity`, `lunar-time-offset`, `spoof`,
 `spoof-detect`, `jamming`, `sweep`, `sweep-nd`, `gravity-map`, `terrain-nav`, `terrain-slam`,
@@ -2112,7 +2117,7 @@ zegar papierowy). **MODELLED** — główna liczba jest *zależna od odniesienia
 wobec selenoidy księżycowej, okno uśredniania), dlatego podawane jest pasmo, a nie pojedyncza certyfikowana
 liczba (`scenarios/lunar-time-offset.toml`).
 
-W `scenarios/` znajduje się co najmniej jeden opracowany przykład każdego rodzaju (92 rodzaje, 193 pliki scenariuszy
+W `scenarios/` znajduje się co najmniej jeden opracowany przykład każdego rodzaju (93 rodzaje, 199 pliki scenariuszy
 `.toml` + 1 manifest zestawu — kilka rodzajów ma więcej niż jeden przykład). Nie każdy
 rodzaj ma plik nazwany jego nazwą: `lunar-integrity` → `scenarios/lunanet-araim.toml` i
 `gravity-map` → `scenarios/gps-denied-gravity-nav.toml` to dwa z kilku takich przypadków.
@@ -2213,7 +2218,6 @@ kshana/
 │   └── bin/crossover_study.rs · bin/validation_report.rs  # crossover-study artifact generator · release validation-summary HTML
 │
 ├── mcp/kshana-mcp/        # standalone, workspace-EXCLUDED crate — the MCP server (+ Dockerfile, server.json)
-├── ide/jetbrains/         # standalone Kotlin/Gradle IntelliJ-Platform plugin
 ├── xval/                  # standalone, workspace-EXCLUDED external cross-checks: anise-{frames,lunar-od,mars-od,service-geometry} (Rust ANISE/SPICE DE440) + orekit-passes (Java Orekit)
 │
 ├── examples/            # reproducible study generators: tpl_jammertest · resilience_report · optimism_study + real-data probes (jammertest_probe · yunnan_probe · satgrid_probe · texbat_probe · ingest_realdata)
@@ -2223,7 +2227,7 @@ kshana/
 ├── docs/                 # CONCEPTS, ARCHITECTURE, CAPABILITY, VALIDATION, PROVENANCE, GLOSSARY, …
 ├── web/                  # the WebAssembly playground + kshana.dev site
 ├── tools/                # table generators (EGM2008 · IGRF · nutation · CIO) + fetch_tles.sh
-├── .github/workflows/    # ci · release · publish · wheels · pages · mcp-publish · jetbrains-plugin · frame-xval
+├── .github/workflows/    # ci · release · publish · wheels · pages · mcp-publish · frame-xval
 ├── pyproject.toml        # Python packaging (maturin)
 ├── CHANGELOG.md          # Keep a Changelog + SemVer
 └── CITATION.cff · ROADMAP.md · CONTRIBUTING.md · SECURITY.md
@@ -2245,7 +2249,7 @@ Nie. To *symulator* osiągów. Wierność odwzorowania sprzętu kwantowego pocho
 modeli błędów, a nie z tego narzędzia. Zob. [Czym jest / czym nie jest](#what-it-is--is-not).
 
 **Czy wyniki kwantowe są realistyczne, czy to marketing?**
-Każdy parametr jest zacytowany z karty katalogowej lub artykułu, każdy model jest zwalidowany względem
+Każdy parametr jest zacytowany z karty katalogowej lub artykułu, każdy model jest sprawdzony względem
 zależności podręcznikowej, a dojrzałość jest uczciwie oznaczona w
 [VALIDATION.md](docs/VALIDATION.md) — w tym to, że żaden strontowy zegar optyczny nie
 latał. Silnik jest neutralny: kwantowe i klasyczne to ten sam kod z różnymi
@@ -2317,13 +2321,13 @@ następnie potok sprawdza, czy każdy rejestr rzeczywiście serwuje nową wersj�
 
 | Kanał | Instalacja / pobranie | Zawartość |
 |---------|---------------|----------|
-| [crates.io](https://crates.io/crates/kshana) | `cargo install kshana` · `kshana = "0.35"` | biblioteka Rust + CLI |
+| [crates.io](https://crates.io/crates/kshana) | `cargo install kshana` · `kshana = "0.41"` | biblioteka Rust + CLI |
 | [crates.io](https://crates.io/crates/kshana-mcp) | `cargo install kshana-mcp` | serwer MCP |
 | [PyPI (Python Package Index)](https://pypi.org/project/kshana/) | `pip install kshana` | koła abi3 (Linux/macOS/Windows) + sdist (dystrybucja źródłowa) |
 | [npm](https://www.npmjs.com/package/kshana) | `npm install kshana` | moduł WebAssembly + nakładka JS |
 | [ghcr.io](https://github.com/ashfordeOU/kshana/pkgs/container/kshana-mcp) | `docker run -i ghcr.io/ashfordeou/kshana-mcp` | wieloarchitekturowy obraz OCI (Open Container Initiative) — bez potrzeby zestawu narzędzi |
-| [npm](https://www.npmjs.com/package/kshana-mcp) | `npx -y kshana-mcp@0.40.0` | program uruchamiający: pobiera plik binarny wydania, weryfikuje `SHA256SUMS`, uruchamia go |
-| [PyPI](https://pypi.org/project/kshana-mcp/) | `uvx kshana-mcp==0.40.0` · `pipx run kshana-mcp==0.40.0` | ten sam program uruchamiający dla Pythona |
+| [npm](https://www.npmjs.com/package/kshana-mcp) | `npx -y kshana-mcp@0.41.0` | program uruchamiający: pobiera plik binarny wydania, weryfikuje `SHA256SUMS`, uruchamia go |
+| [PyPI](https://pypi.org/project/kshana-mcp/) | `uvx kshana-mcp==0.41.0` · `pipx run kshana-mcp==0.41.0` | ten sam program uruchamiający dla Pythona |
 | Homebrew · Scoop · winget | `brew install ashfordeOU/tap/kshana-mcp` · `scoop install kshana-mcp` · `winget install AshfordeOU.KshanaMcp` | plik binarny `kshana-mcp`, generowany z `SHA256SUMS` każdego wydania |
 | Claude Desktop | kliknij dwukrotnie `kshana-mcp-<target>.mcpb` z wydania | rozszerzenie z plikiem binarnym w środku |
 | oficjalny rejestr MCP | automatycznie wykrywany przez klientów MCP | `io.github.ashfordeOU/kshana-mcp` (obraz OCI, pakiety npm i PyPI) |
@@ -2354,7 +2358,7 @@ pełny łańcuch GCRS↔ITRS oparty na CIO wg IAU 2006/2000A (ruch bieguna + nut
 zwalidowany bit w bit względem SOFA/ERFA i niezależnie sprawdzony krzyżowo względem ANISE
 (czysto rustowego SPICE) do ≤ 3.6 m na orbicie GNSS. Pozycje najbliższego okresu obejmują ściśle sprzężoną fuzję fazy nośnej i udostępnienie
 luźno/ściśle sprzężonego nawigatora GNSS/INS w większej liczbie pakietów; silnik **nawigacji radiometrycznej
-w dalekim kosmosie / dla Marsa** pojawił się w v0.17.0 (zwalidowany symulacyjnie).
+w dalekim kosmosie / dla Marsa** pojawił się w v0.17.0 (MODELLED: sprawdzony w symulacji, nie na danych z misji).
 **Warstwa fizyki kwantowej** jest pozycją **P2**: akcelerometr CAI jest teraz symulowany na podstawie
 pierwszych zasad (faza Macha–Zehndera, szum projekcji, zanik kontrastu, sprzężenie z
 wibracjami), podczas gdy czujniki zegara/transferu czasu są nadal napędzane opublikowanymi
@@ -2409,7 +2413,7 @@ dla każdej zmiany widocznej dla użytkownika. Udział reguluje nasz
 | [Odtwarzalność i pochodzenie](docs/REPRODUCIBILITY.md) | recenzenci / opiekunowie pakietów | gwarancje determinizmu, przypinanie wzorców, SBOM (zestawienie składników oprogramowania), pochodzenie kompilacji |
 | [Znaczniki platform kół](docs/WHEEL_TAGS.md) | opiekunowie pakietów | macierz kół Python abi3 — który znacznik platformy rozwiązuje `pip install kshana` |
 | [Pozycjonowanie](docs/POSITIONING.md) | oceniający | gdzie Kshana plasuje się względem RTKLIB/gLAB (uzupełniająco) i warstwa przeglądarkowa bez instalacji |
-| [Kshana Pro](docs/PRO.md) | oceniający / kierownicy programów | co zastrzeżona nakładka Pro dodaje do tego samego silnika: optymalizator projektu, niepewność i wrażliwość, dossier misji, obserwacja kampanii, współistnienie widmowe, lokalna usługa zadań, identyfikowalność wymagań; co każda z nich wytwarza i czego nie robi |
+| [Kshana Pro](docs/PRO.md) | oceniający / kierownicy programów | wydanie profesjonalne: dla kogo jest, co zespoły mogą z nim zrobić, co otrzymują, wsparcie i jak zacząć ocenę |
 | [Raport techniczny](paper/kshana-technical-report.md) · [Artykuł JOSS](paper/paper.md) | recenzenci / cytujący / oceniający | pełny rozszerzony artykuł badawczy — architektura, modele dla każdej domeny, walidacja, studia przypadków i ograniczenia — plus zwięzłe zgłoszenie do JOSS (Journal of Open Source Software) |
 | [Walidacja SGP4](docs/SGP4-VALIDATION.md) | recenzenci / cytujący | zgodność z odniesieniem AIAA 2006-6753 (666 stanów, ~4 mm) **oraz** bezpośrednie porównanie z niezależnym crate `sgp4` (zgodność poniżej mikrona / 4.12 mm) |
 | [Walidacja modelu sił](docs/AGENCY-ORBIT-VALIDATION.md) | recenzenci / cytujący | silnik pełnych sił (`src/precise_od.rs`) dopasowany do efemeryd agencji — metodologia i zwalidowane residua |
@@ -2435,7 +2439,7 @@ dla każdej zmiany widocznej dla użytkownika. Udział reguluje nasz
 | [API Python](docs/PYTHON_API.md) | użytkownicy Pythona | interfejs powiązania PyO3 — wywoływanie silnika, typy scenariusza/wyniku i przykłady |
 | [Deklaracje a rzeczywistość](docs/CLAIMS-VS-REALITY.md) | recenzenci | rejestr domykania nadmiernych deklaracji + zabezpieczenie CI (`tests/no_overclaims.rs`), które utrzymuje go w stanie rozwiązanym |
 | [Plan rozwoju](ROADMAP.md) | wszyscy | etapowy plan rozwoju — co zostało dostarczone i co jest następne |
-| [Serwer MCP](mcp/kshana-mcp/README.md) · [Wtyczka JetBrains](ide/jetbrains/README.md) | agenci / użytkownicy IDE | uruchamianie Kshana z asystenta AI lub IDE JetBrains |
+| [Serwer MCP](mcp/kshana-mcp/README.md) · [Wtyczka JetBrains](https://kshana.dev/docs/jetbrains.html) | agenci / użytkownicy IDE | uruchamianie Kshana z asystenta AI lub IDE JetBrains |
 | [Przewodnik dla agentów](docs/AGENTS.md) · [Interfejsy](docs/SURFACES.md) | agenci / integratorzy | które narzędzie odpowiada na które pytanie, co zachować z każdą odpowiedzią; gdzie każda możliwość jest dostępna (CLI, Rust, Python, WASM, MCP, wtyczka, JetBrains, notatniki) i dlaczego komórka ma N/A |
 | [Dziennik zmian](CHANGELOG.md) | wszyscy | historia wydań (Keep a Changelog + SemVer, Semantic Versioning) |
 | [Współtworzenie](CONTRIBUTING.md) | współtwórcy | budowanie, zabezpieczenia, dyscyplina testów/cytowań, DCO (Developer Certificate of Origin) |
