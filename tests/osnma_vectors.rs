@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
-//! The open synthetic OSNMA vector set (`conformance/osnma/v1`, `docs/OSNMA-VECTORS.md`):
+//! The open synthetic OSNMA vector sets (`conformance/osnma/v1` and `v2`, `docs/OSNMA-VECTORS.md`):
 //! the committed files are exactly what the generator makes, the bar file hash is the pinned
 //! one, every vector meets its fixed bar through the library and the command line, and the
 //! runner refuses a changed bar file and fails a changed input.
 //!
 //! Regenerate the committed files (from the repository root) with
-//! `KSHANA_WRITE_OSNMA_VECTORS=1 cargo test --test osnma_vectors the_committed_set_is_current`.
+//! `KSHANA_WRITE_OSNMA_VECTORS=1 cargo test --test osnma_vectors committed_set`.
 
 use kshana::osnma::vectors::{self, LoadedSet};
 use serde_json::{json, Value};
@@ -20,6 +20,10 @@ fn root() -> PathBuf {
 
 fn set_dir() -> PathBuf {
     root().join("conformance/osnma/v1")
+}
+
+fn set_dir_v(major: u32) -> PathBuf {
+    root().join(format!("conformance/osnma/v{major}"))
 }
 
 fn kshana(args: &[&str]) -> (i32, String, String) {
@@ -58,17 +62,16 @@ fn copy_set(to: &Path) {
     }
 }
 
-#[test]
-fn the_committed_set_is_current() {
+fn check_committed(major: u32) {
     if std::env::var_os("KSHANA_WRITE_OSNMA_VECTORS").is_some() {
-        vectors::write_set(&set_dir()).unwrap();
+        vectors::write_set_version(&set_dir_v(major), major).unwrap();
     }
-    let (manifest, bars, gens) = vectors::generate();
-    let read = |p: &str| std::fs::read_to_string(set_dir().join(p)).unwrap();
+    let (manifest, bars, gens) = vectors::generate_version(major);
+    let read = |p: &str| std::fs::read_to_string(set_dir_v(major).join(p)).unwrap();
     assert_eq!(
         read("manifest.json"),
         vectors::to_text(&manifest),
-        "conformance/osnma/v1/manifest.json differs from the generator"
+        "conformance/osnma/v{major}/manifest.json differs from the generator"
     );
     assert_eq!(
         read("bars.json"),
@@ -84,23 +87,60 @@ fn the_committed_set_is_current() {
         .iter()
         .map(|g| g.entry["input"].as_str().unwrap().to_string())
         .collect();
-    for e in std::fs::read_dir(set_dir().join("inputs")).unwrap() {
+    for e in std::fs::read_dir(set_dir_v(major).join("inputs")).unwrap() {
         let name = format!("inputs/{}", e.unwrap().file_name().to_string_lossy());
         assert!(named.contains(&name), "{name} is not in the manifest");
     }
 }
 
 #[test]
+fn the_committed_set_v1_is_current() {
+    check_committed(1);
+}
+
+#[test]
+fn the_committed_set_v2_is_current() {
+    check_committed(2);
+}
+
+#[test]
 fn the_bar_file_hash_is_the_pinned_one() {
-    let (manifest, bars, _) = vectors::generate();
-    let h = hex::encode(Sha256::digest(bars.as_bytes()));
-    assert_eq!(h, vectors::BARS_SHA256_V1);
-    assert_eq!(manifest["bars_sha256"], h);
+    for (major, pin) in [(1, vectors::BARS_SHA256_V1), (2, vectors::BARS_SHA256_V2)] {
+        let (manifest, bars, _) = vectors::generate_version(major);
+        let h = hex::encode(Sha256::digest(bars.as_bytes()));
+        assert_eq!(h, pin, "set version {major}");
+        assert_eq!(manifest["bars_sha256"], h);
+    }
+}
+
+#[test]
+fn version_2_keeps_every_version_1_vector_and_bar_unchanged() {
+    let (m1, b1, g1) = vectors::generate_version(1);
+    let (m2, b2, g2) = vectors::generate_version(2);
+    assert_eq!(m1["set_version"], vectors::SET_VERSION_V1);
+    assert_eq!(m2["set_version"], vectors::SET_VERSION);
+    let (b1, b2): (Value, Value) = (
+        serde_json::from_str(&b1).unwrap(),
+        serde_json::from_str(&b2).unwrap(),
+    );
+    for (g, h) in g1.iter().zip(&g2) {
+        assert_eq!(g.entry, h.entry);
+        assert_eq!(g.input, h.input);
+        let id = g.entry["id"].as_str().unwrap();
+        assert_eq!(b1["bars"][id], b2["bars"][id], "{id}");
+    }
+    assert_eq!(
+        g2.len(),
+        g1.len() + vectors::set_v2::added().len(),
+        "version 2 is version 1 plus the added vectors"
+    );
+    // The default the command runs and writes is the latest version.
+    assert_eq!(vectors::generate().0["set_version"], vectors::SET_VERSION);
 }
 
 #[test]
 fn the_set_covers_every_category_with_unique_ids_and_citations() {
-    let defs = vectors::set_v1::vectors();
+    let defs = vectors::set_v2::vectors();
     let mut ids: Vec<&str> = defs.iter().map(|d| d.id).collect();
     ids.sort();
     ids.dedup();
@@ -115,6 +155,7 @@ fn the_set_covers_every_category_with_unique_ids_and_citations() {
         "replay",
         "corruption",
         "time",
+        "maclt",
     ] {
         assert!(
             defs.iter().any(|d| d.category == cat),
@@ -144,7 +185,8 @@ fn every_built_in_vector_meets_its_bar() {
         .filter(|v| v["pass"] != true)
         .collect();
     assert!(missed.is_empty(), "{missed:#?}");
-    assert_eq!(r["total"], vectors::set_v1::vectors().len());
+    assert_eq!(r["total"], vectors::set_v2::vectors().len());
+    assert_eq!(r["set_version"], vectors::SET_VERSION);
     assert_eq!(r["format"], vectors::RESULT_FORMAT);
     let scope = r["scope"].as_str().unwrap();
     assert!(scope.contains("not a certification") && scope.contains("not conformance"));
@@ -197,6 +239,14 @@ fn the_command_line_runs_the_committed_set_with_a_table_and_json() {
     assert_eq!(code, 0);
     let rep: Value = serde_json::from_str(&out).unwrap();
     assert_eq!(rep["overall"], "authenticated");
+    // The committed version 2 set runs the same way, under its own pin.
+    let d2 = set_dir_v(2);
+    let (code, out, _) = kshana(&["osnma", "vectors", "run", d2.to_str().unwrap(), "--json"]);
+    assert_eq!(code, 0, "{out}");
+    let r: Value = serde_json::from_str(&out).unwrap();
+    assert_eq!(r["failed"], 0);
+    assert_eq!(r["bars_sha256"], vectors::BARS_SHA256_V2);
+    assert_eq!(r["total"], vectors::set_v2::vectors().len());
 }
 
 #[test]
@@ -265,7 +315,8 @@ fn the_bar_check_fails_unknown_bars_and_reads_reports_as_documented() {
         ],
         "tags": [
             {"adkd": 0, "status": {"state": "failed", "reason": "tag_mismatch"}},
-            {"adkd": 4, "status": {"state": "authenticated"}}
+            {"adkd": 4, "status": {"state": "authenticated"}},
+            {"adkd": 7, "status": {"state": "discarded", "reason": "reserved_field"}}
         ]
     });
     let all = |bar: Value, exit: i32| {
@@ -295,6 +346,10 @@ fn the_bar_check_fails_unknown_bars_and_reads_reports_as_documented() {
     ));
     assert!(!all(json!({"adkd_authenticated": [0]}), 3));
     assert!(all(json!({"fail_reasons": ["tag_mismatch"]}), 3));
+    assert!(!all(json!({"fail_reasons_absent": ["tag_mismatch"]}), 3));
+    assert!(all(json!({"fail_reasons_absent": ["macseq_mismatch"]}), 3));
+    assert!(all(json!({"discard_reasons": ["reserved_field"]}), 3));
+    assert!(!all(json!({"discard_reasons": ["adkd_not_in_table"]}), 3));
     // A satellite the report does not list is "not authenticated".
     assert!(all(json!({"satellites_not": {"E05": "authenticated"}}), 3));
     assert!(!all(json!({"satellites": {"E05": "authenticated"}}), 3));

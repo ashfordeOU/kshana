@@ -22,8 +22,6 @@ pub const WN: u32 = 1248;
 /// Hour-aligned start of the standard chain and of most streams.
 pub const GST0: u32 = WN * WEEK_S + 345_600;
 const ALPHA: [u8; 6] = [0x11, 0x22, 0x33, 0x44, 0x55, 0x66];
-const KEY_BITS: usize = 128;
-const TAG_BITS: usize = 40;
 /// The satellite that transmits OSNMA.
 pub const PRNA: u8 = 2;
 /// A satellite without OSNMA of its own, authenticated by cross-authentication.
@@ -50,6 +48,16 @@ pub struct Ctx {
     pub nmas: u8,
     /// Tags for `PRN_X` are dummy tags (COP 0, computed over zeros).
     pub dummy_x: bool,
+    /// TESLA key length in bits (one of the KS values: 96 to 256).
+    pub key_bits: usize,
+    /// Tag length in bits (40 in every built-in vector).
+    pub tag_bits: usize,
+    /// MAC look-up table entry the KROOT announces and the MACKs follow (33, 34 or 40 are
+    /// laid out by [`plan`]; any other id is announced but laid out as 34).
+    pub maclt: u8,
+    /// In MACKs sent in the first half of a GST minute, Tag-Info `(index, PRN_D, ADKD)` put
+    /// in place of what the look-up entry asks for (tag `index + 1`, counted from Tag0 = 0).
+    pub swap_even: Option<(usize, u8, u8)>,
 }
 
 impl Ctx {
@@ -64,17 +72,27 @@ impl Ctx {
             seed: 5,
             nmas: 2,
             dummy_x: false,
+            key_bits: 128,
+            tag_bits: 40,
+            maclt: 34,
+            swap_even: None,
         }
     }
 
     /// Keys K_0 (the root, stamped `gst0 - 30`) to K_n.
     pub fn chain(&self, n: u32) -> Vec<Vec<u8>> {
-        let mut seq = vec![(0..KEY_BITS / 8)
+        let mut seq = vec![(0..self.key_bits / 8)
             .map(|i| (i * 13 + usize::from(self.seed)) as u8)
             .collect::<Vec<u8>>()];
         for i in (0..n).rev() {
             let gst = self.gst0 + 30 * i - 30;
-            let next = tesla::step(self.hash, &seq[seq.len() - 1], gst, &self.alpha, KEY_BITS);
+            let next = tesla::step(
+                self.hash,
+                &seq[seq.len() - 1],
+                gst,
+                &self.alpha,
+                self.key_bits,
+            );
             seq.push(next);
         }
         seq.reverse();
@@ -93,7 +111,7 @@ impl Ctx {
 
     fn mac_tag(&self, key: &[u8], msg: &[u8]) -> u64 {
         let full = mac::compute(self.mac, key, msg).unwrap_or_default();
-        read_bits(&full, 0, TAG_BITS).unwrap_or(0)
+        read_bits(&full, 0, self.tag_bits).unwrap_or(0)
     }
 
     fn tag_msg(&self, prnd: Option<u8>, gst: u32, ctr: u8, nav: &(Vec<u8>, usize)) -> Vec<u8> {
@@ -119,25 +137,23 @@ impl Ctx {
         }
     }
 
-    /// The MACK of `PRNA` transmitted at `gst` (look-up entry 34): the flexible slots carry
-    /// cross-authentication of ADKD 0 for `PRN_X`.
+    /// The MACK of `PRNA` transmitted at `gst`, laid out by the look-up entry of the context
+    /// ([`plan`]): the flexible slots carry cross-authentication of ADKD 0 for `PRN_X`.
     pub fn mack(&self, chain: &[Vec<u8>], gst: u32) -> [u8; 60] {
         let k_next = self.key_at(chain, gst + 30);
-        let p = plan(gst);
+        let (mut p, flex_idx) = plan(self.maclt, gst);
+        if let (Some((i, prnd, adkd)), true) = (self.swap_even, gst.is_multiple_of(60)) {
+            p[i] = (prnd, adkd);
+        }
         let mut w = BitWriter::new();
         let t0 = self.mac_tag(
             &k_next,
             &self.tag_msg(None, gst, 1, &navdata(PRNA, gst - 30, 0)),
         );
-        let flex_idx: &[usize] = if gst.is_multiple_of(60) {
-            &[0, 2]
-        } else {
-            &[0]
-        };
         let mut ms = BitWriter::new();
         ms.push(u64::from(PRNA), 8);
         ms.push(u64::from(gst_pack(gst)), 32);
-        for i in flex_idx {
+        for i in &flex_idx {
             let (prnd, adkd) = p[*i];
             ms.push(
                 (u64::from(prnd) << 8) | (u64::from(adkd) << 4) | u64::from(self.cop(prnd)),
@@ -150,7 +166,7 @@ impl Ctx {
             12,
         )
         .unwrap_or(0);
-        w.push(t0, TAG_BITS);
+        w.push(t0, self.tag_bits);
         w.push(macseq, 12);
         w.push(1, 4);
         for (i, (prnd, adkd)) in p.iter().enumerate() {
@@ -169,7 +185,7 @@ impl Ctx {
             };
             w.push(
                 self.mac_tag(&key, &self.tag_msg(Some(*prnd), gst, ctr, &nav)),
-                TAG_BITS,
+                self.tag_bits,
             );
             w.push(u64::from(*prnd), 8);
             w.push(u64::from(*adkd), 4);
@@ -253,12 +269,31 @@ fn navdata(prn: u8, gst: u32, adkd: u8) -> (Vec<u8>, usize) {
     (out.into_bytes(), n)
 }
 
-/// Tag-Info (satellite, ADKD) of tags 1 to 5 of the MACK sent at `gst`, look-up entry 34.
-fn plan(gst: u32) -> [(u8, u8); 5] {
-    if gst.is_multiple_of(60) {
-        [(PRN_X, 0), (PRNA, 4), (PRN_X, 0), (PRNA, 12), (PRN_X, 0)]
-    } else {
-        [(PRN_X, 0), (PRN_X, 0), (PRNA, 12), (PRN_X, 0), (PRN_X, 12)]
+/// Tag-Info (satellite, ADKD) of the tags after Tag0 of the MACK sent at `gst` under look-up
+/// entry `maclt`, and the indices of the flexible slots among them. Written out by hand from
+/// our reading of the ICD's Annex C for the three entries the set uses (33, 34 and 40), not
+/// taken from the verifier's table; a flexible slot carries ADKD 0 for `PRN_X`.
+fn plan(maclt: u8, gst: u32) -> (Vec<(u8, u8)>, Vec<usize>) {
+    let even = gst.is_multiple_of(60);
+    match (maclt, even) {
+        (33, true) => (
+            vec![(PRN_X, 0), (PRNA, 4), (PRN_X, 0), (PRNA, 12), (PRN_X, 0)],
+            vec![],
+        ),
+        (33, false) => (
+            vec![(PRN_X, 0), (PRN_X, 0), (PRNA, 12), (PRN_X, 0), (PRN_X, 12)],
+            vec![],
+        ),
+        (40, true) => (vec![(PRN_X, 0), (PRNA, 4), (PRNA, 12)], vec![]),
+        (40, false) => (vec![(PRN_X, 0), (PRN_X, 0), (PRN_X, 12)], vec![]),
+        (_, true) => (
+            vec![(PRN_X, 0), (PRNA, 4), (PRN_X, 0), (PRNA, 12), (PRN_X, 0)],
+            vec![0, 2],
+        ),
+        (_, false) => (
+            vec![(PRN_X, 0), (PRN_X, 0), (PRNA, 12), (PRN_X, 0), (PRN_X, 12)],
+            vec![0],
+        ),
     }
 }
 
@@ -382,29 +417,53 @@ impl Signer {
 /// A DSM-KROOT for the chain of `ctx` with root key `root`, signed with `signer` under key id
 /// `pkid`; the signed message uses `header` as its NMA header.
 pub fn dsm_kroot(ctx: &Ctx, root: &[u8], signer: &Signer, header: u8, pkid: u8) -> Vec<u8> {
-    let (blocks, nbdk, sig_len) = match signer {
-        Signer::P256(_) => (8usize, 2u8, 64usize),
-        Signer::P521(_) => (13, 7, 132),
+    let sig_len = match signer {
+        Signer::P256(_) => 64usize,
+        Signer::P521(_) => 132,
     };
+    let klen = ctx.key_bits / 8;
+    // The fewest 13-byte blocks that hold the fixed fields, the root key and the signature
+    // (the ICD's NBDK counts blocks from 7).
+    let blocks = (13 + klen + sig_len).div_ceil(13).max(7);
+    let nbdk = (blocks - 6) as u8;
     let mut d = vec![0u8; blocks * 13];
     d[0] = (nbdk << 4) | pkid;
     let hf = if ctx.hash == HashFn::Sha3_256 { 2 } else { 0 };
     let mf = if ctx.mac == MacFn::CmacAes { 1 } else { 0 };
     d[1] = (ctx.cid << 6) | (hf << 2) | mf;
-    d[2] = (4 << 4) | 9; // 128-bit keys, 40-bit tags
-    d[3] = 34; // look-up entry
+    let ks = match ctx.key_bits {
+        96 => 0u8,
+        104 => 1,
+        112 => 2,
+        120 => 3,
+        160 => 5,
+        192 => 6,
+        224 => 7,
+        256 => 8,
+        _ => 4, // 128 bits
+    };
+    let ts = match ctx.tag_bits {
+        20 => 5u8,
+        24 => 6,
+        28 => 7,
+        32 => 8,
+        _ => 9, // 40 bits
+    };
+    d[2] = (ks << 4) | ts;
+    d[3] = ctx.maclt;
     d[4] = ((ctx.gst0 / WEEK_S) >> 8) as u8;
     d[5] = (ctx.gst0 / WEEK_S) as u8;
     d[6] = ((ctx.gst0 % WEEK_S) / 3600) as u8;
     d[7..13].copy_from_slice(&ctx.alpha);
-    d[13..29].copy_from_slice(root);
+    let s = 13 + klen;
+    d[13..s].copy_from_slice(root);
     let mut m = vec![header];
-    m.extend_from_slice(&d[1..29]);
-    d[29..29 + sig_len].copy_from_slice(&signer.sign(&m));
+    m.extend_from_slice(&d[1..s]);
+    d[s..s + sig_len].copy_from_slice(&signer.sign(&m));
     // Padding: a truncated hash of the signed message and the signature.
-    m.extend_from_slice(&d[29..29 + sig_len]);
+    m.extend_from_slice(&d[s..s + sig_len]);
     let h = Sha256::digest(&m);
-    let end = 29 + sig_len;
+    let end = s + sig_len;
     let n = d.len() - end;
     d[end..].copy_from_slice(&h[..n]);
     d
@@ -444,25 +503,32 @@ impl Tree {
         self.levels[self.levels.len() - 1][0]
     }
 
-    /// A 13-block DSM-PKR for leaf `mid` whose leaf message is `leaf`.
+    /// A DSM-PKR for leaf `mid` whose leaf message is `leaf`: 13 blocks, or as many more
+    /// (up to 16) as a longer leaf (a P-521 key) needs.
     pub fn dsm_pkr(&self, mid: u8, leaf: &[u8]) -> Vec<u8> {
-        let mut d = vec![(7u8 << 4) | mid];
+        let blocks = (1 + 128 + leaf.len()).div_ceil(13).clamp(13, 16);
+        let len = blocks * 13;
+        let mut d = vec![(((blocks - 6) as u8) << 4) | mid];
         for j in 0..4 {
             d.extend_from_slice(&self.levels[j][usize::from(mid >> j) ^ 1]);
         }
         d.extend_from_slice(leaf);
-        let pad = 169usize.saturating_sub(d.len());
+        let pad = len.saturating_sub(d.len());
         if pad > 0 {
             d.extend_from_slice(&h2(&self.root(), leaf)[..pad]);
         }
-        d.truncate(169);
+        d.truncate(len);
         d
     }
 }
 
-/// The leaf message of a public key (new public key type 1).
+/// The leaf message of a public key (new public key type 1 for P-256, 3 for P-521).
 pub fn key_leaf(pk: &PublicKey) -> Vec<u8> {
-    let mut l = vec![(1u8 << 4) | pk.pkid];
+    let npkt = match pk.key_type {
+        KeyType::P256 => 1u8,
+        KeyType::P521 => 3,
+    };
+    let mut l = vec![(npkt << 4) | pk.pkid];
     l.extend_from_slice(&pk.bytes);
     l
 }
