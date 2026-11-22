@@ -1,4 +1,4 @@
-# Quantum-vs-classical PNT trade with measured-ADEV ingestion (ESA AO/1-13503 demonstrator).
+# Quantum-vs-classical PNT trade with measured-ADEV ingestion.
 #
 # Computes the timing-holdover and inertial-holdover benefit of a CANDIDATE clock
 # over a CLASSICAL baseline, plus a GNSS-denied resilience-vs-time envelope. The

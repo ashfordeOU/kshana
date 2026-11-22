@@ -1350,7 +1350,7 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/optical_atmosphere_scenario.rs": {
-   "count": 207,
+   "count": 209,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/optical_outage_holdover.rs": {
