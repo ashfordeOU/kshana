@@ -16,7 +16,7 @@ Topic pages: [TIP-AND-CUE](../TIP-AND-CUE.md). Run one: `kshana scenarios/tip-an
 
 MODELLED revisit and tip-and-cue latency of a two-layer maritime survey over the Baltic Sea: an RF survey layer and an optical layer, each a Walker star pattern of 550 km sun-synchronous orbits propagated with the secular J2 drift on a spherical Earth, with an elevation mask for the RF layer and an off-nadir field of regard (and optionally daylight) for the optical layer. Reports R, the area-weighted mean gap between RF accesses per point; F, the mean wait until every sea point has been in view; and Q, the mean wait from an RF access to an optical look, each with its median, 95th percentile and largest value. Geometry and timing only: no detection, weather or tasking latency. A cross-check of published simulation figures, never a validation.
 
-Required fields: none. Optional: `kind`, `title`, `seed`, `area`, `step_s`, `span_days`, `m2`, `cases`.
+Required fields: none. Optional: `title`, `seed`, `area`, `step_s`, `span_days`, `m2`, `cases`.
 
 **Ledger:** no matrix row names this kind; the engine labels its own result. Full page, with the inputs, results, evidence and limitations: [tip-and-cue](by-kind/tip-and-cue.md).
 

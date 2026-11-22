@@ -63,7 +63,7 @@ VALIDATED: the [verification matrix](../../VERIFICATION-MATRIX.md) rows that nam
 
 The rows the run itself exercised, with the oracle the matrix gives each (the public sources are named there):
 
-- **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): SBOM conformance to the official CycloneDX 1.5 JSON Schema (+ valid SPDX identifiers) — an external published standard, zero validation errors over the full dependency graph; the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
+- **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): Official CycloneDX 1.5 JSON Schema (+ SPDX identifier list): every atomic licence id is a valid SPDX id, and the document has zero schema errors once compound expressions are moved to expression (the generator's raw output has 133 compound-id errors); the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
 - **VALIDATED** CCSDS 133.0-B Space Packet primary-header encode/decode (version/type/sec-hdr/APID/seq-flags/count/data-length) + a framing scenario. Runnable from the…. Oracle (ExternalDataset): spacepackets 0.32.0 (us-irs/spacepackets-py, R. Mueller, Apache-2.0) — an independent third-party implementation of CCSDS 133.0-B-2; kshana's encode_packet/decode_packet matched byte-exact (the 6-octet primary header for 33 cases + the full encoded packet for 12)
 
 ## Limitations

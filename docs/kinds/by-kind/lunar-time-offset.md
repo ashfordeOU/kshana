@@ -6,7 +6,7 @@ Scenario kind of the engine v0.41.0, family [Lunar and cislunar](../lunar-and-ci
 
 ## What it does
 
-Modelled relativistic Earth–Moon clock rate (Lunar Coordinate Time, LTC/TCL): the secular LTC−TT rate from the self-potential difference and the Moon's kinetic term, reported with the published 56–59 µs/day band, plus the accumulated offset over a horizon.
+Relativistic Earth–Moon clock rate (Lunar Coordinate Time, LTC/TCL): the secular LTC−TT rate from the self-potential difference and the Moon's kinetic term, reported with the published 56–59 µs/day band, plus the accumulated offset over a horizon. VALIDATED against Ashby & Patla 2024 (Astronomical Journal 167:149): the Moon-surface self-potential and the secular total match the published values.
 
 One run of `scenarios/lunar-time-offset.toml` summarises as: lunar-time-offset | secular LTC−TT rate 57.04 µs/day (band 56–59) | self-pot 57.50 kinetic -0.46 | offset @ 1.00 d = 57.04 µs
 
@@ -58,8 +58,8 @@ No matrix row names this kind by name; the label on its result is the engine's o
 
 The rows the run itself exercised, with the oracle the matrix gives each (the public sources are named there):
 
-- **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): SBOM conformance to the official CycloneDX 1.5 JSON Schema (+ valid SPDX identifiers) — an external published standard, zero validation errors over the full dependency graph; the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
-- **VALIDATED** Relativistic Earth-Moon clock-rate (LTC/TCL) + TT/TAI/UTC chaining + ensemble. Oracle (ExternalDataset): Ashby & Patla 2024, 'A Relativistic Framework to Estimate Clock Rates on the Moon', Astronomical Journal 167:149 (NIST; basis for the IAU/IAG LunaNet LTC): Moon-surface self-potential L_m = 3.13881e-11 and secular total 56.02 µs/day matched as published numeric values; geocentric Moon speed cross-checked vs JPL DE440 (de440s.bsp via SPICE)
+- **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): Official CycloneDX 1.5 JSON Schema (+ SPDX identifier list): every atomic licence id is a valid SPDX id, and the document has zero schema errors once compound expressions are moved to expression (the generator's raw output has 133 compound-id errors); the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
+- **VALIDATED** Relativistic Earth-Moon clock-rate (LTC/TCL) + TT/TAI/UTC chaining + ensemble. Oracle (ExternalDataset): Ashby & Patla 2024, 'A Relativistic Framework to Estimate Clock Rates on the Moon', The Astronomical Journal 168:112 (2024), doi:10.3847/1538-3881/ad643a (NIST; basis for the IAU/IAG LunaNet LTC): Moon-surface self-potential L_m = 3.13881e-11 and secular total 56.02 µs/day matched as published numeric values (transcribed constants of closed-form terms both sides evaluate); geocentric Moon speed within 1.5 % of JPL…
 
 ## Limitations
 

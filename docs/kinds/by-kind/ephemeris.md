@@ -65,9 +65,9 @@ VALIDATED: the [verification matrix](../../VERIFICATION-MATRIX.md) rows that nam
 
 The rows the run itself exercised, with the oracle the matrix gives each (the public sources are named there):
 
-- **VALIDATED** SGP4/SDP4, Cowell 6-DOF + perturbations, batch/sequential OD. Oracle (ExternalDataset): AIAA 2006-6753 SGP4 verification vectors
-- **VALIDATED** IAU 2006/2000A precession-nutation, CIO GCRS↔ITRS, leap-second timescales. Oracle (ExternalDataset): IAU SOFA / ERFA reference vectors; Vallado AIAA 2006-6753 (0.1–4 mm)
-- **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): SBOM conformance to the official CycloneDX 1.5 JSON Schema (+ valid SPDX identifiers) — an external published standard, zero validation errors over the full dependency graph; the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
+- **VALIDATED** SGP4/SDP4 analytic propagation of two-line element sets (Cowell propagation and orbit determination are validated in VM-7b9f2f5d and VM-9aa52bbe). Oracle (ExternalDataset): AIAA 2006-6753 SGP4 verification vectors
+- **VALIDATED** IAU 2006/2000A precession-nutation, CIO GCRS↔ITRS, leap-second timescales. Oracle (ExternalDataset): Vallado AIAA 2006-6753 worked example (TEME→PEF, TEME→ITRF and GCRS→ITRS within 50 mm, observed 0.1 to 4 mm; TEME→GCRS within 0.5 m, as Vallado's GCRF applies the celestial-pole offsets dX/dY and the full IAU 2000A series that this chain omits); Vallado Fundamentals Example 3-3 (geodetic latitude and height)
+- **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): Official CycloneDX 1.5 JSON Schema (+ SPDX identifier list): every atomic licence id is a valid SPDX id, and the document has zero schema errors once compound expressions are moved to expression (the generator's raw output has 133 compound-id errors); the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
 
 ## Limitations
 

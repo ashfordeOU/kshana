@@ -86,7 +86,7 @@ Every scenario kind the engine v0.41.0 dispatches (93), filed under 14 families.
 | [`eo-coverage`](kinds/by-kind/eo-coverage.md) | [Mission analysis, links and space operations](kinds/mission-analysis-links-and-space-operations.md#eo-coverage) | VALIDATED | `kshana scenarios/eo-coverage.toml` |
 | [`eo-radiometry`](kinds/by-kind/eo-radiometry.md) | [Mission analysis, links and space operations](kinds/mission-analysis-links-and-space-operations.md#eo-radiometry) | MODELLED | `kshana scenarios/eo-radiometry.toml` |
 | [`ephemeris`](kinds/by-kind/ephemeris.md) | [Constellations, coverage and geometry](kinds/constellations-coverage-and-geometry.md#ephemeris) | VALIDATED | `kshana scenarios/ephemeris.toml` |
-| [`fusion`](kinds/by-kind/fusion.md) | [Inertial, fusion and quantum sensors](kinds/inertial-fusion-and-quantum-sensors.md#fusion) | MODELLED 1 · VALIDATED 1 | `kshana scenarios/fusion-pnt.toml` |
+| [`fusion`](kinds/by-kind/fusion.md) | [Inertial, fusion and quantum sensors](kinds/inertial-fusion-and-quantum-sensors.md#fusion) | MODELLED 1 · VALIDATED 2 | `kshana scenarios/fusion-pnt.toml` |
 | [`gnss-ins`](kinds/by-kind/gnss-ins.md) | [Inertial, fusion and quantum sensors](kinds/inertial-fusion-and-quantum-sensors.md#gnss-ins) | MODELLED (result label) | `kshana scenarios/gnss-ins.toml` |
 | [`gnss-sim`](kinds/by-kind/gnss-sim.md) | [GNSS measurements, positioning and integrity](kinds/gnss-measurements-positioning-and-integrity.md#gnss-sim) | VALIDATED | `kshana scenarios/gnss-sim-raim.toml` |
 | [`gnss-ssv`](kinds/by-kind/gnss-ssv.md) | [Space-user navigation](kinds/space-user-navigation.md#gnss-ssv) | MODELLED | `kshana scenarios/gnss-ssv-geo.toml` |
