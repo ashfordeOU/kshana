@@ -132,8 +132,8 @@
   ],
   "Autonomous free-network fault observability": [
     "Autonomous free-network fault-observability linear-algebra pipeline (parity projector, detectability, MDB non-centrality, Byzantine block-spark)",
-    "Byzantine block-spark detect/identify bound on the autonomous per-node lunar network (T3)",
-    "Autonomous-holdover temporal-gauge floor for the self-referential lunar constellation (T4)",
+    "Byzantine block-spark detect/identify bound on the autonomous per-node lunar network",
+    "Autonomous-holdover temporal-gauge floor for the self-referential lunar constellation",
     "Provider common/differential split, one-rank-deficiency unification, and protection-gap slope (T5 / \u00a70 / g7)"
   ],
   "Lunar frame datum from real laser ranging": [
@@ -193,7 +193,7 @@
     "Maritime trust score: the aggregation of the monitors' evidence into a 0-100 score and its three bands"
   ],
   "Crew-training NMEA streams": [
-    "NMEA 0183 training-stream conformance and decoded values"
+    "NMEA 0183 training streams: parseability by an independent parser and decoded values"
   ],
   "Interference map and route exposure": [
     "Interference map: accuracy-code meanings, AIS not-available values, grid cell assignment, route length per cell state, and inland masking"
