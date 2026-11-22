@@ -13,7 +13,7 @@ seg-a80556cfe1a9 = <c1/> (scenario kind)
 seg-216efc4e6fba = Scenario kind of the engine v{ $version }, family <a1>GPS-denied alternative PNT</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
 
 # text
-seg-1d5f23cbebf9 = MODELLED layered-PNT conflict resilience: a contested-environment user fields several PNT layers (open-service GNSS, wideband GNSS, an authenticated constellation, an augmentation relay), each with a base availability, a 1σ accuracy and a per-vector denial vulnerability to the shared jamming/spoofing threat. An intensity-swept SEEDED Monte-Carlo denies each layer with probability clamp(vulnerability·intensity·vector_weight,{ "0,1" }), fuses the survivors by the closed-form inverse-variance rule σ_fused=(Σ 1/σ_i²)^(−1/2), and reports the total-loss probability (all layers denied), the median fused error and per-layer usable/denial statistics vs intensity. The headline resilience ratio (single-layer vs layered total-loss probability) lands at ~7x under the INDEPENDENCE assumption; a one-factor Gaussian-copula correlated-denial sweep then shows that ~7x collapse toward { "1" } as denial correlation rises (correlation defeats layering). A prior-sensitivity block ranges the headline over the SOURCED vulnerability priors via the mcda tornado + a Dirichlet threat-effort re-allocation + percentile CIs. VALIDATED core: the Monte-Carlo total-loss converges to the closed-form independent product Π_i p_deny_i (within MC standard error at a fixed seed and large N); the inverse-variance fuse is a closed-form identity; at ρ={ "0" } the copula reduces to the independent model and every ρ preserves each layer's marginal denial rate. MODELLED: the per-layer vulnerability/availability/accuracy magnitudes are sourced-but-Modelled inputs (JammerTest { "2024" }, TEXBAT, EASA SIB, RTCA DO-229, LunaNet/IOAG — see conflict_threat_params), and the specific ~7x magnitude and the ratio-vs-correlation curve shape follow from that parameterisation. A §{ "4.2" } per-vector survival breakdown then resolves the shared RF threat into the four named vectors (jamming/spoofing/kinetic/cyber) and reports each vector's usable-PNT graceful-degradation curve S_v(x)=1-Prod_i(1-a_i(1-clamp(susceptibility_i,v·x,{ "0,1" }))) — VALIDATED: the seeded per-layer Monte-Carlo converges to that closed form; jamming is the sharpest vector for the correlated-RF baseline and the RF-immune inertial layer is the decisive survivor. Not a certified navigation-availability product.
+seg-a473e1578cc2 = MODELLED layered-PNT conflict resilience: a contested-environment user fields several PNT layers (open-service GNSS, wideband GNSS, an authenticated constellation, an augmentation relay), each with a base availability, a 1σ accuracy and a per-vector denial vulnerability to the shared jamming/spoofing threat. An intensity-swept SEEDED Monte-Carlo denies each layer with probability clamp(vulnerability·intensity·vector_weight,{ "0,1" }), fuses the survivors by the closed-form inverse-variance rule σ_fused=(Σ 1/σ_i²)^(−1/2), and reports the total-loss probability (all layers denied), the median fused error and per-layer usable/denial statistics vs intensity. The headline resilience ratio (single-layer vs layered total-loss probability) lands at ~7x under the INDEPENDENCE assumption; a one-factor Gaussian-copula correlated-denial sweep then shows that ~7x collapse toward { "1" } as denial correlation rises (correlation defeats layering). A prior-sensitivity block ranges the headline over the SOURCED vulnerability priors via the mcda tornado + a Dirichlet threat-effort re-allocation + percentile CIs. Checked core (the kind stays MODELLED): the Monte-Carlo total-loss converges to the closed-form independent product Π_i p_deny_i (within MC standard error at a fixed seed and large N); the inverse-variance fuse is a closed-form identity; at ρ={ "0" } the copula reduces to the independent model and every ρ preserves each layer's marginal denial rate. MODELLED: the per-layer vulnerability/availability/accuracy magnitudes are sourced-but-Modelled inputs (JammerTest { "2024" }, TEXBAT, EASA SIB, RTCA DO-229, LunaNet/IOAG — see conflict_threat_params), and the specific ~7x magnitude and the ratio-vs-correlation curve shape follow from that parameterisation. A §{ "4.2" } per-vector survival breakdown then resolves the shared RF threat into the four named vectors (jamming/spoofing/kinetic/cyber) and reports each vector's usable-PNT graceful-degradation curve S_v(x)=1-Prod_i(1-a_i(1-clamp(susceptibility_i,v·x,{ "0,1" }))) — checked: the seeded per-layer Monte-Carlo converges to that closed form; jamming is the sharpest vector for the correlated-RF baseline and the RF-immune inertial layer is the decisive survivor. Not a certified navigation-availability product.
 
 # text
 # c1: scenarios/conflict-resilience.toml
@@ -36,7 +36,7 @@ seg-71fcff68edaf = The example <c1/> sets, among others:
 seg-4e3b5bb5a5e7 = GNSS L1 C/A (open service)
 
 # text
-seg-c422d3343541 = Result label (the engine's): MODELLED layered-PNT conflict resilience. VALIDATED core: the Monte-Carlo total-loss probability converges to the closed-form independent product Pi_i p_deny_i (asserted within Monte-Carlo standard error at a fixed seed and large N); the inverse-variance position fuse sigma_fused = (sum_i…
+seg-a0d944e64023 = Result label (the engine's): MODELLED layered-PNT conflict resilience. Checked core (the kind stays MODELLED): the Monte-Carlo total-loss probability converges to the closed-form independent product Pi_i p_deny_i (asserted within Monte-Carlo standard error at a fixed seed and large N); the inverse-variance position fuse…
 
 # attr:alt
 seg-4dd2bcc206db = The chart the engine writes for scenarios/conflict-resilience.toml, kind conflict-resilience
@@ -49,7 +49,7 @@ seg-194a7447bb5d = <b>MODELLED</b> Per-dimension sub-scores over Kshana's own se
 
 # text
 # c1: label
-seg-687cf198b51e = MODELLED layered-PNT conflict resilience. VALIDATED core: the Monte-Carlo total-loss probability converges to the closed-form independent product Pi_i p_deny_i (asserted within Monte-Carlo standard error at a fixed seed and large N); the inverse-variance position fuse sigma_fused = (sum_i 1/sigma_i^{ "2" })^(-1/2) is a closed-form identity; at correlation rho={ "0" } the Gaussian copula reduces exactly to the independent model… (result <c1/>)
+seg-2f184abf2139 = MODELLED layered-PNT conflict resilience. Checked core (the kind stays MODELLED): the Monte-Carlo total-loss probability converges to the closed-form independent product Pi_i p_deny_i (asserted within Monte-Carlo standard error at a fixed seed and large N); the inverse-variance position fuse sigma_fused = (sum_i 1/sigma_i^{ "2" })^(-1/2) is a closed-form identity; at correlation rho={ "0" } the Gaussian copula reduces exactly… (result <c1/>)
 
 # text
 # c1: kshana kinds --json
@@ -61,6 +61,10 @@ seg-3ca12700b54c = The headline resilience ratio (single-layer vs layered total-
 
 # text
 # c1: kshana kinds --json
+seg-6d5dc213f74e = Checked core (the kind stays MODELLED): the Monte-Carlo total-loss converges to the closed-form independent product Π_i p_deny_i (within MC standard error at a fixed seed and large N); the inverse-variance fuse is a closed-form identity; at ρ={ "0" } the copula reduces to the independent model and every ρ preserves each layer's marginal denial rate. (kind catalogue (<c1/>))
+
+# text
+# c1: kshana kinds --json
 seg-70e4fdff099f = MODELLED: the per-layer vulnerability/availability/accuracy magnitudes are sourced-but-Modelled inputs (JammerTest { "2024" }, TEXBAT, EASA SIB, RTCA DO-229, LunaNet/IOAG — see conflict_threat_params), and the specific ~7x magnitude and the ratio-vs-correlation curve shape follow from that parameterisation. (kind catalogue (<c1/>))
 
 # text
@@ -69,9 +73,6 @@ seg-6af783137622 = A contested-environment user fields four RF PNT layers that a
 # text
 # c1: layers
 seg-83badfe4784d = Every per-layer magnitude is a MODELLED input with provenance; see src/conflict_threat_params.rs for the sourced [min, nominal, max] priors and the per-vector susceptibility profiles (JammerTest { "2024" }, TEXBAT, EASA SIB 2022-02, RTCA DO-229, LunaNet/IOAG). Leaving <c1/> out runs the same sourced four-layer baseline; it is written out here — including each layer's vector_profile — for transparency. (scenario file comment, lines { "17" } to { "22" })
-
-# text
-seg-bb182ed41520 = PNT-resilience framework-aligned scoring is MODELLED, not validated: checked against its own closed-form / analytic identity — catches transcription and coefficient errors, but is not an external oracle. (verification matrix (docs/MODELLED-RATIONALE.md))
 
 # text
 seg-98133e74f88a = Family page: <a1>GPS-denied alternative PNT</a1>

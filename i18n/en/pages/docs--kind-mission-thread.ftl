@@ -26,12 +26,11 @@ seg-63b022948f12 = One run of <c1/> summarises as: mission-thread | { "4" } phas
 seg-9bb19202a104 = Required fields: <c1/>, <c2/>, <c3/>
 
 # text
-# c1: kind
-# c2: title
-# c3: seed
-# c4: moon_kernel_path
-# c5: ground_network
-seg-e1faea3151d6 = Optional fields: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>
+# c1: title
+# c2: seed
+# c3: moon_kernel_path
+# c4: ground_network
+seg-25a805174370 = Optional fields: <c1/>, <c2/>, <c3/>, <c4/>
 
 # text
 # c1: scenarios/mission-thread-short.toml

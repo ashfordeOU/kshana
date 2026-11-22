@@ -54,7 +54,7 @@ seg-bd76bd68eab3 = The chart the engine writes for scenarios/timetransfer.toml, 
 seg-3c9d28692f9f = <b>MODELLED</b> Two-way/TWSTFT (Sagnac), GNSS common-view, PPP; link-jitter→range Tests: <a1>time_transfer_error_budgeting_reference.rs</a1>.
 
 # text
-seg-bc40fc87133f = <b>MODELLED</b> Two-way/TWSTFT (Sagnac), GNSS common-view, PPP; link-jitter→range. Oracle (ExternalDataset): Sagnac magnitude checked against an authoritative PUBLISHED VALUE — N. Ashby, 'Relativity in the GPS', Living Reviews in Relativity { "6" }:{ "1" } ({ "2003" }), Eq. { "1.29" }: an eastward equatorial circumnavigation accrues { "207.4" } ns (2ωA_E/c²); kshana reproduces { "207.386" } ns. Independently corroborated by RTKLIB { "2.4.3" } geodist() (Takasu, BSD-2-Clause), which carries the same 2Aω/c² geometry. The composite BIPM TWSTFT…
+seg-1decebbe7667 = <b>MODELLED</b> Two-way/TWSTFT (Sagnac), GNSS common-view, PPP; link-jitter→range. Oracle (ExternalDataset): Sagnac magnitude checked against an authoritative PUBLISHED VALUE — N. Ashby, 'Relativity in the GPS', Living Reviews in Relativity { "6" }:{ "1" } ({ "2003" }), Eq. { "1.29" }: an eastward equatorial circumnavigation accrues { "207.4" } ns (2ωA_E/c²); Kshana reproduces { "207.386" } ns. Independently corroborated by RTKLIB { "2.4.3" } geodist() (Takasu, BSD-2-Clause), which carries the same 2Aω/c² geometry. The composite BIPM TWSTFT…
 
 # text
 seg-a8beb8dfc757 = Time-transfer error budgeting is MODELLED, not validated: a sub-claim is externally checked, but the whole capability composes modelled pieces, so the capability stays Modelled. (verification matrix (docs/MODELLED-RATIONALE.md))

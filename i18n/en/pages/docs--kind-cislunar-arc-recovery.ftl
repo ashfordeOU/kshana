@@ -58,7 +58,7 @@ seg-330cbcd04718 = fraction (dimensionless)
 seg-4ad4490c109e = cislunar-observability on the…
 
 # text
-seg-24071e60c391 = Result label (the engine's): MODELLED cislunar arc-length recovery test (independent-estimator corroboration of the P6 observability threshold). VALIDATED core: the estimator is the crate's pre-existing weighted Gauss-Newton batch corrector (crate::batch_ls), whose design matrix is a CENTRAL FINITE DIFFERENCE of the composed…
+seg-25a67d3ecaa7 = Result label (the engine's): MODELLED cislunar arc-length recovery test (independent-estimator corroboration of the Gramian rank observability threshold). Checked core (the kind stays MODELLED): the estimator is the crate's pre-existing weighted Gauss-Newton batch corrector (crate::batch_ls), whose design matrix is a CENTRAL…
 
 # attr:alt
 seg-2fe411ae2153 = The chart the engine writes for scenarios/cislunar-arc-recovery.toml, kind cislunar-arc-recovery
@@ -71,7 +71,7 @@ seg-4b002e914fc6 = <b>MODELLED</b> A batch least-squares estimator that RECOVERS
 
 # text
 # c1: label
-seg-2619816117f7 = MODELLED cislunar arc-length recovery test (independent-estimator corroboration of the P6 observability threshold). VALIDATED core: the estimator is the crate's pre-existing weighted Gauss-Newton batch corrector (crate::batch_ls), whose design matrix is a CENTRAL FINITE DIFFERENCE of the composed forward model - it calls no analytic measurement Jacobian row, no variational state-transition matrix, no singular-value… (result <c1/>)
+seg-fd7552b2d8e4 = MODELLED cislunar arc-length recovery test (independent-estimator corroboration of the Gramian rank observability threshold). Checked core (the kind stays MODELLED): the estimator is the crate's pre-existing weighted Gauss-Newton batch corrector (crate::batch_ls), whose design matrix is a CENTRAL FINITE DIFFERENCE of the composed forward model - it calls no analytic measurement Jacobian row, no variational… (result <c1/>)
 
 # text
 # c1: kshana kinds --json

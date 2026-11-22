@@ -445,13 +445,13 @@ seg-703bf09ca356 = kind hybrid-ukf
 seg-70f528b547d4 = 17-state hybrid quantum + classical tightly-coupled GNSS/INS UKF (MODELLED).
 
 # text
-seg-98e740d32860 = Machine-learning RF-impairment detection evaluation testbed ({ "13494" }): generate a labelled, parameter-grounded SYNTHETIC corpus (nominal/jamming/spoof-time/spoof-position/multipath), score a detector (energy|agc|sqm|parity|fused) with the detector-agnostic harness, and report AUC/ROC/confusion + per-class Pd at a target Pfa, plus the in- vs out-of-distribution optimism gap. MODELLED operating characteristics only — never field/IQ, no good/bad verdict.
+seg-76a75c821a5d = Machine-learning RF-impairment detection evaluation testbed: generate a labelled, parameter-grounded SYNTHETIC corpus (nominal/jamming/spoof-time/spoof-position/multipath), score a detector (energy|agc|sqm|parity|fused) with the detector-agnostic harness, and report AUC/ROC/confusion + per-class Pd at a target Pfa, plus the in- vs out-of-distribution optimism gap. MODELLED operating characteristics only — never field/IQ, no good/bad verdict.
 
 # text
 seg-a65d5e564286 = kind impairment-eval
 
 # attr:title, text
-seg-4725f2524e57 = Machine-learning RF-impairment detection evaluation testbed (ESA AO/1-13494 demonstrator).
+seg-963fba35ea37 = Machine-learning RF-impairment detection evaluation testbed.
 
 # text
 seg-bdedf28adc48 = 1-DOF inertial dead-reckoning during a GNSS outage.
@@ -1023,13 +1023,13 @@ seg-6d837ea24f97 = Trusted quantum timing — end-to-end time-transfer chain, se
 # c1: candidate_adev_taus
 # c2: candidate_adev_values
 # c3: candidate_clock_class
-seg-eb55d253dd11 = Quantum-vs-classical PNT trade ({ "13503" }): timing-holdover + inertial-holdover benefit of a candidate clock (a measured-ADEV curve — the defensibility hinge — or a quantum clock class) vs a classical baseline class, with the long-tau floor-assumption caveat carried on the artifact, plus a GNSS-denied resilience-vs-time envelope. MODELLED; quantifies (never validates) a partner device. The candidate clock is a measured curve (<c1/> + <c2/>, equal length, at least { "2" } points; it wins when both forms are given) or a <c3/>.
+seg-d27be9784876 = Quantum-vs-classical PNT trade: timing-holdover + inertial-holdover benefit of a candidate clock (a measured-ADEV curve — the defensibility hinge — or a quantum clock class) vs a classical baseline class, with the long-tau floor-assumption caveat carried on the artifact, plus a GNSS-denied resilience-vs-time envelope. MODELLED; quantifies (never validates) a partner device. The candidate clock is a measured curve (<c1/> + <c2/>, equal length, at least { "2" } points; it wins when both forms are given) or a <c3/>.
 
 # text
 seg-09ba30218f38 = kind quantum-trade
 
 # attr:title, text
-seg-66e430c55836 = Quantum-vs-classical PNT trade with measured-ADEV ingestion (ESA AO/1-13503 demonstrator).
+seg-34fd00a5833c = Quantum-vs-classical PNT trade with measured-ADEV ingestion.
 
 # text
 seg-edfcb546d9de = Real-time lunar frame / Earth-orientation prediction budget: P4 Table { "1" } (the frame-error consistency check — post-processed ~{ "0.27" } m ↔ ~{ "0.010" } ms and real-time ~{ "15" } m ↔ ~{ "0.5" } ms, each frame position expressed as its equivalent UT1 error via the L19 lever arm Δr = D_EM·ω⊕·ΔUT1) and Table { "2" } (measured UT1 prediction error vs horizon — the L18 curve read directly off the real IERS finals2000A series: the Bulletin A − Bulletin B final floor and the multi-day persistence-predictor error, each mapped to a Moon-frame position by L19), plus the L21 root-sum-square real-time frame-error budget (EOP + ephemeris + realisation floor). VALIDATED closed form (the L19 lever arm, ω⊕ cross-checked against the CIO Earth-rotation angle) and VALIDATED real data (the L18 curve off the real finals2000A rows); MODELLED are the lunar-relay OD covariance magnitudes and frame-realisation floor (representative allocations) and the persistence predictor (not IERS's operational Bulletin A algorithm). Not a certified real-time frame product.

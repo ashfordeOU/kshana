@@ -292,7 +292,7 @@ seg-d1adedd2c08b = A third-party pack implements two small, semver-stable traits
 # c4: jamming
 # c5: Scenario
 # c6: ErrorModel
-seg-d01471b13324 = <c1/> also has a default <c2/> method, a no-op unless a pack opts into the registry dispatch seam in <c3/>. The built-in <c4/> pack is wired through <c5/> as the worked example; out-of-tree packs follow the same contract without forking core (mirroring the <c6/> extension point in §{ "3" }, which the private resilience overlay uses).
+seg-c5583bd589ef = <c1/> also has a default <c2/> method, a no-op unless a pack opts into the registry dispatch seam in <c3/>. The built-in <c4/> pack is wired through <c5/> as the worked example; out-of-tree packs follow the same contract without forking core (mirroring the <c6/> extension point in §{ "3" }).
 
 # text
 # c1: ErrorModel
@@ -349,24 +349,25 @@ seg-a47031620b54 = { "7" }. Bindings
 # c21: api
 # c22: mcp/kshana-mcp
 # c23: rmcp
-# c24: run_scenario
-# c25: list_scenario_kinds
-# c26: validate_scenario
-# c27: list_example_scenarios
-# c28: get_example_scenario
-# c29: report_scenario
-# c30: animate_scenario
-# c31: list_export_formats
-# c32: export_interop
-# c33: import_route
-# c34: export_sp3
-# c35: export_omm
-# c36: export_oem
-# c37: export_table_csv
-# c38: assess_receiver_log
-# c39: bundled-scenarios
-# c40: kshana
-seg-a2eb0cd50f46 = The core compiles unchanged to native, to a Python extension, and to WebAssembly. The Python (<c1/>, PyO3 abi3) and WebAssembly (<c2/>, wasm-bindgen) modules are optional, feature-gated dependencies (<c3/> / <c4/>): the default build and the test suite never compile them, while the dependency-audit gate (<c5/>) does inspect their dependency trees, because those crates ship inside the wheel and the npm package. Both call <c6/>, so every surface returns identical results. The WebAssembly module backs the browser playground in <c7/> and exports thirteen functions: <c8/>, <c9/> (one engine run returning result, chart, summary and table together), <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, the <c16/> / <c17/> shareable-URL (URL: web address) codec, and the three exporters <c18/> / <c19/> / <c20/> that back the playground's export menu. Two further front doors reach the same <c21/>: the <b>MCP (Model Context Protocol) server</b> (<c22/>, a workspace-excluded <c23/> crate exposing fifteen tools — <c24/>, <c25/>, <c26/>, <c27/>, <c28/>, <c29/>, <c30/>, <c31/>, <c32/>, <c33/>, <c34/>, <c35/>, <c36/>, <c37/>, <c38/>; the two example tools read the bundled scenarios through the library's off-by-default <c39/> feature, which only this server turns on) and the <b>JetBrains IDE (integrated development environment) plugin</b> (a separate product from the JetBrains Marketplace that shells out to the <c40/> CLI rather than linking the library).
+# c24: mcp/kshana-mcp/README.md
+# c25: run_scenario
+# c26: list_scenario_kinds
+# c27: validate_scenario
+# c28: list_example_scenarios
+# c29: get_example_scenario
+# c30: report_scenario
+# c31: animate_scenario
+# c32: list_export_formats
+# c33: export_interop
+# c34: import_route
+# c35: export_sp3
+# c36: export_omm
+# c37: export_oem
+# c38: export_table_csv
+# c39: assess_receiver_log
+# c40: bundled-scenarios
+# c41: kshana
+seg-3749419596ba = The core compiles unchanged to native, to a Python extension, and to WebAssembly. The Python (<c1/>, PyO3 abi3) and WebAssembly (<c2/>, wasm-bindgen) modules are optional, feature-gated dependencies (<c3/> / <c4/>): the default build and the test suite never compile them, while the dependency-audit gate (<c5/>) does inspect their dependency trees, because those crates ship inside the wheel and the npm package. Both call <c6/>, so every surface returns identical results. The WebAssembly module backs the browser playground in <c7/> and exports more than sixty functions, among them <c8/>, <c9/> (one engine run returning result, chart, summary and table together), <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, the <c16/> / <c17/> shareable-URL (URL: web address) codec, and the three exporters <c18/> / <c19/> / <c20/> that back the playground's export menu. Two further front doors reach the same <c21/>: the <b>MCP (Model Context Protocol) server</b> (<c22/>, a workspace-excluded <c23/> crate exposing { "53" } tools (listed in <c24/>), among them <c25/>, <c26/>, <c27/>, <c28/>, <c29/>, <c30/>, <c31/>, <c32/>, <c33/>, <c34/>, <c35/>, <c36/>, <c37/>, <c38/>, <c39/>; the two example tools read the bundled scenarios through the library's off-by-default <c40/> feature, which only this server turns on) and the <b>JetBrains IDE (integrated development environment) plugin</b> (a product distributed from kshana.dev and the JetBrains Marketplace, not built from this repository), which shells out to the <c41/> CLI rather than linking the library.
 
 # text
 # c1: --features python
@@ -410,9 +411,7 @@ seg-318ad50d3826 = Several capabilities once listed here as future work have sin
 seg-068119b15b27 = The remaining follow-ons are tracked in <a1>CHANGELOG</a1> <c1/> and the per-capability roadmap in <a2>CAPABILITY</a2>: an external oracle value for the EGM (Earth Gravitational Model) high-degree evaluator exactly on the polar axis and a pyshtools-clean near-pole comparison (the evaluator to degree { "2190" } and its run-time <c2/> loader ship, MODELLED; see <c3/>), a time-varying space-weather driver for the opt-in NRLMSISE-00 (NRLMSISE: Naval Research Laboratory Mass Spectrometer and Incoherent Scatter Radar Extended atmosphere model) drag-density tier (the default drag density is the static exponential model, and the <c4/> kind's Jacchia-71 density is characterised against NRLMSISE-00 but not replaced by it), an external check of the opt-in solar limb-darkening shadow, carrier-phase GNSS/INS tight coupling, and a real EGM2008/EIGEN (EIGEN: European Improved Gravity model of the Earth by New techniques) gravity map for the alt-PNT matcher.
 
 # text
-# c1: ErrorModel
-# c2: ExternalPack
-seg-b48f69ea54b3 = A private overlay repo holds export-sensitive resilience depth; it plugs in via the same <c1/> interface (and the <c2/> contract in §{ "4" }) without changing the public engine.
+seg-ad0a0b5a3d98 = Kshana Pro, the commercial product, uses the open engine as a library through these public interfaces and does not change it.
 
 # text
 seg-2f88ab8f67e8 = <s1>Previous</s1>Where Kshana runs

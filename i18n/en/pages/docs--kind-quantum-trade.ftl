@@ -16,7 +16,7 @@ seg-7b2721b7588d = Scenario kind of the engine v{ $version }, family <a1>Inertia
 # c1: candidate_adev_taus
 # c2: candidate_adev_values
 # c3: candidate_clock_class
-seg-d27be9784876 = Quantum-vs-classical PNT trade: timing-holdover + inertial-holdover benefit of a candidate clock (a measured-ADEV curve — the defensibility hinge — or a quantum clock class) vs a classical baseline class, with the long-tau floor-assumption caveat carried on the artifact, plus a GNSS-denied resilience-vs-time envelope. MODELLED; quantifies (never validates) a partner device. The candidate clock is a measured curve (<c1/> + <c2/>, equal length, at least { "2" } points; it wins when both forms are given) or a <c3/>.
+seg-9e5d081e3225 = Quantum-vs-classical PNT trade: timing-holdover + inertial-holdover benefit of a candidate clock (a measured-ADEV curve or a quantum clock class) vs a classical baseline class, with the long-tau floor-assumption caveat carried on the artifact, plus a GNSS-denied resilience-vs-time envelope. MODELLED; quantifies (never validates) a candidate device. The candidate clock is a measured curve (<c1/> + <c2/>, equal length, at least { "2" } points; it wins when both forms are given) or a <c3/>.
 
 # text
 # c1: scenarios/quantum-trade.toml
@@ -71,7 +71,7 @@ seg-fc46e95688ba = <b>VALIDATED</b> Measured-ADEV NNLS fit, NEES/NIS χ² consis
 seg-6e2b62136cef = <b>MODELLED</b> Measured-ADEV ingestion (NNLS), trade table (timing/inertial holdover + benefit), resilience-vs-time envelope; floor caveat carried on the artifact.
 
 # text
-seg-fb51579e1b4b = <b>VALIDATED</b> Measured-ADEV NNLS fit, NEES/NIS χ² consistency bands, and the clock van-Loan discrete process-noise (holdover-coast) covariance — the trade engine's…. Oracle (ExternalDataset): scipy { "1.17.1" } — optimize.nnls / stats.chi2.ppf / linalg.expm; NNLS+Q exact, χ² <{ "5e-4" } at operating dof. Kernels only — device-performance numbers stay Modelled (next row)
+seg-eee4f629b294 = <b>VALIDATED</b> Measured-ADEV NNLS fit, NEES/NIS χ² consistency bands, and the clock van-Loan discrete process-noise (holdover-coast) covariance — the trade engine's…. Oracle (ExternalDataset): scipy { "1.17.1" } — optimize.nnls / stats.chi2.ppf / linalg.expm; NNLS coefficients within { "1e-3" } relative (fitted σ_y² curve within { "1e-6" }), Q within { "1e-9" } relative, χ² <{ "5e-4" } at operating dof. Kernels only — device-performance numbers stay Modelled (next row)
 
 # text
 seg-2cbda454db17 = <b>MODELLED</b> Measured-ADEV ingestion (NNLS), trade table (timing/inertial holdover + benefit), resilience-vs-time envelope; floor caveat carried on the artifact. Runnable…. Oracle (ExternalDataset): The measured-ADEV→PSD fit (NNLS) kernel is matched to scipy.optimize.nnls (tests/scipy_reference.rs / tests/quantum_vs_classical_pnt_trade_reference.rs) — an independent external kernel; but the trade NUMBERS quantify (never validate) a partner clock/CAI, so the trade itself stays MODELLED, no validation halo
@@ -85,14 +85,14 @@ seg-3d678f64e41c = MODELLED — quantifies (never validates) a partner clock/sen
 
 # text
 # c1: kshana kinds --json
-seg-71bf5c958213 = Quantum-vs-classical PNT trade: timing-holdover + inertial-holdover benefit of a candidate clock (a measured-ADEV curve — the defensibility hinge — or a quantum clock class) vs a classical baseline class, with the long-tau floor-assumption caveat carried on the artifact, plus a GNSS-denied resilience-vs-time envelope. (kind catalogue (<c1/>))
+seg-1c01d7857f97 = Quantum-vs-classical PNT trade: timing-holdover + inertial-holdover benefit of a candidate clock (a measured-ADEV curve or a quantum clock class) vs a classical baseline class, with the long-tau floor-assumption caveat carried on the artifact, plus a GNSS-denied resilience-vs-time envelope. (kind catalogue (<c1/>))
 
 # text
 # c1: kshana kinds --json
-seg-45a1d84eef18 = MODELLED; quantifies (never validates) a partner device. (kind catalogue (<c1/>))
+seg-da2b08b941e4 = MODELLED; quantifies (never validates) a candidate device. (kind catalogue (<c1/>))
 
 # text
-seg-15275d27252a = Computes the timing-holdover and inertial-holdover benefit of a CANDIDATE clock over a CLASSICAL baseline, plus a GNSS-denied resilience-vs-time envelope. The candidate floor is driven by a partner clock's MEASURED overlapping-ADEV curve (the defensibility hinge) fitted by non-negative least squares — so the holdover budget rests on real data, not an assumed long-tau floor. (scenario file comment, lines { "3" } to { "7" })
+seg-830d41ab41ef = Computes the timing-holdover and inertial-holdover benefit of a CANDIDATE clock over a CLASSICAL baseline, plus a GNSS-denied resilience-vs-time envelope. The candidate floor is driven by a partner clock's MEASURED overlapping-ADEV curve fitted by non-negative least squares — so the holdover budget rests on real data, not an assumed long-tau floor. (scenario file comment, lines { "3" } to { "7" })
 
 # text
 seg-ecbdbc9b163e = HONEST SCOPE: MODELLED — it QUANTIFIES a partner's quantum-clock benefit; it does NOT validate the device, and never borrows the SGP4/Allan/IGS validation islands. When any row's floor is an assumed class default, a floor caveat renders on the artifact. Run: kshana scenarios/quantum-trade.toml (scenario file comment, lines { "9" } to { "12" })

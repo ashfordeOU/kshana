@@ -43,7 +43,7 @@ seg-d78822583c64 = Notebook
 seg-334caeae9fba = Studio
 
 # text
-seg-3e72b0d4b653 = Kshana Desktop ({ "0.41" }, L2a): the Studio in a native window; runs, charts, tables, the kind list, the examples and the CCSDS/SP3 exports run natively, the tool pages keep the WebAssembly engine, a recording of any size is probed and read in blocks, and (L2b) the trust page scores a live receiver read only from a serial port, a TCP stream or a growing file (Kshana Desktop, downloaded from kshana.dev)
+seg-f5664868455f = Kshana Desktop ({ "0.41" }): the Studio in a native window; runs, charts, tables, the kind list, the examples and the CCSDS/SP3 exports run natively, the tool pages keep the WebAssembly engine, a recording of any size is probed and read in blocks, and the trust page scores a live receiver read only from a serial port, a TCP stream or a growing file. A product distributed from kshana.dev and the app stores; its source is not in this repository
 
 # text
 seg-db9823876dc1 = <b>N/A</b> (an application)
@@ -185,24 +185,24 @@ seg-5a9087e23823 = <b>N/A</b> (no notebook yet)
 seg-c92ea39fb2d1 = <b>pending</b>: a Tools card for the command line (the Studio strip and views are WS-A's)
 
 # text
-seg-8a4a1aeed34c = Referee location metrics ({ "0.41" }, B2): where a network said an emitter was, scored against truth (error, region coverage and size, time to first location, time to locate, false locations per hour); checked against an independent oracle
+seg-3996c126413f = Referee location metrics ({ "0.41" }): where a network said an emitter was, scored against truth (error, region coverage and size, time to first location, time to locate, false locations per hour); checked against an independent oracle
 
 # text
 # c1: UNKNOWN
 # c2: TRUSTED
 # c3: DEGRADED
 # c4: UNTRUSTED
-seg-91122e6ee6b6 = Area trust ({ "0.41" }, B5): one state for an area from several reference stations (<c1/>, <c2/>, <c3/>, <c4/>), per second, with the stale rule, hysteresis and alerts; checked against an independent oracle
+seg-9b45cf5da9a5 = Area trust ({ "0.41" }): one state for an area from several reference stations (<c1/>, <c2/>, <c3/>, <c4/>), per second, with the stale rule, hysteresis and alerts; checked against an independent oracle
 
 # text
-seg-3d3bb03e2492 = Monitoring-network planner ({ "0.41" }, B1a): detection and TDOA location-accuracy maps over a site, station placement (MODELLED; free space)
+seg-f87f14d4922d = Monitoring-network planner ({ "0.41" }): detection and TDOA location-accuracy maps over a site, station placement (MODELLED; free space)
 
 # text
-seg-e8c9ecc8f6c1 = Environmental baseline ({ "0.41" }, B8): expected ionospheric disturbance per site and hour from Kp and F10.7 (MODELLED)
+seg-c069ddf8d8de = Environmental baseline ({ "0.41" }): expected ionospheric disturbance per site and hour from Kp and F10.7 (MODELLED)
 
 # text
 # c1: kshana.obs/1
-seg-a9f9914620bc = Kshana Station ({ "0.41" }, L3): the headless receiver service (receiver streams to rotated <c1/> files, local status port, fleet report, service files for systemd, launchd and Windows)
+seg-8dc748e4fa6f = Kshana Station ({ "0.41" }): the headless receiver service (receiver streams to rotated <c1/> files, local status port, fleet report, service files for systemd, launchd and Windows)
 
 # text
 seg-65daa91c7e65 = <b>N/A</b> (a running service)
@@ -361,7 +361,7 @@ seg-426814dbf8dd = <b>N/A</b> (no IDE action yet)
 seg-e8477119c213 = <b>N/A</b> (Studio's scenario editor takes the pasted table)
 
 # text
-seg-7cc9e814552e = Flight-dynamics export ({ "0.41" }, C7): a JPL Horizons state table written as a CCSDS OEM, a CCSDS OPM or an SPK kernel (type { "13" } or { "9" }), then read back state for state (docs/FLIGHT-DYNAMICS-EXPORT.md)
+seg-09eaf056b826 = Flight-dynamics export ({ "0.41" }): a JPL Horizons state table written as a CCSDS OEM, a CCSDS OPM or an SPK kernel (type { "13" } or { "9" }), then read back state for state (docs/FLIGHT-DYNAMICS-EXPORT.md)
 
 # text
 seg-c5ebc48ad434 = <b>N/A</b> (no IDE action; the command line covers it)
@@ -449,7 +449,7 @@ seg-b164d99daf08 = Interference map page
 seg-12471a4b2b57 = Emitter region (ADS-B, AIS; MODELLED)
 
 # text
-seg-dff1bfe0263e = <b>N/A</b> (publishing emitter regions in the public observatory is a separate owner decision and is off)
+seg-3a574b6cf9c5 = <b>N/A</b> (emitter regions are not published in the public observatory)
 
 # text
 seg-206c78a69ded = Route exposure
@@ -1011,16 +1011,16 @@ seg-38dc9c30191a = <b>pending</b>: Tools: Command line card
 seg-57257e80468f = Plan and catalogue are given as text; the signed pack (<c1/>) is command line only (signing key)
 
 # text
-seg-32362c4e0ad2 = Location metrics (row B2): the same JSON bytes from the CLI, Python and WASM; MCP returns the same values with the advisory notice, inputs capped at { "4" } MiB
+seg-bbe1e045a8b5 = Location metrics: the same JSON bytes from the CLI, Python and WASM; MCP returns the same values with the advisory notice, inputs capped at { "4" } MiB
 
 # text
-seg-3238bd6d17fb = Area trust (row B5): the same JSON Lines bytes from the CLI, Python and WASM, equal to the independent oracle's
+seg-c97b46d0a02a = Area trust: the same JSON Lines bytes from the CLI, Python and WASM, equal to the independent oracle's
 
 # text
-seg-0c66e00d0fc0 = Planner (row B1a): the same JSON bytes from the CLI, Python and WASM
+seg-7abbda11a26c = Planner: the same JSON bytes from the CLI, Python and WASM
 
 # text
-seg-7e50fbda1237 = Environmental baseline (row B8): the same JSON bytes from the CLI, Python and WASM
+seg-0b36d0bd0304 = Environmental baseline: the same JSON bytes from the CLI, Python and WASM
 
 # text
 seg-3ea5db063974 = No signing key in a browser; no signal is written or replayed

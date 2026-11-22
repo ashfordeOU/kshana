@@ -57,7 +57,7 @@ seg-619127334cf3 = No matrix row names this kind by name; the label on its resul
 
 # text
 # c1: oem
-seg-289b00d3fd7f = <b>MODELLED</b> LunaNet/IOAG-aligned lunar frame + time + ephemeris export (CCSDS OEM + KIF) with round-trip conformance. Oracle (InternalConsistency): kshana's lunar OEM export re-parsed by the independent third-party <c1/> library (R. J. Anderson): frame/time tokens and per-epoch state agree to write precision ({ "1" } mm / { "1e-9" } km/s) and a dropped-TIME_SYSTEM export is rejected — a structural interchange round-trip; the lunar frame/time physical semantics are validated by their own rows, so this stays MODELLED. { "0.30" } external comparison, a finding (stays MODELLED): a…
+seg-61454ce66fca = <b>MODELLED</b> LunaNet/IOAG-aligned lunar frame + time + ephemeris export (CCSDS OEM + KIF) with a round-trip check by independent readers. Oracle (InternalConsistency): kshana's lunar OEM export re-parsed by the independent third-party <c1/> library (R. J. Anderson): frame/time tokens and per-epoch state agree to write precision ({ "1" } mm / { "1e-9" } km/s) and a dropped-TIME_SYSTEM export is rejected — a structural interchange round-trip; the lunar frame/time physical semantics are validated by their own rows, so this stays MODELLED. { "0.30" } external comparison, a finding (stays MODELLED): a…
 
 # text
 # c1: honesty
