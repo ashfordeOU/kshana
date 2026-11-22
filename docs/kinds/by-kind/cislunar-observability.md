@@ -46,7 +46,7 @@ The scalar results of that run, with the units the engine states:
 | `gdop.range_only.status` | “undefined” (text as the document… | text |
 | `gdop.range_rate.gdop` | 6.352566 | ratio (dimensionless) |
 
-Result label (the engine's): MODELLED planar cislunar constellation observability. VALIDATED core: the observable RANK is a rank-revealing singular-value threshold cross-checked against the Gramian eigen-rank; the Gramian eigen-spectrum obeys the spectral invariants (trace = sum eig, det = prod eig, Frobenius^2 = sum…
+Result label (the engine's): MODELLED planar cislunar constellation observability. VALIDATED core: the observable RANK is a rank-revealing singular-value threshold cross-checked against the Gramian eigen-rank; the Gramian eigen-spectrum obeys the spectral invariants (trace = sum eig, det = prod eig, Frobenius^2 = sum eig^2)…
 
 <img src="../../figures/kinds/cislunar-observability.svg" alt="The chart the engine writes for scenarios/cislunar-observability.toml, kind cislunar-observability" width="640">
 
@@ -65,7 +65,7 @@ The rows the run itself exercised, with the oracle the matrix gives each (the pu
 
 What the run's own report says is not modelled or not validated:
 
-- MODELLED planar cislunar constellation observability. VALIDATED core: the observable RANK is a rank-revealing singular-value threshold cross-checked against the Gramian eigen-rank; the Gramian eigen-spectrum obeys the spectral invariants (trace = sum eig, det = prod eig, Frobenius^2 = sum eig^2); the variational STM is the finite-difference-validated CR3BP STM (crate::cr3bp); the range / range-rate Jacobian… (result `label`)
+- MODELLED planar cislunar constellation observability. VALIDATED core: the observable RANK is a rank-revealing singular-value threshold cross-checked against the Gramian eigen-rank; the Gramian eigen-spectrum obeys the spectral invariants (trace = sum eig, det = prod eig, Frobenius^2 = sum eig^2); the variational STM is the finite-difference-validated CR3BP STM (crate::cr3bp); the range / range-rate Jacobian rows… (result `label`)
 - MODELLED planar cislunar constellation observability: tracks a four-spacecraft differential-corrected planar-DRO constellation with inter-satellite ranging and reports how much of a spacecraft's four-state [x,y,ẋ,ẏ] the arc makes observable. (kind catalogue (`kshana kinds --json`))
 - MODELLED: the constellation design (DRO perilune amplitudes and phases) and the specific rank progression it produces. (kind catalogue (`kshana kinds --json`))
 - Honesty: MODELLED. VALIDATED core -- the observable RANK is a rank-revealing singular-value threshold cross-checked against the Gramian eigen-rank; the eigen-spectrum obeys the spectral invariants (trace = sum eig, det = prod eig, Frobenius^2 = sum eig^2); the variational STM is the finite-difference-validated CR3BP STM; the range / range-rate Jacobian rows are finite-difference-validated analytic partials… (scenario file comment, lines 16 to 25)
