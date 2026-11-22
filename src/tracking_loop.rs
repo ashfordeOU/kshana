@@ -1435,7 +1435,7 @@ impl TrackingLoopScenario {
              dB-Hz ({} binds), relock {} dB-Hz, hysteresis {} dB | loss of lock declared {} s \
              into the ramp | denial radius threshold(J/S {:.0} dB) {:.3} km vs loop dynamics {} \
              km, delta {} km | spoof pull-in <= {:.3} chip/s code and {:.2} Hz/s carrier \
-             (MODELLED loop, VALIDATED closed forms)",
+             (MODELLED loop, checked closed forms)",
             cfg.pll_bandwidth_hz,
             cfg.dll_bandwidth_hz,
             cfg.integration_s * 1000.0,

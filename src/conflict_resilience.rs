@@ -48,7 +48,8 @@ use rand_chacha::ChaCha8Rng;
 use serde::Deserialize;
 
 /// The honesty label carried on every result document.
-const LABEL: &str = "MODELLED layered-PNT conflict resilience. VALIDATED core: the \
+const LABEL: &str = "MODELLED layered-PNT conflict resilience. Checked core (the kind \
+stays MODELLED): the \
 Monte-Carlo total-loss probability converges to the closed-form independent product \
 Pi_i p_deny_i (asserted within Monte-Carlo standard error at a fixed seed and large N); \
 the inverse-variance position fuse sigma_fused = (sum_i 1/sigma_i^2)^(-1/2) is a \

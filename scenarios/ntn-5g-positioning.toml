@@ -9,8 +9,8 @@
 # 1 m network synchronisation and ephemeris error, and runs downlink time-of-arrival fixes and
 # a single-satellite Doppler fix over the longest pass (height held to 10 m).
 #
-# The bandwidth-to-bound step is a textbook closed form; the positioning accuracy is MODELLED
-# (a bound on a multipath-free channel, not an achieved result).
+# The bounds are VALIDATED against published worked values (Bachl et al. 2026); the positioning
+# accuracy is MODELLED (a bound on a multipath-free channel, not an achieved result).
 kind = "ntn-positioning"
 seed = 5
 carrier_hz = 2172.5e6
