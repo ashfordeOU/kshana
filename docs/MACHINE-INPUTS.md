@@ -64,7 +64,7 @@ ros2 topic echo /imu/data sensor_msgs/msg/Imu --csv | kshana sensor-live --kind 
 kshana sensor-live --kind imu --format euroc --from imu0/data.csv --follow
 ```
 
-`sensor-live` reads the same two layouts a line at a time, from standard input, `tcp:host:port` or a
+`sensor-live` reads the same three layouts a line at a time, from standard input, `tcp:host:port` or a
 file (`--follow` waits for more lines), and prints one JSON line per sample: `t_s`, `gyro`, `accel` and
 `heading_deg`, the gyro heading integrated from `--heading0` (default 0; `--z-up` for a body z axis
 pointing up). The line reader is the one `[log.imu]` uses, and the heading is summed in the same order as
@@ -110,12 +110,12 @@ The watched value is the kept offset for `clock-live` and the magnitude of the s
 Each condition is reported once when it starts and once when it clears. A gap is marked, never filled: no
 reading is made up for it. `--sensor <name>` names the sensor in events. `tests/clock_live.rs` checks a
 TCP source dropped and brought back (the gap reported, the readings on both sides equal to the replay),
-and the frozen and range events. What needs the bench (L8): two sensors on one PPS agreeing within a
+and the frozen and range events. What still needs a bench test: two sensors on one PPS agreeing within a
 pre-registered skew, and a real unplug and replug.
 
 ## IMU into the hybrid and fusion scenarios (`kshana imu-fit`)
 
-The `hybrid` and `fusion` (17-state UKF) scenarios are simulations: they take sensor noise
+The `hybrid` and `fusion` scenarios are simulations: they take sensor noise
 parameters (`[accel_quantum]`, `[accel_classical]`: `bias`, `q_va`, `gyro_bias`, `q_arw`,
 `bias_instability`), not a measured series. `imu-fit` reads those parameters off a stationary IMU
 log, so a scenario can be run with the sensor you actually have:
@@ -147,8 +147,8 @@ Pseudorange and phase fields are stepped over, not used, so RTCM gives the trust
 C/N0 and nothing else; there is no position in MSM. Frames with a bad CRC-24Q are skipped and counted.
 
 **Where the layout comes from.** Not from the RTCM standard (a paid document, not consulted): from
-the open-source decoder pyrtcm 1.2.0, BSD 3-Clause, whose licence and notice are in `NOTICE`
-(owner decision of 18 Oct 2026: "use open decoders"). pyrtcm states that its tables follow
+the open-source decoder pyrtcm 1.2.0, BSD 3-Clause, whose licence and notice are in `NOTICE`.
+pyrtcm states that its tables follow
 RTCM 10403.3; Kshana relies on the published tables under pyrtcm's licence and makes no claim
 about the standard. Time: MSM carries no week, so labels read `GPS TOW <s>`; GLONASS epochs
 (Moscow time) are moved to GPS time with GPS-UTC = 18 s (the value since 2017-01-01).
