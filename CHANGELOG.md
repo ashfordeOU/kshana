@@ -18,8 +18,8 @@ breaking changes are called out explicitly.
 - **CCSDS readers and writers: units, decimal marks, non-finite values and unclosed blocks** (`src/orbit_data/cli.rs`, `src/omm.rs`, `src/oem.rs`, `src/orbit_data/convert.rs`, `src/ccsds_tdm.rs`, `src/odm.rs`, [docs/ROBUSTNESS.md](docs/ROBUSTNESS.md)). `kshana orbit-data convert --to cdm` refuses a value given in a unit other than the standard's: the KVN writer labels each value with the standard's unit, so `MISS_DISTANCE = 0.5 [km]` was written as `0.5 [m]`. The OMM writer writes `MEAN_MOTION` and the three angles with `.` in every language (they took the language's decimal mark, `15,50000000` in German). `parse_oem` and `parse_covariance_block` refuse `NaN` / `inf` values, and an unclosed `COVARIANCE_START` is an error (it skipped the rest of the segment's states). `oem_to_ocm` refuses segments in different time systems (it stamped every segment with the first one's). The TDM reader refuses non-finite values, a third token on a data line (dropped before) and a data line outside a data block (ignored before). ODM `Section::num` refuses non-finite numbers. Not changed: OPM/OMM bracketed units are still dropped unchecked (no unit table yet). Tests: `tests/ccsds_reader_robustness.rs`. Four new messages in all 18 engine catalogues.
 - **SBAS protection levels with one receiver clock per constellation** (`src/sbas.rs`, [docs/COMPLIANCE.md](docs/COMPLIANCE.md)). `sbas_protection_level_multi` takes a system id per satellite and a clock model: `PerSystem` estimates one clock state per system present (`3 + k` unknowns, the ARAIM ADD / Blanch et al. multi-constellation treatment; `wls_covariance_multi`, `geometry_row_multi`) and forms HPL/VPL from the position block only, refusing when there are fewer satellites than unknowns or a system has a single satellite; `KnownOffset` keeps one clock for a caller that has applied the inter-system offset. Single-system inputs give the existing `sbas_protection_level` result bit for bit. MODELLED: checked against a hand-derived two-system example, no external multi-constellation oracle.
 - **How outside pull requests are handled, and who is credited** (`CONTRIBUTING.md`, new `CONTRIBUTORS.md`). We answer within two working days, ask for changes before rewriting a contribution ourselves, credit people whose work we build on or who report a bug in the commit message, the changelog and `CONTRIBUTORS.md`, and review every new third-party dependency first. `CONTRIBUTORS.md` starts with the reporter of the MAVLink checksum weakness (#138, fixed in #161).
-- **kshana-bench task (f): an operating point frozen on dev, and the publisher's metric set** (`src/bench/anomaly.rs` `f_dev_threshold`, [xval/bench-f/PREREGISTRATION-2.md](xval/bench-f/PREREGISTRATION-2.md), [RESULTS-2.md](xval/bench-f/RESULTS-2.md), backlog B3403). Each OPS-SAT-AD baseline now also declares the threshold that flags 20 % of the `dev` segments (the contamination rule of Ruszczak et al., Scientific Data 2025), and the results carry precision, recall, F1, MCC and accuracy at it, in four new frozen files `f-<split>-<baseline>-dev-op.result.json` (the four earlier files are unchanged). Pre-registered bars F4 to F6 MET (test MCC 0.544 and 0.573, scorer equal to the independent oracle); the paper's Table 3 is shown as carried context. ESA-ADB re-reviewed 2026-11-21: still no data licence on either Zenodo version, so it stays a candidate. MODELLED.
-- **Amateur-RF orbit determination and object characterisation for small satellites** (`src/amateur_od.rs`, [docs/AMATEUR-RF-OD.md](docs/AMATEUR-RF-OD.md), backlog B2208). Readers for Doppler records in the STRF layout, STRF `sites.txt`, a SatNOGS Network observation record and on-board GPS fixes (`X,Y,Z,TOW`); one-way Doppler orbit determination (epoch state and one carrier per site, full-force `precise_od` dynamics, analytic Jacobian through the state-transition matrix); GPS-fix precise OD with IERS EOP; identification of an unknown object by ranking candidate TLEs against its fixes; and the ballistic term `C_D·A/m` from SGP4 `B*` (Hoots & Roehrich 1980). The published Lucky-7 case (Estévez 2019, NORAD 44406) is fetched by `scripts/fetch_lucky7.sh` with SHA-256 pins, never committed, and reproduced by `tests/amateur_od_lucky7.rs` against pre-registered bars. MODELLED.
+- **kshana-bench task (f): an operating point frozen on dev, and the publisher's metric set** (`src/bench/anomaly.rs` `f_dev_threshold`, [xval/bench-f/PREREGISTRATION-2.md](xval/bench-f/PREREGISTRATION-2.md), [RESULTS-2.md](xval/bench-f/RESULTS-2.md), ). Each OPS-SAT-AD baseline now also declares the threshold that flags 20 % of the `dev` segments (the contamination rule of Ruszczak et al., Scientific Data 2025), and the results carry precision, recall, F1, MCC and accuracy at it, in four new frozen files `f-<split>-<baseline>-dev-op.result.json` (the four earlier files are unchanged). Pre-registered bars F4 to F6 MET (test MCC 0.544 and 0.573, scorer equal to the independent oracle); the paper's Table 3 is shown as carried context. ESA-ADB re-reviewed 2026-11-21: still no data licence on either Zenodo version, so it stays a candidate. MODELLED.
+- **Amateur-RF orbit determination and object characterisation for small satellites** (`src/amateur_od.rs`, [docs/AMATEUR-RF-OD.md](docs/AMATEUR-RF-OD.md), ). Readers for Doppler records in the STRF layout, STRF `sites.txt`, a SatNOGS Network observation record and on-board GPS fixes (`X,Y,Z,TOW`); one-way Doppler orbit determination (epoch state and one carrier per site, full-force `precise_od` dynamics, analytic Jacobian through the state-transition matrix); GPS-fix precise OD with IERS EOP; identification of an unknown object by ranking candidate TLEs against its fixes; and the ballistic term `C_D·A/m` from SGP4 `B*` (Hoots & Roehrich 1980). The published Lucky-7 case (Estévez 2019, NORAD 44406) is fetched by `scripts/fetch_lucky7.sh` with SHA-256 pins, never committed, and reproduced by `tests/amateur_od_lucky7.rs` against pre-registered bars. MODELLED.
 - **MAVLink readers check the checksum of every frame** (`src/interconnect/mavlink.rs`). Before, a frame of a message the reader did not decode was stepped over by the length its header claimed, unchecked, so a cut or damaged header could hide the GNSS fixes behind it. Now every frame's X.25 checksum is checked with its message's `CRC_EXTRA` from a table of every message in the official MAVLink definitions (`all.xml` and its includes, mavlink/mavlink commit 3fbb885), generated by `scripts/gen_mavlink_table.py` (numbers only; the generator records the source commit and licence). A frame of an undefined message, longer than its message allows, or failing its checksum is not taken and the reader moves on by one octet; each damaged frame is counted once (`bad_checksum` for a failed checksum, `malformed` for an undefined message, an impossible length or a frame cut at the end). Tests: `tests/mavlink_strict_crc.rs` (cut v1 and v2 headers hiding real fixes, an undefined message, a damaged heartbeat, a cut `.tlog` record, and 200 seeded single-bit flips of `examples/tracks/flight.tlog`: no fix invented, at most the flipped frame lost, every flip counted). Reported by Mattbusel in #138. No new dependency.
 - **`kshana interference-lib`: two more classes, the pre-registered macro-F1 and a JNR breakdown.** The library gains `multitone` (equal-power tones, `--tones-hz`) and `fm_tone` (sinusoidal FM, `--deviation-hz`, `--mod-freq-hz`), with ID and OOD draws in the benchmark corpus (`cases` gains the three columns). The reference classifier becomes `interference-lib/v2`: the `v1` rules in the same order with a multitone rule (isolated spectral peaks holding 80 % of the excess) and an FM rule (power coefficient of variation under 0.75, symmetric peak track), and the fit estimates tone frequencies, deviation and modulating frequency. `bench` reports, per part, the pre-registered primary metric (macro-F1 over the eight classes), per-class precision, recall and F1, balanced accuracy, accuracy and macro-F1 per JNR bin, and the macro-F1 gap. With `--per-class 20 --seed 1`: ID 0.99 accuracy and macro-F1, OOD 0.69 and 0.64; triangle sweeps are read as FM. MODELLED.
 - **Lunar interop export: SANA-registered names, and states in the stated frame.** `lunar_interop` writes `REF_FRAME` `MOON_PA440` (was the unversioned `MOON_PA`) or `MOON_ME`, and `TIME_SYSTEM` `TDB` by default (was `LTC`); `LTC` and `TCL`, which are not in the SANA Time Systems registry, are written only with `allow_unregistered_time_system = true` and a `COMMENT` saying so. Unknown tokens and an ephemeris past the DE440 orientation series are refused. **Fixed:** the `lunar-interop-export` sample states were Moon-centred inertial but labelled with a body frame; they are now rotated into the named frame (DE440 orientation through `lunar_oem`), and a test converts the written file back to ICRF. Files with the old tokens are still read. The two-reader oracle was regenerated: `oem` 0.4.5 and Orekit 12.2 now both decode the default export within the pre-registered tolerances (Orekit still refuses `LTC`), so the comparison that was ignored now runs.
@@ -79,11 +79,11 @@ breaking changes are called out explicitly.
   checks are shown on an illustrative system with made-up figures, marked as such. MODELLED.
 
 - **`kshana leo-verify`: LEO-PNT verification tools** (`src/leo_verify/`, [docs/LEO-VERIFY.md](docs/LEO-VERIFY.md)). `burst-timing`: a timing receiver fed by LEO bursts and coasting on its oscillator between them (burst pattern or schedule, outages, seeded runs of the `leo-pvt` timing filter), with TDEV, MTIE and the longest gap a time-error threshold allows. `holdover-tdev`: the TDEV a datasheet's Allan deviation and ageing predict, term by term, with an optional telecom-timing mask check and a comparison against a simulated phase record of the same model (within 20 % in the tests). `cost`: per GNSS outage length, whether each oscillator option, with or without LEO aiding, holds a threshold, beside its cost of ownership; unranked, with the non-dominated set marked. `indoor`: ITU-R P.2109 building entry loss and the C/N0 left indoors, with a measurement protocol in the docs. `rain-fade`: ITU-R P.618 rain attenuation against time percentage and the availability a margin buys (the inversion reproduces an ITU validation example). `rtk-ar`: cascaded ambiguity-resolution success rates for any carriers, L and C band included. `jam-claim`: a stated power advantage as J/S tolerated and free-space denial radius. `doppler-integrity`: slope protection levels of a Doppler-only fix over Walker shells at any latitude, with an injected satellite fault. All MODELLED; every message is in the 18 engine catalogues. Tests: `tests/leo_verify.rs`.
-- **MATLAB package, LabVIEW VI library guide, teaching kit and academic-use page** (backlog B3801). `capi/kshana-capi/sdk/matlab/+kshana/`: `kshana.loadLibrary`, `version`, `run` (a struct via `jsondecode`, and the JSON text), `validate` (a cell array of problems) and `connectMap` (one struct per record) over the C interface with `loadlibrary`/`calllib`, every returned string freed once; `kshana_quickstart.m`. `sdk/labview/`: the missing `kshana_validate_scenario` node row, exact `StrLen`/`MoveBlock` settings, and `VI-LIBRARY.md`, six VIs described step by step (no binary `.vi`). `docs/teaching/`: three lab sheets (first calls, a link-budget sweep, mapping a receiver log) with worked answers, MATLAB and Python solutions and LabVIEW steps, on shipped scenarios and synthetic data only (MODELLED). `docs/ACADEMIC.md`: how to get the engine, the teaching material, citing and reproducing results; it sets no terms. The Python ctypes wrapper gains `validate`. **Not run on MATLAB or LabVIEW** (no licences on the runners): `capi/kshana-capi/tests/sdk_wrappers.rs` checks that the `.m` files call only header functions, that the LabVIEW guide covers every function, replays both tools' C call sequences with ctypes (`sdk/python/wrapper_patterns.py`), and runs the three Python lab solutions, which check the answers their sheets state. Nothing is added to the engine or to the published crate.
+- **MATLAB package, LabVIEW VI library guide, teaching kit and academic-use page**. `capi/kshana-capi/sdk/matlab/+kshana/`: `kshana.loadLibrary`, `version`, `run` (a struct via `jsondecode`, and the JSON text), `validate` (a cell array of problems) and `connectMap` (one struct per record) over the C interface with `loadlibrary`/`calllib`, every returned string freed once; `kshana_quickstart.m`. `sdk/labview/`: the missing `kshana_validate_scenario` node row, exact `StrLen`/`MoveBlock` settings, and `VI-LIBRARY.md`, six VIs described step by step (no binary `.vi`). `docs/teaching/`: three lab sheets (first calls, a link-budget sweep, mapping a receiver log) with worked answers, MATLAB and Python solutions and LabVIEW steps, on shipped scenarios and synthetic data only (MODELLED). `docs/ACADEMIC.md`: how to get the engine, the teaching material, citing and reproducing results; it sets no terms. The Python ctypes wrapper gains `validate`. **Not run on MATLAB or LabVIEW** (no licences on the runners): `capi/kshana-capi/tests/sdk_wrappers.rs` checks that the `.m` files call only header functions, that the LabVIEW guide covers every function, replays both tools' C call sequences with ctypes (`sdk/python/wrapper_patterns.py`), and runs the three Python lab solutions, which check the answers their sheets state. Nothing is added to the engine or to the published crate.
 - **kshana-bench task (h): the UrbanNav Tokyo edition** (`scripts/fetch_urbannav_tokyo.sh`, `src/bench/urban.rs`, [bench/SPEC.md](bench/SPEC.md) section 3). The UrbanNav README's licence grant (MIT, the files of every download link, re-read 2026-11-21) covers the Tokyo dataset, so its two runs (Odaiba, Shinjuku; u-blox F9P and Trimble NetR9 RINEX, the Applanix reference at whole seconds, the publisher's merged navigation file) are added as a second edition: fetched with the archive and every kept file's SHA-256 pinned into a directory of their own, split among themselves by the task's rule, scored on their own and never pooled with Hong Kong; a directory mixing the two is refused, so the frozen Hong Kong splits and results cannot move (they are recomputed byte for byte). A baseline whose input files are missing is skipped with a message (Tokyo has no NMEA). Pre-registered and scored once (`xval/bench-h/RESULTS-TOKYO.md`): test `gsdc_score_m` 26.60 m, dev 11.72 m for `kshana-spp/tokyo`; bar T1 MET; MODELLED. The two metric-only result files are committed, in `bench/GOLDEN.json` and on the board. Two new messages in all 18 engine catalogues. Tests: `tests/bench_urban.rs`.
 - **kshana-bench task (h) on the leaderboard, with its first results frozen** (`src/bench/site.rs`, `bench/results/h-*.result.json`, `bench/GOLDEN.json`, `bench/site/`). The leaderboard renders task (h) with the task (g) columns (score, pooled P50 and P95) and refuses a task (h) holdout row (the task has none). The four first-run result files of `xval/bench-h/RESULTS.md` are committed and indexed with their citation ids; they hold scores per trace and the SHA-256 of the truth and predictions, no UrbanNav position, which `tests/bench_urban.rs` checks. The committed board pages are regenerated (the only change is the task (h) section). One new message in all 18 engine catalogues.
 - **kshana-bench 2.3.0: task (h), urban positioning accuracy on UrbanNav** (`src/bench/urban.rs`, [docs/BENCH.md](docs/BENCH.md), [bench/SPEC.md](bench/SPEC.md) section 3). The UrbanNav registry entry now records its licence as read: MIT, which the publisher's README (section License) states covers the dataset files, RINEX and ground truth included (LICENSE and README SHA-256 recorded). `scripts/fetch_urbannav.sh` fetches four Hong Kong sequences (medium, deep and harsh urban, and a tunnel), the u-blox F9P and Xiaomi Mi 8 RINEX and NMEA files, the publisher's SPAN-CPT ground truth and the day's IGS BRDC navigation, checks the SHA-256 of every file it keeps and lays them out outside the repository; nothing is vendored. Task (h) uses the task (g) metric over traces `<sequence>/<receiver>`, splits per sequence by SHA-256 order (test and dev; no holdout, the truth being public), and two baselines: `provided-nmea` (each receiver's own fix) and `kshana-spp` (the engine's single-frequency code SPP from the RINEX and broadcast navigation, in two passes that do not use the truth). Pre-registered in `xval/bench-h/PREREGISTRATION.md` and scored once (`xval/bench-h/RESULTS.md`): test `gsdc_score_m` 31.98 m and 59.12 m; bar H1 NOT MET (the F9P outage the publisher notes); MODELLED. `kshana bench positions` accepts `--task h`. Two new messages in all 18 engine catalogues (`bench-cli-unknown-task-g` renamed to `-h`). Fixed on the way: the GGA reader of `rtk_qa` (`src/rtk_qa/fix_check.rs`) no longer panics on a time or angle field holding non-ASCII bytes (found by the new `parser_robustness` block), and a sentence whose time does not parse is now skipped instead of read as midnight. Tests: `tests/bench_urban.rs` (recomputes the published scores with `KSHANA_URBANNAV`), the unit tests of `src/bench/urban.rs`.
-- **kshana-bench: private holdout for tasks (f) and (g), citation metadata, local GSDC scoring** (`src/bench/holdout.rs`, [docs/BENCH.md](docs/BENCH.md), `bench/SPEC.md` section 4). `kshana bench holdout truth` builds the cases and truth of a private holdout from the owner's own data and refuses to write inside a checkout; `register` prints the hash-only entry for `bench/holdout/PRIVATE.json` (none is registered yet); `score` reads the private truth from `--truth` or `KSHANA_BENCH_HOLDOUT_F` / `_G`, refuses an unregistered truth and marks the result `holdout.private`; the leaderboard accepts a task (f) or (g) holdout row only so marked and registered, and labels it. `bench/CITATION.cff` and `bench/.zenodo.json` describe kshana-bench as its own deposit (creator Ashforde OÜ; DOI to be filled after the owner's deposit). `scripts/score_gsdc_local.sh` scores the task (g) baselines on a GSDC copy the user downloads, writing outside the repository. Tests: `tests/bench_holdout.rs`.
+- **kshana-bench: private holdout for tasks (f) and (g), citation metadata, local GSDC scoring** (`src/bench/holdout.rs`, [docs/BENCH.md](docs/BENCH.md), `bench/SPEC.md` section 4). `kshana bench holdout truth` builds the cases and truth of a private holdout from the owner's own data and refuses to write inside a checkout; `register` prints the hash-only entry for `bench/holdout/PRIVATE.json` (none is registered yet); `score` reads the private truth from `--truth` or `KSHANA_BENCH_HOLDOUT_F` / `_G`, refuses an unregistered truth and marks the result `holdout.private`; the leaderboard accepts a task (f) or (g) holdout row only so marked and registered, and labels it. `bench/CITATION.cff` and `bench/.zenodo.json` describe kshana-bench as its own deposit (creator Ashforde OÜ; DOI to be filled after the deposit is made). `scripts/score_gsdc_local.sh` scores the task (g) baselines on a GSDC copy the user downloads, writing outside the repository. Tests: `tests/bench_holdout.rs`.
 - **kshana-bench 2.2.0: spacecraft telemetry and smartphone tasks, a dataset registry, citation ids and a golden index** ([docs/BENCH.md](docs/BENCH.md), [bench/SPEC.md](bench/SPEC.md) sections 3 and 8). Task (f): anomaly detection on OPS-SAT housekeeping telemetry (OPSSAT-AD, CC-BY-4.0, fetched by `scripts/fetch_opssat_ad.sh` with its SHA-256 checked, never vendored), the publisher's split, AUC, average precision and the declared operating point (precision, recall, F1, MCC); two transparent baselines pre-registered in `xval/bench-f/PREREGISTRATION.md` and scored once (test AUC 0.858 and 0.852, bars F1 to F3 MET, an independent Python oracle agrees; MODELLED). Task (g): smartphone positioning accuracy with the GSDC metric (mean over traces of the 50th and 95th percentile horizontal errors) on GSDC-layout traces the user downloads, the provided-WLS baseline, and `kshana bench positions` for GSDC-format CSV submissions; no baseline number is published. `kshana bench datasets [--check]`: every benchmark dataset with its DOI, licence as stated, redistribution status, fetch and checksum route and use limits; the check refuses data in the repository without a licence that allows it and a NOTICE entry, any TEXBAT or JammerTest data in the repository, and a spoofing or jamming set not limited to detection benchmarking; multi-band spoofing, rail, vision and civil A-PNT and 5G field sets are listed as gaps. `kshana bench cite`: citation ids `kb-<major>-<task>-<split>-<16 hex>` derived from the result's facts, stable across releases. `kshana bench golden`: `bench/GOLDEN.json` indexes the frozen manifests, schema, holdout commitments and results with their SHA-256 and citation ids, and the check fails when one changes. The leaderboard renders tasks (f) and (g). NOTICE records the IGS clock extract and the vendored OPSSAT-AD fixture. New messages are in all 18 engine catalogues. Tests: `tests/bench_governance.rs`, the unit tests of `src/bench/{anomaly,smartphone,datasets,cite}.rs`, a `parser_robustness` block.
 - **`kshana feed watch`: a long-running feeder** (`src/feeder_watch.rs`, [docs/FEEDER.md](docs/FEEDER.md#watch-a-long-running-feeder)). On an interval it packs the closed observation files of a station's directories that are not yet packed (by SHA-256) into signed `kshana.feed/1` bundles, one per station, keeps them in a resumable spool (`state.json`, `kshana.feed-spool/1`; bundle written before the state, state replaced by rename) and sends them with retry: 30 s doubling to the interval for connection failures, 5xx, 408 and 429; other 4xx replies set the bundle aside in `rejected/`. Without `--url` it only packs. `--once` runs one cycle. HTTPS is not supported (the engine has no TLS client) and is refused with that reason. Tests: `tests/feeder_watch.rs` (including a send to a local listener), a `parser_robustness` block for the spool state.
 - **`kshana feed`: feeder clients for receivers and SDRs** (`src/feeder.rs`, [docs/FEEDER.md](docs/FEEDER.md)). `pack` turns a station's own `kshana.obs/1` files (a Station's output directory, `obs convert` output, spectrum snapshots) into a signed `kshana.feed/1` bundle (Ed25519, the `kshana evidence keygen` key files). The default privacy mode `public` replaces the station id with a pseudonym derived from the feeder's key, puts the position on a 0.1 degree grid (none for a station whose fixes spread over 2 km), and removes the height, the operator, every per-epoch fix, every moving-platform record, IQ references and free-text alarm notes; `exact` keeps everything and must be asked for. `verify` checks the signature, every payload digest, every payload as `kshana.obs/1` and that a `public` bundle really is coarsened; `send` posts a verified bundle over HTTP with an optional bearer token; `spectrum` writes a receive-only spectrum snapshot of an RTL-SDR (`cu8`), HackRF (`ci8`) or `ci16_le` capture as a new `kshana.obs/1` `spectrum` record (Welch estimate, dBFS per hertz, MODELLED: not calibrated power); `leaderboard` ranks verified bundles by feeder, counting each payload once. The Android client is a written specification in the docs page, not an application. Every message is in the 18 engine catalogues. Tests: `tests/feeder.rs`, a `parser_robustness` block.
@@ -413,84 +413,84 @@ breaking changes are called out explicitly.
   (`tests/fixtures/ais_integrity/`, generator included) and false-alarm and detection rates on the M4 synthetic
   scene; no emitter position is estimated and identities are written as the input states them.
 
-### Changed (0.42 Q2, Q4, Q6, Q9, V1, V7: quality, platform and evidence rows)
+### Changed (quality, platform and evidence rows)
 
-- Q4 Galileo and BeiDou broadcast health is read in the single-point solve: a Galileo record with any of its nine signal
+- Galileo and BeiDou broadcast health is read in the single-point solve: a Galileo record with any of its nine signal
   health or data-validity bits set (E1-B, E5a, E5b) and a BeiDou record with `SatH1` non-zero are no longer selected
   (`pvt::record_unhealthy`). Tested on the IGS broadcast files in the repository: E14 and E18 (2018 I/NAV, health 448
   and 455) and E14, E18 and E32 (2026 merged file) drop out; healthy F/NAV records are chosen over flagged ones; all
   64 BeiDou records decoded from the 2026 slice stay (`tests/broadcast_health_gal_bds_real.rs`).
-- Q9 Auto-tag tags a version only when CI and the i18n workflow (which holds the site checks: catalogues,
+- Auto-tag tags a version only when CI and the i18n workflow (which holds the site checks: catalogues,
   pseudo-locale and the deploy-style tree in a browser) are both green on the same commit; i18n now runs on every push
   to `main`. A release can no longer ship with a red site check, as 0.41.0 did.
-- Q2 Kshana Desktop's `.deb` and `.rpm` (x86_64 and arm64) are installed in CI on Ubuntu 22.04 and 24.04, Fedora and
+- Kshana Desktop's `.deb` and `.rpm` (x86_64 and arm64) are installed in CI on Ubuntu 22.04 and 24.04, Fedora and
   Raspberry Pi OS 64-bit (Debian trixie arm64 with the Raspberry Pi archive), started on a virtual display until the
   window is mapped, and removed (`.github/workflows/linux-packages.yml`, `scripts/linux-package-install-test.sh`).
-- Q6 the public `ROADMAP.md` has a 0.42 section.
-- V1 B3c, the successor to the TDOA interference locator, pre-registered and run once on B3b's synthetic world with
+- The public `ROADMAP.md` has a 0.42 section.
+- B3c, the successor to the TDOA interference locator, pre-registered and run once on B3b's synthetic world with
   fresh seeds: G-wb (chirp and noise jammers, 666 sessions) **MET** (T1 0.937, T2 3.0 × 10⁻⁶, T3 0.0049); G-all (1 000
   sessions) **NOT MET** on T1 (0.624), because CW jammers are reported "not located: no usable bandwidth", as stated
   before the run. The independent numpy oracle agrees on 20 of 20 sessions. Geolocation (F2) stays off until a blind
   real-data run is met too (`docs/design/evidence/b3c-tdoa-locator-successor/`, `src/locate_tdoa_b3c.rs`). MODELLED.
-- V7 the Artemis I cruise row (C2) is closed (not met) and the CAPSTONE force-model row (C3) is narrowed to what it
+- The Artemis I cruise row (C2) is closed (not met) and the CAPSTONE force-model row (C3) is narrowed to what it
   showed, with A2 staying not met; reasons in `docs/design/evidence/d1-artemis-capstone/V7-DISPOSITION.md`.
 
-### Security (0.42 rmcp 3)
+### Security (rmcp 3)
 
 - `kshana-mcp` moves from `rmcp` 2.2 to 3.11, which fixes RUSTSEC-2026-0462 (unbounded response buffering in the
   Streamable HTTP client transports) and RUSTSEC-2026-0457 (SSRF in the OAuth client). Neither was reachable: the
   server compiles no client transport and not the `auth` feature. Their `deny.toml` ignores are removed. The tool set,
   names and schemas are unchanged; the minimum Rust version stays 1.88.
 
-### Known limits (0.42 glib advisory)
+### Known limits (glib advisory)
 
 - The `glib` advisory (RUSTSEC-2024-0429) on the desktop crate cannot be closed by an upgrade yet: every Tauri release
   up to 3.0.0-alpha.6 reaches GTK through `webkit2gtk` 2.0.x, which needs `glib` 0.18, and the fix is only in 0.20.
   The affected function is not called anywhere in the desktop crate's dependency tree (apps/desktop/README.md).
 
-### Added (0.42 U23, U24, U25, U26, U29: Desktop notebook, globe, stability plots, live traffic, course mode)
+### Added (Desktop notebook, globe, stability plots, live traffic, course mode)
 
-- U23 Python notebook and console in Kshana Desktop: Markdown and Python cells kept in the project folder as
+- Python notebook and console in Kshana Desktop: Markdown and Python cells kept in the project folder as
   `notebooks/<name>.ipynb` (Jupyter's nbformat 4), run by the Python on the computer (the app carries none; the page says
   which interpreter it found and whether `import kshana` works, or plainly that there is none) in one session started in
   the project folder; outputs, the value of a last expression, tracebacks and matplotlib figures; HTML, PDF (text) and
   Jupyter export; a cite button with the reference of CITATION.cff at the engine version; the code mirror's Python as cells.
-- U24 globe of a run (the chart library's WebGL2 renderer, no globe library): WGS-84 Earth with Natural Earth coastlines,
+- Globe of a run (the chart library's WebGL2 renderer, no globe library): WGS-84 Earth with Natural Earth coastlines,
   the scenario's sites and moving objects with their heights, the run's track, ships and aircraft, coverage circles at the
   time cursor and follow mode; offline region packs (`kshana-mappack/1`, Natural Earth, made by
   `apps/desktop/tools/pack_natural_earth.py --region`; a 1:10m Baltic Sea pack is bundled) drawn on the 2D map from zoom 5
   and on the globe; optional NASA GIBS Blue Marble imagery, off by default, kept on the computer once fetched (its terms
   are stated in the app and the README); Bridge (red) mode.
-- U25 Plots view: Allan deviation, MTIE and TDEV (log–log, with the engine's confidence bands), Stanford plots, spectra and
+- Plots view: Allan deviation, MTIE and TDEV (log–log, with the engine's confidence bands), Stanford plots, spectra and
   waterfalls found in any run's result and drawn with the interactive chart library; the Welch spectrum and waterfall of an
   IQ recording, read natively in blocks.
-- U26 live AIS (TCP or UDP NMEA) and ADS-B (Beast or AVR over TCP from a local dump1090 or readsb) into the traffic view,
+- Live AIS (TCP or UDP NMEA) and ADS-B (Beast or AVR over TCP from a local dump1090 or readsb) into the traffic view,
   read only by the app's native side, each message stamped with its arrival time and decoded by the engine's readers.
-- U29 course mode: four guided lessons over bundled scenarios (holdover, jamming, RAIM integrity, telecom holdover), with
+- Course mode: four guided lessons over bundled scenarios (holdover, jamming, RAIM integrity, telecom holdover), with
   step text, a setting to try and checkpoints checked against the person's own runs; labelled as teaching material in
   English. Paper reproduction kits in the window and the lesson assistant are not built (the assistant is marked planned).
 
-### Added (0.42 I9 to I12: SDKs, deployment, APIs, conformance kit v2)
+### Added (SDKs, deployment, APIs, Connect test kit v2)
 
-- I9 SDK conformance: every SDK runs the same three scenarios and one Connect mapping and must give the same bytes
+- SDK conformance: every SDK runs the same three scenarios and one Connect mapping and must give the same bytes
   (`capi/kshana-capi/sdk/conformance/`, digests pinned in `expected.sha256`). Wrappers and drivers over the C interface for C,
   C++, Python (ctypes), Go, Java (Foreign Function and Memory API, no JNI code), .NET (P/Invoke) and Julia, run by the
   `capi-check` job (Julia when installed); MATLAB (`loadlibrary`) and LabVIEW (Call Library Function Node guide) are not run in
   CI. The native Python package and the WebAssembly package are held to the same digests. Guide: `docs/SDK.md`.
-- I10 Station deployment: a Helm chart (`deploy/helm/kshana-station`), a Terraform module with the same objects
+- Station deployment: a Helm chart (`deploy/helm/kshana-station`), a Terraform module with the same objects
   (`deploy/terraform/kshana-station`) and a cross-compiled `linux/arm64` and `linux/amd64` edge image (`deploy/edge`). CI lints
   the chart and validates the module, installs the chart on kind against a replayed UBX receiver until `/status` reports
   epochs, and runs the edge image (arm64 under QEMU). Not published to a registry yet; no Kubernetes operator.
-- I11 `docs/api/openapi.json`: an OpenAPI 3.1 description of the open HTTP endpoints (Station status port, trust-telemetry
+- `docs/api/openapi.json`: an OpenAPI 3.1 description of the open HTTP endpoints (Station status port, trust-telemetry
   metrics, `kshana-mcp --http`), held to the routes and the Station status document by `tests/openapi_doc_sync.rs` and linted
   in CI. The MCP `assess_receiver_log` tool now names every receiver reader it takes, kept in step with the reader list.
-- I12 Connect conformance kit v2: `conformance/kit.toml` lists every connector, and a test holds it to the code (every reader,
+- Connect conformance kit v2: `conformance/kit.toml` lists every connector, and a test holds it to the code (every reader,
   track decoder, export form, mapping source format and timing parser has a vector). 13 new vectors (UBX, SBF, NovAtel,
   RTCM 3, GNSS-SDR, Android, RTKLIB, RTCM SSR, MAVLink stream, ADS-B and AIS CSV, TSV and JSON-lines mappings).
   `kshana connect check-live` replays each live receiver reader over a new stream path (bytes in uneven pieces);
   `conformance/run-kit.sh` runs the kit offline. Open finding: the IEC 61162-450 reader's live read differs from its replay
   from epoch 69 of the kit's capture, so it is left off the stream path.
-- Windows desktop signing (owner decision K5): an Azure Trusted Signing step in the Desktop workflow, off until the repository
+- Windows desktop signing: an Azure Trusted Signing step in the Desktop workflow, off until the repository
   variable `WINDOWS_SIGNING` is `azure` and the six signing secrets are set; until then the Windows build says it is unsigned.
   See `docs/WINDOWS-SIGNING.md`.
 
@@ -499,7 +499,7 @@ breaking changes are called out explicitly.
 - `kshana obs live` (and the Station) no longer stops on an Android GnssLogger stream whose first piece holds rows before the
   first fix: that piece is not taken as the anchor, and the live read gives the replay's epochs.
 
-### Added (0.42 I1, I6: maritime, aviation and drone data)
+### Added (maritime, aviation and drone data)
 
 - `kshana connect decode` (`kshana::interconnect`): AIS from NMEA 0183 `!AIVDM`/`!AIVDO` (types 1, 2, 3, 4, 5, 18, 19, 24;
   fragments, checksums, TAG times, IEC 61162-450 headers), NMEA 2000 as canboat JSON, ASTERIX CAT010, CAT048 and CAT062 (with
@@ -510,18 +510,18 @@ breaking changes are called out explicitly.
   synthetic inputs from independent encoders and decoders (`examples/tracks/NOTICE.md`) and on published worked examples; 15
   new Connect conformance vectors. No verification-matrix row is added. See `docs/TRACKS.md`.
 
-### Added (0.42 I4, I5, I7, I8: simulators, ops outputs, industrial control, mission control)
+### Added (simulators, ops outputs, industrial control, mission control)
 
-- I7 `kshana connect modbus|dnp3|opcua` (`kshana::industrial`, `kshana::opcua`): read-only Modbus TCP (codes 1 to 4), DNP3
+- `kshana connect modbus|dnp3|opcua` (`kshana::industrial`, `kshana::opcua`): read-only Modbus TCP (codes 1 to 4), DNP3
   class 0 read with transport reassembly and the application confirm, OPC UA binary client (policy None, anonymous, Read of
   the Value attribute). Tested against in-process fakes. See `docs/INDUSTRIAL.md`.
-- I5 `kshana connect alert|snmp-trap|taxii` (`kshana::telemetry::ops`): ServiceNow, PagerDuty, Opsgenie, Slack, Teams, Splunk
+- `kshana connect alert|snmp-trap|taxii` (`kshana::telemetry::ops`): ServiceNow, PagerDuty, Opsgenie, Slack, Teams, Splunk
   HEC and Elastic bulk payloads per band change; SNMPv2c traps; STIX 2.1 objects (checked against the OASIS schemas when
   present) and a TAXII 2.1 client; OpenMetrics on the `/metrics` endpoint by content negotiation. Kafka remains open.
-- I8 `kshana connect tm|tm-stream` (`kshana::tm_bridge`): the trust stream as CCSDS Space Packets with XTCE 1.2 (checked
+- `kshana connect tm|tm-stream` (`kshana::tm_bridge`): the trust stream as CCSDS Space Packets with XTCE 1.2 (checked
   against the OMG schema when present), OpenC3 COSMOS and Open MCT definitions, and a UDP packet stream for Yamcs. The CCSDS
   ODM, ADM, TDM, SP3 and Space Packet support was already present. See `docs/SPACE-OPS-BRIDGES.md`.
-- I4 `kshana connect sim-motion` writes gps-sdr-sim `-u`/`-x` motion at 10 Hz; `kshana connect sdr-capture` captures SigMF
+- `kshana connect sim-motion` writes gps-sdr-sim `-u`/`-x` motion at 10 Hz; `kshana connect sdr-capture` captures SigMF
   through the user's own SoapySDR behind the optional `soapy` feature (no new dependency). Commercial simulator formats are
   listed as documented to licensees, not built. See `docs/SDR-SIMULATORS.md`.
 - `tools/egm2008_to70.gfc` is left out of the published crate (two unit tests read it from a checkout).
@@ -649,7 +649,7 @@ statement is unchanged: Kshana is advisory software, not type-approved navigatio
 - **Kshana Desktop** (`apps/desktop`, Tauri 2): the Studio in a native window with runs, charts, tables, the localised text and the
   CCSDS and SP3 exports on the natively linked engine (the same calls as WebAssembly), files of any size read in blocks. The trust
   page can score a receiver live from a serial or USB port, a TCP stream or a growing file (NMEA 0183, read only, every five
-  seconds). An IQ recording view (`studio/iq/`) shows power, a waterfall and the spectrum at a cursor for ci8, cu8, ci16 and cf32
+  seconds). An IQ recording view (`web/studio/iq/`) shows power, a waterfall and the spectrum at a cursor for ci8, cu8, ci16 and cf32
   recordings and SigMF metadata; it has no control that writes a file or transmits. The Desktop workflow builds the app on Linux,
   macOS and Windows.
 - **A C interface**: `capi/kshana-capi`, a separate crate so the library keeps `forbid(unsafe_code)`, with five entry points
@@ -785,7 +785,7 @@ statement is unchanged: Kshana is advisory software, not type-approved navigatio
   every remaining tolerated failure states its reason; a winget pull request already open for the version counts as success; the
   OCI image builds get 180 minutes. A monthly Apple signing check fails when a Developer ID certificate has fewer than 30 days
   left.
-- The Studio's 184 recorded runs are gzip-compressed (`studio/recorded/<name>.json.gz`): 43 MB of JSON becomes 6.9 MB, and the
+- The Studio's 184 recorded runs are gzip-compressed (`web/studio/recorded/<name>.json.gz`): 43 MB of JSON becomes 6.9 MB, and the
   deployed site 498.1 MB becomes 458.1 MB.
 
 ### Fixed
@@ -912,7 +912,7 @@ restarts) are in each results file. Everything here stays MODELLED.
   (grid-free acquisition).
 - **D18** (no bar; `docs/design/evidence/d18-bench-leftovers/RESULTS.md`): item 1, the almanac-HDOP scorer, built and passing its
   acceptance tests (HDOP within 1.6e-15 of numpy at 20 points); item 2, the bench checks external files against pinned hashes, and
-  the ten TEXBAT recordings were pinned from the owner's fetches on 9 and 11 November 2026.
+  the ten TEXBAT recordings were pinned from fetches made on 9 and 11 November 2026.
 - **R items**: R1.1 (RTCM SSR) has no pre-registration and no bar; it is MODELLED (`docs/design/evidence/r1-1-rtcm-ssr/RESULTS.md`).
   R1.4 (tides) has no scored comparison: its pre-registration is proposed and awaits sign-off. The R6.1 CGGTTS comparison is
   pre-registered as proposed and not run. The other R pre-registrations committed in this release (R1.2, R1.3, R3.2 to R3.5,
@@ -973,7 +973,7 @@ equipment and not a certification; the operator remains responsible.
   eleven of twelve records and D3 and **NOT MET** on D2 as registered (met like-for-like). All misses are pinned
   (`tests/clock_fit_known_noise.rs`); the `fitted` block and the holdover driven by it stay MODELLED
   (`tests/fixtures/clock_fit/RESULTS.md`).
-- **The 0.40 benchmark re-campaign**, pre-registered with the owner's sign-off before any run: A3 (EXPLORATORY, the folder-clustered
+- **The 0.40 benchmark re-campaign**, pre-registered and signed off before any run: A3 (EXPLORATORY, the folder-clustered
   bootstrap AUC of `agc_k_sigma`, 2.5 % quantile 0.8502 against 0.80), D3 (EXPLORATORY, three of five detectors exceed an
   optimism gap of 0.05 at scale 0.25), R3 (AUC 1.0) and R4 (P_fa 0.0, P_d 1.0): all MET, all MODELLED. A2, D1 and R1 are untouched
   and stay **NOT MET**; nothing here closes them (`xval/bench/RESULTS-0.40.md`, [Bench](docs/BENCH.md)).
@@ -1162,7 +1162,7 @@ One dependency update in the shipped library (the first entry), the rest in the 
   (receive only). `compliance-report` gains the NIST IR 8323r1 Foundational PNT Profile (15
   paraphrased rows, supports evidence for). An evidence pack can record the operator's
   `lab-attestation` in its signed manifest, never verified; the hardware stages 0 to 4 and the legal
-  notes are in `HARDWARE-SAFETY.md` (awaiting legal review). There is no transmit path of any kind.
+  notes are in `HARDWARE-SAFETY.md` (not legal advice). There is no transmit path of any kind.
 - **kshana-bench v1** (`kshana bench`, [`bench/SPEC.md`](bench/SPEC.md), [`docs/BENCH.md`](docs/BENCH.md)):
   fixed tasks, splits and metrics for GNSS interference detection on receiver logs (JammerTest 2024) and
   IQ, timing holdover prediction (IGS clocks) and the out-of-distribution optimism gap; split manifests
@@ -1236,7 +1236,7 @@ One dependency update in the shipped library (the first entry), the rest in the 
 - **EU-US WG-C ARAIM Milestone 3 maximum-URA study** (`xval/araim-m3/`,
   `src/bin/gen_araim_m3_study.rs`), replacing the withdrawn "Table A-3" plan; MODELLED under stated
   deviations.
-- **Drafts for owner approval** under `docs/drafts/`: JOSS paper, TSC charter amendment, oracle
+- **Draft proposals** under `docs/drafts/`: JOSS paper, TSC charter amendment, oracle
   registry process and a `LICENSES/` split proposal. Nothing there is adopted.
 - **Studio views for the 0.38 features** (kshana.dev/studio/). Bridge replay (two synthetic runs on one
   clock: track, trust score, the satellites the log hears and the verdict, with the receiver's own flags
@@ -1294,7 +1294,7 @@ One dependency update in the shipped library (the first entry), the rest in the 
 
 ### Added
 
-- **Detection ROC of the IQ monitors** (PRO-32,
+- **Detection ROC of the IQ monitors** (
   [`docs/design/DETECTION-ROC.md`](docs/design/DETECTION-ROC.md)). A campaign with monitors
   keeps each test statistic's maximum over stated-event windows (positive) and tiled windows
   outside the events (negative, `roc_window_s`). The report pools them per alarm kind into an
@@ -1302,7 +1302,7 @@ One dependency update in the shipped library (the first entry), the rest in the 
   report section. On synthetic campaigns the chance-level check is met. The C/N0 AUC bar
   (0.95) is not met (0.79), because the negative windows right after an event inherit the
   CUSUM's decay from the detection; this is recorded. MODELLED.
-- **IQ monitors in the lab-replay campaign** (PRO-31,
+- **IQ monitors in the lab-replay campaign** (
   [`docs/design/MONITORS-IN-CAMPAIGN.md`](docs/design/MONITORS-IN-CAMPAIGN.md)). An optional
   `[monitors]` table in a campaign file runs the IQ monitors in the runner's single pass: power
   and spectral after each front-end chain, and C/N0, SQM and lock per tracked channel. Their
@@ -1328,7 +1328,7 @@ One dependency update in the shipped library (the first entry), the rest in the 
   - A campaign may now state its J/S as a `step` profile in the test harness.
   - No §13 verdict changes, and the ledger row stays MODELLED.
 
-- **Capped FLL pull-in, opt-in** (DS-LOOP-05): a new loop-design key `[design.carrier]
+- **Capped FLL pull-in, opt-in**: a new loop-design key `[design.carrier]
   fll_pull_in_max_s` (s), Rust `LoopConfig::fll_pull_in_max_s`. Under `fll_assist = "pull-in"`
   it forces the FLL-to-PLL hand-over after that long, whatever the PLI. Unset by default, and
   then out of the design hash; the default design and its hash are unchanged.
@@ -1340,7 +1340,7 @@ One dependency update in the shipped library (the first entry), the rest in the 
   - The ~35 dB-Hz pull-in floor stays the default's documented limit.
   - MODELLED; ledger row "Capped FLL pull-in below the default design's FLL-to-PLL hand-over
     floor (opt-in)".
-- **Acquisition hysteresis and the front-end quantiser in the jamming kind** (CAP-06c): two
+- **Acquisition hysteresis and the front-end quantiser in the jamming kind**: two
   optional sections for a `jamming` scenario.
   - `[acquisition]`: `acquisition_threshold_dbhz` (dB-Hz, at or above the tracking threshold)
     and `reacquisition_delay_s` (s, default 0). A satellite is acquired at or above the
@@ -1360,7 +1360,7 @@ One dependency update in the shipped library (the first entry), the rest in the 
   - Finding: with a CW jammer a 1-bit ADC loses about 5 dB more than the Gaussian figure.
   - MODELLED; ledger row "Acquisition hysteresis and the front-end quantiser in the jamming
     kind against independent recomputations".
-- **Terrain shadowing of the jammer in the jamming kind** (CAP-06b): an optional `[terrain]`
+- **Terrain shadowing of the jammer in the jamming kind**: an optional `[terrain]`
   section in a `jamming` scenario with a jammer. Fields:
   - `dem_hgt`: an SRTM `.hgt` tile, relative to the working directory;
   - `samples_per_side`, `ll_lat_deg` and `ll_lon_deg` (deg): the tile's size and corner;
@@ -1380,7 +1380,7 @@ One dependency update in the shipped library (the first entry), the rest in the 
     the loss reaching J/S exactly.
   - MODELLED; ledger row "Terrain shadowing of the jammer in the jamming kind against an
     independent numpy recomputation on a real SRTM tile".
-- **CRPA antenna gains in the jamming kind** (CAP-06a): an optional `[crpa]` section in a
+- **CRPA antenna gains in the jamming kind**: an optional `[crpa]` section in a
   `jamming` scenario. Fields: `elements_enu_m` (element positions in local east-north-up, m),
   `weighting` (`"null-steering"` or `"mvdr"`), and `bandwidth_mhz` (MVDR noise bandwidth, MHz,
   default twice the chip rate).
@@ -1400,7 +1400,7 @@ One dependency update in the shipped library (the first entry), the rest in the 
     by the same order.
   - MODELLED; ledger row "CRPA antenna gains in the jamming kind against an independent numpy
     recomputation".
-- **IQ tracking engine against GNSS-SDR 0.0.19** (PRO-33): `kshana iq track` and GNSS-SDR track
+- **IQ tracking engine against GNSS-SDR 0.0.19**: `kshana iq track` and GNSS-SDR track
   the same independent numpy recordings of GPS L1 C/A at 30 to 45 dB-Hz.
   - Bars pre-registered at b1f25cce. The registered calibration failed on a wrong GNSS-SDR
     hand-off (F3), so Amendment 1 (9496b6b0) adds a pull-in-only FLL to both receivers, committed
@@ -1410,7 +1410,7 @@ One dependency update in the shipped library (the first entry), the rest in the 
     estimator limit; M2M4 is within 0.06 dB of truth); the lock indicators differ by definition
     (F5); one 30 dB-Hz slip disagreement (F6).
   - MODELLED; ledger row "IQ tracking engine against GNSS-SDR 0.0.19 on independent recordings".
-- **Two VALIDATED rows for IQ-layer codes** (DS-GIQ-06b, PRO-39).
+- **Two VALIDATED rows for IQ-layer codes**.
   - **BeiDou B1I.** All 63 B1I primary codes match GNSS-SDR v0.0.19's independent generator chip
     for chip (bar pre-registered at db9dd696). Only that program's output is committed: the B1I
     PRN codes the public ICD defines, as a prefix and a hash.
@@ -1419,7 +1419,7 @@ One dependency update in the shipped library (the first entry), the rest in the 
     pre-registered at c6063eb2).
   - Rows: "BeiDou B1I primary ranging codes against an independent generator" and "GPS L1C ranging
     and overlay codes against the IS-GPS-800J printed check columns".
-- **GLONASS, BeiDou and Galileo E6 bands in the spectrum model** (CAP-12, signals): new band
+- **GLONASS, BeiDou and Galileo E6 bands in the spectrum model** (signals): new band
   names `glonass-l1of` and `glonass-l2of` (any FDMA channel as `glonass-l1of-k<K>`,
   K = −7 to 6), `beidou-b1i`, `beidou-b1c`, `beidou-b2a`, `beidou-b3i` and `galileo-e6`. Each
   carries its ICD carrier, modulation and minimum received power. They are opt-in by name: the
@@ -1430,7 +1430,7 @@ One dependency update in the shipped library (the first entry), the rest in the 
     B1I and B1C waveforms match the model only band-averaged, because of their codes' uneven
     line spectra (F2).
   - MODELLED; ledger row "Spectrum model: GLONASS, BeiDou and Galileo E6 bands (opt-in)".
-- **Cell-averaging CFAR option in IQ acquisition** (PRO-37): `iq::acq::ca_cfar` and
+- **Cell-averaging CFAR option in IQ acquisition**: `iq::acq::ca_cfar` and
   `ca_cfar_cells` decide on an acquisition grid by comparing each cell with the mean of
   reference cells in its Doppler row. The threshold comes from the closed-form CA-CFAR
   false-alarm probability for `M` non-coherent blocks (`ca_cfar_pfa`, `ca_cfar_alpha`), so the
@@ -1442,7 +1442,7 @@ One dependency update in the shipped library (the first entry), the rest in the 
   - One bar was not met: on a noise-free 2-bit signal, 1.28 % of the off-peak cells exceed the
     threshold, at the code's correlation sidelobes (finding F1).
   - MODELLED; ledger row "Cell-averaging CFAR option in IQ acquisition".
-- **Scintillation model against measured data** (PRO-34): the IQ channel's Cornell
+- **Scintillation model against measured data**: the IQ channel's Cornell
   scintillation model was compared with measured 50 Hz GPS L1 intensity and phase from an
   equatorial scintillation night (Zenodo record 16941224, INGV, Malindi, CC BY 4.0), under bars
   pre-registered at 653a2195. Met: the intensity distribution and the phase scintillation tied
@@ -1451,14 +1451,14 @@ One dependency update in the shipped library (the first entry), the rest in the 
   phase result holds with it unwrapped. `scripts/fetch_scint_malindi.sh` fetches the data.
   The row stays MODELLED: "IQ ionospheric scintillation channel (Cornell model) against
   measured 50 Hz GPS L1 scintillation".
-- **Corrected LuGRE sample reader** (MR-09): `realdata::lugre::parse_iqs_sdrx` reads a
+- **Corrected LuGRE sample reader**: `realdata::lugre::parse_iqs_sdrx` reads a
   LuGRE IQ batch with I in the high nibble and the mid-rise levels `2v + 1`
   (`SdrLayout::mid_rise`), which remove the −½ mean the bare two's-complement integers carry
   on I and Q. `run_acq.py --corrected` gives GNSS-SDR the same reading. The generic ION reader
   and every existing output are unchanged: 149 scenario results and a study are byte-identical
   before and after, and the pinned LuGRE findings read as registered
   (`xval/lugre-reader/RESULTS.md`). No ledger row changes.
-- **Opt-in BOC(1,1) tracking** (CAP-07 (a)): `LoopConfig::boc` rescales the DLL
+- **Opt-in BOC(1,1) tracking** (opt-in): `LoopConfig::boc` rescales the DLL
   discriminators for the sine BOC(1,1) main peak and adds a bump-jump monitor (very-early and
   very-late correlators at ±0.5 chip, up/down counters, `N = 8`) that moves the code NCO off a
   side peak; `Channel::bump_jumps` lists the jumps. Off by default, and every existing output
@@ -1490,15 +1490,15 @@ One dependency update in the shipped library (the first entry), the rest in the 
   (d) are not met: they are recorded with their values. MODELLED; ledger row "Calibration of the open receiver's C/N0 and lock models to
   IQ campaign results, with stated prediction error". The receiver-log labfit path and its
   outputs are unchanged.
-- **`solar-system` on a JPL kernel** (CAP-31): `planetary_kernel_path` takes each body the SPK
+- **`solar-system` on a JPL kernel**: `planetary_kernel_path` takes each body the SPK
   holds (with de440s: Mercury, Venus, the Earth, the Moon) from the kernel, label `KERNEL`, and
   adds a `kernel` block only when set. New row, VALIDATED against SPICE (pre-registered
   f4a6297a; worst 3.3e-5 m, 1.0e-11 m/s). The default report is unchanged.
-- **Porkchop on the DE440 ephemeris** (CAP-20b): `maneuver::porkchop_kernel` sweeps C3 and
+- **Porkchop on the DE440 ephemeris**: `maneuver::porkchop_kernel` sweeps C3 and
   arrival V∞ on heliocentric states from a DE440 SPK. New row, VALIDATED against SPICE states
   + pykep 3.0.1 (pre-registered b9317cee; Earth to Mars 2026-2028, 304 cells, worst 2.6e-14,
   the same minimum-C3 cell).
-- **LRO non-gravitational macro-model: NOT MET** (DS-LRO-10, pre-registered a221a409).
+- **LRO non-gravitational macro-model: NOT MET** (pre-registered a221a409).
   `lunar_od::LunarMacroModel` (opt-in via `LunarForceModel::macro_model`): flat-plate direct
   solar radiation with the Moon's shadow, a Sun-tracking array, and lunar albedo and thermal
   IR; `LunarMacroModel::lro_generic` is a labelled generic LRO approximation from published
@@ -1509,31 +1509,30 @@ One dependency update in the shipped library (the first entry), the rest in the 
   lunar cannonball SRP now uses the Moon's conical shadow instead of the Earth's
   (`forces::conical_shadow_body`).
 
-- **Lunar OD: optional k2 solid tide and selenocentric relativity** (DS-LRO-11), off by
+- **Lunar OD: optional k2 solid tide and selenocentric relativity**, off by
   default (`LunarForceModel::lunar_tide`, `::relativity`); a `KSHANA_LRO_DEGREE` switch for
-  the ANISE cross-validation (DS-LRO-04); a 24 h LRO arc fixture and an information-only
-  long-arc fit (DS-LRO-09). Information runs are recorded in
+  the ANISE cross-validation; a 24 h LRO arc fixture and an information-only
+  long-arc fit. Information runs are recorded in
   `docs/design/evidence/ds-lro-09-11-longer-arc/RESULTS.md`; no published number changes.
 
-- **CR3BP 9:2 NRHO against CAPSTONE** (CAP-29d): new MODELLED row measuring the engine's
+- **CR3BP 9:2 NRHO against CAPSTONE**: new MODELLED row measuring the engine's
   circular-restricted NRHO against CAPSTONE's flown orbit (JPL Horizons, March 2023;
   pre-registered dab3215c): period 1.07 %, apolune 0.05 %, perilune 4.1 % from CAPSTONE's means,
   inside the registered 3 / 5 / 20 % bars. A measurement, not a validation.
 
-- **CR3BP rotating states to Moon-centred ICRF** (RM-34, FUT-06): `cr3bp::to_moon_centred_icrf`
+- **CR3BP rotating states to Moon-centred ICRF**: `cr3bp::to_moon_centred_icrf`
   / `from_moon_centred_icrf` / `to_moon_centred_icrf_de440` map a nondimensional Earth-Moon
   rotating state onto the instantaneous DE440 Earth-Moon line, including the frame's
   out-of-plane rate. New row, VALIDATED against a SPICE two-vector frame (pre-registered
   3bfc9445, amended before any run e8bfabe4; 72 cases, worst 1.8e-7 m and 1.2e-9 m/s).
 
-- **CR3BP family members against the JPL Three-Body Periodic Orbits API: NOT MET** (RM-35,
-  pre-registered ad0c9741). `cr3bp_family` (halo, NRHO and DRO correction, monodromy stability
+- **CR3BP family members against the JPL Three-Body Periodic Orbits API: NOT MET** (pre-registered ad0c9741). `cr3bp_family` (halo, NRHO and DRO correction, monodromy stability
   index, pseudo-arclength continuation) matches 54 of 58 API members on every bar (state,
   period and Jacobi within 1e-10 everywhere). One L1 halo stability index (9.5e-2) and three
   small-DRO closures (1.5e-8 to 3.3e-8 against 1e-8) miss, so the module is `#[doc(hidden)]`
   and no row claims it. Results: `docs/design/evidence/cr3bp-families/RESULTS.md`.
 
-- **Opt-in DE440 lunar orientation and environment** (FUT-05, DS-LRO-08; defaults unchanged):
+- **Opt-in DE440 lunar orientation and environment** (defaults unchanged):
   `lunar_frame::try_icrf_to_moon_pa_de440`, `lunar::try_mci_to_mcmf_de440` /
   `try_mcmf_to_mci_de440` (epoch-anchored, DE440 principal axes) and
   `lunar_od::De440LunarEnvironment` (embedded DE440 PA orientation plus the geocentric Sun and
@@ -1570,7 +1569,7 @@ One dependency update in the shipped library (the first entry), the rest in the 
   internal Kepler-landing guard found one limitation of `maneuver::kepler_universal` on an
   e = 0.994 arc; it is recorded in `docs/design/evidence/lambert-multirev/RESULTS.md`.
 
-- **Box-wing and ECOM2 solar radiation pressure (DS-PA-14), opt-in.** `srp_boxwing`: a
+- **Box-wing and ECOM2 solar radiation pressure, opt-in.** `srp_boxwing`: a
   flat-plate box-wing model with the Galileo FOC/IOV tables from the GSC satellite metadata, in
   nominal GNSS yaw steering, with radiation-factor and per-panel partials, and the ECOM2
   empirical model with its partials. Selected with `ForceModel::box_wing_srp` /
@@ -1579,14 +1578,14 @@ One dependency update in the shipped library (the first entry), the rest in the 
   against Orekit 12.2 under a pre-registration (`xval/srp-boxwing-orekit/`): every bar met, about
   1e-15 relative; VALIDATED as a model evaluation, the Galileo SRP prediction stays MODELLED.
 
-- **Oblate-Earth SRP shadow and solar limb darkening (FUT-09, RM-11).** New `srp_shadow` module:
+- **Oblate-Earth SRP shadow and solar limb darkening.** New `srp_shadow` module:
   `oblate_conical_shadow` (WGS-84 occulting ellipsoid), `limb_darkened_shadow` (Eddington law), and
   `ShadowModel`, selected with `ForceModel::srp_shadow` (default: the existing spherical conical
   shadow, unchanged); `forces::srp_accel_with_lit_fraction`. The oblate shadow agrees with Orekit
   12.2's lighting ratio within 7.4e-9 over 2400 geometries (VALIDATED,
   `xval/srp-oblate-shadow-orekit/`); limb darkening has no external oracle (MODELLED).
 
-- **NRLMSISE-00 thermosphere (FUT-08, RM-10, DS-PA-13).** `nrlmsise00`: a port of `gtd7` and
+- **NRLMSISE-00 thermosphere.** `nrlmsise00`: a port of `gtd7` and
   `gtd7d` (switches, daily-Ap and 3-hourly ap-array modes) from the public-domain C version of the
   NRL Fortran. It is bit-identical to that C port and within 1.9e-6 relative of pymsis 0.13.0
   (NRL Fortran, single precision) on a 720-point grid, and it reproduces the 17 published test
@@ -1599,7 +1598,7 @@ One dependency update in the shipped library (the first entry), the rest in the 
   NRLMSISE-00 drag over 24 h (worst 0.03 m against up to 142 km of drag displacement;
   `xval/drag-tier-orekit/`).
 
-- **Opt-in DE440 Sun and Moon in the Cowell propagator (RM-33, FUT-10).**
+- **Opt-in DE440 Sun and Moon in the Cowell propagator.**
   `propagator::ForceModel::with_ephemeris` takes any `EphemerisProvider` (e.g. a DE440
   `KernelEphemeris`) for the third-body and SRP terms; it refuses a provider that cannot serve the
   epoch, counts fallbacks to the analytic series, and is off by default.
@@ -1607,25 +1606,25 @@ One dependency update in the shipped library (the first entry), the rest in the 
   own DE440 reader, 24 h orbits agree to 0.017 m; the pre-registered Sun/Moon position bar missed
   (6.4 m / 0.24 m; SPICE shows the same gap), so MODELLED (`xval/propagator-de440-orekit/`).
 
-- **Opt-in S1 atmospheric tide (DS-PA-03).** `tides::atmospheric_tide_s1` and
+- **Opt-in S1 atmospheric tide.** `tides::atmospheric_tide_s1` and
   `s1_air_tide_acceleration` (Biancale & Bode 2006, GFZ STR06/01 Table 1 model N1, degrees 2–6),
   enabled with `air_tide_s1()` on `propagator::ForceModel` and `precise_od::PreciseForceModel`;
   off by default. MODELLED (coefficients re-checked against the published table; no external
   oracle for the force effect).
 
 - **Range-rate and azimuth/elevation batch orbit determination with an elevation mask
-  (RM-36, FUT-13).** `orbit_determination::determine_orbit_batch_tracking`, `simulate_tracking`,
+ .** `orbit_determination::determine_orbit_batch_tracking`, `simulate_tracking`,
   `predict_tracking`, `propagate_with_stm` (variational STM with analytic two-body + J2 partials),
   `is_visible`, `measurement_with_partials`; `batch_ls::gauss_newton_analytic`. The range-only
   path is unchanged. Compared with Orekit 12.2 batch least squares over 8 pre-registered scenarios:
   every bar met except the noiseless state agreement (≤ 1 cm), missed on 2 of 4 scenarios at 1.46
   and 1.74 cm with kshana within 1e-8 m of truth; recorded, MODELLED.
-- **SP3 accuracy weighting (DS-PA-06).** `sp3::parse_sp3_accuracy` and
+- **SP3 accuracy weighting.** `sp3::parse_sp3_accuracy` and
   `Sp3Accuracy::position_sigma_m` map the header and per-record accuracy codes to observation
   sigmas; an SP3-weighted Galileo fit variant (Tier-2 3D RMS 0.035 m against 0.070 m unweighted)
   is added beside the unchanged recorded runs. MODELLED.
-- **Swarm-A full-arc dispatch job (DS-PA-08)** in `.github/workflows/agency-od-validation.yml`.
-- **Planetary gravity from PDS SHADR tables (CAP-30, CAP-31 part).** `SphericalHarmonicField::from_shadr`
+- **Swarm-A full-arc dispatch job** in `.github/workflows/agency-od-validation.yml`.
+- **Planetary gravity from PDS SHADR tables.** `SphericalHarmonicField::from_shadr`
   (`src/gravity_pds.rs`) reads Mars GMM-3 (d/o 120) and GRAIL GL0660B (d/o 660);
   `Body::with_gravity_field` attaches any loaded field (defaults unchanged). Degree-20 crops are
   bundled (NASA PDS, public domain; `tests/fixtures/planetary_gravity/NOTICE.md`); the full files
@@ -1633,7 +1632,7 @@ One dependency update in the shipped library (the first entry), the rest in the 
   (within 4e-15 of total gravity at d/o 120 over the whole sphere, 5e-14 at d/o 660 for |lat| ≤ 60°);
   the body-frame wiring stays MODELLED (each field's native frame is not the IAU frame used).
 
-- **High-degree gravity to degree 2190 (RM-14, FUT-07).** `SphericalHarmonicField::acceleration_hf`
+- **High-degree gravity to degree 2190.** `SphericalHarmonicField::acceleration_hf`
   / `potential_hf` (Holmes–Featherstone modified forward column, no underflow, no polar
   singularity), `prepare_high_degree`, a streaming ICGEM loader `from_gfc_file` / `from_gfc_reader`
   (norm and max-degree checks, tide system recorded, time-variable terms rejected), and
@@ -1644,18 +1643,18 @@ One dependency update in the shipped library (the first entry), the rest in the 
   and the orbit's degree-70 sensitivity control missed (0.73 m < 1 m); both are recorded in
   `xval/`.
 
-- **DOP853 integrator (FUT-11).** `integrator::integrate_dop853`, `integrate_dop853_checked`,
+- **DOP853 integrator.** `integrator::integrate_dop853`, `integrate_dop853_checked`,
   `integrate_dop853_dense` (7th-order dense output), `dop853_step`, `dop853_initial_step`, with a
   fail-closed step guard; `propagator::Integrator::Dop853`, `propagate_dop853`,
   `propagate_dop853_checked`. The default driver is unchanged. VALIDATED against SciPy 1.18.1
   `solve_ivp(method="DOP853")`: single steps within 5.6e-15, matching step sequences, end states
   within 1.6e-12 (`xval/dop853-scipy/`).
-- **Robust Kepler solver (FUT-12).** New `kepler` module: `solve_kepler_markley` (Markley 1995
+- **Robust Kepler solver.** New `kepler` module: `solve_kepler_markley` (Markley 1995
   starter, cancellation-free residual) for all 0 ≤ e < 1, wrapped by
   `propagator::solve_kepler_robust`. VALIDATED against 50-digit mpmath roots to 0.9 ε·|E| up to
   e = 0.999999 (`xval/kepler-mpmath/`).
 
-- **Opt-in tesseral Earth gravity in the Cowell propagator (RM-09).** `propagator::ForceModel`
+- **Opt-in tesseral Earth gravity in the Cowell propagator.** `propagator::ForceModel`
   gains `geopotential: Option<Geopotential>` (`with_geopotential`, `with_egm2008(nmax)`). It
   evaluates a `SphericalHarmonicField` (bundled EGM2008 to degree/order 70, or any ICGEM `.gfc`) in
   an Earth-fixed frame reached by the Earth rotation angle (`EarthFixedFrame::Era`) or the CIO
@@ -1702,20 +1701,20 @@ One dependency update in the shipped library (the first entry), the rest in the 
   file: clock difference 0 s, worst position 1.1 mm against a 1 cm bar). Library function; no
   scenario output changes. No PZ-90.11 → ITRF transformation is applied, and the module says so.
 
-- **PPP time solution against the IGS station clock** (0.36, FUT-19): the receiver clock of the
+- **PPP time solution against the IGS station clock** (0.36): the receiver clock of the
   float PPP filter on WTZR agrees with the IGS final combined clock for the station to 0.075 ns
   (standard deviation) with a constant offset of −0.66 ns over the converged two hours. The bars
   were pre-registered in `xval/ppp-time/`. VALIDATED (new ledger row). New fixture
   `igs_2025055_WTZR_05m_0006.clk`, the station-clock records of the IGS final clock file already
   used for the satellite clocks.
-- **PPP parity with gLAB** (0.36, WP-07, RM-31): gLAB 6.0.0 was run on the same WTZR inputs
+- **PPP parity with gLAB** (0.36): gLAB 6.0.0 was run on the same WTZR inputs
   as a separate tool (Apache-2.0 core; download checksum verified against the published list),
   with the command line of a procedural amendment committed before the run. On its first
   registered run, Kshana's float PPP and gLAB's agree within 0.05 m at 240 of 240 epochs and to
   5.0 mm at the last. The SPP bar was missed (median 1.187 m against 0.50 m) and is recorded as a
   finding: gLAB's and RTKLIB's own SPP solutions differ from each other by 0.852 m. The
   registered rule therefore leaves both tools' legs not met as a whole, while PPP parity holds.
-- **RINEX 4 navigation reading** (0.36, WP-07, PRO-41): `rinex::parse_nav` reads RINEX
+- **RINEX 4 navigation reading** (0.36): `rinex::parse_nav` reads RINEX
   4.00-4.02 navigation files (`> EPH` GPS LNAV, Galileo I/NAV and F/NAV, BeiDou D1/D2, QZSS LNAV;
   other records skipped to the next record header), and `parse_nav_with` takes options.
   VALIDATED against the same day's IGS RINEX 3 merged file: every decoded field identical and 0 m
@@ -1725,105 +1724,105 @@ One dependency update in the shipped library (the first entry), the rest in the 
   MODELLED: the pre-registered comparison with a precise orbit is data-gated and not yet run.
 - **RINEX 4 observation files**: a real RINEX 4.00 MGEX observation file is read in tests
   (MODELLED, format conformance).
-- **RTK with LAMBDA on real RINEX** (0.36, WP-07 ★): `rtk_real::run_rtk`, short-baseline double
+- **RTK with LAMBDA on real RINEX** (0.36): `rtk_real::run_rtk`, short-baseline double
   differences of dual-frequency GPS code and phase with a float Kalman filter and LAMBDA integer
   fixing (ratio test). VALIDATED on the IGS stations WTZR and WTZZ (1.4 m apart) against their
   ITRF2020 baseline under pre-registered bars: fixed at every epoch after the first ten minutes,
   baseline error median 4.5 mm and 95th percentile 5.5 mm.
-- **RTKLIB parity of the real-data PPP** (RM-31): `xval/ppp-parity/run.sh` and
+- **RTKLIB parity of the real-data PPP**: `xval/ppp-parity/run.sh` and
   `tests/ppp_parity_glab_rtklib.rs` with pre-registered bars. RTKLIB v2.4.2-p13 PPP on the same
   WTZR inputs agrees with Kshana within 5 cm at every epoch of the last two hours (9.7 mm at the
   end) on the third registration; the first two runs, recorded as findings, had the solid tide off
   and the receiver antenna on RTKLIB's base slot. The single-point parity bar was missed (1.09 m
   median against 0.5 m). The gLAB leg has not been run (data-gated).
-- **Navigation-message encoders beyond LNAV** (0.36, WP-07, PRO-40): `gnss_navmsg` encodes GPS
+- **Navigation-message encoders beyond LNAV** (0.36): `gnss_navmsg` encodes GPS
   CNAV (message types 10, 11, 30; CRC-24Q; continuous rate-1/2 K=7 coding), Galileo I/NAV (word
   types 1-5 in even/odd nominal pages; 30x8 interleaver; sync `0101100000`) and Galileo F/NAV (page
   types 1-4; 61x8 interleaver; sync `101101110000`), with test decoders. MODELLED: round trips and
   ICD known answers; a pre-registered check that broadcast Galileo ephemerides lie on the encoder's
   LSB grid held (worst 3.6e-3 LSB) but missed its satellite-count bar (15 of 20), recorded. The
   encoders are library functions; scene wiring is not part of this change.
-- **IONEX file reader** (0.36, WP-07): `ionex::parse_ionex_file` with `IonexFile`, `IonexHeader`,
+- **IONEX file reader** (0.36): `ionex::parse_ionex_file` with `IonexFile`, `IonexHeader`,
   `IonexEpoch`, `IonexFileMap` and `IonexTimeInterp`: a strict fixed-column IONEX 1.0 reader with
   epochs counted from the first map's day, `9999` read as missing, RMS maps, and the format's
   nearest, consecutive and rotated-map time interpolations; slant TEC at the header's shell
   height. Checked on a committed synthetic map and, data-gated (fetched at test time with a
   pinned SHA-256, not vendored), on a crop of a real CODE GIM: every node exact; interpolation
   matches a formula reference to 4e-13 TECU. RTKLIB's `iontec` agrees to 3.6e-13 TECU at 6885
-  points (pre-registered B6). VALIDATED on data-gated evidence (owner decision, 2026-10-13): the
+  points (pre-registered B6). VALIDATED on data-gated evidence (2026-10-13): the
   test fails on any map other than the SHA-pinned one.
-- **Hatch carrier smoothing** (0.36, WP-07): `hatch::HatchFilter` and
+- **Hatch carrier smoothing** (0.36): `hatch::HatchFilter` and
   `pvt::assemble_epoch_precise_smoothed`, the divergence-free (ionosphere-free) form in the precise
   single-point assembly. MODELLED with a recorded finding: on the IGS station WTZR it lowers the
   median single-point error from 1.55 m to 1.12 m and the 95th percentile from 3.47 m to 3.21 m,
   short of the pre-registered 40 % reduction (the remaining error is bias-like, not noise).
-- **Float PPP on real RINEX** (0.36, WP-07): `ppp_real::run_ppp`, a static float precise point
+- **Float PPP on real RINEX** (0.36): `ppp_real::run_ppp`, a static float precise point
   positioning filter on real dual-frequency GPS code and phase with IGS final products (antenna
   offsets and variations, solid Earth tide, phase wind-up, Shapiro delay, estimated wet delay,
   cycle-slip detection), with `parse_antex_receiver`. VALIDATED on the held-out IGS station WTZR
   against its ITRF2020 coordinate under pre-registered bars: after 6 h the error is 1.5 mm
   horizontal and 2.9 cm vertical, and every epoch of the last two hours is within 10 cm.
-- **SP3 precise-clock interpolation** (0.36, WP-07): `Sp3File::clock_s` and `clock_nodes`
+- **SP3 precise-clock interpolation** (0.36): `Sp3File::clock_s` and `clock_nodes`
   interpolate the tabulated SP3 satellite clocks linearly between the two bracketing valid nodes
   (bad-clock sentinel skipped), and `ClockRinex::from_sp3` feeds them to `PreciseProducts`, so
   the precise chain runs from an SP3 alone. VALIDATED against the IGS final 30 s clocks of
   2025-02-24 under pre-registered bars: 32 GPS satellites, mid-point RMS 0.121 ns (bar 0.15 ns),
   95th percentile 0.265 ns (bar 0.30 ns).
-- **RAIM beside the clock-holdover figures of merit** (CAP-05b): an opt-in `[integrity]` section on the
+- **RAIM beside the clock-holdover figures of merit**: an opt-in `[integrity]` section on the
   clock kind reports a separate `integrity_fom` block (snapshot RAIM on a preset sky from a stated site:
   per-epoch verdict and protection levels, availability; unavailable while GNSS is denied, never
   extrapolated). The holdover figures are unchanged; without the section the output is byte-identical.
   MODELLED.
-- **Receiver-trust thresholds calibrated on JammerTest 2024** (CAP-13): a pre-registered calibration of
+- **Receiver-trust thresholds calibrated on JammerTest 2024**: a pre-registered calibration of
   the C/N0-drop, AGC and jamming-indicator monitors on the public JammerTest 2024 dataset (fetched at run
   time, never vendored; `examples/jammertest_trust_calibration.rs`), shipped only as the opt-in
   `[monitors] profile = "jammertest-2024-calibrated"` (1.5 dB, 3.5 sigma, 29). Held-out: the AGC,
   jamming-indicator and union bars pass; the C/N0 false-alarm bar fails (0.023 against 0.02), so the row is
   MODELLED (`xval/jammertest-trust/RESULTS.md`). Defaults and outputs without the profile are unchanged.
-- **Multi-satellite ARAIM fault hypotheses** (CAP-05a): the ADD v4.2 subset rule generalised beyond
+- **Multi-satellite ARAIM fault hypotheses**: the ADD v4.2 subset rule generalised beyond
   pairs (`add_v42_subset_plan`, `add_v42_protection_levels_to_order`; order 2 is the existing
   MAAST-checked path exactly) and an opt-in advanced RAIM over those hypotheses
   (`araim_subset_raim`), which reports the subset of largest separation when a fault is detected.
   Priors needing deeper subsets are refused, never truncated. MODELLED.
-- **Skyline in receiver trust** (FUT-01): a receiver-trust session may state a `[skyline]`; satellites
+- **Skyline in receiver trust**: a receiver-trust session may state a `[skyline]`; satellites
   behind it are lost to the sky (`sky-blocked`, `behind_skyline`, `open_fraction`) and their losses are
   classed `geometry`, never `environment`; without one, the azimuth-gap fallback and every output
   are as before. The crew-training generator gains a `natural-degradation` event (a blocked sky, not
   interference) and the scenario `scenarios/training/fjord-natural-degradation.toml`. The UERE x DOP
   Monte Carlo gains the design note's two masked-skyline geometries, pre-registered alone: all 26
   checks pass.
-- **RFC 3161 timestamp verification** (CAP-14): `kshana::evidence::tsa::verify_token` checks a
+- **RFC 3161 timestamp verification**: `kshana::evidence::tsa::verify_token` checks a
   timestamp token's signature (RSA PKCS#1 v1.5, RSA-PSS, ECDSA P-256 and P-384), its ESS
   signing-certificate binding, the signer's timeStamping usage and its chain to a trusted anchor at
   the token's genTime, offline; `kshana evidence verify --tsa-ca <anchors.pem>` applies it to a pack's
   `timestamp.tsr` (opt-in; without it the report is unchanged). VALIDATED, narrowly: all 27
   self-generated cases agree with OpenSSL 3.0.13 on the verdict and the genTime, under a comparison
   pre-registered before the verifier was written. Revocation is not checked.
-- **Per-figure verification tiers for every kind** (RM-04): every scenario kind's result now
+- **Per-figure verification tiers for every kind**: every scenario kind's result now
   ends with a `figure_tiers` block naming its headline figures, the verification-matrix row
   that owns each one and the tier read from that row (figures no row owns are listed as
   untiered). The block is appended after the run and strips back to the previous document
   byte for byte (`api::without_figure_tiers`). `lunar-station-coverage` has no `figure_tiers`
   until a new dated prediction replaces its frozen one; `leo-ppp`, `solar-system`, `sweep` and
   `sweep-nd` have no scalar headline figure, and `lunar-attack-surface` writes compact JSON. Campaign members keep their untiered documents.
-- **Quantum preset `quantum-cai-coast`** (CAP-08c): a bundled inertial scenario in which a
+- **Quantum preset `quantum-cai-coast`**: a bundled inertial scenario in which a
   cold-atom interferometer accelerometer, specified by its interferometer physics
   (`[accel_quantum.cai]` with a stated platform vibration level), coasts against a
   navigation-grade quartz accelerometer through a 110-minute GNSS outage. MODELLED.
-- **Greenhall exact equivalent degrees of freedom** (CAP-03): `allan::edf_greenhall`, the full
+- **Greenhall exact equivalent degrees of freedom**: `allan::edf_greenhall`, the full
   Greenhall and Riley (2003) algorithm (difference orders 1 to 3, noise exponents +2 to -4,
   overlapping and non-overlapping, modified and unmodified, with the large-J tables), with ADEV,
   MDEV and HDEV wrappers. VALIDATED under a pre-registered comparison with allantools 2024.6:
   4 876 grid points within 6.0e-13 relative; allantools fails at 32 further points, which are
   recorded without an oracle value. The confidence intervals of `assurance::uncertainty` are
   unchanged bit for bit.
-- **Cold-atom interferometer error terms** (RM-26/27/28): Raman laser-phase noise (with the
+- **Cold-atom interferometer error terms**: Raman laser-phase noise (with the
   retro-reflection delay term), the wavefront-curvature bias of a thermal cloud (pure defocus,
   with a detection radius) and fringe-ambiguity resolution (classical-aided and two
   interrogation times), as library functions in `src/inertial/cai_error_terms.rs`, each closed
   form checked against quadrature or Monte Carlo. MODELLED; not yet reachable from a scenario
   kind ([`docs/QUANTUM-MODELS.md`](docs/QUANTUM-MODELS.md)).
-- **Clock-log formats** (RM-03): `src/clock_log.rs` reads RINEX clock files, TimeLab-style
+- **Clock-log formats**: `src/clock_log.rs` reads RINEX clock files, TimeLab-style
   ASCII phase or frequency logs and TAPR TICC counter logs into one normalised phase series
   (tau0 stated or found, gaps counted, a gap policy). Opt-in: a telecom-timing series can name
   a log (`[series.clock_log]`), and a clock scenario's `[clock_log]` table adds a `measured`
@@ -1832,21 +1831,21 @@ One dependency update in the shipped library (the first entry), the rest in the 
   synthetic logs met its phase and wiring bars; the estimators agree with allantools within
   2.5e-14 wherever it evaluates, and it does not evaluate the whole-record MTIE point
   (recorded). MODELLED.
-- **Frequency-synchronisation wander masks** (RM-01): the `telecom-timing` kind gains seven
+- **Frequency-synchronisation wander masks**: the `telecom-timing` kind gains seven
   constant-temperature MTIE and TDEV wander-generation masks, ITU-T G.811 PRC, G.812 Types I to
   III, G.8262 EEC Options 1 and 2 and G.8262.1 eEEC, with the power-law pieces the tables write,
   and the reference scenario `scenarios/telecom-synce-eec.toml` (a free-running OCXO against the
   EEC masks: it fails at 1 000 s, where a loop must do the work). Every row was re-read against
   the itu.int text; G.812 (06/2004) is superseded by a pre-published 08/2026 edition that could
   not be read. MODELLED (a transcription); existing masks and outputs are unchanged.
-- **Filter-prior guidance for the `gnss-ins` kind** (0.36, WP-09, RM-21 finding): the pack's
+- **Filter-prior guidance for the `gnss-ins` kind** (0.36): the pack's
   default filter prior suits a tactical-grade IMU. With a navigation-grade IMU, the default can
   make the fused coast worse than free INS: 52 m against 11 m on a 70 m/s aircraft profile.
   Set `[imu_*.filter_prior]` to match the sensor's grade, as the new maritime, rail and
   aviation packs do. No bundled scenario pairs a navigation-grade IMU with the default prior:
   every one that uses the default has residual accelerometer biases of at least 0.015 m/s².
   Documentation only; no output changes.
-- **Test-bench export checked with a simulator's own readers** (0.36, WP-09, CAP-16): the
+- **Test-bench export checked with a simulator's own readers** (0.36): the
   `kshana bench-export` motion files of 8 bundled scenarios were read back by gps-sdr-sim's
   NMEA, latitude/longitude/height and Earth-fixed motion readers (MIT, commit 28ca29a6, used as
   a separate tool through `xval/testbench-gpssdrsim/`; no signal function is called). They
@@ -1854,32 +1853,32 @@ One dependency update in the shipped library (the first entry), the rest in the 
   Earth-fixed reader cannot take the full-width CSV, because its 100-character line buffer
   splits each row. `docs/TEST-BENCH.md` now gives the column cuts to use and the simulator's
   300 s cap. VALIDATED (new ledger row); the export's bytes are unchanged.
-- **GNSS/INS on the KF-GINS dataset** (0.36, WP-09, FUT-17): `fusion::kfgins` loaders and runner
+- **GNSS/INS on the KF-GINS dataset** (0.36): `fusion::kfgins` loaders and runner
   and the lever-arm measurement model in the closed-loop EKF. On the KF-GINS demo dataset
   (fetched at test time, not vendored) Kshana's horizontal RMS against the reference trajectory is
   1.09 cm against KF-GINS's own 1.11 cm, and every pre-registered bar held. VALIDATED on
-  data-gated evidence (owner decision, 2026-10-13): the dataset is fetched with SHA-256 pins and
+  data-gated evidence (2026-10-13): the dataset is fetched with SHA-256 pins and
   the reproduce path is in `xval/kfgins/PREREGISTRATION.md`.
-- **Coupled PNT filter in the fusion pack** (0.36, WP-09, FUT-16): the `fusion` kind takes an
+- **Coupled PNT filter in the fusion pack** (0.36): the `fusion` kind takes an
   optional `[coupled]` table that runs one stacked filter on pseudoranges with an accelerometer
   bias state (`fusion::coupled::CoupledPntBiasFilter`), and `fusion::coupled::CoupledPnt3d` is
   the 3-D 8-state version. New bundled scenario `fusion-pnt-coupled`: with biased
   accelerometers the coupled mode holds the quantum suite's position to 18.7 m (95th percentile)
   with full integrity, where the decoupled filters reach 430 m. Without the table both `fusion`
   and `hybrid` are unchanged (pinned); `hybrid` refuses the table. MODELLED.
-- **Maritime, rail and aviation GNSS/INS packs** (0.36, WP-09, RM-21): bundled scenarios
+- **Maritime, rail and aviation GNSS/INS packs** (0.36): bundled scenarios
   `gnss-ins-maritime`, `gnss-ins-rail` and `gnss-ins-aviation` on the trajectory library, and an
   optional `[tight]` table for the `gnss-ins` kind that fuses pseudoranges from an SGP4 Walker
   constellation (all satellites when nominal, the highest few when degraded). On the rail pack
   tight coupling keeps the navigation-grade solution at 5.3 m through a cutting and tunnel,
   against 12.9 m loosely coupled. Without `[tight]` the pack is unchanged (pinned). MODELLED.
-- **Carrier-phase tight coupling** (0.36, WP-09, RM-25 / FUT-17): `fusion::carrier_tc`, an
+- **Carrier-phase tight coupling** (0.36): `fusion::carrier_tc`, an
   error-state EKF with an explicit two-state receiver clock and float carrier ambiguities, driven
   by an SGP4 Walker constellation with Klobuchar and Saastamoinen corrections in the measurement
   loop, time-differenced-carrier slip detection and ambiguity re-initialisation, and a code-only
   run on the same measurements for comparison. MODELLED: on a figure-8 drive the carrier solution
   is 2.5 cm against 47 cm code-only, and NIS/NEES are consistent over seeds.
-- **GNSS/INS trajectory library** (0.36, WP-09, RM-24): the `gnss-ins` kind takes an optional
+- **GNSS/INS trajectory library** (0.36): the `gnss-ins` kind takes an optional
   `[trajectory]` table with `profile = "straight" | "figure8" | "stop_go" | "aircraft" | "uas" |
   "csv"`. The profiles command Euler rates and along-track acceleration from the truth state and
   derive the true IMU from rigid-body kinematics (coordinated turns, climbs, Coriolis); `csv`
@@ -1897,14 +1896,14 @@ One dependency update in the shipped library (the first entry), the rest in the 
   clears the flat mask and the export site's horizon at its azimuth), the report carries the site's
   horizon (`export_site_terrain`), and the runtime CSV gains the column. Without terrain the export
   is unchanged. MODELLED.
-- **Headline fields from the engine** (0.36, STUDIO-06): `kshana::api::HEADLINE_FIELDS`,
+- **Headline fields from the engine** (0.36): `kshana::api::HEADLINE_FIELDS`,
   `field_importance_json()` and the WebAssembly `field_importance()` state, for twelve kinds, which
   fields of a scenario answer its question, best first, as dotted paths (`jammers[].eirp_dbw`). The
   Studio reads them ahead of its own ranking. Display metadata only: the engine never reads it, no
   scenario file needs it, no result depends on it. `tests/field_importance.rs` fails if a kind is not
   dispatchable or a path is found in none of the kind's bundled scenarios (it caught two paths that
   the Studio's flattened ids had spelled without the array brackets).
-- **Kind-to-module table from the engine** (0.36, STUDIO-05): `kshana::api::KIND_MODULES`,
+- **Kind-to-module table from the engine** (0.36): `kshana::api::KIND_MODULES`,
   `kind_modules_json()` and the WebAssembly `kind_modules()` give, for each scenario kind whose
   verification-matrix rows name another module than its own, the module names. The Studio's
   capability map used its own hand-written copy; `tests/kind_modules.rs` fails if a kind in the table
@@ -1917,7 +1916,7 @@ One dependency update in the shipped library (the first entry), the rest in the 
   command line's output is unchanged. The native test and `web/smoke.mjs` compare the same request
   against one golden (`tests/fixtures/iq_short_golden.json`), byte for byte: since the portable-maths change
   (the 0.36 portable-maths change, below) the browser build and the native build give the same bits.
-- **Typed Python and TypeScript APIs** (CAP-34): `kshana.pyi` types the closed
+- **Typed Python and TypeScript APIs**: `kshana.pyi` types the closed
   vocabularies (`ScenarioKind`, every kind name; `ErrorKind`; `ProvenanceClass`) and the
   `KindMeta` and `FieldUnit` dictionaries; `scenario_kinds()` and `error_kind()` return
   them. The WebAssembly package adds `run_typed` (one run as a typed `RunOutput` object
@@ -1925,7 +1924,7 @@ One dependency update in the shipped library (the first entry), the rest in the 
   its `kshana.d.ts` carries the same vocabulary; `error_kind` is typed `ErrorKind | ""`.
   `tests/typed_api_sync.rs` keeps both lists equal to the engine's.
 
-- **Units for every `sweep-nd` column** (FUT-28): a `sweep-nd` result now carries
+- **Units for every `sweep-nd` column**: a `sweep-nd` result now carries
   `key_units` and `metric_units`, the unit of each swept key and each recorded metric, read
   from the swept pack's own units table. An axis may declare `unit` for a key the pack
   does not echo; a declared unit that contradicts the pack's is refused, and a unit that
@@ -1933,14 +1932,14 @@ One dependency update in the shipped library (the first entry), the rest in the 
   described, so every one of the 76 kinds is now fully covered by the field-units gate
   (uncovered-kind ceiling 1 -> 0).
 
-- **NumPy arrays from `RunOutput`** (FUT-26): the Python `RunOutput` gains `array(path)`,
+- **NumPy arrays from `RunOutput`**: the Python `RunOutput` gains `array(path)`,
   `columns(path)` and `series()`, which return `numpy.ndarray`s for a numeric list, the
   numeric columns of a list of records, or every record series in the document. Each array
   equals `numpy.asarray` of the same values from `data()` (dtype and bits). NumPy is
   imported only when one of them is called and stays out of the runtime requirements.
   Typed in `kshana.pyi` and checked by stubtest.
 
-- **Campaign optimiser** (CAP-32): the `campaign` kind's new, optional `[optimize]` section
+- **Campaign optimiser**: the `campaign` kind's new, optional `[optimize]` section
   searches one to three scenario keys inside stated bounds for the best value of one metric:
   minimise, maximise, or hit a target. It searches exhaustively on a grid, or with a
   deterministic bounded Nelder–Mead simplex. Every evaluation is a real run of the named kind
@@ -1954,7 +1953,7 @@ One dependency update in the shipped library (the first entry), the rest in the 
   Round 1's 1-D bar is recorded NOT MET, because the pre-registered box excluded the
   solution. MODELLED; ledger row "Bounded optimisation of one metric over campaign
   parameters". Additive: campaigns without the section are unchanged.
-- **Calibration ensembles** (CAP-10): three single-seed checks re-run over 200 independent
+- **Calibration ensembles**: three single-seed checks re-run over 200 independent
   seeds against pre-registered bars, in [`docs/CALIBRATION-ENSEMBLES.md`](docs/CALIBRATION-ENSEMBLES.md)
   (generated by `gen_calibration_ensembles`; per-seed values in `docs/data/calibration-ensembles.csv`).
   * The campaign Monte Carlo bootstrap 95 % interval covers the true mean on 192 of 200
@@ -1965,17 +1964,16 @@ One dependency update in the shipped library (the first entry), the rest in the 
     tolerance.
 
   MODELLED.
-- **Built-in kinds through the `Scenario` trait** (FUT-27, in progress): the `BuiltinKind` trait
+- **Built-in kinds through the `Scenario` trait** (in progress): the `BuiltinKind` trait
   (`api::BuiltinKind`, with a per-figure tier hook and `append_figure_tiers`), and the first
   kinds moved onto it (`inertial`, `spoof`, `passes`, `link-budget`, `jamming`). The output is
   unchanged: a whole-catalogue manifest of every output's SHA-256 is identical before and after
   (`tests/scenario_output_manifest.rs`).
-- **Playground no-fetch check** (RM-07): `tests/playground_no_fetch.rs` checks three things:
+- **Playground no-fetch check**: `tests/playground_no_fetch.rs` checks three things:
   * every Studio library scenario is in the browser bundle;
   * the bundle is byte-identical to `scenarios/`;
   * every browser scenario runs from an empty working directory.
-- **Alt-PNT maps: real gravity field, map-error Monte Carlo, full-resolution SRTM** (0.36,
-  WP-10). The `gravity-map` kind takes an optional `[reference]`: a gravity anomaly
+- **Alt-PNT maps: real gravity field, map-error Monte Carlo, full-resolution SRTM** (0.36). The `gravity-map` kind takes an optional `[reference]`: a gravity anomaly
   synthesised from the bundled EGM2008 coefficients (or an ICGEM `.gfc` file via
   `gfc_path`, native builds only). That synthesis matches the ICGEM Calculation Service to
   about 1e-8 mGal over 794 nodes in two regions, against pre-registered bars of 0.005 mGal
@@ -1994,7 +1992,7 @@ One dependency update in the shipped library (the first entry), the rest in the 
   magnetic channel from an EMAG2v3-format CSV. EMAG2 is not vendored because its terms are
   not explicit: `tools/fetch_emag2_tile.py` fetches it with a pinned SHA-256 and crops a box.
   No navigation outcome is claimed on the real EMAG2 grid.
-  Joint map estimation (terrain SLAM, RM-18): `altpnt::sequential::run_sequential_trn_on_map`
+  Joint map estimation (terrain SLAM): `altpnt::sequential::run_sequential_trn_on_map`
   flies the sequential terrain navigator over a stored map that differs from the truth, either
   trusting it or estimating a per-cell map correction with a FastSLAM-style Rao-Blackwellised
   filter. Pre-registered against known-map SITAN on a 15 m correlated map error over 20 seeds:
@@ -2005,7 +2003,7 @@ One dependency update in the shipped library (the first entry), the rest in the 
   The real-SRTM tests now run in CI on two committed full-resolution crops; all
   pre-registered bars are met, with the nearest node equal to GDAL 3.8.4 at 8 of 8 points
   (`xval/srtm-ungate/`).
-- **Interoperability, WP-08** (0.36; each item pre-registered and committed alone before its
+- **Interoperability** (0.36; each item pre-registered and committed alone before its
   oracle run, each a new VALIDATED ledger row except the telemetry item, which widens an
   existing row):
   - **CCSDS Orbit Data Messages** (`src/odm.rs`): OPM 3.0/2.0, OMM 3.0/2.0 and OCM 3.0 (TRAJ,
@@ -2037,7 +2035,7 @@ One dependency update in the shipped library (the first entry), the rest in the 
     exactly by prometheus_client and the OTLP proto, accepted by promtool 3.5.0 `check metrics`
     with no lint problem, and passed unchanged through the OpenTelemetry Collector contrib
     0.135.0 (data-gated: tools fetched with pinned SHA-256, outputs committed).
-- **Mars orbit determination, run 2** (0.36, WP-14, CAP-30): `mars_od::fit_damped` scales the
+- **Mars orbit determination, run 2** (0.36): `mars_od::fit_damped` scales the
   normal matrix by its diagonal and damps the step (Levenberg-Marquardt), after the registered
   Gauss-Newton fit failed on a matrix whose raw diagonal spans eight orders of magnitude.
   Registered separately (`xval/mro-od/PREREGISTRATION-RUN2.md`, same arc, bars and editing). On
@@ -2045,8 +2043,7 @@ One dependency update in the shipped library (the first entry), the rest in the 
   reconstruction, bars met. The post-fit Doppler is 48.6 mHz against the 30 mHz bar, not met
   (finding pinned). A scoring-only amendment, R2-A1, is disclosed in `docs/revisions`. The row
   stays MODELLED.
-- **Mars ramped 2-way Doppler model and orbit determination** (0.36, WP-14, CAP-30 part,
-  stage 2): `mars_od` predicts DSN ramped X-band 2-way Doppler from ODF ramp tables (light
+- **Mars ramped 2-way Doppler model and orbit determination** (0.36, stage 2): `mars_od` predicts DSN ramped X-band 2-way Doppler from ODF ramp tables (light
   time, Shapiro, troposphere, station time, DSN stations via the CIO chain and IERS EOP) and
   fits a Mars orbiter (GMM-3, third bodies, SRP, drag). `naif_kernel` reads SPK type 1 (checked
   against CSPICE) and `gravity_sh::from_shadr` reads PDS SHADR fields. Pre-registered against
@@ -2054,13 +2051,12 @@ One dependency update in the shipped library (the first entry), the rest in the 
   monthly CI): the predicted Doppler matches the observations to 12.5 mHz (bar 30 mHz, met);
   the registered orbit fit failed on the scored arc and produced no orbit (finding pinned).
   The row stays MODELLED.
-- **DSN Orbit Data File reader** (0.36, WP-14, CAP-30 part): `odf::parse_odf` reads TRK-2-18
+- **DSN Orbit Data File reader** (0.36): `odf::parse_odf` reads TRK-2-18
   ODFs. On a real Mars Reconnaissance Orbiter ODF (NASA PDS, vendored), the reader matches the
   PDS label's record count, group positions, stations and times, and all its data types are
   known. The label's end-of-file table is one row short of the file, a label inconsistency
   recorded as a finding. MODELLED. Orbit determination on these data is not yet done.
-- **TWSTFT budget and time-transfer stability: the `time-transfer-budget` kind** (0.36, WP-14,
-  FUT-19).
+- **TWSTFT budget and time-transfer stability: the `time-transfer-budget` kind** (0.36).
   - **Two-way equation:** `twstft_budget` solves it for T_A − T_B with station equipment
     delays, the Ku-band ionospheric up/down asymmetry, the transponder delay difference and the
     Sagnac terms, and recovers the forward model to 1e-15 s.
@@ -2073,7 +2069,7 @@ One dependency update in the shipped library (the first entry), the rest in the 
 
   MODELLED. New bundled scenario `time-transfer-budget`. The PPP time solution is VALIDATED
   separately against the IGS station clock on the GNSS real-data branch.
-- **Entry heating, EO radiometry and ascent losses** (0.36, WP-14, CAP-28): three new kinds.
+- **Entry heating, EO radiometry and ascent losses** (0.36): three new kinds.
   - `entry-heating`: a 3-DoF point-mass entry over a rotating Earth or Mars with Sutton-Graves
     stagnation-point heating.
   - `eo-radiometry`: imager SNR, MTF at Nyquist, relative edge response and GIQE 4 NIIRS.
@@ -2085,7 +2081,7 @@ One dependency update in the shipped library (the first entry), the rest in the 
   Heating, radiometry and ascent are MODELLED. Also new: `reentry::us76_pressure`, bundled
   scenarios `entry-heating-stardust`, `eo-radiometry` and `ascent-losses`, and
   `docs/ENTRY-EO-ASCENT.md`.
-- **Attitude control with reaction wheels: the `aocs` kind** (0.36, WP-14, CAP-21). An
+- **Attitude control with reaction wheels: the `aocs` kind** (0.36). An
   inertial-pointing slew of a rigid hub with three or more balanced reaction wheels under MRP
   feedback, with minimum-norm wheel torques clipped to each motor's limit (`aocs`). It can also
   close the loop on a multiplicative EKF from a simulated gyro and star tracker (`aocs_mekf`).
@@ -2094,7 +2090,7 @@ One dependency update in the shipped library (the first entry), the rest in the 
   component, body rate, wheel speed and motor torque agreed at every sample, worst 2.4e-14 in
   sigma and 2.9e-11 rad/s in wheel speed. This row is VALIDATED; the MEKF is MODELLED (NEES
   consistency). New bundled scenarios `aocs-slew` and `aocs-slew-mekf`, and `docs/AOCS.md`.
-- **Ground-contact scheduling and DVB-S2 ACM** (0.36, WP-14, CAP-22/23): two new scenario
+- **Ground-contact scheduling and DVB-S2 ACM** (0.36): two new scenario
   kinds. `acm-link` gives, for one satellite over one station, each pass's Es/N0 and the DVB-S2
   MODCOD chosen along it (ETSI EN 302 307-1 Table 13 thresholds plus a margin). It also gives
   the data volume ACM moves against the constant-coding baseline. `contact-schedule` does the
@@ -2104,8 +2100,7 @@ One dependency update in the shipped library (the first entry), the rest in the 
   on small sets, with the greedy's optimality gap. Access windows come from the VALIDATED
   apparent pass predictor. New bundled scenarios `acm-link` and `contact-schedule` (illustrative
   inputs) and `docs/CONTACT-SCHEDULING.md`. MODELLED (two new ledger rows).
-- **Starlink Doppler positioning against a published experiment** (0.36, WP-14, CAP-11 part,
-  MODELLED). This is a pre-registered proxy comparison of the `leo-pvt` Doppler mode with the
+- **Starlink Doppler positioning against a published experiment** (0.36, MODELLED). This is a pre-registered proxy comparison of the `leo-pvt` Doppler mode with the
   `starlink-sop` preset against the data-set-3 percentiles of "Unveiling Starlink for PNT"
   (NAVIGATION 72(1), 2025, doi:10.33012/navi.685). The model used 3 satellites (a 47 deg mask
   chosen by a fixed rule), no height aid and a 30 Hz Doppler sigma, over 200 seeds. Its
@@ -2114,7 +2109,7 @@ One dependency update in the shipped library (the first entry), the rest in the 
   predicted: three fixed satellites give far less geometric diversity than the experiment's
   63 satellites over 10 minutes with channel switching every 15 s. Both misses are asserted
   (`tests/starlink_doppler_published_proxy.rs`).
-- **Impulsive transfer optimiser on DE440** (0.36, WP-14, CAP-20c/d): `maneuver::optimise_transfer_kernel`
+- **Impulsive transfer optimiser on DE440** (0.36): `maneuver::optimise_transfer_kernel`
   finds the departure and arrival dates of a single-revolution ballistic two-impulse transfer that
   minimise departure C3 or arrival V-infinity within Type I or Type II. It searches a 2-day grid,
   then refines with 2-D Nelder-Mead, on heliocentric states from the DE440 kernel; it builds on
@@ -2323,10 +2318,10 @@ One dependency update in the shipped library (the first entry), the rest in the 
 - Module docs of `fusion::ukf`, `fusion::tightly_coupled` and `fusion::gnss_ins_ekf` no longer
   call the 17-state UKF navigator, the full-INS tight coupling and the explicit clock state
   future work; they point to `hybrid_ukf`, `tightly_coupled17` and `carrier_tc`.
-- **RINEX 4 is no longer refused** (0.36, WP-07): a RINEX 4 navigation file used to be rejected
+- **RINEX 4 is no longer refused** (0.36): a RINEX 4 navigation file used to be rejected
   on purpose; it is now read (see Added). For observation files of version 4 and later, header
   labels are matched in columns 61-80 only, so the new free-text records cannot pass for labels.
-- **`ionex::parse_ionex` reads real IONEX files** (0.36, WP-07): a full 16-value record fills
+- **`ionex::parse_ionex` reads real IONEX files** (0.36): a full 16-value record fills
   columns 61-80, which the reader took for a label, so it returned `None` on every real IONEX
   file. It now reads a record whose label field is numeric as values. No shipped output used it.
 - **Galileo E1 and E5a received powers to OS SIS ICD Issue 2.1** (revision, 2026-10-14). The
@@ -2375,7 +2370,7 @@ One dependency update in the shipped library (the first entry), the rest in the 
   is still open (for example two-part JD in `orbit::Propagator`, the `src/ionex.rs` reader
   against a real product, and multi-satellite exclusion in `raim`). The missing
   `docs/design/evidence/cn0-m2m4/RESULTS.md` is written from a fresh run of its tests (M1–M4
-  pass), and the partner-facing IQ validation draft has current ledger counts.
+  pass).
 - **Galileo E1 memory codes are no longer bundled.** `data/galileo-os-sis-icd/C7_E1B.txt` and
   `C8_E1C.txt` (ICD Annex C.7/C.8) are removed from the repository and packages. The ICD's
   terms (quoted in `LICENSING.md`) let a user store the codes with the source acknowledged and
@@ -2390,7 +2385,7 @@ One dependency update in the shipped library (the first entry), the rest in the 
   scenario, golden or spectrum output uses the code tables. The E5a Annex C.3/C.4 test fixtures
   (the LFSR oracle in `tests/iq_signals.rs`) are handled the same way: fetched by the same
   script, git-ignored, and the test skips without them.
-- **Portable maths everywhere** (0.36, STUDIO-15): every `f64` transcendental in the library, and the
+- **Portable maths everywhere** (0.36): every `f64` transcendental in the library, and the
   `rand_distr` normal, gamma and exponential samplers, now compute through the pure-Rust `libm`
   (`portable_math::PortableFloat`, `portable_distr`), so a native build and the WebAssembly build return
   byte-identical result JSON for all 141 bundled scenarios and for the short IQ run. The cost is that the
@@ -2413,7 +2408,7 @@ One dependency update in the shipped library (the first entry), the rest in the 
   joint OD row): fixtures re-exported and the numpy comparison re-run with numpy 2.4.6, the registered
   version, script and bar unchanged; all six networks pass
   ([`docs/revisions/lunar-joint-od-oracle-rerecord.md`](docs/revisions/lunar-joint-od-oracle-rerecord.md)).
-  The batch 2-3 work merged after STUDIO-15 is on portable maths too (457 call sites in 62 files); what
+  The batch 2-3 work merged after the portable-maths change is on portable maths too (457 call sites in 62 files); what
   that moved is in [`docs/revisions/batch4-rebaseline.md`](docs/revisions/batch4-rebaseline.md):
   12 bundled scenarios (largest relative change 5.2e-8, no printed figure moves), 28 skyline guard rows
   re-blessed, the `iq_campaign` M2M4 digest, the legacy `gnss-ins` truth hashes, the unobserved-beacon
@@ -2492,7 +2487,7 @@ One dependency update in the shipped library (the first entry), the rest in the 
     only those six fields, changed by this fix made after registration, are mapped back to
     their pre-fix values. The fixed values are pinned on their own.
   - No bar was changed, and no VALIDATED row, figure or web number moved.
-- **lunar-frame-campaign: a beacon with no observation is now reported** (found by MR-05). The
+- **lunar-frame-campaign: a beacon with no observation is now reported** (found by the lunar datum check). The
   report gains `unobserved_beacons` and `warning` only when some beacon has no observation, and
   then the observed beacons' sigmas come from their own information instead of all being null.
   The datum is unchanged, and no default, bundled or published output moves
@@ -2509,7 +2504,7 @@ One dependency update in the shipped library (the first entry), the rest in the 
   12.6 → 12.05 m, reduced-dynamic 6.65 → 6.67 m (bars unchanged). The analytic stack now matches
   the ANISE DE-grade cross-validation (12.0 / 6.67 m) on both tiers; the earlier dynamic-tier
   gap was this error.
-- **The MCP server refuses `[terrain] dem_hgt`** (CAP-06b follow-up). The jamming kind's terrain
+- **The MCP server refuses `[terrain] dem_hgt`**. The jamming kind's terrain
   tile path is now in `inline_only::FILE_SOURCE_KEYS`. An inline surface refuses a scenario that
   names one, with a message that carries neither the path nor an operating-system error. The
   file-source guard test now also flags fields ending in `_hgt`.
@@ -2742,7 +2737,7 @@ generated NMEA text is for training.
   RF, IQ or waveform output; streams are for training and testing and must never be fed
   to a vessel's live navigation systems. See `docs/NMEA-TRAINING.md`.
 
-### Marine integrations (0.35.0, workstream B)
+### Marine integrations
 
 - **Signal K plugin** (`integrations/signalk/`, not published to npm): runs or connects to `kshana receiver-trust live`
   (the server's own NMEA input, custom input arguments, a JSON-lines TCP feed, or the `$PKSHT` sentences of a gate
@@ -3711,7 +3706,7 @@ the row's oracle text (and so into `docs/MODELLED-RATIONALE.md`), with a test th
 The second round took every row the first round left routable, with fresh pre-registrations
 committed before any fixture was fetched or oracle run, an adversarial second reviewer
 who re-ran each comparison and a deliberate engine mutation that must turn each test red.
-The owner accepted the corrected wording of the outside-Omega bound row on 2026-10-02 before
+The corrected wording of the outside-Omega bound row on 2026-10-02 before
 it was promoted (its old text contradicted the code).
 
 **Promoted to VALIDATED (17).** Oracle kind in brackets; tolerance fixed before the run.
@@ -3740,8 +3735,7 @@ it was promoted (its old text contradicted the code).
   sigma and station error on six networks (within 2.4e-11) after a QR solve fix.
 - **Lunar-VLBI station-coordinate covariance** (Library): a SPICE-built Jacobian reproduces the
   schedule, spectrum, sigmas and null space within 1 % and 0.1 deg; numpy to 2e-13.
-- **Residual-outside-Omega undetectable common-mode bound** (P2, wording corrected by owner
-  decision): numpy LAPACK on 256 cases within 1e-12, six exact infinities.
+- **Residual-outside-Omega undetectable common-mode bound** (P2, wording corrected before promotion): numpy LAPACK on 256 cases within 1e-12, six exact infinities.
 - **Basis-invariant null-space classification** (P2): SciPy and NumPy subspace intersection on
   72 constructed matrices, integers exact, projector norm within 6.0e-15.
 - **Single-frequency ionospheric and UTC services of a LEO navigation message** (Library):
@@ -3822,7 +3816,7 @@ its pinned test.
   the default no-epoch speed still misses (1.12e-6). Not promoted; follow-up pending.
 - Physical constants of every body: now 0 of 84 differ from NAIF (a transcription), and the
   computed orientation agrees with SPICE to 1.4e-10 rad. Not promoted; follow-up pending.
-- Blocked on a scoping decision by the owner, each with its agreeing comparison committed:
+- Blocked on a scoping decision, each with its agreeing comparison committed:
   lunar absolute-station observability, surface-beacon DOP, the off-boresight export,
   cross-modality detection power, the common-mode consistency statistic and polar LEO coverage.
 - Blocked on data: time-transfer error budgeting (needs a real-data reduction), JammerTest C/N0
@@ -3909,8 +3903,7 @@ Part 1, extended-precision oracle:
   than a factorisation route.
 - Oracle environment: mpmath 1.3.0 added.
 - Revisions: none. No golden file or published figure changes; the "Lunar frame datum from an
-  observing campaign" row stays MODELLED (founder decision 2026-10-02, option A: it does not
-  borrow the separate row's status); its tests text cites the new test and its finding.
+  observing campaign" row stays MODELLED (it does not borrow the separate row's status); its tests text cites the new test and its finding.
 
 Part 2, square-root information datum solver:
 
@@ -3920,7 +3913,7 @@ Part 2, square-root information datum solver:
   only. Against the 50-digit oracle (pre-registered 6e7000be) its datum sigmas agree to 3e-13 on
   a new date (2026-06-09); on the 2026-03-18 and 2024-01-01 inputs the default solver is off by
   up to 1e-5. New VALIDATED row under P2. The default solver and its output are unchanged. The
-  pre-registered bars certify errors only above about 2e-7 relative: they reject the default
+  pre-registered bars detect errors only above about 2e-7 relative: they reject the default
   solver but not a flipped Householder sign, an uncompensated dot product or a spectral final
   inverse, and the row says so.
 - Opt-in square-root paths beside the unchanged defaults: `fim::crlb_srif`,
@@ -3931,15 +3924,13 @@ Part 2, square-root information datum solver:
   internal check, no row; no validation is claimed for them). `precise_od::fit` now delegates to
   a shared routine; its output and every scenario's default output are unchanged.
 - Lunar frame campaign rank decisions: a pre-registered extended-precision check over 40 days
-  confirms every decidable station-block and full-rank Helmert decision. The a-priori bound cannot
-  certify the 20 rank-deficient Helmert days; in exact arithmetic their defect is geometric, with
+  confirms every decidable station-block and full-rank Helmert decision. The a-priori bound cannot settle the 20 rank-deficient Helmert days; in exact arithmetic their defect is geometric, with
   the 1e-9 threshold inside the campaign's natural range of eigenvalue ratios. No row.
 - The extended-precision campaign row's claim is narrowed to "within the worst-case bound", and
   its stations-fixed weakest-direction check now measures a real angle (6.6e-16 rad; the
   comparator changed from acos to a chord, the bar did not).
 - Revisions: none. No golden file or published figure changes; the "Lunar frame datum from an
-  observing campaign" row is unchanged and stays MODELLED (founder decision 2026-10-02,
-  option A).
+  observing campaign" row is unchanged and stays MODELLED.
 
 **D4, JPL kernel ephemeris spine, phase 1 (four new VALIDATED rows: 228 -> 232 rows, 112 -> 116 validated).**
 
@@ -3966,8 +3957,7 @@ Part 2, square-root information datum solver:
 - **Lunar frame datum from a real campaign, kernel Moon centre** (new VALIDATED row): on 447
   unseen 2019-Q2 normal points, pre-registered adc4406e before any was fetched, the datum
   covariance on the kernel path agrees with the unchanged SPICE and NumPy oracle within 7.6e-5
-  against 1 % and 2 % bars (`tests/validate_llr_datum_kernel_moon_fresh.rs`). The founder
-  decided that this row promotes only on fresh points; the seen-data diagnostic (6d333da) is a
+  against 1 % and 2 % bars (`tests/validate_llr_datum_kernel_moon_fresh.rs`). This row promotes only on fresh points; the seen-data diagnostic (6d333da) is a
   finding, not evidence. The bar does not discriminate Moon models: the analytic Moon also
   passes on the same slice (worst 3.8e-3), the planned mutation (the kernel Moon one hour late)
   was not detected, and at the fold a Moon centre about 4,650 km wrong (the Moon taken about the
@@ -3978,7 +3968,7 @@ Part 2, square-root information datum solver:
   1973 and 2026, worst 2.96 m, inside a pre-registered bar (7c23d520) set by the two-term
   TDB − TT series (`tests/kernel_ephemeris_skyfield_oracle.rs`). Planet positions get this new
   kernel row now; the Standish row and the planetary-moons row are unchanged, and the moons wait
-  for a scenario that needs them (founder decision).
+  for a scenario that needs them.
 - Findings: the LLR datum comparison's one miss (z-translation sigma 1.025 % against 1 %) falls
   to 0.049 % when only the Moon centre is read from DE440, on seen data
   (`tests/validate_llr_datum_kernel_moon.rs`); on the fresh 2019 slice the analytic Moon passes
@@ -4117,8 +4107,7 @@ Union) 2006/2000A chain, with optional Earth orientation parameters.
   carries no reuse terms): the AFS-Q primary indices come from IS-GPS-800J, and what only the
   standard's attachments define (AFS-I G2 delays, tertiary codes, LDPC submatrices) is read at
   run time from a local cache that `xval/lunar-afs/fetch_lsis.sh` fills from the NASA-hosted
-  PDF, every file checked against a pinned SHA-256 (`lunar_afs::lsis`). The model is a
-  conformance reference, not a channel, propagation or link-budget model.
+  PDF, every file checked against a pinned SHA-256 (`lunar_afs::lsis`). The model is a reference generator for the standard, not a channel, propagation or link-budget model.
 - `sigmf::meta_to_json_with_extensions` and `sigmf::annotation_extension_fields`: a recording
   can carry namespaced extension fields declared in `core:extensions`.
 - New VALIDATED row "LunaNet AFS baseband rendering against an independent generator, given
@@ -4167,8 +4156,7 @@ Union) 2006/2000A chain, with optional Earth orientation parameters.
 - `antenna::GainPattern2D` and, in `earth_gnss_lunar`, the yaw-steering body frame, transmit
   azimuth and off-nadir angles, and `transmit_side_db` for relative C/N0 with measured patterns.
 
-- GPS LNAV navigation-message encoding (new row, stays MODELLED after the integrator's
-  post-verification): on the IGS broadcast file of 2 March 2025, parsed and decoded by RTKLIB
+- GPS LNAV navigation-message encoding (new row, stays MODELLED after verification): on the IGS broadcast file of 2 March 2025, parsed and decoded by RTKLIB
   v2.4.2-p13, all 960 words pass parity, all 96 subframes decode and all 608 broadcast integers
   equal Kshana's (`tests/gps_lnav_rtklib_integer_oracle.rs`), but the pre-registration
   (a48d5b91) reached the public branch two seconds after the commit holding the result, so the
@@ -5578,7 +5566,7 @@ to every channel.
   catalogue. Mutation-tested against both failure modes.
 
 - **`moonlight-service-volume` emits its per-satellite geometry as
-  `<scenario>.table.csv`** when an export site is configured (G11). It is the
+  `<scenario>.table.csv`** when an export site is configured. It is the
   largest array the crate publishes — 2304 rows in the released joint
   communications-and-navigation table — and it reached consumers only inside JSON,
   the shape that truncated a sibling scenario's 57-point curve to 23 points under a
@@ -6095,7 +6083,7 @@ to every channel.
   This is the second disclosed rewrite of this history; the first, on
   2026-09-21, canonicalised authorship and is recorded in the 0.27.0 notes with
   its own two dangling crate sha1s. A rewrite is disclosed here every time,
-  because a repository that sells verifiable provenance cannot quietly move the
+  because a repository that offers verifiable provenance cannot quietly move the
   ground under a published artefact.
 
 ## [0.27.1] - 2026-09-22
@@ -6170,7 +6158,7 @@ to every channel.
 - `lunar_service::topocentric`, the public look-angle helper behind the export.
 - A verification-matrix row for the new geometry capability.
 - **The real antenna pattern in the geometry export.** The engine has carried a
-  uniformly-illuminated circular-aperture pattern since P1
+  uniformly-illuminated circular-aperture pattern since the lunar signal-security work
   (`antenna::pattern_gain_dbi`, the Airy `[2·J₁(x)/x]²` form) and **nothing
   outside `antenna.rs` used it** — a boresight gain paired with a
   gain-to-beamwidth rule of thumb was doing the work instead. An optional
@@ -6239,8 +6227,8 @@ to every channel.
   published crates point at a commit that no longer exists.** On 2026-09-21 the git
   history was rewritten so that every human commit is authored and committed by
   `ashfordeOU <236818772+ashfordeOU@users.noreply.github.com>`. It previously carried
-  three spellings of one person — 688 commits as `ashfordeOU <contact@ashforde.org>`,
-  34 as `Chakshu Baweja <contact@ashforde.org>` and 94 already canonical. The one
+  three spellings of one identity — 688 commits under one name and address, 34 under another,
+  and 94 already canonical. The one
   `dependabot[bot]` commit was deliberately left as its own author: relabelling a bot's
   dependency bump would claim authorship of work nobody here did.
 
@@ -6271,7 +6259,7 @@ to every channel.
 
 ### Fixed
 
-- **`realtime-frame-eop` defaulted to an EOP file with no prediction rows (G12).**
+- **`realtime-frame-eop` defaulted to an EOP file with no prediction rows.**
   The scenario embedded a five-row *final-only* `finals2000A` excerpt as its
   offline default, so a bare run reported `predicted_rows.n = 0` and the
   per-horizon table rested on 5, 4, 3 and 2 pairs. The engine could always read
@@ -6283,12 +6271,12 @@ to every channel.
   agreement against the product's own published predictions populate too. The
   long-span 45-row extract was measured as the alternative and rejected: it is
   also final-only, so it would have left `predicted_rows.n` at 0.
-  **This moves published numbers**, under rule R4 and with founder authorisation:
+  **This moves published numbers**, and is recorded here as a revision:
   ten of the 22 cells of the released `p4_frame_eop.csv` and 24 of the 42
   populated cells of `tests/golden/realtime-frame-eop.csv`. The measured
   rapid-minus-final pole floor becomes 0.0678 mas (from 0.0769 mas), which is
-  the value paper P4's own polar-motion table already publishes at n = 20 — the
-  two now agree instead of differing by 13.5 %. Every other figure P4 prints from
+  the value the real-time Earth-orientation paper's own polar-motion table already publishes at n = 20 — the
+  two now agree instead of differing by 13.5 %. Every other figure that paper prints from
   this table is unchanged at the precision printed. The full old → new
   enumeration, including the fields that did *not* move, is in
   [`docs/revisions/G12-default-eop-cell-changes.md`](docs/revisions/G12-default-eop-cell-changes.md).
@@ -6423,15 +6411,15 @@ MODELLED, 4 PARTNER**, unchanged from 0.25.0.
   are separate, oracle-backed status changes in `src/verification.rs`).
 - **`lunar-attack-surface` scenario** (`src/attack_surface.rs`, `kind =
   "lunar-attack-surface"`): a composed, binary-reachable (CLI / Python / MCP / wasm via
-  `run_toml`) P1 lunar signal-security run that stitches together the link-budget power
+  `run_toml`) lunar signal-security run that stitches together the link-budget power
   deficit and its 12–18 dB sensitivity band, the required jam/spoof transmit power vs
   standoff, the orbital capture footprint under a real antenna pattern, the
   tracking-loop spoof-capture pull-in outcome, the airless-body horizon reach, and the
-  OSNMA/TESLA authentication budget. An empty body reproduces the P1 baseline.
+  OSNMA/TESLA authentication budget. An empty body reproduces the published lunar signal-security baseline.
 - **Power-deficit sensitivity band** (`linkbudget::deficit_sensitivity_band`,
   `deficit_power_factor`): a genuine multi-axis sweep (reference × EIRP × slant range)
   built on `sweep::SweepAxis` and evaluated through `received_signal_power_dbw`,
-  reproducing the P1 12–18 dB band and reconciling the 32× (rounded) / 36× (unrounded)
+  reproducing the published 12–18 dB band and reconciling the 32× (rounded) / 36× (unrounded)
   linear-factor figures.
 - **Three-dimensional spoof-capture cube** (`spoof_capture::capture_cube`): adds the
   carrier/Doppler-offset axis to the capture map (J/S × code-offset × carrier-offset,
@@ -6497,7 +6485,7 @@ engine and CI-proven end-to-end by `tests/determinism.rs` (which runs every bund
   are combined. MODELLED.
 - **Endogenous lunar time-budget** (`lunar-time-budget`, `src/lunar_time_budget.rs`) and
   **real-time frame / EOP budget** (`realtime-frame-eop`, `src/realtime_frame_eop.rs`,
-  `src/frame_eop.rs`) — the P3/P4 lunar-time and Earth-orientation budgets derived
+  `src/frame_eop.rs`) — the lunar-time and Earth-orientation budgets derived
   endogenously from the timing chain rather than asserted. MODELLED.
 
 **Externally-validated analysis suites** — library capabilities, each entering the
@@ -6627,7 +6615,7 @@ validation matrix is unchanged at 39 VALIDATED · 46 MODELLED · 4 PARTNER acros
 - npm publish: the package `repository.url` derived from the crate manifest used
   the wrong-case GitHub owner (`AshfordeOU`), which failed npm's sigstore
   provenance verification (it matches the owner case-sensitively). The manifest
-  `repository` is now the canonical lowercase `ashfordeOU`, so the generated
+  `repository` is now the canonical-case `ashfordeOU`, so the generated
   `package.json` matches the provenance subject and the npm release publishes.
 
 ### Changed
@@ -6882,7 +6870,7 @@ certifications.
 
 ### Added
 
-- **Eleven new runnable scenario kinds — two-tender demonstrators, a CCSDS interop
+- **Eleven new runnable scenario kinds — two demonstrators, a CCSDS interop
   bridge, and a first-order mission-analysis / environment suite (all MODELLED,
   additive; existing reproducibility goldens unchanged).** Each is CLI / Python /
   WASM / MCP dispatchable, ships a `scenarios/<kind>.toml`, and carries an explicit
@@ -6940,7 +6928,7 @@ certifications.
   reported covariance honestly matches the spread of its own errors under the modelled noise),
   NOT a real-world accuracy guarantee.** Honest scope: everything is **modelled / simulation**
   — the CAI and clock inputs are bracketed, literature-representative values, not measured
-  hardware; the CAI hardware and its Key-Person stay partner-owned; nothing here implies
+  hardware; the CAI hardware stays with its owner; nothing here implies
   TRL > 3, flight heritage, or external validation (the result JSON and one-line summary carry
   these labels explicitly). The single constant-velocity, level trajectory leaves attitude and
   IMU-bias states only weakly observable, so NEES is assessed over the 8 estimable states; a
@@ -6967,9 +6955,9 @@ certifications.
   non-circular by construction (the injected drift ramp is the independent truth). All
   existing scenarios are unaffected (additive; reproducibility goldens unchanged).
 
-- **GNSS-denied resilience spine + FutureNAV demonstrator slices** (`src/holdover.rs`,
+- **GNSS-denied resilience spine + GNSS-denied resilience demonstrator scenarios** (`src/holdover.rs`,
   and resilience-envelope foundations under `src/impairment_eval.rs`, `src/quantum_trade.rs`,
-  `src/navsignal.rs`, `src/inertial/quantum_imu.rs`, with FutureNAV verification slices in
+  `src/navsignal.rs`, `src/inertial/quantum_imu.rs`, with verification rows in
   `src/verification.rs`). Composes the alternative-PNT building blocks — clock holdover,
   signal tracking, inertial coast, terrain — into a single GNSS-outage resilience narrative.
   MODELLED; additive.
@@ -7248,7 +7236,7 @@ certifications.
 - **NIST SP1065 Allan-estimator validation** (`tests/allan_nist_sp1065_1000point.rs`): the four
   estimators reproduce the published 1000-point reference deviations and Table-32 confidence
   bounds.
-- **SBAS / DO-229E protection levels, L1/L5 ionosphere-free, and a DO-316 compliance map**
+- **SBAS / DO-229E protection levels, L1/L5 ionosphere-free, and a DO-316 requirements-trace map**
   (`sbas` module). `sbas_protection_level` forms the weighted geometry matrix from each
   satellite's elevation/azimuth and UDRE/GIVE/airborne/tropo error budget, inverts the normal
   matrix (shared `orbit::invert4`), and projects the variances into HPL/VPL via the DO-229E
@@ -7257,7 +7245,7 @@ certifications.
   first-order ionospheric delay. `do316_compliance_map` traces DO-316/DO-229E requirements to
   the implementing functions. Validated against closed-form K-factor definitions, the numpy
   `inv(GᵀG)` reference geometry, and the two-route covariance identity; the published-PL
-  RTKLIB/gLAB conformance cross-check is documented as founder-gated in `docs/COMPLIANCE.md`.
+  RTKLIB/gLAB conformance cross-check is documented as pending in `docs/COMPLIANCE.md`.
 - **Full tesseral spherical-harmonic gravity — the EGM2008 field to degree/order 70.**
   A new `gravity_sh::SphericalHarmonicField` evaluates the geopotential and its acceleration
   in the Earth-fixed frame from fully-normalized `C̄_nm, S̄_nm` coefficients, using the stable
@@ -7370,7 +7358,7 @@ matrix. Highlights:
   without flaking. A coverage badge is published in the README.
 - **SGP4/SDP4 head-to-head against the independent `sgp4` crate.** A new test
   (`tests/sgp4_crate_comparison.rs`) cross-validates Kshana's propagator against
-  the most widely used Rust SGP4 library (neuromorphicsystems/sgp4, added as a
+  an independent Rust SGP4 library (neuromorphicsystems/sgp4, added as a
   test-only dev-dependency) over the same 666 AIAA 2006-6753 vectors. With both
   driven on the WGS72 gravity model the vectors use, the two independent
   implementations agree to **sub-micron** on near-earth and resonant orbits and
@@ -7380,8 +7368,7 @@ matrix. Highlights:
   breaks the result out per regime (LEO/MEO, deep-space, ½-day and 1-day
   resonance) and notes the four deliberately-pathological cases the crate rejects
   at construction. The live assertions hold both within 2e-5 km of the reference
-  and agree to within 4e-5 km — a regression guard, not a one-off. This is
-  competitive pedigree: correctness against an independent codebase, not just a
+  and agree to within 4e-5 km — a regression guard, not a one-off. This checks correctness against an independent codebase, not just a
   static table. (The crate's default `from_elements` uses WGS84 and so differs
   from the WGS72 reference by ~km — surfaced honestly in the table prose.)
 - **CCSDS OMM export is now reachable end-to-end.** The OMM writer
@@ -7779,8 +7766,7 @@ perturbations leave the released goldens untouched.
   array for browser contour rendering. Validation is self-contained and stronger than a tutorial
   read-out: every Lambert output is round-tripped through the Kepler propagator (it must land back
   on `r2`), and the porkchop minimum is checked against the analytic Hohmann-transfer C3 floor for
-  two coplanar circular orbits. Kshana positions this as the performance-simulation layer above
-  GMAT/Orekit, not a replacement (multi-revolution branches and a real planetary ephemeris remain
+  two coplanar circular orbits. Kshana offers this as a performance-simulation layer that complements GMAT/Orekit, not a replacement (multi-revolution branches and a real planetary ephemeris remain
   out of scope). Ten tests.
 - **Full 17-state tightly-coupled GNSS/INS UKF with quantum-CAI dead-reckoning.** New
   `src/fusion/tightly_coupled17.rs` carries the complete inertial-navigation state a
@@ -8460,7 +8446,7 @@ perturbations leave the released goldens untouched.
 ## [0.9.1] - 2026-06-03
 
 ### Changed
-- **Documentation.** Refreshed the README to institutional grade: a Capabilities
+- **Documentation.** Refreshed the README: a Capabilities
   overview of the full v0.9.0 stack, a Versioning & releases section, a clean
   header with the new mark, and a concise status line. No engine changes.
 
@@ -8565,7 +8551,7 @@ step of GNSS-format interoperability (RINEX-3 GPS ephemeris ingestion).
   symmetry); a fault-free geometry that does not alarm and yields finite, positive
   HPL/VPL; a 60-σ single-satellite bias that is detected *and* correctly
   identified (`excluded_sv == 2`); and the six-satellite redundancy floor. Closes
-  the audit's "tautological integrity — no real RAIM/HPL/VPL" P0 gap on the
+  the gap where integrity was only a filter self-consistency figure, with no real RAIM/HPL/VPL, on the
   algorithm side; gLAB-dataset validation and the Stanford-diagram accumulator
   remain roadmap items.
 - **Closed-loop GNSS/INS integration (`src/fusion/closed_loop.rs`).**
@@ -8977,8 +8963,22 @@ Initial release.
   services, not license fees.
 - `CITATION.cff` so the software can be cited.
 
-[Unreleased]: https://github.com/AshfordeOU/kshana/compare/v0.30.0...HEAD
-[0.30.0]: https://github.com/AshfordeOU/kshana/compare/v0.29.3...v0.30.0
+[Unreleased]: https://github.com/ashfordeOU/kshana/compare/v0.41.0...HEAD
+[0.41.0]: https://github.com/ashfordeOU/kshana/compare/v0.40.0...v0.41.0
+[0.40.0]: https://github.com/ashfordeOU/kshana/compare/v0.39.0...v0.40.0
+[0.39.0]: https://github.com/ashfordeOU/kshana/compare/v0.38.0...v0.39.0
+[0.38.0]: https://github.com/ashfordeOU/kshana/compare/v0.37.0...v0.38.0
+[0.37.0]: https://github.com/ashfordeOU/kshana/compare/v0.36.0...v0.37.0
+[0.36.0]: https://github.com/ashfordeOU/kshana/compare/v0.35.0...v0.36.0
+[0.35.0]: https://github.com/ashfordeOU/kshana/compare/v0.34.1...v0.35.0
+[0.34.1]: https://github.com/ashfordeOU/kshana/compare/v0.34.0...v0.34.1
+[0.34.0]: https://github.com/ashfordeOU/kshana/compare/v0.33.1...v0.34.0
+[0.33.1]: https://github.com/ashfordeOU/kshana/compare/v0.33.0...v0.33.1
+[0.33.0]: https://github.com/ashfordeOU/kshana/compare/v0.32.0...v0.33.0
+[0.32.0]: https://github.com/ashfordeOU/kshana/compare/v0.31.0...v0.32.0
+[0.31.0]: https://github.com/ashfordeOU/kshana/compare/v0.30.0...v0.31.0
+[0.30.0]: https://github.com/ashfordeOU/kshana/compare/v0.29.3...v0.30.0
+[0.29.3]: https://github.com/ashfordeOU/kshana/compare/v0.29.2...v0.29.3
 [0.29.2]: https://github.com/AshfordeOU/kshana/compare/v0.29.1...v0.29.2
 [0.29.1]: https://github.com/AshfordeOU/kshana/compare/v0.29.0...v0.29.1
 [0.29.0]: https://github.com/AshfordeOU/kshana/compare/v0.28.0...v0.29.0
