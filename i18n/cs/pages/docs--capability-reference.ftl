@@ -2682,5 +2682,3 @@ seg-b5c49044a7a1 = Přípustná oblast, kde se může nacházet zdroj zhoršený
 seg-953a8b4f9f41 = Zatím žádná externí. Pouze syntetické okružní cesty dopředu a zpět z generátoru, který sdílí model odhadovače, takže kontrolují kód a kalibraci stanovených úrovní za tohoto modelu a nic o skutečných zdrojích. Externí kontrola proti zveřejněným místům vysílačů Jammertest { "2025" } byla předregistrována (docs/emitter-region/PREREGISTRATION.md, schváleno vlastníkem před jakýmkoli hodnoceným během) a provedena jednou (docs/emitter-region/RESULTS.md): ADS-B NOT ASSESSABLE ({ "2" } plánované relace, méně než registrované minimum { "4" }) a AIS NOT ASSESSABLE (žádná zveřejněná relace), takže nebyl otestován žádný práh a řádek zůstává MODELLED
 
 seg-d5a79853b72f = { "93" } z { "93" } druhů, { "3334" } z { "3334" } číselných polí
-
-seg-877f989ae75e = { "61" } karet schopností z <c1/>, pak všech { "412" } řádků verifikační matice.

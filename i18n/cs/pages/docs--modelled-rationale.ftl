@@ -2021,5 +2021,3 @@ seg-2630978c5675 = kontroluje se proti vlastní uzavřené / analytické identit
 seg-67fdcdfdb635 = interference_map::emitter (estimate, sessions, build_units, profile, GaussianFix::from_tdoa), interference_map::emitter_out (locate), <c1/>
 
 seg-920b26e226ab = jednotkové testy interference_map::emitter (okružní zkouška projekce, obrázek horizontu, syntetické přímé a inverzní okružní zkoušky: známý vysílač leží uvnitř uvedené oblasti přibližně uvedenou rychlostí, okrajové případy, shlukování relací, profil, soukromí a formulace); případy locate v tests/interference_map_cli.rs
-
-seg-474381d842e6 = { "232" } schopností označeno MODELLED.

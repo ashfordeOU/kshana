@@ -352,8 +352,6 @@ seg-ac37217cda0d = <b>WGS-84: World Geodetic System { "1984" }.</b> De aardellip
 
 seg-81bc73d1fde8 = UTC / TAI / TT / UT1 / TDB: gecoördineerde wereldtijd / internationale atoomtijd / terrestrische tijd / Universal Time { "1" } (aardrotatietijd) / barycentrische dynamische tijd.
 
-seg-ea7eb1f34cae = <b>LTC / TCL: Lunar Coordinate Time (Temps-Coordonnée Lunaire).</b> De voorgestelde tijdschaal voor de maan.
-
 seg-c6e5976d9dff = <b>OD: baanbepaling.</b> Het herleiden van een baan uit volgmetingen.
 
 seg-dcb9e011c868 = <b>CR3BP</b>, <b>NRHO</b> en <b>DRO</b> worden hierboven gedefinieerd onder "Banen en cislunair".

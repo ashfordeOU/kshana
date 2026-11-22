@@ -1198,32 +1198,6 @@ js-site-palette-none = Inga resultat
 
 js-site-palette-results = { $count } resultat
 
-js-site-pro-band-at = Vid { $minutes } minuter: 5:e till 95:e percentilen
-
-js-site-pro-band-range = { $lo } till { $hi } { $unit }
-
-js-site-pro-band-runs-within = av { $n } körningar inom ±{ $limit } { $unit }
-
-js-site-pro-design-readout = { $sat } satelliter, { $av } % tillgänglighet · { $planes } plan på { $alt } km, { $incl }°
-
-js-site-pro-front-design = Frontutformning { $id }
-
-js-site-pro-front-design-knee = Frontutformning { $id } · knä
-
-js-site-pro-more-designs =
-    { $n ->
-        [one] (+{ $n } frontutformning till vid den här punkten)
-       *[other] (+{ $n } frontutformningar till vid den här punkten)
-    }
-
-js-site-pro-not-rerun = inte körd om
-
-js-site-pro-rerun-free = körd om i den kostnadsfria motorn:
-
-js-site-pro-same-sha = samma SHA-256 { $sha }…
-
-js-site-pro-same-sha-index = samma resultat-SHA-256 som indexet
-
 js-site-toast-copied = Kopierat: { $text }
 
 js-site-toast-data-failed = Datafilen kunde inte läsas in

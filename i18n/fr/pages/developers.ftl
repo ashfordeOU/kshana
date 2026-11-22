@@ -1658,23 +1658,13 @@ seg-cc49e9b6404e = Chaque exécution ; MCP <c1/>
 seg-7994e9983f27 = Déterministe à partir du scénario, de la graine et de la version du moteur
 
 # text
-seg-8844d0844559 = IntelliJ · PyCharm · CLion
-
-# text
 seg-844c84c5252d = Vous préférez cliquer ?
-
-# text
-# c1: .toml
-seg-6b24b242333a = Le module d'extension « Kshana — PNT simulator » : faites un clic droit sur n'importe quel scénario <c1/>, choisissez Run Kshana Scenario, et lisez les chiffres de mérite dans une fenêtre d'outil.
 
 # text
 seg-65bab13d3eb4 = Ouvrir dans JetBrains Marketplace
 
 # text
 seg-8b49f6477e8f = Noyau ouvert
-
-# text
-seg-3a199156b86e = Chaque surface de cette page relève du noyau ouvert gratuit, sous AGPL-3.0 ou sous une licence commerciale pour l'intégration fermée. Besoin de l'intégrer à votre chaîne d'outils, ou d'une étude réalisée pour vous ? <a1>Étude personnalisée</a1>. Paquets de preuves et modèles étalonnés : <a2>Kshana Pro</a2>.
 
 # attr:aria-label
 seg-c9844e6afd41 = Exécuter le benchmark

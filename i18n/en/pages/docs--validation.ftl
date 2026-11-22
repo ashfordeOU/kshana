@@ -19,9 +19,6 @@ seg-a550784412a6 = A row of the machine-checked verification matrix (<c1/>) is V
 seg-5e14faed9f05 = The accepted oracle kinds
 
 # text
-seg-b03d56f501c3 = Kind
-
-# text
 seg-4297b6a1b385 = What counts
 
 # text

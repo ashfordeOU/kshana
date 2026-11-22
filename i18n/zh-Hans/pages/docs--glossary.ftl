@@ -352,8 +352,6 @@ seg-ac37217cda0d = <b>WGS-84——{ "1984" }年世界大地坐标系（World Geo
 
 seg-81bc73d1fde8 = UTC / TAI / TT / UT1 / TDB——协调世界时／国际原子时／地球时／世界时{ "1" }（地球自转时间）／质心力学时。
 
-seg-ea7eb1f34cae = <b>LTC / TCL——月球协调时（Temps-Coordonnée Lunaire）。</b>拟议中的月球时间尺度。
-
 seg-c6e5976d9dff = <b>OD——定轨。</b>由跟踪测量恢复出轨道。
 
 seg-dcb9e011c868 = <b>CR3BP</b>、<b>NRHO</b>和<b>DRO</b>的定义见上文“轨道与地月空间”。

@@ -489,15 +489,6 @@ seg-a790c54ac1aa = Campos obrigatórios: nenhum. Opcionais: <c1/>, <c2/>, <c3/>,
 seg-4efffcd615df = <b>Registro:</b> MODELLED. Página completa, com as entradas, os resultados, as evidências e as limitações: <a1>lunar-beacon</a1>.
 
 # text
-# c1: frame
-# c2: time_system
-# c3: n_states
-# c4: epoch
-# c5: step_min
-# c6: object
-seg-720d0bbeaf6e = Campos obrigatórios: nenhum. Opcionais: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>.
-
-# text
 seg-019ca0f1051e = <b>Registro:</b> nenhuma linha da matriz cita este tipo; o mecanismo rotula o seu próprio resultado. Página completa, com as entradas, os resultados, as evidências e as limitações: <a1>lunar-interop-export</a1>.
 
 # text

@@ -325,50 +325,6 @@ seg-da82c97ac5c8 = Une constellation fournie sous forme de TLE complets est prop
 seg-a47031620b54 = { "7" }. Liaisons
 
 # text
-# c1: python.rs
-# c2: wasm.rs
-# c3: --features python
-# c4: --features wasm
-# c5: cargo deny --all-features
-# c6: api::run_toml
-# c7: web/
-# c8: run
-# c9: run_all
-# c10: chart_svg
-# c11: summary
-# c12: table_csv
-# c13: list_kinds
-# c14: error_kind
-# c15: version
-# c16: encode_permalink
-# c17: decode_permalink
-# c18: export_sp3
-# c19: export_omm
-# c20: export_oem
-# c21: api
-# c22: mcp/kshana-mcp
-# c23: rmcp
-# c24: run_scenario
-# c25: list_scenario_kinds
-# c26: validate_scenario
-# c27: list_example_scenarios
-# c28: get_example_scenario
-# c29: report_scenario
-# c30: animate_scenario
-# c31: list_export_formats
-# c32: export_interop
-# c33: import_route
-# c34: export_sp3
-# c35: export_omm
-# c36: export_oem
-# c37: export_table_csv
-# c38: assess_receiver_log
-# c39: bundled-scenarios
-# c40: ide/jetbrains
-# c41: kshana
-seg-57fb29fdd9d9 = Le cœur se compile sans changement vers le natif, vers une extension Python et vers WebAssembly. Les modules Python (<c1/>, PyO3 abi3) et WebAssembly (<c2/>, wasm-bindgen) sont des dépendances facultatives, activées par fonctionnalité (<c3/> / <c4/>) : la compilation par défaut et la suite de tests ne les compilent jamais, tandis que la porte d'audit des dépendances (<c5/>) inspecte bien leurs arbres de dépendances, car ces crates sont livrés dans la roue et dans le paquet npm. Les deux appellent <c6/>, de sorte que toutes les surfaces renvoient des résultats identiques. Le module WebAssembly alimente le bac à sable du navigateur dans <c7/> et exporte treize fonctions : <c8/>, <c9/> (une exécution du moteur qui renvoie ensemble le résultat, le graphique, le résumé et le tableau), <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, le codec d'URL (URL : adresse web) partageable <c16/> / <c17/>, et les trois exporteurs <c18/> / <c19/> / <c20/> qui alimentent le menu d'export du bac à sable. Deux autres portes d'entrée atteignent la même <c21/> : le <b>serveur MCP (Model Context Protocol)</b> (<c22/>, un crate <c23/> exclu de l'espace de travail qui expose quinze outils : <c24/>, <c25/>, <c26/>, <c27/>, <c28/>, <c29/>, <c30/>, <c31/>, <c32/>, <c33/>, <c34/>, <c35/>, <c36/>, <c37/>, <c38/> ; les deux outils d'exemples lisent les scénarios intégrés par la fonctionnalité <c39/> de la bibliothèque, désactivée par défaut, que seul ce serveur active) et le <b>plugin d'IDE (environnement de développement intégré) JetBrains</b> (<c40/>, un projet Kotlin qui appelle la CLI <c41/> par un shell au lieu de lier la bibliothèque).
-
-# text
 # c1: --features python
 # c2: --features wasm
 # c3: --features bundled-scenarios

@@ -292,9 +292,6 @@ seg-b388c2bac488 = Ava orbiidikonsool
 seg-3d6af799cb19 = <s1>Tasuta tuum</s1> iga stsenaarium ja diagramm sellel lehel
 
 # text
-seg-354162e88f07 = <s1>Pro</s1> disainiruumi Pareto rinne, määramatus ja tundlikkus ning ühe käsuga missioonidosjee
-
-# text
 seg-83e0dd9b2617 = <s1>Eriuuring</s1> teie riistvarale kalibreeritud mudelid, tehtud teie eest
 
 # text
@@ -460,9 +457,6 @@ seg-2d9d1994071f = Jooksuta iga selle sektori stsenaariumifail rakenduses Kshana
 seg-731232b52b8f = Pro lisab
 
 # text
-seg-de3cc6d30b9c = Pro: auditikvaliteediga reprodutseeritavad tõendipaketid ülevaatuseks.
-
-# text
 seg-04d539c39f45 = Eriuuring lisab
 
 # text
@@ -625,9 +619,6 @@ seg-2918af222529 = Nähtavad satelliidid ja PDOP (asukoha täpsuse halvenemise t
 seg-ef0cc5181857 = Geostatsionaarne kasutaja: kasutaja orbiit määratakse orbiidi liigi stsenaariumis, nii nagu orbit-molniya määrab tugevalt ekstsentrilise orbiidi.
 
 # text
-seg-7889feffa939 = Pro: arhitektuuri kompromissiuuringud, mis on järjestatud headuse näitaja alusel. Pro: kella digitaalsed kaksikud, mis on kalibreeritud teie seadme avaldatud Alani hälbe eelarvele.
-
-# text
 seg-bb0ceeb8db2a = Kas maandur, kulgur või orbiiter Kuul, Marsil või kaugemal saab usaldusväärse asukoha ja aja ning mida kohalik ajaskaala veaeelarvele lisab?
 
 # text
@@ -749,9 +740,6 @@ seg-96077751d4ce = Kuu aja käigukiirus avaldatud vahemiku suhtes ja ajavea eela
 
 # text
 seg-f1dfccfb9f89 = Releenavigatsiooni viga Marsi orbiidil, pinnal ja üleminekul
-
-# text
-seg-4a5542c69690 = Pro: kella digitaalsed kaksikud, mis on kalibreeritud teie seadme avaldatud Alani hälbe eelarvele. Pro: arhitektuuri kompromissiuuringud, mis on järjestatud headuse näitaja alusel.
 
 # text
 seg-4cf1f8144ae2 = Kui segaja võtab GNSS-i ära, kui kaua püsib minu UAS (pardal piloodita õhusõidukisüsteem) oma asukohaeelarve piires ja kas terviklikkus on minu marsruudil kättesaadav?
@@ -1036,9 +1024,6 @@ seg-b6c48dca904a = Aja spuufimise tuvastamine kella terviklikkuse monitori abil
 seg-3db4a218354b = Elektrivõrk ja rahandus: teie valdkonna ajatäpsuse piir antakse sisse kui threshold_ns.
 
 # text
-seg-cc45be91cd00 = Pro: kella digitaalsed kaksikud, mis on kalibreeritud teie seadme avaldatud Alani hälbe eelarvele. Pro: auditikvaliteediga reprodutseeritavad tõendipaketid ülevaatuseks.
-
-# text
 seg-cb5e51c39a7f = GNSS-i ajaetaloni kadu primaarsel etalonajakellal, aja spuufimine
 
 # text
@@ -1193,9 +1178,6 @@ seg-1bd3b0f6eb7e = Tegelik mootori käik, taasesitatud
 
 # text
 seg-f1313464b7c9 = Orbiidid: uuesti propageeritud käigu enda elementidest ja kontrollitud mootori maapealsete jälgede vastu. Planeedid: NASA pildid.
-
-# text
-seg-6c981f00d37d = <b>Pro-ga:</b> kavandioptimeerija käitab kogu konstellatsiooni kavandiruumi Maa, Kuu või Marsi ümber läbi selle mootori ja tagastab oma <b>Pareto front</b>-i, kusjuures iga fronti kavand kirjutatakse välja tavalise stsenaariumifailina. <a1>Vaadake tegelikku fronti</a1>
 
 # text
 seg-cdd1e1a6793d = Rikkerežiimid
@@ -1368,9 +1350,6 @@ seg-d2c741b188de = Mõõtke PNT arhitektuur ja vaadake, kus see puruneb.
 seg-87adf34e62f8 = Alustage jaotisest <a1>Võimekuste atlas</a1>
 
 # text
-seg-9601ecea0610 = <b>Tasuta täna:</b> kõik avatud mootoris. Pro: arhitektuuri kompromissiuuringud, mis on järjestatud headuse näitaja alusel.
-
-# text
 seg-5ad7df11c031 = PNT või GNSS-i spetsialist
 
 # text
@@ -1390,9 +1369,6 @@ seg-a5345bf50e9a = Kinnitage stsenaariumid regressioonitestidena ja käitage kog
 
 # text
 seg-57027baf4d52 = Alustage jaotisest <a1>Kasutusviisid</a1>
-
-# text
-seg-081d06995ef0 = <b>Tasuta täna:</b> kõik avatud mootoris. Pro: auditikvaliteediga reprodutseeritavad tõendipaketid ülevaatuseks.
 
 # text
 seg-e453a0b9a72e = Hanke- või programmiülevaataja
@@ -1428,9 +1404,6 @@ seg-4f23a0580efe = Kontrollige holdover-it ITU-T maskide vastu enne, kui GNSS-i 
 seg-7bc4df13f4cb = Alustage jaotisest <a1>Ajastuse sein</a1>
 
 # text
-seg-2abf4f5bd06e = <b>Tasuta täna:</b> kõik avatud mootoris. Pro: kella digitaalsed kaksikud, mis on kalibreeritud teie seadme avaldatud Alani hälbe eelarvele.
-
-# text
 seg-907754b26f64 = tehisintellekti assistendi kasutaja
 
 # text
@@ -1455,5 +1428,3 @@ seg-0e6be0d623f6 = <b>Tasuta täna:</b> kõik avatud mootoris. Avatud tuuma komm
 seg-9b505908a6e2 = Kshana <b>ei juhi raadioriistvara ega edasta midagi</b>. See sisaldab tarkvaralist GNSS-i vastuvõtjat salvestatud ja genereeritud IQ jaoks ning oskab kirjutada sünteetilisi baseband IQ faile, kuid see <b>ei ole RF signaaligeneraatori riistvara</b> ja <b>ei ole riistvaraline ega sertifitseeritud GNSS-i vastuvõtja</b>. See on uurimis- ja kompromissiinstrument: see simuleerib, mida segamine, spuufimine ja signaali kadu navigatsiooni- ja ajalahendiga teevad, ning ütleb, millised selle vastustest on kontrollitud. <b>Mitte lennutoode.</b>
 
 seg-ceb2de75e2f4 = <b>Tasuta täna:</b> kõik avatud mootoris. Tasuta: { "53" } MCP tööriista, run_scenario'st export_oem'ini.
-
-seg-67a6c0107bcd = Mootor v{ $version }, järk <c1/> · <c2/> · deterministlik, algväärtust pole

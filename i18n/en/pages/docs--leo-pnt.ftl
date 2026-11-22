@@ -61,9 +61,6 @@ seg-4d3bd0301e59 = The Celeste IOD (in-orbit demonstration) preset is one option
 seg-5b348102cb63 = The kinds and how they connect
 
 # text
-seg-b03d56f501c3 = Kind
-
-# text
 seg-c1020ac47091 = What one run computes
 
 # text

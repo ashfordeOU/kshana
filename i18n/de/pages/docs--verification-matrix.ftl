@@ -5413,7 +5413,3 @@ seg-f4b44b14d819 = tests/mission_thread_oracle.rs::the_stored_numbers_miss_the_r
 seg-67fdcdfdb635 = interference_map::emitter (estimate, sessions, build_units, profile, GaussianFix::from_tdoa), interference_map::emitter_out (locate), <c1/>
 
 seg-920b26e226ab = Unit-Tests von interference_map::emitter (Projektions-Rundlauf, Horizontwert, synthetische Vorwärts- und Rückwärts-Rundläufe: Der bekannte Sender liegt etwa mit der genannten Rate innerhalb der genannten Region, Randfälle, Sitzungsclustering, Profil, Datenschutz und Formulierung); Fälle von locate in tests/interference_map_cli.rs
-
-seg-db7a6ac0a47d = Das vollständige, maschinengeprüfte Nachweisregister: <b>{ "412" } Zeilen — { "176" } VALIDATED, { "232" } MODELLED, { "4" } PARTNER</b>. Eine Zeile darf nur mit einer unabhängigen externen Referenz VALIDATED sein (die Invariantentests der Matrix erzwingen das). Dieselben Daten, mit anklickbaren Links je Zeile zu jedem Test, Modul und eingecheckten Fixture, sind das <em>Validierungsregister</em> auf <a1>https://kshana.dev</a1>. Siehe <a2>MODELLED-RATIONALE.md</a2>, warum jede modellierte Zeile nicht extern validiert ist.
-
-seg-1cc523709234 = { "412" } Zeilen: { "176" } extern validiert, { "232" } modelliert, { "4" } im Besitz von Partnern.

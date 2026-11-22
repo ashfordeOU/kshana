@@ -19,9 +19,6 @@ seg-93aa75a58438 = Topic pages: <a1>MISSION-THREAD</a1>, <a2>MISSION-THREAD-LUNA
 seg-c6bb02c73696 = Contact sheet of the charts the engine writes for the kinds of the family Mission threads
 
 # text
-seg-b03d56f501c3 = Kind
-
-# text
 seg-4e31c8daf798 = Ledger
 
 # text

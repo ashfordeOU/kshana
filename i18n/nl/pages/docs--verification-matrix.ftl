@@ -3622,7 +3622,3 @@ seg-f4b44b14d819 = tests/mission_thread_oracle.rs::the_stored_numbers_miss_the_r
 seg-67fdcdfdb635 = interference_map::emitter (estimate, sessions, build_units, profile, GaussianFix::from_tdoa), interference_map::emitter_out (locate), <c1/>
 
 seg-920b26e226ab = unittests van interference_map::emitter (projectie-roundtrip, horizoncijfer, synthetische voorwaartse en inverse rondritten: de bekende zender ligt binnen het vermelde gebied met ongeveer het vermelde percentage, randgevallen, sessieclustering, profiel, privacy en formulering); tests/interference_map_cli.rs locate-gevallen
-
-seg-db7a6ac0a47d = Het volledige, machinaal gecontroleerde bewijsregister: <b>{ "412" } rijen — { "176" } VALIDATED, { "232" } MODELLED, { "4" } PARTNER</b>. Een rij mag alleen VALIDATED zijn met een onafhankelijke externe referentie (de invariantentests van de matrix dwingen dit af). Dezelfde data, met klikbare links per rij naar elke test, module en vastgelegde fixture, is het <em>Validatieregister</em> op <a1>https://kshana.dev</a1>. Zie <a2>MODELLED-RATIONALE.md</a2> voor waarom elke gemodelleerde rij niet extern is gevalideerd.
-
-seg-1cc523709234 = { "412" } rijen: { "176" } extern gevalideerd, { "232" } gemodelleerd, { "4" } in handen van een partner.

@@ -489,15 +489,6 @@ seg-a790c54ac1aa = Kohustuslikud väljad: puuduvad. Valikulised: <c1/>, <c2/>, <
 seg-4efffcd615df = <b>Register (ledger):</b> MODELLED. Täielik leht koos sisendite, tulemuste, tõendite ja piirangutega: <a1>lunar-beacon</a1>.
 
 # text
-# c1: frame
-# c2: time_system
-# c3: n_states
-# c4: epoch
-# c5: step_min
-# c6: object
-seg-720d0bbeaf6e = Kohustuslikud väljad: puuduvad. Valikulised: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>.
-
-# text
 seg-019ca0f1051e = <b>Register (ledger):</b> ükski maatriksirida seda liiki ei nimeta; mootor sildistab oma tulemuse ise. Täielik leht koos sisendite, tulemuste, tõendite ja piirangutega: <a1>lunar-interop-export</a1>.
 
 # text

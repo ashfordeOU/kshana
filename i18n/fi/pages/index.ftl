@@ -279,17 +279,9 @@ seg-d997b6a5a416 = Miksi Pro, vielä enemmän
 
 seg-4ff013b472ff = Mikä suunnitelma lennetään?
 
-seg-f4eb65b9b27a = Kuun navigointitähdistö: vähiten satelliitteja suhteessa saatavuuteen, koko Kuu: { "608" } suunnitelmaa ajettu, { "12" } suunnitelman Pareto-rintama
-
 seg-c8ce2e4a6687 = Kuinka varmoja olemme ja mikä ohjaa tulosta?
 
-seg-049c503c23db = Kellon holdover epävarmalla kohinatasolla: { "2,000" } ajon 5.–95. persentiili suhteessa rajaan { "20" } ns
-
 seg-3dd37275b448 = Täyttääkö tehtävä vaatimuksensa, ja voimmeko luovuttaa sen todisteena?
-
-seg-7fbde256debf = ei täyttynyt
-
-seg-f6ccb7a322b3 = avoimet kohdat
 
 seg-6d3d0f8c9b7c = Pyydä Pro-arviointia
 
@@ -331,9 +323,6 @@ seg-f0e9de10d9ef = cargo install kshana<s1>Kopioi</s1>
 
 # c1: ⌘K
 seg-ec3957c0f5f1 = Paina <c1/> hakeaksesi sivuja, skenaarioita ja dokumentaatiota
-
-# c1:
-seg-a92f77bd42cb = <s1>Kshana Pro</s1><c1/><s2>Sama moottori, vahvistettuna: { "608" } suunnitelmaa, yksi Pareto-rintama</s2>
 
 seg-b807a8887172 = Ketjutetusta kampanja-ajosta toistettu telemetria
 
@@ -652,8 +641,6 @@ seg-09d18cf767a7 = Avoin ydin, Kshana Pro, räätälöity tutkimus
 
 seg-302606971c35 = Ilmainen kaikille. Pro, kun vastauksen on kestettävä tarkastelu.
 
-seg-27c12083529b = Kshana Pro on suljettu lisäkerros, joka riippuu avoimesta ytimestä eikä koskaan haaroita sitä, ja se on saatavilla sopimuksella. Hintoja ei esitetä verkkosivulla: jokainen maksullinen reitti alkaa viestillä osoitteeseen <a1>contact@ashforde.org</a1>.
-
 seg-43ceda17e71c = Avoin ydin · ilmainen · AGPL-3.0
 
 seg-0230217b1110 = Jokainen, joka ottaa paikkansa tai aikansa GNSS:stä, on alttiina: häirintä, harhautus ja signaalin menetys osuvat yhtä lailla ajoneuvoihin, verkkoihin, sähköverkkoihin ja avaruusaluksiin.
@@ -663,14 +650,6 @@ seg-0af87a1caff4 = Sama ydin kaupallisella lisenssillä suljettua integrointia v
 seg-f6406933eb77 = Asenna moottori
 
 seg-6a74a165bfd0 = Kshana Pro · sopimuksella
-
-seg-298532756f74 = Suunnitteluavaruuden Pareto-rintama, jossa jokainen rintaman suunnitelma on skenaario, jonka ilmainen moottori ajaa uudelleen.
-
-seg-a699256db841 = Epävarmuus ja herkkyys tuhansien ajojen yli.
-
-seg-665005551d84 = Yhden komennon tehtäväasiakirja varmennusmatriisilla ja PDF-tiedostolla (Portable Document Format).
-
-seg-455cb5040f80 = Tarkastustason toistettavat todistepaketit; kellojen digitaaliset kaksoset, jotka on kalibroitu laitteesi julkaistuun Allan-budjettiin; arkkitehtuurivertailut, jotka on järjestetty laatumittarin mukaan; mallipohjaisen järjestelmätekniikan (MBSE) ja ohjelmatyökalut.
 
 seg-3e30593288a1 = Mitä Pro sisältää
 
@@ -686,48 +665,10 @@ seg-57320238c0f4 = Vientivalvottu työ asianmukaisella turvallisuusselvityksell�
 
 seg-e36049d768ce = Integrointi, koulutus ja konsultointi.
 
-seg-3303866fbf99 = Sama moottori vahvistettuna: todellista Kshana Pron tuotosta
-
-seg-f5513a1750f1 = <a1><s1><c1/>Suunnitteluoptimoija</s1></a1>
-
-seg-2bbc6243b4b1 = <b>{ "608" } suunnitelmaa</b>, kaikki ajettu: Pareto-rintama ja sen polvi
-
-seg-56e344605a3d = <a1><s1><c1/>Epävarmuus ja herkkyys</s1></a1>
-
-seg-a0b3c138f981 = <b>{ "2,000" } ajoa</b>: luottamuskaista rajaan verrattuna
-
 seg-6de95aaa8ba4 = <a1><s1><c1/>Tehtäväasiakirja</s1></a1>
 
-seg-905e5eef45e5 = <b>{ "12" } vaatimusta</b> tarkistettu todellisia ajoja vasten, 21-sivuinen PDF (Portable Document Format)
-
 seg-7d9ee2bfbb90 = Selvitä, mistä ajoituksesi pettää, ennen kuin se pettää.
-
-seg-070972f642de = Artemis-luokan tehtäväketju: navigoinnin ja ajoituksen virhebudjetti laukaisusta ilmakehään paluuseen
-
-seg-4970f874d334 = Kuusegmentti: kohtaaminen, lasku, pinta ja nousu
-
-seg-8ca6e2046901 = Arvioitu lähetinalue ADS-B- tai AIS-raporteista
-
-seg-003a3b9b63ea = Mitatut kellolokit ja sovitetun sarjan ajama holdover
-
-seg-448b11c86f48 = Datakumppanit: mitkä rivit mitattu data voisi ylentää
-
-seg-5858e5d1f7c5 = Todistemerkintä jokaisessa ajon kirjoittamassa kuvassa ja taulukossa
-
-seg-bd28ef5c376e = Seitsemäntoista kieltä englannin rinnalla
-
-seg-7fae5de5ebf1 = kshana-bench: { "0.40" } uusintakampanja
-
-seg-b9961ed25282 = Uutta versiossa v{ $version }: tehtäväketju, todistemerkintä jokaisessa luvussa ja seitsemäntoista kieltä
 
 seg-579d9b6f7afd = Kaikki { "93" } skenaariotyyppiä, ilmaisia ilman ominaisuusrajoitusta, deterministisiä skenaariosta, siemenluvusta ja moottoriversiosta.
 
 seg-56bf1281e330 = Tallennettu istunto kshana-mcp-palvelimen kanssa (Model Context Protocol, moottori v{ $version }): avustaja listaa { "53" } työkalua, validoi tiedoston <c1/> (kelvollinen: havaittu skenaariolaji `clock`) ja ajaa sen: scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity { "1.000" } security n/a (no attack).
-
-seg-237d8bd201d2 = <b>Kampanja:</b> Moottori v{ $version }, koontiversio <c1/> · <c2/> · siemenluku { "20260928" }
-
-seg-98ebce268546 = <b>Radat:</b> Moottori v{ $version }, koontiversio <c1/> · <c2/> · deterministinen, ei siemenlukua
-
-seg-bb2975f5a7dd = Moottori v{ $version }, koostenumero <c1/> · <c2/> · siemenluku { "20260928" }
-
-seg-ee04b167d80a = { "412" } ominaisuudesta { "176" } on yhtäpitäviä riippumattomien ulkoisten oraakkeleiden kanssa; loput on merkitty mallinnetuiksi, ääneen sanottuna.

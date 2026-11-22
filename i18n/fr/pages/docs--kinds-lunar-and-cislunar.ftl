@@ -486,15 +486,6 @@ seg-a790c54ac1aa = Champs obligatoires : aucun. Facultatifs : <c1/>, <c2/>, <c
 seg-4efffcd615df = <b>Registre :</b> MODELLED. Page complète, avec les entrées, les résultats, les preuves et les limites : <a1>lunar-beacon</a1>.
 
 # text
-# c1: frame
-# c2: time_system
-# c3: n_states
-# c4: epoch
-# c5: step_min
-# c6: object
-seg-720d0bbeaf6e = Champs obligatoires : aucun. Facultatifs : <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>.
-
-# text
 seg-019ca0f1051e = <b>Registre :</b> aucune ligne de la matrice ne nomme ce type ; le moteur étiquette lui-même son résultat. Page complète, avec les entrées, les résultats, les preuves et les limites : <a1>lunar-interop-export</a1>.
 
 # text

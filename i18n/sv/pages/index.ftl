@@ -324,17 +324,9 @@ seg-d997b6a5a416 = Varför Pro, ännu mer
 
 seg-4ff013b472ff = Vilken utformning ska vi flyga?
 
-seg-f4eb65b9b27a = Månnavigeringskonstellation: minsta antal satelliter mot tillgänglighet, hela månen: { "608" } utformningar körda, en Pareto-front med { "12" } utformningar
-
 seg-c8ce2e4a6687 = Hur säkra är vi, och vad styr resultatet?
 
-seg-049c503c23db = Klock-holdover med osäker brusnivå: 5:e till 95:e percentilen av { "2,000" } körningar mot gränsen { "20" } ns
-
 seg-3dd37275b448 = Uppfyller uppdraget sina krav, och kan vi lämna över det?
-
-seg-7fbde256debf = inte uppfyllda
-
-seg-f6ccb7a322b3 = öppna punkter
 
 seg-813d6d41b891 = Kopiera kommandot som återskapar det
 
@@ -686,8 +678,6 @@ seg-09d18cf767a7 = Öppen kärna, Kshana Pro, skräddarsydd studie
 
 seg-302606971c35 = Gratis för alla. Pro när svaret måste hålla i en granskning.
 
-seg-27c12083529b = Kshana Pro är ett proprietärt tillägg som bygger på den öppna kärnan och aldrig delar upp den, och som finns tillgängligt under avtal. Inga priser på en webbsida: varje betald väg börjar med ett meddelande till <a1>contact@ashforde.org</a1>.
-
 seg-43ceda17e71c = Öppen kärna · gratis · AGPL-3.0
 
 seg-0230217b1110 = Alla som hämtar position eller tid från GNSS är utsatta: jamming, spoofing och signalförlust drabbar fordon, nät, elnät och rymdfarkoster på samma sätt.
@@ -697,14 +687,6 @@ seg-0af87a1caff4 = Samma kärna under en kommersiell licens, för sluten integre
 seg-f6406933eb77 = Installera motorn
 
 seg-6a74a165bfd0 = Kshana Pro · under avtal
-
-seg-298532756f74 = Paretofronten för ett utformningsrum, där varje utformning på fronten är ett scenario som den gratis motorn kör om.
-
-seg-a699256db841 = Osäkerhet och känslighet över tusentals körningar.
-
-seg-665005551d84 = Ett uppdragsdossier med ett enda kommando, med en verifieringsmatris och en PDF-fil (Portable Document Format).
-
-seg-455cb5040f80 = Reproducerbara bevispaket i revisionsklass; digitala tvillingar av klockor kalibrerade mot din enhets publicerade Allan-budget; arkitekturavvägningsstudier rangordnade efter ett kvalitetsmått; verktyg för modellbaserad systemteknik (MBSE) och programhantering.
 
 seg-3e30593288a1 = Vad Pro innehåller
 
@@ -720,19 +702,7 @@ seg-57320238c0f4 = Exportkontrollerat arbete under lämplig säkerhetsprövning 
 
 seg-e36049d768ce = Integrering, utbildning och rådgivning.
 
-seg-3303866fbf99 = Samma motor, förstärkt: verkliga utdata från Kshana Pro
-
-seg-f5513a1750f1 = <a1><s1><c1/>Utformningsoptimerare</s1></a1>
-
-seg-2bbc6243b4b1 = <b>{ "608" } utformningar</b>, alla körda: Paretofronten och dess knä
-
-seg-56e344605a3d = <a1><s1><c1/>Osäkerhet och känslighet</s1></a1>
-
-seg-a0b3c138f981 = <b>{ "2,000" } körningar</b>: ett konfidensband mot en gräns
-
 seg-6de95aaa8ba4 = <a1><s1><c1/>Uppdragsdossier</s1></a1>
-
-seg-905e5eef45e5 = <b>{ "12" } krav</b> kontrollerade mot verkliga körningar, PDF på 21 sidor (Portable Document Format)
 
 seg-7d9ee2bfbb90 = Hitta var din tidssynkronisering brister, innan den gör det.
 
@@ -744,34 +714,6 @@ seg-b366150de755 = Beställ en studie
 
 seg-6d3d0f8c9b7c = Begär en Pro-utvärdering
 
-seg-a92f77bd42cb = <s1>Kshana Pro</s1><c1/><s2>Samma motor, förstärkt: { "608" } utformningar, en Pareto-front</s2>
-
-seg-070972f642de = Ett uppdragsflöde i Artemis-klass: felbudgeten för navigering och tidssynkronisering från uppskjutning till återinträde
-
-seg-4970f874d334 = Månsegmentet: rendezvous, nedstigning, yta och stigning
-
-seg-8ca6e2046901 = Ett uppskattat område för sändaren utifrån ADS-B- eller AIS-rapporter
-
-seg-003a3b9b63ea = Uppmätta klockloggar och en holdover som styrs av en anpassad serie
-
-seg-448b11c86f48 = Datapartner: vilka rader uppmätta data kan lyfta
-
-seg-5858e5d1f7c5 = En evidensetikett på varje siffra och tabell som en körning skriver
-
-seg-bd28ef5c376e = Sjutton språk vid sidan av engelska
-
-seg-7fae5de5ebf1 = kshana-bench: omkampanjen { "0.40" }
-
-seg-b9961ed25282 = Nytt i v{ $version }: ett uppdragsflöde, en evidensetikett på varje siffra och sjutton språk
-
 seg-579d9b6f7afd = Alla { "93" } scenariotyper, gratis och utan funktionsspärr, deterministiska utifrån scenario, frö och motorversion.
 
 seg-56bf1281e330 = En inspelad session med servern kshana-mcp (Model Context Protocol, motor v{ $version }): assistenten listar de { "53" } verktygen, validerar <c1/> (valid: detected scenario kind `clock`) och kör det: scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity { "1.000" } security n/a (no attack).
-
-seg-237d8bd201d2 = <b>Kampanj:</b> Motor v{ $version }, bygge <c1/> · <c2/> · frö { "20260928" }
-
-seg-98ebce268546 = <b>Banor:</b> Motor v{ $version }, bygge <c1/> · <c2/> · deterministisk, inget frö
-
-seg-bb2975f5a7dd = Motor v{ $version }, bygge <c1/> · <c2/> · frö { "20260928" }
-
-seg-ee04b167d80a = { "176" } av { "412" } förmågor stämmer med oberoende externa referenser; resten är märkta som modellerade, högt och tydligt.

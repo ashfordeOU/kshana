@@ -2643,5 +2643,3 @@ seg-b5c49044a7a1 = Et muligt område for, hvor en kilde til forringede navigatio
 seg-953a8b4f9f41 = Endnu ingen ekstern. Kun syntetiske frem-og-tilbage-kørsler fra en generator, der deler estimatorens model, så de kontrollerer koden og kalibreringen af de angivne niveauer under den model og intet om virkelige sendere. En ekstern kontrol mod de offentliggjorte senderpladser i Jammertest { "2025" } blev præregistreret (docs/emitter-region/PREREGISTRATION.md, frigivet af ejeren før enhver scoret kørsel) og kørt én gang (docs/emitter-region/RESULTS.md): ADS-B NOT ASSESSABLE ({ "2" } planlagte sessioner, færre end det registrerede minimum på { "4" }) og AIS NOT ASSESSABLE (ingen offentliggjort session), så ingen tærskel blev afprøvet, og rækken forbliver MODELLED
 
 seg-d5a79853b72f = { "93" } af { "93" } typer, { "3334" } af { "3334" } numeriske felter
-
-seg-877f989ae75e = De { "61" } funktionskort fra <c1/>, derefter alle { "412" } rækker i verifikationsmatricen.

@@ -393,15 +393,6 @@ seg-a790c54ac1aa = Erforderliche Felder: keine. Optional: <c1/>, <c2/>, <c3/>, <
 seg-4efffcd615df = <b>Register:</b> MODELLED. Vollständige Seite mit den Eingaben, Ergebnissen, Evidenz und Einschränkungen: <a1>lunar-beacon</a1>.
 
 # text
-# c1: frame
-# c2: time_system
-# c3: n_states
-# c4: epoch
-# c5: step_min
-# c6: object
-seg-720d0bbeaf6e = Erforderliche Felder: keine. Optional: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>.
-
-# text
 # c1: mu
 # c2: arc_hours
 # c3: epochs

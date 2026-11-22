@@ -1646,23 +1646,13 @@ seg-cc49e9b6404e = Cada ejecución; MCP <c1/>
 seg-7994e9983f27 = Determinista a partir del escenario, la semilla y la versión del motor
 
 # text
-seg-8844d0844559 = IntelliJ · PyCharm · CLion
-
-# text
 seg-844c84c5252d = ¿Prefiere hacer clic?
-
-# text
-# c1: .toml
-seg-6b24b242333a = El plugin "Kshana — PNT simulator": haga clic con el botón derecho en cualquier archivo <c1/> de escenario, elija Run Kshana Scenario y lea las figuras de mérito en una ventana de herramientas.
 
 # text
 seg-65bab13d3eb4 = Abrir en JetBrains Marketplace
 
 # text
 seg-8b49f6477e8f = Núcleo abierto
-
-# text
-seg-3a199156b86e = Todas las superficies de esta página son el núcleo abierto y gratuito, bajo la AGPL-3.0 o una licencia comercial para integración cerrada. ¿Necesita integrarlo en su cadena de herramientas o que le hagan un estudio? <a1>Estudio personalizado</a1>. Paquetes de evidencias y modelos calibrados: <a2>Kshana Pro</a2>.
 
 # attr:aria-label
 seg-c9844e6afd41 = Ejecutar el benchmark

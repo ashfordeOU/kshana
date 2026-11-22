@@ -4071,5 +4071,3 @@ seg-b5c49044a7a1 = Teostatav piirkond, kus võib asuda halvenenud navigatsioonit
 seg-953a8b4f9f41 = Veel ühtki välist. Ainult sünteetilised ettepoole-tagasi ringid generaatorist, mis jagab hindaja mudelit, seega need kontrollivad koodi ja öeldud tasemete kalibreeringut selle mudeli all ega ütle midagi päris kiirgusallikate kohta. Välist kontrolli avaldatud Jammertest { "2025" } saatjakohtade vastu eelregistreeriti (docs/emitter-region/PREREGISTRATION.md, omaniku poolt enne ühtki hinnatud käivitust kinnitatud) ja käivitati üks kord (docs/emitter-region/RESULTS.md): ADS-B NOT ASSESSABLE ({ "2" } planeeritud sessiooni, vähem kui registreeritud miinimum { "4" }) ja AIS NOT ASSESSABLE (avaldatud sessiooni pole), seega ühtki lävi ei testitud ja rida jääb MODELLED
 
 seg-d5a79853b72f = { "93" } liiki { "93" }-st, { "3334" } arvulist välja { "3334" }-st
-
-seg-877f989ae75e = { "61" } võimekuskaarti failist <c1/>, seejärel kõik { "412" } kontrollimaatriksi rida.

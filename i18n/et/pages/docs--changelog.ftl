@@ -6797,11 +6797,6 @@ seg-74e8cab2f10e = <b><c1/> vahemälu kõrvaldamine</b>: versioonitempliga <c2/>
 seg-65949229eed7 = <b><c1/> — Kshana kui Model Context Protocol (MCP) server</b> (<c2/>). Iseseisev, tööruumist välja jäetud crate (SDK <c3/> on edition { "2024" }), mis avab valideeritud mootori tehisintellekti agentidele ja assistentidele — Cursor, JetBrains AI Assistant / Junie ja mis tahes MCP klient — stdio kaudu. Tööriistad: <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, igaüks õhuke ümbris üle <c9/>.
 
 # text
-# c1: ide/jetbrains/
-# c2: .toml
-seg-bd792f66363c = <b>JetBrains IDE plugin</b> (<c1/>). Tee stsenaariumi <c2/> peal paremklõps → <b>Run Kshana Scenario</b>; kvaliteedinäitajad ja tulemuse JSON voogedastatakse Kshana tööriistaaknasse. Puhas platvormi Kotlini plugin, ühilduv iga JetBrains IDE-ga { "2024.3" }+.
-
-# text
 seg-755358390517 = <b>Avalik levitamine + iga väljalaske automaatne avaldamine</b> mõlemale:
 
 # text
@@ -8643,8 +8638,6 @@ seg-6b6a960ca7cf = <c1/>, <c2/> ja <c3/> versioonilt { "0.13" } versioonile { "0
 
 # text
 seg-1a4cda9d1486 = Minimaalne toetatud Rusti versioon on nüüd { "1.88" } (nõutud RUSTSEC-2026-0387 parandusega).
-
-seg-0d4a740afedf = [{ $version }] - 2026-10-29
 
 seg-2aa7197e4396 = <b>Ridade katvus: ~{ "96" } % → ~{ "95" } %.</b> Katvuse töö mõõtis uuesti välja antud koodi { "0.29.0" } (commit <c1/>, CI jooksutus { "36809850252" }, 2026-10-01): <c2/>, { "55,970" } rida { "58,697" }-st kataloogis <c3/>. Avaldatud arv oli { "95.63" } % ({ "37,697" } rida { "39,419" }-st), mõõdetuna commit'il <c4/> enne versiooni { "0.28.0" }; see ümardus väärtuseks ~{ "96" } %. Uus arv ümardub väärtuseks ~{ "95" } %, nii et iga pind, mida <c5/> kinnitab, liigub koos: <c6/>, README märk, Evidence'i rida ja CI tabel, märgid crates.io-s, PyPI-s ja npm-is, tehniline aruanne ning saidi kshana.dev katvuse leht. Alampiir { "85" } % ei muutu.
 

@@ -19,9 +19,6 @@ seg-47751d798019 = Topic pages: <a1>LEO-PNT</a1>, <a2>LEO-SIGNAL</a2>, <a3>LEO-P
 seg-4867ae5d108b = Contact sheet of the charts the engine writes for the kinds of the family Low-Earth-orbit navigation
 
 # text
-seg-b03d56f501c3 = Kind
-
-# text
 seg-4e31c8daf798 = Ledger
 
 # text

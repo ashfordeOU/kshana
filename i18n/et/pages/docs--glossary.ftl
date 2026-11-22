@@ -586,9 +586,6 @@ seg-a23b05c85a63 = <b>LVLH — kohalik vertikaal, kohalik horisontaal (local ver
 seg-ac37217cda0d = <b>WGS-84 — World Geodetic System { "1984" }.</b> Maa ellipsoid, mida GPS kasutab.
 
 # text
-seg-ea7eb1f34cae = <b>LTC / TCL — Kuu koordinaatide aeg (Temps-Coordonnée Lunaire).</b> Kavandatud ajaskaala Kuule.
-
-# text
 seg-c6e5976d9dff = <b>OD — orbiidi määramine (orbit determination).</b> Orbiidi taastamine jälgimismõõtmistest.
 
 # text

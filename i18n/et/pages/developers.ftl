@@ -1658,23 +1658,13 @@ seg-cc49e9b6404e = Iga käivitus; MCP <c1/>
 seg-7994e9983f27 = Deterministlik stsenaariumist, algväärtusest (seed) ja mootori versioonist
 
 # text
-seg-8844d0844559 = IntelliJ · PyCharm · CLion
-
-# text
 seg-844c84c5252d = Kas klõpsamine sobib paremini?
-
-# text
-# c1: .toml
-seg-6b24b242333a = Pistikprogramm „Kshana — PNT simulator“: tehke mis tahes stsenaariumi <c1/> peal paremklõps, valige Run Kshana Scenario ja lugege kvaliteedinäitajaid tööriistaaknast.
 
 # text
 seg-65bab13d3eb4 = Ava JetBrains Marketplace'is
 
 # text
 seg-8b49f6477e8f = Avatud tuum
-
-# text
-seg-3a199156b86e = Iga selle lehe pind on tasuta avatud tuum, litsentsi AGPL-3.0 all või ärilitsentsiga suletud integratsiooniks. Vajate selle integreerimist oma tööriistaahelasse või uuringu tegemist teie eest? <a1>Kohandatud uuring</a1>. Tõendipaketid ja kalibreeritud mudelid: <a2>Kshana Pro</a2>.
 
 # attr:aria-label
 seg-c9844e6afd41 = Käivita bench

@@ -12,7 +12,7 @@ Kshana is a deterministic Rust engine for PNT (positioning, navigation and timin
 - [Evidence: validation against external oracles](https://kshana.dev/evidence): Which Kshana capabilities are validated against independent oracles and which are modelled: verification matrix, validation ledger, papers and citation.
 - [Install Kshana: CLI, Rust, Python, npm and MCP server](https://kshana.dev/developers): Install Kshana as a command-line tool, Rust crate, Python or npm package, Model Context Protocol (MCP) server, container or JetBrains plugin.
 - [Benchmark: GNSS interference detection](https://kshana.dev/benchmark): kshana-bench: fixed tasks, splits and metrics for GNSS interference detection and timing holdover, pre-registered baselines and a board of result files.
-- [Editions: open source and Kshana Pro](https://kshana.dev/editions): Kshana is free and open source under the AGPL-3.0 licence. Kshana Pro adds a design optimiser, uncertainty and sensitivity studies and a mission dossier.
+- [Editions: open source and Kshana Pro](https://kshana.dev/editions): Kshana is free and open source under the AGPL-3.0 licence. Kshana Pro adds design exploration, confidence and risk studies and mission dossiers.
 - [Kshana Studio](https://kshana.dev/studio/): Run GNSS jamming, spoofing, holdover and integrity scenarios in your browser. The open-source engine runs locally as WebAssembly; nothing is uploaded.
 
 ## Install
@@ -178,7 +178,8 @@ Kshana is a deterministic Rust engine for PNT (positioning, navigation and timin
 - [Running kshana-mcp over HTTP (self-hosted)](https://kshana.dev/docs/mcp-http): A passage naming third-party AI clients is left out here; it is in docs/deploy/mcp-http.md on GitHub.
 - [Using Kshana from an AI agent](https://kshana.dev/docs/agents): For an agent (or the person directing one): which tool to call for which question, what the tools will and will not do, and what to keep with every…
 - [Where each capability is reachable](https://kshana.dev/docs/surfaces): Every capability is available on the surfaces where it makes sense; where one cannot carry a capability, the cell says N/A and why.
-- [Kshana for JetBrains IDEs](https://kshana.dev/docs/jetbrains): Install: Kshana — PNT simulator on the JetBrains Marketplace — or, in any JetBrains IDE, Settings → Plugins → Marketplace → search "Kshana".
+- [Kshana for JetBrains IDEs](https://kshana.dev/docs/jetbrains): Kshana for JetBrains IDEs runs the Kshana PNT-resilience simulator from inside any JetBrains IDE (IntelliJ IDEA, CLion, RustRover, PyCharm and the…
+- [Kshana Desktop](https://kshana.dev/docs/desktop): Kshana Desktop is Kshana Studio in a native window: the same scenarios, runs, charts and tables as the Studio on this site, with the engine running…
 - [Where Kshana runs, and where it does not](https://kshana.dev/docs/deployment-targets): A scope boundary, written down so that nobody discovers it as a commitment in a meeting.
 - [Architecture](https://kshana.dev/docs/architecture): Kshana is one engine organised in layers over a shared core: the sensor packs (clock, inertial, time-transfer, hybrid); an astrodynamics / numerical…
 - [Where Kshana sits](https://kshana.dev/docs/positioning): Kshana is an open, reproducible PNT (positioning, navigation and timing) resilience evidence engine.

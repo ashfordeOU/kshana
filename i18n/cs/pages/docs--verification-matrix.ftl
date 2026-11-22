@@ -3590,7 +3590,3 @@ seg-f4b44b14d819 = tests/mission_thread_oracle.rs::the_stored_numbers_miss_the_r
 seg-67fdcdfdb635 = interference_map::emitter (estimate, sessions, build_units, profile, GaussianFix::from_tdoa), interference_map::emitter_out (locate), <c1/>
 
 seg-920b26e226ab = jednotkové testy interference_map::emitter (okružní zkouška projekce, obrázek horizontu, syntetické přímé a inverzní okružní zkoušky: známý vysílač leží uvnitř uvedené oblasti přibližně uvedenou rychlostí, okrajové případy, shlukování relací, profil, soukromí a formulace); případy locate v tests/interference_map_cli.rs
-
-seg-db7a6ac0a47d = Úplný, strojově kontrolovaný registr důkazů: <b>{ "412" } řádků — { "176" } VALIDATED, { "232" } MODELLED, { "4" } PARTNER</b>. Řádek smí být VALIDATED jen s nezávislým vnějším orákulem (vynucují to testy invariantů matice). Tatáž data, s proklikatelnými odkazy u každého řádku na test, modul a zapsaná testovací data, jsou <em>registrem validace</em> na <a1>https://kshana.dev</a1>. Proč není každý modelovaný řádek vnějšně ověřen, viz <a2>MODELLED-RATIONALE.md</a2>.
-
-seg-1cc523709234 = { "412" } řádků: { "176" } vnějšně ověřeno, { "232" } modelováno, { "4" } ve vlastnictví partnera.

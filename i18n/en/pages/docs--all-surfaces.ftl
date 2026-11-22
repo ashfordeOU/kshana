@@ -118,6 +118,9 @@ seg-929abbc89930 = <a1>Marine integrations</a1>, <a2>Trust telemetry</a2>
 seg-b99dd6ee5a51 = run a scenario from the IDE
 
 # text
+seg-f36464ef1b66 = JetBrains Marketplace
+
+# text
 seg-f8cf777c0caa = Surfaces
 
 # text

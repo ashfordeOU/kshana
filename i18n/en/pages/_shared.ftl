@@ -461,6 +461,9 @@ seg-2d10d53dea45 = Using Kshana from an agent
 seg-802423db2143 = Where each capability is reachable
 
 # text
+seg-9246adda8396 = Kshana Desktop
+
+# text
 seg-a4ac05a51af9 = Where Kshana runs
 
 # text
@@ -561,6 +564,9 @@ seg-852814f107a7 = Scenario kind pages
 
 # text
 seg-1a26d420ba67 = See also
+
+# text
+seg-b03d56f501c3 = Kind
 
 # text
 seg-c4f4b2ca0647 = Value

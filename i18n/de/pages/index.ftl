@@ -468,23 +468,11 @@ seg-d997b6a5a416 = Warum Pro, noch mehr
 # text
 seg-4ff013b472ff = Welches Design sollen wir fliegen?
 
-# attr:aria-label
-seg-f4eb65b9b27a = Mondnavigations-Konstellation: wenigste Satelliten gegen Verfügbarkeit, gesamter Mond: { "608" } Designs ausgeführt, eine Pareto-Front aus { "12" } Designs
-
 # text
 seg-c8ce2e4a6687 = Wie sicher sind wir, und was bestimmt das Ergebnis?
 
-# attr:aria-label
-seg-049c503c23db = Uhr-Holdover mit unsicherem Rauschpegel: das 5. bis 95. Perzentil von { "2,000" } Läufen gegen die Grenze von { "20" } ns
-
 # text
 seg-3dd37275b448 = Erfüllt die Mission ihre Anforderungen, und können wir das übergeben?
-
-# text
-seg-7fbde256debf = nicht erreicht
-
-# text
-seg-f6ccb7a322b3 = offene Punkte
 
 # attr:title
 seg-813d6d41b891 = Den Befehl kopieren, der es reproduziert
@@ -1022,9 +1010,6 @@ seg-09d18cf767a7 = Offener Kern, Kshana Pro, individuelle Studie
 seg-302606971c35 = Kostenlos für alle. Pro, wenn die Antwort in einer Prüfung bestehen muss.
 
 # text
-seg-27c12083529b = Kshana Pro ist ein proprietäres Overlay, das vom offenen Kern abhängt und ihn nie forkt, erhältlich unter Vertrag. Keine Preise auf einer Webseite: Jeder kostenpflichtige Weg beginnt mit einer Nachricht an <a1>contact@ashforde.org</a1>.
-
-# text
 seg-43ceda17e71c = Offener Kern · kostenlos · AGPL-3.0
 
 # text
@@ -1038,18 +1023,6 @@ seg-f6406933eb77 = Die Engine installieren
 
 # text
 seg-6a74a165bfd0 = Kshana Pro · unter Vertrag
-
-# text
-seg-298532756f74 = Die Pareto-Front eines Entwurfsraums, wobei jeder Entwurf auf der Front ein Szenario ist, das die freie Engine erneut ausführt.
-
-# text
-seg-a699256db841 = Unsicherheit und Sensitivität über Tausende von Läufen.
-
-# text
-seg-665005551d84 = Ein Missionsdossier mit einem Befehl, mit einer Verifikationsmatrix und einer PDF-Datei (Portable Document Format).
-
-# text
-seg-455cb5040f80 = Revisionsfeste, reproduzierbare Nachweispakete; digitale Zwillinge von Uhren, kalibriert auf das veröffentlichte Allan-Budget Ihres Geräts; Architektur-Trade-Studien, gereiht nach einer Gütezahl; modellbasiertes Systems Engineering (MBSE) und Programmwerkzeuge.
 
 # text
 seg-3e30593288a1 = Was Pro enthält
@@ -1073,28 +1046,8 @@ seg-57320238c0f4 = Exportkontrollierte Arbeiten unter der passenden Sicherheitsf
 seg-e36049d768ce = Integration, Schulung und Beratung.
 
 # text
-seg-3303866fbf99 = Dieselbe Engine, verstärkt: reale Ausgabe von Kshana Pro
-
-# text
-# c1:
-seg-f5513a1750f1 = <a1><s1><c1/>Entwurfsoptimierer</s1></a1>
-
-# text
-seg-2bbc6243b4b1 = <b>{ "608" } Entwürfe</b>, alle ausgeführt: die Pareto-Front und ihr Knick
-
-# text
-# c1:
-seg-56e344605a3d = <a1><s1><c1/>Unsicherheit und Sensitivität</s1></a1>
-
-# text
-seg-a0b3c138f981 = <b>{ "2,000" } Läufe</b>: ein Konfidenzband gegen eine Grenze
-
-# text
 # c1:
 seg-6de95aaa8ba4 = <a1><s1><c1/>Missionsdossier</s1></a1>
-
-# text
-seg-905e5eef45e5 = <b>{ "12" } Anforderungen</b> gegen reale Läufe geprüft, PDF (Portable Document Format) mit 21 Seiten
 
 # text
 seg-7d9ee2bfbb90 = Finden Sie heraus, wo Ihre Zeitgebung bricht, bevor sie es tut.
@@ -1110,36 +1063,6 @@ seg-b366150de755 = Studie anfragen
 # text
 seg-6d3d0f8c9b7c = Pro-Evaluierung anfragen
 
-# text
-# c1: 
-seg-a92f77bd42cb = <s1>Kshana Pro</s1><c1/><s2>Dieselbe Engine, verstärkt: { "608" } Entwürfe, eine Pareto-Front</s2>
-
-seg-070972f642de = Ein Missionsstrang im Stil von Artemis: das Fehlerbudget für Navigation und Zeitgebung vom Start bis zum Wiedereintritt
-
-seg-4970f874d334 = Das Mondsegment: Rendezvous, Abstieg, Oberfläche und Aufstieg
-
-seg-8ca6e2046901 = Eine geschätzte Senderregion aus ADS-B- oder AIS-Meldungen
-
-seg-003a3b9b63ea = Gemessene Uhrenlogs und ein holdover, der von einer angepassten Reihe angetrieben wird
-
-seg-448b11c86f48 = Datenpartner: welche Zeilen gemessene Daten befördern könnten
-
-seg-5858e5d1f7c5 = Eine Nachweiskennzeichnung an jeder Zahl und Tabelle, die ein Lauf schreibt
-
-seg-bd28ef5c376e = Siebzehn Sprachen neben Englisch
-
-seg-7fae5de5ebf1 = kshana-bench: die Neukampagne { "0.40" }
-
-seg-b9961ed25282 = Neu in v{ $version }: ein Missionsstrang, eine Nachweiskennzeichnung an jeder Zahl und siebzehn Sprachen
-
 seg-579d9b6f7afd = Alle { "93" } Szenarioarten, kostenlos und ohne Funktionssperre, deterministisch aus Szenario, Seed und Engineversion.
 
 seg-56bf1281e330 = Eine aufgezeichnete Sitzung mit dem kshana-mcp-Server (Model Context Protocol, Engine v{ $version }): Der Assistent listet die { "53" } Werkzeuge auf, validiert <c1/> (gültig: erkannte Szenarioart `clock`) und führt es aus: scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity { "1.000" } security n/a (no attack).
-
-seg-237d8bd201d2 = <b>Kampagne:</b> Engine v{ $version }, Build <c1/> · <c2/> · Startwert { "20260928" }
-
-seg-98ebce268546 = <b>Bahnen:</b> Engine v{ $version }, Build <c1/> · <c2/> · deterministisch, kein Startwert
-
-seg-bb2975f5a7dd = Engine v{ $version }, Build <c1/> · <c2/> · Startwert { "20260928" }
-
-seg-ee04b167d80a = { "176" } von { "412" } Fähigkeiten stimmen mit unabhängigen externen Referenzen überein; die übrigen sind offen als modelliert gekennzeichnet.

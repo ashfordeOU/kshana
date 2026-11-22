@@ -325,50 +325,6 @@ seg-da82c97ac5c8 = Una constelación suministrada como TLE completos se propaga 
 seg-a47031620b54 = { "7" }. Enlaces
 
 # text
-# c1: python.rs
-# c2: wasm.rs
-# c3: --features python
-# c4: --features wasm
-# c5: cargo deny --all-features
-# c6: api::run_toml
-# c7: web/
-# c8: run
-# c9: run_all
-# c10: chart_svg
-# c11: summary
-# c12: table_csv
-# c13: list_kinds
-# c14: error_kind
-# c15: version
-# c16: encode_permalink
-# c17: decode_permalink
-# c18: export_sp3
-# c19: export_omm
-# c20: export_oem
-# c21: api
-# c22: mcp/kshana-mcp
-# c23: rmcp
-# c24: run_scenario
-# c25: list_scenario_kinds
-# c26: validate_scenario
-# c27: list_example_scenarios
-# c28: get_example_scenario
-# c29: report_scenario
-# c30: animate_scenario
-# c31: list_export_formats
-# c32: export_interop
-# c33: import_route
-# c34: export_sp3
-# c35: export_omm
-# c36: export_oem
-# c37: export_table_csv
-# c38: assess_receiver_log
-# c39: bundled-scenarios
-# c40: ide/jetbrains
-# c41: kshana
-seg-57fb29fdd9d9 = El núcleo se compila sin cambios a nativo, a una extensión de Python y a WebAssembly. Los módulos de Python (<c1/>, PyO3 abi3) y de WebAssembly (<c2/>, wasm-bindgen) son dependencias opcionales, controladas por funciones (<c3/> / <c4/>): la compilación por defecto y el conjunto de pruebas nunca las compilan, mientras que la puerta de auditoría de dependencias (<c5/>) sí inspecciona sus árboles de dependencias, porque esos crates se distribuyen dentro del wheel y del paquete npm. Ambos llaman a <c6/>, de modo que todas las superficies devuelven resultados idénticos. El módulo de WebAssembly respalda el área de pruebas del navegador en <c7/> y exporta trece funciones: <c8/>, <c9/> (una ejecución del motor que devuelve a la vez resultado, gráfico, resumen y tabla), <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, el códec de URL (URL: dirección web) compartible <c16/> / <c17/>, y los tres exportadores <c18/> / <c19/> / <c20/> que respaldan el menú de exportación del área de pruebas. Otras dos puertas de entrada llegan a la misma <c21/>: el <b>servidor MCP (Model Context Protocol)</b> (<c22/>, un crate <c23/> excluido del workspace que expone quince herramientas: <c24/>, <c25/>, <c26/>, <c27/>, <c28/>, <c29/>, <c30/>, <c31/>, <c32/>, <c33/>, <c34/>, <c35/>, <c36/>, <c37/>, <c38/>; las dos herramientas de ejemplo leen los escenarios incluidos mediante la función <c39/> de la biblioteca, desactivada por defecto, que solo este servidor activa) y el <b>complemento para el IDE (entorno de desarrollo integrado) de JetBrains</b> (<c40/>, un proyecto en Kotlin que invoca la CLI de <c41/> en lugar de enlazar la biblioteca).
-
-# text
 # c1: --features python
 # c2: --features wasm
 # c3: --features bundled-scenarios

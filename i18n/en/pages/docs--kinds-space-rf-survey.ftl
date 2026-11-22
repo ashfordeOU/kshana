@@ -19,9 +19,6 @@ seg-03a5ec2fd79e = Topic pages: <a1>TIP-AND-CUE</a1>. Run one: <c1/>. All famili
 seg-e4e2ee13862b = Contact sheet of the charts the engine writes for the kinds of the family Space RF survey
 
 # text
-seg-b03d56f501c3 = Kind
-
-# text
 seg-4e31c8daf798 = Ledger
 
 # text

@@ -244,6 +244,13 @@ seg-4f7a0b8b4358 = The epoch of <c1/> is the one the kind's run uses, and each f
 seg-ee8eeb47f41b = Satellites keep the positional identifiers <c1/>, <c2/>, ... the SP3 and OEM exports give them, because the propagators do not carry the TLE name lines.
 
 # text
+# c1: gnss-sim
+# c2: S01
+# c3: S02
+# c4: space_segment
+seg-834bc49108fb = A <c1/> scenario's GEO and IGSO slots (<a1>GNSS slots</a1>) follow its Walker shell as satellites <c2/>, <c3/>, ..., on the same epoch and times; each description names the slot set, the slot, its source and where its phase comes from. The test-bench export lists the same slots in the motion metadata (<c4/>), since a bench sets up the satellites the receiver is to see.
+
+# text
 seg-0491624c5f12 = Imports
 
 # text
@@ -360,6 +367,13 @@ seg-b8aa23f78f9e = <b>SPICE SPK</b> (<c1/>): writers and readers of NAIF SPK seg
 seg-bb97cbb1ab9f = The CCSDS OEM importer and writer, and the OEM covariance block, are older and are described under the imports above and in the matrix.
 
 # text
+seg-75bacf29672f = Observed tracks ({ "0.42" })
+
+# text
+# c1: kshana connect decode --to geojson|kml|czml
+seg-53b1473c286e = The exports above draw a scenario's geometry. The tracks of real vessels, aircraft and drones (AIS, ADS-B, ASTERIX, MAVLink, ULog, NMEA { "2000" }) go to GeoJSON, KML and CZML through <c1/>, every point with the trust attributes its report carried: see <a1>TRACKS.md</a1>.
+
+# text
 # c1: CentralBody Earth
 seg-8932eba75c68 = Only the kinds in the table below export geometry. Kinds whose geometry is centred on the Moon, Mars or another body are not exported: CZML, KML and GeoJSON describe positions about the Earth, and this release writes STK files with <c1/> only, although the STK format itself allows other central bodies.
 
@@ -391,9 +405,6 @@ seg-e024f5c1cab1 = What <c1/> does for each file in <c2/> (the suite manifest is
 
 # text
 seg-cae10fb9bff8 = Scenario
-
-# text
-seg-b03d56f501c3 = Kind
 
 # text
 seg-c27f67dfbb37 = no [{ "1" }]

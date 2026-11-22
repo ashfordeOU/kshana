@@ -3044,5 +3044,3 @@ seg-2630978c5675 = vérifié par rapport à sa propre identité analytique / en 
 seg-67fdcdfdb635 = interference_map::emitter (estimate, sessions, build_units, profile, GaussianFix::from_tdoa), interference_map::emitter_out (locate), <c1/>
 
 seg-920b26e226ab = tests unitaires d'interference_map::emitter (aller-retour de projection, valeur de l'horizon, allers-retours synthétiques direct et inverse : l'émetteur connu se trouve dans la région déclarée à peu près au taux déclaré, cas limites, regroupement en sessions, profil, confidentialité et formulation) ; cas locate de tests/interference_map_cli.rs
-
-seg-474381d842e6 = { "232" } capacités étiquetées MODELLED.

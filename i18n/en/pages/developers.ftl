@@ -49,7 +49,7 @@ seg-dd627f5fbd38 = <b>Container</b><s1>Docker image</s1>
 # text
 seg-ddf6febf53c1 = <b>JetBrains</b><s1>IDE plugin</s1>
 
-# attr:aria-label
+# attr:aria-label, text
 seg-daa2ac123c80 = Release
 
 # text
@@ -1720,14 +1720,23 @@ seg-cc49e9b6404e = Every run; MCP <c1/>
 seg-7994e9983f27 = Deterministic from scenario, seed and engine version
 
 # text
-seg-8844d0844559 = IntelliJ · PyCharm · CLion
+seg-ab8f17613a58 = Kshana Desktop and the JetBrains plugin
+
+# text
+seg-2e43ad4e4e65 = Ready to download
 
 # text
 seg-844c84c5252d = Prefer to click?
 
 # text
+seg-2283d8208893 = <b>Kshana Desktop</b> is Kshana Studio in a native window, with the engine running on your machine and files of any size read in blocks. Download it for macOS; nothing to build.
+
+# text
 # c1: .toml
-seg-6b24b242333a = The "Kshana — PNT simulator" plugin: right-click any scenario <c1/>, choose Run Kshana Scenario, and read the figures of merit in a tool window.
+seg-11da8c3c9345 = The <b>"Kshana — PNT simulator"</b> plugin for JetBrains IDEs: right-click any scenario <c1/>, choose Run Kshana Scenario, and read the figures of merit in a tool window. Install it from the Marketplace.
+
+# text
+seg-ece8bf6c802f = Download Kshana Desktop
 
 # text
 seg-65bab13d3eb4 = Open in JetBrains Marketplace
@@ -1736,7 +1745,7 @@ seg-65bab13d3eb4 = Open in JetBrains Marketplace
 seg-8b49f6477e8f = Open core
 
 # text
-seg-3a199156b86e = Every surface on this page is the free open core, under the AGPL-3.0 or a commercial licence for closed integration. Need it integrated into your toolchain, or a study done for you? <a1>Custom study</a1>. Evidence packs and calibrated models: <a2>Kshana Pro</a2>.
+seg-3c041ec36583 = Every surface on this page is the free open core, under the AGPL-3.0 or a commercial licence for closed integration. Need it integrated into your toolchain, or a study done for you? <a1>Custom study</a1>. Design exploration, mission dossiers and evidence for a review board: <a2>Kshana Pro</a2>.
 
 # attr:aria-label
 seg-c9844e6afd41 = Run the benchmark

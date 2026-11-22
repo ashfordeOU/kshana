@@ -2050,5 +2050,3 @@ seg-2630978c5675 = gecontroleerd tegen zijn eigen identiteit in gesloten vorm of
 seg-67fdcdfdb635 = interference_map::emitter (estimate, sessions, build_units, profile, GaussianFix::from_tdoa), interference_map::emitter_out (locate), <c1/>
 
 seg-920b26e226ab = unittests van interference_map::emitter (projectie-roundtrip, horizoncijfer, synthetische voorwaartse en inverse rondritten: de bekende zender ligt binnen het vermelde gebied met ongeveer het vermelde percentage, randgevallen, sessieclustering, profiel, privacy en formulering); tests/interference_map_cli.rs locate-gevallen
-
-seg-474381d842e6 = { "232" } mogelijkheden met het label MODELLED.

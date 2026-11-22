@@ -304,6 +304,57 @@ seg-bdbadd0ca1c1 = It is not yet a <c1/> reader, because the <c2/> schema has no
 seg-e8462989fd05 = A binary sensor is first decoded by a device file (<c1/>, <a1>DEVICES.md</a1>) into JSON Lines, which a mapping file then reads like any other JSON Lines export.
 
 # text
+# c1: kshana connect decode
+seg-78792dc7f3df = Tracks: AIS, ADS-B, ASTERIX, MAVLink, ULog, NMEA { "2000" } (<c1/>, { "0.42" })
+
+# text
+# c1: kshana connect decode <input> --format <f>
+# c2: .tlog
+# c3: kshana connect mavlink-udp
+# c4: .tlog
+# c5: reader = "mavlink-tlog"
+# c6: "ulog"
+# c7: "canboat"
+# c8: decode = "<format>"
+# c9: [options]
+# c10: day
+# c11: start
+# c12: radar
+# c13: to
+seg-cb24720fb918 = <c1/> reads vessel, aircraft and drone position reports (AIS from NMEA { "0183" }, canboat NMEA { "2000" } JSON, ASTERIX CAT010/021/048/062, Beast and AVR Mode S, OpenSky-style state vectors, MAVLink <c2/>, PX4 ULog) with their accuracy and integrity fields, and writes JSON Lines, the interference map's CSV files, or GeoJSON, KML and CZML tracks. <c3/> listens for MAVLink on a UDP port, read only. MAVLink <c4/>, ULog and canboat logs are also built-in readers for observation files (<c5/>, <c6/>, <c7/>). A conformance vector can name a track decoder instead of a mapping or a reader: <c8/>, with an <c9/> table (<c10/>, <c11/>, <c12/>, and <c13/> for the output form). See <a1>TRACKS.md</a1>.
+
+# text
+seg-a693195fac0d = Timing systems and receiver streams ({ "0.42" })
+
+# text
+# c1: pmc
+# c2: kshana connect timing|snmp|ntp
+# c3: reader = "sbp"
+# c4: "greis"
+# c5: "unicore"
+# c6: kshana connect decode rtcm3
+seg-afd3c1edf101 = PTP management (linuxptp <c1/>), SNMP polling of grandmasters, chrony and ntpd status, and NTP mode { "6" } are read by <c2/>: see <a1>TIMING-SYSTEMS.md</a1>. Swift SBP, Javad GREIS and Unicore N4 logs are built-in readers (<c3/>, <c4/>, <c5/>), and <c6/> prints RTCM { "3" } observations and station messages: see <a2>RECEIVER-PROTOCOLS.md</a2>.
+
+# text
+seg-cc49982a33a7 = Industrial control, ops outputs, mission control and simulators ({ "0.42" } wave { "2" })
+
+# text
+# c1: kshana connect modbus|dnp3|opcua
+seg-9e6c8188129a = <c1/> read Modbus TCP registers, DNP3 class { "0" } points and OPC UA values, read only: see <a1>INDUSTRIAL.md</a1>.
+
+# text
+# c1: kshana connect alert|snmp-trap|taxii
+seg-3e58848594d5 = <c1/> turn the trust stream into ServiceNow, PagerDuty, Opsgenie, Slack, Teams, Splunk HEC and Elastic payloads, SNMPv2c traps and STIX { "2.1" } objects for a TAXII { "2.1" } collection: see <a1>TRUST-TELEMETRY.md</a1>.
+
+# text
+# c1: kshana connect tm|tm-stream
+seg-d6645ea45e7a = <c1/> write the trust stream as CCSDS Space Packets with XTCE, OpenC3 COSMOS and Open MCT definitions: see <a1>SPACE-OPS-BRIDGES.md</a1>.
+
+# text
+# c1: kshana connect sim-motion|sdr-capture
+seg-30c64c2caf6f = <c1/> write gps-sdr-sim motion files and capture IQ through SoapySDR (optional feature): see <a1>SDR-SIMULATORS.md</a1>.
+
+# text
 seg-a6d0b8d580f5 = <s1>Previous</s1>Kshana Station
 
 # text
@@ -323,3 +374,6 @@ seg-bbad46253362 = Load test (kshana connect load-test)
 
 # text
 seg-d9a3379aaee5 = Live conformance kit (kshana connect check-live)
+
+# text
+seg-ca92fc72b899 = Tracks: AIS, ADS-B, ASTERIX, MAVLink, ULog, NMEA { "2000" } (kshana connect decode, { "0.42" })

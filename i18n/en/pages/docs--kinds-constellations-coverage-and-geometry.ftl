@@ -19,9 +19,6 @@ seg-d95cc2c1e798 = Topic pages: <a1>CONSTELLATION-DESIGN</a1>, <a2>COVERAGE</a2>
 seg-f044822c2fab = Contact sheet of the charts the engine writes for the kinds of the family Constellations, coverage and geometry
 
 # text
-seg-b03d56f501c3 = Kind
-
-# text
 seg-4e31c8daf798 = Ledger
 
 # text

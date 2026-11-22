@@ -5507,7 +5507,3 @@ seg-67fdcdfdb635 = interference_map::emitter (estimate, sessions, build_units, p
 
 # text
 seg-920b26e226ab = testes unitários de interference_map::emitter (ida e volta da projeção, figura do horizonte, ciclos diretos e inversos sintéticos: o emissor conhecido fica dentro da região declarada com cerca da taxa declarada, casos extremos, agrupamento de sessões, perfil, privacidade e formulação); casos de locate de tests/interference_map_cli.rs
-
-seg-db7a6ac0a47d = O registo de evidências completo, verificado por máquina: <b>{ "412" } linhas — { "176" } VALIDATED, { "232" } MODELLED, { "4" } PARTNER</b>. Uma linha só pode ser VALIDATED com uma referência independente externa (os testes de invariantes da matriz impõem isso). Os mesmos dados, com ligações clicáveis por linha para cada teste, módulo e ficheiro de teste versionado, são o <em>Registo de validação</em> em <a1>https://kshana.dev</a1>. Veja <a2>MODELLED-RATIONALE.md</a2> para saber por que cada linha modelada não é validada externamente.
-
-seg-1cc523709234 = { "412" } linhas: { "176" } validadas externamente, { "232" } modeladas, { "4" } pertencentes a parceiros.

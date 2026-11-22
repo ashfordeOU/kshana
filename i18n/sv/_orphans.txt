@@ -1226,3 +1226,1338 @@ seg-fbb78f11c0dc = av { "78" } validerade
 
 # tests/iq_campaign_monitors.rs: m1_power_test_false_alarm_rate_matches_the_closed_form ({ "73" } of { "5900" } blocks against the { "99" } % binomial interval [{ "40" }, { "80" }] of P_fa { "0.01" }), m2_sqm_false_alarm_fraction_is_within_a_factor_of_2_of_2q_k (delta { "0.0160" }, ratio { "0.0131" } against { "0.01" }), m4_cn0_false_alarms_stay_within_the_poisson_bound_of_arl0 ({ "0" } against { "0" }), the_monitors_table_parses_and_validates; m3_every_attenuation_is_detected_within_twice_the_arl1 (strict, ignored with the gap); iq::campaign::detect tests; iq::monitor::stats tests (gaussian_two_sided_tail_matches_known_values); tests/iq_campaign.rs (the pinned digests are unchanged without the table)
 seg-1663be50baf6 = tests/iq_campaign_monitors.rs: m1_power_test_false_alarm_rate_matches_the_closed_form ({ "73" } av { "5900" } block mot det binomiala intervallet på { "99" } % [{ "40" }, { "80" }] för P_fa { "0.01" }), m2_sqm_false_alarm_fraction_is_within_a_factor_of_2_of_2q_k (delta { "0.0160" }, kvot { "0.0131" } mot { "0.01" }), m4_cn0_false_alarms_stay_within_the_poisson_bound_of_arl0 ({ "0" } mot { "0" }), the_monitors_table_parses_and_validates; m3_every_attenuation_is_detected_within_twice_the_arl1 (strikt, ignorerat med gapet); iq::campaign::detect tests; iq::monitor::stats tests (gaussian_two_sided_tail_matches_known_values); tests/iq_campaign.rs (de fastlåsta sammandragen är oförändrade utan tabellen)
+
+# Marked where it builds on a capability: the design optimiser, uncertainty and sensitivity, the mission dossier, calibrated clock twins and ranked trade studies. <a1>What Pro adds</a1>
+seg-311e7a7d55dc = Markerat där det bygger på en förmåga: utformningsoptimeraren, osäkerhet och känslighet, uppdragsdossiern, kalibrerade klocktvillingar och rangordnade avvägningsstudier. <a1>Vad Pro tillför</a1>
+
+# Kshana Pro calibrates a <b>clock digital twin</b> to your device's published Allan budget, built on the <c1/> kind and the classes above. <a1>What Pro adds</a1>
+seg-0aa1e4562dac = Kshana Pro kalibrerar en <b>digital tvilling av klockan</b> mot din enhets publicerade Allan-budget, byggd på typen <c1/> och klasserna ovan. <a1>Vad Pro tillför</a1>
+
+# Kshana Pro calibrates a clock digital twin to a device's published Allan budget and checks it with the open engine's Allan-deviation estimator; a twin of your own device is built under contract. <a1>What Pro adds</a1>
+seg-b291c1ae1f5c = Kshana Pro kalibrerar en digital tvilling av klockan mot en enhets publicerade Allan-budget och kontrollerar den med den öppna motorns skattare för Allan-avvikelse; en tvilling av din egen enhet byggs på uppdrag. <a1>Vad Pro tillför</a1>
+
+# <b>With Pro:</b> the design optimiser returns the <b>Pareto front</b> of a whole constellation design space around the Earth, the Moon or Mars, each front design written out as a plain scenario file, and a <b>ranked trade study</b> compares architectures on a figure of merit. <a1>See a real front</a1>
+seg-e5f00e27b617 = <b>Med Pro:</b> utformningsoptimeraren ger <b>Pareto-fronten</b> för ett helt konstellationsdesignutrymme runt jorden, månen eller Mars, varje frontdesign utskriven som en vanlig scenariofil, och en <b>rangordnad avvägningsstudie</b> jämför arkitekturer på ett kvalitetsmått. <a1>Se en verklig front</a1>
+
+# <b>With Pro:</b> stated input uncertainties give <b>confidence bands</b>, the probability of meeting a limit and a ranking of the inputs that drive the result, over thousands of runs that can be stopped and resumed. <a1>See a real band</a1>
+seg-dd2809ea9a6a = <b>Med Pro:</b> angivna indataosäkerheter ger <b>konfidensband</b>, sannolikheten att klara en gräns och en rangordning av de indata som driver resultatet, över tusentals körningar som kan stoppas och återupptas. <a1>Se ett verkligt band</a1>
+
+# <b>Pro: calibrated clock twin</b> builds on <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>. <a1>See what it adds</a1>
+seg-ec1a22002e13 = <b>Pro: kalibrerad klocktvilling</b> bygger på <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>. <a1>Se vad den tillför</a1>
+
+# <b>Pro: ranked trade study</b> builds on <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>. <a1>See what it adds</a1>
+seg-cc88295c3e2e = <b>Pro: rangordnad avvägningsstudie</b> bygger på <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>. <a1>Se vad den tillför</a1>
+
+# <b>Pro: design optimiser</b> builds on <c1/>. <a1>See what it adds</a1>
+seg-8cec53de04c5 = <b>Pro: utformningsoptimerare</b> bygger på <c1/>. <a1>Se vad den tillför</a1>
+
+# <b>Pro: uncertainty and sensitivity</b> builds on <c1/>, <c2/>. <a1>See what it adds</a1>
+seg-4bdca619acb5 = <b>Pro: osäkerhet och känslighet</b> bygger på <c1/>, <c2/>. <a1>Se vad den tillför</a1>
+
+# <b>Pro: mission dossier</b> builds on <c1/>, <c2/>, <c3/>, <c4/>, <c5/>. <a1>See what it adds</a1>
+seg-35d8381e7605 = <b>Pro: uppdragsdossier</b> bygger på <c1/>, <c2/>, <c3/>, <c4/>, <c5/>. <a1>Se vad den tillför</a1>
+
+# <b>Pro: campaign watch</b> builds on <c1/>. <a1>See what it adds</a1>
+seg-08d3c155a74d = <b>Pro: kampanjbevakning</b> bygger på <c1/>. <a1>Se vad den tillför</a1>
+
+# (not in the old English either)
+seg-d5c6110302e9 = Ett uppdragsflöde i Artemis-klass, en evidensetikett på varje siffra och sjutton språk.
+
+# (not in the old English either)
+seg-8597c65432ed = Koppla ihop faserna i ett månuppdrag till en gemensam felbudget för navigering och tidssynkronisering, uppskatta var en källa till försämrade positionsrapporter kan finnas, läs in uppmätta klockloggar, se evidensnivån på varje siffra som en körning skriver, och använd kommandoraden, rapporterna och Studio på sjutton språk. Varje förmåga bär den etikett som registret har för den, och en etikett anger bara det som har kontrollerats. Rådgivande programvara, inte typgodkänd navigationsutrustning: operatören är fortsatt ansvarig.
+
+# (not in the old English either)
+seg-070972f642de = Ett uppdragsflöde i Artemis-klass: felbudgeten för navigering och tidssynkronisering från uppskjutning till återinträde
+
+# (not in the old English either)
+seg-982a4a7cf0db = Typen mission-thread kopplar ihop faser (uppskjutning och stigning, rendezvous i låg omloppsbana runt jorden, trans-lunar injektion och färd, månfaserna, återinträde) och för över kovariansen för position och hastighet från varje fas till nästa, med överlämningsreglerna, omvandlingarna av referenssystem och tidsskalor, marginalen mot angivna krav och den svagaste länken, alla skrivna som budgetrader.
+
+# (not in the old English either)
+seg-17c9cc6c2d40 = Kontrollerat: jämförelsen med Artemis I nådde inte sin tröskel ({ "45.3" } km mot { "5" } km); raden förblir MODELLED
+
+# (not in the old English either)
+seg-946487626f87 = Vyn för uppdragsflödet i Kshana Studio
+
+# (not in the old English either)
+seg-4970f874d334 = Månsegmentet: rendezvous, nedstigning, yta och stigning
+
+# (not in the old English either)
+seg-b6c35bf141e7 = Fyra scenariotyper, var och en också en fas i uppdragsflödet: relativ navigering till dockning i månbana, budgeten för landningsspridning vid en plats nära sydpolen, tillgänglighet för positionering och tidssynkronisering per plats och årstid, samt stigningen tillbaka till rendezvousbanan.
+
+# (not in the old English either)
+seg-ce097df855a9 = Kontrollerat: trösklar fastställda i förväg; en nådd, en inte nådd, ingen uppluckrad
+
+# (not in the old English either)
+seg-8ca6e2046901 = Ett uppskattat område för sändaren utifrån ADS-B- eller AIS-rapporter
+
+# (not in the old English either)
+seg-ca6383e426f9 = Var en källa till försämrade positionsrapporter kan finnas, som områden på { "50" }, { "90" } och { "95" } procent med en tyngdpunkt och dess osäkerhetsellips, aldrig en enskild punkt, samt sessioner i tid.
+
+# (not in the old English either)
+seg-27af464d0674 = Kontrollerat: fastställd i förväg; båda källorna kunde inte bedömas, så ingenting hävdas
+
+# (not in the old English either)
+seg-003a3b9b63ea = Uppmätta klockloggar och en holdover som styrs av en anpassad serie
+
+# (not in the old English either)
+seg-f51fa2a40db8 = Läs en uppmätt klocklogg i åtta format (RINEX clock, TimeLab, TICC, linuxptp, chrony) till en fasserie för typerna clock och telecom-timing, och anpassa bruset i en uppmätt serie för att styra en holdover.
+
+# (not in the old English either)
+seg-6e9140563c53 = Kontrollerat: trösklar fastställda i förväg; missar redovisade och fastlåsta
+
+# (not in the old English either)
+seg-448b11c86f48 = Datapartner: vilka rader uppmätta data kan lyfta
+
+# (not in the old English either)
+seg-56b0201d930c = Vilka modellerade registerrader uppmätta data från en partner kan lyfta, vilka format som accepteras, och hur ett bidrag kontrolleras, poängsätts mot en tröskel som fastställts i förväg och tillgodoräknas.
+
+# (not in the old English either)
+seg-5858e5d1f7c5 = En evidensetikett på varje siffra och tabell som en körning skriver
+
+# (not in the old English either)
+seg-d1c4250b2a7e = Varje resultatfil, diagram och tabell som en körning skriver anger nu vilken nivå den vilar på (validerad, modellerad eller partner, den svagaste av dess rader) och namnger de rader i verifieringsmatrisen som ligger bakom den, avlästa från matrisen och inte inskrivna.
+
+# (not in the old English either)
+seg-bd28ef5c376e = Sjutton språk vid sidan av engelska
+
+# (not in the old English either)
+seg-1e4a6a5931d3 = Kommandoraden, rapporterna, dokumentationssidorna och Studio finns på sjutton språk vid sidan av engelska.
+
+# (not in the old English either)
+seg-7fae5de5ebf1 = kshana-bench: omkampanjen { "0.40" }
+
+# (not in the old English either)
+seg-1e0afa852323 = Fyra jämförelser som fastställts i förväg kördes en gång efter godkännandet och nådde sina trösklar, och varje poäng är modellerad.
+
+# IntelliJ · PyCharm · CLion
+seg-8844d0844559 = IntelliJ · PyCharm · CLion
+
+# The "Kshana — PNT simulator" plugin: right-click any scenario <c1/>, choose Run Kshana Scenario, and read the figures of merit in a tool window.
+seg-6b24b242333a = Pluginet "Kshana — PNT simulator": högerklicka på ett valfritt scenario <c1/>, välj Run Kshana Scenario och läs kvalitetsmåtten i ett verktygsfönster.
+
+# Every surface on this page is the free open core, under the AGPL-3.0 or a commercial licence for closed integration. Need it integrated into your toolchain, or a study done for you? <a1>Custom study</a1>. Evidence packs and calibrated models: <a2>Kshana Pro</a2>.
+seg-3a199156b86e = Varje yta på den här sidan är den fria öppna kärnan, under AGPL-3.0 eller en kommersiell licens för sluten integration. Behöver du den integrerad i din verktygskedja, eller en studie gjord åt dig? <a1>Skräddarsydd studie</a1>. Bevispaket och kalibrerade modeller: <a2>Kshana Pro</a2>.
+
+# (not in the old English either)
+seg-51cd8d5f527b = En typ vars resultat inte bär någon av dessa former (en länkbudget, en geometri för en enda epok, en sammanfattning av enbart statistik från Monte Carlo, eller telecom-holdovern, vars resultat publicerar postens hash men inte posten) avvisas med <c1/>, och ingenting skrivs. Med kshana { $version } kan { "94" } av de { "193" } körbara scenariofilerna (alla filer utom en studiesvit) animeras och { "99" } avvisas. <c2/> skriver ut sammanställningen.
+
+# The core compiles unchanged to native, to a Python extension, and to WebAssembly. The Python (<c1/>, PyO3 abi3) and WebAssembly (<c2/>, wasm-bindgen) modules are optional, feature-gated dependencies (<c3/> / <c4/>): the default build and the test suite never compile them, while the dependency-audit gate (<c5/>) does inspect their dependency trees, because those crates ship inside the wheel and the npm package. Both call <c6/>, so every surface returns identical results. The WebAssembly module backs the browser playground in <c7/> and exports thirteen functions: <c8/>, <c9/> (one engine run returning result, chart, summary and table together), <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, the <c16/> / <c17/> shareable-URL (URL: web address) codec, and the three exporters <c18/> / <c19/> / <c20/> that back the playground's export menu. Two further front doors reach the same <c21/>: the <b>MCP (Model Context Protocol) server</b> (<c22/>, a workspace-excluded <c23/> crate exposing fifteen tools — <c24/>, <c25/>, <c26/>, <c27/>, <c28/>, <c29/>, <c30/>, <c31/>, <c32/>, <c33/>, <c34/>, <c35/>, <c36/>, <c37/>, <c38/>; the two example tools read the bundled scenarios through the library's off-by-default <c39/> feature, which only this server turns on) and the <b>JetBrains IDE (integrated development environment) plugin</b> (<c40/>, a Kotlin project that shells out to the <c41/> CLI rather than linking the library).
+seg-57fb29fdd9d9 = Kärnan kompileras oförändrad till inbyggd kod, till ett Python-tillägg och till WebAssembly. Modulerna för Python (<c1/>, PyO3 abi3) och WebAssembly (<c2/>, wasm-bindgen) är valfria beroenden som styrs av funktionsflaggor (<c3/> / <c4/>): standardbygget och testsviten kompilerar dem aldrig, medan beroendegranskningen (<c5/>) däremot inspekterar deras beroendeträd, eftersom dessa crates levereras inuti wheel-paketet och npm-paketet. Båda anropar <c6/>, så varje yta returnerar identiska resultat. WebAssembly-modulen ligger bakom webbläsarens lekplats i <c7/> och exporterar tretton funktioner: <c8/>, <c9/> (en motorkörning som returnerar resultat, diagram, sammanfattning och tabell tillsammans), <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, kodeken <c16/> / <c17/> för delbara webbadresser (URL: webbadress) och de tre exportfunktionerna <c18/> / <c19/> / <c20/> som ligger bakom lekplatsens exportmeny. Två ytterligare ingångar når samma <c21/>: <b>MCP-servern (Model Context Protocol)</b> (<c22/>, en <c23/>-crate utanför workspace som exponerar femton verktyg: <c24/>, <c25/>, <c26/>, <c27/>, <c28/>, <c29/>, <c30/>, <c31/>, <c32/>, <c33/>, <c34/>, <c35/>, <c36/>, <c37/>, <c38/>; de två exempelverktygen läser de medföljande scenarierna via bibliotekets funktion <c39/>, som är avstängd som standard och som bara den här servern slår på) och <b>JetBrains IDE-pluginet (integrerad utvecklingsmiljö)</b> (<c40/>, ett Kotlin-projekt som anropar CLI:t <c41/> i stället för att länka biblioteket).
+
+# (not in the old English either)
+seg-f289c471e860 = Uppdaterad 2026-10-29 för motor { $version } ({ "93" } scenariotyper, från <c1/>; nya i { $version }: <c2/>, <c3/>, <c4/>, <c5/> och <c6/>). 2026-10-22: motor { "0.39.0" }, { "87" } typer, ingen ny typ. 2026-10-19: motor { "0.38.0" }, { "87" } typer (nya i { "0.38.0" }: <c7/>, <c8/> och <c9/>). 2026-10-18: { "84" } typer (ny i { "0.37" }: <c10/>). 2026-10-16: { "83" } typer (nya i { "0.36" }: <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/> och <c18/>). 2026-10-10: motor { "0.35.0" }, { "75" } typer, ingen ny typ. 2026-10-09 och 2026-10-08: tidigare revisioner. 2026-10-04: raden Nav-signal noterar IQ-lagret { "0.31.0" }. 2026-09-29: rader för LEO-PNT, spektrum, PNT för solsystemet och valfri himlakropp, kampanj och utdata tillagda. Tidigare: i linje med den stora granskningen 2026-06-02 och dess kapabilitetsmatris med 27 rader; raden för PNT i djuprymd och på Mars tillagd i { "v0.17.0" }. Tillägg för kvant-PNT (GNSS-nekad klock-holdover <c19/>, sammansatt budget för kvanttröghets-dödräkning <c20/>, avvägning vid utformning av avståndskoder <c21/>, maskinkontrollerad verifieringsmatris <c22/>) infogade i raderna Tidssynkronisering, Kvant-PNT-sensor, Nav-signal och V&V, var och en märkt validerad eller modellerad efter sin faktiska oberoende referens.
+
+# (not in the old English either)
+seg-877f989ae75e = De { "61" } förmågekorten från <c1/>, därefter alla { "412" } rader i verifieringsmatrisen.
+
+# <b>JetBrains IDE plugin</b> (<c1/>). Right-click a scenario <c2/> → <b>Run Kshana Scenario</b>; figures of merit and result JSON stream into a Kshana tool window. Pure-platform Kotlin plugin, compatible with every JetBrains IDE { "2024.3" }+.
+seg-bd792f66363c = <b>JetBrains IDE-plugin</b> (<c1/>). Högerklicka på ett scenario <c2/> → <b>Run Kshana Scenario</b>; kvalitetsmått och resultat-JSON strömmas in i ett Kshana-verktygsfönster. Ett rent plattformsplugin i Kotlin, kompatibelt med varje JetBrains IDE { "2024.3" }+.
+
+# (not in the old English either)
+seg-0d4a740afedf = [{ $version }] - 2026-10-29
+
+# <b>LTC / TCL — Lunar Coordinate Time (Temps-Coordonnée Lunaire).</b> The proposed time scale for the Moon.
+seg-ea7eb1f34cae = <b>LTC / TCL, Lunar Coordinate Time (Temps-Coordonnée Lunaire).</b> Den föreslagna tidsskalan för månen.
+
+# <s1>JetBrains plugin</s1><s2>A native plugin that runs the Kshana PNT-resilience simulator from inside any JetBrains IDE (IntelliJ IDEA…</s2>
+seg-1c59d26e3faf = <s1>JetBrains-plugin</s1><s2>Ett inbyggt plugin som kör Kshanas PNT-resiliens-simulator inifrån vilken JetBrains-IDE som helst (IntelliJ IDEA…</s2>
+
+# (not in the old English either)
+seg-abe17fad0734 = <s1>Verifieringsmatris</s1><s2>Det fullständiga, maskinkontrollerade evidensregistret: { "412" } rader — { "176" } VALIDATED, { "232" } MODELLED, { "4" } PARTNER.</s2>
+
+# (not in the old English either)
+seg-7fd385494ae0 = <s1>Förmågereferens</s1><s2>Förmågekorten och alla { "412" } rader i verifieringsmatrisen.</s2>
+
+# Source: <c1/>
+seg-f8a0fe9968c4 = Källa: <c1/>
+
+# <a1><b>Kshana — PNT simulator</b> on the JetBrains Marketplace</a1> — or, in any JetBrains IDE, <em>Settings → Plugins → Marketplace → search "Kshana"</em>.
+seg-d7280bb554bf = <a1><b>Kshana — PNT simulator</b> på JetBrains Marketplace</a1> — eller, i valfri JetBrains IDE, <em>Settings → Plugins → Marketplace → sök efter "Kshana"</em>.
+
+# A native plugin that runs the <b>Kshana</b> PNT-resilience simulator from inside any JetBrains IDE (IntelliJ IDEA, CLion, RustRover, PyCharm, …). Right-click a scenario <c1/> → <b>Run Kshana Scenario</b>; the figures of merit and result JSON stream into the <b>Kshana</b> tool window.
+seg-959ab829762c = Ett inbyggt tillägg som kör PNT-resilienssimulatorn <b>Kshana</b> inifrån valfri JetBrains IDE (IntelliJ IDEA, CLion, RustRover, PyCharm, …). Högerklicka på ett scenario <c1/> → <b>Run Kshana Scenario</b>; kvalitetsmåtten och resultat-JSON strömmar in i verktygsfönstret <b>Kshana</b>.
+
+# Complements the <a1>MCP server</a1> (which gives JetBrains <em>AI Assistant</em> access to Kshana): this plugin is the <em>human</em>, point-and-click path.
+seg-594199d2ce06 = Kompletterar <a1>MCP-servern</a1> (som ger JetBrains <em>AI Assistant</em> åtkomst till Kshana): det här tillägget är den <em>mänskliga</em> peka-och-klicka-vägen.
+
+# <b>Run Kshana Scenario</b> action on any <c1/> (editor + project-view context menus) — runs <c2/> and shows the output in the Kshana tool window.
+seg-a356f2c30afb = Åtgärden <b>Run Kshana Scenario</b> på valfri <c1/> (snabbmenyer i editor och projektvy) — kör <c2/> och visar utdata i verktygsfönstret Kshana.
+
+# <b>Assess Receiver Trust</b> on a <c1/> scenario <c2/> (<c3/>): the trust timeline, with a 0-100 score and reasons for a vessel. Advisory software, not type-approved navigation equipment (IEC { "61108" }, IEC { "61162" }): the operator remains responsible for the navigation of the vessel.
+seg-116d04ae5538 = <b>Assess Receiver Trust</b> på ett <c1/>-scenario <c2/> (<c3/>): förtroendetidslinjen, med en poäng på 0-100 och skäl för ett fartyg. Rådgivande programvara, inte typgodkänd navigationsutrustning (IEC { "61108" }, IEC { "61162" }): operatören är fortsatt ansvarig för fartygets navigering.
+
+# <b>Generate Training NMEA</b> on a <c1/> <c2/> (<c3/>): synthetic bridge NMEA and an instructor log, written next to the scenario. Text only; for training, never for a vessel's live navigation systems.
+seg-726d88d0dea7 = <b>Generate Training NMEA</b> på ett <c1/> <c2/> (<c3/>): syntetisk brygg-NMEA och en instruktörslogg, skrivna bredvid scenariot. Endast text; för utbildning, aldrig för ett fartygs levande navigationssystem.
+
+# <b>Build Interference Map</b> on an ADS-B or AIS <c1/> (project view; asks which approved dataset it is) and <b>Route Exposure</b> on a route file (asks for the folder of maps). A degraded cell does not identify interference as the cause; not a forecast.
+seg-99510426a384 = <b>Build Interference Map</b> på en ADS-B- eller AIS-<c1/> (projektvy; frågar vilken av de tillåtna datamängderna det är) och <b>Route Exposure</b> på en ruttfil (frågar efter mappen med kartor). En degraderad cell identifierar inte störning som orsak; inte en prognos.
+
+# <b>Export Test-Bench Files</b> on a scenario <c1/> (<c2/>): vehicle motion, NMEA and labelled events for a laboratory GNSS simulator, written next to the scenario. It writes no signal; run a simulator only where authorised.
+seg-8c50e6aeb5e2 = <b>Export Test-Bench Files</b> på ett scenario <c1/> (<c2/>): fordonsrörelse, NMEA och märkta händelser för en GNSS-simulator i laboratorium, skrivna bredvid scenariot. Den skriver ingen signal; kör en simulator bara där det är tillåtet.
+
+# <b>Build Compliance Report</b> on a run result <c1/> (<c2/>) and <b>Tools → Show Compliance Mapping</b> (<c3/>): the public-framework mapping, shown with the engine's own statement word for word.
+seg-79c553c303c5 = <b>Build Compliance Report</b> på ett körningsresultat <c1/> (<c2/>) och <b>Tools → Show Compliance Mapping</b> (<c3/>): kopplingen till det offentliga ramverket, visad med motorns egen formulering ordagrant.
+
+# <b>Verify Evidence Pack</b> on an evidence-pack folder (project view; <c1/>): asks for the signer's public key ({ "64" } hex digits or a <c2/> file; always pinned, the plugin never accepts an unpinned signer) and optionally the full session log. Only a verified result reads as verified; an intact pack with an unpinned signer reads "NOT VERIFIED".
+seg-9b6ce5bbb523 = <b>Verify Evidence Pack</b> på en mapp med bevispaket (projektvy; <c1/>): frågar efter signerarens publika nyckel ({ "64" } hexadecimala siffror eller en <c2/>-fil; alltid fastlåst, tillägget godtar aldrig en signerare som inte är fastlåst) och eventuellt hela sessionsloggen. Bara ett verifierat resultat visas som verifierat; ett intakt paket med en signerare som inte är fastlåst visas som "NOT VERIFIED".
+
+# <b>Render Trust Telemetry</b> on a <c1/> result <c2/> (<c3/>): Prometheus text, CEF/LEEF syslog events or Home Assistant MQTT lines printed to the Kshana window. Nothing is sent or served; the running exporters stay on the command line.
+seg-253d5b7f94ce = <b>Render Trust Telemetry</b> på ett <c1/>-resultat <c2/> (<c3/>): Prometheus-text, CEF/LEEF-syslog-händelser eller Home Assistant MQTT-rader som skrivs ut i Kshana-fönstret. Inget skickas eller serveras; de exportörer som körs finns kvar på kommandoraden.
+
+# <b>Fit Sensor Parameters from IMU Log</b> on a stationary IMU <c1/> (<c2/>): the accelerometer and gyro parameters of the <c3/> and <c4/> scenarios fitted by Allan deviation, printed to the Kshana window as an <c5/> table. Nothing is written; the fit is MODELLED.
+seg-ce12ebcdccb5 = <b>Fit Sensor Parameters from IMU Log</b> på en stillastående IMU <c1/> (<c2/>): accelerometerns och gyrots parametrar för scenarierna <c3/> och <c4/> anpassade med Allan-deviation, utskrivna i Kshana-fönstret som en <c5/>-tabell. Inget skrivs; anpassningen är MODELLED.
+
+# <b>Validate Scenario</b> (<c1/>), <b>List Scenario Kinds</b> (Tools menu; <c2/>) and <b>Assess Receiver Stream</b> (a vessel session <c3/> plus a stored NMEA log you choose; <c4/>, scored once with no socket and no gate).
+seg-b81f27c51c22 = <b>Validate Scenario</b> (<c1/>), <b>List Scenario Kinds</b> (menyn Tools; <c2/>) och <b>Assess Receiver Stream</b> (en fartygssession <c3/> plus en lagrad NMEA-logg som du väljer; <c4/>, poängsatt en gång utan socket och utan spärr).
+
+# <b>Insert Example Scenario</b> (project view folder or Tools menu; <c1/>): pick a bundled scenario and it is written as a new <c2/> (never over a file). <b>Export Scenario</b> on a <c3/> (SP3, OMM, OEM, CZML, KML, GeoJSON, STK, SigMF; simulated output only), <b>Animate Scenario</b> (HTML or SVG, opened in the browser) and <b>Import Route</b> on a route <c4/> (asks which scenario).
+seg-38037d36639c = <b>Insert Example Scenario</b> (mapp i projektvyn eller menyn Tools; <c1/>): välj ett medföljande scenario så skrivs det som en ny <c2/> (aldrig över en fil). <b>Export Scenario</b> på en <c3/> (SP3, OMM, OEM, CZML, KML, GeoJSON, STK, SigMF; endast simulerade utdata), <b>Animate Scenario</b> (HTML eller SVG, öppnas i webbläsaren) och <b>Import Route</b> på en rutt <c4/> (frågar vilket scenario).
+
+# <b>Create Evidence Pack</b> on a receiver-trust session <c1/> (<c2/>): asks the window, a signing key file you already have, and the output folder. The plugin never makes, reads or stores a key (<c3/> stays on the command line). <b>Attach Timestamp</b> on a pack folder (<c4/>): Kshana does not check the timestamp authority's signature; run <c5/> yourself.
+seg-1f1b18f8e102 = <b>Create Evidence Pack</b> på en receiver-trust-session <c1/> (<c2/>): frågar efter fönstret, en signeringsnyckelfil som du redan har och utdatamappen. Tillägget skapar, läser eller lagrar aldrig en nyckel (<c3/> finns kvar på kommandoraden). <b>Attach Timestamp</b> på en paketmapp (<c4/>): Kshana kontrollerar inte tidsstämplingsmyndighetens signatur; kör <c5/> själv.
+
+# Still on the command line only: the IQ commands, <c1/> and <c2/>.
+seg-f4f6605d3db9 = Finns fortfarande bara på kommandoraden: IQ-kommandona, <c1/> och <c2/>.
+
+# A bottom <b>Kshana</b> tool window hosting the run console.
+seg-63efd04104f1 = Ett verktygsfönster <b>Kshana</b> längst ned som rymmer körkonsolen.
+
+# Not in the plugin: <c1/> (a long-running stream process with a gate and an optional TCP listener) and <c2/> stay on the command line, because an IDE action runs a command to completion and shows its output; see <c3/>.
+seg-decda07aa7eb = Finns inte i tillägget: <c1/> (en långkörande strömprocess med en spärr och en valfri TCP-lyssnare) och <c2/> finns kvar på kommandoraden, eftersom en IDE-åtgärd kör ett kommando till slut och visar dess utdata; se <c3/>.
+
+# <b>Settings → Tools → Kshana</b> to point at the <c1/> binary (blank → resolved from <c2/>; install with <c3/>).
+seg-9c185454d0c0 = <b>Settings → Tools → Kshana</b> för att peka ut binärfilen <c1/> (tomt → hittas via <c2/>; installera med <c3/>).
+
+# The plugin is pure-platform (no language-specific dependencies), so it loads in every JetBrains IDE on build { "243" } ({ "2024.3" }) and newer.
+seg-44dfdd65bd0a = Tillägget är rent plattformsbaserat (inga språkspecifika beroenden), så det laddas i varje JetBrains IDE med bygge { "243" } ({ "2024.3" }) och nyare.
+
+# Build & run
+seg-453bd42c23fa = Bygg och kör
+
+# Requires JDK { "17" }+ (the build pins JDK { "21" }) and the bundled Gradle wrapper.
+seg-b5328f8c7a8a = Kräver JDK { "17" }+ (bygget fäster JDK { "21" }) och den medföljande Gradle-wrappern.
+
+# <c1/> checks the since-build, { "2024.3" }, by default. To check other lines, list them as <c2/> (each IDE is a download of about { "1" } GB):
+seg-758124ceb1c7 = <c1/> kontrollerar since-build, { "2024.3" }, som standard. För att kontrollera andra versioner, lista dem som <c2/> (varje IDE är en nedladdning på cirka { "1" } GB):
+
+# The plugin uses no deprecated or scheduled-for-removal platform API on any of those; keep it that way (a choice dialog goes through <c1/>, not <c2/>).
+seg-15d175aaeb59 = Tillägget använder inget föråldrat plattforms-API eller något som är schemalagt för borttagning i någon av dem; behåll det så (en valdialog går via <c1/>, inte <c2/>).
+
+# Install the built zip via <b>Settings → Plugins → ⚙ → Install Plugin from Disk…</b>.
+seg-39cfd740d9b3 = Installera det byggda zip-arkivet via <b>Settings → Plugins → ⚙ → Install Plugin from Disk…</b>.
+
+# Layout
+seg-87aff08f344c = Layout
+
+# Isolation
+seg-73b3f55b7208 = Isolering
+
+# Like <c1/> and <c2/>, this is a standalone Gradle project, excluded from the published <c3/> crate (<c4/> in the package <c5/>); its build output is gitignored.
+seg-a14db8de576a = Liksom <c1/> och <c2/> är det här ett fristående Gradle-projekt, undantaget från den publicerade craten <c3/> (<c4/> i paketets <c5/>); dess byggutdata ignoreras av git.
+
+# License: AGPL-3.0-only (or a commercial licence from Ashforde OÜ — see the repository's <c1/>).
+seg-b38914a430b9 = Licens: AGPL-3.0-only (eller en kommersiell licens från Ashforde OÜ — se förvarets <c1/>).
+
+# One run of <c1/> summarises as: lunar-interop-export | REF_FRAME MOON_ME / TIME_SYSTEM LTC | { "9" } states, OEM { "23" } lines | conformance PASS ({ "9" } present / { "0" } missing) | OEM round-trip ok | time-meta round-trip ok | KIF { "1640" } bytes | MODELLED
+seg-1726861e444f = En körning av <c1/> sammanfattas som: lunar-interop-export | REF_FRAME MOON_ME / TIME_SYSTEM LTC | { "9" } tillstånd, OEM { "23" } rader | formatkontroll PASS ({ "9" } närvarande / { "0" } saknade) | OEM tur-och-retur ok | tidsmetadata tur-och-retur ok | KIF { "1640" } bytes | MODELLED
+
+# Optional fields: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>
+seg-f8353e15aabd = Valfria fält: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>
+
+# LTC
+seg-3f36bd2ec5ea = LTC
+
+# WHAT src/lunar_interop.rs does: * export_lunar_oem — REUSES the crate's CCSDS OEM { "2.0" } emitter (crate::oem), re-tagged for the lunar context: REF_FRAME = the IAU { "2015" } WGCCRE lunar body frame (MOON_ME / MOON_PA), TIME_SYSTEM = the lunar time scale (LTC / TCL / UTC), CENTER_NAME = MOON, over a sample ILLUSTRATIVE LCNS-class ephemeris (positions from crate::lunar_service, velocity by central finite difference). * export_ (scenario file comment, lines { "6" } to { "19" })
+seg-11d0ccba5ee7 = VAD src/lunar_interop.rs gör: * export_lunar_oem — ÅTERANVÄNDER cratens CCSDS OEM-sändare { "2.0" } (crate::oem), omtaggad för lunart sammanhang: REF_FRAME = IAU { "2015" } WGCCRE:s lunara kroppsfasta referenssystem (MOON_ME / MOON_PA), TIME_SYSTEM = den lunara tidsskalan (LTC / TCL / UTC), CENTER_NAME = MOON, över en exempelefemerid av ILLUSTRATIVE LCNS-klass (positioner från crate::lunar_service, hastighet med central finit differens). * export_ (kommentar i scenariofilen, rad { "6" } till { "19" })
+
+# HONESTY: MODELLED. The field NAMES and units are aligned with PUBLIC standards (CCSDS 502.0-B OEM, IAU WGCCRE { "2015" } lunar frames, LunaNet Interoperability Specification / IOAG lunar architecture). The deterministic round-trip and the field-name conformance are the oracle. This is NOT a certified interoperability conformance test. The ephemeris is illustrative, public-source, NOT affiliated with ESA, and implies no TRL (scenario file comment, lines { "21" } to { "26" })
+seg-f730e8f789cf = ÄRLIGHET: MODELLED. FältNAMNEN och enheterna är i linje med PUBLIC standarder (CCSDS 502.0-B OEM, IAU WGCCRE { "2015" } lunara referenssystem, LunaNet Interoperability Specification / IOAG:s lunara arkitektur). Den deterministiska tur-och-retur-kontrollen och formatkontrollen av fältnamn är den oberoende referensen. Detta är INTE ett certifierat interoperabilitetstest. Efemeriden är illustrativ, från offentliga källor, INTE knuten till ESA och innebär inget TRL (kommentar i scenariofilen, rad { "21" } till { "26" })
+
+# Required fields: none. Optional: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>.
+seg-720d0bbeaf6e = Obligatoriska fält: inga. Valfria: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>.
+
+# Where: <c1/> (Settings, Developer, Edit Config). Or double-click the <c2/> extension from the release: no config file.
+seg-439fac4928a0 = Var: <c1/> (Inställningar, Utvecklare, Redigera konfiguration). Eller dubbelklicka på tillägget <c2/> från utgåvan: ingen konfigurationsfil.
+
+# (not in the old English either)
+seg-4ccbbc19fe86 = <b>npx (Node)</b> (kräver Node { "18" }+): <c1/>
+
+# (not in the old English either)
+seg-77230eb344ea = <b>Docker</b> (kräver Docker): <c1/>
+
+# (not in the old English either)
+seg-3398eea8e332 = Cursor, npx (Node): <a1>webblänk</a1> · <c1/>
+
+# (not in the old English either)
+seg-67009baafb3b = Cursor, Docker: <a1>webblänk</a1> · <c1/>
+
+# (not in the old English either)
+seg-6918cd89f776 = Goose, npx: <c1/>
+
+# Assess a real GNSS (global navigation satellite system) receiver log for trust. The TOML names the log's <c1/> (<c2/>, <c3/>, <c4/>, <c5/> or <c6/>) and gives its bytes inline as <c7/> or <c8/>; the tool runs the trust monitors (carrier-to-noise density drop, loss of lock, AGC (automatic gain control), jamming indicator, position jump and, with RINEX plus broadcast navigation, RAIM (receiver autonomous integrity monitoring) and a clock-aided monitor) and returns when and why the fix stopped being trustworthy. Optional <c9/> and <c10/> sections score stated events and predicted C/N0 drops against stated tolerances. A <c11/> table selects the maritime monitors and adds a 0-100 trust score per epoch with the monitors that deducted (advisory; MODELLED). The log goes inline as <c12/> or <c13/> (at most { "4" } MiB). Chart and per-epoch CSV on request. See <a1><c14/></a1>.
+seg-d6ed4e8d56e5 = Bedöm förtroendet för en verklig GNSS-mottagarlogg (global navigation satellite system). TOML anger loggens <c1/> (<c2/>, <c3/>, <c4/>, <c5/> eller <c6/>) och ger dess byte inbäddade som <c7/> eller <c8/>; verktyget kör förtroendeövervakarna (fall i bärvåg-brus-täthet, förlust av låsning, AGC (automatisk förstärkningsreglering), störningsindikator, positionssprång och, med RINEX plus sändningsnavigering, RAIM (receiver autonomous integrity monitoring) och en klockstödd övervakare) och returnerar när och varför positionsbestämningen slutade vara pålitlig. Valfria sektioner <c9/> och <c10/> poängsätter angivna händelser och förutsagda C/N0-fall mot angivna toleranser. En tabell <c11/> väljer de maritima övervakarna och lägger till en förtroendepoäng på 0-100 per epok med de övervakare som drog av (rådgivande; MODELLED). Loggen ges inbäddad som <c12/> eller <c13/> (högst { "4" } MiB). Diagram och CSV per epok på begäran. Se <a1><c14/></a1>.
+
+# <c1/> puts <c2/> on your <c3/> (typically <c4/>). The server talks JSON-RPC (JSON remote procedure call) over stdio; logs go to stderr. Building from source needs a Rust toolchain ≥ { "1.88" } (the patched <c5/> { "2" }.x SDK needs it, and so does the <c6/> library); the Docker image needs none.
+seg-a4a0e399a31e = <c1/> lägger <c2/> på din <c3/> (vanligen <c4/>). Servern talar JSON-RPC (JSON remote procedure call) över stdio; loggar går till stderr. Att bygga från källkod kräver en Rust-verktygskedja ≥ { "1.88" } (den lagade SDK:n <c5/> { "2" }.x kräver det, och det gör även biblioteket <c6/>); Docker-avbilden behöver ingen.
+
+# The server is a <b>standalone, workspace-excluded crate</b> with its own <c1/>, so the official Rust MCP SDK (software development kit) <c2/> and its async runtime never enter the published <c3/> crate's dependency graph: a library or Python user does not compile a server they do not run. (It was first split out because <c4/> is <b>edition { "2024" }</b>, needing rustc ≥ { "1.85" }, while the main crate then promised { "1.75" }. The library and this server now both declare { "1.88" }, the floor of the security-patched <c5/> { "2" }.x and of the upgraded RustCrypto crates.) Continuous integration (CI) gates this crate on its own — tests and <c6/> against its lockfile. rmcp's licence tree is clean (Apache-2.0/MIT/BSD), so, unlike the <c7/> cross-validation crate it otherwise mirrors, the split is not about licensing.
+seg-0757e15070d4 = Servern är en <b>fristående crate utanför arbetsytan</b> med egen <c1/>, så att den officiella Rust-MCP-SDK:n (software development kit) <c2/> och dess asynkrona körmiljö aldrig hamnar i beroendegrafen för den publicerade crate:n <c3/>: en biblioteks- eller Python-användare kompilerar inte en server de inte kör. (Den delades först ut eftersom <c4/> är <b>edition { "2024" }</b> och kräver rustc ≥ { "1.85" }, medan huvudcrate:n då lovade { "1.75" }. Biblioteket och den här servern deklarerar nu båda { "1.88" }, golvet för den säkerhetslagade <c5/> { "2" }.x och för de uppgraderade RustCrypto-crate:ena.) Kontinuerlig integration (CI) styr den här crate:n för sig — tester och <c6/> mot dess låsfil. rmcp:s licensträd är rent (Apache-2.0/MIT/BSD), så, till skillnad från korsvalideringscrate:n <c7/> som den i övrigt speglar, handlar uppdelningen inte om licensiering.
+
+# (not in the old English either)
+seg-474381d842e6 = { "232" } förmågor märkta MODELLED.
+
+# (not in the old English either)
+seg-fd6daa52df11 = { "176" } av { "412" } förmågor validerade mot oberoende externa referenser
+
+# (not in the old English either)
+seg-4a3ebec6d011 = <b>{ "176" } av { "412" }</b> förmågor validerade mot oberoende externa referenser; { "232" } ärligt märkta som modellerade, { "4" } ägda av partner. Varje förmåga bär en etikett i ett maskinkontrollerat register: VALIDATED (en oberoende extern referens stämmer: verkliga data, en oberoende implementation eller publicerade referensvektorer), MODELLED (internt konsistent, och sagt högt) eller PARTNER (en hårdvarupartner äger den). Bland kontrollerna: alla { "666" } SGP4-vektorer (Simplified General Perturbations { "4" }) från AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 till { "4.12" } mm, och Cowell-kraftmodellen till { "0.08" } m mot Orekit { "12.2" }.
+
+# (not in the old English either)
+seg-d69651a71fbe = Hur en förmåga förtjänar sin etikett: förmåga, oberoende referens, test, registeretikett. Verifieringsstatusen för alla { "412" } förmågor: { "176" } validerade, { "232" } modellerade, { "4" } ägda av partner
+
+# Conformance is checked by <c1/>, which is opt-in: it reads a copy of the official test-vector archive that you download yourself, from the directory named by <c2/>, and does nothing when the variable is unset. It stores and redistributes nothing, and default test runs use no network. It gives the verifier only a Merkle root and the public keys of one tree, as a receiver would have, so chains are established from the signed DSM-KROOT in the stream and the whole path runs: Merkle, signature, key chain, MACSEQ and tags. It asserts, per vector set, a floor on the authenticated tags, none failed, which chains and keys the stream announces, authenticated tags of ADKD { "0" }, { "4" } and { "12" }, that authentication resumes after chain end, chain revocation, key revocation and new public key, that the alert message verifies and leaves nothing authenticated, and that every vector uses only HMAC-SHA-256, a SHA-256 chain, 128-bit keys, 40-bit tags and look-up entries { "33" } and { "34" }. Other algorithm and parameter choices of the ICD are therefore covered only by the known-answer and synthetic tests above.
+seg-82ee90adf7ed = Kontrollen mot de officiella vektorerna görs av <c1/>, som är opt-in: den läser en kopia av det officiella testvektorarkivet som du själv laddar ner, från katalogen som anges av <c2/>, och gör ingenting när variabeln inte är satt. Den lagrar och vidaredistribuerar ingenting, och standardtestkörningar använder inget nätverk. Den ger verifieraren bara en Merkle-rot och de publika nycklarna för ett träd, som en mottagare skulle ha, så kedjor upprättas från det signerade DSM-KROOT i strömmen och hela vägen körs: Merkle, signatur, nyckelkedja, MACSEQ och taggar. Den hävdar, per vektoruppsättning, en nedre gräns för de autentiserade taggarna, att ingen misslyckades, vilka kedjor och nycklar strömmen tillkännager, autentiserade taggar av ADKD { "0" }, { "4" } och { "12" }, att autentisering återupptas efter kedjeslut, kedjeåterkallelse, nyckelåterkallelse och ny publik nyckel, att varningsmeddelandet verifieras och inte lämnar något autentiserat, och att varje vektor bara använder HMAC-SHA-256, en SHA-256-kedja, 128-bitarsnycklar, 40-bitarstaggar och uppslagsposterna { "33" } och { "34" }. Andra algoritm- och parameterval i ICD täcks därför bara av known-answer-testerna och de syntetiska testerna ovan.
+
+# Two standalone, <b>workspace-excluded</b> crates sit beside the core — <c1/> (the MCP server, built on the edition-2024 <c2/> SDK) and <c3/> (the ANISE/SPICE frame cross-check, which pulls MPL-2.0 (Mozilla Public License { "2.0" }) deps) — kept out of the published crate's dependency graph, <c4/>, license gate, and MSRV (minimum supported Rust version) build by the root <c5/> <c6/> list. The JetBrains plugin (<c7/>) is a separate Kotlin project. See <a1><c8/></a1> for the full set of diagrams.
+seg-698b8f40212f = Två fristående crates som är <b>undantagna från workspace</b> ligger bredvid kärnan: <c1/> (MCP-servern, byggd på SDK:n <c2/> för edition 2024) och <c3/> (korskontrollen av ramar med ANISE/SPICE, som drar in beroenden under MPL-2.0, Mozilla Public License { "2.0" }). De hålls utanför den publicerade cratens beroendegraf, <c4/>, licensspärren och bygget för MSRV (lägsta Rust-version som stöds) genom listan <c6/> i rotens <c5/>. JetBrains-insticksprogrammet (<c7/>) är ett separat Kotlin-projekt. Se <a1><c8/></a1> för hela uppsättningen diagram.
+
+# <b>No new physics.</b> Pro adds no physical model and changes none. Every Pro number comes from runs of the open engine, so a Pro figure is as trustworthy as the open scenario kind it came from, and never more.
+seg-feece95f1d76 = <b>Ingen ny fysik.</b> Pro tillför ingen fysikalisk modell och ändrar ingen. Varje tal i Pro kommer från körningar av den öppna motorn, så ett tal i Pro är precis lika tillförlitligt som den öppna scenariotyp det kom från, och aldrig mer.
+
+# (not in the old English either)
+seg-20beca58d39e = <a1>Lägg till i Cursor (npx)</a1> · <a2>Lägg till i Cursor (Docker)</a2> · <c1/>
+
+# (not in the old English either)
+seg-aa6b62f0b484 = <a1>Installera i VS Code (npx)</a1> · <a2>Installera i VS Code (Docker)</a2> · <c1/>
+
+# (not in the old English either)
+seg-8e176aa32cd3 = MCP är Model Context Protocol. Lås en utgåva med <c1/>, <c2/> eller <c3/>. För att bygga från källkod, se <a1>Installera och bygga</a1> under Referens.
+
+# (not in the old English either)
+seg-467bb88ec415 = <a1>Nyheter i { "0.40" }</a1>, <a2>Nyheter i { "0.39" }</a2>, <a3>Nyheter i { "0.38" }</a3> och <a4>{ "0.38" } på djupet</a4>: jammertest-poängsättning, mottagarens egna flaggor, maskinindata, tidssynkronisering och holdover, standardpaket, LunaNet AFS, labbrundturen, kshana-bench, observatoriet, exportörer, optik, <a5>navigering för rymdanvändare</a5> och <a6>månens infrastruktur</a6>
+
+# (not in the old English either)
+seg-8391e467adf7 = <b>Uppdragsflöde.</b> Typen <c1/> kopplar ihop faser från uppskjutning till återinträde (<c2/>, <c3/>, <c4/>, <c5/> och fyra månetyper) med angivna överlämningsregler, en marginal mot angivna krav och den svagaste länken; ett helt Artemis-klassexempel över { "11" } faser (jord- och månsegment), { "93" } scenariotyper totalt. Varje tal är MODELLED. Propageringen i cislunart rum mot den offentliga banan för Artemis I <b>missar</b> sin förhandsregistrerade tröskel ({ "45.3" } km och { "0.25" } m/s mot { "5" } km och { "0.05" } m/s; orsaken är små manövrar som modellen inte innehåller), och månens propagator mot CAPSTONE-banan <b>missar</b> ({ "136.8" } km mot { "25" } km vid slutet av ett varv); jämförelsen med LRO nås. Raderna förblir MODELLED (<a1>Uppdragsflöde</a1>, <a2>månsegmentet</a2>). I Studio läses flödet på <c6/>.
+
+# See <c1/> for at least one worked example of every kind ({ "93" } kinds, { "195" } scenario <c2/> files + { "1" } suite manifest — several kinds ship more than one example). Not every kind has a file named after it: <c3/> → <c4/> and <c5/> → <c6/> are two of several such. List the dispatchable kinds at any time with <c7/> errors, the Python <c8/>, or the MCP <c9/> tool.
+seg-5374f780c396 = Se <c1/> för minst ett genomarbetat exempel för varje typ ({ "93" } typer, { "195" } scenariofiler med <c2/> + { "1" } svitmanifest — flera typer levereras med mer än ett exempel). Inte varje typ har en fil uppkallad efter sig: <c3/> → <c4/> och <c5/> → <c6/> är två av flera sådana. Lista de typer som går att anropa när som helst med <c7/> fel, Python <c8/> eller MCP-verktyget <c9/>.
+
+# (not in the old English either)
+seg-0933cb091687 = { "176" } av { "412" } förmågor VALIDATED mot en oberoende extern referens, ur verifieringsmatrisen
+
+# (not in the old English either)
+seg-d9cccff82185 = { "0.40" } lägger till en felbudget på uppdragsnivå, märker varje siffra och tabell med sin evidensnivå, läser uppmätta klockloggar, kontrollerar bidrag från datapartner, uppskattar var en störsändare kan finnas och talar sjutton språk vid sidan av engelska. Registret har nu { "412" } rader: { "176" } VALIDATED, { "232" } MODELLED, { "4" } PARTNER. Ingen rad lyftes till VALIDATED, och varje miss nedan är fastlåst av ett test.
+
+# (not in the old English either)
+seg-93dcede29907 = <b>{ "176" } av { "412" }</b> förmågor validerade mot oberoende externa referenser; { "232" } ärligt märkta som modellerade. Varje rad i verifieringsmatrisen namnger en förmåga, den oberoende referens den kontrolleras mot, testet som kör kontrollen och etiketten som följer. Kontinuerlig integration (CI) gör det omöjligt att kalla en förmåga VALIDATED utan en oberoende extern referens.
+
+# (not in the old English either)
+seg-99d2c21b1f60 = Hur en förmåga förtjänar sin etikett. Varje rad i verifieringsmatrisen namnger en förmåga, den oberoende referens den kontrolleras mot, testet som kör kontrollen i kontinuerlig integration och etiketten som följer. En rad får vara VALIDATED bara med en oberoende extern referens; annars är den MODELLED, eller PARTNER när en hårdvarupartner äger den. Exempel: SGP4/SDP4, Cowell 6-DOF + störningar, batch-/sekventiell banbestämning, oberoende referens AIAA 2006-6753 SGP4-verifieringsvektorer, test tests/sgp4_verification.rs, etikett VALIDATED. Aktuella antal: { "176" } VALIDATED, { "232" } MODELLED, { "4" } PARTNER av { "412" } rader. Sammanlagt { "176" } förmågor validerade mot oberoende externa referenser; { "232" } till är ärligt märkta MODELLED och { "4" } ägs av PARTNER.
+
+# (not in the old English either)
+seg-7f933400c73d = Några av kontrollerna: alla { "666" } vektorer för AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 SGP4 (Simplified General Perturbations { "4" }) till { "4.12" } mm; Cowell-kraftmodellen till { "0.08" } m mot Orekit { "12.2" }; Galileo till { "0.61" } m och Swarm-A till { "0.10" } m mot verkliga precisa efemerider från Europeiska rymdorganisationen (ESA). Testerna håller nära { "95" } % radtäckning av <c1/>, med spärr vid { "85" } % i CI. Registret är <a1><c2/></a1>, genererat från <c3/>: den <a2>fullständiga matrisen med 412 rader</a2>, och varför varje modellerad rad saknar extern oberoende referens i <a3><c4/></a3>.
+
+# (not in the old English either)
+seg-df9b60a7dfe8 = Varje rad upprätthålls av ett namngivet test i CI. Den här tabellen är ett <b>kuraterat urval</b>; den fullständiga maskinkontrollerade matrisen är <b>{ "412" } rader — { "176" } VALIDATED, { "232" } MODELLED, { "4" } PARTNER</b> (<c1/>), med den fullständiga evidensen (och vad som ärligt talat <em>inte</em> ännu är validerat) i <a1><c2/></a1> och artefakten <a2><c3/></a2> för varje utgåva (genererad av <c4/>, SLSA-attesterad — Supply-chain Levels for Software Artifacts).
+
+# (not in the old English either)
+seg-d1700188b2cf = Hur en förmåga förtjänar sin etikett: Krav kopplas till en modul i src, till ett test i tests, till en extern oberoende referens (verklig datamängd, oberoende referensimplementation eller publicerade vektorer), till en status — med ett skydd i CI som säkerställer att ingen förmåga kan vara validerad utan en extern oberoende referens. Aktuella antal: { "176" } validerade, { "232" } modellerade, { "4" } ägda av partner, { "412" } totalt
+
+# (not in the old English either)
+seg-903f40bceba8 = Verifieringsstatus för alla { "412" } förmågor: { "176" } validerade (kontrollerade mot en extern oberoende referens), { "232" } modellerade, { "4" } ägda av partner
+
+# (not in the old English either)
+seg-9bfd6ba56a18 = { "176" } validerade · { "232" } modellerade · { "4" } ägda av partner — <a1>SVG</a1>
+
+# (not in the old English either)
+seg-74c21b004d86 = Kshanas arkitektur: en öppen motor i mitten, kshana { $version } under AGPL-3.0, med api::run_toml, ett typat anrop över varje typ, och verifieringsregistret med { "412" } förmågor ({ "176" } VALIDATED, { "232" } MODELLED, { "4" } PARTNER). Runt den kör varje yta samma motor: Kommandorad (cargo install kshana); Rust-bibliotek (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); MCP-server (cargo install kshana-mcp); Docker-avbild (ghcr.io/ashfordeou/kshana-mcp); JetBrains-plugin (Marketplace: "Kshana"). Under den Kshana Pro, ett proprietärt överlägg som beror på den öppna motorn som ett bibliotek och aldrig förgrenar den, och inte lägger till någon fysikalisk modell.
+
+# (not in the old English either)
+seg-e6c6926110e6 = Kshanas arkitektur i lager. Fem ingångar (kommandoraden, Python, JavaScript och WebAssembly, MCP-servern och JetBrains-pluginet) når ett enda api::run_toml, ett typat anrop över { "93" } typer. Under det finns åtta domänlager: tid och referenssystem, klockor och tidssynkronisering, tröghet och fusion, GNSS och integritet, astrodynamik, PNT i låg omloppsbana (LEO), månen, Mars och djuprymd, samt uppdrag och studier, på en gemensam kärna, alla korsrefererade av verifieringsmodulen, den maskinkontrollerade matrisen med { "412" } förmågor som är den enda källan till sanning för varje etikett.
+
+# Earth-fixed (ECEF) position + clock time series. Round-trip validated to < { "0.5" } m on a real <c1/> snapshot (<a1><c2/></a1>).
+seg-8d1089fbd59d = Jordfast (ECEF) position + klocktidsserie. Rundtur validerad till < { "0.5" } m på en verklig ögonblicksbild av <c1/> (<a1><c2/></a1>).
+
+# <c1/> / <c2/> / <c3/> — the frame the propagators integrate in and the time scale of the epoch grid, not relabelled
+seg-4b338284e56a = <c1/> / <c2/> / <c3/> — det system som propagatorerna integrerar i och tidsskalan för epokrastret, inte omdöpt
+
+# ISO-8601 (ISO: International Organization for Standardization) calendar time, GPS time scale
+seg-410bd5a9ba14 = ISO-8601 (ISO: International Organization for Standardization) kalendertid, GPS-tidsskala
+
+# (not in the old English either)
+seg-db7a6ac0a47d = Det fullständiga, maskinkontrollerade evidensregistret: <b>{ "412" } rader — { "176" } VALIDATED, { "232" } MODELLED, { "4" } PARTNER</b>. En rad får vara VALIDATED bara med en oberoende extern referens (matrisens invarianttester upprätthåller detta). Samma data, med klickbara länkar per rad till varje test, modul och incheckad fixtur, är <em>Valideringsregistret</em> på <a1>https://kshana.dev</a1>. Se <a2>MODELLED-RATIONALE.md</a2> för varför varje modellerad rad inte är externt validerad.
+
+# (not in the old English either)
+seg-1cc523709234 = { "412" } rader: { "176" } externt validerade, { "232" } modellerade, { "4" } ägda av partner.
+
+# Kshana Pro, amplified
+seg-2fdbe97136e7 = Kshana Pro, förstärkt
+
+# A proprietary overlay that depends on the open core and never forks it: a strict superset of open Kshana. Available under contract.
+seg-4b5028704ea5 = Ett proprietärt överlägg som bygger på den öppna kärnan och aldrig forkar den: en strikt övermängd av öppna Kshana. Tillgängligt under avtal.
+
+# Programmes that must hand a mission dossier or an audit-grade evidence pack to a review or procurement board
+seg-1ea79eedb7a1 = Program som måste lämna över ett uppdragsdossier eller ett bevispaket av revisionskvalitet till en granskningsnämnd eller upphandlingsnämnd
+
+# Architects choosing a design from the Pareto front of a whole design space, or from trade studies ranked on a figure of merit
+seg-2217d28fd201 = Arkitekter som väljer en utformning från Pareto-fronten för ett helt utformningsrum, eller utifrån avvägningsstudier rangordnade efter ett kvalitetsmått
+
+# Timing and hardware teams who need a clock digital twin calibrated to their device
+seg-ee1b858bcc3f = Tids- och hårdvaruteam som behöver en digital tvilling av en klocka kalibrerad mot sin enhet
+
+# <a1>A design optimiser</a1>: the Pareto front of a design space, with every front design as a scenario the free engine re-runs
+seg-4b436214a890 = <a1>En utformningsoptimerare</a1>: Pareto-fronten för ett utformningsrum, där varje utformning på fronten är ett scenario som den kostnadsfria motorn kör om
+
+# <a1>Uncertainty and sensitivity</a1> over thousands of runs
+seg-d8d838542aa7 = <a1>Osäkerhet och känslighet</a1> över tusentals körningar
+
+# <a1>A one-command mission dossier</a1> with a verification matrix and a PDF (Portable Document Format) file
+seg-161db00fa35f = <a1>Ett uppdragsdossier med ett enda kommando</a1> med en verifieringsmatris och en PDF-fil (Portable Document Format)
+
+# Audit-grade, reproducible evidence packs, clock digital twins calibrated to a device's published Allan budget, and architecture trade studies ranked on a figure of merit
+seg-e142b435c273 = Reproducerbara bevispaket av revisionskvalitet, digitala klocktvillingar kalibrerade mot en enhets publicerade Allan-budget och arkitekturavvägningar rangordnade efter ett kvalitetsmått
+
+# Model-based systems-engineering (MBSE) and programme tooling that checks a programme's requirements against runs of the open engine, reading only the outputs the engine publishes
+seg-91da86f32a66 = Verktyg för modellbaserad systemteknik (MBSE) och programhantering som kontrollerar ett programs krav mot körningar av den öppna motorn och bara läser de utdata som motorn publicerar
+
+# Kshana Pro is available under contract. It depends on the open core and never forks it, so nothing is taken out of the free engine.
+seg-65b886427270 = Kshana Pro finns tillgängligt under avtal. Den bygger på den öppna kärnan och forkar den aldrig, så ingenting tas bort från den kostnadsfria motorn.
+
+# See it amplified
+seg-98f81c393a13 = Se den förstärkt
+
+# Kshana Pro · the same engine, amplified
+seg-ef60d3a217a7 = Kshana Pro · samma motor, förstärkt
+
+# Free runs one scenario. Pro answers the programme's question.
+seg-0ca6598b5442 = Gratis kör ett scenario. Pro besvarar programmets fråga.
+
+# Open Kshana runs one scenario and tells you what it gives. Kshana Pro answers the questions a programme asks next, over the same engine and the same scenario files: which design to fly, how sure the answer is, and whether the mission meets its requirements in a form a review board can check.
+seg-8a239e03a91c = Öppna Kshana kör ett scenario och talar om vad det ger. Kshana Pro besvarar de frågor ett program ställer härnäst, över samma motor och samma scenariofiler: vilken utformning som ska flygas, hur säkert svaret är och om uppdraget uppfyller sina krav i en form som en granskningsnämnd kan kontrollera.
+
+# A strict superset of open Kshana.
+seg-cdb7f8c917e7 = En strikt övermängd av öppna Kshana.
+
+# Every open scenario kind runs in Pro unchanged, and an open scenario runs in Pro with no licence at all.
+seg-5de71d884106 = Varje öppen scenariotyp körs oförändrad i Pro, och ett öppet scenario körs i Pro helt utan licens.
+
+# No new physics.
+seg-9716f482b04d = Ingen ny fysik.
+
+# Every Pro number comes from runs of the open engine, so a Pro figure is as trustworthy as the open scenario kind it came from, and never more.
+seg-44fca9f49c50 = Varje Pro-värde kommer från körningar av den öppna motorn, så ett Pro-värde är lika tillförlitligt som den öppna scenariotyp det kommer från, och aldrig mer.
+
+# Reproducible in the free engine.
+seg-a1b3e6c8e054 = Reproducerbart i den kostnadsfria motorn.
+
+# Anyone with open Kshana can re-run one and get the same figure.
+seg-8b5fd4e4ea35 = Den som har öppna Kshana kan köra om ett och få samma värde.
+
+# Honest labels carried through.
+seg-22c9d1934491 = Ärliga etiketter som följer med hela vägen.
+
+# Every Pro result is labelled MODELLED. Every figure keeps the tier the open engine gave it (Validated, Modelled or Partner), never a higher one.
+seg-c0c9f2748dcd = Varje Pro-resultat är märkt MODELLED. Varje värde behåller den nivå som den öppna motorn gav det (validerad, modellerad eller partner), aldrig en högre.
+
+# Design optimiser
+seg-fe62a7a81520 = Utformningsoptimerare
+
+# A free user scores one design they wrote by hand.
+seg-7574857f2e17 = En gratisanvändare poängsätter en utformning som hen skrivit för hand.
+
+# A Pro user states the design space (each variable a scenario setting with its allowed values), the constraints and two or three objectives, and gets the whole Pareto front: the designs that no other design beats on every objective at once.
+seg-5e92d8903fe2 = En Pro-användare anger utformningsrummet (varje variabel är en scenarioinställning med sina tillåtna värden), begränsningarna och två eller tre mål, och får hela Pareto-fronten: de utformningar som ingen annan utformning slår på alla mål samtidigt.
+
+# The base scenario can be of any open kind, so the same tool designs a constellation around the Earth, the Moon or Mars, or trades a link budget. Every design is one run of the open engine. Each front design is written out as a plain open scenario file, with the Secure Hash Algorithm (SHA-256) hash of the result the free engine gives for it.
+seg-e44bf29e6bb4 = Basscenariot kan vara av vilken öppen typ som helst, så samma verktyg utformar en konstellation runt jorden, månen eller Mars, eller avväger en länkbudget. Varje utformning är en körning av den öppna motorn. Varje utformning på fronten skrivs ut som en vanlig öppen scenariofil, med hashen (SHA-256, Secure Hash Algorithm) av det resultat som den kostnadsfria motorn ger för den.
+
+# <b>What it does not do.</b> It has no cost model, so a variable no objective penalises drifts to the edge of its range. Constellation studies score geometry only: no signal power, satellite health or terrain.
+seg-46ef48f5abb4 = <b>Vad den inte gör.</b> Den har ingen kostnadsmodell, så en variabel som inget mål straffar driver mot kanten av sitt intervall. Konstellationsstudier poängsätter bara geometri: ingen signaleffekt, ingen satellithälsa och ingen terräng.
+
+# Pareto front · <b>Lunar navigation constellation</b>
+seg-788b99e72541 = Pareto-front · <b>Månnavigeringskonstellation</b>
+
+# Kshana Pro output
+seg-dfa989332a6e = Utdata från Kshana Pro
+
+# Region scored
+seg-b4a240bb26ac = Poängsatt region
+
+# Whole Moon
+seg-67e343533786 = Hela månen
+
+# South polar cap
+seg-c5e32e8ff568 = Sydpolarkalott
+
+# Lunar navigation constellation: fewest satellites against availability, whole Moon: { "608" } designs run, a Pareto front of { "12" } designs
+seg-f4eb65b9b27a = Månnavigeringskonstellation: minsta antal satelliter mot tillgänglighet, hela månen: { "608" } utformningar körda, en Pareto-front med { "12" } utformningar
+
+# Lunar navigation constellation: fewest satellites against availability, south polar cap: { "608" } designs run, a Pareto front of { "9" } designs
+seg-18af8f9e61be = Månnavigeringskonstellation: minsta antal satelliter mot tillgänglighet, sydpolarkalott: { "608" } utformningar körda, en Pareto-front med { "9" } utformningar
+
+# every design run
+seg-6eb3858a0c29 = varje körd utformning
+
+# Pareto front
+seg-f74688dc3bbe = Pareto-front
+
+# knee
+seg-fb2e6760d932 = knä
+
+# reference: Bundled lunar relay design ({ "8" } + { "6" } satellites)
+seg-ae4439020c65 = referens: medföljande månreläutformning ({ "8" } + { "6" } satelliter)
+
+# <b>Front design { "004" } · knee</b> · { "16" } satellites, { "85.0404" } % availability · { "2" } planes at { "8,000" } km, { "45" }° · re-run in the free engine: <s1>same SHA-256 { "89882372" }…</s1>
+seg-5386841c8b96 = <b>Frontutformning { "004" } · knä</b> · { "16" } satelliter, { "85.0404" } % tillgänglighet · { "2" } plan på { "8,000" } km, { "45" }° · körs om i den kostnadsfria motorn: <s1>samma SHA-256 { "89882372" }…</s1>
+
+# { "608" } designs, all run (whole moon): a front of { "12" } designs at { "6" } points; { "12" } of { "12" } re-run in the free engine with the same result hash. MODELLED.
+seg-4dd825c7f3ea = { "608" } utformningar, alla körda (hela månen): en front med { "12" } utformningar i { "6" } punkter; { "12" } av { "12" } körs om i den kostnadsfria motorn med samma resultathash. MODELLED.
+
+# { "608" } designs, all run (south polar cap): a front of { "9" } designs at { "4" } points; { "9" } of { "9" } re-run in the free engine with the same result hash. MODELLED.
+seg-76d450da2ee0 = { "608" } utformningar, alla körda (sydpolarkalott): en front med { "9" } utformningar i { "4" } punkter; { "9" } av { "9" } körs om i den kostnadsfria motorn med samma resultathash. MODELLED.
+
+# Kshana Pro { "0.2.0" } on open engine { "0.29.0" } · <b>kshana-pro design</b> · { "609" } engine runs · run digest df81aad4…
+seg-9e8263ecf0a3 = Kshana Pro { "0.2.0" } på öppen motor { "0.29.0" } · <b>kshana-pro design</b> · { "609" } motorkörningar · körningsavtryck df81aad4…
+
+# Uncertainty and sensitivity
+seg-db58e04e6f25 = Osäkerhet och känslighet
+
+# A free user gets one number, or a spread over random seeds.
+seg-eb18bf49ff99 = En gratisanvändare får ett tal, eller en spridning över slumpmässiga frön.
+
+# A Pro user states how uncertain each input is and gets confidence bands, the probability of meeting a limit, and a ranking of the inputs that drive the result.
+seg-aaf8b7feaa9b = En Pro-användare anger hur osäker varje indata är och får konfidensband, sannolikheten att hålla en gräns och en rangordning av de indata som styr resultatet.
+
+# It works on any open scenario. Inputs are ranked by Sobol' sensitivity indices or by standardised regression coefficients, and a ranking that is not reliable is flagged as such. A long study can be stopped and resumed.
+seg-9176a44d9494 = Det fungerar på vilket öppet scenario som helst. Indata rangordnas efter Sobol'-känslighetsindex eller standardiserade regressionskoefficienter, och en rangordning som inte är tillförlitlig flaggas som det. En lång studie kan stoppas och återupptas.
+
+# <b>What it does not do.</b> Inputs are treated as independent. More runs narrow the sampling error, not the model error: a MODELLED kind stays MODELLED.
+seg-c9050f66bedf = <b>Vad den inte gör.</b> Indata behandlas som oberoende. Fler körningar minskar urvalsfelet, inte modellfelet: en MODELLED-typ förblir MODELLED.
+
+# Uncertainty views
+seg-02ef1c43f3d7 = Osäkerhetsvyer
+
+# Confidence band
+seg-e8fcb508e9a5 = Konfidensband
+
+# What drives the result
+seg-190c61b44b81 = Vad som styr resultatet
+
+# Clock holdover with an uncertain noise level: the 5th to 95th percentile of { "2,000" } runs against the limit of { "20" } ns
+seg-049c503c23db = Klock-holdover med osäker brusnivå: 5:e till 95:e percentilen av { "2,000" } körningar mot gränsen { "20" } ns
+
+# 5th to 95th percentile of { "2,000" } runs
+seg-6dab3db2ad81 = 5:e till 95:e percentilen av { "2,000" } körningar
+
+# median
+seg-023d57ee95c8 = median
+
+# base run
+seg-00e4c1f9bf78 = basekörning
+
+# share within the limit
+seg-419cbee4d7ce = andel inom gränsen
+
+# After { "60" } minutes: <b>{ "1,366" } of { "2,000" } runs</b> within ±{ "20" } ns, a probability of { "0.683" } ({ "95" } % interval { "0.6623" } to { "0.703" })
+seg-974fe80f65a4 = Efter { "60" } minuter: <b>{ "1,366" } av { "2,000" } körningar</b> inom ±{ "20" } ns, en sannolikhet på { "0.683" } ({ "95" } %-intervall { "0.6623" } till { "0.703" })
+
+# Clock holdover with an uncertain noise level · input q_wf (the clock's white-frequency-noise level): uniform({ "4.5e-20" } to { "2.7e-19" }), ASSUMED · MODELLED · Kshana Pro { "0.2.0" } on open engine { "0.29.0" } · <b>kshana-pro uncertainty</b> · { "2,000" } engine runs · run digest abab765e…
+seg-9ff0ae72a9c7 = Klock-holdover med osäker brusnivå · indata q_wf (klockans nivå av vitt frekvensbrus): uniform({ "4.5e-20" } till { "2.7e-19" }), ANTAGEN · MODELLED · Kshana Pro { "0.2.0" } på öppen motor { "0.29.0" } · <b>kshana-pro uncertainty</b> · { "2,000" } motorkörningar · körningsavtryck abab765e…
+
+# Fused position error, with the low-Earth-orbit layer
+seg-3b321556590c = Sammanfogat positionsfel, med skiktet i låg omloppsbana
+
+# Position error, GNSS alone
+seg-6f29c63748d0 = Positionsfel, enbart GNSS
+
+# Peak carrier-to-noise density of the pass
+seg-45e1ce6c1a7c = Högsta bärvågs-brustäthet under passet
+
+# What drives Fused position error, with the low-Earth-orbit layer: total Sobol' index of each input
+seg-9e66fcbda75a = Vad som styr sammanfogat positionsfel, med skiktet i låg omloppsbana: totalt Sobol'-index för varje indata
+
+# Fused position error, with the low-Earth-orbit layer: mean { "0.4312" } m, 5th to 95th percentile { "0.2465" } to { "0.6041" } m · top driver <b>Low-Earth-orbit orbit and clock error</b>, total index { "0.99" }
+seg-12293e88a5ee = Sammanfogat positionsfel, med skiktet i låg omloppsbana: medelvärde { "0.4312" } m, 5:e till 95:e percentilen { "0.2465" } till { "0.6041" } m · främsta drivkraft <b>Bana- och klockfel i låg omloppsbana</b>, totalt index { "0.99" }
+
+# What drives Position error, GNSS alone: total Sobol' index of each input
+seg-52915e113de2 = Vad som styr positionsfel, enbart GNSS: totalt Sobol'-index för varje indata
+
+# Position error, GNSS alone: mean { "1.6041" } m, 5th to 95th percentile { "1.5389" } to { "1.6739" } m · top driver <b>Global Positioning System (GPS) signal-in-space range error</b>, total index { "0.68" }
+seg-746012914df5 = Positionsfel, enbart GNSS: medelvärde { "1.6041" } m, 5:e till 95:e percentilen { "1.5389" } till { "1.6739" } m · främsta drivkraft <b>Räckviddsfel för signal i rymden för Global Positioning System (GPS)</b>, totalt index { "0.68" }
+
+# What drives Peak carrier-to-noise density of the pass: total Sobol' index of each input
+seg-94329d8e11b8 = Vad som styr högsta bärvågs-brustäthet under passet: totalt Sobol'-index för varje indata
+
+# Peak carrier-to-noise density of the pass: mean { "60.7336" } dB-Hz (decibel-hertz), 5th to 95th percentile { "59.0898" } to { "62.3719" } dB-Hz · top driver <b>Low-Earth-orbit transmit power</b>, total index { "1.01" }
+seg-7ee659a6c7e7 = Högsta bärvågs-brustäthet under passet: medelvärde { "60.7336" } dB-Hz (decibel-hertz), 5:e till 95:e percentilen { "59.0898" } till { "62.3719" } dB-Hz · främsta drivkraft <b>Sändeffekt i låg omloppsbana</b>, totalt index { "1.01" }
+
+# Low-Earth-orbit (LEO) PNT chain: what drives the position error with and without the LEO layer · Sobol' indices, n * (k + { "2" }) = { "1024" } * ({ "4" } + { "2" }) = { "6144" } runs · { "4" } of { "4" } input uncertainties ASSUMED · MODELLED · Kshana Pro { "0.2.0" } on open engine { "0.29.0" } · <b>kshana-pro uncertainty</b> · { "6,144" } engine runs · run digest fb54eac6…
+seg-f04d1f94de26 = PNT-kedja i låg omloppsbana (LEO): vad som styr positionsfelet med och utan LEO-skiktet · Sobol'-index, n * (k + { "2" }) = { "1024" } * ({ "4" } + { "2" }) = { "6144" } körningar · { "4" } av { "4" } indataosäkerheter ANTAGNA · MODELLED · Kshana Pro { "0.2.0" } på öppen motor { "0.29.0" } · <b>kshana-pro uncertainty</b> · { "6,144" } motorkörningar · körningsavtryck fb54eac6…
+
+# A free user gets one report per run.
+seg-80a916e122e5 = En gratisanvändare får en rapport per körning.
+
+# A Pro user gets one mission dossier in one command: requirements checked against real runs, a verification matrix with its open items, and a PDF (Portable Document Format) in which every number can be re-derived with the free engine.
+seg-62e6a11bddd9 = En Pro-användare får ett uppdragsdossier med ett enda kommando: krav kontrollerade mot verkliga körningar, en verifieringsmatris med sina öppna punkter och en PDF (Portable Document Format) där varje tal kan härledas på nytt med den kostnadsfria motorn.
+
+# A requirement met on a MODELLED or PARTNER basis is flagged. Requirements to be verified by test, inspection or demonstration stay open items however the run went.
+seg-abcdc63e7121 = Ett krav som uppfyllts på MODELLED- eller PARTNER-grund flaggas. Krav som ska verifieras genom test, inspektion eller demonstration förblir öppna punkter oavsett hur körningen gick.
+
+# <b>What it does not do.</b> Simulation evidence counts as analysis and does not replace a test, an inspection or a demonstration. A dossier is not a certification, a qualification or an acceptance by any authority.
+seg-6a0ace9c0245 = <b>Vad den inte gör.</b> Simuleringsevidens räknas som analys och ersätter inte ett test, en inspektion eller en demonstration. Ett dossier är ingen certifiering, ingen kvalificering och inget godkännande från någon myndighet.
+
+# Mission dossier · <b>Navigation resilience programme: Earth, Moon and Mars</b>
+seg-ddffd3f4f0bb = Uppdragsdossier · <b>Program för navigeringsresiliens: jorden, månen och Mars</b>
+
+# requirements
+seg-589480947799 = krav
+
+# not met
+seg-7fbde256debf = inte uppfyllda
+
+# not verified
+seg-5405ea8fb6af = inte verifierade
+
+# open items
+seg-f6ccb7a322b3 = öppna punkter
+
+# Verification matrix: open a row for the check the dossier made
+seg-241bb8a5c188 = Verifieringsmatris: öppna en rad för kontrollen som dossiern gjorde
+
+# ppp.cases[{ "1" }].median_convergence_min <= { "10" } min
+seg-1771db524c39 = ppp.cases[{ "1" }].median_convergence_min <= { "10" } min
+
+# <s1>met</s1><s2>MODELLED</s2>
+seg-1ba2dfe597a5 = <s1>uppfyllt</s1><s2>MODELLED</s2>
+
+# With { "240" } low Earth orbit (LEO) satellites added, precise point positioning (PPP) shall converge within { "10" } minutes (median over the seeded runs).
+seg-21ef0770a07c = Med { "240" } satelliter i låg omloppsbana (LEO) tillagda ska precis punktpositionering (PPP) konvergera inom { "10" } minuter (median över de seedade körningarna).
+
+# Method: analysis · run RUN-LEO · value read: { "7.5" } min
+seg-d739debd8759 = Metod: analys · körning RUN-LEO · avläst värde: { "7.5" } min
+
+# Open item: MODELLED basis
+seg-1bea7f394d61 = Öppen punkt: MODELLED-grund
+
+# ppp.cases[{ "0" }].median_convergence_min <= { "10" } min
+seg-62352fb0b903 = ppp.cases[{ "0" }].median_convergence_min <= { "10" } min
+
+# <s1>not met</s1><s2>MODELLED</s2>
+seg-199d9de5b863 = <s1>inte uppfyllt</s1><s2>MODELLED</s2>
+
+# With GPS and Galileo alone, precise point positioning (PPP) shall converge within { "10" } minutes (median over the seeded runs).
+seg-d25f22bab194 = Enbart med GPS och Galileo ska precis punktpositionering (PPP) konvergera inom { "10" } minuter (median över de seedade körningarna).
+
+# Method: analysis · run RUN-LEO · value read: { "11.5" } min
+seg-f7fbbb0396f8 = Metod: analys · körning RUN-LEO · avläst värde: { "11.5" } min
+
+# Open item: not met
+seg-cd0df2627f00 = Öppen punkt: inte uppfyllt
+
+# fusion.fused.rms_error_3d_m <= { "0.5" } m
+seg-4f85cb208f09 = fusion.fused.rms_error_3d_m <= { "0.5" } m
+
+# With the LEO layer the fused three-dimensional position error shall be { "0.5" } m root mean square (RMS) or better.
+seg-2f64c266aaa9 = Med LEO-skiktet ska det sammanfogade tredimensionella positionsfelet vara { "0.5" } m i kvadratiskt medelvärde (RMS) eller bättre.
+
+# Method: test · run RUN-LEO · value read: { "0.4349" } m
+seg-ab3c35475bb8 = Metod: test · körning RUN-LEO · avläst värde: { "0.4349" } m
+
+# Open item: method, MODELLED basis
+seg-813bc2c7156f = Öppen punkt: metod, MODELLED-grund
+
+# global.availability_pct >= { "95" } %
+seg-00370d1ef747 = global.availability_pct >= { "95" } %
+
+# The lunar relay constellation shall give a position fix with a position dilution of precision (PDOP) of { "6" } or better over at least { "95" } % of the lunar surface and of the day.
+seg-f903fd8d8738 = Månreläkonstellationen ska ge en positionsbestämning med en geometrisk precisionsförsämring för position (PDOP) på { "6" } eller bättre över minst { "95" } % av månytan och av dygnet.
+
+# Method: analysis · run RUN-LUNAR · value read: { "21.3286" } %
+seg-304a072d0a55 = Metod: analys · körning RUN-LUNAR · avläst värde: { "21.3286" } %
+
+# global.pdop.median <= { "6" }
+seg-03344a0f7614 = global.pdop.median <= { "6" }
+
+# Where the lunar relay constellation gives a fix, the median position dilution of precision (PDOP) shall be { "6" } or better.
+seg-9157dc0f0b69 = Där månreläkonstellationen ger en positionsbestämning ska medianen för geometrisk precisionsförsämring för position (PDOP) vara { "6" } eller bättre.
+
+# Method: analysis · run RUN-LUNAR · value read: { "5.22" } { "1" }
+seg-8ce652866e44 = Metod: analys · körning RUN-LUNAR · avläst värde: { "5.22" } { "1" }
+
+# timeline.bands[{ "3" }].min_cn0_dbhz >= { "25" } dB-Hz
+seg-394b87e99d4f = timeline.bands[{ "3" }].min_cn0_dbhz >= { "25" } dB-Hz
+
+# <s1>met</s1><s2>PARTNER</s2>
+seg-4bd7577834e9 = <s1>uppfyllt</s1><s2>PARTNER</s2>
+
+# Under the scripted L-band interference, the GPS L5 carrier-to-noise density ratio (C/N0) shall stay at or above { "25" } dB-Hz.
+seg-c3cd6e0b2c8a = Under den skriptade L-bandsstörningen ska förhållandet mellan bärvåg och brustäthet (C/N0) för GPS L5 hålla sig vid eller över { "25" } dB-Hz.
+
+# Method: analysis · run RUN-SPECTRUM · value read: { "44.0752" } dB-Hz
+seg-c707f32aa460 = Metod: analys · körning RUN-SPECTRUM · avläst värde: { "44.0752" } dB-Hz
+
+# Open item: PARTNER basis
+seg-917d0ea847c5 = Öppen punkt: PARTNER-grund
+
+# timeline.bands[{ "0" }].min_cn0_dbhz >= { "25" } dB-Hz
+seg-14ff8808abca = timeline.bands[{ "0" }].min_cn0_dbhz >= { "25" } dB-Hz
+
+# <s1>not met</s1><s2>PARTNER</s2>
+seg-b0ce1159ebab = <s1>inte uppfyllt</s1><s2>PARTNER</s2>
+
+# Under the scripted L-band interference, the GPS L1 coarse/acquisition (C/A) carrier-to-noise density ratio (C/N0) shall stay at or above { "25" } dB-Hz.
+seg-fac48ac76f34 = Under den skriptade L-bandsstörningen ska förhållandet mellan bärvåg och brustäthet (C/N0) för GPS L1 grov/förvärv (C/A) hålla sig vid eller över { "25" } dB-Hz.
+
+# Method: analysis · run RUN-SPECTRUM · value read: { "3.2329" } dB-Hz
+seg-b2d1ec0d6dee = Metod: analys · körning RUN-SPECTRUM · avläst värde: { "3.2329" } dB-Hz
+
+# timeline.channels.time_error_ns.values <= timeline.channels.guard_ns.values for all values
+seg-5ae7272d2099 = timeline.channels.time_error_ns.values <= timeline.channels.guard_ns.values for all values
+
+# In the chained jamming, spoofing and holdover mission the clock time error shall stay within its { "50" } ns guard at every timeline step.
+seg-ae1e65b11562 = I det sammanlänkade uppdraget med jamming, spoofing och holdover ska klockans tidsfel hålla sig inom sin skyddsgräns på { "50" } ns i varje tidslinjesteg.
+
+# Method: analysis · run RUN-CAMPAIGN · value read: { "51.7825" } ns
+seg-99c163a008d1 = Metod: analys · körning RUN-CAMPAIGN · avläst värde: { "51.7825" } ns
+
+# min(timeline.events[].t_s) <= { "30" } min
+seg-b0cead50489e = min(timeline.events[].t_s) <= { "30" } min
+
+# In the chained mission a spoofing alarm shall be raised within { "30" } minutes of the start.
+seg-3a2678859ea3 = I det sammanlänkade uppdraget ska ett spoofing-larm utlösas inom { "30" } minuter från start.
+
+# Method: demonstration · run RUN-CAMPAIGN · value read: { "1,200" } s
+seg-fb11475464de = Metod: demonstration · körning RUN-CAMPAIGN · avläst värde: { "1,200" } s
+
+# Open item: method, PARTNER basis
+seg-446c41fcb3ab = Öppen punkt: metod, PARTNER-grund
+
+# fom.rms_error_relays_m <= { "5" } m
+seg-b6177dbc98f7 = fom.rms_error_relays_m <= { "5" } m
+
+# Around Mars the constellation-only position error shall be { "5" } m root mean square (RMS) or better over one sol.
+seg-4ceaa0d03a24 = Runt Mars ska positionsfelet med enbart konstellationen vara { "5" } m i kvadratiskt medelvärde (RMS) eller bättre under en sol.
+
+# Method: analysis · run RUN-MARS · value read: { "1.8827" } m
+seg-5794fedf0f41 = Metod: analys · körning RUN-MARS · avläst värde: { "1.8827" } m
+
+# fom.availability_relays >= { "99" } %
+seg-243a7ff0524b = fom.availability_relays >= { "99" } %
+
+# Around Mars the constellation shall give a position fix at { "99" } % of epochs or more.
+seg-576583ccb8f3 = Runt Mars ska konstellationen ge en positionsbestämning vid { "99" } % av epokerna eller fler.
+
+# Method: analysis · run RUN-MARS · value read: { "1" } { "1" }
+seg-32c406b96132 = Metod: analys · körning RUN-MARS · avläst värde: { "1" } { "1" }
+
+# no machine-checkable criterion
+seg-532fe876e134 = inget maskinkontrollerbart kriterium
+
+# The receiver housing shall carry the programme's identification label.
+seg-9dd3f9575483 = Mottagarhöljet ska bära programmets identifieringsetikett.
+
+# Method: inspection · run none · value read: no run traced
+seg-e1efc36871f9 = Metod: inspektion · körning ingen · avläst värde: ingen körning spårad
+
+# Open item: no evidence, manual verification
+seg-7368cd7b9fdf = Öppen punkt: ingen evidens, manuell verifiering
+
+# Page { "1" } of the generated dossier (PDF)
+seg-cf21103fdda2 = Sida { "1" } av det genererade dossiern (PDF)
+
+# Page { "1" } of the generated mission dossier
+seg-1edae087e2ef = Sida { "1" } av det genererade uppdragsdossiern
+
+# Page { "2" } of the generated dossier (PDF)
+seg-bfc11601ca89 = Sida { "2" } av det genererade dossiern (PDF)
+
+# Page { "2" } of the generated mission dossier
+seg-6cc250f43823 = Sida { "2" } av det genererade uppdragsdossiern
+
+# { "21" } pages, one command. <a1>Open the generated PDF</a1> (Portable Document Format)
+seg-dbb08e7c5575 = { "21" } sidor, ett kommando. <a1>Öppna den genererade PDF-filen</a1> (Portable Document Format)
+
+# Kshana Pro { "0.2.0" } on open engine { "0.29.0" } · <b>kshana-pro mission build</b> · { "5" } runs and one trade study · { "7" } met, all on a MODELLED or PARTNER basis · dossier SHA-256 49df1e0e… · development build
+seg-277df27d9586 = Kshana Pro { "0.2.0" } på öppen motor { "0.29.0" } · <b>kshana-pro mission build</b> · { "5" } körningar och en avvägningsstudie · { "7" } uppfyllda, alla med MODELLED eller PARTNER som grund · dossier SHA-256 49df1e0e… · utvecklingsbygge
+
+# More Kshana Pro answers
+seg-583ce9cabfb2 = Fler svar från Kshana Pro
+
+# Three more answers
+seg-62b6f3df413b = Tre svar till
+
+# Campaign watch
+seg-80f67e30b341 = Kampanjbevakning
+
+# On-premises job service
+seg-aed2198e0810 = Jobbtjänst på plats
+
+# A free user runs a campaign and reads the result.
+seg-64b7fd74a3e3 = En gratisanvändare kör en kampanj och läser resultatet.
+
+# A Pro user names the figures that matter in a set of scenarios, says what worse means for each, and gets a pipeline that fails when a change to a scenario, a model or the engine makes one of them worse, or stops meeting its requirement.
+seg-3b9495ecb948 = En Pro-användare namnger de värden som spelar roll i en uppsättning scenarier, anger vad sämre betyder för vart och ett, och får en pipeline som misslyckas när en ändring i ett scenario, en modell eller motorn gör ett av dem sämre, eller gör att det inte längre uppfyller sitt krav.
+
+# It extends the scenario regression check. A Monte Carlo figure is judged with statistics instead of a tolerance, so a new set of random seeds is not called a regression and a doubled spread is. Every run is appended to a history in which each record carries the hash of the one before, and a check reports whether that chain is intact.
+seg-31f8c78ca95e = Den utökar regressionskontrollen av scenarier. Ett Monte Carlo-värde bedöms med statistik i stället för en tolerans, så en ny uppsättning slumpmässiga frön kallas inte en regression men en fördubblad spridning gör det. Varje körning läggs till i en historik där varje post bär hashen för den föregående, och en kontroll rapporterar om kedjan är intakt.
+
+# <b>What it does not do.</b> A watch proves that a MODELLED figure stayed stable or moved; it does not prove the figure is true. A figure with no stated direction is reported and never fails a run.
+seg-01e316af4e6b = <b>Vad den inte gör.</b> En bevakning visar att ett MODELLED-värde förblev stabilt eller flyttade sig; den visar inte att värdet är sant. Ett värde utan angiven riktning rapporteras och får aldrig en körning att misslyckas.
+
+# Campaign watch · <b>six revisions, one history</b>
+seg-ca34b7fbd8a0 = Kampanjbevakning · <b>sex revisioner, en historik</b>
+
+# Revision
+seg-35e2f3c6d5ee = Revision
+
+# Watched figure · revision
+seg-cc02f3327260 = Bevakat värde · revision
+
+# Revision r1-published: pass, exit code { "0" }
+seg-722c55b5ca9d = Revision r1-published: klarade, avslutskod { "0" }
+
+# Revision r2-documentation: pass, exit code { "0" }
+seg-afebb6b7fe91 = Revision r2-documentation: klarade, avslutskod { "0" }
+
+# Revision r3-weaker-jammer: pass, exit code { "0" }
+seg-04be8823d1a4 = Revision r3-weaker-jammer: klarade, avslutskod { "0" }
+
+# Revision r4-stronger-jammer: fail, exit code { "1" }
+seg-358f8307eb64 = Revision r4-stronger-jammer: misslyckades, avslutskod { "1" }
+
+# Revision r5-withdrawn: pass, exit code { "0" }
+seg-dedab67d8791 = Revision r5-withdrawn: klarade, avslutskod { "0" }
+
+# Revision r6-faster-spoofer: pass, exit code { "0" }
+seg-507fa1cd9725 = Revision r6-faster-spoofer: klarade, avslutskod { "0" }
+
+# Verdict of each watched figure at each revision
+seg-5f91b1908b7f = Utfall för varje bevakat värde vid varje revision
+
+# first run: becomes the baseline
+seg-e4e33a6fa3ba = första körningen: blir baslinjen
+
+# r1: first run: becomes the baseline
+seg-6c6055582596 = r1: första körningen: blir baslinjen
+
+# carrier-to-noise density ratio (C/N0) at the end of the jamming phase
+seg-5733e7e1ed6d = förhållande mellan bärvåg och brustäthet (C/N0) vid slutet av jamming-fasen
+
+# unchanged
+seg-039e60fda167 = oförändrat
+
+# r2: unchanged
+seg-5d3ef8b30387 = r2: oförändrat
+
+# improved
+seg-a668aec87232 = förbättrat
+
+# r3: improved
+seg-3a9107ada303 = r3: förbättrat
+
+# regressed
+seg-b297d2fb39b8 = försämrat
+
+# r4: regressed
+seg-ef9e2f850cec = r4: försämrat
+
+# r5: unchanged
+seg-80661be2216a = r5: oförändrat
+
+# r6: unchanged
+seg-f1c94be68352 = r6: oförändrat
+
+# largest time error on the mission timeline
+seg-9973d98d3f4a = största tidsfel på uppdragets tidslinje
+
+# r3: unchanged
+seg-6ea2524c4af5 = r3: oförändrat
+
+# r4: unchanged
+seg-46399b8584f9 = r4: oförändrat
+
+# moved within its tolerance
+seg-92dee1b56602 = rörde sig inom sin tolerans
+
+# r6: moved within its tolerance
+seg-00ce02720ce2 = r6: rörde sig inom sin tolerans
+
+# satellites tracking at the end of the jamming phase
+seg-1f5141270ec1 = satelliter som spåras vid slutet av jamming-fasen
+
+# share of the mission under alarm
+seg-eb59ecfd5267 = andel av uppdraget under larm
+
+# r6: improved
+seg-359a0cb57119 = r6: förbättrat
+
+# spoofing detected (phase length)
+seg-07c171df971c = spoofing upptäckt (fasens längd)
+
+# time error at the end of holdover
+seg-d01450760c7b = tidsfel vid slutet av holdover
+
+# <b>Revision r4-stronger-jammer</b> · jammer raised from -33 to -24 dBW (decibels relative to one watt): C/N0 at the end of the jamming phase { "30.60" } → { "21.82" } dB-Hz (decibel-hertz), below the { "25" } dB-Hz floor, requirement not met; satellites tracking { "8" } → { "0" }; three watches regressed · <s1>fail, exit code { "1" }</s1>
+seg-0cb385d09879 = <b>Revision r4-stronger-jammer</b> · jammer höjd från -33 till -24 dBW (decibel relativt en watt): C/N0 vid slutet av jamming-fasen { "30.60" } → { "21.82" } dB-Hz (decibel-hertz), under golvet på { "25" } dB-Hz, kravet inte uppfyllt; satelliter som spåras { "8" } → { "0" }; tre bevakningar försämrades · <s1>misslyckades, avslutskod { "1" }</s1>
+
+# The bundled campaign pack, { "10" } watched figures over three open campaigns, run twice: pass both times, { "0" } of { "125" } figures moved, history of { "2" } records intact.
+seg-4b31c9074821 = Det medföljande kampanjpaketet, { "10" } bevakade värden över tre öppna kampanjer, kört två gånger: klarade båda gångerna, { "0" } av { "125" } värden rörde sig, historik med { "2" } poster intakt.
+
+# Kshana Pro { "0.2.0" } on open engine { "0.29.0" } · <b>kshana-pro ci</b> · demonstration revisions of <c1/> · history { "6" } records, chain intact, last hash bb2f10eb… · MODELLED
+seg-7a2d9c48a64e = Kshana Pro { "0.2.0" } på öppen motor { "0.29.0" } · <b>kshana-pro ci</b> · demonstrationsrevisioner av <c1/> · historik { "6" } poster, kedjan intakt, senaste hash bb2f10eb… · MODELLED
+
+# A free user checks one satellite's signal against one GNSS signal.
+seg-2556e9b037d6 = En gratisanvändare kontrollerar en satellits signal mot en GNSS-signal.
+
+# A Pro user tests one or more candidate signal plans, each a signal design and a constellation, against every open-service GNSS signal the engine models, with every satellite of the plan in view at once, and gets a verdict per plan and signal against a limit the study states.
+seg-7116e3268891 = En Pro-användare testar en eller flera kandidatsignalplaner, var och en en signalutformning och en konstellation, mot varje GNSS-signal med öppen tjänst som motorn modellerar, med varje satellit i planen i sikte samtidigt, och får ett utfall per plan och signal mot en gräns som studien anger.
+
+# Both directions are tested: the loss of C/N0 each plan causes to each GNSS signal, and the loss the GNSS signals cause to the plan. Pro adds only the sum over the satellites in view at each cell of a worldwide grid and the ranking of the plans. The limit and its source are inputs; no limit is built in.
+seg-06f88c6df63a = Båda riktningarna testas: förlusten av C/N0 som varje plan orsakar varje GNSS-signal, och förlusten som GNSS-signalerna orsakar planen. Pro lägger bara till summan över satelliterna i sikte i varje cell i ett världsomspännande rutnät och rangordningen av planerna. Gränsen och dess källa är indata; ingen gräns är inbyggd.
+
+# <b>What it does not do.</b> The result is an upper bound: every satellite in view is taken at the maximum received power, with no power that varies with elevation and no receive-antenna pattern. It is not a coordination filing and not a regulatory finding.
+seg-6ed2560fa7cb = <b>Vad den inte gör.</b> Resultatet är en övre gräns: varje satellit i sikte tas vid maximal mottagen effekt, utan effekt som varierar med elevation och utan mottagarantennens diagram. Det är ingen koordineringsansökan och inget regulatoriskt konstaterande.
+
+# Spectrum coexistence · <b>{ "4" } example signal plans</b>
+seg-60b335f177f1 = Spektrumsamexistens · <b>{ "4" } exempel på signalplaner</b>
+
+# View
+seg-1590505b1b83 = Vy
+
+# Plans against signals
+seg-8de62dd3e1fe = Planer mot signaler
+
+# World map of the worst loss
+seg-ce57b941ae2a = Världskarta över den största förlusten
+
+# Loss each plan causes to each signal, against the limit
+seg-3eadc758676e = Förlust som varje plan orsakar varje signal, mot gränsen
+
+# Plan · signal
+seg-7f94e08ffaf7 = Plan · signal
+
+# GPS L1 C/A
+seg-082f79d4da08 = GPS L1 C/A
+
+# Galileo E1
+seg-8136c1e5d8b9 = Galileo E1
+
+# GPS L5
+seg-ca7643f7c122 = GPS L5
+
+# Galileo E5a
+seg-cda934673aea = Galileo E5a
+
+# Galileo E5b
+seg-37166a721917 = Galileo E5b
+
+# Galileo E5 AltBOC
+seg-e35b90594226 = Galileo E5 AltBOC
+
+# L band, { "288" } satellites to GPS L1 C/A: no overlap in frequency
+seg-ecd0258691ec = L-band, { "288" } satelliter till GPS L1 C/A: ingen överlappning i frekvens
+
+# L band, { "288" } satellites
+seg-d409177fe15a = L-band, { "288" } satelliter
+
+# no overlap
+seg-d85041c82618 = ingen överlappning
+
+# L band, { "288" } satellites to Galileo E1: no overlap in frequency
+seg-c87416d18cdf = L-band, { "288" } satelliter till Galileo E1: ingen överlappning i frekvens
+
+# L band, { "288" } satellites to GPS L5: within the limit
+seg-ae171f239741 = L-band, { "288" } satelliter till GPS L5: inom gränsen
+
+# within limit
+seg-37e3dfebbbde = inom gränsen
+
+# L band, { "288" } satellites to Galileo E5a: within the limit
+seg-75bcd6c441eb = L-band, { "288" } satelliter till Galileo E5a: inom gränsen
+
+# L band, { "288" } satellites to Galileo E5b: within the limit
+seg-261a10fbac33 = L-band, { "288" } satelliter till Galileo E5b: inom gränsen
+
+# L band, { "288" } satellites to Galileo E5 AltBOC: within the limit
+seg-be215e26ecf7 = L-band, { "288" } satelliter till Galileo E5 AltBOC: inom gränsen
+
+# L band, { "144" } satellites to GPS L1 C/A: no overlap in frequency
+seg-d235b8128c0f = L-band, { "144" } satelliter till GPS L1 C/A: ingen överlappning i frekvens
+
+# L band, { "144" } satellites<em>ranked front</em>
+seg-d89797f95366 = L-band, { "144" } satelliter<em>rangordnad front</em>
+
+# L band, { "144" } satellites to Galileo E1: no overlap in frequency
+seg-c5637516dd73 = L-band, { "144" } satelliter till Galileo E1: ingen överlappning i frekvens
+
+# L band, { "144" } satellites to GPS L5: within the limit
+seg-56419d057320 = L-band, { "144" } satelliter till GPS L5: inom gränsen
+
+# L band, { "144" } satellites to Galileo E5a: within the limit
+seg-501c3b3cf978 = L-band, { "144" } satelliter till Galileo E5a: inom gränsen
+
+# L band, { "144" } satellites to Galileo E5b: within the limit
+seg-1eb5de9a6b98 = L-band, { "144" } satelliter till Galileo E5b: inom gränsen
+
+# L band, { "144" } satellites to Galileo E5 AltBOC: within the limit
+seg-511fb4592027 = L-band, { "144" } satelliter till Galileo E5 AltBOC: inom gränsen
+
+# C band, { "288" } satellites to GPS L1 C/A: no overlap in frequency
+seg-2ecb209d51e9 = C-band, { "288" } satelliter till GPS L1 C/A: ingen överlappning i frekvens
+
+# C band, { "288" } satellites
+seg-6f45606a5b3d = C-band, { "288" } satelliter
+
+# C band, { "288" } satellites to Galileo E1: no overlap in frequency
+seg-f4ef2515fd58 = C-band, { "288" } satelliter till Galileo E1: ingen överlappning i frekvens
+
+# C band, { "288" } satellites to GPS L5: no overlap in frequency
+seg-2fc04945b97b = C-band, { "288" } satelliter till GPS L5: ingen överlappning i frekvens
+
+# C band, { "288" } satellites to Galileo E5a: no overlap in frequency
+seg-c3254aeb9110 = C-band, { "288" } satelliter till Galileo E5a: ingen överlappning i frekvens
+
+# C band, { "288" } satellites to Galileo E5b: no overlap in frequency
+seg-b2497f3af295 = C-band, { "288" } satelliter till Galileo E5b: ingen överlappning i frekvens
+
+# C band, { "288" } satellites to Galileo E5 AltBOC: no overlap in frequency
+seg-cbb0b39f5417 = C-band, { "288" } satelliter till Galileo E5 AltBOC: ingen överlappning i frekvens
+
+# Wide C band, { "288" } satellites to GPS L1 C/A: no overlap in frequency
+seg-2a329a17333c = Brett C-band, { "288" } satelliter till GPS L1 C/A: ingen överlappning i frekvens
+
+# Wide C band, { "288" } satellites<em>ranked front</em>
+seg-7f67a52e23d7 = Brett C-band, { "288" } satelliter<em>rangordnad front</em>
+
+# Wide C band, { "288" } satellites to Galileo E1: no overlap in frequency
+seg-5c53a07ea503 = Brett C-band, { "288" } satelliter till Galileo E1: ingen överlappning i frekvens
+
+# Wide C band, { "288" } satellites to GPS L5: no overlap in frequency
+seg-9afa24c2a22a = Brett C-band, { "288" } satelliter till GPS L5: ingen överlappning i frekvens
+
+# Wide C band, { "288" } satellites to Galileo E5a: no overlap in frequency
+seg-8d00d0e4e15b = Brett C-band, { "288" } satelliter till Galileo E5a: ingen överlappning i frekvens
+
+# Wide C band, { "288" } satellites to Galileo E5b: no overlap in frequency
+seg-396bb70a5b21 = Brett C-band, { "288" } satelliter till Galileo E5b: ingen överlappning i frekvens
+
+# Wide C band, { "288" } satellites to Galileo E5 AltBOC: no overlap in frequency
+seg-017f8d2a0d09 = Brett C-band, { "288" } satelliter till Galileo E5 AltBOC: ingen överlappning i frekvens
+
+# <b>L band, { "288" } satellites → Galileo E5 AltBOC</b> · worst loss caused { "0.00544" } dB (decibel), at a cell with { "17" } of its satellites in view: a margin of { "0.0946" } dB to the { "0.1" } dB limit · <s1>compatible</s1>
+seg-893be5d86234 = <b>L-band, { "288" } satelliter → Galileo E5 AltBOC</b> · största orsakade förlust { "0.00544" } dB (decibel), i en cell med { "17" } av dess satelliter i sikte: en marginal på { "0.0946" } dB till gränsen på { "0.1" } dB · <s1>förenlig</s1>
+
+# World map of the worst loss the plan L band, { "288" } satellites causes, per cell: every cell within the limit
+seg-bc132b0068fe = Världskarta över den största förlust som planen L-band, { "288" } satelliter orsakar, per cell: varje cell inom gränsen
+
+# { "0" } dB
+seg-ae759f574501 = { "0" } dB
+
+# { "0.00544" } dB, the worst cell · limit { "0.1" } dB
+seg-c73e052d7628 = { "0.00544" } dB, den sämsta cellen · gräns { "0.1" } dB
+
+# Worst loss the plan <b>L band, { "288" } satellites</b> causes at each cell of the worldwide grid, over the signals it overlaps: an upper bound, every satellite in view at the maximum received power.
+seg-a55ab55d78eb = Största förlust som planen <b>L-band, { "288" } satelliter</b> orsakar i varje cell i det världsomspännande rutnätet, över de signaler den överlappar: en övre gräns, med varje satellit i sikte vid maximal mottagen effekt.
+
+# <b>{ "4" } of { "4" }</b> plans compatible · the GNSS signals cost the L-band plans at most { "0.00908" } dB
+seg-5acfa8382eca = <b>{ "4" } av { "4" }</b> planer förenliga · GNSS-signalerna kostar L-bandsplanerna högst { "0.00908" } dB
+
+# Kshana Pro { "0.2.0" } on open engine { "0.29.0" } · <b>kshana-pro coexist</b> · { "10" } engine runs (<c1/>, <c2/>) · scenario hash 479364bd… · MODELLED upper bound · the { "0.1" } dB limit was chosen for the example only, not a regulatory criterion · C/A: coarse/acquisition; AltBOC: alternative binary offset carrier
+seg-2acb5dfe6d2c = Kshana Pro { "0.2.0" } på öppen motor { "0.29.0" } · <b>kshana-pro coexist</b> · { "10" } motorkörningar (<c1/>, <c2/>) · scenariohash 479364bd… · MODELLED övre gräns · gränsen på { "0.1" } dB valdes bara för exemplet och är inget regulatoriskt kriterium · C/A: grov/förvärv (coarse/acquisition); AltBOC: alternativ binär offsetbärvåg (alternative binary offset carrier)
+
+# Can the team queue studies on its own network and prove what was delivered?
+seg-b5f4c3d893ed = Kan teamet köa studier i sitt eget nätverk och bevisa vad som levererades?
+
+# A free user runs one scenario at a time on one machine.
+seg-b0252a650ea5 = En gratisanvändare kör ett scenario i taget på en maskin.
+
+# A Pro team queues studies on its own network, lets them run while no one watches, and can show afterwards exactly which result was delivered for which request.
+seg-18d63112f063 = Ett Pro-team köar studier i sitt eget nätverk, låter dem köra medan ingen tittar och kan efteråt visa exakt vilket resultat som levererades för vilken begäran.
+
+# It extends the on-premises service: Pro can run as a small HTTP (Hypertext Transfer Protocol) service on your own network: it reports its health, its version and the kinds it can run, and runs a scenario posted to it. A job's identifier is the SHA-256 of the operation and the request, so the same request is the same job and is not run twice. After a stop or a crash, every unfinished job is queued again and no finished job is run again. Without a licence it serves the open engine only and refuses every Pro feature.
+seg-dc4ada18a8b6 = Den utökar tjänsten på plats: Pro kan köras som en liten HTTP-tjänst (Hypertext Transfer Protocol) i ditt eget nätverk: den rapporterar sin hälsa, sin version och de typer den kan köra, och kör ett scenario som skickas till den. Ett jobbs identifierare är SHA-256 av operationen och begäran, så samma begäran är samma jobb och körs inte två gånger. Efter ett stopp eller en krasch köas varje ofärdigt jobb på nytt och inget färdigt jobb körs igen. Utan licens betjänar den bara den öppna motorn och vägrar alla Pro-funktioner.
+
+# <b>What it does not do.</b> One request per connection, with no streaming: a client polls. One licence for the whole service and one shared access token, not user management. No cancellation, time limit, priority or retention policy.
+seg-c1af74cddda0 = <b>Vad den inte gör.</b> En begäran per anslutning, utan strömning: en klient pollar. En licens för hela tjänsten och en delad åtkomsttoken, inte användarhantering. Ingen avbrytning, tidsgräns, prioritet eller lagringspolicy.
+
+# On-premises job service · <b>one recorded session</b>
+seg-a91c54eb4ba8 = Jobbtjänst på plats · <b>en inspelad session</b>
+
+# Requests to the service and what it answered, in order
+seg-f584d334e551 = Begäranden till tjänsten och vad den svarade, i ordning
+
+# <b>POST /jobs</b> <em>a link-budget scenario</em>
+seg-a308bdf972fc = <b>POST /jobs</b> <em>ett scenario för länkbudget</em>
+
+# accepted and queued · job fb6e50ff…
+seg-1bea805079e5 = accepterat och köat · jobb fb6e50ff…
+
+# GET /jobs/{ "{" }id{ "}" }
+seg-ed66dc7a965c = GET /jobs/{ "{" }id{ "}" }
+
+# succeeded on its first attempt · kind <c1/>
+seg-e97b04c3927f = lyckades vid första försöket · typ <c1/>
+
+# <b>POST /jobs</b> <em>the same request again</em>
+seg-5c0fce7aca9c = <b>POST /jobs</b> <em>samma begäran igen</em>
+
+# the same job, already finished: nothing run twice
+seg-50000838f4cc = samma jobb, redan färdigt: ingenting kört två gånger
+
+# GET /ledger/verify
+seg-be3aa55c904e = GET /ledger/verify
+
+# verified, chain intact · { "3" } records · { "1" } delivered job · no mismatch
+seg-3fb12de9f868 = verified, kedjan intakt · { "3" } poster · { "1" } levererat jobb · ingen mismatch
+
+# GET /openapi.json
+seg-d05960312e08 = GET /openapi.json
+
+# OpenAPI { "3.1" } · { "13" } paths, from the service's own route table
+seg-4b360cf65b93 = OpenAPI { "3.1" } · { "13" } sökvägar, från tjänstens egen ruttabell
+
+# <b>GET /</b> <em>the job board</em>
+seg-a976477641db = <b>GET /</b> <em>jobbtavlan</em>
+
+# loads nothing from outside
+seg-4b68fe5ddf1c = läser in ingenting utifrån
+
+# <b>restart</b> <em>then GET /jobs/{ "{" }id{ "}" }</em>
+seg-734560e175a9 = <b>omstart</b> <em>sedan GET /jobs/{ "{" }id{ "}" }</em>
+
+# the finished job still shows one attempt
+seg-7d53151be9e6 = det färdiga jobbet visar fortfarande ett försök
+
+# <b>kill -9</b> <em>while a job runs, then restart</em>
+seg-d0683c37acc1 = <b>kill -9</b> <em>medan ett jobb körs, sedan omstart</em>
+
+# the unfinished job ran again and succeeded; the finished job was not run again · ledger { "9" } records, { "3" } delivered jobs, verified
+seg-64ddf6a78d22 = det ofärdiga jobbet kördes om och lyckades; det färdiga jobbet kördes inte om · register { "9" } poster, { "3" } levererade jobb, verified
+
+# <b>no licence: POST /jobs</b> <em>a Pro scenario</em>
+seg-fcbfbd231d61 = <b>ingen licens: POST /jobs</b> <em>ett Pro-scenario</em>
+
+# refused on submission: nothing queued
+seg-1911ae0879b8 = nekat vid inlämning: ingenting köat
+
+# <b>no licence: POST /jobs</b> <em>an open scenario</em>
+seg-de7bb1084780 = <b>ingen licens: POST /jobs</b> <em>ett öppet scenario</em>
+
+# accepted and queued
+seg-14edaf993a56 = accepterat och köat
+
+# Kshana Pro on open engine { "0.29.0" } · <b>kshana-pro serve --data-dir</b>, two workers (the restart test: one) · HTTP status codes as the service returned them · a local run on public scenario files with the development entitlement, not a customer deployment
+seg-af3f560b9a7f = Kshana Pro på öppen motor { "0.29.0" } · <b>kshana-pro serve --data-dir</b>, två arbetare (omstartstestet: en) · HTTP-statuskoder som tjänsten returnerade dem · en lokal körning på publika scenariofiler med utvecklingsrättigheten, inte en kunddrifttagning
+
+# Also in Kshana Pro
+seg-935445590619 = Även i Kshana Pro
+
+# Kshana Pro's model-based systems-engineering (MBSE) and programme tooling checks a programme's requirements against runs of the open engine: it imports requirements as comma-separated values (CSV), or as a documented subset of the Requirements Interchange Format (ReqIF) or of Systems Modeling Language version { "2" } (SysML v2) text, and produces a verification cross-reference matrix (VCRM), a SysML v2 model, a change-impact report and an offline evidence pack. It re-runs and recomputes nothing.
+seg-a9b4af1b1b07 = Kshana Pros verktyg för modellbaserad systemteknik (MBSE) och programhantering kontrollerar ett programs krav mot körningar av den öppna motorn: den importerar krav som kommaseparerade värden (CSV), eller som en dokumenterad delmängd av Requirements Interchange Format (ReqIF) eller av text i Systems Modeling Language version { "2" } (SysML v2), och producerar en korsreferensmatris för verifiering (VCRM), en SysML v2-modell, en ändringskonsekvensrapport och ett fristående bevispaket. Den kör inte om och räknar inte om någonting.
+
+# The open engine's outputs it reads
+seg-0a662a644f5d = Den öppna motorns utdata som den läser
+
+# the fields a criterion names, their units, the reproducibility stamp of scenario hash, seed, engine version and schema version, and the run's label and figure tiers
+seg-e91fe1056446 = de fält ett kriterium namnger, deras enheter, reproducerbarhetsstämpeln med scenariohash, frö, motorversion och schemaversion, samt körningens etikett och värdenas nivåer
+
+# kind, reproducibility record and capability labels
+seg-c84c09a6dc24 = typ, reproducerbarhetspost och förmågeetiketter
+
+# its hash, kind, seed and parameters
+seg-8fc1ffcf6847 = dess hash, typ, frö och parametrar
+
+# each field's unit, provenance and evidence tier
+seg-2e6b3bca199f = varje fälts enhet, ursprung och evidensnivå
+
+# each capability's VALIDATED, MODELLED or PARTNER label
+seg-593a13692dc4 = varje förmågas etikett VALIDATED, MODELLED eller PARTNER
+
+# A trade study runs every architecture option as an unchanged open-engine scenario, ranks the options on a figure of merit read from each run's result, and writes an evidence pack that records each option's scenario hash, so any figure in it can be reproduced by re-running that scenario.
+seg-26c07e74fdca = En avvägningsstudie kör varje arkitekturalternativ som ett oförändrat scenario i den öppna motorn, rangordnar alternativen efter ett kvalitetsmått som läses ur varje körnings resultat och skriver ett bevispaket som antecknar varje alternativs scenariohash, så att varje värde i det kan återskapas genom att köra om det scenariot.
+
+# Clock digital twin
+seg-05a421ea6ac7 = Digital klocktvilling
+
+# A clock twin is calibrated to a device's published Allan-deviation budget, then checked by estimating the twin's own Allan deviation with the open engine's estimator and comparing the two within a stated tolerance. A twin of your own device needs your characterisation data and is built under contract and a non-disclosure agreement.
+seg-06ca5084425c = En klocktvilling kalibreras mot en enhets publicerade budget för Allan-avvikelse och kontrolleras sedan genom att tvillingens egen Allan-avvikelse skattas med den öppna motorns skattare och de två jämförs inom en angiven tolerans. En tvilling av din egen enhet kräver dina karakteriseringsdata och byggs under avtal och sekretessavtal.
+
+# Study dossier
+seg-fca21deac438 = Studiedossier
+
+# One scenario becomes a reproducible technical note in HTML (HyperText Markup Language) and JSON (JavaScript Object Notation): scope, method, results with a tier on every figure, limitations, and the exact scenario text run.
+seg-fef6a718bf86 = Ett scenario blir en reproducerbar teknisk not i HTML (HyperText Markup Language) och JSON (JavaScript Object Notation): omfattning, metod, resultat med en nivå på varje värde, begränsningar och den exakta scenariotext som kördes.
+
+# <b>Pro needs a licence.</b> Without one, Pro runs open scenarios only and refuses every Pro feature with a message naming what is required.
+seg-4650cf680300 = <b>Pro kräver en licens.</b> Utan en kör Pro bara öppna scenarier och vägrar varje Pro-funktion med ett meddelande som anger vad som krävs.
+
+# <b>Some work needs a signed customer.</b> A twin of your own device needs your characterisation data and is built under contract and a non-disclosure agreement.
+seg-627687344e9e = <b>Visst arbete kräver en kund som har skrivit under.</b> En tvilling av din egen enhet kräver dina karakteriseringsdata och byggs under avtal och sekretessavtal.
+
+# <b>Nothing Pro produces is a certification.</b> Every result is modelled, and says so.
+seg-f15f652a7e77 = <b>Ingenting som Pro producerar är en certifiering.</b> Varje resultat är modellerat och säger det.
+
+# Done as a custom study
+seg-ef76d9237977 = Utförs som en skräddarsydd studie
+
+# <b>Models of your hardware.</b> Sensor or resilience models calibrated to your hardware are built only under contract, with your data.
+seg-853667670c1f = <b>Modeller av din hårdvara.</b> Sensor- eller resiliensmodeller kalibrerade mot din hårdvara byggs bara under avtal, med dina data.
+
+# <b>Export-controlled resilience models are not publicly offered.</b> Such work is done only under the appropriate clearance and a non-disclosure agreement.
+seg-520654f215c5 = <b>Exportkontrollerade resiliensmodeller erbjuds inte offentligt.</b> Sådant arbete utförs bara under lämplig säkerhetsprövning och ett sekretessavtal.
+
+# The charts in this section are drawn from the files the Pro commands wrote for the worked examples that ship with Pro: modelled results, not statements about any real mission. The wording is quoted from the public Kshana Pro page of the open repository.
+seg-8ea876b3c515 = Diagrammen i det här avsnittet är ritade utifrån de filer som Pro-kommandona skrev för de genomgångsexempel som levereras med Pro: modellerade resultat, inte uttalanden om något verkligt uppdrag. Formuleringarna är citerade från den publika Kshana Pro-sidan i det öppna arkivet.
+
+# The open engine at the centre: one mark per scenario kind ({ "93" }), filled where the kind has validated ledger rows, hollow where its rows are Modelled, a dash where no ledger module matches it by name. Kshana Pro and the custom study sit around it and connect to the kinds they build on.
+seg-0ab329c843b0 = Den öppna motorn i mitten: ett märke per scenariotyp ({ "93" }), fyllt där typen har validerade registerrader, ihåligt där dess rader är modellerade, ett streck där ingen registermodul matchar den på namn. Kshana Pro och den skräddarsydda studien sitter runt den och kopplas till de typer de bygger på.
+
+# Engine v{ $version } · { "93" } kinds from <c1/> · ledger status from <c2/> · what Pro and a study build on: the site's editions register · no scenario or seed
+seg-e507665bbe2c = Motor v{ $version } · { "93" } typer från <c1/> · registerstatus från <c2/> · vad Pro och en studie bygger på: webbplatsens utgåveregister · inget scenario eller frö
+
+# (not in the old English either)
+seg-43711d15e734 = Den fullständiga verifieringsmatrisen: { "176" } av { "412" } förmågor validerade mot oberoende referenser, resten märkta som modellerade
+
+# Packages the evidence into an audit-grade, reproducible evidence pack for a review board. <a1>See below</a1>
+seg-69df15091cab = Paketerar evidensen i ett reproducerbart bevispaket av revisionskvalitet för en granskningsnämnd. <a1>Se nedan</a1>
+
+# <b>With Pro:</b> a <b>mission dossier</b> checks every requirement against real runs and keeps these labels in its verification matrix: a requirement met on a MODELLED or PARTNER basis is flagged. <a1>See a real dossier</a1>
+seg-5af3d58e83fa = <b>Med Pro:</b> ett <b>uppdragsdossier</b> kontrollerar varje krav mot verkliga körningar och behåller dessa etiketter i sin verifieringsmatris: ett krav som uppfyllts på MODELLED- eller PARTNER-grund flaggas. <a1>Se ett verkligt dossier</a1>
+
+# Need this ledger as an audit-grade, reproducible evidence pack for a review board? <a1>Kshana Pro packages it</a1>.
+seg-41da0459d87a = Behöver du det här registret som ett reproducerbart bevispaket av revisionsklass för en granskningsnämnd? <a1>Kshana Pro paketerar det</a1>.
+
+# Kshana Pro packages the evidence a review or procurement board asks for, reproducibly. What it builds on: this ledger, where every capability names its oracle and its test, and the stamp every result carries. In one command, a mission dossier checks every requirement against real runs and writes a verification matrix with its open items and a PDF (Portable Document Format).
+seg-20582558a93f = Kshana Pro paketerar den evidens som en granskning eller upphandlingsnämnd begär, reproducerbart. Det bygger på detta register, där varje förmåga anger sin oberoende referens och sitt test, och på stämpeln som varje resultat bär. Med ett enda kommando kontrollerar ett uppdragsdossier varje krav mot verkliga körningar och skriver en verifieringsmatris med sina öppna punkter och en PDF (Portable Document Format).
+
+# See a real dossier
+seg-1c8effb9400a = Se ett verkligt dossier
+
+# (not in the old English either)
+seg-43f852e4bee8 = av { "74" } validerade
+
+# (not in the old English either)
+seg-0c637f4b6c88 = { "412" } förmågor, var och en betygsatt. <b>{ "176" } validerade</b> mot oberoende externa referenser. <b>{ "232" } ärligt märkta som modellerade.</b> { "4" } ägda av partner. Ingenting avrundas uppåt.
+
+# (not in the old English either)
+seg-c2c3179c1316 = Verifieringsmatris, en cell per förmåga i registerordning: { "176" } validerade (fyllda kvadrater), { "232" } modellerade (ihåliga kvadrater), { "4" } ägda av partner (romber). Piltangenterna flyttar mellan celler; förmågan och dess oberoende referens läses upp nedanför.
+
+# (not in the old English either)
+seg-a2cdd2df1b36 = Motor v{ $version } · <c1/>, genererad från <c2/> · { "412" } rader · inget scenario eller frö: motorns eget register
+
+# (not in the old English either)
+seg-b36352ff4d2a = Motor v{ $version }, bygge <c1/> · <c2/> · deterministisk, inget frö
+
+# (not in the old English either)
+seg-edd1aba6a08c = Motor v{ $version }, bygge <c1/> · <c2/> · deterministisk, inget frö
+
+# (not in the old English either)
+seg-90efc3759f07 = Motor v{ $version }, bygge <c1/> · <c2/> · deterministisk, inget frö
+
+# (not in the old English either)
+seg-094876c75564 = Motor v{ $version } · <c1/> resttabeller, med de två propagatorkontrollerna omräknade vid bygge <c2/> · deterministiskt, inget frö
+
+# (not in the old English either)
+seg-1c7e4b85e701 = Motor v{ $version }, bygge <c1/> · <c2/> · deterministisk, inget frö
+
+# (not in the old English either)
+seg-f42398e9711c = Motor v{ $version }, bygge <c1/> · <c2/> · deterministisk, inget frö
+
+# (not in the old English either)
+seg-07e8ef5a102f = { "176" }<s1>av { "412" } validerade</s1>
+
+# (not in the old English either)
+seg-4873cd813b9a = Verifieringsmatris: { "176" } validerade, { "232" } modellerade, { "4" } ägda av partner, { "412" } totalt
+
+# (not in the old English either)
+seg-98b273ce8773 = Alla { "412" } rader, en rad vardera.
+
+# (not in the old English either)
+seg-c321a2dafd3e = Alla { "412" }
+
+# (not in the old English either)
+seg-bc4726a0baf1 = Modellerade { "232" }
+
+# (not in the old English either)
+seg-40e80b22723c = Valideringsregister, { "412" } rader, rullningsbart
+
+# Kshana Pro is a proprietary overlay that depends on the open core and never forks it, available under contract. No prices on a web page: every paid route starts with a message to <a1>contact@ashforde.org</a1>.
+seg-27c12083529b = Kshana Pro är ett proprietärt tillägg som bygger på den öppna kärnan och aldrig delar upp den, och som finns tillgängligt under avtal. Inga priser på en webbsida: varje betald väg börjar med ett meddelande till <a1>contact@ashforde.org</a1>.
+
+# The Pareto front of a design space, with every front design as a scenario the free engine re-runs.
+seg-298532756f74 = Paretofronten för ett utformningsrum, där varje utformning på fronten är ett scenario som den gratis motorn kör om.
+
+# Uncertainty and sensitivity over thousands of runs.
+seg-a699256db841 = Osäkerhet och känslighet över tusentals körningar.
+
+# A one-command mission dossier with a verification matrix and a PDF (Portable Document Format) file.
+seg-665005551d84 = Ett uppdragsdossier med ett enda kommando, med en verifieringsmatris och en PDF-fil (Portable Document Format).
+
+# Audit-grade, reproducible evidence packs; clock digital twins calibrated to your device's published Allan budget; architecture trade studies ranked on a figure of merit; model-based systems-engineering (MBSE) and programme tooling.
+seg-455cb5040f80 = Reproducerbara bevispaket i revisionsklass; digitala tvillingar av klockor kalibrerade mot din enhets publicerade Allan-budget; arkitekturavvägningsstudier rangordnade efter ett kvalitetsmått; verktyg för modellbaserad systemteknik (MBSE) och programhantering.
+
+# Same engine, amplified: real Kshana Pro output
+seg-3303866fbf99 = Samma motor, förstärkt: verkliga utdata från Kshana Pro
+
+# <a1><s1><c1/>Design optimiser</s1></a1>
+seg-f5513a1750f1 = <a1><s1><c1/>Utformningsoptimerare</s1></a1>
+
+# <b>{ "608" } designs</b>, all run: the Pareto front and its knee
+seg-2bbc6243b4b1 = <b>{ "608" } utformningar</b>, alla körda: Paretofronten och dess knä
+
+# <a1><s1><c1/>Uncertainty and sensitivity</s1></a1>
+seg-56e344605a3d = <a1><s1><c1/>Osäkerhet och känslighet</s1></a1>
+
+# <b>{ "2,000" } runs</b>: a confidence band against a limit
+seg-a0b3c138f981 = <b>{ "2,000" } körningar</b>: ett konfidensband mot en gräns
+
+# <b>{ "12" } requirements</b> checked against real runs, 21-page PDF (Portable Document Format)
+seg-905e5eef45e5 = <b>{ "12" } krav</b> kontrollerade mot verkliga körningar, PDF på 21 sidor (Portable Document Format)
+
+# <s1>Kshana Pro</s1><c1/><s2>Same engine, amplified: { "608" } designs, one Pareto front</s2>
+seg-a92f77bd42cb = <s1>Kshana Pro</s1><c1/><s2>Samma motor, förstärkt: { "608" } utformningar, en Pareto-front</s2>
+
+# (not in the old English either)
+seg-b9961ed25282 = Nytt i v{ $version }: ett uppdragsflöde, en evidensetikett på varje siffra och sjutton språk
+
+# (not in the old English either)
+seg-237d8bd201d2 = <b>Kampanj:</b> Motor v{ $version }, bygge <c1/> · <c2/> · frö { "20260928" }
+
+# (not in the old English either)
+seg-98ebce268546 = <b>Banor:</b> Motor v{ $version }, bygge <c1/> · <c2/> · deterministisk, inget frö
+
+# (not in the old English either)
+seg-bb2975f5a7dd = Motor v{ $version }, bygge <c1/> · <c2/> · frö { "20260928" }
+
+# (not in the old English either)
+seg-ee04b167d80a = { "176" } av { "412" } förmågor stämmer med oberoende externa referenser; resten är märkta som modellerade, högt och tydligt.
+
+# <s1>Pro</s1> the Pareto front of a design space, uncertainty and sensitivity, and a one-command mission dossier
+seg-354162e88f07 = <s1>Pro</s1> Paretofronten för ett utformningsrum, osäkerhet och känslighet samt ett uppdragsdossier med ett enda kommando
+
+# Pro: audit-grade, reproducible evidence packs for a review.
+seg-de3cc6d30b9c = Pro: reproducerbara bevispaket i revisionsklass för en granskning.
+
+# Pro: architecture trade studies ranked on a figure of merit. Pro: clock digital twins calibrated to your device's published Allan budget.
+seg-7889feffa939 = Pro: arkitekturavvägningsstudier rangordnade efter ett kvalitetsmått. Pro: digitala tvillingar av klockor kalibrerade mot din enhets publicerade Allan-budget.
+
+# Pro: clock digital twins calibrated to your device's published Allan budget. Pro: architecture trade studies ranked on a figure of merit.
+seg-4a5542c69690 = Pro: digitala tvillingar av klockor kalibrerade mot din enhets publicerade Allan-budget. Pro: arkitekturavvägningsstudier rangordnade efter ett kvalitetsmått.
+
+# Pro: clock digital twins calibrated to your device's published Allan budget. Pro: audit-grade, reproducible evidence packs for a review.
+seg-cc45be91cd00 = Pro: digitala tvillingar av klockor kalibrerade mot din enhets publicerade Allan-budget. Pro: reproducerbara bevispaket i revisionsklass för en granskning.
+
+# <b>With Pro:</b> the design optimiser runs a whole constellation design space around the Earth, the Moon or Mars through this engine and returns its <b>Pareto front</b>, each front design written out as a plain scenario file. <a1>See a real front</a1>
+seg-6c981f00d37d = <b>Med Pro:</b> utformningsoptimeraren kör ett helt utformningsrum för konstellationer kring jorden, månen eller Mars genom den här motorn och returnerar dess <b>Paretofront</b>, där varje utformning på fronten skrivs ut som en vanlig scenariofil. <a1>Se en verklig front</a1>
+
+# <b>Free today:</b> everything in the open engine. Pro: architecture trade studies ranked on a figure of merit.
+seg-9601ecea0610 = <b>Gratis i dag:</b> allt i den öppna motorn. Pro: arkitekturavvägningsstudier rangordnade efter ett kvalitetsmått.
+
+# <b>Free today:</b> everything in the open engine. Pro: audit-grade, reproducible evidence packs for a review.
+seg-081d06995ef0 = <b>Gratis i dag:</b> allt i den öppna motorn. Pro: reproducerbara bevispaket i revisionsklass för en granskning.
+
+# <b>Free today:</b> everything in the open engine. Pro: clock digital twins calibrated to your device's published Allan budget.
+seg-2abf4f5bd06e = <b>Gratis i dag:</b> allt i den öppna motorn. Pro: digitala tvillingar av klockor kalibrerade mot din enhets publicerade Allan-budget.
+
+# (not in the old English either)
+seg-67a6c0107bcd = Motor v{ $version }, bygge <c1/> · <c2/> · deterministisk, inget frö

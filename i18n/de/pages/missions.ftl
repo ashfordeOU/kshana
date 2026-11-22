@@ -283,9 +283,6 @@ seg-b388c2bac488 = Die Orbitkonsole öffnen
 seg-3d6af799cb19 = <s1>Freier Kern</s1> jedes Szenario und Diagramm auf dieser Seite
 
 # text
-seg-354162e88f07 = <s1>Pro</s1> die Pareto-Front eines Entwurfsraums, Unsicherheit und Sensitivität und ein Missionsdossier mit einem Befehl
-
-# text
 seg-83e0dd9b2617 = <s1>Individuelle Studie</s1> auf Ihre Hardware kalibrierte Modelle, für Sie erledigt
 
 # text
@@ -403,9 +400,6 @@ seg-2d9d1994071f = Führen Sie jede Szenariodatei dieses Sektors in Kshana Studi
 seg-731232b52b8f = Pro ergänzt
 
 # text
-seg-de3cc6d30b9c = Pro: revisionsfeste, reproduzierbare Nachweispakete für eine Prüfung.
-
-# text
 seg-6d3d0f8c9b7c = Eine Pro-Evaluierung anfragen
 
 # text
@@ -517,9 +511,6 @@ seg-2918af222529 = Sichtbare Satelliten und PDOP (Verdünnung der Positionsgenau
 seg-ef0cc5181857 = Ein geostationärer Nutzer: Setzen Sie die Nutzerbahn in einem Szenario der Art orbit, so wie orbit-molniya eine stark exzentrische setzt.
 
 # text
-seg-7889feffa939 = Pro: Architektur-Trade-Studien, gereiht nach einer Gütezahl. Pro: digitale Zwillinge von Uhren, kalibriert auf das veröffentlichte Allan-Budget Ihres Geräts.
-
-# text
 seg-bb0ceeb8db2a = Bekommt ein Lander, ein Rover oder ein Orbiter am Mond, am Mars oder weiter draußen eine vertrauenswürdige Position und Zeit, und was fügt die lokale Zeitskala dem Fehlerbudget hinzu?
 
 # text
@@ -563,9 +554,6 @@ seg-96077751d4ce = Lunare Zeitrate gegen das veröffentlichte Band und das durch
 
 # text
 seg-f1dfccfb9f89 = Relais-Navigationsfehler in der Marsumlaufbahn, an der Oberfläche und im Transfer
-
-# text
-seg-4a5542c69690 = Pro: digitale Zwillinge von Uhren, kalibriert auf das veröffentlichte Allan-Budget Ihres Geräts. Pro: Architektur-Trade-Studien, gereiht nach einer Gütezahl.
 
 # text
 seg-4cf1f8144ae2 = Wie lange bleibt mein UAS (unbemanntes Luftfahrzeugsystem), nachdem ein Jammer GNSS genommen hat, innerhalb seines Positionsbudgets, und ist Integrität auf meiner Route verfügbar?
@@ -736,9 +724,6 @@ seg-b6c48dca904a = Erkennung von Zeit-Spoofing durch den Integritätsmonitor der
 seg-3db4a218354b = Stromnetz und Finanzwesen: Die Genauigkeitsgrenze der Zeit Ihres Sektors geht als threshold_ns ein.
 
 # text
-seg-cc45be91cd00 = Pro: digitale Zwillinge von Uhren, kalibriert auf das veröffentlichte Allan-Budget Ihres Geräts. Pro: revisionsfeste, reproduzierbare Nachweispakete für eine Prüfung.
-
-# text
 seg-cb5e51c39a7f = Verlust der GNSS-Zeitreferenz an einer primären Referenzzeituhr, Zeit-Spoofing
 
 # text
@@ -845,9 +830,6 @@ seg-1bd3b0f6eb7e = Realer Lauf der Engine, wiedergegeben
 
 # text
 seg-f1313464b7c9 = Bahnen: aus den eigenen Elementen des Laufs neu propagiert und gegen die Bodenspuren der Engine geprüft. Planeten: NASA-Bilder.
-
-# text
-seg-6c981f00d37d = <b>Mit Pro:</b> führt der Entwurfsoptimierer einen ganzen Konstellations-Entwurfsraum um die Erde, den Mond oder den Mars durch diese Engine und gibt seine <b>Pareto-Front</b> zurück, jeder Entwurf auf der Front als einfache Szenariodatei ausgeschrieben. <a1>Eine echte Front ansehen</a1>
 
 # text
 seg-cdd1e1a6793d = Ausfallarten
@@ -1020,9 +1002,6 @@ seg-d2c741b188de = Eine PNT-Architektur dimensionieren und sehen, wo sie bricht.
 seg-87adf34e62f8 = Beginnen Sie bei <a1>Fähigkeitsatlas</a1>
 
 # text
-seg-9601ecea0610 = <b>Heute frei:</b> alles in der offenen Engine. Pro: Architektur-Trade-Studien, gereiht nach einer Gütezahl.
-
-# text
 seg-5ad7df11c031 = PNT- oder GNSS-Spezialist
 
 # text
@@ -1042,9 +1021,6 @@ seg-a5345bf50e9a = Szenarien als Regressionstests festschreiben und eine ganze S
 
 # text
 seg-57027baf4d52 = Beginnen Sie bei <a1>Wege der Nutzung</a1>
-
-# text
-seg-081d06995ef0 = <b>Heute frei:</b> alles in der offenen Engine. Pro: revisionsfeste, reproduzierbare Nachweispakete für eine Prüfung.
 
 # text
 seg-e453a0b9a72e = Beschaffer oder Programmprüfer
@@ -1078,9 +1054,6 @@ seg-4f23a0580efe = Holdover gegen ITU-T-Masken prüfen, bevor die GNSS-Antenne a
 
 # text
 seg-7bc4df13f4cb = Beginnen Sie bei der <a1>Zeitgebungswand</a1>
-
-# text
-seg-2abf4f5bd06e = <b>Heute frei:</b> alles in der offenen Engine. Pro: digitale Zwillinge von Uhren, kalibriert auf das veröffentlichte Allan-Budget Ihres Geräts.
 
 # text
 seg-907754b26f64 = Nutzer von KI-Assistenten
@@ -1227,5 +1200,3 @@ seg-9a86ef058d27 = In Kshana Studio öffnen
 seg-e1acd19a6ac6 = Editionen vergleichen
 
 seg-ceb2de75e2f4 = <b>Heute frei:</b> alles in der offenen Engine. Frei: { "53" } MCP-Werkzeuge, von run_scenario bis export_oem.
-
-seg-67a6c0107bcd = Engine v{ $version }, Build <c1/> · <c2/> · deterministisch, kein Seed

@@ -278,17 +278,9 @@ seg-d997b6a5a416 = Dlaczego Pro, jeszcze więcej
 
 seg-4ff013b472ff = Który projekt wybrać do lotu?
 
-seg-f4eb65b9b27a = Księżycowa konstelacja nawigacyjna: najmniej satelitów wobec dostępności, cały Księżyc: uruchomiono { "608" } projektów, front Pareto z { "12" } projektów
-
 seg-c8ce2e4a6687 = Jak bardzo jesteśmy pewni i co napędza wynik?
 
-seg-049c503c23db = Holdover zegara przy niepewnym poziomie szumu: od 5. do 95. percentyla z { "2,000" } przebiegów wobec limitu { "20" } ns
-
 seg-3dd37275b448 = Czy misja spełnia swoje wymagania i czy możemy to przekazać?
-
-seg-7fbde256debf = niespełnione
-
-seg-f6ccb7a322b3 = otwarte pozycje
 
 seg-6d3d0f8c9b7c = Poproś o ocenę Pro
 
@@ -329,8 +321,6 @@ seg-8b095f7254ed = Kopiuj polecenie instalacji: cargo install kshana
 seg-f0e9de10d9ef = cargo install kshana<s1>Kopiuj</s1>
 
 seg-ec3957c0f5f1 = Naciśnij <c1/>, aby przeszukać strony, scenariusze i dokumentację
-
-seg-a92f77bd42cb = <s1>Kshana Pro</s1><c1/><s2>Ten sam silnik, wzmocniony: { "608" } projektów, jeden front Pareto</s2>
 
 seg-b807a8887172 = Telemetria odtworzona z łańcuchowego przebiegu kampanii
 
@@ -646,8 +636,6 @@ seg-09d18cf767a7 = Otwarty rdzeń, Kshana Pro, badanie na zamówienie
 
 seg-302606971c35 = Za darmo dla wszystkich. Pro, gdy odpowiedź musi wytrzymać przegląd.
 
-seg-27c12083529b = Kshana Pro to zastrzeżona nakładka, która zależy od otwartego rdzenia i nigdy go nie rozwidla, dostępna na podstawie umowy. Żadnych cen na stronie internetowej: każda płatna ścieżka zaczyna się od wiadomości na adres <a1>contact@ashforde.org</a1>.
-
 seg-43ceda17e71c = Otwarty rdzeń · za darmo · AGPL-3.0
 
 seg-0230217b1110 = Każdy, kto bierze położenie lub czas z GNSS, jest narażony: zagłuszanie, spoofing i utrata sygnału dotykają jednakowo pojazdów, sieci, systemów energetycznych i statków kosmicznych.
@@ -657,14 +645,6 @@ seg-0af87a1caff4 = Ten sam rdzeń na licencji komercyjnej, do integracji zamkni�
 seg-f6406933eb77 = Zainstaluj silnik
 
 seg-6a74a165bfd0 = Kshana Pro · na podstawie umowy
-
-seg-298532756f74 = Front Pareto przestrzeni projektowej, z każdym projektem z frontu jako scenariuszem, który darmowy silnik uruchamia ponownie.
-
-seg-a699256db841 = Niepewność i czułość na tysiącach przebiegów.
-
-seg-665005551d84 = Dossier misji jednym poleceniem z macierzą weryfikacji i plikiem PDF (Portable Document Format).
-
-seg-455cb5040f80 = Pakiety dowodowe klasy audytowej i odtwarzalne; cyfrowe bliźniaki zegarów skalibrowane do opublikowanego budżetu Allana urządzenia; studia kompromisów architektur uszeregowane według wskaźnika jakości; narzędzia inżynierii systemów opartej na modelach (MBSE) i programowe.
 
 seg-3e30593288a1 = Co obejmuje Pro
 
@@ -680,48 +660,10 @@ seg-57320238c0f4 = Prace objęte kontrolą eksportu, prowadzone w ramach odpowie
 
 seg-e36049d768ce = Integracja, szkolenia i doradztwo.
 
-seg-3303866fbf99 = Ten sam silnik, wzmocniony: rzeczywiste wyniki Kshana Pro
-
-seg-f5513a1750f1 = <a1><s1><c1/>Optymalizator projektu</s1></a1>
-
-seg-2bbc6243b4b1 = <b>{ "608" } projektów</b>, wszystkie uruchomione: front Pareto i jego punkt przegięcia
-
-seg-56e344605a3d = <a1><s1><c1/>Niepewność i czułość</s1></a1>
-
-seg-a0b3c138f981 = <b>{ "2,000" } przebiegów</b>: pasmo ufności wobec limitu
-
 seg-6de95aaa8ba4 = <a1><s1><c1/>Dossier misji</s1></a1>
 
-seg-905e5eef45e5 = <b>{ "12" } wymagań</b> sprawdzonych na rzeczywistych przebiegach, 21-stronicowy PDF (Portable Document Format)
-
 seg-7d9ee2bfbb90 = Sprawdź, gdzie załamuje się synchronizacja czasu, zanim to nastąpi.
-
-seg-070972f642de = Wątek misji klasy Artemis: budżet błędu nawigacji i czasu od startu do wejścia w atmosferę
-
-seg-4970f874d334 = Segment księżycowy: spotkanie, lądowanie, powierzchnia i wznoszenie
-
-seg-8ca6e2046901 = Szacowany obszar emitera na podstawie raportów ADS-B lub AIS
-
-seg-003a3b9b63ea = Zmierzone dzienniki zegara i holdover sterowany dopasowaną serią
-
-seg-448b11c86f48 = Partnerzy danych: które wiersze mogłyby awansować dzięki zmierzonym danym
-
-seg-5858e5d1f7c5 = Etykieta dowodowa przy każdej wartości i tabeli zapisywanej przez przebieg
-
-seg-bd28ef5c376e = Siedemnaście języków obok angielskiego
-
-seg-7fae5de5ebf1 = kshana-bench: ponowna kampania { "0.40" }
-
-seg-b9961ed25282 = Nowość w v{ $version }: wątek misji, etykieta dowodowa przy każdej wartości i siedemnaście języków
 
 seg-579d9b6f7afd = Wszystkie { "93" } rodzajów scenariuszy, za darmo, bez bramki funkcji, deterministyczne na podstawie scenariusza, ziarna (seed) i wersji silnika.
 
 seg-56bf1281e330 = Nagrana sesja z serwerem kshana-mcp (Model Context Protocol, silnik v{ $version }): asystent wyświetla { "53" } narzędzi, waliduje <c1/> (poprawny: wykryty rodzaj scenariusza `clock`) i uruchamia go: scenariusz 5ba83a232b94 | holdover kwantowy 6600s p95 1.20e-4ns integralność { "1.000" } bezpieczeństwo n/a (brak ataku) | holdover klasyczny 2610s p95 19.7ns integralność { "1.000" } bezpieczeństwo n/a (brak ataku).
-
-seg-237d8bd201d2 = <b>Kampania:</b> silnik v{ $version }, kompilacja <c1/> · <c2/> · ziarno (seed) { "20260928" }
-
-seg-98ebce268546 = <b>Orbity:</b> silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
-
-seg-bb2975f5a7dd = Silnik v{ $version }, kompilacja <c1/> · <c2/> · ziarno (seed) { "20260928" }
-
-seg-ee04b167d80a = { "176" } z { "412" } możliwości zgadza się z niezależnymi wyroczniami zewnętrznymi; pozostałe są jawnie oznaczone jako obliczone na podstawie modelu.

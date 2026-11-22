@@ -96,8 +96,6 @@ seg-ea7fba14ee58 = Volné jádro
 
 seg-b3f3fc0fd6ff = Vše, co je na této stránce ukázáno: každý druh scénáře, soubor scénáře, pásmo, hodiny i těleso běží v otevřeném enginu pod licencí AGPL-3.0 (GNU Affero General Public License, verze { "3" }), bez omezení funkcí.
 
-seg-311e7a7d55dc = Označeno tam, kde to staví na určité schopnosti: optimalizátor návrhu, nejistota a citlivost, dossier mise, kalibrovaná dvojčata hodin a seřazené srovnávací studie. <a1>Co přidává Pro</a1>
-
 seg-a613a7447e3f = Studie na zakázku
 
 seg-3e6b00d51b99 = Když to musí být uděláno za vás: modely senzorů kalibrované na váš hardware nebo modelová studie odolnosti. <a1>Požádat o studii</a1>
@@ -468,8 +466,6 @@ seg-982938fe53bc = Třída ultra stabilního/optického palubního oscilátoru, 
 
 seg-2adc3374e996 = Každé id modelu a jeho původ se čtou ze souborů scénářů.
 
-seg-0aa1e4562dac = Kshana Pro kalibruje <b>digitální dvojče hodin</b> podle zveřejněného rozpočtu Allanovy odchylky vašeho zařízení, postavené na druhu <c1/> a výše uvedených třídách. <a1>Co přidává Pro</a1>
-
 seg-0d9353d25bc6 = GNSS ztraceno. Kde jsou jednotlivé hodiny po <s1>{ "10" } min</s1>?
 
 seg-55768eaf7218 = Čas od ztráty GNSS
@@ -556,8 +552,6 @@ seg-91e8a9dca129 = Vylepšené hodiny zařízení synchronního Ethernetu (eEEC)
 
 seg-f6f1b242019f = Obě tabulky se čtou z <c1/>; druh <c2/> kontroluje hodiny proti kterékoli masce.
 
-seg-b291c1ae1f5c = Kshana Pro kalibruje digitální dvojče hodin podle zveřejněného rozpočtu Allanovy odchylky zařízení a kontroluje jej odhadovačem Allanovy odchylky otevřeného enginu; dvojče vašeho vlastního zařízení se staví na zakázku. <a1>Co přidává Pro</a1>
-
 seg-f65bf4f57e2f = Telekomunikační holdover: MTIE a TDEV zařízení Microchip 8040C, standardní výkon <c1/>
 
 seg-a13eab564243 = MTIE
@@ -631,8 +625,6 @@ seg-1e21e701259e = Návrhy konstelací
 seg-aa924d59476b = Metrika mapy
 
 seg-59a109b36eea = T+{ "00" }:{ "00" }
-
-seg-e5f00e27b617 = <b>S Pro:</b> optimalizátor návrhu vrací <b>Paretovu frontu</b> celého prostoru návrhů konstelace kolem Země, Měsíce nebo Marsu, každý návrh z fronty je zapsán jako prostý soubor scénáře a <b>seřazená srovnávací studie</b> porovnává architektury podle ukazatele kvality. <a1>Zobrazit skutečnou frontu</a1>
 
 seg-2d6cfb3452e3 = Sluneční soustava · druh solar-system
 
@@ -827,8 +819,6 @@ seg-19706b999108 = jedna příčina, mnoho členů
 seg-ff2823b929b3 = Události zřetězeného běhu
 
 seg-17c200a01fea = Kshana Studio přehrává každou kampaň ve vašem prohlížeči; příkaz a soubor scénáře reprodukují každý běh a je zveřejněna i vlastní zpráva zřetězeného běhu.
-
-seg-dd2809ea9a6a = <b>S Pro:</b> uvedené nejistoty vstupů dávají <b>pásma spolehlivosti</b>, pravděpodobnost dodržení limitu a pořadí vstupů, které výsledek řídí, přes tisíce běhů, které lze zastavit a obnovit. <a1>Zobrazit skutečné pásmo</a1>
 
 seg-2b2aa3298f26 = Přizpůsobte si to · Kshana Studio
 
@@ -2052,19 +2042,7 @@ seg-16cf26093bf0 = <c1/><a1>quantum-pnt-demonstrator.suite</a1>
 
 seg-6cb4a75cb2f0 = Tomuto filtru nic neodpovídá.
 
-seg-ec1a22002e13 = <b>Pro: kalibrované dvojče hodin</b> navazuje na <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>. <a1>Zjistěte, co přidává</a1>
-
-seg-cc88295c3e2e = <b>Pro: srovnávací studie s pořadím</b> navazuje na <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>. <a1>Zjistěte, co přidává</a1>
-
 seg-62942b0a2127 = <b>Vlastní studie</b> navazuje na <c1/>. <a1>Zjistěte, co přidává</a1>
-
-seg-8cec53de04c5 = <b>Pro: optimalizátor návrhu</b> navazuje na <c1/>. <a1>Zjistěte, co přidává</a1>
-
-seg-4bdca619acb5 = <b>Pro: nejistota a citlivost</b> navazuje na <c1/>, <c2/>. <a1>Zjistěte, co přidává</a1>
-
-seg-35d8381e7605 = <b>Pro: dokumentace mise</b> navazuje na <c1/>, <c2/>, <c3/>, <c4/>, <c5/>. <a1>Zjistěte, co přidává</a1>
-
-seg-08d3c155a74d = <b>Pro: sledování kampaně</b> navazuje na <c1/>. <a1>Zjistěte, co přidává</a1>
 
 seg-ff9c1f190eb6 = <b>Pro: koexistence ve spektru</b> navazuje na <c1/>, <c2/>. <a1>Zjistěte, co přidává</a1>
 
@@ -2283,52 +2261,6 @@ seg-b39df358a1b0 = <c1/><s1>lunar-orbit-rendezvous</s1>
 seg-dc524d9636a3 = <c1/><s1>lunar-surface</s1>
 
 seg-0b3cd978cb6e = <c1/><s1>lunar-surface</s1>
-
-seg-d5c6110302e9 = Mise ve stylu Artemis jako jedno vlákno, štítek důkazů u každého čísla a sedmnáct jazyků.
-
-seg-8597c65432ed = Zřetězte fáze lunární mise do jednoho rozpočtu chyb navigace a času, odhadněte, kde se může nacházet zdroj zhoršených hlášení polohy, čtěte změřené záznamy hodin, u každého čísla, které běh zapíše, vidíte úroveň důkazů a používejte příkazový řádek, zprávy a Studio v sedmnácti jazycích. Každá schopnost nese štítek, který pro ni drží registr, a štítek uvádí jen to, co bylo zkontrolováno. Software pouze poradního charakteru, nikoli typově schválené navigační zařízení: za navigaci zůstává odpovědný provozovatel.
-
-seg-070972f642de = Mise ve stylu Artemis jako jedno vlákno: rozpočet chyb navigace a času od startu po vstup do atmosféry
-
-seg-982a4a7cf0db = Druh mission-thread zřetězuje fáze (start a výstup, setkání na nízké oběžné dráze Země, trans-lunární injekce a přelet, lunární fáze, vstup do atmosféry) a přenáší kovarianci polohy a rychlosti z každé fáze do další; pravidla předání, převody soustav a časových stupnic, rezerva vůči stanoveným požadavkům a nejslabší článek jsou každé zapsány jako řádky rozpočtu.
-
-seg-17c9cc6c2d40 = Zkontrolováno: srovnání s Artemis I nesplnilo svůj práh ({ "45.3" } km oproti { "5" } km); řádek zůstává MODELLED
-
-seg-946487626f87 = Pohled na vlákno mise ve Studiu Kshana
-
-seg-4970f874d334 = Lunární část: setkání, sestup, povrch a výstup
-
-seg-b6c35bf141e7 = Čtyři druhy scénářů, z nichž každý je zároveň fází vlákna mise: relativní navigace až k dokování na lunární oběžné dráze, rozpočet rozptylu přistání na jihopolárním místě, dostupnost určování polohy a času podle místa a roční doby a výstup zpět na oběžnou dráhu setkání.
-
-seg-ce097df855a9 = Zkontrolováno: předregistrované prahy; jeden splněn, jeden nesplněn, žádný nezmírněn
-
-seg-8ca6e2046901 = Odhadovaná oblast zdroje rušení z hlášení ADS-B nebo AIS
-
-seg-ca6383e426f9 = Kde se může nacházet zdroj zhoršených hlášení polohy, jako oblasti na úrovni { "50" }, { "90" } a { "95" } procent s těžištěm a jeho elipsou nejistoty, nikdy jako holý bod, a relace v čase.
-
-seg-27af464d0674 = Zkontrolováno: předregistrováno; oba zdroje nehodnotitelné, takže se nic netvrdí
-
-seg-003a3b9b63ea = Změřené záznamy hodin a holdover řízený nafitovanou řadou
-
-seg-f51fa2a40db8 = Načtěte změřený záznam hodin v osmi formátech (RINEX clock, TimeLab, TICC, linuxptp, chrony) do jedné fázové řady pro druhy clock a telecom-timing a nafitujte šum změřené řady, aby řídil holdover.
-
-seg-6e9140563c53 = Zkontrolováno: prahy předregistrovány; nesplnění uvedena a zafixována
-
-seg-448b11c86f48 = Datoví partneři: které řádky by mohla povýšit změřená data
-
-seg-56b0201d930c = Které modelované řádky registru by mohla povýšit změřená data od partnera, jaké formáty se přijímají a jak se podání kontroluje, hodnotí proti předregistrovanému prahu a připisuje.
-
-seg-5858e5d1f7c5 = Štítek důkazů u každého čísla a každé tabulky, které běh zapíše
-
-seg-d1c4250b2a7e = Každý výsledný soubor, graf a tabulka, které běh zapíše, nyní uvádí, na které úrovni stojí (ověřeno, modelováno nebo partner, podle nejslabšího ze svých řádků), a jmenuje řádky verifikační matice, které za ním stojí; čte se z matice a nepíše se ručně.
-
-seg-bd28ef5c376e = Sedmnáct jazyků vedle angličtiny
-
-seg-1e4a6a5931d3 = Příkazový řádek, zprávy, stránky dokumentace a Studio jsou k dispozici v sedmnácti jazycích vedle angličtiny.
-
-seg-7fae5de5ebf1 = kshana-bench: rekampaň { "0.40" }
-
-seg-1e0afa852323 = Čtyři předregistrovaná srovnání byla po schválení spuštěna jednou a splnila své prahy a každé skóre je modelované.
 
 seg-c381cfa99bb0 = Scénář hodin, jehož klasické hodiny přebírají šum změřeného záznamu (`[clock_fit]`).
 

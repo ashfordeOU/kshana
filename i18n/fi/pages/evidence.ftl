@@ -2261,8 +2261,6 @@ seg-d5c32303297d = Lue kirjanpito (ledger)
 
 seg-f6112ab2dfdf = Kirjanpito (ledger), tulokset, toistettavuusleima ja niiden takana olevat testit ovat kaikki avoimessa moottorissa.
 
-seg-69df15091cab = Paketoi todisteet auditointikelpoiseksi, toistettavaksi todistepaketiksi arviointilautakunnalle. <a1>Katso alla</a1>
-
 seg-9906d9824f3e = Vastaa omaan kysymykseesi samoilla merkinnöillä, ei sertifiointi. <a1>Katso alla</a1>
 
 seg-f6a6cca2263c = Matriisi
@@ -3175,8 +3173,6 @@ seg-7091847e1c77 = Julkaistu malli tai dokumentoitu mallinnusvalinta, sisäisest
 
 seg-1d17589ad647 = Avaruusaluksen alustatekniikka, navigointikuorma ja antennilaitteisto, kvanttikuorman laitteisto sekä lentolaitteiston tuotevarmistus. Kshana ei väitä kattavansa mitään niistä; kumppani omistaa ne.
 
-seg-5af3d58e83fa = <b>Pro-versiolla:</b> <b>tehtävädossier</b> tarkistaa jokaisen vaatimuksen todellisia ajoja vasten ja säilyttää nämä merkinnät varmennusmatriisissaan: vaatimus, joka on täytetty perusteella MODELLED tai PARTNER, merkitään. <a1>Katso todellinen dossier</a1>
-
 seg-400016e22379 = Validoinnin kirjanpito (ledger)
 
 seg-20ec758fe328 = Jokainen rivi nimeää vaatimuksensa, tilansa ja sen toteuttavan moduulin. Avaa rivi nähdäksesi sen oraakkelin ja testit tai valitse toimiala rajataksesi.
@@ -3671,8 +3667,6 @@ seg-457a0bba7c77 = <s1>tests/receiver_trust_machines.rs (rtklib_pos_runs_as_a_re
 
 seg-17ab1aee875b = Tuotettu moottorin varmennusmatriisista ja lukittu testillä. Vieritä luetteloa tai avaa rivi nähdäksesi sen ominaisuuden, oraakkelin ja testit. Koko taulukko, kaikki sarakkeet kerralla, on dokumentaatiossa: <a1>Ominaisuusviite</a1>.
 
-seg-41da0459d87a = Tarvitsetko tämän kirjanpidon tarkastuskelpoisena, toistettavana todistepakettina arviointilautakunnalle? <a1>Kshana Pro pakkaa sen</a1>.
-
 seg-72a49f4a8a52 = Toistettavissa oletuksena
 
 seg-fa37e615f55e = Aja se uudelleen. Saat samat luvut.
@@ -3733,10 +3727,6 @@ seg-481e625b04be = Samat todisteet, paketoituna tai puolestasi tehtynä.
 seg-d2c76b1353a9 = Moottori ja kaikki sen yläpuolella oleva pysyvät ilmaisina. Kaksi maksullista reittiä rakentuu niiden päälle sopimuksella.
 
 seg-1e1e6d431868 = Kshana Pro: tehtäväasiakirja ja todistepaketti
-
-seg-20582558a93f = Kshana Pro paketoi toistettavasti ne todisteet, joita arviointi tai hankintalautakunta pyytää. Sen perustana ovat tämä kirjanpito, jossa jokainen ominaisuus nimeää oraakkelinsa ja testinsä, sekä leima, jonka jokainen tulos kantaa. Yhdellä komennolla tehtäväasiakirja tarkistaa jokaisen vaatimuksen todellisia ajoja vasten ja kirjoittaa varmennusmatriisin avoimine kohtineen sekä PDF:n (Portable Document Format).
-
-seg-1c8effb9400a = Katso todellinen tehtäväasiakirja
 
 seg-c24f4ecd4d42 = Räätälöity tutkimus: kysymyksesi vastattuna
 
@@ -4105,37 +4095,11 @@ seg-860ca782e2bf = Vaiheen tli-and-cruise keskitilan propagointi (Cowell, Maa pi
 
 seg-7c7d72cc2036 = Mahdollinen alue sille, missä heikentyneitä navigointiraportteja aiheuttava lähde voi olla, ADS-B:stä… · mallinnettu
 
-seg-43f852e4bee8 = / { "74" } validoitu
-
 seg-8fe12f6058c6 = / { "26" } validoitu
 
 seg-65122c2bb1fc = / { "104" } validoitu
 seg-2998c6fa20d6 = / { "79" } validoitu
 seg-4b3ab6095c65 = { "56" } rivistä validoitu
-
-seg-0c637f4b6c88 = { "412" } ominaisuutta, kukin arvioitu. <b>{ "176" } validoitu</b> riippumattomia ulkoisia oraakkeleita vastaan. <b>{ "232" } rehellisesti merkitty mallinnetuiksi.</b> { "4" } kumppanin omistamaa. Mitään ei pyöristetä ylöspäin.
-
-seg-c2c3179c1316 = Varmennusmatriisi, yksi solu per ominaisuus kirjanpidon järjestyksessä: { "176" } validoitu (täytetyt neliöt), { "232" } mallinnettu (onttoja neliöitä), { "4" } kumppanin omistama (vinoneliöt). Nuolinäppäimet siirtävät solujen välillä; ominaisuus ja sen oraakkeli luetaan alla.
-
-seg-a2cdd2df1b36 = Moottori v{ $version } · <c1/>, generoitu tiedostosta <c2/> · { "412" } riviä · ei skenaariota eikä siemenlukua: moottorin oma kirjanpito (ledger)
-
-seg-b36352ff4d2a = Moottori v{ $version }, build <c1/> · <c2/> · deterministinen, ei siemenlukua
-
-seg-edd1aba6a08c = Moottori v{ $version }, build <c1/> · <c2/> · deterministinen, ei siemenlukua
-
-seg-90efc3759f07 = Moottori v{ $version }, build <c1/> · <c2/> · deterministinen, ei siemenlukua
-
-seg-094876c75564 = Moottori v{ $version } · <c1/> jäännöstaulukot, kaksi propagaattoritarkistusta laskettu uudelleen versiolla <c2/> · deterministinen, ei siemenlukua
-
-seg-1c7e4b85e701 = Moottori v{ $version }, build <c1/> · <c2/> · deterministinen, ei siemenlukua
-
-seg-f42398e9711c = Moottori v{ $version }, build <c1/> · <c2/> · deterministinen, ei siemenlukua
-
-seg-07e8ef5a102f = { "176" }<s1>/ { "412" } validoitu</s1>
-
-seg-4873cd813b9a = Varmennusmatriisi: { "176" } validoitu, { "232" } mallinnettu, { "4" } kumppanin omistama, yhteensä { "412" }
-
-seg-98b273ce8773 = Kaikki { "412" } riviä, yksi rivi kullekin.
 
 seg-7780d0588bd2 = { "20" } rivistä validoitu
 
@@ -4144,9 +4108,3 @@ seg-00d97be31745 = { "81" } rivistä validoitu
 seg-04cc15e9a93c = { "31" } rivistä validoitu
 
 seg-2de2a4f9f3f7 = { "57" } rivistä validoitu
-
-seg-c321a2dafd3e = Kaikki { "412" }
-
-seg-bc4726a0baf1 = Mallinnettu { "232" }
-
-seg-40e80b22723c = Validointikirjanpito, { "412" } riviä, vieritettävä

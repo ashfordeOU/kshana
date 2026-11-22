@@ -146,9 +146,6 @@ seg-ea7fba14ee58 = Vaba tuum
 seg-b3f3fc0fd6ff = Kõik sellel lehel näidatu: iga stsenaariumi liik, stsenaariumifail, riba, kell ja keha töötab avatud mootoris AGPL-3.0 (GNU Affero General Public License, versioon { "3" }) all, ilma funktsioonipiiranguta.
 
 # text
-seg-311e7a7d55dc = Märgitud seal, kus see tugineb mingile võimekusele: kujunduse optimeerija, määramatus ja tundlikkus, missiooni dosjee, kalibreeritud kellakaksikud ja järjestatud kompromissuuringud. <a1>Mida Pro lisab</a1>
-
-# text
 seg-a613a7447e3f = Tellimusuuring
 
 # text
@@ -725,10 +722,6 @@ seg-982938fe53bc = Ülistabiilse/optilise pardaostsillaatori klass, valge FM sig
 seg-2adc3374e996 = Iga mudeli id ja selle päritolu loetakse stsenaariumifailidest.
 
 # text
-# c1: clock
-seg-0aa1e4562dac = Kshana Pro kalibreerib <b>kella digitaalse kaksiku</b> seadme avaldatud Alani hälbe bilansi järgi, tuginedes liigile <c1/> ja ülaltoodud klassidele. <a1>Mida Pro lisab</a1>
-
-# text
 seg-0d9353d25bc6 = GNSS kadunud. Kus on iga kell <s1>{ "10" } min</s1> pärast?
 
 # text
@@ -861,9 +854,6 @@ seg-91e8a9dca129 = Täiustatud sünkroon-Etherneti seadmekell (eEEC), lukustatud
 seg-f6f1b242019f = Mõlemad tabelid loetakse failist <c1/>; liik <c2/> kontrollib kella mis tahes maski vastu.
 
 # text
-seg-b291c1ae1f5c = Kshana Pro kalibreerib kella digitaalse kaksiku seadme avaldatud Alani hälbe bilansi järgi ja kontrollib seda avatud mootori Alani hälbe hinnangufunktsiooniga; seadme enda kaksik ehitatakse lepingu alusel. <a1>Mida Pro lisab</a1>
-
-# text
 # c1: telecom-timing
 seg-f65bf4f57e2f = Telekomi holdover: Microchip 8040C MTIE ja TDEV, standardjõudlus <c1/>
 
@@ -980,9 +970,6 @@ seg-aa924d59476b = Kaardi mõõdik
 
 # text
 seg-59a109b36eea = T+{ "00" }:{ "00" }
-
-# text
-seg-e5f00e27b617 = <b>Pro-ga:</b> kujunduse optimeerija tagastab kogu konstellatsiooni kujundusruumi <b>Pareto frondi</b> Maa, Kuu või Marsi ümber, iga frondi kujundus kirjutatakse välja tavalise stsenaariumifailina, ning <b>järjestatud kompromissuuring</b> võrdleb arhitektuure kvaliteedinäitaja alusel. <a1>Vaata päris fronti</a1>
 
 # text
 seg-2d6cfb3452e3 = Päikesesüsteem · liik solar-system
@@ -1318,9 +1305,6 @@ seg-ff2823b929b3 = Aheldatud käigu sündmused
 
 # text
 seg-17c200a01fea = Kshana Studio esitab iga kampaania brauseris uuesti; käsk ja stsenaariumifail reprodutseerivad iga käigu ning aheldatud käigu enda aruanne on avaldatud.
-
-# text
-seg-dd2809ea9a6a = <b>Pro-ga:</b> esitatud sisendi määramatused annavad <b>usaldusribad</b>, piiri täitmise tõenäosuse ja tulemust juhtivate sisendite järjestuse tuhandete käikude üle, mida saab peatada ja jätkata. <a1>Vaata päris riba</a1>
 
 # text
 seg-2b2aa3298f26 = Tee see enda omaks · Kshana Studio
@@ -2479,48 +2463,8 @@ seg-16cf26093bf0 = <c1/><a1>quantum-pnt-demonstrator.suite</a1>
 seg-6cb4a75cb2f0 = Selle filtriga ei sobi miski.
 
 # text
-# c1: clock
-# c2: lunar-time-offset
-# c3: timetransfer
-# c4: quantum-time-transfer
-# c5: lunar-time-budget
-# c6: telecom-timing
-# c7: slot-timing
-seg-ec1a22002e13 = <b>Pro: kalibreeritud kellakaksik</b> põhineb: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>. <a1>Vaata, mida see lisab</a1>
-
-# text
-# c1: sweep
-# c2: sweep-nd
-# c3: combined-altpnt
-# c4: quantum-trade
-# c5: hybrid-optical-rf
-# c6: conflict-resilience
-seg-cc88295c3e2e = <b>Pro: järjestatud kompromissuuring</b> põhineb: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>. <a1>Vaata, mida see lisab</a1>
-
-# text
 # c1: impairment-eval
 seg-62942b0a2127 = <b>Tellimusuuring</b> põhineb: <c1/>. <a1>Vaata, mida see lisab</a1>
-
-# text
-# c1: constellation-design
-seg-8cec53de04c5 = <b>Pro: kujunduse optimeerija</b> põhineb: <c1/>. <a1>Vaata, mida see lisab</a1>
-
-# text
-# c1: clock
-# c2: leo-pnt-chain
-seg-4bdca619acb5 = <b>Pro: määramatus ja tundlikkus</b> põhineb: <c1/>, <c2/>. <a1>Vaata, mida see lisab</a1>
-
-# text
-# c1: body-pnt
-# c2: campaign
-# c3: constellation-design
-# c4: leo-pnt-chain
-# c5: spectrum
-seg-35d8381e7605 = <b>Pro: missiooni dosjee</b> põhineb: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>. <a1>Vaata, mida see lisab</a1>
-
-# text
-# c1: campaign
-seg-08d3c155a74d = <b>Pro: kampaania jälgimine</b> põhineb: <c1/>. <a1>Vaata, mida see lisab</a1>
 
 # text
 # c1: constellation-design
@@ -3617,52 +3561,6 @@ seg-b39df358a1b0 = <c1/><s1>lunar-orbit-rendezvous</s1>
 seg-dc524d9636a3 = <c1/><s1>lunar-surface</s1>
 
 seg-0b3cd978cb6e = <c1/><s1>lunar-surface</s1>
-
-seg-d5c6110302e9 = Artemis-klassi missiooniahel, tõendimärgis igal arvul ja seitseteist keelt.
-
-seg-8597c65432ed = Aheldab Kuu missiooni faasid üheks navigatsiooni- ja ajastusvea eelarveks, hindab, kus võib asuda halvenenud positsiooniteadete allikas, loeb mõõdetud kellalogisid, näitab tõendustaset igal arvul, mille käivitus kirjutab, ning võimaldab kasutada käsurida, aruandeid ja Studiot seitsmeteistkümnes keeles. Iga võimekus kannab silti, mille register selle kohta hoiab, ja silt nimetab ainult seda, mis on kontrollitud. Nõuandev tarkvara, mitte tüübikinnitust omav navigatsiooniseade: vastutus jääb operaatorile.
-
-seg-070972f642de = Artemis-klassi missiooniahel: navigatsiooni- ja ajastusvea eelarve stardist sisenemiseni
-
-seg-982a4a7cf0db = Missiooniahela liik aheldab faasid (start ja tõus, kohtumine madalal Maa orbiidil, Kuule suunav üleminek ja lend, Kuu faasid, sisenemine) ning kannab asendi ja kiiruse kovariatsiooni ühest faasist järgmisse; üleandmisreeglid, tugisüsteemide ja ajaskaalade teisendused, varu seatud nõuete suhtes ja nõrgim lüli on kõik kirjutatud eelarveridadena.
-
-seg-17c9cc6c2d40 = Kontrollitud: Artemis I võrdlus jäi oma läveni jõudmata ({ "45.3" } km versus { "5" } km); rida jääb MODELLED
-
-seg-946487626f87 = Missiooniahela vaade Kshana Studios
-
-seg-4970f874d334 = Kuu lõik: kohtumine, laskumine, pind ja tõus
-
-seg-b6c35bf141e7 = Neli stsenaariumi liiki, millest igaüks on ka missiooniahela faas: suhteline navigatsioon dokkimiseni Kuu orbiidil, maandumishajuvuse eelarve lõunapolaarsel alal, positsioneerimise ja ajastuse kättesaadavus asukoha ja aastaaja järgi ning tõus tagasi kohtumisorbiidile.
-
-seg-ce097df855a9 = Kontrollitud: eelregistreeritud läved; üks täidetud, üks täitmata, ühtegi pole lõdvendatud
-
-seg-8ca6e2046901 = Hinnanguline kiirgusallika piirkond ADS-B või AIS teadete põhjal
-
-seg-ca6383e426f9 = Kus võib asuda halvenenud positsiooniteadete allikas: piirkondadena { "50" }, { "90" } ja { "95" } protsendi juures koos tsentroidi ja selle määramatuse ellipsiga, mitte kunagi paljas punkt, ning ajas sessioonidena.
-
-seg-27af464d0674 = Kontrollitud: eelregistreeritud; mõlemad allikad pole hinnatavad, seega midagi ei väideta
-
-seg-003a3b9b63ea = Mõõdetud kellalogid ja sobitatud reaga käitatud holdover
-
-seg-f51fa2a40db8 = Loe mõõdetud kellalogi kaheksas vormingus (RINEX clock, TimeLab, TICC, linuxptp, chrony) üheks faasireaks kella ja telekomi ajastuse liikide jaoks ning sobita mõõdetud rea müra, et käitada sellega holdover.
-
-seg-6e9140563c53 = Kontrollitud: läved eelregistreeritud; möödalasked on välja öeldud ja kinnistatud
-
-seg-448b11c86f48 = Andmepartnerid: milliseid ridu mõõdetud andmed võiksid edutada
-
-seg-56b0201d930c = Milliseid modelleeritud registrireid võiksid partneri mõõdetud andmed edutada, millised vormingud on vastuvõetavad ning kuidas esitust kontrollitakse, eelregistreeritud läve vastu hinnatakse ja arvesse võetakse.
-
-seg-5858e5d1f7c5 = Tõendimärgis igal arvul ja tabelil, mille käivitus kirjutab
-
-seg-d1c4250b2a7e = Iga tulemusfail, diagramm ja tabel, mille käivitus kirjutab, ütleb nüüd, millisel tasemel see toetub (validated, modelled või partner, ridadest nõrgim), ning nimetab selle taga olevad kontrollimaatriksi read, mis on loetud maatriksist, mitte käsitsi kirjutatud.
-
-seg-bd28ef5c376e = Seitseteist keelt lisaks inglise keelele
-
-seg-1e4a6a5931d3 = Käsurida, aruanded, dokumentatsioonilehed ja Studio on saadaval seitsmeteistkümnes keeles lisaks inglise keelele.
-
-seg-7fae5de5ebf1 = kshana-bench: { "0.40" } korduskampaania
-
-seg-1e0afa852323 = Neli eelregistreeritud võrdlust käivitati üks kord pärast kinnitamist ja need täitsid oma läved ning kõik skoorid on modelleeritud.
 
 seg-c381cfa99bb0 = Kella stsenaarium, kus klassikaline kell võtab mõõdetud logi müra (`[clock_fit]`).
 

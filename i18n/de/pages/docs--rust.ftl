@@ -269,9 +269,3 @@ seg-24fe823a994a = json ohne die Nachweiskennzeichnung ([crate::evidence_label])
 seg-c0444d838311 = out mit der aus seinem JSON, SVG und CSV entfernten Nachweiskennzeichnung, Byte für Byte so, wie der Lauf es erzeugte, bevor es die Kennzeichnung gab; eine Ausgabe ohne Kennzeichnung bleibt unverändert.
 
 seg-80e5f0aa2831 = Die Engine hat { "93" } Szenarioarten; <c1/> listet sie mit ihren Feldern auf. Neu in { "0.38.0" }: <c2/> (GNSS-Signale für Raumfahrzeuge oberhalb, um und jenseits der GNSS-Umlaufbahnen) und <c3/> (Mondumlaufbahn und Mondoberfläche als Navigations- und Geodäsie-Infrastruktur), beide MODELLED, und <c4/> (eine Zeitfehleraufzeichnung gegen die ITU-T-Masken).
-
-seg-fd6daa52df11 = { "176" } von { "412" } Fähigkeiten gegen unabhängige externe Referenzen validiert
-
-seg-4a3ebec6d011 = <b>{ "176" } von { "412" }</b> Fähigkeiten gegen unabhängige externe Referenzen validiert; { "232" } ehrlich als modelliert gekennzeichnet, { "4" } im Besitz von Partnern. Jede Fähigkeit trägt in einem maschinengeprüften Register genau eine Kennzeichnung: VALIDATED (eine unabhängige externe Referenz stimmt überein: reale Daten, eine unabhängige Implementierung oder veröffentlichte Referenzvektoren), MODELLED (in sich konsistent, und das wird offen gesagt) oder PARTNER (ein Hardware-Partner besitzt sie). Zu den Prüfungen gehören: alle { "666" } SGP4-Vektoren (Simplified General Perturbations { "4" }) von AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 bis auf { "4.12" } mm und das Cowell-Kraftmodell bis auf { "0.08" } m gegen Orekit { "12.2" }.
-
-seg-d69651a71fbe = Wie eine Fähigkeit ihre Kennzeichnung erwirbt: Fähigkeit, unabhängige Referenz, Test, Registerkennzeichnung. Der Verifikationsstatus über alle { "412" } Fähigkeiten: { "176" } validiert, { "232" } modelliert, { "4" } im Besitz von Partnern

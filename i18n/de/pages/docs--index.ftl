@@ -289,9 +289,6 @@ seg-f466e9c87ba4 = <s1>Kshana aus einem Agenten nutzen</s1><s2>Für einen Agente
 seg-ccfc820aac68 = <s1>Wo jede Fähigkeit erreichbar ist</s1><s2>Jede Fähigkeit ist auf den Oberflächen verfügbar, auf denen sie sinnvoll ist; wo eine keine Fähigkeit tragen kann, die…</s2>
 
 # text
-seg-1c59d26e3faf = <s1>JetBrains-Plugin</s1><s2>Ein natives Plugin, das den PNT-Resilienz-Simulator Kshana aus jeder JetBrains-IDE heraus ausführt (IntelliJ IDEA…</s2>
-
-# text
 seg-4498f8a0377b = <s1>Wo Kshana läuft</s1><s2>Eine Grenze des Umfangs, aufgeschrieben, damit niemand sie in einer Besprechung als Zusage entdeckt.</s2>
 
 # text
@@ -346,7 +343,3 @@ seg-5484fd345826 = <s1>Jede Szenarioart nach Familie</s1><s2>Jede Szenarioart, a
 seg-b23a9bd3ccfa = <s1>Szenarioreferenz</s1><s2>Jede mitgelieferte Szenariodatei ({ "195" }), nach Art gruppiert, mit ihren wichtigsten Einstellungen.</s2>
 
 seg-a7dc2bc0a77d = { "93" } Seiten, eine für jede Szenarioart, verlinkt von <a1>Jede Szenarioart nach Familie</a1>.
-
-seg-abe17fad0734 = <s1>Verifikationsmatrix</s1><s2>Das vollständige, maschinengeprüfte Nachweisregister: { "412" } Zeilen — { "176" } VALIDATED, { "232" } MODELLED, { "4" } PARTNER.</s2>
-
-seg-7fd385494ae0 = <s1>Fähigkeitsreferenz</s1><s2>Die Fähigkeitskarten und alle { "412" } Zeilen der Verifikationsmatrix.</s2>

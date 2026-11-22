@@ -19,9 +19,6 @@ seg-d019c8511f48 = Topic pages: <a1>OPTICAL-ATMOSPHERE</a1>. Run one: <c1/>. All
 seg-b8f937411028 = Contact sheet of the charts the engine writes for the kinds of the family Optical PNT
 
 # text
-seg-b03d56f501c3 = Kind
-
-# text
 seg-4e31c8daf798 = Ledger
 
 # text

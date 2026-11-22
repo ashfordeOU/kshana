@@ -21,26 +21,10 @@ seg-d36e6d7d8a10 = Quelle: <c1/>
 
 # text
 # c1: scenarios/lunar-interop-export.toml
-seg-1726861e444f = Ein Lauf von <c1/> fasst sich so zusammen: lunar-interop-export | REF_FRAME MOON_ME / TIME_SYSTEM LTC | { "9" } states, OEM { "23" } lines | conformance PASS ({ "9" } present / { "0" } missing) | OEM round-trip ok | time-meta round-trip ok | KIF { "1640" } bytes | MODELLED
-
-# text
-# c1: frame
-# c2: time_system
-# c3: n_states
-# c4: epoch
-# c5: step_min
-# c6: object
-seg-f8353e15aabd = Optionale Felder: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>
-
-# text
-# c1: scenarios/lunar-interop-export.toml
 seg-169f9446e90d = Das Beispiel <c1/> setzt unter anderem:
 
 # text
 seg-b8135da5a99a = 2030-01-01T00:{ "00" }:{ "00" }
-
-# text
-seg-3f36bd2ec5ea = LTC
 
 # text
 seg-2ac27c1e55c0 = octet
@@ -52,9 +36,6 @@ seg-98acb538942f = <b>MODELLED</b> An LunaNet/IOAG angelehnter Export von lunare
 # text
 # c1: honesty
 seg-c9a1d76625d6 = MODELLED (Ergebnis <c1/>)
-
-# text
-seg-11d0ccba5ee7 = WAS src/lunar_interop.rs tut: * export_lunar_oem — WIEDERVERWENDET den CCSDS-OEM-{ "2.0" }-Emitter des Crates (crate::oem), für den lunaren Kontext neu etikettiert: REF_FRAME = das lunare Körperbezugssystem IAU { "2015" } WGCCRE (MOON_ME / MOON_PA), TIME_SYSTEM = die lunare Zeitskala (LTC / TCL / UTC), CENTER_NAME = MOON, über eine beispielhafte ILLUSTRATIVE Ephemeride der Klasse LCNS (Positionen aus crate::lunar_service, Geschwindigkeit durch zentrale finite Differenz). * export_ (Kommentar in der Szenariodatei, Zeilen { "6" } bis { "19" })
 
 # text
 seg-254d48fe58a5 = Der lunare Interoperabilitätsexport ist MODELLED, nicht validiert: Er wird gegen seine eigene geschlossene bzw. analytische Identität geprüft - das fängt Übertragungs- und Koeffizientenfehler ab, ist aber keine externe unabhängige Referenz. (Verifikationsmatrix (docs/MODELLED-RATIONALE.md))
@@ -82,6 +63,3 @@ seg-633bcd62ce93 = Gibt außerdem einen an LunaNet/IOAG angelehnten Deskriptor d
 # text
 # c1: lunar-interop-export
 seg-fdf560e675f4 = <c1/> (Szenarioart)
-
-# text
-seg-f730e8f789cf = EHRLICHKEIT: MODELLED. Die Feld-NAMEN und Einheiten sind an PUBLIC Standards angelehnt (CCSDS 502.0-B OEM, IAU-WGCCRE-{ "2015" }-Mondbezugssysteme, LunaNet Interoperability Specification / IOAG-Mondarchitektur). Der deterministische Rundlauf und die Feldnamenkonformität sind die unabhängige Referenz. Dies ist KEIN zertifizierter Interoperabilitäts-Konformitätstest. Die Ephemeride ist illustrativ, aus öffentlichen Quellen, NICHT mit der ESA verbunden und impliziert kein TRL (Kommentar in der Szenariodatei, Zeilen { "21" } bis { "26" })

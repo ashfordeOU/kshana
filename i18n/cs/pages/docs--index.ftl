@@ -172,8 +172,6 @@ seg-f466e9c87ba4 = <s1>Použití { -brand } z agenta</s1><s2>Pro agenta (nebo os
 
 seg-ccfc820aac68 = <s1>Kde je která schopnost dostupná</s1><s2>Každá schopnost je dostupná na površích, kde to dává smysl; kde ji některý nemůže nést,…</s2>
 
-seg-1c59d26e3faf = <s1>Zásuvný modul JetBrains</s1><s2>Nativní zásuvný modul, který spouští simulátor odolnosti PNT { -brand } zevnitř kteréhokoli IDE JetBrains (IntelliJ IDEA…</s2>
-
 seg-4498f8a0377b = <s1>Kde { -brand } běží</s1><s2>Hranice rozsahu, zapsaná tak, aby ji nikdo neobjevil jako závazek na schůzce.</s2>
 
 seg-059aecd59596 = <s1>Architektura</s1><s2>{ -brand } je jeden engine uspořádaný do vrstev nad sdíleným jádrem: balíčky senzorů (hodiny, inerciální…</s2>
@@ -237,7 +235,3 @@ seg-5484fd345826 = <s1>Každý druh scénáře podle rodiny</s1><s2>Každý druh
 seg-b23a9bd3ccfa = <s1>Reference scénářů</s1><s2>Každý přibalený soubor scénáře ({ "195" }), seskupený podle druhu, s jeho klíčovými nastaveními.</s2>
 
 seg-a7dc2bc0a77d = { "93" } stránek, po jedné pro každý druh scénáře, odkazovaných z <a1>Každý druh scénáře podle rodiny</a1>.
-
-seg-abe17fad0734 = <s1>Verifikační matice</s1><s2>Úplný, strojově kontrolovaný registr důkazů: { "412" } řádků — { "176" } VALIDATED, { "232" } MODELLED, { "4" } PARTNER.</s2>
-
-seg-7fd385494ae0 = <s1>Reference schopností</s1><s2>Karty schopností a všech { "412" } řádků verifikační matice.</s2>

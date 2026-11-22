@@ -146,9 +146,6 @@ seg-ea7fba14ee58 = Noyau libre
 seg-b3f3fc0fd6ff = Tout ce qui est montré sur cette page : chaque type de scénario, fichier de scénario, bande, horloge et corps s'exécute dans le moteur ouvert sous AGPL-3.0 (GNU Affero General Public License, version { "3" }), sans restriction de fonctionnalité.
 
 # text
-seg-311e7a7d55dc = Signalé là où il s'appuie sur une capacité : l'optimiseur de conception, l'incertitude et la sensibilité, le dossier de mission, les jumeaux d'horloge calibrés et les études comparatives classées. <a1>Ce qu'apporte Pro</a1>
-
-# text
 seg-a613a7447e3f = Étude sur mesure
 
 # text
@@ -725,10 +722,6 @@ seg-982938fe53bc = Classe d'oscillateur embarqué ultra-stable/optique, FM blanc
 seg-2adc3374e996 = Chaque identifiant de modèle et sa provenance sont lus dans les fichiers de scénario.
 
 # text
-# c1: clock
-seg-0aa1e4562dac = Kshana Pro calibre un <b>jumeau numérique d'horloge</b> sur le budget d'Allan publié de votre appareil, en s'appuyant sur le type <c1/> et les classes ci-dessus. <a1>Ce qu'apporte Pro</a1>
-
-# text
 seg-0d9353d25bc6 = GNSS perdu. Où en est chaque horloge après <s1>{ "10" } min</s1> ?
 
 # text
@@ -861,9 +854,6 @@ seg-91e8a9dca129 = Horloge d'équipement Ethernet synchrone améliorée (eEEC), 
 seg-f6f1b242019f = Les deux tableaux sont lus dans <c1/> ; le type <c2/> vérifie une horloge par rapport à n'importe quel gabarit.
 
 # text
-seg-b291c1ae1f5c = Kshana Pro calibre un jumeau numérique d'horloge sur le budget d'Allan publié d'un appareil et le vérifie avec l'estimateur de déviation d'Allan du moteur ouvert ; un jumeau de votre propre appareil est construit sous contrat. <a1>Ce qu'apporte Pro</a1>
-
-# text
 # c1: telecom-timing
 seg-f65bf4f57e2f = Holdover de télécoms : MTIE et TDEV d'un Microchip 8040C, performance standard <c1/>
 
@@ -980,9 +970,6 @@ seg-aa924d59476b = Métrique de la carte
 
 # text
 seg-59a109b36eea = T+{ "00" }:{ "00" }
-
-# text
-seg-e5f00e27b617 = <b>Avec Pro :</b> l'optimiseur de conception renvoie le <b>front de Pareto</b> de tout un espace de conception de constellations autour de la Terre, de la Lune ou de Mars, chaque conception du front étant écrite sous forme de fichier de scénario simple, et une <b>étude comparative classée</b> compare des architectures selon un critère de mérite. <a1>Voir un front réel</a1>
 
 # text
 seg-2d6cfb3452e3 = Le système solaire · type solar-system
@@ -1318,9 +1305,6 @@ seg-ff2823b929b3 = Événements de l'exécution enchaînée
 
 # text
 seg-17c200a01fea = Kshana Studio rejoue chaque campagne dans votre navigateur ; la commande et le fichier de scénario reproduisent chaque exécution, et le rapport propre à l'exécution enchaînée est publié.
-
-# text
-seg-dd2809ea9a6a = <b>Avec Pro :</b> des incertitudes d'entrée déclarées donnent des <b>bandes de confiance</b>, la probabilité de respecter une limite et un classement des entrées qui déterminent le résultat, sur des milliers d'exécutions qui peuvent être arrêtées et reprises. <a1>Voir une vraie bande</a1>
 
 # text
 seg-2b2aa3298f26 = Adaptez-le à vos besoins · Kshana Studio
@@ -2464,48 +2448,8 @@ seg-16cf26093bf0 = <c1/><a1>quantum-pnt-demonstrator.suite</a1>
 seg-6cb4a75cb2f0 = Rien ne correspond à ce filtre.
 
 # text
-# c1: clock
-# c2: lunar-time-offset
-# c3: timetransfer
-# c4: quantum-time-transfer
-# c5: lunar-time-budget
-# c6: telecom-timing
-# c7: slot-timing
-seg-ec1a22002e13 = <b>Pro : jumeau d'horloge calibré</b> s'appuie sur <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>. <a1>Voir ce que cela apporte</a1>
-
-# text
-# c1: sweep
-# c2: sweep-nd
-# c3: combined-altpnt
-# c4: quantum-trade
-# c5: hybrid-optical-rf
-# c6: conflict-resilience
-seg-cc88295c3e2e = <b>Pro : étude comparative classée</b> s'appuie sur <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>. <a1>Voir ce que cela apporte</a1>
-
-# text
 # c1: impairment-eval
 seg-62942b0a2127 = <b>Étude sur mesure</b> s'appuie sur <c1/>. <a1>Voir ce que cela apporte</a1>
-
-# text
-# c1: constellation-design
-seg-8cec53de04c5 = <b>Pro : optimiseur de conception</b> s'appuie sur <c1/>. <a1>Voir ce que cela apporte</a1>
-
-# text
-# c1: clock
-# c2: leo-pnt-chain
-seg-4bdca619acb5 = <b>Pro : incertitude et sensibilité</b> s'appuie sur <c1/>, <c2/>. <a1>Voir ce que cela apporte</a1>
-
-# text
-# c1: body-pnt
-# c2: campaign
-# c3: constellation-design
-# c4: leo-pnt-chain
-# c5: spectrum
-seg-35d8381e7605 = <b>Pro : dossier de mission</b> s'appuie sur <c1/>, <c2/>, <c3/>, <c4/>, <c5/>. <a1>Voir ce que cela apporte</a1>
-
-# text
-# c1: campaign
-seg-08d3c155a74d = <b>Pro : veille de campagne</b> s'appuie sur <c1/>. <a1>Voir ce que cela apporte</a1>
 
 # text
 # c1: constellation-design
@@ -3617,52 +3561,6 @@ seg-b39df358a1b0 = <c1/><s1>lunar-orbit-rendezvous</s1>
 seg-dc524d9636a3 = <c1/><s1>lunar-surface</s1>
 
 seg-0b3cd978cb6e = <c1/><s1>lunar-surface</s1>
-
-seg-d5c6110302e9 = Un fil de mission de classe Artemis, une étiquette de preuve sur chaque figure et dix-sept langues.
-
-seg-8597c65432ed = Enchaînez les phases d'une mission lunaire en un seul budget d'erreur de navigation et de synchronisation, estimez où peut se trouver une source de rapports de position dégradés, lisez des journaux d'horloge mesurés, voyez le niveau de preuve sur chaque figure qu'une exécution écrit, et utilisez la ligne de commande, les rapports et le Studio en dix-sept langues. Chaque capacité porte l'étiquette que le registre lui attribue, et une étiquette ne nomme que ce qui a été vérifié. Logiciel à titre consultatif, et non un équipement de navigation homologué : l'opérateur reste responsable.
-
-seg-070972f642de = Un fil de mission de classe Artemis : le budget d'erreur de navigation et de synchronisation du lancement à l'entrée
-
-seg-982a4a7cf0db = Le type mission-thread enchaîne des phases (lancement et ascension, rendez-vous en orbite basse terrestre, injection trans-lunaire et croisière, les phases lunaires, entrée) et transmet la covariance de position et de vitesse de chaque phase à la suivante ; les règles de transfert, les conversions de référentiel et d'échelle de temps, la marge par rapport aux exigences déclarées et le maillon le plus faible sont chacun écrits sous forme de lignes de budget.
-
-seg-17c9cc6c2d40 = Vérifié : la comparaison avec Artemis I n'a pas atteint son seuil ({ "45.3" } km contre { "5" } km) ; la ligne reste MODELLED
-
-seg-946487626f87 = Vue du fil de mission dans { -brand } Studio
-
-seg-4970f874d334 = Le segment lunaire : rendez-vous, descente, surface et ascension
-
-seg-b6c35bf141e7 = Quatre types de scénario, chacun aussi une phase du fil de mission : navigation relative jusqu'à l'amarrage en orbite lunaire, budget de dispersion à l'atterrissage sur un site polaire sud, disponibilité du positionnement et de la synchronisation temporelle par site et par saison, et ascension de retour vers l'orbite de rendez-vous.
-
-seg-ce097df855a9 = Vérifié : seuils préenregistrés ; un atteint, un non atteint, aucun assoupli
-
-seg-8ca6e2046901 = Une région d'émetteur estimée à partir de rapports ADS-B ou AIS
-
-seg-ca6383e426f9 = Où peut se trouver une source de rapports de position dégradés, sous forme de régions à { "50" }, { "90" } et { "95" } % avec un centroïde et son ellipse d'incertitude, jamais un simple point, et de sessions dans le temps.
-
-seg-27af464d0674 = Vérifié : préenregistré ; les deux sources ne sont pas évaluables, donc rien n'est affirmé
-
-seg-003a3b9b63ea = Journaux d'horloge mesurés, et holdover piloté par une série ajustée
-
-seg-f51fa2a40db8 = Lisez un journal d'horloge mesuré dans huit formats (RINEX clock, TimeLab, TICC, linuxptp, chrony) pour en tirer une série de phase unique pour les types horloge et synchronisation télécom, et ajustez le bruit d'une série mesurée pour piloter un holdover.
-
-seg-6e9140563c53 = Vérifié : seuils préenregistrés ; les échecs sont énoncés et épinglés
-
-seg-448b11c86f48 = Partenaires de données : les lignes que des données mesurées pourraient promouvoir
-
-seg-56b0201d930c = Quelles lignes modélisées du registre des données mesurées d'un partenaire pourraient promouvoir, les formats acceptés, et comment une soumission est vérifiée, notée par rapport à un seuil préenregistré et créditée.
-
-seg-5858e5d1f7c5 = Une étiquette de preuve sur chaque figure et chaque tableau qu'une exécution écrit
-
-seg-d1c4250b2a7e = Chaque fichier de résultat, graphique et tableau qu'une exécution écrit indique désormais sur quel niveau il repose (vérifié, modélisé ou partenaire, le plus faible de ses lignes) et nomme les lignes de la matrice de vérification qui le fondent, lues dans la matrice et non saisies à la main.
-
-seg-bd28ef5c376e = Dix-sept langues en plus de l'anglais
-
-seg-1e4a6a5931d3 = La ligne de commande, les rapports, les pages de documentation et le Studio sont disponibles en dix-sept langues en plus de l'anglais.
-
-seg-7fae5de5ebf1 = kshana-bench : la nouvelle campagne { "0.40" }
-
-seg-1e0afa852323 = Quatre comparaisons préenregistrées ont été exécutées une seule fois après validation et ont atteint leurs seuils, et chaque score est modélisé.
 
 seg-c381cfa99bb0 = Un scénario d'horloge dont l'horloge classique reprend le bruit d'un journal mesuré (`[clock_fit]`).
 

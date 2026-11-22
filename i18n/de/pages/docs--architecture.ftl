@@ -325,50 +325,6 @@ seg-da82c97ac5c8 = Eine als vollständige TLEs gelieferte Konstellation wird mit
 seg-a47031620b54 = { "7" }. Bindings
 
 # text
-# c1: python.rs
-# c2: wasm.rs
-# c3: --features python
-# c4: --features wasm
-# c5: cargo deny --all-features
-# c6: api::run_toml
-# c7: web/
-# c8: run
-# c9: run_all
-# c10: chart_svg
-# c11: summary
-# c12: table_csv
-# c13: list_kinds
-# c14: error_kind
-# c15: version
-# c16: encode_permalink
-# c17: decode_permalink
-# c18: export_sp3
-# c19: export_omm
-# c20: export_oem
-# c21: api
-# c22: mcp/kshana-mcp
-# c23: rmcp
-# c24: run_scenario
-# c25: list_scenario_kinds
-# c26: validate_scenario
-# c27: list_example_scenarios
-# c28: get_example_scenario
-# c29: report_scenario
-# c30: animate_scenario
-# c31: list_export_formats
-# c32: export_interop
-# c33: import_route
-# c34: export_sp3
-# c35: export_omm
-# c36: export_oem
-# c37: export_table_csv
-# c38: assess_receiver_log
-# c39: bundled-scenarios
-# c40: ide/jetbrains
-# c41: kshana
-seg-57fb29fdd9d9 = Der Kern lässt sich unverändert nativ, als Python-Erweiterung und als WebAssembly kompilieren. Die Python- (<c1/>, PyO3 abi3) und WebAssembly-Module (<c2/>, wasm-bindgen) sind optionale, per Feature zugeschaltete Abhängigkeiten (<c3/> / <c4/>): Der Standard-Build und die Testsuite kompilieren sie nie, während das Abhängigkeitsaudit (<c5/>) ihre Abhängigkeitsbäume sehr wohl prüft, weil diese Crates im Wheel und im npm-Paket ausgeliefert werden. Beide rufen <c6/> auf, sodass jede Oberfläche identische Ergebnisse liefert. Das WebAssembly-Modul trägt den Browser-Playground in <c7/> und exportiert dreizehn Funktionen: <c8/>, <c9/> (ein Engine-Lauf, der Ergebnis, Diagramm, Zusammenfassung und Tabelle zusammen liefert), <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, den Codec <c16/> / <c17/> für teilbare URLs (URL: Webadresse) und die drei Exporter <c18/> / <c19/> / <c20/>, die das Exportmenü des Playgrounds tragen. Zwei weitere Zugänge erreichen dieselbe <c21/>: der <b>MCP-Server (Model Context Protocol)</b> (<c22/>, ein vom Workspace ausgeschlossenes Crate <c23/> mit fünfzehn Werkzeugen: <c24/>, <c25/>, <c26/>, <c27/>, <c28/>, <c29/>, <c30/>, <c31/>, <c32/>, <c33/>, <c34/>, <c35/>, <c36/>, <c37/>, <c38/>; die beiden Beispielwerkzeuge lesen die mitgelieferten Szenarien über die standardmäßig abgeschaltete Funktion <c39/> der Bibliothek, die nur dieser Server einschaltet) und das <b>JetBrains-IDE-Plugin (integrierte Entwicklungsumgebung)</b> (<c40/>, ein Kotlin-Projekt, das die CLI <c41/> aufruft, statt die Bibliothek einzubinden).
-
-# text
 # c1: --features python
 # c2: --features wasm
 # c3: --features bundled-scenarios

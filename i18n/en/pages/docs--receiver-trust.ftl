@@ -115,6 +115,40 @@ seg-d4735b581cbf = GNSS-SDR Monitor and PVT-monitor streams as JSON lines
 seg-053235d67fb3 = per-channel C/N0, fix, satellites used, HDOP, azimuth and elevation; made by <c1/>
 
 # text
+seg-de63921ab608 = Swift Navigation SBP binary ({ "0.42" }, read only)
+
+# text
+# c1: MSG_POS_LLH
+# c2: MSG_DOPS
+# c3: MSG_OBS
+# c4: MSG_MEASUREMENT_STATE
+# c5: MSG_GPS_TIME
+seg-6088036cb0b2 = <c1/> position, <c2/>, <c3/> and <c4/> C/N0 per signal, <c5/> week; see <a1>RECEIVER-PROTOCOLS.md</a1>
+
+# text
+seg-91eaace7a555 = Javad GREIS binary messages ({ "0.42" }, read only)
+
+# text
+# c1: [PG]
+# c2: [DP]
+# c3: [SX]
+# c4: [SI]
+# c5: [NN]
+# c6: [E*]
+# c7: [*E]
+# c8: [~~]
+# c9: [RD]
+seg-b34c2d74510b = <c1/> position, <c2/> DOP, <c3/>/<c4/> satellite index with <c5/> GLONASS slots, <c6/>/<c7/> C/N0 per signal slot, <c8/>/<c9/> time
+
+# text
+seg-61fad3c5ad6c = Unicore N4 binary logs ({ "0.42" }, read only)
+
+# text
+# c1: BESTNAV
+# c2: OBSVM
+seg-c93392ffda48 = <c1/> position, <c2/> C/N0 per satellite and signal
+
+# text
 # c1: MACHINE-INPUTS.md
 seg-2e9033aa4e9d = Details, sources and limits of these three: <a1><c1/></a1>.
 

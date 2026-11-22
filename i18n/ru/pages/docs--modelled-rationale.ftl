@@ -1999,5 +1999,3 @@ seg-2630978c5675 = проверено по собственному тождес
 seg-67fdcdfdb635 = interference_map::emitter (estimate, sessions, build_units, profile, GaussianFix::from_tdoa), interference_map::emitter_out (locate), <c1/>
 
 seg-920b26e226ab = модульные тесты interference_map::emitter (круговое преобразование проекции, фигура горизонта, синтетические круговые преобразования прямой и обратной задач: известный излучатель лежит внутри заявленной области примерно с заявленной частотой, граничные случаи, кластеризация сеансов, профиль, приватность и формулировки); случаи locate в tests/interference_map_cli.rs
-
-seg-474381d842e6 = { "232" } возможностей с пометкой MODELLED.

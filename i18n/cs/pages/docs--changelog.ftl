@@ -2028,8 +2028,6 @@ seg-74e8cab2f10e = <b>Cache-busting pro <c1/></b>: řetězce dotazu s verzí u <
 
 seg-65949229eed7 = <b><c1/> — Kshana jako server Model Context Protocol (MCP)</b> (<c2/>). Samostatný crate mimo workspace (SDK <c3/> je edice { "2024" }), který zpřístupňuje ověřený engine agentům a asistentům s umělou inteligencí — Cursor, JetBrains AI Assistant / Junie a libovolnému klientu MCP — přes stdio. Nástroje: <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, každý je tenký obal nad <c9/>.
 
-seg-bd792f66363c = <b>Zásuvný modul pro JetBrains IDE</b> (<c1/>). Klikněte pravým tlačítkem na soubor scénáře <c2/> → <b>Run Kshana Scenario</b>; ukazatele kvality a výsledné JSON se průběžně zobrazují v okně nástroje Kshana. Čistě platformní zásuvný modul v Kotlinu, kompatibilní s každým JetBrains IDE { "2024.3" }+.
-
 seg-755358390517 = <b>Veřejná distribuce a automatické publikování s každým vydáním</b> pro oba:
 
 seg-14fc2fd73553 = <c1/> na <b>crates.io</b> (<c2/>) přes <c3/>.
@@ -3158,8 +3156,6 @@ seg-6b6a960ca7cf = <c1/>, <c2/> a <c3/> z verze { "0.13" } na { "0.14" } (spolu 
 
 # text
 seg-1a4cda9d1486 = Minimální podporovaná verze Rustu je nyní { "1.88" } (vyžaduje ji oprava RUSTSEC-2026-0387).
-
-seg-0d4a740afedf = [{ $version }] - 2026-10-29
 
 seg-2aa7197e4396 = <b>Pokrytí řádků: ~{ "96" } % → ~{ "95" } %.</b> Úloha pokrytí znovu změřila vydaný kód { "0.29.0" } (commit <c1/>, běh CI { "36809850252" }, 2026-10-01): <c2/>, { "55,970" } z { "58,697" } řádků <c3/>. Zveřejněná hodnota byla { "95.63" } % ({ "37,697" } z { "39,419" } řádků), změřená na <c4/> před { "0.28.0" }; zaokrouhlovala se na ~{ "96" } %. Nová hodnota se zaokrouhluje na ~{ "95" } %, takže se společně mění každý povrch, který <c5/> připíná: <c6/>, odznak README, řádek Evidence a tabulka CI, odznaky crates.io, PyPI a npm, technická zpráva a stránka pokrytí na kshana.dev. Spodní mez { "85" } % se nemění.
 

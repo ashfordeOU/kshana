@@ -28,26 +28,10 @@ seg-5a4dcb93a643 = Modelleeritud Kuu koostalitlusvõime eksport: väljastab Kuu 
 
 # text
 # c1: scenarios/lunar-interop-export.toml
-seg-1726861e444f = Ühe <c1/> käivituse kokkuvõte: lunar-interop-export | REF_FRAME MOON_ME / TIME_SYSTEM LTC | { "9" } olekut, OEM { "23" } rida | standardi järgimine PASS ({ "9" } olemas / { "0" } puudu) | OEM edasi-tagasi ring korras | aja metaandmete edasi-tagasi ring korras | KIF { "1640" } baiti | MODELLED
-
-# text
-# c1: frame
-# c2: time_system
-# c3: n_states
-# c4: epoch
-# c5: step_min
-# c6: object
-seg-f8353e15aabd = Valikulised väljad: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>
-
-# text
-# c1: scenarios/lunar-interop-export.toml
 seg-169f9446e90d = Näide <c1/> määrab muu hulgas:
 
 # text
 seg-b8135da5a99a = 2030-01-01T00:{ "00" }:{ "00" }
-
-# text
-seg-3f36bd2ec5ea = LTC
 
 # text
 seg-2ac27c1e55c0 = oktett
@@ -70,12 +54,6 @@ seg-633bcd62ce93 = Väljastab ka LunaNet/IOAG-ga joondatud Kuu aja kirjeldaja (s
 # text
 # c1: kshana kinds --json
 seg-0e91697e3036 = MODELLED — deterministlik edasi-tagasi ring + väljanimede standardi järgimine avaldatud CCSDS OEM + LunaNet/IOAG väljasemantika vastu on sõltumatu etalon; MITTE sertifitseeritud koostalitlusvõime standardi järgimise test; illustratiivne avaliku allikaga efemeriid, ESA-ga sidumata; ei ole TRL/pärandi/agentuuri heakskiitu. (liikide kataloog (<c1/>))
-
-# text
-seg-11d0ccba5ee7 = MIDA src/lunar_interop.rs TEEB: * export_lunar_oem — KASUTAB UUESTI crate CCSDS OEM { "2.0" } väljastajat (crate::oem), Kuu konteksti jaoks ümber märgitud: REF_FRAME = IAU { "2015" } WGCCRE Kuu keha tugisüsteem (MOON_ME / MOON_PA), TIME_SYSTEM = Kuu ajaskaala (LTC / TCL / UTC), CENTER_NAME = MOON, näidis-ILLUSTRATIVE LCNS-klassi efemeriidi üle (asukohad failist crate::lunar_service, kiirus tsentraalse lõpliku erinevusega). * export_ (stsenaariumifaili kommentaar, read { "6" } kuni { "19" })
-
-# text
-seg-f730e8f789cf = AUSTUS: MODELLED. Väljade NIMED ja ühikud on joondatud PUBLIC standarditega (CCSDS 502.0-B OEM, IAU WGCCRE { "2015" } Kuu tugisüsteemid, LunaNet Interoperability Specification / IOAG Kuu arhitektuur). Deterministlik edasi-tagasi ring ja väljanimede standardi järgimine on sõltumatu etalon. See EI OLE sertifitseeritud koostalitlusvõime standardi järgimise test. Efemeriid on illustratiivne, avaliku allikaga, ESA-ga EI OLE seotud ega viita ühelegi TRL-ile (stsenaariumifaili kommentaar, read { "21" } kuni { "26" })
 
 # text
 seg-254d48fe58a5 = Kuu koostalitlusvõime eksport on MODELLED, mitte valideeritud: kontrollitud omaenda suletud kujul / analüütilise samasuse vastu — tabab ülekande- ja koefitsiendivigu, kuid ei ole väline sõltumatu etalon. (kontrollimaatriks (docs/MODELLED-RATIONALE.md))

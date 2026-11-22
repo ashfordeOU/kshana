@@ -84,6 +84,28 @@ seg-34b9c8b6f70c = Test-driven: write the failing test first, with the expected 
 seg-5322d5b2188c = Deterministic tests assert exact (hand-derived) values; statistical tests assert a stated tolerance and, ideally, average over seeds to control scatter.
 
 # text
+seg-bf9a867caf9d = Pull requests from outside contributors
+
+# text
+seg-37f068ee5959 = How we handle a pull request from someone outside the core team:
+
+# text
+seg-07da6d2b0ee5 = <b>We answer within two working days</b>, even if only to say when we will review it.
+
+# text
+seg-b38596504307 = <b>If the change cannot go in as it is, we say why and ask for changes first.</b> We rewrite it ourselves only if you would rather we did, if there is no answer within { "14" } days, or for a security fix that cannot wait; we tell you in the pull request before we do.
+
+# text
+# c1: CHANGELOG.md
+# c2: CONTRIBUTORS.md
+# c3: CONTRIBUTORS.md
+# c4: scripts/check-no-attribution.sh
+seg-38b61f4a2cdc = <b>Credit.</b> When our commit builds on your code or your design, its message names you and links your pull request, and the <c1/> entry and <a1><c2/></a1> name you; when we fix something you reported, the changelog entry and <c3/> name you too. (This repository's hygiene guard, <c4/>, rejects co-author trailers of any kind, so credit goes in those three places.)
+
+# text
+seg-07485a055e2b = <b>New third-party dependencies need a maintainer's review</b> (licence, age, who publishes it, how it is maintained) before they are added. We prefer an in-tree change for a parser or format Kshana already reads, and we do not add a crate that is newly published by the pull request's own author; please ask in an issue first if your change needs a new dependency.
+
+# text
 seg-7f76a26c4d5f = Commits and versioning
 
 # text

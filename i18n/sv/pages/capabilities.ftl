@@ -96,8 +96,6 @@ seg-ea7fba14ee58 = Gratis kärna
 
 seg-b3f3fc0fd6ff = Allt som visas på den här sidan: varje scenariotyp, scenariofil, band, klocka och kropp körs i den öppna motorn under AGPL-3.0 (GNU Affero General Public License, version { "3" }), utan funktionsspärr.
 
-seg-311e7a7d55dc = Markerat där det bygger på en förmåga: utformningsoptimeraren, osäkerhet och känslighet, uppdragsdossiern, kalibrerade klocktvillingar och rangordnade avvägningsstudier. <a1>Vad Pro tillför</a1>
-
 seg-a613a7447e3f = Skräddarsydd studie
 
 seg-3e6b00d51b99 = När det måste göras åt dig: sensormodeller kalibrerade mot din hårdvara, eller en resiliensstudie som är Modelled. <a1>Beställ en studie</a1>
@@ -466,8 +464,6 @@ seg-982938fe53bc = Ultrastabil/optisk oscillatorklass ombord, white-FM sigma_y({
 
 seg-2adc3374e996 = Varje modell-id och dess ursprung läses från scenariofilerna.
 
-seg-0aa1e4562dac = Kshana Pro kalibrerar en <b>digital tvilling av klockan</b> mot din enhets publicerade Allan-budget, byggd på typen <c1/> och klasserna ovan. <a1>Vad Pro tillför</a1>
-
 seg-0d9353d25bc6 = GNSS förlorat. Var är varje klocka efter <s1>{ "10" } min</s1>?
 
 seg-55768eaf7218 = Tid sedan GNSS gick förlorat
@@ -554,8 +550,6 @@ seg-91e8a9dca129 = Förbättrad klocka för synkron Ethernet-utrustning (eEEC), 
 
 seg-f6f1b242019f = Båda tabellerna läses från <c1/>; typen <c2/> kontrollerar en klocka mot vilken mask som helst.
 
-seg-b291c1ae1f5c = Kshana Pro kalibrerar en digital tvilling av klockan mot en enhets publicerade Allan-budget och kontrollerar den med den öppna motorns skattare för Allan-avvikelse; en tvilling av din egen enhet byggs på uppdrag. <a1>Vad Pro tillför</a1>
-
 seg-f65bf4f57e2f = Telekom-holdover: MTIE och TDEV för en Microchip 8040C, standardprestanda <c1/>
 
 seg-a13eab564243 = MTIE
@@ -629,8 +623,6 @@ seg-1e21e701259e = Konstellationsdesigner
 seg-aa924d59476b = Kartmått
 
 seg-59a109b36eea = T+{ "00" }:{ "00" }
-
-seg-e5f00e27b617 = <b>Med Pro:</b> utformningsoptimeraren ger <b>Pareto-fronten</b> för ett helt konstellationsdesignutrymme runt jorden, månen eller Mars, varje frontdesign utskriven som en vanlig scenariofil, och en <b>rangordnad avvägningsstudie</b> jämför arkitekturer på ett kvalitetsmått. <a1>Se en verklig front</a1>
 
 seg-2d6cfb3452e3 = Solsystemet · typen solar-system
 
@@ -825,8 +817,6 @@ seg-19706b999108 = en orsak, många medlemmar
 seg-ff2823b929b3 = Händelser i den kedjade körningen
 
 seg-17c200a01fea = Kshana Studio spelar upp varje kampanj i din webbläsare; kommandot och scenariofilen reproducerar varje körning, och den kedjade körningens egen rapport är publicerad.
-
-seg-dd2809ea9a6a = <b>Med Pro:</b> angivna indataosäkerheter ger <b>konfidensband</b>, sannolikheten att klara en gräns och en rangordning av de indata som driver resultatet, över tusentals körningar som kan stoppas och återupptas. <a1>Se ett verkligt band</a1>
 
 seg-2b2aa3298f26 = Gör det till ditt eget · Kshana Studio
 
@@ -1536,19 +1526,7 @@ seg-16cf26093bf0 = <c1/><a1>quantum-pnt-demonstrator.suite</a1>
 
 seg-6cb4a75cb2f0 = Ingenting matchar det filtret.
 
-seg-ec1a22002e13 = <b>Pro: kalibrerad klocktvilling</b> bygger på <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>. <a1>Se vad den tillför</a1>
-
-seg-cc88295c3e2e = <b>Pro: rangordnad avvägningsstudie</b> bygger på <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>. <a1>Se vad den tillför</a1>
-
 seg-62942b0a2127 = <b>Skräddarsydd studie</b> bygger på <c1/>. <a1>Se vad den tillför</a1>
-
-seg-8cec53de04c5 = <b>Pro: utformningsoptimerare</b> bygger på <c1/>. <a1>Se vad den tillför</a1>
-
-seg-4bdca619acb5 = <b>Pro: osäkerhet och känslighet</b> bygger på <c1/>, <c2/>. <a1>Se vad den tillför</a1>
-
-seg-35d8381e7605 = <b>Pro: uppdragsdossier</b> bygger på <c1/>, <c2/>, <c3/>, <c4/>, <c5/>. <a1>Se vad den tillför</a1>
-
-seg-08d3c155a74d = <b>Pro: kampanjbevakning</b> bygger på <c1/>. <a1>Se vad den tillför</a1>
 
 seg-ff9c1f190eb6 = <b>Pro: spektrumsamexistens</b> bygger på <c1/>, <c2/>. <a1>Se vad den tillför</a1>
 
@@ -2283,52 +2261,6 @@ seg-b39df358a1b0 = <c1/><s1>lunar-orbit-rendezvous</s1>
 seg-dc524d9636a3 = <c1/><s1>lunar-surface</s1>
 
 seg-0b3cd978cb6e = <c1/><s1>lunar-surface</s1>
-
-seg-d5c6110302e9 = Ett uppdragsflöde i Artemis-klass, en evidensetikett på varje siffra och sjutton språk.
-
-seg-8597c65432ed = Koppla ihop faserna i ett månuppdrag till en gemensam felbudget för navigering och tidssynkronisering, uppskatta var en källa till försämrade positionsrapporter kan finnas, läs in uppmätta klockloggar, se evidensnivån på varje siffra som en körning skriver, och använd kommandoraden, rapporterna och Studio på sjutton språk. Varje förmåga bär den etikett som registret har för den, och en etikett anger bara det som har kontrollerats. Rådgivande programvara, inte typgodkänd navigationsutrustning: operatören är fortsatt ansvarig.
-
-seg-070972f642de = Ett uppdragsflöde i Artemis-klass: felbudgeten för navigering och tidssynkronisering från uppskjutning till återinträde
-
-seg-982a4a7cf0db = Typen mission-thread kopplar ihop faser (uppskjutning och stigning, rendezvous i låg omloppsbana runt jorden, trans-lunar injektion och färd, månfaserna, återinträde) och för över kovariansen för position och hastighet från varje fas till nästa, med överlämningsreglerna, omvandlingarna av referenssystem och tidsskalor, marginalen mot angivna krav och den svagaste länken, alla skrivna som budgetrader.
-
-seg-17c9cc6c2d40 = Kontrollerat: jämförelsen med Artemis I nådde inte sin tröskel ({ "45.3" } km mot { "5" } km); raden förblir MODELLED
-
-seg-946487626f87 = Vyn för uppdragsflödet i Kshana Studio
-
-seg-4970f874d334 = Månsegmentet: rendezvous, nedstigning, yta och stigning
-
-seg-b6c35bf141e7 = Fyra scenariotyper, var och en också en fas i uppdragsflödet: relativ navigering till dockning i månbana, budgeten för landningsspridning vid en plats nära sydpolen, tillgänglighet för positionering och tidssynkronisering per plats och årstid, samt stigningen tillbaka till rendezvousbanan.
-
-seg-ce097df855a9 = Kontrollerat: trösklar fastställda i förväg; en nådd, en inte nådd, ingen uppluckrad
-
-seg-8ca6e2046901 = Ett uppskattat område för sändaren utifrån ADS-B- eller AIS-rapporter
-
-seg-ca6383e426f9 = Var en källa till försämrade positionsrapporter kan finnas, som områden på { "50" }, { "90" } och { "95" } procent med en tyngdpunkt och dess osäkerhetsellips, aldrig en enskild punkt, samt sessioner i tid.
-
-seg-27af464d0674 = Kontrollerat: fastställd i förväg; båda källorna kunde inte bedömas, så ingenting hävdas
-
-seg-003a3b9b63ea = Uppmätta klockloggar och en holdover som styrs av en anpassad serie
-
-seg-f51fa2a40db8 = Läs en uppmätt klocklogg i åtta format (RINEX clock, TimeLab, TICC, linuxptp, chrony) till en fasserie för typerna clock och telecom-timing, och anpassa bruset i en uppmätt serie för att styra en holdover.
-
-seg-6e9140563c53 = Kontrollerat: trösklar fastställda i förväg; missar redovisade och fastlåsta
-
-seg-448b11c86f48 = Datapartner: vilka rader uppmätta data kan lyfta
-
-seg-56b0201d930c = Vilka modellerade registerrader uppmätta data från en partner kan lyfta, vilka format som accepteras, och hur ett bidrag kontrolleras, poängsätts mot en tröskel som fastställts i förväg och tillgodoräknas.
-
-seg-5858e5d1f7c5 = En evidensetikett på varje siffra och tabell som en körning skriver
-
-seg-d1c4250b2a7e = Varje resultatfil, diagram och tabell som en körning skriver anger nu vilken nivå den vilar på (validerad, modellerad eller partner, den svagaste av dess rader) och namnger de rader i verifieringsmatrisen som ligger bakom den, avlästa från matrisen och inte inskrivna.
-
-seg-bd28ef5c376e = Sjutton språk vid sidan av engelska
-
-seg-1e4a6a5931d3 = Kommandoraden, rapporterna, dokumentationssidorna och Studio finns på sjutton språk vid sidan av engelska.
-
-seg-7fae5de5ebf1 = kshana-bench: omkampanjen { "0.40" }
-
-seg-1e0afa852323 = Fyra jämförelser som fastställts i förväg kördes en gång efter godkännandet och nådde sina trösklar, och varje poäng är modellerad.
 
 seg-c381cfa99bb0 = Ett klockscenario där den klassiska klockan tar bruset från en uppmätt logg (`[clock_fit]`).
 

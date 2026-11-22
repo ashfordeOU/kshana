@@ -1176,8 +1176,6 @@ seg-9ac1f9e2d1b1 = Wnętrze silnika: warstwy dziedzinowe i rejestr weryfikacji
 
 seg-4e894b853889 = <b>Jeden silnik, wiele drzwi wejściowych.</b> Jeden rdzeń w Rust (<c1/>) uruchamia każdy scenariusz, dostępny przez CLI, rozszerzenie Pythona, moduł WebAssembly w przeglądarce, <b>serwer MCP</b> dla agentów AI i <b>wtyczkę do JetBrains IDE</b> — wszystkie zbiegają się w jednym dyspozytorze <c2/>. Wewnątrz pakiety czujników podłączają się do wspólnego interfejsu modeli błędów; obok nich znajdują się <b>warstwa układów odniesienia</b> (precesja–nutacja IAU 2006/2000A i redukcja GCRS↔ITRS oparta na CIO), <b>warstwa astrodynamiki/numeryczna</b> (analityczny SGP4/SDP4 <b>oraz</b> numeryczny propagator Cowella z modelem sił EGM2008/perturbacji, projektowaniem manewrów i wyznaczaniem orbity), <b>warstwa integralności/GNSS</b> (RAIM/ARAIM, SBAS, dziedzina pomiaru, zagłuszanie, cislunar), <b>warstwa fuzji / alt-PNT</b> (estymatory GNSS/INS oraz dopasowywacze map grawitacji/terenu/magnetyzmu), <b>warstwa głębokiej przestrzeni i Księżyca</b> (radiometryczne Mars-PNT i zestaw PNT księżycowego, z poziomem dowodowym każdego elementu w macierzy — czas LTC, VLBI, wspólne OD+zegar, realizacja układu odniesienia, obszar usługi, różnicowy PNT, interoperacyjność), <b>warstwa analizy misji</b> (budżety startu / wejścia w atmosferę / pokrycia / wskazywania / przelotu / łącza oraz środowisko pogody kosmicznej) oraz otwarta <b>warstwa badań odporności i uczenia maszynowego</b> (ocena odporności RPCF, luka optymizmu zakłóceń RF i demonstrator PNT z wykorzystaniem kwantowym), której odtwarzalne artefakty opierają się na sprawdzonych jądrach.
 
-seg-698b8f40212f = Dwa samodzielne pakiety (crate), <b>wyłączone z przestrzeni roboczej</b>, leżą obok rdzenia — <c1/> (serwer MCP, zbudowany na SDK <c2/> w edycji 2024) i <c3/> (kontrola krzyżowa układów ANISE/SPICE, która ściąga zależności na licencji MPL-2.0 (Mozilla Public License { "2.0" })) — i są trzymane poza grafem zależności opublikowanego pakietu, <c4/>, bramką licencji i budową MSRV (minimalna obsługiwana wersja Rust) przez listę <c6/> w głównym <c5/>. Wtyczka JetBrains (<c7/>) to osobny projekt w Kotlinie. Pełny zestaw diagramów zob. <a1><c8/></a1>.
-
 seg-59578c405ae3 = Wyrenderowane diagramy (przepływ silnika, mapa modułów, dystrybucja) są w <a1><c1/></a1>.
 
 seg-e7a7a9f8a9ca = Diagramy
@@ -1345,8 +1343,6 @@ seg-68340a1233ff = zamów badanie
 seg-fedf4c64c70b = Czym jest Pro, jego własnymi słowami z <a1><c1/></a1>:
 
 seg-8e45f6fbb075 = <b>Ścisły nadzbiór otwartej Kshana.</b> Pro korzysta z otwartego silnika jako biblioteki i nigdy go nie rozwidla. Każdy otwarty rodzaj scenariusza działa w Pro bez zmian, a otwarty scenariusz działa w Pro w ogóle bez licencji.
-
-seg-feece95f1d76 = <b>Żadnej nowej fizyki.</b> Pro nie dodaje żadnego modelu fizycznego i żadnego nie zmienia. Każda liczba z Pro pochodzi z przebiegów otwartego silnika, więc wartość z Pro jest tak wiarygodna jak otwarty rodzaj scenariusza, z którego pochodzi, i nigdy bardziej.
 
 seg-0aca4bbd4ed5 = Pro odpowiada na kolejne pytania programu: jaki projekt wybrać do lotu (optymalizator projektu i jego front Pareto), jak pewna jest odpowiedź (niepewność i czułość) oraz czy misja spełnia swoje wymagania (dossier misji, śledzenie wymagań, badania kompromisowe, kontrola regresji scenariuszy, cyfrowe bliźniaki zegarów, dossier badania i usługa lokalna). Obserwuje też kampanię wartości i przerywa potok, gdy któraś się pogarsza, sprawdza kandydackie plany sygnałów względem otwartych sygnałów nawigacji satelitarnej w obu kierunkach (współistnienie widmowe) i kolejkuje badania w lokalnej usłudze zadań z rejestrem dostaw powiązanym łańcuchem skrótów. Każdy z tych elementów jest opisany w <a1><c1/></a1>, wraz z tym, co daje i czego nie robi. Nic, co tworzy Pro, nie jest certyfikacją, a badanie na zamówienie również nią nie jest.
 
@@ -1874,15 +1870,7 @@ seg-2658a9477dd9 = <s1>Dalej</s1>Wprowadzenie do pojęć
 
 seg-90a95738b32d = Infrastruktura księżycowa (lunar-infrastructure)
 
-seg-20beca58d39e = <a1>Dodaj do Cursor (npx)</a1> · <a2>Dodaj do Cursor (Docker)</a2> · <c1/>
-
-seg-aa6b62f0b484 = <a1>Zainstaluj w VS Code (npx)</a1> · <a2>Zainstaluj w VS Code (Docker)</a2> · <c1/>
-
-seg-8e176aa32cd3 = MCP to Model Context Protocol. Przypnij wydanie poleceniem <c1/>, <c2/> lub <c3/>. Aby zbudować ze źródeł, zob. <a1>Install and build</a1> w sekcji Reference.
-
 seg-57686575b81d = Dane partnera
-
-seg-467bb88ec415 = <a1>Co nowego w { "0.40" }</a1>, <a2>Co nowego w { "0.39" }</a2>, <a3>Co nowego w { "0.38" }</a3> oraz <a4>{ "0.38" } szczegółowo</a4>: ocena jammertest, własne flagi odbiornika, wejścia maszynowe, czas i holdover, pakiety norm, LunaNet AFS, pełna pętla laboratoryjna, kshana-bench, obserwatorium, eksportery, optyka, <a5>nawigacja użytkowników przestrzeni kosmicznej</a5> i <a6>infrastruktura księżycowa</a6>
 
 seg-cafc1c9c4d58 = Co nowego w { "0.40" }
 
@@ -1934,8 +1922,6 @@ seg-48991660376d = Wymaga toolchainu Rust (≥ { "1.88" }, czyli <c1/> w Cargo.t
 
 seg-dc95335b5131 = <b><c1/> kończy się błędem na starym toolchainie.</b> Kshana wymaga Rust ≥ { "1.88" }. Zaktualizuj poleceniem <c2/>.
 
-seg-8391e467adf7 = <b>Wątek misji.</b> Rodzaj <c1/> łączy fazy od startu do wejścia w atmosferę (<c2/>, <c3/>, <c4/>, <c5/> i cztery rodzaje księżycowe) z podanymi zasadami przekazania, marginesem względem podanych wymagań i najsłabszym ogniwem; kompletny przykład klasy Artemis w { "11" } fazach (segmenty ziemski i księżycowy), łącznie { "93" } rodzajów scenariuszy. Każda liczba jest MODELLED. Propagacja cislunarna względem publicznej trajektorii Artemis I <b>nie osiąga</b> progu zarejestrowanego wstępnie ({ "45.3" } km i { "0.25" } m/s wobec { "5" } km i { "0.05" } m/s; przyczyną są małe manewry, których model nie uwzględnia), a propagator księżycowy względem orbity CAPSTONE <b>nie osiąga</b> ({ "136.8" } km wobec { "25" } km pod koniec jednego obiegu); porównanie z LRO jest osiągnięte. Wiersze pozostają MODELLED (<a1>Wątek misji</a1>, <a2>segment księżycowy</a2>). W Studio wątek odczytuje się pod adresem <c6/>.
-
 seg-a66ad1f69702 = Jeden silnik obejmuje cały łańcuch awarii, od pierwszego zagłuszonego satelity po ostatnią nanosekundę holdover zegara. Silnik ma { "93" } rodzajów scenariuszy; <c1/> je wymienia, a <a1><c2/></a1> dokumentuje każde pole.
 
 seg-43bd621a1f5b = Jak przebiega przebieg. Plik TOML scenariusza (rodzaj, ziarno i jego parametry) trafia do silnika, kshana { $version }, przez dyspozytor api::run_toml obejmujący { "93" } rodzajów scenariuszy, deterministyczny względem scenariusza, ziarna i wersji silnika. Silnik zapisuje result.json, chart.svg, report.html i report.json, table.csv dla rodzajów, które ją definiują, a na żądanie eksporty SP3, CCSDS OMM i OEM, CZML, KML, GeoJSON, STK i SigMF; zestaw zapisuje study.json i study.html. Te pliki zasilają Kshana Studio w przeglądarce, asystenta AI przez serwer kshana-mcp oraz ciągłą integrację.
@@ -1944,30 +1930,6 @@ seg-fb8bcc54a31d = { "93" } wbudowanych rodzajów scenariuszy z opisami + polami
 
 seg-2f38fc515db6 = cały otwarty silnik, wszystkie { "93" } rodzajów scenariuszy, bez blokad funkcji
 
-seg-5374f780c396 = Zob. <c1/>, gdzie jest co najmniej jeden działający przykład każdego rodzaju ({ "93" } rodzajów, { "195" } plików scenariuszy <c2/> + { "1" } manifest zestawu; kilka rodzajów ma więcej niż jeden przykład). Nie każdy rodzaj ma plik nazwany od siebie: <c3/> → <c4/> i <c5/> → <c6/> to dwa z kilku takich przypadków. Rodzaje, które można uruchomić, wypiszesz w każdej chwili przez błędy <c7/>, przez funkcję Pythona <c8/> albo przez narzędzie MCP <c9/>.
-
 seg-d106dd5461ed = <a1><c1/></a1> to serwer MCP: Twój asystent uruchamia prawdziwy silnik i odczytuje jego JSON, zamiast zgadywać matematykę. Każde z jego { "53" } narzędzi jest cienką nakładką na publiczną funkcję biblioteki <c2/>, więc w serwerze nie ma żadnej logiki symulacji.
 
 seg-0920329ba390 = { "53" } narzędzi
-
-seg-0933cb091687 = { "176" } z { "412" } możliwości VALIDATED względem niezależnej wyroczni zewnętrznej, według macierzy weryfikacji
-
-seg-d9cccff82185 = { "0.40" } dodaje budżet błędu na poziomie misji, oznacza każdą wartość i tabelę jej poziomem dowodowym, odczytuje zmierzone dzienniki zegara, sprawdza zgłoszenia partnerów danych, szacuje, gdzie może znajdować się emiter zakłóceń, i mówi w siedemnastu językach obok angielskiego. Rejestr ma teraz { "412" } wierszy: { "176" } VALIDATED, { "232" } MODELLED, { "4" } PARTNER. Żaden wiersz nie został awansowany do VALIDATED, a każde niespełnienie poniżej jest przypięte przez test.
-
-seg-93dcede29907 = <b>{ "176" } z { "412" }</b> możliwości sprawdzono względem niezależnych wyroczni zewnętrznych; { "232" } uczciwie oznaczono jako obliczone z modelu. Każdy wiersz macierzy weryfikacji wymienia możliwość, wyrocznię, względem której jest sprawdzana, test, który wykonuje sprawdzenie, i etykietę, która z tego wynika. Ciągła integracja (CI) uniemożliwia nazwanie możliwości VALIDATED bez niezależnej wyroczni zewnętrznej.
-
-seg-99d2c21b1f60 = Jak możliwość zyskuje swoją etykietę. Każdy wiersz macierzy weryfikacji wymienia możliwość, wyrocznię, względem której jest sprawdzana, test, który wykonuje sprawdzenie w ciągłej integracji, i etykietę, która z tego wynika. Wiersz może być VALIDATED tylko z niezależną wyrocznią zewnętrzną; w przeciwnym razie jest MODELLED, albo PARTNER, gdy odpowiada za niego partner sprzętowy. Przykład: SGP4/SDP4, Cowell 6-DOF + perturbacje, OD wsadowe/sekwencyjne, wyrocznia: wektory weryfikacyjne SGP4 AIAA 2006-6753, test tests/sgp4_verification.rs, etykieta VALIDATED. Bieżące liczby: { "176" } VALIDATED, { "232" } MODELLED, { "4" } PARTNER z { "412" } wierszy. Łącznie { "176" } możliwości sprawdzono względem niezależnych wyroczni zewnętrznych; { "232" } kolejnych uczciwie oznaczono jako MODELLED, a { "4" } należy do PARTNER.
-
-seg-7f933400c73d = Kilka z kontroli: wszystkie { "666" } wektorów AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 SGP4 (Simplified General Perturbations { "4" }) do { "4.12" } mm; model sił Cowella do { "0.08" } m względem Orekit { "12.2" }; Galileo do { "0.61" } m i Swarm-A do { "0.10" } m względem rzeczywistych precyzyjnych efemeryd Europejskiej Agencji Kosmicznej (ESA). Testy obejmują około { "95" } % pokrycia linii <c1/>, z progiem { "85" } % w CI. Rejestr (ledger) to <a1><c2/></a1>, generowany z <c3/>: <a2>pełna macierz 412 wierszy</a2> oraz powód, dla którego każdy wiersz obliczony z modelu nie ma zewnętrznej wyroczni, w <a3><c4/></a3>.
-
-seg-df9b60a7dfe8 = Każdy wiersz jest wymuszany przez nazwany test w CI. Ta tabela to <b>wyselekcjonowane najważniejsze wyniki</b>; pełna, sprawdzana maszynowo macierz ma <b>{ "412" } wierszy — { "176" } VALIDATED, { "232" } MODELLED, { "4" } PARTNER</b> (<c1/>), z kompletnymi dowodami (i tym, co uczciwie <em>nie</em> jest jeszcze sprawdzone) w <a1><c2/></a1> oraz w artefakcie <a2><c3/></a2> dla każdego wydania (generowanym przez <c4/>, z atestacją SLSA — Supply-chain Levels for Software Artifacts).
-
-seg-d1700188b2cf = Jak możliwość zyskuje swoją etykietę: wymaganie odwzorowuje się na moduł w src, na test w tests, na zewnętrzną wyrocznię (rzeczywisty zbiór danych, niezależna implementacja referencyjna lub opublikowane wektory), na status — ze strażnikiem wymuszanym w CI, że żadna możliwość nie może być uznana za sprawdzoną bez zewnętrznej wyroczni. Bieżące liczby: { "176" } sprawdzonych, { "232" } obliczonych z modelu, { "4" } partnera, { "412" } łącznie
-
-seg-903f40bceba8 = Stan weryfikacji wszystkich { "412" } możliwości: { "176" } sprawdzonych (względem zewnętrznej wyroczni), { "232" } obliczonych z modelu, { "4" } należących do partnera
-
-seg-9bfd6ba56a18 = { "176" } sprawdzonych · { "232" } obliczonych z modelu · { "4" } partnera — <a1>SVG</a1>
-
-seg-74c21b004d86 = Architektura Kshana: jeden otwarty silnik w centrum, kshana { $version } na licencji AGPL-3.0, z api::run_toml, typowanym dyspozytorem dla każdego rodzaju oraz rejestrem weryfikacji { "412" } możliwości ({ "176" } VALIDATED, { "232" } MODELLED, { "4" } PARTNER). Wokół niego każda powierzchnia uruchamia ten sam silnik: wiersz poleceń (cargo install kshana); biblioteka Rust (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); serwer MCP (cargo install kshana-mcp); obraz Docker (ghcr.io/ashfordeou/kshana-mcp); wtyczka JetBrains (Marketplace: „Kshana”). Pod nim Kshana Pro, własnościowa nakładka, która zależy od otwartego silnika jako biblioteki, nigdy go nie rozwidla i nie dodaje żadnego modelu fizycznego.
-
-seg-e6c6926110e6 = Architektura Kshana w warstwach. Pięć drzwi wejściowych (wiersz poleceń, Python, JavaScript i WebAssembly, serwer MCP i wtyczka JetBrains) prowadzi do jednego api::run_toml, typowanego dyspozytora dla { "93" } rodzajów. Pod nim leży osiem warstw dziedzinowych: czas i układy odniesienia, zegary i czas, inercja i fuzja, GNSS i integralność, astrodynamika, PNT z LEO, Księżyc, Mars i głęboka przestrzeń oraz misje i badania, na wspólnym rdzeniu, wszystkie z odsyłaczami w module weryfikacji, sprawdzanej maszynowo macierzy { "412" } możliwości, która jest jedynym źródłem prawdy dla każdej etykiety.

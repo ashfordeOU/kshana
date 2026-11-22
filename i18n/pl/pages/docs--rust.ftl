@@ -163,9 +163,3 @@ seg-24fe823a994a = json bez etykiety dowodowej ([crate::evidence_label]); bez zm
 seg-c0444d838311 = out z usuniętą etykietą dowodową z jego JSON, SVG i CSV, bajt w bajt taki, jak przebieg go wytworzył, zanim etykieta istniała; wynik bez etykiety jest bez zmian.
 
 seg-80e5f0aa2831 = Silnik ma { "93" } rodzajów scenariuszy; <c1/> wymienia je wraz z ich polami. Nowe w { "0.38.0" }: <c2/> (sygnały GNSS dla statków kosmicznych powyżej orbit GNSS, wokół nich i poza nimi) oraz <c3/> (orbita i powierzchnia Księżyca jako infrastruktura nawigacyjna i geodezyjna), oba MODELLED, a także <c4/> (zapis błędu czasu względem masek ITU-T).
-
-seg-fd6daa52df11 = { "176" } z { "412" } możliwości sprawdzonych względem niezależnych zewnętrznych wyroczni
-
-seg-4a3ebec6d011 = <b>{ "176" } z { "412" }</b> możliwości sprawdzonych względem niezależnych zewnętrznych wyroczni; { "232" } uczciwie oznaczonych jako obliczone na podstawie modelu, { "4" } należące do partnera. Każda możliwość nosi jedną etykietę w sprawdzanym maszynowo rejestrze (ledger): VALIDATED (niezależna zewnętrzna wyrocznia się zgadza: prawdziwe dane, niezależna implementacja lub opublikowane wektory wzorcowe), MODELLED (wewnętrznie spójne i powiedziane wprost) lub PARTNER (odpowiada za to partner sprzętowy). Wśród kontroli: wszystkie { "666" } wektorów SGP4 (Simplified General Perturbations { "4" }) z AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 z dokładnością do { "4.12" } mm oraz model sił Cowella z dokładnością do { "0.08" } m względem Orekit { "12.2" }.
-
-seg-d69651a71fbe = Jak możliwość zdobywa swoją etykietę: możliwość, wyrocznia, test, etykieta w rejestrze (ledger). Stan weryfikacji wszystkich { "412" } możliwości: { "176" } sprawdzonych względem niezależnego wzorca zewnętrznego, { "232" } obliczonych na podstawie modelu, { "4" } należących do partnera

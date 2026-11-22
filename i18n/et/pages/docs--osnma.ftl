@@ -254,11 +254,6 @@ seg-2acc9fa7212b = Testandmed on sünteetilised ning genereeritud Kshana enda ko
 seg-4906b14a33a3 = Primitiive kontrollitakse avaldatud teadaoleva vastuse testide vastu, ühtki ei ole võetud ICD-st: RFC { "4231" } (HMAC-SHA-256), RFC { "4493" } (CMAC-AES-128), FIPS { "197" } (AES), FIPS { "202" } (SHA3-256) ja RFC { "6979" } (ECDSA P-256). P-521 allkirju kontrollitakse kodeeringu ja räsi valiku osas testis tehtud ühekordse võtmega; kõvera aritmeetika on teegi oma.
 
 # text
-# c1: tests/osnma_official_vectors.rs
-# c2: KSHANA_OSNMA_VECTORS
-seg-82ee90adf7ed = Standardi järgimist kontrollib <c1/>, mis on vabatahtlik: see loeb ametliku testvektorite arhiivi koopiat, mille tuleb ise alla laadida, kataloogist, mille nimetab <c2/>, ega tee midagi, kui muutuja on seadmata. See ei salvesta ega levita midagi ja vaiketestide käitused ei kasuta võrku. See annab kontrollijale ainult Merkle'i juure ja ühe puu avalikud võtmed, nagu vastuvõtjal oleks, seega ahelad luuakse voos olevast allkirjastatud DSM-KROOT-ist ja kogu tee käitatakse: Merkle, allkiri, võtmeahel, MACSEQ ja sildid. See kinnitab vektorikomplekti kohta autenditud siltide alampiiri, et ükski ei ebaõnnestunud, millised ahelad ja võtmed voog kuulutab, ADKD { "0" }, { "4" } ja { "12" } autenditud sildid, et autentimine jätkub pärast ahela lõppu, ahela tühistamist, võtme tühistamist ja uut avalikku võtit, et häiresõnum kontrollitakse ja jätab midagi autentimata, ning et iga vektor kasutab ainult HMAC-SHA-256, SHA-256 ahelat, 128-bitiseid võtmeid, 40-bitiseid silte ja otsingukirjeid { "33" } ja { "34" }. ICD muud algoritmi- ja parameetrivalikud on seega kaetud ainult ülaltoodud teadaoleva vastuse ja sünteetiliste testidega.
-
-# text
 seg-70bb026ce655 = Sõltuvused
 
 # text

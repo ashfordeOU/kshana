@@ -209,7 +209,7 @@ seg-d513f734248e = <b>Transmit anything or synthesise RF.</b> The training gener
 # text
 seg-63eb4c5b4a17 = What to keep with the answer
 
-# attr:aria-label, text
+# text
 seg-6555ff9a6d8e = Output
 
 # text

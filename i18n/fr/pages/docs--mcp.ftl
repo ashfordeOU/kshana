@@ -235,23 +235,6 @@ seg-b0cf13e530b7 = Exécute un scénario et renvoie son tableau de reproductibil
 seg-ab242cd0259c = Géométrie du ciel sous une ligne d'horizon dépendant de l'azimut : à partir d'un site, d'un instant et de préréglages de constellation, d'ensembles d'éléments à deux lignes (<c1/>, propagés par SGP4 jusqu'à une <c2/> UTC) ou de satellites en azimut/élévation ou ECEF, les satellites visibles et ceux masqués par la ligne d'horizon, GDOP/PDOP/HDOP/VDOP/TDOP à partir du noyau DOP vérifié par gnss_lib_py, le cofacteur et la covariance est-nord-haut (une horloge par système ou une horloge commune) et l'ellipse d'erreur horizontale ; avec <c3/> au lieu de <c4/>, un préréglage REPRESENTATIVE avec sa provenance et sa coupure à chaque degré. MODELLED ; porte la mention à titre consultatif ; pas de Monte Carlo via MCP. Voir <a1><c5/></a1>.
 
 # text
-# c1: format
-# c2: ubx
-# c3: rinex
-# c4: android
-# c5: nmea
-# c6: sbf
-# c7: text
-# c8: base64
-# c9: [[events]]
-# c10: [compare]
-# c11: [platform] kind = "vessel"
-# c12: text
-# c13: base64
-# c14: docs/RECEIVER-TRUST.md
-seg-d6ed4e8d56e5 = Évalue la confiance d'un journal de récepteur GNSS (système mondial de navigation par satellite) réel. Le TOML nomme le <c1/> du journal (<c2/>, <c3/>, <c4/>, <c5/> ou <c6/>) et en donne les octets en ligne sous forme de <c7/> ou <c8/> ; l'outil exécute les moniteurs de confiance (chute de la densité porteuse sur bruit, perte d'accrochage, AGC (commande automatique de gain), indicateur de brouillage, saut de position et, avec RINEX plus la navigation diffusée, RAIM (surveillance autonome de l'intégrité par le récepteur) et un moniteur assisté par l'horloge) et renvoie quand et pourquoi le point de position a cessé d'être digne de confiance. Des sections <c9/> et <c10/> facultatives notent des événements déclarés et des chutes de C/N0 prédites par rapport à des tolérances déclarées. Une table <c11/> sélectionne les moniteurs maritimes et ajoute un score de confiance de 0-100 par époque avec les moniteurs qui ont déduit (à titre consultatif ; MODELLED). Le journal se transmet en ligne sous forme de <c12/> ou <c13/> (au plus { "4" } Mio). Graphique et CSV par époque sur demande. Voir <a1><c14/></a1>.
-
-# text
 # c1: kshana receiver-trust live
 # c2: $PKSHT
 # c3: --listen
@@ -638,9 +621,5 @@ seg-490ebbefb561 = <s1>Précédent</s1>Crate Rust
 
 # text
 seg-350b6b914734 = <s1>Suivant</s1>Serveur MCP : tous les canaux d'installation
-
-seg-a4a0e399a31e = <c1/> place <c2/> dans votre <c3/> (typiquement <c4/>). Le serveur parle JSON-RPC (appel de procédure distante JSON) via stdio ; les journaux vont sur stderr. La compilation depuis les sources exige une chaîne d'outils Rust ≥ { "1.88" } (le SDK <c5/> { "2" }.x corrigé l'exige, tout comme la bibliothèque <c6/>) ; l'image Docker n'en exige aucune.
-
-seg-0757e15070d4 = Le serveur est un <b>crate autonome, exclu de l'espace de travail</b>, avec son propre <c1/>, de sorte que le SDK Rust MCP officiel (kit de développement logiciel) <c2/> et son environnement d'exécution asynchrone n'entrent jamais dans le graphe de dépendances du crate <c3/> publié : un utilisateur de la bibliothèque ou de Python ne compile pas un serveur qu'il n'exécute pas. (Il a d'abord été séparé parce que <c4/> est en <b>édition { "2024" }</b>, ce qui exige rustc ≥ { "1.85" }, alors que le crate principal promettait alors { "1.75" }. La bibliothèque et ce serveur déclarent désormais tous deux { "1.88" }, le plancher de <c5/> { "2" }.x corrigé pour la sécurité et des crates RustCrypto mis à niveau.) L'intégration continue (CI) contrôle ce crate à part : tests et <c6/> sur son fichier de verrouillage. L'arbre des licences de rmcp est propre (Apache-2.0/MIT/BSD) ; ainsi, contrairement au crate de validation croisée <c7/> qu'il reproduit par ailleurs, la séparation ne tient pas à la licence.
 
 seg-b873b39a4921 = Les { "93" } types de scénario intégrés, avec leurs descriptions et leurs champs obligatoires et facultatifs — pour que l'agent puisse construire un scénario valide.

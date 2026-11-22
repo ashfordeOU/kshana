@@ -146,9 +146,6 @@ seg-ea7fba14ee58 = Freier Kern
 seg-b3f3fc0fd6ff = Alles, was auf dieser Seite gezeigt wird, läuft in der offenen Engine unter der AGPL-3.0 (GNU Affero General Public License, Version { "3" }), ohne Funktionssperre: jeder Szenariotyp, jede Szenariodatei, jedes Band, jede Uhr und jeder Körper.
 
 # text
-seg-311e7a7d55dc = Gekennzeichnet, wo es auf einer Fähigkeit aufbaut: der Entwurfsoptimierer, Unsicherheits- und Sensitivitätsanalyse, das Missionsdossier, kalibrierte Uhren-Zwillinge und gerankte Trade-off-Studien. <a1>Was Pro ergänzt</a1>
-
-# text
 seg-a613a7447e3f = Individuelle Studie
 
 # text
@@ -722,10 +719,6 @@ seg-982938fe53bc = Klasse ultrastabiler/optischer Bordoszillatoren, White-FM sig
 seg-2adc3374e996 = Jede Modell-ID und ihre Herkunft werden aus den Szenariodateien gelesen.
 
 # text
-# c1: clock
-seg-0aa1e4562dac = Kshana Pro kalibriert einen <b>digitalen Zwilling der Uhr</b> auf das veröffentlichte Allan-Budget Ihres Geräts, aufbauend auf dem Typ <c1/> und den obigen Klassen. <a1>Was Pro ergänzt</a1>
-
-# text
 seg-0d9353d25bc6 = GNSS verloren. Wo steht jede Uhr nach <s1>{ "10" } min</s1>?
 
 # text
@@ -858,9 +851,6 @@ seg-91e8a9dca129 = Erweiterte Uhr der Synchronous-Ethernet-Einrichtung (eEEC), L
 seg-f6f1b242019f = Beide Tabellen werden aus <c1/> gelesen; der Typ <c2/> prüft eine Uhr gegen jede Maske.
 
 # text
-seg-b291c1ae1f5c = Kshana Pro kalibriert einen digitalen Zwilling der Uhr auf das veröffentlichte Allan-Budget eines Geräts und prüft ihn mit dem Schätzer für die Allan-Abweichung der offenen Engine; ein Zwilling Ihres eigenen Geräts wird im Auftrag gebaut. <a1>Was Pro ergänzt</a1>
-
-# text
 # c1: telecom-timing
 seg-f65bf4f57e2f = Telekom-Holdover: MTIE und TDEV eines Microchip 8040C, Standardleistung <c1/>
 
@@ -977,9 +967,6 @@ seg-aa924d59476b = Kartenmetrik
 
 # text
 seg-59a109b36eea = T+{ "00" }:{ "00" }
-
-# text
-seg-e5f00e27b617 = <b>Mit Pro:</b> Der Entwurfsoptimierer liefert die <b>Pareto-Front</b> eines ganzen Konstellations-Entwurfsraums um die Erde, den Mond oder den Mars, jeden Entwurf der Front als einfache Szenariodatei ausgeschrieben, und eine <b>gerankte Trade-off-Studie</b> vergleicht Architekturen anhand einer Gütezahl. <a1>Eine echte Front ansehen</a1>
 
 # text
 seg-2d6cfb3452e3 = Das Sonnensystem · Typ solar-system
@@ -1315,9 +1302,6 @@ seg-ff2823b929b3 = Ereignisse des verketteten Laufs
 
 # text
 seg-17c200a01fea = Kshana Studio spielt jede Kampagne in Ihrem Browser ab; der Befehl und die Szenariodatei reproduzieren jeden Lauf, und der eigene Bericht des verketteten Laufs ist veröffentlicht.
-
-# text
-seg-dd2809ea9a6a = <b>Mit Pro:</b> Angegebene Unsicherheiten der Eingaben liefern <b>Konfidenzbänder</b>, die Wahrscheinlichkeit, eine Grenze einzuhalten, und eine Rangfolge der Eingaben, die das Ergebnis bestimmen, über Tausende von Läufen, die angehalten und fortgesetzt werden können. <a1>Ein echtes Band ansehen</a1>
 
 # text
 seg-2b2aa3298f26 = Nach Ihren Wünschen · Kshana Studio
@@ -2479,48 +2463,8 @@ seg-16cf26093bf0 = <c1/><a1>quantum-pnt-demonstrator.suite</a1>
 seg-6cb4a75cb2f0 = Kein Eintrag passt zu diesem Filter.
 
 # text
-# c1: clock
-# c2: lunar-time-offset
-# c3: timetransfer
-# c4: quantum-time-transfer
-# c5: lunar-time-budget
-# c6: telecom-timing
-# c7: slot-timing
-seg-ec1a22002e13 = <b>Pro: kalibrierter Uhren-Zwilling</b> baut auf <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/> auf. <a1>Was es ergänzt</a1>
-
-# text
-# c1: sweep
-# c2: sweep-nd
-# c3: combined-altpnt
-# c4: quantum-trade
-# c5: hybrid-optical-rf
-# c6: conflict-resilience
-seg-cc88295c3e2e = <b>Pro: gerankte Trade-off-Studie</b> baut auf <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/> auf. <a1>Was es ergänzt</a1>
-
-# text
 # c1: impairment-eval
 seg-62942b0a2127 = <b>Individuelle Studie</b> baut auf <c1/> auf. <a1>Was es ergänzt</a1>
-
-# text
-# c1: constellation-design
-seg-8cec53de04c5 = <b>Pro: Entwurfsoptimierer</b> baut auf <c1/> auf. <a1>Was es ergänzt</a1>
-
-# text
-# c1: clock
-# c2: leo-pnt-chain
-seg-4bdca619acb5 = <b>Pro: Unsicherheit und Sensitivität</b> baut auf <c1/>, <c2/> auf. <a1>Was es ergänzt</a1>
-
-# text
-# c1: body-pnt
-# c2: campaign
-# c3: constellation-design
-# c4: leo-pnt-chain
-# c5: spectrum
-seg-35d8381e7605 = <b>Pro: Missionsdossier</b> baut auf <c1/>, <c2/>, <c3/>, <c4/>, <c5/> auf. <a1>Was es ergänzt</a1>
-
-# text
-# c1: campaign
-seg-08d3c155a74d = <b>Pro: Kampagnenüberwachung</b> baut auf <c1/> auf. <a1>Was es ergänzt</a1>
 
 # text
 # c1: constellation-design
@@ -3617,52 +3561,6 @@ seg-b39df358a1b0 = <c1/><s1>lunar-orbit-rendezvous</s1>
 seg-dc524d9636a3 = <c1/><s1>lunar-surface</s1>
 
 seg-0b3cd978cb6e = <c1/><s1>lunar-surface</s1>
-
-seg-d5c6110302e9 = Ein Missionsstrang im Stil von Artemis, eine Nachweiskennzeichnung an jeder Zahl und siebzehn Sprachen.
-
-seg-8597c65432ed = Verketten Sie die Phasen einer Mondmission zu einem gemeinsamen Fehlerbudget für Navigation und Zeitgebung, schätzen Sie, wo sich eine Quelle gestörter Positionsmeldungen befinden kann, lesen Sie gemessene Uhrenlogs, sehen Sie die Evidenzstufe an jeder Zahl, die ein Lauf schreibt, und nutzen Sie Befehlszeile, Berichte und Studio in siebzehn Sprachen. Jede Fähigkeit trägt die Kennzeichnung, die das Register für sie führt, und eine Kennzeichnung benennt nur, was geprüft wurde. Beratende Software, keine typzugelassene Navigationsausrüstung: Der Betreiber bleibt verantwortlich.
-
-seg-070972f642de = Ein Missionsstrang im Stil von Artemis: das Fehlerbudget für Navigation und Zeitgebung vom Start bis zum Wiedereintritt
-
-seg-982a4a7cf0db = Die Art Missionsstrang verkettet Phasen (Start und Aufstieg, Rendezvous in niedriger Erdumlaufbahn, translunare Injektion und Flug, die Mondphasen, Wiedereintritt) und trägt die Positions- und Geschwindigkeitskovarianz aus jeder Phase in die nächste, wobei die Übergaberegeln, die Umrechnungen von Bezugssystem und Zeitskala, die Marge gegenüber den genannten Anforderungen und das schwächste Glied jeweils als Budgetzeilen geschrieben werden.
-
-seg-17c9cc6c2d40 = Geprüft: Der Vergleich mit Artemis I hat seinen Zielwert verfehlt ({ "45.3" } km gegenüber { "5" } km); die Zeile bleibt MODELLED
-
-seg-946487626f87 = Ansicht des Missionsstrangs in Kshana Studio
-
-seg-4970f874d334 = Das Mondsegment: Rendezvous, Abstieg, Oberfläche und Aufstieg
-
-seg-b6c35bf141e7 = Vier Szenarioarten, jede zugleich eine Phase des Missionsstrangs: Relativnavigation bis zum Andocken in der Mondumlaufbahn, das Landestreuungsbudget an einem Standort am Südpol, die Verfügbarkeit von Positionierung und Zeitgebung nach Standort und Jahreszeit sowie der Aufstieg zurück in die Rendezvous-Umlaufbahn.
-
-seg-ce097df855a9 = Geprüft: vorab festgelegte Zielwerte; einer erreicht, einer nicht erreicht, keiner gelockert
-
-seg-8ca6e2046901 = Eine geschätzte Senderregion aus ADS-B- oder AIS-Meldungen
-
-seg-ca6383e426f9 = Wo sich eine Quelle gestörter Positionsmeldungen befinden kann, als Regionen zu { "50" }, { "90" } und { "95" } Prozent mit einem Schwerpunkt und seiner Unsicherheitsellipse, nie als bloßer Punkt, sowie Sitzungen in der Zeit.
-
-seg-27af464d0674 = Geprüft: vorab festgelegt; beide Quellen nicht beurteilbar, daher wird nichts behauptet
-
-seg-003a3b9b63ea = Gemessene Uhrenlogs und ein holdover, der von einer angepassten Reihe angetrieben wird
-
-seg-f51fa2a40db8 = Lesen Sie ein gemessenes Uhrenlog in acht Formaten (RINEX clock, TimeLab, TICC, linuxptp, chrony) in eine Phasenreihe für die Uhren- und Telekom-Zeitgebungsarten ein und passen Sie das Rauschen einer gemessenen Reihe an, um einen holdover anzutreiben.
-
-seg-6e9140563c53 = Geprüft: Zielwerte vorab festgelegt; Verfehlungen benannt und festgeschrieben
-
-seg-448b11c86f48 = Datenpartner: welche Zeilen gemessene Daten befördern könnten
-
-seg-56b0201d930c = Welche modellierten Registerzeilen gemessene Daten eines Partners befördern könnten, die akzeptierten Formate und wie eine Einreichung geprüft, an einem vorab festgelegten Zielwert bewertet und angerechnet wird.
-
-seg-5858e5d1f7c5 = Eine Nachweiskennzeichnung an jeder Zahl und Tabelle, die ein Lauf schreibt
-
-seg-d1c4250b2a7e = Jede Ergebnisdatei, jedes Diagramm und jede Tabelle, die ein Lauf schreibt, nennt nun die Evidenzstufe, auf der sie beruht (validiert, modelliert oder Partner, die schwächste ihrer Zeilen), und benennt die dahinterstehenden Zeilen der Verifikationsmatrix, aus der Matrix gelesen und nicht getippt.
-
-seg-bd28ef5c376e = Siebzehn Sprachen neben Englisch
-
-seg-1e4a6a5931d3 = Die Befehlszeile, die Berichte, die Dokumentationsseiten und das Studio stehen in siebzehn Sprachen neben Englisch zur Verfügung.
-
-seg-7fae5de5ebf1 = kshana-bench: die Neukampagne { "0.40" }
-
-seg-1e0afa852323 = Vier vorab festgelegte Vergleiche wurden nach der Freigabe einmal ausgeführt und haben ihre Zielwerte erreicht, und jeder Wert ist modelliert.
 
 seg-c381cfa99bb0 = Ein Uhrenszenario, dessen klassische Uhr das Rauschen eines gemessenen Logs übernimmt (`[clock_fit]`).
 

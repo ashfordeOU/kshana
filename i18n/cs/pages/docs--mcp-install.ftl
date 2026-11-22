@@ -108,8 +108,6 @@ seg-93d075d31cdd = npx (Node):
 
 seg-ae03b1ad65f1 = kshana-mcp v PATH:
 
-seg-439fac4928a0 = Kde: <c1/> (Settings, Developer, Edit Config). Nebo dvakrát klikněte na rozšíření <c2/> z vydání: bez konfiguračního souboru.
-
 seg-e998ab783248 = Cursor
 
 seg-1a35b243eeb1 = Kde: <c1/> (nebo <c2/> v projektu).
@@ -149,13 +147,3 @@ seg-db567a4e1a61 = <c1/> poskytuje stejné nástroje přes streamable HTTP pro k
 seg-04c1f05fb027 = <s1>Předchozí</s1>Server MCP
 
 seg-eba757f29814 = <s1>Další</s1>Server MCP: vlastní hostovaný režim HTTP
-
-seg-4ccbbc19fe86 = <b>npx (Node)</b> (vyžaduje Node { "18" }+): <c1/>
-
-seg-77230eb344ea = <b>Docker</b> (vyžaduje Docker): <c1/>
-
-seg-3398eea8e332 = Cursor, npx (Node): <a1>webový odkaz</a1> · <c1/>
-
-seg-67009baafb3b = Cursor, Docker: <a1>webový odkaz</a1> · <c1/>
-
-seg-6918cd89f776 = Goose, npx: <c1/>

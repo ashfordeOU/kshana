@@ -3560,7 +3560,3 @@ seg-f4b44b14d819 = tests/mission_thread_oracle.rs::the_stored_numbers_miss_the_r
 seg-67fdcdfdb635 = interference_map::emitter (estimate, sessions, build_units, profile, GaussianFix::from_tdoa), interference_map::emitter_out (locate), <c1/>
 
 seg-920b26e226ab = enhetstester för interference_map::emitter (rundtur för projektion, horisontsiffra, syntetiska rundturer framåt och bakåt: den kända sändaren ligger innanför det angivna området ungefär i den angivna andelen, gränsfall, sessionsklustring, profil, integritet och formulering); fall för locate i tests/interference_map_cli.rs
-
-seg-db7a6ac0a47d = Det fullständiga, maskinkontrollerade evidensregistret: <b>{ "412" } rader — { "176" } VALIDATED, { "232" } MODELLED, { "4" } PARTNER</b>. En rad får vara VALIDATED bara med en oberoende extern referens (matrisens invarianttester upprätthåller detta). Samma data, med klickbara länkar per rad till varje test, modul och incheckad fixtur, är <em>Valideringsregistret</em> på <a1>https://kshana.dev</a1>. Se <a2>MODELLED-RATIONALE.md</a2> för varför varje modellerad rad inte är externt validerad.
-
-seg-1cc523709234 = { "412" } rader: { "176" } externt validerade, { "232" } modellerade, { "4" } ägda av partner.

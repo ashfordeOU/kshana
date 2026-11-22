@@ -278,17 +278,9 @@ seg-d997b6a5a416 = Proč Pro, ještě víc
 
 seg-4ff013b472ff = Jaký návrh bychom měli vypustit?
 
-seg-f4eb65b9b27a = Lunární navigační konstelace: nejmenší počet družic oproti dostupnosti, celý Měsíc: spuštěno { "608" } návrhů, Paretova fronta o { "12" } návrzích
-
 seg-c8ce2e4a6687 = Jak jsme si jistí a co výsledek ovlivňuje?
 
-seg-049c503c23db = Holdover hodin s nejistou úrovní šumu: 5. až 95. percentil z { "2,000" } běhů oproti limitu { "20" } ns
-
 seg-3dd37275b448 = Splňuje mise své požadavky a můžeme to předat?
-
-seg-7fbde256debf = nesplněno
-
-seg-f6ccb7a322b3 = otevřené položky
 
 seg-6d3d0f8c9b7c = Požádat o vyhodnocení Pro
 
@@ -329,8 +321,6 @@ seg-8b095f7254ed = Kopírovat instalační příkaz: cargo install kshana
 seg-f0e9de10d9ef = cargo install kshana<s1>Kopírovat</s1>
 
 seg-ec3957c0f5f1 = Stisknutím <c1/> prohledáte stránky, scénáře a dokumentaci
-
-seg-a92f77bd42cb = <s1>Kshana Pro</s1><c1/><s2>Stejný engine, zesílený: { "608" } návrhů, jedna Paretova fronta</s2>
 
 seg-b807a8887172 = Telemetrie přehraná ze zřetězeného běhu kampaně
 
@@ -646,8 +636,6 @@ seg-09d18cf767a7 = Otevřené jádro, Kshana Pro, studie na míru
 
 seg-302606971c35 = Pro všechny zdarma. Pro, když musí odpověď obstát při revizi.
 
-seg-27c12083529b = Kshana Pro je proprietární nadstavba, která závisí na otevřeném jádru a nikdy je nevětví, dostupná na základě smlouvy. Žádné ceny na webové stránce: každá placená cesta začíná zprávou na <a1>contact@ashforde.org</a1>.
-
 seg-43ceda17e71c = Otevřené jádro · zdarma · AGPL-3.0
 
 seg-0230217b1110 = Každý, kdo bere polohu nebo čas z GNSS, je vystaven: rušení, spoofing a ztráta signálu dopadají stejně na vozidla, sítě, rozvodné soustavy i kosmické lodě.
@@ -657,14 +645,6 @@ seg-0af87a1caff4 = Totéž jádro pod komerční licencí, pro uzavřenou integr
 seg-f6406933eb77 = Nainstalujte engine
 
 seg-6a74a165bfd0 = Kshana Pro · na základě smlouvy
-
-seg-298532756f74 = Paretova fronta návrhového prostoru, kde každý návrh na frontě je scénář, který bezplatný engine znovu spustí.
-
-seg-a699256db841 = Nejistota a citlivost přes tisíce běhů.
-
-seg-665005551d84 = Dosier mise jediným příkazem s verifikační maticí a souborem PDF (Portable Document Format).
-
-seg-455cb5040f80 = Reprodukovatelné balíčky důkazů auditní kvality; digitální dvojčata hodin kalibrovaná podle zveřejněného Allanova rozpočtu vašeho zařízení; obchodní studie architektur seřazené podle ukazatele kvality; nástroje pro systémové inženýrství založené na modelech (MBSE) a pro programy.
 
 seg-3e30593288a1 = Co Pro zahrnuje
 
@@ -680,48 +660,10 @@ seg-57320238c0f4 = Práce podléhající exportní kontrole s příslušnou prov
 
 seg-e36049d768ce = Integrace, školení a poradenství.
 
-seg-3303866fbf99 = Stejný engine, zesílený: skutečný výstup Kshana Pro
-
-seg-f5513a1750f1 = <a1><s1><c1/>Optimalizátor návrhu</s1></a1>
-
-seg-2bbc6243b4b1 = <b>{ "608" } návrhů</b>, všechny spuštěny: Paretova fronta a její koleno
-
-seg-56e344605a3d = <a1><s1><c1/>Nejistota a citlivost</s1></a1>
-
-seg-a0b3c138f981 = <b>{ "2,000" } běhů</b>: pás spolehlivosti vůči limitu
-
 seg-6de95aaa8ba4 = <a1><s1><c1/>Dosier mise</s1></a1>
 
-seg-905e5eef45e5 = <b>{ "12" } požadavků</b> ověřeno proti skutečným během, 21stránkové PDF (Portable Document Format)
-
 seg-7d9ee2bfbb90 = Najděte, kde se váš čas rozbije, dřív než se rozbije.
-
-seg-070972f642de = Mise ve stylu Artemis jako jedno vlákno: rozpočet chyb navigace a času od startu po vstup do atmosféry
-
-seg-4970f874d334 = Lunární část: setkání, sestup, povrch a výstup
-
-seg-8ca6e2046901 = Odhadovaná oblast zdroje rušení z hlášení ADS-B nebo AIS
-
-seg-003a3b9b63ea = Změřené záznamy hodin a holdover řízený nafitovanou řadou
-
-seg-448b11c86f48 = Datoví partneři: které řádky by mohla povýšit změřená data
-
-seg-5858e5d1f7c5 = Štítek důkazů u každého čísla a každé tabulky, které běh zapíše
-
-seg-bd28ef5c376e = Sedmnáct jazyků vedle angličtiny
-
-seg-7fae5de5ebf1 = kshana-bench: rekampaň { "0.40" }
-
-seg-b9961ed25282 = Novinky ve v{ $version }: misijní vlákno, štítek důkazů u každého čísla a sedmnáct jazyků
 
 seg-579d9b6f7afd = Všech { "93" } druhů scénářů, zdarma bez omezení funkcí, deterministických podle scénáře, seedu a verze enginu.
 
 seg-56bf1281e330 = Zaznamenaná relace se serverem kshana-mcp (Model Context Protocol, engine v{ $version }): asistent vypíše { "53" } nástrojů, zvaliduje <c1/> (valid: detected scenario kind `clock`) a spustí jej: scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity { "1.000" } security n/a (no attack).
-
-seg-237d8bd201d2 = <b>Kampaň:</b> Engine v{ $version }, sestavení <c1/> · <c2/> · seed { "20260928" }
-
-seg-98ebce268546 = <b>Oběžné dráhy:</b> Engine v{ $version }, sestavení <c1/> · <c2/> · deterministický, bez seedu
-
-seg-bb2975f5a7dd = Engine v{ $version }, sestavení <c1/> · <c2/> · seed { "20260928" }
-
-seg-ee04b167d80a = { "176" } z { "412" } schopností souhlasí s nezávislými vnějšími orákuly; ostatní jsou otevřeně označeny jako modelované.

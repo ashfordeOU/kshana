@@ -107,11 +107,6 @@ seg-aa942198bb2e = <b>SP3-c (SP3: Standard Product { "3" }, o formato de órbita
 seg-4d4237e15ef1 = IGS Standard Product { "3" } (c/d)
 
 # text
-# c1: gps-ops
-# c2: tests/sp3_export_roundtrip.rs
-seg-8d1089fbd59d = Série temporal de posição fixa à Terra (ECEF) + tempo de relógio. Ida e volta validada a < { "0.5" } m em um instantâneo real de <c1/> (<a1><c2/></a1>).
-
-# text
 seg-761698fcf960 = <b>RINEX (Receiver Independent Exchange Format) { "3" }</b> (navegação por transmissão)
 
 # text
@@ -362,19 +357,10 @@ seg-8b0593f67c7f = Valor / unidade
 seg-d33eb162d179 = Metadados do segmento OEM
 
 # text
-# c1: EARTH
-# c2: TEME
-# c3: GPS
-seg-4b338284e56a = <c1/> / <c2/> / <c3/> — o referencial em que os propagadores integram e a escala de tempo da grade de épocas, sem renomeação
-
-# text
 seg-e0a44af9aaf8 = Época do estado OEM
 
 # text
 seg-b0623bab9fcc = primeira coluna de cada linha de dados
-
-# text
-seg-410bd5a9ba14 = tempo de calendário ISO-8601 (ISO: International Organization for Standardization), escala de tempo GPS
 
 # text
 seg-a7c95802e01a = Posição e velocidade OEM

@@ -1220,34 +1220,6 @@ js-site-palette-none = Нет результатов
 
 js-site-palette-results = Результатов: { $count }
 
-js-site-pro-band-at = На { $minutes } минуте: с 5-го по 95-й процентиль
-
-js-site-pro-band-range = от { $lo } до { $hi } { $unit }
-
-js-site-pro-band-runs-within = из { $n } прогонов в пределах ±{ $limit } { $unit }
-
-js-site-pro-design-readout = спутников: { $sat }, доступность { $av } % · плоскостей: { $planes } на { $alt } km, { $incl }°
-
-js-site-pro-front-design = Проект на фронте { $id }
-
-js-site-pro-front-design-knee = Проект на фронте { $id } · излом
-
-js-site-pro-more-designs =
-    { $n ->
-        [one] (+{ $n } ещё проект на фронте в этой точке)
-        [few] (+{ $n } ещё проекта на фронте в этой точке)
-        [many] (+{ $n } ещё проектов на фронте в этой точке)
-       *[other] (+{ $n } ещё проекта на фронте в этой точке)
-    }
-
-js-site-pro-not-rerun = не перезапускалось
-
-js-site-pro-rerun-free = перезапуск в бесплатном движке:
-
-js-site-pro-same-sha = тот же SHA-256 { $sha }…
-
-js-site-pro-same-sha-index = тот же SHA-256 результата, что и в указателе
-
 js-site-toast-copied = Скопировано: { $text }
 
 js-site-toast-data-failed = Не удалось загрузить файл данных
