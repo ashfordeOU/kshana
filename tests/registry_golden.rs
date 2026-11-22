@@ -394,7 +394,8 @@ fn golden_hybrid_optical_rf() {
         // and strings, likewise 0 and 0). The only value anywhere that moved is the
         // `units` note on `optical_availability.single_site_mean`, which claimed no
         // RF-availability counterpart existed and became false when this landed.
-        expect_fnv_canonical: 0x2bf6_b4ed_e1fb_f1f6,
+        // Re-baselined when the result label dropped an internal paper id; only the label text moved.
+        expect_fnv_canonical: 0x9efe_70a1_f877_dc6c,
         expect_fnv_raw_linux_x64: None,
     });
 }
@@ -422,7 +423,8 @@ fn golden_cislunar_observability() {
         // re-hash against the constants frozen BEFORE it existed, and both are unchanged.
         // STUDIO-15 (0.36 portable maths): was 0x2cb0_2851_850e_09c1 on the host's maths; the document moved only in
         // round-off-floor quantities (docs/revisions/portable-math-rebaseline.md).
-        expect_fnv_canonical: 0x274d_1075_bfa4_b6f8,
+        // Re-baselined when the result label dropped an internal paper id; only the label text moved.
+        expect_fnv_canonical: 0x0672_1ef0_c42f_05ab,
         expect_fnv_raw_linux_x64: None,
     });
 }
@@ -444,7 +446,8 @@ fn golden_conflict_resilience() {
         // tests/field_units_global.rs). Purely additive: the summary string above is
         // byte-identical, no pre-existing key changed value or position, and the whole
         // delta is the new `units` object.
-        expect_fnv_canonical: 0xe277_1b72_459f_7730,
+        // Re-baselined when the result label dropped an internal paper id; only the label text moved.
+        expect_fnv_canonical: 0x38f2_e27c_ed6e_3472,
         expect_fnv_raw_linux_x64: None,
     });
 }
