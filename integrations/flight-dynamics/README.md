@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 # Flight-dynamics tools: Kshana's trajectories read back by the tools themselves
 
-Roadmap item C7. Kshana writes a trajectory as a CCSDS OEM, a CCSDS OPM or a SPICE SPK kernel
+Kshana writes a trajectory as a CCSDS OEM, a CCSDS OPM or a SPICE SPK kernel
 (`kshana ephem-export`, [docs/FLIGHT-DYNAMICS-EXPORT.md](../../docs/FLIGHT-DYNAMICS-EXPORT.md)). For each tool,
 an adapter here loads those files into the tool, and a notebook compares every state the tool reads
 back with the state written. The test is
