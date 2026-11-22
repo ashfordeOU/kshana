@@ -20,9 +20,10 @@
 //! Oracle classes: B1/B2 are the file's own printed numbers (real data, structural). B3/B4 are
 //! an independent re-implementation of a published formula (`reference_interp.py`, Python
 //! standard library, written from the format description, not from Kshana's source): a
-//! reference implementation, so the row stays MODELLED. B6 would be a third-party library
-//! (RTKLIB, BSD-2-Clause) but this repository cannot run it; the harness skips when the CSV is
-//! absent.
+//! reference implementation on their own. B6 is a third-party library (RTKLIB, BSD-2-Clause),
+//! data-gated: the harness skips when the CSV is absent. The row is VALIDATED on the B6
+//! comparison (first run 2026-10-13, result below); the always-run check is the synthetic map
+//! against the formula reference.
 //!
 //! Result (first comparison run 2026-10-12, after the fixture commit 521bf3c): all bars held.
 //! B1 25 maps, 3600 s apart, last at 86400 s, 11 x 73 grid. B2 20075 nodes exact (0 TECU) in
@@ -35,7 +36,7 @@
 //! existing `parse_ionex` returned `None` on every real IONEX file, because a full 16-value
 //! record fills columns 61-80 and was read as a label and skipped; it now reads such records.
 //!
-//! Data (changed 2026-10-13 on the owner's rule, nothing re-tuned): the CODE GIM is NOT vendored,
+//! Data (changed 2026-10-13, nothing re-tuned): the CODE GIM is NOT vendored,
 //! because no licence for it could be confirmed from a primary source. `fetch.sh <dir>` fetches
 //! `CODG1330.18I.Z` (CDDIS, else the AIUB archive), checks its pinned SHA-256, and writes the
 //! latitude crop `map.18i` and its formula reference `reference_vtec.csv.gz` to `<dir>`; B1-B5 run
@@ -47,8 +48,7 @@
 //! 5.1e-13 TECU, L1 delay 5.3e-14 m; B5 0.496 and 1.667 TECU. The synthetic check exercises the
 //! formulas only; the real-data checks are the gated ones.
 //!
-//! B6 RESULT (first and only run, 2026-10-13; RTKLIB v2.4.2-p13 built from 71db0ffa after the
-//! owner allowed it; driver `rtklib_iontec_driver.c` and `run_rtklib.sh`, committed 8709a51
+//! B6 RESULT (first and only run, 2026-10-13; RTKLIB v2.4.2-p13 built from 71db0ffa; driver `rtklib_iontec_driver.c` and `run_rtklib.sh`, committed 8709a51
 //! before the run): RTKLIB `iontec` at the 6885 equation-2/3 query points, zenith, compared with
 //! `IonexFile::vtec_at`: max |Delta| 3.553e-13 TECU in the rotated-map mode (RTKLIB opt 1) and
 //! 3.517e-13 TECU in the consecutive mode (opt 0), against the 1e-5 TECU bar. Disclosed
