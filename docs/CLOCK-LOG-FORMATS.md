@@ -27,7 +27,7 @@ Without the table, both kinds parse, hash and report exactly as before.
 [clock_log]                 # or [series.clock_log] in a telecom-timing scenario
 format = "ticc"             # "rinex-clk", "timelab", "ticc", "ptp4l", "phc2sys", "ts2phc",
                             # "chrony-tracking", "chrony-statistics", "ntp-loopstats",
-                            # "ntp-peerstats" or "wr-stat"
+                            # "ntp-peerstats", "wr-stat", "pps-assert" or "cggtts"
 path = "logs/ticc.txt"      # or text = "..." inline (the only choice in WebAssembly)
 channel = "chA"             # TICC: needed when the log holds more than one channel
 gaps = "linear"             # "refuse" (default), "longest" or "linear"
@@ -327,7 +327,7 @@ linuxptp and chrony formats the fixtures in `tests/fixtures/clock_log/linuxptp_c
 `tests/fixtures/clock_log/PREREGISTRATION.md`: three seeded synthetic logs, one per format,
 read back by an independent reader written from this page by the same author, with the
 ADEV, TDEV and MTIE checked against allantools 2024.6; that comparison covers the first three
-formats only, and the linuxptp and chrony readers have parser tests but no oracle comparison. The logs of that comparison are synthetic, so nothing
+formats only, and the other readers have parser tests but no allantools comparison. The logs of that comparison are synthetic, so nothing
 there describes a real clock or counter; the comparison on measured series is described below.
 
 ### On measured data
