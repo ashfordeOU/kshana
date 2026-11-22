@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-only
-//! The feature-limited WebAssembly module (`--features wasm-slim`): the three calls the embedder makes and
+//! The feature-limited WebAssembly module (`--features wasm-slim`): the three calls an embedder makes and
 //! nothing else, so the module stays inside an embedder's download budget.
 //!
 //! ```js
@@ -14,7 +14,7 @@
 //! gives an unregistered id. A carried kind returns the same bytes as the full module: the run
 //! goes through the same code (schema-version strip, `figure_tiers`, evidence label) and only the
 //! kind dispatch is a shorter table (`crate::api::run_slim_kind`). `ci.yml` (job `wasm-slim`)
-//! builds both modules and compares them on the embedder's parity cases (`web/slim/parity.mjs`).
+//! builds both modules and compares them on the recorded parity cases (`web/slim/parity.mjs`).
 //!
 //! Built with `scripts/build-wasm-slim.sh`; never together with `--features wasm` (the two
 //! modules export the same names, so with both features on only the full one is compiled).
