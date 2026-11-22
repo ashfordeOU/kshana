@@ -213,7 +213,7 @@ fn run() -> Option<(usize, usize, usize, usize, Vec<LabRate>)> {
 
 #[test]
 #[ignore = "pre-registered bar not met (2026-10-02): pooled exceedance 694 / 20 826 = 0.0333 against \
-            1e-2 (430 of them rows with no overbound; 0.0127 without those)"]
+            1e-2 (430 of them rows with no overbound; 0.0129 without those, 264 / 20 396)"]
 fn realised_offset_overbound_holds_on_2023_2026() {
     let Some((nl, n, exc, nob, mut per)) = run() else {
         eprintln!(

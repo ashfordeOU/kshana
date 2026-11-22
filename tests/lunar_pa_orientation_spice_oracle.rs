@@ -19,7 +19,8 @@
 //! ## Epochs
 //!
 //! 2 000 epochs drawn uniformly (numpy `default_rng(20261001)`) between 2024-01-01 and
-//! 2025-12-31 TDB, the window of the embedded series, so they fall between the daily nodes.
+//! 2025-12-31 TDB, two years of the embedded series' 2014-2030 window, so they fall between
+//! the daily nodes.
 //! Kshana's argument is `(et / 86400) / 36525`, the convention the embedded series uses.
 //!
 //! ## Tolerance (fixed before the first comparison)
