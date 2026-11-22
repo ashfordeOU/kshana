@@ -69,7 +69,7 @@ MODELLED: the [verification matrix](../../VERIFICATION-MATRIX.md) rows that name
 
 The rows the run itself exercised, with the oracle the matrix gives each (the public sources are named there):
 
-- **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): SBOM conformance to the official CycloneDX 1.5 JSON Schema (+ valid SPDX identifiers) — an external published standard, zero validation errors over the full dependency graph; the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
+- **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): Official CycloneDX 1.5 JSON Schema (+ SPDX identifier list): every atomic licence id is a valid SPDX id, and the document has zero schema errors once compound expressions are moved to expression (the generator's raw output has 133 compound-id errors); the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
 - **MODELLED** The TWSTFT two-way equation solved for T_A - T_B with station transmit and receive delays, the Ku-band ionospheric up/down asymmetry, the transponder delay…. Oracle (InternalConsistency): Internal consistency: the forward model and the solved equation agree to 1e-15 s, the Sagnac term equals the module's independent BIPM 2A omega/c^2 loop form, the ionospheric term is 40.3 TEC (1/f_up^2 - 1/f_down^2)/c, and the noise processes show their expected TDEV shapes. WHAT IS NOT: no real TWSTFT measurement or calibration report has been compared; the stated delays and uncertainties are inputs, not measured…
 
 ## Limitations

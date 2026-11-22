@@ -16,7 +16,7 @@ rf-16-optical-16: revisit 25.8, full-area refresh 15.3, RF-to-optical reaction 2
 From the schema (`kshana kinds --json`):
 
 - Required fields: none
-- Optional fields: `kind`, `title`, `seed`, `area`, `step_s`, `span_days`, `m2`, `cases`
+- Optional fields: `title`, `seed`, `area`, `step_s`, `span_days`, `m2`, `cases`
 
 The example `scenarios/tip-and-cue-short.toml` sets, among others:
 
@@ -70,7 +70,7 @@ No matrix row names this kind by name; the label on its result is the engine's o
 
 The rows the run itself exercised, with the oracle the matrix gives each (the public sources are named there):
 
-- **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): SBOM conformance to the official CycloneDX 1.5 JSON Schema (+ valid SPDX identifiers) — an external published standard, zero validation errors over the full dependency graph; the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
+- **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): Official CycloneDX 1.5 JSON Schema (+ SPDX identifier list): every atomic licence id is a valid SPDX id, and the document has zero schema errors once compound expressions are moved to expression (the generator's raw output has 133 compound-id errors); the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
 - **VALIDATED** The `constellation-design` kind's generators: Walker delta and star patterns in the T/P/F convention (node spacing 360/P or 180/P, in-plane spacing 360·P/T…. Oracle (ExternalDataset): Published agency documents: Galileo Open Service Service Definition Document issue 1.1 (European GNSS Service Centre) Tables 1 and 23, the reference constellation at 2016-11-21 00:00 UTC; GLONASS Interface Control Document edition 5.1 (2008) section 5.2, the slot formula for node longitude and argument of latitude; GPS Standard Positioning Service Performance Standard 5th edition (April 2020) Tables 3.2-1, 3.2-2…
 
 ## Limitations

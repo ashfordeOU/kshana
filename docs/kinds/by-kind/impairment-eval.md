@@ -63,13 +63,13 @@ Result label (the engine's): MODELLED — synthetic parameter-grounded corpus (n
 MODELLED 1 · VALIDATED 2: the [verification matrix](../../VERIFICATION-MATRIX.md) rows that name this kind.
 
 - **VALIDATED** AUC (Mann-Whitney, ties ½), confusion matrix at threshold, P_d/P_md/P_fa/precision/accuracy/F1 Tests: [eval_metrics_reference.rs](../../../tests/eval_metrics_reference.rs).
-- **VALIDATED** ROC AUC + bootstrap CI separating real labelled anomalies; transparent detector (reproduces-labels) Tests: [opssat_ad_reference.rs](../../../tests/opssat_ad_reference.rs).
+- **VALIDATED** ROC AUC (and full operating-point confusion) on real labelled anomalies, using a transparent single-feature detector (peak count) and a diagonal-Mahalanobis score; the bootstrap CI is checked internally only (it brackets the point AUC) Tests: [opssat_ad_reference.rs](../../../tests/opssat_ad_reference.rs).
 - **MODELLED** Labelled synthetic impairment corpus + detector-agnostic ROC/AUC/confusion/Pfa-Pmd harness; leakage guard, stratified split, distribution-shift (in- vs out-of-regime) optimism report.
 
 The rows the run itself exercised, with the oracle the matrix gives each (the public sources are named there):
 
 - **VALIDATED** AUC (Mann-Whitney, ties ½), confusion matrix at threshold, P_d/P_md/P_fa/precision/accuracy/F1. Oracle (ExternalDataset): scikit-learn 1.9.0 (Pedregosa et al., JMLR 2011) — independent library, exact match
-- **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): SBOM conformance to the official CycloneDX 1.5 JSON Schema (+ valid SPDX identifiers) — an external published standard, zero validation errors over the full dependency graph; the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
+- **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): Official CycloneDX 1.5 JSON Schema (+ SPDX identifier list): every atomic licence id is a valid SPDX id, and the document has zero schema errors once compound expressions are moved to expression (the generator's raw output has 133 compound-id errors); the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
 - **MODELLED** Labelled synthetic impairment corpus + detector-agnostic ROC/AUC/confusion/Pfa-Pmd harness; leakage guard, stratified split, distribution-shift (in- vs…. Oracle (InternalConsistency): Closed-form AUC bounds (Mann–Whitney) + a perfect-oracle detector; corpus is SYNTHETIC (parameter-grounded, not field/IQ)
 
 ## Limitations

@@ -61,7 +61,7 @@ MODELLED: the [verification matrix](../../VERIFICATION-MATRIX.md) rows that name
 
 The rows the run itself exercised, with the oracle the matrix gives each (the public sources are named there):
 
-- **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): SBOM conformance to the official CycloneDX 1.5 JSON Schema (+ valid SPDX identifiers) — an external published standard, zero validation errors over the full dependency graph; the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
+- **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): Official CycloneDX 1.5 JSON Schema (+ SPDX identifier list): every atomic licence id is a valid SPDX id, and the document has zero schema errors once compound expressions are moved to expression (the generator's raw output has 133 compound-id errors); the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
 - **MODELLED** Solar/geomagnetic indices (definitional Kp↔ap table), the Jacchia-1971 exospheric temperature, and the Jacchia 1971 thermospheric density (SAO Special Report…. Oracle (ExternalDataset): Definitional Kp↔ap table + Jacchia-1971 exospheric-temperature closed form (matched to <1 K vs the published anchors, tests/space_weather_reference.rs); the density is characterised against pymsis NRLMSISE-00 (an independent NRL model): the 800 km solar-cycle swing is 10.4x against NRLMSISE-00 13.6x. 0.30 revision: the calibrated first-order activity factor was replaced by Jacchia 1971 (default scenario density at…
 
 ## Limitations

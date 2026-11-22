@@ -69,7 +69,7 @@ MODELLED: the [verification matrix](../../VERIFICATION-MATRIX.md) rows that name
 
 The rows the run itself exercised, with the oracle the matrix gives each (the public sources are named there):
 
-- **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): SBOM conformance to the official CycloneDX 1.5 JSON Schema (+ valid SPDX identifiers) — an external published standard, zero validation errors over the full dependency graph; the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
+- **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): Official CycloneDX 1.5 JSON Schema (+ SPDX identifier list): every atomic licence id is a valid SPDX id, and the document has zero schema errors once compound expressions are moved to expression (the generator's raw output has 133 compound-id errors); the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
 - **MODELLED** Nadir imager signal-to-noise budget (Lambertian scene radiance, camera equation, shot, dark, read and quantisation noise), the system MTF at Nyquist as the…. Oracle (InternalConsistency): Closed forms: the diffraction MTF at half cutoff, the one-pixel ramp edge of a pure detector aperture (RER 1), the normal-CDF edge of a Gaussian blur (RER = erf(0.5/(sigma sqrt 2))), shot-noise scaling, and the GIQE 4 coefficients as published (Leachtenauer et al., Applied Optics 36(32), 1997). WHAT IS NOT: no external imager, measured MTF or rated image has been compared; the GIQE is an empirical regression with…
 
 ## Limitations

@@ -71,7 +71,7 @@ VALIDATED: the [verification matrix](../../VERIFICATION-MATRIX.md) rows that nam
 
 The rows the run itself exercised, with the oracle the matrix gives each (the public sources are named there):
 
-- **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): SBOM conformance to the official CycloneDX 1.5 JSON Schema (+ valid SPDX identifiers) — an external published standard, zero validation errors over the full dependency graph; the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
+- **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): Official CycloneDX 1.5 JSON Schema (+ SPDX identifier list): every atomic licence id is a valid SPDX id, and the document has zero schema errors once compound expressions are moved to expression (the generator's raw output has 133 compound-id errors); the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
 - **VALIDATED** Position-error-vs-coast-duration budget built from IMU coefficients, each error source (accelerometer bias, gyro bias, velocity random walk, angle random…. Oracle (ExternalDataset): NaveGo v1.4 (commit 24d9488, LGPL-3.0), run as a separate program under GNU Octave 8.4.0: free-inertial coast runs with the same IMU error profile, with one corrected numerical dead band in its quaternion update (qua_update.m: the guard on a rate below 1e-8 rad/s replaced by wnorm == 0, applied to a run-time copy and asserted to match once; with the guard in place a slowly drifting platform attitude froze and cut…
 
 ## Limitations

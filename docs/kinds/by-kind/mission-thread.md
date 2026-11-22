@@ -15,7 +15,7 @@ One run of `scenarios/mission-thread-short.toml` summarises as: mission-thread |
 From the schema (`kshana kinds --json`):
 
 - Required fields: `epoch_utc`, `entry`, `phase`
-- Optional fields: `kind`, `title`, `seed`, `moon_kernel_path`, `ground_network`
+- Optional fields: `title`, `seed`, `moon_kernel_path`, `ground_network`
 
 The example `scenarios/mission-thread-short.toml` sets, among others:
 
@@ -71,7 +71,7 @@ MODELLED: the [verification matrix](../../VERIFICATION-MATRIX.md) rows that name
 
 The rows the run itself exercised, with the oracle the matrix gives each (the public sources are named there):
 
-- **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): SBOM conformance to the official CycloneDX 1.5 JSON Schema (+ valid SPDX identifiers) — an external published standard, zero validation errors over the full dependency graph; the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
+- **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): Official CycloneDX 1.5 JSON Schema (+ SPDX identifier list): every atomic licence id is a valid SPDX id, and the document has zero schema errors once compound expressions are moved to expression (the generator's raw output has 133 compound-id errors); the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
 - **MODELLED** The `mission-thread` kind: a document of phases, each one of eight registered kinds, run in order with the 6x6 covariance, the clock and the frame handed on…. Oracle (InternalConsistency): Hand calculations in the tests (the straight-line covariance growth, the mean sidereal rotation, the secular lunar clock rate) and, for the Moon's state only, the committed DE440 kernel cuts against pinned JPL Horizons values (worst 2.6 m and 7e-6 m/s). No mission data is compared with the chain; its phases are rows of their own. The document is a stated chain with ILLUSTRATIVE inputs, public sources only and no…
 - **MODELLED** The `launch-ascent` phase: a constant-velocity position and velocity covariance with white acceleration noise (the dead-reckoning grade), a GNSS fix of stated…. Oracle (InternalConsistency): The Riccati steady state and the hand calculation of the prediction in the tests. Nothing here models a launch vehicle or a receiver; every number is a stated input
 - **MODELLED** The `leo-rendezvous` phase: the relative state in the target's LVLH axes with the closed-form Clohessy-Wiltshire transition, a 6x6 Kalman covariance with…. Oracle (InternalConsistency): A one-axis hand calculation of the predict and update in the test; the Clohessy-Wiltshire transition is the one cw_dynamics checks against an independent numerical integration. The sensors are ILLUSTRATIVE and no real rendezvous is compared
