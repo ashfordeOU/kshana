@@ -56,7 +56,7 @@ The example `scenarios/leo-navmsg-celeste-iod.toml` sets, among others:
 kshana scenarios/leo-navmsg-celeste-iod.toml
 ```
 
-5 bundled scenarios use this kind; the others are in [`scenarios/`](../../../scenarios/).
+5 scenario files in [`scenarios/`](../../../scenarios/) use this kind.
 
 ## What it gives
 
@@ -75,27 +75,26 @@ The scalar results of that run, with the units the engine states:
 | `encode_decode.payload_bits` | 1156 | bit |
 | `encode_decode.quantised_max_clock_m` | 9.4929e-5 | m |
 
-Result label (the engine's): MIXED — VALIDATED building blocks, MODELLED results. The SISRE weights reproduce the published MEO/GEO table (Montenbruck et al. 2018), the Galileo ICD user algorithm reproduces RTKLIB on real Galileo broadcast ephemerides, and CRC-24Q reproduces its catalogue check value and the RTCM 1005 example f
+Result label (the engine's): MIXED — VALIDATED building blocks, MODELLED results. The SISRE weights reproduce the published MEO/GEO table (Montenbruck et al. 2018), the Galileo ICD user algorithm reproduces RTKLIB on real Galileo broadcast ephemerides, and CRC-24Q reproduces its catalogue check value and the RTCM 1005 example…
 
 <img src="../../figures/kinds/leo-navmsg.svg" alt="The chart the engine writes for scenarios/leo-navmsg-celeste-iod.toml, kind leo-navmsg" width="640">
 
 ## Evidence
 
-MODELLED 5 · VALIDATED 6: the [verification matrix](../../VERIFICATION-MATRIX.md) rows that name this kind.
+MODELLED 3 · VALIDATED 1: the [verification matrix](../../VERIFICATION-MATRIX.md) rows that name this kind.
 
-- **VALIDATED** leo_navmsg::sisre::sisre_weights: the radial weight w_R and the squared transverse weight w_AC^2 as averages of cos^2 and half sin^2 of the line-of-sight nadir angle over users uniformly distributed on the visible Earth cap above an elevati
-- **VALIDATED** leo_navmsg::elements::kepler_point: the Galileo OS SIS ICD Keplerian evaluation (Kepler's equation, second-harmonic corrections, Earth-fixed node) written separately from the engine's RINEX evaluator, returning the position with the argumen Tests: [leo_navmsg_reference.rs](../../../tests/leo_navmsg_reference.rs).
-- **VALIDATED** leo_navmsg::codec::crc24q: generator polynomial 0x1864CFB, initial value 0, no reflection, no final XOR, the check the Kshana LEO frame carries over every preceding byte
-- **VALIDATED** The `leo-navmsg` kind's fitter and trade: a truth orbit integrated with zonal J2-J6 or EGM2008 gravity to the chosen degree and drag, and a seeded free or steered clock; a Levenberg-Marquardt fit of the Galileo Keplerian set on non-singular
-- and 7 more in the matrix.
+- **VALIDATED** The `leo-navmsg` kind's fitter and trade: a truth orbit integrated with zonal J2-J6 or EGM2008 gravity to the chosen degree and drag, and a seeded free or steered clock; a Levenberg-Marquardt fit of the Galileo Keplerian set on…
+- **MODELLED** The `leo-navmsg` midpass-update analysis: the highest pass over a user within a search span, messages on a global schedule with usage periods centred in their fit windows, and at each switch the 3D position jump, the clock jump, the user…
+- **MODELLED** the EcefPoly variant of leo_navmsg::elements::EphemerisModel: a per-axis ECEF polynomial with no clock terms, the relativistic term from -2 r.v/c^2, scored against a steered clock.
+- **MODELLED** The `leo-pnt-chain` kind: a leo-signal design (public preset or inline) sets a leo-pass band's centre, bandwidth, chip rate and EIRP split; the pass gives the tracked-component C/N0 and band-limited code jitter per epoch; a least-squares… Tests: [leo_pnt_chain.rs](../../../tests/leo_pnt_chain.rs).
 
 The rows the run itself exercised, with the oracle the matrix gives each (the public sources are named there):
 
 - **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): SBOM conformance to the official CycloneDX 1.5 JSON Schema (+ valid SPDX identifiers) — an external published standard, zero validation errors over the full dependency graph; the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
-- **VALIDATED** leo_navmsg::sisre::sisre_weights: the radial weight w_R and the squared transverse weight w_AC^2 as averages of cos^2 and half sin^2 of the line-of-sight nadir . Oracle (ExternalDataset): The published SISRE weighting-factor table of Montenbruck, Steigenberger and Hauschild (2018), Multi-GNSS signal-in-space range error assessment - Methodology and results, Advances in Space Research 61(12):3020-3038, doi 10.1016/j.asr.2018.03.041: GPS 0.98 and 1/49, GLONASS 0.98 and 1/45, Galileo 0.98 and 1/61, BeiDou MEO 0.98 and 1/54, BeiDou IGSO/GEO 0.99 and 1/126. The same average evaluated at LEO radii gives the
-- **VALIDATED** leo_navmsg::elements::kepler_point: the Galileo OS SIS ICD Keplerian evaluation (Kepler's equation, second-harmonic corrections, Earth-fixed node) written separ. Oracle (ExternalDataset): RTKLIB 2.4.2-p13 eph2pos ECEF positions (an independent implementation of the same ICD algorithm) for real BKG/IGS broadcast records of 2024-09-10, both committed with provenance in tests/fixtures/rinex_sp3_interop (NOTICE, rinex_ecef_reference.txt, brdc_multignss_slice.rnx). This validates the Keplerian user algorithm; the along/cross/radial corrections added on top are covered by their own rows, and the Liu terms b
-- **VALIDATED** leo_navmsg::codec::crc24q: generator polynomial 0x1864CFB, initial value 0, no reflection, no final XOR, the check the Kshana LEO frame carries over every prece. Oracle (ExternalDataset): The CRC catalogue check value for these parameters (reveng.sourceforge.io CRC catalogue, CRC-24/LTE-A: width 24, poly 0x864CFB, init 0, check 0xCDE703), which are the CRC-24Q parameters of RTCM 10403 and the Galileo OS SIS ICD, and the message-type 1005 example frame printed in RTCM 10403
-- **VALIDATED** The `leo-navmsg` kind's fitter and trade: a truth orbit integrated with zonal J2-J6 or EGM2008 gravity to the chosen degree and drag, and a seeded free or steer. Oracle (ExternalDataset): Real precise science orbits as truth (TU Graz IfG/ITSG operational reduced-dynamic orbits, free for any use with acknowledgment; SHA-256 values in the fixture NOTICE) fitted by the 16-parameter set over 20 and 30 min arcs, against the statistics Liu et al. 2025 (Remote Sensing 17(16):2894, CC BY 4.0) publish for the same satellites and days: along, cross and radial RMS each within 1.5x (measured 0.804 to 1.087), SISR
+- **VALIDATED** leo_navmsg::sisre::sisre_weights: the radial weight w_R and the squared transverse weight w_AC^2 as averages of cos^2 and half sin^2 of the line-of-sight…. Oracle (ExternalDataset): The published SISRE weighting-factor table of Montenbruck, Steigenberger and Hauschild (2018), Multi-GNSS signal-in-space range error assessment - Methodology and results, Advances in Space Research 61(12):3020-3038, doi 10.1016/j.asr.2018.03.041: GPS 0.98 and 1/49, GLONASS 0.98 and 1/45, Galileo 0.98 and 1/61, BeiDou MEO 0.98 and 1/54, BeiDou IGSO/GEO 0.99 and 1/126. The same average evaluated at LEO radii gives…
+- **VALIDATED** leo_navmsg::elements::kepler_point: the Galileo OS SIS ICD Keplerian evaluation (Kepler's equation, second-harmonic corrections, Earth-fixed node) written…. Oracle (ExternalDataset): RTKLIB 2.4.2-p13 eph2pos ECEF positions (an independent implementation of the same ICD algorithm) for real BKG/IGS broadcast records of 2024-09-10, both committed with provenance in tests/fixtures/rinex_sp3_interop (NOTICE, rinex_ecef_reference.txt, brdc_multignss_slice.rnx). This validates the Keplerian user algorithm; the along/cross/radial corrections added on top are covered by their own rows, and the Liu terms…
+- **VALIDATED** leo_navmsg::codec::crc24q: generator polynomial 0x1864CFB, initial value 0, no reflection, no final XOR, the check the Kshana LEO frame carries over every…. Oracle (ExternalDataset): The CRC catalogue check value for these parameters (reveng.sourceforge.io CRC catalogue, CRC-24/LTE-A: width 24, poly 0x864CFB, init 0, check 0xCDE703), which are the CRC-24Q parameters of RTCM 10403 and the Galileo OS SIS ICD, and the message-type 1005 example frame printed in RTCM 10403
+- **VALIDATED** The `leo-navmsg` kind's fitter and trade: a truth orbit integrated with zonal J2-J6 or EGM2008 gravity to the chosen degree and drag, and a seeded free or…. Oracle (ExternalDataset): Real precise science orbits as truth (TU Graz IfG/ITSG operational reduced-dynamic orbits, free for any use with acknowledgment; SHA-256 values in the fixture NOTICE) fitted by the 16-parameter set over 20 and 30 min arcs, against the statistics Liu et al. 2025 (Remote Sensing 17(16):2894, CC BY 4.0) publish for the same satellites and days: along, cross and radial RMS each within 1.5x (measured 0.804 to 1.087)…
 
 ## Limitations
 
@@ -107,7 +106,7 @@ What the run's own report says is not modelled or not validated:
 - The RINEX-style block is a documented Kshana extension; RINEX 4.02 defines no LEO navigation records. (result `limitations[3]`)
 - NeQuick-G coefficients are carried and the effective ionisation level is computed, but the NeQuick electron-density integration that turns it into a delay is not implemented; the Klobuchar delay is, scaled to the carrier by 1/f^2 with no correction for a satellite flying inside the ionosphere. (result `limitations[4]`)
 - The Liu et al. 2025 22-parameter terms follow the paper's user algorithm (Eq. 1-7) and fitting strategy (Section 2.3); its SISRE-versus-altitude figures used real precise orbits, so this comparison on a Kshana-integrated orbit is MODELLED, not VALIDATED (the real-orbit comparison is tests/leo_navmsg_fit_real_orbit_oracle.rs). (result `limitations[5]`)
-- MIXED — VALIDATED building blocks, MODELLED results. The SISRE weights reproduce the published MEO/GEO table (Montenbruck et al. 2018), the Galileo ICD user algorithm reproduces RTKLIB on real Galileo broadcast ephemerides, and CRC-24Q reproduces its catalogue check value and the RTCM 1005 example frame. Every fit, SISRE, continuity and quantisation figure is MODELLED: the representation error of a message against a  (result `label`)
+- MIXED — VALIDATED building blocks, MODELLED results. The SISRE weights reproduce the published MEO/GEO table (Montenbruck et al. 2018), the Galileo ICD user algorithm reproduces RTKLIB on real Galileo broadcast ephemerides, and CRC-24Q reproduces its catalogue check value and the RTCM 1005 example frame. Every fit, SISRE, continuity and quantisation figure is MODELLED: the representation error of a message against… (result `label`)
 - MODELLED: every fit and SISRE figure is representation error against a Kshana-integrated truth (no orbit determination or prediction error); the Liu et al. (kind catalogue (`kshana kinds --json`))
 
 ## See also

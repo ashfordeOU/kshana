@@ -40,7 +40,7 @@ The example `scenarios/lunar-station-coverage.toml` sets, among others:
 kshana scenarios/lunar-station-coverage.toml
 ```
 
-3 bundled scenarios use this kind; the others are in [`scenarios/`](../../../scenarios/).
+3 scenario files in [`scenarios/`](../../../scenarios/) use this kind.
 
 ## What it gives
 
@@ -67,14 +67,14 @@ Result label (the engine's): MODELLED
 
 MODELLED: the [verification matrix](../../VERIFICATION-MATRIX.md) rows that name this kind.
 
-- **MODELLED** Monte Carlo sweep of the lunar differential-PNT model over a south-polar user grid and a day of epochs (the `lunar-station-coverage` kind): for a differential reference station at a known south-polar site, per point and over the region, the Tests: [lunar_station_coverage_reference.rs](../../../tests/lunar_station_coverage_reference.rs).
+- **MODELLED** Monte Carlo sweep of the lunar differential-PNT model over a south-polar user grid and a day of epochs (the `lunar-station-coverage` kind): for a differential reference station at a known south-polar site, per point and over the region… Tests: [lunar_station_coverage_reference.rs](../../../tests/lunar_station_coverage_reference.rs).
 
 The rows the run itself exercised, with the oracle the matrix gives each (the public sources are named there):
 
 - **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): SBOM conformance to the official CycloneDX 1.5 JSON Schema (+ valid SPDX identifiers) — an external published standard, zero validation errors over the full dependency graph; the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
 - **MODELLED** NovaMoon-class differential reference station: common-mode cancellation + baseline-growing residual + DGNSS protection levels. Oracle (InternalConsistency): Differential error-cancellation identity + reuse of the DO-229E SBAS PL machinery; the single-difference + WLS solve is additionally cross-checked against RTKLIB's lsq()/matinv() (Takasu, BSD-2-Clause, compiled C) — independent solver code, but the same first-order LOS-difference algebra, so still InternalConsistency
-- **MODELLED** The three terms a differential correction picks up between the epoch it is computed at and the epoch it is used at, each previously left as unmodelled headroom:. Oracle (InternalConsistency): Closed-form identities and self-consistency: the uniform-quantizer step²/12 variance, the exact (GᵀG)⁻¹GᵀRG(GᵀG)⁻¹ covariance propagation collapsing to σ·PDOP for equal σ, the survey term's 1:1 transfer as a consequence of û_user ≈ û_ref, and switching-off quadrature closure. The PDOP cross-check against orbit::dop shares the [−û, 1] normal matrix, so it is a consistency check and is labelled as one rather than an in
-- **MODELLED** Monte Carlo sweep of the lunar differential-PNT model over a south-polar user grid and a day of epochs (the `lunar-station-coverage` kind): for a differential r. Oracle (InternalConsistency): Arithmetic re-computed by an independent numpy script on exported cases (scripts/gen_lunar_station_ref.py, numpy 2.5.4; pre-registered in tests/fixtures/lunar_station/PREREGISTRATION.md, committed alone in 2d43d3d5 before the first run): on 20 cases with every error term on, the visible sets and status are identical, the raw range errors agree to 1.4e-14 m, the position-error vectors and magnitudes to 1.4e-9 m agains
+- **MODELLED** The three terms a differential correction picks up between the epoch it is computed at and the epoch it is used at, each previously left as unmodelled…. Oracle (InternalConsistency): Closed-form identities and self-consistency: the uniform-quantizer step²/12 variance, the exact (GᵀG)⁻¹GᵀRG(GᵀG)⁻¹ covariance propagation collapsing to σ·PDOP for equal σ, the survey term's 1:1 transfer as a consequence of û_user ≈ û_ref, and switching-off quadrature closure. The PDOP cross-check against orbit::dop shares the [−û, 1] normal matrix, so it is a consistency check and is labelled as one rather than an…
+- **MODELLED** Monte Carlo sweep of the lunar differential-PNT model over a south-polar user grid and a day of epochs (the `lunar-station-coverage` kind): for a differential…. Oracle (InternalConsistency): Arithmetic re-computed by an independent numpy script on exported cases (scripts/gen_lunar_station_ref.py, numpy 2.5.4; pre-registered in tests/fixtures/lunar_station/PREREGISTRATION.md, committed alone in 2d43d3d5 before the first run): on 20 cases with every error term on, the visible sets and status are identical, the raw range errors agree to 1.4e-14 m, the position-error vectors and magnitudes to 1.4e-9 m…
 
 ## Limitations
 

@@ -49,7 +49,7 @@ The scalar results of that run, with the units the engine states:
 | `detector` | fused(max-z) | text |
 | `distribution_shift.auc_in` | 0.997719 | 1 |
 | `distribution_shift.auc_out` | 0.981131 | 1 |
-| `distribution_shift.note` | auc_out uses a subtler out-of-tuning-reg | text |
+| `distribution_shift.note` | auc_out uses a subtler… | text |
 | `distribution_shift.optimism_gap` | 0.016587 | 1 |
 | `distribution_shift.optimistic` | false | flag |
 | `distribution_shift.shift_severity_scale` | 0.5 | 1 |
@@ -70,7 +70,7 @@ The rows the run itself exercised, with the oracle the matrix gives each (the pu
 
 - **VALIDATED** AUC (Mann-Whitney, ties ½), confusion matrix at threshold, P_d/P_md/P_fa/precision/accuracy/F1. Oracle (ExternalDataset): scikit-learn 1.9.0 (Pedregosa et al., JMLR 2011) — independent library, exact match
 - **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): SBOM conformance to the official CycloneDX 1.5 JSON Schema (+ valid SPDX identifiers) — an external published standard, zero validation errors over the full dependency graph; the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
-- **MODELLED** Labelled synthetic impairment corpus + detector-agnostic ROC/AUC/confusion/Pfa-Pmd harness; leakage guard, stratified split, distribution-shift (in- vs out-of-r. Oracle (InternalConsistency): Closed-form AUC bounds (Mann–Whitney) + a perfect-oracle detector; corpus is SYNTHETIC (parameter-grounded, not field/IQ)
+- **MODELLED** Labelled synthetic impairment corpus + detector-agnostic ROC/AUC/confusion/Pfa-Pmd harness; leakage guard, stratified split, distribution-shift (in- vs…. Oracle (InternalConsistency): Closed-form AUC bounds (Mann–Whitney) + a perfect-oracle detector; corpus is SYNTHETIC (parameter-grounded, not field/IQ)
 
 ## Limitations
 

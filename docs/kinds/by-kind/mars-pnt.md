@@ -39,7 +39,7 @@ The example `scenarios/mars-pnt-lmo.toml` sets, among others:
 kshana scenarios/mars-pnt-lmo.toml
 ```
 
-3 bundled scenarios use this kind; the others are in [`scenarios/`](../../../scenarios/).
+3 scenario files in [`scenarios/`](../../../scenarios/) use this kind.
 
 ## What it gives
 
@@ -49,7 +49,7 @@ The scalar results of that run, with the units the engine states:
 |---|---|---|
 | `areostationary_radius_m` | 2.0428e7 | m |
 | `clock_class` | uso | text |
-| `evidence.id_rule` | the stable id of the matrix row (the ID  | text |
+| `evidence.id_rule` | the stable id of the matrix row (the… | text |
 | `evidence.matrix` | docs/VERIFICATION-MATRIX.md | text |
 | `evidence.tier` | MODELLED | text |
 | `fom.converged_pos_3sigma_m` | 0.927387 | m |
@@ -64,12 +64,12 @@ The scalar results of that run, with the units the engine states:
 
 MODELLED: the [verification matrix](../../VERIFICATION-MATRIX.md) rows that name this kind.
 
-- **MODELLED** The `body-pnt` kind: an orbiter or a surface lander around a body chosen by name navigates with one-way pseudoranges from a Walker navigation constellation around the body (two-body orbits with the body's J2 secular drift, an unknown user c
+- **MODELLED** The `body-pnt` kind: an orbiter or a surface lander around a body chosen by name navigates with one-way pseudoranges from a Walker navigation constellation around the body (two-body orbits with the body's J2 secular drift, an unknown user…
 
 The rows the run itself exercised, with the oracle the matrix gives each (the public sources are named there):
 
 - **VALIDATED** Recover an epoch state [r,v] from ground-station ranges via a Gauss–Newton batch differential corrector and a sequential filter, over a two-body+J2 force model. Oracle (ExternalDataset): Orekit 12.2 (CS GROUP, Apache-2.0) BatchLSEstimator (Levenberg–Marquardt) + KalmanEstimator (EKF) — an independent third-party estimation library on a matched force model; recovered epoch state + post-fit residual RMS agree to <1e-3 m noiseless and <3 m at a 5 m noise floor
-- **MODELLED** 3-state (phase/freq/drift) van-Loan Kalman clock, Joseph-stabilised. Oracle (ReferenceImpl): filterpy 1.4.5 KalmanFilter (R. Labbe, MIT), with F via scipy.linalg.expm and Q via the Van-Loan 1978 block-matrix — an independent reference implementation reproducing kshana's full filter trajectory. Cross-implementation consistency: the clock physics / Allan calibration are not externally validated, so this stays MODELLED. 0.30 external comparison, a finding (stays MODELLED): on IGS final 30 s clocks of 11 GPS Blo
+- **MODELLED** 3-state (phase/freq/drift) van-Loan Kalman clock, Joseph-stabilised. Oracle (ReferenceImpl): filterpy 1.4.5 KalmanFilter (R. Labbe, MIT), with F via scipy.linalg.expm and Q via the Van-Loan 1978 block-matrix — an independent reference implementation reproducing kshana's full filter trajectory. Cross-implementation consistency: the clock physics / Allan calibration are not externally validated, so this stays MODELLED. 0.30 external comparison, a finding (stays MODELLED): on IGS final 30 s clocks of 11 GPS…
 - **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): SBOM conformance to the official CycloneDX 1.5 JSON Schema (+ valid SPDX identifiers) — an external published standard, zero validation errors over the full dependency graph; the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
 
 ## Limitations

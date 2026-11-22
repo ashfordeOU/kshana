@@ -42,7 +42,7 @@ The scalar results of that run, with the units the engine states:
 | `ballistic_coeff_kg_m2` | 100 | kg/m^2 |
 | `entry_interface_altitude_m` | 122000 | m |
 | `entry_velocity_m_s` | 7800 | m/s |
-| `evidence.id_rule` | the stable id of the matrix row (the ID  | text |
+| `evidence.id_rule` | the stable id of the matrix row (the… | text |
 | `evidence.matrix` | docs/VERIFICATION-MATRIX.md | text |
 | `evidence.tier` | MODELLED | text |
 | `flight_path_angle_deg` | 6 | deg |
@@ -58,13 +58,12 @@ Result label (the engine's): MODELLED — Allen–Eggers ballistic (no-lift) ent
 MODELLED: the [verification matrix](../../VERIFICATION-MATRIX.md) rows that name this kind.
 
 - **MODELLED** Peak deceleration (ballistic-coefficient-independent), velocity + altitude at peak-g, and peak-heating velocity for an exponential-atmosphere ballistic entry. Tests: [reentry_point_mass_accelerometer_oracle.rs](../../../tests/reentry_point_mass_accelerometer_oracle.rs).
-- **MODELLED** Planar gravity-turn ascent of a multi-stage vehicle over a non-rotating spherical Earth through the US Standard Atmosphere 1976 (density and pressure), with a pitch kick, thrust reduced by the nozzle back-pressure, stage burnouts at exact s
-- **MODELLED** The `entry` phase: the return coast of `tli-and-cruise` with no burn, ending at the entry interface; the flight-path angle and its sigma from the full covariance by a finite-difference gradient; the probability that the angle is inside a st
+- **MODELLED** The `entry` phase: the return coast of `tli-and-cruise` with no burn, ending at the entry interface; the flight-path angle and its sigma from the full covariance by a finite-difference gradient; the probability that the angle is inside a…
 
 The rows the run itself exercised, with the oracle the matrix gives each (the public sources are named there):
 
 - **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): SBOM conformance to the official CycloneDX 1.5 JSON Schema (+ valid SPDX identifiers) — an external published standard, zero validation errors over the full dependency graph; the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
-- **MODELLED** Peak deceleration (ballistic-coefficient-independent), velocity + altitude at peak-g, and peak-heating velocity for an exponential-atmosphere ballistic entry. R. Oracle (InternalConsistency): Closed-form Allen–Eggers analytic entry, additionally cross-checked vs a scipy 1.18 solve_ivp (DOP853) numerical integration of the SAME drag-only entry ODE (tests/ballistic_re_entry_corridor_reference.rs, 36 cases, worst a_max rel 2.9e-9) — a numeric-integral-vs-own-analytic-form check, so still InternalConsistency, NOT an external validation. MODELLED ballistic (no lift), no aerothermal/TPS — heating output is a ve
+- **MODELLED** Peak deceleration (ballistic-coefficient-independent), velocity + altitude at peak-g, and peak-heating velocity for an exponential-atmosphere ballistic entry.…. Oracle (InternalConsistency): Closed-form Allen–Eggers analytic entry, additionally cross-checked vs a scipy 1.18 solve_ivp (DOP853) numerical integration of the SAME drag-only entry ODE (tests/ballistic_re_entry_corridor_reference.rs, 36 cases, worst a_max rel 2.9e-9) — a numeric-integral-vs-own-analytic-form check, so still InternalConsistency, NOT an external validation. MODELLED ballistic (no lift), no aerothermal/TPS — heating output is a…
 
 ## Limitations
 

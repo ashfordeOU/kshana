@@ -19594,7 +19594,7 @@
       "fields_described": 9,
       "fields_total": 9,
       "fields_without_units": [],
-      "label": "CCSDS 133.0-B Space Packet primary-header framing — exact, deterministic bit layout, encode↔decode round-trip verified; NOT a conformance certification (no secondary header / CRC / segmentation logic beyond the flags)",
+      "label": "CCSDS 133.0-B Space Packet primary-header framing — exact, deterministic bit layout, encode↔decode round-trip verified; NOT a conformance certification; the scenario frames primary headers only (the secondary header, CRC-16 and segmentation are in the library)",
       "source": "defaults"
     },
     "space-weather": {

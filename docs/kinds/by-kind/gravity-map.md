@@ -40,7 +40,7 @@ The example `scenarios/gravity-map-nav.toml` sets, among others:
 kshana scenarios/gravity-map-nav.toml
 ```
 
-4 bundled scenarios use this kind; the others are in [`scenarios/`](../../../scenarios/).
+4 scenario files in [`scenarios/`](../../../scenarios/) use this kind.
 
 ## What it gives
 
@@ -48,7 +48,7 @@ The scalar results of that run, with the units the engine states:
 
 | Result | Value | Unit |
 |---|---|---|
-| `evidence.id_rule` | the stable id of the matrix row (the ID  | text |
+| `evidence.id_rule` | the stable id of the matrix row (the… | text |
 | `evidence.matrix` | docs/VERIFICATION-MATRIX.md | text |
 | `evidence.tier` | MODELLED | text |
 | `free_inertial_drift_m` | 78301.878584 | m |

@@ -10,7 +10,7 @@ Topic pages: [TIP-AND-CUE](../TIP-AND-CUE.md). Run one: `kshana scenarios/tip-an
 
 | Kind | What it does | Ledger |
 |---|---|---|
-| [`tip-and-cue`](by-kind/tip-and-cue.md) | MODELLED revisit and tip-and-cue latency of a two-layer maritime survey over the Baltic Sea: an RF survey layer and an optical layer, each a Walker star pattern of 550 km sun-synchronous orbits propag | MODELLED (result label) |
+| [`tip-and-cue`](by-kind/tip-and-cue.md) | MODELLED revisit and tip-and-cue latency of a two-layer maritime survey over the Baltic Sea: an RF survey layer and an optical layer, each a Walker star pattern of 550 km sun-synchronous orbits… | MODELLED (result label) |
 
 ### `tip-and-cue`
 

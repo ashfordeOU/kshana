@@ -11,12 +11,12 @@ Topic pages: [LEO-PNT](../LEO-PNT.md), [LEO-SIGNAL](../LEO-SIGNAL.md), [LEO-PASS
 | Kind | What it does | Ledger |
 |---|---|---|
 | [`leo-signal`](by-kind/leo-signal.md) | LEO-PNT signal designs: parameterised low Earth orbit (LEO) positioning, navigation and timing (PNT) signals for any system, band and structure. | MODELLED 2 · VALIDATED 2 |
-| [`leo-pass`](by-kind/leo-pass.md) | LEO pass and link budget, band by band, for LEO-PNT (positioning, navigation and timing from low Earth orbit), system-agnostic: a user (ground, maritime, air or indoor, static or moving) and one or mo | MODELLED 7 · VALIDATED 5 |
-| [`leo-navmsg`](by-kind/leo-navmsg.md) | LEO navigation message: the broadcast ephemeris and clock of a low Earth orbit (LEO) positioning, navigation and timing satellite, for any orbit, carrier and model, with optional named presets (Xona P | MODELLED 5 · VALIDATED 6 |
-| [`leo-pvt`](by-kind/leo-pvt.md) | Fused medium-Earth-orbit (MEO) and low-Earth-orbit (LEO) positioning, navigation and timing (PNT) over ANY constellations: each [[system]] is a GNSS preset of the constellation-design kind, a LEO pres | MODELLED 3 · VALIDATED 2 |
-| [`leo-ppp`](by-kind/leo-ppp.md) | Precise point positioning (PPP) convergence with GNSS only and with LEO augmentation: a float extended Kalman filter on ionosphere-free code and carrier phase with the static station coordinates, a wh | MODELLED |
-| [`ntn-positioning`](by-kind/ntn-positioning.md) | Positioning from a 5G non-terrestrial network (NTN) downlink in the mobile-satellite service (MSS) S band (3GPP band n256, downlink 2170 to 2200 MHz; default carrier 2172.5 MHz): the Cramér-Rao bound  | VALIDATED |
-| [`leo-pnt-chain`](by-kind/leo-pnt-chain.md) | One LEO-PNT (positioning, navigation and timing from low Earth orbit) system end to end, for any constellation and signal: the leo-signal design named by signal_design (a public preset or an inline [s | MODELLED |
+| [`leo-pass`](by-kind/leo-pass.md) | LEO pass and link budget, band by band, for LEO-PNT (positioning, navigation and timing from low Earth orbit), system-agnostic: a user (ground, maritime, air or indoor, static or moving) and one or… | MODELLED 7 · VALIDATED 5 |
+| [`leo-navmsg`](by-kind/leo-navmsg.md) | LEO navigation message: the broadcast ephemeris and clock of a low Earth orbit (LEO) positioning, navigation and timing satellite, for any orbit, carrier and model, with optional named presets (Xona… | MODELLED 3 · VALIDATED 1 |
+| [`leo-pvt`](by-kind/leo-pvt.md) | Fused medium-Earth-orbit (MEO) and low-Earth-orbit (LEO) positioning, navigation and timing (PNT) over ANY constellations: each [[system]] is a GNSS preset of the constellation-design kind, a LEO… | MODELLED 3 · VALIDATED 2 |
+| [`leo-ppp`](by-kind/leo-ppp.md) | Precise point positioning (PPP) convergence with GNSS only and with LEO augmentation: a float extended Kalman filter on ionosphere-free code and carrier phase with the static station coordinates, a… | MODELLED |
+| [`ntn-positioning`](by-kind/ntn-positioning.md) | Positioning from a 5G non-terrestrial network (NTN) downlink in the mobile-satellite service (MSS) S band (3GPP band n256, downlink 2170 to 2200 MHz; default carrier 2172.5 MHz): the Cramér-Rao… | VALIDATED |
+| [`leo-pnt-chain`](by-kind/leo-pnt-chain.md) | One LEO-PNT (positioning, navigation and timing from low Earth orbit) system end to end, for any constellation and signal: the leo-signal design named by signal_design (a public preset or an inline… | MODELLED |
 
 ### `leo-signal`
 
@@ -52,7 +52,7 @@ LEO navigation message: the broadcast ephemeris and clock of a low Earth orbit (
 
 Required fields: none. Optional: `name`, `description`, `seed`, `analysis`, `preset`, `orbit`, `clock`, `message`, `trade`, `comparison`, `midpass`.
 
-**Ledger:** MODELLED 5 · VALIDATED 6. Full page, with the inputs, results, evidence and limitations: [leo-navmsg](by-kind/leo-navmsg.md).
+**Ledger:** MODELLED 3 · VALIDATED 1. Full page, with the inputs, results, evidence and limitations: [leo-navmsg](by-kind/leo-navmsg.md).
 
 ```sh
 kshana scenarios/leo-navmsg-celeste-iod.toml

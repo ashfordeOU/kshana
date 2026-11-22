@@ -60,7 +60,7 @@ The scalar results of that run, with the units the engine states:
 | `constellation_pdop_improvement` | 4.001566 | 1 |
 | `elevation_mask_deg` | 5 | deg |
 | `epoch_s` | 0 | s |
-| `evidence.id_rule` | the stable id of the matrix row (the ID  | text |
+| `evidence.id_rule` | the stable id of the matrix row (the… | text |
 | `evidence.matrix` | docs/VERIFICATION-MATRIX.md | text |
 | `evidence.tier` | MODELLED | text |
 | `sigma_ure_m` | 1.157584 | m |
@@ -71,19 +71,19 @@ The scalar results of that run, with the units the engine states:
 
 MODELLED: the [verification matrix](../../VERIFICATION-MATRIX.md) rows that name this kind.
 
-- **MODELLED** Beacon-augmented dilution of precision for a lunar surface user: the visible-satellite line-of-sight rows and the visible-surface-beacon ranging rows are concatenated into one design matrix and evaluated through the shared DOP kernel, and t Tests: [validate_p2_beacon_before_after_table.rs](../../../tests/validate_p2_beacon_before_after_table.rs).
+- **MODELLED** Beacon-augmented dilution of precision for a lunar surface user: the visible-satellite line-of-sight rows and the visible-surface-beacon ranging rows are concatenated into one design matrix and evaluated through the shared DOP kernel, and… Tests: [validate_p2_beacon_before_after_table.rs](../../../tests/validate_p2_beacon_before_after_table.rs).
 
 The rows the run itself exercised, with the oracle the matrix gives each (the public sources are named there):
 
 - **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): SBOM conformance to the official CycloneDX 1.5 JSON Schema (+ valid SPDX identifiers) — an external published standard, zero validation errors over the full dependency graph; the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
-- **MODELLED** Beacon-augmented dilution of precision for a lunar surface user: the visible-satellite line-of-sight rows and the visible-surface-beacon ranging rows are concat. Oracle (ReferenceImpl): The DOP arithmetic is the crate::orbit::dop kernel, separately externally validated against gnss_lib_py in tests/dop_reference.rs; this row does not re-borrow that row's status. The beacon-visibility horizon is the L01 closed form, and sigma = DOP x sigma_URE is the standard GNSS relation (Kaplan and Hegarty, Understanding GPS/GNSS, section 7). Within this row the augmentation itself is checked against an independent
+- **MODELLED** Beacon-augmented dilution of precision for a lunar surface user: the visible-satellite line-of-sight rows and the visible-surface-beacon ranging rows are…. Oracle (ReferenceImpl): The DOP arithmetic is the crate::orbit::dop kernel, separately externally validated against gnss_lib_py in tests/dop_reference.rs; this row does not re-borrow that row's status. The beacon-visibility horizon is the L01 closed form, and sigma = DOP x sigma_URE is the standard GNSS relation (Kaplan and Hegarty, Understanding GPS/GNSS, section 7). Within this row the augmentation itself is checked against an…
 
 ## Limitations
 
 What the run's own report says is not modelled or not validated:
 
 - MODELLED: the constellation design, the beacon placement and every error-budget magnitude are illustrative inputs, not a fielded survey or a measured link; only the DOP arithmetic, the horizon closed form and the sigma = DOP x sigma_URE relation are externally anchored. (kind catalogue (`kshana kinds --json`))
-- WHAT IS ANCHORED AND WHAT IS NOT Anchored: the DOP assembly is the kernel cross-checked against gnss_lib_py in tests/dop_reference.rs; beacon visibility is the airless-Moon two-height geometric horizon closed form (no atmosphere, so there is no refractive extension and the bound is exact); and sigma = DOP x sigma_URE is the standard relation (Kaplan & Hegarty, Understanding GPS/GNSS, section 7). NOT anchored — MODELL (scenario file comment, lines 40 to 49)
+- WHAT IS ANCHORED AND WHAT IS NOT Anchored: the DOP assembly is the kernel cross-checked against gnss_lib_py in tests/dop_reference.rs; beacon visibility is the airless-Moon two-height geometric horizon closed form (no atmosphere, so there is no refractive extension and the bound is exact); and sigma = DOP x sigma_URE is the standard relation (Kaplan & Hegarty, Understanding GPS/GNSS, section 7). NOT anchored… (scenario file comment, lines 40 to 49)
 - Reproducibility & software assurance is MODELLED, not validated: a sub-claim is externally checked, but the whole capability composes modelled pieces, so the capability stays Modelled. (verification matrix (docs/MODELLED-RATIONALE.md))
 - Lunar surface-beacon DOP augmentation is MODELLED, not validated: checked against a separate implementation in this same codebase — independent of the unit under test, but not externally authoritative. (verification matrix (docs/MODELLED-RATIONALE.md))
 

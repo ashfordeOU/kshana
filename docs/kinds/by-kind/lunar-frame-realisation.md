@@ -21,7 +21,7 @@ The example `scenarios/lunar-frame-realisation.toml` sets, among others:
 
 | Field | Value | Unit |
 |---|---|---|
-| `epoch_day` | 1 | d |
+| `epoch_day` | 1 | not stated |
 | `epoch_month` | 1 | not stated |
 | `epoch_year` | 2024 | not stated |
 | `kind` | lunar-frame-realisation | text |
@@ -47,7 +47,7 @@ The scalar results of that run, with the units the engine states:
 | Result | Value | Unit |
 |---|---|---|
 | `converged` | false | flag |
-| `evidence.id_rule` | the stable id of the matrix row (the ID  | text |
+| `evidence.id_rule` | the stable id of the matrix row (the… | text |
 | `evidence.matrix` | docs/VERIFICATION-MATRIX.md | text |
 | `evidence.tier` | MODELLED | text |
 | `injected.scale_ppb` | 100 | ppb |

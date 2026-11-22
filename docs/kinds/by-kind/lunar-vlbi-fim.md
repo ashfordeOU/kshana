@@ -37,16 +37,16 @@ The scalar results of that run, with the units the engine states:
 |---|---|---|
 | `beacon_link.beacon_range_m` | 4.0290e8 | m |
 | `beacon_link.computed_per_coordinate_sigma_m` | no value | m |
-| `beacon_link.equipartition_formula` | sigma = c * delay_sigma_s * (beacon_rang | text |
+| `beacon_link.equipartition_formula` | sigma = c * delay_sigma_s *… | text |
 | `beacon_link.equipartition_per_coordinate_sigma_m` | 0.041793 | m |
 | `beacon_link.estimated` | false | flag |
 | `beacon_link.lever_arm_range_over_baseline` | 32.194501 | 1 |
 | `beacon_link.longest_baseline_m` | 1.2515e7 | m |
 | `beacon_link.ratio_computed_over_equipartition` | no value | 1 |
 | `datum.choice` | anchor-first-station | text |
-| `evidence.id_rule` | the stable id of the matrix row (the ID  | text |
+| `evidence.id_rule` | the stable id of the matrix row (the… | text |
 
-Result label (the engine's): MODELLED lunar-VLBI station-coordinate covariance. The covariance is accumulated from the engine's own analytic delay partials over an explicit schedule of baselines and epochs and inverted; it is NOT converted from a scalar delay precision by an assumed geometry factor. The per-observation delay si
+Result label (the engine's): MODELLED lunar-VLBI station-coordinate covariance. The covariance is accumulated from the engine's own analytic delay partials over an explicit schedule of baselines and epochs and inverted; it is NOT converted from a scalar delay precision by an assumed geometry factor. The per-observation delay…
 
 <img src="../../figures/kinds/lunar-vlbi-fim.svg" alt="The chart the engine writes for scenarios/lunar-vlbi-fim.toml, kind lunar-vlbi-fim" width="640">
 
@@ -54,30 +54,30 @@ Result label (the engine's): MODELLED lunar-VLBI station-coordinate covariance. 
 
 MODELLED 3 · VALIDATED 2: the [verification matrix](../../VERIFICATION-MATRIX.md) rows that name this kind.
 
-- **VALIDATED** Delay partials accumulated over a schedule of baselines × epochs into a Fisher information matrix, inverted to the station coordinate covariance and the per-coordinate station sigma, replacing an assumed isotropic equipartition link from a 
-- **MODELLED** A third datum choice, `all-stations-fixed`, that holds every Earth station and estimates the BEACON's Moon-body-fixed coordinates alone — the configuration a lunar surface-point uncertainty is actually quoted for, since Earth station coordi
-- **VALIDATED** The all-stations-fixed beacon covariance of the lunar-vlbi-fim scenario (every Earth station held, the beacon's Moon-body-fixed coordinates estimated alone) with the beacon placed on the JPL DE440 Moon read by the engine's own kernel reader
+- **VALIDATED** Delay partials accumulated over a schedule of baselines × epochs into a Fisher information matrix, inverted to the station coordinate covariance and the per-coordinate station sigma, replacing an assumed isotropic equipartition link from…
+- **MODELLED** A third datum choice, `all-stations-fixed`, that holds every Earth station and estimates the BEACON's Moon-body-fixed coordinates alone — the configuration a lunar surface-point uncertainty is actually quoted for, since Earth station…
+- **VALIDATED** The all-stations-fixed beacon covariance of the lunar-vlbi-fim scenario (every Earth station held, the beacon's Moon-body-fixed coordinates estimated alone) with the beacon placed on the JPL DE440 Moon read by the engine's own kernel…
 - **MODELLED** The seven-parameter Helmert datum propagated from a SIMULATED OBSERVING CAMPAIGN instead of recovered from an injected transform.
 - and 1 more in the matrix.
 
 The rows the run itself exercised, with the oracle the matrix gives each (the public sources are named there):
 
 - **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): SBOM conformance to the official CycloneDX 1.5 JSON Schema (+ valid SPDX identifiers) — an external published standard, zero validation errors over the full dependency graph; the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
-- **VALIDATED** Delay partials accumulated over a schedule of baselines × epochs into a Fisher information matrix, inverted to the station coordinate covariance and the per-coo. Oracle (ExternalDataset): An independent in-repo route. Every Jacobian row is re-derived by central finite difference of lunar_vlbi::vlbi_delay_s evaluated from the state's own Earth-fixed and Moon-body-fixed coordinates rotated forward through the frame chain — a path that computes no derivative and shares no expression with the analytic partials — and the information matrices the two routes build agree to < 1e-6 of the largest diagonal. The
-- **MODELLED** A third datum choice, `all-stations-fixed`, that holds every Earth station and estimates the BEACON's Moon-body-fixed coordinates alone — the configuration a lu. Oracle (ReferenceImpl): Closed-form identities, with no external oracle claimed or available. The lever arm is checked against ρ/B and the two equipartition forms against each other to 1e-15 — algebraic identities, so they catch a wiring error and nothing else, and are labelled as such. The substantive result is MEASURED rather than asserted: a delay from a fixed baseline constrains the beacon's DIRECTION, so the line-of-sight component rea
+- **VALIDATED** Delay partials accumulated over a schedule of baselines × epochs into a Fisher information matrix, inverted to the station coordinate covariance and the…. Oracle (ExternalDataset): An independent in-repo route. Every Jacobian row is re-derived by central finite difference of lunar_vlbi::vlbi_delay_s evaluated from the state's own Earth-fixed and Moon-body-fixed coordinates rotated forward through the frame chain — a path that computes no derivative and shares no expression with the analytic partials — and the information matrices the two routes build agree to < 1e-6 of the largest diagonal.…
+- **MODELLED** A third datum choice, `all-stations-fixed`, that holds every Earth station and estimates the BEACON's Moon-body-fixed coordinates alone — the configuration a…. Oracle (ReferenceImpl): Closed-form identities, with no external oracle claimed or available. The lever arm is checked against ρ/B and the two equipartition forms against each other to 1e-15 — algebraic identities, so they catch a wiring error and nothing else, and are labelled as such. The substantive result is MEASURED rather than asserted: a delay from a fixed baseline constrains the beacon's DIRECTION, so the line-of-sight component…
 
 ## Limitations
 
 What the run's own report says is not modelled or not validated:
 
-- MODELLED lunar-VLBI station-coordinate covariance. The covariance is accumulated from the engine's own analytic delay partials over an explicit schedule of baselines and epochs and inverted; it is NOT converted from a scalar delay precision by an assumed geometry factor. The per-observation delay sigma, the station coordinates, the beacon site and the schedule are inputs. The Moon-centre ephemeris, the station clocks (result `label`)
+- MODELLED lunar-VLBI station-coordinate covariance. The covariance is accumulated from the engine's own analytic delay partials over an explicit schedule of baselines and epochs and inverted; it is NOT converted from a scalar delay precision by an assumed geometry factor. The per-observation delay sigma, the station coordinates, the beacon site and the schedule are inputs. The Moon-centre ephemeris, the station… (result `label`)
 - Lunar-VLBI station-coordinate covariance: the delay partials of the lunar-vlbi observable accumulated over an explicit SCHEDULE (baselines x epochs) into a Fisher information matrix, inverted, and reported as the station coordinate covariance and the per-coordinate station sigma — a computed engine output rather than a scalar delay precision pushed through an assumed isotropic g = 3 equipartition factor. (kind catalogue (`kshana kinds --json`))
 - The state carries Earth-FIXED (ITRS) station coordinates, so the Jacobian is the inertial partial rotated by each epoch's GCRS->ITRS matrix: Earth rotation is what makes those coordinates observable, and the report MEASURES the Earth-fixed line-of-sight sweep and the beacon declination rather than assuming them. (kind catalogue (`kshana kinds --json`))
 - The equipartition value c*delay_sigma_s*sqrt(g/N) for the SAME schedule is emitted beside the computed value with the ratio, together with the isotropic trace bound sqrt(p/trace(M)) that AM-HM makes a hard floor — so the ratio is the anisotropy the assumption discarded. (kind catalogue (`kshana kinds --json`))
 - MODELLED: the Moon-centre ephemeris, station clocks, troposphere and Earth-orientation parameters are held FIXED and observations are treated as independent, so the covariance is a Cramer-Rao bound for a reduced parameter set, not a predicted session result; the delay sigma, station coordinates and schedule are inputs. (kind catalogue (`kshana kinds --json`))
-- D3's published chain goes from a per-observation delay precision to a station coordinate uncertainty through an assumed ISOTROPIC equipartition factor g = 3. That step is the one the paper's own abstract calls modelled rather than measured. This scenario removes it: the lunar-VLBI delay partials are accumulated over a real schedule of (baseline x epoch) pairs into a Fisher information matrix, inverted, and reported a (scenario file comment, lines 3 to 8)
-- The state carries Earth-FIXED (ITRS) coordinates, so the Jacobian is the inertial partial rotated by each epoch's GCRS->ITRS matrix: Earth rotation is what makes those coordinates observable at all, and the report MEASURES the Earth-fixed line-of-sight sweep and the beacon declination rather than assuming them. One observation is one (baseline, epoch) pair with BOTH stations above the elevation mask, weighted 1/delay (scenario file comment, lines 10 to 14)
-- What to read in the report * per-station per-axis and 3-D sigmas — the computed answer; * the equipartition value c*delay_sigma_s*sqrt(g/N) for the SAME schedule, printed beside it with the ratio. That ratio IS the anisotropy the assumption discarded, and the isotropic trace bound sqrt(p/trace(M)) makes AM-HM a hard floor, so the assumption can only ever understate; * rank, datum defect, condition number, the full sp (scenario file comment, lines 16 to 26)
+- D3's published chain goes from a per-observation delay precision to a station coordinate uncertainty through an assumed ISOTROPIC equipartition factor g = 3. That step is the one the paper's own abstract calls modelled rather than measured. This scenario removes it: the lunar-VLBI delay partials are accumulated over a real schedule of (baseline x epoch) pairs into a Fisher information matrix, inverted, and reported… (scenario file comment, lines 3 to 8)
+- The state carries Earth-FIXED (ITRS) coordinates, so the Jacobian is the inertial partial rotated by each epoch's GCRS->ITRS matrix: Earth rotation is what makes those coordinates observable at all, and the report MEASURES the Earth-fixed line-of-sight sweep and the beacon declination rather than assuming them. One observation is one (baseline, epoch) pair with BOTH stations above the elevation mask, weighted… (scenario file comment, lines 10 to 14)
+- What to read in the report * per-station per-axis and 3-D sigmas — the computed answer; * the equipartition value c*delay_sigma_s*sqrt(g/N) for the SAME schedule, printed beside it with the ratio. That ratio IS the anisotropy the assumption discarded, and the isotropic trace bound sqrt(p/trace(M)) makes AM-HM a hard floor, so the assumption can only ever understate; * rank, datum defect, condition number, the full… (scenario file comment, lines 16 to 26)
 
 ## See also
 

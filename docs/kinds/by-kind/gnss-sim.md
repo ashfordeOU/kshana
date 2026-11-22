@@ -15,7 +15,7 @@ One run of `scenarios/gnss-sim-raim.toml` summarises as: scenario ab854d9d7886 |
 From the schema (`kshana kinds --json`):
 
 - Required fields: `seed`, `time`, `receiver`, `constellation`
-- Optional fields: `iono`, `tropo`, `mask_deg`, `noise_sigma_m`, `multipath_m`, `sat_clock_rms_m`, `uere_m`, `p_fa`, `p_md`, `alert_limit_h_m`, `alert_limit_v_m`, `skyline`
+- Optional fields: `iono`, `tropo`, `mask_deg`, `noise_sigma_m`, `multipath_m`, `sat_clock_rms_m`, `uere_m`, `p_fa`, `p_md`, `alert_limit_h_m`, `alert_limit_v_m`, `skyline`, `slot_sets`, `slots`
 
 The example `scenarios/gnss-sim-raim.toml` sets, among others:
 
@@ -30,7 +30,7 @@ The example `scenarios/gnss-sim-raim.toml` sets, among others:
 | `constellation.sats_per_plane` | 4 | not stated |
 | `iono.alpha` | [3.8200e-8, 1.4900e-8, -1.7900e-7, 0] | not stated |
 | `iono.beta` | [143000, 0, -328000, 113000] | not stated |
-| `iono.gps_seconds_of_day` | 50400 | d |
+| `iono.gps_seconds_of_day` | 50400 | s |
 | `kind` | gnss-sim | text |
 | `mask_deg` | 5 | deg |
 
@@ -40,7 +40,7 @@ The example `scenarios/gnss-sim-raim.toml` sets, among others:
 kshana scenarios/gnss-sim-raim.toml
 ```
 
-2 bundled scenarios use this kind; the others are in [`scenarios/`](../../../scenarios/).
+3 scenario files in [`scenarios/`](../../../scenarios/) use this kind.
 
 ## What it gives
 
@@ -48,7 +48,7 @@ The scalar results of that run, with the units the engine states:
 
 | Result | Value | Unit |
 |---|---|---|
-| `evidence.id_rule` | the stable id of the matrix row (the ID  | text |
+| `evidence.id_rule` | the stable id of the matrix row (the… | text |
 | `evidence.matrix` | docs/VERIFICATION-MATRIX.md | text |
 | `evidence.tier` | MODELLED | text |
 | `fom.fault_rate` | 0 | 1 |
@@ -69,10 +69,10 @@ VALIDATED: the [verification matrix](../../VERIFICATION-MATRIX.md) rows that nam
 
 The rows the run itself exercised, with the oracle the matrix gives each (the public sources are named there):
 
-- **VALIDATED** ARAIM multiple-hypothesis solution separation per the ARAIM Airborne Design Document (ADD) v4.2 (araim_reference::add_v42_protection_levels and add_v42_protecti. Oracle (ExternalDataset): Three independent tools, pre-registered (ba7a01a7) before any fixture or oracle output existed, tolerances fixed then. (1) ARAIM: Stanford MAAST for ARAIM 2 (commit ab70e2a3, BSD-3) mhss_raim_baseline_v5.m, run as a separate program under GNU Octave 8.4 with a driver-side unique() compatibility shim (disclosed, no algorithm change), at the ADD TOL_PL of 0.05 m: the Rust reproduces the ADD reference implementation on 
+- **VALIDATED** ARAIM multiple-hypothesis solution separation per the ARAIM Airborne Design Document (ADD) v4.2 (araim_reference::add_v42_protection_levels and…. Oracle (ExternalDataset): Three independent tools, pre-registered (ba7a01a7) before any fixture or oracle output existed, tolerances fixed then. (1) ARAIM: Stanford MAAST for ARAIM 2 (commit ab70e2a3, BSD-3) mhss_raim_baseline_v5.m, run as a separate program under GNU Octave 8.4 with a driver-side unique() compatibility shim (disclosed, no algorithm change), at the ADD TOL_PL of 0.05 m: the Rust reproduces the ADD reference implementation…
 - **VALIDATED** GDOP/PDOP/HDOP/VDOP/TDOP from line-of-sight geometry via Q=(HᵀH)⁻¹ with a local ENU split. Oracle (ExternalDataset): gnss_lib_py 1.0.4 (Stanford NAV Lab) DOP — independent library, matched to 1e-6 relative
 - **VALIDATED** Klobuchar single-frequency L1 slant ionospheric group delay from the eight broadcast α/β coefficients. Oracle (ExternalDataset): RTKLIB ionmodel (tomojitakasu/RTKLIB, src/rtkcmn.c) — independent reference implementation compiled from source; matched to < 1e-4 m
-- **VALIDATED** The distributional core every protection level rests on: the snapshot fault-detection threshold χ²₁₋ₚfₐ(dof), the missed-detection non-centrality pbias=√λ, and . Oracle (ExternalDataset): SciPy 1.17.0 (scipy.stats.chi2/.norm/.ncx2 + optimize.brentq) — independent library (Cephes/Boost), a different algorithm from Kshana's incomplete-gamma series; matched to ≤1e-6 rel. Kernel only. The ARAIM MHSS P_HMI budget *allocation* is no longer without a published numeric oracle — the WG-C ARAIM Technical Subgroup's own worked example now backs the separate 'ARAIM MHSS protection levels against published referen
+- **VALIDATED** The distributional core every protection level rests on: the snapshot fault-detection threshold χ²₁₋ₚfₐ(dof), the missed-detection non-centrality pbias=√λ…. Oracle (ExternalDataset): SciPy 1.17.0 (scipy.stats.chi2/.norm/.ncx2 + optimize.brentq) — independent library (Cephes/Boost), a different algorithm from Kshana's incomplete-gamma series; matched to ≤1e-6 rel. Kernel only. The ARAIM MHSS P_HMI budget *allocation* is no longer without a published numeric oracle — the WG-C ARAIM Technical Subgroup's own worked example now backs the separate 'ARAIM MHSS protection levels against published…
 - **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): SBOM conformance to the official CycloneDX 1.5 JSON Schema (+ valid SPDX identifiers) — an external published standard, zero validation errors over the full dependency graph; the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
 
 ## Limitations
@@ -85,5 +85,5 @@ What the run's own report says is not modelled or not validated:
 
 - Family page: [GNSS measurements, positioning and integrity](../gnss-measurements-positioning-and-integrity.md#gnss-sim)
 - All kinds: [KINDS.md](../../KINDS.md)
-- Topic page: [REAL_TLE_GUIDE.md](../../REAL_TLE_GUIDE.md)
-- Topic page: [SKYLINE.md](../../SKYLINE.md)
+- Topic page: [GNSS-SLOTS.md](../../GNSS-SLOTS.md)
+- Topic page: [SIL-OBSGEN.md](../../SIL-OBSGEN.md)

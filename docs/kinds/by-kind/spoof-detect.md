@@ -40,7 +40,7 @@ The example `scenarios/spoof-detect.toml` sets, among others:
 kshana scenarios/spoof-detect.toml
 ```
 
-2 bundled scenarios use this kind; the others are in [`scenarios/`](../../../scenarios/).
+2 scenario files in [`scenarios/`](../../../scenarios/) use this kind.
 
 ## What it gives
 
@@ -69,7 +69,7 @@ MODELLED: the [verification matrix](../../VERIFICATION-MATRIX.md) rows that name
 
 The rows the run itself exercised, with the oracle the matrix gives each (the public sources are named there):
 
-- **MODELLED** Clock-aided χ², RAIM, AGC, SQM fused per-epoch security FoM. Oracle (ExternalDataset): TEXBAT scenario parameters (Humphreys 2012) — characterisation, not pinned vectors. 0.30 external comparison, a finding (stays MODELLED): on JammerTest 2024 (Bleik; GPL-3.0 data) the observable-level monitors (clock-aided chi-square, RAIM, solve failure) raised no alarm within 10 s of any of the 8 evaluable published spoofing onsets (where the pre-onset window was clean, the first alarm came 10.2 to 39 s after the pu
+- **MODELLED** Clock-aided χ², RAIM, AGC, SQM fused per-epoch security FoM. Oracle (ExternalDataset): TEXBAT scenario parameters (Humphreys 2012) — characterisation, not pinned vectors. 0.30 external comparison, a finding (stays MODELLED): on JammerTest 2024 (Bleik; GPL-3.0 data) the observable-level monitors (clock-aided chi-square, RAIM, solve failure) raised no alarm within 10 s of any of the 8 evaluable published spoofing onsets (where the pre-onset window was clean, the first alarm came 10.2 to 39 s after the…
 - **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): SBOM conformance to the official CycloneDX 1.5 JSON Schema (+ valid SPDX identifiers) — an external published standard, zero validation errors over the full dependency graph; the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
 - **PARTNER** Not provided — Kshana models signal performance, not payload/antenna hardware. Oracle (NoneKind): none: a partner-owned discipline, with no module and no test by design
 

@@ -22,7 +22,7 @@ The example `scenarios/mission-thread-short.toml` sets, among others:
 | Field | Value | Unit |
 |---|---|---|
 | `entry.frame` | gcrf | text |
-| `entry.sigma_drift_s_per_s` | 1.0000e-12 | s |
+| `entry.sigma_drift_s_per_s` | 1.0000e-12 | s/s |
 | `entry.sigma_pos_m` | 10 | m |
 | `entry.sigma_time_s` | 1.0000e-7 | s |
 | `entry.sigma_vel_mps` | 0.01 | m/s |
@@ -40,7 +40,7 @@ The example `scenarios/mission-thread-short.toml` sets, among others:
 kshana scenarios/mission-thread-short.toml
 ```
 
-2 bundled scenarios use this kind; the others are in [`scenarios/`](../../../scenarios/).
+2 scenario files in [`scenarios/`](../../../scenarios/) use this kind.
 
 ## What it gives
 
@@ -49,12 +49,12 @@ The scalar results of that run, with the units the engine states:
 | Result | Value | Unit |
 |---|---|---|
 | `epoch_utc` | 2028-01-01T00:00:00Z | text |
-| `evidence.id_rule` | the stable id of the matrix row (the ID  | text |
+| `evidence.id_rule` | the stable id of the matrix row (the… | text |
 | `evidence.matrix` | docs/VERIFICATION-MATRIX.md | text |
 | `evidence.tier` | MODELLED | text |
 | `schema` | kshana-mission-thread/1 | text |
 | `seed` | 20261028 | 1 |
-| `weakest_link.basis` | smallest margin against a stated require | text |
+| `weakest_link.basis` | smallest margin against a stated… | text |
 | `weakest_link.limiting_source` | inertial dead reckoning | text |
 | `weakest_link.margin` | 1.648059 | 1 |
 | `weakest_link.phase_id` | ascent | text |
@@ -67,19 +67,15 @@ Result label (the engine's): MODELLED
 
 MODELLED: the [verification matrix](../../VERIFICATION-MATRIX.md) rows that name this kind.
 
-- **MODELLED** The `mission-thread` kind: a document of phases, each one of eight registered kinds, run in order with the 6x6 covariance, the clock and the frame handed on under a stated rule (`carry`; `inflate`, white acceleration noise over a stated gap Tests: [field_units_global.rs](../../../tests/field_units_global.rs).
-- **MODELLED** The `launch-ascent` phase: a constant-velocity position and velocity covariance with white acceleration noise (the dead-reckoning grade), a GNSS fix of stated accuracy applied after the acquisition time and outside stated fades, a bias-and-
-- **MODELLED** The `leo-rendezvous` phase: the relative state in the target's LVLH axes with the closed-form Clohessy-Wiltshire transition, a 6x6 Kalman covariance with white acceleration noise and position updates whose variance is the sensor's at the cu
-- **MODELLED** The `tli-and-cruise` phase: the mean state by the engine's Cowell propagator (Earth point mass and J2, the Sun and Moon as third bodies, the Moon from the thread's DE440 kernel where it covers the segment and the Sun from the analytic serie
-- and 5 more in the matrix.
+- **MODELLED** The `mission-thread` kind: a document of phases, each one of eight registered kinds, run in order with the 6x6 covariance, the clock and the frame handed on under a stated rule (`carry`; `inflate`, white acceleration noise over a stated… Tests: [field_units_global.rs](../../../tests/field_units_global.rs).
 
 The rows the run itself exercised, with the oracle the matrix gives each (the public sources are named there):
 
 - **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): SBOM conformance to the official CycloneDX 1.5 JSON Schema (+ valid SPDX identifiers) — an external published standard, zero validation errors over the full dependency graph; the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
-- **MODELLED** The `mission-thread` kind: a document of phases, each one of eight registered kinds, run in order with the 6x6 covariance, the clock and the frame handed on und. Oracle (InternalConsistency): Hand calculations in the tests (the straight-line covariance growth, the mean sidereal rotation, the secular lunar clock rate) and, for the Moon's state only, the committed DE440 kernel cuts against pinned JPL Horizons values (worst 2.6 m and 7e-6 m/s). No mission data is compared with the chain; its phases are rows of their own. The document is a stated chain with ILLUSTRATIVE inputs, public sources only and no agen
-- **MODELLED** The `launch-ascent` phase: a constant-velocity position and velocity covariance with white acceleration noise (the dead-reckoning grade), a GNSS fix of stated a. Oracle (InternalConsistency): The Riccati steady state and the hand calculation of the prediction in the tests. Nothing here models a launch vehicle or a receiver; every number is a stated input
-- **MODELLED** The `leo-rendezvous` phase: the relative state in the target's LVLH axes with the closed-form Clohessy-Wiltshire transition, a 6x6 Kalman covariance with white . Oracle (InternalConsistency): A one-axis hand calculation of the predict and update in the test; the Clohessy-Wiltshire transition is the one cw_dynamics checks against an independent numerical integration. The sensors are ILLUSTRATIVE and no real rendezvous is compared
-- **MODELLED** The `tli-and-cruise` phase: the mean state by the engine's Cowell propagator (Earth point mass and J2, the Sun and Moon as third bodies, the Moon from the threa. Oracle (InternalConsistency): Liouville's theorem (the determinant of the state-transition matrix of the conservative part is one) and a finer difference in the tests; the mean state is compared with a public trajectory in the row below, which it misses. The burn error, the updates and the covariance are not compared with anything
+- **MODELLED** The `mission-thread` kind: a document of phases, each one of eight registered kinds, run in order with the 6x6 covariance, the clock and the frame handed on…. Oracle (InternalConsistency): Hand calculations in the tests (the straight-line covariance growth, the mean sidereal rotation, the secular lunar clock rate) and, for the Moon's state only, the committed DE440 kernel cuts against pinned JPL Horizons values (worst 2.6 m and 7e-6 m/s). No mission data is compared with the chain; its phases are rows of their own. The document is a stated chain with ILLUSTRATIVE inputs, public sources only and no…
+- **MODELLED** The `launch-ascent` phase: a constant-velocity position and velocity covariance with white acceleration noise (the dead-reckoning grade), a GNSS fix of stated…. Oracle (InternalConsistency): The Riccati steady state and the hand calculation of the prediction in the tests. Nothing here models a launch vehicle or a receiver; every number is a stated input
+- **MODELLED** The `leo-rendezvous` phase: the relative state in the target's LVLH axes with the closed-form Clohessy-Wiltshire transition, a 6x6 Kalman covariance with…. Oracle (InternalConsistency): A one-axis hand calculation of the predict and update in the test; the Clohessy-Wiltshire transition is the one cw_dynamics checks against an independent numerical integration. The sensors are ILLUSTRATIVE and no real rendezvous is compared
+- **MODELLED** The `tli-and-cruise` phase: the mean state by the engine's Cowell propagator (Earth point mass and J2, the Sun and Moon as third bodies, the Moon from the…. Oracle (InternalConsistency): Liouville's theorem (the determinant of the state-transition matrix of the conservative part is one) and a finer difference in the tests; the mean state is compared with a public trajectory in the row below, which it misses. The burn error, the updates and the covariance are not compared with anything
 
 ## Limitations
 

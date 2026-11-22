@@ -40,7 +40,7 @@ The example `scenarios/campaign-sweep-jammer-power.toml` sets, among others:
 kshana scenarios/campaign-sweep-jammer-power.toml
 ```
 
-22 bundled scenarios use this kind; the others are in [`scenarios/`](../../../scenarios/).
+22 scenario files in [`scenarios/`](../../../scenarios/) use this kind.
 
 ## What it gives
 
@@ -48,18 +48,18 @@ The scalar results of that run, with the units the engine states:
 
 | Result | Value | Unit |
 |---|---|---|
-| `evidence.id_rule` | the stable id of the matrix row (the ID  | text |
+| `evidence.id_rule` | the stable id of the matrix row (the… | text |
 | `evidence.matrix` | docs/VERIFICATION-MATRIX.md | text |
 | `evidence.tier` | PARTNER | text |
-| `reproducibility.campaign_hash` | 46aa07cb58fbfbd3784c2e1ef8d6070508ad5f5c | text |
-| `reproducibility.run_digest` | b3ce53fee50eac3a52910de8b273eb6164a9d73e | text |
+| `reproducibility.campaign_hash` | 46aa07cb58fbfbd3784c2e1ef8d6070508ad5f5… | text |
+| `reproducibility.run_digest` | b3ce53fee50eac3a52910de8b273eb6164a9d73… | text |
 | `reproducibility.runs_total` | 13 | count |
 | `seed` | 20260928 | 1 |
 | `sweep.axes.jammer_power.key` | jammer.power_dbw | text |
 | `sweep.axes.jammer_power.scale` | lin | text |
 | `sweep.axes.jammer_power.unit` | dBW | text |
 
-Result label (the engine's): MODELLED composition of existing scenario kinds. Every number is read from a real run of the named kind; the chaining (additive carry of a channel across a phase boundary, zero-order hold onto the timeline grid, a phase ended at a computed time) is a modelling choice, and each phase carries the labe
+Result label (the engine's): MODELLED composition of existing scenario kinds. Every number is read from a real run of the named kind; the chaining (additive carry of a channel across a phase boundary, zero-order hold onto the timeline grid, a phase ended at a computed time) is a modelling choice, and each phase carries the…
 
 <img src="../../figures/kinds/campaign.svg" alt="The chart the engine writes for scenarios/campaign-sweep-jammer-power.toml, kind campaign" width="640">
 
@@ -67,18 +67,18 @@ Result label (the engine's): MODELLED composition of existing scenario kinds. Ev
 
 MODELLED: the [verification matrix](../../VERIFICATION-MATRIX.md) rows that name this kind.
 
-- **MODELLED** iq::campaign::detect and the campaign runner: an optional [monitors] table runs the IQ monitors on every cell in the runner's single pass. Tests: [iq_campaign.rs](../../../tests/iq_campaign.rs).
-- **MODELLED** iq::campaign::detect (windows, roc) and iq::campaign::report::rocs: each cell of a campaign with monitors keeps, per alarm kind and channel, the maximum of the monitor's own test statistic over each stated event window (positive) and over t
-- **MODELLED** iq::labfit (campaign, cn0, iqfit, iqreport) and `[input] campaign` on `kshana iq labfit`, Python `kshana.iq_labfit` and the MCP labfit tool (campaign folders inside its work directory only): reads a `kshana iq campaign` output folder by its Tests: [iq_labfit_followup.rs](../../../tests/iq_labfit_followup.rs).
-- **MODELLED** The `campaign` kind's phases: each phase runs one or more scenarios of existing kinds through run_toml, reads their outputs into named channels (clock time error and guard, mean effective carrier-to-noise density ratio and tracking floor, v Tests: [campaign_composition_reference.rs](../../../tests/campaign_composition_reference.rs).
-- and 4 more in the matrix.
+- **MODELLED** iq::labfit (campaign, cn0, iqfit, iqreport) and `[input] campaign` on `kshana iq labfit`, Python `kshana.iq_labfit` and the MCP labfit tool (campaign folders inside its work directory only): reads a `kshana iq campaign` output folder by… Tests: [iq_labfit_followup.rs](../../../tests/iq_labfit_followup.rs).
+- **MODELLED** The `campaign` kind's phases: each phase runs one or more scenarios of existing kinds through run_toml, reads their outputs into named channels (clock time error and guard, mean effective carrier-to-noise density ratio and tracking floor… Tests: [campaign_composition_reference.rs](../../../tests/campaign_composition_reference.rs).
+- **MODELLED** The `campaign` kind's sweep (one to three dotted keys of any kind, on the generic sweep's axis values, optionally an ensemble at every node) and monte_carlo sections: realisation k runs at base_seed + k; each metric reports mean, standard… Tests: [campaign_composition_reference.rs](../../../tests/campaign_composition_reference.rs).
+- **MODELLED** The `campaign` kind's compose section: named shared values (for example one jammer's power and position) written into each member at the keys it binds them to, every member run, and per metric the smallest, largest and mean value across… Tests: [campaign_composition_reference.rs](../../../tests/campaign_composition_reference.rs).
+- and 1 more in the matrix.
 
 The rows the run itself exercised, with the oracle the matrix gives each (the public sources are named there):
 
-- **MODELLED** Geometry J/S link budget, anti-jam C/N₀, per-satellite loss-of-lock. Oracle (InternalConsistency): Anti-jam C/N₀ link-budget equation cross-checked against an independent numpy re-derivation (shares the same closed form → InternalConsistency) plus a real-JammerTest-2024 C/N₀ degradation characterisation. 0.30 round 2, blocked (stays MODELLED): the measured JammerTest 2024 C/N0 drop against a link-budget prediction (pre-registered 6b2f6240, within 3 dB) was not run because the F8.1 antenna position and pointing at 
+- **MODELLED** Geometry J/S link budget, anti-jam C/N₀, per-satellite loss-of-lock. Oracle (InternalConsistency): Anti-jam C/N₀ link-budget equation cross-checked against an independent numpy re-derivation (shares the same closed form → InternalConsistency) plus a real-JammerTest-2024 C/N₀ degradation characterisation. 0.30 round 2, blocked (stays MODELLED): the measured JammerTest 2024 C/N0 drop against a link-budget prediction (pre-registered 6b2f6240, within 3 dB) was not run because the F8.1 antenna position and pointing…
 - **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): SBOM conformance to the official CycloneDX 1.5 JSON Schema (+ valid SPDX identifiers) — an external published standard, zero validation errors over the full dependency graph; the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
 - **PARTNER** Not provided — Kshana models signal performance, not payload/antenna hardware. Oracle (NoneKind): none: a partner-owned discipline, with no module and no test by design
-- **MODELLED** The `campaign` kind's sweep (one to three dotted keys of any kind, on the generic sweep's axis values, optionally an ensemble at every node) and monte_carlo sec. Oracle (InternalConsistency): The closed form of the phase random walk under white frequency noise, variance q_wf tau (NIST Technical Note 1337), for the statistics machinery, and byte equality with the stand-alone runs for the seeding. It checks the ensemble arithmetic on the engine's own clock model, not an external dataset
+- **MODELLED** The `campaign` kind's sweep (one to three dotted keys of any kind, on the generic sweep's axis values, optionally an ensemble at every node) and monte_carlo…. Oracle (InternalConsistency): The closed form of the phase random walk under white frequency noise, variance q_wf tau (NIST Technical Note 1337), for the statistics machinery, and byte equality with the stand-alone runs for the seeding. It checks the ensemble arithmetic on the engine's own clock model, not an external dataset
 
 ## Limitations
 

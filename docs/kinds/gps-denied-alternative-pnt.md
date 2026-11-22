@@ -12,9 +12,9 @@ Topic pages: [CAPABILITY](../CAPABILITY.md), [RESILIENCE-CROSSWALK](../RESILIENC
 |---|---|---|
 | [`gravity-map`](by-kind/gravity-map.md) | GPS-denied gravity-map-matching navigation: a cold-atom gravimeter recovers a constant INS drift from the gravity-anomaly sequence it flies through. | MODELLED (result label) |
 | [`terrain-nav`](by-kind/terrain-nav.md) | GPS-denied terrain-referenced navigation (TERCOM/SITAN): a radar/baro altimeter matches the ground-elevation profile against an SRTM-style DEM to recover the INS drift. | MODELLED |
-| [`terrain-slam`](by-kind/terrain-slam.md) | GPS-denied sequential (recursive) terrain-referenced navigation: a particle filter runs the terrain-match measurement model epoch by epoch (SITAN as a running filter) so a time-varying INS drift is tr | MODELLED (result label) |
+| [`terrain-slam`](by-kind/terrain-slam.md) | GPS-denied sequential (recursive) terrain-referenced navigation: a particle filter runs the terrain-match measurement model epoch by epoch (SITAN as a running filter) so a time-varying INS drift is… | MODELLED (result label) |
 | [`combined-altpnt`](by-kind/combined-altpnt.md) | GPS-denied combined gravity + magnetic + terrain navigator: three scalar field channels fused per waypoint for a sharper (lower-CRLB) drift fix than any single field. | MODELLED (result label) |
-| [`conflict-resilience`](by-kind/conflict-resilience.md) | MODELLED layered-PNT conflict resilience: a contested-environment user fields several PNT layers (open-service GNSS, wideband GNSS, an authenticated constellation, an augmentation relay), each wi | MODELLED (result label) |
+| [`conflict-resilience`](by-kind/conflict-resilience.md) | MODELLED layered-PNT conflict resilience: a contested-environment user fields several PNT layers (open-service GNSS, wideband GNSS, an authenticated constellation, an augmentation relay), each with… | MODELLED (result label) |
 
 ### `gravity-map`
 

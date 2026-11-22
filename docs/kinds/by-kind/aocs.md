@@ -26,7 +26,7 @@ The example `scenarios/aocs-slew.toml` sets, among others:
 | `hub_inertia_kg_m2` | [[900, 0, 0], [0, 800, 0], [0, 0, 600]] | not stated |
 | `k_nm` | 3.5 | N m |
 | `kind` | aocs | text |
-| `omega0_rad_s` | [0.001, -0.01, 0.03] | s |
+| `omega0_rad_s` | [0.001, -0.01, 0.03] | rad/s |
 | `p_nms` | 30 | N m s |
 | `pointing_threshold_deg` | 0.1 | deg |
 | `sample_s` | 1 | s |
@@ -40,7 +40,7 @@ The example `scenarios/aocs-slew.toml` sets, among others:
 kshana scenarios/aocs-slew.toml
 ```
 
-2 bundled scenarios use this kind; the others are in [`scenarios/`](../../../scenarios/).
+2 scenario files in [`scenarios/`](../../../scenarios/) use this kind.
 
 ## What it gives
 
@@ -51,7 +51,7 @@ The scalar results of that run, with the units the engine states:
 | `dt_s` | 0.1 | s |
 | `duration_s` | 600 | s |
 | `estimator` | no value | not stated |
-| `evidence.id_rule` | the stable id of the matrix row (the ID  | text |
+| `evidence.id_rule` | the stable id of the matrix row (the… | text |
 | `evidence.matrix` | docs/VERIFICATION-MATRIX.md | text |
 | `evidence.tier` | MODELLED | text |
 | `final_pointing_error_deg` | 0.023682 | deg |
@@ -67,14 +67,14 @@ Result label (the engine's): VALIDATED control law and wheel dynamics (against B
 
 MODELLED 1 · VALIDATED 1: the [verification matrix](../../VERIFICATION-MATRIX.md) rows that name this kind.
 
-- **VALIDATED** Inertial-pointing attitude control of a rigid hub with three or more balanced reaction wheels: the MRP feedback law L_r = -K sigma_BR - P omega_BR (Schaub and Junkins), minimum-norm wheel motor torques G_s u = -L_r clipped to each wheel's l Tests: [aocs_basilisk_oracle.rs](../../../tests/aocs_basilisk_oracle.rs).
-- **MODELLED** The Lefferts-Markley-Shuster multiplicative EKF: body-frame attitude error and gyro bias states, propagation with the gyro rate less the bias estimate and Farrenkopf's discrete process noise (angle and rate random walk), star-tracker update
+- **VALIDATED** Inertial-pointing attitude control of a rigid hub with three or more balanced reaction wheels: the MRP feedback law L_r = -K sigma_BR - P omega_BR (Schaub and Junkins), minimum-norm wheel motor torques G_s u = -L_r clipped to each wheel's… Tests: [aocs_basilisk_oracle.rs](../../../tests/aocs_basilisk_oracle.rs).
+- **MODELLED** The Lefferts-Markley-Shuster multiplicative EKF: body-frame attitude error and gyro bias states, propagation with the gyro rate less the bias estimate and Farrenkopf's discrete process noise (angle and rate random walk), star-tracker…
 
 The rows the run itself exercised, with the oracle the matrix gives each (the public sources are named there):
 
 - **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): SBOM conformance to the official CycloneDX 1.5 JSON Schema (+ valid SPDX identifiers) — an external published standard, zero validation errors over the full dependency graph; the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
-- **VALIDATED** Inertial-pointing attitude control of a rigid hub with three or more balanced reaction wheels: the MRP feedback law L_r = -K sigma_BR - P omega_BR (Schaub and J. Oracle (ExternalDataset): Basilisk 2.9.1 (AVSLab, ISC; the bsk wheel run as a separate tool, never linked or vendored): spacecraft hub, reactionWheelStateEffector (BalancedWheels, torque limit on), simpleNav, inertial3D, attTrackingError, mrpFeedback (no integral term) and rwMotorTorque at dt = 0.1 s with its RK4, against Kshana's own implementation on three cases (three orthogonal wheels; a four-wheel pyramid; a saturating four-wheel case), 
-- **MODELLED** The Lefferts-Markley-Shuster multiplicative EKF: body-frame attitude error and gyro bias states, propagation with the gyro rate less the bias estimate and Farre. Oracle (InternalConsistency): Internal consistency: the filter's normalised estimation error squared against truth simulated from the same sensor models over Monte Carlo seeds, and convergence of the attitude and bias estimates. WHAT IS NOT: no external estimator or flight data has been compared (Basilisk 2.9.1 has no MEKF module); the sensor models are the textbook ones, without misalignment, scale factor or star-tracker field-of-view effects.
+- **VALIDATED** Inertial-pointing attitude control of a rigid hub with three or more balanced reaction wheels: the MRP feedback law L_r = -K sigma_BR - P omega_BR (Schaub and…. Oracle (ExternalDataset): Basilisk 2.9.1 (AVSLab, ISC; the bsk wheel run as a separate tool, never linked or vendored): spacecraft hub, reactionWheelStateEffector (BalancedWheels, torque limit on), simpleNav, inertial3D, attTrackingError, mrpFeedback (no integral term) and rwMotorTorque at dt = 0.1 s with its RK4, against Kshana's own implementation on three cases (three orthogonal wheels; a four-wheel pyramid; a saturating four-wheel…
+- **MODELLED** The Lefferts-Markley-Shuster multiplicative EKF: body-frame attitude error and gyro bias states, propagation with the gyro rate less the bias estimate and…. Oracle (InternalConsistency): Internal consistency: the filter's normalised estimation error squared against truth simulated from the same sensor models over Monte Carlo seeds, and convergence of the attitude and bias estimates. WHAT IS NOT: no external estimator or flight data has been compared (Basilisk 2.9.1 has no MEKF module); the sensor models are the textbook ones, without misalignment, scale factor or star-tracker field-of-view effects.
 
 ## Limitations
 

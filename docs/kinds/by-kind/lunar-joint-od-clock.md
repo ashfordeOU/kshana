@@ -21,7 +21,7 @@ The example `scenarios/lunar-joint-od-clock.toml` sets, among others:
 
 | Field | Value | Unit |
 |---|---|---|
-| `epoch_day` | 1 | d |
+| `epoch_day` | 1 | not stated |
 | `epoch_month` | 1 | not stated |
 | `epoch_year` | 2024 | not stated |
 | `kind` | lunar-joint-od-clock | text |
@@ -46,7 +46,7 @@ The scalar results of that run, with the units the engine states:
 
 | Result | Value | Unit |
 |---|---|---|
-| `evidence.id_rule` | the stable id of the matrix row (the ID  | text |
+| `evidence.id_rule` | the stable id of the matrix row (the… | text |
 | `evidence.matrix` | docs/VERIFICATION-MATRIX.md | text |
 | `evidence.tier` | MODELLED | text |
 | `n_earth` | 6 | count |
@@ -66,16 +66,16 @@ No matrix row names this kind by name; the label on its result is the engine's o
 The rows the run itself exercised, with the oracle the matrix gives each (the public sources are named there):
 
 - **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): SBOM conformance to the official CycloneDX 1.5 JSON Schema (+ valid SPDX identifiers) — an external published standard, zero validation errors over the full dependency graph; the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
-- **VALIDATED** Batch fusion of VLBI + lunar-local range + inter-sat range to recover station+constellation positions and clocks. Oracle (ExternalDataset): P2: numpy 2.4.6 (numpy.linalg.lstsq with LAPACK gelsd, numpy.linalg.inv; BSD-3) recomputes each Gauss-Newton step, the converged weighted-least-squares solution, the formal sigmas and the station error on the committed Jacobians and observations of six simulated networks, pre-registered (8dfbfddd) at max(1e-8, 100 kappa eps) relative. The first run failed the no-VLBI network (6.1e-7 against 1e-8, a normal-equation in
-- **VALIDATED** Fisher information M=HᵀWH, Cramér–Rao lower bound, observability rank / datum-defect null space (Moore–Penrose pseudo-inverse), and D/A/E/T-optimal experiment-d. Oracle (ExternalDataset): NumPy 2.4.1 (numpy.linalg.eigh / .inv; BSD-3-Clause, LAPACK-backed) — an independent third-party authority computing the same uniquely-defined eigenvalues, σ²(XᵀX)⁻¹ Cramér–Rao covariance and GNSS dilution-of-precision factors by a different algorithm (LAPACK divide-and-conquer + LU) than Kshana's cyclic-Jacobi sweep and spectral pseudo-inverse; matched to 1e-9. The same external-library class already validates the D
-- **MODELLED** Fisher-information observability of the joint lunar solve: without Earth baselines the absolute-frame datum lies in the null space of HᵀWH (station position uno. Oracle (InternalConsistency): Analytic datum-defect structure — the unobservable absolute-frame mode lies in the null space of the Fisher information (closed-form), the rank threshold matches the published 3-station design rationale, and the estimator attains the resulting CRLB in Monte-Carlo. The lunar geometry itself is a representative network (not a flown ephemeris), so the row stays MODELLED; the underlying FIM/CRLB engine is checked against
+- **VALIDATED** Batch fusion of VLBI + lunar-local range + inter-sat range to recover station+constellation positions and clocks. Oracle (ExternalDataset): P2: numpy 2.4.6 (numpy.linalg.lstsq with LAPACK gelsd, numpy.linalg.inv; BSD-3) recomputes each Gauss-Newton step, the converged weighted-least-squares solution, the formal sigmas and the station error on the committed Jacobians and observations of six simulated networks, pre-registered (8dfbfddd) at max(1e-8, 100 kappa eps) relative. The first run failed the no-VLBI network (6.1e-7 against 1e-8, a normal-equation…
+- **VALIDATED** Fisher information M=HᵀWH, Cramér–Rao lower bound, observability rank / datum-defect null space (Moore–Penrose pseudo-inverse), and D/A/E/T-optimal…. Oracle (ExternalDataset): NumPy 2.4.1 (numpy.linalg.eigh / .inv; BSD-3-Clause, LAPACK-backed) — an independent third-party authority computing the same uniquely-defined eigenvalues, σ²(XᵀX)⁻¹ Cramér–Rao covariance and GNSS dilution-of-precision factors by a different algorithm (LAPACK divide-and-conquer + LU) than Kshana's cyclic-Jacobi sweep and spectral pseudo-inverse; matched to 1e-9. The same external-library class already validates the…
+- **MODELLED** Fisher-information observability of the joint lunar solve: without Earth baselines the absolute-frame datum lies in the null space of HᵀWH (station position…. Oracle (InternalConsistency): Analytic datum-defect structure — the unobservable absolute-frame mode lies in the null space of the Fisher information (closed-form), the rank threshold matches the published 3-station design rationale, and the estimator attains the resulting CRLB in Monte-Carlo. The lunar geometry itself is a representative network (not a flown ephemeris), so the row stays MODELLED; the underlying FIM/CRLB engine is checked…
 
 ## Limitations
 
 What the run's own report says is not modelled or not validated:
 
 - MODELLED simulated closed-loop recovery (truth shares the observation model), deterministic (seeded), NOT real-data validated; no force-model propagation inside the solver; no TRL/heritage/agency endorsement. (kind catalogue (`kshana kinds --json`))
-- Honesty: MODELLED simulated closed-loop recovery. An injected truth is mapped to synthetic observables through the SAME geometry model the solver inverts, seeded Gaussian noise is added, and the estimator recovers the injected truth within the noise. The oracle is internal consistency (truth recovery + NEES covariance realism), NOT real-data validation. There is no force-model propagation inside the solver — the sate (scenario file comment, lines 24 to 29)
+- Honesty: MODELLED simulated closed-loop recovery. An injected truth is mapped to synthetic observables through the SAME geometry model the solver inverts, seeded Gaussian noise is added, and the estimator recovers the injected truth within the noise. The oracle is internal consistency (truth recovery + NEES covariance realism), NOT real-data validation. There is no force-model propagation inside the solver — the… (scenario file comment, lines 24 to 29)
 - Reproducibility & software assurance is MODELLED, not validated: a sub-claim is externally checked, but the whole capability composes modelled pieces, so the capability stays Modelled. (verification matrix (docs/MODELLED-RATIONALE.md))
 - Lunar absolute-station observability (datum defect) is MODELLED, not validated: checked against its own closed-form / analytic identity — catches transcription and coefficient errors, but is not an external oracle. (verification matrix (docs/MODELLED-RATIONALE.md))
 

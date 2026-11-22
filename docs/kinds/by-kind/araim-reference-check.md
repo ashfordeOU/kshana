@@ -38,13 +38,13 @@ The scalar results of that run, with the units the engine states:
 | `acceptance_met` | true | flag |
 | `acceptance_tolerance_m` | 0.05 | m |
 | `acceptance_vectors` | 1 | count |
-| `evidence.id_rule` | the stable id of the matrix row (the ID  | text |
+| `evidence.id_rule` | the stable id of the matrix row (the… | text |
 | `evidence.matrix` | docs/VERIFICATION-MATRIX.md | text |
 | `evidence.tier` | MODELLED | text |
 | `vectors_checked` | 2 | count |
 | `worst_acceptance_error_m` | 0.043709 | m |
 
-Result label (the engine's): EXTERNALLY CHECKED — the engine's ARAIM protection levels run against the published worked numerical examples of the EU-U.S. Working Group C ARAIM Technical Subgroup reference airborne algorithm, at the tolerance (TOL_PL) those documents themselves state. Every published figure carries its source UR
+Result label (the engine's): EXTERNALLY CHECKED — the engine's ARAIM protection levels run against the published worked numerical examples of the EU-U.S. Working Group C ARAIM Technical Subgroup reference airborne algorithm, at the tolerance (TOL_PL) those documents themselves state. Every published figure carries its source…
 
 <img src="../../figures/kinds/araim-reference-check.svg" alt="The chart the engine writes for scenarios/araim-reference-check.toml, kind araim-reference-check" width="640">
 
@@ -52,12 +52,12 @@ Result label (the engine's): EXTERNALLY CHECKED — the engine's ARAIM protectio
 
 VALIDATED: the [verification matrix](../../VERIFICATION-MATRIX.md) rows that name this kind.
 
-- **VALIDATED** The multiple-hypothesis solution-separation protection-level equation itself: all-in-view and per-fault-mode weighted least squares on an East/North/Up geometry with one clock state per constellation, the sub-solution sigmas, solution-separ Tests: [araim_reference_vectors.rs](../../../tests/araim_reference_vectors.rs).
+- **VALIDATED** The multiple-hypothesis solution-separation protection-level equation itself: all-in-view and per-fault-mode weighted least squares on an East/North/Up geometry with one clock state per constellation, the sub-solution sigmas… Tests: [araim_reference_vectors.rs](../../../tests/araim_reference_vectors.rs).
 
 The rows the run itself exercised, with the oracle the matrix gives each (the public sources are named there):
 
 - **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): SBOM conformance to the official CycloneDX 1.5 JSON Schema (+ valid SPDX identifiers) — an external published standard, zero validation errors over the full dependency graph; the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
-- **VALIDATED** The multiple-hypothesis solution-separation protection-level equation itself: all-in-view and per-fault-mode weighted least squares on an East/North/Up geometry. Oracle (ExternalDataset): EU-U.S. Working Group C ARAIM Technical Subgroup, Reference Airborne Algorithm Description Document v3.1 (20 June 2019), Appendix D worked numerical example — published INPUTS (10-satellite 2-constellation geometry matrix, C_int/C_acc diagonals, b_nom, P_sat, P_const, LPV-200 constants) and published OUTPUTS (VPL 18.3 m, HPL 13.45 m, EMT 7.2998 m, σ_v_acc 1.3694 m, K_fa_3 5.1083, and six constellation-fault intermedi
+- **VALIDATED** The multiple-hypothesis solution-separation protection-level equation itself: all-in-view and per-fault-mode weighted least squares on an East/North/Up…. Oracle (ExternalDataset): EU-U.S. Working Group C ARAIM Technical Subgroup, Reference Airborne Algorithm Description Document v3.1 (20 June 2019), Appendix D worked numerical example — published INPUTS (10-satellite 2-constellation geometry matrix, C_int/C_acc diagonals, b_nom, P_sat, P_const, LPV-200 constants) and published OUTPUTS (VPL 18.3 m, HPL 13.45 m, EMT 7.2998 m, σ_v_acc 1.3694 m, K_fa_3 5.1083, and six constellation-fault…
 
 ## Limitations
 

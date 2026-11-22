@@ -37,16 +37,16 @@ The scalar results of that run, with the units the engine states:
 |---|---|---|
 | `arc_hours` | 6 | h |
 | `arc_time_tu` | 0.057493 | rotating-frame time units |
-| `evidence.id_rule` | the stable id of the matrix row (the ID  | text |
+| `evidence.id_rule` | the stable id of the matrix row (the… | text |
 | `evidence.matrix` | docs/VERIFICATION-MATRIX.md | text |
 | `evidence.tier` | MODELLED | text |
 | `gdop.range_only.defect` | 2 | count |
 | `gdop.range_only.rank` | 2 | count |
-| `gdop.range_only.reason` | GDOP undefined (rank-deficient / singula | text |
-| `gdop.range_only.status` | “undefined” (text as the document states | text |
+| `gdop.range_only.reason` | GDOP undefined (rank-deficient /… | text |
+| `gdop.range_only.status` | “undefined” (text as the document… | text |
 | `gdop.range_rate.gdop` | 6.352566 | ratio (dimensionless) |
 
-Result label (the engine's): MODELLED planar cislunar constellation observability (P6). VALIDATED core: the observable RANK is a rank-revealing singular-value threshold cross-checked against the Gramian eigen-rank; the Gramian eigen-spectrum obeys the spectral invariants (trace = sum eig, det = prod eig, Frobenius^2 = sum eig^2
+Result label (the engine's): MODELLED planar cislunar constellation observability (P6). VALIDATED core: the observable RANK is a rank-revealing singular-value threshold cross-checked against the Gramian eigen-rank; the Gramian eigen-spectrum obeys the spectral invariants (trace = sum eig, det = prod eig, Frobenius^2 = sum…
 
 <img src="../../figures/kinds/cislunar-observability.svg" alt="The chart the engine writes for scenarios/cislunar-observability.toml, kind cislunar-observability" width="640">
 
@@ -54,21 +54,21 @@ Result label (the engine's): MODELLED planar cislunar constellation observabilit
 
 MODELLED: the [verification matrix](../../VERIFICATION-MATRIX.md) rows that name this kind.
 
-- **MODELLED** The cislunar arc-length observability threshold in the SPATIAL six-state CR3BP rather than the planar four-state, across DRO, L2 halo and L2 near-rectilinear halo families, with measurement noise entering the Gramian and TWO criteria report
+- **MODELLED** The cislunar arc-length observability threshold in the SPATIAL six-state CR3BP rather than the planar four-state, across DRO, L2 halo and L2 near-rectilinear halo families, with measurement noise entering the Gramian and TWO criteria…
 
 The rows the run itself exercised, with the oracle the matrix gives each (the public sources are named there):
 
 - **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): SBOM conformance to the official CycloneDX 1.5 JSON Schema (+ valid SPDX identifiers) — an external published standard, zero validation errors over the full dependency graph; the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
-- **MODELLED** The cislunar arc-length observability threshold in the SPATIAL six-state CR3BP rather than the planar four-state, across DRO, L2 halo and L2 near-rectilinear ha. Oracle (InternalConsistency): An independent row-echelon rank by Gaussian elimination with partial pivoting confirms every six-state rank verdict — a different algorithm sharing no code with the eigen/SVD route under test. The 6×6 CR3BP state-transition matrix this composes carries its own ReferenceImpl oracle against SciPy variational integration, and the halo/NRHO initial conditions come from a corrector that reproduces the published L2 souther
+- **MODELLED** The cislunar arc-length observability threshold in the SPATIAL six-state CR3BP rather than the planar four-state, across DRO, L2 halo and L2 near-rectilinear…. Oracle (InternalConsistency): An independent row-echelon rank by Gaussian elimination with partial pivoting confirms every six-state rank verdict — a different algorithm sharing no code with the eigen/SVD route under test. The 6×6 CR3BP state-transition matrix this composes carries its own ReferenceImpl oracle against SciPy variational integration, and the halo/NRHO initial conditions come from a corrector that reproduces the published L2…
 
 ## Limitations
 
 What the run's own report says is not modelled or not validated:
 
-- MODELLED planar cislunar constellation observability (P6). VALIDATED core: the observable RANK is a rank-revealing singular-value threshold cross-checked against the Gramian eigen-rank; the Gramian eigen-spectrum obeys the spectral invariants (trace = sum eig, det = prod eig, Frobenius^2 = sum eig^2); the variational STM is the finite-difference-validated CR3BP STM (crate::cr3bp); the range / range-rate Jacobian rows (result `label`)
+- MODELLED planar cislunar constellation observability (P6). VALIDATED core: the observable RANK is a rank-revealing singular-value threshold cross-checked against the Gramian eigen-rank; the Gramian eigen-spectrum obeys the spectral invariants (trace = sum eig, det = prod eig, Frobenius^2 = sum eig^2); the variational STM is the finite-difference-validated CR3BP STM (crate::cr3bp); the range / range-rate Jacobian… (result `label`)
 - MODELLED planar cislunar constellation observability (P6): tracks a four-spacecraft differential-corrected planar-DRO constellation with inter-satellite ranging and reports how much of a spacecraft's four-state [x,y,ẋ,ẏ] the arc makes observable. (kind catalogue (`kshana kinds --json`))
 - MODELLED: the constellation design (DRO perilune amplitudes and phases) and the specific rank progression it produces. (kind catalogue (`kshana kinds --json`))
-- Honesty: MODELLED. VALIDATED core -- the observable RANK is a rank-revealing singular-value threshold cross-checked against the Gramian eigen-rank; the eigen-spectrum obeys the spectral invariants (trace = sum eig, det = prod eig, Frobenius^2 = sum eig^2); the variational STM is the finite-difference-validated CR3BP STM; the range / range-rate Jacobian rows are finite-difference-validated analytic partials (cross-che (scenario file comment, lines 16 to 25)
+- Honesty: MODELLED. VALIDATED core -- the observable RANK is a rank-revealing singular-value threshold cross-checked against the Gramian eigen-rank; the eigen-spectrum obeys the spectral invariants (trace = sum eig, det = prod eig, Frobenius^2 = sum eig^2); the variational STM is the finite-difference-validated CR3BP STM; the range / range-rate Jacobian rows are finite-difference-validated analytic partials… (scenario file comment, lines 16 to 25)
 - Reproducibility & software assurance is MODELLED, not validated: a sub-claim is externally checked, but the whole capability composes modelled pieces, so the capability stays Modelled. (verification matrix (docs/MODELLED-RATIONALE.md))
 - Spatial, noisy, multi-family cislunar arc-length observability is MODELLED, not validated: checked against its own closed-form / analytic identity — catches transcription and coefficient errors, but is not an external oracle. (verification matrix (docs/MODELLED-RATIONALE.md))
 

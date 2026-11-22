@@ -10,12 +10,12 @@ Topic pages: [INTEGRITY](../INTEGRITY.md), [POSITIONING](../POSITIONING.md), [AR
 
 | Kind | What it does | Ledger |
 |---|---|---|
-| [`integrity`](by-kind/integrity.md) | Snapshot / solution-separation / ARAIM RAIM with HPL/VPL and a Stanford diagram. | MODELLED 6 · VALIDATED 4 |
+| [`integrity`](by-kind/integrity.md) | Snapshot / solution-separation / ARAIM RAIM with HPL/VPL and a Stanford diagram. | MODELLED 5 · VALIDATED 4 |
 | [`gnss-sim`](by-kind/gnss-sim.md) | Measurement-domain pseudorange simulation (Klobuchar iono, Saastamoinen/Niell tropo) + RAIM. | VALIDATED |
-| [`pvt`](by-kind/pvt.md) | Real-observation single-point positioning: solve a receiver's position from a RINEX 3 observation file and a broadcast-navigation file (code pseudoranges, broadcast ephemeris, Klobuchar iono, Saastamo | MODELLED |
-| [`araim-reference-check`](by-kind/araim-reference-check.md) | Published ARAIM certification reference vectors: the engine's ARAIM horizontal and vertical protection levels run against the WG-C ARAIM Technical Subgroup's OWN worked numerical examples, at the tole | VALIDATED |
-| [`space-weather`](by-kind/space-weather.md) | Space-weather environment model: solar (F10.7/F10.7a) and geomagnetic (Kp, with the definitional Kp↔ap table) activity indices, the Jacchia-1971 exospheric temperature they drive (validated vs publish | MODELLED |
-| [`realtime-frame-eop`](by-kind/realtime-frame-eop.md) | Real-time lunar frame / Earth-orientation prediction budget: P4 Table 1 (the frame-error consistency check — post-processed ~0.27 m ↔ ~0.010 ms and real-time ~15 m ↔ ~0.5 ms, each frame position expre | MODELLED 1 · VALIDATED 2 |
+| [`pvt`](by-kind/pvt.md) | Real-observation single-point positioning: solve a receiver's position from a RINEX 3 observation file and a broadcast-navigation file (code pseudoranges, broadcast ephemeris, Klobuchar iono… | MODELLED |
+| [`araim-reference-check`](by-kind/araim-reference-check.md) | Published ARAIM certification reference vectors: the engine's ARAIM horizontal and vertical protection levels run against the WG-C ARAIM Technical Subgroup's OWN worked numerical examples, at the… | VALIDATED |
+| [`space-weather`](by-kind/space-weather.md) | Space-weather environment model: solar (F10.7/F10.7a) and geomagnetic (Kp, with the definitional Kp↔ap table) activity indices, the Jacchia-1971 exospheric temperature they drive (validated vs… | MODELLED |
+| [`realtime-frame-eop`](by-kind/realtime-frame-eop.md) | Real-time lunar frame / Earth-orientation prediction budget: P4 Table 1 (the frame-error consistency check — post-processed ~0.27 m ↔ ~0.010 ms and real-time ~15 m ↔ ~0.5 ms, each frame position… | MODELLED 1 · VALIDATED 2 |
 
 ### `integrity`
 
@@ -23,7 +23,7 @@ Snapshot / solution-separation / ARAIM RAIM with HPL/VPL and a Stanford diagram.
 
 Required fields: `mask_deg`, `sigma_uere_m`, `p_fa`, `p_md`, `al_h_m`, `al_v_m`, `time`, `user|user_site`, `constellation`. Optional: `sigma_ura_m`, `b_nom_m`, `constellations`, `seed`, `araim_dual`, `p_hmi`, `skyline`.
 
-**Ledger:** MODELLED 6 · VALIDATED 4. Full page, with the inputs, results, evidence and limitations: [integrity](by-kind/integrity.md).
+**Ledger:** MODELLED 5 · VALIDATED 4. Full page, with the inputs, results, evidence and limitations: [integrity](by-kind/integrity.md).
 
 ```sh
 kshana scenarios/integrity-raim.toml
@@ -35,7 +35,7 @@ kshana scenarios/integrity-raim.toml
 
 Measurement-domain pseudorange simulation (Klobuchar iono, Saastamoinen/Niell tropo) + RAIM.
 
-Required fields: `seed`, `time`, `receiver`, `constellation`. Optional: `iono`, `tropo`, `mask_deg`, `noise_sigma_m`, `multipath_m`, `sat_clock_rms_m`, `uere_m`, `p_fa`, `p_md`, `alert_limit_h_m`, `alert_limit_v_m`, `skyline`.
+Required fields: `seed`, `time`, `receiver`, `constellation`. Optional: `iono`, `tropo`, `mask_deg`, `noise_sigma_m`, `multipath_m`, `sat_clock_rms_m`, `uere_m`, `p_fa`, `p_md`, `alert_limit_h_m`, `alert_limit_v_m`, `skyline`, `slot_sets`, `slots`.
 
 **Ledger:** VALIDATED. Full page, with the inputs, results, evidence and limitations: [gnss-sim](by-kind/gnss-sim.md).
 

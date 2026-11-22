@@ -10,8 +10,8 @@ Topic pages: [OPTICAL-ATMOSPHERE](../OPTICAL-ATMOSPHERE.md). Run one: `kshana sc
 
 | Kind | What it does | Ledger |
 |---|---|---|
-| [`optical-atmosphere`](by-kind/optical-atmosphere.md) | MODELLED optical PNT through the atmosphere: for an optical link and a set of ground sites with stated cloud climates it reports the wavelength- and elevation-dependent clear-air loss (Kim visibility  | MODELLED |
-| [`hybrid-optical-rf`](by-kind/hybrid-optical-rf.md) | MODELLED heterogeneous optical + RF PNT joint figure of merit: composes the 1550 nm two-way optical link budget (photon-limited two-way ranging CRLB σ_τ/√N and diffraction footprint λ/D·range), a | HETEROGENEOUS (result label) |
+| [`optical-atmosphere`](by-kind/optical-atmosphere.md) | MODELLED optical PNT through the atmosphere: for an optical link and a set of ground sites with stated cloud climates it reports the wavelength- and elevation-dependent clear-air loss (Kim… | MODELLED |
+| [`hybrid-optical-rf`](by-kind/hybrid-optical-rf.md) | MODELLED heterogeneous optical + RF PNT joint figure of merit: composes the 1550 nm two-way optical link budget (photon-limited two-way ranging CRLB σ_τ/√N and diffraction footprint λ/D·range), a… | HETEROGENEOUS (result label) |
 
 ### `optical-atmosphere`
 

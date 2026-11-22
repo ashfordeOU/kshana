@@ -48,7 +48,7 @@ The scalar results of that run, with the units the engine states:
 |---|---|---|
 | `correlation_sweep.min_ratio_over_grid` | 1.210978 | 1 |
 | `correlation_sweep.reference_intensity` | 1 | 1 |
-| `evidence.id_rule` | the stable id of the matrix row (the ID  | text |
+| `evidence.id_rule` | the stable id of the matrix row (the… | text |
 | `evidence.matrix` | docs/VERIFICATION-MATRIX.md | text |
 | `evidence.tier` | MODELLED | text |
 | `per_vector_survival.reference_intensity` | 1 | 1 |
@@ -57,7 +57,7 @@ The scalar results of that run, with the units the engine states:
 | `prior_sensitivity.nominal_ratio` | 6.731912 | 1 |
 | `prior_sensitivity.reference_intensity` | 1 | 1 |
 
-Result label (the engine's): MODELLED layered-PNT conflict resilience. VALIDATED core: the Monte-Carlo total-loss probability converges to the closed-form independent product Pi_i p_deny_i (asserted within Monte-Carlo standard error at a fixed seed and large N); the inverse-variance position fuse sigma_fused = (sum_i 1/sig
+Result label (the engine's): MODELLED layered-PNT conflict resilience. VALIDATED core: the Monte-Carlo total-loss probability converges to the closed-form independent product Pi_i p_deny_i (asserted within Monte-Carlo standard error at a fixed seed and large N); the inverse-variance position fuse sigma_fused = (sum_i…
 
 <img src="../../figures/kinds/conflict-resilience.svg" alt="The chart the engine writes for scenarios/conflict-resilience.toml, kind conflict-resilience" width="640">
 
@@ -68,17 +68,17 @@ No matrix row names this kind by name; the label on its result is the engine's o
 The rows the run itself exercised, with the oracle the matrix gives each (the public sources are named there):
 
 - **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): SBOM conformance to the official CycloneDX 1.5 JSON Schema (+ valid SPDX identifiers) — an external published standard, zero validation errors over the full dependency graph; the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
-- **MODELLED** Per-dimension sub-scores over Kshana's own seven resilience categories (not DHS terms), RethinkPNT RDRR functions and Yang criteria, each tagged Modelled with i. Oracle (InternalConsistency): Hand-derived per-metric formulas: inverse-Simpson diversity, weighted-mean composite, bounded/unbounded timeline durations, weakest-link Level ladder
+- **MODELLED** Per-dimension sub-scores over Kshana's own seven resilience categories (not DHS terms), RethinkPNT RDRR functions and Yang criteria, each tagged Modelled with…. Oracle (InternalConsistency): Hand-derived per-metric formulas: inverse-Simpson diversity, weighted-mean composite, bounded/unbounded timeline durations, weakest-link Level ladder
 
 ## Limitations
 
 What the run's own report says is not modelled or not validated:
 
-- MODELLED layered-PNT conflict resilience. VALIDATED core: the Monte-Carlo total-loss probability converges to the closed-form independent product Pi_i p_deny_i (asserted within Monte-Carlo standard error at a fixed seed and large N); the inverse-variance position fuse sigma_fused = (sum_i 1/sigma_i^2)^(-1/2) is a closed-form identity; at correlation rho=0 the Gaussian copula reduces exactly to the independent mo (result `label`)
+- MODELLED layered-PNT conflict resilience. VALIDATED core: the Monte-Carlo total-loss probability converges to the closed-form independent product Pi_i p_deny_i (asserted within Monte-Carlo standard error at a fixed seed and large N); the inverse-variance position fuse sigma_fused = (sum_i 1/sigma_i^2)^(-1/2) is a closed-form identity; at correlation rho=0 the Gaussian copula reduces exactly to the independent model… (result `label`)
 - MODELLED layered-PNT conflict resilience: a contested-environment user fields several PNT layers (open-service GNSS, wideband GNSS, an authenticated constellation, an augmentation relay), each with a base availability, a 1σ accuracy and a per-vector denial vulnerability to the shared jamming/spoofing threat. (kind catalogue (`kshana kinds --json`))
 - The headline resilience ratio (single-layer vs layered total-loss probability) lands at ~7x under the INDEPENDENCE assumption; a one-factor Gaussian-copula correlated-denial sweep then shows that ~7x collapse toward 1 as denial correlation rises (correlation defeats layering). (kind catalogue (`kshana kinds --json`))
 - MODELLED: the per-layer vulnerability/availability/accuracy magnitudes are sourced-but-Modelled inputs (JammerTest 2024, TEXBAT, EASA SIB, RTCA DO-229, LunaNet/IOAG — see conflict_threat_params), and the specific ~7x magnitude and the ratio-vs-correlation curve shape follow from that parameterisation. (kind catalogue (`kshana kinds --json`))
-- A contested-environment user fields four RF PNT layers that all ride the same band and therefore share the jamming/spoofing denial vector — the fragile, correlated case. The scenario reports: * total-loss probability vs threat intensity (Monte-Carlo vs the closed-form independent product it converges to), * the ~7x layered-vs-single-layer resilience ratio under the independence assumption, * how that ~7x collapses to (scenario file comment, lines 3 to 15)
+- A contested-environment user fields four RF PNT layers that all ride the same band and therefore share the jamming/spoofing denial vector — the fragile, correlated case. The scenario reports: * total-loss probability vs threat intensity (Monte-Carlo vs the closed-form independent product it converges to), * the ~7x layered-vs-single-layer resilience ratio under the independence assumption, * how that ~7x collapses… (scenario file comment, lines 3 to 15)
 - Every per-layer magnitude is a MODELLED input with provenance; see src/conflict_threat_params.rs for the sourced [min, nominal, max] priors and the per-vector susceptibility profiles (JammerTest 2024, TEXBAT, EASA SIB 2022-02, RTCA DO-229, LunaNet/IOAG). Leaving `layers` out runs the same sourced four-layer baseline; it is written out here — including each layer's vector_profile — for transparency. (scenario file comment, lines 17 to 22)
 - Reproducibility & software assurance is MODELLED, not validated: a sub-claim is externally checked, but the whole capability composes modelled pieces, so the capability stays Modelled. (verification matrix (docs/MODELLED-RATIONALE.md))
 - PNT-resilience framework-aligned scoring is MODELLED, not validated: checked against its own closed-form / analytic identity — catches transcription and coefficient errors, but is not an external oracle. (verification matrix (docs/MODELLED-RATIONALE.md))
