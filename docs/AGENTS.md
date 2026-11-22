@@ -7,7 +7,7 @@ not available on a given surface: [`SURFACES.md`](SURFACES.md).
 ## Connect
 
 ```sh
-npx -y kshana-mcp@0.37.0            # or: uvx kshana-mcp==0.37.0, brew, scoop, winget, cargo, docker
+npx -y kshana-mcp@0.41.0            # or: uvx kshana-mcp==0.41.0, brew, scoop, winget, cargo, docker
 ```
 
 Every channel, with one-click Cursor and VS Code links and snippets for Claude Desktop, Cursor,
@@ -40,17 +40,18 @@ engine version, so the run can be repeated. Keep each result's own caveats with 
 | Which Galileo satellites' navigation data does this receiver stream authenticate (OSNMA)? | **none: not on MCP.** Use `kshana osnma verify` (CLI), `kshana.osnma_verify` (Python) or `osnma_verify` (WASM, the Studio OSNMA card) | not a slash command |
 | I need a scenario's vehicle motion and event times to replay through a laboratory GNSS simulator | `export_test_bench` | `/kshana-bench-export` |
 | Which public-framework requirement rows do these runs support evidence for, and what is the gap? | `compliance_report` (from result text), `compliance_mapping` (the tables, no runs) | `/kshana-compliance-report` |
-| Run a scored standards pack (DHS RPCF test profiles, IMO MSC.1/Circ.1575, ICAO Doc 9849 Appendix F) against bars stated before the run? | `list_standards_packs`, `run_standards_pack` (give the report to `compliance_report` for the rows) |
-| Check the LunaNet Augmented Forward Signal (codes, SB1, frame format) against LNIS V5 / LSIS-AFS V1.0, or check a symbol stream? | `lunanet_afs_check` (`mode` spec, symbols or generate); LDPC and CRC-24Q of subframes 2 to 4 are not verified |
-| Link a laboratory run (scenario, stated test conditions, receiver log, score) in one signed pack? | `create_round_trip_pack` after `export_test_bench` (`docs/spec/TEST-CONDITIONS.md`) |
+| Run a scored standards pack (DHS RPCF test profiles, IMO MSC.1/Circ.1575, ICAO Doc 9849 Appendix F) against bars stated before the run? | `list_standards_packs`, `run_standards_pack` (give the report to `compliance_report` for the rows) | `/kshana-standards-pack` |
+| Check the LunaNet Augmented Forward Signal (codes, SB1, frame format) against LNIS V5 / LSIS-AFS V1.0, or check a symbol stream? | `lunanet_afs_check` (`mode` spec, symbols or generate); LDPC and CRC-24Q of subframes 2 to 4 are not verified | `/kshana-lunanet-afs-check` |
+| Link a laboratory run (scenario, stated test conditions, receiver log, score) in one signed pack? | `create_round_trip_pack` after `export_test_bench` (`docs/spec/TEST-CONDITIONS.md`) | — |
+| Fit the noise parameters of the `hybrid` and `fusion` scenarios from a stationary IMU log | `fit_imu_log` | `/kshana-fit-imu` |
 | Score a detection or holdover submission against a kshana-bench truth file, or render result files as the leaderboard page? | `score_benchmark`, `render_leaderboard` | — |
 | I need a scenario to fly a GeoJSON route (terrain-nav, terrain-slam, gravity-map, combined-altpnt) | `import_route` | `/kshana-import-route` |
 | Which satellites does a user in a street, a harbour, a fjord or a container terminal see, and what are the DOP and the error ellipse? | `sky_geometry` (a request, or a `skyline_preset`); a scenario's `[skyline]` section through `run_scenario` (`orbit` and `integrity` need `user_site`) | `/kshana-run` |
 | Where has GNSS looked degraded, and how much of this route is in it? | `build_interference_map`, then `route_exposure` | `/kshana-interference-map` |
 | GNSS IQ recordings (scene, acquire, track, front-end, campaigns) | `iq_signals` first, then the `iq_*` tools | `/kshana-iq` |
 
-The skills `vessel-receiver-trust`, `training-nmea-scenario`, `trust-telemetry`, `compliance-mapping`, `test-bench-export`, `gnss-iq` and `interference-map-route-exposure`
-carry the rules below for agents that load skills.
+The skills `vessel-receiver-trust`, `training-nmea-scenario`, `trust-telemetry`, `compliance-mapping`, `test-bench-export`, `gnss-iq`, `interference-map-route-exposure`,
+`jammertest`, `evidence-pack` and `marine-integrations` carry the rules below for agents that load skills.
 
 ## What each tool will not do
 
