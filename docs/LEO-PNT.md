@@ -43,10 +43,10 @@ name it). This page gives none of its numbers.
 | `leo-signal` | a signal design's band-limited power spectral density (PSD), power in band, root-mean-square (Gabor) bandwidth, code-tracking jitter against carrier-to-noise density (C/N0), acquisition search, and spectral separation coefficients (SSC) against GNSS signals; a band trade (ultra high frequency (UHF), L, S, C) | closed forms VALIDATED, designs and trade MODELLED |
 | `spectrum` (multi-band panels) | per-band waterfalls with per-band jammers (continuous wave (CW), chirp, narrowband, wideband, matched), each signal's J/S and effective C/N0 over a timeline | spectra VALIDATED, jammers MODELLED |
 | `leo-pass` | pass geometry, Doppler and Doppler rate, free-space loss, satellite and user antennas, ITU-R (International Telecommunication Union, Radiocommunication Sector) gaseous, rain, scintillation and building entry loss, C/N0 per band and epoch beside the MEO GNSS carriers; ionosphere per band and the ionosphere-free pairs; low-energy fixes; ionosphere sounding; spoofing monitors | components VALIDATED, pass MODELLED |
-| `leo-navmsg` | the broadcast ephemeris and clock message: fitter, signal-in-space range error (SISRE) against fit interval and update period, mid-pass update continuity, user algorithm, binary frame with a 24-bit cyclic redundancy check (CRC-24Q), exports in the style of RINEX 4 (Receiver Independent Exchange Format) and as comma-separated values (CSV) | user algorithm, weights and CRC VALIDATED, fits MODELLED |
-| `leo-pvt` | Doppler positioning, joint GNSS + LEO pseudorange fixes with inter-system biases, polar and Arctic geometry, time transfer to Coordinated Universal Time (UTC), with an optional per-epoch time-error trace | maximum Doppler VALIDATED, rest MODELLED |
+| `leo-navmsg` | the broadcast ephemeris and clock message: fitter, signal-in-space range error (SISRE) against fit interval and update period, mid-pass update continuity, user algorithm, binary frame with a 24-bit cyclic redundancy check (CRC-24Q), exports in the style of RINEX 4 (Receiver Independent Exchange Format) and as comma-separated values (CSV) | user algorithm, weights, CRC, ionosphere and UTC services, and the Keplerian fits on real precise orbits VALIDATED; correction polynomials, clock fit and formats MODELLED |
+| `leo-pvt` | Doppler positioning, joint GNSS + LEO pseudorange fixes with inter-system biases, polar and Arctic geometry, time transfer to Coordinated Universal Time (UTC), with an optional per-epoch time-error trace | maximum Doppler and polar geometry VALIDATED, rest MODELLED |
 | `leo-ppp` | precise point positioning (PPP) convergence with GNSS only and with LEO layers | MODELLED |
-| `ntn-positioning` | 5G NTN positioning accuracy from the downlink bandwidth (Cramér-Rao bound) | MODELLED |
+| `ntn-positioning` | 5G NTN positioning accuracy from the downlink bandwidth (Cramér-Rao bound) | bounds and fix covariances VALIDATED |
 | `leo-pnt-chain` | one system end to end: signal design, pass, message, fused fix and PPP, every hand-off listed | MODELLED |
 | `campaign` | any of the above chained on one timeline, swept, run as a Monte Carlo ensemble or composed under shared conditions | MODELLED |
 
@@ -115,7 +115,7 @@ export is a documented Kshana extension (prior art: [arXiv 2401.17767](https://a
 | `leo-resilience-js-margin` | `spectrum` | a 40 MHz barrage at 1185 MHz stepping up 5 dB every 10 s from −125 dBW: GPS L5 lost at −105 dBW, Galileo E5a at −100 dBW, Xona X5 (at its published minimum, −144.9 dBW) at −95 dBW; a generic LEO signal at −135 dBW still tracks at −90 dBW (28.9 dB-Hz). Received power buys J/S margin dB for dB |
 | `leo-resilience-spoof-doppler` | `leo-pass` `[spoofer]` | a 30 m position jump at a surveyed site: the GNSS-only Doppler test never detects it; the test on every channel does, 105 s after the onset (see [LEO-PASS.md](LEO-PASS.md#spoofing-monitors-spoofer)) |
 | `leo-resilience-spoof-monitors` | `campaign` compose of `leo-pass` | four spoofers, both monitors: an L-band-only spoofer and an all-band spoofer without ionosphere are caught by the cross-band monitor at the onset (300 s) and by the Doppler monitor at 420 s and 395 s; an ionosphere-aware all-band spoofer only by the Doppler monitor (395 s); a GNSS-only 30 m push by neither |
-| `leo-resilience-gnss-jammed-leo-carries` | `campaign` chain (`spectrum`, `integrity`) | GNSS jammed for 15 minutes (GPS L1 coarse/acquisition (C/A) code to about 10 dB-Hz, E5a to 17.4 dB-Hz against a 25 dB-Hz floor) while the S- and C-band LEO signals hold 49.2 and 47.4 dB-Hz; receiver autonomous integrity monitoring (RAIM) on the LEO layer alone forms a protection level at every epoch, under the 50 m vertical alert limit at 28 of 30 grid times, with the alarm raised at the other two; nominal and recovery phases 5.4 to 15.6 m |
+| `leo-resilience-gnss-jammed-leo-carries` | `campaign` chain (`spectrum`, `integrity`) | GNSS jammed for 15 minutes (GPS L1 coarse/acquisition (C/A) code to about 10 dB-Hz, E5a to 17.2 dB-Hz against a 25 dB-Hz floor) while the S- and C-band LEO signals hold 49.2 and 47.4 dB-Hz; receiver autonomous integrity monitoring (RAIM) on the LEO layer alone forms a protection level at every epoch, under the 50 m vertical alert limit at 28 of 30 grid times, with the alarm raised at the other two; nominal and recovery phases 5.4 to 15.6 m |
 
 The spoofing monitors, their statistics and their limits are on
 [LEO-PASS.md](LEO-PASS.md#spoofing-monitors-spoofer). The multi-band waterfall with a
@@ -146,7 +146,7 @@ Each vertical is a `campaign` chain on one timeline, so it animates, and each ha
 | Vertical | Scenario | Result of one run |
 |---|---|---|
 | Autonomous vehicles | `leo-vertical-autonomous-vehicle` | a car in Munich: open road, fused error 0.30 m mean; in a 35 deg urban canyon GPS and Galileo keep 8 satellites and a 5.8 m mean error, the generic LEO layer adds 4 to 5 and brings it to 2.1 m, still above the 1.5 m lane-level threshold at about half the canyon epochs |
-| Railway and maritime | `leo-vertical-rail-maritime` | the bundled `maritime-strait-jamming` ship loses every GNSS satellite (12.1 dB-Hz) while its S- and C-band LEO pass reaches 44.2 and 38.1 dB-Hz; the bundled `rail-tunnel-coast` train reaches 2 m of inertial error 35.8 s into the tunnel; in the open its LEO pass gives 35 to 50 dB-Hz in L |
+| Railway and maritime | `leo-vertical-rail-maritime` | the bundled `maritime-strait-jamming` ship loses every GNSS satellite (mean C/N0 15.1 to 15.3 dB-Hz against the 25 dB-Hz floor) while its S- and C-band LEO pass reaches 44.2 and 38.1 dB-Hz; the bundled `rail-tunnel-coast` train reaches 2 m of inertial error 35.8 s into the tunnel; in the open its LEO pass gives 35 to 50 dB-Hz in L |
 | Critical infrastructure | `leo-vertical-critical-infrastructure-timing` | a substation time server's TCXO-class oscillator (temperature-compensated crystal) free-running through a day without GNSS reaches 29 µs, past the 1 µs guard between 75 and 80 minutes after the loss (on the 5-minute grid); the same class disciplined to Iridium stays within −40 to +11 ns |
 | Polar and Arctic users | `leo-vertical-polar-arctic` | GPS + Galileo mean position dilution of precision (PDOP) 1.38, 1.57 and 1.62 at Tromsø, Svalbard and the North Pole; with Iridium 1.29, 1.34 and 1.26, from 3.0, 5.5 and 6.8 Iridium satellites in view |
 | Wireless networks 5G/6G | `leo-vertical-5g-network-timing` | a base station's oven-controlled crystal oscillator (OCXO) in holdover crosses the 1.1 µs network limit after 8863 s and the 1.5 µs end-application limit after 10006 s (the `telecom-timing` kind's analysis); disciplined to Xona X5 its time error stays between −0.7 and +0.3 ns all day, with a predicted 1-sigma of 5 ns, the broadcast UTC offset's stated uncertainty |
@@ -162,14 +162,18 @@ VALIDATED LEO-PNT rows:
 
 - closed-form band-limited signal power and early-late code-tracking jitter at published operating points (Betz and Kolodziejski 2009), with the Gabor bandwidth and SSC cross-checked;
 - the maximum Doppler of a LEO navigation satellite (Xona Pulsar X1 32–34 kHz, Iridium ±36 kHz), and the static-user Doppler envelope against arXiv 2509.19551 Table 1;
+- satellites in view and DOP against latitude (the `leo-pvt` polar mode) against Orekit;
+- the 5G NTN time-of-arrival and frequency Cramér-Rao bounds against published worked values, and the fix covariances against NumPy;
 - ITU-R P.838-3 rain coefficients, P.618-14 rain attenuation and tropospheric scintillation, and P.2109-2 building entry loss against the ITU-R Study Group 3 validation data;
 - the first-order ionospheric delay scaling and free-space loss (IS-GPS-200 group-delay ratio, the Friis form);
-- the global-average SISRE weights (Montenbruck et al. 2018), the Galileo ICD user algorithm against RTKLIB on real broadcast ephemerides, and CRC-24Q against its catalogue check value.
+- the global-average SISRE weights (Montenbruck et al. 2018), the Galileo ICD user algorithm against RTKLIB on real broadcast ephemerides, and CRC-24Q against its catalogue check value;
+- the 16-parameter Keplerian fit and its orbit-only SISRE on real precise orbits, and the Liu et al. 2025 22-parameter model fit, both against the statistics Liu et al. 2025 publish, with the integrated truth orbit against Orekit;
+- the message's Klobuchar, NeQuick-G and system-time-to-UTC services against GNSSTk and ERFA.
 
 MODELLED LEO-PNT rows: every signal design and band trade, the multi-band waterfall, every
-pass and link budget as a whole, the presets, low-energy fixes, the message fitter and
-formats, Doppler and joint positioning, PPP convergence, NTN positioning, time transfer,
-polar coverage, the end-to-end chain, the spoofing monitors and ionosphere sounding, and
+pass and link budget as a whole, the presets, low-energy fixes, the message's correction
+polynomials, clock fit, update-period trade and formats, Doppler and joint positioning, PPP
+convergence, time transfer, the end-to-end chain, the spoofing monitors and ionosphere sounding, and
 every campaign (a campaign composes kinds and adds no physics; its composition identities
 are tested, [CAMPAIGNS.md](CAMPAIGNS.md)). No LEO C/N0, ranging error or positioning figure
 is compared with a measurement of any satellite.

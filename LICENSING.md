@@ -49,7 +49,7 @@ A commercial licence removes the copyleft obligations for your use, on agreed te
 ## Why dual-license this way
 
 The goal is to be **publicly verifiable** (so any reviewer can run and audit the
-engine) **without** letting a well-resourced competitor fork the validated engine,
+engine) **without** letting a well-resourced competitor fork the engine,
 close it, and ship a proprietary competitor that gives nothing back. AGPL's network
 copyleft achieves that: a closed or hosted derivative must come back to open source —
 or take a commercial licence from us. Public credibility and a defended core, at the
