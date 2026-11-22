@@ -34,7 +34,7 @@ pub struct Built {
 }
 
 impl Built {
-    fn keys(pages: Vec<InavPage>, keys: Vec<PublicKey>) -> Self {
+    pub(super) fn keys(pages: Vec<InavPage>, keys: Vec<PublicKey>) -> Self {
         Self {
             pages,
             merkle_root: None,
@@ -61,23 +61,27 @@ pub struct VectorDef {
     pub bars: fn() -> Value,
 }
 
-const PK1: u8 = 1;
-const PK2: u8 = 2;
+pub(super) const PK1: u8 = 1;
+pub(super) const PK2: u8 = 2;
 
-fn sk1() -> Signer {
+pub(super) fn sk1() -> Signer {
     Signer::p256(0x11)
 }
 
-fn sk2() -> Signer {
+pub(super) fn sk2() -> Signer {
     Signer::p256(0x22)
 }
 
-fn none() -> impl FnMut(u32, u32, u8, &mut Vec<InavPage>) {
+pub(super) fn none() -> impl FnMut(u32, u32, u8, &mut Vec<InavPage>) {
     |_, _, _, _| {}
 }
 
 /// Frames of one chain whose DSM-KROOT (DSM id 0) is broadcast round the clock.
-fn kroot_frames(ctx: Ctx, chain: Vec<Vec<u8>>, dsm: Vec<u8>) -> impl FnMut(u32, u32) -> Frame {
+pub(super) fn kroot_frames(
+    ctx: Ctx,
+    chain: Vec<Vec<u8>>,
+    dsm: Vec<u8>,
+) -> impl FnMut(u32, u32) -> Frame {
     move |n, gst| Frame {
         hk: dsm_hk(ctx.header(1), 0, &dsm, n as usize % (dsm.len() / 13)),
         mack: ctx.mack(&chain, gst),
@@ -85,7 +89,7 @@ fn kroot_frames(ctx: Ctx, chain: Vec<Vec<u8>>, dsm: Vec<u8>) -> impl FnMut(u32, 
 }
 
 /// The standard chain signed with key 1, `nsf` sub-frames from `GST0`, with `tamper`.
-fn std_stream(nsf: u32, tamper: Tamper) -> Built {
+pub(super) fn std_stream(nsf: u32, tamper: Tamper) -> Built {
     let ctx = Ctx::std();
     let chain = ctx.chain(nsf + 20);
     let dsm = dsm_kroot(&ctx, &chain[0], &sk1(), ctx.header(1), PK1);
@@ -94,7 +98,7 @@ fn std_stream(nsf: u32, tamper: Tamper) -> Built {
 }
 
 /// The standard chain with a different context (algorithms, dummy tags).
-fn ctx_stream(ctx: Ctx, signer: Signer, nsf: u32) -> Built {
+pub(super) fn ctx_stream(ctx: Ctx, signer: Signer, nsf: u32) -> Built {
     let chain = ctx.chain(nsf + 20);
     let dsm = dsm_kroot(&ctx, &chain[0], &signer, ctx.header(1), PK1);
     let pages = stream(
@@ -162,7 +166,7 @@ fn b_flipped_key_bit() -> Built {
 }
 
 /// The HKROOT the standard stream sends in sub-frame `n` (KROOT block `n % 8`).
-fn std_hk(n: u32) -> [u8; 15] {
+pub(super) fn std_hk(n: u32) -> [u8; 15] {
     let ctx = Ctx::std();
     let chain = ctx.chain(40);
     let dsm = dsm_kroot(&ctx, &chain[0], &sk1(), ctx.header(1), PK1);
