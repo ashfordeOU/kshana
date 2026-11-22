@@ -133,7 +133,7 @@ Language), KML (Keyhole Markup Language, for Google Earth), GeoJSON, STK ephemer
 files (`.e`, one per satellite plus the user), and SigMF (Signal Metadata Format)
 recordings from the `spectrum` kind. `--export list` says which apply to a scenario.
 For the Moon, the `lunar-interop-export` kind emits the lunar frame, time scale and
-ephemeris as a CCSDS OEM with a conformance check. See [INTEROP.md](../INTEROP.md).
+ephemeris as a CCSDS OEM with round-trip and field-name checks. See [INTEROP.md](../INTEROP.md).
 
 ## Why this is the glue, not a competitor
 
