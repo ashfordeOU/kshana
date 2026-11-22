@@ -695,8 +695,8 @@ workspace-excluded `rmcp` crate exposing fifteen tools — `run_scenario`,
 `export_interop`, `import_route`, `export_sp3`, `export_omm`, `export_oem`,
 `export_table_csv`, `assess_receiver_log`; the two example tools read the bundled scenarios through the library's
 off-by-default `bundled-scenarios` feature, which only this server turns on)
-and the **JetBrains IDE (integrated development environment) plugin** (`ide/jetbrains`, a Kotlin project that shells out to
-the `kshana` CLI rather than linking the library).
+and the **JetBrains IDE (integrated development environment) plugin** (a product distributed from kshana.dev and the
+JetBrains Marketplace, not built from this repository), which shells out to the `kshana` CLI rather than linking the library.
 
 ```mermaid
 flowchart LR
@@ -704,7 +704,7 @@ flowchart LR
     py["Python · python.rs (PyO3 abi3)<br/>RunOutput class + run · run_full · run_typed · scenario_kinds · list_kinds · validate_toml · error_kind · version"] --> api
     wasm["WebAssembly · wasm.rs (wasm-bindgen)<br/>run · run_all · chart_svg · summary · table_csv · list_kinds · error_kind · version · encode/decode_permalink<br/>export_sp3 · export_omm · export_oem"] --> api
     mcp["MCP server · mcp/kshana-mcp (rmcp)<br/>tools: run_scenario · list_scenario_kinds · validate_scenario<br/>list_example_scenarios · get_example_scenario<br/>report_scenario · animate_scenario<br/>list_export_formats · export_interop · import_route<br/>export_sp3 · export_omm · export_oem · export_table_csv"] --> api
-    ide["JetBrains plugin · ide/jetbrains (Kotlin)"] -- spawns process --> cli
+    ide["JetBrains plugin (Kotlin, distributed separately)"] -- spawns process --> cli
     api["api::run_toml / run_scenario / list_scenario_kinds"] --> out["identical { json, svg, summary } on every surface"]
 ```
 

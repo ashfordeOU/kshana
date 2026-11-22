@@ -4,7 +4,7 @@
 //! ## Why this exists
 //!
 //! `docs/diagrams/distribution.mmd` draws what this repository ships and where: the core
-//! crate, the MCP server, the IDE plugin, the cross-validation crates, and the registries
+//! crate, the MCP server, the cross-validation crates, and the registries
 //! each is published to. Every other diagram in `docs/diagrams` has a doc-sync guard.
 //! These two — `distribution` and `engine-flow` — had none from June until now, and in
 //! that window `engine-flow` came to state "the 6 figures of merit" while the engine
@@ -79,7 +79,7 @@ fn the_distribution_diagram_names_exactly_the_xval_crates_that_exist() {
 fn the_distribution_diagram_labels_real_paths() {
     let src = diagram();
     let mut wrong = Vec::new();
-    for rel in ["mcp/kshana-mcp", "ide/jetbrains", "xval"] {
+    for rel in ["mcp/kshana-mcp", "xval"] {
         if !src.contains(rel) {
             wrong.push(format!("  the diagram no longer mentions {rel}"));
         } else if !root().join(rel).exists() {
@@ -116,12 +116,11 @@ fn everything_drawn_as_excluded_is_excluded_from_the_published_crate() {
         .collect();
 
     let mut wrong = Vec::new();
-    for (label, path) in [("xval", "/xval"), ("mcp", "/mcp"), ("ide", "/ide")] {
+    for (label, path) in [("xval", "/xval"), ("mcp", "/mcp")] {
         let drawn_excluded = src.contains(&format!("{label} cross-checks (excluded)"))
             || src
                 .lines()
-                .any(|l| l.contains(path.trim_start_matches('/')) && l.contains("excluded"))
-            || label == "ide";
+                .any(|l| l.contains(path.trim_start_matches('/')) && l.contains("excluded"));
         if drawn_excluded && !exclude.contains(path) {
             wrong.push(format!(
                 "  {label} is presented as not part of the published crate, but \
@@ -164,7 +163,6 @@ fn every_distribution_channel_drawn_has_a_workflow_behind_it() {
         ("PyPI", &["pypi", "PYPI_API_TOKEN"]),
         ("npm", &["npm publish", "NPM_TOKEN"]),
         ("ghcr.io", &["ghcr.io"]),
-        ("JetBrains Marketplace", &["jetbrains"]),
         ("kshana.dev", &["pages"]),
     ];
     let mut unbacked = Vec::new();

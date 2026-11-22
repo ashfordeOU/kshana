@@ -13,10 +13,6 @@ web/assets
 **/*.egg-info
 .venv
 node_modules
-ide/jetbrains/.gradle
-ide/jetbrains/.intellijPlatform
-ide/jetbrains/.kotlin
-ide/jetbrains/build
 *.result.json
 *.report.html
 *.chart.svg

@@ -17,7 +17,7 @@ the new version.
    and start a fresh `[Unreleased]` section.
 2. Bump `version` in `Cargo.toml`, and every surface `scripts/check-version-sync.sh`
    lists (the Model Context Protocol (MCP) server crate and its `kshana` dependency, the
-   JetBrains plugin and its newest change-notes entry, the README status line and release
+   README status line and release
    badge, the three registry front pages, the Claude Code plugin manifests (`.claude-plugin/`), the Signal K and OpenCPN plugin versions (`integrations/`), the reference-build image's version label, any built Studio wasm package, and the kshana.dev site under `web/`: its
    front page, the Studio's install panel and the port manifest). The site's version is
    written by the site build, so rebuild the site from the bumped checkout and rerun
@@ -53,7 +53,7 @@ All of it runs inside one run of the Release workflow (`.github/workflows/releas
 | --- | --- | --- | --- |
 | verify | `release.yml` job `verify` | Formatting, lint (clippy), the full `cargo test --all` suite (golden pins and verification-matrix guards included), the reproducibility guard and the script guards, on the tagged commit. The first three are skipped when the CI workflow already finished green on exactly that commit and `main` is an ancestor of it (for example the release pull request's run, merged fast-forward), so a release runs the full suite once | Nothing is published. Fix, re-tag. |
 | release | `release.yml` jobs `binaries`, `release`, `verify-release*` | Builds the command-line binary for Linux x86-64, macOS (Apple silicon and Intel) and Windows x86-64, the MCP server binary, the software bill of materials (SBOM) and the validation summary, and (`release-artefacts.yml`) the OpenCPN plugin package for Linux x86-64 with its GPL source tarball, the Signal K plugin tarball, the Grafana dashboard and the channels SBOM; writes `SHA256SUMS`; attests every file with SLSA (Supply-chain Levels for Software Artifacts) build provenance; attaches them to the GitHub Release; then downloads them again and checks each one, running the macOS and Windows binaries on their own systems | The GitHub Release is incomplete; the registries are unaffected |
-| publish | `publish.yml`, then `mcp-publish.yml` and `jetbrains-plugin.yml`, all called from `release.yml` | Builds every artifact first (the six Python wheels and the source distribution through `wheels.yml`, the npm package), then publishes crates.io, then the Python Package Index (PyPI), npm and `kshana-mcp` on crates.io, then the container images on ghcr.io (the GitHub Container Registry: `kshana-mcp` and `kshana-reference-build`) and the MCP registry, the JetBrains Marketplace and, only when switched on, the Signal K plugin on npm (`signalk-publish.yml`) | See "Retrying" below |
+| publish | `publish.yml`, then `mcp-publish.yml`, all called from `release.yml` | Builds every artifact first (the six Python wheels and the source distribution through `wheels.yml`, the npm package), then publishes crates.io, then the Python Package Index (PyPI), npm and `kshana-mcp` on crates.io, then the container images on ghcr.io (the GitHub Container Registry: `kshana-mcp` and `kshana-reference-build`) and the MCP registry and, only when switched on, the Signal K plugin on npm (`signalk-publish.yml`) | See "Retrying" below |
 | parity | `release.yml` job `parity` | Polls crates.io (`kshana`, `kshana-mcp`), npm, PyPI (the source distribution and one wheel for each of the six platforms) and ghcr.io (both images) until each serves the version, and the Signal K npm package when it is switched on, for up to 45 minutes. docs.rs and the MCP registry are reported but never fatal | The run is red and names the channel that is missing |
 | site | `release.yml` job `site` | Dispatches `pages.yml`, which rebuilds kshana.dev from the tag | The site still shows the previous release |
 
@@ -130,21 +130,11 @@ of the newest tag; a fix to an older release is a new, newer release.
 The MCP registry step waits (up to 15 minutes) until npm and PyPI both serve the new
 `kshana-mcp` version, because the registry rejects an entry whose packages it cannot yet see.
 
-## Kshana Desktop for macOS (signed and notarised)
+## Kshana Desktop and the JetBrains plugin
 
-After the release is published, run **Desktop release (macOS)** from the Actions tab with the tag
-(for example `v0.41.0`). It builds `apps/desktop` from that tag as one universal app, signs it with
-the Developer ID Application identity and the hardened runtime, notarises and staples the app and
-the disk image, checks both with `codesign`, `spctl` and `stapler`, and attaches
-`Kshana-Desktop-X.Y.Z-macos-universal.dmg` and its SHA-256 to the release. It uses the seven
-secrets the monthly **Apple signing check** verifies. Nothing is attached when a check fails.
-
-## Kshana Desktop for Windows (unsigned for now)
-
-Windows builds ship unsigned (owner decision K5). The Desktop workflow carries an Azure Trusted Signing
-step that stays off until the owner sets the repository variable `WINDOWS_SIGNING` to `azure` and adds
-the six signing secrets; until then the Windows leg says the build is unsigned. Activation steps:
-[WINDOWS-SIGNING.md](WINDOWS-SIGNING.md).
+Kshana Desktop and the JetBrains plugin are products distributed from kshana.dev and their
+stores (the app stores and the JetBrains Marketplace). They are not built, signed or published
+from this repository, and a release of the engine does not wait for them.
 
 ## Retrying
 
@@ -154,8 +144,8 @@ so a retry never double-publishes.
 - **A publish job failed** (a network error, an expired token): open the Release run and
   use **Re-run failed jobs**. The verification already passed in that run, so only the
   failed jobs run again.
-- **The Release run is gone or unusable:** dispatch `publish` (or `publish MCP server`,
-  or `JetBrains plugin`) from the Actions tab **on the tag**, not on a branch. Before it
+- **The Release run is gone or unusable:** dispatch `publish` (or `publish MCP server`)
+  from the Actions tab **on the tag**, not on a branch. Before it
   publishes, `scripts/check-release-verdict.sh` asks the GitHub Actions application
   programming interface (API) for a green `verify` job from the tag-push run of `release.yml` on exactly that
   commit, and refuses if there is none, if it is red or still running, or if the API
@@ -189,7 +179,7 @@ same tools:
 
 ## What the pipeline needs from the repository settings
 
-- Secrets: `CARGO_REGISTRY_TOKEN`, `PYPI_API_TOKEN`, `JETBRAINS_MARKETPLACE_TOKEN`. A
+- Secrets: `CARGO_REGISTRY_TOKEN`, `PYPI_API_TOKEN`. A
   release tag fails if one is missing. `NPM_TOKEN` is required for the first publish of each new npm
   package name, because trusted publishing can only be configured on a package that already exists.
   The two new names, `signalk-kshana-trust` (`signalk-publish.yml`) and `kshana-mcp` (the npx launcher,
