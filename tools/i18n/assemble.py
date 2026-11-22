@@ -1,9 +1,9 @@
 import re,sys,glob,os
-sys.path.insert(0,'/tmp/claude-0/i18n')
+sys.path.insert(0,'/tmp/i18n-work')
 import tools
 LEGAL=re.compile(r"(not (a |an )?(certif|approv|legal|conform|type-approved|accredit)|advisory|disclaim|conformance|accreditation|certification)",re.I)
 def assemble(lang, repo='/workspace/kshana'):
-    outs=sorted(glob.glob(f'/tmp/claude-0/i18n/out/{lang}_*.ftl'))
+    outs=sorted(glob.glob(f'/tmp/i18n-work/out/{lang}_*.ftl'))
     hdr=open(f'{repo}/i18n/{lang}/engine.ftl',encoding='utf-8').read().split('\n')
     head=[]
     for ln in hdr:

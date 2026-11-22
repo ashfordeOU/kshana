@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # SPDX-License-Identifier: AGPL-3.0-only
 # Build the feature-limited WebAssembly module (`--features wasm-slim`, src/wasm_slim.rs): version,
-# run and export_sp3 over the four kinds Arksa calls (constellation-design, gnss-sim, orbit, pvt),
+# run and export_sp3 over the four kinds an embedder calls (constellation-design, gnss-sim, orbit, pvt),
 # optimised for size, then print its size and digests and check it against the size limit.
 #
 #   ./scripts/build-wasm-slim.sh [out-dir]          default: target/wasm-slim/pkg
@@ -17,8 +17,8 @@
 # $WASM_OPT, and python3 (sizes and digests).
 #
 # Environment:
-#   KSHANA_SLIM_GZIP_LIMIT_KB  size limit, gzip level 9, kB of 1024 bytes (default 2800: Arksa's
-#                              WebAssembly budget, measured the way its bundle report measures it)
+#   KSHANA_SLIM_GZIP_LIMIT_KB  size limit, gzip level 9, kB of 1024 bytes (default 2800: the embedder's
+#                              WebAssembly budget)
 #   WASM_OPT                   the wasm-opt binary (default: wasm-opt on PATH)
 #
 # It publishes nothing.

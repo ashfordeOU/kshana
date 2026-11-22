@@ -110,7 +110,7 @@ This section records the Modelled inputs to the representative measurement menu
 built by `src/lunar_techniques.rs::representative_lunar_menu` (the public menu +
 additive Fisher combiner). The budget-constrained design *optimizer* that consumes
 this menu — the greedy/exact subset selection and the cost/degeneracy Pareto
-frontier (`greedy_design`, `pareto_frontier`) — is a commercial (kshana-pro)
+frontier (`greedy_design`, `pareto_frontier`) — is a commercial (Kshana Pro)
 capability and is **not** part of this open crate; the Modelled inputs below apply
 to the menu itself, which stays public so the P1 finding remains reproducible.
 
@@ -174,7 +174,7 @@ lunocenter-X ↔ scale degeneracy more effectively than transverse VLBI** — �
 raw degeneracy-metric gain for comparable measurement exposure — not a claim about any
 real mission. The budget-constrained optimizer that turns this menu into a chosen
 design or a cost/degeneracy Pareto frontier (`greedy_design`, `pareto_frontier`) is a
-commercial (kshana-pro) capability, not part of this open crate; the ≈4.8× *per-unit-
+commercial (Kshana Pro) capability, not part of this open crate; the ≈4.8× *per-unit-
 cost* advantage and any single recommended budget are properties of that separate tool.
 The CRLB figures, degeneracy-metric magnitudes, and relative cost ratios all carry
 **Modelled** status (see `src/lunar_identifiability.rs` honesty note).
