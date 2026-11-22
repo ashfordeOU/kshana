@@ -4,7 +4,7 @@
 #
 # The root Cargo.toml [package] version is the single source of truth. Every surface
 # that carries its own version string must equal it, so a release can never ship one
-# surface (crate / wheel / npm / JetBrains plugin / MCP image) at a different version
+# surface (crate / wheel / npm / MCP image) at a different version
 # than the others.
 #
 # Surfaces that genuinely need no check, because the version is read out of Cargo.toml at
@@ -16,15 +16,16 @@
 #   - CITATION.cff / codemeta.json / .zenodo.json: pinned to the manifest by
 #     tests/citation_metadata_doc_sync.rs
 #
-# release.yml, mcp-publish.yml and jetbrains-plugin.yml were listed there too, as
-# "derive from the git tag". That was wrong, and it is the hole check 7 closes: deriving
-# from the tag is not the same as needing no check, because the tag is a THIRD version
-# string, typed by hand at release time, and nothing compared it to Cargo.toml. Those
-# three publish the TAG's version (jetbrains-plugin.yml takes `refs/tags/vX.Y.Z` over
-# gradle.properties; mcp-publish.yml stamps server.json and the ghcr image tag from it)
-# while crates.io, PyPI and npm publish the MANIFEST's, so a single mis-cut tag ships
-# crates.io / PyPI / npm at one version and the JetBrains Marketplace / ghcr / the MCP
-# registry at another, under one release name.
+# release.yml and mcp-publish.yml were listed there too, as "derive from the git tag".
+# That was wrong, and it is the hole check 7 closes: deriving from the tag is not the same
+# as needing no check, because the tag is a THIRD version string, typed by hand at release
+# time, and nothing compared it to Cargo.toml. mcp-publish.yml stamps server.json and the
+# ghcr image tag from the TAG's version while crates.io, PyPI and npm publish the
+# MANIFEST's, so a single mis-cut tag ships crates.io / PyPI / npm at one version and
+# ghcr / the MCP registry at another, under one release name.
+#
+# Kshana Desktop and the JetBrains plugin are products distributed from kshana.dev and their
+# stores; they are not built from this repository, so their versions are not checked here.
 set -euo pipefail
 
 ver="$(grep -m1 '^version' Cargo.toml | sed -E 's/.*"([^"]+)".*/\1/')"
@@ -56,14 +57,6 @@ fi
 mcp_dep="$(grep -E '^kshana = ' mcp/kshana-mcp/Cargo.toml | sed -E 's/.*version = "([^"]+)".*/\1/')"
 if [ "$mcp_dep" != "$majmin" ] && [ "$mcp_dep" != "$ver" ]; then
   echo "FAIL: mcp/kshana-mcp/Cargo.toml kshana dependency ($mcp_dep) does not track engine $majmin." >&2
-  fail=1
-fi
-
-# 4. JetBrains plugin — pluginVersion, in lockstep (the publish workflow prefers the tag,
-#    but the on-disk default must still match so local builds and non-tag dispatch agree).
-jb_ver="$(grep -E '^pluginVersion' ide/jetbrains/gradle.properties | sed -E 's/.*= *//' | tr -d ' ')"
-if [ "$jb_ver" != "$ver" ]; then
-  echo "FAIL: ide/jetbrains/gradle.properties pluginVersion ($jb_ver) != engine ($ver)." >&2
   fail=1
 fi
 
@@ -111,28 +104,6 @@ for rdm in README.md README.crates.md README.npm.md README.pypi.md; do
     fi
   done
 done
-
-# 8. JetBrains Marketplace change-notes — the listing text shipped with each version.
-#
-#    Checks 4 keeps the plugin's VERSION in lockstep, but the notes shown beside it on the
-#    Marketplace are hand-written in plugin.xml and nothing read them: seven published
-#    versions (0.23.0 through 0.27.2) served the byte-identical 0.22.0 notes. The newest
-#    entry — the first <b>x.y.z</b> inside <change-notes> — must name the version being
-#    shipped. When the plugin itself did not change, a one-line entry saying so is the
-#    honest note ("the plugin is unchanged since 0.22.0; republished to track the engine"),
-#    and it is still better than a listing that describes a release from months ago.
-#    Plain HTML only: <change-notes> renders as HTML, so Markdown from the changelog
-#    extractor would show literal ### and ** on the Marketplace.
-PLUGIN_XML="ide/jetbrains/src/main/resources/META-INF/plugin.xml"
-notes_ver="$(awk '/<change-notes>/{f=1} f' "$PLUGIN_XML" \
-  | grep -oE '<b>[0-9]+\.[0-9]+\.[0-9]+</b>' | head -1 | sed -E 's#</?b>##g')"
-if [ "$notes_ver" != "$ver" ]; then
-  echo "FAIL: JetBrains change-notes' newest entry is ${notes_ver:-<none>}, but the plugin ships as v${ver}." >&2
-  note "add a <b>${ver}</b> entry at the top of <change-notes> in ${PLUGIN_XML} — one line"
-  note "stating the plugin is unchanged is fine when it is — so the Marketplace listing for"
-  note "v${ver} does not describe an older release."
-  fail=1
-fi
 
 # 9. The MCP registry manifest — mcp/kshana-mcp/server.json. mcp-publish.yml re-stamps its
 #    version and image tag from the release tag before publishing, so a stale committed
@@ -361,7 +332,7 @@ done
 #    consistent at 0.27.2 passes every one of them even while it is being released as
 #    v0.28.0. Nothing anywhere made that comparison: a v0.28.0 tag cut on a 0.27.2 tree
 #    would publish 0.27.2 to crates.io and PyPI under a 0.28.0 release name, and 0.28.0
-#    to the JetBrains Marketplace and ghcr, and every gate would stay green.
+#    to ghcr and the MCP registry, and every gate would stay green.
 #
 #    This script already runs on the tag push, in release.yml `verify` and publish.yml
 #    `gates`, both of them ahead of anything irreversible — so the comparison costs
@@ -401,8 +372,7 @@ fi
 
 echo "OK: every surface this script checks is at v${ver} — root README \"Status:\" line \
 and release badge; README.crates.md / README.npm.md / README.pypi.md release badges; \
-mcp/kshana-mcp version and its kshana dependency requirement; JetBrains pluginVersion \
-and the newest Marketplace change-notes entry; \
+mcp/kshana-mcp version and its kshana dependency requirement; \
 web/index.html JSON-LD and version chip, the Studio's channels.json and the port manifest; \
 mcp/kshana-mcp/server.json version and image tag; the README example output; \
 the Claude Code plugin manifests, the Signal K and OpenCPN plugin versions, the \
