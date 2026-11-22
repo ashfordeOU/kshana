@@ -142,8 +142,9 @@ satellite from the point can make the epoch available.
    1-sigma `rate x latency / sqrt(3)`), on top of the frozen-error re-projection; linear growth is
    the first-order term of a propagated state error (checked to 1 % at 600 s against the in-tree
    two-body propagation). What remains: no public source gives a lunar growth rate (ILLUSTRATIVE);
-   no along-track/radial structure; the correction-link budget block uses the frozen model. The K5
-   addendum (`tests/fixtures/lunar_station_published/ADDENDUM-LRS03.md`, pre-registered alone) runs
+   no along-track/radial structure; the correction-link budget block uses the frozen model. An
+   addendum for bar K5 of the [comparison against published claims](#comparison-against-published-claims)
+   (`tests/fixtures/lunar_station_published/ADDENDUM-LRS03.md`, pre-registered alone) runs
    K5 at 0.001, 0.01 and 0.1 m/s: it fails in every case (369.8 m, 2315 m, 22797 m against a 1.5 m
    bar), as stated before the run.
 4. **Solution style (filter, height constraint, three satellites): an opt-in in 0.36, with limits.**
@@ -154,8 +155,8 @@ satellite from the point can make the epoch available.
    it is static-user only; there is no dynamic filter, carrier phase or ambiguity resolution; the
    case trace (`trace_case`) shows the snapshot arithmetic. The published-claims addendum with this
    mode is `tests/fixtures/lunar_station_published/ADDENDUM-LRS06.md` (pre-registered alone). With a
-   1 m height constraint, three satellites and a 6-epoch window (ILLUSTRATIVE settings), the R300
-   corrected p95 3-D error falls from 280.6 m to 2.11 m (horizontal 0.90 m, not scored); K1 to K5
+   1 m height constraint, three satellites and a 6-epoch window (ILLUSTRATIVE settings), the
+   corrected p95 3-D error over the 300 km circle (case R300) falls from 280.6 m to 2.11 m (horizontal 0.90 m, not scored); K1 to K5
    still fail and K6 passes, 1 of 6 as in the recorded run. The window's independence assumption
    favours it.
 
