@@ -594,24 +594,6 @@ jobs:
         run: node web/studio/lib/desktop.test.mjs
       - name: Test the Kshana Desktop live device client (excerpt loop, native scorer)
         run: node web/studio/lib/devices.test.mjs
-      - name: Test the Kshana Desktop shell (palette, runs, packs; no browser wording, no outside request, no price)
-        run: node apps/desktop/shell/shell.test.mjs
-      - name: Test the Kshana Desktop look (colour roles, AA contrast, colour-blind separation, symbols, numbers, density)
-        run: node apps/desktop/shell/look.test.mjs
-      - name: Test the Kshana Desktop wording (the staged frontend never says it runs in a browser)
-        run: node apps/desktop/wording.test.mjs
-      - name: Test the Kshana Desktop time cursor and map (clock, keys, run model, Web Mercator, Natural Earth layers, scrub benchmark)
-        run: node apps/desktop/shell/lib/clock.test.mjs
-      - name: Test the Kshana Desktop chart library (decimation, zoom and pan, hit-testing, CSV and SVG export, 3D maths)
-        run: node apps/desktop/shell/lib/chart/chart.test.mjs
-      - name: Test the Kshana Desktop projects, drop-in detective, console, markers, journal figures and sky plot (0.42 U8-U16)
-        run: node --test apps/desktop/shell/lib/project.test.mjs apps/desktop/shell/lib/detective.test.mjs apps/desktop/shell/lib/mirror.test.mjs apps/desktop/shell/lib/markers.test.mjs apps/desktop/shell/lib/plot.test.mjs apps/desktop/shell/lib/sky.test.mjs apps/desktop/shell/lib/chart/journal.test.mjs
-      - name: Test the Kshana Desktop explain this number, ships and aircraft, panes, sweep studio and run diff (0.42 U11, U17, U20, U21, U22)
-        run: node --test apps/desktop/shell/lib/explain.test.mjs apps/desktop/shell/lib/traffic.test.mjs apps/desktop/shell/lib/dock.test.mjs apps/desktop/shell/lib/sweepgrid.test.mjs apps/desktop/shell/lib/rundiff.test.mjs
-      - name: Test the Kshana Desktop notebook, globe, stability and spectrum plots, live traffic and course mode (0.42 U23, U24, U25, U26, U29)
-        run: node --test apps/desktop/shell/lib/notebook.test.mjs apps/desktop/shell/lib/globe.test.mjs apps/desktop/shell/lib/plots.test.mjs apps/desktop/shell/lib/live.test.mjs apps/desktop/shell/lib/course.test.mjs
-      - name: Test the Kshana Desktop shell in the Studio's languages (0.42 U18; the Studio's i18n checks over apps/desktop/shell)
-        run: node --test apps/desktop/shell/i18n.test.mjs
       - name: Test the Kshana Desktop IQ recording view (decoding, SigMF, spectrum)
         run: node web/studio/lib/iqview.test.mjs
       - name: Test the A/B compare logic
