@@ -82,7 +82,7 @@ share must stand out against the same day's background across the region and aga
 reports elsewhere. That is a different and weaker substitute: it cannot say that a quiet-geometry hour was
 degraded where the day's background is also low.
 
-**What was built (0.41, D18).** An almanac-HDOP scorer, `kshana::interference_map::almanac_hdop`, built from
+**What was built (0.41).** An almanac-HDOP scorer, `kshana::interference_map::almanac_hdop`, built from
 public material only and labelled as Kshana's own method; it does not reproduce the paper above. For each report:
 
 - HDOP at the report's position and time, from the GPS almanac of the day in the YUMA format published by the U.S.
