@@ -269,10 +269,10 @@ implementation named there:
   identity. Kshana writes the segments from records it is given: it does not fit Chebyshev
   coefficients or produce difference lines.
 
-The CCSDS OEM importer and writer, and the OEM covariance block, are older and are described under
-the imports above and in the matrix.
+The CCSDS OEM importer and writer, and the OEM covariance block, are older; they are reached
+through the `oem-interop` kind and described in the matrix.
 
-## Observed tracks (0.42)
+## Observed tracks (after 0.41.0)
 
 The exports above draw a scenario's geometry. The tracks of real vessels, aircraft and drones (AIS,
 ADS-B, ASTERIX, MAVLink, ULog, NMEA 2000) go to GeoJSON, KML and CZML through `kshana connect decode
