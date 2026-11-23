@@ -66,7 +66,7 @@ No matrix row names this kind by name; the label on its result is the engine's o
 The rows the run itself exercised, with the oracle the matrix gives each (the public sources are named there):
 
 - **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): Official CycloneDX 1.5 JSON Schema (+ SPDX identifier list): every atomic licence id is a valid SPDX id, and the document has zero schema errors once compound expressions are moved to expression (the generator's raw output has 133 compound-id errors); the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
-- **VALIDATED** 7-parameter Helmert datum fit + ICRF orientation tie from a network of points. Oracle (ExternalDataset): A closed-form weighted Umeyama (Horn) similarity-transform solver written for this repository in numpy/scipy (SVD-based; Umeyama 1991 IEEE TPAMI, Horn 1987 JOSA A; a reference implementation by the same project, not a third-party library) — a different algorithm from kshana's iterative Gauss–Newton fit, reaching the same uniquely-defined weighted-LS optimum on byte-identical point networks
+- **VALIDATED** 7-parameter Helmert datum fit + ICRF orientation tie from a network of points. Oracle (ExternalDataset): A closed-form weighted Umeyama (Horn) similarity-transform solver written for this repository on the numpy/scipy SVD (Umeyama 1991 IEEE TPAMI, Horn 1987 JOSA A; a reference implementation by the same project, not a third-party library) — a different algorithm from kshana's iterative Gauss–Newton fit, reaching the same uniquely-defined weighted-LS optimum on byte-identical point networks
 
 ## Limitations
 

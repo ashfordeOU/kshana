@@ -424,7 +424,7 @@ fn golden_cislunar_observability() {
         // STUDIO-15 (0.36 portable maths): was 0x2cb0_2851_850e_09c1 on the host's maths; the document moved only in
         // round-off-floor quantities (docs/revisions/portable-math-rebaseline.md).
         // Re-baselined when the result label dropped an internal paper id and stopped calling an internal check VALIDATED; only the label text moved.
-        expect_fnv_canonical: 0xace2_1da5_3c26_71d6,
+        expect_fnv_canonical: 0xfdc8_a24d_aaf9_a4f4,
         expect_fnv_raw_linux_x64: None,
     });
 }
