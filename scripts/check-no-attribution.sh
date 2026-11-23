@@ -22,7 +22,9 @@ t_cla='cla''ude'
 # Authorship markers only. The "Generated with/by" clause is anchored to the assistant name
 # (optionally preceded by "[") so it cannot match ordinary prose, and the leading footer
 # emoji is caught directly.
-pattern="${t_coauth}|${t_anth}|generated (with|by) \[?${t_cla}|🤖"
+# Also refused: the trailer and link some assistants add to name their working session
+# (a "<assistant>-Session:" line, or a link to "<assistant>.ai/code/session_...").
+pattern="${t_coauth}|${t_anth}|generated (with|by) \[?${t_cla}|🤖|${t_cla}-session:|${t_cla}\.ai/code/session_"
 self='scripts/check-no-attribution.sh'
 # Refuse to grade what cannot be read. Both scans below end in `|| true` (a clean tree is
 # "no match"), which used to swallow git's own failure as well: outside a readable
