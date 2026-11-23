@@ -768,7 +768,7 @@ seg-d95fe5878ee3 = allan::lag1_noise_id: the Riley and Greenhall ({ "2004" }) la
 seg-6e0cb6acc073 = VALIDATED
 
 # text
-seg-017c7a535549 = allantools { "2024.06" } autocorr_noise_id (A. Wallin and contributors, LGPL-3.0-or-later, run as a separate program by the fixture generator): an independent implementation of the published Riley-Greenhall algorithm, a uniquely defined quantity under the stated conventions. Validates the identifier, not the noise content of any real clock
+seg-4d820e75cd4f = allantools { "2024.6" } autocorr_noise_id (A. Wallin and contributors, LGPL-3.0-or-later, run as a separate program by the fixture generator): an independent implementation of the published Riley-Greenhall algorithm, a uniquely defined quantity under the stated conventions. Validates the identifier, not the noise content of any real clock
 
 # text
 seg-aedf395f3597 = Galileo OSNMA receiver-side navigation-data authentication
@@ -2316,7 +2316,7 @@ seg-9acf9971cb44 = Analytic datum-defect structure — the unobservable absolute
 seg-ae4b71d54dfa = 7-parameter Helmert datum fit + ICRF orientation tie from a network of points
 
 # text
-seg-8fa52210a4f2 = A closed-form weighted Umeyama (Horn) similarity-transform solver written for this repository in numpy/scipy (SVD-based; Umeyama { "1991" } IEEE TPAMI, Horn { "1987" } JOSA A; a reference implementation by the same project, not a third-party library) — a different algorithm from kshana's iterative Gauss–Newton fit, reaching the same uniquely-defined weighted-LS optimum on byte-identical point networks
+seg-35cc1a20982d = A closed-form weighted Umeyama (Horn) similarity-transform solver written for this repository on the numpy/scipy SVD (Umeyama { "1991" } IEEE TPAMI, Horn { "1987" } JOSA A; a reference implementation by the same project, not a third-party library) — a different algorithm from kshana's iterative Gauss–Newton fit, reaching the same uniquely-defined weighted-LS optimum on byte-identical point networks
 
 # text
 seg-4bcec6e2dd9f = Lunar navigation service volume

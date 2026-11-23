@@ -1661,7 +1661,7 @@ seg-d95fe5878ee3 = allan::lag1_noise_id: the Riley and Greenhall ({ "2004" }) la
 seg-cbf0f9bcd2d8 = Oracle
 
 # text
-seg-017c7a535549 = allantools { "2024.06" } autocorr_noise_id (A. Wallin and contributors, LGPL-3.0-or-later, run as a separate program by the fixture generator): an independent implementation of the published Riley-Greenhall algorithm, a uniquely defined quantity under the stated conventions. Validates the identifier, not the noise content of any real clock
+seg-4d820e75cd4f = allantools { "2024.6" } autocorr_noise_id (A. Wallin and contributors, LGPL-3.0-or-later, run as a separate program by the fixture generator): an independent implementation of the published Riley-Greenhall algorithm, a uniquely defined quantity under the stated conventions. Validates the identifier, not the noise content of any real clock
 
 # text
 seg-c3c260b7063e = Tests
@@ -3569,7 +3569,7 @@ seg-619f89bf160c = Lunar reference-frame realisation
 seg-ae4b71d54dfa = 7-parameter Helmert datum fit + ICRF orientation tie from a network of points
 
 # text
-seg-8fa52210a4f2 = A closed-form weighted Umeyama (Horn) similarity-transform solver written for this repository in numpy/scipy (SVD-based; Umeyama { "1991" } IEEE TPAMI, Horn { "1987" } JOSA A; a reference implementation by the same project, not a third-party library) — a different algorithm from kshana's iterative Gauss–Newton fit, reaching the same uniquely-defined weighted-LS optimum on byte-identical point networks
+seg-35cc1a20982d = A closed-form weighted Umeyama (Horn) similarity-transform solver written for this repository on the numpy/scipy SVD (Umeyama { "1991" } IEEE TPAMI, Horn { "1987" } JOSA A; a reference implementation by the same project, not a third-party library) — a different algorithm from kshana's iterative Gauss–Newton fit, reaching the same uniquely-defined weighted-LS optimum on byte-identical point networks
 
 # text
 seg-e66fab330a70 = <s1>lunar_frame_realise::tests (recovers injected Helmert transform); tests/lunar_reference_frame_realisation_reference.rs ({ "14" } cases vs an independent closed-form Umeyama-SVD solver; worst |Δ| translation { "2.0e-5" } m…</s1>
