@@ -55,7 +55,7 @@ seg-f3a6d69d0225 = The chart the engine writes for scenarios/lunar-frame-realisa
 seg-619127334cf3 = No matrix row names this kind by name; the label on its result is the engine's own, above.
 
 # text
-seg-76bc3ed50df0 = <b>VALIDATED</b> 7-parameter Helmert datum fit + ICRF orientation tie from a network of points. Oracle (ExternalDataset): A closed-form weighted Umeyama (Horn) similarity-transform solver written for this repository in numpy/scipy (SVD-based; Umeyama { "1991" } IEEE TPAMI, Horn { "1987" } JOSA A; a reference implementation by the same project, not a third-party library) — a different algorithm from kshana's iterative Gauss–Newton fit, reaching the same uniquely-defined weighted-LS optimum on byte-identical point networks
+seg-a686f41848ed = <b>VALIDATED</b> 7-parameter Helmert datum fit + ICRF orientation tie from a network of points. Oracle (ExternalDataset): A closed-form weighted Umeyama (Horn) similarity-transform solver written for this repository on the numpy/scipy SVD (Umeyama { "1991" } IEEE TPAMI, Horn { "1987" } JOSA A; a reference implementation by the same project, not a third-party library) — a different algorithm from kshana's iterative Gauss–Newton fit, reaching the same uniquely-defined weighted-LS optimum on byte-identical point networks
 
 # text
 # c1: kshana kinds --json

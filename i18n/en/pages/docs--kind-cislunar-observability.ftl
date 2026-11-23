@@ -62,7 +62,7 @@ seg-562f62383697 = <b>MODELLED</b> The cislunar arc-length observability thresho
 
 # text
 # c1: label
-seg-d8ef30a70db6 = MODELLED planar cislunar constellation observability. Checked core (the kind stays MODELLED): the observable RANK is a rank-revealing singular-value threshold cross-checked against the Gramian eigen-rank; the Gramian eigen-spectrum obeys the spectral invariants (trace = sum eig, det = prod eig, Frobenius^{ "2" } = sum eig^{ "2" }); the variational STM is the finite-difference-validated CR3BP STM (crate::cr3bp); the range /… (result <c1/>)
+seg-67ad93f38794 = MODELLED planar cislunar constellation observability. Checked core (the kind stays MODELLED): the observable RANK is a rank-revealing singular-value threshold cross-checked against the Gramian eigen-rank; the Gramian eigen-spectrum obeys the spectral invariants (trace = sum eig, det = prod eig, Frobenius^{ "2" } = sum eig^{ "2" }); the variational STM is the CR3BP STM (crate::cr3bp), whose corrector is VALIDATED against the… (result <c1/>)
 
 # text
 # c1: kshana kinds --json

@@ -4,12 +4,12 @@
  "studio": "Kshana Studio",
  "sources": {
   "site": {
-   "revision": "65751fa44a47c0dad7d344ff12bbc32110449332",
-   "dirty": true
+   "revision": "51e261d23e16166060bd986b30dbd17c17dbc3c1",
+   "dirty": false
   },
   "studio": {
-   "revision": "65751fa44a47c0dad7d344ff12bbc32110449332",
-   "dirty": true
+   "revision": "51e261d23e16166060bd986b30dbd17c17dbc3c1",
+   "dirty": false
   }
  },
  "files": {
@@ -77,7 +77,7 @@
   "docs/campaigns.html": "473780d575ff098701ef6fdfc7369bdb32547475bbe54bb61829ea524c01636e",
   "docs/capability-domains.html": "d71cfd6c0411a90befebd82cb2105b07c6581014ebf5a6c282bef251731ae643",
   "docs/capability-map.html": "7c77b59a91746101311e0853073ec77e5eb3cd24dbb88b213c7d8226b630b808",
-  "docs/capability-reference.html": "407de5d2a672d87ed279d1fbe8cfea528629d6f3db013a00048e4a54cdd1ee1a",
+  "docs/capability-reference.html": "7464d86cc5b11dd6cc6eddbc5c71673efe585ff3342cc5492c42858b819050a5",
   "docs/changelog.html": "6f05e792b4768f6dd0e13fea198ec69fa3c46a30f4965ca313f8dfc4aa31b279",
   "docs/claims-vs-reality.html": "da9eb7d910b6efe8519c4f024124b22966fa0205b739c772f245cdefd7a0cf8d",
   "docs/clock-log-formats.html": "1a1d269c1da800cdec19e5cd1d94aba82e53b09e6b96c7fea27b184136b1b23e",
@@ -122,7 +122,7 @@
   "docs/kind-body-pnt.html": "7ff359884b7f747cc5d408c10e142863ab720ee3537de90abe1e2f3994e18a64",
   "docs/kind-campaign.html": "aea2ceb457c68122fe082e2e7cfb9943a3e8482769e994bd9007400486c81476",
   "docs/kind-cislunar-arc-recovery.html": "569655a89875510bbabf186033444a2a02ac223e61879ebf921f180d22380c55",
-  "docs/kind-cislunar-observability.html": "3ec49b027d19cb7da60dd10effbbf263325d1de6e4aeea86ac49283b5bee2707",
+  "docs/kind-cislunar-observability.html": "60b285c70ed7c4f0d3cb87cc40e29af877c06aa78faf3c6a6b00fdedefbe7491",
   "docs/kind-clock.html": "b44968082161acfb1cbd12d6dffb5b34e1a506fcc1b23fb8adbc2dffd6ef8b9e",
   "docs/kind-combined-altpnt.html": "bd682159a18eb232e998a30409053a1d15daadaf729c07edf7802104d422acd7",
   "docs/kind-conflict-resilience.html": "745dfe784936401be7d1bc5015c344fd348152f2ef52047e60240952288e252d",
@@ -160,8 +160,8 @@
   "docs/kind-lunar-beacon.html": "cb9321f1f8d127df442250ae893a62c80926d85ddeb5bd780bacfa0e68843dd9",
   "docs/kind-lunar-descent.html": "a2dc89ff617f96f04ce260aef93fcaeab844e8d71efb56fa775b10f03488e73e",
   "docs/kind-lunar-differential-pnt.html": "9d14797a54b6a200fbe67cd980dee753b75a003582adf484461bf735364a8f8d",
-  "docs/kind-lunar-frame-campaign.html": "3e479ab0a710c67bd763b2f3b04e782ee902ada97639b5083bf2fae447f9cf63",
-  "docs/kind-lunar-frame-realisation.html": "3759d2cb592f49f646952278f708f42d23c5a9d3be5841cdd38214dba6540a03",
+  "docs/kind-lunar-frame-campaign.html": "faea5cff6f9b46865ce5ae11eb8a6945f0f7711488385f15ab0441d2f9fb011f",
+  "docs/kind-lunar-frame-realisation.html": "93144f2ed028bd158fc092f6ee94568e3e495cabee567a334ecfc32156dbe090",
   "docs/kind-lunar-infrastructure.html": "8c1c879acda8a3e3a788808518aa982e76b468f7d36bc732e898c11c1c6cdc85",
   "docs/kind-lunar-integrity.html": "af814e0b85c9efc490fd957205d37360bc0a63b1ff139df27d1f5711f05c269b",
   "docs/kind-lunar-interop-export.html": "e6b0ef2f2b6be37a33df23b4e87312d1a33c918af6bc30b8876a50ce6aeaa1de",
@@ -284,9 +284,9 @@
   "docs/tutorial-quantum-vs-classical.html": "aaa769ffaf27ac65ed0ffe1b7b7c1b2f023371596ffac46457e3eea6f70030d7",
   "docs/tutorials.html": "1c06c9b4a3880cf9336afd847cef3f114869ddc893eb3e1588f44363adaebd4c",
   "docs/validation.html": "d1a7d15484b0bd61eb8fb9d4b802f2af2a3ff0e8f8cb42e497386f0196c9c458",
-  "docs/verification-matrix.html": "37136367440baf36d4955869c896579772de272a20686e0a8fd3badc07cc58a6",
+  "docs/verification-matrix.html": "ad6c8836fdf01ea519b5228d780db9eb5bec808544adacefc6bbf34a7582ed7e",
   "editions.html": "e4af5833307131815fcc658164b8778f984069e3171c936ad4e74a58343c95ef",
-  "evidence.html": "0b6f4299369d5fba4d981ec7dbcc2dc3b6a1f2b2928919c8060984697510ff16",
+  "evidence.html": "559a02f45bab9a757b6c51245d72427a45e33545645ec57973cb844e86427a59",
   "index.html": "622dee32733a1a62a3d93ba4af46d5f0725057107076278d794c17bd843613d0",
   "js/cap-hero.mjs": "708359577c749ba3e31fcb1783e746ffaabcb60f1e7add52bb1cc2629e6e0d13",
   "js/capabilities.mjs": "0204c03125f79bf43b05f9806c260dab0f75a44176fcd75f04053d79a35d14da",
@@ -305,14 +305,14 @@
   "js/t.mjs": "fe7dbeb19defff63d081f735ad2d57ee0105a7732210f1f413c6b874a1b58897",
   "js/worlds.mjs": "d94ad8c485f529a7848b85fca2a18f602b666ce4bf2c744d6e9d9fda0387ff23",
   "legacy-redirects.js": "d037c2044d2eea6a4bdac2e1c2c9b5711c73e348099886569200be3889d436e4",
-  "llms-full.txt": "522aa5e95a4c84abec7787091352c6193f698d6b3072122ad1d9d3543387245b",
+  "llms-full.txt": "a8fbd84e6d63af971e96432e1351c203f00b1ba714efc1a90e82414fc84ea191",
   "llms.txt": "4a5f3521897813b01ec27c723747139faacbf5c8314eb9d8334922c8107c7cf0",
   "missions.html": "dce649f3859d0e737918eaa501c054ca6d19f26fa81cd08b748fccba5398227b",
   "playground/index.html": "4f8ac440c6b6d3b1e387f8e675cd55fe51cc66a10ef6867156b7a52dfc3c68b8",
   "robots.txt": "0315d65b09d3f58e6ca2f80127fb30cbfdb6c008db0fe21d26d580dad8964549",
   "site.css": "5bb4284ecda6c912ad345a24916f2b715cbbf72b51b73ef0e0091ddeb15d39c2",
   "site.js": "111ae7fbcf5cc786be5ad06e0f9815932c2e86658b6187194a3a300c2e340849",
-  "sitemap.xml": "eb2946231c58e345eea1a3238803738777fae222c8c6cc21d13a44fb6b464149",
+  "sitemap.xml": "2bb76362f4707cc3e688f0f85683dafb30928e42ebb035c56632dec9ee78d0fd",
   "studio/advanced.js": "10a5dd3de52c973d938a33ca6934e0cc55fa078b8bf2dbc1cb76005d9cecf66f",
   "studio/advanced/advanced.css": "3757ee7f8e3602a1f1fa98b10723a4ee8dfd4989bc38e7dd6819f9f08fa788a6",
   "studio/advanced/dash.css": "8bbffe9e4c9e7310d1fda66febccebb31b466ac807f02be9c8dbcc0ba3132a28",
@@ -352,7 +352,7 @@
   "studio/data/land.json": "21fd2609ac0de211dcf83875222bc321935b27cc78cda9af28afd060f1276744",
   "studio/data/oracle-references.json": "3786d89dea43f91b12760150c94bd7078391235edff6671dfae058c954f00f60",
   "studio/data/standards-matrix-map.json": "d14b06409db21dda0898a9074832c9daf13642efe7e91f3419ca45ac530239ab",
-  "studio/data/verification-matrix.json": "86a2859cc393a6562418174d428680677a4dfd5926aa56f6e173c4c91a20083c",
+  "studio/data/verification-matrix.json": "599537f6a3a0d242174f9cb1479f92854da1e482855bf82bbeff7cf8b2ffdeab",
   "studio/evidence.css": "a09ce755a911159eecaeca0ba9ecd8b03c726000246c60ccf0552ce99b5b3e56",
   "studio/gen.png": "08a3ca88f05869fa80b0c772ff70b5fdc8bfdd4f3e56936b79e0f5dbd6734f3d",
   "studio/geometry/geometry.css": "516a60c6f9609954daae71383aea2cf01f3715b989985f16c864b76693c73306",

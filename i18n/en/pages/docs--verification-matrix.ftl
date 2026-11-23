@@ -42,7 +42,7 @@ seg-6e5e0a1e1c99 = allan (lag1_noise_id, lag1_acf)
 seg-918094fb7194 = tests/clock_library_lag1_noise_id_allantools.rs ({ "140" } cases: ten Kasdin power-law records, b = { "0" } to -4, as phase and frequency data, af = { "1" } to { "64" }; alpha_int and d identical, worst |d alpha| { "9.6e-13" } and |d rho| { "4.8e-13" } against { "1e-9" }; pre-registered { "14169982" }); allan::tests (lag1_identifies_white_pm_white_fm_and_random_walk_fm; lag1_is_blind_to_a_quadratic_phase_trend)
 
 # text
-seg-017c7a535549 = allantools { "2024.06" } autocorr_noise_id (A. Wallin and contributors, LGPL-3.0-or-later, run as a separate program by the fixture generator): an independent implementation of the published Riley-Greenhall algorithm, a uniquely defined quantity under the stated conventions. Validates the identifier, not the noise content of any real clock
+seg-4d820e75cd4f = allantools { "2024.6" } autocorr_noise_id (A. Wallin and contributors, LGPL-3.0-or-later, run as a separate program by the fixture generator): an independent implementation of the published Riley-Greenhall algorithm, a uniquely defined quantity under the stated conventions. Validates the identifier, not the noise content of any real clock
 
 # text
 seg-6e0cb6acc073 = VALIDATED
@@ -2465,7 +2465,7 @@ seg-ae4b71d54dfa = 7-parameter Helmert datum fit + ICRF orientation tie from a n
 seg-454f4440a5c8 = lunar_frame_realise::tests (recovers injected Helmert transform); tests/lunar_reference_frame_realisation_reference.rs ({ "14" } cases vs an independent closed-form Umeyama-SVD solver; worst |Δ| translation { "2.0e-5" } m, rotation { "5.3e-12" } rad, scale { "9.3e-2" } ppb, post-fit RMS { "6.1e-9" } m)
 
 # text
-seg-8fa52210a4f2 = A closed-form weighted Umeyama (Horn) similarity-transform solver written for this repository in numpy/scipy (SVD-based; Umeyama { "1991" } IEEE TPAMI, Horn { "1987" } JOSA A; a reference implementation by the same project, not a third-party library) — a different algorithm from kshana's iterative Gauss–Newton fit, reaching the same uniquely-defined weighted-LS optimum on byte-identical point networks
+seg-35cc1a20982d = A closed-form weighted Umeyama (Horn) similarity-transform solver written for this repository on the numpy/scipy SVD (Umeyama { "1991" } IEEE TPAMI, Horn { "1987" } JOSA A; a reference implementation by the same project, not a third-party library) — a different algorithm from kshana's iterative Gauss–Newton fit, reaching the same uniquely-defined weighted-LS optimum on byte-identical point networks
 
 # text
 seg-4bcec6e2dd9f = Lunar navigation service volume
