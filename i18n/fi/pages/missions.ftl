@@ -186,8 +186,6 @@ seg-b388c2bac488 = Avaa rataterminaali
 
 seg-3d6af799cb19 = <s1>Ilmainen ydin</s1> jokainen tämän sivun skenaario ja kaavio
 
-seg-354162e88f07 = <s1>Pro</s1> suunnitteluavaruuden Pareto-rintama, epävarmuus ja herkkyys sekä yhden komennon tehtäväasiakirja
-
 seg-83e0dd9b2617 = <s1>Räätälöity tutkimus</s1> laitteistoosi kalibroidut mallit, tehty puolestasi
 
 seg-5285d23ae95b = Uhkamatriisi · skenaariotiedostot aloittain ja vikatyypeittäin
@@ -282,8 +280,6 @@ seg-2d9d1994071f = Aja jokainen tämän alan skenaariotiedosto Kshana Studiossa 
 
 seg-731232b52b8f = Pro lisää
 
-seg-de3cc6d30b9c = Pro: tarkastustason toistettavat todistepaketit tarkastelua varten.
-
 seg-04d539c39f45 = Räätälöity tutkimus lisää
 
 seg-71d7ccb4c89a = Räätälöity: vientivalvottu kestävyystyö asianmukaisella turvallisuusselvityksellä ja NDA:lla (salassapitosopimus).
@@ -368,8 +364,6 @@ seg-2918af222529 = Näkyvissä olevat satelliitit ja PDOP (paikan tarkkuuden hei
 
 seg-ef0cc5181857 = Geostationaarinen käyttäjä: aseta käyttäjän kiertorata orbit-lajin skenaariossa, kuten orbit-molniya asettaa erittäin eksentrisen.
 
-seg-7889feffa939 = Pro: arkkitehtuurivertailut, jotka on järjestetty laatumittarin mukaan. Pro: kellojen digitaaliset kaksoset, jotka on kalibroitu laitteesi julkaistuun Allan-budjettiin.
-
 seg-bb0ceeb8db2a = Saako Kuussa, Marsissa tai kauempana oleva laskeutuja, mönkijä tai kiertolainen luotettavan paikan ja ajan, ja mitä paikallinen aika-asteikko lisää virhebudjettiin?
 
 seg-db11b1e64ac5 = Heikot signaalit Kuun etäisyydellä, harva releiden geometria, valonkulun viive, Kuun aikapoikkeama, pinnan häirintä
@@ -425,8 +419,6 @@ seg-25e1426d8341 = Maan GNSS:n vastaanotto Kuun etäisyydellä
 seg-96077751d4ce = Kuun aikanopeus julkaistuun kaistaan verrattuna ja päästä päähän ulottuva aikavirhebudjetti
 
 seg-f1dfccfb9f89 = Relenavigoinnin virhe Marsin kiertoradalla, pinnalla ja siirtymässä
-
-seg-4a5542c69690 = Pro: kellojen digitaaliset kaksoset, jotka on kalibroitu laitteesi julkaistuun Allan-budjettiin. Pro: arkkitehtuurivertailut, jotka on järjestetty laatumittarin mukaan.
 
 seg-4cf1f8144ae2 = Kuinka kauan UAS (miehittämätön ilma-alus) pysyy paikkabudjettinsa sisällä, kun häirintälaite on vienyt GNSS:n, ja onko eheys saatavilla reitilläni?
 
@@ -574,8 +566,6 @@ seg-b6c48dca904a = Aikaharhautuksen havaitseminen kellon eheysvalvonnalla
 
 seg-3db4a218354b = Sähköverkko ja rahoitus: alasi aikatarkkuusraja annetaan arvona threshold_ns.
 
-seg-cc45be91cd00 = Pro: kellojen digitaaliset kaksoset, jotka on kalibroitu laitteesi julkaistuun Allan-budjettiin. Pro: tarkastustason toistettavat todistepaketit tarkastelua varten.
-
 seg-cb5e51c39a7f = GNSS-aikaviitteen menetys ensisijaisella aikaviitekellolla, aikaharhautus
 
 seg-c89c91bfd2ac = Aikavirhe ITU-T-maskeihin verrattuna
@@ -663,8 +653,6 @@ seg-8cc7ceade324 = t = { "0" } s
 seg-1bd3b0f6eb7e = Todellinen moottoriajo, toistettuna
 
 seg-f1313464b7c9 = Radat: edetetty uudelleen ajon omista elementeistä ja tarkistettu moottorin maanpintajälkiä vasten. Planeetat: NASAn kuvamateriaali.
-
-seg-6c981f00d37d = <b>Prolla:</b> suunnitteluoptimoija ajaa tämän moottorin läpi kokonaisen satelliittitähdistön suunnitteluavaruuden Maan, Kuun tai Marsin ympärillä ja palauttaa sen <b>Pareto-rintaman</b>, jokainen rintaman suunnitelma kirjoitettuna tavallisena skenaariotiedostona. <a1>Katso todellinen rintama</a1>
 
 seg-cdd1e1a6793d = Vikatilat
 
@@ -778,8 +766,6 @@ seg-d2c741b188de = Mitoita PNT-arkkitehtuuri ja katso, missä se pettää.
 
 seg-87adf34e62f8 = Aloita sivulta <a1>Ominaisuuskartta</a1>
 
-seg-9601ecea0610 = <b>Ilmaista jo nyt:</b> kaikki avoimessa moottorissa. Pro: arkkitehtuurivertailut, jotka on järjestetty laatumittarin mukaan.
-
 seg-5ad7df11c031 = PNT- tai GNSS-asiantuntija
 
 seg-8f2ceeab7a06 = Avaa TOML, muuta fysiikkaa, tarkista se kirjanpitoa (ledger) vasten.
@@ -793,8 +779,6 @@ seg-c0cabe8a1c21 = Testaus- ja arviointivastaava
 seg-a5345bf50e9a = Kiinnitä skenaariot regressiotesteiksi ja aja kokonainen sarja yhdeksi leimatuksi tutkimukseksi.
 
 seg-57027baf4d52 = Aloita sivulta <a1>Käyttötavat</a1>
-
-seg-081d06995ef0 = <b>Ilmaista jo nyt:</b> kaikki avoimessa moottorissa. Pro: tarkastustason toistettavat todistepaketit tarkastelua varten.
 
 seg-e453a0b9a72e = Hankinta- tai ohjelmatarkastaja
 
@@ -818,8 +802,6 @@ seg-4f23a0580efe = Tarkista holdover ITU-T-maskeja vasten ennen kuin GNSS-antenn
 
 seg-7bc4df13f4cb = Aloita sivulta <a1>Ajoitusseinä</a1>
 
-seg-2abf4f5bd06e = <b>Ilmaista jo nyt:</b> kaikki avoimessa moottorissa. Pro: kellojen digitaaliset kaksoset, jotka on kalibroitu laitteesi julkaistuun Allan-budjettiin.
-
 seg-907754b26f64 = Tekoälyavustajan käyttäjä
 
 seg-3cde4f0b352a = Anna avustajasi ajaa validoitu moottori sen sijaan, että se arvailisi matematiikkaa.
@@ -837,5 +819,3 @@ seg-0e6be0d623f6 = <b>Ilmaista jo nyt:</b> kaikki avoimessa moottorissa. Avoimen
 seg-9b505908a6e2 = Kshana <b>ei ohjaa radiolaitteistoa eikä lähetä mitään</b>. Siihen kuuluu ohjelmistopohjainen GNSS-vastaanotin tallennetulle ja tuotetulle IQ-datalle, ja se voi kirjoittaa synteettisiä kantataajuisia IQ-tiedostoja, mutta se <b>ei ole radiotaajuinen signaaligeneraattorilaitteisto</b> eikä <b>laitteisto- tai sertifioitu GNSS-vastaanotin</b>. Se on tutkimus- ja vaihtoehtovertailuväline: se simuloi, mitä häirintä, harhautus ja signaalin menetys tekevät navigointi- ja ajoitusratkaisulle, ja kertoo, mitkä sen vastauksista on validoitu. <b>Ei lentotuote.</b>
 
 seg-ceb2de75e2f4 = <b>Ilmaista jo nyt:</b> kaikki avoimessa moottorissa. Ilmainen: { "53" } MCP-työkalua, run_scenariosta export_oem-työkaluun.
-
-seg-67a6c0107bcd = Moottori v{ $version }, build <c1/> · <c2/> · deterministinen, ei siemenlukua

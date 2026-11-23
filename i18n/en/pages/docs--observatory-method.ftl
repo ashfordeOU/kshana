@@ -120,7 +120,7 @@ seg-1604a8087643 = <b>What the observatory does instead.</b> The question the al
 
 # text
 # c1: kshana::interference_map::almanac_hdop
-seg-a74caf601a7a = <b>What was built ({ "0.41" }, D18).</b> An almanac-HDOP scorer, <c1/>, built from public material only and labelled as Kshana's own method; it does not reproduce the paper above. For each report:
+seg-88a17631dcee = <b>What was built ({ "0.41" }).</b> An almanac-HDOP scorer, <c1/>, built from public material only and labelled as Kshana's own method; it does not reproduce the paper above. For each report:
 
 # text
 seg-8c55525969f3 = HDOP at the report's position and time, from the GPS almanac of the day in the YUMA format published by the U.S. Coast Guard Navigation Center (<a1>https://www.navcen.uscg.gov/</a1>). Satellites are propagated with the almanac equations of IS-GPS-200, with an elevation mask stated by the caller (geodetic horizon).
@@ -163,6 +163,25 @@ seg-65236a42e316 = Sensitivity study
 # c1: kshana interference-map sensitivity <input> --dataset adsb-lol --day <day> --out report.json
 # c2: docs/observatory/RESULTS.md
 seg-0c843e799b8f = <c1/> replays one day's reports under one-at-a-time changes of every pre-registered parameter (two values each, plus a { "1.0" } degree grid) and reports, per variant, the number of degraded, not degraded and not observed cells, the Jaccard index of the degraded set with the registered one, the cells whose state changed, and the degraded area. It changes nothing about the registered rule: a variant is not a validated alternative, and a large change under a parameter says how much the call depends on that parameter, not which value is right. The results for the back-catalogue are in <c2/>.
+
+# text
+seg-180f804592d8 = Confidence and latency statement
+
+# text
+# c1: confidence
+# c2: docs/INTERFERENCE-MAP.md
+# c3: release
+# c4: last_report_utc
+# c5: not_before_utc
+# c6: min_latency_hours
+seg-7267e468201b = Each published cell carries the base method's <c1/> object (level, the { "95" }% Wilson interval of the affected share when the share is published, and the share of reports carrying NACp and NIC; <c2/>). The <c3/> block of the map and the incident file states the latency: <c4/> (the newest report behind the product, to the minute), <c5/>, and <c6/>, the shortest time from that report to the product's release. The release rule makes it at least the delay ({ "24" } h or more): the observatory is a description of past days, not a real-time service, and the statement says so in numbers. Measured wall-clock latency of a live pipeline is not part of this product.
+
+# text
+# c1: kshana interference-map incidents from-observatory
+# c2: docs/INTERFERENCE-INCIDENTS.md
+# c3: degradation_unattributed
+# c4: undetermined
+seg-564e41353f17 = Incidents of a day convert into the open incident format with <c1/> (<c2/>): class <c3/>, confidence <c4/>, labelled MODELLED.
 
 # text
 seg-0857a94a948e = Limits

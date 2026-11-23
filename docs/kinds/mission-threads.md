@@ -10,13 +10,13 @@ Topic pages: [MISSION-THREAD](../MISSION-THREAD.md), [MISSION-THREAD-LUNAR](../M
 
 | Kind | What it does | Ledger |
 |---|---|---|
-| [`mission-thread`](by-kind/mission-thread.md) | MODELLED navigation and timing error budget of a stated chain of mission phases, from launch to entry: launch and ascent, low-Earth-orbit rendezvous and docking (repeatable), trans-lunar injection and | MODELLED |
+| [`mission-thread`](by-kind/mission-thread.md) | MODELLED navigation and timing error budget of a stated chain of mission phases, from launch to entry: launch and ascent, low-Earth-orbit rendezvous and docking (repeatable), trans-lunar injection… | MODELLED |
 
 ### `mission-thread`
 
 MODELLED navigation and timing error budget of a stated chain of mission phases, from launch to entry: launch and ascent, low-Earth-orbit rendezvous and docking (repeatable), trans-lunar injection and cislunar cruise, lunar-orbit rendezvous, descent, surface stay, ascent and the return and entry, each phase one of eight registered kinds with its own sensors and filter. The 6x6 covariance, the clock and the frame are handed from phase to phase under a stated rule (carry, inflate or reacquire); frame and timescale conversions (GCRF, MCI, MCMF, UTC, TT, TDB, LTC) are their own budget rows, with the Moon's state from an optional DE440 kernel cut and the analytic series as the stated fallback. An optional ground-network overlay sets the tracking duty of each phase. Reports the per-phase budget (entry, peak and exit 1-sigmas, every contribution with its unit), the margin against a stated requirement, the weakest link, the events and a timeline figure. MODELLED: every number is a stated input; the chain follows one stack and no vehicle is modelled. Public sources only; not affiliated with or endorsed by any agency; advisory software, not certified navigation equipment.
 
-Required fields: `epoch_utc`, `entry`, `phase`. Optional: `kind`, `title`, `seed`, `moon_kernel_path`, `ground_network`.
+Required fields: `epoch_utc`, `entry`, `phase`. Optional: `title`, `seed`, `moon_kernel_path`, `ground_network`.
 
 **Ledger:** MODELLED. Full page, with the inputs, results, evidence and limitations: [mission-thread](by-kind/mission-thread.md).
 

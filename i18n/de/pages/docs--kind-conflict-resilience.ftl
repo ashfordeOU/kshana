@@ -45,7 +45,7 @@ seg-c0e69524f05d = <b>MODELLED</b> Teilbewertungen je Dimension über Kshanas ei
 
 # text
 # c1: kshana kinds --json
-seg-d0d834e377ee = MODELLED Konfliktresilienz geschichteten PNT (P7): Ein Nutzer in umkämpfter Umgebung setzt mehrere PNT-Schichten ein (Open-Service-GNSS, Breitband-GNSS, eine authentifizierte Konstellation, ein Augmentations-Relais), jede mit einer Basisverfügbarkeit, einer 1σ-Genauigkeit und einer Verwundbarkeit je Vektor gegenüber der gemeinsamen Jamming-/Spoofing-Bedrohung. (Typkatalog (<c1/>))
+seg-a6619df36cf9 = MODELLED Konfliktresilienz geschichteten PNT: Ein Nutzer in umkämpfter Umgebung setzt mehrere PNT-Schichten ein (Open-Service-GNSS, Breitband-GNSS, eine authentifizierte Konstellation, ein Augmentations-Relais), jede mit einer Basisverfügbarkeit, einer 1σ-Genauigkeit und einer Verwundbarkeit je Vektor gegenüber der gemeinsamen Jamming-/Spoofing-Bedrohung. (Typkatalog (<c1/>))
 
 # text
 # c1: kshana kinds --json

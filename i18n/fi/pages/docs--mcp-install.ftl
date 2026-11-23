@@ -108,8 +108,6 @@ seg-93d075d31cdd = npx (Node):
 
 seg-ae03b1ad65f1 = kshana-mcp PATH:ssa:
 
-seg-439fac4928a0 = Missä: <c1/> (Asetukset, Kehittäjä, Muokkaa asetuksia). Tai kaksoisnapsauta julkaisun laajennusta <c2/>: ei asetustiedostoa.
-
 seg-e998ab783248 = Cursor
 
 seg-1a35b243eeb1 = Missä: <c1/> (tai <c2/> projektissa).
@@ -149,13 +147,3 @@ seg-db567a4e1a61 = <c1/> tarjoaa samat työkalut streamable HTTP:n yli asiakkaal
 seg-04c1f05fb027 = <s1>Edellinen</s1>MCP-palvelin
 
 seg-eba757f29814 = <s1>Seuraava</s1>MCP-palvelin: itse ylläpidetty HTTP-tila
-
-seg-4ccbbc19fe86 = <b>npx (Node)</b> (vaatii version Node { "18" }+): <c1/>
-
-seg-77230eb344ea = <b>Docker</b> (vaatii Dockerin): <c1/>
-
-seg-3398eea8e332 = Cursor, npx (Node): <a1>verkkolinkki</a1> · <c1/>
-
-seg-67009baafb3b = Cursor, Docker: <a1>verkkolinkki</a1> · <c1/>
-
-seg-6918cd89f776 = Goose, npx: <c1/>

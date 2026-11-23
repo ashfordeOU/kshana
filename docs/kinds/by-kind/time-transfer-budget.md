@@ -47,7 +47,7 @@ The scalar results of that run, with the units the engine states:
 | Result | Value | Unit |
 |---|---|---|
 | `combined_uncertainty_ns` | 1.086953 | ns |
-| `evidence.id_rule` | the stable id of the matrix row (the ID  | text |
+| `evidence.id_rule` | the stable id of the matrix row (the… | text |
 | `evidence.matrix` | docs/VERIFICATION-MATRIX.md | text |
 | `evidence.tier` | MODELLED | text |
 | `inputs.averaging_s` | 86400 | s |
@@ -57,7 +57,7 @@ The scalar results of that run, with the units the engine states:
 | `inputs.span_days` | 30 | d |
 | `inputs.step_s` | 300 | s |
 
-Result label (the engine's): MODELLED — TWSTFT two-way equation (station delays, Ku-band ionosphere, transponder, Sagnac) solved from stated delays, a quadrature uncertainty budget with the simulated link's TDEV as the type A term, a simulated link with flicker phase noise and diurnal non-reciprocity, and the stability of any r
+Result label (the engine's): MODELLED — TWSTFT two-way equation (station delays, Ku-band ionosphere, transponder, Sagnac) solved from stated delays, a quadrature uncertainty budget with the simulated link's TDEV as the type A term, a simulated link with flicker phase noise and diurnal non-reciprocity, and the stability of any…
 
 <img src="../../figures/kinds/time-transfer-budget.svg" alt="The chart the engine writes for scenarios/time-transfer-budget.toml, kind time-transfer-budget" width="640">
 
@@ -65,12 +65,12 @@ Result label (the engine's): MODELLED — TWSTFT two-way equation (station delay
 
 MODELLED: the [verification matrix](../../VERIFICATION-MATRIX.md) rows that name this kind.
 
-- **MODELLED** The TWSTFT two-way equation solved for T_A - T_B with station transmit and receive delays, the Ku-band ionospheric up/down asymmetry, the transponder delay difference and the Sagnac terms, against its exact forward model; a quadrature uncer
+- **MODELLED** The TWSTFT two-way equation solved for T_A - T_B with station transmit and receive delays, the Ku-band ionospheric up/down asymmetry, the transponder delay difference and the Sagnac terms, against its exact forward model; a quadrature…
 
 The rows the run itself exercised, with the oracle the matrix gives each (the public sources are named there):
 
-- **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): SBOM conformance to the official CycloneDX 1.5 JSON Schema (+ valid SPDX identifiers) — an external published standard, zero validation errors over the full dependency graph; the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
-- **MODELLED** The TWSTFT two-way equation solved for T_A - T_B with station transmit and receive delays, the Ku-band ionospheric up/down asymmetry, the transponder delay diff. Oracle (InternalConsistency): Internal consistency: the forward model and the solved equation agree to 1e-15 s, the Sagnac term equals the module's independent BIPM 2A omega/c^2 loop form, the ionospheric term is 40.3 TEC (1/f_up^2 - 1/f_down^2)/c, and the noise processes show their expected TDEV shapes. WHAT IS NOT: no real TWSTFT measurement or calibration report has been compared; the stated delays and uncertainties are inputs, not measured; t
+- **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): Official CycloneDX 1.5 JSON Schema (+ SPDX identifier list): every atomic licence id is a valid SPDX id, and the document has zero schema errors once compound expressions are moved to expression (the generator's raw output has 133 compound-id errors); the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
+- **MODELLED** The TWSTFT two-way equation solved for T_A - T_B with station transmit and receive delays, the Ku-band ionospheric up/down asymmetry, the transponder delay…. Oracle (InternalConsistency): Internal consistency: the forward model and the solved equation agree to 1e-15 s, the Sagnac term equals the module's independent BIPM 2A omega/c^2 loop form, the ionospheric term is 40.3 TEC (1/f_up^2 - 1/f_down^2)/c, and the noise processes show their expected TDEV shapes. WHAT IS NOT: no real TWSTFT measurement or calibration report has been compared; the stated delays and uncertainties are inputs, not measured…
 
 ## Limitations
 
@@ -78,7 +78,7 @@ What the run's own report says is not modelled or not validated:
 
 - MODELLED — TWSTFT two-way equation (station delays, Ku-band ionosphere, transponder, Sagnac) solved from stated delays, a quadrature uncertainty budget with the simulated link's TDEV as the type A term, a simulated link with flicker phase noise and diurnal non-reciprocity, and the stability of any real UTC-UTC(k) or station-clock series supplied; not compared with a real TWSTFT link (result `label`)
 - MODELLED. (kind catalogue (`kshana kinds --json`))
-- Two-way satellite time and frequency transfer (TWSTFT) between two ILLUSTRATIVE stations, one in central Europe and one in eastern North America, through a geostationary relay at 10 deg W. The run solves the two-way equation for T_A - T_B from the stated equipment, transponder, ionospheric (Ku band, 14/11 GHz) and Sagnac terms. It forms an uncertainty budget whose statistical term is the TDEV, at one day, of a simula (scenario file comment, lines 1 to 8)
+- Two-way satellite time and frequency transfer (TWSTFT) between two ILLUSTRATIVE stations, one in central Europe and one in eastern North America, through a geostationary relay at 10 deg W. The run solves the two-way equation for T_A - T_B from the stated equipment, transponder, ionospheric (Ku band, 14/11 GHz) and Sagnac terms. It forms an uncertainty budget whose statistical term is the TDEV, at one day, of a… (scenario file comment, lines 1 to 8)
 - Reproducibility & software assurance is MODELLED, not validated: a sub-claim is externally checked, but the whole capability composes modelled pieces, so the capability stays Modelled. (verification matrix (docs/MODELLED-RATIONALE.md))
 - TWSTFT two-way equation, uncertainty budget and link stability with flicker and diurnal non-reciprocity is MODELLED, not validated: checked against its own closed-form / analytic identity — catches transcription and coefficient errors, but is not an external oracle. (verification matrix (docs/MODELLED-RATIONALE.md))
 

@@ -10,8 +10,7 @@ seg-3cb660ef6b03 = Skyline masks and sky geometry
 
 # text
 # c1: mask_deg
-# c2: docs/design/2026-10-12-geometry-and-skyline-design.md
-seg-724f72bdfa36 = Until { "0.36" } every Earth visibility test in the engine was one elevation cut-off, <c1/>: a satellite counted when it was at or above one number, whatever its direction. A street, a quay, a fjord or a crane blocks part of the sky and leaves the rest open. A <b>skyline</b> is an elevation cut that depends on azimuth; the <b>sky-geometry functions</b> turn a site, a time, constellations and a skyline into the visible set, the dilution of precision (DOP), the geometry covariance, the horizontal error ellipse, a Monte Carlo cloud and a skyplot. The design is <c2/> (items { "1" } and { "2" }).
+seg-3576be2b5eba = Until { "0.36" } every Earth visibility test in the engine was one elevation cut-off, <c1/>: a satellite counted when it was at or above one number, whatever its direction. A street, a quay, a fjord or a crane blocks part of the sky and leaves the rest open. A <b>skyline</b> is an elevation cut that depends on azimuth; the <b>sky-geometry functions</b> turn a site, a time, constellations and a skyline into the visible set, the dilution of precision (DOP), the geometry covariance, the horizontal error ellipse, a Monte Carlo cloud and a skyplot.
 
 # text
 seg-4c1bc0b37f54 = Evidence: the masked visibility decision (geodetic look angles, the table mask, the visible set and its DOP) is <b>VALIDATED</b> against Orekit { "12.2" } and gnss_lib_py { "1.0.4" } in a pre-registered comparison, and so are the error ellipse and the per-system cofactor (numpy, pre-registered); the canyon, sector and terrain reductions, the presets and the rest of the sky-geometry functions are <b>MODELLED</b> (<a1>Evidence</a1>). A skyline removes line-of-sight satellites and nothing more. The presets are REPRESENTATIVE geometries, not surveys.
@@ -102,7 +101,7 @@ seg-2b0d77219437 = Presets
 
 # text
 # c1: kshana skyline --preset <name>
-seg-1eeff52ea5a5 = Chosen and stated dimensions (the design note's), not surveys of any real place. <c1/> prints one with its provenance and its cut every degree.
+seg-bc462345ebf6 = Chosen and stated dimensions, not surveys of any real place. <c1/> prints one with its provenance and its cut every degree.
 
 # text
 seg-587beeccaa11 = Preset
@@ -141,9 +140,6 @@ seg-65b1b45c787f = In a scenario
 # text
 # c1: [skyline]
 seg-e489759bbd65 = An optional <c1/> section, over the kind's own cut-off:
-
-# text
-seg-b03d56f501c3 = Kind
 
 # text
 seg-f98345079e70 = What the skyline changes
@@ -199,16 +195,16 @@ seg-d0eb9fd84d24 = The satellites in GSV and in the fix. Azimuths are true beari
 # c9: integrity
 # c10: user_site
 # c11: user
-seg-56cc8ae30218 = <b>The ground site of <c1/> and <c2/>.</b> Both kinds model an orbiting user with a geocentric elevation and no Earth-fixed azimuth, so they take a skyline only with the design note's ground-site mode: <c3/> in place of <c4/> (exactly one of the two). Each sample is one absolute instant, <c5/>: every satellite is propagated to it (an element set, broadcast ephemeris or SP3 file is advanced from its own epoch, a Walker satellite counts <c6/> from <c7/>) and rotated to Earth-fixed at it, so the site sees one consistent sky. <c8/> is the orbit scenario's own; without one (and always for <c9/>, which has none) it is the newest epoch among the satellites that carry one, or J2000 for Walker patterns only. Elevation and azimuth are geodetic (WGS-84). The horizontal and vertical split of the integrity kind's ARAIM protection levels and Stanford vertical error uses the same geodetic up (the WGS-84 ellipsoid normal, about { "0.19" }° from the geocentric radial at { "45" }° latitude); snapshot RAIM already used it. A <c10/> without a skyline is a plain ground user; the orbiting <c11/> path is unchanged.
+seg-31f6a4bd7f20 = <b>The ground site of <c1/> and <c2/>.</b> Both kinds model an orbiting user with a geocentric elevation and no Earth-fixed azimuth, so they take a skyline only with a ground-site mode: <c3/> in place of <c4/> (exactly one of the two). Each sample is one absolute instant, <c5/>: every satellite is propagated to it (an element set, broadcast ephemeris or SP3 file is advanced from its own epoch, a Walker satellite counts <c6/> from <c7/>) and rotated to Earth-fixed at it, so the site sees one consistent sky. <c8/> is the orbit scenario's own; without one (and always for <c9/>, which has none) it is the newest epoch among the satellites that carry one, or J2000 for Walker patterns only. Elevation and azimuth are geodetic (WGS-84). The horizontal and vertical split of the integrity kind's ARAIM protection levels and Stanford vertical error uses the same geodetic up (the WGS-84 ellipsoid normal, about { "0.19" }° from the geocentric radial at { "45" }° latitude); snapshot RAIM already used it. A <c10/> without a skyline is a plain ground user; the orbiting <c11/> path is unchanged.
 
 # text
 # c1: [skyline]
 # c2: tests/skyline_scenarios.rs
-# c3: docs/revisions/STUDIO15-portable-math-rebaseline.md
+# c3: docs/revisions/
 # c4: [skyline]
 # c5: skyline
 # c6: masked_by_skyline
-seg-fae979b3b96f = <b>Backward compatibility.</b> Without a <c1/> section a scenario is byte-identical to what the same engine gave before skyline code existed: <c2/> checks the JSON, chart and summary of every shipped scenario that runs one of these kinds, and the NMEA text of every training scenario, against SHA-256 digests of the "{ "0.36" } portable" baseline (the { "0.35.0" } release commit's digests, re-based when the engine moved to portable maths and kept in the test as the record: <c3/>). An empty <c4/> section cuts nothing; the result then equals the run without it except for the added <c5/> block and the zero <c6/> counts.
+seg-ecb4eeba400a = <b>Backward compatibility.</b> Without a <c1/> section a scenario is byte-identical to what the same engine gave before skyline code existed: <c2/> checks the JSON, chart and summary of every shipped scenario that runs one of these kinds, and the NMEA text of every training scenario, against SHA-256 digests of the "{ "0.36" } portable" baseline (the { "0.35.0" } release commit's digests, re-based when the engine moved to portable maths and kept in the test as the record; the revision is recorded under <c3/>). An empty <c4/> section cuts nothing; the result then equals the run without it except for the added <c5/> block and the zero <c6/> counts.
 
 # text
 # c1: user
@@ -453,7 +449,7 @@ seg-9d04c658b37a = Every result carries <c1/> (MODELLED), the <c2/> (geometry un
 
 # text
 # c1: docs/VERIFICATION-MATRIX.md
-seg-0e1285fdfe52 = Five ledger rows (<c1/>), as the design note scopes them:
+seg-5e88bb6c7c06 = Five ledger rows (<c1/>):
 
 # text
 seg-7338b6210228 = Row

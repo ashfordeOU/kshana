@@ -786,7 +786,6 @@ seg-8adbbd2cdb74 = Självbeskrivning i rapporten för hybrid optisk/RF
 
 seg-2a5e48b558e1 = Rapporten hybrid-optical-rf anger den länkkonfiguration den faktiskt kördes med (bärvågens våglängd, sändar- och mottagarapertur, avstånd, pulsbredd, integrationstid, verkningsgrader och förluster, standardvärden uppslagna) och bär ett enhetsblock som anger enhet och proveniensklass för varje storhet som en artikel sannolikt citerar, inklusive spåren av överlämningskovariansen i kvadratmeter
 
-seg-23f0c10237f4 = Ingen extern oberoende referens, och ingen är möjlig: detta är självbeskrivning, inte en mätning. Det registreras eftersom avsaknaden av det var en brist -- P5 var tvungen att citera bärvågens våglängd och sändarapertur från källkodens standardvärden, och att sluta sig till att en bar <c1/> var i kvadratmeter utifrån en intern konsistenskontroll. Slutsatsen var riktig, vilket är precis varför det spelade roll: ingenting hade fångat om den varit fel
 
 seg-0691f3dee8cb = Tillgänglighet för hybridlänk optisk/RF på RF-sidan
 
@@ -3560,7 +3559,3 @@ seg-f4b44b14d819 = tests/mission_thread_oracle.rs::the_stored_numbers_miss_the_r
 seg-67fdcdfdb635 = interference_map::emitter (estimate, sessions, build_units, profile, GaussianFix::from_tdoa), interference_map::emitter_out (locate), <c1/>
 
 seg-920b26e226ab = enhetstester för interference_map::emitter (rundtur för projektion, horisontsiffra, syntetiska rundturer framåt och bakåt: den kända sändaren ligger innanför det angivna området ungefär i den angivna andelen, gränsfall, sessionsklustring, profil, integritet och formulering); fall för locate i tests/interference_map_cli.rs
-
-seg-db7a6ac0a47d = Det fullständiga, maskinkontrollerade evidensregistret: <b>{ "412" } rader — { "176" } VALIDATED, { "232" } MODELLED, { "4" } PARTNER</b>. En rad får vara VALIDATED bara med en oberoende extern referens (matrisens invarianttester upprätthåller detta). Samma data, med klickbara länkar per rad till varje test, modul och incheckad fixtur, är <em>Valideringsregistret</em> på <a1>https://kshana.dev</a1>. Se <a2>MODELLED-RATIONALE.md</a2> för varför varje modellerad rad inte är externt validerad.
-
-seg-1cc523709234 = { "412" } rader: { "176" } externt validerade, { "232" } modellerade, { "4" } ägda av partner.

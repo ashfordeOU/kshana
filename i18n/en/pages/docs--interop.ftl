@@ -244,6 +244,13 @@ seg-4f7a0b8b4358 = The epoch of <c1/> is the one the kind's run uses, and each f
 seg-ee8eeb47f41b = Satellites keep the positional identifiers <c1/>, <c2/>, ... the SP3 and OEM exports give them, because the propagators do not carry the TLE name lines.
 
 # text
+# c1: gnss-sim
+# c2: S01
+# c3: S02
+# c4: space_segment
+seg-834bc49108fb = A <c1/> scenario's GEO and IGSO slots (<a1>GNSS slots</a1>) follow its Walker shell as satellites <c2/>, <c3/>, ..., on the same epoch and times; each description names the slot set, the slot, its source and where its phase comes from. The test-bench export lists the same slots in the motion metadata (<c4/>), since a bench sets up the satellites the receiver is to see.
+
+# text
 seg-0491624c5f12 = Imports
 
 # text
@@ -357,7 +364,15 @@ seg-00b9fc226c06 = <b>CCSDS Attitude Data Messages</b> (<c1/>, with <c2/>): AEM 
 seg-b8aa23f78f9e = <b>SPICE SPK</b> (<c1/>): writers and readers of NAIF SPK segments of types { "9" } and { "13" } (with the export of a CCSDS OEM to an SPK kernel) and types { "3" } and { "21" } (Chebyshev polynomials and extended difference lines), checked against the NAIF SPICE toolkit's own readers, down to byte identity. Kshana writes the segments from records it is given: it does not fit Chebyshev coefficients or produce difference lines.
 
 # text
-seg-bb97cbb1ab9f = The CCSDS OEM importer and writer, and the OEM covariance block, are older and are described under the imports above and in the matrix.
+# c1: oem-interop
+seg-46490bed6350 = The CCSDS OEM importer and writer, and the OEM covariance block, are older; they are reached through the <c1/> kind and described in the matrix.
+
+# text
+seg-7f18692db3a9 = Observed tracks (after { $version })
+
+# text
+# c1: kshana connect decode --to geojson|kml|czml
+seg-53b1473c286e = The exports above draw a scenario's geometry. The tracks of real vessels, aircraft and drones (AIS, ADS-B, ASTERIX, MAVLink, ULog, NMEA { "2000" }) go to GeoJSON, KML and CZML through <c1/>, every point with the trust attributes its report carried: see <a1>TRACKS.md</a1>.
 
 # text
 # c1: CentralBody Earth
@@ -391,9 +406,6 @@ seg-e024f5c1cab1 = What <c1/> does for each file in <c2/> (the suite manifest is
 
 # text
 seg-cae10fb9bff8 = Scenario
-
-# text
-seg-b03d56f501c3 = Kind
 
 # text
 seg-c27f67dfbb37 = no [{ "1" }]

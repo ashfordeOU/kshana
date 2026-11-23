@@ -17,12 +17,12 @@ back its JSON (JavaScript Object Notation), instead of guessing the maths. It sp
 stdio (standard input and output) to any MCP-compatible client, including Cursor and
 JetBrains AI Assistant / Junie.
 
-The maths Kshana is validated for is exactly where a language model guesses badly: SGP4
+The maths Kshana checks against external oracles is exactly where a language model guesses badly: SGP4
 (Simplified General Perturbations 4) orbit propagation, reference frames of the IAU
 (International Astronomical Union), Allan deviations, GNSS (Global Navigation Satellite
 System) availability and DOP (dilution of precision), ARAIM (advanced receiver autonomous
-integrity monitoring) protection levels, GNSS and INS (inertial navigation system) fusion,
-and quantum-sensor models. Ask a question; the assistant runs a real scenario and gets
+integrity monitoring) protection levels and loosely coupled GNSS and INS (inertial navigation
+system) fusion; its quantum-sensor models are labelled MODELLED. Ask a question; the assistant runs a real scenario and gets
 figures of merit with their provenance and their VALIDATED or MODELLED label.
 
 <picture>
@@ -54,7 +54,7 @@ figures of merit with their provenance and their VALIDATED or MODELLED label.
 | `assess_vessel_log` | A vessel's NMEA 0183 log (at most 4 MiB) as a batch run, with the session TOML stating the vessel's limits: the score model and every epoch's 0-100 score with its deductions (the reply keeps counts by state and the first 200 degraded or untrusted epochs). Advisory only; MODELLED. |
 | `jammertest_import` | Read the published Jammertest test catalogue and transmission plan (NPRA/jammertest-plan, MIT) as scheduled truth (`kshana jammertest import`): one test area's slots become receiver-trust events with the catalogue id and year in each label. Planned slots, not recorded on-air times; no contact field of the plan is read. MODELLED. See [`docs/JAMMERTEST.md`](../../docs/JAMMERTEST.md). |
 | `jammertest_score` | Score a receiver log against that schedule (`kshana jammertest score`): per test the detection latency, missed alarms and time to recover, and the false alarms outside every slot. Text logs as `log`, binary (`ubx`, `sbf`) as `log_base64`. A signed pack needs a key: command line. Advisory only; MODELLED. |
-| `referee_location_score` | Score where a monitoring network said interference came from (`kshana jammertest locate-score`, row B2): per report the attributed event, the geodesic error and region containment and size; per event and pooled, error percentiles, coverage per level, time to first location and time to locate; false locations per hour. Checks arithmetic, not any locator's accuracy. |
+| `referee_location_score` | Score where a monitoring network said interference came from (`kshana jammertest locate-score`, pre-registered row B2): per report the attributed event, the geodesic error and region containment and size; per event and pooled, error percentiles, coverage per level, time to first location and time to locate; false locations per hour. Checks arithmetic, not any locator's accuracy. |
 | `create_evidence_pack` | A signed evidence pack for a window of a vessel's log (`kshana receiver-trust evidence`): the raw log bytes for the window, configuration, per-epoch results and reasons, a summary page, and a manifest with every SHA-256 and a hash chain, signed with Ed25519. The signing seed is never returned or logged; without one a one-time key is used, so the pack proves integrity, not identity. A technical record, not a legal opinion. See [`docs/EVIDENCE-PACKS.md`](../../docs/EVIDENCE-PACKS.md). |
 | `attach_evidence_timestamp` | Bind an RFC 3161 timestamp token (base64 of the `.tsr` bytes) to a pack, in memory (`kshana evidence attach-timestamp`); the pack with the token must still verify. The timestamp authority's signature is not checked: use `openssl ts -verify`. |
 | `verify_evidence_pack` | Verify a pack (`kshana evidence verify`): every hash, the chain, the signature, and with the signer's public key and the full log, who signed it and that the slice came from that log. Names every failure and file. The `verdict` is `verified` (signer pinned), `intact-signer-not-pinned` (everything checks but no public key was given, so the signer is not established) or `failed`; `require_timestamp` fails a pack with no timestamp token. |
@@ -78,7 +78,6 @@ figures of merit with their provenance and their VALIDATED or MODELLED label.
 | `lunanet_afs_check` | The LunaNet Augmented Forward Signal checked against LNIS V5 AD1 Volume A (LSIS-AFS V1.0, 29 January 2025): `spec` (the implementation against the document's printed code tables and worked examples), `symbols` (a symbol stream: sync pattern, SB1, FID, TOI continuity) or `generate` (a test stream). LDPC and CRC-24Q of subframes 2 to 4 are not verified; no signal is written. |
 | `score_benchmark` | A kshana-bench submission scored against a truth file, both JSON text (`kshana bench score`, `bench/SPEC.md`): the result file with the spec version, split, input hashes and the task's metrics. MODELLED; describes a log or corpus, never a product. |
 | `render_leaderboard` | kshana-bench result files rendered as the static leaderboard page (HTML text), each validated first. |
-| `trust_telemetry` | A trust stream (JSON lines) or `receiver-trust` result rendered as Prometheus text, CEF or LEEF syslog lines or an OTLP JSON payload, with the `kshana trust-telemetry` encoders. Text in the reply: nothing is sent or served and no clock is read. Advisory only. |
 | `route_exposure` | The share of a route's length in degraded, not-degraded, unassessed and not-observed cells of one or more interference maps, optionally within a date range. Unobserved cells are not evidence of a clear route. |
 | `iq_signals` | The GNSS IQ layer's set-up: the signal names the IQ tools accept, whether the IQ file tools are on, the work directory and the per-call sample budget. Call it first. |
 | `iq_info` | Describe one IQ (in-phase and quadrature) recording in the work directory without processing it: format, sample rate, centre frequency, samples, duration, data files and sizes (`kshana iq info`). |
@@ -90,7 +89,7 @@ figures of merit with their provenance and their VALIDATED or MODELLED label.
 | `iq_campaign_status` | A campaign output folder's progress: cells done and pending, and the digest once complete. Reads files only. |
 
 Each tool is a thin, faithful wrapper over a public function of the `kshana` library — no
-new simulation logic lives here, so an agent runs exactly the validated engine.
+new simulation logic lives here, so an agent runs exactly the same engine, with the same labels.
 
 ### The GNSS IQ tools: files in, compact JSON out
 

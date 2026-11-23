@@ -13,7 +13,7 @@ seg-134407946837 = <c1/> (scenario kind)
 seg-304496607bd7 = Scenario kind of the engine v{ $version }, family <a1>Jamming, spoofing and the spectrum</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
 
 # text
-seg-98e740d32860 = Machine-learning RF-impairment detection evaluation testbed ({ "13494" }): generate a labelled, parameter-grounded SYNTHETIC corpus (nominal/jamming/spoof-time/spoof-position/multipath), score a detector (energy|agc|sqm|parity|fused) with the detector-agnostic harness, and report AUC/ROC/confusion + per-class Pd at a target Pfa, plus the in- vs out-of-distribution optimism gap. MODELLED operating characteristics only — never field/IQ, no good/bad verdict.
+seg-76a75c821a5d = Machine-learning RF-impairment detection evaluation testbed: generate a labelled, parameter-grounded SYNTHETIC corpus (nominal/jamming/spoof-time/spoof-position/multipath), score a detector (energy|agc|sqm|parity|fused) with the detector-agnostic harness, and report AUC/ROC/confusion + per-class Pd at a target Pfa, plus the in- vs out-of-distribution optimism gap. MODELLED operating characteristics only — never field/IQ, no good/bad verdict.
 
 # text
 # c1: scenarios/impairment-eval.toml
@@ -38,7 +38,7 @@ seg-283510d17885 = The example <c1/> sets, among others:
 seg-6a64be3b3f07 = fused
 
 # text
-seg-3db71c5bdd0a = auc_out uses a subtler out-of-tuning-reg
+seg-38428c30b102 = auc_out uses a subtler…
 
 # text
 seg-98151954f217 = false
@@ -56,7 +56,7 @@ seg-7400f24ec992 = MODELLED { "1" } · VALIDATED { "2" }: the <a1>verification m
 seg-798a7e5526a0 = <b>VALIDATED</b> AUC (Mann-Whitney, ties ½), confusion matrix at threshold, P_d/P_md/P_fa/precision/accuracy/F1 Tests: <a1>eval_metrics_reference.rs</a1>.
 
 # text
-seg-ceedc14c623a = <b>VALIDATED</b> ROC AUC + bootstrap CI separating real labelled anomalies; transparent detector (reproduces-labels) Tests: <a1>opssat_ad_reference.rs</a1>.
+seg-ac787a8869d2 = <b>VALIDATED</b> ROC AUC (and full operating-point confusion) on real labelled anomalies, using a transparent single-feature detector (peak count) and a diagonal-Mahalanobis score; the bootstrap CI is checked internally only (it brackets the point AUC) Tests: <a1>opssat_ad_reference.rs</a1>.
 
 # text
 seg-0ee5b31cfd09 = <b>MODELLED</b> Labelled synthetic impairment corpus + detector-agnostic ROC/AUC/confusion/Pfa-Pmd harness; leakage guard, stratified split, distribution-shift (in- vs out-of-regime) optimism report.
@@ -65,7 +65,7 @@ seg-0ee5b31cfd09 = <b>MODELLED</b> Labelled synthetic impairment corpus + detect
 seg-392fa6495840 = <b>VALIDATED</b> AUC (Mann-Whitney, ties ½), confusion matrix at threshold, P_d/P_md/P_fa/precision/accuracy/F1. Oracle (ExternalDataset): scikit-learn { "1.9.0" } (Pedregosa et al., JMLR { "2011" }) — independent library, exact match
 
 # text
-seg-c719d4060e1a = <b>MODELLED</b> Labelled synthetic impairment corpus + detector-agnostic ROC/AUC/confusion/Pfa-Pmd harness; leakage guard, stratified split, distribution-shift (in- vs out-of-r. Oracle (InternalConsistency): Closed-form AUC bounds (Mann–Whitney) + a perfect-oracle detector; corpus is SYNTHETIC (parameter-grounded, not field/IQ)
+seg-3633ece2258f = <b>MODELLED</b> Labelled synthetic impairment corpus + detector-agnostic ROC/AUC/confusion/Pfa-Pmd harness; leakage guard, stratified split, distribution-shift (in- vs…. Oracle (InternalConsistency): Closed-form AUC bounds (Mann–Whitney) + a perfect-oracle detector; corpus is SYNTHETIC (parameter-grounded, not field/IQ)
 
 # text
 # c1: label
@@ -79,7 +79,7 @@ seg-d2a9f35ea8cc = MODELLED operating characteristics only — never field/IQ, n
 seg-376f86fbdcb7 = HONEST SCOPE: MODELLED operating characteristics only. The corpus is synthetic and parameter-grounded (composed from Kshana's jamming/AGC/SQM/parity models) — never field captures or raw IQ. The harness is a referee; it reports characteristics, it does not pass a good/bad verdict. Run: kshana scenarios/impairment-eval.toml (scenario file comment, lines { "9" } to { "12" })
 
 # text
-seg-882d67b9474f = Machine-learning RF-impairment detection evaluation ({ "13494" }) is MODELLED, not validated: checked against its own closed-form / analytic identity — catches transcription and coefficient errors, but is not an external oracle. (verification matrix (docs/MODELLED-RATIONALE.md))
+seg-66913c5b2d53 = Machine-learning RF-impairment detection evaluation is MODELLED, not validated: checked against its own closed-form / analytic identity — catches transcription and coefficient errors, but is not an external oracle. (verification matrix (docs/MODELLED-RATIONALE.md))
 
 # text
 seg-5d23d7f8f872 = Family page: <a1>Jamming, spoofing and the spectrum</a1>

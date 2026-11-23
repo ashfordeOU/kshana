@@ -786,7 +786,6 @@ seg-8adbbd2cdb74 = Hybridi optinen/RF-raportin itsekuvaus
 
 seg-2a5e48b558e1 = Raportti hybrid-optical-rf ilmoittaa linkkikonfiguraation, jolla se todella ajettiin (kantoaallon aallonpituus, lähetys- ja vastaanottoapertuuri, etäisyys, pulssin leveys, integrointiaika, hyötysuhteet ja häviöt, oletukset ratkaistuina) ja sisältää yksikkölohkon, joka antaa jokaisen sellaisen suureen yksikön ja alkuperäluokan, jonka artikkeli todennäköisesti lainaa, mukaan lukien siirtokovarianssin jäljet neliömetreinä
 
-seg-23f0c10237f4 = Ei ulkoista oraakkelia, eikä sellainen ole mahdollinen: tämä on itsekuvaus, ei mittaus. Se kirjataan, koska sen puute oli vika – P5:n piti lainata kantoaallon aallonpituus ja lähetysapertuuri lähdekoodin oletuksista ja päätellä sisäisen johdonmukaisuustarkistuksen avulla, että pelkkä <c1/> oli neliömetreinä. Päätelmä oli oikea, ja juuri siksi sillä oli väliä: mikään ei olisi havainnut sen olleen väärä
 
 seg-0691f3dee8cb = Hybridi optisen/RF-linkin saatavuus RF-puolella
 
@@ -3579,7 +3578,3 @@ seg-f4b44b14d819 = tests/mission_thread_oracle.rs::the_stored_numbers_miss_the_r
 seg-67fdcdfdb635 = interference_map::emitter (estimate, sessions, build_units, profile, GaussianFix::from_tdoa), interference_map::emitter_out (locate), <c1/>
 
 seg-920b26e226ab = interference_map::emitter unit tests (projection round trip, horizon figure, synthetic forward and inverse round trips: the known emitter lies inside the stated region at about the stated rate, edge cases, session clustering, profile, privacy and wording); tests/interference_map_cli.rs locate cases
-
-seg-db7a6ac0a47d = Täydellinen, koneellisesti tarkistettu todistekirjanpito (ledger): <b>{ "412" } riviä — { "176" } VALIDATED, { "232" } MODELLED, { "4" } PARTNER</b>. Rivi voi olla VALIDATED vain riippumattoman ulkoisen oraakkelin kanssa (matriisin invarianttitestit valvovat tätä). Samat tiedot, joissa on napsautettavat rivikohtaiset linkit jokaiseen testiin, moduuliin ja tallennettuun testiaineistoon, ovat <em>Validointikirjanpito</em> osoitteessa <a1>https://kshana.dev</a1>. Katso tiedosto <a2>MODELLED-RATIONALE.md</a2>, miksi jokaista mallinnettua riviä ei ole validoitu ulkoisesti.
-
-seg-1cc523709234 = { "412" } riviä: { "176" } validoitu ulkoisesti, { "232" } mallinnettu, { "4" } kumppanin omistama.

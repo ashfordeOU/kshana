@@ -178,9 +178,3 @@ seg-4ae905aec2ab = <s1>Předchozí</s1>Rozhraní Python
 seg-8af548581ae9 = <s1>Další</s1>Crate Rustu
 
 seg-80e5f0aa2831 = Engine má { "93" } druhů scénářů; <c1/> je vypíše s jejich poli. Nově ve verzi { "0.38.0" }: <c2/> (signály GNSS pro kosmické prostředky nad drahami GNSS, kolem nich i za nimi) a <c3/> (lunární oběžná dráha a povrch jako navigační a geodetická infrastruktura), obojí MODELLED, a <c4/> (záznam časové chyby proti maskám ITU-T).
-
-seg-fd6daa52df11 = { "176" } z { "412" } schopností ověřeno proti nezávislým vnějším orákulům
-
-seg-4a3ebec6d011 = <b>{ "176" } z { "412" }</b> schopností ověřeno proti nezávislým vnějším orákulům; { "232" } poctivě označeno jako modelované, { "4" } ve vlastnictví partnera. Každá schopnost nese jedno označení ve strojově kontrolovaném registru: VALIDATED (souhlasí nezávislé vnější orákulum: skutečná data, nezávislá implementace nebo zveřejněné referenční vektory), MODELLED (vnitřně konzistentní, a řečeno otevřeně) nebo PARTNER (vlastní ho hardwarový partner). Mezi kontrolami: všech { "666" } vektorů SGP4 (Simplified General Perturbations { "4" }) podle AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 na { "4.12" } mm a model sil Cowell na { "0.08" } m proti Orekit { "12.2" }.
-
-seg-d69651a71fbe = Jak schopnost získává své označení: schopnost, orákulum, test, označení v registru. Stav ověření napříč všemi { "412" } schopnostmi: { "176" } ověřeno, { "232" } modelováno, { "4" } ve vlastnictví partnera

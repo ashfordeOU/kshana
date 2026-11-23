@@ -1,4 +1,4 @@
-# AI/ML RF-impairment detection evaluation testbed (ESA AO/1-13494 demonstrator).
+# AI/ML RF-impairment detection evaluation testbed.
 #
 # Generates a labelled, parameter-grounded SYNTHETIC corpus (nominal / jamming /
 # spoof-time / spoof-position / multipath), scores a detector with the

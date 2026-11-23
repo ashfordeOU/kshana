@@ -325,50 +325,6 @@ seg-da82c97ac5c8 = Uma constelação fornecida como TLEs completos é propagada 
 seg-a47031620b54 = { "7" }. Bindings
 
 # text
-# c1: python.rs
-# c2: wasm.rs
-# c3: --features python
-# c4: --features wasm
-# c5: cargo deny --all-features
-# c6: api::run_toml
-# c7: web/
-# c8: run
-# c9: run_all
-# c10: chart_svg
-# c11: summary
-# c12: table_csv
-# c13: list_kinds
-# c14: error_kind
-# c15: version
-# c16: encode_permalink
-# c17: decode_permalink
-# c18: export_sp3
-# c19: export_omm
-# c20: export_oem
-# c21: api
-# c22: mcp/kshana-mcp
-# c23: rmcp
-# c24: run_scenario
-# c25: list_scenario_kinds
-# c26: validate_scenario
-# c27: list_example_scenarios
-# c28: get_example_scenario
-# c29: report_scenario
-# c30: animate_scenario
-# c31: list_export_formats
-# c32: export_interop
-# c33: import_route
-# c34: export_sp3
-# c35: export_omm
-# c36: export_oem
-# c37: export_table_csv
-# c38: assess_receiver_log
-# c39: bundled-scenarios
-# c40: ide/jetbrains
-# c41: kshana
-seg-57fb29fdd9d9 = O núcleo é compilado sem alteração para nativo, para uma extensão Python e para WebAssembly. Os módulos Python (<c1/>, PyO3 abi3) e WebAssembly (<c2/>, wasm-bindgen) são dependências opcionais, controladas por recursos (<c3/> / <c4/>): a compilação padrão e a suíte de testes nunca as compilam, enquanto a verificação de auditoria de dependências (<c5/>) inspeciona suas árvores de dependências, porque esses crates são distribuídos dentro do wheel e do pacote npm. Ambos chamam <c6/>, de modo que todas as superfícies devolvem resultados idênticos. O módulo WebAssembly sustenta o playground de navegador em <c7/> e exporta treze funções: <c8/>, <c9/> (uma execução do motor que devolve resultado, gráfico, resumo e tabela juntos), <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, o codec de URL (URL: endereço web) compartilhável <c16/> / <c17/>, e os três exportadores <c18/> / <c19/> / <c20/> que sustentam o menu de exportação do playground. Duas outras portas de entrada chegam à mesma <c21/>: o <b>servidor MCP (Model Context Protocol)</b> (<c22/>, um crate <c23/> excluído do workspace que expõe quinze ferramentas: <c24/>, <c25/>, <c26/>, <c27/>, <c28/>, <c29/>, <c30/>, <c31/>, <c32/>, <c33/>, <c34/>, <c35/>, <c36/>, <c37/>, <c38/>; as duas ferramentas de exemplo leem os cenários embutidos por meio do recurso <c39/> da biblioteca, desativado por padrão e ativado apenas por este servidor) e o <b>plugin para IDE (ambiente de desenvolvimento integrado) JetBrains</b> (<c40/>, um projeto Kotlin que chama a CLI <c41/> em vez de vincular a biblioteca).
-
-# text
 # c1: --features python
 # c2: --features wasm
 # c3: --features bundled-scenarios

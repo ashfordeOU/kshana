@@ -40,7 +40,7 @@ The scalar results of that run, with the units the engine states:
 | Result | Value | Unit |
 |---|---|---|
 | `alert_limit_m` | 50 | m |
-| `evidence.id_rule` | the stable id of the matrix row (the ID  | text |
+| `evidence.id_rule` | the stable id of the matrix row (the… | text |
 | `evidence.matrix` | docs/VERIFICATION-MATRIX.md | text |
 | `evidence.tier` | MODELLED | text |
 | `max_hpl_m` | 452.18433 | m |
@@ -57,9 +57,9 @@ No matrix row names this kind by name; the label on its result is the engine's o
 
 The rows the run itself exercised, with the oracle the matrix gives each (the public sources are named there):
 
-- **VALIDATED** ARAIM multiple-hypothesis solution separation per the ARAIM Airborne Design Document (ADD) v4.2 (araim_reference::add_v42_protection_levels and add_v42_protecti. Oracle (ExternalDataset): Three independent tools, pre-registered (ba7a01a7) before any fixture or oracle output existed, tolerances fixed then. (1) ARAIM: Stanford MAAST for ARAIM 2 (commit ab70e2a3, BSD-3) mhss_raim_baseline_v5.m, run as a separate program under GNU Octave 8.4 with a driver-side unique() compatibility shim (disclosed, no algorithm change), at the ADD TOL_PL of 0.05 m: the Rust reproduces the ADD reference implementation on 
-- **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): SBOM conformance to the official CycloneDX 1.5 JSON Schema (+ valid SPDX identifiers) — an external published standard, zero validation errors over the full dependency graph; the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
-- **VALIDATED** The lunar protection level's geometry-to-covariance step — (GᵀG)⁻¹ over the all-in-view and every single-fault sub-geometry, projected onto the local vertical a. Oracle (ExternalDataset): Two established third-party implementations composed, both run offline, with the fixture regenerated end-to-end and verified byte-identical. RTKLIB 2.4.2-p13 (T. Takasu, BSD-2-Clause), commit 71db0ff, src/rtkcmn.c compiled from C source with -ULAPACK: lsq() → matinv() → ludcmp()/lubksb() inverts the normal matrix by Crout LU with partial pivoting, an algorithm unrelated to kshana's hand-written Gauss-Jordan invert4()
+- **VALIDATED** ARAIM multiple-hypothesis solution separation per the ARAIM Airborne Design Document (ADD) v4.2 (araim_reference::add_v42_protection_levels and…. Oracle (ExternalDataset): Three independent tools, pre-registered (ba7a01a7) before any fixture or oracle output existed, tolerances fixed then. (1) ARAIM: Stanford MAAST for ARAIM 2 (commit ab70e2a3, BSD-3) mhss_raim_baseline_v5.m, run as a separate program under GNU Octave 8.4 with a driver-side unique() compatibility shim (disclosed, no algorithm change), at the ADD TOL_PL of 0.05 m: the Rust reproduces the ADD reference implementation…
+- **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): Official CycloneDX 1.5 JSON Schema (+ SPDX identifier list): every atomic licence id is a valid SPDX id, and the document has zero schema errors once compound expressions are moved to expression (the generator's raw output has 133 compound-id errors); the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
+- **VALIDATED** The lunar protection level's geometry-to-covariance step — (GᵀG)⁻¹ over the all-in-view and every single-fault sub-geometry, projected onto the local vertical…. Oracle (ExternalDataset): Two established third-party implementations composed, both run offline, with the fixture regenerated end-to-end and verified byte-identical. RTKLIB 2.4.2-p13 (T. Takasu, BSD-2-Clause), commit 71db0ff, src/rtkcmn.c compiled from C source with -ULAPACK: lsq() → matinv() → ludcmp()/lubksb() inverts the normal matrix by Crout LU with partial pivoting, an algorithm unrelated to kshana's hand-written Gauss-Jordan…
 
 ## Limitations
 

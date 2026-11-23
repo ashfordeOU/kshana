@@ -15,13 +15,14 @@ One run of `scenarios/lunar-interop-export.toml` summarises as: lunar-interop-ex
 From the schema (`kshana kinds --json`):
 
 - Required fields: none
-- Optional fields: `frame`, `time_system`, `allow_unregistered_time_system`, `n_states`, `epoch`, `step_min`, `object`
+- Optional fields: `frame`, `epoch_tdb`, `time_system`, `allow_unregistered_time_system`, `n_states`, `epoch`, `step_min`, `object`
 
 The example `scenarios/lunar-interop-export.toml` sets, among others:
 
 | Field | Value | Unit |
 |---|---|---|
 | `epoch` | 2030-01-01T00:00:00 | text |
+| `epoch_tdb` | 2030-01-01T00:00:00 | text |
 | `frame` | MOON_ME | text |
 | `kind` | lunar-interop-export | text |
 | `n_states` | 9 | count |
@@ -45,7 +46,7 @@ The scalar results of that run, with the units the engine states:
 | `conformance.pass` | true | flag |
 | `conformance.ref_frame` | MOON_ME | text |
 | `conformance.time_system` | TDB | text |
-| `evidence.id_rule` | the stable id of the matrix row (the ID  | text |
+| `evidence.id_rule` | the stable id of the matrix row (the… | text |
 | `evidence.matrix` | docs/VERIFICATION-MATRIX.md | text |
 | `evidence.tier` | MODELLED | text |
 | `frame` | MOON_ME | text |
@@ -60,8 +61,8 @@ No matrix row names this kind by name; the label on its result is the engine's o
 
 The rows the run itself exercised, with the oracle the matrix gives each (the public sources are named there):
 
-- **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): SBOM conformance to the official CycloneDX 1.5 JSON Schema (+ valid SPDX identifiers) — an external published standard, zero validation errors over the full dependency graph; the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
-- **MODELLED** LunaNet/IOAG-aligned lunar frame + time + ephemeris export (CCSDS OEM + KIF) with round-trip conformance. Oracle (InternalConsistency): kshana's lunar OEM export re-parsed by the independent third-party `oem` library (R. J. Anderson): frame/time tokens and per-epoch state agree to write precision (1 mm / 1e-9 km/s) and a dropped-TIME_SYSTEM export is rejected — a structural interchange round-trip; the lunar frame/time physical semantics are validated by their own rows, so this stays MODELLED. 0.30 external comparison, a finding (stays MODELLED): a se
+- **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): Official CycloneDX 1.5 JSON Schema (+ SPDX identifier list): every atomic licence id is a valid SPDX id, and the document has zero schema errors once compound expressions are moved to expression (the generator's raw output has 133 compound-id errors); the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
+- **MODELLED** LunaNet/IOAG-aligned lunar frame + time + ephemeris export (CCSDS OEM + KIF) with a round-trip check by independent readers. Oracle (InternalConsistency): kshana's lunar OEM export re-parsed by the independent third-party `oem` library (R. J. Anderson): frame/time tokens and per-epoch state agree to write precision (1 mm / 1e-9 km/s) and a dropped-TIME_SYSTEM export is rejected — a structural interchange round-trip; the lunar frame/time physical semantics are validated by their own rows, so this stays MODELLED. 0.30 external comparison, a finding (stays MODELLED): a…
 
 ## Limitations
 
@@ -70,8 +71,8 @@ What the run's own report says is not modelled or not validated:
 - MODELLED (result `honesty`)
 - Also emits a LunaNet/IOAG-aligned lunar-time descriptor (scale id, secular rate µs/day from crate::lunar_time, published band, reference surface) that round-trips via serde_json, and wraps the artifacts in the existing KIF envelope (crate::interchange) with the MODELLED honesty label. (kind catalogue (`kshana kinds --json`))
 - MODELLED — deterministic round-trip + field-name conformance vs published CCSDS OEM + LunaNet/IOAG field semantics is the oracle; NOT a certified interoperability conformance test; illustrative public-source ephemeris, not affiliated with ESA; no TRL/heritage/agency endorsement. (kind catalogue (`kshana kinds --json`))
-- WHAT src/lunar_interop.rs does: * export_lunar_oem — REUSES the crate's CCSDS OEM 2.0 emitter (crate::oem), re-tagged for the lunar context: REF_FRAME = the lunar body frame under its SANA-registered name (MOON_ME, or MOON_PA440 for the DE440 principal axes), TIME_SYSTEM = TDB by default (UTC too; LTC / TCL, which are not SANA-registered, only with allow_unregistered_time_system = true and a COMMENT saying so), CENTE (scenario file comment, lines 6 to 22)
-- HONESTY: MODELLED. The field NAMES and units are aligned with PUBLIC standards (CCSDS 502.0-B OEM with SANA-registered frame and time names, IAU WGCCRE 2015 and JPL DE440 lunar frames, LunaNet Interoperability Specification / IOAG lunar architecture). The deterministic round-trip and the field-name conformance are the oracle. This is NOT a certified interoperability conformance test. The ephemeris is illustrative, pu (scenario file comment, lines 24 to 30)
+- WHAT src/lunar_interop.rs does: * export_lunar_oem — REUSES the crate's CCSDS OEM 2.0 emitter (crate::oem), re-tagged for the lunar context: REF_FRAME = the lunar body frame under its SANA-registered name (MOON_ME, or MOON_PA440 for the DE440 principal axes), TIME_SYSTEM = TDB by default (UTC too; LTC / TCL, which are not SANA-registered, only with allow_unregistered_time_system = true and a COMMENT saying so)… (scenario file comment, lines 6 to 22)
+- HONESTY: MODELLED. The field NAMES and units are aligned with PUBLIC standards (CCSDS 502.0-B OEM with SANA-registered frame and time names, IAU WGCCRE 2015 and JPL DE440 lunar frames, LunaNet Interoperability Specification / IOAG lunar architecture). The deterministic round-trip and the field-name conformance are the oracle. This is NOT a certified interoperability conformance test. The ephemeris is illustrative… (scenario file comment, lines 24 to 30)
 - Reproducibility & software assurance is MODELLED, not validated: a sub-claim is externally checked, but the whole capability composes modelled pieces, so the capability stays Modelled. (verification matrix (docs/MODELLED-RATIONALE.md))
 - Lunar interoperability export is MODELLED, not validated: checked against its own closed-form / analytic identity — catches transcription and coefficient errors, but is not an external oracle. (verification matrix (docs/MODELLED-RATIONALE.md))
 
@@ -79,3 +80,4 @@ What the run's own report says is not modelled or not validated:
 
 - Family page: [Lunar and cislunar](../lunar-and-cislunar.md#lunar-interop-export)
 - All kinds: [KINDS.md](../../KINDS.md)
+- Topic page: [LUNAR-OEM.md](../../LUNAR-OEM.md)

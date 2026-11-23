@@ -48,7 +48,7 @@ Conflict notes:
 ## Release state
 
 The engine side is at 0.40.0 on `integ/0.40.0-rc2` (final engine commit 584a2eb2): version bump, re-blessed pins and SBOM fixture
-(recorded in `docs/revisions/STUDIO15-pins-0.40.0-version.md` and `docs/revisions/I18N-sbom-verdict-dependency-growth.md`), count
+(recorded in `docs/revisions/pins-0.40.0-version.md` and `docs/revisions/I18N-sbom-verdict-dependency-growth.md`), count
 surfaces at 401 rows (176 VALIDATED, 221 MODELLED, 4 PARTNER) and 92 kinds. The release date 2026-10-29 (set by the owner) is in CHANGELOG,
 CITATION.cff, the README changelog anchor and docs/CAPABILITY.md.
 

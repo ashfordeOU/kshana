@@ -1935,7 +1935,6 @@ seg-2a5e48b558e1 = Le rapport hybrid-optical-rf énonce la configuration de liai
 
 # text
 # c1: variance
-seg-23f0c10237f4 = Aucune référence externe, et aucune n'est possible : il s'agit d'auto-description, non d'une mesure. Elle est consignée parce que son absence était un défaut -- P5 a dû citer la longueur d'onde de la porteuse et l'ouverture d'émission à partir des valeurs par défaut du source, et déduire qu'un <c1/> nu était en mètres carrés à partir d'une vérification de cohérence interne. La déduction était correcte, ce qui est précisément la raison pour laquelle cela importait : rien n'aurait détecté qu'elle était fausse
 
 # text
 seg-0691f3dee8cb = Disponibilité de la liaison hybride optique/RF côté RF
@@ -4071,5 +4070,3 @@ seg-b5c49044a7a1 = Une région admissible pour l'endroit où peut se trouver une
 seg-953a8b4f9f41 = Aucune vérification externe pour l'instant. Seulement des allers-retours synthétiques direct-inverse, issus d'un générateur qui partage le modèle de l'estimateur : ils vérifient donc le code et l'étalonnage des niveaux déclarés sous ce modèle, et rien sur les émetteurs réels. Une vérification externe par rapport aux sites d'émetteurs publiés de Jammertest { "2025" } a été préenregistrée (docs/emitter-region/PREREGISTRATION.md, validée par le propriétaire avant toute exécution notée) et exécutée une fois (docs/emitter-region/RESULTS.md) : ADS-B NOT ASSESSABLE ({ "2" } sessions programmées, moins que le minimum enregistré de { "4" }) et AIS NOT ASSESSABLE (aucune session publiée) ; aucun seuil n'a donc été testé et la ligne reste MODELLED
 
 seg-d5a79853b72f = { "93" } types sur { "93" }, { "3334" } champs numériques sur { "3334" }
-
-seg-877f989ae75e = Les { "61" } fiches de capacités issues de <c1/>, puis les { "412" } lignes de la matrice de vérification.

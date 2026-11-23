@@ -13,7 +13,7 @@ seg-f0c7758e472f = <c1/> (scenario kind)
 seg-1f17ef6a853e = Scenario kind of the engine v{ $version }, family <a1>Lunar and cislunar</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
 
 # text
-seg-7ccd0a3babb8 = MODELLED planar cislunar constellation observability (P6): tracks a four-spacecraft differential-corrected planar-DRO constellation with inter-satellite ranging and reports how much of a spacecraft's four-state [x,y,ẋ,ẏ] the arc makes observable. Emits ({ "1" }) the rank-vs-arc-length table for a single range-only link — instantaneously rank-1, growing toward the full four-state as the arc extends (P6 Table { "1" }); ({ "2" }) the observability-Gramian eigen-spectrum + condition number over the arc; ({ "3" }) the range-only-vs-range+range-rate instantaneous-rank comparison (the Doppler design lever) plus the range-only-singular / range+rate-defined GDOP reporting; and ({ "4" }) an independent SRIF cross-validation whose posterior covariance turns finite / well-conditioned exactly at the arc where the observable rank reaches four. VALIDATED core: the observable rank is a rank-revealing singular-value threshold cross-checked against the Gramian eigen-rank; the eigen-spectrum obeys the spectral invariants (trace=Σλ, det=Πλ, Frobenius²=Σλ²); the variational STM is the finite-difference-validated CR3BP STM; the range/range-rate Jacobian rows are finite-difference-validated analytic partials (cross-checked against the crate's 3-D range-rate observable); the four initial conditions are differential-corrected planar DROs that close to a tight periodicity residual and are retrograde; the rank transition is cross-validated against the crate's square-root information filter (posterior covariance finite exactly at full rank, cond(P)=cond(OᵀO)); a rank-deficient snapshot is flagged GDOP-undefined (fim condition=inf), never a bogus finite value — the same singular-geometry guard pvt::solve_spp applies. MODELLED: the constellation design (DRO perilune amplitudes and phases) and the specific rank progression it produces. Not a certified navigation-performance product.
+seg-b899f7fff0ef = MODELLED planar cislunar constellation observability: tracks a four-spacecraft differential-corrected planar-DRO constellation with inter-satellite ranging and reports how much of a spacecraft's four-state [x,y,ẋ,ẏ] the arc makes observable. Emits ({ "1" }) the rank-vs-arc-length table for a single range-only link — instantaneously rank-1, growing toward the full four-state as the arc extends; ({ "2" }) the observability-Gramian eigen-spectrum + condition number over the arc; ({ "3" }) the range-only-vs-range+range-rate instantaneous-rank comparison (the Doppler design lever) plus the range-only-singular / range+rate-defined GDOP reporting; and ({ "4" }) an independent SRIF cross-validation whose posterior covariance turns finite / well-conditioned exactly at the arc where the observable rank reaches four. Checked core (the kind stays MODELLED): the observable rank is a rank-revealing singular-value threshold cross-checked against the Gramian eigen-rank; the eigen-spectrum obeys the spectral invariants (trace=Σλ, det=Πλ, Frobenius²=Σλ²); the variational STM is the finite-difference-validated CR3BP STM; the range/range-rate Jacobian rows are finite-difference-validated analytic partials (cross-checked against the crate's 3-D range-rate observable); the four initial conditions are differential-corrected planar DROs that close to a tight periodicity residual and are retrograde; the rank transition is cross-validated against the crate's square-root information filter (posterior covariance finite exactly at full rank, cond(P)=cond(OᵀO)); a rank-deficient snapshot is flagged GDOP-undefined (fim condition=inf), never a bogus finite value — the same singular-geometry guard pvt::solve_spp applies. MODELLED: the constellation design (DRO perilune amplitudes and phases) and the specific rank progression it produces. Not a certified navigation-performance product.
 
 # text
 # c1: scenarios/cislunar-observability.toml
@@ -40,40 +40,44 @@ seg-f3b5cc590c78 = The example <c1/> sets, among others:
 seg-0cc8ab10786b = rotating-frame time units
 
 # text
-seg-84781b6fff48 = GDOP undefined (rank-deficient / singula
+seg-4a26fdaa9f51 = GDOP undefined (rank-deficient /…
 
 # text
-seg-856eb311f24b = “undefined” (text as the document states
+seg-a354c2fe2cea = “undefined” (text as the document…
 
 # text
 seg-6d584e86deba = ratio (dimensionless)
 
 # text
-seg-fc5d34345fdd = Result label (the engine's): MODELLED planar cislunar constellation observability (P6). VALIDATED core: the observable RANK is a rank-revealing singular-value threshold cross-checked against the Gramian eigen-rank; the Gramian eigen-spectrum obeys the spectral invariants (trace = sum eig, det = prod eig, Frobenius^{ "2" } = sum eig^{ "2" }
+seg-03532b4cfcd0 = Result label (the engine's): MODELLED planar cislunar constellation observability. Checked core (the kind stays MODELLED): the observable RANK is a rank-revealing singular-value threshold cross-checked against the Gramian eigen-rank; the Gramian eigen-spectrum obeys the spectral invariants (trace = sum eig, det = prod eig…
 
 # attr:alt
 seg-f15bbf30b0dd = The chart the engine writes for scenarios/cislunar-observability.toml, kind cislunar-observability
 
 # text
-seg-4564ad90378b = <b>MODELLED</b> The cislunar arc-length observability threshold in the SPATIAL six-state CR3BP rather than the planar four-state, across DRO, L2 halo and L2 near-rectilinear halo families, with measurement noise entering the Gramian and TWO criteria report
+seg-0cc588ea2cb1 = <b>MODELLED</b> The cislunar arc-length observability threshold in the SPATIAL six-state CR3BP rather than the planar four-state, across DRO, L2 halo and L2 near-rectilinear halo families, with measurement noise entering the Gramian and TWO criteria…
 
 # text
-seg-9f857ff85800 = <b>MODELLED</b> The cislunar arc-length observability threshold in the SPATIAL six-state CR3BP rather than the planar four-state, across DRO, L2 halo and L2 near-rectilinear ha. Oracle (InternalConsistency): An independent row-echelon rank by Gaussian elimination with partial pivoting confirms every six-state rank verdict — a different algorithm sharing no code with the eigen/SVD route under test. The { "6" }×{ "6" } CR3BP state-transition matrix this composes carries its own ReferenceImpl oracle against SciPy variational integration, and the halo/NRHO initial conditions come from a corrector that reproduces the published L2 souther
+seg-562f62383697 = <b>MODELLED</b> The cislunar arc-length observability threshold in the SPATIAL six-state CR3BP rather than the planar four-state, across DRO, L2 halo and L2 near-rectilinear…. Oracle (InternalConsistency): An independent row-echelon rank by Gaussian elimination with partial pivoting confirms every six-state rank verdict — a different algorithm sharing no code with the eigen/SVD route under test. The { "6" }×{ "6" } CR3BP state-transition matrix this composes carries its own ReferenceImpl oracle against SciPy variational integration, and the halo/NRHO initial conditions come from a corrector that reproduces the published L2…
 
 # text
 # c1: label
-seg-53c183035bde = MODELLED planar cislunar constellation observability (P6). VALIDATED core: the observable RANK is a rank-revealing singular-value threshold cross-checked against the Gramian eigen-rank; the Gramian eigen-spectrum obeys the spectral invariants (trace = sum eig, det = prod eig, Frobenius^{ "2" } = sum eig^{ "2" }); the variational STM is the finite-difference-validated CR3BP STM (crate::cr3bp); the range / range-rate Jacobian rows (result <c1/>)
+seg-67ad93f38794 = MODELLED planar cislunar constellation observability. Checked core (the kind stays MODELLED): the observable RANK is a rank-revealing singular-value threshold cross-checked against the Gramian eigen-rank; the Gramian eigen-spectrum obeys the spectral invariants (trace = sum eig, det = prod eig, Frobenius^{ "2" } = sum eig^{ "2" }); the variational STM is the CR3BP STM (crate::cr3bp), whose corrector is VALIDATED against the… (result <c1/>)
 
 # text
 # c1: kshana kinds --json
-seg-f6a217f57bec = MODELLED planar cislunar constellation observability (P6): tracks a four-spacecraft differential-corrected planar-DRO constellation with inter-satellite ranging and reports how much of a spacecraft's four-state [x,y,ẋ,ẏ] the arc makes observable. (kind catalogue (<c1/>))
+seg-cf39583b2394 = MODELLED planar cislunar constellation observability: tracks a four-spacecraft differential-corrected planar-DRO constellation with inter-satellite ranging and reports how much of a spacecraft's four-state [x,y,ẋ,ẏ] the arc makes observable. (kind catalogue (<c1/>))
+
+# text
+# c1: kshana kinds --json
+seg-7f3cfc6fcecd = Checked core (the kind stays MODELLED): the observable rank is a rank-revealing singular-value threshold cross-checked against the Gramian eigen-rank; the eigen-spectrum obeys the spectral invariants (trace=Σλ, det=Πλ, Frobenius²=Σλ²); the variational STM is the finite-difference-validated CR3BP STM; the range/range-rate Jacobian rows are finite-difference-validated analytic partials (cross-checked against the… (kind catalogue (<c1/>))
 
 # text
 # c1: kshana kinds --json
 seg-e5182743fd40 = MODELLED: the constellation design (DRO perilune amplitudes and phases) and the specific rank progression it produces. (kind catalogue (<c1/>))
 
 # text
-seg-5d3a370f1295 = Honesty: MODELLED. VALIDATED core -- the observable RANK is a rank-revealing singular-value threshold cross-checked against the Gramian eigen-rank; the eigen-spectrum obeys the spectral invariants (trace = sum eig, det = prod eig, Frobenius^{ "2" } = sum eig^{ "2" }); the variational STM is the finite-difference-validated CR3BP STM; the range / range-rate Jacobian rows are finite-difference-validated analytic partials (cross-che (scenario file comment, lines { "16" } to { "25" })
+seg-a423a68b5e44 = Honesty: MODELLED. Checked core -- the observable RANK is a rank-revealing singular-value threshold cross-checked against the Gramian eigen-rank; the eigen-spectrum obeys the spectral invariants (trace = sum eig, det = prod eig, Frobenius^{ "2" } = sum eig^{ "2" }); the variational STM is the finite-difference-validated CR3BP STM; the range / range-rate Jacobian rows are finite-difference-validated analytic partials… (scenario file comment, lines { "16" } to { "25" })
 
 # text
 seg-c68bc1df8975 = Spatial, noisy, multi-family cislunar arc-length observability is MODELLED, not validated: checked against its own closed-form / analytic identity — catches transcription and coefficient errors, but is not an external oracle. (verification matrix (docs/MODELLED-RATIONALE.md))

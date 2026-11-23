@@ -1220,34 +1220,6 @@ js-site-palette-none = Brak wyników
 
 js-site-palette-results = Wyniki: { $count }
 
-js-site-pro-band-at = Po { $minutes } minutach: od 5. do 95. percentyla
-
-js-site-pro-band-range = { $lo } do { $hi } { $unit }
-
-js-site-pro-band-runs-within = z { $n } przebiegów w granicach ±{ $limit } { $unit }
-
-js-site-pro-design-readout = satelitów { $sat }, dostępność { $av } % · { $planes } płaszczyzn na { $alt } km, { $incl }°
-
-js-site-pro-front-design = Projekt z frontu { $id }
-
-js-site-pro-front-design-knee = Projekt z frontu { $id } · punkt kolana
-
-js-site-pro-more-designs =
-    { $n ->
-        [one] (+{ $n } kolejny projekt z frontu w tym punkcie)
-        [few] (+{ $n } kolejne projekty z frontu w tym punkcie)
-        [many] (+{ $n } kolejnych projektów z frontu w tym punkcie)
-       *[other] (+{ $n } kolejnego projektu z frontu w tym punkcie)
-    }
-
-js-site-pro-not-rerun = nie uruchomiono ponownie
-
-js-site-pro-rerun-free = ponowne uruchomienie w bezpłatnym silniku:
-
-js-site-pro-same-sha = ten sam SHA-256 { $sha }…
-
-js-site-pro-same-sha-index = ten sam SHA-256 wyniku co w indeksie
-
 js-site-toast-copied = Skopiowano: { $text }
 
 js-site-toast-data-failed = Nie udało się załadować pliku danych

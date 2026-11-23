@@ -1776,43 +1776,6 @@ js-site-palette-none = No results
 # src/site.js:418
 js-site-palette-results = { $count } results
 
-# src/js/pro-power.mjs:147
-js-site-pro-band-at = At { $minutes } minutes: 5th to 95th percentile
-
-# src/js/pro-power.mjs:147
-js-site-pro-band-range = { $lo } to { $hi } { $unit }
-
-# src/js/pro-power.mjs:148
-js-site-pro-band-runs-within = of { $n } runs within ±{ $limit } { $unit }
-
-# src/js/pro-power.mjs:92
-js-site-pro-design-readout = { $sat } satellites, { $av } % availability · { $planes } planes at { $alt } km, { $incl }°
-
-# src/js/pro-power.mjs:91
-js-site-pro-front-design = Front design { $id }
-
-# src/js/pro-power.mjs:91
-js-site-pro-front-design-knee = Front design { $id } · knee
-
-# src/js/pro-power.mjs:90
-js-site-pro-more-designs =
-    { $n ->
-        [one] (+{ $n } more front design at this point)
-       *[other] (+{ $n } more front designs at this point)
-    }
-
-# src/js/pro-power.mjs:94
-js-site-pro-not-rerun = not re-run
-
-# src/js/pro-power.mjs:93
-js-site-pro-rerun-free = re-run in the free engine:
-
-# src/js/pro-power.mjs:94
-js-site-pro-same-sha = same SHA-256 { $sha }…
-
-# src/js/pro-power.mjs:94
-js-site-pro-same-sha-index = same result SHA-256 as the index
-
 # src/site.js:42
 js-site-toast-copied = Copied: { $text }
 

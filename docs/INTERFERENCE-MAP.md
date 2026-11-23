@@ -188,7 +188,7 @@ FeatureCollection
                            AIS:   vessels_observed, vessels_flagged{detector: n|null}, detectors[]
 ```
 
-**Confidence and data window (0.42, additive).** Every published cell carries a `confidence` object
+**Confidence and data window (added after 0.41.0, additive).** Every published cell carries a `confidence` object
 (`statement: "kshana-interference-map/confidence/v1"`), and every file's `day` block a `data_window`
 (`first_report_utc`, `last_report_utc`, truncated to the minute). The confidence statement describes how much a
 call rests on; it changes nothing about the call.
@@ -223,8 +223,8 @@ only the box's reports and says so in the file.
 
 ## Studio map page specification
 
-For the Studio's map page, which loads a GeoJSON file the user provides (the page is built
-in the Studio source, not in this repository). Nothing is uploaded: the file is read in the
+For the Studio's map page, which loads a GeoJSON file the user provides (the page is
+`web/studio/interference/` in this repository). Nothing is uploaded: the file is read in the
 browser, and the page makes no request to any data source.
 
 **Reading a file.** Accept a file only if `kshana_interference_map.schema` starts with
@@ -317,7 +317,7 @@ AIS reports: a region at stated confidence levels, a centroid with an uncertaint
 time. It never returns a bare point. **MODELLED** (ledger row `VM-bc70cb57`): the physics is textbook radio
 line of sight, the credibility of the regions is conditional on the model, and the only external check is the
 Jammertest comparison pre-registered in [`emitter-region/PREREGISTRATION.md`](emitter-region/PREREGISTRATION.md).
-Publishing emitter regions in the public observatory is a separate owner decision and is **off**: the observatory
+Publishing emitter regions in the public observatory is **off**: the observatory
 does not read this module, and a test pins that.
 
 ```

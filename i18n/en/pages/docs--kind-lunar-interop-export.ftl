@@ -13,20 +13,22 @@ seg-fdf560e675f4 = <c1/> (scenario kind)
 seg-1f17ef6a853e = Scenario kind of the engine v{ $version }, family <a1>Lunar and cislunar</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
 
 # text
-seg-5a4dcb93a643 = Modelled lunar interoperability export: emits the lunar reference frame, lunar time scale and lunar ephemeris in LunaNet/IOAG-aligned, CCSDS-based interchange forms with round-trip / field conformance. REUSES the crate's CCSDS OEM { "2.0" } emitter+parser (crate::oem) re-tagged for the lunar context — the OEM REF_FRAME carries the IAU { "2015" } WGCCRE lunar body frame (MOON_ME / MOON_PA), TIME_SYSTEM the lunar time scale (LTC / TCL / UTC), CENTER_NAME = MOON — over a sample illustrative LCNS-class ephemeris (positions from crate::lunar_service, velocity by finite difference). Also emits a LunaNet/IOAG-aligned lunar-time descriptor (scale id, secular rate µs/day from crate::lunar_time, published band, reference surface) that round-trips via serde_json, and wraps the artifacts in the existing KIF envelope (crate::interchange) with the MODELLED honesty label. Reports artifacts emitted, OEM line count, field-conformance pass + present/missing field list, OEM round-trip ok, time-metadata round-trip ok, and KIF byte size. MODELLED — deterministic round-trip + field-name conformance vs published CCSDS OEM + LunaNet/IOAG field semantics is the oracle; NOT a certified interoperability conformance test; illustrative public-source ephemeris, not affiliated with ESA; no TRL/heritage/agency endorsement.
+seg-d3b6c5023bcc = Modelled lunar interoperability export: emits the lunar reference frame, lunar time scale and lunar ephemeris in LunaNet/IOAG-aligned, CCSDS-based interchange forms with round-trip / field conformance. REUSES the crate's CCSDS OEM { "2.0" } emitter+parser (crate::oem) re-tagged for the lunar context — the OEM REF_FRAME carries the lunar body frame under its SANA-registered name (MOON_ME, or MOON_PA440 for the DE440 principal axes) when epoch_tdb is given, otherwise REF_FRAME = ICRF with the states unrotated, TIME_SYSTEM is TDB by default (UTC too; the unregistered lunar tokens LTC / TCL only with allow_unregistered_time_system = true, and a COMMENT then says so), CENTER_NAME = MOON — over a sample illustrative LCNS-class ephemeris (positions from crate::lunar_service, velocity by finite difference) rotated from Moon-centred inertial axes into the named frame with the DE440 orientation. Also emits a LunaNet/IOAG-aligned lunar-time descriptor (scale id, secular rate µs/day from crate::lunar_time, published band, reference surface) that round-trips via serde_json, and wraps the artifacts in the existing KIF envelope (crate::interchange) with the MODELLED honesty label. Reports artifacts emitted, OEM line count, field-conformance pass + present/missing field list, OEM round-trip ok, time-metadata round-trip ok, and KIF byte size. MODELLED — deterministic round-trip + field-name conformance vs published CCSDS OEM + LunaNet/IOAG field semantics is the oracle; NOT a certified interoperability conformance test; illustrative public-source ephemeris, not affiliated with ESA; no TRL/heritage/agency endorsement.
 
 # text
 # c1: scenarios/lunar-interop-export.toml
-seg-1726861e444f = One run of <c1/> summarises as: lunar-interop-export | REF_FRAME MOON_ME / TIME_SYSTEM LTC | { "9" } states, OEM { "23" } lines | conformance PASS ({ "9" } present / { "0" } missing) | OEM round-trip ok | time-meta round-trip ok | KIF { "1640" } bytes | MODELLED
+seg-11b6106f3f74 = One run of <c1/> summarises as: lunar-interop-export | REF_FRAME MOON_ME / TIME_SYSTEM TDB | { "9" } states, OEM { "24" } lines | conformance PASS ({ "9" } present / { "0" } missing) | OEM round-trip ok | time-meta round-trip ok | KIF { "1761" } bytes | MODELLED
 
 # text
 # c1: frame
-# c2: time_system
-# c3: n_states
-# c4: epoch
-# c5: step_min
-# c6: object
-seg-f8353e15aabd = Optional fields: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>
+# c2: epoch_tdb
+# c3: time_system
+# c4: allow_unregistered_time_system
+# c5: n_states
+# c6: epoch
+# c7: step_min
+# c8: object
+seg-ce2c42cf1efe = Optional fields: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>
 
 # text
 # c1: scenarios/lunar-interop-export.toml
@@ -39,7 +41,7 @@ seg-b8135da5a99a = 2030-01-01T00:{ "00" }:{ "00" }
 seg-834408a40783 = min
 
 # text
-seg-3f36bd2ec5ea = LTC
+seg-60b6e6054c70 = TDB
 
 # text
 seg-debc2f07db78 = true
@@ -55,7 +57,7 @@ seg-619127334cf3 = No matrix row names this kind by name; the label on its resul
 
 # text
 # c1: oem
-seg-98acb538942f = <b>MODELLED</b> LunaNet/IOAG-aligned lunar frame + time + ephemeris export (CCSDS OEM + KIF) with round-trip conformance. Oracle (InternalConsistency): kshana's lunar OEM export re-parsed by the independent third-party <c1/> library (R. J. Anderson): frame/time tokens and per-epoch state agree to write precision ({ "1" } mm / { "1e-9" } km/s) and a dropped-TIME_SYSTEM export is rejected — a structural interchange round-trip; the lunar frame/time physical semantics are validated by their own rows, so this stays MODELLED. { "0.30" } external comparison, a finding (stays MODELLED): a se
+seg-61454ce66fca = <b>MODELLED</b> LunaNet/IOAG-aligned lunar frame + time + ephemeris export (CCSDS OEM + KIF) with a round-trip check by independent readers. Oracle (InternalConsistency): kshana's lunar OEM export re-parsed by the independent third-party <c1/> library (R. J. Anderson): frame/time tokens and per-epoch state agree to write precision ({ "1" } mm / { "1e-9" } km/s) and a dropped-TIME_SYSTEM export is rejected — a structural interchange round-trip; the lunar frame/time physical semantics are validated by their own rows, so this stays MODELLED. { "0.30" } external comparison, a finding (stays MODELLED): a…
 
 # text
 # c1: honesty
@@ -70,16 +72,19 @@ seg-633bcd62ce93 = Also emits a LunaNet/IOAG-aligned lunar-time descriptor (scal
 seg-0e91697e3036 = MODELLED — deterministic round-trip + field-name conformance vs published CCSDS OEM + LunaNet/IOAG field semantics is the oracle; NOT a certified interoperability conformance test; illustrative public-source ephemeris, not affiliated with ESA; no TRL/heritage/agency endorsement. (kind catalogue (<c1/>))
 
 # text
-seg-11d0ccba5ee7 = WHAT src/lunar_interop.rs does: * export_lunar_oem — REUSES the crate's CCSDS OEM { "2.0" } emitter (crate::oem), re-tagged for the lunar context: REF_FRAME = the IAU { "2015" } WGCCRE lunar body frame (MOON_ME / MOON_PA), TIME_SYSTEM = the lunar time scale (LTC / TCL / UTC), CENTER_NAME = MOON, over a sample ILLUSTRATIVE LCNS-class ephemeris (positions from crate::lunar_service, velocity by central finite difference). * export_ (scenario file comment, lines { "6" } to { "19" })
+seg-ab54120a56af = WHAT src/lunar_interop.rs does: * export_lunar_oem — REUSES the crate's CCSDS OEM { "2.0" } emitter (crate::oem), re-tagged for the lunar context: REF_FRAME = the lunar body frame under its SANA-registered name (MOON_ME, or MOON_PA440 for the DE440 principal axes), TIME_SYSTEM = TDB by default (UTC too; LTC / TCL, which are not SANA-registered, only with allow_unregistered_time_system = true and a COMMENT saying so)… (scenario file comment, lines { "6" } to { "22" })
 
 # text
-seg-f730e8f789cf = HONESTY: MODELLED. The field NAMES and units are aligned with PUBLIC standards (CCSDS 502.0-B OEM, IAU WGCCRE { "2015" } lunar frames, LunaNet Interoperability Specification / IOAG lunar architecture). The deterministic round-trip and the field-name conformance are the oracle. This is NOT a certified interoperability conformance test. The ephemeris is illustrative, public-source, NOT affiliated with ESA, and implies no TRL (scenario file comment, lines { "21" } to { "26" })
+seg-49ae97b1836e = HONESTY: MODELLED. The field NAMES and units are aligned with PUBLIC standards (CCSDS 502.0-B OEM with SANA-registered frame and time names, IAU WGCCRE { "2015" } and JPL DE440 lunar frames, LunaNet Interoperability Specification / IOAG lunar architecture). The deterministic round-trip and the field-name conformance are the oracle. This is NOT a certified interoperability conformance test. The ephemeris is illustrative… (scenario file comment, lines { "24" } to { "30" })
 
 # text
 seg-254d48fe58a5 = Lunar interoperability export is MODELLED, not validated: checked against its own closed-form / analytic identity — catches transcription and coefficient errors, but is not an external oracle. (verification matrix (docs/MODELLED-RATIONALE.md))
 
 # text
 seg-1c1eeb2dcaa0 = Family page: <a1>Lunar and cislunar</a1>
+
+# text
+seg-272d28713924 = Topic page: <a1>LUNAR-OEM.md</a1>
 
 # text
 seg-07d6cc44724f = <s1>Previous</s1>lunar-integrity

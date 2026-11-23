@@ -92,7 +92,9 @@ seg-1e2faf2894e3 = a receiver log scored against that schedule: per-test latency
 # c1: files
 # c2: public_key
 # c3: seed_hex
-seg-f94eaef45f04 = a signed evidence pack for a window of the log, in memory: <c1/>, <c2/>, <c3/> (keep it private); a technical record, not a legal opinion
+# c4: lab_attestation
+# c5: HARDWARE-SAFETY.md
+seg-534445f7b218 = a signed evidence pack for a window of the log, in memory: <c1/>, <c2/>, <c3/> (keep it private); <c4/> is the TOML text of an operator's lab attestation (<a1><c5/></a1>); a technical record, not a legal opinion
 
 # text
 # c1: verdict
@@ -342,6 +344,54 @@ seg-d2441bf762b4 = run a lab-replay campaign (<c1/>) into <c2/> as <c3/> does; f
 seg-7b6d264d9c7f = rebuild a campaign's scorecards, HTML report and digest from its cells: the cell and row counts, the rows failing a bar and the <c1/>
 
 # text
+# c1: lang
+# c2: (summary, svg)
+# c3: run_typed
+seg-bb2fc4c88dd4 = run a scenario once in <c1/> and return <c2/>; the result document and CSV are the English run's (<c3/>)
+
+# text
+# c1: None
+# c2: {kind, code, message}
+# c3: lang
+# c4: code
+# c5: E-...
+seg-fc5769b8e1f5 = why a scenario fails: <c1/> when it runs, else <c2/>; the message is in <c3/>, the <c4/> (<c5/>) is the same in every language
+
+# text
+# c1: kshana jammertest locate-score
+seg-c5250bc49438 = location metrics of reported emitter positions against a truth file (<c1/>), as JSON text
+
+# text
+# c1: kshana env-baseline
+seg-f600c6f9a56c = the environmental baseline for a list of site-hours (<c1/>), as JSON text
+
+# text
+# c1: kshana planner
+# c2: kind
+# c3: "map"
+# c4: "place"
+seg-1ed19b93d246 = the monitoring-network planner (<c1/>): <c2/> is <c3/> or <c4/>; JSON text
+
+# text
+# c1: kshana area-trust
+seg-bd25e4350e51 = one trust state for an area from several reference stations (<c1/>), as JSON Lines
+
+# text
+# c1: kshana.connect/1
+# c2: kshana connect map
+# c3: kshana.obs/1
+seg-0b3f668f8123 = apply a <c1/> mapping to a log's text (<c2/>) and return <c3/> records as JSON Lines; nothing touches disk
+
+# text
+# c1: kshana imu-fit
+# c2: [accel_classical]
+seg-c148a8d07532 = fit the accelerometer and gyro parameters of a stationary IMU log (<c1/>), with a ready-to-paste <c2/> table; MODELLED
+
+# text
+# c1: kshana ephem-export
+seg-b03bf4adf7a5 = a JPL Horizons vector table written as CCSDS OEM, OPM or an SPK kernel and read back (<c1/>), as JSON text
+
+# text
 seg-e3956268cf1c = GNSS IQ and receiver-trust signatures
 
 # text
@@ -433,14 +483,17 @@ seg-276104139e73 = The reproducibility table
 # c1: realtime-frame-eop
 # c2: lunar-time-budget
 # c3: lunar-jamming
-# c4: telecom-timing
-# c5: leo-navmsg
-# c6: moonlight-service-volume
-# c7: export_site_lat_deg
-# c8: export_site_lon_deg
-# c9: csv = None
-# c10: <scenario>.table.csv
-seg-09ebf68b36f9 = <c1/>, <c2/>, <c3/>, <c4/> and <c5/> always publish a table; <c6/> publishes one when an export site (<c7/> + <c8/>) is configured. Every other kind returns <c9/>. The text is the same bytes the CLI (command-line interface) writes as <c10/>, so a reviewer reproducing a published table from the wheel never has to drop to the command line:
+# c4: lunar-surface
+# c5: telecom-timing
+# c6: leo-navmsg
+# c7: moonlight-service-volume
+# c8: export_site_lat_deg
+# c9: export_site_lon_deg
+# c10: gnss-ssv
+# c11: trajectory
+# c12: csv = None
+# c13: <scenario>.table.csv
+seg-4374fb48a3f1 = <c1/>, <c2/>, <c3/>, <c4/>, <c5/> and <c6/> always publish a table; <c7/> publishes one when an export site (<c8/> + <c9/>) is configured, and <c10/> when it runs a <c11/>. Every other kind returns <c12/>. The text is the same bytes the CLI (command-line interface) writes as <c13/>, so a reviewer reproducing a published table from the wheel never has to drop to the command line:
 
 # text
 seg-3ad2987110ee = Result shape

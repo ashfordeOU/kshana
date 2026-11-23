@@ -278,17 +278,9 @@ seg-d997b6a5a416 = Waarom Pro, nog meer
 
 seg-4ff013b472ff = Welk ontwerp moeten we vliegen?
 
-seg-f4eb65b9b27a = Lunaire navigatieconstellatie: minste satellieten tegenover beschikbaarheid, hele Maan: { "608" } ontwerpen uitgevoerd, een Pareto-front van { "12" } ontwerpen
-
 seg-c8ce2e4a6687 = Hoe zeker zijn we, en wat bepaalt het resultaat?
 
-seg-049c503c23db = Klok-holdover met een onzeker ruisniveau: het 5e tot 95e percentiel van { "2,000" } runs tegenover de limiet van { "20" } ns
-
 seg-3dd37275b448 = Haalt de missie haar eisen, en kunnen we dat overdragen?
-
-seg-7fbde256debf = niet gehaald
-
-seg-f6ccb7a322b3 = openstaande punten
 
 seg-6d3d0f8c9b7c = Een Pro-evaluatie aanvragen
 
@@ -329,8 +321,6 @@ seg-8b095f7254ed = Installatieopdracht kopiëren: cargo install kshana
 seg-f0e9de10d9ef = cargo install kshana<s1>Kopiëren</s1>
 
 seg-ec3957c0f5f1 = Druk op <c1/> om pagina's, scenario's en documentatie te doorzoeken
-
-seg-a92f77bd42cb = <s1>Kshana Pro</s1><c1/><s2>Dezelfde engine, versterkt: { "608" } ontwerpen, één Pareto-front</s2>
 
 seg-b807a8887172 = Telemetrie afgespeeld uit de geketende campagnerun
 
@@ -646,8 +636,6 @@ seg-09d18cf767a7 = Open kern, Kshana Pro, maatwerkstudie
 
 seg-302606971c35 = Gratis voor iedereen. Pro wanneer het antwoord een beoordeling moet doorstaan.
 
-seg-27c12083529b = Kshana Pro is een propriëtaire laag die op de open kern steunt en die nooit forkt, beschikbaar onder contract. Geen prijzen op een webpagina: elke betaalde route begint met een bericht aan <a1>contact@ashforde.org</a1>.
-
 seg-43ceda17e71c = Open kern · gratis · AGPL-3.0
 
 seg-0230217b1110 = Iedereen die positie of tijd aan GNSS ontleent, is kwetsbaar: jamming, spoofing en signaalverlies treffen voertuigen, netwerken, elektriciteitsnetten en ruimtevaartuigen even goed.
@@ -657,14 +645,6 @@ seg-0af87a1caff4 = Dezelfde kern onder een commerciële licentie, voor gesloten 
 seg-f6406933eb77 = De engine installeren
 
 seg-6a74a165bfd0 = Kshana Pro · onder contract
-
-seg-298532756f74 = Het Pareto-front van een ontwerpruimte, waarbij elk ontwerp op het front een scenario is dat de gratis engine opnieuw uitvoert.
-
-seg-a699256db841 = Onzekerheid en gevoeligheid over duizenden runs.
-
-seg-665005551d84 = Een missiedossier met één opdracht, met een verificatiematrix en een pdf-bestand (Portable Document Format).
-
-seg-455cb5040f80 = Reproduceerbare bewijspakketten van auditkwaliteit; digitale kloktweelingen gekalibreerd op het gepubliceerde Allan-budget van uw apparaat; architectuurafwegingen gerangschikt op een kwaliteitsmaat; model-based systems engineering (MBSE) en programmatooling.
 
 seg-3e30593288a1 = Wat Pro omvat
 
@@ -680,48 +660,10 @@ seg-57320238c0f4 = Werk onder exportbeperkingen onder de passende vrijwaring en 
 
 seg-e36049d768ce = Integratie, training en advies.
 
-seg-3303866fbf99 = Dezelfde engine, versterkt: echte uitvoer van Kshana Pro
-
-seg-f5513a1750f1 = <a1><s1><c1/>Ontwerpoptimalisatie</s1></a1>
-
-seg-2bbc6243b4b1 = <b>{ "608" } ontwerpen</b>, allemaal doorgerekend: het Pareto-front en zijn knik
-
-seg-56e344605a3d = <a1><s1><c1/>Onzekerheid en gevoeligheid</s1></a1>
-
-seg-a0b3c138f981 = <b>{ "2,000" } runs</b>: een betrouwbaarheidsband tegenover een grens
-
 seg-6de95aaa8ba4 = <a1><s1><c1/>Missiedossier</s1></a1>
 
-seg-905e5eef45e5 = <b>{ "12" } eisen</b> gecontroleerd aan de hand van echte runs, pdf van 21 pagina's (Portable Document Format)
-
 seg-7d9ee2bfbb90 = Ontdek waar uw tijdsynchronisatie het begeeft, voordat het gebeurt.
-
-seg-070972f642de = Een missieketen in Artemis-klasse: het foutenbudget voor navigatie en tijdsynchronisatie van lancering tot terugkeer
-
-seg-4970f874d334 = Het maansegment: rendez-vous, afdaling, oppervlak en opstijging
-
-seg-8ca6e2046901 = Een geschat zendergebied uit ADS-B- of AIS-meldingen
-
-seg-003a3b9b63ea = Gemeten klokloggen, en een holdover aangestuurd door een gefitte reeks
-
-seg-448b11c86f48 = Datapartners: welke rijen gemeten data kan bevorderen
-
-seg-5858e5d1f7c5 = Een bewijslabel bij elk cijfer en elke tabel die een run schrijft
-
-seg-bd28ef5c376e = Zeventien talen naast het Engels
-
-seg-7fae5de5ebf1 = kshana-bench: de herhaalcampagne van { "0.40" }
-
-seg-b9961ed25282 = Nieuw in v{ $version }: een missieketen, een bewijslabel bij elk cijfer en zeventien talen
 
 seg-579d9b6f7afd = Alle { "93" } scenariosoorten, gratis zonder functiepoort, deterministisch uit scenario, seed en engineversie.
 
 seg-56bf1281e330 = Een opgenomen sessie met de kshana-mcp-server (Model Context Protocol, engine v{ $version }): de assistent geeft de { "53" } hulpmiddelen weer, controleert <c1/> (geldig: gedetecteerde scenariosoort `clock`) en voert het uit: scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity { "1.000" } security n/a (no attack).
-
-seg-237d8bd201d2 = <b>Campagne:</b> Engine v{ $version }, build <c1/> · <c2/> · seed { "20260928" }
-
-seg-98ebce268546 = <b>Banen:</b> Engine v{ $version }, build <c1/> · <c2/> · deterministisch, geen seed
-
-seg-bb2975f5a7dd = Engine v{ $version }, build <c1/> · <c2/> · seed { "20260928" }
-
-seg-ee04b167d80a = { "176" } van { "412" } mogelijkheden komen overeen met onafhankelijke externe referenties; de rest is hardop als gemodelleerd gelabeld.

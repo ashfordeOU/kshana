@@ -23,13 +23,13 @@ The example `scenarios/clock-ensemble.toml` sets, among others:
 |---|---|---|
 | `clock_classical.flicker_floor` | 2.0000e-11 | 1 |
 | `clock_classical.id` | csac-sa45s | text |
-| `clock_classical.provenance` | Microchip SA65 / SA.45s CSAC datasheet sigma_y(1s)=3e-10; q_ | text |
+| `clock_classical.provenance` | Microchip SA65 / SA.45s CSAC datasheet sigma_y(1s)=3e-10… | text |
 | `clock_classical.q_rw` | 0 | 1/s |
 | `clock_classical.q_wf` | 9.0000e-20 | s^2/s |
 | `clock_classical.y0` | 5.0000e-10 | 1 |
 | `clock_quantum.flicker_floor` | 1.0000e-16 | 1 |
 | `clock_quantum.id` | optical-sr-lattice | text |
-| `clock_quantum.provenance` | Strontium optical lattice clock, space-oriented goal sigma_y | text |
+| `clock_quantum.provenance` | Strontium optical lattice clock, space-oriented goal… | text |
 | `clock_quantum.q_rw` | 0 | 1/s |
 | `clock_quantum.q_wf` | 1.0000e-30 | s^2/s |
 | `clock_quantum.y0` | 5.0000e-17 | 1 |
@@ -40,7 +40,7 @@ The example `scenarios/clock-ensemble.toml` sets, among others:
 kshana scenarios/clock-ensemble.toml
 ```
 
-6 bundled scenarios use this kind; the others are in [`scenarios/`](../../../scenarios/).
+5 scenario files in [`scenarios/`](../../../scenarios/) use this kind.
 
 ## What it gives
 
@@ -65,19 +65,17 @@ The scalar results of that run, with the units the engine states:
 
 MODELLED: the [verification matrix](../../VERIFICATION-MATRIX.md) rows that name this kind.
 
-- **MODELLED** The optional [integrity] section of the clock kind (clock_integrity::run): from a stated site and constellation presets (geometry::sky_geometry), at every integrity epoch while the GNSS timeline is not denied, snapshot RAIM (raim::snapshot_ Tests: [clock_integrity.rs](../../../tests/clock_integrity.rs).
-- **MODELLED** clock_log::read_input: one parser layer that turns a RINEX clock file (AS/AR records of one named clock, versions 2 and 3.00 to 3.04), a TimeLab-style ASCII phase or frequency log, or a TAPR TICC timestamp or interval log into a uniform pha Tests: [clock_log_allantools.rs](../../../tests/clock_log_allantools.rs).
-- **MODELLED** clock_log::read_input with the formats ptp4l, phc2sys, ts2phc, chrony-tracking and chrony-statistics: the logged offset of a linuxptp servo line (ns, the line's own bracketed time stamp, readings before the servo first reports s2 left out a
-- **MODELLED** The `mission-thread` kind: a document of phases, each one of eight registered kinds, run in order with the 6x6 covariance, the clock and the frame handed on under a stated rule (`carry`; `inflate`, white acceleration noise over a stated gap Tests: [field_units_global.rs](../../../tests/field_units_global.rs).
-- and 1 more in the matrix.
+- **MODELLED** The optional [integrity] section of the clock kind (clock_integrity::run): from a stated site and constellation presets (geometry::sky_geometry), at every integrity epoch while the GNSS timeline is not denied, snapshot RAIM… Tests: [clock_integrity.rs](../../../tests/clock_integrity.rs).
+- **MODELLED** clock_log::read_input: one parser layer that turns a RINEX clock file (AS/AR records of one named clock, versions 2 and 3.00 to 3.04), a TimeLab-style ASCII phase or frequency log, or a TAPR TICC timestamp or interval log into a uniform… Tests: [clock_log_allantools.rs](../../../tests/clock_log_allantools.rs).
+- **MODELLED** clock_log::read_input with the formats ptp4l, phc2sys, ts2phc, chrony-tracking and chrony-statistics: the logged offset of a linuxptp servo line (ns, the line's own bracketed time stamp, readings before the servo first reports s2 left out…
 
 The rows the run itself exercised, with the oracle the matrix gives each (the public sources are named there):
 
-- **VALIDATED** Allan/modified/Hadamard deviation + power-law noise ID with χ² CIs. Oracle (ExternalDataset): NIST SP 1065 (Riley) / Stable32 reference deviations on NBS14
+- **VALIDATED** Overlapping Allan, modified Allan, time and overlapping Hadamard deviation (noise identification and χ² confidence intervals are not covered by this oracle). Oracle (ExternalDataset): NIST SP 1065 (Riley) / Stable32 reference deviations on NBS14
 - **MODELLED** Closed-form coast-error growth + holdover-to-threshold; quantum-clock classes. Oracle (ReferenceImpl): Multi-step clock_state covariance recursion (same-codebase cross-check); the underlying coast-variance & holdover-inversion kernel is externally validated vs scipy (see 'Clock-holdover coast-variance & threshold inversion'). The per-class red-noise-floor holdover figures stay MODELLED
-- **MODELLED** 3-state (phase/freq/drift) van-Loan Kalman clock, Joseph-stabilised. Oracle (ReferenceImpl): filterpy 1.4.5 KalmanFilter (R. Labbe, MIT), with F via scipy.linalg.expm and Q via the Van-Loan 1978 block-matrix — an independent reference implementation reproducing kshana's full filter trajectory. Cross-implementation consistency: the clock physics / Allan calibration are not externally validated, so this stays MODELLED. 0.30 external comparison, a finding (stays MODELLED): on IGS final 30 s clocks of 11 GPS Blo
-- **MODELLED** Clock-aided χ², RAIM, AGC, SQM fused per-epoch security FoM. Oracle (ExternalDataset): TEXBAT scenario parameters (Humphreys 2012) — characterisation, not pinned vectors. 0.30 external comparison, a finding (stays MODELLED): on JammerTest 2024 (Bleik; GPL-3.0 data) the observable-level monitors (clock-aided chi-square, RAIM, solve failure) raised no alarm within 10 s of any of the 8 evaluable published spoofing onsets (where the pre-onset window was clean, the first alarm came 10.2 to 39 s after the pu
-- **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): SBOM conformance to the official CycloneDX 1.5 JSON Schema (+ valid SPDX identifiers) — an external published standard, zero validation errors over the full dependency graph; the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
+- **MODELLED** 3-state (phase/freq/drift) van-Loan Kalman clock, Joseph-stabilised. Oracle (ReferenceImpl): filterpy 1.4.5 KalmanFilter (R. Labbe, MIT), with F via scipy.linalg.expm and Q via the Van-Loan 1978 block-matrix — an independent reference implementation reproducing Kshana's full filter trajectory. Cross-implementation consistency: the clock physics / Allan calibration are not externally validated, so this stays MODELLED. 0.30 external comparison, a finding (stays MODELLED): on IGS final 30 s clocks of 11 GPS…
+- **MODELLED** Clock-aided χ², RAIM, AGC, SQM fused per-epoch security FoM. Oracle (ExternalDataset): TEXBAT scenario parameters (Humphreys 2012) — characterisation, not pinned vectors. 0.30 external comparison, a finding (stays MODELLED): on JammerTest 2024 (Bleik; GPL-3.0 data) the observable-level monitors (clock-aided chi-square, RAIM, solve failure) raised no alarm within 10 s of any of the 8 evaluable published spoofing onsets (where the pre-onset window was clean, the first alarm came 10.2 to 39 s after the…
+- **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): Official CycloneDX 1.5 JSON Schema (+ SPDX identifier list): every atomic licence id is a valid SPDX id, and the document has zero schema errors once compound expressions are moved to expression (the generator's raw output has 133 compound-id errors); the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
 
 ## Limitations
 

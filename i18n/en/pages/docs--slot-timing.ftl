@@ -122,7 +122,7 @@ seg-a20353d50011 = MODELLED: an envelope of datasheet maxima
 seg-b543f3dcd11a = Inline datasheet
 
 # text
-seg-4983ec096617 = the customer's own ADEV table, ageing and temperature coefficient
+seg-f01cff7c9919 = the user's own ADEV table, ageing and temperature coefficient
 
 # text
 seg-b079bca8a611 = MODELLED: an envelope of the maxima given

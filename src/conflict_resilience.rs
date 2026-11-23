@@ -48,7 +48,8 @@ use rand_chacha::ChaCha8Rng;
 use serde::Deserialize;
 
 /// The honesty label carried on every result document.
-const LABEL: &str = "MODELLED layered-PNT conflict resilience (P7). VALIDATED core: the \
+const LABEL: &str = "MODELLED layered-PNT conflict resilience. Checked core (the kind \
+stays MODELLED): the \
 Monte-Carlo total-loss probability converges to the closed-form independent product \
 Pi_i p_deny_i (asserted within Monte-Carlo standard error at a fixed seed and large N); \
 the inverse-variance position fuse sigma_fused = (sum_i 1/sigma_i^2)^(-1/2) is a \
@@ -1851,7 +1852,9 @@ mod tests {
         let v: Value = serde_json::from_str(&json).unwrap();
         assert_eq!(v["kind"], "conflict-resilience");
         assert!(v["label"].as_str().unwrap().contains("MODELLED"));
-        assert!(v["label"].as_str().unwrap().contains("VALIDATED"));
+        // The identities (MC to closed form, the inverse-variance fuse, the copula at rho = 0) are internal
+        // checks with no external oracle and no VALIDATED ledger row, so the label calls them checked, not VALIDATED.
+        assert!(v["label"].as_str().unwrap().contains("Checked core"));
         // Closed-form and MC headline ratio both land in the ~7x band.
         let cf = v["resilience_ratio"]["closed_form_independent"]
             .as_f64()

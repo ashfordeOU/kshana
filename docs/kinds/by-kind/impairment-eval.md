@@ -6,7 +6,7 @@ Scenario kind of the engine v0.41.0, family [Jamming, spoofing and the spectrum]
 
 ## What it does
 
-AI/ML RF-impairment detection evaluation testbed (13494): generate a labelled, parameter-grounded SYNTHETIC corpus (nominal/jamming/spoof-time/spoof-position/multipath), score a detector (energy|agc|sqm|parity|fused) with the detector-agnostic harness, and report AUC/ROC/confusion + per-class Pd at a target Pfa, plus the in- vs out-of-distribution optimism gap. MODELLED operating characteristics only — never field/IQ, no good/bad verdict.
+AI/ML RF-impairment detection evaluation testbed: generate a labelled, parameter-grounded SYNTHETIC corpus (nominal/jamming/spoof-time/spoof-position/multipath), score a detector (energy|agc|sqm|parity|fused) with the detector-agnostic harness, and report AUC/ROC/confusion + per-class Pd at a target Pfa, plus the in- vs out-of-distribution optimism gap. MODELLED operating characteristics only — never field/IQ, no good/bad verdict.
 
 One run of `scenarios/impairment-eval.toml` summarises as: impairment-eval | detector fused(max-z) | AUC 0.998 in / 0.981 out (gap 0.017) | Pd 0.99 Pfa 0.05 @ target 0.05 | 1000 cases | MODELLED synthetic
 
@@ -49,7 +49,7 @@ The scalar results of that run, with the units the engine states:
 | `detector` | fused(max-z) | text |
 | `distribution_shift.auc_in` | 0.997719 | 1 |
 | `distribution_shift.auc_out` | 0.981131 | 1 |
-| `distribution_shift.note` | auc_out uses a subtler out-of-tuning-reg | text |
+| `distribution_shift.note` | auc_out uses a subtler… | text |
 | `distribution_shift.optimism_gap` | 0.016587 | 1 |
 | `distribution_shift.optimistic` | false | flag |
 | `distribution_shift.shift_severity_scale` | 0.5 | 1 |
@@ -63,14 +63,14 @@ Result label (the engine's): MODELLED — synthetic parameter-grounded corpus (n
 MODELLED 1 · VALIDATED 2: the [verification matrix](../../VERIFICATION-MATRIX.md) rows that name this kind.
 
 - **VALIDATED** AUC (Mann-Whitney, ties ½), confusion matrix at threshold, P_d/P_md/P_fa/precision/accuracy/F1 Tests: [eval_metrics_reference.rs](../../../tests/eval_metrics_reference.rs).
-- **VALIDATED** ROC AUC + bootstrap CI separating real labelled anomalies; transparent detector (reproduces-labels) Tests: [opssat_ad_reference.rs](../../../tests/opssat_ad_reference.rs).
+- **VALIDATED** ROC AUC (and full operating-point confusion) on real labelled anomalies, using a transparent single-feature detector (peak count) and a diagonal-Mahalanobis score; the bootstrap CI is checked internally only (it brackets the point AUC) Tests: [opssat_ad_reference.rs](../../../tests/opssat_ad_reference.rs).
 - **MODELLED** Labelled synthetic impairment corpus + detector-agnostic ROC/AUC/confusion/Pfa-Pmd harness; leakage guard, stratified split, distribution-shift (in- vs out-of-regime) optimism report.
 
 The rows the run itself exercised, with the oracle the matrix gives each (the public sources are named there):
 
 - **VALIDATED** AUC (Mann-Whitney, ties ½), confusion matrix at threshold, P_d/P_md/P_fa/precision/accuracy/F1. Oracle (ExternalDataset): scikit-learn 1.9.0 (Pedregosa et al., JMLR 2011) — independent library, exact match
-- **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): SBOM conformance to the official CycloneDX 1.5 JSON Schema (+ valid SPDX identifiers) — an external published standard, zero validation errors over the full dependency graph; the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
-- **MODELLED** Labelled synthetic impairment corpus + detector-agnostic ROC/AUC/confusion/Pfa-Pmd harness; leakage guard, stratified split, distribution-shift (in- vs out-of-r. Oracle (InternalConsistency): Closed-form AUC bounds (Mann–Whitney) + a perfect-oracle detector; corpus is SYNTHETIC (parameter-grounded, not field/IQ)
+- **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): Official CycloneDX 1.5 JSON Schema (+ SPDX identifier list): every atomic licence id is a valid SPDX id, and the document has zero schema errors once compound expressions are moved to expression (the generator's raw output has 133 compound-id errors); the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
+- **MODELLED** Labelled synthetic impairment corpus + detector-agnostic ROC/AUC/confusion/Pfa-Pmd harness; leakage guard, stratified split, distribution-shift (in- vs…. Oracle (InternalConsistency): Closed-form AUC bounds (Mann–Whitney) + a perfect-oracle detector; corpus is SYNTHETIC (parameter-grounded, not field/IQ)
 
 ## Limitations
 
@@ -80,7 +80,7 @@ What the run's own report says is not modelled or not validated:
 - MODELLED operating characteristics only — never field/IQ, no good/bad verdict. (kind catalogue (`kshana kinds --json`))
 - HONEST SCOPE: MODELLED operating characteristics only. The corpus is synthetic and parameter-grounded (composed from Kshana's jamming/AGC/SQM/parity models) — never field captures or raw IQ. The harness is a referee; it reports characteristics, it does not pass a good/bad verdict. Run: kshana scenarios/impairment-eval.toml (scenario file comment, lines 9 to 12)
 - Reproducibility & software assurance is MODELLED, not validated: a sub-claim is externally checked, but the whole capability composes modelled pieces, so the capability stays Modelled. (verification matrix (docs/MODELLED-RATIONALE.md))
-- AI/ML RF-impairment detection evaluation (13494) is MODELLED, not validated: checked against its own closed-form / analytic identity — catches transcription and coefficient errors, but is not an external oracle. (verification matrix (docs/MODELLED-RATIONALE.md))
+- AI/ML RF-impairment detection evaluation is MODELLED, not validated: checked against its own closed-form / analytic identity — catches transcription and coefficient errors, but is not an external oracle. (verification matrix (docs/MODELLED-RATIONALE.md))
 
 ## See also
 

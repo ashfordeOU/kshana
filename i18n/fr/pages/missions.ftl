@@ -292,9 +292,6 @@ seg-b388c2bac488 = Ouvrir la console d'orbite
 seg-3d6af799cb19 = <s1>Noyau libre</s1> chaque scénario et chaque graphique de cette page
 
 # text
-seg-354162e88f07 = <s1>Pro</s1> le front de Pareto d'un espace de conception, l'incertitude et la sensibilité, et un dossier de mission en une commande
-
-# text
 seg-83e0dd9b2617 = <s1>Étude sur mesure</s1> modèles étalonnés sur votre matériel, réalisés pour vous
 
 # text
@@ -460,9 +457,6 @@ seg-2d9d1994071f = Exécutez chaque fichier de scénario de ce secteur dans Ksha
 seg-731232b52b8f = Pro ajoute
 
 # text
-seg-de3cc6d30b9c = Pro : des paquets de preuves reproductibles de qualité audit pour un examen.
-
-# text
 seg-04d539c39f45 = L'étude sur mesure ajoute
 
 # text
@@ -625,9 +619,6 @@ seg-2918af222529 = Satellites en vue et PDOP (dilution de précision de position
 seg-ef0cc5181857 = Un utilisateur géostationnaire : définissez l'orbite de l'utilisateur dans un scénario de type orbit, comme orbit-molniya en définit une très excentrique.
 
 # text
-seg-7889feffa939 = Pro : des études de compromis d'architecture classées selon une figure de mérite. Pro : des jumeaux numériques d'horloge étalonnés sur le budget d'Allan publié de votre dispositif.
-
-# text
 seg-bb0ceeb8db2a = Un atterrisseur, un rover ou un orbiteur à la Lune, sur Mars ou plus loin obtiendra-t-il une position et un temps dignes de confiance, et qu'ajoute l'échelle de temps locale au budget d'erreur ?
 
 # text
@@ -749,9 +740,6 @@ seg-96077751d4ce = Taux de temps lunaire par rapport à la bande publiée, et bu
 
 # text
 seg-f1dfccfb9f89 = Erreur de navigation par relais en orbite martienne, en surface et en transfert
-
-# text
-seg-4a5542c69690 = Pro : des jumeaux numériques d'horloge étalonnés sur le budget d'Allan publié de votre dispositif. Pro : des études de compromis d'architecture classées selon une figure de mérite.
 
 # text
 seg-4cf1f8144ae2 = Une fois le GNSS supprimé par un brouilleur, combien de temps mon UAS (système d'aéronef sans équipage) reste-t-il dans son budget de position, et l'intégrité est-elle disponible sur mon itinéraire ?
@@ -1036,9 +1024,6 @@ seg-b6c48dca904a = Détection du leurrage temporel par le moniteur d'intégrité
 seg-3db4a218354b = Réseau électrique et finance : la limite de précision temporelle de votre secteur entre comme threshold_ns.
 
 # text
-seg-cc45be91cd00 = Pro : des jumeaux numériques d'horloge étalonnés sur le budget d'Allan publié de votre dispositif. Pro : des paquets de preuves reproductibles de qualité audit pour un examen.
-
-# text
 seg-cb5e51c39a7f = Perte de la référence de temps GNSS sur une horloge de temps de référence primaire, leurrage temporel
 
 # text
@@ -1193,9 +1178,6 @@ seg-1bd3b0f6eb7e = Vraie exécution du moteur, rejouée
 
 # text
 seg-f1313464b7c9 = Orbites : repropagées à partir des propres éléments de l'exécution et vérifiées par rapport aux traces au sol du moteur. Planètes : imagerie NASA.
-
-# text
-seg-6c981f00d37d = <b>Avec Pro :</b> l'optimiseur de conception parcourt tout un espace de conception de constellations autour de la Terre, de la Lune ou de Mars avec ce moteur et renvoie son <b>front de Pareto</b>, chaque conception du front étant écrite sous forme de simple fichier de scénario. <a1>Voir un vrai front</a1>
 
 # text
 seg-cdd1e1a6793d = Modes de défaillance
@@ -1368,9 +1350,6 @@ seg-d2c741b188de = Dimensionnez une architecture PNT et voyez où elle casse.
 seg-87adf34e62f8 = Commencez par <a1>l'atlas des capacités</a1>
 
 # text
-seg-9601ecea0610 = <b>Gratuit aujourd'hui :</b> tout ce qu'il y a dans le moteur ouvert. Pro : des études de compromis d'architecture classées selon une figure de mérite.
-
-# text
 seg-5ad7df11c031 = Spécialiste PNT ou GNSS
 
 # text
@@ -1390,9 +1369,6 @@ seg-a5345bf50e9a = Fixez des scénarios comme tests de non-régression et exécu
 
 # text
 seg-57027baf4d52 = Commencez par <a1>les façons de l'utiliser</a1>
-
-# text
-seg-081d06995ef0 = <b>Gratuit aujourd'hui :</b> tout ce qu'il y a dans le moteur ouvert. Pro : des paquets de preuves reproductibles de qualité audit pour un examen.
 
 # text
 seg-e453a0b9a72e = Acheteur ou évaluateur de programme
@@ -1428,9 +1404,6 @@ seg-4f23a0580efe = Vérifiez le holdover par rapport aux masques de l'UIT-T avan
 seg-7bc4df13f4cb = Commencez par <a1>le mur de la synchronisation temporelle</a1>
 
 # text
-seg-2abf4f5bd06e = <b>Gratuit aujourd'hui :</b> tout ce qu'il y a dans le moteur ouvert. Pro : des jumeaux numériques d'horloge étalonnés sur le budget d'Allan publié de votre dispositif.
-
-# text
 seg-907754b26f64 = Utilisateur d'assistant IA
 
 # text
@@ -1455,5 +1428,3 @@ seg-0e6be0d623f6 = <b>Gratuit aujourd'hui :</b> tout ce qu'il y a dans le moteur
 seg-9b505908a6e2 = Kshana <b>ne pilote aucun matériel radio et n'émet rien</b>. Il comprend un récepteur GNSS logiciel pour de l'IQ enregistré et généré, et peut écrire des fichiers IQ en bande de base synthétiques, mais il n'est <b>pas un matériel générateur de signaux RF</b> et <b>ni un récepteur GNSS matériel, ni certifié</b>. C'est un instrument d'étude et de compromis : il simule ce que le brouillage, le leurrage et la perte de signal font à une solution de navigation et de synchronisation temporelle, et vous dit lesquelles de ses réponses sont validées. <b>Pas un produit de vol.</b>
 
 seg-ceb2de75e2f4 = <b>Gratuit aujourd'hui :</b> tout ce qu'il y a dans le moteur ouvert. Gratuit : { "53" } outils MCP, de run_scenario à export_oem.
-
-seg-67a6c0107bcd = Moteur v{ $version }, build <c1/> · <c2/> · déterministe, sans graine

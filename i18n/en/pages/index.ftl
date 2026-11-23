@@ -58,7 +58,7 @@ seg-ec3957c0f5f1 = Press <c1/> to search pages, scenarios and docs
 
 # text
 # c1: 
-seg-a92f77bd42cb = <s1>Kshana Pro</s1><c1/><s2>Same engine, amplified: { "608" } designs, one Pareto front</s2>
+seg-0986cb68d244 = <s1>Kshana Pro</s1><c1/><s2>Kshana Pro: the best designs, how sure you can be, and evidence for review</s2>
 
 # attr:aria-label
 seg-b807a8887172 = Telemetry replayed from the chained campaign run
@@ -1050,7 +1050,7 @@ seg-09d18cf767a7 = Open core, Kshana Pro, custom study
 seg-302606971c35 = Free for everyone. Pro when the answer has to stand up in a review.
 
 # text
-seg-27c12083529b = Kshana Pro is a proprietary overlay that depends on the open core and never forks it, available under contract. No prices on a web page: every paid route starts with a message to <a1>contact@ashforde.org</a1>.
+seg-c21b0369391d = Kshana Pro is the professional edition: built on the open core, never a fork of it, and available under contract. No prices on a web page: every paid route starts with a message to <a1>contact@ashforde.org</a1>.
 
 # text
 seg-43ceda17e71c = Open core · free · AGPL-3.0
@@ -1077,19 +1077,19 @@ seg-f6406933eb77 = Install the engine
 seg-6a74a165bfd0 = Kshana Pro · under contract
 
 # text
-seg-d997b6a5a416 = Why Pro, even more
+seg-2b900e902e3c = Why teams choose Kshana Pro
 
 # text
-seg-298532756f74 = The Pareto front of a design space, with every front design as a scenario the free engine re-runs.
+seg-efb6f756e222 = Design exploration: the best trade-offs across a whole design space.
 
 # text
-seg-a699256db841 = Uncertainty and sensitivity over thousands of runs.
+seg-9fbb95ff3eee = Confidence and risk: confidence bands, and the inputs that matter most.
 
 # text
-seg-665005551d84 = A one-command mission dossier with a verification matrix and a PDF (Portable Document Format) file.
+seg-180956c126ee = Mission dossiers: requirements checked against runs, with a verification matrix and a PDF (Portable Document Format) report.
 
 # text
-seg-455cb5040f80 = Audit-grade, reproducible evidence packs; clock digital twins calibrated to your device's published Allan budget; architecture trade studies ranked on a figure of merit; model-based systems-engineering (MBSE) and programme tooling.
+seg-cebb408b3a66 = Requirements traceability, regression watch, spectrum coexistence, trade studies, clock digital twins, technical notes, signed evidence and an on-premises service, with support, licensed under contract.
 
 # text
 seg-6d3d0f8c9b7c = Request a Pro evaluation
@@ -1122,33 +1122,27 @@ seg-b366150de755 = Request a study
 seg-6df96ca25c68 = Why and who it is for
 
 # text
-seg-3303866fbf99 = Same engine, amplified: real Kshana Pro output
+seg-71af6e8492b2 = What Kshana Pro adds
 
 # text
 # c1: 
-seg-f5513a1750f1 = <a1><s1><c1/>Design optimiser</s1></a1>
+seg-cb2bb723f312 = <a1><s1><c1/>Design exploration</s1></a1>
 
 # text
 seg-4ff013b472ff = Which design should we fly?
 
-# attr:aria-label
-seg-f4eb65b9b27a = Lunar navigation constellation: fewest satellites against availability, whole Moon: { "608" } designs run, a Pareto front of { "12" } designs
-
 # text
-seg-2bbc6243b4b1 = <b>{ "608" } designs</b>, all run: the Pareto front and its knee
+seg-1208122ff060 = The best trade-offs across a whole design space.
 
 # text
 # c1: 
-seg-56e344605a3d = <a1><s1><c1/>Uncertainty and sensitivity</s1></a1>
+seg-b4b33055206c = <a1><s1><c1/>Confidence and risk</s1></a1>
 
 # text
 seg-c8ce2e4a6687 = How sure are we, and what drives the result?
 
-# attr:aria-label
-seg-049c503c23db = Clock holdover with an uncertain noise level: the 5th to 95th percentile of { "2,000" } runs against the limit of { "20" } ns
-
 # text
-seg-a0b3c138f981 = <b>{ "2,000" } runs</b>: a confidence band against a limit
+seg-f95da7faf5bf = Confidence bands, and the inputs that matter most.
 
 # text
 # c1: 
@@ -1158,16 +1152,7 @@ seg-6de95aaa8ba4 = <a1><s1><c1/>Mission dossier</s1></a1>
 seg-3dd37275b448 = Does the mission meet its requirements, and can we hand that over?
 
 # text
-seg-2192262e26c1 = met
-
-# text
-seg-7fbde256debf = not met
-
-# text
-seg-f6ccb7a322b3 = open items
-
-# text
-seg-905e5eef45e5 = <b>{ "12" } requirements</b> checked against real runs, 21-page PDF (Portable Document Format)
+seg-99cc2ce06b1a = Requirements checked against runs, in one report.
 
 # text
 seg-7d9ee2bfbb90 = Find where your timing breaks, before it does.

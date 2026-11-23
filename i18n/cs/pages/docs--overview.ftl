@@ -1176,8 +1176,6 @@ seg-9ac1f9e2d1b1 = Uvnitř enginu: doménové vrstvy a verifikační registr (le
 
 seg-4e894b853889 = <b>Jeden engine, mnoho vstupních bodů.</b> Jediné jádro v Rustu (<c1/>) spouští každý scénář a je dostupné přes CLI, rozšíření pro Python, modul WebAssembly v prohlížeči, <b>server MCP</b> pro agenty AI a <b>plugin pro IDE JetBrains</b> — vše směřuje do jednoho rozdělovače <c2/>. Uvnitř se balíčky senzorů připojují ke společnému rozhraní chybových modelů; vedle nich stojí <b>vrstva referenčních soustav</b> (precese–nutace IAU 2006/2000A a redukce GCRS↔ITRS založená na CIO), <b>astrodynamická/numerická vrstva</b> (analytický SGP4/SDP4 <b>i</b> numerický propagátor Cowell s modelem sil EGM2008/poruch, návrhem manévrů a určováním oběžné dráhy), <b>vrstva integrity/GNSS</b> (RAIM/ARAIM, SBAS, měřicí doména, rušení, cislunární), <b>vrstva fúze / alt-PNT</b> (odhadovače GNSS/INS a mapové korelátory gravitace/terénu/magnetismu), <b>vrstva hlubokého vesmíru a Měsíce</b> (radiometrické PNT pro Mars a lunární sada PNT, s úrovní důkazů každé části v matici — čas LTC, VLBI, společné OD + hodiny, realizace soustavy, objem služby, diferenciální PNT, interoperabilita), <b>vrstva analýzy misí</b> (rozpočty startu / návratu / pokrytí / zaměřování / přeletu / spojů a prostředí kosmického počasí) a otevřená <b>vrstva studií odolnosti a strojového učení</b> (hodnocení odolnosti RPCF, optimistická mezera RF poruch a kvantově podporovaný demonstrátor PNT), jejíž reprodukovatelné artefakty stojí na ověřených jádrech.
 
-seg-698b8f40212f = Vedle jádra stojí dva samostatné crates <b>vyňaté z workspace</b> — <c1/> (server MCP, postavený na SDK <c2/> edice 2024) a <c3/> (křížová kontrola soustav ANISE/SPICE, která stahuje závislosti pod MPL-2.0 (Mozilla Public License { "2.0" })) — udržované mimo graf závislostí publikovaného crate, <c4/>, licenční bránu a sestavení MSRV (minimum supported Rust version, nejnižší podporovaná verze Rustu) seznamem <c6/> v kořenovém <c5/>. Plugin pro JetBrains (<c7/>) je samostatný projekt v Kotlinu. Úplnou sadu diagramů viz <a1><c8/></a1>.
-
 seg-59578c405ae3 = Vykreslené diagramy (tok enginu, mapa modulů, distribuce) jsou v <a1><c1/></a1>.
 
 seg-e7a7a9f8a9ca = Diagramy
@@ -1345,8 +1343,6 @@ seg-68340a1233ff = požádejte o studii
 seg-fedf4c64c70b = Co je Pro, slovy <a1><c1/></a1>:
 
 seg-8e45f6fbb075 = <b>Striktní nadmnožina otevřeného { -brand }.</b> Pro závisí na otevřeném enginu jako na knihovně a nikdy jej nevětví. Každý otevřený druh scénáře běží v Pro beze změny a otevřený scénář běží v Pro bez jakékoli licence.
-
-seg-feece95f1d76 = <b>Žádná nová fyzika.</b> Pro nepřidává žádný fyzikální model a žádný nemění. Každé číslo z Pro pochází z běhů otevřeného enginu, takže údaj z Pro je tak důvěryhodný, jako druh otevřeného scénáře, z něhož pochází, a nikdy důvěryhodnější.
 
 seg-0aca4bbd4ed5 = Pro odpovídá na další otázky programu: který návrh létat (optimalizátor návrhu a jeho Paretova fronta), jak jistá je odpověď (nejistota a citlivost) a zda mise splňuje své požadavky (dossier mise, trasovatelnost požadavků, obchodní studie, kontrola regrese scénářů, digitální dvojčata hodin, dossier studie a služba v místní infrastruktuře). Také sleduje kampaň ukazatelů a shodí pipeline, když se některý zhorší, testuje kandidátní plány signálů proti otevřeným družicovým navigačním signálům v obou směrech (koexistence spektra) a řadí studie do fronty ve službě úloh v místní infrastruktuře s hashově řetězeným registrem (ledger) dodávek. Každá z těchto funkcí je popsána, včetně toho, co vytváří a co nedělá, v <a1><c1/></a1>. Nic, co Pro vytvoří, není certifikace, a ani studie na míru není certifikace.
 
@@ -1881,15 +1877,7 @@ seg-2658a9477dd9 = <s1>Další</s1>Přehled pojmů
 
 seg-90a95738b32d = Lunární infrastruktura (lunar-infrastructure)
 
-seg-20beca58d39e = <a1>Přidat do Cursoru (npx)</a1> · <a2>Přidat do Cursoru (Docker)</a2> · <c1/>
-
-seg-aa6b62f0b484 = <a1>Nainstalovat ve VS Code (npx)</a1> · <a2>Nainstalovat ve VS Code (Docker)</a2> · <c1/>
-
-seg-8e176aa32cd3 = MCP je Model Context Protocol. Vydání připnete pomocí <c1/>, <c2/> nebo <c3/>. Sestavení ze zdrojů viz <a1>Instalace a sestavení</a1> v části Reference.
-
 seg-57686575b81d = Data partnerů
-
-seg-467bb88ec415 = <a1>Co je nového ve verzi { "0.40" }</a1>, <a2>Co je nového ve verzi { "0.39" }</a2>, <a3>Co je nového ve verzi { "0.38" }</a3> a <a4>{ "0.38" } podrobně</a4>: bodování jammertestu, vlastní příznaky přijímače, strojové vstupy, časování a holdover, balíčky norem, LunaNet AFS, okružní zkouška v laboratoři, kshana-bench, observatoř, exportéry, optika, <a5>navigace uživatelů ve vesmíru</a5> a <a6>lunární infrastruktura</a6>
 
 seg-cafc1c9c4d58 = Co je nového ve verzi { "0.40" }
 
@@ -1941,8 +1929,6 @@ seg-48991660376d = Vyžaduje toolchain Rustu (≥ { "1.88" }, tedy <c1/> v Cargo
 
 seg-dc95335b5131 = <b><c1/> selže na starém toolchainu.</b> { -brand } potřebuje Rust ≥ { "1.88" }. Aktualizujte pomocí <c2/>.
 
-seg-8391e467adf7 = <b>Vlákno mise.</b> Druh <c1/> řetězí fáze od startu po vstup do atmosféry (<c2/>, <c3/>, <c4/>, <c5/> a čtyři lunární druhy) s uvedenými pravidly předání, rezervou oproti uvedeným požadavkům a nejslabším článkem; ucelený příklad třídy Artemis přes { "11" } fází (pozemní a lunární segmenty), celkem { "93" } druhů scénářů. Každé číslo je MODELLED. Cislunární propagace proti veřejné trajektorii Artemis I <b>nesplňuje</b> svůj předregistrovaný práh ({ "45.3" } km a { "0.25" } m/s oproti { "5" } km a { "0.05" } m/s; příčinou jsou malé manévry, které model neobsahuje) a lunární propagátor proti dráze CAPSTONE <b>nesplňuje</b> ({ "136.8" } km oproti { "25" } km na konci jedné otáčky); srovnání s LRO je splněno. Řádky zůstávají MODELLED (<a1>Vlákno mise</a1>, <a2>lunární segment</a2>). Ve Studiu se vlákno čte na <c6/>.
-
 seg-a66ad1f69702 = Jeden engine pokrývá celý řetězec selhání, od prvního rušeného družicového signálu po poslední nanosekundu holdoveru hodin. Engine má { "93" } druhů scénářů; <c1/> je vypíše a <a1><c2/></a1> dokumentuje každé pole.
 
 seg-43bd621a1f5b = Jak běh probíhá. Soubor scénáře TOML (druh, seed a jeho parametry) jde do enginu, kshana { $version }, přes dispečink api::run_toml nad { "93" } druhy scénářů, deterministicky ze scénáře, seedu a verze enginu. Engine zapisuje result.json, chart.svg, report.html a report.json, table.csv pro druhy, které ji definují, a na požádání exporty SP3, CCSDS OMM a OEM, CZML, KML, GeoJSON, STK a SigMF; sada zapisuje study.json a study.html. Tyto soubory napájejí Kshana Studio v prohlížeči, asistenta s umělou inteligencí přes server kshana-mcp a průběžnou integraci.
@@ -1951,30 +1937,6 @@ seg-fb8bcc54a31d = { "93" } vestavěných druhů scénářů s popisy a povinný
 
 seg-2f38fc515db6 = celý otevřený engine, všech { "93" } druhů scénářů, bez omezení funkcí
 
-seg-5374f780c396 = V <c1/> najdete alespoň jeden vzorový příklad každého druhu ({ "93" } druhů, { "195" } souborů scénářů <c2/> + { "1" } manifest sady — některé druhy mají více než jeden příklad). Ne každý druh má soubor pojmenovaný podle sebe: <c3/> → <c4/> a <c5/> → <c6/> jsou dva z několika takových případů. Dispečovatelné druhy lze kdykoli vypsat pomocí chyb <c7/>, Pythonu <c8/> nebo nástroje MCP <c9/>.
-
 seg-d106dd5461ed = <a1><c1/></a1> je server MCP: váš asistent spouští skutečný engine a čte zpět jeho JSON, místo aby matematiku hádal. Každý z jeho { "53" } nástrojů je tenký obal veřejné funkce knihovny <c2/>, takže v serveru žádná simulační logika neleží.
 
 seg-0920329ba390 = { "53" } nástrojů
-
-seg-0933cb091687 = { "176" } z { "412" } schopností VALIDATED proti nezávislému vnějšímu orákulu, z verifikační matice
-
-seg-d9cccff82185 = Verze { "0.40" } přidává rozpočet chyb na úrovni mise, označuje každé číslo a tabulku úrovní důkazu, čte naměřené záznamy hodin, kontroluje podání datových partnerů, odhaduje, kde může být zdroj rušení, a mluví sedmnácti jazyky vedle angličtiny. Registr má nyní { "412" } řádků: { "176" } VALIDATED, { "232" } MODELLED, { "4" } PARTNER. Žádný řádek nebyl povýšen na VALIDATED a každé nesplnění níže je zajištěno testem.
-
-seg-93dcede29907 = <b>{ "176" } z { "412" }</b> schopností ověřeno proti nezávislým vnějším orákulům; { "232" } poctivě označeno jako modelované. Každý řádek verifikační matice uvádí schopnost, orákulum, proti němuž je ověřena, test, který kontrolu provádí, a označení, které z toho plyne. Kontinuální integrace (CI) znemožňuje označit schopnost jako VALIDATED bez nezávislého vnějšího orákula.
-
-seg-99d2c21b1f60 = Jak schopnost získá své označení. Každý řádek verifikační matice uvádí schopnost, orákulum, proti němuž je ověřena, test, který kontrolu provádí v kontinuální integraci, a označení, které z toho plyne. Řádek smí být VALIDATED jen s nezávislým vnějším orákulem; jinak je MODELLED, nebo PARTNER, pokud za něj odpovídá hardwarový partner. Příklad: SGP4/SDP4, Cowell 6-DOF + poruchy, dávkové/sekvenční OD, orákulum ověřovací vektory AIAA 2006-6753 SGP4, test tests/sgp4_verification.rs, označení VALIDATED. Aktuální počty: { "176" } VALIDATED, { "232" } MODELLED, { "4" } PARTNER z { "412" } řádků. Celkem { "176" } schopností ověřeno proti nezávislým vnějším orákulům; dalších { "232" } je poctivě označeno MODELLED a { "4" } je ve vlastnictví partnera (PARTNER).
-
-seg-7f933400c73d = Několik kontrol: všech { "666" } vektorů AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 SGP4 (Simplified General Perturbations { "4" }) do { "4.12" } mm; silový model Cowell do { "0.08" } m proti Orekit { "12.2" }; Galileo do { "0.61" } m a Swarm-A do { "0.10" } m proti skutečným přesným efemeridám Evropské kosmické agentury (ESA). Testy udržují přibližně { "95" } % pokrytí řádků v <c1/>, s prahem { "85" } % v CI. Registrem je <a1><c2/></a1>, generovaný z <c3/>: <a2>úplná matice o 412 řádcích</a2> a proč nemá žádný modelovaný řádek vnější orákulum, v <a3><c4/></a3>.
-
-seg-df9b60a7dfe8 = Každý řádek vynucuje pojmenovaný test v CI. Tato tabulka je <b>vybraný výběr</b>; úplná strojově kontrolovaná matice má <b>{ "412" } řádků — { "176" } VALIDATED, { "232" } MODELLED, { "4" } PARTNER</b> (<c1/>), s úplnými důkazy (a tím, co poctivě <em>ještě není</em> ověřeno) v <a1><c2/></a1> a v artefaktu <a2><c3/></a2> každého vydání (generovaném pomocí <c4/>, s atestací SLSA — Supply-chain Levels for Software Artifacts).
-
-seg-d1700188b2cf = Jak schopnost získá své označení: požadavek je mapován na modul v src, na test v tests, na vnější orákulum (skutečný soubor dat, nezávislá referenční implementace nebo zveřejněné vektory) a na stav — s ochranou vynucovanou v CI, že žádná schopnost nemůže být ověřena bez vnějšího orákula. Aktuální počty: { "176" } ověřeno, { "232" } modelováno, { "4" } partnerské, celkem { "412" }
-
-seg-903f40bceba8 = Stav verifikace všech { "412" } schopností: { "176" } ověřeno (zkontrolováno proti vnějšímu orákulu), { "232" } modelováno, { "4" } ve vlastnictví partnera
-
-seg-9bfd6ba56a18 = { "176" } ověřeno · { "232" } modelováno · { "4" } partnerské — <a1>SVG</a1>
-
-seg-74c21b004d86 = Architektura Kshana: jeden otevřený engine uprostřed, kshana { $version } pod licencí AGPL-3.0, s api::run_toml, typovaným rozdělováním přes každý druh, a verifikační registr { "412" } schopností ({ "176" } VALIDATED, { "232" } MODELLED, { "4" } PARTNER). Kolem něj každé rozhraní spouští týž engine: příkazový řádek (cargo install kshana); knihovna Rust (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); server MCP (cargo install kshana-mcp); image Dockeru (ghcr.io/ashfordeou/kshana-mcp); zásuvný modul JetBrains (Marketplace: "Kshana"). Pod ním Kshana Pro, proprietární nadstavba, která na otevřeném enginu závisí jako na knihovně, nikdy jej neforkuje a nepřidává žádný fyzikální model.
-
-seg-e6c6926110e6 = Architektura Kshana po vrstvách. Pět vstupních bran (příkazový řádek, Python, JavaScript a WebAssembly, server MCP a zásuvný modul JetBrains) vede k jedinému api::run_toml, typovanému rozdělování přes { "93" } druhů. Pod ním je osm doménových vrstev: čas a soustavy, hodiny a časování, inerciální navigace a fúze, GNSS a integrita, astrodynamika, LEO PNT, Měsíc, Mars a hluboký vesmír a mise a studie, nad společným jádrem, vše křížově odkazované verifikačním modulem, strojově kontrolovanou maticí { "412" } schopností, která je jediným zdrojem pravdy pro každý štítek.

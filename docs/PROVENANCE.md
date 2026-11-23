@@ -120,7 +120,7 @@ the verification-matrix status of the capability built on it
 | Constellation design (`constellation-design`) | nominal GPS, Galileo and GLONASS slots | Galileo Open Service Service Definition Document 1.1; GPS Standard Positioning Service Performance Standard, 5th edition | VALIDATED |
 | LEO (low Earth orbit) PNT (`leo-signal`, `leo-pass`, `leo-pvt`) | named system presets | the cited public figures, each preset with its source | MODELLED |
 | LEO navigation message (`leo-navmsg`) | signal-in-space range error weights | Montenbruck, Steigenberger and Hauschild (2018), *Advances in Space Research* | VALIDATED |
-| LEO navigation message | 22-parameter ephemeris model | Liu et al. (2025), *Remote Sensing* 17(16):2894 | MODELLED |
+| LEO navigation message | 22-parameter ephemeris model | Liu et al. (2025), *Remote Sensing* 17(16):2894 | VALIDATED (fit on real precise orbits); the synthetic five-altitude comparison table MODELLED |
 
 ---
 

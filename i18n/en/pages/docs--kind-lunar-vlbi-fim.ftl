@@ -46,13 +46,13 @@ seg-fabf305ae1de = The example <c1/> sets, among others:
 seg-b054c73f22e5 = no value
 
 # text
-seg-7b0f433d1d63 = sigma = c * delay_sigma_s * (beacon_rang
+seg-2d990d5e31bb = sigma = c * delay_sigma_s *…
 
 # text
 seg-98151954f217 = false
 
 # text
-seg-8b098bf1df6b = Result label (the engine's): MODELLED lunar-VLBI station-coordinate covariance. The covariance is accumulated from the engine's own analytic delay partials over an explicit schedule of baselines and epochs and inverted; it is NOT converted from a scalar delay precision by an assumed geometry factor. The per-observation delay si
+seg-c864ffcad041 = Result label (the engine's): MODELLED lunar-VLBI station-coordinate covariance. The covariance is accumulated from the engine's own analytic delay partials over an explicit schedule of baselines and epochs and inverted; it is NOT converted from a scalar delay precision by an assumed geometry factor. The per-observation delay…
 
 # attr:alt
 seg-19c383444296 = The chart the engine writes for scenarios/lunar-vlbi-fim.toml, kind lunar-vlbi-fim
@@ -61,14 +61,14 @@ seg-19c383444296 = The chart the engine writes for scenarios/lunar-vlbi-fim.toml
 seg-57cd9c415e31 = MODELLED { "3" } · VALIDATED { "2" }: the <a1>verification matrix</a1> rows that name this kind.
 
 # text
-seg-d1a6a5086102 = <b>VALIDATED</b> Delay partials accumulated over a schedule of baselines × epochs into a Fisher information matrix, inverted to the station coordinate covariance and the per-coordinate station sigma, replacing an assumed isotropic equipartition link from a
+seg-1f65fa6bd8f1 = <b>VALIDATED</b> Delay partials accumulated over a schedule of baselines × epochs into a Fisher information matrix, inverted to the station coordinate covariance and the per-coordinate station sigma, replacing an assumed isotropic equipartition link from…
 
 # text
 # c1: all-stations-fixed
-seg-55ce02ad5dd5 = <b>MODELLED</b> A third datum choice, <c1/>, that holds every Earth station and estimates the BEACON's Moon-body-fixed coordinates alone — the configuration a lunar surface-point uncertainty is actually quoted for, since Earth station coordi
+seg-8db6ec87987e = <b>MODELLED</b> A third datum choice, <c1/>, that holds every Earth station and estimates the BEACON's Moon-body-fixed coordinates alone — the configuration a lunar surface-point uncertainty is actually quoted for, since Earth station…
 
 # text
-seg-811a412b40b6 = <b>VALIDATED</b> The all-stations-fixed beacon covariance of the lunar-vlbi-fim scenario (every Earth station held, the beacon's Moon-body-fixed coordinates estimated alone) with the beacon placed on the JPL DE440 Moon read by the engine's own kernel reader
+seg-21f69bc5f87c = <b>VALIDATED</b> The all-stations-fixed beacon covariance of the lunar-vlbi-fim scenario (every Earth station held, the beacon's Moon-body-fixed coordinates estimated alone) with the beacon placed on the JPL DE440 Moon read by the engine's own kernel…
 
 # text
 seg-2595bd629ffb = <b>MODELLED</b> The seven-parameter Helmert datum propagated from a SIMULATED OBSERVING CAMPAIGN instead of recovered from an injected transform.
@@ -77,15 +77,15 @@ seg-2595bd629ffb = <b>MODELLED</b> The seven-parameter Helmert datum propagated 
 seg-3319b18ac61f = and { "1" } more in the matrix.
 
 # text
-seg-a731b913bdf0 = <b>VALIDATED</b> Delay partials accumulated over a schedule of baselines × epochs into a Fisher information matrix, inverted to the station coordinate covariance and the per-coo. Oracle (ExternalDataset): An independent in-repo route. Every Jacobian row is re-derived by central finite difference of lunar_vlbi::vlbi_delay_s evaluated from the state's own Earth-fixed and Moon-body-fixed coordinates rotated forward through the frame chain — a path that computes no derivative and shares no expression with the analytic partials — and the information matrices the two routes build agree to < { "1e-6" } of the largest diagonal. The
+seg-9a23a92c198d = <b>VALIDATED</b> Delay partials accumulated over a schedule of baselines × epochs into a Fisher information matrix, inverted to the station coordinate covariance and the…. Oracle (ExternalDataset): An independent in-repo route. Every Jacobian row is re-derived by central finite difference of lunar_vlbi::vlbi_delay_s evaluated from the state's own Earth-fixed and Moon-body-fixed coordinates rotated forward through the frame chain — a path that computes no derivative and shares no expression with the analytic partials — and the information matrices the two routes build agree to < { "1e-6" } of the largest diagonal.…
 
 # text
 # c1: all-stations-fixed
-seg-2300ffd9fc4e = <b>MODELLED</b> A third datum choice, <c1/>, that holds every Earth station and estimates the BEACON's Moon-body-fixed coordinates alone — the configuration a lu. Oracle (ReferenceImpl): Closed-form identities, with no external oracle claimed or available. The lever arm is checked against ρ/B and the two equipartition forms against each other to { "1e-15" } — algebraic identities, so they catch a wiring error and nothing else, and are labelled as such. The substantive result is MEASURED rather than asserted: a delay from a fixed baseline constrains the beacon's DIRECTION, so the line-of-sight component rea
+seg-2f2eb26249e2 = <b>MODELLED</b> A third datum choice, <c1/>, that holds every Earth station and estimates the BEACON's Moon-body-fixed coordinates alone — the configuration a…. Oracle (ReferenceImpl): Closed-form identities, with no external oracle claimed or available. The lever arm is checked against ρ/B and the two equipartition forms against each other to { "1e-15" } — algebraic identities, so they catch a wiring error and nothing else, and are labelled as such. The substantive result is MEASURED rather than asserted: a delay from a fixed baseline constrains the beacon's DIRECTION, so the line-of-sight component…
 
 # text
 # c1: label
-seg-2cbf700a234e = MODELLED lunar-VLBI station-coordinate covariance. The covariance is accumulated from the engine's own analytic delay partials over an explicit schedule of baselines and epochs and inverted; it is NOT converted from a scalar delay precision by an assumed geometry factor. The per-observation delay sigma, the station coordinates, the beacon site and the schedule are inputs. The Moon-centre ephemeris, the station clocks (result <c1/>)
+seg-1502f8435ce4 = MODELLED lunar-VLBI station-coordinate covariance. The covariance is accumulated from the engine's own analytic delay partials over an explicit schedule of baselines and epochs and inverted; it is NOT converted from a scalar delay precision by an assumed geometry factor. The per-observation delay sigma, the station coordinates, the beacon site and the schedule are inputs. The Moon-centre ephemeris, the station… (result <c1/>)
 
 # text
 # c1: kshana kinds --json
@@ -104,13 +104,13 @@ seg-bb7ff1e5d99f = The equipartition value c<em>delay_sigma_s</em>sqrt(g/N) for 
 seg-0ed4495d4488 = MODELLED: the Moon-centre ephemeris, station clocks, troposphere and Earth-orientation parameters are held FIXED and observations are treated as independent, so the covariance is a Cramer-Rao bound for a reduced parameter set, not a predicted session result; the delay sigma, station coordinates and schedule are inputs. (kind catalogue (<c1/>))
 
 # text
-seg-4df6e3981cc4 = D3's published chain goes from a per-observation delay precision to a station coordinate uncertainty through an assumed ISOTROPIC equipartition factor g = { "3" }. That step is the one the paper's own abstract calls modelled rather than measured. This scenario removes it: the lunar-VLBI delay partials are accumulated over a real schedule of (baseline x epoch) pairs into a Fisher information matrix, inverted, and reported a (scenario file comment, lines { "3" } to { "8" })
+seg-193d8d681dd3 = A published lunar-VLBI error chain goes from a per-observation delay precision to a station coordinate uncertainty through an assumed ISOTROPIC equipartition factor g = { "3" }. That step is the one the source's own abstract calls modelled rather than measured. This scenario removes it: the lunar-VLBI delay partials are accumulated over a real schedule of (baseline x epoch) pairs into a Fisher information matrix… (scenario file comment, lines { "3" } to { "8" })
 
 # text
-seg-489b93ca0f7f = The state carries Earth-FIXED (ITRS) coordinates, so the Jacobian is the inertial partial rotated by each epoch's GCRS->ITRS matrix: Earth rotation is what makes those coordinates observable at all, and the report MEASURES the Earth-fixed line-of-sight sweep and the beacon declination rather than assuming them. One observation is one (baseline, epoch) pair with BOTH stations above the elevation mask, weighted 1/delay (scenario file comment, lines { "10" } to { "14" })
+seg-c681e2e64947 = The state carries Earth-FIXED (ITRS) coordinates, so the Jacobian is the inertial partial rotated by each epoch's GCRS->ITRS matrix: Earth rotation is what makes those coordinates observable at all, and the report MEASURES the Earth-fixed line-of-sight sweep and the beacon declination rather than assuming them. One observation is one (baseline, epoch) pair with BOTH stations above the elevation mask, weighted… (scenario file comment, lines { "10" } to { "14" })
 
 # text
-seg-efb5719364af = What to read in the report * per-station per-axis and 3-D sigmas — the computed answer; * the equipartition value c<em>delay_sigma_s</em>sqrt(g/N) for the SAME schedule, printed beside it with the ratio. That ratio IS the anisotropy the assumption discarded, and the isotropic trace bound sqrt(p/trace(M)) makes AM-HM a hard floor, so the assumption can only ever understate; * rank, datum defect, condition number, the full sp (scenario file comment, lines { "16" } to { "26" })
+seg-a3bd4c289f5c = What to read in the report * per-station per-axis and 3-D sigmas — the computed answer; * the equipartition value c<em>delay_sigma_s</em>sqrt(g/N) for the SAME schedule, printed beside it with the ratio. That ratio IS the anisotropy the assumption discarded, and the isotropic trace bound sqrt(p/trace(M)) makes AM-HM a hard floor, so the assumption can only ever understate; * rank, datum defect, condition number, the full… (scenario file comment, lines { "16" } to { "26" })
 
 # text
 seg-1c1eeb2dcaa0 = Family page: <a1>Lunar and cislunar</a1>

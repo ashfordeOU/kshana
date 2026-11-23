@@ -26,7 +26,7 @@ use std::collections::BTreeMap;
 const RECORDED_A3_OVER: [(&str, &str, usize); 6] = [
     ("mvdr", "cn0_effective", 0),
     // 202 on host maths; 194 on 0.36 portable maths, still over the bar (NOT MET), see
-    // docs/revisions/STUDIO15-batch4-rebaseline.md.
+    // docs/revisions/batch4-rebaseline.md.
     ("mvdr", "jammer gain", 194),
     ("mvdr", "noise gain", 0),
     ("null-steering", "cn0_effective", 0),

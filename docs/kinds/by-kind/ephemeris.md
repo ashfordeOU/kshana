@@ -28,7 +28,7 @@ The example `scenarios/ephemeris.toml` sets, among others:
 | `station.lat_deg` | 49.8707 | deg |
 | `station.lon_deg` | 8.6217 | deg |
 | `step_s` | 30 | s |
-| `tle` | 1 25544U 98067A   20045.18587073  .00000950  00000-0  25302- | text |
+| `tle` | 1 25544U 98067A   20045.18587073  .00000950  00000-0… | text |
 | `xp_arcsec` | 0 | arcsec |
 | `yp_arcsec` | 0 | arcsec |
 
@@ -46,7 +46,7 @@ The scalar results of that run, with the units the engine states:
 |---|---|---|
 | `alt_max_km` | 433.646 | km |
 | `alt_min_km` | 419.45893 | km |
-| `evidence.id_rule` | the stable id of the matrix row (the ID  | text |
+| `evidence.id_rule` | the stable id of the matrix row (the… | text |
 | `evidence.matrix` | docs/VERIFICATION-MATRIX.md | text |
 | `evidence.tier` | MODELLED | text |
 | `jd_utc0` | 2.4589e6 | day |
@@ -61,13 +61,13 @@ The scalar results of that run, with the units the engine states:
 
 VALIDATED: the [verification matrix](../../VERIFICATION-MATRIX.md) rows that name this kind.
 
-- **VALIDATED** Earth rotation from a two-part UT1 Julian date on the orbit path, so the Earth-fixed position keeps the microsecond a single-f64 date loses (about 3e-9 rad near 2020): jd2::gmst82 (IAU 1982 GMST, the TEME convention, on the two parts), cio:
+- **VALIDATED** Earth rotation from a two-part UT1 Julian date on the orbit path, so the Earth-fixed position keeps the microsecond a single-f64 date loses (about 3e-9 rad near 2020): jd2::gmst82 (IAU 1982 GMST, the TEME convention, on the two parts)…
 
 The rows the run itself exercised, with the oracle the matrix gives each (the public sources are named there):
 
-- **VALIDATED** SGP4/SDP4, Cowell 6-DOF + perturbations, batch/sequential OD. Oracle (ExternalDataset): AIAA 2006-6753 SGP4 verification vectors
-- **VALIDATED** IAU 2006/2000A precession-nutation, CIO GCRS↔ITRS, leap-second timescales. Oracle (ExternalDataset): IAU SOFA / ERFA reference vectors; Vallado AIAA 2006-6753 (0.1–4 mm)
-- **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): SBOM conformance to the official CycloneDX 1.5 JSON Schema (+ valid SPDX identifiers) — an external published standard, zero validation errors over the full dependency graph; the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
+- **VALIDATED** SGP4/SDP4 analytic propagation of two-line element sets (Cowell propagation and orbit determination are validated in VM-7b9f2f5d and VM-9aa52bbe). Oracle (ExternalDataset): AIAA 2006-6753 SGP4 verification vectors
+- **VALIDATED** IAU 2006/2000A precession-nutation, CIO GCRS↔ITRS, leap-second timescales. Oracle (ExternalDataset): Vallado AIAA 2006-6753 worked example (TEME→PEF, TEME→ITRF and GCRS→ITRS within 50 mm, observed 0.1 to 4 mm; TEME→GCRS within 0.5 m, as Vallado's GCRF applies the celestial-pole offsets dX/dY and the full IAU 2000A series that this chain omits); Vallado Fundamentals Example 3-3 (geodetic latitude and height)
+- **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): Official CycloneDX 1.5 JSON Schema (+ SPDX identifier list): every atomic licence id is a valid SPDX id, and the document has zero schema errors once compound expressions are moved to expression (the generator's raw output has 133 compound-id errors); the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
 
 ## Limitations
 

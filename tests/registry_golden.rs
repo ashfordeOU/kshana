@@ -394,7 +394,8 @@ fn golden_hybrid_optical_rf() {
         // and strings, likewise 0 and 0). The only value anywhere that moved is the
         // `units` note on `optical_availability.single_site_mean`, which claimed no
         // RF-availability counterpart existed and became false when this landed.
-        expect_fnv_canonical: 0x2bf6_b4ed_e1fb_f1f6,
+        // Re-baselined when the result label dropped an internal paper id and stopped calling an internal check VALIDATED; only the label text moved.
+        expect_fnv_canonical: 0x63ac_6ae4_9fba_b137,
         expect_fnv_raw_linux_x64: None,
     });
 }
@@ -421,8 +422,9 @@ fn golden_cislunar_observability() {
         // tests/cislunar_arc_recovery_reference.rs both now strip `units` back off and
         // re-hash against the constants frozen BEFORE it existed, and both are unchanged.
         // STUDIO-15 (0.36 portable maths): was 0x2cb0_2851_850e_09c1 on the host's maths; the document moved only in
-        // round-off-floor quantities (docs/revisions/STUDIO15-portable-math-rebaseline.md).
-        expect_fnv_canonical: 0x274d_1075_bfa4_b6f8,
+        // round-off-floor quantities (docs/revisions/portable-math-rebaseline.md).
+        // Re-baselined when the result label dropped an internal paper id and stopped calling an internal check VALIDATED; only the label text moved.
+        expect_fnv_canonical: 0xfdc8_a24d_aaf9_a4f4,
         expect_fnv_raw_linux_x64: None,
     });
 }
@@ -444,7 +446,8 @@ fn golden_conflict_resilience() {
         // tests/field_units_global.rs). Purely additive: the summary string above is
         // byte-identical, no pre-existing key changed value or position, and the whole
         // delta is the new `units` object.
-        expect_fnv_canonical: 0xe277_1b72_459f_7730,
+        // Re-baselined when the result label dropped an internal paper id and stopped calling an internal check VALIDATED; only the label text moved.
+        expect_fnv_canonical: 0x672c_f6d1_d6b9_76b7,
         expect_fnv_raw_linux_x64: None,
     });
 }

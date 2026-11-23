@@ -124,8 +124,6 @@ seg-a790c54ac1aa = Pola wymagane: brak. Opcjonalne: <c1/>, <c2/>, <c3/>, <c4/>, 
 
 seg-4efffcd615df = <b>Rejestr (ledger):</b> MODELLED. Pełna strona z danymi wejściowymi, wynikami, dowodami i ograniczeniami: <a1>lunar-beacon</a1>.
 
-seg-720d0bbeaf6e = Pola wymagane: brak. Opcjonalne: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>.
-
 seg-019ca0f1051e = <b>Rejestr (ledger):</b> żaden wiersz macierzy nie wymienia tego rodzaju; silnik sam oznacza swój wynik. Pełna strona z danymi wejściowymi, wynikami, dowodami i ograniczeniami: <a1>lunar-interop-export</a1>.
 
 seg-28695dd2ecc3 = Pola wymagane: brak. Opcjonalne: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>.

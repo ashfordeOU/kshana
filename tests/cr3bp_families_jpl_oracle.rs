@@ -132,7 +132,7 @@ fn run() -> (Vec<Miss>, usize) {
 #[test]
 fn finding_four_members_miss_a_bar() {
     // The three DRO closures re-recorded on 0.36 portable maths (same four misses; was
-    // 3.335240e-8, 2.268366e-8, 1.465687e-8 on host maths): docs/revisions/STUDIO15-batch4-rebaseline.md.
+    // 3.335240e-8, 2.268366e-8, 1.465687e-8 on host maths): docs/revisions/batch4-rebaseline.md.
     const RECORDED: [(&str, usize, &str, f64); 4] = [
         (
             "L1 northern halo",

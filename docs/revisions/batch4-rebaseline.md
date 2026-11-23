@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: CC-BY-4.0 -->
 # STUDIO-15, batch 4 (release 0.36) — the batch 2-3 code on portable maths, and every pinned or published value it moved
 
-Part of [`STUDIO15-portable-math-rebaseline.md`](STUDIO15-portable-math-rebaseline.md) (programme rule R4:
+Part of [`portable-math-rebaseline.md`](portable-math-rebaseline.md) (programme rule R4:
 a changed published number is a revision). STUDIO-15 measured and re-recorded the 141 scenarios and the
 pins of its own branch. The batch 2 and 3 work was merged after it (`23adcc3c`) and then routed through
 `PortableFloat` (`9bd1d4ce`: 457 transcendental call sites in 62 files, seven `rand_distr` samplers to
@@ -11,8 +11,8 @@ re-baseline). It is committed before anything below is re-recorded. No bar, tole
 changes; no VALIDATED verdict changes; the frozen lunar prediction files and their hashes are untouched.
 
 Two items have their own records: the Greenhall exact edf
-([`STUDIO15-greenhall-edf-portable.md`](STUDIO15-greenhall-edf-portable.md)) and the gps-sdr-sim
-test-bench oracle re-run ([`STUDIO15-testbench-gpssdrsim-rerun.md`](STUDIO15-testbench-gpssdrsim-rerun.md)).
+([`greenhall-edf-portable.md`](greenhall-edf-portable.md)) and the gps-sdr-sim
+test-bench oracle re-run ([`testbench-gpssdrsim-rerun.md`](testbench-gpssdrsim-rerun.md)).
 
 ## 1. Method
 
@@ -20,7 +20,7 @@ Every bundled scenario (158) was run through `kshana::api::run_toml` in release 
 `ef198206` (batch 3b, host maths everywhere), `23adcc3c` (STUDIO-15 merged, batch 2-3 code still on host
 maths) and this branch. The comparison is `scenario_rows` of `scripts/studio15_rebaseline_table.py`
 (unchanged); the moved numbers are in
-[`STUDIO15-batch4-moved-values.csv.gz`](STUDIO15-batch4-moved-values.csv.gz) (scenario, JSON path, old, new,
+[`batch4-moved-values.csv.gz`](batch4-moved-values.csv.gz) (scenario, JSON path, old, new,
 relative change; 25,811 rows, old = `ef198206`). The test values come from a full release run of the suite
 on this branch.
 

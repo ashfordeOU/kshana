@@ -31,7 +31,7 @@ kind-lunar-attack-surface-description: lit_15_6 lit_128_5 lit_158_5 lit_14_4
 kind-lunar-vlbi-description: lit_0_06
 kind-ntn-positioning-description: lit_2172_5 lit_4_5
 kind-realtime-frame-eop-description: lit_0_27 lit_0_010 lit_0_5
-kind-solar-system-description: lit_1_87 lit_1_71 lit_2_0 lit_5_2
+kind-solar-system-description: lit_1_0 lit_0_778 lit_3_83 lit_2_0 lit_5_2
 kind-space-weather-description: lit_1_7
 kind-spectrum-description: lit_1_023 lit_1_5
 kind-telecom-timing-description: lit_1_5

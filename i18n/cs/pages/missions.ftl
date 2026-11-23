@@ -186,8 +186,6 @@ seg-b388c2bac488 = Otevřít orbitální konzoli
 
 seg-3d6af799cb19 = <s1>Bezplatné jádro</s1> každý scénář a graf na této stránce
 
-seg-354162e88f07 = <s1>Pro</s1> Paretova fronta návrhového prostoru, nejistota a citlivost a dosier mise jediným příkazem
-
 seg-83e0dd9b2617 = <s1>Studie na míru</s1> modely kalibrované na váš hardware, hotové za vás
 
 seg-5285d23ae95b = Matice hrozeb · soubory scénářů podle sektoru a selhání
@@ -282,8 +280,6 @@ seg-2d9d1994071f = Spusťte každý soubor scénáře v tomto sektoru v Kshana S
 
 seg-731232b52b8f = Pro přidává
 
-seg-de3cc6d30b9c = Pro: reprodukovatelné balíčky důkazů auditní kvality pro revizi.
-
 seg-04d539c39f45 = Studie na míru přidává
 
 seg-71d7ccb4c89a = Na míru: práce na odolnosti podléhající exportní kontrole s příslušnou prověrkou a NDA (dohoda o mlčenlivosti).
@@ -368,8 +364,6 @@ seg-2918af222529 = Družice v dohledu a PDOP (faktor zhoršení přesnosti poloh
 
 seg-ef0cc5181857 = Geostacionární uživatel: nastavte dráhu uživatele ve scénáři kindu orbit tak, jak orbit-molniya nastavuje vysoce excentrickou.
 
-seg-7889feffa939 = Pro: obchodní studie architektur seřazené podle ukazatele kvality. Pro: digitální dvojčata hodin kalibrovaná podle zveřejněného Allanova rozpočtu vašeho zařízení.
-
 seg-bb0ceeb8db2a = Získá lander, rover nebo orbiter u Měsíce, u Marsu nebo dál důvěryhodnou polohu a čas a co přidává místní časová stupnice do rozpočtu chyb?
 
 seg-db11b1e64ac5 = Slabé signály ve lunární vzdálenosti, řídká geometrie relé, zpoždění světelné doby, lunární časový posun, rušení na povrchu
@@ -425,8 +419,6 @@ seg-25e1426d8341 = Příjem Earth-GNSS ve lunární vzdálenosti
 seg-96077751d4ce = Lunární časový chod vůči zveřejněnému pásmu a rozpočet časové chyby od začátku do konce
 
 seg-f1dfccfb9f89 = Chyba relé navigace na oběžné dráze Marsu, na povrchu a při přeletu
-
-seg-4a5542c69690 = Pro: digitální dvojčata hodin kalibrovaná podle zveřejněného Allanova rozpočtu vašeho zařízení. Pro: obchodní studie architektur seřazené podle ukazatele kvality.
 
 seg-4cf1f8144ae2 = Jak dlouho zůstane můj UAS (bezpilotní letecký systém) po odepření GNSS rušičem uvnitř svého rozpočtu polohy a je na mé trase dostupná integrita?
 
@@ -574,8 +566,6 @@ seg-b6c48dca904a = Detekce spoofingu času integritním monitorem hodin
 
 seg-3db4a218354b = Rozvodná soustava a finance: limit přesnosti času vašeho sektoru se zadává jako threshold_ns.
 
-seg-cc45be91cd00 = Pro: digitální dvojčata hodin kalibrovaná podle zveřejněného Allanova rozpočtu vašeho zařízení. Pro: reprodukovatelné balíčky důkazů auditní kvality pro revizi.
-
 seg-cb5e51c39a7f = Ztráta časové reference GNSS u primárních referenčních časových hodin, spoofing času
 
 seg-c89c91bfd2ac = Časová chyba vůči maskám ITU-T
@@ -663,8 +653,6 @@ seg-8cc7ceade324 = t = { "0" } s
 seg-1bd3b0f6eb7e = Skutečný běh enginu, přehraný
 
 seg-f1313464b7c9 = Dráhy: znovu propagované z vlastních elementů běhu a ověřené proti pozemním stopám enginu. Planety: snímky NASA.
-
-seg-6c981f00d37d = <b>S edicí Pro:</b> optimalizátor návrhu projede celý návrhový prostor konstelace kolem Země, Měsíce nebo Marsu tímto enginem a vrátí jeho <b>Paretovu frontu</b>, přičemž každý návrh na frontě je zapsán jako prostý soubor scénáře. <a1>Zobrazit skutečnou frontu</a1>
 
 seg-cdd1e1a6793d = Způsoby selhání
 
@@ -778,8 +766,6 @@ seg-d2c741b188de = Dimenzujte architekturu PNT a podívejte se, kde se rozbije.
 
 seg-87adf34e62f8 = Začněte v <a1>Atlasu schopností</a1>
 
-seg-9601ecea0610 = <b>Zdarma dnes:</b> vše v otevřeném enginu. Pro: obchodní studie architektur seřazené podle ukazatele kvality.
-
 seg-5ad7df11c031 = Specialista na PNT nebo GNSS
 
 seg-8f2ceeab7a06 = Otevřete TOML, změňte fyziku, ověřte to proti registru.
@@ -793,8 +779,6 @@ seg-c0cabe8a1c21 = Vedoucí testování a vyhodnocování
 seg-a5345bf50e9a = Připněte scénáře jako regresní testy a spusťte celou sadu do jedné orazítkované studie.
 
 seg-57027baf4d52 = Začněte v <a1>Způsobech použití</a1>
-
-seg-081d06995ef0 = <b>Zdarma dnes:</b> vše v otevřeném enginu. Pro: reprodukovatelné balíčky důkazů auditní kvality pro revizi.
 
 seg-e453a0b9a72e = Pracovník nákupu nebo revizor programu
 
@@ -818,8 +802,6 @@ seg-4f23a0580efe = Ověřte holdover proti maskám ITU-T dřív, než selže ant
 
 seg-7bc4df13f4cb = Začněte na <a1>Zdi časování</a1>
 
-seg-2abf4f5bd06e = <b>Zdarma dnes:</b> vše v otevřeném enginu. Pro: digitální dvojčata hodin kalibrovaná podle zveřejněného Allanova rozpočtu vašeho zařízení.
-
 seg-907754b26f64 = Uživatel asistenta AI
 
 seg-3cde4f0b352a = Nechte svého asistenta spouštět ověřený engine místo hádání matematiky.
@@ -837,5 +819,3 @@ seg-0e6be0d623f6 = <b>Zdarma dnes:</b> vše v otevřeném enginu. Komerční lic
 seg-9b505908a6e2 = Kshana <b>neovládá žádný rádiový hardware a nic nevysílá</b>. Obsahuje softwarový přijímač GNSS pro zaznamenaná a generovaná data IQ a umí zapisovat syntetické soubory IQ v základním pásmu, ale <b>nejde o hardware generátoru rádiových signálů</b> a <b>nejde o hardwarový přijímač GNSS ani o přijímač s certifikací</b>. Je to nástroj pro studie a kompromisní analýzy: simuluje, co rušení, spoofing a ztráta signálu způsobují navigačnímu a časovému řešení, a říká vám, které z jeho odpovědí jsou ověřené. <b>Nejde o letový produkt.</b>
 
 seg-ceb2de75e2f4 = <b>Zdarma dnes:</b> vše v otevřeném enginu. Zdarma: { "53" } nástrojů MCP, od run_scenario po export_oem.
-
-seg-67a6c0107bcd = Engine v{ $version }, sestavení <c1/> · <c2/> · deterministické, bez seedu

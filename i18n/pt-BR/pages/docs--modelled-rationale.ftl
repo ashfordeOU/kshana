@@ -1338,7 +1338,6 @@ seg-b19cbd364dea = src/benchmark/scorecard.rs::tests (PL de referência absorve;
 
 # text
 # c1: variance
-seg-350aaf43f349 = verificado contra a sua própria identidade analítica / de forma fechada — detecta erros de transcrição e de coeficiente, mas não é uma referência independente externa — Não há referência independente externa, e nenhuma é possível: isto é autodescrição, não uma medição. Ela é registrada porque a sua ausência era um defeito -- P5 teve de citar o comprimento de onda da portadora e a abertura de transmissão a partir de valores padrão do código-fonte, e de inferir que um <c1/> isolado estava em metros quadrados a partir de uma verificação de consistência interna. A inferência estava correta, e é justamente por isso que importava: nada teria detectado que estivesse errada
 
 # text
 seg-6d963d838eed = hybrid_integrity::tests (a configuração resolvida é repetida na saída tanto para os valores padrão quanto para as substituições, sem passar o comprimento de onda por uma ida e volta em metros; toda entrada de units traz uma unidade e uma classe de proveniência; todo campo que o bloco units nomeia é de fato emitido, de modo que ele não pode documentar um campo fantasma)
@@ -3044,5 +3043,3 @@ seg-2630978c5675 = verificada em relação à sua própria identidade em forma f
 seg-67fdcdfdb635 = interference_map::emitter (estimate, sessions, build_units, profile, GaussianFix::from_tdoa), interference_map::emitter_out (locate), <c1/>
 
 seg-920b26e226ab = testes unitários de interference_map::emitter (ida e volta da projeção, figura do horizonte, ciclos diretos e inversos sintéticos: o emissor conhecido fica dentro da região declarada com cerca da taxa declarada, casos extremos, agrupamento de sessões, perfil, privacidade e redação); casos de locate de tests/interference_map_cli.rs
-
-seg-474381d842e6 = { "232" } capacidades rotuladas como MODELLED.

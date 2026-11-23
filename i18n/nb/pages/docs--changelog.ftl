@@ -2628,8 +2628,6 @@ seg-74e8cab2f10e = <b>Cache-busting for <c1/></b>: spørrestrengene <c2/>/<c3/> 
 
 seg-65949229eed7 = <b><c1/> — Kshana som en Model Context Protocol (MCP)-server</b> (<c2/>). En frittstående crate utenfor workspace (SDK-en <c3/> er edition { "2024" }) som eksponerer den validerte motoren for AI-agenter og assistenter — Cursor, JetBrains AI Assistant / Junie og enhver MCP-klient — over stdio. Verktøy: <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, hvert en tynn wrapper rundt <c9/>.
 
-seg-bd792f66363c = <b>JetBrains IDE-plugin</b> (<c1/>). Høyreklikk et scenario <c2/> → <b>Run Kshana Scenario</b>; kvalitetsmål og resultat-JSON strømmes inn i et Kshana-verktøyvindu. Ren plattform-Kotlin-plugin som fungerer med alle JetBrains IDE-er { "2024.3" }+.
-
 seg-755358390517 = <b>Offentlig distribusjon + automatisk publisering per utgivelse</b> for begge:
 
 seg-14fc2fd73553 = <c1/> til <b>crates.io</b> (<c2/>) via <c3/>.
@@ -3157,8 +3155,6 @@ seg-29d014d29790 = Én avhengighetsoppdatering i det leverte biblioteket (den f�
 seg-6b6a960ca7cf = <c1/>, <c2/> og <c3/> { "0.13" } til { "0.14" } (med <c4/> { "0.14.3" }, <c5/> { "0.17.0" } og <c6/> { "0.5.5" } til { "0.7.10" }; også den direkte avhengigheten <c7/>, nå { "0.7" }) utbedrer RUSTSEC-2026-0387, tidsvariasjon i <c8/> { "0.5.5" }. Kshana bruker disse crate-ene bare til å verifisere offentlige signaturer (rotnøkkelen for Galileo OSNMA og RFC { "3161" }-tidsstempeltokener) og signerer bare i tester med engangsnøkler, så den praktiske eksponeringen var null; oppgraderingen fjerner varselet uten en ignorer-oppføring. Bibliotekets og MCPs låsefiler flyttes begge; ingen verifiseringsresultater endres (vektortestene for OSNMA og tidsstempler består uendret).
 
 seg-1a4cda9d1486 = Laveste støttede Rust-versjon er nå { "1.88" } (kreves av rettelsen for RUSTSEC-2026-0387).
-
-seg-0d4a740afedf = [{ $version }] - 2026-10-29
 
 seg-2aa7197e4396 = <b>Linjedekning: ~{ "96" } % → ~{ "95" } %.</b> Dekningsjobben målte den utgitte { "0.29.0" }-koden på nytt (commit <c1/>, CI-kjøring { "36809850252" }, 2026-10-01): <c2/>, { "55,970" } av { "58,697" } linjer i <c3/>. Det publiserte tallet var { "95.63" } % ({ "37,697" } av { "39,419" } linjer), målt på <c4/> før { "0.28.0" }; det ble avrundet til ~{ "96" } %. Det nye tallet avrundes til ~{ "95" } %, så hver flate som <c5/> fester flytter seg samlet: <c6/>, README-merket, Evidens-linjen og CI-tabellen, merkene for crates.io, PyPI og npm, den tekniske rapporten og dekningssiden på kshana.dev. Gulvet på { "85" } % er uendret.
 

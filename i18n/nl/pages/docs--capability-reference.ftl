@@ -1672,7 +1672,6 @@ seg-8adbbd2cdb74 = Zelfbeschrijving van het hybride optische/RF-rapport
 
 seg-2a5e48b558e1 = Het hybrid-optical-rf-rapport vermeldt de linkconfiguratie waarmee het daadwerkelijk is gerund (golflengte van de draaggolf, zend- en ontvangstapertuur, afstand, pulsbreedte, integratietijd, rendementen en verliezen, standaardwaarden ingevuld) en bevat een eenhedenblok met de eenheid en herkomstklasse van elke grootheid die een artikel waarschijnlijk citeert, inclusief de sporen van de overdrachtscovariantie in vierkante meter
 
-seg-23f0c10237f4 = Geen externe referentie, en een is ook niet mogelijk: dit is zelfbeschrijving, geen meting. Het is vastgelegd omdat het ontbreken ervan een gebrek was -- P5 moest de golflengte van de draaggolf en de zendapertuur uit standaardwaarden in de broncode halen, en uit een interne consistentiecontrole afleiden dat een kale <c1/> in vierkante meter was. De afleiding was juist, en juist daarom deed het ertoe: niets zou hebben opgevangen dat ze onjuist was
 
 seg-0691f3dee8cb = Beschikbaarheid van de hybride optische/RF-link aan de RF-kant
 
@@ -2715,5 +2714,3 @@ seg-b5c49044a7a1 = Een haalbaar gebied voor waar een bron van verslechterde navi
 seg-953a8b4f9f41 = Nog geen externe. Alleen synthetische voorwaarts-inverse rondritten, uit een generator die het model van de schatter deelt, dus ze controleren de code en de kalibratie van de vermelde niveaus onder dat model en niets over echte zenders. Een externe controle tegen de gepubliceerde zenderlocaties van Jammertest { "2025" } is vooraf vastgelegd (docs/emitter-region/PREREGISTRATION.md, door de eigenaar goedgekeurd vóór elke gescoorde run) en eenmaal uitgevoerd (docs/emitter-region/RESULTS.md): ADS-B NOT ASSESSABLE ({ "2" } geplande sessies, minder dan het vastgelegde minimum van { "4" }) en AIS NOT ASSESSABLE (geen gepubliceerde sessie), dus er is geen drempel getoetst en de rij blijft MODELLED
 
 seg-d5a79853b72f = { "93" } van { "93" } soorten, { "3334" } van { "3334" } numerieke velden
-
-seg-877f989ae75e = De { "61" } mogelijkheidskaarten uit <c1/>, daarna alle { "412" } rijen van de verificatiematrix.

@@ -1276,7 +1276,6 @@ seg-8adbbd2cdb74 = Självbeskrivning i rapporten för hybrid optisk/RF
 
 seg-2a5e48b558e1 = Rapporten hybrid-optical-rf anger den länkkonfiguration den faktiskt kördes med (bärvågens våglängd, sändar- och mottagarapertur, avstånd, pulsbredd, integrationstid, verkningsgrader och förluster, standardvärden uppslagna) och bär ett enhetsblock som anger enhet och proveniensklass för varje storhet som en artikel sannolikt citerar, inklusive spåren av överlämningskovariansen i kvadratmeter
 
-seg-23f0c10237f4 = Ingen extern oberoende referens, och ingen är möjlig: detta är självbeskrivning, inte en mätning. Det registreras eftersom avsaknaden av det var en brist -- P5 var tvungen att citera bärvågens våglängd och sändarapertur från källkodens standardvärden, och att sluta sig till att en bar <c1/> var i kvadratmeter utifrån en intern konsistenskontroll. Slutsatsen var riktig, vilket är precis varför det spelade roll: ingenting hade fångat om den varit fel
 
 seg-0691f3dee8cb = Tillgänglighet för hybridlänk optisk/RF på RF-sidan
 
@@ -2651,5 +2650,3 @@ seg-b5c49044a7a1 = Ett möjligt område för var en källa till försämrade nav
 seg-953a8b4f9f41 = Ännu ingen extern. Endast syntetiska rundturer framåt och bakåt, från en generator som delar skattarens modell, så de kontrollerar koden och kalibreringen av de angivna nivåerna under den modellen och ingenting om verkliga sändare. En extern kontroll mot de publicerade sändarplatserna i Jammertest { "2025" } förhandsregistrerades (docs/emitter-region/PREREGISTRATION.md, godkänd av ägaren före varje poängsatt körning) och kördes en gång (docs/emitter-region/RESULTS.md): ADS-B NOT ASSESSABLE ({ "2" } schemalagda sessioner, färre än det registrerade minimet på { "4" }) och AIS NOT ASSESSABLE (ingen publicerad session), så ingen tröskel testades och raden förblir MODELLED
 
 seg-d5a79853b72f = { "93" } av { "93" } typer, { "3334" } av { "3334" } numeriska fält
-
-seg-877f989ae75e = De { "61" } förmågekorten från <c1/>, därefter alla { "412" } rader i verifieringsmatrisen.

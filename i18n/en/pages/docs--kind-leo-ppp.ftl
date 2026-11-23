@@ -50,10 +50,10 @@ seg-2750ec8c218f = Result label (the engine's): MODELLED float PPP (ionosphere-f
 seg-225ef04c64af = The chart the engine writes for scenarios/leo-ppp-convergence.toml, kind leo-ppp
 
 # text
-seg-c75ca72ca711 = <b>MODELLED</b> A float PPP extended Kalman filter on ionosphere-free code and phase: static coordinates, a white receiver clock, one inter-system bias per extra system, a random-walk zenith wet delay mapped by 1/sin(elevation), a float ambiguity per satel Tests: <a1>leo_fusion_scenarios.rs</a1>.
+seg-c9a67543b931 = <b>MODELLED</b> A float PPP extended Kalman filter on ionosphere-free code and phase: static coordinates, a white receiver clock, one inter-system bias per extra system, a random-walk zenith wet delay mapped by 1/sin(elevation), a float ambiguity per… Tests: <a1>leo_fusion_scenarios.rs</a1>.
 
 # text
-seg-b55fd1cda5fa = <b>MODELLED</b> A float PPP extended Kalman filter on ionosphere-free code and phase: static coordinates, a white receiver clock, one inter-system bias per extra system, a rand. Oracle (ExternalDataset): The NEES chi-square test is an internal consistency check (truth and filter share the model). The trend is compared with Li et al., LEO constellation-augmented multi-GNSS for rapid PPP convergence, J. Geod. { "93" }:749-764 ({ "2019" }), doi 10.1007/s00190-018-1195-2: multi-GNSS { "9.6" } min shortened to { "7.0" }, { "3.2" }, { "2.1" } and { "1.3" } min with { "60" }, { "96" }, { "192" } and { "288" } LEO satellites. The bundled scenario gives { "7.4" }, { "4.8" }, { "3.2" }, { "2.7" } and { "2.3" } min with i
+seg-99cd50aa9395 = <b>MODELLED</b> A float PPP extended Kalman filter on ionosphere-free code and phase: static coordinates, a white receiver clock, one inter-system bias per extra system, a…. Oracle (ExternalDataset): The NEES chi-square test is an internal consistency check (truth and filter share the model). The trend is compared with Li et al., LEO constellation-augmented multi-GNSS for rapid PPP convergence, J. Geod. { "93" }:749-764 ({ "2019" }), doi 10.1007/s00190-018-1195-2: multi-GNSS { "9.6" } min shortened to { "7.0" }, { "3.2" }, { "2.1" } and { "1.3" } min with { "60" }, { "96" }, { "192" } and { "288" } LEO satellites. The bundled scenario gives { "7.4" }, { "4.8" }, { "3.2" }, { "2.7" } and { "2.3" } min with…
 
 # text
 # c1: label
@@ -64,7 +64,7 @@ seg-302365809dbf = MODELLED float PPP (ionosphere-free code and phase, white clo
 seg-6ce77bce8946 = MODELLED: a consistency comparison of the trend, not a reproduction of that study's constellations, noise or stations; no ambiguity resolution, cycle slips, phase wind-up, tides or time-correlated product errors. (kind catalogue (<c1/>))
 
 # text
-seg-ba2fd25fdcff = The four LEO constellations here are representative Walker delta shells at { "1000" } km and { "60" } deg with { "60" }, { "96" }, { "192" } and { "288" } satellites; they are NOT the paper's designs, and the noise, stations and convergence definition (horizontal and vertical errors below { "10" } cm until the end of the run) are this model's. The comparison is therefore a MODELLED consistency check on the trend: convergence must shorten monotonically with t (scenario file comment, lines { "10" } to { "14" })
+seg-0d8624c0caf9 = The four LEO constellations here are representative Walker delta shells at { "1000" } km and { "60" } deg with { "60" }, { "96" }, { "192" } and { "288" } satellites; they are NOT the paper's designs, and the noise, stations and convergence definition (horizontal and vertical errors below { "10" } cm until the end of the run) are this model's. The comparison is therefore a MODELLED consistency check on the trend: convergence must shorten monotonically with… (scenario file comment, lines { "10" } to { "14" })
 
 # text
 seg-b641b835570c = Precise point positioning convergence with GNSS only and with LEO augmentation is MODELLED, not validated: a sub-claim is externally checked, but the whole capability composes modelled pieces, so the capability stays Modelled. (verification matrix (docs/MODELLED-RATIONALE.md))

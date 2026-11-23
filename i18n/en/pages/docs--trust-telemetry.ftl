@@ -551,6 +551,150 @@ seg-a3b77e9593eb = OpenTelemetry (off by default)
 seg-396c34d29783 = Build with <c1/> and pass <c2/>. The exporter posts OTLP/HTTP JSON (<c3/>, <c4/>, <c5/>, <c6/>, and for schema { "1.3" } inputs <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/> and, from inputs that carry the label ({ "0.36" }), <c13/> (attribute <c14/>) and <c15/>; the cumulative sums carry <c16/>) every <c17/> epochs (default { "10" }) and at end of input. It adds no dependency and has no TLS: send to a collector on the same host or a trusted segment, which forwards onwards over TLS. <c18/> endpoints are refused.
 
 # text
+seg-ee619f882cd3 = Incident, chat, log-index, SNMP and threat-sharing outputs
+
+# text
+# c1: kshana connect alert <trust.jsonl|-> --form <form>
+# c2: --all
+# c3: trust-telemetry
+# c4: --post http://host:port/path
+seg-2120850a5d06 = <c1/> builds one payload per band change after calibration (<c2/> for every epoch), from the same live-stream lines <c3/> reads. It prints the payloads, or POSTs each one with <c4/>.
+
+# text
+seg-32e48edbc064 = Form
+
+# text
+seg-fe0b72850ab6 = Matches the shape of
+
+# text
+seg-4cee1094bedc = Clear (back to nominal)
+
+# text
+# c1: em_event
+# c2: /api/global/em/jsonv2
+# c3: source
+# c4: node
+# c5: type
+# c6: resource
+# c7: metric_name
+# c8: message_key
+# c9: severity
+# c10: additional_info
+seg-c6ea120ca84c = ServiceNow Event Management <c1/> records (<c2/>): <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/> { "1" } critical to { "5" } info, <c10/>
+
+# text
+# c1: routing_key
+# c2: --routing-key-env
+# c3: event_action
+# c4: dedup_key
+# c5: payload.summary/source/severity/timestamp/custom_details
+seg-82c35bf7ee96 = PagerDuty Events API v2: <c1/> (from <c2/>), <c3/>, <c4/>, <c5/>
+
+# text
+# c1: message
+# c2: alias
+# c3: priority
+# c4: details
+# c5: tags
+seg-a8f94ace8ffd = Opsgenie Alert API create: <c1/> ({ "130" } characters at most), <c2/>, <c3/> P1 to P5, <c4/>, <c5/>
+
+# text
+# c1: /v2/alerts/<alias>/close?identifierType=alias
+seg-11132b7d7c3f = a Close Alert body; POST it to <c1/>
+
+# text
+# c1: text
+# c2: section
+seg-2b674c6e9347 = Slack incoming webhook: <c1/> and a <c2/> block
+
+# text
+seg-f252def0febc = same, with the nominal band
+
+# text
+seg-7a00e3d66af9 = Microsoft Teams message with an Adaptive Card { "1.4" } (band, score, reasons)
+
+# text
+seg-e9f5fc58fe12 = same
+
+# text
+# c1: /services/collector/event
+# c2: time
+# c3: host
+# c4: source
+# c5: sourcetype
+# c6: kshana:gnss_trust
+# c7: event
+seg-61231ab110ef = Splunk HTTP Event Collector <c1/>: <c2/>, <c3/>, <c4/>, <c5/> <c6/>, <c7/>
+
+# text
+# c1: _bulk
+# c2: create
+# c3: logs-kshana.gnss_trust-default
+# c4: @timestamp
+# c5: event.*
+# c6: observer.hostname
+# c7: kshana.*
+seg-0d96dd59f76d = Elasticsearch <c1/> NDJSON: a <c2/> action for the data stream <c3/> and an ECS document (<c4/>, <c5/>, <c6/>, <c7/>)
+
+# text
+seg-560773935572 = a STIX { "2.1" } bundle (below)
+
+# text
+# c1: --routing-key-env <VAR>
+# c2: Authorization
+# c3: --auth-env <VAR>
+# c4: Splunk <token>
+# c5: GenieKey <key>
+# c6: ApiKey <key>
+# c7: Authorization
+seg-d88a3f16cd29 = The band labels, score and reasons are those of the trust stream; the payload says what Kshana observed and nothing more. A credential goes in the place the service defines: the PagerDuty routing key in the body (<c1/>), anything else as the whole <c2/> header value (<c3/>, for example <c4/>, <c5/>, <c6/>). Delivery is plain HTTP/1.1 and an <c7/> header is sent only to a loopback address: for an HTTPS service, post to a local TLS relay (stunnel, nginx, a collector), which verifies the service's certificate.
+
+# text
+seg-56d911ac2b77 = SNMP traps.
+
+# text
+# c1: kshana connect snmp-trap <host:port> <trust.jsonl|-> --trap-oid <oid> [--community-env &lt;VAR&gt;]
+# c2: sysUpTime.0
+# c3: snmpTrapOID.0
+# c4: <oid>.1
+# c5: <oid>.2
+# c6: <oid>.3
+seg-ccd8c8023103 = <c1/> sends an SNMPv2c trap (PDU 0xA7) per band change: <c2/> (the stream time), <c3/> = the given OID, then <c4/> the band index ({ "0" } calibrating, { "1" } nominal, { "2" } degraded, { "3" } untrusted, { "4" } unknown), <c5/> the score times { "100" } (-1 when absent) and <c6/> the reasons, comma separated. The trap OID is the operator's, under an enterprise arc they control: Kshana has no registered enterprise number and does not invent one.
+
+# text
+# c1: identity
+# c2: location
+# c3: gnss-interference
+# c4: first_observed
+# c5: band
+# c6: score
+# c7: reasons
+# c8: location_ref
+# c9: extension-definition
+# c10: extension_types: ["new-sdo"]
+# c11: kshana connect taxii <api-root-url> --collection <id> <trust.jsonl|-> [--auth-env <VAR>]
+# c12: <api-root>/collections/<id>/objects/
+# c13: application/taxii+json;version=2.1
+# c14: scripts/fetch_042_w2_schemas.sh
+seg-05f5d350b58b = <b>STIX { "2.1" } and TAXII { "2.1" }.</b> Each band change becomes STIX { "2.1" } objects: the producing <c1/>, a <c2/> when the stream carries a position, and the observation as a new SDO <c3/> (properties <c4/>, <c5/>, <c6/>, <c7/>, <c8/>) declared by an <c9/> (<c10/>). Ids are UUID version { "5" } of the content, so the same input gives the same ids; no property is null or an empty list. <c11/> adds them to a TAXII { "2.1" } collection (POST <c12/> with media type <c13/>) and prints the status resource. The objects are checked against the OASIS STIX { "2.1" } JSON schemas when they are present (<c14/>).
+
+# text
+# c1: /metrics
+# c2: application/openmetrics-text
+# c3: _total
+# c4: # HELP
+# c5: # TYPE
+# c6: # EOF
+seg-347f46c28819 = <b>OpenMetrics.</b> The <c1/> endpoint answers a scraper that asks for <c2/> with the OpenMetrics { "1.0" } form (counter families named without their <c3/> suffix in <c4/> and <c5/>, closing <c6/>); others get the Prometheus { "0.0.4" } text as before.
+
+# text
+seg-a477da7cbb43 = <b>Not built.</b> Kafka in and out: the crate has no Kafka client and no optional path for one; bridge the JSON outputs with a Kafka producer of your choice. A Grafana dashboard per segment is not built either.
+
+# text
+# c1: tests/connect_042_w2.rs
+seg-d9c85205ebe6 = <c1/> checks each payload for the fields its service requires, the trap by decoding it, the TAXII client against a local fake server, and the OpenMetrics form.
+
+# text
 seg-c3111d73a8b0 = <s1>Previous</s1>Sky geometry and skylines
 
 # text

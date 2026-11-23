@@ -123,7 +123,7 @@ seg-07cea617dbb8 = IMU live (<c1/>)
 # c10: [log.imu]
 # c11: heading-course
 # c12: tests/clock_live.rs
-seg-4326412a140f = <c1/> reads the same two layouts a line at a time, from standard input, <c2/> or a file (<c3/> waits for more lines), and prints one JSON line per sample: <c4/>, <c5/>, <c6/> and <c7/>, the gyro heading integrated from <c8/> (default { "0" }; <c9/> for a body z axis pointing up). The line reader is the one <c10/> uses, and the heading is summed in the same order as the <c11/> monitor sums it, so the live samples and headings equal a replay of the same file, bit for bit (<c12/>). A serial IMU is read through the tool that turns it into CSV lines; Kshana opens no device.
+seg-f1cc04466212 = <c1/> reads the same three layouts a line at a time, from standard input, <c2/> or a file (<c3/> waits for more lines), and prints one JSON line per sample: <c4/>, <c5/>, <c6/> and <c7/>, the gyro heading integrated from <c8/> (default { "0" }; <c9/> for a body z axis pointing up). The line reader is the one <c10/> uses, and the heading is summed in the same order as the <c11/> monitor sums it, so the live samples and headings equal a replay of the same file, bit for bit (<c12/>). A serial IMU is read through the tool that turns it into CSV lines; Kshana opens no device.
 
 # text
 # c1: kshana sensor-live --kind n2k
@@ -204,7 +204,7 @@ seg-7123ce590979 = the device or connection ended or failed; it is opened again 
 # c1: clock-live
 # c2: --sensor <name>
 # c3: tests/clock_live.rs
-seg-d21c2e09b2a0 = The watched value is the kept offset for <c1/> and the magnitude of the specific force for an IMU. Each condition is reported once when it starts and once when it clears. A gap is marked, never filled: no reading is made up for it. <c2/> names the sensor in events. <c3/> checks a TCP source dropped and brought back (the gap reported, the readings on both sides equal to the replay), and the frozen and range events. What needs the bench (L8): two sensors on one PPS agreeing within a pre-registered skew, and a real unplug and replug.
+seg-038b99297b98 = The watched value is the kept offset for <c1/> and the magnitude of the specific force for an IMU. Each condition is reported once when it starts and once when it clears. A gap is marked, never filled: no reading is made up for it. <c2/> names the sensor in events. <c3/> checks a TCP source dropped and brought back (the gap reported, the readings on both sides equal to the replay), and the frozen and range events. What still needs a bench test: two sensors on one PPS agreeing within a pre-registered skew, and a real unplug and replug.
 
 # text
 # c1: kshana imu-fit
@@ -221,7 +221,7 @@ seg-f7007cf35f53 = IMU into the hybrid and fusion scenarios (<c1/>)
 # c8: q_arw
 # c9: bias_instability
 # c10: imu-fit
-seg-3fc254763f67 = The <c1/> and <c2/> (17-state UKF) scenarios are simulations: they take sensor noise parameters (<c3/>, <c4/>: <c5/>, <c6/>, <c7/>, <c8/>, <c9/>), not a measured series. <c10/> reads those parameters off a stationary IMU log, so a scenario can be run with the sensor you actually have:
+seg-e9574f1d95ee = The <c1/> and <c2/> scenarios are simulations: they take sensor noise parameters (<c3/>, <c4/>: <c5/>, <c6/>, <c7/>, <c8/>, <c9/>), not a measured series. <c10/> reads those parameters off a stationary IMU log, so a scenario can be run with the sensor you actually have:
 
 # text
 # c1: allan::overlapping_adev_curve
@@ -247,7 +247,7 @@ seg-0f8b986cff40 = A byte stream of RTCM { "3" } frames (a base station's or a r
 # text
 # c1: NOTICE
 # c2: GPS TOW <s>
-seg-d70038a737dc = <b>Where the layout comes from.</b> Not from the RTCM standard (a paid document, not consulted): from the open-source decoder pyrtcm { "1.2.0" }, BSD 3-Clause, whose licence and notice are in <c1/> (owner decision of { "18" } Oct { "2026" }: "use open decoders"). pyrtcm states that its tables follow RTCM { "10403.3" }; Kshana relies on the published tables under pyrtcm's licence and makes no claim about the standard. Time: MSM carries no week, so labels read <c2/>; GLONASS epochs (Moscow time) are moved to GPS time with GPS-UTC = { "18" } s (the value since 2017-01-01).
+seg-c8d2ec271fd2 = <b>Where the layout comes from.</b> Not from the RTCM standard (a paid document, not consulted): from the open-source decoder pyrtcm { "1.2.0" }, BSD 3-Clause, whose licence and notice are in <c1/>. pyrtcm states that its tables follow RTCM { "10403.3" }; Kshana relies on the published tables under pyrtcm's licence and makes no claim about the standard. Time: MSM carries no week, so labels read <c2/>; GLONASS epochs (Moscow time) are moved to GPS time with GPS-UTC = { "18" } s (the value since 2017-01-01).
 
 # text
 # c1: 123456789

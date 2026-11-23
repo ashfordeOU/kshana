@@ -13,7 +13,7 @@ seg-deb0a932a76f = <c1/> (scenario kind)
 seg-72ad48275ebe = Scenario kind of the engine v{ $version }, family <a1>Optical PNT</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
 
 # text
-seg-a878d9be65b7 = MODELLED optical PNT through the atmosphere: for an optical link and a set of ground sites with stated cloud climates it reports the wavelength- and elevation-dependent clear-air loss (Kim visibility law plus Rayleigh), the Hufnagel-Valley turbulence state (Rytov variance, scintillation index, gamma-gamma parameters, aperture averaging), the weather-driven availability against the link margin (cloud optical depth from a log-normal liquid-water climate, geometric-optics extinction, independent turbulence fade), the link margin needed for target availabilities, the outage-duration distribution, the timing and ranging error growth per outage through the clock holdover model, distance-correlated site-diversity availability, and what-if gains for enhancement techniques (wavelength, receive aperture, adaptive-optics scintillation reduction, extra margin). VALIDATED as implementation of the stated formulas against an independent mpmath oracle: Rytov variance, scintillation index, gamma-gamma fade probability, aperture-averaging factor, cloud and clear-air optical depth. MODELLED: every weather, technique and clock input and the independence and copula assumptions; no measured availability record has been compared. Advisory analysis, not a certified availability or navigation product.
+seg-926b9c110a44 = MODELLED optical PNT through the atmosphere: for an optical link and a set of ground sites with stated cloud climates it reports the wavelength- and elevation-dependent clear-air loss (Kim visibility law plus Rayleigh), the Hufnagel-Valley turbulence state (Rytov variance, scintillation index, gamma-gamma parameters, aperture averaging), the weather-driven availability against the link margin (cloud optical depth from a log-normal liquid-water climate, geometric-optics extinction, independent turbulence fade), the link margin needed for target availabilities, the outage-duration distribution, the timing and ranging error growth per outage through the clock holdover model, distance-correlated site-diversity availability, and what-if gains for enhancement techniques (wavelength, receive aperture, adaptive-optics scintillation reduction, extra margin). Checked as an implementation of the stated formulas against an independent mpmath oracle (the matrix row stays MODELLED): Rytov variance, scintillation index, gamma-gamma fade probability, aperture-averaging factor, cloud and clear-air optical depth. MODELLED: every weather, technique and clock input and the independence and copula assumptions; no measured availability record has been compared. Advisory analysis, not a certified availability or navigation product.
 
 # text
 # c1: scenarios/optical-atmosphere-network.toml
@@ -40,9 +40,6 @@ seg-8adae3ea6e60 = The example <c1/> sets, among others:
 seg-687f2930a40d = downlink
 
 # text
-seg-9fd02351d844 = ms
-
-# text
 seg-e794d481aed4 = plane
 
 # text
@@ -53,63 +50,64 @@ seg-f42465f7d066 = ns
 
 # text
 # c1: scenarios/
-seg-51362910dcb7 = { "2" } bundled scenarios use this kind; the others are in <a1><c1/></a1>.
+seg-2224c257616c = { "2" } scenario files in <a1><c1/></a1> use this kind.
 
 # text
 seg-9799bd5f9fdb = nm
 
 # text
-seg-0fd6a569077f = Result label (the engine's): MODELLED — optical PNT through the atmosphere: clear-air extinction (Kim visibility law + Rayleigh), cloud optical depth from a stated liquid-water climate (P.840 amount, geometric-optics extinction), Hufnagel-Valley turbulence with gamma-gamma fades and aperture averaging, availability against the
+seg-89ff673ca1e6 = Result label (the engine's): MODELLED — optical PNT through the atmosphere: clear-air extinction (Kim visibility law + Rayleigh), cloud optical depth from a stated liquid-water climate (P.840 amount, geometric-optics extinction), Hufnagel-Valley turbulence with gamma-gamma fades and aperture averaging, availability against…
 
 # attr:alt
 seg-4e2b759aff17 = The chart the engine writes for scenarios/optical-atmosphere-network.toml, kind optical-atmosphere
 
 # text
-seg-a18d144f149e = <b>MODELLED</b> Hufnagel-Valley Cn2 integrated along a slant path for the plane- and spherical-wave Rytov variance (uplink and downlink), the Andrews-Phillips scintillation index and gamma-gamma parameters, the gamma-gamma fade probability and fade margin, Tests: <a1>optical_atmosphere_reference.rs</a1>.
+seg-647b0a520ada = <b>MODELLED</b> Hufnagel-Valley Cn2 integrated along a slant path for the plane- and spherical-wave Rytov variance (uplink and downlink), the Andrews-Phillips scintillation index and gamma-gamma parameters, the gamma-gamma fade probability and fade… Tests: <a1>optical_atmosphere_reference.rs</a1>.
 
 # text
-seg-d97535fd4875 = <b>MODELLED</b> Availability of an optical link against a stated link margin from a log-normal cloud liquid-water climate (ITU-R P.840 amount, geometric-optics extinction) and the independent gamma-gamma turbulence fade, the link margin needed for target a Tests: <a1>optical_atmosphere_identities.rs</a1>.
+seg-3ce6031b85d4 = <b>MODELLED</b> Availability of an optical link against a stated link margin from a log-normal cloud liquid-water climate (ITU-R P.840 amount, geometric-optics extinction) and the independent gamma-gamma turbulence fade, the link margin needed for target… Tests: <a1>optical_atmosphere_identities.rs</a1>.
 
 # text
-seg-6e2c643df3a6 = <b>MODELLED</b> The outage-duration distribution of an optical site coupled to the closed-form coast variance of the clock holdover model: timing and ranging error at stated outage quantiles, the holdover to a timing threshold, the fraction of outages and Tests: <a1>optical_atmosphere_identities.rs</a1>.
+seg-3f4a7cdcd472 = <b>MODELLED</b> The outage-duration distribution of an optical site coupled to the closed-form coast variance of the clock holdover model: timing and ranging error at stated outage quantiles, the holdover to a timing threshold, the fraction of outages… Tests: <a1>optical_atmosphere_identities.rs</a1>.
 
 # text
 # c1: [timeseries]
 # c2: optical-atmosphere
-seg-00c76aeadb90 = <b>MODELLED</b> An opt-in <c1/> table (duration, step, seed) makes the <c2/> kind also write, per site, one seeded realisation of the stated site model through time: cloud episodes (clear spells exponential, cloud outages log-normal Tests: <a1>optical_atmosphere_timeseries.rs</a1>.
+seg-6ea7b7fccf92 = <b>MODELLED</b> An opt-in <c1/> table (duration, step, seed) makes the <c2/> kind also write, per site, one seeded realisation of the stated site model through time: cloud episodes (clear spells exponential, cloud outages… Tests: <a1>optical_atmosphere_timeseries.rs</a1>.
 
 # text
-seg-f1ee20e52b46 = <b>MODELLED</b> Hufnagel-Valley Cn2 integrated along a slant path for the plane- and spherical-wave Rytov variance (uplink and downlink), the Andrews-Phillips scintillation ind. Oracle (ExternalDataset): The numerics are compared with an independent program (xval/optical-atmosphere/oracle.py, mpmath { "1.4.1" } at { "30" } digits, tanh-sinh quadrature on the original height variable and Bessel-K gamma-gamma densities) that shares no code with Kshana, under bars fixed before any implementation existed (xval/optical-atmosphere/PREREGISTRATION.md). WHY MODELLED: that oracle evaluates the same published formulas, so it checks the im
+seg-6b1ee869e86e = <b>MODELLED</b> Hufnagel-Valley Cn2 integrated along a slant path for the plane- and spherical-wave Rytov variance (uplink and downlink), the Andrews-Phillips scintillation…. Oracle (ExternalDataset): The numerics are compared with an independent program (xval/optical-atmosphere/oracle.py, mpmath { "1.4.1" } at { "30" } digits, tanh-sinh quadrature on the original height variable and Bessel-K gamma-gamma densities) that shares no code with Kshana, under bars fixed before any implementation existed (xval/optical-atmosphere/PREREGISTRATION.md). WHY MODELLED: that oracle evaluates the same published formulas, so it checks the…
 
 # text
-seg-4af9bc99ef29 = <b>MODELLED</b> Availability of an optical link against a stated link margin from a log-normal cloud liquid-water climate (ITU-R P.840 amount, geometric-optics extinction) and . Oracle (InternalConsistency): Internal consistency: closed-form limits and monotonicity of the diversity model, the cloud-ceiling closed form, and the log-normal outage identities. NO external oracle is claimed and none has been compared: no measured optical-ground-station availability or cloud-free-line-of-sight record is used. WHY MODELLED: the cloud climate (probability of cloud, median and spread of the liquid-water column, outage durations),
+seg-e704e38ad162 = <b>MODELLED</b> Availability of an optical link against a stated link margin from a log-normal cloud liquid-water climate (ITU-R P.840 amount, geometric-optics extinction)…. Oracle (InternalConsistency): Internal consistency: closed-form limits and monotonicity of the diversity model, the cloud-ceiling closed form, and the log-normal outage identities. NO external oracle is claimed and none has been compared: no measured optical-ground-station availability or cloud-free-line-of-sight record is used. WHY MODELLED: the cloud climate (probability of cloud, median and spread of the liquid-water column, outage…
 
 # text
-seg-b3abf6cbeba4 = <b>MODELLED</b> The outage-duration distribution of an optical site coupled to the closed-form coast variance of the clock holdover model: timing and ranging error at stated ou. Oracle (InternalConsistency): Internal consistency with the holdover module, bit for bit; NO external oracle is claimed. The class PSDs are the synthesised long-tau floors the holdover module already carries, so the figures inherit its stated caveat that holdover to a tight threshold is governed by the assumed red-noise floor and not by the cited Allan deviation. The outage durations are a log-normal model with stated parameters, not a measured c
+seg-3acf53f81cc5 = <b>MODELLED</b> The outage-duration distribution of an optical site coupled to the closed-form coast variance of the clock holdover model: timing and ranging error at stated…. Oracle (InternalConsistency): Internal consistency with the holdover module, bit for bit; NO external oracle is claimed. The class PSDs are the synthesised long-tau floors the holdover module already carries, so the figures inherit its stated caveat that holdover to a tight threshold is governed by the assumed red-noise floor and not by the cited Allan deviation. The outage durations are a log-normal model with stated parameters, not a measured…
 
 # text
 # c1: label
-seg-c4772a9e1a26 = MODELLED — optical PNT through the atmosphere: clear-air extinction (Kim visibility law + Rayleigh), cloud optical depth from a stated liquid-water climate (P.840 amount, geometric-optics extinction), Hufnagel-Valley turbulence with gamma-gamma fades and aperture averaging, availability against the link margin, outage durations coupled to clock holdover, and distance-correlated site diversity. The numerics are checke (result <c1/>)
+seg-d2d9f2d37319 = MODELLED — optical PNT through the atmosphere: clear-air extinction (Kim visibility law + Rayleigh), cloud optical depth from a stated liquid-water climate (P.840 amount, geometric-optics extinction), Hufnagel-Valley turbulence with gamma-gamma fades and aperture averaging, availability against the link margin, outage durations coupled to clock holdover, and distance-correlated site diversity. The numerics are… (result <c1/>)
 
 # text
 # c1: kshana kinds --json
-seg-32c6524b0baf = MODELLED optical PNT through the atmosphere: for an optical link and a set of ground sites with stated cloud climates it reports the wavelength- and elevation-dependent clear-air loss (Kim visibility law plus Rayleigh), the Hufnagel-Valley turbulence state (Rytov variance, scintillation index, gamma-gamma parameters, aperture averaging), the weather-driven availability against the link margin (cloud optical depth fro (kind catalogue (<c1/>))
+seg-2b9783662cc0 = MODELLED optical PNT through the atmosphere: for an optical link and a set of ground sites with stated cloud climates it reports the wavelength- and elevation-dependent clear-air loss (Kim visibility law plus Rayleigh), the Hufnagel-Valley turbulence state (Rytov variance, scintillation index, gamma-gamma parameters, aperture averaging), the weather-driven availability against the link margin (cloud optical depth… (kind catalogue (<c1/>))
+
+# text
+# c1: kshana kinds --json
+seg-72a9ab876729 = Checked as an implementation of the stated formulas against an independent mpmath oracle (the matrix row stays MODELLED): Rytov variance, scintillation index, gamma-gamma fade probability, aperture-averaging factor, cloud and clear-air optical depth. (kind catalogue (<c1/>))
 
 # text
 # c1: kshana kinds --json
 seg-2c7493ee5042 = MODELLED: every weather, technique and clock input and the independence and copula assumptions; no measured availability record has been compared. (kind catalogue (<c1/>))
 
 # text
-seg-b4402211e3fe = Optical PNT through the atmosphere: three ILLUSTRATIVE ground sites (a cloudier northern site, a middling central site and a clearer southern site) viewing a LEO optical terminal at { "30" } degrees elevation at { "1550" } nm. The cloud climates are stated inputs, not measurements or any dataset's values, so every availability below is MODELLED. The run reports per site the clear-air loss, the Hufnagel-Valley turbulence state, t (scenario file comment, lines { "1" } to { "8" })
+seg-53d248c1e95b = Optical PNT through the atmosphere: three ILLUSTRATIVE ground sites (a cloudier northern site, a middling central site and a clearer southern site) viewing a LEO optical terminal at { "30" } degrees elevation at { "1550" } nm. The cloud climates are stated inputs, not measurements or any dataset's values, so every availability below is MODELLED. The run reports per site the clear-air loss, the Hufnagel-Valley turbulence state… (scenario file comment, lines { "1" } to { "8" })
 
 # text
 seg-384f5c73cdf9 = One seeded realisation of each site's link through time (MODELLED; a draw from the model above, not the climate). Absent, no series is written and the result is the { "0.37" } document. (scenario file comment, lines { "78" } to { "79" })
 
 # text
 seg-c75fa5787bd4 = Optical slant-path atmosphere numerics: Rytov variance, scintillation, gamma-gamma fade probability, aperture averaging, cloud and clear-air optical depth is MODELLED, not validated: a sub-claim is externally checked, but the whole capability composes modelled pieces, so the capability stays Modelled. (verification matrix (docs/MODELLED-RATIONALE.md))
-
-# text
-seg-e5013bdf86bb = Weather-driven optical ground-site availability and distance-correlated site diversity is MODELLED, not validated: checked against its own closed-form / analytic identity — catches transcription and coefficient errors, but is not an external oracle. (verification matrix (docs/MODELLED-RATIONALE.md))
 
 # text
 seg-a97755cb13eb = Family page: <a1>Optical PNT</a1>

@@ -1196,7 +1196,6 @@ seg-2a5e48b558e1 = O relatório hybrid-optical-rf declara a configuração de en
 
 # text
 # c1: variance
-seg-23f0c10237f4 = Nenhuma referência independente externa, e nenhuma é possível: isto é autodescrição, não uma medição. Ela é registrada porque sua ausência era um defeito -- o P5 precisou citar o comprimento de onda da portadora e a abertura de transmissão a partir de padrões do código-fonte, e inferir que um <c1/> nu estava em metros quadrados a partir de uma verificação de consistência interna. A inferência estava correta, e é justamente por isso que importava: nada teria detectado que estivesse errada
 
 # text
 seg-0691f3dee8cb = Disponibilidade do enlace híbrido óptico/RF no lado de RF
@@ -5413,7 +5412,3 @@ seg-f4b44b14d819 = tests/mission_thread_oracle.rs::the_stored_numbers_miss_the_r
 seg-67fdcdfdb635 = interference_map::emitter (estimate, sessions, build_units, profile, GaussianFix::from_tdoa), interference_map::emitter_out (locate), <c1/>
 
 seg-920b26e226ab = testes unitários de interference_map::emitter (ida e volta da projeção, figura do horizonte, ciclos diretos e inversos sintéticos: o emissor conhecido fica dentro da região declarada com cerca da taxa declarada, casos extremos, agrupamento de sessões, perfil, privacidade e redação); casos de locate de tests/interference_map_cli.rs
-
-seg-db7a6ac0a47d = O registro de evidências completo, verificado por máquina: <b>{ "412" } linhas — { "176" } VALIDATED, { "232" } MODELLED, { "4" } PARTNER</b>. Uma linha só pode ser VALIDATED com uma referência independente externa (os testes de invariantes da matriz impõem isso). Os mesmos dados, com links clicáveis por linha para cada teste, módulo e arquivo de teste versionado, são o <em>Registro de validação</em> em <a1>https://kshana.dev</a1>. Veja <a2>MODELLED-RATIONALE.md</a2> para saber por que cada linha modelada não é validada externamente.
-
-seg-1cc523709234 = { "412" } linhas: { "176" } validadas externamente, { "232" } modeladas, { "4" } pertencentes a parceiros.

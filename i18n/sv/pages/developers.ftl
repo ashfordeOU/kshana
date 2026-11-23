@@ -1133,15 +1133,9 @@ seg-cc49e9b6404e = Varje körning; MCP <c1/>
 
 seg-7994e9983f27 = Deterministisk utifrån scenario, frö och motorversion
 
-seg-8844d0844559 = IntelliJ · PyCharm · CLion
-
 seg-844c84c5252d = Föredrar du att klicka?
 
-seg-6b24b242333a = Pluginet "Kshana — PNT simulator": högerklicka på ett valfritt scenario <c1/>, välj Run Kshana Scenario och läs kvalitetsmåtten i ett verktygsfönster.
-
 seg-8b49f6477e8f = Öppen kärna
-
-seg-3a199156b86e = Varje yta på den här sidan är den fria öppna kärnan, under AGPL-3.0 eller en kommersiell licens för sluten integration. Behöver du den integrerad i din verktygskedja, eller en studie gjord åt dig? <a1>Skräddarsydd studie</a1>. Bevispaket och kalibrerade modeller: <a2>Kshana Pro</a2>.
 
 seg-c9844e6afd41 = Kör benchmarken
 

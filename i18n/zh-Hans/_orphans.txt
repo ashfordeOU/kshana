@@ -399,8 +399,8 @@ seg-8853058de1f3 = Orekit { "13.1.8" }（Apache-2.0）的解析器和写出器�
 # Orekit { "13.1.8" } (Apache-2.0) OPM, OMM and OCM parsers and writers, run as a separate program (xval/odm-orekit), pre-registered (cc6841da) before any comparison: { "27" } of the { "30" } Kshana-written messages ({ "6" } OPM, { "5" } OMM and { "5" } OCM cases in KVN, and XML for version { "3.0" }) parse in Orekit with every value within { "1e-14" } relative and every epoch within { "1e-9" } s ({ "904" } values, worst { "0.021" } of a bar), and Kshana reads all { "25" } messages Orekit writes back out inside the same bars ({ "858" } values, worst { "0.020" }); all { "14" } Kshana XML messages validate against the NDM/XML { "4.0.0" } schema (data-gated). Findings, pinned, narrowing the claim: Orekit requires ELEMENT_SET_NO (optional in 502.0-B-3), refuses COMMENT in XML user-defined parameters (the schema allows it), will not write BTERM without BSTAR (so BTERM and AGOM are covered in the Kshana-writes direction only), and adds OCM relative epochs as SI seconds, so under TDB they differ from the TDB calendar reading by about { "1.9e-10" } s/s (UTC, TAI and TT agree). The legacy OmmFile::to_omm_kvn output, which wraps OMM metadata in META_START/META_STOP, is refused by Orekit (recorded). Out of scope: OCM PERT and OD blocks, non-Cartesian element sets, other covariance orderings
 seg-d4c7896b5963 = Orekit { "13.1.8" }（Apache-2.0）的OPM、OMM和OCM解析器和写出器，作为独立程序运行（xval/odm-orekit），在任何比较之前已预先登记（cc6841da）：Kshana写出的{ "30" }条报文中有{ "27" }条（KVN下{ "6" }个OPM、{ "5" }个OMM和{ "5" }个OCM算例，以及版本{ "3.0" }的XML）能在Orekit中解析，每个值的相对误差在{ "1e-14" }之内，每个历元在{ "1e-9" } s之内（{ "904" }个值，最差为判据的{ "0.021" }），并且Kshana读取Orekit写回的全部{ "25" }条报文，落在同样的判据之内（{ "858" }个值，最差{ "0.020" }）；Kshana的全部{ "14" }条XML报文都通过NDM/XML { "4.0.0" } schema的验证（数据门控）。发现，已固定，用来收窄结论：Orekit要求ELEMENT_SET_NO（在502.0-B-3中是可选的），拒绝XML用户定义参数中的COMMENT（schema允许），不会在没有BSTAR时写出BTERM（因此BTERM和AGOM仅在Kshana写出的方向上得到覆盖），并且把OCM相对历元按SI秒相加，所以在TDB下与TDB日历读数相差约{ "1.9e-10" } s/s（UTC、TAI和TT一致）。旧版OmmFile::to_omm_kvn的输出把OMM元数据包在META_START/META_STOP中，被Orekit拒绝（已记录）。范围之外：OCM的PERT和OD块、非笛卡尔的根数集、其他协方差排列顺序
 
-# Analytic datum-defect structure — the unobservable absolute-frame mode lies in the null space of the Fisher information (closed-form), the rank threshold matches the published 3-station design rationale, and the estimator attains the resulting CRLB in Monte-Carlo. The lunar geometry itself is a representative network (not a flown ephemeris), so the row stays MODELLED; the underlying FIM/CRLB engine is checked against the Kay ({ "1993" }) closed forms separately. { "0.30" } round { "2" } (pre-registered fab02df9), blocked (stays MODELLED): NumPy/SciPy recompute the rank and defect at the stated { "1e-9" } threshold, the station axes share of the null space (within { "8.4e-10" }) and the station CRLB (within { "1.2e-10" }) on { "17" } committed Kshana-generated configurations (P2). Not promoted: the claim that the estimator attains the bound (Monte Carlo efficiency about { "0.98" }) has no oracle, and the scoping that would leave it MODELLED awaits an owner decision
-seg-238597f6aa01 = 解析的基准亏损结构——不可观测的绝对坐标系模态位于Fisher信息的零空间中（闭式），秩阈值与已发表的3测站设计依据相符，估计器在蒙特卡罗中达到由此得出的CRLB。月面几何本身是一个有代表性的网络（不是已飞行的星历），因此该行保持MODELLED；底层的FIM/CRLB引擎另行对照Kay（{ "1993" }）闭式结果做了核对。{ "0.30" }第{ "2" }轮（预先登记fab02df9），受阻（保持MODELLED）：NumPy/SciPy在所述{ "1e-9" }阈值下重新计算了秩和亏损、测站坐标轴在零空间中所占份额（吻合到{ "8.4e-10" }）以及测站CRLB（吻合到{ "1.2e-10" }），所用为{ "17" }个已提交的Kshana生成配置（P2）。未予提升：估计器达到该下界这一论断（蒙特卡罗效率约{ "0.98" }）没有参考基准（oracle），而使其保持MODELLED的范围界定正等待所有者作出决定
+# Analytic datum-defect structure — the unobservable absolute-frame mode lies in the null space of the Fisher information (closed-form), the rank threshold matches the published 3-station design rationale, and the estimator attains the resulting CRLB in Monte-Carlo. The lunar geometry itself is a representative network (not a flown ephemeris), so the row stays MODELLED; the underlying FIM/CRLB engine is checked against the Kay ({ "1993" }) closed forms separately. { "0.30" } round { "2" } (pre-registered fab02df9), blocked (stays MODELLED): NumPy/SciPy recompute the rank and defect at the stated { "1e-9" } threshold, the station axes share of the null space (within { "8.4e-10" }) and the station CRLB (within { "1.2e-10" }) on { "17" } committed Kshana-generated configurations. Not promoted: the claim that the estimator attains the bound (Monte Carlo efficiency about { "0.98" }) has no oracle, and the scoping that would leave it MODELLED awaits an owner decision
+seg-238597f6aa01 = 解析的基准亏损结构——不可观测的绝对坐标系模态位于Fisher信息的零空间中（闭式），秩阈值与已发表的3测站设计依据相符，估计器在蒙特卡罗中达到由此得出的CRLB。月面几何本身是一个有代表性的网络（不是已飞行的星历），因此该行保持MODELLED；底层的FIM/CRLB引擎另行对照Kay（{ "1993" }）闭式结果做了核对。{ "0.30" }第{ "2" }轮（预先登记fab02df9），受阻（保持MODELLED）：NumPy/SciPy在所述{ "1e-9" }阈值下重新计算了秩和亏损、测站坐标轴在零空间中所占份额（吻合到{ "8.4e-10" }）以及测站CRLB（吻合到{ "1.2e-10" }），所用为{ "17" }个已提交的Kshana生成配置。未予提升：估计器达到该下界这一论断（蒙特卡罗效率约{ "0.98" }）没有参考基准（oracle），而使其保持MODELLED的范围界定正等待所有者作出决定
 
 # gps-sdr-sim (MIT, commit 28ca29a6, run as a separate program through a committed harness), pre-registered f88f2969 with a bit-exact bar on (A) C/A chips, (B) every computed LNAV field, (C) every parity bit. FINDING: (A) { "0" } of { "32 736" } chips differ, (C) the parity of { "0" } of { "1 920" } words differs, (B) { "230" } of { "1 152" } computed fields differ by one unit: gps-sdr-sim's eph2sbf truncates toward zero with C casts where the broadcast integer needs rounding (every differing value lies within { "0.01" } of a unit of Kshana's rounded integer). Stays MODELLED: the registered bar was the conjunction
 seg-39b0d6a58d29 = gps-sdr-sim（MIT，提交28ca29a6，通过已提交的测试装置作为单独程序运行），预先登记f88f2969，对（A）C/A码片、（B）每个计算的LNAV字段、（C）每个奇偶位采用逐位精确的判据。发现：（A）{ "32 736" }个码片中有{ "0" }个不同，（C）{ "1 920" }个字中有{ "0" }个字的奇偶不同，（B）{ "1 152" }个计算字段中有{ "230" }个相差一个单位：gps-sdr-sim的eph2sbf用C强制转换向零截断，而广播整数需要四舍五入（每个不同的值都在Kshana四舍五入整数的{ "0.01" }个单位以内）。保持MODELLED：登记的判据是各项的合取
@@ -552,8 +552,8 @@ seg-179fb996fc72 = DOP运算即crate::orbit::dop内核，已在tests/dop_referen
 # P2: numpy linalg.lstsq (LAPACK gelsd SVD, BSD-3) recomputes the least-squares split on committed inputs WITH a real parity part (dy = E·Δs + w, w ~ N({ "0" }, { "1" } m), seed { "20261001" }) on the 8-satellite geometry and a 6-satellite subset, { "1464" } cases over both real inter-ephemeris pairs, pre-registered (f672a314): blind_dx, residual, blind_norm and detectable_norm within { "1e-12" } relative to |dy| and blind_fraction within { "1e-12" } absolute (worst blind_dx { "1.06e-14" }, residual { "4.4e-15" }, blind_fraction { "3.1e-15" }). numpy builds G itself from the committed positions, while the engine uses normal equations with Gauss-Jordan; an oblique left inverse turns the test red at { "5.5e-2" } |dy|. Amendment { "1" } (86c53301, after a first run, disclosed) relaxed only an input precondition on the parity fraction (every case at least { "1e-3" } and { "95" } % of each geometry at least { "0.05" }), not the agreement bar. Validated claim, as P2 allows: the linear algebra of the split on those inputs; the inter-ephemeris floor magnitudes and the illustrative lunar geometry ({ "8" } LCNS-like nodes at { "5000" } km) are inputs, not validated, and the blindness is a known property of all snapshot RAIM. The round-1 numpy comparison (tests/lunar_common_mode_integrity_reference.rs) checked only the identity S·G = I because its inputs lay in range(G); it is kept as a regression. Ephemeris provenance: tests/fixtures/inter_ephemeris/NOTICE.md (JPL, IMCCE, IAA RAS)
 seg-077303e9dd72 = P2：numpy linalg.lstsq（LAPACK gelsd SVD，BSD-3）在已提交的输入上重新计算最小二乘拆分，这些输入带有真实的奇偶部分（dy = E·Δs + w，w ~ N({ "0" }, { "1" } m)，随机种子{ "20261001" }），几何为8颗卫星及其6颗卫星子集，覆盖两组真实星历间差异，共{ "1464" }个算例，预先登记（f672a314）：blind_dx、residual、blind_norm和detectable_norm相对 |dy| 的偏差在{ "1e-12" }以内，blind_fraction的绝对偏差在{ "1e-12" }以内（最差blind_dx为{ "1.06e-14" }，residual为{ "4.4e-15" }，blind_fraction为{ "3.1e-15" }）。numpy自行由已提交的位置构造G，而引擎使用正规方程与Gauss-Jordan；斜左逆会使该测试在{ "5.5e-2" } |dy| 处变红。修订{ "1" }（86c53301，首次运行之后，已披露）只放宽了对奇偶比例的一项输入前提条件（每个算例至少{ "1e-3" }，且每种几何中{ "95" } % 至少为{ "0.05" }），没有改动一致性判据。如P2所允许，经独立核对的结论是：在这些输入上拆分的线性代数；星历间基底的量值和示意性的月球几何（{ "8" }个LCNS类节点，位于{ "5000" } km）是输入，未经核对，而盲区是所有快照RAIM已知的属性。第1轮的numpy比较（tests/lunar_common_mode_integrity_reference.rs）只核对了恒等式S·G = I，因为其输入位于range(G) 之内；它作为回归测试保留。星历来源：tests/fixtures/inter_ephemeris/NOTICE.md（JPL、IMCCE、IAA RAS）
 
-# P2: numpy { "2.4.6" } (numpy.linalg.lstsq with LAPACK gelsd, numpy.linalg.inv; BSD-3) recomputes each Gauss-Newton step, the converged weighted-least-squares solution, the formal sigmas and the station error on the committed Jacobians and observations of six simulated networks, pre-registered (5094bc31) at max({ "1e-8" }, { "100" } kappa eps) relative. The first run failed the no-VLBI network ({ "6.1e-7" } against { "1e-8" }, a normal-equation inverse at condition { "1.4e5" }); the engine fix written after that result (batch_ls::gauss_newton_qr, a Householder QR step used by estimate and formal_covariance) was re-run at the unchanged bar: steps { "1.1e-14" } to { "2.4e-11" }, sigmas at most { "1.3e-11" }. The validated claim is the fusion solve linear algebra on those inputs, not the physical magnitudes of the simulated network or its observation models: the lunar geodetic VLBI delay row stays MODELLED (its analytic path differs from ANISE by up to { "24" } µs), and the frames have their own rows. Recovery of an injected simulated truth and NEES consistency remain internal checks; the earlier Orekit { "12.2" } / Hipparchus Levenberg-Marquardt cross-check (tests/lunar_joint_multi_technique_od_reference.rs) exercises batch_ls::gauss_newton, which estimate no longer calls, and is kept as a check of that primitive. { "0.30" } revision: the default lunar-joint-od-clock station errors { "3.541344" } -> { "3.541350" } m with VLBI and { "2183.119" } -> { "2183.558" } m without (QR solve). { "0.36" } revision (STUDIO-15, portable maths; docs/revisions/STUDIO15-portable-math-rebaseline.md): { "3.541350" } -> { "3.536885" } m with VLBI and { "2183.558" } -> { "2184.021" } m without, and the no-VLBI solve stops after { "5" } iterations, not { "2" } (a round-off-limited stop on the ill-conditioned network); the pre-registered comparison was re-run on re-exported inputs at the unchanged bar (numpy { "2.4.6" }, all six networks pass)
-seg-82824963aef7 = P2：numpy { "2.4.6" }（numpy.linalg.lstsq配合LAPACK gelsd，以及numpy.linalg.inv；BSD-3）在六个模拟网络已提交的雅可比矩阵和观测上，重新计算每一步Gauss-Newton迭代、收敛的加权最小二乘解、形式sigma和测站误差，预先登记（5094bc31），相对判据为max({ "1e-8" }, { "100" } kappa eps)。首次运行在无VLBI的网络上失败（{ "6.1e-7" }，对照{ "1e-8" }，这是条件数为{ "1.4e5" }时的正规方程求逆）；该结果之后所写的引擎修复（batch_ls::gauss_newton_qr，一个由estimate和formal_covariance使用的Householder QR步骤）在不变的判据下重新运行：步长为{ "1.1e-14" }至{ "2.4e-11" }，sigma至多{ "1.3e-11" }。经独立核对的结论是这些输入上的融合求解线性代数，而不是模拟网络的物理量值或其观测模型：月球大地测量VLBI时延这一行仍为MODELLED（其解析路径与ANISE相差最多{ "24" } µs），坐标系另有各自的行。对注入的模拟真值的恢复和NEES一致性仍属内部检验；先前的Orekit { "12.2" } / Hipparchus Levenberg-Marquardt交叉核对（tests/lunar_joint_multi_technique_od_reference.rs）演练的是batch_ls::gauss_newton，而estimate已不再调用它，该核对作为对这一基础函数的检查保留。{ "0.30" }修订：默认的lunar-joint-od-clock测站误差，有VLBI时由{ "3.541344" }变为{ "3.541350" } m，无VLBI时由{ "2183.119" }变为{ "2183.558" } m（QR求解）。{ "0.36" }修订（STUDIO-15，可移植数学；docs/revisions/STUDIO15-portable-math-rebaseline.md）：有VLBI时由{ "3.541350" }变为{ "3.536885" } m，无VLBI时由{ "2183.558" }变为{ "2184.021" } m，并且无VLBI的求解在{ "5" }次迭代后停止，而不是{ "2" }次（在病态网络上由舍入误差限制而停止）；预先登记的比较在重新导出的输入上、于不变的判据下重新运行（numpy { "2.4.6" }，六个网络全部通过）
+# P2: numpy { "2.4.6" } (numpy.linalg.lstsq with LAPACK gelsd, numpy.linalg.inv; BSD-3) recomputes each Gauss-Newton step, the converged weighted-least-squares solution, the formal sigmas and the station error on the committed Jacobians and observations of six simulated networks, pre-registered (5094bc31) at max({ "1e-8" }, { "100" } kappa eps) relative. The first run failed the no-VLBI network ({ "6.1e-7" } against { "1e-8" }, a normal-equation inverse at condition { "1.4e5" }); the engine fix written after that result (batch_ls::gauss_newton_qr, a Householder QR step used by estimate and formal_covariance) was re-run at the unchanged bar: steps { "1.1e-14" } to { "2.4e-11" }, sigmas at most { "1.3e-11" }. The validated claim is the fusion solve linear algebra on those inputs, not the physical magnitudes of the simulated network or its observation models: the lunar geodetic VLBI delay row stays MODELLED (its analytic path differs from ANISE by up to { "24" } µs), and the frames have their own rows. Recovery of an injected simulated truth and NEES consistency remain internal checks; the earlier Orekit { "12.2" } / Hipparchus Levenberg-Marquardt cross-check (tests/lunar_joint_multi_technique_od_reference.rs) exercises batch_ls::gauss_newton, which estimate no longer calls, and is kept as a check of that primitive. { "0.30" } revision: the default lunar-joint-od-clock station errors { "3.541344" } -> { "3.541350" } m with VLBI and { "2183.119" } -> { "2183.558" } m without (QR solve). { "0.36" } revision (STUDIO-15, portable maths; docs/revisions/portable-math-rebaseline.md): { "3.541350" } -> { "3.536885" } m with VLBI and { "2183.558" } -> { "2184.021" } m without, and the no-VLBI solve stops after { "5" } iterations, not { "2" } (a round-off-limited stop on the ill-conditioned network); the pre-registered comparison was re-run on re-exported inputs at the unchanged bar (numpy { "2.4.6" }, all six networks pass)
+seg-82824963aef7 = P2：numpy { "2.4.6" }（numpy.linalg.lstsq配合LAPACK gelsd，以及numpy.linalg.inv；BSD-3）在六个模拟网络已提交的雅可比矩阵和观测上，重新计算每一步Gauss-Newton迭代、收敛的加权最小二乘解、形式sigma和测站误差，预先登记（5094bc31），相对判据为max({ "1e-8" }, { "100" } kappa eps)。首次运行在无VLBI的网络上失败（{ "6.1e-7" }，对照{ "1e-8" }，这是条件数为{ "1.4e5" }时的正规方程求逆）；该结果之后所写的引擎修复（batch_ls::gauss_newton_qr，一个由estimate和formal_covariance使用的Householder QR步骤）在不变的判据下重新运行：步长为{ "1.1e-14" }至{ "2.4e-11" }，sigma至多{ "1.3e-11" }。经独立核对的结论是这些输入上的融合求解线性代数，而不是模拟网络的物理量值或其观测模型：月球大地测量VLBI时延这一行仍为MODELLED（其解析路径与ANISE相差最多{ "24" } µs），坐标系另有各自的行。对注入的模拟真值的恢复和NEES一致性仍属内部检验；先前的Orekit { "12.2" } / Hipparchus Levenberg-Marquardt交叉核对（tests/lunar_joint_multi_technique_od_reference.rs）演练的是batch_ls::gauss_newton，而estimate已不再调用它，该核对作为对这一基础函数的检查保留。{ "0.30" }修订：默认的lunar-joint-od-clock测站误差，有VLBI时由{ "3.541344" }变为{ "3.541350" } m，无VLBI时由{ "2183.119" }变为{ "2183.558" } m（QR求解）。{ "0.36" }修订（STUDIO-15，可移植数学；docs/revisions/portable-math-rebaseline.md）：有VLBI时由{ "3.541350" }变为{ "3.536885" } m，无VLBI时由{ "2183.558" }变为{ "2184.021" } m，并且无VLBI的求解在{ "5" }次迭代后停止，而不是{ "2" }次（在病态网络上由舍入误差限制而停止）；预先登记的比较在重新导出的输入上、于不变的判据下重新运行（numpy { "2.4.6" }，六个网络全部通过）
 
 # GMAT R2026a (Apache-2.0, run as a separate program) on { "192" } hyperbolic Earth states: B.T, B.R and |B| within { "1e-6" } km (worst { "1.35e-8" } km), the turn angle and both asymptotes within { "1e-9" } rad (worst { "9.3e-15" } rad); the assist velocity change from GMAT C3 and asymptotes within { "1e-9" } v_inf (worst { "5.6e-14" }); heliocentric SMA, ECC and INC on { "350" } Sun-centred states before and after the assist within { "1e-9" } relative and { "1e-12" } rad (worst { "2.2e-14" } and { "4.1e-14" } rad); the Tisserand parameter against sbpy { "0.6.0" } (BSD-3) on GMAT elements within { "1e-9" } (worst { "1.3e-15" }) and against { "3" } - C3/v_c^{ "2" } ({ "8.9e-16" }); and the Tisserand closed form against Kasuga and Jewitt ({ "2019" }) Table { "8.1" } for { "12" } objects within the printed-rounding bound (worst { "0.39" } of it; a P1 published worked value). Pre-registered (436293bf; heliocentric repair 6fd9f5e6); amendment 374c806b, written after the oracle files were generated and before any Kshana value, widened the inclination input filter from { "1e-2" } to { "1e-3" } rad, keeping more and worse-conditioned states. MODELLED scope: patched-conic two-body flyby on a circular planetary orbit, no sphere-of-influence transition, encounter perturbations or ephemeris
 seg-1ec7b0d8a32c = GMAT R2026a（Apache-2.0，作为单独的程序运行）在{ "192" }个双曲线地球状态上：B.T、B.R和 |B| 偏差在{ "1e-6" } km以内（最差{ "1.35e-8" } km），转角和两条渐近线偏差在{ "1e-9" } rad以内（最差{ "9.3e-15" } rad）；由GMAT的C3和渐近线得到的辅助速度变化偏差在{ "1e-9" } v_inf以内（最差{ "5.6e-14" }）；辅助前后{ "350" }个以太阳为中心的状态上的日心SMA、ECC和INC，相对偏差在{ "1e-9" }以内，角度偏差在{ "1e-12" } rad以内（最差分别为{ "2.2e-14" }和{ "4.1e-14" } rad）；Tisserand参数在GMAT轨道根数上对照sbpy { "0.6.0" }（BSD-3），偏差在{ "1e-9" }以内（最差{ "1.3e-15" }），并对照{ "3" } - C3/v_c^{ "2" }（{ "8.9e-16" }）；Tisserand闭式解对照Kasuga与Jewitt（{ "2019" }）表{ "8.1" }中{ "12" }个天体，在印刷舍入界之内（最差为该界的{ "0.39" }；一项P1已发表的算例值）。预先登记（436293bf；日心修复6fd9f5e6）；修订374c806b写于参考基准文件生成之后、任何Kshana数值出现之前，把倾角输入过滤条件从{ "1e-2" }放宽到{ "1e-3" } rad，保留了更多、条件更差的状态。MODELLED范围：圆形行星轨道上的圆锥曲线拼接二体飞越，没有影响球过渡、遭遇摄动或星历
@@ -570,8 +570,8 @@ seg-f7f79e2dd6c5 = 混合，且分开而不是合并。其下的方向图（PATT
 # The engine's own sdr correlator (sdr::correlate / synth_if / CaCode) stepped forward on seeded synthetic IF at a calibrated C/N₀ — a separate code path reaching the same numbers by numerical correlation of sampled IQ rather than by an algebraic jitter expression, so it is a different route and not a restatement — plus standard tabulated modified-Bessel I₀ values for the cycle-slip term. Loop theory per Kaplan & Hegarty ch. { "8" } and Viterbi/Gardner for the slip time. The row stays ReferenceImpl/MODELLED: the cross-check lives in this same codebase, and the bessel_i0 check validates one special function rather than the tracking model, so promoting the row on that basis would be self-serving labelling. ExternalDataset would need a recorded raw-IF dataset with ground-truth C/N₀ and an annotated loss-of-lock instant (TEXBAT/OAKBAT class); none ships in this tree, and even with the IQ those datasets publish no per-epoch loop-state truth, so a declared loss-of-lock time could only be validated against some other receiver's lock detector, which is a modelled choice and not an oracle. The loop bandwidths, integration time, correlator spacing, pull-in ratio, dwells, jammer power and antenna gains are representative band figures, not a datasheet. { "0.30" } round { "2" }, GNSS-SDR { "0.0.19" } (GPL-3.0, run as a program) on independently generated IF (pre-registered 6ef7698c, amendments to the measurement method disclosed), a finding (stays MODELLED): closed-loop PLL and DLL jitter agree within { "8" } % at { "35" } to { "45" } dB-Hz, the { "10" } Hz/s dynamic stress within { "1" } % and the first-order code ramp lag within { "2" } %; at { "30" } dB-Hz the PLL jitter is { "21" } % higher and the DLL jitter { "32" } % lower, the measured 15-degree-rule thresholds sit { "1.5" } dB above the engine, and the second-order loop slips { "0.5" } to { "2" } decades more often than the first-order slip-time bound. { "0.30" } revision: the Costas slip time now uses the loop SNR rho/4 (half-cycle slips); the default jitter_table log10_mean_time_to_cycle_slip_s falls from { "11.58" } to { "2.10" } at the { "25.47" } dB-Hz threshold
 seg-c3794c8d85c5 = 引擎自身的sdr相关器（sdr::correlate / synth_if / CaCode）在以校准的C/N₀ 生成的、带随机种子的合成IF上逐步向前运行：这是一条独立的代码路径，通过对采样IQ的数值相关而不是代数抖动表达式得到同样的数值，所以是另一条路径，而不是同一说法的复述；另外还有周跳项所用的标准列表修正Bessel I₀ 值。环路理论依Kaplan与Hegarty第{ "8" }章，周跳时间依Viterbi和Gardner。这一行仍为ReferenceImpl/MODELLED：交叉核对存在于同一代码库中，bessel_i0核对所核对的是一个特殊函数而不是跟踪模型，因此据此提升该行就是自我标榜的标注。ExternalDataset需要一份带有真值C/N₀ 和带注释的失锁时刻的原始IF录制数据集（TEXBAT/OAKBAT一类）；本代码树中没有随附这样的数据，而且即使有IQ，这些数据集也不公布逐历元的环路状态真值，因此声明的失锁时间只能对照另一台接收机的锁定检测器来核对，而那是模型选择，不是参考基准。环路带宽、积分时间、相关器间隔、牵入比、驻留、干扰源功率和天线增益是有代表性的频段数值，不是数据手册。{ "0.30" }第{ "2" }轮，GNSS-SDR { "0.0.19" }（GPL-3.0，作为程序运行）在独立生成的IF上（预先登记6ef7698c，对测量方法的修订已披露），一项发现（仍为MODELLED）：闭环PLL和DLL抖动在{ "35" }至{ "45" } dB-Hz上相符到{ "8" } % 以内，{ "10" } Hz/s的动态应力相符到{ "1" } % 以内，一阶码斜坡滞后相符到{ "2" } % 以内；在{ "30" } dB-Hz时，PLL抖动高出{ "21" } %，DLL抖动低{ "32" } %，实测的15度规则阈值比引擎高{ "1.5" } dB，而二阶环路的周跳比一阶周跳时间界限频繁{ "0.5" }至{ "2" }个数量级。{ "0.30" }修订：Costas周跳时间现使用环路SNR rho/4（半周跳）；默认的jitter_table log10_mean_time_to_cycle_slip_s在{ "25.47" } dB-Hz阈值处由{ "11.58" }降至{ "2.10" }
 
-# An independent in-repo route. Every Jacobian row is re-derived by central finite difference of lunar_vlbi::vlbi_delay_s evaluated from the state's own Earth-fixed and Moon-body-fixed coordinates rotated forward through the frame chain — a path that computes no derivative and shares no expression with the analytic partials — and the information matrices the two routes build agree to < { "1e-6" } of the largest diagonal. The linear-algebra kernel this composes (information_matrix, crlb, sym_eig) is separately externally anchored against numpy.linalg.eigh / numpy.linalg.inv in tests/fim_observability_reference.rs, and the delay observable carries lunar_vlbi's own delta-DOR far-field oracle; the row does not borrow either status. Closed-form identities checked here and labelled as such: σ² and 1/N scaling, and √(p/trace(M)) as an AM-HM lower bound the computed sigma cannot beat, which coincides with the equipartition value only on an isotropic geometry — which is why the measured ratio is exactly the anisotropy the assumption discarded. { "0.30" } external comparison (Library: NAIF SPICE CSPICE N0067 via spiceypy { "8.2.0" }, MIT; DE440, ITRF93 earth_latest_high_prec, MOON_PA), pre-registered ({ "50863551" }) together with an engine-side model-error sensitivity run: every Jacobian row is rebuilt by central differences of converged Newtonian light-time differences from SPICE geometry (the light-time equation is a short script over SPICE positions; SPICE carries the geometry), with the schedule rebuilt from SPICE elevations. The schedule, rank, defect, information spectrum, condition number, station sigmas, headline, trace bound, equipartition ratios, free-network null space, line-of-sight sweep and beacon declination agree within the pre-registered { "1" } % / { "0.1" } deg, which sits above the engine known analytic-Moon error ({ "3.2e-3" } on sigmas, measured before the run). NumPy { "2.3.5" } redoes the linear algebra on the committed engine Jacobian to { "2e-13" } (P2). Validated as a Cramér-Rao bound for the stated reduced parameter set on the stated illustrative inputs: the Moon-centre ephemeris, clocks, troposphere and Earth-orientation parameters are held fixed in both legs, so it is not a real-campaign accuracy
-seg-b259d4d18f42 = 一条独立的仓库内路径。每一行雅可比都由lunar_vlbi::vlbi_delay_s的中心有限差分重新推导，该函数在状态自身的地固和月固坐标上取值，并通过坐标系链向前旋转：这条路径不计算任何导数，也与解析偏导数没有共用的表达式；两条路径构建的信息矩阵相符，偏差小于最大对角元的{ "1e-6" }。它所组合的线性代数内核（information_matrix、crlb、sym_eig）另外已在tests/fim_observability_reference.rs中对照numpy.linalg.eigh / numpy.linalg.inv取得外部锚定，而时延观测量带有lunar_vlbi自身的delta-DOR远场参考基准；该行不借用这两者的状态。这里核对的闭式恒等式并如此标注：σ² 和1/N缩放，以及作为AM-HM下界的 √(p/trace(M))（算出的sigma不可能优于它），它仅在各向同性几何上与均分值重合：这正是实测比值恰好就是该假设所舍弃的各向异性的原因。{ "0.30" }外部比较（库：NAIF SPICE CSPICE N0067，经spiceypy { "8.2.0" }，MIT；DE440、ITRF93 earth_latest_high_prec、MOON_PA），连同引擎一侧的模型误差敏感性运行一起预先登记（{ "50863551" }）：每一行雅可比都由SPICE几何得出的、已收敛的牛顿光行时差的中心差分重建（光行时方程是基于SPICE位置的一小段脚本；SPICE提供几何），计划由SPICE仰角重建。计划、秩、亏损、信息谱、条件数、测站sigma、头条数值、迹界、均分比值、自由网零空间、视线扫掠和信标赤纬，在预先登记的{ "1" } % / { "0.1" } deg以内相符，该范围高于引擎已知的解析月球误差（sigma上为{ "3.2e-3" }，在运行之前测得）。NumPy { "2.3.5" }在已提交的引擎雅可比上重做线性代数，相符到{ "2e-13" }（P2）。经独立核对的是：在所述示意性输入上、对所述缩减参数集的Cramér-Rao界：月心星历、时钟、对流层和地球定向参数在两侧都保持固定，因此它不是真实测评活动的精度
+# An independent in-repo route. Every Jacobian row is re-derived by central finite difference of lunar_vlbi::vlbi_delay_s evaluated from the state's own Earth-fixed and Moon-body-fixed coordinates rotated forward through the frame chain — a path that computes no derivative and shares no expression with the analytic partials — and the information matrices the two routes build agree to < { "1e-6" } of the largest diagonal. The linear-algebra kernel this composes (information_matrix, crlb, sym_eig) is separately externally anchored against numpy.linalg.eigh / numpy.linalg.inv in tests/fim_observability_reference.rs, and the delay observable carries lunar_vlbi's own delta-DOR far-field oracle; the row does not borrow either status. Closed-form identities checked here and labelled as such: σ² and 1/N scaling, and √(p/trace(M)) as an AM-HM lower bound the computed sigma cannot beat, which coincides with the equipartition value only on an isotropic geometry — which is why the measured ratio is exactly the anisotropy the assumption discarded. { "0.30" } external comparison (Library: NAIF SPICE CSPICE N0067 via spiceypy { "8.2.0" }, MIT; DE440, ITRF93 earth_latest_high_prec, MOON_PA), pre-registered ({ "50863551" }) together with an engine-side model-error sensitivity run: every Jacobian row is rebuilt by central differences of converged Newtonian light-time differences from SPICE geometry (the light-time equation is a short script over SPICE positions; SPICE carries the geometry), with the schedule rebuilt from SPICE elevations. The schedule, rank, defect, information spectrum, condition number, station sigmas, headline, trace bound, equipartition ratios, free-network null space, line-of-sight sweep and beacon declination agree within the pre-registered { "1" } % / { "0.1" } deg, which sits above the engine known analytic-Moon error ({ "3.2e-3" } on sigmas, measured before the run). NumPy { "2.3.5" } redoes the linear algebra on the committed engine Jacobian to { "2e-13" }. Validated as a Cramér-Rao bound for the stated reduced parameter set on the stated illustrative inputs: the Moon-centre ephemeris, clocks, troposphere and Earth-orientation parameters are held fixed in both legs, so it is not a real-campaign accuracy
+seg-b259d4d18f42 = 一条独立的仓库内路径。每一行雅可比都由lunar_vlbi::vlbi_delay_s的中心有限差分重新推导，该函数在状态自身的地固和月固坐标上取值，并通过坐标系链向前旋转：这条路径不计算任何导数，也与解析偏导数没有共用的表达式；两条路径构建的信息矩阵相符，偏差小于最大对角元的{ "1e-6" }。它所组合的线性代数内核（information_matrix、crlb、sym_eig）另外已在tests/fim_observability_reference.rs中对照numpy.linalg.eigh / numpy.linalg.inv取得外部锚定，而时延观测量带有lunar_vlbi自身的delta-DOR远场参考基准；该行不借用这两者的状态。这里核对的闭式恒等式并如此标注：σ² 和1/N缩放，以及作为AM-HM下界的 √(p/trace(M))（算出的sigma不可能优于它），它仅在各向同性几何上与均分值重合：这正是实测比值恰好就是该假设所舍弃的各向异性的原因。{ "0.30" }外部比较（库：NAIF SPICE CSPICE N0067，经spiceypy { "8.2.0" }，MIT；DE440、ITRF93 earth_latest_high_prec、MOON_PA），连同引擎一侧的模型误差敏感性运行一起预先登记（{ "50863551" }）：每一行雅可比都由SPICE几何得出的、已收敛的牛顿光行时差的中心差分重建（光行时方程是基于SPICE位置的一小段脚本；SPICE提供几何），计划由SPICE仰角重建。计划、秩、亏损、信息谱、条件数、测站sigma、头条数值、迹界、均分比值、自由网零空间、视线扫掠和信标赤纬，在预先登记的{ "1" } % / { "0.1" } deg以内相符，该范围高于引擎已知的解析月球误差（sigma上为{ "3.2e-3" }，在运行之前测得）。NumPy { "2.3.5" }在已提交的引擎雅可比上重做线性代数，相符到{ "2e-13" }。经独立核对的是：在所述示意性输入上、对所述缩减参数集的Cramér-Rao界：月心星历、时钟、对流层和地球定向参数在两侧都保持固定，因此它不是真实测评活动的精度
 
 # Binding Library leg: NAIF SPICE Toolkit N0067 (spiceypy { "8.2.0" }, MIT) on de440s, earth_latest_high_prec (ITRF93 with UT1 and polar motion) and the DE440 lunar frames, the beacon fixed in MOON_ME; every Jacobian row is a { "3" } km central difference of the converged Newtonian light-time difference (the M069 oracle's own light-time code, imported), never a Kshana partial; visibility rebuilt from WGS-84 elevations; NumPy { "2.3.5" } / SciPy { "1.18.1" } (BSD-3-Clause, LAPACK) eigh and inv. P2 leg: NumPy on the engine's committed Jacobian. Pre-registered (4a51256) before the fixture or oracle existed, with bars of { "1" } % on eigenvalues, condition, sigmas, RMS and ratio, { "1e-4" } on the lever arm, exact observation set and rank; P2 { "1e-9" }. Disclosed: the engine-only comparison of analytic and kernel Moon ({ "3.9" } % on the y sigma) was run before the pre-registration, to choose the kernel path, and is stated there. Result: both legs agree, worst { "1.7e-3" } (beacon y sigma { "0.081211" } m against { "0.081351" } m). Mutation: transposing the beacon partial's body rotation fails both legs. Both sides read DE440, so agreement validates the geometry and linear algebra on DE440, not DE440. Outside the claim: a real campaign's surface-point accuracy (clocks, troposphere and Earth orientation held fixed; illustrative stations and beacon site), and the analytic default path (row above, which stays MODELLED: on the analytic Moon the y sigma is { "3.9" } % below this oracle)
 seg-63250578ec6b = 起约束作用的库一侧：NAIF SPICE Toolkit N0067（spiceypy { "8.2.0" }，MIT），使用de440s、earth_latest_high_prec（含UT1和极移的ITRF93）以及DE440月球坐标系，信标固定在MOON_ME中；每一行雅可比都是已收敛的牛顿光行时差的{ "3" } km中心差分（引入M069参考基准自身的光行时代码），绝不是Kshana的偏导数；可见性由WGS-84仰角重建；NumPy { "2.3.5" } / SciPy { "1.18.1" }（BSD-3-Clause，LAPACK）的eigh和inv。P2一侧：NumPy在引擎已提交的雅可比上运行。在测试数据或参考基准出现之前预先登记（4a51256），特征值、条件数、sigma、RMS和比值的判据为{ "1" } %，杠杆臂为{ "1e-4" }，观测集和秩要求完全一致；P2为{ "1e-9" }。已披露：解析月球与内核月球的仅引擎比较（y sigma上为{ "3.9" } %）是在预先登记之前运行的，目的是选择内核路径，并已在登记中说明。结果：两侧相符，最差{ "1.7e-3" }（信标y sigma为{ "0.081211" } m，对照{ "0.081351" } m）。变异检验：把信标偏导数的天体自转转置，两侧都失败。两侧都读取DE440，因此相符所核对的是DE440上的几何和线性代数，而不是DE440本身。不在声明之内：真实测评活动的月面点精度（时钟、对流层和地球定向保持固定；测站和信标站点是示意性的），以及解析默认路径（上一行，仍为MODELLED：在解析月球上，y sigma比该参考基准低{ "3.9" } %）
@@ -606,8 +606,8 @@ seg-46b139a58bb0 = 对所列建议书的转录（可从itu.int免费下载），
 # Pre-registered in tests/fixtures/clock_log/PREREGISTRATION.md (committed alone, 159334f2, before the fixture existed); recorded in RESULTS.md. Three seeded synthetic logs, one per format (a TICC gap of three epochs, a RINEX second clock to ignore), read back by an independent reader written from docs/CLOCK-LOG-FORMATS.md by the same author: grid, gap and fill counts equal and the largest phase difference { "0" } s (bar { "1e-13" } s). allantools { "2024.6" } oadev, tdev and mtie on that phase agree within a relative { "2.5e-14" } (bar { "1e-10" }) at every averaging factor it evaluates; it does not evaluate MTIE over the whole record, which the engine reports, so that one point per log has no oracle value and the bar as worded is not met there. MODELLED: synthetic logs, and the reader oracle shares the author; real TimeLab, TICC and RINEX clock files from instruments were not compared
 seg-1d3df655c14c = 预先登记于tests/fixtures/clock_log/PREREGISTRATION.md（单独提交，159334f2，在测试数据存在之前）；记录于RESULTS.md。三份带随机种子的合成日志，每种格式一份（一份TICC有三个历元的间隙，一份RINEX带需忽略的第二个时钟），由同一作者依据docs/CLOCK-LOG-FORMATS.md写成的独立读取器读回：网格、间隙和填充计数相等，最大相位差为{ "0" } s（判据{ "1e-13" } s）。allantools { "2024.6" }的oadev、tdev和mtie在该相位上，对其评估的每个平均因子，相对偏差在{ "2.5e-14" }以内（判据{ "1e-10" }）；它不评估整个记录上的MTIE，而引擎会报告这一项，因此每份日志的这一个点没有参考基准值，按其措辞的判据在该处未达到。MODELLED：合成日志，且读取器参考基准与作者相同；没有对仪器的真实TimeLab、TICC和RINEX时钟文件做比较
 
-# allantools { "2024.6" } ci.edf_greenhall, a third-party implementation of the published algorithm, run by scripts/gen_greenhall_edf_ref.py over the grid pre-registered in xval/greenhall-edf/PREREGISTRATION.md (committed alone, 0db0bb7a, before any comparison): at all { "4 876" } points where it returns a finite edf, kshana agrees within a relative { "6.0e-13" } (bar { "1e-9" }); at its { "46" } NotImplementedError points kshana returns NaN; every case label occurs; the wrappers equal the core bit for bit; uncertainty::edf is bit-identical over { "274 280" } values (pinned as a SHA-256 before the refactor). At { "32" } points (alpha -4, d { "3" }, unmodified, case { "2.2" }) allantools fails in its Table { "2" } lookup, so they have no oracle value and are not counted. Stable32 was not run. { "0.36" } revision (docs/revisions/STUDIO15-greenhall-edf-portable.md): on portable maths the kernel takes its logarithm from a double-double evaluation rounded once (allan::greenhall_ln), and the unchanged Bar { "1" } holds again at all { "4 876" } points, worst relative { "6.0e-13" }; the uncertainty::edf guard is re-based to the { "0.36" } portable dump ({ "3 746" } of the { "274 280" } values moved, at most { "1.6e-12" } relative, from the host-maths base)
-seg-695ec24f9676 = allantools { "2024.6" } ci.edf_greenhall，这是该已发表算法的第三方实现，由scripts/gen_greenhall_edf_ref.py在xval/greenhall-edf/PREREGISTRATION.md预先登记的网格上运行（单独提交，0db0bb7a，早于任何比较）：在其返回有限edf的全部{ "4 876" }个点上，kshana的相对一致程度在{ "6.0e-13" }以内（判据{ "1e-9" }）；在其{ "46" }个NotImplementedError点上，kshana返回NaN；每个用例标签均出现；各封装与核心逐位相等；uncertainty::edf在{ "274 280" }个值上逐位一致（重构之前已固定为SHA-256）。在{ "32" }个点上（alpha -4，d { "3" }，未修正，情形{ "2.2" }），allantools在其表{ "2" }查找中失败，因此这些点没有参考基准值，不计入。未运行Stable32。{ "0.36" }修订（docs/revisions/STUDIO15-greenhall-edf-portable.md）：在可移植数学库上，核心从一次舍入的双双精度求值取对数（allan::greenhall_ln），未改动的判据{ "1" }在全部{ "4 876" }个点上再次成立，最坏相对{ "6.0e-13" }；uncertainty::edf的防护基线重设为{ "0.36" }可移植转储（{ "274 280" }个值中有{ "3 746" }个发生移动，相对至多{ "1.6e-12" }，相对于主机数学库基线）
+# allantools { "2024.6" } ci.edf_greenhall, a third-party implementation of the published algorithm, run by scripts/gen_greenhall_edf_ref.py over the grid pre-registered in xval/greenhall-edf/PREREGISTRATION.md (committed alone, 0db0bb7a, before any comparison): at all { "4 876" } points where it returns a finite edf, kshana agrees within a relative { "6.0e-13" } (bar { "1e-9" }); at its { "46" } NotImplementedError points kshana returns NaN; every case label occurs; the wrappers equal the core bit for bit; uncertainty::edf is bit-identical over { "274 280" } values (pinned as a SHA-256 before the refactor). At { "32" } points (alpha -4, d { "3" }, unmodified, case { "2.2" }) allantools fails in its Table { "2" } lookup, so they have no oracle value and are not counted. Stable32 was not run. { "0.36" } revision (docs/revisions/greenhall-edf-portable.md): on portable maths the kernel takes its logarithm from a double-double evaluation rounded once (allan::greenhall_ln), and the unchanged Bar { "1" } holds again at all { "4 876" } points, worst relative { "6.0e-13" }; the uncertainty::edf guard is re-based to the { "0.36" } portable dump ({ "3 746" } of the { "274 280" } values moved, at most { "1.6e-12" } relative, from the host-maths base)
+seg-695ec24f9676 = allantools { "2024.6" } ci.edf_greenhall，这是该已发表算法的第三方实现，由scripts/gen_greenhall_edf_ref.py在xval/greenhall-edf/PREREGISTRATION.md预先登记的网格上运行（单独提交，0db0bb7a，早于任何比较）：在其返回有限edf的全部{ "4 876" }个点上，kshana的相对一致程度在{ "6.0e-13" }以内（判据{ "1e-9" }）；在其{ "46" }个NotImplementedError点上，kshana返回NaN；每个用例标签均出现；各封装与核心逐位相等；uncertainty::edf在{ "274 280" }个值上逐位一致（重构之前已固定为SHA-256）。在{ "32" }个点上（alpha -4，d { "3" }，未修正，情形{ "2.2" }），allantools在其表{ "2" }查找中失败，因此这些点没有参考基准值，不计入。未运行Stable32。{ "0.36" }修订（docs/revisions/greenhall-edf-portable.md）：在可移植数学库上，核心从一次舍入的双双精度求值取对数（allan::greenhall_ln），未改动的判据{ "1" }在全部{ "4 876" }个点上再次成立，最坏相对{ "6.0e-13" }；uncertainty::edf的防护基线重设为{ "0.36" }可移植转储（{ "274 280" }个值中有{ "3 746" }个发生移动，相对至多{ "1.6e-12" }，相对于主机数学库基线）
 
 # The four named Microchip datasheets (document numbers and URLs in each preset and in docs/TELECOM-TIMING.md) for the input figures; the closed-form aging ramp and the fit's envelope property as internal checks. How the figures become a noise model — the fit, the floor rule, the 30-day month, the linear temperature reading — is a modelling choice; no preset is a measurement of a unit. { "0.30" } round { "2" }, one-sided bars against measured units (pre-registered a01c491c), a finding (stays MODELLED): the IGS station THU2 Symmetricom 8040C in ESA MGEX final clocks has an Allan deviation { "0.35" } to { "0.87" } of the rubidium preset but a holdover error { "1.07" } to { "1.60" } of it; the 5071A record sits outside the caesium preset to { "1000" } s (measurement white phase noise, 30x at { "1" } s) and in holdover ({ "1.15" } to { "8.74" }); the worst { "2011" } production SA.45s is 1.26x the CSAC preset at { "1" } s; the OX-208 has no measured record (blocked)
 seg-95aaa171864b = 输入数值来自四份指名的Microchip数据手册（文档编号和网址见各预设及docs/TELECOM-TIMING.md）；闭式的老化斜坡和拟合的包络性质作为内部检查。这些数值如何变成噪声模型（拟合、下限规则、30天的月、线性温度读法）是一种建模选择；没有任何预设是对某台设备的测量。{ "0.30" }第{ "2" }轮，针对实测设备的单侧判据（预先登记a01c491c），一项发现（仍为MODELLED）：ESA MGEX最终钟差中的IGS站THU2 Symmetricom 8040C，其阿伦偏差为铷钟预设的{ "0.35" }至{ "0.87" }，但守时（holdover）误差为其{ "1.07" }至{ "1.60" }；5071A记录在{ "1000" } s以内处于铯钟预设之外（测量白相位噪声，在{ "1" } s处为30倍），在守时（holdover）中也是如此（{ "1.15" }至{ "8.74" }）；{ "2011" }年最差的量产SA.45s在{ "1" } s处为CSAC预设的1.26倍；OX-208没有实测记录（受阻）
@@ -639,11 +639,11 @@ seg-84500ea94d49 = GNSSTk { "15.3.1" }（ARL:UT，LGPL-3.0，提交55ea3344，�
 # A hand-derived four-satellite DOP (one satellite at the zenith and three on the horizon { "120" } deg apart, whose normal matrix inverts by hand), the structural identity that a system with its own clock and one satellite adds no geometry, noise-free recovery of position, clock and bias, and seeded errors against the covariance. Internal checks only; not compared with a receiver's output. { "0.30" } external comparison, a finding (stays MODELLED): on a multi-GNSS IGS day (ABMF 2018-05-13, GPS and Galileo C1C, broadcast ephemeris, Klobuchar) the inter-system bias agrees with RTKLIB v2.4.2-p13 rnx2rtkp (median difference -0.11 ns after the { "0.30" } broadcast group-delay fix, -0.35 ns before; bar { "1" } ns), but only { "93.6" } % of { "280" } epochs ({ "93.2" } % before the fix) are within { "3" } m of the ITRF2020 coordinate against the pre-registered { "95" } %. RTKLIB itself reaches { "88.2" } % on the same data, so the bar is beyond single-frequency broadcast positioning at this station and day rather than a solver discrepancy; the comparison test is committed ignored. { "0.30" } round { "2" }, stricter inputs at the unchanged { "3" } m / { "95" } % / { "1" } ns bar, a finding (stays MODELLED): with the Galileo E1/E5a ionosphere-free pair (pre-registered { "6927e039" }) { "79.9" } % of epochs are within { "3" } m (RTKLIB { "67.9" } %); with precise CODE MGEX orbits, clocks, satellite antenna offsets and code biases (pre-registered 7d8c3597) { "94.2" } % (RTKLIB { "94.1" } %), and the inter-system bias differs from RTKLIB by -1.03 ns because RTKLIB single mode ignores satellite antenna offsets (+{ "0.04" } ns when both omit them)
 seg-e83699418c0e = 一个手工推导的四卫星DOP（一颗卫星在天顶，三颗在地平线上相隔{ "120" }度，其法矩阵可手工求逆），一个结构恒等式，即带自己时钟且只有一颗卫星的系统不增加任何几何，位置、钟差和偏差的无噪声恢复，以及带随机种子的误差对照协方差。仅为内部检查；没有与接收机的输出比较。{ "0.30" }外部比较，一项发现（仍为MODELLED）：在一个多GNSS的IGS日（ABMF 2018-05-13，GPS和Galileo C1C，广播星历，Klobuchar）上，系统间偏差与RTKLIB v2.4.2-p13 rnx2rtkp一致（在{ "0.30" }广播群延迟修正之后差值中位数为 -0.11 ns，修正之前为 -0.35 ns；判据{ "1" } ns），但对照预先登记的{ "95" } %，在{ "280" }个历元中只有{ "93.6" } %（修正之前为{ "93.2" } %）位于ITRF2020坐标的{ "3" } m以内。RTKLIB自己在同一数据上达到{ "88.2" } %，因此该判据超出了该站点和该日的单频广播定位能力，而不是求解器的差异；该比较测试以忽略状态提交。{ "0.30" }第{ "2" }轮，在判据{ "3" } m / { "95" } % / { "1" } ns不变的情况下采用更严格的输入，一项发现（仍为MODELLED）：采用Galileo E1/E5a无电离层组合（预先登记{ "6927e039" }），{ "79.9" } % 的历元在{ "3" } m以内（RTKLIB { "67.9" } %）；采用精密CODE MGEX轨道、钟差、卫星天线偏移和码偏差（预先登记7d8c3597），为{ "94.2" } %（RTKLIB { "94.1" } %），系统间偏差与RTKLIB相差 -1.03 ns，因为RTKLIB的单点模式忽略卫星天线偏移（两者都略去时为 +{ "0.04" } ns）
 
-# Published worked values (P1): Bachl, Lei and Nabeel, arXiv:{ "2608.10270" } ({ "2026" }), single-SSB bounds of NR NTN reproduced from the 3GPP TS { "38.211" } SSB map through Kshana own numeric functions (W_rms { "1.9616" } vs { "1.96" } MHz, sigma_t { "38.755" } vs { "39" } us, sigma_f 100.79/87.28 vs 101/87 Hz, sigma_rho 0.5970/0.5831 vs 0.60/0.58 m, each within half a unit of the printed last digit); Betz { "2001" } Table { "1" } BPSK-R RMS bandwidths (1.128/3.477 vs 1.1/3.5 MHz, supplementary); the time-of-arrival and Doppler fix covariances agree with numpy { "2.4.6" } numpy.linalg.inv on the exported geometry (P2; { "5e-15" } and { "1.2e-5" } relative, bars { "1e-5" } and { "1e-3" }). Pre-registered (9f2875db; part C 0d66dccd). The engine fix joint_pvt::formal_sigma_enu (the bound evaluated at the true position, not the noisy fix) was written after the first { "200" } kHz run failed at { "6.5e-5" } and was re-run at the unchanged tolerance. The flat-spectrum and complex-tone forms the scenario runs (gabor_bandwidth_flat_hz, doppler_crb_sigma_hz) reach the P1 check through in-crate identity unit tests. Bounds on a multipath-free channel, not achieved accuracy. { "0.30" } revision: ntn-5g-positioning toa_median_sigma_3d_m { "2.0903959" } -> { "2.0903962" } m (NR { "5" } MHz) and { "25.938613" } -> { "25.938839" } m (NB { "200" } kHz)
-seg-f63e1d78cfff = 已发表的算例（P1）：Bachl、Lei和Nabeel，arXiv:{ "2608.10270" }（{ "2026" }），NR NTN的单SSB界，由3GPP TS { "38.211" } SSB映射经Kshana自己的数值函数复现（W_rms { "1.9616" }对{ "1.96" } MHz，sigma_t { "38.755" }对{ "39" } us，sigma_f 100.79/87.28对101/87 Hz，sigma_rho 0.5970/0.5831对0.60/0.58 m，各在所印末位的半个单位以内）；Betz { "2001" }表{ "1" }的BPSK-R RMS带宽（1.128/3.477对1.1/3.5 MHz，补充）；到达时间和多普勒定位协方差与导出几何上的numpy { "2.4.6" } numpy.linalg.inv一致（P2；相对{ "5e-15" }和{ "1.2e-5" }，判据{ "1e-5" }和{ "1e-3" }）。已预先登记（9f2875db；C部分0d66dccd）。引擎定位joint_pvt::formal_sigma_enu（在真实位置而不是含噪定位解处求值的界）是在首次{ "200" } kHz运行以{ "6.5e-5" }失败之后编写的，并在容差不变的情况下重新运行。场景运行的平坦谱和复单音形式（gabor_bandwidth_flat_hz、doppler_crb_sigma_hz）通过crate内的恒等式单元测试到达P1检查。这些是无多径信道上的界，不是已达到的精度。{ "0.30" }修订：ntn-5g-positioning toa_median_sigma_3d_m { "2.0903959" } -> { "2.0903962" } m（NR { "5" } MHz）和{ "25.938613" } -> { "25.938839" } m（NB { "200" } kHz）
+# Published worked values: Bachl, Lei and Nabeel, arXiv:{ "2608.10270" } ({ "2026" }), single-SSB bounds of NR NTN reproduced from the 3GPP TS { "38.211" } SSB map through Kshana own numeric functions (W_rms { "1.9616" } vs { "1.96" } MHz, sigma_t { "38.755" } vs { "39" } us, sigma_f 100.79/87.28 vs 101/87 Hz, sigma_rho 0.5970/0.5831 vs 0.60/0.58 m, each within half a unit of the printed last digit); Betz { "2001" } Table { "1" } BPSK-R RMS bandwidths (1.128/3.477 vs 1.1/3.5 MHz, supplementary); the time-of-arrival and Doppler fix covariances agree with numpy { "2.4.6" } numpy.linalg.inv on the exported geometry (P2; { "5e-15" } and { "1.2e-5" } relative, bars { "1e-5" } and { "1e-3" }). Pre-registered (9f2875db; part C 0d66dccd). The engine fix joint_pvt::formal_sigma_enu (the bound evaluated at the true position, not the noisy fix) was written after the first { "200" } kHz run failed at { "6.5e-5" } and was re-run at the unchanged tolerance. The flat-spectrum and complex-tone forms the scenario runs (gabor_bandwidth_flat_hz, doppler_crb_sigma_hz) reach the P1 check through in-crate identity unit tests. Bounds on a multipath-free channel, not achieved accuracy. { "0.30" } revision: ntn-5g-positioning toa_median_sigma_3d_m { "2.0903959" } -> { "2.0903962" } m (NR { "5" } MHz) and { "25.938613" } -> { "25.938839" } m (NB { "200" } kHz)
+seg-f63e1d78cfff = 已发表的算例：Bachl、Lei和Nabeel，arXiv:{ "2608.10270" }（{ "2026" }），NR NTN的单SSB界，由3GPP TS { "38.211" } SSB映射经Kshana自己的数值函数复现（W_rms { "1.9616" }对{ "1.96" } MHz，sigma_t { "38.755" }对{ "39" } us，sigma_f 100.79/87.28对101/87 Hz，sigma_rho 0.5970/0.5831对0.60/0.58 m，各在所印末位的半个单位以内）；Betz { "2001" }表{ "1" }的BPSK-R RMS带宽（1.128/3.477对1.1/3.5 MHz，补充）；到达时间和多普勒定位协方差与导出几何上的numpy { "2.4.6" } numpy.linalg.inv一致（P2；相对{ "5e-15" }和{ "1.2e-5" }，判据{ "1e-5" }和{ "1e-3" }）。已预先登记（9f2875db；C部分0d66dccd）。引擎定位joint_pvt::formal_sigma_enu（在真实位置而不是含噪定位解处求值的界）是在首次{ "200" } kHz运行以{ "6.5e-5" }失败之后编写的，并在容差不变的情况下重新运行。场景运行的平坦谱和复单音形式（gabor_bandwidth_flat_hz、doppler_crb_sigma_hz）通过crate内的恒等式单元测试到达P1检查。这些是无多径信道上的界，不是已达到的精度。{ "0.30" }修订：ntn-5g-positioning toa_median_sigma_3d_m { "2.0903959" } -> { "2.0903962" } m（NR { "5" } MHz）和{ "25.938613" } -> { "25.938839" } m（NB { "200" } kHz）
 
-# Orekit { "13.1.8" } (Apache-2.0) with Hipparchus { "4.0.3" }: the engine's GCRS states rotated to ITRF by Orekit (IERS { "2010" }), WGS-84 TopocentricFrame visibility against each system's mask, org.orekit.gnss.DOPComputer for one clock unknown and NumPy { "2.4.6" } numpy.linalg.inv (P2) for several; with the path checked against python-sgp4 and ERFA (row 'One Earth-orbit path'). Bars fixed before the run (pre-registered 72ea9eb0; T2 and T3 are the { "0.30" } round-2 bars). The TEME -> GCRS step frozen at J2000 turns the test red ({ "4739" } failures). Geometry only; no scintillation, terrain or signal power. GNSS VDOP rises toward the pole ({ "1.20" } at the equator to { "1.51" } at { "89.9" } deg for GPS and Galileo in the bundled scenario) while a near-polar LEO shell converges there. History: round { "2" } (3254d456) agreed on tabulated two-body states; the D8 round-1 full claim against Orekit's own TLE propagation (e947e69d) was a finding, Orekit's SDP4 at e = { "0" } and its IERS { "1996" } TEME, pinned
-seg-a16896913438 = Orekit { "13.1.8" }（Apache-2.0）配合Hipparchus { "4.0.3" }：引擎的GCRS状态由Orekit旋转到ITRF（IERS { "2010" }），WGS-84 TopocentricFrame的可见性对照各系统的截止角，一个钟未知量用org.orekit.gnss.DOPComputer，多个用NumPy { "2.4.6" } numpy.linalg.inv（P2）；路径对照python-sgp4和ERFA检查（“One Earth-orbit path”一行）。判据在运行之前固定（预先登记72ea9eb0；T2和T3是{ "0.30" }第2轮的判据）。把TEME -> GCRS步骤冻结在J2000，测试即变红（{ "4739" }次失败）。仅几何；没有闪烁、地形或信号功率。GNSS的VDOP向极区上升（在随附场景中，GPS和Galileo从赤道的{ "1.20" }升到{ "89.9" }度处的{ "1.51" }），而近极轨LEO壳层则在那里收敛。历史：第{ "2" }轮（3254d456）与列表化的二体状态一致；D8第1轮对照Orekit自己的TLE外推的完整声明（e947e69d）是一项发现，即Orekit在e = { "0" }时的SDP4及其IERS { "1996" } TEME，已固定
+# Orekit { "13.1.8" } (Apache-2.0) with Hipparchus { "4.0.3" }: the engine's GCRS states rotated to ITRF by Orekit (IERS { "2010" }), WGS-84 TopocentricFrame visibility against each system's mask, org.orekit.gnss.DOPComputer for one clock unknown and NumPy { "2.4.6" } numpy.linalg.inv for several; with the path checked against python-sgp4 and ERFA (row 'One Earth-orbit path'). Bars fixed before the run (pre-registered 72ea9eb0; T2 and T3 are the { "0.30" } round-2 bars). The TEME -> GCRS step frozen at J2000 turns the test red ({ "4739" } failures). Geometry only; no scintillation, terrain or signal power. GNSS VDOP rises toward the pole ({ "1.20" } at the equator to { "1.51" } at { "89.9" } deg for GPS and Galileo in the bundled scenario) while a near-polar LEO shell converges there. History: round { "2" } (3254d456) agreed on tabulated two-body states; the D8 round-1 full claim against Orekit's own TLE propagation (e947e69d) was a finding, Orekit's SDP4 at e = { "0" } and its IERS { "1996" } TEME, pinned
+seg-a16896913438 = Orekit { "13.1.8" }（Apache-2.0）配合Hipparchus { "4.0.3" }：引擎的GCRS状态由Orekit旋转到ITRF（IERS { "2010" }），WGS-84 TopocentricFrame的可见性对照各系统的截止角，一个钟未知量用org.orekit.gnss.DOPComputer，多个用NumPy { "2.4.6" } numpy.linalg.inv；路径对照python-sgp4和ERFA检查（“One Earth-orbit path”一行）。判据在运行之前固定（预先登记72ea9eb0；T2和T3是{ "0.30" }第2轮的判据）。把TEME -> GCRS步骤冻结在J2000，测试即变红（{ "4739" }次失败）。仅几何；没有闪烁、地形或信号功率。GNSS的VDOP向极区上升（在随附场景中，GPS和Galileo从赤道的{ "1.20" }升到{ "89.9" }度处的{ "1.51" }），而近极轨LEO壳层则在那里收敛。历史：第{ "2" }轮（3254d456）与列表化的二体状态一致；D8第1轮对照Orekit自己的TLE外推的完整声明（e947e69d）是一项发现，即Orekit在e = { "0" }时的SDP4及其IERS { "1996" } TEME，已固定
 
 # The first-order dispersion identity, exact by construction against the engine's own first-order delay (whose 1/f^{ "2" } scaling is VALIDATED against IS-GPS-200 in its own row); the precision is thermal code noise only, without multipath or inter-frequency biases. { "0.30" } round { "2" }, measured (pre-registered 5e795f93), a finding (stays MODELLED): the CODE global ionosphere map CODG1330.18I against ABMF C1C/C2W code with the CODE biases gives { "33" } of { "36" } arc means within { "3" } TECU (worst +{ "6.84" } TECU on an evening arc; per-epoch RMS { "3.95" } TECU), against a bar of every arc; not validated
 seg-2562ae9e6180 = 一阶色散恒等式，按构造相对引擎自己的一阶延迟是精确的（其1/f^{ "2" }缩放已在自己的一行中对照IS-GPS-200达到VALIDATED）；精度仅取决于热码噪声，不含多径或频间偏差。{ "0.30" }第{ "2" }轮，实测（预先登记5e795f93），一项发现（仍为MODELLED）：CODE全球电离层图CODG1330.18I对照ABMF C1C/C2W码及CODE偏差，在{ "36" }个弧段均值中有{ "33" }个在{ "3" } TECU以内（最差为傍晚弧段上的 +{ "6.84" } TECU；逐历元RMS为{ "3.95" } TECU），而判据要求每个弧段都满足；没有经过独立核对
@@ -699,8 +699,8 @@ seg-b6f39f180fdd = LSIS-AFS V1.0（同上）：长度为1499的Legendre序列（
 # GNSS-SDR { "0.0.19" } (GPL-3.0-or-later, the Ubuntu { "24.04" } package, run as a separate program; only derived numbers committed) tracking the same numpy recordings (independent of the engine), both measured against the analytic truth. Bars pre-registered at 48edd4a5, amended before any test recording at 1e4288c4 (a { "10" } Hz FLL during pull-in only in both receivers, after the registered calibration failed on a wrong GNSS-SDR hand-off, finding F3). MET at { "30" }, { "35" }, { "40" } and { "45" } dB-Hz: carrier jitter within { "4.3" } %, code jitter within { "4.6" } % and Doppler mean and spread of GNSS-SDR's. NOT MET: the engine's NWPR C/N0 reads { "2.3" } to { "7.1" } dB below GNSS-SDR's SNV (finding F4, the known NWPR limit; its M2M4 is within { "0.06" } dB of truth); the phase lock indicators differ by definition (F5); at { "30" } dB-Hz GNSS-SDR slipped twice and the engine not (F6). GNSS-SDR's own hand-off locked to a wrong frequency in { "3" } of { "30" } calibration runs. WHAT IS NOT CHECKED: other signals, data-bit wipe-off, re-acquisition, field recordings. The row stays MODELLED.
 seg-c2a8434c32a8 = GNSS-SDR { "0.0.19" }（GPL-3.0-or-later，Ubuntu { "24.04" }软件包，作为单独的程序运行；仅提交推导出的数值）跟踪相同的numpy录制数据（独立于引擎），两者均对照解析真值衡量。判据于48edd4a5预先登记，并在任何测试录制之前于1e4288c4修订（仅在牵引阶段，两台接收机均使用{ "10" } Hz FLL，原因是登记的标定因GNSS-SDR的交接有误而失败，发现F3）。在{ "30" }、{ "35" }、{ "40" }和{ "45" } dB-Hz下均为MET：载波抖动在GNSS-SDR的{ "4.3" } % 之内，码抖动在{ "4.6" } % 之内，多普勒的均值与离散度在GNSS-SDR的范围之内。NOT MET：引擎的NWPR C/N0比GNSS-SDR的SNV低{ "2.3" }至{ "7.1" } dB（发现F4，即已知的NWPR局限；其M2M4与真值相差在{ "0.06" } dB之内）；相位锁定指示器因定义不同而不同（F5）；在{ "30" } dB-Hz下GNSS-SDR发生了两次周跳而引擎没有（F6）。GNSS-SDR自身的交接在{ "30" }次标定运行中有{ "3" }次锁定到错误的频率。不在检查范围：其他信号、数据比特剥离、重新捕获、现场录制数据。该行仍为MODELLED。
 
-# An independent numpy recomputation (xval/crpa-jamming/oracle.py, no shared code: numpy steering vectors, numpy.linalg.solve and inv) of every link of the jamming-demo geometry with a 4-element square array, under both weightings. Bars pre-registered at 08d83b4d. MET: A1 (all { "150" } scenario results byte-identical without the section, after a fix: the first build added the crpa units to every jamming run's units table), A2 (one element equals no array to { "1e-12" } dB), A3 on the array noise gain and effective C/N0 ({ "912" } link-weightings within { "1e-9" } dB, worst { "2.1e-14" } dB) and on the null-steering jammer null (below -200 dB on both sides), A4 (MVDR within { "0.1" } dB of null-steering at a JNR of { "80" } dB). NOT MET: A3 on the MVDR jammer gain, { "194" } of { "456" } links over { "1e-9" } dB on { "0.36" } portable maths ({ "202" } on host maths; docs/revisions/STUDIO15-batch4-rebaseline.md) (worst { "1.7e-6" } dB) on residuals of -100 to -188 dB, where float64 cancellation limits both implementations (numpy's inv and solve disagree with each other on { "169" } links, worst { "7.9e-7" } dB); the effective C/N0 these feed is unaffected. WHAT IS NOT CHECKED: mutual coupling, element mismatch, wideband processing, multiple jammers, any antenna hardware. A recomputation of the same equations, not an external oracle; the row stays MODELLED.
-seg-232d040b575d = 对压制干扰演示几何的每条链路，在4单元方阵、两种加权下，做独立的numpy重新计算（xval/crpa-jamming/oracle.py，不共享代码：numpy导向矢量、numpy.linalg.solve和inv）。判据于08d83b4d预先登记。MET：A1（不含该段时，全部{ "150" }个场景结果逐字节一致，经一次修复后：首个构建曾在每次压制干扰运行的单位表中加入了crpa单位），A2（单个阵元与无阵列相等，精确到{ "1e-12" } dB），A3的阵列噪声增益和有效C/N0（{ "912" }个链路加权在{ "1e-9" } dB之内，最差{ "2.1e-14" } dB）以及零陷转向的干扰零陷（两侧均低于 -200 dB），A4（在JNR为{ "80" } dB时，MVDR与零陷转向相差在{ "0.1" } dB之内）。NOT MET：A3的MVDR干扰增益，在{ "0.36" }可移植数学库下，{ "456" }条链路中有{ "194" }条超过{ "1e-9" } dB（在宿主数学库下为{ "202" }条；docs/revisions/STUDIO15-batch4-rebaseline.md）（最差{ "1.7e-6" } dB），残差为 -100至 -188 dB，此处float64的相消限制了两种实现（numpy的inv和solve在{ "169" }条链路上彼此不一致，最差{ "7.9e-7" } dB）；由此产生的有效C/N0不受影响。不在检查范围：互耦、阵元失配、宽带处理、多个干扰源、任何天线硬件。这是对同一组公式的重新计算，不是外部参考基准；该行保持MODELLED。
+# An independent numpy recomputation (xval/crpa-jamming/oracle.py, no shared code: numpy steering vectors, numpy.linalg.solve and inv) of every link of the jamming-demo geometry with a 4-element square array, under both weightings. Bars pre-registered at 08d83b4d. MET: A1 (all { "150" } scenario results byte-identical without the section, after a fix: the first build added the crpa units to every jamming run's units table), A2 (one element equals no array to { "1e-12" } dB), A3 on the array noise gain and effective C/N0 ({ "912" } link-weightings within { "1e-9" } dB, worst { "2.1e-14" } dB) and on the null-steering jammer null (below -200 dB on both sides), A4 (MVDR within { "0.1" } dB of null-steering at a JNR of { "80" } dB). NOT MET: A3 on the MVDR jammer gain, { "194" } of { "456" } links over { "1e-9" } dB on { "0.36" } portable maths ({ "202" } on host maths; docs/revisions/batch4-rebaseline.md) (worst { "1.7e-6" } dB) on residuals of -100 to -188 dB, where float64 cancellation limits both implementations (numpy's inv and solve disagree with each other on { "169" } links, worst { "7.9e-7" } dB); the effective C/N0 these feed is unaffected. WHAT IS NOT CHECKED: mutual coupling, element mismatch, wideband processing, multiple jammers, any antenna hardware. A recomputation of the same equations, not an external oracle; the row stays MODELLED.
+seg-232d040b575d = 对压制干扰演示几何的每条链路，在4单元方阵、两种加权下，做独立的numpy重新计算（xval/crpa-jamming/oracle.py，不共享代码：numpy导向矢量、numpy.linalg.solve和inv）。判据于08d83b4d预先登记。MET：A1（不含该段时，全部{ "150" }个场景结果逐字节一致，经一次修复后：首个构建曾在每次压制干扰运行的单位表中加入了crpa单位），A2（单个阵元与无阵列相等，精确到{ "1e-12" } dB），A3的阵列噪声增益和有效C/N0（{ "912" }个链路加权在{ "1e-9" } dB之内，最差{ "2.1e-14" } dB）以及零陷转向的干扰零陷（两侧均低于 -200 dB），A4（在JNR为{ "80" } dB时，MVDR与零陷转向相差在{ "0.1" } dB之内）。NOT MET：A3的MVDR干扰增益，在{ "0.36" }可移植数学库下，{ "456" }条链路中有{ "194" }条超过{ "1e-9" } dB（在宿主数学库下为{ "202" }条；docs/revisions/batch4-rebaseline.md）（最差{ "1.7e-6" } dB），残差为 -100至 -188 dB，此处float64的相消限制了两种实现（numpy的inv和solve在{ "169" }条链路上彼此不一致，最差{ "7.9e-7" } dB）；由此产生的有效C/N0不受影响。不在检查范围：互耦、阵元失配、宽带处理、多个干扰源、任何天线硬件。这是对同一组公式的重新计算，不是外部参考基准；该行保持MODELLED。
 
 # An independent numpy recomputation (xval/jamming-terrain/oracle.py, no shared code: its own .hgt read, bilinear interpolation, WGS { "84" } round trip, profile, bulge, nu and J(nu)) of ten jammer placements around a receiver at Badwater Basin on the committed real SRTM tile tests/fixtures/terrain/N36W117_sub6.hgt. Bars and placements pre-registered at 92cd2bfd. All MET: additivity (all { "150" } scenario results byte-identical without the section); every placement's profile points and obstacle equal and nu and loss within { "1.6e-10" } (bar { "1e-9" }); the loss never rises as the jammer rises from { "2" } to { "4902" } m; the loss lowers every J/S by exactly itself and nothing else; J(nu) within { "1e-12" } dB of the oracle's. Findings: placements across the Black and Funeral Mountains lose { "44" } to { "48" } dB; two valley-floor placements lose { "8" } and { "15" } dB from the Earth bulge alone at { "2" } m antenna heights, the single knife-edge model's grazing case. WHAT IS NOT CHECKED: any measured propagation, multiple-edge diffraction, ground reflection, clutter, the DEM's own error. A recomputation of the same model, not an external oracle; the row stays MODELLED.
 seg-615ea67dd756 = 针对位于Badwater Basin的一台接收机周围十个干扰源布置，在已提交的真实SRTM图幅tests/fixtures/terrain/N36W117_sub6.hgt上做独立的numpy重新计算（xval/jamming-terrain/oracle.py，不共享代码：自有的 .hgt读取、双线性插值、WGS { "84" }往返、剖面、隆起、nu和J(nu)）。判据与布置于92cd2bfd预先登记。全部MET：可加性（不含该段时，全部{ "150" }个场景结果逐字节一致）；每个布置的剖面点和障碍物相等，nu与损耗在{ "1.6e-10" }之内（判据{ "1e-9" }）；干扰源高度从{ "2" }升到{ "4902" } m时，损耗从不上升；该损耗使每个J/S恰好降低其自身大小，不影响其他量；J(nu) 与参考基准相差在{ "1e-12" } dB之内。发现：跨越Black和Funeral山脉的布置损耗{ "44" }至{ "48" } dB；两个谷底布置在{ "2" } m天线高度下，仅地球隆起就分别损耗{ "8" }和{ "15" } dB，这是单刃模型的掠射情形。不在检查范围：任何实测传播、多刃衍射、地面反射、杂波、DEM自身的误差。这是对同一模型的重新计算，不是外部参考基准；该行保持MODELLED。
@@ -1008,8 +1008,8 @@ seg-ed40da9bdfae = 与其自身的闭式／解析恒等式核对——可发现�
 # checked against a separate implementation in this same codebase — independent of the unit under test, but not externally authoritative — The DOP arithmetic is the crate::orbit::dop kernel, separately externally validated against gnss_lib_py in tests/dop_reference.rs; this row does not re-borrow that row's status. The beacon-visibility horizon is the L01 closed form, and sigma = DOP x sigma_URE is the standard GNSS relation (Kaplan and Hegarty, Understanding GPS/GNSS, section { "7" }). Within this row the augmentation itself is checked against an independent in-repo DOP path and pinned to a committed golden. WHY MODELLED: the constellation design, the beacon placement, the antenna heights and all three error-budget magnitudes are illustrative inputs rather than a fielded survey or a measured link, so the reported metres are a property of a chosen scenario and not of any deployed service. NOTE ON PROVENANCE: this capability was advertised in the README and exercised by two validation tests, yet carried NO matrix row and no scenario kind, so it could not be reached from a run at all. It was claimed in prose, absent from the ledger, and unreachable in the engine at the same time. The row and the kind were added together. { "0.30" } round { "2" } (pre-registered db0eb9ec), blocked (stays MODELLED): ANISE { "0.10.6" } visibility and a numpy DOP on the row geometry agree (visible sets exact including { "72" } near-horizon and { "48" } near-mask cases; DOP within { "7.2e-13" }), but the reported metres are DOP times an illustrative { "1.158" } m root-sum-square ranging error with no oracle; the scoping that would exclude them awaits an owner decision
 seg-3ead905e6a5c = 与同一代码库中的另一套独立实现核对——独立于被测单元，但不具外部权威性——DOP运算是crate::orbit::dop核，已在tests/dop_reference.rs中对照gnss_lib_py另行经外部验证；本行不再次借用那一行的状态。信标可见性地平线是L01闭式，而sigma = DOP x sigma_URE是标准的GNSS关系（Kaplan和Hegarty，Understanding GPS/GNSS，第{ "7" }节）。在本行之内，增强本身对照仓库内独立的DOP路径核对，并固定到已提交的golden。为何为MODELLED：星座设计、信标布设、天线高度以及全部三个误差预算量值都是示意性输入，而不是实地部署的勘测或实测链路，因此所报告的米数是所选场景的属性，而不是任何已部署服务的属性。关于来源的说明：该能力曾在README中宣传，并有两项验证测试演练，却没有矩阵行，也没有场景种类，因此根本无法由一次运行触及。它在文字中被声称，在台账中缺席，在引擎中又不可达，三者同时成立。该行与该种类是一并添加的。{ "0.30" }第{ "2" }轮（预先登记db0eb9ec），受阻（仍为MODELLED）：ANISE { "0.10.6" }的可见性与该行几何上的numpy DOP相符（可见集合完全一致，包括{ "72" }个近地平线和{ "48" }个近掩蔽角算例；DOP相符到{ "7.2e-13" }以内），但所报告的米数是DOP乘以示意性的{ "1.158" } m平方和根测距误差，没有参考基准；排除它们的范围界定有待所有者作出决定
 
-# checked against its own closed-form / analytic identity — catches transcription and coefficient errors, but is not an external oracle — Analytic datum-defect structure — the unobservable absolute-frame mode lies in the null space of the Fisher information (closed-form), the rank threshold matches the published 3-station design rationale, and the estimator attains the resulting CRLB in Monte-Carlo. The lunar geometry itself is a representative network (not a flown ephemeris), so the row stays MODELLED; the underlying FIM/CRLB engine is checked against the Kay ({ "1993" }) closed forms separately. { "0.30" } round { "2" } (pre-registered fab02df9), blocked (stays MODELLED): NumPy/SciPy recompute the rank and defect at the stated { "1e-9" } threshold, the station axes share of the null space (within { "8.4e-10" }) and the station CRLB (within { "1.2e-10" }) on { "17" } committed Kshana-generated configurations (P2). Not promoted: the claim that the estimator attains the bound (Monte Carlo efficiency about { "0.98" }) has no oracle, and the scoping that would leave it MODELLED awaits an owner decision
-seg-a4d8fdc530e4 = 与其自身的闭式／解析恒等式核对——可发现转录和系数错误，但不是外部参考基准（oracle）——解析的基准缺陷结构——不可观测的绝对坐标系模态位于Fisher信息的零空间中（闭式），秩门限与已发布的3站设计依据相符，估计器在蒙特卡罗中达到由此得到的CRLB。月球几何本身是具代表性的网络（不是实际飞行星历），因此该行仍为MODELLED；底层的FIM/CRLB引擎另行对照Kay（{ "1993" }）的闭式核对。{ "0.30" }第{ "2" }轮（预先登记fab02df9），受阻（仍为MODELLED）：NumPy/SciPy在既定的{ "1e-9" }门限下重新计算秩和缺陷，并在{ "17" }个已提交的、由Kshana生成的配置（P2）上重新计算站轴在零空间中的占比（在{ "8.4e-10" }以内）和站CRLB（在{ "1.2e-10" }以内）。未予升级：估计器达到该界的声明（蒙特卡罗效率约{ "0.98" }）没有参考基准，而使其保持MODELLED的范围界定有待所有者作出决定
+# checked against its own closed-form / analytic identity — catches transcription and coefficient errors, but is not an external oracle — Analytic datum-defect structure — the unobservable absolute-frame mode lies in the null space of the Fisher information (closed-form), the rank threshold matches the published 3-station design rationale, and the estimator attains the resulting CRLB in Monte-Carlo. The lunar geometry itself is a representative network (not a flown ephemeris), so the row stays MODELLED; the underlying FIM/CRLB engine is checked against the Kay ({ "1993" }) closed forms separately. { "0.30" } round { "2" } (pre-registered fab02df9), blocked (stays MODELLED): NumPy/SciPy recompute the rank and defect at the stated { "1e-9" } threshold, the station axes share of the null space (within { "8.4e-10" }) and the station CRLB (within { "1.2e-10" }) on { "17" } committed Kshana-generated configurations. Not promoted: the claim that the estimator attains the bound (Monte Carlo efficiency about { "0.98" }) has no oracle, and the scoping that would leave it MODELLED awaits an owner decision
+seg-a4d8fdc530e4 = 与其自身的闭式／解析恒等式核对——可发现转录和系数错误，但不是外部参考基准（oracle）——解析的基准缺陷结构——不可观测的绝对坐标系模态位于Fisher信息的零空间中（闭式），秩门限与已发布的3站设计依据相符，估计器在蒙特卡罗中达到由此得到的CRLB。月球几何本身是具代表性的网络（不是实际飞行星历），因此该行仍为MODELLED；底层的FIM/CRLB引擎另行对照Kay（{ "1993" }）的闭式核对。{ "0.30" }第{ "2" }轮（预先登记fab02df9），受阻（仍为MODELLED）：NumPy/SciPy在既定的{ "1e-9" }门限下重新计算秩和缺陷，并在{ "17" }个已提交的、由Kshana生成的配置上重新计算站轴在零空间中的占比（在{ "8.4e-10" }以内）和站CRLB（在{ "1.2e-10" }以内）。未予升级：估计器达到该界的声明（蒙特卡罗效率约{ "0.98" }）没有参考基准，而使其保持MODELLED的范围界定有待所有者作出决定
 
 # checked against its own closed-form / analytic identity — catches transcription and coefficient errors, but is not an external oracle — gps-sdr-sim (MIT, commit 28ca29a6, run as a separate program through a committed harness), pre-registered f88f2969 with a bit-exact bar on (A) C/A chips, (B) every computed LNAV field, (C) every parity bit. FINDING: (A) { "0" } of { "32 736" } chips differ, (C) the parity of { "0" } of { "1 920" } words differs, (B) { "230" } of { "1 152" } computed fields differ by one unit: gps-sdr-sim's eph2sbf truncates toward zero with C casts where the broadcast integer needs rounding (every differing value lies within { "0.01" } of a unit of Kshana's rounded integer). Stays MODELLED: the registered bar was the conjunction
 seg-2f05d26e8be6 = 与其自身的闭式／解析恒等式核对——可发现转录和系数错误，但不是外部参考基准（oracle）——gps-sdr-sim（MIT，提交28ca29a6，经已提交的测试平台作为独立程序运行），预先登记f88f2969，对 (A) C/A码片、(B) 每个计算出的LNAV字段、(C) 每个奇偶校验位采用逐位精确的判据。发现：(A) 在{ "32 736" }个码片中有{ "0" }个不同，(C) 在{ "1 920" }个字中有{ "0" }个的奇偶校验不同，(B) 在{ "1 152" }个计算字段中有{ "230" }个相差一个单位：gps-sdr-sim的eph2sbf用C强制转换向零截断，而广播整数需要四舍五入（每个不同的值都落在Kshana四舍五入整数的{ "0.01" }个单位以内）。仍为MODELLED：所登记的判据是合取
@@ -1119,8 +1119,8 @@ seg-7bd7522eabed = 对照自身的闭式解／解析恒等式核对——可发�
 # a sub-claim is externally checked, but the whole capability composes modelled pieces, so the capability stays Modelled — GNSS-SDR { "0.0.19" } (GPL-3.0-or-later, the Ubuntu { "24.04" } package, run as a separate program; only derived numbers committed) tracking the same numpy recordings (independent of the engine), both measured against the analytic truth. Bars pre-registered at 48edd4a5, amended before any test recording at 1e4288c4 (a { "10" } Hz FLL during pull-in only in both receivers, after the registered calibration failed on a wrong GNSS-SDR hand-off, finding F3). MET at { "30" }, { "35" }, { "40" } and { "45" } dB-Hz: carrier jitter within { "4.3" } %, code jitter within { "4.6" } % and Doppler mean and spread of GNSS-SDR's. NOT MET: the engine's NWPR C/N0 reads { "2.3" } to { "7.1" } dB below GNSS-SDR's SNV (finding F4, the known NWPR limit; its M2M4 is within { "0.06" } dB of truth); the phase lock indicators differ by definition (F5); at { "30" } dB-Hz GNSS-SDR slipped twice and the engine not (F6). GNSS-SDR's own hand-off locked to a wrong frequency in { "3" } of { "30" } calibration runs. WHAT IS NOT CHECKED: other signals, data-bit wipe-off, re-acquisition, field recordings. The row stays MODELLED.
 seg-e9bde2e0a342 = 某一子论断经外部核对，但整项能力由建模的部分组合而成，因此该能力仍属于由模型计算得出——GNSS-SDR { "0.0.19" }（GPL-3.0-or-later，Ubuntu { "24.04" }软件包，作为独立程序运行；仅提交导出的数值）跟踪同一批numpy录制数据（独立于引擎），二者均对照解析真值测量。判据于48edd4a5预先登记，并在任何测试录制之前于1e4288c4作了修订（两台接收机都仅在牵入期间使用{ "10" } Hz的FLL，原因是已登记的校准因GNSS-SDR的交接错误而失败，发现F3）。在{ "30" }、{ "35" }、{ "40" }和{ "45" } dB-Hz下MET：载波抖动在GNSS-SDR的{ "4.3" } % 以内，码抖动在{ "4.6" } % 以内，多普勒均值和离散度亦然。NOT MET：引擎的NWPR C/N0读数比GNSS-SDR的SNV低{ "2.3" }至{ "7.1" } dB（发现F4，已知的NWPR局限；其M2M4与真值相差在{ "0.06" } dB以内）；相位锁定指示器按定义不同（F5）；在{ "30" } dB-Hz下，GNSS-SDR发生两次周跳而引擎没有（F6）。GNSS-SDR自身的交接在{ "30" }次校准运行中有{ "3" }次锁定到错误频率。未核对的内容：其他信号、数据比特剥离、重新捕获、现场录制。该行仍为MODELLED。
 
-# checked against a separate implementation in this same codebase — independent of the unit under test, but not externally authoritative — An independent numpy recomputation (xval/crpa-jamming/oracle.py, no shared code: numpy steering vectors, numpy.linalg.solve and inv) of every link of the jamming-demo geometry with a 4-element square array, under both weightings. Bars pre-registered at 08d83b4d. MET: A1 (all { "150" } scenario results byte-identical without the section, after a fix: the first build added the crpa units to every jamming run's units table), A2 (one element equals no array to { "1e-12" } dB), A3 on the array noise gain and effective C/N0 ({ "912" } link-weightings within { "1e-9" } dB, worst { "2.1e-14" } dB) and on the null-steering jammer null (below -200 dB on both sides), A4 (MVDR within { "0.1" } dB of null-steering at a JNR of { "80" } dB). NOT MET: A3 on the MVDR jammer gain, { "194" } of { "456" } links over { "1e-9" } dB on { "0.36" } portable maths ({ "202" } on host maths; docs/revisions/STUDIO15-batch4-rebaseline.md) (worst { "1.7e-6" } dB) on residuals of -100 to -188 dB, where float64 cancellation limits both implementations (numpy's inv and solve disagree with each other on { "169" } links, worst { "7.9e-7" } dB); the effective C/N0 these feed is unaffected. WHAT IS NOT CHECKED: mutual coupling, element mismatch, wideband processing, multiple jammers, any antenna hardware. A recomputation of the same equations, not an external oracle; the row stays MODELLED.
-seg-5d76e6627df0 = 对照本代码库中另一套独立实现核对——独立于被测单元，但不具外部权威性——对4元方形阵列的压制干扰演示几何的每一环节（两种加权方式下），以独立的numpy重新计算（xval/crpa-jamming/oracle.py，无共享代码：numpy导向矢量、numpy.linalg.solve和inv）。判据于08d83b4d预先登记。MET：A1（无该部分时全部{ "150" }个场景结果逐字节一致，这是修复之后的结果：首个构建曾将crpa单位加入每次压制干扰运行的单位表）、A2（一个阵元与无阵列相差不超过{ "1e-12" } dB）、A3对阵列噪声增益和有效C/N0（{ "912" }个链路加权在{ "1e-9" } dB以内，最差{ "2.1e-14" } dB）以及对零陷导向的干扰机零陷（两侧均低于 -200 dB）、A4（在{ "80" } dB的JNR下，MVDR与零陷导向相差在{ "0.1" } dB以内）。NOT MET：A3对MVDR干扰机增益，在{ "0.36" }可移植数学库上，{ "456" }条链路中有{ "194" }条超过{ "1e-9" } dB（在主机数学库上为{ "202" }条；docs/revisions/STUDIO15-batch4-rebaseline.md）（最差{ "1.7e-6" } dB），出现在 -100至 -188 dB的残差上，此处float64的相消限制了两种实现（numpy的inv和solve在{ "169" }条链路上彼此不一致，最差{ "7.9e-7" } dB）；由这些供给的有效C/N0不受影响。未核对的内容：互耦、阵元失配、宽带处理、多个干扰机、任何天线硬件。这是对同一组方程的重新计算，不是外部参考基准；该行仍为MODELLED。
+# checked against a separate implementation in this same codebase — independent of the unit under test, but not externally authoritative — An independent numpy recomputation (xval/crpa-jamming/oracle.py, no shared code: numpy steering vectors, numpy.linalg.solve and inv) of every link of the jamming-demo geometry with a 4-element square array, under both weightings. Bars pre-registered at 08d83b4d. MET: A1 (all { "150" } scenario results byte-identical without the section, after a fix: the first build added the crpa units to every jamming run's units table), A2 (one element equals no array to { "1e-12" } dB), A3 on the array noise gain and effective C/N0 ({ "912" } link-weightings within { "1e-9" } dB, worst { "2.1e-14" } dB) and on the null-steering jammer null (below -200 dB on both sides), A4 (MVDR within { "0.1" } dB of null-steering at a JNR of { "80" } dB). NOT MET: A3 on the MVDR jammer gain, { "194" } of { "456" } links over { "1e-9" } dB on { "0.36" } portable maths ({ "202" } on host maths; docs/revisions/batch4-rebaseline.md) (worst { "1.7e-6" } dB) on residuals of -100 to -188 dB, where float64 cancellation limits both implementations (numpy's inv and solve disagree with each other on { "169" } links, worst { "7.9e-7" } dB); the effective C/N0 these feed is unaffected. WHAT IS NOT CHECKED: mutual coupling, element mismatch, wideband processing, multiple jammers, any antenna hardware. A recomputation of the same equations, not an external oracle; the row stays MODELLED.
+seg-5d76e6627df0 = 对照本代码库中另一套独立实现核对——独立于被测单元，但不具外部权威性——对4元方形阵列的压制干扰演示几何的每一环节（两种加权方式下），以独立的numpy重新计算（xval/crpa-jamming/oracle.py，无共享代码：numpy导向矢量、numpy.linalg.solve和inv）。判据于08d83b4d预先登记。MET：A1（无该部分时全部{ "150" }个场景结果逐字节一致，这是修复之后的结果：首个构建曾将crpa单位加入每次压制干扰运行的单位表）、A2（一个阵元与无阵列相差不超过{ "1e-12" } dB）、A3对阵列噪声增益和有效C/N0（{ "912" }个链路加权在{ "1e-9" } dB以内，最差{ "2.1e-14" } dB）以及对零陷导向的干扰机零陷（两侧均低于 -200 dB）、A4（在{ "80" } dB的JNR下，MVDR与零陷导向相差在{ "0.1" } dB以内）。NOT MET：A3对MVDR干扰机增益，在{ "0.36" }可移植数学库上，{ "456" }条链路中有{ "194" }条超过{ "1e-9" } dB（在主机数学库上为{ "202" }条；docs/revisions/batch4-rebaseline.md）（最差{ "1.7e-6" } dB），出现在 -100至 -188 dB的残差上，此处float64的相消限制了两种实现（numpy的inv和solve在{ "169" }条链路上彼此不一致，最差{ "7.9e-7" } dB）；由这些供给的有效C/N0不受影响。未核对的内容：互耦、阵元失配、宽带处理、多个干扰机、任何天线硬件。这是对同一组方程的重新计算，不是外部参考基准；该行仍为MODELLED。
 
 # checked against its own closed-form / analytic identity — catches transcription and coefficient errors, but is not an external oracle — Independent numpy + stdlib-statistics reproduction of the overbound closed form (InternalConsistency). The BIPM Circular-T [UTC-UTC(USNO)] series is a CITED input only — it is the SAME series already Validated for the R4 holdover-coverage row and is NOT re-validated here; reproducing its values proves nothing about R2. Deep integrity tail is Modelled. { "0.30" } external comparison, a finding (stays MODELLED): on the BIPM per-laboratory UTC-UTC(k) files ({ "102" } laboratories, { "105 024" } rows with published uncertainties) the overbound b = { "2.576" } u at the { "1e-2" } tail is exceeded by { "50.8" } % of rows (Clopper-Pearson { "95" } %: { "50.4" } to { "51.1" } %) and by more than { "1" } % at { "101" } of { "102" } laboratories. The published u is the uncertainty of the BIPM's determination of UTC-UTC(k), not a bound on the offset, which routinely runs to many times u; the overbound as specified does not bound real UTC(k) traceability bias. { "0.30" } round { "2" }, an overbound of the realised UTC-UTC(k) offsets trained on 2015-2022 and tested on 2023-2026 BIPM Circular T data (pre-registered ca0921a4, pooled exceedance at most { "1e-2" }), a finding (stays MODELLED): the pooled exceedance is { "0.0333" } ({ "694" } of { "20 826" } rows over { "82" } laboratories; { "0.0127" } without the { "430" } rows that have no bound by rule). D9 round { "3" }, a pooled hierarchical ageing bound (utck_bound), pre-registered fb475550 and scored prospectively on Circular T issues from { "465" }: not yet run (issue { "465" } was published on 2026-10-12 with about { "285" } test values; the pre-registered 1000-value rule needs issues to about { "468" }, and the run needs the archived 2026-09-30 per-laboratory files, since BIPM has since rewritten { "87" } of the { "113" })
 seg-b286777831de = 已对照其自身的闭式/解析恒等式核对——可发现转录和系数错误，但不是外部参考基准（oracle）——对过界闭式的独立numpy加标准库statistics复现（InternalConsistency）。BIPM Circular-T [UTC-UTC(USNO)]序列仅是被引用的输入——它正是已经为R4守时覆盖率行独立核对过的同一序列，在此并未重新核对；复现其数值对R2没有任何证明作用。深度完好性尾部是由模型计算得出的。{ "0.30" }外部比较，一项发现（仍为MODELLED）：在BIPM各实验室的UTC-UTC(k)文件上（{ "102" }个实验室，{ "105 024" }行，均带有已公布的不确定度），{ "1e-2" }尾部处的过界b = { "2.576" } u被{ "50.8" } %的行超出（Clopper-Pearson { "95" } %：{ "50.4" }至{ "51.1" } %），并在{ "102" }个实验室中的{ "101" }个上被超出超过{ "1" } %。所公布的u是BIPM对UTC-UTC(k)的测定不确定度，而不是对偏差的界，偏差通常达到u的许多倍；按规定的过界并不能界住真实的UTC(k)溯源偏差。{ "0.30" }第{ "2" }轮，对已实现的UTC-UTC(k)偏差的过界，以2015-2022年数据训练，并在2023-2026年的BIPM Circular T数据上测试（预先登记ca0921a4，汇总超出率至多{ "1e-2" }），一项发现（仍为MODELLED）：汇总超出率为{ "0.0333" }（{ "82" }个实验室共{ "20 826" }行中的{ "694" }行；去掉按规则没有界的{ "430" }行后为{ "0.0127" }）。D9第{ "3" }轮，汇总的分层老化界（utck_bound），预先登记fb475550，并在自{ "465" }期起的Circular T各期上做前瞻性评分：尚未运行（第{ "465" }期于2026-10-12发布，约有{ "285" }个测试值；预先登记的1000值规则需要期数到约{ "468" }，且运行需要已归档的2026-09-30各实验室文件，因为BIPM此后已重写了其中{ "113" }个中的{ "87" }个）
@@ -1226,3 +1226,1338 @@ seg-fbb78f11c0dc = 共{ "78" }项，已验证
 
 # tests/iq_campaign_monitors.rs: m1_power_test_false_alarm_rate_matches_the_closed_form ({ "73" } of { "5900" } blocks against the { "99" } % binomial interval [{ "40" }, { "80" }] of P_fa { "0.01" }), m2_sqm_false_alarm_fraction_is_within_a_factor_of_2_of_2q_k (delta { "0.0160" }, ratio { "0.0131" } against { "0.01" }), m4_cn0_false_alarms_stay_within_the_poisson_bound_of_arl0 ({ "0" } against { "0" }), the_monitors_table_parses_and_validates; m3_every_attenuation_is_detected_within_twice_the_arl1 (strict, ignored with the gap); iq::campaign::detect tests; iq::monitor::stats tests (gaussian_two_sided_tail_matches_known_values); tests/iq_campaign.rs (the pinned digests are unchanged without the table)
 seg-1663be50baf6 = tests/iq_campaign_monitors.rs: m1_power_test_false_alarm_rate_matches_the_closed_form（{ "5900" }个块中{ "73" }个，对照P_fa { "0.01" }的{ "99" } % 二项区间 [{ "40" }, { "80" }]），m2_sqm_false_alarm_fraction_is_within_a_factor_of_2_of_2q_k（delta { "0.0160" }，比值{ "0.0131" }，对照{ "0.01" }），m4_cn0_false_alarms_stay_within_the_poisson_bound_of_arl0（{ "0" }对照{ "0" }），the_monitors_table_parses_and_validates；m3_every_attenuation_is_detected_within_twice_the_arl1（严格，因该缺口而被忽略）；iq::campaign::detect测试；iq::monitor::stats测试（gaussian_two_sided_tail_matches_known_values）；tests/iq_campaign.rs（没有该表时，已固定的摘要保持不变）
+
+# Marked where it builds on a capability: the design optimiser, uncertainty and sensitivity, the mission dossier, calibrated clock twins and ranked trade studies. <a1>What Pro adds</a1>
+seg-311e7a7d55dc = 凡建立在某项能力之上的内容均已标明：设计优化器、不确定性与敏感性分析、任务档案、经校准的时钟孪生和排序的权衡研究。<a1>Pro增加了什么</a1>
+
+# Kshana Pro calibrates a <b>clock digital twin</b> to your device's published Allan budget, built on the <c1/> kind and the classes above. <a1>What Pro adds</a1>
+seg-0aa1e4562dac = Kshana Pro依据你的器件所公布的阿伦预算校准一个<b>时钟数字孪生</b>，它建立在<c1/>类型和上述类别之上。<a1>Pro增加了什么</a1>
+
+# Kshana Pro calibrates a clock digital twin to a device's published Allan budget and checks it with the open engine's Allan-deviation estimator; a twin of your own device is built under contract. <a1>What Pro adds</a1>
+seg-b291c1ae1f5c = Kshana Pro依据器件所公布的阿伦预算校准时钟数字孪生，并用开源引擎的阿伦偏差估计器检验；针对你自己器件的孪生则按合同构建。<a1>Pro增加了什么</a1>
+
+# <b>With Pro:</b> the design optimiser returns the <b>Pareto front</b> of a whole constellation design space around the Earth, the Moon or Mars, each front design written out as a plain scenario file, and a <b>ranked trade study</b> compares architectures on a figure of merit. <a1>See a real front</a1>
+seg-e5f00e27b617 = <b>使用Pro：</b>设计优化器针对地球、月球或火星周围的整个星座设计空间给出<b>帕累托前沿</b>，前沿上的每个设计都写成一份普通的场景文件；<b>排序的权衡研究</b>则按某一性能指标比较各种架构。<a1>查看一条真实的前沿</a1>
+
+# <b>With Pro:</b> stated input uncertainties give <b>confidence bands</b>, the probability of meeting a limit and a ranking of the inputs that drive the result, over thousands of runs that can be stopped and resumed. <a1>See a real band</a1>
+seg-dd2809ea9a6a = <b>使用Pro：</b>给定输入的不确定性后，可得到<b>置信带</b>、满足某一限值的概率，以及对结果起决定作用的各项输入的排序，涵盖数千次可停止并续跑的运行。<a1>查看一条真实的置信带</a1>
+
+# <b>Pro: calibrated clock twin</b> builds on <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>. <a1>See what it adds</a1>
+seg-ec1a22002e13 = <b>Pro：校准时钟孪生</b>以<c1/>、<c2/>、<c3/>、<c4/>、<c5/>、<c6/>、<c7/>为基础。<a1>查看它新增了什么</a1>
+
+# <b>Pro: ranked trade study</b> builds on <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>. <a1>See what it adds</a1>
+seg-cc88295c3e2e = <b>Pro：排序权衡研究</b>以<c1/>、<c2/>、<c3/>、<c4/>、<c5/>、<c6/>为基础。<a1>查看它新增了什么</a1>
+
+# <b>Pro: design optimiser</b> builds on <c1/>. <a1>See what it adds</a1>
+seg-8cec53de04c5 = <b>Pro：设计优化器</b>以<c1/>为基础。<a1>查看它新增了什么</a1>
+
+# <b>Pro: uncertainty and sensitivity</b> builds on <c1/>, <c2/>. <a1>See what it adds</a1>
+seg-4bdca619acb5 = <b>Pro：不确定度与灵敏度</b>以<c1/>、<c2/>为基础。<a1>查看它新增了什么</a1>
+
+# <b>Pro: mission dossier</b> builds on <c1/>, <c2/>, <c3/>, <c4/>, <c5/>. <a1>See what it adds</a1>
+seg-35d8381e7605 = <b>Pro：任务档案</b>以<c1/>、<c2/>、<c3/>、<c4/>、<c5/>为基础。<a1>查看它新增了什么</a1>
+
+# <b>Pro: campaign watch</b> builds on <c1/>. <a1>See what it adds</a1>
+seg-08d3c155a74d = <b>Pro：测评活动监视</b>以<c1/>为基础。<a1>查看它新增了什么</a1>
+
+# (not in the old English either)
+seg-d5c6110302e9 = 一条阿尔忒弥斯级任务链、每个数字上的证据标签，以及十七种语言。
+
+# (not in the old English either)
+seg-8597c65432ed = 把月球任务的各个阶段串成一份导航与授时误差预算，估计一个降质位置报告来源可能所在的位置，读取实测时钟日志，在运行写出的每个数字上看到证据等级，并可用十七种语言使用命令行、报告和Studio。每项能力都带有台账（ledger）中为其记录的标签，而标签只说明已核对过的内容。仅供参考的软件，不是经型式认可的导航设备：操作人员仍承担责任。
+
+# (not in the old English either)
+seg-070972f642de = 一条阿尔忒弥斯级任务链：从发射到再入的导航与授时误差预算
+
+# (not in the old English either)
+seg-982a4a7cf0db = 任务链类型把各阶段（发射与上升、近地轨道交会、地月转移注入与巡航、月球各阶段、再入）串联起来，并把位置与速度协方差从一个阶段带入下一个阶段；交接规则、坐标系与时间标度转换、相对既定需求的余量以及最薄弱环节，各自写成预算行。
+
+# (not in the old English either)
+seg-17c9cc6c2d40 = 已核对：与阿尔忒弥斯 I 的比较未达到判据（{ "45.3" } km，判据为{ "5" } km）；该行仍为 MODELLED
+
+# (not in the old English either)
+seg-946487626f87 = Kshana Studio中的任务链视图
+
+# (not in the old English either)
+seg-4970f874d334 = 月球段：交会、下降、月面与上升
+
+# (not in the old English either)
+seg-b6c35bf141e7 = 四种场景类型，每一种同时也是任务链的一个阶段：对接于月球轨道的相对导航、南极着陆点的着陆散布预算、按地点和季节的定位与授时可用性，以及返回交会轨道的上升。
+
+# (not in the old English either)
+seg-ce097df855a9 = 已核对：预先登记的判据；一项达到，一项未达到，无一放宽
+
+# (not in the old English either)
+seg-8ca6e2046901 = 由ADS-B或AIS报告估计的发射源区域
+
+# (not in the old English either)
+seg-ca6383e426f9 = 降质位置报告的来源可能所在的位置，以{ "50" }%、{ "90" }%和{ "95" }%的区域给出，并附质心及其不确定度椭圆，绝不只给出单个点，另有按时间划分的时段。
+
+# (not in the old English either)
+seg-27af464d0674 = 已核对：预先登记；两个数据源均无法评估，因此不作任何声明
+
+# (not in the old English either)
+seg-003a3b9b63ea = 实测时钟日志，以及由拟合序列驱动的守时（holdover）
+
+# (not in the old English either)
+seg-f51fa2a40db8 = 以八种格式（RINEX clock、TimeLab、TICC、linuxptp、chrony）读取实测时钟日志，供时钟类型和电信授时类型使用，统一为一条相位序列，并拟合实测序列的噪声以驱动守时（holdover）。
+
+# (not in the old English either)
+seg-6e9140563c53 = 已核对：判据已预先登记；未达到之处均已列明并固定
+
+# (not in the old English either)
+seg-448b11c86f48 = 数据合作方：实测数据可以提升哪些行
+
+# (not in the old English either)
+seg-56b0201d930c = 合作方提供的实测数据可以提升哪些由模型计算得出的台账（ledger）行、接受哪些格式，以及提交内容如何核对、对照预先登记的判据评分并计入。
+
+# (not in the old English either)
+seg-5858e5d1f7c5 = 运行写出的每个数字和每张表上的证据标签
+
+# (not in the old English either)
+seg-d1c4250b2a7e = 运行写出的每个结果文件、图表和表格现在都会注明它所依据的等级（已验证、由模型计算得出或合作方负责，取其各行中最弱者），并列出其背后的验证矩阵行；这些内容读取自矩阵，而非手工填写。
+
+# (not in the old English either)
+seg-bd28ef5c376e = 英文之外的十七种语言
+
+# (not in the old English either)
+seg-1e4a6a5931d3 = 命令行、报告、文档页面和Studio除英文外提供十七种语言。
+
+# (not in the old English either)
+seg-7fae5de5ebf1 = kshana-bench：{ "0.40" }重新测评活动
+
+# (not in the old English either)
+seg-1e0afa852323 = 四项预先登记的比较在签字确认后运行了一次，均达到各自的判据，且每个得分都由模型计算得出。
+
+# IntelliJ · PyCharm · CLion
+seg-8844d0844559 = IntelliJ · PyCharm · CLion
+
+# The "Kshana — PNT simulator" plugin: right-click any scenario <c1/>, choose Run Kshana Scenario, and read the figures of merit in a tool window.
+seg-6b24b242333a = “Kshana — PNT simulator” 插件：右键单击任意场景<c1/>，选择Run Kshana Scenario，即可在工具窗口中查看性能指标。
+
+# Every surface on this page is the free open core, under the AGPL-3.0 or a commercial licence for closed integration. Need it integrated into your toolchain, or a study done for you? <a1>Custom study</a1>. Evidence packs and calibrated models: <a2>Kshana Pro</a2>.
+seg-3a199156b86e = 本页面上的每个入口都属于免费的开源核心，采用AGPL-3.0，或采用用于闭源集成的商业许可。需要将其集成到您的工具链中，或需要由他人代为完成一项研究？<a1>定制研究</a1>。证据包和经校准的模型：<a2>{ -brand } Pro</a2>。
+
+# (not in the old English either)
+seg-51cd8d5f527b = 结果中没有上述任何形状的类型（链路预算、单历元几何、仅含统计量的蒙特卡罗汇总，或其结果只公布记录的哈希而不公布记录本身的电信守时）会被拒绝，提示<c1/>，且不写入任何内容。对于kshana { $version }，在{ "193" }个可运行的场景文件（除研究套件外的每个文件）中，有{ "94" }个可制作动画，{ "99" }个被拒绝。<c2/>会打印这份普查。
+
+# The core compiles unchanged to native, to a Python extension, and to WebAssembly. The Python (<c1/>, PyO3 abi3) and WebAssembly (<c2/>, wasm-bindgen) modules are optional, feature-gated dependencies (<c3/> / <c4/>): the default build and the test suite never compile them, while the dependency-audit gate (<c5/>) does inspect their dependency trees, because those crates ship inside the wheel and the npm package. Both call <c6/>, so every surface returns identical results. The WebAssembly module backs the browser playground in <c7/> and exports thirteen functions: <c8/>, <c9/> (one engine run returning result, chart, summary and table together), <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, the <c16/> / <c17/> shareable-URL (URL: web address) codec, and the three exporters <c18/> / <c19/> / <c20/> that back the playground's export menu. Two further front doors reach the same <c21/>: the <b>MCP (Model Context Protocol) server</b> (<c22/>, a workspace-excluded <c23/> crate exposing fifteen tools — <c24/>, <c25/>, <c26/>, <c27/>, <c28/>, <c29/>, <c30/>, <c31/>, <c32/>, <c33/>, <c34/>, <c35/>, <c36/>, <c37/>, <c38/>; the two example tools read the bundled scenarios through the library's off-by-default <c39/> feature, which only this server turns on) and the <b>JetBrains IDE (integrated development environment) plugin</b> (<c40/>, a Kotlin project that shells out to the <c41/> CLI rather than linking the library).
+seg-57fb29fdd9d9 = 核心代码无需改动即可编译为原生程序、Python扩展和WebAssembly。Python模块（<c1/>，PyO3 abi3）和WebAssembly模块（<c2/>，wasm-bindgen）是可选的、按特性开关的依赖项（<c3/> / <c4/>）：默认构建和测试套件从不编译它们，而依赖审计关卡（<c5/>）会检查它们的依赖树，因为这些crate随wheel和npm包一同发布。两者都调用<c6/>，因此每个接口都返回相同的结果。WebAssembly模块为<c7/>中的浏览器演练场提供支持，导出十三个函数：<c8/>、<c9/>（一次引擎运行，同时返回结果、图表、摘要和表格）、<c10/>、<c11/>、<c12/>、<c13/>、<c14/>、<c15/>，<c16/> / <c17/>可分享URL（网址）编解码器，以及为演练场导出菜单提供支持的三个导出器<c18/> / <c19/> / <c20/>。另有两个入口通向同一个<c21/>：<b>MCP（模型上下文协议）服务器</b>（<c22/>，一个排除在工作区之外的<c23/> crate，提供十五个工具：<c24/>、<c25/>、<c26/>、<c27/>、<c28/>、<c29/>、<c30/>、<c31/>、<c32/>、<c33/>、<c34/>、<c35/>、<c36/>、<c37/>、<c38/>；两个示例工具通过库中默认关闭的<c39/>特性读取内置场景，只有该服务器会开启此特性）和<b>JetBrains IDE（集成开发环境）插件</b>（<c40/>，一个Kotlin项目，通过调用<c41/> CLI工作，而不是链接该库）。
+
+# (not in the old English either)
+seg-f289c471e860 = 于2026-10-29针对引擎{ $version }更新（{ "93" }个场景类型，来自<c1/>；{ $version }中新增：<c2/>、<c3/>、<c4/>、<c5/>和<c6/>）。2026-10-22：引擎{ "0.39.0" }，{ "87" }个类型，无新增类型。2026-10-19：引擎{ "0.38.0" }，{ "87" }个类型（{ "0.38.0" }中新增：<c7/>、<c8/>和<c9/>）。2026-10-18：{ "84" }个类型（{ "0.37" }中新增：<c10/>）。2026-10-16：{ "83" }个类型（{ "0.36" }中新增：<c11/>、<c12/>、<c13/>、<c14/>、<c15/>、<c16/>、<c17/>和<c18/>）。2026-10-10：引擎{ "0.35.0" }，{ "75" }个类型，无新增类型。2026-10-09和2026-10-08：先前的修订。2026-10-04：导航信号一行注明了{ "0.31.0" }的IQ层。2026-09-29：新增LEO-PNT、频谱、太阳系 / 任意天体PNT、测评活动和输出各行。更早：与2026-06-02总审计的27行能力矩阵对齐；深空 / 火星PNT一行已在{ "v0.17.0" }中新增。量子PNT的新增内容（GNSS拒止条件下的时钟守时（holdover）<c19/>、组合的量子惯性航位推算预算<c20/>、测距码设计权衡<c21/>、机器核查的验证矩阵<c22/>）已并入授时、量子PNT传感器、导航信号和V&V各行——每一项都按其实际的参考基准标注为经独立核对或由模型计算得出。
+
+# (not in the old English either)
+seg-877f989ae75e = 来自<c1/>的{ "61" }张能力卡片，之后是验证矩阵的全部{ "412" }行。
+
+# <b>JetBrains IDE plugin</b> (<c1/>). Right-click a scenario <c2/> → <b>Run Kshana Scenario</b>; figures of merit and result JSON stream into a Kshana tool window. Pure-platform Kotlin plugin, compatible with every JetBrains IDE { "2024.3" }+.
+seg-bd792f66363c = <b>JetBrains IDE插件</b>（<c1/>）。右键单击场景<c2/> → <b>Run Kshana Scenario</b>；性能指标和结果JSON会流式输出到Kshana工具窗口。纯平台的Kotlin插件，兼容所有JetBrains IDE { "2024.3" }+。
+
+# (not in the old English either)
+seg-0d4a740afedf = [{ $version }] - 2026-10-29
+
+# <b>LTC / TCL — Lunar Coordinate Time (Temps-Coordonnée Lunaire).</b> The proposed time scale for the Moon.
+seg-ea7eb1f34cae = <b>LTC / TCL——月球协调时（Temps-Coordonnée Lunaire）。</b>拟议中的月球时间尺度。
+
+# <s1>JetBrains plugin</s1><s2>A native plugin that runs the Kshana PNT-resilience simulator from inside any JetBrains IDE (IntelliJ IDEA…</s2>
+seg-1c59d26e3faf = <s1>JetBrains插件</s1><s2>一个原生插件，可在任何JetBrains IDE（IntelliJ IDEA…）内部运行Kshana PNT韧性模拟器</s2>
+
+# (not in the old English either)
+seg-abe17fad0734 = <s1>验证矩阵</s1><s2>完整的、经机器检查的证据台账（ledger）：{ "412" }行——{ "176" }行VALIDATED，{ "232" }行MODELLED，{ "4" }行PARTNER。</s2>
+
+# (not in the old English either)
+seg-7fd385494ae0 = <s1>能力参考</s1><s2>能力卡片，以及验证矩阵的全部{ "412" }行。</s2>
+
+# Source: <c1/>
+seg-f8a0fe9968c4 = 来源：<c1/>
+
+# <a1><b>Kshana — PNT simulator</b> on the JetBrains Marketplace</a1> — or, in any JetBrains IDE, <em>Settings → Plugins → Marketplace → search "Kshana"</em>.
+seg-d7280bb554bf = <a1>JetBrains Marketplace上的<b>Kshana — PNT simulator</b></a1>；或者在任意JetBrains IDE中依次选择<em>设置 → 插件 → Marketplace → 搜索“Kshana”</em>。
+
+# A native plugin that runs the <b>Kshana</b> PNT-resilience simulator from inside any JetBrains IDE (IntelliJ IDEA, CLion, RustRover, PyCharm, …). Right-click a scenario <c1/> → <b>Run Kshana Scenario</b>; the figures of merit and result JSON stream into the <b>Kshana</b> tool window.
+seg-959ab829762c = 一款原生插件，可在任意JetBrains IDE（IntelliJ IDEA、CLion、RustRover、PyCharm等）内部运行<b>Kshana</b> PNT韧性仿真器。右键单击场景<c1/> → <b>Run Kshana Scenario</b>；性能指标和结果JSON会以流的形式显示在<b>Kshana</b>工具窗口中。
+
+# Complements the <a1>MCP server</a1> (which gives JetBrains <em>AI Assistant</em> access to Kshana): this plugin is the <em>human</em>, point-and-click path.
+seg-594199d2ce06 = 与<a1>MCP服务器</a1>互补（MCP服务器让JetBrains <em>AI Assistant</em>能够访问Kshana）：本插件是供<em>人</em>使用的点击式途径。
+
+# <b>Run Kshana Scenario</b> action on any <c1/> (editor + project-view context menus) — runs <c2/> and shows the output in the Kshana tool window.
+seg-a356f2c30afb = 对任意<c1/>文件执行<b>Run Kshana Scenario</b>操作（编辑器与项目视图的上下文菜单）：运行<c2/>，并在Kshana工具窗口中显示输出。
+
+# <b>Assess Receiver Trust</b> on a <c1/> scenario <c2/> (<c3/>): the trust timeline, with a 0-100 score and reasons for a vessel. Advisory software, not type-approved navigation equipment (IEC { "61108" }, IEC { "61162" }): the operator remains responsible for the navigation of the vessel.
+seg-116d04ae5538 = 对<c1/>场景<c2/>执行<b>Assess Receiver Trust</b>（<c3/>）：给出信任度时间线，包含船舶的0-100分数及原因。仅供参考的软件，不是经型式认可的导航设备（IEC { "61108" }、IEC { "61162" }）：船舶航行的责任仍由操作人员承担。
+
+# <b>Generate Training NMEA</b> on a <c1/> <c2/> (<c3/>): synthetic bridge NMEA and an instructor log, written next to the scenario. Text only; for training, never for a vessel's live navigation systems.
+seg-726d88d0dea7 = 对<c1/> <c2/>执行<b>Generate Training NMEA</b>（<c3/>）：生成合成的驾驶台NMEA和教员日志，写在场景旁边。仅为文本；用于训练，决不用于船舶的实际导航系统。
+
+# <b>Build Interference Map</b> on an ADS-B or AIS <c1/> (project view; asks which approved dataset it is) and <b>Route Exposure</b> on a route file (asks for the folder of maps). A degraded cell does not identify interference as the cause; not a forecast.
+seg-99510426a384 = 对ADS-B或AIS的<c1/>执行<b>Build Interference Map</b>（项目视图；会询问它属于哪个已批准的数据集），对航线文件执行<b>Route Exposure</b>（会询问地图所在文件夹）。出现退化的单元格并不表明干扰是其原因；这不是预报。
+
+# <b>Export Test-Bench Files</b> on a scenario <c1/> (<c2/>): vehicle motion, NMEA and labelled events for a laboratory GNSS simulator, written next to the scenario. It writes no signal; run a simulator only where authorised.
+seg-8c50e6aeb5e2 = 对场景<c1/>执行<b>Export Test-Bench Files</b>（<c2/>）：生成供实验室GNSS模拟器使用的载体运动、NMEA和带标注的事件，写在场景旁边。它不生成任何信号；仅在获得授权的地方运行模拟器。
+
+# <b>Build Compliance Report</b> on a run result <c1/> (<c2/>) and <b>Tools → Show Compliance Mapping</b> (<c3/>): the public-framework mapping, shown with the engine's own statement word for word.
+seg-79c553c303c5 = 对运行结果<c1/>执行<b>Build Compliance Report</b>（<c2/>），并执行<b>Tools → Show Compliance Mapping</b>（<c3/>）：公开框架映射，附带引擎自身的声明，逐字照录。
+
+# <b>Verify Evidence Pack</b> on an evidence-pack folder (project view; <c1/>): asks for the signer's public key ({ "64" } hex digits or a <c2/> file; always pinned, the plugin never accepts an unpinned signer) and optionally the full session log. Only a verified result reads as verified; an intact pack with an unpinned signer reads "NOT VERIFIED".
+seg-9b6ce5bbb523 = 对证据包文件夹执行<b>Verify Evidence Pack</b>（项目视图；<c1/>）：会询问签名者的公钥（{ "64" }位十六进制数字或<c2/>文件；始终要求已固定，插件从不接受未固定的签名者），以及可选的完整会话日志。只有通过验证的结果才显示为已验证；签名者未固定的完整证据包显示为“NOT VERIFIED”。
+
+# <b>Render Trust Telemetry</b> on a <c1/> result <c2/> (<c3/>): Prometheus text, CEF/LEEF syslog events or Home Assistant MQTT lines printed to the Kshana window. Nothing is sent or served; the running exporters stay on the command line.
+seg-253d5b7f94ce = 对<c1/>结果<c2/>执行<b>Render Trust Telemetry</b>（<c3/>）：把Prometheus文本、CEF/LEEF syslog事件或Home Assistant MQTT行输出到Kshana窗口。不发送也不提供任何内容；持续运行的导出器仍留在命令行。
+
+# <b>Fit Sensor Parameters from IMU Log</b> on a stationary IMU <c1/> (<c2/>): the accelerometer and gyro parameters of the <c3/> and <c4/> scenarios fitted by Allan deviation, printed to the Kshana window as an <c5/> table. Nothing is written; the fit is MODELLED.
+seg-ce12ebcdccb5 = 对静止的IMU <c1/>执行<b>Fit Sensor Parameters from IMU Log</b>（<c2/>）：用阿伦偏差拟合<c3/>和<c4/>场景的加速度计与陀螺仪参数，以<c5/>表的形式输出到Kshana窗口。不写入任何内容；该拟合为MODELLED。
+
+# <b>Validate Scenario</b> (<c1/>), <b>List Scenario Kinds</b> (Tools menu; <c2/>) and <b>Assess Receiver Stream</b> (a vessel session <c3/> plus a stored NMEA log you choose; <c4/>, scored once with no socket and no gate).
+seg-b81f27c51c22 = <b>Validate Scenario</b>（<c1/>）、<b>List Scenario Kinds</b>（Tools菜单；<c2/>）和<b>Assess Receiver Stream</b>（船舶会话<c3/>加上你选择的已存储NMEA日志；<c4/>，只评分一次，没有套接字，也没有门限）。
+
+# <b>Insert Example Scenario</b> (project view folder or Tools menu; <c1/>): pick a bundled scenario and it is written as a new <c2/> (never over a file). <b>Export Scenario</b> on a <c3/> (SP3, OMM, OEM, CZML, KML, GeoJSON, STK, SigMF; simulated output only), <b>Animate Scenario</b> (HTML or SVG, opened in the browser) and <b>Import Route</b> on a route <c4/> (asks which scenario).
+seg-38037d36639c = <b>Insert Example Scenario</b>（项目视图文件夹或Tools菜单；<c1/>）：选择一个内置场景，将其写成新的<c2/>（绝不覆盖已有文件）。对<c3/>执行<b>Export Scenario</b>（SP3、OMM、OEM、CZML、KML、GeoJSON、STK、SigMF；仅限模拟输出）、<b>Animate Scenario</b>（HTML或SVG，在浏览器中打开），以及对航线<c4/>执行<b>Import Route</b>（会询问导入到哪个场景）。
+
+# <b>Create Evidence Pack</b> on a receiver-trust session <c1/> (<c2/>): asks the window, a signing key file you already have, and the output folder. The plugin never makes, reads or stores a key (<c3/> stays on the command line). <b>Attach Timestamp</b> on a pack folder (<c4/>): Kshana does not check the timestamp authority's signature; run <c5/> yourself.
+seg-1f1b18f8e102 = 对接收机信任度会话<c1/>执行<b>Create Evidence Pack</b>（<c2/>）：会询问时间窗口、你已有的签名密钥文件和输出文件夹。插件从不生成、读取或保存密钥（<c3/>仍只在命令行中使用）。对证据包文件夹执行<b>Attach Timestamp</b>（<c4/>）：Kshana不检查时间戳机构的签名；请自行运行<c5/>。
+
+# Still on the command line only: the IQ commands, <c1/> and <c2/>.
+seg-f4f6605d3db9 = 仍然只能在命令行中使用的有：IQ命令、<c1/>和<c2/>。
+
+# A bottom <b>Kshana</b> tool window hosting the run console.
+seg-63efd04104f1 = 位于底部的<b>Kshana</b>工具窗口，承载运行控制台。
+
+# Not in the plugin: <c1/> (a long-running stream process with a gate and an optional TCP listener) and <c2/> stay on the command line, because an IDE action runs a command to completion and shows its output; see <c3/>.
+seg-decda07aa7eb = 插件中没有：<c1/>（带门限和可选TCP监听器的长时间运行的流处理进程）和<c2/>仍留在命令行，因为IDE操作是运行一条命令直至完成并显示其输出；参见<c3/>。
+
+# <b>Settings → Tools → Kshana</b> to point at the <c1/> binary (blank → resolved from <c2/>; install with <c3/>).
+seg-9c185454d0c0 = <b>Settings → Tools → Kshana</b>，用于指定<c1/>二进制文件（留空 → 从<c2/>解析；用<c3/>安装）。
+
+# The plugin is pure-platform (no language-specific dependencies), so it loads in every JetBrains IDE on build { "243" } ({ "2024.3" }) and newer.
+seg-44dfdd65bd0a = 该插件是纯平台插件（不依赖特定语言），因此可在构建号{ "243" }（{ "2024.3" }）及更新版本的所有JetBrains IDE中加载。
+
+# Build & run
+seg-453bd42c23fa = 构建与运行
+
+# Requires JDK { "17" }+ (the build pins JDK { "21" }) and the bundled Gradle wrapper.
+seg-b5328f8c7a8a = 需要JDK { "17" }或更高版本（构建固定使用JDK { "21" }）以及随附的Gradle wrapper。
+
+# <c1/> checks the since-build, { "2024.3" }, by default. To check other lines, list them as <c2/> (each IDE is a download of about { "1" } GB):
+seg-758124ceb1c7 = <c1/>默认检查since-build，即{ "2024.3" }。若要检查其他版本线，请将它们列为<c2/>（每个IDE需下载约{ "1" } GB）：
+
+# The plugin uses no deprecated or scheduled-for-removal platform API on any of those; keep it that way (a choice dialog goes through <c1/>, not <c2/>).
+seg-15d175aaeb59 = 该插件在上述任何版本上都不使用已弃用或计划移除的平台API；请保持这一点（选择对话框通过<c1/>调用，而不是<c2/>）。
+
+# Install the built zip via <b>Settings → Plugins → ⚙ → Install Plugin from Disk…</b>.
+seg-39cfd740d9b3 = 通过<b>Settings → Plugins → ⚙ → Install Plugin from Disk…</b>安装构建出的zip。
+
+# Layout
+seg-87aff08f344c = 目录结构
+
+# Isolation
+seg-73b3f55b7208 = 隔离
+
+# Like <c1/> and <c2/>, this is a standalone Gradle project, excluded from the published <c3/> crate (<c4/> in the package <c5/>); its build output is gitignored.
+seg-a14db8de576a = 与<c1/>和<c2/>一样，这是一个独立的Gradle项目，不包含在发布的<c3/> crate中（包的<c5/>中列有<c4/>）；其构建输出已被gitignore忽略。
+
+# License: AGPL-3.0-only (or a commercial licence from Ashforde OÜ — see the repository's <c1/>).
+seg-b38914a430b9 = 许可证：AGPL-3.0-only（或Ashforde OÜ 的商业许可证，见仓库中的<c1/>）。
+
+# One run of <c1/> summarises as: lunar-interop-export | REF_FRAME MOON_ME / TIME_SYSTEM LTC | { "9" } states, OEM { "23" } lines | conformance PASS ({ "9" } present / { "0" } missing) | OEM round-trip ok | time-meta round-trip ok | KIF { "1640" } bytes | MODELLED
+seg-1726861e444f = <c1/>的一次运行概括如下：lunar-interop-export | REF_FRAME MOON_ME / TIME_SYSTEM LTC | { "9" }个状态，OEM { "23" }行 | 一致性检查PASS（已有{ "9" }项 / 缺失{ "0" }项）| OEM往返正常 | 时间元数据往返正常 | KIF { "1640" }字节 | MODELLED
+
+# Optional fields: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>
+seg-f8353e15aabd = 可选字段：<c1/>、<c2/>、<c3/>、<c4/>、<c5/>、<c6/>
+
+# LTC
+seg-3f36bd2ec5ea = LTC
+
+# WHAT src/lunar_interop.rs does: * export_lunar_oem — REUSES the crate's CCSDS OEM { "2.0" } emitter (crate::oem), re-tagged for the lunar context: REF_FRAME = the IAU { "2015" } WGCCRE lunar body frame (MOON_ME / MOON_PA), TIME_SYSTEM = the lunar time scale (LTC / TCL / UTC), CENTER_NAME = MOON, over a sample ILLUSTRATIVE LCNS-class ephemeris (positions from crate::lunar_service, velocity by central finite difference). * export_ (scenario file comment, lines { "6" } to { "19" })
+seg-11d0ccba5ee7 = src/lunar_interop.rs做什么（WHAT ... does）：* export_lunar_oem——复用（REUSES）本crate的CCSDS OEM { "2.0" }生成器（crate::oem），重新标记为月球场景：REF_FRAME = IAU { "2015" } WGCCRE月球天体框架（MOON_ME / MOON_PA），TIME_SYSTEM = 月球时间尺度（LTC / TCL / UTC），CENTER_NAME = MOON，作用于一份ILLUSTRATIVE的LCNS级星历样例（位置来自crate::lunar_service，速度由中心有限差分得到）。* export_（场景文件注释，第{ "6" }至{ "19" }行）
+
+# HONESTY: MODELLED. The field NAMES and units are aligned with PUBLIC standards (CCSDS 502.0-B OEM, IAU WGCCRE { "2015" } lunar frames, LunaNet Interoperability Specification / IOAG lunar architecture). The deterministic round-trip and the field-name conformance are the oracle. This is NOT a certified interoperability conformance test. The ephemeris is illustrative, public-source, NOT affiliated with ESA, and implies no TRL (scenario file comment, lines { "21" } to { "26" })
+seg-f730e8f789cf = 诚实说明（HONESTY）：MODELLED。字段名称（NAMES）和单位与公开（PUBLIC）标准对齐（CCSDS 502.0-B OEM、IAU WGCCRE { "2015" }月球框架、LunaNet互操作性规范 / IOAG月球架构）。确定性的往返和字段名一致性是参考基准（oracle）。这并非（NOT）经认证的互操作性一致性测试。该星历是示意性的、取自公开来源的，与ESA无隶属关系（NOT affiliated），也不意味着任何TRL（场景文件注释，第{ "21" }至{ "26" }行）
+
+# Required fields: none. Optional: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>.
+seg-720d0bbeaf6e = 必填字段：无。可选字段：<c1/>、<c2/>、<c3/>、<c4/>、<c5/>、<c6/>。
+
+# Where: <c1/> (Settings, Developer, Edit Config). Or double-click the <c2/> extension from the release: no config file.
+seg-439fac4928a0 = 位置：<c1/>（设置，开发者，编辑配置）。或双击发布版本中的<c2/>扩展：无需配置文件。
+
+# (not in the old English either)
+seg-4ccbbc19fe86 = <b>npx（Node）</b>（需要Node { "18" }+）：<c1/>
+
+# (not in the old English either)
+seg-77230eb344ea = <b>Docker</b>（需要Docker）：<c1/>
+
+# (not in the old English either)
+seg-3398eea8e332 = Cursor，npx（Node）：<a1>网页链接</a1> · <c1/>
+
+# (not in the old English either)
+seg-67009baafb3b = Cursor，Docker：<a1>网页链接</a1> · <c1/>
+
+# (not in the old English either)
+seg-6918cd89f776 = Goose，npx：<c1/>
+
+# Assess a real GNSS (global navigation satellite system) receiver log for trust. The TOML names the log's <c1/> (<c2/>, <c3/>, <c4/>, <c5/> or <c6/>) and gives its bytes inline as <c7/> or <c8/>; the tool runs the trust monitors (carrier-to-noise density drop, loss of lock, AGC (automatic gain control), jamming indicator, position jump and, with RINEX plus broadcast navigation, RAIM (receiver autonomous integrity monitoring) and a clock-aided monitor) and returns when and why the fix stopped being trustworthy. Optional <c9/> and <c10/> sections score stated events and predicted C/N0 drops against stated tolerances. A <c11/> table selects the maritime monitors and adds a 0-100 trust score per epoch with the monitors that deducted (advisory; MODELLED). The log goes inline as <c12/> or <c13/> (at most { "4" } MiB). Chart and per-epoch CSV on request. See <a1><c14/></a1>.
+seg-d6ed4e8d56e5 = 评估一份真实GNSS（全球导航卫星系统）接收机日志的可信程度。TOML指明日志的<c1/>（<c2/>、<c3/>、<c4/>、<c5/>或<c6/>），并以<c7/>或<c8/>内联给出其字节；该工具运行信任监测器（载噪比下降、失锁、AGC（自动增益控制）、干扰指示、位置跳变，以及在有RINEX加广播导航电文时的RAIM（接收机自主完好性监测）和时钟辅助监测器），并返回定位解何时以及为何不再可信。可选的<c9/>和<c10/>部分依据所述容差，对所述事件和预测的C/N0下降进行评分。<c11/>表选定海事监测器，并为每个历元增加一个0-100的信任得分，以及扣分的监测器（咨询性；MODELLED）。日志以<c12/>或<c13/>内联给出（至多{ "4" } MiB）。可按需提供图表和逐历元CSV。见<a1><c14/></a1>。
+
+# <c1/> puts <c2/> on your <c3/> (typically <c4/>). The server talks JSON-RPC (JSON remote procedure call) over stdio; logs go to stderr. Building from source needs a Rust toolchain ≥ { "1.88" } (the patched <c5/> { "2" }.x SDK needs it, and so does the <c6/> library); the Docker image needs none.
+seg-a4a0e399a31e = <c1/>会把<c2/>放到你的<c3/>上（通常为<c4/>）。该服务器通过stdio使用JSON-RPC（JSON远程过程调用）通信；日志输出到stderr。从源码构建需要Rust工具链 ≥ { "1.88" }（打过补丁的<c5/> { "2" }.x SDK需要它，<c6/>库同样需要）；Docker镜像则不需要。
+
+# The server is a <b>standalone, workspace-excluded crate</b> with its own <c1/>, so the official Rust MCP SDK (software development kit) <c2/> and its async runtime never enter the published <c3/> crate's dependency graph: a library or Python user does not compile a server they do not run. (It was first split out because <c4/> is <b>edition { "2024" }</b>, needing rustc ≥ { "1.85" }, while the main crate then promised { "1.75" }. The library and this server now both declare { "1.88" }, the floor of the security-patched <c5/> { "2" }.x and of the upgraded RustCrypto crates.) Continuous integration (CI) gates this crate on its own — tests and <c6/> against its lockfile. rmcp's licence tree is clean (Apache-2.0/MIT/BSD), so, unlike the <c7/> cross-validation crate it otherwise mirrors, the split is not about licensing.
+seg-0757e15070d4 = 该服务器是一个<b>独立的、被排除在工作区之外的crate</b>，有自己的<c1/>，因此官方的Rust MCP SDK（软件开发工具包）<c2/>及其异步运行时绝不会进入已发布的<c3/> crate的依赖图：使用库或Python的用户不会去编译一个他们并不运行的服务器。（最初将它拆出，是因为<c4/>采用<b>edition { "2024" }</b>，需要rustc ≥ { "1.85" }，而主crate当时承诺的是{ "1.75" }。库和本服务器现在都声明{ "1.88" }，即经过安全补丁的<c5/> { "2" }.x以及已升级的RustCrypto crate的下限。）持续集成（CI）单独对该crate设置门禁：针对其锁文件的测试和<c6/>。rmcp的许可证树是干净的（Apache-2.0/MIT/BSD），因此，与它在其他方面所仿照的<c7/>交叉验证crate不同，这次拆分与许可证无关。
+
+# (not in the old English either)
+seg-474381d842e6 = { "232" }项能力被标为MODELLED。
+
+# (not in the old English either)
+seg-fd6daa52df11 = { "412" }项能力中有{ "176" }项已对照独立的外部参考基准（oracle）验证
+
+# (not in the old English either)
+seg-4a3ebec6d011 = <b>{ "412" }项能力中有{ "176" }项</b>已对照独立的外部参考基准（oracle）验证；{ "232" }项如实标注为已建模，{ "4" }项由合作方负责。每项能力在经机器核对的台账中带有一个标签：VALIDATED（独立的外部参考基准（oracle）一致：真实数据、独立实现或已发布的参考向量）、MODELLED（内部自洽，并明确说明）或PARTNER（由硬件合作方负责）。核对项包括：AIAA（美国航空航天学会）2006-6753的全部{ "666" }个SGP4（简化通用摄动{ "4" }）向量，一致至{ "4.12" } mm，以及Cowell力模型对照Orekit { "12.2" }一致至{ "0.08" } m。
+
+# (not in the old English either)
+seg-d69651a71fbe = 一项能力如何赢得其标签：能力、参考基准（oracle）、测试、台账标签。全部{ "412" }项能力的验证状态：{ "176" }项已验证，{ "232" }项已建模，{ "4" }项由合作方负责
+
+# Conformance is checked by <c1/>, which is opt-in: it reads a copy of the official test-vector archive that you download yourself, from the directory named by <c2/>, and does nothing when the variable is unset. It stores and redistributes nothing, and default test runs use no network. It gives the verifier only a Merkle root and the public keys of one tree, as a receiver would have, so chains are established from the signed DSM-KROOT in the stream and the whole path runs: Merkle, signature, key chain, MACSEQ and tags. It asserts, per vector set, a floor on the authenticated tags, none failed, which chains and keys the stream announces, authenticated tags of ADKD { "0" }, { "4" } and { "12" }, that authentication resumes after chain end, chain revocation, key revocation and new public key, that the alert message verifies and leaves nothing authenticated, and that every vector uses only HMAC-SHA-256, a SHA-256 chain, 128-bit keys, 40-bit tags and look-up entries { "33" } and { "34" }. Other algorithm and parameter choices of the ICD are therefore covered only by the known-answer and synthetic tests above.
+seg-82ee90adf7ed = 一致性由<c1/>检查，该测试需主动启用：它读取你自行下载的官方测试向量归档的副本，位置在<c2/>所指的目录中，该变量未设置时什么也不做。它不存储也不再分发任何内容，默认的测试运行不使用网络。它只向验证器提供一个Merkle根和一棵树的公钥，与接收机的情形相同，因此密钥链是根据数据流中已签名的DSM-KROOT建立的，整条路径都会运行：Merkle、签名、密钥链、MACSEQ和标签。对每个向量集，它断言：已认证标签数量的下限、没有失败项、数据流宣布了哪些密钥链和密钥、ADKD { "0" }、{ "4" }和{ "12" }的已认证标签、认证在链结束、密钥链撤销、密钥撤销和新公钥之后恢复、告警消息通过验证且不留下任何已认证内容，以及每个向量只使用HMAC-SHA-256、SHA-256密钥链、128位密钥、40位标签和查找表条目{ "33" }与{ "34" }。因此，ICD的其他算法和参数选择只由上述已知答案测试和合成测试覆盖。
+
+# Two standalone, <b>workspace-excluded</b> crates sit beside the core — <c1/> (the MCP server, built on the edition-2024 <c2/> SDK) and <c3/> (the ANISE/SPICE frame cross-check, which pulls MPL-2.0 (Mozilla Public License { "2.0" }) deps) — kept out of the published crate's dependency graph, <c4/>, license gate, and MSRV (minimum supported Rust version) build by the root <c5/> <c6/> list. The JetBrains plugin (<c7/>) is a separate Kotlin project. See <a1><c8/></a1> for the full set of diagrams.
+seg-698b8f40212f = 核心旁边有两个独立的、<b>被工作区排除</b>的crate：<c1/>（MCP服务器，基于edition-2024的<c2/> SDK）和<c3/>（ANISE/SPICE坐标系交叉检查，会拉入MPL-2.0（Mozilla Public License { "2.0" }）依赖）；根目录的<c5/>中的<c6/>列表使它们不进入已发布crate的依赖图、<c4/>、许可证关卡和MSRV（最低支持的Rust版本）构建。JetBrains插件（<c7/>）是独立的Kotlin项目。完整的图集见<a1><c8/></a1>。
+
+# <b>No new physics.</b> Pro adds no physical model and changes none. Every Pro number comes from runs of the open engine, so a Pro figure is as trustworthy as the open scenario kind it came from, and never more.
+seg-feece95f1d76 = <b>没有新的物理。</b>Pro不增加任何物理模型，也不改动任何模型。Pro的每个数字都来自开放引擎的运行，因此Pro的一个数值与它所源自的开放场景类型同样可信，绝不会更可信。
+
+# (not in the old English either)
+seg-20beca58d39e = <a1>添加到Cursor（npx）</a1> · <a2>添加到Cursor（Docker）</a2> · <c1/>
+
+# (not in the old English either)
+seg-aa6b62f0b484 = <a1>在VS Code中安装（npx）</a1> · <a2>在VS Code中安装（Docker）</a2> · <c1/>
+
+# (not in the old English either)
+seg-8e176aa32cd3 = MCP即Model Context Protocol（模型上下文协议）。可用<c1/>、<c2/>或<c3/>固定某个发布版本。从源码构建，请参见“参考”下的<a1>安装与构建</a1>。
+
+# (not in the old English either)
+seg-467bb88ec415 = <a1>{ "0.40" }版新增内容</a1>、<a2>{ "0.39" }版新增内容</a2>、<a3>{ "0.38" }版新增内容</a3>，以及<a4>{ "0.38" }版详解</a4>：Jammertest评分、接收机自身的标志、机器输入、授时与守时、标准包、LunaNet AFS、实验室往返、kshana-bench、观测台、导出器、光学、<a5>空间用户导航</a5>和<a6>月球基础设施</a6>
+
+# (not in the old English either)
+seg-8391e467adf7 = <b>任务链。</b><c1/>类型把从发射到再入的各阶段（<c2/>、<c3/>、<c4/>、<c5/>和四种月球类型）串成一条链，带有规定的交接规则、相对规定需求的余量以及最薄弱环节；附一个端到端的Artemis级示例，覆盖{ "11" }个阶段（地球段和月球段），共{ "93" }种场景类型。每个数值都是MODELLED。地月空间传播对照公开的Artemis I轨迹<b>未达到</b>其预先登记的判据（{ "45.3" } km和{ "0.25" } m/s，判据为{ "5" } km和{ "0.05" } m/s；原因是模型未包含的小幅机动），月球传播器对照CAPSTONE轨道<b>未达到</b>（一圈结束时{ "136.8" } km，判据为{ "25" } km）；LRO对比达标。这些行仍为MODELLED（<a1>任务链</a1>、<a2>月球段</a2>）。在Studio中，这条任务链可在<c6/>查看。
+
+# See <c1/> for at least one worked example of every kind ({ "93" } kinds, { "195" } scenario <c2/> files + { "1" } suite manifest — several kinds ship more than one example). Not every kind has a file named after it: <c3/> → <c4/> and <c5/> → <c6/> are two of several such. List the dispatchable kinds at any time with <c7/> errors, the Python <c8/>, or the MCP <c9/> tool.
+seg-5374f780c396 = 每种类型至少有一个可运行的示例，见<c1/>（{ "93" }种类型，{ "195" }个场景<c2/>文件 + { "1" }个套件清单——有几种类型附带不止一个示例）。并非每种类型都有以其命名的文件：<c3/> → <c4/>和<c5/> → <c6/>是其中两例。可随时列出可分派的类型，方法是<c7/>报错信息、Python的<c8/>，或MCP的<c9/>工具。
+
+# (not in the old English either)
+seg-0933cb091687 = { "412" }项能力中有{ "176" }项已对照独立的外部参考基准（oracle）得到VALIDATED，数据来自验证矩阵
+
+# (not in the old English either)
+seg-d9cccff82185 = { "0.40" }版新增了任务级误差预算，为每个数字和表格标注其证据等级，读取实测时钟日志，检查数据合作方的提交，估计干扰发射源可能所在的位置，并在英文之外支持十七种语言。台账现有{ "412" }行：{ "176" }行VALIDATED，{ "232" }行MODELLED，{ "4" }行PARTNER。没有任何一行被晋升为VALIDATED，下列每一项未达标都由测试固定。
+
+# (not in the old English either)
+seg-93dcede29907 = <b>{ "412" }项能力中有{ "176" }项</b>已对照独立的外部参考基准（oracle）验证；{ "232" }项如实标注为由模型计算。验证矩阵的每一行都写明一项能力、用来核对它的参考基准、运行该核对的测试，以及随之得出的标签。持续集成（CI）使得没有独立的外部参考基准就无法把某项能力称为VALIDATED。
+
+# (not in the old English either)
+seg-99d2c21b1f60 = 一项能力如何获得其标签。验证矩阵的每一行都写明一项能力、用来核对它的参考基准、在持续集成中运行该核对的测试，以及随之得出的标签。只有具备独立的外部参考基准时，一行才可以是VALIDATED；否则为MODELLED，而由硬件合作方负责的则为PARTNER。示例：SGP4/SDP4、Cowell 6-DOF + 摄动、批处理/序贯定轨，参考基准为AIAA 2006-6753 SGP4验证向量，测试为tests/sgp4_verification.rs，标签为VALIDATED。实时计数：{ "412" }行中{ "176" }行VALIDATED，{ "232" }行MODELLED，{ "4" }行PARTNER。总计{ "176" }项能力已对照独立的外部参考基准验证；另有{ "232" }项如实标注为MODELLED，{ "4" }项由PARTNER负责。
+
+# (not in the old English either)
+seg-7f933400c73d = 部分核对结果：全部{ "666" }个AIAA（美国航空航天学会）2006-6753 SGP4（简化通用摄动{ "4" }）向量，精度达{ "4.12" } mm；Cowell力模型对照Orekit { "12.2" }，精度达{ "0.08" } m；Galileo对照欧洲航天局（ESA）的真实精密星历，精度达{ "0.61" } m，Swarm-A精度达{ "0.10" } m。测试对<c1/>的行覆盖率接近{ "95" } %，在CI中以{ "85" } %为门限。台账为<a1><c2/></a1>，由<c3/>生成：<a2>完整的412行矩阵</a2>，以及每个由模型计算的行为何没有外部参考基准，见<a3><c4/></a3>。
+
+# (not in the old English either)
+seg-df9b60a7dfe8 = 每一行都由CI中一个具名的测试强制执行。此表是<b>精选的重点</b>；完整的经机器检查的矩阵共<b>{ "412" }行——{ "176" }行VALIDATED，{ "232" }行MODELLED，{ "4" }行PARTNER</b>（<c1/>），完整的证据（以及哪些内容如实说明<em>尚未</em>验证）见<a1><c2/></a1>和每个发布版本附带的<a2><c3/></a2>制品（由<c4/>生成，带SLSA证明——软件制品供应链等级）。
+
+# (not in the old English either)
+seg-d1700188b2cf = 一项能力如何获得其标签：需求对应src中的一个模块，对应tests中的一个测试，对应一个外部参考基准（真实数据集、独立的参考实现或已发布的向量），对应一个状态；CI强制执行的防护确保没有外部参考基准就不能把任何能力标为已验证。实时计数：已验证{ "176" }，由模型计算{ "232" }，合作方负责{ "4" }，共{ "412" }
+
+# (not in the old English either)
+seg-903f40bceba8 = 全部{ "412" }项能力的验证状态：已验证{ "176" }（对照外部参考基准核对），由模型计算{ "232" }，合作方负责{ "4" }
+
+# (not in the old English either)
+seg-9bfd6ba56a18 = 已验证{ "176" } · 由模型计算{ "232" } · 合作方负责{ "4" } — <a1>SVG</a1>
+
+# (not in the old English either)
+seg-74c21b004d86 = Kshana的架构：中心是一个开源引擎，即采用AGPL-3.0许可的kshana { $version }，带有api::run_toml（对每个类型的类型化分派）以及{ "412" }项能力的验证台账（{ "176" }项VALIDATED，{ "232" }项MODELLED，{ "4" }项PARTNER）。围绕它，每个界面运行同一个引擎：命令行（cargo install kshana）；Rust库（cargo add kshana）；Python（pip install kshana）；WebAssembly + Kshana Studio（npm install kshana）；MCP服务器（cargo install kshana-mcp）；Docker镜像（ghcr.io/ashfordeou/kshana-mcp）；JetBrains插件（Marketplace: "Kshana"）。其下方是Kshana Pro，一个专有的叠加层，以库的形式依赖开源引擎，从不分叉它，也不增加任何物理模型。
+
+# (not in the old English either)
+seg-e6c6926110e6 = Kshana分层架构。五个前端入口（命令行、Python、JavaScript与WebAssembly、MCP服务器和JetBrains插件）通向同一个api::run_toml，即对{ "93" }个类型的类型化分派。其下是八个领域层：时间与坐标系、时钟与授时、惯性与融合、GNSS与完好性、天体动力学、LEO PNT、月球、火星与深空，以及任务与研究，建立在共享的核心之上，全部由验证模块交叉引用；验证模块即{ "412" }项能力的经机器检查的矩阵，是每个标签唯一的事实来源。
+
+# Earth-fixed (ECEF) position + clock time series. Round-trip validated to < { "0.5" } m on a real <c1/> snapshot (<a1><c2/></a1>).
+seg-8d1089fbd59d = 地固系（ECEF）位置加钟差时间序列。在真实的<c1/>快照上，往返核验至< { "0.5" } m（<a1><c2/></a1>）。
+
+# <c1/> / <c2/> / <c3/> — the frame the propagators integrate in and the time scale of the epoch grid, not relabelled
+seg-4b338284e56a = <c1/> / <c2/> / <c3/>：传播器所积分的坐标系以及历元网格的时标，不做重新标注
+
+# ISO-8601 (ISO: International Organization for Standardization) calendar time, GPS time scale
+seg-410bd5a9ba14 = ISO-8601（ISO：国际标准化组织）日历时间，GPS时标
+
+# (not in the old English either)
+seg-db7a6ac0a47d = 完整的、经机器检查的证据台账：<b>{ "412" }行——{ "176" }行VALIDATED，{ "232" }行MODELLED，{ "4" }行PARTNER</b>。只有具备独立的外部参考基准时，一行才可以是VALIDATED（矩阵不变式测试强制执行这一点）。同样的数据，带有指向每个测试、模块和已提交测试夹具的可点击的逐行链接，即<a1>https://kshana.dev</a1>上的<em>验证台账</em>。每个由模型计算的行为何没有经过外部验证，见<a2>MODELLED-RATIONALE.md</a2>。
+
+# (not in the old English either)
+seg-1cc523709234 = { "412" }行：{ "176" }行已通过外部验证，{ "232" }行由模型计算，{ "4" }行由合作方负责。
+
+# Kshana Pro, amplified
+seg-2fdbe97136e7 = Kshana Pro，增强版
+
+# A proprietary overlay that depends on the open core and never forks it: a strict superset of open Kshana. Available under contract.
+seg-4b5028704ea5 = 一个依赖开源核心、绝不分叉它的专有叠加层：是开源Kshana的严格超集。按合同提供。
+
+# Programmes that must hand a mission dossier or an audit-grade evidence pack to a review or procurement board
+seg-1ea79eedb7a1 = 必须向评审或采购委员会提交任务档案或可供审计的证据包的项目
+
+# Architects choosing a design from the Pareto front of a whole design space, or from trade studies ranked on a figure of merit
+seg-2217d28fd201 = 从整个设计空间的帕累托前沿，或从按性能指标排序的权衡研究中选择设计的架构师
+
+# Timing and hardware teams who need a clock digital twin calibrated to their device
+seg-ee1b858bcc3f = 需要针对其设备校准的时钟数字孪生的授时和硬件团队
+
+# <a1>A design optimiser</a1>: the Pareto front of a design space, with every front design as a scenario the free engine re-runs
+seg-4b436214a890 = <a1>设计优化器</a1>：设计空间的帕累托前沿，前沿上的每个设计都是免费引擎可重新运行的场景
+
+# <a1>Uncertainty and sensitivity</a1> over thousands of runs
+seg-d8d838542aa7 = 跨越数千次运行的<a1>不确定度与敏感度分析</a1>
+
+# <a1>A one-command mission dossier</a1> with a verification matrix and a PDF (Portable Document Format) file
+seg-161db00fa35f = <a1>一条命令生成的任务档案</a1>，含验证矩阵和PDF（便携式文档格式）文件
+
+# Audit-grade, reproducible evidence packs, clock digital twins calibrated to a device's published Allan budget, and architecture trade studies ranked on a figure of merit
+seg-e142b435c273 = 可供审计、可复现的证据包，按设备已公布的阿伦偏差预算校准的时钟数字孪生，以及按性能指标排序的架构权衡研究
+
+# Model-based systems-engineering (MBSE) and programme tooling that checks a programme's requirements against runs of the open engine, reading only the outputs the engine publishes
+seg-91da86f32a66 = 基于模型的系统工程（MBSE）与项目工具，它对照开源引擎的运行结果检查项目的需求，且只读取引擎公布的输出
+
+# Kshana Pro is available under contract. It depends on the open core and never forks it, so nothing is taken out of the free engine.
+seg-65b886427270 = Kshana Pro按合同提供。它依赖开源核心，绝不分叉它，因此免费引擎中不会被拿走任何内容。
+
+# See it amplified
+seg-98f81c393a13 = 查看增强版
+
+# Kshana Pro · the same engine, amplified
+seg-ef60d3a217a7 = Kshana Pro · 同一个引擎，增强版
+
+# Free runs one scenario. Pro answers the programme's question.
+seg-0ca6598b5442 = 免费版运行一个场景。Pro回答项目的问题。
+
+# Open Kshana runs one scenario and tells you what it gives. Kshana Pro answers the questions a programme asks next, over the same engine and the same scenario files: which design to fly, how sure the answer is, and whether the mission meets its requirements in a form a review board can check.
+seg-8a239e03a91c = 开源的Kshana运行一个场景，并告诉你它能给出什么。Kshana Pro在同一个引擎和同样的场景文件之上，回答项目接下来要问的问题：该飞哪种设计，答案有多可靠，以及任务是否满足其需求，并且是评审委员会可以核查的形式。
+
+# A strict superset of open Kshana.
+seg-cdb7f8c917e7 = 开源Kshana的严格超集。
+
+# Every open scenario kind runs in Pro unchanged, and an open scenario runs in Pro with no licence at all.
+seg-5de71d884106 = 每种开源场景类型在Pro中都原样运行，开源场景在Pro中运行也完全不需要许可。
+
+# No new physics.
+seg-9716f482b04d = 没有新的物理。
+
+# Every Pro number comes from runs of the open engine, so a Pro figure is as trustworthy as the open scenario kind it came from, and never more.
+seg-44fca9f49c50 = Pro的每个数字都来自开源引擎的运行，因此Pro的数据与其所源自的开源场景类型一样可信，绝不会更可信。
+
+# Reproducible in the free engine.
+seg-a1b3e6c8e054 = 可在免费引擎中复现。
+
+# Anyone with open Kshana can re-run one and get the same figure.
+seg-8b5fd4e4ea35 = 任何拥有开源Kshana的人都可以重新运行其中一次，得到同样的数据。
+
+# Honest labels carried through.
+seg-22c9d1934491 = 如实的标注一路沿用。
+
+# Every Pro result is labelled MODELLED. Every figure keeps the tier the open engine gave it (Validated, Modelled or Partner), never a higher one.
+seg-c0c9f2748dcd = 每个Pro结果都标注为MODELLED。每个数据都保留开源引擎给出的等级（已验证、由模型计算或合作方负责），绝不会更高。
+
+# Design optimiser
+seg-fe62a7a81520 = 设计优化器
+
+# A free user scores one design they wrote by hand.
+seg-7574857f2e17 = 免费用户为自己手工编写的一个设计打分。
+
+# A Pro user states the design space (each variable a scenario setting with its allowed values), the constraints and two or three objectives, and gets the whole Pareto front: the designs that no other design beats on every objective at once.
+seg-5e92d8903fe2 = Pro用户给出设计空间（每个变量是一项场景设置及其允许的取值）、约束条件和两三个目标，得到完整的帕累托前沿：即没有任何其他设计能在所有目标上同时胜过的那些设计。
+
+# The base scenario can be of any open kind, so the same tool designs a constellation around the Earth, the Moon or Mars, or trades a link budget. Every design is one run of the open engine. Each front design is written out as a plain open scenario file, with the Secure Hash Algorithm (SHA-256) hash of the result the free engine gives for it.
+seg-e44bf29e6bb4 = 基础场景可以是任何开源类型，因此同一个工具既可以设计环绕地球、月球或火星的星座，也可以权衡链路预算。每个设计就是对开源引擎的一次运行。前沿上的每个设计都被写成一个普通的开源场景文件，并附上免费引擎针对它给出的结果的安全哈希算法（SHA-256）哈希值。
+
+# <b>What it does not do.</b> It has no cost model, so a variable no objective penalises drifts to the edge of its range. Constellation studies score geometry only: no signal power, satellite health or terrain.
+seg-46ef48f5abb4 = <b>它不做什么。</b>它没有成本模型，因此没有任何目标对其施加惩罚的变量会漂移到取值范围的边缘。星座研究只对几何打分：不含信号功率、卫星健康状况或地形。
+
+# Pareto front · <b>Lunar navigation constellation</b>
+seg-788b99e72541 = 帕累托前沿 · <b>月球导航星座</b>
+
+# Kshana Pro output
+seg-dfa989332a6e = Kshana Pro输出
+
+# Region scored
+seg-b4a240bb26ac = 打分的区域
+
+# Whole Moon
+seg-67e343533786 = 整个月球
+
+# South polar cap
+seg-c5e32e8ff568 = 南极冠
+
+# Lunar navigation constellation: fewest satellites against availability, whole Moon: { "608" } designs run, a Pareto front of { "12" } designs
+seg-f4eb65b9b27a = 月球导航星座：最少卫星数对可用性，整个月球：运行了{ "608" }个设计，帕累托前沿含{ "12" }个设计
+
+# Lunar navigation constellation: fewest satellites against availability, south polar cap: { "608" } designs run, a Pareto front of { "9" } designs
+seg-18af8f9e61be = 月球导航星座：最少卫星数对可用性，南极冠：运行了{ "608" }个设计，帕累托前沿含{ "9" }个设计
+
+# every design run
+seg-6eb3858a0c29 = 所有已运行的设计
+
+# Pareto front
+seg-f74688dc3bbe = 帕累托前沿
+
+# knee
+seg-fb2e6760d932 = 拐点
+
+# reference: Bundled lunar relay design ({ "8" } + { "6" } satellites)
+seg-ae4439020c65 = 参照：内置的月球中继设计（{ "8" } + { "6" }颗卫星）
+
+# <b>Front design { "004" } · knee</b> · { "16" } satellites, { "85.0404" } % availability · { "2" } planes at { "8,000" } km, { "45" }° · re-run in the free engine: <s1>same SHA-256 { "89882372" }…</s1>
+seg-5386841c8b96 = <b>前沿设计{ "004" } · 拐点</b> · { "16" }颗卫星，可用性{ "85.0404" } % · { "2" }个轨道面，{ "8,000" } km，{ "45" }° · 在免费引擎中重新运行：<s1>SHA-256相同{ "89882372" }…</s1>
+
+# { "608" } designs, all run (whole moon): a front of { "12" } designs at { "6" } points; { "12" } of { "12" } re-run in the free engine with the same result hash. MODELLED.
+seg-4dd825c7f3ea = { "608" }个设计，全部已运行（整个月球）：{ "6" }个点上的前沿含{ "12" }个设计；{ "12" }个中的{ "12" }个在免费引擎中重新运行，结果哈希值相同。MODELLED。
+
+# { "608" } designs, all run (south polar cap): a front of { "9" } designs at { "4" } points; { "9" } of { "9" } re-run in the free engine with the same result hash. MODELLED.
+seg-76d450da2ee0 = { "608" }个设计，全部已运行（南极冠）：{ "4" }个点上的前沿含{ "9" }个设计；{ "9" }个中的{ "9" }个在免费引擎中重新运行，结果哈希值相同。MODELLED。
+
+# Kshana Pro { "0.2.0" } on open engine { "0.29.0" } · <b>kshana-pro design</b> · { "609" } engine runs · run digest df81aad4…
+seg-9e8263ecf0a3 = Kshana Pro { "0.2.0" }，基于开源引擎{ "0.29.0" } · <b>kshana-pro design</b> · { "609" }次引擎运行 · 运行摘要df81aad4…
+
+# Uncertainty and sensitivity
+seg-db58e04e6f25 = 不确定度与敏感度
+
+# A free user gets one number, or a spread over random seeds.
+seg-eb18bf49ff99 = 免费用户得到一个数字，或随机种子之间的一个散布范围。
+
+# A Pro user states how uncertain each input is and gets confidence bands, the probability of meeting a limit, and a ranking of the inputs that drive the result.
+seg-aaf8b7feaa9b = Pro用户说明每个输入的不确定程度，得到置信带、满足某一限值的概率，以及对驱动结果的各输入的排序。
+
+# It works on any open scenario. Inputs are ranked by Sobol' sensitivity indices or by standardised regression coefficients, and a ranking that is not reliable is flagged as such. A long study can be stopped and resumed.
+seg-9176a44d9494 = 它适用于任何开源场景。各输入按Sobol' 敏感度指数或标准化回归系数排序，不可靠的排序会被如实标出。较长的研究可以中途停止并续跑。
+
+# <b>What it does not do.</b> Inputs are treated as independent. More runs narrow the sampling error, not the model error: a MODELLED kind stays MODELLED.
+seg-c9050f66bedf = <b>它不做什么。</b>各输入被视为相互独立。运行次数增多只会缩小抽样误差，不会缩小模型误差：MODELLED类型仍然是MODELLED。
+
+# Uncertainty views
+seg-02ef1c43f3d7 = 不确定度视图
+
+# Confidence band
+seg-e8fcb508e9a5 = 置信带
+
+# What drives the result
+seg-190c61b44b81 = 是什么在驱动结果
+
+# Clock holdover with an uncertain noise level: the 5th to 95th percentile of { "2,000" } runs against the limit of { "20" } ns
+seg-049c503c23db = 噪声水平不确定时的时钟守时（holdover）：{ "2,000" }次运行的第5至第95百分位，对照{ "20" } ns的限值
+
+# 5th to 95th percentile of { "2,000" } runs
+seg-6dab3db2ad81 = { "2,000" }次运行的第5至第95百分位
+
+# median
+seg-023d57ee95c8 = 中位数
+
+# base run
+seg-00e4c1f9bf78 = 基础运行
+
+# share within the limit
+seg-419cbee4d7ce = 限值内的占比
+
+# After { "60" } minutes: <b>{ "1,366" } of { "2,000" } runs</b> within ±{ "20" } ns, a probability of { "0.683" } ({ "95" } % interval { "0.6623" } to { "0.703" })
+seg-974fe80f65a4 = { "60" }分钟后：<b>{ "2,000" }次运行中有{ "1,366" }次</b>在 ±{ "20" } ns之内，概率为{ "0.683" }（{ "95" } % 区间{ "0.6623" }至{ "0.703" }）
+
+# Clock holdover with an uncertain noise level · input q_wf (the clock's white-frequency-noise level): uniform({ "4.5e-20" } to { "2.7e-19" }), ASSUMED · MODELLED · Kshana Pro { "0.2.0" } on open engine { "0.29.0" } · <b>kshana-pro uncertainty</b> · { "2,000" } engine runs · run digest abab765e…
+seg-9ff0ae72a9c7 = 噪声水平不确定时的时钟守时（holdover） · 输入q_wf（时钟的白频率噪声水平）：uniform({ "4.5e-20" }至{ "2.7e-19" })，假设值 · MODELLED · Kshana Pro { "0.2.0" }，基于开源引擎{ "0.29.0" } · <b>kshana-pro uncertainty</b> · { "2,000" }次引擎运行 · 运行摘要abab765e…
+
+# Fused position error, with the low-Earth-orbit layer
+seg-3b321556590c = 融合位置误差，含低地球轨道层
+
+# Position error, GNSS alone
+seg-6f29c63748d0 = 位置误差，仅GNSS
+
+# Peak carrier-to-noise density of the pass
+seg-45e1ce6c1a7c = 该次过境的载噪比峰值
+
+# What drives Fused position error, with the low-Earth-orbit layer: total Sobol' index of each input
+seg-9e66fcbda75a = 是什么在驱动融合位置误差（含低地球轨道层）：各输入的总Sobol' 指数
+
+# Fused position error, with the low-Earth-orbit layer: mean { "0.4312" } m, 5th to 95th percentile { "0.2465" } to { "0.6041" } m · top driver <b>Low-Earth-orbit orbit and clock error</b>, total index { "0.99" }
+seg-12293e88a5ee = 融合位置误差，含低地球轨道层：均值{ "0.4312" } m，第5至第95百分位{ "0.2465" }至{ "0.6041" } m · 首要驱动因素<b>低地球轨道的轨道和时钟误差</b>，总指数{ "0.99" }
+
+# What drives Position error, GNSS alone: total Sobol' index of each input
+seg-52915e113de2 = 是什么在驱动位置误差（仅GNSS）：各输入的总Sobol' 指数
+
+# Position error, GNSS alone: mean { "1.6041" } m, 5th to 95th percentile { "1.5389" } to { "1.6739" } m · top driver <b>Global Positioning System (GPS) signal-in-space range error</b>, total index { "0.68" }
+seg-746012914df5 = 位置误差，仅GNSS：均值{ "1.6041" } m，第5至第95百分位{ "1.5389" }至{ "1.6739" } m · 首要驱动因素<b>全球定位系统（GPS）空间信号测距误差</b>，总指数{ "0.68" }
+
+# What drives Peak carrier-to-noise density of the pass: total Sobol' index of each input
+seg-94329d8e11b8 = 是什么在驱动该次过境的载噪比峰值：各输入的总Sobol' 指数
+
+# Peak carrier-to-noise density of the pass: mean { "60.7336" } dB-Hz (decibel-hertz), 5th to 95th percentile { "59.0898" } to { "62.3719" } dB-Hz · top driver <b>Low-Earth-orbit transmit power</b>, total index { "1.01" }
+seg-7ee659a6c7e7 = 该次过境的载噪比峰值：均值{ "60.7336" } dB-Hz（分贝赫兹），第5至第95百分位{ "59.0898" }至{ "62.3719" } dB-Hz · 首要驱动因素<b>低地球轨道发射功率</b>，总指数{ "1.01" }
+
+# Low-Earth-orbit (LEO) PNT chain: what drives the position error with and without the LEO layer · Sobol' indices, n * (k + { "2" }) = { "1024" } * ({ "4" } + { "2" }) = { "6144" } runs · { "4" } of { "4" } input uncertainties ASSUMED · MODELLED · Kshana Pro { "0.2.0" } on open engine { "0.29.0" } · <b>kshana-pro uncertainty</b> · { "6,144" } engine runs · run digest fb54eac6…
+seg-f04d1f94de26 = 低地球轨道（LEO）PNT链路：有无LEO层时，是什么在驱动位置误差 · Sobol' 指数，n * (k + { "2" }) = { "1024" } * ({ "4" } + { "2" }) = { "6144" }次运行 · { "4" }项输入不确定度中的{ "4" }项为假设值 · MODELLED · Kshana Pro { "0.2.0" }，基于开源引擎{ "0.29.0" } · <b>kshana-pro uncertainty</b> · { "6,144" }次引擎运行 · 运行摘要fb54eac6…
+
+# A free user gets one report per run.
+seg-80a916e122e5 = 免费用户每次运行得到一份报告。
+
+# A Pro user gets one mission dossier in one command: requirements checked against real runs, a verification matrix with its open items, and a PDF (Portable Document Format) in which every number can be re-derived with the free engine.
+seg-62e6a11bddd9 = Pro用户用一条命令得到一份任务档案：对照真实运行核查的需求、附带未决事项的验证矩阵，以及一份PDF（便携式文档格式），其中每个数字都可用免费引擎重新推导。
+
+# A requirement met on a MODELLED or PARTNER basis is flagged. Requirements to be verified by test, inspection or demonstration stay open items however the run went.
+seg-abcdc63e7121 = 以MODELLED或PARTNER为依据而满足的需求会被标出。须通过测试、检查或演示来验证的需求，无论运行结果如何，都仍是未决事项。
+
+# <b>What it does not do.</b> Simulation evidence counts as analysis and does not replace a test, an inspection or a demonstration. A dossier is not a certification, a qualification or an acceptance by any authority.
+seg-6a0ace9c0245 = <b>它不做什么。</b>仿真证据只算作分析，不能取代测试、检查或演示。任务档案不是任何机构的认证、鉴定或验收。
+
+# Mission dossier · <b>Navigation resilience programme: Earth, Moon and Mars</b>
+seg-ddffd3f4f0bb = 任务档案 · <b>导航韧性项目：地球、月球和火星</b>
+
+# requirements
+seg-589480947799 = 需求
+
+# not met
+seg-7fbde256debf = 未达到
+
+# not verified
+seg-5405ea8fb6af = 未验证
+
+# open items
+seg-f6ccb7a322b3 = 未决事项
+
+# Verification matrix: open a row for the check the dossier made
+seg-241bb8a5c188 = 验证矩阵：展开一行可查看任务档案所做的核查
+
+# ppp.cases[{ "1" }].median_convergence_min <= { "10" } min
+seg-1771db524c39 = ppp.cases[{ "1" }].median_convergence_min <= { "10" } min
+
+# <s1>met</s1><s2>MODELLED</s2>
+seg-1ba2dfe597a5 = <s1>已满足</s1><s2>MODELLED</s2>
+
+# With { "240" } low Earth orbit (LEO) satellites added, precise point positioning (PPP) shall converge within { "10" } minutes (median over the seeded runs).
+seg-21ef0770a07c = 加入{ "240" }颗低地球轨道（LEO）卫星后，精密单点定位（PPP）应在{ "10" }分钟内收敛（取带种子运行的中位数）。
+
+# Method: analysis · run RUN-LEO · value read: { "7.5" } min
+seg-d739debd8759 = 方法：分析 · 运行RUN-LEO · 读取值：{ "7.5" } min
+
+# Open item: MODELLED basis
+seg-1bea7f394d61 = 未决事项：MODELLED依据
+
+# ppp.cases[{ "0" }].median_convergence_min <= { "10" } min
+seg-62352fb0b903 = ppp.cases[{ "0" }].median_convergence_min <= { "10" } min
+
+# <s1>not met</s1><s2>MODELLED</s2>
+seg-199d9de5b863 = <s1>未满足</s1><s2>MODELLED</s2>
+
+# With GPS and Galileo alone, precise point positioning (PPP) shall converge within { "10" } minutes (median over the seeded runs).
+seg-d25f22bab194 = 仅用GPS和Galileo时，精密单点定位（PPP）应在{ "10" }分钟内收敛（取带种子运行的中位数）。
+
+# Method: analysis · run RUN-LEO · value read: { "11.5" } min
+seg-f7fbbb0396f8 = 方法：分析 · 运行RUN-LEO · 读取值：{ "11.5" } min
+
+# Open item: not met
+seg-cd0df2627f00 = 未决事项：未满足
+
+# fusion.fused.rms_error_3d_m <= { "0.5" } m
+seg-4f85cb208f09 = fusion.fused.rms_error_3d_m <= { "0.5" } m
+
+# With the LEO layer the fused three-dimensional position error shall be { "0.5" } m root mean square (RMS) or better.
+seg-2f64c266aaa9 = 采用LEO层时，融合后的三维位置误差应达到{ "0.5" } m均方根（RMS）或更好。
+
+# Method: test · run RUN-LEO · value read: { "0.4349" } m
+seg-ab3c35475bb8 = 方法：测试 · 运行RUN-LEO · 读取值：{ "0.4349" } m
+
+# Open item: method, MODELLED basis
+seg-813bc2c7156f = 未决事项：方法，MODELLED依据
+
+# global.availability_pct >= { "95" } %
+seg-00370d1ef747 = global.availability_pct >= { "95" } %
+
+# The lunar relay constellation shall give a position fix with a position dilution of precision (PDOP) of { "6" } or better over at least { "95" } % of the lunar surface and of the day.
+seg-f903fd8d8738 = 月球中继星座应在至少{ "95" } % 的月面和一天的时间内，给出位置精度因子（PDOP）为{ "6" }或更好的定位解。
+
+# Method: analysis · run RUN-LUNAR · value read: { "21.3286" } %
+seg-304a072d0a55 = 方法：分析 · 运行RUN-LUNAR · 读取值：{ "21.3286" } %
+
+# global.pdop.median <= { "6" }
+seg-03344a0f7614 = global.pdop.median <= { "6" }
+
+# Where the lunar relay constellation gives a fix, the median position dilution of precision (PDOP) shall be { "6" } or better.
+seg-9157dc0f0b69 = 在月球中继星座能给出定位解之处，位置精度因子（PDOP）的中位数应为{ "6" }或更好。
+
+# Method: analysis · run RUN-LUNAR · value read: { "5.22" } { "1" }
+seg-8ce652866e44 = 方法：分析 · 运行RUN-LUNAR · 读取值：{ "5.22" } { "1" }
+
+# timeline.bands[{ "3" }].min_cn0_dbhz >= { "25" } dB-Hz
+seg-394b87e99d4f = timeline.bands[{ "3" }].min_cn0_dbhz >= { "25" } dB-Hz
+
+# <s1>met</s1><s2>PARTNER</s2>
+seg-4bd7577834e9 = <s1>已满足</s1><s2>PARTNER</s2>
+
+# Under the scripted L-band interference, the GPS L5 carrier-to-noise density ratio (C/N0) shall stay at or above { "25" } dB-Hz.
+seg-c3cd6e0b2c8a = 在预设的L频段干扰下，GPS L5的载噪比（C/N0）应保持在{ "25" } dB-Hz或以上。
+
+# Method: analysis · run RUN-SPECTRUM · value read: { "44.0752" } dB-Hz
+seg-c707f32aa460 = 方法：分析 · 运行RUN-SPECTRUM · 读取值：{ "44.0752" } dB-Hz
+
+# Open item: PARTNER basis
+seg-917d0ea847c5 = 未决事项：PARTNER依据
+
+# timeline.bands[{ "0" }].min_cn0_dbhz >= { "25" } dB-Hz
+seg-14ff8808abca = timeline.bands[{ "0" }].min_cn0_dbhz >= { "25" } dB-Hz
+
+# <s1>not met</s1><s2>PARTNER</s2>
+seg-b0ce1159ebab = <s1>未满足</s1><s2>PARTNER</s2>
+
+# Under the scripted L-band interference, the GPS L1 coarse/acquisition (C/A) carrier-to-noise density ratio (C/N0) shall stay at or above { "25" } dB-Hz.
+seg-fac48ac76f34 = 在预设的L频段干扰下，GPS L1粗捕获码（C/A）的载噪比（C/N0）应保持在{ "25" } dB-Hz或以上。
+
+# Method: analysis · run RUN-SPECTRUM · value read: { "3.2329" } dB-Hz
+seg-b2d1ec0d6dee = 方法：分析 · 运行RUN-SPECTRUM · 读取值：{ "3.2329" } dB-Hz
+
+# timeline.channels.time_error_ns.values <= timeline.channels.guard_ns.values for all values
+seg-5ae7272d2099 = timeline.channels.time_error_ns.values <= timeline.channels.guard_ns.values for all values
+
+# In the chained jamming, spoofing and holdover mission the clock time error shall stay within its { "50" } ns guard at every timeline step.
+seg-ae1e65b11562 = 在压制干扰、欺骗干扰与守时相连的任务中，时钟钟差（时间误差）在时间线的每一步都应保持在其{ "50" } ns防护值之内。
+
+# Method: analysis · run RUN-CAMPAIGN · value read: { "51.7825" } ns
+seg-99c163a008d1 = 方法：分析 · 运行RUN-CAMPAIGN · 读取值：{ "51.7825" } ns
+
+# min(timeline.events[].t_s) <= { "30" } min
+seg-b0cead50489e = min(timeline.events[].t_s) <= { "30" } min
+
+# In the chained mission a spoofing alarm shall be raised within { "30" } minutes of the start.
+seg-3a2678859ea3 = 在相连的任务中，应在开始后{ "30" }分钟内发出欺骗干扰告警。
+
+# Method: demonstration · run RUN-CAMPAIGN · value read: { "1,200" } s
+seg-fb11475464de = 方法：演示 · 运行RUN-CAMPAIGN · 读取值：{ "1,200" } s
+
+# Open item: method, PARTNER basis
+seg-446c41fcb3ab = 未决事项：方法，PARTNER依据
+
+# fom.rms_error_relays_m <= { "5" } m
+seg-b6177dbc98f7 = fom.rms_error_relays_m <= { "5" } m
+
+# Around Mars the constellation-only position error shall be { "5" } m root mean square (RMS) or better over one sol.
+seg-4ceaa0d03a24 = 在火星周围，仅用星座的位置误差在一个火星日内应达到{ "5" } m均方根（RMS）或更好。
+
+# Method: analysis · run RUN-MARS · value read: { "1.8827" } m
+seg-5794fedf0f41 = 方法：分析 · 运行RUN-MARS · 读取值：{ "1.8827" } m
+
+# fom.availability_relays >= { "99" } %
+seg-243a7ff0524b = fom.availability_relays >= { "99" } %
+
+# Around Mars the constellation shall give a position fix at { "99" } % of epochs or more.
+seg-576583ccb8f3 = 在火星周围，星座应在{ "99" } % 或更多的历元给出定位解。
+
+# Method: analysis · run RUN-MARS · value read: { "1" } { "1" }
+seg-32c406b96132 = 方法：分析 · 运行RUN-MARS · 读取值：{ "1" } { "1" }
+
+# no machine-checkable criterion
+seg-532fe876e134 = 无可由机器核查的判据
+
+# The receiver housing shall carry the programme's identification label.
+seg-9dd3f9575483 = 接收机外壳应带有项目的识别标签。
+
+# Method: inspection · run none · value read: no run traced
+seg-e1efc36871f9 = 方法：检查 · 运行 无 · 读取值：未追溯到任何运行
+
+# Open item: no evidence, manual verification
+seg-7368cd7b9fdf = 未决事项：无证据，须人工验证
+
+# Page { "1" } of the generated dossier (PDF)
+seg-cf21103fdda2 = 所生成任务档案（PDF）的第{ "1" }页
+
+# Page { "1" } of the generated mission dossier
+seg-1edae087e2ef = 所生成任务档案的第{ "1" }页
+
+# Page { "2" } of the generated dossier (PDF)
+seg-bfc11601ca89 = 所生成任务档案（PDF）的第{ "2" }页
+
+# Page { "2" } of the generated mission dossier
+seg-6cc250f43823 = 所生成任务档案的第{ "2" }页
+
+# { "21" } pages, one command. <a1>Open the generated PDF</a1> (Portable Document Format)
+seg-dbb08e7c5575 = { "21" }页，一条命令。<a1>打开所生成的PDF</a1>（便携式文档格式）
+
+# Kshana Pro { "0.2.0" } on open engine { "0.29.0" } · <b>kshana-pro mission build</b> · { "5" } runs and one trade study · { "7" } met, all on a MODELLED or PARTNER basis · dossier SHA-256 49df1e0e… · development build
+seg-277df27d9586 = Kshana Pro { "0.2.0" }，基于开源引擎{ "0.29.0" } · <b>kshana-pro mission build</b> · { "5" }次运行和一项权衡研究 · { "7" }项已满足，均以MODELLED或PARTNER为依据 · 任务档案SHA-256 49df1e0e… · 开发版本
+
+# More Kshana Pro answers
+seg-583ce9cabfb2 = 更多Kshana Pro解答
+
+# Three more answers
+seg-62b6f3df413b = 另外三个解答
+
+# Campaign watch
+seg-80f67e30b341 = 测评活动监视
+
+# On-premises job service
+seg-aed2198e0810 = 本地部署的作业服务
+
+# A free user runs a campaign and reads the result.
+seg-64b7fd74a3e3 = 免费用户运行一次测评活动并阅读结果。
+
+# A Pro user names the figures that matter in a set of scenarios, says what worse means for each, and gets a pipeline that fails when a change to a scenario, a model or the engine makes one of them worse, or stops meeting its requirement.
+seg-3b9495ecb948 = Pro用户在一组场景中指明重要的数据，说明对每个数据而言“变差”是什么意思，得到一条流水线：当对场景、模型或引擎的变更使其中某个数据变差，或不再满足其需求时，该流水线即告失败。
+
+# It extends the scenario regression check. A Monte Carlo figure is judged with statistics instead of a tolerance, so a new set of random seeds is not called a regression and a doubled spread is. Every run is appended to a history in which each record carries the hash of the one before, and a check reports whether that chain is intact.
+seg-31f8c78ca95e = 它扩展了场景回归检查。蒙特卡罗数据用统计方法而不是容差来判断，因此换一组新的随机种子不会被判为回归，而散布加倍则会。每次运行都被追加到一份历史中，其中每条记录都带有前一条的哈希值，检查会报告这条链是否完好。
+
+# <b>What it does not do.</b> A watch proves that a MODELLED figure stayed stable or moved; it does not prove the figure is true. A figure with no stated direction is reported and never fails a run.
+seg-01e316af4e6b = <b>它不做什么。</b>监视只能证明某个MODELLED数据保持稳定或发生了变动；并不证明该数据是真实的。未说明方向的数据只会被报告，绝不会使运行失败。
+
+# Campaign watch · <b>six revisions, one history</b>
+seg-ca34b7fbd8a0 = 测评活动监视 · <b>六个修订版，一份历史</b>
+
+# Revision
+seg-35e2f3c6d5ee = 修订版
+
+# Watched figure · revision
+seg-cc02f3327260 = 被监视的数据 · 修订版
+
+# Revision r1-published: pass, exit code { "0" }
+seg-722c55b5ca9d = 修订版r1-published：通过，退出码{ "0" }
+
+# Revision r2-documentation: pass, exit code { "0" }
+seg-afebb6b7fe91 = 修订版r2-documentation：通过，退出码{ "0" }
+
+# Revision r3-weaker-jammer: pass, exit code { "0" }
+seg-04be8823d1a4 = 修订版r3-weaker-jammer：通过，退出码{ "0" }
+
+# Revision r4-stronger-jammer: fail, exit code { "1" }
+seg-358f8307eb64 = 修订版r4-stronger-jammer：失败，退出码{ "1" }
+
+# Revision r5-withdrawn: pass, exit code { "0" }
+seg-dedab67d8791 = 修订版r5-withdrawn：通过，退出码{ "0" }
+
+# Revision r6-faster-spoofer: pass, exit code { "0" }
+seg-507fa1cd9725 = 修订版r6-faster-spoofer：通过，退出码{ "0" }
+
+# Verdict of each watched figure at each revision
+seg-5f91b1908b7f = 各修订版上每个被监视数据的结论
+
+# first run: becomes the baseline
+seg-e4e33a6fa3ba = 首次运行：成为基线
+
+# r1: first run: becomes the baseline
+seg-6c6055582596 = r1：首次运行：成为基线
+
+# carrier-to-noise density ratio (C/N0) at the end of the jamming phase
+seg-5733e7e1ed6d = 压制干扰阶段结束时的载噪比（C/N0）
+
+# unchanged
+seg-039e60fda167 = 未变
+
+# r2: unchanged
+seg-5d3ef8b30387 = r2：未变
+
+# improved
+seg-a668aec87232 = 改善
+
+# r3: improved
+seg-3a9107ada303 = r3：改善
+
+# regressed
+seg-b297d2fb39b8 = 退化
+
+# r4: regressed
+seg-ef9e2f850cec = r4：退化
+
+# r5: unchanged
+seg-80661be2216a = r5：未变
+
+# r6: unchanged
+seg-f1c94be68352 = r6：未变
+
+# largest time error on the mission timeline
+seg-9973d98d3f4a = 任务时间线上的最大钟差（时间误差）
+
+# r3: unchanged
+seg-6ea2524c4af5 = r3：未变
+
+# r4: unchanged
+seg-46399b8584f9 = r4：未变
+
+# moved within its tolerance
+seg-92dee1b56602 = 在其容差之内变动
+
+# r6: moved within its tolerance
+seg-00ce02720ce2 = r6：在其容差之内变动
+
+# satellites tracking at the end of the jamming phase
+seg-1f5141270ec1 = 压制干扰阶段结束时跟踪的卫星数
+
+# share of the mission under alarm
+seg-eb59ecfd5267 = 任务中处于告警状态的占比
+
+# r6: improved
+seg-359a0cb57119 = r6：改善
+
+# spoofing detected (phase length)
+seg-07c171df971c = 检测到欺骗干扰（阶段时长）
+
+# time error at the end of holdover
+seg-d01450760c7b = 守时（holdover）结束时的钟差（时间误差）
+
+# <b>Revision r4-stronger-jammer</b> · jammer raised from -33 to -24 dBW (decibels relative to one watt): C/N0 at the end of the jamming phase { "30.60" } → { "21.82" } dB-Hz (decibel-hertz), below the { "25" } dB-Hz floor, requirement not met; satellites tracking { "8" } → { "0" }; three watches regressed · <s1>fail, exit code { "1" }</s1>
+seg-0cb385d09879 = <b>修订版r4-stronger-jammer</b> · 干扰机从 -33提高到 -24 dBW（相对于一瓦的分贝）：压制干扰阶段结束时的C/N0从{ "30.60" }降至{ "21.82" } dB-Hz（分贝赫兹），低于{ "25" } dB-Hz的下限，需求未达到；跟踪的卫星数从{ "8" }降至{ "0" }；三项监视退化 · <s1>失败，退出码{ "1" }</s1>
+
+# The bundled campaign pack, { "10" } watched figures over three open campaigns, run twice: pass both times, { "0" } of { "125" } figures moved, history of { "2" } records intact.
+seg-4b31c9074821 = 内置的测评活动包：对三项开源测评活动的{ "10" }个被监视数据，运行两次：两次均通过，{ "125" }个数据中有{ "0" }个发生变动，{ "2" }条记录的历史完好。
+
+# Kshana Pro { "0.2.0" } on open engine { "0.29.0" } · <b>kshana-pro ci</b> · demonstration revisions of <c1/> · history { "6" } records, chain intact, last hash bb2f10eb… · MODELLED
+seg-7a2d9c48a64e = Kshana Pro { "0.2.0" }，基于开源引擎{ "0.29.0" } · <b>kshana-pro ci</b> · <c1/>的演示修订版 · 历史{ "6" }条记录，链完好，最后的哈希值bb2f10eb… · MODELLED
+
+# A free user checks one satellite's signal against one GNSS signal.
+seg-2556e9b037d6 = 免费用户检查一颗卫星的信号与一个GNSS信号的关系。
+
+# A Pro user tests one or more candidate signal plans, each a signal design and a constellation, against every open-service GNSS signal the engine models, with every satellite of the plan in view at once, and gets a verdict per plan and signal against a limit the study states.
+seg-7116e3268891 = Pro用户把一个或多个候选信号方案（每个都是一种信号设计加一个星座），对照引擎建模的每个开放服务GNSS信号进行测试，且方案中的每颗卫星同时在视，并针对每个方案和信号，对照研究所述的限值得出一项结论。
+
+# Both directions are tested: the loss of C/N0 each plan causes to each GNSS signal, and the loss the GNSS signals cause to the plan. Pro adds only the sum over the satellites in view at each cell of a worldwide grid and the ranking of the plans. The limit and its source are inputs; no limit is built in.
+seg-06f88c6df63a = 两个方向都会测试：每个方案对每个GNSS信号造成的C/N0损失，以及GNSS信号对该方案造成的损失。Pro只增加了在全球网格每个单元上对在视卫星求和，以及对各方案排序。限值及其来源是输入；没有内置的限值。
+
+# <b>What it does not do.</b> The result is an upper bound: every satellite in view is taken at the maximum received power, with no power that varies with elevation and no receive-antenna pattern. It is not a coordination filing and not a regulatory finding.
+seg-6ed2560fa7cb = <b>它不做什么。</b>结果是上界：每颗在视卫星都按最大接收功率计，没有随高度角变化的功率，也没有接收天线方向图。它不是协调申报，也不是监管结论。
+
+# Spectrum coexistence · <b>{ "4" } example signal plans</b>
+seg-60b335f177f1 = 频谱共存 · <b>{ "4" }个示例信号方案</b>
+
+# View
+seg-1590505b1b83 = 视图
+
+# Plans against signals
+seg-8de62dd3e1fe = 方案对信号
+
+# World map of the worst loss
+seg-ce57b941ae2a = 最差损失的世界地图
+
+# Loss each plan causes to each signal, against the limit
+seg-3eadc758676e = 每个方案对每个信号造成的损失，对照限值
+
+# Plan · signal
+seg-7f94e08ffaf7 = 方案 · 信号
+
+# GPS L1 C/A
+seg-082f79d4da08 = GPS L1 C/A
+
+# Galileo E1
+seg-8136c1e5d8b9 = Galileo E1
+
+# GPS L5
+seg-ca7643f7c122 = GPS L5
+
+# Galileo E5a
+seg-cda934673aea = Galileo E5a
+
+# Galileo E5b
+seg-37166a721917 = Galileo E5b
+
+# Galileo E5 AltBOC
+seg-e35b90594226 = Galileo E5 AltBOC
+
+# L band, { "288" } satellites to GPS L1 C/A: no overlap in frequency
+seg-ecd0258691ec = L频段，{ "288" }颗卫星对GPS L1 C/A：频率上无重叠
+
+# L band, { "288" } satellites
+seg-d409177fe15a = L频段，{ "288" }颗卫星
+
+# no overlap
+seg-d85041c82618 = 无重叠
+
+# L band, { "288" } satellites to Galileo E1: no overlap in frequency
+seg-c87416d18cdf = L频段，{ "288" }颗卫星对Galileo E1：频率上无重叠
+
+# L band, { "288" } satellites to GPS L5: within the limit
+seg-ae171f239741 = L频段，{ "288" }颗卫星对GPS L5：在限值之内
+
+# within limit
+seg-37e3dfebbbde = 在限值之内
+
+# L band, { "288" } satellites to Galileo E5a: within the limit
+seg-75bcd6c441eb = L频段，{ "288" }颗卫星对Galileo E5a：在限值之内
+
+# L band, { "288" } satellites to Galileo E5b: within the limit
+seg-261a10fbac33 = L频段，{ "288" }颗卫星对Galileo E5b：在限值之内
+
+# L band, { "288" } satellites to Galileo E5 AltBOC: within the limit
+seg-be215e26ecf7 = L频段，{ "288" }颗卫星对Galileo E5 AltBOC：在限值之内
+
+# L band, { "144" } satellites to GPS L1 C/A: no overlap in frequency
+seg-d235b8128c0f = L频段，{ "144" }颗卫星对GPS L1 C/A：频率上无重叠
+
+# L band, { "144" } satellites<em>ranked front</em>
+seg-d89797f95366 = L频段，{ "144" }颗卫星<em>排名靠前</em>
+
+# L band, { "144" } satellites to Galileo E1: no overlap in frequency
+seg-c5637516dd73 = L频段，{ "144" }颗卫星对Galileo E1：频率上无重叠
+
+# L band, { "144" } satellites to GPS L5: within the limit
+seg-56419d057320 = L频段，{ "144" }颗卫星对GPS L5：在限值之内
+
+# L band, { "144" } satellites to Galileo E5a: within the limit
+seg-501c3b3cf978 = L频段，{ "144" }颗卫星对Galileo E5a：在限值之内
+
+# L band, { "144" } satellites to Galileo E5b: within the limit
+seg-1eb5de9a6b98 = L频段，{ "144" }颗卫星对Galileo E5b：在限值之内
+
+# L band, { "144" } satellites to Galileo E5 AltBOC: within the limit
+seg-511fb4592027 = L频段，{ "144" }颗卫星对Galileo E5 AltBOC：在限值之内
+
+# C band, { "288" } satellites to GPS L1 C/A: no overlap in frequency
+seg-2ecb209d51e9 = C频段，{ "288" }颗卫星对GPS L1 C/A：频率上无重叠
+
+# C band, { "288" } satellites
+seg-6f45606a5b3d = C频段，{ "288" }颗卫星
+
+# C band, { "288" } satellites to Galileo E1: no overlap in frequency
+seg-f4ef2515fd58 = C频段，{ "288" }颗卫星对Galileo E1：频率上无重叠
+
+# C band, { "288" } satellites to GPS L5: no overlap in frequency
+seg-2fc04945b97b = C频段，{ "288" }颗卫星对GPS L5：频率上无重叠
+
+# C band, { "288" } satellites to Galileo E5a: no overlap in frequency
+seg-c3254aeb9110 = C频段，{ "288" }颗卫星对Galileo E5a：频率上无重叠
+
+# C band, { "288" } satellites to Galileo E5b: no overlap in frequency
+seg-b2497f3af295 = C频段，{ "288" }颗卫星对Galileo E5b：频率上无重叠
+
+# C band, { "288" } satellites to Galileo E5 AltBOC: no overlap in frequency
+seg-cbb0b39f5417 = C频段，{ "288" }颗卫星对Galileo E5 AltBOC：频率上无重叠
+
+# Wide C band, { "288" } satellites to GPS L1 C/A: no overlap in frequency
+seg-2a329a17333c = 宽C频段，{ "288" }颗卫星对GPS L1 C/A：频率上无重叠
+
+# Wide C band, { "288" } satellites<em>ranked front</em>
+seg-7f67a52e23d7 = 宽C频段，{ "288" }颗卫星<em>排名靠前</em>
+
+# Wide C band, { "288" } satellites to Galileo E1: no overlap in frequency
+seg-5c53a07ea503 = 宽C频段，{ "288" }颗卫星对Galileo E1：频率上无重叠
+
+# Wide C band, { "288" } satellites to GPS L5: no overlap in frequency
+seg-9afa24c2a22a = 宽C频段，{ "288" }颗卫星对GPS L5：频率上无重叠
+
+# Wide C band, { "288" } satellites to Galileo E5a: no overlap in frequency
+seg-8d00d0e4e15b = 宽C频段，{ "288" }颗卫星对Galileo E5a：频率上无重叠
+
+# Wide C band, { "288" } satellites to Galileo E5b: no overlap in frequency
+seg-396bb70a5b21 = 宽C频段，{ "288" }颗卫星对Galileo E5b：频率上无重叠
+
+# Wide C band, { "288" } satellites to Galileo E5 AltBOC: no overlap in frequency
+seg-017f8d2a0d09 = 宽C频段，{ "288" }颗卫星对Galileo E5 AltBOC：频率上无重叠
+
+# <b>L band, { "288" } satellites → Galileo E5 AltBOC</b> · worst loss caused { "0.00544" } dB (decibel), at a cell with { "17" } of its satellites in view: a margin of { "0.0946" } dB to the { "0.1" } dB limit · <s1>compatible</s1>
+seg-893be5d86234 = <b>L频段，{ "288" }颗卫星 → Galileo E5 AltBOC</b> · 造成的最差损失{ "0.00544" } dB（分贝），位于有{ "17" }颗其卫星在视的单元：距{ "0.1" } dB限值的裕量为{ "0.0946" } dB · <s1>兼容</s1>
+
+# World map of the worst loss the plan L band, { "288" } satellites causes, per cell: every cell within the limit
+seg-bc132b0068fe = 方案L频段，{ "288" }颗卫星造成的最差损失的世界地图，按单元：每个单元均在限值之内
+
+# { "0" } dB
+seg-ae759f574501 = { "0" } dB
+
+# { "0.00544" } dB, the worst cell · limit { "0.1" } dB
+seg-c73e052d7628 = { "0.00544" } dB，最差单元 · 限值{ "0.1" } dB
+
+# Worst loss the plan <b>L band, { "288" } satellites</b> causes at each cell of the worldwide grid, over the signals it overlaps: an upper bound, every satellite in view at the maximum received power.
+seg-a55ab55d78eb = 方案<b>L频段，{ "288" }颗卫星</b>在全球网格每个单元上、对其所重叠的各信号造成的最差损失：上界，每颗在视卫星都按最大接收功率计。
+
+# <b>{ "4" } of { "4" }</b> plans compatible · the GNSS signals cost the L-band plans at most { "0.00908" } dB
+seg-5acfa8382eca = <b>{ "4" }个中的{ "4" }个</b>方案兼容 · GNSS信号给L频段方案造成的损失最多为{ "0.00908" } dB
+
+# Kshana Pro { "0.2.0" } on open engine { "0.29.0" } · <b>kshana-pro coexist</b> · { "10" } engine runs (<c1/>, <c2/>) · scenario hash 479364bd… · MODELLED upper bound · the { "0.1" } dB limit was chosen for the example only, not a regulatory criterion · C/A: coarse/acquisition; AltBOC: alternative binary offset carrier
+seg-2acb5dfe6d2c = Kshana Pro { "0.2.0" }，基于开源引擎{ "0.29.0" } · <b>kshana-pro coexist</b> · { "10" }次引擎运行（<c1/>、<c2/>） · 场景哈希值479364bd… · MODELLED上界 · { "0.1" } dB限值仅为示例而选，不是监管准则 · C/A：粗捕获码；AltBOC：交替二进制偏移载波
+
+# Can the team queue studies on its own network and prove what was delivered?
+seg-b5f4c3d893ed = 团队能否在自己的网络上排队运行研究，并证明交付了什么？
+
+# A free user runs one scenario at a time on one machine.
+seg-b0252a650ea5 = 免费用户在一台机器上一次运行一个场景。
+
+# A Pro team queues studies on its own network, lets them run while no one watches, and can show afterwards exactly which result was delivered for which request.
+seg-18d63112f063 = Pro团队在自己的网络上让研究排队，让它们在无人看管时运行，事后可以确切地展示针对哪个请求交付了哪个结果。
+
+# It extends the on-premises service: Pro can run as a small HTTP (Hypertext Transfer Protocol) service on your own network: it reports its health, its version and the kinds it can run, and runs a scenario posted to it. A job's identifier is the SHA-256 of the operation and the request, so the same request is the same job and is not run twice. After a stop or a crash, every unfinished job is queued again and no finished job is run again. Without a licence it serves the open engine only and refuses every Pro feature.
+seg-dc4ada18a8b6 = 它扩展了本地部署服务：Pro可作为一个小型HTTP（超文本传输协议）服务在你自己的网络上运行：它报告自身的健康状况、版本和可运行的类型，并运行提交给它的场景。作业的标识符是操作和请求的SHA-256，因此相同的请求就是同一个作业，不会被运行两次。停止或崩溃之后，每个未完成的作业都会重新排队，已完成的作业不会再运行。没有许可时，它只提供开源引擎，并拒绝每一项Pro功能。
+
+# <b>What it does not do.</b> One request per connection, with no streaming: a client polls. One licence for the whole service and one shared access token, not user management. No cancellation, time limit, priority or retention policy.
+seg-c1af74cddda0 = <b>它不做什么。</b>每个连接只处理一个请求，不支持流式传输：客户端需要轮询。整个服务只有一个许可和一个共享的访问令牌，不是用户管理。没有取消、时间限制、优先级或保留策略。
+
+# On-premises job service · <b>one recorded session</b>
+seg-a91c54eb4ba8 = 本地部署的作业服务 · <b>一次记录下来的会话</b>
+
+# Requests to the service and what it answered, in order
+seg-f584d334e551 = 对服务的请求及其按顺序给出的应答
+
+# <b>POST /jobs</b> <em>a link-budget scenario</em>
+seg-a308bdf972fc = <b>POST /jobs</b> <em>一个链路预算场景</em>
+
+# accepted and queued · job fb6e50ff…
+seg-1bea805079e5 = 已接受并排队 · 作业fb6e50ff…
+
+# GET /jobs/{ "{" }id{ "}" }
+seg-ed66dc7a965c = GET /jobs/{ "{" }id{ "}" }
+
+# succeeded on its first attempt · kind <c1/>
+seg-e97b04c3927f = 首次尝试即成功 · 类型<c1/>
+
+# <b>POST /jobs</b> <em>the same request again</em>
+seg-5c0fce7aca9c = <b>POST /jobs</b> <em>再次提交同一请求</em>
+
+# the same job, already finished: nothing run twice
+seg-50000838f4cc = 仍是同一个作业，已经完成：没有任何东西被运行两次
+
+# GET /ledger/verify
+seg-be3aa55c904e = GET /ledger/verify
+
+# verified, chain intact · { "3" } records · { "1" } delivered job · no mismatch
+seg-3fb12de9f868 = 已验证，链完好 · { "3" }条记录 · { "1" }个已交付作业 · 无不一致
+
+# GET /openapi.json
+seg-d05960312e08 = GET /openapi.json
+
+# OpenAPI { "3.1" } · { "13" } paths, from the service's own route table
+seg-4b360cf65b93 = OpenAPI { "3.1" } · { "13" }条路径，取自服务自身的路由表
+
+# <b>GET /</b> <em>the job board</em>
+seg-a976477641db = <b>GET /</b> <em>作业看板</em>
+
+# loads nothing from outside
+seg-4b68fe5ddf1c = 不从外部加载任何内容
+
+# <b>restart</b> <em>then GET /jobs/{ "{" }id{ "}" }</em>
+seg-734560e175a9 = <b>重启</b> <em>然后GET /jobs/{ "{" }id{ "}" }</em>
+
+# the finished job still shows one attempt
+seg-7d53151be9e6 = 已完成的作业仍显示一次尝试
+
+# <b>kill -9</b> <em>while a job runs, then restart</em>
+seg-d0683c37acc1 = <b>kill -9</b> <em>在作业运行时执行，然后重启</em>
+
+# the unfinished job ran again and succeeded; the finished job was not run again · ledger { "9" } records, { "3" } delivered jobs, verified
+seg-64ddf6a78d22 = 未完成的作业重新运行并成功；已完成的作业没有再次运行 · 台账{ "9" }条记录，{ "3" }个已交付作业，已验证
+
+# <b>no licence: POST /jobs</b> <em>a Pro scenario</em>
+seg-fcbfbd231d61 = <b>无许可：POST /jobs</b> <em>一个Pro场景</em>
+
+# refused on submission: nothing queued
+seg-1911ae0879b8 = 提交时即被拒绝：没有任何东西排队
+
+# <b>no licence: POST /jobs</b> <em>an open scenario</em>
+seg-de7bb1084780 = <b>无许可：POST /jobs</b> <em>一个开源场景</em>
+
+# accepted and queued
+seg-14edaf993a56 = 已接受并排队
+
+# Kshana Pro on open engine { "0.29.0" } · <b>kshana-pro serve --data-dir</b>, two workers (the restart test: one) · HTTP status codes as the service returned them · a local run on public scenario files with the development entitlement, not a customer deployment
+seg-af3f560b9a7f = 基于开源引擎{ "0.29.0" }的Kshana Pro · <b>kshana-pro serve --data-dir</b>，两个工作进程（重启测试：一个） · HTTP状态码与服务返回的一致 · 在公开场景文件上使用开发授权的本地运行，不是客户部署
+
+# Also in Kshana Pro
+seg-935445590619 = Kshana Pro中的其他功能
+
+# Kshana Pro's model-based systems-engineering (MBSE) and programme tooling checks a programme's requirements against runs of the open engine: it imports requirements as comma-separated values (CSV), or as a documented subset of the Requirements Interchange Format (ReqIF) or of Systems Modeling Language version { "2" } (SysML v2) text, and produces a verification cross-reference matrix (VCRM), a SysML v2 model, a change-impact report and an offline evidence pack. It re-runs and recomputes nothing.
+seg-a9b4af1b1b07 = Kshana Pro的基于模型的系统工程（MBSE）与项目工具对照开源引擎的运行结果检查项目的需求：它导入逗号分隔值（CSV）格式的需求，或需求交换格式（ReqIF）及系统建模语言第{ "2" }版（SysML v2）文本的一个有文档说明的子集，并生成验证交叉引用矩阵（VCRM）、SysML v2模型、变更影响报告和离线证据包。它不重新运行任何内容，也不重新计算任何内容。
+
+# The open engine's outputs it reads
+seg-0a662a644f5d = 它读取的开源引擎输出
+
+# the fields a criterion names, their units, the reproducibility stamp of scenario hash, seed, engine version and schema version, and the run's label and figure tiers
+seg-e91fe1056446 = 判据所指明的字段、它们的单位、由场景哈希值、随机种子、引擎版本和模式版本构成的可复现性标记，以及该次运行的标签和各数据的等级
+
+# kind, reproducibility record and capability labels
+seg-c84c09a6dc24 = 类型、可复现记录和能力标签
+
+# its hash, kind, seed and parameters
+seg-8fc1ffcf6847 = 其哈希值、类型、随机种子和参数
+
+# each field's unit, provenance and evidence tier
+seg-2e6b3bca199f = 每个字段的单位、出处和证据等级
+
+# each capability's VALIDATED, MODELLED or PARTNER label
+seg-593a13692dc4 = 每项能力的VALIDATED、MODELLED或PARTNER标签
+
+# A trade study runs every architecture option as an unchanged open-engine scenario, ranks the options on a figure of merit read from each run's result, and writes an evidence pack that records each option's scenario hash, so any figure in it can be reproduced by re-running that scenario.
+seg-26c07e74fdca = 权衡研究将每个架构方案作为一个原样的开源引擎场景来运行，按从每次运行结果中读取的性能指标为各方案排序，并写出一个证据包，其中记录每个方案的场景哈希值，因此其中任何数据都可以通过重新运行该场景来复现。
+
+# Clock digital twin
+seg-05a421ea6ac7 = 时钟数字孪生
+
+# A clock twin is calibrated to a device's published Allan-deviation budget, then checked by estimating the twin's own Allan deviation with the open engine's estimator and comparing the two within a stated tolerance. A twin of your own device needs your characterisation data and is built under contract and a non-disclosure agreement.
+seg-06ca5084425c = 时钟孪生按设备已公布的阿伦偏差预算进行校准，然后用开源引擎的估计器估计孪生自身的阿伦偏差，并在规定的容差内将两者比较，以此核查。针对你自己设备的孪生需要你的特性数据，并在合同和保密协议下构建。
+
+# Study dossier
+seg-fca21deac438 = 研究档案
+
+# One scenario becomes a reproducible technical note in HTML (HyperText Markup Language) and JSON (JavaScript Object Notation): scope, method, results with a tier on every figure, limitations, and the exact scenario text run.
+seg-fef6a718bf86 = 一个场景变成一份可复现的技术说明，格式为HTML（超文本标记语言）和JSON（JavaScript对象表示法）：范围、方法、每个数据都标有等级的结果、局限，以及所运行场景的确切文本。
+
+# <b>Pro needs a licence.</b> Without one, Pro runs open scenarios only and refuses every Pro feature with a message naming what is required.
+seg-4650cf680300 = <b>Pro需要许可。</b>没有许可时，Pro只运行开源场景，并对每一项Pro功能给出一条说明所需条件的消息而拒绝。
+
+# <b>Some work needs a signed customer.</b> A twin of your own device needs your characterisation data and is built under contract and a non-disclosure agreement.
+seg-627687344e9e = <b>有些工作需要签约客户。</b>针对你自己设备的孪生需要你的特性数据，并在合同和保密协议下构建。
+
+# <b>Nothing Pro produces is a certification.</b> Every result is modelled, and says so.
+seg-f15f652a7e77 = <b>Pro产生的任何内容都不是认证。</b>每个结果都是由模型计算得出的，并且会如此说明。
+
+# Done as a custom study
+seg-ef76d9237977 = 以定制研究方式完成
+
+# <b>Models of your hardware.</b> Sensor or resilience models calibrated to your hardware are built only under contract, with your data.
+seg-853667670c1f = <b>你的硬件的模型。</b>按你的硬件校准的传感器或韧性模型，只在合同下用你的数据构建。
+
+# <b>Export-controlled resilience models are not publicly offered.</b> Such work is done only under the appropriate clearance and a non-disclosure agreement.
+seg-520654f215c5 = <b>受出口管制的韧性模型不公开提供。</b>此类工作只在相应的许可审批和保密协议下进行。
+
+# The charts in this section are drawn from the files the Pro commands wrote for the worked examples that ship with Pro: modelled results, not statements about any real mission. The wording is quoted from the public Kshana Pro page of the open repository.
+seg-8ea876b3c515 = 本节的图表取自Pro命令为随Pro提供的示例所写出的文件：是由模型计算得出的结果，不是关于任何真实任务的陈述。文字引自开源代码仓库中公开的Kshana Pro页面。
+
+# The open engine at the centre: one mark per scenario kind ({ "93" }), filled where the kind has validated ledger rows, hollow where its rows are Modelled, a dash where no ledger module matches it by name. Kshana Pro and the custom study sit around it and connect to the kinds they build on.
+seg-0ab329c843b0 = 位于中心的开源引擎：每种场景类型（{ "93" }种）一个标记，该类型有已验证的台账行时为实心，其台账行由模型计算时为空心，没有台账模块按名称与之匹配时为短横线。Kshana Pro和定制研究环绕在其周围，并与它们所依托的类型相连。
+
+# Engine v{ $version } · { "93" } kinds from <c1/> · ledger status from <c2/> · what Pro and a study build on: the site's editions register · no scenario or seed
+seg-e507665bbe2c = 引擎v{ $version } · 来自<c1/>的{ "93" }种类型 · 来自<c2/>的台账状态 · Pro和研究所依托的内容：网站的版本登记表 · 无场景或随机种子
+
+# (not in the old English either)
+seg-43711d15e734 = 完整的验证矩阵：{ "412" }项能力中有{ "176" }项已对照独立的参考基准（oracle）验证，其余标注为由模型计算
+
+# Packages the evidence into an audit-grade, reproducible evidence pack for a review board. <a1>See below</a1>
+seg-69df15091cab = 把证据整理成供评审委员会使用的、可供审计且可复现的证据包。<a1>见下文</a1>
+
+# <b>With Pro:</b> a <b>mission dossier</b> checks every requirement against real runs and keeps these labels in its verification matrix: a requirement met on a MODELLED or PARTNER basis is flagged. <a1>See a real dossier</a1>
+seg-5af3d58e83fa = <b>使用Pro：</b><b>任务档案</b>依据真实运行核对每一项需求，并在其验证矩阵中保留这些标签：以MODELLED或PARTNER为依据达到的需求会被标记。<a1>查看真实的档案</a1>
+
+# Need this ledger as an audit-grade, reproducible evidence pack for a review board? <a1>Kshana Pro packages it</a1>.
+seg-41da0459d87a = 需要把这份台账（ledger）做成可供审计、可复现的证据包，提交评审委员会？<a1>Kshana Pro可为您打包</a1>。
+
+# Kshana Pro packages the evidence a review or procurement board asks for, reproducibly. What it builds on: this ledger, where every capability names its oracle and its test, and the stamp every result carries. In one command, a mission dossier checks every requirement against real runs and writes a verification matrix with its open items and a PDF (Portable Document Format).
+seg-20582558a93f = { -brand } Pro把评审或采购委员会所要求的证据以可复现的方式打包。它建立在什么之上：这份台账（ledger），其中每项能力都点名其参考基准（oracle）和测试，以及每个结果所带的戳。一条命令即可让任务档案依据真实运行核对每一项需求，并写出验证矩阵，附带其未决事项和一份PDF（Portable Document Format，可移植文档格式）。
+
+# See a real dossier
+seg-1c8effb9400a = 查看真实的档案
+
+# (not in the old English either)
+seg-43f852e4bee8 = 共{ "74" }项，已验证
+
+# (not in the old English either)
+seg-0c637f4b6c88 = { "412" }项能力，每项都已分级。<b>{ "176" }项已验证</b>，对照的是独立的外部参考基准（oracle）。<b>{ "232" }项如实标注为由模型计算。</b>{ "4" }项由合作方负责。没有任何向上取整。
+
+# (not in the old English either)
+seg-c2c3179c1316 = 验证矩阵，每项能力一个单元格，按台账顺序：已验证{ "176" }（实心方块），由模型计算{ "232" }（空心方块），合作方负责{ "4" }（菱形）。方向键在单元格之间移动；能力及其参考基准在下方读出。
+
+# (not in the old English either)
+seg-a2cdd2df1b36 = 引擎v{ $version } · <c1/>，由<c2/>生成 · { "412" }行 · 无场景或随机种子：引擎自身的台账
+
+# (not in the old English either)
+seg-b36352ff4d2a = 引擎v{ $version }，构建<c1/> · <c2/> · 确定性，无随机种子
+
+# (not in the old English either)
+seg-edd1aba6a08c = 引擎v{ $version }，构建<c1/> · <c2/> · 确定性，无随机种子
+
+# (not in the old English either)
+seg-90efc3759f07 = 引擎v{ $version }，构建<c1/> · <c2/> · 确定性，无随机种子
+
+# (not in the old English either)
+seg-094876c75564 = 引擎v{ $version } · <c1/>的残差表，其中两项外推器核对在构建<c2/>时重新计算 · 确定性，无随机种子
+
+# (not in the old English either)
+seg-1c7e4b85e701 = 引擎v{ $version }，构建<c1/> · <c2/> · 确定性，无随机种子
+
+# (not in the old English either)
+seg-f42398e9711c = 引擎v{ $version }，构建<c1/> · <c2/> · 确定性，无随机种子
+
+# (not in the old English either)
+seg-07e8ef5a102f = { "176" }<s1>项已验证，共{ "412" }项</s1>
+
+# (not in the old English either)
+seg-4873cd813b9a = 验证矩阵：已验证{ "176" }，由模型计算{ "232" }，合作方负责{ "4" }，共{ "412" }
+
+# (not in the old English either)
+seg-98b273ce8773 = 全部{ "412" }行，每行一条。
+
+# (not in the old English either)
+seg-c321a2dafd3e = 全部{ "412" }
+
+# (not in the old English either)
+seg-bc4726a0baf1 = 由模型计算{ "232" }
+
+# (not in the old English either)
+seg-40e80b22723c = 验证台账，{ "412" }行，可滚动
+
+# <s1>Kshana Pro</s1><c1/><s2>Same engine, amplified: { "608" } designs, one Pareto front</s2>
+seg-a92f77bd42cb = <s1>{ -brand } Pro</s1><c1/><s2>同一引擎，放大：{ "608" }种设计，一条帕累托前沿</s2>
+
+# Kshana Pro is a proprietary overlay that depends on the open core and never forks it, available under contract. No prices on a web page: every paid route starts with a message to <a1>contact@ashforde.org</a1>.
+seg-27c12083529b = { -brand } Pro是依赖开源核心而绝不分叉它的专有叠加层，按合同提供。网页上不标价格：每条付费路径都从发给<a1>contact@ashforde.org</a1>的一封邮件开始。
+
+# The Pareto front of a design space, with every front design as a scenario the free engine re-runs.
+seg-298532756f74 = 设计空间的帕累托前沿，前沿上的每个设计都是一个可由免费引擎重新运行的场景。
+
+# Uncertainty and sensitivity over thousands of runs.
+seg-a699256db841 = 数千次运行上的不确定性与敏感性分析。
+
+# A one-command mission dossier with a verification matrix and a PDF (Portable Document Format) file.
+seg-665005551d84 = 一条命令生成的任务档案，含验证矩阵和一份PDF（可移植文档格式）文件。
+
+# Audit-grade, reproducible evidence packs; clock digital twins calibrated to your device's published Allan budget; architecture trade studies ranked on a figure of merit; model-based systems-engineering (MBSE) and programme tooling.
+seg-455cb5040f80 = 可供审计、可复现的证据包；依据你的设备所发布的阿伦预算校准的时钟数字孪生；按性能指标排序的架构权衡研究；基于模型的系统工程（MBSE）与项目工具。
+
+# Same engine, amplified: real Kshana Pro output
+seg-3303866fbf99 = 同一引擎，放大：真实的{ -brand } Pro输出
+
+# <a1><s1><c1/>Design optimiser</s1></a1>
+seg-f5513a1750f1 = <a1><s1><c1/>设计优化器</s1></a1>
+
+# <b>{ "608" } designs</b>, all run: the Pareto front and its knee
+seg-2bbc6243b4b1 = <b>{ "608" }种设计</b>，全部运行：帕累托前沿及其拐点
+
+# <a1><s1><c1/>Uncertainty and sensitivity</s1></a1>
+seg-56e344605a3d = <a1><s1><c1/>不确定性与敏感性</s1></a1>
+
+# <b>{ "2,000" } runs</b>: a confidence band against a limit
+seg-a0b3c138f981 = <b>{ "2,000" }次运行</b>：对照限值的置信带
+
+# <b>{ "12" } requirements</b> checked against real runs, 21-page PDF (Portable Document Format)
+seg-905e5eef45e5 = <b>{ "12" }项需求</b>依据真实运行核对，21页的PDF（可移植文档格式）
+
+# (not in the old English either)
+seg-b9961ed25282 = v{ $version }新增：任务线程、每个图表上的证据标签，以及十七种语言
+
+# (not in the old English either)
+seg-237d8bd201d2 = <b>测评活动：</b>引擎v{ $version }，构建<c1/> · <c2/> · 随机种子{ "20260928" }
+
+# (not in the old English either)
+seg-98ebce268546 = <b>轨道：</b>引擎v{ $version }，构建<c1/> · <c2/> · 确定性，无随机种子
+
+# (not in the old English either)
+seg-bb2975f5a7dd = 引擎v{ $version }，构建<c1/> · <c2/> · 随机种子{ "20260928" }
+
+# (not in the old English either)
+seg-ee04b167d80a = { "412" }项能力中有{ "176" }项与独立的外部参考基准（oracle）一致；其余明确标注为由模型计算。
+
+# <s1>Pro</s1> the Pareto front of a design space, uncertainty and sensitivity, and a one-command mission dossier
+seg-354162e88f07 = <s1>Pro</s1>设计空间的帕累托前沿、不确定性与敏感性分析，以及一条命令生成的任务档案
+
+# Pro: audit-grade, reproducible evidence packs for a review.
+seg-de3cc6d30b9c = Pro：供评审使用的可审计、可复现的证据包。
+
+# Pro: architecture trade studies ranked on a figure of merit. Pro: clock digital twins calibrated to your device's published Allan budget.
+seg-7889feffa939 = Pro：按性能指标排序的架构权衡研究。Pro：依据你的设备所发布的阿伦预算校准的时钟数字孪生。
+
+# Pro: clock digital twins calibrated to your device's published Allan budget. Pro: architecture trade studies ranked on a figure of merit.
+seg-4a5542c69690 = Pro：依据你的设备所发布的阿伦预算校准的时钟数字孪生。Pro：按性能指标排序的架构权衡研究。
+
+# Pro: clock digital twins calibrated to your device's published Allan budget. Pro: audit-grade, reproducible evidence packs for a review.
+seg-cc45be91cd00 = Pro：依据你的设备所发布的阿伦预算校准的时钟数字孪生。Pro：供评审使用的可审计、可复现的证据包。
+
+# <b>With Pro:</b> the design optimiser runs a whole constellation design space around the Earth, the Moon or Mars through this engine and returns its <b>Pareto front</b>, each front design written out as a plain scenario file. <a1>See a real front</a1>
+seg-6c981f00d37d = <b>使用Pro：</b>设计优化器通过本引擎运行环绕地球、月球或火星的整个星座设计空间，并返回其<b>帕累托前沿</b>，前沿上的每个设计都写成一个普通的场景文件。<a1>查看真实的前沿</a1>
+
+# <b>Free today:</b> everything in the open engine. Pro: architecture trade studies ranked on a figure of merit.
+seg-9601ecea0610 = <b>今天免费：</b>开源引擎中的一切。Pro：按性能指标排序的架构权衡研究。
+
+# <b>Free today:</b> everything in the open engine. Pro: audit-grade, reproducible evidence packs for a review.
+seg-081d06995ef0 = <b>今天免费：</b>开源引擎中的一切。Pro：供评审使用的可审计、可复现的证据包。
+
+# <b>Free today:</b> everything in the open engine. Pro: clock digital twins calibrated to your device's published Allan budget.
+seg-2abf4f5bd06e = <b>今天免费：</b>开源引擎中的一切。Pro：依据你的设备所发布的阿伦预算校准的时钟数字孪生。
+
+# (not in the old English either)
+seg-67a6c0107bcd = 引擎v{ $version }，构建<c1/> · <c2/> · 确定性，无随机种子

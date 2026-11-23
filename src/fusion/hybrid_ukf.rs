@@ -67,8 +67,8 @@
 //! ## Honesty guard
 //!
 //! Everything here is **modelled / simulation**. The CAI and clock inputs are bracketed
-//! literature-representative values, not measured hardware; the CAI hardware and its
-//! Key-Person remain partner-owned. The results are simulation performance and filter
+//! literature-representative values, not measured hardware; the CAI hardware
+//! remains partner-owned. The results are simulation performance and filter
 //! self-consistency, **not** field results, flight heritage, TRL > 3, or external validation.
 
 use super::tightly_coupled::Sat;

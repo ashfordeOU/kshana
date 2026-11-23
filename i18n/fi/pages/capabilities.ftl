@@ -96,8 +96,6 @@ seg-ea7fba14ee58 = Ilmainen ydin
 
 seg-b3f3fc0fd6ff = Kaikki tällä sivulla näytetty: jokainen skenaariotyyppi, skenaariotiedosto, kaista, kello ja kappale toimii avoimessa moottorissa AGPL-3.0-lisenssillä (GNU Affero General Public License, versio { "3" }), ilman ominaisuusrajoitusta.
 
-seg-311e7a7d55dc = Merkitty sinne, missä se perustuu johonkin ominaisuuteen: suunnitteluoptimoija, epävarmuus ja herkkyys, tehtäväkansio, kalibroidut kellokaksoset ja järjestetyt kauppatutkimukset. <a1>Mitä Pro lisää</a1>
-
 seg-a613a7447e3f = Räätälöity tutkimus
 
 seg-3e6b00d51b99 = Kun se täytyy tehdä puolestasi: laitteistoosi kalibroidut sensorimallit tai mallinnettu kestävyystutkimus. <a1>Pyydä tutkimusta</a1>
@@ -468,8 +466,6 @@ seg-982938fe53bc = Erittäin vakaa/optinen aluksella oleva oskillaattoriluokka, 
 
 seg-2adc3374e996 = Jokainen mallin tunniste ja sen alkuperä luetaan skenaariotiedostoista.
 
-seg-0aa1e4562dac = Kshana Pro kalibroi <b>kellon digitaalisen kaksosen</b> laitteesi julkaistuun Allan-budjettiin, ja se perustuu tyyppiin <c1/> ja yllä oleviin luokkiin. <a1>Mitä Pro lisää</a1>
-
 seg-0d9353d25bc6 = GNSS menetetty. Missä kukin kello on <s1>{ "10" } min</s1> kuluttua?
 
 seg-55768eaf7218 = Aika GNSS-signaalin menetyksestä
@@ -556,8 +552,6 @@ seg-91e8a9dca129 = Parannettu synkronisen Ethernetin laitekello (eEEC), lukittu 
 
 seg-f6f1b242019f = Molemmat taulukot luetaan tiedostosta <c1/>; tyyppi <c2/> tarkistaa kellon mitä tahansa maskia vasten.
 
-seg-b291c1ae1f5c = Kshana Pro kalibroi kellon digitaalisen kaksosen laitteen julkaistuun Allan-budjettiin ja tarkistaa sen avoimen moottorin Allanin poikkeaman estimaattorilla; oman laitteesi kaksonen rakennetaan sopimuksella. <a1>Mitä Pro lisää</a1>
-
 seg-f65bf4f57e2f = Telealan holdover: Microchip 8040C:n, vakiosuorituskyky, MTIE ja TDEV <c1/>
 
 seg-a13eab564243 = MTIE
@@ -631,8 +625,6 @@ seg-1e21e701259e = Satelliittitähdistömallit
 seg-aa924d59476b = Kartan mittari
 
 seg-59a109b36eea = T+{ "00" }:{ "00" }
-
-seg-e5f00e27b617 = <b>Prolla:</b> suunnitteluoptimoija palauttaa koko satelliittitähdistön suunnitteluavaruuden <b>Pareto-rintaman</b> Maan, Kuun tai Marsin ympärillä, kukin rintaman malli kirjoitettuna tavalliseksi skenaariotiedostoksi, ja <b>järjestetty kauppatutkimus</b> vertaa arkkitehtuureja laatumittarin mukaan. <a1>Katso todellinen rintama</a1>
 
 seg-2d6cfb3452e3 = Aurinkokunta · solar-system-tyyppi
 
@@ -827,8 +819,6 @@ seg-19706b999108 = yksi syy, monta jäsentä
 seg-ff2823b929b3 = Ketjutetun ajon tapahtumat
 
 seg-17c200a01fea = Kshana Studio toistaa jokaisen kampanjan selaimessasi; komento ja skenaariotiedosto toistavat jokaisen ajon, ja ketjutetun ajon oma raportti on julkaistu.
-
-seg-dd2809ea9a6a = <b>Prolla:</b> ilmoitetut syötteiden epävarmuudet antavat <b>luottamusvyöt</b>, todennäköisyyden rajan täyttymiselle ja tuloksen ajavien syötteiden järjestyksen tuhansien ajojen yli, jotka voi pysäyttää ja jatkaa. <a1>Katso todellinen vyö</a1>
 
 seg-2b2aa3298f26 = Tee siitä omasi · Kshana Studio
 
@@ -1536,19 +1526,7 @@ seg-16cf26093bf0 = <c1/><a1>quantum-pnt-demonstrator.suite</a1>
 
 seg-6cb4a75cb2f0 = Mikään ei vastaa suodatinta.
 
-seg-ec1a22002e13 = <b>Pro: kalibroitu kellon digitaalinen kaksonen</b> perustuu tyyppeihin <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>. <a1>Katso, mitä se lisää</a1>
-
-seg-cc88295c3e2e = <b>Pro: järjestetty kauppatutkimus</b> perustuu tyyppeihin <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>. <a1>Katso, mitä se lisää</a1>
-
 seg-62942b0a2127 = <b>Räätälöity tutkimus</b> perustuu tyyppiin <c1/>. <a1>Katso, mitä se lisää</a1>
-
-seg-8cec53de04c5 = <b>Pro: suunnitteluoptimoija</b> perustuu tyyppiin <c1/>. <a1>Katso, mitä se lisää</a1>
-
-seg-4bdca619acb5 = <b>Pro: epävarmuus ja herkkyys</b> perustuu tyyppeihin <c1/>, <c2/>. <a1>Katso, mitä se lisää</a1>
-
-seg-35d8381e7605 = <b>Pro: tehtäväkansio</b> perustuu tyyppeihin <c1/>, <c2/>, <c3/>, <c4/>, <c5/>. <a1>Katso, mitä se lisää</a1>
-
-seg-08d3c155a74d = <b>Pro: kampanjavalvonta</b> perustuu tyyppiin <c1/>. <a1>Katso, mitä se lisää</a1>
 
 seg-ff9c1f190eb6 = <b>Pro: spektrin rinnakkaiselo</b> perustuu tyyppeihin <c1/>, <c2/>. <a1>Katso, mitä se lisää</a1>
 
@@ -2283,52 +2261,6 @@ seg-b39df358a1b0 = <c1/><s1>lunar-orbit-rendezvous</s1>
 seg-dc524d9636a3 = <c1/><s1>lunar-surface</s1>
 
 seg-0b3cd978cb6e = <c1/><s1>lunar-surface</s1>
-
-seg-d5c6110302e9 = Artemis-luokan tehtäväketju, todistemerkintä jokaisessa kuvassa ja seitsemäntoista kieltä.
-
-seg-8597c65432ed = Ketjuta kuutehtävän vaiheet yhdeksi navigoinnin ja ajoituksen virhebudjetiksi, arvioi, missä heikentyneitä paikkaraportteja aiheuttava lähde voi olla, lue mitattuja kellolokeja, näe todisteiden taso jokaisessa ajon kirjoittamassa kuvassa ja käytä komentoriviä, raportteja ja Studiota seitsemällätoista kielellä. Jokaisella ominaisuudella on merkintä, jonka kirjanpito siitä sisältää, ja merkintä nimeää vain sen, mikä on tarkistettu. Ohjeellinen ohjelmisto, ei tyyppihyväksytty navigointilaite: käyttäjä vastaa edelleen.
-
-seg-070972f642de = Artemis-luokan tehtäväketju: navigoinnin ja ajoituksen virhebudjetti laukaisusta ilmakehään paluuseen
-
-seg-982a4a7cf0db = Tehtäväketjutyyppi ketjuttaa vaiheet (laukaisu ja nousu, kohtaaminen matalalla Maan kiertoradalla, Kuuhun suuntautuva siirtoratainjektio ja matka, kuuvaiheet, paluu) ja kuljettaa paikan ja nopeuden kovarianssin vaiheesta seuraavaan; siirtosäännöt, koordinaatisto- ja aika-asteikkomuunnokset, marginaali ilmoitettuja vaatimuksia vasten ja heikoin lenkki kirjataan kukin budjettiriveiksi.
-
-seg-17c9cc6c2d40 = Tarkistettu: Artemis I -vertailu ei täyttänyt kynnystään ({ "45.3" } km, kun kynnys oli { "5" } km); rivi pysyy MODELLED
-
-seg-946487626f87 = Tehtäväketjunäkymä Kshana Studiossa
-
-seg-4970f874d334 = Kuusegmentti: kohtaaminen, lasku, pinta ja nousu
-
-seg-b6c35bf141e7 = Neljä skenaariotyyppiä, jotka ovat kukin myös tehtäväketjun vaihe: suhteellinen navigointi telakointiin Kuun kiertoradalla, laskeutumishajonnan budjetti etelänapa-alueen kohteessa, paikannuksen ja ajoituksen saatavuus kohteen ja vuodenajan mukaan sekä nousu takaisin kohtaamiskiertoradalle.
-
-seg-ce097df855a9 = Tarkistettu: ennalta rekisteröidyt kynnykset; yksi täyttyi, yksi ei täyttynyt, yhtäkään ei höllennetty
-
-seg-8ca6e2046901 = Arvioitu lähetinalue ADS-B- tai AIS-raporteista
-
-seg-ca6383e426f9 = Missä heikentyneitä paikkaraportteja aiheuttava lähde voi olla: alueina, joiden taso on { "50" }, { "90" } ja { "95" } prosenttia, painopisteineen ja sen epävarmuusellipsineen, ei koskaan pelkkänä pisteenä, sekä istuntoina ajassa.
-
-seg-27af464d0674 = Tarkistettu: ennalta rekisteröity; kumpikaan lähde ei ollut arvioitavissa, joten mitään ei väitetä
-
-seg-003a3b9b63ea = Mitatut kellolokit ja sovitetun sarjan ajama holdover
-
-seg-f51fa2a40db8 = Lue mitattu kellolokki kahdeksassa formaatissa (RINEX clock, TimeLab, TICC, linuxptp, chrony) yhdeksi vaihesarjaksi kelloa ja telecom-timing-tyyppejä varten ja sovita mitatun sarjan kohina ajamaan holdoveria.
-
-seg-6e9140563c53 = Tarkistettu: kynnykset ennalta rekisteröityjä; alitukset ilmoitettu ja kiinnitetty
-
-seg-448b11c86f48 = Datakumppanit: mitkä rivit mitattu data voisi ylentää
-
-seg-56b0201d930c = Mitkä mallinnetut kirjanpitorivit kumppanin mitattu data voisi ylentää, sallitut formaatit sekä miten lähetys tarkistetaan, pisteytetään ennalta rekisteröityä kynnystä vasten ja hyvitetään.
-
-seg-5858e5d1f7c5 = Todistemerkintä jokaisessa ajon kirjoittamassa kuvassa ja taulukossa
-
-seg-d1c4250b2a7e = Jokainen ajon kirjoittama tulostiedosto, kaavio ja taulukko kertoo nyt, mihin tasoon se perustuu (validoitu, mallinnettu tai kumppanin, sen rivien heikoin), ja nimeää taustalla olevat varmennusmatriisin rivit; ne luetaan matriisista, eikä niitä kirjoiteta käsin.
-
-seg-bd28ef5c376e = Seitsemäntoista kieltä englannin rinnalla
-
-seg-1e4a6a5931d3 = Komentorivi, raportit, dokumentaatiosivut ja Studio ovat saatavilla seitsemällätoista kielellä englannin rinnalla.
-
-seg-7fae5de5ebf1 = kshana-bench: { "0.40" } uusintakampanja
-
-seg-1e0afa852323 = Neljä ennalta rekisteröityä vertailua ajettiin kerran kuittauksen jälkeen ja ne täyttivät kynnyksensä, ja jokainen pistemäärä on mallinnettu.
 
 seg-c381cfa99bb0 = Kelloskenaario, jossa klassinen kello ottaa kohinansa mitatusta lokista (`[clock_fit]`).
 

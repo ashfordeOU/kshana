@@ -1776,42 +1776,16 @@ js-site-palette-none = Geen resultaten
 js-site-palette-results = { $count } resultaten
 
 # src/js/pro-power.mjs:147
-js-site-pro-band-at = Na { $minutes } minuten: 5e tot 95e percentiel
-
 # src/js/pro-power.mjs:147
-js-site-pro-band-range = { $lo } tot { $hi } { $unit }
-
 # src/js/pro-power.mjs:148
-js-site-pro-band-runs-within = van { $n } runs binnen ±{ $limit } { $unit }
-
 # src/js/pro-power.mjs:92
-js-site-pro-design-readout = { $sat } satellieten, { $av } % beschikbaarheid · { $planes } vlakken op { $alt } km, { $incl }°
-
 # src/js/pro-power.mjs:91
-js-site-pro-front-design = Front-ontwerp { $id }
-
 # src/js/pro-power.mjs:91
-js-site-pro-front-design-knee = Front-ontwerp { $id } · knik
-
 # src/js/pro-power.mjs:90
-js-site-pro-more-designs =
-    { $n ->
-        [one] (+{ $n } ander front-ontwerp op dit punt)
-       *[other] (+{ $n } andere front-ontwerpen op dit punt)
-    }
-
 # src/js/pro-power.mjs:94
-js-site-pro-not-rerun = niet opnieuw uitgevoerd
-
 # src/js/pro-power.mjs:93
-js-site-pro-rerun-free = opnieuw uitgevoerd in de gratis engine:
-
 # src/js/pro-power.mjs:94
-js-site-pro-same-sha = dezelfde SHA-256 { $sha }…
-
 # src/js/pro-power.mjs:94
-js-site-pro-same-sha-index = dezelfde SHA-256 van het resultaat als de index
-
 # src/site.js:41
 js-site-toast-copied = Gekopieerd: { $text }
 

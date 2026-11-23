@@ -60,8 +60,6 @@ seg-aa942198bb2e = <b>SP3-c (SP3: Standard Product { "3" }, het formaat voor pre
 
 seg-4d4237e15ef1 = IGS Standard Product { "3" } (c/d)
 
-seg-8d1089fbd59d = Tijdreeks van positie en klokstand in het aardvaste stelsel (ECEF). Rondreis getoetst tot < { "0.5" } m op een echte momentopname van <c1/> (<a1><c2/></a1>).
-
 seg-761698fcf960 = <b>RINEX (Receiver Independent Exchange Format) { "3" }</b> (uitgezonden navigatie)
 
 seg-897068cff342 = RINEX { "3" }.x NAV (IS-GPS-200, Galileo ICD (interface control document), BeiDou ICD, GLONASS (het Russische Global Navigation Satellite System) ICD)
@@ -198,13 +196,9 @@ seg-8b0593f67c7f = Waarde / eenheid
 
 seg-d33eb162d179 = Segmentmetadata van OEM
 
-seg-4b338284e56a = <c1/> / <c2/> / <c3/>: het stelsel waarin de propagators integreren en de tijdschaal van het epochenraster, niet herbenoemd
-
 seg-e0a44af9aaf8 = Toestandsepoche van OEM
 
 seg-b0623bab9fcc = eerste kolom van elke gegevensregel
-
-seg-410bd5a9ba14 = kalendertijd volgens ISO-8601 (ISO: International Organization for Standardization), GPS-tijdschaal
 
 seg-a7c95802e01a = Positie en snelheid van OEM
 

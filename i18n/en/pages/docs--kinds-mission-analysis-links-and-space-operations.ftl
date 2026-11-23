@@ -19,58 +19,55 @@ seg-6481dabc9458 = Topic pages: <a1>ENTRY-EO-ASCENT</a1>, <a2>CONTACT-SCHEDULING
 seg-d6c5a581ffaf = Contact sheet of the charts the engine writes for the kinds of the family Mission analysis, links and space operations
 
 # text
-seg-b03d56f501c3 = Kind
-
-# text
 seg-4e31c8daf798 = Ledger
 
 # text
-seg-8d65a4a1948d = Two-body launch & ascent geometry: launch azimuth(s) (sin Az = cos i / cos lat), minimum reachable inclination, circular velocity, the Earth-rotation eastward bonus, dogleg plane-change Δv when the ta
+seg-ef2dc7ef8e83 = Two-body launch & ascent geometry: launch azimuth(s) (sin Az = cos i / cos lat), minimum reachable inclination, circular velocity, the Earth-rotation eastward bonus, dogleg plane-change Δv when the…
 
 # text
-seg-dd47e755d262 = Planar gravity-turn ascent of a multi-stage vehicle over a non-rotating spherical Earth through the US Standard Atmosphere { "1976" } (vertical rise, pitch kick, thrust along velocity), integrating the grav
+seg-a0f84ee67f53 = Planar gravity-turn ascent of a multi-stage vehicle over a non-rotating spherical Earth through the US Standard Atmosphere { "1976" } (vertical rise, pitch kick, thrust along velocity), integrating the…
 
 # text
-seg-cc88f37328a3 = Allen-Eggers ballistic re-entry corridor: peak deceleration (ballistic-coefficient-independent, V_e^{ "2" } sin/γ//(2eH)), the velocity and altitude at peak-g, and the peak-heating velocity, for an entry ve
+seg-7aa71cacf11b = Allen-Eggers ballistic re-entry corridor: peak deceleration (ballistic-coefficient-independent, V_e^{ "2" } sin|γ|/(2eH)), the velocity and altitude at peak-g, and the peak-heating velocity, for an entry…
 
 # text
-seg-8ad7c34d8c25 = 3-DoF point-mass atmospheric entry over a rotating spherical Earth or Mars (ballistic or lifting at constant bank), RK4, through US76, an exponential or the Mars atmosphere, with Sutton-Graves stagnat
-
-# text
-seg-436e412d99fd = MODELLED { "1" } · VALIDATED { "1" }
-
-# text
-seg-efe896d3f43b = Earth-observation payload footprint & coverage geometry (SMAD space triangle): Earth angular radius, swath width, nadir ground sample distance, maximum off-nadir access, circular period, J2 nodal peri
+seg-b0e8f1fd61c9 = 3-DoF point-mass atmospheric entry over a rotating spherical Earth or Mars (ballistic or lifting at constant bank), RK4, through US76, an exponential or the Mars atmosphere, with Sutton-Graves…
 
 # text
 seg-6e0cb6acc073 = VALIDATED
 
 # text
-seg-d3d9652fd8a0 = Nadir imager radiometry and image quality: at-aperture radiance of a Lambertian scene, the camera equation, signal and shot/dark/read/quantisation noise and SNR; the system MTF at Nyquist (diffraction
+seg-c245fbd3f5bf = Earth-observation payload footprint & coverage geometry (SMAD space triangle): Earth angular radius, swath width, nadir ground sample distance, maximum off-nadir access, circular period, J2 nodal…
 
 # text
-seg-1940d5c75a98 = 3-DOF attitude & pointing error budget: the worst-case gravity-gradient disturbance torque ((3/2)(μ/R³)ΔI) and a root-sum-square pointing-error budget over named 1σ contributors (sensor noise, reactio
+seg-f4a4f067d38d = Nadir imager radiometry and image quality: at-aperture radiance of a Lambertian scene, the camera equation, signal and shot/dark/read/quantisation noise and SNR; the system MTF at Nyquist…
 
 # text
-seg-e00d18fbb52b = Spacecraft attitude control: an inertial-pointing slew of a rigid hub with three or more balanced reaction wheels under MRP feedback (L = -K sigma - P omega), minimum-norm wheel torques clipped to eac
+seg-f4eceda38891 = 3-DOF attitude & pointing error budget: the worst-case gravity-gradient disturbance torque ((3/2)(μ/R³)ΔI) and a root-sum-square pointing-error budget over named 1σ contributors (sensor noise…
 
 # text
-seg-496fa280de7b = One-way link budget over the CCSDS { "401" } / DSN 810-005 link equation: free-space path loss, C/N₀, Eb/N₀, margin and closure for a transmit EIRP, receive G/T, range, data rate and band (s/x/ka) against a
+seg-eca73b17db10 = Spacecraft attitude control: an inertial-pointing slew of a rigid hub with three or more balanced reaction wheels under MRP feedback (L = -K sigma - P omega), minimum-norm wheel torques clipped to…
 
 # text
-seg-f0aca7ea1ffa = One satellite over one station: each pass's slant range, elevation and Es/N0 along the pass, the DVB-S2 MODCOD chosen at each step (ETSI EN { "302" } 307-1 Table { "13" } thresholds plus an implementation margin)
+seg-436e412d99fd = MODELLED { "1" } · VALIDATED { "1" }
 
 # text
-seg-44c4890ba07e = Ground-contact planning for several satellites over several stations: apparent access windows (SGP4, IAU 2006/2000A Earth-fixed frame, ITU-R P.834 refraction, light time), the DVB-S2 ACM data volume o
+seg-e6cc3f7736a3 = One-way link budget over the CCSDS { "401" } / DSN 810-005 link equation: free-space path loss, C/N₀, Eb/N₀, margin and closure for a transmit EIRP, receive G/T, range, data rate and band (s|x|ka) against…
+
+# text
+seg-0e2208a60769 = One satellite over one station: each pass's slant range, elevation and Es/N0 along the pass, the DVB-S2 MODCOD chosen at each step (ETSI EN { "302" } 307-1 Table { "13" } thresholds plus an implementation…
+
+# text
+seg-979dbcff490e = Ground-contact planning for several satellites over several stations: apparent access windows (SGP4, IAU 2006/2000A Earth-fixed frame, ITU-R P.834 refraction, light time), the DVB-S2 ACM data volume…
 
 # text
 seg-19ab136e9f9b = Aperture duty cycle: the navigation-versus-communications time-share a contact plan implies for a pool of steerable apertures.
 
 # text
-seg-ee0c649ca8b2 = CCSDS 133.0-B Space Packet Protocol framing: encode a synthetic TM/TC packet stream (6-octet primary header + data field) and report the per-packet header decode, total octets and an exact encode↔deco
+seg-f6c3e72dd968 = CCSDS 133.0-B Space Packet Protocol framing: encode a synthetic TM/TC packet stream (6-octet primary header + data field) and report the per-packet header decode, total octets and an exact…
 
 # text
-seg-e561f3a749db = CCSDS OEM interoperability bridge: import an Orbit Ephemeris Message produced by an external flight-dynamics tool (GMAT/Orekit/STK all emit OEM) and report its segments/objects/frames/epoch-span plus
+seg-f747a8f3cbda = CCSDS OEM interoperability bridge: import an Orbit Ephemeris Message produced by an external flight-dynamics tool (GMAT/Orekit/STK all emit OEM) and report its segments/objects/frames/epoch-span…
 
 # text
 seg-7a4e6215a488 = Two-body launch & ascent geometry: launch azimuth(s) (sin Az = cos i / cos lat), minimum reachable inclination, circular velocity, the Earth-rotation eastward bonus, dogleg plane-change Δv when the target inclination is below the site latitude, and the number of daily launch opportunities. MODELLED spherical-Earth geometry (no rotating-Earth velocity-triangle correction, no ascent/drag-loss model).
@@ -156,7 +153,7 @@ seg-b843e2e0a4ee = 3-DoF point-mass atmospheric entry over a rotating spherical 
 seg-9cf8d4b6064f = Required fields: none. Optional: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/>, <c19/>, <c20/>, <c21/>.
 
 # text
-seg-84e1bddcbc95 = <b>Ledger:</b> MODELLED { "1" } · VALIDATED { "1" }. Full page, with the inputs, results, evidence and limitations: <a1>entry-heating</a1>.
+seg-40272d84cab1 = <b>Ledger:</b> VALIDATED. Full page, with the inputs, results, evidence and limitations: <a1>entry-heating</a1>.
 
 # attr:alt
 seg-dbb618cd6357 = The chart the engine writes for scenarios/entry-heating-stardust.toml, kind entry-heating
@@ -265,7 +262,7 @@ seg-953188c11165 = One-way link budget over the CCSDS { "401" } / DSN 810-005 li
 seg-3345731b5729 = Required fields: none. Optional: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>.
 
 # text
-seg-f8b896b81014 = <b>Ledger:</b> MODELLED { "1" } · VALIDATED { "1" }. Full page, with the inputs, results, evidence and limitations: <a1>link-budget</a1>.
+seg-eeb515cecaa8 = <b>Ledger:</b> VALIDATED. Full page, with the inputs, results, evidence and limitations: <a1>link-budget</a1>.
 
 # attr:alt
 seg-bd375631bc7e = The chart the engine writes for scenarios/link-budget.toml, kind link-budget
@@ -330,7 +327,7 @@ seg-1e06e06d4325 = <b>Ledger:</b> MODELLED. Full page, with the inputs, results,
 seg-a8b38ed8e029 = The chart the engine writes for scenarios/aperture-duty-cycle.toml, kind aperture-duty-cycle
 
 # text
-seg-de2448d74c2b = CCSDS 133.0-B Space Packet Protocol framing: encode a synthetic TM/TC packet stream (6-octet primary header + data field) and report the per-packet header decode, total octets and an exact encode↔decode round trip. Deterministic exact bit-layout framing — the agency packet-format interop layer; NOT a conformance certification (no secondary-header/CRC/segmentation logic beyond the flags).
+seg-3f80b0266e4c = CCSDS 133.0-B Space Packet Protocol framing: encode a synthetic TM/TC packet stream (6-octet primary header + data field) and report the per-packet header decode, total octets and an exact encode↔decode round trip. Deterministic exact bit-layout framing — the agency packet-format interop layer; NOT a conformance certification; the scenario frames primary headers only (the secondary header, CRC-16 and segmentation are in the library).
 
 # text
 # c1: apid

@@ -2628,8 +2628,6 @@ seg-74e8cab2f10e = <b>Cache-busting för <c1/></b>: de versionsstämplade fråge
 
 seg-65949229eed7 = <b><c1/> — Kshana som server för Model Context Protocol (MCP)</b> (<c2/>). En fristående crate som är undantagen från workspace (SDK:n <c3/> är edition { "2024" }) och som exponerar den validerade motorn för AI-agenter och assistenter — Cursor, JetBrains AI Assistant / Junie och vilken MCP-klient som helst — över stdio. Verktyg: <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, vart och ett ett tunt omslag runt <c9/>.
 
-seg-bd792f66363c = <b>JetBrains IDE-plugin</b> (<c1/>). Högerklicka på ett scenario <c2/> → <b>Run Kshana Scenario</b>; kvalitetsmått och resultat-JSON strömmas in i ett Kshana-verktygsfönster. Ett rent plattformsplugin i Kotlin, kompatibelt med varje JetBrains IDE { "2024.3" }+.
-
 seg-755358390517 = <b>Offentlig distribution + automatisk publicering per release</b> för båda:
 
 seg-14fc2fd73553 = <c1/> till <b>crates.io</b> (<c2/>) via <c3/>.
@@ -3157,8 +3155,6 @@ seg-29d014d29790 = En beroendeuppdatering i det levererade biblioteket (den för
 seg-6b6a960ca7cf = <c1/>, <c2/> och <c3/> { "0.13" } till { "0.14" } (med <c4/> { "0.14.3" }, <c5/> { "0.17.0" } och <c6/> { "0.5.5" } till { "0.7.10" }; även det direkta beroendet <c7/>, nu { "0.7" }) åtgärdar RUSTSEC-2026-0387, tidsvariation i <c8/> { "0.5.5" }. Kshana använder dessa crates bara för att verifiera publika signaturer (rotnyckeln för Galileo OSNMA och tidsstämpeltoken enligt RFC { "3161" }) och signerar bara i tester med engångsnycklar, så den praktiska exponeringen var noll; uppgraderingen tar bort varningen utan en ignorera-post. Bibliotekets och MCP:s låsfiler flyttas båda; inget verifieringsresultat ändras (vektortesterna för OSNMA och tidsstämplar klarar sig oförändrade).
 
 seg-1a4cda9d1486 = Lägsta Rust-version som stöds är nu { "1.88" } (krävs av korrigeringen för RUSTSEC-2026-0387).
-
-seg-0d4a740afedf = [{ $version }] - 2026-10-29
 
 seg-2aa7197e4396 = <b>Radtäckning: ~{ "96" } % → ~{ "95" } %.</b> Täckningsjobbet mätte om den utgivna koden för { "0.29.0" } (incheckning <c1/>, CI-körning { "36809850252" }, 2026-10-01): <c2/>, { "55,970" } av { "58,697" } rader i <c3/>. Den publicerade siffran var { "95.63" } % ({ "37,697" } av { "39,419" } rader), uppmätt på <c4/> före { "0.28.0" }; den avrundades till ~{ "96" } %. Den nya siffran avrundas till ~{ "95" } %, så varje yta som <c5/> fastlåser flyttas tillsammans: <c6/>, README-märket, Evidence-raden och CI-tabellen, märkena för crates.io, PyPI och npm, den tekniska rapporten och täckningssidan på kshana.dev. Golvet på { "85" } % är oförändrat.
 

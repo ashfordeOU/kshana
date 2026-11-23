@@ -83,5 +83,3 @@ seg-9dfb9596ecf3 = Pyyhkäisy-, Monte Carlo- ja compose-kampanjoilla ei ole aika
 seg-be1f1afe7424 = <s1>Edellinen</s1>Ajoraportit
 
 seg-6817433f69f6 = <s1>Seuraava</s1>Yhteentoimivuuden viennit ja tuonnit
-
-seg-51cd8d5f527b = Tyyppi, jonka tulos ei sisällä yhtäkään näistä muodoista (linkkibudjetti, yhden epookin geometria, pelkkä tilastollinen Monte Carlo -yhteenveto tai telealan holdover, jonka tulos julkaisee tallenteen hashin mutta ei tallennetta), hylätään viestillä <c1/>, eikä mitään kirjoiteta. Versiolla kshana { $version } animoituu { "94" } niistä { "193" } ajettavasta skenaariotiedostosta (kaikki tiedostot paitsi tutkimussarja), ja { "99" } hylätään. <c2/> tulostaa laskennan.

@@ -24,13 +24,14 @@ seg-fb7da0f79ead = <b>Superseded</b> — the real capability was subsequently bu
 # c2: README.md
 # c3: docs/CAPABILITY.md
 # c4: docs/GLOSSARY.md
-# c5: web/capabilities.json
-# c6: web/index.html
-# c7: web/README.md
-# c8: README.crates.md
-# c9: README.pypi.md
-# c10: README.npm.md
-seg-5292f7162e2b = A regression guard (<c1/>) scans the live public surfaces (<c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, and the crates.io, PyPI (Python Package Index) and npm front pages <c8/>, <c9/>, <c10/>) on every CI (continuous integration) run and fails if any of the retired bare overclaim phrases reappears uncaveated — so a row cannot silently regress from GREEN.
+# c5: docs/compliance/
+# c6: web/capabilities.json
+# c7: web/index.html
+# c8: web/README.md
+# c9: README.crates.md
+# c10: README.pypi.md
+# c11: README.npm.md
+seg-040ff6bbed59 = A regression guard (<c1/>) scans the live public surfaces listed in the test (among them <c2/>, <c3/>, <c4/>, the <c5/> pages, <c6/>, <c7/>, <c8/>, and the crates.io, PyPI (Python Package Index) and npm front pages <c9/>, <c10/>, <c11/>) on every CI (continuous integration) run and fails if any of the retired bare overclaim phrases reappears uncaveated — so a row cannot silently regress from GREEN.
 
 # text
 seg-dafc6f322f34 = All fourteen rows are <b>GREEN</b>.
@@ -76,7 +77,7 @@ seg-bfff34d5a250 = <b>Superseded</b> — a link-budget jamming model J/S → eff
 
 # text
 # c1: src/jamming.rs
-seg-5f75628b8201 = <c1/> ({ "10" } tests); README "Resilience" row
+seg-e55bb1a74cad = <c1/> ({ "12" } tests); README "Resilience" row
 
 # text
 seg-bae512770cd6 = "Full IMU (inertial measurement unit) Allan-variance noise model on an IMU triad" — the model was single-axis
@@ -133,7 +134,7 @@ seg-717167714e83 = <b>De-claimed → Superseded</b> — re-framed as a PNT-resil
 # c1: src/inertial/quantum_imu.rs
 # c2: 1/√(N·C²·T²)
 # c3: docs/QUANTUM.md
-seg-c67fb22add4b = <c1/> ({ "26" } tests — Mach–Zehnder phase, projection noise <c2/>, vibration transfer function, Coriolis + AC-Stark (AC: alternating-current) systematics); <c3/>
+seg-1c7cb4b2786c = <c1/> ({ "27" } tests — Mach–Zehnder phase, projection noise <c2/>, vibration transfer function, Coriolis + AC-Stark (AC: alternating-current) systematics); <c3/>
 
 # text
 seg-5c6b7d4f2029 = "Integrity Performance" FoM implied aviation HPL/VPL/RAIM integrity
@@ -142,11 +143,11 @@ seg-5c6b7d4f2029 = "Integrity Performance" FoM implied aviation HPL/VPL/RAIM int
 seg-ee5487da890c = <b>De-claimed + Superseded (layered)</b> — the per-run scenario FoM is honestly labelled <em>filter self-consistency</em> (<b>not</b> aviation integrity); the real ARAIM HPL/VPL is surfaced <em>separately</em> so the two are never conflated
 
 # text
-# c1: src/fom.rs:80
+# c1: src/fom.rs:81
 # c2: integrity
 # c3: src/raim.rs
 # c4: docs/INTEGRITY.md
-seg-31aacdf17b02 = <c1/> (<c2/>: self-consistency, caveated); <c3/> + <c4/> (real ARAIM)
+seg-f34bfd950ddb = <c1/> (<c2/>: self-consistency, caveated); <c3/> + <c4/> (real ARAIM)
 
 # text
 seg-0686fa147c96 = Security FoM presented as always meaningful, even with no attack

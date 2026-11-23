@@ -798,7 +798,6 @@ seg-8adbbd2cdb74 = Sebepopis zprávy hybridního optického/RF spoje
 seg-2a5e48b558e1 = Zpráva hybrid-optical-rf uvádí konfiguraci spoje, při které skutečně běžela (vlnová délka nosné, vysílací a přijímací apertura, vzdálenost, šířka pulzu, doba integrace, účinnosti a ztráty, rozřešené výchozí hodnoty), a nese blok jednotek, který udává jednotku a třídu původu každé veličiny, kterou je pravděpodobné, že článek citoval, včetně stop kovariance předání v metrech čtverečních
 
 # c1: variance
-seg-23f0c10237f4 = Žádné vnější orákulum a žádné není možné: jde o sebepopis, nikoli o měření. Je zaznamenán, protože jeho absence byla vadou – P5 musel citovat vlnovou délku nosné a vysílací aperturu z výchozích hodnot ve zdroji a z kontroly vnitřní konzistence usuzovat, že holé <c1/> bylo v metrech čtverečních. Úsudek byl správný, a právě proto to mělo význam: nic by nezachytilo, kdyby byl chybný
 
 seg-0691f3dee8cb = Dostupnost hybridního optického/RF spoje na straně RF
 
@@ -2299,8 +2298,6 @@ seg-d5c32303297d = Přečtěte si registr
 
 seg-f6112ab2dfdf = Registr, výsledky, reprodukovatelný otisk i testy, které za nimi stojí, jsou všechny v otevřeném enginu.
 
-seg-69df15091cab = Sbalí důkazy do reprodukovatelného balíčku důkazů auditní kvality pro oponentní komisi. <a1>Viz níže</a1>
-
 seg-9906d9824f3e = Odpoví na vaši vlastní otázku se stejnými štítky, nikoli certifikací. <a1>Viz níže</a1>
 
 seg-f6a6cca2263c = Matice
@@ -3213,8 +3210,6 @@ seg-7091847e1c77 = Zveřejněný model nebo zdokumentovaná modelovací volba, v
 
 seg-1d17589ad647 = Inženýrství družicové platformy, navigační užitečné zatížení a antény, hardware kvantového užitečného zatížení a zajištění kvality letového hardwaru. Kshana si nic z toho nenárokuje; vlastní je partner.
 
-seg-5af3d58e83fa = <b>S edicí Pro:</b> <b>dosier mise</b> ověří každý požadavek proti skutečným během a uchovává tyto štítky ve své verifikační matici: požadavek splněný na základě MODELLED nebo PARTNER je označen. <a1>Zobrazit skutečný dosier</a1>
-
 seg-400016e22379 = Registr validace
 
 seg-20ec758fe328 = Každý řádek uvádí svůj požadavek, svůj stav a modul, který jej implementuje. Otevřete řádek pro jeho orákulum a testy, nebo vyberte doménu a zúžte výběr.
@@ -3709,8 +3704,6 @@ seg-457a0bba7c77 = <s1>tests/receiver_trust_machines.rs (rtklib_pos_runs_as_a_re
 
 seg-17ab1aee875b = Vygenerováno z verifikační matice enginu a připnuto testem. Procházejte seznam, nebo otevřete řádek pro jeho schopnost, orákulum a testy. Úplná tabulka, všechny sloupce najednou, je v dokumentaci: <a1>Přehled schopností</a1>.
 
-seg-41da0459d87a = Potřebujete tento registr jako reprodukovatelný balíček důkazů auditní kvality pro revizní komisi? <a1>Kshana Pro jej sestaví</a1>.
-
 seg-72a49f4a8a52 = Ve výchozím stavu reprodukovatelné
 
 seg-fa37e615f55e = Spusťte to znovu. Dostanete stejná čísla.
@@ -3762,10 +3755,6 @@ seg-481e625b04be = Stejné důkazy, zabalené nebo hotové za vás.
 seg-d2c76b1353a9 = Engine a vše výše zůstává zdarma. Na tom stavějí dvě placené cesty, na základě smlouvy.
 
 seg-1e1e6d431868 = Kshana Pro: dosier mise a balíček důkazů
-
-seg-20582558a93f = Kshana Pro reprodukovatelně balí důkazy, které žádá revizní nebo nákupní komise. Na čem staví: na tomto registru, kde každá schopnost uvádí své orákulum a svůj test, a na razítku, které nese každý výsledek. Jediným příkazem dosier mise ověří každý požadavek proti skutečným během a zapíše verifikační matici s otevřenými položkami a PDF (Portable Document Format).
-
-seg-1c8effb9400a = Zobrazit skutečný dosier
 
 seg-c24f4ecd4d42 = Studie na míru: vaše otázka, zodpovězená
 
@@ -4119,37 +4108,11 @@ seg-860ca782e2bf = Propagace středního stavu fáze tli-and-cruise (Cowell, Zem
 
 seg-7c7d72cc2036 = Přípustná oblast, kde může být zdroj zhoršených navigačních hlášení, z ADS-B… · modelované
 
-seg-43f852e4bee8 = z { "74" } ověřeno
-
 seg-8fe12f6058c6 = z { "26" } ověřeno
 
 seg-65122c2bb1fc = z { "104" } ověřeno
 seg-2998c6fa20d6 = z { "79" } ověřeno
 seg-4b3ab6095c65 = z { "56" } ověřeno
-
-seg-0c637f4b6c88 = { "412" } schopností, každá ohodnocena. <b>{ "176" } ověřeno</b> proti nezávislým vnějším orákulům. <b>{ "232" } poctivě označeno jako modelované.</b> { "4" } ve vlastnictví partnera. Nic se nezaokrouhluje nahoru.
-
-seg-c2c3179c1316 = Verifikační matice, jedna buňka na schopnost v pořadí registru: { "176" } ověřeno (plné čtverce), { "232" } modelováno (prázdné čtverce), { "4" } ve vlastnictví partnera (kosočtverce). Šipky přesouvají mezi buňkami; schopnost a její orákulum se čtou níže.
-
-seg-a2cdd2df1b36 = Engine v{ $version } · <c1/>, generováno z <c2/> · { "412" } řádků · žádný scénář ani seed: vlastní registr enginu
-
-seg-b36352ff4d2a = Engine v{ $version }, sestavení <c1/> · <c2/> · deterministické, bez seedu
-
-seg-edd1aba6a08c = Engine v{ $version }, sestavení <c1/> · <c2/> · deterministické, bez seedu
-
-seg-90efc3759f07 = Engine v{ $version }, sestavení <c1/> · <c2/> · deterministické, bez seedu
-
-seg-094876c75564 = Engine v{ $version } · tabulky reziduí <c1/>, s oběma kontrolami propagátoru přepočtenými v sestavení <c2/> · deterministické, bez seedu
-
-seg-1c7e4b85e701 = Engine v{ $version }, sestavení <c1/> · <c2/> · deterministické, bez seedu
-
-seg-f42398e9711c = Engine v{ $version }, sestavení <c1/> · <c2/> · deterministické, bez seedu
-
-seg-07e8ef5a102f = { "176" }<s1>z { "412" } ověřeno</s1>
-
-seg-4873cd813b9a = Verifikační matice: { "176" } ověřeno, { "232" } modelováno, { "4" } ve vlastnictví partnera, celkem { "412" }
-
-seg-98b273ce8773 = Všech { "412" } řádků, jeden řádek na každý.
 
 seg-7780d0588bd2 = z { "20" } ověřeno
 
@@ -4158,9 +4121,3 @@ seg-00d97be31745 = z { "81" } ověřeno
 seg-04cc15e9a93c = z { "31" } ověřeno
 
 seg-2de2a4f9f3f7 = z { "57" } ověřeno
-
-seg-c321a2dafd3e = Všech { "412" }
-
-seg-bc4726a0baf1 = Modelováno { "232" }
-
-seg-40e80b22723c = Registr validace, { "412" } řádků, posouvatelný

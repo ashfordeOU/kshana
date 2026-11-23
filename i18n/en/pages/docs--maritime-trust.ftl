@@ -365,7 +365,7 @@ seg-13a043c1ce60 = Each completed epoch writes one JSON line on stdout:
 seg-b1f0c563c94d = <c1/> is <c2/>, <c3/>, <c4/> or <c5/> (the band of the score, with the edges in the session's <c6/> table); <c7/> is absent while calibrating; <c8/> list which checks took points off and how many, largest first.
 
 # text
-seg-9b21238a7dc1 = JSON-lines schema (version { "1.1" })
+seg-ba523cda786e = JSON-lines schema (version { "1.3" })
 
 # text
 seg-79306ff2d878 = One JSON object per completed epoch, keys in this order:
@@ -651,7 +651,7 @@ seg-ec63f8f3230b = It is <b>a single point in the chain</b>: if it stops, the st
 seg-536e41a6a5e7 = It <b>fails closed on its own faults</b>: if the monitors cannot produce a score after calibration (a declared heading sensor that sends nothing, too few calibration epochs), the epoch is untrusted, carries a <c1/>, and is withheld; the release hold is timed on this computer's clock, not on the receiver's time, which is what a spoofer controls (for a replay there is only the receiver's time).
 
 # text
-seg-5dd62cd853c6 = It can <b>withhold a good fix</b> (a false alarm) as well as pass a spoofed one (a miss). The monitors check a fix against a ship's physics and its other sensors; a counterfeit that is consistent with all of them is not seen (see the limits below).
+seg-06a5ff647dcd = It can <b>withhold a good fix</b> (a false alarm) as well as pass a spoofed one (a miss). The monitors check a fix against a ship's physics and its other sensors; a counterfeit that is consistent with all of them is not seen (see the limits above).
 
 # text
 # c1: $PKSHT

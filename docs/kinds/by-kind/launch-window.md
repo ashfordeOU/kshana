@@ -43,7 +43,7 @@ The scalar results of that run, with the units the engine states:
 | `daily_opportunities` | 2 | count |
 | `dogleg_plane_change_dv_m_s` | no value | m/s |
 | `epoch` | no value | not stated |
-| `evidence.id_rule` | the stable id of the matrix row (the ID  | text |
+| `evidence.id_rule` | the stable id of the matrix row (the… | text |
 | `evidence.matrix` | docs/VERIFICATION-MATRIX.md | text |
 | `evidence.tier` | MODELLED | text |
 | `launch_azimuth_deg.ascending` | 44.975133 | deg |
@@ -57,12 +57,12 @@ Result label (the engine's): MODELLED — two-body spherical-Earth launch geomet
 
 MODELLED: the [verification matrix](../../VERIFICATION-MATRIX.md) rows that name this kind.
 
-- **MODELLED** Two-body launch azimuth(s) (sin Az = cos i / cos lat), minimum reachable inclination, circular velocity, Earth-rotation eastward bonus, dogleg plane-change Δv and daily opportunities, and, given an epoch and IERS finals2000A rows, the site 
+- **MODELLED** Two-body launch azimuth(s) (sin Az = cos i / cos lat), minimum reachable inclination, circular velocity, Earth-rotation eastward bonus, dogleg plane-change Δv and daily opportunities, and, given an epoch and IERS finals2000A rows, the…
 
 The rows the run itself exercised, with the oracle the matrix gives each (the public sources are named there):
 
-- **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): SBOM conformance to the official CycloneDX 1.5 JSON Schema (+ valid SPDX identifiers) — an external published standard, zero validation errors over the full dependency graph; the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
-- **MODELLED** Two-body launch azimuth(s) (sin Az = cos i / cos lat), minimum reachable inclination, circular velocity, Earth-rotation eastward bonus, dogleg plane-change Δv a. Oracle (InternalConsistency): Closed-form spherical-trig launch geometry vs published worked-example anchors (Vallado, Fundamentals of Astrodynamics 4th ed., Algorithm 37 launch-azimuth + Ch.6 plane-change; tests/launch_window_ascent_geometry_reference.rs). These re-use the same closed form kshana implements (a published-value parity / transcription check, InternalConsistency); MODELLED two-body, no rotating-Earth velocity-triangle / ascent / dra
+- **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): Official CycloneDX 1.5 JSON Schema (+ SPDX identifier list): every atomic licence id is a valid SPDX id, and the document has zero schema errors once compound expressions are moved to expression (the generator's raw output has 133 compound-id errors); the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
+- **MODELLED** Two-body launch azimuth(s) (sin Az = cos i / cos lat), minimum reachable inclination, circular velocity, Earth-rotation eastward bonus, dogleg plane-change Δv…. Oracle (InternalConsistency): Closed-form spherical-trig launch geometry vs published worked-example anchors (Vallado, Fundamentals of Astrodynamics 4th ed., Algorithm 37 launch-azimuth + Ch.6 plane-change; tests/launch_window_ascent_geometry_reference.rs). These re-use the same closed form kshana implements (a published-value parity / transcription check, InternalConsistency); MODELLED two-body, no rotating-Earth velocity-triangle / ascent /…
 
 ## Limitations
 

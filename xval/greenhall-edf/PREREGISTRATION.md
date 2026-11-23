@@ -95,4 +95,4 @@ portable-maths engine Bar 1 first missed at 3 points (case 3.1, m = 10000, N = 1
 first); with the kernel's logarithm evaluated in double-double and rounded once it holds again at all 4 876
 points, worst relative 6.0e-13. The Bar 5 guard is re-based to the 0.36 portable dump. Numbers, method and
 why a cancellation-free form cannot meet Bar 1 against allantools:
-[`docs/revisions/STUDIO15-greenhall-edf-portable.md`](../../docs/revisions/STUDIO15-greenhall-edf-portable.md).
+[`docs/revisions/greenhall-edf-portable.md`](../../docs/revisions/greenhall-edf-portable.md).

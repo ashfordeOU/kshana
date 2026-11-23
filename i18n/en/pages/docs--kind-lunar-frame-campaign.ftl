@@ -44,38 +44,35 @@ seg-1d70a5b4a197 = The example <c1/> sets, among others:
 seg-df90e5910fb4 = hr
 
 # text
-seg-d9523213de9f = Result label (the engine's): MODELLED campaign-driven lunar frame datum. The seven-parameter Helmert covariance is propagated from a beacon-coordinate information matrix accumulated from the engine's own lunar-VLBI delay partials over an explicit schedule of beacons, baselines and epochs; NO similarity transform is injected and
+seg-a75ca40f422b = Result label (the engine's): MODELLED campaign-driven lunar frame datum. The seven-parameter Helmert covariance is propagated from a beacon-coordinate information matrix accumulated from the engine's own lunar-VLBI delay partials over an explicit schedule of beacons, baselines and epochs; NO similarity transform is injected…
 
 # attr:alt
 seg-883d94b321b4 = The chart the engine writes for scenarios/lunar-frame-campaign.toml, kind lunar-frame-campaign
 
 # text
-seg-fbac1cbb2422 = MODELLED { "2" } · VALIDATED { "3" }: the <a1>verification matrix</a1> rows that name this kind.
+seg-77653d9b5124 = MODELLED { "1" } · VALIDATED { "3" }: the <a1>verification matrix</a1> rows that name this kind.
 
 # text
 seg-2595bd629ffb = <b>MODELLED</b> The seven-parameter Helmert datum propagated from a SIMULATED OBSERVING CAMPAIGN instead of recovered from an injected transform.
 
 # text
-seg-fd34d760edb1 = <b>VALIDATED</b> The seven-parameter Helmert datum covariance, with its two simulated inputs replaced by measured ones: the schedule is the ground-transmit epochs of { "337" } archived ILRS lunar laser-ranging normal points (2015-04-08 to 2015-06-27, Grasse MeO { "7" } Tests: <a1>lunar_llr_real_data.rs</a1>.
+seg-8dd6ff8c24ff = <b>VALIDATED</b> The seven-parameter Helmert datum covariance, with its two simulated inputs replaced by measured ones: the schedule is the ground-transmit epochs of { "337" } archived ILRS lunar laser-ranging normal points (2015-04-08 to 2015-06-27, Grasse MeO… Tests: <a1>lunar_llr_real_data.rs</a1>.
 
 # text
-seg-055864084843 = <b>MODELLED</b> Optional extra_reflectors and extra_beacons inputs on the lunar-llr-datum scenario add a station_geodesy block: the five-array Helmert information from the archived lunar laser ranging slice plus the information an added retroreflector (ran Tests: <a1>lunar_station_geodesy.rs</a1>.
+seg-5c186dcb1673 = <b>VALIDATED</b> The seven-parameter Helmert datum covariance of the lunar-frame-campaign scenario with the Earth stations estimated (station { "1" } anchored), as lunar_frame_campaign computes it in binary64: the joint station-and-beacon Fisher information… Tests: <a1>lunar_frame_campaign_mpmath_oracle.rs</a1>.
 
 # text
-seg-23bd763c32d8 = <b>VALIDATED</b> The seven-parameter Helmert datum covariance of the lunar-frame-campaign scenario with the Earth stations estimated (station { "1" } anchored), as lunar_frame_campaign computes it in binary64: the joint station-and-beacon Fisher information accum Tests: <a1>lunar_frame_campaign_mpmath_oracle.rs</a1>.
+seg-aee090640ad9 = <b>VALIDATED</b> An opt-in square-root information solver (lunar-frame-campaign solver = "srif"; default unchanged) that never forms or inverts an information matrix for the datum: Householder QR (orthogonal-triangular decomposition) of the whitened delay… Tests: <a1>lunar_frame_campaign_srif_mpmath_oracle.rs</a1>.
 
 # text
-seg-3319b18ac61f = and { "1" } more in the matrix.
+seg-a686f41848ed = <b>VALIDATED</b> 7-parameter Helmert datum fit + ICRF orientation tie from a network of points. Oracle (ExternalDataset): A closed-form weighted Umeyama (Horn) similarity-transform solver written for this repository on the numpy/scipy SVD (Umeyama { "1991" } IEEE TPAMI, Horn { "1987" } JOSA A; a reference implementation by the same project, not a third-party library) — a different algorithm from kshana's iterative Gauss–Newton fit, reaching the same uniquely-defined weighted-LS optimum on byte-identical point networks
 
 # text
-seg-49f323360dc3 = <b>VALIDATED</b> 7-parameter Helmert datum fit + ICRF orientation tie from a network of points. Oracle (ExternalDataset): Independent closed-form weighted Umeyama (Horn) similarity-transform solver (numpy/scipy SVD-based; Umeyama { "1991" } IEEE TPAMI, Horn { "1987" } JOSA A) — a different algorithm from kshana's iterative Gauss–Newton fit, reaching the same uniquely-defined weighted-LS optimum on byte-identical point networks
-
-# text
-seg-d024abcfd87c = <b>MODELLED</b> The seven-parameter Helmert datum propagated from a SIMULATED OBSERVING CAMPAIGN instead of recovered from an injected transform. Earth stations observe a sourc. Oracle (ReferenceImpl): Closed-form identities and an independent in-repo route, with no external oracle claimed. The Helmert design — the only new derivative in the module — is re-derived by central finite difference of lunar_frame_realise::apply_helmert, a path sharing no expression with the analytic form. The accumulation it composes is lunar-vlbi-fim's, whose Jacobian is finite-differenced against lunar_vlbi::vlbi_delay_s there, and who
+seg-0b0b960bdbd6 = <b>MODELLED</b> The seven-parameter Helmert datum propagated from a SIMULATED OBSERVING CAMPAIGN instead of recovered from an injected transform. Earth stations observe a…. Oracle (ReferenceImpl): Closed-form identities and an independent in-repo route, with no external oracle claimed. The Helmert design — the only new derivative in the module — is re-derived by central finite difference of lunar_frame_realise::apply_helmert, a path sharing no expression with the analytic form. The accumulation it composes is lunar-vlbi-fim's, whose Jacobian is finite-differenced against lunar_vlbi::vlbi_delay_s there, and…
 
 # text
 # c1: label
-seg-0abd7b181f21 = MODELLED campaign-driven lunar frame datum. The seven-parameter Helmert covariance is propagated from a beacon-coordinate information matrix accumulated from the engine's own lunar-VLBI delay partials over an explicit schedule of beacons, baselines and epochs; NO similarity transform is injected and nothing is recovered from a planted answer. The beacon catalogue is the crate's sourced named-site table, but the CAMPA (result <c1/>)
+seg-2bdd75f3712f = MODELLED campaign-driven lunar frame datum. The seven-parameter Helmert covariance is propagated from a beacon-coordinate information matrix accumulated from the engine's own lunar-VLBI delay partials over an explicit schedule of beacons, baselines and epochs; NO similarity transform is injected and nothing is recovered from a planted answer. The beacon catalogue is the crate's sourced named-site table, but the… (result <c1/>)
 
 # text
 # c1: kshana kinds --json
@@ -86,7 +83,7 @@ seg-f92d22c06cd5 = Beacon-error correlation is measured, not assumed: with the s
 seg-534cea416496 = MODELLED: the beacon catalogue is sourced but the CAMPAIGN is simulated — the station network and the delay sigma are illustrative inputs, individual delay observations are treated as independent, and the Moon-centre ephemeris, station clocks, troposphere and Earth-orientation parameters are held FIXED, so the datum covariance is a Cramer-Rao bound for a reduced parameter set. (kind catalogue (<c1/>))
 
 # text
-seg-ec67b9d3adbb = Beacon-error correlation is MEASURED, not assumed. With the stations held fixed no observation touches two beacons, so the information matrix is exactly block-diagonal (offblock_fraction { "0" }); with the stations estimated the Schur-marginalised block is coupled, the induced correlation is printed, and the whole propagation is re-run with it discarded so the price of an independence assumption is a number rather than a c (scenario file comment, lines { "17" } to { "21" })
+seg-06db247cf1c0 = Beacon-error correlation is MEASURED, not assumed. With the stations held fixed no observation touches two beacons, so the information matrix is exactly block-diagonal (offblock_fraction { "0" }); with the stations estimated the Schur-marginalised block is coupled, the induced correlation is printed, and the whole propagation is re-run with it discarded so the price of an independence assumption is a number rather than a… (scenario file comment, lines { "17" } to { "21" })
 
 # text
 seg-a2bb557da7ba = MODELLED: the beacon catalogue is sourced but the CAMPAIGN is simulated — the station network and the delay sigma are illustrative inputs, individual delay observations are treated as independent, and the Moon-centre ephemeris, station clocks, troposphere and Earth-orientation parameters are held FIXED. Not a geodetic product. (scenario file comment, lines { "27" } to { "30" })

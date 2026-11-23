@@ -186,8 +186,6 @@ seg-b388c2bac488 = Åbn bane-konsollen
 
 seg-3d6af799cb19 = <s1>Gratis kerne</s1> alle scenarier og diagrammer på denne side
 
-seg-354162e88f07 = <s1>Pro</s1> Pareto-fronten for et udformningsrum, usikkerhed og følsomhed og en missionsdossier med én kommando
-
 seg-83e0dd9b2617 = <s1>Skræddersyet studie</s1> modeller kalibreret til din hardware, udført for dig
 
 seg-5285d23ae95b = Trusselsmatrix · scenariefiler efter sektor og svigt
@@ -282,8 +280,6 @@ seg-2d9d1994071f = Kør hver scenariefil i denne sektor i Kshana Studio eller fr
 
 seg-731232b52b8f = Pro tilføjer
 
-seg-de3cc6d30b9c = Pro: reviderbare, reproducerbare bevispakker til en gennemgang.
-
 seg-04d539c39f45 = Skræddersyet studie tilføjer
 
 seg-71d7ccb4c89a = Skræddersyet: eksportkontrolleret robusthedsarbejde under den fornødne sikkerhedsgodkendelse og NDA (fortrolighedsaftale).
@@ -368,8 +364,6 @@ seg-2918af222529 = Satellitter i sigte og PDOP (positions-præcisionsfortynding)
 
 seg-ef0cc5181857 = En geostationær bruger: angiv brugerens bane i et scenarie af orbit-typen, på samme måde som orbit-molniya angiver en stærkt excentrisk.
 
-seg-7889feffa939 = Pro: arkitekturafvejningsstudier rangeret efter et kvalitetsmål. Pro: digitale ur-tvillinger kalibreret til din enheds publicerede Allan-budget.
-
 seg-bb0ceeb8db2a = Får en lander, en rover eller en orbiter ved Månen, ved Mars eller længere ude en troværdig position og tid, og hvad tilføjer den lokale tidsskala til fejlbudgettet?
 
 seg-db11b1e64ac5 = Svage signaler på månens afstand, tynd relægeometri, lysforsinkelse, lunar tidsafvigelse, jamming på overfladen
@@ -425,8 +419,6 @@ seg-25e1426d8341 = Modtagelse af Jordens GNSS på månens afstand
 seg-96077751d4ce = Lunar tidsrate mod det publicerede bånd og tidsfejlbudgettet fra ende til anden
 
 seg-f1dfccfb9f89 = Relænavigationsfejl i Mars-bane, på overfladen og under overgang
-
-seg-4a5542c69690 = Pro: digitale ur-tvillinger kalibreret til din enheds publicerede Allan-budget. Pro: arkitekturafvejningsstudier rangeret efter et kvalitetsmål.
 
 seg-4cf1f8144ae2 = Hvor længe holder mit UAS (ubemandede luftfartøjssystem) sig inden for sit positionsbudget, efter at en jammer har taget GNSS, og er integritet tilgængelig på min rute?
 
@@ -574,8 +566,6 @@ seg-b6c48dca904a = Detektion af tids-spoofing ved urets integritetsmonitor
 
 seg-3db4a218354b = Elnet og finans: din sektors grænse for tidsnøjagtighed indsættes som threshold_ns.
 
-seg-cc45be91cd00 = Pro: digitale ur-tvillinger kalibreret til din enheds publicerede Allan-budget. Pro: reviderbare, reproducerbare bevispakker til en gennemgang.
-
 seg-cb5e51c39a7f = Tab af GNSS-tidsreferencen ved et primært referencetidsur, tids-spoofing
 
 seg-c89c91bfd2ac = Tidsfejl mod ITU-T-masker
@@ -663,8 +653,6 @@ seg-8cc7ceade324 = t = { "0" } s
 seg-1bd3b0f6eb7e = Ægte motorkørsel, afspillet
 
 seg-f1313464b7c9 = Baner: propageret igen ud fra kørslens egne elementer og kontrolleret mod motorens spor på jorden. Planeter: NASA-billeder.
-
-seg-6c981f00d37d = <b>Med Pro:</b> udformningsoptimeringen kører et helt konstellationsudformningsrum omkring Jorden, Månen eller Mars gennem denne motor og returnerer dets <b>Pareto-front</b>, hvor hver udformning på fronten er skrevet ud som en almindelig scenariefil. <a1>Se en ægte front</a1>
 
 seg-cdd1e1a6793d = Svigttilstande
 
@@ -778,8 +766,6 @@ seg-d2c741b188de = Dimensionér en PNT-arkitektur og se, hvor den går i stykker
 
 seg-87adf34e62f8 = Start ved <a1>Funktionsatlas</a1>
 
-seg-9601ecea0610 = <b>Gratis i dag:</b> alt i den åbne motor. Pro: arkitekturafvejningsstudier rangeret efter et kvalitetsmål.
-
 seg-5ad7df11c031 = PNT- eller GNSS-specialist
 
 seg-8f2ceeab7a06 = Åbn TOML-filen, ændr fysikken, og kontrollér den mod registret.
@@ -793,8 +779,6 @@ seg-c0cabe8a1c21 = Test- og evalueringsansvarlig
 seg-a5345bf50e9a = Fastlås scenarier som regressionstests og kør en hel suite til ét stemplet studie.
 
 seg-57027baf4d52 = Start ved <a1>Måder at bruge den på</a1>
-
-seg-081d06995ef0 = <b>Gratis i dag:</b> alt i den åbne motor. Pro: reviderbare, reproducerbare bevispakker til en gennemgang.
 
 seg-e453a0b9a72e = Indkøber eller programgennemgår
 
@@ -818,8 +802,6 @@ seg-4f23a0580efe = Kontrollér holdover mod ITU-T-masker, før GNSS-antennen svi
 
 seg-7bc4df13f4cb = Start ved <a1>Tidsvæggen</a1>
 
-seg-2abf4f5bd06e = <b>Gratis i dag:</b> alt i den åbne motor. Pro: digitale ur-tvillinger kalibreret til din enheds publicerede Allan-budget.
-
 seg-907754b26f64 = Bruger af AI-assistent
 
 seg-3cde4f0b352a = Lad din assistent køre den kontrollerede motor i stedet for at gætte på matematikken.
@@ -837,5 +819,3 @@ seg-0e6be0d623f6 = <b>Gratis i dag:</b> alt i den åbne motor. Kommerciel licens
 seg-9b505908a6e2 = Kshana <b>styrer ingen radiohardware og udsender intet</b>. Den indeholder en software-GNSS-modtager til optaget og genereret IQ og kan skrive syntetiske IQ-filer i basisbånd, men den er <b>ikke RF-signalgeneratorhardware</b> og <b>ikke en hardware- eller certificeret GNSS-modtager</b>. Den er et studie- og afvejningsinstrument: den simulerer, hvad jamming, spoofing og signaltab gør ved en navigations- og tidsløsning, og fortæller dig, hvilke af dens svar der er kontrolleret. <b>Ikke et produkt til flyvning.</b>
 
 seg-ceb2de75e2f4 = <b>Gratis i dag:</b> alt i den åbne motor. Gratis: { "53" } MCP-værktøjer, fra run_scenario til export_oem.
-
-seg-67a6c0107bcd = Motor v{ $version }, build <c1/> · <c2/> · deterministisk, intet seed

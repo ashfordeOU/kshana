@@ -1096,7 +1096,6 @@ seg-0cc84aedee42 = kontrollerad mot sin egen slutna/analytiska identitet — få
 
 seg-b19cbd364dea = src/benchmark/scorecard.rs::tests (referens-PL absorberar; trasig PL oabsorberad-aldrig-detekterad; verdikt för detekterbar täckning; den ärlighetsegenskap att inget täcknings- eller detekteringsverdikt kan nås för ett icke detekterbart scenario)
 
-seg-350aaf43f349 = kontrollerad mot sin egen slutna/analytiska identitet — fångar avskrivnings- och koefficientfel, men är inte en extern oberoende referens — Ingen extern oberoende referens, och ingen är möjlig: det här är självbeskrivning, inte en mätning. Den registreras eftersom avsaknaden av den var en brist -- P5 tvingades hämta bärvågens våglängd och sändaröppningen från källkodens standardvärden, och sluta sig till att en naken <c1/> var i kvadratmeter utifrån en intern konsistenskontroll. Slutsatsen var riktig, vilket är precis varför det spelade roll: ingenting hade fångat att den var fel
 
 seg-6d963d838eed = hybrid_integrity::tests (den lösta konfigurationen ekas för standardvärden och för åsidosättanden, utan att våglängden rundas via meter; varje units-post bär både en enhet och en proveniensklass; varje fält som units-blocket nämner skickas faktiskt ut, så det kan inte dokumentera ett spökfält)
 
@@ -2017,5 +2016,3 @@ seg-2630978c5675 = kontrollerad mot sin egen identitet i sluten form / analytisk
 seg-67fdcdfdb635 = interference_map::emitter (estimate, sessions, build_units, profile, GaussianFix::from_tdoa), interference_map::emitter_out (locate), <c1/>
 
 seg-920b26e226ab = enhetstester för interference_map::emitter (rundtur för projektion, horisontsiffra, syntetiska rundturer framåt och bakåt: den kända sändaren ligger innanför det angivna området ungefär i den angivna andelen, gränsfall, sessionsklustring, profil, integritet och formulering); fall för locate i tests/interference_map_cli.rs
-
-seg-474381d842e6 = { "232" } förmågor märkta MODELLED.

@@ -940,7 +940,6 @@ seg-8adbbd2cdb74 = Selvbeskrivelse i rapporten om hybrid optisk/RF
 
 seg-2a5e48b558e1 = Rapporten hybrid-optical-rf angiver den linkkonfiguration, den faktisk blev kørt med (bærebølgelængde, sende- og modtageapertur, afstand, pulsbredde, integrationstid, effektiviteter og tab, standardværdier løst) og bærer en enhedsblok, der giver enhed og proveniensklasse for hver størrelse, en artikel sandsynligvis citerer, herunder sporene af overdragelseskovariansen i kvadratmeter
 
-seg-23f0c10237f4 = Ingen ekstern uafhængig reference, og ingen er mulig: dette er selvbeskrivelse, ikke en måling. Det registreres, fordi dens fravær var en defekt — P5 måtte citere bærebølgelængden og sendeaperturen fra kildens standardværdier og udlede, at en bar <c1/> var i kvadratmeter, ud fra en intern konsistenskontrol. Udledningen var korrekt, hvilket netop er grunden til, at det betød noget: intet ville have fanget, hvis den havde været forkert
 
 seg-0691f3dee8cb = Tilgængelighed af hybrid optisk/RF-link på RF-siden
 
@@ -2260,8 +2259,6 @@ seg-d5c32303297d = Læs registeret
 
 seg-f6112ab2dfdf = Registeret, resultaterne, reproducerbarhedsstemplet og testene bag dem ligger alle i den åbne motor.
 
-seg-69df15091cab = Pakker evidensen i en reproducerbar bevispakke af revisionskvalitet til en gennemgangskomité. <a1>Se nedenfor</a1>
-
 seg-9906d9824f3e = Besvarer dit eget spørgsmål med de samme mærker, ikke en certificering. <a1>Se nedenfor</a1>
 
 seg-f6a6cca2263c = Matrix
@@ -3174,8 +3171,6 @@ seg-7091847e1c77 = En publiceret model eller et dokumenteret modelvalg, internt 
 
 seg-1d17589ad647 = Konstruktion af rumfartøjets bus, navigationsnyttelast og antennehardware, kvantenyttelastens hardware og produktsikring af flyvehardware. Kshana gør ikke krav på nogen af dem; en partner ejer dem.
 
-seg-5af3d58e83fa = <b>Med Pro:</b> et <b>missionsdossier</b> kontrollerer hvert krav mod rigtige kørsler og beholder disse etiketter i sin verifikationsmatrix: et krav, der er opfyldt på et grundlag, der er MODELLED eller PARTNER, bliver markeret. <a1>Se et rigtigt dossier</a1>
-
 seg-400016e22379 = Valideringsregister
 
 seg-20ec758fe328 = Hver række navngiver sit krav, sin status og det modul, der implementerer det. Åbn en række for dens reference og tests, eller vælg et domæne for at indsnævre.
@@ -3670,8 +3665,6 @@ seg-457a0bba7c77 = <s1>tests/receiver_trust_machines.rs (rtklib_pos_runs_as_a_re
 
 seg-17ab1aee875b = Genereret ud fra motorens verifikationsmatrix og fastlåst af en test. Rul i listen, eller åbn en række for dens funktion, reference og tests. Den fulde tabel med alle kolonner på én gang findes i dokumentationen: <a1>Funktionsreference</a1>.
 
-seg-41da0459d87a = Har du brug for dette register som en reproducerbar bevispakke i revisionskvalitet til et bedømmelsesorgan? <a1>Kshana Pro pakker det</a1>.
-
 seg-72a49f4a8a52 = Reproducerbar som standard
 
 seg-fa37e615f55e = Kør den igen. Få de samme tal.
@@ -3723,10 +3716,6 @@ seg-481e625b04be = Samme belæg, pakket eller udført for dig.
 seg-d2c76b1353a9 = Motoren og alt ovenfor forbliver gratis. To betalte veje bygger videre på dem, under kontrakt.
 
 seg-1e1e6d431868 = Kshana Pro: et missionsdossier og en bevispakke
-
-seg-20582558a93f = Kshana Pro pakker det belæg, en gennemgang eller et indkøbsudvalg beder om, reproducerbart. Det bygger på dette register, hvor hver funktion navngiver sin uafhængige reference og sin test, og på det stempel, hvert resultat bærer. Med én kommando kontrollerer et missionsdossier hvert krav mod rigtige kørsler og skriver en verifikationsmatrix med dens åbne punkter og en PDF (Portable Document Format).
-
-seg-1c8effb9400a = Se et rigtigt dossier
 
 seg-c24f4ecd4d42 = Et skræddersyet studie: dit spørgsmål, besvaret
 
@@ -4080,37 +4069,11 @@ seg-860ca782e2bf = Propageringen af middeltilstanden i fasen tli-and-cruise (Cow
 
 seg-7c7d72cc2036 = Et muligt område for, hvor en kilde til forringede navigationsrapporter kan være, fra ADS-B… · Modelleret
 
-seg-43f852e4bee8 = af { "74" } valideret
-
 seg-8fe12f6058c6 = af { "26" } valideret
 
 seg-65122c2bb1fc = af { "104" } valideret
 seg-2998c6fa20d6 = af { "79" } valideret
 seg-4b3ab6095c65 = af { "56" } valideret
-
-seg-0c637f4b6c88 = { "412" } funktioner, hver bedømt. <b>{ "176" } valideret</b> mod uafhængige eksterne referencer. <b>{ "232" } ærligt betegnet modelleret.</b> { "4" } ejet af partnere. Intet rundes op.
-
-seg-c2c3179c1316 = Verifikationsmatrix, én celle pr. funktion i registerets rækkefølge: { "176" } valideret (udfyldte firkanter), { "232" } modelleret (hule firkanter), { "4" } ejet af partnere (diamanter). Piletasterne flytter mellem celler; funktionen og dens uafhængige reference læses op nedenfor.
-
-seg-a2cdd2df1b36 = Motor v{ $version } · <c1/>, genereret fra <c2/> · { "412" } rækker · intet scenarie eller seed: motorens eget register
-
-seg-b36352ff4d2a = Motor v{ $version }, build <c1/> · <c2/> · deterministisk, intet seed
-
-seg-edd1aba6a08c = Motor v{ $version }, build <c1/> · <c2/> · deterministisk, intet seed
-
-seg-90efc3759f07 = Motor v{ $version }, build <c1/> · <c2/> · deterministisk, intet seed
-
-seg-094876c75564 = Motor v{ $version } · <c1/> resttabeller, med de to propagatortjek genberegnet ved build <c2/> · deterministisk, intet seed
-
-seg-1c7e4b85e701 = Motor v{ $version }, build <c1/> · <c2/> · deterministisk, intet seed
-
-seg-f42398e9711c = Motor v{ $version }, build <c1/> · <c2/> · deterministisk, intet seed
-
-seg-07e8ef5a102f = { "176" }<s1>af { "412" } valideret</s1>
-
-seg-4873cd813b9a = Verifikationsmatrix: { "176" } valideret, { "232" } modelleret, { "4" } ejet af partnere, { "412" } i alt
-
-seg-98b273ce8773 = Alle { "412" } rækker, én linje hver.
 
 seg-7780d0588bd2 = af { "20" } valideret
 
@@ -4119,9 +4082,3 @@ seg-00d97be31745 = af { "81" } valideret
 seg-04cc15e9a93c = af { "31" } valideret
 
 seg-2de2a4f9f3f7 = af { "57" } valideret
-
-seg-c321a2dafd3e = Alle { "412" }
-
-seg-bc4726a0baf1 = Modelleret { "232" }
-
-seg-40e80b22723c = Valideringsregister, { "412" } rækker, kan rulles

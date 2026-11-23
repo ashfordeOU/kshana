@@ -97,7 +97,8 @@ seg-bc9bb4f545e2 = k2 = { "0.024116" } +/- { "0.000108" } (Lemoine et al., Geoph
 seg-6cd670ae6eea = Results at a glance (see RESULTS.md)
 
 # text
-seg-6334f82991d3 = Not met, and pinned by tests that assert the miss: C3 (the injected-error metric does not fire at { "3e-10" } m/s2), the bootstrapped-rate half of Q3 at { "1e-9" }, and the CRLB-trace half of G3. Integer ambiguity fixing is not achieved at the registered inputs. Nothing is VALIDATED.
+# c1: xval/lunar-infra/RESULTS-v2.md
+seg-d2c51cd1a701 = Not met, and pinned by tests that assert the miss: C3 (the injected-error metric does not fire at { "3e-10" } m/s2), the bootstrapped-rate half of Q3 at { "1e-9" }, and the CRLB-trace half of G3. Integer ambiguity fixing is not achieved at the registered inputs. Nothing is VALIDATED. The later, separately named bars in <c1/> leave these verdicts unchanged.
 
 # text
 seg-1d3bffc2fd02 = <s1>Previous</s1>Space-user navigation (gnss-ssv)

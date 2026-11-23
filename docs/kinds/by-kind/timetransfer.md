@@ -23,11 +23,11 @@ The example `scenarios/timetransfer.toml` sets, among others:
 |---|---|---|
 | `kind` | timetransfer | text |
 | `link_classical.id` | twstft-rf | text |
-| `link_classical.provenance` | Two-way satellite time and frequency transfer (TWSTFT, Ku-ba | text |
+| `link_classical.provenance` | Two-way satellite time and frequency transfer (TWSTFT… | text |
 | `link_classical.q_rw_s` | 1.0000e-26 | s |
 | `link_classical.sigma_j_s` | 5.0000e-10 | s |
 | `link_quantum.id` | optical-isl | text |
-| `link_quantum.provenance` | Optical inter-satellite link, picosecond-level synchronizati | text |
+| `link_quantum.provenance` | Optical inter-satellite link, picosecond-level… | text |
 | `link_quantum.q_rw_s` | 1.0000e-32 | s |
 | `link_quantum.sigma_j_s` | 1.0000e-12 | s |
 | `range_spec_mm` | 10 | mm |
@@ -67,8 +67,8 @@ MODELLED: the [verification matrix](../../VERIFICATION-MATRIX.md) rows that name
 
 The rows the run itself exercised, with the oracle the matrix gives each (the public sources are named there):
 
-- **MODELLED** Two-way/TWSTFT (Sagnac), GNSS common-view, PPP; link-jitter→range. Oracle (ExternalDataset): Sagnac magnitude checked against an authoritative PUBLISHED VALUE — N. Ashby, 'Relativity in the GPS', Living Reviews in Relativity 6:1 (2003), Eq. 1.29: an eastward equatorial circumnavigation accrues 207.4 ns (2ωA_E/c²); kshana reproduces 207.386 ns. Independently corroborated by RTKLIB 2.4.3 geodist() (Takasu, BSD-2-Clause), which carries the same 2Aω/c² geometry. The composite BIPM TWSTFT transponder/common-view/
-- **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): SBOM conformance to the official CycloneDX 1.5 JSON Schema (+ valid SPDX identifiers) — an external published standard, zero validation errors over the full dependency graph; the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
+- **MODELLED** Two-way/TWSTFT (Sagnac), GNSS common-view, PPP; link-jitter→range. Oracle (ExternalDataset): Sagnac magnitude checked against an authoritative PUBLISHED VALUE — N. Ashby, 'Relativity in the GPS', Living Reviews in Relativity 6:1 (2003), Eq. 1.29: an eastward equatorial circumnavigation accrues 207.4 ns (2ωA_E/c²); Kshana reproduces 207.386 ns. Independently corroborated by RTKLIB 2.4.3 geodist() (Takasu, BSD-2-Clause), which carries the same 2Aω/c² geometry. The composite BIPM TWSTFT…
+- **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): Official CycloneDX 1.5 JSON Schema (+ SPDX identifier list): every atomic licence id is a valid SPDX id, and the document has zero schema errors once compound expressions are moved to expression (the generator's raw output has 133 compound-id errors); the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
 
 ## Limitations
 

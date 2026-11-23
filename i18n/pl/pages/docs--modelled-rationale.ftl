@@ -898,7 +898,6 @@ seg-bdda05057c91 = rinex_obs (parse_obs)
 
 seg-b19cbd364dea = src/benchmark/scorecard.rs::tests (referencyjny PL pochłania; uszkodzony PL niepochłonięty-nigdy-niewykryty; werdykt pokrycia wykrywalnego; właściwość rzetelności, że dla scenariusza niewykrywalnego nie da się uzyskać żadnego werdyktu pokrycia ani detekcji)
 
-seg-350aaf43f349 = sprawdzone względem własnej tożsamości w postaci zamkniętej / analitycznej — wychwytuje błędy przepisania i współczynników, ale nie jest zewnętrzną wyrocznią — Brak zewnętrznej wyroczni i żadna nie jest możliwa: to jest samoopis, a nie pomiar. Zapisano go, ponieważ jego brak był defektem -- P5 musiało przytaczać długość fali nośnej i aperturę nadawczą z domyślnych wartości w kodzie źródłowym oraz wnioskować na podstawie wewnętrznej kontroli spójności, że goła <c1/> jest w metrach kwadratowych. Wniosek był poprawny, i właśnie dlatego miało to znaczenie: nic nie wychwyciłoby pomyłki
 
 seg-6d963d838eed = hybrid_integrity::tests (rozwiązana konfiguracja jest zwracana echem zarówno dla wartości domyślnych, jak i dla nadpisań, bez przepuszczania długości fali tam i z powrotem przez metry; każdy wpis jednostek zawiera zarówno jednostkę, jak i klasę pochodzenia; każde pole, które wymienia blok jednostek, jest faktycznie emitowane, więc nie może dokumentować pola-widma)
 
@@ -2012,5 +2011,3 @@ seg-2630978c5675 = sprawdzone względem własnej tożsamości w postaci zamknię
 seg-67fdcdfdb635 = interference_map::emitter (estimate, sessions, build_units, profile, GaussianFix::from_tdoa), interference_map::emitter_out (locate), <c1/>
 
 seg-920b26e226ab = testy jednostkowe interference_map::emitter (cykl projekcji, wartość horyzontu, syntetyczne pełne cykle prosty i odwrotny: znany emiter leży wewnątrz podanego obszaru z mniej więcej podaną częstością, przypadki brzegowe, grupowanie sesji, profil, prywatność i sformułowania); przypadki locate w tests/interference_map_cli.rs
-
-seg-474381d842e6 = { "232" } możliwości oznaczonych MODELLED.

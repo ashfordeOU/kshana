@@ -40,7 +40,7 @@ The example `scenarios/integrity-raim.toml` sets, among others:
 kshana scenarios/integrity-raim.toml
 ```
 
-3 bundled scenarios use this kind; the others are in [`scenarios/`](../../../scenarios/).
+3 scenario files in [`scenarios/`](../../../scenarios/) use this kind.
 
 ## What it gives
 
@@ -50,7 +50,7 @@ The scalar results of that run, with the units the engine states:
 |---|---|---|
 | `al_h_m` | 40 | m |
 | `al_v_m` | 50 | m |
-| `evidence.id_rule` | the stable id of the matrix row (the ID  | text |
+| `evidence.id_rule` | the stable id of the matrix row (the… | text |
 | `evidence.matrix` | docs/VERIFICATION-MATRIX.md | text |
 | `evidence.tier` | MODELLED | text |
 | `samples_available` | 344 | count |
@@ -61,20 +61,20 @@ The scalar results of that run, with the units the engine states:
 
 ## Evidence
 
-MODELLED 6 · VALIDATED 4: the [verification matrix](../../VERIFICATION-MATRIX.md) rows that name this kind.
+MODELLED 5 · VALIDATED 4: the [verification matrix](../../VERIFICATION-MATRIX.md) rows that name this kind.
 
-- **MODELLED** The optional [integrity] section of the clock kind (clock_integrity::run): from a stated site and constellation presets (geometry::sky_geometry), at every integrity epoch while the GNSS timeline is not denied, snapshot RAIM (raim::snapshot_ Tests: [clock_integrity.rs](../../../tests/clock_integrity.rs).
 - **VALIDATED** Scalar-time solution-separation TPL over heterogeneous sources; PL driven by worst-exclusion subset noise + UTC(k) bias
 - **MODELLED** PL(τ)=max(TPL_handover,HPL(τ)); lower-semicontinuous PL(0+)≥PL(0−); K(IR/2) running-max; τ/τ³/τ⁵ phase exponents
 - **VALIDATED** Running-max envelope overbound-covers (zero-piercing) a real metrological series at every tested lag tau>=90d on a disjoint segment; short-tau (<=30d) is a disclosed Modelled boundary Tests: [cti_holdover_coverage_reference.rs](../../../tests/cti_holdover_coverage_reference.rs).
-- and 6 more in the matrix.
+- **MODELLED** No finite worst-case holdover (Brownian sup diverges); IR-allocated HPL consistent with Hartman-Wintner envelope as IR→0
+- and 5 more in the matrix.
 
 The rows the run itself exercised, with the oracle the matrix gives each (the public sources are named there):
 
-- **VALIDATED** ARAIM multiple-hypothesis solution separation per the ARAIM Airborne Design Document (ADD) v4.2 (araim_reference::add_v42_protection_levels and add_v42_protecti. Oracle (ExternalDataset): Three independent tools, pre-registered (ba7a01a7) before any fixture or oracle output existed, tolerances fixed then. (1) ARAIM: Stanford MAAST for ARAIM 2 (commit ab70e2a3, BSD-3) mhss_raim_baseline_v5.m, run as a separate program under GNU Octave 8.4 with a driver-side unique() compatibility shim (disclosed, no algorithm change), at the ADD TOL_PL of 0.05 m: the Rust reproduces the ADD reference implementation on 
+- **VALIDATED** ARAIM multiple-hypothesis solution separation per the ARAIM Airborne Design Document (ADD) v4.2 (araim_reference::add_v42_protection_levels and…. Oracle (ExternalDataset): Three independent tools, pre-registered (ba7a01a7) before any fixture or oracle output existed, tolerances fixed then. (1) ARAIM: Stanford MAAST for ARAIM 2 (commit ab70e2a3, BSD-3) mhss_raim_baseline_v5.m, run as a separate program under GNU Octave 8.4 with a driver-side unique() compatibility shim (disclosed, no algorithm change), at the ADD TOL_PL of 0.05 m: the Rust reproduces the ADD reference implementation…
 - **VALIDATED** GDOP/PDOP/HDOP/VDOP/TDOP from line-of-sight geometry via Q=(HᵀH)⁻¹ with a local ENU split. Oracle (ExternalDataset): gnss_lib_py 1.0.4 (Stanford NAV Lab) DOP — independent library, matched to 1e-6 relative
-- **VALIDATED** The distributional core every protection level rests on: the snapshot fault-detection threshold χ²₁₋ₚfₐ(dof), the missed-detection non-centrality pbias=√λ, and . Oracle (ExternalDataset): SciPy 1.17.0 (scipy.stats.chi2/.norm/.ncx2 + optimize.brentq) — independent library (Cephes/Boost), a different algorithm from Kshana's incomplete-gamma series; matched to ≤1e-6 rel. Kernel only. The ARAIM MHSS P_HMI budget *allocation* is no longer without a published numeric oracle — the WG-C ARAIM Technical Subgroup's own worked example now backs the separate 'ARAIM MHSS protection levels against published referen
-- **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): SBOM conformance to the official CycloneDX 1.5 JSON Schema (+ valid SPDX identifiers) — an external published standard, zero validation errors over the full dependency graph; the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
+- **VALIDATED** The distributional core every protection level rests on: the snapshot fault-detection threshold χ²₁₋ₚfₐ(dof), the missed-detection non-centrality pbias=√λ…. Oracle (ExternalDataset): SciPy 1.17.0 (scipy.stats.chi2/.norm/.ncx2 + optimize.brentq) — independent library (Cephes/Boost), a different algorithm from Kshana's incomplete-gamma series; matched within 1e-7 rel (+1e-9 abs) for the χ² and normal CDFs, 1e-6 rel (+1e-6 abs) for the χ² quantile, 1e-6 rel (+1e-9 abs) for the non-central χ² CDF, 1e-6 rel (+1e-4 abs) for the normal quantile and 1e-4 rel (+1e-3 abs) for pbias. Kernel only. The…
+- **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): Official CycloneDX 1.5 JSON Schema (+ SPDX identifier list): every atomic licence id is a valid SPDX id, and the document has zero schema errors once compound expressions are moved to expression (the generator's raw output has 133 compound-id errors); the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
 
 ## Limitations
 

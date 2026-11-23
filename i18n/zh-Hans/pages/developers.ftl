@@ -596,17 +596,11 @@ seg-cc49e9b6404e = 每次运行；MCP <c1/>
 
 seg-7994e9983f27 = 由场景、随机种子和引擎版本确定
 
-seg-8844d0844559 = IntelliJ · PyCharm · CLion
-
 seg-844c84c5252d = 更喜欢点击操作？
-
-seg-6b24b242333a = “Kshana — PNT simulator” 插件：右键单击任意场景<c1/>，选择Run Kshana Scenario，即可在工具窗口中查看性能指标。
 
 seg-65bab13d3eb4 = 在JetBrains Marketplace中打开
 
 seg-8b49f6477e8f = 开源核心
-
-seg-3a199156b86e = 本页面上的每个入口都属于免费的开源核心，采用AGPL-3.0，或采用用于闭源集成的商业许可。需要将其集成到您的工具链中，或需要由他人代为完成一项研究？<a1>定制研究</a1>。证据包和经校准的模型：<a2>{ -brand } Pro</a2>。
 
 seg-c9844e6afd41 = 运行基准测试
 

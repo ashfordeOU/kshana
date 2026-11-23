@@ -52,16 +52,16 @@ seg-09760f892c7b = The chart the engine writes for scenarios/quantum-time-transf
 seg-619127334cf3 = No matrix row names this kind by name; the label on its result is the engine's own, above.
 
 # text
-seg-873de4d05663 = <b>VALIDATED</b> Tabular-CUSUM detector worst-case detection latency (⌊h/(z−k)⌋+{ "1" }) and out-of-control average run length, used by the timing-protection-level and spoof monitors. Oracle (ExternalDataset): Published tabular-CUSUM ARL: Siegmund ({ "1985" }) Brownian-motion approximation (Hawkins & Olwell { "1998" }, eq. { "3.7" }) cross-anchored to Montgomery, Introduction to Statistical Quality Control (Wiley) ARL tables for k=½, h∈{ "{" }{ "4,5" }{ "}" }; deterministic latency matched exactly to a first-passage oracle. The composed TPL bound stays MODELLED
+seg-3def83ff0730 = <b>VALIDATED</b> Tabular-CUSUM detector worst-case detection latency (⌊h/(z−k)⌋+{ "1" }) and out-of-control average run length, used by the timing-protection-level and spoof monitors. Oracle (ExternalDataset): Published tabular-CUSUM ARL: Siegmund ({ "1985" }) Brownian-motion approximation (Hawkins & Olwell { "1998" }, eq. { "3.7" }) cross-anchored to Montgomery, Introduction to Statistical Quality Control (Wiley) ARL tables for k=½, h∈{ "{" }{ "4,5" }{ "}" }; deterministic latency matched exactly to a Python re-implementation of the CUSUM first-passage recursion (an internal cross-check; the external evidence is the ARL₁ comparison). The composed TPL…
 
 # text
-seg-a1810bbca337 = <b>MODELLED</b> Two-way/TWSTFT (Sagnac), GNSS common-view, PPP; link-jitter→range. Oracle (ExternalDataset): Sagnac magnitude checked against an authoritative PUBLISHED VALUE — N. Ashby, 'Relativity in the GPS', Living Reviews in Relativity { "6" }:{ "1" } ({ "2003" }), Eq. { "1.29" }: an eastward equatorial circumnavigation accrues { "207.4" } ns (2ωA_E/c²); kshana reproduces { "207.386" } ns. Independently corroborated by RTKLIB { "2.4.3" } geodist() (Takasu, BSD-2-Clause), which carries the same 2Aω/c² geometry. The composite BIPM TWSTFT transponder/common-view/
+seg-1decebbe7667 = <b>MODELLED</b> Two-way/TWSTFT (Sagnac), GNSS common-view, PPP; link-jitter→range. Oracle (ExternalDataset): Sagnac magnitude checked against an authoritative PUBLISHED VALUE — N. Ashby, 'Relativity in the GPS', Living Reviews in Relativity { "6" }:{ "1" } ({ "2003" }), Eq. { "1.29" }: an eastward equatorial circumnavigation accrues { "207.4" } ns (2ωA_E/c²); Kshana reproduces { "207.386" } ns. Independently corroborated by RTKLIB { "2.4.3" } geodist() (Takasu, BSD-2-Clause), which carries the same 2Aω/c² geometry. The composite BIPM TWSTFT…
 
 # text
 seg-bb07c8ee153f = <b>PARTNER</b> Not provided — performance models only; cold-atom/clock hardware is a partner's. Oracle (NoneKind): none: a partner-owned discipline, with no module and no test by design
 
 # text
-seg-c37642bb24fe = <b>MODELLED</b> One reproducible TradeEvidence object (fixed frame: scenario+seed+engine; common per-FoM quantum-vs-classical values with polarity-correct benefit, optional { "95" }%. Oracle (InternalConsistency): Closed-form benefit/winner identities + faithful wrap of the existing quantum_trade::TradeResult; honesty tied to the representativeness ledger and verification labels
+seg-cd5ceb1db049 = <b>MODELLED</b> One reproducible TradeEvidence object (fixed frame: scenario+seed+engine; common per-FoM quantum-vs-classical values with polarity-correct benefit, optional…. Oracle (InternalConsistency): Closed-form benefit/winner identities + faithful wrap of the existing quantum_trade::TradeResult; honesty tied to the representativeness ledger and verification labels
 
 # text
 # c1: kshana kinds --json

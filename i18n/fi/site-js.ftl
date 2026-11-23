@@ -1198,32 +1198,6 @@ js-site-palette-none = Ei tuloksia
 
 js-site-palette-results = { $count } tulosta
 
-js-site-pro-band-at = { $minutes } minuutin kohdalla: 5.–95. persentiili
-
-js-site-pro-band-range = { $lo }–{ $hi } { $unit }
-
-js-site-pro-band-runs-within = { $n } ajosta rajoissa ±{ $limit } { $unit }
-
-js-site-pro-design-readout = { $sat } satelliittia, { $av } % saatavuus · { $planes } tasoa korkeudella { $alt } km, { $incl }°
-
-js-site-pro-front-design = Rintaman suunnitelma { $id }
-
-js-site-pro-front-design-knee = Rintaman suunnitelma { $id } · polvi
-
-js-site-pro-more-designs =
-    { $n ->
-        [one] (+{ $n } rintaman suunnitelma lisää tässä pisteessä)
-       *[other] (+{ $n } rintaman suunnitelmaa lisää tässä pisteessä)
-    }
-
-js-site-pro-not-rerun = ei ajettu uudelleen
-
-js-site-pro-rerun-free = ajettu uudelleen ilmaisella moottorilla:
-
-js-site-pro-same-sha = sama SHA-256 { $sha }…
-
-js-site-pro-same-sha-index = sama tuloksen SHA-256 kuin hakemistossa
-
 js-site-toast-copied = Kopioitu: { $text }
 
 js-site-toast-data-failed = Datatiedostoa ei voitu ladata

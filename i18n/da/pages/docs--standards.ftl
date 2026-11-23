@@ -60,8 +60,6 @@ seg-aa942198bb2e = <b>SP3-c (SP3: Standard Product { "3" }, formatet for præcis
 
 seg-4d4237e15ef1 = IGS Standard Product { "3" } (c/d)
 
-seg-8d1089fbd59d = Jordfast (ECEF) position + urtidsserie. Rundtur valideret til < { "0.5" } m på et virkeligt snapshot af <c1/> (<a1><c2/></a1>).
-
 seg-761698fcf960 = <b>RINEX (Receiver Independent Exchange Format) { "3" }</b> (broadcast-navigation)
 
 seg-897068cff342 = RINEX { "3" }.x NAV (IS-GPS-200, Galileo ICD (interface control document), BeiDou ICD, GLONASS ICD (Ruslands Global Navigation Satellite System))
@@ -198,13 +196,9 @@ seg-8b0593f67c7f = Værdi / enhed
 
 seg-d33eb162d179 = OEM-segmentmetadata
 
-seg-4b338284e56a = <c1/> / <c2/> / <c3/> — det referencesystem, propagatorerne integrerer i, og tidsskalaen for epokegitteret, ikke omdøbt
-
 seg-e0a44af9aaf8 = OEM-tilstandsepoke
 
 seg-b0623bab9fcc = første kolonne i hver datalinje
-
-seg-410bd5a9ba14 = ISO-8601 (ISO: International Organization for Standardization) kalendertid, GPS-tidsskala
 
 seg-a7c95802e01a = OEM-position, -hastighed
 

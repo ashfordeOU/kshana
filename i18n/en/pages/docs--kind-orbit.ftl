@@ -45,17 +45,17 @@ seg-c818cc4f87da = Optional fields: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c
 seg-364139ff447d = The example <c1/> sets, among others:
 
 # text
-seg-d5063dda3971 = Microchip SA.45s / SA65 chip-scale atomic clock, sigma_y(1s)
+seg-98e572c3537b = Microchip SA.45s / SA65 chip-scale atomic clock…
 
 # text
-seg-a8d92406e428 = Strontium optical lattice clock, space-oriented goal sigma_y
+seg-964ddf738291 = Strontium optical lattice clock, space-oriented goal…
 
 # text
-seg-799fe1216562 = { "3.04" } N: GNSS NAV DATA G: GPS
+seg-03c278cbc577 = { "3.04" } N: GNSS NAV DATA G: GPS…
 
 # text
 # c1: scenarios/
-seg-99a3c57c7926 = { "7" } bundled scenarios use this kind; the others are in <a1><c1/></a1>.
+seg-08f00c7015c8 = { "7" } scenario files in <a1><c1/></a1> use this kind.
 
 # text
 seg-debc2f07db78 = true
@@ -67,22 +67,22 @@ seg-3b652c0da6de = The chart the engine writes for scenarios/orbit-rinex.toml, k
 seg-5c031aaa3a33 = MODELLED { "4" } · VALIDATED { "4" }: the <a1>verification matrix</a1> rows that name this kind.
 
 # text
-seg-d291f20074f0 = <b>VALIDATED</b> Earth rotation from a two-part UT1 Julian date on the orbit path, so the Earth-fixed position keeps the microsecond a single-f64 date loses (about { "3e-9" } rad near { "2020" }): jd2::gmst82 (IAU { "1982" } GMST, the TEME convention, on the two parts), cio:
+seg-aecbe0ae5d64 = <b>VALIDATED</b> Earth rotation from a two-part UT1 Julian date on the orbit path, so the Earth-fixed position keeps the microsecond a single-f64 date loses (about { "3e-9" } rad near { "2020" }): jd2::gmst82 (IAU { "1982" } GMST, the TEME convention, on the two parts)…
 
 # text
 seg-a150aaacf072 = <b>VALIDATED</b> GDOP/PDOP/HDOP/VDOP/TDOP from line-of-sight geometry via Q=(HᵀH)⁻¹ with a local ENU split Tests: <a1>dop_reference.rs</a1>.
 
 # text
-seg-af0bb84bda32 = <b>MODELLED</b> dop_error_mc::run_geometry and check: a seeded Monte Carlo (N = { "20,000" } epochs per geometry, sigma = { "1.5" } m, ChaCha8 seed { "36" } + i) of the engine's own iterated least-squares fix (pvt::solve_spp, unit weights, solved from the true position) on Tests: <a1>uere_dop_monte_carlo.rs</a1>.
+seg-6144e6446b83 = <b>MODELLED</b> dop_error_mc::run_geometry and check: a seeded Monte Carlo (N = { "20,000" } epochs per geometry, sigma = { "1.5" } m, ChaCha8 seed { "36" } + i) of the engine's own iterated least-squares fix (pvt::solve_spp, unit weights, solved from the true position)… Tests: <a1>uere_dop_monte_carlo.rs</a1>.
 
 # text
-seg-a3d71dd306b3 = <b>VALIDATED</b> skyline + frames::look_angles + geometry::sky_geometry: the geodetic (WGS-84) azimuth and elevation of a satellite from a ground site, an azimuth/elevation mask table linearly interpolated in azimuth with wrap at { "360" } deg, the visible set el Tests: <a1>skyline_orekit_oracle.rs</a1>.
+seg-f7b9e9b33c9c = <b>VALIDATED</b> skyline + frames::look_angles + geometry::sky_geometry: the geodetic (WGS-84) azimuth and elevation of a satellite from a ground site, an azimuth/elevation mask table linearly interpolated in azimuth with wrap at { "360" } deg, the visible set… Tests: <a1>skyline_orekit_oracle.rs</a1>.
 
 # text
 seg-be831b52a339 = and { "4" } more in the matrix.
 
 # text
-seg-f70076ea4a77 = <b>VALIDATED</b> Allan/modified/Hadamard deviation + power-law noise ID with χ² CIs. Oracle (ExternalDataset): NIST SP { "1065" } (Riley) / Stable32 reference deviations on NBS14
+seg-5db68bbcfcf8 = <b>VALIDATED</b> Overlapping Allan, modified Allan, time and overlapping Hadamard deviation (noise identification and χ² confidence intervals are not covered by this oracle). Oracle (ExternalDataset): NIST SP { "1065" } (Riley) / Stable32 reference deviations on NBS14
 
 # text
 seg-277205e56d73 = <b>VALIDATED</b> GDOP/PDOP/HDOP/VDOP/TDOP from line-of-sight geometry via Q=(HᵀH)⁻¹ with a local ENU split. Oracle (ExternalDataset): gnss_lib_py { "1.0.4" } (Stanford NAV Lab) DOP — independent library, matched to { "1e-6" } relative
@@ -91,10 +91,10 @@ seg-277205e56d73 = <b>VALIDATED</b> GDOP/PDOP/HDOP/VDOP/TDOP from line-of-sight 
 seg-5278ccdaf16f = <b>MODELLED</b> Closed-form coast-error growth + holdover-to-threshold; quantum-clock classes. Oracle (ReferenceImpl): Multi-step clock_state covariance recursion (same-codebase cross-check); the underlying coast-variance & holdover-inversion kernel is externally validated vs scipy (see 'Clock-holdover coast-variance & threshold inversion'). The per-class red-noise-floor holdover figures stay MODELLED
 
 # text
-seg-3ea0aa9b3907 = <b>MODELLED</b> 3-state (phase/freq/drift) van-Loan Kalman clock, Joseph-stabilised. Oracle (ReferenceImpl): filterpy { "1.4.5" } KalmanFilter (R. Labbe, MIT), with F via scipy.linalg.expm and Q via the Van-Loan { "1978" } block-matrix — an independent reference implementation reproducing kshana's full filter trajectory. Cross-implementation consistency: the clock physics / Allan calibration are not externally validated, so this stays MODELLED. { "0.30" } external comparison, a finding (stays MODELLED): on IGS final { "30" } s clocks of { "11" } GPS Blo
+seg-c62ff8618c81 = <b>MODELLED</b> 3-state (phase/freq/drift) van-Loan Kalman clock, Joseph-stabilised. Oracle (ReferenceImpl): filterpy { "1.4.5" } KalmanFilter (R. Labbe, MIT), with F via scipy.linalg.expm and Q via the Van-Loan { "1978" } block-matrix — an independent reference implementation reproducing Kshana's full filter trajectory. Cross-implementation consistency: the clock physics / Allan calibration are not externally validated, so this stays MODELLED. { "0.30" } external comparison, a finding (stays MODELLED): on IGS final { "30" } s clocks of { "11" } GPS…
 
 # text
-seg-b9174c70772f = <b>MODELLED</b> Clock-aided χ², RAIM, AGC, SQM fused per-epoch security FoM. Oracle (ExternalDataset): TEXBAT scenario parameters (Humphreys { "2012" }) — characterisation, not pinned vectors. { "0.30" } external comparison, a finding (stays MODELLED): on JammerTest { "2024" } (Bleik; GPL-3.0 data) the observable-level monitors (clock-aided chi-square, RAIM, solve failure) raised no alarm within { "10" } s of any of the { "8" } evaluable published spoofing onsets (where the pre-onset window was clean, the first alarm came { "10.2" } to { "39" } s after the pu
+seg-ee0dd327955b = <b>MODELLED</b> Clock-aided χ², RAIM, AGC, SQM fused per-epoch security FoM. Oracle (ExternalDataset): TEXBAT scenario parameters (Humphreys { "2012" }) — characterisation, not pinned vectors. { "0.30" } external comparison, a finding (stays MODELLED): on JammerTest { "2024" } (Bleik; GPL-3.0 data) the observable-level monitors (clock-aided chi-square, RAIM, solve failure) raised no alarm within { "10" } s of any of the { "8" } evaluable published spoofing onsets (where the pre-onset window was clean, the first alarm came { "10.2" } to { "39" } s after the…
 
 # text
 seg-e12f672ae71d = GNSS-denied clock holdover is MODELLED, not validated: checked against a separate implementation in this same codebase — independent of the unit under test, but not externally authoritative. (verification matrix (docs/MODELLED-RATIONALE.md))

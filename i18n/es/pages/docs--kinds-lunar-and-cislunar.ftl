@@ -474,15 +474,6 @@ seg-a790c54ac1aa = Campos obligatorios: ninguno. Opcionales: <c1/>, <c2/>, <c3/>
 seg-4efffcd615df = <b>Registro:</b> MODELLED. Página completa, con las entradas, los resultados, las evidencias y las limitaciones: <a1>lunar-beacon</a1>.
 
 # text
-# c1: frame
-# c2: time_system
-# c3: n_states
-# c4: epoch
-# c5: step_min
-# c6: object
-seg-720d0bbeaf6e = Campos obligatorios: ninguno. Opcionales: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>.
-
-# text
 seg-019ca0f1051e = <b>Registro:</b> ninguna fila de la matriz nombra este tipo de escenario; el motor etiqueta su propio resultado. Página completa, con las entradas, los resultados, las evidencias y las limitaciones: <a1>lunar-interop-export</a1>.
 
 # text

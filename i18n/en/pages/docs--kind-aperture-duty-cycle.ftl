@@ -46,7 +46,7 @@ seg-2e78730d0737 = aperture*s
 seg-330cbcd04718 = fraction (dimensionless)
 
 # text
-seg-0ef5875db338 = Result label (the engine's): MODELLED — aperture scheduling arithmetic over a supplied contact plan: an exact interval sweep of navigation-versus-communications time-share and per-session contention loss under a named arbitration policy. No slew / retune / changeover time is charged when an aperture changes service or session,
+seg-8c53dc9b60b4 = Result label (the engine's): MODELLED — aperture scheduling arithmetic over a supplied contact plan: an exact interval sweep of navigation-versus-communications time-share and per-session contention loss under a named arbitration policy. No slew / retune / changeover time is charged when an aperture changes service or…
 
 # attr:alt
 seg-a8b38ed8e029 = The chart the engine writes for scenarios/aperture-duty-cycle.toml, kind aperture-duty-cycle
@@ -54,14 +54,14 @@ seg-a8b38ed8e029 = The chart the engine writes for scenarios/aperture-duty-cycle
 # text
 # c1: passes::predict_passes
 # c2: aperture_duty::windows_from_passes
-seg-4636d450ef60 = <b>MODELLED</b> One run takes a contact plan (a list of aos_s/los_s windows, each asking the aperture for navigation or communications — the same window vocabulary <c1/> emits, converted by <c2/>), an apert
+seg-eb6f71568ce3 = <b>MODELLED</b> One run takes a contact plan (a list of aos_s/los_s windows, each asking the aperture for navigation or communications — the same window vocabulary <c1/> emits, converted by <c2/>), an…
 
 # text
-seg-7a5aa78533d3 = <b>MODELLED</b> One run takes a contact plan (a list of aos_s/los_s windows, each asking the aperture for navigation or communications — the same window vocabulary `passes::pre. Oracle (InternalConsistency): Internal consistency, from three quantities computed by different expressions in the same sweep and then required to close. Navigation aperture-seconds, communications aperture-seconds and idle aperture-seconds are accumulated separately — idle from (apertures − |served|) per elementary interval, never as a remainder — and their sum is asserted against apertures × horizon_s, which a mis-bracketed boundary, a double-c
+seg-6fa301c04a38 = <b>MODELLED</b> One run takes a contact plan (a list of aos_s/los_s windows, each asking the aperture for navigation or communications — the same window vocabulary…. Oracle (InternalConsistency): Internal consistency, from three quantities computed by different expressions in the same sweep and then required to close. Navigation aperture-seconds, communications aperture-seconds and idle aperture-seconds are accumulated separately — idle from (apertures − |served|) per elementary interval, never as a remainder — and their sum is asserted against apertures × horizon_s, which a mis-bracketed boundary, a…
 
 # text
 # c1: label
-seg-a388c24fec99 = MODELLED — aperture scheduling arithmetic over a supplied contact plan: an exact interval sweep of navigation-versus-communications time-share and per-session contention loss under a named arbitration policy. No slew / retune / changeover time is charged when an aperture changes service or session, no data volume, buffer state, energy budget or link closure enters the decision, and the contact windows are inputs — th (result <c1/>)
+seg-df7e670eb3b0 = MODELLED — aperture scheduling arithmetic over a supplied contact plan: an exact interval sweep of navigation-versus-communications time-share and per-session contention loss under a named arbitration policy. No slew / retune / changeover time is charged when an aperture changes service or session, no data volume, buffer state, energy budget or link closure enters the decision, and the contact windows are inputs… (result <c1/>)
 
 # text
 # c1: kshana kinds --json
@@ -69,7 +69,7 @@ seg-e689f30b268a = MODELLED scheduling arithmetic: no slew / retune / changeover
 
 # text
 # c1: passes
-seg-4aa40af30bd2 = HONEST SCOPE: MODELLED scheduling arithmetic over the supplied windows. No slew / retune / changeover time is charged when an aperture changes service or session; no data volume, buffer state, energy budget or link closure enters the decision; and the contact windows are inputs -- their geometry is whatever produced them (the <c1/> scenario emits the same aos_s / los_s vocabulary). Not a ground-segment scheduling (scenario file comment, lines { "18" } to { "24" })
+seg-881ff13ecae5 = HONEST SCOPE: MODELLED scheduling arithmetic over the supplied windows. No slew / retune / changeover time is charged when an aperture changes service or session; no data volume, buffer state, energy budget or link closure enters the decision; and the contact windows are inputs -- their geometry is whatever produced them (the <c1/> scenario emits the same aos_s / los_s vocabulary). Not a ground-segment… (scenario file comment, lines { "18" } to { "24" })
 
 # text
 seg-0b7f8d86e5d5 = Aperture navigation-versus-communications duty cycle is MODELLED, not validated: checked against its own closed-form / analytic identity — catches transcription and coefficient errors, but is not an external oracle. (verification matrix (docs/MODELLED-RATIONALE.md))

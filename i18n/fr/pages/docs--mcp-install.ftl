@@ -177,11 +177,6 @@ seg-93d075d31cdd = npx (Node) :
 seg-ae03b1ad65f1 = kshana-mcp dans le PATH :
 
 # text
-# c1: claude_desktop_config.json
-# c2: .mcpb
-seg-439fac4928a0 = Où : <c1/> (Settings, Developer, Edit Config). Ou double-cliquez sur l'extension <c2/> de la version : aucun fichier de configuration.
-
-# text
 seg-e998ab783248 = Cursor
 
 # text
@@ -253,13 +248,3 @@ seg-04c1f05fb027 = <s1>Précédent</s1>Serveur MCP
 
 # text
 seg-eba757f29814 = <s1>Suivant</s1>Serveur MCP : mode HTTP auto-hébergé
-
-seg-4ccbbc19fe86 = <b>npx (Node)</b> (nécessite Node { "18" }+) : <c1/>
-
-seg-77230eb344ea = <b>Docker</b> (nécessite Docker) : <c1/>
-
-seg-3398eea8e332 = Cursor, npx (Node) : <a1>lien web</a1> · <c1/>
-
-seg-67009baafb3b = Cursor, Docker : <a1>lien web</a1> · <c1/>
-
-seg-6918cd89f776 = Goose, npx : <c1/>

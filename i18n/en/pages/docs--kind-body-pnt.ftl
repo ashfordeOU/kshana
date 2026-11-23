@@ -47,13 +47,13 @@ seg-2edab0747386 = 2027-02-19T00:{ "00" }:{ "00" }
 
 # text
 # c1: scenarios/
-seg-51362910dcb7 = { "2" } bundled scenarios use this kind; the others are in <a1><c1/></a1>.
+seg-2224c257616c = { "2" } scenario files in <a1><c1/></a1> use this kind.
 
 # text
 seg-753b1683fb7b = m^3/s^{ "2" }
 
 # text
-seg-81d4cd54bd62 = Result label (the engine's): MODELLED: two-body relay orbits with J2 secular drift, geometric visibility, Gaussian range noise and an instantaneous measurement model around a body from the published constants; not validated against a mission's navigation data. The Earth-to-body geometry inherits the solar-system ephemeris label
+seg-cfa7a7e602d9 = Result label (the engine's): MODELLED: two-body relay orbits with J2 secular drift, geometric visibility, Gaussian range noise and an instantaneous measurement model around a body from the published constants; not validated against a mission's navigation data. The Earth-to-body geometry inherits the solar-system ephemeris…
 
 # attr:alt
 seg-6f341acbe994 = The chart the engine writes for scenarios/mars-orbit-pnt.toml, kind body-pnt
@@ -62,15 +62,15 @@ seg-6f341acbe994 = The chart the engine writes for scenarios/mars-orbit-pnt.toml
 seg-67fb8ac75f36 = MODELLED { "1" } · VALIDATED { "1" }: the <a1>verification matrix</a1> rows that name this kind.
 
 # text
-seg-dae4184bb004 = <b>VALIDATED</b> The Newtonian one-way light time from any body to any other, received at an epoch, solved by the radiometric fixed-point light-time solver (radiometric::light_time_solution, transmitter at its retarded position) through solar_system::link_o Tests: <a1>solar_system_light_time_preregistered.rs</a1>.
+seg-6f250564498f = <b>VALIDATED</b> The Newtonian one-way light time from any body to any other, received at an epoch, solved by the radiometric fixed-point light-time solver (radiometric::light_time_solution, transmitter at its retarded position) through… Tests: <a1>solar_system_light_time_preregistered.rs</a1>.
 
 # text
 # c1: body-pnt
-seg-45259ad33a01 = <b>MODELLED</b> The <c1/> kind: an orbiter or a surface lander around a body chosen by name navigates with one-way pseudoranges from a Walker navigation constellation around the body (two-body orbits with the body's J2 secular drift, an unknown user c
+seg-aea4d3d19451 = <b>MODELLED</b> The <c1/> kind: an orbiter or a surface lander around a body chosen by name navigates with one-way pseudoranges from a Walker navigation constellation around the body (two-body orbits with the body's J2 secular drift, an unknown user…
 
 # text
 # c1: body-pnt
-seg-5c3f8ac041d3 = <b>MODELLED</b> The <c1/> kind: an orbiter or a surface lander around a body chosen by name navigates with one-way pseudoranges from a Walker navigation constellation arou. Oracle (InternalConsistency): Closed forms and self-consistency: Kepler's third law for the relay period, the orbit radius and the surface radius held over the run, adding a measurement never increasing the formal uncertainty, and the seeded errors agreeing with the covariance. The relay orbits ignore third bodies (Jupiter's pull on relays around Europa is not modelled), the noise is Gaussian at stated levels and the measurement model is instanta
+seg-d7d39e33cf99 = <b>MODELLED</b> The <c1/> kind: an orbiter or a surface lander around a body chosen by name navigates with one-way pseudoranges from a Walker navigation constellation…. Oracle (InternalConsistency): Closed forms and self-consistency: Kepler's third law for the relay period, the orbit radius and the surface radius held over the run, adding a measurement never increasing the formal uncertainty, and the seeded errors agreeing with the covariance. The relay orbits ignore third bodies (Jupiter's pull on relays around Europa is not modelled), the noise is Gaussian at stated levels and the measurement model is…
 
 # text
 # c1: label

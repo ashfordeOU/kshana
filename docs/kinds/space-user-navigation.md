@@ -10,7 +10,7 @@ Topic pages: [SSV](../SSV.md). Run one: `kshana scenarios/gnss-ssv-shell.toml`. 
 
 | Kind | What it does | Ledger |
 |---|---|---|
-| [`gnss-ssv`](by-kind/gnss-ssv.md) | MODELLED GNSS availability and link strength in the Space Service Volume and beyond: for a user on a sphere (the ICG booklet's global shell) or on a Keplerian trajectory (LEO to lunar transfer) it cou | MODELLED |
+| [`gnss-ssv`](by-kind/gnss-ssv.md) | MODELLED GNSS availability and link strength in the Space Service Volume and beyond: for a user on a sphere (the ICG booklet's global shell) or on a Keplerian trajectory (LEO to lunar transfer) it… | MODELLED |
 
 ### `gnss-ssv`
 
@@ -21,7 +21,7 @@ Required fields: `shell|trajectory|navigation`. Optional: `name`, `constellation
 **Ledger:** MODELLED. Full page, with the inputs, results, evidence and limitations: [gnss-ssv](by-kind/gnss-ssv.md).
 
 ```sh
-kshana scenarios/gnss-ssv-heo.toml
+kshana scenarios/gnss-ssv-geo.toml
 ```
 
-<img src="../figures/kinds/gnss-ssv.svg" alt="The chart the engine writes for scenarios/gnss-ssv-heo.toml, kind gnss-ssv" width="640">
+<img src="../figures/kinds/gnss-ssv.svg" alt="The chart the engine writes for scenarios/gnss-ssv-geo.toml, kind gnss-ssv" width="640">

@@ -19,9 +19,6 @@ seg-59c2beac56b5 = Topic pages: <a1>TELECOM-TIMING</a1>, <a2>SLOT-TIMING</a2>, <
 seg-b333618375db = Contact sheet of the charts the engine writes for the kinds of the family Clocks, timing and holdover
 
 # text
-seg-b03d56f501c3 = Kind
-
-# text
 seg-4e31c8daf798 = Ledger
 
 # text
@@ -43,7 +40,7 @@ seg-ff7dca09f0f2 = Telecom timing: time error, maximum time interval error (MTIE
 seg-651ef9489065 = MODELLED { "5" } · VALIDATED { "1" }
 
 # text
-seg-413edbab9fa9 = Slot timing: seconds until a free-running clock leaves the guard of a time-indexed routing or tasking slot (the largest absolute time error the slot tolerates), the contribution of every term at that
+seg-cb4a519a1998 = Slot timing: seconds until a free-running clock leaves the guard of a time-indexed routing or tasking slot (the largest absolute time error the slot tolerates), the contribution of every term at…
 
 # text
 seg-23dbca6bce68 = MODELLED { "2" } · VALIDATED { "1" }
@@ -52,13 +49,13 @@ seg-23dbca6bce68 = MODELLED { "2" } · VALIDATED { "1" }
 seg-ccb244e60d60 = Optical vs RF two-way time/frequency transfer.
 
 # text
-seg-d425ce2b9f9c = Two-way satellite time and frequency transfer between two stations through a geostationary relay: the two-way equation solved for T_A - T_B with every non-reciprocal term (station equipment delays, Ku
+seg-8a3c50da4a09 = Two-way satellite time and frequency transfer between two stations through a geostationary relay: the two-way equation solved for T_A - T_B with every non-reciprocal term (station equipment delays…
 
 # text
-seg-a2a710b3204f = MODELLED holdover test of a timing system, scored from a time-error record the OPERATOR supplies (a linuxptp ptp4l, phc2sys or ts2phc log, a chrony tracking or statistics log, a TICC, TimeLab or RINEX
+seg-8b2bb6395106 = MODELLED holdover test of a timing system, scored from a time-error record the OPERATOR supplies (a linuxptp ptp4l, phc2sys or ts2phc log, a chrony tracking or statistics log, a TICC, TimeLab or…
 
 # text
-seg-1da440dd525c = MODELLED trusted-quantum-timing chain: an end-to-end quantum (optical-lattice clock + entanglement/single-photon link) vs classical (CSAC + RF two-way) time-transfer budget, a reused timing protection
+seg-6ad373e27bc9 = MODELLED trusted-quantum-timing chain: an end-to-end quantum (optical-lattice clock + entanglement/single-photon link) vs classical (CSAC + RF two-way) time-transfer budget, a reused timing…
 
 # text
 # c1: seed

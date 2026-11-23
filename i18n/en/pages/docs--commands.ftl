@@ -47,8 +47,16 @@ seg-88fb40d1b92d = scores a receiver log, <c1/> scores a stream, <c2/> writes a 
 seg-13870be889cb = signs, verifies and timestamps evidence packs and links a lab run to its score
 
 # text
+# c1: signature.json
+# c2: kshana-dossier-signature/1
+seg-99bdcd640319 = verifies a signed directory offline: the Ed25519 <c1/> (format <c2/>) over the SHA-256 of every other file, and whether its key is one you trust; exit { "0" } passed, { "1" } failed, { "3" } intact but untrusted
+
+# text
+seg-5da0a7d40d05 = Signed directories
+
+# text
 # c1: locate-score
-seg-3e67f792cbb7 = reads the published Jammertest plan and scores a log against it; <c1/> scores reported emitter locations against truth (row B2)
+seg-77735cad1344 = reads the published Jammertest plan and scores a log against it; <c1/> scores reported emitter locations against truth (pre-registered row B2)
 
 # text
 seg-fe1abd564200 = Jammertest
@@ -72,6 +80,12 @@ seg-93cfedcf6a6c = writes a JPL Horizons state table as a CCSDS OEM or OPM or an
 seg-0aca49b43078 = Flight-dynamics export
 
 # text
+seg-6cce38bb25ea = converts a Moon-centred CCSDS OEM (positions and velocities) between ICRF and the DE440 lunar body frames, SANA frame names, TDB/TT/TAI/GPS/UTC epochs
+
+# text
+seg-141c33cd7158 = Lunar OEM
+
+# text
 seg-0dfc0ae9d7ed = writes synthetic bridge NMEA with scripted jamming and spoofing, and an instructor log
 
 # text
@@ -83,6 +97,12 @@ seg-493c1111e92e = builds interference maps and the observatory's daily product 
 
 # text
 seg-f0ea96229aff = <a1>Interference map</a1>, <a2>observatory</a2>
+
+# text
+seg-39b29b9ba27f = checks, releases and converts records in the open interference-incident format and the public case library
+
+# text
+seg-e81c74c9f66b = Interference incidents
 
 # text
 seg-521c57866e61 = how much of a route crosses degraded cells
@@ -97,10 +117,78 @@ seg-32247b824828 = the kshana-bench tasks, scoring, sealed holdout and leaderboa
 seg-a9d02610b4d9 = Bench
 
 # text
+seg-aefadb88539b = task (g) and (h) submissions from a GSDC-format CSV, the dataset registry and its licence rules, stable citation ids of result files, the golden index of the frozen benchmark files
+
+# text
+seg-7d93563fb39c = the private holdout of tasks (f) and (g): truth built from the owner's private data outside the repository, the hash-only registry entry, and scoring against a registered truth given at run time
+
+# text
 seg-fc44d4341c1e = a scenario's vehicle motion and events for a laboratory simulator (no signal is written)
 
 # text
 seg-82155b5d0408 = Test bench
+
+# text
+seg-23ba4de557a4 = per-track AIS position-integrity flags (position jumps, implausible or inconsistent speeds, circles, drift while stationary, on land, at listed places, common positions, identity conflicts and identity-number checks) and the events that join them, as JSON Lines (MODELLED)
+
+# text
+seg-ed744872a202 = AIS integrity
+
+# text
+seg-2b2dc5839303 = a GNSS receiver in space: its onboard clock on the orbit (relativistic rate, free-run time error of an oscillator class), timestamp faults against an onboard reference count, line-of-sight Doppler and Doppler rate along GEO, GTO, HEO and transfer orbits, and the versioned upper-SSV benchmark (MODELLED)
+
+# text
+seg-746469087d24 = Space receiver
+
+# text
+# c1: kshana sky
+seg-47409d84624a = GNSS availability over a planning horizon at a high-latitude site, built on <c1/>: satellites in view, DOP, elevation ceiling, poleward sky, requirement windows, per-system comparison and an auroral-oval mask (MODELLED)
+
+# text
+seg-affa1ede5b8d = Arctic plan
+
+# text
+# c1: kshana.lunar-pnt-output/1
+seg-4363485ca6b3 = the AFS receiver verification kit: bit-true AFS-Q, secondary, CRC-24Q and SB1 vectors from an independent generator, a PRN and code allocation registry with collision and correlation checks, and the <c1/> real-time output message profile (MODELLED)
+
+# text
+seg-b208dc045fb1 = AFS kit
+
+# text
+seg-c98a6186e814 = lunar time scales (TCB−TCL with a bound checked against L_C, an analytical approximation with its dense-grid error, conversion between TT, TDB, TCB, TCG, TCL and LTC), lunar frames with ILuRF, the terminology registry and the geodetic-model provenance manifest (MODELLED)
+
+# text
+seg-ca2854cea7f1 = Lunar reference
+
+# text
+seg-df1eba6191da = public constellation claims, each with its cited source, checked against kshana's geometry, Doppler and link-budget models; unsourced claims are refused (MODELLED)
+
+# text
+seg-1f87c73edb46 = Claim check
+
+# text
+seg-625ee4c1a336 = AFS code-family interoperability planning (AFS-Q against GPS L1 C/A, Galileo E1 and itself, zero Doppler and a Doppler sweep) and the lunar user-equipment register schema and check (MODELLED, planning only)
+
+# text
+seg-d378ab5cb992 = AFS interop
+
+# text
+seg-2c885921281c = Linux timing-stack verification from status outputs and PPS data: PTP UTC offset and PHC TAI sanity, ts2phc lock and missed pulses, PPS path (kernel or DCD polling) and staleness, stopped gpsd SHM units, ntpq misreports, an NTS interoperability matrix (MODELLED, read only)
+
+# text
+seg-0d87ae223cb9 = Timing stack
+
+# text
+seg-c8255f3de0b9 = product-register entries against their signed evidence packs, read against a published JSON-lines revocation list (file or URL; revoked entries show as REVOKED), and the append-only rule between register versions
+
+# text
+seg-1a9699e76a6d = Product register
+
+# text
+seg-9c79e4d7c365 = deterministic RINEX { "3.04" } observations from a gnss-sim scenario for continuous integration, with an optional street-canyon model of line of sight, multipath and NLOS and a truth file (MODELLED)
+
+# text
+seg-24f584216204 = SIL observations
 
 # text
 seg-0fa641cd9cdc = which rows of public resilience frameworks a set of runs supports evidence for
@@ -150,6 +238,12 @@ seg-03140ea755db = fetches an NTRIP stream (RTCM { "3" }) from a caster, unchang
 seg-53463b88ab15 = NTRIP
 
 # text
+seg-4cd0c250cb50 = RTK, NTRIP and correction-service checks: stream liveness alarms and a mountpoint scorecard, source table by distance, base coordinate/frame/epoch/tide sanity of 1005/1006, RTK fix verification and float warnings, PPK no-fix causes, NTRIP v2 behaviour checks of casters and clients with a reference caster, credentials in logs, correction-source failover (MODELLED)
+
+# text
+seg-fac2a0c3358d = RTK QA
+
+# text
 seg-513dde7f9fb4 = follows a linuxptp, chrony or Linux PPS log and prints one JSON line per reading, kept exactly as a replay keeps it
 
 # text
@@ -182,7 +276,25 @@ seg-c81fc74b32eb = Data packs
 seg-a8bf970e3677 = environmental baseline per site and hour from Kp and F10.7: score { "0" } to { "1" } and quiet, elevated or disturbed (MODELLED)
 
 # text
-seg-b2e7ecf33e6e = B8 pre-registration
+seg-1019d437812e = Environmental-baseline pre-registration
+
+# text
+seg-ba01806735f9 = space weather for PNT and drag: recorded storm library (GFZ indices) with the density response, DGNSS/RTK outage forecaster and work windows, 4D ionosphere for GNSS slant TEC and LF skywave, density-model scorecard against accelerometer densities, orbit lifetime with density uncertainty (MODELLED; the scorecard is a measured comparison)
+
+# text
+seg-2deeaf9dd25b = Space weather for PNT
+
+# text
+seg-0eb6addb7c75 = oscillator models from datasheet figures: g-sensitivity to carrier jitter and PLL threshold, holdover through temperature transients and shocks, a pass/fail/unknown requirement table per candidate, clock-assisted RAIM levels, and the TDEV a datasheet's Allan deviation implies (MODELLED; sidebands checked against Filler { "1988" })
+
+# text
+seg-e4d89473f03a = Oscillators
+
+# text
+seg-e7425470aafa = LEO-PNT verification tools: LEO-burst timing simulator with TDEV/MTIE and the gap a threshold allows, holdover TDEV predictor checked against a simulated record, cost of ownership against outage resilience (unranked), indoor C/N0 from ITU-R P.2109, C-band rain-fade availability from ITU-R P.618, cascaded L+C ambiguity resolution success rates, jamming-resistance claims as J/S and denial radius, Doppler-only protection levels at any latitude, and published LEO-PNT figures (Doppler, Doppler rate, relative speed, period, horizon range, spreading loss, "times stronger than GPS") checked against orbit and link physics, each with its source (MODELLED)
+
+# text
+seg-8eb6e6407545 = LEO-PNT verification
 
 # text
 # c1: m
@@ -190,6 +302,72 @@ seg-53d5c10cb413 = monitoring-network planner: per site cell, detection probabil
 
 # text
 seg-9e0d61706807 = Planner
+
+# text
+seg-bb16860fe05b = checks CCSDS CDM (508.0-B-1), OEM and OCM (502.0-B-3) messages and says valid or invalid against the standard section by section; converts OEM to OCM and back with provenance kept; compares two TLE sources and audits one (checksums, physics, staleness, consecutive-set jumps); checks, propagates and Monte-Carlo-tests covariances (MODELLED)
+
+# text
+seg-9da5f0caddaa = Orbit data
+
+# text
+seg-b8e561de7fcd = runs the open time-scale conformance vectors (leap seconds, GPS/Galileo/BeiDou/GLONASS weeks and days, NTP { "2036" }, 32-bit Unix { "2038" }, two-digit years, NORAD Alpha-5 and OMM) against kshana and prints a pass/fail table; exit { "1" } on any failure
+
+# text
+seg-916352636af8 = Time vectors
+
+# text
+# c1: qznma-verify
+# c2: vectors
+seg-d0bbf98e9d3c = decodes broadcast correction messages from channel-decoded frames (one hex frame per line) and prints them as JSON: Galileo HAS (C/NAV pages, the RS({ "255,32" }) outer code, message type { "1" }), BeiDou PPP-B2b (types { "1" } to { "7" }) and QZSS L6 (CLAS and MADOCA-PPP Compact SSR sub types { "1" } to { "12" }, MADOCA-PPP ionospheric messages), QZSS L1S (SLAS, the JMA DC Report with its twelve category bodies, the DCX message) and QZSS L6E QZNMA (the signature blocks, and the CLAS authentication messages of the IS-QZSS-SAS-002 draft); <c1/> checks the QZNMA signatures of GPS, Galileo and QZSS against a file of navigation messages with the user's public keys (verified, failed, no key or no navigation per signature; MODELLED); <c2/> runs the self-derived test vectors (exit { "1" } on any failure)
+
+# text
+seg-fbe39943610b = Correction decoders
+
+# text
+seg-83ca2839c4c2 = drone and robot PNT: pre-arm GNSS spoofing and jamming check over PX4 ULog or ArduPilot DataFlash logs (receiver flags fused with ground kinematics, playbook steps, stated false-alarm rate), estimator behaviour cases citing public issues, dead-reckoning coast budget, consumer-quadcopter GNSS-loss model, failover harness, set-based protection level (MODELLED; decision support, not a flight authorisation)
+
+# text
+seg-7b1bc04e3c23 = Drone PNT
+
+# text
+# c1: compare
+seg-d9a1399ffd23 = a RINEX { "3.04" } observation file for software-in-the-loop CI from a real broadcast navigation file, with a street-canyon multipath and NLOS model and a JSON Lines truth file; <c1/> sets two observation files side by side on C/N0, code-minus-carrier and tracking statistics (MODELLED)
+
+# text
+seg-364ebd349b5b = synthetic interference library (tone, narrowband and wideband noise, chirp, DME-like pulses) as SigMF, a reference fit that states how well the re-synthesised spectrum matches a recording, a classifier-generalisation benchmark (ID and OOD parts, external predictions) and pre- and post-correlation detection rows (MODELLED)
+
+# text
+seg-a6ef2cf1dccb = Interference library
+
+# text
+seg-e3929c5d9536 = receiver-antenna characterisation: ANTEX { "1.4" } lint, unit-to-unit spread of individual calibrations, comparison of two calibrations through the line-of-sight correction (per frequency and ionosphere-free), the group-delay timing budget over temperature and elevation, and the installation J/S margin and stand-off range (budgets MODELLED)
+
+# text
+seg-3ba6bf42b911 = Antenna characterisation
+
+# text
+seg-8ab9eeff5a07 = quantum inertial-sensor benchmark: a pre-registered vendor-neutral test protocol, a simulator-ready cold-atom accelerometer output model (sensitivity-weighted interrogation, dead time, projection and vibration noise, bias, scale factor, fringe wrapping) and a scorer for recorded output (Allan deviation, VRW, bias instability, scale factor, fringe jumps); evaluation only (MODELLED)
+
+# text
+seg-f7748954867c = Quantum benchmark
+
+# text
+seg-f864794d7aa6 = receiver clock offset and rate against a GPS-aligned LTE transmitter from its primary synchronisation signal, and oscillator frequency offset from any cyclic-prefix OFDM broadcast (DVB-T, LTE); positions are inputs, nothing is located (MODELLED)
+
+# text
+seg-6283d468639e = SoOP clock offset
+
+# text
+seg-1ec6e40bc465 = ADS-B interference indicators per cell and day beyond the accuracy fields: update-rate collapse, track inconsistency and exposed-aircraft denominators (silent aircraft included), with their agreement with the low-accuracy share; no identifier written (MODELLED)
+
+# text
+seg-6346f29a8b4c = ADS-B indicators
+
+# text
+seg-9823df175f08 = versioned atlas of persistent interference areas from the daily map products (content-hashed, chained versions), a station C/N0 layer from RINEX observations one GPS ground-track repeat apart, and the ground-against-airborne comparison (MODELLED)
+
+# text
+seg-6371e2a39ae2 = Interference atlas
 
 # text
 seg-79ecf44bb085 = one trust state for an area from several reference stations' states, per second, with alerts (JSON Lines)
@@ -205,6 +383,51 @@ seg-5afa1ed0ea13 = runs a Kshana Station: every configured receiver stream as <c
 
 # text
 seg-035c6d620220 = Station
+
+# text
+# c1: kshana.obs/1
+# c2: kshana.feed/1
+# c3: kshana.obs/1
+# c4: watch
+seg-8aa5d73c8a2f = feeder clients: packs a station's own <c1/> files into a signed <c2/> bundle with privacy-safe defaults (pseudonymous id, position on a { "0.1" } degree grid, no fixes or movement records), verifies and sends one, writes a receive-only SDR spectrum snapshot (RTL-SDR, HackRF) as <c3/> (MODELLED levels), ranks verified bundles by feeder, and <c4/> runs a long-lived feeder: it packs closed files on an interval into a resumable spool and sends with retry and backoff (plain HTTP; no TLS client in the engine)
+
+# text
+seg-aef14817a58d = Feeders
+
+# text
+# c1: kshana.register/1
+# c2: kshana.register-crl/1
+seg-de96ce0c9246 = the product register: a signed <c1/> list of products scored under a stated method, with each entry's revalidation date, and a viewer that marks entries current, due or revoked from a signed <c2/> revocation list checked against the issuer's key
+
+# text
+seg-71d63c71c1aa = offline checks of an RFC 6962/9162 transparency log of evidence records: inclusion and consistency proofs, signed tree heads recomputed from the entries, daily roots with their RFC { "3161" } timestamps, and the hash-chained history of the log's signing keys; keys and authority roots are supplied by the user, nothing is fetched
+
+# text
+seg-68ab7b9c2c2c = Transparency log
+
+# text
+seg-bf5e60f976c4 = interference environments (CW, wideband, pulsed DME/TACAN-like sources) at an RNSS receiver against the continuous thresholds of ITU-R M.1903-1 (Table { "1" } curve, Table { "2" } thresholds) and the pulsed effective-noise method of ITU-R M.2030-0, as JSON (MODELLED; nothing radiates)
+
+# text
+seg-bcbacc2ece90 = Interference environments
+
+# text
+seg-90f2c603e0ad = future-signal readiness: a receiver profile against the published PRN and satellite-number ranges (GPS { "1" }–{ "63" }, SBAS { "120" }–{ "158" }, Galileo SVID { "1" }–{ "36" }, BeiDou { "1" }–{ "63" }, QZSS J01–J10) and the new civil signals (L1C, L5, E1/E5a, B1C/B2a, SBAS L5), BeiDou as a core system, and RINEX 3/4 observation files against the profile, as JSON
+
+# text
+seg-24a9ea175369 = Signal readiness
+
+# text
+seg-016f9613f489 = BeiDou–LEO interoperability planning: per BeiDou satellite, tracking coverage by ground stations and by LEO receivers (limb clearance, half-beamwidth, masks) and the formal orbit-determination covariance ground-only against ground plus LEO (two-body, MODELLED; a planning tool)
+
+# text
+seg-1f70511c543b = BeiDou–LEO planning
+
+# text
+seg-48a845176439 = sparse-geometry LEO-PNT study: with at most one or two LEO satellites in view, the formal covariance of a static user's position, clock bias and clock drift from accumulated Doppler and/or range measurements over passes, and the time to a stated accuracy (MODELLED; a planning study, no filter)
+
+# text
+seg-e737e39cc507 = Sparse-geometry LEO-PNT
 
 # text
 # c1: kshana.obs/1
@@ -245,10 +468,66 @@ seg-a76eae8fc386 = the adapter registry: lists the adapters that pass, or valida
 seg-61aaab27a674 = Adapters
 
 # text
+# c1: pmc
+# c2: check
+seg-7b7c8b7d149c = reads PTP management (linuxptp <c1/> text or a binary message), chrony and ntpd status text, and prints JSON with a common health summary; <c2/> runs the timing vectors
+
+# text
+seg-147ddabe9da9 = Timing systems
+
+# text
+seg-f51ce1415911 = polls a grandmaster or time server with SNMPv2c GET and GETNEXT (read only) through an OID map
+
+# text
+seg-f0f07bb0fb8d = reads an ntpd's variables with an NTP mode { "6" } read-variables request
+
+# text
+seg-a86028d584db = decodes RTCM { "3" } MSM4/MSM7 observations (pseudorange, phase range, rate, lock, CNR) and 1005/1006 station messages to JSON
+
+# text
+seg-35312dc34f9f = Receiver protocols
+
+# text
+seg-ea7f865b1076 = reads Modbus TCP registers, DNP3 class { "0" } points or OPC UA values (read only; no write is ever built) and prints JSON
+
+# text
+seg-0bfc4239df42 = Industrial control
+
+# text
+seg-2c3df2539867 = one incident, chat, log-index or STIX { "2.1" } payload per band change; SNMPv2c traps; STIX objects added to a TAXII { "2.1" } collection
+
+# text
+seg-ae37dd8be0e1 = the trust stream as CCSDS Space Packets and their XTCE, OpenC3 COSMOS and Open MCT definitions
+
+# text
+seg-e32c893a0b9e = Space operations bridges
+
+# text
+# c1: soapy
+seg-ae29bccf907e = gps-sdr-sim motion at { "10" } Hz; SigMF capture through the user's SoapySDR (<c1/> feature)
+
+# text
+seg-d91449af105b = SDR and simulators
+
+# text
 seg-2d2bb8b8e7e7 = which satellites' navigation data a receiver can authenticate
 
 # text
 seg-bf8cd5a45deb = OSNMA
+
+# text
+# c1: kshana.osnma-scenario/1
+seg-d39fb95a8822 = runs an OSNMA test case written as a file (<c1/>: a synthetic stream from the open reference model with a test chain, changes such as flipped bits, replayed tags or shifted time labels, and expected outcomes) through the verifier in memory and reports each expectation as met or not met
+
+# text
+seg-0d501750c4b8 = OSNMA scenarios
+
+# text
+# c1: kshana.rnss-profile/1
+seg-9af8504c5c6e = a configurable regional RNSS signal model: per signal the PSD, in-band power, Gabor bandwidth, SSC against reference and GNSS signals, DLL jitter, and multi-band RTK settings for the ambiguity-resolution cascade; profiles are data files (<c1/>), one of candidate S-band signals from a published study
+
+# text
+seg-279df3dd96b1 = RNSS design
 
 # text
 seg-ca17edc93409 = makes, reads, converts and processes baseband recordings with the software receiver
@@ -260,6 +539,17 @@ seg-bb9db634fecb = <c1/> then <c2/>
 
 # text
 seg-33480fd09b81 = IQ and the software receiver
+
+# text
+seg-f5bfc1225cfb = measures a recording's front-end faults (DC, I/Q imbalance, clipping, dropouts, repeated samples, gain steps, oscillator offset, sample-clock mismatch); writes a GNSS-SDR configuration for a recording
+
+# text
+# c1: kshana iq diagnose capture.bin --signal gps-l1ca --prn 3,11
+# c2: kshana iq gnss-sdr-conf capture.bin --out run.conf
+seg-0ecbc48f9f2a = <c1/> then <c2/>
+
+# text
+seg-932d4067a076 = Front-end diagnostics
 
 # text
 seg-0f9c71281b38 = line-of-sight visibility, dilution of precision and availability under a stated skyline

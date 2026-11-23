@@ -170,15 +170,18 @@ fused-fix and PPP stages of the `leo-pnt-chain` kind. Their results are on
 | Starlink about 2 m in 20 s with three satellites | Kozhaya, Saroufim and Kassas 2025 | formal horizontal one-sigma about 10 m after 20 s with 12 satellites, with a perfect ephemeris and every error in a 30 Hz Doppler sigma at 10 Hz | MODELLED comparison (receiver and measurement rate not reproduced) |
 | Iridium timing under 40 ns from UTC(NIST) | NIST | about 10 ns RMS modelled | MODELLED comparison |
 
-Everything else is MODELLED with its rationale in the verification matrix
-(`docs/VERIFICATION-MATRIX.md`): the DOP is checked against a hand-derived four-satellite
-case, the fixes against their covariance, the Doppler model against the range-acceleration
-identity, the PPP filter against the chi-square NEES band, and the bounds against quadrature.
+Two more rows are VALIDATED in the verification matrix (`docs/VERIFICATION-MATRIX.md`): the
+polar geometry (satellites in view and DOP against latitude) against Orekit, and the NTN
+Cramér-Rao bounds against published worked values, with the fix covariances against NumPy.
+Everything else is MODELLED with its rationale in the matrix: the DOP is checked against a
+hand-derived four-satellite case, the fixes against their covariance, the Doppler model
+against the range-acceleration identity, and the PPP filter against the chi-square NEES band.
 
 ## Limits, stated plainly
 
-- Two-body orbits with the secular drift from J2, the Earth's second zonal harmonic; no broadcast-ephemeris fit error beyond the
-  SISRE one-sigma, no satellite antenna pattern.
+- Two-body orbits with the secular drift from J2, the Earth's second zonal harmonic (the polar mode propagates
+  SGP4/SDP4 element sets instead); no broadcast-ephemeris fit error beyond the SISRE one-sigma, no satellite
+  antenna pattern.
 - No ionospheric or tropospheric delay in `leo-pvt` (the PPP filter carries a wet delay
   state; its ionosphere-free combination removes the first-order ionosphere), no
   scintillation, multipath, cycle slips or integer ambiguity resolution.

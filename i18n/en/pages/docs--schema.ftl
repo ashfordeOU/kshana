@@ -189,11 +189,16 @@ seg-d17376a1ea92 = ({ "0.40" }) The evidence label of the run: <c1/> (<c2/>, <c3
 # c26: leo-ppp
 # c27: solar-system
 # c28: optical-atmosphere
-# c29: sweep
-# c30: sweep-nd
-# c31: lunar-attack-surface
-# c32: fom_label::KINDS_EXCLUDED_FROM_FIGURE_TIERS
-seg-119bac9b3e6f = The verification tier of each reported figure of merit, and always the document's last key. <c1/> lists one entry per figure present: <c2/> (e.g. <c3/>), <c4/> (<c5/> = checked against an independent external oracle, <c6/> = first-principles, internally tested), <c7/> (the verification-matrix row the tier is read from) and <c8/>. <c9/> is <c10/>, with a <c11/>, for <c12/> in every scenario with no attack configured: the bound stays in <c13/>, but it does not answer a question the scenario asks. <c14/> lists any figure no matrix row owns (the <c15/> and <c16/> position figures), instead of giving it a tier. Emitted by the <c17/> (single run and Monte Carlo ensemble), <c18/>, <c19/> and <c20/> kinds, which build it inside their run, and ({ "0.36" }, RM-04) by every other kind for its headline figures, appended after the run from the per-kind table <c21/>; <c22/> strips it back to the untiered document byte for byte. Not emitted by <c23/>, whose result is a frozen pre-registered prediction (<c24/>): that kind has no <c25/> until a new dated prediction replaces it. Also not emitted by <c26/>, <c27/>, <c28/> ({ "0.37" }; per-site arrays), <c29/> and <c30/>, which have no scalar headline figure, or by <c31/>, whose document is compact JSON (<c32/> gives each reason), or by a campaign's embedded member documents. Carries no numbers.
+# c29: gnss-ssv
+# c30: mission-thread
+# c31: tip-and-cue
+# c32: holdover-test
+# c33: lunar-infrastructure
+# c34: sweep
+# c35: sweep-nd
+# c36: lunar-attack-surface
+# c37: fom_label::KINDS_EXCLUDED_FROM_FIGURE_TIERS
+seg-3743fda811be = The verification tier of each reported figure of merit, and always the document's last key. <c1/> lists one entry per figure present: <c2/> (e.g. <c3/>), <c4/> (<c5/> = checked against an independent external oracle, <c6/> = first-principles, internally tested), <c7/> (the verification-matrix row the tier is read from) and <c8/>. <c9/> is <c10/>, with a <c11/>, for <c12/> in every scenario with no attack configured: the bound stays in <c13/>, but it does not answer a question the scenario asks. <c14/> lists any figure no matrix row owns (the <c15/> and <c16/> position figures), instead of giving it a tier. Emitted by the <c17/> (single run and Monte Carlo ensemble), <c18/>, <c19/> and <c20/> kinds, which build it inside their run, and ({ "0.36" }) by every other kind for its headline figures, appended after the run from the per-kind table <c21/>; <c22/> strips it back to the untiered document byte for byte. Not emitted by <c23/>, whose result is a frozen pre-registered prediction (<c24/>): that kind has no <c25/> until a new dated prediction replaces it. Also not emitted by <c26/>, <c27/>, <c28/> ({ "0.37" }; per-site arrays), <c29/>, <c30/>, <c31/>, <c32/>, <c33/>, <c34/> and <c35/>, which have no scalar headline figure, or by <c36/>, whose document is compact JSON (<c37/> gives each reason), or by a campaign's embedded member documents. Carries no numbers.
 
 # text
 seg-9da5d92757bd = object, optional
@@ -464,7 +469,7 @@ seg-ae7136e34306 = <a1><c1/></a1> is the harvested union: for every kind, every 
 # text
 # c1: tests/field_units_global.rs
 # c2: UNCOVERED_KINDS
-seg-66af6dc065f7 = Both are enforced by <c1/>, which runs every registered kind and fails if an emitted numeric field lacks a unit and a provenance class. Kinds not yet covered are named individually in that file's <c2/> with the reason each is open, and the count is pinned so the list can only shrink.
+seg-a7a682d09f0a = Both are enforced by <c1/>, which runs every registered kind and fails if an emitted numeric field lacks a unit and a provenance class. A kind not yet covered would be named in that file's <c2/> with the reason it is open; the list is empty, and its size is pinned so it can only shrink.
 
 # text
 # c1: units

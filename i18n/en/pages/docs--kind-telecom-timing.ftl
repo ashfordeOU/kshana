@@ -45,10 +45,10 @@ seg-864d84810a5c = [g8262-eec-option-1, g8262-eec-option-2, g8262-1-eeec]
 
 # text
 # c1: scenarios/
-seg-3bc1761c76ab = { "3" } bundled scenarios use this kind; the others are in <a1><c1/></a1>.
+seg-7f43b9951654 = { "3" } scenario files in <a1><c1/></a1> use this kind.
 
 # text
-seg-01b1287f233b = Result label (the engine's): MODELLED — time error, MTIE and TDEV checked against transcribed ITU-T masks. The estimators are validated against allantools; the mask tables are transcriptions of the named Recommendations; a synthetic holdover is a model built from public datasheet figures, not a measurement of any unit. Not a co
+seg-e8067239593f = Result label (the engine's): MODELLED — time error, MTIE and TDEV checked against transcribed ITU-T masks. The estimators are validated against allantools; the mask tables are transcriptions of the named Recommendations; a synthetic holdover is a model built from public datasheet figures, not a measurement of any unit. Not a…
 
 # attr:alt
 seg-ec7745a09d08 = The chart the engine writes for scenarios/telecom-synce-eec.toml, kind telecom-timing
@@ -58,30 +58,30 @@ seg-219651a7958b = MODELLED { "5" } · VALIDATED { "1" }: the <a1>verification m
 
 # text
 # c1: telecom-timing
-seg-c21ebd79f497 = <b>VALIDATED</b> The maximum time interval error and time deviation the <c1/> scenario kind reports, on a telecom-scale holdover record: an O(n) monotonic-queue sliding-window MTIE (telecom_timing::mtie_sliding, needed so a day of one-second samp Tests: <a1>telecom_timing_reference.rs</a1>.
+seg-a11cb3991fce = <b>VALIDATED</b> The maximum time interval error and time deviation the <c1/> scenario kind reports, on a telecom-scale holdover record: an O(n) monotonic-queue sliding-window MTIE (telecom_timing::mtie_sliding, needed so a day of one-second… Tests: <a1>telecom_timing_reference.rs</a1>.
 
 # text
 seg-75aa6f7234ae = <b>MODELLED</b> Transcribed limits of ITU-T G.8272 (07/2025) PRTC-A/B, G.8272.1 ({ "2024" }) Amd. Tests: <a1>telecom_timing_reference.rs</a1>.
 
 # text
 # c1: telecom-timing
-seg-d0ab0ca72b80 = <b>MODELLED</b> Seven constant-temperature MTIE and TDEV wander-generation masks for the <c1/> kind: G.811 (09/1997) PRC (autonomous), G.812 (06/2004) Types I, II and III, G.8262 (10/2024) EEC Options { "1" } and { "2" } and G.8262.1 (11/2025) eEEC (locked
+seg-87dee0b13b4c = <b>MODELLED</b> Seven constant-temperature MTIE and TDEV wander-generation masks for the <c1/> kind: G.811 (09/1997) PRC (autonomous), G.812 (06/2004) Types I, II and III, G.8262 (10/2024) EEC Options { "1" } and { "2" } and G.8262.1 (11/2025) eEEC…
 
 # text
-seg-e1b9b2d674eb = <b>MODELLED</b> clock_log::read_input: one parser layer that turns a RINEX clock file (AS/AR records of one named clock, versions { "2" } and { "3.00" } to { "3.04" }), a TimeLab-style ASCII phase or frequency log, or a TAPR TICC timestamp or interval log into a uniform pha Tests: <a1>clock_log_allantools.rs</a1>.
+seg-19fedbb84e09 = <b>MODELLED</b> clock_log::read_input: one parser layer that turns a RINEX clock file (AS/AR records of one named clock, versions { "2" } and { "3.00" } to { "3.04" }), a TimeLab-style ASCII phase or frequency log, or a TAPR TICC timestamp or interval log into a uniform… Tests: <a1>clock_log_allantools.rs</a1>.
 
 # text
 seg-5547f1f662d3 = and { "2" } more in the matrix.
 
 # text
 # c1: telecom-timing
-seg-e7273fd2a640 = <b>VALIDATED</b> The maximum time interval error and time deviation the <c1/> scenario kind reports, on a telecom-scale holdover record: an O(n) monotonic-queue slidi. Oracle (ExternalDataset): allantools { "2024.06" } — an independent third-party frequency-stability library — mtie() and tdev() on tests/fixtures/telecom_timing/holdover_te_series.csv, the series parsed from the same 17-significant-figure text on both sides; the reference records the series' SHA-256 and is regenerable offline via tests/fixtures/telecom_timing/generate_telecom_timing_reference.py. Validates the ESTIMATORS on this record, not the syn
+seg-18b4d613dc51 = <b>VALIDATED</b> The maximum time interval error and time deviation the <c1/> scenario kind reports, on a telecom-scale holdover record: an O(n) monotonic-queue…. Oracle (ExternalDataset): allantools { "2024.06" } — an independent third-party frequency-stability library — mtie() and tdev() on tests/fixtures/telecom_timing/holdover_te_series.csv, the series parsed from the same 17-significant-figure text on both sides; the reference records the series' SHA-256 and is regenerable offline via tests/fixtures/telecom_timing/generate_telecom_timing_reference.py. Validates the ESTIMATORS on this record, not the…
 
 # text
-seg-4cf0f94f96c9 = <b>MODELLED</b> Transcribed limits of ITU-T G.8272 (07/2025) PRTC-A/B, G.8272.1 ({ "2024" }) Amd. { "1" } (07/2025) ePRTC locked and ePRTC-A holdover (including the Table { "3" } time-error enve. Oracle (InternalConsistency): Transcription of the named Recommendations (freely downloadable from itu.int), each limit carrying its table or clause, listed with every unconfirmed or unimplemented item in docs/TELECOM-TIMING.md; the breakpoint-continuity identities the tables imply are checked in the tests. A standards transcription with internal consistency checks, not a conformance test and not an external validation. { "0.30" } round { "2" } (pre-register
+seg-4f5cfea72540 = <b>MODELLED</b> Transcribed limits of ITU-T G.8272 (07/2025) PRTC-A/B, G.8272.1 ({ "2024" }) Amd. { "1" } (07/2025) ePRTC locked and ePRTC-A holdover (including the Table { "3" } time-error…. Oracle (InternalConsistency): Transcription of the named Recommendations (freely downloadable from itu.int), each limit carrying its table or clause, listed with every unconfirmed or unimplemented item in docs/TELECOM-TIMING.md; the breakpoint-continuity identities the tables imply are checked in the tests. A standards transcription with internal consistency checks, not a conformance test and not an external validation. { "0.30" } round { "2" }…
 
 # text
-seg-d4bd840708db = <b>MODELLED</b> Four presets — OCXO (Microchip OX-208), rubidium (Microchip 8040C), caesium (Microchip 5071A high-performance tube) and CSAC (Microchip SA.45s) — each carrying . Oracle (InternalConsistency): The four named Microchip datasheets (document numbers and URLs in each preset and in docs/TELECOM-TIMING.md) for the input figures; the closed-form aging ramp and the fit's envelope property as internal checks. How the figures become a noise model — the fit, the floor rule, the 30-day month, the linear temperature reading — is a modelling choice; no preset is a measurement of a unit. { "0.30" } round { "2" }, one-sided bars agai
+seg-a31e49946a70 = <b>MODELLED</b> Four presets — OCXO (Microchip OX-208), rubidium (Microchip 8040C), caesium (Microchip 5071A high-performance tube) and CSAC (Microchip SA.45s) — each…. Oracle (InternalConsistency): The four named Microchip datasheets (document numbers and URLs in each preset and in docs/TELECOM-TIMING.md) for the input figures; the closed-form aging ramp and the fit's envelope property as internal checks. How the figures become a noise model — the fit, the floor rule, the 30-day month, the linear temperature reading — is a modelling choice; no preset is a measurement of a unit. { "0.30" } round { "2" }, one-sided bars…
 
 # text
 # c1: not_implemented[0]
@@ -118,10 +118,10 @@ seg-a0ddb65b00af = The clock: the OCXO preset (Microchip OX-208 datasheet, Rev 1
 seg-849c08d3ce70 = Family page: <a1>Clocks, timing and holdover</a1>
 
 # text
-seg-101dbde1c65b = Topic page: <a1>CLOCK-LOG-FORMATS.md</a1>
+seg-dd88c28321d8 = Topic page: <a1>LEO-VERIFY.md</a1>
 
 # text
-seg-cb91473bfdda = Topic page: <a1>LEO-PNT.md</a1>
+seg-101dbde1c65b = Topic page: <a1>CLOCK-LOG-FORMATS.md</a1>
 
 # text
 seg-c32dc02f981d = <s1>Previous</s1>sweep

@@ -12,7 +12,7 @@
 //!    campaign members' `result_sha256`), so the baseline holds for one version: a version bump
 //!    re-blesses it with `KSHANA_BLESS_SKYLINE_PORTABLE=1 cargo test --test skyline_scenarios
 //!    write_the_portable_baseline_on_request`, and the revisions record of that bump shows that
-//!    nothing but the version and those digests moved (docs/revisions/STUDIO15-skyline-baseline-0.36.0.md).
+//!    nothing but the version and those digests moved (docs/revisions/skyline-baseline-0.36.0.md).
 //!    The original baseline, `flat_hashes_0.35.0.txt`, was
 //!    computed by the frozen 0.35.0 release commit (5f7c44cc) before any skyline code existed;
 //!    it is kept as the historical record and pinned by hash (STUDIO-15 moved most of its rows).
@@ -157,7 +157,7 @@ fn the_q_table_and_galileo_icd21_files_are_rows_that_moved_from_0_35_0() {
 
 /// The 0.35.0 release baseline is kept as the record of what 0.35.0 released: its rows are
 /// not compared with this build (STUDIO-15 moved the last bits of most of them; see
-/// `docs/revisions/STUDIO15-portable-math-rebaseline.md`), but the file itself must not move.
+/// `docs/revisions/portable-math-rebaseline.md`), but the file itself must not move.
 // PIN-SCOPE:    the whole 0.35.0 baseline file `flat_hashes_0.35.0.txt`, byte for byte: it is the record
 //               of what the 0.35.0 release produced, not a comparison with this build
 // PIN-EXCLUDES: nothing in that file; the rows of the 0.36 portable baseline are a different file

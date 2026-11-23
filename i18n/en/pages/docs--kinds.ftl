@@ -93,9 +93,6 @@ seg-e4e2ee13862b = Contact sheet of the charts the engine writes for the kinds o
 seg-3cedc38ae9d5 = Every kind
 
 # text
-seg-b03d56f501c3 = Kind
-
-# text
 seg-6339abe5314a = Family
 
 # text
@@ -117,19 +114,13 @@ seg-efd15cff3d32 = MODELLED (result label)
 seg-d1c67e3dd12e = MODELLED { "1" } · VALIDATED { "2" }
 
 # text
-seg-be0cfeeb1680 = MODELLED { "4" } · VALIDATED { "4" }
-
-# text
 seg-5e658f01d9f4 = HETEROGENEOUS (result label)
 
 # text
-seg-c2245de16d5f = MODELLED { "6" } · VALIDATED { "2" }
+seg-6242e58d109e = MODELLED { "5" } · VALIDATED { "4" }
 
 # text
-seg-045ecd7c036f = MODELLED { "6" } · VALIDATED { "4" }
-
-# text
-seg-04fdaadf1cba = MODELLED { "5" } · VALIDATED { "6" }
+seg-2e2966bb3012 = MODELLED { "3" } · VALIDATED { "1" }
 
 # text
 seg-3f28c23605a4 = MODELLED { "7" } · VALIDATED { "5" }
@@ -141,13 +132,19 @@ seg-02706b96f8fa = MODELLED { "3" } · VALIDATED { "2" }
 seg-23f3c33445d1 = MODELLED { "2" } · VALIDATED { "2" }
 
 # text
-seg-06f082922143 = MODELLED { "2" } · VALIDATED { "3" }
+seg-31820c06cc22 = MODELLED { "1" } · VALIDATED { "3" }
 
 # text
 seg-528223b4d676 = MODELLED { "3" } · VALIDATED { "3" }
 
 # text
+seg-be0cfeeb1680 = MODELLED { "4" } · VALIDATED { "4" }
+
+# text
 seg-23dbca6bce68 = MODELLED { "2" } · VALIDATED { "1" }
+
+# text
+seg-06f082922143 = MODELLED { "2" } · VALIDATED { "3" }
 
 # text
 seg-651ef9489065 = MODELLED { "5" } · VALIDATED { "1" }

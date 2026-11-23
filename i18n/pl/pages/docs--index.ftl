@@ -192,8 +192,6 @@ seg-f466e9c87ba4 = <s1>Używanie { -brand } z agenta</s1><s2>Dla agenta (lub oso
 
 seg-ccfc820aac68 = <s1>Gdzie każda możliwość jest osiągalna</s1><s2>Każda możliwość jest dostępna na powierzchniach, gdzie ma to sens; tam, gdzie jedna nie może jej udostępnić,…</s2>
 
-seg-1c59d26e3faf = <s1>Wtyczka JetBrains</s1><s2>Natywna wtyczka uruchamiająca symulator odporności PNT { -brand } z wnętrza dowolnego IDE JetBrains (IntelliJ IDEA…</s2>
-
 seg-4498f8a0377b = <s1>Gdzie działa { -brand }</s1><s2>Granica zakresu, spisana po to, by nikt nie odkrył jej jako zobowiązania na spotkaniu.</s2>
 
 seg-059aecd59596 = <s1>Architektura</s1><s2>{ -brand } to jeden silnik zorganizowany w warstwy nad wspólnym rdzeniem: pakiety czujników (zegar, inercjalne…</s2>
@@ -237,7 +235,3 @@ seg-5484fd345826 = <s1>Każdy rodzaj scenariusza, według rodziny</s1><s2>Każdy
 seg-b23a9bd3ccfa = <s1>Opis scenariuszy</s1><s2>Każdy dołączony plik scenariusza ({ "195" }), pogrupowany według rodzaju, z jego kluczowymi ustawieniami.</s2>
 
 seg-a7dc2bc0a77d = { "93" } stron, po jednej dla każdego rodzaju scenariusza, z odnośnikami w <a1>Każdy rodzaj scenariusza, według rodziny</a1>.
-
-seg-abe17fad0734 = <s1>Macierz weryfikacji</s1><s2>Kompletny, sprawdzany maszynowo rejestr dowodów (ledger): { "412" } wierszy — { "176" } VALIDATED, { "232" } MODELLED, { "4" } PARTNER.</s2>
-
-seg-7fd385494ae0 = <s1>Opis możliwości</s1><s2>Karty możliwości i wszystkie { "412" } wierszy macierzy weryfikacji.</s2>

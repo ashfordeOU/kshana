@@ -1,4 +1,4 @@
-# Planar cislunar constellation observability over a tracking arc (P6).
+# Planar cislunar constellation observability over a tracking arc.
 #
 # A small four-spacecraft near-DRO planar constellation near the Moon is tracked by
 # inter-satellite ranging. The scenario answers the batch-estimator question: how much of a
@@ -7,13 +7,13 @@
 # finite-difference-validated CR3BP variational STM (src/cr3bp.rs) and the analytic
 # inter-satellite range / range-rate Jacobians (src/intersat_range.rs), and emits:
 #   1. the rank-vs-arc-length table for a single range-only link -- instantaneously rank-1,
-#      growing toward the full four-state as the arc lengthens (P6 Table 1);
+#      growing toward the full four-state as the arc lengthens;
 #   2. the observability-Gramian eigen-spectrum + condition number over the arc; and
 #   3. the range-only vs range+range-rate instantaneous-rank comparison (the Doppler design
 #      lever) plus range-only-singular / range+rate-defined GDOP reporting.
 # (src/cislunar_observability.rs, src/observability_gramian.rs)
 #
-# Honesty: MODELLED. VALIDATED core -- the observable RANK is a rank-revealing
+# Honesty: MODELLED. Checked core -- the observable RANK is a rank-revealing
 # singular-value threshold cross-checked against the Gramian eigen-rank; the eigen-spectrum
 # obeys the spectral invariants (trace = sum eig, det = prod eig, Frobenius^2 = sum eig^2);
 # the variational STM is the finite-difference-validated CR3BP STM; the range / range-rate

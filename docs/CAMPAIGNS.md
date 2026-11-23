@@ -142,8 +142,8 @@ condition. Every member runs, and for each metric the combined summary gives the
 largest and mean value across the members, naming the best and worst.
 `scenarios/campaign-shared-jammer-sea-road.toml` puts one 8 dBW jammer between a ship in
 the Gulf of Finland (about 30 km away) and a car on a Helsinki coast road (about 50 km):
-the ship loses every satellite (mean jammer-to-signal ratio 39.0 dB) while the car keeps
-at least four (34.6 dB).
+the ship falls below four tracked satellites at every epoch, down to one (availability 0,
+mean jammer-to-signal ratio 39.0 dB), while the car keeps at least seven (34.6 dB).
 
 ## `[optimize]`: the best value of one metric
 
@@ -209,7 +209,7 @@ table is in [INTEROP.md](INTEROP.md).
 
 ## LEO-PNT campaigns
 
-Fifteen bundled campaigns frame low Earth orbit (LEO) positioning, navigation and timing
+Sixteen bundled campaigns frame low Earth orbit (LEO) positioning, navigation and timing
 (PNT) questions; [LEO-PNT.md](LEO-PNT.md) describes what each one shows. What each runs,
 as the command line summarises it:
 
@@ -266,5 +266,5 @@ networks.
   exceeds the alert limit.
 
 These check that composing changes nothing it should not. They do not validate a chained
-mission against a measured one, which is why the three campaign rows in
+mission against a measured one, which is why the four campaign rows in
 [VERIFICATION-MATRIX.md](VERIFICATION-MATRIX.md) are MODELLED.

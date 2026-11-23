@@ -8,7 +8,7 @@ Scenario kind of the engine v0.41.0, family [Space-user navigation](../space-use
 
 MODELLED GNSS availability and link strength in the Space Service Volume and beyond: for a user on a sphere (the ICG booklet's global shell) or on a Keplerian trajectory (LEO to lunar transfer) it counts, per constellation (GPS, GLONASS, Galileo, BDS, QZSS, NavIC) and for all together, the signals usable above a C/N0 threshold - availability of at least one and of four signals, maximum outage duration, received C/N0, dilution of precision, main-lobe against sidelobe links - with a booklet, parametric or user-supplied transmit pattern, optional limb-ray ionosphere, plasmasphere and atmosphere effects and an optional weak-signal receiver design; also an onboard GNSS extended Kalman filter for HEO and lunar-transfer craft (orbital dynamics, solar radiation pressure, third bodies, clock) and relative navigation of a multi-craft formation by single-differenced pseudoranges. Checked against the ICG SSV booklet tables under a pre-registration (xval/gnss-ssv)
 
-One run of `scenarios/gnss-ssv-heo.toml` summarises as: gnss-ssv trajectory 497 to 58622 km altitude: l1 combined 1+ 100.0% 4+ 97.4% (max outage 0 min); l5 combined 1+ 100.0% 4+ 100.0% (max outage 0 min)
+One run of `scenarios/gnss-ssv-geo.toml` summarises as: gnss-ssv trajectory 35786 to 35786 km altitude: l1 combined 1+ 100.0% 4+ 100.0% (max outage 0 min); l5 combined 1+ 100.0% 4+ 100.0% (max outage 0 min)
 
 ## Inputs
 
@@ -17,18 +17,18 @@ From the schema (`kshana kinds --json`):
 - Required fields: `shell|trajectory|navigation`
 - Optional fields: `name`, `constellations`, `transmit`, `receiver`, `atmosphere`, `formation`
 
-The example `scenarios/gnss-ssv-heo.toml` sets, among others:
+The example `scenarios/gnss-ssv-geo.toml` sets, among others:
 
 | Field | Value | Unit |
 |---|---|---|
 | `constellations.bands` | [l1, l5] | not stated |
 | `constellations.include` | [gps, glonass, galileo, bds] | not stated |
 | `kind` | gnss-ssv | text |
-| `name` | HEO, high-gain nadir and patch zenith antennas, parametric s | text |
+| `name` | GEO, high-gain nadir and patch zenith antennas, parametric… | text |
 | `receiver.cn0_min_dbhz` | 20 | dB-Hz |
 | `trajectory.antennas` | [booklet-high-gain-nadir, booklet-patch-zenith] | not stated |
-| `trajectory.duration_periods` | 1 | not stated |
-| `trajectory.preset` | heo | text |
+| `trajectory.duration_min` | 1440 | min |
+| `trajectory.preset` | geo | text |
 | `trajectory.series_every_min` | 60 | min |
 | `trajectory.step_min` | 10 | min |
 | `transmit.pattern` | parametric | text |
@@ -36,10 +36,10 @@ The example `scenarios/gnss-ssv-heo.toml` sets, among others:
 ## Run it
 
 ```sh
-kshana scenarios/gnss-ssv-heo.toml
+kshana scenarios/gnss-ssv-geo.toml
 ```
 
-5 bundled scenarios use this kind; the others are in [`scenarios/`](../../../scenarios/).
+8 scenario files in [`scenarios/`](../../../scenarios/) use this kind.
 
 ## What it gives
 
@@ -47,45 +47,45 @@ The scalar results of that run, with the units the engine states:
 
 | Result | Value | Unit |
 |---|---|---|
-| `atmosphere_model.gamma0_db_per_km` | 0.0072 | dB/km |
-| `atmosphere_model.gamma_scale_km` | 5.3 | km |
-| `atmosphere_model.h_scale_km` | 60 | km |
-| `atmosphere_model.hmf2_km` | 300 | km |
-| `atmosphere_model.n0` | 315 | N-units |
-| `atmosphere_model.n_scale_km` | 7.35 | km |
-| `atmosphere_model.nmf2` | 1.0000e12 | 1/m^3 |
-| `atmosphere_model.plasmapause_l` | 4.5 | 1 |
-| `atmosphere_model.plasmasphere_scale` | 1 | 1 |
-| `atmosphere_model.trough_density` | 5000000 | 1/m^3 |
+| `cn0_min_dbhz` | 20 | dB-Hz |
+| `evidence.id_rule` | the stable id of the matrix row (the… | text |
+| `evidence.matrix` | docs/VERIFICATION-MATRIX.md | text |
+| `evidence.tier` | MODELLED | text |
+| `mode` | trajectory | text |
+| `name` | GEO, high-gain nadir and patch zenith… | text |
+| `orbit.a_km` | 42164 | km |
+| `orbit.argp_deg` | 0 | deg |
+| `orbit.e` | 0 | 1 |
+| `orbit.i_deg` | 0 | deg |
 
-Result label (the engine's): MODELLED: a geometric and link-budget sweep. The booklet pattern is a constant-power main lobe, the parametric pattern a representative stand-in, and the limb-ray medium a simple stated model; nothing here is a measurement of a signal in space. The availability and outage figures follow the method o
+Result label (the engine's): MODELLED: a geometric and link-budget sweep. The booklet pattern is a constant-power main lobe, the parametric pattern a representative stand-in, and the limb-ray medium a simple stated model; nothing here is a measurement of a signal in space. The availability and outage figures follow the method…
 
-<img src="../../figures/kinds/gnss-ssv.svg" alt="The chart the engine writes for scenarios/gnss-ssv-heo.toml, kind gnss-ssv" width="640">
+<img src="../../figures/kinds/gnss-ssv.svg" alt="The chart the engine writes for scenarios/gnss-ssv-geo.toml, kind gnss-ssv" width="640">
 
 ## Evidence
 
 MODELLED: the [verification matrix](../../VERIFICATION-MATRIX.md) rows that name this kind.
 
-- **MODELLED** The `gnss-ssv` kind's availability sweeps: per constellation (GPS, GLONASS, Galileo, BDS, QZSS, NavIC) and combined, the share of (user, epoch) pairs with at least one and at least four signals and the longest outage, for a user on a sphere
-- **MODELLED** The `gnss-ssv` kind's `[navigation]` mode: a nine-state extended Kalman filter (position, velocity, receiver clock bias and drift, a solar-radiation-pressure scale) on pseudoranges whose availability, noise and C/N0 come from the same link 
-- **MODELLED** The `gnss-ssv` kind's `[formation]` mode: a chief and deputies each run the absolute filter; the deputy's position relative to the chief is estimated by subtracting the absolute estimates and by a relative filter on single-differenced pseud
-- **MODELLED** The `tli-and-cruise` phase: the mean state by the engine's Cowell propagator (Earth point mass and J2, the Sun and Moon as third bodies, the Moon from the thread's DE440 kernel where it covers the segment and the Sun from the analytic serie
+- **MODELLED** The `gnss-ssv` kind's availability sweeps: per constellation (GPS, GLONASS, Galileo, BDS, QZSS, NavIC) and combined, the share of (user, epoch) pairs with at least one and at least four signals and the longest outage, for a user on a…
+- **MODELLED** The `gnss-ssv` kind's `[navigation]` mode: a nine-state extended Kalman filter (position, velocity, receiver clock bias and drift, a solar-radiation-pressure scale) on pseudoranges whose availability, noise and C/N0 come from the same…
+- **MODELLED** The `gnss-ssv` kind's `[formation]` mode: a chief and deputies each run the absolute filter; the deputy's position relative to the chief is estimated by subtracting the absolute estimates and by a relative filter on single-differenced…
+- **MODELLED** The `tli-and-cruise` phase: the mean state by the engine's Cowell propagator (Earth point mass and J2, the Sun and Moon as third bodies, the Moon from the thread's DE440 kernel where it covers the segment and the Sun from the analytic…
 
 The rows the run itself exercised, with the oracle the matrix gives each (the public sources are named there):
 
-- **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): SBOM conformance to the official CycloneDX 1.5 JSON Schema (+ valid SPDX identifiers) — an external published standard, zero validation errors over the full dependency graph; the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
-- **MODELLED** The `gnss-ssv` kind's availability sweeps: per constellation (GPS, GLONASS, Galileo, BDS, QZSS, NavIC) and combined, the share of (user, epoch) pairs with at le. Oracle (ExternalDataset): The ICG Space Service Volume booklet (UN OOSA ST/SPACE/75, 2018), itself a simulation, compared under a pre-registration committed before the run (xval/gnss-ssv/PREREGISTRATION.md; results in xval/gnss-ssv/RESULTS.md, pinned by tests/ssv_booklet_results.rs, misses included). Run 1 on the pre-registered reading: the minimum-radiated-power constants and the lunar bar agree (S0, S6 met); the upper and lower SSV, RF-thre
-- **MODELLED** A Chapman ionosphere, a Gallagher-type plasmasphere and a neutral atmosphere (refractivity bending, oxygen absorption, defocusing) integrated along the straight. Oracle (InternalConsistency): Closed forms and published magnitudes in the tests (a Chapman layer's peak and the bending of the surface limb, a few TECU of plasmasphere on a GPS-to-GEO ray); the receiver design reuses the acquisition and tracking-loop models and their tests. No measured limb-sounding or weak-signal reception data is compared with it
-- **MODELLED** The `gnss-ssv` kind's `[navigation]` mode: a nine-state extended Kalman filter (position, velocity, receiver clock bias and drift, a solar-radiation-pressure sc. Oracle (InternalConsistency): Simulated truth against the filter's own estimate (a consistent filter's mean normalised estimation error squared is about 3 for the position) and determinism for a fixed seed. No flight or recorded high-orbit GNSS data is compared; the Sun and Moon are low-precision circular stand-ins
-- **MODELLED** The `gnss-ssv` kind's `[formation]` mode: a chief and deputies each run the absolute filter; the deputy's position relative to the chief is estimated by subtrac. Oracle (InternalConsistency): The same simulated truth as the absolute filter: the relative filter's error against the true relative state, and the check that it does at least as well as subtracting two independent absolute fixes. No flight formation data is compared
+- **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): Official CycloneDX 1.5 JSON Schema (+ SPDX identifier list): every atomic licence id is a valid SPDX id, and the document has zero schema errors once compound expressions are moved to expression (the generator's raw output has 133 compound-id errors); the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
+- **MODELLED** The `gnss-ssv` kind's availability sweeps: per constellation (GPS, GLONASS, Galileo, BDS, QZSS, NavIC) and combined, the share of (user, epoch) pairs with at…. Oracle (ExternalDataset): The ICG Space Service Volume booklet (UN OOSA ST/SPACE/75, 2018), itself a simulation, compared under a pre-registration committed before the run (xval/gnss-ssv/PREREGISTRATION.md; results in xval/gnss-ssv/RESULTS.md, pinned by tests/ssv_booklet_results.rs, misses included). Run 1 on the pre-registered reading: the minimum-radiated-power constants and the lunar bar agree (S0, S6 met); the upper and lower SSV…
+- **MODELLED** A Chapman ionosphere, a Gallagher-type plasmasphere and a neutral atmosphere (refractivity bending, oxygen absorption, defocusing) integrated along the…. Oracle (InternalConsistency): Closed forms and published magnitudes in the tests (a Chapman layer's peak and the bending of the surface limb, a few TECU of plasmasphere on a GPS-to-GEO ray); the receiver design reuses the acquisition and tracking-loop models and their tests. No measured limb-sounding or weak-signal reception data is compared with it
+- **MODELLED** The `gnss-ssv` kind's `[navigation]` mode: a nine-state extended Kalman filter (position, velocity, receiver clock bias and drift, a solar-radiation-pressure…. Oracle (InternalConsistency): Simulated truth against the filter's own estimate (a consistent filter's mean normalised estimation error squared is about 3 for the position) and determinism for a fixed seed. No flight or recorded high-orbit GNSS data is compared; the Sun and Moon are low-precision circular stand-ins
+- **MODELLED** The `gnss-ssv` kind's `[formation]` mode: a chief and deputies each run the absolute filter; the deputy's position relative to the chief is estimated by…. Oracle (InternalConsistency): The same simulated truth as the absolute filter: the relative filter's error against the true relative state, and the check that it does at least as well as subtracting two independent absolute fixes. No flight formation data is compared
 
 ## Limitations
 
 What the run's own report says is not modelled or not validated:
 
 - MODELLED: a geometric and link-budget sweep. The booklet pattern is a constant-power main lobe, the parametric pattern a representative stand-in, and the limb-ray medium a simple stated model; nothing here is a measurement of a signal in space. The availability and outage figures follow the method of the ICG Space Service Volume booklet (UN ST/SPACE/75) and are checked against its tables in xval/gnss-ssv/. (result `label`)
-- MODELLED GNSS availability and link strength in the Space Service Volume and beyond: for a user on a sphere (the ICG booklet's global shell) or on a Keplerian trajectory (LEO to lunar transfer) it counts, per constellation (GPS, GLONASS, Galileo, BDS, QZSS, NavIC) and for all together, the signals usable above a C/N0 threshold - availability of at least one and of four signals, maximum outage duration, received C/N0, (kind catalogue (`kshana kinds --json`))
-- MODELLED: the pattern is representative, not measured; the medium is a stated simple model (docs/SSV.md). (scenario file comment, line 14)
+- MODELLED GNSS availability and link strength in the Space Service Volume and beyond: for a user on a sphere (the ICG booklet's global shell) or on a Keplerian trajectory (LEO to lunar transfer) it counts, per constellation (GPS, GLONASS, Galileo, BDS, QZSS, NavIC) and for all together, the signals usable above a C/N0 threshold - availability of at least one and of four signals, maximum outage duration, received… (kind catalogue (`kshana kinds --json`))
+- MODELLED: two-body orbits, a representative (not measured) transmit pattern, booklet antennas (docs/SSV.md). (scenario file comment, line 11)
 - Reproducibility & software assurance is MODELLED, not validated: a sub-claim is externally checked, but the whole capability composes modelled pieces, so the capability stays Modelled. (verification matrix (docs/MODELLED-RATIONALE.md))
 - GNSS signal availability in the Space Service Volume and beyond, compared with the ICG SSV booklet is MODELLED, not validated: a sub-claim is externally checked, but the whole capability composes modelled pieces, so the capability stays Modelled. (verification matrix (docs/MODELLED-RATIONALE.md))
 - Limb-ray ionosphere, plasmasphere and atmosphere effects on grazing GNSS signals, and the weak-signal receiver design, in the `gnss-ssv` kind is MODELLED, not validated: checked against its own closed-form / analytic identity — catches transcription and coefficient errors, but is not an external oracle. (verification matrix (docs/MODELLED-RATIONALE.md))
@@ -97,4 +97,4 @@ What the run's own report says is not modelled or not validated:
 - Family page: [Space-user navigation](../space-user-navigation.md#gnss-ssv)
 - All kinds: [KINDS.md](../../KINDS.md)
 - Topic page: [SSV.md](../../SSV.md)
-- Topic page: [MISSION-THREAD.md](../../MISSION-THREAD.md)
+- Topic page: [SPACE-RECEIVER.md](../../SPACE-RECEIVER.md)

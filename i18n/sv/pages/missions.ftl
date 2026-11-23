@@ -180,8 +180,6 @@ seg-b388c2bac488 = Öppna omloppskonsolen
 
 seg-3d6af799cb19 = <s1>Gratis kärna</s1> varje scenario och diagram på den här sidan
 
-seg-354162e88f07 = <s1>Pro</s1> Paretofronten för ett utformningsrum, osäkerhet och känslighet samt ett uppdragsdossier med ett enda kommando
-
 seg-83e0dd9b2617 = <s1>Skräddarsydd studie</s1> modeller kalibrerade mot din hårdvara, utförda åt dig
 
 seg-5285d23ae95b = Hotmatris · scenariofiler per sektor och haveri
@@ -260,8 +258,6 @@ seg-2d9d1994071f = Kör varje scenariofil i den här sektorn i Kshana Studio ell
 
 seg-731232b52b8f = Pro lägger till
 
-seg-de3cc6d30b9c = Pro: reproducerbara bevispaket i revisionsklass för en granskning.
-
 seg-6d3d0f8c9b7c = Begär en utvärdering av Pro
 
 seg-04d539c39f45 = Skräddarsydd studie lägger till
@@ -330,8 +326,6 @@ seg-2918af222529 = Satelliter i sikte och PDOP (positionens geometriska försäm
 
 seg-ef0cc5181857 = En geostationär användare: ange användarens bana i ett scenario av typen orbit, på det sätt som orbit-molniya anger en starkt excentrisk.
 
-seg-7889feffa939 = Pro: arkitekturavvägningsstudier rangordnade efter ett kvalitetsmått. Pro: digitala tvillingar av klockor kalibrerade mot din enhets publicerade Allan-budget.
-
 seg-bb0ceeb8db2a = Får en landare, en rover eller en omloppsfarkost vid månen, Mars eller längre ut en pålitlig position och tid, och vad tillför den lokala tidsskalan till felbudgeten?
 
 seg-db11b1e64ac5 = Svaga signaler på månavstånd, gles reläegeometri, ljustidsfördröjning, lunar tidsavvikelse, jamming vid ytan
@@ -361,8 +355,6 @@ seg-25e1426d8341 = Mottagning av jordens GNSS på månavstånd
 seg-96077751d4ce = Lunar tidstakt mot det publicerade bandet, och tidsfelsbudgeten från början till slut
 
 seg-f1dfccfb9f89 = Navigeringsfel via relä i omloppsbana kring Mars, på ytan och under överfärd
-
-seg-4a5542c69690 = Pro: digitala tvillingar av klockor kalibrerade mot din enhets publicerade Allan-budget. Pro: arkitekturavvägningsstudier rangordnade efter ett kvalitetsmått.
 
 seg-4cf1f8144ae2 = Hur länge stannar mitt UAS (obemannade flygsystem) inom sin positionsbudget efter att en jammer har tagit bort GNSS, och finns integritet tillgänglig längs min rutt?
 
@@ -472,8 +464,6 @@ seg-b6c48dca904a = Detektering av tidsspoofing med klockans integritetsövervakn
 
 seg-3db4a218354b = Elnät och finans: din sektors gräns för tidsnoggrannhet anges som threshold_ns.
 
-seg-cc45be91cd00 = Pro: digitala tvillingar av klockor kalibrerade mot din enhets publicerade Allan-budget. Pro: reproducerbara bevispaket i revisionsklass för en granskning.
-
 seg-cb5e51c39a7f = Förlust av GNSS-tidsreferensen vid en primär referenstidsklocka, tidsspoofing
 
 seg-c89c91bfd2ac = Tidsfel mot ITU-T-maskerna
@@ -545,8 +535,6 @@ seg-8cc7ceade324 = t = { "0" } s
 seg-1bd3b0f6eb7e = Verklig motorkörning, uppspelad
 
 seg-f1313464b7c9 = Banor: propagerade om utifrån körningens egna element och kontrollerade mot motorns markspår. Planeter: NASA-bilder.
-
-seg-6c981f00d37d = <b>Med Pro:</b> utformningsoptimeraren kör ett helt utformningsrum för konstellationer kring jorden, månen eller Mars genom den här motorn och returnerar dess <b>Paretofront</b>, där varje utformning på fronten skrivs ut som en vanlig scenariofil. <a1>Se en verklig front</a1>
 
 seg-cdd1e1a6793d = Felmoder
 
@@ -660,8 +648,6 @@ seg-d2c741b188de = Dimensionera en PNT-arkitektur och se var den brister.
 
 seg-87adf34e62f8 = Börja med <a1>Förmågeatlas</a1>
 
-seg-9601ecea0610 = <b>Gratis i dag:</b> allt i den öppna motorn. Pro: arkitekturavvägningsstudier rangordnade efter ett kvalitetsmått.
-
 seg-5ad7df11c031 = PNT- eller GNSS-specialist
 
 seg-8f2ceeab7a06 = Öppna TOML-filen, ändra fysiken, kontrollera mot registret.
@@ -675,8 +661,6 @@ seg-c0cabe8a1c21 = Test- och utvärderingsansvarig
 seg-a5345bf50e9a = Fäst scenarier som regressionstester och kör en hel svit till en enda stämplad studie.
 
 seg-57027baf4d52 = Börja med <a1>Sätt att använda den</a1>
-
-seg-081d06995ef0 = <b>Gratis i dag:</b> allt i den öppna motorn. Pro: reproducerbara bevispaket i revisionsklass för en granskning.
 
 seg-e453a0b9a72e = Upphandlare eller programgranskare
 
@@ -699,8 +683,6 @@ seg-63e9569d9723 = Tids- och nätverksingenjör
 seg-4f23a0580efe = Kontrollera holdover mot ITU-T-masker innan GNSS-antennen går sönder.
 
 seg-7bc4df13f4cb = Börja med <a1>Tidsväggen</a1>
-
-seg-2abf4f5bd06e = <b>Gratis i dag:</b> allt i den öppna motorn. Pro: digitala tvillingar av klockor kalibrerade mot din enhets publicerade Allan-budget.
 
 seg-907754b26f64 = Användare av AI-assistent
 
@@ -837,5 +819,3 @@ seg-9a86ef058d27 = Öppna i Kshana Studio
 seg-e1acd19a6ac6 = Jämför utgåvorna
 
 seg-ceb2de75e2f4 = <b>Gratis i dag:</b> allt i den öppna motorn. Gratis: { "53" } MCP-verktyg, från run_scenario till export_oem.
-
-seg-67a6c0107bcd = Motor v{ $version }, bygge <c1/> · <c2/> · deterministisk, inget frö

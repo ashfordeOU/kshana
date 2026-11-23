@@ -24,8 +24,8 @@ The example `scenarios/pvt-abmf.toml` sets, among others:
 | `dual_frequency` | true | flag |
 | `kind` | pvt | text |
 | `mask_deg` | 5 | deg |
-| `nav_rinex` |      3.03           N: GNSS NAV DATA    M: MIXED             | text |
-| `obs_rinex` |      3.02           OBSERVATION DATA    M                    | text |
+| `nav_rinex` |      3.03           N: GNSS NAV DATA    M: MIXED… | text |
+| `obs_rinex` |      3.02           OBSERVATION DATA    M… | text |
 | `truth_ecef` | [2.9198e6, -5.3837e6, 1.7746e6] | not stated |
 
 ## Run it
@@ -40,7 +40,7 @@ The scalar results of that run, with the units the engine states:
 
 | Result | Value | Unit |
 |---|---|---|
-| `evidence.id_rule` | the stable id of the matrix row (the ID  | text |
+| `evidence.id_rule` | the stable id of the matrix row (the… | text |
 | `evidence.matrix` | docs/VERIFICATION-MATRIX.md | text |
 | `evidence.tier` | MODELLED | text |
 | `fom.epochs_solved` | 2 | count |
@@ -58,12 +58,12 @@ The scalar results of that run, with the units the engine states:
 MODELLED: the [verification matrix](../../VERIFICATION-MATRIX.md) rows that name this kind.
 
 - **MODELLED** Divergence-free Hatch filter (ionosphere-free code carried by the ionosphere-free carrier, window N epochs, restart on loss of lock, geometry-free jump or gap) in the precise single-point positioning assembly
-- **MODELLED** dop_error_mc::run_geometry and check: a seeded Monte Carlo (N = 20,000 epochs per geometry, sigma = 1.5 m, ChaCha8 seed 36 + i) of the engine's own iterated least-squares fix (pvt::solve_spp, unit weights, solved from the true position) on  Tests: [uere_dop_monte_carlo.rs](../../../tests/uere_dop_monte_carlo.rs).
+- **MODELLED** dop_error_mc::run_geometry and check: a seeded Monte Carlo (N = 20,000 epochs per geometry, sigma = 1.5 m, ChaCha8 seed 36 + i) of the engine's own iterated least-squares fix (pvt::solve_spp, unit weights, solved from the true position)… Tests: [uere_dop_monte_carlo.rs](../../../tests/uere_dop_monte_carlo.rs).
 
 The rows the run itself exercised, with the oracle the matrix gives each (the public sources are named there):
 
 - **VALIDATED** IS-GPS-200 / Galileo-OS / BeiDou-OS broadcast-ephemeris Keplerian → ECEF satellite position from a parsed RINEX-3 navigation record. Oracle (ExternalDataset): RTKLIB v2.4.2-p13 eph2pos() compiled from C source (T. Takasu, BSD-2-Clause) — an independent IS-GPS-200/SIS-ICD implementation, fed the identical RINEX-3 nav records; satellite ECEF position matched to ~62 nm. (SP3 precise-ephemeris interpolation is validated separately — see 'SP3 precise-ephemeris interpolation')
-- **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): SBOM conformance to the official CycloneDX 1.5 JSON Schema (+ valid SPDX identifiers) — an external published standard, zero validation errors over the full dependency graph; the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
+- **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): Official CycloneDX 1.5 JSON Schema (+ SPDX identifier list): every atomic licence id is a valid SPDX id, and the document has zero schema errors once compound expressions are moved to expression (the generator's raw output has 133 compound-id errors); the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
 
 ## Limitations
 
@@ -76,4 +76,4 @@ What the run's own report says is not modelled or not validated:
 - Family page: [GNSS measurements, positioning and integrity](../gnss-measurements-positioning-and-integrity.md#pvt)
 - All kinds: [KINDS.md](../../KINDS.md)
 - Topic page: [POSITIONING.md](../../POSITIONING.md)
-- Topic page: [INTEGRITY.md](../../INTEGRITY.md)
+- Topic page: [SIL-OBS.md](../../SIL-OBS.md)

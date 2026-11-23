@@ -254,11 +254,6 @@ seg-2acc9fa7212b = Os dados de teste são sintéticos e gerados pelo código e p
 seg-4906b14a33a3 = As primitivas são verificadas face a testes de resposta conhecida publicados, nenhum retirado do ICD: RFC { "4231" } (HMAC-SHA-256), RFC { "4493" } (CMAC-AES-128), FIPS { "197" } (AES), FIPS { "202" } (SHA3-256) e RFC { "6979" } (ECDSA P-256). As assinaturas P-521 são verificadas quanto à codificação e à seleção do hash com uma chave descartável criada no teste; a aritmética da curva é a da biblioteca.
 
 # text
-# c1: tests/osnma_official_vectors.rs
-# c2: KSHANA_OSNMA_VECTORS
-seg-82ee90adf7ed = A aderência à norma é verificada por <c1/>, que é facultativo: lê uma cópia do arquivo oficial de vetores de teste que o próprio utilizador descarrega, a partir do diretório nomeado por <c2/>, e não faz nada quando a variável não está definida. Não guarda nem redistribui nada, e as execuções de testes predefinidas não utilizam rede. Dá ao verificador apenas uma raiz de Merkle e as chaves públicas de uma árvore, como um recetor teria, pelo que as cadeias são estabelecidas a partir da DSM-KROOT assinada no fluxo e todo o percurso é executado: Merkle, assinatura, cadeia de chaves, MACSEQ e etiquetas. Afirma, por conjunto de vetores, um mínimo de etiquetas autenticadas, nenhuma falhada, que cadeias e chaves o fluxo anuncia, etiquetas autenticadas de ADKD { "0" }, { "4" } e { "12" }, que a autenticação é retomada após fim de cadeia, revogação de cadeia, revogação de chave e nova chave pública, que a mensagem de alerta é verificada e não deixa nada autenticado, e que todos os vetores usam apenas HMAC-SHA-256, uma cadeia SHA-256, chaves de 128 bits, etiquetas de 40 bits e as entradas de consulta { "33" } e { "34" }. As outras escolhas de algoritmo e de parâmetros do ICD ficam, por isso, cobertas apenas pelos testes de resposta conhecida e sintéticos acima.
-
-# text
 seg-70bb026ce655 = Dependências
 
 # text

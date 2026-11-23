@@ -1141,7 +1141,6 @@ seg-0cc84aedee42 = getoetst aan zijn eigen gesloten-vorm- of analytische identit
 
 seg-b19cbd364dea = src/benchmark/scorecard.rs::tests (referentie-PL absorbeert; kapotte PL niet-geabsorbeerd-nooit-gedetecteerd; oordeel over detecteerbare dekking; de eerlijkheidseigenschap dat voor een niet-detecteerbaar scenario geen dekkings- of detectieoordeel bereikbaar is)
 
-seg-350aaf43f349 = getoetst aan de eigen gesloten-vorm-/analytische identiteit — vangt transcriptie- en coëfficiëntfouten op, maar is geen externe onafhankelijke referentie — Geen externe onafhankelijke referentie, en die is ook niet mogelijk: dit is zelfbeschrijving, geen meting. Ze wordt vastgelegd omdat het ontbreken ervan een gebrek was -- P5 moest de draaggolflengte en de zendapertuur uit de standaardwaarden in de broncode halen, en uit een interne consistentiecontrole afleiden dat een kale <c1/> in vierkante meter was. De afleiding was juist, en juist daarom deed het ertoe: niets zou hebben opgevangen dat ze onjuist was
 
 seg-6d963d838eed = hybrid_integrity::tests (de opgeloste configuratie wordt teruggegeven voor standaardwaarden en voor overschrijvingen, zonder de golflengte via meters heen en weer te rekenen; elke units-invoer draagt zowel een eenheid als een herkomstklasse; elk veld dat het units-blok noemt wordt daadwerkelijk uitgegeven, zodat het geen spookveld kan documenteren)
 
@@ -2050,5 +2049,3 @@ seg-2630978c5675 = gecontroleerd tegen zijn eigen identiteit in gesloten vorm of
 seg-67fdcdfdb635 = interference_map::emitter (estimate, sessions, build_units, profile, GaussianFix::from_tdoa), interference_map::emitter_out (locate), <c1/>
 
 seg-920b26e226ab = unittests van interference_map::emitter (projectie-roundtrip, horizoncijfer, synthetische voorwaartse en inverse rondritten: de bekende zender ligt binnen het vermelde gebied met ongeveer het vermelde percentage, randgevallen, sessieclustering, profiel, privacy en formulering); tests/interference_map_cli.rs locate-gevallen
-
-seg-474381d842e6 = { "232" } mogelijkheden met het label MODELLED.

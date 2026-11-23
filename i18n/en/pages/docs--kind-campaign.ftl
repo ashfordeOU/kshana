@@ -42,49 +42,57 @@ seg-c4f955d5f506 = availability
 
 # text
 # c1: scenarios/
-seg-7bcf77278958 = { "22" } bundled scenarios use this kind; the others are in <a1><c1/></a1>.
+seg-8721e4ce8bd5 = { "22" } scenario files in <a1><c1/></a1> use this kind.
 
 # text
 seg-a349aa76b0ed = PARTNER
 
 # text
+seg-77765c4f801c = 46aa07cb58fbfbd3784c2e1ef8d6070508ad5f5…
+
+# text
+seg-406f36ffb3b1 = b3ce53fee50eac3a52910de8b273eb6164a9d73…
+
+# text
 seg-38faa927b2bd = lin
 
 # text
-seg-1a33a746eeee = Result label (the engine's): MODELLED composition of existing scenario kinds. Every number is read from a real run of the named kind; the chaining (additive carry of a channel across a phase boundary, zero-order hold onto the timeline grid, a phase ended at a computed time) is a modelling choice, and each phase carries the labe
+seg-42eee3548c0e = Result label (the engine's): MODELLED composition of existing scenario kinds. Every number is read from a real run of the named kind; the chaining (additive carry of a channel across a phase boundary, zero-order hold onto the timeline grid, a phase ended at a computed time) is a modelling choice, and each phase carries the…
 
 # attr:alt
 seg-b2c7cd1f9712 = The chart the engine writes for scenarios/campaign-sweep-jammer-power.toml, kind campaign
-
-# text
-seg-8d3c1f9f3e9a = <b>MODELLED</b> iq::campaign::detect and the campaign runner: an optional [monitors] table runs the IQ monitors on every cell in the runner's single pass. Tests: <a1>iq_campaign.rs</a1>.
-
-# text
-seg-7e491ab49c2f = <b>MODELLED</b> iq::campaign::detect (windows, roc) and iq::campaign::report::rocs: each cell of a campaign with monitors keeps, per alarm kind and channel, the maximum of the monitor's own test statistic over each stated event window (positive) and over t
 
 # text
 # c1: [input] campaign
 # c2: kshana iq labfit
 # c3: kshana.iq_labfit
 # c4: kshana iq campaign
-seg-f21e0ab2ad06 = <b>MODELLED</b> iq::labfit (campaign, cn0, iqfit, iqreport) and <c1/> on <c2/>, Python <c3/> and the MCP labfit tool (campaign folders inside its work directory only): reads a <c4/> output folder by its Tests: <a1>iq_labfit_followup.rs</a1>.
+seg-825082217c19 = <b>MODELLED</b> iq::labfit (campaign, cn0, iqfit, iqreport) and <c1/> on <c2/>, Python <c3/> and the MCP labfit tool (campaign folders inside its work directory only): reads a <c4/> output folder by… Tests: <a1>iq_labfit_followup.rs</a1>.
 
 # text
 # c1: campaign
-seg-f16a176dc1f8 = <b>MODELLED</b> The <c1/> kind's phases: each phase runs one or more scenarios of existing kinds through run_toml, reads their outputs into named channels (clock time error and guard, mean effective carrier-to-noise density ratio and tracking floor, v Tests: <a1>campaign_composition_reference.rs</a1>.
+seg-261ebfd1bb04 = <b>MODELLED</b> The <c1/> kind's phases: each phase runs one or more scenarios of existing kinds through run_toml, reads their outputs into named channels (clock time error and guard, mean effective carrier-to-noise density ratio and tracking floor… Tests: <a1>campaign_composition_reference.rs</a1>.
 
 # text
-seg-be831b52a339 = and { "4" } more in the matrix.
+# c1: campaign
+seg-5a74819c0ceb = <b>MODELLED</b> The <c1/> kind's sweep (one to three dotted keys of any kind, on the generic sweep's axis values, optionally an ensemble at every node) and monte_carlo sections: realisation k runs at base_seed + k; each metric reports mean, standard… Tests: <a1>campaign_composition_reference.rs</a1>.
 
 # text
-seg-41199b108c60 = <b>MODELLED</b> Geometry J/S link budget, anti-jam C/N₀, per-satellite loss-of-lock. Oracle (InternalConsistency): Anti-jam C/N₀ link-budget equation cross-checked against an independent numpy re-derivation (shares the same closed form → InternalConsistency) plus a real-JammerTest-2024 C/N₀ degradation characterisation. { "0.30" } round { "2" }, blocked (stays MODELLED): the measured JammerTest { "2024" } C/N0 drop against a link-budget prediction (pre-registered 6b2f6240, within { "3" } dB) was not run because the F8.1 antenna position and pointing at
+# c1: campaign
+seg-2708246b6b25 = <b>MODELLED</b> The <c1/> kind's compose section: named shared values (for example one jammer's power and position) written into each member at the keys it binds them to, every member run, and per metric the smallest, largest and mean value across… Tests: <a1>campaign_composition_reference.rs</a1>.
+
+# text
+seg-3319b18ac61f = and { "1" } more in the matrix.
+
+# text
+seg-8fd0583e2dc3 = <b>MODELLED</b> Geometry J/S link budget, anti-jam C/N₀, per-satellite loss-of-lock. Oracle (InternalConsistency): Anti-jam C/N₀ link-budget equation cross-checked against an independent numpy re-derivation (shares the same closed form → InternalConsistency) plus a real-JammerTest-2024 C/N₀ degradation characterisation. Version { "0.30" }, blocked (stays MODELLED): the measured JammerTest { "2024" } C/N0 drop against a link-budget prediction (pre-registered 6b2f6240, within { "3" } dB) was not run because the F8.1 antenna position and pointing…
 
 # text
 seg-59afd80736c5 = <b>PARTNER</b> Not provided — Kshana models signal performance, not payload/antenna hardware. Oracle (NoneKind): none: a partner-owned discipline, with no module and no test by design
 
 # text
 # c1: campaign
-seg-fa3ad6babe54 = <b>MODELLED</b> The <c1/> kind's sweep (one to three dotted keys of any kind, on the generic sweep's axis values, optionally an ensemble at every node) and monte_carlo sec. Oracle (InternalConsistency): The closed form of the phase random walk under white frequency noise, variance q_wf tau (NIST Technical Note { "1337" }), for the statistics machinery, and byte equality with the stand-alone runs for the seeding. It checks the ensemble arithmetic on the engine's own clock model, not an external dataset
+seg-1d682ccfe48a = <b>MODELLED</b> The <c1/> kind's sweep (one to three dotted keys of any kind, on the generic sweep's axis values, optionally an ensemble at every node) and monte_carlo…. Oracle (InternalConsistency): The closed form of the phase random walk under white frequency noise, variance q_wf tau (NIST Technical Note { "1337" }), for the statistics machinery, and byte equality with the stand-alone runs for the seeding. It checks the ensemble arithmetic on the engine's own clock model, not an external dataset
 
 # text
 # c1: label

@@ -6,7 +6,7 @@ Scenario kind of the engine v0.41.0, family [Lunar and cislunar](../lunar-and-ci
 
 ## What it does
 
-Modelled lunar reference-frame realisation: a 7-parameter Helmert (similarity) datum fit — 3 translation, 3 small-angle rotation, 1 scale — tying an estimated set of selenographic-derived MCMF point coordinates to a datum by weighted least squares (crate::batch_ls::gauss_newton), plus a simple orientation tie expressing the realised small rotation about the ICRF axes relative to the IAU 2015 WGCCRE body orientation. The scenario injects a known small transform (translation ~tens of m, rotation ~µrad, scale ~1e-7) into a well-spread synthetic point network, adds seeded Gaussian noise, recovers the datum, and reports the recovered transform, the per-parameter recovery error vs the injected truth, and the post-fit RMS residual. MODELLED self-consistency — recovers an injected similarity transform (noiseless to ~machine precision), NOT a realisation against real tracking/VLBI data; deterministic (seeded); no TRL/heritage/agency endorsement.
+Lunar reference-frame realisation: a 7-parameter Helmert (similarity) datum fit — 3 translation, 3 small-angle rotation, 1 scale — tying an estimated set of selenographic-derived MCMF point coordinates to a datum by weighted least squares (crate::batch_ls::gauss_newton), plus a simple orientation tie expressing the realised small rotation about the ICRF axes relative to the IAU 2015 WGCCRE body orientation. The scenario injects a known small transform (translation ~tens of m, rotation ~µrad, scale ~1e-7) into a well-spread synthetic point network, adds seeded Gaussian noise, recovers the datum, and reports the recovered transform, the per-parameter recovery error vs the injected truth, and the post-fit RMS residual. VALIDATED: the Helmert solve, against an independent closed-form weighted Umeyama (SVD) similarity-transform solver on identical point networks. MODELLED: the synthetic network and the injected transform — it recovers an injected similarity transform (noiseless to ~machine precision), NOT a realisation against real tracking/VLBI data; deterministic (seeded); no TRL/heritage/agency endorsement.
 
 One run of `scenarios/lunar-frame-realisation.toml` summarises as: lunar-frame-realisation | 8 points | translation err 3.125e-1 m, rotation err 3.418e-7 rad, scale err -5.891e2 ppb | rms residual 0.887 m | converged false
 
@@ -21,7 +21,7 @@ The example `scenarios/lunar-frame-realisation.toml` sets, among others:
 
 | Field | Value | Unit |
 |---|---|---|
-| `epoch_day` | 1 | d |
+| `epoch_day` | 1 | not stated |
 | `epoch_month` | 1 | not stated |
 | `epoch_year` | 2024 | not stated |
 | `kind` | lunar-frame-realisation | text |
@@ -47,7 +47,7 @@ The scalar results of that run, with the units the engine states:
 | Result | Value | Unit |
 |---|---|---|
 | `converged` | false | flag |
-| `evidence.id_rule` | the stable id of the matrix row (the ID  | text |
+| `evidence.id_rule` | the stable id of the matrix row (the… | text |
 | `evidence.matrix` | docs/VERIFICATION-MATRIX.md | text |
 | `evidence.tier` | MODELLED | text |
 | `injected.scale_ppb` | 100 | ppb |
@@ -65,14 +65,14 @@ No matrix row names this kind by name; the label on its result is the engine's o
 
 The rows the run itself exercised, with the oracle the matrix gives each (the public sources are named there):
 
-- **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): SBOM conformance to the official CycloneDX 1.5 JSON Schema (+ valid SPDX identifiers) — an external published standard, zero validation errors over the full dependency graph; the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
-- **VALIDATED** 7-parameter Helmert datum fit + ICRF orientation tie from a network of points. Oracle (ExternalDataset): Independent closed-form weighted Umeyama (Horn) similarity-transform solver (numpy/scipy SVD-based; Umeyama 1991 IEEE TPAMI, Horn 1987 JOSA A) — a different algorithm from kshana's iterative Gauss–Newton fit, reaching the same uniquely-defined weighted-LS optimum on byte-identical point networks
+- **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): Official CycloneDX 1.5 JSON Schema (+ SPDX identifier list): every atomic licence id is a valid SPDX id, and the document has zero schema errors once compound expressions are moved to expression (the generator's raw output has 133 compound-id errors); the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
+- **VALIDATED** 7-parameter Helmert datum fit + ICRF orientation tie from a network of points. Oracle (ExternalDataset): A closed-form weighted Umeyama (Horn) similarity-transform solver written for this repository on the numpy/scipy SVD (Umeyama 1991 IEEE TPAMI, Horn 1987 JOSA A; a reference implementation by the same project, not a third-party library) — a different algorithm from kshana's iterative Gauss–Newton fit, reaching the same uniquely-defined weighted-LS optimum on byte-identical point networks
 
 ## Limitations
 
 What the run's own report says is not modelled or not validated:
 
-- MODELLED self-consistency — recovers an injected similarity transform (noiseless to ~machine precision), NOT a realisation against real tracking/VLBI data; deterministic (seeded); no TRL/heritage/agency endorsement. (kind catalogue (`kshana kinds --json`))
+- MODELLED: the synthetic network and the injected transform — it recovers an injected similarity transform (noiseless to ~machine precision), NOT a realisation against real tracking/VLBI data; deterministic (seeded); no TRL/heritage/agency endorsement. (kind catalogue (`kshana kinds --json`))
 - Honesty: MODELLED self-consistency. The oracle is the recovery of an injected 7-parameter similarity transform (noiseless to ~machine precision) plus the algebraic round-trip identity of apply_helmert. This is NOT a realisation of the lunar reference frame against real tracking / VLBI data and claims no absolute frame accuracy. Deterministic (seeded). No TRL, flight heritage or agency endorsement is claimed. (scenario file comment, lines 23 to 27)
 - Reproducibility & software assurance is MODELLED, not validated: a sub-claim is externally checked, but the whole capability composes modelled pieces, so the capability stays Modelled. (verification matrix (docs/MODELLED-RATIONALE.md))
 

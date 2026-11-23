@@ -47,10 +47,10 @@ seg-0ceb87f45323 = south-polar { "89.9" }
 
 # text
 # c1: scenarios/
-seg-51362910dcb7 = { "2" } bundled scenarios use this kind; the others are in <a1><c1/></a1>.
+seg-2224c257616c = { "2" } scenario files in <a1><c1/></a1> use this kind.
 
 # text
-seg-bf92597fdba4 = Advisory software, not certified navigat
+seg-bbbc9d05aa45 = Advisory software, not certified…
 
 # text
 seg-94a405fadf2d = mci
@@ -67,11 +67,11 @@ seg-94b84de6c958 = The chart the engine writes for scenarios/lunar-surface.toml,
 # text
 # c1: lunar-surface
 # c2: moonlight-service-volume
-seg-25040e105bf7 = <b>MODELLED</b> The <c1/> kind and phase: relay availability and PDOP, Earth and Sun visibility and a disciplined surface clock for each site and season, with the terrain skyline of <c2/>; a single-site run equals that kind's
+seg-4a0780179ddd = <b>MODELLED</b> The <c1/> kind and phase: relay availability and PDOP, Earth and Sun visibility and a disciplined surface clock for each site and season, with the terrain skyline of <c2/>; a single-site run equals that…
 
 # text
 # c1: lunar-surface
-seg-70f63c99a478 = <b>MODELLED</b> The <c1/> kind and phase: relay availability and PDOP, Earth and Sun visibility and a disciplined surface clock for each site and season, with the ter. Oracle (ReferenceImpl): Exact equality with the existing kind for one site, and monotonicity checks, in the tests. The relay set is ILLUSTRATIVE and no surface measurement is compared
+seg-b996bba586a2 = <b>MODELLED</b> The <c1/> kind and phase: relay availability and PDOP, Earth and Sun visibility and a disciplined surface clock for each site and season, with the…. Oracle (ReferenceImpl): Exact equality with the existing kind for one site, and monotonicity checks, in the tests. The relay set is ILLUSTRATIVE and no surface measurement is compared
 
 # text
 # c1: label
@@ -86,7 +86,7 @@ seg-ab29e0e308d0 = MODELLED surface positioning and timing availability by site 
 seg-3f948092eba6 = MODELLED: illustrative Keplerian relay set on a mean-rotation Moon; the relay figure does not change with season; the terrain is the { "1200" } m LOLA crop. (kind catalogue (<c1/>))
 
 # text
-seg-5b217c0bb606 = HONESTY: MODELLED. The relay set is illustrative and Keplerian, with the Moon turning at the mean rate for the relays (no libration) as in moonlight-service-volume; the Earth and Sun use the analytic orientation, so the two frames differ by that omission. The relay positioning figure does not change with the season in this model; the Earth and Sun figures do. No agreement with any real service or site is claimed. Adv (scenario file comment, lines { "11" } to { "15" })
+seg-46ab379ffe21 = HONESTY: MODELLED. The relay set is illustrative and Keplerian, with the Moon turning at the mean rate for the relays (no libration) as in moonlight-service-volume; the Earth and Sun use the analytic orientation, so the two frames differ by that omission. The relay positioning figure does not change with the season in this model; the Earth and Sun figures do. No agreement with any real service or site is claimed.… (scenario file comment, lines { "11" } to { "15" })
 
 # text
 # c1: lunar-surface

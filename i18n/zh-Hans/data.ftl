@@ -850,7 +850,7 @@ dat-77bc55c3a735 = allantools { "2024.06" }（A. Wallin；Kasdin 与 Walter { "1
 
 dat-e0653b8582e5 = allantools { "2024.6" } autocorr_noise_id（A. Wallin 及其贡献者，LGPL-3.0-or-later，由夹具生成器作为单独程序运行）：已发布的 Riley-Greenhall 算法的独立实现，在所述约定下是唯一确定的量。验证的是识别器，而不是任何真实时钟的噪声内容
 
-dat-b7fd07001c69 = allantools { "2024.6" } ci.edf_greenhall，已发布算法的第三方实现，由 scripts/gen_greenhall_edf_ref.py 在 xval/greenhall-edf/PREREGISTRATION.md 中预先登记的网格上运行（单独提交，696f68e6，早于任何比较）：在其返回有限 edf 的全部 { "4 876" } 个点上，kshana 与之相符，相对误差在 { "6.0e-13" } 以内（判据 { "1e-9" }）；在其 { "46" } 个 NotImplementedError 点上，kshana 返回 NaN；每个案例标签都出现；各封装与核心逐位相等；uncertainty::edf 在 { "274 280" } 个值上逐位一致（重构之前已固定为 SHA-256）。在 { "32" } 个点（alpha -4，d { "3" }，未修正，案例 { "2.2" }）上，allantools 在其表 { "2" } 查找中失败，因此这些点没有参考基准值，也不计入。未运行 Stable32。{ "0.36" } 修订（docs/revisions/STUDIO15-greenhall-edf-portable.md）：在可移植数学库上，内核的对数取自一次舍入的双双精度求值（allan::greenhall_ln），未改动的判据 { "1" } 在全部 { "4 876" } 个点上再次成立，最差相对误差 { "6.0e-13" }；uncertainty::edf 的保护已基于 { "0.36" } 可移植转储重设基线（{ "274 280" } 个值中有 { "3 746" } 个发生了移动，相对误差至多 { "1.6e-12" }，相对于主机数学库基线）
+dat-b7fd07001c69 = allantools { "2024.6" } ci.edf_greenhall，已发布算法的第三方实现，由 scripts/gen_greenhall_edf_ref.py 在 xval/greenhall-edf/PREREGISTRATION.md 中预先登记的网格上运行（单独提交，696f68e6，早于任何比较）：在其返回有限 edf 的全部 { "4 876" } 个点上，kshana 与之相符，相对误差在 { "6.0e-13" } 以内（判据 { "1e-9" }）；在其 { "46" } 个 NotImplementedError 点上，kshana 返回 NaN；每个案例标签都出现；各封装与核心逐位相等；uncertainty::edf 在 { "274 280" } 个值上逐位一致（重构之前已固定为 SHA-256）。在 { "32" } 个点（alpha -4，d { "3" }，未修正，案例 { "2.2" }）上，allantools 在其表 { "2" } 查找中失败，因此这些点没有参考基准值，也不计入。未运行 Stable32。{ "0.36" } 修订（docs/revisions/greenhall-edf-portable.md）：在可移植数学库上，内核的对数取自一次舍入的双双精度求值（allan::greenhall_ln），未改动的判据 { "1" } 在全部 { "4 876" } 个点上再次成立，最差相对误差 { "6.0e-13" }；uncertainty::edf 的保护已基于 { "0.36" } 可移植转储重设基线（{ "274 280" } 个值中有 { "3 746" } 个发生了移动，相对误差至多 { "1.6e-12" }，相对于主机数学库基线）
 
 dat-400b2cf3b7b1 = Allen-Eggers 弹道再入走廊：峰值减速度（与弹道系数无关，V_e^{ "2" }……
 
@@ -5000,7 +5000,7 @@ dat-c8fff0b939ce = nmea_synth（track、sentences、scenarios）；cli nmea-scen
 
 dat-24431d690b8d = 没有外部参考基准（oracle），并且拒绝 ExternalDataset。两个输入是 Eb/N0 裕度和 C/N0 门限穿越，二者都是 MODELLED 的 EIRP、品质因数和集总损耗分配的函数；没有地月光学/射频混合服务的实测可用性记录可用来对照所组合的数值。现有的检验是内部的，并如实说明：组合是依据报告自己发布的裕度而非发射端内部量重新计算的，闭合距离则通过在该距离上重新运行链路方程并要求裕度消失来检验——这是一次反演往返，而不是独立实现。该数值的如实限度记录在报告本身：它是确定性的 0/1 指示量，而不是概率，因为引擎中没有任何东西测量这一频段和几何下的射频链路中断分布。这项缺失的输入在 rf_availability.factors_not_included 中被点明而非凭空杜撰，而要得到概率性的射频可用性，就需要提供它
 
-dat-ecd4bf05a7bc = 没有外部参考基准（oracle），也不可能有：这是自我描述，而不是测量。之所以记录它，是因为缺少它曾是一个缺陷——P5 不得不从源默认值中引用载波波长和发射孔径，并由内部一致性检验推断出一个裸 `variance` 的单位是平方米。这一推断是正确的，而这恰恰是它重要的原因：若它有误，没有任何机制能发现
+dat-377534ef0047 = 没有外部参考基准（oracle），也不可能有：这是自我描述，而不是测量。之所以记录它，是因为缺少它曾是一个缺陷——P5 不得不从源默认值中引用载波波长和发射孔径，并由内部一致性检验推断出一个裸 `variance` 的单位是平方米。这一推断是正确的，而这恰恰是它重要的原因：若它有误，没有任何机制能发现
 
 dat-062548149812 = 干扰类型的可选 [crpa] 部分：为朝向每颗卫星的各通道形成一个波束（以干扰源为零点的零陷转向，或基于 sigma^{ "2" } I + P_j a_j a_j^H 的 MVDR），在现有的抗干扰 C/N0 公式之前，将每条链路的噪声按 ||w||^{ "2" } 缩放，并将干扰按 |w^H a_j|^{ "2" } 缩放。
 

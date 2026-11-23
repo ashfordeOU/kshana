@@ -19,16 +19,13 @@ seg-33a602147cc2 = Topic pages: <a1>INTEGRITY</a1>, <a2>POSITIONING</a2>, <a3>AR
 seg-9c60c8803b6b = Contact sheet of the charts the engine writes for the kinds of the family GNSS measurements, positioning and integrity
 
 # text
-seg-b03d56f501c3 = Kind
-
-# text
 seg-4e31c8daf798 = Ledger
 
 # text
 seg-eb7e0c2feb2b = Snapshot / solution-separation / ARAIM RAIM with HPL/VPL and a Stanford diagram.
 
 # text
-seg-045ecd7c036f = MODELLED { "6" } · VALIDATED { "4" }
+seg-6242e58d109e = MODELLED { "5" } · VALIDATED { "4" }
 
 # text
 seg-2ffccc9c1eff = Measurement-domain pseudorange simulation (Klobuchar iono, Saastamoinen/Niell tropo) + RAIM.
@@ -37,16 +34,16 @@ seg-2ffccc9c1eff = Measurement-domain pseudorange simulation (Klobuchar iono, Sa
 seg-6e0cb6acc073 = VALIDATED
 
 # text
-seg-6698e12e148b = Real-observation single-point positioning: solve a receiver's position from a RINEX { "3" } observation file and a broadcast-navigation file (code pseudoranges, broadcast ephemeris, Klobuchar iono, Saastamo
+seg-d89646994ff2 = Real-observation single-point positioning: solve a receiver's position from a RINEX { "3" } observation file and a broadcast-navigation file (code pseudoranges, broadcast ephemeris, Klobuchar iono…
 
 # text
-seg-da89c260b1a3 = Published ARAIM certification reference vectors: the engine's ARAIM horizontal and vertical protection levels run against the WG-C ARAIM Technical Subgroup's OWN worked numerical examples, at the tole
+seg-633a287bf8bd = Published ARAIM reference vectors: the engine's ARAIM horizontal and vertical protection levels run against the WG-C ARAIM Technical Subgroup's OWN worked numerical examples, at the tolerance…
 
 # text
-seg-7a750a89c9c4 = Space-weather environment model: solar (F10.7/F10.7a) and geomagnetic (Kp, with the definitional Kp↔ap table) activity indices, the Jacchia-1971 exospheric temperature they drive (validated vs publish
+seg-3f7ea57d5d45 = Space-weather environment model: solar (F10.7/F10.7a) and geomagnetic (Kp, with the definitional Kp↔ap table) activity indices, the Jacchia-1971 exospheric temperature they drive (validated vs…
 
 # text
-seg-d79d4d58275b = Real-time lunar frame / Earth-orientation prediction budget: P4 Table { "1" } (the frame-error consistency check — post-processed ~{ "0.27" } m ↔ ~{ "0.010" } ms and real-time ~{ "15" } m ↔ ~{ "0.5" } ms, each frame position expre
+seg-a4f6877775e9 = Real-time lunar frame / Earth-orientation prediction budget: the frame-error consistency table (post-processed ~{ "0.27" } m ↔ ~{ "0.010" } ms and real-time ~{ "15" } m ↔ ~{ "0.5" } ms, each frame position expressed as its…
 
 # text
 seg-d1c67e3dd12e = MODELLED { "1" } · VALIDATED { "2" }
@@ -71,7 +68,7 @@ seg-d1c67e3dd12e = MODELLED { "1" } · VALIDATED { "2" }
 seg-dc783268156c = Required fields: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>. Optional: <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>.
 
 # text
-seg-7b110aacdb27 = <b>Ledger:</b> MODELLED { "6" } · VALIDATED { "4" }. Full page, with the inputs, results, evidence and limitations: <a1>integrity</a1>.
+seg-3b21d5691604 = <b>Ledger:</b> MODELLED { "5" } · VALIDATED { "4" }. Full page, with the inputs, results, evidence and limitations: <a1>integrity</a1>.
 
 # attr:alt
 seg-ce7f6130ddee = The chart the engine writes for scenarios/integrity-raim.toml, kind integrity
@@ -93,7 +90,9 @@ seg-ce7f6130ddee = The chart the engine writes for scenarios/integrity-raim.toml
 # c14: alert_limit_h_m
 # c15: alert_limit_v_m
 # c16: skyline
-seg-d444fb35cae9 = Required fields: <c1/>, <c2/>, <c3/>, <c4/>. Optional: <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>.
+# c17: slot_sets
+# c18: slots
+seg-168b23e4a494 = Required fields: <c1/>, <c2/>, <c3/>, <c4/>. Optional: <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/>.
 
 # text
 seg-b651ec58bcba = <b>Ledger:</b> VALIDATED. Full page, with the inputs, results, evidence and limitations: <a1>gnss-sim</a1>.
@@ -121,7 +120,7 @@ seg-d76d59644d84 = The chart the engine writes for scenarios/pvt-abmf.toml, kind
 
 # text
 # c1: published
-seg-06197409c717 = Published ARAIM certification reference vectors: the engine's ARAIM horizontal and vertical protection levels run against the WG-C ARAIM Technical Subgroup's OWN worked numerical examples, at the tolerance (TOL_PL = { "5e-2" } m) those documents themselves state. Two vectors are committed as fixtures, each carrying its retrieval URL, retrieval date, source-file SHA-256 and page: the Reference Airborne Algorithm Description Document v3.1 ({ "2019" }) Appendix D — self-consistent, and the acceptance vector — and the Milestone { "3" } Report ({ "2016" }) Annex A section A.IX, the statement the research bibliographies cite. Every published input (the 10-satellite 2-constellation geometry matrix, the C_int and C_acc variance diagonals, b_nom, P_sat, P_const and the LPV-200 constant set) and every published output (VPL, HPL, EMT, sigma_v_acc, K_fa_3 and the two constellation-fault modes' sigma_3, sigma_ss_3 and b_3) is reported beside the engine's own number and their absolute difference. The protection-level equation is NOT re-solved here: the reference's mode list is handed to the engine's existing raim::araim_protection_level / araim_integrity_risk, so the bisection and the Gaussian-tail algebra under test are the engine's own; only the geometry, the sub-solutions, the detection thresholds and the published budget split are built for it. EXTERNALLY CHECKED against the { "2019" } vector: VPL { "18.2926" } m vs { "18.3" } m published, HPL { "13.4063" } m vs { "13.45" } m, EMT { "7.2997" } m vs { "7.2998" } m, sigma_v_acc { "1.3694" } m vs { "1.3694" } m, and all six published intermediates to within half a unit in their last printed decimal. The { "2016" } vector carries two internal defects the report states rather than hides — a sign typo in row { "3" } of G, and a K_fa_3 evaluated at { "57" } fault modes while the document states N_fault_max = { "1" } ({ "12" } modes) — so its geometry intermediates reproduce exactly while its protection levels are reported as measured discrepancies and excluded from the acceptance figure; the tolerance is never widened to absorb them. Every emitted numeric field carries a unit and a provenance class, and a transcribed figure is labelled <c1/> so it can never be mistaken for a computed one. SCOPE: only N_fault_max = { "1" } (single-satellite and single-constellation fault modes) is implemented, and a case whose priors require simultaneous multi-event fault subsets is REFUSED rather than silently truncated; fault detection, exclusion, the chi-square consistency check and the double-counting re-allocation step of the reference algorithm are out of scope. This reproduces a published reference algorithm's worked example — it is not a certification, an airworthiness artefact or an approval.
+seg-1fc99bc3765a = Published ARAIM reference vectors: the engine's ARAIM horizontal and vertical protection levels run against the WG-C ARAIM Technical Subgroup's OWN worked numerical examples, at the tolerance (TOL_PL = { "5e-2" } m) those documents themselves state. Two vectors are committed as fixtures, each carrying its retrieval URL, retrieval date, source-file SHA-256 and page: the Reference Airborne Algorithm Description Document v3.1 ({ "2019" }) Appendix D — self-consistent, and the acceptance vector — and the Milestone { "3" } Report ({ "2016" }) Annex A section A.IX, the statement the research bibliographies cite. Every published input (the 10-satellite 2-constellation geometry matrix, the C_int and C_acc variance diagonals, b_nom, P_sat, P_const and the LPV-200 constant set) and every published output (VPL, HPL, EMT, sigma_v_acc, K_fa_3 and the two constellation-fault modes' sigma_3, sigma_ss_3 and b_3) is reported beside the engine's own number and their absolute difference. The protection-level equation is NOT re-solved here: the reference's mode list is handed to the engine's existing raim::araim_protection_level / araim_integrity_risk, so the bisection and the Gaussian-tail algebra under test are the engine's own; only the geometry, the sub-solutions, the detection thresholds and the published budget split are built for it. EXTERNALLY CHECKED against the { "2019" } vector: VPL { "18.2926" } m vs { "18.3" } m published, HPL { "13.4063" } m vs { "13.45" } m, EMT { "7.2997" } m vs { "7.2998" } m, sigma_v_acc { "1.3694" } m vs { "1.3694" } m, and all six published intermediates to within half a unit in their last printed decimal. The { "2016" } vector carries two internal defects the report states rather than hides — a sign typo in row { "3" } of G, and a K_fa_3 evaluated at { "57" } fault modes while the document states N_fault_max = { "1" } ({ "12" } modes) — so its geometry intermediates reproduce exactly while its protection levels are reported as measured discrepancies and excluded from the acceptance figure; the tolerance is never widened to absorb them. Every emitted numeric field carries a unit and a provenance class, and a transcribed figure is labelled <c1/> so it can never be mistaken for a computed one. SCOPE: only N_fault_max = { "1" } (single-satellite and single-constellation fault modes) is implemented, and a case whose priors require simultaneous multi-event fault subsets is REFUSED rather than silently truncated; fault detection, exclusion, the chi-square consistency check and the double-counting re-allocation step of the reference algorithm are out of scope. This reproduces a published reference algorithm's worked example — it is not a certification, an airworthiness artefact or an approval.
 
 # text
 # c1: vector
@@ -150,7 +149,7 @@ seg-1e5052c0bce7 = <b>Ledger:</b> MODELLED. Full page, with the inputs, results,
 seg-c1c6f2f73fb5 = The chart the engine writes for scenarios/space-weather.toml, kind space-weather
 
 # text
-seg-edfcb546d9de = Real-time lunar frame / Earth-orientation prediction budget: P4 Table { "1" } (the frame-error consistency check — post-processed ~{ "0.27" } m ↔ ~{ "0.010" } ms and real-time ~{ "15" } m ↔ ~{ "0.5" } ms, each frame position expressed as its equivalent UT1 error via the L19 lever arm Δr = D_EM·ω⊕·ΔUT1) and Table { "2" } (measured UT1 prediction error vs horizon — the L18 curve read directly off the real IERS finals2000A series: the Bulletin A − Bulletin B final floor and the multi-day persistence-predictor error, each mapped to a Moon-frame position by L19), plus the L21 root-sum-square real-time frame-error budget (EOP + ephemeris + realisation floor). VALIDATED closed form (the L19 lever arm, ω⊕ cross-checked against the CIO Earth-rotation angle) and VALIDATED real data (the L18 curve off the real finals2000A rows); MODELLED are the lunar-relay OD covariance magnitudes and frame-realisation floor (representative allocations) and the persistence predictor (not IERS's operational Bulletin A algorithm). Not a certified real-time frame product.
+seg-40c44819e002 = Real-time lunar frame / Earth-orientation prediction budget: the frame-error consistency table (post-processed ~{ "0.27" } m ↔ ~{ "0.010" } ms and real-time ~{ "15" } m ↔ ~{ "0.5" } ms, each frame position expressed as its equivalent UT1 error via the Earth-Moon lever arm Δr = D_EM·ω⊕·ΔUT1) and the UT1 prediction-error curve (measured UT1 prediction error vs horizon, read directly off the real IERS finals2000A series: the Bulletin A − Bulletin B final floor and the multi-day persistence-predictor error, each mapped to a Moon-frame position by the Earth-Moon lever arm), plus the root-sum-square real-time frame-error budget (EOP + ephemeris + realisation floor). Checked closed form (the Earth-Moon lever arm, ω⊕ cross-checked against the CIO Earth-rotation angle) and VALIDATED real data (the UT1 prediction-error curve off the real finals2000A rows); MODELLED are the lunar-relay OD covariance magnitudes and frame-realisation floor (representative allocations) and the persistence predictor (not IERS's operational Bulletin A algorithm). Not a certified real-time frame product.
 
 # text
 # c1: epoch

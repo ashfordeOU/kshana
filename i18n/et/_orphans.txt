@@ -790,13 +790,13 @@ seg-179fb996fc72 = DOP aritmeetika on crate::orbit::dop tuum, eraldi väliselt v
 # text
 seg-077303e9dd72 = P2: numpy linalg.lstsq (LAPACK gelsd SVD, BSD-3) arvutab vähimruutude jaotuse uuesti commit'itud sisenditel KOOS reaalse pariteediosaga (dy = E·Δs + w, w ~ N({ "0" }, { "1" } m), algväärtus { "20261001" }) 8-satelliidilisel geomeetrial ja 6-satelliidilisel alamhulgal, { "1464" } juhtu üle mõlema reaalse efemeriididevahelise paari, eelregistreeritud (f672a314): blind_dx, residual, blind_norm ja detectable_norm { "1e-12" } suhteliselt |dy|-le ja blind_fraction { "1e-12" } absoluutselt piires (halvim blind_dx { "1.06e-14" }, residual { "4.4e-15" }, blind_fraction { "3.1e-15" }). numpy ehitab G ise commit'itud asukohtadest, samas kui mootor kasutab normaalvõrrandeid Gauss-Jordaniga; kaldus vasakpoolne pöördmaatriks muudab testi punaseks juures { "5.5e-2" } |dy|. Muudatus { "1" } (86c53301, pärast esimest jooksu, avalikustatud) leevendas ainult sisendi eeltingimust pariteedimurdosal (iga juhtum vähemalt { "1e-3" } ja { "95" } % igast geomeetriast vähemalt { "0.05" }), mitte kokkulangevuse lävendit. Valideeritud väide, nagu P2 lubab: jaotuse lineaaralgebra neil sisenditel; efemeriididevahelise põranda suurused ja illustratiivne Kuu geomeetria ({ "8" } LCNS-laadset sõlme { "5000" } km juures) on sisendid, mitte valideeritud, ja pimedus on kõigi hetktõmmise RAIM-ide teadaolev omadus. Voor-1 numpy võrdlus (tests/lunar_common_mode_integrity_reference.rs) kontrollis ainult samasust S·G = I, sest selle sisendid asusid range(G)-s; see on säilitatud regressioonina. Efemeriidi päritolu: tests/fixtures/inter_ephemeris/NOTICE.md (JPL, IMCCE, IAA RAS)
 
-# P2: numpy { "2.4.6" } (numpy.linalg.lstsq with LAPACK gelsd, numpy.linalg.inv; BSD-3) recomputes each Gauss-Newton step, the converged weighted-least-squares solution, the formal sigmas and the station error on the committed Jacobians and observations of six simulated networks, pre-registered (5094bc31) at max({ "1e-8" }, { "100" } kappa eps) relative. The first run failed the no-VLBI network ({ "6.1e-7" } against { "1e-8" }, a normal-equation inverse at condition { "1.4e5" }); the engine fix written after that result (batch_ls::gauss_newton_qr, a Householder QR step used by estimate and formal_covariance) was re-run at the unchanged bar: steps { "1.1e-14" } to { "2.4e-11" }, sigmas at most { "1.3e-11" }. The validated claim is the fusion solve linear algebra on those inputs, not the physical magnitudes of the simulated network or its observation models: the lunar geodetic VLBI delay row stays MODELLED (its analytic path differs from ANISE by up to { "24" } µs), and the frames have their own rows. Recovery of an injected simulated truth and NEES consistency remain internal checks; the earlier Orekit { "12.2" } / Hipparchus Levenberg-Marquardt cross-check (tests/lunar_joint_multi_technique_od_reference.rs) exercises batch_ls::gauss_newton, which estimate no longer calls, and is kept as a check of that primitive. { "0.30" } revision: the default lunar-joint-od-clock station errors { "3.541344" } -> { "3.541350" } m with VLBI and { "2183.119" } -> { "2183.558" } m without (QR solve). { "0.36" } revision (STUDIO-15, portable maths; docs/revisions/STUDIO15-portable-math-rebaseline.md): { "3.541350" } -> { "3.536885" } m with VLBI and { "2183.558" } -> { "2184.021" } m without, and the no-VLBI solve stops after { "5" } iterations, not { "2" } (a round-off-limited stop on the ill-conditioned network); the pre-registered comparison was re-run on re-exported inputs at the unchanged bar (numpy { "2.4.6" }, all six networks pass)
+# P2: numpy { "2.4.6" } (numpy.linalg.lstsq with LAPACK gelsd, numpy.linalg.inv; BSD-3) recomputes each Gauss-Newton step, the converged weighted-least-squares solution, the formal sigmas and the station error on the committed Jacobians and observations of six simulated networks, pre-registered (5094bc31) at max({ "1e-8" }, { "100" } kappa eps) relative. The first run failed the no-VLBI network ({ "6.1e-7" } against { "1e-8" }, a normal-equation inverse at condition { "1.4e5" }); the engine fix written after that result (batch_ls::gauss_newton_qr, a Householder QR step used by estimate and formal_covariance) was re-run at the unchanged bar: steps { "1.1e-14" } to { "2.4e-11" }, sigmas at most { "1.3e-11" }. The validated claim is the fusion solve linear algebra on those inputs, not the physical magnitudes of the simulated network or its observation models: the lunar geodetic VLBI delay row stays MODELLED (its analytic path differs from ANISE by up to { "24" } µs), and the frames have their own rows. Recovery of an injected simulated truth and NEES consistency remain internal checks; the earlier Orekit { "12.2" } / Hipparchus Levenberg-Marquardt cross-check (tests/lunar_joint_multi_technique_od_reference.rs) exercises batch_ls::gauss_newton, which estimate no longer calls, and is kept as a check of that primitive. { "0.30" } revision: the default lunar-joint-od-clock station errors { "3.541344" } -> { "3.541350" } m with VLBI and { "2183.119" } -> { "2183.558" } m without (QR solve). { "0.36" } revision (STUDIO-15, portable maths; docs/revisions/portable-math-rebaseline.md): { "3.541350" } -> { "3.536885" } m with VLBI and { "2183.558" } -> { "2184.021" } m without, and the no-VLBI solve stops after { "5" } iterations, not { "2" } (a round-off-limited stop on the ill-conditioned network); the pre-registered comparison was re-run on re-exported inputs at the unchanged bar (numpy { "2.4.6" }, all six networks pass)
 # text
-seg-82824963aef7 = P2: numpy { "2.4.6" } (numpy.linalg.lstsq LAPACK gelsd-ga, numpy.linalg.inv; BSD-3) arvutab uuesti iga Gauss-Newtoni sammu, koondunud kaalutud vähimruutude lahendi, formaalsed sigmad ja jaama vea kuue simuleeritud võrgu commit'itud Jacobi maatriksitel ja vaatlustel, eelregistreeritud (5094bc31) täpsusega max({ "1e-8" }, { "100" } kappa eps) suhteliselt. Esimene jooks ebaõnnestus ilma VLBI-ta võrgul ({ "6.1e-7" } versus { "1e-8" }, normaalvõrrandi pöördmaatriks tingimusarvul { "1.4e5" }); pärast seda tulemust kirjutatud mootori parandus (batch_ls::gauss_newton_qr, Householderi QR samm, mida kasutavad estimate ja formal_covariance) käivitati uuesti muutmata lävega: sammud { "1.1e-14" } kuni { "2.4e-11" }, sigmad kuni { "1.3e-11" }. Valideeritud väide on liitmislahendi lineaaralgebra neil sisenditel, mitte simuleeritud võrgu ega selle vaatlusmudelite füüsikalised suurused: Kuu geodeetilise VLBI viivituse rida jääb MODELLED (selle analüütiline tee erineb ANISE-st kuni { "24" } µs), ja süsteemidel on oma read. Süstitud simuleeritud tegeliku väärtuse taastamine ja NEES kooskõla jäävad sisemisteks kontrollideks; varasem Orekit { "12.2" } / Hipparchus Levenberg-Marquardti ristkontroll (tests/lunar_joint_multi_technique_od_reference.rs) kasutab batch_ls::gauss_newton-i, mida estimate enam ei kutsu, ja on säilitatud selle primitiivi kontrollina. { "0.30" } redaktsioon: vaike lunar-joint-od-clock jaamavead { "3.541344" } -> { "3.541350" } m VLBI-ga ja { "2183.119" } -> { "2183.558" } m ilma (QR lahendus). { "0.36" } redaktsioon (STUDIO-15, portatiivne matemaatika; docs/revisions/STUDIO15-portable-math-rebaseline.md): { "3.541350" } -> { "3.536885" } m VLBI-ga ja { "2183.558" } -> { "2184.021" } m ilma, ja ilma VLBI-ta lahend peatub pärast { "5" } iteratsiooni, mitte { "2" } (ümardusega piiratud peatus halvasti konditsioneeritud võrgul); eelregistreeritud võrdlus käivitati uuesti uuesti eksporditud sisenditel muutmata lävega (numpy { "2.4.6" }, kõik kuus võrku läbivad)
+seg-82824963aef7 = P2: numpy { "2.4.6" } (numpy.linalg.lstsq LAPACK gelsd-ga, numpy.linalg.inv; BSD-3) arvutab uuesti iga Gauss-Newtoni sammu, koondunud kaalutud vähimruutude lahendi, formaalsed sigmad ja jaama vea kuue simuleeritud võrgu commit'itud Jacobi maatriksitel ja vaatlustel, eelregistreeritud (5094bc31) täpsusega max({ "1e-8" }, { "100" } kappa eps) suhteliselt. Esimene jooks ebaõnnestus ilma VLBI-ta võrgul ({ "6.1e-7" } versus { "1e-8" }, normaalvõrrandi pöördmaatriks tingimusarvul { "1.4e5" }); pärast seda tulemust kirjutatud mootori parandus (batch_ls::gauss_newton_qr, Householderi QR samm, mida kasutavad estimate ja formal_covariance) käivitati uuesti muutmata lävega: sammud { "1.1e-14" } kuni { "2.4e-11" }, sigmad kuni { "1.3e-11" }. Valideeritud väide on liitmislahendi lineaaralgebra neil sisenditel, mitte simuleeritud võrgu ega selle vaatlusmudelite füüsikalised suurused: Kuu geodeetilise VLBI viivituse rida jääb MODELLED (selle analüütiline tee erineb ANISE-st kuni { "24" } µs), ja süsteemidel on oma read. Süstitud simuleeritud tegeliku väärtuse taastamine ja NEES kooskõla jäävad sisemisteks kontrollideks; varasem Orekit { "12.2" } / Hipparchus Levenberg-Marquardti ristkontroll (tests/lunar_joint_multi_technique_od_reference.rs) kasutab batch_ls::gauss_newton-i, mida estimate enam ei kutsu, ja on säilitatud selle primitiivi kontrollina. { "0.30" } redaktsioon: vaike lunar-joint-od-clock jaamavead { "3.541344" } -> { "3.541350" } m VLBI-ga ja { "2183.119" } -> { "2183.558" } m ilma (QR lahendus). { "0.36" } redaktsioon (STUDIO-15, portatiivne matemaatika; docs/revisions/portable-math-rebaseline.md): { "3.541350" } -> { "3.536885" } m VLBI-ga ja { "2183.558" } -> { "2184.021" } m ilma, ja ilma VLBI-ta lahend peatub pärast { "5" } iteratsiooni, mitte { "2" } (ümardusega piiratud peatus halvasti konditsioneeritud võrgul); eelregistreeritud võrdlus käivitati uuesti uuesti eksporditud sisenditel muutmata lävega (numpy { "2.4.6" }, kõik kuus võrku läbivad)
 
-# Analytic datum-defect structure — the unobservable absolute-frame mode lies in the null space of the Fisher information (closed-form), the rank threshold matches the published 3-station design rationale, and the estimator attains the resulting CRLB in Monte-Carlo. The lunar geometry itself is a representative network (not a flown ephemeris), so the row stays MODELLED; the underlying FIM/CRLB engine is checked against the Kay ({ "1993" }) closed forms separately. { "0.30" } round { "2" } (pre-registered fab02df9), blocked (stays MODELLED): NumPy/SciPy recompute the rank and defect at the stated { "1e-9" } threshold, the station axes share of the null space (within { "8.4e-10" }) and the station CRLB (within { "1.2e-10" }) on { "17" } committed Kshana-generated configurations (P2). Not promoted: the claim that the estimator attains the bound (Monte Carlo efficiency about { "0.98" }) has no oracle, and the scoping that would leave it MODELLED awaits an owner decision
+# Analytic datum-defect structure — the unobservable absolute-frame mode lies in the null space of the Fisher information (closed-form), the rank threshold matches the published 3-station design rationale, and the estimator attains the resulting CRLB in Monte-Carlo. The lunar geometry itself is a representative network (not a flown ephemeris), so the row stays MODELLED; the underlying FIM/CRLB engine is checked against the Kay ({ "1993" }) closed forms separately. { "0.30" } round { "2" } (pre-registered fab02df9), blocked (stays MODELLED): NumPy/SciPy recompute the rank and defect at the stated { "1e-9" } threshold, the station axes share of the null space (within { "8.4e-10" }) and the station CRLB (within { "1.2e-10" }) on { "17" } committed Kshana-generated configurations. Not promoted: the claim that the estimator attains the bound (Monte Carlo efficiency about { "0.98" }) has no oracle, and the scoping that would leave it MODELLED awaits an owner decision
 # text
-seg-238597f6aa01 = Analüütiline datumidefekti struktuur — jälgimatu absoluutse tugisüsteemi mood asub Fisheri informatsiooni nullruumis (suletud kujul), astmelävi vastab avaldatud 3-jaamalise kavandi põhjendusele ja hinnang saavutab saadud CRLB Monte Carlos. Kuu geomeetria ise on representatiivne võrk (mitte lennanud efemeriid), seega jääb rida MODELLED; aluseks olev FIM/CRLB-mootor kontrollitakse Kay ({ "1993" }) suletud kujul valemite vastu eraldi. { "0.30" } voor { "2" } (eelregistreeritud fab02df9), blokeeritud (jääb MODELLED): NumPy/SciPy arvutavad astme ja defekti uuesti määratud lävel { "1e-9" }, jaama telgede osakaalu nullruumis (täpsusega { "8.4e-10" }) ja jaama CRLB (täpsusega { "1.2e-10" }) { "17" } Kshana loodud kinnitatud konfiguratsioonil (P2). Ei edutatud: väide, et hinnang saavutab piiri (Monte Carlo efektiivsus umbes { "0.98" }), ei oma sõltumatut etaloni, ja ulatuse piiritlus, mis jätaks selle MODELLED-iks, ootab omaniku otsust
+seg-238597f6aa01 = Analüütiline datumidefekti struktuur — jälgimatu absoluutse tugisüsteemi mood asub Fisheri informatsiooni nullruumis (suletud kujul), astmelävi vastab avaldatud 3-jaamalise kavandi põhjendusele ja hinnang saavutab saadud CRLB Monte Carlos. Kuu geomeetria ise on representatiivne võrk (mitte lennanud efemeriid), seega jääb rida MODELLED; aluseks olev FIM/CRLB-mootor kontrollitakse Kay ({ "1993" }) suletud kujul valemite vastu eraldi. { "0.30" } voor { "2" } (eelregistreeritud fab02df9), blokeeritud (jääb MODELLED): NumPy/SciPy arvutavad astme ja defekti uuesti määratud lävel { "1e-9" }, jaama telgede osakaalu nullruumis (täpsusega { "8.4e-10" }) ja jaama CRLB (täpsusega { "1.2e-10" }) { "17" } Kshana loodud kinnitatud konfiguratsioonil. Ei edutatud: väide, et hinnang saavutab piiri (Monte Carlo efektiivsus umbes { "0.98" }), ei oma sõltumatut etaloni, ja ulatuse piiritlus, mis jätaks selle MODELLED-iks, ootab omaniku otsust
 
 # gps-sdr-sim (MIT, commit 28ca29a6, run as a separate program through a committed harness), pre-registered f88f2969 with a bit-exact bar on (A) C/A chips, (B) every computed LNAV field, (C) every parity bit. FINDING: (A) { "0" } of { "32 736" } chips differ, (C) the parity of { "0" } of { "1 920" } words differs, (B) { "230" } of { "1 152" } computed fields differ by one unit: gps-sdr-sim's eph2sbf truncates toward zero with C casts where the broadcast integer needs rounding (every differing value lies within { "0.01" } of a unit of Kshana's rounded integer). Stays MODELLED: the registered bar was the conjunction
 # text
@@ -874,9 +874,9 @@ seg-f7f79e2dd6c5 = Segatud ja eraldatud, mitte koondatud. MUSTER selle all on v�
 # text
 seg-c3794c8d85c5 = Mootori enda sdr korrelaator (sdr::correlate / synth_if / CaCode), astmeliselt edasi viidud algväärtusega (seed) sünteetilisel IF-il kalibreeritud C/N₀ juures — eraldi koodirada, mis jõuab samade numbriteni valimina võetud IQ numbrilise korrelatsiooniga, mitte algebralise värinaavaldisega, seega on see erinev tee, mitte ümbersõnastus — pluss standardsed tabelarvuliselt antud modifitseeritud Besseli I₀ väärtused tsükkelnihke liikme jaoks. Ahelateooria Kaplan & Hegarty ptk { "8" } ning Viterbi/Gardneri järgi nihke aja jaoks. Rida jääb ReferenceImpl/MODELLED: ristkontroll asub samas koodibaasis ja bessel_i0 kontroll valideerib ühe erifunktsiooni, mitte jälgimismudelit, seega oleks rea edutamine selle alusel isekas märgistamine. ExternalDataset nõuaks salvestatud toor-IF andmekogumit tõese C/N₀ ja annoteeritud lukustuse kadumise hetkega (TEXBAT/OAKBAT klass); ükski selles puus ei sisaldu ning isegi IQ-ga ei avalda need andmekogumid epohhipõhist ahela oleku tõde, nii et deklareeritud lukustuse kadumise aega saaks valideerida ainult mõne teise vastuvõtja lukustusdetektori vastu, mis on modelleeritud valik, mitte sõltumatu etalon. Ahela ribalaiused, integreerimisaeg, korrelaatori vahe, sissetõmbe suhe, viibimisajad, segaja võimsus ja antenni võimendused on representatiivsed ribanäitajad, mitte andmeleht. { "0.30" } voor { "2" }, GNSS-SDR { "0.0.19" } (GPL-3.0, käivitatud programmina) sõltumatult genereeritud IF-il (eelregistreeritud 6ef7698c, mõõtmismeetodi muudatused avalikustatud), leid (jääb MODELLED): suletud ahelaga PLL ja DLL värin ühtivad { "8" } % piires tasemetel { "35" } kuni { "45" } dB-Hz, { "10" } Hz/s dünaamiline koormus { "1" } % piires ja esimest järku koodi tõusu viide { "2" } % piires; tasemel { "30" } dB-Hz on PLL värin { "21" } % kõrgem ja DLL värin { "32" } % madalam, mõõdetud 15-kraadi-reegli lävendid asuvad mootorist { "1.5" } dB kõrgemal ja teist järku ahel libiseb { "0.5" } kuni { "2" } dekaadi võrra sagedamini kui esimest järku nihkeaja piir. { "0.30" } redaktsioon: Costase nihkeaeg kasutab nüüd ahela SNR-i rho/4 (poole tsükli nihked); vaikimisi jitter_table log10_mean_time_to_cycle_slip_s langeb väärtuselt { "11.58" } väärtusele { "2.10" } lävendil { "25.47" } dB-Hz
 
-# An independent in-repo route. Every Jacobian row is re-derived by central finite difference of lunar_vlbi::vlbi_delay_s evaluated from the state's own Earth-fixed and Moon-body-fixed coordinates rotated forward through the frame chain — a path that computes no derivative and shares no expression with the analytic partials — and the information matrices the two routes build agree to < { "1e-6" } of the largest diagonal. The linear-algebra kernel this composes (information_matrix, crlb, sym_eig) is separately externally anchored against numpy.linalg.eigh / numpy.linalg.inv in tests/fim_observability_reference.rs, and the delay observable carries lunar_vlbi's own delta-DOR far-field oracle; the row does not borrow either status. Closed-form identities checked here and labelled as such: σ² and 1/N scaling, and √(p/trace(M)) as an AM-HM lower bound the computed sigma cannot beat, which coincides with the equipartition value only on an isotropic geometry — which is why the measured ratio is exactly the anisotropy the assumption discarded. { "0.30" } external comparison (Library: NAIF SPICE CSPICE N0067 via spiceypy { "8.2.0" }, MIT; DE440, ITRF93 earth_latest_high_prec, MOON_PA), pre-registered ({ "50863551" }) together with an engine-side model-error sensitivity run: every Jacobian row is rebuilt by central differences of converged Newtonian light-time differences from SPICE geometry (the light-time equation is a short script over SPICE positions; SPICE carries the geometry), with the schedule rebuilt from SPICE elevations. The schedule, rank, defect, information spectrum, condition number, station sigmas, headline, trace bound, equipartition ratios, free-network null space, line-of-sight sweep and beacon declination agree within the pre-registered { "1" } % / { "0.1" } deg, which sits above the engine known analytic-Moon error ({ "3.2e-3" } on sigmas, measured before the run). NumPy { "2.3.5" } redoes the linear algebra on the committed engine Jacobian to { "2e-13" } (P2). Validated as a Cramér-Rao bound for the stated reduced parameter set on the stated illustrative inputs: the Moon-centre ephemeris, clocks, troposphere and Earth-orientation parameters are held fixed in both legs, so it is not a real-campaign accuracy
+# An independent in-repo route. Every Jacobian row is re-derived by central finite difference of lunar_vlbi::vlbi_delay_s evaluated from the state's own Earth-fixed and Moon-body-fixed coordinates rotated forward through the frame chain — a path that computes no derivative and shares no expression with the analytic partials — and the information matrices the two routes build agree to < { "1e-6" } of the largest diagonal. The linear-algebra kernel this composes (information_matrix, crlb, sym_eig) is separately externally anchored against numpy.linalg.eigh / numpy.linalg.inv in tests/fim_observability_reference.rs, and the delay observable carries lunar_vlbi's own delta-DOR far-field oracle; the row does not borrow either status. Closed-form identities checked here and labelled as such: σ² and 1/N scaling, and √(p/trace(M)) as an AM-HM lower bound the computed sigma cannot beat, which coincides with the equipartition value only on an isotropic geometry — which is why the measured ratio is exactly the anisotropy the assumption discarded. { "0.30" } external comparison (Library: NAIF SPICE CSPICE N0067 via spiceypy { "8.2.0" }, MIT; DE440, ITRF93 earth_latest_high_prec, MOON_PA), pre-registered ({ "50863551" }) together with an engine-side model-error sensitivity run: every Jacobian row is rebuilt by central differences of converged Newtonian light-time differences from SPICE geometry (the light-time equation is a short script over SPICE positions; SPICE carries the geometry), with the schedule rebuilt from SPICE elevations. The schedule, rank, defect, information spectrum, condition number, station sigmas, headline, trace bound, equipartition ratios, free-network null space, line-of-sight sweep and beacon declination agree within the pre-registered { "1" } % / { "0.1" } deg, which sits above the engine known analytic-Moon error ({ "3.2e-3" } on sigmas, measured before the run). NumPy { "2.3.5" } redoes the linear algebra on the committed engine Jacobian to { "2e-13" }. Validated as a Cramér-Rao bound for the stated reduced parameter set on the stated illustrative inputs: the Moon-centre ephemeris, clocks, troposphere and Earth-orientation parameters are held fixed in both legs, so it is not a real-campaign accuracy
 # text
-seg-b259d4d18f42 = Sõltumatu hoidlasisene tee. Iga Jacobi rida tuletatakse uuesti funktsiooni lunar_vlbi::vlbi_delay_s keskmise lõplikese vahega, hinnatuna oleku enda Maaga ja Kuu kehaga seotud koordinaatidest, mis on pööratud edasi läbi tugisüsteemi ahela — rada, mis ei arvuta tuletist ega jaga ühtki avaldist analüütiliste osatuletistega — ning kahe tee ehitatud informatsioonimaatriksid ühtivad suurima diagonaalelemendi < { "1e-6" } osa piires. Lineaaralgebra tuum, mida see koostab (information_matrix, crlb, sym_eig), on eraldi väliselt ankurdatud numpy.linalg.eigh / numpy.linalg.inv vastu failis tests/fim_observability_reference.rs, ja viite vaadeldav suurus kannab lunar_vlbi enda delta-DOR kaugvälja sõltumatut etaloni; rida ei laena kumbagi staatust. Siin kontrollitud suletud kujul samasused ja nii märgistatud: σ² ja 1/N skaleerumine ning √(p/trace(M)) AM-HM alampiirina, mida arvutatud sigma ei saa ületada, mis ühtib võrdse jaotuse väärtusega ainult isotroopsel geomeetrial — mistõttu mõõdetud suhe on täpselt anisotroopia, mille eeldus kõrvale heitis. { "0.30" } väline võrdlus (Teek: NAIF SPICE CSPICE N0067 spiceypy { "8.2.0" } kaudu, MIT; DE440, ITRF93 earth_latest_high_prec, MOON_PA), eelregistreeritud ({ "50863551" }) koos mootoripoolse mudeliveatundlikkuse käiguga: iga Jacobi rida ehitatakse uuesti SPICE geomeetriast koondunud Newtoni valgusaja erinevuste keskmiste vahedega (valgusaja võrrand on lühike skript SPICE asukohtade üle; SPICE kannab geomeetriat), graafik ehitatud uuesti SPICE kõrgustest. Graafik, aste, defekt, informatsioonispekter, tinglikkuse arv, jaama sigmad, peamine väärtus, jälje piir, võrdse jaotuse suhted, vaba võrgu nullruum, vaatejoone pühkimine ja majaka deklinatsioon ühtivad eelregistreeritud { "1" } % / { "0.1" } kraadi piires, mis asub mootori teadaoleva analüütilise Kuu vea ({ "3.2e-3" } sigmadel, mõõdetud enne käivitust) kohal. NumPy { "2.3.5" } teeb lineaaralgebra uuesti mootori kinnitatud Jacobi maatriksil täpsusega { "2e-13" } (P2). Valideeritud Cramér-Rao piirina esitatud vähendatud parameetrikomplekti jaoks esitatud illustratiivsetel sisenditel: Kuu keskpunkti efemeriid, kellad, troposfäär ja Maa orientatsiooniparameetrid hoitakse mõlemas harus fikseeritutena, seega ei ole see päris kampaania täpsus
+seg-b259d4d18f42 = Sõltumatu hoidlasisene tee. Iga Jacobi rida tuletatakse uuesti funktsiooni lunar_vlbi::vlbi_delay_s keskmise lõplikese vahega, hinnatuna oleku enda Maaga ja Kuu kehaga seotud koordinaatidest, mis on pööratud edasi läbi tugisüsteemi ahela — rada, mis ei arvuta tuletist ega jaga ühtki avaldist analüütiliste osatuletistega — ning kahe tee ehitatud informatsioonimaatriksid ühtivad suurima diagonaalelemendi < { "1e-6" } osa piires. Lineaaralgebra tuum, mida see koostab (information_matrix, crlb, sym_eig), on eraldi väliselt ankurdatud numpy.linalg.eigh / numpy.linalg.inv vastu failis tests/fim_observability_reference.rs, ja viite vaadeldav suurus kannab lunar_vlbi enda delta-DOR kaugvälja sõltumatut etaloni; rida ei laena kumbagi staatust. Siin kontrollitud suletud kujul samasused ja nii märgistatud: σ² ja 1/N skaleerumine ning √(p/trace(M)) AM-HM alampiirina, mida arvutatud sigma ei saa ületada, mis ühtib võrdse jaotuse väärtusega ainult isotroopsel geomeetrial — mistõttu mõõdetud suhe on täpselt anisotroopia, mille eeldus kõrvale heitis. { "0.30" } väline võrdlus (Teek: NAIF SPICE CSPICE N0067 spiceypy { "8.2.0" } kaudu, MIT; DE440, ITRF93 earth_latest_high_prec, MOON_PA), eelregistreeritud ({ "50863551" }) koos mootoripoolse mudeliveatundlikkuse käiguga: iga Jacobi rida ehitatakse uuesti SPICE geomeetriast koondunud Newtoni valgusaja erinevuste keskmiste vahedega (valgusaja võrrand on lühike skript SPICE asukohtade üle; SPICE kannab geomeetriat), graafik ehitatud uuesti SPICE kõrgustest. Graafik, aste, defekt, informatsioonispekter, tinglikkuse arv, jaama sigmad, peamine väärtus, jälje piir, võrdse jaotuse suhted, vaba võrgu nullruum, vaatejoone pühkimine ja majaka deklinatsioon ühtivad eelregistreeritud { "1" } % / { "0.1" } kraadi piires, mis asub mootori teadaoleva analüütilise Kuu vea ({ "3.2e-3" } sigmadel, mõõdetud enne käivitust) kohal. NumPy { "2.3.5" } teeb lineaaralgebra uuesti mootori kinnitatud Jacobi maatriksil täpsusega { "2e-13" }. Valideeritud Cramér-Rao piirina esitatud vähendatud parameetrikomplekti jaoks esitatud illustratiivsetel sisenditel: Kuu keskpunkti efemeriid, kellad, troposfäär ja Maa orientatsiooniparameetrid hoitakse mõlemas harus fikseeritutena, seega ei ole see päris kampaania täpsus
 
 # Binding Library leg: NAIF SPICE Toolkit N0067 (spiceypy { "8.2.0" }, MIT) on de440s, earth_latest_high_prec (ITRF93 with UT1 and polar motion) and the DE440 lunar frames, the beacon fixed in MOON_ME; every Jacobian row is a { "3" } km central difference of the converged Newtonian light-time difference (the M069 oracle's own light-time code, imported), never a Kshana partial; visibility rebuilt from WGS-84 elevations; NumPy { "2.3.5" } / SciPy { "1.18.1" } (BSD-3-Clause, LAPACK) eigh and inv. P2 leg: NumPy on the engine's committed Jacobian. Pre-registered (4a51256) before the fixture or oracle existed, with bars of { "1" } % on eigenvalues, condition, sigmas, RMS and ratio, { "1e-4" } on the lever arm, exact observation set and rank; P2 { "1e-9" }. Disclosed: the engine-only comparison of analytic and kernel Moon ({ "3.9" } % on the y sigma) was run before the pre-registration, to choose the kernel path, and is stated there. Result: both legs agree, worst { "1.7e-3" } (beacon y sigma { "0.081211" } m against { "0.081351" } m). Mutation: transposing the beacon partial's body rotation fails both legs. Both sides read DE440, so agreement validates the geometry and linear algebra on DE440, not DE440. Outside the claim: a real campaign's surface-point accuracy (clocks, troposphere and Earth orientation held fixed; illustrative stations and beacon site), and the analytic default path (row above, which stays MODELLED: on the analytic Moon the y sigma is { "3.9" } % below this oracle)
 # text
@@ -954,9 +954,9 @@ seg-46b139a58bb0 = Nimetatud soovituste ümberkirjutus (vabalt allalaaditav aadr
 # text
 seg-1d3df655c14c = Eelregistreeritud failis tests/fixtures/clock_log/PREREGISTRATION.md (sisestatud üksi, 159334f2, enne fikstuuri olemasolu); registreeritud failis RESULTS.md. Kolm seemnestatud sünteetilist logi, üks vormingu kohta (kolme epohhi TICC lünk, ignoreeritav RINEX-i teine kell), tagasi loetud sõltumatu lugeja poolt, mille sama autor kirjutas failist docs/CLOCK-LOG-FORMATS.md: ruudustiku, lünkade ja täite arvud võrdsed ning suurim faasierinevus { "0" } s (lävi { "1e-13" } s). allantools { "2024.6" } oadev, tdev ja mtie sellel faasil langevad kokku suhtelise täpsusega { "2.5e-14" } (lävi { "1e-10" }) igal keskmistamisteguril, mida see hindab; see ei hinda MTIE-d kogu salvestisel, mida mootor esitab, seega on sellel ühel punktil logi kohta sõltumatu etaloni väärtus puudu ja sõnastatud lävi ei ole seal täidetud. MODELLED: sünteetilised logid ja lugeja sõltumatu etalon jagab autorit; päris TimeLabi, TICC ja RINEX-i kellafaile instrumentidelt ei võrreldud
 
-# allantools { "2024.6" } ci.edf_greenhall, a third-party implementation of the published algorithm, run by scripts/gen_greenhall_edf_ref.py over the grid pre-registered in xval/greenhall-edf/PREREGISTRATION.md (committed alone, 0db0bb7a, before any comparison): at all { "4 876" } points where it returns a finite edf, kshana agrees within a relative { "6.0e-13" } (bar { "1e-9" }); at its { "46" } NotImplementedError points kshana returns NaN; every case label occurs; the wrappers equal the core bit for bit; uncertainty::edf is bit-identical over { "274 280" } values (pinned as a SHA-256 before the refactor). At { "32" } points (alpha -4, d { "3" }, unmodified, case { "2.2" }) allantools fails in its Table { "2" } lookup, so they have no oracle value and are not counted. Stable32 was not run. { "0.36" } revision (docs/revisions/STUDIO15-greenhall-edf-portable.md): on portable maths the kernel takes its logarithm from a double-double evaluation rounded once (allan::greenhall_ln), and the unchanged Bar { "1" } holds again at all { "4 876" } points, worst relative { "6.0e-13" }; the uncertainty::edf guard is re-based to the { "0.36" } portable dump ({ "3 746" } of the { "274 280" } values moved, at most { "1.6e-12" } relative, from the host-maths base)
+# allantools { "2024.6" } ci.edf_greenhall, a third-party implementation of the published algorithm, run by scripts/gen_greenhall_edf_ref.py over the grid pre-registered in xval/greenhall-edf/PREREGISTRATION.md (committed alone, 0db0bb7a, before any comparison): at all { "4 876" } points where it returns a finite edf, kshana agrees within a relative { "6.0e-13" } (bar { "1e-9" }); at its { "46" } NotImplementedError points kshana returns NaN; every case label occurs; the wrappers equal the core bit for bit; uncertainty::edf is bit-identical over { "274 280" } values (pinned as a SHA-256 before the refactor). At { "32" } points (alpha -4, d { "3" }, unmodified, case { "2.2" }) allantools fails in its Table { "2" } lookup, so they have no oracle value and are not counted. Stable32 was not run. { "0.36" } revision (docs/revisions/greenhall-edf-portable.md): on portable maths the kernel takes its logarithm from a double-double evaluation rounded once (allan::greenhall_ln), and the unchanged Bar { "1" } holds again at all { "4 876" } points, worst relative { "6.0e-13" }; the uncertainty::edf guard is re-based to the { "0.36" } portable dump ({ "3 746" } of the { "274 280" } values moved, at most { "1.6e-12" } relative, from the host-maths base)
 # text
-seg-695ec24f9676 = allantools { "2024.6" } ci.edf_greenhall, avaldatud algoritmi kolmanda osapoole teostus, käivitatud skriptiga scripts/gen_greenhall_edf_ref.py ruudustikul, mis on eelregistreeritud failis xval/greenhall-edf/PREREGISTRATION.md (sisestatud üksi, 0db0bb7a, enne ühtegi võrdlust): kõigis { "4 876" } punktis, kus see tagastab lõpliku edf-i, langeb kshana kokku suhtelise täpsusega { "6.0e-13" } (lävi { "1e-9" }); selle { "46" } NotImplementedError-i punktis tagastab kshana NaN-i; iga juhumärgis esineb; ümbrised on südamikuga bitipõhiselt võrdsed; uncertainty::edf on bitipõhiselt identne { "274 280" } väärtuse üle (kinnitatud SHA-256-ga enne refaktoreerimist). { "32" } punktis (alpha -4, d { "3" }, modifitseerimata, juhtum { "2.2" }) allantools ebaõnnestub oma tabeli { "2" } otsingus, seega neil puudub sõltumatu etaloni väärtus ja neid ei loeta. Stable32-t ei käivitatud. { "0.36" } redaktsioon (docs/revisions/STUDIO15-greenhall-edf-portable.md): kaasaskantaval matemaatikal võtab tuum oma logaritmi kord ümardatud topelt-topelt hindamisest (allan::greenhall_ln) ja muutmata lävi { "1" } kehtib taas kõigis { "4 876" } punktis, halvim suhteline { "6.0e-13" }; uncertainty::edf valve on ümber baseeritud { "0.36" } kaasaskantavale tõmmisele ({ "3 746" } väärtust { "274 280" }-st liikus, kuni { "1.6e-12" } suhteliselt, hostiarvutuse baasi suhtes)
+seg-695ec24f9676 = allantools { "2024.6" } ci.edf_greenhall, avaldatud algoritmi kolmanda osapoole teostus, käivitatud skriptiga scripts/gen_greenhall_edf_ref.py ruudustikul, mis on eelregistreeritud failis xval/greenhall-edf/PREREGISTRATION.md (sisestatud üksi, 0db0bb7a, enne ühtegi võrdlust): kõigis { "4 876" } punktis, kus see tagastab lõpliku edf-i, langeb kshana kokku suhtelise täpsusega { "6.0e-13" } (lävi { "1e-9" }); selle { "46" } NotImplementedError-i punktis tagastab kshana NaN-i; iga juhumärgis esineb; ümbrised on südamikuga bitipõhiselt võrdsed; uncertainty::edf on bitipõhiselt identne { "274 280" } väärtuse üle (kinnitatud SHA-256-ga enne refaktoreerimist). { "32" } punktis (alpha -4, d { "3" }, modifitseerimata, juhtum { "2.2" }) allantools ebaõnnestub oma tabeli { "2" } otsingus, seega neil puudub sõltumatu etaloni väärtus ja neid ei loeta. Stable32-t ei käivitatud. { "0.36" } redaktsioon (docs/revisions/greenhall-edf-portable.md): kaasaskantaval matemaatikal võtab tuum oma logaritmi kord ümardatud topelt-topelt hindamisest (allan::greenhall_ln) ja muutmata lävi { "1" } kehtib taas kõigis { "4 876" } punktis, halvim suhteline { "6.0e-13" }; uncertainty::edf valve on ümber baseeritud { "0.36" } kaasaskantavale tõmmisele ({ "3 746" } väärtust { "274 280" }-st liikus, kuni { "1.6e-12" } suhteliselt, hostiarvutuse baasi suhtes)
 
 # The four named Microchip datasheets (document numbers and URLs in each preset and in docs/TELECOM-TIMING.md) for the input figures; the closed-form aging ramp and the fit's envelope property as internal checks. How the figures become a noise model — the fit, the floor rule, the 30-day month, the linear temperature reading — is a modelling choice; no preset is a measurement of a unit. { "0.30" } round { "2" }, one-sided bars against measured units (pre-registered a01c491c), a finding (stays MODELLED): the IGS station THU2 Symmetricom 8040C in ESA MGEX final clocks has an Allan deviation { "0.35" } to { "0.87" } of the rubidium preset but a holdover error { "1.07" } to { "1.60" } of it; the 5071A record sits outside the caesium preset to { "1000" } s (measurement white phase noise, 30x at { "1" } s) and in holdover ({ "1.15" } to { "8.74" }); the worst { "2011" } production SA.45s is 1.26x the CSAC preset at { "1" } s; the OX-208 has no measured record (blocked)
 # text
@@ -998,13 +998,13 @@ seg-84500ea94d49 = GNSSTk { "15.3.1" } (ARL:UT, LGPL-3.0, commit 55ea3344, käiv
 # text
 seg-e83699418c0e = Käsitsi tuletatud neljasatelliidiline DOP (üks satelliit seniidis ja kolm horisondil { "120" } kraadi vahega, mille normaalmaatriks pöördub käsitsi), struktuurne samasus, et oma kellaga süsteem ja üks satelliit ei lisa geomeetriat, asukoha, kella ja nihke müravaba taastamine ning seemnestatud vead kovariatsiooni vastu. Ainult sisemised kontrollid; vastuvõtja väljundiga ei võrrelda. { "0.30" } väline võrdlus, tulemus (jääb MODELLED): mitme GNSS-i IGS-päeval (ABMF 2018-05-13, GPS ja Galileo C1C, saateefemeriid, Klobuchar) langeb süsteemidevaheline nihe kokku RTKLIB v2.4.2-p13 rnx2rtkp-ga (mediaanerinevus -0.11 ns pärast { "0.30" } saate rühmaviivituse parandust, -0.35 ns enne; lävi { "1" } ns), kuid ainult { "93.6" } % { "280" } epohhist ({ "93.2" } % enne parandust) on ITRF2020 koordinaadist { "3" } m piires eelregistreeritud { "95" } % vastu. RTKLIB ise saavutab samadel andmetel { "88.2" } %, seega on lävi sellel jaamal ja päeval ühesagedusliku saatepositsioneerimise võimalustest kaugemal, mitte lahendajate lahknevus; võrdlustest on sisestatud ignoreeritud kujul. { "0.30" } voor { "2" }, rangemad sisendid muutmata läviga { "3" } m / { "95" } % / { "1" } ns, tulemus (jääb MODELLED): Galileo E1/E5a ionosfäärivaba paariga (eelregistreeritud { "6927e039" }) on { "79.9" } % epohhidest { "3" } m piires (RTKLIB { "67.9" } %); täppis-CODE MGEX orbiitide, kellade, satelliidiantenni nihete ja koodinihetega (eelregistreeritud 7d8c3597) { "94.2" } % (RTKLIB { "94.1" } %) ning süsteemidevaheline nihe erineb RTKLIB-ist -1.03 ns võrra, sest RTKLIB-i ühe režiim ignoreerib satelliidiantenni nihkeid (+{ "0.04" } ns, kui mõlemad need välja jätavad)
 
-# Published worked values (P1): Bachl, Lei and Nabeel, arXiv:{ "2608.10270" } ({ "2026" }), single-SSB bounds of NR NTN reproduced from the 3GPP TS { "38.211" } SSB map through Kshana own numeric functions (W_rms { "1.9616" } vs { "1.96" } MHz, sigma_t { "38.755" } vs { "39" } us, sigma_f 100.79/87.28 vs 101/87 Hz, sigma_rho 0.5970/0.5831 vs 0.60/0.58 m, each within half a unit of the printed last digit); Betz { "2001" } Table { "1" } BPSK-R RMS bandwidths (1.128/3.477 vs 1.1/3.5 MHz, supplementary); the time-of-arrival and Doppler fix covariances agree with numpy { "2.4.6" } numpy.linalg.inv on the exported geometry (P2; { "5e-15" } and { "1.2e-5" } relative, bars { "1e-5" } and { "1e-3" }). Pre-registered (9f2875db; part C 0d66dccd). The engine fix joint_pvt::formal_sigma_enu (the bound evaluated at the true position, not the noisy fix) was written after the first { "200" } kHz run failed at { "6.5e-5" } and was re-run at the unchanged tolerance. The flat-spectrum and complex-tone forms the scenario runs (gabor_bandwidth_flat_hz, doppler_crb_sigma_hz) reach the P1 check through in-crate identity unit tests. Bounds on a multipath-free channel, not achieved accuracy. { "0.30" } revision: ntn-5g-positioning toa_median_sigma_3d_m { "2.0903959" } -> { "2.0903962" } m (NR { "5" } MHz) and { "25.938613" } -> { "25.938839" } m (NB { "200" } kHz)
+# Published worked values: Bachl, Lei and Nabeel, arXiv:{ "2608.10270" } ({ "2026" }), single-SSB bounds of NR NTN reproduced from the 3GPP TS { "38.211" } SSB map through Kshana own numeric functions (W_rms { "1.9616" } vs { "1.96" } MHz, sigma_t { "38.755" } vs { "39" } us, sigma_f 100.79/87.28 vs 101/87 Hz, sigma_rho 0.5970/0.5831 vs 0.60/0.58 m, each within half a unit of the printed last digit); Betz { "2001" } Table { "1" } BPSK-R RMS bandwidths (1.128/3.477 vs 1.1/3.5 MHz, supplementary); the time-of-arrival and Doppler fix covariances agree with numpy { "2.4.6" } numpy.linalg.inv on the exported geometry (P2; { "5e-15" } and { "1.2e-5" } relative, bars { "1e-5" } and { "1e-3" }). Pre-registered (9f2875db; part C 0d66dccd). The engine fix joint_pvt::formal_sigma_enu (the bound evaluated at the true position, not the noisy fix) was written after the first { "200" } kHz run failed at { "6.5e-5" } and was re-run at the unchanged tolerance. The flat-spectrum and complex-tone forms the scenario runs (gabor_bandwidth_flat_hz, doppler_crb_sigma_hz) reach the P1 check through in-crate identity unit tests. Bounds on a multipath-free channel, not achieved accuracy. { "0.30" } revision: ntn-5g-positioning toa_median_sigma_3d_m { "2.0903959" } -> { "2.0903962" } m (NR { "5" } MHz) and { "25.938613" } -> { "25.938839" } m (NB { "200" } kHz)
 # text
-seg-f63e1d78cfff = Avaldatud läbiarvutatud väärtused (P1): Bachl, Lei ja Nabeel, arXiv:{ "2608.10270" } ({ "2026" }), NR NTN-i üksik-SSB piirid, reprodutseeritud 3GPP TS { "38.211" } SSB kaardist Kshana enda numbriliste funktsioonide kaudu (W_rms { "1.9616" } vs { "1.96" } MHz, sigma_t { "38.755" } vs { "39" } us, sigma_f 100.79/87.28 vs 101/87 Hz, sigma_rho 0.5970/0.5831 vs 0.60/0.58 m, igaüks poole trükitud viimase numbri ühiku piires); Betz { "2001" } tabel { "1" } BPSK-R RMS ribalaiused (1.128/3.477 vs 1.1/3.5 MHz, täiendav); saabumisaja ja Doppleri fiksi kovariatsioonid langevad kokku numpy { "2.4.6" } numpy.linalg.inv-ga eksporditud geomeetrial (P2; { "5e-15" } ja { "1.2e-5" } suhteliselt, läved { "1e-5" } ja { "1e-3" }). Eelregistreeritud (9f2875db; osa C 0d66dccd). Mootori fiks joint_pvt::formal_sigma_enu (tões hinnatud piir, mitte müraline fiks) kirjutati pärast seda, kui esimene { "200" } kHz jooksutus ebaõnnestus väärtusel { "6.5e-5" }, ja käivitati uuesti muutmata tolerantsiga. Lameda spektri ja kompleksse tooni kujud, mida stsenaarium käivitab (gabor_bandwidth_flat_hz, doppler_crb_sigma_hz), jõuavad P1 kontrollini kasti-siseste samasuse ühiktestide kaudu. Piirid mitmeteelevivabal kanalil, mitte saavutatud täpsus. { "0.30" } redaktsioon: ntn-5g-positioning toa_median_sigma_3d_m { "2.0903959" } -> { "2.0903962" } m (NR { "5" } MHz) ja { "25.938613" } -> { "25.938839" } m (NB { "200" } kHz)
+seg-f63e1d78cfff = Avaldatud läbiarvutatud väärtused: Bachl, Lei ja Nabeel, arXiv:{ "2608.10270" } ({ "2026" }), NR NTN-i üksik-SSB piirid, reprodutseeritud 3GPP TS { "38.211" } SSB kaardist Kshana enda numbriliste funktsioonide kaudu (W_rms { "1.9616" } vs { "1.96" } MHz, sigma_t { "38.755" } vs { "39" } us, sigma_f 100.79/87.28 vs 101/87 Hz, sigma_rho 0.5970/0.5831 vs 0.60/0.58 m, igaüks poole trükitud viimase numbri ühiku piires); Betz { "2001" } tabel { "1" } BPSK-R RMS ribalaiused (1.128/3.477 vs 1.1/3.5 MHz, täiendav); saabumisaja ja Doppleri fiksi kovariatsioonid langevad kokku numpy { "2.4.6" } numpy.linalg.inv-ga eksporditud geomeetrial (P2; { "5e-15" } ja { "1.2e-5" } suhteliselt, läved { "1e-5" } ja { "1e-3" }). Eelregistreeritud (9f2875db; osa C 0d66dccd). Mootori fiks joint_pvt::formal_sigma_enu (tões hinnatud piir, mitte müraline fiks) kirjutati pärast seda, kui esimene { "200" } kHz jooksutus ebaõnnestus väärtusel { "6.5e-5" }, ja käivitati uuesti muutmata tolerantsiga. Lameda spektri ja kompleksse tooni kujud, mida stsenaarium käivitab (gabor_bandwidth_flat_hz, doppler_crb_sigma_hz), jõuavad P1 kontrollini kasti-siseste samasuse ühiktestide kaudu. Piirid mitmeteelevivabal kanalil, mitte saavutatud täpsus. { "0.30" } redaktsioon: ntn-5g-positioning toa_median_sigma_3d_m { "2.0903959" } -> { "2.0903962" } m (NR { "5" } MHz) ja { "25.938613" } -> { "25.938839" } m (NB { "200" } kHz)
 
-# Orekit { "13.1.8" } (Apache-2.0) with Hipparchus { "4.0.3" }: the engine's GCRS states rotated to ITRF by Orekit (IERS { "2010" }), WGS-84 TopocentricFrame visibility against each system's mask, org.orekit.gnss.DOPComputer for one clock unknown and NumPy { "2.4.6" } numpy.linalg.inv (P2) for several; with the path checked against python-sgp4 and ERFA (row 'One Earth-orbit path'). Bars fixed before the run (pre-registered 72ea9eb0; T2 and T3 are the { "0.30" } round-2 bars). The TEME -> GCRS step frozen at J2000 turns the test red ({ "4739" } failures). Geometry only; no scintillation, terrain or signal power. GNSS VDOP rises toward the pole ({ "1.20" } at the equator to { "1.51" } at { "89.9" } deg for GPS and Galileo in the bundled scenario) while a near-polar LEO shell converges there. History: round { "2" } (3254d456) agreed on tabulated two-body states; the D8 round-1 full claim against Orekit's own TLE propagation (e947e69d) was a finding, Orekit's SDP4 at e = { "0" } and its IERS { "1996" } TEME, pinned
+# Orekit { "13.1.8" } (Apache-2.0) with Hipparchus { "4.0.3" }: the engine's GCRS states rotated to ITRF by Orekit (IERS { "2010" }), WGS-84 TopocentricFrame visibility against each system's mask, org.orekit.gnss.DOPComputer for one clock unknown and NumPy { "2.4.6" } numpy.linalg.inv for several; with the path checked against python-sgp4 and ERFA (row 'One Earth-orbit path'). Bars fixed before the run (pre-registered 72ea9eb0; T2 and T3 are the { "0.30" } round-2 bars). The TEME -> GCRS step frozen at J2000 turns the test red ({ "4739" } failures). Geometry only; no scintillation, terrain or signal power. GNSS VDOP rises toward the pole ({ "1.20" } at the equator to { "1.51" } at { "89.9" } deg for GPS and Galileo in the bundled scenario) while a near-polar LEO shell converges there. History: round { "2" } (3254d456) agreed on tabulated two-body states; the D8 round-1 full claim against Orekit's own TLE propagation (e947e69d) was a finding, Orekit's SDP4 at e = { "0" } and its IERS { "1996" } TEME, pinned
 # text
-seg-a16896913438 = Orekit { "13.1.8" } (Apache-2.0) koos Hipparchus { "4.0.3" }: mootori GCRS olekud pööratud ITRF-i Orekiti poolt (IERS { "2010" }), WGS-84 TopocentricFrame nähtavus iga süsteemi maski vastu, org.orekit.gnss.DOPComputer ühe kellatundmatu jaoks ja NumPy { "2.4.6" } numpy.linalg.inv (P2) mitme jaoks; tee kontrollitud python-sgp4 ja ERFA vastu (rida „One Earth-orbit path“). Läved kinnitati enne käivitust (eelregistreeritud 72ea9eb0; T2 ja T3 on { "0.30" } vooru 2 läved). J2000-l külmutatud TEME -> GCRS samm muudab testi punaseks ({ "4739" } ebaõnnestumist). Ainult geomeetria; sintillatsiooni, maastikku ega signaali võimsust pole. GNSS VDOP tõuseb pooluse suunas ({ "1.20" } ekvaatoril kuni { "1.51" } juures { "89.9" } kraadi GPS-i ja Galileo jaoks kaasasolevas stsenaariumis), samal ajal kui peaaegu polaarne LEO kest koondub seal. Ajalugu: voor { "2" } (3254d456) langes kokku tabuleeritud kahe keha olekutel; D8 vooru 1 täisväide Orekiti enda TLE levitamise vastu (e947e69d) oli tulemus, Orekiti SDP4 väärtusel e = { "0" } ja selle IERS { "1996" } TEME, kinnitatud
+seg-a16896913438 = Orekit { "13.1.8" } (Apache-2.0) koos Hipparchus { "4.0.3" }: mootori GCRS olekud pööratud ITRF-i Orekiti poolt (IERS { "2010" }), WGS-84 TopocentricFrame nähtavus iga süsteemi maski vastu, org.orekit.gnss.DOPComputer ühe kellatundmatu jaoks ja NumPy { "2.4.6" } numpy.linalg.inv mitme jaoks; tee kontrollitud python-sgp4 ja ERFA vastu (rida „One Earth-orbit path“). Läved kinnitati enne käivitust (eelregistreeritud 72ea9eb0; T2 ja T3 on { "0.30" } vooru 2 läved). J2000-l külmutatud TEME -> GCRS samm muudab testi punaseks ({ "4739" } ebaõnnestumist). Ainult geomeetria; sintillatsiooni, maastikku ega signaali võimsust pole. GNSS VDOP tõuseb pooluse suunas ({ "1.20" } ekvaatoril kuni { "1.51" } juures { "89.9" } kraadi GPS-i ja Galileo jaoks kaasasolevas stsenaariumis), samal ajal kui peaaegu polaarne LEO kest koondub seal. Ajalugu: voor { "2" } (3254d456) langes kokku tabuleeritud kahe keha olekutel; D8 vooru 1 täisväide Orekiti enda TLE levitamise vastu (e947e69d) oli tulemus, Orekiti SDP4 väärtusel e = { "0" } ja selle IERS { "1996" } TEME, kinnitatud
 
 # The first-order dispersion identity, exact by construction against the engine's own first-order delay (whose 1/f^{ "2" } scaling is VALIDATED against IS-GPS-200 in its own row); the precision is thermal code noise only, without multipath or inter-frequency biases. { "0.30" } round { "2" }, measured (pre-registered 5e795f93), a finding (stays MODELLED): the CODE global ionosphere map CODG1330.18I against ABMF C1C/C2W code with the CODE biases gives { "33" } of { "36" } arc means within { "3" } TECU (worst +{ "6.84" } TECU on an evening arc; per-epoch RMS { "3.95" } TECU), against a bar of every arc; not validated
 # text
@@ -1081,9 +1081,9 @@ seg-b6f39f180fdd = LSIS-AFS V1.0 (nagu eespool): pikkusega 1499 Legendre’i jad
 # text
 seg-c2a8434c32a8 = GNSS-SDR { "0.0.19" } (GPL-3.0-or-later, Ubuntu { "24.04" } pakett, käitatud eraldi programmina; lisatud on ainult tuletatud arvud) jälgib samu numpy salvestusi (mootorist sõltumatud), mõlemat mõõdetakse analüütilise tõe suhtes. Läved eelregistreeritud kommitis 48edd4a5, muudetud enne mis tahes katsesalvestust kommitis 1e4288c4 ({ "10" } Hz FLL ainult sisselukustumise ajal mõlemas vastuvõtjas, pärast seda, kui registreeritud kalibreerimine ebaõnnestus GNSS-SDR-i vale üleandmise tõttu, tähelepanek F3). MET väärtustel { "30" }, { "35" }, { "40" } ja { "45" } dB-Hz: kandja värin { "4.3" } % piires, koodi värin { "4.6" } % piires ning Doppleri keskmine ja hajuvus GNSS-SDR-i omade piires. NOT MET: mootori NWPR C/N0 näitab { "2.3" } kuni { "7.1" } dB alla GNSS-SDR-i SNV (tähelepanek F4, teadaolev NWPR-i piirang; selle M2M4 on tõest { "0.06" } dB piires); faasi lukustusindikaatorid erinevad definitsiooni poolest (F5); väärtusel { "30" } dB-Hz libises GNSS-SDR kaks korda ja mootor mitte (F6). GNSS-SDR-i enda üleandmine lukustus valele sagedusele { "3" } kalibreerimiskäitusel { "30" }-st. MIDA EI KONTROLLITA: muud signaalid, andmebittide mahavõtmine, uuesti hõivamine, väljasalvestused. Rida jääb MODELLED.
 
-# An independent numpy recomputation (xval/crpa-jamming/oracle.py, no shared code: numpy steering vectors, numpy.linalg.solve and inv) of every link of the jamming-demo geometry with a 4-element square array, under both weightings. Bars pre-registered at 08d83b4d. MET: A1 (all { "150" } scenario results byte-identical without the section, after a fix: the first build added the crpa units to every jamming run's units table), A2 (one element equals no array to { "1e-12" } dB), A3 on the array noise gain and effective C/N0 ({ "912" } link-weightings within { "1e-9" } dB, worst { "2.1e-14" } dB) and on the null-steering jammer null (below -200 dB on both sides), A4 (MVDR within { "0.1" } dB of null-steering at a JNR of { "80" } dB). NOT MET: A3 on the MVDR jammer gain, { "194" } of { "456" } links over { "1e-9" } dB on { "0.36" } portable maths ({ "202" } on host maths; docs/revisions/STUDIO15-batch4-rebaseline.md) (worst { "1.7e-6" } dB) on residuals of -100 to -188 dB, where float64 cancellation limits both implementations (numpy's inv and solve disagree with each other on { "169" } links, worst { "7.9e-7" } dB); the effective C/N0 these feed is unaffected. WHAT IS NOT CHECKED: mutual coupling, element mismatch, wideband processing, multiple jammers, any antenna hardware. A recomputation of the same equations, not an external oracle; the row stays MODELLED.
+# An independent numpy recomputation (xval/crpa-jamming/oracle.py, no shared code: numpy steering vectors, numpy.linalg.solve and inv) of every link of the jamming-demo geometry with a 4-element square array, under both weightings. Bars pre-registered at 08d83b4d. MET: A1 (all { "150" } scenario results byte-identical without the section, after a fix: the first build added the crpa units to every jamming run's units table), A2 (one element equals no array to { "1e-12" } dB), A3 on the array noise gain and effective C/N0 ({ "912" } link-weightings within { "1e-9" } dB, worst { "2.1e-14" } dB) and on the null-steering jammer null (below -200 dB on both sides), A4 (MVDR within { "0.1" } dB of null-steering at a JNR of { "80" } dB). NOT MET: A3 on the MVDR jammer gain, { "194" } of { "456" } links over { "1e-9" } dB on { "0.36" } portable maths ({ "202" } on host maths; docs/revisions/batch4-rebaseline.md) (worst { "1.7e-6" } dB) on residuals of -100 to -188 dB, where float64 cancellation limits both implementations (numpy's inv and solve disagree with each other on { "169" } links, worst { "7.9e-7" } dB); the effective C/N0 these feed is unaffected. WHAT IS NOT CHECKED: mutual coupling, element mismatch, wideband processing, multiple jammers, any antenna hardware. A recomputation of the same equations, not an external oracle; the row stays MODELLED.
 # text
-seg-232d040b575d = Sõltumatu numpy ümberarvutus (xval/crpa-jamming/oracle.py, ühist koodi pole: numpy juhtvektorid, numpy.linalg.solve ja inv) jamming-demo geomeetria iga lüli kohta 4-elemendilise ruutmassiiviga, mõlema kaalutuse all. Läved eelregistreeritud kommitis 08d83b4d. MET: A1 (kõik { "150" } stsenaariumi tulemust baitidena identsed ilma jaotiseta, pärast parandust: esimene ehitus lisas crpa ühikud iga segamiskäituse ühikutabelisse), A2 (üks element võrdub massiivi puudumisega täpsusega { "1e-12" } dB), A3 massiivi mürategurile ja efektiivsele C/N0-le ({ "912" } lüli-kaalutust { "1e-9" } dB piires, halvim { "2.1e-14" } dB) ning nullijuhtimisega segaja nullile (alla -200 dB mõlemal pool), A4 (MVDR { "0.1" } dB piires nullijuhtimisest segaja ja müra suhte JNR korral { "80" } dB). NOT MET: A3 MVDR segaja võimendusel, { "194" } lüli { "456" }-st üle { "1e-9" } dB portatiivse matemaatika korral { "0.36" } ({ "202" } hosti matemaatika korral; docs/revisions/STUDIO15-batch4-rebaseline.md) (halvim { "1.7e-6" } dB) jääkidel -100 kuni -188 dB, kus float64 kaotus piirab mõlemat teostust (numpy inv ja solve lähevad omavahel lahku { "169" } lülil, halvim { "7.9e-7" } dB); efektiivset C/N0-d, mida need toidavad, see ei mõjuta. MIDA EI KONTROLLITA: vastastikune sidestus, elementide mittevastavus, lairiba töötlus, mitu segajat, mis tahes antennirakendust. Samade võrrandite ümberarvutus, mitte väline sõltumatu etalon; rida jääb MODELLED.
+seg-232d040b575d = Sõltumatu numpy ümberarvutus (xval/crpa-jamming/oracle.py, ühist koodi pole: numpy juhtvektorid, numpy.linalg.solve ja inv) jamming-demo geomeetria iga lüli kohta 4-elemendilise ruutmassiiviga, mõlema kaalutuse all. Läved eelregistreeritud kommitis 08d83b4d. MET: A1 (kõik { "150" } stsenaariumi tulemust baitidena identsed ilma jaotiseta, pärast parandust: esimene ehitus lisas crpa ühikud iga segamiskäituse ühikutabelisse), A2 (üks element võrdub massiivi puudumisega täpsusega { "1e-12" } dB), A3 massiivi mürategurile ja efektiivsele C/N0-le ({ "912" } lüli-kaalutust { "1e-9" } dB piires, halvim { "2.1e-14" } dB) ning nullijuhtimisega segaja nullile (alla -200 dB mõlemal pool), A4 (MVDR { "0.1" } dB piires nullijuhtimisest segaja ja müra suhte JNR korral { "80" } dB). NOT MET: A3 MVDR segaja võimendusel, { "194" } lüli { "456" }-st üle { "1e-9" } dB portatiivse matemaatika korral { "0.36" } ({ "202" } hosti matemaatika korral; docs/revisions/batch4-rebaseline.md) (halvim { "1.7e-6" } dB) jääkidel -100 kuni -188 dB, kus float64 kaotus piirab mõlemat teostust (numpy inv ja solve lähevad omavahel lahku { "169" } lülil, halvim { "7.9e-7" } dB); efektiivset C/N0-d, mida need toidavad, see ei mõjuta. MIDA EI KONTROLLITA: vastastikune sidestus, elementide mittevastavus, lairiba töötlus, mitu segajat, mis tahes antennirakendust. Samade võrrandite ümberarvutus, mitte väline sõltumatu etalon; rida jääb MODELLED.
 
 # An independent numpy recomputation (xval/jamming-terrain/oracle.py, no shared code: its own .hgt read, bilinear interpolation, WGS { "84" } round trip, profile, bulge, nu and J(nu)) of ten jammer placements around a receiver at Badwater Basin on the committed real SRTM tile tests/fixtures/terrain/N36W117_sub6.hgt. Bars and placements pre-registered at 92cd2bfd. All MET: additivity (all { "150" } scenario results byte-identical without the section); every placement's profile points and obstacle equal and nu and loss within { "1.6e-10" } (bar { "1e-9" }); the loss never rises as the jammer rises from { "2" } to { "4902" } m; the loss lowers every J/S by exactly itself and nothing else; J(nu) within { "1e-12" } dB of the oracle's. Findings: placements across the Black and Funeral Mountains lose { "44" } to { "48" } dB; two valley-floor placements lose { "8" } and { "15" } dB from the Earth bulge alone at { "2" } m antenna heights, the single knife-edge model's grazing case. WHAT IS NOT CHECKED: any measured propagation, multiple-edge diffraction, ground reflection, clutter, the DEM's own error. A recomputation of the same model, not an external oracle; the row stays MODELLED.
 # text
@@ -1643,9 +1643,9 @@ seg-ed40da9bdfae = kontrollitud oma suletud kujul / analüütilise samasuse vast
 # text
 seg-3ead905e6a5c = kontrollitud samas koodibaasis oleva eraldi teostuse vastu — testitavast üksusest sõltumatu, kuid väliselt mitteautoriteetne — DOP aritmeetika on crate::orbit::dop tuum, mis on eraldi väliselt valideeritud gnss_lib_py vastu failis tests/dop_reference.rs; see rida ei laena selle rea staatust uuesti. Majaka nähtavuse horisont on L01 suletud kuju ja sigma = DOP x sigma_URE on standardne GNSS-i seos (Kaplan ja Hegarty, Understanding GPS/GNSS, jaotis { "7" }). Selle rea sees kontrollitakse täiendust ennast sõltumatu hoidlasisese DOP-tee vastu ja see on kinnitatud sisse viidud golden-etaloni külge. MIKS MODELLED: satelliidikonstellatsiooni kavand, majakate paigutus, antennide kõrgused ja kõik kolm veaeelarve suurust on illustratiivsed sisendid, mitte kasutusel olev mõõdistus ega mõõdetud link, seega on teatatud meetrid valitud stsenaariumi omadus, mitte ühegi kasutusele võetud teenuse omadus. MÄRKUS PÄRITOLU KOHTA: see võimekus oli README-s reklaamitud ja kasutusel kahes valideerimistestis, kuid sellel EI OLNUD maatriksirida ega stsenaariumi liiki, seega ei saanud sellele ühestki käitusest ligi. See oli proosas väidetud, registris puudu ja mootoris kättesaamatu korraga. Rida ja liik lisati koos. { "0.30" } ring { "2" } (eelregistreeritud db0eb9ec), blokeeritud (jääb MODELLED): ANISE { "0.10.6" } nähtavus ja numpy DOP rea geomeetrial on kooskõlas (nähtavad hulgad täpsed, sealhulgas { "72" } horisondilähedast ja { "48" } maskilähedast juhtu; DOP { "7.2e-13" } piires), kuid teatatud meetrid on DOP korda illustratiivne { "1.158" } m ruutude summa juurega kaugusmõõtmise viga ilma sõltumatu etaloniga; neid välistav ulatuse piiritlemine ootab omaniku otsust
 
-# checked against its own closed-form / analytic identity — catches transcription and coefficient errors, but is not an external oracle — Analytic datum-defect structure — the unobservable absolute-frame mode lies in the null space of the Fisher information (closed-form), the rank threshold matches the published 3-station design rationale, and the estimator attains the resulting CRLB in Monte-Carlo. The lunar geometry itself is a representative network (not a flown ephemeris), so the row stays MODELLED; the underlying FIM/CRLB engine is checked against the Kay ({ "1993" }) closed forms separately. { "0.30" } round { "2" } (pre-registered fab02df9), blocked (stays MODELLED): NumPy/SciPy recompute the rank and defect at the stated { "1e-9" } threshold, the station axes share of the null space (within { "8.4e-10" }) and the station CRLB (within { "1.2e-10" }) on { "17" } committed Kshana-generated configurations (P2). Not promoted: the claim that the estimator attains the bound (Monte Carlo efficiency about { "0.98" }) has no oracle, and the scoping that would leave it MODELLED awaits an owner decision
+# checked against its own closed-form / analytic identity — catches transcription and coefficient errors, but is not an external oracle — Analytic datum-defect structure — the unobservable absolute-frame mode lies in the null space of the Fisher information (closed-form), the rank threshold matches the published 3-station design rationale, and the estimator attains the resulting CRLB in Monte-Carlo. The lunar geometry itself is a representative network (not a flown ephemeris), so the row stays MODELLED; the underlying FIM/CRLB engine is checked against the Kay ({ "1993" }) closed forms separately. { "0.30" } round { "2" } (pre-registered fab02df9), blocked (stays MODELLED): NumPy/SciPy recompute the rank and defect at the stated { "1e-9" } threshold, the station axes share of the null space (within { "8.4e-10" }) and the station CRLB (within { "1.2e-10" }) on { "17" } committed Kshana-generated configurations. Not promoted: the claim that the estimator attains the bound (Monte Carlo efficiency about { "0.98" }) has no oracle, and the scoping that would leave it MODELLED awaits an owner decision
 # text
-seg-a4d8fdc530e4 = kontrollitud oma suletud kujul / analüütilise samasuse vastu — tabab ülekirjutus- ja koefitsiendivigu, kuid ei ole väline sõltumatu etalon — Analüütiline andmepunkti defekti struktuur — jälgimatu absoluutraami mood asub Fisheri informatsiooni nullruumis (suletud kuju), järgu lävi vastab avaldatud 3-jaamalisele kavandi põhjendusele ja hindaja saavutab saadud CRLB-i Monte Carlos. Kuu geomeetria ise on esindusliku võrgu geomeetria (mitte lennatud efemeriid), seega jääb rida MODELLED; aluseks olevat FIM/CRLB mootorit kontrollitakse eraldi Kay ({ "1993" }) suletud kujude vastu. { "0.30" } ring { "2" } (eelregistreeritud fab02df9), blokeeritud (jääb MODELLED): NumPy/SciPy arvutavad järgu ja defekti uuesti öeldud { "1e-9" } lävendil, jaamateljestiku osa nullruumis ({ "8.4e-10" } piires) ja jaama CRLB ({ "1.2e-10" } piires) { "17" } sissekirjutatud Kshana genereeritud konfiguratsioonil (P2). Ei ole tõstetud: väide, et hindaja saavutab piiri (Monte Carlo efektiivsus umbes { "0.98" }), jääb sõltumatu etaloni ilma, ja piiritlemine, mis jätaks selle MODELLED, ootab omaniku otsust
+seg-a4d8fdc530e4 = kontrollitud oma suletud kujul / analüütilise samasuse vastu — tabab ülekirjutus- ja koefitsiendivigu, kuid ei ole väline sõltumatu etalon — Analüütiline andmepunkti defekti struktuur — jälgimatu absoluutraami mood asub Fisheri informatsiooni nullruumis (suletud kuju), järgu lävi vastab avaldatud 3-jaamalisele kavandi põhjendusele ja hindaja saavutab saadud CRLB-i Monte Carlos. Kuu geomeetria ise on esindusliku võrgu geomeetria (mitte lennatud efemeriid), seega jääb rida MODELLED; aluseks olevat FIM/CRLB mootorit kontrollitakse eraldi Kay ({ "1993" }) suletud kujude vastu. { "0.30" } ring { "2" } (eelregistreeritud fab02df9), blokeeritud (jääb MODELLED): NumPy/SciPy arvutavad järgu ja defekti uuesti öeldud { "1e-9" } lävendil, jaamateljestiku osa nullruumis ({ "8.4e-10" } piires) ja jaama CRLB ({ "1.2e-10" } piires) { "17" } sissekirjutatud Kshana genereeritud konfiguratsioonil. Ei ole tõstetud: väide, et hindaja saavutab piiri (Monte Carlo efektiivsus umbes { "0.98" }), jääb sõltumatu etaloni ilma, ja piiritlemine, mis jätaks selle MODELLED, ootab omaniku otsust
 
 # checked against its own closed-form / analytic identity — catches transcription and coefficient errors, but is not an external oracle — gps-sdr-sim (MIT, commit 28ca29a6, run as a separate program through a committed harness), pre-registered f88f2969 with a bit-exact bar on (A) C/A chips, (B) every computed LNAV field, (C) every parity bit. FINDING: (A) { "0" } of { "32 736" } chips differ, (C) the parity of { "0" } of { "1 920" } words differs, (B) { "230" } of { "1 152" } computed fields differ by one unit: gps-sdr-sim's eph2sbf truncates toward zero with C casts where the broadcast integer needs rounding (every differing value lies within { "0.01" } of a unit of Kshana's rounded integer). Stays MODELLED: the registered bar was the conjunction
 # text
@@ -1819,9 +1819,9 @@ seg-07554505b56b = alamväidet kontrollitakse välisel teel, kuid kogu võimekus
 # text
 seg-e9bde2e0a342 = alamväidet kontrollitakse välisel teel, kuid kogu võimekus koosneb modelleeritud osadest, seega jääb võimekus modelleeritud tasemele — GNSS-SDR { "0.0.19" } (GPL-3.0-or-later, Ubuntu { "24.04" } pakett, käitatud eraldi programmina; kommitiud ainult tuletatud arvud) jälgimas samu numpy salvestisi (mootorist sõltumatu), mõlemat mõõdetuna analüütilise tõe vastu. Läved eelregistreeritud kommitis 48edd4a5, muudetud enne ühtki testsalvestist kommitis 1e4288c4 ({ "10" } Hz FLL ainult sissetõmbe ajal mõlemas vastuvõtjas, pärast seda kui registreeritud kalibreerimine ebaõnnestus vale GNSS-SDR-i üleandmise tõttu, leid F3). MET tasemetel { "30" }, { "35" }, { "40" } ja { "45" } dB-Hz: kandja värin { "4.3" } % piires, koodi värin { "4.6" } % piires ning Doppleri keskmine ja hajuvus GNSS-SDR-i omadest. NOT MET: mootori NWPR C/N0 loeb { "2.3" } kuni { "7.1" } dB GNSS-SDR-i SNV-st madalamat (leid F4, teadaolev NWPR-i piir; selle M2M4 on tõest { "0.06" } dB piires); faasilukustuse indikaatorid erinevad definitsiooni poolest (F5); tasemel { "30" } dB-Hz libises GNSS-SDR kaks korda ja mootor mitte (F6). GNSS-SDR-i enda üleandmine lukustus valele sagedusele { "3" } { "30" }-st kalibreerimiskäitamisest. MIDA EI KONTROLLITA: teisi signaale, andmebittide mahavõtmist, uuesti hõivamist, välisalvestisi. Rida jääb MODELLED.
 
-# checked against a separate implementation in this same codebase — independent of the unit under test, but not externally authoritative — An independent numpy recomputation (xval/crpa-jamming/oracle.py, no shared code: numpy steering vectors, numpy.linalg.solve and inv) of every link of the jamming-demo geometry with a 4-element square array, under both weightings. Bars pre-registered at 08d83b4d. MET: A1 (all { "150" } scenario results byte-identical without the section, after a fix: the first build added the crpa units to every jamming run's units table), A2 (one element equals no array to { "1e-12" } dB), A3 on the array noise gain and effective C/N0 ({ "912" } link-weightings within { "1e-9" } dB, worst { "2.1e-14" } dB) and on the null-steering jammer null (below -200 dB on both sides), A4 (MVDR within { "0.1" } dB of null-steering at a JNR of { "80" } dB). NOT MET: A3 on the MVDR jammer gain, { "194" } of { "456" } links over { "1e-9" } dB on { "0.36" } portable maths ({ "202" } on host maths; docs/revisions/STUDIO15-batch4-rebaseline.md) (worst { "1.7e-6" } dB) on residuals of -100 to -188 dB, where float64 cancellation limits both implementations (numpy's inv and solve disagree with each other on { "169" } links, worst { "7.9e-7" } dB); the effective C/N0 these feed is unaffected. WHAT IS NOT CHECKED: mutual coupling, element mismatch, wideband processing, multiple jammers, any antenna hardware. A recomputation of the same equations, not an external oracle; the row stays MODELLED.
+# checked against a separate implementation in this same codebase — independent of the unit under test, but not externally authoritative — An independent numpy recomputation (xval/crpa-jamming/oracle.py, no shared code: numpy steering vectors, numpy.linalg.solve and inv) of every link of the jamming-demo geometry with a 4-element square array, under both weightings. Bars pre-registered at 08d83b4d. MET: A1 (all { "150" } scenario results byte-identical without the section, after a fix: the first build added the crpa units to every jamming run's units table), A2 (one element equals no array to { "1e-12" } dB), A3 on the array noise gain and effective C/N0 ({ "912" } link-weightings within { "1e-9" } dB, worst { "2.1e-14" } dB) and on the null-steering jammer null (below -200 dB on both sides), A4 (MVDR within { "0.1" } dB of null-steering at a JNR of { "80" } dB). NOT MET: A3 on the MVDR jammer gain, { "194" } of { "456" } links over { "1e-9" } dB on { "0.36" } portable maths ({ "202" } on host maths; docs/revisions/batch4-rebaseline.md) (worst { "1.7e-6" } dB) on residuals of -100 to -188 dB, where float64 cancellation limits both implementations (numpy's inv and solve disagree with each other on { "169" } links, worst { "7.9e-7" } dB); the effective C/N0 these feed is unaffected. WHAT IS NOT CHECKED: mutual coupling, element mismatch, wideband processing, multiple jammers, any antenna hardware. A recomputation of the same equations, not an external oracle; the row stays MODELLED.
 # text
-seg-5d76e6627df0 = kontrollitud eraldi teostuse vastu samas koodibaasis — sõltumatu testitavast üksusest, kuid mitte väliselt autoriteetne — Sõltumatu numpy ümberarvutus (xval/crpa-jamming/oracle.py, ühist koodi pole: numpy suunavektorid, numpy.linalg.solve ja inv) igast jamming-demo geomeetria lülist 4-elemendilise ruutmassiiviga, mõlema kaalutluse all. Läved eelregistreeritud kommitis 08d83b4d. MET: A1 (kõik { "150" } stsenaariumi tulemust baitidentsed ilma jaotiseta, pärast parandust: esimene ehitus lisas crpa ühikud iga segamiskäitamise ühikutabelisse), A2 (üks element võrdub massiivita täpsusega { "1e-12" } dB), A3 massiivi mürakasvu ja efektiivse C/N0 puhul ({ "912" } lingi kaalutlust { "1e-9" } dB piires, halvim { "2.1e-14" } dB) ja nullsuunava segaja nulli puhul (alla -200 dB mõlemal pool), A4 (MVDR { "0.1" } dB piires nullsuunavast JNR-i { "80" } dB korral). NOT MET: A3 MVDR-i segaja võimenduse puhul, { "194" } { "456" }-st lingist üle { "1e-9" } dB { "0.36" } teisaldatava matemaatikaga ({ "202" } hostimatemaatikaga; docs/revisions/STUDIO15-batch4-rebaseline.md) (halvim { "1.7e-6" } dB) jääkidel -100 kuni -188 dB, kus float64 kaotus piirab mõlemat teostust (numpy inv ja solve lähevad omavahel lahku { "169" } lingil, halvim { "7.9e-7" } dB); efektiivne C/N0, mida need toidavad, on mõjutamata. MIDA EI KONTROLLITA: vastastikune sidestus, elementide mittesobivus, lairibatöötlus, mitu segajat, ühtki antenniriistvara. Samade võrrandite ümberarvutus, mitte väline sõltumatu etalon; rida jääb MODELLED.
+seg-5d76e6627df0 = kontrollitud eraldi teostuse vastu samas koodibaasis — sõltumatu testitavast üksusest, kuid mitte väliselt autoriteetne — Sõltumatu numpy ümberarvutus (xval/crpa-jamming/oracle.py, ühist koodi pole: numpy suunavektorid, numpy.linalg.solve ja inv) igast jamming-demo geomeetria lülist 4-elemendilise ruutmassiiviga, mõlema kaalutluse all. Läved eelregistreeritud kommitis 08d83b4d. MET: A1 (kõik { "150" } stsenaariumi tulemust baitidentsed ilma jaotiseta, pärast parandust: esimene ehitus lisas crpa ühikud iga segamiskäitamise ühikutabelisse), A2 (üks element võrdub massiivita täpsusega { "1e-12" } dB), A3 massiivi mürakasvu ja efektiivse C/N0 puhul ({ "912" } lingi kaalutlust { "1e-9" } dB piires, halvim { "2.1e-14" } dB) ja nullsuunava segaja nulli puhul (alla -200 dB mõlemal pool), A4 (MVDR { "0.1" } dB piires nullsuunavast JNR-i { "80" } dB korral). NOT MET: A3 MVDR-i segaja võimenduse puhul, { "194" } { "456" }-st lingist üle { "1e-9" } dB { "0.36" } teisaldatava matemaatikaga ({ "202" } hostimatemaatikaga; docs/revisions/batch4-rebaseline.md) (halvim { "1.7e-6" } dB) jääkidel -100 kuni -188 dB, kus float64 kaotus piirab mõlemat teostust (numpy inv ja solve lähevad omavahel lahku { "169" } lingil, halvim { "7.9e-7" } dB); efektiivne C/N0, mida need toidavad, on mõjutamata. MIDA EI KONTROLLITA: vastastikune sidestus, elementide mittesobivus, lairibatöötlus, mitu segajat, ühtki antenniriistvara. Samade võrrandite ümberarvutus, mitte väline sõltumatu etalon; rida jääb MODELLED.
 
 # checked against a separate implementation in this same codebase — independent of the unit under test, but not externally authoritative — An independent numpy recomputation (xval/jamming-terrain/oracle.py, no shared code: its own .hgt read, bilinear interpolation, WGS { "84" } round trip, profile, bulge, nu and J(nu)) of ten jammer placements around a receiver at Badwater Basin on the committed real SRTM tile tests/fixtures/terrain/N36W117_sub6.hgt. Bars and placements pre-registered at 92cd2bfd. All MET: additivity (all { "150" } scenario results byte-identical without the section); every placement's profile points and obstacle equal and nu and loss within { "1.6e-10" } (bar { "1e-9" }); the loss never rises as the jammer rises from { "2" } to { "4902" } m; the loss lowers every J/S by exactly itself and nothing else; J(nu) within { "1e-12" } dB of the oracle's. Findings: placements across the Black and Funeral Mountains lose { "44" } to { "48" } dB; two valley-floor placements lose { "8" } and { "15" } dB from the Earth bulge alone at { "2" } m antenna heights, the single knife-edge model's grazing case. WHAT IS NOT CHECKED: any measured propagation, multiple-edge diffraction, ground reflection, clutter, the DEM's own error. A recomputation of the same model, not an external oracle; the row stays MODELLED.
 # text
@@ -1955,3 +1955,1876 @@ seg-fbb78f11c0dc = { "78" }-st valideeritud
 # tests/iq_campaign_monitors.rs: m1_power_test_false_alarm_rate_matches_the_closed_form ({ "73" } of { "5900" } blocks against the { "99" } % binomial interval [{ "40" }, { "80" }] of P_fa { "0.01" }), m2_sqm_false_alarm_fraction_is_within_a_factor_of_2_of_2q_k (delta { "0.0160" }, ratio { "0.0131" } against { "0.01" }), m4_cn0_false_alarms_stay_within_the_poisson_bound_of_arl0 ({ "0" } against { "0" }), the_monitors_table_parses_and_validates; m3_every_attenuation_is_detected_within_twice_the_arl1 (strict, ignored with the gap); iq::campaign::detect tests; iq::monitor::stats tests (gaussian_two_sided_tail_matches_known_values); tests/iq_campaign.rs (the pinned digests are unchanged without the table)
 # text
 seg-1663be50baf6 = tests/iq_campaign_monitors.rs: m1_power_test_false_alarm_rate_matches_the_closed_form ({ "73" } { "5900" }-st plokist vs { "99" } % binoomvahemik [{ "40" }, { "80" }] P_fa { "0.01" } korral), m2_sqm_false_alarm_fraction_is_within_a_factor_of_2_of_2q_k (delta { "0.0160" }, suhe { "0.0131" } vs { "0.01" }), m4_cn0_false_alarms_stay_within_the_poisson_bound_of_arl0 ({ "0" } vs { "0" }), the_monitors_table_parses_and_validates; m3_every_attenuation_is_detected_within_twice_the_arl1 (range, lõhega ignoreeritud); iq::campaign::detect testid; iq::monitor::stats testid (gaussian_two_sided_tail_matches_known_values); tests/iq_campaign.rs (kinnitatud räsid on ilma tabelita muutmata)
+
+# Marked where it builds on a capability: the design optimiser, uncertainty and sensitivity, the mission dossier, calibrated clock twins and ranked trade studies. <a1>What Pro adds</a1>
+# text
+seg-311e7a7d55dc = Märgitud seal, kus see tugineb mingile võimekusele: kujunduse optimeerija, määramatus ja tundlikkus, missiooni dosjee, kalibreeritud kellakaksikud ja järjestatud kompromissuuringud. <a1>Mida Pro lisab</a1>
+
+# Kshana Pro calibrates a <b>clock digital twin</b> to your device's published Allan budget, built on the <c1/> kind and the classes above. <a1>What Pro adds</a1>
+# text
+# c1: clock
+seg-0aa1e4562dac = Kshana Pro kalibreerib <b>kella digitaalse kaksiku</b> seadme avaldatud Alani hälbe bilansi järgi, tuginedes liigile <c1/> ja ülaltoodud klassidele. <a1>Mida Pro lisab</a1>
+
+# Kshana Pro calibrates a clock digital twin to a device's published Allan budget and checks it with the open engine's Allan-deviation estimator; a twin of your own device is built under contract. <a1>What Pro adds</a1>
+# text
+seg-b291c1ae1f5c = Kshana Pro kalibreerib kella digitaalse kaksiku seadme avaldatud Alani hälbe bilansi järgi ja kontrollib seda avatud mootori Alani hälbe hinnangufunktsiooniga; seadme enda kaksik ehitatakse lepingu alusel. <a1>Mida Pro lisab</a1>
+
+# <b>With Pro:</b> the design optimiser returns the <b>Pareto front</b> of a whole constellation design space around the Earth, the Moon or Mars, each front design written out as a plain scenario file, and a <b>ranked trade study</b> compares architectures on a figure of merit. <a1>See a real front</a1>
+# text
+seg-e5f00e27b617 = <b>Pro-ga:</b> kujunduse optimeerija tagastab kogu konstellatsiooni kujundusruumi <b>Pareto frondi</b> Maa, Kuu või Marsi ümber, iga frondi kujundus kirjutatakse välja tavalise stsenaariumifailina, ning <b>järjestatud kompromissuuring</b> võrdleb arhitektuure kvaliteedinäitaja alusel. <a1>Vaata päris fronti</a1>
+
+# <b>With Pro:</b> stated input uncertainties give <b>confidence bands</b>, the probability of meeting a limit and a ranking of the inputs that drive the result, over thousands of runs that can be stopped and resumed. <a1>See a real band</a1>
+# text
+seg-dd2809ea9a6a = <b>Pro-ga:</b> esitatud sisendi määramatused annavad <b>usaldusribad</b>, piiri täitmise tõenäosuse ja tulemust juhtivate sisendite järjestuse tuhandete käikude üle, mida saab peatada ja jätkata. <a1>Vaata päris riba</a1>
+
+# <b>Pro: calibrated clock twin</b> builds on <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>. <a1>See what it adds</a1>
+# text
+# c1: clock
+# c2: lunar-time-offset
+# c3: timetransfer
+# c4: quantum-time-transfer
+# c5: lunar-time-budget
+# c6: telecom-timing
+# c7: slot-timing
+seg-ec1a22002e13 = <b>Pro: kalibreeritud kellakaksik</b> põhineb: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>. <a1>Vaata, mida see lisab</a1>
+
+# <b>Pro: ranked trade study</b> builds on <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>. <a1>See what it adds</a1>
+# text
+# c1: sweep
+# c2: sweep-nd
+# c3: combined-altpnt
+# c4: quantum-trade
+# c5: hybrid-optical-rf
+# c6: conflict-resilience
+seg-cc88295c3e2e = <b>Pro: järjestatud kompromissuuring</b> põhineb: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>. <a1>Vaata, mida see lisab</a1>
+
+# <b>Pro: design optimiser</b> builds on <c1/>. <a1>See what it adds</a1>
+# text
+# c1: constellation-design
+seg-8cec53de04c5 = <b>Pro: kujunduse optimeerija</b> põhineb: <c1/>. <a1>Vaata, mida see lisab</a1>
+
+# <b>Pro: uncertainty and sensitivity</b> builds on <c1/>, <c2/>. <a1>See what it adds</a1>
+# text
+# c1: clock
+# c2: leo-pnt-chain
+seg-4bdca619acb5 = <b>Pro: määramatus ja tundlikkus</b> põhineb: <c1/>, <c2/>. <a1>Vaata, mida see lisab</a1>
+
+# <b>Pro: mission dossier</b> builds on <c1/>, <c2/>, <c3/>, <c4/>, <c5/>. <a1>See what it adds</a1>
+# text
+# c1: body-pnt
+# c2: campaign
+# c3: constellation-design
+# c4: leo-pnt-chain
+# c5: spectrum
+seg-35d8381e7605 = <b>Pro: missiooni dosjee</b> põhineb: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>. <a1>Vaata, mida see lisab</a1>
+
+# <b>Pro: campaign watch</b> builds on <c1/>. <a1>See what it adds</a1>
+# text
+# c1: campaign
+seg-08d3c155a74d = <b>Pro: kampaania jälgimine</b> põhineb: <c1/>. <a1>Vaata, mida see lisab</a1>
+
+# (not in the old English either)
+seg-d5c6110302e9 = Artemis-klassi missiooniahel, tõendimärgis igal arvul ja seitseteist keelt.
+
+# (not in the old English either)
+seg-8597c65432ed = Aheldab Kuu missiooni faasid üheks navigatsiooni- ja ajastusvea eelarveks, hindab, kus võib asuda halvenenud positsiooniteadete allikas, loeb mõõdetud kellalogisid, näitab tõendustaset igal arvul, mille käivitus kirjutab, ning võimaldab kasutada käsurida, aruandeid ja Studiot seitsmeteistkümnes keeles. Iga võimekus kannab silti, mille register selle kohta hoiab, ja silt nimetab ainult seda, mis on kontrollitud. Nõuandev tarkvara, mitte tüübikinnitust omav navigatsiooniseade: vastutus jääb operaatorile.
+
+# (not in the old English either)
+seg-070972f642de = Artemis-klassi missiooniahel: navigatsiooni- ja ajastusvea eelarve stardist sisenemiseni
+
+# (not in the old English either)
+seg-982a4a7cf0db = Missiooniahela liik aheldab faasid (start ja tõus, kohtumine madalal Maa orbiidil, Kuule suunav üleminek ja lend, Kuu faasid, sisenemine) ning kannab asendi ja kiiruse kovariatsiooni ühest faasist järgmisse; üleandmisreeglid, tugisüsteemide ja ajaskaalade teisendused, varu seatud nõuete suhtes ja nõrgim lüli on kõik kirjutatud eelarveridadena.
+
+# (not in the old English either)
+seg-17c9cc6c2d40 = Kontrollitud: Artemis I võrdlus jäi oma läveni jõudmata ({ "45.3" } km versus { "5" } km); rida jääb MODELLED
+
+# (not in the old English either)
+seg-946487626f87 = Missiooniahela vaade Kshana Studios
+
+# (not in the old English either)
+seg-4970f874d334 = Kuu lõik: kohtumine, laskumine, pind ja tõus
+
+# (not in the old English either)
+seg-b6c35bf141e7 = Neli stsenaariumi liiki, millest igaüks on ka missiooniahela faas: suhteline navigatsioon dokkimiseni Kuu orbiidil, maandumishajuvuse eelarve lõunapolaarsel alal, positsioneerimise ja ajastuse kättesaadavus asukoha ja aastaaja järgi ning tõus tagasi kohtumisorbiidile.
+
+# (not in the old English either)
+seg-ce097df855a9 = Kontrollitud: eelregistreeritud läved; üks täidetud, üks täitmata, ühtegi pole lõdvendatud
+
+# (not in the old English either)
+seg-8ca6e2046901 = Hinnanguline kiirgusallika piirkond ADS-B või AIS teadete põhjal
+
+# (not in the old English either)
+seg-ca6383e426f9 = Kus võib asuda halvenenud positsiooniteadete allikas: piirkondadena { "50" }, { "90" } ja { "95" } protsendi juures koos tsentroidi ja selle määramatuse ellipsiga, mitte kunagi paljas punkt, ning ajas sessioonidena.
+
+# (not in the old English either)
+seg-27af464d0674 = Kontrollitud: eelregistreeritud; mõlemad allikad pole hinnatavad, seega midagi ei väideta
+
+# (not in the old English either)
+seg-003a3b9b63ea = Mõõdetud kellalogid ja sobitatud reaga käitatud holdover
+
+# (not in the old English either)
+seg-f51fa2a40db8 = Loe mõõdetud kellalogi kaheksas vormingus (RINEX clock, TimeLab, TICC, linuxptp, chrony) üheks faasireaks kella ja telekomi ajastuse liikide jaoks ning sobita mõõdetud rea müra, et käitada sellega holdover.
+
+# (not in the old English either)
+seg-6e9140563c53 = Kontrollitud: läved eelregistreeritud; möödalasked on välja öeldud ja kinnistatud
+
+# (not in the old English either)
+seg-448b11c86f48 = Andmepartnerid: milliseid ridu mõõdetud andmed võiksid edutada
+
+# (not in the old English either)
+seg-56b0201d930c = Milliseid modelleeritud registrireid võiksid partneri mõõdetud andmed edutada, millised vormingud on vastuvõetavad ning kuidas esitust kontrollitakse, eelregistreeritud läve vastu hinnatakse ja arvesse võetakse.
+
+# (not in the old English either)
+seg-5858e5d1f7c5 = Tõendimärgis igal arvul ja tabelil, mille käivitus kirjutab
+
+# (not in the old English either)
+seg-d1c4250b2a7e = Iga tulemusfail, diagramm ja tabel, mille käivitus kirjutab, ütleb nüüd, millisel tasemel see toetub (validated, modelled või partner, ridadest nõrgim), ning nimetab selle taga olevad kontrollimaatriksi read, mis on loetud maatriksist, mitte käsitsi kirjutatud.
+
+# (not in the old English either)
+seg-bd28ef5c376e = Seitseteist keelt lisaks inglise keelele
+
+# (not in the old English either)
+seg-1e4a6a5931d3 = Käsurida, aruanded, dokumentatsioonilehed ja Studio on saadaval seitsmeteistkümnes keeles lisaks inglise keelele.
+
+# (not in the old English either)
+seg-7fae5de5ebf1 = kshana-bench: { "0.40" } korduskampaania
+
+# (not in the old English either)
+seg-1e0afa852323 = Neli eelregistreeritud võrdlust käivitati üks kord pärast kinnitamist ja need täitsid oma läved ning kõik skoorid on modelleeritud.
+
+# IntelliJ · PyCharm · CLion
+# text
+seg-8844d0844559 = IntelliJ · PyCharm · CLion
+
+# The "Kshana — PNT simulator" plugin: right-click any scenario <c1/>, choose Run Kshana Scenario, and read the figures of merit in a tool window.
+# text
+# c1: .toml
+seg-6b24b242333a = Pistikprogramm „Kshana — PNT simulator“: tehke mis tahes stsenaariumi <c1/> peal paremklõps, valige Run Kshana Scenario ja lugege kvaliteedinäitajaid tööriistaaknast.
+
+# Every surface on this page is the free open core, under the AGPL-3.0 or a commercial licence for closed integration. Need it integrated into your toolchain, or a study done for you? <a1>Custom study</a1>. Evidence packs and calibrated models: <a2>Kshana Pro</a2>.
+# text
+seg-3a199156b86e = Iga selle lehe pind on tasuta avatud tuum, litsentsi AGPL-3.0 all või ärilitsentsiga suletud integratsiooniks. Vajate selle integreerimist oma tööriistaahelasse või uuringu tegemist teie eest? <a1>Kohandatud uuring</a1>. Tõendipaketid ja kalibreeritud mudelid: <a2>Kshana Pro</a2>.
+
+# (not in the old English either)
+seg-51cd8d5f527b = Liik, mille tulemus ei kanna ühtegi neist kujudest (link budget, ühe epohhi geomeetria, ainult statistikat andev Monte Carlo kokkuvõte või telekomi holdover, mille tulemus avaldab kirje räsi, aga mitte kirjet), lükatakse tagasi teatega <c1/> ja midagi ei kirjutata. Kshana { $version } puhul animeeritakse { "94" } { "193" }-st käivitatavast stsenaariumifailist (kõik failid peale uuringukomplekti) ja { "99" } lükatakse tagasi. <c2/> trükib loenduse.
+
+# The core compiles unchanged to native, to a Python extension, and to WebAssembly. The Python (<c1/>, PyO3 abi3) and WebAssembly (<c2/>, wasm-bindgen) modules are optional, feature-gated dependencies (<c3/> / <c4/>): the default build and the test suite never compile them, while the dependency-audit gate (<c5/>) does inspect their dependency trees, because those crates ship inside the wheel and the npm package. Both call <c6/>, so every surface returns identical results. The WebAssembly module backs the browser playground in <c7/> and exports thirteen functions: <c8/>, <c9/> (one engine run returning result, chart, summary and table together), <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, the <c16/> / <c17/> shareable-URL (URL: web address) codec, and the three exporters <c18/> / <c19/> / <c20/> that back the playground's export menu. Two further front doors reach the same <c21/>: the <b>MCP (Model Context Protocol) server</b> (<c22/>, a workspace-excluded <c23/> crate exposing fifteen tools — <c24/>, <c25/>, <c26/>, <c27/>, <c28/>, <c29/>, <c30/>, <c31/>, <c32/>, <c33/>, <c34/>, <c35/>, <c36/>, <c37/>, <c38/>; the two example tools read the bundled scenarios through the library's off-by-default <c39/> feature, which only this server turns on) and the <b>JetBrains IDE (integrated development environment) plugin</b> (<c40/>, a Kotlin project that shells out to the <c41/> CLI rather than linking the library).
+# text
+# c1: python.rs
+# c2: wasm.rs
+# c3: --features python
+# c4: --features wasm
+# c5: cargo deny --all-features
+# c6: api::run_toml
+# c7: web/
+# c8: run
+# c9: run_all
+# c10: chart_svg
+# c11: summary
+# c12: table_csv
+# c13: list_kinds
+# c14: error_kind
+# c15: version
+# c16: encode_permalink
+# c17: decode_permalink
+# c18: export_sp3
+# c19: export_omm
+# c20: export_oem
+# c21: api
+# c22: mcp/kshana-mcp
+# c23: rmcp
+# c24: run_scenario
+# c25: list_scenario_kinds
+# c26: validate_scenario
+# c27: list_example_scenarios
+# c28: get_example_scenario
+# c29: report_scenario
+# c30: animate_scenario
+# c31: list_export_formats
+# c32: export_interop
+# c33: import_route
+# c34: export_sp3
+# c35: export_omm
+# c36: export_oem
+# c37: export_table_csv
+# c38: assess_receiver_log
+# c39: bundled-scenarios
+# c40: ide/jetbrains
+# c41: kshana
+seg-57fb29fdd9d9 = Tuum kompileerub muutmata natiivseks, Pythoni laiendiks ja WebAssembly-ks. Pythoni (<c1/>, PyO3 abi3) ja WebAssembly (<c2/>, wasm-bindgen) moodulid on valikulised, funktsiooniga lülitatavad sõltuvused (<c3/> / <c4/>): vaikeversioon ja testikomplekt ei kompileeri neid kunagi, samas kui sõltuvusauditi värav (<c5/>) kontrollib nende sõltuvuspuid, sest need kastid (crates) tarnitakse wheel-paketis ja npm-paketis. Mõlemad kutsuvad <c6/>, nii et iga pind tagastab identsed tulemused. WebAssembly moodul toetab brauseri mänguväljakut kaustas <c7/> ja ekspordib kolmteist funktsiooni: <c8/>, <c9/> (üks mootori käivitus, mis tagastab tulemuse, graafiku, kokkuvõtte ja tabeli koos), <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, jagatava URL-i (URL: veebiaadress) kodek <c16/> / <c17/> ja kolm eksportijat <c18/> / <c19/> / <c20/>, mis toetavad mänguväljaku eksporditavalikut. Kaks täiendavat sissepääsu viivad sama <c21/> juurde: <b>MCP (Model Context Protocol) server</b> (<c22/>, tööruumist välja jäetud <c23/> kast, mis pakub viisteist tööriista — <c24/>, <c25/>, <c26/>, <c27/>, <c28/>, <c29/>, <c30/>, <c31/>, <c32/>, <c33/>, <c34/>, <c35/>, <c36/>, <c37/>, <c38/>; kaks näitetööriista loevad komplekteeritud stsenaariume teegi vaikimisi väljalülitatud funktsiooni <c39/> kaudu, mille lülitab sisse ainult see server) ja <b>JetBrains IDE (integrated development environment) plugin</b> (<c40/>, Kotlini projekt, mis kutsub välja CLI <c41/>, mitte ei seo teeki).
+
+# (not in the old English either)
+seg-f289c471e860 = Uuendatud 2026-10-29 mootorile { $version } ({ "93" } stsenaariumi liiki, allikas <c1/>; uued versioonis { $version }: <c2/>, <c3/>, <c4/>, <c5/> ja <c6/>). 2026-10-22: mootor { "0.39.0" }, { "87" } liiki, uusi liike pole. 2026-10-19: mootor { "0.38.0" }, { "87" } liiki (uued versioonis { "0.38.0" }: <c7/>, <c8/> ja <c9/>). 2026-10-18: { "84" } liiki (uus versioonis { "0.37" }: <c10/>). 2026-10-16: { "83" } liiki (uued versioonis { "0.36" }: <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/> ja <c18/>). 2026-10-10: mootor { "0.35.0" }, { "75" } liiki, uusi liike pole. 2026-10-09 ja 2026-10-08: varasemad redaktsioonid. 2026-10-04: Nav-signal rida märgib { "0.31.0" } IQ kihi. 2026-09-29: lisatud LEO-PNT, spektri, päikesesüsteemi / suvalise keha PNT, kampaania ja väljundi read. Varem: viidud vastavusse 2026-06-02 suure auditi 27-realise võimekuse maatriksiga; sügavkosmose / Marsi PNT rida lisatud versioonis { "v0.17.0" }. Kvant-PNT täiendused (GNSS-ita kella holdover <c19/>, koostatud kvantinertsiaalse hinnangulise navigeerimise eelarve <c20/>, ulatuskoodi projekteerimiskompromiss <c21/>, masinkontrollitud kontrollimaatriks <c22/>) on koondatud ajastuse, kvant-PNT-andurite, Nav-signal ja V&V ridadesse, iga rida märgitud kontrollituks või modelleerituks vastavalt selle tegelikule oraaklile.
+
+# (not in the old English either)
+seg-877f989ae75e = { "61" } võimekuskaarti failist <c1/>, seejärel kõik { "412" } kontrollimaatriksi rida.
+
+# <b>JetBrains IDE plugin</b> (<c1/>). Right-click a scenario <c2/> → <b>Run Kshana Scenario</b>; figures of merit and result JSON stream into a Kshana tool window. Pure-platform Kotlin plugin, compatible with every JetBrains IDE { "2024.3" }+.
+# text
+# c1: ide/jetbrains/
+# c2: .toml
+seg-bd792f66363c = <b>JetBrains IDE plugin</b> (<c1/>). Tee stsenaariumi <c2/> peal paremklõps → <b>Run Kshana Scenario</b>; kvaliteedinäitajad ja tulemuse JSON voogedastatakse Kshana tööriistaaknasse. Puhas platvormi Kotlini plugin, ühilduv iga JetBrains IDE-ga { "2024.3" }+.
+
+# (not in the old English either)
+seg-0d4a740afedf = [{ $version }] - 2026-10-29
+
+# <b>LTC / TCL — Lunar Coordinate Time (Temps-Coordonnée Lunaire).</b> The proposed time scale for the Moon.
+# text
+seg-ea7eb1f34cae = <b>LTC / TCL — Kuu koordinaatide aeg (Temps-Coordonnée Lunaire).</b> Kavandatud ajaskaala Kuule.
+
+# <s1>JetBrains plugin</s1><s2>A native plugin that runs the Kshana PNT-resilience simulator from inside any JetBrains IDE (IntelliJ IDEA…</s2>
+# text
+seg-1c59d26e3faf = <s1>JetBrainsi plugin</s1><s2>Natiivne plugin, mis käivitab Kshana PNT-vastupidavuse simulaatori mis tahes JetBrainsi IDE-s (IntelliJ IDEA…</s2>
+
+# (not in the old English either)
+seg-abe17fad0734 = <s1>Kontrollimaatriks</s1><s2>Täielik masinkontrollitud tõenduste register: { "412" } rida — { "176" } VALIDATED, { "232" } MODELLED, { "4" } PARTNER.</s2>
+
+# (not in the old English either)
+seg-7fd385494ae0 = <s1>Võimekuste teatmik</s1><s2>Võimekuskaardid ja kõik { "412" } kontrollimaatriksi rida.</s2>
+
+# Source: <c1/>
+# text
+# c1: ide/jetbrains/README.md
+seg-f8a0fe9968c4 = Allikas: <c1/>
+
+# <a1><b>Kshana — PNT simulator</b> on the JetBrains Marketplace</a1> — or, in any JetBrains IDE, <em>Settings → Plugins → Marketplace → search "Kshana"</em>.
+# text
+seg-d7280bb554bf = <a1><b>Kshana — PNT simulator</b> JetBrains Marketplace'is</a1> — või mis tahes JetBrainsi IDE-s <em>Settings → Plugins → Marketplace → search "Kshana"</em>.
+
+# A native plugin that runs the <b>Kshana</b> PNT-resilience simulator from inside any JetBrains IDE (IntelliJ IDEA, CLion, RustRover, PyCharm, …). Right-click a scenario <c1/> → <b>Run Kshana Scenario</b>; the figures of merit and result JSON stream into the <b>Kshana</b> tool window.
+# text
+# c1: .toml
+seg-959ab829762c = Natiivne plugin, mis käivitab <b>Kshana</b> PNT-vastupidavuse simulaatori mis tahes JetBrainsi IDE-s (IntelliJ IDEA, CLion, RustRover, PyCharm, …). Paremklõps stsenaariumil <c1/> → <b>Run Kshana Scenario</b>; kvaliteedinäitajad ja tulemuse JSON voogavad tööriistaaknasse <b>Kshana</b>.
+
+# Complements the <a1>MCP server</a1> (which gives JetBrains <em>AI Assistant</em> access to Kshana): this plugin is the <em>human</em>, point-and-click path.
+# text
+seg-594199d2ce06 = Täiendab <a1>MCP serverit</a1> (mis annab JetBrainsi <em>AI Assistant</em>-ile juurdepääsu Kshanale): see plugin on <em>inimese</em> osutamise ja klõpsamise tee.
+
+# <b>Run Kshana Scenario</b> action on any <c1/> (editor + project-view context menus) — runs <c2/> and shows the output in the Kshana tool window.
+# text
+# c1: .toml
+# c2: kshana <file>
+seg-a356f2c30afb = Toiming <b>Run Kshana Scenario</b> mis tahes <c1/> peal (redaktori ja projektivaate kontekstimenüüd) — käivitab <c2/> ja näitab väljundit Kshana tööriistaaknas.
+
+# <b>Assess Receiver Trust</b> on a <c1/> scenario <c2/> (<c3/>): the trust timeline, with a 0-100 score and reasons for a vessel. Advisory software, not type-approved navigation equipment (IEC { "61108" }, IEC { "61162" }): the operator remains responsible for the navigation of the vessel.
+# text
+# c1: receiver-trust
+# c2: .toml
+# c3: kshana receiver-trust
+seg-116d04ae5538 = <b>Assess Receiver Trust</b> stsenaariumil <c1/> <c2/> (<c3/>): usalduse ajatelg, laeva jaoks 0-100 skoori ja põhjustega. Nõuandev tarkvara, mitte tüübikinnitust omav navigatsiooniseade (IEC { "61108" }, IEC { "61162" }): laeva navigeerimise eest vastutab jätkuvalt operaator.
+
+# <b>Generate Training NMEA</b> on a <c1/> <c2/> (<c3/>): synthetic bridge NMEA and an instructor log, written next to the scenario. Text only; for training, never for a vessel's live navigation systems.
+# text
+# c1: nmea-scenario
+# c2: .toml
+# c3: kshana nmea-scenario
+seg-726d88d0dea7 = <b>Generate Training NMEA</b> stsenaariumil <c1/> <c2/> (<c3/>): sünteetiline sillal kasutatav NMEA ja instruktori logi, kirjutatud stsenaariumi kõrvale. Ainult tekst; treenimiseks, mitte kunagi laeva reaalajas navigatsioonisüsteemide jaoks.
+
+# <b>Build Interference Map</b> on an ADS-B or AIS <c1/> (project view; asks which approved dataset it is) and <b>Route Exposure</b> on a route file (asks for the folder of maps). A degraded cell does not identify interference as the cause; not a forecast.
+# text
+# c1: .csv
+seg-99510426a384 = <b>Build Interference Map</b> ADS-B või AIS <c1/> peal (projektivaade; küsib, milline heaks kiidetud andmekogum see on) ja <b>Route Exposure</b> marsruudifailil (küsib kaartide kausta). Halvenenud lahter ei tuvasta häiret põhjusena; mitte prognoos.
+
+# <b>Export Test-Bench Files</b> on a scenario <c1/> (<c2/>): vehicle motion, NMEA and labelled events for a laboratory GNSS simulator, written next to the scenario. It writes no signal; run a simulator only where authorised.
+# text
+# c1: .toml
+# c2: kshana bench-export
+seg-8c50e6aeb5e2 = <b>Export Test-Bench Files</b> stsenaariumil <c1/> (<c2/>): sõiduki liikumine, NMEA ja märgendatud sündmused laboratoorse GNSS-simulaatori jaoks, kirjutatud stsenaariumi kõrvale. See ei kirjuta signaali; simulaatorit tohib käitada ainult seal, kus see on lubatud.
+
+# <b>Build Compliance Report</b> on a run result <c1/> (<c2/>) and <b>Tools → Show Compliance Mapping</b> (<c3/>): the public-framework mapping, shown with the engine's own statement word for word.
+# text
+# c1: .json
+# c2: kshana compliance-report
+# c3: kshana compliance-report --mapping
+seg-79c553c303c5 = <b>Build Compliance Report</b> käivitustulemusel <c1/> (<c2/>) ja <b>Tools → Show Compliance Mapping</b> (<c3/>): avaliku raamistiku vastendus, näidatud mootori enda väitega sõna-sõnalt.
+
+# <b>Verify Evidence Pack</b> on an evidence-pack folder (project view; <c1/>): asks for the signer's public key ({ "64" } hex digits or a <c2/> file; always pinned, the plugin never accepts an unpinned signer) and optionally the full session log. Only a verified result reads as verified; an intact pack with an unpinned signer reads "NOT VERIFIED".
+# text
+# c1: kshana evidence verify
+# c2: .pub
+seg-9b6ce5bbb523 = <b>Verify Evidence Pack</b> tõendipaketi kaustal (projektivaade; <c1/>): küsib allkirjastaja avalikku võtit ({ "64" } kuueteistkümnendnumbrit või fail <c2/>; alati kinnitatud, plugin ei aktsepteeri kunagi kinnitamata allkirjastajat) ja valikuliselt täielikku seansilogi. Ainult kontrollitud tulemus loetakse kontrollituks; terve pakett kinnitamata allkirjastajaga loetakse „NOT VERIFIED“.
+
+# <b>Render Trust Telemetry</b> on a <c1/> result <c2/> (<c3/>): Prometheus text, CEF/LEEF syslog events or Home Assistant MQTT lines printed to the Kshana window. Nothing is sent or served; the running exporters stay on the command line.
+# text
+# c1: receiver-trust
+# c2: .json
+# c3: kshana trust-telemetry --result
+seg-253d5b7f94ce = <b>Render Trust Telemetry</b> tulemusel <c1/> <c2/> (<c3/>): Prometheuse tekst, CEF/LEEF süsteemilogi sündmused või Home Assistant MQTT read, mis trükitakse Kshana aknasse. Midagi ei saadeta ega serveerita; töötavad eksportijad jäävad käsureale.
+
+# <b>Fit Sensor Parameters from IMU Log</b> on a stationary IMU <c1/> (<c2/>): the accelerometer and gyro parameters of the <c3/> and <c4/> scenarios fitted by Allan deviation, printed to the Kshana window as an <c5/> table. Nothing is written; the fit is MODELLED.
+# text
+# c1: .csv
+# c2: kshana imu-fit
+# c3: hybrid
+# c4: fusion
+# c5: [accel_classical]
+seg-ce12ebcdccb5 = <b>Fit Sensor Parameters from IMU Log</b> paigalseisva IMU <c1/> peal (<c2/>): stsenaariumide <c3/> ja <c4/> kiirendusmõõturi ja güroskoobi parameetrid sobitatuna Alani hälbega, trükitud Kshana aknasse tabelina <c5/>. Midagi ei kirjutata; sobitus on MODELLED.
+
+# <b>Validate Scenario</b> (<c1/>), <b>List Scenario Kinds</b> (Tools menu; <c2/>) and <b>Assess Receiver Stream</b> (a vessel session <c3/> plus a stored NMEA log you choose; <c4/>, scored once with no socket and no gate).
+# text
+# c1: kshana --validate
+# c2: kshana kinds
+# c3: .toml
+# c4: kshana receiver-trust live --file
+seg-b81f27c51c22 = <b>Validate Scenario</b> (<c1/>), <b>List Scenario Kinds</b> (menüü Tools; <c2/>) ja <b>Assess Receiver Stream</b> (laevaseanss <c3/> pluss valitud salvestatud NMEA logi; <c4/>, hinnatakse üks kord, ilma sokli ja väravata).
+
+# <b>Insert Example Scenario</b> (project view folder or Tools menu; <c1/>): pick a bundled scenario and it is written as a new <c2/> (never over a file). <b>Export Scenario</b> on a <c3/> (SP3, OMM, OEM, CZML, KML, GeoJSON, STK, SigMF; simulated output only), <b>Animate Scenario</b> (HTML or SVG, opened in the browser) and <b>Import Route</b> on a route <c4/> (asks which scenario).
+# text
+# c1: kshana example
+# c2: .toml
+# c3: .toml
+# c4: .geojson
+seg-38037d36639c = <b>Insert Example Scenario</b> (projektivaate kaust või menüü Tools; <c1/>): valida kaasasolev stsenaarium ja see kirjutatakse uue failina <c2/> (mitte kunagi olemasoleva peale). <b>Export Scenario</b> failil <c3/> (SP3, OMM, OEM, CZML, KML, GeoJSON, STK, SigMF; ainult simuleeritud väljund), <b>Animate Scenario</b> (HTML või SVG, avatakse brauseris) ja <b>Import Route</b> marsruudil <c4/> (küsib, milline stsenaarium).
+
+# <b>Create Evidence Pack</b> on a receiver-trust session <c1/> (<c2/>): asks the window, a signing key file you already have, and the output folder. The plugin never makes, reads or stores a key (<c3/> stays on the command line). <b>Attach Timestamp</b> on a pack folder (<c4/>): Kshana does not check the timestamp authority's signature; run <c5/> yourself.
+# text
+# c1: .toml
+# c2: kshana receiver-trust evidence
+# c3: kshana evidence keygen
+# c4: kshana evidence attach-timestamp
+# c5: openssl ts -verify
+seg-1f1b18f8e102 = <b>Create Evidence Pack</b> vastuvõtja usalduse seansil <c1/> (<c2/>): küsib akent, olemasolevat allkirjastamisvõtme faili ja väljundkausta. Plugin ei loo, loe ega salvesta kunagi võtit (<c3/> jääb käsureale). <b>Attach Timestamp</b> paketi kaustal (<c4/>): Kshana ei kontrolli ajatempli autoriteedi allkirja; <c5/> tuleb ise käivitada.
+
+# Still on the command line only: the IQ commands, <c1/> and <c2/>.
+# text
+# c1: evidence keygen
+# c2: receiver-trust live
+seg-f4f6605d3db9 = Endiselt ainult käsureal: IQ käsud, <c1/> ja <c2/>.
+
+# A bottom <b>Kshana</b> tool window hosting the run console.
+# text
+seg-63efd04104f1 = Alumine tööriistaaken <b>Kshana</b>, mis majutab käivituskonsooli.
+
+# Not in the plugin: <c1/> (a long-running stream process with a gate and an optional TCP listener) and <c2/> stay on the command line, because an IDE action runs a command to completion and shows its output; see <c3/>.
+# text
+# c1: kshana receiver-trust live
+# c2: kshana trust-telemetry
+# c3: docs/MARITIME-TRUST.md
+seg-decda07aa7eb = Pluginas ei ole: <c1/> (pikaajaline vooguprotsess värava ja valikulise TCP-kuulajaga) ja <c2/> jäävad käsureale, sest IDE toiming käivitab käsu lõpuni ja näitab selle väljundit; vt <c3/>.
+
+# <b>Settings → Tools → Kshana</b> to point at the <c1/> binary (blank → resolved from <c2/>; install with <c3/>).
+# text
+# c1: kshana
+# c2: PATH
+# c3: cargo install kshana
+seg-9c185454d0c0 = <b>Settings → Tools → Kshana</b> binaarfaili <c1/> määramiseks (tühi → lahendatakse asukohast <c2/>; paigaldamine käsuga <c3/>).
+
+# The plugin is pure-platform (no language-specific dependencies), so it loads in every JetBrains IDE on build { "243" } ({ "2024.3" }) and newer.
+# text
+seg-44dfdd65bd0a = Plugin on puhas platvormiplugin (keelespetsiifilisi sõltuvusi ei ole), nii et see laadib igas JetBrainsi IDE-s ehituse { "243" } ({ "2024.3" }) ja uuemates.
+
+# Build & run
+# text
+seg-453bd42c23fa = Ehitamine ja käivitamine
+
+# Requires JDK { "17" }+ (the build pins JDK { "21" }) and the bundled Gradle wrapper.
+# text
+seg-b5328f8c7a8a = Nõuab JDK-d { "17" }+ (ehitus kinnitab JDK { "21" }) ja kaasasolevat Gradle'i ümbrist.
+
+# <c1/> checks the since-build, { "2024.3" }, by default. To check other lines, list them as <c2/> (each IDE is a download of about { "1" } GB):
+# text
+# c1: verifyPlugin
+# c2: TYPE:VERSION
+seg-758124ceb1c7 = <c1/> kontrollib vaikimisi since-build'i, { "2024.3" }. Muude liinide kontrollimiseks tuleb need loetleda kujul <c2/> (iga IDE on umbes { "1" } GB allalaadimine):
+
+# The plugin uses no deprecated or scheduled-for-removal platform API on any of those; keep it that way (a choice dialog goes through <c1/>, not <c2/>).
+# text
+# c1: KshanaChooser
+# c2: Messages.showChooseDialog
+seg-15d175aaeb59 = Plugin ei kasuta ühelgi neist aegunud ega eemaldamiseks ajastatud platvormi API-t; nii peabki jääma (valikudialoog käib läbi <c1/>, mitte <c2/>).
+
+# Install the built zip via <b>Settings → Plugins → ⚙ → Install Plugin from Disk…</b>.
+# text
+seg-39cfd740d9b3 = Ehitatud zip paigaldatakse läbi <b>Settings → Plugins → ⚙ → Install Plugin from Disk…</b>.
+
+# Layout
+# text
+seg-87aff08f344c = Paigutus
+
+# Isolation
+# text
+seg-73b3f55b7208 = Isolatsioon
+
+# Like <c1/> and <c2/>, this is a standalone Gradle project, excluded from the published <c3/> crate (<c4/> in the package <c5/>); its build output is gitignored.
+# text
+# c1: mcp/
+# c2: xval/
+# c3: kshana
+# c4: /ide
+# c5: exclude
+seg-a14db8de576a = Nagu <c1/> ja <c2/>, on see eraldiseisev Gradle'i projekt, mis on välja jäetud avaldatud paketist <c3/> (<c4/> paketi väljal <c5/>); selle ehitusväljund on gitignore'is.
+
+# License: AGPL-3.0-only (or a commercial licence from Ashforde OÜ — see the repository's <c1/>).
+# text
+# c1: LICENSING.md
+seg-b38914a430b9 = Litsents: AGPL-3.0-only (või Ashforde OÜ kommertslitsents — vt hoidla <c1/>).
+
+# One run of <c1/> summarises as: lunar-interop-export | REF_FRAME MOON_ME / TIME_SYSTEM LTC | { "9" } states, OEM { "23" } lines | conformance PASS ({ "9" } present / { "0" } missing) | OEM round-trip ok | time-meta round-trip ok | KIF { "1640" } bytes | MODELLED
+# text
+# c1: scenarios/lunar-interop-export.toml
+seg-1726861e444f = Ühe <c1/> käivituse kokkuvõte: lunar-interop-export | REF_FRAME MOON_ME / TIME_SYSTEM LTC | { "9" } olekut, OEM { "23" } rida | standardi järgimine PASS ({ "9" } olemas / { "0" } puudu) | OEM edasi-tagasi ring korras | aja metaandmete edasi-tagasi ring korras | KIF { "1640" } baiti | MODELLED
+
+# Optional fields: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>
+# text
+# c1: frame
+# c2: time_system
+# c3: n_states
+# c4: epoch
+# c5: step_min
+# c6: object
+seg-f8353e15aabd = Valikulised väljad: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>
+
+# LTC
+# text
+seg-3f36bd2ec5ea = LTC
+
+# WHAT src/lunar_interop.rs does: * export_lunar_oem — REUSES the crate's CCSDS OEM { "2.0" } emitter (crate::oem), re-tagged for the lunar context: REF_FRAME = the IAU { "2015" } WGCCRE lunar body frame (MOON_ME / MOON_PA), TIME_SYSTEM = the lunar time scale (LTC / TCL / UTC), CENTER_NAME = MOON, over a sample ILLUSTRATIVE LCNS-class ephemeris (positions from crate::lunar_service, velocity by central finite difference). * export_ (scenario file comment, lines { "6" } to { "19" })
+# text
+seg-11d0ccba5ee7 = MIDA src/lunar_interop.rs TEEB: * export_lunar_oem — KASUTAB UUESTI crate CCSDS OEM { "2.0" } väljastajat (crate::oem), Kuu konteksti jaoks ümber märgitud: REF_FRAME = IAU { "2015" } WGCCRE Kuu keha tugisüsteem (MOON_ME / MOON_PA), TIME_SYSTEM = Kuu ajaskaala (LTC / TCL / UTC), CENTER_NAME = MOON, näidis-ILLUSTRATIVE LCNS-klassi efemeriidi üle (asukohad failist crate::lunar_service, kiirus tsentraalse lõpliku erinevusega). * export_ (stsenaariumifaili kommentaar, read { "6" } kuni { "19" })
+
+# HONESTY: MODELLED. The field NAMES and units are aligned with PUBLIC standards (CCSDS 502.0-B OEM, IAU WGCCRE { "2015" } lunar frames, LunaNet Interoperability Specification / IOAG lunar architecture). The deterministic round-trip and the field-name conformance are the oracle. This is NOT a certified interoperability conformance test. The ephemeris is illustrative, public-source, NOT affiliated with ESA, and implies no TRL (scenario file comment, lines { "21" } to { "26" })
+# text
+seg-f730e8f789cf = AUSTUS: MODELLED. Väljade NIMED ja ühikud on joondatud PUBLIC standarditega (CCSDS 502.0-B OEM, IAU WGCCRE { "2015" } Kuu tugisüsteemid, LunaNet Interoperability Specification / IOAG Kuu arhitektuur). Deterministlik edasi-tagasi ring ja väljanimede standardi järgimine on sõltumatu etalon. See EI OLE sertifitseeritud koostalitlusvõime standardi järgimise test. Efemeriid on illustratiivne, avaliku allikaga, ESA-ga EI OLE seotud ega viita ühelegi TRL-ile (stsenaariumifaili kommentaar, read { "21" } kuni { "26" })
+
+# Required fields: none. Optional: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>.
+# text
+# c1: frame
+# c2: time_system
+# c3: n_states
+# c4: epoch
+# c5: step_min
+# c6: object
+seg-720d0bbeaf6e = Kohustuslikud väljad: puuduvad. Valikulised: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>.
+
+# Where: <c1/> (Settings, Developer, Edit Config). Or double-click the <c2/> extension from the release: no config file.
+# text
+# c1: claude_desktop_config.json
+# c2: .mcpb
+seg-439fac4928a0 = Kus: <c1/> (Settings, Developer, Edit Config). Või topeltklõpsake väljalaske laiendit <c2/>: seadistusfaili ei ole.
+
+# (not in the old English either)
+seg-4ccbbc19fe86 = <b>npx (Node)</b> (vajab Node { "18" }+): <c1/>
+
+# (not in the old English either)
+seg-77230eb344ea = <b>Docker</b> (vajab Dockerit): <c1/>
+
+# (not in the old English either)
+seg-3398eea8e332 = Cursor, npx (Node): <a1>veebilink</a1> · <c1/>
+
+# (not in the old English either)
+seg-67009baafb3b = Cursor, Docker: <a1>veebilink</a1> · <c1/>
+
+# (not in the old English either)
+seg-6918cd89f776 = Goose, npx: <c1/>
+
+# Assess a real GNSS (global navigation satellite system) receiver log for trust. The TOML names the log's <c1/> (<c2/>, <c3/>, <c4/>, <c5/> or <c6/>) and gives its bytes inline as <c7/> or <c8/>; the tool runs the trust monitors (carrier-to-noise density drop, loss of lock, AGC (automatic gain control), jamming indicator, position jump and, with RINEX plus broadcast navigation, RAIM (receiver autonomous integrity monitoring) and a clock-aided monitor) and returns when and why the fix stopped being trustworthy. Optional <c9/> and <c10/> sections score stated events and predicted C/N0 drops against stated tolerances. A <c11/> table selects the maritime monitors and adds a 0-100 trust score per epoch with the monitors that deducted (advisory; MODELLED). The log goes inline as <c12/> or <c13/> (at most { "4" } MiB). Chart and per-epoch CSV on request. See <a1><c14/></a1>.
+# text
+# c1: format
+# c2: ubx
+# c3: rinex
+# c4: android
+# c5: nmea
+# c6: sbf
+# c7: text
+# c8: base64
+# c9: [[events]]
+# c10: [compare]
+# c11: [platform] kind = "vessel"
+# c12: text
+# c13: base64
+# c14: docs/RECEIVER-TRUST.md
+seg-d6ed4e8d56e5 = Hindab tegeliku GNSS-i (ülemaailmne satelliitnavigatsioonisüsteem) vastuvõtja logi usaldatavust. TOML nimetab logi välja <c1/> (<c2/>, <c3/>, <c4/>, <c5/> või <c6/>) ja annab selle baidid sisse kujul <c7/> või <c8/>; tööriist käivitab usaldusseirajad (kandja-müra tiheduse langus, lukustuse kadu, AGC (automaatne võimenduse reguleerimine), segamisnäidik, asukohahüpe ja RINEX-i pluss edastatava navigatsiooniga RAIM (vastuvõtja autonoomne terviklikkuse seire) ja kellapõhine seire) ning tagastab, millal ja miks lahend lakkas usaldusväärne olemast. Valikulised jaotised <c9/> ja <c10/> hindavad sätestatud sündmusi ja ennustatud C/N0 langusi sätestatud tolerantside vastu. Tabel <c11/> valib mereliinid seirajad ja lisab 0-100 usaldusskoori epohhi kohta koos seiretega, mis maha arvasid (nõuandev; MODELLED). Logi läheb sisse kujul <c12/> või <c13/> (kuni { "4" } MiB). Diagramm ja epohhipõhine CSV soovi korral. Vt <a1><c14/></a1>.
+
+# <c1/> puts <c2/> on your <c3/> (typically <c4/>). The server talks JSON-RPC (JSON remote procedure call) over stdio; logs go to stderr. Building from source needs a Rust toolchain ≥ { "1.88" } (the patched <c5/> { "2" }.x SDK needs it, and so does the <c6/> library); the Docker image needs none.
+# text
+seg-a4a0e399a31e = <c1/> paneb <c2/> teie teele <c3/> (tavaliselt <c4/>). Server räägib JSON-RPC-d (JSON remote procedure call) stdio kaudu; logid lähevad stderr-i. Lähtekoodist ehitamine vajab Rusti tööriistaahelat ≥ { "1.88" } (parandatud <c5/> { "2" }.x SDK vajab seda ja nii ka teek <c6/>); Dockeri kujutis ei vaja ühtki.
+
+# The server is a <b>standalone, workspace-excluded crate</b> with its own <c1/>, so the official Rust MCP SDK (software development kit) <c2/> and its async runtime never enter the published <c3/> crate's dependency graph: a library or Python user does not compile a server they do not run. (It was first split out because <c4/> is <b>edition { "2024" }</b>, needing rustc ≥ { "1.85" }, while the main crate then promised { "1.75" }. The library and this server now both declare { "1.88" }, the floor of the security-patched <c5/> { "2" }.x and of the upgraded RustCrypto crates.) Continuous integration (CI) gates this crate on its own — tests and <c6/> against its lockfile. rmcp's licence tree is clean (Apache-2.0/MIT/BSD), so, unlike the <c7/> cross-validation crate it otherwise mirrors, the split is not about licensing.
+# text
+seg-0757e15070d4 = Server on <b>eraldiseisev, tööruumist välja jäetud crate</b> oma failiga <c1/>, nii et ametlik Rusti MCP SDK (tarkvaraarenduskomplekt) <c2/> ja selle asünkroonne käituskeskkond ei satu kunagi avaldatud <c3/> crate'i sõltuvusgraafi: teegi või Pythoni kasutaja ei kompileeri serverit, mida ta ei käita. (See eraldati esmalt seetõttu, et <c4/> on <b>edition { "2024" }</b>, mis vajab rustc ≥ { "1.85" }, samas kui põhicrate lubas siis { "1.75" }. Teek ja see server deklareerivad nüüd mõlemad { "1.88" }, mis on turvaparandusega <c5/> { "2" }.x ja uuendatud RustCrypto cratede alampiir.) Pidev integreerimine (CI) kontrollib seda crate'i eraldi — testid ja <c6/> selle lukufaili vastu. rmcp litsentsipuu on puhas (Apache-2.0/MIT/BSD), seega erinevalt ristvalideerimise crate'ist <c7/>, mida see muidu järgib, ei ole eraldamine litsentsimise pärast.
+
+# (not in the old English either)
+seg-474381d842e6 = { "232" } võimekust sildiga MODELLED.
+
+# (not in the old English either)
+seg-fd6daa52df11 = { "412" } võimekusest { "176" } valideeritud sõltumatute väliste etalonide (oraaklite) vastu
+
+# (not in the old English either)
+seg-4a3ebec6d011 = <b>{ "412" } võimekusest { "176" }</b> on valideeritud sõltumatute väliste etalonide (oraaklite) vastu; { "232" } on ausalt märgistatud modelleeritud, { "4" } on partneri omad. Iga võimekus kannab masinkontrollitud registris (ledger) ühte silti: VALIDATED (sõltumatu väline etalon nõustub: tegelikud andmed, sõltumatu teostus või avaldatud etalonvektorid), MODELLED (sisemiselt kooskõlas ja see on öeldud välja) või PARTNER (selle eest vastutab riistvarapartner). Kontrollide hulgas: kõik { "666" } SGP4 (Simplified General Perturbations { "4" }) vektorit AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 täpsusega { "4.12" } mm ja Cowelli jõumudel täpsusega { "0.08" } m Orekit { "12.2" } suhtes.
+
+# (not in the old English either)
+seg-d69651a71fbe = Kuidas võimekus oma sildi teenib: võimekus, etalon (oraakel), test, registri (ledger) silt. Kontrollistaatus kõigi { "412" } võimekuse lõikes: { "176" } valideeritud, { "232" } modelleeritud, { "4" } partneri omad
+
+# Conformance is checked by <c1/>, which is opt-in: it reads a copy of the official test-vector archive that you download yourself, from the directory named by <c2/>, and does nothing when the variable is unset. It stores and redistributes nothing, and default test runs use no network. It gives the verifier only a Merkle root and the public keys of one tree, as a receiver would have, so chains are established from the signed DSM-KROOT in the stream and the whole path runs: Merkle, signature, key chain, MACSEQ and tags. It asserts, per vector set, a floor on the authenticated tags, none failed, which chains and keys the stream announces, authenticated tags of ADKD { "0" }, { "4" } and { "12" }, that authentication resumes after chain end, chain revocation, key revocation and new public key, that the alert message verifies and leaves nothing authenticated, and that every vector uses only HMAC-SHA-256, a SHA-256 chain, 128-bit keys, 40-bit tags and look-up entries { "33" } and { "34" }. Other algorithm and parameter choices of the ICD are therefore covered only by the known-answer and synthetic tests above.
+# text
+# c1: tests/osnma_official_vectors.rs
+# c2: KSHANA_OSNMA_VECTORS
+seg-82ee90adf7ed = Standardi järgimist kontrollib <c1/>, mis on vabatahtlik: see loeb ametliku testvektorite arhiivi koopiat, mille tuleb ise alla laadida, kataloogist, mille nimetab <c2/>, ega tee midagi, kui muutuja on seadmata. See ei salvesta ega levita midagi ja vaiketestide käitused ei kasuta võrku. See annab kontrollijale ainult Merkle'i juure ja ühe puu avalikud võtmed, nagu vastuvõtjal oleks, seega ahelad luuakse voos olevast allkirjastatud DSM-KROOT-ist ja kogu tee käitatakse: Merkle, allkiri, võtmeahel, MACSEQ ja sildid. See kinnitab vektorikomplekti kohta autenditud siltide alampiiri, et ükski ei ebaõnnestunud, millised ahelad ja võtmed voog kuulutab, ADKD { "0" }, { "4" } ja { "12" } autenditud sildid, et autentimine jätkub pärast ahela lõppu, ahela tühistamist, võtme tühistamist ja uut avalikku võtit, et häiresõnum kontrollitakse ja jätab midagi autentimata, ning et iga vektor kasutab ainult HMAC-SHA-256, SHA-256 ahelat, 128-bitiseid võtmeid, 40-bitiseid silte ja otsingukirjeid { "33" } ja { "34" }. ICD muud algoritmi- ja parameetrivalikud on seega kaetud ainult ülaltoodud teadaoleva vastuse ja sünteetiliste testidega.
+
+# Two standalone, <b>workspace-excluded</b> crates sit beside the core — <c1/> (the MCP server, built on the edition-2024 <c2/> SDK) and <c3/> (the ANISE/SPICE frame cross-check, which pulls MPL-2.0 (Mozilla Public License { "2.0" }) deps) — kept out of the published crate's dependency graph, <c4/>, license gate, and MSRV (minimum supported Rust version) build by the root <c5/> <c6/> list. The JetBrains plugin (<c7/>) is a separate Kotlin project. See <a1><c8/></a1> for the full set of diagrams.
+# text
+# c1: mcp/kshana-mcp
+# c2: rmcp
+# c3: xval/anise-frames
+# c4: Cargo.lock
+# c5: Cargo.toml
+# c6: exclude
+# c7: ide/jetbrains
+# c8: docs/ARCHITECTURE.md
+seg-698b8f40212f = Kaks iseseisvat, <b>tööruumist välja jäetud</b> kasti asuvad tuuma kõrval — <c1/> (MCP server, ehitatud 2024. väljaande <c2/> SDK-le) ja <c3/> (ANISE/SPICE tugisüsteemi ristkontroll, mis toob kaasa MPL-2.0 (Mozilla Public License { "2.0" }) sõltuvusi) — hoitud avaldatud kasti sõltuvusgraafist, <c4/>-ist, litsentsivärav ja MSRV (minimaalne toetatud Rusti versioon) ehitusest juure <c5/> <c6/> loendi abil. JetBrainsi pistikprogramm (<c7/>) on eraldi Kotlini projekt. Täieliku diagrammide komplekti vt <a1><c8/></a1>.
+
+# <b>No new physics.</b> Pro adds no physical model and changes none. Every Pro number comes from runs of the open engine, so a Pro figure is as trustworthy as the open scenario kind it came from, and never more.
+# text
+seg-feece95f1d76 = <b>Uut füüsikat pole.</b> Pro ei lisa ühtegi füüsikalist mudelit ega muuda ühtegi. Iga Pro arv tuleb avatud mootori käivitustest, seega on Pro näitaja sama usaldusväärne kui avatud stsenaariumi liik, millest see pärineb, ega kunagi usaldusväärsem.
+
+# (not in the old English either)
+seg-20beca58d39e = <a1>Lisa Cursorisse (npx)</a1> · <a2>Lisa Cursorisse (Docker)</a2> · <c1/>
+
+# (not in the old English either)
+seg-aa6b62f0b484 = <a1>Paigalda VS Code'i (npx)</a1> · <a2>Paigalda VS Code'i (Docker)</a2> · <c1/>
+
+# (not in the old English either)
+seg-8e176aa32cd3 = MCP on Model Context Protocol. Kinnita väljalase käsuga <c1/>, <c2/> või <c3/>. Lähtekoodist ehitamiseks vt <a1>Install and build</a1> jaotises Reference.
+
+# (not in the old English either)
+seg-467bb88ec415 = <a1>Mis on uut versioonis { "0.40" }</a1>, <a2>Mis on uut versioonis { "0.39" }</a2>, <a3>Mis on uut versioonis { "0.38" }</a3> ja <a4>{ "0.38" } põhjalikult</a4>: jammertesti hindamine, vastuvõtja enda lipud, masinsisendid, ajastus ja holdover, standardipaketid, LunaNet AFS, laborist tagasi ringlus, kshana-bench, vaatluskeskus, eksportijad, optiline, <a5>kosmosekasutaja navigatsioon</a5> ja <a6>Kuu infrastruktuur</a6>
+
+# (not in the old English either)
+seg-8391e467adf7 = <b>Missiooniahel.</b> Liik <c1/> ahelab faase starditest sisenemiseni (<c2/>, <c3/>, <c4/>, <c5/> ja neli Kuu liiki) nimetatud üleandmisreeglite, varu nimetatud nõuete suhtes ja nõrgima lülliga; otsast lõpuni Artemis-klassi näide { "11" } faasi kohta (Maa ja Kuu lõigud), kokku { "93" } stsenaariumi liiki. Iga arv on MODELLED. Tsislunaarne levitamine avaliku Artemis I trajektoori vastu <b>jääb möödalaskmiseks</b> oma eelregistreeritud lävendi suhtes ({ "45.3" } km ja { "0.25" } m/s võrreldes läviga { "5" } km ja { "0.05" } m/s; põhjus on väikesed manöövrid, mida mudel ei sisalda) ning Kuu levitaja CAPSTONE'i orbiidi vastu <b>jääb möödalaskmiseks</b> ({ "136.8" } km võrreldes läviga { "25" } km ühe tiiru lõpus); LRO võrdlus on täidetud. Read jäävad MODELLED (<a1>Missiooniahel</a1>, <a2>Kuu lõik</a2>). Studios loetakse ahelat aadressil <c6/>.
+
+# See <c1/> for at least one worked example of every kind ({ "93" } kinds, { "195" } scenario <c2/> files + { "1" } suite manifest — several kinds ship more than one example). Not every kind has a file named after it: <c3/> → <c4/> and <c5/> → <c6/> are two of several such. List the dispatchable kinds at any time with <c7/> errors, the Python <c8/>, or the MCP <c9/> tool.
+seg-5374f780c396 = Vt <c1/>, kus on iga liigi kohta vähemalt üks läbitöötatud näide ({ "93" } liiki, { "195" } stsenaariumifaili (<c2/>) + { "1" } komplekti manifest — mitmel liigil on rohkem kui üks näide). Mitte igal liigil pole selle järgi nimetatud faili: <c3/> → <c4/> ja <c5/> → <c6/> on kaks mitmest sellisest. Käivitatavate liikide loendi saab igal ajal käsuga <c7/> vigade kaudu, Pythoni <c8/> või MCP tööriistaga <c9/>.
+
+# (not in the old English either)
+seg-0933cb091687 = { "412" } võimekusest { "176" } VALIDATED sõltumatu välise etaloni (oraakli) vastu, kontrollimaatriksist
+
+# (not in the old English either)
+seg-d9cccff82185 = Versioon { "0.40" } lisab missiooni tasemel veaeelarve, märgistab iga arvu ja tabeli selle tõendustasemega, loeb mõõdetud kellalogisid, kontrollib andmepartnerite esitusi, hindab, kus häirekiirgaja võib olla, ja räägib inglise keele kõrval seitsmeteist keelt. Register on nüüd { "412" } rida: { "176" } VALIDATED, { "232" } MODELLED, { "4" } PARTNER. Ühtegi rida ei tõstetud tasemele VALIDATED ning iga allpool nimetatud möödalaskmine on testiga fikseeritud.
+
+# (not in the old English either)
+seg-93dcede29907 = <b>{ "176" } võimekust { "412" }-st</b> on valideeritud sõltumatute väliste etalonide vastu; { "232" } on ausalt märgitud modelleeritud. Kontrollimaatriksi iga rida nimetab võimekuse, etaloni, mille vastu seda kontrollitakse, testi, mis kontrolli käivitab, ning sellele järgneva sildi. Pidev integratsioon (CI) teeb võimatuks nimetada võimekust sildiga VALIDATED ilma sõltumatu välise etalonita.
+
+# (not in the old English either)
+seg-99d2c21b1f60 = Kuidas võimekus oma sildi teenib. Kontrollimaatriksi iga rida nimetab võimekuse, etaloni, mille vastu seda kontrollitakse, testi, mis kontrolli pidevas integratsioonis käivitab, ning sellele järgneva sildi. Rida võib olla VALIDATED ainult sõltumatu välise etaloniga; muidu on see MODELLED või PARTNER, kui selle omanik on riistvarapartner. Näide: SGP4/SDP4, Cowell 6-DOF + häiringud, partii/järjestikune OD, etalon AIAA 2006-6753 SGP4 kontrollvektorid, test tests/sgp4_verification.rs, silt VALIDATED. Hetkearvud: { "176" } VALIDATED, { "232" } MODELLED, { "4" } PARTNER { "412" } reast. Kokku on { "176" } võimekust valideeritud sõltumatute väliste etalonide vastu; veel { "232" } on ausalt märgitud MODELLED ja { "4" } kuuluvad rühma PARTNER.
+
+# (not in the old English either)
+seg-7f933400c73d = Mõned kontrollid: kõik { "666" } AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 SGP4 (Simplified General Perturbations { "4" }) vektorit täpsusega { "4.12" } mm; Cowelli jõumudel täpsusega { "0.08" } m Orekit { "12.2" } suhtes; Galileo täpsusega { "0.61" } m ja Swarm-A täpsusega { "0.10" } m Euroopa Kosmoseagentuuri (ESA) tegelike täppisefemeriidide suhtes. Testid hoiavad faili <c1/> ligikaudu { "95" } % reakatvust, CI-s on lävi { "85" } %. Register on <a1><c2/></a1>, genereeritud failist <c3/>: <a2>kogu 412-realine maatriks</a2> ning see, miks igal modelleeritud real puudub väline etalon, on failis <a3><c4/></a3>.
+
+# (not in the old English either)
+seg-df9b60a7dfe8 = Iga rida jõustatakse CI-s nimega testiga. See tabel on <b>valitud esiletõstete kogum</b>; kogu masinkontrollitud maatriks on <b>{ "412" } rida — { "176" } VALIDATED, { "232" } MODELLED, { "4" } PARTNER</b> (<c1/>), kogu tõendusmaterjal (ja see, mis on ausalt öeldes veel <em>valideerimata</em>) on failis <a1><c2/></a1> ja iga väljalaske artefaktis <a2><c3/></a2> (genereeritud käsuga <c4/>, SLSA-atesteeritud — Supply-chain Levels for Software Artifacts).
+
+# (not in the old English either)
+seg-d1700188b2cf = Kuidas võimekus oma sildi teenib: nõue vastab moodulile kaustas src, testile kaustas tests, välisele etalonile (päris andmestik, sõltumatu võrdlusteostus või avaldatud vektorid) ja olekule — CI-s jõustatud kaitsega, et ükski võimekus ei saa olla valideeritud ilma välise etalonita. Hetkearvud: { "176" } valideeritud, { "232" } modelleeritud, { "4" } partneri oma, kokku { "412" }
+
+# (not in the old English either)
+seg-903f40bceba8 = Kontrolli olek kõigi { "412" } võimekuse lõikes: { "176" } valideeritud (kontrollitud välise etaloni vastu), { "232" } modelleeritud, { "4" } partneri omanduses
+
+# (not in the old English either)
+seg-9bfd6ba56a18 = { "176" } valideeritud · { "232" } modelleeritud · { "4" } partneri oma — <a1>SVG</a1>
+
+# (not in the old English either)
+seg-74c21b004d86 = Kshana arhitektuur: üks avatud mootor keskel, kshana { $version } litsentsi AGPL-3.0 all, koos ühe sissepääsuga api::run_toml (tüübitud jaotus üle iga liigi) ning { "412" } võimekuse kontrollregistriga ({ "176" } VALIDATED, { "232" } MODELLED, { "4" } PARTNER). Selle ümber käitab iga pind sama mootorit: käsurida (cargo install kshana); Rusti teek (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); MCP-server (cargo install kshana-mcp); Dockeri tõmmis (ghcr.io/ashfordeou/kshana-mcp); JetBrainsi plugin (Marketplace: "Kshana"). Selle all on Kshana Pro, omandiline lisakiht, mis sõltub avatud mootorist teegina ega hargne sellest kunagi ning ei lisa ühtegi füüsikalist mudelit.
+
+# (not in the old English either)
+seg-e6c6926110e6 = Kshana arhitektuur kihtidena. Viis sissepääsu (käsurida, Python, JavaScript ja WebAssembly, MCP-server ning JetBrainsi plugin) jõuavad ühe sissepääsuni api::run_toml, tüübitud jaotuseni üle { "93" } liigi. Selle all asub kaheksa valdkonnakihti: aeg ja tugisüsteemid, kellad ja ajastus, inertsiaal ja fusioon, GNSS ja terviklikkus, astrodünaamika, LEO PNT, Kuu, Marss ja süvakosmos ning missioonid ja uuringud, ühisel tuumal; neid kõiki seostab kontrollimoodul, masinkontrollitud { "412" } võimekuse maatriks, mis on iga sildi ainus tõeallikas.
+
+# Earth-fixed (ECEF) position + clock time series. Round-trip validated to < { "0.5" } m on a real <c1/> snapshot (<a1><c2/></a1>).
+# text
+# c1: gps-ops
+# c2: tests/sp3_export_roundtrip.rs
+seg-8d1089fbd59d = Maa suhtes fikseeritud (ECEF) asukoha + kellaaja ajarida. Edasi-tagasi teisendus kontrollitud täpsuseni < { "0.5" } m päris <c1/> hetktõmmisel (<a1><c2/></a1>).
+
+# <c1/> / <c2/> / <c3/> — the frame the propagators integrate in and the time scale of the epoch grid, not relabelled
+# text
+# c1: EARTH
+# c2: TEME
+# c3: GPS
+seg-4b338284e56a = <c1/> / <c2/> / <c3/> — tugisüsteem, milles levitajad integreerivad, ja epohhiruudustiku ajaskaala, mitte ümbersildistatud
+
+# ISO-8601 (ISO: International Organization for Standardization) calendar time, GPS time scale
+# text
+seg-410bd5a9ba14 = ISO-8601 (ISO: International Organization for Standardization) kalendriaeg, GPS ajaskaala
+
+# (not in the old English either)
+seg-db7a6ac0a47d = Täielik, masinkontrollitud tõenduste register: <b>{ "412" } rida — { "176" } VALIDATED, { "232" } MODELLED, { "4" } PARTNER</b>. Rida võib olla VALIDATED ainult sõltumatu välise etaloniga (maatriksi invariantide testid jõustavad seda). Samad andmed koos klõpsatavate ridapõhiste linkidega igale testile, moodulile ja sisse viidud testandmestikule on <em>Valideerimisregister</em> aadressil <a1>https://kshana.dev</a1>. Vt <a2>MODELLED-RATIONALE.md</a2>, miks iga modelleeritud rida pole väliselt valideeritud.
+
+# (not in the old English either)
+seg-1cc523709234 = { "412" } rida: { "176" } väliselt valideeritud, { "232" } modelleeritud, { "4" } partneri omanduses.
+
+# Kshana Pro, amplified
+# text
+seg-2fdbe97136e7 = Kshana Pro, võimendatud
+
+# A proprietary overlay that depends on the open core and never forks it: a strict superset of open Kshana. Available under contract.
+# text
+seg-4b5028704ea5 = Omandiõigusega kate, mis sõltub avatud tuumast ega hargne sellest kunagi: avatud Kshana range ülemhulk. Saadaval lepingu alusel.
+
+# Programmes that must hand a mission dossier or an audit-grade evidence pack to a review or procurement board
+# text
+seg-1ea79eedb7a1 = Programmid, mis peavad üle andma missioonidosjee või auditikvaliteediga tõendipaketi ülevaatus- või hankekomisjonile
+
+# Architects choosing a design from the Pareto front of a whole design space, or from trade studies ranked on a figure of merit
+# text
+seg-2217d28fd201 = Arhitektid, kes valivad kujunduse kogu kujundusruumi Pareto frondilt või sooritusnäitaja järgi järjestatud kompromissuuringutest
+
+# Timing and hardware teams who need a clock digital twin calibrated to their device
+# text
+seg-ee1b858bcc3f = Ajastus- ja riistvarameeskonnad, kes vajavad oma seadmele kalibreeritud kella digitaalset kaksikut
+
+# <a1>A design optimiser</a1>: the Pareto front of a design space, with every front design as a scenario the free engine re-runs
+# text
+seg-4b436214a890 = <a1>Kujundusoptimeerija</a1>: kujundusruumi Pareto front, kus iga frondi kujundus on stsenaarium, mille tasuta mootor uuesti käivitab
+
+# <a1>Uncertainty and sensitivity</a1> over thousands of runs
+# text
+seg-d8d838542aa7 = <a1>Ebakindlus ja tundlikkus</a1> tuhandete jooksude üle
+
+# <a1>A one-command mission dossier</a1> with a verification matrix and a PDF (Portable Document Format) file
+# text
+seg-161db00fa35f = <a1>Ühe käsuga missioonidosjee</a1> koos kontrollimaatriksi ja PDF (Portable Document Format) failiga
+
+# Audit-grade, reproducible evidence packs, clock digital twins calibrated to a device's published Allan budget, and architecture trade studies ranked on a figure of merit
+# text
+seg-e142b435c273 = Auditikvaliteediga reprodutseeritavad tõendipaketid, seadme avaldatud Alani eelarvele kalibreeritud kella digitaalsed kaksikud ja sooritusnäitaja järgi järjestatud arhitektuuri kompromissuuringud
+
+# Model-based systems-engineering (MBSE) and programme tooling that checks a programme's requirements against runs of the open engine, reading only the outputs the engine publishes
+# text
+seg-91da86f32a66 = Mudelipõhine süsteemitehnika (MBSE) ja programmi tööriistad, mis kontrollivad programmi nõudeid avatud mootori jooksude vastu, lugedes ainult mootori avaldatud väljundeid
+
+# Kshana Pro is available under contract. It depends on the open core and never forks it, so nothing is taken out of the free engine.
+# text
+seg-65b886427270 = Kshana Pro on saadaval lepingu alusel. See sõltub avatud tuumast ega hargne sellest kunagi, nii et tasuta mootorist ei võeta midagi ära.
+
+# See it amplified
+# text
+seg-98f81c393a13 = Vaata seda võimendatuna
+
+# Kshana Pro · the same engine, amplified
+# text
+seg-ef60d3a217a7 = Kshana Pro · sama mootor, võimendatud
+
+# Free runs one scenario. Pro answers the programme's question.
+# text
+seg-0ca6598b5442 = Tasuta käivitab ühe stsenaariumi. Pro vastab programmi küsimusele.
+
+# Open Kshana runs one scenario and tells you what it gives. Kshana Pro answers the questions a programme asks next, over the same engine and the same scenario files: which design to fly, how sure the answer is, and whether the mission meets its requirements in a form a review board can check.
+# text
+seg-8a239e03a91c = Avatud Kshana käivitab ühe stsenaariumi ja ütleb, mida see annab. Kshana Pro vastab küsimustele, mida programm järgmisena esitab, sama mootori ja samade stsenaariumifailide peal: millist kujundust lennutada, kui kindel vastus on ja kas missioon täidab oma nõuded kujul, mida ülevaatuskomisjon saab kontrollida.
+
+# A strict superset of open Kshana.
+# text
+seg-cdb7f8c917e7 = Avatud Kshana range ülemhulk.
+
+# Every open scenario kind runs in Pro unchanged, and an open scenario runs in Pro with no licence at all.
+# text
+seg-5de71d884106 = Iga avatud stsenaariumi liik töötab Pros muutumatult ja avatud stsenaarium töötab Pros üldse ilma litsentsita.
+
+# No new physics.
+# text
+seg-9716f482b04d = Uut füüsikat pole.
+
+# Every Pro number comes from runs of the open engine, so a Pro figure is as trustworthy as the open scenario kind it came from, and never more.
+# text
+seg-44fca9f49c50 = Iga Pro arv pärineb avatud mootori jooksudest, seega on Pro arv sama usaldusväärne kui avatud stsenaariumi liik, millest see pärineb, ja mitte kunagi usaldusväärsem.
+
+# Reproducible in the free engine.
+# text
+seg-a1b3e6c8e054 = Reprodutseeritav tasuta mootoris.
+
+# Anyone with open Kshana can re-run one and get the same figure.
+# text
+seg-8b5fd4e4ea35 = Igaüks, kellel on avatud Kshana, saab ühe uuesti käivitada ja saada sama arvu.
+
+# Honest labels carried through.
+# text
+seg-22c9d1934491 = Ausad sildid kantakse läbi.
+
+# Every Pro result is labelled MODELLED. Every figure keeps the tier the open engine gave it (Validated, Modelled or Partner), never a higher one.
+# text
+seg-c0c9f2748dcd = Iga Pro tulemus on märgitud MODELLED. Iga arv säilitab taseme, mille avatud mootor sellele andis (kontrollitud, modelleeritud või partner), mitte kunagi kõrgemat.
+
+# Design optimiser
+# text
+seg-fe62a7a81520 = Kujundusoptimeerija
+
+# A free user scores one design they wrote by hand.
+# text
+seg-7574857f2e17 = Tasuta kasutaja hindab ühte käsitsi kirjutatud kujundust.
+
+# A Pro user states the design space (each variable a scenario setting with its allowed values), the constraints and two or three objectives, and gets the whole Pareto front: the designs that no other design beats on every objective at once.
+# text
+seg-5e92d8903fe2 = Pro kasutaja esitab kujundusruumi (iga muutuja on stsenaariumi säte oma lubatud väärtustega), piirangud ning kaks või kolm eesmärki ja saab kogu Pareto frondi: kujundused, mida ükski teine kujundus ei ületa korraga kõigis eesmärkides.
+
+# The base scenario can be of any open kind, so the same tool designs a constellation around the Earth, the Moon or Mars, or trades a link budget. Every design is one run of the open engine. Each front design is written out as a plain open scenario file, with the Secure Hash Algorithm (SHA-256) hash of the result the free engine gives for it.
+# text
+seg-e44bf29e6bb4 = Baasstsenaarium võib olla mis tahes avatud liiki, nii et sama tööriist kavandab satelliidikonstellatsiooni Maa, Kuu või Marsi ümber või kaalub sidelingi eelarvet. Iga kujundus on üks avatud mootori jooks. Iga frondi kujundus kirjutatakse välja lihtsa avatud stsenaariumifailina, koos tasuta mootori sellele antud tulemuse Secure Hash Algorithm (SHA-256) räsiga.
+
+# <b>What it does not do.</b> It has no cost model, so a variable no objective penalises drifts to the edge of its range. Constellation studies score geometry only: no signal power, satellite health or terrain.
+# text
+seg-46ef48f5abb4 = <b>Mida see ei tee.</b> Sellel puudub kulumudel, nii et muutuja, mida ükski eesmärk ei karista, triivib oma vahemiku servale. Konstellatsiooniuuringud hindavad ainult geomeetriat: ei signaalivõimsust, satelliidi seisundit ega maastikku.
+
+# Pareto front · <b>Lunar navigation constellation</b>
+# text
+seg-788b99e72541 = Pareto front · <b>Kuu navigatsioonikonstellatsioon</b>
+
+# Kshana Pro output
+# text
+seg-dfa989332a6e = Kshana Pro väljund
+
+# Region scored
+# attr:aria-label
+seg-b4a240bb26ac = Hinnatud piirkond
+
+# Whole Moon
+# text
+seg-67e343533786 = Terve Kuu
+
+# South polar cap
+# text
+seg-c5e32e8ff568 = Lõunapolaarne kübar
+
+# Lunar navigation constellation: fewest satellites against availability, whole Moon: { "608" } designs run, a Pareto front of { "12" } designs
+# attr:aria-label
+seg-f4eb65b9b27a = Kuu navigatsioonikonstellatsioon: vähim satelliite vs kättesaadavus, terve Kuu: { "608" } kujundust käivitatud, { "12" } kujunduse Pareto front
+
+# Lunar navigation constellation: fewest satellites against availability, south polar cap: { "608" } designs run, a Pareto front of { "9" } designs
+# attr:aria-label
+seg-18af8f9e61be = Kuu navigatsioonikonstellatsioon: vähim satelliite vs kättesaadavus, lõunapolaarne kübar: { "608" } kujundust käivitatud, { "9" } kujunduse Pareto front
+
+# every design run
+# text
+seg-6eb3858a0c29 = iga käivitatud kujundus
+
+# Pareto front
+# text
+seg-f74688dc3bbe = Pareto front
+
+# knee
+# text
+seg-fb2e6760d932 = põlvepunkt (knee)
+
+# reference: Bundled lunar relay design ({ "8" } + { "6" } satellites)
+# text
+seg-ae4439020c65 = etalon: komplekti kuuluv Kuu releekujundus ({ "8" } + { "6" } satelliiti)
+
+# <b>Front design { "004" } · knee</b> · { "16" } satellites, { "85.0404" } % availability · { "2" } planes at { "8,000" } km, { "45" }° · re-run in the free engine: <s1>same SHA-256 { "89882372" }…</s1>
+# text
+seg-5386841c8b96 = <b>Frondi kujundus { "004" } · põlvepunkt</b> · { "16" } satelliiti, { "85.0404" } % kättesaadavus · { "2" } tasandit kõrgusel { "8,000" } km, { "45" }° · uuesti käivitatav tasuta mootoris: <s1>sama SHA-256 { "89882372" }…</s1>
+
+# { "608" } designs, all run (whole moon): a front of { "12" } designs at { "6" } points; { "12" } of { "12" } re-run in the free engine with the same result hash. MODELLED.
+# text
+seg-4dd825c7f3ea = { "608" } kujundust, kõik käivitatud (terve Kuu): { "12" } kujunduse front { "6" } punktis; { "12" } / { "12" } käivitatud uuesti tasuta mootoris sama tulemuse räsiga. MODELLED.
+
+# { "608" } designs, all run (south polar cap): a front of { "9" } designs at { "4" } points; { "9" } of { "9" } re-run in the free engine with the same result hash. MODELLED.
+# text
+seg-76d450da2ee0 = { "608" } kujundust, kõik käivitatud (lõunapolaarne kübar): { "9" } kujunduse front { "4" } punktis; { "9" } / { "9" } käivitatud uuesti tasuta mootoris sama tulemuse räsiga. MODELLED.
+
+# Kshana Pro { "0.2.0" } on open engine { "0.29.0" } · <b>kshana-pro design</b> · { "609" } engine runs · run digest df81aad4…
+# text
+seg-9e8263ecf0a3 = Kshana Pro { "0.2.0" } avatud mootoril { "0.29.0" } · <b>kshana-pro design</b> · { "609" } mootori jooksu · jooksu räsi df81aad4…
+
+# Uncertainty and sensitivity
+# text
+seg-db58e04e6f25 = Ebakindlus ja tundlikkus
+
+# A free user gets one number, or a spread over random seeds.
+# text
+seg-eb18bf49ff99 = Tasuta kasutaja saab ühe arvu või hajuvuse juhuslike algväärtuste (seed) üle.
+
+# A Pro user states how uncertain each input is and gets confidence bands, the probability of meeting a limit, and a ranking of the inputs that drive the result.
+# text
+seg-aaf8b7feaa9b = Pro kasutaja esitab, kui ebakindel on iga sisend, ja saab usaldusribad, piirangu täitmise tõenäosuse ja tulemust juhtivate sisendite järjestuse.
+
+# It works on any open scenario. Inputs are ranked by Sobol' sensitivity indices or by standardised regression coefficients, and a ranking that is not reliable is flagged as such. A long study can be stopped and resumed.
+# text
+seg-9176a44d9494 = See töötab mis tahes avatud stsenaariumil. Sisendid järjestatakse Sobol' tundlikkusindeksite või standardiseeritud regressioonikoefitsientide järgi ning ebausaldusväärne järjestus märgitakse sellisena. Pikka uuringut saab peatada ja jätkata.
+
+# <b>What it does not do.</b> Inputs are treated as independent. More runs narrow the sampling error, not the model error: a MODELLED kind stays MODELLED.
+# text
+seg-c9050f66bedf = <b>Mida see ei tee.</b> Sisendeid käsitletakse sõltumatutena. Rohkem jookse vähendab valimiviga, mitte mudeli viga: MODELLED liik jääb MODELLED.
+
+# Uncertainty views
+# attr:aria-label
+seg-02ef1c43f3d7 = Ebakindluse vaated
+
+# Confidence band
+# text
+seg-e8fcb508e9a5 = Usaldusriba
+
+# What drives the result
+# text
+seg-190c61b44b81 = Mis tulemust juhib
+
+# Clock holdover with an uncertain noise level: the 5th to 95th percentile of { "2,000" } runs against the limit of { "20" } ns
+# attr:aria-label
+seg-049c503c23db = Kella holdover ebakindla müratasemega: { "2,000" } jooksu 5. kuni 95. protsentiil vs piir { "20" } ns
+
+# 5th to 95th percentile of { "2,000" } runs
+# text
+seg-6dab3db2ad81 = { "2,000" } jooksu 5. kuni 95. protsentiil
+
+# median
+# text
+seg-023d57ee95c8 = mediaan
+
+# base run
+# text
+seg-00e4c1f9bf78 = baasjooks
+
+# share within the limit
+# text
+seg-419cbee4d7ce = piirangu sees olev osa
+
+# After { "60" } minutes: <b>{ "1,366" } of { "2,000" } runs</b> within ±{ "20" } ns, a probability of { "0.683" } ({ "95" } % interval { "0.6623" } to { "0.703" })
+# text
+seg-974fe80f65a4 = Pärast { "60" } minutit: <b>{ "1,366" } { "2,000" } jooksust</b> piirides ±{ "20" } ns, tõenäosus { "0.683" } ({ "95" } % usaldusvahemik { "0.6623" } kuni { "0.703" })
+
+# Clock holdover with an uncertain noise level · input q_wf (the clock's white-frequency-noise level): uniform({ "4.5e-20" } to { "2.7e-19" }), ASSUMED · MODELLED · Kshana Pro { "0.2.0" } on open engine { "0.29.0" } · <b>kshana-pro uncertainty</b> · { "2,000" } engine runs · run digest abab765e…
+# text
+seg-9ff0ae72a9c7 = Kella holdover ebakindla müratasemega · sisend q_wf (kella valge sageduse müra tase): ühtlane({ "4.5e-20" } kuni { "2.7e-19" }), ASSUMED · MODELLED · Kshana Pro { "0.2.0" } avatud mootoril { "0.29.0" } · <b>kshana-pro uncertainty</b> · { "2,000" } mootori jooksu · jooksu räsi abab765e…
+
+# Fused position error, with the low-Earth-orbit layer
+# text
+seg-3b321556590c = Liidetud asukohaviga madala Maa orbiidi kihiga
+
+# Position error, GNSS alone
+# text
+seg-6f29c63748d0 = Asukohaviga ainult GNSS
+
+# Peak carrier-to-noise density of the pass
+# text
+seg-45e1ce6c1a7c = Läbilennu kandja ja müratiheduse tipp
+
+# What drives Fused position error, with the low-Earth-orbit layer: total Sobol' index of each input
+# attr:aria-label
+seg-9e66fcbda75a = Mis juhib liidetud asukohaviga madala Maa orbiidi kihiga: iga sisendi Sobol' koguindeks
+
+# Fused position error, with the low-Earth-orbit layer: mean { "0.4312" } m, 5th to 95th percentile { "0.2465" } to { "0.6041" } m · top driver <b>Low-Earth-orbit orbit and clock error</b>, total index { "0.99" }
+# text
+seg-12293e88a5ee = Liidetud asukohaviga madala Maa orbiidi kihiga: keskmine { "0.4312" } m, 5. kuni 95. protsentiil { "0.2465" } kuni { "0.6041" } m · peamine mõjutaja <b>madala Maa orbiidi orbiidi- ja kellaviga</b>, koguindeks { "0.99" }
+
+# What drives Position error, GNSS alone: total Sobol' index of each input
+# attr:aria-label
+seg-52915e113de2 = Mis juhib asukohaviga ainult GNSS: iga sisendi Sobol' koguindeks
+
+# Position error, GNSS alone: mean { "1.6041" } m, 5th to 95th percentile { "1.5389" } to { "1.6739" } m · top driver <b>Global Positioning System (GPS) signal-in-space range error</b>, total index { "0.68" }
+# text
+seg-746012914df5 = Asukohaviga ainult GNSS: keskmine { "1.6041" } m, 5. kuni 95. protsentiil { "1.5389" } kuni { "1.6739" } m · peamine mõjutaja <b>Global Positioning System (GPS) signaali ruumis vahemaaviga</b>, koguindeks { "0.68" }
+
+# What drives Peak carrier-to-noise density of the pass: total Sobol' index of each input
+# attr:aria-label
+seg-94329d8e11b8 = Mis juhib läbilennu kandja ja müratiheduse tippu: iga sisendi Sobol' koguindeks
+
+# Peak carrier-to-noise density of the pass: mean { "60.7336" } dB-Hz (decibel-hertz), 5th to 95th percentile { "59.0898" } to { "62.3719" } dB-Hz · top driver <b>Low-Earth-orbit transmit power</b>, total index { "1.01" }
+# text
+seg-7ee659a6c7e7 = Läbilennu kandja ja müratiheduse tipp: keskmine { "60.7336" } dB-Hz (detsibell-herts), 5. kuni 95. protsentiil { "59.0898" } kuni { "62.3719" } dB-Hz · peamine mõjutaja <b>madala Maa orbiidi saatevõimsus</b>, koguindeks { "1.01" }
+
+# Low-Earth-orbit (LEO) PNT chain: what drives the position error with and without the LEO layer · Sobol' indices, n * (k + { "2" }) = { "1024" } * ({ "4" } + { "2" }) = { "6144" } runs · { "4" } of { "4" } input uncertainties ASSUMED · MODELLED · Kshana Pro { "0.2.0" } on open engine { "0.29.0" } · <b>kshana-pro uncertainty</b> · { "6,144" } engine runs · run digest fb54eac6…
+# text
+seg-f04d1f94de26 = Madala Maa orbiidi (LEO) PNT-ahel: mis juhib asukohaviga LEO kihiga ja ilma · Sobol' indeksid, n * (k + { "2" }) = { "1024" } * ({ "4" } + { "2" }) = { "6144" } jooksu · { "4" } / { "4" } sisendi ebakindlust ASSUMED · MODELLED · Kshana Pro { "0.2.0" } avatud mootoril { "0.29.0" } · <b>kshana-pro uncertainty</b> · { "6,144" } mootori jooksu · jooksu räsi fb54eac6…
+
+# A free user gets one report per run.
+# text
+seg-80a916e122e5 = Tasuta kasutaja saab ühe aruande jooksu kohta.
+
+# A Pro user gets one mission dossier in one command: requirements checked against real runs, a verification matrix with its open items, and a PDF (Portable Document Format) in which every number can be re-derived with the free engine.
+# text
+seg-62e6a11bddd9 = Pro kasutaja saab ühe missioonidosjee ühe käsuga: tegelike jooksude vastu kontrollitud nõuded, avatud punktidega kontrollimaatriks ja PDF (Portable Document Format), milles iga arvu saab tasuta mootoriga uuesti tuletada.
+
+# A requirement met on a MODELLED or PARTNER basis is flagged. Requirements to be verified by test, inspection or demonstration stay open items however the run went.
+# text
+seg-abcdc63e7121 = MODELLED või PARTNER alusel täidetud nõue märgitakse. Nõuded, mida tuleb kontrollida katsega, ülevaatusega või demonstratsiooniga, jäävad avatud punktideks, olenemata jooksu tulemusest.
+
+# <b>What it does not do.</b> Simulation evidence counts as analysis and does not replace a test, an inspection or a demonstration. A dossier is not a certification, a qualification or an acceptance by any authority.
+# text
+seg-6a0ace9c0245 = <b>Mida see ei tee.</b> Simulatsioonitõend loetakse analüüsiks ega asenda katset, ülevaatust ega demonstratsiooni. Dosjee ei ole sertifitseerimine, kvalifitseerimine ega ühegi asutuse vastuvõtmine.
+
+# Mission dossier · <b>Navigation resilience programme: Earth, Moon and Mars</b>
+# text
+seg-ddffd3f4f0bb = Missioonidosjee · <b>Navigatsiooni vastupidavuse programm: Maa, Kuu ja Marss</b>
+
+# requirements
+# text
+seg-589480947799 = nõuded
+
+# not met
+# text
+seg-7fbde256debf = täitmata
+
+# not verified
+# text
+seg-5405ea8fb6af = kontrollimata
+
+# open items
+# text
+seg-f6ccb7a322b3 = avatud punktid
+
+# Verification matrix: open a row for the check the dossier made
+# attr:aria-label
+seg-241bb8a5c188 = Kontrollimaatriks: ava rida, et näha dosjee tehtud kontrolli
+
+# ppp.cases[{ "1" }].median_convergence_min <= { "10" } min
+# text
+seg-1771db524c39 = ppp.cases[{ "1" }].median_convergence_min <= { "10" } min
+
+# <s1>met</s1><s2>MODELLED</s2>
+# text
+seg-1ba2dfe597a5 = <s1>täidetud</s1><s2>MODELLED</s2>
+
+# With { "240" } low Earth orbit (LEO) satellites added, precise point positioning (PPP) shall converge within { "10" } minutes (median over the seeded runs).
+# text
+seg-21ef0770a07c = { "240" } madala Maa orbiidi (LEO) satelliidi lisamisel peab täpne punktpositsioneerimine (PPP) koonduma { "10" } minuti jooksul (mediaan algväärtusega (seed) jooksude üle).
+
+# Method: analysis · run RUN-LEO · value read: { "7.5" } min
+# text
+seg-d739debd8759 = Meetod: analüüs · jooks RUN-LEO · loetud väärtus: { "7.5" } min
+
+# Open item: MODELLED basis
+# text
+seg-1bea7f394d61 = Avatud punkt: MODELLED alus
+
+# ppp.cases[{ "0" }].median_convergence_min <= { "10" } min
+# text
+seg-62352fb0b903 = ppp.cases[{ "0" }].median_convergence_min <= { "10" } min
+
+# <s1>not met</s1><s2>MODELLED</s2>
+# text
+seg-199d9de5b863 = <s1>täitmata</s1><s2>MODELLED</s2>
+
+# With GPS and Galileo alone, precise point positioning (PPP) shall converge within { "10" } minutes (median over the seeded runs).
+# text
+seg-d25f22bab194 = Ainult GPS-i ja Galileoga peab täpne punktpositsioneerimine (PPP) koonduma { "10" } minuti jooksul (mediaan algväärtusega (seed) jooksude üle).
+
+# Method: analysis · run RUN-LEO · value read: { "11.5" } min
+# text
+seg-f7fbbb0396f8 = Meetod: analüüs · jooks RUN-LEO · loetud väärtus: { "11.5" } min
+
+# Open item: not met
+# text
+seg-cd0df2627f00 = Avatud punkt: täitmata
+
+# fusion.fused.rms_error_3d_m <= { "0.5" } m
+# text
+seg-4f85cb208f09 = fusion.fused.rms_error_3d_m <= { "0.5" } m
+
+# With the LEO layer the fused three-dimensional position error shall be { "0.5" } m root mean square (RMS) or better.
+# text
+seg-2f64c266aaa9 = LEO kihiga peab liidetud kolmemõõtmeline asukohaviga olema { "0.5" } m ruutkeskmisena (RMS) või parem.
+
+# Method: test · run RUN-LEO · value read: { "0.4349" } m
+# text
+seg-ab3c35475bb8 = Meetod: katse · jooks RUN-LEO · loetud väärtus: { "0.4349" } m
+
+# Open item: method, MODELLED basis
+# text
+seg-813bc2c7156f = Avatud punkt: meetod, MODELLED alus
+
+# global.availability_pct >= { "95" } %
+# text
+seg-00370d1ef747 = global.availability_pct >= { "95" } %
+
+# The lunar relay constellation shall give a position fix with a position dilution of precision (PDOP) of { "6" } or better over at least { "95" } % of the lunar surface and of the day.
+# text
+seg-f903fd8d8738 = Kuu releekonstellatsioon peab andma asukohafiksi positsiooni täpsuse halvenemise teguriga (PDOP) { "6" } või parem vähemalt { "95" } % Kuu pinnast ja päevast.
+
+# Method: analysis · run RUN-LUNAR · value read: { "21.3286" } %
+# text
+seg-304a072d0a55 = Meetod: analüüs · jooks RUN-LUNAR · loetud väärtus: { "21.3286" } %
+
+# global.pdop.median <= { "6" }
+# text
+seg-03344a0f7614 = global.pdop.median <= { "6" }
+
+# Where the lunar relay constellation gives a fix, the median position dilution of precision (PDOP) shall be { "6" } or better.
+# text
+seg-9157dc0f0b69 = Kus Kuu releekonstellatsioon annab fiksi, peab positsiooni täpsuse halvenemise teguri (PDOP) mediaan olema { "6" } või parem.
+
+# Method: analysis · run RUN-LUNAR · value read: { "5.22" } { "1" }
+# text
+seg-8ce652866e44 = Meetod: analüüs · jooks RUN-LUNAR · loetud väärtus: { "5.22" } { "1" }
+
+# timeline.bands[{ "3" }].min_cn0_dbhz >= { "25" } dB-Hz
+# text
+seg-394b87e99d4f = timeline.bands[{ "3" }].min_cn0_dbhz >= { "25" } dB-Hz
+
+# <s1>met</s1><s2>PARTNER</s2>
+# text
+seg-4bd7577834e9 = <s1>täidetud</s1><s2>PARTNER</s2>
+
+# Under the scripted L-band interference, the GPS L5 carrier-to-noise density ratio (C/N0) shall stay at or above { "25" } dB-Hz.
+# text
+seg-c3cd6e0b2c8a = Skriptitud L-riba häire korral peab GPS L5 kandja ja müratiheduse suhe (C/N0) püsima tasemel { "25" } dB-Hz või kõrgemal.
+
+# Method: analysis · run RUN-SPECTRUM · value read: { "44.0752" } dB-Hz
+# text
+seg-c707f32aa460 = Meetod: analüüs · jooks RUN-SPECTRUM · loetud väärtus: { "44.0752" } dB-Hz
+
+# Open item: PARTNER basis
+# text
+seg-917d0ea847c5 = Avatud punkt: PARTNER alus
+
+# timeline.bands[{ "0" }].min_cn0_dbhz >= { "25" } dB-Hz
+# text
+seg-14ff8808abca = timeline.bands[{ "0" }].min_cn0_dbhz >= { "25" } dB-Hz
+
+# <s1>not met</s1><s2>PARTNER</s2>
+# text
+seg-b0ce1159ebab = <s1>täitmata</s1><s2>PARTNER</s2>
+
+# Under the scripted L-band interference, the GPS L1 coarse/acquisition (C/A) carrier-to-noise density ratio (C/N0) shall stay at or above { "25" } dB-Hz.
+# text
+seg-fac48ac76f34 = Skriptitud L-riba häire korral peab GPS L1 jämeda/hõivamise (C/A) kandja ja müratiheduse suhe (C/N0) püsima tasemel { "25" } dB-Hz või kõrgemal.
+
+# Method: analysis · run RUN-SPECTRUM · value read: { "3.2329" } dB-Hz
+# text
+seg-b2d1ec0d6dee = Meetod: analüüs · jooks RUN-SPECTRUM · loetud väärtus: { "3.2329" } dB-Hz
+
+# timeline.channels.time_error_ns.values <= timeline.channels.guard_ns.values for all values
+# text
+seg-5ae7272d2099 = timeline.channels.time_error_ns.values <= timeline.channels.guard_ns.values for all values
+
+# In the chained jamming, spoofing and holdover mission the clock time error shall stay within its { "50" } ns guard at every timeline step.
+# text
+seg-ae1e65b11562 = Aheldatud segamise, spuufimise ja holdover missioonis peab kella ajaviga igal ajajoone sammul jääma oma { "50" } ns kaitsepiiri sisse.
+
+# Method: analysis · run RUN-CAMPAIGN · value read: { "51.7825" } ns
+# text
+seg-99c163a008d1 = Meetod: analüüs · jooks RUN-CAMPAIGN · loetud väärtus: { "51.7825" } ns
+
+# min(timeline.events[].t_s) <= { "30" } min
+# text
+seg-b0cead50489e = min(timeline.events[].t_s) <= { "30" } min
+
+# In the chained mission a spoofing alarm shall be raised within { "30" } minutes of the start.
+# text
+seg-3a2678859ea3 = Aheldatud missioonis peab spuufimisalarm tõusma { "30" } minuti jooksul algusest.
+
+# Method: demonstration · run RUN-CAMPAIGN · value read: { "1,200" } s
+# text
+seg-fb11475464de = Meetod: demonstratsioon · jooks RUN-CAMPAIGN · loetud väärtus: { "1,200" } s
+
+# Open item: method, PARTNER basis
+# text
+seg-446c41fcb3ab = Avatud punkt: meetod, PARTNER alus
+
+# fom.rms_error_relays_m <= { "5" } m
+# text
+seg-b6177dbc98f7 = fom.rms_error_relays_m <= { "5" } m
+
+# Around Mars the constellation-only position error shall be { "5" } m root mean square (RMS) or better over one sol.
+# text
+seg-4ceaa0d03a24 = Marsi ümber peab ainult konstellatsiooni asukohaviga olema { "5" } m ruutkeskmisena (RMS) või parem ühe päeva (sol) jooksul.
+
+# Method: analysis · run RUN-MARS · value read: { "1.8827" } m
+# text
+seg-5794fedf0f41 = Meetod: analüüs · jooks RUN-MARS · loetud väärtus: { "1.8827" } m
+
+# fom.availability_relays >= { "99" } %
+# text
+seg-243a7ff0524b = fom.availability_relays >= { "99" } %
+
+# Around Mars the constellation shall give a position fix at { "99" } % of epochs or more.
+# text
+seg-576583ccb8f3 = Marsi ümber peab konstellatsioon andma asukohafiksi vähemalt { "99" } % epohhidest.
+
+# Method: analysis · run RUN-MARS · value read: { "1" } { "1" }
+# text
+seg-32c406b96132 = Meetod: analüüs · jooks RUN-MARS · loetud väärtus: { "1" } { "1" }
+
+# no machine-checkable criterion
+# text
+seg-532fe876e134 = masinkontrollitav kriteerium puudub
+
+# The receiver housing shall carry the programme's identification label.
+# text
+seg-9dd3f9575483 = Vastuvõtja korpusel peab olema programmi identifitseerimissilt.
+
+# Method: inspection · run none · value read: no run traced
+# text
+seg-e1efc36871f9 = Meetod: ülevaatus · jooks puudub · loetud väärtus: jälgitud jooksu pole
+
+# Open item: no evidence, manual verification
+# text
+seg-7368cd7b9fdf = Avatud punkt: tõendid puuduvad, käsitsi kontrollimine
+
+# Page { "1" } of the generated dossier (PDF)
+# attr:aria-label
+seg-cf21103fdda2 = Loodud dosjee (PDF) lehekülg { "1" }
+
+# Page { "1" } of the generated mission dossier
+# attr:alt
+seg-1edae087e2ef = Loodud missioonidosjee lehekülg { "1" }
+
+# Page { "2" } of the generated dossier (PDF)
+# attr:aria-label
+seg-bfc11601ca89 = Loodud dosjee (PDF) lehekülg { "2" }
+
+# Page { "2" } of the generated mission dossier
+# attr:alt
+seg-6cc250f43823 = Loodud missioonidosjee lehekülg { "2" }
+
+# { "21" } pages, one command. <a1>Open the generated PDF</a1> (Portable Document Format)
+# text
+seg-dbb08e7c5575 = { "21" } lehekülge, üks käsk. <a1>Ava loodud PDF</a1> (Portable Document Format)
+
+# Kshana Pro { "0.2.0" } on open engine { "0.29.0" } · <b>kshana-pro mission build</b> · { "5" } runs and one trade study · { "7" } met, all on a MODELLED or PARTNER basis · dossier SHA-256 49df1e0e… · development build
+# text
+seg-277df27d9586 = Kshana Pro { "0.2.0" } avatud mootoril { "0.29.0" } · <b>kshana-pro mission build</b> · { "5" } jooksu ja üks kompromissuuring · { "7" } täidetud, kõik MODELLED või PARTNER alusel · dosjee SHA-256 49df1e0e… · arendusversioon
+
+# More Kshana Pro answers
+# attr:aria-label
+seg-583ce9cabfb2 = Veel Kshana Pro vastuseid
+
+# Three more answers
+# text
+seg-62b6f3df413b = Veel kolm vastust
+
+# Campaign watch
+# text
+seg-80f67e30b341 = Kampaania jälgimine
+
+# On-premises job service
+# text
+seg-aed2198e0810 = Asutusesisene tööteenus
+
+# A free user runs a campaign and reads the result.
+# text
+seg-64b7fd74a3e3 = Tasuta kasutaja käivitab kampaania ja loeb tulemuse.
+
+# A Pro user names the figures that matter in a set of scenarios, says what worse means for each, and gets a pipeline that fails when a change to a scenario, a model or the engine makes one of them worse, or stops meeting its requirement.
+# text
+seg-3b9495ecb948 = Pro kasutaja nimetab stsenaariumikomplekti olulised arvud, ütleb, mida iga arvu puhul tähendab halvem, ja saab konveieri, mis ebaõnnestub, kui stsenaariumi, mudeli või mootori muudatus teeb ühe neist halvemaks või see lakkab nõuet täitmast.
+
+# It extends the scenario regression check. A Monte Carlo figure is judged with statistics instead of a tolerance, so a new set of random seeds is not called a regression and a doubled spread is. Every run is appended to a history in which each record carries the hash of the one before, and a check reports whether that chain is intact.
+# text
+seg-31f8c78ca95e = See laiendab stsenaariumi regressioonikontrolli. Monte Carlo arvu hinnatakse statistikaga tolerantsi asemel, nii et uut juhuslike algväärtuste (seed) komplekti ei nimetata regressiooniks, kuid kahekordistunud hajuvust nimetatakse. Iga jooks lisatakse ajalukku, milles iga kirje kannab eelmise räsi, ja kontroll teatab, kas see ahel on terve.
+
+# <b>What it does not do.</b> A watch proves that a MODELLED figure stayed stable or moved; it does not prove the figure is true. A figure with no stated direction is reported and never fails a run.
+# text
+seg-01e316af4e6b = <b>Mida see ei tee.</b> Jälgimine tõestab, et MODELLED arv jäi stabiilseks või liikus; see ei tõesta, et arv on tõene. Arv, millel pole öeldud suunda, esitatakse ja see ei lase kunagi jooksul ebaõnnestuda.
+
+# Campaign watch · <b>six revisions, one history</b>
+# text
+seg-ca34b7fbd8a0 = Kampaania jälgimine · <b>kuus redaktsiooni, üks ajalugu</b>
+
+# Revision
+# attr:aria-label
+seg-35e2f3c6d5ee = Redaktsioon
+
+# Watched figure · revision
+# text
+seg-cc02f3327260 = Jälgitav arv · redaktsioon
+
+# Revision r1-published: pass, exit code { "0" }
+# attr:aria-label
+seg-722c55b5ca9d = Redaktsioon r1-published: läbitud, väljumiskood { "0" }
+
+# Revision r2-documentation: pass, exit code { "0" }
+# attr:aria-label
+seg-afebb6b7fe91 = Redaktsioon r2-documentation: läbitud, väljumiskood { "0" }
+
+# Revision r3-weaker-jammer: pass, exit code { "0" }
+# attr:aria-label
+seg-04be8823d1a4 = Redaktsioon r3-weaker-jammer: läbitud, väljumiskood { "0" }
+
+# Revision r4-stronger-jammer: fail, exit code { "1" }
+# attr:aria-label
+seg-358f8307eb64 = Redaktsioon r4-stronger-jammer: ebaõnnestunud, väljumiskood { "1" }
+
+# Revision r5-withdrawn: pass, exit code { "0" }
+# attr:aria-label
+seg-dedab67d8791 = Redaktsioon r5-withdrawn: läbitud, väljumiskood { "0" }
+
+# Revision r6-faster-spoofer: pass, exit code { "0" }
+# attr:aria-label
+seg-507fa1cd9725 = Redaktsioon r6-faster-spoofer: läbitud, väljumiskood { "0" }
+
+# Verdict of each watched figure at each revision
+# attr:aria-label
+seg-5f91b1908b7f = Iga jälgitava arvu otsus igal redaktsioonil
+
+# first run: becomes the baseline
+# attr:title, text
+seg-e4e33a6fa3ba = esimene jooks: muutub lähtetasemeks
+
+# r1: first run: becomes the baseline
+# attr:aria-label
+seg-6c6055582596 = r1: esimene jooks: muutub lähtetasemeks
+
+# carrier-to-noise density ratio (C/N0) at the end of the jamming phase
+# text
+seg-5733e7e1ed6d = kandja ja müratiheduse suhe (C/N0) segamisfaasi lõpus
+
+# unchanged
+# attr:title, text
+seg-039e60fda167 = muutumatu
+
+# r2: unchanged
+# attr:aria-label
+seg-5d3ef8b30387 = r2: muutumatu
+
+# improved
+# attr:title, text
+seg-a668aec87232 = paranenud
+
+# r3: improved
+# attr:aria-label
+seg-3a9107ada303 = r3: paranenud
+
+# regressed
+# attr:title, text
+seg-b297d2fb39b8 = regresseerunud
+
+# r4: regressed
+# attr:aria-label
+seg-ef9e2f850cec = r4: regresseerunud
+
+# r5: unchanged
+# attr:aria-label
+seg-80661be2216a = r5: muutumatu
+
+# r6: unchanged
+# attr:aria-label
+seg-f1c94be68352 = r6: muutumatu
+
+# largest time error on the mission timeline
+# text
+seg-9973d98d3f4a = suurim ajaviga missiooni ajajoonel
+
+# r3: unchanged
+# attr:aria-label
+seg-6ea2524c4af5 = r3: muutumatu
+
+# r4: unchanged
+# attr:aria-label
+seg-46399b8584f9 = r4: muutumatu
+
+# moved within its tolerance
+# attr:title, text
+seg-92dee1b56602 = liikus oma tolerantsi piires
+
+# r6: moved within its tolerance
+# attr:aria-label
+seg-00ce02720ce2 = r6: liikus oma tolerantsi piires
+
+# satellites tracking at the end of the jamming phase
+# text
+seg-1f5141270ec1 = satelliite jälgimas segamisfaasi lõpus
+
+# share of the mission under alarm
+# text
+seg-eb59ecfd5267 = alarmi all oleva missiooni osa
+
+# r6: improved
+# attr:aria-label
+seg-359a0cb57119 = r6: paranenud
+
+# spoofing detected (phase length)
+# text
+seg-07c171df971c = spuufimine tuvastatud (faasi pikkus)
+
+# time error at the end of holdover
+# text
+seg-d01450760c7b = ajaviga holdover lõpus
+
+# <b>Revision r4-stronger-jammer</b> · jammer raised from -33 to -24 dBW (decibels relative to one watt): C/N0 at the end of the jamming phase { "30.60" } → { "21.82" } dB-Hz (decibel-hertz), below the { "25" } dB-Hz floor, requirement not met; satellites tracking { "8" } → { "0" }; three watches regressed · <s1>fail, exit code { "1" }</s1>
+# text
+seg-0cb385d09879 = <b>Redaktsioon r4-stronger-jammer</b> · segaja tõstetud väärtuselt -33 väärtusele -24 dBW (detsibelli suhtes ühe vatiga): C/N0 segamisfaasi lõpus { "30.60" } → { "21.82" } dB-Hz (detsibell-herts), alla { "25" } dB-Hz põranda, nõue täitmata; jälgitavaid satelliite { "8" } → { "0" }; kolm jälgimist regresseerus · <s1>ebaõnnestunud, väljumiskood { "1" }</s1>
+
+# The bundled campaign pack, { "10" } watched figures over three open campaigns, run twice: pass both times, { "0" } of { "125" } figures moved, history of { "2" } records intact.
+# text
+seg-4b31c9074821 = Komplekti kuuluv kampaaniapakett, { "10" } jälgitavat arvu kolme avatud kampaania üle, käivitatud kaks korda: läbitud mõlemal korral, { "0" } / { "125" } arvust liikus, { "2" } kirje ajalugu terve.
+
+# Kshana Pro { "0.2.0" } on open engine { "0.29.0" } · <b>kshana-pro ci</b> · demonstration revisions of <c1/> · history { "6" } records, chain intact, last hash bb2f10eb… · MODELLED
+# text
+# c1: campaign-jam-spoof-holdover-integrity.toml
+seg-7a2d9c48a64e = Kshana Pro { "0.2.0" } avatud mootoril { "0.29.0" } · <b>kshana-pro ci</b> · faili <c1/> demonstratsioonirevisjonid · ajalugu { "6" } kirjet, ahel terve, viimane räsi bb2f10eb… · MODELLED
+
+# A free user checks one satellite's signal against one GNSS signal.
+# text
+seg-2556e9b037d6 = Tasuta kasutaja kontrollib ühe satelliidi signaali ühe GNSS-i signaali vastu.
+
+# A Pro user tests one or more candidate signal plans, each a signal design and a constellation, against every open-service GNSS signal the engine models, with every satellite of the plan in view at once, and gets a verdict per plan and signal against a limit the study states.
+# text
+seg-7116e3268891 = Pro kasutaja testib ühte või mitut kandidaatsignaaliplaani, millest igaüks on signaalikujundus ja konstellatsioon, iga mootori modelleeritud avateenuse GNSS-i signaali vastu, kusjuures plaani kõik satelliidid on korraga nähtaval, ning saab otsuse plaani ja signaali kohta uuringu nimetatud piiri vastu.
+
+# Both directions are tested: the loss of C/N0 each plan causes to each GNSS signal, and the loss the GNSS signals cause to the plan. Pro adds only the sum over the satellites in view at each cell of a worldwide grid and the ranking of the plans. The limit and its source are inputs; no limit is built in.
+# text
+seg-06f88c6df63a = Testitakse mõlemat suunda: C/N0 kadu, mida iga plaan põhjustab igale GNSS-i signaalile, ja kadu, mida GNSS-i signaalid põhjustavad plaanile. Pro lisab ainult summa nähtavate satelliitide üle ülemaailmse ruudustiku igas lahtris ja plaanide järjestuse. Piir ja selle allikas on sisendid; ühtegi piiri pole sisse ehitatud.
+
+# <b>What it does not do.</b> The result is an upper bound: every satellite in view is taken at the maximum received power, with no power that varies with elevation and no receive-antenna pattern. It is not a coordination filing and not a regulatory finding.
+# text
+seg-6ed2560fa7cb = <b>Mida see ei tee.</b> Tulemus on ülempiir: iga nähtav satelliit võetakse maksimaalse vastuvõetava võimsusega, ilma kõrgusega muutuva võimsuseta ja ilma vastuvõtuantenni suunamustrita. See ei ole koordineerimistaotlus ega regulatiivne järeldus.
+
+# Spectrum coexistence · <b>{ "4" } example signal plans</b>
+# text
+seg-60b335f177f1 = Spektri kooseksisteerimine · <b>{ "4" } näidissignaaliplaani</b>
+
+# View
+# attr:aria-label
+seg-1590505b1b83 = Vaade
+
+# Plans against signals
+# text
+seg-8de62dd3e1fe = Plaanid vs signaalid
+
+# World map of the worst loss
+# text
+seg-ce57b941ae2a = Halvima kao maailmakaart
+
+# Loss each plan causes to each signal, against the limit
+# attr:aria-label
+seg-3eadc758676e = Kadu, mida iga plaan põhjustab igale signaalile, vs piir
+
+# Plan · signal
+# text
+seg-7f94e08ffaf7 = Plaan · signaal
+
+# GPS L1 C/A
+# text
+seg-082f79d4da08 = GPS L1 C/A
+
+# Galileo E1
+# text
+seg-8136c1e5d8b9 = Galileo E1
+
+# GPS L5
+# text
+seg-ca7643f7c122 = GPS L5
+
+# Galileo E5a
+# text
+seg-cda934673aea = Galileo E5a
+
+# Galileo E5b
+# text
+seg-37166a721917 = Galileo E5b
+
+# Galileo E5 AltBOC
+# text
+seg-e35b90594226 = Galileo E5 AltBOC
+
+# L band, { "288" } satellites to GPS L1 C/A: no overlap in frequency
+# attr:aria-label
+seg-ecd0258691ec = L-riba, { "288" } satelliiti GPS L1 C/A-le: sageduses kattumist pole
+
+# L band, { "288" } satellites
+# text
+seg-d409177fe15a = L-riba, { "288" } satelliiti
+
+# no overlap
+# text
+seg-d85041c82618 = kattumist pole
+
+# L band, { "288" } satellites to Galileo E1: no overlap in frequency
+# attr:aria-label
+seg-c87416d18cdf = L-riba, { "288" } satelliiti Galileo E1-le: sageduses kattumist pole
+
+# L band, { "288" } satellites to GPS L5: within the limit
+# attr:aria-label
+seg-ae171f239741 = L-riba, { "288" } satelliiti GPS L5-le: piirides
+
+# within limit
+# text
+seg-37e3dfebbbde = piirides
+
+# L band, { "288" } satellites to Galileo E5a: within the limit
+# attr:aria-label
+seg-75bcd6c441eb = L-riba, { "288" } satelliiti Galileo E5a-le: piirides
+
+# L band, { "288" } satellites to Galileo E5b: within the limit
+# attr:aria-label
+seg-261a10fbac33 = L-riba, { "288" } satelliiti Galileo E5b-le: piirides
+
+# L band, { "288" } satellites to Galileo E5 AltBOC: within the limit
+# attr:aria-label
+seg-be215e26ecf7 = L-riba, { "288" } satelliiti Galileo E5 AltBOC-le: piirides
+
+# L band, { "144" } satellites to GPS L1 C/A: no overlap in frequency
+# attr:aria-label
+seg-d235b8128c0f = L-riba, { "144" } satelliiti GPS L1 C/A-le: sageduses kattumist pole
+
+# L band, { "144" } satellites<em>ranked front</em>
+# text
+seg-d89797f95366 = L-riba, { "144" } satelliiti<em>järjestatud front</em>
+
+# L band, { "144" } satellites to Galileo E1: no overlap in frequency
+# attr:aria-label
+seg-c5637516dd73 = L-riba, { "144" } satelliiti Galileo E1-le: sageduses kattumist pole
+
+# L band, { "144" } satellites to GPS L5: within the limit
+# attr:aria-label
+seg-56419d057320 = L-riba, { "144" } satelliiti GPS L5-le: piirides
+
+# L band, { "144" } satellites to Galileo E5a: within the limit
+# attr:aria-label
+seg-501c3b3cf978 = L-riba, { "144" } satelliiti Galileo E5a-le: piirides
+
+# L band, { "144" } satellites to Galileo E5b: within the limit
+# attr:aria-label
+seg-1eb5de9a6b98 = L-riba, { "144" } satelliiti Galileo E5b-le: piirides
+
+# L band, { "144" } satellites to Galileo E5 AltBOC: within the limit
+# attr:aria-label
+seg-511fb4592027 = L-riba, { "144" } satelliiti Galileo E5 AltBOC-le: piirides
+
+# C band, { "288" } satellites to GPS L1 C/A: no overlap in frequency
+# attr:aria-label
+seg-2ecb209d51e9 = C-riba, { "288" } satelliiti GPS L1 C/A-le: sageduses kattumist pole
+
+# C band, { "288" } satellites
+# text
+seg-6f45606a5b3d = C-riba, { "288" } satelliiti
+
+# C band, { "288" } satellites to Galileo E1: no overlap in frequency
+# attr:aria-label
+seg-f4ef2515fd58 = C-riba, { "288" } satelliiti Galileo E1-le: sageduses kattuvust ei ole
+
+# C band, { "288" } satellites to GPS L5: no overlap in frequency
+# attr:aria-label
+seg-2fc04945b97b = C-riba, { "288" } satelliiti GPS-i L5-le: sageduses kattuvust ei ole
+
+# C band, { "288" } satellites to Galileo E5a: no overlap in frequency
+# attr:aria-label
+seg-c3254aeb9110 = C-riba, { "288" } satelliiti Galileo E5a-le: sageduses kattuvust ei ole
+
+# C band, { "288" } satellites to Galileo E5b: no overlap in frequency
+# attr:aria-label
+seg-b2497f3af295 = C-riba, { "288" } satelliiti Galileo E5b-le: sageduses kattuvust ei ole
+
+# C band, { "288" } satellites to Galileo E5 AltBOC: no overlap in frequency
+# attr:aria-label
+seg-cbb0b39f5417 = C-riba, { "288" } satelliiti Galileo E5 AltBOC-le: sageduses kattuvust ei ole
+
+# Wide C band, { "288" } satellites to GPS L1 C/A: no overlap in frequency
+# attr:aria-label
+seg-2a329a17333c = Lai C-riba, { "288" } satelliiti GPS-i L1 C/A-le: sageduses kattuvust ei ole
+
+# Wide C band, { "288" } satellites<em>ranked front</em>
+# text
+seg-7f67a52e23d7 = Lai C-riba, { "288" } satelliiti<em>edetabeli ees</em>
+
+# Wide C band, { "288" } satellites to Galileo E1: no overlap in frequency
+# attr:aria-label
+seg-5c53a07ea503 = Lai C-riba, { "288" } satelliiti Galileo E1-le: sageduses kattuvust ei ole
+
+# Wide C band, { "288" } satellites to GPS L5: no overlap in frequency
+# attr:aria-label
+seg-9afa24c2a22a = Lai C-riba, { "288" } satelliiti GPS-i L5-le: sageduses kattuvust ei ole
+
+# Wide C band, { "288" } satellites to Galileo E5a: no overlap in frequency
+# attr:aria-label
+seg-8d00d0e4e15b = Lai C-riba, { "288" } satelliiti Galileo E5a-le: sageduses kattuvust ei ole
+
+# Wide C band, { "288" } satellites to Galileo E5b: no overlap in frequency
+# attr:aria-label
+seg-396bb70a5b21 = Lai C-riba, { "288" } satelliiti Galileo E5b-le: sageduses kattuvust ei ole
+
+# Wide C band, { "288" } satellites to Galileo E5 AltBOC: no overlap in frequency
+# attr:aria-label
+seg-017f8d2a0d09 = Lai C-riba, { "288" } satelliiti Galileo E5 AltBOC-le: sageduses kattuvust ei ole
+
+# <b>L band, { "288" } satellites → Galileo E5 AltBOC</b> · worst loss caused { "0.00544" } dB (decibel), at a cell with { "17" } of its satellites in view: a margin of { "0.0946" } dB to the { "0.1" } dB limit · <s1>compatible</s1>
+# text
+seg-893be5d86234 = <b>L-riba, { "288" } satelliiti → Galileo E5 AltBOC</b> · halvim tekitatud kadu { "0.00544" } dB (detsibell), lahtris, kus on nähtaval { "17" } selle satelliiti: varu { "0.0946" } dB kuni { "0.1" } dB piirini · <s1>ühilduv</s1>
+
+# World map of the worst loss the plan L band, { "288" } satellites causes, per cell: every cell within the limit
+# attr:aria-label
+seg-bc132b0068fe = Maailmakaart halvimast kaost, mida kava L-riba, { "288" } satelliiti põhjustab, lahtri kaupa: iga lahter on piirides
+
+# { "0" } dB
+# text
+seg-ae759f574501 = { "0" } dB
+
+# { "0.00544" } dB, the worst cell · limit { "0.1" } dB
+# text
+seg-c73e052d7628 = { "0.00544" } dB, halvim lahter · piir { "0.1" } dB
+
+# Worst loss the plan <b>L band, { "288" } satellites</b> causes at each cell of the worldwide grid, over the signals it overlaps: an upper bound, every satellite in view at the maximum received power.
+# text
+seg-a55ab55d78eb = Halvim kadu, mida kava <b>L-riba, { "288" } satelliiti</b> põhjustab ülemaailmse ruudustiku igas lahtris üle signaalide, millega see kattub: ülempiir, iga nähtav satelliit maksimaalse vastuvõetud võimsusega.
+
+# <b>{ "4" } of { "4" }</b> plans compatible · the GNSS signals cost the L-band plans at most { "0.00908" } dB
+# text
+seg-5acfa8382eca = <b>{ "4" } kavast { "4" }</b> ühilduvad · GNSS-i signaalid maksavad L-riba kavadele kuni { "0.00908" } dB
+
+# Kshana Pro { "0.2.0" } on open engine { "0.29.0" } · <b>kshana-pro coexist</b> · { "10" } engine runs (<c1/>, <c2/>) · scenario hash 479364bd… · MODELLED upper bound · the { "0.1" } dB limit was chosen for the example only, not a regulatory criterion · C/A: coarse/acquisition; AltBOC: alternative binary offset carrier
+# text
+# c1: constellation-design
+# c2: leo-signal
+seg-2acb5dfe6d2c = Kshana Pro { "0.2.0" } avatud mootoril { "0.29.0" } · <b>kshana-pro coexist</b> · { "10" } mootori jooksutust (<c1/>, <c2/>) · stsenaariumi räsi 479364bd… · MODELLED ülempiir · { "0.1" } dB piir valiti ainult näite jaoks, mitte regulatiivse kriteeriumina · C/A: jämedalt/hankimine (coarse/acquisition); AltBOC: alternatiivne binaarne nihkekandja
+
+# Can the team queue studies on its own network and prove what was delivered?
+# text
+seg-b5f4c3d893ed = Kas meeskond saab oma võrgus uuringuid järjekorda panna ja tõendada, mis tarniti?
+
+# A free user runs one scenario at a time on one machine.
+# text
+seg-b0252a650ea5 = Tasuta kasutaja käivitab korraga ühe stsenaariumi ühes masinas.
+
+# A Pro team queues studies on its own network, lets them run while no one watches, and can show afterwards exactly which result was delivered for which request.
+# text
+seg-18d63112f063 = Pro meeskond paneb uuringud oma võrgus järjekorda, laseb neil joosta, kui keegi ei jälgi, ja saab hiljem täpselt näidata, milline tulemus millise taotluse jaoks tarniti.
+
+# It extends the on-premises service: Pro can run as a small HTTP (Hypertext Transfer Protocol) service on your own network: it reports its health, its version and the kinds it can run, and runs a scenario posted to it. A job's identifier is the SHA-256 of the operation and the request, so the same request is the same job and is not run twice. After a stop or a crash, every unfinished job is queued again and no finished job is run again. Without a licence it serves the open engine only and refuses every Pro feature.
+# text
+seg-dc4ada18a8b6 = See laiendab kohapealset teenust: Pro saab töötada väikese HTTP (Hypertext Transfer Protocol) teenusena teie enda võrgus: see teatab oma tervisest, versioonist ja liikidest, mida see saab käivitada, ning käivitab sellele postitatud stsenaariumi. Töö identifikaator on operatsiooni ja taotluse SHA-256, nii et sama taotlus on sama töö ega käivitu kaks korda. Pärast peatumist või kokkujooksmist pannakse iga lõpetamata töö uuesti järjekorda ja ühtegi lõpetatud tööd ei käivitata uuesti. Ilma litsentsita teenindab see ainult avatud mootorit ja keeldub igast Pro funktsioonist.
+
+# <b>What it does not do.</b> One request per connection, with no streaming: a client polls. One licence for the whole service and one shared access token, not user management. No cancellation, time limit, priority or retention policy.
+# text
+seg-c1af74cddda0 = <b>Mida see ei tee.</b> Üks taotlus ühenduse kohta, voogedastuseta: klient pärib. Üks litsents kogu teenusele ja üks ühine juurdepääsuluba, mitte kasutajahaldus. Tühistamist, ajalimiiti, prioriteeti ega säilituspoliitikat ei ole.
+
+# On-premises job service · <b>one recorded session</b>
+# text
+seg-a91c54eb4ba8 = Kohapealne tööteenus · <b>üks salvestatud seanss</b>
+
+# Requests to the service and what it answered, in order
+# attr:aria-label
+seg-f584d334e551 = Teenusele esitatud taotlused ja selle vastused järjekorras
+
+# <b>POST /jobs</b> <em>a link-budget scenario</em>
+# text
+seg-a308bdf972fc = <b>POST /jobs</b> <em>lingibilansi stsenaarium</em>
+
+# accepted and queued · job fb6e50ff…
+# text
+seg-1bea805079e5 = vastu võetud ja järjekorda pandud · töö fb6e50ff…
+
+# GET /jobs/{ "{" }id{ "}" }
+# text
+seg-ed66dc7a965c = GET /jobs/{ "{" }id{ "}" }
+
+# succeeded on its first attempt · kind <c1/>
+# text
+# c1: link-budget
+seg-e97b04c3927f = õnnestus esimesel katsel · stsenaariumi <c1/>-id
+
+# <b>POST /jobs</b> <em>the same request again</em>
+# text
+seg-5c0fce7aca9c = <b>POST /jobs</b> <em>sama taotlus uuesti</em>
+
+# the same job, already finished: nothing run twice
+# text
+seg-50000838f4cc = sama töö, juba lõpetatud: midagi ei käivitatud kaks korda
+
+# GET /ledger/verify
+# text
+seg-be3aa55c904e = GET /ledger/verify
+
+# verified, chain intact · { "3" } records · { "1" } delivered job · no mismatch
+# text
+seg-3fb12de9f868 = kontrollitud, ahel terve · { "3" } kirjet · { "1" } tarnitud töö · lahknevust pole
+
+# GET /openapi.json
+# text
+seg-d05960312e08 = GET /openapi.json
+
+# OpenAPI { "3.1" } · { "13" } paths, from the service's own route table
+# text
+seg-4b360cf65b93 = OpenAPI { "3.1" } · { "13" } teed, teenuse enda marsruuditabelist
+
+# <b>GET /</b> <em>the job board</em>
+# text
+seg-a976477641db = <b>GET /</b> <em>tööde tahvel</em>
+
+# loads nothing from outside
+# text
+seg-4b68fe5ddf1c = ei lae midagi väljastpoolt
+
+# <b>restart</b> <em>then GET /jobs/{ "{" }id{ "}" }</em>
+# text
+seg-734560e175a9 = <b>taaskäivitus</b> <em>seejärel GET /jobs/{ "{" }id{ "}" }</em>
+
+# the finished job still shows one attempt
+# text
+seg-7d53151be9e6 = lõpetatud töö näitab endiselt ühte katset
+
+# <b>kill -9</b> <em>while a job runs, then restart</em>
+# text
+seg-d0683c37acc1 = <b>kill -9</b> <em>töö jooksmise ajal, seejärel taaskäivitus</em>
+
+# the unfinished job ran again and succeeded; the finished job was not run again · ledger { "9" } records, { "3" } delivered jobs, verified
+# text
+seg-64ddf6a78d22 = lõpetamata töö käivitati uuesti ja see õnnestus; lõpetatud tööd ei käivitatud uuesti · register (ledger) { "9" } kirjet, { "3" } tarnitud tööd, kontrollitud
+
+# <b>no licence: POST /jobs</b> <em>a Pro scenario</em>
+# text
+seg-fcbfbd231d61 = <b>litsentsita: POST /jobs</b> <em>Pro stsenaarium</em>
+
+# refused on submission: nothing queued
+# text
+seg-1911ae0879b8 = esitamisel keelduti: midagi ei pandud järjekorda
+
+# <b>no licence: POST /jobs</b> <em>an open scenario</em>
+# text
+seg-de7bb1084780 = <b>litsentsita: POST /jobs</b> <em>avatud stsenaarium</em>
+
+# accepted and queued
+# text
+seg-14edaf993a56 = vastu võetud ja järjekorda pandud
+
+# Kshana Pro on open engine { "0.29.0" } · <b>kshana-pro serve --data-dir</b>, two workers (the restart test: one) · HTTP status codes as the service returned them · a local run on public scenario files with the development entitlement, not a customer deployment
+# text
+seg-af3f560b9a7f = Kshana Pro avatud mootoril { "0.29.0" } · <b>kshana-pro serve --data-dir</b>, kaks töölist (taaskäivituse test: üks) · HTTP olekukoodid sellisena, nagu teenus need tagastas · kohalik jooksutus avalikel stsenaariumifailidel arendusõigusega, mitte kliendi juurutus
+
+# Also in Kshana Pro
+# text
+seg-935445590619 = Samuti Kshana Pro-s
+
+# Kshana Pro's model-based systems-engineering (MBSE) and programme tooling checks a programme's requirements against runs of the open engine: it imports requirements as comma-separated values (CSV), or as a documented subset of the Requirements Interchange Format (ReqIF) or of Systems Modeling Language version { "2" } (SysML v2) text, and produces a verification cross-reference matrix (VCRM), a SysML v2 model, a change-impact report and an offline evidence pack. It re-runs and recomputes nothing.
+# text
+seg-a9b4af1b1b07 = Kshana Pro mudelipõhise süsteemitehnika (MBSE) ja programmitööriistad kontrollivad programmi nõudeid avatud mootori jooksutuste vastu: need impordivad nõuded komadega eraldatud väärtustena (CSV) või Requirements Interchange Formati (ReqIF) dokumenteeritud alamhulgana või Systems Modeling Language versiooni { "2" } (SysML v2) tekstina ning loovad kontrolli ristviitemaatriksi (VCRM), SysML v2 mudeli, muudatuste mõju aruande ja võrguühenduseta tõendipaketi. See ei jooksuta ega arvuta midagi uuesti.
+
+# The open engine's outputs it reads
+# text
+seg-0a662a644f5d = Avatud mootori väljundid, mida see loeb
+
+# the fields a criterion names, their units, the reproducibility stamp of scenario hash, seed, engine version and schema version, and the run's label and figure tiers
+# text
+seg-e91fe1056446 = kriteeriumi nimetatud väljad, nende ühikud, reprodutseeritavuse tempel (stsenaariumi räsi, algväärtus (seed), mootori versioon ja skeemi versioon) ning jooksutuse silt ja arvude tasemed
+
+# kind, reproducibility record and capability labels
+# text
+seg-c84c09a6dc24 = liik, reprodutseeritavuse kirje ja võimekuse sildid
+
+# its hash, kind, seed and parameters
+# text
+seg-8fc1ffcf6847 = selle räsi, liik, algväärtus (seed) ja parameetrid
+
+# each field's unit, provenance and evidence tier
+# text
+seg-2e6b3bca199f = iga välja ühik, päritolu ja tõendustase
+
+# each capability's VALIDATED, MODELLED or PARTNER label
+# text
+seg-593a13692dc4 = iga võimekuse silt VALIDATED, MODELLED või PARTNER
+
+# A trade study runs every architecture option as an unchanged open-engine scenario, ranks the options on a figure of merit read from each run's result, and writes an evidence pack that records each option's scenario hash, so any figure in it can be reproduced by re-running that scenario.
+# text
+seg-26c07e74fdca = Kompromissiuuring käivitab iga arhitektuurivaliku muutmata avatud mootori stsenaariumina, järjestab valikud iga jooksutuse tulemusest loetud kvaliteedinäitaja (FoM) alusel ning kirjutab tõendipaketi, mis salvestab iga valiku stsenaariumi räsi, nii et mis tahes selles oleva arvu saab reprodutseerida selle stsenaariumi uuesti jooksutamisega.
+
+# Clock digital twin
+# text
+seg-05a421ea6ac7 = Kella digitaalne kaksik
+
+# A clock twin is calibrated to a device's published Allan-deviation budget, then checked by estimating the twin's own Allan deviation with the open engine's estimator and comparing the two within a stated tolerance. A twin of your own device needs your characterisation data and is built under contract and a non-disclosure agreement.
+# text
+seg-06ca5084425c = Kellakaksik kalibreeritakse seadme avaldatud Alani hälbe bilansi järgi, seejärel kontrollitakse, hinnates kaksiku enda Alani hälvet avatud mootori hindajaga ja võrreldes neid kahte määratud tolerantsi piires. Teie enda seadme kaksik vajab teie karakteriseerimisandmeid ning see ehitatakse lepingu ja konfidentsiaalsuslepingu alusel.
+
+# Study dossier
+# text
+seg-fca21deac438 = Uuringudosjee
+
+# One scenario becomes a reproducible technical note in HTML (HyperText Markup Language) and JSON (JavaScript Object Notation): scope, method, results with a tier on every figure, limitations, and the exact scenario text run.
+# text
+seg-fef6a718bf86 = Üks stsenaarium muutub reprodutseeritavaks tehniliseks märkmeks HTML-is (HyperText Markup Language) ja JSON-is (JavaScript Object Notation): ulatus, meetod, tulemused iga arvu tasemega, piirangud ja täpne jooksutatud stsenaariumi tekst.
+
+# <b>Pro needs a licence.</b> Without one, Pro runs open scenarios only and refuses every Pro feature with a message naming what is required.
+# text
+seg-4650cf680300 = <b>Pro vajab litsentsi.</b> Ilma selleta jooksutab Pro ainult avatud stsenaariume ja keeldub igast Pro funktsioonist teatega, mis nimetab, mida on vaja.
+
+# <b>Some work needs a signed customer.</b> A twin of your own device needs your characterisation data and is built under contract and a non-disclosure agreement.
+# text
+seg-627687344e9e = <b>Mõni töö vajab allkirjastanud klienti.</b> Teie enda seadme kaksik vajab teie karakteriseerimisandmeid ning see ehitatakse lepingu ja konfidentsiaalsuslepingu alusel.
+
+# <b>Nothing Pro produces is a certification.</b> Every result is modelled, and says so.
+# text
+seg-f15f652a7e77 = <b>Ükski Pro loodud tulemus ei ole sertifitseerimine.</b> Iga tulemus on modelleeritud ja ütleb seda ise.
+
+# Done as a custom study
+# text
+seg-ef76d9237977 = Tehakse eriuuringuna
+
+# <b>Models of your hardware.</b> Sensor or resilience models calibrated to your hardware are built only under contract, with your data.
+# text
+seg-853667670c1f = <b>Teie riistvara mudelid.</b> Teie riistvarale kalibreeritud andur- või vastupidavusmudelid ehitatakse ainult lepingu alusel, teie andmetega.
+
+# <b>Export-controlled resilience models are not publicly offered.</b> Such work is done only under the appropriate clearance and a non-disclosure agreement.
+# text
+seg-520654f215c5 = <b>Ekspordikontrolli all olevaid vastupidavusmudeleid avalikult ei pakuta.</b> Selline töö tehakse ainult sobiva juurdepääsuloa ja konfidentsiaalsuslepingu alusel.
+
+# The charts in this section are drawn from the files the Pro commands wrote for the worked examples that ship with Pro: modelled results, not statements about any real mission. The wording is quoted from the public Kshana Pro page of the open repository.
+# text
+seg-8ea876b3c515 = Selle jaotise diagrammid on joonistatud failidest, mille Pro käsud kirjutasid Pro-ga kaasas olevate töönäidete jaoks: modelleeritud tulemused, mitte väited ühegi tegeliku missiooni kohta. Sõnastus on tsiteeritud avatud hoidla avalikult Kshana Pro lehelt.
+
+# The open engine at the centre: one mark per scenario kind ({ "93" }), filled where the kind has validated ledger rows, hollow where its rows are Modelled, a dash where no ledger module matches it by name. Kshana Pro and the custom study sit around it and connect to the kinds they build on.
+seg-0ab329c843b0 = Avatud mootor keskel: üks märk iga stsenaariumi liigi kohta ({ "93" }), täidetud, kus liigil on valideeritud registriread, õõnes, kus selle read on modelleeritud, kriips, kus ükski registrimoodul nimega ei vasta. Kshana Pro ja kohandatud uuring asuvad selle ümber ning ühenduvad liikidega, millele nad toetuvad.
+
+# Engine v{ $version } · { "93" } kinds from <c1/> · ledger status from <c2/> · what Pro and a study build on: the site's editions register · no scenario or seed
+seg-e507665bbe2c = Mootor v{ $version } · { "93" } liiki failist <c1/> · registri olek failist <c2/> · millele Pro ja uuring toetuvad: saidi väljaannete register · stsenaariumi ega algväärtust pole
+
+# (not in the old English either)
+seg-43711d15e734 = Täielik kontrollimaatriks: { "176" } võimekust { "412" }-st on valideeritud sõltumatute etalonide vastu, ülejäänud on märgitud modelleeritud
+
+# <b>With Pro:</b> a <b>mission dossier</b> checks every requirement against real runs and keeps these labels in its verification matrix: a requirement met on a MODELLED or PARTNER basis is flagged. <a1>See a real dossier</a1>
+# text
+seg-5af3d58e83fa = <b>Pro-ga:</b> <b>missioonidossier</b> kontrollib iga nõuet tegelike jooksutuste vastu ja hoiab neid silte oma kontrollimaatriksis: nõue, mis on täidetud MODELLED või PARTNER alusel, märgitakse. <a1>Vaata tegelikku dossiee</a1>
+
+# Need this ledger as an audit-grade, reproducible evidence pack for a review board? <a1>Kshana Pro packages it</a1>.
+# text
+seg-41da0459d87a = Kas seda registrit (ledger) on vaja auditikvaliteediga reprodutseeritava tõendipaketina ülevaatuskomisjonile? <a1>Kshana Pro pakendab selle</a1>.
+
+# Kshana Pro packages the evidence a review or procurement board asks for, reproducibly. What it builds on: this ledger, where every capability names its oracle and its test, and the stamp every result carries. In one command, a mission dossier checks every requirement against real runs and writes a verification matrix with its open items and a PDF (Portable Document Format).
+# text
+seg-20582558a93f = Kshana Pro pakendab tõendid, mida ülevaatus- või hankekomisjon küsib, reprodutseeritavalt. Millele see toetub: see register (ledger), kus iga võimekus nimetab oma sõltumatu etaloni ja testi, ning tempel, mida kannab iga tulemus. Ühe käsuga kontrollib missioonidossier iga nõuet tegelike jooksutuste vastu ning kirjutab kontrollimaatriksi koos lahtiste punktide ja PDF-iga (Portable Document Format).
+
+# See a real dossier
+# text
+seg-1c8effb9400a = Vaata tegelikku dossiee
+
+# Packages the evidence into an audit-grade, reproducible evidence pack for a review board. <a1>See below</a1>
+# text
+seg-69df15091cab = Pakib tõendid auditikvaliteediga reprodutseeritavaks tõendipaketiks ülevaatuskomisjonile. <a1>Vt allpool</a1>
+
+# (not in the old English either)
+seg-43f852e4bee8 = { "74" }-st valideeritud
+
+# (not in the old English either)
+seg-0c637f4b6c88 = { "412" } võimekust, igaüks hinnatud. <b>{ "176" } valideeritud</b> sõltumatute väliste etalonide vastu. <b>{ "232" } ausalt märgitud modelleeritud.</b> { "4" } partneri omanduses. Midagi ei ümardata ülespoole.
+
+# (not in the old English either)
+seg-c2c3179c1316 = Kontrollimaatriks, üks lahter võimekuse kohta registri järjekorras: { "176" } valideeritud (täidetud ruudud), { "232" } modelleeritud (õõnsad ruudud), { "4" } partneri omanduses (rombid). Nooleklahvid liigutavad lahtrite vahel; võimekus ja selle etalon loetakse allpool ette.
+
+# (not in the old English either)
+seg-a2cdd2df1b36 = Mootor v{ $version } · <c1/>, genereeritud failist <c2/> · { "412" } rida · stsenaariumi ega algväärtust pole: mootori enda register
+
+# (not in the old English either)
+seg-b36352ff4d2a = Mootor v{ $version }, järk <c1/> · <c2/> · deterministlik, algväärtust pole
+
+# (not in the old English either)
+seg-edd1aba6a08c = Mootor v{ $version }, järk <c1/> · <c2/> · deterministlik, algväärtust pole
+
+# (not in the old English either)
+seg-90efc3759f07 = Mootor v{ $version }, järk <c1/> · <c2/> · deterministlik, algväärtust pole
+
+# (not in the old English either)
+seg-094876c75564 = Mootor v{ $version } · <c1/> jääktabelid, kahe propagaatorikontrolliga, mis on ehituse <c2/> juures uuesti arvutatud · deterministlik, algväärtust (seed) ei ole
+
+# (not in the old English either)
+seg-1c7e4b85e701 = Mootor v{ $version }, järk <c1/> · <c2/> · deterministlik, algväärtust pole
+
+# (not in the old English either)
+seg-f42398e9711c = Mootor v{ $version }, järk <c1/> · <c2/> · deterministlik, algväärtust pole
+
+# (not in the old English either)
+seg-07e8ef5a102f = { "176" }<s1>{ "412" }-st valideeritud</s1>
+
+# (not in the old English either)
+seg-4873cd813b9a = Kontrollimaatriks: { "176" } valideeritud, { "232" } modelleeritud, { "4" } partneri omanduses, kokku { "412" }
+
+# (not in the old English either)
+seg-98b273ce8773 = Kõik { "412" } rida, igaüks ühel real.
+
+# (not in the old English either)
+seg-c321a2dafd3e = Kõik { "412" }
+
+# (not in the old English either)
+seg-bc4726a0baf1 = Modelleeritud { "232" }
+
+# (not in the old English either)
+seg-40e80b22723c = Valideerimisregister, { "412" } rida, keritav
+
+# <s1>Kshana Pro</s1><c1/><s2>Same engine, amplified: { "608" } designs, one Pareto front</s2>
+# text
+# c1: 
+seg-a92f77bd42cb = <s1>Kshana Pro</s1><c1/><s2>Sama mootor võimendatuna: { "608" } kavandit, üks Pareto front</s2>
+
+# Kshana Pro is a proprietary overlay that depends on the open core and never forks it, available under contract. No prices on a web page: every paid route starts with a message to <a1>contact@ashforde.org</a1>.
+# text
+seg-27c12083529b = Kshana Pro on omandiline pealiskiht, mis sõltub avatud tuumast ega hargne sellest kunagi, saadaval lepingu alusel. Hindu veebilehel ei ole: iga tasuline tee algab kirjaga aadressil <a1>contact@ashforde.org</a1>.
+
+# The Pareto front of a design space, with every front design as a scenario the free engine re-runs.
+# text
+seg-298532756f74 = Disainiruumi Pareto rinne, kus iga rinde disain on stsenaarium, mille tasuta mootor uuesti jooksutab.
+
+# Uncertainty and sensitivity over thousands of runs.
+# text
+seg-a699256db841 = Määramatus ja tundlikkus tuhandete jooksutuste üle.
+
+# A one-command mission dossier with a verification matrix and a PDF (Portable Document Format) file.
+# text
+seg-665005551d84 = Ühe käsuga missioonidosjee kontrollimaatriksi ja PDF-failiga (Portable Document Format).
+
+# Audit-grade, reproducible evidence packs; clock digital twins calibrated to your device's published Allan budget; architecture trade studies ranked on a figure of merit; model-based systems-engineering (MBSE) and programme tooling.
+# text
+seg-455cb5040f80 = Auditikvaliteediga reprodutseeritavad tõendipaketid; kella digitaalsed kaksikud, mis on kalibreeritud teie seadme avaldatud Alani bilansi järgi; arhitektuuri kompromissiuuringud, mis on järjestatud kvaliteedinäitaja alusel; mudelipõhine süsteemitehnika (MBSE) ja programmitööriistad.
+
+# Same engine, amplified: real Kshana Pro output
+# text
+seg-3303866fbf99 = Sama mootor, võimendatud: tegelik Kshana Pro väljund
+
+# <a1><s1><c1/>Design optimiser</s1></a1>
+# text
+# c1: 
+seg-f5513a1750f1 = <a1><s1><c1/>Disaini optimeerija</s1></a1>
+
+# <b>{ "608" } designs</b>, all run: the Pareto front and its knee
+# text
+seg-2bbc6243b4b1 = <b>{ "608" } disaini</b>, kõik jooksutatud: Pareto rinne ja selle põlv
+
+# <a1><s1><c1/>Uncertainty and sensitivity</s1></a1>
+# text
+# c1: 
+seg-56e344605a3d = <a1><s1><c1/>Määramatus ja tundlikkus</s1></a1>
+
+# <b>{ "2,000" } runs</b>: a confidence band against a limit
+# text
+seg-a0b3c138f981 = <b>{ "2,000" } jooksutust</b>: usaldusriba piiri vastu
+
+# <b>{ "12" } requirements</b> checked against real runs, 21-page PDF (Portable Document Format)
+# text
+seg-905e5eef45e5 = <b>{ "12" } nõuet</b> kontrollitud tegelike jooksutuste vastu, 21-leheküljeline PDF (Portable Document Format)
+
+# (not in the old English either)
+seg-b9961ed25282 = Uut versioonis v{ $version }: missiooniahel, tõendussilt igal näitajal ja seitseteist keelt
+
+# (not in the old English either)
+seg-237d8bd201d2 = <b>Kampaania:</b> Mootor v{ $version }, järk <c1/> · <c2/> · algväärtus (seed) { "20260928" }
+
+# (not in the old English either)
+seg-98ebce268546 = <b>Orbiidid:</b> Mootor v{ $version }, järk <c1/> · <c2/> · deterministlik, algväärtuseta (seed)
+
+# (not in the old English either)
+seg-bb2975f5a7dd = Mootor v{ $version }, ehitus <c1/> · <c2/> · algväärtus (seed) { "20260928" }
+
+# (not in the old English either)
+seg-ee04b167d80a = { "176" } võimekust { "412" }-st nõustub sõltumatute väliste etalonidega; ülejäänud on märgitud modelleeritud, valjusti öeldes.
+
+# <s1>Pro</s1> the Pareto front of a design space, uncertainty and sensitivity, and a one-command mission dossier
+# text
+seg-354162e88f07 = <s1>Pro</s1> disainiruumi Pareto rinne, määramatus ja tundlikkus ning ühe käsuga missioonidosjee
+
+# Pro: audit-grade, reproducible evidence packs for a review.
+# text
+seg-de3cc6d30b9c = Pro: auditikvaliteediga reprodutseeritavad tõendipaketid ülevaatuseks.
+
+# Pro: architecture trade studies ranked on a figure of merit. Pro: clock digital twins calibrated to your device's published Allan budget.
+# text
+seg-7889feffa939 = Pro: arhitektuuri kompromissiuuringud, mis on järjestatud headuse näitaja alusel. Pro: kella digitaalsed kaksikud, mis on kalibreeritud teie seadme avaldatud Alani hälbe eelarvele.
+
+# Pro: clock digital twins calibrated to your device's published Allan budget. Pro: architecture trade studies ranked on a figure of merit.
+# text
+seg-4a5542c69690 = Pro: kella digitaalsed kaksikud, mis on kalibreeritud teie seadme avaldatud Alani hälbe eelarvele. Pro: arhitektuuri kompromissiuuringud, mis on järjestatud headuse näitaja alusel.
+
+# Pro: clock digital twins calibrated to your device's published Allan budget. Pro: audit-grade, reproducible evidence packs for a review.
+# text
+seg-cc45be91cd00 = Pro: kella digitaalsed kaksikud, mis on kalibreeritud teie seadme avaldatud Alani hälbe eelarvele. Pro: auditikvaliteediga reprodutseeritavad tõendipaketid ülevaatuseks.
+
+# <b>With Pro:</b> the design optimiser runs a whole constellation design space around the Earth, the Moon or Mars through this engine and returns its <b>Pareto front</b>, each front design written out as a plain scenario file. <a1>See a real front</a1>
+# text
+seg-6c981f00d37d = <b>Pro-ga:</b> kavandioptimeerija käitab kogu konstellatsiooni kavandiruumi Maa, Kuu või Marsi ümber läbi selle mootori ja tagastab oma <b>Pareto front</b>-i, kusjuures iga fronti kavand kirjutatakse välja tavalise stsenaariumifailina. <a1>Vaadake tegelikku fronti</a1>
+
+# <b>Free today:</b> everything in the open engine. Pro: architecture trade studies ranked on a figure of merit.
+# text
+seg-9601ecea0610 = <b>Tasuta täna:</b> kõik avatud mootoris. Pro: arhitektuuri kompromissiuuringud, mis on järjestatud headuse näitaja alusel.
+
+# <b>Free today:</b> everything in the open engine. Pro: audit-grade, reproducible evidence packs for a review.
+# text
+seg-081d06995ef0 = <b>Tasuta täna:</b> kõik avatud mootoris. Pro: auditikvaliteediga reprodutseeritavad tõendipaketid ülevaatuseks.
+
+# <b>Free today:</b> everything in the open engine. Pro: clock digital twins calibrated to your device's published Allan budget.
+# text
+seg-2abf4f5bd06e = <b>Tasuta täna:</b> kõik avatud mootoris. Pro: kella digitaalsed kaksikud, mis on kalibreeritud teie seadme avaldatud Alani hälbe eelarvele.
+
+# (not in the old English either)
+seg-67a6c0107bcd = Mootor v{ $version }, järk <c1/> · <c2/> · deterministlik, algväärtust pole

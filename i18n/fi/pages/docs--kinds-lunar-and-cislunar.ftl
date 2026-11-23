@@ -196,8 +196,6 @@ seg-a790c54ac1aa = Pakolliset kentät: ei yhtään. Valinnaiset: <c1/>, <c2/>, <
 
 seg-4efffcd615df = <b>Kirjanpito (ledger):</b> MODELLED. Koko sivu, jolla ovat syötteet, tulokset, todisteet ja rajoitukset: <a1>lunar-beacon</a1>.
 
-seg-720d0bbeaf6e = Pakolliset kentät: ei yhtään. Valinnaiset: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>.
-
 seg-019ca0f1051e = <b>Kirjanpito (ledger):</b> mikään matriisin rivi ei nimeä tätä lajia; moottori merkitsee oman tuloksensa. Koko sivu, jolla ovat syötteet, tulokset, todisteet ja rajoitukset: <a1>lunar-interop-export</a1>.
 
 seg-28695dd2ecc3 = Pakolliset kentät: ei yhtään. Valinnaiset: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>.

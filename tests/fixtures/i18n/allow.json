@@ -10,8 +10,8 @@
    "reason": "machine-document and identifier: the kshana.adsb-indicators/1 document (schema and method ids, field and flag names, the note written into that machine document) and the ADS-B CSV column names (docs/ADSB-INDICATORS.md)"
   },
   "src/advanced_report.rs": {
-   "count": 497,
-   "reason": "identifier: the crosswalk of kind names to verification-matrix requirement text, matched by equality against the matrix rows (the new lunar, mission-thread and tip-and-cue kinds add rows), and report JSON keys"
+   "count": 500,
+   "reason": "identifier: the crosswalk of kind names to verification-matrix requirement text, matched by equality against the matrix rows (the new lunar, mission-thread and tip-and-cue kinds add rows), report JSON keys, and the field-name suffixes and unit symbols of unit_from_suffix (rates and seconds of day added)"
   },
   "src/afs_interop.rs": {
    "count": 37,
@@ -1350,7 +1350,7 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/optical_atmosphere_scenario.rs": {
-   "count": 207,
+   "count": 209,
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/optical_outage_holdover.rs": {

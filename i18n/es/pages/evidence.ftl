@@ -1429,7 +1429,6 @@ seg-2a5e48b558e1 = El informe hybrid-optical-rf declara la configuración de enl
 
 # text
 # c1: variance
-seg-23f0c10237f4 = Sin referencia independiente externa, y no es posible ninguna: esto es autodescripción, no una medición. Se registra porque su ausencia era un defecto: P5 tuvo que citar la longitud de onda de portadora y la apertura de transmisión a partir de valores por defecto del código fuente, e inferir que un <c1/> sin más estaba en metros cuadrados a partir de una comprobación de coherencia interna. La inferencia era correcta, y precisamente por eso importaba: nada habría detectado que fuera errónea
 
 # text
 seg-0691f3dee8cb = Disponibilidad del enlace híbrido óptico/RF en el lado de RF
@@ -3505,9 +3504,6 @@ seg-d5c32303297d = Leer el registro
 seg-f6112ab2dfdf = El registro, los resultados, el sello de reproducibilidad y las pruebas que los respaldan están todos en el motor abierto.
 
 # text
-seg-69df15091cab = Empaqueta la evidencia en un paquete de evidencias reproducible y apto para auditoría, destinado a un comité de revisión. <a1>Véase más abajo</a1>
-
-# text
 seg-9906d9824f3e = Responde a su propia pregunta con las mismas etiquetas, no es una certificación. <a1>Véase más abajo</a1>
 
 # text
@@ -4883,9 +4879,6 @@ seg-7091847e1c77 = Un modelo publicado o una decisión de modelado documentada, 
 seg-1d17589ad647 = Ingeniería de plataformas de nave espacial, carga útil de navegación y hardware de antena, hardware de carga útil cuántica y aseguramiento del producto de hardware de vuelo. Kshana no afirma nada de ello; lo posee un socio.
 
 # text
-seg-5af3d58e83fa = <b>Con Pro:</b> un <b>dosier de misión</b> comprueba cada requisito frente a ejecuciones reales y conserva estas etiquetas en su matriz de verificación: se señala un requisito satisfecho sobre una base MODELLED o PARTNER. <a1>Ver un dosier real</a1>
-
-# text
 seg-400016e22379 = Registro de validación
 
 # text
@@ -5627,9 +5620,6 @@ seg-457a0bba7c77 = <s1>tests/receiver_trust_machines.rs (rtklib_pos_runs_as_a_re
 seg-17ab1aee875b = Generado a partir de la matriz de verificación del motor y fijado por una prueba. Desplácese por la lista o abra una fila para ver su capacidad, su referencia independiente y sus pruebas. La tabla completa, con todas las columnas a la vez, está en la documentación: <a1>Referencia de capacidades</a1>.
 
 # text
-seg-41da0459d87a = ¿Necesita este registro como un paquete de evidencias reproducible y apto para auditoría, destinado a un comité de revisión? <a1>Kshana Pro lo empaqueta</a1>.
-
-# text
 seg-72a49f4a8a52 = Reproducible por defecto
 
 # text
@@ -5715,12 +5705,6 @@ seg-d2c76b1353a9 = El motor y todo lo anterior siguen siendo gratuitos. Dos vía
 
 # text
 seg-1e1e6d431868 = Kshana Pro: un dosier de misión y un paquete de evidencias
-
-# text
-seg-20582558a93f = Kshana Pro empaqueta, de forma reproducible, la evidencia que pide un comité de revisión o de adquisiciones. Sobre qué se apoya: este registro, donde cada capacidad nombra su referencia independiente y su prueba, y el sello que lleva cada resultado. Con un solo comando, un dosier de misión comprueba cada requisito frente a ejecuciones reales y escribe una matriz de verificación con sus asuntos pendientes y un PDF (Portable Document Format).
-
-# text
-seg-1c8effb9400a = Ver un dosier real
 
 # text
 seg-c24f4ecd4d42 = Un estudio a medida: su pregunta, respondida
@@ -6249,37 +6233,11 @@ seg-860ca782e2bf = La propagación del estado medio de la fase tli-and-cruise (C
 
 seg-7c7d72cc2036 = Una región factible para la ubicación de una fuente de informes de navegación degradada, a partir de ADS-B… · Modelada
 
-seg-43f852e4bee8 = de { "74" } validadas
-
 seg-8fe12f6058c6 = de { "26" } validadas
 
 seg-65122c2bb1fc = de { "104" } validadas
 seg-2998c6fa20d6 = de { "79" } validadas
 seg-4b3ab6095c65 = de { "56" } validadas
-
-seg-0c637f4b6c88 = { "412" } capacidades, cada una calificada. <b>{ "176" } validadas</b> frente a referencias independientes externas. <b>{ "232" } etiquetadas con franqueza como modeladas.</b> { "4" } propiedad de socios. Nada se redondea al alza.
-
-seg-c2c3179c1316 = Matriz de verificación, una celda por capacidad en el orden del registro: { "176" } validadas (cuadrados rellenos), { "232" } modeladas (cuadrados huecos), { "4" } propiedad de socios (rombos). Las teclas de flecha se mueven entre celdas; la capacidad y su referencia independiente se leen debajo.
-
-seg-a2cdd2df1b36 = Motor v{ $version } · <c1/>, generado a partir de <c2/> · { "412" } filas · sin escenario ni semilla: el propio registro del motor
-
-seg-b36352ff4d2a = Motor v{ $version }, compilación <c1/> · <c2/> · determinista, sin semilla
-
-seg-edd1aba6a08c = Motor v{ $version }, compilación <c1/> · <c2/> · determinista, sin semilla
-
-seg-90efc3759f07 = Motor v{ $version }, compilación <c1/> · <c2/> · determinista, sin semilla
-
-seg-094876c75564 = Motor v{ $version } · tablas de residuos de <c1/>, con las dos comprobaciones del propagador recalculadas en la compilación <c2/> · determinista, sin semilla
-
-seg-1c7e4b85e701 = Motor v{ $version }, compilación <c1/> · <c2/> · determinista, sin semilla
-
-seg-f42398e9711c = Motor v{ $version }, compilación <c1/> · <c2/> · determinista, sin semilla
-
-seg-07e8ef5a102f = { "176" }<s1>de { "412" } validadas</s1>
-
-seg-4873cd813b9a = Matriz de verificación: { "176" } validadas, { "232" } modeladas, { "4" } propiedad de socios, { "412" } en total
-
-seg-98b273ce8773 = Las { "412" } filas, una línea cada una.
 
 seg-7780d0588bd2 = de { "20" } validadas
 
@@ -6288,9 +6246,3 @@ seg-00d97be31745 = de { "81" } validadas
 seg-04cc15e9a93c = de { "31" } validadas
 
 seg-2de2a4f9f3f7 = de { "57" } validadas
-
-seg-c321a2dafd3e = Todas { "412" }
-
-seg-bc4726a0baf1 = Modeladas { "232" }
-
-seg-40e80b22723c = Registro de validación, { "412" } filas, con desplazamiento

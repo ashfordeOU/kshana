@@ -2086,17 +2086,6 @@ seg-9ac1f9e2d1b1 = No interior do motor: as camadas de domínio e o registo de v
 seg-4e894b853889 = <b>Um motor, muitos pontos de entrada.</b> Um único núcleo em Rust (<c1/>) executa cada cenário, acessível através de uma CLI, de uma extensão Python, de um módulo WebAssembly no navegador, de um <b>servidor MCP</b> para agentes de IA e de um <b>plugin para IDE JetBrains</b> — todos convergindo num único despacho <c2/>. No interior, os pacotes de sensores ligam-se a uma interface comum de modelos de erro; a par deles encontram-se uma <b>camada de referenciais</b> (precessão–nutação IAU 2006/2000A e a redução GCRS↔ITRS baseada no CIO), uma <b>camada de astrodinâmica/numérica</b> (SGP4/SDP4 analítico <b>e</b> um propagador numérico de Cowell com o respetivo modelo de forças EGM2008/perturbações, conceção de manobras e determinação de órbita), uma <b>camada de integridade/GNSS</b> (RAIM/ARAIM, SBAS, o domínio das medições, jamming, cislunar), uma <b>camada de fusão / PNT alternativo</b> (os estimadores GNSS/INS e os correlacionadores de mapas de gravidade/terreno/magnéticos), uma <b>camada de espaço profundo e lunar</b> (PNT radiométrico em Marte e o conjunto de PNT lunar, com o nível de evidência de cada parte na matriz — tempo LTC, VLBI, OD+relógio conjuntos, realização de referencial, volume de serviço, PNT diferencial, interoperabilidade), uma <b>camada de análise de missão</b> (balanços de ligação de lançamento / reentrada / cobertura / apontamento / passagem e o ambiente de meteorologia espacial) e a <b>camada aberta de estudos de resiliência e aprendizagem automática</b> (pontuação de resiliência RPCF, a lacuna de otimismo por degradações de RF e o demonstrador de PNT quântico) cujos artefactos reprodutíveis assentam em núcleos validados.
 
 # text
-# c1: mcp/kshana-mcp
-# c2: rmcp
-# c3: xval/anise-frames
-# c4: Cargo.lock
-# c5: Cargo.toml
-# c6: exclude
-# c7: ide/jetbrains
-# c8: docs/ARCHITECTURE.md
-seg-698b8f40212f = Dois crates autónomos, <b>excluídos do workspace</b>, situam-se junto ao núcleo — <c1/> (o servidor MCP, construído sobre o SDK <c2/> da edição 2024) e <c3/> (a verificação cruzada de referenciais ANISE/SPICE, que traz dependências MPL-2.0 (Mozilla Public License { "2.0" })) — mantidos fora do grafo de dependências do crate publicado, de <c4/>, da barreira de licenças e da compilação MSRV (versão mínima suportada do Rust) pela lista <c6/> do <c5/> da raiz. O plugin JetBrains (<c7/>) é um projeto Kotlin separado. Consulte <a1><c8/></a1> para o conjunto completo de diagramas.
-
-# text
 # c1: docs/ARCHITECTURE.md
 seg-59578c405ae3 = Os diagramas renderizados (fluxo do motor, mapa de módulos, distribuição) encontram-se em <a1><c1/></a1>.
 
@@ -2399,9 +2388,6 @@ seg-fedf4c64c70b = O que é o Pro, nas palavras de <a1><c1/></a1>:
 
 # text
 seg-8e45f6fbb075 = <b>Um superconjunto estrito do Kshana aberto.</b> O Pro depende do motor aberto como biblioteca e nunca o bifurca. Todos os tipos de cenário abertos são executados no Pro sem alterações, e um cenário aberto é executado no Pro sem qualquer licença.
-
-# text
-seg-feece95f1d76 = <b>Sem física nova.</b> O Pro não acrescenta nenhum modelo físico e não altera nenhum. Todos os números do Pro provêm de execuções do motor aberto, pelo que um valor do Pro é tão fiável como o tipo de cenário aberto de onde veio, e nunca mais.
 
 # text
 # c1: docs/PRO.md
@@ -3495,17 +3481,8 @@ seg-2658a9477dd9 = <s1>Seguinte</s1>Guia de conceitos
 # text
 seg-90a95738b32d = Infraestrutura lunar (lunar-infrastructure)
 
-seg-20beca58d39e = <a1>Adicionar ao Cursor (npx)</a1> · <a2>Adicionar ao Cursor (Docker)</a2> · <c1/>
-
-seg-aa6b62f0b484 = <a1>Instalar no VS Code (npx)</a1> · <a2>Instalar no VS Code (Docker)</a2> · <c1/>
-
-seg-8e176aa32cd3 = MCP é o Model Context Protocol. Fixe uma versão com <c1/>, <c2/> ou <c3/>. Para compilar a partir do código-fonte, consulte <a1>Instalar e compilar</a1> em Referência.
-
 # text
 seg-57686575b81d = Dados de parceiros
-
-# text
-seg-467bb88ec415 = <a1>Novidades da { "0.40" }</a1>, <a2>Novidades da { "0.39" }</a2>, <a3>Novidades da { "0.38" }</a3> e <a4>a { "0.38" } em detalhe</a4>: pontuação do jammertest, os próprios indicadores do recetor, entradas de máquina, temporização e holdover, pacotes de normas, LunaNet AFS, o ciclo de ida e volta no laboratório, kshana-bench, o observatório, exportadores, ótica, <a5>navegação de utilizadores no espaço</a5> e <a6>infraestrutura lunar</a6>
 
 # text
 seg-cafc1c9c4d58 = Novidades da { "0.40" }
@@ -3661,8 +3638,6 @@ seg-48991660376d = Requer uma cadeia de ferramentas Rust (≥ { "1.88" }, a <c1/
 
 seg-dc95335b5131 = <b><c1/> falha numa cadeia de ferramentas antiga.</b> O Kshana precisa de Rust ≥ { "1.88" }. Atualize com <c2/>.
 
-seg-8391e467adf7 = <b>Cadeia da missão.</b> O tipo de cenário <c1/> encadeia fases do lançamento à reentrada (<c2/>, <c3/>, <c4/>, <c5/> e quatro tipos lunares) com regras de transferência declaradas, uma margem face aos requisitos declarados e o elo mais fraco; um exemplo de ponta a ponta de classe Artemis em { "11" } fases (segmentos terrestre e lunar), { "93" } tipos de cenário no total. Todo número é MODELLED. A propagação cislunar face à trajetória pública da Artemis I <b>não atinge</b> o seu limiar fixado antecipadamente ({ "45.3" } km e { "0.25" } m/s contra { "5" } km e { "0.05" } m/s; a causa são pequenas manobras que o modelo não inclui), e o propagador lunar face à órbita do CAPSTONE <b>não atinge</b> ({ "136.8" } km contra { "25" } km ao fim de uma revolução); a comparação com o LRO é atingida. As linhas permanecem MODELLED (<a1>Cadeia da missão</a1>, <a2>segmento lunar</a2>). No Studio, a cadeia lê-se em <c6/>.
-
 seg-a66ad1f69702 = Um único motor cobre toda a cadeia de falhas, do primeiro satélite sob interferência ao último nanossegundo de holdover do relógio. O motor tem { "93" } tipos de cenário; <c1/> os lista e <a1><c2/></a1> documenta cada campo.
 
 seg-43bd621a1f5b = Como uma execução flui. Um ficheiro TOML de cenário (um tipo, uma semente e os seus parâmetros) entra no motor, kshana { $version }, pelo despacho api::run_toml sobre { "93" } tipos de cenário, determinístico a partir do cenário, da semente e da versão do motor. O motor escreve result.json, chart.svg, report.html e report.json, uma table.csv para os tipos de cenário que definem uma, e, a pedido, exportações SP3, CCSDS OMM e OEM, CZML, KML, GeoJSON, STK e SigMF; uma suíte escreve study.json e study.html. Esses ficheiros alimentam o Kshana Studio no navegador, um assistente de IA por meio do servidor kshana-mcp e a integração contínua.
@@ -3671,30 +3646,6 @@ seg-fb8bcc54a31d = Os { "93" } tipos de cenário incorporados com descrições +
 
 seg-2f38fc515db6 = todo o motor aberto, todos os { "93" } tipos de cenário, sem restrição de recursos
 
-seg-5374f780c396 = Veja <c1/> para pelo menos um exemplo prático de cada tipo de cenário ({ "93" } tipos, { "195" } ficheiros <c2/> de cenário + { "1" } manifesto de suíte — vários tipos de cenário trazem mais de um exemplo). Nem todo tipo de cenário tem um ficheiro com o seu nome: <c3/> → <c4/> e <c5/> → <c6/> são dois de vários casos assim. Liste os tipos de cenário despacháveis a qualquer momento com os erros de <c7/>, o <c8/> do Python ou a ferramenta <c9/> do MCP.
-
 seg-d106dd5461ed = <a1><c1/></a1> é um servidor MCP: o seu assistente executa o motor verdadeiro e lê de volta o respetivo JSON, em vez de adivinhar a matemática. Cada uma das suas { "53" } ferramentas é um invólucro fino sobre uma função pública da biblioteca <c2/>, pelo que nenhuma lógica de simulação reside no servidor.
 
 seg-0920329ba390 = As { "53" } ferramentas
-
-seg-0933cb091687 = { "176" } de { "412" } capacidades VALIDATED face a uma referência independente externa, a partir da matriz de verificação
-
-seg-d9cccff82185 = A { "0.40" } acrescenta um orçamento de erro em nível de missão, etiqueta cada figura e tabela com o seu nível de evidência, lê registos de relógio medidos, verifica envios de parceiros de dados, estima onde pode estar um emissor de interferência e está disponível em dezassete idiomas além do inglês. O registo agora tem { "412" } linhas: { "176" } VALIDATED, { "232" } MODELLED, { "4" } PARTNER. Nenhuma linha foi promovida a VALIDATED, e toda falha abaixo está fixada por um teste.
-
-seg-93dcede29907 = <b>{ "176" } de { "412" }</b> capacidades validadas face a referências independentes externas; { "232" } etiquetadas com honestidade como modeladas. Cada linha da matriz de verificação nomeia uma capacidade, a referência independente com a qual ela é verificada, o teste que executa a verificação e a etiqueta que resulta. A integração contínua (CI) torna impossível chamar uma capacidade de VALIDATED sem uma referência independente externa.
-
-seg-99d2c21b1f60 = Como uma capacidade obtém a sua etiqueta. Cada linha da matriz de verificação nomeia uma capacidade, a referência independente com a qual ela é verificada, o teste que executa a verificação na integração contínua e a etiqueta que resulta. Uma linha só pode ser VALIDATED com uma referência independente externa; caso contrário é MODELLED, ou PARTNER quando um parceiro de hardware é o responsável. Exemplo: SGP4/SDP4, Cowell 6-DOF + perturbações, DO em lote/sequencial, referência independente: vetores de verificação SGP4 do AIAA 2006-6753, teste tests/sgp4_verification.rs, etiqueta VALIDATED. Contagens ao vivo: { "176" } VALIDATED, { "232" } MODELLED, { "4" } PARTNER de { "412" } linhas. No total, { "176" } capacidades validadas face a referências independentes externas; outras { "232" } são etiquetadas com honestidade como MODELLED e { "4" } pertencem a PARTNER.
-
-seg-7f933400c73d = Algumas das verificações: todos os { "666" } vetores SGP4 (Simplified General Perturbations { "4" }) do AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 até { "4.12" } mm; o modelo de forças de Cowell até { "0.08" } m face ao Orekit { "12.2" }; o Galileo até { "0.61" } m e o Swarm-A até { "0.10" } m face a efemérides precisas reais da Agência Espacial Europeia (ESA). Os testes mantêm cerca de { "95" } % de cobertura de linhas de <c1/>, com um mínimo de { "85" } % exigido na CI. O registo é <a1><c2/></a1>, gerado a partir de <c3/>: a <a2>matriz completa de 412 linhas</a2>, e por que cada linha modelada não tem referência independente externa em <a3><c4/></a3>.
-
-seg-df9b60a7dfe8 = Cada linha é imposta por um teste nomeado na CI. Esta tabela é um <b>destaque selecionado</b>; a matriz completa, verificada por máquina, tem <b>{ "412" } linhas — { "176" } VALIDATED, { "232" } MODELLED, { "4" } PARTNER</b> (<c1/>), com as evidências completas (e o que honestamente <em>ainda não</em> é validado) em <a1><c2/></a1> e o artefacto <a2><c3/></a2> de cada versão (gerado por <c4/>, atestado pelo SLSA — Supply-chain Levels for Software Artifacts).
-
-seg-d1700188b2cf = Como uma capacidade obtém a sua etiqueta: um requisito corresponde a um módulo em src, a um teste em tests, a uma referência independente externa (conjunto de dados real, implementação de referência independente ou vetores publicados), a um estado — com uma proteção imposta pela CI de que nenhuma capacidade pode ser validada sem uma referência independente externa. Contagens ao vivo: { "176" } validadas, { "232" } modeladas, { "4" } de parceiros, { "412" } no total
-
-seg-903f40bceba8 = Estado de verificação das { "412" } capacidades: { "176" } validadas (verificadas face a uma referência independente externa), { "232" } modeladas, { "4" } pertencentes a parceiros
-
-seg-9bfd6ba56a18 = { "176" } validadas · { "232" } modeladas · { "4" } de parceiros — <a1>SVG</a1>
-
-seg-74c21b004d86 = A arquitetura do Kshana: um motor aberto no centro, kshana { $version } sob a AGPL-3.0, com api::run_toml, um despacho tipado sobre todos os tipos de cenário, e o registo de verificação de { "412" } capacidades ({ "176" } VALIDATED, { "232" } MODELLED, { "4" } PARTNER). Em torno, cada superfície executa o mesmo motor: linha de comandos (cargo install kshana); biblioteca Rust (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); servidor MCP (cargo install kshana-mcp); imagem Docker (ghcr.io/ashfordeou/kshana-mcp); plugin JetBrains (Marketplace: "Kshana"). Abaixo, o Kshana Pro, uma camada proprietária que depende do motor aberto como biblioteca, nunca o bifurca e não acrescenta nenhum modelo físico.
-
-seg-e6c6926110e6 = A arquitetura do Kshana em camadas. Cinco portas de entrada (linha de comandos, Python, JavaScript e WebAssembly, o servidor MCP e o plugin JetBrains) chegam a um único api::run_toml, um despacho tipado sobre { "93" } tipos de cenário. Abaixo dele ficam oito camadas de domínio: tempo e referenciais, relógios e temporização, inercial e fusão, GNSS e integridade, astrodinâmica, PNT em LEO, Lua, Marte e espaço profundo, e missões e estudos, sobre um núcleo partilhado, todas referenciadas cruzadamente pelo módulo de verificação, a matriz de { "412" } capacidades verificada por máquina, que é a única fonte de verdade de cada etiqueta.

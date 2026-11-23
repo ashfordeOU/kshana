@@ -18,7 +18,7 @@ by anyone. Advisory only: Kshana is a study instrument, not type-approved naviga
 
 A submission can move a row to VALIDATED only for the claim the data actually tests, and only if the comparison meets its
 bar. It cannot make a device's own figures Kshana's to vouch for: those stay the partner's (PARTNER). Whether a row's label
-changes is the owner's decision, recorded in the commit that changes it, with the oracle text saying exactly what was
+changes is the maintainers' decision, recorded in the commit that changes it, with the oracle text saying exactly what was
 compared with what.
 
 ## Rows a partner's data could promote
@@ -30,7 +30,7 @@ never a promise.
 | Row | Data that would test it | Could change |
 |---|---|---|
 | `GNSS-denied clock holdover` | a record of days of a clock of a named class, free-running after its last discipline, compared with a better reference, at a sample interval of a minute or less | the per-class red-noise floors that bound holdover figures stay MODELLED today; a measured long-averaging-time stability could be compared with the floor of that class, for that class only |
-| `Quantum-vs-classical PNT trade & GNSS-denied resilience (13503)` | the measured Allan deviation, as a table or as the phase record, of a partner's clock or atom interferometer | the trade figures quantify (never validate) the partner device, so they would be labelled as the partner's figures (PARTNER); the ingest of measured Allan data into a noise model is already matched to an independent solver |
+| `Quantum-vs-classical PNT trade & GNSS-denied resilience` | the measured Allan deviation, as a table or as the phase record, of a partner's clock or atom interferometer | the trade figures quantify (never validate) the partner device, so they would be labelled as the partner's figures (PARTNER); the ingest of measured Allan data into a noise model is already matched to an independent solver |
 | `Oscillator holdover presets from public datasheets` | a phase record of an oscillator of one of the four preset models, over at least a day | whether the preset's datasheet-derived noise model reproduces a measured unit's stability at the datasheet's own averaging times |
 | `Measured clock device cards (held-out prediction)` | a phase record of a clock class not yet carded (an OCXO, a rubidium, a caesium, a maser, an optical clock) | a card fitted on the first third and predicting the Allan deviation of the rest within the pre-registered factor, as already done for GNSS satellite clocks and one receiver |
 | `Clock-log formats linuxptp (ptp4l, phc2sys, ts2phc) and chrony (tracking, statistics) read to a normalised phase series` | a log from a real installation (any daemon version) with the daemon's own summary lines | the readers were built from public line layouts and fixtures; a real log compared with an independent reader would be the first external check |
@@ -93,7 +93,7 @@ description), anything under export control or restricted by agreement, and any 
    run.
 3. **One scored run.** The result, every number and every miss included, is published with the command and the commit,
    and a test pins it. A miss is a finding, not a failure to hide: the row stays MODELLED and the page says so.
-4. **The ledger decision is the owner's**, in writing, in the commit that changes the row. The oracle text of a promoted
+4. **The ledger decision is the maintainers'**, in writing, in the commit that changes the row. The oracle text of a promoted
    row names the dataset, its licence and credit, what was compared and what was not.
 
 ## Credit and rights
@@ -105,8 +105,3 @@ description), anything under export control or restricted by agreement, and any 
 - You can withdraw a submission before its result is published. After that the result stays as recorded; if you withdraw
   the data licence, the file is removed from the repository and the hash and the scores remain.
 - Kshana transmits nothing and drives no hardware. A submission is files in, a report out.
-
-## Outreach
-
-A one-page note for a laboratory is drafted for the owner in [`docs/drafts/PARTNER-OUTREACH.md`](drafts/PARTNER-OUTREACH.md).
-It is a draft: nothing is sent, and nobody is contacted, until the owner decides.

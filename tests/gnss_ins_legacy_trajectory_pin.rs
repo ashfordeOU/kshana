@@ -55,7 +55,7 @@ fn truth_hash(scn: &GnssInsScenario) -> String {
 // Truth hashes re-pinned for the 0.36 portable maths (the trajectory library's truth path now
 // computes its transcendentals through PortableFloat; the result hashes did not move). Before,
 // on host maths: gnss-ins 1e23d78e..., automotive-urban-canyon 72d7afc1..., small-uas-jammed-nav
-// 78d1ca1f...; docs/revisions/STUDIO15-batch4-rebaseline.md.
+// 78d1ca1f...; docs/revisions/batch4-rebaseline.md.
 const PINS: &[(&str, &str, &str)] = &[
     (
         "gnss-ins",

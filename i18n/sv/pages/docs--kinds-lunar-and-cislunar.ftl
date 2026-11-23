@@ -192,8 +192,6 @@ seg-a790c54ac1aa = Obligatoriska fält: inga. Valfria: <c1/>, <c2/>, <c3/>, <c4/
 
 seg-4efffcd615df = <b>Register:</b> MODELLED. Hela sidan, med indata, resultat, evidens och begränsningar: <a1>lunar-beacon</a1>.
 
-seg-720d0bbeaf6e = Obligatoriska fält: inga. Valfria: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>.
-
 seg-019ca0f1051e = <b>Register:</b> ingen matrisrad nämner den här typen; motorn sätter själv etiketten på sitt resultat. Hela sidan, med indata, resultat, evidens och begränsningar: <a1>lunar-interop-export</a1>.
 
 seg-28695dd2ecc3 = Obligatoriska fält: inga. Valfria: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>.

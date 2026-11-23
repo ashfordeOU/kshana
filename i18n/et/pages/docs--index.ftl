@@ -289,9 +289,6 @@ seg-f466e9c87ba4 = <s1>Kshana kasutamine agendist</s1><s2>Agendile (või seda ju
 seg-ccfc820aac68 = <s1>Kus iga võimekus kättesaadav on</s1><s2>Iga võimekus on saadaval pindadel, kus see on mõttekas; kus mõni pind ei saa võimekust kanda, …</s2>
 
 # text
-seg-1c59d26e3faf = <s1>JetBrainsi plugin</s1><s2>Natiivne plugin, mis käivitab Kshana PNT-vastupidavuse simulaatori mis tahes JetBrainsi IDE-s (IntelliJ IDEA…</s2>
-
-# text
 seg-4498f8a0377b = <s1>Kus Kshana töötab</s1><s2>Ulatuse piir, kirja pandud nii, et keegi ei avastaks seda kohustusena koosolekul.</s2>
 
 # text
@@ -346,7 +343,3 @@ seg-5484fd345826 = <s1>Iga stsenaariumi liik, perekondade kaupa</s1><s2>Iga stse
 seg-b23a9bd3ccfa = <s1>Stsenaariumide teatmik</s1><s2>Iga kaasasolev stsenaariumifail ({ "195" }), rühmitatud liigi järgi, koos selle põhiseadetega.</s2>
 
 seg-a7dc2bc0a77d = { "93" } lehte, üks iga stsenaariumi liigi kohta, viidatud lehelt <a1>Iga stsenaariumi liik, perekondade kaupa</a1>.
-
-seg-abe17fad0734 = <s1>Kontrollimaatriks</s1><s2>Täielik masinkontrollitud tõenduste register: { "412" } rida — { "176" } VALIDATED, { "232" } MODELLED, { "4" } PARTNER.</s2>
-
-seg-7fd385494ae0 = <s1>Võimekuste teatmik</s1><s2>Võimekuskaardid ja kõik { "412" } kontrollimaatriksi rida.</s2>

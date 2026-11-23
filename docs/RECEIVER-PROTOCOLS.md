@@ -62,7 +62,7 @@ and SBF are read from files). A device that goes away ends the command as a faul
 supervisor to restart; the layer does not reconnect. Tested on a pseudo-terminal loopback
 (`tests/receiver_trust_live_serial.rs`), including that the master side receives no byte from the command.
 
-## Readers added in 0.42 (I3): SBP, GREIS, Unicore, and RTCM 3 observations
+## Readers added after release 0.41.0: SBP, GREIS, Unicore, and RTCM 3 observations
 
 Read only, as above: none of these readers writes to a receiver. Each is a built-in reader of
 `kshana obs convert --format <f>` and of `receiver-trust` (`[log] format = "<f>"`), with a test
@@ -76,7 +76,7 @@ public documents; no recorded receiver log is included. The values in them are i
 |---|---|---|---|
 | `sbp` | Swift Navigation `libsbp` specification (MIT; `spec/yaml/swiftnav/sbp/*.yaml`, `c/src/edc.c`) | frame `0x55`, CRC-16-CCITT; `MSG_GPS_TIME`(`_GNSS`) week; `MSG_POS_LLH`(`_GNSS`) latitude, longitude, ellipsoidal height, satellites used (fix mode 0 gives no fix); `MSG_DOPS` PDOP, HDOP, VDOP; `MSG_OBS` and `MSG_MEASUREMENT_STATE` C/N0 (0.25 dB-Hz) per signal, with the `GnssSignal` code table | pseudorange, phase and Doppler of `MSG_OBS`; GLONASS signals named only by frequency channel; auxiliary-antenna codes |
 | `greis` | Javad *GREIS* 4.3.00 (javad.com) | `IIHHH` framing and the 8-bit checksum (appendix A.1.1); `[~~]`, `[::]`, `[RD]` (the label says `GPST` for GPS time, `Z` for UTC, `GLONASST` for GLONASS time); `[SX]`, `[SI]`, `[NN]`; `[EC] [E1] [E2] [E3] [E5] [El]` and the ×4 forms; `[PG]` (solution type 0 gives no fix); `[DP]` (PDOP formed as √(HDOP² + VDOP²)) | the measurements (`[R*]`, `[P*]`, `[D*]`), navigation data, text messages; a GLONASS satellite with no `[NN]` slot |
-| `unicore` | Unicore *Reference Commands Manual for N4 High Precision Products* V2 R1.13 (en.unicore.com) | header `AA 44 B5` (24 bytes), the 32-bit CRC NovAtel also uses; `BESTNAV` (2118: status 0 only, height = MSL + undulation, satellites used); `OBSVM` (12: C/N0 × 100 per signal, system and signal type from the tracking status word); since E17 `AGC`, `JAMSTATUS`, `FREQJAMSTATUS`, binary or ASCII (below) | other ASCII logs, other messages; Unicore receivers that use NovAtel headers (`AA 44 12`) are read with `novatel` |
+| `unicore` | Unicore *Reference Commands Manual for N4 High Precision Products* V2 R1.13 (en.unicore.com) | header `AA 44 B5` (24 bytes), the 32-bit CRC NovAtel also uses; `BESTNAV` (2118: status 0 only, height = MSL + undulation, satellites used); `OBSVM` (12: C/N0 × 100 per signal, system and signal type from the tracking status word); also `AGC`, `JAMSTATUS`, `FREQJAMSTATUS`, binary or ASCII (below) | other ASCII logs, other messages; Unicore receivers that use NovAtel headers (`AA 44 12`) are read with `novatel` |
 
 **RTCM 3 observations and stations (library and `kshana connect decode rtcm3`).** The `rtcm3` reader
 of 0.38 reads the C/N0 of MSM4 and MSM7. `receiver_trust::machines::rtcm3_obs` decodes the rest of
@@ -92,7 +92,7 @@ consulted, so check against RTCM 10403.3 before relying on this beyond monitorin
 `conformance/timing/rtcm3-decode/` (a 1006 and an MSM7 with invalid markers); round trip:
 `rtcm_station_and_msm_round_trip` (MSM4 and MSM7 encoded and decoded within their resolutions).
 
-## Receiver formats added in E17: Unicore interference logs, RTCM 3 MSM1 to MSM7
+## Receiver formats added after release 0.41.0: Unicore interference logs, RTCM 3 MSM1 to MSM7
 
 **Unicore AGC and jamming flags.** The `unicore` reader also reads three interference logs of the same
 manual (R1.13), binary or ASCII: `AGC` (message 220, §7.5.7, Table 7-55), `JAMSTATUS` (511, §7.5.49,
@@ -129,5 +129,5 @@ NMEA or RTCM 3 is read with `nmea` or `rtcm3`. UBX-SEC-SIG (jamming and spoofing
 
 **What exists from earlier releases.** u-blox UBX (NAV-PVT, NAV-SAT, MON-RF, NAV-TIMEGPS, NAV-STATUS,
 SEC-SIG), Septentrio SBF (PVTGeodetic, MeasEpoch, RFStatus), NovAtel OEM7 (BESTPOS, RANGE,
-RXSTATUS, ASCII and binary) and RTCM 3 MSM4/MSM7 C/N0 are read as before; 0.42 adds no second
+RXSTATUS, ASCII and binary) and RTCM 3 MSM4/MSM7 C/N0 are read as before; the readers above add no second
 implementation of any of them.

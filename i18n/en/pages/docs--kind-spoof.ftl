@@ -35,14 +35,14 @@ seg-5a70fcb097dc = Optional fields: none
 seg-adb7ff15a702 = The example <c1/> sets, among others:
 
 # text
-seg-b0a5473bec67 = Microchip SA65 / SA.45s CSAC datasheet sigma_y(1s)={ "3e-10" }; q_
+seg-5b323bc8f9fc = Microchip SA65 / SA.45s CSAC datasheet sigma_y(1s)={ "3e-10" }…
 
 # text
-seg-a8d92406e428 = Strontium optical lattice clock, space-oriented goal sigma_y
+seg-964ddf738291 = Strontium optical lattice clock, space-oriented goal…
 
 # text
 # c1: scenarios/
-seg-51362910dcb7 = { "2" } bundled scenarios use this kind; the others are in <a1><c1/></a1>.
+seg-2224c257616c = { "2" } scenario files in <a1><c1/></a1> use this kind.
 
 # text
 seg-debc2f07db78 = true
@@ -57,16 +57,7 @@ seg-6f6a8c975111 = The chart the engine writes for scenarios/spoof-attack.toml, 
 seg-03d8dc3de7ca = <b>MODELLED</b> Clock-aided χ², RAIM, AGC, SQM fused per-epoch security FoM Tests: <a1>spoof_texbat_validation.rs</a1>.
 
 # text
-# c1: leo-pass
-# c2: [spoofer]
-seg-ecc2dc8489bb = <b>MODELLED</b> The <c1/> kind's <c2/> section: a spoofer counterfeits, self-consistently in range and range rate, the signals seen at a claimed position that jumps and/or is pushed from the true one after an onset (per LEO band and for the MEO Tests: <a1>leo_resilience_verticals.rs</a1>.
-
-# text
-# c1: [spoofer]
-seg-8b3523b5fa2c = <b>MODELLED</b> For every LEO satellite and pair of ranging bands the <c1/> section forms the geometry-free pseudorange combination, removes the receiver's ionospheric model and tests its epoch-to-epoch step against the two bands' code noise and a st Tests: <a1>leo_resilience_verticals.rs</a1>.
-
-# text
-seg-b9174c70772f = <b>MODELLED</b> Clock-aided χ², RAIM, AGC, SQM fused per-epoch security FoM. Oracle (ExternalDataset): TEXBAT scenario parameters (Humphreys { "2012" }) — characterisation, not pinned vectors. { "0.30" } external comparison, a finding (stays MODELLED): on JammerTest { "2024" } (Bleik; GPL-3.0 data) the observable-level monitors (clock-aided chi-square, RAIM, solve failure) raised no alarm within { "10" } s of any of the { "8" } evaluable published spoofing onsets (where the pre-onset window was clean, the first alarm came { "10.2" } to { "39" } s after the pu
+seg-ee0dd327955b = <b>MODELLED</b> Clock-aided χ², RAIM, AGC, SQM fused per-epoch security FoM. Oracle (ExternalDataset): TEXBAT scenario parameters (Humphreys { "2012" }) — characterisation, not pinned vectors. { "0.30" } external comparison, a finding (stays MODELLED): on JammerTest { "2024" } (Bleik; GPL-3.0 data) the observable-level monitors (clock-aided chi-square, RAIM, solve failure) raised no alarm within { "10" } s of any of the { "8" } evaluable published spoofing onsets (where the pre-onset window was clean, the first alarm came { "10.2" } to { "39" } s after the…
 
 # text
 seg-e4b64d7277da = Spoofing detection is MODELLED, not validated: a sub-claim is externally checked, but the whole capability composes modelled pieces, so the capability stays Modelled. (verification matrix (docs/MODELLED-RATIONALE.md))
@@ -78,7 +69,7 @@ seg-5d23d7f8f872 = Family page: <a1>Jamming, spoofing and the spectrum</a1>
 seg-ee7dd15019d0 = Topic page: <a1>CAMPAIGNS.md</a1>
 
 # text
-seg-f4cf8b629797 = Topic page: <a1>INTEGRITY.md</a1>
+seg-e30220d54c3f = Topic page: <a1>DRONE-PNT.md</a1>
 
 # text
 seg-e5bbd2fca4fb = <s1>Previous</s1>spoof-detect

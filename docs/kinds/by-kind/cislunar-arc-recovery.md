@@ -44,9 +44,9 @@ The scalar results of that run, with the units the engine states:
 | `claim_under_test.gramian_rank_threshold_hours` | 2.086957 | h |
 | `claim_under_test.rank_ratio_estimator_over_gramian` | 0.375 | ratio (dimensionless) |
 | `claim_under_test.rel_tol` | 1.0000e-6 | fraction (dimensionless) |
-| `claim_under_test.source` | cislunar-observability on the identical  | text |
+| `claim_under_test.source` | cislunar-observability on the… | text |
 
-Result label (the engine's): MODELLED cislunar arc-length recovery test (independent-estimator corroboration of the P6 observability threshold). VALIDATED core: the estimator is the crate's pre-existing weighted Gauss-Newton batch corrector (crate::batch_ls), whose design matrix is a CENTRAL FINITE DIFFERENCE of the composed fo
+Result label (the engine's): MODELLED cislunar arc-length recovery test (independent-estimator corroboration of the Gramian rank observability threshold). Checked core (the kind stays MODELLED): the estimator is the crate's pre-existing weighted Gauss-Newton batch corrector (crate::batch_ls), whose design matrix is a CENTRAL…
 
 <img src="../../figures/kinds/cislunar-arc-recovery.svg" alt="The chart the engine writes for scenarios/cislunar-arc-recovery.toml, kind cislunar-arc-recovery" width="640">
 
@@ -54,18 +54,18 @@ Result label (the engine's): MODELLED cislunar arc-length recovery test (indepen
 
 MODELLED: the [verification matrix](../../VERIFICATION-MATRIX.md) rows that name this kind.
 
-- **MODELLED** A batch least-squares estimator that RECOVERS the chief's initial state from simulated inter-satellite measurements over growing prefixes of the same epoch grid the rank-vs-arc table uses, with the measurement partials taken as central fini Tests: [cislunar_arc_recovery_reference.rs](../../../tests/cislunar_arc_recovery_reference.rs).
+- **MODELLED** A batch least-squares estimator that RECOVERS the chief's initial state from simulated inter-satellite measurements over growing prefixes of the same epoch grid the rank-vs-arc table uses, with the measurement partials taken as central… Tests: [cislunar_arc_recovery_reference.rs](../../../tests/cislunar_arc_recovery_reference.rs).
 
 The rows the run itself exercised, with the oracle the matrix gives each (the public sources are named there):
 
-- **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): SBOM conformance to the official CycloneDX 1.5 JSON Schema (+ valid SPDX identifiers) — an external published standard, zero validation errors over the full dependency graph; the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
-- **MODELLED** A batch least-squares estimator that RECOVERS the chief's initial state from simulated inter-satellite measurements over growing prefixes of the same epoch grid. Oracle (ReferenceImpl): A separate estimator in this codebase on a different algorithm and a disjoint code path: nonlinear weighted Gauss-Newton with finite-difference partials, its verdict read as a measured state-recovery error in km and mm/s. It has no expression in common with the Gramian's rank-and-covariance route, and the separation is ENFORCED by a source-text guard rather than asserted. MEASURED on the published planar DRO grid: th
+- **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): Official CycloneDX 1.5 JSON Schema (+ SPDX identifier list): every atomic licence id is a valid SPDX id, and the document has zero schema errors once compound expressions are moved to expression (the generator's raw output has 133 compound-id errors); the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
+- **MODELLED** A batch least-squares estimator that RECOVERS the chief's initial state from simulated inter-satellite measurements over growing prefixes of the same epoch…. Oracle (ReferenceImpl): A separate estimator in this codebase on a different algorithm and a disjoint code path: nonlinear weighted Gauss-Newton with finite-difference partials, its verdict read as a measured state-recovery error in km and mm/s. It has no expression in common with the Gramian's rank-and-covariance route, and the separation is ENFORCED by a source-text guard rather than asserted. MEASURED on the published planar DRO grid…
 
 ## Limitations
 
 What the run's own report says is not modelled or not validated:
 
-- MODELLED cislunar arc-length recovery test (independent-estimator corroboration of the P6 observability threshold). VALIDATED core: the estimator is the crate's pre-existing weighted Gauss-Newton batch corrector (crate::batch_ls), whose design matrix is a CENTRAL FINITE DIFFERENCE of the composed forward model - it calls no analytic measurement Jacobian row, no variational state-transition matrix, no singular-value o (result `label`)
+- MODELLED cislunar arc-length recovery test (independent-estimator corroboration of the Gramian rank observability threshold). Checked core (the kind stays MODELLED): the estimator is the crate's pre-existing weighted Gauss-Newton batch corrector (crate::batch_ls), whose design matrix is a CENTRAL FINITE DIFFERENCE of the composed forward model - it calls no analytic measurement Jacobian row, no variational… (result `label`)
 - MODELLED independent-estimator test of the cislunar arc-length observability threshold. (kind catalogue (`kshana kinds --json`))
 - MODELLED: the constellation design, the epoch grid, the single tracked link, the displacement magnitude, the measurement sigma and the two stated bounds. (kind catalogue (`kshana kinds --json`))
 - MODELLED: the constellation design, the epoch grid, the single tracked link, the displacement magnitude, the measurement sigma and the two stated bounds. Not a certified navigation-performance product. (scenario file comment, lines 33 to 35)

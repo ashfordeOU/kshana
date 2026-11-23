@@ -65,9 +65,6 @@ seg-5853aaba827f = The thread converts at the handover, never inside a phase, an
 seg-5ee610d8ab89 = The eight phase kinds
 
 # text
-seg-b03d56f501c3 = Kind
-
-# text
 seg-70b73f1acebf = Segment
 
 # text

@@ -98,7 +98,10 @@ seg-4d4237e15ef1 = IGS Standard Product { "3" } (c/d)
 # text
 # c1: gps-ops
 # c2: tests/sp3_export_roundtrip.rs
-seg-8d1089fbd59d = Earth-fixed (ECEF) position + clock time series. Round-trip validated to < { "0.5" } m on a real <c1/> snapshot (<a1><c2/></a1>).
+# c3: %c
+# c4: UTC
+# c5: tests/oem_time_system.rs
+seg-68386e89f9e3 = Earth-fixed (ECEF) position + clock time series. Round-trip validated to < { "0.5" } m on a real <c1/> snapshot (<a1><c2/></a1>). The export writes the two <c3/> lines with time system <c4/>, the scale its epochs are in (<a2><c5/></a2>).
 
 # text
 seg-761698fcf960 = <b>RINEX (Receiver Independent Exchange Format) { "3" }</b> (broadcast navigation)
@@ -365,8 +368,9 @@ seg-d33eb162d179 = OEM segment metadata
 # text
 # c1: EARTH
 # c2: TEME
-# c3: GPS
-seg-4b338284e56a = <c1/> / <c2/> / <c3/> — the frame the propagators integrate in and the time scale of the epoch grid, not relabelled
+# c3: UTC
+# c4: GPS
+seg-c9ea75d3d162 = <c1/> / <c2/> / <c3/> — the frame the propagators integrate in and the time scale of the epoch grid, not relabelled ({ "0.41" } wrote <c4/> over the same UTC epochs)
 
 # text
 seg-e0a44af9aaf8 = OEM state epoch
@@ -375,7 +379,8 @@ seg-e0a44af9aaf8 = OEM state epoch
 seg-b0623bab9fcc = first column of each data line
 
 # text
-seg-410bd5a9ba14 = ISO-8601 (ISO: International Organization for Standardization) calendar time, GPS time scale
+# c1: TIME_SYSTEM = UTC
+seg-b16b86a67b50 = ISO-8601 (ISO: International Organization for Standardization) calendar time, UTC (<c1/>; the engine dates instants as UTC, UT1 taken equal to UTC)
 
 # text
 seg-a7c95802e01a = OEM position, velocity
@@ -423,7 +428,7 @@ seg-014d1392018e = Honest scope
 seg-017c026df3d7 = OEM, TDM, Space Packet, KIF, SigMF and the LEO navigation-message text are <b>read and write</b>; OMM, CZML, KML and STK ephemeris are <b>writers</b> (an OMM reader and the XML serialization are follow-ons); GeoJSON is written and read back as a route; RINEX NAV, RINEX OBS, IONEX, the IERS EOP products and TLE are <b>readers</b>; the LunaNet/IOAG lunar export is a writer whose time metadata round-trips. <a1><c1/></a1> lists which export applies to every bundled scenario.
 
 # text
-seg-68b4f5116419 = The CCSDS/IGS field mapping above is documentation, not a statement that any standard is met; formal assessment against those standards (and registration in the ESA (European Space Agency) ESSR (European Space Software Repository) / NASA (National Aeronautics and Space Administration) open catalogue) is tracked separately and is pending review.
+seg-205b187d6992 = The CCSDS/IGS field mapping above is documentation, not a statement that any standard is met; formal assessment against those standards (and registration in the ESA (European Space Agency) ESSR (European Space Software Repository) / NASA (National Aeronautics and Space Administration) open catalogue) has not been done.
 
 # text
 # c1: xval/anise-frames/

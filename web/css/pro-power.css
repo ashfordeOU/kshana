@@ -266,3 +266,16 @@
 .pro-band.pw .file-chip{background:var(--panel-2);border-color:var(--line-2)}
 .pro-band.pw .prov-x{border-color:var(--line-2);color:var(--ink-2)}
 @media (max-width:900px){.pro-band.pw .pw-cs{border-top-color:var(--line)}}
+/* Kshana Pro as a product (build.py pro_power): who it is for, what it does, why get it */
+.pp-who{margin-bottom:clamp(26px,3vw,40px)}
+.pp-who ul{list-style:none;margin:12px 0 0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.pp-who li{padding:14px 16px;border-radius:14px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.03);font-size:13.5px;line-height:1.5;color:var(--space-ink-2);min-width:0}
+.pp-who b{display:block;margin-bottom:4px;font:650 15px/1.25 var(--f-text);color:var(--space-ink)}
+.pp-caps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:clamp(14px,2vw,22px) 0 clamp(34px,4vw,56px)}
+.pp-cap{display:grid;gap:8px;align-content:start;padding:18px;border-radius:16px;border:1px solid rgba(195,166,255,.22);background:rgba(255,255,255,.035);min-width:0;scroll-margin-top:96px}
+.pp-cap .pw-q{margin-top:2px;font-size:clamp(19px,1.7vw,23px)}
+.pp-cap p{font-size:13.5px;line-height:1.55;color:var(--space-ink-2)}
+.pp-why{grid-template-columns:repeat(3,minmax(0,1fr))}
+.pp-terms .pw-tl{grid-template-columns:minmax(0,1fr)}
+@media (max-width:1100px){.pp-who ul,.pp-caps,.pp-why{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:600px){.pp-who ul,.pp-caps,.pp-why{grid-template-columns:minmax(0,1fr)}}

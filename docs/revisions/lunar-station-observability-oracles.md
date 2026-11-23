@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: CC-BY-4.0 -->
 # STUDIO-15 — re-record of the lunar observability and lunar station numpy oracles (2026-10-13)
 
-Part of [`STUDIO15-portable-math-rebaseline.md`](STUDIO15-portable-math-rebaseline.md). The owner approved
+Part of [`portable-math-rebaseline.md`](portable-math-rebaseline.md). The owner approved
 re-recording both fixtures sets (both guard MODELLED ledger rows). **Reason:** under portable maths the engine
 exports slightly different inputs (Jacobians, observations), and each oracle's numpy reference is only
 meaningful on the inputs it was computed from, so the inputs were re-exported and numpy re-run. Scripts,

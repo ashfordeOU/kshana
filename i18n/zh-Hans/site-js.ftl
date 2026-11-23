@@ -1765,41 +1765,16 @@ js-site-palette-none = 无结果
 js-site-palette-results = { $count } 项结果
 
 # src/js/pro-power.mjs:147
-js-site-pro-band-at = 在 { $minutes } 分钟时：第 5 至第 95 百分位
-
 # src/js/pro-power.mjs:147
-js-site-pro-band-range = { $lo } 至 { $hi } { $unit }
-
 # src/js/pro-power.mjs:148
-js-site-pro-band-runs-within = 次运行中，在 ±{ $limit } { $unit } 以内的共 { $n } 次
-
 # src/js/pro-power.mjs:92
-js-site-pro-design-readout = { $sat } 颗卫星，可用性 { $av } % · { $planes } 个轨道面，高度 { $alt } km，{ $incl }°
-
 # src/js/pro-power.mjs:91
-js-site-pro-front-design = 前沿设计 { $id }
-
 # src/js/pro-power.mjs:91
-js-site-pro-front-design-knee = 前沿设计 { $id } · 拐点
-
 # src/js/pro-power.mjs:90
-js-site-pro-more-designs =
-    { $n ->
-       *[other] （此点另有 { $n } 个前沿设计）
-    }
-
 # src/js/pro-power.mjs:94
-js-site-pro-not-rerun = 未重新运行
-
 # src/js/pro-power.mjs:93
-js-site-pro-rerun-free = 在免费引擎中重新运行：
-
 # src/js/pro-power.mjs:94
-js-site-pro-same-sha = 相同的 SHA-256 { $sha }…
-
 # src/js/pro-power.mjs:94
-js-site-pro-same-sha-index = 结果的 SHA-256 与索引相同
-
 # src/site.js:41
 js-site-toast-copied = 已复制：{ $text }
 

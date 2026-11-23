@@ -5,8 +5,7 @@ satellite counted when it was at or above one number, whatever its direction. A 
 fjord or a crane blocks part of the sky and leaves the rest open. A **skyline** is an elevation
 cut that depends on azimuth; the **sky-geometry functions** turn a site, a time, constellations
 and a skyline into the visible set, the dilution of precision (DOP), the geometry covariance, the
-horizontal error ellipse, a Monte Carlo cloud and a skyplot. The design is
-`docs/design/2026-10-12-geometry-and-skyline-design.md` (items 1 and 2).
+horizontal error ellipse, a Monte Carlo cloud and a skyplot.
 
 Evidence: the masked visibility decision (geodetic look angles, the table mask, the visible set
 and its DOP) is **VALIDATED** against Orekit 12.2 and gnss_lib_py 1.0.4 in a pre-registered
@@ -52,7 +51,7 @@ receiver, a stated choice); a new canyon needs `width_m`.
 
 ### Presets
 
-Chosen and stated dimensions (the design note's), not surveys of any real place.
+Chosen and stated dimensions, not surveys of any real place.
 `kshana skyline --preset <name>` prints one with its provenance and its cut every degree.
 
 | Preset | Geometry | Provenance |
@@ -77,8 +76,8 @@ An optional `[skyline]` section, over the kind's own cut-off:
 | `nmea-scenario` (training NMEA) | The satellites in GSV and in the fix. Azimuths are true bearings fixed to the ground, not the vessel's heading. | — |
 
 **The ground site of `orbit` and `integrity`.** Both kinds model an orbiting user with a
-geocentric elevation and no Earth-fixed azimuth, so they take a skyline only with the design
-note's ground-site mode: `user_site = { lat_deg, lon_deg, height_m }` in place of `user` (exactly
+geocentric elevation and no Earth-fixed azimuth, so they take a skyline only with a ground-site
+mode: `user_site = { lat_deg, lon_deg, height_m }` in place of `user` (exactly
 one of the two). Each sample is one absolute instant, `epoch + t`: every satellite is propagated
 to it (an element set, broadcast ephemeris or SP3 file is advanced from its own epoch, a Walker
 satellite counts `t` from `epoch`) and rotated to Earth-fixed at it, so the site sees one
@@ -107,7 +106,7 @@ preset = "harbour-approach"
 `tests/skyline_scenarios.rs` checks the JSON, chart and summary of every shipped scenario that
 runs one of these kinds, and the NMEA text of every training scenario, against SHA-256 digests
 of the "0.36 portable" baseline (the 0.35.0 release commit's digests, re-based when the engine moved to
-portable maths and kept in the test as the record: `docs/revisions/STUDIO15-portable-math-rebaseline.md`). An empty `[skyline]` section cuts nothing; the result then
+portable maths and kept in the test as the record; the revision is recorded under `docs/revisions/`). An empty `[skyline]` section cuts nothing; the result then
 equals the run without it except for the added `skyline` block and the zero `masked_by_skyline`
 counts.
 
@@ -221,7 +220,7 @@ operator remains responsible for the navigation of the vessel.*
 
 ## Evidence
 
-Five ledger rows (`docs/VERIFICATION-MATRIX.md`), as the design note scopes them:
+Five ledger rows (`docs/VERIFICATION-MATRIX.md`):
 
 | Row | Status | Oracle |
 |---|---|---|

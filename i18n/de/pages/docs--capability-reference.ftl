@@ -2777,7 +2777,6 @@ seg-2a5e48b558e1 = Der hybrid-optical-rf-Bericht gibt die Streckenkonfiguration 
 
 # text
 # c1: variance
-seg-23f0c10237f4 = Keine externe Referenz, und keine ist möglich: Dies ist Selbstbeschreibung, keine Messung. Sie wird festgehalten, weil ihr Fehlen ein Mangel war -- P5 musste die Trägerwellenlänge und die Sendeapertur aus Quell-Standardwerten zitieren und aus einer internen Konsistenzprüfung ableiten, dass ein bloßes <c1/> in Quadratmetern war. Die Ableitung war richtig, und gerade deshalb kam es darauf an: Nichts hätte erfasst, dass sie falsch gewesen wäre
 
 # text
 seg-0691f3dee8cb = Verfügbarkeit der hybriden optischen/HF-Strecke auf der HF-Seite
@@ -4071,5 +4070,3 @@ seg-b5c49044a7a1 = Eine zulässige Region dafür, wo sich eine Quelle gestörter
 seg-953a8b4f9f41 = Noch keine externe. Nur synthetische Vorwärts-Rückwärts-Rundläufe aus einem Generator, der das Modell des Schätzers teilt; sie prüfen also den Code und die Kalibrierung der genannten Niveaus unter diesem Modell und nichts über reale Sender. Eine externe Prüfung gegen die veröffentlichten Senderstandorte des Jammertests { "2025" } wurde vorab festgelegt (docs/emitter-region/PREREGISTRATION.md, vom Eigentümer vor jedem bewerteten Lauf freigegeben) und einmal ausgeführt (docs/emitter-region/RESULTS.md): ADS-B NOT ASSESSABLE ({ "2" } geplante Sitzungen, weniger als das registrierte Minimum von { "4" }) und AIS NOT ASSESSABLE (keine veröffentlichte Sitzung), sodass kein Zielwert getestet wurde und die Zeile MODELLED bleibt
 
 seg-d5a79853b72f = { "93" } von { "93" } Arten, { "3334" } von { "3334" } numerischen Feldern
-
-seg-877f989ae75e = Die { "61" } Fähigkeitskarten aus <c1/>, danach alle { "412" } Zeilen der Verifikationsmatrix.

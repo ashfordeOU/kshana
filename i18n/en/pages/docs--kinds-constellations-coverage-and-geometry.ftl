@@ -19,9 +19,6 @@ seg-d95cc2c1e798 = Topic pages: <a1>CONSTELLATION-DESIGN</a1>, <a2>COVERAGE</a2>
 seg-f044822c2fab = Contact sheet of the charts the engine writes for the kinds of the family Constellations, coverage and geometry
 
 # text
-seg-b03d56f501c3 = Kind
-
-# text
 seg-4e31c8daf798 = Ledger
 
 # text
@@ -31,13 +28,13 @@ seg-cb4262b66b8f = GNSS availability + DOP from an orbital constellation (Walker
 seg-be0cfeeb1680 = MODELLED { "4" } · VALIDATED { "4" }
 
 # text
-seg-e2450f89bcc6 = Ephemeris & ground track: propagate one satellite (TLE→SGP4 or analytic orbit) and emit its TEME/GCRS state (position + velocity), ITRF/ECEF position, WGS-84 sub-satellite lat/lon/alt, and per-step st
+seg-edd21ca0c3e8 = Ephemeris & ground track: propagate one satellite (TLE→SGP4 or analytic orbit) and emit its TEME/GCRS state (position + velocity), ITRF/ECEF position, WGS-84 sub-satellite lat/lon/alt, and per-step…
 
 # text
 seg-6e0cb6acc073 = VALIDATED
 
 # text
-seg-d021c1b23dbc = Constellation design at scale: Walker DELTA and Walker STAR patterns in the i: T/P/F convention (nodes spread over { "360" } or { "180" } deg, in-plane spacing { "360" }<em>P/T, inter-plane phase offset { "360" }</em>F/T), explicit
+seg-b39fe811f439 = Constellation design at scale: Walker DELTA and Walker STAR patterns in the i: T/P/F convention (nodes spread over { "360" } or { "180" } deg, in-plane spacing { "360" }<em>P/T, inter-plane phase offset { "360" }</em>F/T)…
 
 # text
 seg-d1c67e3dd12e = MODELLED { "1" } · VALIDATED { "2" }
@@ -49,19 +46,16 @@ seg-f6914ea43dba = The whole solar system at one epoch, for PNT (positioning, na
 seg-06f082922143 = MODELLED { "2" } · VALIDATED { "3" }
 
 # text
-seg-d71a07d8a59e = Positioning around any solar-system body: an orbiter or a surface lander around a central body chosen by name (Mars, the Moon, Europa, Ganymede, Titan and the rest of the solar-system catalogue), navi
+seg-fafb696391a4 = Positioning around any solar-system body: an orbiter or a surface lander around a central body chosen by name (Mars, the Moon, Europa, Ganymede, Titan and the rest of the solar-system catalogue)…
 
 # text
 seg-436e412d99fd = MODELLED { "1" } · VALIDATED { "1" }
 
 # text
-seg-f6b22521b4a4 = Deep-space Mars PNT: a simulated MARCONI relay constellation (areostationary + inclined relays broadcasting one-way + relaying two-way to a deep-space station) navigates a reference user (transfer / l
+seg-76205792c0b4 = Deep-space Mars PNT: a simulated MARCONI relay constellation (areostationary + inclined relays broadcasting one-way + relaying two-way to a deep-space station) navigates a reference user (transfer |…
 
 # text
-seg-cc85d9962c25 = Ground-station pass prediction: the time-domain visibility passes (AOS/TCA/LOS, maximum apparent elevation, duration) of a circular orbit, as SGP4 mean elements at the window start, over a station abo
-
-# text
-seg-23f3c33445d1 = MODELLED { "2" } · VALIDATED { "2" }
+seg-213a8682fabc = Ground-station pass prediction: the time-domain visibility passes (AOS/TCA/LOS, maximum apparent elevation, duration) of a circular orbit, as SGP4 mean elements at the window start, over a station…
 
 # text
 # c1: seed
@@ -142,7 +136,7 @@ seg-bacf2a133146 = <b>Ledger:</b> MODELLED { "1" } · VALIDATED { "2" }. Full pa
 seg-899e728ad9bd = The chart the engine writes for scenarios/leo-pnt-mega-shell.toml, kind constellation-design
 
 # text
-seg-0549bc926a9b = The whole solar system at one epoch, for PNT (positioning, navigation and timing) around any body. For the Sun, the eight planets, Pluto, the Moon, Phobos, Deimos, Io, Europa, Ganymede, Callisto and Titan it reports the heliocentric position and velocity in the ICRF (International Celestial Reference Frame, equatorial J2000), the heliocentric distance and J2000 ecliptic longitude and latitude, the gravitational parameter, equatorial and mean radius, J2 where published and its reference radius, the sidereal rotation period, the IAU pole and the prime meridian at the epoch, an orbit track sampled over one revolution (heliocentric for planets, parent-centred for moons), and the light time, one-way and two-way range, solar Shapiro delay and Sun separation from an observer body (default Earth); extra from/to links get the same treatment. Positions: the JPL Keplerian elements of Standish and Williams (Table { "1" } for { "1800" } AD to { "2050" } AD, Tables 2a/2b for { "3000" } BC to { "3000" } AD) with each planet's nominal error, the Montenbruck & Gill lunar series for the Earth-Moon split, JPL mean elements with the IAU synchronous rotation rate for the Martian and Galilean moons, and the IAU rotation model for Titan. Light time: the radiometric fixed-point solve, transmitter at its retarded position; Newtonian, with the Shapiro delay reported separately. VALIDATED against JPL Horizons (DE441) within twice the nominal error: Mercury to Saturn and the Earth from Table { "1" } (worst { "1.87" } times nominal) and all eight planets from Tables 2a/2b (worst { "1.71" } times), and the Earth to Mars and Jupiter light time. MODELLED, each row labelled: Uranus and Neptune from Table { "1" } ({ "2.0" } and { "5.2" } times the nominal error against DE441), Pluto (the { "1992" } row; no stated error), the Moon and the seven moons (measured against Horizons, no published bound).
+seg-23b0901a015c = The whole solar system at one epoch, for PNT (positioning, navigation and timing) around any body. For the Sun, the eight planets, Pluto, the Moon, Phobos, Deimos, Io, Europa, Ganymede, Callisto and Titan it reports the heliocentric position and velocity in the ICRF (International Celestial Reference Frame, equatorial J2000), the heliocentric distance and J2000 ecliptic longitude and latitude, the gravitational parameter, equatorial and mean radius, J2 where published and its reference radius, the sidereal rotation period, the IAU pole and the prime meridian at the epoch, an orbit track sampled over one revolution (heliocentric for planets, parent-centred for moons), and the light time, one-way and two-way range, solar Shapiro delay and Sun separation from an observer body (default Earth); extra from/to links get the same treatment. Positions: the JPL Keplerian elements of Standish and Williams (Table { "1" } for { "1800" } AD to { "2050" } AD, Tables 2a/2b for { "3000" } BC to { "3000" } AD) with each planet's nominal error, the Montenbruck & Gill lunar series for the Earth-Moon split, JPL mean elements with the IAU synchronous rotation rate for the Martian and Galilean moons, and the IAU rotation model for Titan. Light time: the radiometric fixed-point solve, transmitter at its retarded position; Newtonian, with the Shapiro delay reported separately. VALIDATED against JPL Horizons (DE441) by a pre-registered bar, per planet and component an RMS of at most { "1.0" } times the approximate errors of the Explanatory Supplement Table { "8.10.1" }: Mercury to Saturn and the Earth from Table { "1" } and all eight planets from Tables 2a/2b (worst RMS { "0.778" } times that figure; single epochs reach { "3.83" } times), and the Earth to Mars and Jupiter light time. MODELLED, each row labelled: Uranus and Neptune from Table { "1" } ({ "2.0" } and { "5.2" } times the nominal error against DE441), Pluto (the { "1992" } row; no stated error), the Moon and the seven moons (measured against Horizons, no published bound).
 
 # text
 # c1: epoch
@@ -227,7 +221,7 @@ seg-a4bdfc291fce = Ground-station pass prediction: the time-domain visibility pa
 seg-352823f8c5ac = Required fields: none. Optional: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>.
 
 # text
-seg-bb4fa18e50a6 = <b>Ledger:</b> MODELLED { "2" } · VALIDATED { "2" }. Full page, with the inputs, results, evidence and limitations: <a1>passes</a1>.
+seg-055dcd15c7c6 = <b>Ledger:</b> VALIDATED. Full page, with the inputs, results, evidence and limitations: <a1>passes</a1>.
 
 # attr:alt
 seg-a09be8c586e3 = The chart the engine writes for scenarios/passes.toml, kind passes

@@ -192,8 +192,6 @@ seg-f466e9c87ba4 = <s1>{ -brand } gebruiken vanuit een agent</s1><s2>Voor een ag
 
 seg-ccfc820aac68 = <s1>Waar elke mogelijkheid bereikbaar is</s1><s2>Elke mogelijkheid is beschikbaar op de oppervlakken waar dat zinvol is; waar een oppervlak een mogelijkheid niet kan dragen, de…</s2>
 
-seg-1c59d26e3faf = <s1>JetBrains-plug-in</s1><s2>Een native plug-in die de PNT-veerkrachtsimulator van { -brand } draait vanuit elke JetBrains-IDE (IntelliJ IDEA…</s2>
-
 seg-4498f8a0377b = <s1>Waar { -brand } draait</s1><s2>Een reikwijdtegrens, opgeschreven zodat niemand haar in een vergadering als verplichting ontdekt.</s2>
 
 seg-059aecd59596 = <s1>Architectuur</s1><s2>{ -brand } is één engine die in lagen is georganiseerd rond een gedeelde kern: de sensorpakketten (klok, inertieel…</s2>
@@ -237,7 +235,3 @@ seg-5484fd345826 = <s1>Elke scenariosoort, per familie</s1><s2>Elke scenariosoor
 seg-b23a9bd3ccfa = <s1>Scenarioreferentie</s1><s2>Elk meegeleverd scenariobestand ({ "195" }), gegroepeerd per soort, met zijn belangrijkste instellingen.</s2>
 
 seg-a7dc2bc0a77d = { "93" } pagina's, een voor elke scenariosoort, gelinkt vanaf <a1>Elke scenariosoort, per familie</a1>.
-
-seg-abe17fad0734 = <s1>Verificatiematrix</s1><s2>Het volledige, machinaal gecontroleerde bewijsregister: { "412" } rijen — { "176" } VALIDATED, { "232" } MODELLED, { "4" } PARTNER.</s2>
-
-seg-7fd385494ae0 = <s1>Mogelijkhedenreferentie</s1><s2>De mogelijkheidskaarten en alle { "412" } rijen van de verificatiematrix.</s2>

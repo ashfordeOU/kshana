@@ -10,20 +10,20 @@ Topic pages: [ENTRY-EO-ASCENT](../ENTRY-EO-ASCENT.md), [CONTACT-SCHEDULING](../C
 
 | Kind | What it does | Ledger |
 |---|---|---|
-| [`launch-window`](by-kind/launch-window.md) | Two-body launch & ascent geometry: launch azimuth(s) (sin Az = cos i / cos lat), minimum reachable inclination, circular velocity, the Earth-rotation eastward bonus, dogleg plane-change Δv when the ta | MODELLED |
-| [`ascent-losses`](by-kind/ascent-losses.md) | Planar gravity-turn ascent of a multi-stage vehicle over a non-rotating spherical Earth through the US Standard Atmosphere 1976 (vertical rise, pitch kick, thrust along velocity), integrating the grav | MODELLED |
-| [`reentry`](by-kind/reentry.md) | Allen-Eggers ballistic re-entry corridor: peak deceleration (ballistic-coefficient-independent, V_e^2 sin/γ//(2eH)), the velocity and altitude at peak-g, and the peak-heating velocity, for an entry ve | MODELLED |
-| [`entry-heating`](by-kind/entry-heating.md) | 3-DoF point-mass atmospheric entry over a rotating spherical Earth or Mars (ballistic or lifting at constant bank), RK4, through US76, an exponential or the Mars atmosphere, with Sutton-Graves stagnat | MODELLED 1 · VALIDATED 1 |
-| [`eo-coverage`](by-kind/eo-coverage.md) | Earth-observation payload footprint & coverage geometry (SMAD space triangle): Earth angular radius, swath width, nadir ground sample distance, maximum off-nadir access, circular period, J2 nodal peri | VALIDATED |
-| [`eo-radiometry`](by-kind/eo-radiometry.md) | Nadir imager radiometry and image quality: at-aperture radiance of a Lambertian scene, the camera equation, signal and shot/dark/read/quantisation noise and SNR; the system MTF at Nyquist (diffraction | MODELLED |
-| [`attitude-budget`](by-kind/attitude-budget.md) | 3-DOF attitude & pointing error budget: the worst-case gravity-gradient disturbance torque ((3/2)(μ/R³)ΔI) and a root-sum-square pointing-error budget over named 1σ contributors (sensor noise, reactio | VALIDATED |
-| [`aocs`](by-kind/aocs.md) | Spacecraft attitude control: an inertial-pointing slew of a rigid hub with three or more balanced reaction wheels under MRP feedback (L = -K sigma - P omega), minimum-norm wheel torques clipped to eac | MODELLED 1 · VALIDATED 1 |
-| [`link-budget`](by-kind/link-budget.md) | One-way link budget over the CCSDS 401 / DSN 810-005 link equation: free-space path loss, C/N₀, Eb/N₀, margin and closure for a transmit EIRP, receive G/T, range, data rate and band (s/x/ka) against a | MODELLED 1 · VALIDATED 1 |
-| [`acm-link`](by-kind/acm-link.md) | One satellite over one station: each pass's slant range, elevation and Es/N0 along the pass, the DVB-S2 MODCOD chosen at each step (ETSI EN 302 307-1 Table 13 thresholds plus an implementation margin) | MODELLED |
-| [`contact-schedule`](by-kind/contact-schedule.md) | Ground-contact planning for several satellites over several stations: apparent access windows (SGP4, IAU 2006/2000A Earth-fixed frame, ITU-R P.834 refraction, light time), the DVB-S2 ACM data volume o | MODELLED |
+| [`launch-window`](by-kind/launch-window.md) | Two-body launch & ascent geometry: launch azimuth(s) (sin Az = cos i / cos lat), minimum reachable inclination, circular velocity, the Earth-rotation eastward bonus, dogleg plane-change Δv when the… | MODELLED |
+| [`ascent-losses`](by-kind/ascent-losses.md) | Planar gravity-turn ascent of a multi-stage vehicle over a non-rotating spherical Earth through the US Standard Atmosphere 1976 (vertical rise, pitch kick, thrust along velocity), integrating the… | MODELLED |
+| [`reentry`](by-kind/reentry.md) | Allen-Eggers ballistic re-entry corridor: peak deceleration (ballistic-coefficient-independent, V_e^2 sin\|γ\|/(2eH)), the velocity and altitude at peak-g, and the peak-heating velocity, for an entry… | MODELLED |
+| [`entry-heating`](by-kind/entry-heating.md) | 3-DoF point-mass atmospheric entry over a rotating spherical Earth or Mars (ballistic or lifting at constant bank), RK4, through US76, an exponential or the Mars atmosphere, with Sutton-Graves… | VALIDATED |
+| [`eo-coverage`](by-kind/eo-coverage.md) | Earth-observation payload footprint & coverage geometry (SMAD space triangle): Earth angular radius, swath width, nadir ground sample distance, maximum off-nadir access, circular period, J2 nodal… | VALIDATED |
+| [`eo-radiometry`](by-kind/eo-radiometry.md) | Nadir imager radiometry and image quality: at-aperture radiance of a Lambertian scene, the camera equation, signal and shot/dark/read/quantisation noise and SNR; the system MTF at Nyquist… | MODELLED |
+| [`attitude-budget`](by-kind/attitude-budget.md) | 3-DOF attitude & pointing error budget: the worst-case gravity-gradient disturbance torque ((3/2)(μ/R³)ΔI) and a root-sum-square pointing-error budget over named 1σ contributors (sensor noise… | VALIDATED |
+| [`aocs`](by-kind/aocs.md) | Spacecraft attitude control: an inertial-pointing slew of a rigid hub with three or more balanced reaction wheels under MRP feedback (L = -K sigma - P omega), minimum-norm wheel torques clipped to… | MODELLED 1 · VALIDATED 1 |
+| [`link-budget`](by-kind/link-budget.md) | One-way link budget over the CCSDS 401 / DSN 810-005 link equation: free-space path loss, C/N₀, Eb/N₀, margin and closure for a transmit EIRP, receive G/T, range, data rate and band (s\|x\|ka) against… | VALIDATED |
+| [`acm-link`](by-kind/acm-link.md) | One satellite over one station: each pass's slant range, elevation and Es/N0 along the pass, the DVB-S2 MODCOD chosen at each step (ETSI EN 302 307-1 Table 13 thresholds plus an implementation… | MODELLED |
+| [`contact-schedule`](by-kind/contact-schedule.md) | Ground-contact planning for several satellites over several stations: apparent access windows (SGP4, IAU 2006/2000A Earth-fixed frame, ITU-R P.834 refraction, light time), the DVB-S2 ACM data volume… | MODELLED |
 | [`aperture-duty-cycle`](by-kind/aperture-duty-cycle.md) | Aperture duty cycle: the navigation-versus-communications time-share a contact plan implies for a pool of steerable apertures. | MODELLED |
-| [`space-packet`](by-kind/space-packet.md) | CCSDS 133.0-B Space Packet Protocol framing: encode a synthetic TM/TC packet stream (6-octet primary header + data field) and report the per-packet header decode, total octets and an exact encode↔deco | VALIDATED |
-| [`oem-interop`](by-kind/oem-interop.md) | CCSDS OEM interoperability bridge: import an Orbit Ephemeris Message produced by an external flight-dynamics tool (GMAT/Orekit/STK all emit OEM) and report its segments/objects/frames/epoch-span plus  | VALIDATED |
+| [`space-packet`](by-kind/space-packet.md) | CCSDS 133.0-B Space Packet Protocol framing: encode a synthetic TM/TC packet stream (6-octet primary header + data field) and report the per-packet header decode, total octets and an exact… | VALIDATED |
+| [`oem-interop`](by-kind/oem-interop.md) | CCSDS OEM interoperability bridge: import an Orbit Ephemeris Message produced by an external flight-dynamics tool (GMAT/Orekit/STK all emit OEM) and report its segments/objects/frames/epoch-span… | VALIDATED |
 
 ### `launch-window`
 
@@ -73,7 +73,7 @@ kshana scenarios/reentry.toml
 
 Required fields: none. Optional: `body`, `atmosphere`, `rho0_kg_m3`, `scale_height_m`, `entry_interface_altitude_m`, `velocity_frame`, `entry_speed_m_s`, `flight_path_angle_deg`, `heading_deg`, `latitude_deg`, `longitude_deg`, `mass_kg`, `drag_coefficient`, `reference_area_m2`, `nose_radius_m`, `lift_to_drag`, `bank_angle_deg`, `rotating_planet`, `step_s`, `terminal_altitude_m`, `max_time_s`.
 
-**Ledger:** MODELLED 1 · VALIDATED 1. Full page, with the inputs, results, evidence and limitations: [entry-heating](by-kind/entry-heating.md).
+**Ledger:** VALIDATED. Full page, with the inputs, results, evidence and limitations: [entry-heating](by-kind/entry-heating.md).
 
 ```sh
 kshana scenarios/entry-heating-stardust.toml
@@ -143,7 +143,7 @@ One-way link budget over the CCSDS 401 / DSN 810-005 link equation: free-space p
 
 Required fields: none. Optional: `band`, `eirp_dbw`, `g_over_t_db`, `range_km`, `data_rate_bps`, `other_losses_db`, `required_eb_n0_db`, `tsys_k`.
 
-**Ledger:** MODELLED 1 · VALIDATED 1. Full page, with the inputs, results, evidence and limitations: [link-budget](by-kind/link-budget.md).
+**Ledger:** VALIDATED. Full page, with the inputs, results, evidence and limitations: [link-budget](by-kind/link-budget.md).
 
 ```sh
 kshana scenarios/link-budget.toml
@@ -195,7 +195,7 @@ kshana scenarios/aperture-duty-cycle.toml
 
 ### `space-packet`
 
-CCSDS 133.0-B Space Packet Protocol framing: encode a synthetic TM/TC packet stream (6-octet primary header + data field) and report the per-packet header decode, total octets and an exact encode↔decode round trip. Deterministic exact bit-layout framing — the agency packet-format interop layer; NOT a conformance certification (no secondary-header/CRC/segmentation logic beyond the flags).
+CCSDS 133.0-B Space Packet Protocol framing: encode a synthetic TM/TC packet stream (6-octet primary header + data field) and report the per-packet header decode, total octets and an exact encode↔decode round trip. Deterministic exact bit-layout framing — the agency packet-format interop layer; NOT a conformance certification; the scenario frames primary headers only (the secondary header, CRC-16 and segmentation are in the library).
 
 Required fields: none. Optional: `apid`, `telecommand`, `packet_count`, `data_len`.
 

@@ -40,7 +40,7 @@ The example `scenarios/lunar-infrastructure-space-tie.toml` sets, among others:
 kshana scenarios/lunar-infrastructure-space-tie.toml
 ```
 
-6 bundled scenarios use this kind; the others are in [`scenarios/`](../../../scenarios/).
+6 scenario files in [`scenarios/`](../../../scenarios/) use this kind.
 
 ## What it gives
 
@@ -48,7 +48,7 @@ The scalar results of that run, with the units the engine states:
 
 | Result | Value | Unit |
 |---|---|---|
-| `evidence.id_rule` | the stable id of the matrix row (the ID  | text |
+| `evidence.id_rule` | the stable id of the matrix row (the… | text |
 | `evidence.matrix` | docs/VERIFICATION-MATRIX.md | text |
 | `evidence.tier` | MODELLED | text |
 | `local_tie_sigma_m` | 0.001 | m |
@@ -57,7 +57,7 @@ The scalar results of that run, with the units the engine states:
 | `technique_sigma_m.slr` | 0.1 | m |
 | `technique_sigma_m.vlbi` | 1 | m |
 
-Result label (the engine's): MODELLED — a restricted three-body model (Earth and Moon point masses, no Sun, no lunar gravity harmonics) with stated simplifications and ILLUSTRATIVE inputs labelled with their public sources. Numerics are checked against independent programs; nothing is compared with a measurement of a lunar quan
+Result label (the engine's): MODELLED — a restricted three-body model (Earth and Moon point masses, no Sun, no lunar gravity harmonics) with stated simplifications and ILLUSTRATIVE inputs labelled with their public sources. Numerics are checked against independent programs; nothing is compared with a measurement of a lunar…
 
 no plot: the example writes no chart
 
@@ -67,18 +67,18 @@ No matrix row names this kind by name; the label on its result is the engine's o
 
 The rows the run itself exercised, with the oracle the matrix gives each (the public sources are named there):
 
-- **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): SBOM conformance to the official CycloneDX 1.5 JSON Schema (+ valid SPDX identifiers) — an external published standard, zero validation errors over the full dependency graph; the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
-- **MODELLED** Orbit determination in a near-rectilinear halo orbit (or an elliptical frozen orbit) from two independent data types: Earth-GNSS pseudoranges received on board . Oracle (ReferenceImpl): An independent scipy/numpy program integrates the same variational equations (bar O1). Nothing is compared with a measurement of a lunar orbit. The oracle checks the numerics of stated formulas, not the physics, so the row stays MODELLED. Restricted three-body model: no Sun, no lunar harmonics, the Earth rotation axis along the orbit normal, ILLUSTRATIVE receiver and station inputs.
-- **MODELLED** Between-receiver single-differenced Earth-GNSS carrier phase and code at a lunar surface station and an orbiter, with the per-epoch clock difference profiled ou. Oracle (ReferenceImpl): An independent numpy solve of the same normal equations from the exported rows (Q3) and a brute-force integer enumeration (Q4). No GNSS or lunar carrier-phase measurement is compared with. MODELLED.
-- **MODELLED** Fisher information of the seven-parameter lunar frame datum from Earth-station laser ranging to the five reflectors alone and with orbiter-to-surface-station ra. Oracle (ReferenceImpl): An independent numpy finite difference of the forward model (F2). Nothing is compared with real lunar frame solutions. The factor is conditional on the assumed known orbit and the 1 m range sigma. MODELLED.
-- **MODELLED** Cramer-Rao precision of the inter-technique translation, scale and rotation offsets between GNSS, VLBI and laser-ranging frames when one spacecraft carries all . Oracle (ReferenceImpl): An independent numpy stacked system with the position unknowns eliminated by explicit Schur complements (T3). No GRASP, Genesis or other mission data are compared with. MODELLED.
+- **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): Official CycloneDX 1.5 JSON Schema (+ SPDX identifier list): every atomic licence id is a valid SPDX id, and the document has zero schema errors once compound expressions are moved to expression (the generator's raw output has 133 compound-id errors); the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
+- **MODELLED** Orbit determination in a near-rectilinear halo orbit (or an elliptical frozen orbit) from two independent data types: Earth-GNSS pseudoranges received on…. Oracle (ReferenceImpl): An independent scipy/numpy program integrates the same variational equations (bar O1). Nothing is compared with a measurement of a lunar orbit. The oracle checks the numerics of stated formulas, not the physics, so the row stays MODELLED. Restricted three-body model: no Sun, no lunar harmonics, the Earth rotation axis along the orbit normal, ILLUSTRATIVE receiver and station inputs.
+- **MODELLED** Between-receiver single-differenced Earth-GNSS carrier phase and code at a lunar surface station and an orbiter, with the per-epoch clock difference profiled…. Oracle (ReferenceImpl): An independent numpy solve of the same normal equations from the exported rows (Q3) and a brute-force integer enumeration (Q4). No GNSS or lunar carrier-phase measurement is compared with. MODELLED.
+- **MODELLED** Fisher information of the seven-parameter lunar frame datum from Earth-station laser ranging to the five reflectors alone and with orbiter-to-surface-station…. Oracle (ReferenceImpl): An independent numpy finite difference of the forward model (F2). Nothing is compared with real lunar frame solutions. The factor is conditional on the assumed known orbit and the 1 m range sigma. MODELLED.
+- **MODELLED** Cramer-Rao precision of the inter-technique translation, scale and rotation offsets between GNSS, VLBI and laser-ranging frames when one spacecraft carries…. Oracle (ReferenceImpl): An independent numpy stacked system with the position unknowns eliminated by explicit Schur complements (T3). No GRASP, Genesis or other mission data are compared with. MODELLED.
 
 ## Limitations
 
 What the run's own report says is not modelled or not validated:
 
-- MODELLED — a restricted three-body model (Earth and Moon point masses, no Sun, no lunar gravity harmonics) with stated simplifications and ILLUSTRATIVE inputs labelled with their public sources. Numerics are checked against independent programs; nothing is compared with a measurement of a lunar quantity, and nothing here is a statement about any mission or system. Not affiliated with or endorsed by any agency. Adviso (result `label`)
-- MODELLED studies of the Moon's orbit and surface as navigation and geodetic infrastructure, five studies behind one kind selected by `study`: od-consistency (onboard Earth-GNSS orbit determination in an NRHO or ELFO against independent ground radiometric orbit determination, judged by their own covariances over a seeded Monte Carlo), carrier-phase (joint surface-orbiter double-differenced carrier phase and integer am (kind catalogue (`kshana kinds --json`))
+- MODELLED — a restricted three-body model (Earth and Moon point masses, no Sun, no lunar gravity harmonics) with stated simplifications and ILLUSTRATIVE inputs labelled with their public sources. Numerics are checked against independent programs; nothing is compared with a measurement of a lunar quantity, and nothing here is a statement about any mission or system. Not affiliated with or endorsed by any agency.… (result `label`)
+- MODELLED studies of the Moon's orbit and surface as navigation and geodetic infrastructure, five studies behind one kind selected by `study`: od-consistency (onboard Earth-GNSS orbit determination in an NRHO or ELFO against independent ground radiometric orbit determination, judged by their own covariances over a seeded Monte Carlo), carrier-phase (joint surface-orbiter double-differenced carrier phase and integer… (kind catalogue (`kshana kinds --json`))
 - Kshana lunar-infrastructure scenario: space-tie. MODELLED; the design, inputs and bars are fixed in xval/lunar-infra/PREREGISTRATION.md (committed before any run). ILLUSTRATIVE inputs are labelled with their public sources there. (scenario file comment, lines 1 to 3)
 - Reproducibility & software assurance is MODELLED, not validated: a sub-claim is externally checked, but the whole capability composes modelled pieces, so the capability stays Modelled. (verification matrix (docs/MODELLED-RATIONALE.md))
 - Lunar orbit determination: Earth-GNSS against ground radiometric is MODELLED, not validated: checked against a separate implementation in this same codebase — independent of the unit under test, but not externally authoritative. (verification matrix (docs/MODELLED-RATIONALE.md))

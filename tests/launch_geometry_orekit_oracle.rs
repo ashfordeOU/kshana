@@ -30,7 +30,7 @@
 //! (worst inclination error 2.6e-15 rad over 158 azimuth cases), but the Earth-rotation speed
 //! `omega R_eq cos(lat)` differs from Orekit's GCRF speed of the ITRF point by up to 1.12e-6
 //! relative at 62.9 deg latitude, above the pre-registered 1e-6. The likely cause is the pole
-//! offset of polar motion (about 1.5e-6 rad, amplified by tan(lat)) that the spherical rigid
+//! offset of polar motion (about 5.8e-7 rad, amplified by tan(lat)) that the spherical rigid
 //! rotation about the z axis omits; the tolerance did not allow for it. The claim was not narrowed
 //! before the run, so the row stays MODELLED. The gated test below keeps comparisons 1 to 4 and 6;
 //! comparison 5 is kept strict in an ignored test and its gap is pinned as a finding.

@@ -54,16 +54,16 @@ seg-f42465f7d066 = ns
 seg-dfe78b9d0811 = GHz
 
 # text
-seg-2409cc9397c7 = Result label (the engine's): MODELLED — TWSTFT two-way equation (station delays, Ku-band ionosphere, transponder, Sagnac) solved from stated delays, a quadrature uncertainty budget with the simulated link's TDEV as the type A term, a simulated link with flicker phase noise and diurnal non-reciprocity, and the stability of any r
+seg-2b62cc061e20 = Result label (the engine's): MODELLED — TWSTFT two-way equation (station delays, Ku-band ionosphere, transponder, Sagnac) solved from stated delays, a quadrature uncertainty budget with the simulated link's TDEV as the type A term, a simulated link with flicker phase noise and diurnal non-reciprocity, and the stability of any…
 
 # attr:alt
 seg-92d3c84024d7 = The chart the engine writes for scenarios/time-transfer-budget.toml, kind time-transfer-budget
 
 # text
-seg-83b9c66b9e92 = <b>MODELLED</b> The TWSTFT two-way equation solved for T_A - T_B with station transmit and receive delays, the Ku-band ionospheric up/down asymmetry, the transponder delay difference and the Sagnac terms, against its exact forward model; a quadrature uncer
+seg-0e4e726025e0 = <b>MODELLED</b> The TWSTFT two-way equation solved for T_A - T_B with station transmit and receive delays, the Ku-band ionospheric up/down asymmetry, the transponder delay difference and the Sagnac terms, against its exact forward model; a quadrature…
 
 # text
-seg-58cf4086c7a5 = <b>MODELLED</b> The TWSTFT two-way equation solved for T_A - T_B with station transmit and receive delays, the Ku-band ionospheric up/down asymmetry, the transponder delay diff. Oracle (InternalConsistency): Internal consistency: the forward model and the solved equation agree to { "1e-15" } s, the Sagnac term equals the module's independent BIPM 2A omega/c^{ "2" } loop form, the ionospheric term is { "40.3" } TEC (1/f_up^{ "2" } - 1/f_down^{ "2" })/c, and the noise processes show their expected TDEV shapes. WHAT IS NOT: no real TWSTFT measurement or calibration report has been compared; the stated delays and uncertainties are inputs, not measured; t
+seg-ddc88dec6f4d = <b>MODELLED</b> The TWSTFT two-way equation solved for T_A - T_B with station transmit and receive delays, the Ku-band ionospheric up/down asymmetry, the transponder delay…. Oracle (InternalConsistency): Internal consistency: the forward model and the solved equation agree to { "1e-15" } s, the Sagnac term equals the module's independent BIPM 2A omega/c^{ "2" } loop form, the ionospheric term is { "40.3" } TEC (1/f_up^{ "2" } - 1/f_down^{ "2" })/c, and the noise processes show their expected TDEV shapes. WHAT IS NOT: no real TWSTFT measurement or calibration report has been compared; the stated delays and uncertainties are inputs, not measured…
 
 # text
 # c1: label
@@ -74,7 +74,7 @@ seg-15de1cdaa684 = MODELLED — TWSTFT two-way equation (station delays, Ku-band
 seg-cd04f5662884 = MODELLED. (kind catalogue (<c1/>))
 
 # text
-seg-70448ca49780 = Two-way satellite time and frequency transfer (TWSTFT) between two ILLUSTRATIVE stations, one in central Europe and one in eastern North America, through a geostationary relay at { "10" } deg W. The run solves the two-way equation for T_A - T_B from the stated equipment, transponder, ionospheric (Ku band, 14/11 GHz) and Sagnac terms. It forms an uncertainty budget whose statistical term is the TDEV, at one day, of a simula (scenario file comment, lines { "1" } to { "8" })
+seg-947878a9c933 = Two-way satellite time and frequency transfer (TWSTFT) between two ILLUSTRATIVE stations, one in central Europe and one in eastern North America, through a geostationary relay at { "10" } deg W. The run solves the two-way equation for T_A - T_B from the stated equipment, transponder, ionospheric (Ku band, 14/11 GHz) and Sagnac terms. It forms an uncertainty budget whose statistical term is the TDEV, at one day, of a… (scenario file comment, lines { "1" } to { "8" })
 
 # text
 seg-4b0d23aed0ab = TWSTFT two-way equation, uncertainty budget and link stability with flicker and diurnal non-reciprocity is MODELLED, not validated: checked against its own closed-form / analytic identity — catches transcription and coefficient errors, but is not an external oracle. (verification matrix (docs/MODELLED-RATIONALE.md))

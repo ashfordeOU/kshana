@@ -1334,7 +1334,6 @@ seg-8adbbd2cdb74 = Zelfbeschrijving van het hybride optische/RF-rapport
 
 seg-2a5e48b558e1 = Het hybrid-optical-rf-rapport vermeldt de linkconfiguratie waarmee het daadwerkelijk is gerund (golflengte van de draaggolf, zend- en ontvangstapertuur, afstand, pulsbreedte, integratietijd, rendementen en verliezen, standaardwaarden ingevuld) en bevat een eenhedenblok met de eenheid en herkomstklasse van elke grootheid die een artikel waarschijnlijk citeert, inclusief de sporen van de overdrachtscovariantie in vierkante meter
 
-seg-23f0c10237f4 = Geen externe referentie, en een is ook niet mogelijk: dit is zelfbeschrijving, geen meting. Het is vastgelegd omdat het ontbreken ervan een gebrek was -- P5 moest de golflengte van de draaggolf en de zendapertuur uit standaardwaarden in de broncode halen, en uit een interne consistentiecontrole afleiden dat een kale <c1/> in vierkante meter was. De afleiding was juist, en juist daarom deed het ertoe: niets zou hebben opgevangen dat ze onjuist was
 
 seg-0691f3dee8cb = Beschikbaarheid van de hybride optische/RF-link aan de RF-kant
 
@@ -2332,8 +2331,6 @@ seg-d5c32303297d = Lees het register
 
 seg-f6112ab2dfdf = Het register, de resultaten, het reproduceerbaarheidsstempel en de tests erachter zitten allemaal in de open engine.
 
-seg-69df15091cab = Verpakt het bewijs tot een reproduceerbaar bewijspakket van auditkwaliteit voor een beoordelingscommissie. <a1>Zie hieronder</a1>
-
 seg-9906d9824f3e = Beantwoordt uw eigen vraag met dezelfde labels, zonder certificering. <a1>Zie hieronder</a1>
 
 seg-f6a6cca2263c = Matrix
@@ -3246,8 +3243,6 @@ seg-7091847e1c77 = Een gepubliceerd model of een gedocumenteerde modelkeuze, int
 
 seg-1d17589ad647 = Engineering van de ruimtevaartuigbus, navigatiepayload en antennehardware, hardware voor de kwantumpayload, en productborging van vluchthardware. Kshana claimt niets hiervan; een partner is er eigenaar van.
 
-seg-5af3d58e83fa = <b>Met Pro:</b> een <b>missiedossier</b> controleert elke eis aan de hand van echte runs en houdt deze labels bij in zijn verificatiematrix: een eis die op basis van MODELLED of PARTNER is gehaald, wordt gemarkeerd. <a1>Bekijk een echt dossier</a1>
-
 seg-400016e22379 = Validatieregister
 
 seg-20ec758fe328 = Elke rij noemt haar eis, haar status en de module die haar implementeert. Open een rij voor haar referentie en tests, of kies een domein om te versmallen.
@@ -3742,8 +3737,6 @@ seg-457a0bba7c77 = <s1>tests/receiver_trust_machines.rs (rtklib_pos_runs_as_a_re
 
 seg-17ab1aee875b = Gegenereerd uit de verificatiematrix van de engine en vastgezet door een test. Blader door de lijst, of open een rij voor de bijbehorende mogelijkheid, onafhankelijke referentie en tests. De volledige tabel, alle kolommen tegelijk, staat in de documentatie: <a1>Mogelijkhedenreferentie</a1>.
 
-seg-41da0459d87a = Dit register nodig als reproduceerbaar bewijspakket van auditkwaliteit voor een beoordelingscommissie? <a1>Kshana Pro verpakt het</a1>.
-
 seg-72a49f4a8a52 = Standaard reproduceerbaar
 
 seg-fa37e615f55e = Voer het opnieuw uit. Krijg dezelfde getallen.
@@ -3795,10 +3788,6 @@ seg-481e625b04be = Hetzelfde bewijs, verpakt of voor u gedaan.
 seg-d2c76b1353a9 = De engine en alles hierboven blijven gratis. Twee betaalde routes bouwen daarop voort, onder contract.
 
 seg-1e1e6d431868 = Kshana Pro: een missiedossier en een bewijspakket
-
-seg-20582558a93f = Kshana Pro verpakt het bewijs dat een beoordelings- of inkoopcommissie vraagt, reproduceerbaar. Waarop het voortbouwt: dit register, waarin elke mogelijkheid haar onafhankelijke referentie en haar test noemt, en het stempel dat elk resultaat draagt. Met één opdracht controleert een missiedossier elke eis aan de hand van echte runs en schrijft het een verificatiematrix met de openstaande punten en een pdf (Portable Document Format).
-
-seg-1c8effb9400a = Bekijk een echt dossier
 
 seg-c24f4ecd4d42 = Een maatwerkstudie: uw vraag, beantwoord
 
@@ -4152,37 +4141,11 @@ seg-860ca782e2bf = De voortplanting van de gemiddelde toestand van de fase tli-a
 
 seg-7c7d72cc2036 = Een haalbaar gebied voor waar een bron van verslechterde navigatiemeldingen zich kan bevinden, uit ADS-B… · Gemodelleerd
 
-seg-43f852e4bee8 = van { "74" } gevalideerd
-
 seg-8fe12f6058c6 = van { "26" } gevalideerd
 
 seg-65122c2bb1fc = van { "104" } gevalideerd
 seg-2998c6fa20d6 = van { "79" } gevalideerd
 seg-4b3ab6095c65 = van { "56" } getoetst
-
-seg-0c637f4b6c88 = { "412" } mogelijkheden, elk beoordeeld. <b>{ "176" } gevalideerd</b> tegen onafhankelijke externe referenties. <b>{ "232" } eerlijk gelabeld als gemodelleerd.</b> { "4" } in handen van een partner. Er wordt niets naar boven afgerond.
-
-seg-c2c3179c1316 = Verificatiematrix, één cel per mogelijkheid in registervolgorde: { "176" } gevalideerd (gevulde vierkanten), { "232" } gemodelleerd (holle vierkanten), { "4" } in handen van een partner (ruiten). Met de pijltjestoetsen gaat u tussen cellen; de mogelijkheid en haar onafhankelijke referentie worden hieronder voorgelezen.
-
-seg-a2cdd2df1b36 = Engine v{ $version } · <c1/>, gegenereerd uit <c2/> · { "412" } rijen · geen scenario of seed: het eigen register van de engine
-
-seg-b36352ff4d2a = Engine v{ $version }, build <c1/> · <c2/> · deterministisch, geen seed
-
-seg-edd1aba6a08c = Engine v{ $version }, build <c1/> · <c2/> · deterministisch, geen seed
-
-seg-90efc3759f07 = Engine v{ $version }, build <c1/> · <c2/> · deterministisch, geen seed
-
-seg-094876c75564 = Engine v{ $version } · residutabellen in <c1/>, met de twee propagatorcontroles opnieuw berekend bij build <c2/> · deterministisch, geen seed
-
-seg-1c7e4b85e701 = Engine v{ $version }, build <c1/> · <c2/> · deterministisch, geen seed
-
-seg-f42398e9711c = Engine v{ $version }, build <c1/> · <c2/> · deterministisch, geen seed
-
-seg-07e8ef5a102f = { "176" }<s1>van { "412" } gevalideerd</s1>
-
-seg-4873cd813b9a = Verificatiematrix: { "176" } gevalideerd, { "232" } gemodelleerd, { "4" } in handen van een partner, { "412" } in totaal
-
-seg-98b273ce8773 = Alle { "412" } rijen, elk op één regel.
 
 seg-7780d0588bd2 = van { "20" } getoetst
 
@@ -4191,9 +4154,3 @@ seg-00d97be31745 = van { "81" } getoetst
 seg-04cc15e9a93c = van { "31" } getoetst
 
 seg-2de2a4f9f3f7 = van { "57" } getoetst
-
-seg-c321a2dafd3e = Alle { "412" }
-
-seg-bc4726a0baf1 = Gemodelleerd { "232" }
-
-seg-40e80b22723c = Validatieregister, { "412" } rijen, scrollbaar

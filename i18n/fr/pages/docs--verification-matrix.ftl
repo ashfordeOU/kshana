@@ -1199,7 +1199,6 @@ seg-2a5e48b558e1 = Le rapport hybrid-optical-rf énonce la configuration de liai
 
 # text
 # c1: variance
-seg-23f0c10237f4 = Aucune référence externe, et aucune n'est possible : il s'agit d'auto-description, non d'une mesure. Elle est consignée parce que son absence était un défaut -- P5 a dû citer la longueur d'onde de la porteuse et l'ouverture d'émission à partir des valeurs par défaut du source, et déduire qu'un <c1/> nu était en mètres carrés à partir d'une vérification de cohérence interne. La déduction était correcte, ce qui est précisément la raison pour laquelle cela importait : rien n'aurait détecté qu'elle était fausse
 
 # text
 seg-0691f3dee8cb = Disponibilité de la liaison hybride optique/RF côté RF
@@ -5413,7 +5412,3 @@ seg-f4b44b14d819 = tests/mission_thread_oracle.rs::the_stored_numbers_miss_the_r
 seg-67fdcdfdb635 = interference_map::emitter (estimate, sessions, build_units, profile, GaussianFix::from_tdoa), interference_map::emitter_out (locate), <c1/>
 
 seg-920b26e226ab = tests unitaires d'interference_map::emitter (aller-retour de projection, valeur de l'horizon, allers-retours synthétiques direct et inverse : l'émetteur connu se trouve dans la région déclarée à peu près au taux déclaré, cas limites, regroupement en sessions, profil, confidentialité et formulation) ; cas locate de tests/interference_map_cli.rs
-
-seg-db7a6ac0a47d = Le registre de preuves complet, vérifié par machine : <b>{ "412" } lignes — { "176" } VALIDATED, { "232" } MODELLED, { "4" } PARTNER</b>. Une ligne ne peut être VALIDATED qu'avec une référence externe indépendante (les tests d'invariants de la matrice l'imposent). Les mêmes données, avec des liens cliquables par ligne vers chaque test, module et fixture versionnée, constituent le <em>registre de validation</em> sur <a1>https://kshana.dev</a1>. Voir <a2>MODELLED-RATIONALE.md</a2> pour savoir pourquoi chaque ligne modélisée n'est pas vérifiée en externe.
-
-seg-1cc523709234 = { "412" } lignes : { "176" } vérifiées en externe, { "232" } modélisées, { "4" } détenues par un partenaire.

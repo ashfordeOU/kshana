@@ -1276,7 +1276,6 @@ seg-8adbbd2cdb74 = Selvbeskrivelse i rapporten om hybrid optisk/RF
 
 seg-2a5e48b558e1 = Rapporten hybrid-optical-rf angiver den linkkonfiguration, den faktisk blev kørt med (bærebølgelængde, sende- og modtageapertur, afstand, pulsbredde, integrationstid, effektiviteter og tab, standardværdier løst) og bærer en enhedsblok, der giver enhed og proveniensklasse for hver størrelse, en artikel sandsynligvis citerer, herunder sporene af overdragelseskovariansen i kvadratmeter
 
-seg-23f0c10237f4 = Ingen ekstern uafhængig reference, og ingen er mulig: dette er selvbeskrivelse, ikke en måling. Det registreres, fordi dens fravær var en defekt — P5 måtte citere bærebølgelængden og sendeaperturen fra kildens standardværdier og udlede, at en bar <c1/> var i kvadratmeter, ud fra en intern konsistenskontrol. Udledningen var korrekt, hvilket netop er grunden til, at det betød noget: intet ville have fanget, hvis den havde været forkert
 
 seg-0691f3dee8cb = Tilgængelighed af hybrid optisk/RF-link på RF-siden
 
@@ -2643,5 +2642,3 @@ seg-b5c49044a7a1 = Et muligt område for, hvor en kilde til forringede navigatio
 seg-953a8b4f9f41 = Endnu ingen ekstern. Kun syntetiske frem-og-tilbage-kørsler fra en generator, der deler estimatorens model, så de kontrollerer koden og kalibreringen af de angivne niveauer under den model og intet om virkelige sendere. En ekstern kontrol mod de offentliggjorte senderpladser i Jammertest { "2025" } blev præregistreret (docs/emitter-region/PREREGISTRATION.md, frigivet af ejeren før enhver scoret kørsel) og kørt én gang (docs/emitter-region/RESULTS.md): ADS-B NOT ASSESSABLE ({ "2" } planlagte sessioner, færre end det registrerede minimum på { "4" }) og AIS NOT ASSESSABLE (ingen offentliggjort session), så ingen tærskel blev afprøvet, og rækken forbliver MODELLED
 
 seg-d5a79853b72f = { "93" } af { "93" } typer, { "3334" } af { "3334" } numeriske felter
-
-seg-877f989ae75e = De { "61" } funktionskort fra <c1/>, derefter alle { "412" } rækker i verifikationsmatricen.

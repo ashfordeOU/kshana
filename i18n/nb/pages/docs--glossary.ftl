@@ -352,8 +352,6 @@ seg-ac37217cda0d = <b>WGS-84 — World Geodetic System { "1984" }.</b> Jordellip
 
 seg-81bc73d1fde8 = UTC / TAI / TT / UT1 / TDB — koordinert universaltid / internasjonal atomtid / terrestrisk tid / universaltid { "1" } (jordrotasjonstid) / barysentrisk dynamisk tid.
 
-seg-ea7eb1f34cae = <b>LTC / TCL — Lunar Coordinate Time (Temps-Coordonnée Lunaire).</b> Den foreslåtte tidsskalaen for månen.
-
 seg-c6e5976d9dff = <b>OD — banebestemmelse.</b> Å utlede en bane fra sporingsmålinger.
 
 seg-dcb9e011c868 = <b>CR3BP</b>, <b>NRHO</b> og <b>DRO</b> er definert under «Baner og cislunart rom» ovenfor.

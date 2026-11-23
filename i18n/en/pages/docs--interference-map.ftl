@@ -34,9 +34,6 @@ seg-228f39c0305b = Data and licences
 seg-d3336cc18ff7 = Only the sources reviewed in <a1><c1/></a1> are built in, selected with <c2/>:
 
 # text
-seg-b03d56f501c3 = Kind
-
-# text
 seg-d4a762001549 = Licence
 
 # text
@@ -195,7 +192,7 @@ seg-a1e60af5adaa = The on-land detector needs a land polygon file (<c1/>): GeoJS
 # c2: curl
 seg-cd55a09894c5 = This runs the system <c1/> (as an argument list, not through a shell) over HTTPS, once, for one file at a fixed address that names a single commit of the upstream repository. The download is kept only if its SHA-256 equals the value pinned in the code; a mismatch deletes it and fails. If <c2/> is not installed the command says so and gives the address and the checksum so the file can be fetched by hand. Nothing is bundled in the repository.
 
-# attr:aria-label, text
+# text
 seg-6555ff9a6d8e = Output
 
 # text
@@ -256,6 +253,47 @@ seg-fd929d6ee90b = Format version and fields
 seg-ff443e9cbd20 = The format is settled as <c1/>, <c2/>. A change that removes or renames a field, or changes what one means, raises the version; adding a field does not, so a reader must ignore fields it does not know. A count that is <c3/> is withheld, not zero.
 
 # text
+# c1: confidence
+# c2: statement: "kshana-interference-map/confidence/v1"
+# c3: day
+# c4: data_window
+# c5: first_report_utc
+# c6: last_report_utc
+seg-09e6df18fe31 = <b>Confidence and data window (added after { $version }, additive).</b> Every published cell carries a <c1/> object (<c2/>), and every file's <c3/> block a <c4/> (<c5/>, <c6/>, truncated to the minute). The confidence statement describes how much a call rests on; it changes nothing about the call.
+
+# text
+# c1: high
+# c2: medium
+# c3: low
+seg-9a0f6e6a2328 = <c1/>: at least { "20" } sampled aircraft and at least { "90" }% of the cell's reports carry NACp; <c2/>: at least { "10" } sampled aircraft (the call minimum) and at least { "50" }% carry NACp; <c3/>: otherwise
+
+# text
+# c1: high
+# c2: medium
+# c3: low
+seg-83bf62846b0d = <c1/>: at least { "20" } vessels observed; <c2/>: at least { "10" }; <c3/>: otherwise
+
+# text
+# c1: affected_share
+# c2: null
+seg-e700a128d82b = Wilson score interval of <c1/> at { "95" }%, given only when the share itself is published (so it reveals no withheld count); otherwise <c2/>
+
+# text
+seg-239898a323bd = not present
+
+# text
+# c1: null
+seg-25a050599d9c = reports used in the cell; <c1/> below { "5" }
+
+# text
+seg-64395e084e7b = share of the cell's reports that carried NACp, NIC: how much of the call rests on the stronger accuracy field
+
+# text
+# c1: adsb.rs
+# c2: docs/observatory/METHOD.md
+seg-455546c2575a = The levels are a reading aid fixed with this statement, not a validated grading, and the interval is the sampling uncertainty of a share of distinct aircraft only: it does not cover coverage bias or the other causes of low accuracy. The interval is checked against an independent quadratic-formula solution of the Wilson bound (<c1/> unit tests). The observatory product adds a latency statement (<c2/>).
+
+# text
 # c1: status
 # c2: degraded
 # c3: not_degraded
@@ -288,7 +326,8 @@ seg-e33f63fe5c0a = <c1/> turns one UTC day of ADS-B reports into the observatory
 seg-31ce42fc05dc = Studio map page specification
 
 # text
-seg-a9aca2e2d390 = For the Studio's map page, which loads a GeoJSON file the user provides (the page is built in the Studio source, not in this repository). Nothing is uploaded: the file is read in the browser, and the page makes no request to any data source.
+# c1: web/studio/interference/
+seg-7ea6bfdc2edb = For the Studio's map page, which loads a GeoJSON file the user provides (the page is <c1/> in this repository). Nothing is uploaded: the file is read in the browser, and the page makes no request to any data source.
 
 # text
 # c1: kshana_interference_map.schema
@@ -446,7 +485,7 @@ seg-e3949a1e6082 = Emitter region (<c1/>)
 # c1: kshana interference-map locate
 # c2: VM-bc70cb57
 # c3: emitter-region/PREREGISTRATION.md
-seg-78f09b1a960d = <c1/> estimates <b>where an interference source can be</b> from the same open ADS-B or AIS reports: a region at stated confidence levels, a centroid with an uncertainty ellipse, and the sessions in time. It never returns a bare point. <b>MODELLED</b> (ledger row <c2/>): the physics is textbook radio line of sight, the credibility of the regions is conditional on the model, and the only external check is the Jammertest comparison pre-registered in <a1><c3/></a1>. Publishing emitter regions in the public observatory is a separate owner decision and is <b>off</b>: the observatory does not read this module, and a test pins that.
+seg-7f71ede885e9 = <c1/> estimates <b>where an interference source can be</b> from the same open ADS-B or AIS reports: a region at stated confidence levels, a centroid with an uncertainty ellipse, and the sessions in time. It never returns a bare point. <b>MODELLED</b> (ledger row <c2/>): the physics is textbook radio line of sight, the credibility of the regions is conditional on the model, and the only external check is the Jammertest comparison pre-registered in <a1><c3/></a1>. Publishing emitter regions in the public observatory is <b>off</b>: the observatory does not read this module, and a test pins that.
 
 # text
 # c1: --levels 0.5,0.9,0.95

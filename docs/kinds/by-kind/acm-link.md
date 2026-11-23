@@ -54,10 +54,10 @@ The scalar results of that run, with the units the engine states:
 | `ccm_volume_mbit` | 58495.039442 | Mbit |
 | `duration_hours` | 12 | h |
 | `eirp_dbw` | 7 | dBW |
-| `evidence.id_rule` | the stable id of the matrix row (the ID  | text |
+| `evidence.id_rule` | the stable id of the matrix row (the… | text |
 | `evidence.matrix` | docs/VERIFICATION-MATRIX.md | text |
 
-Result label (the engine's): MODELLED — DVB-S2 adaptive coding and modulation over the passes of one satellite at one station: clear-sky Es/N0 along each apparent pass, the most efficient MODCOD clearing its ETSI EN 302 307-1 Table 13 threshold plus a margin, against the constant-coding MODCOD that closes at the mask; no rain f
+Result label (the engine's): MODELLED — DVB-S2 adaptive coding and modulation over the passes of one satellite at one station: clear-sky Es/N0 along each apparent pass, the most efficient MODCOD clearing its ETSI EN 302 307-1 Table 13 threshold plus a margin, against the constant-coding MODCOD that closes at the mask; no rain…
 
 <img src="../../figures/kinds/acm-link.svg" alt="The chart the engine writes for scenarios/acm-link.toml, kind acm-link" width="640">
 
@@ -65,13 +65,13 @@ Result label (the engine's): MODELLED — DVB-S2 adaptive coding and modulation 
 
 MODELLED: the [verification matrix](../../VERIFICATION-MATRIX.md) rows that name this kind.
 
-- **MODELLED** Downlink Es/N0 along each pass of one satellite over one station (EIRP, free-space loss, cosecant-law atmospheric loss, other losses, G/T, Boltzmann's constant, symbol rate), the most efficient DVB-S2 MODCOD that clears its ETSI EN 302 307-
+- **MODELLED** Downlink Es/N0 along each pass of one satellite over one station (EIRP, free-space loss, cosecant-law atmospheric loss, other losses, G/T, Boltzmann's constant, symbol rate), the most efficient DVB-S2 MODCOD that clears its ETSI EN 302…
 
 The rows the run itself exercised, with the oracle the matrix gives each (the public sources are named there):
 
-- **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): SBOM conformance to the official CycloneDX 1.5 JSON Schema (+ valid SPDX identifiers) — an external published standard, zero validation errors over the full dependency graph; the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
-- **VALIDATED** Visibility passes (AOS, TCA, LOS, maximum apparent elevation, duration) of an SGP4 element set over a WGS-84 station on the validated Earth-orbit path (IAU 2006. Oracle (ExternalDataset): Orekit 13.1.8 (CS GROUP, Apache-2.0) with Hipparchus 4.0.3: TLEPropagator on the same element sets in a TEME Orekit builds to the stated definition (its IERS 2010 TOD rotated by GAST - GMST), ElevationDetector and ElevationExtremumDetector with and without ITURP834AtmosphericRefraction, and AngularAzEl with AngularRadioRefractionModifier for the light-time case, crossings and maximum solved by Hipparchus; 60 cases (f
-- **MODELLED** Downlink Es/N0 along each pass of one satellite over one station (EIRP, free-space loss, cosecant-law atmospheric loss, other losses, G/T, Boltzmann's constant,. Oracle (InternalConsistency): Internal consistency: the spectral efficiency computed in closed form from Table 5a K_bch and the frame lengths agrees with the efficiencies Table 13 prints (a transcription check on the threshold table); the link-budget pieces agree with their closed forms; the selection is monotone in Es/N0 and honours the margin; ACM moves at least the constant-coding volume. The pass geometry comes from the separately VALIDATED a
+- **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): Official CycloneDX 1.5 JSON Schema (+ SPDX identifier list): every atomic licence id is a valid SPDX id, and the document has zero schema errors once compound expressions are moved to expression (the generator's raw output has 133 compound-id errors); the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
+- **VALIDATED** Visibility passes (AOS, TCA, LOS, maximum apparent elevation, duration) of an SGP4 element set over a WGS-84 station on the validated Earth-orbit path (IAU…. Oracle (ExternalDataset): Orekit 13.1.8 (CS GROUP, Apache-2.0) with Hipparchus 4.0.3: TLEPropagator on the same element sets in a TEME frame built in Orekit to the stated definition (its IERS 2010 TOD rotated by GAST - GMST), ElevationDetector and ElevationExtremumDetector with and without ITURP834AtmosphericRefraction, and AngularAzEl with AngularRadioRefractionModifier for the light-time case, crossings and maximum solved by Hipparchus…
+- **MODELLED** Downlink Es/N0 along each pass of one satellite over one station (EIRP, free-space loss, cosecant-law atmospheric loss, other losses, G/T, Boltzmann's…. Oracle (InternalConsistency): Internal consistency: the spectral efficiency computed in closed form from Table 5a K_bch and the frame lengths agrees with the efficiencies Table 13 prints (a transcription check on the threshold table); the link-budget pieces agree with their closed forms; the selection is monotone in Es/N0 and honours the margin; ACM moves at least the constant-coding volume. The pass geometry comes from the separately VALIDATED…
 
 ## Limitations
 

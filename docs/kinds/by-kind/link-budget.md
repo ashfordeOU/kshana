@@ -47,7 +47,7 @@ The scalar results of that run, with the units the engine states:
 | `cn0_dbhz` | 156.624475 | dB-Hz |
 | `data_rate_bps` | 1000000 | bit/s |
 | `eb_n0_db` | 96.624475 | dB |
-| `evidence.id_rule` | the stable id of the matrix row (the ID  | text |
+| `evidence.id_rule` | the stable id of the matrix row (the… | text |
 | `evidence.matrix` | docs/VERIFICATION-MATRIX.md | text |
 | `evidence.tier` | MODELLED | text |
 | `free_space_loss_db` | 176.974625 | dB |
@@ -59,16 +59,15 @@ Result label (the engine's): One-way link budget over the CCSDS 401 / DSN 810-00
 
 ## Evidence
 
-MODELLED 1 · VALIDATED 1: the [verification matrix](../../VERIFICATION-MATRIX.md) rows that name this kind.
+VALIDATED: the [verification matrix](../../VERIFICATION-MATRIX.md) rows that name this kind.
 
 - **VALIDATED** Free-space path loss, C/N₀, Eb/N₀, margin and closure over the CCSDS 401 / DSN 810-005 link equation for EIRP/G·T/range/rate/band against a required Eb/N₀. Tests: [one_way_link_budget_reference.rs](../../../tests/one_way_link_budget_reference.rs).
-- **MODELLED** Lunar-native jammer-to-signal ratio, effective C/N₀ and loss of lock for a selenographic surface user under a lunar surface (or raised) jammer, over the illustrative public-source Moonlight/LCNS-class constellation.
 
 The rows the run itself exercised, with the oracle the matrix gives each (the public sources are named there):
 
-- **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): SBOM conformance to the official CycloneDX 1.5 JSON Schema (+ valid SPDX identifiers) — an external published standard, zero validation errors over the full dependency graph; the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
-- **VALIDATED** Free-space path loss, C/N₀, Eb/N₀, margin and closure over the CCSDS 401 / DSN 810-005 link equation for EIRP/G·T/range/rate/band against a required Eb/N₀. Runn. Oracle (ExternalDataset): Published deep-space telecom design-control table as pinned numeric vectors: DESCANSO / J. H. Yuen (ed.), Deep Space Telecommunications Systems Engineering, JPL Pub 82-76, Table 1-1 (Galileo X-band) — kshana reassembles the table line-items and reproduces its published end-to-end L_fs 290.54 dB and Pr/N0 54.6 dB-Hz; free-space loss also checked vs ITU-R P.525
-- **MODELLED** The link-budget report states every absolute constant its own margin was computed from -- the carrier frequency the free-space loss used, the EIRP, the figure o. Oracle (InternalConsistency): No external oracle: this is self-description over an equation already validated against a published design-control table (see the one-way link budget row). It is recorded because the absence of it was a measured defect -- reproducing the released d1_rate_gain_beamwidth.csv required back-solving one effective constant to 0.0034 dB from all thirty rows, and the engine now both names that combination and proves, by test
+- **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): Official CycloneDX 1.5 JSON Schema (+ SPDX identifier list): every atomic licence id is a valid SPDX id, and the document has zero schema errors once compound expressions are moved to expression (the generator's raw output has 133 compound-id errors); the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
+- **VALIDATED** Free-space path loss, C/N₀, Eb/N₀, margin and closure over the CCSDS 401 / DSN 810-005 link equation for EIRP/G·T/range/rate/band against a required Eb/N₀.…. Oracle (ExternalDataset): Published deep-space telecom design-control table as pinned numeric vectors: DESCANSO / J. H. Yuen (ed.), Deep Space Telecommunications Systems Engineering, JPL Pub 82-76, Table 1-1 (Galileo X-band) — kshana reassembles the table line-items and reproduces its published end-to-end L_fs 290.54 dB and Pr/N0 54.6 dB-Hz (line items transcribed from the table, so this checks the link-equation assembly against a published…
+- **MODELLED** The link-budget report states every absolute constant its own margin was computed from -- the carrier frequency the free-space loss used, the EIRP, the figure…. Oracle (InternalConsistency): No external oracle: this is self-description over an equation already validated against a published design-control table (see the one-way link budget row). It is recorded because the absence of it was a measured defect -- reproducing the released rate/gain/beamwidth table required back-solving one effective constant to 0.0034 dB from all thirty rows, and the engine now both names that combination and proves, by…
 
 ## Limitations
 

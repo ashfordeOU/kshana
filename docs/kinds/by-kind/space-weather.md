@@ -40,7 +40,7 @@ The scalar results of that run, with the units the engine states:
 | Result | Value | Unit |
 |---|---|---|
 | `ap` | 27 | 2 nT |
-| `evidence.id_rule` | the stable id of the matrix row (the ID  | text |
+| `evidence.id_rule` | the stable id of the matrix row (the… | text |
 | `evidence.matrix` | docs/VERIFICATION-MATRIX.md | text |
 | `evidence.tier` | MODELLED | text |
 | `exospheric_temperature_k` | 1046.737945 | K |
@@ -57,12 +57,12 @@ Result label (the engine's): MODELLED — solar/geomagnetic indices, Jacchia-71 
 
 MODELLED: the [verification matrix](../../VERIFICATION-MATRIX.md) rows that name this kind.
 
-- **MODELLED** Solar/geomagnetic indices (definitional Kp↔ap table), the Jacchia-1971 exospheric temperature, and the Jacchia 1971 thermospheric density (SAO Special Report 332: static diffusion profiles reproducing its Table 7, with the diurnal, geomagne
+- **MODELLED** Solar/geomagnetic indices (definitional Kp↔ap table), the Jacchia-1971 exospheric temperature, and the Jacchia 1971 thermospheric density (SAO Special Report 332: static diffusion profiles reproducing its Table 7, with the diurnal…
 
 The rows the run itself exercised, with the oracle the matrix gives each (the public sources are named there):
 
-- **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): SBOM conformance to the official CycloneDX 1.5 JSON Schema (+ valid SPDX identifiers) — an external published standard, zero validation errors over the full dependency graph; the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
-- **MODELLED** Solar/geomagnetic indices (definitional Kp↔ap table), the Jacchia-1971 exospheric temperature, and the Jacchia 1971 thermospheric density (SAO Special Report 33. Oracle (ExternalDataset): Definitional Kp↔ap table + Jacchia-1971 exospheric-temperature closed form (matched to <1 K vs the published anchors, tests/space_weather_reference.rs); the density is characterised against pymsis NRLMSISE-00 (an independent NRL model): the 800 km solar-cycle swing is 10.4x against NRLMSISE-00 13.6x. 0.30 revision: the calibrated first-order activity factor was replaced by Jacchia 1971 (default scenario density at 40
+- **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): Official CycloneDX 1.5 JSON Schema (+ SPDX identifier list): every atomic licence id is a valid SPDX id, and the document has zero schema errors once compound expressions are moved to expression (the generator's raw output has 133 compound-id errors); the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
+- **MODELLED** Solar/geomagnetic indices (definitional Kp↔ap table), the Jacchia-1971 exospheric temperature, and the Jacchia 1971 thermospheric density (SAO Special Report…. Oracle (ExternalDataset): Definitional Kp↔ap table + Jacchia-1971 exospheric-temperature closed form (matched to <1 K vs the published anchors, tests/space_weather_reference.rs); the density is characterised against pymsis NRLMSISE-00 (an independent NRL model): the 800 km solar-cycle swing is 10.4x against NRLMSISE-00 13.6x. 0.30 revision: the calibrated first-order activity factor was replaced by Jacchia 1971 (default scenario density at…
 
 ## Limitations
 
@@ -70,7 +70,7 @@ What the run's own report says is not modelled or not validated:
 
 - MODELLED — solar/geomagnetic indices, Jacchia-71 exospheric temperature and Jacchia-71 static density at the diurnal-mean temperature (result `label`)
 - MODELLED: the density agrees with accelerometer-derived densities (TOLEOS CHAMP and GRACE) within a factor 2 at solar maximum but is about 1.7x too dense in the 2008 solar minimum. (kind catalogue (`kshana kinds --json`))
-- HONEST SCOPE: MODELLED. The Kp<->ap conversion is the definitional IAGA table and the exospheric temperature is validated against published solar-min/mean/max magnitudes, but the density correction is a CALIBRATED FIRST-ORDER scale-height coupling — it captures the right sign, monotonicity and order of magnitude, NOT the absolute accuracy of a data-validated (NRLMSISE-00) atmosphere. Run: kshana scenarios/space-weath (scenario file comment, lines 10 to 15)
+- HONEST SCOPE: MODELLED. The Kp<->ap conversion is the definitional IAGA table and the exospheric temperature is validated against published solar-min/mean/max magnitudes, and the density is the Jacchia-1971 thermospheric neutral density at the diurnal-mean exospheric temperature: it agrees with accelerometer-derived densities (TOLEOS CHAMP and GRACE) within a factor 2 at solar maximum but is about 1.7x too dense in… (scenario file comment, lines 10 to 16)
 - Reproducibility & software assurance is MODELLED, not validated: a sub-claim is externally checked, but the whole capability composes modelled pieces, so the capability stays Modelled. (verification matrix (docs/MODELLED-RATIONALE.md))
 - Space-weather environment & activity-driven thermospheric density is MODELLED, not validated: a sub-claim is externally checked, but the whole capability composes modelled pieces, so the capability stays Modelled. (verification matrix (docs/MODELLED-RATIONALE.md))
 
@@ -78,3 +78,4 @@ What the run's own report says is not modelled or not validated:
 
 - Family page: [GNSS measurements, positioning and integrity](../gnss-measurements-positioning-and-integrity.md#space-weather)
 - All kinds: [KINDS.md](../../KINDS.md)
+- Topic page: [SPACE-WEATHER-PNT.md](../../SPACE-WEATHER-PNT.md)

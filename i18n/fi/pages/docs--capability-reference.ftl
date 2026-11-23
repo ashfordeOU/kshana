@@ -1276,7 +1276,6 @@ seg-8adbbd2cdb74 = Hybridi optinen/RF-raportin itsekuvaus
 
 seg-2a5e48b558e1 = Raportti hybrid-optical-rf ilmoittaa linkkikonfiguraation, jolla se todella ajettiin (kantoaallon aallonpituus, lähetys- ja vastaanottoapertuuri, etäisyys, pulssin leveys, integrointiaika, hyötysuhteet ja häviöt, oletukset ratkaistuina) ja sisältää yksikkölohkon, joka antaa jokaisen sellaisen suureen yksikön ja alkuperäluokan, jonka artikkeli todennäköisesti lainaa, mukaan lukien siirtokovarianssin jäljet neliömetreinä
 
-seg-23f0c10237f4 = Ei ulkoista oraakkelia, eikä sellainen ole mahdollinen: tämä on itsekuvaus, ei mittaus. Se kirjataan, koska sen puute oli vika – P5:n piti lainata kantoaallon aallonpituus ja lähetysapertuuri lähdekoodin oletuksista ja päätellä sisäisen johdonmukaisuustarkistuksen avulla, että pelkkä <c1/> oli neliömetreinä. Päätelmä oli oikea, ja juuri siksi sillä oli väliä: mikään ei olisi havainnut sen olleen väärä
 
 seg-0691f3dee8cb = Hybridi optisen/RF-linkin saatavuus RF-puolella
 
@@ -2643,5 +2642,3 @@ seg-b5c49044a7a1 = Mahdollinen alue sille, missä heikentyneitä navigointirapor
 seg-953a8b4f9f41 = Ei vielä ulkoista. Vain synteettisiä eteenpäin-käänteisiä kiertoajoja generaattorilta, joka jakaa estimaattorin mallin, joten ne tarkistavat koodin ja ilmoitettujen tasojen kalibroinnin tämän mallin alaisena eivätkä mitään todellisista lähettimistä. Ulkoinen tarkistus julkaistuja Jammertest { "2025" } -lähetinkohteita vasten ennalta rekisteröitiin (docs/emitter-region/PREREGISTRATION.md, omistaja kuittasi ennen yhtäkään pisteytettyä ajoa) ja ajettiin kerran (docs/emitter-region/RESULTS.md): ADS-B NOT ASSESSABLE ({ "2" } aikataulutettua istuntoa, vähemmän kuin rekisteröity minimi { "4" }) ja AIS NOT ASSESSABLE (ei julkaistua istuntoa), joten mitään kynnystä ei testattu ja rivi pysyy MODELLED
 
 seg-d5a79853b72f = { "93" } / { "93" } tyyppiä, { "3334" } / { "3334" } numeerista kenttää
-
-seg-877f989ae75e = Tiedoston <c1/> { "61" } ominaisuuskorttia ja sen jälkeen varmennusmatriisin kaikki { "412" } riviä.

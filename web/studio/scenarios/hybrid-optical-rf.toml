@@ -1,4 +1,4 @@
-# Heterogeneous optical + RF PNT joint availability / precision / integrity (P5).
+# Heterogeneous optical + RF PNT joint availability / precision / integrity.
 #
 # Composes the Phase-7 pieces into one end-to-end analysis:
 #   * L26 optical link budget  -> photon-limited two-way ranging CRLB + diffraction footprint
@@ -53,14 +53,14 @@ fom_correlation   = 0.5         # positive co-occurrence of the three P5 conditi
 handoff_inflation = 0.2         # modality-transition covariance inflation at the switch
 p_hmi             = 1.0e-7      # integrity-risk budget
 
-# --- G15 bias / ramp fault injection against the cross-modality monitor ---
+# --- bias / ramp fault injection against the cross-modality monitor ---
 # The minimum detectable bias and the detection-power curve are ANALYTIC (non-central
 # chi-square inversion), so they need no inputs of their own. These two only set the ramp
 # rate the reported time-to-detect is a rate conversion of. Both MODELLED.
 fault_ramp_rate_pos_m_s   = 0.05      # position-axis bias growth (m/s)
 fault_ramp_rate_clock_s_s = 1.0e-11   # clock-axis bias growth (s/s)
 
-# --- G17 post-handover coast: process noise and the alert-limit crossing ---
+# --- post-handover coast: process noise and the alert-limit crossing ---
 # Random walk on the existing 4-state (east, north, up, clock) handoff filter. The alert
 # limits are the ones already declared above; only the process noise and the coverage
 # factor are new. Both PSDs are MODELLED representative inputs and the crossing times

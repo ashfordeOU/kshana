@@ -1180,7 +1180,6 @@ seg-8adbbd2cdb74 = Zelfbeschrijving van het hybride optische/RF-rapport
 
 seg-2a5e48b558e1 = Het hybrid-optical-rf-rapport vermeldt de linkconfiguratie waarmee het daadwerkelijk is gerund (golflengte van de draaggolf, zend- en ontvangstapertuur, afstand, pulsbreedte, integratietijd, rendementen en verliezen, standaardwaarden ingevuld) en bevat een eenhedenblok met de eenheid en herkomstklasse van elke grootheid die een artikel waarschijnlijk citeert, inclusief de sporen van de overdrachtscovariantie in vierkante meter
 
-seg-23f0c10237f4 = Geen externe referentie, en een is ook niet mogelijk: dit is zelfbeschrijving, geen meting. Het is vastgelegd omdat het ontbreken ervan een gebrek was -- P5 moest de golflengte van de draaggolf en de zendapertuur uit standaardwaarden in de broncode halen, en uit een interne consistentiecontrole afleiden dat een kale <c1/> in vierkante meter was. De afleiding was juist, en juist daarom deed het ertoe: niets zou hebben opgevangen dat ze onjuist was
 
 seg-0691f3dee8cb = Beschikbaarheid van de hybride optische/RF-link aan de RF-kant
 
@@ -3622,7 +3621,3 @@ seg-f4b44b14d819 = tests/mission_thread_oracle.rs::the_stored_numbers_miss_the_r
 seg-67fdcdfdb635 = interference_map::emitter (estimate, sessions, build_units, profile, GaussianFix::from_tdoa), interference_map::emitter_out (locate), <c1/>
 
 seg-920b26e226ab = unittests van interference_map::emitter (projectie-roundtrip, horizoncijfer, synthetische voorwaartse en inverse rondritten: de bekende zender ligt binnen het vermelde gebied met ongeveer het vermelde percentage, randgevallen, sessieclustering, profiel, privacy en formulering); tests/interference_map_cli.rs locate-gevallen
-
-seg-db7a6ac0a47d = Het volledige, machinaal gecontroleerde bewijsregister: <b>{ "412" } rijen — { "176" } VALIDATED, { "232" } MODELLED, { "4" } PARTNER</b>. Een rij mag alleen VALIDATED zijn met een onafhankelijke externe referentie (de invariantentests van de matrix dwingen dit af). Dezelfde data, met klikbare links per rij naar elke test, module en vastgelegde fixture, is het <em>Validatieregister</em> op <a1>https://kshana.dev</a1>. Zie <a2>MODELLED-RATIONALE.md</a2> voor waarom elke gemodelleerde rij niet extern is gevalideerd.
-
-seg-1cc523709234 = { "412" } rijen: { "176" } extern gevalideerd, { "232" } gemodelleerd, { "4" } in handen van een partner.

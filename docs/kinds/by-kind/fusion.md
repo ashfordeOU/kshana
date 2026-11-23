@@ -23,11 +23,11 @@ The example `scenarios/fusion-pnt.toml` sets, among others:
 |---|---|---|
 | `accel_classical.bias` | 0 | m/s^2 |
 | `accel_classical.id` | nav-grade-quartz | text |
-| `accel_classical.provenance` | Navigation-grade quartz accelerometer; illustrative noise-dr | text |
+| `accel_classical.provenance` | Navigation-grade quartz accelerometer; illustrative… | text |
 | `accel_classical.q_va` | 1.0000e-7 | (m/s^2)^2/Hz |
 | `accel_quantum.bias` | 0 | m/s^2 |
 | `accel_quantum.id` | cold-atom-quat | text |
-| `accel_quantum.provenance` | Cold-atom accelerometer, low long-tau velocity-random-walk;  | text |
+| `accel_quantum.provenance` | Cold-atom accelerometer, low long-tau… | text |
 | `accel_quantum.q_va` | 1.0000e-9 | (m/s^2)^2/Hz |
 | `clock_classical.drift` | 0 | 1/s |
 | `clock_classical.id` | csac-sa45s | text |
@@ -40,7 +40,7 @@ The example `scenarios/fusion-pnt.toml` sets, among others:
 kshana scenarios/fusion-pnt.toml
 ```
 
-2 bundled scenarios use this kind; the others are in [`scenarios/`](../../../scenarios/).
+2 scenario files in [`scenarios/`](../../../scenarios/) use this kind.
 
 ## What it gives
 
@@ -56,28 +56,26 @@ The scalar results of that run, with the units the engine states:
 | `classical.accel_spec.params.q_aa` | 0 | (m/s^2)^2/s |
 | `classical.accel_spec.params.q_arw` | 0 | (rad/s)^2/Hz |
 | `classical.accel_spec.params.q_va` | 1.0000e-7 | (m/s^2)^2/Hz |
-| `classical.accel_spec.provenance` | Navigation-grade quartz accelerometer; i | text |
+| `classical.accel_spec.provenance` | Navigation-grade quartz accelerometer… | text |
 | `classical.clock_spec.id` | csac-sa45s | text |
 
 <img src="../../figures/kinds/fusion.svg" alt="The chart the engine writes for scenarios/fusion-pnt.toml, kind fusion" width="640">
 
 ## Evidence
 
-MODELLED 4 · VALIDATED 4: the [verification matrix](../../VERIFICATION-MATRIX.md) rows that name this kind.
+MODELLED 1 · VALIDATED 2: the [verification matrix](../../VERIFICATION-MATRIX.md) rows that name this kind.
 
 - **VALIDATED** Recover an epoch state [r,v] from ground-station ranges via a Gauss–Newton batch differential corrector and a sequential filter, over a two-body+J2 force model Tests: [batch_sequential_orbit_determination_reference.rs](../../../tests/batch_sequential_orbit_determination_reference.rs).
-- **MODELLED** Error-state EKF over 15 INS states, a two-state receiver clock and one float carrier ambiguity per tracked satellite; pseudorange, carrier phase and optional range rate from an SGP4 Walker constellation (light-time and Sagnac), Klobuchar an Tests: [fusion_carrier_tc.rs](../../../tests/fusion_carrier_tc.rs).
-- **MODELLED** Three gnss-ins scenarios on the trajectory library (a vessel weaving at 8 m/s with a five-minute outage; a train through a two-satellite cutting and a tunnel; an aircraft whose outage covers a 25-degree banked turn) and the pack's optional  Tests: [gnss_ins_packs.rs](../../../tests/gnss_ins_packs.rs).
-- **MODELLED** One stacked Kalman filter over position, velocity, clock phase and frequency fed pseudoranges that couple position and clock (Joseph-form updates carrying the cross-covariance); a 1-DOF variant augmented with a constant accelerometer-bias s Tests: [fusion_coupled_filters.rs](../../../tests/fusion_coupled_filters.rs).
-- and 4 more in the matrix.
+- **MODELLED** One stacked Kalman filter over position, velocity, clock phase and frequency fed pseudoranges that couple position and clock (Joseph-form updates carrying the cross-covariance); a 1-DOF variant augmented with a constant accelerometer-bias… Tests: [fusion_coupled_filters.rs](../../../tests/fusion_coupled_filters.rs).
+- **VALIDATED** 15-state error-state EKF, loosely coupled (validated on a real IMU/GNSS drive against NaveGo); a tightly coupled pseudorange/Doppler UKF and a coupled clock+position filter (consistency-only, outside the validated claim) Tests: [gnss_ins_sensor_fusion_reference.rs](../../../tests/gnss_ins_sensor_fusion_reference.rs).
 
 The rows the run itself exercised, with the oracle the matrix gives each (the public sources are named there):
 
-- **VALIDATED** Allan/modified/Hadamard deviation + power-law noise ID with χ² CIs. Oracle (ExternalDataset): NIST SP 1065 (Riley) / Stable32 reference deviations on NBS14
+- **VALIDATED** Overlapping Allan, modified Allan, time and overlapping Hadamard deviation (noise identification and χ² confidence intervals are not covered by this oracle). Oracle (ExternalDataset): NIST SP 1065 (Riley) / Stable32 reference deviations on NBS14
 - **MODELLED** Closed-form coast-error growth + holdover-to-threshold; quantum-clock classes. Oracle (ReferenceImpl): Multi-step clock_state covariance recursion (same-codebase cross-check); the underlying coast-variance & holdover-inversion kernel is externally validated vs scipy (see 'Clock-holdover coast-variance & threshold inversion'). The per-class red-noise-floor holdover figures stay MODELLED
-- **MODELLED** 3-state (phase/freq/drift) van-Loan Kalman clock, Joseph-stabilised. Oracle (ReferenceImpl): filterpy 1.4.5 KalmanFilter (R. Labbe, MIT), with F via scipy.linalg.expm and Q via the Van-Loan 1978 block-matrix — an independent reference implementation reproducing kshana's full filter trajectory. Cross-implementation consistency: the clock physics / Allan calibration are not externally validated, so this stays MODELLED. 0.30 external comparison, a finding (stays MODELLED): on IGS final 30 s clocks of 11 GPS Blo
-- **MODELLED** Cold-atom interferometer accelerometer from first principles (k_eff·T², QPN). Oracle (ExternalDataset): Published CAI primary-paper numeric vectors (Cheinet 2008 transfer function; Peters/Freier sensitivity): k_eff·T² matched exactly, shot-noise ASD a one-sided floor within ~2× of each published instrument (real devices carry technical noise above the quantum floor). A bracket, not parity. 0.30 round 2 (pre-registered e7de532a), a finding (stays MODELLED): the QPN-only rotation noise against the measured Gauguet et al.
-- **MODELLED** Composed bias + scale-factor + VRW + stability-decay position budget over holdover. Oracle (ReferenceImpl): Independent numpy Monte-Carlo SDE integration of double-integrated white-acceleration noise (validates the analytic VRW variance by a genuinely independent algorithm) + a Groves 2013 published-value anchor for the bias/scale-factor terms; the CAI device numbers quantify partner hardware and stay MODELLED
+- **MODELLED** 3-state (phase/freq/drift) van-Loan Kalman clock, Joseph-stabilised. Oracle (ReferenceImpl): filterpy 1.4.5 KalmanFilter (R. Labbe, MIT), with F via scipy.linalg.expm and Q via the Van-Loan 1978 block-matrix — an independent reference implementation reproducing Kshana's full filter trajectory. Cross-implementation consistency: the clock physics / Allan calibration are not externally validated, so this stays MODELLED. 0.30 external comparison, a finding (stays MODELLED): on IGS final 30 s clocks of 11 GPS…
+- **MODELLED** Cold-atom interferometer accelerometer from first principles (k_eff·T², QPN). Oracle (ExternalDataset): Published CAI primary-paper numeric vectors (Cheinet 2008 transfer function; Peters/Freier sensitivity): k_eff·T² matched exactly, shot-noise ASD a one-sided floor within ~2× of each published instrument (real devices carry technical noise above the quantum floor). A bracket, not parity. Version 0.30 (pre-registered e7de532a), a finding (stays MODELLED): the QPN-only rotation noise against the measured Gauguet et…
+- **MODELLED** Composed bias + scale-factor + VRW + stability-decay position budget over holdover. Oracle (ReferenceImpl): Independent numpy Monte-Carlo SDE integration of double-integrated white-acceleration noise (validates the analytic VRW variance by a genuinely independent algorithm) + the Groves 2013 closed-form error-propagation identities for the bias/scale-factor terms; the CAI device numbers quantify partner hardware and stay MODELLED
 
 ## Limitations
 

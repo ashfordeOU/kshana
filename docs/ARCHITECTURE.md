@@ -517,7 +517,7 @@ to the host. One dispatch, no drift.
 
 ```mermaid
 flowchart TD
-    F["api::run_toml(src) · run_scenario(src)"] --> K{"ScenarioKind::classify<br/>typed · exhaustive · 93 kinds<br/>(absent kind → clock; unknown kind → InvalidInput)"}
+    F["api::run_toml(src) · run_scenario(src)"] --> K{"ScenarioKind::classify<br/>typed · exhaustive · 93 kinds<br/>(a selection below; every kind in KINDS.md)<br/>(absent kind → clock; unknown kind → InvalidInput)"}
     K --> G1["Timing<br/>clock · timetransfer · quantum-time-transfer · telecom-timing · slot-timing"]
     K --> G2["Inertial & fusion<br/>inertial · hybrid · hybrid-ukf · fusion · gnss-ins · quantum-gnss-free-nav · ins-trn-coast · hybrid-optical-rf"]
     K --> G3["Orbit, geometry & positioning<br/>orbit · ephemeris · constellation-design · gnss-sim · pvt"]
@@ -525,7 +525,7 @@ flowchart TD
     K --> G5["Resilience & spectrum<br/>jamming · spoof · spoof-detect · quantum-anomaly-detect · tracking-loop · spectrum · conflict-resilience"]
     K --> G6["Alt-PNT (GPS-denied)<br/>gravity-map · terrain-nav · terrain-slam · combined-altpnt"]
     K --> G7["LEO PNT<br/>leo-signal · leo-pass · leo-navmsg · leo-pvt · leo-ppp · ntn-positioning · leo-pnt-chain"]
-    K --> G8["Lunar / cislunar suite (MODELLED)<br/>lunar-time-offset · lunar-time-budget · lunar-vlbi · lunar-vlbi-fim · lunar-joint-od-clock<br/>lunar-frame-realisation · lunar-frame-campaign · lunar-llr-datum · realtime-frame-eop<br/>moonlight-service-volume · lunar-differential-pnt · lunar-interop-export · lunar-beacon<br/>lunar-jamming · lunar-attack-surface · earth-gnss-lunar · cislunar-observability · cislunar-arc-recovery"]
+    K --> G8["Lunar / cislunar suite<br/>lunar-time-offset · lunar-time-budget · lunar-vlbi · lunar-vlbi-fim · lunar-joint-od-clock<br/>lunar-frame-realisation · lunar-frame-campaign · lunar-llr-datum · realtime-frame-eop<br/>moonlight-service-volume · lunar-differential-pnt · lunar-interop-export · lunar-beacon<br/>lunar-jamming · lunar-attack-surface · earth-gnss-lunar · cislunar-observability · cislunar-arc-recovery"]
     K --> G9["Deep space & solar system<br/>mars-pnt · solar-system · body-pnt"]
     K --> G10["AI/ML & trade<br/>impairment-eval · quantum-trade"]
     K --> G11["Mission analysis & environment<br/>launch-window · reentry · eo-coverage · attitude-budget · aperture-duty-cycle<br/>passes · link-budget · space-packet · space-weather"]
@@ -600,7 +600,7 @@ impl ExternalPack for MyPack {
 unless a pack opts into the registry dispatch seam in `src/registry.rs`. The built-in
 `jamming` pack is wired through `Scenario` as the worked example;
 out-of-tree packs follow the same contract without forking core (mirroring the
-`ErrorModel` extension point in §3, which the private resilience overlay uses).
+`ErrorModel` extension point in §3).
 
 Kshana therefore has **two stable extension seams** — add a *sensor* by implementing
 `ErrorModel` (§3), or add a whole *scenario kind* by implementing `Scenario` +
@@ -683,13 +683,13 @@ are optional, feature-gated dependencies (`--features python` / `--features wasm
 the default build and the test suite never compile them, while the dependency-audit
 gate (`cargo deny --all-features`) does inspect their dependency trees, because those
 crates ship inside the wheel and the npm package. Both call `api::run_toml`, so every surface returns identical results. The
-WebAssembly module backs the browser playground in `web/` and exports thirteen
-functions: `run`, `run_all` (one engine run returning result, chart, summary and table
+WebAssembly module backs the browser playground in `web/` and exports more than sixty
+functions, among them `run`, `run_all` (one engine run returning result, chart, summary and table
 together), `chart_svg`, `summary`, `table_csv`, `list_kinds`, `error_kind`, `version`, the
 `encode_permalink` / `decode_permalink` shareable-URL (URL: web address) codec, and the three exporters
 `export_sp3` / `export_omm` / `export_oem` that back the playground's export menu.
 Two further front doors reach the same `api`: the **MCP (Model Context Protocol) server** (`mcp/kshana-mcp`, a
-workspace-excluded `rmcp` crate exposing fifteen tools — `run_scenario`,
+workspace-excluded `rmcp` crate exposing 53 tools (listed in `mcp/kshana-mcp/README.md`), among them `run_scenario`,
 `list_scenario_kinds`, `validate_scenario`, `list_example_scenarios`,
 `get_example_scenario`, `report_scenario`, `animate_scenario`, `list_export_formats`,
 `export_interop`, `import_route`, `export_sp3`, `export_omm`, `export_oem`,
@@ -752,6 +752,5 @@ replaced by it), an external check of the opt-in solar limb-darkening shadow, ca
 tight coupling, and a real EGM2008/EIGEN (EIGEN: European Improved Gravity model of the
 Earth by New techniques) gravity map for the alt-PNT matcher.
 
-A private overlay repo holds export-sensitive resilience depth; it plugs in via the
-same `ErrorModel` interface (and the `ExternalPack` contract in §4) without changing
-the public engine.
+Kshana Pro, the commercial product, uses the open engine as a library through these public
+interfaces and does not change it.

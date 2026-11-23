@@ -1090,7 +1090,6 @@ seg-0cc84aedee42 = kontrolleret mod sin egen lukkede/analytiske identitet — fa
 
 seg-b19cbd364dea = src/benchmark/scorecard.rs::tests (reference-PL absorberer; ødelagt PL uabsorberet-aldrig-opdaget; dom om dækning af detekterbare; den ærlighedsegenskab, at ingen dom om dækning/detektion kan nås for et uopdageligt scenarie)
 
-seg-350aaf43f349 = kontrolleret mod sin egen lukkede/analytiske identitet — fanger transskriptions- og koefficientfejl, men er ikke en uafhængig ekstern reference — Ingen ekstern reference, og ingen er mulig: dette er selvbeskrivelse, ikke en måling. Det er registreret, fordi fraværet af den var en fejl -- P5 måtte citere bærebølgelængden og senderaperturen fra kildens standardværdier og slutte, at en bar <c1/> var i kvadratmeter, ud fra en intern konsistenskontrol. Slutningen var korrekt, og netop derfor betød det noget: intet ville have fanget, at den var forkert
 
 seg-6d963d838eed = hybrid_integrity::tests (den opløste konfiguration gengives for standardværdier og for tilsidesættelser, uden at bølgelængden sendes rundt gennem meter; hver post i units bærer både en enhed og en proveniensklasse; hvert felt, som units-blokken nævner, udsendes faktisk, så den ikke kan dokumentere et spøgelse)
 
@@ -1999,5 +1998,3 @@ seg-2630978c5675 = kontrolleret mod sin egen lukkede / analytiske identitet — 
 seg-67fdcdfdb635 = interference_map::emitter (estimate, sessions, build_units, profile, GaussianFix::from_tdoa), interference_map::emitter_out (locate), <c1/>
 
 seg-920b26e226ab = enhedstests af interference_map::emitter (projektion frem og tilbage, horisontfigur, syntetiske kørsler frem og tilbage: den kendte sender ligger inden for det angivne område med omtrent den angivne rate, grænsetilfælde, sessionsklyngedannelse, profil, privatliv og formulering); tests/interference_map_cli.rs locate-tilfælde
-
-seg-474381d842e6 = { "232" } funktioner betegnet MODELLED.

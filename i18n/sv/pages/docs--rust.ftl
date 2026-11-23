@@ -163,9 +163,3 @@ seg-24fe823a994a = json utan evidensetiketten ([crate::evidence_label]); oförä
 seg-c0444d838311 = out med evidensetiketten borttagen ur sin JSON, SVG och CSV, byte för byte som körningen producerade dem innan etiketten fanns; en utdata utan etikett är oförändrad.
 
 seg-80e5f0aa2831 = Motorn har { "93" } scenariotyper; <c1/> listar dem med deras fält. Nya i { "0.38.0" }: <c2/> (GNSS-signaler för rymdfarkoster ovanför, runt och bortom GNSS-banorna) och <c3/> (månbana och månyta som infrastruktur för navigering och geodesi), båda MODELLED, och <c4/> (en tidsfelsregistrering mot ITU-T-maskerna).
-
-seg-fd6daa52df11 = { "176" } av { "412" } förmågor validerade mot oberoende externa referenser
-
-seg-4a3ebec6d011 = <b>{ "176" } av { "412" }</b> förmågor validerade mot oberoende externa referenser; { "232" } ärligt märkta som modellerade, { "4" } ägda av partner. Varje förmåga bär en etikett i ett maskinkontrollerat register: VALIDATED (en oberoende extern referens stämmer: verkliga data, en oberoende implementation eller publicerade referensvektorer), MODELLED (internt konsistent, och sagt högt) eller PARTNER (en hårdvarupartner äger den). Bland kontrollerna: alla { "666" } SGP4-vektorer (Simplified General Perturbations { "4" }) från AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 till { "4.12" } mm, och Cowell-kraftmodellen till { "0.08" } m mot Orekit { "12.2" }.
-
-seg-d69651a71fbe = Hur en förmåga förtjänar sin etikett: förmåga, oberoende referens, test, registeretikett. Verifieringsstatusen för alla { "412" } förmågor: { "176" } validerade, { "232" } modellerade, { "4" } ägda av partner

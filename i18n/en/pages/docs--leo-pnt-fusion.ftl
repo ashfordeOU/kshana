@@ -298,13 +298,13 @@ seg-9025f3c376c5 = MODELLED comparison
 
 # text
 # c1: docs/VERIFICATION-MATRIX.md
-seg-4434b0ff1caa = Everything else is MODELLED with its rationale in the verification matrix (<c1/>): the DOP is checked against a hand-derived four-satellite case, the fixes against their covariance, the Doppler model against the range-acceleration identity, the PPP filter against the chi-square NEES band, and the bounds against quadrature.
+seg-09b884a49078 = Two more rows are VALIDATED in the verification matrix (<c1/>): the polar geometry (satellites in view and DOP against latitude) against Orekit, and the NTN Cramér-Rao bounds against published worked values, with the fix covariances against NumPy. Everything else is MODELLED with its rationale in the matrix: the DOP is checked against a hand-derived four-satellite case, the fixes against their covariance, the Doppler model against the range-acceleration identity, and the PPP filter against the chi-square NEES band.
 
 # text
 seg-aa5482ac34ff = Limits, stated plainly
 
 # text
-seg-0b4564367dcd = Two-body orbits with the secular drift from J2, the Earth's second zonal harmonic; no broadcast-ephemeris fit error beyond the SISRE one-sigma, no satellite antenna pattern.
+seg-f29f205c05cf = Two-body orbits with the secular drift from J2, the Earth's second zonal harmonic (the polar mode propagates SGP4/SDP4 element sets instead); no broadcast-ephemeris fit error beyond the SISRE one-sigma, no satellite antenna pattern.
 
 # text
 # c1: leo-pvt

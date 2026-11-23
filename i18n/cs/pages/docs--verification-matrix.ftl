@@ -649,7 +649,6 @@ seg-8adbbd2cdb74 = Sebepopis zprávy hybridního optického/RF spoje
 seg-2a5e48b558e1 = Zpráva hybrid-optical-rf uvádí konfiguraci spoje, při které skutečně běžela (vlnová délka nosné, vysílací a přijímací apertura, vzdálenost, šířka pulzu, doba integrace, účinnosti a ztráty, rozřešené výchozí hodnoty), a nese blok jednotek, který udává jednotku a třídu původu každé veličiny, kterou je pravděpodobné, že článek citoval, včetně stop kovariance předání v metrech čtverečních
 
 # c1: variance
-seg-23f0c10237f4 = Žádné vnější orákulum a žádné není možné: jde o sebepopis, nikoli o měření. Je zaznamenán, protože jeho absence byla vadou – P5 musel citovat vlnovou délku nosné a vysílací aperturu z výchozích hodnot ve zdroji a z kontroly vnitřní konzistence usuzovat, že holé <c1/> bylo v metrech čtverečních. Úsudek byl správný, a právě proto to mělo význam: nic by nezachytilo, kdyby byl chybný
 
 seg-0691f3dee8cb = Dostupnost hybridního optického/RF spoje na straně RF
 
@@ -3590,7 +3589,3 @@ seg-f4b44b14d819 = tests/mission_thread_oracle.rs::the_stored_numbers_miss_the_r
 seg-67fdcdfdb635 = interference_map::emitter (estimate, sessions, build_units, profile, GaussianFix::from_tdoa), interference_map::emitter_out (locate), <c1/>
 
 seg-920b26e226ab = jednotkové testy interference_map::emitter (okružní zkouška projekce, obrázek horizontu, syntetické přímé a inverzní okružní zkoušky: známý vysílač leží uvnitř uvedené oblasti přibližně uvedenou rychlostí, okrajové případy, shlukování relací, profil, soukromí a formulace); případy locate v tests/interference_map_cli.rs
-
-seg-db7a6ac0a47d = Úplný, strojově kontrolovaný registr důkazů: <b>{ "412" } řádků — { "176" } VALIDATED, { "232" } MODELLED, { "4" } PARTNER</b>. Řádek smí být VALIDATED jen s nezávislým vnějším orákulem (vynucují to testy invariantů matice). Tatáž data, s proklikatelnými odkazy u každého řádku na test, modul a zapsaná testovací data, jsou <em>registrem validace</em> na <a1>https://kshana.dev</a1>. Proč není každý modelovaný řádek vnějšně ověřen, viz <a2>MODELLED-RATIONALE.md</a2>.
-
-seg-1cc523709234 = { "412" } řádků: { "176" } vnějšně ověřeno, { "232" } modelováno, { "4" } ve vlastnictví partnera.

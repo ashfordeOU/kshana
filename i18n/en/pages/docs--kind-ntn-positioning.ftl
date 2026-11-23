@@ -13,7 +13,7 @@ seg-d865fd8ceef6 = <c1/> (scenario kind)
 seg-49964654d5f4 = Scenario kind of the engine v{ $version }, family <a1>Low-Earth-orbit navigation</a1>. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service. Every label here is the engine's or the verification matrix's; a kind is MODELLED unless the matrix says otherwise (how a label is earned: the README's Evidence section).
 
 # text
-seg-4f0edb786a35 = Positioning from a 5G non-terrestrial network (NTN) downlink in the mobile-satellite service (MSS) S band (3GPP band n256, downlink { "2170" } to { "2200" } MHz; default carrier { "2172.5" } MHz): the Cramér-Rao bound (CRB) on time of arrival, c / ({ "2" } pi beta sqrt({ "2" } (C/N0) T)) with beta the root-mean-square (Gabor) bandwidth of the flat OFDM spectrum (B/sqrt({ "12" })), and on the Doppler of a complex tone, sqrt({ "3" } / ({ "2" } pi^{ "2" } (C/N0) T^{ "3" })), for each signal (default a { "5" } MHz New Radio channel with { "4.5" } MHz occupied and a { "200" } kHz narrowband channel with { "180" } kHz occupied); then, over any LEO constellation, downlink time-of-arrival fixes with an unknown receiver clock (seeded, with the bound plus a network synchronisation error as the sigma), their PDOP and formal 3D sigma, and a single-satellite Doppler fix over the longest pass with the height held. MODELLED: the bandwidth-to-bound step is the textbook closed form, checked against numerical integration of the flat and band-limited BPSK spectra (internal consistency, no published worked figure pinned), and the positioning accuracy is a bound on a multipath-free channel with a stated synchronisation error, not an achieved result.
+seg-6b70c3cbba0d = Positioning from a 5G non-terrestrial network (NTN) downlink in the mobile-satellite service (MSS) S band (3GPP band n256, downlink { "2170" } to { "2200" } MHz; default carrier { "2172.5" } MHz): the Cramér-Rao bound (CRB) on time of arrival, c / ({ "2" } pi beta sqrt({ "2" } (C/N0) T)) with beta the root-mean-square (Gabor) bandwidth of the flat OFDM spectrum (B/sqrt({ "12" })), and on the Doppler of a complex tone, sqrt({ "3" } / ({ "2" } pi^{ "2" } (C/N0) T^{ "3" })), for each signal (default a { "5" } MHz New Radio channel with { "4.5" } MHz occupied and a { "200" } kHz narrowband channel with { "180" } kHz occupied); then, over any LEO constellation, downlink time-of-arrival fixes with an unknown receiver clock (seeded, with the bound plus a network synchronisation error as the sigma), their PDOP and formal 3D sigma, and a single-satellite Doppler fix over the longest pass with the height held. VALIDATED: the bounds against published worked values (Bachl et al. { "2026" }, the single-SSB bounds of NR NTN; Betz { "2001" } BPSK-R RMS bandwidths) and the fix covariances against numpy. MODELLED: the positioning accuracy is a bound on a multipath-free channel with a stated synchronisation error, not an achieved result.
 
 # text
 # c1: scenarios/ntn-5g-positioning.toml
@@ -50,7 +50,7 @@ seg-a99a71f7178a = NB { "200" } kHz
 seg-d04c7f65307d = index
 
 # text
-seg-3a0cde9988c3 = Result label (the engine's): MODELLED positioning from Cramér-Rao bounds: the bandwidth-to-bound step is a textbook closed form (checked against numerical integration, not against a published worked figure); the accuracy is a bound on a multipath-free channel with a stated synchronisation error, not an achieved result
+seg-3ab190f2fad5 = Result label (the engine's): Positioning from Cramér-Rao bounds: the bounds are VALIDATED against published worked values (Bachl et al. { "2026" }, single-SSB NR NTN bounds) and the fix covariances against numpy; the positioning accuracy is MODELLED: the accuracy is a bound on a multipath-free channel with a stated synchronisation…
 
 # attr:alt
 seg-c200240dd65e = The chart the engine writes for scenarios/ntn-5g-positioning.toml, kind ntn-positioning
@@ -59,21 +59,21 @@ seg-c200240dd65e = The chart the engine writes for scenarios/ntn-5g-positioning.
 seg-3068552e4ab4 = VALIDATED: the <a1>verification matrix</a1> rows that name this kind.
 
 # text
-seg-056b5f3c8201 = <b>VALIDATED</b> The Cramér-Rao bound on time of arrival from the root-mean-square (Gabor) bandwidth, c/({ "2" } pi beta sqrt({ "2" } (C/N0) T)), for a flat OFDM spectrum (beta = B/sqrt({ "12" })), a band-limited BPSK spectrum (closed-form numerator) or any spectrum by quadr Tests: <a1>leo_fusion_scenarios.rs</a1>.
+seg-3d9b67f49480 = <b>VALIDATED</b> The Cramér-Rao bound on time of arrival from the root-mean-square (Gabor) bandwidth, c/({ "2" } pi beta sqrt({ "2" } (C/N0) T)), for a flat OFDM spectrum (beta = B/sqrt({ "12" })), a band-limited BPSK spectrum (closed-form numerator) or any spectrum by… Tests: <a1>leo_fusion_scenarios.rs</a1>.
 
 # text
-seg-c188cecaf468 = <b>VALIDATED</b> The Cramér-Rao bound on time of arrival from the root-mean-square (Gabor) bandwidth, c/({ "2" } pi beta sqrt({ "2" } (C/N0) T)), for a flat OFDM spectrum (beta = B/sqrt({ "12" }). Oracle (ExternalDataset): Published worked values (P1): Bachl, Lei and Nabeel, arXiv:{ "2608.10270" } ({ "2026" }), single-SSB bounds of NR NTN reproduced from the 3GPP TS { "38.211" } SSB map through Kshana own numeric functions (W_rms { "1.9616" } vs { "1.96" } MHz, sigma_t { "38.755" } vs { "39" } us, sigma_f 100.79/87.28 vs 101/87 Hz, sigma_rho 0.5970/0.5831 vs 0.60/0.58 m, each within half a unit of the printed last digit); Betz { "2001" } Table { "1" } BPSK-R RMS bandwidths (1.128/3.477 vs
+seg-cb253b96d936 = <b>VALIDATED</b> The Cramér-Rao bound on time of arrival from the root-mean-square (Gabor) bandwidth, c/({ "2" } pi beta sqrt({ "2" } (C/N0) T)), for a flat OFDM spectrum (beta =…. Oracle (ExternalDataset): Published worked values (oracle class P1 in docs/VALIDATION.md): Bachl, Lei and Nabeel, arXiv:{ "2608.10270" } ({ "2026" }), single-SSB bounds of NR NTN reproduced from the 3GPP TS { "38.211" } SSB map through Kshana's own numeric functions (W_rms { "1.9616" } vs { "1.96" } MHz, sigma_t { "38.755" } vs { "39" } us, sigma_f 100.79/87.28 vs 101/87 Hz, sigma_rho 0.5970/0.5831 vs 0.60/0.58 m, each within half a unit of the printed last digit); Betz { "2001" } Table…
 
 # text
 # c1: label
-seg-baa462153341 = MODELLED positioning from Cramér-Rao bounds: the bandwidth-to-bound step is a textbook closed form (checked against numerical integration, not against a published worked figure); the accuracy is a bound on a multipath-free channel with a stated synchronisation error, not an achieved result (result <c1/>)
+seg-0ed72b9ea428 = Positioning from Cramér-Rao bounds: the bounds are VALIDATED against published worked values (Bachl et al. { "2026" }, single-SSB NR NTN bounds) and the fix covariances against numpy; the positioning accuracy is MODELLED: the accuracy is a bound on a multipath-free channel with a stated synchronisation error, not an achieved result (result <c1/>)
 
 # text
 # c1: kshana kinds --json
-seg-c4a9693d1191 = MODELLED: the bandwidth-to-bound step is the textbook closed form, checked against numerical integration of the flat and band-limited BPSK spectra (internal consistency, no published worked figure pinned), and the positioning accuracy is a bound on a multipath-free channel with a stated synchronisation error, not an achieved result. (kind catalogue (<c1/>))
+seg-b10f0d787b56 = MODELLED: the positioning accuracy is a bound on a multipath-free channel with a stated synchronisation error, not an achieved result. (kind catalogue (<c1/>))
 
 # text
-seg-e23e35aa1203 = The bandwidth-to-bound step is a textbook closed form; the positioning accuracy is MODELLED (a bound on a multipath-free channel, not an achieved result). (scenario file comment, lines { "12" } to { "13" })
+seg-c1e253345e81 = The bounds are VALIDATED against published worked values (Bachl et al. { "2026" }); the positioning accuracy is MODELLED (a bound on a multipath-free channel, not an achieved result). (scenario file comment, lines { "12" } to { "13" })
 
 # text
 seg-c5478f572d21 = Family page: <a1>Low-Earth-orbit navigation</a1>

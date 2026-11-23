@@ -43,13 +43,13 @@ seg-f33278986879 = The example <c1/> sets, among others:
 seg-195347c63a8a = m/s^{ "2" }
 
 # text
-seg-7bebd09c614b = Navigation-grade quartz accelerometer (Honeywell QA-2000 / G
+seg-cf1feee320e2 = Navigation-grade quartz accelerometer (Honeywell QA-2000 /…
 
 # text
 seg-3a1d8c59a4c9 = (m/s^{ "2" })^2/Hz
 
 # text
-seg-4f5fd1bc8a4e = Exail hybrid quantum accelerometer triad, bias stability { "5.8" }
+seg-85b02ff637d8 = Exail hybrid quantum accelerometer triad, bias stability…
 
 # text
 seg-03442e4be82d = Microchip SA65 / SA.45s CSAC datasheet sigma_y(1s)={ "3e-10" }
@@ -61,28 +61,28 @@ seg-98151954f217 = false
 seg-cc7a61264c3f = (m/s^{ "2" })^2/s
 
 # text
-seg-49bff8dc860e = Navigation-grade quartz accelerometer (H
+seg-ca883df783ee = Navigation-grade quartz accelerometer…
 
 # attr:alt
 seg-52378a7b074c = The chart the engine writes for scenarios/hybrid-pnt.toml, kind hybrid
 
 # text
-seg-e0633b308e4e = <b>MODELLED</b> One stacked Kalman filter over position, velocity, clock phase and frequency fed pseudoranges that couple position and clock (Joseph-form updates carrying the cross-covariance); a 1-DOF variant augmented with a constant accelerometer-bias s Tests: <a1>fusion_coupled_filters.rs</a1>.
+seg-d75dc0ad61ac = <b>MODELLED</b> One stacked Kalman filter over position, velocity, clock phase and frequency fed pseudoranges that couple position and clock (Joseph-form updates carrying the cross-covariance); a 1-DOF variant augmented with a constant accelerometer-bias… Tests: <a1>fusion_coupled_filters.rs</a1>.
 
 # text
-seg-f70076ea4a77 = <b>VALIDATED</b> Allan/modified/Hadamard deviation + power-law noise ID with χ² CIs. Oracle (ExternalDataset): NIST SP { "1065" } (Riley) / Stable32 reference deviations on NBS14
+seg-5db68bbcfcf8 = <b>VALIDATED</b> Overlapping Allan, modified Allan, time and overlapping Hadamard deviation (noise identification and χ² confidence intervals are not covered by this oracle). Oracle (ExternalDataset): NIST SP { "1065" } (Riley) / Stable32 reference deviations on NBS14
 
 # text
 seg-5278ccdaf16f = <b>MODELLED</b> Closed-form coast-error growth + holdover-to-threshold; quantum-clock classes. Oracle (ReferenceImpl): Multi-step clock_state covariance recursion (same-codebase cross-check); the underlying coast-variance & holdover-inversion kernel is externally validated vs scipy (see 'Clock-holdover coast-variance & threshold inversion'). The per-class red-noise-floor holdover figures stay MODELLED
 
 # text
-seg-3ea0aa9b3907 = <b>MODELLED</b> 3-state (phase/freq/drift) van-Loan Kalman clock, Joseph-stabilised. Oracle (ReferenceImpl): filterpy { "1.4.5" } KalmanFilter (R. Labbe, MIT), with F via scipy.linalg.expm and Q via the Van-Loan { "1978" } block-matrix — an independent reference implementation reproducing kshana's full filter trajectory. Cross-implementation consistency: the clock physics / Allan calibration are not externally validated, so this stays MODELLED. { "0.30" } external comparison, a finding (stays MODELLED): on IGS final { "30" } s clocks of { "11" } GPS Blo
+seg-c62ff8618c81 = <b>MODELLED</b> 3-state (phase/freq/drift) van-Loan Kalman clock, Joseph-stabilised. Oracle (ReferenceImpl): filterpy { "1.4.5" } KalmanFilter (R. Labbe, MIT), with F via scipy.linalg.expm and Q via the Van-Loan { "1978" } block-matrix — an independent reference implementation reproducing Kshana's full filter trajectory. Cross-implementation consistency: the clock physics / Allan calibration are not externally validated, so this stays MODELLED. { "0.30" } external comparison, a finding (stays MODELLED): on IGS final { "30" } s clocks of { "11" } GPS…
 
 # text
-seg-a1810bbca337 = <b>MODELLED</b> Two-way/TWSTFT (Sagnac), GNSS common-view, PPP; link-jitter→range. Oracle (ExternalDataset): Sagnac magnitude checked against an authoritative PUBLISHED VALUE — N. Ashby, 'Relativity in the GPS', Living Reviews in Relativity { "6" }:{ "1" } ({ "2003" }), Eq. { "1.29" }: an eastward equatorial circumnavigation accrues { "207.4" } ns (2ωA_E/c²); kshana reproduces { "207.386" } ns. Independently corroborated by RTKLIB { "2.4.3" } geodist() (Takasu, BSD-2-Clause), which carries the same 2Aω/c² geometry. The composite BIPM TWSTFT transponder/common-view/
+seg-1decebbe7667 = <b>MODELLED</b> Two-way/TWSTFT (Sagnac), GNSS common-view, PPP; link-jitter→range. Oracle (ExternalDataset): Sagnac magnitude checked against an authoritative PUBLISHED VALUE — N. Ashby, 'Relativity in the GPS', Living Reviews in Relativity { "6" }:{ "1" } ({ "2003" }), Eq. { "1.29" }: an eastward equatorial circumnavigation accrues { "207.4" } ns (2ωA_E/c²); Kshana reproduces { "207.386" } ns. Independently corroborated by RTKLIB { "2.4.3" } geodist() (Takasu, BSD-2-Clause), which carries the same 2Aω/c² geometry. The composite BIPM TWSTFT…
 
 # text
-seg-8a41c18ca3fe = <b>MODELLED</b> Cold-atom interferometer accelerometer from first principles (k_eff·T², QPN). Oracle (ExternalDataset): Published CAI primary-paper numeric vectors (Cheinet { "2008" } transfer function; Peters/Freier sensitivity): k_eff·T² matched exactly, shot-noise ASD a one-sided floor within ~{ "2" }× of each published instrument (real devices carry technical noise above the quantum floor). A bracket, not parity. { "0.30" } round { "2" } (pre-registered e7de532a), a finding (stays MODELLED): the QPN-only rotation noise against the measured Gauguet et al.
+seg-0d8dbd4b5d85 = <b>MODELLED</b> Cold-atom interferometer accelerometer from first principles (k_eff·T², QPN). Oracle (ExternalDataset): Published CAI primary-paper numeric vectors (Cheinet { "2008" } transfer function; Peters/Freier sensitivity): k_eff·T² matched exactly, shot-noise ASD a one-sided floor within ~{ "2" }× of each published instrument (real devices carry technical noise above the quantum floor). A bracket, not parity. Version { "0.30" } (pre-registered e7de532a), a finding (stays MODELLED): the QPN-only rotation noise against the measured Gauguet et…
 
 # text
 seg-e12f672ae71d = GNSS-denied clock holdover is MODELLED, not validated: checked against a separate implementation in this same codebase — independent of the unit under test, but not externally authoritative. (verification matrix (docs/MODELLED-RATIONALE.md))

@@ -45,7 +45,7 @@ seg-21dc45b3de59 = Optional fields: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c
 seg-cda81cdb3607 = The example <c1/> sets, among others:
 
 # text
-seg-c59482e7defe = { "1" } 25544U 98067A { "20045.18587073" } .00000950 00000-0 25302-
+seg-3cbfadd2ba14 = { "1" } 25544U 98067A { "20045.18587073" } .00000950 00000-0…
 
 # text
 seg-c33e3cbba749 = arcsec
@@ -60,13 +60,13 @@ seg-0fd3c58fde09 = The chart the engine writes for scenarios/ephemeris.toml, kin
 seg-3068552e4ab4 = VALIDATED: the <a1>verification matrix</a1> rows that name this kind.
 
 # text
-seg-d291f20074f0 = <b>VALIDATED</b> Earth rotation from a two-part UT1 Julian date on the orbit path, so the Earth-fixed position keeps the microsecond a single-f64 date loses (about { "3e-9" } rad near { "2020" }): jd2::gmst82 (IAU { "1982" } GMST, the TEME convention, on the two parts), cio:
+seg-aecbe0ae5d64 = <b>VALIDATED</b> Earth rotation from a two-part UT1 Julian date on the orbit path, so the Earth-fixed position keeps the microsecond a single-f64 date loses (about { "3e-9" } rad near { "2020" }): jd2::gmst82 (IAU { "1982" } GMST, the TEME convention, on the two parts)…
 
 # text
-seg-976416e41291 = <b>VALIDATED</b> SGP4/SDP4, Cowell 6-DOF + perturbations, batch/sequential OD. Oracle (ExternalDataset): AIAA 2006-6753 SGP4 verification vectors
+seg-352e0603f8d4 = <b>VALIDATED</b> SGP4/SDP4 analytic propagation of two-line element sets (Cowell propagation and orbit determination are validated in VM-7b9f2f5d and VM-9aa52bbe). Oracle (ExternalDataset): AIAA 2006-6753 SGP4 verification vectors
 
 # text
-seg-7cf505668c3c = <b>VALIDATED</b> IAU 2006/2000A precession-nutation, CIO GCRS↔ITRS, leap-second timescales. Oracle (ExternalDataset): IAU SOFA / ERFA reference vectors; Vallado AIAA 2006-6753 ({ "0.1" }–{ "4" } mm)
+seg-a534ddc1a5d7 = <b>VALIDATED</b> IAU 2006/2000A precession-nutation, CIO GCRS↔ITRS, leap-second timescales. Oracle (ExternalDataset): Vallado AIAA 2006-6753 worked example (TEME→PEF, TEME→ITRF and GCRS→ITRS within { "50" } mm, observed { "0.1" } to { "4" } mm; TEME→GCRS within { "0.5" } m, as Vallado's GCRF applies the celestial-pole offsets dX/dY and the full IAU 2000A series that this chain omits); Vallado Fundamentals Example 3-3 (geodetic latitude and height)
 
 # text
 seg-a4f1e7d2041e = Family page: <a1>Constellations, coverage and geometry</a1>

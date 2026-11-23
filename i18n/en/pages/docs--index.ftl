@@ -74,10 +74,10 @@ seg-b57457566406 = <s1>Animation export</s1><s2>--animate turns a run's time ser
 seg-6e9c30a894e9 = <s1>Interoperability exports and imports</s1><s2>A run writes a result document, a chart and a report. --export also writes the scenario's geometry, or its…</s2>
 
 # text
-seg-7df65c76c8ca = <s1>Flight-dynamics export: OEM, OPM and SPK</s1><s2>This is step { "1" } of roadmap item C7 (adapters and notebooks for flight-dynamics tools; pre-registration).</s2>
+seg-ce0b6585080f = <s1>Flight-dynamics export: OEM, OPM and SPK</s1><s2>The adapters and notebooks that load these files into the tools themselves (pre-registration) are in…</s2>
 
 # text
-seg-7a6af2c42575 = <s1>Flight-dynamics tools reading Kshana's files</s1><s2>Roadmap item C7. Kshana writes a trajectory as a CCSDS OEM, a CCSDS OPM or a SPICE SPK kernel (kshana…</s2>
+seg-0dc081266e50 = <s1>Flight-dynamics tools reading Kshana's files</s1><s2>Kshana writes a trajectory as a CCSDS OEM, a CCSDS OPM or a SPICE SPK kernel (kshana ephem-export…</s2>
 
 # text
 seg-ea5f09561b29 = <s1>Validation status</s1><s2>On tolerances. "Validated" below means a calibration test asserts the simulated statistic matches the…</s2>
@@ -302,7 +302,10 @@ seg-f466e9c87ba4 = <s1>Using Kshana from an agent</s1><s2>For an agent (or the p
 seg-ccfc820aac68 = <s1>Where each capability is reachable</s1><s2>Every capability is available on the surfaces where it makes sense; where one cannot carry a capability, the…</s2>
 
 # text
-seg-1c59d26e3faf = <s1>JetBrains plugin</s1><s2>A native plugin that runs the Kshana PNT-resilience simulator from inside any JetBrains IDE (IntelliJ IDEA…</s2>
+seg-97d6fcc6d6b1 = <s1>JetBrains plugin</s1><s2>Kshana for JetBrains IDEs runs the Kshana PNT-resilience simulator from inside any JetBrains IDE (IntelliJ…</s2>
+
+# text
+seg-a4f57f3171a6 = <s1>Kshana Desktop</s1><s2>Kshana Desktop is Kshana Studio in a native window: the same scenarios, runs, charts and tables as the…</s2>
 
 # text
 seg-4498f8a0377b = <s1>Where Kshana runs</s1><s2>A scope boundary, written down so that nobody discovers it as a commitment in a meeting.</s2>

@@ -64,14 +64,14 @@ seg-463a919e84d5 = The chart the engine writes for scenarios/lunar-ascent.toml, 
 
 # text
 # c1: lunar-ascent
-seg-52ee53bc1cd6 = <b>MODELLED</b> The <c1/> kind and phase: the five-state per-axis inertial error model run over a powered ascent with specific force along the path, aided by AFS fixes and lunar time, reporting the insertion position and velocity covariance carrie
+seg-0d84121f6f61 = <b>MODELLED</b> The <c1/> kind and phase: the five-state per-axis inertial error model run over a powered ascent with specific force along the path, aided by AFS fixes and lunar time, reporting the insertion position and velocity covariance…
 
 # text
 # c1: lunar-ascent
-seg-4e0c4b02eac0 = <b>MODELLED</b> The <c1/> kind and phase: the five-state per-axis inertial error model run over a powered ascent with specific force along the path, aided by AFS fixes. Oracle (InternalConsistency): The closed-form inertial drift and monotonicity checks in the tests. No flown ascent is compared
+seg-2cbe22e745f6 = <b>MODELLED</b> The <c1/> kind and phase: the five-state per-axis inertial error model run over a powered ascent with specific force along the path, aided by AFS…. Oracle (InternalConsistency): The closed-form inertial drift and monotonicity checks in the tests. No flown ascent is compared
 
 # text
-seg-8732ad9f7e07 = <b>MODELLED</b> The propagator the lunar kinds share (GRAIL GL0660B degree and order { "150" }, Earth and Sun third bodies, relativity, DE440 lunar orientation) compared with the pub. Oracle (ExternalDataset): JPL Horizons spacecraft ephemerides for LRO and CAPSTONE, against bars pre-registered in xval/mission-thread-lunar/PREREGISTRATION.md (Amendments { "1" } to { "6" }). LRO: MET, { "33" } m largest 3-D difference and { "2.4" } m RMS radial against { "500" } m and { "60" } m. CAPSTONE: NOT MET, a { "136.8" } km end-position difference against { "25" } km and a { "28.4" } km periapsis difference against { "10" } km, the causes not isolated. The row is Modelled because the CAPSTON
+seg-d84cb57b8bf7 = <b>MODELLED</b> The propagator the lunar kinds share (GRAIL GL0660B degree and order { "150" }, Earth and Sun third bodies, relativity, DE440 lunar orientation) compared with the…. Oracle (ExternalDataset): JPL Horizons spacecraft ephemerides for LRO and CAPSTONE, against bars pre-registered in xval/mission-thread-lunar/PREREGISTRATION.md (Amendments { "1" } to { "6" }). LRO: MET, { "33" } m largest 3-D difference and { "2.4" } m RMS radial against { "500" } m and { "60" } m. CAPSTONE: NOT MET, a { "136.8" } km end-position difference against { "25" } km and a { "28.4" } km periapsis difference against { "10" } km, the causes not isolated. The row is Modelled because the…
 
 # text
 # c1: label
@@ -86,7 +86,7 @@ seg-745dfc03a929 = MODELLED powered ascent from a south-polar surface site to th
 seg-3fd0cca78937 = MODELLED: illustrative IMU class, specific force, relay set and cutoff dispersion; errors held in the launch site axes; the nominal exit state is a stand-in. (kind catalogue (<c1/>))
 
 # text
-seg-2cfb37d39847 = HONESTY: MODELLED. The IMU class, the alignment, the specific force and the cutoff dispersion are ILLUSTRATIVE inputs, not measurements. The errors are held in the launch site's east-north-up axes, without the downrange curvature of the path, and the nominal exit state is a stand-in at the site's local vertical: only the covariance is the result. No agreement with any real vehicle is claimed. Advisory software, not c (scenario file comment, lines { "11" } to { "15" })
+seg-a25fef754ef3 = HONESTY: MODELLED. The IMU class, the alignment, the specific force and the cutoff dispersion are ILLUSTRATIVE inputs, not measurements. The errors are held in the launch site's east-north-up axes, without the downrange curvature of the path, and the nominal exit state is a stand-in at the site's local vertical: only the covariance is the result. No agreement with any real vehicle is claimed. Advisory software, not… (scenario file comment, lines { "11" } to { "15" })
 
 # text
 # c1: lunar-ascent

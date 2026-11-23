@@ -24,12 +24,12 @@ The example `scenarios/imu-deadreckoning.toml` sets, among others:
 | `accel_classical.bias` | 0.00157 | m/s^2 |
 | `accel_classical.bias_instability` | 1.0000e-5 | not stated |
 | `accel_classical.id` | nav-grade-quartz | text |
-| `accel_classical.provenance` | Navigation-grade quartz accelerometer (Honeywell QA-2000 / G | text |
+| `accel_classical.provenance` | Navigation-grade quartz accelerometer (Honeywell QA-2000 /… | text |
 | `accel_classical.q_aa` | 1.0000e-13 | (m/s^2)^2/s |
 | `accel_classical.q_va` | 3.8416e-8 | (m/s^2)^2/Hz |
 | `accel_quantum.bias` | 5.8800e-7 | m/s^2 |
 | `accel_quantum.id` | cold-atom-quat | text |
-| `accel_quantum.provenance` | Exail hybrid quantum accelerometer triad: bias stability 6e- | text |
+| `accel_quantum.provenance` | Exail hybrid quantum accelerometer triad: bias stability… | text |
 | `accel_quantum.q_va` | 4.6656e-8 | (m/s^2)^2/Hz |
 | `gnss.windows[0].state` | nominal | text |
 | `gnss.windows[0].t0` | 0 | not stated |
@@ -40,7 +40,7 @@ The example `scenarios/imu-deadreckoning.toml` sets, among others:
 kshana scenarios/imu-deadreckoning.toml
 ```
 
-2 bundled scenarios use this kind; the others are in [`scenarios/`](../../../scenarios/).
+2 scenario files in [`scenarios/`](../../../scenarios/) use this kind.
 
 ## What it gives
 
@@ -63,19 +63,15 @@ The scalar results of that run, with the units the engine states:
 
 ## Evidence
 
-MODELLED 6 · VALIDATED 2: the [verification matrix](../../VERIFICATION-MATRIX.md) rows that name this kind.
+MODELLED: the [verification matrix](../../VERIFICATION-MATRIX.md) rows that name this kind.
 
-- **VALIDATED** Quaternion-attitude, WGS-84 NED strapdown inertial mechanization (coning/sculling-compensated) propagating a navigation state from (Δθ, Δv) increments Tests: [classical_strapdown_ins_reference.rs](../../../tests/classical_strapdown_ins_reference.rs).
-- **MODELLED** Cold-atom interferometer accelerometer from first principles (k_eff·T², QPN) Tests: [quantum_inertial_sensor_reference.rs](../../../tests/quantum_inertial_sensor_reference.rs).
-- **MODELLED** Mach–Zehnder fringe-ambiguity dynamic range: the 2π-periodic fringe readout sets a maximum unambiguous specific force a_max=π/(k_eff·T²), and the unambiguous range in resolution cells a_max/σ_a=π/σ_Φ is independent of the optical scale fact
-- **MODELLED** Composed bias + scale-factor + VRW + stability-decay position budget over holdover Tests: [quantum_inertial_dead_reckoning_reference.rs](../../../tests/quantum_inertial_dead_reckoning_reference.rs).
-- and 4 more in the matrix.
+- **MODELLED** The `campaign` kind's sweep (one to three dotted keys of any kind, on the generic sweep's axis values, optionally an ensemble at every node) and monte_carlo sections: realisation k runs at base_seed + k; each metric reports mean, standard… Tests: [campaign_composition_reference.rs](../../../tests/campaign_composition_reference.rs).
 
 The rows the run itself exercised, with the oracle the matrix gives each (the public sources are named there):
 
-- **MODELLED** Cold-atom interferometer accelerometer from first principles (k_eff·T², QPN). Oracle (ExternalDataset): Published CAI primary-paper numeric vectors (Cheinet 2008 transfer function; Peters/Freier sensitivity): k_eff·T² matched exactly, shot-noise ASD a one-sided floor within ~2× of each published instrument (real devices carry technical noise above the quantum floor). A bracket, not parity. 0.30 round 2 (pre-registered e7de532a), a finding (stays MODELLED): the QPN-only rotation noise against the measured Gauguet et al.
-- **MODELLED** Composed bias + scale-factor + VRW + stability-decay position budget over holdover. Oracle (ReferenceImpl): Independent numpy Monte-Carlo SDE integration of double-integrated white-acceleration noise (validates the analytic VRW variance by a genuinely independent algorithm) + a Groves 2013 published-value anchor for the bias/scale-factor terms; the CAI device numbers quantify partner hardware and stay MODELLED
-- **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): SBOM conformance to the official CycloneDX 1.5 JSON Schema (+ valid SPDX identifiers) — an external published standard, zero validation errors over the full dependency graph; the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
+- **MODELLED** Cold-atom interferometer accelerometer from first principles (k_eff·T², QPN). Oracle (ExternalDataset): Published CAI primary-paper numeric vectors (Cheinet 2008 transfer function; Peters/Freier sensitivity): k_eff·T² matched exactly, shot-noise ASD a one-sided floor within ~2× of each published instrument (real devices carry technical noise above the quantum floor). A bracket, not parity. Version 0.30 (pre-registered e7de532a), a finding (stays MODELLED): the QPN-only rotation noise against the measured Gauguet et…
+- **MODELLED** Composed bias + scale-factor + VRW + stability-decay position budget over holdover. Oracle (ReferenceImpl): Independent numpy Monte-Carlo SDE integration of double-integrated white-acceleration noise (validates the analytic VRW variance by a genuinely independent algorithm) + the Groves 2013 closed-form error-propagation identities for the bias/scale-factor terms; the CAI device numbers quantify partner hardware and stay MODELLED
+- **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): Official CycloneDX 1.5 JSON Schema (+ SPDX identifier list): every atomic licence id is a valid SPDX id, and the document has zero schema errors once compound expressions are moved to expression (the generator's raw output has 133 compound-id errors); the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
 - **PARTNER** Not provided — performance models only; cold-atom/clock hardware is a partner's. Oracle (NoneKind): none: a partner-owned discipline, with no module and no test by design
 
 ## Limitations

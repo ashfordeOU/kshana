@@ -259,9 +259,6 @@ seg-f466e9c87ba4 = <s1>Uso de Kshana desde un agente</s1><s2>Para un agente (o l
 seg-ccfc820aac68 = <s1>Dónde es accesible cada capacidad</s1><s2>Cada capacidad está disponible en las superficies donde tiene sentido; cuando una no puede ofrecer una capacidad, la…</s2>
 
 # text
-seg-1c59d26e3faf = <s1>Complemento de JetBrains</s1><s2>Un complemento nativo que ejecuta el simulador de resiliencia de PNT de Kshana desde cualquier IDE de JetBrains (IntelliJ IDEA…</s2>
-
-# text
 seg-4498f8a0377b = <s1>Dónde se ejecuta Kshana</s1><s2>Un límite de alcance, dejado por escrito para que nadie lo descubra como un compromiso en una reunión.</s2>
 
 # text
@@ -346,7 +343,3 @@ seg-5484fd345826 = <s1>Todos los tipos de escenario, por familia</s1><s2>Cada ti
 seg-b23a9bd3ccfa = <s1>Referencia de escenarios</s1><s2>Cada archivo de escenario incluido ({ "195" }), agrupado por tipo de escenario, con sus ajustes principales.</s2>
 
 seg-a7dc2bc0a77d = { "93" } páginas, una por cada tipo de escenario, enlazadas desde <a1>Todos los tipos de escenario, por familia</a1>.
-
-seg-abe17fad0734 = <s1>Matriz de verificación</s1><s2>El registro de evidencias completo y verificado por máquina: { "412" } filas — { "176" } VALIDATED, { "232" } MODELLED, { "4" } PARTNER.</s2>
-
-seg-7fd385494ae0 = <s1>Referencia de capacidades</s1><s2>Las fichas de capacidades y las { "412" } filas de la matriz de verificación.</s2>

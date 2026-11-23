@@ -75,4 +75,5 @@ in the pre-registration.
 
 Not met, and pinned by tests that assert the miss: C3 (the injected-error metric does not fire at 3e-10 m/s2), the
 bootstrapped-rate half of Q3 at 1e-9, and the CRLB-trace half of G3. Integer ambiguity fixing is not achieved at the
-registered inputs. Nothing is VALIDATED.
+registered inputs. Nothing is VALIDATED. The later, separately named bars in `xval/lunar-infra/RESULTS-v2.md`
+leave these verdicts unchanged.

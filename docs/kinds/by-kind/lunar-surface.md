@@ -40,7 +40,7 @@ The example `scenarios/lunar-surface.toml` sets, among others:
 kshana scenarios/lunar-surface.toml
 ```
 
-2 bundled scenarios use this kind; the others are in [`scenarios/`](../../../scenarios/).
+2 scenario files in [`scenarios/`](../../../scenarios/) use this kind.
 
 ## What it gives
 
@@ -48,8 +48,8 @@ The scalar results of that run, with the units the engine states:
 
 | Result | Value | Unit |
 |---|---|---|
-| `advisory` | Advisory software, not certified navigat | text |
-| `evidence.id_rule` | the stable id of the matrix row (the ID  | text |
+| `advisory` | Advisory software, not certified… | text |
+| `evidence.id_rule` | the stable id of the matrix row (the… | text |
 | `evidence.matrix` | docs/VERIFICATION-MATRIX.md | text |
 | `evidence.tier` | MODELLED | text |
 | `exit_state.clock_sigma_s` | 5.0000e-8 | s |
@@ -67,12 +67,12 @@ Result label (the engine's): MODELLED
 
 MODELLED: the [verification matrix](../../VERIFICATION-MATRIX.md) rows that name this kind.
 
-- **MODELLED** The `lunar-surface` kind and phase: relay availability and PDOP, Earth and Sun visibility and a disciplined surface clock for each site and season, with the terrain skyline of `moonlight-service-volume`; a single-site run equals that kind's
+- **MODELLED** The `lunar-surface` kind and phase: relay availability and PDOP, Earth and Sun visibility and a disciplined surface clock for each site and season, with the terrain skyline of `moonlight-service-volume`; a single-site run equals that…
 
 The rows the run itself exercised, with the oracle the matrix gives each (the public sources are named there):
 
-- **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): SBOM conformance to the official CycloneDX 1.5 JSON Schema (+ valid SPDX identifiers) — an external published standard, zero validation errors over the full dependency graph; the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
-- **MODELLED** The `lunar-surface` kind and phase: relay availability and PDOP, Earth and Sun visibility and a disciplined surface clock for each site and season, with the ter. Oracle (ReferenceImpl): Exact equality with the existing kind for one site, and monotonicity checks, in the tests. The relay set is ILLUSTRATIVE and no surface measurement is compared
+- **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): Official CycloneDX 1.5 JSON Schema (+ SPDX identifier list): every atomic licence id is a valid SPDX id, and the document has zero schema errors once compound expressions are moved to expression (the generator's raw output has 133 compound-id errors); the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
+- **MODELLED** The `lunar-surface` kind and phase: relay availability and PDOP, Earth and Sun visibility and a disciplined surface clock for each site and season, with the…. Oracle (ReferenceImpl): Exact equality with the existing kind for one site, and monotonicity checks, in the tests. The relay set is ILLUSTRATIVE and no surface measurement is compared
 
 ## Limitations
 
@@ -81,7 +81,7 @@ What the run's own report says is not modelled or not validated:
 - MODELLED (result `label`)
 - MODELLED surface positioning and timing availability by site and season for Artemis-class south-polar sites. (kind catalogue (`kshana kinds --json`))
 - MODELLED: illustrative Keplerian relay set on a mean-rotation Moon; the relay figure does not change with season; the terrain is the 1200 m LOLA crop. (kind catalogue (`kshana kinds --json`))
-- HONESTY: MODELLED. The relay set is illustrative and Keplerian, with the Moon turning at the mean rate for the relays (no libration) as in moonlight-service-volume; the Earth and Sun use the analytic orientation, so the two frames differ by that omission. The relay positioning figure does not change with the season in this model; the Earth and Sun figures do. No agreement with any real service or site is claimed. Adv (scenario file comment, lines 11 to 15)
+- HONESTY: MODELLED. The relay set is illustrative and Keplerian, with the Moon turning at the mean rate for the relays (no libration) as in moonlight-service-volume; the Earth and Sun use the analytic orientation, so the two frames differ by that omission. The relay positioning figure does not change with the season in this model; the Earth and Sun figures do. No agreement with any real service or site is claimed.… (scenario file comment, lines 11 to 15)
 - Reproducibility & software assurance is MODELLED, not validated: a sub-claim is externally checked, but the whole capability composes modelled pieces, so the capability stays Modelled. (verification matrix (docs/MODELLED-RATIONALE.md))
 - Surface positioning and timing availability by site and season at the lunar poles (`lunar-surface`) is MODELLED, not validated: checked against a separate implementation in this same codebase — independent of the unit under test, but not externally authoritative. (verification matrix (docs/MODELLED-RATIONALE.md))
 

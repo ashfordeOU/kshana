@@ -23,8 +23,8 @@ The example `scenarios/ins-trn-coast.toml` sets, among others:
 |---|---|---|
 | `combination` | rss | text |
 | `crossing_thresholds_m` | [10, 50] | m |
-| `drift_band_hi_m_per_s` | 0.05 | s |
-| `drift_band_lo_m_per_s` | 0.001 | s |
+| `drift_band_hi_m_per_s` | 0.05 | m/s |
+| `drift_band_lo_m_per_s` | 0.001 | m/s |
 | `imu_grade` | navigation | text |
 | `kind` | ins-trn-coast | text |
 | `mission_duration_s` | 1200 | s |
@@ -40,7 +40,7 @@ The example `scenarios/ins-trn-coast.toml` sets, among others:
 kshana scenarios/ins-trn-coast.toml
 ```
 
-3 bundled scenarios use this kind; the others are in [`scenarios/`](../../../scenarios/).
+3 scenario files in [`scenarios/`](../../../scenarios/) use this kind.
 
 ## What it gives
 
@@ -49,7 +49,7 @@ The scalar results of that run, with the units the engine states:
 | Result | Value | Unit |
 |---|---|---|
 | `combination` | rss | text |
-| `evidence.id_rule` | the stable id of the matrix row (the ID  | text |
+| `evidence.id_rule` | the stable id of the matrix row (the… | text |
 | `evidence.matrix` | docs/VERIFICATION-MATRIX.md | text |
 | `evidence.tier` | MODELLED | text |
 | `imu.accel_bias_m_s2` | 2.4517e-4 | m/s^2 |
@@ -59,7 +59,7 @@ The scalar results of that run, with the units the engine states:
 | `imu.accel_vrw_m_s_per_sqrt_s` | 1.1667e-4 | (m/s)/sqrt(s) |
 | `imu.grade` | navigation | text |
 
-Result label (the engine's): MODELLED INS/TRN coasting error budget. Each contribution is propagated through a nine-state local-level inertial error model with Schuler feedback (level platform heading north at a stated site, free-inertial including the unstable vertical channel); its short-coast leading-order laws (bias t^2, gy
+Result label (the engine's): MODELLED INS/TRN coasting error budget. Each contribution is propagated through a nine-state local-level inertial error model with Schuler feedback (level platform heading north at a stated site, free-inertial including the unstable vertical channel); its short-coast leading-order laws (bias t^2…
 
 <img src="../../figures/kinds/ins-trn-coast.svg" alt="The chart the engine writes for scenarios/ins-trn-coast.toml, kind ins-trn-coast" width="640">
 
@@ -67,21 +67,21 @@ Result label (the engine's): MODELLED INS/TRN coasting error budget. Each contri
 
 VALIDATED: the [verification matrix](../../VERIFICATION-MATRIX.md) rows that name this kind.
 
-- **VALIDATED** Position-error-vs-coast-duration budget built from IMU coefficients, each error source (accelerometer bias, gyro bias, velocity random walk, angle random walk, scale factor cruising and under sustained specific force) propagated through a n
+- **VALIDATED** Position-error-vs-coast-duration budget built from IMU coefficients, each error source (accelerometer bias, gyro bias, velocity random walk, angle random walk, scale factor cruising and under sustained specific force) propagated through a…
 
 The rows the run itself exercised, with the oracle the matrix gives each (the public sources are named there):
 
-- **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): SBOM conformance to the official CycloneDX 1.5 JSON Schema (+ valid SPDX identifiers) — an external published standard, zero validation errors over the full dependency graph; the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
-- **VALIDATED** Position-error-vs-coast-duration budget built from IMU coefficients, each error source (accelerometer bias, gyro bias, velocity random walk, angle random walk, . Oracle (ExternalDataset): NaveGo v1.4 (commit 24d9488, LGPL-3.0), run as a separate program under GNU Octave 8.4.0: free-inertial coast runs with the same IMU error profile, with one corrected numerical dead band in its quaternion update (qua_update.m: the guard on a rate below 1e-8 rad/s replaced by wnorm == 0, applied to a run-time copy and asserted to match once; with the guard in place a slowly drifting platform attitude froze and cut the
+- **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): Official CycloneDX 1.5 JSON Schema (+ SPDX identifier list): every atomic licence id is a valid SPDX id, and the document has zero schema errors once compound expressions are moved to expression (the generator's raw output has 133 compound-id errors); the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
+- **VALIDATED** Position-error-vs-coast-duration budget built from IMU coefficients, each error source (accelerometer bias, gyro bias, velocity random walk, angle random…. Oracle (ExternalDataset): NaveGo v1.4 (commit 24d9488, LGPL-3.0), run as a separate program under GNU Octave 8.4.0: free-inertial coast runs with the same IMU error profile, with one corrected numerical dead band in its quaternion update (qua_update.m: the guard on a rate below 1e-8 rad/s replaced by wnorm == 0, applied to a run-time copy and asserted to match once; with the guard in place a slowly drifting platform attitude froze and cut…
 
 ## Limitations
 
 What the run's own report says is not modelled or not validated:
 
-- MODELLED INS/TRN coasting error budget. Each contribution is propagated through a nine-state local-level inertial error model with Schuler feedback (level platform heading north at a stated site, free-inertial including the unstable vertical channel); its short-coast leading-order laws (bias t^2, gyro-bias tilt t^3, velocity random walk t^1.5, angle random walk t^2.5, scale factor x travelled distance) are cross-chec (result `label`)
+- MODELLED INS/TRN coasting error budget. Each contribution is propagated through a nine-state local-level inertial error model with Schuler feedback (level platform heading north at a stated site, free-inertial including the unstable vertical channel); its short-coast leading-order laws (bias t^2, gyro-bias tilt t^3, velocity random walk t^1.5, angle random walk t^2.5, scale factor x travelled distance) are… (result `label`)
 - INS/TRN coasting error model: position error against coast duration, built from IMU coefficients rather than swept as an assumed drift rate. (kind catalogue (`kshana kinds --json`))
 - MODELLED: the IMU class coefficients are representative band figures, not a datasheet, and the terrain-fix residual is an input. (kind catalogue (`kshana kinds --json`))
-- The question this answers: when a GNSS (or aperture-duty-cycled) study says "assume a dead-reckoning drift of 0.001–0.050 m/s", where does that number come from? It comes from the IMU, and this scenario computes it instead of sweeping it. Five growth terms — accelerometer bias (t^2), gyro-bias tilt through gravity (t^3), velocity random walk (t^1.5), angle random walk (t^2.5) and scale factor times the travelled dist (scenario file comment, lines 4 to 11)
+- The question this answers: when a GNSS (or aperture-duty-cycled) study says "assume a dead-reckoning drift of 0.001–0.050 m/s", where does that number come from? It comes from the IMU, and this scenario computes it instead of sweeping it. Five growth terms — accelerometer bias (t^2), gyro-bias tilt through gravity (t^3), velocity random walk (t^1.5), angle random walk (t^2.5) and scale factor times the travelled… (scenario file comment, lines 4 to 11)
 - Reproducibility & software assurance is MODELLED, not validated: a sub-claim is externally checked, but the whole capability composes modelled pieces, so the capability stays Modelled. (verification matrix (docs/MODELLED-RATIONALE.md))
 
 ## See also

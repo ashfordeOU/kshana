@@ -19,22 +19,19 @@ seg-d019c8511f48 = Topic pages: <a1>OPTICAL-ATMOSPHERE</a1>. Run one: <c1/>. All
 seg-b8f937411028 = Contact sheet of the charts the engine writes for the kinds of the family Optical PNT
 
 # text
-seg-b03d56f501c3 = Kind
-
-# text
 seg-4e31c8daf798 = Ledger
 
 # text
-seg-76131e6805e5 = MODELLED optical PNT through the atmosphere: for an optical link and a set of ground sites with stated cloud climates it reports the wavelength- and elevation-dependent clear-air loss (Kim visibility
+seg-f269c3bac3e9 = MODELLED optical PNT through the atmosphere: for an optical link and a set of ground sites with stated cloud climates it reports the wavelength- and elevation-dependent clear-air loss (Kim…
 
 # text
-seg-55725043f48e = MODELLED heterogeneous optical + RF PNT joint figure of merit (P5): composes the { "1550" } nm two-way optical link budget (photon-limited two-way ranging CRLB σ_τ/√N and diffraction footprint λ/D·range), a
+seg-0e5169daa34c = MODELLED heterogeneous optical + RF PNT joint figure of merit: composes the { "1550" } nm two-way optical link budget (photon-limited two-way ranging CRLB σ_τ/√N and diffraction footprint λ/D·range), a…
 
 # text
 seg-5e658f01d9f4 = HETEROGENEOUS (result label)
 
 # text
-seg-a878d9be65b7 = MODELLED optical PNT through the atmosphere: for an optical link and a set of ground sites with stated cloud climates it reports the wavelength- and elevation-dependent clear-air loss (Kim visibility law plus Rayleigh), the Hufnagel-Valley turbulence state (Rytov variance, scintillation index, gamma-gamma parameters, aperture averaging), the weather-driven availability against the link margin (cloud optical depth from a log-normal liquid-water climate, geometric-optics extinction, independent turbulence fade), the link margin needed for target availabilities, the outage-duration distribution, the timing and ranging error growth per outage through the clock holdover model, distance-correlated site-diversity availability, and what-if gains for enhancement techniques (wavelength, receive aperture, adaptive-optics scintillation reduction, extra margin). VALIDATED as implementation of the stated formulas against an independent mpmath oracle: Rytov variance, scintillation index, gamma-gamma fade probability, aperture-averaging factor, cloud and clear-air optical depth. MODELLED: every weather, technique and clock input and the independence and copula assumptions; no measured availability record has been compared. Advisory analysis, not a certified availability or navigation product.
+seg-926b9c110a44 = MODELLED optical PNT through the atmosphere: for an optical link and a set of ground sites with stated cloud climates it reports the wavelength- and elevation-dependent clear-air loss (Kim visibility law plus Rayleigh), the Hufnagel-Valley turbulence state (Rytov variance, scintillation index, gamma-gamma parameters, aperture averaging), the weather-driven availability against the link margin (cloud optical depth from a log-normal liquid-water climate, geometric-optics extinction, independent turbulence fade), the link margin needed for target availabilities, the outage-duration distribution, the timing and ranging error growth per outage through the clock holdover model, distance-correlated site-diversity availability, and what-if gains for enhancement techniques (wavelength, receive aperture, adaptive-optics scintillation reduction, extra margin). Checked as an implementation of the stated formulas against an independent mpmath oracle (the matrix row stays MODELLED): Rytov variance, scintillation index, gamma-gamma fade probability, aperture-averaging factor, cloud and clear-air optical depth. MODELLED: every weather, technique and clock input and the independence and copula assumptions; no measured availability record has been compared. Advisory analysis, not a certified availability or navigation product.
 
 # text
 # c1: wavelength_nm
@@ -56,7 +53,7 @@ seg-9e3ce423c0b9 = <b>Ledger:</b> MODELLED. Full page, with the inputs, results,
 seg-4e2b759aff17 = The chart the engine writes for scenarios/optical-atmosphere-network.toml, kind optical-atmosphere
 
 # text
-seg-e6839b50b560 = MODELLED heterogeneous optical + RF PNT joint figure of merit (P5): composes the { "1550" } nm two-way optical link budget (photon-limited two-way ranging CRLB σ_τ/√N and diffraction footprint λ/D·range), a cross-modality solution-separation RAIM protection level (position AND timing) that fuses the loose RF and tight optical solutions with disparate covariances, the N-station optical clear-sky availability (independent-union { "1" }−Π({ "1" }−a_i) and a spatially-correlated variant), an optical↔RF state/covariance handoff with a PROVEN bit-continuous (no-jump) mean and a NEES χ² consistency gate, and a joint P(available AND precision-grade AND integrity-assured) score with correlation handling. VALIDATED closed form: the ranging CRLB, diffraction footprint, χ² protection-level quantile, union combinatorics, handoff mean-continuity + NEES gate, and the joint independent product. MODELLED: the optical loss allocations, RF/optical σ magnitudes, cloud-climatology inputs, correlations, and P_HMI budget. Not a certified availability/integrity product.
+seg-013ee3c695c5 = MODELLED heterogeneous optical + RF PNT joint figure of merit: composes the { "1550" } nm two-way optical link budget (photon-limited two-way ranging CRLB σ_τ/√N and diffraction footprint λ/D·range), a cross-modality solution-separation RAIM protection level (position AND timing) that fuses the loose RF and tight optical solutions with disparate covariances, the N-station optical clear-sky availability (independent-union { "1" }−Π({ "1" }−a_i) and a spatially-correlated variant), an optical↔RF state/covariance handoff with a PROVEN bit-continuous (no-jump) mean and a NEES χ² consistency gate, and a joint P(available AND precision-grade AND integrity-assured) score with correlation handling. Checked closed form (the kind stays MODELLED): the ranging CRLB, diffraction footprint, χ² protection-level quantile, union combinatorics, handoff mean-continuity + NEES gate, and the joint independent product. MODELLED: the optical loss allocations, RF/optical σ magnitudes, cloud-climatology inputs, correlations, and P_HMI budget. Not a certified availability/integrity product.
 
 # text
 # c1: wavelength_nm

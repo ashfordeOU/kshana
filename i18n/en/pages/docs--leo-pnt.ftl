@@ -61,9 +61,6 @@ seg-4d3bd0301e59 = The Celeste IOD (in-orbit demonstration) preset is one option
 seg-5b348102cb63 = The kinds and how they connect
 
 # text
-seg-b03d56f501c3 = Kind
-
-# text
 seg-c1020ac47091 = What one run computes
 
 # text
@@ -95,19 +92,22 @@ seg-a9fd4162604f = components VALIDATED, pass MODELLED
 seg-91304e663174 = the broadcast ephemeris and clock message: fitter, signal-in-space range error (SISRE) against fit interval and update period, mid-pass update continuity, user algorithm, binary frame with a 24-bit cyclic redundancy check (CRC-24Q), exports in the style of RINEX { "4" } (Receiver Independent Exchange Format) and as comma-separated values (CSV)
 
 # text
-seg-cf93a9ba065c = user algorithm, weights and CRC VALIDATED, fits MODELLED
+seg-55cb06045c04 = user algorithm, weights, CRC, ionosphere and UTC services, and the Keplerian fits on real precise orbits VALIDATED; correction polynomials, clock fit and formats MODELLED
 
 # text
 seg-3084696ad387 = Doppler positioning, joint GNSS + LEO pseudorange fixes with inter-system biases, polar and Arctic geometry, time transfer to Coordinated Universal Time (UTC), with an optional per-epoch time-error trace
 
 # text
-seg-79117194e50b = maximum Doppler VALIDATED, rest MODELLED
+seg-d3a58e2b7fe0 = maximum Doppler and polar geometry VALIDATED, rest MODELLED
 
 # text
 seg-1de31fd3cf86 = precise point positioning (PPP) convergence with GNSS only and with LEO layers
 
 # text
 seg-525733c10d9b = 5G NTN positioning accuracy from the downlink bandwidth (Cramér-Rao bound)
+
+# text
+seg-377c85125c36 = bounds and fix covariances VALIDATED
 
 # text
 seg-cb8eee06e664 = one system end to end: signal design, pass, message, fused fix and PPP, every hand-off listed
@@ -394,7 +394,7 @@ seg-bf0ec52f63ea = four spoofers, both monitors: an L-band-only spoofer and an a
 seg-17bcc4ead2ee = <c1/> chain (<c2/>, <c3/>)
 
 # text
-seg-d9b6e6fe6807 = GNSS jammed for { "15" } minutes (GPS L1 coarse/acquisition (C/A) code to about { "10" } dB-Hz, E5a to { "17.4" } dB-Hz against a { "25" } dB-Hz floor) while the S- and C-band LEO signals hold { "49.2" } and { "47.4" } dB-Hz; receiver autonomous integrity monitoring (RAIM) on the LEO layer alone forms a protection level at every epoch, under the { "50" } m vertical alert limit at { "28" } of { "30" } grid times, with the alarm raised at the other two; nominal and recovery phases { "5.4" } to { "15.6" } m
+seg-fe69cad3d798 = GNSS jammed for { "15" } minutes (GPS L1 coarse/acquisition (C/A) code to about { "10" } dB-Hz, E5a to { "17.2" } dB-Hz against a { "25" } dB-Hz floor) while the S- and C-band LEO signals hold { "49.2" } and { "47.4" } dB-Hz; receiver autonomous integrity monitoring (RAIM) on the LEO layer alone forms a protection level at every epoch, under the { "50" } m vertical alert limit at { "28" } of { "30" } grid times, with the alarm raised at the other two; nominal and recovery phases { "5.4" } to { "15.6" } m
 
 # text
 # c1: multi-band-jamming-waterfall
@@ -506,7 +506,7 @@ seg-6622d9c7366d = Railway and maritime
 # text
 # c1: maritime-strait-jamming
 # c2: rail-tunnel-coast
-seg-73ba745cb492 = the bundled <c1/> ship loses every GNSS satellite ({ "12.1" } dB-Hz) while its S- and C-band LEO pass reaches { "44.2" } and { "38.1" } dB-Hz; the bundled <c2/> train reaches { "2" } m of inertial error { "35.8" } s into the tunnel; in the open its LEO pass gives { "35" } to { "50" } dB-Hz in L
+seg-1e06dc3b8022 = the bundled <c1/> ship loses every GNSS satellite (mean C/N0 { "15.1" } to { "15.3" } dB-Hz against the { "25" } dB-Hz floor) while its S- and C-band LEO pass reaches { "44.2" } and { "38.1" } dB-Hz; the bundled <c2/> train reaches { "2" } m of inertial error { "35.8" } s into the tunnel; in the open its LEO pass gives { "35" } to { "50" } dB-Hz in L
 
 # text
 seg-c87973b9139a = Critical infrastructure
@@ -549,16 +549,29 @@ seg-344712930047 = closed-form band-limited signal power and early-late code-tra
 seg-e93d5b5d3dda = the maximum Doppler of a LEO navigation satellite (Xona Pulsar X1 { "32" }–{ "34" } kHz, Iridium ±{ "36" } kHz), and the static-user Doppler envelope against arXiv { "2509.19551" } Table { "1" };
 
 # text
+# c1: leo-pvt
+seg-fab289b5ee81 = satellites in view and DOP against latitude (the <c1/> polar mode) against Orekit;
+
+# text
+seg-3965ad463ce9 = the 5G NTN time-of-arrival and frequency Cramér-Rao bounds against published worked values, and the fix covariances against NumPy;
+
+# text
 seg-b02c1b42e509 = ITU-R P.838-3 rain coefficients, P.618-14 rain attenuation and tropospheric scintillation, and P.2109-2 building entry loss against the ITU-R Study Group { "3" } validation data;
 
 # text
 seg-fc668542b66d = the first-order ionospheric delay scaling and free-space loss (IS-GPS-200 group-delay ratio, the Friis form);
 
 # text
-seg-59847c667c8b = the global-average SISRE weights (Montenbruck et al. { "2018" }), the Galileo ICD user algorithm against RTKLIB on real broadcast ephemerides, and CRC-24Q against its catalogue check value.
+seg-7d9145f74a15 = the global-average SISRE weights (Montenbruck et al. { "2018" }), the Galileo ICD user algorithm against RTKLIB on real broadcast ephemerides, and CRC-24Q against its catalogue check value;
 
 # text
-seg-922761c46f8a = MODELLED LEO-PNT rows: every signal design and band trade, the multi-band waterfall, every pass and link budget as a whole, the presets, low-energy fixes, the message fitter and formats, Doppler and joint positioning, PPP convergence, NTN positioning, time transfer, polar coverage, the end-to-end chain, the spoofing monitors and ionosphere sounding, and every campaign (a campaign composes kinds and adds no physics; its composition identities are tested, <a1>CAMPAIGNS.md</a1>). No LEO C/N0, ranging error or positioning figure is compared with a measurement of any satellite.
+seg-5080189c0807 = the 16-parameter Keplerian fit and its orbit-only SISRE on real precise orbits, and the Liu et al. { "2025" } 22-parameter model fit, both against the statistics Liu et al. { "2025" } publish, with the integrated truth orbit against Orekit;
+
+# text
+seg-95c475d08e75 = the message's Klobuchar, NeQuick-G and system-time-to-UTC services against GNSSTk and ERFA.
+
+# text
+seg-1b694148f8df = MODELLED LEO-PNT rows: every signal design and band trade, the multi-band waterfall, every pass and link budget as a whole, the presets, low-energy fixes, the message's correction polynomials, clock fit, update-period trade and formats, Doppler and joint positioning, PPP convergence, time transfer, the end-to-end chain, the spoofing monitors and ionosphere sounding, and every campaign (a campaign composes kinds and adds no physics; its composition identities are tested, <a1>CAMPAIGNS.md</a1>). No LEO C/N0, ranging error or positioning figure is compared with a measurement of any satellite.
 
 # text
 seg-3cc1d3f1c0f8 = Running a scenario

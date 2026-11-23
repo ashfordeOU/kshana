@@ -53,11 +53,11 @@ seg-49f2fa051719 = denied
 seg-195347c63a8a = m/s^{ "2" }
 
 # text
-seg-327a2c4885bd = Tactical-grade MEMS/quartz inertial unit: larger residual bi
+seg-3e38b8f8725a = Tactical-grade MEMS/quartz inertial unit: larger residual…
 
 # text
 # c1: scenarios/
-seg-d1beb62cf742 = { "6" } bundled scenarios use this kind; the others are in <a1><c1/></a1>.
+seg-63c22856e4c4 = { "6" } scenario files in <a1><c1/></a1> use this kind.
 
 # text
 seg-b054c73f22e5 = no value
@@ -69,10 +69,10 @@ seg-7d993b676006 = The chart the engine writes for scenarios/gnss-ins.toml, kind
 seg-619127334cf3 = No matrix row names this kind by name; the label on its result is the engine's own, above.
 
 # text
-seg-8a41c18ca3fe = <b>MODELLED</b> Cold-atom interferometer accelerometer from first principles (k_eff·T², QPN). Oracle (ExternalDataset): Published CAI primary-paper numeric vectors (Cheinet { "2008" } transfer function; Peters/Freier sensitivity): k_eff·T² matched exactly, shot-noise ASD a one-sided floor within ~{ "2" }× of each published instrument (real devices carry technical noise above the quantum floor). A bracket, not parity. { "0.30" } round { "2" } (pre-registered e7de532a), a finding (stays MODELLED): the QPN-only rotation noise against the measured Gauguet et al.
+seg-0d8dbd4b5d85 = <b>MODELLED</b> Cold-atom interferometer accelerometer from first principles (k_eff·T², QPN). Oracle (ExternalDataset): Published CAI primary-paper numeric vectors (Cheinet { "2008" } transfer function; Peters/Freier sensitivity): k_eff·T² matched exactly, shot-noise ASD a one-sided floor within ~{ "2" }× of each published instrument (real devices carry technical noise above the quantum floor). A bracket, not parity. Version { "0.30" } (pre-registered e7de532a), a finding (stays MODELLED): the QPN-only rotation noise against the measured Gauguet et…
 
 # text
-seg-ea4498cc0324 = <b>VALIDATED</b> 15-state error-state EKF, loosely coupled (validated on a real IMU/GNSS drive against NaveGo); a tightly coupled pseudorange/Doppler UKF and a coupled clock+pos. Oracle (ExternalDataset): NaveGo v1.4 (R. Gonzalez, LGPL-3.0, run as a tool under GNU Octave, never linked): its loosely coupled ins_gnss on its own real Ekinox IMU/GNSS land-vehicle drive, both solutions scored against the Ekinox reference trajectory. Both filters read the same { "20" } Hz float32 input, and Kshana's configuration is mapped mechanically from the dataset's published parameters. Kshana's horizontal and vertical position RMS and its
+seg-dfcaf9b4b9b6 = <b>VALIDATED</b> 15-state error-state EKF, loosely coupled (validated on a real IMU/GNSS drive against NaveGo); a tightly coupled pseudorange/Doppler UKF and a coupled…. Oracle (ExternalDataset): NaveGo v1.4 (R. Gonzalez, LGPL-3.0, run as a tool under GNU Octave, never linked): its loosely coupled ins_gnss on its own real Ekinox IMU/GNSS land-vehicle drive, both solutions scored against the Ekinox reference trajectory. Both filters read the same { "20" } Hz float32 input, and Kshana's configuration is mapped mechanically from the dataset's published parameters. Kshana's horizontal and vertical position RMS and…
 
 # text
 seg-9955b1b1c018 = Quantum inertial sensor performance is MODELLED, not validated: a sub-claim is externally checked, but the whole capability composes modelled pieces, so the capability stays Modelled. (verification matrix (docs/MODELLED-RATIONALE.md))

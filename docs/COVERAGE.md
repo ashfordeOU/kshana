@@ -14,15 +14,18 @@ all of them together or none.
 | Tool | `cargo tarpaulin --engine llvm` (LLVM source-based instrumentation) |
 | Scope | `src/`, excluding the generated data tables `src/*_data.rs` and the thin CLI (command-line interface) entry point `src/main.rs`; `tests/` and `web/` are not measured |
 | Artifact | `coverage-lcov` (`lcov.info`, 290 source files) attached to that run |
-| Floor | the same job fails below **85 %** (`--fail-under 85`) — the floor is enforced on every push; the figure above is a record, not a gate |
+| Floor | the `coverage` job fails below **85 %** (`--fail-under 85`, applied to the merged shards) — the floor is enforced on every push; the figure above is a record, not a gate |
 
-The command, verbatim from `.github/workflows/ci.yml`:
+The commands, from `.github/workflows/ci.yml`. The `coverage-shard` job runs tarpaulin once
+per shard (`scripts/coverage-shard.py` picks the test targets, and every integration test lands
+in exactly one shard); the `coverage` job then merges the shards and applies the floor:
 
 ```bash
 cargo tarpaulin --engine llvm --out Lcov --output-dir coverage \
   --exclude-files 'src/*_data.rs' --exclude-files 'src/main.rs' \
   --exclude-files 'tests/*' --exclude-files 'web/*' \
-  --timeout 3600 --fail-under 85
+  --timeout 3600 $(python3 scripts/coverage-shard.py <shard args>)
+python3 scripts/coverage-merge.py --fail-under 85 --out coverage/lcov.info shards/*/lcov.info
 ```
 
 ## Re-measuring

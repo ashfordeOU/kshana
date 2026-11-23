@@ -384,10 +384,10 @@ pub fn kind_figures(kind: &str) -> Option<&'static [(&'static str, &'static str)
             ("coast.coast_end_pos_rms_m", ""),
         ],
         "impairment-eval" => &[
-            ("distribution_shift.auc_in", "AI/ML RF-impairment detection evaluation (13494)"),
-            ("distribution_shift.auc_out", "AI/ML RF-impairment detection evaluation (13494)"),
-            ("distribution_shift.optimism_gap", "AI/ML RF-impairment detection evaluation (13494)"),
-            ("operating_point.pd", "AI/ML RF-impairment detection evaluation (13494)"),
+            ("distribution_shift.auc_in", "AI/ML RF-impairment detection evaluation"),
+            ("distribution_shift.auc_out", "AI/ML RF-impairment detection evaluation"),
+            ("distribution_shift.optimism_gap", "AI/ML RF-impairment detection evaluation"),
+            ("operating_point.pd", "AI/ML RF-impairment detection evaluation"),
         ],
         "inertial" => &[
             ("quantum.fom.holdover_s", "Quantum inertial dead-reckoning resilience"),
@@ -587,10 +587,10 @@ pub fn kind_figures(kind: &str) -> Option<&'static [(&'static str, &'static str)
             ("security_pd", "Trusted quantum timing (time transfer + secure dissemination + anomaly)"),
         ],
         "quantum-trade" => &[
-            ("trade.candidate.timing_holdover_s", "Quantum-vs-classical PNT trade & GNSS-denied resilience (13503)"),
-            ("trade.timing_benefit_x", "Quantum-vs-classical PNT trade & GNSS-denied resilience (13503)"),
-            ("trade.candidate.inertial_holdover_s", "Quantum-vs-classical PNT trade & GNSS-denied resilience (13503)"),
-            ("trade.inertial_benefit_x", "Quantum-vs-classical PNT trade & GNSS-denied resilience (13503)"),
+            ("trade.candidate.timing_holdover_s", "Quantum-vs-classical PNT trade & GNSS-denied resilience"),
+            ("trade.timing_benefit_x", "Quantum-vs-classical PNT trade & GNSS-denied resilience"),
+            ("trade.candidate.inertial_holdover_s", "Quantum-vs-classical PNT trade & GNSS-denied resilience"),
+            ("trade.inertial_benefit_x", "Quantum-vs-classical PNT trade & GNSS-denied resilience"),
         ],
         "realtime-frame-eop" => &[
             ("realtime_frame_error_budget.eop_term_m", ""),

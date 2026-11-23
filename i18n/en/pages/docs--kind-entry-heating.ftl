@@ -60,7 +60,7 @@ seg-b3a829cb7d84 = US Standard Atmosphere { "1976" }
 seg-05ce408c2dbb = kg/m^{ "2" }
 
 # text
-seg-1a89d87a48a5 = NACA Report { "1381" } ({ "1958" }) ballistic consta
+seg-0fc7d634688f = NACA Report { "1381" } ({ "1958" }) ballistic…
 
 # text
 seg-3159fc595ac9 = kg/m^{ "3" }
@@ -72,19 +72,16 @@ seg-2721e146b7be = Result label (the engine's): MODELLED — 3-DoF point-mass en
 seg-dbb618cd6357 = The chart the engine writes for scenarios/entry-heating-stardust.toml, kind entry-heating
 
 # text
-seg-67fb8ac75f36 = MODELLED { "1" } · VALIDATED { "1" }: the <a1>verification matrix</a1> rows that name this kind.
+seg-3068552e4ab4 = VALIDATED: the <a1>verification matrix</a1> rows that name this kind.
 
 # text
-seg-e73b339df97b = <b>VALIDATED</b> A 3-DoF point-mass entry over a rotating spherical Earth through the US Standard Atmosphere { "1976" }, integrated with RK4 from an inertial entry state, reporting the peak deceleration and its altitude; the planet-relative entry state from the i Tests: <a1>entry_stardust_published.rs</a1>.
+seg-43f289305743 = <b>VALIDATED</b> A 3-DoF point-mass entry over a rotating spherical Earth through the US Standard Atmosphere { "1976" }, integrated with RK4 from an inertial entry state, reporting the peak deceleration and its altitude; the planet-relative entry state from the… Tests: <a1>entry_stardust_published.rs</a1>.
 
 # text
-seg-10124432b79b = <b>MODELLED</b> Stagnation-point convective heat flux q = k sqrt(rho/R_n) V^{ "3" } with the Sutton-Graves constants for Earth air and the Mars atmosphere (NASA TR R-376, { "1971" }), its peak and the integrated heat load along a 3-DoF entry, ballistic or lifting at c Tests: <a1>entry_stardust_published.rs</a1>.
+seg-bc9e78bd5e5a = <b>VALIDATED</b> A 3-DoF point-mass entry over a rotating spherical Earth through the US Standard Atmosphere { "1976" }, integrated with RK4 from an inertial entry state, reporting…. Oracle (ExternalDataset): The Stardust nominal of Desai, Mitcheltree and Cheatwood ({ "1999" }, NASA NTRS { "20050042027" }): maximum deceleration { "33.4" } g from { "12.6" } km/s planet-relative with the { "45.8" } kg launch mass, a 6-DoF POST trajectory with the full aerodynamic database; entry interface from Desai, Lyons, Tooley and Kangas (NTRS { "20090004445" }): radius { "6503.14" } km, inertial { "12.9" } km/s at -8.2 deg. Bars pre-registered in…
 
 # text
-seg-54d133781215 = <b>VALIDATED</b> A 3-DoF point-mass entry over a rotating spherical Earth through the US Standard Atmosphere { "1976" }, integrated with RK4 from an inertial entry state, reporting th. Oracle (ExternalDataset): The Stardust nominal of Desai, Mitcheltree and Cheatwood ({ "1999" }, NASA NTRS { "20050042027" }): maximum deceleration { "33.4" } g from { "12.6" } km/s planet-relative with the { "45.8" } kg launch mass, a 6-DoF POST trajectory with the full aerodynamic database; entry interface from Desai, Lyons, Tooley and Kangas (NTRS { "20090004445" }): radius { "6503.14" } km, inertial { "12.9" } km/s at -8.2 deg. Bars pre-registered in xval/entry-stardust/PREREGISTRATION.
-
-# text
-seg-03878684f9a1 = <b>MODELLED</b> Stagnation-point convective heat flux q = k sqrt(rho/R_n) V^{ "3" } with the Sutton-Graves constants for Earth air and the Mars atmosphere (NASA TR R-376, { "1971" }), its . Oracle (InternalConsistency): Internal consistency: the relation and constants as printed in NASA TR R-376, a half-step convergence check, and the expected ordering of heating and deceleration peaks. WHAT IS NOT: no published heating value has been compared (the Stardust papers give a design limit and a convective-plus-radiative estimate of about { "1200" } W/cm2, which a convective-only relation cannot match); no radiative heating, wall-temperature or
+seg-2c4e1490beb2 = <b>MODELLED</b> Stagnation-point convective heat flux q = k sqrt(rho/R_n) V^{ "3" } with the Sutton-Graves constants for Earth air and the Mars atmosphere (NASA TR R-376, { "1971" })…. Oracle (InternalConsistency): Internal consistency: the relation and constants as printed in NASA TR R-376, a half-step convergence check, and the expected ordering of heating and deceleration peaks. WHAT IS NOT: no published heating value has been compared (the Stardust papers give a design limit and a convective-plus-radiative estimate of about { "1200" } W/cm2, which a convective-only relation cannot match); no radiative heating, wall-temperature…
 
 # text
 # c1: label

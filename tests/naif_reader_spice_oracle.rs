@@ -97,7 +97,8 @@
 //!
 //! ## Result (run after the pre-registration commit 1e283534 was published)
 //!
-//! Seed 12379710599223412932 (commit 1e283534958428db8f854abbdbd830708be3570f). Disclosure:
+//! Seed 12379710599223412932 = the first 16 hex digits of commit abcd913310d988c4 (the
+//! `--seed-commit` in the fixture NOTICE; that commit is not in the public history). Disclosure:
 //! the generator's first run aborted on its first SPICE call because it computed the grid
 //! interval as the intersection of individual segments, which is empty for the lunar
 //! orientation kernel (split in two at 2426); no oracle value was produced. The interval was

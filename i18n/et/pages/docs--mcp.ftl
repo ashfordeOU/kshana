@@ -235,23 +235,6 @@ seg-b0cf13e530b7 = Käivitab stsenaariumi ja tagastab selle reprodutseeritavuse 
 seg-ab242cd0259c = Taevageomeetria asimuudist sõltuva silmapiirijoone all: asukohast, ajast ja konstellatsiooni eelseadetest, kaherealistest elemendikomplektidest (<c1/>, SGP4-ga levitatud UTC-le <c2/>) või satelliitidest asimuudi/kõrgusnurgana või ECEF-is, nähtavad satelliidid ja need, mille silmapiirijoon peidab, GDOP/PDOP/HDOP/VDOP/TDOP gnss_lib_py-ga kontrollitud DOP-tuumast, ida-põhja-üles kofaktor ja kovariatsioon (üks kell süsteemi kohta või üks ühine) ja horisontaalne vea ellips; väljaga <c3/> asemel <c4/> REPRESENTATIVE eelseade koos selle päritolu ja iga kraadi järel lõikega. MODELLED; kannab nõuandvat avaldust; MCP kaudu Monte Carlot ei ole. Vt <a1><c5/></a1>.
 
 # text
-# c1: format
-# c2: ubx
-# c3: rinex
-# c4: android
-# c5: nmea
-# c6: sbf
-# c7: text
-# c8: base64
-# c9: [[events]]
-# c10: [compare]
-# c11: [platform] kind = "vessel"
-# c12: text
-# c13: base64
-# c14: docs/RECEIVER-TRUST.md
-seg-d6ed4e8d56e5 = Hindab tegeliku GNSS-i (ülemaailmne satelliitnavigatsioonisüsteem) vastuvõtja logi usaldatavust. TOML nimetab logi välja <c1/> (<c2/>, <c3/>, <c4/>, <c5/> või <c6/>) ja annab selle baidid sisse kujul <c7/> või <c8/>; tööriist käivitab usaldusseirajad (kandja-müra tiheduse langus, lukustuse kadu, AGC (automaatne võimenduse reguleerimine), segamisnäidik, asukohahüpe ja RINEX-i pluss edastatava navigatsiooniga RAIM (vastuvõtja autonoomne terviklikkuse seire) ja kellapõhine seire) ning tagastab, millal ja miks lahend lakkas usaldusväärne olemast. Valikulised jaotised <c9/> ja <c10/> hindavad sätestatud sündmusi ja ennustatud C/N0 langusi sätestatud tolerantside vastu. Tabel <c11/> valib mereliinid seirajad ja lisab 0-100 usaldusskoori epohhi kohta koos seiretega, mis maha arvasid (nõuandev; MODELLED). Logi läheb sisse kujul <c12/> või <c13/> (kuni { "4" } MiB). Diagramm ja epohhipõhine CSV soovi korral. Vt <a1><c14/></a1>.
-
-# text
 # c1: kshana receiver-trust live
 # c2: $PKSHT
 # c3: --listen
@@ -638,11 +621,5 @@ seg-490ebbefb561 = <s1>Eelmine</s1>Rust crate
 
 # text
 seg-350b6b914734 = <s1>Järgmine</s1>MCP server: kõik paigalduskanalid
-
-# text
-seg-a4a0e399a31e = <c1/> paneb <c2/> teie teele <c3/> (tavaliselt <c4/>). Server räägib JSON-RPC-d (JSON remote procedure call) stdio kaudu; logid lähevad stderr-i. Lähtekoodist ehitamine vajab Rusti tööriistaahelat ≥ { "1.88" } (parandatud <c5/> { "2" }.x SDK vajab seda ja nii ka teek <c6/>); Dockeri kujutis ei vaja ühtki.
-
-# text
-seg-0757e15070d4 = Server on <b>eraldiseisev, tööruumist välja jäetud crate</b> oma failiga <c1/>, nii et ametlik Rusti MCP SDK (tarkvaraarenduskomplekt) <c2/> ja selle asünkroonne käituskeskkond ei satu kunagi avaldatud <c3/> crate'i sõltuvusgraafi: teegi või Pythoni kasutaja ei kompileeri serverit, mida ta ei käita. (See eraldati esmalt seetõttu, et <c4/> on <b>edition { "2024" }</b>, mis vajab rustc ≥ { "1.85" }, samas kui põhicrate lubas siis { "1.75" }. Teek ja see server deklareerivad nüüd mõlemad { "1.88" }, mis on turvaparandusega <c5/> { "2" }.x ja uuendatud RustCrypto cratede alampiir.) Pidev integreerimine (CI) kontrollib seda crate'i eraldi — testid ja <c6/> selle lukufaili vastu. rmcp litsentsipuu on puhas (Apache-2.0/MIT/BSD), seega erinevalt ristvalideerimise crate'ist <c7/>, mida see muidu järgib, ei ole eraldamine litsentsimise pärast.
 
 seg-b873b39a4921 = { "93" } sisseehitatud stsenaariumi liiki kirjelduste ja nõutavate/valikuliste väljadega, et agent saaks koostada kehtiva stsenaariumi.

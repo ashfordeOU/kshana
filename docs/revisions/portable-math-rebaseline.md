@@ -57,12 +57,12 @@ The old values come from the unmodified tip of `feat/wasm-iq-0.36` (`7e8c3b4e`, 
 maths) built in a separate worktree; the new values from this branch. Both ran the 141
 scenarios bundled with the crate through `kshana::api::run_toml` in release builds. Every
 old/new pair is a leaf of the result JSON. The full list is
-[`STUDIO15-moved-values.csv.gz`](STUDIO15-moved-values.csv.gz) (scenario, JSON path, old,
+[`moved-values.csv.gz`](moved-values.csv.gz) (scenario, JSON path, old,
 new, relative change; 136,127 numbers and the changed strings); regenerate everything below
 with
 
     python3 scripts/studio15_rebaseline_table.py --old <old dir> --new <new dir> \
-        --logs <test logs> --repo . --pred <prediction dir> --csv-gz docs/revisions/STUDIO15-moved-values.csv.gz
+        --logs <test logs> --repo . --pred <prediction dir> --csv-gz docs/revisions/moved-values.csv.gz
 
 The test values come from a full run of the suite on this branch (every test binary, plus
 the doctests). Tests that stop at their first failed assertion can hide later ones; section
@@ -444,9 +444,9 @@ is not edited.
 * `CHANGELOG.md`: an entry under Unreleased/Changed lists all of the above. The 0.30 and 0.35 entries
   that quote the old numbers are history and are not edited.
 
-**`tests/lunar_joint_od_numpy_oracle.rs`** (the VALIDATED "Lunar joint multi-technique OD + clock" row) was held and is now re-recorded after the owner's approval, with numpy pinned to 2.4.6, the script and the bar unchanged: all six networks pass; see [`STUDIO15-lunar-joint-od-oracle-rerecord.md`](STUDIO15-lunar-joint-od-oracle-rerecord.md) (old and new hashes of the fixtures, per-network margins).
+**`tests/lunar_joint_od_numpy_oracle.rs`** (the VALIDATED "Lunar joint multi-technique OD + clock" row) was held and is now re-recorded after the owner's approval, with numpy pinned to 2.4.6, the script and the bar unchanged: all six networks pass; see [`lunar-joint-od-oracle-rerecord.md`](lunar-joint-od-oracle-rerecord.md) (old and new hashes of the fixtures, per-network margins).
 
-**The other two numpy-oracle tests** (`lunar_observability_numpy_oracle`, `lunar_station_numpy_oracle`, MODELLED rows) were held and are now re-recorded after owner approval, with numpy/scipy at the registered versions and scripts and bars unchanged; the station test's recorded finding moves from 15 to 20 of 20 cases above 1e-9 m and `RANGE_OBSERVED_M` 3.7252974e-9 -> 3.7252903e-9 m. Old and new fixture hashes and per-case margins: [`STUDIO15-lunar-station-observability-oracles.md`](STUDIO15-lunar-station-observability-oracles.md).
+**The other two numpy-oracle tests** (`lunar_observability_numpy_oracle`, `lunar_station_numpy_oracle`, MODELLED rows) were held and are now re-recorded after owner approval, with numpy/scipy at the registered versions and scripts and bars unchanged; the station test's recorded finding moves from 15 to 20 of 20 cases above 1e-9 m and `RANGE_OBSERVED_M` 3.7252974e-9 -> 3.7252903e-9 m. Old and new fixture hashes and per-case margins: [`lunar-station-observability-oracles.md`](lunar-station-observability-oracles.md).
 
 **Parity.** The final native-versus-wasm result is in the phase 2 report.
 

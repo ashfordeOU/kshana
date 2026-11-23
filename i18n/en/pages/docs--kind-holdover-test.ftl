@@ -37,14 +37,14 @@ seg-ad4f9c40e317 = The example <c1/> sets, among others:
 seg-f0517ab67e28 = [prtc-a, eprtc-a-holdover]
 
 # text
-seg-fe13d0e59509 = ptp4l[{ "1000.000" }]: master offset -4 s2 freq + { "1200" } pa
+seg-c38728fae5ad = ptp4l[{ "1000.000" }]: master offset -4 s2 freq + { "1200" }…
 
 # text
 seg-f42465f7d066 = ns
 
 # text
 # c1: scenarios/
-seg-51362910dcb7 = { "2" } bundled scenarios use this kind; the others are in <a1><c1/></a1>.
+seg-2224c257616c = { "2" } scenario files in <a1><c1/></a1> use this kind.
 
 # text
 seg-a0f9749e9ca1 = master
@@ -56,29 +56,29 @@ seg-cd857523297f = phase
 seg-29a012ae4735 = refuse
 
 # text
-seg-d578fc8e6052 = Result label (the engine's): MODELLED — a holdover test scored from a time-error record the operator supplied. Every limit is transcribed from the named public ITU-T Recommendation and the result is measured against the mask; it says nothing about whether any clock or system meets a Recommendation, and nobody has rated or appro
+seg-d4d4e1125ef3 = Result label (the engine's): MODELLED — a holdover test scored from a time-error record the operator supplied. Every limit is transcribed from the named public ITU-T Recommendation and the result is measured against the mask; it says nothing about whether any clock or system meets a Recommendation, and nobody has rated or…
 
 # attr:alt
 seg-8ce93392747b = The chart the engine writes for scenarios/holdover-test-ptp4l.toml, kind holdover-test
 
 # text
 # c1: holdover-test
-seg-3361819ae321 = <b>MODELLED</b> The <c1/> kind: a time-error record (a linuxptp, chrony, TICC, TimeLab or RINEX clock log, or time_s,time_error_ns pairs) is split at the two times the operator states for GNSS removal and restoration into a baseline, a holdover a
+seg-bd95beac99a9 = <b>MODELLED</b> The <c1/> kind: a time-error record (a linuxptp, chrony, TICC, TimeLab or RINEX clock log, or time_s,time_error_ns pairs) is split at the two times the operator states for GNSS removal and restoration into a baseline, a holdover…
 
 # text
 # c1: telecom-timing
-seg-e7273fd2a640 = <b>VALIDATED</b> The maximum time interval error and time deviation the <c1/> scenario kind reports, on a telecom-scale holdover record: an O(n) monotonic-queue slidi. Oracle (ExternalDataset): allantools { "2024.06" } — an independent third-party frequency-stability library — mtie() and tdev() on tests/fixtures/telecom_timing/holdover_te_series.csv, the series parsed from the same 17-significant-figure text on both sides; the reference records the series' SHA-256 and is regenerable offline via tests/fixtures/telecom_timing/generate_telecom_timing_reference.py. Validates the ESTIMATORS on this record, not the syn
+seg-18b4d613dc51 = <b>VALIDATED</b> The maximum time interval error and time deviation the <c1/> scenario kind reports, on a telecom-scale holdover record: an O(n) monotonic-queue…. Oracle (ExternalDataset): allantools { "2024.06" } — an independent third-party frequency-stability library — mtie() and tdev() on tests/fixtures/telecom_timing/holdover_te_series.csv, the series parsed from the same 17-significant-figure text on both sides; the reference records the series' SHA-256 and is regenerable offline via tests/fixtures/telecom_timing/generate_telecom_timing_reference.py. Validates the ESTIMATORS on this record, not the…
 
 # text
-seg-4cf0f94f96c9 = <b>MODELLED</b> Transcribed limits of ITU-T G.8272 (07/2025) PRTC-A/B, G.8272.1 ({ "2024" }) Amd. { "1" } (07/2025) ePRTC locked and ePRTC-A holdover (including the Table { "3" } time-error enve. Oracle (InternalConsistency): Transcription of the named Recommendations (freely downloadable from itu.int), each limit carrying its table or clause, listed with every unconfirmed or unimplemented item in docs/TELECOM-TIMING.md; the breakpoint-continuity identities the tables imply are checked in the tests. A standards transcription with internal consistency checks, not a conformance test and not an external validation. { "0.30" } round { "2" } (pre-register
+seg-4f5cfea72540 = <b>MODELLED</b> Transcribed limits of ITU-T G.8272 (07/2025) PRTC-A/B, G.8272.1 ({ "2024" }) Amd. { "1" } (07/2025) ePRTC locked and ePRTC-A holdover (including the Table { "3" } time-error…. Oracle (InternalConsistency): Transcription of the named Recommendations (freely downloadable from itu.int), each limit carrying its table or clause, listed with every unconfirmed or unimplemented item in docs/TELECOM-TIMING.md; the breakpoint-continuity identities the tables imply are checked in the tests. A standards transcription with internal consistency checks, not a conformance test and not an external validation. { "0.30" } round { "2" }…
 
 # text
 # c1: holdover-test
-seg-142528f34e66 = <b>MODELLED</b> The <c1/> kind: a time-error record (a linuxptp, chrony, TICC, TimeLab or RINEX clock log, or time_s,time_error_ns pairs) is split at the two times th. Oracle (InternalConsistency): Hand computation on records built from formulas whose slope, step, extremum and recovery time are known before the run (the tests state them), and the masks, envelope and budgets of the telecom-timing rows above. No laboratory measurement of a real holdover was scored and no external oracle was compared, so the kind makes no claim about any clock or system; a timing-lab partner is needed before any per-clock-class fi
+seg-810438d9fb75 = <b>MODELLED</b> The <c1/> kind: a time-error record (a linuxptp, chrony, TICC, TimeLab or RINEX clock log, or time_s,time_error_ns pairs) is split at the two times…. Oracle (InternalConsistency): Hand computation on records built from formulas whose slope, step, extremum and recovery time are known before the run (the tests state them), and the masks, envelope and budgets of the telecom-timing rows above. No laboratory measurement of a real holdover was scored and no external oracle was compared, so the kind makes no claim about any clock or system; a timing-lab partner is needed before any per-clock-class…
 
 # text
 # c1: label
-seg-59ff0b0e3d2d = MODELLED — a holdover test scored from a time-error record the operator supplied. Every limit is transcribed from the named public ITU-T Recommendation and the result is measured against the mask; it says nothing about whether any clock or system meets a Recommendation, and nobody has rated or approved it. The times at which GNSS was removed and restored are the operator's statement and are not verified. Advisory sof (result <c1/>)
+seg-bd5b319b868d = MODELLED — a holdover test scored from a time-error record the operator supplied. Every limit is transcribed from the named public ITU-T Recommendation and the result is measured against the mask; it says nothing about whether any clock or system meets a Recommendation, and nobody has rated or approved it. The times at which GNSS was removed and restored are the operator's statement and are not verified. Advisory… (result <c1/>)
 
 # text
 # c1: kshana kinds --json

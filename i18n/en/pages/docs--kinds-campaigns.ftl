@@ -19,9 +19,6 @@ seg-09ed7c4e175c = Topic pages: <a1>CAMPAIGNS</a1>. Run one: <c1/>. All families
 seg-b49ec180e810 = Contact sheet of the charts the engine writes for the kinds of the family Campaigns
 
 # text
-seg-b03d56f501c3 = Kind
-
-# text
 seg-4e31c8daf798 = Ledger
 
 # text

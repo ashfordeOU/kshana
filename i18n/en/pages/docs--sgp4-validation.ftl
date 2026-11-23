@@ -133,13 +133,13 @@ seg-60520079d492 = { "7.8e-9" } km
 # text
 # c1: tests/fixtures/sgp4_comparison.md
 # c2: KSHANA_REGEN_FIXTURES=1 cargo test --test sgp4_crate_comparison
-seg-c22876d62c29 = Two independent implementations agree to <b>sub-micron</b> on near-earth and resonant orbits and to <b>{ "4.12" } mm worst-case</b> across all regimes — the same { "4.12" } mm that is Kshana's own deviation from the reference, i.e. the disagreement <em>is</em> that one deep-space case, with the crate sitting between Kshana and the table. The full table (with per-regime row counts and the four pathological cases the crate rejects at construction) is committed at <a1><c1/></a1> and regenerated via <c2/>.
+seg-7443788a22ca = Two independent implementations agree to <b>sub-micron</b> on near-earth orbits, to <b>a few micrometres</b> on resonant orbits, and to <b>{ "4.12" } mm worst-case</b> across all regimes — the same { "4.12" } mm that is Kshana's own deviation from the reference, i.e. the disagreement <em>is</em> that one deep-space case, with the crate sitting between Kshana and the table. The full table (with per-regime row counts and the four pathological cases the crate rejects at construction) is committed at <a1><c1/></a1> and regenerated via <c2/>.
 
 # text
 seg-3aae516df868 = Status of "publishing" this result
 
 # text
-seg-2dd4b77c49d1 = The cross-validation itself is complete and in-tree. Submitting the result to external venues (a community catalogue, a short note, a DOI-archived (DOI: digital object identifier) record) is a maintainer action tracked separately on the roadmap; this document is the in-repository record those submissions would point to.
+seg-7a7a44d0775b = The cross-validation itself is complete and in-tree. Submitting the result to external venues (a community catalogue, a short note, a DOI-archived (DOI: digital object identifier) record) is a step that has not been taken; this document is the in-repository record those submissions would point to.
 
 # text
 seg-b36bbcc0a0c8 = <s1>Previous</s1>EN { "16803" }

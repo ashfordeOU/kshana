@@ -56,7 +56,7 @@ The scalar results of that run, with the units the engine states:
 | `criterion_horizontal_m` | 0.1 | m |
 | `criterion_vertical_m` | 0.1 | m |
 | `duration_s` | 1800 | s |
-| `evidence.id_rule` | the stable id of the matrix row (the ID  | text |
+| `evidence.id_rule` | the stable id of the matrix row (the… | text |
 | `evidence.matrix` | docs/VERIFICATION-MATRIX.md | text |
 | `evidence.tier` | MODELLED | text |
 | `n_gnss` | 96 | count |
@@ -72,12 +72,12 @@ Result label (the engine's): MODELLED float PPP (ionosphere-free code and phase,
 
 MODELLED: the [verification matrix](../../VERIFICATION-MATRIX.md) rows that name this kind.
 
-- **MODELLED** A float PPP extended Kalman filter on ionosphere-free code and phase: static coordinates, a white receiver clock, one inter-system bias per extra system, a random-walk zenith wet delay mapped by 1/sin(elevation), a float ambiguity per satel Tests: [leo_fusion_scenarios.rs](../../../tests/leo_fusion_scenarios.rs).
+- **MODELLED** A float PPP extended Kalman filter on ionosphere-free code and phase: static coordinates, a white receiver clock, one inter-system bias per extra system, a random-walk zenith wet delay mapped by 1/sin(elevation), a float ambiguity per… Tests: [leo_fusion_scenarios.rs](../../../tests/leo_fusion_scenarios.rs).
 
 The rows the run itself exercised, with the oracle the matrix gives each (the public sources are named there):
 
-- **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): SBOM conformance to the official CycloneDX 1.5 JSON Schema (+ valid SPDX identifiers) — an external published standard, zero validation errors over the full dependency graph; the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
-- **MODELLED** A float PPP extended Kalman filter on ionosphere-free code and phase: static coordinates, a white receiver clock, one inter-system bias per extra system, a rand. Oracle (ExternalDataset): The NEES chi-square test is an internal consistency check (truth and filter share the model). The trend is compared with Li et al., LEO constellation-augmented multi-GNSS for rapid PPP convergence, J. Geod. 93:749-764 (2019), doi 10.1007/s00190-018-1195-2: multi-GNSS 9.6 min shortened to 7.0, 3.2, 2.1 and 1.3 min with 60, 96, 192 and 288 LEO satellites. The bundled scenario gives 7.4, 4.8, 3.2, 2.7 and 2.3 min with i
+- **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): Official CycloneDX 1.5 JSON Schema (+ SPDX identifier list): every atomic licence id is a valid SPDX id, and the document has zero schema errors once compound expressions are moved to expression (the generator's raw output has 133 compound-id errors); the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
+- **MODELLED** A float PPP extended Kalman filter on ionosphere-free code and phase: static coordinates, a white receiver clock, one inter-system bias per extra system, a…. Oracle (ExternalDataset): The NEES chi-square test is an internal consistency check (truth and filter share the model). The trend is compared with Li et al., LEO constellation-augmented multi-GNSS for rapid PPP convergence, J. Geod. 93:749-764 (2019), doi 10.1007/s00190-018-1195-2: multi-GNSS 9.6 min shortened to 7.0, 3.2, 2.1 and 1.3 min with 60, 96, 192 and 288 LEO satellites. The bundled scenario gives 7.4, 4.8, 3.2, 2.7 and 2.3 min with…
 
 ## Limitations
 
@@ -85,7 +85,7 @@ What the run's own report says is not modelled or not validated:
 
 - MODELLED float PPP (ionosphere-free code and phase, white clock, random-walk wet delay, float ambiguities per arc) on simulated measurements from the same model; the Li et al. (2019) figures are a comparison of trend, not a reproduction (result `label`)
 - MODELLED: a consistency comparison of the trend, not a reproduction of that study's constellations, noise or stations; no ambiguity resolution, cycle slips, phase wind-up, tides or time-correlated product errors. (kind catalogue (`kshana kinds --json`))
-- The four LEO constellations here are representative Walker delta shells at 1000 km and 60 deg with 60, 96, 192 and 288 satellites; they are NOT the paper's designs, and the noise, stations and convergence definition (horizontal and vertical errors below 10 cm until the end of the run) are this model's. The comparison is therefore a MODELLED consistency check on the trend: convergence must shorten monotonically with t (scenario file comment, lines 10 to 14)
+- The four LEO constellations here are representative Walker delta shells at 1000 km and 60 deg with 60, 96, 192 and 288 satellites; they are NOT the paper's designs, and the noise, stations and convergence definition (horizontal and vertical errors below 10 cm until the end of the run) are this model's. The comparison is therefore a MODELLED consistency check on the trend: convergence must shorten monotonically with… (scenario file comment, lines 10 to 14)
 - Reproducibility & software assurance is MODELLED, not validated: a sub-claim is externally checked, but the whole capability composes modelled pieces, so the capability stays Modelled. (verification matrix (docs/MODELLED-RATIONALE.md))
 - Precise point positioning convergence with GNSS only and with LEO augmentation is MODELLED, not validated: a sub-claim is externally checked, but the whole capability composes modelled pieces, so the capability stays Modelled. (verification matrix (docs/MODELLED-RATIONALE.md))
 

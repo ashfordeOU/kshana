@@ -28,26 +28,10 @@ seg-5a4dcb93a643 = Export d'interopérabilité lunaire modélisé : émet le ré
 
 # text
 # c1: scenarios/lunar-interop-export.toml
-seg-1726861e444f = Une exécution de <c1/> se résume ainsi : lunar-interop-export | REF_FRAME MOON_ME / TIME_SYSTEM LTC | { "9" } states, OEM { "23" } lines | conformance PASS ({ "9" } present / { "0" } missing) | OEM round-trip ok | time-meta round-trip ok | KIF { "1640" } bytes | MODELLED
-
-# text
-# c1: frame
-# c2: time_system
-# c3: n_states
-# c4: epoch
-# c5: step_min
-# c6: object
-seg-f8353e15aabd = Champs facultatifs : <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>
-
-# text
-# c1: scenarios/lunar-interop-export.toml
 seg-169f9446e90d = L'exemple <c1/> définit, entre autres :
 
 # text
 seg-b8135da5a99a = 2030-01-01T00:{ "00" }:{ "00" }
-
-# text
-seg-3f36bd2ec5ea = LTC
 
 # text
 seg-2ac27c1e55c0 = octet
@@ -79,9 +63,3 @@ seg-07d6cc44724f = <s1>Précédent</s1>lunar-integrity
 
 # text
 seg-9669cd9b1d04 = <s1>Suivant</s1>lunar-jamming
-
-# text
-seg-11d0ccba5ee7 = CE QUE FAIT src/lunar_interop.rs : * export_lunar_oem — RÉUTILISE l'émetteur CCSDS OEM { "2.0" } du crate (crate::oem), rebaptisé pour le contexte lunaire : REF_FRAME = le référentiel de corps lunaire WGCCRE de l'UAI { "2015" } (MOON_ME / MOON_PA), TIME_SYSTEM = l'échelle de temps lunaire (LTC / TCL / UTC), CENTER_NAME = MOON, sur un échantillon d'éphéméride ILLUSTRATIVE de classe LCNS (positions issues de crate::lunar_service, vitesse par différence finie centrée). * export_ (commentaire du fichier de scénario, lignes { "6" } à { "19" })
-
-# text
-seg-f730e8f789cf = HONNÊTETÉ : MODELLED. Les NOMS de champs et les unités sont alignés sur des normes PUBLIC (CCSDS 502.0-B OEM, référentiels lunaires WGCCRE de l'UAI { "2015" }, spécification d'interopérabilité LunaNet / architecture lunaire de l'IOAG). L'aller-retour déterministe et la correspondance des noms de champs sont la référence indépendante. Ce n'est PAS un test de respect de la norme d'interopérabilité certifié. L'éphéméride est illustrative, à sources publiques, SANS affiliation à l'ESA, et n'implique aucun TRL (commentaire du fichier de scénario, lignes { "21" } à { "26" })

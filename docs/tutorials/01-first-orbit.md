@@ -121,7 +121,7 @@ A tutorial that checks the engine against itself proves nothing. Here is the
 external, *non-circular* anchor for every claim above.
 
 **1. The satellites sit on the real GPS medium-Earth-orbit (MEO) shell.** The GPS nominal semi-major axis
-is **a = 26,560 km**, altitude ≈ 20,180 km above the mean Earth radius of 6,378 km
+is **a = 26,560 km**, altitude ≈ 20,180 km above the equatorial Earth radius of 6,378 km
 (IS-GPS-200, the GPS interface specification; the GPS Standard Positioning Service
 (SPS) Performance Standard, US Department of Defense (DoD); Misra & Enge, *Global
 Positioning System*, 2nd ed.). PG01’s instantaneous radius of **26,480.9 km** lies

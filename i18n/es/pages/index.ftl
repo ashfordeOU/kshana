@@ -474,23 +474,11 @@ seg-d997b6a5a416 = Por qué Pro, aún más
 # text
 seg-4ff013b472ff = ¿Qué diseño deberíamos volar?
 
-# attr:aria-label
-seg-f4eb65b9b27a = Constelación de navegación lunar: menor número de satélites frente a disponibilidad, toda la Luna: { "608" } diseños ejecutados, un frente de Pareto de { "12" } diseños
-
 # text
 seg-c8ce2e4a6687 = ¿Con qué seguridad lo sabemos y qué determina el resultado?
 
-# attr:aria-label
-seg-049c503c23db = Holdover del reloj con un nivel de ruido incierto: del percentil 5 al 95 de { "2,000" } ejecuciones frente al límite de { "20" } ns
-
 # text
 seg-3dd37275b448 = ¿La misión satisface sus requisitos y podemos entregar esa prueba?
-
-# text
-seg-7fbde256debf = no alcanzado
-
-# text
-seg-f6ccb7a322b3 = puntos abiertos
 
 # text
 seg-6d3d0f8c9b7c = Solicitar una evaluación de Pro
@@ -552,10 +540,6 @@ seg-f0e9de10d9ef = cargo install kshana<s1>Copiar</s1>
 # text
 # c1: ⌘K
 seg-ec3957c0f5f1 = Pulse <c1/> para buscar páginas, escenarios y documentación
-
-# text
-# c1:
-seg-a92f77bd42cb = <s1>Kshana Pro</s1><c1/><s2>El mismo motor, amplificado: { "608" } diseños, un frente de Pareto</s2>
 
 # attr:aria-label
 seg-b807a8887172 = Telemetría reproducida a partir de la ejecución de campaña encadenada
@@ -1038,9 +1022,6 @@ seg-09d18cf767a7 = Núcleo abierto, Kshana Pro, estudio a medida
 seg-302606971c35 = Gratis para todos. Pro, cuando la respuesta tiene que resistir una revisión.
 
 # text
-seg-27c12083529b = Kshana Pro es una capa propietaria que depende del núcleo abierto y nunca lo bifurca, disponible bajo contrato. Sin precios en una página web: toda vía de pago empieza con un mensaje a <a1>contact@ashforde.org</a1>.
-
-# text
 seg-43ceda17e71c = Núcleo abierto · gratis · AGPL-3.0
 
 # text
@@ -1054,18 +1035,6 @@ seg-f6406933eb77 = Instalar el motor
 
 # text
 seg-6a74a165bfd0 = Kshana Pro · bajo contrato
-
-# text
-seg-298532756f74 = El frente de Pareto de un espacio de diseño, con cada diseño del frente como un escenario que el motor gratuito vuelve a ejecutar.
-
-# text
-seg-a699256db841 = Incertidumbre y sensibilidad a lo largo de miles de ejecuciones.
-
-# text
-seg-665005551d84 = Un dosier de misión con un solo comando, con una matriz de verificación y un archivo PDF (Portable Document Format).
-
-# text
-seg-455cb5040f80 = Paquetes de evidencias reproducibles y de nivel de auditoría; gemelos digitales de reloj calibrados con el presupuesto de Allan publicado de su dispositivo; estudios comparativos de arquitectura clasificados según una figura de mérito; herramientas de ingeniería de sistemas basada en modelos (MBSE) y de programa.
 
 # text
 seg-3e30593288a1 = Qué incluye Pro
@@ -1089,58 +1058,12 @@ seg-57320238c0f4 = Trabajo sujeto a control de exportaciones, bajo la habilitaci
 seg-e36049d768ce = Integración, formación y consultoría.
 
 # text
-seg-3303866fbf99 = El mismo motor, amplificado: salida real de Kshana Pro
-
-# text
-# c1:
-seg-f5513a1750f1 = <a1><s1><c1/>Optimizador de diseño</s1></a1>
-
-# text
-seg-2bbc6243b4b1 = <b>{ "608" } diseños</b>, todos ejecutados: el frente de Pareto y su codo
-
-# text
-# c1:
-seg-56e344605a3d = <a1><s1><c1/>Incertidumbre y sensibilidad</s1></a1>
-
-# text
-seg-a0b3c138f981 = <b>{ "2,000" } ejecuciones</b>: una banda de confianza frente a un límite
-
-# text
 # c1:
 seg-6de95aaa8ba4 = <a1><s1><c1/>Dosier de misión</s1></a1>
 
 # text
-seg-905e5eef45e5 = <b>{ "12" } requisitos</b> comprobados frente a ejecuciones reales, PDF (Portable Document Format) de 21 páginas
-
-# text
 seg-7d9ee2bfbb90 = Descubra dónde falla su temporización, antes de que falle.
-
-seg-070972f642de = Un hilo de misión de clase Artemis: el presupuesto de errores de navegación y temporización desde el lanzamiento hasta la entrada
-
-seg-4970f874d334 = El segmento lunar: encuentro, descenso, superficie y ascenso
-
-seg-8ca6e2046901 = Una región estimada del emisor a partir de informes ADS-B o AIS
-
-seg-003a3b9b63ea = Registros de reloj medidos y un holdover conducido por una serie ajustada
-
-seg-448b11c86f48 = Socios de datos: qué filas podrían promover los datos medidos
-
-seg-5858e5d1f7c5 = Una etiqueta de evidencia en cada figura y tabla que escribe una ejecución
-
-seg-bd28ef5c376e = Diecisiete idiomas además del inglés
-
-seg-7fae5de5ebf1 = kshana-bench: la recampaña de { "0.40" }
-
-seg-b9961ed25282 = Novedades de v{ $version }: un hilo de misión, una etiqueta de evidencia en cada figura y diecisiete idiomas
 
 seg-579d9b6f7afd = Los { "93" } tipos de escenario, gratis y sin restricción de funciones, deterministas a partir del escenario, la semilla y la versión del motor.
 
 seg-56bf1281e330 = Una sesión grabada con el servidor kshana-mcp (Model Context Protocol, motor v{ $version }): el asistente enumera las { "53" } herramientas, valida <c1/> (válido: tipo de escenario detectado `clock`) y lo ejecuta: scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity { "1.000" } security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity { "1.000" } security n/a (no attack).
-
-seg-237d8bd201d2 = <b>Campaña:</b> Motor v{ $version }, compilación <c1/> · <c2/> · semilla { "20260928" }
-
-seg-98ebce268546 = <b>Órbitas:</b> Motor v{ $version }, compilación <c1/> · <c2/> · determinista, sin semilla
-
-seg-bb2975f5a7dd = Motor v{ $version }, compilación <c1/> · <c2/> · semilla { "20260928" }
-
-seg-ee04b167d80a = { "176" } de { "412" } capacidades coinciden con referencias independientes externas; el resto se etiqueta como modelado, en voz alta.

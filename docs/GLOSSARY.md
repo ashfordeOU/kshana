@@ -552,7 +552,7 @@ use in those pages.
 
 ## Every other abbreviation, A to Z
 
-Every abbreviation used in the repository documentation (`docs/` and the four READMEs)
+Every abbreviation used in the repository documentation (`docs/` and the four English READMEs: `README.md` and the crates.io, PyPI and npm front pages)
 that no section above defines, plus a few that one does, repeated for lookup. Each page
 also spells its abbreviations out at first use; this table is the one place to look them
 all up. A few entries are identifiers or names rather than abbreviations, and say so.

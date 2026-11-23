@@ -11,7 +11,7 @@ seg-5fcf52aba837 = Source: <c1/>
 # c3: xval/bench/PREREGISTRATION.md
 # c4: PREREGISTRATION-v2.md
 # c5: xval/bench/RESULTS-v2.md
-seg-d3c3517e3bb2 = An open set of tasks, splits and metrics for GNSS interference detection and timing holdover. The specification is <a1><c1/></a1> (version { "2.0.0" }; licence of the text and manifests: CC-BY-4.0 / CC0 proposed, owner decision pending). The dataset licence review is <a2><c2/></a2>. The baselines' bars were fixed before the first scored run in <a3><c3/></a3> and, for { "2.0.0" }, <a4><c4/></a4> and their results are in <a5><c5/></a5>.
+seg-ab0f75063c95 = An open set of tasks, splits and metrics for GNSS interference detection and timing holdover. The specification is <a1><c1/></a1> (version { "2.0.0" }; licence of the text and manifests: CC-BY-4.0 / CC0 proposed, not yet decided). The dataset licence review is <a2><c2/></a2>. The baselines' bars were fixed before the first scored run in <a3><c3/></a3> and, for { "2.0.0" }, <a4><c4/></a4> and their results are in <a5><c5/></a5>.
 
 # text
 # c1: agc_k_sigma
@@ -86,7 +86,82 @@ seg-b25d781ff536 = <c1/> corpus, in and out of distribution
 seg-e32f49d34f7b = AUC out, and the gap
 
 # text
+seg-881b4a580c50 = (f) spacecraft telemetry anomaly detection (spec { "2.2.0" })
+
+# text
+seg-3d9291d5c4d4 = one OPS-SAT housekeeping segment
+
+# text
+# c1: scripts/fetch_opssat_ad.sh
+seg-254608ee9df0 = OPSSAT-AD, fetched by <c1/> (CC-BY-4.0, never vendored)
+
+# text
+seg-8d24606f1375 = AUC, and average precision; precision, recall, F1, MCC and accuracy at the dev-frozen operating point
+
+# text
+seg-9ed1452996a1 = (g) smartphone positioning accuracy (spec { "2.2.0" })
+
+# text
+seg-266fe40473c3 = one epoch of one phone trace
+
+# text
+seg-e5a810561533 = GSDC-layout traces the user downloads (Kaggle rules, never redistributed)
+
+# text
+seg-bbf8af926cbe = mean over traces of (P50 + P95) / { "2" }, m
+
+# text
+seg-12f5bb4ff782 = (h) urban positioning accuracy (spec { "2.3.0" })
+
+# text
+seg-d00f3e6e713e = one epoch of one receiver on one UrbanNav Hong Kong sequence
+
+# text
+# c1: scripts/fetch_urbannav.sh
+seg-47e4cf0bd444 = fetched by <c1/> (MIT, every file's SHA-256 checked, never vendored)
+
+# text
+seg-7d31a4edf875 = as (g)
+
+# text
+# c1: guides/BENCHMARK-CLASSES.md
+# c2: xval/bench-f/PREREGISTRATION.md
+# c3: RESULTS.md
+# c4: feature-z-max
+# c5: diff2-var-z
+# c6: dev
+# c7: PREREGISTRATION-2.md
+# c8: RESULTS-2.md
+# c9: bench/LICENCES.md
+# c10: xval/bench-h/PREREGISTRATION.md
+# c11: RESULTS.md
+# c12: gsdc_score_m
+# c13: bench/results/h-*.result.json
+# c14: bench/GOLDEN.json
+# c15: scripts/fetch_urbannav_tokyo.sh
+# c16: PREREGISTRATION-TOKYO.md
+# c17: RESULTS-TOKYO.md
+# c18: gsdc_score_m
+# c19: kshana-spp/tokyo
+seg-98a31a5e0225 = Task (e) is described in <a1><c1/></a1>. Task (f) bars and first scores: <a2><c2/></a2> and <a3><c3/></a3> (F1 to F3 MET: test AUC { "0.858" } for <c4/>, { "0.852" } for <c5/>; MODELLED). Amendment { "2" } freezes an operating point on <c6/> (contamination { "0.2" }, the OPS-SAT-AD paper's rule) and adds precision, recall, F1, MCC and accuracy: <a4><c7/></a4>, <a5><c8/></a5> (F4 to F6 MET: test MCC { "0.544" } and { "0.573" }, beside the paper's own Table { "3" } as carried context). ESA-ADB stays out: neither of its Zenodo versions states a data licence (re-read 2026-11-21, <c9/>). Task (g) has no published baseline number yet: no copy of the data has been scored here. Task (h): <a6><c10/></a6> and <a7><c11/></a7>; test <c12/> { "31.98" } m for the receivers' own NMEA fixes and { "59.12" } m for the engine's single-frequency code SPP (MODELLED; bar H1 NOT MET, explained there). The four task (h) result files are committed (<c13/>, in <c14/>): scores per trace only, no position. Task (h) also has a Tokyo edition (UrbanNav-TK-20181219, same MIT grant; <c15/>), scored in a directory of its own and never pooled with Hong Kong: <a8><c16/></a8> and <a9><c17/></a9>; test <c18/> { "26.60" } m for <c19/> (bar T1 MET; no NMEA baseline, the publisher provides no receiver NMEA).
+
+# text
 seg-1ad563733f12 = Commands
+
+# text
+seg-0b4596781885 = Datasets, frozen files and citation ids
+
+# text
+# c1: bench/manifests/datasets.json
+# c2: NOTICE
+# c3: kshana bench datasets --check --root .
+# c4: tests/bench_governance.rs
+seg-86d9449479fd = Every dataset is listed in <a1><c1/></a1> with its DOI or URL, what its publisher states about the licence, whether it may be redistributed, how it is fetched and checked, and the limits on its use. Nothing is copied unless its licence allows it and <a2><c2/></a2> names it; TEXBAT and JammerTest data are never redistributed; spoofing and jamming sets are for detection benchmarking only. Datasets that were looked for and not found with clear terms (multi-band spoofing, rail, vision and civil A-PNT, 5G field data) are listed as gaps rather than invented. <c3/> enforces the rules, and <c4/> also fails if a file of a non-redistributed dataset appears anywhere in the tree.
+
+# text
+# c1: bench/GOLDEN.json
+# c2: kb-<major>-<task>-<split>-<16 hex>
+seg-281f10e5cad6 = <a1><c1/></a1> indexes the frozen files (manifests, schema, holdout commitments, result files) with their SHA-256 and each result's citation id <c2/>. The id is derived from what defines the result (spec major version, task, split, truth and predictions hashes, system name and version), never from the engine version or a metric, so a procurement document or paper can cite it across releases. Specification section { "8" } has the rules.
 
 # text
 # c1: kshana-bench-predictions/1
@@ -97,6 +172,35 @@ seg-c9d00ff2e1d0 = A submission is a file (<c1/>): <c2/> (one number per case id
 
 # text
 seg-bdc715c52ab5 = Honest limits
+
+# text
+# c1: --split holdout
+seg-697fecdb3de3 = Tasks (f) and (g) use their publishers' public data, so their public splits hide nothing: task (f) refuses <c1/> on the public file, and the holdout traces of task (g) under the public split rule are public like those of task (a).
+
+# text
+# c1: kshana bench holdout truth
+# c2: register
+# c3: bench/holdout/PRIVATE.json
+# c4: holdout score
+# c5: --truth
+# c6: KSHANA_BENCH_HOLDOUT_F
+# c7: KSHANA_BENCH_HOLDOUT_G
+# c8: holdout.private
+# c9: tests/bench_holdout.rs
+seg-33c20c2ba0f7 = <b>Private holdout of tasks (f) and (g)</b> (decided { "20" } November { "2026" }; spec section { "4" }). The owner keeps a truth file of cases that are not public (further labelled housekeeping segments for (f), phone traces with ground truth for (g)) outside the repository. <c1/> builds it (every case of the private data is holdout) and refuses to write inside a checkout; <c2/> prints the entry the owner commits to <a1><c3/></a1>: task, SHA-256, number of cases, date, and nothing else. <c4/> reads the truth from <c5/> or <c6/> / <c7/> at run time, refuses a truth whose SHA-256 is not registered for that task, scores it with the public metric code and marks the result <c8/>. The leaderboard accepts a task (f) or (g) holdout row only when it is so marked and its truth hash is registered, and labels its provenance "scored on the private holdout". No private holdout is registered yet. What it protects against: tuning on the evaluation cases. What it does not: a leak by whoever holds the file, or the owner's choice of cases. <c9/> checks that no file in the tree has a registered hash.
+
+# text
+# c1: --split holdout
+seg-6b13171d6e53 = Task (h) uses public ground truth, so it has no holdout split (<c1/> is refused); its splits are drawn per sequence so a sequence's two receivers never sit in different splits. Its baselines fill an epoch without a fix of their own by the nearest fix in time, so a tunnel or a receiver outage shows up in the P95.
+
+# text
+# c1: scripts/score_gsdc_local.sh
+seg-0fffa34222f2 = Task (g) has no published baseline number because no copy of the GSDC data has been scored here. <c1/> scores the baselines on a copy you download from Kaggle yourself, writing only outside the repository.
+
+# text
+# c1: bench/CITATION.cff
+# c2: bench/.zenodo.json
+seg-433ea124c194 = Citation: <a1><c1/></a1> and <a2><c2/></a2> describe kshana-bench as a deposit of its own (creator Ashforde OÜ, licence as the repository). Its DOI is to be filled after the owner deposits it; none exists yet.
 
 # text
 # c1: bench/holdout/COMMITMENTS.json

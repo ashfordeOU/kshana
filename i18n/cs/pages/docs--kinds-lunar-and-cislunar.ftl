@@ -192,8 +192,6 @@ seg-a790c54ac1aa = Povinná pole: žádná. Volitelná: <c1/>, <c2/>, <c3/>, <c4
 
 seg-4efffcd615df = <b>Registr:</b> MODELLED. Celá stránka se vstupy, výsledky, důkazy a omezeními: <a1>lunar-beacon</a1>.
 
-seg-720d0bbeaf6e = Povinná pole: žádná. Volitelná: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>.
-
 seg-019ca0f1051e = <b>Registr:</b> žádný řádek matice tento druh neuvádí; engine označuje svůj výsledek sám. Celá stránka se vstupy, výsledky, důkazy a omezeními: <a1>lunar-interop-export</a1>.
 
 seg-28695dd2ecc3 = Povinná pole: žádná. Volitelná: <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>.

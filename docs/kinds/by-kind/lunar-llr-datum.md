@@ -29,7 +29,7 @@ The example `scenarios/lunar-llr-datum.toml` sets, among others:
 kshana scenarios/lunar-llr-datum.toml
 ```
 
-3 bundled scenarios use this kind; the others are in [`scenarios/`](../../../scenarios/).
+3 scenario files in [`scenarios/`](../../../scenarios/) use this kind.
 
 ## What it gives
 
@@ -48,7 +48,7 @@ The scalar results of that run, with the units the engine states:
 | `data.last_epoch_jd_utc` | 2.4572e6 | d |
 | `data.median_bin_rms_ps` | 215 | ps |
 
-Result label (the engine's): Lunar frame datum from a REAL observing campaign. The schedule, the observation count and every observation weight come from archived ILRS lunar laser ranging normal points (measured); the station coordinates come from IERS ITRF2020 and the retroreflector coordinates from JPL DE430 Table 7 (publishe
+Result label (the engine's): Lunar frame datum from a REAL observing campaign. The schedule, the observation count and every observation weight come from archived ILRS lunar laser ranging normal points (measured); the station coordinates come from IERS ITRF2020 and the retroreflector coordinates from JPL DE430 Table 7…
 
 <img src="../../figures/kinds/lunar-llr-datum.svg" alt="The chart the engine writes for scenarios/lunar-llr-datum.toml, kind lunar-llr-datum" width="640">
 
@@ -56,24 +56,24 @@ Result label (the engine's): Lunar frame datum from a REAL observing campaign. T
 
 VALIDATED: the [verification matrix](../../VERIFICATION-MATRIX.md) rows that name this kind.
 
-- **VALIDATED** The seven-parameter Helmert datum covariance, with its two simulated inputs replaced by measured ones: the schedule is the ground-transmit epochs of 337 archived ILRS lunar laser-ranging normal points (2015-04-08 to 2015-06-27, Grasse MeO 7 Tests: [lunar_llr_real_data.rs](../../../tests/lunar_llr_real_data.rs).
-- **VALIDATED** The lunar-llr-datum seven-parameter Helmert datum covariance from archived ILRS normal points and their measured weights, on the kernel path: the geocentric Moon centre is read from JPL DE440 by the engine's own kernel reader (planetary_ker Tests: [validate_llr_datum_kernel_moon.rs](../../../tests/validate_llr_datum_kernel_moon.rs).
+- **VALIDATED** The seven-parameter Helmert datum covariance, with its two simulated inputs replaced by measured ones: the schedule is the ground-transmit epochs of 337 archived ILRS lunar laser-ranging normal points (2015-04-08 to 2015-06-27, Grasse MeO… Tests: [lunar_llr_real_data.rs](../../../tests/lunar_llr_real_data.rs).
+- **VALIDATED** The lunar-llr-datum seven-parameter Helmert datum covariance from archived ILRS normal points and their measured weights, on the kernel path: the geocentric Moon centre is read from JPL DE440 by the engine's own kernel reader… Tests: [validate_llr_datum_kernel_moon.rs](../../../tests/validate_llr_datum_kernel_moon.rs).
 
 The rows the run itself exercised, with the oracle the matrix gives each (the public sources are named there):
 
-- **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): SBOM conformance to the official CycloneDX 1.5 JSON Schema (+ valid SPDX identifiers) — an external published standard, zero validation errors over the full dependency graph; the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
-- **VALIDATED** The seven-parameter Helmert datum covariance, with its two simulated inputs replaced by measured ones: the schedule is the ground-transmit epochs of 337 archive. Oracle (ExternalDataset): Closed-form identities, an independent in-repo route and, since 0.36, an independent SPICE and NumPy library oracle on fresh measured data (below); no published lunar-LLR datum-covariance pair exists to check against, so no accuracy is claimed. The only new derivative — the range partial with respect to the reflector's body-fixed position — is re-derived by central finite difference of the two-way light time it diffe
+- **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): Official CycloneDX 1.5 JSON Schema (+ SPDX identifier list): every atomic licence id is a valid SPDX id, and the document has zero schema errors once compound expressions are moved to expression (the generator's raw output has 133 compound-id errors); the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
+- **VALIDATED** The seven-parameter Helmert datum covariance, with its two simulated inputs replaced by measured ones: the schedule is the ground-transmit epochs of 337…. Oracle (ExternalDataset): Closed-form identities, an independent in-repo route and, since 0.36, an independent SPICE and NumPy library oracle on fresh measured data (below); no published lunar-LLR datum-covariance pair exists to check against, so no accuracy is claimed. The only new derivative — the range partial with respect to the reflector's body-fixed position — is re-derived by central finite difference of the two-way light time it…
 
 ## Limitations
 
 What the run's own report says is not modelled or not validated:
 
-- Lunar frame datum from a REAL observing campaign. The schedule, the observation count and every observation weight come from archived ILRS lunar laser ranging normal points (measured); the station coordinates come from IERS ITRF2020 and the retroreflector coordinates from JPL DE430 Table 7 (published). The Moon-centre ephemeris, the IAU 2015 WGCCRE body orientation, and the absence of troposphere, tides, station ecce (result `label`)
+- Lunar frame datum from a REAL observing campaign. The schedule, the observation count and every observation weight come from archived ILRS lunar laser ranging normal points (measured); the station coordinates come from IERS ITRF2020 and the retroreflector coordinates from JPL DE430 Table 7 (published). The Moon-centre ephemeris, the IAU 2015 WGCCRE body orientation, and the absence of troposphere, tides, station… (result `label`)
 - Inter-array correlation is MEASURED at exactly zero rather than assumed, because a laser range touches one array. (kind catalogue (`kshana kinds --json`))
 - WHICH LINKS ARE MEASURED AND WHICH ARE MODELLED IS THE REPORT, NOT A FOOTNOTE: the Moon-centre ephemeris and the IAU body orientation remain modelled and their combined size is emitted as the observed-minus-computed one-way range residual over every point used; troposphere, solid-body tides, station eccentricity, polar motion, UT1-UTC, relativistic delay and station clocks are absent and inside that residual. (kind catalogue (`kshana kinds --json`))
 - MODELLED: the seven-parameter figures are a Cramer-Rao bound for a reduced parameter set on a real schedule — not a solved datum, not an LLR analysis and not a geodetic product. (kind catalogue (`kshana kinds --json`))
 - * the epochs are the ground-transmit times of archived ILRS Consolidated Laser Ranging Data normal points; * the observations are the laser ranges really fired at the five retroreflector arrays on the Moon; * every observation weight is that normal point's OWN archived precision, bin_rms/sqrt(n_raw), read out of the file rather than assumed. (scenario file comment, lines 7 to 12)
-- WHICH LINKS ARE MEASURED AND WHICH ARE MODELLED IS THE REPORT, NOT A FOOTNOTE. The Moon-centre ephemeris and the IAU body orientation stay modelled, and their combined size is emitted as the observed-minus-computed one-way range residual over every point used; troposphere, solid-body tides, station eccentricity, polar motion, UT1-UTC, relativistic delay and station clocks are absent and sit inside that residual. Beca (scenario file comment, lines 18 to 26)
+- WHICH LINKS ARE MEASURED AND WHICH ARE MODELLED IS THE REPORT, NOT A FOOTNOTE. The Moon-centre ephemeris and the IAU body orientation stay modelled, and their combined size is emitted as the observed-minus-computed one-way range residual over every point used; troposphere, solid-body tides, station eccentricity, polar motion, UT1-UTC, relativistic delay and station clocks are absent and sit inside that residual.… (scenario file comment, lines 18 to 26)
 - Inter-array correlation is MEASURED at exactly zero rather than assumed, because a laser range touches one array. A record the catalogues cannot place — a station with no published ITRF position — is SKIPPED AND COUNTED, never given a substituted coordinate. The simulated campaign's own figures are RUN and printed beside the measured ones. (scenario file comment, lines 28 to 31)
 - MODELLED: the seven-parameter figures are a Cramer-Rao bound for a reduced parameter set on a real schedule. Not a solved datum, not an LLR analysis, not a geodetic product. (scenario file comment, lines 33 to 34)
 

@@ -144,7 +144,7 @@ seg-4faa1de0ef70 = a scenario: sensor error models, outage windows, geometry —
 # text
 seg-ae60d0def8af = real GNSS observations (RINEX), ephemerides, corrections
 
-# attr:aria-label, text
+# text
 seg-6555ff9a6d8e = Output
 
 # text
@@ -186,7 +186,7 @@ seg-e15db8a33a9a = the core competency, through to carrier-phase PPP/RTK
 seg-e6df7ccdba96 = zero — runs in a browser tab (WebAssembly)
 
 # text
-seg-812c1c70ce63 = native build / toolchain
+seg-0b5bbfd45edb = a native install
 
 # text
 seg-58df67617e1a = Complementary, not competing — RTKLIB and gLAB
@@ -194,7 +194,7 @@ seg-58df67617e1a = Complementary, not competing — RTKLIB and gLAB
 # text
 # c1: pvt
 # c2: pvt
-seg-29aeb97bd509 = <a1>RTKLIB</a1> and <a2>gLAB</a2> are mature, widely used GNSS processing suites. They take real measurements and produce a positioning solution (SPP/PPP/RTK; gLAB is also a superb teaching tool with strong heritage at the European Space Agency (ESA) and the European Geostationary Navigation Overlay Service (EGNOS)). Kshana does <b>not</b> replace them and does not try to. Its observation path is narrow: code single-point positioning (<c1/>), and, as checked library code, short-baseline RTK with LAMBDA integer fixing and a static float PPP filter on real dual-frequency observations, each VALIDATED against IGS station data (the PPP filter also against an RTKLIB run on the same inputs). It has no carrier smoothing, no kinematic or streaming processing and no long-baseline ambiguity resolution, and <c2/> does not estimate the troposphere or ionosphere — it applies the Saastamoinen/Niell troposphere models and the L1/L2 ionosphere-free combination, it does not solve for them as states.
+seg-6413336bbe19 = <a1>RTKLIB</a1> and <a2>gLAB</a2> are mature, widely used GNSS processing suites. They take real measurements and produce a positioning solution (SPP/PPP/RTK; gLAB is also a teaching tool). Kshana does <b>not</b> replace them and does not try to. Its observation path is narrow: code single-point positioning (<c1/>), and, as checked library code, short-baseline RTK with LAMBDA integer fixing and a static float PPP filter on real dual-frequency observations, each VALIDATED against IGS station data (the PPP filter also against an RTKLIB run on the same inputs). It has no carrier smoothing, no kinematic or streaming processing and no long-baseline ambiguity resolution, and <c2/> does not estimate the troposphere or ionosphere — it applies the Saastamoinen/Niell troposphere models and the L1/L2 ionosphere-free combination, it does not solve for them as states.
 
 # text
 seg-9c4e70ce8a55 = The pipeline is complementary:
@@ -212,7 +212,7 @@ seg-2403d6b115de = A natural workflow uses a processing engine for the GNSS-avai
 seg-21631e5c6be3 = A zero-install browser tier
 
 # text
-seg-9b01dd6721ed = Most simulation tools in this space (RTKLIB, gLAB, the General Mission Analysis Tool (GMAT), Orekit, STK) require a native install or a licence, and a learning curve before the first result. Kshana compiles to WebAssembly and runs <b>entirely in the browser</b> — the <a1>playground</a1> loads a worked scenario, runs the real engine client-side (nothing is uploaded), and shows the result in seconds. Guided sliders and one-click scenarios mean the first useful result needs no TOML (Tom's Obvious Minimal Language, the scenario file format) and no toolchain.
+seg-416175b6de7b = Most tools in this space (RTKLIB, gLAB, the General Mission Analysis Tool (GMAT), Orekit, STK) are installed on the user's machine before the first result. Kshana compiles to WebAssembly and runs <b>entirely in the browser</b> — the <a1>playground</a1> loads a worked scenario, runs the real engine client-side (nothing is uploaded), and shows the result in seconds. Guided sliders and one-click scenarios mean the first useful result needs no TOML (Tom's Obvious Minimal Language, the scenario file format) and no toolchain.
 
 # text
 seg-b1cb4b8f0ef1 = That zero-install tier is a deliberate position:

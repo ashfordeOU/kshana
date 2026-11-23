@@ -1090,7 +1090,6 @@ seg-0cc84aedee42 = tarkistettu omaa suljetun muodon / analyyttistä identiteetti
 
 seg-b19cbd364dea = src/benchmark/scorecard.rs::tests (vertailu-PL absorboi; rikkinäinen PL on absorboimaton, ei koskaan havaittu; havaittava kattavuustuomio; rehellisyysominaisuus, jonka mukaan havaitsemattomalle skenaariolle ei ole saavutettavissa kattavuus- tai havaitsemistuomiota)
 
-seg-350aaf43f349 = tarkistettu omaa suljetun muodon / analyyttistä identiteettiään vasten — havaitsee transkriptio- ja kerroinvirheet, mutta ei ole ulkoinen oraakkeli — Ei ulkoista oraakkelia, eikä sellainen ole mahdollinen: tämä on itsekuvaus, ei mittaus. Se kirjataan, koska sen puute oli virhe -- P5:n piti lainata kantoaallon aallonpituus ja lähetysapertuuri lähteen oletuksista ja päätellä sisäisen johdonmukaisuuden tarkistuksesta, että paljas kenttä <c1/> oli neliömetreinä. Päätelmä oli oikea, ja juuri siksi sillä oli väliä: mikään ei olisi huomannut sen olevan väärä
 
 seg-6d963d838eed = hybrid_integrity::tests (ratkaistu konfiguraatio toistetaan tuloksessa oletuksille ja ylikirjoituksille ilman aallonpituuden edestakaista kulkua metrien kautta; jokainen units-merkintä sisältää sekä yksikön että alkuperäluokan; jokainen kenttä, jonka units-lohko nimeää, tosiaan tuotetaan, joten se ei voi dokumentoida haamua)
 
@@ -2040,5 +2039,3 @@ seg-2630978c5675 = tarkistettu sen omaa suljetun muodon / analyyttistä identite
 seg-67fdcdfdb635 = interference_map::emitter (estimate, sessions, build_units, profile, GaussianFix::from_tdoa), interference_map::emitter_out (locate), <c1/>
 
 seg-920b26e226ab = interference_map::emitter unit tests (projection round trip, horizon figure, synthetic forward and inverse round trips: the known emitter lies inside the stated region at about the stated rate, edge cases, session clustering, profile, privacy and wording); tests/interference_map_cli.rs locate cases
-
-seg-474381d842e6 = { "232" } kyvykkyyttä merkitty MODELLED.

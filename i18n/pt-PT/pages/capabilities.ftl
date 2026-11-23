@@ -146,9 +146,6 @@ seg-ea7fba14ee58 = Núcleo gratuito
 seg-b3f3fc0fd6ff = Tudo o que é mostrado nesta página: todos os tipos de cenário, ficheiros de cenário, bandas, relógios e corpos são executados no motor aberto sob a AGPL-3.0 (GNU Affero General Public License, versão { "3" }), sem restrição de funcionalidades.
 
 # text
-seg-311e7a7d55dc = Assinalado onde assenta numa capacidade: o otimizador de projeto, a incerteza e a sensibilidade, o dossiê de missão, os gémeos de relógio calibrados e os estudos comparativos classificados. <a1>O que o Pro acrescenta</a1>
-
-# text
 seg-a613a7447e3f = Estudo à medida
 
 # text
@@ -722,10 +719,6 @@ seg-982938fe53bc = Classe de oscilador de bordo ultraestável/ótico, FM branca 
 seg-2adc3374e996 = Cada id de modelo e a respetiva proveniência são lidos dos ficheiros de cenário.
 
 # text
-# c1: clock
-seg-0aa1e4562dac = O Kshana Pro calibra um <b>gémeo digital de relógio</b> segundo o orçamento de Allan publicado do seu dispositivo, com base no tipo <c1/> e nas classes acima. <a1>O que o Pro acrescenta</a1>
-
-# text
 seg-0d9353d25bc6 = GNSS perdido. Onde está cada relógio ao fim de <s1>{ "10" } min</s1>?
 
 # text
@@ -858,9 +851,6 @@ seg-91e8a9dca129 = Relógio de equipamento Ethernet síncrono melhorado (eEEC), 
 seg-f6f1b242019f = Ambas as tabelas são lidas de <c1/>; o tipo <c2/> verifica um relógio face a qualquer máscara.
 
 # text
-seg-b291c1ae1f5c = O Kshana Pro calibra um gémeo digital de relógio segundo o orçamento de Allan publicado de um dispositivo e verifica-o com o estimador do desvio de Allan do motor aberto; um gémeo do seu próprio dispositivo é construído por contrato. <a1>O que o Pro acrescenta</a1>
-
-# text
 # c1: telecom-timing
 seg-f65bf4f57e2f = Holdover de telecomunicações: MTIE e TDEV de um Microchip 8040C, desempenho padrão <c1/>
 
@@ -977,9 +967,6 @@ seg-aa924d59476b = Métrica do mapa
 
 # text
 seg-59a109b36eea = T+{ "00" }:{ "00" }
-
-# text
-seg-e5f00e27b617 = <b>Com o Pro:</b> o otimizador de projeto devolve a <b>frente de Pareto</b> de todo um espaço de projeto de constelações em torno da Terra, da Lua ou de Marte, cada projeto da frente escrito como um ficheiro de cenário simples, e um <b>estudo comparativo classificado</b> compara arquiteturas segundo uma figura de mérito. <a1>Ver uma frente real</a1>
 
 # text
 seg-2d6cfb3452e3 = O sistema solar · tipo solar-system
@@ -1315,9 +1302,6 @@ seg-ff2823b929b3 = Eventos da execução encadeada
 
 # text
 seg-17c200a01fea = O Kshana Studio reproduz cada campanha no seu navegador; o comando e o ficheiro de cenário reproduzem cada execução, e o relatório da própria execução encadeada está publicado.
-
-# text
-seg-dd2809ea9a6a = <b>Com o Pro:</b> as incertezas de entrada declaradas dão <b>bandas de confiança</b>, a probabilidade de respeitar um limite e uma classificação das entradas que determinam o resultado, ao longo de milhares de execuções que podem ser interrompidas e retomadas. <a1>Ver uma banda real</a1>
 
 # text
 seg-2b2aa3298f26 = Adapte-o ao seu caso · Kshana Studio
@@ -2476,48 +2460,8 @@ seg-16cf26093bf0 = <c1/><a1>quantum-pnt-demonstrator.suite</a1>
 seg-6cb4a75cb2f0 = Nada corresponde a esse filtro.
 
 # text
-# c1: clock
-# c2: lunar-time-offset
-# c3: timetransfer
-# c4: quantum-time-transfer
-# c5: lunar-time-budget
-# c6: telecom-timing
-# c7: slot-timing
-seg-ec1a22002e13 = <b>Pro: gémeo de relógio calibrado</b> assenta em <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>. <a1>Ver o que acrescenta</a1>
-
-# text
-# c1: sweep
-# c2: sweep-nd
-# c3: combined-altpnt
-# c4: quantum-trade
-# c5: hybrid-optical-rf
-# c6: conflict-resilience
-seg-cc88295c3e2e = <b>Pro: estudo comparativo classificado</b> assenta em <c1/>, <c2/>, <c3/>, <c4/>, <c5/>, <c6/>. <a1>Ver o que acrescenta</a1>
-
-# text
 # c1: impairment-eval
 seg-62942b0a2127 = <b>Estudo à medida</b> assenta em <c1/>. <a1>Ver o que acrescenta</a1>
-
-# text
-# c1: constellation-design
-seg-8cec53de04c5 = <b>Pro: otimizador de projeto</b> assenta em <c1/>. <a1>Ver o que acrescenta</a1>
-
-# text
-# c1: clock
-# c2: leo-pnt-chain
-seg-4bdca619acb5 = <b>Pro: incerteza e sensibilidade</b> assenta em <c1/>, <c2/>. <a1>Ver o que acrescenta</a1>
-
-# text
-# c1: body-pnt
-# c2: campaign
-# c3: constellation-design
-# c4: leo-pnt-chain
-# c5: spectrum
-seg-35d8381e7605 = <b>Pro: dossiê de missão</b> assenta em <c1/>, <c2/>, <c3/>, <c4/>, <c5/>. <a1>Ver o que acrescenta</a1>
-
-# text
-# c1: campaign
-seg-08d3c155a74d = <b>Pro: vigilância de campanhas</b> assenta em <c1/>. <a1>Ver o que acrescenta</a1>
 
 # text
 # c1: constellation-design
@@ -3631,75 +3575,6 @@ seg-dc524d9636a3 = <c1/><s1>lunar-surface</s1>
 # text
 # c1: lunar-surface-terrain
 seg-0b3cd978cb6e = <c1/><s1>lunar-surface</s1>
-
-# text
-seg-d5c6110302e9 = Uma cadeia da missão de classe Artemis, uma etiqueta de evidência em cada valor e dezassete idiomas.
-
-# text
-seg-8597c65432ed = Encadeie as fases de uma missão lunar num único orçamento de erro de navegação e temporização, estime onde pode estar uma fonte de relatos de posição degradados, leia registos de relógio medidos, veja o nível de evidência em cada valor que uma execução escreve e use a linha de comandos, os relatórios e o Studio em dezassete idiomas. Cada capacidade traz a etiqueta que o registo mantém para ela, e uma etiqueta nomeia apenas o que foi verificado. Software de caráter consultivo, não um equipamento de navegação homologado: o operador continua a ser responsável.
-
-# text
-seg-070972f642de = Uma cadeia da missão de classe Artemis: o orçamento de erro de navegação e temporização do lançamento à reentrada
-
-# text
-seg-982a4a7cf0db = O tipo de cenário de cadeia da missão encadeia fases (lançamento e ascensão, encontro em órbita baixa da Terra, injeção trans-lunar e cruzeiro, as fases lunares, reentrada) e leva a covariância de posição e velocidade de cada fase à seguinte, com as regras de transferência, as conversões de referencial e de escala de tempo, a margem face aos requisitos declarados e o elo mais fraco, cada um escrito como linhas do orçamento.
-
-# text
-seg-17c9cc6c2d40 = Verificado: a comparação com a Artemis I não atingiu o seu limiar ({ "45.3" } km contra { "5" } km); a linha permanece MODELLED
-
-# text
-seg-946487626f87 = Visão da cadeia da missão no Kshana Studio
-
-# text
-seg-4970f874d334 = O segmento lunar: encontro, descida, superfície e ascensão
-
-# text
-seg-b6c35bf141e7 = Quatro tipos de cenário, cada um também uma fase da cadeia da missão: navegação relativa até à acoplagem em órbita lunar, o orçamento de dispersão de aterragem num local polar sul, disponibilidade de posicionamento e temporização por local e estação, e a ascensão de volta à órbita de encontro.
-
-# text
-seg-ce097df855a9 = Verificado: limiares fixados antecipadamente; um atingido, um não atingido, nenhum relaxado
-
-# text
-seg-8ca6e2046901 = Uma região estimada de emissor a partir de relatos ADS-B ou AIS
-
-# text
-seg-ca6383e426f9 = Onde pode estar uma fonte de relatos de posição degradados, como regiões a { "50" }, { "90" } e { "95" } por cento com um centroide e a respetiva elipse de incerteza, nunca um ponto isolado, e sessões no tempo.
-
-# text
-seg-27af464d0674 = Verificado: fixado antecipadamente; as duas fontes não avaliáveis, portanto nada é afirmado
-
-# text
-seg-003a3b9b63ea = Registos de relógio medidos e um holdover conduzido por uma série ajustada
-
-# text
-seg-f51fa2a40db8 = Leia um registo de relógio medido em oito formatos (RINEX clock, TimeLab, TICC, linuxptp, chrony) numa única série de fase para os tipos de cenário de relógio e de temporização de telecomunicações, e ajuste o ruído de uma série medida para conduzir um holdover.
-
-# text
-seg-6e9140563c53 = Verificado: limiares fixados antecipadamente; falhas declaradas e mantidas
-
-# text
-seg-448b11c86f48 = Parceiros de dados: que linhas os dados medidos poderiam promover
-
-# text
-seg-56b0201d930c = Que linhas modeladas do registo poderiam ser promovidas por dados medidos de um parceiro, os formatos aceites e como um envio é verificado, pontuado face a um limiar fixado antecipadamente e creditado.
-
-# text
-seg-5858e5d1f7c5 = Uma etiqueta de evidência em cada figura e tabela que uma execução escreve
-
-# text
-seg-d1c4250b2a7e = Cada ficheiro de resultado, gráfico e tabela que uma execução escreve agora indica em que nível assenta (validado, modelado ou de parceiro, o mais fraco das suas linhas) e nomeia as linhas da matriz de verificação que estão por trás dela, lidas da matriz e não escritas à mão.
-
-# text
-seg-bd28ef5c376e = Dezassete idiomas além do inglês
-
-# text
-seg-1e4a6a5931d3 = A linha de comandos, os relatórios, as páginas de documentação e o Studio estão disponíveis em dezassete idiomas além do inglês.
-
-# text
-seg-7fae5de5ebf1 = kshana-bench: a nova campanha da { "0.40" }
-
-# text
-seg-1e0afa852323 = Quatro comparações com limiar fixado antecipadamente foram executadas uma vez depois de dado o visto final e atingiram os seus limiares, e todas as pontuações são modeladas.
 
 # attr:title
 seg-c381cfa99bb0 = Um cenário de relógio cujo relógio clássico assume o ruído de um registo medido (`[clock_fit]`).

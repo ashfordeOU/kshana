@@ -50,10 +50,10 @@ seg-68a37ebbc01e = Result label (the engine's): MODELLED — planar gravity-turn
 seg-ccf2185b0b5e = The chart the engine writes for scenarios/ascent-losses.toml, kind ascent-losses
 
 # text
-seg-3a3ee499961e = <b>MODELLED</b> Planar gravity-turn ascent of a multi-stage vehicle over a non-rotating spherical Earth through the US Standard Atmosphere { "1976" } (density and pressure), with a pitch kick, thrust reduced by the nozzle back-pressure, stage burnouts at exact s
+seg-b23fcc9d99c7 = <b>MODELLED</b> Planar gravity-turn ascent of a multi-stage vehicle over a non-rotating spherical Earth through the US Standard Atmosphere { "1976" } (density and pressure), with a pitch kick, thrust reduced by the nozzle back-pressure, stage burnouts at exact…
 
 # text
-seg-cac91718c4e1 = <b>MODELLED</b> Planar gravity-turn ascent of a multi-stage vehicle over a non-rotating spherical Earth through the US Standard Atmosphere { "1976" } (density and pressure), with a p. Oracle (InternalConsistency): Internal consistency: the exact identity burnout speed = sum Isp g0 ln(m0/mf) minus the four integrated losses (residual below { "1e-6" } m/s), Tsiolkovsky's equation on a vertical vacuum burn with gravity the only loss, and the US76 sea-level and tropopause pressures. WHAT IS NOT: no published vehicle's losses have been compared; no Earth rotation, coast, throttling or guidance beyond the kick; constant C_D; not a traject
+seg-824fa00eaf21 = <b>MODELLED</b> Planar gravity-turn ascent of a multi-stage vehicle over a non-rotating spherical Earth through the US Standard Atmosphere { "1976" } (density and pressure), with a…. Oracle (InternalConsistency): Internal consistency: the exact identity burnout speed = sum Isp g0 ln(m0/mf) minus the four integrated losses (residual below { "1e-6" } m/s), Tsiolkovsky's equation on a vertical vacuum burn with gravity the only loss, and the US76 sea-level and tropopause pressures. WHAT IS NOT: no published vehicle's losses have been compared; no Earth rotation, coast, throttling or guidance beyond the kick; constant C_D; not a…
 
 # text
 # c1: label

@@ -49,30 +49,22 @@ seg-df90e5910fb4 = hr
 seg-debc2f07db78 = true
 
 # text
-seg-6f849331e33c = Result label (the engine's): MODELLED — time-domain ground-station pass prediction; SGP4/SDP4 propagation, IAU 2006/2000A Earth-fixed frame (UT1 = UTC, no polar motion unless Earth orientation parameters are given), apparent elevation with ITU-R P.834-9 refraction and light time when switched on, crossings and culmination refin
+seg-a9643d85d044 = Result label (the engine's): MODELLED — time-domain ground-station pass prediction; SGP4/SDP4 propagation, IAU 2006/2000A Earth-fixed frame (UT1 = UTC, no polar motion unless Earth orientation parameters are given), apparent elevation with ITU-R P.834-9 refraction and light time when switched on, crossings and culmination…
 
 # attr:alt
 seg-a09be8c586e3 = The chart the engine writes for scenarios/passes.toml, kind passes
 
 # text
-seg-58413589a025 = MODELLED { "2" } · VALIDATED { "2" }: the <a1>verification matrix</a1> rows that name this kind.
+seg-3068552e4ab4 = VALIDATED: the <a1>verification matrix</a1> rows that name this kind.
 
 # text
-seg-db35e4ebd275 = <b>VALIDATED</b> Time-domain visibility passes (AOS/TCA/LOS, max elevation, duration) of an engine propagator over a station above an elevation mask, with interpolated rise/set crossings and total access: passes::predict_passes, the geometric scheduler (no Tests: <a1>ground_station_pass_prediction_reference.rs</a1>.
+seg-29683a45cf4e = <b>VALIDATED</b> Time-domain visibility passes (AOS/TCA/LOS, max elevation, duration) of an engine propagator over a station above an elevation mask, with interpolated rise/set crossings and total access: passes::predict_passes, the geometric scheduler… Tests: <a1>ground_station_pass_prediction_reference.rs</a1>.
 
 # text
-seg-6799a54acee6 = <b>VALIDATED</b> Visibility passes (AOS, TCA, LOS, maximum apparent elevation, duration) of an SGP4 element set over a WGS-84 station on the validated Earth-orbit path (IAU 2006/2000A, optional Earth orientation parameters), with ITU-R P.834-9 tropospheric Tests: <a1>pass_predictor_on_path_orekit_oracle.rs</a1>.
+seg-c26b84175edd = <b>VALIDATED</b> Visibility passes (AOS, TCA, LOS, maximum apparent elevation, duration) of an SGP4 element set over a WGS-84 station on the validated Earth-orbit path (IAU 2006/2000A, optional Earth orientation parameters), with ITU-R P.834-9… Tests: <a1>pass_predictor_on_path_orekit_oracle.rs</a1>.
 
 # text
-seg-0f4c2ab525ac = <b>MODELLED</b> Downlink Es/N0 along each pass of one satellite over one station (EIRP, free-space loss, cosecant-law atmospheric loss, other losses, G/T, Boltzmann's constant, symbol rate), the most efficient DVB-S2 MODCOD that clears its ETSI EN { "302" } 307-
-
-# text
-# c1: passes::predict_passes
-# c2: aperture_duty::windows_from_passes
-seg-4636d450ef60 = <b>MODELLED</b> One run takes a contact plan (a list of aos_s/los_s windows, each asking the aperture for navigation or communications — the same window vocabulary <c1/> emits, converted by <c2/>), an apert
-
-# text
-seg-42d4290ed718 = <b>VALIDATED</b> Time-domain visibility passes (AOS/TCA/LOS, max elevation, duration) of an engine propagator over a station above an elevation mask, with interpolated rise/set . Oracle (ExternalDataset): Orekit { "12.2" } (CS GROUP, Apache-2.0) + Hipparchus { "3.1" } — an independent flight-dynamics library: ElevationDetector (Brent root-finder) + EventsLogger over an ITRF ephemeris, station as a WGS-84 TopocentricFrame. AOS/LOS/max-elevation/pass-count/total-access matched on identical orbit+station+mask+window (committed fixture; driver xval/orekit-passes)
+seg-b22b21ff2ad6 = <b>VALIDATED</b> Time-domain visibility passes (AOS/TCA/LOS, max elevation, duration) of an engine propagator over a station above an elevation mask, with interpolated…. Oracle (ExternalDataset): Orekit { "12.2" } (CS GROUP, Apache-2.0) + Hipparchus { "3.1" } — an independent flight-dynamics library: ElevationDetector (Brent root-finder) + EventsLogger over an ITRF ephemeris, station as a WGS-84 TopocentricFrame. AOS/LOS/max-elevation/pass-count/total-access matched on identical orbit+station+mask+window (committed fixture; driver xval/orekit-passes)
 
 # text
 # c1: label
@@ -83,6 +75,9 @@ seg-a4f1e7d2041e = Family page: <a1>Constellations, coverage and geometry</a1>
 
 # text
 seg-72fd0321e4af = Topic page: <a1>CONTACT-SCHEDULING.md</a1>
+
+# text
+seg-8c81511484ab = Topic page: <a1>TLOG.md</a1>
 
 # text
 seg-a7ddc8eeaf1e = <s1>Previous</s1>orbit

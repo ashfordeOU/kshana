@@ -107,11 +107,6 @@ seg-aa942198bb2e = <b>SP3-c (SP3: Standard Product { "3" }, täppisorbiidi vormi
 seg-4d4237e15ef1 = IGS Standard Product { "3" } (c/d)
 
 # text
-# c1: gps-ops
-# c2: tests/sp3_export_roundtrip.rs
-seg-8d1089fbd59d = Maa suhtes fikseeritud (ECEF) asukoha + kellaaja ajarida. Edasi-tagasi teisendus kontrollitud täpsuseni < { "0.5" } m päris <c1/> hetktõmmisel (<a1><c2/></a1>).
-
-# text
 seg-761698fcf960 = <b>RINEX (Receiver Independent Exchange Format) { "3" }</b> (edastatud navigatsioon)
 
 # text
@@ -362,19 +357,10 @@ seg-8b0593f67c7f = Väärtus / ühik
 seg-d33eb162d179 = OEM lõigu metaandmed
 
 # text
-# c1: EARTH
-# c2: TEME
-# c3: GPS
-seg-4b338284e56a = <c1/> / <c2/> / <c3/> — tugisüsteem, milles levitajad integreerivad, ja epohhiruudustiku ajaskaala, mitte ümbersildistatud
-
-# text
 seg-e0a44af9aaf8 = OEM oleku epohh
 
 # text
 seg-b0623bab9fcc = iga andmerea esimene veerg
-
-# text
-seg-410bd5a9ba14 = ISO-8601 (ISO: International Organization for Standardization) kalendriaeg, GPS ajaskaala
 
 # text
 seg-a7c95802e01a = OEM asukoht, kiirus

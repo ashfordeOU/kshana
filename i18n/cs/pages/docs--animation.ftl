@@ -83,5 +83,3 @@ seg-9dfb9596ecf3 = Kampaně průchodu, Monte Carlo a skládání nenesou časovo
 seg-be1f1afe7424 = <s1>Předchozí</s1>Zprávy o běhu
 
 seg-6817433f69f6 = <s1>Další</s1>Exporty a importy pro interoperabilitu
-
-seg-51cd8d5f527b = Druh, jehož výsledek nenese žádný z těchto tvarů (rozpočet spoje, geometrie jedné epochy, shrnutí Monte Carlo pouze se statistikami nebo telekomunikační holdover, jehož výsledek zveřejňuje hash záznamu, ale ne záznam), je odmítnut s <c1/> a nic se nezapíše. S kshana { $version } se { "94" } z { "193" } spustitelných souborů scénářů (každý soubor kromě sady studií) animuje a { "99" } je odmítnuto. <c2/> vytiskne soupis.

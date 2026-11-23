@@ -19,13 +19,10 @@ seg-93aa75a58438 = Topic pages: <a1>MISSION-THREAD</a1>, <a2>MISSION-THREAD-LUNA
 seg-c6bb02c73696 = Contact sheet of the charts the engine writes for the kinds of the family Mission threads
 
 # text
-seg-b03d56f501c3 = Kind
-
-# text
 seg-4e31c8daf798 = Ledger
 
 # text
-seg-481ba3073b6b = MODELLED navigation and timing error budget of a stated chain of mission phases, from launch to entry: launch and ascent, low-Earth-orbit rendezvous and docking (repeatable), trans-lunar injection and
+seg-96fa7a29cf14 = MODELLED navigation and timing error budget of a stated chain of mission phases, from launch to entry: launch and ascent, low-Earth-orbit rendezvous and docking (repeatable), trans-lunar injection…
 
 # text
 seg-1ec485468daa = MODELLED navigation and timing error budget of a stated chain of mission phases, from launch to entry: launch and ascent, low-Earth-orbit rendezvous and docking (repeatable), trans-lunar injection and cislunar cruise, lunar-orbit rendezvous, descent, surface stay, ascent and the return and entry, each phase one of eight registered kinds with its own sensors and filter. The 6x6 covariance, the clock and the frame are handed from phase to phase under a stated rule (carry, inflate or reacquire); frame and timescale conversions (GCRF, MCI, MCMF, UTC, TT, TDB, LTC) are their own budget rows, with the Moon's state from an optional DE440 kernel cut and the analytic series as the stated fallback. An optional ground-network overlay sets the tracking duty of each phase. Reports the per-phase budget (entry, peak and exit 1-sigmas, every contribution with its unit), the margin against a stated requirement, the weakest link, the events and a timeline figure. MODELLED: every number is a stated input; the chain follows one stack and no vehicle is modelled. Public sources only; not affiliated with or endorsed by any agency; advisory software, not certified navigation equipment.
@@ -34,12 +31,11 @@ seg-1ec485468daa = MODELLED navigation and timing error budget of a stated chain
 # c1: epoch_utc
 # c2: entry
 # c3: phase
-# c4: kind
-# c5: title
-# c6: seed
-# c7: moon_kernel_path
-# c8: ground_network
-seg-d5bb1d2b159f = Required fields: <c1/>, <c2/>, <c3/>. Optional: <c4/>, <c5/>, <c6/>, <c7/>, <c8/>.
+# c4: title
+# c5: seed
+# c6: moon_kernel_path
+# c7: ground_network
+seg-554c5e6386ea = Required fields: <c1/>, <c2/>, <c3/>. Optional: <c4/>, <c5/>, <c6/>, <c7/>.
 
 # text
 seg-6317cff84287 = <b>Ledger:</b> MODELLED. Full page, with the inputs, results, evidence and limitations: <a1>mission-thread</a1>.

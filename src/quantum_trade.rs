@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 //! Quantum-vs-classical PNT **trade engine** + **measured-ADEV ingestion** +
 //! **GNSS-denied resilience envelope** — the ground-side decision artifacts a
-//! quantum-PNT consortium needs (ESA AO/1-13503).
+//! quantum-PNT consortium needs.
 //!
 //! It **quantifies** a partner's quantum-clock / cold-atom benefit; it does
 //! **not** validate the device. Three pieces:
 //!
-//! 1. [`qparams_from_adev_curve`] — the *defensibility hinge*: fit a clock's
+//! 1. [`qparams_from_adev_curve`] — fit a clock's
 //!    **measured** overlapping-ADEV curve to the holdover noise model
 //!    `σ_y²(τ) = q_wf/τ + (q_rw/3)·τ + (q_drift/20)·τ³` by non-negative least
 //!    squares, so the holdover budget is driven by the partner's real data
@@ -595,7 +595,7 @@ pub struct QuantumTradeScenario {
     /// Mutually exclusive with the measured-ADEV curve.
     #[serde(default)]
     pub candidate_clock_class: Option<String>,
-    /// Candidate clock MEASURED overlapping-ADEV curve — the *defensibility hinge*:
+    /// Candidate clock MEASURED overlapping-ADEV curve:
     /// τ values (s). If present (with `candidate_adev_values`), the candidate floor is
     /// derived from data (`floor_assumed = false`) instead of an assumed class default.
     #[serde(default)]

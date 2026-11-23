@@ -47,7 +47,7 @@ The scalar results of that run, with the units the engine states:
 | Result | Value | Unit |
 |---|---|---|
 | `cutoff_cy_mm` | 170.940171 | cycles/mm |
-| `evidence.id_rule` | the stable id of the matrix row (the ID  | text |
+| `evidence.id_rule` | the stable id of the matrix row (the… | text |
 | `evidence.matrix` | docs/VERIFICATION-MATRIX.md | text |
 | `evidence.tier` | MODELLED | text |
 | `f_number` | 9 | 1 |
@@ -57,7 +57,7 @@ The scalar results of that run, with the units the engine states:
 | `inputs.altitude_m` | 500000 | m |
 | `inputs.aperture_m` | 0.4 | m |
 
-Result label (the engine's): MODELLED — nadir imager radiometry (Lambertian scene, camera equation, shot/dark/read/quantisation noise), system MTF at Nyquist (diffraction x detector x smear x jitter), relative edge response, Q = lambda F/p and GIQE 4 NIIRS with no MTF compensation; the NIIRS is an empirical regression on modell
+Result label (the engine's): MODELLED — nadir imager radiometry (Lambertian scene, camera equation, shot/dark/read/quantisation noise), system MTF at Nyquist (diffraction x detector x smear x jitter), relative edge response, Q = lambda F/p and GIQE 4 NIIRS with no MTF compensation; the NIIRS is an empirical regression on…
 
 <img src="../../figures/kinds/eo-radiometry.svg" alt="The chart the engine writes for scenarios/eo-radiometry.toml, kind eo-radiometry" width="640">
 
@@ -65,12 +65,12 @@ Result label (the engine's): MODELLED — nadir imager radiometry (Lambertian sc
 
 MODELLED: the [verification matrix](../../VERIFICATION-MATRIX.md) rows that name this kind.
 
-- **MODELLED** Nadir imager signal-to-noise budget (Lambertian scene radiance, camera equation, shot, dark, read and quantisation noise), the system MTF at Nyquist as the product of unobscured-aperture diffraction, detector aperture, linear smear and Gaus
+- **MODELLED** Nadir imager signal-to-noise budget (Lambertian scene radiance, camera equation, shot, dark, read and quantisation noise), the system MTF at Nyquist as the product of unobscured-aperture diffraction, detector aperture, linear smear and…
 
 The rows the run itself exercised, with the oracle the matrix gives each (the public sources are named there):
 
-- **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): SBOM conformance to the official CycloneDX 1.5 JSON Schema (+ valid SPDX identifiers) — an external published standard, zero validation errors over the full dependency graph; the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
-- **MODELLED** Nadir imager signal-to-noise budget (Lambertian scene radiance, camera equation, shot, dark, read and quantisation noise), the system MTF at Nyquist as the prod. Oracle (InternalConsistency): Closed forms: the diffraction MTF at half cutoff, the one-pixel ramp edge of a pure detector aperture (RER 1), the normal-CDF edge of a Gaussian blur (RER = erf(0.5/(sigma sqrt 2))), shot-noise scaling, and the GIQE 4 coefficients as published (Leachtenauer et al., Applied Optics 36(32), 1997). WHAT IS NOT: no external imager, measured MTF or rated image has been compared; the GIQE is an empirical regression with its
+- **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): Official CycloneDX 1.5 JSON Schema (+ SPDX identifier list): every atomic licence id is a valid SPDX id, and the document has zero schema errors once compound expressions are moved to expression (the generator's raw output has 133 compound-id errors); the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
+- **MODELLED** Nadir imager signal-to-noise budget (Lambertian scene radiance, camera equation, shot, dark, read and quantisation noise), the system MTF at Nyquist as the…. Oracle (InternalConsistency): Closed forms: the diffraction MTF at half cutoff, the one-pixel ramp edge of a pure detector aperture (RER 1), the normal-CDF edge of a Gaussian blur (RER = erf(0.5/(sigma sqrt 2))), shot-noise scaling, and the GIQE 4 coefficients as published (Leachtenauer et al., Applied Optics 36(32), 1997). WHAT IS NOT: no external imager, measured MTF or rated image has been compared; the GIQE is an empirical regression with…
 
 ## Limitations
 
@@ -78,7 +78,7 @@ What the run's own report says is not modelled or not validated:
 
 - MODELLED — nadir imager radiometry (Lambertian scene, camera equation, shot/dark/read/quantisation noise), system MTF at Nyquist (diffraction x detector x smear x jitter), relative edge response, Q = lambda F/p and GIQE 4 NIIRS with no MTF compensation; the NIIRS is an empirical regression on modelled inputs, not a rated image (result `label`)
 - MODELLED. (kind catalogue (`kshana kinds --json`))
-- Nadir imager radiometry and image quality for an ILLUSTRATIVE small Earth-observation camera (no operator's design): 0.40 m aperture, 3.6 m focal length (F/9), 5.5 um pixels, from 500 km. The run gives the signal-to-noise budget of a 15 % reflectance scene, the system MTF at Nyquist, the relative edge response and the GIQE version 4 NIIRS. MODELLED: the NIIRS is an empirical regression evaluated on modelled inputs, n (scenario file comment, lines 1 to 5)
+- Nadir imager radiometry and image quality for an ILLUSTRATIVE small Earth-observation camera (no operator's design): 0.40 m aperture, 3.6 m focal length (F/9), 5.5 um pixels, from 500 km. The run gives the signal-to-noise budget of a 15 % reflectance scene, the system MTF at Nyquist, the relative edge response and the GIQE version 4 NIIRS. MODELLED: the NIIRS is an empirical regression evaluated on modelled inputs… (scenario file comment, lines 1 to 5)
 - Reproducibility & software assurance is MODELLED, not validated: a sub-claim is externally checked, but the whole capability composes modelled pieces, so the capability stays Modelled. (verification matrix (docs/MODELLED-RATIONALE.md))
 - Electro-optical imager radiometry, MTF, relative edge response and GIQE 4 NIIRS is MODELLED, not validated: checked against its own closed-form / analytic identity — catches transcription and coefficient errors, but is not an external oracle. (verification matrix (docs/MODELLED-RATIONALE.md))
 

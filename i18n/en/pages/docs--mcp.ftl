@@ -16,7 +16,7 @@ seg-3d5232472e42 = kshana-mcp: ask your AI assistant, and the engine answers
 seg-ef90bf1e0b51 = <c1/> is a <a1>Model Context Protocol</a1> (MCP) server for <b>Kshana</b>, the open-source simulator for PNT (positioning, navigation and timing) resilience. It lets an AI (artificial intelligence) assistant run the real engine and read back its JSON (JavaScript Object Notation), instead of guessing the maths. It speaks over stdio (standard input and output) to any MCP-compatible client, including Cursor and JetBrains AI Assistant / Junie.
 
 # text
-seg-1fddef4e9a49 = The maths Kshana is validated for is exactly where a language model guesses badly: SGP4 (Simplified General Perturbations { "4" }) orbit propagation, reference frames of the IAU (International Astronomical Union), Allan deviations, GNSS (Global Navigation Satellite System) availability and DOP (dilution of precision), ARAIM (advanced receiver autonomous integrity monitoring) protection levels, GNSS and INS (inertial navigation system) fusion, and quantum-sensor models. Ask a question; the assistant runs a real scenario and gets figures of merit with their provenance and their VALIDATED or MODELLED label.
+seg-7520eedaa769 = The maths Kshana checks against external oracles is exactly where a language model guesses badly: SGP4 (Simplified General Perturbations { "4" }) orbit propagation, reference frames of the IAU (International Astronomical Union), Allan deviations, GNSS (Global Navigation Satellite System) availability and DOP (dilution of precision), ARAIM (advanced receiver autonomous integrity monitoring) protection levels and loosely coupled GNSS and INS (inertial navigation system) fusion; its quantum-sensor models are labelled MODELLED. Ask a question; the assistant runs a real scenario and gets figures of merit with their provenance and their VALIDATED or MODELLED label.
 
 # attr:alt
 seg-d51681f30e8f = One open engine at the centre, with the MCP server as one of its surfaces beside the command line, the Rust library, Python, WebAssembly and Kshana Studio, the Docker image and the JetBrains plugin; every surface runs the same engine, and Kshana Pro depends on it without forking it
@@ -122,17 +122,24 @@ seg-ab242cd0259c = Sky geometry under an azimuth-dependent skyline: from a site,
 # c2: ubx
 # c3: rinex
 # c4: android
-# c5: nmea
-# c6: sbf
-# c7: text
-# c8: base64
-# c9: [[events]]
-# c10: [compare]
-# c11: [platform] kind = "vessel"
-# c12: text
-# c13: base64
-# c14: docs/RECEIVER-TRUST.md
-seg-d6ed4e8d56e5 = Assess a real GNSS (global navigation satellite system) receiver log for trust. The TOML names the log's <c1/> (<c2/>, <c3/>, <c4/>, <c5/> or <c6/>) and gives its bytes inline as <c7/> or <c8/>; the tool runs the trust monitors (carrier-to-noise density drop, loss of lock, AGC (automatic gain control), jamming indicator, position jump and, with RINEX plus broadcast navigation, RAIM (receiver autonomous integrity monitoring) and a clock-aided monitor) and returns when and why the fix stopped being trustworthy. Optional <c9/> and <c10/> sections score stated events and predicted C/N0 drops against stated tolerances. A <c11/> table selects the maritime monitors and adds a 0-100 trust score per epoch with the monitors that deducted (advisory; MODELLED). The log goes inline as <c12/> or <c13/> (at most { "4" } MiB). Chart and per-epoch CSV on request. See <a1><c14/></a1>.
+# c5: sbf
+# c6: nmea
+# c7: rtklib-pos
+# c8: novatel
+# c9: rtcm3
+# c10: gnss-sdr
+# c11: sbp
+# c12: greis
+# c13: unicore
+# c14: text
+# c15: base64
+# c16: [[events]]
+# c17: [compare]
+# c18: [platform] kind = "vessel"
+# c19: text
+# c20: base64
+# c21: docs/RECEIVER-TRUST.md
+seg-301ec523a82d = Assess a real GNSS (global navigation satellite system) receiver log for trust. The TOML names the log's <c1/> (<c2/>, <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/> or <c13/>: every receiver reader of the engine) and gives its bytes inline as <c14/> or <c15/>; the tool runs the trust monitors (carrier-to-noise density drop, loss of lock, AGC (automatic gain control), jamming indicator, position jump and, with RINEX plus broadcast navigation, RAIM (receiver autonomous integrity monitoring) and a clock-aided monitor) and returns when and why the fix stopped being trustworthy. Optional <c16/> and <c17/> sections score stated events and predicted C/N0 drops against stated tolerances. A <c18/> table selects the maritime monitors and adds a 0-100 trust score per epoch with the monitors that deducted (advisory; MODELLED). The log goes inline as <c19/> or <c20/> (at most { "4" } MiB). Chart and per-epoch CSV on request. See <a1><c21/></a1>.
 
 # text
 # c1: kshana receiver-trust live
@@ -159,7 +166,7 @@ seg-23daf6121ca0 = Score a receiver log against that schedule (<c1/>): per test 
 
 # text
 # c1: kshana jammertest locate-score
-seg-8bd52882e62d = Score where a monitoring network said interference came from (<c1/>, row B2): per report the attributed event, the geodesic error and region containment and size; per event and pooled, error percentiles, coverage per level, time to first location and time to locate; false locations per hour. Checks arithmetic, not any locator's accuracy.
+seg-033ceb6555c2 = Score where a monitoring network said interference came from (<c1/>, pre-registered row B2): per report the attributed event, the geodesic error and region containment and size; per event and pooled, error percentiles, coverage per level, time to first location and time to locate; false locations per hour. Checks arithmetic, not any locator's accuracy.
 
 # text
 # c1: kshana receiver-trust evidence
@@ -290,11 +297,6 @@ seg-b6abad1f2c9d = A kshana-bench submission scored against a truth file, both J
 seg-c7a0d7981bfd = kshana-bench result files rendered as the static leaderboard page (HTML text), each validated first.
 
 # text
-# c1: receiver-trust
-# c2: kshana trust-telemetry
-seg-1ec7117c7825 = A trust stream (JSON lines) or <c1/> result rendered as Prometheus text, CEF or LEEF syslog lines or an OTLP JSON payload, with the <c2/> encoders. Text in the reply: nothing is sent or served and no clock is read. Advisory only.
-
-# text
 seg-0fc2e3928768 = The share of a route's length in degraded, not-degraded, unassessed and not-observed cells of one or more interference maps, optionally within a date range. Unobserved cells are not evidence of a clear route.
 
 # text
@@ -336,7 +338,7 @@ seg-8112428c6226 = A campaign output folder's progress: cells done and pending, 
 
 # text
 # c1: kshana
-seg-8bd76f017ae4 = Each tool is a thin, faithful wrapper over a public function of the <c1/> library — no new simulation logic lives here, so an agent runs exactly the validated engine.
+seg-7f0edf245c9d = Each tool is a thin, faithful wrapper over a public function of the <c1/> library — no new simulation logic lives here, so an agent runs exactly the same engine, with the same labels.
 
 # text
 seg-b37bbaf38900 = The GNSS IQ tools: files in, compact JSON out
@@ -571,7 +573,7 @@ seg-4f248ed3e597 = <c1/> serves the same tools over streamable HTTP at <c2/>. It
 # c4: ~/.cargo/bin/kshana-mcp
 # c5: rmcp
 # c6: kshana
-seg-a4a0e399a31e = <c1/> puts <c2/> on your <c3/> (typically <c4/>). The server talks JSON-RPC (JSON remote procedure call) over stdio; logs go to stderr. Building from source needs a Rust toolchain ≥ { "1.88" } (the patched <c5/> { "2" }.x SDK needs it, and so does the <c6/> library); the Docker image needs none.
+seg-58712c593684 = <c1/> puts <c2/> on your <c3/> (typically <c4/>). The server talks JSON-RPC (JSON remote procedure call) over stdio; logs go to stderr. Building from source needs a Rust toolchain ≥ { "1.88" } (the <c5/> { "3" }.x SDK needs it, and so does the <c6/> library); the Docker image needs none.
 
 # text
 seg-2f3216082425 = Register it with a client
@@ -670,7 +672,7 @@ seg-942dc8abe0ec = Design note — why a separate crate
 # c5: rmcp
 # c6: cargo deny
 # c7: xval/anise-frames
-seg-0757e15070d4 = The server is a <b>standalone, workspace-excluded crate</b> with its own <c1/>, so the official Rust MCP SDK (software development kit) <c2/> and its async runtime never enter the published <c3/> crate's dependency graph: a library or Python user does not compile a server they do not run. (It was first split out because <c4/> is <b>edition { "2024" }</b>, needing rustc ≥ { "1.85" }, while the main crate then promised { "1.75" }. The library and this server now both declare { "1.88" }, the floor of the security-patched <c5/> { "2" }.x and of the upgraded RustCrypto crates.) Continuous integration (CI) gates this crate on its own — tests and <c6/> against its lockfile. rmcp's licence tree is clean (Apache-2.0/MIT/BSD), so, unlike the <c7/> cross-validation crate it otherwise mirrors, the split is not about licensing.
+seg-937c76a88973 = The server is a <b>standalone, workspace-excluded crate</b> with its own <c1/>, so the official Rust MCP SDK (software development kit) <c2/> and its async runtime never enter the published <c3/> crate's dependency graph: a library or Python user does not compile a server they do not run. (It was first split out because <c4/> is <b>edition { "2024" }</b>, needing rustc ≥ { "1.85" }, while the main crate then promised { "1.75" }. The library and this server now both declare { "1.88" }, the floor of the <c5/> { "3" }.x SDK and of the upgraded RustCrypto crates.) Continuous integration (CI) gates this crate on its own — tests and <c6/> against its lockfile. rmcp's licence tree is clean (Apache-2.0/MIT/BSD), so, unlike the <c7/> cross-validation crate it otherwise mirrors, the split is not about licensing.
 
 # text
 seg-75bf2d74642d = License: AGPL-3.0-only, the GNU Affero General Public License version { "3" } only (or a commercial licence from Ashforde OÜ; see the repository's <a1>LICENSING.md</a1>).

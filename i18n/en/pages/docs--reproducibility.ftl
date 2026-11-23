@@ -138,7 +138,7 @@ seg-9297c2585419 = Two things make that last-place difference larger than it sta
 # text
 # c1: sin
 # c2: leo-ppp-convergence
-seg-c6bd20427abc = The <b>build profile</b> matters in the same way, on one machine. An optimised build on macOS merges a sine and a cosine of one argument into a single call to the system's combined routine, whose sine differs from the lone <c1/> in the last bit for { "379" } of { "200 000" } arguments; an unoptimised build makes the two calls. Measured on aarch64 macOS over the { "138" } scenario files, a debug and a release build of one source give byte-identical result documents for { "102" }. The other { "36" } differ in the last places: { "28" } within { "1e-6" }, one (<c2/>) by { "2.8e-6" }, and seven campaigns only in the digests of their member runs; none differs in a label, a count or a verdict. The byte-identity guarantee above is therefore for one build: the same binary twice.
+seg-00e9ddd1b717 = The <b>build profile</b> matters in the same way, on one machine. An optimised build on macOS merges a sine and a cosine of one argument into a single call to the system's combined routine, whose sine differs from the lone <c1/> in the last bit for { "379" } of { "200 000" } arguments; an unoptimised build makes the two calls. Measured at { "0.29.0" } on aarch64 macOS over the { "138" } scenario files of that release, a debug and a release build of one source give byte-identical result documents for { "102" }. The other { "36" } differ in the last places: { "28" } within { "1e-6" }, one (<c2/>) by { "2.8e-6" }, and seven campaigns only in the digests of their member runs; none differs in a label, a count or a verdict. The byte-identity guarantee above is therefore for one build: the same binary twice.
 
 # text
 seg-ff368c627bd2 = The seeded <b>normal draws</b> are a third, much rarer source: the sampler calls the host exponential and logarithm in its rare branches, and about one draw in a million differs in the last bit between the native and the WASM build.
@@ -175,7 +175,7 @@ seg-8543165b0d7d = <b><c1/></b> enforces byte-identical output across two runs <
 # c3: golden
 # c4: determinism
 # c5: sgp4_verification
-seg-8b8b4ba5de30 = <b>The <c1/> CI job</b> runs the four tests above (<c2/>, <c3/>, <c4/>, <c5/>) on <b>ubuntu-latest, macos-latest, and windows-latest</b>, so cross-platform reproducibility is asserted on every push — the shape/input goldens exactly, the numerics to { "1e-6" }, and the SGP4 (Simplified General Perturbations { "4" }) states to { "2e-5" } km — rather than relying on a single OS.
+seg-6840b0ea27cd = <b>The <c1/> CI job</b> runs the four tests above (<c2/>, <c3/>, <c4/>, <c5/>), with other determinism tests, on <b>ubuntu-latest, macos-latest, and windows-latest</b>, so cross-platform reproducibility is asserted on every push — the shape/input goldens exactly, the numerics to { "1e-6" }, and the SGP4 (Simplified General Perturbations { "4" }) states to { "2e-5" } km — rather than relying on a single OS.
 
 # text
 # c1: tests/golden.rs
@@ -197,7 +197,7 @@ seg-717baa65bbb2 = <c1/> emits a CycloneDX { "1.5" } SBOM listing every crate th
 # c3: --features wasm
 # c4: tests/fixtures/reproducibility_software_assurance/
 # c5: kshana-mcp
-seg-a7886c557267 = The graph is the union of the feature sets the shipped artifacts are built with: the default build (library and CLI (command-line interface)), <c1/> (the PyPI (Python Package Index) wheel, whose <c2/> chain is its foreign-function boundary) and <c3/> (the npm package, which carries this same SBOM inside its tarball). Platform-conditional dependencies for every target are included, since the wheels ship for several operating systems and the npm package targets WebAssembly. One document covers all three artifacts, so for any single one it is a superset. It currently lists { "107" } components; the count is pinned in <c4/>. The standalone <c5/> server has its own manifest and is not described by this SBOM.
+seg-cd12454cf4d8 = The graph is the union of the feature sets the shipped artifacts are built with: the default build (library and CLI (command-line interface)), <c1/> (the PyPI (Python Package Index) wheel, whose <c2/> chain is its foreign-function boundary) and <c3/> (the npm package, which carries this same SBOM inside its tarball). Platform-conditional dependencies for every target are included, since the wheels ship for several operating systems and the npm package targets WebAssembly. One document covers all three artifacts, so for any single one it is a superset. It currently lists { "148" } components; the count is pinned in <c4/>. The standalone <c5/> server has its own manifest and is not described by this SBOM.
 
 # text
 seg-4c8948e9ee7d = The output is deterministic — the same dependency set yields a byte-identical document, including a serial number derived from the sorted package list rather than a timestamp.

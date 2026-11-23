@@ -46,7 +46,7 @@ The scalar results of that run, with the units the engine states:
 
 | Result | Value | Unit |
 |---|---|---|
-| `evidence.id_rule` | the stable id of the matrix row (the ID  | text |
+| `evidence.id_rule` | the stable id of the matrix row (the… | text |
 | `evidence.matrix` | docs/VERIFICATION-MATRIX.md | text |
 | `evidence.tier` | MODELLED | text |
 | `oscillator.aging_per_day` | 1.5000e-10 | 1/d |
@@ -65,15 +65,15 @@ Result label (the engine's): MODELLED — time until a free-running clock leaves
 
 MODELLED 2 · VALIDATED 1: the [verification matrix](../../VERIFICATION-MATRIX.md) rows that name this kind.
 
-- **VALIDATED** The `slot-timing` kind's measured-record path: the overlapping Allan deviation of a phase record fitted by edf-weighted non-negative least squares in the white-phase and IEEE Std 1139 frequency-modulation basis (slot_timing::fit_weighted),  Tests: [slot_timing_cs5071a_holdout.rs](../../../tests/slot_timing_cs5071a_holdout.rs).
-- **MODELLED** The `slot-timing` kind: the predicted error E(t) = k·√(σ₀² + σ_x²(t)) + (|y₀| + |c_T·ΔT|)·t + ½|D|t² inverted for the breach, the time left, the resynchronisation interval net of the fix latency and fixes per day, each term itemised with th Tests: [slot_timing_igs_holdout.rs](../../../tests/slot_timing_igs_holdout.rs).
-- **MODELLED** orbital_timing::orbital_timing, reachable as the `slot-timing` kind's spoofing section: circular-orbit speed and period, the longest time a ground spoofer can reach the satellite per pass, the clock-aided monitor floor and CUSUM detection l
+- **VALIDATED** The `slot-timing` kind's measured-record path: the overlapping Allan deviation of a phase record fitted by edf-weighted non-negative least squares in the white-phase and IEEE Std 1139 frequency-modulation basis… Tests: [slot_timing_cs5071a_holdout.rs](../../../tests/slot_timing_cs5071a_holdout.rs).
+- **MODELLED** The `slot-timing` kind: the predicted error E(t) = k·√(σ₀² + σ_x²(t)) + (|y₀| + |c_T·ΔT|)·t + ½|D|t² inverted for the breach, the time left, the resynchronisation interval net of the fix latency and fixes per day, each term itemised with… Tests: [slot_timing_igs_holdout.rs](../../../tests/slot_timing_igs_holdout.rs).
+- **MODELLED** orbital_timing::orbital_timing, reachable as the `slot-timing` kind's spoofing section: circular-orbit speed and period, the longest time a ground spoofer can reach the satellite per pass, the clock-aided monitor floor and CUSUM detection…
 
 The rows the run itself exercised, with the oracle the matrix gives each (the public sources are named there):
 
-- **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): SBOM conformance to the official CycloneDX 1.5 JSON Schema (+ valid SPDX identifiers) — an external published standard, zero validation errors over the full dependency graph; the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
-- **MODELLED** The `slot-timing` kind: the predicted error E(t) = k·√(σ₀² + σ_x²(t)) + (|y₀| + |c_T·ΔT|)·t + ½|D|t² inverted for the breach, the time left, the resynchronisati. Oracle (InternalConsistency): Closed forms for each term alone and the independent holdover::holdover_seconds root-find; the datasheet figures are the named documents (docs/SLOT-TIMING.md). A class default rests on an assumed red-noise floor and a datasheet source is an envelope of maxima, so neither is a measurement of any unit
-- **MODELLED** orbital_timing::orbital_timing, reachable as the `slot-timing` kind's spoofing section: circular-orbit speed and period, the longest time a ground spoofer can r. Oracle (InternalConsistency): Reduction to the existing timing protection level and the circular-orbit and spherical-Earth visibility closed forms. Conditional on detection, one terrestrial spoofer at a stated ramp rate, an overhead pass on a non-rotating Earth; not validated on a spoofed receiver in orbit
+- **MODELLED** Deterministic, scenario-hashed, SBOM + cross-platform golden gates. Oracle (ExternalDataset): Official CycloneDX 1.5 JSON Schema (+ SPDX identifier list): every atomic licence id is a valid SPDX id, and the document has zero schema errors once compound expressions are moved to expression (the generator's raw output has 133 compound-id errors); the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
+- **MODELLED** The `slot-timing` kind: the predicted error E(t) = k·√(σ₀² + σ_x²(t)) + (|y₀| + |c_T·ΔT|)·t + ½|D|t² inverted for the breach, the time left, the…. Oracle (InternalConsistency): Closed forms for each term alone and the independent holdover::holdover_seconds root-find; the datasheet figures are the named documents (docs/SLOT-TIMING.md). A class default rests on an assumed red-noise floor and a datasheet source is an envelope of maxima, so neither is a measurement of any unit
+- **MODELLED** orbital_timing::orbital_timing, reachable as the `slot-timing` kind's spoofing section: circular-orbit speed and period, the longest time a ground spoofer can…. Oracle (InternalConsistency): Reduction to the existing timing protection level and the circular-orbit and spherical-Earth visibility closed forms. Conditional on detection, one terrestrial spoofer at a stated ramp rate, an overhead pass on a non-rotating Earth; not validated on a spoofed receiver in orbit
 
 ## Limitations
 
@@ -84,7 +84,7 @@ What the run's own report says is not modelled or not validated:
 - the synchronisation protocol itself: a fix resets the error to fix_sigma_ns (result `not_modelled[2]`)
 - which wander metric a routing slot should be accepted against; see docs/SLOT-TIMING.md (result `not_modelled[3]`)
 - MODELLED — time until a free-running clock leaves a routing slot's guard, and the fix cadence that keeps it inside, from a stationary power-law clock model. A datasheet source is an envelope of its maxima, not a measurement of any unit; a class source rests on an assumed red-noise floor. (result `label`)
-- The oscillator is a CLASS default (csac, uso, dsac, tcxo, ocxo or rafs: one cited one-second Allan deviation and an assumed red-noise floor), a telecom-timing DATASHEET PRESET or an inline DATASHEET (Allan-deviation maxima fitted as an envelope, plus ageing and a temperature coefficient), or an inline MEASURED PHASE RECORD (its overlapping Allan deviation fitted by weighted least squares in the white-phase and IEEE S (kind catalogue (`kshana kinds --json`))
+- The oscillator is a CLASS default (csac, uso, dsac, tcxo, ocxo or rafs: one cited one-second Allan deviation and an assumed red-noise floor), a telecom-timing DATASHEET PRESET or an inline DATASHEET (Allan-deviation maxima fitted as an envelope, plus ageing and a temperature coefficient), or an inline MEASURED PHASE RECORD (its overlapping Allan deviation fitted by weighted least squares in the white-phase and IEEE… (kind catalogue (`kshana kinds --json`))
 - VALIDATED: the holdover inversion from a fitted record, held out on a real caesium clock measured against a hydrogen maser (tests/slot_timing_cs5071a_holdout.rs, data-gated); on a measured crystal oscillator the held-out prediction is conservative but not within the bar, so the crystal case is MODELLED. (kind catalogue (`kshana kinds --json`))
 - MODELLED: class and datasheet sources, the deterministic terms and the spoofing assessment. (kind catalogue (`kshana kinds --json`))
 

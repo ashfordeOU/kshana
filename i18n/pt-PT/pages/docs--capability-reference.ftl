@@ -1938,7 +1938,6 @@ seg-2a5e48b558e1 = O relatório hybrid-optical-rf indica a configuração de lig
 
 # text
 # c1: variance
-seg-23f0c10237f4 = Sem referência independente externa, e nenhuma é possível: isto é autodescrição, não uma medição. Fica registado porque a sua ausência era um defeito -- o P5 teve de citar o comprimento de onda da portadora e a abertura de transmissão a partir de predefinições do código-fonte, e de inferir que um <c1/> nu estava em metros quadrados a partir de uma verificação de consistência interna. A inferência estava correta, o que é precisamente a razão por que importava: nada teria detetado que estivesse errada
 
 # text
 seg-0691f3dee8cb = Disponibilidade da ligação híbrida ótica/RF no lado RF
@@ -4138,5 +4137,3 @@ seg-b5c49044a7a1 = Uma região viável para onde pode estar uma fonte de relatos
 seg-953a8b4f9f41 = Nenhuma externa ainda. Apenas ciclos de ida e volta diretos-inversos sintéticos, de um gerador que partilha o modelo do estimador, de modo que verificam o código e a calibração dos níveis declarados sob esse modelo e nada sobre emissores reais. Uma verificação externa face aos locais de emissores publicados do Jammertest { "2025" } foi fixada antecipadamente (docs/emitter-region/PREREGISTRATION.md, assinada pelo responsável antes de qualquer execução pontuada) e executada uma vez (docs/emitter-region/RESULTS.md): ADS-B NOT ASSESSABLE ({ "2" } sessões programadas, menos do que o mínimo registado de { "4" }) e AIS NOT ASSESSABLE (nenhuma sessão publicada), portanto nenhum limiar foi testado e a linha permanece MODELLED
 
 seg-d5a79853b72f = { "93" } de { "93" } tipos de cenário, { "3334" } de { "3334" } campos numéricos
-
-seg-877f989ae75e = Os { "61" } cartões de capacidade de <c1/>, depois todas as { "412" } linhas da matriz de verificação.

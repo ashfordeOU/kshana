@@ -1020,7 +1020,6 @@ seg-8adbbd2cdb74 = Sebepopis zprávy hybridního optického/RF spoje
 seg-2a5e48b558e1 = Zpráva hybrid-optical-rf uvádí konfiguraci spoje, při které skutečně běžela (vlnová délka nosné, vysílací a přijímací apertura, vzdálenost, šířka pulzu, doba integrace, účinnosti a ztráty, rozřešené výchozí hodnoty), a nese blok jednotek, který udává jednotku a třídu původu každé veličiny, kterou je pravděpodobné, že článek citoval, včetně stop kovariance předání v metrech čtverečních
 
 # c1: variance
-seg-23f0c10237f4 = Žádné vnější orákulum a žádné není možné: jde o sebepopis, nikoli o měření. Je zaznamenán, protože jeho absence byla vadou – P5 musel citovat vlnovou délku nosné a vysílací aperturu z výchozích hodnot ve zdroji a z kontroly vnitřní konzistence usuzovat, že holé <c1/> bylo v metrech čtverečních. Úsudek byl správný, a právě proto to mělo význam: nic by nezachytilo, kdyby byl chybný
 
 seg-0691f3dee8cb = Dostupnost hybridního optického/RF spoje na straně RF
 
@@ -2682,5 +2681,3 @@ seg-b5c49044a7a1 = Přípustná oblast, kde se může nacházet zdroj zhoršený
 seg-953a8b4f9f41 = Zatím žádná externí. Pouze syntetické okružní cesty dopředu a zpět z generátoru, který sdílí model odhadovače, takže kontrolují kód a kalibraci stanovených úrovní za tohoto modelu a nic o skutečných zdrojích. Externí kontrola proti zveřejněným místům vysílačů Jammertest { "2025" } byla předregistrována (docs/emitter-region/PREREGISTRATION.md, schváleno vlastníkem před jakýmkoli hodnoceným během) a provedena jednou (docs/emitter-region/RESULTS.md): ADS-B NOT ASSESSABLE ({ "2" } plánované relace, méně než registrované minimum { "4" }) a AIS NOT ASSESSABLE (žádná zveřejněná relace), takže nebyl otestován žádný práh a řádek zůstává MODELLED
 
 seg-d5a79853b72f = { "93" } z { "93" } druhů, { "3334" } z { "3334" } číselných polí
-
-seg-877f989ae75e = { "61" } karet schopností z <c1/>, pak všech { "412" } řádků verifikační matice.

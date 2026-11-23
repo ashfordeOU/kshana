@@ -41,7 +41,7 @@ dat-dd30c5a497c2 = $PKSHT: the proprietary sentence
 dat-aed4b0281aac = { "0.35" }: claims kept narrow, and one correction
 
 # data/search.json
-dat-338478a8723e = { "1" } scenario kind of the engine v{ $version }. Advisory: analysis output from a research and engineering tool, not…
+dat-90767f1b4396 = { "1" } scenario kind of the engine v{ $version }. Advisory: analysis output from a research and engineering tool, not…
 
 # data/search.json
 dat-83cdb5e18283 = 1-D trade-study sweep over a clock-pack parameter.
@@ -57,6 +57,9 @@ dat-6b376577beb2 = { "1" }. Download a current snapshot
 
 # data/search.json
 dat-d8ed20122916 = { "1" }. Ingest the trajectory a designer produced (oem-interop)
+
+# data/search.json
+dat-468e5b7b5aa1 = { "1" }. Make the receiver send what the Station reads
 
 # data/search.json
 dat-8b51835ddd5b = { "1" }. Module structure
@@ -77,7 +80,7 @@ dat-0c6836d1444e = { "1173" } look angles and { "142" } visible sets match Oreki
 dat-48f070618f53 = { "12" } leads against archived Bulletin A: UT1 { "2.93" } ms, polar motion { "1.76" } mas
 
 # data/search.json
-dat-cd5eb1698a87 = { "14" } scenario kinds of the engine v{ $version }. Advisory: analysis output from a research and engineering tool, not…
+dat-fe8a0c0a5869 = { "14" } scenario kinds of the engine v{ $version }. Advisory: analysis output from a research and engineering tool, not…
 
 # data/verification-matrix.json
 dat-8176e364a221 = 15-state error-state EKF, loosely coupled (validated on a real IMU/GNSS drive against NaveGo); a tightly coupled pseudorange/Doppler UKF and a coupled clock+position filter (consistency-only, outside the validated claim)
@@ -104,7 +107,10 @@ dat-8f6792f79182 = 1d. LEO PNT, spectrum, solar system, network timing, campaign
 dat-2b14f14a2815 = 1e. Receiver trust, evidence, telemetry, training and compliance layers ({ "0.35" })
 
 # data/search.json
-dat-60cc193bcc29 = { "2" } scenario kinds of the engine v{ $version }. Advisory: analysis output from a research and engineering tool, not…
+dat-1feac45870c8 = { "2" } scenario kinds of the engine v{ $version }. Advisory: analysis output from a research and engineering tool, not…
+
+# data/search.json
+dat-87584e2a3bc5 = { "2" }. Connect it
 
 # data/search.json
 dat-884eaba30bc9 = { "2" }. Drop it into a scenario
@@ -128,7 +134,7 @@ dat-9e6b701baaa3 = { "2" }. When is it visible from a ground station? (passes)
 dat-738ceaedec1d = { "225,227" } sentences parsed and decoded by pynmea2
 
 # data/search.json
-dat-b73627a5b6d7 = { "24" } scenario kinds of the engine v{ $version }. Advisory: analysis output from a research and engineering tool, not…
+dat-a702eaea682d = { "24" } scenario kinds of the engine v{ $version }. Advisory: analysis output from a research and engineering tool, not…
 
 # data/series.json
 dat-c6274f5adeaa = 3-D position error
@@ -178,6 +184,9 @@ dat-ea6f0b37752c = { "3" }. Time & frequency transfer parameters
 # data/search.json
 dat-5759c263c684 = { "3" }. What Kshana actually does
 
+# data/search.json
+dat-444cb0de36e4 = { "3" }. Write the configuration
+
 # studio/data/capabilities.json
 dat-0cebd209f5ec = { "337" } ILRS normal points · median { "5.13" } mm
 
@@ -200,6 +209,9 @@ dat-996de2a8eb88 = { "4" }. Orbit, time-system & frame models
 dat-a96359050f74 = { "4" }. Permanent Ban
 
 # data/search.json
+dat-e52d8a1b6400 = { "4" }. Run it once in the foreground
+
+# data/search.json
 dat-13cef43e0b25 = { "4" }. Stanford diagram
 
 # data/search.json
@@ -209,7 +221,7 @@ dat-7378286bf9b2 = { "4" }. The four building blocks ("packs")
 dat-df4018fb9734 = { "5" } committed fixtures, each regenerable from its recorded source
 
 # data/search.json
-dat-fd22a00f9aa5 = { "5" } scenario kinds of the engine v{ $version }. Advisory: analysis output from a research and engineering tool, not…
+dat-7d2c4354083a = { "5" } scenario kinds of the engine v{ $version }. Advisory: analysis output from a research and engineering tool, not…
 
 # data/search.json
 dat-71f117e50c38 = { "5" }. GNSS measurement-domain & resilience models
@@ -219,6 +231,9 @@ dat-b13279545afd = { "5" }. Hand the result back (exports)
 
 # data/search.json
 dat-19ab86de2fa9 = { "5" }. Honesty by construction
+
+# data/search.json
+dat-66715af8f15f = { "5" }. Install it as a service
 
 # data/search.json
 dat-c4a91cbdf0f5 = { "5" }. The dual-constellation benefit
@@ -239,7 +254,10 @@ dat-c416b799f02f = 5G NTN positioning at { "2172.5" } MHz, C/N0 { "38" } to { "5
 dat-9fd9336fb7d7 = { "6" } papers on arXiv built on the open engine
 
 # data/search.json
-dat-ef1e661614eb = { "6" } scenario kinds of the engine v{ $version }. Advisory: analysis output from a research and engineering tool, not…
+dat-98f6acc2041b = { "6" } scenario kinds of the engine v{ $version }. Advisory: analysis output from a research and engineering tool, not…
+
+# data/search.json
+dat-7157d26de2e6 = { "6" }. Day to day
 
 # data/search.json
 dat-ffac0abcc46e = { "6" }. Geometry-derived GNSS availability
@@ -272,7 +290,7 @@ dat-3b469366c135 = 666/666 AIAA vectors · { "4.12" } mm
 dat-7afe2fccf6e4 = { "7" } of { "7" } pre-registered numerical bars met against an independent mpmath program; no measured availability record has been compared
 
 # data/search.json
-dat-9379a089776e = { "7" } scenario kinds of the engine v{ $version }. Advisory: analysis output from a research and engineering tool, not…
+dat-98d942bec6fd = { "7" } scenario kinds of the engine v{ $version }. Advisory: analysis output from a research and engineering tool, not…
 
 # data/verification-matrix.json
 dat-6f46ad2aea9f = 7-parameter Helmert datum fit + ICRF orientation tie from a network of points
@@ -284,13 +302,13 @@ dat-36bc636d63ff = { "7" }. Newer domains — where their parameters come from
 dat-8705cb31d624 = { "7" }. Where to go next
 
 # data/search.json
-dat-25d6ecf7e78d = { "9" } scenario kinds of the engine v{ $version }. Advisory: analysis output from a research and engineering tool, not…
+dat-154d30d04cfa = { "9" } scenario kinds of the engine v{ $version }. Advisory: analysis output from a research and engineering tool, not…
 
 # data/search.json
 dat-82262db562a5 = { "9" }. Deferred / future structure
 
 # studio/data/capabilities.json
-dat-90999a1f6b23 = { "92" } of { "92" } kinds, { "3300" } of { "3300" } numeric fields
+dat-bb53c2ef4279 = { "93" } of { "93" } kinds, { "3334" } of { "3334" } numeric fields
 
 # studio/data/capabilities.json
 dat-db1a32114235 = A 15-state error-state EKF that coasts through GNSS outages on a calibrated inertial solution; a tightly-coupled pseudorange mode that keeps correcting with fewer than four satellites; a coupled clock + position filter; a general unscented (sigma-point) Kalman estimator; a tightly-coupled GNSS/INS UKF navigator validated to { "0.77" } m RMS through a { "120" } s outage on a curving LEO pass; and a full 17-state tightly-coupled GNSS/INS UKF whose quantum-CAI dead-reckoning coasts the outage on the cold-atom accelerometer's derived velocity-random-walk.
@@ -330,6 +348,9 @@ dat-e069e927e712 = A clock scenario whose classical clock takes the noise of a m
 
 # data/search.json
 dat-7b70d5db0ca0 = A clock scenario with a measured log beside the simulated holdover (`[clock_log]`).
+
+# data/verification-matrix.json
+dat-57d1de325b21 = A closed-form weighted Umeyama (Horn) similarity-transform solver written for this repository on the numpy/scipy SVD (Umeyama { "1991" } IEEE TPAMI, Horn { "1987" } JOSA A; a reference implementation by the same project, not a third-party library) — a different algorithm from kshana's iterative Gauss–Newton fit, reaching the same uniquely-defined weighted-LS optimum on byte-identical point networks
 
 # studio/data/capabilities.json
 dat-6125d419b0c2 = A cold-atom gravimeter measurement model whose white-noise floor is derived from the CAI accelerometer physics, a low-degree fully-normalised spherical-harmonic gravity-anomaly field plus synthetic mascons, and a gravity-map-matching particle filter — extended to terrain-referenced navigation against an SRTM elevation DEM (TERCOM/SITAN), an IGRF-14 geomagnetic main field to degree/order { "13" }, and a combined gravity + magnetic + terrain navigator that fuses all three scalar channels. A 60-minute GPS-denied benchmark — a ~{ "700" } km / one-hour outage where the inertial solution drifts to ~{ "70" } km — is recovered to ~{ "145" } m by a hierarchical coarse-to-fine matcher: the ESA NAVISP Quantum Wayfarer target.
@@ -374,7 +395,10 @@ dat-2c62462bdc5c = a JetBrains IDE
 dat-73869657327c = A JSON state document and Home Assistant MQTT discovery messages for the trust stream, printed as text on every surface and published over MQTT { "3.1.1" } QoS { "0" } by the CLI (telemetry::mqtt; trust-telemetry --mqtt-tcp, --print-mqtt, format mqtt).
 
 # data/verification-matrix.json
-dat-75063d46f9bc = A Kshana AFS recording acquired, tracked and decoded by an independent software receiver and compared with the recording's own truth labels. This proves conformance to the standard and label consistency only; it is not a statement about channel physics, propagation, received power or link budgets, whose values in the recording are chosen inputs
+dat-6be29cad9088 = A Kshana AFS recording acquired, tracked and decoded by an independent software receiver and compared with the recording's own truth labels. This shows that an independent receiver decodes the recording and that its labels are consistent; it is not a conformance determination, and it is not a statement about channel physics, propagation, received power or link budgets, whose values in the recording are chosen inputs
+
+# data/search.json
+dat-06e11619da1f = A Kshana Station is a computer on a site wired to receivers. kshana station run reads each receiver's stream…
 
 # studio/channels.json
 dat-84f14411f2d4 = A launcher: it downloads the release binary, verifies SHA256SUMS and runs it.
@@ -407,10 +431,10 @@ dat-498f1549caf3 = A lunar relay and navigation constellation: satellites in ell
 dat-1e2f6c5f0e89 = A machine-readable schema giving unit, provenance class and definition for every numeric field of every scenario report, plus a single global gate that runs every registered scenario kind and fails if an emitted numeric field lacks either. The provenance vocabulary is closed and each class carries an evidence tier, with two classes deliberately mapped to `inherits-scenario-label` and `depends-on-input` rather than being assigned a tier the class does not determine
 
 # data/search.json
-dat-5c4103b808d2 = A mission driven by the L-band spectrum
+dat-5183f21295f8 = A mapping file (kshana.connect/1, TOML) tells Kshana how to read an export it has no reader for, and turns…
 
 # data/search.json
-dat-d7fe5f5b6f64 = A native plugin that runs the Kshana PNT-resilience simulator from inside any JetBrains IDE (IntelliJ IDEA…
+dat-5c4103b808d2 = A mission driven by the L-band spectrum
 
 # studio/data/capabilities.json
 dat-afa95ffbb65c = A numerical (Cowell) propagator complementing the analytic SGP4/SDP4 path, with a hierarchical force model: two-body + the full J2–J6 zonal field, an optional EGM2008 tesseral geopotential to degree/order { "70" }, epoch-driven Sun and Moon third-body gravity (a built-in ephemeris, no DE/SPK kernel), solar-radiation pressure with a conical umbra/penumbra shadow, atmospheric drag, the post-Newtonian Schwarzschild relativistic correction, and the Lense–Thirring frame-dragging term — driven by a choice of RK4 step-doubling or Dormand–Prince RK5({ "4" }) adaptive integrators.
@@ -471,6 +495,9 @@ dat-bf1aa298962c = A ship entering a harbour under a shore jammer, with the quay
 
 # data/search.json
 dat-23cef21a3ad4 = A short mission thread that runs from a binary alone: launch and ascent, one low-Earth-orbit rendezvous, one day of
+
+# data/search.json
+dat-1bb3cac21005 = A short tip-and-cue run: the M2 primary 16-satellite RF layer cueing its optical layer over the
 
 # data/search.json
 dat-fd6f3f62472b = A signal design
@@ -545,10 +572,13 @@ dat-727510f3d9eb = acquisition::pcps_acquire with its sample-power decision on t
 dat-d3c98afeb10e = acquisition::pcps_acquire with the cell-averaging decision (peak over the grid's mean cell, robust to band-limited noise) on the nine non-surface LuGRE L1 batches with mid-rise levels; Doppler differences between acquired satellites compared with differences predicted from ESA final orbits and the Firefly-reconstructed Blue Ghost trajectory
 
 # data/verification-matrix.json
-dat-1bcff7b1a35c = acquisition::tests (Marcum-Q central case Q_1({ "0" },b)=exp(−b²/2); the P_d=Q_M(√(2Mρ),√γ) identity; P_fa↔threshold round-trip across M and P_fa; ROC monotonicity — P_d rises with SNR, falls with threshold, P_d→P_fa as SNR→{ "0" }; the non-coherent integration gain raises P_d at fixed P_fa; Marcum-Q monotone in a and b and bounded in [{ "0,1" }]); tests/acquisition_reference.rs (the generalized Marcum Q_M(a,b), P_d, P_fa and the P_fa→threshold inversion matched vs scipy.stats.ncx2/chi2 over an (M,a,b)/(M,P_fa)/(M,SNR) grid to ~{ "1e-6" })
+dat-881b74541368 = acquisition::tests (Marcum-Q central case Q_1({ "0" },b)=exp(−b²/2); the P_d=Q_M(√(2Mρ),√γ) identity; P_fa↔threshold round-trip across M and P_fa; ROC monotonicity — P_d rises with SNR, falls with threshold, P_d→P_fa as SNR→{ "0" }; the non-coherent integration gain raises P_d at fixed P_fa; Marcum-Q monotone in a and b and bounded in [{ "0,1" }]); tests/acquisition_reference.rs (the generalized Marcum Q_M(a,b), P_d, P_fa and the P_fa→threshold inversion matched vs scipy.stats.ncx2/chi2 over an (M,a,b)/(M,P_fa)/(M,SNR) grid to { "1e-9" } relative (the threshold to { "1e-6" } absolute + { "1e-7" } relative))
 
 # data/search.json
 dat-bac6412ec51e = Active time-spoofing attack: can each clock's integrity monitor catch the spoof
+
+# data/search.json
+dat-1f742b10765e = Adapters: new devices and formats without engine changes
 
 # studio/channels.json
 dat-c635c738dc7e = Add to Cursor (Docker)
@@ -557,10 +587,94 @@ dat-c635c738dc7e = Add to Cursor (Docker)
 dat-8c77bde79959 = Add to Cursor (npx)
 
 # data/search.json
+dat-5eb6db606f1f = Added (a GNSS receiver in space: clock, timestamps, dynamics, upper-SSV benchmark)
+
+# data/search.json
+dat-8623ee4b25ec = Added (AFS interoperability planning)
+
+# data/search.json
+dat-653fdf51baba = Added (AIS position-integrity flags)
+
+# data/search.json
+dat-8a9a8b7526c7 = Added (Arctic GNSS availability planner)
+
+# data/search.json
+dat-c6e5c30ee76f = Added (constellation-claim verification datasets)
+
+# data/search.json
+dat-8aaec53b278f = Added (correction decoders)
+
+# data/search.json
+dat-0375fd2898b3 = Added (Desktop notebook, globe, stability plots, live traffic, course mode)
+
+# data/search.json
+dat-23c289dac73e = Added (drone, UTM and robotics PNT: kshana drone)
+
+# data/search.json
 dat-cbe0614db622 = Added (evidence packs)
 
 # data/search.json
+dat-1bf2b146823d = Added (interference observatory: incident format, case library, confidence statement)
+
+# data/search.json
+dat-807e31b56f65 = Added (LEO-PNT signal claims: kshana leo-verify signal-claims)
+
+# data/search.json
+dat-871f16ed0883 = Added (Linux timing-stack verification)
+
+# data/search.json
+dat-d413f3644921 = Added (LunaNet AFS receiver verification kit)
+
+# data/search.json
+dat-fd14de01dd23 = Added (lunar time scales and frames)
+
+# data/search.json
+dat-7a7e74a4e34b = Added (maritime, aviation and drone data)
+
+# data/search.json
 dat-5f952ed1e277 = Added (MCP server channels)
+
+# data/search.json
+dat-adf4cfb2cdf0 = Added (open OSNMA vector set)
+
+# data/search.json
+dat-5c100d84172b = Added (orbit-data checks, conversion, TLE monitors and covariance toolkit)
+
+# data/search.json
+dat-9ca1737e1644 = Added (parser hardening and time-scale conformance vectors)
+
+# data/search.json
+dat-5ae0e2989fd0 = Added (product register: packs, published revocations, versions)
+
+# data/search.json
+dat-ac63e3338fcd = Added (QZNMA signature checks: kshana corrections qznma-verify)
+
+# data/search.json
+dat-7342becc7e50 = Added (QZSS L1S, DC Report, DCX and QZNMA decoders)
+
+# data/search.json
+dat-3ed61a4156f7 = Added (radio time-signal migration guide)
+
+# data/search.json
+dat-264374e63cf1 = Added (receiver formats and SDR front-end tooling)
+
+# data/search.json
+dat-c90e43af4bf2 = Added (RTK, NTRIP and correction-service quality: kshana rtk-qa)
+
+# data/search.json
+dat-2fd166e4c256 = Added (SDKs, deployment, APIs, Connect test kit v2)
+
+# data/search.json
+dat-85f3b8d13475 = Added (simulators, ops outputs, industrial control, mission control)
+
+# data/search.json
+dat-1544e046e893 = Added (software-in-the-loop observation generator)
+
+# data/search.json
+dat-56093f8b0248 = Added (space receiver: GEO and GTO scenarios, geometry and signal levels in the upper-SSV bench)
+
+# data/search.json
+dat-693ec7875859 = Added (space weather for PNT and drag)
 
 # data/search.json
 dat-3160be870cb0 = Added (training streams)
@@ -576,6 +690,9 @@ dat-7f5832994cf3 = Added (validation of the telemetry formats and evidence packs
 
 # data/search.json
 dat-f0450e0988f1 = Added: compliance mapping and test-bench export
+
+# data/search.json
+dat-a25c5a64d3d6 = Adding an adapter
 
 # data/search.json
 dat-f57e37e24737 = Adding or changing a sensor model
@@ -605,7 +722,7 @@ dat-d03147706094 = AI assistant (MCP server, cargo)
 dat-26a023f49e65 = AI assistant: a recorded kshana-mcp session
 
 # data/verification-matrix.json
-dat-77f12e71a06d = AI/ML RF-impairment detection evaluation ({ "13494" })
+dat-4728bd50adfb = AI/ML RF-impairment detection evaluation
 
 # data/verification-matrix.json
 dat-d6a9346ba180 = AI/ML RF-impairment optimism-gap study & ID-only gap predictor
@@ -638,9 +755,6 @@ dat-5d0a70d02616 = allan::edf_greenhall (with the edf_greenhall_adev, _mdev and 
 dat-c61509f616d4 = allan::lag1_noise_id: the Riley and Greenhall ({ "2004" }) lag-1 autocorrelation noise identifier (decimated phase with its quadratic removed, or group-averaged frequency with its line removed; repeated first differences until delta = r1/({ "1" }+r1) < { "0.25" } or d = dmax), returning the integer and unrounded power-law exponent alpha (+{ "2" } white PM to -2 random-walk FM) at any averaging factor; it sets the noise-type degrees of freedom of the measured clock library's device cards
 
 # data/verification-matrix.json
-dat-78a4054fea0c = Allan/modified/Hadamard deviation + power-law noise ID with χ² CIs
-
-# data/verification-matrix.json
 dat-b60211f13641 = allantools { "2024.06" } — an independent third-party frequency-stability library — mdev() and tdev() on the hermetic NIST SP { "1065" } §{ "12.4" } LCG phase series (same series as the Theo1/TOTDEV/MTIE rows), computing the same uniquely-defined estimators; matched to <{ "1e-9" } relative. Regenerable offline via tests/fixtures/mdev_tdev/generate_mdev_tdev_reference.py. (The data-gated phasedat_reference.rs also checks these against Stable32 to { "1e-3" }; this is the tight, always-on hermetic cross-check)
 
 # data/verification-matrix.json
@@ -659,7 +773,7 @@ dat-77bc55c3a735 = allantools { "2024.06" } (A. Wallin; Kasdin & Walter { "1992"
 dat-e0653b8582e5 = allantools { "2024.6" } autocorr_noise_id (A. Wallin and contributors, LGPL-3.0-or-later, run as a separate program by the fixture generator): an independent implementation of the published Riley-Greenhall algorithm, a uniquely defined quantity under the stated conventions. Validates the identifier, not the noise content of any real clock
 
 # data/verification-matrix.json
-dat-b7fd07001c69 = allantools { "2024.6" } ci.edf_greenhall, a third-party implementation of the published algorithm, run by scripts/gen_greenhall_edf_ref.py over the grid pre-registered in xval/greenhall-edf/PREREGISTRATION.md (committed alone, 696f68e6, before any comparison): at all { "4 876" } points where it returns a finite edf, kshana agrees within a relative { "6.0e-13" } (bar { "1e-9" }); at its { "46" } NotImplementedError points kshana returns NaN; every case label occurs; the wrappers equal the core bit for bit; uncertainty::edf is bit-identical over { "274 280" } values (pinned as a SHA-256 before the refactor). At { "32" } points (alpha -4, d { "3" }, unmodified, case { "2.2" }) allantools fails in its Table { "2" } lookup, so they have no oracle value and are not counted. Stable32 was not run. { "0.36" } revision (docs/revisions/STUDIO15-greenhall-edf-portable.md): on portable maths the kernel takes its logarithm from a double-double evaluation rounded once (allan::greenhall_ln), and the unchanged Bar { "1" } holds again at all { "4 876" } points, worst relative { "6.0e-13" }; the uncertainty::edf guard is re-based to the { "0.36" } portable dump ({ "3 746" } of the { "274 280" } values moved, at most { "1.6e-12" } relative, from the host-maths base)
+dat-235b0c8021f3 = allantools { "2024.6" } ci.edf_greenhall, a third-party implementation of the published algorithm, run by scripts/gen_greenhall_edf_ref.py over the grid pre-registered in xval/greenhall-edf/PREREGISTRATION.md (committed alone, 696f68e6, before any comparison): at all { "4 876" } points where it returns a finite edf, kshana agrees within a relative { "6.0e-13" } (bar { "1e-9" }); at its { "46" } NotImplementedError points kshana returns NaN; every case label occurs; the wrappers equal the core bit for bit; uncertainty::edf is bit-identical over { "274 280" } values (pinned as a SHA-256 before the refactor). At { "32" } points (alpha -4, d { "3" }, unmodified, case { "2.2" }) allantools fails in its Table { "2" } lookup, so they have no oracle value and are not counted. Stable32 was not run. { "0.36" } revision (docs/revisions/greenhall-edf-portable.md): on portable maths the kernel takes its logarithm from a double-double evaluation rounded once (allan::greenhall_ln), and the unchanged Bar { "1" } holds again at all { "4 876" } points, worst relative { "6.0e-13" }; the uncertainty::edf guard is re-based to the { "0.36" } portable dump ({ "3 746" } of the { "274 280" } values moved, at most { "1.6e-12" } relative, from the host-maths base)
 
 # data/search.json
 dat-400b2cf3b7b1 = Allen-Eggers ballistic re-entry corridor: peak deceleration (ballistic-coefficient-independent, V_e^{ "2" }…
@@ -672,6 +786,9 @@ dat-6a54cfeb126c = Alternative / complementary PNT
 
 # data/search.json
 dat-63c7e62e7996 = Amending this document
+
+# data/search.json
+dat-9aad72b88e03 = An adapter teaches Kshana to read a device's or a logger's export, by configuration only.
 
 # data/search.json
 dat-3ab21add7c07 = An Artemis-class mission thread: the navigation and timing error budget of one chain of phases, from launch
@@ -692,7 +809,7 @@ dat-2ae0de249fed = An independent numpy finite difference of the forward model (
 dat-da22d0c30e6c = An independent numpy finite-difference assembly (G2) and closed-form evaluation (G4). The k2 sensitivity of the orbiter family is an upper-end figure (the orbit state absorbs only a constant and a trend here). No lunar tide or libration measurement is compared with; k2 is quoted from Lemoine et al. { "2014" } as a nominal. MODELLED.
 
 # data/verification-matrix.json
-dat-df78f06bd353 = An independent numpy recomputation (xval/jamming-terrain/oracle.py, no shared code: its own .hgt read, bilinear interpolation, WGS { "84" } round trip, profile, bulge, nu and J(nu)) of ten jammer placements around a receiver at Badwater Basin on the committed real SRTM tile tests/fixtures/terrain/N36W117_sub6.hgt. Bars and placements pre-registered at 3b0ebdd4. All MET: additivity (all { "150" } scenario results byte-identical without the section); every placement's profile points and obstacle equal and nu and loss within { "1.6e-10" } (bar { "1e-9" }); the loss never rises as the jammer rises from { "2" } to { "4902" } m; the loss lowers every J/S by exactly itself and nothing else; J(nu) within { "1e-12" } dB of the oracle's. Findings: placements across the Black and Funeral Mountains lose { "44" } to { "48" } dB; two valley-floor placements lose { "8" } and { "15" } dB from the Earth bulge alone at { "2" } m antenna heights, the single knife-edge model's grazing case. WHAT IS NOT CHECKED: any measured propagation, multiple-edge diffraction, ground reflection, clutter, the DEM's own error. A recomputation of the same model, not an external oracle; the row stays MODELLED.
+dat-d6f2afcd9c7a = An independent numpy recomputation (xval/jamming-terrain/oracle.py, no shared code: its own .hgt read, bilinear interpolation, WGS { "84" } round trip, profile, bulge, nu and J(nu)) of ten jammer placements around a receiver at Badwater Basin on the committed real SRTM tile tests/fixtures/terrain/N36W117_sub6.hgt. Bars and placements pre-registered at 3b0ebdd4. All MET: additivity (all { "150" } scenario results byte-identical without the section); every placement's profile points and obstacle equal and nu and loss within { "1.6e-10" } (bar { "1e-9" }); the loss never rises as the jammer rises from { "2" } to { "4902" } m; the loss lowers every J/S by exactly itself and nothing else; J(nu) within { "1e-12" } dB of the oracle's. Findings: placements across the Black and Funeral Mountains lose { "44" } to { "48" } dB; two valley-floor placements lose { "8" } and { "15" } dB from the Earth bulge alone at { "2" } m antenna heights, the single knife-edge model's grazing case. WHAT IS NOT CHECKED: any measured propagation, multiple-edge diffraction, ground reflection, clutter, the DEM's own error. A recomputation of the same model, not an external oracle; the row stays MODELLED.
 
 # data/verification-matrix.json
 dat-39967d45af83 = An independent numpy solve of the same normal equations from the exported rows (Q3) and a brute-force integer enumeration (Q4). No GNSS or lunar carrier-phase measurement is compared with. MODELLED.
@@ -702,9 +819,6 @@ dat-1d42a0145a24 = An independent numpy stacked system with the position unknown
 
 # data/verification-matrix.json
 dat-dea4ee566143 = An independent optimiser: NAIF SPICE Toolkit (CSPICE N0067 through spiceypy { "8.3.0" }) heliocentric states on the same de440s cut, pykep { "3.0.1" } lambert_problem (ESA, MPL-2.0) and SciPy { "1.18.1" } Nelder-Mead, calling no Kshana code. The NASA Earth-to-Mars handbook (MIDAS, ephemeris unstated, 2-day date grid) is a secondary published reference and does not set the status
-
-# data/verification-matrix.json
-dat-dbc902d89b30 = An independent Python recomputation of every acquisition flag (xval/jamming-acq-agc/hysteresis.py) from the engine's per-epoch effective C/N0, an independent numpy Monte Carlo of the quantiser loss (xval/jamming-acq-agc/quantiser_mc.py, its own optimum-step search, { "2" }^{ "22" } samples), and the IQ layer's AGC loop. Bars pre-registered at 2ca31ee1, with a supplementary run set at { "2ef7427a" }. MET: additivity (all { "150" } scenario results byte-identical without the sections); every flag equal on the supplementary runs ({ "1824" } links, { "732" } of them showing the hysteresis); monotone in the threshold; the quantiser loss within { "0.0007" } dB of the Monte Carlo at { "1" } to { "4" } bits (bar { "0.02" } dB); the AGC reading within { "0.012" } dB of the AGC loop (bar { "0.05" } dB). NOT MET: the registered hysteresis runs (jamming-demo at { "10" } to { "30" } dBW) were uninformative, with every link lost, and their H2 and H4 are met only trivially. Finding: with a CW jammer a 1-bit ADC loses about { "5" } dB more than the Gaussian figure the engine applies, and flags as not valid. WHAT IS NOT CHECKED: the acquisition search itself, AGC dynamics in time, any receiver hardware. Recomputations of the same model, not an external oracle; the row stays MODELLED.
 
 # data/verification-matrix.json
 dat-2b3341041109 = An independent scipy/numpy program integrates the same variational equations (bar O1). Nothing is compared with a measurement of a lunar orbit. The oracle checks the numerics of stated formulas, not the physics, so the row stays MODELLED. Restricted three-body model: no Sun, no lunar harmonics, the Earth rotation axis along the orbit normal, ILLUSTRATIVE receiver and station inputs.
@@ -722,7 +836,7 @@ dat-fa2607562c2d = An open, pure-Rust receiver-side verifier for Galileo Open Se
 dat-7e83d1cb3dc8 = An operational-style Earth-orientation predictor — least squares over bias, rate and the principal periodic terms across a trailing window — measured against genuinely archived Bulletin A predictions rather than against persistence. The offline default input is a real IERS finals2000A product carrying Bulletin A prediction rows, so a bare run emits a populated per-horizon table instead of an empty one. UT1 and polar motion are reported over a common row set together with their combination, so the joint figure is one statistic rather than a quadrature sum of two different samples.
 
 # data/verification-matrix.json
-dat-f39279e0685c = An opt-in `[timeseries]` table (duration, step, seed) makes the `optical-atmosphere` kind also write, per site, one seeded realisation of the stated site model through time: cloud episodes (clear spells exponential, cloud outages log-normal with the stated mean and spread, the share of time in cloud set to the stated cloud probability), one log-normal liquid-water column per cloud episode, one gamma-gamma scintillation sample per step, and from them the link margin, the cloud and scintillation fades and the link-up flag, with the realised availability, cloud fraction, outage count and longest outage. Without the table the result is the { "0.37" } document. Draws go through the portable distribution and maths routes, so native and wasm32 give the same bytes.
+dat-8ab96e5bc74f = An opt-in `[timeseries]` table (duration, step, seed) makes the `optical-atmosphere` kind also write, per site, one seeded realisation of the stated site model through time: cloud episodes (clear spells exponential, cloud outages log-normal with the stated mean and spread, the share of time in cloud set to the stated cloud probability), one log-normal liquid-water column per cloud episode, one gamma-gamma scintillation sample per step, and from them the link margin, the cloud and scintillation fades and the link-up flag, with the realised availability, cloud fraction, outage count and longest outage. Without the table the result is unchanged. Draws go through the portable distribution and maths routes, so native and wasm32 give the same bytes.
 
 # data/verification-matrix.json
 dat-988cdb4d03aa = An opt-in square-root information solver (lunar-frame-campaign solver = "srif"; default unchanged) that never forms or inverts an information matrix for the datum: Householder QR (orthogonal-triangular decomposition) of the whitened delay Jacobian as a square-root information filter measurement update, the Earth stations marginalised through the trailing triangular block (whose Gram product is the Schur complement), a second QR of R_bb A for the seven-parameter Helmert datum, sigmas as the row norms of the triangular inverse, and the spectrum (condition number, weakest direction) from a one-sided Jacobi singular value decomposition. Inner products are compensated with a Dekker-split error-free product, so every operation is a correctly rounded IEEE-754 basic operation or square root; identical results on every platform are argued from that, not tested across platforms
@@ -740,7 +854,7 @@ dat-a6c939372ee0 = analysts and notebooks
 dat-ee74f6e4d192 = Analytic binormal ROC AUC = Φ(μ/(σ√{ "2" })) and the minimum detectable fault σ·(Φ⁻¹({ "1" }−P_fa)+Φ⁻¹(P_d)) underpinning the quantum-fault and anomaly detectors
 
 # data/verification-matrix.json
-dat-c073884f991a = Analytic datum-defect structure — the unobservable absolute-frame mode lies in the null space of the Fisher information (closed-form), the rank threshold matches the published 3-station design rationale, and the estimator attains the resulting CRLB in Monte-Carlo. The lunar geometry itself is a representative network (not a flown ephemeris), so the row stays MODELLED; the underlying FIM/CRLB engine is checked against the Kay ({ "1993" }) closed forms separately. { "0.30" } round { "2" } (pre-registered e4134aa7), blocked (stays MODELLED): NumPy/SciPy recompute the rank and defect at the stated { "1e-9" } threshold, the station axes share of the null space (within { "8.4e-10" }) and the station CRLB (within { "1.2e-10" }) on { "17" } committed Kshana-generated configurations (P2). Not promoted: the claim that the estimator attains the bound (Monte Carlo efficiency about { "0.98" }) has no oracle, and the scoping that would leave it MODELLED awaits an owner decision
+dat-9a88aad8c73f = Analytic datum-defect structure — the unobservable absolute-frame mode lies in the null space of the Fisher information (closed-form), the rank threshold matches the published 3-station design rationale, and the estimator attains the resulting CRLB in Monte-Carlo. The lunar geometry itself is a representative network (not a flown ephemeris), so the row stays MODELLED; the underlying FIM/CRLB engine is checked against the Kay ({ "1993" }) closed forms separately. Version { "0.30" } (pre-registered e4134aa7), blocked (stays MODELLED): NumPy/SciPy recompute the rank and defect at the stated { "1e-9" } threshold, the station axes share of the null space (within { "8.4e-10" }) and the station CRLB (within { "1.2e-10" }) on { "17" } committed Kshana-generated configurations. Not promoted: the claim that the estimator attains the bound (Monte Carlo efficiency about { "0.98" }) has no oracle, and the row stays MODELLED
 
 # data/verification-matrix.json
 dat-a628e3cdffa2 = Analytic Hierarchy Process priority weights = normalised principal (Perron) eigenvector of a reciprocal pairwise-comparison matrix by power iteration, with the Saaty Consistency Index / Consistency Ratio and the CR<{ "0.10" } acceptance gate
@@ -755,7 +869,7 @@ dat-9f3d41f07ce5 = Analytic-vs-finite-difference cross-checks of each technique'
 dat-81b38a472eb4 = Animation export
 
 # data/verification-matrix.json
-dat-0bdf3a5b6698 = ANISE { "0.10" } (Nyx Space, MPL-2.0) converged-Newtonian aberration light time (Aberration::CN; SPICE spkapo-equivalent) over JPL DE440 — an independent Rust SPICE implementation; kshana's fixed-point retarded solver matched to sub-nanosecond. The broader Doppler / Shapiro / reduced-dynamic OD figures stay MODELLED
+dat-84b873598a2c = ANISE { "0.10" } (Nyx Space, MPL-2.0) converged-Newtonian aberration light time (Aberration::CN; SPICE spkapo-equivalent) over JPL DE440 — an independent Rust SPICE implementation; kshana's fixed-point retarded solver matched to { "1.03e-9" } s (gate { "1e-6" } s). The broader Doppler / Shapiro / reduced-dynamic OD figures stay MODELLED
 
 # data/verification-matrix.json
 dat-b3af797782a6 = ANISE { "0.10.2" } (Nyx Space, MPL-2.0, run as a tool from xval/anise-service-geometry, binary lunar-look-angles-xval, which calls no Kshana code): ANISE's own azimuth, elevation and range routine (azimuth_elevation_range_sez) from sites built by its latitude-longitude-altitude constructor on the pck00011 Moon (sphere { "1737.4" } km), with the satellites rotated into MOON_PA_DE440 through moon_pa_de440_200625.bpc. { "768" } samples over { "8" } sites (the { "4" } named sites and { "4" } others, above and below the horizon), { "12" } epochs and { "8" } satellites agree within { "1e-6" } deg in azimuth and elevation and { "1" } mm in range and site position (fixed before the comparison); measured { "2.2e-12" } deg, { "2.1e-13" } deg and { "5.6e-9" } m. Claim: site placement and look angles given the satellite in the site's body-fixed frame. Kshana's own mean-rotation Moon-fixed frame realisation and the ranging-accuracy parameter are outside it; the closed-form geometry unit tests remain as supporting checks
@@ -773,7 +887,7 @@ dat-0dfee12efc67 = antenna::tests and attack_surface::tests (the grid is complet
 dat-b89396f72d4a = antenna::tests and lunar_service::tests (the half-power crossing located by bisection on the pattern matches the published Airy x = { "1.61634" } and yields the exact { "1.02899" }·λ/D width, recording that the conventional { "1.02" } coefficient sits at −{ "2.955" } dB not −{ "3.010" } dB; the pattern is strictly decreasing over { "400" } points from boresight to the first null; the implied-efficiency algebra round-trips to { "1e-12" } and reproduces { "0.641" } / { "0.920" }; the off-boresight angle matches tan θ = R·sin γ/(r − R·cos γ) at { "20" } points and both limits to { "1e-12" }; the approximate cone contains the real beam row by row; the headline counts equal the per-row flags they summarise and the correction equals their difference; every row verdict is recomputable from the emitted report alone; every emitted numeric and boolean field has a unit and a provenance class; an impossible aperture emits no block; with no antenna configured the export keeps exactly its six pre-existing keys, { "0" } leaves changed and { "0" } removed); tests/validate_lunar_export_offboresight_spice.rs (flown_orbiter_export_matches_spice_geometry_and_scipy_pattern; documented_working_point_matches_anise_propagation_and_scipy_pattern)
 
 # data/verification-matrix.json
-dat-aec4ecbe4a92 = Anti-jam C/N₀ link-budget equation cross-checked against an independent numpy re-derivation (shares the same closed form → InternalConsistency) plus a real-JammerTest-2024 C/N₀ degradation characterisation. { "0.30" } round { "2" }, blocked (stays MODELLED): the measured JammerTest { "2024" } C/N0 drop against a link-budget prediction (pre-registered 6b2f6240, within { "3" } dB) was not run because the F8.1 antenna position and pointing at Bleik and the L1 share of the multi-band { "1.6.4" } ramp power are not documented in the test catalogue or the official log
+dat-813058b2b38a = Anti-jam C/N₀ link-budget equation cross-checked against an independent numpy re-derivation (shares the same closed form → InternalConsistency) plus a real-JammerTest-2024 C/N₀ degradation characterisation. Version { "0.30" }, blocked (stays MODELLED): the measured JammerTest { "2024" } C/N0 drop against a link-budget prediction (pre-registered 6b2f6240, within { "3" } dB) was not run because the F8.1 antenna position and pointing at Bleik and the L1 share of the multi-band { "1.6.4" } ramp power are not documented in the test catalogue or the official log
 
 # data/search.json
 dat-2597c7cdc6ec = Anticipating the Optimism Gap: Predicting Distribution-Shift Degradation of RF-Impairment Detectors from In-Distribution Statistics
@@ -842,7 +956,13 @@ dat-3479807e1773 = araim_reference::add_v42_subset_plan: the ADD v4.2 subset-det
 dat-50090093f6d9 = araim-reference-check (scenario kind)
 
 # data/verification-matrix.json
-dat-31105e471926 = Arithmetic re-computed by an independent numpy script on exported cases (scripts/gen_lunar_station_ref.py, numpy { "2.5.4" }; pre-registered in tests/fixtures/lunar_station/PREREGISTRATION.md, committed alone in 2d43d3d5 before the first run): on { "20" } cases with every error term on, the visible sets and status are identical, the raw range errors agree to { "1.4e-14" } m, the position-error vectors and magnitudes to { "1.4e-9" } m against a { "1e-6" } m bar, and each point's p95 equals numpy.percentile bit for bit; the station corrections MISSED their { "1e-9" } m bar (worst { "3.73e-9" } m, { "15" } of { "20" } cases), and with them the corrected range errors: checked in 60-digit arithmetic, both sides are within double-precision rounding of the exact value, the survey term being a difference of two { "1e7" } m ranges whose last-place unit is { "1.86e-9" } m; recorded, not tuned. The kind reduces exactly to the lunar-differential-pnt kind at one point, one epoch and one trial. The error model, the decorrelation model and every threshold are this project's own or ILLUSTRATIVE; nothing here is a statement about any real system
+dat-79c6dba37c08 = Area trust state from several reference stations
+
+# data/verification-matrix.json
+dat-ee2eeef21c00 = area_trust (kshana area-trust, Python and WebAssembly): each station's epochs on a { "1" } s grid (Stale after { "5" } s with no epoch) combine into one area state with k = max({ "2" }, ceil(N/3)): UNKNOWN with fewer than { "2" } live stations, UNTRUSTED with at least k untrusted, DEGRADED with at least k degraded or worse or any untrusted (v2, selected by the stations document's area_rule field: at least m untrusted, m = { "2" } for up to { "6" } stations and { "1" } above), else TRUSTED; a worse state is published at once, a better one after { "10" } s. v3 (a kshana.area-measurements/1 document with per-satellite inputs, area_trust::v3): per epoch, when at least k stations exceed H_s, the one satellite whose removal brings every alarmed station under its H_s is flagged SATELLITE_FAULT and every station's fix is recomputed without it; loss of lock alone no longer degrades a station; the aggregation is v2's. area_trust::synth and area_trust::v3::fault_replay build seeded replays with injected events
+
+# data/verification-matrix.json
+dat-2beb8a605292 = Arithmetic re-computed by an independent numpy script on exported cases (scripts/gen_lunar_station_ref.py, numpy { "2.5.4" }; pre-registered in tests/fixtures/lunar_station/PREREGISTRATION.md, committed alone in 2d43d3d5 before the first run): on { "20" } cases with every error term on, the visible sets and status are identical, the raw range errors agree to { "1.4e-14" } m, the position-error vectors and magnitudes to { "1.4e-9" } m against a { "1e-6" } m bar, and each point's p95 equals numpy.percentile bit for bit; the station corrections MISSED their { "1e-9" } m bar (worst { "3.73e-9" } m, { "20" } of { "20" } cases since the { "0.36" } portable-maths re-export; { "15" } of { "20" } on the first run), and with them the corrected range errors: checked in 60-digit arithmetic, both sides are within double-precision rounding of the exact value, the survey term being a difference of two { "1e7" } m ranges whose last-place unit is { "1.86e-9" } m; recorded, not tuned. The kind reduces exactly to the lunar-differential-pnt kind at one point, one epoch and one trial. The error model, the decorrelation model and every threshold are this project's own or ILLUSTRATIVE; nothing here is a statement about any real system
 
 # data/search.json
 dat-f6f6e5db8052 = Article { "21" } lists, in paragraph { "2" } points (a) to (j), the measures essential and important entities take to…
@@ -854,7 +974,7 @@ dat-ac61b111bbf6 = Artifact interchange
 dat-9cbb57e44df7 = ascent-losses (scenario kind)
 
 # data/verification-matrix.json
-dat-f4c6c42742c8 = Ashby & Patla { "2024" }, 'A Relativistic Framework to Estimate Clock Rates on the Moon', Astronomical Journal { "167" }:{ "149" } (NIST; basis for the IAU/IAG LunaNet LTC): Moon-surface self-potential L_m = { "3.13881e-11" } and secular total { "56.02" } µs/day matched as published numeric values; geocentric Moon speed cross-checked vs JPL DE440 (de440s.bsp via SPICE)
+dat-20bc02fdbf17 = Ashby & Patla { "2024" }, 'A Relativistic Framework to Estimate Clock Rates on the Moon', The Astronomical Journal { "168" }:{ "112" } ({ "2024" }), doi:10.3847/1538-3881/ad643a (NIST; basis for the IAU/IAG LunaNet LTC): Moon-surface self-potential L_m = { "3.13881e-11" } and secular total { "56.02" } µs/day matched as published numeric values (transcribed constants of closed-form terms both sides evaluate); geocentric Moon speed within { "1.5" } % of JPL DE440 (de440s.bsp via SPICE)
 
 # data/verification-matrix.json
 dat-1b475a0c1d67 = assemble_coupled_info builds the 9-parameter coupled Fisher over [t_x, t_y, t_z, s, theta_x, theta_y, theta_z, d_tau, d_alpha]; classify_null_space returns a basis-invariant decomposition of its null space into spatial-only, temporal-only and genuinely coupled dimensions plus the spatial-to-temporal projector coupling norm; coupled_marginal_eigs gives the { "{" }scale, offset{ "}" } Schur-complement marginal. On the committed networks the engine reports a full-rank datum (defect { "0" }) for the well-posed case and an exact single rate-direction defect for the single-epoch case (elapsed time zero, so the rate is unobservable by construction), and computes the { "{" }s, d_tau{ "}" } marginal in both.
@@ -875,7 +995,7 @@ dat-b4f93233f242 = ATOMIC zero-clock ECEF polynomial and the synthetic five-alti
 dat-4b74b49feb9e = Attach a published gravity field to a body
 
 # data/verification-matrix.json
-dat-0645e8cb42a8 = attitude_budget::tests (GG torque vanishes for a symmetric body, grows lower-down, linear in ΔI, RSS quadrature sum, variance-fractions-sum-to-1); tests/attitude_gg_torque_reference.rs ({ "20" } cases vs an independent full-tensor GG torque T=(3μ/R³)(n̂×(I·n̂)) numerically maximised over attitude with Hipparchus { "3.1" } linalg; worst rel { "6e-15" }, + Wertz/Sidi published O({ "1e-6" }) s⁻² band); tests/attitude_gg_torque_basilisk_oracle.rs::gravity_gradient_torque_matches_basilisk ({ "40" } cases vs Basilisk { "2.9.1" } GravityGradientEffector: peak at the { "45" } deg attitude within { "1e-12" } relative, worst { "2.1e-15" }; no torque above the peak over { "2000" } random attitudes per case, { "3" } diagonal and { "5" } general inertia tensors, { "5" } altitudes)
+dat-9def0967b634 = attitude_budget::tests (GG torque vanishes for a symmetric body, grows at lower altitude, linear in ΔI, RSS quadrature sum, variance-fractions-sum-to-1); tests/attitude_gg_torque_reference.rs ({ "20" } cases vs an independent full-tensor GG torque T=(3μ/R³)(n̂×(I·n̂)) numerically maximised over attitude with Hipparchus { "3.1" } linalg; worst rel { "6e-15" }, + Wertz/Sidi published O({ "1e-6" }) s⁻² band); tests/attitude_gg_torque_basilisk_oracle.rs::gravity_gradient_torque_matches_basilisk ({ "40" } cases vs Basilisk { "2.9.1" } GravityGradientEffector: peak at the { "45" } deg attitude within { "1e-12" } relative, worst { "2.1e-15" }; no torque above the peak over { "2000" } random attitudes per case, { "3" } diagonal and { "5" } general inertia tensors, { "5" } altitudes)
 
 # data/verification-matrix.json
 dat-ecc3e3825b54 = attitude_dynamics::tests (apply/solve inverse, spherical-top zero torque, principal-axis fixed point, short-run energy+momentum conservation, q̇=½q⊗ω, symmetric-top rate sign + body-cone precession); tests/attitude_dynamics_reference.rs ({ "200" } 000-step torque-free runs: |q|={ "1" } to { "1e-10" }, kinetic energy T=½ωᵀIω conserved to { "1e-9" } rel, |Iω| and the inertial momentum vector conserved to 1e-9/1e-8 rel, both on a tri-axial and a general non-diagonal inertia; symmetric-top oblate + prolate body-cone precession reproduced to { "1e-6" } vs the analytic λ=ω₃(I_a−I_t)/I_t); tests/attitude_dynamics_basilisk_oracle.rs::torque_free_motion_matches_basilisk (two general non-diagonal inertias, { "1e4" } s torque-free vs the Basilisk { "2.9.1" } spacecraft hub with RKF78: quaternion within { "1e-9" }, worst { "3.3e-11" }; body rates within { "1e-9" } rad/s, worst { "3.4e-12" })
@@ -902,7 +1022,7 @@ dat-191683c36535 = Autonomous free-network fault observability
 dat-3d1c54573d8a = Autonomous free-network fault-observability linear-algebra pipeline (parity projector, detectability, MDB non-centrality, Byzantine block-spark)
 
 # data/verification-matrix.json, data/card-matrix-map.json
-dat-ea17589a4f89 = Autonomous-holdover temporal-gauge floor for the self-referential lunar constellation (T4)
+dat-e0ab66344cc0 = Autonomous-holdover temporal-gauge floor for the self-referential lunar constellation
 
 # data/verification-matrix.json
 dat-27a48a5f743d = Availability of an optical link against a stated link margin from a log-normal cloud liquid-water climate (ITU-R P.840 amount, geometric-optics extinction) and the independent gamma-gamma turbulence fade, the link margin needed for target availabilities and the ceiling no margin lifts, log-normal outage durations, enhancement-technique what-ifs, and a one-factor Gaussian-copula network availability whose pair correlation is exp(-distance/decorrelation length). Runnable as the `optical-atmosphere` scenario kind.
@@ -944,10 +1064,13 @@ dat-25c2d93d18e3 = Band-limited closed forms for any ranging signal: power in ba
 dat-0e731a642d96 = Bands and signal designs
 
 # data/verification-matrix.json
+dat-bcf750c2538a = Bars pre-registered in docs/design/evidence/m1-space-rf-geolocation/ (results a41eb6d06). All MET: B1, an independent numpy recomputation (xval/m1-geolocation/oracle.py, no shared code) over { "60" } cases (S1, F2, F3 x P1-P10 x AIS, a { "30" } dBm jammer): worst relative difference { "3.0e-10" } and worst orientation { "3.0e-11" } rad (bars { "1e-6" }), every pass identical; B2, the published case of Cao et al., Chin. J. Aeronaut. { "2015" }, Fig. { "1" } ({ "25" } plot readings, bar { "20" } %): worst +{ "5.5" } % (at a receiver-location error of { "0.75" } km), { "22" } of { "25" } within { "1" } %; B3, the F3 estimator against the bound (AIS, P1-P10, { "1000" } trials each, bar { "0.9" } to { "1.25" } x DRMS and { "99" } % converged): ratios { "0.979" } to { "1.019" }, { "1000" } of { "1000" } converged at every point; B4, the fused information equals the sum of the per-pass information to { "6.7e-16" } relative and DRMS never rises with another pass; B5 additivity. WHAT IS NOT CHECKED: no flown system and no real RF data; no clock or orbit-knowledge error, multipath, AIS slot collisions seen from orbit, ionosphere at VHF or emitter motion; the link budgets are representative, not measured, and the radar classes isotropic (an upper bound), so the bounds are optimistic
+
+# data/verification-matrix.json
 dat-dff28d824f2c = Basilisk { "2.9.1" } (AVSLab, ISC; the bsk wheel run as a separate tool, never linked or vendored): spacecraft hub, reactionWheelStateEffector (BalancedWheels, torque limit on), simpleNav, inertial3D, attTrackingError, mrpFeedback (no integral term) and rwMotorTorque at dt = { "0.1" } s with its RK4, against Kshana's own implementation on three cases (three orthogonal wheels; a four-wheel pyramid; a saturating four-wheel case), bars pre-registered in xval/aocs-basilisk/PREREGISTRATION.md before the code and the run. All bars held on the first run. WHAT IS NOT: sensor noise in the loop, integral feedback, tracking guidance, wheel friction, jitter, speed limits and power, any real spacecraft's gains; the comparison checks the implementation of the law and the dynamics against an independent one, not a flight controller.
 
 # data/verification-matrix.json
-dat-d67db218a54a = Basilisk { "2.9.1" } GravityGradientEffector (AVSLab, ISC), an independent C++ implementation of the full-tensor gravity-gradient torque: Kshana's peak (3/2)(μ/R³)ΔI equals Basilisk's torque at the { "45" } deg attitude within { "1e-12" } relative (worst { "2.1e-15" }) over { "5" } altitudes and { "8" } inertia tensors, and bounds Basilisk's torque over { "2000" } random attitudes per case; tolerance fixed before the comparison. Validated claim: the gravity-gradient torque peak. The RSS pointing budget is a quadrature sum of caller-supplied numbers with no external truth and stays outside it; the hand-coded Hipparchus full-tensor maximisation remains as supporting self-consistency. No control-loop/6-DoF/flexible-mode simulation
+dat-7c92286c8be4 = Basilisk { "2.9.1" } GravityGradientEffector (AVSLab, ISC), an independent C++ implementation of the full-tensor gravity-gradient torque: Kshana's peak (3/2)(μ/R³)ΔI equals Basilisk's torque at the { "45" } deg attitude within { "1e-12" } relative (worst { "2.1e-15" }) over { "5" } altitudes and { "8" } inertia tensors, and bounds Basilisk's torque over { "2000" } random attitudes per case; tolerance fixed before the comparison. Validated claim: the gravity-gradient torque peak. The RSS pointing budget is a quadrature sum of caller-supplied numbers with no external truth and stays outside it; the Orekit { "12.2" } / Hipparchus { "3.1" } full-tensor numerical maximisation ({ "20" } cases, worst { "6e-15" }) remains as a supporting cross-check. No control-loop/6-DoF/flexible-mode simulation
 
 # data/verification-matrix.json
 dat-a6dc301fd5fc = Basilisk { "2.9.1" } spacecraft hub rigid-body propagation (AVSLab, ISC; MRP attitude through its own coupled hub equations, svIntegratorRKF78 at relative tolerance { "1e-12" }), an independent implementation of the torque-free rigid-body equations: Kshana's RK4 quaternion (dt { "0.01" } s) and body rates agree within { "1e-9" } over { "1e4" } s on two general non-diagonal inertias (worst { "3.3e-11" } and { "3.4e-12" } rad/s); tolerance fixed before the comparison. Validated claim: torque-free motion; the external-torque term is not compared. The conservation-law and symmetric-top checks remain as supporting self-consistency. No flexible-body / control-loop / external-torque environment
@@ -988,6 +1111,9 @@ dat-c58c97b005f7 = BeiDou GEO broadcast satellite position
 # assets/capabilities/capabilities.json, js/missions-runs.mjs
 dat-3eb518cc8715 = BeiDou MEO Walker 24/3/1 + { "3" } GEO + { "3" } IGSO, BDS-OS-PS-3.0 ({ "2021" }) section { "4.1" }; MEO phase and IGSO nodes modelled
 
+# data/verification-matrix.json
+dat-ba7b764ed43c = bench::texbat (kshana bench texbat-windows and texbat-pd): streams one TEXBAT recording (complex int16, { "25" } Msps), refuses a file whose SHA-256 or size differs from the pinned manifest and then writes nothing, acquires PRNs { "1" } to { "32" } once and tracks them through the recording, and writes per { "1" } s window the early-minus-late imbalance S, the prompt-power fluctuation P and the window score against synthetic thresholds (the 99th percentiles over the { "61" } of { "64" } synthetic windows that acquire); texbat-pd adds the in-band power rise over the recording's own windows { "0" } to { "59" } (tau { "1.0" } dB). Writes scores only, never IQ samples
+
 # data/search.json
 dat-ed7e4ac24eb3 = Benchmark: ACES/PHARAO on the ISS (operational since April { "2025" })
 
@@ -1007,7 +1133,7 @@ dat-a52abf7b2ae9 = Beyond the L band
 dat-1a8f0017f26b = Beyond the tutorials: newer capabilities
 
 # data/verification-matrix.json
-dat-8586a1b74deb = Biancale and Bode, GFZ Scientific Technical Report STR06/01 ({ "2006" }), Table { "5" }, model A2: Ray ({ "2001" }) published in fully-normalised harmonics with sine-lead phases, an independent rendering of the same model. Pre-registered in xval/s2-air-tide-fix/PREREGISTRATION.md (d2c3d297) with the fix it validates. Covers the coefficient conversion only; the air tide's geopotential effect has no external oracle
+dat-971039cbc48c = Biancale and Bode, GFZ Scientific Technical Report STR06/01 ({ "2006" }), Table { "5" }, model A2: Ray ({ "2001" }) published in fully-normalised harmonics with sine-lead phases, an independent rendering of the same model. Pre-registered in xval/s2-air-tide-fix/PREREGISTRATION.md (d2c3d297) with the fix it validates. Covers the coefficient conversion only; the air tide's geopotential effect has no external oracle
 
 # data/search.json
 dat-4fd12ee9645c = Binary format
@@ -1112,7 +1238,7 @@ dat-5b35889a8881 = By the end you will have propagated the real operational GPS 
 dat-99ada4193e3f = By the end you will have run a clock holdover with GNSS (Global Navigation Satellite System) signals denied…
 
 # data/verification-matrix.json, data/card-matrix-map.json
-dat-bff0cee33ba0 = Byzantine block-spark detect/identify bound on the autonomous per-node lunar network (T3)
+dat-fdfe10ccf232 = Byzantine block-spark detect/identify bound on the autonomous per-node lunar network
 
 # data/verification-matrix.json
 dat-d0d4207b1652 = byzantine_bound instantiates the secure-state-estimation coding / sparse-observability bound on the per-node network geometry: a Byzantine peer injects an arbitrary linear combination of the measurements it participates in, and the network DETECTS any coalition of ≤ f = block_spark − { "1" } peers and uniquely IDENTIFIES any coalition of ≤ ⌊(block_spark − { "1" })/2⌋, where block_spark is the smallest peer-coalition whose stacked effective signatures P⊥·B_T are column-rank-deficient. Peer detectability is FULL COLUMN RANK of P⊥·B_j (a nonzero-but-rank-deficient block is a nonzero attack that lands in range(G) and leaves no residual), not merely P⊥·B_j ≠ { "0" }
@@ -1121,7 +1247,10 @@ dat-d0d4207b1652 = byzantine_bound instantiates the secure-state-estimation codi
 dat-c5a714b52f19 = C/N0 by band over the run
 
 # data/verification-matrix.json
-dat-ba0eda3b5924 = CAI cited error-model parameter sheet ({ "13503" })
+dat-3a3b9101b376 = c3_force::C3Model: the lunar force model of the LRO/CAPSTONE row (VM-576667f2) with the Sun and Earth from a DE440 kernel plus Venus and the Jupiter system barycentre as point masses (M1), and optionally cannonball radiation pressure k = Cr A/m with Earth and Moon conical shadows (M2). With no kernel and no radiation pressure it is that row's model bit for bit
+
+# data/verification-matrix.json
+dat-4b60d1b820c7 = CAI cited error-model parameter sheet
 
 # studio/data/capabilities.json
 dat-696fffdd1360 = calibrated to clock datasheets · holdover cross-checked vs the van-Loan covariance recursion
@@ -1198,6 +1327,9 @@ dat-68a307c8cde3 = Capability reference
 # data/verification-matrix.json
 dat-bdfec2e4914a = Capped FLL pull-in below the default design's FLL-to-PLL hand-over floor (opt-in)
 
+# data/verification-matrix.json
+dat-a074a1dbe972 = CAPSTONE NRHO propagation with DE440 third bodies and one radiation-pressure parameter
+
 # data/verification-matrix.json, data/card-matrix-map.json
 dat-ee245f89506c = Capture footprint against altitude and beamwidth
 
@@ -1259,7 +1391,13 @@ dat-0ce9aba972e5 = Celeste IOD signal designs: the frequency bands and the "Clas
 dat-f5e2ce4e8b3e = Cell-averaging CFAR option in IQ acquisition
 
 # data/search.json
+dat-567c1d717852 = CGGTTS time-transfer files
+
+# data/search.json
 dat-de30acebc039 = Chains, keys and alerts
+
+# data/search.json
+dat-328d8015e5f4 = Changed (quality, platform and evidence rows)
 
 # data/search.json
 dat-459c7ebe6478 = Changelog maintenance (required)
@@ -1373,7 +1511,7 @@ dat-f7db9ff7d7fc = clock_log::tests (hand-written logs per format: headers, sepa
 dat-1fba7f3991f5 = clock_log::tests (ptp4l_reads_the_locked_offsets_in_ns; linuxptp_reads_only_the_named_program; ts2phc_gap_is_refused_or_filled; linuxptp_reads_syslog_prefixed_lines_and_picks_an_interface; linuxptp_refuses_a_servo_that_never_locks_and_backwards_stamps; chrony_tracking_reads_the_local_offset_in_seconds; chrony_statistics_needs_a_source_when_there_are_two; chrony_columns_of_the_other_log_are_not_read; clock_selector_is_refused_for_timelab_and_ticc_only) on the fixtures in tests/fixtures/clock_log/linuxptp_chrony/
 
 # data/verification-matrix.json
-dat-fc313594a0c6 = clock_state::tests (analytic van-Loan Q; NEES; PSD positivity); tests/clock_state_reference.rs (full predict+update trajectory — state x and { "3" }×{ "3" } covariance P over { "1925" } steps / { "4" } parameter sets vs filterpy { "1.4.5" }; worst |relΔ| { "2.8e-14" }); tests/clock_state_igs_holdout_oracle.rs::three_state_filter_on_held_out_igs_clocks_finding (pins the finding); tests/clock_state_ext_igs_fresh_oracle.rs::extended_filter_on_fresh_igs_clocks_finding; tests/clock_state_ext_igs_conditioned_oracle.rs::conditioned_extended_filter_finding (D9 round { "3" })
+dat-7e913a07fc63 = clock_state::tests (analytic van-Loan Q; NEES; PSD positivity); tests/clock_state_reference.rs (full predict+update trajectory — state x and { "3" }×{ "3" } covariance P over { "1925" } steps / { "4" } parameter sets vs filterpy { "1.4.5" }; worst |relΔ| { "2.8e-14" }); tests/clock_state_igs_holdout_oracle.rs::three_state_filter_on_held_out_igs_clocks_finding (pins the finding); tests/clock_state_ext_igs_fresh_oracle.rs::extended_filter_on_fresh_igs_clocks_finding; tests/clock_state_ext_igs_conditioned_oracle.rs::conditioned_extended_filter_finding (round { "3" })
 
 # assets/capabilities/capabilities.json
 dat-52c9d05eb240 = clock-aided spoofing monitor alarms
@@ -1404,9 +1542,6 @@ dat-aab476a60a3e = Clocks, timing and holdover (scenario kind family)
 
 # data/verification-matrix.json
 dat-c17238067f8c = Clohessy–Wiltshire / Hill relative-motion dynamics
-
-# data/verification-matrix.json
-dat-b8d69f59e32d = Closed form, under bars pre-registered at 8af30331 (docs/design/evidence/acq-cfar/). The CA-CFAR false-alarm probability for Gamma(M) cells, against Monte Carlo of the exact model: { "18" } of { "18" } cases within { "3" } binomial sigma. On every cell of iq::acq searches (GPS L1 C/A, { "2.5" } MS/s, { "210 000" } cells each) at a design { "1" } %: { "0.977" } % and { "0.969" } % on Gaussian noise and { "1.006" } % and { "0.999" } % on 2-bit quantised noise (M = { "1" } and { "4" }; bar plus or minus { "20" } %); decisions unchanged when the input is scaled. NOT MET (finding F1): on a noise-free 2-bit signal the detection and its cell are right, but { "1.28" } % of the off-peak cells of the peak's row (bar { "1" } %) exceed the threshold, at the code's deterministic correlation sidelobes. WHAT IS NOT CHECKED: other CFAR variants, two-dimensional windows, band-limited front ends, field data.
 
 # data/verification-matrix.json
 dat-6ad78310a079 = Closed forms and identities, not an external measurement: the range-rate gradient against a central difference, the information-form statistic against the dense covariance form, a pure clock drift giving zero, a prior-explained push giving at most |dx|^2/sigma_p^{ "2" }, the statistic quadratic in a jump. No detection figure is compared with a measured attack; the spoofer is idealised (no power, angle-of-arrival or correlation-peak signature)
@@ -1466,10 +1601,10 @@ dat-b2220d080d26 = Closed-form quadrature budget over reused validated kernels (
 dat-573cdb6e4255 = Closed-form rank-statistics identities (tau in [-1,{ "1" }] with hand-computed values; deterministic seeded Dirichlet) and constructed stable/unstable witnesses
 
 # data/verification-matrix.json
-dat-102853a41e96 = Closed-form surfaces (InternalConsistency): the bare-sphere dip, a crater in a plateau on the sphere with an observer on and off its centre, and an analytic cone against its own rasterisation. On the real crop, an independent numpy ray-cast (scripts/gen_lunar_terrain_ref.py, numpy { "2.5.3" }; pre-registered in tests/fixtures/lunar_terrain/PREREGISTRATION.md, committed alone in 4fa71559 before the script existed) agrees at five sites: site heights to { "1.0e-11" } m and all { "1800" } horizon elevations to { "5.5e-10" } deg against { "1e-6" } bars, truncated-ray counts exact; this checks the arithmetic, not the terrain. No published polar horizon or illumination figure has been reproduced: the vendored { "1200" } m crop smooths the sub-kilometre relief that published illumination studies resolve, so the DEM horizons are a MODELLED line of sight over a resampled real DEM, not a validated horizon. The station site and constellation stay ILLUSTRATIVE; nothing here is a statement about any real system
+dat-946c756a9f47 = Closed-form surfaces (InternalConsistency): the bare-sphere dip, a crater in a plateau on the sphere with an observer on and off its centre, and an analytic cone against its own rasterisation. On the real crop, an independent numpy ray-cast (scripts/gen_lunar_terrain_ref.py, numpy { "2.5.3" }; pre-registered in tests/fixtures/lunar_terrain/PREREGISTRATION.md, committed alone in 4fa71559 before the script existed) agrees at five sites: site heights to { "1.0e-11" } m and all { "1800" } horizon elevations to { "5.5e-10" } deg against { "1e-6" } bars, truncated-ray counts exact; this checks the arithmetic, not the terrain. No published polar horizon or illumination figure has been reproduced: the vendored { "1200" } m crop smooths the sub-kilometre relief that published illumination studies resolve, so the DEM horizons are a MODELLED line of sight over a resampled real DEM, not a validated horizon. The station site and constellation stay ILLUSTRATIVE; nothing here is a statement about any real system
 
 # data/verification-matrix.json
-dat-b858d65a543d = Closed-form: each guard is run over a fixed known-bad snippet that must fire and a fixed known-good snippet that must stay silent, both literal constants the detector cannot influence. The two known-bad snippets are the F22 and F25 defects in their original shape. This is an INTERNAL oracle and the row is MODELLED accordingly: it proves the guards discriminate the defect from its fix, not that the classes they describe are exhaustive. Their stated blind spots — shared state that is not a path, a pin held in a short named constant, a rare race that three runs do not sample, and a receipt that anyone who can write the file can forge — are written out in the module documentation of tests/source_guards.rs and in each script's header rather than left to be discovered.
+dat-c42c98f21933 = Closed-form: each guard is run over a fixed known-bad snippet that must fire and a fixed known-good snippet that must stay silent, both literal constants the detector cannot influence. The two known-bad snippets are two earlier defects in their original shape: a temp path shared through the process id by the threads of one test process, and a hash pin with no declared scope. This is an INTERNAL oracle and the row is MODELLED accordingly: it proves the guards discriminate the defect from its fix, not that the classes they describe are exhaustive. Their stated blind spots — shared state that is not a path, a pin held in a short named constant, a rare race that three runs do not sample, and a receipt that anyone who can write the file can forge — are written out in the module documentation of tests/source_guards.rs and in each script's header rather than left to be discovered.
 
 # data/verification-matrix.json
 dat-7aee30d831c3 = Closed-loop MRP feedback attitude control with reaction wheels
@@ -1524,6 +1659,9 @@ dat-c3b75ca5e4d8 = Command-line usage
 
 # data/search.json
 dat-7936b85475d1 = Commits and versioning
+
+# data/search.json
+dat-553a41509c51 = Common Alerting Protocol (CAP { "1.2" })
 
 # data/verification-matrix.json
 dat-caf931b453c0 = Common-mode consistency statistic (separation-blind shared-reference fault)
@@ -1592,16 +1730,22 @@ dat-f897afc6b9fa = Concepts — a plain-language primer
 dat-6fe4d949b8ec = Conditional Timing Protection Level
 
 # data/search.json
+dat-bcebed58eda8 = Confidence and latency statement
+
+# data/search.json
 dat-6c14a645e6c1 = Configuration (every threshold)
 
 # data/search.json
 dat-bc75865bddda = conflict-resilience (scenario kind)
 
+# data/search.json
+dat-5a62f8447270 = Conformance vectors
+
 # studio/data/capabilities.json
 dat-e7362ae75937 = conservative tiers < { "0.08" } m / { "24" } h vs Orekit { "12.2" }
 
 # data/verification-matrix.json
-dat-807a6947caf1 = consistency_tolerance: inverts a user position budget to a per-parameter inter-provider Helmert agreement requirement (origin/scale/rotation) at a reference lever arm, optionally inflated by the P1 single-provider realization CRLB
+dat-c71f4fc01fe7 = consistency_tolerance: inverts a user position budget to a per-parameter inter-provider Helmert agreement requirement (origin/scale/rotation) at a reference lever arm, optionally inflated by the single-provider realization CRLB
 
 # data/search.json, studio/data/areas.json
 dat-eff3da08db43 = Constellation design
@@ -1685,7 +1829,7 @@ dat-f3894df897f5 = Coverage and accuracy map (lunar-station-coverage)
 dat-79dd3ee7c74e = Coverage and dilution-of-precision maps for arbitrary multi-constellation designs at scale, around any central body
 
 # data/verification-matrix.json
-dat-5d4f6a2f8f49 = Cowell numerical propagator with a hierarchical force model (two-body, J2–J6 zonal, Sun/Moon third-body, cannonball SRP, exponential drag); RK4 step-doubling / DP5({ "4" }) / DOP853
+dat-a792af4548d9 = Cowell numerical propagator with a hierarchical force model (two-body, J2–J6 zonal, Sun/Moon third-body, cannonball SRP, exponential drag); RK4 step-doubling (the integrator compared here); DP5({ "4" }) and DOP853 drivers also available (DOP853 validated in VM-c46b5c0f)
 
 # studio/data/capabilities.json
 dat-3ac3d588bbfd = Cowell propagator & six-perturbation force model
@@ -1754,10 +1898,10 @@ dat-e01b501bdc79 = CRPA anti-jam array beamforming
 dat-2e99758516b0 = crpa::tests (complex arithmetic identities incl. z/z={ "1" }, |exp(jθ)|={ "1" }, zᴴz=|z|²; deterministic null-steering gives exact unit SV gain and <{ "1e-9" } jammer nulls on a 4-element ULA with { "3" } jammers; an N-element array rejects >N−{ "1" } jammers and min-norm-nulls fewer; MVDR stays distortionless toward the SV while the jammer null deepens monotonically with jammer power to <{ "1e-3" } at { "60" } dB); tests/crpa_reference.rs (the MVDR and minimum-norm null-steering weight vectors and the resulting array-response gains matched vs an independent numpy/scipy LAPACK computation to ~{ "1e-9" })
 
 # data/verification-matrix.json
-dat-8291eb82877e = CSPICE N0067 through spiceypy { "8.3.0" } (spkw03, spkw13 and, from the same library by its f2c symbol, spkw21; spkpvn, spkgeo), pre-registered (3f8945c7) before the code existed, the synthetic records drawn from that commit's SHA-1: for three files (type { "3" } degrees { "0" }, { "12" } and { "27" } with { "3" } to { "150" } records; type { "21" } MAXDIM { "15" }, { "20" } and { "25" } with { "1" } to { "250" } lines, zero to two directory entries and a centre chain; type { "3" }, { "21" } and { "13" } in one file with comments) SPICE's inventory of Kshana's kernels is exact, Kshana's kernels are byte-identical to the ones SPICE writes from the same records, and spkpvn and spkgeo equal Kshana's reader bit for bit on Kshana's and on SPICE's files ({ "48 876" } components each way, bar { "1e-12" } relative). Synthetic records: nothing about physical accuracy; real JPL-produced type { "21" } kernels are not in the case set
+dat-81133bddfbd1 = CSPICE N0067 through spiceypy { "8.3.0" } (spkw03, spkw13 and, from the same library by its f2c symbol, spkw21; spkpvn, spkgeo), pre-registered (3f8945c7) before the code existed, the synthetic records drawn from that commit's SHA-1: for three files (type { "3" } degrees { "0" }, { "12" } and { "27" } with { "3" } to { "150" } records; type { "21" } MAXDIM { "15" }, { "20" } and { "25" } with { "1" } to { "250" } lines, zero to two directory entries and a centre chain; type { "3" }, { "21" } and { "13" } in one file with comments) SPICE's inventory of Kshana's kernels is exact, Kshana's kernels are byte-identical to the ones SPICE writes from the same records, and spkpvn and spkgeo equal Kshana's reader bit for bit on Kshana's and on SPICE's files ({ "48 876" } components each way, bar { "1e-12" } relative). Synthetic records: nothing about physical accuracy; real JPL-produced type { "21" } kernels are not in the case set
 
 # data/verification-matrix.json
-dat-d8b6112977ac = CSPICE N0067 through spiceypy { "8.3.0" }, leapseconds kernel naif0012.tls, pre-registered (75bc61d9) before SPICE read any Kshana kernel: SPICE's inventory of Kshana's four kernels is exact; spkpvn and spkgeo at { "5 516" } epochs and { "690" } chain evaluations equal Kshana's own evaluation bit for bit and stay inside the bar at every node (worst { "0.022" } of it); Kshana reads SPICE-written kernels bit-identically; for the same inputs Kshana's kernels are byte-identical to SPICE's ({ "0" } differing bytes in four files); OEM epochs convert to ephemeris time within { "6.0e-8" } s of str2et (bar { "1e-6" } s) and SPICE evaluates the OEM export inside the bar (worst { "0.060" }). Synthetic Kepler arcs: nothing about physical accuracy. Other SPK types are not written
+dat-dfbb67ebccba = CSPICE N0067 through spiceypy { "8.3.0" }, leapseconds kernel naif0012.tls, pre-registered (75bc61d9) before SPICE read any Kshana kernel: SPICE's inventory of Kshana's four kernels is exact; spkpvn and spkgeo at { "5 516" } epochs and { "690" } chain evaluations equal Kshana's own evaluation bit for bit and stay inside the bar at every node (worst { "0.022" } of it); Kshana reads SPICE-written kernels bit-identically; for the same inputs Kshana's kernels are byte-identical to SPICE's ({ "0" } differing bytes in four files); OEM epochs convert to ephemeris time within { "6.0e-8" } s of str2et (bar { "1e-6" } s) and SPICE evaluates the OEM export inside the bar (worst { "0.060" }). Synthetic Kepler arcs: nothing about physical accuracy. Other SPK types are not written
 
 # studio/channels.json
 dat-c369496b9023 = Cursor (one click)
@@ -1777,11 +1921,17 @@ dat-c6597b7a006c = CW tone on L1
 # data/verification-matrix.json
 dat-1c43ff522f32 = cw_dynamics::tests (Φ({ "0" })=I, cross-track decoupled SHM); tests/cw_dynamics_reference.rs (closed-form Φ vs an independent fixed-step RK4 integration of the same Hill ODEs to <{ "1e-6" } over a third of an orbit; Φ(t)Φ(−t)=I to { "1e-9" }; the bounded condition ẏ₀=−2n·x₀ closes the full state after one period to { "1e-9" } with no secular along-track drift over { "10" } orbits; a pure radial offset drifts the analytic −12π·x₀ per orbit); tests/cw_dynamics_orekit_oracle.rs::cw_second_order_matches_nonlinear_orekit_within_1mm (four cases at { "100" } m over a third of a { "500" } km orbit: worst { "1.15e-7" } m against { "1e-3" } m); tests/cw_dynamics_orekit_oracle.rs::cw_disagreement_with_orekit_is_recorded_as_a_finding (the linear Φ alone: { "1.2" } to { "6.3" } mm, pinned)
 
+# data/verification-matrix.json
+dat-a66a88b76076 = Dark-vessel and AIS-integrity decisions from RF fixes against AIS reports
+
 # studio/channels.json
 dat-3b25999a1a11 = Dashboard source
 
 # data/search.json
 dat-40f9ef728be1 = Data and licences
+
+# data/search.json
+dat-0c73c360255e = Datasets, frozen files and citation ids
 
 # data/verification-matrix.json
 dat-1ce6d6ab5c7a = Datum-Jacobian rows for Earth-reflector LLR range, two-station lunar-VLBI differential delay, and orbiter-to-beacon range over the 7-parameter datum, combined into one consistently-preconditioned Fisher; demonstrates that off-radial (orbiter / depth-diverse) tracking breaks the origin-X to scale degeneracy where transverse VLBI helps only indirectly
@@ -1829,7 +1979,7 @@ dat-36db0ce53357 = Default exponential drag against an independent implementatio
 dat-4dc5b9d92219 = Defence and security
 
 # data/verification-matrix.json
-dat-3993221d12d9 = Definitional Kp↔ap table + Jacchia-1971 exospheric-temperature closed form (matched to <{ "1" } K vs the published anchors, tests/space_weather_reference.rs); the density is characterised against pymsis NRLMSISE-00 (an independent NRL model): the { "800" } km solar-cycle swing is 10.4x against NRLMSISE-00 13.6x. { "0.30" } revision: the calibrated first-order activity factor was replaced by Jacchia { "1971" } (default scenario density at { "400" } km { "4.176e-12" } -> { "6.929e-12" } kg/m3; reference_exospheric_temperature_k removed, mean_exospheric_temperature_k added). { "0.30" } round { "2" }, measured TOLEOS CHAMP/GRACE/GRACE-FO accelerometer densities (ESA Swarm DISC; pre-registered bb8756e3), a finding (stays MODELLED): orbit averages at { "400" } to { "500" } km are within a factor { "2" } at solar maximum outside storms (CHAMP { "2001" } 521/521, GRACE-A { "2002" } 120/120, GRACE-FO { "2024" } 526/547), but Jacchia { "1971" } is about 1.7x too dense in the { "2008" } solar minimum (GRACE-A 412/544 within a factor { "2" }), so the density is not validated
+dat-bba9d30e0188 = Definitional Kp↔ap table + Jacchia-1971 exospheric-temperature closed form (matched to <{ "1" } K vs the published anchors, tests/space_weather_reference.rs); the density is characterised against pymsis NRLMSISE-00 (an independent NRL model): the { "800" } km solar-cycle swing is 10.4x against NRLMSISE-00 13.6x. { "0.30" } revision: the calibrated first-order activity factor was replaced by Jacchia { "1971" } (default scenario density at { "400" } km { "4.176e-12" } -> { "6.929e-12" } kg/m3; reference_exospheric_temperature_k removed, mean_exospheric_temperature_k added). Version { "0.30" }, measured TOLEOS CHAMP/GRACE/GRACE-FO accelerometer densities (ESA Swarm DISC; pre-registered bb8756e3), a finding (stays MODELLED): orbit averages at { "400" } to { "500" } km are within a factor { "2" } at solar maximum outside storms (CHAMP { "2001" } 521/521, GRACE-A { "2002" } 120/120, GRACE-FO { "2024" } 526/547), but Jacchia { "1971" } is about 1.7x too dense in the { "2008" } solar minimum (GRACE-A 412/544 within a factor { "2" }), so the density is not validated
 
 # data/verification-matrix.json
 dat-dd5bb80874be = Delay partials accumulated over a schedule of baselines × epochs into a Fisher information matrix, inverted to the station coordinate covariance and the per-coordinate station sigma, replacing an assumed isotropic equipartition link from a scalar delay precision. The state carries Earth-fixed (ITRS) station coordinates, so the Jacobian is the inertial partial rotated by each epoch's GCRS→ITRS matrix and Earth rotation is what makes those coordinates observable — the report MEASURES the Earth-fixed line-of-sight sweep and the beacon declination rather than assuming them. Rank, datum defect, condition number, the information spectrum and the free-network null space are emitted on every run, and under a rank deficiency the headline sigma is published as NULL with a status rather than read out of a near-singular inverse. The equipartition value c·σ_τ·√(g/N) for the SAME schedule is printed beside the computed one with their ratio, together with the isotropic trace bound √(p/trace(M)) that AM-HM makes a hard floor. Runnable as the `lunar-vlbi-fim` scenario kind
@@ -1973,13 +2123,16 @@ dat-4c7938f2e233 = Earth rotation from a two-part UT1 Julian date on the orbit p
 dat-0c2f003add61 = Earth to Moon to Mars
 
 # data/verification-matrix.json
-dat-5eae592c6bca = earth_gnss_lunar::tests ({ "11" } lib tests: the Earth-limb half angle against its closed form asin(R/r) with a further assertion that EVERY un-occulted link lies outside that cone, so the occultation test and the limb angle cannot disagree; the occultation predicate checked on the near side, the far side and the case where the body lies BEHIND the transmitter; path loss bounded to the plausible lunar-range band on every link; the trackable set shown to be a subset of the geometrically visible set and disjoint from the occulted one; monotonicity in both directions - more receiving gain never reduces the count, a stricter threshold never raises it; no link credited with more than boresight gain; a receiver inside the Earth refused; the sweep asserted to actually VARY with epoch; and signal-vs-fix availability asserted distinct, correctly ordered, and consistent with the per-epoch rows); tests/earth_gnss_measured_montenbruck_oracle.rs::finding_genesis_nadir_counts_exceed_the_paper (pinned); tests/lugre_relative_cn0_visibility.rs::too_few_iir_records_at_lunar_distance_for_the_relative_cn0_bar (pinned finding)
+dat-42496b21698e = earth_gnss_lunar::tests ({ "16" } lib tests: the Earth-limb half angle against its closed form asin(R/r) with a further assertion that EVERY un-occulted link lies outside that cone, so the occultation test and the limb angle cannot disagree; the occultation predicate checked on the near side, the far side and the case where the body lies BEHIND the transmitter; path loss bounded to the plausible lunar-range band on every link; the trackable set shown to be a subset of the geometrically visible set and disjoint from the occulted one; monotonicity in both directions - more receiving gain never reduces the count, a stricter threshold never raises it; no link credited with more than boresight gain; a receiver inside the Earth refused; the sweep asserted to actually VARY with epoch; and signal-vs-fix availability asserted distinct, correctly ordered, and consistent with the per-epoch rows); tests/earth_gnss_measured_montenbruck_oracle.rs::finding_genesis_nadir_counts_exceed_the_paper (pinned); tests/lugre_relative_cn0_visibility.rs::too_few_iir_records_at_lunar_distance_for_the_relative_cn0_bar (pinned finding)
 
 # data/search.json
 dat-118850be5530 = Earth-baseline VLBI restores the observability of a lunar surface station in joint orbit-and-clock determination
 
 # data/verification-matrix.json
 dat-e8fff17a99fc = Earth-GNSS at lunar distance
+
+# data/search.json
+dat-ad40eb17db5d = Earth-GNSS reception at lunar distance, a weak-signal layer the engine had no model for.
 
 # data/search.json
 dat-7991582cf38d = Earth-GNSS reception at lunar distance, the weak-signal layer the conflict-resilience paper names and the…
@@ -2033,7 +2186,7 @@ dat-f981b758a180 = Electro-optical imager radiometry, MTF, relative edge respons
 dat-cafcc364273d = ELimination Et Choix Traduisant la REalité — concordance / discordance matrices, the concordance-and-non-veto dominance relation and the outranking choice kernel (all-benefit, sum-normalised-weight, single-global-scale convention)
 
 # data/verification-matrix.json
-dat-8843caab8c46 = Elliptic Kepler solver for all { "0" } <= e < { "1" } and all mean anomalies: Markley ({ "1995" }) cubic starter and fifth-order correction, a cancellation-free residual (1-e)E + e(E - sin E) - M, and guarded Newton polishing (kepler::solve_kepler_markley, propagator::solve_kepler_robust)
+dat-4ba58e842eca = Elliptic Kepler solver for { "0" } <= e <= { "0.999999" } (the validated range) and all mean anomalies: Markley ({ "1995" }) cubic starter and fifth-order correction, a cancellation-free residual (1-e)E + e(E - sin E) - M, and guarded Newton polishing (kepler::solve_kepler_markley, propagator::solve_kepler_robust)
 
 # data/search.json
 dat-6fd0ece9147e = Emitter region (interference-map locate)
@@ -2125,6 +2278,9 @@ dat-974cec6ca18d = ESA Celeste in-orbit demonstration (IOD) preset: the one scen
 # data/search.json
 dat-ba165ef085c4 = ESA Celeste IOD, signal configuration #1, all bands over one pass. WORKSHOP PRESET.
 
+# js/developers-data.mjs
+dat-b9ca5a4cd475 = Estimate emitter regions from openly licensed aircraft (ADS-B) or ship (AIS) reports given as CSV text (`kshana interference-map locate`): where, under stated assumptions, a source of the degraded reports could be, as regions at stated confidence levels with a centroid and an uncertainty ellipse, never a bare point.
+
 # data/search.json
 dat-ff5b73c0368c = EU NIS2 Directive, Article { "21" }: what Kshana supports evidence for
 
@@ -2132,7 +2288,7 @@ dat-ff5b73c0368c = EU NIS2 Directive, Article { "21" }: what Kshana supports evi
 dat-0d03e418ffb7 = Euler's rotational equations of motion (I ω̇ = τ − ω × Iω, principal-axis and general inertia tensor) coupled to quaternion attitude kinematics (q̇ = ½ q ⊗ ω) and propagated with a fixed-step RK4 integrator that re-normalises the quaternion each step
 
 # data/search.json
-dat-b8b659cbbefa = Every bundled scenario file ({ "193" }), grouped by kind, with its key settings.
+dat-932790c31cf5 = Every bundled scenario file ({ "195" }), grouped by kind, with its key settings.
 
 # data/search.json
 dat-aad102ace39c = Every capability is available on the surfaces where it makes sense; where one cannot carry a capability, the…
@@ -2177,7 +2333,7 @@ dat-77715c30e206 = Every scenario file
 dat-616604728e4a = Every scenario kind by family
 
 # data/search.json
-dat-c0206ef96894 = Every scenario kind the engine v{ $version } dispatches ({ "92" }), filed under { "13" } families.
+dat-9d159ed7355c = Every scenario kind the engine v{ $version } dispatches ({ "93" }), filed under { "14" } families.
 
 # data/verification-matrix.json
 dat-7f43add9cf63 = Every solution of Lambert's problem with up to three complete revolutions (maneuver::lambert_multirev: the single-revolution solution, then the left and right branches of each revolution count, Izzo { "2015" }), with the boundary velocities v1 and v2, for prograde and retrograde transfers, in canonical and heliocentric SI units, including transfers within { "1" } % of a revolution count's minimum time of flight and near-180 deg geometries. A two-body solver only (no perturbations)
@@ -2254,6 +2410,9 @@ dat-7417992b5612 = Extending Kshana with an external pack
 # data/search.json
 dat-8adb938b0ec9 = External validation
 
+# data/verification-matrix.json
+dat-8aabc67a20c6 = Externally checked: gps-sdr-sim (MIT, commit 28ca29a6) readNmeaGGA, readUserMotion and readUserMotionLLH with its own WGS { "84" } llh2xyz, called through xval/testbench-gpssdrsim/driver.c (no signal function called), against the motion CSV's Earth-fixed columns row by row, with bars pre-registered in xval/testbench-gpssdrsim/PREREGISTRATION.md before any run: every sample read on all { "8" } scenarios; NMEA worst { "1.21" } mm (bar { "1" } cm); LLH cut worst { "0.145" } mm (bar { "1" } mm); four-column Earth-fixed cut exact (bar { "1" } µm, added by a pre-registered amendment); gnss-ins rows on the simulator's { "10" } Hz grid to { "2.3e-13" } s. FINDING (run { "1" }, pinned): the header-removed full-width CSV is not readable by -u, because the reader's 100-character line buffer splits each 161-character row into two samples; docs/TEST-BENCH.md gives the four-column cut. Not covered: the physics of the scenario's truth trajectory; gps-sdr-sim's signal output; any other simulator's reader; any receiver.
+
 # data/search.json
 dat-dbd8d18fa40a = Fault / anomaly detection for quantum PNT systems (src/quantum_faults.rs)
 
@@ -2268,6 +2427,9 @@ dat-270cf09d3f50 = Fault/anomaly detection for quantum PNT systems — labelled 
 
 # js/developers-data.mjs
 dat-c86cb649be68 = FFT acquisition of one or more PRNs over an IQ recording in the work directory (`kshana iq acquire`).
+
+# data/search.json
+dat-4ff2d57caf56 = Field guide: a real receiver on a site
 
 # js/developers-data.mjs
 dat-c5dcfc24a46c = Fill the public-framework mapping from Kshana result documents (`kshana compliance-report`): which rows of six resilience frameworks and standards (the US DHS Resilient PNT framework v2.0, IMO guidance for ships, EASA guidance for aviation, NIS2 Article { "21" }, EN { "16803" }, NIST IR 8323r1) the runs given support evidence for, which they do not, and the gap each row keeps.
@@ -2326,6 +2488,12 @@ dat-501ee15a17bf = Five studies in a restricted three-body model: an onboard Ear
 # data/verification-matrix.json
 dat-51fbca73345c = Fixtures written for Kshana from the public line layouts of the daemons, with made-up values (NOTICE.md in the fixture folder); no log from a real installation was read and no oracle compares the parse with another reader, so a layout that differs between daemon versions can still be refused or misread. The estimators fed by the phase series are the ones validated against allantools in the rows above
 
+# data/search.json
+dat-7b1ef1167843 = Flight-dynamics export: a trajectory as OEM, OPM and SPK
+
+# data/search.json
+dat-3c0f72950c08 = Flight-dynamics tools: Kshana's trajectories read back by the tools themselves
+
 # data/verification-matrix.json
 dat-3cd10418c5a4 = Flight-hardware product assurance (radiation/EEE/MAIT)
 
@@ -2361,9 +2529,6 @@ dat-8a504682bc0b = Force-model validation by ephemeris fitting (src/precise_od.r
 
 # data/verification-matrix.json
 dat-0629a6a5359f = forces::DensityModel (Exponential default, Nrlmsise00 { "{" } f107a, f107, ap { "}" }) and propagator::ForceModel::drag_density: quadratic drag against the co-rotating atmosphere with the NRLMSISE-00 density at the WGS-84 geodetic point (Earth rotation angle with UT1 = TT, local solar time UT + lon/15), constant space weather per model; default off and bit-identical
-
-# data/verification-matrix.json
-dat-a20b66db9189 = Format conformance on a real published RINEX { "4.00" } file (values read back equal the file's printed literals) and a specification-derived header; no independent reader was run, so MODELLED
 
 # data/search.json
 dat-bd6169063ab6 = Format version and fields
@@ -2459,7 +2624,7 @@ dat-3ada6ff9e069 = fusion (scenario kind)
 dat-ec5d8ca74e7d = fusion::pack (TightCfg, [tight]), scenarios gnss-ins-maritime / gnss-ins-rail / gnss-ins-aviation
 
 # data/verification-matrix.json
-dat-95e88ecc34df = fusion::tests (UKF==linear-KF identity; outage coast; NEES); tests/gnss_ins_sensor_fusion_reference.rs ({ "50" } cases vs filterpy { "1.4.5" }: linear EKF loose/tight + coupled-PNT posteriors to ≤{ "2.4e-12" }; UKF 40-epoch run worst |Δx| { "1.9e-7" } / |ΔP| { "9.5e-6" }); tests/gnss_ins_navego_dataset_oracle.rs::loosely_coupled_rms_within_1p2x_of_navego (NaveGo v1.4 loosely coupled solution on NaveGo's real Ekinox IMU/GNSS drive: horizontal RMS 0.912x, vertical 0.940x, position-innovation RMS 0.861x of NaveGo's, mean normalised innovation { "0.395" }; bars 1.2x, 1.2x, 1.2x and { "1.5" } fixed before the run)
+dat-0f0b821ea5d1 = fusion::tests (UKF==linear-KF identity; outage coast; NEES); tests/gnss_ins_sensor_fusion_reference.rs ({ "50" } cases vs filterpy { "1.4.5" }: linear EKF loose/tight + coupled-PNT posteriors to ≤{ "2.4e-12" }; UKF { "40" } epoch cases (two 20-epoch runs, 5-sat and 3-sat) worst |Δx| { "1.9e-7" } / |ΔP| { "9.5e-6" }); tests/gnss_ins_navego_dataset_oracle.rs::loosely_coupled_rms_within_1p2x_of_navego (NaveGo v1.4 loosely coupled solution on NaveGo's real Ekinox IMU/GNSS drive: horizontal RMS 0.912x, vertical 0.940x, position-innovation RMS 0.861x of NaveGo's, mean normalised innovation { "0.395" }; bars 1.2x, 1.2x, 1.2x and { "1.5" } fixed before the run)
 
 # data/verification-matrix.json
 dat-3a18e1b86eec = fusion::trajectory::tests (coordinated turn has no side force and load factor 1/cos φ; CSV import reproduces a flown profile to { "1e-3" } m/s and { "1" } m); tests/gnss_ins_trajectory_library.rs (every profile runs and fusion beats free INS over the outage; each flies its named motion; heading observability: yaw sigma after { "240" } s { "1.27" } deg cruising straight vs { "0.039" } deg figure-8 and { "0.062" } deg stop-and-go); tests/gnss_ins_legacy_trajectory_pin.rs (legacy result and truth hashes bit-identical)
@@ -2582,10 +2747,10 @@ dat-49146c124e2d = GLONASS G1/G2, BeiDou B1/B2 and Galileo E6
 dat-56cdbf2137c2 = GLS common-mode whitening (Aitken) + Mahalanobis identity
 
 # data/verification-matrix.json
-dat-b9b08309b102 = GMAT R2022a (NASA GSFC, Apache-2.0) GmatConsole with the Exponential atmosphere (the same 28-band table), point-mass Earth and PrinceDormand78, run, never vendored. Bars pre-registered in xval/drag-exponential-gmat/PREREGISTRATION.md (d870eb71) on the drag displacement of each side (drag minus no-drag run), which cancels the two Earth mu values and integrators; all met (RESULTS.md). GMAT takes geodetic height and kshana spherical altitude: they coincide only on the equator, so VALIDATED covers equatorial orbits; off the equator the models differ by design ({ "10.4" } % of { "24" } h displacement at { "51.6" } deg, { "400" } km). GMAT's public build has no NRLMSISE-00 (plugin absent), so the NRLMSISE-00 tier has the Orekit oracle only. The table's accuracy against measured density is not covered
+dat-8f3f19b89196 = GMAT R2022a (NASA GSFC, Apache-2.0) GmatConsole with the Exponential atmosphere (the same 28-band table), point-mass Earth and PrinceDormand78, run, never vendored. Bars pre-registered in xval/drag-exponential-gmat/PREREGISTRATION.md (d870eb71) on the drag displacement of each side (drag minus no-drag run), which cancels the two Earth mu values and integrators; all met (RESULTS.md). GMAT takes geodetic height and kshana spherical altitude: they coincide only on the equator, so VALIDATED covers equatorial orbits; off the equator the models differ by design ({ "10.4" } % of { "24" } h displacement at { "51.6" } deg, { "400" } km). GMAT's public build has no NRLMSISE-00 (plugin absent), so the NRLMSISE-00 tier has the Orekit oracle only. The table's accuracy against measured density is not covered
 
 # data/verification-matrix.json
-dat-900ba38459e6 = GMAT R2026a (Apache-2.0, run as a separate program) on { "192" } hyperbolic Earth states: B.T, B.R and |B| within { "1e-6" } km (worst { "1.35e-8" } km), the turn angle and both asymptotes within { "1e-9" } rad (worst { "9.3e-15" } rad); the assist velocity change from GMAT C3 and asymptotes within { "1e-9" } v_inf (worst { "5.6e-14" }); heliocentric SMA, ECC and INC on { "350" } Sun-centred states before and after the assist within { "1e-9" } relative and { "1e-12" } rad (worst { "2.2e-14" } and { "4.1e-14" } rad); the Tisserand parameter against sbpy { "0.6.0" } (BSD-3) on GMAT elements within { "1e-9" } (worst { "1.3e-15" }) and against { "3" } - C3/v_c^{ "2" } ({ "8.9e-16" }); and the Tisserand closed form against Kasuga and Jewitt ({ "2019" }) Table { "8.1" } for { "12" } objects within the printed-rounding bound (worst { "0.39" } of it; a P1 published worked value). Pre-registered (0e2bb455; heliocentric repair 329f2252); amendment 3e974bb4, written after the oracle files were generated and before any Kshana value, widened the inclination input filter from { "1e-2" } to { "1e-3" } rad, keeping more and worse-conditioned states. MODELLED scope: patched-conic two-body flyby on a circular planetary orbit, no sphere-of-influence transition, encounter perturbations or ephemeris
+dat-ce3a0a7f7fee = GMAT R2026a (Apache-2.0, run as a separate program) on { "192" } hyperbolic Earth states: B.T, B.R and |B| within { "1e-6" } km (worst { "1.35e-8" } km), the turn angle and both asymptotes within { "1e-9" } rad (worst { "9.3e-15" } rad); the assist velocity change from GMAT C3 and asymptotes within { "1e-9" } v_inf (worst { "5.6e-14" }); heliocentric SMA, ECC and INC on { "350" } Sun-centred states before and after the assist within { "1e-9" } relative and { "1e-12" } rad (worst { "2.2e-14" } and { "4.1e-14" } rad); the Tisserand parameter against sbpy { "0.6.0" } (BSD-3) on GMAT elements within { "1e-9" } (worst { "1.3e-15" }) and against { "3" } - C3/v_c^{ "2" } ({ "8.9e-16" }); and the Tisserand closed form against Kasuga and Jewitt ({ "2019" }) Table { "8.1" } for { "12" } objects within the printed-rounding bound (worst { "0.39" } of it; a published worked value, oracle class P1 in docs/VALIDATION.md). Pre-registered (0e2bb455; heliocentric repair 329f2252); amendment 3e974bb4, written after the oracle files were generated and before any Kshana value, widened the inclination input filter from { "1e-2" } to { "1e-3" } rad, keeping more and worse-conditioned states. MODELLED scope: patched-conic two-body flyby on a circular planetary orbit, no sphere-of-influence transition, encounter perturbations or ephemeris
 
 # studio/data/capabilities.json
 dat-aa6ddeb93b15 = GNSS / INS sensor fusion
@@ -2705,16 +2870,16 @@ dat-c0d5518e2983 = GNSS-free quantum navigation (src/quantum_nav_od.rs)
 dat-9d4a626d6fc3 = gnss-ins (scenario kind)
 
 # data/verification-matrix.json
-dat-7d66f55cfbd0 = GNSS-SDR { "0.0.19" } (GPL-3.0-or-later, the Ubuntu { "24.04" } package, run as a separate program; only derived numbers committed) tracking the same numpy recordings (independent of the engine), both measured against the analytic truth. Bars pre-registered at b1f25cce, amended before any test recording at 9496b6b0 (a { "10" } Hz FLL during pull-in only in both receivers, after the registered calibration failed on a wrong GNSS-SDR hand-off, finding F3). MET at { "30" }, { "35" }, { "40" } and { "45" } dB-Hz: carrier jitter within { "4.3" } %, code jitter within { "4.6" } % and Doppler mean and spread of GNSS-SDR's. NOT MET: the engine's NWPR C/N0 reads { "2.3" } to { "7.1" } dB below GNSS-SDR's SNV (finding F4, the known NWPR limit; its M2M4 is within { "0.06" } dB of truth); the phase lock indicators differ by definition (F5); at { "30" } dB-Hz GNSS-SDR slipped twice and the engine not (F6). GNSS-SDR's own hand-off locked to a wrong frequency in { "3" } of { "30" } calibration runs. WHAT IS NOT CHECKED: other signals, data-bit wipe-off, re-acquisition, field recordings. The row stays MODELLED.
+dat-7656aa2d57a6 = GNSS-SDR { "0.0.19" } (GPL-3.0-or-later, the Ubuntu { "24.04" } package, run as a separate program; only derived numbers committed) tracking the same numpy recordings (independent of the engine), both measured against the analytic truth. Bars pre-registered at b1f25cce, amended before any test recording at 9496b6b0 (a { "10" } Hz FLL during pull-in only in both receivers, after the registered calibration failed on a wrong GNSS-SDR hand-off, finding F3). MET at { "30" }, { "35" }, { "40" } and { "45" } dB-Hz: carrier jitter within { "4.3" } %, code jitter within { "4.6" } % and Doppler mean and spread of GNSS-SDR's. NOT MET: the engine's NWPR C/N0 reads { "2.3" } to { "7.1" } dB below GNSS-SDR's SNV (finding F4, the known NWPR limit; its M2M4 is within { "0.12" } dB of truth); the phase lock indicators differ by definition (F5); at { "30" } dB-Hz GNSS-SDR slipped twice and the engine not (F6). GNSS-SDR's own hand-off locked to a wrong frequency in { "3" } of { "30" } calibration runs. WHAT IS NOT CHECKED: other signals, data-bit wipe-off, re-acquisition, field recordings. The row stays MODELLED.
 
 # data/verification-matrix.json
-dat-88626853d609 = GNSS-SDR { "0.0.19" } (GPL-3.0, separate program, pinned configuration) on the nine non-surface L1 batches and the flight receiver's RAW C/N0 (LuGRE Mission Data, Zenodo { "16411687" }, CC BY { "4.0" }), pre-registered 7425dc34. FINDING: Kshana's reader decodes all { "288" } compared spans identically to an independent converter; GNSS-SDR declares { "266" } of { "288" } searches positive and Kshana agrees on all { "266" } decisions, but only { "250" } are located on GNSS-SDR's cell (A2 fails); the C/N0 leg is vacuous, no flight RAW epoch lying within { "30" } s of any batch (nearest { "141" } s). Most positives are artefacts: the bare two's-complement levels carry a -0.5 mean on I and Q, a zero-frequency line { "32" } dB above the noise in a { "1" } kHz bin, which both receivers acquire. Two batches (OP5, OP12) were excluded in error: a digit-stripped reading of their metadata was taken for a contradiction with their headers; the real cause was that the reader could not read a sample wider than a word (since fixed). Stays MODELLED
+dat-4e6266f95900 = GNSS-SDR { "0.0.19" } (GPL-3.0, separate program, pinned configuration) on the nine non-surface L1 batches and the flight receiver's RAW C/N0 (LuGRE Mission Data, Zenodo { "16411687" }, CC BY { "4.0" }), pre-registered 7425dc34. FINDING: Kshana's reader decodes all { "288" } compared spans identically to an independent converter; GNSS-SDR declares { "266" } of { "288" } searches positive and Kshana agrees on all { "266" } decisions, but only { "250" } are located on GNSS-SDR's cell (A2 fails); the C/N0 leg is vacuous, no flight RAW epoch lying within { "30" } s of any batch (nearest { "141" } s). Most positives are artefacts: the bare two's-complement levels carry a -0.5 mean on I and Q, a zero-frequency line { "32" } dB above the noise in a { "1" } kHz bin, which both receivers acquire. Two batches (OP5, OP12) were excluded in error: a digit-stripped reading of their metadata was taken for a contradiction with their headers; the real cause was that the reader could not read a sample wider than a word (since fixed). Stays MODELLED
 
 # data/verification-matrix.json
 dat-f1f9f73e43f8 = GNSS-SDR monitor adapter for receiver-trust
 
 # data/verification-matrix.json
-dat-ce3f6373b5d3 = GNSS-SDR { "v0.0.19" } (tag { "v0.0.19" }, commit 1ddd4562), an independent open-source implementation of the same ICD: its beidou_b1i_code_gen_int, compiled standalone, generated all { "63" } codes. Only its program output is committed: tests/fixtures/iq_signals/beidou_b1i_gnss_sdr.txt, a 64-chip prefix and the SHA-256 of each 2046-chip code. That output is the BeiDou B1I PRN codes the public BDS-SIS-ICD-B1I-3.0 defines; no GNSS-SDR source or binary is in the repository. Bar pre-registered at db9dd696 (xval/beidou-b1i-gnss-sdr/): all { "2046" } chips of all { "63" } PRNs identical, no inversion, shift or relabelling. Result: { "63" } of { "63" } identical; the fixture was regenerated from a fresh { "v0.0.19" } checkout (source file SHA-256 as recorded) and is byte-identical. WHAT IS NOT CHECKED: the NH20 secondary code, the GEO PRN list, the carrier and chip rate.
+dat-7fea7101a858 = GNSS-SDR { "v0.0.19" } (tag { "v0.0.19" }, commit 1ddd4562), an independent open-source implementation of the same ICD: its beidou_b1i_code_gen_int, compiled standalone, generated all { "63" } codes. Only its program output is committed: tests/fixtures/iq_signals/beidou_b1i_gnss_sdr.txt, a 64-chip prefix and the SHA-256 of each 2046-chip code. That output is the BeiDou B1I PRN codes the public BDS-SIS-ICD-B1I-3.0 defines; no GNSS-SDR source or binary is in the repository. Bar pre-registered at db9dd696 (xval/beidou-b1i-gnss-sdr/): all { "2046" } chips of all { "63" } PRNs identical, no inversion, shift or relabelling. Result: { "63" } of { "63" } identical; the fixture was regenerated from a fresh { "v0.0.19" } checkout (source file SHA-256 as recorded) and is byte-identical. WHAT IS NOT CHECKED: the NH20 secondary code, the GEO PRN list, the carrier and chip rate.
 
 # data/search.json
 dat-abeeb9e52652 = gnss-sim (scenario kind)
@@ -2732,19 +2897,19 @@ dat-1e713796059f = GNSS/INS sensor fusion
 dat-a606add53511 = GNSS/INS trajectory library and CSV truth import
 
 # data/verification-matrix.json
-dat-c8272b47794a = GNSSTk { "15.3.1" } (ARL:UT, LGPL-3.0, commit 55ea3344, run as a separate program through a harness; no GNSSTk code is vendored): getIonoCorr of KlobucharIonoNavData at L1, L2 and L5, getEffIonoLevel of NeQuickIonoNavData for Az with the all-zero and [{ "0" }, { "400" }] sfu rules, and getOffset of GPSLNavTimeOffset for the UTC drift, within { "1e-3" } m, { "1e-6" } sfu and { "1e-9" } s; and ERFA via pyerfa { "2.0.1.5" } (BSD-3), which derives UTC from the IERS leap-second table, for the ICD three leap-second cases across the real 2015-06-30 and 2016-12-31 leap seconds including the { "23" }:{ "59" }:{ "60" } reading, within { "1e-9" } s (GNSSTk does not implement the ICD case (b) day-length rule, so it was not used there, as written in the pre-registration). Inputs are the real IGS BRDC header coefficients. Pre-registered (6b2f6240; amendment c45e0345 committed a { "21" } 602-row subset of the leap-second grid before any Kshana value was compared). The NeQuick electron-density integration is not implemented, and no correction is made for a LEO satellite flying inside the ionosphere
+dat-ba358752bd61 = GNSSTk { "15.3.1" } (ARL:UT, LGPL-3.0, commit 55ea3344, run as a separate program through a harness; no GNSSTk code is vendored): getIonoCorr of KlobucharIonoNavData at L1, L2 and L5, getEffIonoLevel of NeQuickIonoNavData for Az with the all-zero and [{ "0" }, { "400" }] sfu rules, and getOffset of GPSLNavTimeOffset for the UTC drift, within { "1e-3" } m, { "1e-6" } sfu and { "1e-9" } s; and ERFA via pyerfa { "2.0.1.5" } (BSD-3), which derives UTC from the IERS leap-second table, for the ICD three leap-second cases across the real 2015-06-30 and 2016-12-31 leap seconds including the { "23" }:{ "59" }:{ "60" } reading, within { "1e-9" } s (GNSSTk does not implement the ICD case (b) day-length rule, so it was not used there, as written in the pre-registration). Inputs are the real IGS BRDC header coefficients. Pre-registered (6b2f6240; amendment c45e0345 committed a { "21" } 602-row subset of the leap-second grid before any Kshana value was compared). The NeQuick electron-density integration is not implemented, and no correction is made for a LEO satellite flying inside the ionosphere
 
 # assets/capabilities/capabilities.json, js/missions-runs.mjs
 dat-acf30276f7a0 = GPS baseline 24-slot constellation, GPS SPS Performance Standard 5th ed. ({ "2020" }) Tables 3.2-1 and 3.2-3
 
 # data/verification-matrix.json
-dat-8c382c68132d = GPS C/A Gold cross/auto-correlation matched EXACTLY (integer ±65/−1/63) against independent IS-GPS-200 code generation; BPSK-R({ "1" })/BOC({ "1,1" }) PSD shape vs an independent scipy periodogram. The modulation/SSC/DLL closed forms (Betz { "2001" } / Kaplan & Hegarty) remain analytic, so the row stays MODELLED — but the code-correlation sub-claim is externally matched. { "0.30" } round { "2" }, against the printed values of Betz { "2001" } and Hein et al. { "2006" } (pre-registered 1181ce1d, half a printed unit), a finding (stays MODELLED): all { "45" } Table { "1" } spectral cells, the { "1" } GHz correlation values, the MBOC interference figures and { "2" } of { "3" } Fig. { "17" } offsets agree; the { "24" } MHz first side lobes, the BOC({ "8,4" }) Fig. { "17" } offset and every Figs. 18-21 worst-case multipath bias ({ "11" } to { "15" } % low) do not. Kshana and an independent NumPy evaluation of the pre-registered reading agree, so the gap lies in that reading or in an unstated detail of the paper; cause unresolved
+dat-98b5f2e46dc3 = GPS C/A Gold cross/auto-correlation matched EXACTLY (integer −65/−1/63) against independent IS-GPS-200 code generation; BPSK-R({ "1" })/BOC({ "1,1" }) PSD shape vs an independent scipy periodogram. The modulation/SSC/DLL closed forms (Betz { "2001" } / Kaplan & Hegarty) remain analytic, so the row stays MODELLED — but the code-correlation sub-claim is externally matched. Version { "0.30" }, against the printed values of Betz { "2001" } and Hein et al. { "2006" } (pre-registered 1181ce1d, half a printed unit), a finding (stays MODELLED): all { "45" } Table { "1" } spectral cells, the { "1" } GHz correlation values, the MBOC interference figures and { "2" } of { "3" } Fig. { "17" } offsets agree; the { "24" } MHz first side lobes, the BOC({ "8,4" }) Fig. { "17" } offset and every Figs. 18-21 worst-case multipath bias ({ "11" } to { "15" } % low) do not. Kshana and an independent NumPy evaluation of the pre-registered reading agree, so the gap lies in that reading or in an unstated detail of the paper; cause unresolved
 
 # data/verification-matrix.json
 dat-71345b993a9b = GPS CNAV message types 10/11/30, Galileo I/NAV word types 1-5 in nominal even/odd pages and Galileo F/NAV page types 1-4: ICD field packing and quantisation, CRC-24Q, rate-1/2 K={ "7" } convolutional coding (G2 inverted for Galileo), block interleaving and sync patterns, with matching test decoders
 
 # data/verification-matrix.json
-dat-2d449120b935 = GPS L1 C/A cross-generator conformance
+dat-ac0615e536e3 = GPS L1 C/A cross-generator comparison
 
 # data/verification-matrix.json
 dat-ed4980281dd2 = GPS L1 C/A spreading codes (sdr::CaCode) and LNAV subframes 1-3 (gps_lnav: IS-GPS-200 field quantisation with the specification's pi, two's complement packing, TLM and HOW words, Table 20-XIV parity with D29*/D30* inversion, the parity-solving bits of words { "2" } and { "10" }) compared bit for bit with gps-sdr-sim on its bundled brdc0010.22n ({ "32" } satellites)
@@ -2783,13 +2948,13 @@ dat-c79931a093e0 = GPS-denied sequential (recursive) terrain-referenced navigati
 dat-fd36d4cd58c4 = GPS-denied terrain-referenced navigation (TERCOM/SITAN): a radar/baro altimeter matches the ground-elevation…
 
 # data/verification-matrix.json
-dat-3af71f34aee3 = gps-sdr-sim (MIT, commit 28ca29a6, run as a separate program through a committed harness), pre-registered 45ba9543 with a bit-exact bar on (A) C/A chips, (B) every computed LNAV field, (C) every parity bit. FINDING: (A) { "0" } of { "32 736" } chips differ, (C) the parity of { "0" } of { "1 920" } words differs, (B) { "230" } of { "1 152" } computed fields differ by one unit: gps-sdr-sim's eph2sbf truncates toward zero with C casts where the broadcast integer needs rounding (every differing value lies within { "0.01" } of a unit of Kshana's rounded integer). Stays MODELLED: the registered bar was the conjunction
+dat-62041300cb46 = gps-sdr-sim (MIT, commit 28ca29a6, run as a separate program through a committed harness), pre-registered 45ba9543 with a bit-exact bar on (A) C/A chips, (B) every computed LNAV field, (C) every parity bit. FINDING: (A) { "0" } of { "32 736" } chips differ, (C) the parity of { "0" } of { "1 920" } words differs, (B) { "230" } of { "1 152" } computed fields differ by one unit: gps-sdr-sim's eph2sbf truncates toward zero with C casts where the broadcast integer needs rounding (every differing value lies within { "0.01" } of a unit of Kshana's rounded integer). Stays MODELLED: the registered bar was the conjunction
 
 # data/verification-matrix.json
-dat-cca90e8b2987 = gps-sdr-sim (MIT, commit 28ca29a6) I/Q samples and its own channel state, pre-registered d9ea217d: (B1) every simulated PRN acquired, (B2) no other PRN acquired, (B3) code phase within { "0.5" } chip, (B4) Doppler within { "125" } Hz. FINDING: B1, B3 and B4 hold in both windows (worst { "0.195" } chip, { "72" } Hz), but B2 fails: all { "21" } PRNs gps-sdr-sim did not simulate also cross the threshold (statistic { "151" } to { "206" } against { "79.5" }; simulated PRNs { "1 300" } and up). The threshold is set for Gaussian noise of the measured sample power; gps-sdr-sim adds no noise, so the cells of an absent PRN hold the other satellites' cross-correlation. Stays MODELLED: the registered bar was the conjunction
+dat-745066b57dec = gps-sdr-sim (MIT, commit 28ca29a6) I/Q samples and its own channel state, pre-registered (record in tests/iq_gpssdrsim_cross_generator.rs): (B1) every simulated PRN acquired, (B2) no other PRN acquired, (B3) code phase within { "0.5" } chip, (B4) Doppler within { "125" } Hz. FINDING: B1, B3 and B4 hold in both windows (worst { "0.195" } chip, { "72" } Hz), but B2 fails: all { "21" } PRNs gps-sdr-sim did not simulate also cross the threshold (statistic { "151" } to { "206" } against { "79.5" }; simulated PRNs { "1 300" } and up). The threshold is set for Gaussian noise of the measured sample power; gps-sdr-sim adds no noise, so the cells of an absent PRN hold the other satellites' cross-correlation. Stays MODELLED: the registered bar was the conjunction
 
 # data/verification-matrix.json
-dat-52d3c8bd9d2c = gps-sdr-sim (T. Ebinuma, MIT, commit 28ca29a6), an independent GPS L1 C/A baseband generator, built with its own Makefile and run as a separate program on its bundled brdc0010.22n at the example location of its usage text (scripts/gen_iq_gpssdrsim_ref.sh); a committed harness linked against the same build prints the channel state (computeRange, computeCodePhase) behind the program's first block. Bars fixed before the generator was run (pre-registered d9ea217d). Scope: GPS L1 C/A geometry for a static receiver without ionosphere, troposphere or receiver clock; the channel models, noise and nav-data content of the scene are not part of this row
+dat-2d5ee47a8562 = gps-sdr-sim (T. Ebinuma, MIT, commit 28ca29a6), an independent GPS L1 C/A baseband generator, built with its own Makefile and run as a separate program on its bundled brdc0010.22n at the example location of its usage text (scripts/gen_iq_gpssdrsim_ref.sh); a committed harness linked against the same build prints the channel state (computeRange, computeCodePhase) behind the program's first block. Bars fixed before the generator was run (pre-registered; record in tests/iq_gpssdrsim_cross_generator.rs). Scope: GPS L1 C/A geometry for a static receiver without ionosphere, troposphere or receiver clock; the channel models, noise and nav-data content of the scene are not part of this row
 
 # data/search.json
 dat-be8f88b2f462 = Graded exercises
@@ -2826,6 +2991,9 @@ dat-179f6f50879d = Gravity, terrain & magnetic map-matching
 
 # data/verification-matrix.json
 dat-a9a886b55894 = Greenhall and Riley exact equivalent degrees of freedom of the Allan, modified Allan and Hadamard variances
+
+# data/search.json
+dat-030ab7e23755 = Grid timing: IEEE C37.118.2 PMU streams (library, MODELLED)
 
 # data/search.json
 dat-35263996f593 = Ground-contact planning for several satellites over several stations: apparent access windows (SGP4, IAU…
@@ -3058,9 +3226,6 @@ dat-1fe5cc9bfe4f = IAU 2006/2000A precession-nutation, CIO GCRS↔ITRS, leap-sec
 # data/verification-matrix.json
 dat-ee5cc5e3262d = IAU body orientation and gravitational parameter of the fourteen added solar-system bodies
 
-# data/verification-matrix.json
-dat-cdb9c1e8cbe2 = IAU SOFA / ERFA reference vectors; Vallado AIAA 2006-6753 ({ "0.1" }–{ "4" } mm)
-
 # assets/capabilities/capabilities.json
 dat-cb5220c1ec12 = IAU synchronous-rotation direction at the JPL mean distance, added to Saturn from Standish Table { "1" } ({ "1800" } AD to { "2050" } AD)
 
@@ -3113,10 +3278,13 @@ dat-825a8d353671 = impairment_study::tests (per-class oracle AUC≈{ "1" }, lear
 dat-f70d14110dad = impairment-eval (scenario kind)
 
 # data/verification-matrix.json
-dat-c28838cded13 = Implementation against specification, NOT an external oracle: a clean-room Python re-implementation (scripts/maritime_score_cleanroom.py), written by a reader given only docs/RECEIVER-TRUST.md and docs/MARITIME-TRUST.md and not the Rust source, agrees with score_from_ratios on { "600" } ratio vectors (score, band, points and the order of deductions, difference { "0" }), after the documentation was completed where the first reader found it silent or inconsistent (tie order, rounding, the ratio of a pass-or-fail monitor, two examples whose numbers did not match the formula). That shows the documentation is sufficient and the code does what it says. WHAT IS NOT CHECKED, and why the row stays MODELLED: the rule itself (the weights, the ramp, the band edges, the evidence hold) is this project's own, pre-registered but with no external source, and nothing here shows that a score of { "80" } or { "40" } means what a navigator would want it to mean on real interference; no figure of that kind is given. The monitors' thresholds are likewise this project's own (Row A checks only their arithmetic).
+dat-a06ab63bb81f = Implementation against specification, NOT an external oracle: a clean-room Python re-implementation (scripts/maritime_score_cleanroom.py), written by a reader given only docs/RECEIVER-TRUST.md and docs/MARITIME-TRUST.md and not the Rust source, agrees with score_from_ratios on { "600" } ratio vectors (score, band, points and the order of deductions, difference { "0" }), after the documentation was completed where the first reader found it silent or inconsistent (tie order, rounding, the ratio of a pass-or-fail monitor, two examples whose numbers did not match the formula). That shows the documentation is sufficient and the code does what it says. WHAT IS NOT CHECKED, and why the row stays MODELLED: the rule itself (the weights, the ramp, the band edges, the evidence hold) is this project's own, pre-registered but with no external source, and nothing here shows that a score of { "80" } or { "40" } means what a navigator would want it to mean on real interference; no figure of that kind is given. The monitors' thresholds are likewise this project's own (the row 'Maritime trust monitors: the arithmetic they rest on' checks only their arithmetic).
 
 # studio/channels.json
 dat-108c4798153a = Import kshana-grafana-*.json from the release.
+
+# data/verification-matrix.json
+dat-26a3ed4986e7 = Impulsive steps in the cislunar coast and a step detector
 
 # data/verification-matrix.json
 dat-c80a768c4432 = Impulsive transfer optimiser on the DE440 ephemeris
@@ -3127,6 +3295,9 @@ dat-c81cb948fbeb = Impulsive ΔV nodes with { "6" }×{ "6" } covariance propagat
 # data/search.json
 dat-ce3c739652af = IMU into the hybrid and fusion scenarios (kshana imu-fit)
 
+# data/search.json
+dat-4d984f56e708 = IMU live (kshana sensor-live --kind imu)
+
 # data/verification-matrix.json
 dat-e757b2baccd6 = IMU log ingest, gyro heading input and Allan fit of hybrid sensor parameters
 
@@ -3136,17 +3307,17 @@ dat-593077adf8f0 = In cislunar space dilution of precision does not apply: range
 # js/missions-runs.mjs
 dat-fd612e5a3b73 = in view on average
 
-# data/verification-matrix.json
-dat-ad6442b40262 = Independent closed-form weighted Umeyama (Horn) similarity-transform solver (numpy/scipy SVD-based; Umeyama { "1991" } IEEE TPAMI, Horn { "1987" } JOSA A) — a different algorithm from kshana's iterative Gauss–Newton fit, reaching the same uniquely-defined weighted-LS optimum on byte-identical point networks
+# data/search.json
+dat-1457589f8d4c = Incident, chat, log-index, SNMP and threat-sharing outputs
 
 # data/search.json
 dat-7a8163ea53f2 = Independent cross-check against the sgp4 crate
 
 # data/verification-matrix.json
-dat-a3c0d41e4b56 = Independent numpy Monte-Carlo SDE integration of double-integrated white-acceleration noise (validates the analytic VRW variance by a genuinely independent algorithm) + a Groves { "2013" } published-value anchor for the bias/scale-factor terms; the CAI device numbers quantify partner hardware and stay MODELLED
+dat-1b16ddba11e9 = Independent numpy Monte-Carlo SDE integration of double-integrated white-acceleration noise (validates the analytic VRW variance by a genuinely independent algorithm) + the Groves { "2013" } closed-form error-propagation identities for the bias/scale-factor terms; the CAI device numbers quantify partner hardware and stay MODELLED
 
 # data/verification-matrix.json
-dat-43824928dcfa = Independent numpy re-implementation of the four-region rule (scripts/gen_tib_scorer_reference.py) on the identical sample set; method Cited from the Stanford–ESA integrity diagram (Tossaint et al., ION GNSS { "2007" }) and RTCA DO-229 WAAS MOPS. NOT an ExternalDataset accuracy oracle — the benchmark is honesty-immune.
+dat-f8918c1a5eda = Independent numpy re-implementation of the four-region rule (scripts/gen_tib_scorer_reference.py) on the identical sample set; method Cited from the Stanford–ESA integrity diagram (Tossaint et al., ION GNSS { "2007" }) and RTCA DO-229 WAAS MOPS. NOT an ExternalDataset accuracy oracle — the benchmark makes no accuracy claim.
 
 # data/verification-matrix.json
 dat-ad2f021526e3 = Independent numpy region re-count in tests/fixtures/tib/reference.json; scorer machinery cross-check only, no accuracy claim.
@@ -3155,7 +3326,7 @@ dat-ad2f021526e3 = Independent numpy region re-count in tests/fixtures/tib/refer
 dat-074151140053 = Independent numpy reproduction of the cross-covariance and the correlated-vs-independent fused bias inequality (InternalConsistency). Representative source set; Modelled scenario.
 
 # data/verification-matrix.json
-dat-329d1a3f6406 = Independent numpy reproduction of the statistic + property test that a common-mode injection inflates it (InternalConsistency). Modelled scenario. { "0.30" } round { "2" } (pre-registered 47c45647), blocked (stays MODELLED): numpy { "2.3.5" } LAPACK gesv reproduces the statistic value on { "261" } committed cases (within { "3.5e-15" } well-conditioned, { "1.2e-9" } at condition up to { "6.1e7" }); the chi-square({ "1" }) null law is a cited theorem and the flat pairwise separations an identity with no engine output to compare, so the scoping awaits an owner decision
+dat-dce36e6a63a4 = Independent numpy reproduction of the statistic + property test that a common-mode injection inflates it (InternalConsistency). Modelled scenario. { "0.30" } round { "2" } (pre-registered 47c45647), blocked (stays MODELLED): numpy { "2.3.5" } LAPACK gesv reproduces the statistic value on { "261" } committed cases (within { "3.5e-15" } well-conditioned, { "1.2e-9" } at condition up to { "6.1e7" }); the chi-square({ "1" }) null law is a cited theorem and the flat pairwise separations an identity with no engine output to compare, so the row stays MODELLED
 
 # data/verification-matrix.json
 dat-c445be3a080f = Independent numpy/scipy linear-algebra reproduction on real DE440 Moon PA-frame line-of-sight rows (P⊥ from the SVD of the whitened design W^{ "{" }1/2{ "}" }G; the MDB non-centrality from the classical Baarda ({ "1968" }) parity-subspace squared norm; the block rank from a numpy SVD singular-value count) — a genuinely different numerical route than the crate's cyclic-Jacobi eigendecomposition of GᵀWG. Scope (per tests/fixtures/faultobs/NOTICE.md): this validates the LINEAR-ALGEBRA PIPELINE on these rows only. The node geometry is Modelled. It is NOT an operational integrity guarantee, a protection-level certification, or any RAIM/ARAIM availability claim, and NOT a Byzantine-fault-tolerance mission guarantee — the tolerated-fault COUNT for this network is Modelled, while the detect>f / identify>2f block-spark BOUND is Cited (Fawzi–Tabuada–Diggavi { "2014" }; Shoukry–Tabuada { "2016" }; block-wise spark of Donoho–Elad { "2003" }) and proven-instantiation in code
@@ -3167,7 +3338,7 @@ dat-3ed8c34dff65 = Independent SciPy/NumPy reference (scripts/gen_datum_identifi
 dat-bf70dda05c83 = Independent third-party authority ANISE { "0.10.2" } astro::Orbit Keplerian propagator (Nyx Space, MPL-2.0) — an equinoctial two-body code path distinct from kshana's Newton-Raphson Kepler; per-satellite MCI position agrees to <{ "1e-3" } m and the derived visible-satellite count/set matches exactly at every grid point. The DOP kernel is gnss_lib_py-validated; integrity uses published LunaNet/LCNS parameters
 
 # data/verification-matrix.json
-dat-706d8ac94114 = Independent third-party CCSDS-502 parser `oem` { "0.4.5" } (MIT, https://pypi.org/project/oem/) — a separate codebase that decodes kshana's emitted EME2000/UTC OEM byte-identically ({ "24" } states across { "2" } fixtures, pos/vel Δ = { "0" }) and whose strict reader confirms the metadata tokens; kshana's parser likewise agrees with it on a vendored external OEM. Two honest interop findings (the oem library rejects kshana's per-satellite multi-segment convention and its multi-entry covariance lines) are documented in the test — so this validates the conformant single-object interchange, not full CCSDS-502 conformance of every kshana variant
+dat-2bcb0d92011f = Independent third-party CCSDS-502 parser `oem` { "0.4.5" } (MIT, https://pypi.org/project/oem/) — a separate codebase that decodes kshana's emitted EME2000/UTC OEM byte-identically ({ "24" } states across { "2" } fixtures, pos/vel Δ = { "0" }) and whose strict reader confirms the metadata tokens; kshana's parser likewise agrees with it on a vendored external OEM. Two honest interop findings (the oem library rejects kshana's per-satellite multi-segment convention, and rejects the vendored external OEM's multi-entry covariance lines, so that file is compared with the covariance block stripped) are documented in the test — so this validates single-object interchange with an independent parser, not CCSDS-502 conformance of every kshana variant
 
 # data/verification-matrix.json
 dat-ca139c503573 = Independent-estimator corroboration of the cislunar arc-length threshold
@@ -3177,6 +3348,9 @@ dat-7ca7bc5655ea = Independent-estimator test of the cislunar arc-length observa
 
 # data/search.json
 dat-83303f0fc1bf = Indoor LEO-PNT: why a UHF carrier reaches inside a building when L, S and C bands struggle.
+
+# data/search.json
+dat-9cc17293296b = Industrial control, ops outputs, mission control and simulators (after { $version })
 
 # data/search.json
 dat-03c73c444454 = inertial (scenario kind)
@@ -3239,7 +3413,7 @@ dat-6a1ec92e0f29 = Install in VS Code (npx)
 dat-c90e197be374 = Install in VS Code Insiders (npx)
 
 # data/search.json
-dat-b233043f785b = Install the Kshana MCP server (v{ $version })
+dat-5ec0eeaf33df = Install the Kshana MCP server (v{ $version })
 
 # data/search.json
 dat-e51de9c804bb = Install the MCP server
@@ -3278,7 +3452,7 @@ dat-6bf0e08e0072 = integrity::gls_commonmode::tests (separation_alone_is_blind_t
 dat-4f6cc44e6aa0 = integrity::gls_commonmode::tests + tests/gls_reference.rs + tests/gls_whitening_numpy_oracle.rs::whitening_and_mahalanobis_match_numpy_lapack ({ "201" } committed SPD cases: factor, whitened residual, whitening operator and Mahalanobis square against numpy LAPACK within { "1e-12" } relative, worst { "7.9e-16" })
 
 # data/verification-matrix.json
-dat-e8f307bea5aa = integrity::hetero_budget::tests + tests/hetero_budget_reference.rs; tests/hetero_budget_utc_k_oracle.rs::overbound_exceedance_on_real_utc_k_finding (data-gated: skips with a message when the BIPM series is absent); tests/hetero_budget_utc_k_realised_overbound_oracle.rs::realised_offset_overbound_finding; tests/utck_bound_prospective_oracle.rs (D9 round { "3" }, prospective, not yet run: Circular T { "465" } appeared on 2026-10-12, and the pre-registered 1000-value rule needs issues to about { "468" })
+dat-f3682032e9a2 = integrity::hetero_budget::tests + tests/hetero_budget_reference.rs; tests/hetero_budget_utc_k_oracle.rs::overbound_exceedance_on_real_utc_k_finding (data-gated: skips with a message when the BIPM series is absent); tests/hetero_budget_utc_k_realised_overbound_oracle.rs::realised_offset_overbound_finding; tests/utck_bound_prospective_oracle.rs (round { "3" }, prospective, not yet run: Circular T { "465" } appeared on 2026-10-12, and the pre-registered 1000-value rule needs issues to about { "468" })
 
 # data/verification-matrix.json
 dat-a821706da637 = integrity::lil_envelope::tests (divergence, threshold, IR-tightening dominance)
@@ -3323,6 +3497,15 @@ dat-685d5b0aeec0 = interference_map::emitter (estimate, sessions, build_units, p
 dat-44ec8a882a2f = interference_map::emitter unit tests (projection round trip, horizon figure, synthetic forward and inverse round trips: the known emitter lies inside the stated region at about the stated rate, edge cases, session clustering, profile, privacy and wording); tests/interference_map_cli.rs locate cases
 
 # data/verification-matrix.json
+dat-09cb43751939 = Interference-source location by time difference of arrival across fixed monitoring stations
+
+# data/verification-matrix.json
+dat-473e1da173cb = Interference-source location from orbit, from a ground network, and from both combined
+
+# data/verification-matrix.json
+dat-db8ed95628a9 = Interference-source location from power differences across fixed monitoring stations
+
+# data/verification-matrix.json
 dat-3ea7167853e6 = Internal consistency (InternalConsistency): the order-2 reduction to the MAAST-checked ADD v4.2 path, independent re-derivation of the priors, and a constructed two-satellite fault. No MAAST or RTKLIB run beyond pairs has been made, so the deeper hypothesis sets and the subset RAIM's protection levels are not externally checked. araim_subset_raim shares araim_dual_raim's simplifications (one sigma for integrity and accuracy, one clock, the plain normal tail): it is not ADD-conformant
 
 # data/verification-matrix.json
@@ -3330,12 +3513,6 @@ dat-f04a17478c6f = Internal consistency (InternalConsistency): the protection le
 
 # data/verification-matrix.json
 dat-a1c78ee97d2d = Internal consistency (the jump identity and the cone bound against brute-force sampling). The threshold is an input; no published LEO continuity requirement is pinned
-
-# data/verification-matrix.json
-dat-6bed622b120d = Internal consistency against injected truth and closed forms, under bars pre-registered at 700d95df (docs/design/evidence/boc-bump-jump/). A BeiDou B1C data signal (PRN { "19" }, { "5" } MS/s) generated by iq::scene: with the option off a side-peak start stays false-locked at the predicted ±({ "0.5" } + d/4) chip (measured ±{ "0.549" }); with it on, one jump towards the main peak at { "0.08" } s and a late-window RMS of { "0.0008" } chip at { "45" } dB-Hz and { "0.0048" } chip at { "35" } dB-Hz; no jump from the main peak at { "35" }, { "40" } and { "45" } dB-Hz over { "4" } s; the scaled EMLP slope { "0.94" } to { "0.99" } on the sampled signal (unscaled { "3.6" } to { "3.8" }). The bump-jump detector alone, on correlator triples with the exact BOC({ "1,1" }) noise covariance, made no false jump in { "100 000" } updates at { "25" } to { "45" } dB-Hz and detected { "1000" } of { "1000" } side-peak starts at { "35" } dB-Hz. NOT MET (finding F1): the pre-registered unit-test grid for the scaling includes offsets outside the discriminators' linear range, where the scaled readings miss the offset by up to { "48" } %. WHAT IS NOT CHECKED: field IQ, band-limited front ends, composite MBOC/QMBOC replicas, and any external receiver.
-
-# data/verification-matrix.json
-dat-01f9118b836e = Internal consistency against injected truth: a synthetic data-free GPS L1 C/A source (PRN { "13" }, { "1500" } Hz, { "4.1" } MHz, { "8" } s, ten noise seeds) whose carrier phase is known, under bars pre-registered at 8aceabcb (docs/design/evidence/fll-handover-floor/). MET: the control (the uncapped default never hands over in { "9" } of { "10" } seeds at { "33" } dB-Hz); additivity (default hash and the existing tracking tests unchanged); pull-in of a { "100" } Hz-off hand-off at { "45" } dB-Hz. NOT MET: with a { "1.0" } s cap, hand-over and hold in every run ({ "16" } of { "20" } at { "33" } dB-Hz, { "8" } of { "20" } at { "31" } dB-Hz; the rest cycle between forced hand-overs and the FLL's return) and phase jitter within { "25" } % of the PLL alone ({ "10.8" } against { "6.1" } degrees at { "33" } dB-Hz). WHAT IS NOT CHECKED: data bits, other signals and sample rates, field recordings. The default is unchanged; the row stays MODELLED.
 
 # data/verification-matrix.json
 dat-a9e65b1c6f91 = Internal consistency of a stated design model: every power, threshold and search choice is an input, and the model ignores bit-edge ambiguity, missed detection and re-acquisition. Not compared with a measured receiver
@@ -3365,7 +3542,7 @@ dat-b7287210bebc = Internal consistency: noise-free recovery, the kinematic iden
 dat-90e7c3f0b089 = Internal consistency: the cited VRW bracket cross-checked against CaiAccelerometer::accel_asd physics + raw dynamic range computed from the fringe-ambiguity limit; numbers are MODELLED literature-survey brackets (needs_source_confirmation), no device validated, no validation halo
 
 # data/verification-matrix.json
-dat-f95438b160b3 = Internal consistency: the classification is checked against the rules it states and against hand-derived ratios on synthetic edits of the committed demo log, and the no-change pins hold the { "0.35.0" } outputs: no score changes unless the geometry is poor; the label is always reported. WHY MODELLED: the thresholds are chosen, not fitted (provenance in each run's geometry_model; the IEC 61108-1 and GPS SPS figures as cited, to be checked against the standards' text), and there is no external labelled dataset of natural geometry degradation against attacks to validate the classification against. The derived DOP reuses the orbit::dop kernel, VALIDATED against gnss_lib_py, whose status this row does not borrow. A class of geometry is a statement about the sky, not a finding that no attack occurred
+dat-ccc918b6b4f6 = Internal consistency: the classification is checked against the rules it states and against hand-derived ratios on synthetic edits of the committed demo log, and the no-change pins hold the { "0.35.0" } outputs: no score changes unless the geometry is poor; the label is always reported. WHY MODELLED: the thresholds are chosen, not fitted (provenance in each run's geometry_model; the IEC 61108-1 and GPS SPS figures as cited (not yet checked against the standards' text)), and there is no external labelled dataset of natural geometry degradation against attacks to validate the classification against. The derived DOP reuses the orbit::dop kernel, VALIDATED against gnss_lib_py, whose status this row does not borrow. A class of geometry is a statement about the sky, not a finding that no attack occurred
 
 # data/verification-matrix.json
 dat-e0a40eb480ea = Internal consistency: the exact branch and bound agrees with brute-force enumeration on small random sets, every plan is checked feasible against the conflict rules, and the greedy never beats the exact optimum. WHAT IS NOT: no external scheduler or operational plan has been compared; contacts are taken whole (no splitting), the backlog is fixed at the window start, slew time beyond the fixed turnaround and onboard storage are not modelled.
@@ -3383,7 +3560,7 @@ dat-f698f5ba7ab8 = Internal consistency: the forward model and the solved equati
 dat-52ecbc039055 = Internal consistency: the measurements are synthesised from the models the filter uses (χ² NEES/NIS over seeds, a noise-free convergence, slip injection). MODELLED; no real receiver data or third-party filter is compared
 
 # data/verification-matrix.json
-dat-a64be9ada5d8 = Internal consistency: the published offset expression evaluated by hand, the normalised error over { "40" } seeds, and the floor set by the offset uncertainty. The NIST figure for Iridium timing receivers with a miniature atomic clock (under { "40" } ns from UTC(NIST) over { "40" } days) is a comparison only; the bundled Iridium scenario gives { "10" } to { "11" } ns RMS at nominal power with its representative { "5" } m range error. Flicker frequency noise and ionospheric delay are not simulated
+dat-f79fb30653af = Internal consistency: the published offset expression evaluated by hand, the normalised error over { "40" } seeds, and the floor set by the offset uncertainty. The NIST figure for Iridium timing receivers with a miniature atomic clock (under { "40" } ns from UTC(NIST) over { "40" } days) is a comparison only; the bundled Iridium scenario gives { "9.9" } to { "11.4" } ns RMS at nominal power with its representative { "5" } m range error. Flicker frequency noise and ionospheric delay are not simulated
 
 # data/verification-matrix.json
 dat-c0b1c86ee380 = Internal consistency: the relation and constants as printed in NASA TR R-376, a half-step convergence check, and the expected ordering of heating and deceleration peaks. WHAT IS NOT: no published heating value has been compared (the Stardust papers give a design limit and a convective-plus-radiative estimate of about { "1200" } W/cm2, which a convective-only relation cannot match); no radiative heating, wall-temperature or catalycity correction, or thermal-protection response.
@@ -3401,7 +3578,7 @@ dat-daeea93cf98c = Internal only: the exact -20 log10(range) closed form of the 
 dat-a29f8eefacae = Internal round trip and ICD known answers; no third-party decoder has been run (the RTKLIB/GNSS-SDR harness reading KSHANA_NAVMSG_ORACLE_JSON is data-gated). MODELLED
 
 # data/verification-matrix.json
-dat-aaf97798d80e = Internal: each pack's figures of merit against its own truth and a loose/tight comparison on identical inputs. MODELLED; the audit's NaveGo comparison has not been run
+dat-294f24335045 = Internal: each pack's figures of merit against its own truth and a loose/tight comparison on identical inputs. MODELLED; no comparison against an independent toolbox (for example NaveGo) has been run
 
 # data/verification-matrix.json
 dat-202435a7c894 = Internal: rigid-body kinematics identities, the CSV round trip and the filter's own covariance. MODELLED (no real drive log is compared)
@@ -3497,10 +3674,10 @@ dat-2bbce8b617b0 = IS-GPS-200 LNAV subframes 1-3 (gps_lnav::encode_subframes: ro
 dat-817d2e90e97c = IS-GPS-200 section { "20.3.3.3.3.2" }, which states the L1/L2 group-delay ratio gamma = (77/60)^{ "2" } that follows from first-order 1/f^{ "2" } scaling, and the Friis transmission formula (Proc. IRE, { "1946" }). Validates the scaling laws, not a slant TEC
 
 # data/verification-matrix.json
-dat-fe11c7ba2e68 = IS-GPS-200 Table 3-Ia 'Code Phase Assignments' — the authoritative US-Government public-domain published first-10-chip OCTAL verification vectors (GPS Directorate, navcen.uscg.gov); kshana's own G1/G2 LFSR regenerates every PRN { "1" }–{ "9" } vector exactly. The downstream modulation/SSC/DLL closed forms stay Modelled (separate row)
+dat-4bc031ceb741 = IS-GPS-200 Table 3-Ia 'Code Phase Assignments' — the authoritative US-Government public-domain published first-10-chip OCTAL verification vectors (GPS Directorate, navcen.uscg.gov); Kshana's own G1/G2 LFSR regenerates every PRN { "1" }–{ "9" } vector exactly. The downstream modulation/SSC/DLL closed forms stay Modelled (separate row)
 
 # data/verification-matrix.json
-dat-5e6cd6a5fd6c = IS-GPS-800J (01-AUG-2022, distribution statement A), the check columns it prints beside the generator parameters: Table 3.2-2 initial and final { "24" } chips of every L1CP and L1CD code, Table 3.2-3 initial and final { "11" } bits of every L1CO code, Table 6.2-1 the length-10223 Legendre sequence; transcribed by scripts/extract_is_gps_800_tables.py from the PDF (SHA-256 c4aad710...). Bars pre-registered at c6063eb2 (docs/design/evidence/l1c-codes/): { "252" } of { "252" } columns, { "63" } of { "63" } overlays and { "10 223" } of { "10 223" } Legendre bits identical; the extraction --check passes; a negative control fails relabelled, inverted and shifted codes. WHAT IS NOT CHECKED: the generator parameters themselves (they come from the same tables), the chips between the printed columns, the TMBOC subcarrier pattern and the L1CO S2 codes.
+dat-31303b33c93e = IS-GPS-800J (01-AUG-2022, distribution statement A), the check columns it prints beside the generator parameters: Table 3.2-2 initial and final { "24" } chips of every L1CP and L1CD code, Table 3.2-3 initial and final { "11" } bits of every L1CO code, Table 6.2-1 the length-10223 Legendre sequence; transcribed by scripts/extract_is_gps_800_tables.py from the PDF (SHA-256 c4aad710...). Bars pre-registered at c6063eb2 (docs/design/evidence/l1c-codes/): { "252" } of { "252" } columns, { "63" } of { "63" } overlays and { "10 223" } of { "10 223" } Legendre bits identical; the extraction --check passes; a negative control fails relabelled, inverted and shifted codes. WHAT IS NOT CHECKED: the generator parameters themselves (they come from the same tables), the chips between the printed columns, the TMBOC subcarrier pattern and the L1CO S2 codes.
 
 # js/missions-runs.mjs
 dat-d80cdd567de9 = its carrier
@@ -3602,16 +3779,22 @@ dat-06d2559e26c3 = Joint GNSS and LEO pseudorange positioning with inter-system 
 dat-7d1a4f4e5a0a = Joint Kalman sensor-fusion PNT over the same hybrid inputs.
 
 # data/search.json
+dat-e40a90975d4a = Joint multi-technique lunar OD + clock batch estimator on a SIMULATED network: a Gauss-Newton snapshot fit…
+
+# data/search.json
 dat-bbc595a0c9e4 = Joint sensor-fusion PNT: a single Kalman filter is the navigator, fusing the
 
 # data/verification-matrix.json, data/card-matrix-map.json
 dat-2ed75c9110e0 = Joint UT1 and polar-motion error over a common row set
 
 # data/verification-matrix.json
-dat-1c4f5655c567 = JPL Horizons DE441 geometric heliocentric vectors (ecliptic and ICRF), fetched after the pre-registration commits { "e5423015" }, 59dac98b and 7b218df5. Bar: per planet and component, RMS at most 1.0x the approximate errors of the Explanatory Supplement 3rd ed. Table { "8.10.1" } (the EMB row for the Earth); the Earth-EMB split is checked directly against DE441 { "399" } minus { "3" }, at most { "0.3" } deg and { "8.1" } km at every epoch 1950-2050 (the { "8.1" } km length bar comes from the lunar-series accuracy stated in Kshana own ephemeris documentation, citing Montenbruck and Gill, and was not checked against the book; the measured { "6.09" } km sits close to it). The RMS statistic was chosen knowing that an earlier 27-epoch comparison reached 1.87x nominal at its maximum; single-epoch errors reach 3.83x (3.87x in the ICRF case). The Supplement does not define its figures as RMS. Case B rotates both sides with the IAU { "1976" } obliquity typed in the test, so the rotation is not checked against itself. The default table selection of AnalyticSolarSystem is not exercised (the tests force Table { "1" }). Uranus and Neptune from Table { "1" } are a separate MODELLED row
+dat-20f9cefa8d62 = JPL Horizons DE441 geometric heliocentric vectors (ecliptic and ICRF), fetched after the pre-registration commits e5423015, 59dac98b and 7b218df5. Bar: per planet and component, RMS at most 1.0x the approximate errors of the Explanatory Supplement 3rd ed. Table { "8.10.1" } (the EMB row for the Earth); the Earth-EMB split is checked directly against DE441 { "399" } minus { "3" }, at most { "0.3" } deg and { "8.1" } km at every epoch 1950-2050 (the { "8.1" } km length bar comes from the lunar-series accuracy stated in Kshana's own ephemeris documentation, citing Montenbruck and Gill, and was not checked against the book; the measured { "6.09" } km sits close to it). The RMS statistic was chosen knowing that an earlier 27-epoch comparison reached 1.87x nominal at its maximum; single-epoch errors reach 3.83x (3.87x in the ICRF case). The Supplement does not define its figures as RMS. Case B rotates both sides with the IAU { "1976" } obliquity typed in the test, so the rotation is not checked against itself. The default table selection of AnalyticSolarSystem is not exercised (the tests force Table { "1" }). Uranus and Neptune from Table { "1" } are a separate MODELLED row
 
 # data/verification-matrix.json
-dat-2708eb1195c9 = JPL Horizons DE441 one-way down-leg Newtonian light time LT (VEC_CORR=LT, observer the Earth centre), pre-registered (876f8edc, amendment 35d22bad changing only the interpolation node spacing after the first fetch failed its { "10" } m interpolation precondition, before any light time was compared) with a bar of { "1e-6" } s per light time, the solver fed DE441 barycentric positions so the retarded-transmitter iteration is visible (a first-iterate solver misses by up to { "0.1" } s). On the analytic Standish positions the light time is only as good as those positions (see the planet-position row); the shipped link treats the Sun as an inertial centre, which stays inside that position error but is not separately validated. two_way_range and shapiro_delay are not externally compared
+dat-dd1e1d8305b9 = JPL Horizons DE441 one-way down-leg Newtonian light time LT (VEC_CORR=LT, observer the Earth centre), pre-registered (876f8edc, amendment 35d22bad changing only the interpolation node spacing after the first fetch failed its { "10" } m interpolation precondition, before any light time was compared) with a bar of { "1e-6" } s per light time, the solver fed DE441 barycentric positions so the retarded-transmitter iteration is visible (a first-iterate solver misses by up to { "0.1" } s). On the analytic Standish positions the light time is only as good as those positions (see the planet-position row); the shipped link treats the Sun as an inertial centre, which stays inside that position error but is not separately validated. two_way_range and shapiro_delay are not externally compared
+
+# data/verification-matrix.json
+dat-74a62fd7d16b = JPL Horizons reconstruction of Artemis I (-1023), under bars pre-registered in docs/mission-thread/PREREGISTRATION-C2.md: NOT MET on W1 ({ "17.3" } km against { "2" } km; { "0.0177" } m/s against { "0.01" } m/s); W2 not run (the published burn times leave { "42.8" } h, not { "72" } h). A diagnostic after the verdict shows four of the five steps in the reconstruction carry position jumps no velocity step within one hour can produce. v2 (docs/mission-thread/PREREGISTRATION-C2-v2.md, 036c3f1be): NOT RUN. By the registered rule a fresh { "72" } h window W3 after W1 needs at least { "120" } h between published burns ({ "24" } h clear on each side); the longest gap after W1 in NASA's published Artemis I timeline is { "105.9" } h (return trajectory corrections { "4" } to { "5" }), so W3 does not exist. No v2 code was written and no Horizons state of any v2 period was fetched (xval/mission-thread-c2-v2/README.md); v1's NOT MET stands. The impulse support itself is checked on synthetic data only
 
 # data/verification-matrix.json
 dat-f1881d3fd450 = JPL Horizons spacecraft ephemerides for LRO and CAPSTONE, against bars pre-registered in xval/mission-thread-lunar/PREREGISTRATION.md (Amendments { "1" } to { "6" }). LRO: MET, { "33" } m largest 3-D difference and { "2.4" } m RMS radial against { "500" } m and { "60" } m. CAPSTONE: NOT MET, a { "136.8" } km end-position difference against { "25" } km and a { "28.4" } km periapsis difference against { "10" } km, the causes not isolated. The row is Modelled because the CAPSTONE bar is missed and the comparison tests the shared propagator, not any filter, signal or budget
@@ -3626,7 +3809,7 @@ dat-06c0e0912c84 = JPL mean elements in the Laplace plane, mean-longitude rate f
 dat-308200212f26 = JSON fields (schema kshana-nmea-training/1)
 
 # data/search.json
-dat-fbd2f7c7c5df = JSON-lines schema (version { "1.1" })
+dat-0bae9f52ac18 = JSON-lines schema (version { "1.3" })
 
 # data/search.json
 dat-0edf2112b963 = Key references
@@ -3644,7 +3827,19 @@ dat-a3c71b90162b = Known limitations
 dat-021bd19116af = Known limits
 
 # data/search.json
+dat-b664371cfd2d = Known limits (glib advisory)
+
+# data/search.json
 dat-6634dc6d0f3e = kshana <scenario.toml> runs a scenario; every other command is a subcommand. kshana --help prints the usage…
+
+# data/search.json
+dat-81efa536f356 = Kshana Connect: mapping files
+
+# data/search.json
+dat-e2db5380348a = Kshana Desktop
+
+# data/search.json
+dat-b3b5e2e408de = Kshana Desktop is Kshana Studio in a native window: the same scenarios, runs, charts and tables as the…
 
 # data/search.json
 dat-24cf378f970d = Kshana documentation
@@ -3652,8 +3847,14 @@ dat-24cf378f970d = Kshana documentation
 # data/search.json
 dat-1d9bf86b5165 = Kshana does not host an endpoint. There is no shared kshana server to point a client at.
 
+# data/verification-matrix.json
+dat-d834fa13f9cc = kshana ephem-export (and ephem_export in Python, WebAssembly and MCP): a JPL Horizons vector table is written as a CCSDS OEM { "2.0" }, an OPM { "3.0" } or an SPK of type { "13" } or { "9" } (frame code { "1" }, ICRF). Values and epochs are copied, not computed, and the engine reads the written file back and reports the comparison
+
 # data/search.json
 dat-7aa638d6f7f5 = Kshana for JetBrains IDEs
+
+# data/search.json
+dat-a6ce0fdc748c = Kshana for JetBrains IDEs runs the Kshana PNT-resilience simulator from inside any JetBrains IDE (IntelliJ…
 
 # data/search.json
 dat-952551ceada8 = Kshana governance
@@ -3739,6 +3940,9 @@ dat-28bded6f1c5f = Kshana ships a first-class Python application programming int
 # data/search.json
 dat-11b55b025a73 = Kshana speaks the standard interchange formats of the GNSS (global navigation satellite system)…
 
+# data/search.json
+dat-beab6f489549 = Kshana Station
+
 # data/search.json, studio/channels.json
 dat-2b2d76637268 = Kshana Studio
 
@@ -3747,6 +3951,9 @@ dat-64058caf6bf1 = Kshana Studio: run the engine in your browser, no install.
 
 # data/search.json
 dat-a4f1502412f6 = kshana trust-telemetry turns the per-epoch GNSS trust stream (score 0-100, band, reasons) into signals an…
+
+# data/search.json
+dat-e7251cd3da42 = Kshana writes a trajectory as a CCSDS OEM, a CCSDS OPM or a SPICE SPK kernel (kshana ephem-export…
 
 # data/search.json
 dat-b009ca1db730 = kshana-mcp is a Model Context Protocol (MCP) server for Kshana, the open-source simulator for PNT…
@@ -3764,7 +3971,7 @@ dat-d0f998c80b79 = Kshana's full-force engine (src/precise_od.rs) fit to real ag
 dat-620214b6e277 = Kshana's LNAV subframes 1-3 (gps_lnav::encode_subframes) for the { "32" } brdc0010.22n ephemerides fed to RTKLIB's decode_word and decode_frame: parity of every word, subframe decoding with consistent issue of data, and every decoded parameter against Kshana's integer and against the input value
 
 # data/verification-matrix.json
-dat-6e7521634ff6 = kshana's lunar OEM export re-parsed by the independent third-party `oem` library (R. J. Anderson): frame/time tokens and per-epoch state agree to write precision ({ "1" } mm / { "1e-9" } km/s) and a dropped-TIME_SYSTEM export is rejected — a structural interchange round-trip; the lunar frame/time physical semantics are validated by their own rows, so this stays MODELLED. { "0.30" } external comparison, a finding (stays MODELLED): a second independent reader, the Orekit { "12.2" } CCSDS OEM parser (Apache-2.0, strict defaults), refuses both lunar files because it does not implement the LTC and TCL time systems (it decodes the crate's EME2000/UTC OEM, and decodes the lunar files once TIME_SYSTEM is replaced by TDB); oem { "0.4.5" } decodes them within the written precision only by falling back from the unsupported time system. Interchange of these lunar files with mainstream CCSDS readers is not established
+dat-424f180666fc = kshana's lunar OEM export re-parsed by the independent third-party `oem` library (R. J. Anderson): frame/time tokens and per-epoch state agree to write precision ({ "1" } mm / { "1e-9" } km/s) and a dropped-TIME_SYSTEM export is rejected — a structural interchange round-trip; the lunar frame/time physical semantics are validated by their own rows, so this stays MODELLED. { "0.30" } external comparison, a finding (stays MODELLED): a second independent reader, the Orekit { "12.2" } CCSDS OEM parser (Apache-2.0, strict defaults), refused both lunar files while they carried TIME_SYSTEM LTC and TCL, which it does not implement, and oem { "0.4.5" } decoded them only by falling back from the unsupported time system. The default export now writes TIME_SYSTEM TDB (REF_FRAME MOON_ME and MOON_PA440), and both readers decode both default files within the pre-registered tolerances (tests/lunar_interop_oem_oracle.rs, tests/fixtures/lunar_interop_oem_oracle/two_reader_output.txt); the opt-in LTC file is still decoded by oem only with a warning and still refused by Orekit. This covers the interchange format (tokens, epochs and numbers), not the frame or time semantics
 
 # data/search.json
 dat-af85235a485a = Kshana's maritime trust score (MARITIME-TRUST.md) is reachable from software boaters already run: a Signal K…
@@ -3809,7 +4016,7 @@ dat-0ee9fbd69bbb = lambda::tests (L D Lᵀ reconstructs Q); tests/lambda_referen
 dat-a5e13882f811 = Lambert two-body transfer solver
 
 # data/verification-matrix.json
-dat-212886eaa568 = lamberthub { "1.0.0" } izzo2015 (J. Martínez Garrido, MIT) — an independent third-party Lambert solver. The single-revolution (M={ "0" }) Lambert problem has a unique solution, so library-vs-library agreement is a genuine external check; matched to <{ "1e-4" } m/s (observed ~{ "1e-11" }), the same kind of validation DOP gets vs gnss_lib_py
+dat-55fc09da8766 = lamberthub { "1.0.0" } izzo2015 (J. Martínez Garrido, MIT) — an independent third-party Lambert solver. The single-revolution (M={ "0" }) Lambert problem has a unique solution, so library-vs-library agreement is a genuine external check; matched per velocity component within { "1e-6" } relative + { "1e-4" } m/s (observed worst { "7e-12" } m/s), the same kind of validation DOP gets vs gnss_lib_py
 
 # data/verification-matrix.json
 dat-0002d522fae4 = Landing-dispersion budget at a lunar polar site (`lunar-descent`)
@@ -3845,10 +4052,10 @@ dat-1445799c033a = Learn more
 dat-70f6bd56bd8d = Leclere, Marathe and Reid, Insights into Xona Pulsar LEO PNT: Constellation, Signals, and Receiver Design, ION GNSS+ { "2025" }, arXiv { "2509.19551" }, Table { "1" } (static receiver on a { "6371" } km sphere, Earth rotation the only other effect): { "37751.7" } / { "33628.5" } / { "31813.4" } / { "4018.4" } Hz on L1. Covers circular two-body orbits
 
 # data/verification-matrix.json
-dat-6712d7bb7953 = Leg { "1" }: python-sgp4 { "2.24" } (MIT licence; D. Vallado's reference C++ SGP4, the code that produced the AIAA 2006-6753 verification vectors), WGS-72, improved mode. Leg { "2" }: pyerfa { "2.0.1.5" } (ERFA, BSD-3-Clause, the SOFA routines): c2t06a with TT from utctai/taitt and UT1 from utcut1, and for TEME c2t06a . pnm06a^T . rz(-ee06a). Bars fixed before the run (pre-registered d92aef9b). Disclosed: the first run failed leg { "2" } at 2016-12-31T23:{ "59" }:{ "59.5" } by one second of rotation (UT1 taken from the UTC quasi Julian date on a leap-second day); the engine was corrected (jd2::utc_to_ut1) and the second run agrees at the unchanged bars. Polar motion dropped ({ "46" } failures) or WGS-84 constants in place of WGS-72 ({ "4432" } failures) turn the test red. This three-leg design replaced an end-to-end Orekit comparison that failed on Orekit's SDP4 at e = { "0" } and on its IERS { "1996" } TEME (the finding stays pinned in tests/leo_polar_coverage_full_claim_orekit_oracle.rs)
+dat-96bc2420d311 = Leg { "1" }: python-sgp4 { "2.24" } (MIT licence; D. Vallado's reference C++ SGP4, the code that produced the AIAA 2006-6753 verification vectors), WGS-72, improved mode. Leg { "2" }: pyerfa { "2.0.1.5" } (ERFA, BSD-3-Clause, the SOFA routines): c2t06a with TT from utctai/taitt and UT1 from utcut1, and for TEME c2t06a . pnm06a^T . rz(-ee06a). Bars fixed before the run (pre-registered d92aef9b). Disclosed: the first run failed leg { "2" } at 2016-12-31T23:{ "59" }:{ "59.5" } by one second of rotation (UT1 taken from the UTC quasi Julian date on a leap-second day); the engine was corrected (jd2::utc_to_ut1) and the second run agrees at the unchanged bars. Polar motion dropped ({ "46" } failures) or WGS-84 constants in place of WGS-72 ({ "4432" } failures) turn the test red. This leg-by-leg design (the third, geometry leg is tests/leo_polar_coverage_on_path_orekit_oracle.rs and tests/pass_predictor_on_path_orekit_oracle.rs) replaced an end-to-end Orekit comparison that failed on Orekit's SDP4 at e = { "0" } and on its IERS { "1996" } TEME (the finding stays pinned in tests/leo_polar_coverage_full_claim_orekit_oracle.rs)
 
 # data/search.json
-dat-f8a01ddf6363 = Legal notes (owner legal review pending)
+dat-32340a44f2f3 = Legal notes (legal review pending)
 
 # data/verification-matrix.json
 dat-d977634a13cf = LEO broadcast-ephemeris fitter and signal-in-space range error versus fit interval and update period
@@ -3941,7 +4148,7 @@ dat-03e4b5d56289 = leo_navmsg::services: the Klobuchar broadcast delay at any ca
 dat-bac78dac563b = leo_navmsg::services::tests (klobuchar_scales_with_inverse_frequency_squared — the L1 value is RTKLIB's { "6.1278" } m; nequick_az_rules; utc_without_an_event_is_tow_minus_leap_seconds_folded_to_a_day; utc_drift_terms_follow_the_icd_formula; an_inserted_leap_second_reads_86400_at_the_end_of_the_day); tests/leo_navmsg_services_gnsstk_oracle.rs::services_match_gnsstk_and_erfa (Klobuchar at L1, L2 and L5 over { "4 320" } cases, worst { "7.0e-13" } m; Az over { "222" } coefficient sets including the all-zero and { "400" } sfu rules, worst { "5.7e-14" } sfu; UTC drift over { "50" } cases, worst { "3.6e-15" } s; the three leap-second cases over { "21 602" } instants across the real { "2015" } and { "2016" } leap seconds, { "0" } s)
 
 # data/verification-matrix.json
-dat-8dfeecb0b6f2 = leo_navmsg::sisre::sisre_weights: the radial weight w_R and the squared transverse weight w_AC^{ "2" } as averages of cos^{ "2" } and half sin^{ "2" } of the line-of-sight nadir angle over users uniformly distributed on the visible Earth cap above an elevation mask, for any orbit radius, by Simpson integration; used by every leo-navmsg SISRE figure (at { "510" } km, w_R { "0.46" } and w_AC^{ "2" } 1/2.5)
+dat-b4c104975a73 = leo_navmsg::sisre::sisre_weights: the radial weight w_R as the root of the average of cos^{ "2" } and the squared transverse weight w_AC^{ "2" } as the average of half sin^{ "2" } of the line-of-sight nadir angle over users uniformly distributed on the visible Earth cap above an elevation mask, for any orbit radius, by Simpson integration; used by every leo-navmsg SISRE figure (at { "510" } km, w_R { "0.46" } and w_AC^{ "2" } 1/2.5)
 
 # data/verification-matrix.json
 dat-736676ef0437 = leo_navmsg::sisre::tests (weights_reproduce_the_published_meo_and_geo_table — GPS { "0.979" } and 1/48.9, GLONASS 1/45.0, Galileo { "0.984" } and 1/61.1, BeiDou MEO 1/54.2, geostationary { "0.992" } and 1/126.2 at a { "0" } deg mask, each within { "0.005" } of w_R and { "0.5" } of 1/w_AC^{ "2" }; leo_weights_shift_toward_the_transverse_axes — horizon nadir angle { "67.8" } deg at { "510" } km)
@@ -4096,6 +4303,9 @@ dat-0d377b4ab75f = Library: LANS-AFS-SIM (T. Ebinuma, BSD-2-Clause, commit 480c6
 # data/verification-matrix.json
 dat-29a4033f3b1c = Library: PocketSDR-AFS (T. Ebinuma after T. Takasu's PocketSDR { "0.13" }, BSD-2-Clause, commit 5b23809f30d68518b7fad7a564fd0fac57cc497d, S-band build, print-only log-level copy), under criteria fixed before each run. The third pre-registered comparison meets its decoding and tracking bars C1 and C2 in full but not its guard G0 as written (two runs of the unmodified receiver differ in the same four acquisition records), and the second missed by { "5" } violations, so the row stays MODELLED. LANS-AFS-SIM and PocketSDR-AFS share an author and count as one independent implementation; the frame-coding row's printed-vector checks guard against a shared misreading
 
+# data/search.json
+dat-b76f8db255c6 = Licence and support
+
 # data/verification-matrix.json
 dat-fde7ce482e65 = Light time between solar-system bodies
 
@@ -4139,6 +4349,9 @@ dat-a37b9fe51244 = linkbudget::tests (across three bands, four decades of range 
 dat-30e0aeabc8e6 = linkbudget::tests (free-space-loss form, link-equation closure); tests/one_way_link_budget_reference.rs (DESCANSO/JPL Galileo X-band DCT reproduced end-to-end + { "6" } ITU-R P.525 FSL cases across DSN S/X/Ka band centres; worst |ΔFSL| { "4.6e-3" } dB, |Δcarrier| { "2.5e-2" } dB)
 
 # data/search.json
+dat-ebd0c27399b7 = Linux PPS time stamps (pps-assert)
+
+# data/search.json
 dat-ef7a7b9adcd5 = linuxptp and chrony logs
 
 # data/verification-matrix.json
@@ -4156,8 +4369,29 @@ dat-c383ea75352f = List the standards packs (`kshana standards-pack list`): scor
 # data/verification-matrix.json
 dat-357232ee1deb = Liu et al. { "2025" } 22-parameter LEO ephemeris model and its fit on real precise orbits
 
+# data/search.json
+dat-2e30bcf4626e = Live conformance kit (kshana connect check-live)
+
+# data/search.json
+dat-079a0160ed99 = Live feeds from a local receiver (interference-map record)
+
+# data/search.json
+dat-d144a7ed5114 = Live MQTT subscription (kshana::connect_mqtt)
+
+# data/search.json
+dat-70376f85e2d5 = Live NATS input (kshana::connect_nats)
+
+# data/search.json
+dat-2627bf8c3550 = Live WebSocket input (kshana::connect_ws)
+
+# data/search.json
+dat-8424d3d5d295 = Live: kshana clock-live
+
 # data/verification-matrix.json
 dat-055df2b81d5f = LLR measured-range model (reflector catalogue, ITRF2020 stations, DE440 principal-axis placement, IERS { "2010" } barycentric light time)
+
+# data/search.json
+dat-20bb2c3ee0fb = Load test (kshana connect load-test)
 
 # data/search.json
 dat-38984e856168 = Loading the files into a simulator
@@ -4170,6 +4404,12 @@ dat-6612bd928a6e = Locate a jammer or spoofer (or an opportunistic source for re
 
 # data/verification-matrix.json
 dat-11da74e54545 = Locate an emitter (jammer/spoofer, or an opportunistic source for reverse-PNT) from time-difference-of-arrival across a receiver network — the τᵢ=(Rᵢ−R₀)/c hyperboloid intersection solved by Gauss–Newton least squares — and, adding frequency-difference-of-arrival (range-rate differences) with moving receivers, jointly recover position and velocity; with the Cramér–Rao lower bound on the position covariance from the measurement geometry
+
+# data/verification-matrix.json
+dat-01719aac3332 = locate_pd: each station's C/N0 drop (and AGC rise, where its dB-per-unit scale is stated) is turned into an interference power at the antenna; a log-distance model with the reference power profiled out, the path-loss exponent and source height marginalised and censored terms for stations that see nothing gives a posterior on a grid around the network, with its { "95" } % region and centroid. v2 averages each station's power over the session with one shadowing term per station, no tempering, on the stations' hull buffered by { "10" } km; v1 is kept as recorded
+
+# data/verification-matrix.json
+dat-f6b696d5efb6 = locate_tdoa: from { "10" } ms snapshots at { "4" } Msps time-tagged by each station's clock, the station with the largest measured jammer-to-noise ratio is the reference; each other station's delay is the cross-correlation peak refined by a parabola, with a sigma from the Knapp-Carter bound for the measured SNRs and the reference's mean-square bandwidth plus both clocks (the pairs share the reference clock's covariance); the source is located on a spherical Earth at a known height by a grid search over the stations' hull buffered by { "10" } km and Gauss-Newton, with a { "95" } % ellipse and a chi-square test of the residuals at { "0.999" } that gives not located. locate_tdoa::session draws the synthetic sessions (CW, chirp and wideband noise jammers, two-ray ground reflection with { "6" } dB shadowing, { "20" } ns station clocks)
 
 # data/search.json
 dat-afd805c16a68 = Logs it reads
@@ -4214,10 +4454,10 @@ dat-f20670ebd948 = Low-energy positioning: time to first fix and energy per fix 
 dat-913ffc083579 = low-orbit peak C/N0
 
 # data/search.json
-dat-b06a1a10a8ff = LRO lunar — validated, above the { "5" } m bar (honest) (P4 W4b)
+dat-9c1565982e81 = LRO lunar — validated, above the { "5" } m bar (honest)
 
 # data/verification-matrix.json
-dat-bbe641ae75b7 = LSIS-AFS V1.0 (as above): the length-1499 Legendre sequence (Table E-1, identical) and the tertiary first and last { "24" } chips (Tables E-2 to E-6: { "419" } of { "420" } columns identical; the document prints the same last { "24" } chips, A14850, for PRN { "147" } and PRN { "151" } and the generator reproduces PRN { "151" }'s, so the PRN { "147" } entry is most likely a misprint; the bar of { "420" } of { "420" } is NOT MET and the miss is pinned); the Figure { "8" } worked example of the SB1 code (one example: 0x045 encodes to 0x229F61DBB84A0); CRC-24Q against the catalogue check value 0xCDE703 for ASCII { "123456789" }; the document's own frame arithmetic. Bars pre-registered at e9d5e69. One miss on record and one worked example for the message layer, so the row stays MODELLED. WHAT IS NOT CHECKED: LDPC and the CRC words inside subframes { "2" } to { "4" }, message content, and any recorded stream
+dat-fcc4f42d6d1d = LSIS-AFS V1.0 (as above): the length-1499 Legendre sequence (Table E-1, identical) and the tertiary first and last { "24" } chips (Tables E-2 to E-6: { "419" } of { "420" } columns identical; the document prints the same last { "24" } chips, A14850, for PRN { "147" } and PRN { "151" } and the generator reproduces PRN { "151" }'s, so the PRN { "147" } entry is most likely a misprint; the bar of { "420" } of { "420" } is NOT MET and the miss is pinned); the Figure { "8" } worked example of the SB1 code (one example: 0x045 encodes to 0x229F61DBB84A0); CRC-24Q against the catalogue check value 0xCDE703 for ASCII { "123456789" }; the document's own frame arithmetic. Bars pre-registered at e9d5e69. One miss on record and one worked example for the message layer, so the row stays MODELLED. WHAT IS NOT CHECKED: LDPC and the CRC words inside subframes { "2" } to { "4" }, message content, and any recorded stream
 
 # data/search.json
 dat-e04f4d780264 = LunaNet AFS
@@ -4244,7 +4484,7 @@ dat-c906216cda6e = LunaNet AFS-I and AFS-Q primary codes against the LSIS-AFS V1
 dat-b7830d73f66c = LunaNet Augmented Forward Signal: codes, message format and lunanet-afs-check
 
 # data/verification-matrix.json
-dat-786926d72bbd = LunaNet/IOAG-aligned lunar frame + time + ephemeris export (CCSDS OEM + KIF) with round-trip conformance
+dat-0aad1f0af111 = LunaNet/IOAG-aligned lunar frame + time + ephemeris export (CCSDS OEM + KIF) with a round-trip check by independent readers
 
 # data/verification-matrix.json, data/card-matrix-map.json
 dat-e192c5acb8a0 = Lunar absolute-station observability (datum defect)
@@ -4378,6 +4618,9 @@ dat-3a82e1764744 = Lunar navigation service volume & ARAIM
 # data/search.json
 dat-0227d1ff18f5 = Lunar navigation SERVICE-VOLUME analysis — Moonlight / LCNS-class constellation.
 
+# data/search.json
+dat-7122a0ff8ae8 = Lunar navigation service-volume analysis from an ILLUSTRATIVE, public-source Moonlight/LCNS-class…
+
 # data/search.json, studio/data/capabilities.json
 dat-9b29005a3941 = Lunar orbit and surface as navigation and geodetic infrastructure
 
@@ -4404,6 +4647,9 @@ dat-4ebbeba62243 = Lunar reference-frame realisation — 7-parameter Helmert dat
 
 # data/search.json
 dat-0e0f62bb8a66 = Lunar reference-frame realisation — a 7-parameter Helmert (similarity) datum fit.
+
+# data/search.json
+dat-5baee40c3d48 = Lunar reference-frame realisation: a 7-parameter Helmert (similarity) datum fit — { "3" } translation, { "3" }…
 
 # data/verification-matrix.json
 dat-315f29f20d81 = Lunar reference-station accuracy and coverage against published claims
@@ -4474,6 +4720,9 @@ dat-d9dd563d89cd = Lunar surface-navigation signal-security attack surface (P1):
 # data/search.json
 dat-e5504a977338 = Lunar surface-navigation signal-security attack surface (paper P1).
 
+# data/search.json
+dat-938938ec640c = Lunar surface-navigation signal-security attack surface: composes the open signal-security analyses into one…
+
 # data/verification-matrix.json
 dat-2ecad2c187ce = Lunar terrain horizon masks from a stated profile or a polar DEM
 
@@ -4490,7 +4739,7 @@ dat-4c2e66fa8a55 = lunar_afs::codes::tests (maximal-length registers, Legendre b
 dat-8be8ccf828da = lunar_afs::waveform (recording and truth labels), xval/lunar-afs/run_pocketsdr.sh
 
 # data/verification-matrix.json
-dat-5c670f2679d7 = lunar_beacon::tests (horizon visibility against the L01 closed form; the beacon-augmented DOP against the bare one; the error-budget root-sum-square; the DOP-to-metres relation); tests/validate_p2_beacon_before_after_table.rs (the whole before/after table pinned to a committed golden at { "1e-9" } relative); tests/validate_p2_beacon_before_after_independent_dop.rs (the same geometry through an INDEPENDENT DOP path, so the augmentation is not checked against the kernel that produced it); tests/validate_lunar_beacon_anise_visibility_dop.rs::beacon_visibility_and_augmented_dop_match_anise_and_numpy
+dat-490f8edcf078 = lunar_beacon::tests (horizon visibility against the two-height airless-horizon closed form; the beacon-augmented DOP against the bare one; the error-budget root-sum-square; the DOP-to-metres relation); tests/validate_p2_beacon_before_after_table.rs (the whole before/after table pinned to a committed golden at { "1e-9" } relative); tests/validate_p2_beacon_before_after_independent_dop.rs (the same geometry through an INDEPENDENT DOP path, so the augmentation is not checked against the kernel that produced it); tests/validate_lunar_beacon_anise_visibility_dop.rs::beacon_visibility_and_augmented_dop_match_anise_and_numpy
 
 # data/verification-matrix.json
 dat-b9653998b456 = lunar_combination::tests (rank-deficient without Earth baselines; three baselines restore full rank — the 3-station threshold from the information rank, not solve error; station CRLB attained by the estimator at efficiency { "0.98" }; CRLB tightens monotonically with baselines); tests/lunar_observability_numpy_oracle.rs::lunar_observability_matches_numpy_on_the_committed_jacobians
@@ -4502,7 +4751,7 @@ dat-0d66fd92c424 = lunar_combination::tests (recovers simulated truth; VLBI rest
 dat-e12f3aa49fcb = lunar_common_mode::tests ({ "8" } lib tests: the split is additive and reconstructs dy; a common-mode covariance yields a positive common-mode protection level while a parity-only covariance yields a near-zero one; the projector annihilates range(G)); tests/lunar_common_mode_integrity_reference.rs (the engine split against an independent numpy computation on byte-identical inputs over the committed 366-epoch sample, relative AND absolute error < { "1e-3" }); tests/lunar_common_mode_parity_numpy_oracle.rs::common_mode_split_matches_numpy_lstsq_on_parity_bearing_inputs ({ "1464" } parity-bearing cases on the 8-satellite geometry and a 6-satellite subset over both real inter-ephemeris pairs: blind_dx, residual and norms within { "1e-12" } of |dy|, worst { "1.06e-14" })
 
 # data/verification-matrix.json
-dat-08e91b48c1d8 = lunar_datum::tests (LLR/VLBI/orbiter analytic partials vs finite difference); lunar_identifiability::tests (adding_an_offradial_technique_collapses_the_origin_scale_degeneracy; transverse-vs-radial via crlb_diag)
+dat-4a28ee6c03e6 = lunar_datum::tests (orbiter and VLBI datum7 partials vs finite difference; LLR datum7 row vs the 4-parameter analytic partials of lunar_llr_geometry); lunar_identifiability::tests (adding_an_offradial_technique_collapses_the_origin_scale_degeneracy; transverse-vs-radial via crlb_diag)
 
 # data/verification-matrix.json
 dat-c42639deb6bf = lunar_dpnt::tests (a purely-additive guard whose key-set delta is exactly { "{" }correction_link, units{ "}" } with every pre-existing value bit-identical against literals captured before the change; survey error does NOT decorrelate with baseline while the orbit term does, and survives a zero baseline where the orbit term is exactly zero — the structural check that catches wiring the term into the wrong place; a { "1" } m station error transfers { "1" }:{ "1" } and is proved not DOP-amplified; zero latency reproduces the un-aged residual bit-for-bit and the residual is monotone in latency, with the emitted curve equal to direct runs; the quantization step halves exactly per bit and σ² = step²/12, and the full scale tracks the injected magnitudes; each term switched off in turn recovers the other two in quadrature; equal per-satellite σ propagates to exactly σ·PDOP and that PDOP agrees with orbit::dop; every emitted field carries a unit and a provenance class, checked in both directions)
@@ -4520,7 +4769,7 @@ dat-72359d75194d = lunar_faultobs::tests — byzantine_c3_rank_deficient_but_non
 dat-9f1b775126f5 = lunar_faultobs::tests — holdover_floor_self_ref_and_anchored (self-referential net: the common rate lies in N(GᵀWG), temporal_gauge_dim { "2" }; after one external rate-tie row: rate expelled from the gauge, temporal_gauge_dim { "1" } with the common offset surviving)
 
 # data/verification-matrix.json
-dat-6c1f1713e449 = lunar_faultobs::tests — provider_mismatch_split_common_undetectable_differential_detectable (common bias undetectable, differential detectable), slope_infinity_in_range_finite_detectable (g7: slope ∞ for b ∈ range(G), finite for b ∉ range(G)), pernode_rank_is_state_dim_minus_eight (§{ "0" }: rank(GᵀWG) = state_dim − { "8" }, the 8-dim gauge is the entire null space with a >{ "1e6" } spectral gap)
+dat-56e73ce5a896 = lunar_faultobs::tests — provider_mismatch_split_common_undetectable_differential_detectable (common bias undetectable, differential detectable), slope_infinity_in_range_finite_detectable (slope ∞ for b ∈ range(G), finite for b ∉ range(G)), pernode_rank_is_state_dim_minus_eight (rank(GᵀWG) = state_dim − { "8" }, the 8-dim gauge is the entire null space with a >{ "1e6" } spectral gap)
 
 # data/verification-matrix.json
 dat-4d69a4cada09 = lunar_frame_campaign (composing lunar_vlbi, lunar_vlbi_fim, fim, lunar, lunar_frame_realise, frames, cio, lunar_frame)
@@ -4699,6 +4948,15 @@ dat-513a1c03d491 = Lunar, cislunar and deep space: maintained, not the headline
 # data/verification-matrix.json
 dat-76491879d5af = m-sequence/Gold sidelobe & cross-correlation bounds, length↔ambiguity
 
+# data/search.json
+dat-94919b2d2f05 = M2 (docs/design/evidence/m2-revisit-tip-and-cue/PREREGISTRATION.md): revisit, full-area refresh and
+
+# data/verification-matrix.json
+dat-f93fc169f711 = m4_logic::decide: from an AIS stream and an RF fix stream (no identities on fixes), one class per identity, NORMAL, DARK (fixes with no matching AIS), GAP, POSITION-OFFSET (AIS position inconsistent with the RF fixes) or IDENTITY-DUPLICATE, and a dark or associated flag per fix; v1 decides by single-fix gates and a vote, v2 (opt-in parameters) by fix sequences for dark tracks and a time-consistent test for offset onsets. m4_dark_vessel generates the synthetic Baltic scenes. Every output describes data consistency, never intent
+
+# data/verification-matrix.json
+dat-bb70aa68d207 = m5_hybrid: in a synthetic Baltic scenario, a three-satellite formation's fix of a surface or elevated interference source from its pass (link budget and detection probability per epoch), a coastal ground layer by power differences (locate_pd), and a hybrid that fuses both, with the information bound of each layer; v2 (m5_hybrid::run_v2) starts the space solver from a coarse search over the sea points and gives the ground layer { "30" } reports per site per draw
+
 # data/verification-matrix.json
 dat-785f80bd5eec = Mach–Zehnder fringe-ambiguity dynamic range: the 2π-periodic fringe readout sets a maximum unambiguous specific force a_max=π/(k_eff·T²), and the unambiguous range in resolution cells a_max/σ_a=π/σ_Φ is independent of the optical scale factor — the T² sensitivity gain costs unambiguous range in exact lockstep (interrogation time trades resolution for range, leaving the cell count fixed by the readout phase noise)
 
@@ -4709,13 +4967,13 @@ dat-e448876d4c8e = Machine and sensor inputs ({ "0.38" })
 dat-711fb43cd1e7 = Machine-checked verification matrix
 
 # data/search.json
-dat-704d85aee5d9 = Machine-learning RF-impairment detection evaluation testbed ({ "13494" }): generate a labelled, parameter-grounded SYNTHETIC…
+dat-ff4ae30a2fa9 = Machine-learning RF-impairment detection evaluation testbed: generate a labelled, parameter-grounded SYNTHETIC…
 
 # data/search.json
-dat-018c6e2937ef = Machine-learning RF-impairment detection evaluation testbed ({ "13494" }): generate a labelled, parameter-grounded…
+dat-e2c2fa3067c5 = Machine-learning RF-impairment detection evaluation testbed: generate a labelled, parameter-grounded…
 
 # data/search.json
-dat-42e1eb002a40 = Machine-learning RF-impairment detection evaluation testbed (ESA AO/1-13494 demonstrator).
+dat-aa360f256296 = Machine-learning RF-impairment detection evaluation testbed.
 
 # studio/channels.json
 dat-835fcb7ce3c0 = macOS (Apple silicon)
@@ -4735,6 +4993,9 @@ dat-49fb16aa5d46 = Maneuvers & trajectory design
 # data/search.json
 dat-52455b3c1e98 = Maneuvers & trajectory design (src/maneuver.rs)
 
+# js/developers-data.mjs
+dat-28237e944a44 = Map any receiver, timing or monitoring log to Kshana observations with a `kshana.connect/1` mapping file, no code (`kshana connect map`, docs/CONNECT.md).
+
 # data/series.json
 dat-d52d650e9b3d = map matched
 
@@ -4750,11 +5011,8 @@ dat-dff3a9a4525c = Maps an undetected spoof/jam bias to effective error → Stan
 # studio/data/capabilities.json
 dat-b7ddfae8d8d8 = Maps Kshana outputs to the clauses of public frameworks (IMO guidance for ships, EU NIS2 Article { "21" }, EN { "16803" }, the US DHS resilient-PNT framework and EASA aviation guidance) by clause number only, filled from the runs you give it, and says which rows a set of runs supports evidence for, with each row's gap. It is not a finding that any framework is met and not a rating or approval by anyone.
 
-# studio/channels.json
+# data/search.json, studio/channels.json
 dat-f13fca53f0f4 = Marine integrations
-
-# data/search.json
-dat-b9e183e63f2e = Marine integrations ({ "0.35.0" }, workstream B)
 
 # data/verification-matrix.json
 dat-89123cc23c89 = Marine integrations: Signal K plugin, OpenCPN gate stream and score panel, reference build
@@ -4862,19 +5120,19 @@ dat-59e3f372da0f = Measured against JPL Horizons DE441 (the same committed fixtu
 dat-6bd5518df6e2 = Measured against JPL Horizons satellite ephemerides (DE441, MAR099, JUP365, SAT441) committed in tests/fixtures/solar_system/horizons_satellites_icrf.csv with the query and retrieval date; no published accuracy exists for mean elements or for the rotation-model placement, so the pinned bars catch regressions and do not validate. Mean elements omit the resonant and solar perturbations, and Phobos' secular acceleration is not modelled
 
 # data/verification-matrix.json
-dat-f1248ae4c5ba = Measured against the JPL Horizons reconstructed CAPSTONE ephemeris (NAIF -1176, CAPSTONE_merged, Moon-centred ICRF, 2023-03-01..31 at { "10" } min), committed byte for byte (tests/fixtures/capstone_horizons/, NOTICE.md), pre-registered { "dab3215c" } before it was fetched, as a measurement with bars on the mean geometry. Not a validation: the CR3BP omits the Sun, the Moon's eccentricity and the station keeping CAPSTONE performed, so the bars describe how representative the model orbit is, not an accuracy. Results: docs/design/evidence/cap29d-capstone-nrho/RESULTS.md
+dat-000d29bc903d = Measured against the JPL Horizons reconstructed CAPSTONE ephemeris (NAIF -1176, CAPSTONE_merged, Moon-centred ICRF, 2023-03-01..31 at { "10" } min), committed byte for byte (tests/fixtures/capstone_horizons/, NOTICE.md), pre-registered dab3215c before it was fetched, as a measurement with bars on the mean geometry. Not a validation: the CR3BP omits the Sun, the Moon's eccentricity and the station keeping CAPSTONE performed, so the bars describe how representative the model orbit is, not an accuracy. Results: docs/design/evidence/cap29d-capstone-nrho/RESULTS.md
 
 # data/verification-matrix.json
 dat-4a6894e74aed = Measured clock device cards (held-out prediction)
 
 # data/verification-matrix.json
-dat-df86e700d59a = Measured data under bars pre-registered at 653a2195 (xval/scint-malindi/): Zenodo record { "16941224" } (INGV, Malindi, { "18" } March { "2023" }, GPS PRN { "26" }, { "50" } Hz intensity and carrier phase, CC BY { "4.0" }, SHA-256 checked). { "22" } qualifying { "60" } s windows (N1 met). MET: the intensity distribution (Kolmogorov-Smirnov D { "0.0415" }, bar { "0.05" }) and the phase scintillation tied to S4 (median measured/model sigma-phi { "0.779" }, bar 2/3 to 3/2). NOT MET (finding F1): the model's deep-fade fraction is { "2.38" } times the measured (bar { "0.5" } to { "2" }) and its mean fade { "3.51" } times as long (bar 2/3 to 3/2). Finding F2: the registered processing reads the model's wrapped phase, which a self-check exposed; B3 repeated post hoc with the phase unwrapped gives { "0.804" }. WHAT IS NOT CHECKED: other nights, stations, latitudes or signals; receiver noise in the model. The row stays MODELLED.
+dat-9eb41e97c561 = Measured data under bars pre-registered at 653a2195 (xval/scint-malindi/): Zenodo record { "16941224" } (INGV, Malindi, { "18" } March { "2023" }, GPS PRN { "26" }, { "50" } Hz intensity and carrier phase, CC BY { "4.0" }, SHA-256 checked). { "22" } qualifying { "60" } s windows (N1 met). MET: the intensity distribution (Kolmogorov-Smirnov D { "0.0415" }, bar { "0.05" }) and the phase scintillation tied to S4 (median measured/model sigma-phi { "0.779" }, bar 2/3 to 3/2). NOT MET (finding F1): the model's deep-fade fraction is { "2.38" } times the measured (bar { "0.5" } to { "2" }) and its mean fade { "3.51" } times as long (bar 2/3 to 3/2). Finding F2: the registered processing reads the model's wrapped phase, which a self-check exposed; B3 repeated post hoc with the phase unwrapped gives { "0.804" }. WHAT IS NOT CHECKED: other nights, stations, latitudes or signals; receiver noise in the model. The row stays MODELLED.
 
 # data/verification-matrix.json
 dat-d6948fbceb46 = Measured GPS Block IIF clock cards with per-revolution terms (held-out prediction)
 
 # data/verification-matrix.json
-dat-d2405c5a3031 = Measured records, held out: IGS final combined { "30" } s clocks of the { "11" } GPS Block IIF satellites over 2026-04-01 to { "14" } (a window no test had opened; IGS, open with attribution). D9 external comparison (pre-registered 698f3842, predicted / measured Allan deviation within [1/1.5, { "1.5" }] at every fitted averaging time on every satellite), a finding (stays MODELLED): { "9" } of { "11" } cards are within the bar; G03 ({ "1.947" }) and G25 ({ "1.581" }) are optimistic between { "60" } s and { "2000" } s because their held-out records are noisier than their fit thirds (G25's held-out part carries { "16" } gaps and { "29" } phase outliers), a change of the clock rather than a missing periodic term. Dropping the periodic terms from the prediction fails all { "11" } cards ({ "1.77" } to { "4.96" }), so the terms carry the prediction
+dat-adfd213950a7 = Measured records, held out: IGS final combined { "30" } s clocks of the { "11" } GPS Block IIF satellites over 2026-04-01 to { "14" } (a window no test had opened; IGS, open with attribution). External comparison (pre-registered 698f3842, predicted / measured Allan deviation within [1/1.5, { "1.5" }] at every fitted averaging time on every satellite), a finding (stays MODELLED): { "9" } of { "11" } cards are within the bar; G03 ({ "1.947" }) and G25 ({ "1.581" }) are optimistic between { "60" } s and { "2000" } s because their held-out records are noisier than their fit thirds (G25's held-out part carries { "16" } gaps and { "29" } phase outliers), a change of the clock rather than a missing periodic term. Dropping the periodic terms from the prediction fails all { "11" } cards ({ "1.77" } to { "4.96" }), so the terms carry the prediction
 
 # data/verification-matrix.json
 dat-e2979d0e0600 = Measured-ADEV ingestion (NNLS), trade table (timing/inertial holdover + benefit), resilience-vs-time envelope; floor caveat carried on the artifact. Runnable from the CLI/bindings as the `quantum-trade` scenario kind (scenarios/quantum-trade.toml)
@@ -4985,6 +5243,9 @@ dat-3000c4b9880d = MODELLED GNSS-free quantum navigation: during a GNSS outage, 
 dat-9b16c0d8fcae = MODELLED heterogeneous optical + RF PNT joint figure of merit (P5): composes the { "1550" } nm two-way optical…
 
 # data/search.json
+dat-bbe56e7ac383 = MODELLED heterogeneous optical + RF PNT joint figure of merit: composes the { "1550" } nm two-way optical link…
+
+# data/search.json
 dat-1aa51bfc37c9 = MODELLED holdover test of a timing system, scored from a time-error record the OPERATOR supplies (a linuxptp…
 
 # data/search.json
@@ -5007,6 +5268,9 @@ dat-64ba276bb1f8 = MODELLED landing-dispersion budget for a powered descent to a
 
 # data/search.json
 dat-42021475bfcc = MODELLED layered-PNT conflict resilience (P7): a contested-environment user fields several PNT layers…
+
+# data/search.json
+dat-7865069ff3f2 = MODELLED layered-PNT conflict resilience: a contested-environment user fields several PNT layers…
 
 # data/search.json
 dat-33e53db92437 = Modelled lunar DIFFERENTIAL PNT (a lunar DGNSS/SBAS analogue): a NovaMoon-class reference station at a KNOWN…
@@ -5036,6 +5300,9 @@ dat-ded8dbce5b97 = MODELLED optical PNT through the atmosphere: for an optical l
 dat-1dfeaa96d84b = MODELLED planar cislunar constellation observability (P6): tracks a four-spacecraft differential-corrected…
 
 # data/search.json
+dat-a4254b883bf2 = MODELLED planar cislunar constellation observability: tracks a four-spacecraft differential-corrected…
+
+# data/search.json
 dat-eee427a562f9 = MODELLED powered ascent from a south-polar surface site to the rendezvous orbit, and the position-velocity…
 
 # data/search.json
@@ -5043,6 +5310,9 @@ dat-a5d5120ad3dd = MODELLED relative navigation for an Orion-lander style dockin
 
 # data/search.json
 dat-34f48a3aa757 = Modelled relativistic Earth–Moon clock rate (Lunar Coordinate Time, LTC/TCL): the secular LTC−TT rate from…
+
+# data/search.json
+dat-bdcfada09211 = MODELLED revisit and tip-and-cue latency of a two-layer maritime survey over the Baltic Sea: an RF survey…
 
 # data/search.json
 dat-905b333364f2 = MODELLED studies of the Moon's orbit and surface as navigation and geodetic infrastructure, five studies…
@@ -5077,6 +5347,9 @@ dat-e78b2a501784 = Modulation, anti-jam & code tracking
 # studio/data/capabilities.json
 dat-02fc05c40ded = monitor arithmetic checked against pynmea2 and GeographicLib
 
+# data/verification-matrix.json
+dat-14a961c95ff1 = Monitoring-network planner: detection and TDOA location-accuracy maps, and station placement
+
 # data/search.json
 dat-931d4bdd2598 = Monte Carlo ensemble of the clock-holdover scenario.
 
@@ -5090,7 +5363,7 @@ dat-d3c6615231ae = Monte Carlo: free-running clock error against its closed form
 dat-62102430cf03 = MOON_PA_DE440 to J2000 rotation at arbitrary epochs inside 2014-01-01 to 2030-12-31 TDB, by geodesic interpolation R0·Exp(f·Log(R0ᵀR1)) between the nodes of a committed { "6" } 209-row daily series (the try_ functions return OrientationSpanError outside it, the infallible ones panic; it never clamps); embedded at compile time so there is no runtime filesystem I/O and the WASM build carries it
 
 # data/verification-matrix.json
-dat-0da5f74da642 = Moonlight-class lunar DOP / coverage / availability + generalised lunar ARAIM protection levels over a service volume
+dat-aa0f634fd7db = Moonlight-class lunar coverage over a service volume: per-satellite MCI positions and the visible-satellite set at every grid point and epoch (validated against ANISE); DOP reuses the gnss_lib_py-validated kernel; the generalised lunar ARAIM protection levels are computed but not externally validated
 
 # data/search.json
 dat-99a5aea2e430 = moonlight-service-volume (scenario kind)
@@ -5102,7 +5375,7 @@ dat-6c5f9b78f628 = More receivers and sensors
 dat-7e36d843a9a6 = Most of Kshana drives its quantum sensors from published Allan/noise coefficients — datasheet lookups (see…
 
 # data/verification-matrix.json
-dat-c8d2d183e4a2 = mpmath { "1.3.0" } (BSD-3-Clause) 50-digit roots from the exact binary inputs. Bars pre-registered in xval/kepler-mpmath/PREREGISTRATION.md (73bab12), stated relative to |E| with the e -> { "1" }, M -> { "0" } conditioning argument; all met (xval/kepler-mpmath/RESULTS.md). The legacy solvers (solve_kepler_checked, orbit::solve_kepler, ephem::solve_kepler) are numerically unchanged, because committed outputs depend on them, and are not covered by this row
+dat-6ec392f0d69e = mpmath { "1.3.0" } (BSD-3-Clause) 50-digit roots from the exact binary inputs. Bars pre-registered in xval/kepler-mpmath/PREREGISTRATION.md (73bab12), stated relative to |E| with the e -> { "1" }, M -> { "0" } conditioning argument; all met (xval/kepler-mpmath/RESULTS.md). The legacy solvers (solve_kepler_checked, orbit::solve_kepler, ephem::solve_kepler) are numerically unchanged, because committed outputs depend on them, and are not covered by this row
 
 # data/verification-matrix.json
 dat-549373bd6ba9 = MTIE(τ): the maximum peak-to-peak time-error swing over any sliding window of τ = m·tau0, the ITU-T G.810/G.823/G.8261 wander statistic synchronisation-network limits (MTIE masks) are written against — an extremal (max/min) figure distinct from the RMS Allan family
@@ -5118,6 +5391,9 @@ dat-92aa725751a3 = Multi-constellation coverage: the four global navigation sate
 
 # js/missions-runs.mjs
 dat-f1f2ad95c511 = Multi-constellation coverage: the four global navigation satellite systems (GNSS) together, as a map of satellites in view, dilution of precision (DOP) and availability over the whole Earth for one day.
+
+# data/search.json
+dat-308c970a9801 = Multi-constellation receiver clock (MODELLED)
 
 # data/search.json
 dat-517674c0b261 = Multi-GNSS availability from orbital geometry: GPS + Galileo combined.
@@ -5159,16 +5435,16 @@ dat-51b4547ea6cb = Nadir imager signal-to-noise budget (Lambertian scene radianc
 dat-3479c010866d = NAIF kernel reader: DAF container, SPK type { "2" } and binary PCK type { "2" }
 
 # data/verification-matrix.json
-dat-07cdccc0b777 = NAIF SPICE Toolkit (CSPICE N0067 through spiceypy { "8.3.0" }) heliocentric states on de440s.bsp and pykep { "3.0.1" } lambert_problem (ESA, the C++ kep3 core, MPL-2.0), an independent Lambert solver, run as a separate program that calls no Kshana code (tests/fixtures/porkchop_de440/, NOTICE.md); the engine reads a bit-for-bit de440s cut. Pre-registered b9317cee. A Library check of the sweep. Results: docs/design/evidence/cap20b-porkchop-de440/RESULTS.md
+dat-caa5bd9184b1 = NAIF SPICE Toolkit (CSPICE N0067 through spiceypy { "8.3.0" }) heliocentric states on de440s.bsp and pykep { "3.0.1" } lambert_problem (ESA, the C++ kep3 core, MPL-2.0), an independent Lambert solver, run as a separate program that calls no Kshana code (tests/fixtures/porkchop_de440/, NOTICE.md); the engine reads a bit-for-bit de440s cut. Pre-registered b9317cee. A Library check of the sweep. Results: docs/design/evidence/cap20b-porkchop-de440/RESULTS.md
 
 # data/verification-matrix.json
-dat-ca14bad18ab1 = NAIF SPICE Toolkit (CSPICE N0067 through spiceypy { "8.3.0" }) spkezr heliocentric states on the full de440s.bsp, a separate program that calls no Kshana code (tests/fixtures/solar_system_kernel/, NOTICE.md); the engine reads bit-for-bit de440s cuts. Pre-registered f4a6297a. A Library check of the wiring: DE440 itself and the analytic bodies are not validated here. Results: docs/design/evidence/cap31-solar-system-kernel/RESULTS.md
+dat-85ef786ceaa2 = NAIF SPICE Toolkit (CSPICE N0067 through spiceypy { "8.3.0" }) spkezr heliocentric states on the full de440s.bsp, a separate program that calls no Kshana code (tests/fixtures/solar_system_kernel/, NOTICE.md); the engine reads bit-for-bit de440s cuts. Pre-registered f4a6297a. A Library check of the wiring: DE440 itself and the analytic bodies are not validated here. Results: docs/design/evidence/cap31-solar-system-kernel/RESULTS.md
 
 # data/verification-matrix.json
-dat-c28c6114cab4 = NAIF SPICE Toolkit (CSPICE N0067 through spiceypy { "8.3.0" }) sxform of a two-vector dynamic frame (primary +X along the Moon's position wrt the Earth, secondary +Y along its velocity, de440s), applied to the dimensional rotating state built from SPICE's own Moon state, by a separate program that calls no Kshana code (tests/fixtures/cr3bp_to_mci_spice/, NOTICE.md). Pre-registered 3bfc9445, amended before any run in e8bfabe4 to include the frame's out-of-plane angular velocity (without it the velocity would be up to { "8e-2" } m/s off). A Library check of the transform only. Results: docs/design/evidence/rm34-cr3bp-to-mci/RESULTS.md
+dat-e94ef30747e4 = NAIF SPICE Toolkit (CSPICE N0067 through spiceypy { "8.3.0" }) sxform of a two-vector dynamic frame (primary +X along the Moon's position wrt the Earth, secondary +Y along its velocity, de440s), applied to the dimensional rotating state built from SPICE's own Moon state, by a separate program that calls no Kshana code (tests/fixtures/cr3bp_to_mci_spice/, NOTICE.md). Pre-registered 3bfc9445, amended before any run in e8bfabe4 to include the frame's out-of-plane angular velocity (without it the velocity would be up to { "8e-2" } m/s off). A Library check of the transform only. Results: docs/design/evidence/rm34-cr3bp-to-mci/RESULTS.md
 
 # data/verification-matrix.json
-dat-f44c484e12cf = NAIF SPICE Toolkit (CSPICE N0067 through spiceypy) pxform('J2000', 'IAU_<BODY>') on pck00011.tpc, an independent implementation of the same IAU rotation model, and NAIF gm_de440.tpc for GM, the fixtures generated by a separate program that calls no Kshana code (tests/fixtures/body_orientation_spice_oracle/, NOTICE.md). Pre-registered f3fa98b (with the original { "1e-9" } rad bar of b4e0ff5a) before the fresh-epoch fixture existed; the fresh fixture was regenerated independently and is byte-identical. GM is a transcription of DE440 checked against the published file, not an independent determination of GM. Results: docs/design/evidence/mr08-body-orientation/RESULTS.md
+dat-c16ee8a61191 = NAIF SPICE Toolkit (CSPICE N0067 through spiceypy) pxform('J2000', 'IAU_<BODY>') on pck00011.tpc, an independent implementation of the same IAU rotation model, and NAIF gm_de440.tpc for GM, the fixtures generated by a separate program that calls no Kshana code (tests/fixtures/body_orientation_spice_oracle/, NOTICE.md). Pre-registered f3fa98b (with the original { "1e-9" } rad bar of b4e0ff5a) before the fresh-epoch fixture existed; the fresh fixture was regenerated independently and is byte-identical. GM is a transcription of DE440 checked against the published file, not an independent determination of GM. Results: docs/design/evidence/mr08-body-orientation/RESULTS.md
 
 # data/verification-matrix.json
 dat-5a90d2752742 = Named LEO PNT systems as optional data presets, each with its source
@@ -5231,7 +5507,7 @@ dat-5ccddaf75af8 = Navigation-versus-communications aperture sharing
 dat-8e1c98a34d9b = navsignal: the sine integral (sine_integral), the BPSK-R fraction of power inside a double-sided band in closed form (bpsk_power_in_band_closed_form), the band-limited BPSK Gabor bandwidth in closed form (bpsk_gabor_bandwidth_closed_form_hz), the band-limited coherent and non-coherent early-late delay-lock-loop jitter for any unit-area spectrum after Betz & Kolodziejski { "2009" } (dll_jitter_bandlimited_s) and its vanishing-spacing Gabor bound (dll_jitter_small_spacing_limit_s), the offset BPSK spectral separation coefficient in closed form (bpsk_offset_ssc_closed_form), the Galileo E5 AltBOC({ "15,10" }) spectrum (altboc_15_10_psd) and a modulation-label parser (parse_modulation); used by the `leo-signal` kind for every signal design
 
 # data/verification-matrix.json
-dat-2300b8ef90c0 = navsignal::band_limited_tests (sine_integral_matches_tables_and_its_limit — Si({ "1" }), Si(pi), Si({ "2" } pi) to { "1e-12" }; bpsk_power_in_band_closed_form_matches_textbook_and_numeric — { "0.9028" } of the power in the main lobe for BPSK(1/3), BPSK({ "1" }), BPSK({ "5" }), BPSK({ "10" }), and the closed form equal to quadrature to { "1e-7" } in { "10" }, { "15" }, { "20" } and { "51.15" } MHz; bpsk_gabor_closed_form_matches_numeric_and_asymptote — to { "1e-4" }, and the sqrt(B R_c / ({ "2" } pi^{ "2" })) asymptote; bandlimited_dll_reduces_to_the_textbook_forms — coherent early-late BPSK({ "1" }) at { "45" } dB-Hz, B_L { "1" } Hz, d { "1" } chip, T { "20" } ms: { "0.0039564" } chips ({ "1.159" } m) within { "1" } %, the non-coherent form equal to navsignal::dll_code_jitter_chips within { "1" } %, the vanishing-spacing limit equal to its closed form to { "1e-5" }; offset_bpsk_ssc_matches_parseval_closed_form — offsets { "0" } to { "3.2" } R_c within { "0.01" } dB and -71.86 dB/Hz at zero offset for BPSK({ "10" }); altboc_psd_is_unit_area_with_lobes_at_e5a_and_e5b; modulation_labels_round_trip)
+dat-48dfed7653b2 = navsignal::band_limited_tests (sine_integral_matches_tables_and_its_limit — Si({ "1" }), Si(pi), Si({ "2" } pi) to { "1e-12" }; bpsk_power_in_band_closed_form_matches_textbook_and_numeric — { "0.9028" } of the power in the main lobe for BPSK(1/3), BPSK({ "1" }), BPSK({ "5" }), BPSK({ "10" }), and the closed form equal to quadrature to { "1e-7" } in { "10" }, { "15" }, { "20" } and { "51.15" } MHz; bpsk_gabor_closed_form_matches_numeric_and_asymptote — to { "1e-4" }, and the sqrt(B R_c / ({ "2" } pi^{ "2" })) asymptote; bandlimited_dll_reduces_to_the_textbook_forms — coherent early-late BPSK({ "1" }) at { "45" } dB-Hz, B_L { "1" } Hz, d { "1" } chip, T { "20" } ms: { "0.0039564" } chips within { "0.25" } % ({ "1.1594" } m within { "0.012" } m), the non-coherent form equal to navsignal::dll_code_jitter_chips within { "1" } %, the vanishing-spacing limit equal to its closed form to { "1e-5" }; offset_bpsk_ssc_matches_parseval_closed_form — offsets { "0" } to { "3.2" } R_c within { "0.01" } dB and -71.86 dB/Hz at zero offset for BPSK({ "10" }); altboc_psd_is_unit_area_with_lobes_at_e5a_and_e5b; modulation_labels_round_trip)
 
 # data/verification-matrix.json
 dat-074d46f6f98e = navsignal::tests (BPSK self-SSC = 2/3R_c; unit-area PSD; DLL); tests/nav_signal_modulation_code_tracking_reference.rs (GPS C/A Gold cross/auto-correlation exact-integer match vs independent IS-GPS-200 code generation; BPSK-R({ "1" })/sine-BOC({ "1,1" }) PSD vs an independent scipy periodogram); tests/nav_signal_betz_hein_published_oracle.rs (betz_text_correlation_values_over_1_ghz; hein_mboc_interference_improvements; finding_betz_side_lobes_and_multipath, pinned)
@@ -5255,22 +5531,25 @@ dat-38cfda4792ce = New Studio views
 dat-37901b388424 = NIST SP { "1065" } (Riley) / Stable32 reference deviations on NBS14
 
 # data/verification-matrix.json, data/card-matrix-map.json
-dat-51f0c17d1596 = NMEA { "0183" } training-stream conformance and decoded values
+dat-a4613484dcaa = NMEA { "0183" } training streams: parseability by an independent parser and decoded values
+
+# data/search.json
+dat-75c620009d32 = NMEA { "2000" } from a CAN bus (kshana sensor-live --kind n2k)
 
 # data/search.json
 dat-a65b89641c3e = NMEA training streams: kshana nmea-scenario
 
 # data/verification-matrix.json
-dat-c8fff0b939ce = nmea_synth (track, sentences, scenarios); cli nmea-scenario
+dat-caa5108bdeb3 = nmea_synth (track, nmea, sky, gen, config); cli nmea-scenario
 
 # data/verification-matrix.json
 dat-24431d690b8d = No external oracle, and ExternalDataset is declined. The two inputs are an Eb/N0 margin and a C/N0 threshold crossing, both functions of a MODELLED EIRP, figure of merit and lumped loss allocation; there is no measured availability record for an Earth-Moon optical/RF hybrid service to check the composed figure against. The checks that exist are internal and are stated as such: the composition is recomputed from the report's own published margins rather than from the emitter's internals, and the closure range is verified by re-running the link equation AT it and requiring the margin to vanish -- an inversion round trip, not an independent implementation. The honest limit of the figure is recorded on the report itself: it is a deterministic 0/1 indicator, not a probability, because nothing in this engine measures an RF link-outage distribution at this band and geometry. That missing input is named in rf_availability.factors_not_included rather than invented, and supplying it is what a probabilistic RF availability would need
 
 # data/verification-matrix.json
-dat-ecd4bf05a7bc = No external oracle, and none is possible: this is self-description, not a measurement. It is recorded because the absence of it was a defect -- P5 had to quote the carrier wavelength and transmit aperture from source defaults, and to infer that a bare `variance` was in square metres from an internal consistency check. The inference was correct, which is precisely why it mattered: nothing would have caught it being wrong
+dat-377534ef0047 = No external oracle, and none is possible: this is self-description, not a measurement. It is recorded because the absence of it was a defect: a reader had to quote the carrier wavelength and transmit aperture from source defaults, and to infer that a bare `variance` was in square metres from an internal consistency check. The inference was correct, which is precisely why it mattered: nothing would have caught it being wrong
 
 # data/verification-matrix.json
-dat-26a174bec1fd = No external oracle: this is self-description over an equation already validated against a published design-control table (see the one-way link budget row). It is recorded because the absence of it was a measured defect -- reproducing the released d1_rate_gain_beamwidth.csv required back-solving one effective constant to { "0.0034" } dB from all thirty rows, and the engine now both names that combination and proves, by test, that no released table could ever have separated its three components
+dat-3c37d2b173dd = No external oracle: this is self-description over an equation already validated against a published design-control table (see the one-way link budget row). It is recorded because the absence of it was a measured defect -- reproducing the released rate/gain/beamwidth table required back-solving one effective constant to { "0.0034" } dB from all thirty rows, and the engine now both names that combination and proves, by test, that no released table could ever have separated its three components
 
 # data/verification-matrix.json
 dat-d9e81e6919e7 = No external oracle. The crossing is a closed-form solution of the random-walk variance growth, and the tests recompute it independently from the values the report itself publishes rather than from the emitter's internals. The starting covariance is pinned bit-for-bit to the trace the existing handoff block already reported, so the coast cannot propagate a covariance nobody else saw. The process-noise PSDs are MODELLED representative inputs and the crossing times scale directly with them, which the scaling test states as a measured property rather than a claim. ExternalDataset is declined deliberately: the coast time is a direct function of two Modelled PSDs and of alert limits that are themselves representative, and there is no measured lunar optical/RF handover coast to compare against. An external oracle here would need a published post-handover covariance-growth or holdover-accuracy curve for a comparable receiver with its process-noise model stated, checked to a tolerance
@@ -5306,7 +5585,7 @@ dat-3206cd735f79 = None external for the geopotential effect. The { "24" } coeff
 dat-791a77073a1c = None external for the scenario results: every pack test runs a MODELLED scenario kind. The bars are the pack author's stated profile (the DHS framework states no values; the IMO accuracy limits are Table C-1 of MSC.1/Circ.1575, read in full; the ICAO pack follows ICAO's own RFI Mitigation Plan presentation because Doc { "9849" } is a paid publication and was not read), committed before any scored run in xval-style PREREGISTRATION.md files under standards/. A MET bar says a modelled scenario met a stated bar, nothing about a product
 
 # data/verification-matrix.json
-dat-7557b6b1b3a2 = None external yet. Synthetic forward-inverse round trips only, from a generator that shares the estimator's model, so they check the code and the calibration of the stated levels under that model and nothing about real emitters. An external check against the published Jammertest { "2025" } transmitter sites was pre-registered (docs/emitter-region/PREREGISTRATION.md, signed off by the owner before any scored run) and run once (docs/emitter-region/RESULTS.md): ADS-B NOT ASSESSABLE ({ "2" } scheduled sessions, fewer than the registered minimum of { "4" }) and AIS NOT ASSESSABLE (no published session), so no bar was tested and the row stays MODELLED
+dat-ffd7896e9a3b = None external yet. Synthetic forward-inverse round trips only, from a generator that shares the estimator's model, so they check the code and the calibration of the stated levels under that model and nothing about real emitters. An external check against the published Jammertest { "2025" } transmitter sites was pre-registered (docs/emitter-region/PREREGISTRATION.md, committed before any scored run) and run once (docs/emitter-region/RESULTS.md): ADS-B NOT ASSESSABLE ({ "2" } scheduled sessions, fewer than the registered minimum of { "4" }) and AIS NOT ASSESSABLE (no published session), so no bar was tested and the row stays MODELLED
 
 # data/verification-matrix.json
 dat-93ef57429a13 = None external: field names come from the GNSS-SDR documentation; neither the reader nor relay.py was run against a live GNSS-SDR or a real capture
@@ -5387,6 +5666,9 @@ dat-34cdc4333063 = NRLMSISE-00 thermospheric density
 dat-1ad7ab142d99 = ntn-positioning (scenario kind)
 
 # data/search.json
+dat-8014f06e60cc = ntpd and White Rabbit logs
+
+# data/search.json
 dat-c3c6647166b5 = Numerical (Cowell) propagator & force model
 
 # data/verification-matrix.json, data/card-matrix-map.json
@@ -5399,10 +5681,10 @@ dat-aece7a336dad = Numerical propagator
 dat-32c9f9eaf3e8 = NumPy { "2.4.1" } (numpy.linalg.eigh / .inv; BSD-3-Clause, LAPACK-backed) — an independent third-party authority computing the same uniquely-defined eigenvalues, σ²(XᵀX)⁻¹ Cramér–Rao covariance and GNSS dilution-of-precision factors by a different algorithm (LAPACK divide-and-conquer + LU) than Kshana's cyclic-Jacobi sweep and spectral pseudo-inverse; matched to { "1e-9" }. The same external-library class already validates the DOP engine (vs gnss_lib_py) and the χ²/erf kernels (vs SciPy). Additionally cross-checked against the Kay ({ "1993" }) closed-form CRLBs and Monte-Carlo CRLB attainment (internal)
 
 # data/verification-matrix.json
-dat-b3330be140f9 = numpy { "2.5.4" } (BSD-3-Clause), xval/numpy-ellipse/ellipse.py: numpy.linalg.inv of G^T G and numpy.linalg.eigh of its horizontal block on the committed inputs, an independent numerical library performing the inverse and the eigen-decomposition by its own algorithms (standard P2). Pre-registered in xval/numpy-ellipse/PREREGISTRATION.md (commit 2dfc9c16) before the run; the driver's output formatting was corrected once after the pre-registration (a numpy scalar written as np.float64(...)), with no change to the protocol or the tolerances. The validated claim is the linear algebra on those inputs; the Gaussian error model and the UERE are stated inputs, not a measured accuracy or an integrity bound
+dat-7941fbf34ffc = numpy { "2.5.4" } (BSD-3-Clause), xval/numpy-ellipse/ellipse.py: numpy.linalg.inv of G^T G and numpy.linalg.eigh of its horizontal block on the committed inputs, an independent numerical library performing the inverse and the eigen-decomposition by its own algorithms. Pre-registered in xval/numpy-ellipse/PREREGISTRATION.md (commit 2dfc9c16) before the run; the driver's output formatting was corrected once after the pre-registration (a numpy scalar written as np.float64(...)), with no change to the protocol or the tolerances. The validated claim is the linear algebra on those inputs; the Gaussian error model and the UERE are stated inputs, not a measured accuracy or an integrity bound
 
 # data/verification-matrix.json
-dat-97db3d9fe607 = numpy.linalg / scipy.linalg (LAPACK zgesv complex solve) — an independent linear-algebra codebase from kshana's from-scratch complex kernel, computing the SAME uniquely-defined weights: MVDR w=R⁻¹a_sv/(a_svᴴR⁻¹a_sv) and minimum-norm null-steering w=Aᴴ(AAᴴ)⁻¹b, plus the resulting array-response gains, matched to ~{ "1e-9" } — the same class of oracle as the Validated DOP (gnss_lib_py) and Fisher-information (numpy) rows. MODELLED narrowband far-field identical-isotropic-element array — no mutual coupling, per-element mismatch, finite-bandwidth (STAP), or steering-vector estimation error
+dat-3d689718f577 = numpy.linalg / scipy.linalg (LAPACK zgesv complex solve) — an independent linear-algebra codebase from kshana's from-scratch complex kernel, computing the SAME uniquely-defined weights: MVDR w=R⁻¹a_sv/(a_svᴴR⁻¹a_sv) and minimum-norm null-steering w=Aᴴ(AAᴴ)⁻¹b, plus the resulting array-response gains, matched to ~{ "1e-9" } — the same class of oracle as the Validated DOP (gnss_lib_py) and Fisher-information (numpy) rows. The validated claim is the linear algebra on the committed inputs (oracle class P2 in docs/VALIDATION.md), not the beamforming model. MODELLED narrowband far-field identical-isotropic-element array — no mutual coupling, per-element mismatch, finite-bandwidth (STAP), or steering-vector estimation error
 
 # studio/data/capabilities.json
 dat-a71cb168dc8a = numpy/scipy oracles of the numerics; three pre-registered bars NOT MET (xval/lunar-infra/RESULTS.md)
@@ -5419,6 +5701,9 @@ dat-5084b79e18a0 = Observatory results: 30-day Baltic back-catalogue and sensiti
 # data/search.json
 dat-4961819e6e3e = Observatory: the daily product
 
+# data/search.json
+dat-b0b81ae7dc2e = Observed tracks (after { $version })
+
 # data/verification-matrix.json
 dat-b7a15e79e552 = odf (parse_odf, Odf, OdfObservation, OdfRamp, seconds_1950); mars_od (DopplerModel, RampTable, compress_two_way, MarsDynamics, fit, fit_damped); naif_kernel (SPK type { "1" }); gravity_pds (SphericalHarmonicField::from_shadr)
 
@@ -5434,6 +5719,9 @@ dat-c7bfab112390 = oem::tests (a symmetric PD covariance round-trips KVN→parse
 # data/verification-matrix.json, data/card-matrix-map.json, studio/data/areas.json
 dat-73e5efd29f76 = Off-boresight antenna pattern in the lunar geometry export
 
+# data/verification-matrix.json
+dat-e12ec57f7fda = Official CycloneDX { "1.5" } JSON Schema (+ SPDX identifier list): every atomic licence id is a valid SPDX id, and the document has zero schema errors once compound expressions are moved to expression (the generator's raw output has { "133" } compound-id errors); the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
+
 # studio/channels.json
 dat-d1290d4e3bfc = Official MCP registry
 
@@ -5447,10 +5735,13 @@ dat-7dea9a6284a9 = Old addresses
 dat-2a5a41568288 = Oleg-Pluton, from NASA Viking imagery
 
 # data/search.json
+dat-9df94da5e0ed = On Kubernetes, with Terraform, or on a Raspberry Pi
+
+# data/search.json
 dat-c61600fc3590 = On measured data
 
 # data/verification-matrix.json
-dat-920d0641725f = On the real-DE440 per-node lunar network (each row a differential inter-node one-way range built via pernode_range_row with a real DE440 Moon PA-frame line of sight), the engine computes the weighted parity projector P⊥ = I − G(GᵀWG)⁺GᵀW (the rank-deficient pseudo-inverse form that survives the 8-dim datum⊕timescale gauge), the T1 detectability residual ‖P⊥·b‖ (in-range faults annihilated, generic faults detectable), the Baarda MDB non-centrality quadratic form cᵀWP⊥c (the correct single-P⊥ weighted form, NOT the double-P⊥ form cᵀP⊥WP⊥c) with MDB = √(λ₀/cᵀWP⊥c), and the Byzantine block-spark detect/identify counts of the stacked effective peer signatures P⊥·B_T (column-rank, not merely nonzero)
+dat-8b97cce8e3fb = On the real-DE440 per-node lunar network (each row a differential inter-node one-way range built via pernode_range_row with a real DE440 Moon PA-frame line of sight), the engine computes the weighted parity projector P⊥ = I − G(GᵀWG)⁺GᵀW (the rank-deficient pseudo-inverse form that survives the 8-dim datum⊕timescale gauge), the detectability residual ‖P⊥·b‖ (in-range faults annihilated, generic faults detectable), the Baarda MDB non-centrality quadratic form cᵀWP⊥c (the correct single-P⊥ weighted form, NOT the double-P⊥ form cᵀP⊥WP⊥c) with MDB = √(λ₀/cᵀWP⊥c), and the Byzantine block-spark detect/identify counts of the stacked effective peer signatures P⊥·B_T (column-rank, not merely nonzero)
 
 # data/search.json
 dat-4623cd3a36ef = On tolerances. "Validated" below means a calibration test asserts the simulated statistic matches the…
@@ -5527,9 +5818,6 @@ dat-8b2ea1b38760 = Open core, Pro and custom study
 # studio/channels.json
 dat-b182bb36b35f = Open Kshana Studio
 
-# data/search.json
-dat-98730cf6a0bd = Open questions for the coordinator
-
 # studio/channels.json
 dat-54aeb3b1e13d = OpenCPN catalogue submission
 
@@ -5550,6 +5838,9 @@ dat-9ab85050a386 = Operational-style Earth-orientation prediction error, measure
 
 # studio/channels.json
 dat-9b9b975aaee0 = operators running Grafana
+
+# data/verification-matrix.json
+dat-bda92c42e42f = opnav::measure: the apparent direction of a body centre (converged Newtonian light time and stellar aberration, the SPICE CN+S correction) or of a catalogue star (aberration only), projected through a pinhole camera with Brown-Conrady distortion in the OpenCV projectPoints convention at a given attitude quaternion, with the partials of the pixel with respect to the spacecraft position and velocity
 
 # data/verification-matrix.json
 dat-583e1b672d98 = Opt-in EGM2008 tesseral field (to degree/order { "70" }) as the central gravity of the numerical Cowell ForceModel, evaluated in an Earth-fixed frame rotated by the IAU { "2000" } Earth rotation angle (or the CIO GCRS-to-ITRS chain); default off, so no existing output moves
@@ -5596,6 +5887,9 @@ dat-13cac2101047 = optical-atmosphere (scenario kind)
 # data/verification-matrix.json, data/card-matrix-map.json, studio/data/areas.json
 dat-459d2f311e8d = Optical-clock frequency stability on a real measured curve
 
+# data/verification-matrix.json
+dat-3c8cdeb7434a = Optical-navigation measurement model: apparent direction, pinhole projection with distortion, and partials
+
 # data/series.json
 dat-111339dba2f5 = optical-sr-lattice median
 
@@ -5610,6 +5904,15 @@ dat-296768366831 = Option B — commercial licence (from Ashforde OÜ)
 
 # data/verification-matrix.json
 dat-247ff7ded4ba = Optional extra_reflectors and extra_beacons inputs on the lunar-llr-datum scenario add a station_geodesy block: the five-array Helmert information from the archived lunar laser ranging slice plus the information an added retroreflector (ranged at the archived normal-point epochs at which the ranging station is above its horizon, each with that normal point's archived weight) and an added VLBI beacon (observed by the lunar-frame-campaign network and schedule with the Earth stations fixed, through the lunar-vlbi-fim delay partials) at stated sites put on the seven-parameter datum, re-solved, with each Helmert parameter's 1-sigma before and after, their ratio, the before and after norms, and the extreme eigenvalues of the Fisher difference. Absent or empty, the report is unchanged
+
+# data/verification-matrix.json
+dat-2ec4f11a498e = Oracle class P2 (docs/VALIDATION.md): numpy { "2.3.5" } linalg.cholesky (LAPACK potrf), solve (gesv) and inv on { "201" } committed SPD inputs (tests/fixtures/gls_whitening_numpy_oracle) check the hand-rolled factor, the whitened residual and the whitening operator; the Mahalanobis square is checked against solve(Omega, r), which uses no Cholesky, so the identity z^T z = r^T Omega^-1 r is confirmed by a separate route. All within { "1e-12" } relative (worst { "7.9e-16" }), tolerance fixed before the comparison. The largest condition number is { "19.3" }, so ill-conditioned matrices are not covered. GLS/Aitken { "1935" } whitening is Cited.
+
+# data/verification-matrix.json
+dat-66f538f14378 = Oracle class P2 (docs/VALIDATION.md): numpy { "2.3.5" } linalg.lstsq and scipy { "1.18.1" } (norm.isf, norm.sf, brentq) recompute, by their own algorithms, the subset weighted least-squares estimators, the general separation covariance sqrt(Δ Σ Δᵀ), the biases and the protection level from them on { "300" } committed inputs (tests/fixtures/tpl_scalar_numpy_oracle); the PL agrees within { "1e-9" } relative (worst { "1.2e-10" }) and the driving exclusion subset is identical, tolerance fixed before the comparison. The multipliers, priors and bias overbounds are inputs, and the structure of the PL equation (mode list, ir/2 split, bias projection) is a stated input, as for the Lunar ARAIM protection-level kernel row; the validated claim is the linear algebra and the PL on those inputs, not the physical magnitudes of a timing scenario. ARAIM lineage Blanch { "2015" } / Joerger { "2014" }
+
+# data/verification-matrix.json
+dat-8365290269c3 = Oracle class P2 (docs/VALIDATION.md): numpy { "2.3.5" } linalg.solve (LAPACK gesv, LU with no Cholesky) recomputes alpha_ss (the threshold over the whitened contrast norm of d after removing its GLS common-mode coefficient), alpha_cm and their minimum on { "256" } committed (Omega, d, T_ss, T_cm) inputs (tests/fixtures/gls_outside_omega_bound_numpy_oracle), including pure common-mode directions, directions outside the modelled common axis, and the zero-direction and non-positive-definite cases that must give +inf; pre-registered (5adea293; amendment fe364dd1, before any comparison, restating the matrix form); tolerances fixed before the comparison. The capability text was corrected (2026-10-02): it had said the bound is infinite for a direction outside the common axis, which contradicted the code and this comparison. That the idealised single-contrast detector lower-bounds a real subset detector undetectable magnitude stays Modelled
 
 # data/search.json
 dat-976bf976b22b = orbit (scenario kind)
@@ -5642,52 +5945,52 @@ dat-2500c9547de2 = orbital_timing::tests (reduces_to_the_terrestrial_tpl — exa
 dat-f8d230acbfde = Orbits & GNSS geometry
 
 # data/verification-matrix.json
-dat-ad6c5b7630f1 = Orekit { "12.2" } (Apache-2.0) and GeographicLib { "2.1" } (MIT), both run as separate programs, pre-registered (80513191) before the engine change and any oracle run: sphere quantities within { "1e-9" } relative (worst: angular radius { "5.4e-16" }, swath { "7.0e-13" }, access { "1.9e-14" }), period { "1e-12" } ({ "1.6e-16" }), nadir GSD { "1e-7" } ({ "2.9e-10" }), the J2 nodal period and node spacing within { "0.1" } % of an Orekit numerical J2 propagation with a node detector ({ "1.2e-5" } and { "6.7e-5" }), the contiguous flag exact (168/168), and against the WGS-84 ellipsoid the limb within { "0.3" } deg ({ "0.186" } deg) and the maximum ground range within { "0.5" } % ({ "3.2e-3" }). Removing the nodal regression term fails { "35" } of { "42" } node points. MODELLED scope: spherical-Earth footprint; no radiometry, MTF, atmosphere, jitter or glint; the sun-synchronous default inclination is not compared. The earlier Skyfield/SGP4 cross-check is kept as a regression. { "0.30" } revision: the spacing now carries the J2 nodal regression (default scenario { "2756.37" } -> { "2752.17" } km)
+dat-63123c828d8c = Orekit { "12.2" } (Apache-2.0) and GeographicLib { "2.1" } (MIT), both run as separate programs, pre-registered ({ "80513191" }) before the engine change and any oracle run: sphere quantities within { "1e-9" } relative (worst: angular radius { "5.4e-16" }, swath { "7.0e-13" }, access { "1.9e-14" }), period { "1e-12" } ({ "1.6e-16" }), nadir GSD { "1e-7" } ({ "2.9e-10" }), the J2 nodal period and node spacing within { "0.1" } % of an Orekit numerical J2 propagation with a node detector ({ "1.2e-5" } and { "6.7e-5" }), the contiguous flag exact (168/168), and against the WGS-84 ellipsoid the limb within { "0.3" } deg ({ "0.186" } deg) and the maximum ground range within { "0.5" } % ({ "3.2e-3" }). Removing the nodal regression term fails { "35" } of { "42" } node points. MODELLED scope: spherical-Earth footprint; no radiometry, MTF, atmosphere, jitter or glint; the sun-synchronous default inclination is not compared. The earlier Skyfield/SGP4 cross-check is kept as a regression. { "0.30" } revision: the spacing now carries the J2 nodal regression (default scenario { "2756.37" } -> { "2752.17" } km)
 
 # data/verification-matrix.json
-dat-b27700e618bb = Orekit { "12.2" } (Apache-2.0) BatchLSEstimator with custom instantaneous geometric RangeRate and AzEl measurements (cross-checked against Orekit's TopocentricFrame), run as a separate program on identical masked, seeded observations. Bars pre-registered in xval/od-measurements-orekit/PREREGISTRATION.md (acfd14c). Every bar met except B4, the noiseless state agreement of { "1" } cm, missed on { "2" } of { "4" } scenarios ({ "1.46" }, { "1.74" } cm): Orekit's own noiseless estimate sits that far from its simulated truth (cause on the Orekit side not isolated). Recorded and pinned, so the row stays MODELLED. Not modelled: light time, aberration, refraction, Earth rotation, a sequential filter for these measurement types
+dat-2cd7289e2314 = Orekit { "12.2" } (Apache-2.0) BatchLSEstimator with custom instantaneous geometric RangeRate and AzEl measurements (cross-checked against Orekit's TopocentricFrame), run as a separate program on identical masked, seeded observations. Bars pre-registered in xval/od-measurements-orekit/PREREGISTRATION.md (acfd14c). Every bar met except B4, the noiseless state agreement of { "1" } cm, missed on { "2" } of { "4" } scenarios ({ "1.46" }, { "1.74" } cm): Orekit's own noiseless estimate sits that far from its simulated truth (cause on the Orekit side not isolated). Recorded and pinned, so the row stays MODELLED. Not modelled: light time, aberration, refraction, Earth rotation, a sequential filter for these measurement types
 
 # data/verification-matrix.json
-dat-bfa418341bba = Orekit { "12.2" } (Apache-2.0) BoxAndSolarArraySpacecraft with FixedPanel and PointingPanel, SolarRadiationPressure(dRef = { "1" } au, pRef = 1361/c), GenericGNSS nominal yaw and ECOM2(nD = { "2" }, nB = { "1" }), run as a separate program with the Sun at fixed inertial positions; the radiation-factor derivative from Hipparchus Gradient, per-panel derivatives as central differences of Orekit (Orekit has none). Bars pre-registered in xval/srp-boxwing-orekit/PREREGISTRATION.md (42e864bb), before any Orekit output existed: { "1e-12" } relative ({ "1e-11" } end to end, { "1e-9" } for the differences); all met (RESULTS.md). VALIDATED covers the model evaluation only: the GSC tables are transcribed inputs, and the adequacy of a box-wing for real Galileo orbits, thermal re-emission, the modified low-beta yaw law and eclipse turns are not covered; the Galileo SRP prediction stays MODELLED
+dat-4ae17d07a505 = Orekit { "12.2" } (Apache-2.0) BoxAndSolarArraySpacecraft with FixedPanel and PointingPanel, SolarRadiationPressure(dRef = { "1" } au, pRef = 1361/c), GenericGNSS nominal yaw and ECOM2(nD = { "2" }, nB = { "1" }), run as a separate program with the Sun at fixed inertial positions; the radiation-factor derivative from Hipparchus Gradient, per-panel derivatives as central differences of Orekit (Orekit has none). Bars pre-registered in xval/srp-boxwing-orekit/PREREGISTRATION.md (42e864bb), before any Orekit output existed: { "1e-12" } relative ({ "1e-11" } end to end, { "1e-9" } for the differences); all met (RESULTS.md). VALIDATED covers the model evaluation only: the GSC tables are transcribed inputs, and the adequacy of a box-wing for real Galileo orbits, thermal re-emission, the modified low-beta yaw law and eclipse turns are not covered; the Galileo SRP prediction stays MODELLED
 
 # data/verification-matrix.json
-dat-00b30dc2adb7 = Orekit { "12.2" } (Apache-2.0) HolmesFeatherstoneAttractionModel and pyshtools { "4.14.1" } (BSD-3-Clause) MakeGravGridPoint, run as separate programs; bars pre-registered in xval/high-degree-gravity/PREREGISTRATION.md (73b2c75d) and xval/cowell-tesseral-200-orekit/PREREGISTRATION.md (876be39d). Orekit agrees everywhere it is defined, but pyshtools misses its pre-registered bar at the two near-pole points (up to { "7.3e-10" } m/s^{ "2" }; a 50-digit mpmath check puts the error in pyshtools), there is no oracle value exactly on the polar axis, and the { "24" } h orbit's pre-registered degree-70 sensitivity control missed ({ "0.726" } m against > { "1" } m). Each miss is recorded, not tuned away, so the row stays MODELLED
+dat-0c1d2172b23a = Orekit { "12.2" } (Apache-2.0) HolmesFeatherstoneAttractionModel and pyshtools { "4.14.1" } (BSD-3-Clause) MakeGravGridPoint, run as separate programs; bars pre-registered in xval/high-degree-gravity/PREREGISTRATION.md (73b2c75d) and xval/cowell-tesseral-200-orekit/PREREGISTRATION.md (876be39d). Orekit agrees everywhere it is defined, but pyshtools misses its pre-registered bar at the two near-pole points (up to { "7.3e-10" } m/s^{ "2" }; a 50-digit mpmath check puts the error in pyshtools), there is no oracle value exactly on the polar axis, and the { "24" } h orbit's pre-registered degree-70 sensitivity control missed ({ "0.726" } m against > { "1" } m). Each miss is recorded, not tuned away, so the row stays MODELLED
 
 # data/verification-matrix.json
-dat-aefa467ef112 = Orekit { "12.2" } (Apache-2.0) NumericalPropagator, two-body, LOFType.QSW, run as a separate program (fixture unchanged since round { "1" }). Pre-registered bar { "1e-3" } m on every sample of every case; the second-order engine fix was re-run against it unchanged (amendment dec81b7c, written before the propagator existed, disclosing that the first-order gaps were known). propagate_second_order agrees within { "1.15e-7" } m (C1), { "9.8e-8" }, { "5.4e-8" } and { "2.2e-8" } m; halving the second-order term fails at { "1.85e-3" } to { "3.14e-3" } m. The linear Φ alone departs from nonlinear truth by { "1.2" } to { "6.3" } mm at { "100" } m over a third of an orbit (the omitted second-order term; its strict test is kept ignored), so it is characterised, not validated. Internal checks kept: Φ against an RK4 integration of the Hill equations, Φ(t)Φ(−t)=I, the bounded-orbit and −12π·x₀ drift identities, and the third-order residual scaling of the second-order term. Scope: circular chief, separations near { "100" } m, up to a third of an orbit; no eccentricity (Tschauner–Hempel), J2 or differential-drag terms; small-separation assumption
+dat-86b26c1261ae = Orekit { "12.2" } (Apache-2.0) NumericalPropagator, two-body, LOFType.QSW, run as a separate program (fixture unchanged since the first comparison). Pre-registered bar { "1e-3" } m on every sample of every case; the second-order engine fix was re-run against it unchanged (amendment dec81b7c, written before the propagator existed, disclosing that the first-order gaps were known). propagate_second_order agrees within { "1.15e-7" } m (C1), { "9.8e-8" }, { "5.4e-8" } and { "2.2e-8" } m; halving the second-order term fails at { "1.85e-3" } to { "3.14e-3" } m. The linear Φ alone departs from nonlinear truth by { "1.2" } to { "6.3" } mm at { "100" } m over a third of an orbit (the omitted second-order term; its strict test is kept ignored), so it is characterised, not validated. Internal checks kept: Φ against an RK4 integration of the Hill equations, Φ(t)Φ(−t)=I, the bounded-orbit and −12π·x₀ drift identities, and the third-order residual scaling of the second-order term. Scope: circular chief, separations near { "100" } m, up to a third of an orbit; no eccentricity (Tschauner–Hempel), J2 or differential-drag terms; small-separation assumption
 
 # data/verification-matrix.json
-dat-e44fb3412fe5 = Orekit { "12.2" } (Apache-2.0) NumericalPropagator/DormandPrince853 with DragForce over Orekit's own NRLMSISE00 implementation, run as a separate program with the same Earth-rotation-angle frame, WGS-84 shape, local-solar-time convention (a mean Sun) and TT as UT; the convention setup was checked oracle against oracle (Orekit vs pymsis, { "5.2e-5" } in density). Bars pre-registered in xval/drag-tier-orekit/PREREGISTRATION.md ({ "f380f42c" }): { "0.5" } m + { "1e-3" } of the drag displacement, and two > { "100" } m sensitivity checks; all met. Not covered: the model's accuracy against measured density, time-varying space weather, a GMAT leg
+dat-cf2610d143ae = Orekit { "12.2" } (Apache-2.0) NumericalPropagator/DormandPrince853 with DragForce over Orekit's own NRLMSISE00 implementation, run as a separate program with the same Earth-rotation-angle frame, WGS-84 shape, local-solar-time convention (a mean Sun) and TT as UT; the convention setup was checked oracle against oracle (Orekit vs pymsis, { "5.2e-5" } in density). Bars pre-registered in xval/drag-tier-orekit/PREREGISTRATION.md (f380f42c): { "0.5" } m + { "1e-3" } of the drag displacement, and two > { "100" } m sensitivity checks; all met. Not covered: the model's accuracy against measured density, time-varying space weather, a GMAT leg
 
 # data/verification-matrix.json
-dat-2054cdce1a07 = Orekit { "12.2" } (Apache-2.0) NumericalPropagator/DormandPrince853 with ThirdBodyAttraction and SolarRadiationPressure on Orekit's own DE440 reader (orekit-data lnxp1990.440), run as a separate program; kshana reads a bit-for-bit, SPICE-checked cut of NAIF de440s.bsp. Bars pre-registered in xval/propagator-de440-orekit/PREREGISTRATION.md (6386b3a2). The orbit bar ({ "0.5" } m) and the sensitivity control are met, but the Sun/Moon position bar ({ "3" } m / { "0.2" } m) missed at { "6.39" } m / { "0.244" } m. SPICE reading the same kernel at its exact TDB misses Orekit by the same amount ({ "6.25" } m / { "0.240" } m), so the gap lies between NAIF's de440s path and Orekit's DE440 reader or time scale; cause not isolated. Recorded and pinned, so the row stays MODELLED
+dat-eb3b89ea3091 = Orekit { "12.2" } (Apache-2.0) NumericalPropagator/DormandPrince853 with ThirdBodyAttraction and SolarRadiationPressure on Orekit's own DE440 reader (orekit-data lnxp1990.440), run as a separate program; kshana reads a bit-for-bit, SPICE-checked cut of NAIF de440s.bsp. Bars pre-registered in xval/propagator-de440-orekit/PREREGISTRATION.md (6386b3a2). The orbit bar ({ "0.5" } m) and the sensitivity control are met, but the Sun/Moon position bar ({ "3" } m / { "0.2" } m) missed at { "6.39" } m / { "0.244" } m. SPICE reading the same kernel at its exact TDB misses Orekit by the same amount ({ "6.25" } m / { "0.240" } m), so the gap lies between NAIF's de440s path and Orekit's DE440 reader or time scale; cause not isolated. Recorded and pinned, so the row stays MODELLED
 
 # data/verification-matrix.json
-dat-3757f9510eb5 = Orekit { "12.2" } (Apache-2.0) SolarRadiationPressure.getLightingRatio with a WGS-84 and a spherical OneAxisEllipsoid occulting body, run as a separate program with the Sun fixed at the same inertial position. Bars pre-registered in xval/srp-oblate-shadow-orekit/PREREGISTRATION.md (c6b751e9): { "1e-6" } on both, and a > { "1e-2" } oblate-vs-sphere spread; all met. The ellipsoid axis is the inertial z axis on both sides (no precession-nutation)
+dat-784790b5d445 = Orekit { "12.2" } (Apache-2.0) SolarRadiationPressure.getLightingRatio with a WGS-84 and a spherical OneAxisEllipsoid occulting body, run as a separate program with the Sun fixed at the same inertial position. Bars pre-registered in xval/srp-oblate-shadow-orekit/PREREGISTRATION.md (c6b751e9): { "1e-6" } on both, and a > { "1e-2" } oblate-vs-sphere spread; all met. The ellipsoid axis is the inertial z axis on both sides (no precession-nutation)
 
 # data/verification-matrix.json
 dat-1ba7c0e700d9 = Orekit { "12.2" } (CS GROUP, Apache-2.0) + Hipparchus { "3.1" } — an independent flight-dynamics library: ElevationDetector (Brent root-finder) + EventsLogger over an ITRF ephemeris, station as a WGS-84 TopocentricFrame. AOS/LOS/max-elevation/pass-count/total-access matched on identical orbit+station+mask+window (committed fixture; driver xval/orekit-passes)
 
 # data/verification-matrix.json
-dat-1f32c32fcbb2 = Orekit { "12.2" } (CS GROUP, Apache-2.0) BatchLSEstimator (Levenberg–Marquardt) + KalmanEstimator (EKF) — an independent third-party estimation library on a matched force model; recovered epoch state + post-fit residual RMS agree to <{ "1e-3" } m noiseless and <{ "3" } m at a { "5" } m noise floor
+dat-78cdfd62f529 = Orekit { "12.2" } (CS GROUP, Apache-2.0) BatchLSEstimator (Levenberg–Marquardt) + KalmanEstimator (EKF) — an independent third-party estimation library on a matched force model; batch epoch state within { "1.0e-3" } m / { "1.0e-6" } m/s (bar { "0.05" } m / { "5e-5" } m/s); sequential final state within { "1.8e-3" } m noiseless and { "0.90" } m at the { "5" } m noise floor (bars { "0.05" } m / { "3" } m); post-fit RMS within { "1e-3" } relative on the noisy cases
 
 # data/verification-matrix.json
 dat-5578740c6e47 = Orekit { "12.2" } (CS GROUP, Apache-2.0) NumericalPropagator/DormandPrince853 — an independent library, a different integrator and spherical-harmonic recursion. The conservative tiers (two-body → J2–J6 zonal → Sun/Moon third-body → cannonball SRP) agree to sub-metre over a { "24" } h arc, validating the integrator + force algebra; the drag tier and the absolute Sun/Moon-ephemeris / density input fidelity stay MODELLED (characterisation only)
 
 # data/verification-matrix.json
-dat-0035d8d68d50 = Orekit { "12.2" } (CS GROUP, Apache-2.0) NumericalPropagator/DormandPrince853 with HolmesFeatherstoneAttractionModel over the same coefficients (tools/egm2008_to70.gfc) in a body frame rotated by the same Earth-rotation-angle formula, run as a separate program. Bars pre-registered (bdab936, amended before any comparison in 2c91443): |dr| <= { "0.5" } m and |dv| <= { "5e-4" } m/s, and both negative controls missing by > { "100" } m; all met, bars then tightened to { "0.1" } m and { "1e-4" } m/s. Not validated: Earth-orientation fidelity (both sides use UT1 = TT without precession-nutation in the Era frame), the Cio frame option (internal check only), degrees above { "70" }
+dat-15e48fc75b4e = Orekit { "12.2" } (CS GROUP, Apache-2.0) NumericalPropagator/DormandPrince853 with HolmesFeatherstoneAttractionModel over the same coefficients (tools/egm2008_to70.gfc) in a body frame rotated by the same Earth-rotation-angle formula, run as a separate program. Bars pre-registered (bdab936, amended before any comparison in 2c91443): |dr| <= { "0.5" } m and |dv| <= { "5e-4" } m/s, and both negative controls missing by > { "100" } m; all met, bars then tightened to { "0.1" } m and { "1e-4" } m/s. Not validated: Earth-orientation fidelity (both sides use UT1 = TT without precession-nutation in the Earth-rotation-angle frame, the Era option), the CIO frame option (the Cio option; internal check only), degrees above { "70" }
 
 # data/verification-matrix.json
-dat-ebefda196784 = Orekit { "13.1.8" } (Apache-2.0) OPM, OMM and OCM parsers and writers, run as a separate program (xval/odm-orekit), pre-registered (8efea7c1) before any comparison: { "27" } of the { "30" } Kshana-written messages ({ "6" } OPM, { "5" } OMM and { "5" } OCM cases in KVN, and XML for version { "3.0" }) parse in Orekit with every value within { "1e-14" } relative and every epoch within { "1e-9" } s ({ "904" } values, worst { "0.021" } of a bar), and Kshana reads all { "25" } messages Orekit writes back out inside the same bars ({ "858" } values, worst { "0.020" }); all { "14" } Kshana XML messages validate against the NDM/XML { "4.0.0" } schema (data-gated). Findings, pinned, narrowing the claim: Orekit requires ELEMENT_SET_NO (optional in 502.0-B-3), refuses COMMENT in XML user-defined parameters (the schema allows it), will not write BTERM without BSTAR (so BTERM and AGOM are covered in the Kshana-writes direction only), and adds OCM relative epochs as SI seconds, so under TDB they differ from the TDB calendar reading by about { "1.9e-10" } s/s (UTC, TAI and TT agree). The legacy OmmFile::to_omm_kvn output, which wraps OMM metadata in META_START/META_STOP, is refused by Orekit (recorded). Out of scope: OCM PERT and OD blocks, non-Cartesian element sets, other covariance orderings
+dat-10888cb9848e = Orekit { "13.1.8" } (Apache-2.0) OPM, OMM and OCM parsers and writers, run as a separate program (xval/odm-orekit), pre-registered (8efea7c1) before any comparison: { "27" } of the { "30" } Kshana-written messages ({ "6" } OPM, { "5" } OMM and { "5" } OCM cases in KVN, and XML for version { "3.0" }) parse in Orekit with every value within { "1e-14" } relative and every epoch within { "1e-9" } s ({ "904" } values, worst { "0.021" } of a bar), and Kshana reads all { "25" } messages Orekit writes back out inside the same bars ({ "858" } values, worst { "0.020" }); all { "14" } Kshana XML messages validate against the NDM/XML { "4.0.0" } schema (data-gated). Findings, pinned, narrowing the claim: Orekit requires ELEMENT_SET_NO (optional in 502.0-B-3), refuses COMMENT in XML user-defined parameters (the schema allows it), will not write BTERM without BSTAR (so BTERM and AGOM are covered in the Kshana-writes direction only), and adds OCM relative epochs as SI seconds, so under TDB they differ from the TDB calendar reading by about { "1.9e-10" } s/s (UTC, TAI and TT agree). The legacy OmmFile::to_omm_kvn output, which wraps OMM metadata in META_START/META_STOP, is refused by Orekit (recorded). Out of scope: OCM PERT and OD blocks, non-Cartesian element sets, other covariance orderings
 
 # data/verification-matrix.json
-dat-efcf2278b913 = Orekit { "13.1.8" } (Apache-2.0) parsers and writers, run as a separate program (xval/adm-orekit), pre-registered (2a4c44b3) before any comparison: Orekit parses every Kshana-written message ({ "14" } AEM KVN, { "11" } AEM XML, { "4" } APM KVN, { "4" } APM XML) and every value is inside its bar (quaternions { "1e-14" }, angles { "1e-9" } deg; worst { "0.054" } of a bar); Kshana parses the { "31" } messages Orekit writes from the same inputs inside every bar; the rotation of each of { "135" } quaternion, Euler and spin records equals AemSegment.getAngularCoordinates within { "1e-12" } (worst { "0.0071" } of the bar). All { "15" } Kshana XML messages validate against the NDM/XML { "4.0.0" } schema (data-gated, fetched with pinned SHA-256). Finding: Orekit's APM writer refuses a maneuver without MAN_DELTA_MASS (optional in the standard), so APM maneuvers are covered in the Kshana-writes direction only. Outside the case set: AEM { "1.0" } */RATE types and XML, repeated APM blocks
+dat-8b373d3b7974 = Orekit { "13.1.8" } (Apache-2.0) parsers and writers, run as a separate program (xval/adm-orekit), pre-registered (2a4c44b3) before any comparison: Orekit parses every Kshana-written message ({ "14" } AEM KVN, { "11" } AEM XML, { "4" } APM KVN, { "4" } APM XML) and every value is inside its bar (quaternions { "1e-14" }, angles { "1e-9" } deg; worst { "0.054" } of a bar); Kshana parses the { "31" } messages Orekit writes from the same inputs inside every bar; the rotation of each of { "135" } quaternion, Euler and spin records equals AemSegment.getAngularCoordinates within { "1e-12" } (worst { "0.0071" } of the bar). All { "15" } Kshana XML messages validate against the NDM/XML { "4.0.0" } schema (data-gated, fetched with pinned SHA-256). Finding: Orekit's APM writer refuses a maneuver without MAN_DELTA_MASS (optional in the standard), so APM maneuvers are covered in the Kshana-writes direction only. Outside the case set: AEM { "1.0" } */RATE types and XML, repeated APM blocks
 
 # data/verification-matrix.json
-dat-68b172af49b6 = Orekit { "13.1.8" } (Apache-2.0) with Hipparchus { "4.0.3" }: the engine's GCRS states rotated to ITRF by Orekit (IERS { "2010" }), WGS-84 TopocentricFrame visibility against each system's mask, org.orekit.gnss.DOPComputer for one clock unknown and NumPy { "2.4.6" } numpy.linalg.inv (P2) for several; with the path checked against python-sgp4 and ERFA (row 'One Earth-orbit path'). Bars fixed before the run (pre-registered d92aef9b; T2 and T3 are the { "0.30" } round-2 bars). The TEME -> GCRS step frozen at J2000 turns the test red ({ "4739" } failures). Geometry only; no scintillation, terrain or signal power. GNSS VDOP rises toward the pole ({ "1.20" } at the equator to { "1.51" } at { "89.9" } deg for GPS and Galileo in the bundled scenario) while a near-polar LEO shell converges there. History: round { "2" } (e6227a77) agreed on tabulated two-body states; the D8 round-1 full claim against Orekit's own TLE propagation (896f3c2e) was a finding, Orekit's SDP4 at e = { "0" } and its IERS { "1996" } TEME, pinned
+dat-3c9d70fa86d2 = Orekit { "13.1.8" } (Apache-2.0) with Hipparchus { "4.0.3" }: the engine's GCRS states rotated to ITRF by Orekit (IERS { "2010" }), WGS-84 TopocentricFrame visibility against each system's mask, org.orekit.gnss.DOPComputer for one clock unknown and NumPy { "2.4.6" } numpy.linalg.inv for several; with the path checked against python-sgp4 and ERFA (row 'One Earth-orbit path'). Bars fixed before the run (pre-registered d92aef9b; T2 and T3 are the { "0.30" } round-2 bars). The TEME -> GCRS step frozen at J2000 turns the test red ({ "4739" } failures). Geometry only; no scintillation, terrain or signal power. GNSS VDOP rises toward the pole ({ "1.20" } at the equator to { "1.51" } at { "89.9" } deg for GPS and Galileo in the bundled scenario) while a near-polar LEO shell converges there. History: round { "2" } (e6227a77) agreed on tabulated two-body states; the round-1 full claim against Orekit's own TLE propagation (896f3c2e) was a finding, Orekit's SDP4 at e = { "0" } and its IERS { "1996" } TEME, pinned
 
 # data/verification-matrix.json
-dat-e398454a0812 = Orekit { "13.1.8" } (CS GROUP, Apache-2.0) with Hipparchus { "4.0.3" }: TLEPropagator on the same element sets in a TEME Orekit builds to the stated definition (its IERS { "2010" } TOD rotated by GAST - GMST), ElevationDetector and ElevationExtremumDetector with and without ITURP834AtmosphericRefraction, and AngularAzEl with AngularRadioRefractionModifier for the light-time case, crossings and maximum solved by Hipparchus; { "60" } cases (four orbits, five sea-level stations, masks { "0" }, { "5" } and { "10" } deg, { "24" } hours). Bars fixed before the run (pre-registered 896f3c2e, leg { "3" } of d92aef9b). Light time ignored ({ "9777" } failures) or the P.834 constant { "1.728" } changed to { "1.828" } ({ "7883" } failures) turns the test red. Scope: stations at sea level; Orekit's P.834 h*theta0^{ "2" } coefficient is { "0.011380" } where the Recommendation prints { "0.01380" } (pinned), so heights above sea level are not compared. Round { "1" }, against Orekit's default IERS { "1996" } TEME, held every pass bar but missed the direction bar by the { "72" } mas TEME convention gap (pinned)
+dat-0cd8bea68b4e = Orekit { "13.1.8" } (CS GROUP, Apache-2.0) with Hipparchus { "4.0.3" }: TLEPropagator on the same element sets in a TEME frame built in Orekit to the stated definition (its IERS { "2010" } TOD rotated by GAST - GMST), ElevationDetector and ElevationExtremumDetector with and without ITURP834AtmosphericRefraction, and AngularAzEl with AngularRadioRefractionModifier for the light-time case, crossings and maximum solved by Hipparchus; { "60" } cases (four orbits, five sea-level stations, masks { "0" }, { "5" } and { "10" } deg, { "24" } hours). Bars fixed before the run (pre-registered 896f3c2e, leg { "3" } of d92aef9b). Light time ignored ({ "9777" } failures) or the P.834 constant { "1.728" } changed to { "1.828" } ({ "7883" } failures) turns the test red. Scope: stations at sea level; Orekit's P.834 h*theta0^{ "2" } coefficient is { "0.011380" } where the Recommendation prints { "0.01380" } (pinned), so heights above sea level are not compared. Round { "1" }, against Orekit's default IERS { "1996" } TEME, held every pass bar but missed the direction bar by the { "72" } mas TEME convention gap (pinned)
 
 # assets/capabilities/capabilities.json
 dat-b819a47a0e05 = origin of the heliocentric frame
@@ -5729,13 +6032,7 @@ dat-048ffbebd050 = Overlapping Allan + modified Allan + time deviation across th
 dat-8b59e90d4c53 = Overlapping Allan + overlapping Hadamard deviation on a real caesium standard
 
 # data/verification-matrix.json
-dat-c23ce7520abd = P2: numpy { "2.3.5" } linalg.cholesky (LAPACK potrf), solve (gesv) and inv on { "201" } committed SPD inputs (tests/fixtures/gls_whitening_numpy_oracle) check the hand-rolled factor, the whitened residual and the whitening operator; the Mahalanobis square is checked against solve(Omega, r), which uses no Cholesky, so the identity z^T z = r^T Omega^-1 r is confirmed by a separate route. All within { "1e-12" } relative (worst { "7.9e-16" }), tolerance fixed before the comparison. The largest condition number is { "19.3" }, so ill-conditioned matrices are not covered. GLS/Aitken { "1935" } whitening is Cited.
-
-# data/verification-matrix.json
-dat-46b9271a7eca = P2: numpy { "2.3.5" } linalg.lstsq and scipy { "1.18.1" } (norm.isf, norm.sf, brentq) recompute, by their own algorithms, the subset weighted least-squares estimators, the general separation covariance sqrt(Δ Σ Δᵀ), the biases and the protection level from them on { "300" } committed inputs (tests/fixtures/tpl_scalar_numpy_oracle); the PL agrees within { "1e-9" } relative (worst { "1.2e-10" }) and the driving exclusion subset is identical, tolerance fixed before the comparison. The multipliers, priors and bias overbounds are inputs, and the structure of the PL equation (mode list, ir/2 split, bias projection) is a stated input, as for the Lunar ARAIM protection-level kernel row; the validated claim is the linear algebra and the PL on those inputs, not the physical magnitudes of a timing scenario. ARAIM lineage Blanch { "2015" } / Joerger { "2014" }
-
-# data/verification-matrix.json
-dat-d990aeee2c36 = P2: numpy { "2.3.5" } linalg.solve (LAPACK gesv, LU with no Cholesky) recomputes alpha_ss (the threshold over the whitened contrast norm of d after removing its GLS common-mode coefficient), alpha_cm and their minimum on { "256" } committed (Omega, d, T_ss, T_cm) inputs (tests/fixtures/gls_outside_omega_bound_numpy_oracle), including pure common-mode directions, directions outside the modelled common axis, and the zero-direction and non-positive-definite cases that must give +inf; pre-registered (5adea293; amendment fe364dd1, before any comparison, restating the matrix form); tolerances fixed before the comparison. The capability text was corrected by owner decision (2026-10-02): it had said the bound is infinite for a direction outside the common axis, which contradicted the code and this comparison. That the idealised single-contrast detector lower-bounds a real subset detector undetectable magnitude stays Modelled
+dat-c11e85790e5f = Overlapping Allan, modified Allan, time and overlapping Hadamard deviation (noise identification and χ² confidence intervals are not covered by this oracle)
 
 # data/search.json
 dat-a89edb3cb66d = Pack { "2" } — inertial dead-reckoning (quantum inertial measurement unit)
@@ -5843,7 +6140,7 @@ dat-4a999fdde125 = Planar gravity-turn ascent of a multi-stage vehicle over a no
 dat-068109f5b1b0 = Planar gravity-turn ascent of a multi-stage vehicle over a non-rotating spherical Earth through the US…
 
 # data/verification-matrix.json
-dat-d8a6a99892ff = Plane-wave delta_dor (same-codebase) in the far-field limit; finite-difference partials. { "0.30" } external comparison, a finding (stays MODELLED): against ANISE { "0.10" } converged light times through DE440 ({ "75" } delays on 2024-01-01 over three DSN baselines, generated by xval/anise-lunar-od without Kshana code), no delay is within the { "1" } ps tolerance. The largest gap is { "24" } µs, from the analytic Moon centre (about { "200" } km from DE440), the single instantaneous geometry with no light-time iteration ({ "3.6" } µs) and the dropped polar motion; beacon partials differ by up to { "2.9e-3" } relative against { "1e-6" }. The module-doc claim that the frame approximations are below the model fidelity does not hold at this level. { "0.30" } round { "2" }: the kernel path (lunar_vlbi::KernelGeometry) is validated against NAIF SPICE light times in its own row, Lunar geodetic VLBI, kernel path; the ANISE comparison of that path (75/75 within { "1" } ps, worst { "0.12" } ps, tests/lunar_vlbi_anise_oracle.rs::kernel_delay_matches_the_anise_light_time_difference) is a kernel-evaluation cross-check only, because the light-time solve in that harness is this project own. This row (the analytic default path) stays MODELLED with the finding above
+dat-695bd7a2f32f = Plane-wave delta_dor (same-codebase) in the far-field limit; finite-difference partials. { "0.30" } external comparison, a finding (stays MODELLED): against ANISE { "0.10" } converged light times through DE440 ({ "75" } delays on 2024-01-01 over three DSN baselines, generated by xval/anise-lunar-od without Kshana code), no delay is within the { "1" } ps tolerance. The largest gap is { "24" } µs, from the analytic Moon centre (about { "200" } km from DE440), the single instantaneous geometry with no light-time iteration ({ "3.6" } µs) and the dropped polar motion; beacon partials differ by up to { "2.9e-3" } relative against { "1e-6" }. The module-doc claim that the frame approximations are below the model fidelity does not hold at this level. Version { "0.30" }: the kernel path (lunar_vlbi::KernelGeometry) is validated against NAIF SPICE light times in its own row, Lunar geodetic VLBI, kernel path; the ANISE comparison of that path (75/75 within { "1" } ps, worst { "0.12" } ps, tests/lunar_vlbi_anise_oracle.rs::kernel_delay_matches_the_anise_light_time_difference) is a kernel-evaluation cross-check only, because the light-time solve in that harness is this project's own. This row (the analytic default path) stays MODELLED with the finding above
 
 # data/verification-matrix.json
 dat-5d9fc243788e = Planet positions across the solar system from the JPL Standish Keplerian elements
@@ -5853,6 +6150,9 @@ dat-70e79085ed3d = Planetary gravity fields from PDS SHADR tables
 
 # data/search.json
 dat-7661265f75db = Planned orbits bunch overhead for a lunar south-pole user; a few ranging beacons on nearby high ground fix the geometry more cheaply than more satellites.
+
+# data/verification-matrix.json
+dat-7b53e58332de = planner (kshana planner map|place): for an interference source of a stated power at every cell of a site grid, each station's detection probability, the network's, the probability that enough stations detect to locate it, and the TDOA DRMS and { "95" } % ellipse the detecting stations bound (free space); planner::place chooses m stations from candidates, exhaustively up to { "10 000" } subsets, otherwise greedy followed by a single-exchange search (v1's greedy alone kept by name); v2 flags ill-conditioned cells
 
 # data/search.json
 dat-e87cc4ad1c2e = Platform independence
@@ -5963,16 +6263,16 @@ dat-604f1e8f2ed9 = Pre-1972 UTC (drifting-rate era) on the two-part Julian-date 
 dat-a43fef67d285 = Pre-flight check of a Kshana scenario TOML: verify it parses as TOML and detect its scenario kind, without running it.
 
 # data/verification-matrix.json
-dat-345951b0c3a0 = Pre-registered (1bd991e9) before any comparison; four independent implementations, none GPL, nothing vendored: ccsdspy { "2.0.1" } (BSD-3-Clause) decodes { "34" } Kshana-written packets in { "5" } streams (primary header, P-field, coarse and fine time, CDS fields, ancillary data, user data, PEC) and both 1000-octet segmented units are rebuilt from its user data with { "0" } mismatches, and it flags the dropped and the swapped packet streams that Kshana rejects; the CRC of { "8" } messages and { "57" } PEC fields equals CPython binascii.crc_hqx and spacepackets-rs { "0.18.0" } (check value 0x29B1); { "66" } CUC and CDS time-code cases equal spacepackets-rs { "0.18.0" } write and read octet for octet ({ "3" } CDS cases also spacepackets-py { "0.32.0" }); { "4" } spacepackets-py { "0.32.0" } PusTm packets are byte-identical to Kshana's. Not covered: agency-epoch time codes ({ "7" } cases rest on unit tests), TC transfer frames and any link layer below the packet
+dat-f318679b2328 = Pre-registered (1bd991e9) before any comparison; four independent implementations, none GPL, nothing vendored: ccsdspy { "2.0.1" } (BSD-3-Clause) decodes { "34" } Kshana-written packets in { "5" } streams (primary header, P-field, coarse and fine time, CDS fields, ancillary data, user data, PEC) and both 1000-octet segmented units are rebuilt from its user data with { "0" } mismatches, and it flags the dropped and the swapped packet streams that Kshana rejects; the CRC of { "8" } messages and { "57" } PEC fields equals CPython binascii.crc_hqx and spacepackets-rs { "0.18.0" } (check value 0x29B1); { "66" } CUC and CDS time-code cases equal spacepackets-rs { "0.18.0" } write and read octet for octet ({ "3" } CDS cases also spacepackets-py { "0.32.0" }); { "4" } spacepackets-py { "0.32.0" } PusTm packets are byte-identical to Kshana's. Not covered: agency-epoch time codes ({ "7" } cases rest on unit tests), TC transfer frames and any link layer below the packet
 
 # data/verification-matrix.json
-dat-11a79c63eff7 = Pre-registered (bb51058e): L_m against Ashby and Patla { "2024" } (AJ { "167" }:{ "149" }) Eq. ({ "10" }), { "3.13881" }({ "15" })e-11, from the paper GM, a_m, omega_m and the J2 of the two degree-350 fields the paper cites (Bertone et al. { "2021" }, AIUB-GRL350A/B), within { "1e-4" }; the radial entry against pyshtools { "4.14.1" } (BSD-3) equatorial gravity of the same fields within { "1e-4" } (measured { "8.3e-5" } and { "6.7e-5" }, a narrow margin); the velocity entry against JPL Horizons DE441 lunar speed within { "4.5e-3" }. A degree-2 closed form of a degree-350 published value (residual degree 3-350; Reference, not P1). Disclosed: the entry-1 outcome was known before the pre-registration, and the shipped default radius { "1738.14" } km is the paper surface definition, adopted after round { "1" }. The tidal contributions and the comparison band remain Modelled reference-surface figures
+dat-5c507c92c9e6 = Pre-registered (589b7c9, { "3446949" }) against an IGS MGEX precise orbit with the GEOs; no such product has been obtained yet, so the comparison is pending and the row is MODELLED (checked against the published nominal GEO slots only)
 
 # data/verification-matrix.json
-dat-0b53b0a1878a = Pre-registered (589b7c9, 3446949) against an IGS MGEX precise orbit with the GEOs; no such product was reachable from the session that built it, so the comparison is pending and the row is MODELLED (checked against the published nominal GEO slots only)
+dat-e69fcd9ae05e = Pre-registered (bb51058e): L_m against Ashby and Patla { "2024" } (AJ { "168" }:{ "112" }) Eq. ({ "10" }), { "3.13881" }({ "15" })e-11, from the paper's GM, a_m, omega_m and the J2 of the two degree-350 fields the paper cites (Bertone et al. { "2021" }, AIUB-GRL350A/B), within { "1e-4" }; the radial entry against pyshtools { "4.14.1" } (BSD-3) equatorial gravity of the same fields within { "1e-4" } (measured { "8.3e-5" } and { "6.7e-5" }, a narrow margin); the velocity entry against JPL Horizons DE441 lunar speed within { "4.5e-3" }. A degree-2 closed form of a degree-350 published value (residual degree 3-350; Reference, not P1). Disclosed: the entry-1 outcome was known before the pre-registration, and the shipped default radius { "1738.14" } km is the paper's surface definition, adopted after round { "1" }. The tidal contributions and the comparison band remain Modelled reference-surface figures
 
 # data/verification-matrix.json
-dat-4fd839f32bce = Pre-registered in tests/fixtures/clock_log/PREREGISTRATION.md (committed alone, 05bb1d17, before the fixture existed); recorded in RESULTS.md. Three seeded synthetic logs, one per format (a TICC gap of three epochs, a RINEX second clock to ignore), read back by an independent reader written from docs/CLOCK-LOG-FORMATS.md by the same author: grid, gap and fill counts equal and the largest phase difference { "0" } s (bar { "1e-13" } s). allantools { "2024.6" } oadev, tdev and mtie on that phase agree within a relative { "2.5e-14" } (bar { "1e-10" }) at every averaging factor it evaluates; it does not evaluate MTIE over the whole record, which the engine reports, so that one point per log has no oracle value and the bar as worded is not met there. MODELLED: synthetic logs, and the reader oracle shares the author; real TimeLab, TICC and RINEX clock files from instruments were not compared
+dat-77c41548a422 = Pre-registered in tests/fixtures/clock_log/PREREGISTRATION.md (committed alone, 05bb1d17, before the fixture existed); recorded in RESULTS.md. Three seeded synthetic logs, one per format (a TICC gap of three epochs, a RINEX second clock to ignore), read back by an independent reader written from docs/CLOCK-LOG-FORMATS.md by the same author: grid, gap and fill counts equal and the largest phase difference { "0" } s (bar { "1e-13" } s). allantools { "2024.6" } oadev, tdev and mtie on that phase agree within a relative { "2.5e-14" } (bar { "1e-10" }) at every averaging factor it evaluates; it does not evaluate MTIE over the whole record, which the engine reports, so that one point per log has no oracle value and the bar as worded is not met there. MODELLED: synthetic logs, and the reader oracle shares the author; real TimeLab, TICC and RINEX clock files from instruments were not compared
 
 # data/search.json
 dat-6a9218b977f6 = Pre-registered prediction
@@ -5993,16 +6293,16 @@ dat-5836fd12bf6a = Precise point positioning (PPP) convergence with LEO augmenta
 dat-df6c3fb107b3 = Precise point positioning convergence with GNSS only and with LEO augmentation
 
 # data/verification-matrix.json
-dat-dfb8b0c9252c = Predicted Doppler from ESA/ESOC final orbits and the NAIF CLPS Firefly landing-site kernel (xval/lugre-predicted-doppler/predict_surface.py, independent of Kshana), pre-registered 73ee3e14 on batches never opened before. FINDING: non-vacuity fails; no batch holds two acquisitions. OP40 excluded (metadata names a missing file); OP38, OP73, OP77_0, OP77_1 acquire nothing and show no false alarm at { "1e-7" } (top statistics { "325" } to { "356" } against { "385.9" }); OP74 and OP76 acquire PRN { "31" } and OP78_0 and OP78_1 PRN { "12" }, each alone, all predicted visible. Stays MODELLED. Disclosed deviations: the registered { "10" } Hz Doppler bar rests on a synthetic Monte Carlo of the coherent refinement, not on the scatter of the already-seen batches the integrator asked for; OP40 was excluded before the run because its metadata names a sample file the dataset does not ship
+dat-28ec257c15b4 = Predicted Doppler from ESA/ESOC final orbits and the NAIF CLPS Firefly landing-site kernel (xval/lugre-predicted-doppler/predict_surface.py, independent of Kshana), pre-registered 73ee3e14 on batches never opened before. FINDING: non-vacuity fails; no batch holds two acquisitions. OP40 excluded (metadata names a missing file); OP38, OP73, OP77_0, OP77_1 acquire nothing and show no false alarm at { "1e-7" } (top statistics { "325" } to { "356" } against { "385.9" }); OP74 and OP76 acquire PRN { "31" } and OP78_0 and OP78_1 PRN { "12" }, each alone, all predicted visible. Stays MODELLED. Disclosed deviations: the registered { "10" } Hz Doppler bar rests on a synthetic Monte Carlo of the coherent refinement, not on the scatter of the already-seen batches; OP40 was excluded before the run because its metadata names a sample file the dataset does not ship
 
 # data/verification-matrix.json
-dat-14c95ce081ce = Predicted Doppler from ESA/ESOC final orbits and the NAIF CLPS reconstructed trajectory (xval/lugre-predicted-doppler/predict.py, independent of Kshana), pre-registered c9868b3e. FINDING: all { "288" } searches cross the threshold on noise (sample-power statistics about { "430" } to { "520" } against { "346.3" }), so P1 holds trivially and P3 holds ({ "274" } of { "288" } predicted visible) while P2 fails on { "4033" } of { "4036" } pairs. The band-limited front end raises every cell's noise about { "1.46" } times (pinned: noise floor { "292" } against the white-noise { "200" } on OP2 PRN { "1" }), which the sample-power statistic does not see. Stays MODELLED
+dat-2c38fa401aeb = Predicted Doppler from ESA/ESOC final orbits and the NAIF CLPS reconstructed trajectory (xval/lugre-predicted-doppler/predict.py, independent of Kshana), pre-registered 470b0fc9. FINDING: P1 and P3 hold ({ "4" } batches, { "12" } of { "12" } acquisitions predicted visible) but P2 fails on { "8" } of { "8" } pairs. The two strongest pairs match the prediction in magnitude with the sign reversed (OP2 PRN 18/24: +{ "7670.0" } Hz measured, -7693.9 predicted; OP17 PRN 11/30: +{ "11155.0" }, -11114.4), so the registered I-in-the-low-nibble order is the conjugate of the batches; the six detections just above threshold match neither sign. The refinement's Doppler scatter ({ "30" } to { "50" } Hz between two runs) was also underestimated by the registration. Stays MODELLED
 
 # data/verification-matrix.json
-dat-d4312f65247c = Predicted Doppler from ESA/ESOC final orbits and the NAIF CLPS reconstructed trajectory (xval/lugre-predicted-doppler/predict.py, independent of Kshana), pre-registered 470b0fc9. FINDING: P1 and P3 hold ({ "4" } batches, { "12" } of { "12" } acquisitions predicted visible) but P2 fails on { "8" } of { "8" } pairs. The two strongest pairs match the prediction in magnitude with the sign reversed (OP2 PRN 18/24: +{ "7670.0" } Hz measured, -7693.9 predicted; OP17 PRN 11/30: +{ "11155.0" }, -11114.4), so the registered I-in-the-low-nibble order is the conjugate of the batches; the six detections just above threshold match neither sign. The refinement's Doppler scatter ({ "30" } to { "50" } Hz between two runs) was also underestimated by the registration. Stays MODELLED
+dat-c6208e63b840 = Predicted Doppler from ESA/ESOC final orbits and the NAIF CLPS reconstructed trajectory (xval/lugre-predicted-doppler/predict.py, independent of Kshana), pre-registered c9868b3e. FINDING: all { "288" } searches cross the threshold on noise (sample-power statistics about { "430" } to { "520" } against { "346.3" }), so P1 holds trivially and P3 holds ({ "274" } of { "288" } predicted visible) while P2 fails on { "4033" } of { "4036" } pairs. The band-limited front end raises every cell's noise about { "1.46" } times (pinned: noise floor { "292" } against the white-noise { "200" } on OP2 PRN { "1" }), which the sample-power statistic does not see. Stays MODELLED
 
 # data/verification-matrix.json
-dat-04672c8be25b = Preference Ranking Organization METHod — pairwise preference index with the six standard generalised-criterion shapes, positive/negative outranking flows and the complete net-flow ranking (usual criterion validated)
+dat-893e4b85ef3d = Preference Ranking Organization METHod for Enrichment of Evaluations — pairwise preference index with the six standard generalised-criterion shapes, positive/negative outranking flows and the complete net-flow ranking (usual criterion validated)
 
 # studio/data/capabilities.json
 dat-9998cfe99eed = primary header vs CCSDS 133.0-B-2 + spacepackets-py vectors
@@ -6029,7 +6329,7 @@ dat-a78a42ac37f5 = Protection levels against the alert limit
 dat-f1a7b89110b6 = Provenance — every parameter traceable to a published source
 
 # data/verification-matrix.json, data/card-matrix-map.json
-dat-7cf3772fc50f = Provider common/differential split, one-rank-deficiency unification, and protection-gap slope (T5 / §{ "0" } / g7)
+dat-c47a37051aee = Provider common/differential split, one-rank-deficiency unification, and protection-gap slope
 
 # data/search.json
 dat-d126121cb121 = Pseudoranges and RAIM for a straddle carrier on a container quay, with ship-to-shore
@@ -6046,11 +6346,14 @@ dat-6d21fd4972ac = Published agency documents: Galileo Open Service Service Defi
 # data/search.json
 dat-d8ae5bfb5fc8 = Published ARAIM certification reference vectors: the engine's ARAIM horizontal and vertical protection…
 
-# data/verification-matrix.json
-dat-5e0b83dd30cf = Published CAI primary-paper numeric vectors (Cheinet { "2008" } transfer function; Peters/Freier sensitivity): k_eff·T² matched exactly, shot-noise ASD a one-sided floor within ~{ "2" }× of each published instrument (real devices carry technical noise above the quantum floor). A bracket, not parity. { "0.30" } round { "2" } (pre-registered e7de532a), a finding (stays MODELLED): the QPN-only rotation noise against the measured Gauguet et al. { "2009" } Fig. { "14" } points gives ratios { "0.695" } to { "0.788" } at the three admitted points ({ "0.751" } at the operating point), missing the pre-registered { "30" } % bar by { "0.5" } points; the QPN floor sits { "21" } to { "31" } % below the measured noise, as expected of a model without laser and detection noise. The gradiometer composition matches the Janvier et al. { "2022" } QPN model line (ratio { "1.013" } to { "1.017" }, Reference). The measured test cannot discriminate a sqrt({ "2" }) composition error; only the unequal-contrast Janvier line can
+# data/search.json
+dat-23725fb52107 = Published ARAIM reference vectors: the engine's ARAIM horizontal and vertical protection levels run against…
 
 # data/verification-matrix.json
-dat-ae87b7d06bbf = Published deep-space telecom design-control table as pinned numeric vectors: DESCANSO / J. H. Yuen (ed.), Deep Space Telecommunications Systems Engineering, JPL Pub 82-76, Table 1-1 (Galileo X-band) — kshana reassembles the table line-items and reproduces its published end-to-end L_fs { "290.54" } dB and Pr/N0 { "54.6" } dB-Hz; free-space loss also checked vs ITU-R P.525
+dat-735bd2ae37c9 = Published CAI primary-paper numeric vectors (Cheinet { "2008" } transfer function; Peters/Freier sensitivity): k_eff·T² matched exactly, shot-noise ASD a one-sided floor within ~{ "2" }× of each published instrument (real devices carry technical noise above the quantum floor). A bracket, not parity. Version { "0.30" } (pre-registered e7de532a), a finding (stays MODELLED): the QPN-only rotation noise against the measured Gauguet et al. { "2009" } Fig. { "14" } points gives ratios { "0.695" } to { "0.788" } at the three admitted points ({ "0.751" } at the operating point), missing the pre-registered { "30" } % bar by { "0.5" } points; the QPN floor sits { "21" } to { "31" } % below the measured noise, as expected of a model without laser and detection noise. The gradiometer composition matches the Janvier et al. { "2022" } QPN model line (ratio { "1.013" } to { "1.017" }). The measured test cannot discriminate a sqrt({ "2" }) composition error; only the unequal-contrast Janvier line can
+
+# data/verification-matrix.json
+dat-bc88393559ce = Published deep-space telecom design-control table as pinned numeric vectors: DESCANSO / J. H. Yuen (ed.), Deep Space Telecommunications Systems Engineering, JPL Pub 82-76, Table 1-1 (Galileo X-band) — kshana reassembles the table line-items and reproduces its published end-to-end L_fs { "290.54" } dB and Pr/N0 { "54.6" } dB-Hz (line items transcribed from the table, so this checks the link-equation assembly against a published total); the ITU-R P.525 cases share the inverse-square closed form and are an analytic-form check only
 
 # data/search.json
 dat-d4b33cf81a76 = Published figures and labels
@@ -6065,7 +6368,7 @@ dat-52dc8d685c35 = Published figures: Xona Pulsar X1 maximum Doppler { "32" } to
 dat-5b09dd467401 = Published GPS C/A Gold cross-correlation (−{ "23.9" } dB); Gold { "1967" } bound
 
 # data/verification-matrix.json
-dat-1efc60f84c1e = Published interface control documents and closed forms, under bars pre-registered at 502af4a7 (docs/design/evidence/spectrum-bands/): GLONASS ICD Edition { "5.1" }, BDS-SIS-ICD B1I { "3.0" }, B1C { "1.0" }, B2a { "1.0" } and B3I { "1.0" }, Galileo OS SIS ICD Issue { "2.1" }. MET: every carrier, chip rate and received power as transcribed ({ "28" } GLONASS channels), BPSK first nulls at the chip rate, the B1C composite equal to MBOC(6,1,1/11) as its ICD's power table gives, the C/N0 path identity, and byte-identical spectrum scenarios. NOT MET: the unit-area bar, which was unattainable as written (finding F1; the areas equal the closed-form in-band fraction), and the per-bin agreement of the IQ layer's B1I and B1C waveforms with the model envelope ({ "1.26" } and { "1.56" } dB against { "0.5" } dB, finding F2; GLONASS { "0.07" } dB), because Gold and Weil codes have uneven line spectra; band-averaged the main lobes agree within { "0.25" } dB. WHAT IS NOT CHECKED: recorded IQ, other signals, intra-system interference.
+dat-6b4d2fed6846 = Published interface control documents and closed forms, under bars pre-registered at 502af4a7 (docs/design/evidence/spectrum-bands/): GLONASS ICD Edition { "5.1" }, BDS-SIS-ICD B1I { "3.0" }, B1C { "1.0" }, B2a { "1.0" } and B3I { "1.0" }, Galileo OS SIS ICD Issue { "2.1" }. MET: every carrier, chip rate and received power as transcribed ({ "28" } GLONASS channels), BPSK first nulls at the chip rate, the B1C composite equal to MBOC(6,1,1/11) as its ICD's power table gives, the C/N0 path identity, and byte-identical spectrum scenarios. NOT MET: the unit-area bar, which was unattainable as written (finding F1; the areas equal the closed-form in-band fraction), and the per-bin agreement of the IQ layer's B1I and B1C waveforms with the model envelope ({ "1.26" } and { "1.56" } dB against { "0.5" } dB, finding F2; GLONASS { "0.07" } dB), because Gold and Weil codes have uneven line spectra; band-averaged the main lobes agree within { "0.25" } dB. WHAT IS NOT CHECKED: recorded IQ, other signals, intra-system interference.
 
 # data/verification-matrix.json
 dat-daba08263f50 = Published ITRF2020 coordinate of WTZR (IGN ITRF2020_GNSS.SSC, solution { "3" }, propagated with its velocity) — bars pre-registered in tests/fixtures/gnss_wettzell_2025055/PREREGISTRATION_PPP.md before the filter was written; development on the co-located station WTZZ only. Not modelled: ocean loading, satellite PCV, integer ambiguity resolution
@@ -6077,10 +6380,13 @@ dat-2b429a64a17b = Published ITRF2020 coordinates of WTZR and WTZZ (IGN ITRF2020
 dat-4719a5898fbd = Published paths
 
 # data/verification-matrix.json
-dat-16b7158fd5b9 = Published tabular-CUSUM ARL: Siegmund ({ "1985" }) Brownian-motion approximation (Hawkins & Olwell { "1998" }, eq. { "3.7" }) cross-anchored to Montgomery, Introduction to Statistical Quality Control (Wiley) ARL tables for k=½, h∈{ "{" }{ "4,5" }{ "}" }; deterministic latency matched exactly to a first-passage oracle. The composed TPL bound stays MODELLED
+dat-d8551e17e75c = Published tabular-CUSUM ARL: Siegmund ({ "1985" }) Brownian-motion approximation (Hawkins & Olwell { "1998" }, eq. { "3.7" }) cross-anchored to Montgomery, Introduction to Statistical Quality Control (Wiley) ARL tables for k=½, h∈{ "{" }{ "4,5" }{ "}" }; deterministic latency matched exactly to a Python re-implementation of the CUSUM first-passage recursion (an internal cross-check; the external evidence is the ARL₁ comparison). The composed TPL bound stays MODELLED
 
 # data/verification-matrix.json
 dat-b00d77e3f6c6 = Published textbook values: the BPSK(n) main lobe of 2n x { "1.023" } MHz null to null and the anti-jam coefficients Q = { "1" } for a narrowband (CW) jammer and Q = { "1.5" } for a spread-spectrum jammer matched to C/A (Kaplan & Hegarty, Understanding GPS/GNSS, 3rd ed., section { "9.4" }); the BOC(m,n) main lobes centred at plus or minus m x { "1.023" } MHz (Betz, Binary Offset Carrier Modulations for Radionavigation, NAVIGATION { "48" }({ "4" }), { "2001" }); the spectral separation coefficients -61.8, -64.8 and -67.8 dB/Hz for C/A with C/A, BOC({ "1,1" }) with BOC({ "1,1" }) and C/A with BOC({ "1,1" }) (Betz { "2001" }; Hein et al., MBOC: The New Optimized Spreading Modulation Recommended for Galileo L1 OS and GPS L1C, Inside GNSS, May/June { "2006" }), reproduced here from their Parseval autocorrelation closed forms. The BOC({ "1,1" }) maximum is not at { "1.023" } MHz: the lobe spans the carrier null to { "2.046" } MHz and peaks at { "0.759" } MHz, and the test pins both. The MBOC mix is the ICD definition, checked for unit area and linearity only
+
+# data/search.json
+dat-6147a2d01135 = Pull requests from outside contributors
 
 # studio/data/capabilities.json
 dat-decd97c5aa58 = Puts the satellite geometry beside the receiver-trust score and names a class on every deduction: signal loss, poor geometry or an inconsistency between the receiver's stated DOP and the one derived from the satellites in view. Geometry is judged only when it is known, and the label is the headline: only a poor geometry costs points. Advisory software, not type-approved navigation equipment.
@@ -6095,19 +6401,19 @@ dat-5cb0828a1a18 = pyDecision algorithm.copras_method (Valdecy Pereira) — an i
 dat-8b84b3d81a7c = pyDecision algorithm.electre_i (Valdecy Pereira) — an independent third-party multi-criteria decision library computing the same uniquely-defined concordance/discordance/dominance/kernel; matched element-for-element to <{ "1e-9" }. Regenerable offline via tests/fixtures/mcda_electre/generate_electre_reference.py. The ĉ/d̂ threshold choices are analyst inputs (sensitivity stays MODELLED)
 
 # data/verification-matrix.json
-dat-386b4c83cc6d = pyerfa { "2.0.1.5" } (liberfa { "2.0.1" }, BSD-3-Clause; the SOFA algorithms as released by the ERFA project), an independent library: erfa.dtf2d("UTC"), erfa.utctai and erfa.taiutc on the committed instants, the gap formed part by part on the two-part dates, bar { "1e-6" } s fixed before the run (pre-registered 896f3c2e). Worst gap { "9.6e-12" } s (dtf2d) and { "1.9e-11" } s (utctai, taiutc). Every UTC day taken as { "86 400" } s, or the leap-day fraction left unscaled, turns the test red. UT1 through TAI (iauUtcut1) is checked by the Earth-orbit path row's ERFA leg. Scope: UTC from 1972-01-01; the earlier drifting-rate UTC is not modelled
+dat-9bf467af0b81 = pyerfa { "2.0.1.5" } (liberfa { "2.0.1" }, BSD-3-Clause; the SOFA algorithms as released by the ERFA project), an independent library: erfa.dtf2d("UTC"), erfa.utctai and erfa.taiutc on the committed instants, the gap formed part by part on the two-part dates, bar { "1e-6" } s fixed before the run (pre-registered 896f3c2e). Worst gap { "9.6e-12" } s (dtf2d) and { "1.9e-11" } s (utctai, taiutc). Every UTC day taken as { "86 400" } s, or the leap-day fraction left unscaled, turns the test red. UT1 through TAI (iauUtcut1) is checked by the Earth-orbit path row's ERFA leg. Scope: UTC from 1972-01-01; the earlier drifting-rate UTC is not modelled
 
 # data/verification-matrix.json
-dat-c90f1bf3a716 = pyerfa { "2.0.1.5" } (liberfa { "2.0.1" }, BSD-3-Clause; the SOFA algorithms as released by the ERFA project), an independent library: erfa.dtf2d("UTC"), erfa.utctai and erfa.taiutc on the committed instants, the gap formed part by part. Pre-registered 247a01a6 (instants, tolerance and the { "1972" }+ checksum) before the engine change and before the oracle was run. The drift table is transcribed from the same SOFA iauDat table the oracle uses, so the comparison covers the conversion arithmetic (day length, UTC-to-SI scaling, iteration), not the historical table itself
+dat-c31253eef5f9 = pyerfa { "2.0.1.5" } (liberfa { "2.0.1" }, BSD-3-Clause; the SOFA algorithms as released by the ERFA project), an independent library: erfa.dtf2d("UTC"), erfa.utctai and erfa.taiutc on the committed instants, the gap formed part by part. Pre-registered 247a01a6 (instants, tolerance and the { "1972" }+ checksum) before the engine change and before the oracle was run. The drift table is transcribed from the same SOFA iauDat table the oracle uses, so the comparison covers the conversion arithmetic (day length, UTC-to-SI scaling, iteration), not the historical table itself
 
 # data/verification-matrix.json
-dat-5d51123c331d = pyerfa { "2.0.1.5" } (liberfa { "2.0.1" }, BSD-3-Clause; the SOFA algorithms as released by the ERFA project), an independent library: gmst82 and c2t06a on the committed two-part dates, polar motion { "0.1" } and { "0.3" } arcsec. Pre-registered 765860c3 (dates, bars) before the functions were written and before the oracle was run. The internal tests (the scenario option, the TEME/ITRF round trip, the type conversions) are supporting self-consistency
+dat-8c6283410d4f = pyerfa { "2.0.1.5" } (liberfa { "2.0.1" }, BSD-3-Clause; the SOFA algorithms as released by the ERFA project), an independent library: gmst82 and c2t06a on the committed two-part dates, polar motion { "0.1" } and { "0.3" } arcsec. Pre-registered 765860c3 (dates, bars) before the functions were written and before the oracle was run. The internal tests (the scenario option, the TEME/ITRF round trip, the type conversions) are supporting self-consistency
 
 # data/verification-matrix.json
-dat-1bec7a23a790 = pyerfa { "2.0.1.5" } (liberfa { "2.0.1" }, BSD-3-Clause; the SOFA algorithms as released by the ERFA project), an independent library: pmat06; numat(obl06, nut00b) with the equation of the equinoxes from eect00 (the full complementary series), composed as P^T N^T Rz(-EE); xys06a then c2ixys(X + dX, Y + dY, s). Pre-registered bbaeb5b5 (epochs, offsets and bars) before the oracle was run. The { "1.1e-10" } rad TEME residual is the predicted effect of keeping two complementary terms (about { "3" } mm at GNSS orbit)
+dat-693beb83314e = pyerfa { "2.0.1.5" } (liberfa { "2.0.1" }, BSD-3-Clause; the SOFA algorithms as released by the ERFA project), an independent library: pmat06; numat(obl06, nut00b) with the equation of the equinoxes from eect00 (the full complementary series), composed as P^T N^T Rz(-EE); xys06a then c2ixys(X + dX, Y + dY, s). Pre-registered bbaeb5b5 (epochs, offsets and bars) before the oracle was run. The { "1.1e-10" } rad TEME residual is the predicted effect of keeping two complementary terms (about { "3" } mm at GNSS orbit)
 
 # data/verification-matrix.json
-dat-70d0798f00dc = pykep { "3.0.1" } lambert_problem (ESA, the C++ kep3 core, MPL-2.0), an independent library, run as a separate program by scripts/gen_lambert_multirev_ref.py; only its numerical output is committed. Pre-registered 9879ae57 (case set, bars, outcome rule) before any comparison; the reference was regenerated independently and is byte-identical. Results: docs/design/evidence/lambert-multirev/RESULTS.md
+dat-d444b044ed40 = pykep { "3.0.1" } lambert_problem (ESA, the C++ kep3 core, MPL-2.0), an independent library, run as a separate program by scripts/gen_lambert_multirev_ref.py; only its numerical output is committed. Pre-registered 9879ae57 (case set, bars, outcome rule) before any comparison; the reference was regenerated independently and is byte-identical. Results: docs/design/evidence/lambert-multirev/RESULTS.md
 
 # data/verification-matrix.json
 dat-4e049babceca = pymcdm (methods.WASPAS + normalizations.linear_normalization, l={ "0.5" }; methods.MOORA ratio system, vector normalisation) — an independent, widely-used third-party Python MCDA library computing the same uniquely-defined aggregates; matched to <{ "1e-9" }. Regenerable offline via tests/fixtures/mcda_waspas/ and tests/fixtures/mcda_moora/. Garbage-in-garbage-out on the inputs; the sensitivity/robustness layer stays MODELLED
@@ -6125,10 +6431,10 @@ dat-cb484c4a1742 = pymcdm methods.TOPSIS + normalizations.minmax_normalization �
 dat-ee2180713ecd = pymcdm methods.VIKOR(v={ "0.5" }) — an independent third-party MCDA library computing the same uniquely-defined range-normalised S/R/Q aggregation; matched to <{ "1e-9" }. Regenerable offline via tests/fixtures/mcda_vikor/generate_vikor_reference.py
 
 # data/verification-matrix.json
-dat-843097951440 = pymsis { "0.13.0" } (MIT) version={ "0" }, which runs the NRL Fortran GTD7D in single precision, and the NRLMSISE-00 C port (release { "20190709" }, public domain) compiled as a separate program, plus the C distribution's { "17" } published test outputs. Bars pre-registered in xval/nrlmsise00-pymsis/PREREGISTRATION.md (a6504ec9) before the port existed; all met (RESULTS.md). Validates the port, not the model's accuracy against measured density
+dat-95a47f7a98c1 = pymsis { "0.13.0" } (MIT) version={ "0" }, which runs the NRL Fortran GTD7D in single precision, and the NRLMSISE-00 C port (release { "20190709" }, public domain) compiled as a separate program, plus the C distribution's { "17" } published test outputs. Bars pre-registered in xval/nrlmsise00-pymsis/PREREGISTRATION.md (a6504ec9) before the port existed; all met (RESULTS.md). Validates the port, not the model's accuracy against measured density
 
 # data/verification-matrix.json
-dat-4276c02c8549 = pyshtools { "4.14.1" } (BSD-3-Clause) reading the same PDS files and evaluating point gravity, run as a separate program, and the published PDS product headers and labels. Bars pre-registered in xval/planetary-gravity-pyshtools/PREREGISTRATION.md (6d2674d); all met (RESULTS.md). Data: NASA PDS Geosciences Node, public domain; degree-20 crops bundled with NOTICE, full files fetched at test time
+dat-e87c0a5b77c8 = pyshtools { "4.14.1" } (BSD-3-Clause) reading the same PDS files and evaluating point gravity, run as a separate program, and the published PDS product headers and labels. Bars pre-registered in xval/planetary-gravity-pyshtools/PREREGISTRATION.md (6d2674d); all met (RESULTS.md). Data: NASA PDS Geosciences Node, public domain; degree-20 crops bundled with NOTICE, full files fetched at test time
 
 # studio/channels.json
 dat-6a8e20968c99 = Python { "3.9" }+ with uv or pipx
@@ -6223,14 +6529,14 @@ dat-45e3f02fb27a = quantum-trade (scenario kind)
 # data/verification-matrix.json, data/card-matrix-map.json, studio/data/areas.json
 dat-4fd47e51dffd = Quantum-trade numerical kernels (NNLS / χ² bands / van-Loan Q)
 
-# data/search.json
-dat-28de207de9ac = Quantum-vs-classical PNT trade ({ "13503" }): timing-holdover + inertial-holdover benefit of a candidate clock (a…
-
 # data/verification-matrix.json, data/card-matrix-map.json, studio/data/areas.json
-dat-4565dcd3ffea = Quantum-vs-classical PNT trade & GNSS-denied resilience ({ "13503" })
+dat-ce7347c11547 = Quantum-vs-classical PNT trade & GNSS-denied resilience
 
 # data/search.json
-dat-389cce8e9966 = Quantum-vs-classical PNT trade with measured-ADEV ingestion (ESA AO/1-13503 demonstrator).
+dat-430f0a448014 = Quantum-vs-classical PNT trade with measured-ADEV ingestion.
+
+# data/search.json
+dat-dc6b5283cdb3 = Quantum-vs-classical PNT trade: timing-holdover + inertial-holdover benefit of a candidate clock (a…
 
 # studio/data/capabilities.json
 dat-851eae44620f = Quantum-vs-classical resilience crossover map
@@ -6246,6 +6552,9 @@ dat-45f0cf514465 = Quantum: a neutral trade method, results labelled MODELLED
 
 # data/verification-matrix.json
 dat-e9f23f3ef6c6 = Quaternion-attitude, WGS-84 NED strapdown inertial mechanization (coning/sculling-compensated) propagating a navigation state from (Δθ, Δv) increments
+
+# data/search.json
+dat-39b5fcccc0d7 = Questions that were decided
 
 # studio/data/capabilities.json
 dat-95b8903130b6 = Radiometric navigation & relay-PNT
@@ -6284,7 +6593,7 @@ dat-faf6c34fcf5b = Ranging-code design trade
 dat-733462eb32ea = Rank { "6" }, defect { "0" }; free-network defect { "1" } named as a common translation
 
 # data/verification-matrix.json
-dat-d6aa8911d7ea = Rank-correlation and resampling kernels under the resilience decision-instability study: Kendall τ-b, Dirichlet mean, competition ranking and percentile confidence intervals
+dat-d70ebf27a9e5 = Rank-correlation and resampling kernels under the resilience decision-instability study: Kendall τ-b, Dirichlet mean, ordinal ranking (ties broken by index) and percentile confidence intervals
 
 # data/verification-matrix.json, data/card-matrix-map.json
 dat-9219a1de08a1 = Rank-order statistics kernel (Kendall-τ / Dirichlet / percentile)
@@ -6293,7 +6602,7 @@ dat-9219a1de08a1 = Rank-order statistics kernel (Kendall-τ / Dirichlet / percen
 dat-54f5b74a53b4 = Rate limits and fetch helpers
 
 # data/verification-matrix.json
-dat-413ad9764d36 = rate_frame_jacobian(_with) gives the sensitivity of the lunar timescale rate to the frame realisation, from the equatorial effective potential truncated at degree { "2" } (GM, equatorial radius, J2, rotation; LunarSurfacePotential): d_alpha/d_scale = L_m, about +{ "3.1388e-11" }; d_alpha/d_velocity = -|v_moon|/c^{ "2" }, about -1.11e-14 (time-dependent); d_alpha/d_r_radial = g_eff/c^{ "2" }, about +{ "1.806e-17" } per metre. For a { "1" } m radial datum shift this is a rate perturbation of about { "1.8e-17" } (an arithmetic consequence of the radial entry), far below the roughly { "1.7e-11" } rate offset of a lunar timescale against TT
+dat-1e3c037156e4 = rate_frame_jacobian(_with) gives the sensitivity of the lunar timescale rate to the frame realisation, from the equatorial effective potential truncated at degree { "2" } (GM, equatorial radius, J2, rotation; LunarSurfacePotential): d_alpha/d_scale = L_m, about +{ "3.1388e-11" }; d_alpha/d_velocity = -|v_moon|/c^{ "2" }, about -1.11e-14 (time-dependent); d_alpha/d_r_radial = g_eff/c^{ "2" }, about +{ "1.806e-17" } per metre. For a { "1" } m radial datum shift this is a rate perturbation of about { "1.8e-17" } (an arithmetic consequence of the radial entry), far below the roughly { "6.5e-10" } rate offset of a lunar timescale against TT (the published { "56" } to { "59" } µs/day band)
 
 # data/verification-matrix.json
 dat-df09b09f33c9 = Ray ({ "2001" }) S2 air-pressure harmonics (n <= { "4" }, prograde and retrograde) converted to the fully-normalised, sine-lead form of IERS { "2010" } Eqs. 6.20-6.21 (amplitude divided by N_nm, epsilon = { "90" } deg - psi) and applied as the S2 term of tides::atmospheric_tide
@@ -6315,6 +6624,12 @@ dat-9a85d832686c = Read the one-line summary
 
 # js/developers-data.mjs
 dat-0a42053d69e7 = Read the published Jammertest test catalogue and transmission plan (NPRA/jammertest-plan, MIT) as scheduled truth (`kshana jammertest import`): the slots of one test area become receiver-trust events with the catalogue id and year in each label.
+
+# data/verification-matrix.json
+dat-4f74378f2c1d = Read-back check on a real published RINEX { "4.00" } file (values read back equal the file's printed literals) and a specification-derived header; no independent reader was run, so MODELLED
+
+# data/search.json
+dat-407ea0efc65a = Readers added after release { $version }: SBP, GREIS, Unicore, and RTCM { "3" } observations
 
 # data/search.json
 dat-1f7e166b5055 = Readers that bring other receivers, solvers and sensors into the receiver-trust kind.
@@ -6338,7 +6653,7 @@ dat-b98e7d4ac78c = Reads BESTPOS (position), RANGE (C/No per signal) and RXSTATU
 dat-e90aa6e664b5 = Reads GNSS-SDR Monitor (Gnss_Synchro) and PVT-monitor messages, relayed to JSON lines with the proto field names, into per-channel C/N0, fix, satellites used, HDOP and sky (receiver_trust::machines::gnss_sdr; integrations/gnss-sdr/relay.py).
 
 # data/verification-matrix.json
-dat-73a4c3308a33 = Reads the C/N0 of every signal cell of RTCM { "3" } MSM4 and MSM7 messages (GPS, GLONASS, Galileo, SBAS, QZSS, BeiDou, NavIC) from a frame stream, CRC-24Q checked (receiver_trust::machines::rtcm3). Layouts from the BSD-licensed pyrtcm tables, not from the RTCM standard text.
+dat-32ad316bdb64 = Reads the C/N0 of every signal cell of RTCM { "3" } MSM4 to MSM7 messages (GPS, GLONASS, Galileo, SBAS, QZSS, BeiDou, NavIC) from a frame stream, CRC-24Q checked (receiver_trust::machines::rtcm3). Layouts from the BSD-licensed pyrtcm tables, not from the RTCM standard text.
 
 # data/search.json
 dat-0206a79de955 = Real agency precise orbits (tests/agency_galileo.rs, tests/agency_swarm.rs, tests/agency_lro.rs)
@@ -6364,6 +6679,9 @@ dat-ce7be4c37c6e = Real-time lunar frame / Earth-orientation (EOP) prediction bu
 # data/search.json
 dat-641a52d54ebb = Real-time lunar frame / Earth-orientation prediction budget: P4 Table { "1" } (the frame-error consistency check…
 
+# data/search.json
+dat-ee49066ddcc8 = Real-time lunar frame / Earth-orientation prediction budget: the frame-error consistency table…
+
 # studio/data/capabilities.json
 dat-a2e2b8874026 = Real, retrieved lunar constellation geometry
 
@@ -6375,6 +6693,9 @@ dat-66e9efa2a045 = realtime-frame-eop (scenario kind)
 
 # studio/data/capabilities.json
 dat-ceb9b2014e7b = Receiver autonomous integrity (ARAIM)
+
+# data/search.json
+dat-a0a7232e9bc0 = Receiver formats added after release { $version }: Unicore interference logs, RTCM { "3" } MSM1 to MSM7
 
 # data/search.json
 dat-79f4feed2597 = Receiver protocols read by receiver-trust ({ "0.38" })
@@ -6452,13 +6773,13 @@ dat-91baec5df1d5 = Reference frames & timescales
 dat-23d4a778858b = Reference-build image
 
 # data/verification-matrix.json
-dat-567339d215a3 = Reference: the values LSIS V1.0 prints for validation (Tables C-1 to C-5, D-1 to D-6, E-1 to E-6) and its Annex { "3" } electronic code files, under a zero-mismatch criterion fixed before the comparison. The criterion is missed by one printed cell that is internally inconsistent with the standard's own Annex { "3" } file, so the row stays MODELLED; an erratum note is drafted. The same chips also equal LANS-AFS-SIM's (row 'LunaNet AFS baseband rendering against an independent generator, given its channel state')
+dat-459a121f43a3 = Reference: the values LSIS V1.0 prints for validation (Tables C-1 to C-5, D-1 to D-6, E-1 to E-6) and its Annex { "3" } electronic code files, under a zero-mismatch criterion fixed before the comparison. The criterion is missed by one printed cell that is internally inconsistent with the standard's own Annex { "3" } file, so the row stays MODELLED. The same chips also equal LANS-AFS-SIM's (row 'LunaNet AFS baseband rendering against an independent generator, given its channel state')
 
 # data/verification-matrix.json
 dat-21b00f75ba49 = ReferenceImpl in a one-off check, not a test in the suite: pyrtcm { "1.2.0" }'s decoder reads the same self-written frames to the same C/N0 and epoch time. It shares its tables' source with this reader, so it checks the bit handling, not the layout. No capture from a real receiver or base station was read
 
 # data/verification-matrix.json
-dat-9a7aaec6b731 = References checked against a script-extracted heading index of the cited public documents read 2026-10-10 (tests/compliance_references.rs). WHAT IS CHECKED: { "49" } cited clause, section, paragraph or heading references exist in the cited document, and { "7" } cited URLs resolved on the recorded date ({ "2" } via a second route); negative controls fail. WHAT IS NOT: that any paraphrase, mapping or gap is correct; EN { "16803" } clauses (paid, catalogue text only); later revisions; the index is not an independent implementation.
+dat-7027cf512e0e = References checked against a script-extracted heading index of the cited public documents read 2026-10-10 (tests/compliance_references.rs). WHAT IS CHECKED: { "49" } cited clause, section, paragraph or heading references exist in the cited document, and { "10" } cited URLs resolved on the recorded dates, 2026-10-10 (NIST IR 8323r1: 2026-10-18), { "2" } of them via a second route; negative controls fail. WHAT IS NOT: that any paraphrase, mapping or gap is correct; EN { "16803" } clauses (paid, catalogue text only); later revisions; the index is not an independent implementation.
 
 # studio/data/capabilities.json
 dat-515156cf7b7e = regenerates the inertial and clock crossover studies behind the Results figures; trade kernels validated vs scipy { "1.17.1" }
@@ -6495,6 +6816,9 @@ dat-a3971a9abd2f = Relativistic clock-rate to frame coupling for the lunar times
 
 # data/verification-matrix.json
 dat-ece75e38b91a = Relativistic Earth-Moon clock-rate (LTC/TCL) + TT/TAI/UTC chaining + ensemble
+
+# data/search.json
+dat-17729998ff2b = Relativistic Earth–Moon clock rate (Lunar Coordinate Time, LTC/TCL): the secular LTC−TT rate from the…
 
 # data/search.json
 dat-5b6f66fb76d9 = Release rules (enforced by the command)
@@ -6653,7 +6977,7 @@ dat-cf1164c11e5c = Road vehicle through an urban canyon: GNSS/INS dead-reckoning
 dat-801a11415a26 = Robust Kepler-equation solver
 
 # data/verification-matrix.json
-dat-eec113c3b401 = ROC AUC + bootstrap CI separating real labelled anomalies; transparent detector (reproduces-labels)
+dat-93d7ddbc468d = ROC AUC (and full operating-point confusion) on real labelled anomalies, using a transparent single-feature detector (peak count) and a diagonal-Mahalanobis score; the bootstrap CI is checked internally only (it brackets the point AUC)
 
 # data/verification-matrix.json
 dat-c9180fdd23b5 = ROS { "2" } receiver-trust package and gnss_lib_py bridge
@@ -6677,7 +7001,7 @@ dat-a3f40e7b5f38 = Rows a partner's data could promote
 dat-e180a48d5f50 = RTCM { "3" } MSM4 and MSM7 (format = "rtcm3")
 
 # data/verification-matrix.json
-dat-50b52977fb5e = RTCM { "3" } MSM4 and MSM7 carrier-to-noise reader for receiver-trust
+dat-bafec53acf85 = RTCM { "3" } MSM4 to MSM7 carrier-to-noise reader for receiver-trust
 
 # data/verification-matrix.json
 dat-0f3c12998a15 = RTK double differences with LAMBDA integer fixing on real RINEX observations
@@ -6695,7 +7019,7 @@ dat-cb8a4c8a6e6f = RTKLIB ionmodel (independent reference impl) — tests/klobuc
 dat-72c81deddfcf = RTKLIB ionmodel (tomojitakasu/RTKLIB, src/rtkcmn.c) — independent reference implementation compiled from source; matched to < { "1e-4" } m
 
 # data/verification-matrix.json
-dat-f3aed4069d2f = RTKLIB peph2pos() compiled from C source (preceph.c; T. Takasu, BSD-2-Clause) — the de-facto IGS reference, an independent implementation; kshana's interpolator (now carrying the same Earth-rotation node correction) matched to ~{ "15" } nm on a real SP3 product, down from ~{ "5.5" } cm before the correction
+dat-c24a8661a364 = RTKLIB peph2pos() compiled from C source (preceph.c; T. Takasu, BSD-2-Clause) — a widely used open-source implementation, an independent implementation; kshana's interpolator (now carrying the same Earth-rotation node correction) matched to ~{ "15" } nm on a real SP3 product, down from ~{ "5.5" } cm before the correction
 
 # data/verification-matrix.json
 dat-07c4ea8ea04c = RTKLIB SBAS-PL fork — zsiki/rtklib_ws waasprotlevels() (Siki & Takács { "2017" }, "DO-229D Appendix J"), run by rnx2rtkp -ws on real EGNOS GEO-PRN120 messages + real BUTE/Budapest RINEX; independent third-party implementation, HPL matched to < { "2e-3" } m. gLAB { "v6.0.0" } (core/filter.c) confirmed identical convention. Both oracles round K_V→{ "5.33" } vs Kshana's exact Φ⁻¹({ "1" }−{ "5e-8" })={ "5.3267" } (~{ "0.06" }%), so the vertical is checked as the K-factor-free d_U
@@ -6704,13 +7028,13 @@ dat-07c4ea8ea04c = RTKLIB SBAS-PL fork — zsiki/rtklib_ws waasprotlevels() (Sik
 dat-15e519792d43 = RTKLIB SBAS-PL fork waasprotlevels() (Siki & Takács { "2017" }, real EGNOS+RINEX) — tests/sbas_reference.rs
 
 # data/verification-matrix.json
-dat-27eee8b0e0bc = RTKLIB v2.4.2-p13 (BSD-2-Clause, commit 71db0ffa) decode_word/decode_frame as a separate program, pre-registered c26e2b28: R1 parity and decoding, R2 decoded value equal to Kshana's integer times the IS-GPS-200 scale within { "2" }^-52 relative, R3 within half a quantum of the input. FINDING: R1 { "960" } of { "960" } words and { "96" } of { "96" } subframes; R3 every parameter, week and reference times exact; R2 fails on { "41" } values (af1, delta-n, IDOT) by { "1" } to { "4" } units in the last place because RTKLIB's P2_43 is the decimal { "1.136868377216160E-13" }, { "2.6e-16" } relative from { "2" }^-43; dividing by RTKLIB's constant returns Kshana's integer in every case. Stays MODELLED: the registered R2 bar was too tight for the oracle's own constant
+dat-93c281db1f63 = RTKLIB v2.4.2-p13 (BSD-2-Clause, commit 71db0ffa) decode_word/decode_frame as a separate program, pre-registered c26e2b28: R1 parity and decoding, R2 decoded value equal to Kshana's integer times the IS-GPS-200 scale within { "2" }^-52 relative, R3 within half a quantum of the input. FINDING: R1 { "960" } of { "960" } words and { "96" } of { "96" } subframes; R3 every parameter, week and reference times exact; R2 fails on { "41" } values (af1, delta-n, IDOT) by { "1" } to { "4" } units in the last place because RTKLIB's P2_43 is the decimal { "1.136868377216160E-13" }, { "2.6e-16" } relative from { "2" }^-43; dividing by RTKLIB's constant returns Kshana's integer in every case. Stays MODELLED: the registered R2 bar was too tight for the oracle's own constant
 
 # data/verification-matrix.json
-dat-de7b24f0672b = RTKLIB v2.4.2-p13 (BSD-2-Clause, commit 71db0ffa) readrnx parsing the IGS daily broadcast file BRDC00IGS_R_20250610000_01D_MN.rnx and decode_word/decode_frame decoding Kshana's words, run as a separate program; pre-registered a48d5b91 before the file was fetched, exact-integer bar. Mutation: truncating instead of rounding gives { "235" } failures. Earlier comparisons of the same encoder are recorded as findings: against gps-sdr-sim, which truncates ({ "230" } fields), and against RTKLIB's scaled values, whose decimal { "2" }^-43 constant missed a one-ulp bar ({ "41" } values). Integrator post-verification (stays MODELLED): the comparison agrees and a parity-set mutation also turns it red, but the pre-registration a48d5b91 reached the public branch at { "20" }:{ "02" }:{ "29" } UTC, two seconds after the result commit 25638e9e ({ "20" }:{ "02" }:{ "27" } UTC) that already holds RTKLIB's output for the file, so the order 'registered before the file was fetched' cannot be shown; a fresh registration pushed before an unseen broadcast file is fetched would settle it
+dat-63801103af51 = RTKLIB v2.4.2-p13 (BSD-2-Clause, commit 71db0ffa) readrnx parsing the IGS daily broadcast file BRDC00IGS_R_20250610000_01D_MN.rnx and decode_word/decode_frame decoding Kshana's words, run as a separate program; pre-registered a48d5b91 before the file was fetched, exact-integer bar. Mutation: truncating instead of rounding gives { "235" } failures. Earlier comparisons of the same encoder are recorded as findings: against gps-sdr-sim, which truncates ({ "230" } fields), and against RTKLIB's scaled values, whose decimal { "2" }^-43 constant missed a one-ulp bar ({ "41" } values). Post-verification (stays MODELLED): the comparison agrees and a parity-set mutation also turns it red, but the pre-registration a48d5b91 reached the public branch at { "20" }:{ "02" }:{ "29" } UTC, two seconds after the result commit 25638e9e ({ "20" }:{ "02" }:{ "27" } UTC) that already holds RTKLIB's output for the file, so the order 'registered before the file was fetched' cannot be shown; a fresh registration pushed before an unseen broadcast file is fetched would settle it
 
 # data/verification-matrix.json
-dat-a6564e08e3de = RTKLIB v2.4.2-p13 (T. Takasu, BSD-2-Clause, commit 71db0ffa) geph2clk and geph2pos, compiled from C source in a separate harness (xval/rtklib-glonass) that reads the same RINEX file with RTKLIB's own reader, so the parse, the sign of -tau_n, the units and the iteration are compared as well as the clock and the orbit. Pre-registered 5cad23b7 before the function existed and before the harness was built. Both sides evaluate the same clock closed form, so the clock comparison covers the implementation, not the formula. The orbit integrators differ (RTKLIB steps { "60" } s then the remainder, Kshana equal steps of at most { "60" } s) and so do the constants (RTKLIB mu { "3.9860044e14" }, Kshana the PZ-90.11 { "3.986004418e14" }); the { "1.1" } mm worst case is that difference, as predicted before the run. Scope: the broadcast ephemeris within its validity interval, not the true orbit or clock (no comparison with precise products)
+dat-44652b2abe39 = RTKLIB v2.4.2-p13 (T. Takasu, BSD-2-Clause, commit 71db0ffa) geph2clk and geph2pos, compiled from C source in a separate harness (xval/rtklib-glonass) that reads the same RINEX file with RTKLIB's own reader, so the parse, the sign of -tau_n, the units and the iteration are compared as well as the clock and the orbit. Pre-registered 5cad23b7 before the function existed and before the harness was built. Both sides evaluate the same clock closed form, so the clock comparison covers the implementation, not the formula. The orbit integrators differ (RTKLIB steps { "60" } s then the remainder, Kshana equal steps of at most { "60" } s) and so do the constants (RTKLIB mu { "3.9860044e14" }, Kshana the PZ-90.11 { "3.986004418e14" }); the { "1.1" } mm worst case is that difference, as predicted before the run. Scope: the broadcast ephemeris within its validity interval, not the true orbit or clock (no comparison with precise products)
 
 # data/verification-matrix.json
 dat-23a7c545a6e2 = RTKLIB v2.4.2-p13 eph2pos() compiled from C source (T. Takasu, BSD-2-Clause) — an independent IS-GPS-200/SIS-ICD implementation, fed the identical RINEX-3 nav records; satellite ECEF position matched to ~{ "62" } nm. (SP3 precise-ephemeris interpolation is validated separately — see 'SP3 precise-ephemeris interpolation')
@@ -6785,10 +7109,10 @@ dat-9ad1723eb987 = S2 atmospheric tide coefficients in the IERS convention
 dat-7fb836da2e71 = Saastamoinen ZHD ≈ { "2.3" } m · Niell unity at zenith · Klobuchar per IS-GPS-200
 
 # data/verification-matrix.json
-dat-8956ab177d4c = Saaty ({ "1980" }) canonical Random Index table (RI({ "5" })={ "1.12" }) reproduced exactly + SciPy/LAPACK scipy.linalg.eig (BSD-3-Clause) as an independent eigensolver computing the same uniquely-defined Perron eigenvector/eigenvalue, matched to <{ "1e-9" }. The Pareto / sensitivity / MAUT decision layer built on this kernel stays MODELLED (the WSM/WPM/TOPSIS/VIKOR/PROMETHEE/ELECTRE aggregators are separately externally validated — see the rows below)
+dat-05c4db06133e = Saaty ({ "1980" }) Random Index table (RI({ "5" })={ "1.12" }; a transcription check, not counted as an oracle) + SciPy/LAPACK scipy.linalg.eig (BSD-3-Clause) as an independent eigensolver computing the same uniquely-defined Perron eigenvector/eigenvalue, matched to <{ "1e-9" }. The Pareto / sensitivity / MAUT decision layer built on this kernel stays MODELLED (the WSM/WPM/TOPSIS/VIKOR/PROMETHEE/ELECTRE aggregators are separately externally validated — see the rows below)
 
 # data/verification-matrix.json
-dat-edb4b96985d4 = Sagnac magnitude checked against an authoritative PUBLISHED VALUE — N. Ashby, 'Relativity in the GPS', Living Reviews in Relativity { "6" }:{ "1" } ({ "2003" }), Eq. { "1.29" }: an eastward equatorial circumnavigation accrues { "207.4" } ns (2ωA_E/c²); kshana reproduces { "207.386" } ns. Independently corroborated by RTKLIB { "2.4.3" } geodist() (Takasu, BSD-2-Clause), which carries the same 2Aω/c² geometry. The composite BIPM TWSTFT transponder/common-view/PPP budget has no external oracle, so the capability stays Modelled
+dat-a10f8973acac = Sagnac magnitude checked against an authoritative PUBLISHED VALUE — N. Ashby, 'Relativity in the GPS', Living Reviews in Relativity { "6" }:{ "1" } ({ "2003" }), Eq. { "1.29" }: an eastward equatorial circumnavigation accrues { "207.4" } ns (2ωA_E/c²); Kshana reproduces { "207.386" } ns. Independently corroborated by RTKLIB { "2.4.3" } geodist() (Takasu, BSD-2-Clause), which carries the same 2Aω/c² geometry. The composite BIPM TWSTFT transponder/common-view/PPP budget has no external oracle, so the capability stays Modelled
 
 # data/verification-matrix.json
 dat-b98f3132cc5e = Satellite clock offset between the tabulated SP3 clock nodes by linear interpolation over the two bracketing valid nodes (the RTKLIB pephclk scheme; bad-clock sentinel skipped), and the same nodes fed to the precise-product chain as RINEX-clock-equivalent records
@@ -6815,9 +7139,6 @@ dat-ff124777183f = SBAS / WAAS protection levels in the DO-229E weighted-least-s
 dat-b9fd9dfe8887 = SBAS protection level (DO-229E weighted-LS HPL/VPL)
 
 # data/verification-matrix.json
-dat-7f0ab2f59f77 = SBOM conformance to the official CycloneDX { "1.5" } JSON Schema (+ valid SPDX identifiers) — an external published standard, zero validation errors over the full dependency graph; the FoM-determinism / byte-reproducibility part remains a pinned self-consistency check, so the row stays MODELLED
-
-# data/verification-matrix.json
 dat-c7403ab6c4d6 = Scalar-time solution-separation TPL over heterogeneous sources; PL driven by worst-exclusion subset noise + UTC(k) bias
 
 # assets/capabilities/capabilities.json
@@ -6840,6 +7161,9 @@ dat-b752486e2bb4 = Scenario atlas
 
 # data/search.json
 dat-2bd7d6b7c492 = Scenario fields
+
+# data/search.json
+dat-4b2577ffa6a4 = Scenario files
 
 # data/search.json
 dat-572dc097de97 = Scenario format
@@ -6875,7 +7199,7 @@ dat-6cad309e8ce7 = Schur-complement marginal of the { "{" }lunocenter-X, scale{ 
 dat-96507e29f147 = Science and research
 
 # data/verification-matrix.json
-dat-b4ef38009099 = scikit-bio { "0.7.3" } skbio.diversity.alpha.inv_simpson (McDonald et al., BSD-3-Clause) — an independent third-party library computing the uniquely-defined inverse-Simpson index; reproduced byte-for-byte. The DHS-RPCF scoring framework (weights/levels) built on top stays MODELLED
+dat-34b29cfc2293 = scikit-bio { "0.7.3" } skbio.diversity.alpha.inv_simpson (McDonald et al., BSD-3-Clause) — the same closed form 1/Σpᵢ² evaluated by a separate codebase (a transcription and normalisation check), matched within { "1e-12" }. The DHS-RPCF scoring framework (weights/levels) built on top stays MODELLED
 
 # data/verification-matrix.json
 dat-14a294fa5008 = scikit-learn { "1.9.0" } (Pedregosa et al., JMLR { "2011" }) — independent library, exact match
@@ -6887,19 +7211,19 @@ dat-b0df8ec2da5c = scikit-learn roc_auc_score on the OPSSAT-AD test split (Ruszc
 dat-2af5f540cc70 = scipy { "1.17" } (Cephes ndtr/ndtri) + scikit-learn roc_auc_score (Pedregosa et al., JMLR { "2011" }), both BSD-3-Clause — independent libraries computing the same uniquely-defined Gaussian-tail / AUC quantities, matched to the A&S-erf floor (~{ "7e-8" }). The quantum-vs-classical advantage built on top stays MODELLED
 
 # data/verification-matrix.json
-dat-04ea5481c128 = SciPy { "1.17.0" } (scipy.stats.chi2/.norm/.ncx2 + optimize.brentq) — independent library (Cephes/Boost), a different algorithm from Kshana's incomplete-gamma series; matched to ≤{ "1e-6" } rel. Kernel only. The ARAIM MHSS P_HMI budget *allocation* is no longer without a published numeric oracle — the WG-C ARAIM Technical Subgroup's own worked example now backs the separate 'ARAIM MHSS protection levels against published reference vectors' row, matched at the reference's own TOL_PL = { "5e-2" } m — so this row's scope is the statistical kernel and that row carries the allocation (see docs/ARAIM_REFERENCE.md)
+dat-608eb6ace126 = SciPy { "1.17.0" } (scipy.stats.chi2/.norm/.ncx2 + optimize.brentq) — independent library (Cephes/Boost), a different algorithm from Kshana's incomplete-gamma series; matched within { "1e-7" } rel (+{ "1e-9" } abs) for the χ² and normal CDFs, { "1e-6" } rel (+{ "1e-6" } abs) for the χ² quantile, { "1e-6" } rel (+{ "1e-9" } abs) for the non-central χ² CDF, { "1e-6" } rel (+{ "1e-4" } abs) for the normal quantile and { "1e-4" } rel (+{ "1e-3" } abs) for pbias. Kernel only. The ARAIM MHSS P_HMI budget *allocation* is no longer without a published numeric oracle — the WG-C ARAIM Technical Subgroup's own worked example now backs the separate 'ARAIM MHSS protection levels against published reference vectors' row, matched at the reference's own TOL_PL = { "5e-2" } m — so this row's scope is the statistical kernel and that row carries the allocation (see docs/ARAIM_REFERENCE.md)
 
 # data/verification-matrix.json
-dat-828c020a30e1 = scipy { "1.17.1" } — optimize.nnls / stats.chi2.ppf / linalg.expm; NNLS+Q exact, χ² <{ "5e-4" } at operating dof. Kernels only — device-performance numbers stay Modelled (next row)
+dat-b7aa154f74a2 = scipy { "1.17.1" } — optimize.nnls / stats.chi2.ppf / linalg.expm; NNLS coefficients within { "1e-3" } relative (fitted σ_y² curve within { "1e-6" }), Q within { "1e-9" } relative, χ² <{ "5e-4" } at operating dof. Kernels only — device-performance numbers stay Modelled (next row)
 
 # data/verification-matrix.json
-dat-7c9bfa5ab641 = scipy { "1.18" } (BSD-3-Clause): linalg.expm computing the Van-Loan { "1978" } discrete process-noise Q₀₀ = ∫₀ᵗ ΦQcΦᵀds via Padé scaling-and-squaring on the { "6" }×{ "6" } augmented matrix — an independent route that never sees kshana's polynomial coefficients; plus optimize.brentq inverting the same monotone curve vs kshana's bisection. The per-class red-noise floor figures (ClockClass) stay MODELLED
+dat-5999a973a13e = scipy { "1.18" } (BSD-3-Clause): linalg.expm computing the Van-Loan { "1978" } discrete process-noise Q₀₀ = ∫₀ᵗ ΦQcΦᵀds via Padé scaling-and-squaring on the { "6" }×{ "6" } augmented matrix — an independent route that never sees Kshana's polynomial coefficients; plus optimize.brentq inverting the same monotone curve vs Kshana's bisection. The per-class red-noise floor figures (ClockClass) stay MODELLED
 
 # data/verification-matrix.json
-dat-c1c604f3caec = scipy { "1.18" } (stats.kendalltau variant='b', rankdata) + numpy.percentile (BSD-3-Clause) — independent implementations (merge-sort τ) of the uniquely-defined rank statistics, matched to { "1e-12" }. The decision-instability study built on these kernels stays MODELLED
+dat-909373dabdbe = scipy { "1.18" } (stats.kendalltau variant='b', rankdata) + numpy.percentile (BSD-3-Clause) — independent implementations (merge-sort τ) of the uniquely-defined rank statistics, matched to { "1e-12" }; the Dirichlet mean is a Monte Carlo check within { "0.01" }. The decision-instability study built on these kernels stays MODELLED
 
 # data/verification-matrix.json
-dat-44fe7f2f9c8e = SciPy { "1.18.1" } (BSD-3-Clause) solve_ivp(method=DOP853) and its single-step, error-norm, dense-output and initial-step routines, an independent implementation; exact two-body states from mpmath { "1.3.0" } at { "40" } digits. Bars pre-registered in xval/dop853-scipy/PREREGISTRATION.md (8b23409) before the first comparison; all met (xval/dop853-scipy/RESULTS.md). SciPy's first step is given to both solvers in the full runs; the initial-step routine is compared separately. Not covered: RKF7({ "8" }), stiffness detection, event location
+dat-81cfbea47143 = SciPy { "1.18.1" } (BSD-3-Clause) solve_ivp(method=DOP853) and its single-step, error-norm, dense-output and initial-step routines, an independent implementation; exact two-body states from mpmath { "1.3.0" } at { "40" } digits. Bars pre-registered in xval/dop853-scipy/PREREGISTRATION.md (8b23409) before the first comparison; all met (xval/dop853-scipy/RESULTS.md). SciPy's first step is given to both solvers in the full runs; the initial-step routine is compared separately. Not covered: RKF7({ "8" }), stiffness detection, event location
 
 # data/verification-matrix.json
 dat-296dc4051c11 = scipy { "1.18.1" } scipy.signal.welch (BSD-3-Clause) with the same periodic Hann window, overlap, density scaling, no detrend and two-sided mean average: every bin within { "1e-12" } relative (observed { "6.0e-14" }) over { "27" } cases, with segment counts taken from scipy's own spectrogram. sigmf-python { "1.13.0" } (LGPL-3.0, run as a tool) writes five third-party recordings (cf32_le, ci16_le, ci8, two captures with annotations, a non-zero first sample_start) that the crate decodes bit-identically with identical core fields, and reads the crate's recordings back bit-identically; the SigMF { "v1.2.6" } metadata schema reports zero errors on the crate's metadata. Tolerances fixed before the first comparison. Outside the claim: spectrum::synthesise_iq and the [iq] and [recording] comparisons with the model (a synthesis has no single right answer; a periodic chirp shows lines, Fresnel ripple and edge tails the smooth model omits, total power within { "2" } %), the integer-to-float scaling convention (the crate divides by { "32767" } and { "127" }, sigmf-python's autoscale by { "2" }^{ "15" } and { "2" }^{ "7" }, which the specification leaves open; the comparison uses raw codes), multi-channel recordings and the data types the reader refuses
@@ -6908,13 +7232,13 @@ dat-296dc4051c11 = scipy { "1.18.1" } scipy.signal.welch (BSD-3-Clause) with the
 dat-577e00a866ab = SciPy stats chi2/ncx2/norm (independent library) — tests/raim_reference.rs (statistical kernel; ARAIM MHSS PL value not pinned)
 
 # data/verification-matrix.json
-dat-ad6236daddef = scipy.spatial.transform.Rotation.align_vectors (SciPy { "1.13" }; Virtanen et al., Nature Methods { "2020" }) — the Kabsch/Markley SVD solution of Wahba's problem, a genuinely independent algorithm (SVD of the attitude profile matrix) and codebase from kshana's Davenport-K eigensolve / QUEST characteristic-root method, computing the SAME uniquely-defined Wahba-optimal attitude. On noiseless weighted vector-observation sets TRIAD, the q-method and QUEST reproduce scipy's optimal rotation to <{ "1e-9" } rad (compared via the sign-invariant attitude-error angle). The noisy Monte-Carlo 'optimal beats TRIAD' statistical claim stays MODELLED (no external oracle); point-direction unit-vector observations only — no sensor field-of-view/bias/temporal-correlation modelling, and QUEST is singular at { "180" }° (the q-method covers that case)
+dat-68720541a34c = scipy.spatial.transform.Rotation.align_vectors (SciPy { "1.13" }; Virtanen et al., Nature Methods { "2020" }) — the Kabsch/Markley SVD solution of Wahba's problem, a genuinely independent algorithm (SVD of the attitude profile matrix) and codebase from kshana's Davenport-K eigensolve / QUEST characteristic-root method, computing the SAME uniquely-defined Wahba-optimal attitude. On noiseless weighted vector-observation sets the q-method reproduces scipy's optimal rotation to <{ "1e-9" } rad, TRIAD to <{ "1e-9" } rad on the two-vector cases and QUEST to <{ "1e-8" } rad (compared via the sign-invariant attitude-error angle). The noisy Monte-Carlo 'optimal beats TRIAD' statistical claim stays MODELLED (no external oracle); point-direction unit-vector observations only — no sensor field-of-view/bias/temporal-correlation modelling, and QUEST is singular at { "180" }° (the q-method covers that case)
 
 # data/verification-matrix.json
-dat-dc7c003995cc = scipy.stats.ncx2 / scipy.stats.chi2 (SciPy { "1.13" }; Cephes/Boost) — an independent algorithm (continued-fraction non-central/central χ²) from kshana's incomplete-gamma series (raim::chi2_cdf / noncentral_chi2_cdf), computing the same uniquely-defined detection-statistics KERNEL: the generalized Marcum Q_M(a,b)=ncx2.sf(b²,2M,a²), the detection probability P_d, the false-alarm probability P_fa and the P_fa→threshold inversion, matched to ~{ "1e-6" } — the same independence basis as the Validated 'RAIM/ARAIM integrity statistical kernel' row. KERNEL only: the per-cell CFAR cell-averaging and code/Doppler-bin straddling loss stay MODELLED
+dat-a794e1098696 = scipy.stats.ncx2 / scipy.stats.chi2 (SciPy { "1.13" }; Cephes/Boost) — an independent algorithm (continued-fraction non-central/central χ²) from kshana's incomplete-gamma series (raim::chi2_cdf / noncentral_chi2_cdf), computing the same uniquely-defined detection-statistics KERNEL: the generalized Marcum Q_M(a,b)=ncx2.sf(b²,2M,a²), the detection probability P_d, the false-alarm probability P_fa and the P_fa→threshold inversion, matched to { "1e-9" } relative (the threshold to { "1e-6" } absolute + { "1e-7" } relative) — the same independence basis as the Validated 'RAIM/ARAIM integrity statistical kernel' row. KERNEL only: the per-cell CFAR cell-averaging and code/Doppler-bin straddling loss stay MODELLED
 
 # data/verification-matrix.json
-dat-00b7ebc0a018 = SciPy/NumPy (BSD-3-Clause; scipy.linalg.null_space and numpy.linalg.svd, LAPACK gesdd) classify the same committed matrices by subspace intersection, dim null([F; E_T]) and dim null([F; E_S]), and the SVD null-space projector, which differs from Kshana Jacobi eigenvectors and Gram-rank formulas; pre-registered (2519c87c): integers exact, p_st_norm to { "1e-9" } (P2, an independent numerical library), with the rank threshold fixed in advance and a spectral gap of at least { "1e6" } asserted. The row claim is the classification of a stated matrix, so P2 covers it in full. The constructed cases include direct-sum, coupled and mixed null spaces and random re-bases; the real-network dimensions of the coupled-gauge row are not re-counted here. The in-crate invariance test (a rotated null basis gives identical results) is kept
+dat-9f475958664f = SciPy/NumPy (BSD-3-Clause; scipy.linalg.null_space and numpy.linalg.svd, LAPACK gesdd) classify the same committed matrices by subspace intersection, dim null([F; E_T]) and dim null([F; E_S]), and the SVD null-space projector, which differs from Kshana's Jacobi eigenvectors and Gram-rank formulas; pre-registered (2519c87c): integers exact, p_st_norm to { "1e-9" } (oracle class P2 in docs/VALIDATION.md, an independent numerical library), with the rank threshold fixed in advance and a spectral gap of at least { "1e6" } asserted. The row claim is the classification of a stated matrix, so P2 covers it in full. The constructed cases include direct-sum, coupled and mixed null spaces and random re-bases; the real-network dimensions of the coupled-gauge row are not re-counted here. The in-crate invariance test (a rotated null basis gives identical results) is kept
 
 # studio/channels.json
 dat-ecdfcb899baa = Scoop bucket
@@ -6930,6 +7254,9 @@ dat-e4e75b47727c = Score a receiver log against the Jammertest schedule (`kshana
 
 # data/verification-matrix.json
 dat-5b577627cdf9 = Score statistic ({ "1" }^T Omega^-1 r)^2/({ "1" }^T Omega^-1 { "1" }) ~ chi^2_1 for a common-mode shift that solution separation (contrasts orthogonal to { "1" }) cannot see; a common-mode shift inflates it while pairwise separations stay flat
+
+# js/developers-data.mjs
+dat-b820a1414131 = Score where a monitoring network said interference came from (`kshana jammertest locate-score`, { "0.41" } row B2): per report the event it belongs to (by id, or by time window and nearest truth), the horizontal geodesic error and vertical error, and for each region (an ellipse with its covariance, a polygon or grid cells) whether it contains the truth and its area; per event and pooled the median and 90th-percentile error, coverage per level with its binomial check, median region size, time to first location and time to locate within { "100" } m, { "500" } m, { "1" } km and { "5" } km; and false locations per hour of clean time.
 
 # studio/data/capabilities.json
 dat-4a9189f161fe = Scores whether a vessel's navigation fix can be trusted from the NMEA { "0183" } its receiver and instruments already emit: a 0-100 score, three bands and the reasons behind them, per epoch, in batch, live or as a gate. Monitors compare the fix with the vessel's own motion, heading sensor, speed log and satellite signal levels. Advisory software, not type-approved navigation equipment: the operator stays responsible. The monitors' arithmetic is checked against independent libraries; the score's rule and thresholds are the project's own and stay modelled.
@@ -6956,16 +7283,16 @@ dat-2fa97693b70f = See also
 dat-b60237034eb8 = Selectable motion profiles for the gnss-ins pack (straight, figure-8, urban stop-and-go, aircraft climb and coordinated turn, survey drone), defined by Euler-rate and along-track-acceleration commands closed on the truth state with the kinematic IMU (centripetal, gravity and Coriolis terms), and imported CSV truth turned into the IMU that reproduces it; the historical drive unchanged when no profile is given
 
 # data/verification-matrix.json
-dat-0ef56cdaefab = Self-consistency of the estimator and geometry: forward→inverse round trips, the Fisher/CRLB identity J·CRLB=I, GDOP monotonicity, and the estimator attaining its own Cramér–Rao bound under Monte-Carlo noise — internal-consistency checks, NOT an external dataset, so the row stays InternalConsistency. MODELLED passive geolocation — point-source line-of-sight model; no multipath / NLOS, receiver-clock-bias, or atmospheric-refraction terms. { "0.30" } round { "2" }, against Ho and Chan { "1993" } and Ho and Xu { "2004" } (pre-registered 034e1d1b, { "1" } % of each printed value), a finding (stays MODELLED): the surface-constrained TDOA bound reproduces the { "40" } N geometric factors (-0.11 %, -0.02 %) and the maximum TDOA; the joint TDOA+FDOA bound reproduces Fig. { "6" } (+{ "0.06" } %, -0.17 %) and, at the source the authors own code names for Fig. { "7" } (amendment written after that result was seen, disclosed), Fig. { "7" } (+{ "0.11" } %, -0.02 %); it equals the authors published bound code (BSD-style, run under GNU Octave) to { "3e-12" }; the covariance-weighted maximum-likelihood solver attains the printed bound (+{ "0.3" } to +{ "0.4" } %). The Ottawa factors the paper prints from a Monte Carlo ({ "251" }, { "7.1" }) differ by +{ "1.3" } % and +{ "4.4" } %, outside the { "1" } % bar
+dat-26e156254053 = Self-consistency of the estimator and geometry: forward→inverse round trips, the Fisher/CRLB identity J·CRLB=I, GDOP monotonicity, and the estimator attaining its own Cramér–Rao bound under Monte-Carlo noise — internal-consistency checks, NOT an external dataset, so the row stays InternalConsistency. MODELLED passive geolocation — point-source line-of-sight model; no multipath / NLOS, receiver-clock-bias, or atmospheric-refraction terms. Version { "0.30" }, against Ho and Chan { "1993" } and Ho and Xu { "2004" } (pre-registered 034e1d1b, { "1" } % of each printed value), a finding (stays MODELLED): the surface-constrained TDOA bound reproduces the { "40" } N geometric factors (-0.11 %, -0.02 %) and the maximum TDOA; the joint TDOA+FDOA bound reproduces Fig. { "6" } (+{ "0.06" } %, -0.17 %) and, at the source the authors' own code names for Fig. { "7" } (amendment written after that result was seen, disclosed), Fig. { "7" } (+{ "0.11" } %, -0.02 %); it equals the authors' published bound code (BSD-style, run under GNU Octave) to { "3e-12" }; the covariance-weighted maximum-likelihood solver attains the printed bound (+{ "0.3" } to +{ "0.4" } %). The Ottawa factors the paper prints from a Monte Carlo ({ "251" }, { "7.1" }) differ by +{ "1.3" } % and +{ "4.4" } %, outside the { "1" } % bar
 
 # data/verification-matrix.json
 dat-48c06a69f626 = Self-consistency of the hand-offs: each handed-on value equals the upstream stage's own output, and mutating an upstream input moves every downstream figure that depends on it. The stages keep their own labels; the chain adds no physics and no external oracle
 
 # data/verification-matrix.json
-dat-c66a398789c3 = Self-consistency of the interferometer fringe model: the half-fringe edge, the 2π-periodic aliasing structure, and the scale-factor cancellation in the range/resolution ratio are closed-form algebraic identities checked against the engine's own Mach–Zehnder phase and sensitivity functions — internal-consistency checks, NOT an external dataset, so the row stays InternalConsistency. MODELLED ideal three-pulse fringe-ambiguity; no wavefront-aberration or contrast-loss bounds on the unambiguous range
+dat-0c91755be061 = Self-consistency of the interferometer fringe model: the half-fringe edge, the 2π-periodic aliasing structure, and the scale-factor cancellation in the range/resolution ratio are closed-form algebraic identities checked against the engine's own Mach–Zehnder phase and sensitivity functions — internal-consistency checks, NOT an external dataset, so the row stays MODELLED: an ideal three-pulse fringe-ambiguity model with no wavefront-aberration or contrast-loss bounds on the unambiguous range
 
 # data/verification-matrix.json
-dat-1edd3707cfc5 = Self-consistency only: the published total is checked against the root-sum-square of the terms in the same file, and the emitted curve reproduces the released p3_time_budget_curve.csv over all { "57" } points. Both checks share this engine's own term definitions, so neither is independent. The clock term rests on published clock specifications, but the link, frame, relativistic and ephemeris floor MAGNITUDES are documented budget allocations with no external oracle
+dat-754e45d7e2e8 = Self-consistency only: the published total is checked against the root-sum-square of the terms in the same file, and the emitted curve reproduces the released time-budget curve over all { "57" } points. Both checks share this engine's own term definitions, so neither is independent. The clock term rests on published clock specifications, but the link, frame, relativistic and ephemeris floor MAGNITUDES are documented budget allocations with no external oracle
 
 # data/verification-matrix.json
 dat-c069be5250fc = Self-consistency under a pre-registration (xval/mission-thread-lunar/PREREGISTRATION.md, results and the estimator history in RESULTS.md): the mean NEES of the relative state is { "5.85" } to { "5.93" } against the band { "5.2" } to { "6.8" } in four configurations, MET on the fourth estimator design after three sequential-filter designs missed; the truth and the estimator share one force model, so this says nothing about model error. The propagator it shares is compared with LRO and CAPSTONE in a row below
@@ -7015,14 +7342,14 @@ dat-ce78e41f321f = Seven-parameter Helmert lunar frame datum from a REAL, ARCHIV
 # data/verification-matrix.json
 dat-d55cb71472c4 = Several scenarios under shared conditions, with a combined summary
 
+# data/verification-matrix.json
+dat-cdf77dc57422 = SGP4/SDP4 analytic propagation of two-line element sets (Cowell propagation and orbit determination are validated in VM-7b9f2f5d and VM-9aa52bbe)
+
 # studio/data/capabilities.json
 dat-2fbb120bffe0 = SGP4/SDP4 propagation from real two-line elements (a committed Celestrak GPS snapshot) or synthetic Walker constellations whose mean elements realise the i:T/P/F formula to under { "1" } km over { "24" } h. Multi-constellation visibility, dilution of precision and GNSS availability, a constellation-design optimiser, streets-of-coverage sizing, and a Walker design sweep that reports the Pareto-optimal designs over a planes × satellites grid.
 
 # data/search.json
 dat-e82ed37686f0 = SGP4/SDP4 validation against the community reference
-
-# data/verification-matrix.json
-dat-e58ad5dbbc32 = SGP4/SDP4, Cowell 6-DOF + perturbations, batch/sequential OD
 
 # data/search.json
 dat-d458c3670e24 = Shell mode: the booklet's global metric
@@ -7057,6 +7384,9 @@ dat-ec7503f282d5 = signal-in-space range error, RMS
 # studio/data/capabilities.json
 dat-9c6a9341490c = Signed evidence packs
 
+# data/search.json
+dat-45ca11ddb2a4 = Signed webhooks
+
 # data/verification-matrix.json
 dat-18a2db656f97 = Simulated truth against the filter's own estimate (a consistent filter's mean normalised estimation error squared is about { "3" } for the position) and determinism for a fixed seed. No flight or recorded high-orbit GNSS data is compared; the Sun and Moon are low-precision circular stand-ins
 
@@ -7082,7 +7412,7 @@ dat-2d7d60357e41 = Sky geometry functions: visibility, DOP, covariance, error el
 dat-12c10c0617b0 = Sky geometry under an azimuth-dependent skyline (a street canyon, a harbour, a fjord, a container terminal): from a site, a time and constellation presets, two-line element sets (`tle`, with a UTC `epoch`) or satellites given as azimuth/elevation or ECEF, which satellites are visible and which are hidden by the skyline, GDOP/PDOP/HDOP/VDOP/TDOP from the gnss_lib_py-checked DOP kernel, the east-north-up cofactor and covariance with one receiver clock per system (or one in common), and the horizontal error ellipse at one sigma and at a stated confidence for a stated UERE.
 
 # data/verification-matrix.json
-dat-39b1bcfec069 = Skyfield { "1.54" } (MIT), with its own leap-second table, its own TDB-TT and its own reader of the same NAIF de440s.bsp (jplephem), run as a separate program at UTC epochs. Pre-registered (7c23d520) before the fixture existed, the grid seeded from that commit's hash, with a bar of { "5e-5" } s times the relative speed (the engine's stated two-term TDB-TT accuracy) plus { "1e-13" } of the barycentric distance plus { "1e-5" } m, per component. Result: all { "600" } inside, worst { "0.66" } of the bar ({ "2.96" } m on a fast pair, the TDB-TT series' own error). Mutation: TT used as TDB fails at { "33" } times the bar. Both sides read DE440: this validates the provider and its time chain, not DE440. Outside the claim: the planets beyond Venus as bodies (de440s carries their barycentres only), the planetary moons, and precision below the two-term TDB-TT series (a few metres for the fastest pairs)
+dat-0dd948fd29ad = Skyfield { "1.54" } (MIT), with its own leap-second table, its own TDB-TT and its own reader of the same NAIF de440s.bsp (jplephem), run as a separate program at UTC epochs. Pre-registered (7c23d520) before the fixture existed, the grid seeded from that commit's hash, with a bar of { "5e-5" } s times the relative speed (the engine's stated two-term TDB-TT accuracy) plus { "1e-13" } of the barycentric distance plus { "1e-5" } m, per component. Result: all { "600" } inside, worst { "0.66" } of the bar ({ "2.96" } m on a fast pair, the TDB-TT series' own error). Mutation: TT used as TDB fails at { "33" } times the bar. Both sides read DE440: this validates the provider and its time chain, not DE440. Outside the claim: the planets beyond Venus as bodies (de440s carries their barycentres only), the planetary moons, and precision below the two-term TDB-TT series (a few metres for the fastest pairs)
 
 # data/verification-matrix.json
 dat-a746656c3f42 = skyline + frames::look_angles + geometry::sky_geometry: the geodetic (WGS-84) azimuth and elevation of a satellite from a ground site, an azimuth/elevation mask table linearly interpolated in azimuth with wrap at { "360" } deg, the visible set el >= max(mask_deg, mask(az)), and the common-clock DOP and ENU-and-clock cofactor matrix of that set (the kernel behind orbit::dop). It is how the [skyline] section decides visibility in the gnss-sim, jamming, leo-pvt, leo-pass and nmea-scenario kinds and, with the ground-site user_site, in orbit and integrity
@@ -7178,13 +7508,25 @@ dat-771c34bd2a4c = SP3 precise-ephemeris interpolation
 dat-8425a5958c22 = Space environment
 
 # data/verification-matrix.json
+dat-46168417f1b1 = Space RF geolocation bounds for a surface emitter seen from low Earth orbit: one satellite, two- and three-satellite formations, and several passes fused
+
+# data/search.json
+dat-e6a060522af8 = Space RF survey
+
+# data/search.json
+dat-e568b5e6e880 = Space RF survey (scenario kind family)
+
+# data/verification-matrix.json
+dat-31088bd580db = space_geoloc: the constrained Cramer-Rao bound (the emitter on the WGS { "84" } ellipsoid) of a static surface emitter from one satellite's frequency of arrival over a pass (S1), from a two- or three-satellite formation's time and frequency differences (F2, F3), and from several passes fused (MP), with the noise per measurement from a free-space link budget; space_geoloc::ccrlb_with_receiver_errors adds receiver position and velocity errors as Gaussian nuisance parameters (Cao et al. { "2015" }), and space_geoloc::solve_f3 is a Gauss-Newton estimator for F3
+
+# data/verification-matrix.json
 dat-9cc2ab5cbf48 = space_packet (TimeCode, SecondaryHeader, packet error control, segmentation and reassembly, stream decoding)
 
 # data/verification-matrix.json
 dat-8d60955a1a7a = space_packet::tests (header bits match the CCSDS-133 layout, encode→decode round-trips all fields, out-of-range/truncated rejected); tests/ccsds_space_packet_reference.rs ({ "33" } cases vs spacepackets { "0.32.0" }, incl. { "12" } full-packet comparisons; zero mismatched octets)
 
 # data/verification-matrix.json
-dat-4c0b9d3def53 = space_weather::tests (Kp↔ap exact at grid points + round-trip + monotone, daily-Ap mean, exospheric-T vs published solar-min/mean/max + storm increment anchors, density unity-at-reference, solar-cycle swing in the observed { "5" }–{ "10" }× band, scenario reproducible + MODELLED-not-VALIDATED + out-of-range rejection); dominance_demonstrators (reachable + reproducible + physical T + MODELLED-not-VALIDATED); tests/space_weather_density_accelerometer_oracle.rs::jacchia71_finding_is_pinned
+dat-690afec2ce80 = space_weather::tests (Kp↔ap exact at grid points + round-trip + monotone, daily-Ap mean, exospheric-T vs published solar-min/mean/max + storm increment anchors, J71 static profile reproduces the printed Table { "7" } and diurnal ratio Table { "1" }, density factor is the J71-to-static ratio and unity below the boundary, { "400" } km solar-cycle swing = { "10" }^{ "0.981" } per Table { "7" }, scenario reproducible + MODELLED-not-VALIDATED + out-of-range rejection); dominance_demonstrators (reachable + reproducible + physical T + MODELLED-not-VALIDATED); tests/space_weather_density_accelerometer_oracle.rs::jacchia71_finding_is_pinned
 
 # studio/data/capabilities.json
 dat-0fc86c7266f7 = space-based PNT in transport, mapped by clause number
@@ -7322,7 +7664,7 @@ dat-f085fd399bfc = src/benchmark/stanford.rs::tests (four regions + inclusive bo
 dat-760af7c983fd = src/clock_log.rs reads a measured clock log into one normalised phase series: a uniform grid of (time_s…
 
 # data/verification-matrix.json
-dat-38323d630919 = src/sp3.rs unit tests; tests/agency_galileo.rs::galileo_e11_sp3_accuracy_weighted_fit (committed { "8" } h ESOC fixture, sigma { "0.032" } m from header exponent { "5" }: Tier-1 3D RMS { "0.132" } m unchanged, Tier-2 { "0.035" } m against { "0.070" } m at sigma { "1" } m, the change coming from the re-balanced empirical a-priori constraint); tests/agency_swarm.rs (the Swarm product carries no accuracy codes and falls back, pinned)
+dat-3fdc77400af3 = src/sp3.rs unit tests; tests/agency_galileo.rs::galileo_e11_sp3_accuracy_weighted_fit (committed { "8" } h ESOC fixture, sigma { "0.032" } m from header exponent { "5" }: Tier-1 3D RMS { "0.133" } m unchanged, Tier-2 { "0.035" } m against { "0.070" } m at sigma { "1" } m, the change coming from the re-balanced empirical a-priori constraint); tests/agency_swarm.rs (the Swarm product carries no accuracy codes and falls back, pinned)
 
 # data/verification-matrix.json
 dat-727be105dbbe = SRP lit fraction as the un-occulted fraction of the limb-darkened solar flux (Eddington-approximation law I(mu)/I({ "1" }) = 2/5 + 3/5 mu, Gauss-Legendre quadrature) over a spherical or WGS-84 Earth (srp_shadow::limb_darkened_shadow, the ShadowModel variant OblateEarthLimbDarkened)
@@ -7337,7 +7679,7 @@ dat-d787ce4d3553 = srp_shadow::tests (the annular closed form, the uniform law r
 dat-522a5c7913ff = SRTM digital-elevation reader on real terrain
 
 # data/verification-matrix.json
-dat-1464d08b8d0b = Stable32 overlapping ADEV/HDEV on the measured 5071A caesium phase series (allantools)
+dat-813459a3f1f0 = Stable32 overlapping ADEV/HDEV on the measured 5071A caesium phase series (data distributed with allantools)
 
 # data/verification-matrix.json
 dat-3fd9b56ddf37 = Stable32 reference deviations for PHASE.DAT (Riley; the standard regression series)
@@ -7460,7 +7802,13 @@ dat-adb728f42967 = Sweeps an illustrative Moonlight/LCNS-class constellation ove
 dat-817243d2689f = Synthetic bridge NMEA { "0183" } streams for crew training (kshana nmea-scenario): GGA, RMC, VTG, ZDA, GNS, GSA, GSV, HDT, VBW and the PKSHT marker, generated from a truth track with modelled receiver, sky, jamming and spoofing effects. Text output only; nothing is transmitted.
 
 # data/verification-matrix.json
-dat-128244e14447 = Synthetic campaigns from Kshana's own GPS L1 C/A scenes (attenuations of the satellites' own signals), against bars pre-registered in docs/design/DETECTION-ROC.md (04981059). FINDING: R2 met (chance level with nothing to detect). R1 NOT MET: cn0_drop AUC { "0.7855" } against { "0.95" }, because every negative window after an event inherits the CUSUM's decay from the detection (all { "18" } post-event negatives reach { "81" } or more; all { "18" } pre-event ones stay at { "0" }). Internal consistency only: no real receiver or recorded interference is checked
+dat-a730c50b1c14 = Synthetic campaigns from Kshana's own GPS L1 C/A scenes (attenuations of the satellites' own signals), against bars pre-registered in docs/design/DETECTION-ROC.md ({ "04981059" }). FINDING: R2 met (chance level with nothing to detect). R1 NOT MET: cn0_drop AUC { "0.7855" } against { "0.95" }, because every negative window after an event inherits the CUSUM's decay from the detection (all { "18" } post-event negatives reach { "81" } or more; all { "18" } pre-event ones stay at { "0" }). RE-RUN { "0.41" } (f09660907): R1 MET on re-run with the CUSUM restarted at each scored window's start ([monitors] roc_restart, default on): AUC { "1.0000" } on seen seeds 300-305 and on fresh seeds 100300-100305; R2 still at chance; the control (restart off) reproduces { "0.7855" }. The seen-seed outcome was largely known in advance (disclosed). Internal consistency only: no real receiver or recorded interference is checked
+
+# data/verification-matrix.json
+dat-dbee95dc230a = Synthetic networks drawn from a model that differs from the locator's on purpose, with an independent numpy recomputation (xval/locator-power-difference/oracle.py), under bars pre-registered in docs/design/evidence/b3a-power-difference-locator/. v1 gate (seeds 1001-2000, tau 1/60, f6b4a3336): S1 coverage MET ({ "0.976" }; bar { "0.90" }); S2 NOT MET (median { "95" } % region { "52.5" } % of the search domain; bar { "25" } %); S3 NOT MET (median centroid error { "2.55" } x the median nearest-neighbour station spacing; bar { "0.5" } x). v2 gate (session-level shadowing, seeds 4001-5000, 53ca11af5): NOT MET on S1 ({ "0.890" }; bar { "0.90" }; the { "34" } of { "1 000" } sessions not located count against it), S2 ({ "26.1" } %; bar { "25" } %) and S3 ({ "1.45" } x; bar { "0.5" } x); S4 determinism platforms only (Linux debug against release; the CI job b3a-v2-determinism runs it on Linux, macOS and Windows; the CLI, Python and WebAssembly half is not assessable, the locator has none of those surfaces); the numpy recomputation agrees on seeds 4001-4020 (centroids within { "2.5e-10" } m). By the pre-registration no real run is made with this method unless its gate is met. WHAT IS NOT CHECKED: any real interference; the C/N0 and AGC monitors themselves
+
+# data/verification-matrix.json
+dat-5fa1c01693e1 = Synthetic sessions under bars pre-registered in docs/design/evidence/b3b-tdoa-locator/ (the power-difference locator's bars), with an independent numpy recomputation of the locator (xval/tdoa-locator/oracle.py). Gate (seeds 6001-7000, { "1 000" } sessions, eed00fd84): NOT MET on T1 (coverage { "0.044" }; bar { "0.90" }), T2 (median area share { "1.000" }; bar { "0.25" }) and T3 ({ "3.35" } x the median nearest-neighbour spacing; bar { "0.5" }); { "872" } sessions not located (CW { "334" } of { "334" }, chirp { "324" } of { "333" }, noise { "214" } of { "333" }). The parabolic refinement misplaces a one-sample-wide correlation peak by up to { "125" } ns against a stated sigma of about { "28" } ns, so the chi-square test rejects most fits; the sawtooth chirp's correlation repeats inside the lag window; a CW has no bandwidth. The numpy recomputation agrees on { "19" } of seeds 6001-6020 within the registered tolerances; on seed { "6002" } Gauss-Newton diverges in both and the scored outputs agree. By the pre-registration no real run is made with this method. WHAT IS NOT CHECKED: any real jammer, station or clock
 
 # assets/capabilities/capabilities.json
 dat-22098d1a0e92 = Synthetic: the model drawn as IQ at one instant, written to SigMF and read back, then estimated by Welch. A consistency check of the synthesis, the SigMF codec and the estimator, not a measurement. A periodic chirp is drawn as a real sawtooth sweep, whose spectrum has lines at the sweep rate, Fresnel ripple and tails past its band edges; the model carries its smooth envelope, so bins near a chirp differ by design while total power agrees.
@@ -7488,6 +7836,9 @@ dat-8d814e924017 = tau0 and gaps
 
 # data/verification-matrix.json, data/card-matrix-map.json
 dat-40e51f3e52b4 = TDOA/FDOA passive emitter geolocation
+
+# data/search.json
+dat-1c69ac642e5f = Teaching kit (MATLAB, LabVIEW, Python)
 
 # data/verification-matrix.json
 dat-0b5667e3b6d6 = Technique for Order of Preference by Similarity to Ideal Solution — min–max normalisation, weighted positive/negative ideal solutions, relative closeness Cᵢ = d⁻/(d⁺+d⁻) and ranking
@@ -7577,7 +7928,7 @@ dat-2c1e5ddbab6d = Tests and test data
 dat-9752924b1c93 = tests/adm_orekit_oracle.rs (L1 Orekit reads { "33" } Kshana files, L2 Kshana reads { "31" } Orekit files, L3 { "135" } record rotations; findings pinned); adm::tests; ndm_xml::tests
 
 # data/verification-matrix.json
-dat-8a55c6d3a79c = tests/alternative_complementary_pnt_reference.rs ({ "2520" } global points × altitudes vs ppigrf @ epoch { "2025.0" }; worst |ΔXYZF| { "3.9e-4" } nT, |ΔD| { "2.8e-6" }°, |ΔI| { "3.6e-7" }°)
+dat-ff7dc17c1751 = tests/alternative_complementary_pnt_reference.rs ({ "2520" } grid points ({ "840" } global locations × { "3" } altitudes: { "0" }, { "100" }, { "400" } km) vs ppigrf @ epoch { "2025.0" }; worst |ΔXYZF| { "3.9e-4" } nT, |ΔD| { "2.8e-6" }°, |ΔI| { "3.6e-7" }°)
 
 # data/verification-matrix.json
 dat-3ac6409e9de9 = tests/alternative_complementary_pnt_reference.rs (map-matching CRLB; IGRF-14 field); mapmatch::tests; gravimeter::tests; igrf::tests; tests/gravity_map_real_field.rs (the 60-min GPS-denied benchmark on the real EGM2008 degree-70 field, pre-registered in xval/icgem-egm2008/: matched { "3106" } m, so the < { "500" } m bar is NOT MET and asserted as missed, and the tenfold cut on the { "70.6" } km drift is MET; plus the seeded map-error Monte Carlo); altpnt::terrain::tests::emag2_format_grid_reproduces_the_synthetic_magnetic_channel and tests/emag2_real_grid.rs (data-gated EMAG2v3 reader on a real crop; no navigation outcome claimed on it); tests/terrain_slam_rbpf.rs (joint map estimation, a FastSLAM-style RBPF, against known-map SITAN on a { "15" } m correlated map error over { "20" } seeds, pre-registered in xval/terrain-slam-rbpf/: { "1.5" }% mean gain and better in { "10" } of { "20" }, so the { "10" }% and 12-of-20 bars are NOT MET and asserted as missed; no harm on a perfect map, MET)
@@ -7589,6 +7940,9 @@ dat-4991862705f8 = tests/aocs_basilisk_oracle.rs ({ "3" } cases, { "601" } sampl
 dat-62bb9863a354 = tests/araim_reference_vectors.rs ({ "2" } published vectors + { "6" } negative controls, fixture tests/fixtures/araim_reference/wgc_araim_reference_vectors.txt: dropping the nominal bias misses the published VPL by { "2.6457" } m, a { "10" } % ISM error by { "0.2798" } m, K_fa at { "57" } modes instead of { "12" } by { "0.4015" } m, a +{ "2" } %/+{ "5" } % integrity-variance error by 0.0750/0.1971 m — and a +{ "1" } % error moves it only { "0.0339" } m, reported as the check's resolution limit rather than hidden; the two documents' answers each miss the other's by more than the tolerance, so the vectors are not interchangeable; the committed fixture and the compiled constants are two independent transcriptions asserted to match, so a published figure cannot be edited on one side to make a check pass; and C_int − C_acc = σ²_URA − σ²_URE = { "0.3125" } m² holds for all { "40" } transcribed variances, an arithmetic identity a transcription typo would break)
 
 # data/verification-matrix.json
+dat-2d6ceea8dfe6 = tests/area_trust.rs (the v1 and v2 timelines equal the oracles' bytes every second; T2 alerts; boundary rules; the live rule equals the timeline; the T4 misses and T3 v2 recorded); tests/area_trust_igs.rs (T4 and T3 on the fetched IGS files, ignored by default; v3 T4 reproduces xval/area-trust/t4v3_result.json); tests/area_trust_v3.rs (v3: T1 against oracle_v3 through the library and the command line, the recorded T2 verdict, the generator writes the committed documents); tests/python/test_bindings.py; web/smoke.mjs
+
+# data/verification-matrix.json
 dat-7eace8da0834 = tests/batch_sequential_orbit_determination_reference.rs ({ "8" } scenarios: { "6" } noiseless LEO/MEO/eccentric/3–4-station + { "2" } σ={ "5" } m, vs Orekit { "12.2" }; worst batch |Δr| { "1e-3" } m / |Δv| { "1e-6" } m/s, sequential |Δr| { "0.9" } m)
 
 # data/verification-matrix.json
@@ -7598,7 +7952,13 @@ dat-a0759a29f9eb = tests/bds_geo_broadcast_oracle.rs (real C01-C04 records: geos
 dat-74570c1b382b = tests/body_orientation_spice_oracle.rs::orientation_matches_spice_pxform_for_the_fourteen_added_bodies ({ "41" } epochs { "1955" } to { "2044" }, { "574" } matrices within { "1e-9" } rad, worst Phobos { "1.43e-10" } rad); tests/body_orientation_spice_oracle.rs::orientation_matches_spice_pxform_at_fresh_epochs ({ "41" } epochs { "1961" } to { "2038" } never compared before, { "574" } matrices within { "1e-9" } rad, worst Phobos { "1.38e-10" } rad); tests/body_constants_naif_oracle.rs::constants_match_naif_pck00011_and_gm_de440 ({ "0" } of { "84" } constants of the fourteen bodies differ from NAIF)
 
 # data/verification-matrix.json
-dat-e52d88399d14 = tests/campaign_composition_reference.rs (a_fixed_seed_ensemble_is_byte_stable_and_each_realisation_is_the_standalone_run; the_ensemble_mean_and_spread_match_the_white_fm_closed_form — { "200" } seeds of a white-frequency-noise clock coasting tau = { "3010" } s: the true mean { "0" } inside the reported interval, the interval half-width within { "25" }% of { "1.96" } sigma/sqrt(n), and the sample variance inside the two-sided { "99" }% chi-square interval of sigma = sqrt(q_wf tau) = { "16.459" } ns; calibration ensemble (CAP-10, pre-registered d224fbc0, docs/CALIBRATION-ENSEMBLES.md, tests/calibration_ensembles.rs): over { "200" } independent ensembles the interval covers the true mean on { "192" } (inside the Binomial({ "200" }, { "0.95" }) { "99" } % region [{ "181" }, { "197" }]) and the chi-square check passes on { "196" }, while the single-seed percentile tolerance (p05 and p95 within { "0.3" } sigma) passes on only { "183" } of { "200" }, NOT MET against the pre-registered { "190" }, a seed-fragile check recorded rather than loosened; a_one_node_sweep_and_a_one_member_composition_read_the_standalone_number)
+dat-d66e624a878c = tests/c3_force.rs (kernel off equals A2 bit for bit; radiation term against its closed form and zero in both umbrae; the control on W0, gated); tests/c3_verdicts.rs (the recorded verdicts, misses included); tests/c3_verdicts_v2.rs (the committed G windows and k values; the recorded v2 verdict)
+
+# data/verification-matrix.json
+dat-28f3c79ef029 = tests/c5a_opnav.rs ({ "36" } measurements against the committed SPICE and OpenCV oracle output; the recorded verdicts asserted, the O5 miss included); tests/c5a_opnav_v2.rs (the v2 partials against the complex-step oracle output on { "72" } measurements)
+
+# data/verification-matrix.json
+dat-362753110ff1 = tests/campaign_composition_reference.rs (a_fixed_seed_ensemble_is_byte_stable_and_each_realisation_is_the_standalone_run; the_ensemble_mean_and_spread_match_the_white_fm_closed_form — { "200" } seeds of a white-frequency-noise clock coasting tau = { "3010" } s: the true mean { "0" } inside the reported interval, the interval half-width within { "25" }% of { "1.96" } sigma/sqrt(n), and the sample variance inside the two-sided { "99" }% chi-square interval of sigma = sqrt(q_wf tau) = { "16.459" } ns; calibration ensemble (pre-registered d224fbc0, docs/CALIBRATION-ENSEMBLES.md, tests/calibration_ensembles.rs): over { "200" } independent ensembles the interval covers the true mean on { "192" } (inside the Binomial({ "200" }, { "0.95" }) { "99" } % region [{ "181" }, { "197" }]) and the chi-square check passes on { "196" }, while the single-seed percentile tolerance (p05 and p95 within { "0.3" } sigma) passes on only { "183" } of { "200" }, NOT MET against the pre-registered { "190" }, a seed-fragile check recorded rather than loosened; a_one_node_sweep_and_a_one_member_composition_read_the_standalone_number)
 
 # data/verification-matrix.json
 dat-d787395a7d7b = tests/campaign_composition_reference.rs (a_one_node_sweep_and_a_one_member_composition_read_the_standalone_number — a one-member composition reads the stand-alone number and result digest)
@@ -7607,7 +7967,7 @@ dat-d787395a7d7b = tests/campaign_composition_reference.rs (a_one_node_sweep_and
 dat-9b9bd42a133e = tests/campaign_composition_reference.rs (a_one_phase_clock_campaign_reproduces_the_standalone_run_bit_for_bit, a_one_phase_integrity_campaign_reproduces_the_standalone_run_bit_for_bit, a_one_phase_jamming_campaign_reproduces_the_standalone_run_bit_for_bit — the member result byte-identical to the stand-alone run and every aligned value equal to the stand-alone series; the_chained_mission_hands_state_on_and_ends_the_spoofing_phase_on_detection; a_handoff_writes_the_previous_phase_number_into_the_next_scenario; malformed_campaigns_fail_loudly)
 
 # data/verification-matrix.json
-dat-77ddbaccd8d1 = tests/campaign_optimize_reference.rs (pre-registered 21b64e52 and, after a round-1 protocol miss, 824e9bc1: p2_prime_interior_target_range_matches_the_closed_form — 1-D target solve within { "6.1e-15" } of r* = r0 { "10" }^((m(r0) - { "3" })/20) in { "96" } evaluations; p3_prime_contour_target_grid_and_nelder_mead and p3_grid_matches_brute_force_and_nelder_mead_does_at_least_as_well — the grid method's best bit-equal to an independent { "41" } x { "41" } brute-force loop over run_toml, Nelder-Mead at least as good in { "177" } and { "161" } evaluations; p4_nelder_mead_reaches_the_corner_maximum; p5_the_document_is_byte_stable_and_counts_agree; p2_round1_not_met_the_box_excludes_the_closed_form, which pins the recorded round-1 miss); campaign::optimize::tests (nelder_mead_meets_the_preregistered_rosenbrock_bar: f* = { "1.7e-20" } in { "234" } evaluations; a_non_finite_score_is_never_the_best; the_grid_mapping_is_the_sweeps)
+dat-ae7ba7be0ed1 = tests/campaign_optimize_reference.rs (pre-registered 21b64e52 and, after a round-1 protocol miss, 824e9bc1: p2_prime_interior_target_range_matches_the_closed_form — 1-D target solve within { "6.1e-15" } of r* = r0 { "10" }^((m(r0) - { "3" })/20) in { "96" } evaluations; p3_prime_contour_target_grid_and_nelder_mead and p3_grid_matches_brute_force_and_nelder_mead_does_at_least_as_well — the grid method's best bit-equal to an independent { "41" } x { "41" } brute-force loop over run_toml, Nelder-Mead at least as good in { "177" } and { "161" } evaluations; p4_nelder_mead_reaches_the_corner_maximum; p5_the_document_is_byte_stable_and_counts_agree; p2_round1_not_met_the_box_excludes_the_closed_form, which pins the recorded round-1 miss); campaign::optimize::tests (nelder_mead_meets_the_preregistered_rosenbrock_bar: f* = { "1.7e-20" } in { "234" } evaluations; a_non_finite_score_is_never_the_best; the_grid_mapping_is_the_sweeps)
 
 # data/verification-matrix.json
 dat-4110a819536a = tests/capstone_nrho_horizons.rs::cr3bp_nrho_matches_capstone_mean_geometry (CAPSTONE March { "2023" }, { "4" } perilunes and { "5" } apolunes: period { "6.5004" } d vs { "6.5699" } d ({ "1.07" } %, bar { "3" } %), apolune { "71 182" } vs { "71 215" } km ({ "0.05" } %, bar { "5" } %), perilune { "3 385" } vs { "3 245" } km ({ "4.1" } %, bar { "20" } %)); cr3bp::tests::reproduces_l2_southern_nrho_92_regime
@@ -7625,10 +7985,7 @@ dat-3325310b5a4d = tests/classical_strapdown_ins_reference.rs (static/turn/conin
 dat-a401554b72ff = tests/clock_integrity.rs (the_block_is_separate_and_absent_by_default: holdover figures unchanged, { "111" } denied epochs unavailable with no protection level, refused with runs > { "1" }; protection_levels_are_the_snapshot_raims_on_the_same_sky: every sampled epoch's HPL and VPL equal a zero-residual snapshot_raim on the same preset sky exactly, and the fault-free run raises no alarm; a_stated_bias_is_detected_while_it_lasts: a { "60" } m bias alarms on exactly the { "10" } epochs it covers; every_integrity_field_has_a_unit); clock_integrity::tests; the clock goldens unchanged
 
 # data/verification-matrix.json
-dat-5d39f20e4a0c = tests/clock_library_lag1_noise_id_allantools.rs ({ "140" } cases: ten Kasdin power-law records, b = { "0" } to -4, as phase and frequency data, af = { "1" } to { "64" }; alpha_int and d identical, worst |d alpha| { "9.6e-13" } and |d rho| { "4.8e-13" } against { "1e-9" }; pre-registered 14169982); allan::tests (lag1_identifies_white_pm_white_fm_and_random_walk_fm; lag1_is_blind_to_a_quadratic_phase_trend)
-
-# data/verification-matrix.json
-dat-94a45e8fdaad = tests/clock_library_periodic_cards_oracle.rs (periodic_cards_reproduce_the_recorded_finding; pre-registered 698f3842); clock_library::card::tests (a_periodic_card_carries_the_sinusoid_a_power_law_card_cannot)
+dat-5e34fd2a423c = tests/clock_library_lag1_noise_id_allantools.rs ({ "140" } cases: ten Kasdin power-law records, b = { "0" } to -4, as phase and frequency data, af = { "1" } to { "64" }; alpha_int and d identical, worst |d alpha| { "9.6e-13" } and |d rho| { "4.8e-13" } against { "1e-9" }; pre-registered { "14169982" }); allan::tests (lag1_identifies_white_pm_white_fm_and_random_walk_fm; lag1_is_blind_to_a_quadratic_phase_trend)
 
 # data/verification-matrix.json
 dat-8ad76f467446 = tests/cowell_tesseral_orekit_oracle.rs ({ "6" } cases x { "25" } hourly states over { "24" } h: EGM2008 8x8 and 70x70 on LEO { "45" } deg, polar { "89.9" } deg, sun-synchronous { "98.2" } deg, GTO, and 70x70 with Sun/Moon and SRP; worst |dr| { "0.0355" } m, |dv| { "3.74e-5" } m/s; negative controls miss by { "6168" } m (frozen Earth) and { "20871" } m (zonal only)); propagator unit tests (zonal-limit identity to { "1e-12" }, CIO frame bit-for-bit against precise_od, Jacobi integral held to { "1e-9" } over { "6" } h)
@@ -7643,7 +8000,7 @@ dat-602a3b3190eb = tests/cs5071a_reference.rs (real 5071A Cs vs H-maser, { "556 
 dat-9ddbaa71a383 = tests/deep_space_mars_radiometric_reference.rs ({ "24" } legs over { "8" } epochs { "2020" }–{ "2027" } vs ANISE DE440; worst |Δτ| { "1.03e-9" } s, |Δrange| { "0.31" } m at up to { "2.5" } AU)
 
 # data/verification-matrix.json
-dat-133054c16cfb = tests/dop853_scipy_oracle.rs ({ "8" } single steps: state within { "5.55e-15" } relative, FSAL derivative { "3.46e-15" }, dense output { "1.99e-14" }, accept/reject decisions identical; { "3" } full runs at rtol = atol = { "1e-12" } (LEO { "58000" } s, e = { "0.7" } over { "5" } periods, Arenstorf over one period): initial step identical, accepted steps 502/501, 390/390, 298/298 and evaluations 6025/6013, 5497/5497, 4285/4285 against SciPy, end states within { "2.95e-13" } relative (two-body) and { "1.58e-12" } (Arenstorf), dense output within { "9.5e-13" }; accuracy against the exact mpmath Kepler solution equal to SciPy's (LEO { "8.44e-5" } m, Arenstorf periodicity { "1.475e-9" })); integrator and propagator unit tests ({ "24" } h two-body against exact Kepler under { "0.1" } m)
+dat-bea443acedf9 = tests/dop853_scipy_oracle.rs ({ "8" } single steps: state within { "5.55e-15" } relative, FSAL derivative { "3.46e-15" }, dense output { "1.99e-14" }, accept/reject decisions identical; { "3" } full runs at rtol = atol = { "1e-12" } (LEO { "58000" } s, e = { "0.7" } over { "5" } periods, Arenstorf over one period): initial step identical, accepted steps 502/501, 390/390, 298/298 and evaluations 6025/6013, 5497/5497, 4285/4285 against SciPy, end states within { "2.95e-13" } relative (two-body) and { "1.58e-12" } (Arenstorf), dense output within { "9.5e-13" }; accuracy against the exact mpmath Kepler solution within the 2x-SciPy bar (LEO { "8.44e-5" } m against SciPy's { "8.24e-5" } m; Arenstorf periodicity { "1.475e-9" } on both)); integrator and propagator unit tests ({ "24" } h two-body against exact Kepler under { "0.1" } m)
 
 # data/verification-matrix.json
 dat-fcd10bcbfddb = tests/drag_exponential_gmat_oracle.rs (equatorial cases E400, E300 and E250x600 at J2000.0, { "25" } hourly states over { "24" } h: the drag-induced displacement agrees with GMAT's to at most { "0.016" } of the bar { "0.5" } m + { "1e-3" }|D| against { "21.5" } to { "143.9" } km of displacement; a +{ "1" } % Cd*A/m change reaches { "9.83" } times the bar; the inclined I400 case is reported, { "10.4" } % apart, the stated height-definition difference)
@@ -7655,13 +8012,16 @@ dat-44f31f568938 = tests/drag_tier_orekit_oracle.rs ({ "4" } cases x { "25" } ho
 dat-97921726d233 = tests/earth_orbit_path_sgp4_erfa_oracle.rs (leg { "1" }: { "4432" } TEME positions of the { "232" } committed element sets against python-sgp4 { "2.24" }, worst { "6.1e-8" } m, bar { "1" } cm; leg { "2" }: { "108" } instants, { "23" } of them with Earth orientation parameters and one in the last second of a leap-second day, against ERFA: GCRS -> ITRS worst { "2.9e-6" } mas, bar { "0.1" } mas; TEME -> ITRS worst { "0.41" } mas, bar { "2" } mas); sgp4::tests (the_itrs_path_matches_the_orbit_module_iau_chain; an_earth_fixed_node_stays_at_its_longitude_at_the_epoch); tests/no_private_models.rs
 
 # data/verification-matrix.json
-dat-308ef451bd7d = tests/ellipse_numpy_oracle.rs (ellipse_and_cofactor_agree_with_numpy_as_pre_registered: { "270" } cases, the { "142" } committed visible sets of the skyline comparison under one common clock and under one clock per system; worst axis { "5.1e-13" } relative and orientation { "5.3e-12" } deg, none near-circular, cofactor { "1.0e-12" } of the matrix scale, against { "1e-9" } and { "1e-6" } deg; pre-registered 2dfc9c16); geometry::tests (ellipse_of_an_analytic_two_by_two_case)
+dat-d08ed8bff342 = tests/ellipse_numpy_oracle.rs (ellipse_and_cofactor_agree_with_numpy_as_pre_registered: { "270" } cases: the { "142" } committed visible sets of the skyline comparison under one common clock and { "128" } of them under one clock per system; worst axis { "5.1e-13" } relative and orientation { "5.3e-12" } deg, none near-circular, cofactor { "1.0e-12" } of the matrix scale, against { "1e-9" } and { "1e-6" } deg; pre-registered 2dfc9c16); geometry::tests (ellipse_of_an_analytic_two_by_two_case)
 
 # data/verification-matrix.json
 dat-868e775e09f6 = tests/embedded_eop_vintage_astropy_preregistered.rs::vintage_of_every_row_matches_astropy_and_predictions_match_bulletin_a (six exact criteria: the extract bytes; { "174" } rows; per-vintage counts and full MJD lists 30/54/90; flag P on both polar motion and UT1 of every predicted row; the bare default run census; every predicted row equal to IERS Bulletin A Vol. XXXIX No. { "039" } within its last printed digit, worst { "5.0e-5" } arcsec and { "4.9e-6" } s); tests/embedded_eop_census_astropy_oracle.rs::vintage_census_matches_astropy (regression pin of the old 32-row extract under the flag classifier: { "20" } final, { "12" } rapid, { "0" } predicted); tests/embedded_eop_census_astropy_oracle.rs::rows_called_prediction_only_are_flagged_measured_by_astropy (the round-1 finding, kept); realtime_frame_eop::tests; tests/operational_eop_predictor_reference.rs
 
 # data/verification-matrix.json
 dat-87ebc8805c38 = tests/entry_stardust_published.rs (peak { "35.44" } g against the published { "33.4" } g, +{ "6.1" } %, bar { "10" } %; planet-relative entry speed { "12.551" } km/s against { "12.6" }, bar { "0.1" } km/s); entry_eo_ascent::entry_heating::tests (rotating-frame energy falls by exactly the drag work; vacuum coast conserves the Jacobi energy; non-rotating ballistic case matches the planar point mass of the reentry module; the Allen-Eggers closed form in its regime)
+
+# data/verification-matrix.json
+dat-a061a8466f42 = tests/ephem_export_capstone.rs ({ "4321" } of { "4321" } CAPSTONE states read back with the same bits from the OEM and the SPK; the SHA-256 of each file pinned through the CLI); the flight-dynamics workflow (integrations/flight-dynamics/: Orekit, Basilisk and ANISE notebooks; docs/design/evidence/c7-flight-dynamics-adapters/RESULTS.md)
 
 # data/verification-matrix.json
 dat-19695386f4dd = tests/eval_metrics_reference.rs ({ "5" } datasets, { "24" } thresholds; exact counts + <{ "1e-9" })
@@ -7673,13 +8033,13 @@ dat-4237f162cba1 = tests/evidence_crypto_reference.rs (RFC { "8032" } section { 
 dat-e3e102a02de3 = tests/evidence_tsa_openssl.rs::every_case_agrees_with_openssl (the pre-registered comparison); evidence::tsa::tests (civil dates and times, base64, the RSA public operation); evidence::verify::tests::anchors_make_the_authority_checked (an unsigned token fails with anchors; without them the report is unchanged)
 
 # data/verification-matrix.json
-dat-5774ed85af83 = tests/field_units_global.rs (all { "61" } registered kinds run, one document shape each: every numeric leaf must resolve to an entry in that document's own units block; a malformed entry counts as missing for EVERY kind, exempt or not, so a placeholder buys no coverage; the exemption list may not exceed its pinned ceiling, a listed kind that turns out to be fully covered FAILS the gate so the list cannot be padded, and a registered kind absent from the runner table fails so a new pack cannot slip in unexamined — which it did, catching both kinds added after this work began; a one-way ratchet on the described-but-undefined backlog; and a staleness check on the committed schema document); field_schema::tests
+dat-35c26fa4362c = tests/field_units_global.rs (all { "86" } registered kinds run, one document shape each: every numeric leaf must resolve to an entry in that document's own units block; a malformed entry counts as missing for EVERY kind, exempt or not, so a placeholder buys no coverage; the exemption list may not exceed its pinned ceiling, a listed kind that turns out to be fully covered FAILS the gate so the list cannot be padded, and a registered kind absent from the runner table fails so a new pack cannot slip in unexamined — which it did, catching both kinds added after this work began; a one-way ratchet on the described-but-undefined backlog; and a staleness check on the committed schema document); field_schema::tests
 
 # data/verification-matrix.json
 dat-26f85ff13e7f = tests/fim_observability_reference.rs (eigenvalues vs numpy.linalg.eigh; CRLB covariance vs σ²(XᵀX)⁻¹ via numpy.linalg.inv; GNSS GDOP/PDOP/HDOP/VDOP/TDOP from the information matrix vs numpy — all matched to { "1e-9" }); fim::tests (Jacobi eigensolver vs closed-form spectra; CRLB vs Kay { "1993" } closed forms — DC-in-WGN σ²/N and line-fit σ²(XᵀX)⁻¹; Monte-Carlo CRLB attainment; Moore–Penrose identity MM⁺M=M; datum-defect null space)
 
 # data/verification-matrix.json
-dat-56f772ab5fc0 = tests/frame_reference_vectors.rs (Vallado end-to-end; SOFA/ERFA vectors)
+dat-c7a77d5bc1ba = tests/frame_reference_vectors.rs (Vallado AIAA 2006-6753 end-to-end state; Vallado Fundamentals Example 3-3)
 
 # data/verification-matrix.json
 dat-9363676284ba = tests/frames_erfa_vector_oracle.rs::frame_matrices_agree_with_erfa_vectors ({ "40" } TT epochs 1950-2100, dX and dY up to { "0.5" } mas: precession elements within { "1e-13" }, worst { "0" }; TEME to GCRS within { "5e-10" } rad, worst { "1.10e-10" } rad; CIO with offsets within { "1e-13" }, worst { "0" }; zero offsets bit-identical to cio::gcrs_to_cirs_matrix)
@@ -7697,13 +8057,13 @@ dat-c6449d14ea6b = tests/fusion_kfgins_dataset_oracle.rs (synthetic loaders and 
 dat-c4e0334e0432 = tests/glonass_broadcast_rtklib_oracle.rs::glonass_broadcast_clock_and_orbit_match_rtklib ({ "292" } cases: the { "4" } GLONASS records of the real 2013-01-01 IGS MGEX broadcast file x { "73" } offsets within +/-900 s; clock within { "1e-14" } s, worst { "0" } s; position within { "0.01" } m, worst { "1.12e-3" } m)
 
 # data/verification-matrix.json
-dat-f764501c858f = tests/gnss_denied_clock_holdover_reference.rs ({ "27" } cases vs scipy { "1.18" }: { "12" } coast-variance vs linalg.expm Van-Loan Q₀₀ worst rel { "1.1e-15" }; { "7" } holdover inversions vs optimize.brentq worst rel { "1.5e-16" })
+dat-e52963656def = tests/gnss_denied_clock_holdover_reference.rs ({ "27" } cases: { "12" } coast-variance vs scipy { "1.18" } linalg.expm Van-Loan Q₀₀ worst rel { "1.1e-15" }; { "7" } holdover inversions vs optimize.brentq worst rel { "1.5e-16" }; { "8" } TIE/range closed-form checks)
 
 # data/verification-matrix.json
-dat-e774576a2158 = tests/gnss_ins_packs.rs (each pack: fused below free INS over the outage for both sensors; rail: tight { "5.3" } m vs loose { "12.9" } m navigation-grade and { "15.6" } m vs { "18.8" } m tactical over the outage, availability { "0.97" } vs { "0.95" }; tight table validated); tests/gnss_ins_legacy_trajectory_pin.rs (the loosely-coupled default bit-identical)
+dat-424d2cbd46e6 = tests/gnss_ins_packs.rs (each pack: fused below free INS over the outage for both sensors; rail: tight { "5.3" } m vs loose { "12.9" } m navigation-grade and { "15.6" } m vs { "18.8" } m tactical over the outage, availability { "0.97" } vs { "0.95" }; [tight] table input checks); tests/gnss_ins_legacy_trajectory_pin.rs (the loosely-coupled default bit-identical)
 
 # data/verification-matrix.json
-dat-8c517742780f = tests/golden.rs, tests/determinism.rs, tests/cross_platform_golden.rs; tests/reproducibility_software_assurance_reference.rs (the generated SBOM validates with zero errors against the official CycloneDX { "1.5" } JSON Schema over the full 66-component shipped graph: default + python + wasm features, dev-dependencies excluded)
+dat-a27f10b95a3c = tests/golden.rs, tests/determinism.rs, tests/cross_platform_golden.rs; tests/reproducibility_software_assurance_reference.rs (the generated SBOM, with compound SPDX expressions moved from license.id to expression as the standard requires, has zero errors against the official CycloneDX { "1.5" } JSON Schema (the raw output has { "133" }, all compound ids in license.id), over the full 148-component shipped graph: default + python + wasm features, dev-dependencies excluded)
 
 # data/verification-matrix.json
 dat-e80854948446 = tests/gps_l1ca_gpssdrsim_cross_generator.rs::gps_sdr_sim_truncates_where_the_broadcast_integer_needs_rounding (pinned finding); tests/gps_l1ca_gpssdrsim_cross_generator.rs::ca_codes_lnav_fields_and_parity_match_gps_sdr_sim_bit_exactly (strict, ignored with the gap); gps_lnav::tests
@@ -7724,13 +8084,13 @@ dat-77f34261d4e6 = tests/icgem_gravity_anomaly_oracle.rs (egm2008_n70_matches_ci
 dat-f79726002edb = tests/icgem_gravity_reference.rs (GRS80 synthesis reproduces Somigliana to { "3.5e-12" }; real ICGEM EGM2008 disturbance map physical)
 
 # data/verification-matrix.json
-dat-6eca51d18325 = tests/integrity_araim_stanford_oracle.rs::araim_mhss_matches_stanford_maast_add_v4_2 ({ "270" } real-geometry cases, Celestrak GPS+Galileo and IGS SP3: worst |dVPL| { "2.2e-3" } m, |dHPL| { "1.1e-3" } m, |dEMT| { "2.1e-10" } m against the ADD TOL_PL { "0.05" } m); tests/integrity_araim_stanford_oracle.rs::uniform_sigma_matched_gap_finding (the uniform-sigma gaps, pinned); tests/integrity_snapshot_raim_rtklib_oracle.rs::snapshot_raim_decisions_and_slope_levels_match_rtklib (real IGS ABMF 2018-05-13, { "288" } epochs, { "2016" } cases with injected { "10" } to { "100" } m biases: 2016/2016 detection and 801/801 exclusion decisions identical, slope HPL/VPL within { "2.7e-12" } m against { "1e-6" } m); tests/integrity_sbas_stanford_oracle.rs::sbas_l1_protection_levels_match_stanford_maast_on_real_waas_messages ({ "2868" } user-epoch pairs on real WAAS broadcasts, the same protected set, worst |dVPL| { "7.1e-6" } m and |dHPL| { "1.6e-5" } m against { "1e-4" } m); tests/integrity_sbas_stanford_oracle.rs::sbas_l5_finding_geo_reception_gate (the L5 finding, pinned); tests/igs_real_data.rs and tests/araim_dual_real_data.rs (plausibility on real IGS SP3 and Celestrak geometry, kept as regression checks, not oracles)
+dat-329bd292718f = tests/integrity_araim_stanford_oracle.rs::araim_mhss_matches_stanford_maast_add_v4_2 ({ "270" } real-geometry cases, Celestrak GPS+Galileo and IGS SP3: worst |dVPL| { "2.2e-3" } m, |dHPL| { "1.1e-3" } m against the ADD TOL_PL { "0.05" } m; |dEMT| { "2.1e-10" } m against { "1e-3" } m); tests/integrity_araim_stanford_oracle.rs::uniform_sigma_matched_gap_finding (the uniform-sigma gaps, pinned); tests/integrity_snapshot_raim_rtklib_oracle.rs::snapshot_raim_decisions_and_slope_levels_match_rtklib (real IGS ABMF 2018-05-13, { "288" } epochs, { "2016" } cases ({ "288" } fault-free and { "1728" } with injected { "10" } to { "100" } m biases): 2016/2016 detection and 801/801 exclusion decisions identical, slope HPL/VPL within { "2.7e-12" } m against { "1e-6" } m); tests/integrity_sbas_stanford_oracle.rs::sbas_l1_protection_levels_match_stanford_maast_on_real_waas_messages ({ "2868" } user-epoch pairs on real WAAS broadcasts, the same protected set, worst |dVPL| { "7.1e-6" } m and |dHPL| { "1.6e-5" } m against { "1e-4" } m); tests/integrity_sbas_stanford_oracle.rs::sbas_l5_finding_geo_reception_gate (the L5 finding, pinned); tests/igs_real_data.rs and tests/araim_dual_real_data.rs (plausibility on real IGS SP3 and Celestrak geometry, kept as regression checks, not oracles)
 
 # data/verification-matrix.json
-dat-260f38f6b63d = tests/interference_map_reference.rs::adsb_accuracy_and_integrity_codes_agree_with_pymodes ({ "12" } NACp codes, { "59" } NIC rows); tests/interference_map_reference.rs::ais_field_rules_agree_with_pyais_decoding ({ "94" } frames); tests/interference_map_reference.rs::grid_cell_assignment_agrees_with_shapely ({ "1770" } points, four cell sizes); tests/interference_map_reference.rs::route_exposure_geometry_agrees_with_shapely_and_geographiclib ({ "8" } routes, { "420" } pieces, { "11634" } km); tests/interference_map_reference.rs::land_masking_agrees_with_shapely_and_pyproj ({ "996" } points); interference_map unit tests
+dat-3059e093e18f = tests/interference_map_reference.rs::adsb_accuracy_and_integrity_codes_agree_with_pymodes ({ "12" } NACp codes, { "59" } NIC rows); tests/interference_map_reference.rs::ais_field_rules_agree_with_pyais_decoding ({ "95" } frames); tests/interference_map_reference.rs::grid_cell_assignment_agrees_with_shapely ({ "1770" } points, four cell sizes); tests/interference_map_reference.rs::route_exposure_geometry_agrees_with_shapely_and_geographiclib ({ "8" } routes, { "420" } pieces, { "11634" } km); tests/interference_map_reference.rs::land_masking_agrees_with_shapely_and_pyproj ({ "996" } points); interference_map unit tests
 
 # data/verification-matrix.json
-dat-07480ecb313c = tests/ionex_code_gim_oracle.rs (committed synthetic IONEX map vs the formula reference: { "20 075" } nodes exact, interpolation max |Δ| { "3.5e-13" } TECU; data-gated on KSHANA_IONEX_CODE_GIM_DIR, the real CODE final GIM 2018-05-13 latitude crop fetched by fetch.sh with a pinned SHA-256: nodes exact, interpolation max |Δ| { "3.6e-13" } TECU over { "15 795" } samples, slant TEC { "5.1e-13" } TECU; data-gated RTKLIB v2.4.2-p13 iontec at { "6885" } query points, run 2026-10-13: max |Δ| { "3.6e-13" } TECU in both time modes, bar { "1e-5" } pre-registered); ionex::tests
+dat-47b8b8fc977f = tests/ionex_code_gim_oracle.rs (committed synthetic IONEX map vs the formula reference: { "20 075" } nodes exact, interpolation max |Δ| { "3.5e-13" } TECU; data-gated on KSHANA_IONEX_CODE_GIM_DIR, the real CODE final GIM 2018-05-13 latitude crop fetched by fetch.sh with a pinned SHA-256: nodes exact, interpolation max |Δ| { "3.6e-13" } TECU over { "15 795" } samples, slant TEC { "5.1e-13" } TECU; data-gated RTKLIB v2.4.2-p13 iontec at { "6885" } query points, run 2026-10-13: max |Δ| { "3.55e-13" } TECU (rotated) and { "3.52e-13" } TECU (consecutive), bar { "1e-5" } pre-registered); ionex::tests
 
 # data/verification-matrix.json
 dat-d555a4451aa3 = tests/iq_acq_cfar.rs (c1_closed_form_matches_monte_carlo_of_the_exact_model, c2_false_alarm_rate_on_gaussian_noise, c3_false_alarm_rate_on_two_bit_noise, c5_decisions_do_not_depend_on_the_input_scale; c4_noise_free_two_bit_signal_verdict_is_the_recorded_one, the registered verdict asserted as recorded, finding F1, pinned by finding_noise_free_sidelobes_exceed_the_cfar_rate); iq::acq unit test ca_cfar_closed_form_reduces_to_the_textbook_case_and_inverts
@@ -7739,7 +8099,7 @@ dat-d555a4451aa3 = tests/iq_acq_cfar.rs (c1_closed_form_matches_monte_carlo_of_t
 dat-fcbaaca3a203 = tests/iq_boc_bump_jump.rs (b1_b2_b3_side_peak_and_false_jumps_on_the_iq_chain, b4_scaling_on_the_sampled_signal, b5_false_jump_rate_and_detection_at_correlator_level); iq::track::boc unit tests (b4_unit_grid_misses_are_the_recorded_ones: the pre-registered B4 unit-test bar kept as written, its recorded misses asserted as finding F1)
 
 # data/verification-matrix.json
-dat-741cdc789639 = tests/iq_campaign_monitors.rs: m1_power_test_false_alarm_rate_matches_the_closed_form ({ "73" } of { "5900" } blocks against the { "99" } % binomial interval [{ "40" }, { "80" }] of P_fa { "0.01" }), m2_sqm_false_alarm_fraction_is_within_a_factor_of_2_of_2q_k (delta { "0.0160" }, ratio { "0.0131" } against { "0.01" }), m4_cn0_false_alarms_stay_within_the_poisson_bound_of_arl0 ({ "0" } against { "0" }), the_monitors_table_parses_and_validates; m3_every_attenuation_is_detected_within_twice_the_arl1 (strict, ignored with the gap); iq::campaign::detect tests; iq::monitor::stats tests (gaussian_two_sided_tail_matches_known_values); tests/iq_campaign.rs (the pinned digests are unchanged without the table)
+dat-a0e8b5a8bf16 = tests/iq_campaign_monitors.rs: m1_power_test_false_alarm_rate_matches_the_closed_form ({ "73" } of { "5900" } blocks against the { "99" } % binomial interval [{ "40" }, { "80" }] of P_fa { "0.01" }), m2_sqm_false_alarm_fraction_is_within_a_factor_of_2_of_2q_k (delta { "0.0160" }, ratio { "0.0131" } against { "0.01" }), m4_cn0_false_alarms_stay_within_the_poisson_bound_of_arl0 ({ "0" } against { "0" }), the_monitors_table_parses_and_validates; m3_every_attenuation_is_detected_within_twice_the_arl1 (strict, ignored with the gap); iq::campaign::detect tests; iq::monitor::stats tests (gaussian_two_sided_tail_matches_known_values); tests/iq_campaign.rs (the pinned digests are unchanged without the table); tests/iq_campaign_cn0_bound_v2.rs (m3_v2_m4_recorded_numbers: the recorded v2 numbers, the miss included; the strict test is ignored with them)
 
 # data/verification-matrix.json
 dat-5e0668be27cd = tests/iq_campaign_roc.rs: r2_with_nothing_to_detect_the_roc_sits_at_chance (AUC cn0_drop { "0.500" }, sqm_delta { "0.566" }, power_drop { "0.639" } on stated events that attenuate nothing); r1_the_cn0_drop_roc_separates_6_db_attenuations (strict, ignored with the gap); iq::campaign::detect tests (the_roc_of_separated_and_of_identical_samples, windows_tile_the_time_outside_the_events)
@@ -7751,7 +8111,7 @@ dat-896aed641ee3 = tests/iq_gpssdrsim_cross_generator.rs::acquisition_threshold_
 dat-0fc8d1c73d1e = tests/iq_gpssdrsim_cross_generator.rs::scene_geometry_matches_gps_sdr_sim_channels ({ "11" } channels: worst pseudorange { "1.6e-3" } m against { "0.05" } m, code phase { "5.5e-6" } chip against { "2e-4" }, Doppler { "7.4e-5" } Hz against { "0.02" } Hz, look angles { "4e-9" } degree against { "1e-4" }, visible set identical); tests/iq_gpssdrsim_cross_generator.rs::harness_reproduces_the_gps_sdr_sim_program_channel_listing (the oracle harness reproduces the program's own printed channel listing exactly)
 
 # data/verification-matrix.json
-dat-7eed519e8162 = tests/iq_labfit_campaign.rs: bar_c_holdout_prediction_intervals_cover_between_80_and_98_percent (PI90 coverage { "0.891" } over { "558" } bins, { "0.900" } over { "10" } time-to-loss events under each lock model), the_report_carries_its_inputs_censoring_validation_and_labels (inputs, censoring, [validation] hash and verdicts, units block audit), the_cluster_bootstrap_reproduces_from_the_campaign_and_seed, a_validation_mode_fit_refuses_to_start_without_its_table; bar_a_prime_delta_eff_is_recovered_and_q_is_stated_not_fitted, bar_d_closed_form_threshold_matches_the_direct_estimate_within_1_db and bar_b_prime_ci_subset (strict, ignored with the gap); bar_b_prime_full_set_of_50_campaigns (ignored, run before release); iq::labfit::cn0 tests (exact Q-delta degeneracy, delta recovery at the stated Q, closed-form threshold inverse); iq::labfit::iqfit tests (the lock-model conditions reproduce the C/N0 model exactly); tests/iq_labfit_followup.rs (the follow-up registered in 99e7c599: s1_delta_eff_on_the_stepped_campaign MET, s2_d_as_written_on_the_stepped_campaign asserting the recorded NOT MET, r1_dwell_corrected_d_on_the_fresh_ramp_campaign MET, in release)
+dat-71b00150cb36 = tests/iq_labfit_campaign.rs: bar_c_holdout_prediction_intervals_cover_between_80_and_98_percent (PI90 coverage { "0.891" } over { "558" } bins, { "0.900" } over { "10" } time-to-loss events under each lock model), the_report_carries_its_inputs_censoring_validation_and_labels (inputs, censoring, [validation] hash and verdicts, units block audit), the_cluster_bootstrap_reproduces_from_the_campaign_and_seed, a_validation_mode_fit_refuses_to_start_without_its_table; bar_a_prime_delta_eff_is_recovered_and_q_is_stated_not_fitted, bar_d_closed_form_threshold_matches_the_direct_estimate_within_1_db and bar_b_prime_ci_subset (strict, ignored with the gap); bar_b_prime_full_set_of_50_campaigns (ignored, run before release); iq::labfit::cn0 tests (exact Q-delta degeneracy, delta recovery at the stated Q, closed-form threshold inverse); iq::labfit::iqfit tests (the lock-model conditions reproduce the C/N0 model exactly); tests/iq_labfit_followup.rs (the follow-up registered in 99e7c599: s1_delta_eff_on_the_stepped_campaign MET, s2_d_as_written_on_the_stepped_campaign asserting the recorded NOT MET, r1_dwell_corrected_d_on_the_fresh_ramp_campaign MET, in release)
 
 # data/verification-matrix.json
 dat-fe470eb68eb3 = tests/iq_scint_malindi_measured.rs (cornell_model_verdict_is_the_recorded_one, the registered verdict asserted as recorded, finding F1; finding_model_fades_are_deeper_and_longer_than_measured; posthoc_b3_with_the_model_phase_unwrapped, reported only; data-gated, fetched by scripts/fetch_scint_malindi.sh); realdata::scint50 unit tests (model_data_through_the_harness_shows_the_wrapped_phase_finding, finding F2)
@@ -7775,7 +8135,7 @@ dat-46ab577738c4 = tests/jamming_terrain.rs (b1_terrain_units_only_with_the_sect
 dat-c26f0cab8179 = tests/jd2_earth_rotation_erfa_oracle.rs::two_part_earth_rotation_agrees_with_erfa ({ "40" } two-part UT1/TT dates 1980-2050 including +{ "1" }, +{ "10" }, +{ "50" } us steps at two dates: gmst82 within { "1e-12" } rad, worst { "0" }; GCRS to ITRS elements within { "5e-12" }, worst { "2.7e-14" }; rotation over +1/+10/+{ "50" } us within { "1e-13" } rad of ERFA, worst { "1.1e-14" } rad, where the single-f64 path misses the +{ "1" } and +{ "10" } us steps entirely); ephemeris::tests::two_part_jd_agrees_with_the_default_and_resolves_microsecond_steps; frames::tests::the_two_part_teme_to_itrf_round_trips_and_resolves_a_microsecond; jd2::tests::gmst82_matches_the_single_f64_gstime_away_from_the_floor; jd2::tests::two_part_types_convert_without_moving_the_instant
 
 # data/verification-matrix.json
-dat-fc21fbeaacf0 = tests/jd2_pre1972_sofa_oracle.rs::pre_1972_utc_conversions_agree_with_erfa ({ "117" } UTC instants: four around each of the { "15" } starts of a TAI-UTC expression 1960-1972 and { "60" } seeded across 1960-1971; dtf2d, utctai and taiutc each within { "1e-6" } s, worst { "2.9e-11" } s); tests/jd2_pre1972_sofa_oracle.rs::post_1972_results_are_bit_identical (the { "224" } instants of the { "1972" }+ row unchanged bit for bit)
+dat-90056a0e60b6 = tests/jd2_pre1972_sofa_oracle.rs::pre_1972_utc_conversions_agree_with_erfa ({ "117" } UTC instants: one at the start of each of the { "15" } TAI-UTC expressions 1960-1972, three on the day before each of the { "14" } after 1960-01-01, and { "60" } seeded across 1960-1971; dtf2d, utctai and taiutc each within { "1e-6" } s, worst { "2.9e-11" } s); tests/jd2_pre1972_sofa_oracle.rs::post_1972_results_are_bit_identical (the { "224" } instants of the { "1972" }+ row unchanged bit for bit)
 
 # data/verification-matrix.json
 dat-73e355e34ce5 = tests/jd2_sofa_time_oracle.rs ({ "224" } UTC instants: six around each of the { "27" } leap seconds 1972-2016, two fixed, { "60" } seeded across 1972-2026; dtf2d, utctai and taiutc each within { "1e-6" } s, worst { "1.9e-11" } s); jd2::tests (a_leap_second_day_is_86401_seconds_long_and_tai_steps_once; tai_to_utc_inverts_utc_to_tai_to_the_microsecond_across_a_leap_second; ut1_runs_through_tai_across_a_leap_second_day; the_two_part_earth_rotation_angle_matches_the_single_f64_one); sgp4::tests::propagate_at_measures_time_from_the_two_part_epoch
@@ -7805,7 +8165,7 @@ dat-2e58e6363f7e = tests/leo_link_reference.rs (doppler_envelope_reproduces_the_
 dat-ff105b0b379b = tests/leo_link_reference.rs (p2109_building_entry_loss_matches_the_itu_workbook: { "568" } values, { "28" } GHz at { "0" } deg and { "2" } GHz at { "45" } deg, both classes, P from { "1e-7" } to { "0.998" }, within { "0.001" } dB)
 
 # data/verification-matrix.json
-dat-f99830e0546d = tests/leo_link_reference.rs (p618_rain_attenuation_matches_the_itu_validation_examples: { "56" } cases at five sites, { "14.25" } and { "29" } GHz, { "0.001" } % to { "1" } %, within { "1e-4" } dB; observed { "5e-6" } dB)
+dat-1ef50c559bd0 = tests/leo_link_reference.rs (p618_rain_attenuation_matches_the_itu_validation_examples: { "56" } cases at seven sites, { "14.25" } and { "29" } GHz, { "0.001" } % to { "1" } %, within { "1e-4" } dB; observed { "5e-6" } dB)
 
 # data/verification-matrix.json
 dat-0b3de5ce778d = tests/leo_link_reference.rs (p618_scintillation_matches_the_itu_validation_examples: { "42" } cases at seven sites, { "14.25" } and { "20" } GHz, within { "1e-5" } dB; observed { "5e-7" } dB)
@@ -7826,7 +8186,13 @@ dat-06f7c26a4ff7 = tests/leo_polar_coverage_on_path_orekit_oracle.rs (configurat
 dat-3eacbe00d4f9 = tests/leo_resilience_verticals.rs (the_geometry_free_tec_is_the_pass_slant_tec: equals the pass's slant TEC at the peak to { "1e-9" } and its sigma equals the RSS code noise over { "40.3" } (1/f1^{ "2" } - 1/f2^{ "2" })); tests/geometry_free_tec_gim_oracle.rs::geometry_free_finding_is_pinned
 
 # data/verification-matrix.json
-dat-3bd4cc0125b1 = tests/leo_signal_reference.rs (the multi-band waterfall runs with four panels, the UHF, L5-band, S and C jammers each deny only their own band, and a plain-band run is unchanged by the extension); leo_signal::tests::to_spectrum_band_is_consistent_with_the_design; spectrum::tests (agrees_with_the_jamming_kind_chain)
+dat-c039abfb445a = tests/leo_signal_reference.rs (the multi-band waterfall runs with three extra panels (UHF, S and C) beside the L-band waterfall, the UHF, L5-band, S and C jammers each deny only their own band, and a plain-band run is unchanged by the extension); leo_signal::tests::to_spectrum_band_is_consistent_with_the_design; spectrum::tests (agrees_with_the_jamming_kind_chain)
+
+# data/verification-matrix.json
+dat-9d3a6cfd14c9 = tests/locator_power_difference_synthetic.rs (the v1 gate rows reproduce; the recorded v1 verdict); tests/locator_power_difference_v2.rs ({ "12" } v2 gate seeds reproduce bit for bit, debug against release; the recorded v2 verdict, the misses included; the development run seen before the gate)
+
+# data/verification-matrix.json
+dat-dc5070946324 = tests/locator_tdoa.rs (the recorded gate verdict, the misses included; seeds 6001-6020 against the numpy oracle; the whole gate reproduces its recorded bytes, ignored by default and run on Linux, macOS and Windows by the b3b-determinism CI job)
 
 # data/verification-matrix.json
 dat-018136c43fe8 = tests/lugre_acquisition_cell_average_doppler_oracle.rs::strong_pairs_match_the_prediction_only_with_the_doppler_sign_reversed (pinned finding, data-gated); tests/lugre_acquisition_cell_average_doppler_oracle.rs::cell_average_acquisitions_on_lugre_iq_match_the_orbit_predicted_doppler (strict, ignored with the gap)
@@ -7862,9 +8228,6 @@ dat-ab15cee1ed2f = tests/lunar_faultobs_reference.rs (faultobs_matches_numpy_sci
 dat-e0359be9446a = tests/lunar_frame_campaign_mpmath_oracle.rs (lunar_frame_campaign_datum_matches_mpmath_extended_precision: three scenarios — stations estimated on a new campaign date 2026-03-18 (binding), stations fixed on that date (control), stations estimated on 2024-01-01 (the scenario of the earlier double-precision miss); every datum sigma, the condition number and the weakest direction against a condition-scaled bar recomputed in the test from the oracle's exact sensitivities; engine_inputs_match_the_committed_fixture: the committed Jacobian, weights and Helmert design are what the engine builds now; record_engine_accuracy_against_a_factorisation_route: the engine's error band and the NumPy Cholesky diagnostic pinned)
 
 # data/verification-matrix.json
-dat-17f0109ca0f2 = tests/lunar_frame_campaign_srif_mpmath_oracle.rs (srif_datum_matches_mpmath_extended_precision: four scenarios — stations estimated on a new campaign date 2026-06-09 (binding), stations fixed on that date (control), and the 2026-03-18 and 2024-01-01 stations-estimated inputs; every datum sigma, the condition number and the weakest direction against a square-root-form bar recomputed in the test from the oracle's exact ingredients; engine_inputs_match_the_committed_fixture); linalg_sr::tests ({ "9" } lib tests: the Dekker product equal to the fused multiply-add residual on { "20 000" } pairs, compensated summation of a cancelling sum, R^T R equal to A^T A, sequential filter updates equal to one batch update, the trailing block equal to the square root of the Schur complement, the triangular inverse, the Jacobi SVD, agreement with the spectral datum on a well-conditioned case, bit-identical reruns); lunar_frame_campaign::tests::the_default_solver_is_unchanged_and_an_unknown_solver_is_rejected and the_srif_solver_agrees_with_the_spectral_one_where_both_are_accurate_and_says_so
-
-# data/verification-matrix.json
 dat-982bb6b78dd6 = tests/lunar_infra_carrier_phase.rs (bar Q1: Monte Carlo success at least the bootstrap bound minus three standard errors; Q2: no fall with arc length beyond three standard errors; Q4: LAMBDA equals brute-force enumeration for { "200" } draws of dimension up to five; Q3: the float design equals an independent numpy solve to { "1e-9" } for the ambiguity and position covariances, and the bootstrapped rate is NOT MET at { "1e-9" }, pinned: it differs by a relative { "1.7e-6" } because LAMBDA's normal CDF is an Abramowitz and Stegun approximation)
 
 # data/verification-matrix.json
@@ -7892,7 +8255,7 @@ dat-c5f6bad2097f = tests/lunar_llr_real_data.rs::the_analytic_moon_series_disagr
 dat-6c78f7784bb0 = tests/lunar_protection_level_reference.rs ({ "7" } service-volume cases — south-polar, mid-latitude, equatorial, raised highland — { "6" } to { "19" } satellites, σ_URE 10/30/60 m, P_HMI { "1e-3" } down to { "1e-7" }, protection levels spanning { "1.7e2" } to { "6.9e3" } m: HPL/VPL against the composed RTKLIB + SciPy oracle, worst |Δ| { "1.061e-8" } m and { "1.044e-8" } m against a { "1e-6" } m tolerance; DOP against RTKLIB's own (GᵀG)⁻¹ to { "1.790e-14" } relative; K_fa against scipy.stats.norm.isf to { "2.716e-11" } relative; three negative controls — a { "5" } km satellite shift, a { "1e-6" } relative σ_URE change and a { "0.1" } % tighter P_HMI — each measured to move the protection level by at least { "171" }× the tolerance; and a stale-fixture guard pinning the committed geometry bit-for-bit to what the engine's own constellation and visibility code produce, so a green cannot survive the constellation changing underneath it)
 
 # data/verification-matrix.json
-dat-fad883319c6c = tests/lunar_rate_frame_coupling_preregistered.rs (entry1_d_alpha_d_scale_matches_the_published_l_m_for_both_cited_fields: L_m within { "2.8e-6" } of Ashby and Patla { "2024" } with J2 from AIUB-GRL350A/B; entry2_d_alpha_d_radial_matches_the_degree_350_equatorial_gravity_for_both_fields: the radial entry within { "8.3e-5" } of pyshtools degree-350 equatorial gravity; entry3_d_alpha_d_velocity_matches_the_de441_lunar_speed: the velocity entry within { "2.5e-3" } of the DE441 lunar speed at { "2000" } epochs); lunar_gauge::tests; regression tests/lunar_rate_frame_coupling_oracle.rs
+dat-311e14fd6808 = tests/lunar_rate_frame_coupling_preregistered.rs (entry1_d_alpha_d_scale_matches_the_published_l_m_for_both_cited_fields: L_m within { "2.8e-6" } of Ashby and Patla { "2024" } with J2 from AIUB-GRL350A/B; entry2_d_alpha_d_radial_matches_the_degree_350_equatorial_gravity_for_both_fields: the radial entry within { "8.3e-5" } of pyshtools degree-350 equatorial gravity; entry3_d_alpha_d_velocity_matches_the_de441_lunar_speed: the velocity entry within { "2.6e-3" } of the DE441 lunar speed at { "2000" } epochs (max { "2.54e-3" }, bar { "4.5e-3" })); lunar_gauge::tests; regression tests/lunar_rate_frame_coupling_oracle.rs
 
 # data/verification-matrix.json
 dat-9a65374995ab = tests/lunar_station_coverage_reference.rs (one_point_one_epoch_one_trial_reduces_to_lunar_differential_pnt: to { "1e-12" } m with and without receiver noise; zero_baseline_floor_is_zero_in_every_trial: { "0" } to { "1e-9" } m; survey_floor_matches_the_survey_transfer_prediction: p95 within the { "5" } % band stated before the run; coverage_is_non_decreasing_in_the_threshold; corrected_error_grows_with_distance_along_an_azimuth; three_satellites_are_unavailable_with_a_reason_and_no_error; a_satellite_the_station_does_not_see_is_reported; deterministic_for_a_seed_and_moved_by_another; the_work_guard_refuses_an_oversized_grid; the_bundled_scenario_states_a_source_for_every_input; the_result_is_labelled_modelled_with_the_honesty_statement); tests/lunar_station_numpy_oracle.rs (the pre-registered numpy re-computation, recorded with its miss); lunar_service::tests::south_polar_ring_grid_is_the_published_comparison_grid; tests/lunar_differential_pnt_reference.rs and the registry and cross-platform goldens unchanged (additivity); tests/field_units_global.rs (every emitted field described, no exemption)
@@ -7911,6 +8274,12 @@ dat-42761b650f10 = tests/lunar_vlbi_spice_oracle.rs::kernel_delay_and_partials_m
 
 # data/verification-matrix.json
 dat-365fd9ac437e = tests/lunar_vlbi_surface_point_spice_oracle.rs::surface_point_covariance_kernel_path_matches_spice_geometry_and_numpy ({ "16" } observations identical; rank 3/3; eigenvalues within { "5.9e-5" }; condition { "5.9e-5" }; beacon sigmas within { "1.7e-3" } against { "1e-2" }; RMS { "2.9e-5" }; lever arm { "1.4e-8" }; P2 sigmas { "3.9e-14" } against { "1e-9" }); lunar_vlbi_fim::tests
+
+# data/verification-matrix.json
+dat-201109329af0 = tests/m4_generator.rs (seed { "0" } byte-identical twice and equal to its pin); tests/m4_verdicts.rs (the recorded v1 and v2 verdicts, misses included; seeds { "1000" } and { "2000" } decided twice give the same decision and the recorded confusion matrix; the v3 verdict and seed { "3000" } decided twice)
+
+# data/verification-matrix.json
+dat-87d44fe6b2c4 = tests/m5_b4.rs (link budget and detection against the committed numpy oracle output); tests/m5_verdicts.rs (the recorded v1 and v2 E30 verdicts, misses included; the B5 bounds; two-placement runs give the pinned bytes)
 
 # data/verification-matrix.json
 dat-e563869f208e = tests/maritime_trust_reference.rs (t1_nmea_decoding_matches_pynmea2, t2_east_north_offsets_match_the_wgs84_geodesic, t3_t4_monitor_input_statistics_match_the_oracle) against tests/fixtures/maritime_trust/reference.json, regenerated by scripts/gen_maritime_trust_ref.py from the synthetic NMEA written by examples/gen_maritime_trust_ref_inputs.rs; tolerances pre-registered in tests/fixtures/maritime_trust/PREREGISTRATION.md
@@ -7943,10 +8312,13 @@ dat-a61ccfe39384 = tests/mcda_waspas_reference.rs (WASPAS preferences + ranking)
 dat-6cccd5e2c6f1 = tests/mcda_wsm_reference.rs (WSM scores + ranking) and tests/mcda_wpm_reference.rs (WPM scores + ranking), each vs pymcdm to <{ "1e-9" } on a fixed { "4" }×{ "3" } benefit/cost decision matrix
 
 # data/verification-matrix.json
-dat-08bc288f8940 = tests/mdev_tdev_reference.rs (MDEV + TDEV on the hermetic NIST SP { "1065" } §{ "12.4" } 1000-point LCG phase series, { "8" } averaging factors m={ "1" }..200 vs allantools { "2024.06" } mdev/tdev to <{ "1e-9" } relative, plus the τ/√{ "3" } identity on the real series); allan::tests (white-FM −1/2 slope; hand-derived MDEV small case)
+dat-f4483148474a = tests/mdev_tdev_reference.rs (MDEV + TDEV on the hermetic NIST SP { "1065" } §{ "12.4" } 1000-point LCG phase series, { "8" } averaging factors m={ "1" }..200 vs allantools { "2024.06" } mdev/tdev to <{ "1e-9" } relative, plus the τ/√{ "3" } identity on the reference series); allan::tests (white-FM −1/2 slope; hand-derived MDEV small case)
 
 # data/verification-matrix.json
-dat-b056f2d56e07 = tests/mro_odf_reader_label_oracle.rs (a real MRO ODF, 2007-304/305, against its PDS label: record count, group positions, stations, start and stop times and data types hold; the end-of-file table's row count misses by one, a label inconsistency, pinned as a finding); odf::tests (hand-built record round trip, { "1950" } epoch); tests/mro_odf_short_arc_od_oracle.rs (data-gated, inputs SHA-256 pinned, monthly CI with real data required: Doppler predicted from the MRO navigation reconstruction mro_psp5 on the scored DSS { "63" } and DSS { "14" } passes, { "12.5" } mHz RMS, bar { "30" } mHz, met; the registered orbit determination produced no orbit, pinned as a finding; run { "2" } with a damped estimator, separately registered: orbit { "0.36" } km RMS and { "0.53" } km maximum against mro_psp5, met, post-fit Doppler { "48.6" } mHz against { "30" } mHz, not met, pinned as a finding; SPK type { "1" } reader against CSPICE, { "5e-7" } m); mars_od::tests
+dat-387af2187e90 = tests/mission_thread_c2_impulses.rs (synthetic only: start impulse equals a changed start velocity bit for bit; a mid-phase impulse equals stopping, adding and continuing; two known mid-hour steps recovered; malformed tables refused); tests/mission_thread_c2_verdict.rs (the recorded verdict, the miss included)
+
+# data/verification-matrix.json
+dat-c02a3627e469 = tests/mro_odf_reader_label_oracle.rs (a real MRO ODF, 2007-304/305, against its PDS label: record count, group positions, stations, start and stop times and data types hold; the end-of-file table's row count misses by one, a label inconsistency, pinned as a finding); odf::tests (hand-built record round trip, { "1950" } epoch); tests/mro_odf_short_arc_od_oracle.rs (data-gated, inputs SHA-256 pinned, monthly CI with real data required: Doppler predicted from the MRO navigation reconstruction mro_psp5 on the scored DSS { "63" } and DSS { "14" } passes, { "12.5" } mHz RMS, bar { "30" } mHz, met; the registered orbit determination produced no orbit, pinned as a finding; run { "2" } with a damped estimator, separately registered: orbit { "0.36" } km RMS and { "0.52" } km maximum against mro_psp5, met, post-fit Doppler { "48.6" } mHz against { "30" } mHz, not met, pinned as a finding; SPK type { "1" } reader against CSPICE, { "5e-7" } m); mars_od::tests
 
 # data/verification-matrix.json
 dat-86300b94b4a1 = tests/mtie_reference.rs (MTIE on the hermetic NIST SP { "1065" } §{ "12.4" } 1000-point LCG phase series, { "9" } averaging factors m={ "1" }..256 vs allantools { "2024.06" } mtie to <{ "1e-9" }, observed ≤{ "4e-15" }); allan::tests (hand-derived peak-to-peak; monotone non-decreasing in τ; exact a·m on a pure ramp)
@@ -7982,10 +8354,10 @@ dat-f178febd56d4 = tests/optical_atmosphere_identities.rs (bar A6: the per-outag
 dat-b4a04929852b = tests/optical_atmosphere_reference.rs (pre-registered bars A1-A3 against the independent mpmath oracle: { "216" } Rytov grid points worst relative error { "3.4e-7" } against a { "1e-6" } bar, scintillation worst { "4.5e-16" }, aperture factor worst { "5.7e-16" }, { "96" } gamma-gamma fade probabilities worst { "1.3e-12" } in log10, cloud and clear-air optical depth worst { "6.6e-16" }); tests/optical_atmosphere_no_moved_output.rs (bar A5: the lumped-loss link budget and the existing site-availability outputs are bit-identical to the base commit over { "1,000" } parameter sets)
 
 # data/verification-matrix.json
-dat-07e189a8c1c8 = tests/optical_atmosphere_timeseries.rs (bars T1-T6 of xval/optical-atmosphere/PREREGISTRATION-timeseries.md, fixed before the first run: same seed same bytes and another seed other bytes; no key without the table; over { "8760" } h at { "600" } s, seeds { "37" } and { "38" }, the realised availability of each of the three default sites within { "6" } points of the stated one (worst { "3.3" }) and the realised cloud fraction within { "5" } points of the stated probability (worst { "2.1" }); the margin equals the budget minus the two fades and up equals margin not negative at every step; no non-portable maths call in the module; over-long runs and bad steps refused)
+dat-d26d8cc9b6a3 = tests/optical_atmosphere_timeseries.rs (bars T1-T6 of xval/optical-atmosphere/PREREGISTRATION-timeseries.md, fixed before the first run: same seed same bytes and another seed other bytes; no key without the table; over { "8760" } h at { "600" } s, seeds { "37" } and { "38" }, the realised availability of each of the three default sites within { "6" } points of the stated one (worst { "3.3" }) and the realised cloud fraction within { "5" } points of the stated probability (worst { "2.1" }); the margin equals the budget minus the two fades to { "0.0021" } dB and up equals margin not negative at every step; no non-portable maths call in the module; over-long runs and bad steps refused)
 
 # data/verification-matrix.json
-dat-a16e3d31e142 = tests/optical_clock_adev_reference.rs (Norcia et al. ⁸⁸Sr tweezer-clock σ_y(τ), { "8" } averaging times { "0.92" }–{ "117.76" } s vendored verbatim under CC-BY-4.0: NNLS reconstructs the curve to ~{ "10" }% RMS / ≤{ "21" }% worst point; recovered √q_wf = { "4.33e-16" } matches the published 4.7e-16/√τ; q_rw > { "0" } measured red-noise floor)
+dat-76edb49692b6 = tests/optical_clock_adev_reference.rs (Norcia et al. ⁸⁸Sr tweezer-clock σ_y(τ), { "8" } averaging times { "0.92" }–{ "117.76" } s vendored verbatim under CC-BY-4.0: NNLS reconstructs the curve to ~{ "10" }% RMS / ≤{ "21" }% worst point (bars { "12" }% / { "25" }%); recovered √q_wf = { "4.33e-16" } within the { "3.8" }–{ "5.2e-16" } bar around the published 4.7e-16/√τ; q_rw or q_drift > { "0" } (red-noise floor))
 
 # data/verification-matrix.json
 dat-5ae9860f805b = tests/osnma_official_vectors.rs (opt-in, KSHANA_OSNMA_VECTORS: all { "18" } vector sets, { "186,382" } tags authenticated, { "0" } failed, per-set floors, chains announced, ADKD 0/4/12, alert verified, authentication resuming after chain end, chain and key revocation and new public key; offline, vectors not redistributed); tests/osnma_synthetic.rs (the attack suite: spoofed far-future sub-frames, expiry and data binding, alert and don't-use, header confirmation, dummy tags, MACSEQ, key conflict, stale and replayed KROOT, CMAC-AES/SHA3-256/P-521 through the verifier); osnma unit tests (RFC { "4231" }, RFC { "4493" }, FIPS { "197" }, FIPS { "202" }, RFC { "6979" } and CRC-24Q known answers)
@@ -8000,10 +8372,13 @@ dat-36eb4569c48e = tests/phasedat_reference.rs (Stable32 PHASE.DAT, { "139" } av
 dat-39895214483b = tests/planetary_gravity_pds.rs (degree-20 crops always run: worst |dg|/|g| { "9.7e-16" }, perturbation-relative { "3.4e-11" }; GMM-3 d/o { "120" } over the whole sphere { "3.7e-15" } / { "6.3e-12" } and GL0660B d/o { "660" } at |lat| <= { "60" } deg { "5.0e-14" } / { "1.0e-10" }, data-gated; headers and selected coefficients equal to the published PDS products, record counts { "7380" } and { "218790" }); gravity_pds unit tests
 
 # data/verification-matrix.json
+dat-057aa688c3fe = tests/planner.rs (v1 P1 to P5, misses included); tests/planner_v2.rs (v2 P1 to P5; the pentagon map's SHA-256 pinned); tests/planner_v3.rs (the v3 P4 values pinned, ignored by default, about { "1.5" } h)
+
+# data/verification-matrix.json
 dat-e7b30bd8852b = tests/porkchop_de440_oracle.rs::de440_porkchop_matches_spice_and_pykep (Earth to the Mars barycentre, { "16" } departures 2026-09-01..2027-01-29 x { "19" } arrivals 2027-06-01..2028-02-26: { "304" } cells finite on both sides, worst C3 { "2.5e-14" } and V-infinity { "2.6e-14" } relative against { "1e-8" }, the same minimum-C3 cell, { "9.1997" } km²/s²)
 
 # data/verification-matrix.json
-dat-89dc3412193d = tests/ppp_real_wettzell_oracle.rs (IGS station WTZR, 2025-02-24 00-06 h, { "30" } s, held out from development: last-epoch horizontal { "1.5" } mm, up −{ "2.9" } cm; 04-06 h 240/240 epochs within { "0.10" } m 3-D, p95 { "6.7" } cm; code-only p95 { "1.70" } m; data-gated ZTD RMS { "1.7" } cm vs EUREF); ppp_real::tests; tests/ppp_parity_glab_rtklib.rs (RM-31: RTKLIB v2.4.2-p13 PPP on the same inputs agrees within { "0.05" } m at 240/240 epochs, { "9.7" } mm at the last, on the third registration after two runs whose RTKLIB configuration lacked the solid tide and put the antenna on the base slot, both recorded as findings; the SPP parity bar was missed, { "1.085" } m median vs { "0.50" } m; gLAB { "6.0.0" } on its first registered run, command line of amendment { "4" }: PPP within { "0.05" } m at 240/240 epochs and { "5.0" } mm at the last, SPP bar missed, { "1.187" } m median, a finding: the two reference tools' own SPP solutions differ by { "0.852" } m median, so that bar was set tighter than tool-to-tool agreement)
+dat-52848c8a1c7b = tests/ppp_real_wettzell_oracle.rs (IGS station WTZR, 2025-02-24 00-06 h, { "30" } s, held out from development: last-epoch horizontal { "1.5" } mm, up −{ "2.9" } cm; 04-06 h 240/240 epochs within { "0.10" } m 3-D, p95 { "6.7" } cm; code-only p95 { "1.70" } m; data-gated ZTD RMS { "1.7" } cm vs EUREF); ppp_real::tests; tests/ppp_parity_glab_rtklib.rs (RTKLIB v2.4.2-p13 PPP on the same inputs agrees within { "0.05" } m at 240/240 epochs, { "9.7" } mm at the last, on the third registration after two runs whose RTKLIB configuration lacked the solid tide and put the antenna on the base slot, both recorded as findings; the SPP parity bar was missed, { "1.085" } m median vs { "0.50" } m; gLAB { "6.0.0" } on its first registered run, with its command line pre-registered before the run: PPP within { "0.05" } m at 240/240 epochs and { "5.0" } mm at the last, SPP bar missed, { "1.187" } m median, a finding: the two reference tools' own SPP solutions differ by { "0.852" } m median, so that bar was set tighter than tool-to-tool agreement)
 
 # data/verification-matrix.json
 dat-c5f07c62ad61 = tests/ppp_time_igs_station_clock.rs (WTZR 2025-02-24, { "04" }:00-05:{ "55" }, { "24" } epochs: Kshana minus IGS std { "0.075" } ns, bar { "0.20" }; mean -0.659 ns, bar { "5.0" })
@@ -8033,10 +8408,10 @@ dat-8e2108c6b488 = tests/receiver_trust_machines.rs (rtklib_pos_runs_as_a_receiv
 dat-bcb53e987527 = tests/resilience_diversity_reference.rs ({ "17" } cases: { "14" } vs scikit-bio inv_simpson + { "3" } pinned-zero boundary; worst |Δ| { "0.0" })
 
 # data/verification-matrix.json
-dat-c3c16b96275c = tests/resilience_score_decision_instability_reference.rs ({ "124" } cases vs scipy { "1.18" } / numpy { "2.4" }: { "61" } Kendall τ-b to { "2e-16" }, ranking exact, Dirichlet mean + percentile-CI to { "1e-12" })
+dat-469ac16874f2 = tests/resilience_score_decision_instability_reference.rs ({ "124" } cases vs scipy { "1.18" } / numpy { "2.4" }: { "61" } Kendall τ-b to { "2e-16" }, ranking exact, percentile-CI to { "1e-12" }, Dirichlet sampler mean within { "0.01" } of scipy.stats.dirichlet.mean (Monte Carlo))
 
 # data/verification-matrix.json
-dat-cf873e80e5e1 = tests/rinex_sp3_interop_reference.rs ({ "84" } SV-epoch cases: GPS + Galileo + BeiDou-MEO, { "12" } SVs × { "7" } offsets, vs RTKLIB eph2pos; worst per-axis |Δ| { "6.2e-8" } m)
+dat-fa3afff4847c = tests/rinex_sp3_interop_reference.rs ({ "84" } SV-epoch cases: GPS + Galileo + BeiDou MEO and IGSO, { "12" } SVs × { "7" } offsets, vs RTKLIB eph2pos; worst per-axis |Δ| { "6.2e-8" } m)
 
 # data/verification-matrix.json
 dat-9a8caef80254 = tests/rinex4_nav_brd400_oracle.rs (IGS BRD400DLR_S RINEX { "4.02" } vs BRDM00DLR_S RINEX { "3.04" } of 2026-07-19, slice 00-02 h: G { "37" } / E { "478" } / C { "72" } records matched both ways, every field identical, position at Toe { "0" } m; full day data-gated: G { "416" } / E { "5668" } / C { "865" } / J { "118" }); rinex::tests
@@ -8057,10 +8432,10 @@ dat-c88096add505 = tests/sbas_reference.rs ({ "6" } real-EGNOS epochs: HPL match
 dat-21037fbc2a71 = tests/scipy_reference.rs (NNLS; χ² at operating dof ≥ { "48" }; van-Loan Q)
 
 # data/verification-matrix.json
-dat-b972dc635eb0 = tests/sgp4_verification.rs ({ "666" } AIAA verification vectors, worst { "4.12" } mm); tests/sgp4_crate_comparison.rs (independent sgp4 crate)
+dat-47ff637a8374 = tests/sgp4_verification.rs ({ "666" } reference states of the { "33" } AIAA verification cases, worst { "4.12" } mm position (bar { "2" } cm)); tests/sgp4_crate_comparison.rs (independent sgp4 crate)
 
 # data/verification-matrix.json
-dat-65d61457a4e4 = tests/skyline_orekit_oracle.rs (skyline_masks_agree_with_orekit_and_gnss_lib_py_as_pre_registered: { "1173" } look angles at six sites and four epochs, six mask tables, { "142" } visible sets; worst |d el| { "1.3e-13" } deg and |d az| { "2.3e-13" } deg against { "1e-9" }, worst |d mask| { "1.1e-12" } deg against { "1e-9" }, visible sets identical with none in the { "1e-6" } deg boundary band, worst DOP { "3.3e-13" } relative and cofactor { "6.6e-13" } of the matrix scale against { "1e-9" }; pre-registered d94130d4); skyline::tests (table_interpolates_linearly_between_rows; table_wraps_through_north_without_a_seam); tests/skyline_scenarios.rs (every_wired_scenario_is_byte_identical_to_the_0_35_0_release)
+dat-41698f540b00 = tests/skyline_orekit_oracle.rs (skyline_masks_agree_with_orekit_and_gnss_lib_py_as_pre_registered: { "1173" } look angles at six sites and four epochs, six mask tables, { "142" } visible sets; worst |d el| { "1.3e-13" } deg and |d az| { "2.3e-13" } deg against { "1e-9" }, worst |d mask| { "1.1e-12" } deg against { "1e-9" }, visible sets identical with none in the { "1e-6" } deg boundary band, worst DOP { "3.3e-13" } relative and cofactor { "6.6e-13" } of the matrix scale against { "1e-9" }; pre-registered d94130d4); skyline::tests (table_interpolates_linearly_between_rows; table_wraps_through_north_without_a_seam); tests/skyline_scenarios.rs (every_wired_scenario_is_byte_identical_to_the_0_35_0_release)
 
 # data/verification-matrix.json
 dat-dddadfd377b1 = tests/slot_timing_cs5071a_holdout.rs (holdover_inversion_predicts_the_held_out_caesium_record: fit on the first third of the record, predict the one-sigma breach at { "0.5" }, { "0.75" }, { "1" }, { "1.5" }, { "2" } and { "2.5" } ns, measure it on the other two thirds from a sync point every { "997" } s; bar, fixed before the first run, a factor of { "1.5" } either way; observed ratios { "0.84" } to { "1.03" }; a control, the one-second Allan deviation read as white FM, misses by a factor of about { "1 000" } and must fail the bar; a mutation halving the white-FM level fails the test); slot_timing::tests (a_measured_white_fm_record_recovers_its_level; reduces_to_the_holdover_inversion; ieee1139_conversion_matches_the_powerlaw_module)
@@ -8084,13 +8459,16 @@ dat-d26d3b6f95b6 = tests/solar_system_light_time_solver_preregistered.rs::light_
 dat-60fed260026a = tests/solar_system_standish_preregistered.rs::standish_rms_errors_are_within_explanatory_supplement_table_8_10_1 (barycentres 1800-2050 from Table { "1" } and { "3000" } BC-3000 AD from Table { "2" }, { "8908" } and { "21857" } epochs, worst RMS { "0.778" } of the Table { "8.10.1" } figure); tests/solar_system_standish_earth_icrf_preregistered.rs (earth_from_the_split_barycentre_is_within_the_emb_table_8_10_1_rms: the Earth through AnalyticSolarSystem and icrf_to_ecliptic, RMS { "0.483" } of the EMB figure; icrf_positions_are_within_the_table_8_10_1_rms: ICRF positions of the Table { "1" } bodies and the Earth, worst { "0.778" }; earth_minus_barycentre_offset_matches_de441_1950_to_2050: the lunar-series split, worst { "0.088" } deg and { "6.1" } km); ephem::tests (standish_periods_obey_keplers_third_law; a_planet_track_is_one_closed_ellipse). Non-gating regression: tests/solar_system_horizons_reference.rs
 
 # data/verification-matrix.json
-dat-92d3638904a2 = tests/source_guards.rs ({ "9" } tests: both guards over the whole source tree, plus mutation fixtures that grade each guard in both directions — the F22 pattern reported on both colliding paths, the shipped atomic-sequence fix accepted, a half-fix reported on exactly the path that lost its unique component, a tempfile handle and an inherited unique directory accepted, a wall clock rejected; an undeclared pin reported, a declared one accepted, a scope without an exclusion rejected, a declaration in the enclosing test's doc comment accepted and shown not to leak to the next test; and each pin spelling — hex, decimal, digest string, byte length, named byte count, golden file — seen while algorithm constants, RNG seeds and small cardinality checks are not)
+dat-f0843ba242f4 = tests/source_guards.rs ({ "9" } tests: both guards over the whole source tree, plus mutation fixtures that grade each guard in both directions — the shared-pid temp-path pattern reported on both colliding paths, the shipped atomic-sequence fix accepted, a half-fix reported on exactly the path that lost its unique component, a tempfile handle and an inherited unique directory accepted, a wall clock rejected; an undeclared pin reported, a declared one accepted, a scope without an exclusion rejected, a declaration in the enclosing test's doc comment accepted and shown not to leak to the next test; and each pin spelling — hex, decimal, digest string, byte length, named byte count, golden file — seen while algorithm constants, RNG seeds and small cardinality checks are not)
 
 # data/verification-matrix.json
 dat-a298dd9a3233 = tests/sp3_clock_igs_oracle.rs (IGS final { "15" } min SP3 of 2025-02-24 vs the IGS final { "30" } s clocks, { "32" } GPS satellites: node median |Δ| { "2.6e-13" } s; { "3038" } mid-point records RMS { "0.121" } ns, p95 { "0.265" } ns; holding the node instead { "4.24" } ns RMS); sp3::tests::clock_interpolation_is_linear_between_valid_nodes_and_exact_at_them
 
 # data/verification-matrix.json
 dat-28f81116b40c = tests/sp3_interp_reference.rs ({ "72" } off-node SV-epoch cases / { "6" } satellites vs RTKLIB peph2pos; worst per-axis |Δ| { "1.5e-8" } m)
+
+# data/verification-matrix.json
+dat-f81500ee9383 = tests/space_geoloc_m1.rs (B1 against the committed numpy oracle output; B2 against the { "25" } values transcribed in docs/design/evidence/m1-space-rf-geolocation/reference.csv; B3 and B4 in release; B5 additivity)
 
 # data/verification-matrix.json
 dat-1636be2adefe = tests/space_packet_ext_oracle.rs (five pre-registered bars: CRC, time codes, streams, gap and order, PUS TM; zero mismatches); space_packet::tests
@@ -8105,7 +8483,7 @@ dat-77160f0d4810 = tests/spk_3_21_spice_oracle.rs (inventory, evaluation both wa
 dat-a12336407649 = tests/spk_writer_spice_oracle.rs (inventory, evaluation, bit and byte identity, OEM epoch conversion; four planned mutation checks turn it red)
 
 # data/verification-matrix.json
-dat-047020caa02b = tests/spoof_texbat_validation.rs (TEXBAT parameter characterisation); tests/spoof_detection_jammertest_oracle.rs::monitors_against_the_published_onsets_reproduce_the_recorded_disagreement (pins the finding); tests/spoof_detection_jammertest_log_oracle.rs::engine_monitors_against_the_logged_onsets_reproduce_the_recorded_disagreement; tests/clock_library_tcxo_card_jammertest_oracle.rs (round_3_is_blocked_by_the_training_minimum; round_4_reproduces_the_recorded_finding; round_4b_reproduces_the_recorded_finding; D9)
+dat-112d9a760871 = tests/spoof_texbat_validation.rs (TEXBAT parameter characterisation); tests/spoof_detection_jammertest_oracle.rs::monitors_against_the_published_onsets_reproduce_the_recorded_disagreement (pins the finding); tests/spoof_detection_jammertest_log_oracle.rs::engine_monitors_against_the_logged_onsets_reproduce_the_recorded_disagreement; tests/clock_library_tcxo_card_jammertest_oracle.rs (round_3_is_blocked_by_the_training_minimum; round_4_reproduces_the_recorded_finding; round_4b_reproduces_the_recorded_finding)
 
 # data/verification-matrix.json
 dat-56762c52bd16 = tests/srp_boxwing_orekit_oracle.rs ({ "252" } Galileo-orbit geometries, { "7" } Sun cases including perihelion and aphelion distances, { "100" } random attitudes; flat-plate sum worst { "2.05e-15" } relative over { "1056" } cases; end to end with Orekit's own attitude and pressure worst { "2.39e-15" } over { "747" } full-sun cases, while Orekit's default pressure constants differ by >= { "4.43e-3" }, so the comparison discriminates the constant; nominal yaw matrix worst { "1.89e-15" }; radiation-factor partial worst { "1.35e-15" }; per-panel partials worst { "4.12e-13" } relative against central differences of Orekit over { "10836" } panel cases; ECOM2 acceleration and partials worst { "1.74e-15" }); srp_boxwing unit tests (closed-form limits, finite-difference partials); propagator and precise_od wiring tests
@@ -8132,6 +8510,9 @@ dat-6ba7a03118d7 = tests/testbench_gpssdrsim_oracle.rs ({ "6" } tests: oracle an
 dat-8a797add2918 = tests/testbench_reference.rs ({ "7" } tests: oracle pins, export bytes, worst case over every row, position columns, local velocity vs true NED velocity, Euler angles vs scipy, NMEA vs pynmea2); tests/interop_testbench.rs (the writer's own round trips)
 
 # data/verification-matrix.json
+dat-081bed38c2a9 = tests/texbat_e5v2.rs (the score rules and classes; a file that does not match its pin writes nothing; a power-and-distortion run refuses a windows file of another recording; the synthetic thresholds, ignored by default, about { "16" } minutes in release; the AUC arithmetic on synthetic documents; the recorded E5 score equals the committed one)
+
+# data/verification-matrix.json
 dat-f0bbcc6ee88b = tests/theo1_totvar_reference.rs (Theo1 + TOTDEV on the NIST SP { "1065" } §{ "12.4" } 1000-point LCG data set, { "6" } + { "6" } averaging factors vs allantools { "2024.06" } to <{ "1e-9" }); allan::tests (white-FM closed-form tracking; TOTVAR=ADEV identity at m={ "1" }; Theo1/TOTVAR phase/frequency-offset invariance; -1/2 white-FM slope)
 
 # data/verification-matrix.json
@@ -8142,6 +8523,9 @@ dat-cbb4f14ac189 = tests/transfer_optimiser_oracle.rs::transfer_optimiser_matche
 
 # data/verification-matrix.json
 dat-3e10bf718fa2 = tests/validate_llr_datum_kernel_moon_fresh.rs::llr_datum_kernel_moon_matches_spice_and_numpy_on_fresh_normal_points ({ "447" } unseen 2019-Q2 normal points; sigmas and norms within { "4.0e-5" } of { "1e-2" }, condition { "1.6e-5" } of { "2e-2" }, ratios { "7.6e-5" } of { "2e-2" }, bookkeeping and ranks exact); tests/validate_llr_datum_kernel_moon.rs (the { "2015" } seen-data diagnostic, { "0.049" } % on tz; not evidence for this row); lunar_llr::tests
+
+# data/verification-matrix.json
+dat-bd8626f005d4 = TEXBAT spoofing-detection benchmark: per-window baseline IQ scores and power-and-distortion scores
 
 # data/search.json
 dat-f82fb602e1ff = Text exports
@@ -8159,7 +8543,7 @@ dat-4cf9e6d30521 = The `body-pnt` kind: an orbiter or a surface lander around a 
 dat-4660720bc92f = The `campaign` kind's compose section: named shared values (for example one jammer's power and position) written into each member at the keys it binds them to, every member run, and per metric the smallest, largest and mean value across the members with the member named; metric units must agree across members
 
 # data/verification-matrix.json
-dat-18ac605f9caf = The `campaign` kind's optimize section (CAP-32): one to three dotted scenario keys bounded to [lo, hi] on a lin or log scale, one metric read by result path, goal minimize, maximize or target; method grid (the sweep's axis values) or a deterministic Nelder-Mead simplex in normalised coordinates with box projection and the standard coefficients; a missing or non-finite metric scores worst and stays in the trace; with runs > { "1" } the metric is the mean over common seeds; every evaluation is a real run of the named kind, listed in trace and counted in the reproducibility digest
+dat-fcd0c0c077a5 = The `campaign` kind's optimize section: one to three dotted scenario keys bounded to [lo, hi] on a lin or log scale, one metric read by result path, goal minimize, maximize or target; method grid (the sweep's axis values) or a deterministic Nelder-Mead simplex in normalised coordinates with box projection and the standard coefficients; a missing or non-finite metric scores worst and stays in the trace; with runs > { "1" } the metric is the mean over common seeds; every evaluation is a real run of the named kind, listed in trace and counted in the reproducibility digest
 
 # data/verification-matrix.json
 dat-a4238a69ab89 = The `campaign` kind's phases: each phase runs one or more scenarios of existing kinds through run_toml, reads their outputs into named channels (clock time error and guard, mean effective carrier-to-noise density ratio and tracking floor, vertical protection level and alert limit, position error, satellites tracking, alarm flags) by per-kind presets or explicit result paths, places them at the phase start and holds them onto a common grid, with phase boundaries and events; state is handed on by carry (a channel continues from the previous phase's end value), handoff (a previous phase's number written into the next scenario) and end_at (a phase ends at a time a run computed, such as a spoofing monitor's detection time); a campaign hash and a digest over every member result
@@ -8231,7 +8615,7 @@ dat-955283daf32d = The `lunar-surface` kind and phase: relay availability and PD
 dat-571779bc241a = The `mission-thread` kind: a document of phases, each one of eight registered kinds, run in order with the 6x6 covariance, the clock and the frame handed on under a stated rule (`carry`; `inflate`, white acceleration noise over a stated gap on a straight-line model; `reacquire`, dead reckoning then the source floor, never below it, never a reset); frame conversions GCRF, MCI and MCMF and timescale conversions through TT, each its own budget row, with the Moon's state from an optional DE440 kernel cut and the analytic series as the stated fallback; the margin against a stated requirement, the weakest link, the events and a timeline figure. Every number is a stated input or a model of one
 
 # data/verification-matrix.json
-dat-6798389914c5 = The `realtime-frame-eop` runtime default is the library own embedded copy of a verbatim IERS finals2000A extract (tools/finals2000A_20260930.txt: { "174" } consecutive daily rows, MJD 61224-61397, cut from the finals2000A.all of 2026-09-30) carrying all three row vintages the format defines, classified by the IERS I/P flags (eop::row_vintage): { "30" } Bulletin B finals, { "54" } rapid measured rows (flag I without a Bulletin B block) and { "90" } Bulletin A predictions (flag P). A bare run with no file argument and no network emits a populated per-horizon table, the census rows = final_rows + rapid_rows + prediction_rows ({ "174" } = { "30" } + { "54" } + { "90" }) and predicted_rows.n = { "90" } over MJD 61308-61397; the as-issued cutoff of the predicted-versus-final comparisons is the last measured row. The earlier 32-row extract (tools/finals2000A_2026.txt, every row flag I) and the five-row final-only excerpt stay shipped and exercised: on them predicted_rows.n is { "0" }, a property of the input file and not a parser outcome
+dat-7485ed975959 = The `realtime-frame-eop` runtime default is the library's own embedded copy of a verbatim IERS finals2000A extract (tools/finals2000A_20260930.txt: { "174" } consecutive daily rows, MJD 61224-61397, cut from the finals2000A.all of 2026-09-30) carrying all three row vintages the format defines, classified by the IERS I/P flags (eop::row_vintage): { "30" } Bulletin B finals, { "54" } rapid measured rows (flag I without a Bulletin B block) and { "90" } Bulletin A predictions (flag P). A bare run with no file argument and no network emits a populated per-horizon table, the census rows = final_rows + rapid_rows + prediction_rows ({ "174" } = { "30" } + { "54" } + { "90" }) and predicted_rows.n = { "90" } over MJD 61308-61397; the as-issued cutoff of the predicted-versus-final comparisons is the last measured row. The earlier 32-row extract (tools/finals2000A_2026.txt, every row flag I) and the five-row final-only excerpt stay shipped and exercised: on them predicted_rows.n is { "0" }, a property of the input file and not a parser outcome
 
 # data/verification-matrix.json
 dat-06202554b764 = The `slot-timing` kind: the predicted error E(t) = k·√(σ₀² + σ_x²(t)) + (|y₀| + |c_T·ΔT|)·t + ½|D|t² inverted for the breach, the time left, the resynchronisation interval net of the fix latency and fixes per day, each term itemised with the dominant one named; clocks from the six ClockClass defaults (TCXO, OCXO and RAFS added, each citing one datasheet), the telecom-timing presets, an inline datasheet or a measured record; a breach beyond the source's longest averaging time flagged as extrapolated
@@ -8264,10 +8648,13 @@ dat-681e5eb569d5 = The { "2024" } dataset run (pre-registered)
 dat-042a44e406c8 = The { "2025" } SimulaMet NMEA dataset
 
 # data/search.json
-dat-826b5ff3a004 = The { "92" } built-in scenario kinds that kshana::api::run_toml dispatches over, each with its one-line…
+dat-bf92245f3326 = The { "93" } built-in scenario kinds that kshana::api::run_toml dispatches over, each with its one-line…
 
 # data/search.json
 dat-edb99ed7056e = The accepted oracle kinds
+
+# data/search.json
+dat-e3f1517ca5e4 = The adapters and notebooks that load these files into the tools themselves (pre-registration) are in…
 
 # data/verification-matrix.json
 dat-1e7784e47c5b = The all-stations-fixed beacon covariance of the lunar-vlbi-fim scenario (every Earth station held, the beacon's Moon-body-fixed coordinates estimated alone) with the beacon placed on the JPL DE440 Moon read by the engine's own kernel reader (planetary_kernel_path; lunar_vlbi_fim::epoch_geometry_with, ephem_provider::KernelEphemeris). Only the Moon centre differs from the analytic path; the IAU { "2015" } body rotation, stations, Earth rotation and linear algebra are the same. The validated outputs are the observation set, the { "3" } x { "3" } information spectrum, rank and condition number, the three body-fixed beacon sigmas and their RMS, the lever arm and the computed-over-equipartition ratio, on the default schedule. Runnable as the `lunar-vlbi-fim` scenario with datum = "all-stations-fixed", estimate_beacon = true and planetary_kernel_path set
@@ -8294,7 +8681,7 @@ dat-e3bb896fad9d = The bundled mission
 dat-75496101f053 = The bundled scenarios/orbit-sgp4-gps.toml already carries real TLEs (two-line element sets): the Celestrak…
 
 # data/search.json
-dat-4ad8b288fa02 = The capability cards and all { "401" } rows of the verification matrix.
+dat-fa19c1bafd33 = The capability cards and all { "413" } rows of the verification matrix.
 
 # data/search.json
 dat-0fd20c9b79b7 = The capstone. You will run a spoofing-detector scenario and a full fused positioning, navigation and timing…
@@ -8330,10 +8717,10 @@ dat-1b1e2bdeb2a2 = The closed-form inertial drift, the reused kinds' own results
 dat-a6e9b5070197 = The closed-loop 15-state error-state EKF driven by IMU increments with GNSS antenna positions fused through the lever-arm model H = [I { "0" } −[(C_b^n l_b)×] { "0" } { "0" }], configured from a KF-GINS YAML file (initial state and sigmas, ARW/VRW, Gauss-Markov biases)
 
 # data/verification-matrix.json
-dat-4fa4e8d6f1f5 = The CODE GIM's printed values (exact at every node; the map is fetched at test time, not vendored, its licence being unconfirmed) and an independent Python stdlib re-implementation of the IONEX { "1.0" } interpolation formulas committed with the fixture (bars pre-registered 79beaab, { "1e-9" } TECU). Third-party check (B6, pre-registered, first run): RTKLIB v2.4.2-p13 iontec (BSD-2-Clause, run as a separate tool) at { "6885" } query points agrees with IonexFile::vtec_at to { "3.6e-13" } TECU in both interpolation modes against a { "1e-5" } TECU bar. Data-gated: CODE GIM fetched at test time, SHA-pinned; RTKLIB reads the full file because its getindex rejects the lat crop. tests/fixtures/ionex_code_gim/fetch.sh fetches it and checks the SHA-256, the test fails on any other bytes, and run_rtklib.sh is the documented reproduce path (network access needed). Promoted to VALIDATED by the owner's decision on data-gated evidence (2026-10-13)
+dat-fbb1e2b30233 = The CODE GIM's printed values (exact at every node; the map is fetched at test time, not vendored, its licence being unconfirmed) and an independent Python stdlib re-implementation of the IONEX { "1.0" } interpolation formulas committed with the fixture (bars pre-registered 79beaab, { "1e-9" } TECU). Third-party check (pre-registered, first run): RTKLIB v2.4.2-p13 iontec (BSD-2-Clause, run as a separate tool) at { "6885" } query points agrees with IonexFile::vtec_at to { "3.55e-13" } TECU (rotated) and { "3.52e-13" } TECU (consecutive) against a { "1e-5" } TECU bar. Data-gated: CODE GIM fetched at test time, SHA-pinned; RTKLIB reads the full file because its getindex rejects the lat crop. tests/fixtures/ionex_code_gim/fetch.sh fetches it and checks the SHA-256, the test fails on any other bytes, and run_rtklib.sh is the documented reproduce path (network access needed). VALIDATED on the data-gated RTKLIB comparison (first run 2026-10-13); the always-run check is the synthetic map against the formula reference
 
 # data/search.json
-dat-bc68a493fe5d = The complete, machine-checked evidence ledger: { "401" } rows — { "176" } VALIDATED, { "221" } MODELLED, { "4" } PARTNER.
+dat-ad64e721a61e = The complete, machine-checked evidence ledger: { "413" } rows — { "176" } VALIDATED, { "233" } MODELLED, { "4" } PARTNER.
 
 # data/search.json
 dat-2d6bb4ed3b3d = The constellation-design kind builds one or more satellite constellations around the Earth, the Moon, Mars…
@@ -8354,16 +8741,19 @@ dat-af3dc778c309 = The CRC catalogue check value for these parameters (reveng.so
 dat-0d69a5d0ea83 = The cross-platform caveat (and how goldens handle it)
 
 # data/verification-matrix.json
-dat-7e26802aeb83 = The dataset's published event logs (attack_log windows), as event truth, under the pre-registration xval/jammertest-trust/PREREGISTRATION.md (committed alone, 0987266, before the harness ran). First and only run (xval/jammertest-trust/RESULTS.md): { "14" } of { "24" } folders evaluable ({ "7" } with jamming), { "3,502" } clean and { "9,560" } jamming epochs. Held-out clean false-alarm probability: cn0_drop_db { "0.0231" } (81/3502) against a { "0.02" } bar, FAIL; agc_k_sigma { "0.0003" }, pass; jam_ind_threshold { "0.0094" }, pass; union of the three: false alarms { "0.0328" }, detection { "0.807" } against { "0.05" } and { "0.50" }, pass. By the registered rule the row is MODELLED (one bar failed). Narrow: one receiver type (u-blox ZED-F9P), one event, scheduled one-minute slots as truth (detection a lower bound; clean means outside the logged windows); calibrated on the CSV logs, and the UBX reader gives more false alarms on two folders. Maritime trust-score bands are not calibrated
+dat-7d8fd5c88b5e = The dataset's published event logs (attack_log windows), as event truth, under the pre-registration xval/jammertest-trust/PREREGISTRATION.md (committed alone, { "0987266" }, before the harness ran). First and only run (xval/jammertest-trust/RESULTS.md): { "14" } of { "24" } folders evaluable ({ "7" } with jamming), { "3,502" } clean and { "9,560" } jamming epochs. Held-out clean false-alarm probability: cn0_drop_db { "0.0231" } (81/3502) against a { "0.02" } bar, FAIL; agc_k_sigma { "0.0003" }, pass; jam_ind_threshold { "0.0094" }, pass; union of the three: false alarms { "0.0328" }, detection { "0.807" } against { "0.05" } and { "0.50" }, pass. By the registered rule the row is MODELLED (one bar failed). Narrow: one receiver type (u-blox ZED-F9P), one event, scheduled one-minute slots as truth (detection a lower bound; clean means outside the logged windows); calibrated on the CSV logs, and the UBX reader gives more false alarms on two folders. Maritime trust-score bands are not calibrated
 
 # data/verification-matrix.json
-dat-f80e71128603 = The dataset's published reference trajectory and the KF-GINS C++ program (GPL-3.0, commit 8291a93e, run as a separate tool); bars pre-registered in xval/kfgins/PREREGISTRATION.md, and KF-GINS was not run on this data before that registration (checked in its Results). All six bars held on the first run. DATA-GATED: the KF-GINS demo dataset (real Leador-A15 IMU and RTK GNSS with a reference trajectory) carries no licence, so it is not vendored; xval/kfgins/fetch.sh fetches it at test time with every file's SHA-256 pinned, and the test fails on a mismatch; the reproduce path, which needs network access, is in xval/kfgins/PREREGISTRATION.md. Promoted to VALIDATED by the owner's decision on data-gated evidence (2026-10-13)
+dat-397516eb3f0e = The dataset's published reference trajectory and the KF-GINS C++ program (GPL-3.0, commit 8291a93e, run as a separate tool); bars pre-registered in xval/kfgins/PREREGISTRATION.md, and KF-GINS was not run on this data before that registration (checked in its Results). All six bars held on the first run. DATA-GATED: the KF-GINS demo dataset (real Leador-A15 IMU and RTK GNSS with a reference trajectory) carries no licence, so it is not vendored; xval/kfgins/fetch.sh fetches it at test time with every file's SHA-256 pinned, and the test fails on a mismatch; the reproduce path, which needs network access, is in xval/kfgins/PREREGISTRATION.md. VALIDATED on data-gated evidence (first run 2026-10-13)
 
 # data/verification-matrix.json
 dat-23e375065874 = The default drag of the Cowell propagator: quadratic drag against the co-rotating atmosphere with forces::atmospheric_density, the piecewise-exponential table of Vallado Table 8-4 at the spherical altitude (propagator::ForceModel::drag with the default Exponential variant of forces::DensityModel)
 
 # data/search.json
 dat-afaabcc55f97 = The designs, inputs and bars were fixed in xval/lunar-infra/PREREGISTRATION.md (committed before any study…
+
+# data/search.json
+dat-0df2d1a3893d = The difference report
 
 # data/verification-matrix.json
 dat-63ceb941b521 = The distributional core every protection level rests on: the snapshot fault-detection threshold χ²₁₋ₚfₐ(dof), the missed-detection non-centrality pbias=√λ, and the K_fa/K_md/K_V solution-separation multipliers
@@ -8375,7 +8765,7 @@ dat-ffdfc5695574 = The diurnal S1 air-pressure tide as a geopotential perturbati
 dat-a072f7a6e8d5 = The document
 
 # data/verification-matrix.json
-dat-0b0b14fbb4f3 = the EcefPoly variant of leo_navmsg::elements::EphemerisModel: a per-axis ECEF polynomial with no clock terms, the relativistic term from -2 r.v/c^{ "2" }, scored against a steered clock. Also the model-comparison analysis (liu_comparison over LIU2025_TABLE), which fits the 22-parameter model at the paper five altitudes over 20-minute arcs of a Kshana-integrated orbit and prints the result beside the published SISRE
+dat-eb2e00994fe7 = the EcefPoly variant of leo_navmsg::elements::EphemerisModel: a per-axis ECEF polynomial with no clock terms, the relativistic term from -2 r.v/c^{ "2" }, scored against a steered clock. Also the model-comparison analysis (liu_comparison over LIU2025_TABLE), which fits the 22-parameter model at the paper's five altitudes over 20-minute arcs of a Kshana-integrated orbit and prints the result beside the published SISRE
 
 # data/search.json
 dat-b07afbb33f4b = The eight phase kinds
@@ -8398,6 +8788,9 @@ dat-9bcc1610cb35 = The engine's MHSS protection levels run against the EU-U.S. W
 # data/verification-matrix.json
 dat-018674b953c1 = The engine's own pure-Rust reader of NAIF binary kernels (naif_kernel): the DAF container (both byte orders, linked summary records), SPK type-2 Chebyshev position segments chained through their centres to a lowest common ancestor, and binary PCK type-2 Euler-angle segments turned into a J2000-to-body rotation, with epochs taken as two-part ET so a sub-microsecond offset keeps its precision. It is what KernelEphemeris (ephem_provider) and the kernel paths of lunar_vlbi, lunar_llr and lunar_vlbi_fim read DE440 through. The claim is that it reads JPL kernels correctly; it is not a claim that DE440, or the engine's analytic Sun and Moon series, is accurate
 
+# data/verification-matrix.json
+dat-721073c3c3d2 = The engine's own reader on the files it wrote (same codebase). The reference integration has no bar: Orekit { "13.1.9" } and Basilisk { "2.12.2" }'s SPICE read the files back exactly (Orekit's km to m conversion named as rounding further), and ANISE { "0.10.6" } evaluates the SPK no further from the written states than SPICE does; GMAT R2026a evaluates the SPK within { "1.19" } mm and { "3.0e-10" } km/s of the written states but at its own representable epochs, so it does not read them back exactly, and it refuses the version { "2.0" } OEM outside its TESTING mode (docs/design/evidence/c7-flight-dynamics-adapters/RESULTS.md). A one-off check outside the repository found the SPK byte for byte equal to the kernel SPICE's spkw13 writes from the same states. Carries data only; says nothing about any propagation
+
 # data/search.json
 dat-55ced794518c = The ephemeris kind
 
@@ -8405,7 +8798,7 @@ dat-55ced794518c = The ephemeris kind
 dat-83412650cfee = The error model
 
 # data/search.json
-dat-3b8baef60d7f = The EU-US WG-C ARAIM Milestone { "3" } maximum-URA reproduction (CAP-05c)
+dat-7782f041882f = The EU-US WG-C ARAIM Milestone { "3" } maximum-URA reproduction
 
 # data/search.json
 dat-52e25e87386c = The evidence label ({ "0.40" })
@@ -8419,8 +8812,11 @@ dat-21d73819d31c = The evidence label, and the outputs that carry none
 # data/search.json
 dat-0735d802096a = The figures of merit (how a run is scored)
 
+# data/search.json
+dat-d79f8eaeb0f3 = The file
+
 # data/verification-matrix.json
-dat-5fb23c7bbc43 = The first-order dispersion identity, exact by construction against the engine's own first-order delay (whose 1/f^{ "2" } scaling is VALIDATED against IS-GPS-200 in its own row); the precision is thermal code noise only, without multipath or inter-frequency biases. { "0.30" } round { "2" }, measured (pre-registered bd9812bd), a finding (stays MODELLED): the CODE global ionosphere map CODG1330.18I against ABMF C1C/C2W code with the CODE biases gives { "33" } of { "36" } arc means within { "3" } TECU (worst +{ "6.84" } TECU on an evening arc; per-epoch RMS { "3.95" } TECU), against a bar of every arc; not validated
+dat-9b398048fa91 = The first-order dispersion identity, exact by construction against the engine's own first-order delay (whose 1/f^{ "2" } scaling is VALIDATED against IS-GPS-200 in its own row); the precision is thermal code noise only, without multipath or inter-frequency biases. { "0.30" } round { "2" }, measured (pre-registered bd9812bd), a finding (stays MODELLED): the CODE global ionosphere map CODG1330.18I against ABMF C1C/C2W code with the CODE biases gives { "33" } of { "36" } arc means within { "3" } TECU (worst +{ "6.84" } TECU on an evening arc; per-epoch RMS { "3.95" } TECU), against a bar of every arc; not validated
 
 # data/search.json
 dat-5bc7ed23d2d6 = The fitter
@@ -8435,7 +8831,7 @@ dat-e0833db0d4e8 = The five-coefficient IEEE-1139 PSD↔Allan-variance conversio
 dat-e161cf180678 = The formats
 
 # data/verification-matrix.json
-dat-f781f17606ed = The four named Microchip datasheets (document numbers and URLs in each preset and in docs/TELECOM-TIMING.md) for the input figures; the closed-form aging ramp and the fit's envelope property as internal checks. How the figures become a noise model — the fit, the floor rule, the 30-day month, the linear temperature reading — is a modelling choice; no preset is a measurement of a unit. { "0.30" } round { "2" }, one-sided bars against measured units (pre-registered 43d19980), a finding (stays MODELLED): the IGS station THU2 Symmetricom 8040C in ESA MGEX final clocks has an Allan deviation { "0.35" } to { "0.87" } of the rubidium preset but a holdover error { "1.07" } to { "1.60" } of it; the 5071A record sits outside the caesium preset to { "1000" } s (measurement white phase noise, 30x at { "1" } s) and in holdover ({ "1.15" } to { "8.74" }); the worst { "2011" } production SA.45s is 1.26x the CSAC preset at { "1" } s; the OX-208 has no measured record (blocked)
+dat-43ef62f60325 = The four named Microchip datasheets (document numbers and URLs in each preset and in docs/TELECOM-TIMING.md) for the input figures; the closed-form aging ramp and the fit's envelope property as internal checks. How the figures become a noise model — the fit, the floor rule, the 30-day month, the linear temperature reading — is a modelling choice; no preset is a measurement of a unit. { "0.30" } round { "2" }, one-sided bars against measured units (pre-registered 43d19980), a finding (stays MODELLED): the IGS station THU2 Symmetricom 8040C in ESA MGEX final clocks has an Allan deviation { "0.35" } to { "0.87" } of the rubidium preset but a holdover error { "1.07" } to { "1.60" } of it; the 5071A record sits outside the caesium preset to { "1000" } s (measurement white phase noise, 30x at { "1" } s) and in holdover ({ "1.15" } to { "8.74" }); the worst { "2011" } production SA.45s is 1.26x the CSAC preset at { "1" } s; the OX-208 has no measured record (blocked)
 
 # data/search.json
 dat-9a28fe159b53 = The frame sequence
@@ -8468,7 +8864,7 @@ dat-88641ee424ff = The ground-network overlay
 dat-5c091b15d738 = The ground-network overlay: stations with a minimum elevation, the visibility of the vehicle on a stated geometry (the entry state flown two-body with J2, the Moon's position for the cruise, or a stated duty), station handovers that lose a stated time each, and the resulting duty passed to the phase's ground-tracking update rate; the longest interval with no station in view is a budget row
 
 # data/verification-matrix.json
-dat-f6f5b12dca2f = The growth term's closed-form sigma and the first-order propagation check (InternalConsistency). The K5 addendum (tests/fixtures/lunar_station_published/ADDENDUM-LRS03.md, pre-registered alone in f9ce1284): K5 fails at every rate, corrected p95 3-D { "369.8" } m, { "2315" } m and { "22797" } m against a { "1.5" } m bar ({ "292.96" } m recorded without growth), as stated before the run. No public source gives a lunar growth rate: ILLUSTRATIVE
+dat-39a5a4354c27 = The growth term's closed-form sigma and the first-order propagation check (InternalConsistency). The K5 addendum (tests/fixtures/lunar_station_published/ADDENDUM-LRS03.md, pre-registered alone in f9ce1284): K5 fails at every rate, corrected p95 3-D { "369.8" } m, { "2315" } m and { "22797" } m against a { "1.5" } m bar ({ "292.96" } m recorded without growth), as stated before the run. No public source gives a lunar growth rate: ILLUSTRATIVE
 
 # data/verification-matrix.json
 dat-3dd68f00357a = The hybrid-optical-rf report emits the optical-versus-RF ranging ratio with the ONE configuration both legs were evaluated at carried in the same object: the same one-way path, the same range, and the same accumulation time. The optical leg is the engine's photon-limited ToA CRLB on the one-way photon count; the RF leg is the engine's DLL early-late thermal code-tracking jitter at the C/N0 the engine's own link budget returns for that same one-way range. The loop noise bandwidth is derived, not chosen: B_L = 1/({ "2" }*integration_s) puts the RF leg at exactly the optical accumulation time, and if a caller overrides it so the two averaging times disagree the ratio is REFUSED -- null, with the mismatch and both times named -- rather than quoted at two operating points. No ratio is formed against the scenario's CHOSEN parametric rf_position_sigma_m, and the refusal says why: that input carries no configuration at all. The released two-way optical headline and the exact factor bridging it to the one-way comparison leg are emitted beside the ratio, so the report cannot be read as carrying two disagreeing optical sigmas
@@ -8486,7 +8882,7 @@ dat-0eaec3576c68 = The hybrid-optical-rf report states what the cross-modality c
 dat-f9ec6cd581df = The ICG Space Service Volume booklet (UN OOSA ST/SPACE/75, { "2018" }), itself a simulation, compared under a pre-registration committed before the run (xval/gnss-ssv/PREREGISTRATION.md; results in xval/gnss-ssv/RESULTS.md, pinned by tests/ssv_booklet_results.rs, misses included). Run { "1" } on the pre-registered reading: the minimum-radiated-power constants and the lunar bar agree (S0, S6 met); the upper and lower SSV, RF-threshold, GEO and HEO bars are NOT MET, almost all through GLONASS, for which the booklet gives { "20" } and { "28" } degrees in tables B2 and B6 and { "26" } and { "34" } degrees in table { "4.2" }. A diagnostic variant with table { "4.2" }'s angles agrees in every cell of the upper SSV, lower SSV and the six GEO missions (it does not replace run { "1" }; RF, HEO and lunar cells still miss). The measured GPS L1 panel patterns are not reproduced by the parametric stand-in (RMS { "6" } to { "9" } dB against a { "3" } dB bar). Agreement shows the booklet's stated method is reproduced, not that GNSS signals behave so
 
 # data/verification-matrix.json
-dat-5eae227f06ee = The IGS final combined clock for station WTZR (AR records of IGS0OPSFIN_20250550000_01D_05M_CLK, SHA-256 d19f3d45...993d, a combination of several analysis centres' network solutions; IGS products, free use with attribution); bars pre-registered in xval/ppp-time/PREREGISTRATION.md before any comparison; all held on the first run. WHAT IS NOT: one station and one two-hour converged window; IGS time, not UTC(k); the constant offset includes receiver code biases and is bounded, not calibrated; no Circular T traceability.
+dat-cd99c1c5008a = The IGS final combined clock for station WTZR (AR records of IGS0OPSFIN_20250550000_01D_05M_CLK, SHA-256 d19f3d45...993d, a combination of several analysis centres' network solutions; IGS products, free use with attribution); bars pre-registered in xval/ppp-time/PREREGISTRATION.md before any comparison; all held on the first run. Not covered: one station and one two-hour converged window; IGS time, not UTC(k); the constant offset includes receiver code biases and is bounded, not calibrated; no Circular T traceability.
 
 # data/search.json
 dat-c56d232ffcff = The instructor log
@@ -8540,7 +8936,7 @@ dat-a65e01b98a79 = The linear algebra a self-referential lunar constellation nee
 dat-a5de09f9dd3d = The link-budget report states every absolute constant its own margin was computed from -- the carrier frequency the free-space loss used, the EIRP, the figure of merit, the lumped loss and the Boltzmann term -- plus the required G/T at which the margin is zero, the link constant (EIRP - losses - required Eb/N0) that is the only combination a published rate/gain table can ever fix, and, when a caller states a system noise temperature, the receive antenna gain that figure of merit implies
 
 # data/verification-matrix.json
-dat-264de1df4f0a = the Liu22 variant of leo_navmsg::elements::EphemerisModel, evaluated by kepler_point with Liu22Extra: the 16-parameter set plus a semi-major-axis rate a_dot, a mean-motion rate n_dot entering as n = sqrt(mu/A0^{ "3" }) + dn + n_dot tk, transcribed from the paper Eq. { "1" } (the fit comparison does not depend on this scale convention, so the meaning of a transmitted nDot value is not validated here), and once- and three-per-revolution radius harmonics Crs1, Crc1, Crs3, Crc3 on the uncorrected argument of latitude. Its fit by leo_navmsg::fit::fit_message takes the paper Section { "2.3" } start and estimator (every correction starts at zero; plain least squares with no priors; the paper 100-iteration cap), but stops on Kshana parameter-convergence rule (every step below { "1e-3" } of its formal sigma) instead of the paper rule of an RMS change below { "0.1" } mm. Fitted over { "20" } and { "30" } minute arcs of a tabulated precise orbit
+dat-3f27bd1f77fa = the Liu22 variant of leo_navmsg::elements::EphemerisModel, evaluated by kepler_point with Liu22Extra: the 16-parameter set plus a semi-major-axis rate a_dot, a mean-motion rate n_dot entering as n = sqrt(mu/A0^{ "3" }) + dn + n_dot tk, transcribed from the paper's Eq. { "1" } (the fit comparison does not depend on this scale convention, so the meaning of a transmitted nDot value is not validated here), and once- and three-per-revolution radius harmonics Crs1, Crc1, Crs3, Crc3 on the uncorrected argument of latitude. Its fit by leo_navmsg::fit::fit_message takes the paper's Section { "2.3" } start and estimator (every correction starts at zero; plain least squares with no priors; the paper's 100-iteration cap), but stops on Kshana's parameter-convergence rule (every step below { "1e-3" } of its formal sigma) instead of the paper's rule of an RMS change below { "0.1" } mm. Fitted over { "20" } and { "30" } minute arcs of a tabulated precise orbit
 
 # data/verification-matrix.json
 dat-576667f29670 = The lunar force model propagation against public reconstructed lunar-orbiter and cislunar trajectories
@@ -8576,9 +8972,6 @@ dat-0fc2baa2494b = The measurement filter
 dat-510e796c2898 = The mission thread
 
 # data/verification-matrix.json
-dat-b3e182285f77 = The monitors' own closed forms on Kshana's own GPS L1 C/A scenes (noise and legitimate signals; attenuation events of the satellites' own signals), against bars pre-registered in docs/design/MONITORS-IN-CAMPAIGN.md (56322c99). FINDING: M1, M2 and M4 met. M3 met on detection ({ "18" } of { "18" } attenuations, P_md { "0" }) and NOT MET on its timing clause: the median time to detect is { "1.001" } s against { "2" } x ARL1 samples = { "0.433" } s. The CUSUM sees one estimate per { "1" } s window, so the sample-count bound is below one sample. Internal consistency only: no real receiver or recorded interference is checked
-
-# data/verification-matrix.json
 dat-43640ae1cf86 = The motion CSV's Earth-fixed position, geodetic position, Earth-fixed velocity, heading/pitch/roll and UTC columns, and the NMEA GGA/RMC sentences, written from synthetic scenarios (gnss-ins including automotive-urban-canyon, jamming, gnss-sim). Motion and events only; no signal is written and no simulator or receiver performance is claimed.
 
 # data/search.json
@@ -8609,7 +9002,7 @@ dat-813b2afefcac = The non-circular oracle: the { "350" } s position-holdover
 dat-ba2f435b2480 = The non-circular oracle: why { "2610" } s for the CSAC?
 
 # data/verification-matrix.json
-dat-64b0b715e5da = The numerics are compared with an independent program (xval/optical-atmosphere/oracle.py, mpmath { "1.4.1" } at { "30" } digits, tanh-sinh quadrature on the original height variable and Bessel-K gamma-gamma densities) that shares no code with Kshana, under bars fixed before any implementation existed (xval/optical-atmosphere/PREREGISTRATION.md). WHY MODELLED: that oracle evaluates the same published formulas, so it checks the implementation of the stated formulas and not the atmosphere; no ITU-R validation example and no measured scintillation or slant-path extinction record is used (the ITU values are an open licence decision and are kept out of the repository). The Cn2 profile level, the visibility, the aerosol and molecular scale heights, the aperture-averaging path length and the moment-matching used to apply aperture averaging to the gamma-gamma parameters are stated inputs or conventions. A source line in the module records that one widely copied survey prints the second scintillation exponent as 7/6 where Andrews and Phillips give 5/6; the 5/6 form is implemented
+dat-6e64f1c31dcf = The numerics are compared with an independent program (xval/optical-atmosphere/oracle.py, mpmath { "1.4.1" } at { "30" } digits, tanh-sinh quadrature on the original height variable and Bessel-K gamma-gamma densities) that shares no code with Kshana, under bars fixed before any implementation existed (xval/optical-atmosphere/PREREGISTRATION.md). WHY MODELLED: that oracle evaluates the same published formulas, so it checks the implementation of the stated formulas and not the atmosphere; no ITU-R validation example covers optical slant-path scintillation or extinction, and no measured scintillation or slant-path extinction record is used. The Cn2 profile level, the visibility, the aerosol and molecular scale heights, the aperture-averaging path length and the moment-matching used to apply aperture averaging to the gamma-gamma parameters are stated inputs or conventions. xval/optical-atmosphere/RESULTS.md (finding { "2" }) records that one widely copied survey prints the second scintillation exponent as 7/6 where Andrews and Phillips give 5/6; the 5/6 form is implemented
 
 # data/search.json
 dat-31f0e7e8b147 = The observable and the base method
@@ -8627,16 +9020,16 @@ dat-c1c7288e6e34 = The optical-atmosphere scenario kind answers how often an opt
 dat-c96aa9fcd785 = The optional [integrity] section of the clock kind (clock_integrity::run): from a stated site and constellation presets (geometry::sky_geometry), at every integrity epoch while the GNSS timeline is not denied, snapshot RAIM (raim::snapshot_raim: parity chi-square test, slope protection levels) on the satellites above the mask with seeded Gaussian residuals of the stated sigma and an optional stated bias; a separate integrity_fom block with per-epoch verdicts, protection levels, and availability. Denied epochs are reported unavailable, never extrapolated; the holdover figures of merit are unchanged and, without the section, the output is byte-identical
 
 # data/verification-matrix.json
-dat-2511de383cdd = The optional [receiver] section of lunar-station-coverage (LRS-02): elevation-dependent multipath sigma(el) = a + b exp(-el / el0) at the user and at the station (the RTCA DO-229 airborne functional form, its a = { "0.13" } m, b = { "0.53" } m, el0 = { "10" } deg as defaults; on the Moon every value is ILLUSTRATIVE), white at the user and first-order Gauss-Markov over epochs at the station (rho = exp(-dt / tau)); early-minus-late DLL thermal code noise sigma = L_c sqrt(B_L d / ({ "2" } C/N0) ({ "1" } + { "2" } / (({ "2" } - d) T C/N0))); per-channel inter-channel biases constant over a trial, at the user and at the station. Station terms enter its corrections, user terms the raw and corrected measurements, each on its own seeded stream. Absent, every document is unchanged
+dat-b6bfb2e1068f = The optional [receiver] section of lunar-station-coverage: elevation-dependent multipath sigma(el) = a + b exp(-el / el0) at the user and at the station (the RTCA DO-229 airborne functional form, its a = { "0.13" } m, b = { "0.53" } m, el0 = { "10" } deg as defaults; on the Moon every value is ILLUSTRATIVE), white at the user and first-order Gauss-Markov over epochs at the station (rho = exp(-dt / tau)); early-minus-late DLL thermal code noise sigma = L_c sqrt(B_L d / ({ "2" } C/N0) ({ "1" } + { "2" } / (({ "2" } - d) T C/N0))); per-channel inter-channel biases constant over a trial, at the user and at the station. Station terms enter its corrections, user terms the raw and corrected measurements, each on its own seeded stream. Absent, every document is unchanged
 
 # data/verification-matrix.json
-dat-5b071d009bc1 = The optional [solution] section of lunar-station-coverage (LRS-06): a height pseudo-measurement row up . dx = e_h of stated 1-sigma weighted against range rows, a three-satellite minimum allowed only with it, and a weighted least-squares solve over the last window_epochs epochs with a shared static position and one clock per epoch (a filter's answer for a static position with no process noise over the same data; the epochs' errors are treated as independent). Absent, the snapshot solve and every document unchanged. An addendum to the published-claims comparison with the sources' solution style, pre-registered alone
+dat-ef8e17f2ff6c = The optional [solution] section of lunar-station-coverage: a height pseudo-measurement row up . dx = e_h of stated 1-sigma weighted against range rows, a three-satellite minimum allowed only with it, and a weighted least-squares solve over the last window_epochs epochs with a shared static position and one clock per epoch (a filter's answer for a static position with no process noise over the same data; the epochs' errors are treated as independent). Absent, the snapshot solve and every document unchanged. An addendum to the published-claims comparison with the sources' solution style, pre-registered alone
 
 # data/verification-matrix.json
 dat-98937e2b27b7 = The optional [time_lab] block of the lunar-time-budget scenario models a lunar reference station clock (default the miniRAFS class, or any named class, or a device card fitted to stated stability points) steered to Coordinated Lunar Time and then free-running or re-steered every N seconds: the time-error curve x(t) as the root-sum-square of the clock power-law term, a constant steer residual (ILLUSTRATIVE), a constant LTC realisation residual and an opt-in station-height rate term; the time after a steer to { "1" }, { "10" } and { "100" } ns (or stated thresholds) by bisection beside the closed-form inverse for the dominant noise type, and the dominant term at each stated horizon, all with units
 
 # data/verification-matrix.json
-dat-5bc49ba7fcb7 = The optional orbit_err_growth_m_per_s input of lunar-station-coverage (LRS-03): a correction applied latency_s after it was computed misses the growth g latency_s of the broadcast orbit error, g isotropic of 3-D RMS rate, drawn per satellite and trial on its own seeded stream (range 1-sigma rate tau / sqrt({ "3" })), on top of the frozen-error line-of-sight re-projection. Absent, every document is unchanged. A K5 addendum to the published-claims comparison, pre-registered alone, runs K5 at { "0.001" }, { "0.01" } and { "0.1" } m/s (ILLUSTRATIVE)
+dat-0bc848ebc15c = The optional orbit_err_growth_m_per_s input of lunar-station-coverage: a correction applied latency_s after it was computed misses the growth g latency_s of the broadcast orbit error, g isotropic of 3-D RMS rate, drawn per satellite and trial on its own seeded stream (range 1-sigma rate tau / sqrt({ "3" })), on top of the frozen-error line-of-sight re-projection. Absent, every document is unchanged. A K5 addendum to the published-claims comparison, pre-registered alone, runs K5 at { "0.001" }, { "0.01" } and { "0.1" } m/s (ILLUSTRATIVE)
 
 # data/verification-matrix.json
 dat-09591bd30be5 = The outage-duration distribution of an optical site coupled to the closed-form coast variance of the clock holdover model: timing and ranging error at stated outage quantiles, the holdover to a timing threshold, the fraction of outages and of outage time inside it and the timing availability A + U E[min(D, T_h)]/E[D], for the classical and quantum clock classes. Runnable inside the `optical-atmosphere` scenario kind.
@@ -8667,6 +9060,9 @@ dat-cba533186d05 = The propagator the lunar kinds share (GRAIL GL0660B degree an
 
 # data/verification-matrix.json
 dat-428ad2136253 = The published SISRE weighting-factor table of Montenbruck, Steigenberger and Hauschild ({ "2018" }), Multi-GNSS signal-in-space range error assessment - Methodology and results, Advances in Space Research { "61" }({ "12" }):3020-3038, doi 10.1016/j.asr.2018.03.041: GPS { "0.98" } and 1/49, GLONASS { "0.98" } and 1/45, Galileo { "0.98" } and 1/61, BeiDou MEO { "0.98" } and 1/54, BeiDou IGSO/GEO { "0.99" } and 1/126. The same average evaluated at LEO radii gives the LEO weights; no published LEO table is pinned, so the LEO values are the validated method applied, not separately validated
+
+# data/search.json
+dat-30ba59054818 = The read-back
 
 # data/verification-matrix.json
 dat-d572d32bf414 = The reading of the ADS-B navigation accuracy and integrity codes the map uses (the EPU bound a NACp code stands for, the containment-radius bound a NIC code stands for, and the low and good classes the method derives from them); the AIS position and speed not-available values the AIS reader discards; the fixed latitude/longitude grid cell a position falls in; the route length, and its split by cell state (degraded, not degraded, unassessed, not observed), that route exposure reports; and whether a position lies inland of a land polygon by more than a buffer. A cell flagged degraded or anomalous is a statement about reported accuracy fields or implausible positions, not a finding of interference, and nothing here checks that.
@@ -8714,7 +9110,7 @@ dat-042dd05b607e = The rule for every answer
 dat-d299c1a24acf = The safe defaults
 
 # data/verification-matrix.json
-dat-9fd0af13eca1 = The same day's RINEX { "3" } merged broadcast file of the IGS (published data, written by a different file generator from the same broadcast messages); bars pre-registered in tests/fixtures/brdc_rinex4_2026200/PREREGISTRATION.md (589b7c9) before the first run
+dat-78399491b5d3 = The same day's RINEX { "3" } merged broadcast file of the IGS (published data, written by a different file generator from the same broadcast messages); bars pre-registered in tests/fixtures/brdc_rinex4_2026200/PREREGISTRATION.md (589b7c9) before the first run
 
 # data/search.json
 dat-0d170f85e055 = The same prediction on a real crystal oscillator: conservative, not validated
@@ -8747,7 +9143,7 @@ dat-fdf50c7675aa = The seven-parameter Helmert datum propagated from a SIMULATED
 dat-602bfa37c542 = The signal-performance layer between the link budget and the measurement domain: unit-area power spectral densities for BPSK-R(n) and sine-BOC(m,n), the spectral-separation coefficient that derives the anti-jam Q the jamming model consumes directly from the actual signal and jammer spectra, the RMS (Gabor) bandwidth that sets the ranging-information content (BOC > BPSK), the coherent early–late DLL code-tracking thermal-noise jitter, and the coherent early-minus-late multipath error envelope with narrow-correlator suppression, and a ranging-code design-trade (m-sequence/Gold autocorrelation sidelobe and the three-valued Gold cross-correlation bound, plus the code-length-to-unambiguous-range inversion). This is signal-performance analysis, not RF-payload or antenna hardware design.
 
 # data/verification-matrix.json
-dat-677d04005685 = The single-clock DOP factors rest on the kernel validated against gnss_lib_py { "1.0.4" } (row 'GNSS geometry / dilution of precision (DOP)'); this row's own checks are internal: sky_geometry reproduces orbit::dop and dop_cov on the same geometry, the ellipse reproduces an analytic 2x2 eigen-decomposition, ECEF and azimuth/elevation inputs agree, and the seeded cloud's RMS and { "95" } % containment agree with the geometry. The ENU covariance with one clock per system and the ellipse are VALIDATED in row 'Horizontal error ellipse and per-system cofactor from the geometry covariance' (numpy, P2); what stays MODELLED here is the composition: the preset propagation to a representative sky, the Monte Carlo cloud (checked against the geometry it samples, a self-consistency check) and the surfaces. The constellation presets give a representative sky, not a dated one; the Gaussian error model and the UERE are stated inputs, not a measured accuracy or an integrity bound
+dat-b0492ac9b5dd = The single-clock DOP factors rest on the kernel validated against gnss_lib_py { "1.0.4" } (row 'GNSS geometry / dilution of precision (DOP)'); this row's own checks are internal: sky_geometry reproduces orbit::dop and dop_cov on the same geometry, the ellipse reproduces an analytic 2x2 eigen-decomposition, ECEF and azimuth/elevation inputs agree, and the seeded cloud's RMS and { "95" } % containment agree with the geometry. The ENU covariance with one clock per system and the ellipse are VALIDATED in row 'Horizontal error ellipse and per-system cofactor from the geometry covariance' (numpy); what stays MODELLED here is the composition: the preset propagation to a representative sky, the Monte Carlo cloud (checked against the geometry it samples, a self-consistency check) and the surfaces. The constellation presets give a representative sky, not a dated one; the Gaussian error model and the UERE are stated inputs, not a measured accuracy or an integrity bound
 
 # data/search.json
 dat-0cbb8b176295 = The site
@@ -8759,7 +9155,7 @@ dat-ca71a91dc8eb = The skyline
 dat-da5865588453 = The slot-timing scenario kind answers three questions for a clock that free-runs between synchronisations…
 
 # data/verification-matrix.json
-dat-83d1ec2f6e4a = The snapshot reduction and the solver's closed-form cases (InternalConsistency). The addendum (tests/fixtures/lunar_station_published/ADDENDUM-LRS06.md, pre-registered alone in 2b4c34b5) with a { "1" } m height constraint, three satellites and a 6-epoch window (ILLUSTRATIVE settings; the sources state a filter, a height constraint and three satellites but not their settings): K1 to K5 fail and K6 passes, { "1" } of { "6" } as in the recorded run; the R300 corrected p95 3-D error falls from { "280.6" } m to { "2.11" } m (horizontal { "0.90" } m, not scored) and coverage stays { "0" }. The window's independence assumption favours it. Not a statement about any real system
+dat-37e430650d6a = The snapshot reduction and the solver's closed-form cases (InternalConsistency). The addendum (tests/fixtures/lunar_station_published/ADDENDUM-LRS06.md, pre-registered alone in 2b4c34b5) with a { "1" } m height constraint, three satellites and a 6-epoch window (ILLUSTRATIVE settings; the sources state a filter, a height constraint and three satellites but not their settings): K1 to K5 fail and K6 passes, { "1" } of { "6" } as in the recorded run; the R300 corrected p95 3-D error falls from { "280.6" } m to { "2.11" } m (horizontal { "0.90" } m, not scored) and coverage stays { "0" }. The window's independence assumption favours it. Not a statement about any real system
 
 # data/search.json
 dat-84c3e7c0b54b = The spectrum scenario kind builds the Global Navigation Satellite System (GNSS) L band, and any other band a…
@@ -8784,6 +9180,9 @@ dat-2193be3cc46a = The three terms a differential correction picks up between th
 
 # data/search.json
 dat-c7fae9dce7f6 = The three worked examples
+
+# data/verification-matrix.json
+dat-b5539bf43dca = The tli-and-cruise phase's optional impulses list (t_s from the phase start, dv_mps in GCRF) adds each step to the mean state, shortening a step to land on it; without impulses every output is unchanged. mission_thread::impulses::detect flags hours whose one-hour velocity residual exceeds { "0.01" } m/s and gives one impulse per event hour at its midpoint
 
 # data/verification-matrix.json
 dat-8d9c177fc1ca = The trust score, band, reasons, gate state and receiver-reported position published under navigation.gnss.kshana in a Signal K server with a warn, alarm and normal notification (integrations/signalk); the gated NMEA stream, with the fix marked invalid while trust is collapsed and a PKSHT sentence per cycle, served to OpenCPN over TCP by the gate itself or by a small relay, and a native OpenCPN score panel that reads the PKSHT sentence (integrations/opencpn); and systemd units and a container that run the gate (deploy/reference-build). Where these show output they carry the advisory statement: Advisory software, not type-approved navigation equipment (IEC { "61108" }, IEC { "61162" }): the operator remains responsible for the navigation of the vessel.
@@ -8834,7 +9233,7 @@ dat-af95fca25c5e = This page lists every limit the telecom-timing scenario kind 
 dat-0ce7cfae4415 = This walks one trajectory through the standards-based interop and mission-analysis scenario kinds end to…
 
 # data/verification-matrix.json
-dat-da8207aca260 = Three facets of the single decomposition ℝ^{ "{" }state_dim{ "}" } = N(GᵀWG) ⊕ range(GᵀWG) with the 8-dim datum⊕timescale gauge as N(G) and the state_dim − { "8" } = { "32" } observable directions as range(G): (T5) provider_mismatch_split classifies a common multi-provider bias (∈ range(G)) as UNDETECTABLE — needing an external tie — and a differential bias (∉ range(G)) as self-monitored / DETECTABLE; (§{ "0" }) the unification is that the SAME range(G) blind subspace governs the undetectable fault class, so the datum gauge N(G) and the fault-blind subspace range(G) are one geometry, not two; (g7) slope returns the Brown protection-gap slope ‖Π_obs Δx̂‖ / ‖P⊥b‖_W → ∞ for a fault b ∈ range(G) (estimator corrupted with zero parity) and finite for a detectable fault
+dat-60755fa8dffa = Three facets of the single decomposition ℝ^{ "{" }state_dim{ "}" } = N(GᵀWG) ⊕ range(GᵀWG) with the 8-dim datum⊕timescale gauge as N(G) and the state_dim − { "8" } = { "32" } observable directions as range(G): ({ "1" }) provider_mismatch_split classifies a common multi-provider bias (∈ range(G)) as UNDETECTABLE — needing an external tie — and a differential bias (∉ range(G)) as self-monitored / DETECTABLE; ({ "2" }) the unification is that the SAME range(G) blind subspace governs the undetectable fault class, so the datum gauge N(G) and the fault-blind subspace range(G) are one geometry, not two; ({ "3" }) slope returns the Brown protection-gap slope ‖Π_obs Δx̂‖ / ‖P⊥b‖_W → ∞ for a fault b ∈ range(G) (estimator corrupted with zero parity) and finite for a detectable fault
 
 # data/verification-matrix.json
 dat-fe38e57d2fb3 = Three frame matrices compared element by element or by rotation angle with ERFA at arbitrary epochs: precession::precession_matrix (IAU { "2006" } bias-precession by Fukushima-Williams angles), nutation::teme_to_gcrs_matrix (the TEME to GCRS rotation P^T N^T Rz(-EE) with IAU { "2006" } precession, IAU 2000B nutation and the equation of the equinoxes with its two leading complementary terms), and cio::gcrs_to_cirs_matrix_with_offsets (the GCRS to CIRS rotation with the IERS celestial-pole offsets dX, dY added to the model CIP X, Y before the rotation, the SOFA cookbook convention; new). The model choices themselves (2000B nutation on the TEME path, the two-term complementary series) are not validated, only their implementation
@@ -8909,6 +9308,9 @@ dat-44dcbd5a239e = timetransfer_chain::tests (precision improves with integratio
 dat-9fd675aba21a = timetransfer::tests (reciprocal cancellation; two-form Sagnac identity); tests/time_transfer_error_budgeting_reference.rs (equatorial-circumnavigation Sagnac = { "207.386" } ns vs the published Ashby { "207.4" } ns to <{ "0.05" } ns; plus Sagnac/geodist geometry cross-checked against RTKLIB { "2.4.3" } geodist() compiled from C source)
 
 # data/search.json
+dat-7e5231322a78 = Timing and health of live inputs (clock-live, sensor-live)
+
+# data/search.json
 dat-bafdf56f480c = Timing and holdover tests
 
 # data/verification-matrix.json, data/card-matrix-map.json, studio/data/areas.json
@@ -8933,6 +9335,9 @@ dat-830ecf94efaa = Timing protection level for a receiver in orbit under GNSS sp
 dat-3c5975241acf = Timing Protection Level under spoofing
 
 # data/search.json
+dat-744e395b5c5f = Timing systems and receiver streams (after { $version })
+
+# data/search.json
 dat-81849f4dacd3 = Timing wall
 
 # data/verification-matrix.json
@@ -8946,6 +9351,9 @@ dat-cea9b5d71933 = Timing-integrity conformance benchmark — Stanford integrity
 
 # data/verification-matrix.json
 dat-06ca29579f23 = Timing-integrity conformance benchmark — undetectable-absorption verdict
+
+# data/search.json
+dat-11eb8466f282 = tip-and-cue (scenario kind)
 
 # js/missions-runs.mjs
 dat-d7ca79c5d894 = to converge, GNSS only
@@ -8978,7 +9386,13 @@ dat-6f5b10eb7cfb = Tracking-loop loss of lock: C/N0 -> lock/unlock with hysteres
 dat-9171d7bdf4d8 = Tracking-loop loss of lock: C/N0 -> lock/unlock WITH HYSTERESIS, the time it takes to lose lock, and spoof…
 
 # data/search.json
+dat-a8c0cc7c1b2e = Tracks: AIS, ADS-B, ASTERIX, MAVLink, ULog, NMEA { "2000" } (kshana connect decode, after { $version })
+
+# data/search.json
 dat-a92df5c034d8 = Trade study: how does holdover scale with clock stability?
+
+# data/search.json
+dat-210a48ac1275 = Trading clocks: divergence from UTC against RTS { "25" } (library)
 
 # data/search.json
 dat-895e0a8d9ffd = Trajectory mode: along an orbit
@@ -8999,7 +9413,7 @@ dat-75850c0e8a41 = Transcription of the cited public values, checked for structu
 dat-757d75457718 = Transcription of the named Recommendations (downloaded from itu.int on 2026-10-13), every row re-read against the text, with the breakpoint continuity the printed coefficients imply bounded in the tests (for example { "40" } · { "10" }^{ "0.4" } = { "100.48" } ns against the { "100" } ns plateau of G.812 Table { "4" }). A standards transcription with internal consistency checks, not a conformance test and not an external validation. G.812 (06/2004) is listed as superseded by a pre-published 08/2026 edition and G.811 has an Amd. { "1" } (04/2016); neither could be read, so neither is checked. The free-running OCXO scenario overstates the oscillator's contribution at observation intervals long against a loop's time constant; it says nothing about any equipment clock
 
 # data/verification-matrix.json
-dat-41fde09e0536 = Transcription of the named Recommendations (freely downloadable from itu.int), each limit carrying its table or clause, listed with every unconfirmed or unimplemented item in docs/TELECOM-TIMING.md; the breakpoint-continuity identities the tables imply are checked in the tests. A standards transcription with internal consistency checks, not a conformance test and not an external validation. { "0.30" } round { "2" } (pre-registered 0f8c3f11), blocked (stays MODELLED): the ten mask values and thirteen ePRTC-A holdover values the Recommendations print as worked numbers (G.8272 Figs. 1-2, G.8272.1 Amd.1 cl. { "8.2.1" } and Figs. V.1-V.3, G.8271.1 Amd.3 Figs. 7-2 to 7-4) are reproduced inside half a printed unit, most of them table constants or breakpoints; G.8271.1 Fig. 7-2 labels { "200" } ns at { "1.3" } s against its own Table 7-1 ({ "197.5" } ns). The G.8273.2 class A-D limits have no printed worked value, and the G.8272.1 ePRTC locked breakpoint labels (on solid construction lines) were excluded by the pre-registered selection rule, so those remain transcriptions
+dat-7cf2673b9546 = Transcription of the named Recommendations (freely downloadable from itu.int), each limit carrying its table or clause, listed with every unconfirmed or unimplemented item in docs/TELECOM-TIMING.md; the breakpoint-continuity identities the tables imply are checked in the tests. A standards transcription with internal consistency checks, not a conformance test and not an external validation. { "0.30" } round { "2" } (pre-registered 0f8c3f11), blocked (stays MODELLED): the ten mask values and thirteen ePRTC-A holdover values the Recommendations print as worked numbers (G.8272 Figs. 1-2, G.8272.1 Amd.1 cl. { "8.2.1" } and Figs. V.1-V.3, G.8271.1 Amd.3 Figs. 7-2 to 7-4) are reproduced inside half a printed unit, most of them table constants or breakpoints; G.8271.1 Fig. 7-2 labels { "200" } ns at { "1.3" } s against its own Table 7-1 ({ "197.5" } ns). The G.8273.2 class A-D limits have no printed worked value, and the G.8272.1 ePRTC locked breakpoint labels (on solid construction lines) were excluded by the pre-registered selection rule, so those remain transcriptions
 
 # data/verification-matrix.json
 dat-d599af854f03 = TRK-2-18 Orbit Data File reader and Mars ramped 2-way Doppler model
@@ -9053,7 +9467,7 @@ dat-a424ed5ba327 = Tutorial { "2" } — Clock holdover: how long can you coast
 dat-43b0b402ae05 = Tutorial { "3" } — Quantum vs classical GNSS resilience (capstone)
 
 # data/verification-matrix.json
-dat-b349d9190a41 = Two different in-codebase computations of the same quantity, not one restated: bisection on the IEEE-1139 power-law curve knows nothing about noise type, while the closed form inverts the dominant type algebraically, so a misclassified noise type or a bad bracket shows as a non-tiny relative difference. The four values also reproduce the paper's published table to half its last printed digit -- but that table was itself reconstructed from the same closed form, so it is a reproducibility check and not an external oracle, and the frame term it is measured against is a Modelled allocation
+dat-6db1152e6f46 = Two different in-codebase computations of the same quantity, not one restated: bisection on the IEEE-1139 power-law curve knows nothing about noise type, while the closed form inverts the dominant type algebraically, so a misclassified noise type or a bad bracket shows as a non-tiny relative difference. The four values also reproduce the released crossover table of the lunar time-budget study to half its last printed digit -- but that table was itself reconstructed from the same closed form, so it is a reproducibility check and not an external oracle, and the frame term it is measured against is a Modelled allocation
 
 # data/verification-matrix.json
 dat-56afaff440ac = Two-axis sweep of the pattern-weighted, altitude-limited surface capture footprint over transmitter altitude and dish diameter, emitted one row per operating point with the half-power beamwidth each diameter implies, and limb capture reported as a THRESHOLD -- per row the limb J/S, its margin and the transmit power that would close it; per grid the located crossings, or an explicit statement that the limb is not reached anywhere on the grid, with the shortfall
@@ -9184,6 +9598,9 @@ dat-d7b6a8ce3a7a = Validation status
 # data/search.json
 dat-2db9e436cfdd = Validation: the inversion on a held-out real clock
 
+# data/verification-matrix.json
+dat-619842f234a7 = Vallado AIAA 2006-6753 worked example (TEME→PEF, TEME→ITRF and GCRS→ITRS within { "50" } mm, observed { "0.1" } to { "4" } mm; TEME→GCRS within { "0.5" } m, as Vallado's GCRF applies the celestial-pole offsets dX/dY and the full IAU 2000A series that this chain omits); Vallado Fundamentals Example 3-3 (geodetic latitude and height)
+
 # data/search.json
 dat-f4a97f622c0a = Variant: laboratory-grade strontium optical clock vs CSAC.
 
@@ -9203,13 +9620,13 @@ dat-0f25026f5234 = Verify a signed evidence pack (`kshana evidence verify`): eve
 dat-068809535e3c = versioned envelope · round-trip + forward-compatible read verified
 
 # data/verification-matrix.json
+dat-c12e204803df = VIšeKriterijumska Optimizacija I Kompromisno Rešenje — group-utility Sᵢ, individual-regret Rᵢ and the compromise index Qᵢ at strategy weight v={ "0.5" }, with the lower-is-better ranking
+
+# data/verification-matrix.json
 dat-8c6a34721e44 = Visibility passes (AOS, TCA, LOS, maximum apparent elevation, duration) of an SGP4 element set over a WGS-84 station on the validated Earth-orbit path (IAU 2006/2000A, optional Earth orientation parameters), with ITU-R P.834-9 tropospheric refraction (equations { "9" } to { "14" }, the Recommendation's printed coefficients) and the downlink light time, each switchable; crossings solved by bisection to { "1e-7" } s and the culmination by golden-section search. Runnable from the CLI/bindings as the `passes` scenario kind (scenarios/passes.toml), both corrections on by default
 
 # studio/data/capabilities.json
 dat-a4d681c2f89b = VLBI schedule to station-coordinate covariance
-
-# data/verification-matrix.json
-dat-715f9872a12d = VlseKriterijumska Optimizacija — group-utility Sᵢ, individual-regret Rᵢ and the compromise index Qᵢ at strategy weight v={ "0.5" }, with the lower-is-better ranking
 
 # studio/channels.json
 dat-cec4d4f917b6 = VS Code (one click)
@@ -9227,7 +9644,7 @@ dat-d2bc1a8c41f0 = vs numpy/scipy Umeyama–Horn SVD
 dat-057b91b0c350 = vs official BGS IGRF-14 values
 
 # data/verification-matrix.json
-dat-727093687049 = wahba::tests (A(identity quaternion)=I; the Jacobi eigensolver satisfies Kv=λv and preserves the trace on a known symmetric matrix; K is symmetric); tests/wahba_reference.rs (TRIAD, Davenport's q-method and QUEST reproduce scipy.spatial.transform.Rotation.align_vectors' optimal DCM on noiseless weighted vector sets to <{ "1e-9" } rad via the frame-agnostic attitude-error angle; plus the q-method recovers a known rotation with λ_max=Σ weights and zero Wahba loss, the q-method solution minimises the Wahba loss under perturbation, QUEST agrees with the optimal q-method to <{ "1e-7" } rad, and the optimal estimator beats two-vector TRIAD in RMS attitude error over { "2000" } noisy Monte-Carlo trials)
+dat-12177f7b6840 = wahba::tests (A(identity quaternion)=I; the Jacobi eigensolver satisfies Kv=λv and preserves the trace on a known symmetric matrix; K is symmetric); tests/wahba_reference.rs (Davenport's q-method reproduces scipy.spatial.transform.Rotation.align_vectors' optimal DCM on noiseless weighted vector sets to <{ "1e-9" } rad via the frame-agnostic attitude-error angle, TRIAD to <{ "1e-9" } rad on the two-vector cases and QUEST to <{ "1e-8" } rad; plus the q-method recovers a known rotation with λ_max=Σ weights and zero Wahba loss, the q-method solution minimises the Wahba loss under perturbation, QUEST agrees with the optimal q-method to <{ "1e-7" } rad, and the optimal estimator beats two-vector TRIAD in RMS attitude error over { "2000" } noisy Monte-Carlo trials)
 
 # data/verification-matrix.json
 dat-7a50fbacac97 = Wahba/TRIAD/QUEST attitude determination
@@ -9293,6 +9710,9 @@ dat-91b5336a4a1f = What a row means
 dat-a9c9d77f4ae3 = What a validated residual means here
 
 # data/search.json
+dat-9f227bb63e94 = What an adapter holds
+
+# data/search.json
 dat-002d214117b2 = What bounds it
 
 # data/search.json
@@ -9333,9 +9753,6 @@ dat-f998b3c0c729 = What is computed
 
 # data/search.json
 dat-d90f873bae70 = What is computed per signal
-
-# data/verification-matrix.json
-dat-19486e94f8c9 = WHAT IS EXTERNALLY CHECKED, stated narrowly: gps-sdr-sim (MIT, commit 28ca29a6) readNmeaGGA, readUserMotion and readUserMotionLLH with its own WGS { "84" } llh2xyz, called through xval/testbench-gpssdrsim/driver.c (no signal function called), against the motion CSV's Earth-fixed columns row by row, with bars pre-registered in xval/testbench-gpssdrsim/PREREGISTRATION.md before any run: every sample read on all { "8" } scenarios; NMEA worst { "1.21" } mm (bar { "1" } cm); LLH cut worst { "0.145" } mm (bar { "1" } mm); four-column Earth-fixed cut exact (bar { "1" } um, amendment { "1" }); gnss-ins rows on the simulator's { "10" } Hz grid to { "2.3e-13" } s. FINDING (run { "1" }, pinned): the header-removed full-width CSV is not readable by -u, because the reader's 100-character line buffer splits each 161-character row into two samples; docs/TEST-BENCH.md gives the four-column cut. WHAT IS NOT: the physics of the scenario's truth trajectory; gps-sdr-sim's signal output; any other simulator's reader; any receiver.
 
 # data/search.json
 dat-ad4d6d2f2bfe = What is implemented
@@ -9392,6 +9809,9 @@ dat-19270c6e5d05 = What it is, and what it is not
 dat-3995ccf3a5df = What it reads
 
 # data/search.json
+dat-933d0e50842e = What it writes
+
+# data/search.json
 dat-e9866ffcee45 = What Kshana is not
 
 # data/search.json
@@ -9402,6 +9822,9 @@ dat-8ec7e65cc362 = What makes it different
 
 # data/search.json
 dat-15cba1bf87b0 = What one run computes
+
+# data/search.json
+dat-9610952da29c = What the check refuses
 
 # data/search.json
 dat-46be95cd5f6c = What the checks can and cannot tell
@@ -9468,6 +9891,9 @@ dat-c053702f8863 = What's new in { "0.39" }
 
 # data/search.json
 dat-82201a0b07b0 = What's new in { "0.40" }
+
+# data/search.json
+dat-b17643fe6316 = What's new in { "0.41" }
 
 # data/search.json
 dat-244b436782d3 = Where a log can be used
@@ -9560,6 +9986,12 @@ dat-e4f36434be06 = Worst-case triangle bound on the Helmert point-Jacobian actio
 dat-278a0de08553 = Write a GeoJSON route into a Kshana scenario that flies a waypoint track, and return the new scenario TOML (run it with run_scenario).
 
 # data/verification-matrix.json
+dat-1ac0d984e5c6 = Write a JPL Horizons state table as a CCSDS OEM, a CCSDS OPM or an SPK kernel, and read it back
+
+# js/developers-data.mjs
+dat-2473556b9c6b = Write a JPL Horizons vector table (for example the CAPSTONE or Artemis I states of the mission thread) as a file flight-dynamics tools load (`kshana ephem-export`, docs/FLIGHT-DYNAMICS-EXPORT.md): a CCSDS OEM { "2.0" } of every state (`format` `oem`), a CCSDS OPM { "3.0" } of one state (`opm`, `index`), or a NAIF SPK kernel of type { "13" } or { "9" } (`spk`).
+
+# data/verification-matrix.json
 dat-c14c336c5c33 = Writer and reader of NAIF SPICE SPK kernels of types { "9" } (Lagrange, unequal time steps) and { "13" } (Hermite, unequal time steps), with the DAF layout, segment descriptors and epoch directories, and the export of a CCSDS OEM to an SPK kernel (UTC or TDB epochs to ephemeris time)
 
 # data/verification-matrix.json
@@ -9576,6 +10008,9 @@ dat-14a123e4b029 = Writes a scenario's vehicle motion and events as a CSV trajec
 
 # studio/data/capabilities.json
 dat-83d4ec0ad790 = Writes synthetic bridge NMEA { "0183" } for a scripted voyage with instructor-scripted jamming, position drag-off, time-spoof and replay events, with an instructor log, so a crew can see what a degraded fix looks like on their own instruments. Text only, never for a vessel's live navigation systems; nothing is transmitted and no radio signal is made. The sentences and their decoded values are checked; the receiver, sky and event models are modelled.
+
+# data/search.json
+dat-e7b822d3e333 = Writing one
 
 # data/search.json
 dat-aeb0bd942720 = Xona Pulsar

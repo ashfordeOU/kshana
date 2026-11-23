@@ -17,7 +17,7 @@ weighed against that scope, not against feature-count.
 
 ## Roles
 
-- **Maintainer.** Kshana is currently maintained by its founder, Ashforde OÜ
+- **Maintainer.** Kshana is currently maintained by Ashforde OÜ
   (contact: `contact@ashforde.org`). The maintainer is the final decision-maker
   on scope, design, releases, and what is merged. This is a benevolent-maintainer
   model, stated plainly rather than dressed up as a committee that does not exist.

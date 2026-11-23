@@ -940,7 +940,6 @@ seg-8adbbd2cdb74 = Samoopis raportu hybrydowego optycznego/RF
 
 seg-2a5e48b558e1 = Raport hybrid-optical-rf podaje konfigurację łącza, z którą faktycznie został uruchomiony (długość fali nośnej, apertura nadawcza i odbiorcza, odległość, szerokość impulsu, czas całkowania, sprawności i straty, rozstrzygnięte wartości domyślne) i zawiera blok jednostek podający jednostkę i klasę pochodzenia każdej wielkości, którą artykuł prawdopodobnie przytoczy, w tym ślady kowariancji przekazania w metrach kwadratowych
 
-seg-23f0c10237f4 = Brak zewnętrznej wyroczni i żadna nie jest możliwa: to jest samoopis, a nie pomiar. Jest zapisany, ponieważ jego brak był wadą -- P5 musiał przytaczać długość fali nośnej i aperturę nadawczą z domyślnych wartości w kodzie źródłowym oraz wnioskować, że gołe <c1/> jest w metrach kwadratowych, z kontroli spójności wewnętrznej. Wniosek był poprawny, i właśnie dlatego miał znaczenie: nic nie wychwyciłoby, gdyby był błędny
 
 seg-0691f3dee8cb = Dostępność łącza hybrydowego optycznego/RF po stronie RF
 
@@ -2260,8 +2259,6 @@ seg-d5c32303297d = Przeczytaj rejestr
 
 seg-f6112ab2dfdf = Rejestr, wyniki, stempel odtwarzalności i testy, które za nimi stoją, są w całości w otwartym silniku.
 
-seg-69df15091cab = Pakuje dowody w odtwarzalny pakiet dowodowy klasy audytowej dla komisji przeglądowej. <a1>Zobacz poniżej</a1>
-
 seg-9906d9824f3e = Odpowiada na Twoje własne pytanie z tymi samymi etykietami, nie jest certyfikacją. <a1>Zobacz poniżej</a1>
 
 seg-f6a6cca2263c = Macierz
@@ -3184,8 +3181,6 @@ seg-7091847e1c77 = Opublikowany model lub udokumentowany wybór modelowania, tes
 
 seg-1d17589ad647 = Inżynieria platformy statku kosmicznego, ładunek nawigacyjny i sprzęt antenowy, sprzęt ładunku kwantowego oraz zapewnienie produktu dla sprzętu lotniczego. { -brand } nie rości sobie żadnego z nich; należą do partnera.
 
-seg-5af3d58e83fa = <b>Z Pro:</b> <b>dossier misji</b> sprawdza każde wymaganie względem prawdziwych przebiegów i zachowuje te etykiety w swojej macierzy weryfikacji: wymaganie spełnione na podstawie MODELLED lub PARTNER jest oznaczane. <a1>Zobacz prawdziwe dossier</a1>
-
 seg-400016e22379 = Rejestr walidacji
 
 seg-20ec758fe328 = Każdy wiersz podaje swoje wymaganie, status i moduł, który je realizuje. Otwórz wiersz, by zobaczyć jego wyrocznię i testy, lub wybierz dziedzinę, by zawęzić.
@@ -3680,8 +3675,6 @@ seg-457a0bba7c77 = <s1>tests/receiver_trust_machines.rs (rtklib_pos_runs_as_a_re
 
 seg-17ab1aee875b = Wygenerowano z macierzy weryfikacji silnika i przypięto testem. Przewiń listę albo otwórz wiersz, by zobaczyć jego możliwość, wyrocznię i testy. Pełna tabela, wszystkie kolumny naraz, jest w dokumentacji: <a1>Opis możliwości</a1>.
 
-seg-41da0459d87a = Potrzebny jest ten rejestr (ledger) jako odtwarzalny pakiet dowodowy klasy audytowej dla komisji przeglądowej? <a1>Kshana Pro go przygotowuje</a1>.
-
 seg-72a49f4a8a52 = Odtwarzalne domyślnie
 
 seg-fa37e615f55e = Uruchom ponownie. Te same liczby.
@@ -3733,10 +3726,6 @@ seg-481e625b04be = Te same dowody, w pakiecie albo wykonane na zamówienie.
 seg-d2c76b1353a9 = Silnik i wszystko powyżej pozostaje darmowe. Dwie płatne ścieżki opierają się na tym, na podstawie umowy.
 
 seg-1e1e6d431868 = Kshana Pro: dossier misji i pakiet dowodowy
-
-seg-20582558a93f = Kshana Pro pakuje odtwarzalnie dowody, o które prosi komisja przeglądowa lub zakupowa. Opiera się na: tym rejestrze (ledger), w którym każda możliwość wskazuje swoją wyrocznię i swój test, oraz na stemplu, który niesie każdy wynik. Jednym poleceniem dossier misji sprawdza każde wymaganie na rzeczywistych przebiegach i zapisuje macierz weryfikacji z jej otwartymi pozycjami oraz PDF (Portable Document Format).
-
-seg-1c8effb9400a = Zobacz prawdziwe dossier
 
 seg-c24f4ecd4d42 = Badanie na zamówienie: odpowiedź na zadane pytanie
 
@@ -4090,37 +4079,11 @@ seg-860ca782e2bf = Propagacja stanu średniego fazy tli-and-cruise (Cowell, masa
 
 seg-7c7d72cc2036 = Dopuszczalny obszar tego, gdzie może znajdować się źródło pogorszonych raportów nawigacyjnych, na podstawie ADS-B… · Modelowane
 
-seg-43f852e4bee8 = z { "74" } sprawdzonych
-
 seg-8fe12f6058c6 = z { "26" } sprawdzonych
 
 seg-65122c2bb1fc = z { "104" } sprawdzonych
 seg-2998c6fa20d6 = z { "79" } sprawdzonych
 seg-4b3ab6095c65 = z { "56" } sprawdzonych
-
-seg-0c637f4b6c88 = { "412" } możliwości, każda oceniona. <b>{ "176" } sprawdzonych</b> względem niezależnych zewnętrznych wyroczni. <b>{ "232" } rzetelnie oznaczonych jako modelowane.</b> { "4" } należących do partnera. Nic nie jest zaokrąglane w górę.
-
-seg-c2c3179c1316 = Macierz weryfikacji, jedna komórka na możliwość w kolejności rejestru: { "176" } sprawdzonych (wypełnione kwadraty), { "232" } modelowanych (puste kwadraty), { "4" } należących do partnera (romby). Klawisze strzałek przesuwają między komórkami; możliwość i jej wyrocznia są odczytywane poniżej.
-
-seg-a2cdd2df1b36 = Silnik v{ $version } · <c1/>, wygenerowane z <c2/> · { "412" } wierszy · bez scenariusza i ziarna (seed): własny rejestr silnika
-
-seg-b36352ff4d2a = Silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
-
-seg-edd1aba6a08c = Silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
-
-seg-90efc3759f07 = Silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
-
-seg-094876c75564 = Silnik v{ $version } · tabele reszt <c1/>, z dwiema kontrolami propagatora przeliczonymi w kompilacji <c2/> · deterministyczne, bez ziarna (seed)
-
-seg-1c7e4b85e701 = Silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
-
-seg-f42398e9711c = Silnik v{ $version }, kompilacja <c1/> · <c2/> · deterministyczne, bez ziarna (seed)
-
-seg-07e8ef5a102f = { "176" }<s1>z { "412" } sprawdzonych</s1>
-
-seg-4873cd813b9a = Macierz weryfikacji: { "176" } sprawdzonych, { "232" } modelowanych, { "4" } należących do partnera, { "412" } łącznie
-
-seg-98b273ce8773 = Wszystkie { "412" } wierszy, po jednej linii.
 
 seg-7780d0588bd2 = z { "20" } sprawdzonych
 
@@ -4129,9 +4092,3 @@ seg-00d97be31745 = z { "81" } sprawdzonych
 seg-04cc15e9a93c = z { "31" } sprawdzonych
 
 seg-2de2a4f9f3f7 = z { "57" } sprawdzonych
-
-seg-c321a2dafd3e = Wszystkie { "412" }
-
-seg-bc4726a0baf1 = Modelowane { "232" }
-
-seg-40e80b22723c = Rejestr walidacji, { "412" } wierszy, z przewijaniem

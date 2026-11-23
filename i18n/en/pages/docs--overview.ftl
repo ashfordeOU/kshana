@@ -92,7 +92,7 @@ seg-b48beb2ab181 = Kshana replays jamming, spoofing and clock holdover when GNSS
 seg-fc81e99583fe = Every run is reproducible bit for bit from the scenario, the seed and the engine version. Every capability carries one of three labels in a machine-checked ledger: <b>VALIDATED</b> (an independent external oracle agrees), <b>MODELLED</b> (internally consistent, and said out loud) or <b>PARTNER</b> (a hardware partner owns it).
 
 # text
-seg-f2bf8028e0d4 = <b>Status: v{ $version }.</b> A validated, reproducible simulation substrate for PNT resilience. Timing and holdover come first, because that domain is the best validated. Kshana is a study and trade-off instrument: not radio-frequency (RF) signal-generator hardware (it drives no radio and transmits nothing; its signal-level output is baseband IQ sample files for software receivers), not a hardware or certified GNSS receiver (its software receiver is an analysis tool) and not a flight product. New to the field? Start with the <a1>plain-language primer</a1> and the <a2>glossary</a2>.
+seg-cbf295c58037 = <b>Status: v{ $version }.</b> A reproducible simulation substrate for PNT resilience, with every capability labelled by its evidence. Timing and holdover come first, because that domain has the most VALIDATED rows. Kshana is a study and trade-off instrument: not radio-frequency (RF) signal-generator hardware (it drives no radio and transmits nothing; its signal-level output is baseband IQ sample files for software receivers), not a hardware or certified GNSS receiver (its software receiver is an analysis tool) and not a flight product. New to the field? Start with the <a1>plain-language primer</a1> and the <a2>glossary</a2>.
 
 # text
 seg-e3ca367dc345 = What's new in { "0.41" }
@@ -100,12 +100,9 @@ seg-e3ca367dc345 = What's new in { "0.41" }
 # text
 seg-c25be195ef77 = { "0.41" } scores the evidence rows signed for it, each once against bars fixed before the data, and publishes each result as it came out (the C2 v2 rerun was not run). It adds an area trust state with a satellite-fault screen, a monitoring-network planner, a TDOA jammer locator, dark-vessel and AIS-integrity decisions, the TEXBAT spoofing benchmark, flight-dynamics exports and an RTCM SSR reader. The ledger is now { "413" } rows: { "176" } VALIDATED, { "233" } MODELLED, { "4" } PARTNER. No row was promoted to VALIDATED, and every miss below is pinned by a test.
 
-# attr:title
-seg-34bdcfd66ded = In the repository branch these docs come from; not yet on GitHub
-
 # text
 # c1: kshana area-trust
-seg-f964fda9114b = <b>Area trust (<c1/>, B5).</b> One trust state for an area from several reference stations. Version { "3" } flags a satellite whose removal clears the alarms at several stations at once and recomputes their fixes without it; loss of lock alone no longer degrades a station. On { "26" } area-days of IGS data (Goddard and Wettzell, May { "2026" }) it raised { "1" } alert (bar ≤ { "1" } per area-day) and <b>meets</b> T4; on synthetic faults it <b>misses</b> T2 ({ "123" } of { "127" } faults cleared; { "4" } where the remaining geometry is weak, and { "2" } of { "67" } two-satellite epochs explained by one). T3 (alert latency) is met. B5 v3 is <b>NOT MET</b> (<s1>results</s1>). The diagnosis also found the engine using broadcast records marked unhealthy; GPS and QZSS records so marked are now skipped.
+seg-7b0bd86e952d = <b>Area trust (<c1/>, B5).</b> One trust state for an area from several reference stations. Version { "3" } flags a satellite whose removal clears the alarms at several stations at once and recomputes their fixes without it; loss of lock alone no longer degrades a station. On { "26" } area-days of IGS data (Goddard and Wettzell, May { "2026" }) it raised { "1" } alert (bar ≤ { "1" } per area-day) and <b>meets</b> T4; on synthetic faults it <b>misses</b> T2 ({ "123" } of { "127" } faults cleared; { "4" } where the remaining geometry is weak, and { "2" } of { "67" } two-satellite epochs explained by one). T3 (alert latency) is met. B5 v3 is <b>NOT MET</b> (<a1>results</a1>). The diagnosis also found the engine using broadcast records marked unhealthy; GPS and QZSS records so marked are now skipped.
 
 # text
 seg-9363b4189416 = <b>Spoofing benchmark (TEXBAT, E5).</b> Scored once on all ten TEXBAT recordings with rules fixed before any file was read: the power-and-distortion score <b>meets</b> E5-PD (AUC { "0.7410" }, bar { "0.70" }); the baseline IQ score <b>misses</b> E5 v2 (AUC { "0.6941" }). Only scores are published, never the recordings (<a1>results</a1>).
@@ -116,7 +113,7 @@ seg-bde6242aafe7 = <b>Monitoring-network planner (<c1/>, B1a).</b> Detection and
 
 # text
 # c1: locate_tdoa
-seg-ca93de5aa4d2 = <b>Jammer location.</b> The power-difference locator (B3a) <b>misses</b> its synthetic gate in v1 and v2; the new TDOA locator (B3b, <c1/>) <b>misses</b> its gate too (coverage { "0.044" } against { "0.90" }: its peak refinement errs by up to half a sample against a { "28" } ns stated σ). Both rows stop; no real run is made with either method (<s1>B3b results</s1>).
+seg-0b1eb5489d51 = <b>Jammer location.</b> The power-difference locator (B3a) <b>misses</b> its synthetic gate in v1 and v2; the new TDOA locator (B3b, <c1/>) <b>misses</b> its gate too (coverage { "0.044" } against { "0.90" }: its peak refinement errs by up to half a sample against a { "28" } ns stated σ). Both rows stop; no real run is made with either method (<a1>B3b results</a1>).
 
 # text
 seg-7aa8be9c346a = <b>Dark vessels and AIS integrity (M4).</b> Version { "3" } <b>meets</b> dark-vessel recall ({ "0.994" }) and every other bar but position offsets, which it <b>misses</b> ({ "0.489" } at { "5" } km against { "0.85" }) (<a1>results</a1>). Every output describes data consistency, never intent.
@@ -130,6 +127,13 @@ seg-90f90c9314ee = Flight dynamics and corrections.
 # text
 # c1: kshana ephem-export
 seg-df18f9014509 = <c1/> writes a JPL Horizons table as a CCSDS OEM or OPM or an SPK kernel and reads it back; Orekit, Basilisk and ANISE read the files with the written bits. An RTCM SSR (IGS SSR) reader, a Bias-SINEX reader and the IERS { "2010" } solid Earth tide are added.
+
+# text
+seg-ab4de36a9147 = Orbit-data checks.
+
+# text
+# c1: kshana orbit-data
+seg-ab6368a9a8c6 = <c1/> checks CCSDS conjunction data messages (508.0-B-1) and OEM and OCM ephemerides (502.0-B-3) and says valid or invalid against the section it cites, converts OEM to OCM and back with provenance kept, compares and audits two-line element sets, and checks and propagates covariances (MODELLED). On the standard's own CDM examples it finds a covariance that is not positive definite and two syntax slips (<a1>Orbit data</a1>).
 
 # text
 seg-cafc1c9c4d58 = What's new in { "0.40" }
@@ -475,7 +479,7 @@ seg-c626c7f1926d = New Studio views
 # c3: /studio/holdover/
 # c4: /studio/observatory/
 # c5: /studio/iq/
-seg-430ad5051686 = <a1>kshana.dev/studio</a1> gains a Bridge replay (two runs side by side on one mission clock, at <a2><c1/></a2>), an Optical PNT page (<c2/>), a Holdover test page (<c3/>) and an observatory viewer (<c4/>). They run the same engine in the browser, nothing is uploaded, and they carry the same advisory statement. In Kshana Desktop only, an IQ recording view (<c5/>) reads a recording from disk and shows its power over time, a waterfall and the spectrum at a cursor; it reads received samples only and has no control that writes, transmits or makes a signal. The pictures above are drawn from the engine's own output by a script; they are not screenshots of these pages.
+seg-9d96d33d04df = <a1>kshana.dev/studio</a1> gains a Bridge replay (two runs side by side on one mission clock, at <a2><c1/></a2>), an Optical PNT page (<c2/>), a Holdover test page (<c3/>) and an observatory viewer (<c4/>). They run the same engine in the browser, nothing is uploaded, and they carry the same advisory statement. In Kshana Desktop (available from <a3>kshana.dev</a3>) only, an IQ recording view (<c5/>) reads a recording from disk and shows its power over time, a waterfall and the spectrum at a cursor; it reads received samples only and has no control that writes, transmits or makes a signal. The pictures above are drawn from the engine's own output by a script; they are not screenshots of these pages.
 
 # text
 # c1: gnss-ssv
@@ -517,7 +521,7 @@ seg-7ddfa195b5e4 = The Moon's orbit and surface as navigation and geodetic infra
 seg-18fc4ba766df = Consistency of an onboard Earth-GNSS orbit determination in a near-rectilinear halo orbit with an independent ground orbit determination, from real runs of engine v{ $version } on scenarios/lunar-infrastructure-od-consistency.toml and the model-error variant ({ "400" } trials each). Mean normalised difference q is { "5.81" } with no model error and { "5.95" } with an injected acceleration error of { "3e-10" } m/s2, against { "6" } expected: the two orbit solutions are consistent (bar C1 MET). The share of trials above the { "95" } % point is { "0.040" } and { "0.052" }; the bar for detecting the injected error was at least { "0.5" }, so it is NOT MET (C3): the onboard solution is known to about { "352" } m against { "23" } m for the ground one, so a ten-metre displacement hides inside its covariance. MODELLED: a restricted three-body model with stated simplifications and illustrative inputs, not a measurement of any lunar quantity. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service.
 
 # attr:alt
-seg-47949eaeac72 = Carrier-phase integer ambiguity fixing between lunar surface stations and an orbiter, from the committed result of the scored run of engine v{ $version } (tests/fixtures/lunar_infra/phase_full_run.json: { "3" } arc lengths, a Monte Carlo of { "401" } draws each, written by scenarios/carrier-phase-scored.toml). { "1" } day: success { "1.0" } % (standard error { "0.5" } %), { "134" } ambiguities, orbiter position sigma { "45.6" } m float and { "18.5" } m fixed; { "2" } day: success { "0.5" } % (standard error { "0.4" } %), { "259" } ambiguities, orbiter position sigma { "21.5" } m float and { "8.7" } m fixed; { "3" } day: success { "2.8" } % (standard error { "0.8" } %), { "375" } ambiguities, orbiter position sigma { "6.3" } m float and { "2.1" } m fixed. Integer fixing is not achieved: success stays between { "1" } % and { "3" } % at { "25" } dBi, and at the registered { "12" } dBi the problem cannot be formed. MODELLED: a restricted three-body model with stated simplifications and illustrative inputs, not a measurement of any lunar quantity. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service.
+seg-4c08262e2556 = Carrier-phase integer ambiguity fixing between lunar surface stations and an orbiter, from the committed result of the scored run of engine v{ $version } (tests/fixtures/lunar_infra/phase_full_run.json: { "3" } arc lengths, a Monte Carlo of { "400" } draws each, written by scenarios/carrier-phase-scored.toml). { "1" } day: success { "1.0" } % (standard error { "0.5" } %), { "134" } ambiguities, orbiter position sigma { "45.6" } m float and { "18.5" } m fixed; { "2" } day: success { "0.5" } % (standard error { "0.4" } %), { "259" } ambiguities, orbiter position sigma { "21.5" } m float and { "8.7" } m fixed; { "3" } day: success { "2.8" } % (standard error { "0.8" } %), { "375" } ambiguities, orbiter position sigma { "6.3" } m float and { "2.1" } m fixed. Integer fixing is not achieved: success stays between { "1" } % and { "3" } % at { "25" } dBi, and at the registered { "12" } dBi the problem cannot be formed. MODELLED: a restricted three-body model with stated simplifications and illustrative inputs, not a measurement of any lunar quantity. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service.
 
 # attr:alt
 seg-7e5b10641b20 = Precision of the seven-parameter lunar datum (three translations, a scale and three rotations) from Earth-station ranging, with and without orbiter-to-surface-station ranges, from a real run of engine v{ $version } on scenarios/lunar-infrastructure-frame-coestimation.toml. The Cramer-Rao sigma of the translations and rotations falls with the orbiter links (for example t_z from { "0.98" } m to { "0.046" } m); the smallest information eigenvalue rises 111-fold and the CRLB trace falls to { "1.0" } % (bar F3 MET). This assumes the orbit is known in the lunar axes, with its error carried by the orbiter range sigma of { "1" } m. MODELLED: a restricted three-body model with stated simplifications and illustrative inputs, not a measurement of any lunar quantity. Advisory: analysis output from a research and engineering tool, not type-approved navigation equipment and not a safety-of-life service.
@@ -538,7 +542,7 @@ seg-1b484c7d2d35 = Open <a1>kshana.dev/studio</a1> and the whole engine runs in 
 seg-503f53e7874b = <b>The Simple view</b> is where the Studio opens. It starts from questions (how many satellites can I see, can I trust my position fix, how long can a clock keep time, what does a jammer do to my receiver) and from a map of everything the engine can do, each area with its share of validated methods. Open a scenario and the answer comes first: one plain sentence, written for what that scenario measures, then its key figures and a chart. At most five settings are on show, the ones that change the answer most; the rest wait under <b>Advanced settings</b>. <b>How this is computed</b> explains the method, and <b>For researchers</b> gives the engine's own figures, the scenario file, the code to run it from Python and the citation.
 
 # attr:alt
-seg-91d06a3fa705 = Kshana Studio, Simple view, on the bundled scenario integrity-raim, engine v{ $version } running locally. The question: does the geometry meet the alert limits (horizontal and vertical protection level)? The answer first, marked Live result: Yes, mostly: for { "95.3" } % of the { "12" } h. The receiver's error bound stayed under the alert limits ({ "40" } m horizontal and { "50" } m vertical) at { "344" } of { "361" } checks, and no fix was misleading. Key figures: time the fix can be trusted { "95.3" } %, longest gap { "10" } min, typical error bound { "6.5" } / { "13" } m, misleading fixes { "0" }. Beside it, Try other settings with five of them (the range error, the two alert limits, the duration and the elevation mask) and Run again, then the folded sections Advanced settings ({ "13" } more), How this is computed ({ "8" } validated, { "6" } modelled) and For researchers. Below, the views of this result and the protection levels plotted against the alert limit.
+seg-52302929c330 = Kshana Studio, Simple view, on the bundled scenario integrity-raim, engine { "v0.39.0" } running locally. The question: does the geometry meet the alert limits (horizontal and vertical protection level)? The answer first, marked Live result: Yes, mostly: for { "95.3" } % of the { "12" } h. The receiver's error bound stayed under the alert limits ({ "40" } m horizontal and { "50" } m vertical) at { "344" } of { "361" } checks, and no fix was misleading. Key figures: time the fix can be trusted { "95.3" } %, longest gap { "10" } min, typical error bound { "6.5" } / { "13" } m, misleading fixes { "0" }. Beside it, Try other settings with five of them (the range error, the two alert limits, the duration and the elevation mask) and Run again, then the folded sections Advanced settings ({ "13" } more), How this is computed ({ "8" } validated, { "6" } modelled) and For researchers. Below, the views of this result and the protection levels plotted against the alert limit.
 
 # text
 seg-6767f63a1153 = <b>The Advanced view</b> is the full dashboard: the scenario library, five numbered steps (Choose, Set, Run, Read results, Share or export), the key figures with PASS and FAIL chips where the run states a threshold, and every panel: overview, charts, maps, replay, the engine's report and exports. One search box reaches scenarios, domains and the fields inside them, and you can pin up to four runs and compare them side by side.
@@ -547,10 +551,10 @@ seg-6767f63a1153 = <b>The Advanced view</b> is the full dashboard: the scenario 
 seg-48e01a0f5cb8 = The Simple view's opening screen, and the Advanced view after a run
 
 # attr:alt
-seg-69022d84094d = Kshana Studio, Simple view, opening screen, titled What would you like to find out?, with the engine v{ $version } live and, in the top bar, three links: Training debrief, Interference map and Receiver trust. Four questions: how many satellites can I see anywhere on Earth, can I trust my position fix, how long can a clock keep time without satellites, and what does a jammer do to my receiver. Below the first, its recorded result: at least { "22" } satellites in view at every place and { "31" } on average with GPS, Galileo, BeiDou and GLONASS together, a fix possible at { "100" } % of places and times, on a world map of satellites in view, with an Open this result button. Beside it, Everything Kshana can do: { "16" } areas and { "139" } ready-to-run scenarios, each tile with a small chart from a recorded run and its share of validated methods, and the ledger's { "173" } of { "350" } capabilities validated.
+seg-8912ea42b43a = Kshana Studio, Simple view, opening screen, titled What would you like to find out?, with the engine { "v0.39.0" } live and, in the top bar, three links: Training debrief, Interference map and Receiver trust. Four questions: how many satellites can I see anywhere on Earth, can I trust my position fix, how long can a clock keep time without satellites, and what does a jammer do to my receiver. Below the first, its recorded result: at least { "22" } satellites in view at every place and { "31" } on average with GPS, Galileo, BeiDou and GLONASS together, a fix possible at { "100" } % of places and times, on a world map of satellites in view, with an Open this result button. Beside it, Everything Kshana can do: { "16" } areas and { "139" } ready-to-run scenarios, each tile with a small chart from a recorded run and its share of validated methods, and the ledger's { "173" } of { "350" } capabilities validated.
 
 # attr:alt
-seg-5d3bb72c6490 = Kshana Studio, Advanced view, after a run of the bundled scenario constellation-multi-gnss-coverage (Four GNSS constellations, one map), engine v{ $version } running locally. On the left the scenario library, { "139" } scenarios in { "16" } domains. The five steps Choose, Set, Run, Read results and Share or export, with step { "4" } current. Key figures: { "102" } satellites, availability { "100" } % (PASS), median position dilution of precision (PDOP) { "0.95" } (PASS), PDOP 95th percentile { "1.105" } (PASS), { "31.03" } satellites in view on average and { "22" } at the fewest. Below, the panel row with Coverage selected, the replay bar, a world map of the mean PDOP from { "0.831" } to { "1.0853" } with every satellite drawn, and the global coverage figures.
+seg-09e39f089930 = Kshana Studio, Advanced view, after a run of the bundled scenario constellation-multi-gnss-coverage (Four GNSS constellations, one map), engine { "v0.39.0" } running locally. On the left the scenario library, { "139" } scenarios in { "16" } domains. The five steps Choose, Set, Run, Read results and Share or export, with step { "4" } current. Key figures: { "102" } satellites, availability { "100" } % (PASS), median position dilution of precision (PDOP) { "0.95" } (PASS), PDOP 95th percentile { "1.105" } (PASS), { "31.03" } satellites in view on average and { "22" } at the fewest. Below, the panel row with Coverage selected, the replay bar, a world map of the mean PDOP from { "0.831" } to { "1.0853" } with every satellite drawn, and the global coverage figures.
 
 # text
 # c1: web/README.md
@@ -563,7 +567,7 @@ seg-655d43f8ee92 = The site
 seg-8a4b804467d2 = The rest of <a1>kshana.dev</a1> is built from this repository's own files and engine runs: missions, capabilities, the evidence ledger, the published research and the editions.
 
 # attr:alt
-seg-b8f6321e9e0d = Three pages of kshana.dev side by side. The Home hero: the name line Kshana · क्षण · the precise instant above the headline Rehearse the minute GNSS goes dark, with the mission console of a real run of engine v{ $version } (a globe and three live charts: clock time error, carrier-to-noise density and protection level). Evidence, Published research: the six arXiv papers built on the open engine, the newest with an engine figure. Editions, Kshana Pro, the same engine, amplified: Free runs one scenario, Pro answers the programme's question.
+seg-7aafdbb81f44 = Three pages of kshana.dev side by side. The Home hero: the name line Kshana · क्षण · the precise instant above the headline Rehearse the minute GNSS goes dark, with the mission console of a real run of engine { "v0.39.0" } (a globe and three live charts: clock time error, carrier-to-noise density and protection level). Evidence, Published research: the six arXiv papers built on the open engine, the newest with an engine figure. Editions, Kshana Pro, the same engine, amplified: Free runs one scenario, Pro answers the programme's question.
 
 # text
 # c1: kshana kinds
@@ -589,6 +593,12 @@ seg-abd931555717 = Clocks and timing
 seg-89c449a15775 = how long each clock holds time after GNSS is lost
 
 # text
+seg-e4d89473f03a = Oscillators
+
+# text
+seg-b05959fb775d = what an oscillator's datasheet figures mean for tracking under vibration, holdover through temperature changes and shocks, and RAIM
+
+# text
 seg-564133d6a0c4 = Constellations around any body
 
 # text
@@ -605,6 +615,12 @@ seg-fc23add4540b = Low-Earth-orbit navigation
 
 # text
 seg-b9649961757b = a pass, a link, a navigation message and a fused fix, stage by stage
+
+# text
+seg-8eb6e6407545 = LEO-PNT verification
+
+# text
+seg-5705650a3f5c = what a LEO timing or positioning service would deliver: burst timing, holdover TDEV, cost against outages, indoor and rain loss, ambiguity resolution, jamming claims and Doppler-only integrity
 
 # text
 seg-fa63198a0f80 = a chained mission, a sweep or a Monte Carlo ensemble in one scenario
@@ -1140,7 +1156,7 @@ seg-de8c7b51103a = <b>{ "3" } — Time transfer</b> (optical inter-satellite lin
 seg-d0d5bec03487 = optical: <b>~{ "0.3" } mm</b> ranging
 
 # text
-seg-4159a1374e03 = RF (TWSTFT): <b>~{ "150" } mm</b> ranging
+seg-249392849b50 = RF (TWSTFT): <b>~{ "341" } mm</b> ranging
 
 # text
 seg-652a924f834d = <b>{ "4" } — Hybrid fusion</b> (capstone)
@@ -1164,8 +1180,8 @@ seg-1c38217f7c39 = Clock holdover through a GNSS outage: the optical clock (blue
 # text
 # c1: orbit-gnss-challenged.toml
 # c2: 1.0
-# c3: ~0.83
-seg-fb5c41741480 = A further scenario, <c1/>, derives GNSS availability from <b>orbital geometry</b> rather than hand-authored windows: a spacecraft inside the GNSS shell is propagated against a GPS-like Walker constellation, and the visible-satellite count (line-of-sight, Earth-occultation, elevation mask) sets the fix state at each step. Over a day the user is in fix only ~{ "59" }% of the time; the quantum clock holds a { "5" } ns timing solution through every gap (availability <c2/>), the chip-scale clock only <c3/>.
+# c3: ~0.73
+seg-e39fe8ec728a = A further scenario, <c1/>, derives GNSS availability from <b>orbital geometry</b> rather than hand-authored windows: a spacecraft inside the GNSS shell is propagated against a GPS-like Walker constellation, and the visible-satellite count (line-of-sight, Earth-occultation, elevation mask) sets the fix state at each step. Over a day the user is in fix only ~{ "59" }% of the time; the quantum clock holds a { "5" } ns timing solution through every gap (availability <c2/>), the chip-scale clock only <c3/>.
 
 # attr:alt
 seg-686f829644f8 = Orbit GNSS-challenged: clock timing error over a day for a spacecraft inside the GNSS shell, where the coverage gaps are derived from orbital geometry — the optical clock stays within the { "5" } ns spec across the gaps while the chip-scale clock breaches it
@@ -1367,7 +1383,7 @@ seg-34e44a492cad = <c1/> runs a scenario; every other command is a subcommand, a
 # c1: gnss_lib_py
 # c2: docs/ALL-SURFACES.md
 # c3: docs/SURFACES.md
-seg-4061734355a4 = One engine, the same results everywhere: the command line, the Rust library, Python, JavaScript and WebAssembly, the MCP server with its plugin commands and skills, Kshana Studio (every page runs in the browser, no install, nothing uploaded), the ROS { "2" }, Signal K, OpenCPN, GNSS-SDR and <c1/> integrations, the systemd, Docker and Grafana deploy kits, and the JetBrains plugin. <a1><c2/></a1> lists them with how to get each and the names of all the plugin commands, skills and Studio pages; <a2><c3/></a2> says, for every command and kind, which surface carries it and which do not, with the reason.
+seg-08c2309ee4c7 = One engine, the same results everywhere: the command line, the Rust library, Python, JavaScript and WebAssembly, the MCP server with its plugin commands and skills, Kshana Studio (every page runs in the browser, no install, nothing uploaded), the ROS { "2" }, Signal K, OpenCPN, GNSS-SDR and <c1/> integrations, the systemd, Docker and Grafana deploy kits, and the JetBrains plugin and Kshana Desktop, available from <a1>kshana.dev</a1>. <a2><c2/></a2> lists them with how to get each and the names of all the plugin commands, skills and Studio pages; <a3><c3/></a3> says, for every command and kind, which surface carries it and which do not, with the reason.
 
 # text
 seg-e46194af8cec = How a run works
@@ -1507,10 +1523,11 @@ seg-9dd73106acfc = owned by a hardware partner; Kshana holds no oracle for it
 
 # text
 # c1: src/
-# c2: docs/VERIFICATION-MATRIX.md
-# c3: src/verification.rs
-# c4: docs/MODELLED-RATIONALE.md
-seg-b4025cee46c2 = A few of the checks: all { "666" } AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 SGP4 (Simplified General Perturbations { "4" }) vectors to { "4.12" } mm; the Cowell force model to { "0.08" } m against Orekit { "12.2" }; Galileo to { "0.61" } m and Swarm-A to { "0.10" } m against real precise ephemerides of the European Space Agency (ESA). Tests hold near { "95" } % line coverage of <c1/>, gated at { "85" } % in CI. The ledger is <a1><c2/></a1>, generated from <c3/>: the <a2>full 413-row matrix</a2>, and why each Modelled row has no external oracle in <a3><c4/></a3>.
+# c2: docs/COVERAGE.md
+# c3: docs/VERIFICATION-MATRIX.md
+# c4: src/verification.rs
+# c5: docs/MODELLED-RATIONALE.md
+seg-e105a23aca36 = A few of the checks: all { "666" } AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 SGP4 (Simplified General Perturbations { "4" }) vectors to { "4.12" } mm; the Cowell force model to { "0.08" } m against Orekit { "12.2" }; Galileo to { "0.61" } m and Swarm-A to { "0.10" } m against real precise ephemerides of the European Space Agency (ESA). Tests held near { "95" } % line coverage of <c1/> at the last measurement (engine { "0.29.0" }, <a1><c2/></a1>), and CI fails below { "85" } %. The ledger is <a2><c3/></a2>, generated from <c4/>: the <a3>full 413-row matrix</a3>, and why each Modelled row has no external oracle in <a4><c5/></a4>.
 
 # text
 seg-6fd41f16334e = How validation works, the curated highlight table and the evidence figures
@@ -1522,7 +1539,7 @@ seg-997c436fc1e7 = Validation, reproducibility & honesty
 # c1: docs/VALIDATION.md
 # c2: validated
 # c3: not modeled
-seg-b2739313cab0 = Every noise term is calibrated to a <b>published, cited</b> figure and validated against the standard relation (Allan deviation for clocks; Groves' dead-reckoning error growth for inertial; the timing→ranging conversion for time transfer). Status per term is tracked in <a1><c1/></a1> as <c2/> or <c3/> — nothing is presented as validated that is not.
+seg-e04f8bb7f828 = Every noise term is calibrated to a <b>published, cited</b> figure and checked against the standard relation (Allan deviation for clocks; Groves' dead-reckoning error growth for inertial; the timing→ranging conversion for time transfer). Status per term is tracked in <a1><c1/></a1> as <c2/> or <c3/> — nothing is presented as validated that is not.
 
 # text
 seg-96fe11e93409 = Reproducible by construction:
@@ -1770,13 +1787,15 @@ seg-325b29867296 = <b>{ "5.7" } m</b> 3-D RMS / <b>{ "1.1" } m</b> horizontal, d
 seg-03e61b1c4e92 = IGS station ABMF survey + GPS broadcast ephemeris, 2018-05-13 (<c1/>)
 
 # text
-seg-5138b6282dc8 = Tightly-coupled GNSS/INS UKF
+# c1: hybrid-ukf
+seg-fef64d63f2ba = GNSS/INS unscented filter (<c1/>, { "17" } states)
 
 # text
-seg-5dbed5c9f9ab = <b>{ "0.77" } m RMS</b> over a 30-min LEO pass incl. a { "120" } s outage
+seg-9c2d36f7f3e1 = NIS and NEES inside their χ² bands; <b>{ "0.36" } m</b> aided, <b>{ "7.7" } m</b> after a { "120" } s coast
 
 # text
-seg-7195c1e5d345 = force-model coast, hand-derived
+# c1: scenarios/hybrid-ukf.toml
+seg-43a071503e2b = filter self-consistency, not accuracy (<c1/>)
 
 # text
 seg-59bc25a3c3ca = GPS-denied gravity-map navigation
@@ -1972,7 +1991,7 @@ seg-3bdc2e301b1b = Test coverage
 # c1: src/
 # c2: src/*_data.rs
 # c3: src/main.rs
-seg-e42bbd5c72f1 = <b>~{ "95" } % line</b> on <c1/> excluding <c2/> and <c3/>, gated ≥ { "85" } %
+seg-9f39369123b2 = <b>~{ "95" } % line</b> (last measured at { "0.29.0" }) on <c1/> excluding <c2/> and <c3/>, gated ≥ { "85" } %
 
 # text
 seg-b2789a3e7ebe = cargo-tarpaulin (LLVM engine)
@@ -2184,10 +2203,10 @@ seg-58ea673e61fc = Beyond <c1/>, the module exposes <c2/> (JSON, SVG and the one
 seg-f589eb87e902 = The npm package is the whole engine compiled to WebAssembly. In Node.js, hand the binary to <c1/>; in a browser, <c2/> fetches it (see <a1><c3/></a1>).
 
 # text
-seg-7488a0b0a215 = One open engine sits at the centre, and every surface runs it: the command line, the Rust library, Python, WebAssembly and Kshana Studio, the MCP server, the Docker image and the JetBrains plugin. The same scenario file gives the same bytes on each. Kshana Pro sits on top as a separate overlay that depends on the engine and never forks it.
+seg-2bb3e79af36c = One open engine sits at the centre, and every surface runs it: the command line, the Rust library, Python, WebAssembly and Kshana Studio, the MCP server, the Docker image and the JetBrains plugin. The same scenario file gives the same bytes on each. Kshana Pro, the professional edition, builds on the same engine and never forks it.
 
 # attr:alt
-seg-8169d3fb210e = Kshana's architecture: one open engine at the centre, kshana { $version } under the AGPL-3.0, with api::run_toml, a typed dispatch over every kind, and the verification ledger of { "413" } capabilities ({ "176" } VALIDATED, { "233" } MODELLED, { "4" } PARTNER). Around it, every surface runs the same engine: Command line (cargo install kshana); Rust library (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); MCP server (cargo install kshana-mcp); Docker image (ghcr.io/ashfordeou/kshana-mcp); JetBrains plugin (Marketplace: "Kshana"). Below it, Kshana Pro, a proprietary overlay that depends on the open engine as a library and never forks it, and adds no physical model.
+seg-0b960715c06d = Kshana's architecture: one open engine at the centre, kshana { $version } under the AGPL-3.0, with api::run_toml, a typed dispatch over { "93" } kinds, and the verification ledger of { "413" } capabilities ({ "176" } VALIDATED, { "233" } MODELLED, { "4" } PARTNER). Around it, every surface runs the same engine: Command line (cargo install kshana); Rust library (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); MCP server (cargo install kshana-mcp); Docker image (ghcr.io/ashfordeou/kshana-mcp); JetBrains plugin (Marketplace: "Kshana"). Below it, Kshana Pro, the professional edition, which depends on the open engine as a library, never forks it and never changes its physical models; Pro's own models carry their own evidence labels.
 
 # text
 seg-9ac1f9e2d1b1 = Inside the engine: the domain layers and the verification ledger
@@ -2207,9 +2226,8 @@ seg-4e894b853889 = <b>One engine, many front doors.</b> A single Rust core (<c1/
 # c4: Cargo.lock
 # c5: Cargo.toml
 # c6: exclude
-# c7: ide/jetbrains
-# c8: docs/ARCHITECTURE.md
-seg-698b8f40212f = Two standalone, <b>workspace-excluded</b> crates sit beside the core — <c1/> (the MCP server, built on the edition-2024 <c2/> SDK) and <c3/> (the ANISE/SPICE frame cross-check, which pulls MPL-2.0 (Mozilla Public License { "2.0" }) deps) — kept out of the published crate's dependency graph, <c4/>, license gate, and MSRV (minimum supported Rust version) build by the root <c5/> <c6/> list. The JetBrains plugin (<c7/>) is a separate Kotlin project. See <a1><c8/></a1> for the full set of diagrams.
+# c7: docs/ARCHITECTURE.md
+seg-640abcf98ab9 = Two standalone, <b>workspace-excluded</b> crates sit beside the core — <c1/> (the MCP server, built on the edition-2024 <c2/> SDK) and <c3/> (the ANISE/SPICE frame cross-check, which pulls MPL-2.0 (Mozilla Public License { "2.0" }) deps) — kept out of the published crate's dependency graph, <c4/>, license gate, and MSRV (minimum supported Rust version) build by the root <c5/> <c6/> list. The JetBrains plugin is a separate product, available from <a1>kshana.dev</a1>. See <a2><c7/></a2> for the full set of diagrams.
 
 # text
 # c1: docs/ARCHITECTURE.md
@@ -2627,7 +2645,7 @@ seg-b6abad1f2c9d = A kshana-bench submission scored against a truth file, both J
 seg-c7a0d7981bfd = kshana-bench result files rendered as the static leaderboard page (HTML text), each validated first.
 
 # text
-seg-22377c58ecb2 = The whole engine is free. Kshana Pro and custom studies are for programmes that need more, and every paid route starts with a message: there are no prices here.
+seg-06deae74f798 = The whole engine is free. Kshana Pro is the professional edition for teams that have to make a decision and defend it, and a custom study is the same work done for you. Every paid route starts with a message: there are no prices here.
 
 # text
 seg-a91762c0aabe = Free
@@ -2642,10 +2660,34 @@ seg-f917e7fcac09 = What it is
 seg-2f38fc515db6 = the whole open engine, all { "93" } scenario kinds, no feature gate
 
 # text
-seg-af56c940e13a = a proprietary overlay on the same engine, under contract
+seg-67f59e576ab2 = the professional edition: the same engine and scenario files, with the tools a programme needs to decide, verify and deliver
 
 # text
-seg-cd381d248ffb = a MODELLED PNT-resilience study of your system, done for you
+seg-9917598f4cf9 = a MODELLED PNT-resilience study of your system, done for you by Ashforde® OÜ
+
+# text
+seg-5116f1a604ee = Who it is for
+
+# text
+seg-b5b68c5e95dd = researchers, students, engineers and anyone who wants to try a question
+
+# text
+seg-14b098de471c = mission and programme teams, systems engineers, receiver, clock and payload makers, signal designers and operators
+
+# text
+seg-4752f29f6bc8 = teams that want an answer without running the study themselves
+
+# text
+seg-f39b85aeaa40 = Support
+
+# text
+seg-45c6e4f9dd41 = the community: issues and pull requests on GitHub
+
+# text
+seg-d12facff00e8 = direct support from the team that builds the engine
+
+# text
+seg-da3911fd9353 = included
 
 # text
 seg-d4a762001549 = Licence
@@ -2654,7 +2696,7 @@ seg-d4a762001549 = Licence
 seg-c25a3f546887 = AGPL-3.0 (GNU Affero General Public License, version { "3" }), or a commercial licence
 
 # text
-seg-985c916fc71f = proprietary
+seg-ab5a809509c5 = proprietary, under contract
 
 # text
 seg-3efb1ab7f428 = contract
@@ -2672,52 +2714,41 @@ seg-ed09a7073af5 = request a Pro evaluation
 seg-68340a1233ff = request a study
 
 # text
+seg-ec1bb8a5534e = <b>What you can do with Kshana Pro.</b> The free engine tells you what one scenario gives. Pro answers the questions a programme asks next:
+
+# text
+seg-b4f6b1d04b11 = <b>Choose the design to fly.</b> State a design space, its constraints and your objectives, and get the best trade-offs across the whole space, with each candidate as a scenario file the free engine runs.
+
+# text
+seg-ce7c69391f67 = <b>Know how sure the answer is.</b> Confidence bands, the probability of meeting a limit, and which inputs drive the result.
+
+# text
+seg-aa9b28ee6f97 = <b>Show that the mission meets its requirements.</b> Import requirements (CSV, ReqIF or SysML v2 text), check them against runs, and get a verification matrix, a change-impact report and a mission dossier (PDF, HTML and JSON) that a review board can check.
+
+# text
+seg-3e08fd3ea21d = <b>Trade architectures on evidence.</b> Rank the options on the figures that matter, with an evidence pack behind every number.
+
+# text
+seg-051ffbf1c75d = <b>Catch a regression before it ships.</b> Name the figures you care about; your pipeline fails when a change to a scenario, a model or the engine makes one worse.
+
+# text
+seg-cdf61a1ee535 = <b>Check spectrum coexistence.</b> Test candidate signal plans against the open GNSS signals, in both directions, and rank them.
+
+# text
+seg-445f3b87cee2 = <b>Twin your own clocks.</b> A digital twin of a clock checked against its published stability; a twin of your own device is built with you under contract.
+
+# text
+seg-a63747e5476e = <b>Run it on your own network.</b> An on-premises service and job queue, with a record of which result was delivered for which request.
+
+# text
+seg-fa26dbe9b452 = <b>Hand over signed evidence.</b> Pro signs its evidence packs and dossiers, and the recipient can check them without a Pro licence.
+
+# text
 # c1: docs/PRO.md
-seg-fedf4c64c70b = What Pro is, in the words of <a1><c1/></a1>:
+seg-9e621cc4c97b = <b>What you can count on.</b> Every open scenario runs in Pro unchanged, and Pro never changes a physical model of the open engine. Every figure keeps the evidence label the ledger gives it (VALIDATED, MODELLED or PARTNER) and never a higher one; Pro's own models carry labels of their own. A Pro deliverable lists the scenario files it ran, so anyone with open Kshana can re-run them and get the same figures. Nothing Pro produces is a certification, and a custom study is not a certification either. The full description is in <a1><c1/></a1>.
 
 # text
-seg-8e45f6fbb075 = <b>A strict superset of open Kshana.</b> Pro depends on the open engine as a library and never forks it. Every open scenario kind runs in Pro unchanged, and an open scenario runs in Pro with no licence at all.
-
-# text
-seg-feece95f1d76 = <b>No new physics.</b> Pro adds no physical model and changes none. Every Pro number comes from runs of the open engine, so a Pro figure is as trustworthy as the open scenario kind it came from, and never more.
-
-# text
-# c1: docs/PRO.md
-seg-0aca4bbd4ed5 = Pro answers a programme's next questions: which design to fly (a design optimiser and its Pareto front), how sure the answer is (uncertainty and sensitivity), and whether the mission meets its requirements (a mission dossier, requirements traceability, trade studies, a scenario regression check, clock digital twins, a study dossier and an on-premises service). It also watches a campaign of figures and fails a pipeline when one gets worse, tests candidate signal plans against the open satellite-navigation signals in both directions (spectrum coexistence), and queues studies in an on-premises job service with a hash-chained delivery ledger. Each is described, with what it produces and what it does not do, in <a1><c1/></a1>. Nothing Pro produces is a certification, and a custom study is not a certification either.
-
-# text
-seg-bc8a7901a490 = What Kshana Pro reads from the open engine, and support from Ashforde® OÜ
-
-# text
-seg-9a0afa43f0ea = <b>What Kshana Pro builds on.</b> Every part of Pro works from the open engine and leaves it unchanged:
-
-# text
-seg-d128e5855929 = <b>The design optimiser, the uncertainty study and the mission dossier</b> run open-engine scenarios through the engine's public interface and compute every number from the runs' results. Each output keeps the VALIDATED, MODELLED or PARTNER tier the open engine gave each figure, never a higher one.
-
-# text
-seg-8f709ba56eba = <b>Clock digital twins</b> use the open engine's clock model and its Allan-deviation estimator: a twin is calibrated to the device's published Allan budget, then checked by estimating the twin's Allan deviation with the open estimator.
-
-# text
-seg-8e962b95a07a = <b>Trade studies</b> run every architecture option as an open-engine scenario, unchanged, and rank the options on a figure of merit read from each run's result.
-
-# text
-seg-26cb2b80149d = <b>Campaign watch</b> reads its figures from the results of open-engine runs of the scenarios in a pack, and compares them with the previous passing run.
-
-# text
-# c1: leo-signal
-# c2: constellation-design
-seg-0d3fceebd2fa = <b>Spectrum coexistence</b> reads every physical number from open-engine runs of the <c1/> and <c2/> kinds, and adds only the sum over the satellites in view and the ranking of the plans.
-
-# text
-seg-3f5774536077 = <b>The on-premises job service</b> runs open and Pro scenarios through the same engine and stores each result as the run returned it.
-
-# text
-seg-2ffc21f8dbf3 = <b>Evidence packs</b> record, for each run, the scenario hash the open engine stamps on its result, so a figure in a pack can be reproduced by re-running its scenario.
-
-# text
-# c1: result.json
-# c2: report.json
-seg-8c7245384d50 = <b>Systems-engineering and programme tooling.</b> Kshana Pro's model-based systems-engineering (MBSE) and programme tooling checks a programme's requirements against runs of the open engine: it imports requirements as comma-separated values (CSV), or as a documented subset of the Requirements Interchange Format (ReqIF) or of Systems Modeling Language version { "2" } (SysML v2) text, evaluates each acceptance criterion, with its unit, against the values a run wrote, and produces a verification cross-reference matrix (VCRM), a SysML v2 model, a change-impact report and an offline evidence pack. It re-runs and recomputes nothing, and reads only what the open engine publishes: each run's <c1/> (the fields a criterion names, their units, the reproducibility stamp of scenario hash, seed, engine version and schema version, and the run's label and figure tiers), its <c2/> (kind, reproducibility record and capability labels), the scenario file (its hash, kind, seed and parameters), the field-units schema (each field's unit, provenance and evidence tier) and the verification matrix (each capability's VALIDATED, MODELLED or PARTNER label).
+seg-630ec80d147d = Support and professional services from Ashforde® OÜ
 
 # text
 seg-93911f432aa2 = Support & professional services
@@ -2726,29 +2757,22 @@ seg-93911f432aa2 = Support & professional services
 seg-5a793f457442 = Kshana is free and open source under the AGPL-3.0 and <b>professionally developed and maintained by Ashforde® OÜ</b> (Estonia). The open engine is complete and usable on its own. For organisations that need more, Ashforde® OÜ offers:
 
 # text
-seg-6e169de76fc6 = <b>Commercial support & integration</b> — embedding Kshana in your toolchain, custom scenarios, and priority fixes.
+seg-46d3529f511f = <b>Kshana Pro</b>: the professional edition described above, with direct support.
 
 # text
-seg-e41af701def5 = <b>Custom sensor models</b> — calibrated to your hardware, including export-sensitive resilience models maintained in a private overlay.
+seg-ba37df44593a = <b>Commercial support and integration</b>: embedding Kshana in your toolchain, custom scenarios and priority fixes.
 
 # text
-# c1: result.json
-# c2: report.json
-seg-c90aa9512c01 = <b>Kshana Pro</b> — proprietary model-based systems-engineering (MBSE) and programme tooling that checks a programme's requirements against runs of the open engine and produces a verification cross-reference matrix (VCRM), a Systems Modeling Language version { "2" } (SysML v2) model, a change-impact report and an offline evidence pack. It re-runs nothing and reads only the engine's published outputs: each run's <c1/> and <c2/>, the scenario file, the field-units schema and the verification matrix's labels (the full list is under <a1>Editions</a1>).
+seg-b581bc54e9a6 = <b>Custom sensor models</b>: calibrated to your hardware under contract; export-sensitive work is done only under the appropriate clearance and a non-disclosure agreement.
 
 # text
-# c1: docs/PRO.md
-seg-3ad44fe86fcf = <b>Kshana Pro design, uncertainty and mission tooling</b> — the Pareto front of a design space, uncertainty and sensitivity over thousands of runs, and a one-command mission dossier with a verification matrix and a PDF; see <a1><c1/></a1>.
+seg-4d1d8b2fd8d3 = <b>Custom studies</b>: a MODELLED PNT-resilience study of your system, done for you.
 
 # text
-# c1: docs/PRO.md
-seg-956b1bda368c = <b>Kshana Pro campaign watch, spectrum coexistence and job service</b> — a pipeline that fails when a watched figure gets worse, signal plans tested against the open satellite-navigation signals in both directions, and an on-premises job queue with a hash-chained delivery ledger; see <a1><c1/></a1>.
+seg-25be07ad63fe = <b>Training and consulting</b> on PNT resilience and quantum and classical sensor performance.
 
 # text
-seg-5745e72ae8f2 = <b>Training & consulting</b> on quantum/classical PNT performance analysis.
-
-# text
-seg-821dee6c4114 = This is the open-core model: the engine is, and stays, openly licensed; the sustaining business is expertise, support, and the proprietary extensions — not license fees. Contact <b><a1>contact@ashforde.org</a1></b> · <a2>ashforde.org</a2>.
+seg-d3fc03a836a1 = This is the open-core model: the engine is, and stays, openly licensed; the business that sustains it is Kshana Pro, support and expertise. Contact <b><a1>contact@ashforde.org</a1></b> · <a2>ashforde.org</a2>.
 
 # text
 seg-7b708eaa9ed7 = Studies built on the open engine are published on arXiv. Each names the engine command behind it, so its numbers can be regenerated from a committed scenario or study example.
@@ -2827,6 +2851,9 @@ seg-f4d1ec6fc464 = Cite
 # text
 # c1: CITATION.cff
 seg-8116ddf9a8e7 = If you use Kshana in academic or technical work, please cite the version you used, with the scenario and seed. <a1><c1/></a1> holds the machine-readable metadata, and GitHub shows a "Cite this repository" button from it. Every release is archived on Zenodo; the concept DOI (Digital Object Identifier) <a2>10.5281/zenodo.20528627</a2> always resolves to the latest version.
+
+# text
+seg-bce171c67089 = Teaching or researching with Kshana: <a1>academic use</a1> gathers the access routes (including MATLAB and LabVIEW over the C library), the <a2>teaching kit</a2> of lab sheets with worked answers, and how to cite and reproduce a result.
 
 # text
 seg-6721eda6b4d6 = Baweja, C. ({ "2026" }). <em>Kshana — a PNT-resilience simulator with quantum-sensor performance models</em>. <a1>Ashforde OÜ</a1>. <a2>https://doi.org/10.5281/zenodo.20528627</a2>
@@ -2981,85 +3008,88 @@ seg-81b9a3353241 = Scenario format
 
 # text
 # c1: kind
-# c2: clock
-# c3: inertial
-# c4: timetransfer
-# c5: hybrid
-# c6: hybrid-ukf
-# c7: fusion
-# c8: gnss-ins
-# c9: orbit
-# c10: ephemeris
-# c11: gnss-sim
-# c12: integrity
-# c13: lunar-integrity
-# c14: lunar-time-offset
-# c15: spoof
-# c16: spoof-detect
-# c17: jamming
-# c18: sweep
-# c19: sweep-nd
-# c20: gravity-map
-# c21: terrain-nav
-# c22: terrain-slam
-# c23: combined-altpnt
-# c24: pvt
-# c25: mars-pnt
-# c26: impairment-eval
-# c27: quantum-trade
-# c28: space-weather
-# c29: oem-interop
-# c30: launch-window
-# c31: reentry
-# c32: eo-coverage
-# c33: space-packet
-# c34: attitude-budget
-# c35: passes
-# c36: link-budget
-# c37: telecom-timing
-# c38: spectrum
-# c39: docs/SPECTRUM.md
-# c40: leo-signal
-# c41: docs/LEO-SIGNAL.md
-# c42: solar-system
-# c43: body-pnt
-# c44: campaign
-# c45: constellation-design
-# c46: docs/CONSTELLATION-DESIGN.md
-# c47: leo-pass
-# c48: docs/LEO-PASS.md
-# c49: leo-navmsg
-# c50: docs/LEO-NAVMSG.md
-# c51: leo-pvt
-# c52: leo-ppp
-# c53: ntn-positioning
-# c54: docs/LEO-PNT-FUSION.md
-# c55: leo-pnt-chain
-# c56: leo-signal
-# c57: leo-pass
-# c58: leo-pvt
-# c59: leo-ppp
-# c60: docs/LEO-PNT.md
-# c61: lunar-vlbi
-# c62: lunar-joint-od-clock
-# c63: lunar-frame-realisation
-# c64: moonlight-service-volume
-# c65: lunar-differential-pnt
-# c66: lunar-interop-export
-# c67: quantum-time-transfer
-# c68: quantum-gnss-free-nav
-# c69: quantum-anomaly-detect
-# c70: lunar-attack-surface
-# c71: realtime-frame-eop
-# c72: lunar-time-budget
-# c73: hybrid-optical-rf
-# c74: cislunar-observability
-# c75: conflict-resilience
-# c76: seed
-# c77: [time]
-# c78: [gnss]
-# c79: provenance
-seg-407bddee0f95 = Scenarios are declarative TOML. A top-level <c1/> selects the pack — <b>fifty</b> in all (<c2/> is the default if omitted): <c3/>, <c4/>, <c5/>, <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/>, <c19/>, <c20/>, <c21/>, <c22/>, <c23/>, <c24/>, <c25/>, <c26/> (Machine-learning RF-impairment detection evaluation testbed — labelled synthetic corpus + detector-agnostic ROC/AUC harness + in/out-of-distribution optimism gap), <c27/> (quantum-vs-classical PNT trade with measured-ADEV ingestion + GNSS-denied resilience envelope; MODELLED), <c28/> (solar/geomagnetic indices + Jacchia-71 exospheric temperature + activity-driven thermospheric density over the static atmosphere; MODELLED), <c29/> (CCSDS OEM import/round-trip bridge for GMAT/Orekit/STK ephemerides; MODELLED), the mission-analysis trio <c30/> (two-body launch azimuth / plane-change / opportunities), <c31/> (Allen-Eggers ballistic re-entry corridor), <c32/> (EO swath / GSD / access / revisit geometry), <c33/> (CCSDS { "133.0" } TM/TC — telemetry/telecommand — Space Packet framing — exact bit layout, round-trip verified), and <c34/> (3-DOF gravity-gradient torque + RSS pointing error budget), <c35/> (ground-station rise/set pass prediction — AOS/TCA/LOS, max elevation, access), and <c36/> (one-way CCSDS/DSN link equation — FSPL / Eb·N₀ / margin / closure); <c37/> (holdover time error, MTIE and TDEV checked against ITU-T masks); <c38/> (the whole GNSS L band as one power spectral density: a frequency-by-time waterfall under a scripted continuous-wave, narrowband, chirp or matched-noise jammer timeline, per-band jammer-to-signal ratio and effective carrier-to-noise density from the spectral separation coefficient, and Signal Metadata Format (SigMF) recording input and output with Welch spectral estimates; the signal spectra VALIDATED against textbook values, the jammer scenario MODELLED; see <a1><c39/></a1>; the same kind draws UHF, S and C band panels with designed low Earth orbit signals); <c40/> (low Earth orbit positioning, navigation and timing signal designs for any system: band-limited spectra, code-tracking jitter and ranging accuracy, acquisition search and time, spectral separation against GPS and Galileo, jammer tolerance and a UHF-to-C band trade, from public presets such as Xona Pulsar, Iridium, Starlink and CentiSpace or inline designs; the closed forms and the LEO Doppler VALIDATED, the designs MODELLED; see <a2><c41/></a2>); <c42/> (the Sun, planets, Pluto, the Moon and seven major moons at one epoch — positions, constants, light times and orbit tracks; planet positions VALIDATED against JPL Horizons) and <c43/> (positioning around any of those bodies with a local navigation constellation and a deep-space link from Earth; MODELLED); <c44/> (existing kinds composed into a chained mission timeline with state handed between phases, a parameter sweep, a seeded Monte Carlo ensemble, or several scenarios under one shared condition; MODELLED, see <a3>docs/CAMPAIGNS.md</a3>); <c45/> (Walker delta and star patterns, element lists and multi-shell designs with GPS, Galileo, BeiDou and GLONASS presets, and coverage and dilution of precision over a latitude/longitude grid; the generator and GPS global DOP VALIDATED against the published service documents, see <a4><c46/></a4>); <c47/> (a low Earth orbit (LEO) positioning, navigation and timing (PNT) satellite pass and its link budget band by band, from any constellation and any signal design: look angles, Doppler and Doppler rate, ITU-R rain, gas, scintillation and building entry loss, carrier-to-noise density against the MEO GNSS satellites in view, the first-order ionosphere and ionosphere-free pairs, and a low-energy fix budget, ionosphere sounding from every band pair, and spoofing monitors by Doppler and pass-geometry consistency and by cross-band consistency; the ITU-R terms and the static-user Doppler envelope VALIDATED, the pass MODELLED, see <a5><c48/></a5>); <c49/> (the broadcast ephemeris and clock message of a low Earth orbit (LEO) PNT satellite, for any orbit and carrier: a fitter from an integrated truth orbit to the Galileo Keplerian set, that set with along-track, cross-track and radial correction polynomials, the Liu et al. { "2025" } 22-parameter model or the ATOMIC zero-clock ECEF polynomial; signal-in-space range error (SISRE) versus fit interval and update period, a mid-pass update continuity check, Kshana's own documented binary frame with a CRC-24Q cyclic redundancy check and a quantisation budget, and a RINEX-4-style block labelled a Kshana extension; the SISRE weights, the Galileo user algorithm and CRC-24Q VALIDATED, the fits MODELLED; optional presets for Xona Pulsar, Iridium, Starlink, CentiSpace, a representative C-band system, ATOMIC and Celeste IOD; see <a6><c50/></a6>); the <b>fused MEO + LEO PNT</b> trio <c51/> (Doppler positioning from low-Earth-orbit (LEO) range rate, joint GNSS + LEO pseudorange fixes with inter-system biases and the DOP against the number of LEO satellites, polar and Arctic coverage, and LEO time transfer to UTC — over any constellation, with optional presets such as Xona Pulsar, Iridium and Starlink signals of opportunity; the LEO Doppler envelope VALIDATED against published Iridium and Xona figures), <c52/> (precise point positioning convergence with GNSS only and with LEO augmentation, compared with Li et al. { "2019" }) and <c53/> (5G non-terrestrial-network positioning from the Cramér-Rao bound of the signal bandwidth), MODELLED apart from that envelope, see <a7><c54/></a7>; <c55/> (one LEO-PNT system end to end: a <c56/> design carried by a <c57/> band, the pass's C/N0 and the navigation message's signal-in-space range error handed to a fused <c58/> fix and <c59/> convergence, every hand-off listed; MODELLED, see <a8><c60/></a8>, which is also the overview of every LEO-PNT kind and scenario, including the resilience campaigns, one scenario per experiment focus area and one per end-user vertical); the <b>lunar-PNT suite</b> <c61/>, <c62/>, <c63/>, <c64/>, <c65/>, <c66/>; the <b>Quantum-Enabled PNT demonstrator</b> <c67/>, <c68/>, <c69/>; and the <b>signal-security, cislunar & layered-resilience</b> research kinds <c70/>, <c71/>, <c72/>, <c73/>, <c74/>, <c75/> — the mission-analysis trio and these later kinds all MODELLED (each with a validated closed-form core; see the matrix). Common fields: <c76/>, a <c77/> grid, a <c78/> availability timeline (the outage driver), and per-sensor blocks with <c79/> strings citing the source of every figure. Example (clock):
+# c2: 93
+# c3: kshana kinds
+# c4: docs/KINDS.md
+# c5: clock
+# c6: inertial
+# c7: timetransfer
+# c8: hybrid
+# c9: hybrid-ukf
+# c10: fusion
+# c11: gnss-ins
+# c12: orbit
+# c13: ephemeris
+# c14: gnss-sim
+# c15: integrity
+# c16: lunar-integrity
+# c17: lunar-time-offset
+# c18: spoof
+# c19: spoof-detect
+# c20: jamming
+# c21: sweep
+# c22: sweep-nd
+# c23: gravity-map
+# c24: terrain-nav
+# c25: terrain-slam
+# c26: combined-altpnt
+# c27: pvt
+# c28: mars-pnt
+# c29: impairment-eval
+# c30: quantum-trade
+# c31: space-weather
+# c32: oem-interop
+# c33: launch-window
+# c34: reentry
+# c35: eo-coverage
+# c36: space-packet
+# c37: attitude-budget
+# c38: passes
+# c39: link-budget
+# c40: telecom-timing
+# c41: spectrum
+# c42: docs/SPECTRUM.md
+# c43: leo-signal
+# c44: docs/LEO-SIGNAL.md
+# c45: solar-system
+# c46: body-pnt
+# c47: campaign
+# c48: constellation-design
+# c49: docs/CONSTELLATION-DESIGN.md
+# c50: leo-pass
+# c51: docs/LEO-PASS.md
+# c52: leo-navmsg
+# c53: docs/LEO-NAVMSG.md
+# c54: leo-pvt
+# c55: leo-ppp
+# c56: ntn-positioning
+# c57: docs/LEO-PNT-FUSION.md
+# c58: leo-pnt-chain
+# c59: leo-signal
+# c60: leo-pass
+# c61: leo-pvt
+# c62: leo-ppp
+# c63: docs/LEO-PNT.md
+# c64: lunar-vlbi
+# c65: lunar-joint-od-clock
+# c66: lunar-frame-realisation
+# c67: moonlight-service-volume
+# c68: lunar-differential-pnt
+# c69: lunar-interop-export
+# c70: quantum-time-transfer
+# c71: quantum-gnss-free-nav
+# c72: quantum-anomaly-detect
+# c73: lunar-attack-surface
+# c74: realtime-frame-eop
+# c75: lunar-time-budget
+# c76: hybrid-optical-rf
+# c77: cislunar-observability
+# c78: conflict-resilience
+# c79: seed
+# c80: [time]
+# c81: [gnss]
+# c82: provenance
+seg-6b8d3d92401d = Scenarios are declarative TOML. A top-level <c1/> selects the pack — <c2/> in all, listed by <c3/> and documented in <a1><c4/></a1> (<c5/> is the default if omitted); among them: <c6/>, <c7/>, <c8/>, <c9/>, <c10/>, <c11/>, <c12/>, <c13/>, <c14/>, <c15/>, <c16/>, <c17/>, <c18/>, <c19/>, <c20/>, <c21/>, <c22/>, <c23/>, <c24/>, <c25/>, <c26/>, <c27/>, <c28/>, <c29/> (Machine-learning RF-impairment detection evaluation testbed — labelled synthetic corpus + detector-agnostic ROC/AUC harness + in/out-of-distribution optimism gap), <c30/> (quantum-vs-classical PNT trade with measured-ADEV ingestion + GNSS-denied resilience envelope; MODELLED), <c31/> (solar/geomagnetic indices + Jacchia-71 exospheric temperature + activity-driven thermospheric density over the static atmosphere; MODELLED), <c32/> (CCSDS OEM import/round-trip bridge for GMAT/Orekit/STK ephemerides; MODELLED), the mission-analysis trio <c33/> (two-body launch azimuth / plane-change / opportunities), <c34/> (Allen-Eggers ballistic re-entry corridor), <c35/> (EO swath / GSD / access / revisit geometry), <c36/> (CCSDS { "133.0" } TM/TC — telemetry/telecommand — Space Packet framing — exact bit layout, round-trip verified), and <c37/> (3-DOF gravity-gradient torque + RSS pointing error budget), <c38/> (ground-station rise/set pass prediction — AOS/TCA/LOS, max elevation, access), and <c39/> (one-way CCSDS/DSN link equation — FSPL / Eb·N₀ / margin / closure); <c40/> (holdover time error, MTIE and TDEV checked against ITU-T masks); <c41/> (the whole GNSS L band as one power spectral density: a frequency-by-time waterfall under a scripted continuous-wave, narrowband, chirp or matched-noise jammer timeline, per-band jammer-to-signal ratio and effective carrier-to-noise density from the spectral separation coefficient, and Signal Metadata Format (SigMF) recording input and output with Welch spectral estimates; the signal spectra VALIDATED against textbook values, the jammer scenario MODELLED; see <a2><c42/></a2>; the same kind draws UHF, S and C band panels with designed low Earth orbit signals); <c43/> (low Earth orbit positioning, navigation and timing signal designs for any system: band-limited spectra, code-tracking jitter and ranging accuracy, acquisition search and time, spectral separation against GPS and Galileo, jammer tolerance and a UHF-to-C band trade, from public presets such as Xona Pulsar, Iridium, Starlink and CentiSpace or inline designs; the closed forms and the LEO Doppler VALIDATED, the designs MODELLED; see <a3><c44/></a3>); <c45/> (the Sun, planets, Pluto, the Moon and seven major moons at one epoch — positions, constants, light times and orbit tracks; planet positions VALIDATED against JPL Horizons) and <c46/> (positioning around any of those bodies with a local navigation constellation and a deep-space link from Earth; MODELLED); <c47/> (existing kinds composed into a chained mission timeline with state handed between phases, a parameter sweep, a seeded Monte Carlo ensemble, or several scenarios under one shared condition; MODELLED, see <a4>docs/CAMPAIGNS.md</a4>); <c48/> (Walker delta and star patterns, element lists and multi-shell designs with GPS, Galileo, BeiDou and GLONASS presets, and coverage and dilution of precision over a latitude/longitude grid; the generator and GPS global DOP VALIDATED against the published service documents, see <a5><c49/></a5>); <c50/> (a low Earth orbit (LEO) positioning, navigation and timing (PNT) satellite pass and its link budget band by band, from any constellation and any signal design: look angles, Doppler and Doppler rate, ITU-R rain, gas, scintillation and building entry loss, carrier-to-noise density against the MEO GNSS satellites in view, the first-order ionosphere and ionosphere-free pairs, and a low-energy fix budget, ionosphere sounding from every band pair, and spoofing monitors by Doppler and pass-geometry consistency and by cross-band consistency; the ITU-R terms and the static-user Doppler envelope VALIDATED, the pass MODELLED, see <a6><c51/></a6>); <c52/> (the broadcast ephemeris and clock message of a low Earth orbit (LEO) PNT satellite, for any orbit and carrier: a fitter from an integrated truth orbit to the Galileo Keplerian set, that set with along-track, cross-track and radial correction polynomials, the Liu et al. { "2025" } 22-parameter model or the ATOMIC zero-clock ECEF polynomial; signal-in-space range error (SISRE) versus fit interval and update period, a mid-pass update continuity check, Kshana's own documented binary frame with a CRC-24Q cyclic redundancy check and a quantisation budget, and a RINEX-4-style block labelled a Kshana extension; the SISRE weights, the Galileo user algorithm and CRC-24Q VALIDATED, the fits MODELLED; optional presets for Xona Pulsar, Iridium, Starlink, CentiSpace, a representative C-band system, ATOMIC and Celeste IOD; see <a7><c53/></a7>); the <b>fused MEO + LEO PNT</b> trio <c54/> (Doppler positioning from low-Earth-orbit (LEO) range rate, joint GNSS + LEO pseudorange fixes with inter-system biases and the DOP against the number of LEO satellites, polar and Arctic coverage, and LEO time transfer to UTC — over any constellation, with optional presets such as Xona Pulsar, Iridium and Starlink signals of opportunity; the LEO Doppler envelope VALIDATED against published Iridium and Xona figures), <c55/> (precise point positioning convergence with GNSS only and with LEO augmentation, compared with Li et al. { "2019" }) and <c56/> (5G non-terrestrial-network positioning from the Cramér-Rao bound of the signal bandwidth), MODELLED apart from that envelope, see <a8><c57/></a8>; <c58/> (one LEO-PNT system end to end: a <c59/> design carried by a <c60/> band, the pass's C/N0 and the navigation message's signal-in-space range error handed to a fused <c61/> fix and <c62/> convergence, every hand-off listed; MODELLED, see <a9><c63/></a9>, which is also the overview of every LEO-PNT kind and scenario, including the resilience campaigns, one scenario per experiment focus area and one per end-user vertical); the <b>lunar-PNT suite</b> <c64/>, <c65/>, <c66/>, <c67/>, <c68/>, <c69/>; the <b>Quantum-Enabled PNT demonstrator</b> <c70/>, <c71/>, <c72/>; and the <b>signal-security, cislunar & layered-resilience</b> research kinds <c73/>, <c74/>, <c75/>, <c76/>, <c77/>, <c78/> — the mission-analysis trio and these later kinds all MODELLED (each with a validated closed-form core; see the matrix). Common fields: <c79/>, a <c80/> grid, a <c81/> availability timeline (the outage driver), and per-sensor blocks with <c82/> strings citing the source of every figure. Example (clock):
 
 # text
 # c1: flicker_floor
@@ -3194,9 +3224,9 @@ seg-9b33c9203ca2 = A <c1/> scenario reports the <b>relativistic Earth–Moon clo
 # c7: cargo run -- --validate <file>
 # c8: list_kinds()
 # c9: list_scenario_kinds
-seg-5374f780c396 = See <c1/> for at least one worked example of every kind ({ "93" } kinds, { "195" } scenario <c2/> files + { "1" } suite manifest — several kinds ship more than one example). Not every kind has a file named after it: <c3/> → <c4/> and <c5/> → <c6/> are two of several such. List the dispatchable kinds at any time with <c7/> errors, the Python <c8/>, or the MCP <c9/> tool.
+seg-8913be4d1cba = See <c1/> for at least one worked example of every kind ({ "93" } kinds, { "199" } scenario <c2/> files + { "1" } suite manifest — several kinds ship more than one example). Not every kind has a file named after it: <c3/> → <c4/> and <c5/> → <c6/> are two of several such. List the dispatchable kinds at any time with <c7/> errors, the Python <c8/>, or the MCP <c9/> tool.
 
-# attr:aria-label, text
+# text
 seg-6555ff9a6d8e = Output
 
 # text
@@ -3277,7 +3307,7 @@ seg-d02ce0621f43 = <b>Do I need to understand quantum physics to use this?</b> N
 seg-43923de17a2a = <b>Is this a quantum-hardware design or flight software?</b> No. It is a performance <em>simulator</em>. Quantum-hardware fidelity comes from published error models, not from this tool. See <a1>What it is / is not</a1>.
 
 # text
-seg-75fb7a097584 = <b>Are the quantum results realistic, or marketing?</b> Every parameter is cited to a datasheet or paper, every model is validated against a textbook relation, and maturity is labelled honestly in <a1>VALIDATION.md</a1> — including that no strontium optical clock has flown. The engine is neutral: quantum and classical are the same code with different published numbers.
+seg-340498580958 = <b>Are the quantum results realistic, or marketing?</b> Every parameter is cited to a datasheet or paper, every model is checked against a textbook relation, and maturity is labelled honestly in <a1>VALIDATION.md</a1> — including that no strontium optical clock has flown. The engine is neutral: quantum and classical are the same code with different published numbers.
 
 # text
 # c1: scenario + seed + engine version → bit-identical output
@@ -3433,7 +3463,7 @@ seg-331d2821d43f = Roadmap
 # c3: docs/CAPABILITY.md
 # c4: gnss-ins
 # c5: main
-seg-a58b88284421 = See <c1/> for the phased roadmap, <a1><c2/></a1> for released history, and <a2><c3/></a2> for the per-capability roadmap. The priority order is: <b>timing and holdover evidence for critical infrastructure first</b> (telecom masks, longer holdover with ageing and flicker noise, ingestion of measured clock data); <b>the neutral quantum-vs-classical trade method second</b> (results labelled MODELLED until a partner's measured data promotes them); and <b>lunar / cislunar and deep-space navigation maintained</b>, not expanded as the lead. The <b>ITRF-precise frame reduction</b> is now delivered — the full CIO-based IAU 2006/2000A GCRS↔ITRS chain (polar motion + sub-arcsecond nutation), validated bit-for-bit against SOFA/ERFA and independently cross-checked against ANISE (pure-Rust SPICE) to ≤ { "3.6" } m at GNSS orbit. Near-term items include tightly-coupled carrier-phase fusion and surfacing the loosely-/tightly-coupled GNSS/INS navigator across more packs; the <b>deep-space / Mars radiometric-navigation</b> engine landed in { "v0.17.0" } (simulation-validated). The <b>quantum physics layer</b> is a <b>P2</b> item: the CAI accelerometer is now simulated from first principles (Mach–Zehnder phase, projection noise, contrast decay, vibration coupling), while the clock/time-transfer sensors are still driven by published Allan/noise-budget coefficients. GMST-based TEME&harr;ECEF, the IERS leap-second time systems (UTC/TAI/TT/UT1), SGP4/SDP4 orbit propagation ({ "v0.7.0" }, validated against the AIAA 2006-6753 vectors), and the runnable <c4/> fusion pack have all <b>shipped</b>, and the inertial velocity is exposed downstream. An active stochastic time-spoof detector (Neyman–Pearson / χ²₁ energy test with Monte-Carlo P_fa/P_md and a Security FoM of { "1" }−P_md), a link-budget jamming model (J/S → effective C/N₀ → loss of lock), multi-constellation availability, a single-axis (1-DOF) IMU error budget, two independent (clock + position) Kalman estimators reported as a combined FoM, real constellation geometry from TLEs, an HTML scorecard report, geometry-derived GNSS availability <em>and</em> dilution of precision from Keplerian orbits with eccentricity and J2 drift, Monte Carlo confidence bands, trade-study parameter sweeps, an in-browser WebAssembly playground, and optional Python (PyO3) and WebAssembly (wasm-bindgen) bindings have landed on <c5/>.
+seg-232110274c54 = See <c1/> for the phased roadmap, <a1><c2/></a1> for released history, and <a2><c3/></a2> for the per-capability roadmap. The priority order is: <b>timing and holdover evidence for critical infrastructure first</b> (telecom masks, longer holdover with ageing and flicker noise, ingestion of measured clock data); <b>the neutral quantum-vs-classical trade method second</b> (results labelled MODELLED until a partner's measured data promotes them); and <b>lunar / cislunar and deep-space navigation maintained</b>, not expanded as the lead. The <b>ITRF-precise frame reduction</b> is now delivered — the full CIO-based IAU 2006/2000A GCRS↔ITRS chain (polar motion + sub-arcsecond nutation), validated bit-for-bit against SOFA/ERFA and independently cross-checked against ANISE (pure-Rust SPICE) to ≤ { "3.6" } m at GNSS orbit. Near-term items include tightly-coupled carrier-phase fusion and surfacing the loosely-/tightly-coupled GNSS/INS navigator across more packs; the <b>deep-space / Mars radiometric-navigation</b> engine landed in { "v0.17.0" } (MODELLED: checked in simulation, not on mission data). The <b>quantum physics layer</b> is a <b>P2</b> item: the CAI accelerometer is now simulated from first principles (Mach–Zehnder phase, projection noise, contrast decay, vibration coupling), while the clock/time-transfer sensors are still driven by published Allan/noise-budget coefficients. GMST-based TEME&harr;ECEF, the IERS leap-second time systems (UTC/TAI/TT/UT1), SGP4/SDP4 orbit propagation ({ "v0.7.0" }, validated against the AIAA 2006-6753 vectors), and the runnable <c4/> fusion pack have all <b>shipped</b>, and the inertial velocity is exposed downstream. An active stochastic time-spoof detector (Neyman–Pearson / χ²₁ energy test with Monte-Carlo P_fa/P_md and a Security FoM of { "1" }−P_md), a link-budget jamming model (J/S → effective C/N₀ → loss of lock), multi-constellation availability, a single-axis (1-DOF) IMU error budget, two independent (clock + position) Kalman estimators reported as a combined FoM, real constellation geometry from TLEs, an HTML scorecard report, geometry-derived GNSS availability <em>and</em> dilution of precision from Keplerian orbits with eccentricity and J2 drift, Monte Carlo confidence bands, trade-study parameter sweeps, an in-browser WebAssembly playground, and optional Python (PyO3) and WebAssembly (wasm-bindgen) bindings have landed on <c5/>.
 
 # text
 # c1: CONTRIBUTING.md
@@ -3544,7 +3574,7 @@ seg-b34c84423464 = where Kshana sits vs RTKLIB/gLAB (complementary), and the zer
 seg-b2296ef28d12 = evaluators / programme managers
 
 # text
-seg-5a701a5ccf6a = what the proprietary Pro overlay adds over the same engine: design optimiser, uncertainty and sensitivity, mission dossier, campaign watch, spectrum coexistence, on-premises job service, requirements traceability; what each produces and what it does not do
+seg-74a723a30cc7 = the professional edition: who it is for, what teams can do with it, what they get, support, and how to start an evaluation
 
 # text
 seg-13b35332debb = <a1>Technical report</a1> · <a2>JOSS paper</a2>

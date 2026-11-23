@@ -48,10 +48,10 @@ seg-5fad84cbb2be = nrho
 
 # text
 # c1: scenarios/
-seg-d1beb62cf742 = { "6" } bundled scenarios use this kind; the others are in <a1><c1/></a1>.
+seg-63c22856e4c4 = { "6" } scenario files in <a1><c1/></a1> use this kind.
 
 # text
-seg-def582a1f2ca = Result label (the engine's): MODELLED — a restricted three-body model (Earth and Moon point masses, no Sun, no lunar gravity harmonics) with stated simplifications and ILLUSTRATIVE inputs labelled with their public sources. Numerics are checked against independent programs; nothing is compared with a measurement of a lunar quan
+seg-259769638d22 = Result label (the engine's): MODELLED — a restricted three-body model (Earth and Moon point masses, no Sun, no lunar gravity harmonics) with stated simplifications and ILLUSTRATIVE inputs labelled with their public sources. Numerics are checked against independent programs; nothing is compared with a measurement of a lunar…
 
 # text
 seg-f3b4a80a739b = no plot: the example writes no chart
@@ -60,25 +60,25 @@ seg-f3b4a80a739b = no plot: the example writes no chart
 seg-619127334cf3 = No matrix row names this kind by name; the label on its result is the engine's own, above.
 
 # text
-seg-35a4a7a25561 = <b>MODELLED</b> Orbit determination in a near-rectilinear halo orbit (or an elliptical frozen orbit) from two independent data types: Earth-GNSS pseudoranges received on board . Oracle (ReferenceImpl): An independent scipy/numpy program integrates the same variational equations (bar O1). Nothing is compared with a measurement of a lunar orbit. The oracle checks the numerics of stated formulas, not the physics, so the row stays MODELLED. Restricted three-body model: no Sun, no lunar harmonics, the Earth rotation axis along the orbit normal, ILLUSTRATIVE receiver and station inputs.
+seg-e06ea060dbde = <b>MODELLED</b> Orbit determination in a near-rectilinear halo orbit (or an elliptical frozen orbit) from two independent data types: Earth-GNSS pseudoranges received on…. Oracle (ReferenceImpl): An independent scipy/numpy program integrates the same variational equations (bar O1). Nothing is compared with a measurement of a lunar orbit. The oracle checks the numerics of stated formulas, not the physics, so the row stays MODELLED. Restricted three-body model: no Sun, no lunar harmonics, the Earth rotation axis along the orbit normal, ILLUSTRATIVE receiver and station inputs.
 
 # text
-seg-32455bf5f804 = <b>MODELLED</b> Between-receiver single-differenced Earth-GNSS carrier phase and code at a lunar surface station and an orbiter, with the per-epoch clock difference profiled ou. Oracle (ReferenceImpl): An independent numpy solve of the same normal equations from the exported rows (Q3) and a brute-force integer enumeration (Q4). No GNSS or lunar carrier-phase measurement is compared with. MODELLED.
+seg-fe710b90fa23 = <b>MODELLED</b> Between-receiver single-differenced Earth-GNSS carrier phase and code at a lunar surface station and an orbiter, with the per-epoch clock difference profiled…. Oracle (ReferenceImpl): An independent numpy solve of the same normal equations from the exported rows (Q3) and a brute-force integer enumeration (Q4). No GNSS or lunar carrier-phase measurement is compared with. MODELLED.
 
 # text
-seg-b20c412516b6 = <b>MODELLED</b> Fisher information of the seven-parameter lunar frame datum from Earth-station laser ranging to the five reflectors alone and with orbiter-to-surface-station ra. Oracle (ReferenceImpl): An independent numpy finite difference of the forward model (F2). Nothing is compared with real lunar frame solutions. The factor is conditional on the assumed known orbit and the { "1" } m range sigma. MODELLED.
+seg-9cf6e85bddb7 = <b>MODELLED</b> Fisher information of the seven-parameter lunar frame datum from Earth-station laser ranging to the five reflectors alone and with orbiter-to-surface-station…. Oracle (ReferenceImpl): An independent numpy finite difference of the forward model (F2). Nothing is compared with real lunar frame solutions. The factor is conditional on the assumed known orbit and the { "1" } m range sigma. MODELLED.
 
 # text
-seg-151c96b1f882 = <b>MODELLED</b> Cramer-Rao precision of the inter-technique translation, scale and rotation offsets between GNSS, VLBI and laser-ranging frames when one spacecraft carries all . Oracle (ReferenceImpl): An independent numpy stacked system with the position unknowns eliminated by explicit Schur complements (T3). No GRASP, Genesis or other mission data are compared with. MODELLED.
+seg-acb97a5a98c9 = <b>MODELLED</b> Cramer-Rao precision of the inter-technique translation, scale and rotation offsets between GNSS, VLBI and laser-ranging frames when one spacecraft carries…. Oracle (ReferenceImpl): An independent numpy stacked system with the position unknowns eliminated by explicit Schur complements (T3). No GRASP, Genesis or other mission data are compared with. MODELLED.
 
 # text
 # c1: label
-seg-743d78806f6a = MODELLED — a restricted three-body model (Earth and Moon point masses, no Sun, no lunar gravity harmonics) with stated simplifications and ILLUSTRATIVE inputs labelled with their public sources. Numerics are checked against independent programs; nothing is compared with a measurement of a lunar quantity, and nothing here is a statement about any mission or system. Not affiliated with or endorsed by any agency. Adviso (result <c1/>)
+seg-582e061e749a = MODELLED — a restricted three-body model (Earth and Moon point masses, no Sun, no lunar gravity harmonics) with stated simplifications and ILLUSTRATIVE inputs labelled with their public sources. Numerics are checked against independent programs; nothing is compared with a measurement of a lunar quantity, and nothing here is a statement about any mission or system. Not affiliated with or endorsed by any agency.… (result <c1/>)
 
 # text
 # c1: study
 # c2: kshana kinds --json
-seg-da35c5298311 = MODELLED studies of the Moon's orbit and surface as navigation and geodetic infrastructure, five studies behind one kind selected by <c1/>: od-consistency (onboard Earth-GNSS orbit determination in an NRHO or ELFO against independent ground radiometric orbit determination, judged by their own covariances over a seeded Monte Carlo), carrier-phase (joint surface-orbiter double-differenced carrier phase and integer am (kind catalogue (<c2/>))
+seg-9e19400177b8 = MODELLED studies of the Moon's orbit and surface as navigation and geodetic infrastructure, five studies behind one kind selected by <c1/>: od-consistency (onboard Earth-GNSS orbit determination in an NRHO or ELFO against independent ground radiometric orbit determination, judged by their own covariances over a seeded Monte Carlo), carrier-phase (joint surface-orbiter double-differenced carrier phase and integer… (kind catalogue (<c2/>))
 
 # text
 seg-4658f67623b5 = Kshana lunar-infrastructure scenario: space-tie. MODELLED; the design, inputs and bars are fixed in xval/lunar-infra/PREREGISTRATION.md (committed before any run). ILLUSTRATIVE inputs are labelled with their public sources there. (scenario file comment, lines { "1" } to { "3" })

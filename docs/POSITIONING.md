@@ -157,15 +157,13 @@ user the wrong-tool disappointment.
 | Question it answers | "how good *would* this architecture be, and where does it break?" | "given these measurements, where am I *now*?" |
 | Quantum / optical sensors | modelled as error models (optical clocks, cold-atom inertial measurement unit (IMU), optical time transfer), results labelled MODELLED | not modelled |
 | Real-observation processing | code SPP from real RINEX observations (`pvt`, metre-level); short-baseline RTK with LAMBDA and static float PPP on real carrier phase, as library code checked against IGS stations (VALIDATED, static and short windows, not a streaming service); plus geometry / dilution of precision (DOP) / availability | the core competency, through to carrier-phase PPP/RTK |
-| Install | zero — runs in a browser tab (WebAssembly) | native build / toolchain |
+| Install | zero — runs in a browser tab (WebAssembly) | a native install |
 
 ## Complementary, not competing — RTKLIB and gLAB
 
 [RTKLIB](https://github.com/tomojitakasu/RTKLIB) and [gLAB](https://gage.upc.edu/en/learning-materials/software-tools/glab-tool-suite)
 are mature, widely used GNSS processing suites. They take real measurements and
-produce a positioning solution (SPP/PPP/RTK; gLAB is also a superb teaching
-tool with strong heritage at the European Space Agency (ESA) and the European
-Geostationary Navigation Overlay Service (EGNOS)). Kshana does **not** replace them and does
+produce a positioning solution (SPP/PPP/RTK; gLAB is also a teaching tool). Kshana does **not** replace them and does
 not try to. Its observation path is narrow: code single-point positioning (`pvt`), and, as
 checked library code, short-baseline RTK with LAMBDA integer fixing and a static float PPP
 filter on real dual-frequency observations, each VALIDATED against IGS station data (the PPP
@@ -189,9 +187,8 @@ that is the job Kshana is built for.
 
 ## A zero-install browser tier
 
-Most simulation tools in this space (RTKLIB, gLAB, the General Mission Analysis Tool
-(GMAT), Orekit, STK) require a native install or a licence, and a learning curve before
-the first result. Kshana compiles to WebAssembly and runs **entirely in the browser** —
+Most tools in this space (RTKLIB, gLAB, the General Mission Analysis Tool (GMAT),
+Orekit, STK) are installed on the user's machine before the first result. Kshana compiles to WebAssembly and runs **entirely in the browser** —
 the [playground](../web/README.md) loads a worked scenario, runs the real engine
 client-side (nothing is uploaded), and shows the result in seconds. Guided
 sliders and one-click scenarios mean the first useful result needs no TOML (Tom's

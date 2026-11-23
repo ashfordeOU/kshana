@@ -7,7 +7,7 @@ seg-3959aefa12be = Source: <c1/>
 
 # text
 # c1: tests/tutorials.rs
-seg-a5ebe4befda8 = Hands-on, worked examples that take you from “run a shipped scenario” to “quantify and defend a result.” Every number quoted in the three tutorials is a real engine output, anchored to an external (non-circular) authoritative oracle, and <b>pinned by an integration test</b> (<c1/>), so a tutorial can never silently drift from what the engine actually does. If a tutorial says the optical clock holds { "6600" } s, the test fails the build the day that stops being true.
+seg-1fd01e161256 = Hands-on, worked examples that take you from “run a shipped scenario” to “quantify and defend a result.” Every number quoted in the three tutorials is a real engine output, checked against a non-circular reference (a closed form, a published value or an independent computation), and <b>pinned by an integration test</b> (<c1/>), so a tutorial can never silently drift from what the engine actually does. If a tutorial says the optical clock holds { "6600" } s, the test fails the build the day that stops being true.
 
 # text
 seg-1c045624a6be = Kshana is a positioning, navigation and timing (PNT) simulator. The tutorials use a few more abbreviations, each spelled out where it first appears: GNSS (Global Navigation Satellite System), GPS (Global Positioning System), CLI (command-line interface) and TOML (Tom's Obvious Minimal Language, the scenario file format).
@@ -67,6 +67,14 @@ seg-1b39d4927602 = intermediate
 
 # text
 seg-ea37ac575235 = { "35" } min
+
+# text
+seg-c6ab87e9ab0e = Teaching kit (MATLAB, LabVIEW, Python)
+
+# text
+# c1: docs/teaching/
+# c2: ACADEMIC.md
+seg-4bf5deecdb3f = Three lab sheets with worked answers, for students who call the engine from MATLAB, LabVIEW or Python through the C library: first calls, a link-budget sweep, and mapping a receiver log. See <a1><c1/></a1>; for citing and reproducing results in academic work, see <a2><c2/></a2>.
 
 # text
 seg-e43910de5fd8 = Notebooks
@@ -167,9 +175,6 @@ seg-28e87f407a10 = Domain
 
 # text
 seg-871fcecc5ee1 = Teaching file
-
-# text
-seg-b03d56f501c3 = Kind
 
 # text
 seg-4e852a6a1581 = Derived from
