@@ -3255,7 +3255,8 @@ mod tests {
         let v: Value = serde_json::from_str(&json).unwrap();
         assert_eq!(v["kind"], "hybrid-optical-rf");
         let label = v["label"].as_str().unwrap();
-        assert!(label.contains("VALIDATED") && label.contains("MODELLED"));
+        // The closed forms are internal checks with no VALIDATED ledger row: the label says checked and MODELLED.
+        assert!(label.contains("Checked closed form") && label.contains("MODELLED"));
 
         // Optical: a sub-mm two-way ranging precision from a photon-starved link.
         let opt = &v["optical_link"];

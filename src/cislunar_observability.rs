@@ -408,7 +408,8 @@ const LABEL: &str = "MODELLED planar cislunar constellation observability. Check
 (the kind stays MODELLED): the observable RANK is a rank-revealing singular-value threshold cross-checked \
 against the Gramian eigen-rank; the Gramian eigen-spectrum obeys the spectral invariants \
 (trace = sum eig, det = prod eig, Frobenius^2 = sum eig^2); the variational STM is the \
-finite-difference-validated CR3BP STM (crate::cr3bp); the range / range-rate Jacobian rows \
+CR3BP STM (crate::cr3bp), whose corrector is VALIDATED against the JPL three-body periodic-orbit \
+database in the cislunar mission-analysis ledger row; the range / range-rate Jacobian rows \
 are finite-difference-validated analytic partials (cross-checked against the crate's 3-D \
 range-rate observable); the four-spacecraft initial conditions are differential-corrected \
 planar DROs (crate::dro) that close to a tight periodicity residual and are retrograde; and \
@@ -2046,7 +2047,9 @@ mod tests {
             fnv1a64(&json),
             // STUDIO-15 (0.36 portable maths): was 0xe249_22aa_5af8_8194 on the host's maths; see
             // docs/revisions/portable-math-rebaseline.md (erratum for the released document).
-            0x2718_2e19_31db_4e20,
+            // Re-emitted (zzz_emit_default_document_pins) when the label lost the internal id "(P6)" and stopped
+            // calling internal checks VALIDATED, and the chart title lost "(P6)": text only, no value moved.
+            0x7c24_cbaa_ec9a_5ecc,
             "released result-JSON byte drift"
         );
         // ...and the SAME document with `units` stripped back off, against the hash that
@@ -2056,7 +2059,8 @@ mod tests {
         // though the hash above was updated in the same commit.
         // STUDIO-15: was 0x2207_bc72_0606_2c80 (host maths); the released values moved in the last
         // digits of round-off-floor quantities, see the revisions record.
-        const RELEASED_JSON_WITHOUT_UNITS_FNV: u64 = 0x2d73_9cd8_1d4b_369c;
+        // Re-emitted with the label change above (the label is part of the document without units).
+        const RELEASED_JSON_WITHOUT_UNITS_FNV: u64 = 0x8230_6f2d_8312_3a08;
         let mut stripped: Value = serde_json::from_str(&json).unwrap();
         assert!(
             stripped
@@ -2083,10 +2087,11 @@ mod tests {
         // engine, so a re-baselined hash cannot hide a moved coordinate or label.
         assert_eq!(
             fnv1a64(&svg),
-            0xf092_4c32_d811_9a18,
+            // Re-emitted when the chart title lost the internal id "(P6)" (text only).
+            0x1546_a9f4_a160_779d,
             "released SVG byte drift"
         );
-        const RELEASED_SVG_WITHOUT_PAINT_FNV: u64 = 0x1c89_82ef_1fd0_462f;
+        const RELEASED_SVG_WITHOUT_PAINT_FNV: u64 = 0xdcfb_8a92_c49d_e2ea; // re-emitted with the title change above
         assert_eq!(
             fnv1a64(&crate::test_support::without_paint(&svg)),
             RELEASED_SVG_WITHOUT_PAINT_FNV,
