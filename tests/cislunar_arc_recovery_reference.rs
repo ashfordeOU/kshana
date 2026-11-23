@@ -484,7 +484,9 @@ fn the_released_observability_document_is_unchanged() {
 // STUDIO-15 (0.36 portable maths): was 9_459_780_657_697_663_305 on the host's maths. Eight values
 // of the document moved by more than the six digits this pin keeps (round-off-floor singular
 // values and residuals; no rank or threshold moved): docs/revisions/portable-math-rebaseline.md.
-const RELEASED_OBSERVABILITY_CANONICAL_FNV: u64 = 14_410_212_428_669_190_182;
+// 22 Nov 2026 (site audit): was 14_410_212_428_669_190_182. Only the `label` text changed (it now names
+// the VALIDATED CR3BP STM corrector and calls the rest MODELLED); no value moved.
+const RELEASED_OBSERVABILITY_CANONICAL_FNV: u64 = 16_373_537_195_975_272_818;
 
 /// FNV-1a 64-bit — a tiny, dependency-free byte-identity fingerprint (the same one the
 /// registry golden guard uses).
