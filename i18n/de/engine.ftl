@@ -10924,6 +10924,7 @@ engine-main-usage =
     { "   " }oder: kshana soop-clock <lte|cp|synth-lte> ... (kshana soop-clock --help)
     { "   " }oder: kshana adsb-indicators <adsb.csv> [--cell-deg <d>] [--out <indicators.json>]
     { "   " }oder: kshana interference-atlas <build|verify|cors> ... (kshana interference-atlas --help)
+    { "   " }oder: kshana transition scan <obs.rnx|obs.crx|obs.gz|sitelog.log|dir>... [--json] [--out <base>]
     { "   " }oder: kshana kinds [--json]
     { "   " }oder: kshana example [<name>]
     { "   " }oder: kshana --help | --version

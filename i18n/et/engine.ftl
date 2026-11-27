@@ -10906,6 +10906,7 @@ engine-main-usage =
     { "   " }või: kshana soop-clock <lte|cp|synth-lte> ... (kshana soop-clock --help)
     { "   " }või: kshana adsb-indicators <adsb.csv> [--cell-deg <d>] [--out <indicators.json>]
     { "   " }või: kshana interference-atlas <build|verify|cors> ... (kshana interference-atlas --help)
+    { "   " }või: kshana transition scan <obs.rnx|obs.crx|obs.gz|sitelog.log|dir>... [--json] [--out <base>]
     { "   " }või: kshana kinds [--json]
     { "   " }või: kshana example [<name>]
     { "   " }või: kshana --help | --version

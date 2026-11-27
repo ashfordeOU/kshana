@@ -11129,6 +11129,7 @@ engine-main-usage =
     { "   " }или: kshana soop-clock <lte|cp|synth-lte> ... (kshana soop-clock --help)
     { "   " }или: kshana adsb-indicators <adsb.csv> [--cell-deg <d>] [--out <indicators.json>]
     { "   " }или: kshana interference-atlas <build|verify|cors> ... (kshana interference-atlas --help)
+    { "   " }или: kshana transition scan <obs.rnx|obs.crx|obs.gz|sitelog.log|dir>... [--json] [--out <base>]
     { "   " }или: kshana kinds [--json]
     { "   " }или: kshana example [<name>]
     { "   " }или: kshana --help | --version
