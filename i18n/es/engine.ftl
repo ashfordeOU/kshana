@@ -11124,6 +11124,7 @@ engine-main-usage =
     { "   " }o: kshana soop-clock <lte|cp|synth-lte> ... (kshana soop-clock --help)
     { "   " }o: kshana adsb-indicators <adsb.csv> [--cell-deg <d>] [--out <indicators.json>]
     { "   " }o: kshana interference-atlas <build|verify|cors> ... (kshana interference-atlas --help)
+    { "   " }o: kshana transform-receipt <make <request.json> [--eop <finals2000A>] [--out <file>]|verify <receipt.json> [--eop <finals2000A>] [--trusted-key <hex>]...>
     { "   " }o: kshana kinds [--json]
     { "   " }o: kshana example [<name>]
     { "   " }o: kshana --help | --version
