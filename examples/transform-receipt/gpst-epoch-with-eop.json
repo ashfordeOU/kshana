@@ -1,0 +1,12 @@
+{
+  "format": "kshana.transform-request/1",
+  "epoch": { "scale": "GPST", "time": "2026-09-01T12:00:18.000" },
+  "frame": "GCRS",
+  "position_m": [26560000.0, 0.0, 0.0],
+  "eop": {
+    "source": "values stated by hand for this example",
+    "ut1_minus_utc_s": 0.0123,
+    "xp_arcsec": 0.21,
+    "yp_arcsec": 0.38
+  }
+}

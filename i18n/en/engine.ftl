@@ -10739,6 +10739,7 @@ engine-main-usage =
     { "   " }or: kshana soop-clock <lte|cp|synth-lte> ... (kshana soop-clock --help)
     { "   " }or: kshana adsb-indicators <adsb.csv> [--cell-deg <d>] [--out <indicators.json>]
     { "   " }or: kshana interference-atlas <build|verify|cors> ... (kshana interference-atlas --help)
+    { "   " }or: kshana transform-receipt <make <request.json> [--eop <finals2000A>] [--out <file>]|verify <receipt.json> [--eop <finals2000A>] [--trusted-key <hex>]...>
     { "   " }or: kshana kinds [--json]
     { "   " }or: kshana example [<name>]
     { "   " }or: kshana --help | --version
@@ -12648,3 +12649,15 @@ engine-e-ccsds-tdm-data-outside-block = data line outside a DATA_START to DATA_S
 engine-amateur-od-bad-record = line { $line }: the { $what } record cannot be read
 engine-amateur-od-bad-json = SatNOGS observation: field { $field } is missing or not a number
 engine-amateur-od-unknown-site = Doppler record names site { $site }, which is not in the site list
+
+## src/transform_receipt.rs
+
+engine-transform-receipt-usage = usage: kshana transform-receipt <make <request.json> [--eop <finals2000A>] [--out <file>]|verify <receipt.json> [--eop <finals2000A>] [--trusted-key <hex>]...> (docs/TRANSFORM-RECEIPTS.md)
+
+engine-e-transform-receipt-request = the transform request is not valid: { $e }
+
+engine-e-transform-receipt-read = cannot read { $path }: { $e }
+
+engine-e-transform-receipt-key = { $key } is not a 32-byte Ed25519 public key in hex
+
+engine-e-transform-receipt-invalid = the receipt does not verify (failed checks: { $n }; see the report)

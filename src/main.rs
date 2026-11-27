@@ -1462,6 +1462,9 @@ fn main_in_language(args: Vec<String>) -> ExitCode {
         Some("leo-sparse") => Some(kshana::leo_sparse::run),
         // `kshana oscillator <part> <input.json>`: oscillator models (src/oscillator/).
         Some("oscillator") => Some(kshana::oscillator::run),
+        // `kshana transform-receipt make|verify`: frame and time transform receipts
+        // (src/transform_receipt.rs).
+        Some("transform-receipt") => Some(kshana::transform_receipt::run),
         // `kshana leo-verify <part> <input.json>`: LEO-PNT verification tools (src/leo_verify/).
         Some("leo-verify") => Some(kshana::leo_verify::run),
         _ => None,

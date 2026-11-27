@@ -659,6 +659,7 @@ them and [`docs/SCENARIOS.md`](docs/SCENARIOS.md) documents every field.
 | [Solar system](docs/SOLAR-SYSTEM.md) | where every planet is, and the light time of any link |
 | [Low-Earth-orbit navigation](docs/LEO-PNT.md) | a pass, a link, a navigation message and a fused fix, stage by stage |
 | [LEO-PNT verification](docs/LEO-VERIFY.md) | what a LEO timing or positioning service would deliver: burst timing, holdover TDEV, cost against outages, indoor and rain loss, ambiguity resolution, jamming claims and Doppler-only integrity |
+| [Transform receipts](docs/TRANSFORM-RECEIPTS.md) | a recomputable record of a time-scale and frame transformation: input, model chain, Earth-orientation values, output and hash, with an open verifier |
 | [Campaigns](docs/CAMPAIGNS.md) | a chained mission, a sweep or a Monte Carlo ensemble in one scenario |
 | [Animation](docs/ANIMATION.md) | a run's time series as an animated drawing, a player or frames |
 | [Reports](docs/REPORTS.md) | every figure with its unit and its label, in HTML (HyperText Markup Language) and JSON (JavaScript Object Notation) |

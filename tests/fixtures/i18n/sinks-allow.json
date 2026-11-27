@@ -184,6 +184,10 @@
   "src/leo_verify/tdev.rs": {
    "count": 1,
    "reason": "machine identifiers: the JSON input field names (dotted paths) passed as the `field` variable of the catalogued e-leo-verify-field message; not prose"
+  },
+  "src/transform_receipt.rs": {
+   "count": 12,
+   "reason": "machine document: request-validation details passed as the e variable of the catalogued e-transform-receipt-request message, and check details of the verifier's JSON report"
   }
  }
 }
