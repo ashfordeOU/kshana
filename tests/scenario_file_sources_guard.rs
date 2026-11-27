@@ -39,6 +39,12 @@ const NOT_A_SCENARIO_FILE_SOURCE: &[(&str, &str, &str)] = &[
         "an output field: the name of the vector file a result came from; the engine never reads it",
     ),
     (
+        "src/utc_readiness.rs",
+        "file",
+        "an output field: the file a utc-readiness finding was found in (Finding is serialised \
+         output of the scanner, never read from scenario text)",
+    ),
+    (
         "src/station.rs",
         "dir",
         "output: the directory the Station service writes its obs/1 files into, from the operator's \

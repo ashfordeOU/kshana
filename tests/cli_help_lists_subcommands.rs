@@ -38,6 +38,7 @@ fn the_top_level_usage_names_every_subcommand() {
         "inventory",
         "decimate",
         "time-vectors",
+        "utc-readiness",
         "ais-integrity",
         "rnss-design",
         "space-receiver",

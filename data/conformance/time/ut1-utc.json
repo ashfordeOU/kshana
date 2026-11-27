@@ -1,0 +1,20 @@
+{
+ "format": "kshana.time-vectors/1",
+ "set": "ut1-utc",
+ "version": "1.0.0",
+ "description": "UT1 from UTC with |UT1-UTC| beyond the 0.9 s of the leap-second era, up to the 3600 s of continuous UTC (CGPM 2026 Resolution 5): the UT1 label, the Earth rotation angle and the rotation error a 0.9 s clamp would leave; TAI-UTC after 20 May 2027.",
+ "generator": "data/conformance/time/gen_time_vectors.py",
+ "vectors": [
+  {"id": "ut1-2026-11-27-100ms", "op": "ut1_from_utc", "input": {"utc": "2026-11-27T00:00:00", "dut1_s": 0.1}, "expect": {"ut1": "2026-11-27T00:00:00.100", "era_deg": 65.58018507538819, "beyond_0_9_s": false, "era_error_if_clamped_arcsec": 0.0}, "note": "a DUT1 inside the 0.9 s band of the leap-second era", "tolerance": 1e-06},
+  {"id": "ut1-2027-05-20--900ms", "op": "ut1_from_utc", "input": {"utc": "2027-05-20T00:00:00", "dut1_s": -0.9}, "expect": {"ut1": "2027-05-19T23:59:59.100", "era_deg": 237.07254512841772, "beyond_0_9_s": false, "era_error_if_clamped_arcsec": 0.0}, "note": "the band's edge on the day continuous UTC takes effect", "tolerance": 1e-06},
+  {"id": "ut1-2030-01-01--1500ms", "op": "ut1_from_utc", "input": {"utc": "2030-01-01T00:00:00", "dut1_s": -1.5}, "expect": {"ut1": "2029-12-31T23:59:58.500", "era_deg": 100.30099798373215, "beyond_0_9_s": true, "era_error_if_clamped_arcsec": 9.02464030720219}, "note": "past 0.9 s: a 0.9 s clamp misplaces the Earth by about 9 arcsec of rotation", "tolerance": 1e-06},
+  {"id": "ut1-2035-06-30-4250ms", "op": "ut1_from_utc", "input": {"utc": "2035-06-30T12:00:00", "dut1_s": 4.25}, "expect": {"ut1": "2035-06-30T12:00:04.250", "era_deg": 97.95607795827408, "beyond_0_9_s": true, "era_error_if_clamped_arcsec": 50.38757504854557}, "note": "several seconds, either sign is possible", "tolerance": 1e-06},
+  {"id": "ut1-2050-01-01--59999ms", "op": "ut1_from_utc", "input": {"utc": "2050-01-01T00:00:00", "dut1_s": -59.999}, "expect": {"ut1": "2049-12-31T23:59:00.001", "era_deg": 99.95434930016557, "beyond_0_9_s": true, "era_error_if_clamped_arcsec": 888.9120291922372}, "note": "about a minute", "tolerance": 1e-06},
+  {"id": "ut1-2100-01-01--3600000ms", "op": "ut1_from_utc", "input": {"utc": "2100-01-01T00:00:00", "dut1_s": -3600.0}, "expect": {"ut1": "2099-12-31T23:00:00.000", "era_deg": 84.41556745238358, "beyond_0_9_s": true, "era_error_if_clamped_arcsec": 54134.30488275234}, "note": "the 3600 s maximum of Resolution 5", "tolerance": 1e-06},
+  {"id": "ut1-2100-01-01-3600000ms", "op": "ut1_from_utc", "input": {"utc": "2100-01-01T00:00:00", "dut1_s": 3600.0}, "expect": {"ut1": "2100-01-01T01:00:00.000", "era_deg": 114.49770180972223, "beyond_0_9_s": true, "era_error_if_clamped_arcsec": 54134.30488275234}, "note": "the 3600 s maximum, positive", "tolerance": 1e-06},
+  {"id": "tai-utc-continuous-2027-05-19", "op": "tai_minus_utc", "input": {"utc": "2027-05-19T00:00:00"}, "expect": {"seconds": 37}, "note": "continuous UTC from 2027-05-20 (CGPM 2026 Res. 5); assumes no leap second before then (none announced when generated; confirm with IERS Bulletin C)"},
+  {"id": "tai-utc-continuous-2027-05-20", "op": "tai_minus_utc", "input": {"utc": "2027-05-20T00:00:00"}, "expect": {"seconds": 37}, "note": "continuous UTC from 2027-05-20 (CGPM 2026 Res. 5); assumes no leap second before then (none announced when generated; confirm with IERS Bulletin C)"},
+  {"id": "tai-utc-continuous-2030-01-01", "op": "tai_minus_utc", "input": {"utc": "2030-01-01T00:00:00"}, "expect": {"seconds": 37}, "note": "continuous UTC from 2027-05-20 (CGPM 2026 Res. 5); assumes no leap second before then (none announced when generated; confirm with IERS Bulletin C)"},
+  {"id": "tai-utc-continuous-2040-01-01", "op": "tai_minus_utc", "input": {"utc": "2040-01-01T00:00:00"}, "expect": {"seconds": 37}, "note": "continuous UTC from 2027-05-20 (CGPM 2026 Res. 5); assumes no leap second before then (none announced when generated; confirm with IERS Bulletin C)"}
+ ]
+}
