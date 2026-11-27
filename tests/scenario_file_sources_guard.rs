@@ -176,6 +176,11 @@ const NOT_A_SCENARIO_FILE_SOURCE: &[(&str, &str, &str)] = &[
         "path",
         "report output: the name of an input the scan read, cited in its report",
     ),
+    (
+        "src/pbom.rs",
+        "path",
+        "a JSON pointer into the PBOM that a validation problem names",
+    ),
 ];
 
 fn rust_files(dir: &Path, out: &mut Vec<PathBuf>) {

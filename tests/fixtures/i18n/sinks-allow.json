@@ -188,6 +188,10 @@
   "src/transition_scan.rs": {
    "count": 8,
    "reason": "machine document: header-parser details returned to the scan, which writes them as the reason of a skipped input in the machine-readable report"
+  },
+  "src/pbom.rs": {
+   "count": 1,
+   "reason": "machine document: the provenance note written into a generated PBOM's metadata (a document field, not a message)"
   }
  }
 }

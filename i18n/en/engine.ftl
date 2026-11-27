@@ -10741,6 +10741,7 @@ engine-main-usage =
     { "   " }or: kshana adsb-indicators <adsb.csv> [--cell-deg <d>] [--out <indicators.json>]
     { "   " }or: kshana interference-atlas <build|verify|cors> ... (kshana interference-atlas --help)
     { "   " }or: kshana transition scan <obs.rnx|obs.crx|obs.gz|sitelog.log|dir>... [--json] [--out <base>]
+    { "   " }or: kshana pbom <validate <pbom.json>|generate <config.toml|scenario.toml> [--out <file>]|diff <old.json> <new.json>|schema>
     { "   " }or: kshana kinds [--json]
     { "   " }or: kshana example [<name>]
     { "   " }or: kshana --help | --version
@@ -12672,6 +12673,17 @@ engine-transition-text-reason = { "    " }{ $reason }
 engine-transition-text-fleet = Fleet: { $yes } dependent, { $partial } partial, { $no } not dependent, { $unknown } unknown; L2C declared at { $l2c }, L5 at { $l5 }
 
 engine-transition-text-skipped = skipped { $path }: { $reason }
+## src/pbom.rs
+
+engine-pbom-usage = usage: kshana pbom <validate <pbom.json>|generate <config.toml|scenario.toml> [--out <file>]|diff <old.json> <new.json>|schema> (docs/PBOM.md)
+
+engine-e-pbom-read = cannot read { $path }: { $e }
+
+engine-e-pbom-invalid = the PBOM is not valid (errors: { $n }; see the report)
+
+engine-e-pbom-config-format = the configuration format is { $got }, not { $want }
+
+engine-e-pbom-diff-invalid = the { $which } PBOM is not valid (errors: { $n }; first: { $first })
 
 ## Continuous-UTC readiness scanner (src/utc_readiness.rs, docs/UTC-READINESS.md)
 engine-utc-readiness-usage = usage: kshana utc-readiness [--json] [--as-of <YYYY-MM-DD>] <file|dir> ...  (docs/UTC-READINESS.md; continuous UTC from 2027-05-20, CGPM 2026 Resolution 5)

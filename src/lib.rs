@@ -331,6 +331,9 @@ pub mod particle_filter;
 /// Data-partner submissions and `kshana partner check` (docs/PARTNER-DATA.md).
 pub mod partner;
 pub mod passes;
+/// PNT Bill of Materials: a CycloneDX profile listing a system's positioning, navigation and timing
+/// dependencies, with a validator, generator and diff (`kshana pbom`, docs/PBOM.md).
+pub mod pbom;
 pub mod permalink;
 // Transcendental functions that return the same bits on every platform, for the
 // modules whose output is discrete (an encoded frame) and must not depend on the host.
