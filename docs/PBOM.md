@@ -25,7 +25,7 @@ each other up. A PBOM is that list, in a format that can be exchanged, checked a
 | `kshana pbom generate <scenario.toml> [--out <file>]` | writes a **draft** PBOM from a kshana scenario (mapping below) |
 | `kshana pbom validate <pbom.json>` | checks a PBOM and analyses its declared structure; JSON report; exit 2 when not valid |
 | `kshana pbom diff <old.json> <new.json>` | elements added, removed and changed, and how each function's analysis changed |
-| `kshana pbom schema` | prints the profile's JSON schema ([`docs/spec/pbom-1.schema.json`](spec/pbom-1.schema.json)) |
+| `kshana pbom schema` | prints the profile's JSON schema ([`data/pbom/kshana-pbom-1.schema.json`](../data/pbom/kshana-pbom-1.schema.json)) |
 
 ```sh
 kshana pbom generate examples/pbom/substation-timing.toml --out site.pbom.json

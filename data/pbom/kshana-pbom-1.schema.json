@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://kshana.dev/schema/pbom-1.schema.json",
+  "$id": "https://kshana.dev/schema/kshana-pbom-1.schema.json",
   "title": "PNT Bill of Materials (kshana.pbom/1), a CycloneDX property profile",
   "description": "The profile layer of a PBOM. A PBOM is also a CycloneDX BOM (1.4 to 1.6) and should validate against the CycloneDX schema of its specVersion; this schema adds the kshana:pbom: properties. Rules that need the whole document (references, any-of within dependsOn, role-specific fields, cycles) are checked by `kshana pbom validate` (docs/PBOM.md).",
   "type": "object",

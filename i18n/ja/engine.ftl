@@ -10122,6 +10122,7 @@ engine-main-usage =
     { "   " }または：kshana soop-clock <lte|cp|synth-lte> ... (kshana soop-clock --help)
     { "   " }または：kshana adsb-indicators <adsb.csv> [--cell-deg <d>] [--out <indicators.json>]
     { "   " }または：kshana interference-atlas <build|verify|cors> ... (kshana interference-atlas --help)
+    { "   " }または：kshana pbom <validate <pbom.json>|generate <config.toml|scenario.toml> [--out <file>]|diff <old.json> <new.json>|schema>
     { "   " }または：kshana kinds [--json]
     { "   " }または：kshana example [<name>]
     { "   " }または：kshana --help | --version

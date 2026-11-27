@@ -10,7 +10,7 @@
 //! the fallbacks that take over when something is lost. It is written as an ordinary
 //! CycloneDX JSON document (`bomFormat`, `specVersion`, `components`, `dependencies`), so
 //! existing BOM tooling reads it; the PNT meaning is carried by CycloneDX `properties` in the
-//! `kshana:pbom:` namespace (the profile `kshana.pbom/1`, schema `docs/spec/pbom-1.schema.json`).
+//! `kshana:pbom:` namespace (the profile `kshana.pbom/1`, schema `data/pbom/kshana-pbom-1.schema.json`).
 //!
 //! | property | where | meaning |
 //! |---|---|---|
@@ -61,7 +61,7 @@ pub const LABEL: &str = "MODELLED";
 /// The bom-ref of the system root that a generated PBOM uses.
 pub const ROOT_REF: &str = "system";
 /// The profile's JSON schema (also printed by `kshana pbom schema`).
-pub const SCHEMA: &str = include_str!("../docs/spec/pbom-1.schema.json");
+pub const SCHEMA: &str = include_str!("../data/pbom/kshana-pbom-1.schema.json");
 
 /// The roles an element can have.
 pub const ROLES: &[&str] = &[
