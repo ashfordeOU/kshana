@@ -10635,6 +10635,7 @@ engine-main-usage =
     { "   " }tai: kshana lunar-oem convert <in.oem> --to ICRF|MOON_PA440|MOON_ME [--out <file>] | frames (kshana lunar-oem --help)
     { "   " }tai: kshana leo-sparse <study.toml>
     { "   " }tai: kshana time-vectors [--json] [<vectors.json|dir> ...]
+    { "   " }tai: kshana utc-readiness [--json] [--as-of <YYYY-MM-DD>] <file|dir> ...
     { "   " }tai: kshana corrections <decode --format <has|b2b|l6|l1s|qznma> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...] | qznma-verify [--frames <frames.txt>] [--nav <nav.txt>] --pubkey <key.der> ...>
     { "   " }tai: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
     { "   " }tai: kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
@@ -11939,3 +11940,7 @@ engine-e-ccsds-tdm-data-outside-block = datarivi DATA_START–DATA_STOP-lohkon u
 engine-amateur-od-bad-record = rivi { $line }: { $what }-tietuetta ei voi lukea
 engine-amateur-od-bad-json = SatNOGS-havainto: kenttä { $field } puuttuu tai ei ole luku
 engine-amateur-od-unknown-site = Doppler-tietue nimeää aseman { $site }, jota ei ole asemaluettelossa
+
+## Continuous-UTC readiness scanner (src/utc_readiness.rs, docs/UTC-READINESS.md)
+engine-utc-readiness-usage = käyttö: kshana utc-readiness [--json] [--as-of <YYYY-MM-DD>] <file|dir> ...  (docs/UTC-READINESS.md; continuous UTC from 2027-05-20, CGPM 2026 Resolution 5)
+engine-e-utc-readiness-cannot-read = tiedostoa { $path } ei voi lukea: { $e }

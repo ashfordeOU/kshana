@@ -41,6 +41,10 @@ pub const BUILTIN: &[(&str, &str)] = &[
         include_str!("../data/conformance/time/two-digit-years.json"),
     ),
     (
+        "ut1-utc.json",
+        include_str!("../data/conformance/time/ut1-utc.json"),
+    ),
+    (
         "norad-catalogue.json",
         include_str!("../data/conformance/time/norad-catalogue.json"),
     ),
@@ -201,6 +205,40 @@ pub fn evaluate(op: &str, input: &Map<String, Value>) -> Result<Map<String, Valu
             put(
                 "year",
                 Value::from(gt::two_digit_year(u32_in(input, "yy")?, conv, reference)?),
+            );
+        }
+        "ut1_from_utc" => {
+            // UT1 = UTC + DUT1, in integer milliseconds so the label is exact.
+            let c = gt::utc_valid(s_in(input, "utc")?)?;
+            let dut1 = f_in(input, "dut1_s")?;
+            let ms = i128::from(c.days()) * 86_400_000
+                + c.ns_of_day / 1_000_000
+                + (dut1 * 1000.0).round() as i128;
+            let secs = ms.div_euclid(1000) as i64;
+            put(
+                "ut1",
+                Value::from(format!(
+                    "{}.{:03}",
+                    gt::unix_to_utc(secs),
+                    ms.rem_euclid(1000)
+                )),
+            );
+            // Earth rotation angle (IERS Conventions 2010, eq. 5.15), Du split into whole days
+            // from J2000.0 and a fraction so the fraction keeps its precision.
+            let day_ms = ms - 10_957 * 86_400_000 - 43_200_000;
+            let du_int = day_ms.div_euclid(86_400_000) as f64;
+            let du_frac = day_ms.rem_euclid(86_400_000) as f64 / 86_400_000.0;
+            let turns = (crate::timescales::ERA_TURNS_AT_J2000
+                + (crate::timescales::ERA_TURNS_PER_UT1_DAY - 1.0) * (du_int + du_frac)
+                + du_frac)
+                .rem_euclid(1.0);
+            put("era_deg", Value::from(turns * 360.0));
+            put("beyond_0_9_s", Value::Bool(dut1.abs() > 0.9));
+            put(
+                "era_error_if_clamped_arcsec",
+                Value::from(
+                    (dut1.abs() - 0.9).max(0.0) * crate::timescales::ERA_TURNS_PER_UT1_DAY * 15.0,
+                ),
             );
         }
         "norad_encode" => {

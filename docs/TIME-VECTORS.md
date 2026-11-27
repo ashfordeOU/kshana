@@ -27,7 +27,7 @@ id                                      op                result
 leap-2017-01-01-inserted-valid          utc_valid         PASS
 gps-2016-12-31T23:59:60                 gnss_week_tow     PASS
 ...
-515 vectors: 515 passed, 0 failed
+526 vectors: 526 passed, 0 failed
 ```
 
 ## The set (version 1.0.0)
@@ -39,6 +39,7 @@ gps-2016-12-31T23:59:60                 gnss_week_tow     PASS
 | `gnss-systems.json` | 73 | Galileo GST and BeiDou BDT weeks; UTC/TAI/TT/GPST/GST/BDT/GLONASST offsets on four dates; each scale's label of one instant; GLONASS `N4`/`NT` (on the Moscow date, including the New Year and leap-day edges) |
 | `computer-eras.json` | 21 | NTP era 0/1 (2036-02-07T06:28:16Z), NTP seconds resolved near a pivot; signed 32-bit Unix time at 2038-01-19T03:14:07Z and what it wraps to; unsigned 32-bit wrap (2106) |
 | `two-digit-years.json` | 20 | RINEX 2 (`80-99`→19xx), TLE (`57-99`→19xx) and NMEA `ddmmyy` (sliding window around a reference year) |
+| `ut1-utc.json` | 11 | UT1 from UTC with \|UT1−UTC\| from 0.1 s through 0.9 s to the 3600 s maximum of continuous UTC (CGPM 2026 Resolution 5, effective 20 May 2027): the UT1 label to the millisecond, the Earth rotation angle (IERS Conventions 2010, eq. 5.15), and the rotation error a 0.9 s clamp would leave; TAI−UTC = 37 s on and after 20 May 2027 (assuming no leap second before then) |
 | `norad-catalogue.json` | 44 | Alpha-5 encode and decode both ways over the range (`A0000` = 100 000 … `Z9999` = 339 999, no `I`/`O`), refusals, the TLE checksum with a letter in the catalogue field, a TLE line 1 in Alpha-5, and OMM `NORAD_CAT_ID` beyond Alpha-5 (512 345, 123 456 789) |
 
 Every UTC conversion of a future date assumes no leap second after the table (current to IERS

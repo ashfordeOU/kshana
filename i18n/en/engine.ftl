@@ -10726,6 +10726,7 @@ engine-main-usage =
     { "   " }or: kshana lunar-oem convert <in.oem> --to ICRF|MOON_PA440|MOON_ME [--out <file>] | frames (kshana lunar-oem --help)
     { "   " }or: kshana leo-sparse <study.toml>
     { "   " }or: kshana time-vectors [--json] [<vectors.json|dir> ...]
+    { "   " }or: kshana utc-readiness [--json] [--as-of <YYYY-MM-DD>] <file|dir> ...
     { "   " }or: kshana corrections <decode --format <has|b2b|l6|l1s|qznma> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...] | qznma-verify [--frames <frames.txt>] [--nav <nav.txt>] --pubkey <key.der> ...>
     { "   " }or: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
     { "   " }or: kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
@@ -12661,3 +12662,7 @@ engine-e-transform-receipt-read = cannot read { $path }: { $e }
 engine-e-transform-receipt-key = { $key } is not a 32-byte Ed25519 public key in hex
 
 engine-e-transform-receipt-invalid = the receipt does not verify (failed checks: { $n }; see the report)
+
+## Continuous-UTC readiness scanner (src/utc_readiness.rs, docs/UTC-READINESS.md)
+engine-utc-readiness-usage = usage: kshana utc-readiness [--json] [--as-of <YYYY-MM-DD>] <file|dir> ...  (docs/UTC-READINESS.md; continuous UTC from 2027-05-20, CGPM 2026 Resolution 5)
+engine-e-utc-readiness-cannot-read = cannot read { $path }: { $e }
