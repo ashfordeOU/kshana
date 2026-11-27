@@ -1380,6 +1380,12 @@ fn main_in_language(args: Vec<String>) -> ExitCode {
     }
     // `kshana time-vectors [--json] [<file|dir>...]`: the time-scale conformance vectors
     // (src/time_vectors.rs, docs/TIME-VECTORS.md). Exit 1 when any vector fails.
+    // `kshana utc-readiness [--json] [--as-of <date>] <file|dir> ...`: continuous-UTC readiness
+    // scan of configs, logs and data (src/utc_readiness.rs, docs/UTC-READINESS.md). Exit 1 when
+    // a finding breaks after the effective date, 2 on a usage or input error.
+    if args.get(1).map(String::as_str) == Some("utc-readiness") {
+        return ExitCode::from(kshana::utc_readiness::run_cli(&args[2..]) as u8);
+    }
     if args.get(1).map(String::as_str) == Some("time-vectors") {
         return match kshana::time_vectors::run_cli(&args[2..]) {
             Ok(true) => ExitCode::SUCCESS,

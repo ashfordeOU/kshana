@@ -10893,6 +10893,7 @@ engine-main-usage =
     { "   " }või: kshana lunar-oem convert <in.oem> --to ICRF|MOON_PA440|MOON_ME [--out <file>] | frames (kshana lunar-oem --help)
     { "   " }või: kshana leo-sparse <study.toml>
     { "   " }või: kshana time-vectors [--json] [<vectors.json|dir> ...]
+    { "   " }või: kshana utc-readiness [--json] [--as-of <YYYY-MM-DD>] <file|dir> ...
     { "   " }või: kshana corrections <decode --format <has|b2b|l6|l1s|qznma> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...] | qznma-verify [--frames <frames.txt>] [--nav <nav.txt>] --pubkey <key.der> ...>
     { "   " }või: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
     { "   " }või: kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
@@ -12194,3 +12195,7 @@ engine-e-ccsds-tdm-data-outside-block = andmerida väljaspool DATA_START kuni DA
 engine-amateur-od-bad-record = rida { $line }: kirjet { $what } ei saa lugeda
 engine-amateur-od-bad-json = SatNOGS-i vaatlus: väli { $field } puudub või ei ole arv
 engine-amateur-od-unknown-site = Doppleri kirje nimetab jaama { $site }, mida jaamade loendis ei ole
+
+## Continuous-UTC readiness scanner (src/utc_readiness.rs, docs/UTC-READINESS.md)
+engine-utc-readiness-usage = kasutus: kshana utc-readiness [--json] [--as-of <YYYY-MM-DD>] <file|dir> ...  (docs/UTC-READINESS.md; continuous UTC from 2027-05-20, CGPM 2026 Resolution 5)
+engine-e-utc-readiness-cannot-read = faili { $path } ei saa lugeda: { $e }

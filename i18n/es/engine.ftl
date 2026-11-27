@@ -11111,6 +11111,7 @@ engine-main-usage =
     { "   " }o: kshana lunar-oem convert <in.oem> --to ICRF|MOON_PA440|MOON_ME [--out <file>] | frames (kshana lunar-oem --help)
     { "   " }o: kshana leo-sparse <study.toml>
     { "   " }o: kshana time-vectors [--json] [<vectors.json|dir> ...]
+    { "   " }o: kshana utc-readiness [--json] [--as-of <YYYY-MM-DD>] <file|dir> ...
     { "   " }o: kshana corrections <decode --format <has|b2b|l6|l1s|qznma> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...] | qznma-verify [--frames <frames.txt>] [--nav <nav.txt>] --pubkey <key.der> ...>
     { "   " }o: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
     { "   " }o: kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
@@ -12417,3 +12418,7 @@ engine-e-ccsds-tdm-data-outside-block = línea de datos fuera de un bloque DATA_
 engine-amateur-od-bad-record = línea { $line }: no se puede leer el registro { $what }
 engine-amateur-od-bad-json = observación de SatNOGS: el campo { $field } falta o no es un número
 engine-amateur-od-unknown-site = el registro Doppler nombra la estación { $site }, que no está en la lista de estaciones
+
+## Continuous-UTC readiness scanner (src/utc_readiness.rs, docs/UTC-READINESS.md)
+engine-utc-readiness-usage = uso: kshana utc-readiness [--json] [--as-of <YYYY-MM-DD>] <file|dir> ...  (docs/UTC-READINESS.md; continuous UTC from 2027-05-20, CGPM 2026 Resolution 5)
+engine-e-utc-readiness-cannot-read = no se puede leer { $path }: { $e }

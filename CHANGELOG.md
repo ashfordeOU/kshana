@@ -9,6 +9,9 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+- **Continuous-UTC readiness scanner** (`kshana utc-readiness`, `src/utc_readiness.rs`, docs/UTC-READINESS.md). CGPM 2026 Resolution 5 (https://www.bipm.org/en/cgpm-2026/resolution-5): continuous UTC will become effective on 20 May 2027, maximum |UT1−UTC| 3600 s. The scanner reads files and directories for leap-second assumptions (leap-second tables and their expiry, NTP leap-indicator handling and smearing, hard-coded TAI−UTC and GPS−UTC, checks that hold |UT1−UTC| within 0.9 s, DUT1 fields) and reports each finding as `breaks`, `drifts`, `review` or `holds`, as JSON (`kshana.utc-readiness/1`) or text; exit 1 on a `breaks` finding. Fixtures in `tests/fixtures/utc-readiness/`; tests: `tests/utc_readiness.rs`.
+- **Time vectors: UT1−UTC beyond 0.9 s** (`data/conformance/time/ut1-utc.json`, 11 vectors, operation `ut1_from_utc`). UT1 labels, Earth rotation angle and the error of a 0.9 s clamp for |UT1−UTC| up to 3600 s, and TAI−UTC after 20 May 2027.
+
 - **Repository hygiene: session trailers and links are refused** (`scripts/check-no-attribution.sh`). The guard also rejects an assistant's working-session trailer line and links to an assistant's working session, in tracked files and in commit messages.
 
 - **Fix: bench task (g) `provided-wls` no longer takes an invalid fix as a position** (`src/bench/smartphone.rs`, `bench/SPEC.md`). A `device_gnss.csv` row whose WLS fix is not within 100 km of the Earth's surface (all zeros, or a diverged solution) was taken as a fix, so one trace could score hundreds of kilometres; such rows are now skipped and the nearest valid epoch is used. Found by the first local scoring run on real data (the data is never committed). Test: `a_wls_row_at_the_earths_centre_or_diverged_is_not_taken_as_a_fix`.
