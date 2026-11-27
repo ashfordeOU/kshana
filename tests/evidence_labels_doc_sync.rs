@@ -293,6 +293,7 @@ const LABELLED_WRITERS: &[&str] = &[
 /// labelled (and moved to the list above) or added here with its reason; the scan below fails otherwise, and fails on a
 /// stale entry.
 const UNLABELLED_WRITERS: &[(&str, &str)] = &[
+    ("src/pbom.rs", "writes a PBOM (`pbom generate --out`): a CycloneDX document describing the input configuration, not a result figure or table; `validate` reports carry `label: MODELLED` in their own field"),
     ("src/lunar_oem.rs", "writes a CCSDS OEM (`lunar-oem convert --out`): a standard interchange file whose keywords are fixed; the MODELLED label is carried in its COMMENT lines"),
     ("src/orbit_data/cli.rs", "writes a CCSDS CDM (`orbit-data pc --cdm-out`): a standard message whose keywords are fixed; the computed COLLISION_PROBABILITY is labelled MODELLED in a COMMENT"),
     ("src/rnss_design.rs", "writes the kshana.rnss-design/1 report (`rnss-design run --out`), which carries `evidence: MODELLED` and the profile's status and disclaimer in its own fields"),

@@ -11085,6 +11085,7 @@ engine-main-usage =
     { "   " }lub: kshana soop-clock <lte|cp|synth-lte> ... (kshana soop-clock --help)
     { "   " }lub: kshana adsb-indicators <adsb.csv> [--cell-deg <d>] [--out <indicators.json>]
     { "   " }lub: kshana interference-atlas <build|verify|cors> ... (kshana interference-atlas --help)
+    { "   " }lub: kshana pbom <validate <pbom.json>|generate <config.toml|scenario.toml> [--out <file>]|diff <old.json> <new.json>|schema>
     { "   " }lub: kshana kinds [--json]
     { "   " }lub: kshana example [<name>]
     { "   " }lub: kshana --help | --version

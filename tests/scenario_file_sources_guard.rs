@@ -171,6 +171,11 @@ const NOT_A_SCENARIO_FILE_SOURCE: &[(&str, &str, &str)] = &[
         "the name of a built-in table schema, not a file",
     ),
     ("src/surface.rs", "file_name", "output"),
+    (
+        "src/pbom.rs",
+        "path",
+        "a JSON pointer into the PBOM that a validation problem names",
+    ),
 ];
 
 fn rust_files(dir: &Path, out: &mut Vec<PathBuf>) {

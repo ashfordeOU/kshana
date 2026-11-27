@@ -10740,6 +10740,7 @@ engine-main-usage =
     { "   " }or: kshana soop-clock <lte|cp|synth-lte> ... (kshana soop-clock --help)
     { "   " }or: kshana adsb-indicators <adsb.csv> [--cell-deg <d>] [--out <indicators.json>]
     { "   " }or: kshana interference-atlas <build|verify|cors> ... (kshana interference-atlas --help)
+    { "   " }or: kshana pbom <validate <pbom.json>|generate <config.toml|scenario.toml> [--out <file>]|diff <old.json> <new.json>|schema>
     { "   " }or: kshana kinds [--json]
     { "   " }or: kshana example [<name>]
     { "   " }or: kshana --help | --version
@@ -12649,6 +12650,18 @@ engine-e-ccsds-tdm-data-outside-block = data line outside a DATA_START to DATA_S
 engine-amateur-od-bad-record = line { $line }: the { $what } record cannot be read
 engine-amateur-od-bad-json = SatNOGS observation: field { $field } is missing or not a number
 engine-amateur-od-unknown-site = Doppler record names site { $site }, which is not in the site list
+
+## src/pbom.rs
+
+engine-pbom-usage = usage: kshana pbom <validate <pbom.json>|generate <config.toml|scenario.toml> [--out <file>]|diff <old.json> <new.json>|schema> (docs/PBOM.md)
+
+engine-e-pbom-read = cannot read { $path }: { $e }
+
+engine-e-pbom-invalid = the PBOM is not valid (errors: { $n }; see the report)
+
+engine-e-pbom-config-format = the configuration format is { $got }, not { $want }
+
+engine-e-pbom-diff-invalid = the { $which } PBOM is not valid (errors: { $n }; first: { $first })
 
 ## Continuous-UTC readiness scanner (src/utc_readiness.rs, docs/UTC-READINESS.md)
 engine-utc-readiness-usage = usage: kshana utc-readiness [--json] [--as-of <YYYY-MM-DD>] <file|dir> ...  (docs/UTC-READINESS.md; continuous UTC from 2027-05-20, CGPM 2026 Resolution 5)

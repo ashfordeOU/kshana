@@ -1,0 +1,261 @@
+{
+  "bomFormat": "CycloneDX",
+  "components": [
+    {
+      "bom-ref": "ptp-distribution",
+      "name": "IEEE 1588 PTP distribution to protection relays",
+      "properties": [
+        {
+          "name": "kshana:pbom:role",
+          "value": "network-time"
+        }
+      ],
+      "type": "data"
+    },
+    {
+      "bom-ref": "gm-clock",
+      "name": "Grandmaster clock",
+      "properties": [
+        {
+          "name": "kshana:pbom:role",
+          "value": "time-reference"
+        },
+        {
+          "name": "kshana:pbom:provides",
+          "value": "time"
+        },
+        {
+          "name": "kshana:pbom:provides",
+          "value": "frequency"
+        },
+        {
+          "name": "kshana:pbom:time-scale",
+          "value": "UTC"
+        },
+        {
+          "name": "kshana:pbom:jurisdiction",
+          "value": "EU"
+        }
+      ],
+      "supplier": {
+        "name": "Vendor A"
+      },
+      "type": "device"
+    },
+    {
+      "bom-ref": "gnss-receiver",
+      "name": "Timing GNSS receiver",
+      "properties": [
+        {
+          "name": "kshana:pbom:role",
+          "value": "receiver"
+        },
+        {
+          "name": "kshana:pbom:any-of",
+          "value": "gps-l1ca"
+        },
+        {
+          "name": "kshana:pbom:any-of",
+          "value": "gal-e1"
+        }
+      ],
+      "supplier": {
+        "name": "Vendor A"
+      },
+      "type": "device",
+      "version": "board rev 2"
+    },
+    {
+      "bom-ref": "receiver-fw",
+      "name": "Receiver firmware",
+      "properties": [
+        {
+          "name": "kshana:pbom:role",
+          "value": "firmware"
+        }
+      ],
+      "supplier": {
+        "name": "Vendor A"
+      },
+      "type": "firmware",
+      "version": "4.2.1"
+    },
+    {
+      "bom-ref": "gnss-antenna",
+      "name": "Roof-mounted L1/E1 antenna",
+      "properties": [
+        {
+          "name": "kshana:pbom:role",
+          "value": "antenna"
+        }
+      ],
+      "supplier": {
+        "name": "Vendor B"
+      },
+      "type": "device"
+    },
+    {
+      "bom-ref": "gps-l1ca",
+      "name": "GPS L1 C/A",
+      "properties": [
+        {
+          "name": "kshana:pbom:role",
+          "value": "constellation-signal"
+        },
+        {
+          "name": "kshana:pbom:provides",
+          "value": "position"
+        },
+        {
+          "name": "kshana:pbom:provides",
+          "value": "time"
+        },
+        {
+          "name": "kshana:pbom:constellation",
+          "value": "GPS"
+        },
+        {
+          "name": "kshana:pbom:signal",
+          "value": "L1 C/A"
+        },
+        {
+          "name": "kshana:pbom:jurisdiction",
+          "value": "US"
+        }
+      ],
+      "type": "data"
+    },
+    {
+      "bom-ref": "gal-e1",
+      "name": "Galileo E1 OS with OSNMA",
+      "properties": [
+        {
+          "name": "kshana:pbom:role",
+          "value": "constellation-signal"
+        },
+        {
+          "name": "kshana:pbom:provides",
+          "value": "position"
+        },
+        {
+          "name": "kshana:pbom:provides",
+          "value": "time"
+        },
+        {
+          "name": "kshana:pbom:constellation",
+          "value": "Galileo"
+        },
+        {
+          "name": "kshana:pbom:signal",
+          "value": "E1 OS"
+        },
+        {
+          "name": "kshana:pbom:jurisdiction",
+          "value": "EU"
+        },
+        {
+          "name": "kshana:pbom:authenticated",
+          "value": "true"
+        }
+      ],
+      "type": "data"
+    },
+    {
+      "bom-ref": "ocxo",
+      "name": "OCXO holdover in the grandmaster",
+      "properties": [
+        {
+          "name": "kshana:pbom:role",
+          "value": "oscillator"
+        },
+        {
+          "name": "kshana:pbom:provides",
+          "value": "time"
+        },
+        {
+          "name": "kshana:pbom:provides",
+          "value": "frequency"
+        },
+        {
+          "name": "kshana:pbom:fallback-for",
+          "value": "gnss-receiver"
+        },
+        {
+          "name": "kshana:pbom:holdover-s",
+          "value": "14400"
+        },
+        {
+          "name": "kshana:pbom:gnss-independent",
+          "value": "true"
+        }
+      ],
+      "type": "device"
+    }
+  ],
+  "dependencies": [
+    {
+      "dependsOn": [
+        "ptp-distribution"
+      ],
+      "ref": "system"
+    },
+    {
+      "dependsOn": [
+        "gm-clock"
+      ],
+      "ref": "ptp-distribution"
+    },
+    {
+      "dependsOn": [
+        "gnss-receiver"
+      ],
+      "ref": "gm-clock"
+    },
+    {
+      "dependsOn": [
+        "gnss-antenna",
+        "receiver-fw",
+        "gps-l1ca",
+        "gal-e1"
+      ],
+      "ref": "gnss-receiver"
+    },
+    {
+      "dependsOn": [],
+      "ref": "receiver-fw"
+    },
+    {
+      "dependsOn": [],
+      "ref": "gnss-antenna"
+    },
+    {
+      "dependsOn": [],
+      "ref": "gps-l1ca"
+    },
+    {
+      "dependsOn": [],
+      "ref": "gal-e1"
+    },
+    {
+      "dependsOn": [],
+      "ref": "ocxo"
+    }
+  ],
+  "metadata": {
+    "component": {
+      "bom-ref": "system",
+      "name": "Substation time server (illustrative)",
+      "type": "device",
+      "version": "1"
+    },
+    "properties": [
+      {
+        "name": "kshana:pbom:profile",
+        "value": "kshana.pbom/1"
+      }
+    ]
+  },
+  "serialNumber": "urn:uuid:01d2fc4e-02a0-87b3-a023-ef54d38c87c9",
+  "specVersion": "1.5",
+  "version": 1
+}
