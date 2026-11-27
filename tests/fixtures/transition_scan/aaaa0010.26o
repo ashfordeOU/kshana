@@ -1,0 +1,8 @@
+     2.11           OBSERVATION DATA    G (GPS)             RINEX VERSION / TYPE
+kshana fixture       synthetic           20261127 000000 UTCPGM / RUN BY / DATE
+AAAA                                                        MARKER NAME
+00001               GENERIC RX-A        1.0                 REC # / TYPE / VERS
+00001               GENERIC ANT NONE                        ANT # / TYPE
+     9    L1    L2    C1    P1    P2    D1    D2    S1    S2# / TYPES OF OBSERV
+  2026    11    20     0     0    0.0000000     GPS         TIME OF FIRST OBS
+                                                            END OF HEADER

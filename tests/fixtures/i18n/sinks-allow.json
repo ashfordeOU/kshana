@@ -184,6 +184,10 @@
   "src/leo_verify/tdev.rs": {
    "count": 1,
    "reason": "machine identifiers: the JSON input field names (dotted paths) passed as the `field` variable of the catalogued e-leo-verify-field message; not prose"
+  },
+  "src/transition_scan.rs": {
+   "count": 8,
+   "reason": "machine document: header-parser details returned to the scan, which writes them as the reason of a skipped input in the machine-readable report"
   }
  }
 }

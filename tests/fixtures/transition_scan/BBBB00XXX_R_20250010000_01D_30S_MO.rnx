@@ -1,0 +1,8 @@
+     3.04           OBSERVATION DATA    M (MIXED)           RINEX VERSION / TYPE
+kshana fixture       synthetic           20261127 000000 UTCPGM / RUN BY / DATE
+BBBB                                                        MARKER NAME
+00001               GENERIC RX-OLD      1.0                 REC # / TYPE / VERS
+00001               GENERIC ANT NONE                        ANT # / TYPE
+G    4 C1C L1C C2W L2W                                      SYS / # / OBS TYPES
+  2025     1     1     0     0    0.0000000     GPS         TIME OF FIRST OBS
+                                                            END OF HEADER

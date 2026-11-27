@@ -468,6 +468,9 @@ pub mod timing_stack;
 pub mod tlog;
 /// The trust stream as CCSDS packets with XTCE, COSMOS and Open MCT definitions (0.42 I8).
 pub mod tm_bridge;
+/// Semi-codeless (L1/L2 P(Y)) dependency scan of RINEX observation headers and site logs
+/// (`kshana transition scan`, docs/TRANSITION-SCAN.md).
+pub mod transition_scan;
 // Comparison helpers shared by the byte-identity guards. Test-only: it exists so those
 // guards can assert the exact pin where it is true and a portable one everywhere else.
 pub mod evidence;
