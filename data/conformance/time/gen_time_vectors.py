@@ -24,6 +24,10 @@ Definitions used (all public):
   * Unix: seconds from 1970-01-01 without leap seconds; int32 overflows after 2038-01-19T03:14:07Z.
   * Two-digit years: RINEX 2.11 (80-99 -> 19xx, 00-79 -> 20xx); TLE (57-99 -> 19xx, 00-56 -> 20xx);
     NMEA 0183 ddmmyy has no century (the vectors use a sliding window, year in [ref-50, ref+49]).
+  * Continuous UTC: CGPM 2026 Resolution 5 (https://www.bipm.org/en/cgpm-2026/resolution-5),
+    continuous UTC effective 20 May 2027, maximum |UT1-UTC| 3600 s. UT1 = UTC + DUT1; Earth
+    rotation angle ERA = 2 pi (0.7790572732640 + 1.00273781191135448 Du), Du = JD(UT1) - 2451545.0
+    (IERS Conventions 2010, eq. 5.15).
   * NORAD catalogue: Alpha-5 (A=10 ... Z=33 without I and O; A0000 = 100000, Z9999 = 339999); OMM
     NORAD_CAT_ID is a plain integer (CCSDS 502.0-B-3).
 """
@@ -358,6 +362,44 @@ for n in [25544, 270002, 512345, 123456789]:
         {"number": n, "epoch_days_1950": epoch_days, "alpha5": alpha5(n) or ""},
         "OMM carries the catalogue number as an integer: the path past Alpha-5")
 
+# ---------------------------------------------------------------- UT1-UTC beyond 0.9 s
+S = "ut1-utc"
+J2000 = dt.datetime(2000, 1, 1, 12)
+
+
+def ut1_case(utc_s, dut1_ms):
+    utc = dt.datetime.fromisoformat(utc_s)
+    ut1 = utc + dt.timedelta(milliseconds=dut1_ms)
+    whole = ut1.replace(microsecond=0)
+    label = whole.strftime("%Y-%m-%dT%H:%M:%S") + ".%03d" % (ut1.microsecond // 1000)
+    d = ut1 - J2000
+    du_int, du_frac = d.days, (d.seconds + d.microseconds / 1e6) / 86400.0
+    turns = (0.7790572732640 + 0.00273781191135448 * (du_int + du_frac) + du_frac) % 1.0
+    dut1 = dut1_ms / 1000.0
+    excess = max(abs(dut1) - 0.9, 0.0)
+    return {"ut1": label, "era_deg": turns * 360.0, "beyond_0_9_s": abs(dut1) > 0.9,
+            "era_error_if_clamped_arcsec": excess * 1.00273781191135448 * 15.0}
+
+
+for utc_s, ms, note in [
+    ("2026-11-27T00:00:00", 100, "a DUT1 inside the 0.9 s band of the leap-second era"),
+    ("2027-05-20T00:00:00", -900, "the band's edge on the day continuous UTC takes effect"),
+    ("2030-01-01T00:00:00", -1500, "past 0.9 s: a 0.9 s clamp misplaces the Earth by about 9 arcsec of rotation"),
+    ("2035-06-30T12:00:00", 4250, "several seconds, either sign is possible"),
+    ("2050-01-01T00:00:00", -59999, "about a minute"),
+    ("2100-01-01T00:00:00", -3600000, "the 3600 s maximum of Resolution 5"),
+    ("2100-01-01T00:00:00", 3600000, "the 3600 s maximum, positive"),
+]:
+    add(S, f"ut1-{utc_s[:10]}-{ms}ms", "ut1_from_utc", {"utc": utc_s, "dut1_s": ms / 1000.0},
+        ut1_case(utc_s, ms), note)
+for d in ["2027-05-19", "2027-05-20", "2030-01-01", "2040-01-01"]:
+    add(S, f"tai-utc-continuous-{d}", "tai_minus_utc", {"utc": d + "T00:00:00"}, {"seconds": 37},
+        "continuous UTC from 2027-05-20 (CGPM 2026 Res. 5); assumes no leap second before then "
+        "(none announced when generated; confirm with IERS Bulletin C)")
+for v in V[S]:
+    if v["op"] == "ut1_from_utc":
+        v["tolerance"] = 1e-6
+
 DESCRIPTIONS = {
     "leap-seconds": "Every leap second since 1972: TAI-UTC before, during and after 23:59:60, the 86401 s day, "
                     "the mapping into TAI, GPST and GLONASST, and times that do not exist.",
@@ -367,6 +409,9 @@ DESCRIPTIONS = {
                     "GLONASS N4/NT day numbers.",
     "computer-eras": "The NTP era rollover (2036), signed and unsigned 32-bit Unix time (2038, 2106).",
     "two-digit-years": "Two-digit years in RINEX 2, TLE and NMEA.",
+    "ut1-utc": "UT1 from UTC with |UT1-UTC| beyond the 0.9 s of the leap-second era, up to the 3600 s of "
+               "continuous UTC (CGPM 2026 Resolution 5): the UT1 label, the Earth rotation angle and the rotation "
+               "error a 0.9 s clamp would leave; TAI-UTC after 20 May 2027.",
     "norad-catalogue": "NORAD catalogue numbers above 99999: Alpha-5 encode and decode, the TLE checksum, and OMM.",
 }
 

@@ -10176,6 +10176,7 @@ engine-main-usage =
     { "   " }或：kshana lunar-oem convert <in.oem> --to ICRF|MOON_PA440|MOON_ME [--out <file>] | frames (kshana lunar-oem --help)
     { "   " }或：kshana leo-sparse <study.toml>
     { "   " }或：kshana time-vectors [--json] [<vectors.json|dir> ...]
+    { "   " }或：kshana utc-readiness [--json] [--as-of <YYYY-MM-DD>] <file|dir> ...
     { "   " }或：kshana corrections <decode --format <has|b2b|l6|l1s|qznma> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...] | qznma-verify [--frames <frames.txt>] [--nav <nav.txt>] --pubkey <key.der> ...>
     { "   " }或：kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
     { "   " }或：kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
@@ -11475,3 +11476,7 @@ engine-e-ccsds-tdm-data-outside-block = 数据行位于 DATA_START 至 DATA_STOP
 engine-amateur-od-bad-record = 第 { $line } 行：无法读取 { $what } 记录
 engine-amateur-od-bad-json = SatNOGS 观测：字段 { $field } 缺失或不是数字
 engine-amateur-od-unknown-site = 多普勒记录指向站点 { $site }，但它不在站点列表中
+
+## Continuous-UTC readiness scanner (src/utc_readiness.rs, docs/UTC-READINESS.md)
+engine-utc-readiness-usage = 用法：kshana utc-readiness [--json] [--as-of <YYYY-MM-DD>] <file|dir> ...  (docs/UTC-READINESS.md; continuous UTC from 2027-05-20, CGPM 2026 Resolution 5)
+engine-e-utc-readiness-cannot-read = 无法读取 { $path }：{ $e }
