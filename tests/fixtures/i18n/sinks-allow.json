@@ -184,6 +184,10 @@
   "src/leo_verify/tdev.rs": {
    "count": 1,
    "reason": "machine identifiers: the JSON input field names (dotted paths) passed as the `field` variable of the catalogued e-leo-verify-field message; not prose"
+  },
+  "src/pbom.rs": {
+   "count": 1,
+   "reason": "machine document: the provenance note written into a generated PBOM's metadata (a document field, not a message)"
   }
  }
 }

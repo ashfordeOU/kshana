@@ -1,0 +1,112 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://kshana.dev/schema/pbom-1.schema.json",
+  "title": "PNT Bill of Materials (kshana.pbom/1), a CycloneDX property profile",
+  "description": "The profile layer of a PBOM. A PBOM is also a CycloneDX BOM (1.4 to 1.6) and should validate against the CycloneDX schema of its specVersion; this schema adds the kshana:pbom: properties. Rules that need the whole document (references, any-of within dependsOn, role-specific fields, cycles) are checked by `kshana pbom validate` (docs/PBOM.md).",
+  "type": "object",
+  "required": ["bomFormat", "specVersion", "version", "metadata", "components"],
+  "properties": {
+    "bomFormat": { "const": "CycloneDX" },
+    "specVersion": { "enum": ["1.4", "1.5", "1.6"] },
+    "version": { "type": "integer", "minimum": 1 },
+    "serialNumber": { "type": "string", "pattern": "^urn:uuid:[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$" },
+    "metadata": {
+      "type": "object",
+      "required": ["component", "properties"],
+      "properties": {
+        "component": {
+          "type": "object",
+          "required": ["type", "name", "bom-ref"],
+          "properties": {
+            "bom-ref": { "type": "string", "minLength": 1 },
+            "properties": {
+              "type": "array",
+              "items": {
+                "if": { "properties": { "name": { "pattern": "^kshana:pbom:" } } },
+                "then": { "properties": { "name": { "const": "kshana:pbom:any-of" } } }
+              }
+            }
+          }
+        },
+        "properties": {
+          "type": "array",
+          "contains": {
+            "type": "object",
+            "required": ["name", "value"],
+            "properties": {
+              "name": { "const": "kshana:pbom:profile" },
+              "value": { "const": "kshana.pbom/1" }
+            }
+          },
+          "items": {
+            "if": { "properties": { "name": { "pattern": "^kshana:pbom:" } } },
+            "then": { "properties": { "name": { "enum": ["kshana:pbom:profile", "kshana:pbom:source"] } } }
+          }
+        }
+      }
+    },
+    "components": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/component" }
+    },
+    "dependencies": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["ref"],
+        "properties": {
+          "ref": { "type": "string" },
+          "dependsOn": { "type": "array", "items": { "type": "string" }, "uniqueItems": true }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "component": {
+      "type": "object",
+      "required": ["type", "name", "bom-ref", "properties"],
+      "properties": {
+        "bom-ref": { "type": "string", "minLength": 1 },
+        "properties": {
+          "type": "array",
+          "contains": {
+            "type": "object",
+            "required": ["name", "value"],
+            "properties": {
+              "name": { "const": "kshana:pbom:role" },
+              "value": { "enum": ["constellation-signal", "receiver", "antenna", "firmware", "oscillator", "time-reference", "augmentation", "correction-feed", "network-time", "alternative-source", "fallback"] }
+            }
+          },
+          "items": { "$ref": "#/definitions/property" }
+        }
+      }
+    },
+    "property": {
+      "type": "object",
+      "required": ["name", "value"],
+      "properties": { "name": { "type": "string" }, "value": { "type": "string" } },
+      "allOf": [
+        {
+          "if": { "properties": { "name": { "pattern": "^kshana:pbom:" } } },
+          "then": { "properties": { "name": { "enum": [
+            "kshana:pbom:role", "kshana:pbom:provides", "kshana:pbom:any-of", "kshana:pbom:fallback-for",
+            "kshana:pbom:constellation", "kshana:pbom:signal", "kshana:pbom:time-scale", "kshana:pbom:holdover-s",
+            "kshana:pbom:authenticated", "kshana:pbom:gnss-independent", "kshana:pbom:endpoint", "kshana:pbom:jurisdiction"
+          ] } } }
+        },
+        {
+          "if": { "properties": { "name": { "const": "kshana:pbom:provides" } } },
+          "then": { "properties": { "value": { "enum": ["position", "velocity", "time", "frequency"] } } }
+        },
+        {
+          "if": { "properties": { "name": { "enum": ["kshana:pbom:authenticated", "kshana:pbom:gnss-independent"] } } },
+          "then": { "properties": { "value": { "enum": ["true", "false"] } } }
+        },
+        {
+          "if": { "properties": { "name": { "const": "kshana:pbom:holdover-s" } } },
+          "then": { "properties": { "value": { "pattern": "^[0-9]+(\\.[0-9]+)?([eE][+-]?[0-9]+)?$" } } }
+        }
+      ]
+    }
+  }
+}

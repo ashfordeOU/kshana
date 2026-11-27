@@ -1,0 +1,73 @@
+# A PBOM configuration (kshana.pbom-config/1) for an illustrative substation timing system.
+# Every name below is generic: no real product or supplier is described.
+# kshana pbom generate examples/pbom/substation-timing.toml --out substation-timing.pbom.json
+pbom = "kshana.pbom-config/1"
+system = "Substation time server (illustrative)"
+system_version = "1"
+depends_on = ["ptp-distribution"]
+
+[[element]]
+id = "ptp-distribution"
+role = "network-time"
+name = "IEEE 1588 PTP distribution to protection relays"
+depends_on = ["gm-clock"]
+
+[[element]]
+id = "gm-clock"
+role = "time-reference"
+name = "Grandmaster clock"
+supplier = "Vendor A"
+time_scale = "UTC"
+provides = ["time", "frequency"]
+depends_on = ["gnss-receiver"]
+jurisdiction = "EU"
+
+[[element]]
+id = "gnss-receiver"
+role = "receiver"
+name = "Timing GNSS receiver"
+supplier = "Vendor A"
+version = "board rev 2"
+depends_on = ["gnss-antenna", "receiver-fw"]
+any_of = ["gps-l1ca", "gal-e1"]
+
+[[element]]
+id = "receiver-fw"
+role = "firmware"
+name = "Receiver firmware"
+version = "4.2.1"
+supplier = "Vendor A"
+
+[[element]]
+id = "gnss-antenna"
+role = "antenna"
+name = "Roof-mounted L1/E1 antenna"
+supplier = "Vendor B"
+
+[[element]]
+id = "gps-l1ca"
+role = "constellation-signal"
+name = "GPS L1 C/A"
+constellation = "GPS"
+signal = "L1 C/A"
+provides = ["position", "time"]
+jurisdiction = "US"
+
+[[element]]
+id = "gal-e1"
+role = "constellation-signal"
+name = "Galileo E1 OS with OSNMA"
+constellation = "Galileo"
+signal = "E1 OS"
+provides = ["position", "time"]
+authenticated = true
+jurisdiction = "EU"
+
+[[element]]
+id = "ocxo"
+role = "oscillator"
+name = "OCXO holdover in the grandmaster"
+provides = ["time", "frequency"]
+holdover_s = 14400
+gnss_independent = true
+fallback_for = ["gnss-receiver"]

@@ -2120,6 +2120,10 @@
   "src/orbit_data/pc.rs": {
    "count": 6,
    "reason": "machine-document and identifier: the CDM keywords, the FOSTER-1992 method value and the MODELLED COMMENT written into the message, and the REF_FRAME keyword read from it"
+  },
+  "src/pbom.rs": {
+   "count": 85,
+   "reason": "machine document: the kshana.pbom/1 property names and values, the CycloneDX field names, the validator's problem messages and the analysis written to the machine-readable JSON report (English by design, like other validators' problem lists), and the element names and provenance note written into a generated PBOM document (docs/PBOM.md)"
   }
  }
 }
