@@ -10109,6 +10109,7 @@ engine-main-usage =
     { "   " }または：kshana lunar-oem convert <in.oem> --to ICRF|MOON_PA440|MOON_ME [--out <file>] | frames (kshana lunar-oem --help)
     { "   " }または：kshana leo-sparse <study.toml>
     { "   " }または：kshana time-vectors [--json] [<vectors.json|dir> ...]
+    { "   " }または：kshana utc-readiness [--json] [--as-of <YYYY-MM-DD>] <file|dir> ...
     { "   " }または：kshana corrections <decode --format <has|b2b|l6|l1s|qznma> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...] | qznma-verify [--frames <frames.txt>] [--nav <nav.txt>] --pubkey <key.der> ...>
     { "   " }または：kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
     { "   " }または：kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
@@ -11419,3 +11420,7 @@ engine-e-ccsds-tdm-data-outside-block = DATA_START から DATA_STOP までのブ
 engine-amateur-od-bad-record = { $line } 行目：{ $what } レコードを読み取れません
 engine-amateur-od-bad-json = SatNOGS 観測：フィールド { $field } がないか数値ではありません
 engine-amateur-od-unknown-site = ドップラーレコードが局 { $site } を指していますが、局リストにありません
+
+## Continuous-UTC readiness scanner (src/utc_readiness.rs, docs/UTC-READINESS.md)
+engine-utc-readiness-usage = 使い方：kshana utc-readiness [--json] [--as-of <YYYY-MM-DD>] <file|dir> ...  (docs/UTC-READINESS.md; continuous UTC from 2027-05-20, CGPM 2026 Resolution 5)
+engine-e-utc-readiness-cannot-read = { $path } を読み込めません：{ $e }

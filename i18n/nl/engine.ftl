@@ -10932,6 +10932,7 @@ engine-main-usage =
     { "   " }of: kshana lunar-oem convert <in.oem> --to ICRF|MOON_PA440|MOON_ME [--out <file>] | frames (kshana lunar-oem --help)
     { "   " }of: kshana leo-sparse <study.toml>
     { "   " }of: kshana time-vectors [--json] [<vectors.json|dir> ...]
+    { "   " }of: kshana utc-readiness [--json] [--as-of <YYYY-MM-DD>] <file|dir> ...
     { "   " }of: kshana corrections <decode --format <has|b2b|l6|l1s|qznma> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...] | qznma-verify [--frames <frames.txt>] [--nav <nav.txt>] --pubkey <key.der> ...>
     { "   " }of: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
     { "   " }of: kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
@@ -12261,3 +12262,7 @@ engine-e-ccsds-tdm-data-outside-block = gegevensregel buiten een blok van DATA_S
 engine-amateur-od-bad-record = regel { $line }: het { $what }-record kan niet worden gelezen
 engine-amateur-od-bad-json = SatNOGS-waarneming: veld { $field } ontbreekt of is geen getal
 engine-amateur-od-unknown-site = Doppler-record noemt station { $site }, dat niet in de stationslijst staat
+
+## Continuous-UTC readiness scanner (src/utc_readiness.rs, docs/UTC-READINESS.md)
+engine-utc-readiness-usage = gebruik: kshana utc-readiness [--json] [--as-of <YYYY-MM-DD>] <file|dir> ...  (docs/UTC-READINESS.md; continuous UTC from 2027-05-20, CGPM 2026 Resolution 5)
+engine-e-utc-readiness-cannot-read = kan { $path } niet lezen: { $e }

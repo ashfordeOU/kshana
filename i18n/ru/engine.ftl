@@ -11116,6 +11116,7 @@ engine-main-usage =
     { "   " }или: kshana lunar-oem convert <in.oem> --to ICRF|MOON_PA440|MOON_ME [--out <file>] | frames (kshana lunar-oem --help)
     { "   " }или: kshana leo-sparse <study.toml>
     { "   " }или: kshana time-vectors [--json] [<vectors.json|dir> ...]
+    { "   " }или: kshana utc-readiness [--json] [--as-of <YYYY-MM-DD>] <file|dir> ...
     { "   " }или: kshana corrections <decode --format <has|b2b|l6|l1s|qznma> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...] | qznma-verify [--frames <frames.txt>] [--nav <nav.txt>] --pubkey <key.der> ...>
     { "   " }или: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
     { "   " }или: kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
@@ -12424,3 +12425,7 @@ engine-e-ccsds-tdm-data-outside-block = строка данных вне бло�
 engine-amateur-od-bad-record = строка { $line }: запись { $what } не читается
 engine-amateur-od-bad-json = наблюдение SatNOGS: поле { $field } отсутствует или не является числом
 engine-amateur-od-unknown-site = доплеровская запись указывает станцию { $site }, которой нет в списке станций
+
+## Continuous-UTC readiness scanner (src/utc_readiness.rs, docs/UTC-READINESS.md)
+engine-utc-readiness-usage = использование: kshana utc-readiness [--json] [--as-of <YYYY-MM-DD>] <file|dir> ...  (docs/UTC-READINESS.md; continuous UTC from 2027-05-20, CGPM 2026 Resolution 5)
+engine-e-utc-readiness-cannot-read = не удаётся прочитать { $path }: { $e }
