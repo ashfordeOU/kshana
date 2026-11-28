@@ -1,0 +1,113 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://kshana.dev/schema/kshana-space-evidence-pack-1.schema.json",
+  "title": "Space evidence pack manifest (kshana.space-evidence-pack/1)",
+  "description": "The manifest (space-evidence.json) of an open space evidence pack: common fields for every item (id, kind, title, producer, creation time, evidence label, files with SHA-256 and size) and a body per kind. Rules that need the files or the whole pack (hashes on disk, unlisted files, the pack label as the weakest item label, related ids, the signature) are checked by `kshana evidence space-pack validate` (docs/SPACE-EVIDENCE-PACK.md). A valid pack is not an assessment, a certification or an attestation.",
+  "type": "object",
+  "required": ["format", "pack_id", "title", "producer", "created_utc", "label", "disclaimer", "items"],
+  "properties": {
+    "format": { "const": "kshana.space-evidence-pack/1" },
+    "pack_id": { "type": "string", "minLength": 1 },
+    "title": { "type": "string", "minLength": 1 },
+    "producer": { "type": "string", "minLength": 1 },
+    "created_utc": { "$ref": "#/definitions/utc" },
+    "label": { "$ref": "#/definitions/label" },
+    "disclaimer": { "const": "A space evidence pack records what its producer collected and states, with hashes so that a change can be detected. It is not an assessment, a certification or an attestation that any requirement is met, and a valid pack is not evidence that its content is true." },
+    "items": { "type": "array", "minItems": 1, "items": { "$ref": "#/definitions/item" } }
+  },
+  "definitions": {
+    "utc": { "type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]+)?Z$" },
+    "label": { "enum": ["VALIDATED", "MODELLED", "PARTNER"] },
+    "relpath": { "type": "string", "minLength": 1, "pattern": "^(?!/)(?!.*(^|/)\\.{1,2}(/|$))(?!.*//)[^\\\\:]+$" },
+    "file": {
+      "type": "object",
+      "required": ["path", "sha256", "bytes"],
+      "properties": {
+        "path": { "$ref": "#/definitions/relpath" },
+        "sha256": { "type": "string", "pattern": "^[0-9a-fA-F]{64}$" },
+        "bytes": { "type": "integer", "minimum": 0 },
+        "role": { "type": "string" },
+        "media_type": { "type": "string" }
+      }
+    },
+    "window": {
+      "required": ["start_utc", "end_utc"],
+      "properties": { "start_utc": { "$ref": "#/definitions/utc" }, "end_utc": { "$ref": "#/definitions/utc" } }
+    },
+    "item": {
+      "type": "object",
+      "required": ["id", "kind", "title", "producer", "created_utc", "label", "body"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^[A-Za-z0-9._-]+$" },
+        "kind": { "enum": ["sensor-record", "interference-event", "cyber-control", "anomaly-report", "acceptance-record", "hbom"] },
+        "title": { "type": "string", "minLength": 1 },
+        "producer": { "type": "string", "minLength": 1 },
+        "created_utc": { "$ref": "#/definitions/utc" },
+        "label": { "$ref": "#/definitions/label" },
+        "oracle": { "type": "string", "minLength": 1 },
+        "files": { "type": "array", "items": { "$ref": "#/definitions/file" } },
+        "related": { "type": "array", "items": { "type": "string" } },
+        "body": { "type": "object" }
+      },
+      "allOf": [
+        { "if": { "properties": { "label": { "const": "VALIDATED" } } }, "then": { "required": ["oracle"] } },
+        { "if": { "properties": { "kind": { "const": "sensor-record" } } }, "then": { "properties": { "body": {
+          "allOf": [ { "$ref": "#/definitions/window" } ],
+          "required": ["sensor", "quantity"],
+          "properties": { "sensor": { "type": "string" }, "quantity": { "type": "string" }, "evidence_pack": { "$ref": "#/definitions/relpath" } } } } } },
+        { "if": { "properties": { "kind": { "const": "interference-event" } } }, "then": { "properties": { "body": {
+          "allOf": [ { "$ref": "#/definitions/window" } ],
+          "required": ["affected", "method", "confidence"],
+          "properties": {
+            "affected": { "type": "string" },
+            "method": { "type": "string" },
+            "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+            "carrier_frequency_mhz": { "type": "number", "minimum": 0 },
+            "bandwidth_khz": { "type": "number", "minimum": 0 },
+            "cn_drop_db": { "type": "number", "minimum": 0 },
+            "geolocation": {
+              "type": "object",
+              "required": ["lat_deg", "lon_deg", "semi_major_km", "semi_minor_km", "orientation_deg", "probability"],
+              "properties": {
+                "lat_deg": { "type": "number", "minimum": -90, "maximum": 90 },
+                "lon_deg": { "type": "number", "minimum": -180, "maximum": 180 },
+                "semi_major_km": { "type": "number", "minimum": 0 },
+                "semi_minor_km": { "type": "number", "minimum": 0 },
+                "orientation_deg": { "type": "number", "minimum": 0, "maximum": 180 },
+                "probability": { "type": "number", "minimum": 0, "maximum": 1 }
+              }
+            }
+          } } } } },
+        { "if": { "properties": { "kind": { "const": "cyber-control" } } }, "then": { "properties": { "body": {
+          "required": ["framework", "control_id", "evidence_status"],
+          "properties": {
+            "framework": { "type": "string" },
+            "control_id": { "type": "string" },
+            "control_title": { "type": "string" },
+            "evidence_status": { "enum": ["provided", "partial", "not-provided"] }
+          } } } } },
+        { "if": { "properties": { "kind": { "const": "anomaly-report" } } }, "then": { "properties": { "body": {
+          "required": ["spacecraft", "detected_utc", "symptoms", "timeline", "closure"],
+          "properties": {
+            "spacecraft": { "type": "string" },
+            "detected_utc": { "$ref": "#/definitions/utc" },
+            "symptoms": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+            "timeline": { "type": "array", "minItems": 1, "items": { "type": "object", "required": ["utc", "event"], "properties": { "utc": { "$ref": "#/definitions/utc" }, "event": { "type": "string" } } } },
+            "hypotheses": { "type": "array", "items": { "type": "object", "required": ["text", "status"], "properties": { "text": { "type": "string" }, "status": { "enum": ["open", "supported", "rejected"] } } } },
+            "closure": { "enum": ["open", "monitoring", "closed"] }
+          } } } } },
+        { "if": { "properties": { "kind": { "const": "acceptance-record" } } }, "then": { "properties": { "body": {
+          "required": ["unit", "serial", "tests"],
+          "properties": {
+            "unit": { "type": "string" },
+            "serial": { "type": "string" },
+            "parts": { "type": "array", "items": { "type": "object", "required": ["part", "lot"] } },
+            "tests": { "type": "array", "minItems": 1, "items": { "type": "object", "required": ["test", "result", "utc"], "properties": { "result": { "enum": ["pass", "fail", "waived", "not-run"] }, "utc": { "$ref": "#/definitions/utc" } } } },
+            "deviations": { "type": "array" },
+            "signoffs": { "type": "array", "items": { "type": "object", "required": ["role", "name", "utc"], "properties": { "utc": { "$ref": "#/definitions/utc" } } } }
+          } } } } },
+        { "if": { "properties": { "kind": { "const": "hbom" } } }, "then": { "required": ["files"], "properties": { "files": { "contains": { "type": "object", "properties": { "role": { "const": "cyclonedx" } }, "required": ["role"] } } } } }
+      ]
+    }
+  }
+}

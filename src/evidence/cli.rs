@@ -12,9 +12,10 @@ use zeroize::Zeroizing;
 
 fn usage() -> String {
     format!(
-        "{}\n  {}",
+        "{}\n  {}\n  {}",
         crate::t!("evidence-cli-usage"),
-        crate::t!("evidence-dir-usage")
+        crate::t!("evidence-dir-usage"),
+        crate::t!("evidence-space-pack-usage")
     )
 }
 
@@ -177,7 +178,7 @@ fn read_pubkey(arg: &str, files: &Files) -> Result<[u8; 32], String> {
 }
 
 /// A trusted public key for `verify-dir --trust`: 64 hex digits, or a file holding them.
-fn read_trusted_key(arg: &str) -> Result<[u8; 32], String> {
+pub(crate) fn read_trusted_key(arg: &str) -> Result<[u8; 32], String> {
     let text = if arg.len() == 64 && arg.bytes().all(|b| b.is_ascii_hexdigit()) {
         arg.to_string()
     } else {
@@ -327,6 +328,8 @@ fn run_evidence_inner(args: &[String]) -> Result<i32, String> {
             }
             Ok(code)
         }
+        // `kshana evidence space-pack ...`: the open space evidence pack profile (space_pack.rs).
+        Some("space-pack") => Ok(super::space_pack::run(&args[1..])),
         Some("verify-dir") => {
             let dir = args
                 .get(1)

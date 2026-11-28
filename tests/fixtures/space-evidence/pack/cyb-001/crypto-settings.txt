@@ -1,0 +1,4 @@
+# Fictional telecommand link configuration for the space-evidence-pack tests.
+tc_authentication = enabled
+tc_auth_algorithm = AES-256-GCM (CCSDS 355.0-B-2 SDLS)
+key_rotation_days = 30
