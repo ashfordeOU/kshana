@@ -10907,6 +10907,7 @@ engine-main-usage =
     { "   " }või: kshana soop-clock <lte|cp|synth-lte> ... (kshana soop-clock --help)
     { "   " }või: kshana adsb-indicators <adsb.csv> [--cell-deg <d>] [--out <indicators.json>]
     { "   " }või: kshana interference-atlas <build|verify|cors> ... (kshana interference-atlas --help)
+    { "   " }või: kshana transform-receipt <make <request.json> [--eop <finals2000A>] [--out <file>]|verify <receipt.json> [--eop <finals2000A>] [--trusted-key <hex>]...>
     { "   " }või: kshana transition scan <obs.rnx|obs.crx|obs.gz|sitelog.log|dir>... [--json] [--out <base>]
     { "   " }või: kshana pbom <validate <pbom.json>|generate <config.toml|scenario.toml> [--out <file>]|diff <old.json> <new.json>|schema>
     { "   " }või: kshana kinds [--json]

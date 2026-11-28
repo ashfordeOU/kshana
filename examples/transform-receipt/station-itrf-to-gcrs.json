@@ -1,0 +1,6 @@
+{
+  "format": "kshana.transform-request/1",
+  "epoch": { "scale": "UTC", "time": "2026-09-01T12:00:00.000" },
+  "frame": "ITRS",
+  "position_m": [4075580.0, 931855.0, 4801568.0]
+}

@@ -10913,6 +10913,7 @@ engine-main-usage =
     { "   " }nebo: kshana soop-clock <lte|cp|synth-lte> ... (kshana soop-clock --help)
     { "   " }nebo: kshana adsb-indicators <adsb.csv> [--cell-deg <d>] [--out <indicators.json>]
     { "   " }nebo: kshana interference-atlas <build|verify|cors> ... (kshana interference-atlas --help)
+    { "   " }nebo: kshana transform-receipt <make <request.json> [--eop <finals2000A>] [--out <file>]|verify <receipt.json> [--eop <finals2000A>] [--trusted-key <hex>]...>
     { "   " }nebo: kshana transition scan <obs.rnx|obs.crx|obs.gz|sitelog.log|dir>... [--json] [--out <base>]
     { "   " }nebo: kshana pbom <validate <pbom.json>|generate <config.toml|scenario.toml> [--out <file>]|diff <old.json> <new.json>|schema>
     { "   " }nebo: kshana kinds [--json]

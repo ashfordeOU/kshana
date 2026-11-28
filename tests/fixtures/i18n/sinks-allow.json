@@ -185,6 +185,10 @@
    "count": 1,
    "reason": "machine identifiers: the JSON input field names (dotted paths) passed as the `field` variable of the catalogued e-leo-verify-field message; not prose"
   },
+  "src/transform_receipt.rs": {
+   "count": 12,
+   "reason": "machine document: request-validation details passed as the e variable of the catalogued e-transform-receipt-request message, and check details of the verifier's JSON report"
+  },
   "src/transition_scan.rs": {
    "count": 8,
    "reason": "machine document: header-parser details returned to the scan, which writes them as the reason of a skipped input in the machine-readable report"
