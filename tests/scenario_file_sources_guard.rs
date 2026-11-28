@@ -172,6 +172,11 @@ const NOT_A_SCENARIO_FILE_SOURCE: &[(&str, &str, &str)] = &[
     ),
     ("src/surface.rs", "file_name", "output"),
     (
+        "src/transition_scan.rs",
+        "path",
+        "report output: the name of an input the scan read, cited in its report",
+    ),
+    (
         "src/pbom.rs",
         "path",
         "a JSON pointer into the PBOM that a validation problem names",

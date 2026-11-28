@@ -1,0 +1,54 @@
+     GGGG Site Information Form (site log)
+     International GNSS Service
+     See Instructions at:
+       https://files.igs.org/pub/station/general/sitelog_instr.txt
+
+0.   Form
+
+     Prepared by (full name)  : fixture
+     Date Prepared            : 2026-11-20
+     Report Type              : UPDATE
+
+1.   Site Identification of the GNSS Monument
+
+     Site Name                : Fixture site
+     Nine Character ID        : GGGG00XXX
+     Monument Inscription     :
+
+3.   GNSS Receiver Information
+
+3.1  Receiver Type            : GENERIC RX-OLD
+     Satellite System         : GPS
+     Serial Number            : 0001
+     Firmware Version         : 1.0
+     Elevation Cutoff Setting : 0
+     Date Installed           : 2015-03-01T00:00Z
+     Date Removed             : 2021-06-01T00:00Z
+     Temperature Stabiliz.    : none
+     Additional Information   :
+
+3.2  Receiver Type            : GENERIC RX-G
+     Satellite System         : GPS+GLO+GAL+BDS
+     Serial Number            : 0002
+     Firmware Version         : 6.2
+     Elevation Cutoff Setting : 0
+     Date Installed           : 2021-06-01T00:00Z
+     Date Removed             : (CCYY-MM-DDThh:mmZ)
+     Temperature Stabiliz.    : none
+     Additional Information   :
+
+3.x  Receiver Type            : (A20, from rcvr_ant.tab; see instr.)
+     Satellite System         : (GPS+GLO+GAL+BDS+QZSS+SBAS)
+     Serial Number            : (A20, but note the first A5 is used in SINEX)
+     Firmware Version         : (A11)
+     Elevation Cutoff Setting : (deg)
+     Date Installed           : (CCYY-MM-DDThh:mmZ)
+     Date Removed             : (CCYY-MM-DDThh:mmZ)
+     Temperature Stabiliz.    : (none or tolerance in degrees C)
+     Additional Information   : (multiple lines)
+
+4.   GNSS Antenna Information
+
+4.1  Antenna Type             : GENERIC ANT NONE
+     Date Installed           : 2015-03-01T00:00Z
+     Date Removed             : (CCYY-MM-DDThh:mmZ)

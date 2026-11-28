@@ -1,0 +1,11 @@
+3.0                 COMPACT RINEX FORMAT                    CRINEX VERS   / TYPE
+RNX2CRX ver.4.1.0                       20-Nov-26 00:00     CRINEX PROG / DATE
+     3.04           OBSERVATION DATA    G                   RINEX VERSION / TYPE
+kshana fixture       synthetic           20261127 000000 UTCPGM / RUN BY / DATE
+FFFF                                                        MARKER NAME
+00001               GENERIC RX-F        5.0                 REC # / TYPE / VERS
+00001               GENERIC ANT NONE                        ANT # / TYPE
+G    4 C1C L1C C2W L2W                                      SYS / # / OBS TYPES
+  2026    11    20     0     0    0.0000000     GPS         TIME OF FIRST OBS
+                                                            END OF HEADER
+> 2026 11 20 00 00  0.0000000  0  1

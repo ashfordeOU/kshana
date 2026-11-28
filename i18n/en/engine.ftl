@@ -10740,6 +10740,7 @@ engine-main-usage =
     { "   " }or: kshana soop-clock <lte|cp|synth-lte> ... (kshana soop-clock --help)
     { "   " }or: kshana adsb-indicators <adsb.csv> [--cell-deg <d>] [--out <indicators.json>]
     { "   " }or: kshana interference-atlas <build|verify|cors> ... (kshana interference-atlas --help)
+    { "   " }or: kshana transition scan <obs.rnx|obs.crx|obs.gz|sitelog.log|dir>... [--json] [--out <base>]
     { "   " }or: kshana pbom <validate <pbom.json>|generate <config.toml|scenario.toml> [--out <file>]|diff <old.json> <new.json>|schema>
     { "   " }or: kshana kinds [--json]
     { "   " }or: kshana example [<name>]
@@ -12651,6 +12652,27 @@ engine-amateur-od-bad-record = line { $line }: the { $what } record cannot be re
 engine-amateur-od-bad-json = SatNOGS observation: field { $field } is missing or not a number
 engine-amateur-od-unknown-site = Doppler record names site { $site }, which is not in the site list
 
+## src/transition_scan.rs
+
+engine-transition-usage = usage: kshana transition scan <obs.rnx|obs.crx|obs.gz|sitelog.log|dir>... [--json] [--out <base>] (docs/TRANSITION-SCAN.md)
+
+engine-e-transition-read = cannot read { $path }: { $e }
+
+engine-e-transition-option = unknown option { $option } (kshana transition --help)
+
+engine-e-transition-nothing = no RINEX observation file or site log among the inputs
+
+engine-transition-text-header = Semi-codeless (L1/L2 P(Y)) dependency scan of { $n } stations (MODELLED: read from observation headers and site logs)
+
+engine-transition-text-condition = Transition condition, as gps.gov quotes the 2019 Federal Radionavigation Plan: "{ $quote }" ({ $url })
+
+engine-transition-text-station = { $id }: semi-codeless dependent { $dep }; L2C { $l2c }; L5 { $l5 }; readiness { $readiness }
+
+engine-transition-text-reason = { "    " }{ $reason }
+
+engine-transition-text-fleet = Fleet: { $yes } dependent, { $partial } partial, { $no } not dependent, { $unknown } unknown; L2C declared at { $l2c }, L5 at { $l5 }
+
+engine-transition-text-skipped = skipped { $path }: { $reason }
 ## src/pbom.rs
 
 engine-pbom-usage = usage: kshana pbom <validate <pbom.json>|generate <config.toml|scenario.toml> [--out <file>]|diff <old.json> <new.json>|schema> (docs/PBOM.md)
