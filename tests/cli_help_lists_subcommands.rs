@@ -66,6 +66,7 @@ fn the_top_level_usage_names_every_subcommand() {
         "gnss-sdr-conf",
         "orbit-data",
         "leo-verify",
+        "transform-receipt",
         "transition scan",
         "pbom",
         "datasets|cite|golden",

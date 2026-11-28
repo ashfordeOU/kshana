@@ -493,6 +493,10 @@ pub mod tip_and_cue;
 pub mod tle;
 pub mod tpl;
 pub mod tracking_loop;
+/// Frame and time transform receipts: the input, the transform chain with its models and
+/// Earth-orientation parameters, the output and a hash, with an open verifier that recomputes
+/// it (`kshana transform-receipt`, docs/TRANSFORM-RECEIPTS.md).
+pub mod transform_receipt;
 pub mod twstft_budget;
 pub mod types;
 pub mod utc_readiness;
