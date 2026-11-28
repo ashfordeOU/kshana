@@ -293,6 +293,7 @@ const LABELLED_WRITERS: &[&str] = &[
 /// labelled (and moved to the list above) or added here with its reason; the scan below fails otherwise, and fails on a
 /// stale entry.
 const UNLABELLED_WRITERS: &[(&str, &str)] = &[
+    ("src/gso_throughput.rs", "writes the kshana.gso-throughput-report/1 and link-check JSON (`gso-throughput evaluate|check-links --out`), which carry `label: MODELLED` and their source in their own fields"),
     ("src/clock_tamper.rs", "writes the kshana.clock-tamper-report/1 JSON (`clock-tamper check --out`), which carries `label: MODELLED` and `signature: unsigned` in its own fields"),
     ("src/itu_res35.rs", "writes the kshana.itu-res35-report/1 JSON (`itu-res35 report --out`), which carries `label: MODELLED` and its source in its own fields"),
     ("src/transform_receipt.rs", "writes a kshana.transform-receipt/1 (`transform-receipt make --out`), which carries `label: MODELLED` in its own field; no figure or table of a run"),

@@ -10730,6 +10730,7 @@ engine-main-usage =
     { "   " }or: kshana evidence space-pack <validate <dir> [--trust <hex|file>]... [--json] | hash <dir> | schema | template>
     { "   " }or: kshana clock-tamper <check <samples.json> [--json] [--out <report.json>] | template>
     { "   " }or: kshana itu-res35 <milestones <filing.toml> | report <filing.toml> <elements|satcat> ... [--as-of <YYYY-MM-DD>] [--out <file.json>]> [--json]
+    { "   " }or: kshana gso-throughput <links | check-links | evaluate <input.json> | template> [--links <links.csv>] [--json] [--out <file.json>]
     { "   " }or: kshana corrections <decode --format <has|b2b|l6|l1s|qznma> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...] | qznma-verify [--frames <frames.txt>] [--nav <nav.txt>] --pubkey <key.der> ...>
     { "   " }or: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
     { "   " }or: kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
@@ -12742,3 +12743,14 @@ engine-e-itu-res35-aop-tolerance = plane group { $id } gives an argument of peri
 engine-e-itu-res35-no-elements = no element set for any selected object: give --as-of
 engine-itu-res35-milestones-head = { $system } total satellites { $n } ({ $regime }); source: { $url } (fetched { $fetched })
 engine-itu-res35-milestone-line = { $id } { $provision } { $date }: { $percent } % -> at least { $required } (report due { $due }, modifications due { $modify })
+
+## FCC 26-26 NGSO-GSO protection criteria (src/gso_throughput.rs, docs/GSO-THROUGHPUT.md)
+engine-gso-throughput-usage = usage: kshana gso-throughput <links | check-links | evaluate <input.json> | template> [--links <links.csv>] [--json] [--out <file.json>]  (docs/GSO-THROUGHPUT.md; MODELLED; criteria and the 328 reference links of FCC 26-26)
+engine-e-gso-throughput-cannot-read = cannot read { $path }: { $e }
+engine-e-gso-throughput-cannot-write = cannot write { $path }: { $e }
+engine-e-gso-throughput-bad-input = { $path }: { $e }
+engine-gso-throughput-links-summary = { $id } (sha256 { $sha }, FCC 26-26 Appendix B: { $pinned }): { $n } links, { $acm } with ACM, { $gw } GW, { $ut } UT, { $bands } in the 10.7-12.7, 17.3-18.6 and 19.7-20.2 GHz bands
+engine-gso-throughput-check-head = { $id }: { $n } links, { $within } of { $checks } recomputed values within tolerance
+engine-gso-throughput-check-line = { $column }: { $within } of { $checked } within; largest deviation { $max }
+engine-gso-throughput-eval-head = { $system }: { $n } of { $total } reference links evaluated, { $exceed } criteria exceeded (MODELLED)
+engine-gso-throughput-eval-line = { $carrier } { $provision }: { $value } { $unit } (limit { $limit }) meets: { $meets }

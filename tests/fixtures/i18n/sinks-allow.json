@@ -196,6 +196,10 @@
   "src/pbom.rs": {
    "count": 1,
    "reason": "machine document: the provenance note written into a generated PBOM's metadata (a document field, not a message)"
+  },
+  "src/gso_throughput.rs": {
+   "count": 13,
+   "reason": "machine document: link-file parse and input-validation details passed as the e variable of the catalogued e-gso-throughput-bad-input message (English, like other validators' problem lists)"
   }
  }
 }

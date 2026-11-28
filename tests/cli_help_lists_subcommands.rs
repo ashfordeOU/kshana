@@ -41,6 +41,7 @@ fn the_top_level_usage_names_every_subcommand() {
         "utc-readiness",
         "clock-tamper",
         "itu-res35",
+        "gso-throughput",
         "ais-integrity",
         "rnss-design",
         "space-receiver",
