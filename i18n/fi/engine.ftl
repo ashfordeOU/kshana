@@ -10636,6 +10636,7 @@ engine-main-usage =
     { "   " }tai: kshana leo-sparse <study.toml>
     { "   " }tai: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }tai: kshana utc-readiness [--json] [--as-of <YYYY-MM-DD>] <file|dir> ...
+    { "   " }tai: kshana evidence space-pack <validate <dir> [--trust <hex|file>]... [--json] | hash <dir> | schema | template>
     { "   " }tai: kshana clock-tamper <check <samples.json> [--json] [--out <report.json>] | template>
     { "   " }tai: kshana itu-res35 <milestones <filing.toml> | report <filing.toml> <elements|satcat> ... [--as-of <YYYY-MM-DD>] [--out <file.json>]> [--json]
     { "   " }tai: kshana corrections <decode --format <has|b2b|l6|l1s|qznma> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...] | qznma-verify [--frames <frames.txt>] [--nav <nav.txt>] --pubkey <key.der> ...>

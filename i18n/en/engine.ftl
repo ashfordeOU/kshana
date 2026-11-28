@@ -10727,6 +10727,7 @@ engine-main-usage =
     { "   " }or: kshana leo-sparse <study.toml>
     { "   " }or: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }or: kshana utc-readiness [--json] [--as-of <YYYY-MM-DD>] <file|dir> ...
+    { "   " }or: kshana evidence space-pack <validate <dir> [--trust <hex|file>]... [--json] | hash <dir> | schema | template>
     { "   " }or: kshana clock-tamper <check <samples.json> [--json] [--out <report.json>] | template>
     { "   " }or: kshana itu-res35 <milestones <filing.toml> | report <filing.toml> <elements|satcat> ... [--as-of <YYYY-MM-DD>] [--out <file.json>]> [--json]
     { "   " }or: kshana corrections <decode --format <has|b2b|l6|l1s|qznma> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...] | qznma-verify [--frames <frames.txt>] [--nav <nav.txt>] --pubkey <key.der> ...>
@@ -12703,6 +12704,11 @@ engine-e-pbom-diff-invalid = the { $which } PBOM is not valid (errors: { $n }; f
 engine-utc-readiness-usage = usage: kshana utc-readiness [--json] [--as-of <YYYY-MM-DD>] <file|dir> ...  (docs/UTC-READINESS.md; continuous UTC from 2027-05-20, CGPM 2026 Resolution 5)
 engine-e-utc-readiness-cannot-read = cannot read { $path }: { $e }
 
+## Space evidence pack profile (src/evidence/space_pack.rs, docs/SPACE-EVIDENCE-PACK.md)
+engine-evidence-space-pack-usage = kshana evidence space-pack <validate <dir> [--trust <hex|file>]... [--json] | hash <dir> | schema | template>   open space evidence pack profile kshana.space-evidence-pack/1 (docs/SPACE-EVIDENCE-PACK.md); validate exit 0 valid, 1 invalid
+engine-e-evidence-space-pack-input = space evidence pack: { $e }
+engine-e-evidence-space-pack-too-many-files = the pack holds more than { $n } files
+engine-e-evidence-space-pack-unsafe-path = { $p } is not a relative path inside the pack
 ## Independent clock-tamper detector (src/clock_tamper.rs, docs/CLOCK-TAMPER.md)
 engine-clock-tamper-usage = usage: kshana clock-tamper <check <samples.json> [--json] [--out <report.json>] | template>  (docs/CLOCK-TAMPER.md; MODELLED, unsigned; exit 1 on a finding)
 engine-e-clock-tamper-cannot-read = cannot read { $path }: { $e }

@@ -11072,6 +11072,7 @@ engine-main-usage =
     { "   " }lub: kshana leo-sparse <study.toml>
     { "   " }lub: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }lub: kshana utc-readiness [--json] [--as-of <YYYY-MM-DD>] <file|dir> ...
+    { "   " }lub: kshana evidence space-pack <validate <dir> [--trust <hex|file>]... [--json] | hash <dir> | schema | template>
     { "   " }lub: kshana clock-tamper <check <samples.json> [--json] [--out <report.json>] | template>
     { "   " }lub: kshana itu-res35 <milestones <filing.toml> | report <filing.toml> <elements|satcat> ... [--as-of <YYYY-MM-DD>] [--out <file.json>]> [--json]
     { "   " }lub: kshana corrections <decode --format <has|b2b|l6|l1s|qznma> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...] | qznma-verify [--frames <frames.txt>] [--nav <nav.txt>] --pubkey <key.der> ...>

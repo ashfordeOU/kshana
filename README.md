@@ -662,6 +662,7 @@ them and [`docs/SCENARIOS.md`](docs/SCENARIOS.md) documents every field.
 | [Transform receipts](docs/TRANSFORM-RECEIPTS.md) | a recomputable record of a time-scale and frame transformation: input, model chain, Earth-orientation values, output and hash, with an open verifier |
 | [Semi-codeless transition scan](docs/TRANSITION-SCAN.md) | which stations of a fleet still depend on codeless or semi-codeless GPS P(Y) tracking, and which track L2C and L5, from their RINEX headers and site logs |
 | [PNT Bill of Materials](docs/PBOM.md) | a CycloneDX list of a system's PNT dependencies, checked for single points of failure and GNSS-loss survival, generated and compared |
+| [Space evidence pack](docs/SPACE-EVIDENCE-PACK.md) | one open directory format for sensor, cyber and interference evidence, with common hashes, labels and signing, and a validator |
 | [Clock-tamper detector](docs/CLOCK-TAMPER.md) | a daily check of a computer's clock against independent references and timestamp tokens: steps, logged changes, offset and drift |
 | [ITU Resolution 35 deployment](docs/ITU-RES35.md) | the milestone dates and minimum numbers of a non-GSO filing, and how many of its satellites public element sets place in the notified planes and holding their orbit |
 | [Campaigns](docs/CAMPAIGNS.md) | a chained mission, a sweep or a Monte Carlo ensemble in one scenario |
