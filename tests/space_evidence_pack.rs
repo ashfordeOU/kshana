@@ -6,6 +6,7 @@
 
 use std::path::{Path, PathBuf};
 use std::process::Command;
+use std::sync::atomic::{AtomicU64, Ordering::Relaxed};
 
 use kshana::evidence::signed_dir::sign_dir;
 use kshana::evidence::space_pack::{validate_dir, validate_manifest, FORMAT, KINDS, SCHEMA};
@@ -28,10 +29,15 @@ fn copy(from: &Path, to: &Path) {
 }
 
 fn scratch(name: &str) -> PathBuf {
-    let d = std::env::temp_dir().join(format!("kshana-space-pack-{name}-{}", std::process::id()));
-    let _ = std::fs::remove_dir_all(&d);
-    copy(&fixture(), &d);
-    d
+    static SEQ: AtomicU64 = AtomicU64::new(0);
+    let dir = std::env::temp_dir().join(format!(
+        "kshana-space-pack-{name}-{}-{}",
+        std::process::id(),
+        SEQ.fetch_add(1, Relaxed)
+    ));
+    let _ = std::fs::remove_dir_all(&dir);
+    copy(&fixture(), &dir);
+    dir
 }
 
 fn codes(r: &kshana::evidence::space_pack::Report) -> Vec<&'static str> {
