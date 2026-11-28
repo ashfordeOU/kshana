@@ -660,6 +660,7 @@ them and [`docs/SCENARIOS.md`](docs/SCENARIOS.md) documents every field.
 | [Low-Earth-orbit navigation](docs/LEO-PNT.md) | a pass, a link, a navigation message and a fused fix, stage by stage |
 | [LEO-PNT verification](docs/LEO-VERIFY.md) | what a LEO timing or positioning service would deliver: burst timing, holdover TDEV, cost against outages, indoor and rain loss, ambiguity resolution, jamming claims and Doppler-only integrity |
 | [PNT Bill of Materials](docs/PBOM.md) | a CycloneDX list of a system's PNT dependencies, checked for single points of failure and GNSS-loss survival, generated and compared |
+| [ITU Resolution 35 deployment](docs/ITU-RES35.md) | the milestone dates and minimum numbers of a non-GSO filing, and how many of its satellites public element sets place in the notified planes and holding their orbit |
 | [Campaigns](docs/CAMPAIGNS.md) | a chained mission, a sweep or a Monte Carlo ensemble in one scenario |
 | [Animation](docs/ANIMATION.md) | a run's time series as an animated drawing, a player or frames |
 | [Reports](docs/REPORTS.md) | every figure with its unit and its label, in HTML (HyperText Markup Language) and JSON (JavaScript Object Notation) |

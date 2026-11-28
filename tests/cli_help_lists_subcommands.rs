@@ -39,6 +39,7 @@ fn the_top_level_usage_names_every_subcommand() {
         "decimate",
         "time-vectors",
         "utc-readiness",
+        "itu-res35",
         "ais-integrity",
         "rnss-design",
         "space-receiver",
