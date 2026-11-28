@@ -10734,6 +10734,7 @@ engine-main-usage =
     { "   " }or: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
     { "   " }or: kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
     { "   " }or: kshana orbit-data <check|convert|gp-compare|gp-audit|cov> ... (kshana orbit-data --help)
+    { "   " }or: kshana breakup-exposure <event.toml> <elements.json|elements.tle> ... [--json] [--out <report.json>]
     { "   " }or: kshana drone <prearm|prearm-calibrate|estimator-cases|dr-budget|quad-loss|failover|zonotope-pl> ... (kshana drone --help)
     { "   " }or: kshana leo-verify <burst-timing|holdover-tdev|cost|indoor|rain-fade|rtk-ar|jam-claim|doppler-integrity|signal-claims> <input.json>
     { "   " }or: kshana sil-obs <generate|compare> ... (kshana sil-obs --help)
@@ -12742,3 +12743,11 @@ engine-e-itu-res35-aop-tolerance = plane group { $id } gives an argument of peri
 engine-e-itu-res35-no-elements = no element set for any selected object: give --as-of
 engine-itu-res35-milestones-head = { $system } total satellites { $n } ({ $regime }); source: { $url } (fetched { $fetched })
 engine-itu-res35-milestone-line = { $id } { $provision } { $date }: { $percent } % -> at least { $required } (report due { $due }, modifications due { $modify })
+
+## First-72-hours breakup exposure report (src/breakup_exposure.rs, docs/BREAKUP-EXPOSURE.md)
+engine-breakup-exposure-usage = usage: kshana breakup-exposure <event.toml> <elements.json|elements.tle> ... [--json] [--out <report.json>]  (docs/BREAKUP-EXPOSURE.md; MODELLED; NASA Standard Breakup Model fragment count and ejection-speed law, SGP4)
+engine-e-breakup-exposure-cannot-read = cannot read { $path }: { $e }
+engine-e-breakup-exposure-cannot-write = cannot write { $path }: { $e }
+engine-e-breakup-exposure-bad-input = { $e }
+engine-breakup-exposure-head = { $event }: about { $n } fragments of { $lc } cm or larger (model mean); shell { $lo } to { $hi } km altitude, latitudes up to { $lat } deg (ejection speed { $dv } m/s); { $hit } of { $screened } objects intersect it in { $hours } h (MODELLED)
+engine-breakup-exposure-row = { $rank }. { $norad } { $name }: { $hours } h in the shell, closest to the cloud centre { $dist } km at { $at } h

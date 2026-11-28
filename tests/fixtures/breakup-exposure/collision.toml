@@ -1,0 +1,17 @@
+# Fictional collision for tests/breakup_exposure.rs (not a real event).
+[event]
+name = "fictional catastrophic collision"
+epoch = "2026-11-20T06:00:00Z"
+kind = "collision"
+parent_norad = 99001
+target_mass_kg = 1000.0
+projectile_mass_kg = 1.0
+impact_speed_km_s = 10.0
+
+[model]
+min_characteristic_length_m = 0.1
+area_to_mass_max_m2_kg = 0.1
+delta_v_percentile = 90.0
+hours = 6.0
+step_s = 120.0
+directions = 500

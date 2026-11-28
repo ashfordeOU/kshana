@@ -1,0 +1,15 @@
+# Fictional breakup for tests/breakup_exposure.rs (not a real event).
+[event]
+name = "fictional upper-stage explosion"
+epoch = "2026-11-20T06:00:00Z"
+kind = "explosion"
+parent_norad = 99001
+scaling_factor = 1.0
+
+[model]
+min_characteristic_length_m = 0.1
+area_to_mass_max_m2_kg = 0.1
+delta_v_percentile = 90.0
+hours = 72.0
+step_s = 120.0
+directions = 2000
