@@ -40,6 +40,7 @@ fn the_top_level_usage_names_every_subcommand() {
         "time-vectors",
         "utc-readiness",
         "itu-res35",
+        "gso-throughput",
         "ais-integrity",
         "rnss-design",
         "space-receiver",

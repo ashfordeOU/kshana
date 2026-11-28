@@ -184,6 +184,7 @@ pub mod gravimeter;
 pub mod gravity_pds;
 pub mod gravity_sh;
 pub mod gse_sim;
+pub mod gso_throughput;
 pub mod handoff;
 pub mod hatch;
 pub mod holdover;

@@ -1,0 +1,21 @@
+{
+  "format": "kshana.gso-throughput-input/1",
+  "system": "fictional NGSO system (test fixture)",
+  "samples_provenance": "hand-written samples for tests/gso_throughput.rs; not a simulation",
+  "declared_min_avoidance_angle_deg": 4.0,
+  "spectral_efficiency": [
+    {"cni_db": 0.0, "bps_per_hz": 1.0},
+    {"cni_db": 5.0, "bps_per_hz": 2.0},
+    {"cni_db": 10.0, "bps_per_hz": 3.0}
+  ],
+  "links": [
+    {"carrier_num": 5310, "samples": [
+      {"weight": 0.9, "cn_db": 22.0, "i_n_db": -12.0},
+      {"weight": 0.1, "cn_db": 5.5, "i_n_db": -8.0, "avoidance_angle_deg": 3.5}
+    ]},
+    {"carrier_num": 6, "samples": [
+      {"weight": 0.99, "cn_db": 23.0},
+      {"weight": 0.01, "cn_db": 10.0, "i_n_db": -5.0}
+    ]}
+  ]
+}

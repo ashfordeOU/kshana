@@ -663,6 +663,7 @@ them and [`docs/SCENARIOS.md`](docs/SCENARIOS.md) documents every field.
 | [Semi-codeless transition scan](docs/TRANSITION-SCAN.md) | which stations of a fleet still depend on codeless or semi-codeless GPS P(Y) tracking, and which track L2C and L5, from their RINEX headers and site logs |
 | [PNT Bill of Materials](docs/PBOM.md) | a CycloneDX list of a system's PNT dependencies, checked for single points of failure and GNSS-loss survival, generated and compared |
 | [ITU Resolution 35 deployment](docs/ITU-RES35.md) | the milestone dates and minimum numbers of a non-GSO filing, and how many of its satellites public element sets place in the notified planes and holding their orbit |
+| [FCC 26-26 GSO protection criteria](docs/GSO-THROUGHPUT.md) | the 328 GSO reference links of FCC 26-26 checked against their legend, and the order's degraded-throughput, availability, I/N and avoidance-angle criteria evaluated on your own time samples |
 | [Campaigns](docs/CAMPAIGNS.md) | a chained mission, a sweep or a Monte Carlo ensemble in one scenario |
 | [Animation](docs/ANIMATION.md) | a run's time series as an animated drawing, a player or frames |
 | [Reports](docs/REPORTS.md) | every figure with its unit and its label, in HTML (HyperText Markup Language) and JSON (JavaScript Object Notation) |

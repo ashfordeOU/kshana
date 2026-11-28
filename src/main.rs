@@ -1392,6 +1392,12 @@ fn main_in_language(args: Vec<String>) -> ExitCode {
     if args.get(1).map(String::as_str) == Some("itu-res35") {
         return ExitCode::from(kshana::itu_res35::run_cli(&args[2..]) as u8);
     }
+    // `kshana gso-throughput links|check-links|evaluate|template`: the FCC 26-26 NGSO-GSO
+    // protection criteria on given samples, with the 328 Appendix B reference links
+    // (src/gso_throughput.rs, docs/GSO-THROUGHPUT.md). Exit 1 when a criterion is exceeded.
+    if args.get(1).map(String::as_str) == Some("gso-throughput") {
+        return ExitCode::from(kshana::gso_throughput::run_cli(&args[2..]) as u8);
+    }
     if args.get(1).map(String::as_str) == Some("time-vectors") {
         return match kshana::time_vectors::run_cli(&args[2..]) {
             Ok(true) => ExitCode::SUCCESS,
