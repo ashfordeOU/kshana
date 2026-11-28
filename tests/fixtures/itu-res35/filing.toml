@@ -1,0 +1,36 @@
+# A fictional non-GSO system for the itu-res35 tests and docs/ITU-RES35.md. Not a real filing.
+system = "EXAMPLE-NGSO"
+administration = "XX (fictional)"
+# End of the seven-year regulatory period of No. 11.44 (resolves 7 applies: on or after 2021-01-01).
+regulatory_period_end = "2022-06-15"
+
+[select]
+name_prefixes = ["EXNGSO-"]
+object_id_prefixes = ["2025-001", "2025-002"]
+
+# Assumptions, not from Resolution 35 (it gives no numeric tolerance).
+[tolerance]
+inclination_deg = 0.5
+altitude_km = 25.0
+
+[station_keeping]
+window_days = 14.0
+min_span_days = 7.0
+max_sma_range_km = 5.0
+max_element_age_days = 30.0
+
+[[plane_group]]
+id = "G1-53deg-550km"
+planes = 2
+satellites_per_plane = 10
+inclination_deg = 53.0
+apogee_km = 550.0
+perigee_km = 550.0
+
+[[plane_group]]
+id = "G2-97.6deg-600km"
+planes = 1
+satellites_per_plane = 10
+inclination_deg = 97.6
+apogee_km = 600.0
+perigee_km = 600.0

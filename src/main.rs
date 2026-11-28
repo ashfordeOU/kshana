@@ -1392,6 +1392,12 @@ fn main_in_language(args: Vec<String>) -> ExitCode {
     if args.get(1).map(String::as_str) == Some("clock-tamper") {
         return ExitCode::from(kshana::clock_tamper::run_cli(&args[2..]) as u8);
     }
+    // `kshana itu-res35 milestones|report ...`: ITU Resolution 35 milestone dates and a MODELLED
+    // deployment count per notified plane group from element sets and a satellite catalogue
+    // (src/itu_res35.rs, docs/ITU-RES35.md). Exit 1 when a passed milestone is short.
+    if args.get(1).map(String::as_str) == Some("itu-res35") {
+        return ExitCode::from(kshana::itu_res35::run_cli(&args[2..]) as u8);
+    }
     if args.get(1).map(String::as_str) == Some("time-vectors") {
         return match kshana::time_vectors::run_cli(&args[2..]) {
             Ok(true) => ExitCode::SUCCESS,

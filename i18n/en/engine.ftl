@@ -10728,6 +10728,7 @@ engine-main-usage =
     { "   " }or: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }or: kshana utc-readiness [--json] [--as-of <YYYY-MM-DD>] <file|dir> ...
     { "   " }or: kshana clock-tamper <check <samples.json> [--json] [--out <report.json>] | template>
+    { "   " }or: kshana itu-res35 <milestones <filing.toml> | report <filing.toml> <elements|satcat> ... [--as-of <YYYY-MM-DD>] [--out <file.json>]> [--json]
     { "   " }or: kshana corrections <decode --format <has|b2b|l6|l1s|qznma> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...] | qznma-verify [--frames <frames.txt>] [--nav <nav.txt>] --pubkey <key.der> ...>
     { "   " }or: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
     { "   " }or: kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
@@ -12714,3 +12715,24 @@ engine-e-clock-tamper-non-finite = a non-finite number in the sample at { $at }
 engine-e-clock-tamper-token-unread = token { $token } was not read
 engine-e-clock-tamper-token = { $token }: { $e }
 engine-e-clock-tamper-gentime = { $token }: genTime { $value } not understood
+## ITU Resolution 35 deployment check (src/itu_res35.rs, docs/ITU-RES35.md)
+engine-itu-res35-usage = usage: kshana itu-res35 <milestones <filing.toml> | report <filing.toml> <elements.json|elements.tle|gp.csv|satcat.csv> ... [--as-of <YYYY-MM-DD>] [--out <file.json>]> [--json]  (docs/ITU-RES35.md; MODELLED; milestones from ITU Resolution 35 (Rev.WRC-23))
+engine-e-itu-res35-cannot-read = cannot read { $path }: { $e }
+engine-e-itu-res35-cannot-write = cannot write { $path }: { $e }
+engine-e-itu-res35-bad-input = { $path }: { $e }
+engine-e-itu-res35-omm-missing = OMM record without { $k }
+engine-e-itu-res35-omm-epoch = OMM record with a bad EPOCH { $epoch }
+engine-e-itu-res35-satcat-no-id = catalogue CSV without NORAD_CAT_ID
+engine-e-itu-res35-satcat-bad-id = catalogue row with a bad NORAD_CAT_ID: { $line }
+engine-e-itu-res35-satcat-bad-decay = bad DECAY_DATE { $decay }
+engine-e-itu-res35-tle-epoch = bad TLE epoch
+engine-e-itu-res35-no-records = no element sets or catalogue rows found
+engine-e-itu-res35-bad-period-end = regulatory_period_end { $value } is not a YYYY-MM-DD date
+engine-e-itu-res35-no-planes = the filing names no [[plane_group]]
+engine-e-itu-res35-no-select = [select] names no norad_ids, name_prefixes or object_id_prefixes
+engine-e-itu-res35-negative = { $name } must be a non-negative number
+engine-e-itu-res35-empty-group = plane group { $id } has no satellites
+engine-e-itu-res35-aop-tolerance = plane group { $id } gives an argument of perigee: set tolerance.argument_of_perigee_deg
+engine-e-itu-res35-no-elements = no element set for any selected object: give --as-of
+engine-itu-res35-milestones-head = { $system } total satellites { $n } ({ $regime }); source: { $url } (fetched { $fetched })
+engine-itu-res35-milestone-line = { $id } { $provision } { $date }: { $percent } % -> at least { $required } (report due { $due }, modifications due { $modify })
