@@ -11041,6 +11041,7 @@ engine-main-usage =
     { "   " }або: kshana claim-check [<dataset.json>...] [--out <file.json>] | --template
     { "   " }або: kshana afs-interop <study|ue-register> ... (kshana afs-interop --help)
     { "   " }або: kshana timing-stack <tai|ts2phc|pps|shm|ntpq|nts> ... (kshana timing-stack --help)
+    { "   " }або: kshana roughtime <vectors | check-request | check-response | check-report | query> ... (kshana roughtime --help)
     { "   " }або: kshana sil-obsgen <scenario.toml> --out <obs.rnx> [--truth <truth.json>]
     { "   " }або: kshana osnma scenario run <scenario.json> [--json] | template (kshana osnma scenario --help)
     { "   " }або: kshana lunar-oem convert <in.oem> --to ICRF|MOON_PA440|MOON_ME [--out <file>] | frames (kshana lunar-oem --help)

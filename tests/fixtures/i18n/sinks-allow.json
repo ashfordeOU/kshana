@@ -196,6 +196,10 @@
   "src/pbom.rs": {
    "count": 1,
    "reason": "machine document: the provenance note written into a generated PBOM's metadata (a document field, not a message)"
+  },
+  "src/roughtime.rs": {
+   "count": 12,
+   "reason": "identifier: the finding codes (request.*, response.*, report.*) inserted into the machine-readable check results and the vector table; stable identifiers listed in docs/ROUGHTIME.md, not prose"
   }
  }
 }

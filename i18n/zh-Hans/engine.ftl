@@ -10171,6 +10171,7 @@ engine-main-usage =
     { "   " }或：kshana claim-check [<dataset.json>...] [--out <file.json>] | --template
     { "   " }或：kshana afs-interop <study|ue-register> ... (kshana afs-interop --help)
     { "   " }或：kshana timing-stack <tai|ts2phc|pps|shm|ntpq|nts> ... (kshana timing-stack --help)
+    { "   " }或：kshana roughtime <vectors | check-request | check-response | check-report | query> ... (kshana roughtime --help)
     { "   " }或：kshana sil-obsgen <scenario.toml> --out <obs.rnx> [--truth <truth.json>]
     { "   " }或：kshana osnma scenario run <scenario.json> [--json] | template (kshana osnma scenario --help)
     { "   " }或：kshana lunar-oem convert <in.oem> --to ICRF|MOON_PA440|MOON_ME [--out <file>] | frames (kshana lunar-oem --help)

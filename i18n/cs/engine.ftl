@@ -10894,6 +10894,7 @@ engine-main-usage =
     { "   " }nebo: kshana claim-check [<dataset.json>...] [--out <file.json>] | --template
     { "   " }nebo: kshana afs-interop <study|ue-register> ... (kshana afs-interop --help)
     { "   " }nebo: kshana timing-stack <tai|ts2phc|pps|shm|ntpq|nts> ... (kshana timing-stack --help)
+    { "   " }nebo: kshana roughtime <vectors | check-request | check-response | check-report | query> ... (kshana roughtime --help)
     { "   " }nebo: kshana sil-obsgen <scenario.toml> --out <obs.rnx> [--truth <truth.json>]
     { "   " }nebo: kshana osnma scenario run <scenario.json> [--json] | template (kshana osnma scenario --help)
     { "   " }nebo: kshana lunar-oem convert <in.oem> --to ICRF|MOON_PA440|MOON_ME [--out <file>] | frames (kshana lunar-oem --help)

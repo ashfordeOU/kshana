@@ -10721,6 +10721,7 @@ engine-main-usage =
     { "   " }or: kshana claim-check [<dataset.json>...] [--out <file.json>] | --template
     { "   " }or: kshana afs-interop <study|ue-register> ... (kshana afs-interop --help)
     { "   " }or: kshana timing-stack <tai|ts2phc|pps|shm|ntpq|nts> ... (kshana timing-stack --help)
+    { "   " }or: kshana roughtime <vectors | check-request | check-response | check-report | query> ... (kshana roughtime --help)
     { "   " }or: kshana sil-obsgen <scenario.toml> --out <obs.rnx> [--truth <truth.json>]
     { "   " }or: kshana osnma scenario run <scenario.json> [--json] | template (kshana osnma scenario --help)
     { "   " }or: kshana lunar-oem convert <in.oem> --to ICRF|MOON_PA440|MOON_ME [--out <file>] | frames (kshana lunar-oem --help)
@@ -12742,3 +12743,14 @@ engine-e-itu-res35-aop-tolerance = plane group { $id } gives an argument of peri
 engine-e-itu-res35-no-elements = no element set for any selected object: give --as-of
 engine-itu-res35-milestones-head = { $system } total satellites { $n } ({ $regime }); source: { $url } (fetched { $fetched })
 engine-itu-res35-milestone-line = { $id } { $provision } { $date }: { $percent } % -> at least { $required } (report due { $due }, modifications due { $modify })
+
+## Roughtime (RFC 10049) checks and vectors (src/roughtime.rs, docs/ROUGHTIME.md)
+engine-roughtime-usage = usage: kshana roughtime <vectors [<vectors.json> ...] | check-request <request> [--public-key <base64>] | check-response <request> <response> --public-key <base64> | check-report <report.json> | query <host:port> --public-key <base64> [--timeout-ms <n>]> [--tcp] [--json] [--out <file.json>]  (docs/ROUGHTIME.md; RFC 10049; MODELLED; query is the only subcommand that uses the network)
+engine-roughtime-vectors-summary = { $n } vectors: { $passed } passed, { $failed } failed (RFC 10049)
+engine-e-roughtime-vector-field = vector without a valid { $field }
+engine-e-roughtime-vector-kind = unknown vector kind { $kind } (request, response or report)
+engine-e-roughtime-bad-format = { $file } is not a { $format } file
+engine-e-roughtime-cannot-read = cannot read { $path }: { $e }
+engine-e-roughtime-cannot-write = cannot write { $path }: { $e }
+engine-e-roughtime-bad-key = --public-key must be a base64 32-byte Ed25519 public key
+engine-e-roughtime-exchange = no Roughtime response from { $addr }: { $e }

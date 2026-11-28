@@ -416,6 +416,7 @@ pub mod resilience;
 pub mod rinex;
 pub mod rinex_obs;
 pub mod rnss_design;
+pub mod roughtime;
 pub mod rtcm_ssr;
 pub mod rtk_qa;
 pub mod rtk_real;

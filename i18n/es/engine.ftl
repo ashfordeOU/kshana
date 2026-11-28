@@ -11106,6 +11106,7 @@ engine-main-usage =
     { "   " }o: kshana claim-check [<dataset.json>...] [--out <file.json>] | --template
     { "   " }o: kshana afs-interop <study|ue-register> ... (kshana afs-interop --help)
     { "   " }o: kshana timing-stack <tai|ts2phc|pps|shm|ntpq|nts> ... (kshana timing-stack --help)
+    { "   " }o: kshana roughtime <vectors | check-request | check-response | check-report | query> ... (kshana roughtime --help)
     { "   " }o: kshana sil-obsgen <scenario.toml> --out <obs.rnx> [--truth <truth.json>]
     { "   " }o: kshana osnma scenario run <scenario.json> [--json] | template (kshana osnma scenario --help)
     { "   " }o: kshana lunar-oem convert <in.oem> --to ICRF|MOON_PA440|MOON_ME [--out <file>] | frames (kshana lunar-oem --help)

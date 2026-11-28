@@ -1398,6 +1398,11 @@ fn main_in_language(args: Vec<String>) -> ExitCode {
     if args.get(1).map(String::as_str) == Some("itu-res35") {
         return ExitCode::from(kshana::itu_res35::run_cli(&args[2..]) as u8);
     }
+    // `kshana roughtime vectors|check-request|check-response|check-report|query`: RFC 10049
+    // packet checks, test vectors and an optional client (src/roughtime.rs, docs/ROUGHTIME.md).
+    if args.get(1).map(String::as_str) == Some("roughtime") {
+        return ExitCode::from(kshana::roughtime::run_cli(&args[2..]) as u8);
+    }
     if args.get(1).map(String::as_str) == Some("time-vectors") {
         return match kshana::time_vectors::run_cli(&args[2..]) {
             Ok(true) => ExitCode::SUCCESS,
