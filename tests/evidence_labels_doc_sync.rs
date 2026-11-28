@@ -294,6 +294,7 @@ const LABELLED_WRITERS: &[&str] = &[
 /// stale entry.
 const UNLABELLED_WRITERS: &[(&str, &str)] = &[
     ("src/itu_res35.rs", "writes the kshana.itu-res35-report/1 JSON (`itu-res35 report --out`), which carries `label: MODELLED` and its source in its own fields"),
+    ("src/transform_receipt.rs", "writes a kshana.transform-receipt/1 (`transform-receipt make --out`), which carries `label: MODELLED` in its own field; no figure or table of a run"),
     ("src/transition_scan.rs", "writes the scan report (`transition scan --out`) as JSON and text, both carrying MODELLED in their own fields and header line; no figure or table of a run"),
     ("src/pbom.rs", "writes a PBOM (`pbom generate --out`): a CycloneDX document describing the input configuration, not a result figure or table; `validate` reports carry `label: MODELLED` in their own field"),
     ("src/lunar_oem.rs", "writes a CCSDS OEM (`lunar-oem convert --out`): a standard interchange file whose keywords are fixed; the MODELLED label is carried in its COMMENT lines"),

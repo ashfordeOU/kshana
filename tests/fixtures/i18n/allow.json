@@ -1238,8 +1238,8 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/main.rs": {
-   "count": 101,
-   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md); clock-live prints its error text as given; the sensor-live command name; the device and bench-speed command names; the data-pack, area-trust and env-baseline command names; the ephem-export command name; the time-vectors command name; the ais-integrity command name; the space-weather command name; the orbit-data command name; the leo-verify command name; the space-receiver command name; the sil-obs and interference-lib command names; the interference-env command name; the antenna-cal command name; the arctic-plan command name; the lunar-ref command name; the signal-readiness command name; the quantum-bench and soop-clock command names; the leo-od-plan command name; the lunar-afs-kit command name; the adsb-indicators and interference-atlas command names; the claim-check command name; the afs-interop command name; the timing-stack command name; the register-products command name; the sil-obsgen command name; the lunar-oem command name in the dispatch; the leo-sparse command name; the rnss-design command name; the utc-readiness command name; the itu-res35 command name."
+   "count": 102,
+   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md); clock-live prints its error text as given; the sensor-live command name; the device and bench-speed command names; the data-pack, area-trust and env-baseline command names; the ephem-export command name; the time-vectors command name; the ais-integrity command name; the space-weather command name; the orbit-data command name; the leo-verify command name; the space-receiver command name; the sil-obs and interference-lib command names; the interference-env command name; the antenna-cal command name; the arctic-plan command name; the lunar-ref command name; the signal-readiness command name; the quantum-bench and soop-clock command names; the leo-od-plan command name; the lunar-afs-kit command name; the adsb-indicators and interference-atlas command names; the claim-check command name; the afs-interop command name; the timing-stack command name; the register-products command name; the sil-obsgen command name; the lunar-oem command name in the dispatch; the leo-sparse command name; the rnss-design command name; the utc-readiness command name; the transform-receipt command name; the itu-res35 command name."
   },
   "src/mars_pnt.rs": {
    "count": 31,
@@ -2124,6 +2124,10 @@
   "src/orbit_data/pc.rs": {
    "count": 6,
    "reason": "machine-document and identifier: the CDM keywords, the FOSTER-1992 method value and the MODELLED COMMENT written into the message, and the REF_FRAME keyword read from it"
+  },
+  "src/transform_receipt.rs": {
+   "count": 42,
+   "reason": "machine document: the model identifiers written into every receipt and compared by the verifier (they must not change with the language), the receipt's warnings and the verifier's check details written to the machine-readable JSON report, and request-validation details passed as the e variable of the catalogued e-transform-receipt-request message"
   },
   "src/transition_scan.rs": {
    "count": 37,
