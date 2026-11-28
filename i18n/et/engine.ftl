@@ -10893,6 +10893,7 @@ engine-main-usage =
     { "   " }või: kshana lunar-oem convert <in.oem> --to ICRF|MOON_PA440|MOON_ME [--out <file>] | frames (kshana lunar-oem --help)
     { "   " }või: kshana leo-sparse <study.toml>
     { "   " }või: kshana time-vectors [--json] [<vectors.json|dir> ...]
+    { "   " }või: kshana lunar-time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }või: kshana utc-readiness [--json] [--as-of <YYYY-MM-DD>] <file|dir> ...
     { "   " }või: kshana clock-tamper <check <samples.json> [--json] [--out <report.json>] | template>
     { "   " }või: kshana itu-res35 <milestones <filing.toml> | report <filing.toml> <elements|satcat> ... [--as-of <YYYY-MM-DD>] [--out <file.json>]> [--json]

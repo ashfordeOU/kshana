@@ -34,6 +34,11 @@ const NOT_A_SCENARIO_FILE_SOURCE: &[(&str, &str, &str)] = &[
          serialised output of the lunar-ref command, never read from scenario text)",
     ),
     (
+        "src/lunar_time_vectors.rs",
+        "file",
+        "an output field: the name of the vector file a result came from; the engine never reads it",
+    ),
+    (
         "src/time_vectors.rs",
         "file",
         "an output field: the name of the vector file a result came from; the engine never reads it",

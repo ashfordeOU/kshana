@@ -11046,6 +11046,7 @@ engine-main-usage =
     { "   " }або: kshana lunar-oem convert <in.oem> --to ICRF|MOON_PA440|MOON_ME [--out <file>] | frames (kshana lunar-oem --help)
     { "   " }або: kshana leo-sparse <study.toml>
     { "   " }або: kshana time-vectors [--json] [<vectors.json|dir> ...]
+    { "   " }або: kshana lunar-time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }або: kshana utc-readiness [--json] [--as-of <YYYY-MM-DD>] <file|dir> ...
     { "   " }або: kshana clock-tamper <check <samples.json> [--json] [--out <report.json>] | template>
     { "   " }або: kshana itu-res35 <milestones <filing.toml> | report <filing.toml> <elements|satcat> ... [--as-of <YYYY-MM-DD>] [--out <file.json>]> [--json]

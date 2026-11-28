@@ -281,6 +281,7 @@ pub mod lunar_time;
 pub mod lunar_time_budget;
 pub mod lunar_time_budget_scenario;
 pub mod lunar_time_lab;
+pub mod lunar_time_vectors;
 pub mod lunar_timescale;
 pub mod lunar_vlbi;
 /// Station-coordinate covariance from a lunar-VLBI schedule: the delay partials of

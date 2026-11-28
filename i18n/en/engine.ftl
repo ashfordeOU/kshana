@@ -10726,6 +10726,7 @@ engine-main-usage =
     { "   " }or: kshana lunar-oem convert <in.oem> --to ICRF|MOON_PA440|MOON_ME [--out <file>] | frames (kshana lunar-oem --help)
     { "   " }or: kshana leo-sparse <study.toml>
     { "   " }or: kshana time-vectors [--json] [<vectors.json|dir> ...]
+    { "   " }or: kshana lunar-time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }or: kshana utc-readiness [--json] [--as-of <YYYY-MM-DD>] <file|dir> ...
     { "   " }or: kshana clock-tamper <check <samples.json> [--json] [--out <report.json>] | template>
     { "   " }or: kshana itu-res35 <milestones <filing.toml> | report <filing.toml> <elements|satcat> ... [--as-of <YYYY-MM-DD>] [--out <file.json>]> [--json]
@@ -12736,3 +12737,14 @@ engine-e-itu-res35-aop-tolerance = plane group { $id } gives an argument of peri
 engine-e-itu-res35-no-elements = no element set for any selected object: give --as-of
 engine-itu-res35-milestones-head = { $system } total satellites { $n } ({ $regime }); source: { $url } (fetched { $fetched })
 engine-itu-res35-milestone-line = { $id } { $provision } { $date }: { $percent } % -> at least { $required } (report due { $due }, modifications due { $modify })
+
+## Lunar time-scale vectors (src/lunar_time_vectors.rs, docs/LUNAR-TIME-VECTORS.md)
+engine-lunar-time-vectors-usage = usage: kshana lunar-time-vectors [--json] [<vectors.json|dir> ...]  (docs/LUNAR-TIME-VECTORS.md; TCL from IAU 2024 Resolution II; LTC vectors are provisional: no published definition)
+engine-lunar-time-vectors-summary = { $n } vectors: { $passed } passed, { $failed } failed ({ $provisional } provisional)
+engine-e-lunar-time-vectors-missing-input = vector input without { $key }
+engine-e-lunar-time-vectors-out-of-span = epoch outside the span of the lunar time-scale model
+engine-e-lunar-time-vectors-no-source = vector without a source title and URL
+engine-e-lunar-time-vectors-bad-status = unknown vector status { $status } (defined, published-model or provisional)
+engine-e-lunar-time-vectors-no-reason = a published-model or provisional vector needs a status_reason
+engine-e-lunar-time-vectors-no-expect = vector without an expect object
+engine-e-lunar-time-vectors-bad-format = { $file } is not a { $format } file
