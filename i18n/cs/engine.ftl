@@ -10899,6 +10899,7 @@ engine-main-usage =
     { "   " }nebo: kshana lunar-oem convert <in.oem> --to ICRF|MOON_PA440|MOON_ME [--out <file>] | frames (kshana lunar-oem --help)
     { "   " }nebo: kshana leo-sparse <study.toml>
     { "   " }nebo: kshana time-vectors [--json] [<vectors.json|dir> ...]
+    { "   " }nebo: kshana lunar-time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }nebo: kshana utc-readiness [--json] [--as-of <YYYY-MM-DD>] <file|dir> ...
     { "   " }nebo: kshana evidence space-pack <validate <dir> [--trust <hex|file>]... [--json] | hash <dir> | schema | template>
     { "   " }nebo: kshana clock-tamper <check <samples.json> [--json] [--out <report.json>] | template>

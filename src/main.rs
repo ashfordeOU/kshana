@@ -1398,6 +1398,11 @@ fn main_in_language(args: Vec<String>) -> ExitCode {
     if args.get(1).map(String::as_str) == Some("itu-res35") {
         return ExitCode::from(kshana::itu_res35::run_cli(&args[2..]) as u8);
     }
+    // `kshana lunar-time-vectors`: lunar time-scale vectors with their sources and status
+    // (src/lunar_time_vectors.rs, docs/LUNAR-TIME-VECTORS.md). Exit 1 when a vector fails.
+    if args.get(1).map(String::as_str) == Some("lunar-time-vectors") {
+        return ExitCode::from(kshana::lunar_time_vectors::run_cli(&args[2..]) as u8);
+    }
     if args.get(1).map(String::as_str) == Some("time-vectors") {
         return match kshana::time_vectors::run_cli(&args[2..]) {
             Ok(true) => ExitCode::SUCCESS,

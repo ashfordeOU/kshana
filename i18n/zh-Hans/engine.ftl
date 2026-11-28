@@ -10176,6 +10176,7 @@ engine-main-usage =
     { "   " }或：kshana lunar-oem convert <in.oem> --to ICRF|MOON_PA440|MOON_ME [--out <file>] | frames (kshana lunar-oem --help)
     { "   " }或：kshana leo-sparse <study.toml>
     { "   " }或：kshana time-vectors [--json] [<vectors.json|dir> ...]
+    { "   " }或：kshana lunar-time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }或：kshana utc-readiness [--json] [--as-of <YYYY-MM-DD>] <file|dir> ...
     { "   " }或：kshana evidence space-pack <validate <dir> [--trust <hex|file>]... [--json] | hash <dir> | schema | template>
     { "   " }或：kshana clock-tamper <check <samples.json> [--json] [--out <report.json>] | template>

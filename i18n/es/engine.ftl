@@ -11111,6 +11111,7 @@ engine-main-usage =
     { "   " }o: kshana lunar-oem convert <in.oem> --to ICRF|MOON_PA440|MOON_ME [--out <file>] | frames (kshana lunar-oem --help)
     { "   " }o: kshana leo-sparse <study.toml>
     { "   " }o: kshana time-vectors [--json] [<vectors.json|dir> ...]
+    { "   " }o: kshana lunar-time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }o: kshana utc-readiness [--json] [--as-of <YYYY-MM-DD>] <file|dir> ...
     { "   " }o: kshana evidence space-pack <validate <dir> [--trust <hex|file>]... [--json] | hash <dir> | schema | template>
     { "   " }o: kshana clock-tamper <check <samples.json> [--json] [--out <report.json>] | template>

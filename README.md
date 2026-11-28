@@ -657,6 +657,7 @@ them and [`docs/SCENARIOS.md`](docs/SCENARIOS.md) documents every field.
 | [Oscillators](docs/OSCILLATOR.md) | what an oscillator's datasheet figures mean for tracking under vibration, holdover through temperature changes and shocks, and RAIM |
 | [Constellations around any body](docs/CONSTELLATION-DESIGN.md) | coverage, dilution of precision and availability around the Earth, the Moon or Mars |
 | [Solar system](docs/SOLAR-SYSTEM.md) | where every planet is, and the light time of any link |
+| [Lunar time vectors](docs/LUNAR-TIME-VECTORS.md) | TCL and the scales it rests on, checked against the IAU resolutions and published lunar time ephemeris rates, with each vector's source; Coordinated Lunar Time (LTC) marked provisional until it is defined |
 | [Low-Earth-orbit navigation](docs/LEO-PNT.md) | a pass, a link, a navigation message and a fused fix, stage by stage |
 | [LEO-PNT verification](docs/LEO-VERIFY.md) | what a LEO timing or positioning service would deliver: burst timing, holdover TDEV, cost against outages, indoor and rain loss, ambiguity resolution, jamming claims and Doppler-only integrity |
 | [Transform receipts](docs/TRANSFORM-RECEIPTS.md) | a recomputable record of a time-scale and frame transformation: input, model chain, Earth-orientation values, output and hash, with an open verifier |

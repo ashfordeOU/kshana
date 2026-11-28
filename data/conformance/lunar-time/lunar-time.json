@@ -1,0 +1,419 @@
+{
+ "format": "kshana.lunar-time-vectors/1",
+ "set": "lunar-time",
+ "version": "1.0.0",
+ "description": "Lunar time-scale vectors for mission software: TCL as defined by IAU 2024 Resolution II, the IAU 2000/2006 relations it rests on, published TCL ephemeris rates, leap-second handling from UTC, scale tags, and provisional LTC vectors where no definition is published.",
+ "generator": "data/conformance/lunar-time/gen_lunar_time_vectors.py",
+ "vectors": [
+  {
+   "id": "tcg-minus-tt-j2000",
+   "op": "tcg_minus_tt",
+   "input": {
+    "jd0": 2451544.5,
+    "s": 43200.0
+   },
+   "expect": {
+    "seconds": 0.5058332860211294
+   },
+   "source": {
+    "title": "IAU 2000 Resolution B1.9: Re-definition of Terrestrial Time TT (dTT/dTCG = 1 - L_G, L_G = 6.969290134e-10 a defining constant); the common reading 1977 January 1, 0h 0m 32.184s of TT, TCG and TCB is restated in the notes of IAU 2024 Resolution II",
+    "url": "https://drive.google.com/file/d/1ZXjFjgcq5hdEpPk8PCEDBgf9dgGn1CB_/view (IAU 2000 resolutions, linked from https://iau.org/Iau/Publications/List-of-Resolutions)",
+    "fetched": "2026-11-28",
+    "clause": "TT = TCG - L_G x (JD_TCG - T0) x 86400 s"
+   },
+   "status": "defined",
+   "tolerance": 1e-09
+  },
+  {
+   "id": "tcg-minus-tt-2026-12-31",
+   "op": "tcg_minus_tt",
+   "input": {
+    "jd0": 2461405.5,
+    "s": 0.0
+   },
+   "expect": {
+    "seconds": 1.0995800079998213
+   },
+   "source": {
+    "title": "IAU 2000 Resolution B1.9: Re-definition of Terrestrial Time TT (dTT/dTCG = 1 - L_G, L_G = 6.969290134e-10 a defining constant); the common reading 1977 January 1, 0h 0m 32.184s of TT, TCG and TCB is restated in the notes of IAU 2024 Resolution II",
+    "url": "https://drive.google.com/file/d/1ZXjFjgcq5hdEpPk8PCEDBgf9dgGn1CB_/view (IAU 2000 resolutions, linked from https://iau.org/Iau/Publications/List-of-Resolutions)",
+    "fetched": "2026-11-28",
+    "clause": "TT = TCG - L_G x (JD_TCG - T0) x 86400 s"
+   },
+   "status": "defined",
+   "tolerance": 1e-09
+  },
+  {
+   "id": "tcg-minus-tt-2030-07-01",
+   "op": "tcg_minus_tt",
+   "input": {
+    "jd0": 2462683.5,
+    "s": 0.0
+   },
+   "expect": {
+    "seconds": 1.1765343521698701
+   },
+   "source": {
+    "title": "IAU 2000 Resolution B1.9: Re-definition of Terrestrial Time TT (dTT/dTCG = 1 - L_G, L_G = 6.969290134e-10 a defining constant); the common reading 1977 January 1, 0h 0m 32.184s of TT, TCG and TCB is restated in the notes of IAU 2024 Resolution II",
+    "url": "https://drive.google.com/file/d/1ZXjFjgcq5hdEpPk8PCEDBgf9dgGn1CB_/view (IAU 2000 resolutions, linked from https://iau.org/Iau/Publications/List-of-Resolutions)",
+    "fetched": "2026-11-28",
+    "clause": "TT = TCG - L_G x (JD_TCG - T0) x 86400 s"
+   },
+   "status": "defined",
+   "tolerance": 1e-09
+  },
+  {
+   "id": "tcg-minus-tt-1977-t0",
+   "op": "tcg_minus_tt",
+   "input": {
+    "jd0": 2443144.5,
+    "s": 32.184
+   },
+   "expect": {
+    "seconds": 0.0
+   },
+   "source": {
+    "title": "IAU 2000 Resolution B1.9: Re-definition of Terrestrial Time TT (dTT/dTCG = 1 - L_G, L_G = 6.969290134e-10 a defining constant); the common reading 1977 January 1, 0h 0m 32.184s of TT, TCG and TCB is restated in the notes of IAU 2024 Resolution II",
+    "url": "https://drive.google.com/file/d/1ZXjFjgcq5hdEpPk8PCEDBgf9dgGn1CB_/view (IAU 2000 resolutions, linked from https://iau.org/Iau/Publications/List-of-Resolutions)",
+    "fetched": "2026-11-28",
+    "clause": "TT = TCG - L_G x (JD_TCG - T0) x 86400 s"
+   },
+   "status": "defined",
+   "tolerance": 1e-09
+  },
+  {
+   "id": "tcb-minus-tdb-j2000",
+   "op": "tcb_minus_tdb",
+   "input": {
+    "jd0": 2451544.5,
+    "s": 43200.0
+   },
+   "expect": {
+    "seconds": 11.253787093757294
+   },
+   "source": {
+    "title": "IAU 2006 Resolution B3: Re-definition of Barycentric Dynamical Time TDB (L_B = 1.550519768e-8, TDB0 = -6.55e-5 s)",
+    "url": "https://drive.google.com/file/d/16Jf6YgA7Nlf3ZSnKbWOhXcmU7M7TA6HH/view (linked from https://iau.org/Iau/Publications/List-of-Resolutions)",
+    "fetched": "2026-11-28",
+    "clause": "TDB = TCB - L_B x (JD_TCB - T0) x 86400 s + TDB0"
+   },
+   "status": "defined",
+   "tolerance": 1e-08
+  },
+  {
+   "id": "tcb-minus-tdb-2026-12-31",
+   "op": "tcb_minus_tdb",
+   "input": {
+    "jd0": 2461405.5,
+    "s": 0.0
+   },
+   "expect": {
+    "seconds": 24.46339684267979
+   },
+   "source": {
+    "title": "IAU 2006 Resolution B3: Re-definition of Barycentric Dynamical Time TDB (L_B = 1.550519768e-8, TDB0 = -6.55e-5 s)",
+    "url": "https://drive.google.com/file/d/16Jf6YgA7Nlf3ZSnKbWOhXcmU7M7TA6HH/view (linked from https://iau.org/Iau/Publications/List-of-Resolutions)",
+    "fetched": "2026-11-28",
+    "clause": "TDB = TCB - L_B x (JD_TCB - T0) x 86400 s + TDB0"
+   },
+   "status": "defined",
+   "tolerance": 1e-08
+  },
+  {
+   "id": "tcb-minus-tdb-2030-07-01",
+   "op": "tcb_minus_tdb",
+   "input": {
+    "jd0": 2462683.5,
+    "s": 0.0
+   },
+   "expect": {
+    "seconds": 26.175468366347246
+   },
+   "source": {
+    "title": "IAU 2006 Resolution B3: Re-definition of Barycentric Dynamical Time TDB (L_B = 1.550519768e-8, TDB0 = -6.55e-5 s)",
+    "url": "https://drive.google.com/file/d/16Jf6YgA7Nlf3ZSnKbWOhXcmU7M7TA6HH/view (linked from https://iau.org/Iau/Publications/List-of-Resolutions)",
+    "fetched": "2026-11-28",
+    "clause": "TDB = TCB - L_B x (JD_TCB - T0) x 86400 s + TDB0"
+   },
+   "status": "defined",
+   "tolerance": 1e-08
+  },
+  {
+   "id": "tcb-minus-tdb-1977-t0",
+   "op": "tcb_minus_tdb",
+   "input": {
+    "jd0": 2443144.5,
+    "s": 32.184
+   },
+   "expect": {
+    "seconds": 6.55e-05
+   },
+   "source": {
+    "title": "IAU 2006 Resolution B3: Re-definition of Barycentric Dynamical Time TDB (L_B = 1.550519768e-8, TDB0 = -6.55e-5 s)",
+    "url": "https://drive.google.com/file/d/16Jf6YgA7Nlf3ZSnKbWOhXcmU7M7TA6HH/view (linked from https://iau.org/Iau/Publications/List-of-Resolutions)",
+    "fetched": "2026-11-28",
+    "clause": "TDB = TCB - L_B x (JD_TCB - T0) x 86400 s + TDB0"
+   },
+   "status": "defined",
+   "tolerance": 1e-08
+  },
+  {
+   "id": "tcl-origin",
+   "op": "tcb_minus_tcl",
+   "input": {
+    "jd0": 2443144.5,
+    "s": 32.184
+   },
+   "expect": {
+    "seconds": 0.0
+   },
+   "source": {
+    "title": "IAU 2024 Resolution II: to establish a standard Lunar Celestial Reference System (LCRS) and Lunar Coordinate Time (TCL)",
+    "url": "https://drive.google.com/file/d/1-Ps-YyCjmjzg2NGi0A-VE0kWqr8w7LnE/view (linked from https://iau.org/Iau/Publications/List-of-Resolutions)",
+    "fetched": "2026-11-28",
+    "clause": "recommends 4: TCL reads 1977 January 1, 0h 0m 32.184s when TCB reads the same at the centre of the Moon"
+   },
+   "status": "defined",
+   "tolerance": 1e-09
+  },
+  {
+   "id": "tcb-minus-tcl-secular-j2000",
+   "op": "tcb_minus_tcl",
+   "input": {
+    "jd0": 2451544.5,
+    "s": 43200.0
+   },
+   "expect": {
+    "seconds": 10.760294824610337
+   },
+   "source": {
+    "title": "Lu, Yang and Xie, Lunar Time Ephemeris LTE440: User Manual (abstract: <dTCL/dTCB> = 1 - 1.48253621667e-8, <dTCL/dTDB> = 1 + 6.798355238e-10, annual term about 1651 us, monthly term 126 us)",
+    "url": "https://arxiv.org/abs/2506.19213",
+    "fetched": "2026-11-28",
+    "clause": "secular rate <dTCL/dTCB> = 1 - 1.48253621667e-8 from T0"
+   },
+   "status": "published-model",
+   "tolerance": 0.0033,
+   "status_reason": "a published ephemeris result, not a defining value; only its secular part is compared",
+   "note": "tolerance 3.3 ms: the published annual (about 1651 us) and monthly (126 us) amplitudes plus the checked implementation's stated 2e-12 rate bound over the span"
+  },
+  {
+   "id": "tcb-minus-tcl-secular-2026-12-31",
+   "op": "tcb_minus_tcl",
+   "input": {
+    "jd0": 2461405.5,
+    "s": 0.0
+   },
+   "expect": {
+    "seconds": 23.390720611516336
+   },
+   "source": {
+    "title": "Lu, Yang and Xie, Lunar Time Ephemeris LTE440: User Manual (abstract: <dTCL/dTCB> = 1 - 1.48253621667e-8, <dTCL/dTDB> = 1 + 6.798355238e-10, annual term about 1651 us, monthly term 126 us)",
+    "url": "https://arxiv.org/abs/2506.19213",
+    "fetched": "2026-11-28",
+    "clause": "secular rate <dTCL/dTCB> = 1 - 1.48253621667e-8 from T0"
+   },
+   "status": "published-model",
+   "tolerance": 0.0033,
+   "status_reason": "a published ephemeris result, not a defining value; only its secular part is compared",
+   "note": "tolerance 3.3 ms: the published annual (about 1651 us) and monthly (126 us) amplitudes plus the checked implementation's stated 2e-12 rate bound over the span"
+  },
+  {
+   "id": "tcb-minus-tcl-secular-2030-07-01",
+   "op": "tcb_minus_tcl",
+   "input": {
+    "jd0": 2462683.5,
+    "s": 0.0
+   },
+   "expect": {
+    "seconds": 25.027725241673615
+   },
+   "source": {
+    "title": "Lu, Yang and Xie, Lunar Time Ephemeris LTE440: User Manual (abstract: <dTCL/dTCB> = 1 - 1.48253621667e-8, <dTCL/dTDB> = 1 + 6.798355238e-10, annual term about 1651 us, monthly term 126 us)",
+    "url": "https://arxiv.org/abs/2506.19213",
+    "fetched": "2026-11-28",
+    "clause": "secular rate <dTCL/dTCB> = 1 - 1.48253621667e-8 from T0"
+   },
+   "status": "published-model",
+   "tolerance": 0.0033,
+   "status_reason": "a published ephemeris result, not a defining value; only its secular part is compared",
+   "note": "tolerance 3.3 ms: the published annual (about 1651 us) and monthly (126 us) amplitudes plus the checked implementation's stated 2e-12 rate bound over the span"
+  },
+  {
+   "id": "tcl-mean-rate-tcb",
+   "op": "tcl_mean_rate",
+   "input": {
+    "from_jd_tdb": 2433282.5,
+    "to_jd_tdb": 2469807.5
+   },
+   "expect": {
+    "l_tcb": 1.48253621667e-08,
+    "dtcl_dtdb_minus_1": 6.798355238409842e-10
+   },
+   "source": {
+    "title": "Lu, Yang and Xie, Lunar Time Ephemeris LTE440: User Manual (abstract: <dTCL/dTCB> = 1 - 1.48253621667e-8, <dTCL/dTDB> = 1 + 6.798355238e-10, annual term about 1651 us, monthly term 126 us)",
+    "url": "https://arxiv.org/abs/2506.19213",
+    "fetched": "2026-11-28",
+    "clause": "<dTCL/dTCB> = 1 - 1.48253621667e-8; <dTCL/dTDB> follows with L_B (IAU 2006 B3)"
+   },
+   "status": "published-model",
+   "tolerance": 2e-12,
+   "status_reason": "a published ephemeris mean, not a defining value; the averaging span of LTE440 is not stated in the abstract, 1950-2050 is used here",
+   "note": "consistency: (1 - L)/(1 - L_B) - 1 = 6.7983552384e-10 against the published 6.798355238e-10"
+  },
+  {
+   "id": "utc-tt-2016-12-31-59",
+   "op": "utc_to_scale",
+   "input": {
+    "utc": "2016-12-31T23:59:59",
+    "scale": "TT"
+   },
+   "expect": {
+    "time": "2017-01-01T00:01:07.184"
+   },
+   "source": {
+    "title": "IERS Bulletin C 52: positive leap second at the end of 31 December 2016, UTC-TAI = -37 s from 1 January 2017; TT = TAI + 32.184 s (IAU 1991 Resolution A4)",
+    "url": "https://hpiers.obspm.fr/iers/bul/bulc/bulletinc.52",
+    "fetched": "2026-11-28",
+    "clause": "UTC-TAI = -36 s before and -37 s after the leap second; TT = TAI + 32.184 s"
+   },
+   "status": "defined",
+   "tolerance": 0.0
+  },
+  {
+   "id": "utc-tt-2016-12-31-60",
+   "op": "utc_to_scale",
+   "input": {
+    "utc": "2016-12-31T23:59:60",
+    "scale": "TT"
+   },
+   "expect": {
+    "time": "2017-01-01T00:01:08.184"
+   },
+   "source": {
+    "title": "IERS Bulletin C 52: positive leap second at the end of 31 December 2016, UTC-TAI = -37 s from 1 January 2017; TT = TAI + 32.184 s (IAU 1991 Resolution A4)",
+    "url": "https://hpiers.obspm.fr/iers/bul/bulc/bulletinc.52",
+    "fetched": "2026-11-28",
+    "clause": "UTC-TAI = -36 s before and -37 s after the leap second; TT = TAI + 32.184 s"
+   },
+   "status": "defined",
+   "tolerance": 0.0
+  },
+  {
+   "id": "utc-tt-2017-01-01-00",
+   "op": "utc_to_scale",
+   "input": {
+    "utc": "2017-01-01T00:00:00",
+    "scale": "TT"
+   },
+   "expect": {
+    "time": "2017-01-01T00:01:09.184"
+   },
+   "source": {
+    "title": "IERS Bulletin C 52: positive leap second at the end of 31 December 2016, UTC-TAI = -37 s from 1 January 2017; TT = TAI + 32.184 s (IAU 1991 Resolution A4)",
+    "url": "https://hpiers.obspm.fr/iers/bul/bulc/bulletinc.52",
+    "fetched": "2026-11-28",
+    "clause": "UTC-TAI = -36 s before and -37 s after the leap second; TT = TAI + 32.184 s"
+   },
+   "status": "defined",
+   "tolerance": 0.0
+  },
+  {
+   "id": "tag-tt",
+   "op": "scale_tag",
+   "input": {
+    "tag": "TT"
+   },
+   "expect": {
+    "defined": true,
+    "defined_by": "IAU 2000 Resolution B1.9"
+   },
+   "source": {
+    "title": "IAU 2000 Resolution B1.9: Re-definition of Terrestrial Time TT (dTT/dTCG = 1 - L_G, L_G = 6.969290134e-10 a defining constant); the common reading 1977 January 1, 0h 0m 32.184s of TT, TCG and TCB is restated in the notes of IAU 2024 Resolution II",
+    "url": "https://drive.google.com/file/d/1ZXjFjgcq5hdEpPk8PCEDBgf9dgGn1CB_/view (IAU 2000 resolutions, linked from https://iau.org/Iau/Publications/List-of-Resolutions)",
+    "fetched": "2026-11-28",
+    "clause": "which published text defines the scale"
+   },
+   "status": "defined",
+   "tolerance": 0.0
+  },
+  {
+   "id": "tag-tdb",
+   "op": "scale_tag",
+   "input": {
+    "tag": "TDB"
+   },
+   "expect": {
+    "defined": true,
+    "defined_by": "IAU 2006 Resolution B3"
+   },
+   "source": {
+    "title": "IAU 2006 Resolution B3: Re-definition of Barycentric Dynamical Time TDB (L_B = 1.550519768e-8, TDB0 = -6.55e-5 s)",
+    "url": "https://drive.google.com/file/d/16Jf6YgA7Nlf3ZSnKbWOhXcmU7M7TA6HH/view (linked from https://iau.org/Iau/Publications/List-of-Resolutions)",
+    "fetched": "2026-11-28",
+    "clause": "which published text defines the scale"
+   },
+   "status": "defined",
+   "tolerance": 0.0
+  },
+  {
+   "id": "tag-tcl",
+   "op": "scale_tag",
+   "input": {
+    "tag": "TCL"
+   },
+   "expect": {
+    "defined": true,
+    "defined_by": "IAU 2024 Resolution II"
+   },
+   "source": {
+    "title": "IAU 2024 Resolution II: to establish a standard Lunar Celestial Reference System (LCRS) and Lunar Coordinate Time (TCL)",
+    "url": "https://drive.google.com/file/d/1-Ps-YyCjmjzg2NGi0A-VE0kWqr8w7LnE/view (linked from https://iau.org/Iau/Publications/List-of-Resolutions)",
+    "fetched": "2026-11-28",
+    "clause": "which published text defines the scale"
+   },
+   "status": "defined",
+   "tolerance": 0.0
+  },
+  {
+   "id": "tag-ltc",
+   "op": "scale_tag",
+   "input": {
+    "tag": "LTC"
+   },
+   "expect": {
+    "defined": false,
+    "defined_by": ""
+   },
+   "source": {
+    "title": "IAU 2024 Resolution III: on the establishment of a coordinated lunar time standard by international agreement",
+    "url": "https://drive.google.com/file/d/1G5WG8cu2tiTIsCUkiOcaxfL0Z0rs1alm/view (linked from https://iau.org/Iau/Publications/List-of-Resolutions)",
+    "fetched": "2026-11-28",
+    "clause": "which published text defines the scale"
+   },
+   "status": "provisional",
+   "tolerance": 0.0,
+   "status_reason": "no published definition of Coordinated Lunar Time as of 2026-11-28: IAU 2024 Resolution III leaves the relation between a lunar reference time scale and UTC to agreement among international organisations, and NASA describes LTC as an ensemble of lunar clocks traceable to UTC still to be established"
+  },
+  {
+   "id": "ltc-surface-rate-provisional",
+   "op": "lunar_surface_rate",
+   "input": {
+    "t_tt_jc": 0.0
+   },
+   "expect": {
+    "us_per_day": 56.02
+   },
+   "source": {
+    "title": "Ashby and Patla, A Relativistic Framework to Establish Coordinate Time on the Moon and Beyond (abstract: a clock near the Moon's equator accumulates an extra 56.02 us per day over a lunar orbit compared with a clock near the Earth's equator)",
+    "url": "https://arxiv.org/abs/2402.11150",
+    "fetched": "2026-11-28",
+    "clause": "a clock near the Moon's equator against a clock near the Earth's equator, averaged over a lunar orbit"
+   },
+   "status": "provisional",
+   "tolerance": 1.5,
+   "status_reason": "LTC has no published definition (see tag-ltc); this compares a lunar-surface clock model with one published relativistic result, not with LTC",
+   "note": "tolerance 1.5 us/day is kshana's choice, not the source's: the published figure depends on the reference surfaces and averaging the model assumes"
+  }
+ ]
+}
