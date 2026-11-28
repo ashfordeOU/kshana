@@ -66,6 +66,8 @@ fn the_top_level_usage_names_every_subcommand() {
         "orbit-data",
         "leo-verify",
         "transform-receipt",
+        "transition scan",
+        "pbom",
         "datasets|cite|golden",
         "feed <pack|verify|send|spectrum|leaderboard|watch>",
         "register <check|crl-check|view|sign>",

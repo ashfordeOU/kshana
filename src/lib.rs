@@ -331,6 +331,9 @@ pub mod particle_filter;
 /// Data-partner submissions and `kshana partner check` (docs/PARTNER-DATA.md).
 pub mod partner;
 pub mod passes;
+/// PNT Bill of Materials: a CycloneDX profile listing a system's positioning, navigation and timing
+/// dependencies, with a validator, generator and diff (`kshana pbom`, docs/PBOM.md).
+pub mod pbom;
 pub mod permalink;
 // Transcendental functions that return the same bits on every platform, for the
 // modules whose output is discrete (an encoded frame) and must not depend on the host.
@@ -468,6 +471,9 @@ pub mod timing_stack;
 pub mod tlog;
 /// The trust stream as CCSDS packets with XTCE, COSMOS and Open MCT definitions (0.42 I8).
 pub mod tm_bridge;
+/// Semi-codeless (L1/L2 P(Y)) dependency scan of RINEX observation headers and site logs
+/// (`kshana transition scan`, docs/TRANSITION-SCAN.md).
+pub mod transition_scan;
 // Comparison helpers shared by the byte-identity guards. Test-only: it exists so those
 // guards can assert the exact pin where it is true and a portable one everywhere else.
 pub mod evidence;

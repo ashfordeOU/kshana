@@ -11168,6 +11168,8 @@ engine-main-usage =
     { "   " }ou: kshana adsb-indicators <adsb.csv> [--cell-deg <d>] [--out <indicators.json>]
     { "   " }ou: kshana interference-atlas <build|verify|cors> ... (kshana interference-atlas --help)
     { "   " }ou: kshana transform-receipt <make <request.json> [--eop <finals2000A>] [--out <file>]|verify <receipt.json> [--eop <finals2000A>] [--trusted-key <hex>]...>
+    { "   " }ou: kshana transition scan <obs.rnx|obs.crx|obs.gz|sitelog.log|dir>... [--json] [--out <base>]
+    { "   " }ou: kshana pbom <validate <pbom.json>|generate <config.toml|scenario.toml> [--out <file>]|diff <old.json> <new.json>|schema>
     { "   " }ou: kshana kinds [--json]
     { "   " }ou: kshana example [<name>]
     { "   " }ou: kshana --help | --version

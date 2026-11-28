@@ -2128,6 +2128,14 @@
   "src/transform_receipt.rs": {
    "count": 42,
    "reason": "machine document: the model identifiers written into every receipt and compared by the verifier (they must not change with the language), the receipt's warnings and the verifier's check details written to the machine-readable JSON report, and request-validation details passed as the e variable of the catalogued e-transform-receipt-request message"
+  },
+  "src/transition_scan.rs": {
+   "count": 37,
+   "reason": "machine document: RINEX header labels and site-log keys matched verbatim, the quoted gps.gov wording and its source (kept exactly as published), and the per-station reasons and parser details written to the machine-readable JSON report (English by design; the text report's own lines are catalogued)"
+  },
+  "src/pbom.rs": {
+   "count": 85,
+   "reason": "machine document: the kshana.pbom/1 property names and values, the CycloneDX field names, the validator's problem messages and the analysis written to the machine-readable JSON report (English by design, like other validators' problem lists), and the element names and provenance note written into a generated PBOM document (docs/PBOM.md)"
   }
  }
 }

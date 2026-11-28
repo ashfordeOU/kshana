@@ -10947,6 +10947,8 @@ engine-main-usage =
     { "   " }of: kshana adsb-indicators <adsb.csv> [--cell-deg <d>] [--out <indicators.json>]
     { "   " }of: kshana interference-atlas <build|verify|cors> ... (kshana interference-atlas --help)
     { "   " }of: kshana transform-receipt <make <request.json> [--eop <finals2000A>] [--out <file>]|verify <receipt.json> [--eop <finals2000A>] [--trusted-key <hex>]...>
+    { "   " }of: kshana transition scan <obs.rnx|obs.crx|obs.gz|sitelog.log|dir>... [--json] [--out <base>]
+    { "   " }of: kshana pbom <validate <pbom.json>|generate <config.toml|scenario.toml> [--out <file>]|diff <old.json> <new.json>|schema>
     { "   " }of: kshana kinds [--json]
     { "   " }of: kshana example [<name>]
     { "   " }of: kshana --help | --version

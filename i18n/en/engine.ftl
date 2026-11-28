@@ -10741,6 +10741,8 @@ engine-main-usage =
     { "   " }or: kshana adsb-indicators <adsb.csv> [--cell-deg <d>] [--out <indicators.json>]
     { "   " }or: kshana interference-atlas <build|verify|cors> ... (kshana interference-atlas --help)
     { "   " }or: kshana transform-receipt <make <request.json> [--eop <finals2000A>] [--out <file>]|verify <receipt.json> [--eop <finals2000A>] [--trusted-key <hex>]...>
+    { "   " }or: kshana transition scan <obs.rnx|obs.crx|obs.gz|sitelog.log|dir>... [--json] [--out <base>]
+    { "   " }or: kshana pbom <validate <pbom.json>|generate <config.toml|scenario.toml> [--out <file>]|diff <old.json> <new.json>|schema>
     { "   " }or: kshana kinds [--json]
     { "   " }or: kshana example [<name>]
     { "   " }or: kshana --help | --version
@@ -12662,6 +12664,38 @@ engine-e-transform-receipt-read = cannot read { $path }: { $e }
 engine-e-transform-receipt-key = { $key } is not a 32-byte Ed25519 public key in hex
 
 engine-e-transform-receipt-invalid = the receipt does not verify (failed checks: { $n }; see the report)
+## src/transition_scan.rs
+
+engine-transition-usage = usage: kshana transition scan <obs.rnx|obs.crx|obs.gz|sitelog.log|dir>... [--json] [--out <base>] (docs/TRANSITION-SCAN.md)
+
+engine-e-transition-read = cannot read { $path }: { $e }
+
+engine-e-transition-option = unknown option { $option } (kshana transition --help)
+
+engine-e-transition-nothing = no RINEX observation file or site log among the inputs
+
+engine-transition-text-header = Semi-codeless (L1/L2 P(Y)) dependency scan of { $n } stations (MODELLED: read from observation headers and site logs)
+
+engine-transition-text-condition = Transition condition, as gps.gov quotes the 2019 Federal Radionavigation Plan: "{ $quote }" ({ $url })
+
+engine-transition-text-station = { $id }: semi-codeless dependent { $dep }; L2C { $l2c }; L5 { $l5 }; readiness { $readiness }
+
+engine-transition-text-reason = { "    " }{ $reason }
+
+engine-transition-text-fleet = Fleet: { $yes } dependent, { $partial } partial, { $no } not dependent, { $unknown } unknown; L2C declared at { $l2c }, L5 at { $l5 }
+
+engine-transition-text-skipped = skipped { $path }: { $reason }
+## src/pbom.rs
+
+engine-pbom-usage = usage: kshana pbom <validate <pbom.json>|generate <config.toml|scenario.toml> [--out <file>]|diff <old.json> <new.json>|schema> (docs/PBOM.md)
+
+engine-e-pbom-read = cannot read { $path }: { $e }
+
+engine-e-pbom-invalid = the PBOM is not valid (errors: { $n }; see the report)
+
+engine-e-pbom-config-format = the configuration format is { $got }, not { $want }
+
+engine-e-pbom-diff-invalid = the { $which } PBOM is not valid (errors: { $n }; first: { $first })
 
 ## Continuous-UTC readiness scanner (src/utc_readiness.rs, docs/UTC-READINESS.md)
 engine-utc-readiness-usage = usage: kshana utc-readiness [--json] [--as-of <YYYY-MM-DD>] <file|dir> ...  (docs/UTC-READINESS.md; continuous UTC from 2027-05-20, CGPM 2026 Resolution 5)
