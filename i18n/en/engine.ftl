@@ -10728,6 +10728,8 @@ engine-main-usage =
     { "   " }or: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }or: kshana utc-readiness [--json] [--as-of <YYYY-MM-DD>] <file|dir> ...
     { "   " }or: kshana evidence space-pack <validate <dir> [--trust <hex|file>]... [--json] | hash <dir> | schema | template>
+    { "   " }or: kshana clock-tamper <check <samples.json> [--json] [--out <report.json>] | template>
+    { "   " }or: kshana itu-res35 <milestones <filing.toml> | report <filing.toml> <elements|satcat> ... [--as-of <YYYY-MM-DD>] [--out <file.json>]> [--json]
     { "   " }or: kshana corrections <decode --format <has|b2b|l6|l1s|qznma> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...] | qznma-verify [--frames <frames.txt>] [--nav <nav.txt>] --pubkey <key.der> ...>
     { "   " }or: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
     { "   " }or: kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
@@ -12707,3 +12709,36 @@ engine-evidence-space-pack-usage = kshana evidence space-pack <validate <dir> [-
 engine-e-evidence-space-pack-input = space evidence pack: { $e }
 engine-e-evidence-space-pack-too-many-files = the pack holds more than { $n } files
 engine-e-evidence-space-pack-unsafe-path = { $p } is not a relative path inside the pack
+## Independent clock-tamper detector (src/clock_tamper.rs, docs/CLOCK-TAMPER.md)
+engine-clock-tamper-usage = usage: kshana clock-tamper <check <samples.json> [--json] [--out <report.json>] | template>  (docs/CLOCK-TAMPER.md; MODELLED, unsigned; exit 1 on a finding)
+engine-e-clock-tamper-cannot-read = cannot read { $path }: { $e }
+engine-e-clock-tamper-cannot-write = cannot write { $path }: { $e }
+engine-e-clock-tamper-bad-input = { $path }: { $e }
+engine-e-clock-tamper-format = format is { $found }, expected { $expected }
+engine-e-clock-tamper-threshold = thresholds.{ $name } must be a non-negative number
+engine-e-clock-tamper-bad-time = { $field } { $value } is not an RFC 3339 UTC time
+engine-e-clock-tamper-non-finite = a non-finite number in the sample at { $at }
+engine-e-clock-tamper-token-unread = token { $token } was not read
+engine-e-clock-tamper-token = { $token }: { $e }
+engine-e-clock-tamper-gentime = { $token }: genTime { $value } not understood
+## ITU Resolution 35 deployment check (src/itu_res35.rs, docs/ITU-RES35.md)
+engine-itu-res35-usage = usage: kshana itu-res35 <milestones <filing.toml> | report <filing.toml> <elements.json|elements.tle|gp.csv|satcat.csv> ... [--as-of <YYYY-MM-DD>] [--out <file.json>]> [--json]  (docs/ITU-RES35.md; MODELLED; milestones from ITU Resolution 35 (Rev.WRC-23))
+engine-e-itu-res35-cannot-read = cannot read { $path }: { $e }
+engine-e-itu-res35-cannot-write = cannot write { $path }: { $e }
+engine-e-itu-res35-bad-input = { $path }: { $e }
+engine-e-itu-res35-omm-missing = OMM record without { $k }
+engine-e-itu-res35-omm-epoch = OMM record with a bad EPOCH { $epoch }
+engine-e-itu-res35-satcat-no-id = catalogue CSV without NORAD_CAT_ID
+engine-e-itu-res35-satcat-bad-id = catalogue row with a bad NORAD_CAT_ID: { $line }
+engine-e-itu-res35-satcat-bad-decay = bad DECAY_DATE { $decay }
+engine-e-itu-res35-tle-epoch = bad TLE epoch
+engine-e-itu-res35-no-records = no element sets or catalogue rows found
+engine-e-itu-res35-bad-period-end = regulatory_period_end { $value } is not a YYYY-MM-DD date
+engine-e-itu-res35-no-planes = the filing names no [[plane_group]]
+engine-e-itu-res35-no-select = [select] names no norad_ids, name_prefixes or object_id_prefixes
+engine-e-itu-res35-negative = { $name } must be a non-negative number
+engine-e-itu-res35-empty-group = plane group { $id } has no satellites
+engine-e-itu-res35-aop-tolerance = plane group { $id } gives an argument of perigee: set tolerance.argument_of_perigee_deg
+engine-e-itu-res35-no-elements = no element set for any selected object: give --as-of
+engine-itu-res35-milestones-head = { $system } total satellites { $n } ({ $regime }); source: { $url } (fetched { $fetched })
+engine-itu-res35-milestone-line = { $id } { $provision } { $date }: { $percent } % -> at least { $required } (report due { $due }, modifications due { $modify })

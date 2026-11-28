@@ -39,6 +39,8 @@ fn the_top_level_usage_names_every_subcommand() {
         "decimate",
         "time-vectors",
         "utc-readiness",
+        "clock-tamper",
+        "itu-res35",
         "ais-integrity",
         "rnss-design",
         "space-receiver",
