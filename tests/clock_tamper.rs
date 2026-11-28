@@ -19,6 +19,7 @@
 
 use std::path::{Path, PathBuf};
 use std::process::Command;
+use std::sync::atomic::{AtomicU64, Ordering::Relaxed};
 
 use kshana::clock_tamper::{analyse, parse_samples, FORMAT, TEMPLATE};
 
@@ -188,7 +189,12 @@ fn cli_text_json_and_exit_codes() {
         .unwrap();
     let v: serde_json::Value = serde_json::from_slice(&out.stdout).unwrap();
     assert_eq!(v["findings"], 17);
-    let tmp = std::env::temp_dir().join(format!("kshana-clock-template-{}", std::process::id()));
+    static SEQ: AtomicU64 = AtomicU64::new(0);
+    let tmp = std::env::temp_dir().join(format!(
+        "kshana-clock-template-{}-{}",
+        std::process::id(),
+        SEQ.fetch_add(1, Relaxed)
+    ));
     std::fs::create_dir_all(&tmp).unwrap();
     let out = Command::new(bin)
         .args(["clock-tamper", "template"])
