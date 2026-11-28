@@ -72,9 +72,7 @@ pub fn h(parts: &[&[u8]]) -> [u8; 32] {
         d.update(p);
     }
     let full = d.finalize();
-    let mut out = [0u8; 32];
-    out.copy_from_slice(&full[..32]);
-    out
+    std::array::from_fn(|i| full[i])
 }
 
 /// A tag's uint32 value from its ASCII name (padded with zero octets).
@@ -175,7 +173,9 @@ fn u64_of(v: &[u8]) -> Option<u64> {
 }
 
 fn versions(v: &[u8]) -> Option<Vec<u32>> {
-    v.len().is_multiple_of(4).then(|| v.chunks(4).filter_map(u32_of).collect())
+    v.len()
+        .is_multiple_of(4)
+        .then(|| v.chunks(4).filter_map(u32_of).collect())
 }
 
 /// The transport a packet went over (the 1024-byte request size applies to UDP).
@@ -1013,8 +1013,8 @@ pub fn run_cli(args: &[String]) -> i32 {
                 Ok(k) => k,
                 Err(c) => return c,
             };
-            let mut nonce = [0u8; 32];
-            rand::RngCore::fill_bytes(&mut rand::rngs::OsRng, &mut nonce);
+            // A fresh random nonce from the thread's CSPRNG (seeded from the OS), Section 5.1.2.
+            let nonce: [u8; 32] = rand::random();
             let req = build_request(&k, &nonce);
             let t0 = unix_now();
             let resp = match exchange(
