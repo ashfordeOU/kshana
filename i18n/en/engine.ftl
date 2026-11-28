@@ -10727,6 +10727,7 @@ engine-main-usage =
     { "   " }or: kshana leo-sparse <study.toml>
     { "   " }or: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }or: kshana utc-readiness [--json] [--as-of <YYYY-MM-DD>] <file|dir> ...
+    { "   " }or: kshana clock-tamper <check <samples.json> [--json] [--out <report.json>] | template>
     { "   " }or: kshana corrections <decode --format <has|b2b|l6|l1s|qznma> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...] | qznma-verify [--frames <frames.txt>] [--nav <nav.txt>] --pubkey <key.der> ...>
     { "   " }or: kshana space-weather <storms|storm <id>|dgnss <request.json>|iono <request.json>|density-scorecard <windows.csv>|lifetime <request.json>>
     { "   " }or: kshana rtk-qa <monitor|sources|base|fix|ppk|probe|caster|log-check|failover> ... (kshana rtk-qa --help)
@@ -12666,3 +12667,16 @@ engine-e-pbom-diff-invalid = the { $which } PBOM is not valid (errors: { $n }; f
 ## Continuous-UTC readiness scanner (src/utc_readiness.rs, docs/UTC-READINESS.md)
 engine-utc-readiness-usage = usage: kshana utc-readiness [--json] [--as-of <YYYY-MM-DD>] <file|dir> ...  (docs/UTC-READINESS.md; continuous UTC from 2027-05-20, CGPM 2026 Resolution 5)
 engine-e-utc-readiness-cannot-read = cannot read { $path }: { $e }
+
+## Independent clock-tamper detector (src/clock_tamper.rs, docs/CLOCK-TAMPER.md)
+engine-clock-tamper-usage = usage: kshana clock-tamper <check <samples.json> [--json] [--out <report.json>] | template>  (docs/CLOCK-TAMPER.md; MODELLED, unsigned; exit 1 on a finding)
+engine-e-clock-tamper-cannot-read = cannot read { $path }: { $e }
+engine-e-clock-tamper-cannot-write = cannot write { $path }: { $e }
+engine-e-clock-tamper-bad-input = { $path }: { $e }
+engine-e-clock-tamper-format = format is { $found }, expected { $expected }
+engine-e-clock-tamper-threshold = thresholds.{ $name } must be a non-negative number
+engine-e-clock-tamper-bad-time = { $field } { $value } is not an RFC 3339 UTC time
+engine-e-clock-tamper-non-finite = a non-finite number in the sample at { $at }
+engine-e-clock-tamper-token-unread = token { $token } was not read
+engine-e-clock-tamper-token = { $token }: { $e }
+engine-e-clock-tamper-gentime = { $token }: genTime { $value } not understood

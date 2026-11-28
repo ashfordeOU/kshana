@@ -1386,6 +1386,12 @@ fn main_in_language(args: Vec<String>) -> ExitCode {
     if args.get(1).map(String::as_str) == Some("utc-readiness") {
         return ExitCode::from(kshana::utc_readiness::run_cli(&args[2..]) as u8);
     }
+    // `kshana clock-tamper check <samples.json> | template`: the OS clock against independent
+    // reference readings and timestamp tokens; steps, logged clock changes, offset and drift per
+    // day (src/clock_tamper.rs, docs/CLOCK-TAMPER.md). Exit 1 on a finding.
+    if args.get(1).map(String::as_str) == Some("clock-tamper") {
+        return ExitCode::from(kshana::clock_tamper::run_cli(&args[2..]) as u8);
+    }
     if args.get(1).map(String::as_str) == Some("time-vectors") {
         return match kshana::time_vectors::run_cli(&args[2..]) {
             Ok(true) => ExitCode::SUCCESS,

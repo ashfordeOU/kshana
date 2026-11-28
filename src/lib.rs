@@ -120,6 +120,7 @@ pub mod clock_live;
 pub mod clock_log;
 pub mod clock_specs;
 pub mod clock_state;
+pub mod clock_tamper;
 pub mod compliance;
 pub mod conflict_resilience;
 pub mod conflict_threat_params;

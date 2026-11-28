@@ -1,0 +1,2679 @@
+{
+ "format": "kshana.clock-samples/1",
+ "host": "lab-pc-01 (fictional)",
+ "thresholds": {
+  "step_s": 0.5,
+  "max_offset_s": 1.0,
+  "max_drift_ppm": 50.0,
+  "reference_agreement_s": 0.1,
+  "min_agreeing_references": 2,
+  "tsa_tolerance_s": 1.0,
+  "event_window_s": 300.0,
+  "min_drift_span_s": 3600.0
+ },
+ "samples": [
+  {
+   "os_utc": "2026-11-19T07:59:59.998Z",
+   "monotonic_s": 100,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.002,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0015
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-19T08:09:59.998Z",
+   "monotonic_s": 700,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.0024,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0011
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-19T08:19:59.998Z",
+   "monotonic_s": 1300,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.0017,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0018
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-19T08:29:59.998Z",
+   "monotonic_s": 1900,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.0022,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0013
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-19T08:39:59.998Z",
+   "monotonic_s": 2500,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.0019,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0016
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-19T08:49:59.998Z",
+   "monotonic_s": 3100,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.002,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0015
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-19T08:59:59.998Z",
+   "monotonic_s": 3700,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.0024,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0011
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-19T09:09:59.998Z",
+   "monotonic_s": 4300,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.0017,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0018
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-19T09:19:59.998Z",
+   "monotonic_s": 4900,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.0022,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0013
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-19T09:29:59.998Z",
+   "monotonic_s": 5500,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.0019,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0016
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-19T09:39:59.998Z",
+   "monotonic_s": 6100,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.002,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0015
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-19T09:49:59.998Z",
+   "monotonic_s": 6700,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.0024,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0011
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-19T09:59:59.998Z",
+   "monotonic_s": 7300,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.0017,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0018
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-19T10:09:59.998Z",
+   "monotonic_s": 7900,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.0022,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0013
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-19T10:19:59.998Z",
+   "monotonic_s": 8500,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.0019,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0016
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-19T10:29:59.998Z",
+   "monotonic_s": 9100,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.002,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0015
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-19T10:39:59.998Z",
+   "monotonic_s": 9700,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.0024,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0011
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-19T10:49:59.998Z",
+   "monotonic_s": 10300,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.0017,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0018
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-19T10:59:59.998Z",
+   "monotonic_s": 10900,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.0022,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0013
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-19T11:09:59.998Z",
+   "monotonic_s": 11500,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.0019,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0016
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-19T11:19:59.998Z",
+   "monotonic_s": 12100,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.002,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0015
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-19T11:29:59.998Z",
+   "monotonic_s": 12700,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.0024,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0011
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-19T11:39:59.998Z",
+   "monotonic_s": 13300,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.0017,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0018
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-19T11:49:59.998Z",
+   "monotonic_s": 13900,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.0022,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0013
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-19T11:59:59.998Z",
+   "monotonic_s": 14500,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.0019,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0016
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-19T12:09:59.998Z",
+   "monotonic_s": 15100,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.002,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0015
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-19T12:19:59.998Z",
+   "monotonic_s": 15700,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.0024,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0011
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-19T12:29:59.998Z",
+   "monotonic_s": 16300,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.0017,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0018
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-19T12:39:59.998Z",
+   "monotonic_s": 16900,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.0022,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0013
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-19T12:49:59.998Z",
+   "monotonic_s": 17500,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.0019,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0016
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-19T12:59:59.998Z",
+   "monotonic_s": 18100,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.002,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0015
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-19T13:09:59.998Z",
+   "monotonic_s": 18700,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.0024,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0011
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-19T13:19:59.998Z",
+   "monotonic_s": 19300,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.0017,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0018
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-19T13:29:59.998Z",
+   "monotonic_s": 19900,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.0022,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0013
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-19T13:39:59.998Z",
+   "monotonic_s": 20500,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.0019,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0016
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-19T13:49:59.998Z",
+   "monotonic_s": 21100,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.002,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0015
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-19T13:59:59.998Z",
+   "monotonic_s": 21700,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.0024,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0011
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-19T14:09:59.998Z",
+   "monotonic_s": 22300,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.0017,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0018
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-19T14:19:59.998Z",
+   "monotonic_s": 22900,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.0022,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0013
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-19T14:29:59.998Z",
+   "monotonic_s": 23500,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.0019,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0016
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-19T14:39:59.998Z",
+   "monotonic_s": 24100,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.002,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0015
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-19T14:49:59.998Z",
+   "monotonic_s": 24700,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.0024,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0011
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-19T14:59:59.998Z",
+   "monotonic_s": 25300,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.0017,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0018
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-19T15:09:59.998Z",
+   "monotonic_s": 25900,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.0022,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0013
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-19T15:19:59.998Z",
+   "monotonic_s": 26500,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.0019,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0016
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-19T15:29:59.998Z",
+   "monotonic_s": 27100,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.002,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0015
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-19T15:39:59.998Z",
+   "monotonic_s": 27700,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.0024,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0011
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-19T15:49:59.998Z",
+   "monotonic_s": 28300,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.0017,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0018
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-19T15:59:59.998Z",
+   "monotonic_s": 28900,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.0022,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0013
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-19T16:09:59.998Z",
+   "monotonic_s": 29500,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.0019,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0016
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-19T16:19:59.998Z",
+   "monotonic_s": 30100,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.002,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0015
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-19T16:29:59.998Z",
+   "monotonic_s": 30700,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.0024,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0011
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-19T16:39:59.998Z",
+   "monotonic_s": 31300,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.0017,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0018
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-19T16:49:59.998Z",
+   "monotonic_s": 31900,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.0022,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0013
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-19T16:59:59.998Z",
+   "monotonic_s": 32500,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.0019,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0016
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-19T17:09:59.998Z",
+   "monotonic_s": 33100,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.002,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0015
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-19T17:19:59.998Z",
+   "monotonic_s": 33700,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.0024,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0011
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-19T17:29:59.998Z",
+   "monotonic_s": 34300,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.0017,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0018
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-19T17:39:59.998Z",
+   "monotonic_s": 34900,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.0022,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0013
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-19T17:49:59.998Z",
+   "monotonic_s": 35500,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.0019,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0016
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-19T17:59:59.998Z",
+   "monotonic_s": 36100,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.002,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0015
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-20T07:59:59.998Z",
+   "monotonic_s": 86500,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.002,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0015
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-20T08:09:59.998Z",
+   "monotonic_s": 87100,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.0024,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0011
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-20T08:19:59.998Z",
+   "monotonic_s": 87700,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.0017,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0018
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-20T08:29:59.998Z",
+   "monotonic_s": 88300,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.0022,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0013
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-20T08:39:59.998Z",
+   "monotonic_s": 88900,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.0019,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0016
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-20T08:49:59.998Z",
+   "monotonic_s": 89500,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.002,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0015
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-20T08:59:59.998Z",
+   "monotonic_s": 90100,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.0024,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0011
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-20T09:09:59.998Z",
+   "monotonic_s": 90700,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.0017,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0018
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-20T09:19:59.998Z",
+   "monotonic_s": 91300,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.0022,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0013
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-20T09:29:59.998Z",
+   "monotonic_s": 91900,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.0019,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0016
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-20T09:39:59.998Z",
+   "monotonic_s": 92500,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.002,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0015
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-20T09:49:59.998Z",
+   "monotonic_s": 93100,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.0024,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0011
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-20T09:59:59.998Z",
+   "monotonic_s": 93700,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.0017,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0018
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-20T10:09:59.998Z",
+   "monotonic_s": 94300,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.0022,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0013
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-20T10:19:59.998Z",
+   "monotonic_s": 94900,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.0019,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0016
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-20T10:29:59.998Z",
+   "monotonic_s": 95500,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.002,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0015
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-20T10:39:59.998Z",
+   "monotonic_s": 96100,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.0024,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0011
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-20T10:49:59.998Z",
+   "monotonic_s": 96700,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.0017,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0018
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-20T10:59:59.998Z",
+   "monotonic_s": 97300,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.0022,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0013
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-20T11:09:59.998Z",
+   "monotonic_s": 97900,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.0019,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0016
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-20T11:19:59.998Z",
+   "monotonic_s": 98500,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.002,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0015
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-20T11:29:59.998Z",
+   "monotonic_s": 99100,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.0024,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0011
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-20T11:39:59.998Z",
+   "monotonic_s": 99700,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.0017,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0018
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-20T11:49:59.998Z",
+   "monotonic_s": 100300,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.0022,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0013
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-20T11:59:59.998Z",
+   "monotonic_s": 100900,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.0019,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0016
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-20T12:09:59.998Z",
+   "monotonic_s": 101500,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.002,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0015
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-20T12:19:59.998Z",
+   "monotonic_s": 102100,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.0024,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0011
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-20T12:29:59.998Z",
+   "monotonic_s": 102700,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.0017,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0018
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-20T12:39:59.998Z",
+   "monotonic_s": 103300,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.0022,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0013
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-20T12:49:59.998Z",
+   "monotonic_s": 103900,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.0019,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0016
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-20T12:59:59.998Z",
+   "monotonic_s": 104500,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.002,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0015
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-20T13:09:59.998Z",
+   "monotonic_s": 105100,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.0024,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0011
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-20T13:19:59.998Z",
+   "monotonic_s": 105700,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.0017,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0018
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-20T13:29:59.998Z",
+   "monotonic_s": 106300,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.0022,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0013
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-20T13:39:59.998Z",
+   "monotonic_s": 106900,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.0019,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0016
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-20T13:49:59.998Z",
+   "monotonic_s": 107500,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.002,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0015
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-20T12:59:59.998Z",
+   "monotonic_s": 108100,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 3600.0024,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 3600.0011
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-20T13:09:59.998Z",
+   "monotonic_s": 108700,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 3600.0017,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 3600.0018
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-20T13:19:59.998Z",
+   "monotonic_s": 109300,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 3600.0022,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 3600.0013
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-20T13:29:59.998Z",
+   "monotonic_s": 109900,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 3600.0019,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 3600.0016
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-20T13:39:59.998Z",
+   "monotonic_s": 110500,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 3600.002,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 3600.0015
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-20T13:49:59.998Z",
+   "monotonic_s": 111100,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 3600.0024,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 3600.0011
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-20T13:59:59.998Z",
+   "monotonic_s": 111700,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 3600.0017,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 3600.0018
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-20T14:09:59.998Z",
+   "monotonic_s": 112300,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 3600.0022,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 3600.0013
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-20T14:19:59.998Z",
+   "monotonic_s": 112900,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 3600.0019,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 3600.0016
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-20T14:29:59.998Z",
+   "monotonic_s": 113500,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 3600.002,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 3600.0015
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-20T14:39:59.998Z",
+   "monotonic_s": 114100,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 3600.0024,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 3600.0011
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-20T14:49:59.998Z",
+   "monotonic_s": 114700,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 3600.0017,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 3600.0018
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-20T15:59:59.998Z",
+   "monotonic_s": 115300,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.0022,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0013
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-20T16:09:59.998Z",
+   "monotonic_s": 115900,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.0019,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0016
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-20T16:19:59.998Z",
+   "monotonic_s": 116500,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.002,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0015
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-20T16:29:59.998Z",
+   "monotonic_s": 117100,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.0024,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0011
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-20T16:39:59.998Z",
+   "monotonic_s": 117700,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.0017,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0018
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-20T16:49:59.998Z",
+   "monotonic_s": 118300,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.0022,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0013
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-20T16:59:59.998Z",
+   "monotonic_s": 118900,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.0019,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0016
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-20T17:09:59.998Z",
+   "monotonic_s": 119500,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.002,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0015
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-20T17:19:59.998Z",
+   "monotonic_s": 120100,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.0024,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0011
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-20T17:29:59.998Z",
+   "monotonic_s": 120700,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.0017,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0018
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-20T17:39:59.998Z",
+   "monotonic_s": 121300,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.0022,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0013
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-20T17:49:59.998Z",
+   "monotonic_s": 121900,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.0019,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0016
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-20T17:59:59.998Z",
+   "monotonic_s": 122500,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.002,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0015
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-21T07:59:59.998Z",
+   "monotonic_s": 172900.0,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.002,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0015
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-21T08:09:59.962Z",
+   "monotonic_s": 173499.964,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.0384,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0371
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-21T08:19:59.926Z",
+   "monotonic_s": 174099.928,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.0737,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.0738
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-21T08:29:59.890Z",
+   "monotonic_s": 174699.892,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.1102,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.1093
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-21T08:39:59.854Z",
+   "monotonic_s": 175299.856,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.1459,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.1456
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-21T08:49:59.818Z",
+   "monotonic_s": 175899.82,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.182,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.1815
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-21T08:59:59.782Z",
+   "monotonic_s": 176499.784,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.2184,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.2171
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-21T09:09:59.746Z",
+   "monotonic_s": 177099.748,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.2537,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.2538
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-21T09:19:59.710Z",
+   "monotonic_s": 177699.712,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.2902,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.2893
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-21T09:29:59.674Z",
+   "monotonic_s": 178299.676,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.3259,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.3256
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-21T09:39:59.638Z",
+   "monotonic_s": 178899.64,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.362,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.3615
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-21T09:49:59.602Z",
+   "monotonic_s": 179499.604,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.3984,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.3971
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-21T09:59:59.566Z",
+   "monotonic_s": 180099.568,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.932,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.432
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-21T10:09:59.530Z",
+   "monotonic_s": 180699.532,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.4702,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.4693
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-21T10:19:59.494Z",
+   "monotonic_s": 181299.496,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.5059,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.5056
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-21T10:29:59.458Z",
+   "monotonic_s": 181899.46,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.542,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.5415
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-21T10:39:59.422Z",
+   "monotonic_s": 182499.424,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.5784,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.5771
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-21T10:49:59.386Z",
+   "monotonic_s": 183099.388,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.6137,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.6138
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-21T10:59:59.350Z",
+   "monotonic_s": 183699.352,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.6502,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.6493
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-21T11:09:59.314Z",
+   "monotonic_s": 184299.316,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.6859,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.6856
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-21T11:19:59.278Z",
+   "monotonic_s": 184899.28,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.722,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.7215
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-21T11:29:59.242Z",
+   "monotonic_s": 185499.244,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.7584,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.7571
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-21T11:39:59.206Z",
+   "monotonic_s": 186099.208,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.7937,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.7938
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-21T11:49:59.170Z",
+   "monotonic_s": 186699.172,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.8302,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.8293
+    }
+   ]
+  },
+  {
+   "os_utc": "2026-11-21T11:59:59.134Z",
+   "monotonic_s": 187299.136,
+   "boot_id": "boot-1",
+   "references": [
+    {
+     "id": "nts-a",
+     "kind": "nts",
+     "offset_s": 0.8659,
+     "authenticated": true
+    },
+    {
+     "id": "gnss-lab",
+     "kind": "ntp-gnss",
+     "offset_s": 0.8656
+    }
+   ]
+  }
+ ],
+ "events": [
+  {
+   "os_utc": "2026-11-20T12:58:00Z",
+   "kind": "clock-set",
+   "detail": "Security 4616 by LAB\\analyst2 (fictional)"
+  }
+ ],
+ "timestamp_tokens": [
+  {
+   "token": "day1.tsr",
+   "os_utc_at_request": "2026-11-19T11:59:59.998Z"
+  },
+  {
+   "token": "day2.tsr",
+   "os_utc_at_request": "2026-11-20T13:59:59.998Z"
+  }
+ ]
+}
