@@ -10630,6 +10630,7 @@ engine-main-usage =
     { "   " }tai: kshana claim-check [<dataset.json>...] [--out <file.json>] | --template
     { "   " }tai: kshana afs-interop <study|ue-register> ... (kshana afs-interop --help)
     { "   " }tai: kshana timing-stack <tai|ts2phc|pps|shm|ntpq|nts> ... (kshana timing-stack --help)
+    { "   " }tai: kshana roughtime <vectors | check-request | check-response | check-report | query> ... (kshana roughtime --help)
     { "   " }tai: kshana sil-obsgen <scenario.toml> --out <obs.rnx> [--truth <truth.json>]
     { "   " }tai: kshana osnma scenario run <scenario.json> [--json] | template (kshana osnma scenario --help)
     { "   " }tai: kshana lunar-oem convert <in.oem> --to ICRF|MOON_PA440|MOON_ME [--out <file>] | frames (kshana lunar-oem --help)

@@ -38,6 +38,7 @@ fn the_top_level_usage_names_every_subcommand() {
         "inventory",
         "decimate",
         "time-vectors",
+        "roughtime",
         "utc-readiness",
         "clock-tamper",
         "itu-res35",

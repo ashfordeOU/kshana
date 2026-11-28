@@ -2148,6 +2148,10 @@
   "src/itu_res35.rs": {
    "count": 37,
    "reason": "machine-document and identifier: the kshana.itu-res35-report/1 report (format tag, the ITU Resolution 35 (Rev.WRC-23) source title and URL, provision ids, status and station-keeping class names, the assumptions text and disclaimer written into that machine document) and its plain-text rendering (column headers and the same English fields); the OMM and SATCAT keywords and TOML keys the readers match (docs/ITU-RES35.md)"
+  },
+  "src/roughtime.rs": {
+   "count": 67,
+   "reason": "machine-document and identifier: RFC 10049 tag names, context strings and the finding codes of the kshana.roughtime-check/1 and vector-result documents (stable identifiers listed in docs/ROUGHTIME.md), the JSON keys of the RFC 8.4.1 report and of the vector format, the vector table row format, and the RFC source URL"
   }
  }
 }
