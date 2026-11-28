@@ -659,6 +659,7 @@ them and [`docs/SCENARIOS.md`](docs/SCENARIOS.md) documents every field.
 | [Solar system](docs/SOLAR-SYSTEM.md) | where every planet is, and the light time of any link |
 | [Low-Earth-orbit navigation](docs/LEO-PNT.md) | a pass, a link, a navigation message and a fused fix, stage by stage |
 | [LEO-PNT verification](docs/LEO-VERIFY.md) | what a LEO timing or positioning service would deliver: burst timing, holdover TDEV, cost against outages, indoor and rain loss, ambiguity resolution, jamming claims and Doppler-only integrity |
+| [Semi-codeless transition scan](docs/TRANSITION-SCAN.md) | which stations of a fleet still depend on codeless or semi-codeless GPS P(Y) tracking, and which track L2C and L5, from their RINEX headers and site logs |
 | [PNT Bill of Materials](docs/PBOM.md) | a CycloneDX list of a system's PNT dependencies, checked for single points of failure and GNSS-loss survival, generated and compared |
 | [Space evidence pack](docs/SPACE-EVIDENCE-PACK.md) | one open directory format for sensor, cyber and interference evidence, with common hashes, labels and signing, and a validator |
 | [Campaigns](docs/CAMPAIGNS.md) | a chained mission, a sweep or a Monte Carlo ensemble in one scenario |
