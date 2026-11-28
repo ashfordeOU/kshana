@@ -93,6 +93,7 @@ pub mod bias_sinex;
 pub mod body;
 pub mod body_pnt;
 pub mod bplane;
+pub mod breakup_exposure;
 /// The bundled reference scenarios, present only with the `bundled-scenarios` feature.
 #[cfg(feature = "bundled-scenarios")]
 pub mod bundled_scenarios;

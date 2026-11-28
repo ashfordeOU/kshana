@@ -196,6 +196,10 @@
   "src/pbom.rs": {
    "count": 1,
    "reason": "machine document: the provenance note written into a generated PBOM's metadata (a document field, not a message)"
+  },
+  "src/breakup_exposure.rs": {
+   "count": 8,
+   "reason": "machine document: event-file and catalogue parse details passed as the e variable of the catalogued e-breakup-exposure-bad-input message (English, like other readers' problem lists)"
   }
  }
 }

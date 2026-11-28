@@ -1398,6 +1398,11 @@ fn main_in_language(args: Vec<String>) -> ExitCode {
     if args.get(1).map(String::as_str) == Some("itu-res35") {
         return ExitCode::from(kshana::itu_res35::run_cli(&args[2..]) as u8);
     }
+    // `kshana breakup-exposure <event.toml> <catalogue> ...`: which tracked objects cross a modelled
+    // breakup debris shell in the first hours (src/breakup_exposure.rs, docs/BREAKUP-EXPOSURE.md).
+    if args.get(1).map(String::as_str) == Some("breakup-exposure") {
+        return ExitCode::from(kshana::breakup_exposure::run_cli(&args[2..]) as u8);
+    }
     if args.get(1).map(String::as_str) == Some("time-vectors") {
         return match kshana::time_vectors::run_cli(&args[2..]) {
             Ok(true) => ExitCode::SUCCESS,
