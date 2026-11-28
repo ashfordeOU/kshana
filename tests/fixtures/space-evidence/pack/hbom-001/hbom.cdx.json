@@ -1,0 +1,12 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.5",
+  "version": 1,
+  "metadata": { "component": { "type": "device", "name": "EXAMPLE-SAT-1 avionics unit (fictional)", "bom-ref": "unit" } },
+  "components": [
+    { "type": "device", "name": "radiation-tolerant microcontroller", "bom-ref": "mcu", "supplier": { "name": "Example Semiconductor (fictional)" },
+      "properties": [ { "name": "kshana:hbom:distributor-class", "value": "ocm" }, { "name": "kshana:hbom:lot", "value": "L2341" }, { "name": "kshana:hbom:export-class", "value": "EAR99 (as stated by the supplier)" } ] },
+    { "type": "device", "name": "DC-DC converter", "bom-ref": "dcdc", "supplier": { "name": "Example Power (fictional)" },
+      "properties": [ { "name": "kshana:hbom:distributor-class", "value": "independent" }, { "name": "kshana:hbom:date-code", "value": "2519" } ] }
+  ]
+}

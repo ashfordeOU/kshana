@@ -470,8 +470,8 @@
    "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md)"
   },
   "src/evidence/cli.rs": {
-   "count": 12,
-   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md); +1 identifier: the option name --trust passed as the `name` variable of the catalogued e-evidence-cli-needs-value message."
+   "count": 13,
+   "reason": "unreviewed: machine-document prose, data or not yet converted (see docs/design/i18n-migration.md); +1 identifier: the option name --trust passed as the `name` variable of the catalogued e-evidence-cli-needs-value message; the space-pack subcommand name."
   },
   "src/evidence/html.rs": {
    "count": 31,
@@ -2128,6 +2128,10 @@
   "src/pbom.rs": {
    "count": 85,
    "reason": "machine document: the kshana.pbom/1 property names and values, the CycloneDX field names, the validator's problem messages and the analysis written to the machine-readable JSON report (English by design, like other validators' problem lists), and the element names and provenance note written into a generated PBOM document (docs/PBOM.md)"
+  },
+  "src/evidence/space_pack.rs": {
+   "count": 129,
+   "reason": "machine-document and identifier: the kshana.space-evidence-pack/1 profile (format tags, kind, label, role and status names, manifest field names, the kshana:hbom: property names, the profile disclaimer) and the validator problem messages written into the kshana.space-evidence-validate/1 JSON report (English by design, like the pbom validator problem list), its plain-text rendering, and the example manifest printed by `space-pack template` (docs/SPACE-EVIDENCE-PACK.md)"
   }
  }
 }

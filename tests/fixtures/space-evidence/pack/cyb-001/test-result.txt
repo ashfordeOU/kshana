@@ -1,0 +1,3 @@
+# Fictional test result for the space-evidence-pack tests.
+test: replayed telecommand frame rejected by the onboard SDLS layer
+result: pass (12 of 12 replays rejected)
