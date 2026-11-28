@@ -1,0 +1,5 @@
+# Fictional acceptance traveller for the space-evidence-pack tests.
+step,test,result,utc
+1,functional test,pass,2026-10-02T09:00:00Z
+2,thermal vacuum,pass,2026-10-09T17:00:00Z
+3,vibration,waived,2026-10-12T11:00:00Z

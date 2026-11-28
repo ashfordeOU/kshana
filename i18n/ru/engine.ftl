@@ -11117,6 +11117,8 @@ engine-main-usage =
     { "   " }или: kshana leo-sparse <study.toml>
     { "   " }или: kshana time-vectors [--json] [<vectors.json|dir> ...]
     { "   " }или: kshana utc-readiness [--json] [--as-of <YYYY-MM-DD>] <file|dir> ...
+    { "   " }или: kshana evidence space-pack <validate <dir> [--trust <hex|file>]... [--json] | hash <dir> | schema | template>
+    { "   " }или: kshana clock-tamper <check <samples.json> [--json] [--out <report.json>] | template>
     { "   " }или: kshana itu-res35 <milestones <filing.toml> | report <filing.toml> <elements|satcat> ... [--as-of <YYYY-MM-DD>] [--out <file.json>]> [--json]
     { "   " }или: kshana gso-throughput <links | check-links | evaluate <input.json> | template> [--links <links.csv>] [--json] [--out <file.json>]
     { "   " }или: kshana corrections <decode --format <has|b2b|l6|l1s|qznma> <frames.txt|-> | vectors [--json] [<vectors.json|dir> ...] | qznma-verify [--frames <frames.txt>] [--nav <nav.txt>] --pubkey <key.der> ...>
